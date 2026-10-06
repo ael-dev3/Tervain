@@ -1,0 +1,4 @@
+; 100062f8 ?DisableAll@bCBitField@@QAEXXZ
+100062f8 | e993ef0700 | JMP 0x10085290
+; 100062fd bCQuaternion::Negate
+; 100062fd Ordinal_3785

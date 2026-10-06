@@ -1,0 +1,3 @@
+; 304805e0 FUN_304805e0
+304805e0 | 83c118 | ADD ECX,0x18
+304805e3 | ff25e4d7af30 | JMP dword ptr [0x30afd7e4]

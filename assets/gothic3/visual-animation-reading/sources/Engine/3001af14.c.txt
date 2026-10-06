@@ -1,0 +1,13 @@
+/* ENTRY 3001af14 | eCVisualAnimationLoD::ReleaseResources | STATUS decompiled | 2 ms */
+
+/* public: bool __thiscall eCVisualAnimationLoD::ReleaseResources(void) */
+
+bool __thiscall eCVisualAnimationLoD::ReleaseResources(eCVisualAnimationLoD *this)
+
+{
+                    /* 0x1af14  12420  ?ReleaseResources@eCVisualAnimationLoD@@QAE_NXZ */
+  SetActor(this,(eCResourceDataEntity *)0x0);
+  return true;
+}
+
+

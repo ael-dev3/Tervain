@@ -1,0 +1,2 @@
+; 10003d41 bCCriticalSectionWin32::Acquire
+10003d41 | e9cad10000 | JMP 0x10010f10

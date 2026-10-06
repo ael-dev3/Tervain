@@ -1,0 +1,54 @@
+/* ENTRY 202a0d70 | FUN_202a0d70 | STATUS decompiled | 14 ms */
+
+void __fastcall FUN_202a0d70(int param_1)
+
+{
+  int *piVar1;
+  bCMemoryAdmin *pbVar2;
+  void *pvVar3;
+  
+  piVar1 = (int *)(param_1 + 0x40);
+  *(undefined4 *)(param_1 + 0xc0) = 0;
+  if ((piVar1 != (int *)0x0) && (pvVar3 = (void *)*piVar1, pvVar3 != (void *)0x0)) {
+    pbVar2 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar2,pvVar3);
+    *piVar1 = 0;
+    *(undefined4 *)(param_1 + 0x44) = 0;
+    *(undefined4 *)(param_1 + 0x48) = 0;
+  }
+  piVar1 = (int *)(param_1 + 0xc4);
+  if ((piVar1 != (int *)0x0) && (pvVar3 = (void *)*piVar1, pvVar3 != (void *)0x0)) {
+    pbVar2 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar2,pvVar3);
+    *piVar1 = 0;
+    *(undefined4 *)(param_1 + 200) = 0;
+    *(undefined4 *)(param_1 + 0xcc) = 0;
+  }
+  piVar1 = (int *)(param_1 + 0xd0);
+  if ((piVar1 != (int *)0x0) && (pvVar3 = (void *)*piVar1, pvVar3 != (void *)0x0)) {
+    pbVar2 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar2,pvVar3);
+    *piVar1 = 0;
+    *(undefined4 *)(param_1 + 0xd4) = 0;
+    *(undefined4 *)(param_1 + 0xd8) = 0;
+  }
+  piVar1 = (int *)(param_1 + 0xdc);
+  if ((piVar1 != (int *)0x0) && (pvVar3 = (void *)*piVar1, pvVar3 != (void *)0x0)) {
+    pbVar2 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar2,pvVar3);
+    *piVar1 = 0;
+    *(undefined4 *)(param_1 + 0xe0) = 0;
+    *(undefined4 *)(param_1 + 0xe4) = 0;
+  }
+  piVar1 = (int *)(param_1 + 0xe8);
+  if ((piVar1 != (int *)0x0) && (pvVar3 = (void *)*piVar1, pvVar3 != (void *)0x0)) {
+    pbVar2 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar2,pvVar3);
+    *piVar1 = 0;
+    *(undefined4 *)(param_1 + 0xec) = 0;
+    *(undefined4 *)(param_1 + 0xf0) = 0;
+  }
+  return;
+}
+
+

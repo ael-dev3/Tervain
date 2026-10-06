@@ -1,0 +1,2 @@
+; 30014754 ?GetCurrentContext@eCNode@@QAEPAVeCContextBase@@XZ
+30014754 | e9a7be4600 | JMP 0x30480600

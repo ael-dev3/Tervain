@@ -1,0 +1,2 @@
+; 2002c6a6 ?Read@gCCharacterSensor_PS@@UAE?AW4bEResult@@AAVbCIStream@@@Z
+2002c6a6 | e985a72000 | JMP 0x20236e30

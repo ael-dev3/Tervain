@@ -1,0 +1,51 @@
+/* ENTRY 10002324 | bCGothic3EngineDialogs::bCDialogHandle::AddReference | STATUS decompiled | 23 ms */
+
+/* public: unsigned short __thiscall bCGothic3EngineDialogs::bCDialogHandle::AddReference(void) */
+
+ushort __thiscall bCGothic3EngineDialogs::bCDialogHandle::AddReference(bCDialogHandle *this)
+
+{
+  HMODULE hModule;
+  FARPROC pFVar1;
+  
+                    /* 0x2324  1557  ?AddReference@bCDialogHandle@bCGothic3EngineDialogs@@QAEGXZ */
+  if (*(short *)(this + 4) == 0) {
+    hModule = LoadLibraryA(PTR_s_ge3Dialogs_dll_1013f104);
+    *(HMODULE *)this = hModule;
+    if (hModule != (HMODULE)0x0) {
+      pFVar1 = GetProcAddress(hModule,"_CreateErrorDialog@4");
+      *(FARPROC *)(this + 8) = pFVar1;
+      pFVar1 = GetProcAddress(*(HMODULE *)this,"_DestroyErrorDialog@0");
+      *(FARPROC *)(this + 0xc) = pFVar1;
+      pFVar1 = GetProcAddress(*(HMODULE *)this,"_ShowModalErrorDialog@0");
+      *(FARPROC *)(this + 0x10) = pFVar1;
+      pFVar1 = GetProcAddress(*(HMODULE *)this,"_AddText@8");
+      *(FARPROC *)(this + 0x14) = pFVar1;
+      pFVar1 = GetProcAddress(*(HMODULE *)this,"_GetErrorDialogState@8");
+      *(FARPROC *)(this + 0x18) = pFVar1;
+      pFVar1 = GetProcAddress(*(HMODULE *)this,"_CreateMemoryDialog@0");
+      *(FARPROC *)(this + 0x1c) = pFVar1;
+      pFVar1 = GetProcAddress(*(HMODULE *)this,"_DestroyMemoryDialog@0");
+      *(FARPROC *)(this + 0x20) = pFVar1;
+      pFVar1 = GetProcAddress(*(HMODULE *)this,"_ShowModalMemoryDialog@0");
+      *(FARPROC *)(this + 0x24) = pFVar1;
+      pFVar1 = GetProcAddress(*(HMODULE *)this,"_AddItemToMemoryOverview@8");
+      *(FARPROC *)(this + 0x28) = pFVar1;
+      pFVar1 = GetProcAddress(*(HMODULE *)this,"_CreateFileNotUniqueDialog@0");
+      *(FARPROC *)(this + 0x2c) = pFVar1;
+      pFVar1 = GetProcAddress(*(HMODULE *)this,"_DestroyFileNotUniqueDialog@0");
+      *(FARPROC *)(this + 0x30) = pFVar1;
+      pFVar1 = GetProcAddress(*(HMODULE *)this,"_ShowModalFileNotUniqueDialog@0");
+      *(short *)(this + 4) = *(short *)(this + 4) + 1;
+      *(FARPROC *)(this + 0x34) = pFVar1;
+      return *(ushort *)(this + 4);
+    }
+    MessageBoxA((HWND)0x0,&DAT_100e6ba0,"Fatal error",0);
+    GE_MESSAGEF_WARN(&DAT_100e6ac8,"bCGothic3EngineDialogs::bCDialogHandle::AddReference",
+                     PTR_s_ge3Dialogs_dll_1013f104);
+  }
+  *(short *)(this + 4) = *(short *)(this + 4) + 1;
+  return *(ushort *)(this + 4);
+}
+
+

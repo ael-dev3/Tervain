@@ -1,0 +1,4 @@
+; 30034ffe bTPropertyType<eCCollisionShape,bool>::vfunction26
+30034ffe | e9adb73200 | JMP 0x303607b0
+; 30035003 eCEngineCaps_PS::PostInitializeProperties
+; 30035003 Ordinal_11734

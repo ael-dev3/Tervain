@@ -1,0 +1,2 @@
+; 10003387 bCString::TrimLeft
+10003387 | e934170100 | JMP 0x10014ac0

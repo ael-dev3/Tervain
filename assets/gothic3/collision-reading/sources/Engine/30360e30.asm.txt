@@ -1,0 +1,5 @@
+; 30360e30 bTPropertyType<eCCollisionShape,float>::vfunction3
+30360e30 | 8b4918 | MOV ECX,dword ptr [ECX + 0x18]
+30360e33 | 8b01 | MOV EAX,dword ptr [ECX]
+30360e35 | 8b10 | MOV EDX,dword ptr [EAX]
+30360e37 | ffe2 | JMP EDX

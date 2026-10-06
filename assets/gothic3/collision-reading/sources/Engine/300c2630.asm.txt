@@ -1,0 +1,19 @@
+; 300c2630 FUN_300c2630
+300c2630 | 56 | PUSH ESI
+300c2631 | 8bf1 | MOV ESI,ECX
+300c2633 | 8b06 | MOV EAX,dword ptr [ESI]
+300c2635 | 8b5058 | MOV EDX,dword ptr [EAX + 0x58]
+300c2638 | 6a00 | PUSH 0x0
+300c263a | 68fc0f8230 | PUSH 0x30820ffc
+300c263f | ffd2 | CALL EDX
+300c2641 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+300c2645 | 8a08 | MOV CL,byte ptr [EAX]
+300c2647 | 8b16 | MOV EDX,dword ptr [ESI]
+300c2649 | 8b425c | MOV EAX,dword ptr [EDX + 0x5c]
+300c264c | 6a00 | PUSH 0x0
+300c264e | 884e2f | MOV byte ptr [ESI + 0x2f],CL
+300c2651 | 68fc0f8230 | PUSH 0x30820ffc
+300c2656 | 8bce | MOV ECX,ESI
+300c2658 | ffd0 | CALL EAX
+300c265a | 5e | POP ESI
+300c265b | c20400 | RET 0x4

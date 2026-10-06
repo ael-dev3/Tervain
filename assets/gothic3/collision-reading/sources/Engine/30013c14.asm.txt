@@ -1,0 +1,2 @@
+; 30013c14 bTPropertyType<eCVisualAnimation_PS,bool>::vfunction4
+30013c14 | e997cd3400 | JMP 0x303609b0

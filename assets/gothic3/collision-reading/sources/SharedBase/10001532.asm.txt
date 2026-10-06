@@ -1,0 +1,4 @@
+; 10001532 ?IsEqual@bCBox@@QBE_NABV1@@Z
+10001532 | e999990200 | JMP 0x1002aed0
+; 10001537 bCNullStream::operator=
+; 10001537 Ordinal_504

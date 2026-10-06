@@ -1,0 +1,34 @@
+/* ENTRY 3003fc38 | eCCollisionShape::GetDepth | STATUS decompiled | 16 ms */
+
+/* public: float __thiscall eCCollisionShape::GetDepth(void) */
+
+float __thiscall eCCollisionShape::GetDepth(eCCollisionShape *this)
+
+{
+  float fVar1;
+  
+                    /* 0x3fc38  6794  ?GetDepth@eCCollisionShape@@QAEMXZ */
+  switch((this->eCCollisionShape_data).offset_0xc) {
+  case 1:
+  case 6:
+                    /* WARNING: Could not recover jumptable at 0x300cd509. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+    fVar1 = bCBox::GetDepth((bCBox *)&(this->eCCollisionShape_data).field_0x44);
+    return fVar1;
+  default:
+    return 0.0;
+  case 3:
+                    /* WARNING: Could not recover jumptable at 0x300cd515. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+    fVar1 = bCOrientedBox::GetDepth((bCOrientedBox *)(this->eCCollisionShape_data).offset_0x70);
+    return fVar1;
+  case 4:
+    fVar1 = *(float *)((this->eCCollisionShape_data).offset_0x70 + 4);
+    return fVar1 + fVar1;
+  case 5:
+    fVar1 = bCSphere::GetRadius((bCSphere *)(this->eCCollisionShape_data).offset_0x70);
+    return fVar1 + fVar1;
+  }
+}
+
+

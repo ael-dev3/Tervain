@@ -1,0 +1,11 @@
+/* ENTRY 30042a96 | bTPropertyObject<eCSpringAndDamperEffector,eCEffector>::vfunction5 | STATUS decompiled | 3 ms */
+
+undefined4 __thiscall
+bTPropertyObject<eCSpringAndDamperEffector,eCEffector>::vfunction5
+          (bTPropertyObject<eCSpringAndDamperEffector,eCEffector> *this)
+
+{
+  return (this->bTPropertyObject<eCSpringAndDamperEffector,eCEffector>_data).offset_0x0;
+}
+
+

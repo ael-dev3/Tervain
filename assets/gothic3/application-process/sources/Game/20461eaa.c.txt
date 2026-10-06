@@ -1,0 +1,14 @@
+/* ENTRY 20461eaa | ENGINE.DLL::eCEntityPropertySet::CanBePaused | STATUS decompiled | 1 ms */
+
+bool __thiscall eCEntityPropertySet::CanBePaused(eCEntityPropertySet *this)
+
+{
+  bool bVar1;
+  
+                    /* WARNING: Could not recover jumptable at 0x20461eaa. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bVar1 = CanBePaused(this);
+  return bVar1;
+}
+
+

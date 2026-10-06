@@ -1,0 +1,4 @@
+; 100067da ??XbCBox@@QAEAAV0@M@Z
+100067da | e9e14e0200 | JMP 0x1002b6c0
+; 100067df bCVector2::AccessCoordinates
+; 100067df Ordinal_1420

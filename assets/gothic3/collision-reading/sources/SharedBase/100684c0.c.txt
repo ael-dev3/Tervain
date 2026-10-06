@@ -1,0 +1,130 @@
+/* ENTRY 100684c0 | FUN_100684c0 | STATUS decompiled | 153 ms */
+
+undefined4 __thiscall FUN_100684c0(float *param_1,float *param_2)
+
+{
+  float *pfVar1;
+  float fVar2;
+  float fVar3;
+  float fVar4;
+  float fVar5;
+  float fVar6;
+  float fVar7;
+  float fVar8;
+  float fVar9;
+  float fVar10;
+  float fVar11;
+  float fVar12;
+  float fVar13;
+  int iVar14;
+  float local_48 [6];
+  float local_30 [3];
+  float local_24 [9];
+  
+  fVar6 = param_1[7];
+  pfVar1 = param_1 + 6;
+  *(float *)((int)pfVar1 + (int)local_48 + (0xc - (int)param_1)) = param_1[6];
+  fVar7 = param_1[8];
+  *(float *)((int)pfVar1 + (int)local_48 + (0x10 - (int)param_1)) = fVar6;
+  fVar6 = param_1[9];
+  *(float *)((int)pfVar1 + (int)local_48 + (0x14 - (int)param_1)) = fVar7;
+  fVar7 = param_1[10];
+  *(float *)((int)pfVar1 + (int)local_48 + (0x18 - (int)param_1)) = fVar6;
+  fVar6 = param_1[0xb];
+  *(float *)((int)pfVar1 + (int)local_48 + (0x1c - (int)param_1)) = fVar7;
+  fVar7 = param_1[0xc];
+  *(float *)((int)pfVar1 + (int)local_48 + (0x20 - (int)param_1)) = fVar6;
+  fVar6 = param_1[0xd];
+  *(float *)((int)pfVar1 + ((int)local_24 - (int)param_1)) = fVar7;
+  fVar7 = param_1[0xe];
+  *(float *)((int)pfVar1 + (int)local_24 + (4 - (int)param_1)) = fVar6;
+  fVar6 = local_24[1];
+  *(float *)((int)pfVar1 + (int)local_24 + (8 - (int)param_1)) = fVar7;
+  fVar2 = local_24[5];
+  fVar7 = local_24[2];
+  local_24[1] = local_24[3];
+  local_24[3] = fVar6;
+  local_24[2] = local_24[6];
+  local_24[6] = fVar7;
+  local_24[5] = local_24[7];
+  local_24[7] = fVar2;
+  bCMatrix3::SetToProduct((bCMatrix3 *)local_24,(bCMatrix3 *)local_24,(bCMatrix3 *)(param_2 + 6));
+  local_48[0] = ABS(local_24[0]);
+  local_48[1] = ABS(local_24[1]);
+  local_48[2] = ABS(local_24[2]);
+  local_48[3] = ABS(local_24[3]);
+  local_48[4] = ABS(local_24[4]);
+  local_48[5] = ABS(local_24[5]);
+  local_30[0] = ABS(local_24[6]);
+  local_30[1] = ABS(local_24[7]);
+  local_30[2] = ABS(local_24[8]);
+  fVar8 = *param_2 - *param_1;
+  fVar9 = param_2[1] - param_1[1];
+  fVar10 = param_2[2] - param_1[2];
+  fVar11 = param_1[8] * fVar10 + fVar8 * *pfVar1 + fVar9 * param_1[7];
+  fVar6 = param_2[3];
+  fVar7 = param_2[4];
+  fVar2 = param_2[5];
+  fVar3 = param_1[3];
+  if (ABS(fVar11) <= fVar6 * local_48[0] + fVar7 * local_48[1] + fVar2 * local_48[2] + fVar3) {
+    fVar13 = param_1[0xb] * fVar10 + fVar8 * param_1[9] + param_1[10] * fVar9;
+    fVar4 = param_1[4];
+    if (ABS(fVar13) <= local_48[5] * fVar2 + fVar6 * local_48[3] + local_48[4] * fVar7 + fVar4) {
+      fVar12 = param_1[0xe] * fVar10 + fVar8 * param_1[0xc] + param_1[0xd] * fVar9;
+      fVar5 = param_1[5];
+      if (ABS(fVar12) <= fVar5 + local_30[2] * fVar2 + fVar6 * local_30[0] + local_30[1] * fVar7) {
+        if ((local_30[0] * fVar5 + local_48[0] * fVar3 + local_48[3] * fVar4 + fVar6 <
+             ABS(param_2[8] * fVar10 + param_2[7] * fVar9 + param_2[6] * fVar8)) ||
+           (local_30[1] * fVar5 + local_48[1] * fVar3 + local_48[4] * fVar4 + fVar7 <
+            ABS(param_2[0xb] * fVar10 + fVar8 * param_2[9] + param_2[10] * fVar9))) {
+          return 0;
+        }
+        if (ABS(param_2[0xe] * fVar10 + fVar8 * param_2[0xc] + param_2[0xd] * fVar9) <=
+            local_30[2] * fVar5 + local_48[2] * fVar3 + fVar4 * local_48[5] + fVar2) {
+          iVar14 = 0;
+          do {
+            if (((0.999999 < local_48[iVar14]) || (0.999999 < local_48[iVar14 + 3])) ||
+               (0.999999 < local_48[iVar14 + 6])) {
+              return 1;
+            }
+            iVar14 = iVar14 + 1;
+          } while (iVar14 < 3);
+          if (((local_48[3] * fVar5 + local_30[0] * fVar4 +
+                local_48[2] * fVar7 + local_48[1] * fVar2 <
+                ABS(fVar12 * local_24[3] - fVar13 * local_24[6])) ||
+              (fVar6 * local_48[2] + local_48[0] * fVar2 + local_30[1] * fVar4 + local_48[4] * fVar5
+               < ABS(local_24[4] * fVar12 - fVar13 * local_24[7]))) ||
+             ((fVar6 * local_48[1] + local_48[0] * fVar7 + local_30[2] * fVar4 + local_48[5] * fVar5
+               < ABS(fVar12 * local_24[5] - local_24[8] * fVar13) ||
+              ((local_48[5] * fVar7 + local_48[4] * fVar2 +
+                local_48[0] * fVar5 + local_30[0] * fVar3 <
+                ABS(fVar11 * local_24[6] - local_24[0] * fVar12) ||
+               (fVar6 * local_48[5] + local_48[3] * fVar2 +
+                local_48[1] * fVar5 + local_30[1] * fVar3 <
+                ABS(fVar11 * local_24[7] - fVar12 * local_24[1]))))))) {
+            return 0;
+          }
+          if (((ABS(fVar11 * local_24[8] - fVar12 * local_24[2]) <=
+                local_30[2] * fVar3 + local_48[2] * fVar5 +
+                fVar6 * local_48[4] + local_48[3] * fVar7) &&
+              (ABS(local_24[0] * fVar13 - fVar11 * local_24[3]) <=
+               local_48[3] * fVar3 + local_48[0] * fVar4 + local_30[2] * fVar7 + local_30[1] * fVar2
+              )) && (ABS(fVar13 * local_24[1] - local_24[4] * fVar11) <=
+                     local_48[4] * fVar3 + local_48[1] * fVar4 +
+                     fVar6 * local_30[2] + local_30[0] * fVar2)) {
+            if (local_48[5] * fVar3 + local_48[2] * fVar4 +
+                fVar6 * local_30[1] + local_30[0] * fVar7 <
+                ABS(fVar13 * local_24[2] - local_24[5] * fVar11)) {
+              return 0;
+            }
+            return 1;
+          }
+        }
+        return 0;
+      }
+    }
+  }
+  return 0;
+}
+
+

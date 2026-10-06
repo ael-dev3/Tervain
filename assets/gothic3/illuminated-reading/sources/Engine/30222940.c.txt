@@ -1,0 +1,23 @@
+/* ENTRY 30222940 | FUN_30222940 | STATUS decompiled | 6 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+bCPropertyObjectBase * FUN_30222940(void)
+
+{
+  bCPropertyObjectSingleton *this;
+  bCString *pbVar1;
+  bCString local_4 [4];
+  
+  if ((_DAT_30ae1c44 & 1) == 0) {
+    _DAT_30ae1c44 = _DAT_30ae1c44 | 1;
+    bCString::bCString(local_4,"eCIlluminated_PS");
+    pbVar1 = local_4;
+    this = bCPropertyObjectSingleton::GetInstance();
+    DAT_30ae1c40 = bCPropertyObjectSingleton::GetRootObject(this,pbVar1);
+    bCString::~bCString(local_4);
+  }
+  return DAT_30ae1c40;
+}
+
+

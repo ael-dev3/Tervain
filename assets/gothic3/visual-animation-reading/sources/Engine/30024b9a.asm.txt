@@ -1,0 +1,2 @@
+; 30024b9a eCVisualAnimation_PS::AccessPhysicsControled
+30024b9a | e9f1ce0300 | JMP 0x30061a90

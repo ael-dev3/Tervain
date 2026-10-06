@@ -1,0 +1,4 @@
+; 10005d71 ?SetMidPrecision@bCFPUAdmin@@QAEXXZ
+10005d71 | e9aa5f0300 | JMP 0x1003bd20
+; 10005d76 bCMatrix::SetRow
+; 10005d76 Ordinal_4324

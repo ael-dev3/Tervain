@@ -1,0 +1,12 @@
+/* ENTRY 10005a33 | bCVector4::operator[] | STATUS decompiled | 1 ms */
+
+/* public: float & __thiscall bCVector4::operator[](int) */
+
+float * __thiscall bCVector4::operator[](bCVector4 *this,int param_1)
+
+{
+                    /* 0x5a33  874  ??AbCVector4@@QAEAAMH@Z */
+  return (float *)(this + param_1 * 4);
+}
+
+

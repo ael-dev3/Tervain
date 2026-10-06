@@ -1,0 +1,4 @@
+; 10006cd5 ??0bCAccessorPropertyObject@@QAE@ABVbCAccessorCreator@@@Z
+10006cd5 | e9063e0900 | JMP 0x1009aae0
+; 10006cda bCPoint::GetScaled
+; 10006cda Ordinal_2998

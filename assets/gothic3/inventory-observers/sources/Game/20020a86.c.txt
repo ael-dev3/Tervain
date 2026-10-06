@@ -1,0 +1,13 @@
+/* ENTRY 20020a86 | gCHUDPage::SetEntity | STATUS decompiled | 4 ms */
+
+/* public: virtual void __thiscall gCHUDPage::SetEntity(class eCEntity *,enum gEHUDEntity)
+   gCHUDPage member function inherited by gCHUDPageSlideshow2 */
+
+void __thiscall gCHUDPage::SetEntity(gCHUDPage *this,eCEntity *param_1,gEHUDEntity param_2)
+
+{
+                    /* 0x20a86  6459  ?SetEntity@gCHUDPage@@UAEXPAVeCEntity@@W4gEHUDEntity@@@Z */
+  return;
+}
+
+

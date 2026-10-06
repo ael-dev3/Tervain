@@ -1,0 +1,2 @@
+; 2003557b gCDialog_PS::GetSaveGameRelevance
+2003557b | e920631d00 | JMP 0x2020b8a0

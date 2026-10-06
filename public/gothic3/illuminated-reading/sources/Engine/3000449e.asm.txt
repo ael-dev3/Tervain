@@ -1,0 +1,2 @@
+; 3000449e eCIlluminated_PS::GetEnableAmbient
+3000449e | e9ed7d0900 | JMP 0x3009c290

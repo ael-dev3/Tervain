@@ -1,0 +1,26 @@
+/* ENTRY 30045e03 | eCDynamicEntity::OnPostRead | STATUS decompiled | 14 ms */
+
+/* protected: virtual void __thiscall eCDynamicEntity::OnPostRead(void) */
+
+void __thiscall eCDynamicEntity::OnPostRead(eCDynamicEntity *this)
+
+{
+  int iVar1;
+  eCEntityPropertySet *peVar2;
+  int iVar3;
+  
+                    /* 0x45e03  11340  ?OnPostRead@eCDynamicEntity@@MAEXXZ */
+  iVar3 = 0;
+  iVar1 = eCEntity::GetPropertySetCount((eCEntity *)this);
+  if (0 < iVar1) {
+    do {
+      peVar2 = eCEntity::GetPropertySetAt((eCEntity *)this,iVar3);
+      (**(code **)(*(int *)peVar2 + 300))();
+      iVar3 = iVar3 + 1;
+      iVar1 = eCEntity::GetPropertySetCount((eCEntity *)this);
+    } while (iVar3 < iVar1);
+  }
+  return;
+}
+
+

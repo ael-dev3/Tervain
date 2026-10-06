@@ -1,0 +1,18 @@
+/* ENTRY 10004e44 | PSPlayerMemory::SetMaximum | STATUS decompiled | 4 ms */
+
+/* public: void __thiscall PSPlayerMemory::SetMaximum(class bCString const &,int) */
+
+void __thiscall PSPlayerMemory::SetMaximum(PSPlayerMemory *this,bCString *param_1,int param_2)
+
+{
+                    /* 0x4e44  1962  ?SetMaximum@PSPlayerMemory@@QAEXABVbCString@@H@Z */
+  if (*(gCPlayerMemory_PS **)this != (gCPlayerMemory_PS *)0x0) {
+                    /* WARNING: Could not recover jumptable at 0x100293d6. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+    gCPlayerMemory_PS::SetMaximum(*(gCPlayerMemory_PS **)this,param_1,param_2);
+    return;
+  }
+  return;
+}
+
+

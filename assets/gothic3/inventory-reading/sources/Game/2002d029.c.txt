@@ -1,0 +1,21 @@
+/* ENTRY 2002d029 | gCInventorySlot::PostInitializeProperties | STATUS decompiled | 11 ms */
+
+/* public: virtual enum bEResult __thiscall gCInventorySlot::PostInitializeProperties(void) */
+
+bEResult __thiscall gCInventorySlot::PostInitializeProperties(gCInventorySlot *this)
+
+{
+  bCObjectBase bStack_8;
+  undefined4 uStack_4;
+  
+                    /* 0x2d029  5762  ?PostInitializeProperties@gCInventorySlot@@UAE?AW4bEResult@@XZ
+                        */
+  bCObjectBase::bCObjectBase(&bStack_8);
+  bStack_8 = (bCObjectBase)&bTPropertyContainer<gESlot>::vftable;
+  uStack_4 = 0;
+  (*(code *)(this->gCInventorySlot_data).offset_0x30[7])(&bStack_8);
+  bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xfffffff4);
+  return 1;
+}
+
+

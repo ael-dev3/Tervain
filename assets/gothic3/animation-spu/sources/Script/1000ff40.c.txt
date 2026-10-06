@@ -1,0 +1,39 @@
+/* ENTRY 1000ff40 | FUN_1000ff40 | STATUS decompiled | 19 ms */
+
+undefined4 __thiscall FUN_1000ff40(void *this,bCString *param_1)
+
+{
+  uint in_EAX;
+  eCWrapper_emfx2Actor *peVar1;
+  bCString *this_00;
+  undefined4 extraout_EAX;
+  int iVar2;
+  bCString *pbVar3;
+  bool bVar4;
+  bool bVar5;
+  void *local_4;
+  
+  if (*(eCVisualAnimation_PS **)this != (eCVisualAnimation_PS *)0x0) {
+    local_4 = this;
+    peVar1 = eCVisualAnimation_PS::GetActor(*(eCVisualAnimation_PS **)this);
+    in_EAX = 0;
+    if (peVar1 != (eCWrapper_emfx2Actor *)0x0) {
+      peVar1 = eCVisualAnimation_PS::GetActor(*(eCVisualAnimation_PS **)this);
+      in_EAX = 0;
+      if (peVar1 != (eCWrapper_emfx2Actor *)0x0) {
+        bCString::bCString((bCString *)&local_4,"_");
+        bVar5 = false;
+        bVar4 = false;
+        pbVar3 = (bCString *)&local_4;
+        iVar2 = 1;
+        this_00 = eCWrapper_emfx2Actor::GetActorName(peVar1);
+        bCString::GetWord(this_00,iVar2,pbVar3,param_1,bVar4,bVar5);
+        bCString::~bCString((bCString *)&local_4);
+        return CONCAT31((int3)((uint)extraout_EAX >> 8),1);
+      }
+    }
+  }
+  return in_EAX & 0xffffff00;
+}
+
+

@@ -1,0 +1,13 @@
+/* ENTRY 100036ed | bCBox::operator>> | STATUS decompiled | 2 ms */
+
+/* public: class bCOStream & __thiscall bCBox::operator>>(class bCOStream &)const  */
+
+bCOStream * __thiscall bCBox::operator>>(bCBox *this,bCOStream *param_1)
+
+{
+                    /* 0x36ed  611  ??5bCBox@@QBEAAVbCOStream@@AAV1@@Z */
+  (**(code **)(*(int *)param_1 + 4))(this,0x18);
+  return param_1;
+}
+
+

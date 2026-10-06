@@ -1,0 +1,16 @@
+/* ENTRY 10056470 | FUN_10056470 | STATUS decompiled | 4 ms */
+
+bool __thiscall FUN_10056470(bCBox *param_1,bCVector *param_2)
+
+{
+  bool bVar1;
+  
+  bVar1 = bCBox::Contains(param_1,param_2);
+  if (!bVar1) {
+    return false;
+  }
+  bVar1 = bCBox::Contains(param_1,param_2 + 0xc);
+  return bVar1;
+}
+
+

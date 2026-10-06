@@ -1,0 +1,4 @@
+; 20035b20 gCHUDTableStackStats::vfunction1_for_gCInventoryListener
+20035b20 | e98b891500 | JMP 0x2018e4b0
+; 20035b2a gCGUIEntityRenderer::Destroy
+; 20035b2a Ordinal_2591

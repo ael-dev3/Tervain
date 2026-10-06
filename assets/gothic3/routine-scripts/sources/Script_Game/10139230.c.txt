@@ -1,0 +1,17 @@
+/* ENTRY 10139230 | FUN_10139230 | STATUS decompiled | 8 ms */
+
+void FUN_10139230(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Commands\\AI_QuickStumble.cpp");
+  bCString::bCString(local_8,"_AI_QuickStumble");
+  thunk_FUN_1004aa50(local_8,&LAB_1000310c,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

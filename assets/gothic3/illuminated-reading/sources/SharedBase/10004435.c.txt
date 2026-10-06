@@ -1,0 +1,34 @@
+/* ENTRY 10004435 | bCPropertyObjectFactory::ReadSkipObject | STATUS decompiled | 12 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+/* protected: static unsigned short __stdcall bCPropertyObjectFactory::ReadSkipObject(class
+   bCIStream &) */
+
+ushort bCPropertyObjectFactory::ReadSkipObject(bCIStream *param_1)
+
+{
+  ushort uStack_8;
+  bool abStack_6 [2];
+  ushort auStack_4 [2];
+  
+                    /* 0x4435  3899  ?ReadSkipObject@bCPropertyObjectFactory@@KGGAAVbCIStream@@@Z */
+  if ((_DAT_102f4850 & 1) == 0) {
+    _DAT_102f4850 = _DAT_102f4850 | 1;
+    bTPropertyObject<bCObsoleteClass,bCObjectRefBase>::
+    bTPropertyObject<bCObsoleteClass,bCObjectRefBase>
+              ((bTPropertyObject<bCObsoleteClass,bCObjectRefBase> *)&DAT_102f483c);
+    _atexit((_func_4879 *)&LAB_100e3000);
+  }
+  uStack_8 = 0;
+  abStack_6[0] = false;
+  auStack_4[0] = 0;
+  auStack_4[1] = 0;
+  bCIStream::operator>>((bCIStream *)param_1,auStack_4);
+  bCIStream::operator>>((bCIStream *)param_1,abStack_6);
+  bCIStream::operator>>((bCIStream *)param_1,&uStack_8);
+  bTPropertyObject<bCObsoleteClass,bCObjectRefBase>::vfunction6
+            ((bTPropertyObject<bCObsoleteClass,bCObjectRefBase> *)&DAT_102f483c,param_1);
+  return 1;
+}
+
+

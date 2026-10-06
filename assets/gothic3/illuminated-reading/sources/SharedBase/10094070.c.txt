@@ -1,0 +1,10 @@
+/* ENTRY 10094070 | FUN_10094070 | STATUS decompiled | 1 ms */
+
+bCAccessorProperty * __fastcall FUN_10094070(bCAccessorProperty *param_1)
+
+{
+  bCAccessorProperty::Iterate(param_1);
+  return param_1;
+}
+
+

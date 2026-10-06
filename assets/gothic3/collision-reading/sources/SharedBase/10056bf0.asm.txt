@@ -1,0 +1,28 @@
+; 10056bf0 FUN_10056bf0
+10056bf0 | 83ec0c | SUB ESP,0xc
+10056bf3 | 8b442410 | MOV EAX,dword ptr [ESP + 0x10]
+10056bf7 | d900 | FLD float ptr [EAX]
+10056bf9 | 8b542414 | MOV EDX,dword ptr [ESP + 0x14]
+10056bfd | d91c24 | FSTP float ptr [ESP]
+10056c00 | d94004 | FLD float ptr [EAX + 0x4]
+10056c03 | d95c2404 | FSTP float ptr [ESP + 0x4]
+10056c07 | d94008 | FLD float ptr [EAX + 0x8]
+10056c0a | 8b442418 | MOV EAX,dword ptr [ESP + 0x18]
+10056c0e | d95c2408 | FSTP float ptr [ESP + 0x8]
+10056c12 | d90424 | FLD float ptr [ESP]
+10056c15 | d820 | FSUB float ptr [EAX]
+10056c17 | d91c24 | FSTP float ptr [ESP]
+10056c1a | d9442404 | FLD float ptr [ESP + 0x4]
+10056c1e | d86004 | FSUB float ptr [EAX + 0x4]
+10056c21 | d95c2404 | FSTP float ptr [ESP + 0x4]
+10056c25 | d9442408 | FLD float ptr [ESP + 0x8]
+10056c29 | d86008 | FSUB float ptr [EAX + 0x8]
+10056c2c | 8b44241c | MOV EAX,dword ptr [ESP + 0x1c]
+10056c30 | 50 | PUSH EAX
+10056c31 | 52 | PUSH EDX
+10056c32 | 8d442408 | LEA EAX,[ESP + 0x8]
+10056c36 | d95c2410 | FSTP float ptr [ESP + 0x10]
+10056c3a | 50 | PUSH EAX
+10056c3b | e86404fbff | CALL 0x100070a4
+10056c40 | 83c40c | ADD ESP,0xc
+10056c43 | c21000 | RET 0x10

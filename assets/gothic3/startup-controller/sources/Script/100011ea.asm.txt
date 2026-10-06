@@ -1,0 +1,4 @@
+; 100011ea ?GetPlayer@Entity@@SG?AV1@XZ
+100011ea | e9a1160300 | JMP 0x10032890
+; 100011ef GUI2::IsMenuOpen
+; 100011ef Ordinal_1780

@@ -1,0 +1,33 @@
+/* ENTRY 30044b3e | eCVisualAnimationFactory::CacheInResources | STATUS decompiled | 8 ms */
+
+/* public: void __thiscall eCVisualAnimationFactory::CacheInResources(void) */
+
+void __thiscall eCVisualAnimationFactory::CacheInResources(eCVisualAnimationFactory *this)
+
+{
+  eCVisualAnimationLoD *this_00;
+  int iVar1;
+  int iVar2;
+  
+                    /* 0x44b3e  3643  ?CacheInResources@eCVisualAnimationFactory@@QAEXXZ */
+  if (*(eCVisualAnimationLoD **)(this + 8) != (eCVisualAnimationLoD *)0x0) {
+    eCVisualAnimationLoD::RequestResources(*(eCVisualAnimationLoD **)(this + 8));
+  }
+  if (0 < *(int *)(this + 0x14)) {
+    iVar2 = 0;
+    iVar1 = 0;
+    do {
+      eCVisualAnimationLoD::RequestResources
+                (*(eCVisualAnimationLoD **)(*(int *)(this + 0x10) + 4 + iVar2));
+      this_00 = *(eCVisualAnimationLoD **)(*(int *)(this + 0x10) + 8 + iVar2);
+      if (this_00 != (eCVisualAnimationLoD *)0x0) {
+        eCVisualAnimationLoD::RequestResources(this_00);
+      }
+      iVar1 = iVar1 + 1;
+      iVar2 = iVar2 + 0x10;
+    } while (iVar1 < *(int *)(this + 0x14));
+  }
+  return;
+}
+
+

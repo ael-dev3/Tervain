@@ -1,0 +1,12 @@
+/* ENTRY 10008198 | bCPropertyObjectTypeBase::GetDescription | STATUS decompiled | 3 ms */
+
+/* public: class bCString const & __thiscall bCPropertyObjectTypeBase::GetDescription(void)const  */
+
+bCString * __thiscall bCPropertyObjectTypeBase::GetDescription(bCPropertyObjectTypeBase *this)
+
+{
+                    /* 0x8198  2263  ?GetDescription@bCPropertyObjectTypeBase@@QBEABVbCString@@XZ */
+  return (bCString *)&this->bCPropertyObjectTypeBase_data;
+}
+
+

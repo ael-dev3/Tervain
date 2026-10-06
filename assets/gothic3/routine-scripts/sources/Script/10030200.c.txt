@@ -1,0 +1,15 @@
+/* ENTRY 10030200 | FUN_10030200 | STATUS decompiled | 3 ms */
+
+void __thiscall FUN_10030200(void *this,eECollisionGroup param_1)
+
+{
+  if (*(eCEntity **)this != (eCEntity *)0x0) {
+                    /* WARNING: Could not recover jumptable at 0x10030206. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+    eCEntity::SetCollisionGroup(*(eCEntity **)this,param_1);
+    return;
+  }
+  return;
+}
+
+

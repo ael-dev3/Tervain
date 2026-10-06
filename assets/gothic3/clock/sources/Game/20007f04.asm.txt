@@ -1,0 +1,4 @@
+; 20007f04 ?GetHour@gCClock_PS@@QBEABKXZ
+20007f04 | e917f01500 | JMP 0x20166f20
+; 20007f09 gCMusicModule::Shutdown
+; 20007f09 Ordinal_7270

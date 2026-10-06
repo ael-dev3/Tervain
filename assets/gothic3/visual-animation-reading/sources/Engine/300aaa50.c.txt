@@ -1,0 +1,12 @@
+/* ENTRY 300aaa50 | bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector>::vfunction6 | STATUS decompiled | 2 ms */
+
+void __thiscall bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector>::vfunction6(void)
+
+{
+  GE_MESSAGEF_WARN("The method %s detected an improper usage! \nHint:%s ",
+                   "bTPropertyObjectType<CLASS, BASECLASS>::Write",
+                   "METHOD Read/Write not used for current implementation!");
+  return;
+}
+
+

@@ -1,0 +1,3 @@
+; 20308f50 bTPropertyType<gCNPC_PS,bool>::vfunction1
+20308f50 | 8b411c | MOV EAX,dword ptr [ECX + 0x1c]
+20308f53 | c3 | RET

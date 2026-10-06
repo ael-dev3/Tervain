@@ -1,0 +1,3 @@
+; 203230a0 bTPropertyType<gCPlayerMemory_PS,long>::vfunction1
+203230a0 | 8b411c | MOV EAX,dword ptr [ECX + 0x1c]
+203230a3 | c3 | RET

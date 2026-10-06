@@ -1,0 +1,4 @@
+; 3001cc01 bTPOPureSmartPtr<eCCollisionShapeBase_PS>::vfunction10
+3001cc01 | e9fa4a3200 | JMP 0x30341700
+; 3001cc06 eCTerrainShadowMap::IsEmtpty
+; 3001cc06 Ordinal_10364

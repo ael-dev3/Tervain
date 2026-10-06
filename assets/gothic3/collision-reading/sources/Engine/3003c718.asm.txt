@@ -1,0 +1,2 @@
+; 3003c718 ?GetShapes@eCCollisionShape_PS@@QAEAAV?$bTRefPtrArray@PAVeCCollisionShape@@@@XZ
+3003c718 | e9a39b2f00 | JMP 0x303362c0

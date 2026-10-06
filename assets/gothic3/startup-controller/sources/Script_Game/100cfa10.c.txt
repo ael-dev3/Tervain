@@ -1,0 +1,80 @@
+/* ENTRY 100cfa10 | FUN_100cfa10 | STATUS decompiled | 43 ms */
+
+void FUN_100cfa10(void)
+
+{
+  bool bVar1;
+  eCEntity *peVar2;
+  bCMatrix *pbVar3;
+  bCVector *this;
+  float *pfVar4;
+  bCMessageAdmin *pbVar5;
+  bEMessageTypes bVar6;
+  char *pcVar7;
+  char *pcVar8;
+  char *pcVar9;
+  int iVar10;
+  int iVar11;
+  bCString abStack_1a8 [4];
+  Entity aEStack_160 [8];
+  undefined1 auStack_158 [44];
+  PSNpc aPStack_12c [116];
+  Entity aEStack_b8 [8];
+  Entity aEStack_b0 [176];
+  
+  bCString::bCString(abStack_1a8,"AlShedim_TempleDoor_Tester_01");
+  Entity::GetEntity();
+  bVar1 = Entity::operator!=(aEStack_b0,(Entity *)None_exref);
+  if (bVar1) {
+    peVar2 = Entity::GetInstance(aEStack_b0);
+    pbVar3 = eCEntity::GetWorldMatrix(peVar2);
+    bCMatrix::bCMatrix((bCMatrix *)&stack0xfffffe68,pbVar3);
+    this = bCMatrix::AccessTranslation((bCMatrix *)&stack0xfffffe68);
+    pfVar4 = bCVector::AccessY(this);
+    pbVar3 = (bCMatrix *)&stack0xfffffe68;
+    *pfVar4 = *pfVar4 - 50.0;
+    peVar2 = Entity::GetInstance(aEStack_b0);
+    eCEntity::SetToWorldMatrix(peVar2,pbVar3);
+    bCMatrix::~bCMatrix((bCMatrix *)&stack0xfffffe68);
+  }
+  else {
+    iVar11 = *(int *)g_iDefaultMessagePriority_exref;
+    iVar10 = -1;
+    pcVar9 = (char *)0x0;
+    pcVar8 = (char *)0x0;
+    pcVar7 = 
+    "OnGameStartUpDirtyHack - Mattes hack faild because AlShedim_TempleDoor_Tester_01 is not in da house!"
+    ;
+    bVar6 = 3;
+    pbVar5 = bCMessageAdmin::GetInstance();
+    bCMessageAdmin::OnMessage(pbVar5,bVar6,pcVar7,pcVar8,pcVar9,iVar10,iVar11);
+  }
+  bCString::bCString((bCString *)&stack0xfffffe50,"Yepas");
+  Entity::GetEntity(auStack_158);
+  bVar1 = Entity::operator!=(aEStack_160,(Entity *)None_exref);
+  if (bVar1) {
+    bVar1 = PSNpc::IsValid(aPStack_12c);
+    if (bVar1) {
+      PSNpc::PropertyPoliticalAlignment::operator=
+                ((PropertyPoliticalAlignment *)aPStack_12c,(gEPoliticalAlignment *)&stack0xfffffe5c)
+      ;
+      goto LAB_100cfb49;
+    }
+  }
+  iVar11 = *(int *)g_iDefaultMessagePriority_exref;
+  iVar10 = -1;
+  pcVar9 = (char *)0x0;
+  pcVar8 = (char *)0x0;
+  pcVar7 = 
+  "OnGameStartUpDirtyHack - Mattes hack faild because AlShedim_TempleDoor_Tester_01 is not in da house!"
+  ;
+  bVar6 = 3;
+  pbVar5 = bCMessageAdmin::GetInstance();
+  bCMessageAdmin::OnMessage(pbVar5,bVar6,pcVar7,pcVar8,pcVar9,iVar10,iVar11);
+LAB_100cfb49:
+  Entity::~Entity(aEStack_160);
+  Entity::~Entity(aEStack_b8);
+  return;
+}
+
+

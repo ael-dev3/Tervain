@@ -1,0 +1,2 @@
+; 20020234 ?ProcessPhysicsMovements@gCCharacterMovement_PS@@IAEXXZ
+20020234 | e9a7d62000 | JMP 0x2022d8e0

@@ -1,0 +1,16 @@
+/* ENTRY 3000e0b6 | bTPOPureSmartPtr<eCCollisionShape_PS>::deleting_destructor | STATUS decompiled | 4 ms */
+
+bTPOPureSmartPtr<eCCollisionShape_PS> * __thiscall
+bTPOPureSmartPtr<eCCollisionShape_PS>::deleting_destructor
+          (bTPOPureSmartPtr<eCCollisionShape_PS> *this,byte param_1)
+
+{
+  ~bTPOPureSmartPtr<eCCollisionShape_PS>(this);
+  if ((param_1 & 1) != 0) {
+                    /* WARNING: Subroutine does not return */
+    _free(this);
+  }
+  return this;
+}
+
+

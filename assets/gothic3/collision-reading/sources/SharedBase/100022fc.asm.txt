@@ -1,0 +1,4 @@
+; 100022fc ?Cull@bCBox@@QBE_NABVbCSphere@@@Z
+100022fc | e9cf3c0500 | JMP 0x10055fd0
+; 10002301 bCUnicodeString::ReverseFindOneOf
+; 10002301 Ordinal_3961

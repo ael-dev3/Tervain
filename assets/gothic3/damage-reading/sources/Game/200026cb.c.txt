@@ -1,0 +1,18 @@
+/* ENTRY 200026cb | gCDamageReceiver_PS::SetHitPointsMax | STATUS decompiled | 10 ms */
+
+/* public: void __thiscall gCDamageReceiver_PS::SetHitPointsMax(long const &) */
+
+void __thiscall gCDamageReceiver_PS::SetHitPointsMax(gCDamageReceiver_PS *this,long *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x26cb  6575  ?SetHitPointsMax@gCDamageReceiver_PS@@QAEXABJ@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"HitPointsMax",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  *(long *)&(this->gCDamageReceiver_PS_data).field_0x14 = *param_1;
+  (*pNVar1)(this,"HitPointsMax",false);
+  return;
+}
+
+

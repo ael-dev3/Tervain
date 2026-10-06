@@ -1,0 +1,36 @@
+/* ENTRY 20533910 | bTPropertyType<gCInteraction_PS,bCVector>::~bTPropertyType<gCInteraction_PS,bCVector> | STATUS decompiled | 14 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCInteraction_PS,bCVector>::~bTPropertyType<gCInteraction_PS,bCVector>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Focus");
+  bCString::bCString(local_c,"FocusWorldOffset");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCInteraction_PS::ms_PropertyMember_m_vecFocusWorldOffset,
+             local_c,local_8,local_4,1,false);
+  _ms_PropertyMember_m_vecFocusWorldOffset = &vftable;
+  DAT_207cf1f4 = bTPropertyObjectType<gCInteraction_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCInteraction_PS,eCEntityPropertySet>();
+  _DAT_207cf1f8 = 0x94;
+  _DAT_207cf1fc = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCInteraction_PS::ms_PropertyMember_m_vecFocusWorldOffset);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cf1f4,
+             (bCPropertyTypeBase *)&gCInteraction_PS::ms_PropertyMember_m_vecFocusWorldOffset);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bCVector>::~bTPropertyTypeOnly<bCVector>);
+  return;
+}
+
+

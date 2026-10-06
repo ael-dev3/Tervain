@@ -1,0 +1,3 @@
+; 300bc570 FUN_300bc570
+300bc570 | 8b4908 | MOV ECX,dword ptr [ECX + 0x8]
+300bc573 | e95b29f7ff | JMP 0x3002eed3

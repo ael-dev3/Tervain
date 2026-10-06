@@ -1,0 +1,22 @@
+/* ENTRY 1003a2b0 | FUN_1003a2b0 | STATUS decompiled | 6 ms */
+
+void FUN_1003a2b0(void)
+
+{
+  gCSession *this;
+  gCGUIManager *this_00;
+  
+  this = (gCSession *)thunk_FUN_10039100();
+  if (this != (gCSession *)0x0) {
+    this_00 = gCSession::GetGUIManager(this);
+    if (this_00 != (gCGUIManager *)0x0) {
+                    /* WARNING: Could not recover jumptable at 0x1003a2c7. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+      gCGUIManager::UpdatePlayer(this_00);
+      return;
+    }
+  }
+  return;
+}
+
+

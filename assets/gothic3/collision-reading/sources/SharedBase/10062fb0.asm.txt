@@ -1,0 +1,21 @@
+; 10062fb0 FUN_10062fb0
+10062fb0 | 51 | PUSH ECX
+10062fb1 | d94110 | FLD float ptr [ECX + 0x10]
+10062fb4 | dd0550740e10 | FLD double ptr [0x100e7450]
+10062fba | dcc9 | FMUL ST1
+10062fbc | d9c9 | FXCH
+10062fbe | d91c24 | FSTP float ptr [ESP]
+10062fc1 | d90424 | FLD float ptr [ESP]
+10062fc4 | d9410c | FLD float ptr [ECX + 0xc]
+10062fc7 | d8ca | FMUL ST2
+10062fc9 | d91c24 | FSTP float ptr [ESP]
+10062fcc | d80c24 | FMUL float ptr [ESP]
+10062fcf | d94114 | FLD float ptr [ECX + 0x14]
+10062fd2 | deca | FMULP ST2
+10062fd4 | d9c9 | FXCH
+10062fd6 | d91c24 | FSTP float ptr [ESP]
+10062fd9 | d80c24 | FMUL float ptr [ESP]
+10062fdc | d91c24 | FSTP float ptr [ESP]
+10062fdf | d90424 | FLD float ptr [ESP]
+10062fe2 | 59 | POP ECX
+10062fe3 | c3 | RET

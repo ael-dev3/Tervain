@@ -1,0 +1,10 @@
+/* ENTRY 20035378 | bTPropertyObject<gCAttribute,bCObjectRefBase>::vfunction11 | STATUS decompiled | 1 ms */
+
+void __thiscall bTPropertyObject<gCAttribute,bCObjectRefBase>::vfunction11(void)
+
+{
+  thunk_FUN_20398b00(0);
+  return;
+}
+
+

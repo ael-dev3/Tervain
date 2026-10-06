@@ -1,0 +1,15 @@
+/* ENTRY 30035d5a | eCVisualAnimation_PS::OnUpdateInternals | STATUS decompiled | 27 ms */
+
+/* protected: virtual void __thiscall eCVisualAnimation_PS::OnUpdateInternals(void) */
+
+void __thiscall eCVisualAnimation_PS::OnUpdateInternals(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x35d5a  11609  ?OnUpdateInternals@eCVisualAnimation_PS@@MAEXXZ */
+  eCVisualAnimationFactory::GetMeshBoundary
+            ((eCVisualAnimationFactory *)&this[7].eCEntityPropertySet_data.field_0x4,
+             (bCBox *)&this[0xc].eCEntityPropertySet_data);
+  return;
+}
+
+

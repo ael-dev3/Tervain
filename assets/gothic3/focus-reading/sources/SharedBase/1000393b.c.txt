@@ -1,0 +1,57 @@
+/* ENTRY 1000393b | bCPropertyObjectFactory::ReadNewObject | STATUS decompiled | 18 ms */
+
+/* protected: class bCPropertyObjectBase * __thiscall bCPropertyObjectFactory::ReadNewObject(class
+   bCIStream &) */
+
+bCPropertyObjectBase * __thiscall
+bCPropertyObjectFactory::ReadNewObject(bCPropertyObjectFactory *this,bCIStream *param_1)
+
+{
+  bCPropertyObjectBase *this_00;
+  bool bVar1;
+  bCMessageAdmin *this_01;
+  bCPropertyObjectBase *pbVar2;
+  bEMessageTypes bVar3;
+  char *pcVar4;
+  char *pcVar5;
+  char *pcVar6;
+  int iVar7;
+  int iVar8;
+  ushort uStack_8;
+  bool abStack_6 [2];
+  ushort auStack_4 [2];
+  
+                    /* 0x393b  3893
+                       ?ReadNewObject@bCPropertyObjectFactory@@IAEPAVbCPropertyObjectBase@@AAVbCIStream@@@Z
+                        */
+  uStack_8 = 0;
+  abStack_6[0] = false;
+  auStack_4[0] = 0;
+  auStack_4[1] = 0;
+  bCIStream::operator>>((bCIStream *)param_1,auStack_4);
+  bCIStream::operator>>((bCIStream *)param_1,abStack_6);
+  bCIStream::operator>>((bCIStream *)param_1,&uStack_8);
+  if ((this->bCPropertyObjectFactory_data).offset_0x4 != 0) {
+    bVar1 = bCPropertyObjectBase::IsRoot
+                      (*(bCPropertyObjectBase **)(this->bCPropertyObjectFactory_data).offset_0x0);
+    if ((bVar1) &&
+       (this_00 = *(bCPropertyObjectBase **)(this->bCPropertyObjectFactory_data).offset_0x0,
+       this_00 != (bCPropertyObjectBase *)0x0)) {
+      pbVar2 = bCPropertyObjectBase::Clone(this_00);
+      (**(code **)(*(int *)pbVar2 + 0x14))(param_1);
+      return pbVar2;
+    }
+  }
+  iVar8 = 5;
+  iVar7 = -1;
+  pcVar6 = (char *)0x0;
+  pcVar5 = (char *)0x0;
+  pcVar4 = &DAT_100ea870;
+  bVar3 = 3;
+  this_01 = bCMessageAdmin::GetInstance();
+  bCMessageAdmin::OnMessage(this_01,bVar3,pcVar4,pcVar5,pcVar6,iVar7,iVar8);
+  (**(code **)(iRam00000000 + 0x14))(param_1);
+  return (bCPropertyObjectBase *)0x0;
+}
+
+

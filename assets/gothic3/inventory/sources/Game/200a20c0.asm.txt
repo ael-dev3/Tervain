@@ -1,0 +1,22 @@
+; 200a20c0 FUN_200a20c0
+200a20c0 | 56 | PUSH ESI
+200a20c1 | 8bf1 | MOV ESI,ECX
+200a20c3 | 8b06 | MOV EAX,dword ptr [ESI]
+200a20c5 | 8b5058 | MOV EDX,dword ptr [EAX + 0x58]
+200a20c8 | 6a00 | PUSH 0x0
+200a20ca | 6838726520 | PUSH 0x20657238
+200a20cf | ffd2 | CALL EDX
+200a20d1 | 8b464c | MOV EAX,dword ptr [ESI + 0x4c]
+200a20d4 | 8b542408 | MOV EDX,dword ptr [ESP + 0x8]
+200a20d8 | 8b401c | MOV EAX,dword ptr [EAX + 0x1c]
+200a20db | 8d4e4c | LEA ECX,[ESI + 0x4c]
+200a20de | 52 | PUSH EDX
+200a20df | ffd0 | CALL EAX
+200a20e1 | 8b16 | MOV EDX,dword ptr [ESI]
+200a20e3 | 8b425c | MOV EAX,dword ptr [EDX + 0x5c]
+200a20e6 | 6a00 | PUSH 0x0
+200a20e8 | 6838726520 | PUSH 0x20657238
+200a20ed | 8bce | MOV ECX,ESI
+200a20ef | ffd0 | CALL EAX
+200a20f1 | 5e | POP ESI
+200a20f2 | c20400 | RET 0x4

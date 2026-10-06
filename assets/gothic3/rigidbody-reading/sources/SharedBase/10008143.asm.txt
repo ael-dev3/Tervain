@@ -1,0 +1,4 @@
+; 10008143 ?Create@bCObjectBase@@UAE?AW4bEResult@@XZ
+10008143 | e9681f0400 | JMP 0x1004a0b0
+; 10008148 bCString::CompareNoCase
+; 10008148 Ordinal_1656

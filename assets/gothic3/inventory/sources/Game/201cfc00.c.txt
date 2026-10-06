@@ -1,0 +1,84 @@
+/* ENTRY 201cfc00 | bTPropertyContainer<gEStackType>::bTPropertyContainer<gEStackType>_Constructor_or_Destructor | STATUS decompiled | 46 ms */
+
+int __thiscall
+bTPropertyContainer<gEStackType>::bTPropertyContainer<gEStackType>_Constructor_or_Destructor
+          (bTPropertyContainer<gEStackType> *this,eCTemplateEntity *param_1,int param_2,int param_3,
+          int param_4)
+
+{
+  undefined **ppuVar1;
+  gCInventoryStack *this_00;
+  code *pcVar2;
+  bCObjectBase *pbVar3;
+  bool bVar4;
+  eCTemplateEntity *peVar5;
+  GetVersion *pGVar6;
+  int unaff_EBP;
+  int iVar7;
+  undefined **ppuVar8;
+  bCObjectBase local_8;
+  int local_4;
+  
+  if (param_1 == (eCTemplateEntity *)0x0) {
+    GE_MESSAGEF_WARN();
+    return -1;
+  }
+  if (0 < param_2) {
+    ppuVar1 = (this->bTPropertyContainer<gEStackType>_data).offset_0x0;
+    iVar7 = 0;
+    if (0 < (int)ppuVar1) {
+      do {
+        this_00 = (gCInventoryStack *)(&this->vftablePtr->GetVersion)[iVar7];
+        peVar5 = eCTemplateEntityProxy::GetEntity
+                           ((eCTemplateEntityProxy *)&(this_00->gCInventorySlot_data).field_0x8);
+        if ((((peVar5 == param_1) && ((this_00->gCInventoryStack_data).offset_0x4 == param_3)) &&
+            ((this_00->gCInventoryStack_data).offset_0x14 == param_4)) &&
+           ((bVar4 = gCInventorySlot::IsLinked((gCInventorySlot *)this_00), !bVar4 ||
+            (bVar4 = gCInventoryStack::MustSplitBeforeLinking
+                               (this_00,(this_00->gCInventorySlot_data).offset_0x34,(eCEntity *)0x0)
+            , !bVar4)))) {
+          (this_00->gCInventoryStack_data).offset_0x0 =
+               (this_00->gCInventoryStack_data).offset_0x0 + param_2;
+          pbVar3 = (this->bTPropertyContainer<gEStackType>_data).offset_0x8;
+          if (pbVar3 == (bCObjectBase *)0x0) {
+            return iVar7;
+          }
+          (**(code **)(*(int *)pbVar3 + 4))(iVar7);
+          return iVar7;
+        }
+        iVar7 = iVar7 + 1;
+      } while (iVar7 < (int)ppuVar1);
+    }
+    pGVar6 = (GetVersion *)thunk_FUN_201c92b0();
+    eCTemplateEntityProxy::SetEntity((eCTemplateEntityProxy *)(pGVar6 + 0xc),param_1);
+    bCObjectBase::bCObjectBase(&local_8);
+    local_4 = param_4;
+    local_8 = (bCObjectBase)&vftable;
+    (**(code **)(*(int *)pGVar6 + 0x58))(&DAT_20657238);
+    (**(code **)(*(int *)(pGVar6 + 0x4c) + 0x1c))();
+    (**(code **)(*(int *)pGVar6 + 0x5c))(&DAT_20657238,0);
+    bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xffffffe4);
+    (**(code **)(*(int *)pGVar6 + 0x58))("Quality",0);
+    *(int *)(pGVar6 + 0x40) = unaff_EBP;
+    (**(code **)(*(int *)pGVar6 + 0x5c))("Quality",0);
+    (**(code **)(*(int *)pGVar6 + 0x58))("Amount",0);
+    pcVar2 = *(code **)(*(int *)pGVar6 + 0x5c);
+    *(undefined1 **)(pGVar6 + 0x3c) = &stack0xfffffff0;
+    (*pcVar2)("Amount",0);
+    ppuVar1 = (this->bTPropertyContainer<gEStackType>_data).offset_0x0;
+    ppuVar8 = (undefined **)((int)ppuVar1 + 1);
+    thunk_FUN_201d0c70(ppuVar8,(ppuVar8 != (undefined **)0x0) - 1);
+    (this->bTPropertyContainer<gEStackType>_data).offset_0x0 = ppuVar8;
+    (&this->vftablePtr->GetVersion)[(int)ppuVar1] = pGVar6;
+    pbVar3 = (this->bTPropertyContainer<gEStackType>_data).offset_0x8;
+    iVar7 = (int)(this->bTPropertyContainer<gEStackType>_data).offset_0x0 + -1;
+    if (pbVar3 != (bCObjectBase *)0x0) {
+      (*(code *)**(undefined4 **)pbVar3)(iVar7,pGVar6);
+    }
+    return iVar7;
+  }
+  GE_MESSAGEF_WARN();
+  return -1;
+}
+
+

@@ -1,0 +1,19 @@
+/* ENTRY 10002d0b | bCOrientedBox::GetTranslated | STATUS decompiled | 5 ms */
+
+/* public: class bCOrientedBox __thiscall bCOrientedBox::GetTranslated(class bCVector const &)const
+    */
+
+bCVector * __thiscall bCOrientedBox::GetTranslated(bCOrientedBox *this,bCVector *param_1)
+
+{
+  float *in_stack_00000008;
+  
+                    /* 0x2d0b  3152  ?GetTranslated@bCOrientedBox@@QBE?AV1@ABVbCVector@@@Z */
+  Create((bCOrientedBox *)param_1,this);
+  *(float *)param_1 = *(float *)param_1 + *in_stack_00000008;
+  *(float *)(param_1 + 4) = in_stack_00000008[1] + *(float *)(param_1 + 4);
+  *(float *)(param_1 + 8) = in_stack_00000008[2] + *(float *)(param_1 + 8);
+  return param_1;
+}
+
+

@@ -1,0 +1,13 @@
+; 100630b0 FUN_100630b0
+100630b0 | d901 | FLD float ptr [ECX]
+100630b2 | d9442404 | FLD float ptr [ESP + 0x4]
+100630b6 | d9c0 | FLD ST0
+100630b8 | dec2 | FADDP ST2,ST0
+100630ba | d9c9 | FXCH
+100630bc | d919 | FSTP float ptr [ECX]
+100630be | d94104 | FLD float ptr [ECX + 0x4]
+100630c1 | d8c1 | FADD ST0,ST1
+100630c3 | d95904 | FSTP float ptr [ECX + 0x4]
+100630c6 | d84108 | FADD float ptr [ECX + 0x8]
+100630c9 | d95908 | FSTP float ptr [ECX + 0x8]
+100630cc | c20400 | RET 0x4

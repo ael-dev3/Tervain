@@ -1,0 +1,17 @@
+/* ENTRY 10151f10 | FUN_10151f10 | STATUS decompiled | 6 ms */
+
+void FUN_10151f10(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Player\\Player_States\\PS_Interact.cpp");
+  bCString::bCString(local_8,"OnInteract_HoldOrcBoulder_Loop");
+  thunk_FUN_1001da70(local_8,&LAB_10002135,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

@@ -1,0 +1,9 @@
+; 3033b750 bTPOPureSmartPtr<eCCollisionShape_PS>::bTPOPureSmartPtr<eCCollisionShape_PS>
+3033b750 | 56 | PUSH ESI
+3033b751 | 8bf1 | MOV ESI,ECX
+3033b753 | ff1520caaf30 | CALL dword ptr [0x30afca20]
+3033b759 | c706640b8630 | MOV dword ptr [ESI],0x30860b64
+3033b75f | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+3033b766 | 8bc6 | MOV EAX,ESI
+3033b768 | 5e | POP ESI
+3033b769 | c3 | RET

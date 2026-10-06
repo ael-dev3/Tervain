@@ -1,0 +1,2 @@
+; 10006ea6 bCUnitedRay::CopyFrom
+10006ea6 | e915760600 | JMP 0x1006e4c0

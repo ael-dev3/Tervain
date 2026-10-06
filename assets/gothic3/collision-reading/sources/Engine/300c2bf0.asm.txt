@@ -1,0 +1,3 @@
+; 300c2bf0 FUN_300c2bf0
+300c2bf0 | 8b4974 | MOV ECX,dword ptr [ECX + 0x74]
+300c2bf3 | ff2560dbaf30 | JMP dword ptr [0x30afdb60]

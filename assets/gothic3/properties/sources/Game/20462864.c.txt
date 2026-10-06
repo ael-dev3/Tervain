@@ -1,0 +1,14 @@
+/* ENTRY 20462864 | ENGINE.DLL::eCEntity::Modified | STATUS decompiled | 1 ms */
+
+ulong __thiscall eCEntity::Modified(eCEntity *this)
+
+{
+  ulong uVar1;
+  
+                    /* WARNING: Could not recover jumptable at 0x20462864. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  uVar1 = Modified(this);
+  return uVar1;
+}
+
+

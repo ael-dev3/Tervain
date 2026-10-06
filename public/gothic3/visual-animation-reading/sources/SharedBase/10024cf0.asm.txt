@@ -1,0 +1,5 @@
+; 10024cf0 FUN_10024cf0
+10024cf0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+10024cf4 | d900 | FLD float ptr [EAX]
+10024cf6 | d95908 | FSTP float ptr [ECX + 0x8]
+10024cf9 | c20400 | RET 0x4

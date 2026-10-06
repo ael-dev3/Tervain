@@ -1,0 +1,8 @@
+; 1000dc00 FUN_1000dc00
+1000dc00 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+1000dc04 | 8901 | MOV dword ptr [ECX],EAX
+1000dc06 | 33c9 | XOR ECX,ECX
+1000dc08 | 85c0 | TEST EAX,EAX
+1000dc0a | 0f95c1 | SETNZ CL
+1000dc0d | 8ac1 | MOV AL,CL
+1000dc0f | c20400 | RET 0x4

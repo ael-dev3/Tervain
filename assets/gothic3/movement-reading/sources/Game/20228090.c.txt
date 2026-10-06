@@ -1,0 +1,14 @@
+/* ENTRY 20228090 | FUN_20228090 | STATUS decompiled | 8 ms */
+
+void __fastcall FUN_20228090(gCCharacterMovement_PS *param_1)
+
+{
+  thunk_FUN_20233ee0();
+  gCCharacterMovement_PS::Invalidate(param_1);
+                    /* WARNING: Could not recover jumptable at 0x202280a8. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eCEntityPropertySet::Destroy((eCEntityPropertySet *)param_1);
+  return;
+}
+
+

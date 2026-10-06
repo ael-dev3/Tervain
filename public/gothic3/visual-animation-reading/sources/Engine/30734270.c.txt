@@ -1,0 +1,32 @@
+/* ENTRY 30734270 | bTPropertyType<eCVisualAnimation_PS,float>::~bTPropertyType<eCVisualAnimation_PS,float> | STATUS decompiled | 13 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<eCVisualAnimation_PS,float>::~bTPropertyType<eCVisualAnimation_PS,float>
+          (bTPropertyType<eCVisualAnimation_PS,float> *this)
+
+{
+  bTPropertyType<eCVisualAnimation_PS,float> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"BoneTwistSpring");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&eCVisualAnimation_PS::ms_PropertyMember_m_fBoneTwistSpring,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_fBoneTwistSpring = &vftable;
+  DAT_30ada7a4 = bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet>();
+  _DAT_30ada7a8 = 0x38;
+  _DAT_30ada7ac = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&eCVisualAnimation_PS::ms_PropertyMember_m_fBoneTwistSpring);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_30ada7a4,
+             (bCPropertyTypeBase *)&eCVisualAnimation_PS::ms_PropertyMember_m_fBoneTwistSpring);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}
+
+

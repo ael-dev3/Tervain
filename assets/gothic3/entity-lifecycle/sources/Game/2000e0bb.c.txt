@@ -1,0 +1,45 @@
+/* ENTRY 2000e0bb | gCNavPath_PS::Read | STATUS decompiled | 27 ms */
+
+/* WARNING: Removing unreachable block (ram,0x2029897d) */
+/* public: virtual enum bEResult __thiscall gCNavPath_PS::Read(class bCIStream &) */
+
+bEResult __thiscall gCNavPath_PS::Read(gCNavPath_PS *this,bCIStream *param_1)
+
+{
+  undefined4 *puVar1;
+  NotifyPropertyValueChangedExitEx *pNVar2;
+  
+                    /* 0xe0bb  5940  ?Read@gCNavPath_PS@@UAE?AW4bEResult@@AAVbCIStream@@@Z */
+  puVar1 = &this[1].gCNavPath_PS_data.offset_0x14;
+  bCIStream::operator>>((bCIStream *)param_1,(ushort *)puVar1);
+  if (*(ushort *)puVar1 < 0x25) {
+    thunk_FUN_20276a10();
+    thunk_FUN_20276af0();
+    thunk_FUN_20276af0();
+  }
+  if (*(ushort *)puVar1 < 0x26) {
+    (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"TopToleranz",false);
+    pNVar2 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+    *(undefined4 *)&(this->gCNavPath_PS_data).field_0x9c = 0x43160000;
+    (*pNVar2)(this,"TopToleranz",false);
+    (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"BottomToleranz",false);
+    pNVar2 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+    *(undefined4 *)&(this->gCNavPath_PS_data).field_0xa0 = 0x42c80000;
+    (*pNVar2)(this,"BottomToleranz",false);
+    (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"LinkInnerArea",false);
+    pNVar2 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+    (this->gCNavPath_PS_data).field_0xa4 = 0;
+    (*pNVar2)(this,"LinkInnerArea",false);
+    (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"LinkInnerTopArea",false);
+    pNVar2 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+    (this->gCNavPath_PS_data).field_0xa5 = 0;
+    (*pNVar2)(this,"LinkInnerTopArea",false);
+    (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"LinkInnerBottomArea",false);
+    pNVar2 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+    (this->gCNavPath_PS_data).field_0xa6 = 0;
+    (*pNVar2)(this,"LinkInnerBottomArea",false);
+  }
+  return 1;
+}
+
+

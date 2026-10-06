@@ -1,0 +1,43 @@
+/* ENTRY 100051b9 | bCOrientedBox::Transform | STATUS decompiled | 12 ms */
+
+/* public: void __thiscall bCOrientedBox::Transform(class bCMatrix3 const &) */
+
+void __thiscall bCOrientedBox::Transform(bCOrientedBox *this,bCMatrix3 *param_1)
+
+{
+  float fVar1;
+  float fVar2;
+  float fVar3;
+  undefined4 uStack_24;
+  undefined4 uStack_20;
+  undefined4 uStack_1c;
+  undefined4 uStack_18;
+  undefined4 uStack_14;
+  undefined4 uStack_10;
+  undefined4 uStack_c;
+  undefined4 uStack_8;
+  undefined4 uStack_4;
+  
+                    /* 0x51b9  4526  ?Transform@bCOrientedBox@@QAEXABVbCMatrix3@@@Z */
+  uStack_20 = *(undefined4 *)(param_1 + 4);
+  uStack_24 = *(undefined4 *)param_1;
+  uStack_1c = *(undefined4 *)(param_1 + 8);
+  uStack_18 = *(undefined4 *)(param_1 + 0xc);
+  uStack_14 = *(undefined4 *)(param_1 + 0x10);
+  uStack_10 = *(undefined4 *)(param_1 + 0x14);
+  uStack_c = *(undefined4 *)(param_1 + 0x18);
+  uStack_8 = *(undefined4 *)(param_1 + 0x1c);
+  uStack_4 = *(undefined4 *)(param_1 + 0x20);
+  fVar1 = bCVector::GetMagnitudeNormalize((bCVector *)&uStack_24);
+  fVar2 = bCVector::GetMagnitudeNormalize((bCVector *)&uStack_18);
+  fVar3 = bCVector::GetMagnitudeNormalize((bCVector *)&uStack_c);
+  bCVector::operator*=((bCVector *)this,(bCMatrix3 *)&uStack_24);
+  bCMatrix3::SetToProduct
+            ((bCMatrix3 *)(this + 0x18),(bCMatrix3 *)(this + 0x18),(bCMatrix3 *)&uStack_24);
+  *(float *)(this + 0xc) = *(float *)(this + 0xc) * fVar1;
+  *(float *)(this + 0x10) = fVar2 * *(float *)(this + 0x10);
+  *(float *)(this + 0x14) = *(float *)(this + 0x14) * fVar3;
+  return;
+}
+
+

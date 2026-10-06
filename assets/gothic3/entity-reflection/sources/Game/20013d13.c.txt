@@ -1,0 +1,19 @@
+/* ENTRY 20013d13 | gCClock_PS::WriteSaveGame | STATUS decompiled | 12 ms */
+
+/* public: virtual enum bEResult __thiscall gCClock_PS::WriteSaveGame(class bCOStream &) */
+
+bEResult __thiscall gCClock_PS::WriteSaveGame(gCClock_PS *this,bCOStream *param_1)
+
+{
+                    /* 0x13d13  7590  ?WriteSaveGame@gCClock_PS@@UAE?AW4bEResult@@AAVbCOStream@@@Z
+                        */
+  bCOStream::operator<<((bCOStream *)param_1,*(ulong *)&(this->gCClock_PS_data).field_0x10);
+  bCOStream::operator<<((bCOStream *)param_1,*(ulong *)&(this->gCClock_PS_data).field_0x14);
+  bCOStream::operator<<((bCOStream *)param_1,*(ulong *)&(this->gCClock_PS_data).field_0x18);
+  bCOStream::operator<<((bCOStream *)param_1,*(ulong *)&(this->gCClock_PS_data).field_0x1c);
+  bCOStream::operator<<((bCOStream *)param_1,*(ulong *)&(this->gCClock_PS_data).field_0x20);
+  bCOStream::operator<<((bCOStream *)param_1,*(float *)&(this->gCClock_PS_data).field_0x24);
+  return 1;
+}
+
+

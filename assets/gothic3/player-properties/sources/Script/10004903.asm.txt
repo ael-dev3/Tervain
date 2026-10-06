@@ -1,0 +1,4 @@
+; 10004903 ?GetManaPointsMax@PSPlayerMemory@@QBEHXZ
+10004903 | e9784c0200 | JMP 0x10029580
+; 10004908 PSParticle::PropertyFacingDirection::operator_enum_eEFacingDirection
+; 10004908 Ordinal_978

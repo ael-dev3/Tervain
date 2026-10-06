@@ -1,0 +1,21 @@
+/* ENTRY 3002ac93 | eCCollisionShape::IsTrigger | STATUS decompiled | 32 ms */
+
+/* public: bool __thiscall eCCollisionShape::IsTrigger(void)const  */
+
+bool __thiscall eCCollisionShape::IsTrigger(eCCollisionShape *this)
+
+{
+  bool bVar1;
+  
+                    /* 0x2ac93  10622  ?IsTrigger@eCCollisionShape@@QBE_NXZ */
+  bVar1 = true;
+  if (((((this->eCCollisionShape_data).offset_0x2d != (bCObjectRefBase)0x1) &&
+       ((this->eCCollisionShape_data).offset_0x2f != (bCObjectRefBase)0x1)) &&
+      ((this->eCCollisionShape_data).offset_0x2e != (bCObjectRefBase)0x1)) &&
+     ((this->eCCollisionShape_data).offset_0x2c != (bCObjectRefBase)0x1)) {
+    bVar1 = false;
+  }
+  return bVar1;
+}
+
+

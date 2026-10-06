@@ -1,0 +1,19 @@
+; 20191cb0 gCHUDTextEffect::gCHUDTextEffect
+20191cb0 | 56 | PUSH ESI
+20191cb1 | 8bf1 | MOV ESI,ECX
+20191cb3 | ff1514797d20 | CALL dword ptr [0x207d7914]
+20191cb9 | f30f1005d89d6720 | MOVSS XMM0,dword ptr [0x20679dd8]
+20191cc1 | 33c0 | XOR EAX,EAX
+20191cc3 | c706949c6720 | MOV dword ptr [ESI],0x20679c94
+20191cc9 | 894610 | MOV dword ptr [ESI + 0x10],EAX
+20191ccc | 894614 | MOV dword ptr [ESI + 0x14],EAX
+20191ccf | 894618 | MOV dword ptr [ESI + 0x18],EAX
+20191cd2 | f30f114620 | MOVSS dword ptr [ESI + 0x20],XMM0
+20191cd7 | f30f114624 | MOVSS dword ptr [ESI + 0x24],XMM0
+20191cdc | f30f1005c4b16520 | MOVSS XMM0,dword ptr [0x2065b1c4]
+20191ce4 | 89461c | MOV dword ptr [ESI + 0x1c],EAX
+20191ce7 | 88462c | MOV byte ptr [ESI + 0x2c],AL
+20191cea | f30f114628 | MOVSS dword ptr [ESI + 0x28],XMM0
+20191cef | 8bc6 | MOV EAX,ESI
+20191cf1 | 5e | POP ESI
+20191cf2 | c3 | RET

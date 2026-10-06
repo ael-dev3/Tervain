@@ -1,0 +1,17 @@
+/* ENTRY 30003b43 | eCPropertySetProxy::eCPropertySetProxy | STATUS decompiled | 4 ms */
+
+/* public: __thiscall eCPropertySetProxy::eCPropertySetProxy(void) */
+
+eCPropertySetProxy * __thiscall eCPropertySetProxy::eCPropertySetProxy(eCPropertySetProxy *this)
+
+{
+                    /* 0x3b43  631  ??0eCPropertySetProxy@@QAE@XZ */
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)this);
+  this->vftablePtr = &vftable;
+  (this->eCPropertySetProxy_data).offset_0x10 = 0;
+  (this->eCPropertySetProxy_data).offset_0x14 = (bCString *)0x0;
+  eCEntityProxy::Create((eCEntityProxy *)this);
+  return this;
+}
+
+

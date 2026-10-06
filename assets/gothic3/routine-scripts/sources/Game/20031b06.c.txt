@@ -1,0 +1,15 @@
+/* ENTRY 20031b06 | gCInventory_PS::FindStackIndex | STATUS decompiled | 8 ms */
+
+/* public: int __thiscall gCInventory_PS::FindStackIndex(enum gESlot)const  */
+
+int __thiscall gCInventory_PS::FindStackIndex(gCInventory_PS *this,gESlot param_1)
+
+{
+  int iVar1;
+  
+                    /* 0x31b06  2839  ?FindStackIndex@gCInventory_PS@@QBEHW4gESlot@@@Z */
+  iVar1 = FUN_2002f013();
+  return iVar1;
+}
+
+

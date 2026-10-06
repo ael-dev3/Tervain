@@ -1,0 +1,2 @@
+; 2003160b bTPropertyType<gCDamageReceiver_PS,bTPropertyContainer<gEDamageType>_>::vfunction15
+2003160b | e930b70800 | JMP 0x200bcd40

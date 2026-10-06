@@ -1,0 +1,137 @@
+/* ENTRY 300900f0 | FUN_300900f0 | STATUS decompiled | 86 ms */
+
+undefined4 __fastcall FUN_300900f0(int param_1)
+
+{
+  bool bVar1;
+  int iVar2;
+  eCArchiveManager *this;
+  bCMessageAdmin *pbVar3;
+  uint uVar4;
+  bCString *pbVar5;
+  undefined1 *puVar6;
+  int iVar7;
+  __int64 _Var8;
+  bEMessageTypes bVar9;
+  char *pcVar10;
+  char *pcVar11;
+  char *pcVar12;
+  int iVar13;
+  bCString local_40 [4];
+  bCString local_3c [4];
+  bCString local_38 [4];
+  int *local_34 [2];
+  int *local_2c;
+  undefined1 local_28 [40];
+  
+  eCResourceAnimationMotion_PS::GetNativeFileExt((bCString *)(param_1 + 0x54));
+  thunk_FUN_300917f0(0x26f5,0);
+  *(undefined4 *)(param_1 + 0x1c) = 0x26f5;
+  iVar2 = 0;
+  do {
+    *(undefined4 *)(iVar2 + *(int *)(param_1 + 0x18)) = 0;
+    iVar2 = iVar2 + 4;
+  } while (iVar2 < 0x9bd4);
+  local_34[0] = (int *)(param_1 + 0x28);
+  thunk_FUN_300917f0(0x26f5,0);
+  *(undefined4 *)(param_1 + 0x2c) = 0x26f5;
+  iVar2 = 0;
+  do {
+    *(undefined4 *)(iVar2 + *(int *)(param_1 + 0x28)) = 0;
+    iVar2 = iVar2 + 4;
+  } while (iVar2 < 0x9bd4);
+  local_2c = (int *)(param_1 + 0x38);
+  thunk_FUN_300917f0(0x26f5,0);
+  *(undefined4 *)(param_1 + 0x3c) = 0x26f5;
+  iVar2 = 0;
+  do {
+    *(undefined4 *)(iVar2 + *(int *)(param_1 + 0x38)) = 0;
+    iVar2 = iVar2 + 4;
+  } while (iVar2 < 0x9bd4);
+  bCString::bCString(local_40);
+  bCString::bCString(local_38,"G3_Ani_Blendings.txt");
+  pbVar5 = (bCString *)(local_28 + 4);
+  this = eCArchiveManager::GetInstance();
+  eCArchiveManager::GetFile((eCArchiveManager *)this,pbVar5);
+  bCString::~bCString(local_3c);
+  bVar1 = eCArchiveFile::Open((eCArchiveFile *)local_28,0,true);
+  if (bVar1) {
+    _Var8 = eCArchiveFile::GetFileSize((eCArchiveFile *)local_28);
+    uVar4 = (uint)_Var8;
+    if (uVar4 < 0x20000000) {
+      pcVar11 = bCString::GetBuffer((bCString *)&stack0xffffffbc,uVar4 + 1);
+      if (pcVar11 == (char *)0x0) {
+        eCArchiveFile::Close((eCArchiveFile *)local_28);
+        iVar2 = *(int *)g_iDefaultMessagePriority_exref;
+        iVar13 = -1;
+        pcVar10 = "eCAnimationAdmin::Initialize - Can\'t create the new file buffer !";
+        bVar9 = 3;
+        pcVar12 = pcVar11;
+        pbVar3 = bCMessageAdmin::GetInstance();
+        bCMessageAdmin::OnMessage(pbVar3,bVar9,pcVar10,pcVar11,pcVar12,iVar13,iVar2);
+      }
+      else {
+        _memset(pcVar11,0,uVar4 + 1);
+        eCArchiveFile::Read((eCArchiveFile *)local_28,pcVar11,uVar4);
+        eCArchiveFile::Close((eCArchiveFile *)local_28);
+        bCString::ReleaseBuffer((bCString *)&stack0xffffffbc,uVar4);
+        bVar1 = bCString::Contains((bCString *)&stack0xffffffbc,"*Version 1",0);
+        if (bVar1) {
+          bCString::bCString(local_3c);
+          bCString::bCString(local_40);
+          iVar2 = bCString::Find((bCString *)&stack0xffffffbc,"*Entry->",0,false);
+          while (iVar2 != -1) {
+            iVar13 = bCString::FindNoiseChar((bCString *)&stack0xffffffbc,iVar2 + 9,true);
+            iVar7 = iVar13 - (iVar2 + 8);
+            pcVar11 = bCString::GetText((bCString *)&stack0xffffffbc);
+            bCString::SetText(local_3c,pcVar11 + iVar2 + 8,iVar7);
+            iVar2 = bCString::Find(local_3c,'%',0,false);
+            if (0 < iVar2) {
+              pbVar5 = (bCString *)bCString::bCString((bCString *)local_34,local_3c,iVar2);
+              bCString::operator=(local_40,pbVar5);
+              bCString::~bCString((bCString *)local_34);
+              bCString::ToUpper(local_40);
+              iVar2 = thunk_FUN_300921e0(local_40,&local_2c);
+              if (iVar2 == 0) {
+                iVar2 = bCString::GetInteger((bCString *)&stack0xffffffbc,iVar13,false);
+                puVar6 = (undefined1 *)thunk_FUN_30092250(local_40);
+                *puVar6 = (char)iVar2;
+                iVar2 = bCString::FindNoiseChar((bCString *)&stack0xffffffbc,iVar13 + 1,true);
+                iVar13 = bCString::GetInteger((bCString *)&stack0xffffffbc,iVar2,false);
+                puVar6 = (undefined1 *)thunk_FUN_30092250(local_40);
+                *puVar6 = (char)iVar13;
+                iVar13 = bCString::FindNoiseChar((bCString *)&stack0xffffffbc,iVar2 + 1,true);
+              }
+            }
+            iVar2 = bCString::Find((bCString *)&stack0xffffffbc,"*Entry->",iVar13,false);
+          }
+          bCString::~bCString(local_40);
+          bCString::~bCString(local_3c);
+        }
+        bCString::Clear((bCString *)&stack0xffffffbc);
+      }
+      eCArchiveFile::~eCArchiveFile((eCArchiveFile *)local_28);
+      bCString::~bCString((bCString *)&stack0xffffffbc);
+      return 1;
+    }
+    eCArchiveFile::Close((eCArchiveFile *)local_28);
+    iVar2 = *(int *)g_iDefaultMessagePriority_exref;
+    pcVar11 = 
+    "eCAnimationAdmin::Initialize - G3_Ani_Blendings.txt  file is too big (file size >= 512 MB) !";
+  }
+  else {
+    iVar2 = *(int *)g_iDefaultMessagePriority_exref;
+    pcVar11 = "eCAnimationAdmin::Initialize - Can\'t open G3_Ani_Blendings.txt !";
+  }
+  iVar13 = -1;
+  pcVar10 = (char *)0x0;
+  pcVar12 = (char *)0x0;
+  bVar9 = 3;
+  pbVar3 = bCMessageAdmin::GetInstance();
+  bCMessageAdmin::OnMessage(pbVar3,bVar9,pcVar11,pcVar12,pcVar10,iVar13,iVar2);
+  eCArchiveFile::~eCArchiveFile((eCArchiveFile *)local_28);
+  bCString::~bCString((bCString *)&stack0xffffffbc);
+  return 1;
+}
+
+

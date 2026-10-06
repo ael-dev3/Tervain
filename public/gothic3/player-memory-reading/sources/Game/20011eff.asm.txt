@@ -1,0 +1,2 @@
+; 20011eff SHAREDBASE.DLL::bCPropertyTypeBase::Read
+20011eff | e99c1e3100 | JMP 0x20323da0

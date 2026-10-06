@@ -1,0 +1,4 @@
+; 20023687 ?GetCurrentVelocity@gCCharacterMovement_PS@@QBEMXZ
+20023687 | e914f51f00 | JMP 0x20222ba0
+; 2002368c gCEffectCommandCreateDecal::SetUseTargetDirection
+; 2002368c Ordinal_7183

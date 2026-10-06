@@ -1,0 +1,25 @@
+/* ENTRY 100066e0 | bCBox::GetMinExtend | STATUS decompiled | 6 ms */
+
+/* public: float __thiscall bCBox::GetMinExtend(void)const  */
+
+float __thiscall bCBox::GetMinExtend(bCBox *this)
+
+{
+  int iVar1;
+  int iVar2;
+  float fStack_8;
+  
+                    /* 0x66e0  2642  ?GetMinExtend@bCBox@@QBEMXZ */
+  fStack_8 = 1e+18;
+  iVar2 = 3;
+  do {
+    iVar1 = iVar2 * 4;
+    iVar2 = iVar2 + -1;
+    if (*(float *)(this + iVar1 + 8) - *(float *)(this + iVar2 * 4) < fStack_8) {
+      fStack_8 = *(float *)(this + iVar1 + 8) - *(float *)(this + iVar2 * 4);
+    }
+  } while (iVar2 != 0);
+  return fStack_8 * 0.5;
+}
+
+

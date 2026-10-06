@@ -1,0 +1,11 @@
+; 2040b140 bTPropertyType<gCInteraction_PS,bCVector>::vfunction6
+2040b140 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+2040b144 | 85c0 | TEST EAX,EAX
+2040b146 | 7410 | JZ 0x2040b158
+2040b148 | 8b11 | MOV EDX,dword ptr [ECX]
+2040b14a | 50 | PUSH EAX
+2040b14b | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+2040b14e | ffd0 | CALL EAX
+2040b150 | 8bc8 | MOV ECX,EAX
+2040b152 | ff1540867d20 | CALL dword ptr [0x207d8640]
+2040b158 | c20400 | RET 0x4

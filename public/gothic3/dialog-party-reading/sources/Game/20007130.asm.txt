@@ -1,0 +1,2 @@
+; 20007130 gCClock_PS::Create
+20007130 | e90b0e2000 | JMP 0x20207f40

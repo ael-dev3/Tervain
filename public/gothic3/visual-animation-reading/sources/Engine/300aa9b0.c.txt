@@ -1,0 +1,11 @@
+/* ENTRY 300aa9b0 | bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector>::vfunction3 | STATUS decompiled | 2 ms */
+
+undefined1 * __thiscall
+bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector>::vfunction3
+          (bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector> *this)
+
+{
+  return &(this->bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector>_data).field_0x14;
+}
+
+

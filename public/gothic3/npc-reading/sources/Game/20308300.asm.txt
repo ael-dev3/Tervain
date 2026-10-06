@@ -1,0 +1,14 @@
+; 20308300 bTPropertyType<gCNPC_PS,bTPropertyContainer<gELastFightAgainstPlayer>_>::vfunction6
+20308300 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+20308304 | 85c0 | TEST EAX,EAX
+20308306 | 7411 | JZ 0x20308319
+20308308 | 8b11 | MOV EDX,dword ptr [ECX]
+2030830a | 50 | PUSH EAX
+2030830b | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+2030830e | ffd0 | CALL EAX
+20308310 | 8b10 | MOV EDX,dword ptr [EAX]
+20308312 | 8bc8 | MOV ECX,EAX
+20308314 | 8b4218 | MOV EAX,dword ptr [EDX + 0x18]
+20308317 | ffd0 | CALL EAX
+; 20308319 LAB_20308319
+20308319 | c20400 | RET 0x4

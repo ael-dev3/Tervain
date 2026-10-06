@@ -1,0 +1,4 @@
+; 20003ec2 ?AIStopWait@gCScriptRoutine_PS@@QAEXXZ
+20003ec2 | e9192e3500 | JMP 0x20356ce0
+; 20003ec7 gCNPC_PS::SetAlternativeTargetEntity
+; 20003ec7 Ordinal_6212

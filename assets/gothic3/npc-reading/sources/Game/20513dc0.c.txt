@@ -1,0 +1,34 @@
+/* ENTRY 20513dc0 | bTPropertyType<gCNPC_PS,bTPropertyContainer<gELastFightAgainstPlayer>_>::~bTPropertyType<gCNPC_PS,bTPropertyContainer<gELastFightAgainstPlayer>_> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCNPC_PS,bTPropertyContainer<gELastFightAgainstPlayer>_>::
+~bTPropertyType<gCNPC_PS,bTPropertyContainer<gELastFightAgainstPlayer>_>
+          (bTPropertyType<gCNPC_PS,bTPropertyContainer<gELastFightAgainstPlayer>_> *this)
+
+{
+  bTPropertyType<gCNPC_PS,bTPropertyContainer<gELastFightAgainstPlayer>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"LastFightAgainstPlayer");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_enuLastFightAgainstPlayer,
+             (bCString *)&local_4,2);
+  _ms_PropertyMember_m_enuLastFightAgainstPlayer = &vftable;
+  DAT_207c0e44 = bTPropertyObjectType<gCNPC_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCNPC_PS,eCEntityPropertySet>();
+  _DAT_207c0e48 = 0x84;
+  _DAT_207c0e4c = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_enuLastFightAgainstPlayer);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207c0e44,
+             (bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_enuLastFightAgainstPlayer);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gELastFightAgainstPlayer>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gELastFightAgainstPlayer>_>);
+  return;
+}
+
+

@@ -1,0 +1,17 @@
+/* ENTRY 304b2890 | FUN_304b2890 | STATUS decompiled | 21 ms */
+
+undefined4 __thiscall FUN_304b2890(int *param_1,undefined4 param_2,undefined4 param_3)
+
+{
+  eCApplication *this;
+  eSSetupEngine *peVar1;
+  
+  this = (eCApplication *)eCApplication::GetInstance();
+  peVar1 = eCApplication::GetEngineSetup(this);
+  if (*(int *)(peVar1 + 0xf0) != 0) {
+    (**(code **)(*param_1 + 0x104))(param_2,0,param_3);
+  }
+  return 1;
+}
+
+

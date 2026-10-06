@@ -1,0 +1,4 @@
+; 30025680 ?GetSaveGameRelevance@eCCollisionShape_PS@@UBE?AW4eEPSSaveGameRelevance@eCEntityPropertySet@@XZ
+30025680 | e91b0d3100 | JMP 0x303363a0
+; 3002568a eCResourceDataEntity::Invalidate
+; 3002568a Ordinal_10125

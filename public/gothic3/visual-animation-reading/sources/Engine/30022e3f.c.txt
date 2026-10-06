@@ -1,0 +1,17 @@
+/* ENTRY 30022e3f | eCSpringAndDamperEffector::CopyFrom | STATUS decompiled | 8 ms */
+
+/* public: virtual enum bEResult __thiscall eCSpringAndDamperEffector::CopyFrom(class bCObjectBase
+   const &) */
+
+bEResult __thiscall
+eCSpringAndDamperEffector::CopyFrom(eCSpringAndDamperEffector *this,bCObjectBase *param_1)
+
+{
+                    /* 0x22e3f  4248
+                       ?CopyFrom@eCSpringAndDamperEffector@@UAE?AW4bEResult@@ABVbCObjectBase@@@Z */
+  (*this->vftablePtr->Destroy)(this);
+  (*this->vftablePtr->Create)(this);
+  return 1;
+}
+
+

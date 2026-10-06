@@ -1,0 +1,4 @@
+; 30019ee8 bTPOPureSmartPtr<eCCollisionShapeBase_PS>::vfunction7
+30019ee8 | e9e37a3200 | JMP 0x303419d0
+; 30019eed eCWeatherZone_PS::GetRootObject
+; 30019eed Ordinal_8636

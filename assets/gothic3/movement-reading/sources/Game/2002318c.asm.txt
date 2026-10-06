@@ -1,0 +1,4 @@
+; 2002318c ?GetRootObject@gCMovementBase_PS@@SGPBVbCPropertyObjectBase@@XZ
+2002318c | e9af772100 | JMP 0x2023a940
+; 20023196 gCFlock_PS::GetPerchAni
+; 20023196 Ordinal_3963

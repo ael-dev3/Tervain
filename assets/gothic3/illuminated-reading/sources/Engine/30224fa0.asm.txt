@@ -1,0 +1,57 @@
+; 30224fa0 bTPropertyObject<eCIlluminated_PS,eCEntityPropertySet>::vfunction6
+30224fa0 | 53 | PUSH EBX
+30224fa1 | 56 | PUSH ESI
+30224fa2 | 8b74240c | MOV ESI,dword ptr [ESP + 0xc]
+30224fa6 | 57 | PUSH EDI
+30224fa7 | 56 | PUSH ESI
+30224fa8 | 8bd9 | MOV EBX,ECX
+30224faa | ff15eccaaf30 | CALL dword ptr [0x30afcaec]
+30224fb0 | 0fb7f8 | MOVZX EDI,AX
+30224fb3 | 8d442410 | LEA EAX,[ESP + 0x10]
+30224fb7 | 50 | PUSH EAX
+30224fb8 | 8bce | MOV ECX,ESI
+30224fba | c744241400000000 | MOV dword ptr [ESP + 0x14],0x0
+30224fc2 | ff1594caaf30 | CALL dword ptr [0x30afca94]
+30224fc8 | e84dd5e0ff | CALL 0x3003251a
+30224fcd | 50 | PUSH EAX
+30224fce | e838e2ddff | CALL 0x3000320b
+30224fd3 | 8bc8 | MOV ECX,EAX
+30224fd5 | ff159cdaaf30 | CALL dword ptr [0x30afda9c]
+30224fdb | 84c0 | TEST AL,AL
+30224fdd | 743c | JZ 0x3022501b
+30224fdf | 8b4c2410 | MOV ECX,dword ptr [ESP + 0x10]
+30224fe3 | 55 | PUSH EBP
+30224fe4 | 8b2dacdbaf30 | MOV EBP,dword ptr [0x30afdbac]
+30224fea | 51 | PUSH ECX
+30224feb | ffd5 | CALL EBP
+30224fed | 8bc8 | MOV ECX,EAX
+30224fef | ff1590caaf30 | CALL dword ptr [0x30afca90]
+30224ff5 | 8b16 | MOV EDX,dword ptr [ESI]
+30224ff7 | 8b5204 | MOV EDX,dword ptr [EDX + 0x4]
+30224ffa | 8bd8 | MOV EBX,EAX
+30224ffc | 8b442414 | MOV EAX,dword ptr [ESP + 0x14]
+30225000 | 50 | PUSH EAX
+30225001 | 53 | PUSH EBX
+30225002 | 8bce | MOV ECX,ESI
+30225004 | ffd2 | CALL EDX
+30225006 | 53 | PUSH EBX
+30225007 | ffd5 | CALL EBP
+30225009 | 8bc8 | MOV ECX,EAX
+3022500b | ff150cdbaf30 | CALL dword ptr [0x30afdb0c]
+30225011 | 5d | POP EBP
+30225012 | 668bc7 | MOV AX,DI
+30225015 | 5f | POP EDI
+30225016 | 5e | POP ESI
+30225017 | 5b | POP EBX
+30225018 | c20400 | RET 0x4
+3022501b | 8b03 | MOV EAX,dword ptr [EBX]
+3022501d | 8b501c | MOV EDX,dword ptr [EAX + 0x1c]
+30225020 | 57 | PUSH EDI
+30225021 | 56 | PUSH ESI
+30225022 | 8bcb | MOV ECX,EBX
+30225024 | ffd2 | CALL EDX
+30225026 | 668bc7 | MOV AX,DI
+30225029 | 5f | POP EDI
+3022502a | 5e | POP ESI
+3022502b | 5b | POP EBX
+3022502c | c20400 | RET 0x4

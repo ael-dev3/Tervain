@@ -1,0 +1,2 @@
+; 3000ccf2 ?GetPropertySetType@eCIlluminated_PS@@UBE?AW4eEPropertySetType@@XZ
+3000ccf2 | e9a95d2100 | JMP 0x30222aa0

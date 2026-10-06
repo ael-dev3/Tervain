@@ -1,0 +1,34 @@
+/* ENTRY 2051ea70 | bTPropertyType<gCScriptRoutine_PS,bTPropertyContainer<gEAIMode>_>::~bTPropertyType<gCScriptRoutine_PS,bTPropertyContainer<gEAIMode>_> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCScriptRoutine_PS,bTPropertyContainer<gEAIMode>_>::
+~bTPropertyType<gCScriptRoutine_PS,bTPropertyContainer<gEAIMode>_>
+          (bTPropertyType<gCScriptRoutine_PS,bTPropertyContainer<gEAIMode>_> *this)
+
+{
+  bTPropertyType<gCScriptRoutine_PS,bTPropertyContainer<gEAIMode>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"AIMode");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCScriptRoutine_PS::ms_PropertyMember_m_enuAIMode,
+             (bCString *)&local_4,2);
+  _ms_PropertyMember_m_enuAIMode = &vftable;
+  DAT_207cc2dc = bTPropertyObjectType<gCScriptRoutine_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCScriptRoutine_PS,eCEntityPropertySet>();
+  _DAT_207cc2e0 = 0x54;
+  _DAT_207cc2e4 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCScriptRoutine_PS::ms_PropertyMember_m_enuAIMode);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cc2dc,
+             (bCPropertyTypeBase *)&gCScriptRoutine_PS::ms_PropertyMember_m_enuAIMode);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gEAIMode>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gEAIMode>_>);
+  return;
+}
+
+

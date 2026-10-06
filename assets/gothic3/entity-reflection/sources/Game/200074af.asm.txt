@@ -1,0 +1,2 @@
+; 200074af ?Create@gCDamage_PS@@UAE?AW4bEResult@@XZ
+200074af | e98cc00a00 | JMP 0x200b3540

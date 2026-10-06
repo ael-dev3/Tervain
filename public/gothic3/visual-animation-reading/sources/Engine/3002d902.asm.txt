@@ -1,0 +1,2 @@
+; 3002d902 eCVisualAnimation_PS::ShowDebug
+3002d902 | e989580700 | JMP 0x300a3190

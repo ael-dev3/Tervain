@@ -1,0 +1,6 @@
+; 10001cfd ??0bCCapsule@@QAE@ABV0@@Z
+10001cfd | e91e6b0500 | JMP 0x10058820
+; 10001d02 LAB_10001d02
+10001d02 | e999380400 | JMP 0x100455a0
+; 10001d07 bCObjectRefBase::bCObjectRefBase
+; 10001d07 Ordinal_190

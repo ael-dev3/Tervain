@@ -1,0 +1,21 @@
+/* ENTRY 3035c7f0 | bTPropertyObjectType<eCCollisionShape,bCObjectRefBase>::vfunction1 | STATUS decompiled | 4 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined * __thiscall bTPropertyObjectType<eCCollisionShape,bCObjectRefBase>::vfunction1(void)
+
+{
+  if ((DAT_30adaba8 & 1) == 0) {
+    DAT_30adaba8 = DAT_30adaba8 | 1;
+    _DAT_30adaba4 = DAT_30adac44;
+  }
+  if ((DAT_30adaba8 & 2) == 0) {
+    DAT_30adaba8 = DAT_30adaba8 | 2;
+    FUN_306713ae(&DAT_30af70ac);
+    bCClassNameBase::UnMangle(&DAT_30adaba0);
+    _atexit((_func_4879 *)&LAB_3002f914);
+  }
+  return &DAT_30adaba0;
+}
+
+

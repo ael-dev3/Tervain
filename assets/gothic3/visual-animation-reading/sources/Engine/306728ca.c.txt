@@ -1,0 +1,16 @@
+/* ENTRY 306728ca | std::bad_alloc::bad_alloc | STATUS decompiled | 35 ms */
+
+/* Library Function - Single Match
+    public: __thiscall std::bad_alloc::bad_alloc(void)
+   
+   Libraries: Visual Studio 2005 Release, Visual Studio 2008 Release */
+
+bad_alloc * __thiscall std::bad_alloc::bad_alloc(bad_alloc *this)
+
+{
+  exception::exception((exception *)this,&PTR_s_bad_allocation_30ad4258,1);
+  this->vftablePtr = &vftable;
+  return this;
+}
+
+

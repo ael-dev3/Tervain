@@ -1,0 +1,15 @@
+/* ENTRY 30063620 | FUN_30063620 | STATUS decompiled | 2 ms */
+
+int __fastcall FUN_30063620(int param_1)
+
+{
+  int iVar1;
+  
+  iVar1 = *(int *)(param_1 + 0x34);
+  if (iVar1 == 0) {
+    iVar1 = *(int *)(param_1 + 0x94);
+  }
+  return iVar1;
+}
+
+

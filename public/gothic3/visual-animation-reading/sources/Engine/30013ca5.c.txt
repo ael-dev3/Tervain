@@ -1,0 +1,20 @@
+/* ENTRY 30013ca5 | bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector>::deleting_destructor | STATUS decompiled | 5 ms */
+
+bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector> * __thiscall
+bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector>::deleting_destructor
+          (bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector> *this,byte param_1)
+
+{
+  this->vftablePtr = &vftable;
+  bCPropertyObjectFactory::~bCPropertyObjectFactory
+            ((bCPropertyObjectFactory *)
+             &(this->bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector>_data).field_0x14);
+  bCPropertyObjectTypeBase::~bCPropertyObjectTypeBase((bCPropertyObjectTypeBase *)this);
+  if ((param_1 & 1) != 0) {
+                    /* WARNING: Subroutine does not return */
+    _free(this);
+  }
+  return this;
+}
+
+

@@ -1,0 +1,2 @@
+; 20021468 ?Invalidate@gCCharacterMovement_PS@@IAEXXZ
+20021468 | e9e3682000 | JMP 0x20227d50

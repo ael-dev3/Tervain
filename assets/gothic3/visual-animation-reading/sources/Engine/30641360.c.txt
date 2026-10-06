@@ -1,0 +1,94 @@
+/* ENTRY 30641360 | FUN_30641360 | STATUS decompiled | 25 ms */
+
+void __thiscall FUN_30641360(int param_1,float *param_2,float *param_3)
+
+{
+  float fVar1;
+  float fVar2;
+  float fVar3;
+  undefined4 *puVar4;
+  int iVar5;
+  undefined4 *puVar6;
+  undefined4 *puVar7;
+  float10 fVar8;
+  float10 fVar9;
+  float local_c0;
+  float local_bc;
+  float local_b8;
+  undefined4 local_b4;
+  float local_b0;
+  float local_ac;
+  undefined4 local_a8;
+  undefined4 local_a4;
+  float local_a0;
+  undefined4 local_9c;
+  float local_98;
+  undefined4 local_94;
+  undefined4 local_90;
+  undefined4 local_8c;
+  undefined4 local_88;
+  undefined4 local_84;
+  undefined1 local_40 [64];
+  
+  *(float *)(param_1 + 0xf8) = param_2[2];
+  *(float *)(param_1 + 0xfc) = param_3[2];
+  fVar3 = (*param_3 + *param_2) * 0.5;
+  fVar1 = param_2[1];
+  fVar2 = param_3[1];
+  *(float *)(param_1 + 0xf0) = *param_3 - fVar3;
+  *(float *)(param_1 + 0xf4) = param_3[1] - (fVar1 + fVar2) * 0.5;
+  FUN_30640e40(fVar3);
+  fVar8 = (float10)FUN_30672720();
+  fVar9 = (float10)FUN_306732a0();
+  local_c0 = (float)fVar9;
+  local_b8 = -(float)fVar8;
+  local_bc = 0.0;
+  local_b4 = 0;
+  local_b0 = 0.0;
+  local_ac = 1.0;
+  local_a8 = 0;
+  local_a4 = 0;
+  local_9c = 0;
+  local_94 = 0;
+  local_90 = 0;
+  local_8c = 0;
+  local_88 = 0;
+  local_84 = 0x3f800000;
+  local_a0 = (float)fVar8;
+  local_98 = local_c0;
+  puVar4 = (undefined4 *)thunk_FUN_300cff40(local_40,&local_c0);
+  puVar7 = (undefined4 *)(param_1 + 0x94);
+  puVar6 = puVar7;
+  for (iVar5 = 0x10; iVar5 != 0; iVar5 = iVar5 + -1) {
+    *puVar6 = *puVar4;
+    puVar4 = puVar4 + 1;
+    puVar6 = puVar6 + 1;
+  }
+  fVar8 = (float10)FUN_30672720();
+  fVar9 = (float10)FUN_306732a0();
+  local_c0 = (float)fVar9;
+  local_b0 = -(float)fVar8;
+  local_b8 = 0.0;
+  local_b4 = 0;
+  local_a8 = 0;
+  local_a4 = 0;
+  local_a0 = 0.0;
+  local_9c = 0;
+  local_98 = 1.0;
+  local_94 = 0;
+  local_90 = 0;
+  local_8c = 0;
+  local_88 = 0;
+  local_84 = 0x3f800000;
+  local_bc = (float)fVar8;
+  local_ac = local_c0;
+  puVar4 = (undefined4 *)thunk_FUN_300cff40(local_40,puVar7);
+  for (iVar5 = 0x10; iVar5 != 0; iVar5 = iVar5 + -1) {
+    *puVar7 = *puVar4;
+    puVar4 = puVar4 + 1;
+    puVar7 = puVar7 + 1;
+  }
+  return;
+}
+
+

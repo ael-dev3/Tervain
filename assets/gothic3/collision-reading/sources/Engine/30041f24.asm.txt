@@ -1,0 +1,4 @@
+; 30041f24 bTPropertyObjectType<eCCollisionShapeBase_PS,eCEntityPropertySet>::~bTPropertyObjectType<eCCollisionShapeBase_PS,eCEntityPropertySet>
+30041f24 | e977043000 | JMP 0x303423a0
+; 30041f29 eCParticle_PS::AccessAutoKill
+; 30041f29 Ordinal_2494

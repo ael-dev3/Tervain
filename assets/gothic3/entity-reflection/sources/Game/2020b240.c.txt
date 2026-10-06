@@ -1,0 +1,28 @@
+/* ENTRY 2020b240 | bTPropertyType<gCClock_PS,unsigned_long>::scalar_deleting_destructor | STATUS decompiled | 8 ms */
+
+bTPropertyType<gCClock_PS,unsigned_long> * __thiscall
+bTPropertyType<gCClock_PS,unsigned_long>::scalar_deleting_destructor
+          (bTPropertyType<gCClock_PS,unsigned_long> *this,byte param_1)
+
+{
+                    /* inlined destructor:
+                       bTPropertyType<gCClock_PS,unsigned_long>::~bTPropertyType<gCClock_PS,unsigned_long>
+                        */
+  this->vftablePtr = &vftable;
+  bCPropertyTypeBase::Destroy((bCPropertyTypeBase *)this);
+  thunk_FUN_20070e90(this + 8);
+  bCPropertyObjectTypeBase::UnregisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)this[6].vftablePtr,(bCPropertyTypeBase *)this);
+                    /* inlined destructor:
+                       bTPropertyTypeOnly<unsigned_long>::~bTPropertyTypeOnly<unsigned_long> */
+  this->vftablePtr =
+       (bTPropertyType<gCClock_PS,unsigned_long>_vftable *)
+       &bTPropertyTypeOnly<unsigned_long>::vftable;
+  bCPropertyTypeBase::~bCPropertyTypeBase((bCPropertyTypeBase *)this);
+  if ((param_1 & 1) != 0) {
+    _free(this);
+  }
+  return this;
+}
+
+

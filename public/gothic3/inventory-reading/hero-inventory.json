@@ -1,0 +1,297 @@
+{
+  "schema": "gothic3-original-hero-inventory-v1",
+  "source": {
+    "archive": "Projects_compiled.p00",
+    "path": "G3_World_01/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}.lrentdat",
+    "sha256": "28f7273b3d54415b84445651a3dfa962c1ff158e9183deba81ba47e4d5d57938",
+    "packetOffset": 1187178,
+    "packetBytes": 411,
+    "packetSha256": "ccc25c1615cc51b1e8feb2d3cb41c00b053135d5828582d27f2af3141918e136"
+  },
+  "properties": [
+    {
+      "name": "GeneratedPlunder",
+      "typeName": "bool",
+      "nativeOffset": 24,
+      "raw": "00",
+      "value": false,
+      "sourceOffset": 1187215
+    },
+    {
+      "name": "GeneratedTrade",
+      "typeName": "bool",
+      "nativeOffset": 25,
+      "raw": "00",
+      "value": false,
+      "sourceOffset": 1187226
+    },
+    {
+      "name": "TreasureSet1",
+      "typeName": "bCString",
+      "nativeOffset": 28,
+      "raw": "4f00",
+      "value": "",
+      "sourceOffset": 1187237
+    },
+    {
+      "name": "TreasureSet2",
+      "typeName": "bCString",
+      "nativeOffset": 32,
+      "raw": "4f00",
+      "value": "",
+      "sourceOffset": 1187249
+    },
+    {
+      "name": "TreasureSet3",
+      "typeName": "bCString",
+      "nativeOffset": 36,
+      "raw": "4f00",
+      "value": "",
+      "sourceOffset": 1187261
+    },
+    {
+      "name": "TreasureSet4",
+      "typeName": "bCString",
+      "nativeOffset": 40,
+      "raw": "4f00",
+      "value": "",
+      "sourceOffset": 1187273
+    },
+    {
+      "name": "TreasureSet5",
+      "typeName": "bCString",
+      "nativeOffset": 44,
+      "raw": "4f00",
+      "value": "",
+      "sourceOffset": 1187285
+    }
+  ],
+  "tailRaw": "010000000000010013000000010000010000010000010000010000010000010000010000010000010000010000010000010000010000010000010000010001010001250c010000530053005a0000001e0003000000b20ab1091e001700000001000135a9e187fedbf34382db8a17338b3d2c00000000b30add091e00170000000100017f41281ea7279549b0ddf2cea80040ae00000000b40ab50a1e00060000000100100000000100010001010001250c010000530053005a0000001e0003000000b20ab1091e0017000000010001cd0851b8399ef64782a6187157ad564000000000b30add091e0017000000010001d345e0ef6b617341bc8f730223d6eb6a00000000b40ab50a1e00060000000100110000000100010000010000010000010000010000010000",
+  "nativeReadOffset": 1187287,
+  "outerVersion": 9,
+  "nativeReadVersion": 9,
+  "worldResident": false,
+  "stackCount": 0,
+  "slotCount": 19,
+  "startupProjectionApplied": false,
+  "currentTailAudit": {
+    "stackVersion": 1,
+    "stackCount": 0,
+    "slotVersion": 1,
+    "slotCount": 19,
+    "slots": [
+      {
+        "index": 0,
+        "present": false,
+        "tailOffset": 12,
+        "bytes": 3
+      },
+      {
+        "index": 1,
+        "present": false,
+        "tailOffset": 15,
+        "bytes": 3
+      },
+      {
+        "index": 2,
+        "present": false,
+        "tailOffset": 18,
+        "bytes": 3
+      },
+      {
+        "index": 3,
+        "present": false,
+        "tailOffset": 21,
+        "bytes": 3
+      },
+      {
+        "index": 4,
+        "present": false,
+        "tailOffset": 24,
+        "bytes": 3
+      },
+      {
+        "index": 5,
+        "present": false,
+        "tailOffset": 27,
+        "bytes": 3
+      },
+      {
+        "index": 6,
+        "present": false,
+        "tailOffset": 30,
+        "bytes": 3
+      },
+      {
+        "index": 7,
+        "present": false,
+        "tailOffset": 33,
+        "bytes": 3
+      },
+      {
+        "index": 8,
+        "present": false,
+        "tailOffset": 36,
+        "bytes": 3
+      },
+      {
+        "index": 9,
+        "present": false,
+        "tailOffset": 39,
+        "bytes": 3
+      },
+      {
+        "index": 10,
+        "present": false,
+        "tailOffset": 42,
+        "bytes": 3
+      },
+      {
+        "index": 11,
+        "present": false,
+        "tailOffset": 45,
+        "bytes": 3
+      },
+      {
+        "index": 12,
+        "present": false,
+        "tailOffset": 48,
+        "bytes": 3
+      },
+      {
+        "index": 13,
+        "present": false,
+        "tailOffset": 51,
+        "bytes": 3
+      },
+      {
+        "index": 14,
+        "present": false,
+        "tailOffset": 54,
+        "bytes": 3
+      },
+      {
+        "index": 15,
+        "present": false,
+        "tailOffset": 57,
+        "bytes": 3
+      },
+      {
+        "index": 16,
+        "present": true,
+        "className": "gCInventorySlot",
+        "tailOffset": 60,
+        "bytes": 109,
+        "factoryVersions": [
+          1,
+          0,
+          83
+        ],
+        "objectVersion": 83,
+        "propertyVersion": 30,
+        "nativeVersion": 1,
+        "slot": 16,
+        "templateId20": "35a9e187fedbf34382db8a17338b3d2c00000000",
+        "itemId20": "7f41281ea7279549b0ddf2cea80040ae00000000",
+        "properties": [
+          {
+            "name": "Template",
+            "typeName": "eCTemplateEntityProxy",
+            "descriptorVersion": 30,
+            "bytes": 23,
+            "raw": "01000135a9e187fedbf34382db8a17338b3d2c00000000"
+          },
+          {
+            "name": "Item",
+            "typeName": "eCEntityProxy",
+            "descriptorVersion": 30,
+            "bytes": 23,
+            "raw": "0100017f41281ea7279549b0ddf2cea80040ae00000000"
+          },
+          {
+            "name": "Slot",
+            "typeName": "bTPropertyContainer<enum gESlot>",
+            "descriptorVersion": 30,
+            "bytes": 6,
+            "raw": "010010000000"
+          }
+        ]
+      },
+      {
+        "index": 17,
+        "present": true,
+        "className": "gCInventorySlot",
+        "tailOffset": 169,
+        "bytes": 109,
+        "factoryVersions": [
+          1,
+          0,
+          83
+        ],
+        "objectVersion": 83,
+        "propertyVersion": 30,
+        "nativeVersion": 1,
+        "slot": 17,
+        "templateId20": "cd0851b8399ef64782a6187157ad564000000000",
+        "itemId20": "d345e0ef6b617341bc8f730223d6eb6a00000000",
+        "properties": [
+          {
+            "name": "Template",
+            "typeName": "eCTemplateEntityProxy",
+            "descriptorVersion": 30,
+            "bytes": 23,
+            "raw": "010001cd0851b8399ef64782a6187157ad564000000000"
+          },
+          {
+            "name": "Item",
+            "typeName": "eCEntityProxy",
+            "descriptorVersion": 30,
+            "bytes": 23,
+            "raw": "010001d345e0ef6b617341bc8f730223d6eb6a00000000"
+          },
+          {
+            "name": "Slot",
+            "typeName": "bTPropertyContainer<enum gESlot>",
+            "descriptorVersion": 30,
+            "bytes": 6,
+            "raw": "010011000000"
+          }
+        ]
+      },
+      {
+        "index": 18,
+        "present": false,
+        "tailOffset": 278,
+        "bytes": 3
+      }
+    ],
+    "cachedProxies": [
+      {
+        "index": 0,
+        "version": 1,
+        "present": false
+      },
+      {
+        "index": 1,
+        "version": 1,
+        "present": false
+      },
+      {
+        "index": 2,
+        "version": 1,
+        "present": false
+      },
+      {
+        "index": 3,
+        "version": 1,
+        "present": false
+      },
+      {
+        "index": 4,
+        "version": 1,
+        "present": false
+      }
+    ],
+    "bytes": 296
+  }
+}

@@ -1,0 +1,2 @@
+; 20016a68 gCDamage_PS::Invalidate
+20016a68 | e9b3ca0900 | JMP 0x200b3520

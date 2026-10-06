@@ -1,0 +1,2 @@
+; 3000deb8 eCVisualAnimationLoD::IntersectsRay
+3000deb8 | e9b30e0b00 | JMP 0x300bed70

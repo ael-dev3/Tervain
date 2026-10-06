@@ -1,0 +1,2 @@
+; 2000edd1 gCParty_PS::GetWaiting
+2000edd1 | e98ac20900 | JMP 0x200ab060

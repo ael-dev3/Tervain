@@ -1,0 +1,14 @@
+/* ENTRY 1000541b | bCObjectRefBase::GetPropertyObject | STATUS decompiled | 4 ms */
+
+/* public: class bCPropertyObjectBase const * __thiscall
+   bCObjectRefBase::GetPropertyObject(void)const  */
+
+bCPropertyObjectBase * __thiscall bCObjectRefBase::GetPropertyObject(bCObjectRefBase *this)
+
+{
+                    /* 0x541b  2829
+                       ?GetPropertyObject@bCObjectRefBase@@QBEPBVbCPropertyObjectBase@@XZ */
+  return (bCPropertyObjectBase *)(this->bCObjectRefBase_data).offset_0x0;
+}
+
+

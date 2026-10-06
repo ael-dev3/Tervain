@@ -1,0 +1,4 @@
+; 30036a8e ??0eCCollisionShapeBase_PS@@QAE@XZ
+30036a8e | e9cda83000 | JMP 0x30341360
+; 30036a93 eCGfxLight::sGetMasterLight
+; 30036a93 Ordinal_16601

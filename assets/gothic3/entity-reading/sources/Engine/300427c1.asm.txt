@@ -1,0 +1,4 @@
+; 300427c1 ?Enable@eCEntity@@QAEX_N@Z
+300427c1 | e9aa074700 | JMP 0x304b2f70
+; 300427c6 eCVertexProcessorIndex::Invalidate
+; 300427c6 Ordinal_10221

@@ -1,0 +1,16 @@
+/* ENTRY 30061ec0 | FUN_30061ec0 | STATUS decompiled | 4 ms */
+
+void __fastcall FUN_30061ec0(int *param_1)
+
+{
+  code *pcVar1;
+  int *unaff_ESI;
+  
+  (**(code **)(*param_1 + 0x58))("BoneTwistSpring",0);
+  pcVar1 = *(code **)(*param_1 + 0x5c);
+  param_1[0xe] = *unaff_ESI;
+  (*pcVar1)("BoneTwistSpring",0);
+  return;
+}
+
+

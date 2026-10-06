@@ -1,0 +1,12 @@
+/* ENTRY 30007ec8 | eCVisualAnimationLoD::IsValid | STATUS decompiled | 2 ms */
+
+/* public: virtual bool __thiscall eCVisualAnimationLoD::IsValid(void)const  */
+
+bool __thiscall eCVisualAnimationLoD::IsValid(eCVisualAnimationLoD *this)
+
+{
+                    /* 0x7ec8  10663  ?IsValid@eCVisualAnimationLoD@@UBE_NXZ */
+  return (this->eCVisualAnimationLoD_data).offset_0x4 != (eCResourceAnimationActor_PS *)0x0;
+}
+
+

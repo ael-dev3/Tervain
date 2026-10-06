@@ -1,0 +1,10 @@
+/* ENTRY 20005673 | bTPropertyContainer<gEAIMode>::vfunction7 | STATUS decompiled | 2 ms */
+
+undefined4 __thiscall bTPropertyContainer<gEAIMode>::vfunction7(bTPropertyContainer<gEAIMode> *this)
+
+{
+  (this->bTPropertyContainer<gEAIMode>_data).offset_0x0 = DAT_207cbf48;
+  return 1;
+}
+
+

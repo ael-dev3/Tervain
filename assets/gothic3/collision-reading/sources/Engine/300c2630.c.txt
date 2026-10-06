@@ -1,0 +1,16 @@
+/* ENTRY 300c2630 | FUN_300c2630 | STATUS decompiled | 3 ms */
+
+void __fastcall FUN_300c2630(int *param_1)
+
+{
+  code *pcVar1;
+  undefined1 *unaff_ESI;
+  
+  (**(code **)(*param_1 + 0x58))("DisableCollision",0);
+  pcVar1 = *(code **)(*param_1 + 0x5c);
+  *(undefined1 *)((int)param_1 + 0x2f) = *unaff_ESI;
+  (*pcVar1)("DisableCollision",0);
+  return;
+}
+
+

@@ -1,0 +1,33 @@
+/* ENTRY 3002a09a | eCEntity::GetPropertySet | STATUS decompiled | 18 ms */
+
+/* public: class eCEntityPropertySet * __thiscall eCEntity::GetPropertySet(class bCString const &)
+    */
+
+eCEntityPropertySet * __thiscall eCEntity::GetPropertySet(eCEntity *this,bCString *param_1)
+
+{
+  eCEntity_vftable *peVar1;
+  bool bVar2;
+  bCPropertyObjectBase *pbVar3;
+  int *piVar4;
+  eEPropertySetType eVar5;
+  eCEntityPropertySet *peVar6;
+  
+                    /* 0x2a09a  8191
+                       ?GetPropertySet@eCEntity@@QAEPAVeCEntityPropertySet@@ABVbCString@@@Z */
+  bCAccessorCreator::bCAccessorCreator((bCAccessorCreator *)&param_1,param_1);
+  bVar2 = bCAccessorCreator::IsValid((bCAccessorCreator *)&param_1);
+  if (!bVar2) {
+    bCAccessorCreator::~bCAccessorCreator((bCAccessorCreator *)&param_1);
+    return (eCEntityPropertySet *)0x0;
+  }
+  pbVar3 = bCAccessorCreator::operator->((bCAccessorCreator *)&param_1);
+  piVar4 = (int *)(*(code *)**(undefined4 **)pbVar3)();
+  peVar1 = this->vftablePtr;
+  eVar5 = (**(code **)(*piVar4 + 0x60))();
+  peVar6 = (*peVar1->GetPropertySet)(this,eVar5);
+  bCAccessorCreator::~bCAccessorCreator((bCAccessorCreator *)&param_1);
+  return peVar6;
+}
+
+

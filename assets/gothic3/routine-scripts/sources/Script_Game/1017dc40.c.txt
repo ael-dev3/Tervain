@@ -1,0 +1,17 @@
+/* ENTRY 1017dc40 | FUN_1017dc40 | STATUS decompiled | 8 ms */
+
+void FUN_1017dc40(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Test\\TestEffect.cpp");
+  bCString::bCString(local_8,"OnTestEffect");
+  thunk_FUN_10017a50(local_8,&LAB_10002e41,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

@@ -1,0 +1,2 @@
+; 300301b6 ?SetCreationCallbackFunc@eCEntityDynamicContext@@QAEXP6GPAVeCEntity@@XZ@Z
+300301b6 | e985b54700 | JMP 0x304ab740

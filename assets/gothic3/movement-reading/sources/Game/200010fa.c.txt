@@ -1,0 +1,12 @@
+/* ENTRY 200010fa | gCMovementBase_PS::Invalidate | STATUS decompiled | 6 ms */
+
+/* protected: void __thiscall gCMovementBase_PS::Invalidate(void) */
+
+void __thiscall gCMovementBase_PS::Invalidate(gCMovementBase_PS *this)
+
+{
+                    /* 0x10fa  5016  ?Invalidate@gCMovementBase_PS@@IAEXXZ */
+  return;
+}
+
+

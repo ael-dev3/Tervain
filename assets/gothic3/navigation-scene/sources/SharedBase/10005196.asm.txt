@@ -1,0 +1,4 @@
+; 10005196 ?GetTransformed@bCVector@@QBE?AV1@ABVbCMatrix@@@Z
+10005196 | e9c5020500 | JMP 0x10055460
+; 1000519b bCGothic3EngineDialogs::bCDialogHandle::operator=
+; 1000519b Ordinal_468

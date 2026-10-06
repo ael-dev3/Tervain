@@ -1,0 +1,78 @@
+/* ENTRY 30037970 | eCAnimationAdmin::GetAniVariation | STATUS decompiled | 213 ms */
+
+/* public: void __thiscall eCAnimationAdmin::GetAniVariation(class bCString &)const  */
+
+void __thiscall eCAnimationAdmin::GetAniVariation(eCAnimationAdmin *this,bCString *param_1)
+
+{
+  byte bVar1;
+  bCString *this_00;
+  int iVar2;
+  int iVar3;
+  int iVar4;
+  uint uVar5;
+  uint uVar6;
+  char cVar7;
+  eCAnimationAdmin *peStack_4;
+  
+                    /* 0x37970  6184  ?GetAniVariation@eCAnimationAdmin@@QBEXAAVbCString@@@Z */
+  this_00 = param_1;
+  peStack_4 = this;
+  bCString::bCString((bCString *)&param_1,param_1);
+  bCString::ToUpper((bCString *)&param_1);
+  iVar2 = thunk_FUN_300921e0(&param_1,&peStack_4);
+  if (iVar2 != 0) {
+    iVar2 = bCString::GetLength(this_00);
+    iVar2 = iVar2 + -4;
+    if (-1 < iVar2) {
+      iVar3 = thunk_FUN_300921e0(&param_1,&peStack_4);
+      bVar1 = *(byte *)(iVar3 + 4);
+      iVar4 = _rand();
+      iVar3 = 2;
+      uVar5 = iVar4 % (int)(bVar1 + 1) & 0xff;
+      uVar6 = uVar5 / 10;
+      peStack_4 = (eCAnimationAdmin *)(uVar5 % 10);
+      do {
+        iVar2 = iVar2 + 1;
+        switch(uVar6) {
+        case 0:
+          cVar7 = '0';
+          break;
+        case 1:
+          cVar7 = '1';
+          break;
+        case 2:
+          cVar7 = '2';
+          break;
+        case 3:
+          cVar7 = '3';
+          break;
+        case 4:
+          cVar7 = '4';
+          break;
+        case 5:
+          cVar7 = '5';
+          break;
+        case 6:
+          cVar7 = '6';
+          break;
+        case 7:
+          cVar7 = '7';
+          break;
+        case 8:
+          cVar7 = '8';
+          break;
+        default:
+          cVar7 = '9';
+        }
+        bCString::SetAt(this_00,iVar2,cVar7);
+        iVar3 = iVar3 + -1;
+        uVar6 = (uint)peStack_4 & 0xff;
+      } while (iVar3 != 0);
+    }
+  }
+  bCString::~bCString((bCString *)&param_1);
+  return;
+}
+
+

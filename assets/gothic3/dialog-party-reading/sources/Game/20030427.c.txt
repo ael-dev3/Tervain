@@ -1,0 +1,19 @@
+/* ENTRY 20030427 | gCParty_PS::SetPartyMemberType | STATUS decompiled | 8 ms */
+
+/* public: void __thiscall gCParty_PS::SetPartyMemberType(class bTPropertyContainer<enum
+   gEPartyMemberType> const &) */
+
+void __thiscall
+gCParty_PS::SetPartyMemberType(gCParty_PS *this,bTPropertyContainer<gEPartyMemberType> *param_1)
+
+{
+                    /* 0x30427  6874
+                       ?SetPartyMemberType@gCParty_PS@@QAEXABV?$bTPropertyContainer@W4gEPartyMemberType@@@@@Z
+                        */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"PartyMemberType",false);
+  (*(code *)(this->gCParty_PS_data).offset_0x2c[7])(param_1);
+  (*this->vftablePtr->NotifyPropertyValueChangedExitEx)(this,"PartyMemberType",false);
+  return;
+}
+
+

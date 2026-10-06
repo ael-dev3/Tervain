@@ -1,0 +1,167 @@
+; 10054f00 FUN_10054f00
+10054f00 | 83ec0c | SUB ESP,0xc
+10054f03 | 56 | PUSH ESI
+10054f04 | 8b742414 | MOV ESI,dword ptr [ESP + 0x14]
+10054f08 | 57 | PUSH EDI
+10054f09 | 8bf9 | MOV EDI,ECX
+10054f0b | 3bfe | CMP EDI,ESI
+10054f0d | 7527 | JNZ 0x10054f36
+10054f0f | 8b44241c | MOV EAX,dword ptr [ESP + 0x1c]
+10054f13 | 50 | PUSH EAX
+10054f14 | 56 | PUSH ESI
+10054f15 | 8d4c2410 | LEA ECX,[ESP + 0x10]
+10054f19 | e85ec7faff | CALL 0x1000167c
+10054f1e | d906 | FLD float ptr [ESI]
+10054f20 | d91f | FSTP float ptr [EDI]
+10054f22 | d94604 | FLD float ptr [ESI + 0x4]
+10054f25 | d95f04 | FSTP float ptr [EDI + 0x4]
+10054f28 | d94608 | FLD float ptr [ESI + 0x8]
+10054f2b | d95f08 | FSTP float ptr [EDI + 0x8]
+10054f2e | 5f | POP EDI
+10054f2f | 5e | POP ESI
+10054f30 | 83c40c | ADD ESP,0xc
+10054f33 | c20800 | RET 0x8
+; 10054f36 LAB_10054f36
+10054f36 | 8b4c241c | MOV ECX,dword ptr [ESP + 0x1c]
+10054f3a | f30f10490c | MOVSS XMM1,dword ptr [ECX + 0xc]
+10054f3f | 0f57c0 | XORPS XMM0,XMM0
+10054f42 | 0f2ec8 | UCOMISS XMM1,XMM0
+10054f45 | 9f | LAHF
+10054f46 | f6c444 | TEST AH,0x44
+10054f49 | f30f114c241c | MOVSS dword ptr [ESP + 0x1c],XMM1
+10054f4f | 7a32 | JP 0x10054f83
+10054f51 | f30f10491c | MOVSS XMM1,dword ptr [ECX + 0x1c]
+10054f56 | 0f2ec8 | UCOMISS XMM1,XMM0
+10054f59 | 9f | LAHF
+10054f5a | f6c444 | TEST AH,0x44
+10054f5d | 7a24 | JP 0x10054f83
+10054f5f | f30f10492c | MOVSS XMM1,dword ptr [ECX + 0x2c]
+10054f64 | 0f2ec8 | UCOMISS XMM1,XMM0
+10054f67 | 9f | LAHF
+10054f68 | f6c444 | TEST AH,0x44
+10054f6b | 7a16 | JP 0x10054f83
+10054f6d | f30f10493c | MOVSS XMM1,dword ptr [ECX + 0x3c]
+10054f72 | 0f2e0dbc710e10 | UCOMISS XMM1,dword ptr [0x100e71bc]
+10054f79 | 9f | LAHF
+10054f7a | f6c444 | TEST AH,0x44
+10054f7d | 0f8be0000000 | JNP 0x10055063
+; 10054f83 LAB_10054f83
+10054f83 | d906 | FLD float ptr [ESI]
+10054f85 | d95c2418 | FSTP float ptr [ESP + 0x18]
+10054f89 | d9411c | FLD float ptr [ECX + 0x1c]
+10054f8c | d84e04 | FMUL float ptr [ESI + 0x4]
+10054f8f | d944241c | FLD float ptr [ESP + 0x1c]
+10054f93 | d9442418 | FLD float ptr [ESP + 0x18]
+10054f97 | d9c0 | FLD ST0
+10054f99 | deca | FMULP ST2
+10054f9b | d9ca | FXCH ST2
+10054f9d | dec1 | FADDP
+10054f9f | d9412c | FLD float ptr [ECX + 0x2c]
+10054fa2 | d84e08 | FMUL float ptr [ESI + 0x8]
+10054fa5 | dec1 | FADDP
+10054fa7 | d8413c | FADD float ptr [ECX + 0x3c]
+10054faa | d95c241c | FSTP float ptr [ESP + 0x1c]
+10054fae | d944241c | FLD float ptr [ESP + 0x1c]
+10054fb2 | d9c0 | FLD ST0
+10054fb4 | d9e1 | FABS
+10054fb6 | d95c241c | FSTP float ptr [ESP + 0x1c]
+10054fba | d944241c | FLD float ptr [ESP + 0x1c]
+10054fbe | d905e85d0e10 | FLD float ptr [0x100e5de8]
+10054fc4 | dff1 | FCOMIP ST0,ST1
+10054fc6 | ddd8 | FSTP ST0
+10054fc8 | 761a | JBE 0x10054fe4
+10054fca | f30f1107 | MOVSS dword ptr [EDI],XMM0
+10054fce | ddd9 | FSTP ST1
+10054fd0 | f30f114704 | MOVSS dword ptr [EDI + 0x4],XMM0
+10054fd5 | ddd8 | FSTP ST0
+10054fd7 | f30f114708 | MOVSS dword ptr [EDI + 0x8],XMM0
+10054fdc | 5f | POP EDI
+10054fdd | 5e | POP ESI
+10054fde | 83c40c | ADD ESP,0xc
+10054fe1 | c20800 | RET 0x8
+; 10054fe4 LAB_10054fe4
+10054fe4 | d94110 | FLD float ptr [ECX + 0x10]
+10054fe7 | d84e04 | FMUL float ptr [ESI + 0x4]
+10054fea | d901 | FLD float ptr [ECX]
+10054fec | decb | FMULP ST3
+10054fee | dec2 | FADDP ST2,ST0
+10054ff0 | d94120 | FLD float ptr [ECX + 0x20]
+10054ff3 | d84e08 | FMUL float ptr [ESI + 0x8]
+10054ff6 | dec2 | FADDP ST2,ST0
+10054ff8 | d94130 | FLD float ptr [ECX + 0x30]
+10054ffb | dec2 | FADDP ST2,ST0
+10054ffd | d9c9 | FXCH
+10054fff | d91f | FSTP float ptr [EDI]
+10055001 | d94104 | FLD float ptr [ECX + 0x4]
+10055004 | d80e | FMUL float ptr [ESI]
+10055006 | d94114 | FLD float ptr [ECX + 0x14]
+10055009 | d84e04 | FMUL float ptr [ESI + 0x4]
+1005500c | dec1 | FADDP
+1005500e | d94124 | FLD float ptr [ECX + 0x24]
+10055011 | d84e08 | FMUL float ptr [ESI + 0x8]
+10055014 | dec1 | FADDP
+10055016 | d84134 | FADD float ptr [ECX + 0x34]
+10055019 | d95f04 | FSTP float ptr [EDI + 0x4]
+1005501c | d94108 | FLD float ptr [ECX + 0x8]
+1005501f | d80e | FMUL float ptr [ESI]
+10055021 | d94118 | FLD float ptr [ECX + 0x18]
+10055024 | d84e04 | FMUL float ptr [ESI + 0x4]
+10055027 | dec1 | FADDP
+10055029 | d94128 | FLD float ptr [ECX + 0x28]
+1005502c | d84e08 | FMUL float ptr [ESI + 0x8]
+1005502f | dec1 | FADDP
+10055031 | d84138 | FADD float ptr [ECX + 0x38]
+10055034 | d95f08 | FSTP float ptr [EDI + 0x8]
+10055037 | d9e8 | FLD1
+10055039 | def1 | FDIVRP
+1005503b | d95c241c | FSTP float ptr [ESP + 0x1c]
+1005503f | d907 | FLD float ptr [EDI]
+10055041 | d944241c | FLD float ptr [ESP + 0x1c]
+10055045 | d9c0 | FLD ST0
+10055047 | deca | FMULP ST2
+10055049 | d9c9 | FXCH
+1005504b | d91f | FSTP float ptr [EDI]
+1005504d | d94704 | FLD float ptr [EDI + 0x4]
+10055050 | d8c9 | FMUL ST1
+10055052 | d95f04 | FSTP float ptr [EDI + 0x4]
+10055055 | d84f08 | FMUL float ptr [EDI + 0x8]
+10055058 | d95f08 | FSTP float ptr [EDI + 0x8]
+1005505b | 5f | POP EDI
+1005505c | 5e | POP ESI
+1005505d | 83c40c | ADD ESP,0xc
+10055060 | c20800 | RET 0x8
+; 10055063 LAB_10055063
+10055063 | d94110 | FLD float ptr [ECX + 0x10]
+10055066 | d84e04 | FMUL float ptr [ESI + 0x4]
+10055069 | d906 | FLD float ptr [ESI]
+1005506b | d809 | FMUL float ptr [ECX]
+1005506d | dec1 | FADDP
+1005506f | d94120 | FLD float ptr [ECX + 0x20]
+10055072 | d84e08 | FMUL float ptr [ESI + 0x8]
+10055075 | dec1 | FADDP
+10055077 | d84130 | FADD float ptr [ECX + 0x30]
+1005507a | d91f | FSTP float ptr [EDI]
+1005507c | d94104 | FLD float ptr [ECX + 0x4]
+1005507f | d80e | FMUL float ptr [ESI]
+10055081 | d94114 | FLD float ptr [ECX + 0x14]
+10055084 | d84e04 | FMUL float ptr [ESI + 0x4]
+10055087 | dec1 | FADDP
+10055089 | d94124 | FLD float ptr [ECX + 0x24]
+1005508c | d84e08 | FMUL float ptr [ESI + 0x8]
+1005508f | dec1 | FADDP
+10055091 | d84134 | FADD float ptr [ECX + 0x34]
+10055094 | d95f04 | FSTP float ptr [EDI + 0x4]
+10055097 | d94108 | FLD float ptr [ECX + 0x8]
+1005509a | d80e | FMUL float ptr [ESI]
+1005509c | d94118 | FLD float ptr [ECX + 0x18]
+1005509f | d84e04 | FMUL float ptr [ESI + 0x4]
+100550a2 | dec1 | FADDP
+100550a4 | d94128 | FLD float ptr [ECX + 0x28]
+100550a7 | d84e08 | FMUL float ptr [ESI + 0x8]
+100550aa | dec1 | FADDP
+100550ac | d84138 | FADD float ptr [ECX + 0x38]
+100550af | d95f08 | FSTP float ptr [EDI + 0x8]
+100550b2 | 5f | POP EDI
+100550b3 | 5e | POP ESI
+100550b4 | 83c40c | ADD ESP,0xc
+100550b7 | c20800 | RET 0x8

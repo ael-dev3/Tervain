@@ -1,0 +1,12 @@
+/* ENTRY 3002431b | eCVisualAnimation_PS::GetBoneTwistSpringDamping | STATUS decompiled | 11 ms */
+
+/* public: float const & __thiscall eCVisualAnimation_PS::GetBoneTwistSpringDamping(void)const  */
+
+float * __thiscall eCVisualAnimation_PS::GetBoneTwistSpringDamping(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x2431b  6298  ?GetBoneTwistSpringDamping@eCVisualAnimation_PS@@QBEABMXZ */
+  return (float *)(this + 3);
+}
+
+

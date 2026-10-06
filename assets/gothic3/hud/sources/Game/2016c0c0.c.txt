@@ -1,0 +1,15 @@
+/* ENTRY 2016c0c0 | gCHUDViewTransformInventory2::~gCHUDViewTransformInventory2 | STATUS decompiled | 9 ms */
+
+void __thiscall
+gCHUDViewTransformInventory2::~gCHUDViewTransformInventory2(gCHUDViewTransformInventory2 *this)
+
+{
+  this->vftablePtr = &vftable;
+  gCHUDListCtrlInvTransforms::~gCHUDListCtrlInvTransforms
+            ((gCHUDListCtrlInvTransforms *)&(this->gCHUDViewTransformInventory2_data).field_0x1c);
+  FUN_20036877();
+  FUN_200156a9();
+  return;
+}
+
+

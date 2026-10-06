@@ -1,0 +1,22 @@
+; 203278b0 bTPropertyType<gCPlayerMemory_PS,float>::scalar_deleting_destructor
+203278b0 | 56 | PUSH ESI
+203278b1 | 8bf1 | MOV ESI,ECX
+203278b3 | c706c4816920 | MOV dword ptr [ESI],0x206981c4
+203278b9 | ff15dc877d20 | CALL dword ptr [0x207d87dc]
+203278bf | 8d4620 | LEA EAX,[ESI + 0x20]
+203278c2 | 50 | PUSH EAX
+203278c3 | e80e42cfff | CALL 0x2001bad6
+203278c8 | 8b4e18 | MOV ECX,dword ptr [ESI + 0x18]
+203278cb | 56 | PUSH ESI
+203278cc | ff15dc867d20 | CALL dword ptr [0x207d86dc]
+203278d2 | 8bce | MOV ECX,ESI
+203278d4 | c706f4c06520 | MOV dword ptr [ESI],0x2065c0f4
+203278da | ff15e8877d20 | CALL dword ptr [0x207d87e8]
+203278e0 | f644240801 | TEST byte ptr [ESP + 0x8],0x1
+203278e5 | 7409 | JZ 0x203278f0
+203278e7 | 56 | PUSH ESI
+203278e8 | e848c01300 | CALL 0x20463935
+203278ed | 83c404 | ADD ESP,0x4
+203278f0 | 8bc6 | MOV EAX,ESI
+203278f2 | 5e | POP ESI
+203278f3 | c20400 | RET 0x4

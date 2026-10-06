@@ -1,0 +1,2 @@
+; 300168e2 eCVisualAnimation_PS::SetLocalTimeScale
+300168e2 | e9c9800800 | JMP 0x3009e9b0

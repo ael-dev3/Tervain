@@ -1,0 +1,13 @@
+; 30481a60 eCEntityPropertySet::eCEntityPropertySet
+30481a60 | 56 | PUSH ESI
+30481a61 | 8bf1 | MOV ESI,ECX
+30481a63 | ff1508dcaf30 | CALL dword ptr [0x30afdc08]
+30481a69 | 8a4610 | MOV AL,byte ptr [ESI + 0x10]
+30481a6c | 24f1 | AND AL,0xf1
+30481a6e | 0c01 | OR AL,0x1
+30481a70 | 884610 | MOV byte ptr [ESI + 0x10],AL
+30481a73 | c7068c5d8730 | MOV dword ptr [ESI],0x30875d8c
+30481a79 | c7460c00000000 | MOV dword ptr [ESI + 0xc],0x0
+30481a80 | 8bc6 | MOV EAX,ESI
+30481a82 | 5e | POP ESI
+30481a83 | c3 | RET

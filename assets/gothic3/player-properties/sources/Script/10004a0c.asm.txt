@@ -1,0 +1,4 @@
+; 10004a0c ??BPropertyXP@PSPlayerMemory@@QBEJXZ
+10004a0c | e96f330200 | JMP 0x10027d80
+; 10004a11 PSNpc::CopyFrom
+; 10004a11 Ordinal_1417

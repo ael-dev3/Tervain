@@ -1,0 +1,13 @@
+/* ENTRY 10007829 | bCVector::GetSquareMagnitude | STATUS decompiled | 3 ms */
+
+/* public: float __thiscall bCVector::GetSquareMagnitude(void)const  */
+
+float __thiscall bCVector::GetSquareMagnitude(bCVector *this)
+
+{
+                    /* 0x7829  3036  ?GetSquareMagnitude@bCVector@@QBEMXZ */
+  return *(float *)(this + 8) * *(float *)(this + 8) +
+         *(float *)this * *(float *)this + *(float *)(this + 4) * *(float *)(this + 4);
+}
+
+

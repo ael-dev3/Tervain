@@ -1,0 +1,2 @@
+; 3002fb7b eCVisualAnimation_PS::GetInterBoneCollision
+3002fb7b | e9c01f0300 | JMP 0x30061b40

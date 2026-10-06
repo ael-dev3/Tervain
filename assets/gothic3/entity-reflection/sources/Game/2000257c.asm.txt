@@ -1,0 +1,4 @@
+; 2000257c bTPropertyObject<gCClock_PS,eCEntityPropertySet>::vfunction9
+2000257c | e96f6b2000 | JMP 0x202090f0
+; 20002595 gCInfoManager_PS::IsEditorRelevant
+; 20002595 Ordinal_5121

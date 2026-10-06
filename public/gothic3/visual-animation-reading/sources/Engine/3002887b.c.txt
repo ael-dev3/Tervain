@@ -1,0 +1,15 @@
+/* ENTRY 3002887b | eCSpringAndDamperEffector::Destroy | STATUS decompiled | 6 ms */
+
+/* public: virtual void __thiscall eCSpringAndDamperEffector::Destroy(void) */
+
+void __thiscall eCSpringAndDamperEffector::Destroy(eCSpringAndDamperEffector *this)
+
+{
+                    /* 0x2887b  5329  ?Destroy@eCSpringAndDamperEffector@@UAEXXZ */
+                    /* WARNING: Could not recover jumptable at 0x30385080. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCObjectRefBase::Destroy((bCObjectRefBase *)this);
+  return;
+}
+
+

@@ -1,0 +1,4 @@
+; 100036cf ??4PropertyAmbientAction@PSRoutine@@QAEAAV01@ABV01@@Z
+100036cf | e92c790000 | JMP 0x1000b000
+; 100036d9 PSEffect::StopEffect
+; 100036d9 Ordinal_2064

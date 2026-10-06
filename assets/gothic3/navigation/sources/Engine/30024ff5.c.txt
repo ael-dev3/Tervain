@@ -1,0 +1,26 @@
+/* ENTRY 30024ff5 | eCEntityAdmin::IntersectsProcessingRangeRegion | STATUS decompiled | 16 ms */
+
+/* public: bool __thiscall eCEntityAdmin::IntersectsProcessingRangeRegion(class bCBox const &) */
+
+bool __thiscall eCEntityAdmin::IntersectsProcessingRangeRegion(eCEntityAdmin *this,bCBox *param_1)
+
+{
+  bCVector *pbVar1;
+  bCVector *pbVar2;
+  
+                    /* 0x24ff5  9855
+                       ?IntersectsProcessingRangeRegion@eCEntityAdmin@@QAE_NABVbCBox@@@Z */
+  pbVar1 = bCBox::GetMax(param_1);
+  pbVar2 = bCBox::GetMin(param_1);
+  if ((((*(float *)pbVar2 <= *(float *)&(this->eCEntityAdmin_data).field_0x4c) &&
+       (*(float *)&(this->eCEntityAdmin_data).field_0x40 <= *(float *)pbVar1)) &&
+      (*(float *)(pbVar2 + 4) <= *(float *)&(this->eCEntityAdmin_data).field_0x50)) &&
+     (((*(float *)&(this->eCEntityAdmin_data).field_0x44 <= *(float *)(pbVar1 + 4) &&
+       (*(float *)(pbVar2 + 8) <= *(float *)&(this->eCEntityAdmin_data).field_0x54)) &&
+      (*(float *)&(this->eCEntityAdmin_data).field_0x48 <= *(float *)(pbVar1 + 8))))) {
+    return true;
+  }
+  return false;
+}
+
+

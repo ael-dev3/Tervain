@@ -1,0 +1,4 @@
+; 100024b4 ?GetInvTranslated@bCOrientedBox@@QBEXAAV1@ABVbCVector@@@Z
+100024b4 | e9e70e0600 | JMP 0x100633a0
+; 100024b9 bCInfDoubleCylinder::GetRadiusA
+; 100024b9 Ordinal_2858

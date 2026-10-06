@@ -1,0 +1,12 @@
+; 1009c7a0 FUN_1009c7a0
+1009c7a0 | 8bc1 | MOV EAX,ECX
+1009c7a2 | 8b4c2404 | MOV ECX,dword ptr [ESP + 0x4]
+1009c7a6 | 0fb65104 | MOVZX EDX,byte ptr [ECX + 0x4]
+1009c7aa | 885004 | MOV byte ptr [EAX + 0x4],DL
+1009c7ad | 0fb65105 | MOVZX EDX,byte ptr [ECX + 0x5]
+1009c7b1 | 885005 | MOV byte ptr [EAX + 0x5],DL
+1009c7b4 | 0fb65106 | MOVZX EDX,byte ptr [ECX + 0x6]
+1009c7b8 | 885006 | MOV byte ptr [EAX + 0x6],DL
+1009c7bb | 8a4908 | MOV CL,byte ptr [ECX + 0x8]
+1009c7be | 884808 | MOV byte ptr [EAX + 0x8],CL
+1009c7c1 | c20400 | RET 0x4

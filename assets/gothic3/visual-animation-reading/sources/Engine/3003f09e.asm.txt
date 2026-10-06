@@ -1,0 +1,2 @@
+; 3003f09e eCEntity::RemoveLink
+3003f09e | e99d424700 | JMP 0x304b3340

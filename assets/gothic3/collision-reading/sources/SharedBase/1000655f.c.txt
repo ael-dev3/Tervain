@@ -1,0 +1,22 @@
+/* ENTRY 1000655f | bCOrientedBox::operator- | STATUS decompiled | 5 ms */
+
+/* public: class bCOrientedBox __thiscall bCOrientedBox::operator-(class bCVector const &)const  */
+
+bCVector * __thiscall bCOrientedBox::operator-(bCOrientedBox *this,bCVector *param_1)
+
+{
+  float *in_stack_00000008;
+  float fStack_3c;
+  float fStack_38;
+  float fStack_34;
+  
+                    /* 0x655f  1002  ??GbCOrientedBox@@QBE?AV0@ABVbCVector@@@Z */
+  Create((bCOrientedBox *)&fStack_3c,this);
+  fStack_3c = fStack_3c - *in_stack_00000008;
+  fStack_38 = fStack_38 - in_stack_00000008[1];
+  fStack_34 = fStack_34 - in_stack_00000008[2];
+  Create((bCOrientedBox *)param_1,(bCOrientedBox *)&fStack_3c);
+  return param_1;
+}
+
+

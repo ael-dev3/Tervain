@@ -1,0 +1,2 @@
+; 1000414c bCSphere::SetRadius
+1000414c | e96f770200 | JMP 0x1002b8c0

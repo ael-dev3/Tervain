@@ -1,0 +1,2 @@
+; 3001ec68 eCPhysicObject::GetBuffer
+3001ec68 | e973e82e00 | JMP 0x3030d4e0

@@ -1,0 +1,4 @@
+; 1000204a ?IsSprinting@Entity@@QBE_NXZ
+1000204a | e981e30200 | JMP 0x100303d0
+; 1000204f PSMagic::PropertyMinManaCost::operator_int
+; 1000204f Ordinal_1033

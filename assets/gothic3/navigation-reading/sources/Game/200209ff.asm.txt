@@ -1,0 +1,4 @@
+; 200209ff bTPropertyType<gCNavigation_PS,bool>::vfunction12
+200209ff | e9dcfb2600 | JMP 0x202905e0
+; 20020a04 gCNavZone_PS::TestPointAgainstCollCircles
+; 20020a04 Ordinal_7354

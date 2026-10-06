@@ -1,0 +1,2 @@
+; 30024762 eCIlluminated_PS::GetTerrainShadowMap
+30024762 | e9c9e81f00 | JMP 0x30223030

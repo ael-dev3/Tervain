@@ -1,0 +1,20 @@
+/* ENTRY 303414f0 | bTPropertyObjectType<eCCollisionShapeBase_PS,eCEntityPropertySet>::~bTPropertyObjectType<eCCollisionShapeBase_PS,eCEntityPropertySet> | STATUS decompiled | 4 ms */
+
+void __thiscall
+bTPropertyObjectType<eCCollisionShapeBase_PS,eCEntityPropertySet>::
+~bTPropertyObjectType<eCCollisionShapeBase_PS,eCEntityPropertySet>
+          (bTPropertyObjectType<eCCollisionShapeBase_PS,eCEntityPropertySet> *this)
+
+{
+  this->vftablePtr = &vftable;
+  bCPropertyObjectFactory::~bCPropertyObjectFactory
+            ((bCPropertyObjectFactory *)
+             &(this->bTPropertyObjectType<eCCollisionShapeBase_PS,eCEntityPropertySet>_data).
+              field_0x14);
+                    /* WARNING: Could not recover jumptable at 0x30341505. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCPropertyObjectTypeBase::~bCPropertyObjectTypeBase((bCPropertyObjectTypeBase *)this);
+  return;
+}
+
+

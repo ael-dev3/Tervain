@@ -1,0 +1,2 @@
+; 2002f74d ?GetBoundary@gCNavigation_PS@@UAEXAAVbCBox@@_N@Z
+2002f74d | e9fe6e2500 | JMP 0x20286650

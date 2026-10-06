@@ -1,0 +1,4 @@
+; 100052f9 ?Read@bCAccessorPropertyObject@@QAEGAAVbCIStream@@@Z
+100052f9 | e922560900 | JMP 0x1009a920
+; 100052fe MemHeap::ReAllocUnsynced
+; 100052fe Ordinal_3846

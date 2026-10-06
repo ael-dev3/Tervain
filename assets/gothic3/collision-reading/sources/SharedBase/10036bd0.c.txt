@@ -1,0 +1,10 @@
+/* ENTRY 10036bd0 | FUN_10036bd0 | STATUS decompiled | 2 ms */
+
+float __thiscall FUN_10036bd0(bCBox *param_1,float param_2)
+
+{
+  bCBox::GetScaled(param_1,param_2);
+  return param_2;
+}
+
+

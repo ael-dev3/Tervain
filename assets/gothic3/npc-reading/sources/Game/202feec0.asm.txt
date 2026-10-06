@@ -1,0 +1,58 @@
+; 202feec0 bTPropertyObject<gCNPC_PS,eCEntityPropertySet>::vfunction6
+202feec0 | 53 | PUSH EBX
+202feec1 | 56 | PUSH ESI
+202feec2 | 8b74240c | MOV ESI,dword ptr [ESP + 0xc]
+202feec6 | 57 | PUSH EDI
+202feec7 | 56 | PUSH ESI
+202feec8 | 8bd9 | MOV EBX,ECX
+202feeca | ff1504877d20 | CALL dword ptr [0x207d8704]
+202feed0 | 0fb7f8 | MOVZX EDI,AX
+202feed3 | 8d442410 | LEA EAX,[ESP + 0x10]
+202feed7 | 50 | PUSH EAX
+202feed8 | 8bce | MOV ECX,ESI
+202feeda | c744241400000000 | MOV dword ptr [ESP + 0x14],0x0
+202feee2 | ff1560877d20 | CALL dword ptr [0x207d8760]
+202feee8 | e82fc8d0ff | CALL 0x2000b71c
+202feeed | 50 | PUSH EAX
+202feeee | e8f0a1d0ff | CALL 0x200090e3
+202feef3 | 8bc8 | MOV ECX,EAX
+202feef5 | ff1508877d20 | CALL dword ptr [0x207d8708]
+202feefb | 84c0 | TEST AL,AL
+202feefd | 743c | JZ 0x202fef3b
+202feeff | 8b4c2410 | MOV ECX,dword ptr [ESP + 0x10]
+202fef03 | 55 | PUSH EBP
+202fef04 | 8b2de0887d20 | MOV EBP,dword ptr [0x207d88e0]
+202fef0a | 51 | PUSH ECX
+202fef0b | ffd5 | CALL EBP
+202fef0d | 8bc8 | MOV ECX,EAX
+202fef0f | ff1564877d20 | CALL dword ptr [0x207d8764]
+202fef15 | 8b16 | MOV EDX,dword ptr [ESI]
+202fef17 | 8b5204 | MOV EDX,dword ptr [EDX + 0x4]
+202fef1a | 8bd8 | MOV EBX,EAX
+202fef1c | 8b442414 | MOV EAX,dword ptr [ESP + 0x14]
+202fef20 | 50 | PUSH EAX
+202fef21 | 53 | PUSH EBX
+202fef22 | 8bce | MOV ECX,ESI
+202fef24 | ffd2 | CALL EDX
+202fef26 | 53 | PUSH EBX
+202fef27 | ffd5 | CALL EBP
+202fef29 | 8bc8 | MOV ECX,EAX
+202fef2b | ff15dc887d20 | CALL dword ptr [0x207d88dc]
+202fef31 | 5d | POP EBP
+202fef32 | 668bc7 | MOV AX,DI
+202fef35 | 5f | POP EDI
+202fef36 | 5e | POP ESI
+202fef37 | 5b | POP EBX
+202fef38 | c20400 | RET 0x4
+; 202fef3b LAB_202fef3b
+202fef3b | 8b03 | MOV EAX,dword ptr [EBX]
+202fef3d | 8b501c | MOV EDX,dword ptr [EAX + 0x1c]
+202fef40 | 57 | PUSH EDI
+202fef41 | 56 | PUSH ESI
+202fef42 | 8bcb | MOV ECX,EBX
+202fef44 | ffd2 | CALL EDX
+202fef46 | 668bc7 | MOV AX,DI
+202fef49 | 5f | POP EDI
+202fef4a | 5e | POP ESI
+202fef4b | 5b | POP EBX
+202fef4c | c20400 | RET 0x4

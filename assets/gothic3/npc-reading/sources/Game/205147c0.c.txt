@@ -1,0 +1,33 @@
+/* ENTRY 205147c0 | bTPropertyType<gCNPC_PS,bTPropertyContainer<gEBearing>_>::~bTPropertyType<gCNPC_PS,bTPropertyContainer<gEBearing>_> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCNPC_PS,bTPropertyContainer<gEBearing>_>::
+~bTPropertyType<gCNPC_PS,bTPropertyContainer<gEBearing>_>
+          (bTPropertyType<gCNPC_PS,bTPropertyContainer<gEBearing>_> *this)
+
+{
+  bTPropertyType<gCNPC_PS,bTPropertyContainer<gEBearing>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"Bearing");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_enuBearing,(bCString *)&local_4,2)
+  ;
+  _ms_PropertyMember_m_enuBearing = &vftable;
+  DAT_207c1084 = bTPropertyObjectType<gCNPC_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCNPC_PS,eCEntityPropertySet>();
+  _DAT_207c1088 = 0x138;
+  _DAT_207c108c = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_enuBearing);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207c1084,
+             (bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_enuBearing);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gEBearing>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gEBearing>_>);
+  return;
+}
+
+

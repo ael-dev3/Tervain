@@ -1,0 +1,2 @@
+; 20021071 bTPropertyContainer<gECharacterControlFOR>::vfunction7
+20021071 | e9caa11f00 | JMP 0x2021b240

@@ -1,0 +1,2 @@
+; 3003a7ab eCEntityPropertySet::Destroy
+3003a7ab | e9006d4400 | JMP 0x304814b0

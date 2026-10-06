@@ -1,0 +1,4 @@
+; 20006659 ?SetMovement_PS@gCCharacterSensor_PS@@IAEXAAVgCCharacterMovement_PS@@@Z
+20006659 | e902052300 | JMP 0x20236b60
+; 2000665e gCNavigationMap::RemoveCurrentDestination
+; 2000665e Ordinal_6072

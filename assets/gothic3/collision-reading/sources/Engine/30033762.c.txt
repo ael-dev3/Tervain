@@ -1,0 +1,19 @@
+/* ENTRY 30033762 | bTPropertyObject<eCCollisionShape,bCObjectRefBase>::deleting_destructor | STATUS decompiled | 26 ms */
+
+bTPropertyObject<eCCollisionShape,bCObjectRefBase> * __thiscall
+bTPropertyObject<eCCollisionShape,bCObjectRefBase>::deleting_destructor
+          (bTPropertyObject<eCCollisionShape,bCObjectRefBase> *this,byte param_1)
+
+{
+  this->vftablePtr = &vftable;
+  vfunction10(this);
+  bTPOPureSmartPtr<eCCollisionShape>::~bTPOPureSmartPtr<eCCollisionShape>
+            ((bTPOPureSmartPtr<eCCollisionShape> *)this);
+  if ((param_1 & 1) != 0) {
+                    /* WARNING: Subroutine does not return */
+    _free(this);
+  }
+  return this;
+}
+
+

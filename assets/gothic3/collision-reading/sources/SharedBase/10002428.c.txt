@@ -1,0 +1,26 @@
+/* ENTRY 10002428 | bCBox::Contains | STATUS decompiled | 6 ms */
+
+/* public: bool __thiscall bCBox::Contains(class bCTriangle const &)const  */
+
+bool __thiscall bCBox::Contains(bCBox *this,bCTriangle *param_1)
+
+{
+  bool bVar1;
+  int iVar2;
+  bCVector *pbVar3;
+  
+                    /* 0x2428  1669  ?Contains@bCBox@@QBE_NABVbCTriangle@@@Z */
+  iVar2 = 2;
+  pbVar3 = (bCVector *)(param_1 + 0x18);
+  do {
+    bVar1 = Contains(this,pbVar3);
+    if (!bVar1) {
+      return false;
+    }
+    iVar2 = iVar2 + -1;
+    pbVar3 = pbVar3 + -0xc;
+  } while (-1 < iVar2);
+  return true;
+}
+
+

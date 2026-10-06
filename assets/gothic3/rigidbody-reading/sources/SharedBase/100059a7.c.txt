@@ -1,0 +1,12 @@
+/* ENTRY 100059a7 | bCQuaternion::~bCQuaternion | STATUS decompiled | 1 ms */
+
+/* public: __thiscall bCQuaternion::~bCQuaternion(void) */
+
+void __thiscall bCQuaternion::~bCQuaternion(bCQuaternion *this)
+
+{
+                    /* 0x59a7  418  ??1bCQuaternion@@QAE@XZ */
+  return;
+}
+
+

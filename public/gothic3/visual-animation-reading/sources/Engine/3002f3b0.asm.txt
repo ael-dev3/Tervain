@@ -1,0 +1,2 @@
+; 3002f3b0 eCSpringAndDamperEffector::GetVersion
+3002f3b0 | e9ab8f3500 | JMP 0x30388360

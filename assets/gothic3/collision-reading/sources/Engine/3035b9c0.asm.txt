@@ -1,0 +1,9 @@
+; 3035b9c0 bTPropertyObjectType<eCCollisionShape,bCObjectRefBase>::~bTPropertyObjectType<eCCollisionShape,bCObjectRefBase>
+3035b9c0 | 56 | PUSH ESI
+3035b9c1 | 8bf1 | MOV ESI,ECX
+3035b9c3 | 8d4e18 | LEA ECX,[ESI + 0x18]
+3035b9c6 | c7068c318630 | MOV dword ptr [ESI],0x3086318c
+3035b9cc | ff1538caaf30 | CALL dword ptr [0x30afca38]
+3035b9d2 | 8bce | MOV ECX,ESI
+3035b9d4 | 5e | POP ESI
+3035b9d5 | ff2534caaf30 | JMP dword ptr [0x30afca34]

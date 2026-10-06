@@ -1,0 +1,4 @@
+; 10002cf2 ?IntersectsExclusive@bCBox@@QBE_NABV1@@Z
+10002cf2 | e9a9840200 | JMP 0x1002b1a0
+; 10002cfc bCInfCylinder::GetRadius
+; 10002cfc Ordinal_2854

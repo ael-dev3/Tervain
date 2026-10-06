@@ -1,0 +1,14 @@
+/* ENTRY 30024c49 | eCSpringAndDamperEffector::AccessDamperVelCompressSaturate | STATUS decompiled | 5 ms */
+
+/* public: float & __thiscall eCSpringAndDamperEffector::AccessDamperVelCompressSaturate(void) */
+
+float * __thiscall
+eCSpringAndDamperEffector::AccessDamperVelCompressSaturate(eCSpringAndDamperEffector *this)
+
+{
+                    /* 0x24c49  2615
+                       ?AccessDamperVelCompressSaturate@eCSpringAndDamperEffector@@QAEAAMXZ */
+  return (float *)&(this->eCEffector_data).offset_0x6c;
+}
+
+

@@ -1,0 +1,89 @@
+/* ENTRY 100222e0 | FUN_100222e0 | STATUS decompiled | 32 ms */
+
+/* WARNING: Function: __alloca_probe replaced with injection: alloca_probe */
+
+void __thiscall
+FUN_100222e0(bCErrorAdmin *param_1,char *param_2,int param_3,char *param_4,ulong param_5)
+
+{
+  bCDialogHandle *pbVar1;
+  bCMemoryAdmin *this;
+  bool *pbVar2;
+  bool bVar3;
+  bool *pbVar4;
+  char local_2820 [8192];
+  char local_820 [2048];
+  undefined4 uStack_20;
+  undefined1 *local_1c;
+  void *local_14;
+  undefined1 *puStack_10;
+  undefined *puStack_c;
+  undefined4 local_8;
+  
+  local_8 = 0xffffffff;
+  puStack_c = &DAT_100f8270;
+  puStack_10 = &LAB_100a6f80;
+  local_14 = ExceptionList;
+  uStack_20 = 0x1002230a;
+  local_1c = &stack0xffffd7d4;
+  if ((param_1[4] == (bCErrorAdmin)0x1) || (param_1[5] == (bCErrorAdmin)0x1)) {
+    bVar3 = true;
+  }
+  else {
+    bVar3 = false;
+  }
+  if (!bVar3) {
+    ExceptionList = &local_14;
+    bCGothic3EngineDialogs::bCGothic3EngineDialogs((bCGothic3EngineDialogs *)((int)&uStack_20 + 3));
+    local_8 = 0;
+    bCErrorAdmin::ExecuteErrorCallbacks(param_1,0,1);
+    param_1[4] = (bCErrorAdmin)0x1;
+    EnterCriticalSection((LPCRITICAL_SECTION)(param_1 + 8));
+    bCGothic3EngineDialogs::LoadGE3DialogLib((bCGothic3EngineDialogs *)((int)&uStack_20 + 3),true);
+    bCErrorAdmin::PrintMessage(param_1,1,"Gothic3 engine FATAL ERROR:",true);
+    bCErrorAdmin::PrintMessage(param_1,1,"",true);
+    if (param_3 == 0) {
+      _sprintf(local_820,"Module: %s",param_2);
+    }
+    else {
+      _sprintf(local_820,"Module: %s --> (%s)",param_2,param_3);
+    }
+    bCErrorAdmin::PrintMessage(param_1,1,local_820,true);
+    if (param_4 != (char *)0x0) {
+      _sprintf(local_820,"Filename:<%s>, Line:#%d",param_4,param_5);
+      bCErrorAdmin::PrintMessage(param_1,1,local_820,true);
+    }
+    _memset(local_2820,0,0x2000);
+    SetMessageBuffer(local_2820);
+    DiagAssert(6,param_2,param_4,param_5);
+    bCErrorAdmin::PrintMessage(param_1,4,local_2820,true);
+    bCErrorAdmin::PrintHistoryEntries(param_1);
+    bCErrorAdmin::PrintMemoryDumpStats(param_1);
+    pbVar1 = bCGothic3EngineDialogs::GetDialogHandle
+                       ((bCGothic3EngineDialogs *)((int)&uStack_20 + 3));
+    bCGothic3EngineDialogs::bCDialogHandle::ShowModalErrorDialog(pbVar1);
+    pbVar4 = (bool *)((int)&uStack_20 + 2);
+    pbVar2 = (bool *)((int)&uStack_20 + 1);
+    pbVar1 = bCGothic3EngineDialogs::GetDialogHandle
+                       ((bCGothic3EngineDialogs *)((int)&uStack_20 + 3));
+    bCGothic3EngineDialogs::bCDialogHandle::GetErrorDialogState(pbVar1,pbVar2,pbVar4);
+    bCGothic3EngineDialogs::UnloadGE3DialogLib((bCGothic3EngineDialogs *)((int)&uStack_20 + 3));
+    LeaveCriticalSection((LPCRITICAL_SECTION)(param_1 + 8));
+    if (uStack_20._2_1_ != '\x01') {
+      bCErrorAdmin::ExecuteErrorCallbacks(param_1,1,1);
+      bVar3 = false;
+      this = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::EnableMemoryLeakReport(this,bVar3);
+                    /* WARNING: Subroutine does not return */
+      __exit(0x1bf);
+    }
+    DebugBreak();
+    local_8 = 0xffffffff;
+    bCGothic3EngineDialogs::~bCGothic3EngineDialogs((bCGothic3EngineDialogs *)((int)&uStack_20 + 3))
+    ;
+  }
+  ExceptionList = local_14;
+  return;
+}
+
+

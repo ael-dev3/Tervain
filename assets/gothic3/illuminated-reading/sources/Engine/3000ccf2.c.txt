@@ -1,0 +1,14 @@
+/* ENTRY 3000ccf2 | eCIlluminated_PS::GetPropertySetType | STATUS decompiled | 5 ms */
+
+/* public: virtual enum eEPropertySetType __thiscall eCIlluminated_PS::GetPropertySetType(void)const
+    */
+
+eEPropertySetType __thiscall eCIlluminated_PS::GetPropertySetType(eCIlluminated_PS *this)
+
+{
+                    /* 0xccf2  8216
+                       ?GetPropertySetType@eCIlluminated_PS@@UBE?AW4eEPropertySetType@@XZ */
+  return 0x4a;
+}
+
+

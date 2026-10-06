@@ -1,0 +1,81 @@
+/* ENTRY 100c8640 | gSArgsFor__AI_StandUp::~gSArgsFor__AI_StandUp | STATUS decompiled | 53 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+uint __thiscall
+gSArgsFor__AI_StandUp::~gSArgsFor__AI_StandUp
+          (gSArgsFor__AI_StandUp *this,bTObjStack<gScriptRunTimeSingleState> *param_1,
+          gCScriptProcessingUnit *param_2)
+
+{
+  int iVar1;
+  bool bVar2;
+  eCEntity *peVar3;
+  undefined4 *puVar4;
+  bCString *pbVar5;
+  gCScriptAdmin *this_00;
+  uint extraout_EAX;
+  undefined4 extraout_EAX_00;
+  bTObjStack<gScriptRunTimeSingleState> *pbVar6;
+  gEAIMode gStack_1fc;
+  Entity local_1f8 [4];
+  PropertyAIMode aPStack_1f4 [164];
+  Entity local_150 [168];
+  Entity aEStack_a8 [168];
+  
+  peVar3 = gCScriptProcessingUnit::GetSelfEntity(param_2);
+  Entity::Entity(local_1f8,peVar3);
+  peVar3 = gCScriptProcessingUnit::GetTargetEntity(param_2);
+  Entity::Entity(local_150,peVar3);
+  if ((_DAT_102236e4 & 1) == 0) {
+    _DAT_102236e4 = _DAT_102236e4 | 1;
+    DAT_102236dc = DAT_102236e0;
+    DAT_102236e0 = DAT_102236e0 + 1;
+  }
+  if (*(int *)(*(int *)param_1 + -0x18 + *(int *)(param_1 + 4) * 0x18) <= DAT_102236dc) {
+    *(int *)(*(int *)param_1 + -0x18 + *(int *)(param_1 + 4) * 0x18) = DAT_102236dc + 1;
+    thunk_FUN_1001d8b0(*(int *)(param_1 + 4) + 1);
+    bCString::operator=((bCString *)(*(int *)param_1 + -0x14 + *(int *)(param_1 + 4) * 0x18),
+                        "_AI_StandUp");
+    *(undefined1 *)(*(int *)param_1 + -0x10 + *(int *)(param_1 + 4) * 0x18) = 0;
+    puVar4 = (undefined4 *)new(0xac,0xbf);
+    if (puVar4 == (undefined4 *)0x0) {
+      puVar4 = (undefined4 *)0x0;
+    }
+    else {
+      *puVar4 = &vftable;
+      Entity::Entity((Entity *)(puVar4 + 1));
+    }
+    *(undefined4 **)(*(int *)param_1 + -0xc + *(int *)(param_1 + 4) * 0x18) = puVar4;
+    iVar1 = *(int *)param_1 + *(int *)(param_1 + 4) * 0x18;
+    bCString::operator=((bCString *)(iVar1 + -8),(bCString *)(iVar1 + -0x20));
+    Entity::Entity(aEStack_a8,local_1f8);
+    Entity::operator=((Entity *)(puVar4 + 1),aEStack_a8);
+    Entity::~Entity(aEStack_a8);
+    pbVar5 = (bCString *)(*(int *)param_1 + *(int *)(param_1 + 4) * 0x18 + -0x14);
+    pbVar6 = param_1;
+    this_00 = (gCScriptAdmin *)thunk_FUN_10015630();
+    bVar2 = gCScriptAdmin::RunScriptFunction(this_00,pbVar5,pbVar6,param_2);
+    if (!bVar2) {
+      Entity::~Entity(local_150);
+      Entity::~Entity(local_1f8);
+      return extraout_EAX & 0xffffff00;
+    }
+  }
+  if ((_DAT_102236e4 & 2) == 0) {
+    _DAT_102236e4 = _DAT_102236e4 | 2;
+    DAT_102236d8 = DAT_102236e0;
+    DAT_102236e0 = DAT_102236e0 + 1;
+  }
+  if (*(int *)(*(int *)param_1 + -0x18 + *(int *)(param_1 + 4) * 0x18) <= DAT_102236d8) {
+    *(int *)(*(int *)param_1 + -0x18 + *(int *)(param_1 + 4) * 0x18) = DAT_102236d8 + 1;
+    gStack_1fc = 0;
+    PSRoutine::PropertyAIMode::operator=(aPStack_1f4,&gStack_1fc);
+    PSRoutine::ContinueRoutine((PSRoutine *)aPStack_1f4);
+  }
+  Entity::~Entity(local_150);
+  Entity::~Entity(local_1f8);
+  return CONCAT31((int3)((uint)extraout_EAX_00 >> 8),1);
+}
+
+

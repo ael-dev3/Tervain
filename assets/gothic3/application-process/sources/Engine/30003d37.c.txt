@@ -1,0 +1,18 @@
+/* ENTRY 30003d37 | eCApplication::SetFixedFrameTimeSingleStep | STATUS decompiled | 15 ms */
+
+/* public: void __thiscall eCApplication::SetFixedFrameTimeSingleStep(float) */
+
+void __thiscall eCApplication::SetFixedFrameTimeSingleStep(eCApplication *this,float param_1)
+
+{
+                    /* 0x3d37  13408  ?SetFixedFrameTimeSingleStep@eCApplication@@QAEXM@Z */
+  if (((this->eCApplication_data).offset_0x4fe == (eCApplication)0x1) ||
+     ((this->eCApplication_data).offset_0x4fd == (eCApplication)0x0)) {
+    (this->eCApplication_data).offset_0x4fd = (eCApplication)0x1;
+  }
+  (this->eCApplication_data).offset_0x4f0 = param_1;
+  (this->eCApplication_data).offset_0x4fe = (eCApplication)0x1;
+  return;
+}
+
+

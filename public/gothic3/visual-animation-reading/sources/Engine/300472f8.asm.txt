@@ -1,0 +1,2 @@
+; 300472f8 eCVisualAnimationFactory::Read
+300472f8 | e943610700 | JMP 0x300bd440

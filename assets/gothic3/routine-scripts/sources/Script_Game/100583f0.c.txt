@@ -1,0 +1,495 @@
+/* ENTRY 100583f0 | FUN_100583f0 | STATUS decompiled | 1350 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+bool __thiscall
+FUN_100583f0(undefined4 param_1,bTObjStack<gScriptRunTimeSingleState> *param_2,
+            gCScriptProcessingUnit *param_3)
+
+{
+  int iVar1;
+  char cVar2;
+  bool bVar3;
+  int iVar4;
+  gSArgsFor__AI_TransferItem *this;
+  bCString *pbVar5;
+  gCScriptAdmin *pgVar6;
+  undefined4 *puVar7;
+  gEUseType gVar8;
+  Entity *this_00;
+  gSArgsFor__AI_HoldInventoryItems_Base *pgVar9;
+  gSArgsFor__AI_HoldRightInventoryItem_Base *pgVar10;
+  gSArgsFor__AI_HoldLeftInventoryItem_Base *pgVar11;
+  bCVector *this_01;
+  Entity *pEVar12;
+  Entity aEStack_224 [144];
+  undefined4 uStack_194;
+  undefined1 *puStack_190;
+  bTObjStack<gScriptRunTimeSingleState> *pbVar13;
+  Entity *pEVar14;
+  gCScriptProcessingUnit *pgVar15;
+  gSArgsFor__AI_TransferItem *local_16c;
+  gSArgsFor__AI_HoldRightInventoryItem_Base *pgStack_168;
+  undefined4 local_164;
+  bCVector abStack_160 [4];
+  Entity local_15c [4];
+  Entity aEStack_158 [4];
+  Entity aEStack_154 [4];
+  Entity local_150 [148];
+  Entity local_bc [4];
+  Entity local_b8 [12];
+  undefined1 local_ac [172];
+  
+  iVar1 = *(int *)(*(int *)param_2 + -0xc + *(int *)(param_2 + 4) * 0x18);
+  if ((_DAT_10221c64 & 1) == 0) {
+    _DAT_10221c64 = _DAT_10221c64 | 1;
+    DAT_10221c5c = DAT_10221c60;
+    DAT_10221c60 = DAT_10221c60 + 1;
+  }
+  if (*(int *)(*(int *)param_2 + -0x18 + *(int *)(param_2 + 4) * 0x18) <= DAT_10221c5c) {
+    *(int *)(*(int *)param_2 + -0x18 + *(int *)(param_2 + 4) * 0x18) = DAT_10221c5c + 1;
+    pEVar12 = (Entity *)(iVar1 + 4);
+    Entity::Entity((Entity *)&stack0xfffffdd4,pEVar12);
+    iVar4 = thunk_FUN_1000bfa0();
+    if ((iVar4 == 0) || (iVar4 == 7)) {
+      PSInventory::GetTemplateItem((PSInventory *)(iVar1 + 0x28),(int)local_150);
+      PSInventory::GetTemplateItem((PSInventory *)(iVar1 + 0x28),(int)local_ac);
+      Entity::GetName(pEVar12);
+      puStack_190 = (undefined1 *)0x100585d0;
+      Entity::GetName(local_15c);
+      puStack_190 = &stack0xfffffe88;
+      uStack_194 = 0x100585de;
+      Entity::GetName(local_b8);
+      uStack_194 = 0x100585e8;
+      bCString::~bCString((bCString *)&stack0xfffffe84);
+      uStack_194 = 0x100585f2;
+      bCString::~bCString((bCString *)&stack0xfffffe80);
+      uStack_194 = 0x100585fc;
+      bCString::~bCString((bCString *)&stack0xfffffe88);
+      uStack_194 = 0x1005860b;
+      Entity::~Entity(local_bc);
+      uStack_194 = 0x10058611;
+      Entity::~Entity((Entity *)&local_164);
+      return true;
+    }
+    Entity::Entity((Entity *)&stack0xfffffdd8,pEVar12);
+    cVar2 = thunk_FUN_100098e0();
+    if (cVar2 != '\0') {
+      thunk_FUN_1001d9e0();
+      bCString::operator=((bCString *)(*(int *)param_2 + -0x14 + *(int *)(param_2 + 4) * 0x18),
+                          "_AI_TransferItem");
+      *(undefined1 *)(*(int *)param_2 + -0x10 + *(int *)(param_2 + 4) * 0x18) = 0;
+      this = (gSArgsFor__AI_TransferItem *)new();
+      if (this == (gSArgsFor__AI_TransferItem *)0x0) {
+        local_16c = (gSArgsFor__AI_TransferItem *)0x0;
+      }
+      else {
+        local_16c = gSArgsFor__AI_TransferItem::gSArgsFor__AI_TransferItem(this);
+      }
+      *(gSArgsFor__AI_TransferItem **)(*(int *)param_2 + -0xc + *(int *)(param_2 + 4) * 0x18) =
+           local_16c;
+      iVar4 = *(int *)param_2 + *(int *)(param_2 + 4) * 0x18;
+      bCString::operator=((bCString *)(iVar4 + -8),(bCString *)(iVar4 + -0x20));
+      Entity::Entity((Entity *)&stack0xfffffdd8,pEVar12);
+      thunk_FUN_10053b90();
+      pbVar5 = (bCString *)(*(int *)param_2 + *(int *)(param_2 + 4) * 0x18 + -0x14);
+      pbVar13 = param_2;
+      pgVar15 = param_3;
+      pgVar6 = (gCScriptAdmin *)thunk_FUN_10015630();
+      bVar3 = gCScriptAdmin::RunScriptFunction(pgVar6,pbVar5,pbVar13,pgVar15);
+      if (!bVar3) {
+        return false;
+      }
+    }
+  }
+  if ((_DAT_10221c64 & 2) == 0) {
+    _DAT_10221c64 = _DAT_10221c64 | 2;
+    DAT_10221c58 = DAT_10221c60;
+    DAT_10221c60 = DAT_10221c60 + 1;
+  }
+  if (*(int *)(*(int *)param_2 + -0x18 + *(int *)(param_2 + 4) * 0x18) <= DAT_10221c58) {
+    *(int *)(*(int *)param_2 + -0x18 + *(int *)(param_2 + 4) * 0x18) = DAT_10221c58 + 1;
+    Entity::Entity((Entity *)&stack0xfffffdd8,(Entity *)(iVar1 + 4));
+    cVar2 = thunk_FUN_10009910();
+    if (cVar2 != '\0') {
+      thunk_FUN_1001d8b0();
+      bCString::operator=((bCString *)(*(int *)param_2 + -0x14 + *(int *)(param_2 + 4) * 0x18),
+                          "_AI_TransferItem");
+      *(undefined1 *)(*(int *)param_2 + -0x10 + *(int *)(param_2 + 4) * 0x18) = 0;
+      puVar7 = (undefined4 *)new();
+      if (puVar7 == (undefined4 *)0x0) {
+        puVar7 = (undefined4 *)0x0;
+      }
+      else {
+                    /* inlined constructor: gSArgsFor__AI_TransferItem::gSArgsFor__AI_TransferItem
+                        */
+        *puVar7 = &gSArgsFor__AI_TransferItem::vftable;
+        Entity::Entity((Entity *)(puVar7 + 1));
+      }
+      *(undefined4 **)(*(int *)param_2 + -0xc + *(int *)(param_2 + 4) * 0x18) = puVar7;
+      iVar4 = *(int *)param_2 + *(int *)(param_2 + 4) * 0x18;
+      bCString::operator=((bCString *)(iVar4 + -8),(bCString *)(iVar4 + -0x20));
+      Entity::Entity(local_150,(Entity *)(iVar1 + 4));
+      local_164 = *(gEAction *)(iVar1 + 0xac);
+      Entity::operator=((Entity *)(puVar7 + 1),local_150);
+      puVar7[0x2b] = local_164;
+      Entity::~Entity(local_150);
+      pbVar5 = (bCString *)(*(int *)param_2 + *(int *)(param_2 + 4) * 0x18 + -0x14);
+      pbVar13 = param_2;
+      pgVar15 = param_3;
+      pgVar6 = (gCScriptAdmin *)thunk_FUN_10015630();
+      bVar3 = gCScriptAdmin::RunScriptFunction(pgVar6,pbVar5,pbVar13,pgVar15);
+      if (!bVar3) {
+        return false;
+      }
+    }
+  }
+  if ((_DAT_10221c64 & 4) == 0) {
+    _DAT_10221c64 = _DAT_10221c64 | 4;
+    DAT_10221c54 = DAT_10221c60;
+    DAT_10221c60 = DAT_10221c60 + 1;
+  }
+  if (*(int *)(*(int *)param_2 + -0x18 + *(int *)(param_2 + 4) * 0x18) <= DAT_10221c54) {
+    *(int *)(*(int *)param_2 + -0x18 + *(int *)(param_2 + 4) * 0x18) = DAT_10221c54 + 1;
+    pEVar12 = (Entity *)(iVar1 + 4);
+    Entity::Entity((Entity *)&stack0xfffffdd4,pEVar12);
+    cVar2 = thunk_FUN_10009890();
+    if (cVar2 == '\x01') {
+      return true;
+    }
+    gVar8 = PSInventory::GetUseType((PSInventory *)(iVar1 + 0x28),*(int *)(iVar1 + 0xb0));
+    if ((gVar8 == 4) || (gVar8 == 7)) {
+      local_164 = 0x27;
+    }
+    else {
+      local_164 = 0x41;
+    }
+    PSRoutine::PropertyAction::operator=((PropertyAction *)(iVar1 + 8),&local_164);
+    Entity::Entity(aEStack_224,pEVar12);
+    iVar4 = thunk_FUN_1000c010();
+    if ((iVar4 == 5) &&
+       (iVar4 = PSInventory::FindStackIndex((PSInventory *)(iVar1 + 0x28),2),
+       iVar4 != *(int *)(iVar1 + 0xac))) {
+      pEVar14 = local_150;
+      this_00 = (Entity *)Entity::GetPlayer();
+      bVar3 = Entity::operator==(this_00,pEVar14);
+      local_164 = CONCAT13(bVar3,(undefined3)local_164);
+      Entity::~Entity(aEStack_154);
+      if (local_164._3_1_ != 0) {
+        GUI2::ShowCrossHair((GUI2 *)gui2_exref,false);
+      }
+      bCString::bCString((bCString *)&local_16c,"");
+      puStack_190 = (undefined1 *)0x100588ad;
+      Entity::EnableAutoAiming(pEVar12,false,(Entity *)None_exref,(bCString *)&local_16c);
+      bCString::~bCString((bCString *)&local_16c);
+    }
+    local_16c = (gSArgsFor__AI_TransferItem *)
+                PSInventory::FindStackIndex((PSInventory *)(iVar1 + 0x28),2);
+    pgStack_168 = (gSArgsFor__AI_HoldRightInventoryItem_Base *)
+                  PSInventory::FindStackIndex((PSInventory *)(iVar1 + 0x28),1);
+    DAT_10221c08 = (undefined1 *)0xffffffff;
+    if (-1 < (int)local_16c) {
+      Entity::Entity(aEStack_224,pEVar12);
+      iVar4 = thunk_FUN_10009a40();
+      if ((iVar4 == 0x18) && (local_16c != *(gSArgsFor__AI_TransferItem **)(iVar1 + 0xac))) {
+        DAT_10221c08 = (undefined1 *)local_16c;
+      }
+    }
+    Entity::Entity((Entity *)&stack0xfffffdd8,pEVar12);
+    cVar2 = thunk_FUN_100098e0();
+    if (cVar2 == '\0') {
+      Entity::Entity((Entity *)&stack0xfffffdd8,pEVar12);
+      cVar2 = thunk_FUN_10009910();
+      if (cVar2 == '\0') {
+        if ((int)local_16c < 0) {
+          if (-1 < (int)pgStack_168) {
+            thunk_FUN_1001d9e0();
+            bCString::operator=((bCString *)(*(int *)param_2 + -0x14 + *(int *)(param_2 + 4) * 0x18)
+                                ,"_AI_HoldRightInventoryItem_Base");
+            *(undefined1 *)(*(int *)param_2 + -0x10 + *(int *)(param_2 + 4) * 0x18) = 0;
+            pgVar10 = (gSArgsFor__AI_HoldRightInventoryItem_Base *)new();
+            if (pgVar10 == (gSArgsFor__AI_HoldRightInventoryItem_Base *)0x0) {
+              local_16c = (gSArgsFor__AI_TransferItem *)0x0;
+            }
+            else {
+              local_16c = (gSArgsFor__AI_TransferItem *)
+                          gSArgsFor__AI_HoldRightInventoryItem_Base::
+                          gSArgsFor__AI_HoldRightInventoryItem_Base(pgVar10);
+            }
+            *(gSArgsFor__AI_TransferItem **)(*(int *)param_2 + -0xc + *(int *)(param_2 + 4) * 0x18)
+                 = local_16c;
+            iVar4 = *(int *)param_2 + *(int *)(param_2 + 4) * 0x18;
+            bCString::operator=((bCString *)(iVar4 + -8),(bCString *)(iVar4 + -0x20));
+            Entity::Entity((Entity *)&stack0xfffffdd8,pEVar12);
+            thunk_FUN_10053b50();
+            pbVar5 = (bCString *)(*(int *)param_2 + *(int *)(param_2 + 4) * 0x18 + -0x14);
+            pbVar13 = param_2;
+            pgVar15 = param_3;
+            pgVar6 = (gCScriptAdmin *)thunk_FUN_10015630();
+            bVar3 = gCScriptAdmin::RunScriptFunction(pgVar6,pbVar5,pbVar13,pgVar15);
+            if (!bVar3) {
+              return bVar3;
+            }
+          }
+        }
+        else if ((int)pgStack_168 < 0) {
+          thunk_FUN_1001d9e0();
+          bCString::operator=((bCString *)(*(int *)param_2 + -0x14 + *(int *)(param_2 + 4) * 0x18),
+                              "_AI_HoldLeftInventoryItem_Base");
+          *(undefined1 *)(*(int *)param_2 + -0x10 + *(int *)(param_2 + 4) * 0x18) = 0;
+          pgVar11 = (gSArgsFor__AI_HoldLeftInventoryItem_Base *)new();
+          if (pgVar11 == (gSArgsFor__AI_HoldLeftInventoryItem_Base *)0x0) {
+            local_16c = (gSArgsFor__AI_TransferItem *)0x0;
+          }
+          else {
+            local_16c = (gSArgsFor__AI_TransferItem *)
+                        gSArgsFor__AI_HoldLeftInventoryItem_Base::
+                        gSArgsFor__AI_HoldLeftInventoryItem_Base(pgVar11);
+          }
+          *(gSArgsFor__AI_TransferItem **)(*(int *)param_2 + -0xc + *(int *)(param_2 + 4) * 0x18) =
+               local_16c;
+          iVar4 = *(int *)param_2 + *(int *)(param_2 + 4) * 0x18;
+          bCString::operator=((bCString *)(iVar4 + -8),(bCString *)(iVar4 + -0x20));
+          Entity::Entity((Entity *)&stack0xfffffdd8,pEVar12);
+          thunk_FUN_10053b10();
+          pbVar5 = (bCString *)(*(int *)param_2 + *(int *)(param_2 + 4) * 0x18 + -0x14);
+          pbVar13 = param_2;
+          pgVar15 = param_3;
+          pgVar6 = (gCScriptAdmin *)thunk_FUN_10015630();
+          bVar3 = gCScriptAdmin::RunScriptFunction(pgVar6,pbVar5,pbVar13,pgVar15);
+          if (!bVar3) {
+            return bVar3;
+          }
+        }
+        else {
+          thunk_FUN_1001d9e0();
+          bCString::operator=((bCString *)(*(int *)param_2 + -0x14 + *(int *)(param_2 + 4) * 0x18),
+                              "_AI_HoldInventoryItems_Base");
+          *(undefined1 *)(*(int *)param_2 + -0x10 + *(int *)(param_2 + 4) * 0x18) = 0;
+          pgVar9 = (gSArgsFor__AI_HoldInventoryItems_Base *)new();
+          if (pgVar9 == (gSArgsFor__AI_HoldInventoryItems_Base *)0x0) {
+            local_16c = (gSArgsFor__AI_TransferItem *)0x0;
+          }
+          else {
+            local_16c = (gSArgsFor__AI_TransferItem *)
+                        gSArgsFor__AI_HoldInventoryItems_Base::gSArgsFor__AI_HoldInventoryItems_Base
+                                  (pgVar9);
+          }
+          *(gSArgsFor__AI_TransferItem **)(*(int *)param_2 + -0xc + *(int *)(param_2 + 4) * 0x18) =
+               local_16c;
+          iVar4 = *(int *)param_2 + *(int *)(param_2 + 4) * 0x18;
+          bCString::operator=((bCString *)(iVar4 + -8),(bCString *)(iVar4 + -0x20));
+          Entity::Entity((Entity *)&stack0xfffffdd4,pEVar12);
+          thunk_FUN_10057220();
+          pbVar5 = (bCString *)(*(int *)param_2 + *(int *)(param_2 + 4) * 0x18 + -0x14);
+          pbVar13 = param_2;
+          pgVar15 = param_3;
+          pgVar6 = (gCScriptAdmin *)thunk_FUN_10015630();
+          bVar3 = gCScriptAdmin::RunScriptFunction(pgVar6,pbVar5,pbVar13,pgVar15);
+          if (!bVar3) {
+            return bVar3;
+          }
+        }
+        goto LAB_10058dd2;
+      }
+    }
+    Entity::Entity((Entity *)&stack0xfffffdd8,pEVar12);
+    cVar2 = thunk_FUN_100098e0();
+    if (cVar2 == '\0') {
+      if (-1 < (int)local_16c) {
+        thunk_FUN_1001d9e0();
+        bCString::operator=((bCString *)(*(int *)param_2 + -0x14 + *(int *)(param_2 + 4) * 0x18),
+                            "_AI_HoldLeftInventoryItem_Base");
+        *(undefined1 *)(*(int *)param_2 + -0x10 + *(int *)(param_2 + 4) * 0x18) = 0;
+        pgVar11 = (gSArgsFor__AI_HoldLeftInventoryItem_Base *)new();
+        if (pgVar11 == (gSArgsFor__AI_HoldLeftInventoryItem_Base *)0x0) {
+          local_16c = (gSArgsFor__AI_TransferItem *)0x0;
+        }
+        else {
+          local_16c = (gSArgsFor__AI_TransferItem *)
+                      gSArgsFor__AI_HoldLeftInventoryItem_Base::
+                      gSArgsFor__AI_HoldLeftInventoryItem_Base(pgVar11);
+        }
+        *(gSArgsFor__AI_TransferItem **)(*(int *)param_2 + -0xc + *(int *)(param_2 + 4) * 0x18) =
+             local_16c;
+        iVar4 = *(int *)param_2 + *(int *)(param_2 + 4) * 0x18;
+        bCString::operator=((bCString *)(iVar4 + -8),(bCString *)(iVar4 + -0x20));
+        Entity::Entity((Entity *)&stack0xfffffdd8,pEVar12);
+        thunk_FUN_10053b10();
+        pbVar5 = (bCString *)(*(int *)param_2 + *(int *)(param_2 + 4) * 0x18 + -0x14);
+        pbVar13 = param_2;
+        pgVar15 = param_3;
+        pgVar6 = (gCScriptAdmin *)thunk_FUN_10015630();
+        bVar3 = gCScriptAdmin::RunScriptFunction(pgVar6,pbVar5,pbVar13,pgVar15);
+        if (!bVar3) {
+          return bVar3;
+        }
+      }
+    }
+    else {
+      Entity::Entity((Entity *)&stack0xfffffdd8,pEVar12);
+      cVar2 = thunk_FUN_10009910();
+      if ((cVar2 == '\0') && (-1 < (int)pgStack_168)) {
+        thunk_FUN_1001d9e0();
+        bCString::operator=((bCString *)(*(int *)param_2 + -0x14 + *(int *)(param_2 + 4) * 0x18),
+                            "_AI_HoldRightInventoryItem_Base");
+        *(undefined1 *)(*(int *)param_2 + -0x10 + *(int *)(param_2 + 4) * 0x18) = 0;
+        pgVar10 = (gSArgsFor__AI_HoldRightInventoryItem_Base *)new();
+        if (pgVar10 == (gSArgsFor__AI_HoldRightInventoryItem_Base *)0x0) {
+          pgStack_168 = (gSArgsFor__AI_HoldRightInventoryItem_Base *)0x0;
+        }
+        else {
+          pgStack_168 = gSArgsFor__AI_HoldRightInventoryItem_Base::
+                        gSArgsFor__AI_HoldRightInventoryItem_Base(pgVar10);
+        }
+        *(gSArgsFor__AI_HoldRightInventoryItem_Base **)
+         (*(int *)param_2 + -0xc + *(int *)(param_2 + 4) * 0x18) = pgStack_168;
+        iVar4 = *(int *)param_2 + *(int *)(param_2 + 4) * 0x18;
+        bCString::operator=((bCString *)(iVar4 + -8),(bCString *)(iVar4 + -0x20));
+        Entity::Entity((Entity *)&stack0xfffffdd8,pEVar12);
+        thunk_FUN_10053b50();
+        pbVar5 = (bCString *)(*(int *)param_2 + *(int *)(param_2 + 4) * 0x18 + -0x14);
+        pbVar13 = param_2;
+        pgVar15 = param_3;
+        pgVar6 = (gCScriptAdmin *)thunk_FUN_10015630();
+        bVar3 = gCScriptAdmin::RunScriptFunction(pgVar6,pbVar5,pbVar13,pgVar15);
+        if (!bVar3) {
+          return false;
+        }
+      }
+    }
+  }
+LAB_10058dd2:
+  if ((_DAT_10221c64 & 8) == 0) {
+    _DAT_10221c64 = _DAT_10221c64 | 8;
+    DAT_10221c50 = DAT_10221c60;
+    DAT_10221c60 = DAT_10221c60 + 1;
+  }
+  if (*(int *)(*(int *)param_2 + -0x18 + *(int *)(param_2 + 4) * 0x18) <= DAT_10221c50) {
+    *(int *)(*(int *)param_2 + -0x18 + *(int *)(param_2 + 4) * 0x18) = DAT_10221c50 + 1;
+    if (-1 < (int)DAT_10221c08) {
+      PSInventory::DeleteItems((PSInventory *)(iVar1 + 0x28),(int)DAT_10221c08,1);
+    }
+    pEVar12 = (Entity *)(iVar1 + 4);
+    Entity::Entity((Entity *)&stack0xfffffdd4,pEVar12);
+    cVar2 = thunk_FUN_10009890();
+    if (cVar2 == '\x01') {
+      return true;
+    }
+    Entity::Entity((Entity *)&stack0xfffffdd4,pEVar12);
+    thunk_FUN_1000c260();
+    Entity::Entity((Entity *)&stack0xfffffdd8,pEVar12);
+    cVar2 = thunk_FUN_100098e0();
+    if (cVar2 == '\x01') {
+      if (-1 < *(int *)(iVar1 + 0xb0)) {
+        thunk_FUN_1001d9e0();
+        bCString::operator=((bCString *)(*(int *)param_2 + -0x14 + *(int *)(param_2 + 4) * 0x18),
+                            "_AI_HoldRightInventoryItem_Base");
+        *(undefined1 *)(*(int *)param_2 + -0x10 + *(int *)(param_2 + 4) * 0x18) = 0;
+        pgVar10 = (gSArgsFor__AI_HoldRightInventoryItem_Base *)new();
+        if (pgVar10 == (gSArgsFor__AI_HoldRightInventoryItem_Base *)0x0) {
+          pgStack_168 = (gSArgsFor__AI_HoldRightInventoryItem_Base *)0x0;
+        }
+        else {
+          pgStack_168 = gSArgsFor__AI_HoldRightInventoryItem_Base::
+                        gSArgsFor__AI_HoldRightInventoryItem_Base(pgVar10);
+        }
+        *(gSArgsFor__AI_HoldRightInventoryItem_Base **)
+         (*(int *)param_2 + -0xc + *(int *)(param_2 + 4) * 0x18) = pgStack_168;
+        iVar4 = *(int *)param_2 + *(int *)(param_2 + 4) * 0x18;
+        bCString::operator=((bCString *)(iVar4 + -8),(bCString *)(iVar4 + -0x20));
+        Entity::Entity((Entity *)&stack0xfffffdd8,pEVar12);
+        thunk_FUN_10053b50();
+        pbVar5 = (bCString *)(*(int *)param_2 + *(int *)(param_2 + 4) * 0x18 + -0x14);
+        pbVar13 = param_2;
+        pgVar6 = (gCScriptAdmin *)thunk_FUN_10015630();
+        bVar3 = gCScriptAdmin::RunScriptFunction(pgVar6,pbVar5,pbVar13,param_3);
+        if (!bVar3) {
+          return bVar3;
+        }
+      }
+    }
+    else {
+      Entity::Entity((Entity *)&stack0xfffffdd8,pEVar12);
+      cVar2 = thunk_FUN_10009910();
+      if (cVar2 == '\x01') {
+        if (-1 < *(int *)(iVar1 + 0xac)) {
+          thunk_FUN_1001d9e0();
+          bCString::operator=((bCString *)(*(int *)param_2 + -0x14 + *(int *)(param_2 + 4) * 0x18),
+                              "_AI_HoldLeftInventoryItem_Base");
+          *(undefined1 *)(*(int *)param_2 + -0x10 + *(int *)(param_2 + 4) * 0x18) = 0;
+          pgVar11 = (gSArgsFor__AI_HoldLeftInventoryItem_Base *)new();
+          if (pgVar11 == (gSArgsFor__AI_HoldLeftInventoryItem_Base *)0x0) {
+            pgStack_168 = (gSArgsFor__AI_HoldRightInventoryItem_Base *)0x0;
+          }
+          else {
+            pgStack_168 = (gSArgsFor__AI_HoldRightInventoryItem_Base *)
+                          gSArgsFor__AI_HoldLeftInventoryItem_Base::
+                          gSArgsFor__AI_HoldLeftInventoryItem_Base(pgVar11);
+          }
+          *(gSArgsFor__AI_HoldRightInventoryItem_Base **)
+           (*(int *)param_2 + -0xc + *(int *)(param_2 + 4) * 0x18) = pgStack_168;
+          iVar4 = *(int *)param_2 + *(int *)(param_2 + 4) * 0x18;
+          bCString::operator=((bCString *)(iVar4 + -8),(bCString *)(iVar4 + -0x20));
+          Entity::Entity((Entity *)&stack0xfffffdd8,pEVar12);
+          thunk_FUN_10053b10();
+          pbVar5 = (bCString *)(*(int *)param_2 + *(int *)(param_2 + 4) * 0x18 + -0x14);
+          pbVar13 = param_2;
+          pgVar6 = (gCScriptAdmin *)thunk_FUN_10015630();
+          bVar3 = gCScriptAdmin::RunScriptFunction(pgVar6,pbVar5,pbVar13,param_3);
+          if (!bVar3) {
+            return bVar3;
+          }
+        }
+      }
+      else if ((*(uint *)(iVar1 + 0xac) < 0x80000000) || (-1 < *(int *)(iVar1 + 0xb0))) {
+        thunk_FUN_1001d9e0();
+        bCString::operator=((bCString *)(*(int *)param_2 + -0x14 + *(int *)(param_2 + 4) * 0x18),
+                            "_AI_HoldInventoryItems_Base");
+        *(undefined1 *)(*(int *)param_2 + -0x10 + *(int *)(param_2 + 4) * 0x18) = 0;
+        pgVar9 = (gSArgsFor__AI_HoldInventoryItems_Base *)new();
+        if (pgVar9 == (gSArgsFor__AI_HoldInventoryItems_Base *)0x0) {
+          pgStack_168 = (gSArgsFor__AI_HoldRightInventoryItem_Base *)0x0;
+        }
+        else {
+          pgStack_168 = (gSArgsFor__AI_HoldRightInventoryItem_Base *)
+                        gSArgsFor__AI_HoldInventoryItems_Base::gSArgsFor__AI_HoldInventoryItems_Base
+                                  (pgVar9);
+        }
+        *(gSArgsFor__AI_HoldRightInventoryItem_Base **)
+         (*(int *)param_2 + -0xc + *(int *)(param_2 + 4) * 0x18) = pgStack_168;
+        iVar4 = *(int *)param_2 + *(int *)(param_2 + 4) * 0x18;
+        bCString::operator=((bCString *)(iVar4 + -8),(bCString *)(iVar4 + -0x20));
+        Entity::Entity((Entity *)&stack0xfffffdd4,pEVar12);
+        thunk_FUN_10057220();
+        pbVar5 = (bCString *)(*(int *)param_2 + *(int *)(param_2 + 4) * 0x18 + -0x14);
+        pbVar13 = param_2;
+        pgVar6 = (gCScriptAdmin *)thunk_FUN_10015630();
+        bVar3 = gCScriptAdmin::RunScriptFunction(pgVar6,pbVar5,pbVar13,param_3);
+        if (!bVar3) {
+          return false;
+        }
+      }
+    }
+  }
+  if ((_DAT_10221c64 & 0x10) == 0) {
+    _DAT_10221c64 = _DAT_10221c64 | 0x10;
+    DAT_10221c4c = DAT_10221c60;
+    DAT_10221c60 = DAT_10221c60 + 1;
+  }
+  if (*(int *)(*(int *)param_2 + -0x18 + *(int *)(param_2 + 4) * 0x18) <= DAT_10221c4c) {
+    *(int *)(*(int *)param_2 + -0x18 + *(int *)(param_2 + 4) * 0x18) = DAT_10221c4c + 1;
+    this_01 = (bCVector *)Entity::GetVelocity((Entity *)(iVar1 + 4));
+    bCVector::HasZeroMagnitude(this_01);
+    bCVector::~bCVector(abStack_160);
+    pEVar12 = (Entity *)Entity::GetPlayer();
+    bVar3 = Entity::operator!=((Entity *)(iVar1 + 4),pEVar12);
+    Entity::~Entity(aEStack_158);
+    if (bVar3) {
+      PSInventory::MergeStacks((PSInventory *)(iVar1 + 0x28));
+    }
+  }
+  return true;
+}
+
+

@@ -1,0 +1,15 @@
+; 2011b530 bTPropertyType<gCEffect_PS,bCVector>::vfunction12
+2011b530 | 56 | PUSH ESI
+2011b531 | 8bf1 | MOV ESI,ECX
+2011b533 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+2011b537 | 85c9 | TEST ECX,ECX
+2011b539 | 7506 | JNZ 0x2011b541
+2011b53b | 33c0 | XOR EAX,EAX
+2011b53d | 5e | POP ESI
+2011b53e | c20400 | RET 0x4
+2011b541 | 8b01 | MOV EAX,dword ptr [ECX]
+2011b543 | 8b10 | MOV EDX,dword ptr [EAX]
+2011b545 | ffd2 | CALL EDX
+2011b547 | 03461c | ADD EAX,dword ptr [ESI + 0x1c]
+2011b54a | 5e | POP ESI
+2011b54b | c20400 | RET 0x4

@@ -1,0 +1,7 @@
+; 30337bd0 FUN_30337bd0
+30337bd0 | 56 | PUSH ESI
+30337bd1 | 8bf1 | MOV ESI,ECX
+30337bd3 | e893b6d0ff | CALL 0x3004326b
+30337bd8 | 8b4638 | MOV EAX,dword ptr [ESI + 0x38]
+30337bdb | 5e | POP ESI
+30337bdc | c3 | RET

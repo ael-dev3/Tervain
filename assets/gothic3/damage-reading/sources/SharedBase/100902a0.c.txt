@@ -1,0 +1,55 @@
+/* ENTRY 100902a0 | FUN_100902a0 | STATUS decompiled | 21 ms */
+
+bool FUN_100902a0(bCIStream *param_1,bCPropertyObjectBase *param_2)
+
+{
+  bool bVar1;
+  int iVar2;
+  void *pvVar3;
+  bCMemoryAdmin *pbVar4;
+  bCPropertyObjectFactory *this;
+  bCIStream *this_00;
+  bCPropertyObjectBase *pbVar5;
+  ushort local_c [2];
+  int local_8;
+  undefined1 local_4 [4];
+  
+  this_00 = param_1;
+  bCIStream::operator>>((bCIStream *)param_1,local_c);
+  bCIStream::operator>>((bCIStream *)this_00,(bool *)&param_1);
+  if (param_1._0_1_ == true) {
+    bCString::bCString((bCString *)&local_8);
+    bCIStream::operator>>((bCIStream *)this_00,(bCString *)&local_8);
+    bVar1 = bCString::IsEmpty((bCString *)&local_8);
+    if (!bVar1) {
+      iVar2 = thunk_FUN_10090c90(&local_8,local_4);
+      if ((iVar2 != 0) && ((int *)**(int **)(iVar2 + 4) != (int *)0x0)) {
+        pbVar5 = param_2;
+        this = (bCPropertyObjectFactory *)(**(code **)(*(int *)**(int **)(iVar2 + 4) + 0xc))();
+        bVar1 = bCPropertyObjectFactory::ReadObject(this,this_00,pbVar5);
+        if ((&stack0x00000000 != (undefined1 *)0x8) && (local_8 != 0)) {
+          *(short *)(local_8 + -4) = *(short *)(local_8 + -4) + -1;
+          pvVar3 = (void *)(local_8 + -8);
+          if (*(short *)(local_8 + -4) == 0) {
+            pbVar4 = bCMemoryAdmin::GetInstance();
+            bCMemoryAdmin::Free(pbVar4,pvVar3);
+          }
+        }
+        return bVar1;
+      }
+    }
+    GE_MESSAGEF_WARN(&DAT_100eb198,"bCPropertyObjectSingleton::ReadObject",local_8);
+    bCPropertyObjectFactory::ReadSkipObject(this_00);
+    if ((&stack0x00000000 != (undefined1 *)0x8) && (local_8 != 0)) {
+      *(short *)(local_8 + -4) = *(short *)(local_8 + -4) + -1;
+      pvVar3 = (void *)(local_8 + -8);
+      if (*(short *)(local_8 + -4) == 0) {
+        pbVar4 = bCMemoryAdmin::GetInstance();
+        bCMemoryAdmin::Free(pbVar4,pvVar3);
+      }
+    }
+  }
+  return false;
+}
+
+

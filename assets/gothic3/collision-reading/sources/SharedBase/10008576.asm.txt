@@ -1,0 +1,2 @@
+; 10008576 ?SetCenter@bCBox@@QAEXABVbCVector@@@Z
+10008576 | e9b5230300 | JMP 0x1003a930

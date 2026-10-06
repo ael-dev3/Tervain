@@ -1,0 +1,2 @@
+; 2000d9a9 gCEffect_PS::PostInitializeProperties
+2000d9a9 | e952aa1000 | JMP 0x20118400

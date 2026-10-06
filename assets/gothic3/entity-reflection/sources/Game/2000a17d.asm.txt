@@ -1,0 +1,4 @@
+; 2000a17d ?Read@gCParty_PS@@UAE?AW4bEResult@@AAVbCIStream@@@Z
+2000a17d | e95edb3000 | JMP 0x20317ce0
+; 2000a182 gCEffectCommandEarthquake::SetDescriptor
+; 2000a182 Ordinal_6396

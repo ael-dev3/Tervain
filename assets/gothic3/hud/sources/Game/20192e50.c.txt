@@ -1,0 +1,18 @@
+/* ENTRY 20192e50 | gCHUDTable::gCHUDTable | STATUS decompiled | 8 ms */
+
+gCHUDTable * __thiscall gCHUDTable::gCHUDTable(gCHUDTable *this)
+
+{
+  CFFGFCStatic::CFFGFCStatic((CFFGFCStatic *)this);
+  (this->gCHUDTable_data).offset_0xc = 0;
+  this->vftablePtr = &vftable;
+  (this->gCHUDTable_data).offset_0x10 = (void *)0x0;
+  (this->gCHUDTable_data).offset_0x14 = 0;
+  (this->gCHUDTable_data).offset_0x18 = 0;
+  (this->gCHUDTable_data).offset_0x20 = 0;
+  (this->gCHUDTable_data).offset_0x21 = 0;
+  (this->gCHUDTable_data).offset_0x1c = 0xffffffff;
+  return this;
+}
+
+

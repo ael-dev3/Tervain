@@ -1,0 +1,4 @@
+; 3003dbdb bTPropertyContainer<eECollisionGroup>::vfunction5
+3003dbdb | e910c50600 | JMP 0x300aa0f0
+; 3003dbe5 eCWnd::SetCanvas
+; 3003dbe5 Ordinal_13007

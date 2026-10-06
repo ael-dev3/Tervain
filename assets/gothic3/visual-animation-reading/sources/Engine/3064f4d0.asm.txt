@@ -1,0 +1,14 @@
+; 3064f4d0 EMotionFX::SkeletalMotion::SkeletalMotion
+3064f4d0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+3064f4d4 | 56 | PUSH ESI
+3064f4d5 | 50 | PUSH EAX
+3064f4d6 | 8bf1 | MOV ESI,ECX
+3064f4d8 | e893390100 | CALL 0x30662e70
+3064f4dd | 33c0 | XOR EAX,EAX
+3064f4df | c706cc068930 | MOV dword ptr [ESI],0x308906cc
+3064f4e5 | 89461c | MOV dword ptr [ESI + 0x1c],EAX
+3064f4e8 | 894620 | MOV dword ptr [ESI + 0x20],EAX
+3064f4eb | 894624 | MOV dword ptr [ESI + 0x24],EAX
+3064f4ee | 8bc6 | MOV EAX,ESI
+3064f4f0 | 5e | POP ESI
+3064f4f1 | c20400 | RET 0x4

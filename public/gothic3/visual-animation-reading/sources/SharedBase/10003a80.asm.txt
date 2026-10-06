@@ -1,0 +1,2 @@
+; 10003a80 bCVector::SetX
+10003a80 | e94b120200 | JMP 0x10024cd0

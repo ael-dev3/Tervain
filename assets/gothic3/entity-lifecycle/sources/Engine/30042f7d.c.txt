@@ -1,0 +1,108 @@
+/* ENTRY 30042f7d | eCEntity::AddPropertySet | STATUS decompiled | 94 ms */
+
+/* public: virtual bool __thiscall eCEntity::AddPropertySet(class eCEntityPropertySet *,bool)
+   eCEntity member function inherited by eCSpatialEntity
+   eCEntity member function inherited by eCDynamicEntity
+   eCEntity member function inherited by eCTemplateEntity */
+
+bool __thiscall eCEntity::AddPropertySet(eCEntity *this,eCEntityPropertySet *param_1,bool param_2)
+
+{
+  uint *puVar1;
+  char cVar2;
+  bCPropertyObjectBase *pbVar3;
+  eEPropertySetType eVar4;
+  eCEntityPropertySet *peVar5;
+  bCString *pbVar6;
+  int iVar7;
+  char *pcVar8;
+  bCErrorAdmin *this_00;
+  int *piVar9;
+  eCRenderSystemAdmin *this_01;
+  eCPVSPrefetcher3 *this_02;
+  code *pcVar10;
+  bool bVar11;
+  int *unaff_retaddr;
+  char *pcVar12;
+  eCEntity *peVar13;
+  eCEntity *peStack_4;
+  
+                    /* 0x42f7d  3449  ?AddPropertySet@eCEntity@@UAE_NPAVeCEntityPropertySet@@_N@Z */
+  pcVar10 = GetPropertyObject_exref;
+  if (param_1 == (eCEntityPropertySet *)0x0) {
+    return false;
+  }
+  peStack_4 = this;
+  pbVar3 = bCObjectRefBase::GetPropertyObject((bCObjectRefBase *)param_1);
+  if (pbVar3 == (bCPropertyObjectBase *)0x0) {
+    GE_MESSAGEF_WARN(&DAT_3087b110,"eCEntity::AddPropertySet");
+    return false;
+  }
+  eVar4 = (**(code **)(*(int *)param_1 + 0x60))();
+  if ((eVar4 == 0) || (eVar4 == 4)) {
+    pbVar6 = (bCString *)(**(code **)(*(int *)param_1 + 100))();
+    peVar5 = GetPropertySet(this,pbVar6);
+  }
+  else {
+    peVar5 = (*this->vftablePtr->GetPropertySet)(this,eVar4);
+  }
+  if (peVar5 != (eCEntityPropertySet *)0x0) {
+    return false;
+  }
+  iVar7 = (**(code **)(*(int *)param_1 + 0x68))();
+  if (iVar7 != 0) {
+    bCString::bCString((bCString *)&peStack_4);
+    pbVar3 = bCObjectRefBase::GetPropertyObject((bCObjectRefBase *)param_1);
+    (**(code **)(*(int *)param_1 + 0x68))();
+    (**(code **)(*(int *)pbVar3 + 4))();
+    bCString::Format((bCString *)&stack0xfffffff8,(char *)&stack0xfffffff8);
+    iVar7 = 0xebb;
+    pcVar12 = ".\\components\\scene\\entity\\ge_entity.cpp";
+    pcVar8 = bCString::operator_char_const_((bCString *)&peStack_4);
+    this_00 = bCErrorAdmin::GetInstance();
+    bCErrorAdmin::CallFatalError(this_00,pcVar8,pcVar12,iVar7);
+    bCString::~bCString((bCString *)&peStack_4);
+    pcVar10 = GetPropertyObject_exref;
+  }
+  bVar11 = ((this->eCEntity_data).offset_0xc & 0x100) == 0x100;
+  if (bVar11) {
+    CacheOut(this,false,false);
+  }
+  (**(code **)(*(int *)param_1 + 0xb4))(this);
+  (**(code **)(*unaff_retaddr + 0x138))(unaff_retaddr);
+  iVar7 = (*pcVar10)();
+  if (iVar7 != 0) {
+    piVar9 = (int *)(*pcVar10)();
+    (**(code **)(*piVar9 + 0x30))();
+  }
+  if ((char)param_1 == '\0') {
+    thunk_FUN_304bc2e0(&stack0x00000000);
+  }
+  else {
+    thunk_FUN_304bc3f0(&stack0x00000000);
+  }
+  puVar1 = &(this->eCEntity_data).offset_0x164 + ((int)eVar4 >> 5);
+  *puVar1 = *puVar1 | 1 << ((byte)eVar4 & 0x1f);
+  if (((this->eCEntity_data).offset_0xc & 0x4000000) == 0) {
+    cVar2 = (**(code **)(*unaff_retaddr + 0x84))(unaff_retaddr);
+    if (cVar2 == '\0') {
+      iVar7 = 0;
+      goto LAB_304b9c1f;
+    }
+  }
+  iVar7 = 1;
+LAB_304b9c1f:
+  puVar1 = &(this->eCEntity_data).offset_0xc;
+  *puVar1 = *puVar1 ^ (iVar7 << 0x1a ^ (this->eCEntity_data).offset_0xc) & 0x4000000;
+  if (bVar11) {
+    peVar13 = this;
+    this_01 = (eCRenderSystemAdmin *)thunk_FUN_3007beb0();
+    this_02 = (eCPVSPrefetcher3 *)eCRenderSystemAdmin::GetPVSPrefetcher3(this_01);
+    eCPVSPrefetcher3::AddNewEntity(this_02,(eCEntity *)peVar13);
+  }
+  (*this->vftablePtr->Modified)(this);
+  ReleaseEntityProxyInternal(this);
+  return true;
+}
+
+

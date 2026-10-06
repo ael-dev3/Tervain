@@ -1,0 +1,15 @@
+/* ENTRY 30048301 | eCCollisionShapeBase_PS::CopyFrom | STATUS decompiled | 9 ms */
+
+/* public: virtual enum bEResult __thiscall eCCollisionShapeBase_PS::CopyFrom(class bCObjectBase
+   const &) */
+
+bEResult __thiscall
+eCCollisionShapeBase_PS::CopyFrom(eCCollisionShapeBase_PS *this,bCObjectBase *param_1)
+
+{
+                    /* 0x48301  4049
+                       ?CopyFrom@eCCollisionShapeBase_PS@@UAE?AW4bEResult@@ABVbCObjectBase@@@Z */
+  return 1;
+}
+
+

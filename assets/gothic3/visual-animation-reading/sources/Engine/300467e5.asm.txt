@@ -1,0 +1,2 @@
+; 300467e5 eCVisualAnimation_PS::AccessDisablePhysicLodding
+300467e5 | e9a6bb0100 | JMP 0x30062390

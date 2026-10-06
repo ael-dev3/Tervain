@@ -1,0 +1,3 @@
+; 3009dac0 FUN_3009dac0
+3009dac0 | 8d8138010000 | LEA EAX,[ECX + 0x138]
+3009dac6 | c3 | RET

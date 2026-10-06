@@ -1,0 +1,14 @@
+/* ENTRY 30061330 | FUN_30061330 | STATUS decompiled | 4 ms */
+
+void __fastcall FUN_30061330(int *param_1)
+
+{
+  eCEntityProxy *unaff_ESI;
+  
+  (**(code **)(*param_1 + 0x58))("Entity2",0);
+  eCEntityProxy::operator=((eCEntityProxy *)(param_1 + 10),unaff_ESI);
+  (**(code **)(*param_1 + 0x5c))("Entity2",0);
+  return;
+}
+
+

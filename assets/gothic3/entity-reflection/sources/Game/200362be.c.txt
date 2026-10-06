@@ -1,0 +1,18 @@
+/* ENTRY 200362be | gCInteraction_PS::Create | STATUS decompiled | 9 ms */
+
+/* public: virtual enum bEResult __thiscall gCInteraction_PS::Create(void) */
+
+bEResult __thiscall gCInteraction_PS::Create(gCInteraction_PS *this)
+
+{
+  bool bVar1;
+  
+                    /* 0x362be  2361  ?Create@gCInteraction_PS@@UAE?AW4bEResult@@XZ */
+  bVar1 = (*this->vftablePtr->IsValid)(this);
+  if (!bVar1) {
+    eCEntityPropertySet::Create((eCEntityPropertySet *)this);
+  }
+  return 1;
+}
+
+

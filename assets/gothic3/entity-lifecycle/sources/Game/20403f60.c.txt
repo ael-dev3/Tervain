@@ -1,0 +1,9 @@
+/* ENTRY 20403f60 | FUN_20403f60 | STATUS decompiled | 1 ms */
+
+undefined4 FUN_20403f60(void)
+
+{
+  return 0x31;
+}
+
+

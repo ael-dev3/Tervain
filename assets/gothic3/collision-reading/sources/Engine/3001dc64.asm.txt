@@ -1,0 +1,4 @@
+; 3001dc64 bTPOPureSmartPtr<eCCollisionShape_PS>::vfunction10
+3001dc64 | e9a7de3100 | JMP 0x3033bb10
+; 3001dc69 eCMaterialCache::CopyFrom
+; 3001dc69 Ordinal_4163

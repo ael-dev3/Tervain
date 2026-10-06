@@ -1,0 +1,12 @@
+/* ENTRY 30012364 | eCCollisionShape::GetSkinWidth | STATUS decompiled | 3 ms */
+
+/* public: float const & __thiscall eCCollisionShape::GetSkinWidth(void)const  */
+
+float * __thiscall eCCollisionShape::GetSkinWidth(eCCollisionShape *this)
+
+{
+                    /* 0x12364  8830  ?GetSkinWidth@eCCollisionShape@@QBEABMXZ */
+  return (float *)&(this->eCCollisionShape_data).offset_0x30;
+}
+
+

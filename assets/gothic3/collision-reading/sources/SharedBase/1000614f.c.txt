@@ -1,0 +1,40 @@
+/* ENTRY 1000614f | bCOrientedBox::Contains | STATUS decompiled | 11 ms */
+
+/* public: bool __thiscall bCOrientedBox::Contains(class bCSphere const &)const  */
+
+bool __thiscall bCOrientedBox::Contains(bCOrientedBox *this,bCSphere *param_1)
+
+{
+  float fVar1;
+  float fVar2;
+  float fVar3;
+  float fVar4;
+  bool bVar5;
+  bCOrientedBox *pbVar6;
+  int iVar7;
+  float fStack_c;
+  float fStack_8;
+  float fStack_4;
+  
+                    /* 0x614f  1702  ?Contains@bCOrientedBox@@QBE_NABVbCSphere@@@Z */
+  fVar1 = *(float *)param_1;
+  fVar2 = *(float *)(param_1 + 4);
+  fVar3 = *(float *)(param_1 + 8);
+  fVar4 = *(float *)(param_1 + 0xc);
+  iVar7 = 0;
+  pbVar6 = this + 0x20;
+  do {
+    fStack_c = *(float *)(pbVar6 + -8) * fVar1 + fVar2;
+    fStack_8 = fVar3 + *(float *)(pbVar6 + -4) * fVar1;
+    fStack_4 = fVar4 + fVar1 * *(float *)pbVar6;
+    bVar5 = Contains(this,(bCVector *)&fStack_c);
+    if (!bVar5) {
+      return false;
+    }
+    iVar7 = iVar7 + 1;
+    pbVar6 = pbVar6 + 0xc;
+  } while (iVar7 < 3);
+  return true;
+}
+
+

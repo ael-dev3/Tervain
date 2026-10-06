@@ -1,0 +1,19 @@
+/* ENTRY 10003e6d | bCOrientedBox::GetInvTransformed | STATUS decompiled | 6 ms */
+
+/* public: class bCOrientedBox __thiscall bCOrientedBox::GetInvTransformed(class bCMatrix3 const
+   &)const  */
+
+bCMatrix3 * __thiscall bCOrientedBox::GetInvTransformed(bCOrientedBox *this,bCMatrix3 *param_1)
+
+{
+  bCMatrix3 *in_stack_00000008;
+  bCMatrix3 abStack_24 [36];
+  
+                    /* 0x3e6d  2486  ?GetInvTransformed@bCOrientedBox@@QBE?AV1@ABVbCMatrix3@@@Z */
+  Create((bCOrientedBox *)param_1,this);
+  bCMatrix3::SetToInverse(abStack_24,in_stack_00000008);
+  Transform((bCOrientedBox *)param_1,abStack_24);
+  return param_1;
+}
+
+

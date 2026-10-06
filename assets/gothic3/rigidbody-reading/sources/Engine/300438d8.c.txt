@@ -1,0 +1,27 @@
+/* ENTRY 300438d8 | eCRigidBody_PS::Invalidate | STATUS decompiled | 18 ms */
+
+/* protected: void __thiscall eCRigidBody_PS::Invalidate(void) */
+
+void __thiscall eCRigidBody_PS::Invalidate(eCRigidBody_PS *this)
+
+{
+                    /* 0x438d8  10145  ?Invalidate@eCRigidBody_PS@@IAEXXZ */
+  (this->eCRigidBody_PS_data).offset_0xcc = 0;
+  (this->eCRigidBody_PS_data).offset_0xd0 = 0;
+  (this->eCRigidBody_PS_data).offset_0xd4 = 0;
+  (this->eCRigidBody_PS_data).offset_0xd8 = 0;
+  (this->eCRigidBody_PS_data).offset_0x6c = 0;
+  (this->eCRigidBody_PS_data).offset_0x6e = 0;
+  (this->eCRigidBody_PS_data).offset_0x6d = 0;
+  (this->eCRigidBody_PS_data).offset_0x6f = 0;
+  (this->eCRigidBody_PS_data).offset_0xe0 = 0;
+  (this->eCRigidBody_PS_data).offset_0xdc = 0x3f800000;
+  bCVector::Clear((bCVector *)&(this->eCRigidBody_PS_data).field_0x70);
+  bCVector::Clear((bCVector *)&(this->eCRigidBody_PS_data).field_0x7c);
+                    /* WARNING: Could not recover jumptable at 0x3032de65. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCVector::Clear((bCVector *)&(this->eCRigidBody_PS_data).field_0xc0);
+  return;
+}
+
+

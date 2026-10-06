@@ -1,0 +1,4 @@
+; 3003e270 ?GetInstance@eCApplication@@SGAAV1@XZ
+3003e270 | e95b470200 | JMP 0x300629d0
+; 3003e275 eCListBoxCtrl::OnCaretIndexChanged
+; 3003e275 Ordinal_10948

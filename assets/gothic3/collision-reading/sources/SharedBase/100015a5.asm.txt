@@ -1,0 +1,4 @@
+; 100015a5 ?Intersects@bCBox@@QBE_NABVbCStretch@@AAM@Z
+100015a5 | e9e64d0500 | JMP 0x10056390
+; 100015aa bCMatrix::Multiply
+; 100015aa Ordinal_3777

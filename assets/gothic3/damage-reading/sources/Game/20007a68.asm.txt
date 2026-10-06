@@ -1,0 +1,2 @@
+; 20007a68 bTPropertyType<gCDamage_PS,bTPropertyContainer<gEDamageType>_>::vfunction6
+20007a68 | e903e70a00 | JMP 0x200b6170

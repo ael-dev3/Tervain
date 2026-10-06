@@ -1,0 +1,4 @@
+; 1000443a ?SetCount@bCBitField@@QAEXH@Z
+1000443a | e9311b0800 | JMP 0x10085f70
+; 10004444 bCPOStream::Destroy
+; 10004444 Ordinal_1940

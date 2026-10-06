@@ -1,0 +1,4 @@
+; 10005ad8 ?GetCenterGround@bCBox@@QBE?AVbCVector@@XZ
+10005ad8 | e9e3070300 | JMP 0x100362c0
+; 10005add bCMatrix::operator*=
+; 10005add Ordinal_1196

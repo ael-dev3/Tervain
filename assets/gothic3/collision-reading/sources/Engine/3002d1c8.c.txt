@@ -1,0 +1,13 @@
+/* ENTRY 3002d1c8 | eCCollisionShape_PS::GetNumTouchingShapes | STATUS decompiled | 184 ms */
+
+/* public: unsigned long __thiscall eCCollisionShape_PS::GetNumTouchingShapes(void)const  */
+
+ulong __thiscall eCCollisionShape_PS::GetNumTouchingShapes(eCCollisionShape_PS *this)
+
+{
+                    /* 0x2d1c8  7973  ?GetNumTouchingShapes@eCCollisionShape_PS@@QBEKXZ */
+  ShrinkTouchingShapes(this);
+  return (this->eCCollisionShape_PS_data).offset_0x24;
+}
+
+

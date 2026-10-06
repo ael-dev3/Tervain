@@ -1,0 +1,2 @@
+; 3000b07d bTPropertyType<eCIlluminated_PS,bool>::vfunction26
+3000b07d | e91eb52100 | JMP 0x302265a0

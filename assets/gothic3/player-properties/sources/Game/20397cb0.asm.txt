@@ -1,0 +1,9 @@
+; 20397cb0 FUN_20397cb0
+20397cb0 | 807c240800 | CMP byte ptr [ESP + 0x8],0x0
+20397cb5 | 7507 | JNZ 0x20397cbe
+20397cb7 | 8b01 | MOV EAX,dword ptr [ECX]
+20397cb9 | 8b507c | MOV EDX,dword ptr [EAX + 0x7c]
+20397cbc | ffd2 | CALL EDX
+; 20397cbe LAB_20397cbe
+20397cbe | b001 | MOV AL,0x1
+20397cc0 | c20800 | RET 0x8

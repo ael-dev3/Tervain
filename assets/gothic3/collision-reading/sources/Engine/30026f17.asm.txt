@@ -1,0 +1,2 @@
+; 30026f17 ?GetHeight@eCCollisionShape@@QAEMXZ
+30026f17 | e9a4630a00 | JMP 0x300cd2c0

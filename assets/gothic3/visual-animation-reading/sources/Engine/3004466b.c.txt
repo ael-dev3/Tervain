@@ -1,0 +1,22 @@
+/* ENTRY 3004466b | eCVisualAnimation_PS::eCActorAttachment::ProcessOnce | STATUS decompiled | 13 ms */
+
+/* public: bool __thiscall eCVisualAnimation_PS::eCActorAttachment::ProcessOnce(void) */
+
+bool __thiscall eCVisualAnimation_PS::eCActorAttachment::ProcessOnce(eCActorAttachment *this)
+
+{
+  bool bVar1;
+  eCEntity *this_00;
+  
+                    /* 0x4466b  11989  ?ProcessOnce@eCActorAttachment@eCVisualAnimation_PS@@QAE_NXZ
+                        */
+  bVar1 = Process(this,0);
+  this_00 = (eCEntity *)eCEntityProxy::GetEntity((eCEntityProxy *)(this + 4));
+  if (this_00 != (eCEntity *)0x0) {
+    eCEntity::EnableRendering(this_00,true);
+    eCEntity::DisableProcessing(this_00,false);
+  }
+  return bVar1;
+}
+
+

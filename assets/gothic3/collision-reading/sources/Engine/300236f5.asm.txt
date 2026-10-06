@@ -1,0 +1,4 @@
+; 300236f5 ?Invalidate@eCCollisionShape_PS@@IAEXXZ
+300236f5 | e956433100 | JMP 0x30337a50
+; 30023704 eCWnd::ModifyStyle
+; 30023704 Ordinal_10839

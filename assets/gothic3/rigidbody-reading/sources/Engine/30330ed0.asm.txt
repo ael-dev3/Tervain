@@ -1,0 +1,16 @@
+; 30330ed0 bTPropertyType<eCRigidBody_PS,float>::vfunction12
+30330ed0 | 56 | PUSH ESI
+30330ed1 | 8bf1 | MOV ESI,ECX
+30330ed3 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+30330ed7 | 85c9 | TEST ECX,ECX
+30330ed9 | 7506 | JNZ 0x30330ee1
+30330edb | 33c0 | XOR EAX,EAX
+30330edd | 5e | POP ESI
+30330ede | c20400 | RET 0x4
+; 30330ee1 LAB_30330ee1
+30330ee1 | 8b01 | MOV EAX,dword ptr [ECX]
+30330ee3 | 8b10 | MOV EDX,dword ptr [EAX]
+30330ee5 | ffd2 | CALL EDX
+30330ee7 | 03461c | ADD EAX,dword ptr [ESI + 0x1c]
+30330eea | 5e | POP ESI
+30330eeb | c20400 | RET 0x4

@@ -1,0 +1,17 @@
+/* ENTRY 1014db90 | FUN_1014db90 | STATUS decompiled | 7 ms */
+
+void FUN_1014db90(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Player\\Player_States\\Bookstand.cpp");
+  bCString::bCString(local_8,"BS_AncientWisdom");
+  thunk_FUN_1001db60(local_8,&LAB_100031e3,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

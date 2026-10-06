@@ -1,0 +1,18 @@
+/* ENTRY 300192ef | eCCollisionShape::SetIsLazyGenerated | STATUS decompiled | 6 ms */
+
+/* public: void __thiscall eCCollisionShape::SetIsLazyGenerated(bool const &) */
+
+void __thiscall eCCollisionShape::SetIsLazyGenerated(eCCollisionShape *this,bool *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x192ef  13569  ?SetIsLazyGenerated@eCCollisionShape@@QAEXAB_N@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"IsLazyGenerated",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  (this->eCCollisionShape_data).offset_0x34 = (bCObjectRefBase)*param_1;
+  (*pNVar1)(this,"IsLazyGenerated",false);
+  return;
+}
+
+

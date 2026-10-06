@@ -1,0 +1,9 @@
+/* ENTRY 2020b800 | FUN_2020b800 | STATUS decompiled | 0 ms */
+
+void FUN_2020b800(void)
+
+{
+  return;
+}
+
+

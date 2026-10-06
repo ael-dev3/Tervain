@@ -1,0 +1,4 @@
+; 30481870 FUN_30481870
+30481870 | 8b4c2404 | MOV ECX,dword ptr [ESP + 0x4]
+30481874 | ff157ccbaf30 | CALL dword ptr [0x30afcb7c]
+3048187a | c20800 | RET 0x8

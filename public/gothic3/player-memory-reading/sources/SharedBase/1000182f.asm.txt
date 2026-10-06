@@ -1,0 +1,2 @@
+; 1000182f bCGothic3EngineDialogs::UnloadGE3DialogLib
+1000182f | e97cf90100 | JMP 0x100211b0

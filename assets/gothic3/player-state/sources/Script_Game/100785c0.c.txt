@@ -1,0 +1,54 @@
+/* ENTRY 100785c0 | FUN_100785c0 | STATUS decompiled | 23 ms */
+
+undefined4 FUN_100785c0(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3)
+
+{
+  bool bVar1;
+  eCEntity *peVar2;
+  gESpecies gVar3;
+  Entity aEStack_20c [164];
+  undefined4 uStack_168;
+  Entity local_150 [52];
+  PropertySpecies local_11c [12];
+  PropertyIsPressed local_110 [104];
+  Entity local_a8 [168];
+  
+  Entity::Entity(local_150);
+  if (param_2 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    uStack_168 = 0x10078603;
+    Entity::AttachTo(local_150,peVar2);
+  }
+  else {
+    uStack_168 = 0x1007860c;
+    Entity::operator=(local_150,param_2);
+  }
+  Entity::Entity(local_a8);
+  if (param_3 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    uStack_168 = 0x10078632;
+    Entity::AttachTo(local_a8,peVar2);
+  }
+  else {
+    uStack_168 = 0x1007863e;
+    Entity::operator=(local_a8,param_3);
+  }
+  DAT_10220422 = PSCharacterControl::PropertyIsPressed::operator_bool(local_110);
+  bVar1 = PSCharacterControl::PropertyIsPressed::operator_bool(local_110);
+  if (bVar1) {
+    gVar3 = PSNpc::PropertySpecies::operator_enum_gESpecies(local_11c);
+    if (gVar3 == 0) {
+      Entity::Entity(aEStack_20c,local_150);
+      thunk_FUN_100108d0();
+    }
+  }
+  else {
+    Entity::Entity(aEStack_20c,local_150);
+    thunk_FUN_1000d3f0();
+  }
+  Entity::~Entity(local_a8);
+  Entity::~Entity(local_150);
+  return 1;
+}
+
+

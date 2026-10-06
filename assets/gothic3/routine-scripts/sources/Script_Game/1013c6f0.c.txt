@@ -1,0 +1,17 @@
+/* ENTRY 1013c6f0 | FUN_1013c6f0 | STATUS decompiled | 29 ms */
+
+void FUN_1013c6f0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Commands\\AI_TransferItem.cpp");
+  bCString::bCString(local_8,"_AI_TransferItem");
+  thunk_FUN_1004aa50(local_8,&LAB_10001df2,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

@@ -1,0 +1,2 @@
+; 20010f87 ?SetIsConsumingItem@gCPlayerMemory_PS@@QAEXAB_N@Z
+20010f87 | e9d49b0900 | JMP 0x200aab60

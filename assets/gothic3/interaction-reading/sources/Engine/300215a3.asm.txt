@@ -1,0 +1,2 @@
+; 300215a3 eCTemplateEntityProxy::Read
+300215a3 | e9785f4a00 | JMP 0x304c7520

@@ -1,0 +1,14 @@
+{
+  "schema": "gothic3-navigation-final-audit-v1",
+  "status": "all-current-source-and-output-receipts-match",
+  "nativeCodeExecuted": false,
+  "testsExecuted": false,
+  "manifestSha256": "c220d1b22a4aa8fe2ca051bdbfe08529de5bc9b2edb83c92473897fa83660759",
+  "assetFilesChecked": 238,
+  "functions": 117,
+  "instructionRecordsChecked": 13499,
+  "originalPEBytesMatched": 46857,
+  "runtimeSha256": "525e42cefd66d822d5adb328072a7b3a933e7dd49d7b622cf800b6afbed98d21",
+  "producerSha256": "1e8f9e266802d4293a0bd67c518e353d6bafa699d9745295319a5d45dcbce1d3",
+  "publicBytes": 45965
+}

@@ -1,0 +1,16 @@
+; 3009d740 FUN_3009d740
+3009d740 | 56 | PUSH ESI
+3009d741 | 8bf1 | MOV ESI,ECX
+3009d743 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+3009d747 | 8d4618 | LEA EAX,[ESI + 0x18]
+3009d74a | 50 | PUSH EAX
+3009d74b | ff1580dbaf30 | CALL dword ptr [0x30afdb80]
+3009d751 | 8d4e24 | LEA ECX,[ESI + 0x24]
+3009d754 | 51 | PUSH ECX
+3009d755 | 8b4c2410 | MOV ECX,dword ptr [ESP + 0x10]
+3009d759 | ff1580dbaf30 | CALL dword ptr [0x30afdb80]
+3009d75f | d94614 | FLD float ptr [ESI + 0x14]
+3009d762 | 8b542410 | MOV EDX,dword ptr [ESP + 0x10]
+3009d766 | d91a | FSTP float ptr [EDX]
+3009d768 | 5e | POP ESI
+3009d769 | c20c00 | RET 0xc

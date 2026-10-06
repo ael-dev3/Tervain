@@ -1,0 +1,16 @@
+/* ENTRY 200b3420 | FUN_200b3420 | STATUS decompiled | 2 ms */
+
+void __fastcall FUN_200b3420(int *param_1)
+
+{
+  code *pcVar1;
+  int *unaff_ESI;
+  
+  (**(code **)(*param_1 + 0x58))("ManaUsed",0);
+  pcVar1 = *(code **)(*param_1 + 0x5c);
+  param_1[10] = *unaff_ESI;
+  (*pcVar1)("ManaUsed",0);
+  return;
+}
+
+

@@ -1,0 +1,11 @@
+/* ENTRY 20006019 | bTPropertyType<gCInteraction_PS,bCVector>::vfunction5 | STATUS decompiled | 4 ms */
+
+bTPropertyType<gCInteraction_PS,bCVector>_vftable * __thiscall
+bTPropertyType<gCInteraction_PS,bCVector>::vfunction5
+          (bTPropertyType<gCInteraction_PS,bCVector> *this)
+
+{
+  return this[6].vftablePtr;
+}
+
+

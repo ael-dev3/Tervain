@@ -1,0 +1,30 @@
+/* ENTRY 10006636 | bCPropertyObjectBase::ReleaseReference | STATUS decompiled | 11 ms */
+
+/* public: virtual unsigned long __thiscall bCPropertyObjectBase::ReleaseReference(void)
+   bCPropertyObjectBase member function inherited by bTPOPureSmartPtr<bCObsoleteClass>
+   bCPropertyObjectBase member function inherited by
+   bTPropertyObject<bCObsoleteClass,bCObjectRefBase> */
+
+ulong __thiscall bCPropertyObjectBase::ReleaseReference(bCPropertyObjectBase *this)
+
+{
+  deleting_destructor *pdVar1;
+  uint uVar2;
+  bCMemoryAdmin *this_00;
+  
+                    /* 0x6636  3923  ?ReleaseReference@bCPropertyObjectBase@@UAEKXZ */
+  uVar2 = (this->bCPropertyObjectBase_data).offset_0x0;
+  if (1 < (uVar2 >> 3 & 0xffffff)) {
+    uVar2 = ((uVar2 >> 3) * 8 - 8 ^ uVar2) & 0x7fffff8 ^ uVar2;
+    (this->bCPropertyObjectBase_data).offset_0x0 = uVar2;
+    return uVar2 >> 3 & 0xffffff;
+  }
+  pdVar1 = this->vftablePtr->deleting_destructor;
+  (this->bCPropertyObjectBase_data).offset_0x0 = uVar2 & 0xf8000007;
+  (*pdVar1)(this,0);
+  this_00 = bCMemoryAdmin::GetInstance();
+  bCMemoryAdmin::DeleteObject(this_00,this);
+  return 0;
+}
+
+

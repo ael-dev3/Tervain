@@ -1,0 +1,4 @@
+; 200259eb bTPropertyType<gCNavigation_PS,bCString>::vfunction19
+200259eb | e920c22600 | JMP 0x20291c10
+; 200259ff gCFocus_PS::GetPropertySetType
+; 200259ff Ordinal_4064

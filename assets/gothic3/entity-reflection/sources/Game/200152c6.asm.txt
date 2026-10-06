@@ -1,0 +1,2 @@
+; 200152c6 ?Read@gCCharacterMovement_PS@@UAE?AW4bEResult@@AAVbCIStream@@@Z
+200152c6 | e985572100 | JMP 0x2022aa50

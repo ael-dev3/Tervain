@@ -1,0 +1,50 @@
+/* ENTRY 2002dff1 | gCDynamicLayer::OnCreateContext | STATUS decompiled | 24 ms */
+
+/* protected: virtual class bCPropertyObjectBase * __thiscall gCDynamicLayer::OnCreateContext(void)
+    */
+
+bCPropertyObjectBase * __thiscall gCDynamicLayer::OnCreateContext(gCDynamicLayer *this)
+
+{
+  int iVar1;
+  bool bVar2;
+  bCString *pbVar3;
+  bCPropertyObjectSingleton *this_00;
+  bCPropertyObjectBase *pbVar4;
+  eCEntityDynamicContext *this_01;
+  gCDynamicLayer *pgStack_4;
+  
+                    /* 0x2dff1  5383
+                       ?OnCreateContext@gCDynamicLayer@@MAEPAVbCPropertyObjectBase@@XZ */
+  iVar1 = (this->gCDynamicLayer_data).offset_0x44;
+  if ((iVar1 == 0) || (iVar1 == 1)) {
+    pgStack_4 = this;
+    bCAccessorCreator::bCAccessorCreator((bCAccessorCreator *)&pgStack_4);
+    pbVar3 = (bCString *)thunk_FUN_20060ca0();
+    this_00 = bCPropertyObjectSingleton::GetInstance();
+    pgStack_4 = (gCDynamicLayer *)bCPropertyObjectSingleton::QueryNewObject(this_00,pbVar3);
+    bCAccessorCreator::SetInstance
+              ((bCAccessorCreator *)&pgStack_4,(bCPropertyObjectBase *)pgStack_4);
+    bVar2 = bCAccessorCreator::IsValid((bCAccessorCreator *)&pgStack_4);
+    if (bVar2) {
+      pbVar4 = bCAccessorCreator::operator->((bCAccessorCreator *)&pgStack_4);
+      this_01 = (eCEntityDynamicContext *)(*(code *)**(undefined4 **)pbVar4)();
+      eCEntityDynamicContext::SetCreationCallbackFunc(this_01,g_funcCreateCustomEntity);
+      pbVar4 = bCAccessorCreator::operator_class_bCPropertyObjectBase_
+                         ((bCAccessorCreator *)&pgStack_4);
+      if (pbVar4 != (bCPropertyObjectBase *)0x0) {
+        pbVar4 = bCAccessorCreator::operator_class_bCPropertyObjectBase_
+                           ((bCAccessorCreator *)&pgStack_4);
+        (**(code **)(*(int *)pbVar4 + 0x30))();
+      }
+      pbVar4 = bCAccessorCreator::operator_class_bCPropertyObjectBase_
+                         ((bCAccessorCreator *)&pgStack_4);
+      bCAccessorCreator::~bCAccessorCreator((bCAccessorCreator *)&pgStack_4);
+      return pbVar4;
+    }
+    bCAccessorCreator::~bCAccessorCreator((bCAccessorCreator *)&pgStack_4);
+  }
+  return (bCPropertyObjectBase *)0x0;
+}
+
+

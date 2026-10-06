@@ -1,0 +1,29 @@
+/* ENTRY 30018ac5 | eCContextBase::SetGraph | STATUS decompiled | 6 ms */
+
+/* public: virtual void __thiscall eCContextBase::SetGraph(class eCNode *)
+   eCContextBase member function inherited by eCEntityDynamicContext
+   eCContextBase member function inherited by eCResourceStorageContext
+   eCContextBase member function inherited by eCEntityTemplateContext */
+
+void __thiscall eCContextBase::SetGraph(eCContextBase *this,eCNode *param_1)
+
+{
+  eCNode *peVar1;
+  
+                    /* 0x18ac5  13451  ?SetGraph@eCContextBase@@UAEXPAVeCNode@@@Z */
+  if (param_1 != (eCNode *)0x0) {
+    (**(code **)(*(int *)param_1 + 0x20))();
+  }
+  peVar1 = (this->eCContextBase_data).offset_0x3c;
+  if (peVar1 != (eCNode *)0x0) {
+    (**(code **)(*(int *)peVar1 + 0x24))();
+    (this->eCContextBase_data).offset_0x3c = (eCNode *)0x0;
+  }
+  if (param_1 != (eCNode *)0x0) {
+    (**(code **)(*(int *)param_1 + 0x74))(this);
+  }
+  (this->eCContextBase_data).offset_0x3c = param_1;
+  return;
+}
+
+

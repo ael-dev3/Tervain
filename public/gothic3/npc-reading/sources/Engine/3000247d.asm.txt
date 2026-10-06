@@ -1,0 +1,4 @@
+; 3000247d ?Read@eCEntityProxy@@UAE?AW4bEResult@@AAVbCIStream@@@Z
+3000247d | e98e1f4c00 | JMP 0x304c4410
+; 3000248c eCResourceMaterialObject_PS::AccessSecondSpecularMapTexMatrix
+; 3000248c Ordinal_3081

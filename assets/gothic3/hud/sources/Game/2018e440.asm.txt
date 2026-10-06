@@ -1,0 +1,4 @@
+; 2018e440 gCHUDTableStackStats::~gCHUDTableStackStats
+2018e440 | c701ec8c6720 | MOV dword ptr [ECX],0x20678cec
+2018e446 | c74134cc8c6720 | MOV dword ptr [ECX + 0x34],0x20678ccc
+2018e44d | e97fa8e9ff | JMP 0x20028cd1

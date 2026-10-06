@@ -1,0 +1,11 @@
+/* ENTRY 2000d5d0 | bTPropertyObject<gCFocus_PS,eCEntityPropertySet>::vfunction5 | STATUS decompiled | 2 ms */
+
+undefined4 __thiscall
+bTPropertyObject<gCFocus_PS,eCEntityPropertySet>::vfunction5
+          (bTPropertyObject<gCFocus_PS,eCEntityPropertySet> *this)
+
+{
+  return (this->bTPropertyObject<gCFocus_PS,eCEntityPropertySet>_data).offset_0x0;
+}
+
+

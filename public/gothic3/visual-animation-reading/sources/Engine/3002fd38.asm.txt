@@ -1,0 +1,2 @@
+; 3002fd38 eCVisualAnimation_PS::EnableSkeletonCollision
+3002fd38 | e983ee0600 | JMP 0x3009ebc0

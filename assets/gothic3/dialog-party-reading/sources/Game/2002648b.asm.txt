@@ -1,0 +1,2 @@
+; 2002648b bTPropertyType<gCParty_PS,eCEntityProxy>::vfunction15
+2002648b | e9f03e2f00 | JMP 0x2031a380

@@ -1,0 +1,15 @@
+/* ENTRY 20008689 | gCNavigation_PS::SetWishedMovementMode | STATUS decompiled | 6 ms */
+
+/* public: void __thiscall gCNavigation_PS::SetWishedMovementMode(enum gECharMovementMode) */
+
+void __thiscall
+gCNavigation_PS::SetWishedMovementMode(gCNavigation_PS *this,gECharMovementMode param_1)
+
+{
+                    /* 0x8689  7212
+                       ?SetWishedMovementMode@gCNavigation_PS@@QAEXW4gECharMovementMode@@@Z */
+  (this->gCNavigation_PS_data).offset_0x214 = param_1;
+  return;
+}
+
+

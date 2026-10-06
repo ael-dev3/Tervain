@@ -1,0 +1,7 @@
+; 307a6610 bTPropertyObjectType<eCCollisionShapeBase_PS,eCEntityPropertySet>::~bTPropertyObjectType<eCCollisionShapeBase_PS,eCEntityPropertySet>
+307a6610 | b908c5ae30 | MOV ECX,0x30aec508
+307a6615 | c705f0c4ae30f4168630 | MOV dword ptr [0x30aec4f0],0x308616f4
+307a661f | ff1538caaf30 | CALL dword ptr [0x30afca38]
+307a6625 | b9f0c4ae30 | MOV ECX,0x30aec4f0
+307a662a | ff2534caaf30 | JMP dword ptr [0x30afca34]
+; 307a6670 bTPropertyTypeOnly<bCObsoleteClass>::~bTPropertyTypeOnly<bCObsoleteClass>

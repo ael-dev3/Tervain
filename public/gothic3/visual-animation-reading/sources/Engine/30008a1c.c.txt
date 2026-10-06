@@ -1,0 +1,12 @@
+/* ENTRY 30008a1c | eCVisualAnimation_PS::IsReferencedByTemplate | STATUS decompiled | 5 ms */
+
+/* public: virtual bool __thiscall eCVisualAnimation_PS::IsReferencedByTemplate(void)const  */
+
+bool __thiscall eCVisualAnimation_PS::IsReferencedByTemplate(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x8a1c  10565  ?IsReferencedByTemplate@eCVisualAnimation_PS@@UBE_NXZ */
+  return true;
+}
+
+

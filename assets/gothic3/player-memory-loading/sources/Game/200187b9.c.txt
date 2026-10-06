@@ -1,0 +1,66 @@
+/* ENTRY 200187b9 | gCPlayerMemory_PS::WriteSaveGame | STATUS decompiled | 57 ms */
+
+/* public: virtual enum bEResult __thiscall gCPlayerMemory_PS::WriteSaveGame(class bCOStream &) */
+
+bEResult __thiscall gCPlayerMemory_PS::WriteSaveGame(gCPlayerMemory_PS *this,bCOStream *param_1)
+
+{
+  undefined4 *puVar1;
+  int iVar2;
+  
+                    /* 0x187b9  7598
+                       ?WriteSaveGame@gCPlayerMemory_PS@@UAE?AW4bEResult@@AAVbCOStream@@@Z */
+  if ((this->gCPlayerMemory_PS_data).field_0x10 == '\x01') {
+    puVar1 = &this[1].gCPlayerMemory_PS_data.offset_0x28;
+    *puVar1 = *puVar1 | 0x70fc0e;
+    (this->gCPlayerMemory_PS_data).field_0x10 = 1;
+  }
+  bCOStream::operator<<((bCOStream *)param_1,(bool)(this->gCPlayerMemory_PS_data).field_0x10);
+  thunk_FUN_2028f6d0(param_1);
+  bCOStream::operator<<((bCOStream *)param_1,'\x01');
+  bCOStream::operator<<((bCOStream *)param_1,(this->gCPlayerMemory_PS_data).offset_0x24);
+  iVar2 = (this->gCPlayerMemory_PS_data).offset_0x24;
+  if (iVar2 != 0) {
+    (**(code **)(*(int *)param_1 + 4))((this->gCPlayerMemory_PS_data).offset_0x20,iVar2 * 4);
+  }
+  bCOStream::operator<<((bCOStream *)param_1,'\x01');
+  bCOStream::operator<<((bCOStream *)param_1,(this->gCPlayerMemory_PS_data).offset_0x30);
+  iVar2 = (this->gCPlayerMemory_PS_data).offset_0x30;
+  if (iVar2 != 0) {
+    (**(code **)(*(int *)param_1 + 4))((this->gCPlayerMemory_PS_data).offset_0x2c,iVar2 * 4);
+  }
+  bCOStream::operator<<((bCOStream *)param_1,'\x01');
+  bCOStream::operator<<((bCOStream *)param_1,(this->gCPlayerMemory_PS_data).offset_0x3c);
+  iVar2 = (this->gCPlayerMemory_PS_data).offset_0x3c;
+  if (iVar2 != 0) {
+    (**(code **)(*(int *)param_1 + 4))((this->gCPlayerMemory_PS_data).offset_0x38,iVar2 * 4);
+  }
+  bCOStream::operator<<((bCOStream *)param_1,'\x01');
+  bCOStream::operator<<((bCOStream *)param_1,(this->gCPlayerMemory_PS_data).offset_0x48);
+  iVar2 = (this->gCPlayerMemory_PS_data).offset_0x48;
+  if (iVar2 != 0) {
+    (**(code **)(*(int *)param_1 + 4))((this->gCPlayerMemory_PS_data).offset_0x44,iVar2);
+  }
+  bCOStream::operator<<((bCOStream *)param_1,*(long *)&(this->gCPlayerMemory_PS_data).field_0x50);
+  bCOStream::operator<<((bCOStream *)param_1,*(long *)&(this->gCPlayerMemory_PS_data).field_0x54);
+  bCOStream::operator<<((bCOStream *)param_1,*(long *)&(this->gCPlayerMemory_PS_data).field_0x58);
+  ::operator<<(param_1,(bCObjectBase *)&(this->gCPlayerMemory_PS_data).offset_0x5c);
+  ::operator<<(param_1,(bCPropertyID *)&(this->gCPlayerMemory_PS_data).field_0x64);
+  bCOStream::operator<<((bCOStream *)param_1,this[1].gCPlayerMemory_PS_data.offset_0x14);
+  bCOStream::operator<<((bCOStream *)param_1,this[1].gCPlayerMemory_PS_data.offset_0x18);
+  bCOStream::operator<<((bCOStream *)param_1,this[1].gCPlayerMemory_PS_data.offset_0x1c);
+  bCOStream::operator<<((bCOStream *)param_1,this[1].gCPlayerMemory_PS_data.offset_0x24);
+  bCOStream::operator<<((bCOStream *)param_1,this[1].gCPlayerMemory_PS_data.offset_0x28);
+  bCOStream::operator<<((bCOStream *)param_1,*(bool *)&this[1].gCPlayerMemory_PS_data.offset_0x2c);
+  bCOStream::operator<<
+            ((bCOStream *)param_1,*(bool *)((int)&this[1].gCPlayerMemory_PS_data.offset_0x2c + 1));
+  bCOStream::operator<<
+            ((bCOStream *)param_1,*(bool *)((int)&this[1].gCPlayerMemory_PS_data.offset_0x2c + 2));
+  bCOStream::operator<<
+            ((bCOStream *)param_1,*(bool *)((int)&this[1].gCPlayerMemory_PS_data.offset_0x2c + 3));
+  bCOStream::operator<<((bCOStream *)param_1,(float)this[1].gCPlayerMemory_PS_data.offset_0x30);
+  WriteAttributes(this,param_1);
+  return 1;
+}
+
+

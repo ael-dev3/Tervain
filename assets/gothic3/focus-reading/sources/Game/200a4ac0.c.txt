@@ -1,0 +1,10 @@
+/* ENTRY 200a4ac0 | bTPropertyContainer<gEFocus>::vfunction7 | STATUS decompiled | 3 ms */
+
+undefined4 __thiscall bTPropertyContainer<gEFocus>::vfunction7(bTPropertyContainer<gEFocus> *this)
+
+{
+  (this->bTPropertyContainer<gEFocus>_data).offset_0x0 = DAT_207b5f34;
+  return 1;
+}
+
+

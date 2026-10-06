@@ -1,0 +1,26 @@
+/* ENTRY 3002421c | eCCollisionShape_PS::IsPhysicRelevant | STATUS decompiled | 13 ms */
+
+/* public: virtual bool __thiscall eCCollisionShape_PS::IsPhysicRelevant(void)const  */
+
+bool __thiscall eCCollisionShape_PS::IsPhysicRelevant(eCCollisionShape_PS *this)
+
+{
+  int iVar1;
+  int *piVar2;
+  
+                    /* 0x2421c  10489  ?IsPhysicRelevant@eCCollisionShape_PS@@UBE_NXZ */
+  iVar1 = (this->eCCollisionShape_PS_data).offset_0x18 + -1;
+  if (-1 < iVar1) {
+    piVar2 = (int *)((this->eCCollisionShape_PS_data).offset_0x14 + iVar1 * 4);
+    do {
+      if (*(char *)(*piVar2 + 0x2e) == '\0') {
+        return true;
+      }
+      iVar1 = iVar1 + -1;
+      piVar2 = piVar2 + -1;
+    } while (-1 < iVar1);
+  }
+  return false;
+}
+
+

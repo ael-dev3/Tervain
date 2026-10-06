@@ -1,0 +1,57 @@
+/* ENTRY 300bf290 | FUN_300bf290 | STATUS decompiled | 22 ms */
+
+/* WARNING: Exceeded maximum restarts with more pending */
+
+undefined4 __thiscall FUN_300bf290(eCVisualAnimationLoD *param_1,bCIStream *param_2)
+
+{
+  bCIStream *this;
+  bool bVar1;
+  ushort uVar2;
+  ushort auStack_c [2];
+  long lStack_8;
+  eCVisualAnimationLoD *local_4;
+  
+  this = param_2;
+  local_4 = param_1;
+  bCIStream::operator>>(param_2,(ushort *)&param_2);
+  (*param_1->vftablePtr->Destroy)();
+  if ((ushort)param_2 == 1) {
+    bCIStream::operator>>(this,auStack_c);
+  }
+  if ((ushort)param_2 < 3) {
+    bCIStream::operator>>(this,auStack_c);
+    if (auStack_c[0] == 0) {
+      GE_MESSAGEF_WARN(&DAT_30820f00,"eCVisualAnimationLoD::Read");
+    }
+    uVar2 = 0;
+    if (auStack_c[0] != 0) {
+      do {
+        bCString::bCString((bCString *)&lStack_8);
+        bCIStream::operator>>(this,(bCString *)&lStack_8);
+        if (uVar2 == 0) {
+          eCVisualAnimationLoD::SetActorFileName(local_4,(bCString *)&lStack_8);
+        }
+        bCString::~bCString((bCString *)&lStack_8);
+        uVar2 = uVar2 + 1;
+      } while (uVar2 < auStack_c[0]);
+    }
+    if ((ushort)param_2 < 3) {
+      return 1;
+    }
+  }
+  bCString::bCString((bCString *)auStack_c);
+  bCIStream::operator>>(this,(bCString *)auStack_c);
+  bVar1 = bCString::IsEmpty((bCString *)auStack_c);
+  if (!bVar1) {
+    eCVisualAnimationLoD::SetActorFileName(local_4,(bCString *)auStack_c);
+  }
+  bCString::~bCString((bCString *)auStack_c);
+  if (3 < (ushort)param_2) {
+    bCIStream::operator>>(this,&lStack_8);
+    (local_4->eCVisualAnimationLoD_data).offset_0x20 = lStack_8;
+  }
+  return 1;
+}
+
+

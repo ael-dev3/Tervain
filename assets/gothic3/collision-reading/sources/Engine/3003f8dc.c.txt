@@ -1,0 +1,50 @@
+/* ENTRY 3003f8dc | bTPropertyObject<eCCollisionShapeBase_PS,eCEntityPropertySet>::vfunction16 | STATUS decompiled | 20 ms */
+
+void __thiscall
+bTPropertyObject<eCCollisionShapeBase_PS,eCEntityPropertySet>::vfunction16
+          (bTPropertyObject<eCCollisionShapeBase_PS,eCEntityPropertySet> *this,
+          bCPropertyObjectBase *param_1)
+
+{
+  int iVar1;
+  bCPropertyObjectBase *pbVar2;
+  bool bVar3;
+  bCPropertyTypeBase *pbVar4;
+  bCAccessorPropertyObject *this_00;
+  undefined4 uVar5;
+  bCAccessorProperty abStack_c [12];
+  
+  pbVar2 = param_1;
+  bCPropertyObjectBase::CopyFrom((bCPropertyObjectBase *)this,param_1);
+  bCAccessorCreator::bCAccessorCreator((bCAccessorCreator *)&param_1,(bCPropertyObjectBase *)this);
+  bCAccessorProperty::bCAccessorProperty(abStack_c,(bCAccessorCreator *)&param_1);
+  do {
+    bVar3 = bCAccessorProperty::IsValid(abStack_c);
+    if (bVar3) {
+      pbVar4 = bCAccessorProperty::GetPropertyTypeObject(abStack_c);
+      (**(code **)(*(int *)pbVar4 + 0x30))(this,pbVar2);
+    }
+    bVar3 = bCAccessorProperty::IsValid(abStack_c);
+    if (!bVar3) {
+      this_00 = bCAccessorProperty::GetAccessorPropertyObject(abStack_c);
+      bVar3 = bCAccessorPropertyObject::HasBaseClass(this_00);
+      if (!bVar3) {
+        if ((this->bTPOPureSmartPtr<eCCollisionShapeBase_PS>_data).offset_0x4 ==
+            (bCObjectRefBase *)0x0) {
+          bTPOPureSmartPtr<eCCollisionShapeBase_PS>::vfunction11
+                    ((bTPOPureSmartPtr<eCCollisionShapeBase_PS> *)this);
+        }
+        iVar1 = *(int *)(this->bTPOPureSmartPtr<eCCollisionShapeBase_PS>_data).offset_0x4;
+        uVar5 = (*(code *)**(undefined4 **)pbVar2)();
+        (**(code **)(iVar1 + 0x1c))(uVar5);
+        bCAccessorPropertyObject::~bCAccessorPropertyObject
+                  ((bCAccessorPropertyObject *)&stack0xfffffff0);
+        bCAccessorCreator::~bCAccessorCreator((bCAccessorCreator *)&stack0x00000000);
+        return;
+      }
+    }
+    bCAccessorProperty::operator++(abStack_c);
+  } while( true );
+}
+
+

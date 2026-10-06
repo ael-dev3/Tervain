@@ -1,0 +1,17 @@
+/* ENTRY 10001712 | bCAccessorProperty::~bCAccessorProperty | STATUS decompiled | 4 ms */
+
+/* public: __thiscall bCAccessorProperty::~bCAccessorProperty(void) */
+
+void __thiscall bCAccessorProperty::~bCAccessorProperty(bCAccessorProperty *this)
+
+{
+                    /* 0x1712  351  ??1bCAccessorProperty@@QAE@XZ */
+  if (*(int **)(this + 4) != (int *)0x0) {
+    (**(code **)(**(int **)(this + 4) + 0x34))();
+    *(undefined4 *)(this + 4) = 0;
+  }
+  *(undefined4 *)(this + 4) = 0;
+  return;
+}
+
+

@@ -1,0 +1,4 @@
+; 20033596 ?GetPropertySetType@gCCharacterMovement_PS@@UBE?AW4eEPropertySetType@@XZ
+20033596 | e9a5fc1e00 | JMP 0x20223240
+; 200335a5 gCInfoManager_PS::GetCurrentOther
+; 200335a5 Ordinal_3152

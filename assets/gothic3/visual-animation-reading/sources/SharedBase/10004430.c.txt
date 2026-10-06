@@ -1,0 +1,13 @@
+/* ENTRY 10004430 | operator>> | STATUS decompiled | 2 ms */
+
+/* class bCIStream & __stdcall operator>>(class bCIStream &,class bCAccessorPropertyObject &) */
+
+bCIStream * operator>>(bCIStream *param_1,bCAccessorPropertyObject *param_2)
+
+{
+                    /* 0x4430  585  ??5@YGAAVbCIStream@@AAV0@AAVbCAccessorPropertyObject@@@Z */
+  bCAccessorPropertyObject::Read(param_2,param_1);
+  return param_1;
+}
+
+

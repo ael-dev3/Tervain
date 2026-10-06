@@ -1,0 +1,14 @@
+/* ENTRY 30037d99 | eCEntityPropertySet::GetPropertySetType | STATUS decompiled | 47 ms */
+
+/* public: virtual enum eEPropertySetType __thiscall
+   eCEntityPropertySet::GetPropertySetType(void)const  */
+
+eEPropertySetType __thiscall eCEntityPropertySet::GetPropertySetType(eCEntityPropertySet *this)
+
+{
+                    /* 0x37d99  8210
+                       ?GetPropertySetType@eCEntityPropertySet@@UBE?AW4eEPropertySetType@@XZ */
+  return 1;
+}
+
+

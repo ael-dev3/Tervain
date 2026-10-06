@@ -1,0 +1,4 @@
+; 3004704b ?GetBoundary@eCCollisionShape_PS@@UAEXAAVbCBox@@_N@Z
+3004704b | e9f0fe2e00 | JMP 0x30336f40
+; 30047050 eCResourceShaderMaterial_PS::CalculateSize
+; 30047050 Ordinal_3730

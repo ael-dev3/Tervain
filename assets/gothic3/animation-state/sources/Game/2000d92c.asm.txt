@@ -1,0 +1,4 @@
+; 2000d92c ?sAIPlayAniStart@gCScriptProcessingUnit@@KG_NPAXPAV1@@Z
+2000d92c | e97fac3500 | JMP 0x203685b0
+; 2000d931 gCInfo_PS::GetPlayer
+; 2000d931 Ordinal_3969

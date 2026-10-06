@@ -1,0 +1,17 @@
+/* ENTRY 1011c270 | FUN_1011c270 | STATUS decompiled | 7 ms */
+
+void FUN_1011c270(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Tasks\\Reaction_Tasks\\ZS_Talk.cpp");
+  bCString::bCString(local_8,"ZS_Lee_Teleport");
+  thunk_FUN_1001db60(local_8,thunk_FUN_10035370,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

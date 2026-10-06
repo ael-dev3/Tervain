@@ -1,0 +1,16 @@
+/* ENTRY 20004764 | gCCharacterControl_PS::SetEntity | STATUS decompiled | 13 ms */
+
+/* public: virtual void __thiscall gCCharacterControl_PS::SetEntity(class eCEntity *) */
+
+void __thiscall gCCharacterControl_PS::SetEntity(gCCharacterControl_PS *this,eCEntity *param_1)
+
+{
+                    /* 0x4764  6458  ?SetEntity@gCCharacterControl_PS@@UAEXPAVeCEntity@@@Z */
+  eCEntityPropertySet::SetEntity((eCEntityPropertySet *)this,param_1);
+  if (param_1 != (eCEntity *)0x0) {
+    eCEntity::DisableProcessing((eCEntity *)param_1,false);
+  }
+  return;
+}
+
+

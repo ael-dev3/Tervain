@@ -1,0 +1,11 @@
+/* ENTRY 3032de70 | FUN_3032de70 | STATUS decompiled | 11 ms */
+
+void __fastcall FUN_3032de70(eCRigidBody_PS *param_1)
+
+{
+  eCRigidBody_PS::Invalidate(param_1);
+  eCEntityPropertySet::Destroy((eCEntityPropertySet *)param_1);
+  return;
+}
+
+

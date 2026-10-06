@@ -1,0 +1,26 @@
+/* ENTRY 304b2ed0 | FUN_304b2ed0 | STATUS decompiled | 8 ms */
+
+undefined4 __fastcall FUN_304b2ed0(eCEntity *param_1)
+
+{
+  eCEntityProxyInternal *peVar1;
+  
+  if (*(int *)(param_1 + 0x18c) == 0) {
+    peVar1 = (eCEntityProxyInternal *)new(8,0xa1d);
+    if (peVar1 == (eCEntityProxyInternal *)0x0) {
+      peVar1 = (eCEntityProxyInternal *)0x0;
+    }
+    else {
+      peVar1 = (eCEntityProxyInternal *)eCEntityProxyInternal::eCEntityProxyInternal(peVar1);
+    }
+    *(eCEntityProxyInternal **)(param_1 + 0x18c) = peVar1;
+    eCEntityProxyInternal::SetEntity(peVar1,param_1);
+  }
+  if (*(eCEntityProxyInternal **)(param_1 + 0x18c) != (eCEntityProxyInternal *)0x0) {
+    eCEntityProxyInternal::AddReference(*(eCEntityProxyInternal **)(param_1 + 0x18c));
+    return *(undefined4 *)(param_1 + 0x18c);
+  }
+  return 0;
+}
+
+

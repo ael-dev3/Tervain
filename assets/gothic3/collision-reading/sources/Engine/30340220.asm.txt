@@ -1,0 +1,12 @@
+; 30340220 bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eEPhysicRangeType>_>::vfunction19
+30340220 | 56 | PUSH ESI
+30340221 | 8bf1 | MOV ESI,ECX
+30340223 | ff156ccaaf30 | CALL dword ptr [0x30afca6c]
+30340229 | 8d4620 | LEA EAX,[ESI + 0x20]
+3034022c | 50 | PUSH EAX
+3034022d | e85e90cdff | CALL 0x30019290
+30340232 | 8b4e18 | MOV ECX,dword ptr [ESI + 0x18]
+30340235 | 56 | PUSH ESI
+30340236 | ff1514cbaf30 | CALL dword ptr [0x30afcb14]
+3034023c | 5e | POP ESI
+3034023d | c3 | RET

@@ -1,0 +1,2 @@
+; 30034a13 ?OnPreTouch@eCCollisionShape_PS@@UAEXPAVeCEntity@@AAVeCContactIterator@@@Z
+30034a13 | e9383c3000 | JMP 0x30338650

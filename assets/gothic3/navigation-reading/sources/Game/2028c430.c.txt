@@ -1,0 +1,16 @@
+/* ENTRY 2028c430 | bTPropertyObject<gCNavigation_PS,eCEntityPropertySet>::~bTPropertyObject<gCNavigation_PS,eCEntityPropertySet> | STATUS decompiled | 3 ms */
+
+void __thiscall
+bTPropertyObject<gCNavigation_PS,eCEntityPropertySet>::
+~bTPropertyObject<gCNavigation_PS,eCEntityPropertySet>
+          (bTPropertyObject<gCNavigation_PS,eCEntityPropertySet> *this)
+
+{
+  this->vftablePtr = &vftable;
+  vfunction10(this);
+  bTPOPureSmartPtr<gCNavigation_PS>::~bTPOPureSmartPtr<gCNavigation_PS>
+            ((bTPOPureSmartPtr<gCNavigation_PS> *)this);
+  return;
+}
+
+

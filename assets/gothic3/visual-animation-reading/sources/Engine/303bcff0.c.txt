@@ -1,0 +1,16 @@
+/* ENTRY 303bcff0 | FUN_303bcff0 | STATUS decompiled | 4 ms */
+
+bCString * __thiscall FUN_303bcff0(int *param_1,bCString *param_2)
+
+{
+  int *local_4;
+  
+  local_4 = param_1;
+  bCString::bCString((bCString *)&local_4,(bCString *)(param_1 + 10));
+  (**(code **)(*param_1 + 0x60))();
+  bCString::operator+((bCString *)&local_4,param_2);
+  bCString::~bCString((bCString *)&stack0xfffffff8);
+  return param_2;
+}
+
+

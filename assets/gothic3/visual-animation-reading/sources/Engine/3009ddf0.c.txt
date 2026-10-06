@@ -1,0 +1,55 @@
+/* ENTRY 3009ddf0 | FUN_3009ddf0 | STATUS decompiled | 24 ms */
+
+undefined4 __thiscall FUN_3009ddf0(int *param_1,bCString *param_2,bCMatrix *param_3)
+
+{
+  eCVisualAnimationFactory *this;
+  int iVar1;
+  eCWrapper_emfx2Actor *peVar2;
+  int iVar3;
+  eCEntity *this_00;
+  bCMatrix *this_01;
+  bCMatrix *pbVar4;
+  int iVar5;
+  int iVar6;
+  bCString local_4c [4];
+  int local_48;
+  int *local_44;
+  bCMatrix local_40 [64];
+  
+  this = (eCVisualAnimationFactory *)(param_1 + 0x25);
+  local_44 = param_1;
+  peVar2 = eCVisualAnimationFactory::GetAssembledActor(this);
+  if (peVar2 == (eCWrapper_emfx2Actor *)0x0) {
+    return 0;
+  }
+  peVar2 = eCVisualAnimationFactory::GetAssembledActor(this);
+  local_48 = *(int *)(*(int *)(peVar2 + 0xc) + 0x1b4);
+  iVar5 = 0;
+  if (0 < local_48) {
+    iVar6 = 0;
+    do {
+      peVar2 = eCVisualAnimationFactory::GetAssembledActor(this);
+      iVar1 = *(int *)(*(int *)(peVar2 + 0xc) + 0x1bc);
+      bCString::bCString(local_4c,*(char **)(iVar1 + 0x16c + iVar6));
+      iVar3 = bCString::Compare(local_4c,param_2);
+      if (iVar3 == 0) {
+        bCMatrix::operator=(param_3,(bCMatrix *)(iVar1 + iVar6 + 0x44));
+        pbVar4 = local_40;
+        this_00 = (eCEntity *)(**(code **)(*local_44 + 0x68))(pbVar4,param_3);
+        this_01 = eCEntity::GetWorldMatrix(this_00);
+        pbVar4 = (bCMatrix *)bCMatrix::operator*(this_01,pbVar4);
+        bCMatrix::operator=(param_3,pbVar4);
+        bCMatrix::~bCMatrix((bCMatrix *)&local_44);
+        bCString::~bCString((bCString *)&stack0xffffffb0);
+        return 1;
+      }
+      bCString::~bCString(local_4c);
+      iVar5 = iVar5 + 1;
+      iVar6 = iVar6 + 400;
+    } while (iVar5 < local_48);
+  }
+  return 0;
+}
+
+

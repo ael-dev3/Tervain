@@ -1,0 +1,16 @@
+/* ENTRY 3032fa80 | bTPropertyObject<eCRigidBody_PS,eCRigidBodyBase_PS>::vfunction4 | STATUS decompiled | 3 ms */
+
+void __thiscall
+bTPropertyObject<eCRigidBody_PS,eCRigidBodyBase_PS>::vfunction4
+          (bTPropertyObject<eCRigidBody_PS,eCRigidBodyBase_PS> *this)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x3032fa83. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCPropertyObjectTypeBase::GetDescription
+            ((bCPropertyObjectTypeBase *)
+             (this->bTPropertyObject<eCRigidBody_PS,eCRigidBodyBase_PS>_data).offset_0x0);
+  return;
+}
+
+

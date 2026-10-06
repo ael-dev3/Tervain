@@ -1,0 +1,31 @@
+/* ENTRY 20175510 | gCHUDMenuLoading2::~gCHUDMenuLoading2 | STATUS decompiled | 13 ms */
+
+void __thiscall gCHUDMenuLoading2::~gCHUDMenuLoading2(gCHUDMenuLoading2 *this)
+
+{
+  bCMemoryAdmin *pbVar1;
+  void *pvVar2;
+  
+  pvVar2 = (this->gCHUDMenuLoading2_data).offset_0x48;
+  this->vftablePtr = &vftable;
+  pbVar1 = bCMemoryAdmin::GetInstance();
+  bCMemoryAdmin::Free(pbVar1,pvVar2);
+  pvVar2 = (this->gCHUDMenuLoading2_data).offset_0x3c;
+  if (pvVar2 != (void *)0x0) {
+    thunk_FUN_201680a0(pvVar2,(this->gCHUDMenuLoading2_data).offset_0x44);
+    pvVar2 = (this->gCHUDMenuLoading2_data).offset_0x3c;
+    pbVar1 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar1,pvVar2);
+    (this->gCHUDMenuLoading2_data).offset_0x3c = (void *)0x0;
+    (this->gCHUDMenuLoading2_data).offset_0x40 = 0;
+    (this->gCHUDMenuLoading2_data).offset_0x44 = 0;
+  }
+  CFFGFCProgressBar::~CFFGFCProgressBar
+            ((CFFGFCProgressBar *)&(this->gCHUDMenuLoading2_data).field_0x2c);
+  CFFGFCStatic::~CFFGFCStatic((CFFGFCStatic *)&(this->gCHUDMenuLoading2_data).field_0x1c);
+  CFFGFCStatic::~CFFGFCStatic((CFFGFCStatic *)&(this->gCHUDMenuLoading2_data).field_0xc);
+  gCHUDMenu::~gCHUDMenu((gCHUDMenu *)this);
+  return;
+}
+
+

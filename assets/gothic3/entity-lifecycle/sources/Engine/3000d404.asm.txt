@@ -1,0 +1,4 @@
+; 3000d404 ?Enable@eCContextBase@@QAEX_N@Z
+3000d404 | e937784900 | JMP 0x304a4c40
+; 3000d409 eCGUIManager::AddModalWindow
+; 3000d409 Ordinal_3435

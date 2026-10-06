@@ -1,0 +1,32 @@
+/* ENTRY 30337f60 | bTPropertyContainer<eEShapeGroup>::bTPropertyContainer<eEShapeGroup>_Constructor_or_Destructor | STATUS decompiled | 23 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<eEShapeGroup>::bTPropertyContainer<eEShapeGroup>_Constructor_or_Destructor
+          (bTPropertyContainer<eEShapeGroup> *this,undefined4 param_1,bCVector *param_2)
+
+{
+  eCCollisionShape *this_00;
+  eCEntity *this_01;
+  bCVector *pbVar1;
+  bCObjectBase local_8;
+  undefined4 local_4;
+  
+  this_00 = (eCCollisionShape *)thunk_FUN_3033c9f0();
+  eCCollisionShape::SetShape(this_00,param_2);
+  bCObjectBase::bCObjectBase(&local_8);
+  local_4 = param_1;
+  local_8 = (bCObjectBase)&vftable;
+  (*this_00->vftablePtr->NotifyPropertyValueChangedEnterEx)(this_00,"Group",false);
+  (*(code *)(this_00->eCCollisionShape_data).offset_0x10[7])(&local_8);
+  (*this_00->vftablePtr->NotifyPropertyValueChangedExitEx)(this_00,"Group",false);
+  bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xfffffff4);
+  eCCollisionShape::SetCenter(this_00,param_2);
+  this_01 = (eCEntity *)(*this->vftablePtr[1].GetProfileLastTicksFirst)(this);
+  pbVar1 = eCEntity::GetWorldPosition(this_01);
+  bCVector::operator=((bCVector *)&(this_00->eCCollisionShape_data).field_0x64,pbVar1);
+  thunk_FUN_3033f140(this_00);
+  (*this_00->vftablePtr->ReleaseReference)(this_00);
+  return 1;
+}
+
+

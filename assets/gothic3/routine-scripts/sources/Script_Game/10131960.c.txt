@@ -1,0 +1,17 @@
+/* ENTRY 10131960 | FUN_10131960 | STATUS decompiled | 7 ms */
+
+void FUN_10131960(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Commands\\AI_Goto_Ext.cpp");
+  bCString::bCString(local_8,"EndGoto");
+  thunk_FUN_10017a50(local_8,thunk_FUN_10055880,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

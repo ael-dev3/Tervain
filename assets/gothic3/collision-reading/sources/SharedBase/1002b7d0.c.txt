@@ -1,0 +1,12 @@
+/* ENTRY 1002b7d0 | FUN_1002b7d0 | STATUS decompiled | 2 ms */
+
+bool __thiscall FUN_1002b7d0(bCBox *param_1,bCBox *param_2)
+
+{
+  bool bVar1;
+  
+  bVar1 = bCBox::IsEqual(param_1,param_2);
+  return !bVar1;
+}
+
+

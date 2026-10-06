@@ -1,0 +1,9 @@
+/* ENTRY 304b35f0 | FUN_304b35f0 | STATUS decompiled | 4 ms */
+
+bool __thiscall FUN_304b35f0(int param_1,int param_2)
+
+{
+  return (1 << ((byte)param_2 & 0x1f) & *(uint *)(param_1 + 0x194 + (param_2 >> 5) * 4)) != 0;
+}
+
+

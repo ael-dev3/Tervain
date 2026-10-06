@@ -1,0 +1,4 @@
+; 300293b6 ?GetVersion@eCCollisionShape_PS@@UBEGXZ
+300293b6 | e9c5cf3000 | JMP 0x30336380
+; 300293c0 eCShaderLightStreaks::GetRootObject
+; 300293c0 Ordinal_8592

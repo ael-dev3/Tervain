@@ -1,0 +1,2 @@
+; 30017210 bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_>::vfunction13
+30017210 | e96bb23100 | JMP 0x30332480

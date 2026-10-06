@@ -1,0 +1,26 @@
+; 2051e550 bTPropertyType<gCScriptRoutine_PS,long>::~bTPropertyType<gCScriptRoutine_PS,long>
+2051e550 | 51 | PUSH ECX
+2051e551 | 6858dd6520 | PUSH 0x2065dd58
+2051e556 | 8d4c2404 | LEA ECX,[ESP + 0x4]
+2051e55a | ff150c897d20 | CALL dword ptr [0x207d890c]
+2051e560 | 6a01 | PUSH 0x1
+2051e562 | 8d442404 | LEA EAX,[ESP + 0x4]
+2051e566 | 50 | PUSH EAX
+2051e567 | b99cc17c20 | MOV ECX,0x207cc19c
+2051e56c | ff1594877d20 | CALL dword ptr [0x207d8794]
+2051e572 | c7059cc17c20eccc6920 | MOV dword ptr [0x207cc19c],0x2069ccec
+2051e57c | e8d8c9b0ff | CALL 0x2002af59
+2051e581 | b99cc17c20 | MOV ECX,0x207cc19c
+2051e586 | a3b4c17c20 | MOV [0x207cc1b4],EAX
+2051e58b | c705b8c17c2028000000 | MOV dword ptr [0x207cc1b8],0x28
+2051e595 | c705bcc17c2000000000 | MOV dword ptr [0x207cc1bc],0x0
+2051e59f | ff15d8877d20 | CALL dword ptr [0x207d87d8]
+2051e5a5 | 8b0db4c17c20 | MOV ECX,dword ptr [0x207cc1b4]
+2051e5ab | 689cc17c20 | PUSH 0x207cc19c
+2051e5b0 | ff15cc877d20 | CALL dword ptr [0x207d87cc]
+2051e5b6 | 8d0c24 | LEA ECX,[ESP]
+2051e5b9 | ff1534887d20 | CALL dword ptr [0x207d8834]
+2051e5bf | 68201c5620 | PUSH 0x20561c20
+2051e5c4 | e80552f4ff | CALL 0x204637ce
+2051e5c9 | 83c408 | ADD ESP,0x8
+2051e5cc | c3 | RET

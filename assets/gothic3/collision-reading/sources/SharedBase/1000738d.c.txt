@@ -1,0 +1,12 @@
+/* ENTRY 1000738d | bCOrientedBox::GetExtent | STATUS decompiled | 2 ms */
+
+/* public: class bCVector const & __thiscall bCOrientedBox::GetExtent(void)const  */
+
+bCVector * __thiscall bCOrientedBox::GetExtent(bCOrientedBox *this)
+
+{
+                    /* 0x738d  2342  ?GetExtent@bCOrientedBox@@QBEABVbCVector@@XZ */
+  return (bCVector *)(this + 0xc);
+}
+
+

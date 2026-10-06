@@ -1,0 +1,4 @@
+; 10004430 ??5@YGAAVbCIStream@@AAV0@AAVbCAccessorPropertyObject@@@Z
+10004430 | e90b660900 | JMP 0x1009aa40
+; 10004435 bCPropertyObjectFactory::ReadSkipObject
+; 10004435 Ordinal_3899

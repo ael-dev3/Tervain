@@ -1,0 +1,33 @@
+/* ENTRY 20513d20 | bTPropertyType<gCNPC_PS,bTPropertyContainer<gEAttackReason>_>::~bTPropertyType<gCNPC_PS,bTPropertyContainer<gEAttackReason>_> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCNPC_PS,bTPropertyContainer<gEAttackReason>_>::
+~bTPropertyType<gCNPC_PS,bTPropertyContainer<gEAttackReason>_>
+          (bTPropertyType<gCNPC_PS,bTPropertyContainer<gEAttackReason>_> *this)
+
+{
+  bTPropertyType<gCNPC_PS,bTPropertyContainer<gEAttackReason>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"LastPlayerAR");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_enuLastPlayerAR,
+             (bCString *)&local_4,2);
+  _ms_PropertyMember_m_enuLastPlayerAR = &vftable;
+  DAT_207c0e20 = bTPropertyObjectType<gCNPC_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCNPC_PS,eCEntityPropertySet>();
+  _DAT_207c0e24 = 0x7c;
+  _DAT_207c0e28 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_enuLastPlayerAR);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207c0e20,
+             (bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_enuLastPlayerAR);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gEAttackReason>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gEAttackReason>_>);
+  return;
+}
+
+

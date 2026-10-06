@@ -1,0 +1,15 @@
+; 303869a0 bTPropertyObject<eCEffector,bCObjectRefBase>::~bTPropertyObject<eCEffector,bCObjectRefBase>
+303869a0 | 56 | PUSH ESI
+303869a1 | 8bf1 | MOV ESI,ECX
+303869a3 | ff1520caaf30 | CALL dword ptr [0x30afca20]
+303869a9 | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+303869b0 | c7068c5e8630 | MOV dword ptr [ESI],0x30865e8c
+303869b6 | e89d32caff | CALL 0x30029c58
+303869bb | 6a01 | PUSH 0x1
+303869bd | 8bce | MOV ECX,ESI
+303869bf | 89460c | MOV dword ptr [ESI + 0xc],EAX
+303869c2 | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+303869c9 | e83babc8ff | CALL 0x30011509
+303869ce | 8bc6 | MOV EAX,ESI
+303869d0 | 5e | POP ESI
+303869d1 | c20400 | RET 0x4

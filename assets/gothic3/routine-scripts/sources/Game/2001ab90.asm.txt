@@ -1,0 +1,2 @@
+; 2001ab90 ?GetStackUseType@gCInventory_PS@@QBE?AW4gEUseType@@H@Z
+2001ab90 | e99b371900 | JMP 0x201ae330

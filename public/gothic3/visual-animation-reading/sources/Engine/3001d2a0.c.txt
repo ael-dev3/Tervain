@@ -1,0 +1,16 @@
+/* ENTRY 3001d2a0 | eCEntityPropertySet::CopyFrom | STATUS decompiled | 5 ms */
+
+/* public: virtual enum bEResult __thiscall eCEntityPropertySet::CopyFrom(class bCObjectBase const
+   &)
+   eCEntityPropertySet member function inherited by eCEffectBase_PS
+   eCEntityPropertySet member function inherited by eCLinkContainer_PS */
+
+bEResult __thiscall eCEntityPropertySet::CopyFrom(eCEntityPropertySet *this,bCObjectBase *param_1)
+
+{
+                    /* 0x1d2a0  4092
+                       ?CopyFrom@eCEntityPropertySet@@UAE?AW4bEResult@@ABVbCObjectBase@@@Z */
+  return 1;
+}
+
+

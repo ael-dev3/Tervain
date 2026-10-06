@@ -1,0 +1,12 @@
+; 2016bcf0 gCHUDViewSynthRecipe2::gCHUDViewSynthRecipe2
+2016bcf0 | 56 | PUSH ESI
+2016bcf1 | 8bf1 | MOV ESI,ECX
+2016bcf3 | e82c10eaff | CALL 0x2000cd24
+2016bcf8 | 8d4e10 | LEA ECX,[ESI + 0x10]
+2016bcfb | c7061c1c6720 | MOV dword ptr [ESI],0x20671c1c
+2016bd01 | e8a180ecff | CALL 0x20033da7
+2016bd06 | 8d4e24 | LEA ECX,[ESI + 0x24]
+2016bd09 | e84ef1e9ff | CALL 0x2000ae5c
+2016bd0e | 8bc6 | MOV EAX,ESI
+2016bd10 | 5e | POP ESI
+2016bd11 | c3 | RET

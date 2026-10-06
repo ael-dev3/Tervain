@@ -1,0 +1,4 @@
+; 3000f48e bTPropertyType<eCRigidBody_PS,bCVector>::vfunction9
+3000f48e | e91d263200 | JMP 0x30331ab0
+; 3000f493 eCFilePathCache::InsertDirPath
+; 3000f493 Ordinal_9818

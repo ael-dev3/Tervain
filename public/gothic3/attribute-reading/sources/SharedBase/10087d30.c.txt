@@ -1,0 +1,15 @@
+/* ENTRY 10087d30 | FUN_10087d30 | STATUS decompiled | 5 ms */
+
+void __thiscall FUN_10087d30(int param_1,int param_2)
+
+{
+  GE_MESSAGEF_WARN("The method %s detected an improper usage! \nHint:%s ",
+                   "bCPropertyObjectTypeBase::CopyFrom",
+                   "It is not allowed to make a copy of propertytype.\nDo not call it from derived class or change access !"
+                  );
+  *(byte *)(param_1 + 0x14) =
+       *(byte *)(param_1 + 0x14) ^ (*(byte *)(param_2 + 0x14) ^ *(byte *)(param_1 + 0x14)) & 1;
+  return;
+}
+
+

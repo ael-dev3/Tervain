@@ -1,0 +1,4 @@
+; 3002ad10 ?OnNotifyPropertyValueChangedEnterEx@eCEntityPropertySet@@MAE_NPBD_N@Z
+3002ad10 | e9ab6d4500 | JMP 0x30481ac0
+; 3002ad1f eCColorSrcSampler::GetVersion
+; 3002ad1f Ordinal_9362

@@ -1,0 +1,12 @@
+/* ENTRY 30038c4e | eCCollisionShape::AccessDisableCollision | STATUS decompiled | 4 ms */
+
+/* public: bool & __thiscall eCCollisionShape::AccessDisableCollision(void) */
+
+bool * __thiscall eCCollisionShape::AccessDisableCollision(eCCollisionShape *this)
+
+{
+                    /* 0x38c4e  2667  ?AccessDisableCollision@eCCollisionShape@@QAEAA_NXZ */
+  return (bool *)&(this->eCCollisionShape_data).offset_0x2b;
+}
+
+

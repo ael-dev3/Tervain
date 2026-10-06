@@ -1,0 +1,66 @@
+/* ENTRY 20226e10 | FUN_20226e10 | STATUS decompiled | 37 ms */
+
+void __fastcall FUN_20226e10(gCCharacterMovement_PS *param_1)
+
+{
+  undefined1 *this;
+  gCCharacterMovement_PS *pgVar1;
+  int *piVar2;
+  eCEntity *peVar3;
+  int iVar4;
+  bCVector *pbVar5;
+  undefined4 *puVar6;
+  bCQuaternion abStack_2c [16];
+  bCVector local_1c [12];
+  undefined4 uStack_10;
+  undefined4 uStack_c;
+  undefined4 uStack_8;
+  undefined4 uStack_4;
+  
+  if ((param_1->gCCharacterMovement_PS_data).offset_0x260 == (gCCharacterMovement_PS)0x1) {
+    return;
+  }
+  this = &(param_1->gCCharacterMovement_PS_data).field_0x130;
+  (param_1->gCCharacterMovement_PS_data).offset_0x154 = 0;
+  (param_1->gCCharacterMovement_PS_data).offset_0x158 = 0;
+  (param_1->gCCharacterMovement_PS_data).offset_0x108 = 0;
+  bCVector::Clear((bCVector *)this);
+  bCVector::Clear((bCVector *)&(param_1->gCCharacterMovement_PS_data).field_0x13c);
+  bCVector::Clear((bCVector *)&(param_1->gCCharacterMovement_PS_data).field_0x148);
+  if ((param_1->gCCharacterMovement_PS_data).offset_0x16c == 0) {
+    peVar3 = (*param_1->vftablePtr->GetEntity)(param_1);
+    iVar4 = (**(code **)(*(int *)peVar3 + 0xec))(0xd);
+    (param_1->gCCharacterMovement_PS_data).offset_0x16c = iVar4;
+    if (iVar4 == 0) goto LAB_20226f2c;
+  }
+  bCVector::bCVector(local_1c);
+  bCQuaternion::bCQuaternion((bCQuaternion *)&uStack_10);
+  peVar3 = (*param_1->vftablePtr->GetEntity)(param_1);
+  pbVar5 = eCEntity::GetWorldPosition((eCEntity *)peVar3);
+  bCVector::operator=(local_1c,pbVar5);
+  puVar6 = (undefined4 *)
+           (**(code **)(*(int *)(param_1->gCCharacterMovement_PS_data).offset_0x16c + 0x188))
+                     (abStack_2c);
+  uStack_10 = *puVar6;
+  uStack_c = puVar6[1];
+  uStack_8 = puVar6[2];
+  uStack_4 = puVar6[3];
+  bCQuaternion::~bCQuaternion(abStack_2c);
+  bCQuaternion::Normalize((bCQuaternion *)&uStack_10);
+  gCCharacterMovement_PS::SetGoalPose(param_1,(bCMotion *)local_1c,false,false);
+  bCQuaternion::~bCQuaternion((bCQuaternion *)&uStack_10);
+  bCVector::~bCVector(local_1c);
+LAB_20226f2c:
+  pbVar5 = (bCVector *)bCVector::bCVector((bCVector *)abStack_2c,0.0,0.0,0.0);
+  piVar2 = (int *)(param_1->gCCharacterMovement_PS_data).offset_0x16c;
+  if (piVar2 != (int *)0x0) {
+    (**(code **)(*piVar2 + 0x16c))(pbVar5);
+  }
+  bCVector::operator=((bCVector *)this,pbVar5);
+  bCVector::~bCVector((bCVector *)abStack_2c);
+  pgVar1 = &(param_1->gCCharacterMovement_PS_data).offset_0xf8;
+  *pgVar1 = (gCCharacterMovement_PS)((byte)*pgVar1 | 2);
+  return;
+}
+
+

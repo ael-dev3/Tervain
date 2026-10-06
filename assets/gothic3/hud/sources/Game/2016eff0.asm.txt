@@ -1,0 +1,8 @@
+; 2016eff0 gCHUDPageTrade2::vfunction70
+2016eff0 | 56 | PUSH ESI
+2016eff1 | 8bf1 | MOV ESI,ECX
+2016eff3 | 8d8e5c010000 | LEA ECX,[ESI + 0x15c]
+2016eff9 | e8b564ecff | CALL 0x200354b3
+2016effe | 8bce | MOV ECX,ESI
+2016f000 | 5e | POP ESI
+2016f001 | e90cb3e9ff | JMP 0x2000a312

@@ -1,0 +1,25 @@
+; 1003bfb0 FUN_1003bfb0
+1003bfb0 | 56 | PUSH ESI
+1003bfb1 | 8bf1 | MOV ESI,ECX
+1003bfb3 | 6a00 | PUSH 0x0
+1003bfb5 | 6a00 | PUSH 0x0
+1003bfb7 | c70600000000 | MOV dword ptr [ESI],0x0
+1003bfbd | c7460400000000 | MOV dword ptr [ESI + 0x4],0x0
+1003bfc4 | e830030700 | CALL 0x100ac2f9
+1003bfc9 | 6aff | PUSH -0x1
+1003bfcb | 681f000900 | PUSH 0x9001f
+1003bfd0 | 8906 | MOV dword ptr [ESI],EAX
+1003bfd2 | e822030700 | CALL 0x100ac2f9
+1003bfd7 | 6a00 | PUSH 0x0
+1003bfd9 | 6a00 | PUSH 0x0
+1003bfdb | e819030700 | CALL 0x100ac2f9
+1003bfe0 | 25fffffeff | AND EAX,0xfffeffff
+1003bfe5 | 0d1f000a00 | OR EAX,0xa001f
+1003bfea | 6aff | PUSH -0x1
+1003bfec | 50 | PUSH EAX
+1003bfed | 894604 | MOV dword ptr [ESI + 0x4],EAX
+1003bff0 | e804030700 | CALL 0x100ac2f9
+1003bff5 | 83c420 | ADD ESP,0x20
+1003bff8 | 8bc6 | MOV EAX,ESI
+1003bffa | 5e | POP ESI
+1003bffb | c3 | RET

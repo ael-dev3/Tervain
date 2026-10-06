@@ -1,0 +1,32 @@
+/* ENTRY 2002c6a6 | gCCharacterSensor_PS::Read | STATUS decompiled | 16 ms */
+
+/* public: virtual enum bEResult __thiscall gCCharacterSensor_PS::Read(class bCIStream &) */
+
+bEResult __thiscall gCCharacterSensor_PS::Read(gCCharacterSensor_PS *this,bCIStream *param_1)
+
+{
+  ushort auStack_4 [2];
+  
+                    /* 0x2c6a6  5888  ?Read@gCCharacterSensor_PS@@UAE?AW4bEResult@@AAVbCIStream@@@Z
+                        */
+  auStack_4[0] = 0;
+  auStack_4[1] = 0;
+  bCIStream::operator>>((bCIStream *)param_1,auStack_4);
+  if (1 < auStack_4[0]) {
+    bCVector::operator<<((bCVector *)&(this->gCCharacterSensor_PS_data).field_0x10,param_1);
+    bCVector::operator<<((bCVector *)&(this->gCCharacterSensor_PS_data).field_0x1c,param_1);
+    bCVector::operator<<((bCVector *)&(this->gCCharacterSensor_PS_data).field_0x28,param_1);
+    bCIStream::operator>>
+              ((bCIStream *)param_1,(bool *)&(this->gCCharacterSensor_PS_data).offset_0x34);
+    bCIStream::operator>>
+              ((bCIStream *)param_1,(bool *)&(this->gCCharacterSensor_PS_data).offset_0x35);
+    bCIStream::operator>>
+              ((bCIStream *)param_1,(bool *)&(this->gCCharacterSensor_PS_data).offset_0x3c);
+    bCIStream::operator>>
+              ((bCIStream *)param_1,(bool *)&(this->gCCharacterSensor_PS_data).offset_0x3d);
+    (**(code **)(*(int *)param_1 + 4))(&(this->gCCharacterSensor_PS_data).field_0x40,0x1c);
+  }
+  return 1;
+}
+
+

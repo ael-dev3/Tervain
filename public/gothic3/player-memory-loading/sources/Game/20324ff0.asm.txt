@@ -1,0 +1,19 @@
+; 20324ff0 bTPropertyType<gCPlayerMemory_PS,float>::vfunction9
+20324ff0 | 56 | PUSH ESI
+20324ff1 | 8bf1 | MOV ESI,ECX
+20324ff3 | 8b06 | MOV EAX,dword ptr [ESI]
+20324ff5 | 8b5018 | MOV EDX,dword ptr [EAX + 0x18]
+20324ff8 | ffd2 | CALL EDX
+20324ffa | 84c0 | TEST AL,AL
+20324ffc | 7506 | JNZ 0x20325004
+20324ffe | 33c0 | XOR EAX,EAX
+20325000 | 5e | POP ESI
+20325001 | c20400 | RET 0x4
+20325004 | 8b4620 | MOV EAX,dword ptr [ESI + 0x20]
+20325007 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+2032500b | 3b4804 | CMP ECX,dword ptr [EAX + 0x4]
+2032500e | 73ee | JNC 0x20324ffe
+20325010 | 8b00 | MOV EAX,dword ptr [EAX]
+20325012 | 8b0488 | MOV EAX,dword ptr [EAX + ECX*0x4]
+20325015 | 5e | POP ESI
+20325016 | c20400 | RET 0x4

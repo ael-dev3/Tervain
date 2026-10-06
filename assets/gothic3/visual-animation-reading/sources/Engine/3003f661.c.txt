@@ -1,0 +1,12 @@
+/* ENTRY 3003f661 | eCVisualAnimation_PS::AccessConstrainRootToWorld | STATUS decompiled | 8 ms */
+
+/* public: bool & __thiscall eCVisualAnimation_PS::AccessConstrainRootToWorld(void) */
+
+bool * __thiscall eCVisualAnimation_PS::AccessConstrainRootToWorld(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x3f661  2602  ?AccessConstrainRootToWorld@eCVisualAnimation_PS@@QAEAA_NXZ */
+  return (bool *)&this[1].eCEntityPropertySet_data.field_0x5;
+}
+
+

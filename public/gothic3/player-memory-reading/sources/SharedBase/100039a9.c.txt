@@ -1,0 +1,12 @@
+/* ENTRY 100039a9 | bCObjectBase::GetVersion | STATUS decompiled | 4 ms */
+
+/* public: virtual unsigned short __thiscall bCObjectBase::GetVersion(void)const  */
+
+ushort __thiscall bCObjectBase::GetVersion(bCObjectBase *this)
+
+{
+                    /* 0x39a9  3212  ?GetVersion@bCObjectBase@@UBEGXZ */
+  return 1;
+}
+
+

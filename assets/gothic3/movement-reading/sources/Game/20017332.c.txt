@@ -1,0 +1,52 @@
+/* ENTRY 20017332 | gCCharacterMovement_PS::OnUntouch | STATUS decompiled | 28 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+/* public: virtual void __thiscall gCCharacterMovement_PS::OnUntouch(class eCEntity *,class
+   eCContactIterator &) */
+
+void __thiscall
+gCCharacterMovement_PS::OnUntouch
+          (gCCharacterMovement_PS *this,eCEntity *param_1,eCContactIterator *param_2)
+
+{
+  bool bVar1;
+  eSEntityFlags *peVar2;
+  eCEntity *this_00;
+  eEPropertySetType eVar3;
+  
+                    /* 0x17332  5657
+                       ?OnUntouch@gCCharacterMovement_PS@@UAEXPAVeCEntity@@AAVeCContactIterator@@@Z
+                        */
+  if (param_1 != (eCEntity *)0x0) {
+    peVar2 = eCEntity::GetEntityFlags((eCEntity *)param_1);
+    if ((_DAT_207b858c & 1) == 0) {
+      _DAT_207b858c = _DAT_207b858c | 1;
+      DAT_207b8588 = 0x800000;
+    }
+    if ((*(uint *)peVar2 & DAT_207b8588) != 0) {
+      eVar3 = 0x16;
+      this_00 = (*this->vftablePtr->GetEntity)(this);
+      bVar1 = eCEntity::HasPropertySet((eCEntity *)this_00,eVar3);
+      if (!bVar1) {
+        eVar3 = eCContactIterator::GetCollisionType(param_2);
+        if (eVar3 == 0xe) {
+          bVar1 = eCEntity::HasPropertySet((eCEntity *)param_1,0x16);
+          if (bVar1) {
+            (this->gCCharacterMovement_PS_data).offset_0x25a = (gCCharacterMovement_PS)0x0;
+          }
+        }
+        else {
+          eVar3 = eCContactIterator::GetCollisionType(param_2);
+          if (((eVar3 == 8) || (eVar3 = eCContactIterator::GetCollisionType(param_2), eVar3 == 10))
+             || (eVar3 = eCContactIterator::GetCollisionType(param_2), eVar3 == 0xb)) {
+            (this->gCCharacterMovement_PS_data).offset_0x259 = (gCCharacterMovement_PS)0x0;
+            return;
+          }
+        }
+      }
+    }
+  }
+  return;
+}
+
+

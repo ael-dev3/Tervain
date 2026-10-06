@@ -1,0 +1,4 @@
+; 100029ff ?GetInvertedExcentric@bCMatrix@@IBE?AV1@XZ
+100029ff | e96cff0200 | JMP 0x10032970
+; 10002a04 bCMatrix3::RotateAxisZ
+; 10002a04 Ordinal_3986

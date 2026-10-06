@@ -1,0 +1,2 @@
+; 3000e07a ?AccessTriggersOnUntouch@eCCollisionShape@@QAEAA_NXZ
+3000e07a | e9c1460b00 | JMP 0x300c2740

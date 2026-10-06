@@ -1,0 +1,15 @@
+; 2039cd30 bTPropertyType<gCStat,int>::vfunction12
+2039cd30 | 56 | PUSH ESI
+2039cd31 | 8bf1 | MOV ESI,ECX
+2039cd33 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+2039cd37 | 85c9 | TEST ECX,ECX
+2039cd39 | 7506 | JNZ 0x2039cd41
+2039cd3b | 33c0 | XOR EAX,EAX
+2039cd3d | 5e | POP ESI
+2039cd3e | c20400 | RET 0x4
+2039cd41 | 8b01 | MOV EAX,dword ptr [ECX]
+2039cd43 | 8b10 | MOV EDX,dword ptr [EAX]
+2039cd45 | ffd2 | CALL EDX
+2039cd47 | 03461c | ADD EAX,dword ptr [ESI + 0x1c]
+2039cd4a | 5e | POP ESI
+2039cd4b | c20400 | RET 0x4

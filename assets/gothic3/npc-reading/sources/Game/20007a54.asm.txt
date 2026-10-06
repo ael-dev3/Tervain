@@ -1,0 +1,4 @@
+; 20007a54 bTPropertyType<gCNPC_PS,bTPropertyContainer<gEBearing>_>::vfunction26
+20007a54 | e987323000 | JMP 0x2030ace0
+; 20007a59 gCTouchDamage_PS::CanBeActivatedNow
+; 20007a59 Ordinal_2035

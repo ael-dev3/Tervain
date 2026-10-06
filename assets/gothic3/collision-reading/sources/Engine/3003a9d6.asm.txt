@@ -1,0 +1,4 @@
+; 3003a9d6 bTPropertyObject<eCCollisionShapeBase_PS,eCEntityPropertySet>::vfunction15
+3003a9d6 | e985823000 | JMP 0x30342c60
+; 3003a9db eCPVSPrefetcher3::GetAllValidCells
+; 3003a9db Ordinal_6125

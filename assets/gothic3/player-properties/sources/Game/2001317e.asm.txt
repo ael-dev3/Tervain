@@ -1,0 +1,2 @@
+; 2001317e ?GetAttribute@gCPlayerMemory_PS@@QBEPAVgCAttribute@@ABVbCString@@@Z
+2001317e | e94da43000 | JMP 0x2031d5d0

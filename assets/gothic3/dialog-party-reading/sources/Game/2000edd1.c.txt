@@ -1,0 +1,12 @@
+/* ENTRY 2000edd1 | gCParty_PS::GetWaiting | STATUS decompiled | 5 ms */
+
+/* public: bool const & __thiscall gCParty_PS::GetWaiting(void)const  */
+
+bool * __thiscall gCParty_PS::GetWaiting(gCParty_PS *this)
+
+{
+                    /* 0xedd1  4751  ?GetWaiting@gCParty_PS@@QBEAB_NXZ */
+  return (bool *)&(this->gCParty_PS_data).field_0x34;
+}
+
+

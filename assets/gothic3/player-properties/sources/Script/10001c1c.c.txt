@@ -1,0 +1,20 @@
+/* ENTRY 10001c1c | PSPlayerMemory::SetProtectionLightning | STATUS decompiled | 8 ms */
+
+/* public: void __thiscall PSPlayerMemory::SetProtectionLightning(int) */
+
+void __thiscall PSPlayerMemory::SetProtectionLightning(PSPlayerMemory *this,int param_1)
+
+{
+  PSPlayerMemory *pPStack_4;
+  
+                    /* 0x1c1c  1984  ?SetProtectionLightning@PSPlayerMemory@@QAEXH@Z */
+  pPStack_4 = this;
+  bCString::bCString((bCString *)&pPStack_4,"PROT_LIGHTNING");
+  if (*(gCPlayerMemory_PS **)this != (gCPlayerMemory_PS *)0x0) {
+    gCPlayerMemory_PS::SetBaseValue(*(gCPlayerMemory_PS **)this,(bCString *)&pPStack_4,param_1);
+  }
+  bCString::~bCString((bCString *)&pPStack_4);
+  return;
+}
+
+

@@ -1,0 +1,61 @@
+; 201cf350 FUN_201cf350
+201cf350 | 56 | PUSH ESI
+201cf351 | 8b742408 | MOV ESI,dword ptr [ESP + 0x8]
+201cf355 | 57 | PUSH EDI
+201cf356 | 8bf9 | MOV EDI,ECX
+201cf358 | 3b7704 | CMP ESI,dword ptr [EDI + 0x4]
+201cf35b | 7364 | JNC 0x201cf3c1
+201cf35d | 8b4f0c | MOV ECX,dword ptr [EDI + 0xc]
+201cf360 | 85c9 | TEST ECX,ECX
+201cf362 | 8b07 | MOV EAX,dword ptr [EDI]
+201cf364 | 8b04b0 | MOV EAX,dword ptr [EAX + ESI*0x4]
+201cf367 | 7409 | JZ 0x201cf372
+201cf369 | 8b11 | MOV EDX,dword ptr [ECX]
+201cf36b | 50 | PUSH EAX
+201cf36c | 8b4208 | MOV EAX,dword ptr [EDX + 0x8]
+201cf36f | 56 | PUSH ESI
+201cf370 | ffd0 | CALL EAX
+; 201cf372 LAB_201cf372
+201cf372 | 8b0f | MOV ECX,dword ptr [EDI]
+201cf374 | 833cb100 | CMP dword ptr [ECX + ESI*0x4],0x0
+201cf378 | 8d04b1 | LEA EAX,[ECX + ESI*0x4]
+201cf37b | 7412 | JZ 0x201cf38f
+201cf37d | 8b08 | MOV ECX,dword ptr [EAX]
+201cf37f | 8b11 | MOV EDX,dword ptr [ECX]
+201cf381 | 8b4224 | MOV EAX,dword ptr [EDX + 0x24]
+201cf384 | ffd0 | CALL EAX
+201cf386 | 8b0f | MOV ECX,dword ptr [EDI]
+201cf388 | c704b100000000 | MOV dword ptr [ECX + ESI*0x4],0x0
+; 201cf38f LAB_201cf38f
+201cf38f | 8b4704 | MOV EAX,dword ptr [EDI + 0x4]
+201cf392 | 3bf0 | CMP ESI,EAX
+201cf394 | 7324 | JNC 0x201cf3ba
+201cf396 | 2bc6 | SUB EAX,ESI
+201cf398 | 83e801 | SUB EAX,0x1
+201cf39b | 85c0 | TEST EAX,EAX
+201cf39d | 7e17 | JLE 0x201cf3b6
+201cf39f | 8b17 | MOV EDX,dword ptr [EDI]
+201cf3a1 | 03c0 | ADD EAX,EAX
+201cf3a3 | 8d0cb2 | LEA ECX,[EDX + ESI*0x4]
+201cf3a6 | 03c0 | ADD EAX,EAX
+201cf3a8 | 50 | PUSH EAX
+201cf3a9 | 8d5104 | LEA EDX,[ECX + 0x4]
+201cf3ac | 52 | PUSH EDX
+201cf3ad | 51 | PUSH ECX
+201cf3ae | e84d512900 | CALL 0x20464500
+201cf3b3 | 83c40c | ADD ESP,0xc
+; 201cf3b6 LAB_201cf3b6
+201cf3b6 | 834704ff | ADD dword ptr [EDI + 0x4],-0x1
+; 201cf3ba LAB_201cf3ba
+201cf3ba | 5f | POP EDI
+201cf3bb | b001 | MOV AL,0x1
+201cf3bd | 5e | POP ESI
+201cf3be | c20400 | RET 0x4
+; 201cf3c1 LAB_201cf3c1
+201cf3c1 | 68680d6820 | PUSH 0x20680d68
+201cf3c6 | ff1510897d20 | CALL dword ptr [0x207d8910]
+201cf3cc | 83c404 | ADD ESP,0x4
+201cf3cf | 5f | POP EDI
+201cf3d0 | 32c0 | XOR AL,AL
+201cf3d2 | 5e | POP ESI
+201cf3d3 | c20400 | RET 0x4

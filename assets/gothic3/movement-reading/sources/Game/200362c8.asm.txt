@@ -1,0 +1,4 @@
+; 200362c8 ?Create@gCCharacterMovement_PS@@UAE?AW4bEResult@@XZ
+200362c8 | e943cf1e00 | JMP 0x20223210
+; 200362d7 gCFocus_PS::SetOverrideCharacterPriority
+; 200362d7 Ordinal_6861

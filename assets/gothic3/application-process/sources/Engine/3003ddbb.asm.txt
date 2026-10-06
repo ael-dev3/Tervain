@@ -1,0 +1,2 @@
+; 3003ddbb ?SetMaxFPS@eCApplication@@QAEXM@Z
+3003ddbb | e9f0560200 | JMP 0x300634b0

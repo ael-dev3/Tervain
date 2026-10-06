@@ -1,0 +1,86 @@
+; 100cccb0 FUN_100cccb0
+100cccb0 | 81ec50010000 | SUB ESP,0x150
+100cccb6 | 53 | PUSH EBX
+100cccb7 | 55 | PUSH EBP
+100cccb8 | 56 | PUSH ESI
+100cccb9 | 8b3584652210 | MOV ESI,dword ptr [0x10226584]
+100cccbf | 57 | PUSH EDI
+100cccc0 | 8d4c2410 | LEA ECX,[ESP + 0x10]
+100cccc4 | ffd6 | CALL ESI
+100cccc6 | 8b842468010000 | MOV EAX,dword ptr [ESP + 0x168]
+100ccccd | 85c0 | TEST EAX,EAX
+100ccccf | 8b3d80652210 | MOV EDI,dword ptr [0x10226580]
+100cccd5 | 8b9c2464010000 | MOV EBX,dword ptr [ESP + 0x164]
+100cccdc | 8b2d70662210 | MOV EBP,dword ptr [0x10226670]
+100ccce2 | 7511 | JNZ 0x100cccf5
+100ccce4 | 8bcb | MOV ECX,EBX
+100ccce6 | ff1518632210 | CALL dword ptr [0x10226318]
+100cccec | 50 | PUSH EAX
+100ccced | 8d4c2414 | LEA ECX,[ESP + 0x14]
+100cccf1 | ffd5 | CALL EBP
+100cccf3 | eb07 | JMP 0x100cccfc
+; 100cccf5 LAB_100cccf5
+100cccf5 | 50 | PUSH EAX
+100cccf6 | 8d4c2414 | LEA ECX,[ESP + 0x14]
+100cccfa | ffd7 | CALL EDI
+; 100cccfc LAB_100cccfc
+100cccfc | 8d8c24b8000000 | LEA ECX,[ESP + 0xb8]
+100ccd03 | ffd6 | CALL ESI
+100ccd05 | 8b84246c010000 | MOV EAX,dword ptr [ESP + 0x16c]
+100ccd0c | 85c0 | TEST EAX,EAX
+100ccd0e | 7514 | JNZ 0x100ccd24
+100ccd10 | 8bcb | MOV ECX,EBX
+100ccd12 | ff1520632210 | CALL dword ptr [0x10226320]
+100ccd18 | 50 | PUSH EAX
+100ccd19 | 8d8c24bc000000 | LEA ECX,[ESP + 0xbc]
+100ccd20 | ffd5 | CALL EBP
+100ccd22 | eb0a | JMP 0x100ccd2e
+; 100ccd24 LAB_100ccd24
+100ccd24 | 50 | PUSH EAX
+100ccd25 | 8d8c24bc000000 | LEA ECX,[ESP + 0xbc]
+100ccd2c | ffd7 | CALL EDI
+; 100ccd2e LAB_100ccd2e
+100ccd2e | 8d4c2444 | LEA ECX,[ESP + 0x44]
+100ccd32 | ff1530652210 | CALL dword ptr [0x10226530]
+100ccd38 | 83c0f8 | ADD EAX,-0x8
+100ccd3b | 83f80b | CMP EAX,0xb
+100ccd3e | 7735 | JA 0x100ccd75
+100ccd40 | 0fb680a4cd0c10 | MOVZX EAX,byte ptr [EAX + 0x100ccda4]
+; 100ccd47 switchD_100ccd47::switchD
+100ccd47 | ff24859ccd0c10 | JMP dword ptr [EAX*0x4 + 0x100ccd9c]
+; 100ccd4e switchD_100ccd47::caseD_8
+; 100ccd4e switchD_100ccd47::caseD_9
+; 100ccd4e switchD_100ccd47::caseD_a
+; 100ccd4e switchD_100ccd47::caseD_e
+; 100ccd4e switchD_100ccd47::caseD_f
+; 100ccd4e switchD_100ccd47::caseD_13
+100ccd4e | 8b35906f2210 | MOV ESI,dword ptr [0x10226f90]
+100ccd54 | 8d8c24b8000000 | LEA ECX,[ESP + 0xb8]
+100ccd5b | ffd6 | CALL ESI
+100ccd5d | 8d4c2410 | LEA ECX,[ESP + 0x10]
+100ccd61 | ffd6 | CALL ESI
+100ccd63 | 5f | POP EDI
+100ccd64 | 5e | POP ESI
+100ccd65 | 5d | POP EBP
+100ccd66 | b802000000 | MOV EAX,0x2
+100ccd6b | 5b | POP EBX
+100ccd6c | 81c450010000 | ADD ESP,0x150
+100ccd72 | c21000 | RET 0x10
+; 100ccd75 switchD_100ccd47::caseD_b
+; 100ccd75 switchD_100ccd47::caseD_c
+; 100ccd75 switchD_100ccd47::caseD_d
+; 100ccd75 switchD_100ccd47::caseD_10
+; 100ccd75 switchD_100ccd47::caseD_11
+; 100ccd75 switchD_100ccd47::caseD_12
+100ccd75 | 8b35906f2210 | MOV ESI,dword ptr [0x10226f90]
+100ccd7b | 8d8c24b8000000 | LEA ECX,[ESP + 0xb8]
+100ccd82 | ffd6 | CALL ESI
+100ccd84 | 8d4c2410 | LEA ECX,[ESP + 0x10]
+100ccd88 | ffd6 | CALL ESI
+100ccd8a | 5f | POP EDI
+100ccd8b | 5e | POP ESI
+100ccd8c | 5d | POP EBP
+100ccd8d | b801000000 | MOV EAX,0x1
+100ccd92 | 5b | POP EBX
+100ccd93 | 81c450010000 | ADD ESP,0x150
+100ccd99 | c21000 | RET 0x10

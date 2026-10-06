@@ -1,0 +1,22 @@
+/* ENTRY 2016f370 | gCHUDPageTransform2::gCHUDPageTransform2 | STATUS decompiled | 18 ms */
+
+gCHUDPageTransform2 * __thiscall gCHUDPageTransform2::gCHUDPageTransform2(gCHUDPageTransform2 *this)
+
+{
+  gCHUDPage::gCHUDPage((gCHUDPage *)this);
+  this->vftablePtr = &vftable;
+  gCHUDView::gCHUDView((gCHUDView *)&this->gCHUDPageTransform2_data);
+  gCHUDView::gCHUDView((gCHUDView *)&(this->gCHUDPageTransform2_data).field_0x14);
+  gCHUDView::gCHUDView((gCHUDView *)&(this->gCHUDPageTransform2_data).field_0x28);
+  gCHUDView::gCHUDView((gCHUDView *)&(this->gCHUDPageTransform2_data).field_0x3c);
+  gCHUDViewItem2::gCHUDViewItem2((gCHUDViewItem2 *)&(this->gCHUDPageTransform2_data).field_0x50);
+  gCHUDViewAmount2::gCHUDViewAmount2
+            ((gCHUDViewAmount2 *)&(this->gCHUDPageTransform2_data).field_0xd4);
+  gCHUDViewTransformInventory2::gCHUDViewTransformInventory2
+            ((gCHUDViewTransformInventory2 *)&(this->gCHUDPageTransform2_data).field_0x134);
+  gCHUDViewBarTransformPages2::gCHUDViewBarTransformPages2
+            ((gCHUDViewBarTransformPages2 *)&(this->gCHUDPageTransform2_data).field_0x18c);
+  return this;
+}
+
+

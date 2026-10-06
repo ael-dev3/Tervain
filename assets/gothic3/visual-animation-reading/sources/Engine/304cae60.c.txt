@@ -1,0 +1,33 @@
+/* ENTRY 304cae60 | FUN_304cae60 | STATUS decompiled | 12 ms */
+
+undefined4 FUN_304cae60(eCNode *param_1)
+
+{
+  eCNode *this;
+  bool bVar1;
+  bCPropertyID *pbVar2;
+  int iVar3;
+  undefined4 *puVar4;
+  
+  this = param_1;
+  if (param_1 != (eCNode *)0x0) {
+    bCCriticalSectionWin32::Acquire((bCCriticalSectionWin32 *)&DAT_30af24c4);
+    pbVar2 = eCNode::GetID(this);
+    iVar3 = thunk_FUN_3044f9d0(pbVar2,&param_1);
+    if (iVar3 == 0) {
+      bVar1 = (*this->vftablePtr->IsValid)(this);
+      if (!bVar1) {
+        (*this->vftablePtr->Create)(this);
+      }
+      pbVar2 = eCNode::GetID(this);
+      puVar4 = (undefined4 *)thunk_FUN_3044fa40(pbVar2);
+      *puVar4 = this;
+      bCCriticalSectionWin32::Release((bCCriticalSectionWin32 *)&DAT_30af24c4);
+      return 1;
+    }
+    bCCriticalSectionWin32::Release((bCCriticalSectionWin32 *)&DAT_30af24c4);
+  }
+  return 0;
+}
+
+

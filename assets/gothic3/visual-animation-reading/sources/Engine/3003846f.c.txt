@@ -1,0 +1,12 @@
+/* ENTRY 3003846f | eCVisualAnimation_PS::GetSpringParentNodesOnly | STATUS decompiled | 8 ms */
+
+/* public: bool const & __thiscall eCVisualAnimation_PS::GetSpringParentNodesOnly(void)const  */
+
+bool * __thiscall eCVisualAnimation_PS::GetSpringParentNodesOnly(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x3846f  8924  ?GetSpringParentNodesOnly@eCVisualAnimation_PS@@QBEAB_NXZ */
+  return (bool *)&this[5].eCEntityPropertySet_data.offset_0xc;
+}
+
+

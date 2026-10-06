@@ -1,0 +1,2 @@
+; 30008d41 eCEntityProxy::operator_class_eCEntity_const*
+30008d41 | e95a4e0500 | JMP 0x3005dba0

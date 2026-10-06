@@ -1,0 +1,2 @@
+; 20021a76 bTPropertyContainer<gEFocusLookAt>::vfunction7
+20021a76 | e975f21100 | JMP 0x20140cf0

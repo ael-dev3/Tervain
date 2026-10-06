@@ -1,0 +1,17 @@
+/* ENTRY 2016c530 | gCHUDPageDocuments2::~gCHUDPageDocuments2 | STATUS decompiled | 14 ms */
+
+void __thiscall gCHUDPageDocuments2::~gCHUDPageDocuments2(gCHUDPageDocuments2 *this)
+
+{
+  this->vftablePtr = &vftable;
+  gCHUDViewDocument2::~gCHUDViewDocument2
+            ((gCHUDViewDocument2 *)&(this->gCHUDPageDocuments2_data).field_0x98);
+  gCHUDViewDocuments2::~gCHUDViewDocuments2
+            ((gCHUDViewDocuments2 *)&(this->gCHUDPageDocuments2_data).field_0x28);
+  gCHUDView::~gCHUDView((gCHUDView *)&(this->gCHUDPageDocuments2_data).field_0x14);
+  gCHUDView::~gCHUDView((gCHUDView *)&this->gCHUDPageDocuments2_data);
+  gCHUDPage::~gCHUDPage((gCHUDPage *)this);
+  return;
+}
+
+

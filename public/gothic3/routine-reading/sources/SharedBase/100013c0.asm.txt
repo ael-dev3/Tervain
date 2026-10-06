@@ -1,0 +1,4 @@
+; 100013c0 ??6@YGAAVbCOStream@@AAV0@AAVbCObjectBase@@@Z
+100013c0 | e9db8d0400 | JMP 0x1004a1a0
+; 100013c5 bCMatrix3::RotateLocalAxisZ
+; 100013c5 Ordinal_4002

@@ -1,0 +1,53 @@
+/* ENTRY 300361ba | eCEntity::SearchForEntity | STATUS decompiled | 78 ms */
+
+/* protected: unsigned short __thiscall eCEntity::SearchForEntity(enum eEPropertySetType)const  */
+
+ushort __thiscall eCEntity::SearchForEntity(eCEntity *this,eEPropertySetType param_1)
+
+{
+  ushort uVar1;
+  int iVar2;
+  int iVar3;
+  uint uVar4;
+  int iVar5;
+  
+                    /* 0x361ba  12834  ?SearchForEntity@eCEntity@@IBEGW4eEPropertySetType@@@Z */
+  if ((this->eCEntity_data).offset_0x118 == '\0') {
+    g_ArrayInsertionSort
+              ((void *)(this->eCEntity_data).offset_0x110,(uint)(this->eCEntity_data).offset_0x10e,4
+               ,(_func_int_void_ptr_void_ptr *)(this->eCEntity_data).offset_0x114,true);
+    (this->eCEntity_data).offset_0x118 = 1;
+  }
+  uVar1 = (this->eCEntity_data).offset_0x10e;
+  if (uVar1 == 0) {
+    return 0xffff;
+  }
+  iVar5 = uVar1 - 1;
+  uVar4 = iVar5 / 2;
+  iVar3 = 0;
+  iVar2 = (**(code **)(**(int **)((this->eCEntity_data).offset_0x110 + (uVar4 & 0xffff) * 4) + 0x60)
+          )();
+  iVar2 = param_1 - iVar2;
+  if (0 < iVar5) {
+    do {
+      if (iVar2 < 1) {
+        if (-1 < iVar2) goto LAB_304b50e4;
+        iVar5 = uVar4 - 1;
+      }
+      else {
+        iVar3 = uVar4 + 1;
+      }
+      uVar4 = (iVar5 + iVar3) / 2;
+      iVar2 = (**(code **)(**(int **)((this->eCEntity_data).offset_0x110 + (uVar4 & 0xffff) * 4) +
+                          0x60))();
+      iVar2 = param_1 - iVar2;
+    } while (iVar3 < iVar5);
+  }
+  if (iVar2 != 0) {
+    return 0xffff;
+  }
+LAB_304b50e4:
+  return (ushort)uVar4;
+}
+
+

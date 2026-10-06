@@ -1,0 +1,4 @@
+; 3000392c ?ReleaseReference@eCEntityProxyInternal@@QAEKXZ
+3000392c | e95f124c00 | JMP 0x304c4b90
+; 30003936 eCLightmap::GetVertexCount
+; 30003936 Ordinal_9547

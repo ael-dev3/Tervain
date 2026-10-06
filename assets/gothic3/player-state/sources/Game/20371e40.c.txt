@@ -1,0 +1,10 @@
+/* ENTRY 20371e40 | FUN_20371e40 | STATUS decompiled | 3 ms */
+
+void __fastcall FUN_20371e40(int param_1)
+
+{
+  gCSessionInfo::GetCheats((gCSessionInfo *)(param_1 + 0x30));
+  return;
+}
+
+

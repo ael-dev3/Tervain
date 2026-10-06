@@ -1,0 +1,89 @@
+/* ENTRY 30037902 | eCCollisionShape::CalcShapeAABBLocal | STATUS decompiled | 146 ms */
+
+/* protected: void __thiscall eCCollisionShape::CalcShapeAABBLocal(void) */
+
+void __thiscall eCCollisionShape::CalcShapeAABBLocal(eCCollisionShape *this)
+
+{
+  int iVar1;
+  float *pfVar2;
+  bCBox *pbVar3;
+  bCVector *pbVar4;
+  bCVector *pbVar5;
+  undefined1 *this_00;
+  float fVar6;
+  float fStack_80;
+  bCVector abStack_7c [4];
+  bCVector abStack_78 [4];
+  bCVector abStack_74 [8];
+  undefined1 auStack_6c [4];
+  bCVector abStack_68 [4];
+  undefined1 auStack_64 [8];
+  bCVector abStack_5c [24];
+  bCVector abStack_44 [4];
+  bCVector abStack_40 [4];
+  bCVector abStack_3c [4];
+  bCVector abStack_38 [28];
+  bCBox abStack_1c [28];
+  
+                    /* 0x37902  3675  ?CalcShapeAABBLocal@eCCollisionShape@@IAEXXZ */
+  switch((this->eCCollisionShape_data).offset_0xc) {
+  case 3:
+    pbVar3 = (bCBox *)bCOrientedBox::GetCircumAxisBox
+                                ((bCOrientedBox *)(this->eCCollisionShape_data).offset_0x70);
+    bCBox::SetBox((bCBox *)&(this->eCCollisionShape_data).field_0x44,pbVar3);
+    bCBox::~bCBox(abStack_1c);
+    return;
+  case 4:
+    iVar1 = (this->eCCollisionShape_data).offset_0x70;
+    fStack_80 = *(float *)(iVar1 + 4);
+    pbVar4 = bCMatrix3::GetXAxis((bCMatrix3 *)(iVar1 + 8));
+    bCVector::operator*(pbVar4,(float)auStack_6c);
+    pfVar2 = (float *)(this->eCCollisionShape_data).offset_0x70;
+    fVar6 = *pfVar2;
+    fStack_80 = pfVar2[1];
+    pbVar4 = bCMatrix3::GetYAxis((bCMatrix3 *)(pfVar2 + 2));
+    fStack_80 = fVar6 * 0.5 + fStack_80;
+    bCVector::operator*(pbVar4,(float)abStack_7c);
+    pbVar4 = (bCVector *)&fStack_80;
+    pbVar5 = (bCVector *)
+             bCVector::operator+((bCVector *)((this->eCCollisionShape_data).offset_0x70 + 0x2c),
+                                 abStack_38);
+    bCVector::operator+(pbVar5,pbVar4);
+    bCVector::~bCVector(abStack_40);
+    bCVector::~bCVector((bCVector *)&stack0xffffff78);
+    bCVector::~bCVector(abStack_7c);
+    pbVar4 = bCMatrix3::GetXAxis((bCMatrix3 *)((this->eCCollisionShape_data).offset_0x70 + 8));
+    bCVector::operator*(pbVar4,(float)auStack_64);
+    pbVar4 = bCMatrix3::GetYAxis((bCMatrix3 *)((this->eCCollisionShape_data).offset_0x70 + 8));
+    bCVector::operator*(pbVar4,(float)abStack_74);
+    pbVar4 = abStack_78;
+    pbVar5 = (bCVector *)
+             bCVector::operator-((bCVector *)((this->eCCollisionShape_data).offset_0x70 + 0x2c),
+                                 abStack_3c);
+    bCVector::operator-(pbVar5,pbVar4);
+    bCVector::~bCVector(abStack_44);
+    bCVector::~bCVector((bCVector *)&fStack_80);
+    bCVector::~bCVector(abStack_74);
+    pbVar4 = abStack_68;
+    this_00 = &(this->eCCollisionShape_data).field_0x44;
+    pbVar5 = bCBox::AccessMin((bCBox *)this_00);
+    bCVector::operator=(pbVar5,pbVar4);
+    pbVar4 = abStack_5c;
+    pbVar5 = bCBox::AccessMax((bCBox *)this_00);
+    bCVector::operator=(pbVar5,pbVar4);
+    bCVector::~bCVector(abStack_68);
+    bCVector::~bCVector(abStack_5c);
+    return;
+  case 5:
+    fVar6 = bCSphere::GetRadius((bCSphere *)(this->eCCollisionShape_data).offset_0x70);
+    pbVar4 = bCSphere::GetPosition((bCSphere *)(this->eCCollisionShape_data).offset_0x70);
+    bCBox::SetBox((bCBox *)&(this->eCCollisionShape_data).field_0x44,pbVar4,fVar6);
+    return;
+  case 7:
+    bCBox::Clear((bCBox *)&(this->eCCollisionShape_data).field_0x44);
+  }
+  return;
+}
+
+

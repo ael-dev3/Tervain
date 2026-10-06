@@ -1,0 +1,21 @@
+/* ENTRY 300b0140 | FUN_300b0140 | STATUS decompiled | 5 ms */
+
+void __fastcall FUN_300b0140(int *param_1)
+
+{
+  bCMemoryAdmin *this;
+  void *pvVar1;
+  
+  if (*param_1 != 0) {
+    thunk_FUN_300ae3f0(*param_1,param_1[2]);
+    pvVar1 = (void *)*param_1;
+    this = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(this,pvVar1);
+    *param_1 = 0;
+    param_1[1] = 0;
+    param_1[2] = 0;
+  }
+  return;
+}
+
+

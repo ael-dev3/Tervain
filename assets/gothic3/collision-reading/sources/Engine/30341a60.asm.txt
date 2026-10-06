@@ -1,0 +1,36 @@
+; 30341a60 bTPropertyObject<eCCollisionShapeBase_PS,eCEntityPropertySet>::vfunction10
+30341a60 | 56 | PUSH ESI
+30341a61 | 8bf1 | MOV ESI,ECX
+30341a63 | 8b4e0c | MOV ECX,dword ptr [ESI + 0xc]
+30341a66 | 8b01 | MOV EAX,dword ptr [ECX]
+30341a68 | 8b500c | MOV EDX,dword ptr [EAX + 0xc]
+30341a6b | 57 | PUSH EDI
+30341a6c | 56 | PUSH ESI
+30341a6d | ffd2 | CALL EDX
+30341a6f | 8bc8 | MOV ECX,EAX
+30341a71 | ff1554caaf30 | CALL dword ptr [0x30afca54]
+30341a77 | 8b4e08 | MOV ECX,dword ptr [ESI + 0x8]
+30341a7a | 85c9 | TEST ECX,ECX
+30341a7c | 7415 | JZ 0x30341a93
+30341a7e | ff1518caaf30 | CALL dword ptr [0x30afca18]
+30341a84 | 83f801 | CMP EAX,0x1
+30341a87 | 750a | JNZ 0x30341a93
+30341a89 | 8b4e08 | MOV ECX,dword ptr [ESI + 0x8]
+30341a8c | 8b01 | MOV EAX,dword ptr [ECX]
+30341a8e | 8b5014 | MOV EDX,dword ptr [EAX + 0x14]
+30341a91 | ffd2 | CALL EDX
+; 30341a93 LAB_30341a93
+30341a93 | 8b7e08 | MOV EDI,dword ptr [ESI + 0x8]
+30341a96 | 85ff | TEST EDI,EDI
+30341a98 | 7412 | JZ 0x30341aac
+30341a9a | 6a00 | PUSH 0x0
+30341a9c | 8bcf | MOV ECX,EDI
+30341a9e | ff1514caaf30 | CALL dword ptr [0x30afca14]
+30341aa4 | 8bcf | MOV ECX,EDI
+30341aa6 | ff1510caaf30 | CALL dword ptr [0x30afca10]
+; 30341aac LAB_30341aac
+30341aac | 5f | POP EDI
+30341aad | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+30341ab4 | 8bce | MOV ECX,ESI
+30341ab6 | 5e | POP ESI
+30341ab7 | ff2550caaf30 | JMP dword ptr [0x30afca50]

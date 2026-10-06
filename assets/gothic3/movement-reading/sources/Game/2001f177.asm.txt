@@ -1,0 +1,4 @@
+; 2001f177 bTPropertyType<gCCharacterMovement_PS,float>::vfunction3
+2001f177 | e9f4602100 | JMP 0x20235270
+; 2001f186 gCFocus_PS::AccessNormalModeInteractPriority
+; 2001f186 Ordinal_1488

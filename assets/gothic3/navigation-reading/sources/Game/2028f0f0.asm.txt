@@ -1,0 +1,8 @@
+; 2028f0f0 bTPropertyType<gCNavigation_PS,bTValArray<bCPropertyID>_>::vfunction21
+2028f0f0 | 6808926520 | PUSH 0x20659208
+2028f0f5 | 68e4986520 | PUSH 0x206598e4
+2028f0fa | 688c916520 | PUSH 0x2065918c
+2028f0ff | ff1510897d20 | CALL dword ptr [0x207d8910]
+2028f105 | 83c40c | ADD ESP,0xc
+2028f108 | 33c0 | XOR EAX,EAX
+2028f10a | c3 | RET

@@ -1,0 +1,20 @@
+; 1009edf0 bCByteAlphaColor::bCByteAlphaColor
+1009edf0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+1009edf4 | 83ec08 | SUB ESP,0x8
+1009edf7 | 56 | PUSH ESI
+1009edf8 | 8bf1 | MOV ESI,ECX
+1009edfa | 50 | PUSH EAX
+1009edfb | 8d4c2408 | LEA ECX,[ESP + 0x8]
+1009edff | c706f0b90e10 | MOV dword ptr [ESI],0x100eb9f0
+1009ee05 | e8fe69f6ff | CALL 0x10005808
+1009ee0a | 8a44240a | MOV AL,byte ptr [ESP + 0xa]
+1009ee0e | 8a4c2408 | MOV CL,byte ptr [ESP + 0x8]
+1009ee12 | 8a542409 | MOV DL,byte ptr [ESP + 0x9]
+1009ee16 | 884606 | MOV byte ptr [ESI + 0x6],AL
+1009ee19 | 884e04 | MOV byte ptr [ESI + 0x4],CL
+1009ee1c | 885605 | MOV byte ptr [ESI + 0x5],DL
+1009ee1f | c64608ff | MOV byte ptr [ESI + 0x8],0xff
+1009ee23 | 8bc6 | MOV EAX,ESI
+1009ee25 | 5e | POP ESI
+1009ee26 | 83c408 | ADD ESP,0x8
+1009ee29 | c20400 | RET 0x4

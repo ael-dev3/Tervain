@@ -1,0 +1,2 @@
+; 300399cd ?SetRange@eCCollisionShape_PS@@QAEXABV?$bTPropertyContainer@W4eEPhysicRangeType@@@@@Z
+300399cd | e91e470900 | JMP 0x300ce0f0

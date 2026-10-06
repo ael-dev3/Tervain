@@ -1,0 +1,20 @@
+/* ENTRY 10004994 | PSNpc::HasStatusEffects | STATUS decompiled | 5 ms */
+
+/* public: bool __thiscall PSNpc::HasStatusEffects(int)const  */
+
+bool __thiscall PSNpc::HasStatusEffects(PSNpc *this,int param_1)
+
+{
+  bool bVar1;
+  
+                    /* 0x4994  1726  ?HasStatusEffects@PSNpc@@QBE_NH@Z */
+  if (*(gCNPC_PS **)this != (gCNPC_PS *)0x0) {
+                    /* WARNING: Could not recover jumptable at 0x100204a6. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+    bVar1 = gCNPC_PS::HasStatusEffect(*(gCNPC_PS **)this,param_1);
+    return bVar1;
+  }
+  return false;
+}
+
+

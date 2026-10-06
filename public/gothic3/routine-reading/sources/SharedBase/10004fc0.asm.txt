@@ -1,0 +1,4 @@
+; 10004fc0 ?AccessBuffer@bCMemoryStream@@QAEPAEK@Z
+10004fc0 | e94baa0100 | JMP 0x1001fa10
+; 10004fc5 bCVariant::GetString
+; 10004fc5 Ordinal_3039

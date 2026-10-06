@@ -1,0 +1,4 @@
+; 100041ab ?SetStrength@PSPlayerMemory@@QAEXH@Z
+100041ab | e9305b0200 | JMP 0x10029ce0
+; 100041b0 PSPlayerMemory::PropertyBookOfRhobar::operator_long
+; 100041b0 Ordinal_917

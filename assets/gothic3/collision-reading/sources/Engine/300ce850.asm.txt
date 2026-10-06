@@ -1,0 +1,25 @@
+; 300ce850 bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeAABBAdapt>_>::vfunction4
+300ce850 | a1c0abad30 | MOV EAX,[0x30adabc0]
+300ce855 | a801 | TEST AL,0x1
+300ce857 | 7514 | JNZ 0x300ce86d
+300ce859 | 8b0d3cacad30 | MOV ECX,dword ptr [0x30adac3c]
+300ce85f | 83c801 | OR EAX,0x1
+300ce862 | a3c0abad30 | MOV [0x30adabc0],EAX
+300ce867 | 890dbcabad30 | MOV dword ptr [0x30adabbc],ECX
+; 300ce86d LAB_300ce86d
+300ce86d | a802 | TEST AL,0x2
+300ce86f | 7530 | JNZ 0x300ce8a1
+300ce871 | 83c802 | OR EAX,0x2
+300ce874 | 68ac70af30 | PUSH 0x30af70ac
+300ce879 | b9006aaa30 | MOV ECX,0x30aa6a00
+300ce87e | a3c0abad30 | MOV [0x30adabc0],EAX
+300ce883 | e8262b5a00 | CALL 0x306713ae
+300ce888 | 50 | PUSH EAX
+300ce889 | 68b8abad30 | PUSH 0x30adabb8
+300ce88e | ff15b0daaf30 | CALL dword ptr [0x30afdab0]
+300ce894 | 6806f30230 | PUSH 0x3002f306
+300ce899 | e8f82c5a00 | CALL 0x30671596
+300ce89e | 83c404 | ADD ESP,0x4
+; 300ce8a1 LAB_300ce8a1
+300ce8a1 | b8b8abad30 | MOV EAX,0x30adabb8
+300ce8a6 | c3 | RET

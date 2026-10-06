@@ -1,0 +1,38 @@
+/* ENTRY 20033bae | gCCharacterMovement_PS::CalcNextSteps | STATUS decompiled | 23 ms */
+
+/* protected: void __thiscall gCCharacterMovement_PS::CalcNextSteps(void) */
+
+void __thiscall gCCharacterMovement_PS::CalcNextSteps(gCCharacterMovement_PS *this)
+
+{
+  bool bVar1;
+  eCEntity *this_00;
+  bCVector *pbVar2;
+  undefined4 *puVar3;
+  eEPropertySetType eVar4;
+  
+                    /* 0x33bae  2017  ?CalcNextSteps@gCCharacterMovement_PS@@IAEXXZ */
+  eVar4 = 0x16;
+  this_00 = (*this->vftablePtr->GetEntity)(this);
+  bVar1 = eCEntity::HasPropertySet((eCEntity *)this_00,eVar4);
+  if ((bVar1) && ((this->gCCharacterMovement_PS_data).offset_0x174 != 0)) {
+    CreateDependantPSets(this);
+    pbVar2 = (bCVector *)
+             gCCharacterSensor_PS::GetPosition
+                       ((gCCharacterSensor_PS *)(this->gCCharacterMovement_PS_data).offset_0x174);
+    bCVector::operator=((bCVector *)&(this->gCCharacterMovement_PS_data).field_0x2bc,pbVar2);
+    bCVector::~bCVector((bCVector *)&stack0xffffffec);
+    CreateDependantPSets(this);
+    puVar3 = (undefined4 *)
+             gCCharacterSensor_PS::GetGoalRotation
+                       ((gCCharacterSensor_PS *)(this->gCCharacterMovement_PS_data).offset_0x174);
+    *(undefined4 *)&(this->gCCharacterMovement_PS_data).field_0x2c8 = *puVar3;
+    *(undefined4 *)&(this->gCCharacterMovement_PS_data).field_0x2cc = puVar3[1];
+    *(undefined4 *)&(this->gCCharacterMovement_PS_data).field_0x2d0 = puVar3[2];
+    *(undefined4 *)&(this->gCCharacterMovement_PS_data).field_0x2d4 = puVar3[3];
+    bCQuaternion::~bCQuaternion((bCQuaternion *)&stack0xffffffe8);
+  }
+  return;
+}
+
+

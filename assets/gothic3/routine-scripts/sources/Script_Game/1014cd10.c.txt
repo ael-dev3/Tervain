@@ -1,0 +1,17 @@
+/* ENTRY 1014cd10 | FUN_1014cd10 | STATUS decompiled | 6 ms */
+
+void FUN_1014cd10(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Player\\Player_Interface\\OnPlayerGameKeyPressed.cpp");
+  bCString::bCString(local_8,"OnPlayerUseQuickSlot");
+  thunk_FUN_10017a50(local_8,thunk_FUN_10078ed0,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

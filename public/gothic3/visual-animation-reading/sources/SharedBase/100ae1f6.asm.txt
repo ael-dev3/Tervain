@@ -1,0 +1,10 @@
+; 100ae1f6 FUN_100ae1f6
+100ae1f6 | 33c0 | XOR EAX,EAX
+100ae1f8 | 50 | PUSH EAX
+100ae1f9 | 50 | PUSH EAX
+100ae1fa | 50 | PUSH EAX
+100ae1fb | 50 | PUSH EAX
+100ae1fc | 50 | PUSH EAX
+100ae1fd | e8d0ffffff | CALL 0x100ae1d2
+100ae202 | 83c414 | ADD ESP,0x14
+100ae205 | c3 | RET

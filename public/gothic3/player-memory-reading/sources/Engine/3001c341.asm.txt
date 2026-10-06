@@ -1,0 +1,2 @@
+; 3001c341 eCLocAdmin::ReserveString
+3001c341 | e94a735c00 | JMP 0x305e3690

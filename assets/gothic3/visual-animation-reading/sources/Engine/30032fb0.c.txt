@@ -1,0 +1,28 @@
+/* ENTRY 30032fb0 | eCWrapper_emfx2Actor::eCWrapper_emfx2Actor | STATUS decompiled | 168 ms */
+
+/* public: __thiscall eCWrapper_emfx2Actor::eCWrapper_emfx2Actor(void) */
+
+eCWrapper_emfx2Actor * __thiscall
+eCWrapper_emfx2Actor::eCWrapper_emfx2Actor(eCWrapper_emfx2Actor *this)
+
+{
+  undefined1 *this_00;
+  
+                    /* 0x32fb0  930  ??0eCWrapper_emfx2Actor@@QAE@XZ */
+  bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)this);
+  this_00 = &(this->eCWrapper_emfx2Actor_data).field_0x2c;
+  this->vftablePtr = &vftable;
+  bCBox::bCBox((bCBox *)this_00);
+  thunk_FUN_300eaa80();
+  bCString::bCString((bCString *)&(this->eCWrapper_emfx2Actor_data).field_0x64);
+  (this->eCWrapper_emfx2Actor_data).offset_0x8 = (Actor *)0x0;
+  (this->eCWrapper_emfx2Actor_data).offset_0x44 = 0;
+  bCBox::Invalidate((bCBox *)this_00);
+  (this->eCWrapper_emfx2Actor_data).offset_0x68 = 0x3e4ccccd;
+  (this->eCWrapper_emfx2Actor_data).offset_0x6c = 0x3e4ccccd;
+  (this->eCWrapper_emfx2Actor_data).offset_0x70 = 0;
+  (this->eCWrapper_emfx2Actor_data).offset_0x74 = 1;
+  return this;
+}
+
+

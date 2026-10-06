@@ -1,0 +1,12 @@
+/* ENTRY 20461fb8 | ENGINE.DLL::eCEntityPropertySet::OnPostRead | STATUS decompiled | 2 ms */
+
+void __thiscall eCEntityPropertySet::OnPostRead(eCEntityPropertySet *this)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x20461fb8. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  OnPostRead(this);
+  return;
+}
+
+

@@ -1,0 +1,2 @@
+; 1000708b bCString::GetText
+1000708b | e980c10000 | JMP 0x10013210

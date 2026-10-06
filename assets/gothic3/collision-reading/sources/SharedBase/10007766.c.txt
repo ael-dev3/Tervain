@@ -1,0 +1,17 @@
+/* ENTRY 10007766 | bCBox::GetMagnitude | STATUS decompiled | 4 ms */
+
+/* public: class bCVector __thiscall bCBox::GetMagnitude(void)const  */
+
+void __thiscall bCBox::GetMagnitude(bCBox *this)
+
+{
+  float *in_stack_00000004;
+  
+                    /* 0x7766  2596  ?GetMagnitude@bCBox@@QBE?AVbCVector@@XZ */
+  *in_stack_00000004 = *(float *)(this + 0xc) - *(float *)this;
+  in_stack_00000004[1] = *(float *)(this + 0x10) - *(float *)(this + 4);
+  in_stack_00000004[2] = *(float *)(this + 0x14) - *(float *)(this + 8);
+  return;
+}
+
+

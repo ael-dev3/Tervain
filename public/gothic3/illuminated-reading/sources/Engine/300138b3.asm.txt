@@ -1,0 +1,2 @@
+; 300138b3 eCIlluminationAdmin::GetEffectedDynamicLights
+300138b3 | e9b88d1f00 | JMP 0x3020c670

@@ -1,0 +1,24 @@
+/* ENTRY 10090650 | bCPropertyObjectSingleton::bCPropertyObjectSingleton | STATUS decompiled | 6 ms */
+
+bCPropertyObjectSingleton * __thiscall
+bCPropertyObjectSingleton::bCPropertyObjectSingleton(bCPropertyObjectSingleton *this)
+
+{
+  int iVar1;
+  
+  this->vftablePtr = &vftable;
+  thunk_FUN_100911d0();
+  (this->bCPropertyObjectSingleton_data).offset_0x0 = 1;
+  (this->bCPropertyObjectSingleton_data).offset_0x4 = 0;
+  FUN_10005cdb();
+  thunk_FUN_10090b80(0x167,0);
+  (this->bCPropertyObjectSingleton_data).offset_0xc = 0x167;
+  iVar1 = 0;
+  do {
+    *(undefined4 *)(iVar1 + (this->bCPropertyObjectSingleton_data).offset_0x8) = 0;
+    iVar1 = iVar1 + 4;
+  } while (iVar1 < 0x59c);
+  return this;
+}
+
+

@@ -1,0 +1,4 @@
+; 2000df85 ?GetTutorialFlags@gCPlayerMemory_PS@@QBEABKXZ
+2000df85 | e976c90900 | JMP 0x200aa900
+; 2000df8a gCIrcChannel::GetName
+; 2000df8a Ordinal_3854

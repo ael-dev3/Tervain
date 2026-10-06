@@ -1,0 +1,2 @@
+; 20022773 ?CopyFrom@gCNavigation_PS@@UAE?AW4bEResult@@ABVbCObjectBase@@@Z
+20022773 | e9b8372600 | JMP 0x20285f30

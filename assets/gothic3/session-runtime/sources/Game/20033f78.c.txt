@@ -1,0 +1,53 @@
+/* ENTRY 20033f78 | gCSession::Stop | STATUS decompiled | 18 ms */
+
+/* public: void __thiscall gCSession::Stop(void) */
+
+void __thiscall gCSession::Stop(gCSession *this)
+
+{
+  gCGUIManager *this_00;
+  gCWorld *pgVar1;
+  bCErrorAdmin *this_01;
+  int *piVar2;
+  eCApplication *this_02;
+  eSSetupEngine *peVar3;
+  char *pcVar4;
+  char *pcVar5;
+  int iVar6;
+  gCSession *pgStack_4;
+  
+  pgStack_4 = this;
+                    /* 0x33f78  7311  ?Stop@gCSession@@QAEXXZ */
+  eCThreadPool::EnableAllThreads(false);
+  (this->gCSession_data).offset_0x24 = 0;
+  (this->gCSession_data).offset_0x28 = 0;
+  if (((this->gCSession_data).offset_0x18 != 0) || ((this->gCSession_data).offset_0x1c != 0)) {
+    pgVar1 = gCWorld::GetCurrentWorld();
+    if (pgVar1 == (gCWorld *)0x0) {
+      iVar6 = 0xa33;
+      pcVar5 = ".\\session\\ge_session.cpp";
+      pcVar4 = 
+      "C: gCSession::Stop(): can\'t remove player and camera entities because there is no world left!"
+      ;
+      this_01 = bCErrorAdmin::GetInstance();
+      bCErrorAdmin::CallFatalError(this_01,pcVar4,pcVar5,iVar6);
+    }
+    this_00 = (gCGUIManager *)(this->gCSession_data).offset_0xf0;
+    if (this_00 != (gCGUIManager *)0x0) {
+      gCGUIManager::ClearAllEntities(this_00);
+    }
+    (this->gCSession_data).offset_0x18 = 0;
+    bCString::bCString((bCString *)&pgStack_4,"OnPlayerChanged");
+    piVar2 = (int *)thunk_FUN_200a4bb0();
+    (**(code **)(*piVar2 + 0xbc))(&pgStack_4,0,0,0);
+    bCString::~bCString((bCString *)&pgStack_4);
+    (this->gCSession_data).offset_0x1c = 0;
+  }
+  (this->gCSession_data).offset_0xe4 = (gCSession)0x0;
+  this_02 = eCApplication::GetInstance();
+  peVar3 = eCApplication::GetSetupEngineDesc((eCApplication *)this_02);
+  eCThreadPool::EnableAllThreads((bool)peVar3[0x88]);
+  return;
+}
+
+

@@ -1,0 +1,16 @@
+/* ENTRY 300c2570 | FUN_300c2570 | STATUS decompiled | 3 ms */
+
+void __fastcall FUN_300c2570(int *param_1)
+
+{
+  code *pcVar1;
+  undefined1 *unaff_ESI;
+  
+  (**(code **)(*param_1 + 0x58))("EnableCCD",0);
+  pcVar1 = *(code **)(*param_1 + 0x5c);
+  *(undefined1 *)((int)param_1 + 0x2d) = *unaff_ESI;
+  (*pcVar1)("EnableCCD",0);
+  return;
+}
+
+

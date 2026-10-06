@@ -1,0 +1,4 @@
+; 300124fe bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeGroup>_>::vfunction16
+300124fe | e9ddc83400 | JMP 0x3035ede0
+; 30012512 eCDecalMesh::GetVersion
+; 30012512 Ordinal_9367

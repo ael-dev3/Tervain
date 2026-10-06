@@ -1,0 +1,33 @@
+/* ENTRY 3003fc15 | eCEntity::Lock | STATUS decompiled | 48 ms */
+
+/* public: void __thiscall eCEntity::Lock(bool) */
+
+void __thiscall eCEntity::Lock(eCEntity *this,bool param_1)
+
+{
+  uint *puVar1;
+  int iVar2;
+  eCEntity *this_00;
+  int iVar3;
+  bool bVar4;
+  bool bVar5;
+  
+                    /* 0x3fc15  10800  ?Lock@eCEntity@@QAEX_N@Z */
+  puVar1 = &(this->eCEntity_data).offset_0xc;
+  *puVar1 = *puVar1 ^ ((uint)param_1 ^ (this->eCEntity_data).offset_0xc) & 1;
+  iVar3 = 0;
+  iVar2 = eCNode::GetChildrenCount((eCNode *)this);
+  if (0 < iVar2) {
+    do {
+      bVar5 = true;
+      bVar4 = param_1;
+      this_00 = (eCEntity *)(*this->vftablePtr->GetChildAt)(this,iVar3);
+      EnablePicking(this_00,bVar4,bVar5);
+      iVar3 = iVar3 + 1;
+      iVar2 = eCNode::GetChildrenCount((eCNode *)this);
+    } while (iVar3 < iVar2);
+  }
+  return;
+}
+
+

@@ -1,0 +1,14 @@
+/* ENTRY 2000c815 | bTPropertyType<gCCharacterMovement_PS,float>::vfunction20 | STATUS decompiled | 93 ms */
+
+void __thiscall
+bTPropertyType<gCCharacterMovement_PS,float>::vfunction20
+          (bTPropertyType<gCCharacterMovement_PS,float> *this)
+
+{
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)this);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)this[6].vftablePtr,(bCPropertyTypeBase *)this);
+  return;
+}
+
+

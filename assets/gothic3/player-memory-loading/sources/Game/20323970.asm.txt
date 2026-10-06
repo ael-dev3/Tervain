@@ -1,0 +1,5 @@
+; 20323970 bTPropertyType<gCPlayerMemory_PS,bTPropertyContainer<gEWeaponConfig>_>::vfunction7
+20323970 | 33c0 | XOR EAX,EAX
+20323972 | 394120 | CMP dword ptr [ECX + 0x20],EAX
+20323975 | 0f95c0 | SETNZ AL
+20323978 | c3 | RET

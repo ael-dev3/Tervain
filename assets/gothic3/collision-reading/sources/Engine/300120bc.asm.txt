@@ -1,0 +1,4 @@
+; 300120bc ?RemoveShapes@eCCollisionShape_PS@@UAEXW4eECollisionShapeType@@@Z
+300120bc | e9cf4a3200 | JMP 0x30336b90
+; 300120c1 eCGfxEffect::eCGfxEffect
+; 300120c1 Ordinal_364

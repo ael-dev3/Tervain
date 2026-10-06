@@ -1,0 +1,3 @@
+; 3032dea0 FUN_3032dea0
+3032dea0 | b001 | MOV AL,0x1
+3032dea2 | c3 | RET

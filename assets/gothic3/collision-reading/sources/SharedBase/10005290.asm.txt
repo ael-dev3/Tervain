@@ -1,0 +1,4 @@
+; 10005290 ?GetInvScaled@bCOrientedBox@@QBE?AV1@M@Z
+10005290 | e9fb260600 | JMP 0x10067990
+; 10005295 bCInfDoubleCylinder::AccessRadiusB
+; 10005295 Ordinal_1477

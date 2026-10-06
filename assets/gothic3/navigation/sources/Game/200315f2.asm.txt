@@ -1,0 +1,2 @@
+; 200315f2 ?SetEnabled@gCNavigation_PS@@QAEX_N@Z
+200315f2 | e9b94d2500 | JMP 0x202863b0

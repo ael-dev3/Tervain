@@ -1,0 +1,4 @@
+; 3002c011 ??6eCTemplateEntityProxy@@QAEAAVbCIStream@@AAV1@@Z
+3002c011 | e9dab14900 | JMP 0x304c71f0
+; 3002c016 eCTreeCtrl::Write
+; 3002c016 Ordinal_15276

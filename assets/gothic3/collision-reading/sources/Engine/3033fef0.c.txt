@@ -1,0 +1,29 @@
+/* ENTRY 3033fef0 | bTPropertyType<eCCollisionShape_PS,bCObsoleteClass>::deleting_destructor | STATUS decompiled | 8 ms */
+
+bTPropertyType<eCCollisionShape_PS,bCObsoleteClass> * __thiscall
+bTPropertyType<eCCollisionShape_PS,bCObsoleteClass>::deleting_destructor
+          (bTPropertyType<eCCollisionShape_PS,bCObsoleteClass> *this,byte param_1)
+
+{
+                    /* inlined destructor:
+                       bTPropertyType<eCCollisionShape_PS,bCObsoleteClass>::~bTPropertyType<eCCollisionShape_PS,bCObsoleteClass>
+                        */
+  this->vftablePtr = &vftable;
+  bCPropertyTypeBase::Destroy((bCPropertyTypeBase *)this);
+  thunk_FUN_3008f120(this + 8);
+  bCPropertyObjectTypeBase::UnregisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)this[6].vftablePtr,(bCPropertyTypeBase *)this);
+                    /* inlined destructor:
+                       bTPropertyTypeOnly<bCObsoleteClass>::~bTPropertyTypeOnly<bCObsoleteClass> */
+  this->vftablePtr =
+       (bTPropertyType<eCCollisionShape_PS,bCObsoleteClass>_vftable *)
+       &bTPropertyTypeOnly<bCObsoleteClass>::vftable;
+  bCPropertyTypeBase::~bCPropertyTypeBase((bCPropertyTypeBase *)this);
+  if ((param_1 & 1) != 0) {
+                    /* WARNING: Subroutine does not return */
+    _free(this);
+  }
+  return this;
+}
+
+

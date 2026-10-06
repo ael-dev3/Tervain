@@ -1,0 +1,4 @@
+; 3001d601 SHAREDBASE.DLL::bCPropertyTypeBase::Read
+3001d601 | e9aa7d3100 | JMP 0x303353b0
+; 3001d610 eCSpeedTreeWind_PS::SetStrengthAdjustmentExponent
+; 3001d610 Ordinal_14310

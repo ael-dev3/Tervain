@@ -1,0 +1,2 @@
+; 30045db8 bTPropertyType<eCIlluminated_PS,bool>::vfunction6
+30045db8 | e9330a1e00 | JMP 0x302267f0

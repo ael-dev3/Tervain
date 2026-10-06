@@ -1,0 +1,20 @@
+/* ENTRY 100024d7 | PSPlayerMemory::SetTheft | STATUS decompiled | 27 ms */
+
+/* public: void __thiscall PSPlayerMemory::SetTheft(int) */
+
+void __thiscall PSPlayerMemory::SetTheft(PSPlayerMemory *this,int param_1)
+
+{
+  PSPlayerMemory *pPStack_4;
+  
+                    /* 0x24d7  2004  ?SetTheft@PSPlayerMemory@@QAEXH@Z */
+  pPStack_4 = this;
+  bCString::bCString((bCString *)&pPStack_4,"THF");
+  if (*(gCPlayerMemory_PS **)this != (gCPlayerMemory_PS *)0x0) {
+    gCPlayerMemory_PS::SetBaseValue(*(gCPlayerMemory_PS **)this,(bCString *)&pPStack_4,param_1);
+  }
+  bCString::~bCString((bCString *)&pPStack_4);
+  return;
+}
+
+

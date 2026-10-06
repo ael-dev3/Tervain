@@ -1,0 +1,15 @@
+/* ENTRY 100026ad | bCBox::Intersects | STATUS decompiled | 2 ms */
+
+/* public: bool __thiscall bCBox::Intersects(class bCFrustum const &)const  */
+
+bool __thiscall bCBox::Intersects(bCBox *this,bCFrustum *param_1)
+
+{
+  bool bVar1;
+  
+                    /* 0x26ad  3350  ?Intersects@bCBox@@QBE_NABVbCFrustum@@@Z */
+  bVar1 = bCFrustum::Intersects(param_1,this);
+  return bVar1;
+}
+
+

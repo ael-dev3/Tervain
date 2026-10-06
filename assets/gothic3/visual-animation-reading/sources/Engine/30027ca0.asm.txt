@@ -1,0 +1,2 @@
+; 30027ca0 eCRenderSystemAdmin::DrawBatchLineList
+30027ca0 | e9bbd53800 | JMP 0x303b5260

@@ -1,0 +1,54 @@
+/* ENTRY 3002c9c6 | eCVisualAnimation_PS::CountSubSkeletons | STATUS decompiled | 415 ms */
+
+/* public: unsigned long __thiscall eCVisualAnimation_PS::CountSubSkeletons(class bTPtrArray<class
+   EMotionFX::Node *> *) */
+
+ulong __thiscall
+eCVisualAnimation_PS::CountSubSkeletons
+          (eCVisualAnimation_PS *this,bTPtrArray<EMotionFX::Node*> *param_1)
+
+{
+  undefined1 *this_00;
+  int iVar1;
+  bTPtrArray<EMotionFX::Node*> *pbVar2;
+  bool bVar3;
+  eCWrapper_emfx2Actor *peVar4;
+  int iVar5;
+  int iVar6;
+  ulong uStack_c;
+  int iStack_8;
+  
+                    /* 0x2c9c6  4367
+                       ?CountSubSkeletons@eCVisualAnimation_PS@@QAEKPAV?$bTPtrArray@PAVNode@EMotionFX@@@@@Z
+                        */
+  this_00 = &this[7].eCEntityPropertySet_data.field_0x4;
+  uStack_c = 0;
+  peVar4 = eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+  if (peVar4 != (eCWrapper_emfx2Actor *)0x0) {
+    peVar4 = eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+    pbVar2 = param_1;
+    iStack_8 = *(int *)(*(int *)(peVar4 + 0xc) + 0x1b4);
+    if (0 < iStack_8) {
+      iVar5 = 0;
+      do {
+        peVar4 = eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+        iVar1 = *(int *)(*(int *)(peVar4 + 0xc) + 0x1bc);
+        bCString::bCString((bCString *)&param_1,*(char **)(iVar1 + 0x16c + iVar5));
+        bVar3 = bCString::Contains((bCString *)&param_1,"_PHX_PARENT",0);
+        if ((bVar3) && (uStack_c = uStack_c + 1, pbVar2 != (bTPtrArray<EMotionFX::Node*> *)0x0)) {
+          iVar6 = *(int *)(pbVar2 + 4) + 1;
+          thunk_FUN_300abaf0(iVar6,(iVar6 != 0) - 1);
+          *(int *)(pbVar2 + 4) = iVar6;
+          *(int *)(*(int *)pbVar2 + -4 + iVar6 * 4) = iVar1 + iVar5;
+        }
+        bCString::~bCString((bCString *)&param_1);
+        iVar5 = iVar5 + 400;
+        iStack_8 = iStack_8 + -1;
+      } while (iStack_8 != 0);
+      return uStack_c;
+    }
+  }
+  return 0;
+}
+
+

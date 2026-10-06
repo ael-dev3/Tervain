@@ -1,0 +1,2 @@
+; 10006b6d bCIOStream::bCIOStream
+10006b6d | e92e7c0100 | JMP 0x1001e7a0

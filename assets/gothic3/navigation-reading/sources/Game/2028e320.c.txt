@@ -1,0 +1,17 @@
+/* ENTRY 2028e320 | bTPropertyType<gCNavigation_PS,bCPropertyID>::vfunction6 | STATUS decompiled | 4 ms */
+
+void __thiscall
+bTPropertyType<gCNavigation_PS,bCPropertyID>::vfunction6
+          (bTPropertyType<gCNavigation_PS,bCPropertyID> *this,int param_1)
+
+{
+  bTPropertyType<gCNavHelper_PS,bCPropertyID>_vftable *this_00;
+  
+  if (param_1 != 0) {
+    this_00 = (*this->vftablePtr->vfunction26)(this,(undefined4 *)param_1);
+    bCPropertyID::CreateRandom((bCPropertyID *)this_00);
+  }
+  return;
+}
+
+

@@ -1,0 +1,16 @@
+/* ENTRY 10005196 | bCVector::GetTransformed | STATUS decompiled | 2 ms */
+
+/* public: class bCVector __thiscall bCVector::GetTransformed(class bCMatrix const &)const  */
+
+undefined4 __thiscall bCVector::GetTransformed(bCVector *this,bCMatrix *param_1)
+
+{
+  undefined4 extraout_EDX;
+  bCMatrix *in_stack_00000008;
+  
+                    /* 0x5196  3139  ?GetTransformed@bCVector@@QBE?AV1@ABVbCMatrix@@@Z */
+  SetTransformed((bCVector *)param_1,this,in_stack_00000008);
+  return extraout_EDX;
+}
+
+

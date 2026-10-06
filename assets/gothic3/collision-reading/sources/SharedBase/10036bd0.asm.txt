@@ -1,0 +1,11 @@
+; 10036bd0 FUN_10036bd0
+10036bd0 | d9442408 | FLD float ptr [ESP + 0x8]
+10036bd4 | 56 | PUSH ESI
+10036bd5 | 8b742408 | MOV ESI,dword ptr [ESP + 0x8]
+10036bd9 | 51 | PUSH ECX
+10036bda | d91c24 | FSTP float ptr [ESP]
+10036bdd | 56 | PUSH ESI
+10036bde | e8a3e6fcff | CALL 0x10005286
+10036be3 | 8bc6 | MOV EAX,ESI
+10036be5 | 5e | POP ESI
+10036be6 | c20800 | RET 0x8

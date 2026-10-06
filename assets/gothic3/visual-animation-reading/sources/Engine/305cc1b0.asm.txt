@@ -1,0 +1,19 @@
+; 305cc1b0 eCVirtualFile::eCVirtualFile_Constructor_or_Destructor
+305cc1b0 | 56 | PUSH ESI
+305cc1b1 | 8bf1 | MOV ESI,ECX
+305cc1b3 | 8b4608 | MOV EAX,dword ptr [ESI + 0x8]
+305cc1b6 | 85c0 | TEST EAX,EAX
+305cc1b8 | c7067cc98830 | MOV dword ptr [ESI],0x3088c97c
+305cc1be | c7460468c98830 | MOV dword ptr [ESI + 0x4],0x3088c968
+305cc1c5 | 7418 | JZ 0x305cc1df
+305cc1c7 | 8b4804 | MOV ECX,dword ptr [EAX + 0x4]
+305cc1ca | 8b5104 | MOV EDX,dword ptr [ECX + 0x4]
+305cc1cd | 8d4c0204 | LEA ECX,[EDX + EAX*0x1 + 0x4]
+305cc1d1 | 8b01 | MOV EAX,dword ptr [ECX]
+305cc1d3 | 8b5004 | MOV EDX,dword ptr [EAX + 0x4]
+305cc1d6 | ffd2 | CALL EDX
+305cc1d8 | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+305cc1df | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+305cc1e6 | 8bce | MOV ECX,ESI
+305cc1e8 | 5e | POP ESI
+305cc1e9 | ff2574d9af30 | JMP dword ptr [0x30afd974]

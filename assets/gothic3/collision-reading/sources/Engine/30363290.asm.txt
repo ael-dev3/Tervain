@@ -1,0 +1,12 @@
+; 30363290 bTPropertyType<eCCollisionShape,unsigned_short>::vfunction19
+30363290 | 56 | PUSH ESI
+30363291 | 8bf1 | MOV ESI,ECX
+30363293 | ff156ccaaf30 | CALL dword ptr [0x30afca6c]
+30363299 | 8d4620 | LEA EAX,[ESI + 0x20]
+3036329c | 50 | PUSH EAX
+3036329d | e8ee5fcbff | CALL 0x30019290
+303632a2 | 8b4e18 | MOV ECX,dword ptr [ESI + 0x18]
+303632a5 | 56 | PUSH ESI
+303632a6 | ff1514cbaf30 | CALL dword ptr [0x30afcb14]
+303632ac | 5e | POP ESI
+303632ad | c3 | RET

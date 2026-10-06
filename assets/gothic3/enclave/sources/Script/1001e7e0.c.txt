@@ -1,0 +1,17 @@
+/* ENTRY 1001e7e0 | FUN_1001e7e0 | STATUS decompiled | 3 ms */
+
+bool __fastcall FUN_1001e7e0(undefined4 *param_1)
+
+{
+  bool bVar1;
+  
+  if ((gCNavigation_PS *)*param_1 == (gCNavigation_PS *)0x0) {
+    return true;
+  }
+                    /* WARNING: Could not recover jumptable at 0x1001e7e9. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bVar1 = gCNavigation_PS::IsInProcessingRange((gCNavigation_PS *)*param_1);
+  return bVar1;
+}
+
+

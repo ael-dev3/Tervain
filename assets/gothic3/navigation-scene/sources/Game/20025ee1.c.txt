@@ -1,0 +1,621 @@
+/* ENTRY 20025ee1 | gCNavigationMap::ReadLists | STATUS decompiled | 1358 ms */
+
+/* WARNING: Restarted to delay deadcode elimination for space: stack */
+/* public: enum bEResult __thiscall gCNavigationMap::ReadLists(void) */
+
+bEResult __thiscall gCNavigationMap::ReadLists(gCNavigationMap *this)
+
+{
+  int *piVar1;
+  bCPropertyID *this_00;
+  gCNavigationMap *pgVar2;
+  bool bVar3;
+  ushort uVar4;
+  eCArchiveManager *this_01;
+  int iVar5;
+  bCMemoryAdmin *pbVar6;
+  gCNegZone_PSObj *pgVar7;
+  gCCollisionCircle_PSObj *pgVar8;
+  gCPrefPath_PSObj *pgVar9;
+  gCNavZone_PS *pgVar10;
+  uint uVar11;
+  gCNavPath_PS *this_02;
+  gCInteraction_PS *this_03;
+  eCPropertySetProxy *this_04;
+  bCMessageAdmin *this_05;
+  float *pfVar12;
+  int *piVar13;
+  void **ppvVar14;
+  int iVar15;
+  gCNavZone_PS *pgVar16;
+  int iVar17;
+  eCPropertySetProxy *peVar18;
+  bCVector *this_06;
+  code *pcVar19;
+  ulong *puVar20;
+  code *pcVar21;
+  bEMessageTypes bVar22;
+  char *pcVar23;
+  char *pcVar24;
+  char *pcVar25;
+  void *pvVar26;
+  void *pvVar27;
+  ulong uVar28;
+  eCPropertySetProxy *peVar29;
+  bCIStream *pbVar30;
+  int iStack_bc;
+  void **ppvStack_b8;
+  gCNavZone_PS *pgStack_b4;
+  gCNavigationMap *pgStack_b0;
+  eCPropertySetProxy *peStack_ac;
+  int iStack_a8;
+  int iStack_a4;
+  bCString abStack_a0 [4];
+  bCPropertyID abStack_9c [20];
+  undefined4 uStack_88;
+  void *pvStack_84;
+  void *pvStack_80;
+  int iStack_7c;
+  int iStack_78;
+  int iStack_74;
+  int iStack_70;
+  undefined4 uStack_6c;
+  ulong uStack_68;
+  ulong uStack_64;
+  bCIStream abStack_60 [9];
+  int iStack_3c;
+  int iStack_38;
+  undefined4 uStack_34;
+  int iStack_30;
+  int iStack_2c;
+  undefined4 uStack_28;
+  void *pvStack_24;
+  int iStack_20;
+  int iStack_1c;
+  int iStack_18;
+  void **ppvStack_14;
+  undefined4 uStack_10;
+  char cStack_c;
+  undefined4 uStack_b;
+  undefined4 uStack_7;
+  undefined2 uStack_3;
+  
+                    /* 0x25ee1  5985  ?ReadLists@gCNavigationMap@@QAE?AW4bEResult@@XZ */
+  pgStack_b0 = this;
+  bCString::bCString(abStack_a0);
+  bCString::operator=(abStack_a0,"NavigationMap.xnav");
+  pbVar30 = abStack_60;
+  this_01 = eCArchiveManager::GetInstance();
+  eCArchiveManager::GetFile(this_01,(bCString *)pbVar30);
+  bVar3 = eCArchiveFile::Open((eCArchiveFile *)abStack_60,0,true);
+  if (!bVar3) {
+LAB_202d61d2:
+    eCArchiveFile::~eCArchiveFile((eCArchiveFile *)abStack_60);
+    bCString::~bCString(abStack_a0);
+    return 0;
+  }
+  peStack_ac = (eCPropertySetProxy *)0x2d334547;
+  iStack_a8 = 0x2d56414e;
+  iStack_a4 = CONCAT13(iStack_a4._3_1_,0x50414d);
+  cStack_c = '\0';
+  uStack_b = 0;
+  uStack_7 = 0;
+  uStack_3 = 0;
+  eCArchiveFile::Read((eCArchiveFile *)abStack_60,&cStack_c,0xb);
+  iVar5 = 0;
+  do {
+    if (*(char *)((int)&peStack_ac + iVar5) != (&cStack_c)[iVar5]) {
+      if (iVar5 < 0xb) goto LAB_202d61d2;
+      break;
+    }
+    iVar5 = iVar5 + 1;
+  } while (iVar5 < 0xb);
+  uStack_64 = 3;
+  uStack_68 = 0;
+  bCIStream::operator>>(abStack_60,&uStack_64);
+  bCIStream::operator>>(abStack_60,&uStack_68);
+  if ((uStack_64 == 3) && (uStack_68 == 0)) {
+    pvVar27 = (this->gCNavigationMap_data).offset_0xb8;
+    ppvVar14 = &(this->gCNavigationMap_data).offset_0xb8;
+    if (pvVar27 != (void *)0x0) {
+      thunk_FUN_2006c800(pvVar27,(this->gCNavigationMap_data).offset_0xc0);
+      pvVar27 = *ppvVar14;
+      pbVar6 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar6,pvVar27);
+      *ppvVar14 = (void *)0x0;
+      (this->gCNavigationMap_data).offset_0xbc = 0;
+      (this->gCNavigationMap_data).offset_0xc0 = 0;
+    }
+    thunk_FUN_202e8a20(abStack_60);
+    bCIStream::operator>>(abStack_60,(float *)&(this->gCNavigationMap_data).offset_0xc4);
+    bCIStream::operator>>(abStack_60,(float *)&(this->gCNavigationMap_data).offset_0xc8);
+    bCIStream::operator>>(abStack_60,(float *)&(this->gCNavigationMap_data).offset_0xcc);
+    bCIStream::operator>>(abStack_60,(float *)&(this->gCNavigationMap_data).offset_0xd0);
+    bCIStream::operator>>(abStack_60,(float *)&(this->gCNavigationMap_data).offset_0xd4);
+    bCIStream::operator>>(abStack_60,(float *)&(this->gCNavigationMap_data).offset_0xd8);
+    iStack_74 = 0;
+    iStack_70 = 0;
+    uStack_6c = 0;
+    thunk_FUN_202e7750(abStack_60);
+    thunk_FUN_202e38d0();
+    iStack_bc = 0;
+    if (0 < iStack_70) {
+      pfVar12 = (float *)(iStack_74 + 0xc);
+      do {
+        pgVar7 = (gCNegZone_PSObj *)new(0xd8,0x4ff);
+        if ((pgVar7 != (gCNegZone_PSObj *)0x0) &&
+           (pgVar7 = (gCNegZone_PSObj *)gCNegZone_PSObj::gCNegZone_PSObj(pgVar7),
+           pgVar7 != (gCNegZone_PSObj *)0x0)) {
+          gCNegZone_PSObj::SetRegIndex(pgVar7,iStack_bc);
+          gCNegZone_PSObj::SetWorldPoint(pgVar7,(bTValArray<bCVector> *)(pfVar12 + -3));
+          gCNegZone_PSObj::SetWorldRadiusOffset(pgVar7,(bCVector *)(pfVar12 + 1));
+          gCNegZone_PSObj::SetRadius(pgVar7,pfVar12);
+          gCNegZone_PSObj::SetZoneIsCCW(pgVar7,(bool *)(pfVar12 + 4));
+          gCNegZone_PSObj::SetNavZoneEntityID(pgVar7,(bCPropertyID *)(pfVar12 + 5));
+          gCNegZone_PSObj::SetEntityID(pgVar7,(bCPropertyID *)(pfVar12 + 10));
+          iVar5 = (this->gCNavigationMap_data).offset_0x74 + 1;
+          thunk_FUN_2005e640(iVar5,(iVar5 != 0) - 1);
+          (this->gCNavigationMap_data).offset_0x74 = iVar5;
+          *(gCNegZone_PSObj **)((int)(this->gCNavigationMap_data).offset_0x70 + iVar5 * 4 + -4) =
+               pgVar7;
+        }
+        iStack_bc = iStack_bc + 1;
+        pfVar12 = pfVar12 + 0x12;
+      } while (iStack_bc < iStack_70);
+    }
+    pvStack_80 = (void *)0x0;
+    iStack_7c = 0;
+    iStack_78 = 0;
+    thunk_FUN_202e78c0(abStack_60);
+    thunk_FUN_202e3960();
+    iStack_bc = 0;
+    if (0 < iStack_7c) {
+      piVar13 = (int *)((int)pvStack_80 + 0x18);
+      do {
+        pgVar8 = (gCCollisionCircle_PSObj *)new(0x60,0x514);
+        if ((pgVar8 != (gCCollisionCircle_PSObj *)0x0) &&
+           (pgVar8 = (gCCollisionCircle_PSObj *)
+                     gCCollisionCircle_PSObj::gCCollisionCircle_PSObj(pgVar8),
+           pgVar8 != (gCCollisionCircle_PSObj *)0x0)) {
+          gCCollisionCircle_PSObj::SetRegIndex(pgVar8,iStack_bc);
+          gCCollisionCircle_PSObj::SetWorldOffset(pgVar8,(bTValArray<bCVector> *)(piVar13 + -6));
+          gCCollisionCircle_PSObj::SetRadius(pgVar8,(bTValArray<float> *)(piVar13 + -3),1.0);
+          ppvStack_b8 = (void **)*piVar13;
+          gCCollisionCircle_PSObj::SetNavObstacleType(pgVar8,(gENavObstacleType *)&ppvStack_b8);
+          gCCollisionCircle_PSObj::SetNavZoneEntityIDs
+                    (pgVar8,(bTValArray<bCPropertyID> *)(piVar13 + 1));
+          gCCollisionCircle_PSObj::SetEntityID(pgVar8,(bCPropertyID *)(piVar13 + 4));
+          gCCollisionCircle_PSObj::SetWorldPositionY(pgVar8,(float)piVar13[9]);
+          iVar5 = (this->gCNavigationMap_data).offset_0x80 + 1;
+          thunk_FUN_2005e6e0(iVar5,(iVar5 != 0) - 1);
+          (this->gCNavigationMap_data).offset_0x80 = iVar5;
+          *(gCCollisionCircle_PSObj **)
+           ((int)(this->gCNavigationMap_data).offset_0x7c + iVar5 * 4 + -4) = pgVar8;
+        }
+        iStack_bc = iStack_bc + 1;
+        piVar13 = piVar13 + 0x10;
+      } while (iStack_bc < iStack_7c);
+    }
+    iStack_3c = 0;
+    iStack_38 = 0;
+    uStack_34 = 0;
+    thunk_FUN_202e7a60(abStack_60);
+    thunk_FUN_202e39f0();
+    iStack_bc = 0;
+    if (0 < iStack_38) {
+      pgStack_b4 = (gCNavZone_PS *)(iStack_3c + 0x1c);
+      do {
+        pgVar9 = (gCPrefPath_PSObj *)new(0x94,0x528);
+        if ((pgVar9 != (gCPrefPath_PSObj *)0x0) &&
+           (pgVar9 = (gCPrefPath_PSObj *)gCPrefPath_PSObj::gCPrefPath_PSObj(pgVar9),
+           pgVar9 != (gCPrefPath_PSObj *)0x0)) {
+          gCPrefPath_PSObj::SetRegIndex(pgVar9,iStack_bc);
+          pgVar10 = pgStack_b4;
+          gCPrefPath_PSObj::SetWorldPoint(pgVar9,(bTValArray<bCVector> *)((int)pgStack_b4 + -0x1c));
+          gCPrefPath_PSObj::SetPointRadius(pgVar9,(bTValArray<float> *)((int)pgVar10 + -0x10));
+          gCPrefPath_PSObj::SetWorldRadiusOffset(pgVar9,(bCVector *)pgVar10);
+          gCPrefPath_PSObj::SetRadius(pgVar9,(float *)((int)pgVar10 + -4));
+          gCPrefPath_PSObj::SetNavZoneEntityID(pgVar9,(bCPropertyID *)((int)pgVar10 + 0xc));
+          iVar5 = (this->gCNavigationMap_data).offset_0x8c + 1;
+          thunk_FUN_2005e780(iVar5,(iVar5 != 0) - 1);
+          (this->gCNavigationMap_data).offset_0x8c = iVar5;
+          *(gCPrefPath_PSObj **)((int)(this->gCNavigationMap_data).offset_0x88 + iVar5 * 4 + -4) =
+               pgVar9;
+        }
+        pgStack_b4 = (gCNavZone_PS *)((int)pgStack_b4 + 0x3c);
+        iStack_bc = iStack_bc + 1;
+      } while (iStack_bc < iStack_38);
+    }
+    pvStack_24 = (void *)0x0;
+    iStack_20 = 0;
+    iStack_1c = 0;
+    thunk_FUN_202e7bd0(abStack_60);
+    if (0 < iStack_20) {
+      piVar13 = (int *)((int)pvStack_24 + 0x2c);
+      iStack_bc = iStack_20;
+      do {
+        pgVar10 = (gCNavZone_PS *)
+                  eCPropertySetProxy::GetPropertySet((eCPropertySetProxy *)(piVar13 + -0xb));
+        pgStack_b4 = pgVar10;
+        if (pgVar10 != (gCNavZone_PS *)0x0) {
+          gCNavZone_PS::SetNetIndex(pgVar10,piVar13[-2]);
+          ppvVar14 = &(pgVar10->gCNavZone_PS_data).offset_0xc0;
+          iVar5 = 0;
+          if ((ppvVar14 != (void **)0x0) && (pvVar27 = *ppvVar14, pvVar27 != (void *)0x0)) {
+            pbVar6 = bCMemoryAdmin::GetInstance();
+            bCMemoryAdmin::Free(pbVar6,pvVar27);
+            *ppvVar14 = (void *)0x0;
+            (pgVar10->gCNavZone_PS_data).offset_0xc4 = 0;
+            (pgVar10->gCNavZone_PS_data).offset_0xc8 = 0;
+          }
+          pgVar16 = pgVar10;
+          if (0 < *piVar13) {
+            do {
+              ppvStack_b8 = (void **)((int)(pgStack_b0->gCNavigationMap_data).offset_0x70 +
+                                     *(int *)(piVar13[-1] + iVar5 * 4) * 4);
+              iVar15 = (pgVar10->gCNavZone_PS_data).offset_0xc4 + 1;
+              thunk_FUN_2005e640(iVar15,(iVar15 != 0) - 1);
+              (pgVar10->gCNavZone_PS_data).offset_0xc4 = iVar15;
+              iVar5 = iVar5 + 1;
+              *(void **)((int)*ppvVar14 + iVar15 * 4 + -4) = *ppvStack_b8;
+              pgVar16 = pgStack_b4;
+            } while (iVar5 < *piVar13);
+          }
+          ppvVar14 = &(pgVar16->gCNavZone_PS_data).offset_0xcc;
+          if ((ppvVar14 != (void **)0x0) && (pvVar27 = *ppvVar14, pvVar27 != (void *)0x0)) {
+            pbVar6 = bCMemoryAdmin::GetInstance();
+            bCMemoryAdmin::Free(pbVar6,pvVar27);
+            *ppvVar14 = (void *)0x0;
+            (pgVar16->gCNavZone_PS_data).offset_0xd0 = 0;
+            (pgVar16->gCNavZone_PS_data).offset_0xd4 = 0;
+          }
+          iVar5 = 0;
+          if (0 < piVar13[3]) {
+            do {
+              ppvStack_b8 = (void **)((int)(pgStack_b0->gCNavigationMap_data).offset_0x7c +
+                                     *(int *)(piVar13[2] + iVar5 * 4) * 4);
+              iVar15 = (pgVar16->gCNavZone_PS_data).offset_0xd0 + 1;
+              thunk_FUN_2005e6e0(iVar15,(iVar15 != 0) - 1);
+              (pgVar16->gCNavZone_PS_data).offset_0xd0 = iVar15;
+              iVar5 = iVar5 + 1;
+              *(void **)((int)*ppvVar14 + iVar15 * 4 + -4) = *ppvStack_b8;
+            } while (iVar5 < piVar13[3]);
+          }
+          pgVar10 = pgStack_b4;
+          ppvVar14 = &(pgStack_b4->gCNavZone_PS_data).offset_0xd8;
+          if ((ppvVar14 != (void **)0x0) && (pvVar27 = *ppvVar14, pvVar27 != (void *)0x0)) {
+            pbVar6 = bCMemoryAdmin::GetInstance();
+            bCMemoryAdmin::Free(pbVar6,pvVar27);
+            *ppvVar14 = (void *)0x0;
+            (pgVar10->gCNavZone_PS_data).offset_0xdc = 0;
+            (pgVar10->gCNavZone_PS_data).offset_0xe0 = 0;
+          }
+          iVar5 = 0;
+          if (0 < piVar13[6]) {
+            do {
+              ppvStack_b8 = (void **)((int)(pgStack_b0->gCNavigationMap_data).offset_0x88 +
+                                     *(int *)(piVar13[5] + iVar5 * 4) * 4);
+              iVar15 = (pgVar10->gCNavZone_PS_data).offset_0xdc + 1;
+              thunk_FUN_2005e780(iVar15,(iVar15 != 0) - 1);
+              pvVar27 = *ppvVar14;
+              (pgVar10->gCNavZone_PS_data).offset_0xdc = iVar15;
+              iVar5 = iVar5 + 1;
+              *(void **)((int)pvVar27 + iVar15 * 4 + -4) = *ppvStack_b8;
+            } while (iVar5 < piVar13[6]);
+          }
+        }
+        piVar13 = piVar13 + 0x13;
+        iStack_bc = iStack_bc + -1;
+      } while (iStack_bc != 0);
+    }
+    iStack_18 = 0;
+    ppvStack_14 = (void **)0x0;
+    uStack_10 = 0;
+    thunk_FUN_202e8ca0(abStack_60);
+    bCPropertyID::bCPropertyID(abStack_9c);
+    pvStack_84 = (void *)0x0;
+    uStack_88._0_2_ = 0;
+    uStack_88._2_2_ = 0;
+    if (0 < (int)ppvStack_14) {
+      piVar13 = (int *)(iStack_18 + 8);
+      ppvStack_b8 = ppvStack_14;
+      do {
+        iVar5 = *(int *)((int)(pgStack_b0->gCNavigationMap_data).offset_0x7c + piVar13[-2] * 4);
+        if (iVar5 != 0) {
+          piVar1 = (int *)(iVar5 + 0x54);
+          if (*piVar1 != 0) {
+            thunk_FUN_2027b320(*piVar1,*(undefined4 *)(iVar5 + 0x5c));
+            pvVar27 = (void *)*piVar1;
+            pbVar6 = bCMemoryAdmin::GetInstance();
+            bCMemoryAdmin::Free(pbVar6,pvVar27);
+            *piVar1 = 0;
+            *(undefined4 *)(iVar5 + 0x58) = 0;
+            *(undefined4 *)(iVar5 + 0x5c) = 0;
+          }
+          pgStack_b4 = (gCNavZone_PS *)0x0;
+          if (0 < *piVar13) {
+            iStack_bc = 0;
+            do {
+              bCPropertyID::operator=(abStack_9c,(bCPropertyID *)(piVar13[-1] + iStack_bc));
+              uStack_88._2_2_ = 0;
+              iVar15 = iStack_bc + piVar13[-1];
+              iVar17 = 0;
+              if (0 < *(int *)(iVar15 + 0x18)) {
+                do {
+                  iVar15 = *(int *)(*(int *)(iVar15 + 0x14) + iVar17 * 4);
+                  pvVar27 = (pgStack_b0->gCNavigationMap_data).offset_0x7c;
+                  if ((ushort)uStack_88 <= uStack_88._2_2_) {
+                    if ((ushort)uStack_88 < 0x41) {
+                      uVar11 = (-(uint)(8 < (ushort)uStack_88) & 0xc) + 4;
+                    }
+                    else {
+                      uVar11 = (uint)((ushort)uStack_88 >> 2);
+                    }
+                    if ((ushort)uStack_88 + uVar11 < 0x10000) {
+                      uVar4 = (short)uVar11 + (ushort)uStack_88;
+                    }
+                    else {
+                      uVar4 = 0xfffe;
+                    }
+                    if ((ushort)uStack_88 < uVar4) {
+                      uVar28 = (uint)uVar4 * 4;
+                      pvVar26 = pvStack_84;
+                      uStack_88._0_2_ = uVar4;
+                      pbVar6 = bCMemoryAdmin::GetInstance();
+                      pvStack_84 = bCMemoryAdmin::Realloc(pbVar6,pvVar26,uVar28);
+                    }
+                  }
+                  *(undefined4 *)((int)pvStack_84 + (uint)uStack_88._2_2_ * 4) =
+                       *(undefined4 *)((int)pvVar27 + iVar15 * 4);
+                  uStack_88._2_2_ = uStack_88._2_2_ + 1;
+                  iVar17 = iVar17 + 1;
+                  iVar15 = iStack_bc + piVar13[-1];
+                } while (iVar17 < *(int *)(iVar15 + 0x18));
+              }
+              iVar15 = *(int *)(iVar5 + 0x58) + 1;
+              thunk_FUN_2027ae50(iVar15,(iVar15 != 0) - 1);
+              if (iVar15 < *(int *)(iVar5 + 0x58)) {
+                thunk_FUN_2027b320(*piVar1 + iVar15 * 0x1c,*(int *)(iVar5 + 0x58) - iVar15);
+                thunk_FUN_2027ac70(*piVar1 + iVar15 * 0x1c,*(int *)(iVar5 + 0x58) - iVar15);
+              }
+              *(int *)(iVar5 + 0x58) = iVar15;
+              this_00 = (bCPropertyID *)(*piVar1 + -0x1c + iVar15 * 0x1c);
+              pvVar27 = *(void **)(this_00 + 0x18);
+              if (pvVar27 != (void *)0x0) {
+                pbVar6 = bCMemoryAdmin::GetInstance();
+                bCMemoryAdmin::Free(pbVar6,pvVar27);
+              }
+              *(undefined4 *)(this_00 + 0x18) = 0;
+              *(undefined2 *)(this_00 + 0x14) = 0;
+              *(undefined2 *)(this_00 + 0x16) = 0;
+              bCPropertyID::~bCPropertyID(this_00);
+              *(undefined4 *)this_00 = 0;
+              *(undefined4 *)(this_00 + 4) = 0;
+              *(undefined4 *)(this_00 + 8) = 0;
+              *(undefined4 *)(this_00 + 0xc) = 0;
+              *(undefined4 *)(this_00 + 0x10) = 0;
+              *(undefined4 *)(this_00 + 0x14) = 0;
+              *(undefined4 *)(this_00 + 0x18) = 0;
+              if (this_00 != (bCPropertyID *)0x0) {
+                bCPropertyID::bCPropertyID(this_00);
+                *(undefined4 *)(this_00 + 0x18) = 0;
+                *(undefined2 *)(this_00 + 0x14) = 0;
+                *(undefined2 *)(this_00 + 0x16) = 0;
+              }
+              thunk_FUN_2027ace0(this_00,abStack_9c,1);
+              iStack_bc = iStack_bc + 0x20;
+              pgStack_b4 = (gCNavZone_PS *)((int)&pgStack_b4->vftablePtr + 1);
+            } while ((int)pgStack_b4 < *piVar13);
+          }
+        }
+        piVar13 = piVar13 + 4;
+        ppvStack_b8 = (void **)((int)ppvStack_b8 + -1);
+      } while (ppvStack_b8 != (void **)0x0);
+    }
+    iStack_30 = 0;
+    iStack_2c = 0;
+    uStack_28 = 0;
+    thunk_FUN_202e50b0(abStack_60);
+    if (0 < iStack_2c) {
+      puVar20 = (ulong *)(iStack_30 + 0x24);
+      iVar5 = iStack_2c;
+      do {
+        this_02 = (gCNavPath_PS *)
+                  eCPropertySetProxy::GetPropertySet((eCPropertySetProxy *)(puVar20 + -9));
+        if (this_02 != (gCNavPath_PS *)0x0) {
+          (*this_02->vftablePtr->NotifyPropertyValueChangedEnterEx)
+                    (this_02,"ZoneAIntersectionCenter",false);
+          bCVector::operator=((bCVector *)&(this_02->gCNavPath_PS_data).field_0x6c,
+                              (bCVector *)(puVar20 + 1));
+          (*this_02->vftablePtr->NotifyPropertyValueChangedExitEx)
+                    (this_02,"ZoneAIntersectionCenter",false);
+          gCNavPath_PS::SetNetIndex(this_02,*puVar20);
+          (*this_02->vftablePtr->NotifyPropertyValueChangedEnterEx)
+                    (this_02,"ZoneAIntersectionMargin1",false);
+          bCVector::operator=((bCVector *)&(this_02->gCNavPath_PS_data).field_0x54,
+                              (bCVector *)(puVar20 + 4));
+          (*this_02->vftablePtr->NotifyPropertyValueChangedExitEx)
+                    (this_02,"ZoneAIntersectionMargin1",false);
+          (*this_02->vftablePtr->NotifyPropertyValueChangedEnterEx)
+                    (this_02,"ZoneAIntersectionMargin2",false);
+          bCVector::operator=((bCVector *)&(this_02->gCNavPath_PS_data).field_0x60,
+                              (bCVector *)(puVar20 + 7));
+          (*this_02->vftablePtr->NotifyPropertyValueChangedExitEx)
+                    (this_02,"ZoneAIntersectionMargin2",false);
+          (*this_02->vftablePtr->NotifyPropertyValueChangedEnterEx)
+                    (this_02,"ZoneBIntersectionCenter",false);
+          bCVector::operator=((bCVector *)&(this_02->gCNavPath_PS_data).field_0x90,
+                              (bCVector *)(puVar20 + 10));
+          (*this_02->vftablePtr->NotifyPropertyValueChangedExitEx)
+                    (this_02,"ZoneBIntersectionCenter",false);
+          (*this_02->vftablePtr->NotifyPropertyValueChangedEnterEx)
+                    (this_02,"ZoneBIntersectionMargin1",false);
+          bCVector::operator=((bCVector *)&(this_02->gCNavPath_PS_data).field_0x78,
+                              (bCVector *)(puVar20 + 0xd));
+          (*this_02->vftablePtr->NotifyPropertyValueChangedExitEx)
+                    (this_02,"ZoneBIntersectionMargin1",false);
+          (*this_02->vftablePtr->NotifyPropertyValueChangedEnterEx)
+                    (this_02,"ZoneBIntersectionMargin2",false);
+          bCVector::operator=((bCVector *)&(this_02->gCNavPath_PS_data).field_0x84,
+                              (bCVector *)(puVar20 + 0x10));
+          (*this_02->vftablePtr->NotifyPropertyValueChangedExitEx)
+                    (this_02,"ZoneBIntersectionMargin2",false);
+        }
+        puVar20 = puVar20 + 0x1c;
+        iVar5 = iVar5 + -1;
+      } while (iVar5 != 0);
+    }
+    peStack_ac = (eCPropertySetProxy *)0x0;
+    iStack_a8 = 0;
+    iStack_a4 = 0;
+    thunk_FUN_202e5270(abStack_60);
+    peVar18 = peStack_ac;
+    iVar5 = iStack_a8;
+    if (0 < iStack_a8) {
+      do {
+        this_03 = (gCInteraction_PS *)eCPropertySetProxy::GetPropertySet(peVar18);
+        if (this_03 != (gCInteraction_PS *)0x0) {
+          peVar29 = peVar18 + 1;
+          this_04 = (eCPropertySetProxy *)gCInteraction_PS::GetAccessToZoneProxy(this_03);
+          eCPropertySetProxy::operator=(this_04,(eCPropertySetProxy *)peVar29);
+        }
+        iVar5 = iVar5 + -1;
+        peVar18 = peVar18 + 2;
+      } while (iVar5 != 0);
+    }
+    pgVar2 = pgStack_b0;
+    pvVar27 = (pgStack_b0->gCNavigationMap_data).offset_0x10;
+    ppvVar14 = &(pgStack_b0->gCNavigationMap_data).offset_0x10;
+    ppvStack_b8 = ppvVar14;
+    if (pvVar27 != (void *)0x0) {
+      thunk_FUN_20069580(pvVar27,(pgStack_b0->gCNavigationMap_data).offset_0x18);
+      pvVar27 = *ppvVar14;
+      pbVar6 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar6,pvVar27);
+      *ppvVar14 = (void *)0x0;
+      (pgVar2->gCNavigationMap_data).offset_0x14 = 0;
+      (pgVar2->gCNavigationMap_data).offset_0x18 = 0;
+    }
+    pgVar2 = pgStack_b0;
+    this_06 = (pgStack_b0->gCNavigationMap_data).offset_0x1c;
+    ppvVar14 = &(pgStack_b0->gCNavigationMap_data).offset_0x1c;
+    if (this_06 != (bCVector *)0x0) {
+      for (iVar5 = (pgStack_b0->gCNavigationMap_data).offset_0x24; iVar5 != 0; iVar5 = iVar5 + -1) {
+        eCPropertySetProxy::~eCPropertySetProxy((eCPropertySetProxy *)(this_06 + 0x30));
+        eCPropertySetProxy::~eCPropertySetProxy((eCPropertySetProxy *)(this_06 + 0xc));
+        bCVector::~bCVector(this_06);
+        this_06 = this_06 + 0x54;
+      }
+      pvVar27 = *ppvVar14;
+      pbVar6 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar6,pvVar27);
+      *ppvVar14 = (void *)0x0;
+      (pgVar2->gCNavigationMap_data).offset_0x20 = 0;
+      (pgVar2->gCNavigationMap_data).offset_0x24 = 0;
+    }
+    pgVar2 = pgStack_b0;
+    pvVar27 = (pgStack_b0->gCNavigationMap_data).offset_0x28;
+    ppvVar14 = &(pgStack_b0->gCNavigationMap_data).offset_0x28;
+    pcVar21 = Free_exref;
+    if (pvVar27 != (void *)0x0) {
+      thunk_FUN_2006a8d0(pvVar27,(pgStack_b0->gCNavigationMap_data).offset_0x30);
+      pvVar27 = *ppvVar14;
+      pbVar6 = bCMemoryAdmin::GetInstance();
+      pcVar21 = Free_exref;
+      bCMemoryAdmin::Free(pbVar6,pvVar27);
+      *ppvVar14 = (void *)0x0;
+      (pgVar2->gCNavigationMap_data).offset_0x2c = 0;
+      (pgVar2->gCNavigationMap_data).offset_0x30 = 0;
+    }
+    thunk_FUN_202e7570(abStack_60);
+    thunk_FUN_202e3d60(abStack_60);
+    thunk_FUN_202e6370(abStack_60);
+    eCArchiveFile::Close((eCArchiveFile *)abStack_60);
+    peVar29 = peStack_ac;
+    peVar18 = peStack_ac;
+    iVar5 = iStack_a4;
+    if (peStack_ac != (eCPropertySetProxy *)0x0) {
+      for (; iVar5 != 0; iVar5 = iVar5 + -1) {
+        eCPropertySetProxy::~eCPropertySetProxy(peVar18 + 1);
+        eCPropertySetProxy::~eCPropertySetProxy(peVar18);
+        peVar18 = peVar18 + 2;
+      }
+      pbVar6 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar6,peVar29);
+      pcVar21 = Free_exref;
+    }
+    iVar5 = iStack_30;
+    pcVar19 = GetInstance_exref;
+    if (iStack_30 != 0) {
+      thunk_FUN_202e2f00(iStack_30,uStack_28);
+      pcVar19 = GetInstance_exref;
+      bCMemoryAdmin::GetInstance();
+      (*pcVar21)(iVar5);
+    }
+    if (pvStack_84 != (void *)0x0) {
+      (*pcVar19)(pvStack_84);
+      (*pcVar21)();
+    }
+    pvStack_84 = (void *)0x0;
+    uStack_88 = 0;
+    bCPropertyID::~bCPropertyID(abStack_9c);
+    iVar5 = iStack_18;
+    if (iStack_18 != 0) {
+      thunk_FUN_202e8980(iStack_18,uStack_10);
+      (*pcVar19)(iVar5);
+      (*pcVar21)();
+    }
+    pvVar27 = pvStack_24;
+    iVar5 = iStack_1c;
+    if (pvStack_24 != (void *)0x0) {
+      for (; iVar5 != 0; iVar5 = iVar5 + -1) {
+        thunk_FUN_202e4990();
+      }
+      pbVar6 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar6,pvVar27);
+      pcVar19 = GetInstance_exref;
+      pcVar21 = Free_exref;
+    }
+    iVar5 = iStack_3c;
+    if (iStack_3c != 0) {
+      thunk_FUN_202e66c0(iStack_3c,uStack_34);
+      (*pcVar19)(iVar5);
+      (*pcVar21)();
+    }
+    pvVar27 = pvStack_80;
+    iVar5 = iStack_78;
+    if (pvStack_80 != (void *)0x0) {
+      for (; iVar5 != 0; iVar5 = iVar5 + -1) {
+        thunk_FUN_202e47f0();
+      }
+      pbVar6 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar6,pvVar27);
+      pcVar19 = GetInstance_exref;
+      pcVar21 = Free_exref;
+    }
+    iVar5 = iStack_74;
+    if (iStack_74 != 0) {
+      thunk_FUN_202e6610(iStack_74,uStack_6c);
+      (*pcVar19)(iVar5);
+      (*pcVar21)();
+    }
+    eCArchiveFile::~eCArchiveFile((eCArchiveFile *)abStack_60);
+    bCString::~bCString(abStack_a0);
+    return 1;
+  }
+  iVar5 = *(int *)g_iDefaultMessagePriority_exref;
+  iVar15 = -1;
+  pcVar25 = (char *)0x0;
+  pcVar24 = (char *)0x0;
+  pcVar23 = "gCNavigationMap::ReadLists - Failed => Unsupported xnav-file version!";
+  bVar22 = 3;
+  this_05 = bCMessageAdmin::GetInstance();
+  bCMessageAdmin::OnMessage(this_05,bVar22,pcVar23,pcVar24,pcVar25,iVar15,iVar5);
+  MessageBoxA((HWND)0x0,"gCNavigationMap::ReadLists - Failed => Unsupported xnav-file version!",
+              "ERROR",0x12);
+  eCArchiveFile::~eCArchiveFile((eCArchiveFile *)abStack_60);
+  bCString::~bCString(abStack_a0);
+  return 0;
+}
+
+

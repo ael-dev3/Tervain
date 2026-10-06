@@ -1,0 +1,13 @@
+/* ENTRY 2018ff00 | gCHUDButton::~gCHUDButton | STATUS decompiled | 5 ms */
+
+void __thiscall gCHUDButton::~gCHUDButton(gCHUDButton *this)
+
+{
+  this->vftablePtr = &vftable;
+                    /* WARNING: Could not recover jumptable at 0x2018ff06. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  CFFGFCButton::~CFFGFCButton((CFFGFCButton *)this);
+  return;
+}
+
+

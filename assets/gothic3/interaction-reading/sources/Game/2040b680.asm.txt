@@ -1,0 +1,15 @@
+; 2040b680 bTPropertyType<gCInteraction_PS,bool>::vfunction12
+2040b680 | 56 | PUSH ESI
+2040b681 | 8bf1 | MOV ESI,ECX
+2040b683 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+2040b687 | 85c9 | TEST ECX,ECX
+2040b689 | 7506 | JNZ 0x2040b691
+2040b68b | 33c0 | XOR EAX,EAX
+2040b68d | 5e | POP ESI
+2040b68e | c20400 | RET 0x4
+2040b691 | 8b01 | MOV EAX,dword ptr [ECX]
+2040b693 | 8b10 | MOV EDX,dword ptr [EAX]
+2040b695 | ffd2 | CALL EDX
+2040b697 | 03461c | ADD EAX,dword ptr [ESI + 0x1c]
+2040b69a | 5e | POP ESI
+2040b69b | c20400 | RET 0x4

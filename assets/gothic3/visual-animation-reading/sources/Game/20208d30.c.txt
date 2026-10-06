@@ -1,0 +1,16 @@
+/* ENTRY 20208d30 | bTPropertyObject<gCClock_PS,eCEntityPropertySet>::vfunction4 | STATUS decompiled | 2 ms */
+
+void __thiscall
+bTPropertyObject<gCClock_PS,eCEntityPropertySet>::vfunction4
+          (bTPropertyObject<gCClock_PS,eCEntityPropertySet> *this)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x20208d33. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCPropertyObjectTypeBase::GetDescription
+            ((bCPropertyObjectTypeBase *)
+             (this->bTPropertyObject<gCClock_PS,eCEntityPropertySet>_data).offset_0x0);
+  return;
+}
+
+

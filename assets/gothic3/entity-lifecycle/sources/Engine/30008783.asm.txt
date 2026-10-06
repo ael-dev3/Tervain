@@ -1,0 +1,4 @@
+; 30008783 ?IsProcessable@eCEntityPropertySet@@UBE_NXZ
+30008783 | e9988d4700 | JMP 0x30481520
+; 30008788 eCParticleSystemBase_PS::GetAverageVelocity
+; 30008788 Ordinal_6244

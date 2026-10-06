@@ -1,0 +1,4 @@
+; 100040ca ?Adjust@bCClock@@QAEXABUbSClockAdjustment@@@Z
+100040ca | e9717c0400 | JMP 0x1004bd40
+; 100040cf bCStretch::operator>>
+; 100040cf Ordinal_672

@@ -1,0 +1,4 @@
+; 2001567c ?GetVersion@gCEffect_PS@@UBEGXZ
+2001567c | e9bf2d1000 | JMP 0x20118440
+; 20015681 gCCharacterSensor_PS::GetVersion
+; 20015681 Ordinal_4681

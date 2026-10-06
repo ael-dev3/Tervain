@@ -1,0 +1,2 @@
+; 300215a3 ?Read@eCTemplateEntityProxy@@UAE?AW4bEResult@@AAVbCIStream@@@Z
+300215a3 | e9785f4a00 | JMP 0x304c7520

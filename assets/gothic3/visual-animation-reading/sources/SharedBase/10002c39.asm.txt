@@ -1,0 +1,2 @@
+; 10002c39 bCVector::SetY
+10002c39 | e9a2200200 | JMP 0x10024ce0

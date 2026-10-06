@@ -1,0 +1,13 @@
+/* ENTRY 100693e0 | FUN_100693e0 | STATUS decompiled | 3 ms */
+
+void __thiscall FUN_100693e0(bCOrientedBox *param_1,bCMatrix3 *param_2)
+
+{
+  bCMatrix3 local_24 [36];
+  
+  bCMatrix3::SetToInverse(local_24,param_2);
+  bCOrientedBox::Transform(param_1,local_24);
+  return;
+}
+
+

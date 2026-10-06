@@ -1,0 +1,549 @@
+/* ENTRY 30009633 | eCApplication::CreateEngine | STATUS decompiled | 1539 ms */
+
+/* protected: enum bEResult __thiscall eCApplication::CreateEngine(void) */
+
+bEResult __thiscall eCApplication::CreateEngine(eCApplication *this)
+
+{
+  bool bVar1;
+  eSCaps eVar2;
+  bEResult bVar3;
+  bCMessageAdmin *pbVar4;
+  HANDLE pvVar5;
+  long lVar6;
+  bCMemoryAdmin *pbVar7;
+  bCFPUAdmin *pbVar8;
+  eCPhysicsScene *this_00;
+  eCGfxAdmin *peVar9;
+  eCGfxMixerAdmin *peVar10;
+  eCVirtualFileSystem *this_01;
+  int *piVar11;
+  undefined4 uVar12;
+  eCBaseCache *peVar13;
+  eCResourceAdmin *peVar14;
+  eCMainCache *peVar15;
+  eCMeshCache *peVar16;
+  eCAnimationCache *peVar17;
+  eCConsole *this_02;
+  eCMaterialAdmin *this_03;
+  bCVector *pbVar18;
+  bCSphere *pbVar19;
+  eCSceneAdmin *peVar20;
+  eCEntityAdmin *peVar21;
+  eCVegetationAdmin *peVar22;
+  eEVegetationQuality eVar23;
+  eCAnimationAdmin *peVar24;
+  eCPostProcessingAdmin *peVar25;
+  eCPostProcessingEffectBase *peVar26;
+  eCPostProcessingEffectBloom *this_04;
+  bCVector2 *pbVar27;
+  eCRenderSystemAdmin *this_05;
+  eSCaps *peVar28;
+  eCFrustumDatabase *this_06;
+  eCCameraBase *peVar29;
+  int iVar30;
+  eCImageCache *peVar31;
+  code *pcVar32;
+  bool bVar33;
+  bool bVar34;
+  bool bVar35;
+  undefined4 uVar36;
+  bool bVar37;
+  eEPostprocessingEffect eVar38;
+  bool bVar39;
+  undefined4 uVar40;
+  bool bVar41;
+  bEMessageTypes bVar42;
+  undefined4 uVar43;
+  bool bVar44;
+  char *pcVar45;
+  undefined4 uVar46;
+  bool bVar47;
+  undefined1 uVar48;
+  char *pcVar49;
+  float fVar50;
+  char *pcVar51;
+  char cVar52;
+  int iVar53;
+  bool *pbVar54;
+  eEWindowMode eVar55;
+  eSCreate *peVar56;
+  eSSetupEngine aeStack_464 [32];
+  bEMessageFilterTypes bStack_444;
+  long lStack_43c;
+  long lStack_438;
+  undefined1 uStack_42c;
+  undefined1 uStack_42b;
+  undefined4 uStack_428;
+  undefined4 uStack_424;
+  undefined4 uStack_420;
+  float fStack_41c;
+  ulong uStack_418;
+  ulong uStack_414;
+  ulong uStack_410;
+  ulong uStack_40c;
+  ulong uStack_408;
+  ulong uStack_404;
+  ulong uStack_400;
+  undefined4 uStack_3fc;
+  ulong uStack_3f8;
+  ulong uStack_3f4;
+  ulong uStack_3f0;
+  ulong uStack_3ec;
+  ulong uStack_3e4;
+  ulong uStack_3e0;
+  char cStack_3dc;
+  char cStack_3db;
+  float fStack_3d8;
+  float fStack_3d4;
+  float fStack_3d0;
+  float fStack_3cc;
+  undefined4 uStack_3c8;
+  undefined4 uStack_3c0;
+  undefined4 uStack_3bc;
+  char cStack_3b8;
+  char cStack_3b7;
+  char cStack_3b6;
+  char cStack_3b5;
+  char cStack_3b4;
+  char cStack_3b3;
+  eSCaps eStack_3ab;
+  eSCaps eStack_3aa;
+  undefined4 uStack_3a8;
+  eCApplication eStack_3a4;
+  undefined1 uStack_3a3;
+  undefined1 uStack_3a2;
+  undefined1 uStack_3a1;
+  eCApplication eStack_39f;
+  undefined1 uStack_39e;
+  undefined2 uStack_39c;
+  undefined2 uStack_39a;
+  bCString abStack_398 [4];
+  float fStack_394;
+  undefined4 uStack_388;
+  eSCaps eStack_384;
+  float fStack_380;
+  float fStack_37c;
+  undefined4 uStack_378;
+  eSCaps eStack_370;
+  undefined4 uStack_36c;
+  undefined4 uStack_368;
+  undefined4 uStack_364;
+  undefined4 uStack_360;
+  eSCaps eStack_350;
+  char cStack_34e;
+  char cStack_34d;
+  float fStack_34c;
+  float fStack_348;
+  char cStack_344;
+  undefined4 uStack_343;
+  undefined3 uStack_33f;
+  eSCaps eStack_335;
+  char cStack_334;
+  float fStack_324;
+  float fStack_320;
+  float fStack_31c;
+  float fStack_318;
+  float fStack_314;
+  eETexFilter eStack_310;
+  int iStack_30c;
+  undefined1 *puStack_64;
+  void *pvStack_5c;
+  undefined1 *puStack_58;
+  undefined *puStack_54;
+  undefined4 uStack_50;
+  bCSphere abStack_4c [16];
+  eSCreate aeStack_3c [12];
+  int iStack_30;
+  bCRect abStack_28 [20];
+  bCVector abStack_14 [4];
+  bCVector2 abStack_10 [4];
+  uint uStack_c;
+  bool bStack_5;
+  
+                    /* 0x9633  4815  ?CreateEngine@eCApplication@@IAE?AW4bEResult@@XZ */
+  uStack_50 = 0xffffffff;
+  puStack_54 = &DAT_3094cd28;
+  puStack_58 = &LAB_30671bc4;
+  pvStack_5c = ExceptionList;
+  puStack_64 = &stack0xfffffb90;
+  ExceptionList = &pvStack_5c;
+  thunk_FUN_3005aec0();
+  bVar3 = (*this->vftablePtr->OnCreateWindow)(this,aeStack_3c);
+  if (bVar3 != 1) {
+    thunk_FUN_3005bbd0();
+    ExceptionList = pvStack_5c;
+    return 2;
+  }
+  thunk_FUN_300751e0();
+  lStack_438 = bCRect::GetHeight(abStack_28);
+  lStack_43c = bCRect::GetWidth(abStack_28);
+  uStack_42c = iStack_30 == 2;
+  uStack_42b = iStack_30 == 3;
+  bVar3 = (*this->vftablePtr->OnInitializeEngine)(this,aeStack_464);
+  if (bVar3 != 1) {
+    iVar30 = *(int *)g_iDefaultMessagePriority_exref;
+    iVar53 = -1;
+    pcVar51 = (char *)0x0;
+    pcVar49 = (char *)0x0;
+    pcVar45 = &DAT_3081c058;
+    bVar42 = 3;
+    pbVar4 = bCMessageAdmin::GetInstance();
+    bCMessageAdmin::OnMessage(pbVar4,bVar42,pcVar45,pcVar49,pcVar51,iVar53,iVar30);
+    thunk_FUN_30070f00();
+    thunk_FUN_3005bbd0();
+    ExceptionList = pvStack_5c;
+    return 3;
+  }
+  if (cStack_3db == '\x01') {
+    pvVar5 = GetCurrentProcess();
+    SetPriorityClass(pvVar5,0x8000);
+    pvVar5 = GetCurrentProcess();
+    SetProcessPriorityBoost(pvVar5,0);
+  }
+  bVar1 = (*this->vftablePtr->IsEditorRunning)(this);
+  if (!bVar1) {
+    lVar6 = bCRect::GetTop(abStack_28);
+    bCRect::SetBottom(abStack_28,lVar6 + lStack_438);
+    lVar6 = bCRect::GetLeft(abStack_28);
+    bCRect::SetRight(abStack_28,lVar6 + lStack_43c);
+  }
+  if ((this->eCApplication_data).field_0x9c == '\0') {
+LAB_3006c9ec:
+    eVar55 = 1;
+  }
+  else {
+    bVar1 = (*this->vftablePtr->IsEditorRunning)(this);
+    if (bVar1) goto LAB_3006c9ec;
+    eVar55 = 2;
+  }
+  eCWindow::SetWindowMode((eCWindow *)this,eVar55);
+  if (iStack_30 == 1) {
+    iStack_30 = 0;
+  }
+  peVar56 = aeStack_3c;
+  bVar3 = (*this->vftablePtr->Create)(this);
+  if ((char)bVar3 == '\0') {
+    iVar30 = *(int *)g_iDefaultMessagePriority_exref;
+    iVar53 = -1;
+    pcVar51 = (char *)0x0;
+    pcVar49 = (char *)0x0;
+    pcVar45 = &DAT_3081c000;
+    bVar42 = 3;
+    pbVar4 = bCMessageAdmin::GetInstance();
+    bCMessageAdmin::OnMessage(pbVar4,bVar42,pcVar45,pcVar49,pcVar51,iVar53,iVar30);
+    thunk_FUN_30070f00();
+    thunk_FUN_3005bbd0();
+    ExceptionList = pvStack_5c;
+    return 7;
+  }
+  (this->eCApplication_data).offset_0x500 = eStack_3a4;
+  if (eStack_3a4 == (eCApplication)0x1) {
+    GE_MESSAGEF_INFO(1,"%s - Memory monitor is active ! Activation can cause performance stalls.",
+                     "eCApplication::CreateEngine",peVar56);
+  }
+  pbVar7 = bCMemoryAdmin::GetInstance();
+  bCMemoryAdmin::EnableHeapProfiler(pbVar7,(bool)uStack_3a3);
+  pbVar7 = bCMemoryAdmin::GetInstance();
+  bCMemoryAdmin::EnableMemoryLeakReport(pbVar7,(bool)uStack_3a1);
+  pbVar7 = bCMemoryAdmin::GetInstance();
+  bCMemoryAdmin::EnableDumpHeapProfiling(pbVar7,(bool)uStack_3a2);
+  if (cStack_34d != '\0') {
+    bVar1 = (*this->vftablePtr->IsEditorRunning)(this);
+    cStack_34d = '\x01';
+    if (!bVar1) goto LAB_3006caf5;
+  }
+  cStack_34d = '\0';
+LAB_3006caf5:
+  thunk_FUN_30075e30(aeStack_464);
+  ms_bInitialised = true;
+  pbVar4 = bCMessageAdmin::GetInstance();
+  bCMessageAdmin::SetFilterType(pbVar4,bStack_444);
+  (this->eCApplication_data).offset_0x484 = uStack_3bc;
+  cVar52 = cStack_3b8;
+  pbVar8 = bCFPUAdmin::GetInstance();
+  bCFPUAdmin::EnableZeroDevideExceptions(pbVar8,(bool)cVar52);
+  cVar52 = cStack_3b6;
+  pbVar8 = bCFPUAdmin::GetInstance();
+  bCFPUAdmin::EnableInvalidFloatExceptions(pbVar8,(bool)cVar52);
+  cVar52 = cStack_3b5;
+  pbVar8 = bCFPUAdmin::GetInstance();
+  bCFPUAdmin::EnableOverflowExceptions(pbVar8,(bool)cVar52);
+  cVar52 = cStack_3b4;
+  pbVar8 = bCFPUAdmin::GetInstance();
+  bCFPUAdmin::EnableUnderflowExceptions(pbVar8,(bool)cVar52);
+  cVar52 = cStack_3b7;
+  pbVar8 = bCFPUAdmin::GetInstance();
+  bCFPUAdmin::EnableDenormalFloatExceptions(pbVar8,(bool)cVar52);
+  if ((((cStack_3b8 == '\x01') || (cStack_3b6 == '\x01')) || (cStack_3b5 == '\x01')) ||
+     ((cStack_3b4 == '\x01' || (uStack_c = uStack_c & 0xffffff00, cStack_3b7 == '\x01')))) {
+    uStack_c = CONCAT31(uStack_c._1_3_,1);
+  }
+  bStack_5 = cStack_3b3 == '\0';
+  pbVar54 = &bStack_5;
+  this_00 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+  eCPhysicsScene::SetIsPhysicsEnabled(this_00,pbVar54);
+  if (0.0 < fStack_3d8) {
+    (this->eCApplication_data).offset_0x4f8 = fStack_3d8 * 10.0;
+  }
+  else {
+    (this->eCApplication_data).offset_0x4f8 = 0xbf800000;
+  }
+  if (0.0 < fStack_3d4) {
+    (this->eCApplication_data).offset_0x4f4 = 1000.0 / fStack_3d4;
+  }
+  else {
+    (this->eCApplication_data).offset_0x4f4 = 0xbf800000;
+  }
+  (this->eCApplication_data).offset_0x4ec = 1000.0 / fStack_3d0;
+  (this->eCApplication_data).offset_0x4fc = eStack_39f;
+  CreateGraphicsSubsystem(this,aeStack_464,SUB41(uStack_c,0));
+  DestroySplashScreen();
+  peVar9 = (eCGfxAdmin *)thunk_FUN_3007bf90();
+  peVar10 = (eCGfxMixerAdmin *)eCGfxAdmin::GetAccessToMixer(peVar9);
+  eCGfxMixerAdmin::SetMasterBrightness(peVar10,fStack_324);
+  peVar9 = (eCGfxAdmin *)thunk_FUN_3007bf90();
+  peVar10 = (eCGfxMixerAdmin *)eCGfxAdmin::GetAccessToMixer(peVar9);
+  eCGfxMixerAdmin::SetMasterContrast(peVar10,fStack_320);
+  peVar9 = (eCGfxAdmin *)thunk_FUN_3007bf90();
+  peVar10 = (eCGfxMixerAdmin *)eCGfxAdmin::GetAccessToMixer(peVar9);
+  eCGfxMixerAdmin::SetMasterRedGamma(peVar10,fStack_31c);
+  peVar9 = (eCGfxAdmin *)thunk_FUN_3007bf90();
+  peVar10 = (eCGfxMixerAdmin *)eCGfxAdmin::GetAccessToMixer(peVar9);
+  eCGfxMixerAdmin::SetMasterGreenGamma(peVar10,fStack_318);
+  peVar9 = (eCGfxAdmin *)thunk_FUN_3007bf90();
+  peVar10 = (eCGfxMixerAdmin *)eCGfxAdmin::GetAccessToMixer(peVar9);
+  eCGfxMixerAdmin::SetMasterBlueGamma(peVar10,fStack_314);
+  peVar9 = (eCGfxAdmin *)thunk_FUN_3007bf90();
+  peVar10 = (eCGfxMixerAdmin *)eCGfxAdmin::GetAccessToMixer(peVar9);
+  eCGfxMixerAdmin::SetUserTextureFilter(peVar10,eStack_310,iStack_30c);
+  uVar12 = uStack_343;
+  this_01 = (eCVirtualFileSystem *)eCVirtualFileSystem::GetInstance();
+  eCVirtualFileSystem::EnableSaveMoundListFile(this_01,SUB41(uVar12,0));
+  piVar11 = (int *)thunk_FUN_3007c2c0();
+  (**(code **)(*piVar11 + 0x74))();
+  uVar12 = thunk_FUN_3007c000();
+  *(undefined4 *)&(this->eCApplication_data).field_0x60 = uVar12;
+  eCThreadPool::EnableAllThreads(true);
+  if (cStack_3dc == '\x01') {
+    iVar30 = *(int *)g_iDefaultMessagePriority_exref;
+    iVar53 = -1;
+    pcVar51 = (char *)0x0;
+    pcVar49 = (char *)0x0;
+    pcVar45 = 
+    "eCApplication::CreateEngine - warning, threading is disabled; this can occure heavy stalls in your system !"
+    ;
+    bVar42 = 3;
+    pbVar4 = bCMessageAdmin::GetInstance();
+    pcVar32 = OnMessage_exref;
+    bCMessageAdmin::OnMessage(pbVar4,bVar42,pcVar45,pcVar49,pcVar51,iVar53,iVar30);
+  }
+  else {
+    GE_MESSAGEF_INFO(1,
+                     "eCApplication::CreateEngine -  Threads: Image:%d, Material:%d, Mesh:%d, Sound:%d, Vertexpool:%d, CollisionMesh:%d, Animation:%d"
+                     ,uStack_3f8,uStack_3f4,uStack_3f0,uStack_3ec,uStack_3fc,uStack_3e4,uStack_3e0);
+    peVar14 = (eCResourceAdmin *)thunk_FUN_3007c090();
+    peVar15 = (eCMainCache *)eCResourceAdmin::GetMainCache(peVar14);
+    peVar13 = (eCBaseCache *)eCMainCache::AccessImageCache(peVar15);
+    eCBaseCache::SetThreadNumber(peVar13,uStack_3f8);
+    peVar14 = (eCResourceAdmin *)thunk_FUN_3007c090();
+    peVar15 = (eCMainCache *)eCResourceAdmin::GetMainCache(peVar14);
+    peVar13 = (eCBaseCache *)eCMainCache::AccessMaterialCache(peVar15);
+    eCBaseCache::SetThreadNumber(peVar13,uStack_3f4);
+    peVar14 = (eCResourceAdmin *)thunk_FUN_3007c090();
+    peVar15 = (eCMainCache *)eCResourceAdmin::GetMainCache(peVar14);
+    peVar13 = (eCBaseCache *)eCMainCache::AccessMeshCache(peVar15);
+    eCBaseCache::SetThreadNumber(peVar13,uStack_3f0);
+    peVar14 = (eCResourceAdmin *)thunk_FUN_3007c090();
+    peVar15 = (eCMainCache *)eCResourceAdmin::GetMainCache(peVar14);
+    peVar13 = (eCBaseCache *)eCMainCache::AccessSoundCache(peVar15);
+    eCBaseCache::SetThreadNumber(peVar13,uStack_3ec);
+    peVar14 = (eCResourceAdmin *)thunk_FUN_3007c090();
+    peVar15 = (eCMainCache *)eCResourceAdmin::GetMainCache(peVar14);
+    peVar13 = (eCBaseCache *)eCMainCache::AccessCollisionMeshCache(peVar15);
+    eCBaseCache::SetThreadNumber(peVar13,uStack_3e4);
+    peVar14 = (eCResourceAdmin *)thunk_FUN_3007c090();
+    peVar15 = (eCMainCache *)eCResourceAdmin::GetMainCache(peVar14);
+    peVar13 = (eCBaseCache *)eCMainCache::AccessAnimationCache(peVar15);
+    eCBaseCache::SetThreadNumber(peVar13,uStack_3e0);
+    pcVar32 = OnMessage_exref;
+  }
+  peVar14 = (eCResourceAdmin *)thunk_FUN_3007c090();
+  peVar15 = (eCMainCache *)eCResourceAdmin::GetMainCache(peVar14);
+  peVar16 = eCMainCache::AccessMeshCache(peVar15);
+  (**(code **)(*(int *)peVar16 + 0x60))(uStack_368);
+  peVar14 = (eCResourceAdmin *)thunk_FUN_3007c090();
+  peVar15 = (eCMainCache *)eCResourceAdmin::GetMainCache(peVar14);
+  peVar17 = eCMainCache::AccessAnimationCache(peVar15);
+  (**(code **)(*(int *)peVar17 + 0x60))(uStack_364);
+  (this->eCApplication_data).offset_0x504 = uStack_3c0;
+  if ((this->eCApplication_data).offset_0x490 == 0) {
+    this_02 = (eCConsole *)new(0x1c0,0x8f3);
+    if (this_02 == (eCConsole *)0x0) {
+      uVar12 = 0;
+    }
+    else {
+      uVar12 = eCConsole::eCConsole(this_02);
+    }
+    (this->eCApplication_data).offset_0x490 = uVar12;
+  }
+  (*this->vftablePtr->CreateInputDevices)(this);
+  bVar47 = true;
+  bVar44 = true;
+  bVar41 = true;
+  bVar39 = true;
+  bVar37 = true;
+  bVar35 = true;
+  bVar34 = true;
+  bVar33 = true;
+  bVar1 = true;
+  this_03 = (eCMaterialAdmin *)thunk_FUN_3007c100();
+  eCMaterialAdmin::BlockPoolEffectLoading
+            (this_03,bVar1,bVar33,bVar34,bVar35,bVar37,bVar39,bVar41,bVar44,bVar47);
+  if ((this->eCApplication_data).field_0x12b == '\x01') {
+    uStack_50 = 0;
+    bVar3 = CreateModules(this);
+    if (bVar3 != 1) {
+      uVar12 = *(undefined4 *)g_iDefaultMessagePriority_exref;
+      uVar46 = 0xffffffff;
+      uVar43 = 0;
+      uVar40 = 0;
+      pcVar45 = "eCApplication::CreateEngine - creation of moduleadmin or modules failed !";
+      uVar36 = 3;
+      bCMessageAdmin::GetInstance();
+      (*pcVar32)(uVar36,pcVar45,uVar40,uVar43,uVar46,uVar12);
+      thunk_FUN_30070f00();
+      thunk_FUN_3005bbd0();
+      ExceptionList = pvStack_5c;
+      return 5;
+    }
+    uStack_50 = 0xffffffff;
+  }
+  else {
+    bVar3 = CreateModules(this);
+    if (bVar3 != 1) {
+      uVar12 = *(undefined4 *)g_iDefaultMessagePriority_exref;
+      uVar46 = 0xffffffff;
+      uVar43 = 0;
+      uVar40 = 0;
+      pcVar45 = "eCApplication::CreateEngine - creation of moduleadmin or modules failed !";
+      uVar36 = 3;
+      bCMessageAdmin::GetInstance();
+      (*pcVar32)(uVar36,pcVar45,uVar40,uVar43,uVar46,uVar12);
+      thunk_FUN_30070f00();
+      thunk_FUN_3005bbd0();
+      ExceptionList = pvStack_5c;
+      return 5;
+    }
+  }
+  pbVar18 = (bCVector *)bCVector::bCVector(abStack_14,0.0);
+  pbVar19 = (bCSphere *)bCSphere::bCSphere(abStack_4c,pbVar18,fStack_3cc);
+  peVar20 = (eCSceneAdmin *)thunk_FUN_3007bf20();
+  peVar21 = (eCEntityAdmin *)eCSceneAdmin::GetAccessToEntityAdmin(peVar20);
+  eCEntityAdmin::SetROISphere(peVar21,pbVar19);
+  bCSphere::~bCSphere(abStack_4c);
+  bCVector::~bCVector(abStack_14);
+  uVar48 = uStack_39e;
+  peVar20 = (eCSceneAdmin *)thunk_FUN_3007bf20();
+  peVar21 = (eCEntityAdmin *)eCSceneAdmin::GetAccessToEntityAdmin(peVar20);
+  eCEntityAdmin::EnableProcessing(peVar21,(bool)uVar48);
+  fVar50 = (float)CONCAT22(uStack_39a,uStack_39c);
+  peVar22 = (eCVegetationAdmin *)thunk_FUN_3007c170();
+  eCVegetationAdmin::SetDefaultViewRange(peVar22,fVar50);
+  eVar23 = eCVegetationAdmin::StringToQuality(abStack_398);
+  peVar22 = (eCVegetationAdmin *)thunk_FUN_3007c170();
+  eCVegetationAdmin::SetQuality(peVar22,eVar23);
+  peVar24 = (eCAnimationAdmin *)thunk_FUN_3007c1e0();
+  eCAnimationAdmin::SetStandardAniFadeTime(peVar24,fStack_380);
+  peVar24 = (eCAnimationAdmin *)thunk_FUN_3007c1e0();
+  eCAnimationAdmin::SetPhysicControllerDistance(peVar24,fStack_37c);
+  eVar38 = 1;
+  peVar25 = (eCPostProcessingAdmin *)
+            thunk_FUN_3007c250(1,0,&eCPostProcessingEffectBase::RTTI_Type_Descriptor,
+                               &eCPostProcessingEffectBloom::RTTI_Type_Descriptor,0);
+  peVar26 = eCPostProcessingAdmin::GetEffect(peVar25,eVar38);
+  this_04 = (eCPostProcessingEffectBloom *)FUN_30671ae7(peVar26);
+  if (this_04 != (eCPostProcessingEffectBloom *)0x0) {
+    eCPostProcessingEffectBloom::SetHighlightThreshold(this_04,fStack_394);
+    pbVar27 = (bCVector2 *)bCVector2::bCVector2(abStack_10,fStack_34c,fStack_348);
+    eCPostProcessingEffectBloom::SetFocalRange(this_04,pbVar27);
+    bCVector2::~bCVector2(abStack_10);
+  }
+  if ((cStack_34e == '\0') && (cStack_34d == '\0')) {
+    if (cStack_344 == '\0') {
+      eVar38 = 0;
+    }
+    else {
+      eVar38 = 2;
+    }
+  }
+  else {
+    eVar38 = 1;
+  }
+  peVar25 = (eCPostProcessingAdmin *)thunk_FUN_3007c250();
+  eCPostProcessingAdmin::ActivateEffect(peVar25,eVar38);
+  this_05 = (eCRenderSystemAdmin *)thunk_FUN_3007beb0();
+  peVar28 = eCRenderSystemAdmin::GetFrustumDatabaseCapsTemplate(this_05);
+  thunk_FUN_3005f4d0();
+  *(undefined4 *)(peVar28 + 0x10) = uStack_3c8;
+  peVar28[6] = eStack_3ab;
+  peVar28[7] = eStack_3aa;
+  *(undefined4 *)(peVar28 + 0xc) = uStack_420;
+  *(undefined4 *)(peVar28 + 0x30) = uStack_36c;
+  *(undefined4 *)(peVar28 + 0x14) = uStack_3a8;
+  peVar28[0x20] = eStack_384;
+  *(undefined4 *)(peVar28 + 0x24) = uStack_388;
+  *(undefined4 *)(peVar28 + 0x28) = uStack_378;
+  peVar28[0x35] = eStack_350;
+  *(uint *)(peVar28 + 0x38) = CONCAT31(uStack_33f,uStack_343._3_1_);
+  peVar28[0x1b] = (eSCaps)(cStack_334 == '\0');
+  eVar2 = (eSCaps)(*this->vftablePtr->IsEditorRunning)(this);
+  if ((bool)eVar2) {
+    peVar28[0x2d] = eVar2;
+    peVar28[0x3d] = (eSCaps)0x0;
+  }
+  else {
+    peVar28[0x2d] = eStack_370;
+    peVar28[0x3d] = eStack_335;
+  }
+  peVar28[0x1f] = (eSCaps)(*(int *)(peVar28 + 0x24) != 0);
+  peVar29 = (eCCameraBase *)(this->eCApplication_data).offset_0x0;
+  if (peVar29 == (eCCameraBase *)0x0) {
+    peVar29 = *(eCCameraBase **)&(this->eCApplication_data).field_0x60;
+  }
+  this_06 = (eCFrustumDatabase *)eCCameraBase::GetFrustumDatabase(peVar29);
+  eCFrustumDatabase::UpdateFromAppTemplate(this_06);
+  piVar11 = (int *)(this->eCApplication_data).offset_0x0;
+  if (piVar11 == (int *)0x0) {
+    piVar11 = *(int **)&(this->eCApplication_data).field_0x60;
+  }
+  (**(code **)(*piVar11 + 100))
+            ((this->eCMessageHandler_data).offset_0xc,uStack_428,uStack_424,uStack_420);
+  peVar29 = (eCCameraBase *)(this->eCApplication_data).offset_0x0;
+  if (peVar29 == (eCCameraBase *)0x0) {
+    peVar29 = *(eCCameraBase **)&(this->eCApplication_data).field_0x60;
+  }
+  eCCameraBase::SetDepthBias(peVar29,&fStack_41c);
+  iVar30 = thunk_FUN_3007c090();
+  if (iVar30 != 0) {
+    peVar14 = (eCResourceAdmin *)thunk_FUN_3007c090();
+    peVar15 = (eCMainCache *)eCResourceAdmin::GetMainCache(peVar14);
+    eCMainCache::SetCacheSizes
+              (peVar15,uStack_418,uStack_414,uStack_410,uStack_40c,uStack_408,uStack_404,uStack_400)
+    ;
+  }
+  bCTimer::Resume((bCTimer *)&(this->eCApplication_data).field_0x464);
+  (*this->vftablePtr->OnEngineCreated)(this);
+  peVar14 = (eCResourceAdmin *)thunk_FUN_3007c090();
+  peVar15 = (eCMainCache *)eCResourceAdmin::GetMainCache(peVar14);
+  peVar31 = eCMainCache::AccessImageCache(peVar15);
+  (**(code **)(*(int *)peVar31 + 0x60))(uStack_360);
+  ms_bEngineCreated = true;
+  _GE_MESSAGE_INFO_8(5,"eCApplication::CreateEngine - Engine instance created !");
+  thunk_FUN_30070f00();
+  thunk_FUN_3005bbd0();
+  ExceptionList = pvStack_5c;
+  return 1;
+}
+
+

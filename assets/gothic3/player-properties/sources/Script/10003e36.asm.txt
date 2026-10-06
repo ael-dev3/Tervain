@@ -1,0 +1,4 @@
+; 10003e36 ?SetStaminaPoints@PSPlayerMemory@@QAEXH@Z
+10003e36 | e9455a0200 | JMP 0x10029880
+; 10003e3b PSParty::AttachTo
+; 10003e3b Ordinal_1346

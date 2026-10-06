@@ -1,0 +1,23 @@
+/* ENTRY 10008625 | bCMatrix::Invert | STATUS decompiled | 28 ms */
+
+/* public: void __thiscall bCMatrix::Invert(void) */
+
+void __thiscall bCMatrix::Invert(bCMatrix *this)
+
+{
+  undefined4 *puVar1;
+  int iVar2;
+  
+                    /* 0x8625  3582  ?Invert@bCMatrix@@QAEXXZ */
+  iVar2 = 0x10;
+  puVar1 = (undefined4 *)GetInvertedExcentric(this);
+  do {
+    iVar2 = iVar2 + -1;
+    *(undefined4 *)this = *puVar1;
+    this = this + 4;
+    puVar1 = puVar1 + 1;
+  } while (iVar2 != 0);
+  return;
+}
+
+

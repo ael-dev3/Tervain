@@ -1,0 +1,2 @@
+; 30009971 ?IsActorPlaying@eCWrapper_emfx2Actor@@QBE_NW4eEMotionType@1@@Z
+30009971 | e9ea1d0d00 | JMP 0x300db760

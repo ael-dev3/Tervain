@@ -1,0 +1,16 @@
+/* ENTRY 201af900 | FUN_201af900 | STATUS decompiled | 3 ms */
+
+void __fastcall FUN_201af900(int *param_1)
+
+{
+  code *pcVar1;
+  int *unaff_ESI;
+  
+  (**(code **)(*param_1 + 0x58))("EndDialogTimestamp",0);
+  pcVar1 = *(code **)(*param_1 + 0x5c);
+  param_1[6] = *unaff_ESI;
+  (*pcVar1)("EndDialogTimestamp",0);
+  return;
+}
+
+

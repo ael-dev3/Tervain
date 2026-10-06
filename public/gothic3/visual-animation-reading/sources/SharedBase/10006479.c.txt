@@ -1,0 +1,26 @@
+/* ENTRY 10006479 | bCString::operator= | STATUS decompiled | 6 ms */
+
+/* public: class bCString & __thiscall bCString::operator=(char const *) */
+
+bCString * __thiscall bCString::operator=(bCString *this,char *param_1)
+
+{
+  char cVar1;
+  char *pcVar2;
+  size_t _Size;
+  
+                    /* 0x6479  549  ??4bCString@@QAEAAV0@PBD@Z */
+  pcVar2 = param_1;
+  do {
+    cVar1 = *pcVar2;
+    pcVar2 = pcVar2 + 1;
+  } while (cVar1 != '\0');
+  _Size = (int)pcVar2 - (int)(param_1 + 1);
+  Realloc(this,_Size);
+  if (0 < (int)_Size) {
+    _memcpy(*(void **)this,param_1,_Size);
+  }
+  return this;
+}
+
+

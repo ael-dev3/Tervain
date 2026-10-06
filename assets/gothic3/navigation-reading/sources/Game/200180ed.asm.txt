@@ -1,0 +1,4 @@
+; 200180ed bTPropertyType<gCNavigation_PS,bool>::vfunction10
+200180ed | e9ee832700 | JMP 0x202904e0
+; 200180f2 gCWorkspace::RemoveDatabase
+; 200180f2 Ordinal_6073

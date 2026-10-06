@@ -1,0 +1,4 @@
+; 20008dd7 gCCharacterMovement_PS::vfunction15
+20008dd7 | e994d32200 | JMP 0x20236170
+; 20008ddc gCInfo_PS::GetInventory
+; 20008ddc Ordinal_3588

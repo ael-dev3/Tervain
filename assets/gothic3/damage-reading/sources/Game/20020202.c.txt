@@ -1,0 +1,18 @@
+/* ENTRY 20020202 | gCDamageReceiver_PS::SetManaPointsMax | STATUS decompiled | 10 ms */
+
+/* public: void __thiscall gCDamageReceiver_PS::SetManaPointsMax(long const &) */
+
+void __thiscall gCDamageReceiver_PS::SetManaPointsMax(gCDamageReceiver_PS *this,long *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x20202  6699  ?SetManaPointsMax@gCDamageReceiver_PS@@QAEXABJ@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"ManaPointsMax",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  *(long *)&(this->gCDamageReceiver_PS_data).field_0x24 = *param_1;
+  (*pNVar1)(this,"ManaPointsMax",false);
+  return;
+}
+
+

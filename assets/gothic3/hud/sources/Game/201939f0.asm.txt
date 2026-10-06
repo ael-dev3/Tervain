@@ -1,0 +1,8 @@
+; 201939f0 gCHUDStaticDocCategory::gCHUDStaticDocCategory
+201939f0 | 56 | PUSH ESI
+201939f1 | 8bf1 | MOV ESI,ECX
+201939f3 | ff1514797d20 | CALL dword ptr [0x207d7914]
+201939f9 | c706c4a26720 | MOV dword ptr [ESI],0x2067a2c4
+201939ff | 8bc6 | MOV EAX,ESI
+20193a01 | 5e | POP ESI
+20193a02 | c3 | RET

@@ -1,0 +1,4 @@
+; 2000305d gCHUDTableStackStats::vfunction2_for_gCInventoryListener
+2000305d | e96eb41800 | JMP 0x2018e4d0
+; 20003062 gCTouchDamage_PS::PostInitializeProperties
+; 20003062 Ordinal_5793

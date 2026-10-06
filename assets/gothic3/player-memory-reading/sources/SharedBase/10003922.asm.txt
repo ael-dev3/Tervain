@@ -1,0 +1,2 @@
+; 10003922 bCPropertyObjectBase::Destroy
+10003922 | e939580800 | JMP 0x10089160

@@ -1,0 +1,4 @@
+; 1000493a ?GetWidth@bCBox@@QBEMXZ
+1000493a | e9d1690200 | JMP 0x1002b310
+; 1000493f bCFlexibleVertexFormat::HasPointSize
+; 1000493f Ordinal_3305

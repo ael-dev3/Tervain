@@ -1,0 +1,108 @@
+/* ENTRY 3000abeb | eCVisualAnimation_PS::Read | STATUS decompiled | 82 ms */
+
+/* public: virtual enum bEResult __thiscall eCVisualAnimation_PS::Read(class bCIStream &) */
+
+bEResult __thiscall eCVisualAnimation_PS::Read(eCVisualAnimation_PS *this,bCIStream *param_1)
+
+{
+  undefined1 *this_00;
+  int *piVar1;
+  int iVar2;
+  bool bVar3;
+  bCString *pbVar4;
+  eCActorAttachment *this_01;
+  bCMatrix *pbVar5;
+  bEResult bVar6;
+  bCVector *pbVar7;
+  eCVisualAnimation_PS_vftable *peVar8;
+  float fVar9;
+  bool bStack_19;
+  ushort auStack_18 [2];
+  uint uStack_14;
+  uint uStack_10;
+  bCVector abStack_c [12];
+  
+                    /* 0xabeb  12304  ?Read@eCVisualAnimation_PS@@UAE?AW4bEResult@@AAVbCIStream@@@Z
+                        */
+  bCIStream::operator>>((bCIStream *)param_1,auStack_18);
+  this_00 = &this[7].eCEntityPropertySet_data.field_0x4;
+  eCVisualAnimationFactory::Read((eCVisualAnimationFactory *)this_00,param_1);
+  if (auStack_18[0] < 0x37) {
+    bCIStream::operator>>((bCIStream *)param_1,&bStack_19);
+  }
+  if (auStack_18[0] < 0x1c) {
+    bCIStream::operator>>((bCIStream *)param_1,&bStack_19);
+    if (bStack_19 == true) {
+      bCString::bCString((bCString *)&uStack_14);
+      bCIStream::operator>>((bCIStream *)param_1,(bCString *)&uStack_14);
+      piVar1 = (int *)this[0xb].eCEntityPropertySet_data.offset_0x8;
+      if ((int *)*piVar1 != (int *)0x0) {
+        (**(code **)(*(int *)*piVar1 + 0x24))();
+        *piVar1 = 0;
+      }
+      bCString::operator=((bCString *)(piVar1 + 1),(bCString *)&uStack_14);
+      bCString::~bCString((bCString *)&uStack_14);
+    }
+  }
+  else {
+    thunk_FUN_300ae4c0(param_1);
+  }
+  if (auStack_18[0] < 0x1d) {
+    pbVar4 = eCVisualAnimationFactory::GetMainActorFileName((eCVisualAnimationFactory *)this_00);
+    bCString::bCString((bCString *)&uStack_14,pbVar4);
+    bCString::operator=((bCString *)(this + 1),(bCString *)&uStack_14);
+    bCString::~bCString((bCString *)&uStack_14);
+  }
+  else {
+    bVar3 = bCString::IsEmpty((bCString *)(this + 1));
+    if (!bVar3) {
+      eCVisualAnimationFactory::SetMainActorFileName
+                ((eCVisualAnimationFactory *)this_00,(bCString *)(this + 1));
+    }
+  }
+  if (0x1d < auStack_18[0]) {
+    ClearAttachments(this);
+    bCIStream::operator>>((bCIStream *)param_1,&uStack_10);
+    uStack_14 = 0;
+    if (uStack_10 != 0) {
+      do {
+        this_01 = (eCActorAttachment *)new(0x78,0x76a);
+        if (this_01 == (eCActorAttachment *)0x0) {
+          this_01 = (eCActorAttachment *)0x0;
+        }
+        else {
+          eCEntityProxy::eCEntityProxy((eCEntityProxy *)(this_01 + 4));
+          pbVar5 = bCMatrix::GetIdentity();
+          bCMatrix::bCMatrix((bCMatrix *)(this_01 + 0x20),pbVar5);
+          *(eCVisualAnimation_PS **)(this_01 + 0x60) = this;
+          *(undefined4 *)(this_01 + 100) = 0;
+          bCString::bCString((bCString *)(this_01 + 0x68));
+          this_01[0x70] = (eCActorAttachment)0x0;
+          *(undefined4 *)(this_01 + 0x74) = 0;
+          *(undefined4 *)(this_01 + 0x6c) = 0;
+          *(eCVisualAnimation_PS **)this_01 = this;
+        }
+        eCActorAttachment::Read(this_01,param_1,auStack_18[0]);
+        peVar8 = (eCVisualAnimation_PS_vftable *)((int)&(this[10].vftablePtr)->GetVersion + 1);
+        thunk_FUN_300aed30(peVar8,(peVar8 != (eCVisualAnimation_PS_vftable *)0x0) - 1);
+        iVar2 = *(int *)&this[9].eCEntityPropertySet_data.offset_0xc;
+        this[10].vftablePtr = peVar8;
+        uStack_14 = uStack_14 + 1;
+        *(eCActorAttachment **)(iVar2 + -4 + (int)peVar8 * 4) = this_01;
+      } while (uStack_14 < uStack_10);
+    }
+  }
+  if (0x3f < auStack_18[0]) {
+    bCBox::operator<<((bCBox *)&this[0xc].eCEntityPropertySet_data,param_1);
+    bVar6 = eCEntityPropertySet::Read((eCEntityPropertySet *)this,param_1);
+    return bVar6;
+  }
+  fVar9 = 100.0;
+  pbVar7 = (bCVector *)bCVector::bCVector(abStack_c,0.0);
+  bCBox::SetBox((bCBox *)&this[0xc].eCEntityPropertySet_data,pbVar7,fVar9);
+  bCVector::~bCVector(abStack_c);
+  bVar6 = eCEntityPropertySet::Read((eCEntityPropertySet *)this,param_1);
+  return bVar6;
+}
+
+

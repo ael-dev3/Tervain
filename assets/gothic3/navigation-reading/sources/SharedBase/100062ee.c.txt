@@ -1,0 +1,12 @@
+/* ENTRY 100062ee | bCQuaternion::bCQuaternion | STATUS decompiled | 1 ms */
+
+/* public: __thiscall bCQuaternion::bCQuaternion(void) */
+
+bCQuaternion * __thiscall bCQuaternion::bCQuaternion(bCQuaternion *this)
+
+{
+                    /* 0x62ee  242  ??0bCQuaternion@@QAE@XZ */
+  return this;
+}
+
+

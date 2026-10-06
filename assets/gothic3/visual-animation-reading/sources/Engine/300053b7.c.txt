@@ -1,0 +1,28 @@
+/* ENTRY 300053b7 | eCVisualAnimation_PS::GetLookAtConstraintAt | STATUS decompiled | 16 ms */
+
+/* public: bool __thiscall eCVisualAnimation_PS::GetLookAtConstraintAt(int,class bCString &,class
+   bCVector &,class bCVector &,float &)const  */
+
+bool __thiscall
+eCVisualAnimation_PS::GetLookAtConstraintAt
+          (eCVisualAnimation_PS *this,int param_1,bCString *param_2,bCVector *param_3,
+          bCVector *param_4,float *param_5)
+
+{
+  GetVersion *pGVar1;
+  
+                    /* 0x53b7  7677
+                       ?GetLookAtConstraintAt@eCVisualAnimation_PS@@QBE_NHAAVbCString@@AAVbCVector@@1AAM@Z
+                        */
+  if (*(uint *)&this[0xb].eCEntityPropertySet_data <= (uint)param_1) {
+    return false;
+  }
+  bCString::operator=(param_2,(bCString *)((&(this[0xb].vftablePtr)->GetVersion)[param_1] + 0x10));
+  pGVar1 = (&(this[0xb].vftablePtr)->GetVersion)[param_1];
+  bCVector::operator=(param_3,(bCVector *)(pGVar1 + 0x18));
+  bCVector::operator=(param_4,(bCVector *)(pGVar1 + 0x24));
+  *param_5 = *(float *)(pGVar1 + 0x14);
+  return true;
+}
+
+

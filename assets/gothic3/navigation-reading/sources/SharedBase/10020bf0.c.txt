@@ -1,0 +1,21 @@
+/* ENTRY 10020bf0 | FUN_10020bf0 | STATUS decompiled | 3 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined * FUN_10020bf0(void)
+
+{
+  if ((_DAT_101427a4 & 1) == 0) {
+    _DAT_101427a4 = _DAT_101427a4 | 1;
+    if (DAT_1014279d == '\0') {
+      DAT_1014279d = '\x01';
+      bCMemoryAdmin::ms_bInitialized = true;
+    }
+    DAT_101427a1 = 1;
+    DAT_101427a0 = 0;
+    _atexit((_func_4879 *)&LAB_100e2710);
+  }
+  return &DAT_101427a0;
+}
+
+

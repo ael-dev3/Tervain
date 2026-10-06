@@ -1,0 +1,2 @@
+; 100080a3 bCBox::Intersects
+100080a3 | e9e8e10400 | JMP 0x10056290

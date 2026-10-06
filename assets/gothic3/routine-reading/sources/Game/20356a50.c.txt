@@ -1,0 +1,88 @@
+/* ENTRY 20356a50 | FUN_20356a50 | STATUS decompiled | 31 ms */
+
+void __fastcall FUN_20356a50(int *param_1)
+
+{
+  gCScriptProcessingUnit *this;
+  code *pcVar1;
+  bCString abStack_54 [4];
+  undefined4 uStack_50;
+  char *pcStack_4c;
+  undefined4 uStack_48;
+  char *pcStack_44;
+  undefined4 uStack_40;
+  char *pcStack_3c;
+  undefined4 uStack_38;
+  char *pcStack_34;
+  undefined4 uStack_30;
+  char *pcStack_2c;
+  undefined4 uStack_28;
+  char *pcStack_24;
+  undefined4 uStack_20;
+  char *pcStack_1c;
+  undefined4 uStack_18;
+  char *pcStack_14;
+  undefined4 uStack_10;
+  
+  pcVar1 = *(code **)(*param_1 + 0x58);
+  uStack_10 = 0;
+  pcStack_14 = "StatePosition";
+  *(undefined1 *)(param_1 + 0x7c) = 0;
+  uStack_18 = 0x20356a6a;
+  (*pcVar1)();
+  pcVar1 = *(code **)(*param_1 + 0x5c);
+  uStack_18 = 0;
+  pcStack_1c = "StatePosition";
+  param_1[10] = 0;
+  uStack_20 = 0x20356a7c;
+  (*pcVar1)();
+  uStack_20 = 0;
+  pcStack_24 = "StateTime";
+  uStack_28 = 0x20356a8b;
+  (**(code **)(*param_1 + 0x58))();
+  pcVar1 = *(code **)(*param_1 + 0x5c);
+  uStack_28 = 0;
+  pcStack_2c = "StateTime";
+  param_1[9] = 0;
+  uStack_30 = 0x20356aa2;
+  (*pcVar1)();
+  uStack_30 = 0;
+  pcStack_34 = "CommandTime";
+  uStack_38 = 0x20356ab1;
+  (**(code **)(*param_1 + 0x58))();
+  pcVar1 = *(code **)(*param_1 + 0x5c);
+  uStack_38 = 0;
+  pcStack_3c = "CommandTime";
+  param_1[0xb] = 0;
+  uStack_40 = 0x20356ac3;
+  (*pcVar1)();
+  uStack_40 = 0;
+  pcStack_44 = "CurrentBreakBlock";
+  uStack_48 = 0x20356ad2;
+  (**(code **)(*param_1 + 0x58))();
+  pcVar1 = *(code **)(*param_1 + 0x5c);
+  uStack_48 = 0;
+  pcStack_4c = "CurrentBreakBlock";
+  param_1[0xe] = 0;
+  uStack_50 = 0x20356ae4;
+  (*pcVar1)();
+  this = (gCScriptProcessingUnit *)(param_1 + 0x19);
+  uStack_50 = 0x20356aee;
+  gCScriptProcessingUnit::GameReset(this);
+  uStack_50 = 0;
+  bCString::bCString(abStack_54,(bCString *)(param_1 + 6));
+  gCScriptProcessingUnit::AISetTask(this);
+  gCScriptProcessingUnit::AISetTaskPosition(this,param_1[8]);
+  gCScriptProcessingUnit::AISetTaskTime(this,(float)param_1[7]);
+  bCString::bCString((bCString *)&stack0xffffffa8,"");
+  gCScriptProcessingUnit::AISetTaskCallback(this);
+  bCString::bCString((bCString *)&stack0xffffffa4,(bCString *)(param_1 + 0xd));
+  gCScriptProcessingUnit::AISetState(this);
+  gCScriptProcessingUnit::AISetStatePosition(this,param_1[10]);
+  gCScriptProcessingUnit::AISetStateTime(this,(float)param_1[9]);
+  bCString::bCString((bCString *)&stack0xffffffa0,"");
+  gCScriptProcessingUnit::AISetLocalCallback(this);
+  return;
+}
+
+

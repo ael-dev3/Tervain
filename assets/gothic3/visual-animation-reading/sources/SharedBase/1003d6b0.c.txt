@@ -1,0 +1,56 @@
+/* ENTRY 1003d6b0 | FUN_1003d6b0 | STATUS decompiled | 18 ms */
+
+undefined4 FUN_1003d6b0(uint *param_1,uint param_2)
+
+{
+  int iVar1;
+  uint uVar2;
+  uint uVar3;
+  void *_Dst;
+  uint uVar4;
+  int iVar5;
+  
+  iVar5 = 0;
+  if (DAT_102fb04c != 0) {
+    uVar2 = *param_1;
+    uVar4 = DAT_102fb04c;
+    do {
+      uVar3 = uVar4 >> 1;
+      iVar1 = uVar3 + iVar5;
+      if ((uint)(&DAT_10148218)[iVar1] <= uVar2) {
+        if (uVar2 < (&DAT_10148218)[iVar1] + 0x400000) {
+          uVar4 = *(uint *)(uVar2 - 8);
+          iVar5 = uVar2 - 0x10;
+          uVar3 = param_2 + 0x40f >> 10;
+          if (uVar3 != uVar4) {
+            if (uVar4 <= uVar3) {
+              iVar1 = *(int *)(uVar2 - 0xc);
+              if (((iVar1 == 0) || (*(int *)(iVar1 + 0xc) != 0)) ||
+                 (*(int *)(iVar1 + 8) + uVar4 < uVar3)) {
+                _Dst = MemHeap::AllocUnsynced(param_2);
+                if (_Dst != (void *)0x0) {
+                  _memmove(_Dst,(void *)*param_1,*(int *)(uVar2 - 8) * 0x400 - 0x10);
+                }
+                thunk_FUN_1003c8b0(iVar5);
+                *param_1 = (uint)_Dst;
+                return 1;
+              }
+              thunk_FUN_1003c850(iVar5);
+              if (uVar3 == *(uint *)(uVar2 - 8)) {
+                return 1;
+              }
+            }
+            thunk_FUN_1003c7e0(iVar5,uVar3);
+          }
+          return 1;
+        }
+        uVar3 = uVar4 + (-1 - uVar3);
+        iVar5 = iVar1 + 1;
+      }
+      uVar4 = uVar3;
+    } while (uVar3 != 0);
+  }
+  return 0;
+}
+
+

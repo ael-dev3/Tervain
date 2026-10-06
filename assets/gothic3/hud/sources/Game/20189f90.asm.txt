@@ -1,0 +1,15 @@
+; 20189f90 gCHUDListCtrlInventory::gCHUDListCtrlInventory
+20189f90 | 56 | PUSH ESI
+20189f91 | 8bf1 | MOV ESI,ECX
+20189f93 | 57 | PUSH EDI
+20189f94 | 8b3d5c787d20 | MOV EDI,dword ptr [0x207d785c]
+20189f9a | 8d4e20 | LEA ECX,[ESI + 0x20]
+20189f9d | c7062c7f6720 | MOV dword ptr [ESI],0x20677f2c
+20189fa3 | c74610107f6720 | MOV dword ptr [ESI + 0x10],0x20677f10
+20189faa | ffd7 | CALL EDI
+20189fac | 8d4e18 | LEA ECX,[ESI + 0x18]
+20189faf | ffd7 | CALL EDI
+20189fb1 | 5f | POP EDI
+20189fb2 | 8bce | MOV ECX,ESI
+20189fb4 | 5e | POP ESI
+20189fb5 | ff2558787d20 | JMP dword ptr [0x207d7858]

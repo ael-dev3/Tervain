@@ -1,0 +1,20 @@
+/* ENTRY 20006776 | gCScriptRoutine_PS::AISetTask | STATUS decompiled | 10 ms */
+
+/* public: void __thiscall gCScriptRoutine_PS::AISetTask(class bCString const &) */
+
+void __thiscall gCScriptRoutine_PS::AISetTask(gCScriptRoutine_PS *this,bCString *param_1)
+
+{
+  gCScriptRoutine_PS *pgStack_c;
+  undefined4 uStack_8;
+  
+                    /* 0x6776  980  ?AISetTask@gCScriptRoutine_PS@@QAEXABVbCString@@@Z */
+  uStack_8 = 0;
+  pgStack_c = this;
+  bCString::bCString((bCString *)&pgStack_c,param_1);
+  gCScriptProcessingUnit::AISetTask
+            ((gCScriptProcessingUnit *)&(this->gCScriptRoutine_PS_data).field_0x60);
+  return;
+}
+
+

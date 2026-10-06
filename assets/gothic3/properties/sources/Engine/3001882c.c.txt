@@ -1,0 +1,28 @@
+/* ENTRY 3001882c | eCEntity::GetPropertySet | STATUS decompiled | 10 ms */
+
+/* public: virtual class eCEntityPropertySet * __thiscall eCEntity::GetPropertySet(enum
+   eEPropertySetType)
+   eCEntity member function inherited by eCSpatialEntity
+   eCEntity member function inherited by eCDynamicEntity
+   eCEntity member function inherited by eCTemplateEntity */
+
+eCEntityPropertySet * __thiscall eCEntity::GetPropertySet(eCEntity *this,eEPropertySetType param_1)
+
+{
+  ushort uVar1;
+  
+                    /* 0x1882c  8194
+                       ?GetPropertySet@eCEntity@@UAEPAVeCEntityPropertySet@@W4eEPropertySetType@@@Z
+                        */
+  (*this->vftablePtr->OnReadContent)(this);
+  if (((&(this->eCEntity_data).offset_0x164)[(int)param_1 >> 5] & 1 << ((byte)param_1 & 0x1f)) != 0)
+  {
+    uVar1 = SearchForEntity(this,param_1);
+    if (uVar1 != 0xffff) {
+      return *(eCEntityPropertySet **)((this->eCEntity_data).offset_0x110 + (uint)uVar1 * 4);
+    }
+  }
+  return (eCEntityPropertySet *)0x0;
+}
+
+

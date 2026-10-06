@@ -1,17 +1,18 @@
 # Gothic 3 browser port
 
-Date: 4 October 2026. Status: exploration and native-data foundations of an incomplete port.
+Date: 6 October 2026. Status: exploration, a moving Hero presentation and native-data foundations of an incomplete port.
 
 ## Owner request and route
 
-The owner asked in the Gothic study chat to rebuild the installed Gothic 3 in
-TypeScript and host it as a second URL in Tervain. GitHub reported the repository
-and Pages site as public; the owner answered, “let's host it there anyway.”
-
-The separate route is
-[Gothic 3 / Ardea](https://ael-dev3.github.io/Tervain/gothic3/).
-The existing [Tervain game](https://ael-dev3.github.io/Tervain/) keeps its own
-entry, content, version, renderer, save namespace and original artistic direction.
+The owner asked to rebuild the installed Gothic 3 in TypeScript and host it as
+a second URL in Tervain. The repository is public and GitHub Pages is enabled.
+The [Gothic 3 / Ardea route](https://ael-dev3.github.io/Tervain/gothic3/) is
+live from `main` commit `72e2a3993437e4b108291f8cb19692d0d4e5f620`, deployed by
+workflow run [37387661546](https://github.com/ael-dev3/Tervain/actions/runs/37387661546).
+That published build is an incomplete exploration prototype. Newer local
+gameplay changes on `codex/gothic3-gameplay-initialization` have not been
+published. Tervain's separate browser build keeps its own entry, content,
+version, renderer, save namespace and original artistic direction.
 This request authorizes the separate reconstruction; it does not redefine
 Gothic assets as original Tervain content or change earlier Tervain asset rules.
 
@@ -23,17 +24,63 @@ Gothic assets as original Tervain content or change earlier Tervain asset rules.
   `public/gothic3/source-manifest.json`.
 - Loads actual static geometry and original body/head meshes rather than
   generating an invented Ardea village or substituting Tervain's residents.
-- Provides first-person exploration, a grounded support/wall approximation,
+- Provides first-person exploration and a third-person Hero that follows the
+  browser controller using recovered idle, walk and run motion clips. Ground
+  support, collision and animation selection remain approximations; this is
+  not the installed game's native actor/controller pipeline.
+- Provides a grounded support/wall approximation,
   free flight, mouse look, character inspection, orbit/zoom, wireframe,
-  rotation, a local position map and isolated browser camera-position saves.
-- Presents recovered original quest references as inspection data.
-  It never invents quest activation, dialogue choices or quest completion.
+  rotation and a local position map. Browser saves retain exploration state,
+  source-backed quest states and world-clock time; they are separate from
+  Gothic 3 native saves.
+- Presents recovered original quest references as inspection data and applies
+  the single audited new-world `Xardas_FindXardas` transition. Remaining quest
+  activation, dialogue choices and completion are not broadly playable.
 - Loads the native skinned Hero and 11 source motion clips in the inspector,
   preserving every bone influence, body/head inverse binds and source poses.
 - Provides a searchable catalog of all 641 original quests and 4,381 dialogue
   records with the original English, Italian, French, German and Spanish text.
-- Indexes the native world/sector files for future streaming and contains a
-  reviewed quest-status kernel that is not yet enabled for ordinary play.
+- Indexes the native world/sector files for future streaming. A source-backed
+  fresh-world journal now seeds all 641 native quest states and applies the
+  audited startup `RunQuest("Xardas_FindXardas")` transition. Other startup
+  callbacks and quest actions remain incomplete.
+  Bounded `SucceedQuest` calls now apply captured PoliticalFame,
+  attribute-base and GiveXP rewards to the retained Hero when all required
+  services are present. Ardea_Pocket and Anog_ReportInog exercise the skill,
+  fame and XP paths. Enclave rewards, arena status and Ardea_Revolution's
+  tutorial popup remain gated; this is not broad quest completion.
+- Loads PC_Hero's retained PlayerMemory when the browser session starts. Its
+  verified `PlayerKnows` seed initializes an ordered browser game-event store.
+  The Ardea interaction panel now preflights original dialogue records against
+  the active scene, quest state, game events and InfoManager Given state. It
+  runs General no-delivery records when every command and completion callback
+  is supported; conditions 6, 11 and 21 now apply their bounded quest status
+  transitions, and conditions 3, 6, 11 and 19 retain source Say pairs.
+  Unsupported conditions and effects stay locked with their reason shown.
+  The Hero's 121 hash-checked starting inventory stacks now answer Ardea
+  `CondItems` predicates, and an Inventory panel exposes source stack names,
+  amounts and Learned flags. This is an immutable startup snapshot; item use,
+  transfer, loot, equipment changes and inventory mutation remain unimplemented.
+  Jack's `BPANKRATZ31459` and Hamlar's `FILLER939` records now apply
+  `SetTradeEnabled` to their source Dialog state, and browser saves preserve
+  those flags. `SetPartyEnabled` and `SetTeachEnabled` now update and save the
+  corresponding source Dialog fields as well. These flags do not implement
+  party following, trainer interactions, trade UI, inventory transfer or
+  pricing.
+  Diego's `BPANKRATZ31454` response exercises `Say` and
+  `SetGameEvent("Diego_WarIsLost")`. The original `GiveXP` handler now awards
+  XP through retained Hero PlayerMemory; bounded quest success also writes
+  source-backed PoliticalFame and attribute rewards before XP.
+  A threshold crossing also writes Level to a source-constructed Hero NPC
+  property set, grants native LP through PlayerMemory and shows the localized
+  level-up text. The hash-checked Hero NPC packet now passes through the
+  registered accessor; its legacy `Level` payload is preserved as opaque
+  `bCObsoleteClass` data, while the current property initializes to the
+  verified start value and updates on supported threshold crossings. The
+  Character panel displays that Level. This NPC property set is not attached
+  to a live world entity, `Perk_Learn` is verified inactive at start, and the
+  level-up visual effect is absent. Voice, camera direction,
+  NPC routines and most of the original conversation flow remain unimplemented.
 - Streams 782 original landscape cells across Myrtana, Nordmar and Varant,
   using recovered texture/UV/blend graphs and tangent-space normal maps.
 - Offers landscape views near Ardea, Xardas's tower and Lago, plus read-only
@@ -47,15 +94,25 @@ The native Normal/Masked/AlphaBlend modes and MaskReference byte are retained.
 Masked cutoffs use byte/255 with a small comparison epsilon; the complete
 native shader and fading behavior remain unimplemented.
 The remaining native materials, global lighting, SpeedTree runtime,
-NPC animation selection, sound, combat, AI, inventory, economy, original quests,
-world-object streaming and native save compatibility are not implemented.
-Reviewed combat/dialogue kernels have explicit unsupported outcomes and host
-APIs, but are not enabled for ordinary play. Startup callbacks remain pending.
+NPC animation selection, sound, combat effects, AI, inventory, economy, most
+quest progression, world-object streaming and native save compatibility are not
+implemented.
+The source-backed dialogue kernel is enabled only for bounded records; most
+native dialogue conditions and effects remain unavailable. Mouse/key attacks
+play the recovered Hero fist phases and sample the right-hand bone against
+rendered character bounds at the hit window. Contact candidates do not change
+health or trigger NPC responses, so no combat encounter is playable. Only the
+audited first startup quest run is connected; remaining startup callbacks and
+entity mutations are pending.
 Original SpeedTree vegetation has not yet been placed in this scene.
-NPC derivatives are static bind-pose previews. Hero clip playback uses verified
-raw native keys, signed-short packing, shortest-sign component interpolation,
-pose fallback and final normalization. Multi-layer blending, effects and
-repositioning remain separate work. Missing attachments
+NPC derivatives are static bind-pose previews. The moving Hero chooses one
+recovered idle, walk or run clip from browser-controller displacement; an
+Attack or PowerAttack input plays its three recovered fist phases. First-person
+arms and hit responses are absent. Hero
+clip playback uses verified raw native keys, signed-short packing, shortest-sign
+component interpolation, pose fallback and final normalization. Multi-layer
+blending, effects and repositioning remain separate work. The visual Hero is
+not yet constructed by the original entity/property-set readers. Missing attachments
 and unsupported world entity types are recorded by the preparation pipeline.
 
 The prepared snapshot contains 202 world instances, 67 NPC source records
@@ -110,20 +167,30 @@ The prepared derivatives and newly written renderer have separate provenance.
 | --- | --- |
 | Move / run | WASD or arrows / Shift |
 | Look | Drag mouse, or click scene for captured mouse |
+| Attack / PowerAttack motion | Left-click / C; right-click / V |
 | Release mouse | Escape |
-| Inspect nearby person | E |
+| Third-person Hero view | Third person / First person button |
+| Talk to / inspect nearby person | E |
 | Character model inspection | Tab or Models |
 | Rotate / zoom / pan model | Drag / wheel / right-drag |
 | Hero motion preview | Native motion selector / Play or Pause motion |
 | Free flight / up / down | F / Space / Q |
 | Return to scene arrival | R |
 | Original quest reference journal | J |
+| Source-seeded Hero inventory | I |
 | Local position map | M |
-| Save exploration position | P |
+| Save browser session | P |
 
-Save key: `gothic3:ardea:exploration:v1`. It holds only the browser camera
-position/orientation and flight mode. It neither imports original Gothic saves
-nor changes Tervain saves.
+Current save key: `gothic3:ardea:game:v2`. It holds browser exploration state,
+landscape selection, the 641 quest states, world-clock date, PlayerKnows game
+events, accepted dialogue `Given` flags and supported Hero XP. Restore checks the Hero
+PlayerMemory and InfoManager provider identities as well as the quest/clock
+hashes. New saves also record and check the starting-inventory evidence hash;
+the immutable starting inventory is reloaded from its verified source rather
+than copied into the save. Legacy key
+`gothic3:ardea:exploration:v1` still restores position and view, then starts a
+fresh quest session. Neither format imports original Gothic saves or changes
+Tervain saves.
 
 ## Reproduction and publication
 
@@ -147,12 +214,14 @@ CI results should be reported separately.
 
 These are implementation proposals, not completed work:
 
-1. Extend the verified Hero skin/motion path to other rigs, original attachments,
-   expressions, exact interpolation, animation selection and blending.
+1. Extend bounded Ardea dialogue to more source conditions, lifecycle
+   callbacks, objectives, inventory and rewards; keep unported operations
+   visibly unsupported.
 2. Port a bounded original Ardea combat encounter and its native state
    transitions, then compare behavior with the installed game.
-3. Execute a reviewed subset of original dialogue predicates and commands,
-   inventory/progression and quest state; preserve unsupported-command errors.
+3. Extend the verified Hero skin/motion path to other rigs, original
+   attachments, expressions, exact interpolation, animation selection and
+   blending.
 4. Replace collision approximations and extend world streaming, terrain,
    SpeedTree materials, original lighting and audio.
 5. Expand region by region with save migration and measured performance.

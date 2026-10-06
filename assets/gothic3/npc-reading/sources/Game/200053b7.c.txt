@@ -1,0 +1,13 @@
+/* ENTRY 200053b7 | gCNPC_PS::GameReset | STATUS decompiled | 7 ms */
+
+/* protected: void __thiscall gCNPC_PS::GameReset(void) */
+
+void __thiscall gCNPC_PS::GameReset(gCNPC_PS *this)
+
+{
+                    /* 0x53b7  2862  ?GameReset@gCNPC_PS@@IAEXXZ */
+  (this->gCNPC_PS_data).offset_0x1a0 = 0;
+  return;
+}
+
+

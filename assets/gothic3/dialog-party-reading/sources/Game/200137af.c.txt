@@ -1,0 +1,13 @@
+/* ENTRY 200137af | gCParty_PS::GetPropertySetType | STATUS decompiled | 7 ms */
+
+/* public: virtual enum eEPropertySetType __thiscall gCParty_PS::GetPropertySetType(void)const  */
+
+eEPropertySetType __thiscall gCParty_PS::GetPropertySetType(gCParty_PS *this)
+
+{
+                    /* 0x137af  4085  ?GetPropertySetType@gCParty_PS@@UBE?AW4eEPropertySetType@@XZ
+                        */
+  return 0x4d;
+}
+
+

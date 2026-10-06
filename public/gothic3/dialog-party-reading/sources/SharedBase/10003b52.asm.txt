@@ -1,0 +1,2 @@
+; 10003b52 bCMemoryStream::Write
+10003b52 | e909bf0100 | JMP 0x1001fa60

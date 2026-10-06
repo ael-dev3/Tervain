@@ -1,0 +1,4 @@
+; 30002059 ?IsPersistable@eCEntityPropertySet@@UBE_NXZ
+30002059 | e9f2f44700 | JMP 0x30481550
+; 3000205e eCAmbientOcclusionPreprocessor::eCAOTreeNode::GetBoundingBox
+; 3000205e Ordinal_6352

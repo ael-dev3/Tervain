@@ -1,0 +1,46 @@
+/* ENTRY 3035a0d0 | FUN_3035a0d0 | STATUS decompiled | 14 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined1 __thiscall FUN_3035a0d0(int param_1,bCRay *param_2)
+
+{
+  undefined1 uVar1;
+  bCVector *pbVar2;
+  NxVec3 *pNVar3;
+  NxVec3 *pNVar4;
+  undefined1 *puStack_74;
+  undefined1 *puVar5;
+  undefined1 local_5c [8];
+  undefined4 local_54;
+  undefined4 local_50;
+  undefined4 local_4c;
+  undefined4 local_48;
+  undefined4 local_44;
+  undefined4 local_40;
+  undefined1 local_3c [60];
+  
+  if (*(int *)(param_1 + 0x60) == 0) {
+    return 0;
+  }
+  pbVar2 = bCRay::GetDirection(param_2);
+  pNVar3 = bCVector::operator_class_NxVec3_const_(pbVar2);
+  puVar5 = local_5c;
+  puStack_74 = (undefined1 *)0x3035a114;
+  pbVar2 = bCRay::GetOrigin(param_2);
+  puStack_74 = (undefined1 *)0x3035a11c;
+  pbVar2 = (bCVector *)bCVector::operator*(pbVar2,(float)puVar5);
+  pNVar4 = bCVector::operator_class_NxVec3_(pbVar2);
+  local_54 = *(undefined4 *)pNVar4;
+  local_50 = *(undefined4 *)(pNVar4 + 4);
+  local_4c = *(undefined4 *)(pNVar4 + 8);
+  local_48 = *(undefined4 *)pNVar3;
+  local_44 = *(undefined4 *)(pNVar3 + 4);
+  puStack_74 = local_3c;
+  local_40 = *(undefined4 *)(pNVar3 + 8);
+  uVar1 = (**(code **)(**(int **)(param_1 + 0x60) + 0x70))(&local_54,0x7f7fffff,0);
+  bCVector::~bCVector((bCVector *)&puStack_74);
+  return uVar1;
+}
+
+

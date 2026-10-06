@@ -1,0 +1,46 @@
+/* ENTRY 30034e7d | eCCollisionShape_PS::OnPostTouch | STATUS decompiled | 366 ms */
+
+/* public: virtual void __thiscall eCCollisionShape_PS::OnPostTouch(class eCEntity *,class
+   eCContactIterator &) */
+
+void __thiscall
+eCCollisionShape_PS::OnPostTouch
+          (eCCollisionShape_PS *this,eCEntity *param_1,eCContactIterator *param_2)
+
+{
+  bool bVar1;
+  eEPropertySetType eVar2;
+  eCEntity *peVar3;
+  eCPhysicObject *peVar4;
+  eECollisionGroup eVar5;
+  eECollisionGroup eVar6;
+  eCPhysicsScene *this_00;
+  ulong uVar7;
+  
+                    /* 0x34e7d  11361
+                       ?OnPostTouch@eCCollisionShape_PS@@UAEXPAVeCEntity@@AAVeCContactIterator@@@Z
+                        */
+  eVar2 = eCContactIterator::GetCollisionType(param_2);
+  if (eVar2 == 0xe) {
+    peVar3 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+    peVar4 = eCEntity::GetPhysicObject(peVar3);
+    if (peVar4 != (eCPhysicObject *)0x0) {
+      bVar1 = eCContactIterator::IsPointShape(param_2);
+      if (!bVar1) {
+        eVar5 = eCEntity::GetCollisionGroup((eCEntity *)param_1);
+        peVar3 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+        eVar6 = eCEntity::GetCollisionGroup(peVar3);
+        this_00 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+        uVar7 = eCPhysicsScene::GetCollisionGroupsNotifyFlags(this_00,eVar6,eVar5);
+        if (((byte)uVar7 & 4) == 4) {
+          return;
+        }
+      }
+      (*this->vftablePtr->OnPreUntouch)(this,param_1,param_2);
+      eCContactIterator::ResetIterator(param_2);
+    }
+  }
+  return;
+}
+
+

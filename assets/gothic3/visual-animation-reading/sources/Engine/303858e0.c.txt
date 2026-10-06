@@ -1,0 +1,11 @@
+/* ENTRY 303858e0 | bTPropertyObject<eCEffector,bCObjectRefBase>::vfunction1 | STATUS decompiled | 1 ms */
+
+bCObjectRefBase * __thiscall
+bTPropertyObject<eCEffector,bCObjectRefBase>::vfunction1
+          (bTPropertyObject<eCEffector,bCObjectRefBase> *this)
+
+{
+  return (this->bTPOPureSmartPtr<eCEffector>_data).offset_0x4;
+}
+
+

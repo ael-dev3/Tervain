@@ -1,0 +1,540 @@
+{
+  "schema": "gothic3-native-session-runtime-output-receipt-v1",
+  "inputs": {
+    "Game": {
+      "studyPath": "00_Original_Runtime/Game.dll",
+      "sha256": "b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f",
+      "bytes": 8228864
+    },
+    "Engine": {
+      "studyPath": "00_Original_Runtime/Engine.dll",
+      "sha256": "d49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3",
+      "bytes": 11472896
+    }
+  },
+  "coverage": {
+    "entries": 49,
+    "instructions": 1058,
+    "originalInstructionBytes": 3727
+  },
+  "files": [
+    {
+      "path": "assets/gothic3/session-runtime/native-evidence.json",
+      "bytes": 173027,
+      "sha256": "c7b425c665a777e3a069c2342950a5411cb0048e27f35bf324ef4769592d70cf"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/runtime-rules.json",
+      "bytes": 1512,
+      "sha256": "4317119d4d932012ea781ca44843f7d08ac22814c48ca47f05c0ae371e8c8e42"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Engine/3000504c.asm.txt",
+      "bytes": 81,
+      "sha256": "285344bbb3ae3e1a79b50c297e8be514c59d6daadbe2cbf452ce098ff5033ae4"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Engine/3000504c.c.txt",
+      "bytes": 3056,
+      "sha256": "e4463e9ab3a9e1714e6eef9ac2389db8bc5a07d65ad98393ea575d7cf4a38206"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Engine/3000564b.asm.txt",
+      "bytes": 90,
+      "sha256": "656f8d8a81c6f10cba099c3d6d9c2129d5e94404db4489f051ed6d318a3b8cd4"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Engine/3000564b.c.txt",
+      "bytes": 337,
+      "sha256": "7ea211b3c4cb91a25b14893b1bd95c052392efedcd25362d73d77147495dafff"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Engine/30016194.asm.txt",
+      "bytes": 85,
+      "sha256": "d10c4c5c63ef1a53c146b5cb50f0270f5376e9253dbfdbec32b5485b4d5b85f8"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Engine/30016194.c.txt",
+      "bytes": 360,
+      "sha256": "15960283f43e37df4ef2cfd2a6699b8c622917a2016878345ada5fc1419fc095"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Engine/30019164.asm.txt",
+      "bytes": 153,
+      "sha256": "4dd7f843a9ff664d80846f48db5a615b1abd1350ceddc9a2784adb7b6744b5a0"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Engine/30019164.c.txt",
+      "bytes": 376,
+      "sha256": "a5852600f04a851c153f9b85bd13b93fcb981ce5ac9531c89c00426ddf89f578"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Engine/30020a4f.asm.txt",
+      "bytes": 79,
+      "sha256": "7b6e9e7709b6998455c7d79865d07f88cfbcb2c2801ae576306289a00b1e17f0"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Engine/30020a4f.c.txt",
+      "bytes": 1110,
+      "sha256": "f22d68d9aad44bfed9a9f3a8d10bd941b6b4bf258df6a6c92f44a724174e8c89"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Engine/3002b94a.asm.txt",
+      "bytes": 149,
+      "sha256": "08266b57946653ae2ae0353c4fee80ec0d68afdd3da196710acf41ebee1c4aa0"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Engine/3002b94a.c.txt",
+      "bytes": 444,
+      "sha256": "a677b9269380b433c036ed623ef65fa0717f4363cefda47b9e49ec29aea30e27"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Engine/3002d434.asm.txt",
+      "bytes": 84,
+      "sha256": "49bd596eed694889ae42002afb473aafe99d0e0d378b3a0e74b43b1652366311"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Engine/3002d434.c.txt",
+      "bytes": 3074,
+      "sha256": "08d004b34323be1311782d50bb5678ed5d06d416073c4da12a08623a87b5f276"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Engine/3003f94f.asm.txt",
+      "bytes": 95,
+      "sha256": "a9b0abfd8a3ab2647e388a8be3efb99a45b8ac96fd0b475407e27d44ac744e26"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Engine/3003f94f.c.txt",
+      "bytes": 395,
+      "sha256": "fab18f4c1883bc6b84cdc36cb1430449ff4e510aff1e926aa03d7f3d3e90e175"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Engine/300460ab.asm.txt",
+      "bytes": 101,
+      "sha256": "317a695b2c806078b05fed256aaf696e321030441ff18054778254db4c4e6819"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Engine/300460ab.c.txt",
+      "bytes": 419,
+      "sha256": "14671e503f64b65aac17a5d0e43cd70674af5242919655b5bde2925af45bc6a3"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Engine/3005f420.asm.txt",
+      "bytes": 159,
+      "sha256": "c11bcf59e5ebc8fc0bdebe50d651d15d4abb06eb3a7a7d7c030bcff0e9033fcd"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Engine/3005f420.c.txt",
+      "bytes": 189,
+      "sha256": "8a3665c7a16190d7be2d0bcc3e2c26caf6c08602514f9c89e1468063b9846cda"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Engine/30062c80.asm.txt",
+      "bytes": 4008,
+      "sha256": "9d673538217471537607a692e52fba32add3520a0978f0af293c19605717f636"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Engine/30062c80.c.txt",
+      "bytes": 2382,
+      "sha256": "4489fde613345d55647b7e31ae47135b47e23189be3a20affec9198e108f79d0"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Engine/30063330.asm.txt",
+      "bytes": 98,
+      "sha256": "c577351c10af9ca99406c9101649a8339d80bbf7bcdda7ff4517fe8b6d329c22"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Engine/30063330.c.txt",
+      "bytes": 163,
+      "sha256": "1112d50acbb68ea099d9d90eeae39e55e881a80f08c9b51ebd99e3fce688a2e4"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Engine/30063340.asm.txt",
+      "bytes": 98,
+      "sha256": "53d223ebcef0c83680183ba07f856c859044f077bbca611803b087f9c3287c04"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Engine/30063340.c.txt",
+      "bytes": 163,
+      "sha256": "1af5c5c9a5f1a359111bdd46dc598248d28fb3579adcf1c559c9f8584ff5f4c6"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Engine/30063550.asm.txt",
+      "bytes": 280,
+      "sha256": "63685ce9ca63c91e53a17a4d9f88875e1c93898de510276e80587ed7a6e46b5e"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Engine/30063550.c.txt",
+      "bytes": 226,
+      "sha256": "d241b04ebab993a70ae3cc418e086579ce5c54c06a1bea3377a2ada5043e7b1f"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Engine/30063570.asm.txt",
+      "bytes": 158,
+      "sha256": "3cfa4caa9fc622a7e7dc61bdbc949e2f50def9cc9c1ceb27a0750ddfa02c1cc7"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Engine/30063570.c.txt",
+      "bytes": 188,
+      "sha256": "5a64950be9ee9d779315bef908e2c4abd0918927186d203e58a48e4d9b2a7c79"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Engine/300635a0.asm.txt",
+      "bytes": 72,
+      "sha256": "236e35b578694d8c0425ac443d0f82ff32d5f462ea31a80c83185fc1da1ba50b"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Engine/300635a0.c.txt",
+      "bytes": 113,
+      "sha256": "3cc22906d0b66e9ef284bd161c60a55d3e5499ed13c05be6d68c0d340298447f"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Engine/30067270.asm.txt",
+      "bytes": 4956,
+      "sha256": "05825767ae988e2c3561b57330e584d829b3d7712b77386cfb3cebbef950a95c"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Engine/30067270.c.txt",
+      "bytes": 2655,
+      "sha256": "8e723f788f8523ab927e3be8700e095ab3fed2b35eda0cf8cd907df47b8dd66b"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Engine/3006c520.asm.txt",
+      "bytes": 1995,
+      "sha256": "46ac46234256e1521e4354b402b1d257be4bd5045cb853164e6c23128a61c5ca"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Engine/3006c520.c.txt",
+      "bytes": 998,
+      "sha256": "7b0855e776289a9da7779fe1c775d0f367cae6939faafe298bfd65b3e1cb5736"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/20002ecd.asm.txt",
+      "bytes": 84,
+      "sha256": "5d9b104ab910faf7af852d5c0ae4f24c49a2fd236acfa7424ecd00f977ad59cb"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/20002ecd.c.txt",
+      "bytes": 525,
+      "sha256": "a2caf188acd8ec064bd596836cac2d7e41521cbf47ae64d74e8dbb82532c719e"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/20007c5c.asm.txt",
+      "bytes": 148,
+      "sha256": "8d98f80c4ccf3c50c116fcf3cdd162f0bc056031bd073a443a0d12d10d980b89"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/20007c5c.c.txt",
+      "bytes": 1055,
+      "sha256": "78f289599dd5ec5c44a9f2c642dad4a0d8b70520a5055aaf41aefe30e0a1977f"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/200087ab.asm.txt",
+      "bytes": 98,
+      "sha256": "c33e77c4e1f65cbaf261fc4000c2dad9ab37eeead1d5cb24ff058ae16b9eeaa9"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/200087ab.c.txt",
+      "bytes": 7205,
+      "sha256": "4638ba243a6ef01b508c003869c4e4b12a7c864ba609ad2a969c71b1ebbd10bc"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/2000d134.asm.txt",
+      "bytes": 88,
+      "sha256": "1076ca8379a65068384f2f757fbbf1aaa3ae6b2a689644bb0853e29662004ead"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/2000d134.c.txt",
+      "bytes": 3658,
+      "sha256": "0deb7e0508235eb80ce254c88d774799f9439ab7440b7235226199e6f66b43ce"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/2001ae97.asm.txt",
+      "bytes": 76,
+      "sha256": "611dd365fd5582bf2f3efa9da6422e1c2f2930d526983f81b73951823bbee6b0"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/2001ae97.c.txt",
+      "bytes": 1083,
+      "sha256": "d246296e611e8e89c150d7b51193328ab3736f2dd4ef57ddc73ffbe4994f31e5"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/2001d0c0.asm.txt",
+      "bytes": 71,
+      "sha256": "51d82c747d2f6b53b42e6a6d345028c07dea92648ea92c77226754762a013c38"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/2001d0c0.c.txt",
+      "bytes": 846,
+      "sha256": "419d0d1ffd52169f79abd7298807b847ef4e2055043f609f91680fdf5846da29"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/20023344.asm.txt",
+      "bytes": 130,
+      "sha256": "81aded65faba8982c75203fc8e329da29b2cd64d82de43faa4f3309a77fa1daf"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/20023344.c.txt",
+      "bytes": 1074,
+      "sha256": "cce90a71d41f17c92849d8d1cac488e01fbc2a1ca0747c9a76c8000780fdee95"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/20023cef.asm.txt",
+      "bytes": 86,
+      "sha256": "aea0793a2b446c9aac2691f40da246b1860bdc9f5998aa3f6b50450bcfded169"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/20023cef.c.txt",
+      "bytes": 343,
+      "sha256": "29c8089173cd5af0c41b8b02e2a10df9e63d025f7ae6b996db1ada009ea8a328"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/200257b6.asm.txt",
+      "bytes": 79,
+      "sha256": "cb9ab3f35a643055e3bc251ef5311f32b6929c845d3d24493e0cf0ea0f73a0c1"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/200257b6.c.txt",
+      "bytes": 327,
+      "sha256": "5ba188ecd441846f57a9e08bc927a6ecdfefc2923f15b25f185d83bb64f0f1bc"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/2002d510.asm.txt",
+      "bytes": 80,
+      "sha256": "4733cfb2d720d50465559c40181c3681ec6c27b79f43ffa0df6cf0336ee922d7"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/2002d510.c.txt",
+      "bytes": 1288,
+      "sha256": "e4fa5ccf4abe29cee992977d6b0b2144dec1f476a484aa8efd13c2310577a746"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/20033096.asm.txt",
+      "bytes": 88,
+      "sha256": "5d9aa5d0d4ea14df0600311cb33cfe02110525aa304d8f4f7485783dbfb69da5"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/20033096.c.txt",
+      "bytes": 2314,
+      "sha256": "75d84f623111ae751a0678ad6e1e68b9a6d17cebe1c39520ad0868299e29a3f2"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/20033f78.asm.txt",
+      "bytes": 74,
+      "sha256": "8c6fa1bf15f6595ed07b53d5c7c5504c3c87f0118f41ed758cce21e1cf6eac71"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/20033f78.c.txt",
+      "bytes": 1772,
+      "sha256": "12fc5874afeebcd38dea78c34afda7747b04d3600e64b3488bfc15ffef4cc428"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/200367eb.asm.txt",
+      "bytes": 155,
+      "sha256": "83d2e7aecb366218f3bb0c400fa6174a7ecf91948d1f3e8b9860b232cd307f67"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/200367eb.c.txt",
+      "bytes": 817,
+      "sha256": "a022de13e1bfac49ed2f3c1b928baf487797548e4a98b4250b3bca5c9ce38b6d"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/20048640.asm.txt",
+      "bytes": 128,
+      "sha256": "2f916fe8a8e6677d155d1dc1d89bb56ab2e90879f991738632dec2a6a1585fa3"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/20048640.c.txt",
+      "bytes": 153,
+      "sha256": "c27b4b802fda2ab2b99d0ab4eaa81255a4f0a0be9c9f96ec8cf90d90b202b488"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/20050d20.asm.txt",
+      "bytes": 1306,
+      "sha256": "173c090db21998904e6530596e6fa34c17b1b6cc4dc72bea9130cc26ac7960f2"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/20050d20.c.txt",
+      "bytes": 732,
+      "sha256": "ebf7e8d5fd9c7e188ffabf37443a55fd46d5e13e24f656584de95040fdf606c4"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/20051710.asm.txt",
+      "bytes": 309,
+      "sha256": "2987a8a4e7761f76c85deffe471e8247902ef38882e79b2616caaaf2da2a5d17"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/20051710.c.txt",
+      "bytes": 320,
+      "sha256": "76ea5e9aaa7b60aabc2982cc86ab698d85151ad9649990eda5777e12e4d595a2"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/20371f00.asm.txt",
+      "bytes": 1059,
+      "sha256": "efe1d771e31ebb51eacaf1cb31e1f3ac2db6ebbfbf0e3efdd6fe210e763f6b3d"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/20371f00.c.txt",
+      "bytes": 808,
+      "sha256": "fb6b3d114d6452c89eec4500cea01f367caae6cb62090d851ae0b7849c6160eb"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/20371f60.asm.txt",
+      "bytes": 1060,
+      "sha256": "dd620b8487d91e472287ff4d26e58c2196c10696d074bf217f9112ad0d15c9b9"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/20371f60.c.txt",
+      "bytes": 813,
+      "sha256": "f29d6dceab9ee9b7ed9d7f4d499c0741c64d328078dda28c02acbed1ca1d51a0"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/20371fd0.asm.txt",
+      "bytes": 99,
+      "sha256": "eabdecf3d574bc4ea2a97a56397b3436eb0deee7e7f9229eda70660b177cddba"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/20371fd0.c.txt",
+      "bytes": 161,
+      "sha256": "b2a4ae7fcc7c39192caf2824762a96718bdc36a184fadedaad3f666eec917cae"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/20372740.asm.txt",
+      "bytes": 1288,
+      "sha256": "f878112d889fa016626ecdca880d17f00d2390e7c09d36b8100d8790387d93ae"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/20372740.c.txt",
+      "bytes": 969,
+      "sha256": "188659c20c6eeb49f4724f43a3bb041eb9767efa37050cf9279410d989232aed"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/203742a0.asm.txt",
+      "bytes": 5008,
+      "sha256": "6db70d6cb36bdcc3a9ac4fc1b55965215290cfe04eceee4f35ec32bec8b72adf"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/203742a0.c.txt",
+      "bytes": 3378,
+      "sha256": "340e3a61cde10d6ac4ad94ef434876d27fe0182d34768a1cba20f84a7a114896"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/20374cc0.asm.txt",
+      "bytes": 1271,
+      "sha256": "9ec5ee3875ff48da2ec4335ea03bf0482f2343c074f16a1bee2ec6d91479369f"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/20374cc0.c.txt",
+      "bytes": 1332,
+      "sha256": "79642623ad800367fcc5716eeec18a5bb1f76aef343ebbfeb319747ee661acc7"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/20374d70.asm.txt",
+      "bytes": 2269,
+      "sha256": "288a138a9629aa2001c19d8c857c2e1d770618e98a9bb606772923a27ac016d7"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/20374d70.c.txt",
+      "bytes": 1536,
+      "sha256": "4d3db28a6b7d67cc1cfb63d69a49d885769671f420683ab961af22932ff19d31"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/20374e90.asm.txt",
+      "bytes": 2989,
+      "sha256": "b11f3b636602742c9cd9c357ea6d640c31f3ee895e6774def91f2508d3cce0ad"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/20374e90.c.txt",
+      "bytes": 2040,
+      "sha256": "7984a88e59061f70d646b99f89d4009970ee5798ebb3e7a8d5b83c6298a4b126"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/20376690.asm.txt",
+      "bytes": 11794,
+      "sha256": "f0c2de00ef17e627462ffdf61b9bddcd16eb3f1cc9f44382300bc215293de073"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/20376690.c.txt",
+      "bytes": 6988,
+      "sha256": "d85a5c2a5f3bf7347108b0d1df386a5a999ccc083307a37dcbbb3925bd1d72b1"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/2037bcd0.asm.txt",
+      "bytes": 1233,
+      "sha256": "d19cfd6c3439e4adbd156a9aeb6c25f8b4ba84fdaa02fe4dcce5b910268b8ba2"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/2037bcd0.c.txt",
+      "bytes": 805,
+      "sha256": "15d3bc109f71cdead92bb59bb1eb07ac6f913c3bd9fc5b089d262da98dadaba7"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/20461c94.asm.txt",
+      "bytes": 107,
+      "sha256": "7e363df6169fc9bdc5c1fd3514eb9818b7aee3d97217e09f6a62ccb95abb5390"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/20461c94.c.txt",
+      "bytes": 397,
+      "sha256": "089cc2f585a531ce6c3731ffd0710783bd053246c663df5f9bf92bf4306c1be4"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/20461cc4.asm.txt",
+      "bytes": 102,
+      "sha256": "36683cb9c9a5b38e47ada61aef8669403b7e53c4856f934c89d33debc6d18643"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/20461cc4.c.txt",
+      "bytes": 351,
+      "sha256": "5d30513385aeed9761666cdc790f741a303e59a7d017c0b6995c32ce214eefb4"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/20461cca.asm.txt",
+      "bytes": 99,
+      "sha256": "449b15cf97de19206f596ae34d3cdfef4f5fea4b02574f5ad1891cfd93d998ec"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/20461cca.c.txt",
+      "bytes": 342,
+      "sha256": "8f10dd5890dfc734605c21bc4ef4c2fa9ab8d49e227c0bb1c634d8df2260d537"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/20461cd6.asm.txt",
+      "bytes": 97,
+      "sha256": "19e09f2128e512f4e1c9c3320b25aed4d46f4d09d8d764b19ddef8d4a0cb83c2"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/20461cd6.c.txt",
+      "bytes": 336,
+      "sha256": "0fb69941f6e2786c3fbe222cc406d4867867c2662c0738beb41a09d0f05c0ce1"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/20461cdc.asm.txt",
+      "bytes": 101,
+      "sha256": "d75cef8b0181b0ebe1e86a42201566595c4b15add09035d75f53e749145c609d"
+    },
+    {
+      "path": "assets/gothic3/session-runtime/sources/Game/20461cdc.c.txt",
+      "bytes": 348,
+      "sha256": "f74ce7ab48c14dc0571b033c9f6c8226f01de4d1728d68f8afab04a91a3781dc"
+    },
+    {
+      "path": "public/gothic3/session-runtime/runtime-rules.json",
+      "bytes": 1512,
+      "sha256": "4317119d4d932012ea781ca44843f7d08ac22814c48ca47f05c0ae371e8c8e42"
+    },
+    {
+      "path": "src/gothic3/session-runtime.ts",
+      "bytes": 26561,
+      "sha256": "c2b711516317411fd92adef3f694e89ceaf898f72338c9575618fbc28ec5859e"
+    },
+    {
+      "path": "tools/gothic3/research_session_runtime.py",
+      "bytes": 5982,
+      "sha256": "8d9e90c19952feb610f7d75722293d893ec4505e2da1ce260e4607100dec9149"
+    }
+  ],
+  "gameplayReady": false,
+  "nativeExecution": false,
+  "testsRun": false
+}

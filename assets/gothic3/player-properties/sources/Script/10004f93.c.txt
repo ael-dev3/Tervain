@@ -1,0 +1,23 @@
+/* ENTRY 10004f93 | PSPlayerMemory::GetStaminaPoints | STATUS decompiled | 9 ms */
+
+/* public: int __thiscall PSPlayerMemory::GetStaminaPoints(void)const  */
+
+int __thiscall PSPlayerMemory::GetStaminaPoints(PSPlayerMemory *this)
+
+{
+  int iVar1;
+  PSPlayerMemory *pPStack_4;
+  
+                    /* 0x4f93  1669  ?GetStaminaPoints@PSPlayerMemory@@QBEHXZ */
+  pPStack_4 = this;
+  bCString::bCString((bCString *)&pPStack_4,"SP");
+  if (*(gCPlayerMemory_PS **)this != (gCPlayerMemory_PS *)0x0) {
+    iVar1 = gCPlayerMemory_PS::GetValue(*(gCPlayerMemory_PS **)this,(bCString *)&pPStack_4);
+    bCString::~bCString((bCString *)&pPStack_4);
+    return iVar1;
+  }
+  bCString::~bCString((bCString *)&pPStack_4);
+  return 0;
+}
+
+

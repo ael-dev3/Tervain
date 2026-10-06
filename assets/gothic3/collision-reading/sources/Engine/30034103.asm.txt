@@ -1,0 +1,4 @@
+; 30034103 bTPropertyContainer<eEShapeGroup>::vfunction5
+30034103 | e9c85d0700 | JMP 0x300a9ed0
+; 30034108 eCThreadPool::Write
+; 30034108 Ordinal_15273

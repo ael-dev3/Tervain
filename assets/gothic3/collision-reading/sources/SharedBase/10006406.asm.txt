@@ -1,0 +1,4 @@
+; 10006406 ??ZbCOrientedBox@@QAEAAV0@ABVbCVector@@@Z
+10006406 | e9e5d00500 | JMP 0x100634f0
+; 1000640b bCLine::InvTransform
+; 1000640b Ordinal_3490

@@ -1,0 +1,24 @@
+/* ENTRY 20021166 | gCNavigation_PS::ReadSaveGame | STATUS decompiled | 19 ms */
+
+/* public: virtual enum bEResult __thiscall gCNavigation_PS::ReadSaveGame(class bCIStream &) */
+
+bEResult __thiscall gCNavigation_PS::ReadSaveGame(gCNavigation_PS *this,bCIStream *param_1)
+
+{
+                    /* 0x21166  5995
+                       ?ReadSaveGame@gCNavigation_PS@@UAE?AW4bEResult@@AAVbCIStream@@@Z */
+  bCVector::operator<<((bCVector *)&(this->gCNavigation_PS_data).field_0x10,param_1);
+  ::operator>>(param_1,(bCPropertyID *)&(this->gCNavigation_PS_data).field_0x1c);
+  ::operator>>(param_1,(bCPropertyID *)&(this->gCNavigation_PS_data).field_0x30);
+  ::operator>>(param_1,(bCPropertyID *)&(this->gCNavigation_PS_data).field_0x44);
+  bCIStream::operator>>((bCIStream *)param_1,(bCString *)&(this->gCNavigation_PS_data).field_0x58);
+  ::operator>>(param_1,(eCEntityProxy *)&(this->gCNavigation_PS_data).field_0x8c);
+  ::operator>>(param_1,(eCEntityProxy *)&(this->gCNavigation_PS_data).field_0xa8);
+  ::operator>>(param_1,(eCEntityProxy *)&(this->gCNavigation_PS_data).field_0xc4);
+  bCVector::operator<<((bCVector *)&(this->gCNavigation_PS_data).field_0xe0,param_1);
+  ::operator>>(param_1,(bCPropertyID *)&(this->gCNavigation_PS_data).field_0xec);
+  bCIStream::operator>>((bCIStream *)param_1,(bool *)&(this->gCNavigation_PS_data).field_0x100);
+  return 1;
+}
+
+

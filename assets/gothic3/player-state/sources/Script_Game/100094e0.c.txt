@@ -1,0 +1,22 @@
+/* ENTRY 100094e0 | FUN_100094e0 | STATUS decompiled | 6 ms */
+
+undefined4 FUN_100094e0(void)
+
+{
+  gEAniState gVar1;
+  
+  gVar1 = PSRoutine::PropertyAniState::operator_enum_gEAniState
+                    ((PropertyAniState *)&stack0x00000008);
+  if (gVar1 != 4) {
+    gVar1 = PSRoutine::PropertyAniState::operator_enum_gEAniState
+                      ((PropertyAniState *)&stack0x00000008);
+    if (gVar1 != 3) {
+      Entity::~Entity((Entity *)&stack0x00000004);
+      return 0;
+    }
+  }
+  Entity::~Entity((Entity *)&stack0x00000004);
+  return 1;
+}
+
+

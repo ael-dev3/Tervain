@@ -1,0 +1,2 @@
+; 3003f1a7 bTPropertyType<eCCameraBase,bCVector>::vfunction4
+3003f1a7 | e9e4760300 | JMP 0x30076890

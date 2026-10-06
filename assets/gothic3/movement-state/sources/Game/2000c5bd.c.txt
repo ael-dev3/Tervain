@@ -1,0 +1,28 @@
+/* ENTRY 2000c5bd | gCCharacterMovement_PS::ProcessSensorMovements | STATUS decompiled | 241 ms */
+
+/* public: void __thiscall gCCharacterMovement_PS::ProcessSensorMovements(void) */
+
+void __thiscall gCCharacterMovement_PS::ProcessSensorMovements(gCCharacterMovement_PS *this)
+
+{
+  bool bVar1;
+  eCEntity *this_00;
+  eEPropertySetType eVar2;
+  
+                    /* 0xc5bd  5861  ?ProcessSensorMovements@gCCharacterMovement_PS@@QAEXXZ */
+  if (((this->gCCharacterMovement_PS_data).offset_0xfc != 1) &&
+     ((this->gCCharacterMovement_PS_data).offset_0x174 != 0)) {
+    eVar2 = 0x16;
+    this_00 = (*this->vftablePtr->GetEntity)(this);
+    bVar1 = eCEntity::HasPropertySet((eCEntity *)this_00,eVar2);
+    if (bVar1) {
+      CreateDependantPSets(this);
+      gCCharacterSensor_PS::ProcessPlayerMovements
+                ((gCCharacterSensor_PS *)(this->gCCharacterMovement_PS_data).offset_0x174);
+      return;
+    }
+  }
+  return;
+}
+
+

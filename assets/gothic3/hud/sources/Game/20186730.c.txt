@@ -1,0 +1,12 @@
+/* ENTRY 20186730 | gCHUDStaticQuestLocation::gCHUDStaticQuestLocation | STATUS decompiled | 5 ms */
+
+gCHUDStaticQuestLocation * __thiscall
+gCHUDStaticQuestLocation::gCHUDStaticQuestLocation(gCHUDStaticQuestLocation *this)
+
+{
+  CFFGFCStatic::CFFGFCStatic((CFFGFCStatic *)this);
+  this->vftablePtr = &vftable;
+  return this;
+}
+
+

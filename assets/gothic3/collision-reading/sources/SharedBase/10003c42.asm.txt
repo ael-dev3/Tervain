@@ -1,0 +1,4 @@
+; 10003c42 ?Cull@bCBox@@QBE_NABVbCRay@@@Z
+10003c42 | e9092d0500 | JMP 0x10056950
+; 10003c47 bCPropertyObjectSingleton::bCPropertyObjectSingleton
+; 10003c47 Ordinal_225

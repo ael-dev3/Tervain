@@ -1,0 +1,2 @@
+; 20005e11 bTPropertyObject<gCClock_PS,eCEntityPropertySet>::scalar_deleting_destructor
+20005e11 | e90a352000 | JMP 0x20209320

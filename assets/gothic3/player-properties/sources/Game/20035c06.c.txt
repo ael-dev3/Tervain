@@ -1,0 +1,18 @@
+/* ENTRY 20035c06 | gCPlayerMemory_PS::SetChapter | STATUS decompiled | 9 ms */
+
+/* public: void __thiscall gCPlayerMemory_PS::SetChapter(long const &) */
+
+void __thiscall gCPlayerMemory_PS::SetChapter(gCPlayerMemory_PS *this,long *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x35c06  6295  ?SetChapter@gCPlayerMemory_PS@@QAEXABJ@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"Chapter",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  this[1].gCPlayerMemory_PS_data.offset_0x24 = *param_1;
+  (*pNVar1)(this,"Chapter",false);
+  return;
+}
+
+

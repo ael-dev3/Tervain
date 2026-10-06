@@ -1,0 +1,3 @@
+; 2018ff00 gCHUDButton::~gCHUDButton
+2018ff00 | c7019c936720 | MOV dword ptr [ECX],0x2067939c
+2018ff06 | ff25e0787d20 | JMP dword ptr [0x207d78e0]

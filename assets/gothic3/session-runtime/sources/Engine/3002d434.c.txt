@@ -1,0 +1,66 @@
+/* ENTRY 3002d434 | eCApplication::Invalidate | STATUS decompiled | 245 ms */
+
+/* protected: void __thiscall eCApplication::Invalidate(void) */
+
+void __thiscall eCApplication::Invalidate(eCApplication *this)
+
+{
+                    /* 0x2d434  9902  ?Invalidate@eCApplication@@IAEXXZ */
+  (this->eCApplication_data).offset_0x4a0 = 0;
+  (this->eCApplication_data).offset_0x4a4 = 0;
+  (this->eCApplication_data).offset_0x4ac = 0;
+  (this->eCApplication_data).offset_0x4b0 = 0;
+  (this->eCApplication_data).offset_0x4b4 = 0;
+  (this->eCApplication_data).offset_0x4d8 = 0;
+  (this->eCApplication_data).offset_0x4e0 = 0;
+  (this->eCApplication_data).offset_0x4c8 = 0;
+  (this->eCApplication_data).offset_0x4cc = 0;
+  (this->eCApplication_data).offset_0x4d0 = 0;
+  (this->eCApplication_data).offset_0x4d4 = 0;
+  (this->eCApplication_data).offset_0x4b8 = 0;
+  (this->eCApplication_data).offset_0x4bc = 0;
+  (this->eCApplication_data).offset_0x4c0 = 0;
+  (this->eCApplication_data).offset_0x4c4 = 0;
+  (this->eCApplication_data).offset_0x50 = 0;
+  (this->eCApplication_data).offset_0x484 = 0;
+  (this->eCApplication_data).offset_0x488 = 0;
+  (this->eCApplication_data).offset_0x48c = 0;
+  (this->eCApplication_data).offset_0x490 = 0;
+  (this->eCApplication_data).offset_0x498 = 0;
+  (this->eCApplication_data).offset_0x0 = 0;
+  (this->eCApplication_data).offset_0x4dc = 0;
+  (this->eCApplication_data).offset_0x4fc = (eCApplication)0x0;
+  (this->eCApplication_data).offset_0x49c = 0x3f800000;
+  bCString::Clear((bCString *)&(this->eCApplication_data).field_0x54);
+  (this->eCApplication_data).offset_0x504 = 0x41f00000;
+  (this->eCApplication_data).offset_0x4f0 = 0xbf800000;
+  (this->eCApplication_data).offset_0x4ec = 0xbf800000;
+  (this->eCApplication_data).offset_0x4f4 = 0xbf800000;
+  (this->eCApplication_data).offset_0x4f8 = 0xbf800000;
+  (this->eCApplication_data).offset_0x4fd = (eCApplication)0x0;
+  (this->eCApplication_data).offset_0x4fe = (eCApplication)0x0;
+  (this->eCApplication_data).offset_0x500 = (eCApplication)0x0;
+  (this->eCApplication_data).offset_0x4a8 = 0;
+  (this->eCApplication_data).offset_0x4ff = (eCApplication)0x0;
+  (this->eCApplication_data).offset_0x494 = 0;
+  (this->eCApplication_data).offset_0x4e4 = 0;
+  (this->eCApplication_data).offset_0x4e8 = 0xffffffff;
+  (this->eCApplication_data).offset_0x501 = (eCApplication)0x0;
+  (this->eCApplication_data).offset_0x50c = 0;
+  (this->eCApplication_data).offset_0x510 = 0;
+  (this->eCApplication_data).offset_0x514 = 0xfffe1dc0;
+  (this->eCApplication_data).offset_0x518 = 0xfffe1dc0;
+  (this->eCApplication_data).offset_0x520 = 0x4b;
+  (this->eCApplication_data).offset_0x51c = 0;
+  (this->eCApplication_data).offset_0x508 = (eCApplication)0x0;
+  this[1].eCApplication_data.field_0x529 = 0;
+  (this->eCApplication_data).offset_0xa84 = 0;
+  (this->eCApplication_data).offset_0xa88 = 0;
+  (this->eCApplication_data).offset_0xa8c = 0;
+  (this->eCApplication_data).offset_0xa90 = 0;
+  (this->eCApplication_data).offset_0xa94 = 0;
+  _memset(&(this->eCApplication_data).field_0x524,0,0x560);
+  return;
+}
+
+

@@ -1,0 +1,40 @@
+/* ENTRY 10002f68 | bCPropertyObjectBase::ReadData | STATUS decompiled | 15 ms */
+
+/* protected: virtual unsigned short __thiscall bCPropertyObjectBase::ReadData(class bCIStream
+   &,unsigned short)
+   bCPropertyObjectBase member function inherited by bTPOPureSmartPtr<bCObsoleteClass> */
+
+ushort __thiscall
+bCPropertyObjectBase::ReadData(bCPropertyObjectBase *this,bCIStream *param_1,ushort param_2)
+
+{
+  ushort uVar1;
+  void *pvVar2;
+  bCMemoryAdmin *this_00;
+  undefined2 in_stack_0000000a;
+  bCPropertyID abStack_14 [20];
+  
+  uVar1 = param_2;
+                    /* 0x2f68  3889  ?ReadData@bCPropertyObjectBase@@MAEGAAVbCIStream@@G@Z */
+  if (param_2 == 1) {
+    bCString::bCString((bCString *)&param_2);
+    bCIStream::operator>>((bCIStream *)param_1,(bCString *)&param_2);
+    if ((&stack0x00000000 != (undefined1 *)0xfffffff8) && (_param_2 != 0)) {
+      *(short *)(_param_2 + -4) = *(short *)(_param_2 + -4) + -1;
+      pvVar2 = (void *)(_param_2 + -8);
+      if (*(short *)(_param_2 + -4) == 0) {
+        this_00 = bCMemoryAdmin::GetInstance();
+        bCMemoryAdmin::Free(this_00,pvVar2);
+      }
+    }
+  }
+  else if (0x51 < param_2) {
+    return param_2;
+  }
+  bCPropertyID::bCPropertyID(abStack_14);
+  ::operator>>(param_1,abStack_14);
+  bCPropertyID::~bCPropertyID(abStack_14);
+  return uVar1;
+}
+
+

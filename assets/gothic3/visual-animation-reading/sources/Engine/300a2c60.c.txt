@@ -1,0 +1,35 @@
+/* ENTRY 300a2c60 | FUN_300a2c60 | STATUS decompiled | 11 ms */
+
+void __fastcall FUN_300a2c60(eCVisualAnimation_PS *param_1)
+
+{
+  undefined1 *this;
+  eCWrapper_emfx2Actor *peVar1;
+  eCVisualAnimation_PS *local_4;
+  
+  this = &param_1[7].eCEntityPropertySet_data.field_0x4;
+  local_4 = param_1;
+  peVar1 = eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this);
+  if (peVar1 != (eCWrapper_emfx2Actor *)0x0) {
+    eCVisualAnimation_PS::DestroyPhysicsController(param_1);
+    if (*(int *)&param_1[0xe].eCEntityPropertySet_data != 0) {
+      eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this);
+      local_4 = *(eCVisualAnimation_PS **)&param_1[0xe].eCEntityPropertySet_data;
+      thunk_FUN_300ac4f0(&local_4);
+      if (*(undefined4 **)&param_1[0xe].eCEntityPropertySet_data != (undefined4 *)0x0) {
+        (**(code **)**(undefined4 **)&param_1[0xe].eCEntityPropertySet_data)(1);
+      }
+      *(undefined4 *)&param_1[0xe].eCEntityPropertySet_data = 0;
+      *(undefined4 *)&param_1[0xf].eCEntityPropertySet_data.field_0x4 = 0;
+      *(undefined4 *)&param_1[0xf].eCEntityPropertySet_data = 0;
+    }
+    *(undefined4 *)&param_1[0xf].eCEntityPropertySet_data = 0;
+    param_1[0x15].vftablePtr = (eCVisualAnimation_PS_vftable *)0x0;
+    *(undefined4 *)&param_1[0x14].eCEntityPropertySet_data.offset_0xc = 0;
+    param_1[0x13].eCEntityPropertySet_data.offset_0x8 = 0x3f800000;
+    param_1[0x12].eCEntityPropertySet_data.field_0xd = 1;
+  }
+  return;
+}
+
+

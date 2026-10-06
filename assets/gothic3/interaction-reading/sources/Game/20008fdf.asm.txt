@@ -1,0 +1,2 @@
+; 20008fdf bTPropertyType<gCInteraction_PS,bTPropertyContainer<gEFocusPriority>_>::vfunction5
+20008fdf | e9fcee3f00 | JMP 0x20407ee0

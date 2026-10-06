@@ -1,0 +1,2 @@
+; 202216f0 ENGINE.DLL::eCEntityPropertySet::OnPostUpdateInternals
+202216f0 | ff25f4727d20 | JMP dword ptr [0x207d72f4]

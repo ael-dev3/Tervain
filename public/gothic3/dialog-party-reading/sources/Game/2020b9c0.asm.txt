@@ -1,0 +1,22 @@
+; 2020b9c0 bTPropertyContainer<gETradeCategory>::bTPropertyContainer<gETradeCategory>
+2020b9c0 | 56 | PUSH ESI
+2020b9c1 | 57 | PUSH EDI
+2020b9c2 | 8bf1 | MOV ESI,ECX
+2020b9c4 | ff15f86d7d20 | CALL dword ptr [0x207d6df8]
+2020b9ca | 8d7e20 | LEA EDI,[ESI + 0x20]
+2020b9cd | 8bcf | MOV ECX,EDI
+2020b9cf | c706cc616820 | MOV dword ptr [ESI],0x206861cc
+2020b9d5 | ff1500877d20 | CALL dword ptr [0x207d8700]
+2020b9db | c707ec5d6820 | MOV dword ptr [EDI],0x20685dec
+2020b9e1 | a1c4d47b20 | MOV EAX,[0x207bd4c4]
+2020b9e6 | 8d4e30 | LEA ECX,[ESI + 0x30]
+2020b9e9 | 894704 | MOV dword ptr [EDI + 0x4],EAX
+2020b9ec | ff15d86d7d20 | CALL dword ptr [0x207d6dd8]
+2020b9f2 | 33c0 | XOR EAX,EAX
+2020b9f4 | 89464c | MOV dword ptr [ESI + 0x4c],EAX
+2020b9f7 | 894650 | MOV dword ptr [ESI + 0x50],EAX
+2020b9fa | 894654 | MOV dword ptr [ESI + 0x54],EAX
+2020b9fd | 5f | POP EDI
+2020b9fe | 8bc6 | MOV EAX,ESI
+2020ba00 | 5e | POP ESI
+2020ba01 | c3 | RET

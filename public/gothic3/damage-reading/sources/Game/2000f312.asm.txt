@@ -1,0 +1,2 @@
+; 2000f312 gCDamage_PS::gCDamage_PS
+2000f312 | e959430a00 | JMP 0x200b3670

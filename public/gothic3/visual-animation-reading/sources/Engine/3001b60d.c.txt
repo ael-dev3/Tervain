@@ -1,0 +1,12 @@
+/* ENTRY 3001b60d | eCVisualAnimation_PS::GetBoneJointSpring | STATUS decompiled | 6 ms */
+
+/* public: float const & __thiscall eCVisualAnimation_PS::GetBoneJointSpring(void)const  */
+
+float * __thiscall eCVisualAnimation_PS::GetBoneJointSpring(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x1b60d  6282  ?GetBoneJointSpring@eCVisualAnimation_PS@@QBEABMXZ */
+  return (float *)(this + 4);
+}
+
+

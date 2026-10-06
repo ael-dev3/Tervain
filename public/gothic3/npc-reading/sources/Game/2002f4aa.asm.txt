@@ -1,0 +1,2 @@
+; 2002f4aa bTPropertyObjectType<gCNPC_PS,eCEntityPropertySet>::vfunction1
+2002f4aa | e901fa2c00 | JMP 0x202feeb0

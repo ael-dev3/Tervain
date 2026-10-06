@@ -1,0 +1,52 @@
+/* ENTRY 3002712e | eCVisualAnimation_PS::eCActorAttachment::Destroy | STATUS decompiled | 28 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::eCActorAttachment::Destroy(void) */
+
+void __thiscall eCVisualAnimation_PS::eCActorAttachment::Destroy(eCActorAttachment *this)
+
+{
+  eCEntityProxy *this_00;
+  eCEntity *peVar1;
+  eCEntity *peVar2;
+  eSEntityFlags *peVar3;
+  int iVar4;
+  eCEntity *this_01;
+  bool bVar5;
+  undefined4 uVar6;
+  
+                    /* 0x2712e  5052  ?Destroy@eCActorAttachment@eCVisualAnimation_PS@@QAEXXZ */
+  this_00 = (eCEntityProxy *)(this + 4);
+  peVar1 = eCEntityProxy::GetEntity(this_00);
+  if (peVar1 != (eCEntity *)0x0) {
+    peVar2 = (eCEntity *)eCEntityProxy::GetEntity(this_00);
+    peVar3 = eCEntity::GetEntityFlags(peVar2);
+    if ((DAT_30ada2a4 & 1) == 0) {
+      DAT_30ada2a4 = DAT_30ada2a4 | 1;
+      DAT_30ada2a0 = 0x800000;
+    }
+    if ((*(uint *)peVar3 & DAT_30ada2a0) != 0) {
+      peVar2 = (eCEntity *)eCEntityProxy::GetEntity(this_00);
+      uVar6 = 1;
+      (*peVar2->vftablePtr[1].IsValid)(peVar2);
+      if (*(eCJoint **)(this + 0x6c) != (eCJoint *)0x0) {
+        eCEntity::RemoveLink(peVar2,*(eCJoint **)(this + 0x6c));
+      }
+      iVar4 = (**(code **)(**(int **)this + 0x68))(uVar6);
+      if (iVar4 != 0) {
+        bVar5 = true;
+        this_01 = (eCEntity *)(**(code **)(**(int **)this + 0x68))();
+        eCEntity::EnableCollisionWith(this_01,(eCEntity *)peVar2,bVar5);
+      }
+    }
+  }
+  *(undefined4 *)(this + 100) = 0;
+  bCString::Clear((bCString *)(this + 0x68));
+  eCEntityProxy::SetEntity(this_00,(eCEntity *)0x0);
+  if (*(int **)(this + 0x6c) != (int *)0x0) {
+    (**(code **)(**(int **)(this + 0x6c) + 0x24))();
+    *(undefined4 *)(this + 0x6c) = 0;
+  }
+  return;
+}
+
+

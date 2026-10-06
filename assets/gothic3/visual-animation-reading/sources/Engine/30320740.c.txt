@@ -1,0 +1,117 @@
+/* ENTRY 30320740 | FUN_30320740 | STATUS decompiled | 61 ms */
+
+void __thiscall
+FUN_30320740(eCPhysicsScene *param_1,eCEntity *param_2,eCEntity *param_3,undefined4 param_4,
+            eCEntity *param_5)
+
+{
+  eCEntity *this;
+  eCEntity *this_00;
+  char cVar1;
+  bool bVar2;
+  int iVar3;
+  int iVar4;
+  eCVisualAnimation_PS *this_01;
+  eCPhysicObject *peVar5;
+  eCPhysicObject *peVar6;
+  NxActor *pNVar7;
+  NxActor *pNVar8;
+  uint uVar9;
+  eCEntity *peStack_c;
+  eCEntity *peStack_8;
+  undefined1 uStack_4;
+  
+  this_00 = param_3;
+  this = param_2;
+  if ((param_2 != param_3) && ((param_1->eCPhysicsScene_data).offset_0x4 != 0)) {
+    if ((char)param_5 == '\x01') {
+      param_5 = param_2;
+      iVar3 = thunk_FUN_3032af40(&param_5);
+      param_5 = this_00;
+      if ((char)param_4 == '\x01') {
+        iVar4 = thunk_FUN_30253ef0(&param_5);
+        if (iVar4 != -1) {
+          thunk_FUN_30327330(iVar4);
+        }
+      }
+      else {
+        cVar1 = thunk_FUN_30253f90(&param_5);
+        if (cVar1 == '\0') {
+          param_5 = this_00;
+          thunk_FUN_302308d0(&param_5);
+        }
+      }
+      if (*(int *)(iVar3 + 4) == 0) {
+        param_5 = this;
+        thunk_FUN_3032b630(&param_5);
+      }
+      param_5 = this_00;
+      param_5 = (eCEntity *)thunk_FUN_3032af40(&param_5);
+      param_2 = this;
+      if ((char)param_4 == '\x01') {
+        iVar3 = thunk_FUN_30253ef0(&param_2);
+        if (iVar3 != -1) {
+          thunk_FUN_30327330(iVar3);
+        }
+      }
+      else {
+        cVar1 = thunk_FUN_30253f90(&param_2);
+        if (cVar1 == '\0') {
+          param_2 = this;
+          thunk_FUN_302308d0(&param_2);
+        }
+      }
+      if (*(int *)&param_5->eCNode_data == 0) {
+        param_5 = this_00;
+        thunk_FUN_3032b630(&param_5);
+      }
+    }
+    this_01 = (eCVisualAnimation_PS *)(*this->vftablePtr->GetPropertySet)(this,100);
+    param_5 = (eCEntity *)(*this_00->vftablePtr->GetPropertySet)(this_00,100);
+    if (this_01 != (eCVisualAnimation_PS *)0x0) {
+      eCVisualAnimation_PS::EnableSkeletonCollisionWith
+                (this_01,(eCEntity *)this_00,SUB41(param_4,0));
+    }
+    if (param_5 != (eCEntity *)0x0) {
+      eCVisualAnimation_PS::EnableSkeletonCollisionWith
+                ((eCVisualAnimation_PS *)param_5,(eCEntity *)this,SUB41(param_4,0));
+    }
+    peVar5 = eCEntity::GetPhysicObject(this);
+    if ((((peVar5 != (eCPhysicObject *)0x0) &&
+         (peVar5 = eCEntity::GetPhysicObject(this_00), peVar5 != (eCPhysicObject *)0x0)) &&
+        (bVar2 = eCEntity::HasProcessingRangeEntered(this), bVar2)) &&
+       (bVar2 = eCEntity::HasProcessingRangeEntered(this_00), bVar2)) {
+      bVar2 = eCPhysicsScene::IsLocked(param_1);
+      if (!bVar2) {
+        bCCriticalSectionWin32::Acquire((bCCriticalSectionWin32 *)&DAT_30ae5dc0);
+        iVar3 = *(int *)(param_1->eCPhysicsScene_data).offset_0x8;
+        peVar6 = (eCPhysicObject *)eCEntity::GetPhysicObject(this_00);
+        pNVar7 = eCPhysicObject::GetActor(peVar6);
+        peVar6 = (eCPhysicObject *)eCEntity::GetPhysicObject(this);
+        pNVar8 = eCPhysicObject::GetActor(peVar6);
+        uVar9 = (**(code **)(iVar3 + 0x38))(pNVar8,pNVar7);
+        if ((char)param_2 == '\x01') {
+          uVar9 = uVar9 & 0xfffffffe;
+        }
+        else {
+          uVar9 = uVar9 | 1;
+        }
+        iVar3 = *(int *)(param_1->eCPhysicsScene_data).offset_0x8;
+        peVar6 = (eCPhysicObject *)eCEntity::GetPhysicObject(this_00);
+        pNVar7 = eCPhysicObject::GetActor(peVar6);
+        peVar6 = (eCPhysicObject *)eCEntity::GetPhysicObject(this);
+        pNVar8 = eCPhysicObject::GetActor(peVar6);
+        (**(code **)(iVar3 + 0x34))(pNVar8,pNVar7,uVar9);
+        bCCriticalSectionWin32::Release((bCCriticalSectionWin32 *)&DAT_30ae5dc0);
+        return;
+      }
+      peStack_c = this;
+      peStack_8 = this_00;
+      uStack_4 = (char)param_4;
+      thunk_FUN_303297a0(&peStack_c);
+    }
+  }
+  return;
+}
+
+

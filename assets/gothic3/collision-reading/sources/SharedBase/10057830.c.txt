@@ -1,0 +1,12 @@
+/* ENTRY 10057830 | FUN_10057830 | STATUS decompiled | 2 ms */
+
+void __thiscall FUN_10057830(int param_1,undefined4 *param_2)
+
+{
+  *(undefined4 *)(param_1 + 0x2c) = *param_2;
+  *(undefined4 *)(param_1 + 0x30) = param_2[1];
+  *(undefined4 *)(param_1 + 0x34) = param_2[2];
+  return;
+}
+
+

@@ -1,0 +1,4 @@
+; 1004a3c0 FUN_1004a3c0
+1004a3c0 | 8b01 | MOV EAX,dword ptr [ECX]
+1004a3c2 | 8b4050 | MOV EAX,dword ptr [EAX + 0x50]
+1004a3c5 | ffe0 | JMP EAX

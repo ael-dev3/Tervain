@@ -1,0 +1,11 @@
+/* ENTRY 2002b95e | bTPropertyObjectType<gCMovementBase_PS,eCEntityPropertySet>::vfunction3 | STATUS decompiled | 2 ms */
+
+undefined1 * __thiscall
+bTPropertyObjectType<gCMovementBase_PS,eCEntityPropertySet>::vfunction3
+          (bTPropertyObjectType<gCMovementBase_PS,eCEntityPropertySet> *this)
+
+{
+  return &(this->bTPropertyObjectType<gCMovementBase_PS,eCEntityPropertySet>_data).field_0x14;
+}
+
+

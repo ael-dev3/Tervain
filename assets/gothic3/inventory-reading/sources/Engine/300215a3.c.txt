@@ -1,0 +1,26 @@
+/* ENTRY 300215a3 | eCTemplateEntityProxy::Read | STATUS decompiled | 9 ms */
+
+/* public: virtual enum bEResult __thiscall eCTemplateEntityProxy::Read(class bCIStream &) */
+
+bEResult __thiscall eCTemplateEntityProxy::Read(eCTemplateEntityProxy *this,bCIStream *param_1)
+
+{
+  bCIStream *this_00;
+  ushort auStack_18 [2];
+  bCPropertyID abStack_14 [20];
+  
+                    /* 0x215a3  12266
+                       ?Read@eCTemplateEntityProxy@@UAE?AW4bEResult@@AAVbCIStream@@@Z */
+  this_00 = param_1;
+  bCIStream::operator>>((bCIStream *)param_1,auStack_18);
+  bCIStream::operator>>((bCIStream *)this_00,(bool *)&param_1);
+  if ((char)param_1 == '\x01') {
+    bCPropertyID::bCPropertyID(abStack_14);
+    ::operator>>(this_00,abStack_14);
+    SetEntity(this,abStack_14);
+    bCPropertyID::~bCPropertyID(abStack_14);
+  }
+  return 1;
+}
+
+

@@ -1,0 +1,4 @@
+; 100013f2 ?GetMin@bCBox@@QBEABVbCVector@@XZ
+100013f2 | e9b9920200 | JMP 0x1002a6b0
+; 100013fc bCMatrix3::ModifyXAxis
+; 100013fc Ordinal_3751

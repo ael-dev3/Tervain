@@ -1,0 +1,22 @@
+; 30386180 bTPropertyObjectType<eCEffector,bCObjectRefBase>::~bTPropertyObjectType<eCEffector,bCObjectRefBase>
+30386180 | b801000000 | MOV EAX,0x1
+30386185 | 8405f0dcae30 | TEST byte ptr [0x30aedcf0],AL
+3038618b | 754d | JNZ 0x303861da
+3038618d | 0905f0dcae30 | OR dword ptr [0x30aedcf0],EAX
+30386193 | 50 | PUSH EAX
+30386194 | b9b4dcae30 | MOV ECX,0x30aedcb4
+30386199 | ff15e8caaf30 | CALL dword ptr [0x30afcae8]
+3038619f | c705b4dcae30bc5d8630 | MOV dword ptr [0x30aedcb4],0x30865dbc
+303861a9 | e82ddfcaff | CALL 0x300340db
+303861ae | 50 | PUSH EAX
+303861af | b9ccdcae30 | MOV ECX,0x30aedccc
+303861b4 | ff15e4caaf30 | CALL dword ptr [0x30afcae4]
+303861ba | 68b4dcae30 | PUSH 0x30aedcb4
+303861bf | ff15a4daaf30 | CALL dword ptr [0x30afdaa4]
+303861c5 | 8bc8 | MOV ECX,EAX
+303861c7 | ff15e0caaf30 | CALL dword ptr [0x30afcae0]
+303861cd | 6800907a30 | PUSH 0x307a9000
+303861d2 | e8bfb32e00 | CALL 0x30671596
+303861d7 | 83c404 | ADD ESP,0x4
+303861da | b8b4dcae30 | MOV EAX,0x30aedcb4
+303861df | c3 | RET

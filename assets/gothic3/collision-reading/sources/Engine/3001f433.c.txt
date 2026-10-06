@@ -1,0 +1,36 @@
+/* ENTRY 3001f433 | eCCollisionShape_PS::RemoveShapes | STATUS decompiled | 14 ms */
+
+/* public: virtual void __thiscall eCCollisionShape_PS::RemoveShapes(enum eEShapeGroup) */
+
+void __thiscall eCCollisionShape_PS::RemoveShapes(eCCollisionShape_PS *this,eEShapeGroup param_1)
+
+{
+  eCCollisionShape *this_00;
+  ulong uVar1;
+  eCEntity *peVar2;
+  eCPhysicObjectStateBuffer *this_01;
+  int iVar3;
+  eEShapeGroup eVar4;
+  
+                    /* 0x1f433  12552  ?RemoveShapes@eCCollisionShape_PS@@UAEXW4eEShapeGroup@@@Z */
+  if ((param_1 != 0) && (uVar1 = (*this->vftablePtr->GetNumShapes)(this), uVar1 != 0)) {
+    eVar4 = param_1;
+    peVar2 = (*this->vftablePtr->GetEntity)(this);
+    this_01 = eCPhysicObjectStateBuffer::GetBuffer(peVar2);
+    eCPhysicObjectStateBuffer::RemoveShapes(this_01,eVar4);
+    iVar3 = uVar1 - 1;
+    if (-1 < iVar3) {
+      do {
+        this_00 = *(eCCollisionShape **)((this->eCCollisionShape_PS_data).offset_0x14 + iVar3 * 4);
+        if (param_1 == (this_00->eCCollisionShape_data).offset_0x14) {
+          eCCollisionShape::SetProprietaryShape(this_00,(NxShape *)0x0);
+          thunk_FUN_3033c960(iVar3);
+        }
+        iVar3 = iVar3 + -1;
+      } while (-1 < iVar3);
+    }
+  }
+  return;
+}
+
+

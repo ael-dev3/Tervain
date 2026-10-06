@@ -1,0 +1,4 @@
+; 2002fc57 ?RegisterNavigationPSInROI@gCNavigationAdmin@@QAE?AW4bEResult@@PAVgCNavigation_PS@@@Z
+2002fc57 | e984e02800 | JMP 0x202bdce0
+; 2002fc66 gCFocus_PS::GetMeleeModeItemScanRange
+; 2002fc66 Ordinal_3775

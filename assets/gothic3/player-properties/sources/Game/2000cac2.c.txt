@@ -1,0 +1,12 @@
+/* ENTRY 2000cac2 | gCAttribute::AccessTag | STATUS decompiled | 58 ms */
+
+/* public: class bCString & __thiscall gCAttribute::AccessTag(void) */
+
+bCString * __thiscall gCAttribute::AccessTag(gCAttribute *this)
+
+{
+                    /* 0xcac2  1723  ?AccessTag@gCAttribute@@QAEAAVbCString@@XZ */
+  return (bCString *)&(this->gCAttribute_data).field_0x8;
+}
+
+

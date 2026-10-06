@@ -1,0 +1,19 @@
+; 100632e0 FUN_100632e0
+100632e0 | 56 | PUSH ESI
+100632e1 | 8b742408 | MOV ESI,dword ptr [ESP + 0x8]
+100632e5 | 51 | PUSH ECX
+100632e6 | 8bce | MOV ECX,ESI
+100632e8 | e8ce53faff | CALL 0x100086bb
+100632ed | d9460c | FLD float ptr [ESI + 0xc]
+100632f0 | d944240c | FLD float ptr [ESP + 0xc]
+100632f4 | d9c0 | FLD ST0
+100632f6 | deca | FMULP ST2
+100632f8 | d9c9 | FXCH
+100632fa | d95e0c | FSTP float ptr [ESI + 0xc]
+100632fd | d94610 | FLD float ptr [ESI + 0x10]
+10063300 | d8c9 | FMUL ST1
+10063302 | d95e10 | FSTP float ptr [ESI + 0x10]
+10063305 | d84e14 | FMUL float ptr [ESI + 0x14]
+10063308 | d95e14 | FSTP float ptr [ESI + 0x14]
+1006330b | 5e | POP ESI
+1006330c | c20800 | RET 0x8

@@ -1,0 +1,4 @@
+; 20028a06 bTPropertyObject<gCCharacterSensor_PS,eCEntityPropertySet>::vfunction1
+20028a06 | e925072100 | JMP 0x20239130
+; 20028a0b gCDialog_PS::GetPickedPocket
+; 20028a0b Ordinal_3966

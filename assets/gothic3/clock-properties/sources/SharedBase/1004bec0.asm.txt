@@ -1,0 +1,86 @@
+; 1004bec0 FUN_1004bec0
+1004bec0 | 83ec0c | SUB ESP,0xc
+1004bec3 | 56 | PUSH ESI
+1004bec4 | 8bf1 | MOV ESI,ECX
+1004bec6 | d9461c | FLD float ptr [ESI + 0x1c]
+1004bec9 | 57 | PUSH EDI
+1004beca | dd0510720e10 | FLD double ptr [0x100e7210]
+1004bed0 | dfe9 | FUCOMIP ST0,ST1
+1004bed2 | ddd8 | FSTP ST0
+1004bed4 | 9f | LAHF
+1004bed5 | f6c444 | TEST AH,0x44
+1004bed8 | 7a10 | JP 0x1004beea
+1004beda | e8758efbff | CALL 0x10004d54
+1004bedf | 0f57c0 | XORPS XMM0,XMM0
+1004bee2 | 894618 | MOV dword ptr [ESI + 0x18],EAX
+1004bee5 | f30f11461c | MOVSS dword ptr [ESI + 0x1c],XMM0
+; 1004beea LAB_1004beea
+1004beea | 807e2000 | CMP byte ptr [ESI + 0x20],0x0
+1004beee | 7538 | JNZ 0x1004bf28
+1004bef0 | e85f8efbff | CALL 0x10004d54
+1004bef5 | 2b4618 | SUB EAX,dword ptr [ESI + 0x18]
+1004bef8 | 85c0 | TEST EAX,EAX
+1004befa | 8944240c | MOV dword ptr [ESP + 0xc],EAX
+1004befe | db44240c | FILD dword ptr [ESP + 0xc]
+1004bf02 | 7d06 | JGE 0x1004bf0a
+1004bf04 | d80584810e10 | FADD float ptr [0x100e8184]
+; 1004bf0a LAB_1004bf0a
+1004bf0a | d80e | FMUL float ptr [ESI]
+1004bf0c | dc0d78810e10 | FMUL double ptr [0x100e8178]
+1004bf12 | d95c2408 | FSTP float ptr [ESP + 0x8]
+1004bf16 | d9442408 | FLD float ptr [ESP + 0x8]
+1004bf1a | d8461c | FADD float ptr [ESI + 0x1c]
+1004bf1d | d95e1c | FSTP float ptr [ESI + 0x1c]
+1004bf20 | e82f8efbff | CALL 0x10004d54
+1004bf25 | 894618 | MOV dword ptr [ESI + 0x18],EAX
+; 1004bf28 LAB_1004bf28
+1004bf28 | d94614 | FLD float ptr [ESI + 0x14]
+1004bf2b | 8b4e04 | MOV ECX,dword ptr [ESI + 0x4]
+1004bf2e | d8461c | FADD float ptr [ESI + 0x1c]
+1004bf31 | 33d2 | XOR EDX,EDX
+1004bf33 | 0f57c0 | XORPS XMM0,XMM0
+1004bf36 | f30f11461c | MOVSS dword ptr [ESI + 0x1c],XMM0
+1004bf3b | d95e14 | FSTP float ptr [ESI + 0x14]
+1004bf3e | d94614 | FLD float ptr [ESI + 0x14]
+1004bf41 | d95c2408 | FSTP float ptr [ESP + 0x8]
+1004bf45 | d9442408 | FLD float ptr [ESP + 0x8]
+1004bf49 | d97c2408 | FNSTCW word ptr [ESP + 0x8]
+1004bf4d | 0fb7442408 | MOVZX EAX,word ptr [ESP + 0x8]
+1004bf52 | d9c0 | FLD ST0
+1004bf54 | 0d000c0000 | OR EAX,0xc00
+1004bf59 | 8944240c | MOV dword ptr [ESP + 0xc],EAX
+1004bf5d | d96c240c | FLDCW word ptr [ESP + 0xc]
+1004bf61 | df7c240c | FISTP qword ptr [ESP + 0xc]
+1004bf65 | 8b44240c | MOV EAX,dword ptr [ESP + 0xc]
+1004bf69 | f7f1 | DIV ECX
+1004bf6b | d96c2408 | FLDCW word ptr [ESP + 0x8]
+1004bf6f | 8b5610 | MOV EDX,dword ptr [ESI + 0x10]
+1004bf72 | 0fafc8 | IMUL ECX,EAX
+1004bf75 | 85c9 | TEST ECX,ECX
+1004bf77 | 894c240c | MOV dword ptr [ESP + 0xc],ECX
+1004bf7b | 8d3c10 | LEA EDI,[EAX + EDX*0x1]
+1004bf7e | db44240c | FILD dword ptr [ESP + 0xc]
+1004bf82 | 7d06 | JGE 0x1004bf8a
+1004bf84 | d80584810e10 | FADD float ptr [0x100e8184]
+; 1004bf8a LAB_1004bf8a
+1004bf8a | 8b4e08 | MOV ECX,dword ptr [ESI + 0x8]
+1004bf8d | dee9 | FSUBP
+1004bf8f | 8bc7 | MOV EAX,EDI
+1004bf91 | 33d2 | XOR EDX,EDX
+1004bf93 | f7f1 | DIV ECX
+1004bf95 | d95e14 | FSTP float ptr [ESI + 0x14]
+1004bf98 | 01460c | ADD dword ptr [ESI + 0xc],EAX
+1004bf9b | 0fafc8 | IMUL ECX,EAX
+1004bf9e | 8b442418 | MOV EAX,dword ptr [ESP + 0x18]
+1004bfa2 | 2bf9 | SUB EDI,ECX
+1004bfa4 | 897e10 | MOV dword ptr [ESI + 0x10],EDI
+1004bfa7 | 8b4e0c | MOV ECX,dword ptr [ESI + 0xc]
+1004bfaa | 8908 | MOV dword ptr [EAX],ECX
+1004bfac | 8b5610 | MOV EDX,dword ptr [ESI + 0x10]
+1004bfaf | 895004 | MOV dword ptr [EAX + 0x4],EDX
+1004bfb2 | 8b4e14 | MOV ECX,dword ptr [ESI + 0x14]
+1004bfb5 | 5f | POP EDI
+1004bfb6 | 894808 | MOV dword ptr [EAX + 0x8],ECX
+1004bfb9 | 5e | POP ESI
+1004bfba | 83c40c | ADD ESP,0xc
+1004bfbd | c20400 | RET 0x4

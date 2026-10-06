@@ -1,0 +1,2 @@
+; 100011c7 bCObjectBase::ReleaseReference
+100011c7 | e914900400 | JMP 0x1004a1e0

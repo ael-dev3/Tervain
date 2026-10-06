@@ -1,0 +1,34 @@
+/* ENTRY 2016bab0 | FUN_2016bab0 | STATUS decompiled | 9 ms */
+
+void FUN_2016bab0(int param_1)
+
+{
+  int iVar1;
+  bCString *this;
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  iVar1 = param_1;
+  if (param_1 == 2) {
+    bCString::bCString(local_4,"HL_AlchemyTable");
+    thunk_FUN_20190720(local_4);
+    this = local_4;
+  }
+  else if (param_1 == 3) {
+    bCString::bCString(local_8,"HL_Cauldron");
+    thunk_FUN_20190720(local_8);
+    this = local_8;
+  }
+  else {
+    if (param_1 != 4) goto LAB_2016bb36;
+    bCString::bCString((bCString *)&param_1,"HL_Smithy");
+    thunk_FUN_20190720(&param_1);
+    this = (bCString *)&param_1;
+  }
+  bCString::~bCString(this);
+LAB_2016bb36:
+  thunk_FUN_20186d20(iVar1);
+  return;
+}
+
+

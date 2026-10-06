@@ -1,0 +1,8 @@
+/* ENTRY 2012bc70 | FUN_2012bc70 | STATUS decompiled | 0 ms */
+
+void FUN_2012bc70(void)
+
+{
+  return;
+}
+

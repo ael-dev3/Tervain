@@ -1,0 +1,16 @@
+/* ENTRY 3002d538 | eCVisualAnimation_PS::AccessBoneShapeMaterial | STATUS decompiled | 54 ms */
+
+/* public: class bTPropertyContainer<enum eEShapeMaterial> & __thiscall
+   eCVisualAnimation_PS::AccessBoneShapeMaterial(void) */
+
+bTPropertyContainer<eEShapeMaterial> * __thiscall
+eCVisualAnimation_PS::AccessBoneShapeMaterial(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x2d538  2522
+                       ?AccessBoneShapeMaterial@eCVisualAnimation_PS@@QAEAAV?$bTPropertyContainer@W4eEShapeMaterial@@@@XZ
+                        */
+  return (bTPropertyContainer<eEShapeMaterial> *)(this + 5);
+}
+
+

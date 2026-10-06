@@ -1,0 +1,4 @@
+; 20026b25 bTPropertyType<gCScriptRoutine_PS,bTPropertyContainer<gEAction>_>::vfunction15
+20026b25 | e9d6953300 | JMP 0x20360100
+; 20026b2a gCProjectile_PS::SetPathStyle
+; 20026b2a Ordinal_6876

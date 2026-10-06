@@ -1,0 +1,10 @@
+/* ENTRY 30385090 | FUN_30385090 | STATUS decompiled | 2 ms */
+
+undefined4 __fastcall FUN_30385090(bCObjectRefBase *param_1)
+
+{
+  bCObjectRefBase::Create(param_1);
+  return 1;
+}
+
+

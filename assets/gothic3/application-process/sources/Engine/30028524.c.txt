@@ -1,0 +1,31 @@
+/* ENTRY 30028524 | eCEntity::PostProcess | STATUS decompiled | 19 ms */
+
+/* public: void __thiscall eCEntity::PostProcess(bool) */
+
+void __thiscall eCEntity::PostProcess(eCEntity *this,bool param_1)
+
+{
+  int iVar1;
+  eCEntity *this_00;
+  int iVar2;
+  bool bVar3;
+  
+                    /* 0x28524  11793  ?PostProcess@eCEntity@@QAEX_N@Z */
+  if ((((this->eCEntity_data).offset_0xc >> 1 & 1) == 0) &&
+     ((*this->vftablePtr->OnPostProcess)(this), param_1)) {
+    iVar2 = 0;
+    iVar1 = eCNode::GetChildrenCount((eCNode *)this);
+    if (0 < iVar1) {
+      do {
+        bVar3 = true;
+        this_00 = (eCEntity *)(*this->vftablePtr->GetChildAt)(this,iVar2);
+        PostProcess(this_00,bVar3);
+        iVar2 = iVar2 + 1;
+        iVar1 = eCNode::GetChildrenCount((eCNode *)this);
+      } while (iVar2 < iVar1);
+    }
+  }
+  return;
+}
+
+

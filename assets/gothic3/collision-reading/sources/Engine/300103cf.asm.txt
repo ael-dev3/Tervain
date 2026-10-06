@@ -1,0 +1,4 @@
+; 300103cf bTPropertyType<eCCollisionShapeBase_PS,bCObsoleteClass>::vfunction26
+300103cf | e9dc213300 | JMP 0x303425b0
+; 300103d4 eCFlexibleVtxBuffer::GetElementCount
+; 300103d4 Ordinal_6942

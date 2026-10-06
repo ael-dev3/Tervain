@@ -1,0 +1,2 @@
+; 20029c3a bTPropertyType<gCAttribute,bCString>::vfunction6
+20029c3a | e9e1fe3600 | JMP 0x20399b20

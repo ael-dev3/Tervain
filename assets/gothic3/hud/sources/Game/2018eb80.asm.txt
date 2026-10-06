@@ -1,0 +1,11 @@
+; 2018eb80 gCHUDProgressBarNPC::~gCHUDProgressBarNPC
+2018eb80 | 56 | PUSH ESI
+2018eb81 | 8bf1 | MOV ESI,ECX
+2018eb83 | 8d4e2c | LEA ECX,[ESI + 0x2c]
+2018eb86 | c706f48f6720 | MOV dword ptr [ESI],0x20678ff4
+2018eb8c | ff1534887d20 | CALL dword ptr [0x207d8834]
+2018eb92 | 8d4e10 | LEA ECX,[ESI + 0x10]
+2018eb95 | ff15b86d7d20 | CALL dword ptr [0x207d6db8]
+2018eb9b | 8bce | MOV ECX,ESI
+2018eb9d | 5e | POP ESI
+2018eb9e | ff2520787d20 | JMP dword ptr [0x207d7820]

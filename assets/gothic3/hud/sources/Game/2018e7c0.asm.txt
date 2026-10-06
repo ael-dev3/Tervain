@@ -1,0 +1,9 @@
+; 2018e7c0 gCHUDTabCtrlInventory::~gCHUDTabCtrlInventory
+2018e7c0 | 56 | PUSH ESI
+2018e7c1 | 8bf1 | MOV ESI,ECX
+2018e7c3 | 8d4e10 | LEA ECX,[ESI + 0x10]
+2018e7c6 | c7067c8e6720 | MOV dword ptr [ESI],0x20678e7c
+2018e7cc | ff155c787d20 | CALL dword ptr [0x207d785c]
+2018e7d2 | 8bce | MOV ECX,ESI
+2018e7d4 | 5e | POP ESI
+2018e7d5 | ff2598777d20 | JMP dword ptr [0x207d7798]

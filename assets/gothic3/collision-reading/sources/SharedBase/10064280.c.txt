@@ -1,0 +1,64 @@
+/* ENTRY 10064280 | FUN_10064280 | STATUS decompiled | 18 ms */
+
+void __thiscall FUN_10064280(bCOrientedBox *param_1,undefined4 param_2,bCVector *param_3)
+
+{
+  int iVar1;
+  
+  switch(param_2) {
+  case 0:
+    bCOrientedBox::GetVertex(param_1,0,param_3);
+    bCOrientedBox::GetVertex(param_1,1,param_3 + 0xc);
+    return;
+  case 1:
+    bCOrientedBox::GetVertex(param_1,3,param_3);
+    bCOrientedBox::GetVertex(param_1,0,param_3 + 0xc);
+    return;
+  case 2:
+    bCOrientedBox::GetVertex(param_1,2,param_3);
+    bCOrientedBox::GetVertex(param_1,3,param_3 + 0xc);
+    return;
+  case 3:
+    bCOrientedBox::GetVertex(param_1,1,param_3);
+    bCOrientedBox::GetVertex(param_1,2,param_3 + 0xc);
+    return;
+  case 4:
+    bCOrientedBox::GetVertex(param_1,5,param_3);
+    bCOrientedBox::GetVertex(param_1,4,param_3 + 0xc);
+    return;
+  case 5:
+    bCOrientedBox::GetVertex(param_1,4,param_3);
+    bCOrientedBox::GetVertex(param_1,7,param_3 + 0xc);
+    return;
+  case 6:
+    bCOrientedBox::GetVertex(param_1,7,param_3);
+    bCOrientedBox::GetVertex(param_1,6,param_3 + 0xc);
+    return;
+  case 7:
+    iVar1 = 6;
+    break;
+  case 8:
+    bCOrientedBox::GetVertex(param_1,3,param_3);
+    bCOrientedBox::GetVertex(param_1,7,param_3 + 0xc);
+    return;
+  case 9:
+    bCOrientedBox::GetVertex(param_1,6,param_3);
+    bCOrientedBox::GetVertex(param_1,2,param_3 + 0xc);
+    return;
+  case 10:
+    bCOrientedBox::GetVertex(param_1,4,param_3);
+    bCOrientedBox::GetVertex(param_1,0,param_3 + 0xc);
+    return;
+  case 0xb:
+    iVar1 = 1;
+    break;
+  default:
+    goto switchD_10064291_default;
+  }
+  bCOrientedBox::GetVertex(param_1,iVar1,param_3);
+  bCOrientedBox::GetVertex(param_1,5,param_3 + 0xc);
+switchD_10064291_default:
+  return;
+}
+
+

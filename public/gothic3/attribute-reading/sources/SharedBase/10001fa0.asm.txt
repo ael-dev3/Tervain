@@ -1,0 +1,2 @@
+; 10001fa0 bCObjectRefBase::NotifyPropertyDeprecated
+10001fa0 | e93b850400 | JMP 0x1004a4e0

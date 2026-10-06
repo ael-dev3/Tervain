@@ -1,0 +1,9 @@
+/* ENTRY 10025ad0 | FUN_10025ad0 | STATUS decompiled | 0 ms */
+
+undefined4 __fastcall FUN_10025ad0(undefined4 param_1)
+
+{
+  return param_1;
+}
+
+

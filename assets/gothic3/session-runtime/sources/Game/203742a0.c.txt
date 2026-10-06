@@ -1,0 +1,101 @@
+/* ENTRY 203742a0 | FUN_203742a0 | STATUS decompiled | 30 ms */
+
+void __fastcall FUN_203742a0(int param_1)
+
+{
+  bCObjectBase *this;
+  char cVar1;
+  eCApplication *peVar2;
+  eCSceneAdmin *peVar3;
+  int iVar4;
+  bCErrorAdmin *this_00;
+  eCEntity *peVar5;
+  undefined4 uVar6;
+  bCMessageAdmin *pbVar7;
+  eCEntityPropertySet *peVar8;
+  bCPropertyObjectBase *pbVar9;
+  bEMessageTypes bVar10;
+  bCString *pbVar11;
+  eCEntity *this_01;
+  char *pcVar12;
+  char *pcVar13;
+  eCEntity *peVar14;
+  char *pcVar15;
+  int iVar16;
+  bCObjectBase *pbStack_44;
+  bCMatrix abStack_40 [64];
+  
+  peVar2 = eCApplication::GetInstance();
+  cVar1 = (**(code **)(*(int *)peVar2 + 0x26c))();
+  if (cVar1 == '\0') {
+    bCString::bCString((bCString *)&pbStack_44,"PC_Camera");
+    pbVar11 = (bCString *)&pbStack_44;
+    peVar3 = (eCSceneAdmin *)thunk_FUN_200ae8e0();
+    iVar4 = eCSceneAdmin::GetNumEntitiesByName(peVar3,pbVar11);
+    bCString::~bCString((bCString *)&pbStack_44);
+    if (1 < iVar4) {
+      iVar4 = 0x1003;
+      pcVar15 = ".\\session\\ge_session.cpp";
+      pcVar12 = " current world has more than one camera! ";
+      this_00 = bCErrorAdmin::GetInstance();
+      bCErrorAdmin::CallFatalError(this_00,pcVar12,pcVar15,iVar4);
+    }
+  }
+  bCString::bCString((bCString *)&pbStack_44,"PC_Camera");
+  pbVar11 = (bCString *)&pbStack_44;
+  peVar3 = (eCSceneAdmin *)
+           thunk_FUN_200ae8e0(pbVar11,0,&eCEntity::RTTI_Type_Descriptor,
+                              &eCDynamicEntity::RTTI_Type_Descriptor,0);
+  peVar5 = eCSceneAdmin::GetEntityByName(peVar3,pbVar11);
+  uVar6 = ___RTDynamicCast(peVar5);
+  *(undefined4 *)(param_1 + 0x20) = uVar6;
+  bCString::~bCString((bCString *)&pbStack_44);
+  if (*(int *)(param_1 + 0x20) == 0) {
+    iVar4 = *(int *)g_iDefaultMessagePriority_exref;
+    iVar16 = -1;
+    pcVar13 = (char *)0x0;
+    pcVar15 = (char *)0x0;
+    pcVar12 = " current world has no camera! ";
+    bVar10 = 3;
+    pbVar7 = bCMessageAdmin::GetInstance();
+    bCMessageAdmin::OnMessage(pbVar7,bVar10,pcVar12,pcVar15,pcVar13,iVar16,iVar4);
+  }
+  this_01 = *(eCEntity **)(param_1 + 0x20);
+  if (this_01 == (eCEntity *)0x0) {
+    iVar4 = *(int *)g_iDefaultMessagePriority_exref;
+    iVar16 = -1;
+    pcVar12 = "C: can\'t start game, missing camera entity!";
+    bVar10 = 3;
+    peVar14 = this_01;
+    pbVar7 = bCMessageAdmin::GetInstance();
+    bCMessageAdmin::OnMessage(pbVar7,bVar10,pcVar12,(char *)this_01,(char *)peVar14,iVar16,iVar4);
+    return;
+  }
+  eCEntity::EnableDeactivation(this_01,false);
+  eCEntity::CacheIn(*(eCEntity **)(param_1 + 0x20),false);
+  bCMatrix::bCMatrix(abStack_40);
+  pbStack_44 = (bCObjectBase *)0x0;
+  if (*(eCEntity **)(param_1 + 0x20) != (eCEntity *)0x0) {
+    peVar8 = eCEntity::GetPropertySet(*(eCEntity **)(param_1 + 0x20),0x18);
+    thunk_FUN_2037bcd0(peVar8);
+    this = pbStack_44;
+    if (pbStack_44 != (bCObjectBase *)0x0) {
+      if (*(char *)(param_1 + 0xd1) == '\0') {
+        uVar6 = *(undefined4 *)(param_1 + 0x1c);
+      }
+      else {
+        uVar6 = 0;
+      }
+      (**(code **)((int)*pbStack_44 + 0x150))(uVar6);
+      pbVar9 = bCObjectRefBase::GetPropertyObject((bCObjectRefBase *)this);
+      if (pbVar9 != (bCPropertyObjectBase *)0x0) {
+        pbVar9 = bCObjectRefBase::GetPropertyObject((bCObjectRefBase *)this);
+        (**(code **)(*(int *)pbVar9 + 0x34))();
+      }
+    }
+  }
+  bCMatrix::~bCMatrix(abStack_40);
+  return;
+}
+
+

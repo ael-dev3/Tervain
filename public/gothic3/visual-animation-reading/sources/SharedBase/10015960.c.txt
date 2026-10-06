@@ -1,0 +1,121 @@
+/* ENTRY 10015960 | FUN_10015960 | STATUS decompiled | 30 ms */
+
+int __thiscall
+FUN_10015960(int *param_1,int param_2,bCString *param_3,bCString *param_4,char param_5,char param_6)
+
+{
+  bool bVar1;
+  bool bVar2;
+  char *_Str;
+  char *pcVar3;
+  bCString *pbVar4;
+  void *pvVar5;
+  bCMemoryAdmin *pbVar6;
+  int iVar7;
+  int iVar8;
+  char *local_18;
+  int local_14;
+  int local_10;
+  int local_c;
+  undefined1 local_8 [4];
+  int local_4;
+  
+  bVar2 = false;
+  bVar1 = false;
+  local_4 = 0;
+  iVar7 = -1;
+  local_14 = 0;
+  bCString::bCString((bCString *)&local_10,"");
+  local_18 = (char *)*param_1;
+  if (local_18 != (char *)0x0) {
+    *(short *)(local_18 + -4) = *(short *)(local_18 + -4) + 1;
+  }
+  do {
+    _Str = local_18;
+    if (param_2 < 0) {
+LAB_10015b06:
+      bCString::SetText(param_4,(bCString *)&local_10);
+      if (param_5 != '\0') {
+        bCString::TrimLeft(param_4);
+      }
+      if (param_6 != '\0') {
+        bCString::TrimRight(param_4);
+      }
+      if ((&stack0x00000000 != (undefined1 *)0x18) && (_Str != (char *)0x0)) {
+        *(short *)(_Str + -4) = *(short *)(_Str + -4) + -1;
+        pcVar3 = _Str + -8;
+        if (*(short *)(_Str + -4) == 0) {
+          pbVar6 = bCMemoryAdmin::GetInstance();
+          bCMemoryAdmin::Free(pbVar6,pcVar3);
+        }
+      }
+      if ((&stack0x00000000 != (undefined1 *)0x10) && (local_10 != 0)) {
+        *(short *)(local_10 + -4) = *(short *)(local_10 + -4) + -1;
+        pvVar5 = (void *)(local_10 + -8);
+        if (*(short *)(local_10 + -4) == 0) {
+          pbVar6 = bCMemoryAdmin::GetInstance();
+          bCMemoryAdmin::Free(pbVar6,pvVar5);
+        }
+      }
+      return local_14;
+    }
+    param_2 = param_2 + -1;
+    local_14 = local_14 + 1 + iVar7;
+    if (local_18 == (char *)0x0) {
+      iVar8 = 0;
+    }
+    else {
+      iVar8 = *(int *)(local_18 + -8);
+    }
+    pcVar3 = bCString::operator_char_const_(param_3);
+    if ((((_Str == (char *)0x0) || (*(int *)(_Str + -8) < 1)) ||
+        (pcVar3 = _strpbrk(_Str,pcVar3), pcVar3 == (char *)0x0)) ||
+       (iVar7 = (int)pcVar3 - (int)_Str, iVar7 == -1)) {
+      bCString::SetText((bCString *)&local_10,(bCString *)&local_18);
+      if (-1 < param_2) {
+        local_14 = -1;
+      }
+      goto LAB_10015b06;
+    }
+    pbVar4 = (bCString *)bCString::Left((bCString *)&local_18,(int)local_8);
+    bCString::SetText((bCString *)&local_14,pbVar4);
+    if ((&stack0x00000000 != (undefined1 *)0xc) && (local_c != 0)) {
+      *(short *)(local_c + -4) = *(short *)(local_c + -4) + -1;
+      pvVar5 = (void *)(local_c + -8);
+      if (*(short *)(local_c + -4) == 0) {
+        pbVar6 = bCMemoryAdmin::GetInstance();
+        bCMemoryAdmin::Free(pbVar6,pvVar5);
+      }
+    }
+    if ((iVar8 - iVar7) + -1 < 0) {
+      bVar1 = true;
+      iVar8 = 0;
+      local_10 = 0;
+      pbVar4 = (bCString *)&local_10;
+    }
+    else {
+      bVar2 = true;
+      pbVar4 = (bCString *)bCString::Right((bCString *)&stack0xffffffe4,(int)local_8);
+      iVar8 = local_14;
+    }
+    bCString::SetText((bCString *)&local_18,pbVar4);
+    if (((bVar1) && (bVar1 = false, &stack0x00000000 != (undefined1 *)0xc)) && (iVar8 != 0)) {
+      *(short *)(iVar8 + -4) = *(short *)(iVar8 + -4) + -1;
+      pvVar5 = (void *)(iVar8 + -8);
+      if (*(short *)(iVar8 + -4) == 0) {
+        pbVar6 = bCMemoryAdmin::GetInstance();
+        bCMemoryAdmin::Free(pbVar6,pvVar5);
+      }
+    }
+    if (((bVar2) && (bVar2 = false, &stack0x00000000 != (undefined1 *)0x4)) && (local_4 != 0)) {
+      *(short *)(local_4 + -4) = *(short *)(local_4 + -4) + -1;
+      pvVar5 = (void *)(local_4 + -8);
+      if (*(short *)(local_4 + -4) == 0) {
+        pbVar6 = bCMemoryAdmin::GetInstance();
+        bCMemoryAdmin::Free(pbVar6,pvVar5);
+      }
+    }
+  } while( true );
+}
+
+

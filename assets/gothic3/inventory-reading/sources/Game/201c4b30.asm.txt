@@ -1,0 +1,16 @@
+; 201c4b30 bTPropertyType<gCInventorySlot,eCEntityProxy>::vfunction12
+201c4b30 | 56 | PUSH ESI
+201c4b31 | 8bf1 | MOV ESI,ECX
+201c4b33 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+201c4b37 | 85c9 | TEST ECX,ECX
+201c4b39 | 7506 | JNZ 0x201c4b41
+201c4b3b | 33c0 | XOR EAX,EAX
+201c4b3d | 5e | POP ESI
+201c4b3e | c20400 | RET 0x4
+; 201c4b41 LAB_201c4b41
+201c4b41 | 8b01 | MOV EAX,dword ptr [ECX]
+201c4b43 | 8b10 | MOV EDX,dword ptr [EAX]
+201c4b45 | ffd2 | CALL EDX
+201c4b47 | 03461c | ADD EAX,dword ptr [ESI + 0x1c]
+201c4b4a | 5e | POP ESI
+201c4b4b | c20400 | RET 0x4

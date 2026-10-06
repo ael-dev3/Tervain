@@ -1,0 +1,20 @@
+/* ENTRY 203680d0 | FUN_203680d0 | STATUS decompiled | 10 ms */
+
+void __thiscall FUN_203680d0(gCScriptProcessingUnit *param_1,gCScriptAdmin *param_2)
+
+{
+  bool bVar1;
+  
+  bVar1 = bCString::IsEmpty((bCString *)(*(int *)(param_1 + 4) + *(int *)(param_1 + 8) * 0x18 + -8))
+  ;
+  if (!bVar1) {
+    gCScriptAdmin::RunScriptCallback
+              (param_2,(bCString *)(*(int *)(param_1 + 4) + -8 + *(int *)(param_1 + 8) * 0x18),
+               param_1);
+    gCScriptProcessingUnit::s_u32CurrentStateCallbacks =
+         gCScriptProcessingUnit::s_u32CurrentStateCallbacks + 1;
+  }
+  return;
+}
+
+

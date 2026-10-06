@@ -1,0 +1,31 @@
+/* ENTRY 3035a480 | FUN_3035a480 | STATUS decompiled | 12 ms */
+
+undefined4 __thiscall FUN_3035a480(bCObjectRefBase *param_1,bCOStream *param_2)
+
+{
+  bCOStream::operator<<(param_2,0x4a);
+  switch(param_1[4].bCObjectBase) {
+  case (bCObjectBase)0x1:
+  case (bCObjectBase)0x6:
+    bCOStream::operator<<(param_2,(bCString *)param_1[0x1d].bCObjectBase);
+    bCOStream::operator<<(param_2,*(ushort *)&param_1[0x11].bCObjectBase.field_0x2);
+    break;
+  case (bCObjectBase)0x3:
+    bCOrientedBox::operator>>((bCOrientedBox *)param_1[0x1d].bCObjectBase,(bCOStream *)param_2);
+    break;
+  case (bCObjectBase)0x4:
+    bCCapsule::operator>>((bCCapsule *)param_1[0x1d].bCObjectBase,(bCOStream *)param_2);
+    break;
+  case (bCObjectBase)0x5:
+    bCSphere::operator>>((bCSphere *)param_1[0x1d].bCObjectBase,(bCOStream *)param_2);
+    break;
+  case (bCObjectBase)0x7:
+    bCVector::operator>>((bCVector *)param_1[0x1d].bCObjectBase,(bCOStream *)param_2);
+  }
+  bCObjectRefBase::Write(param_1,(bCOStream *)param_2);
+  bCBox::operator>>((bCBox *)(param_1 + 0x12),(bCOStream *)param_2);
+  bCVector::operator>>((bCVector *)(param_1 + 0x1a),(bCOStream *)param_2);
+  return 1;
+}
+
+

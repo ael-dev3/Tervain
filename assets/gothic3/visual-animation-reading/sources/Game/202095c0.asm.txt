@@ -1,0 +1,4 @@
+; 202095c0 bTPropertyObject<gCClock_PS,eCEntityPropertySet>::vfunction11
+202095c0 | 6a00 | PUSH 0x0
+202095c2 | e83166e2ff | CALL 0x2002fbf8
+202095c7 | c3 | RET

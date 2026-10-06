@@ -1,0 +1,34 @@
+/* ENTRY 201693e0 | gCHUDViewSkills2::~gCHUDViewSkills2 | STATUS decompiled | 47 ms */
+
+void __thiscall gCHUDViewSkills2::~gCHUDViewSkills2(gCHUDViewSkills2 *this)
+
+{
+  this->vftablePtr = &vftable;
+  gCHUDViewSkill2::~gCHUDViewSkill2((gCHUDViewSkill2 *)&(this->gCHUDViewSkills2_data).field_0x218);
+  gCHUDView::~gCHUDView((gCHUDView *)&(this->gCHUDViewSkills2_data).field_0x204);
+  CFFGFCStatic::~CFFGFCStatic((CFFGFCStatic *)&(this->gCHUDViewSkills2_data).field_0x1f4);
+  CFFGFCStatic::~CFFGFCStatic((CFFGFCStatic *)&(this->gCHUDViewSkills2_data).field_0x1e4);
+  CFFGFCStatic::~CFFGFCStatic((CFFGFCStatic *)&(this->gCHUDViewSkills2_data).field_0x1d4);
+  CFFGFCStatic::~CFFGFCStatic((CFFGFCStatic *)&(this->gCHUDViewSkills2_data).field_0x1c4);
+  CFFGFCStatic::~CFFGFCStatic((CFFGFCStatic *)&(this->gCHUDViewSkills2_data).field_0x1b4);
+  CFFGFCStatic::~CFFGFCStatic((CFFGFCStatic *)&(this->gCHUDViewSkills2_data).field_0x1a4);
+  CFFGFCStatic::~CFFGFCStatic((CFFGFCStatic *)&(this->gCHUDViewSkills2_data).field_0x194);
+  gCHUDListCtrlInvSkills::gCHUDListCtrlInvSkills
+            ((gCHUDListCtrlInvSkills *)&(this->gCHUDViewSkills2_data).field_0x15c);
+  gCHUDListCtrlInvSkills::gCHUDListCtrlInvSkills
+            ((gCHUDListCtrlInvSkills *)&(this->gCHUDViewSkills2_data).field_0x124);
+  gCHUDListCtrlInvSkills::gCHUDListCtrlInvSkills
+            ((gCHUDListCtrlInvSkills *)&(this->gCHUDViewSkills2_data).field_0xec);
+  gCHUDListCtrlInvSkills::gCHUDListCtrlInvSkills
+            ((gCHUDListCtrlInvSkills *)&(this->gCHUDViewSkills2_data).field_0xb4);
+  gCHUDListCtrlInvSkills::gCHUDListCtrlInvSkills
+            ((gCHUDListCtrlInvSkills *)&(this->gCHUDViewSkills2_data).field_0x7c);
+  gCHUDListCtrlInvSkills::gCHUDListCtrlInvSkills
+            ((gCHUDListCtrlInvSkills *)&(this->gCHUDViewSkills2_data).field_0x44);
+  gCHUDListCtrlInvSkills::gCHUDListCtrlInvSkills
+            ((gCHUDListCtrlInvSkills *)&(this->gCHUDViewSkills2_data).field_0xc);
+  FUN_200156a9();
+  return;
+}
+
+

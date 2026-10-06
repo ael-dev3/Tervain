@@ -1,0 +1,2 @@
+; 3000b9c9 ?GetID@eCNode@@QBEABVbCPropertyID@@XZ
+3000b9c9 | e9424b4700 | JMP 0x30480510

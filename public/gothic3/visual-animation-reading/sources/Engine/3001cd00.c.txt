@@ -1,0 +1,16 @@
+/* ENTRY 3001cd00 | eCEntityPropertySet::Write | STATUS decompiled | 6 ms */
+
+/* public: virtual enum bEResult __thiscall eCEntityPropertySet::Write(class bCOStream &) */
+
+bEResult __thiscall eCEntityPropertySet::Write(eCEntityPropertySet *this,bCOStream *param_1)
+
+{
+                    /* 0x1cd00  15086  ?Write@eCEntityPropertySet@@UAE?AW4bEResult@@AAVbCOStream@@@Z
+                        */
+  bCOStream::operator<<((bCOStream *)param_1,2);
+  bCOStream::operator<<
+            ((bCOStream *)param_1,(bool)((this->eCEntityPropertySet_data).offset_0xc & 1));
+  return 1;
+}
+
+

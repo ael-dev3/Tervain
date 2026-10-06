@@ -1,0 +1,4 @@
+; 10002ff9 ?FindStackIndexByQuickSlot@PSInventory@@QBEHH@Z
+10002ff9 | e9d26c0100 | JMP 0x10019cd0
+; 10002ffe PSMover::AttachTo
+; 10002ffe Ordinal_1338

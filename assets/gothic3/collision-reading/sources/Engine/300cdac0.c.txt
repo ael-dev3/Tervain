@@ -1,0 +1,26 @@
+/* ENTRY 300cdac0 | FUN_300cdac0 | STATUS decompiled | 10 ms */
+
+void __thiscall FUN_300cdac0(eCCollisionShape *param_1,bCVector *param_2)
+
+{
+  switch((param_1->eCCollisionShape_data).offset_0xc) {
+  case 3:
+    bCOrientedBox::SetCenter((bCOrientedBox *)(param_1->eCCollisionShape_data).offset_0x70,param_2);
+    eCCollisionShape::CalcShapeAABBLocal(param_1);
+    return;
+  case 4:
+    bCCapsule::SetCenter((bCCapsule *)(param_1->eCCollisionShape_data).offset_0x70,param_2);
+    eCCollisionShape::CalcShapeAABBLocal(param_1);
+    return;
+  case 5:
+    bCSphere::SetPosition((bCSphere *)(param_1->eCCollisionShape_data).offset_0x70,param_2);
+    eCCollisionShape::CalcShapeAABBLocal(param_1);
+    return;
+  case 7:
+    bCVector::SetVector((bCVector *)(param_1->eCCollisionShape_data).offset_0x70,param_2);
+  }
+  eCCollisionShape::CalcShapeAABBLocal(param_1);
+  return;
+}
+
+

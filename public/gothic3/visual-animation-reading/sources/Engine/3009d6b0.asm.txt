@@ -1,0 +1,17 @@
+; 3009d6b0 FUN_3009d6b0
+3009d6b0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+3009d6b4 | 56 | PUSH ESI
+3009d6b5 | 8bf1 | MOV ESI,ECX
+3009d6b7 | c70600000000 | MOV dword ptr [ESI],0x0
+3009d6bd | 894604 | MOV dword ptr [ESI + 0x4],EAX
+3009d6c0 | 8d4e10 | LEA ECX,[ESI + 0x10]
+3009d6c3 | 894608 | MOV dword ptr [ESI + 0x8],EAX
+3009d6c6 | c7460c00000000 | MOV dword ptr [ESI + 0xc],0x0
+3009d6cd | ff15ecdbaf30 | CALL dword ptr [0x30afdbec]
+3009d6d3 | 8d4e18 | LEA ECX,[ESI + 0x18]
+3009d6d6 | ff1584cbaf30 | CALL dword ptr [0x30afcb84]
+3009d6dc | 8d4e24 | LEA ECX,[ESI + 0x24]
+3009d6df | ff1584cbaf30 | CALL dword ptr [0x30afcb84]
+3009d6e5 | 8bc6 | MOV EAX,ESI
+3009d6e7 | 5e | POP ESI
+3009d6e8 | c20400 | RET 0x4

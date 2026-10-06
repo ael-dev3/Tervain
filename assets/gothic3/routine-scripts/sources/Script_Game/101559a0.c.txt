@@ -1,0 +1,17 @@
+/* ENTRY 101559a0 | FUN_101559a0 | STATUS decompiled | 6 ms */
+
+void FUN_101559a0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Player\\Player_States\\PS_Ranged.cpp");
+  bCString::bCString(local_8,"PS_Ranged_Aim_Loop");
+  thunk_FUN_1001db60(local_8,&LAB_100011c2,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

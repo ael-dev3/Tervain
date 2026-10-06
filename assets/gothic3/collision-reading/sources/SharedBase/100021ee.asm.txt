@@ -1,0 +1,2 @@
+; 100021ee ?GetInvTransformed@bCOrientedBox@@QBE?AV1@ABVbCMatrix@@@Z
+100021ee | e90d740600 | JMP 0x10069600

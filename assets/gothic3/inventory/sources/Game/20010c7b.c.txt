@@ -1,0 +1,13 @@
+/* ENTRY 20010c7b | gCInventory_PS::SetStackHotKey | STATUS decompiled | 9 ms */
+
+/* public: void __thiscall gCInventory_PS::SetStackHotKey(int,unsigned long) */
+
+void __thiscall gCInventory_PS::SetStackHotKey(gCInventory_PS *this,int param_1,ulong param_2)
+
+{
+                    /* 0x10c7b  7076  ?SetStackHotKey@gCInventory_PS@@QAEXHK@Z */
+  thunk_FUN_201cf7a0();
+  return;
+}
+
+

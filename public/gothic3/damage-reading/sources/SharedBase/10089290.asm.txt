@@ -1,0 +1,14 @@
+; 10089290 bCPropertyObjectBase::bCPropertyObjectBase_Constructor_or_Destructor
+10089290 | 8bc1 | MOV EAX,ECX
+10089292 | 816004070000f8 | AND dword ptr [EAX + 0x4],0xf8000007
+10089299 | 8b4804 | MOV ECX,dword ptr [EAX + 0x4]
+1008929c | 8bd1 | MOV EDX,ECX
+1008929e | 83e2f8 | AND EDX,0xfffffff8
+100892a1 | 83c208 | ADD EDX,0x8
+100892a4 | 81e2f8ffff07 | AND EDX,0x7fffff8
+100892aa | 81e1020000f8 | AND ECX,0xf8000002
+100892b0 | 0bd1 | OR EDX,ECX
+100892b2 | 83ca02 | OR EDX,0x2
+100892b5 | c70024a20e10 | MOV dword ptr [EAX],0x100ea224
+100892bb | 895004 | MOV dword ptr [EAX + 0x4],EDX
+100892be | c3 | RET

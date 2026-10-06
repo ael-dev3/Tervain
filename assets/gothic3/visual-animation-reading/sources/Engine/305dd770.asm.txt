@@ -1,0 +1,18 @@
+; 305dd770 FUN_305dd770
+305dd770 | 56 | PUSH ESI
+305dd771 | 8bf1 | MOV ESI,ECX
+305dd773 | e8098aa2ff | CALL 0x30006181
+305dd778 | 8d4e08 | LEA ECX,[ESI + 0x8]
+305dd77b | ff1558dbaf30 | CALL dword ptr [0x30afdb58]
+305dd781 | 8b4e18 | MOV ECX,dword ptr [ESI + 0x18]
+305dd784 | 85c9 | TEST ECX,ECX
+305dd786 | 741e | JZ 0x305dd7a6
+305dd788 | e843b0a5ff | CALL 0x300387d0
+305dd78d | 8b4618 | MOV EAX,dword ptr [ESI + 0x18]
+305dd790 | 50 | PUSH EAX
+305dd791 | ff15acdbaf30 | CALL dword ptr [0x30afdbac]
+305dd797 | 8bc8 | MOV ECX,EAX
+305dd799 | ff15b0dbaf30 | CALL dword ptr [0x30afdbb0]
+305dd79f | c7461800000000 | MOV dword ptr [ESI + 0x18],0x0
+305dd7a6 | 5e | POP ESI
+305dd7a7 | c3 | RET

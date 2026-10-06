@@ -1,0 +1,2 @@
+; 20015578 gCParty_PS::operator=
+20015578 | e9f3243000 | JMP 0x20317a70

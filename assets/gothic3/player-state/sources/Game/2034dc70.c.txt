@@ -1,0 +1,41 @@
+/* ENTRY 2034dc70 | FUN_2034dc70 | STATUS decompiled | 16 ms */
+
+int __thiscall
+FUN_2034dc70(gCScriptAdmin *param_1,bCString *param_2,void *param_3,void *param_4,int param_5)
+
+{
+  char cVar1;
+  bool bVar2;
+  eCApplication *peVar3;
+  int *piVar4;
+  eCSceneAdmin *this;
+  eCEntityAdmin *this_00;
+  int iVar5;
+  undefined4 uVar6;
+  TypeDescriptor *pTVar7;
+  TypeDescriptor *pTVar8;
+  undefined4 uVar9;
+  
+  uVar9 = 1;
+  pTVar8 = &gCGameApp::RTTI_Type_Descriptor;
+  pTVar7 = &eCApplication::RTTI_Type_Descriptor;
+  uVar6 = 0;
+  peVar3 = eCApplication::GetInstance();
+  piVar4 = (int *)___RTDynamicCast(peVar3,uVar6,pTVar7,pTVar8,uVar9);
+  cVar1 = (**(code **)(*piVar4 + 0x270))();
+  if (cVar1 != '\0') {
+    this = (eCSceneAdmin *)thunk_FUN_200ae8e0();
+    this_00 = eCSceneAdmin::GetAccessToEntityAdmin(this);
+    bVar2 = eCEntityAdmin::IsProcessingEnabled(this_00);
+    if (bVar2) {
+      iVar5 = gCScriptAdmin::RunScriptFromScript
+                        (param_1,param_2,
+                         (gCScriptProcessingUnit *)&(param_1->gCScriptAdmin_data).field_0x10,param_3
+                         ,param_4,param_5);
+      return iVar5;
+    }
+  }
+  return 0;
+}
+
+

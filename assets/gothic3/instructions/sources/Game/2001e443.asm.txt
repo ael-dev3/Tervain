@@ -1,0 +1,4 @@
+; 2001e443 ?GetIntParameter@gCScriptProcessingUnit@@QAEHXZ
+2001e443 | e9689a3400 | JMP 0x20367eb0
+; 2001e448 gCCharacterMovement_PS::GetAlignmentTarget
+; 2001e448 Ordinal_2901

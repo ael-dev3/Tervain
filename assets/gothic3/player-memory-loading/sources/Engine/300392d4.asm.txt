@@ -1,0 +1,2 @@
+; 300392d4 eCEntityPropertySet::OnUpdatedWorldMatrix
+300392d4 | e917874400 | JMP 0x304819f0

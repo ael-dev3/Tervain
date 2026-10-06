@@ -1,0 +1,20 @@
+; 30087c80 eCInputDispatcher::eCInputDispatcher
+30087c80 | 56 | PUSH ESI
+30087c81 | 8bf1 | MOV ESI,ECX
+30087c83 | e8d5ddfaff | CALL 0x30035a5d
+30087c88 | 33c0 | XOR EAX,EAX
+30087c8a | c706bcca8130 | MOV dword ptr [ESI],0x3081cabc
+30087c90 | 894610 | MOV dword ptr [ESI + 0x10],EAX
+30087c93 | 894614 | MOV dword ptr [ESI + 0x14],EAX
+30087c96 | 894618 | MOV dword ptr [ESI + 0x18],EAX
+30087c99 | 89461c | MOV dword ptr [ESI + 0x1c],EAX
+30087c9c | 894620 | MOV dword ptr [ESI + 0x20],EAX
+30087c9f | 894624 | MOV dword ptr [ESI + 0x24],EAX
+30087ca2 | 8bce | MOV ECX,ESI
+30087ca4 | 894628 | MOV dword ptr [ESI + 0x28],EAX
+30087ca7 | 89462c | MOV dword ptr [ESI + 0x2c],EAX
+30087caa | c6463001 | MOV byte ptr [ESI + 0x30],0x1
+30087cae | ff1550dcaf30 | CALL dword ptr [0x30afdc50]
+30087cb4 | 8bc6 | MOV EAX,ESI
+30087cb6 | 5e | POP ESI
+30087cb7 | c3 | RET

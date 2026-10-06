@@ -1,0 +1,13 @@
+/* ENTRY 2018b730 | gCHUDTableItemStats::gCHUDTableItemStats | STATUS decompiled | 7 ms */
+
+gCHUDTableItemStats * __thiscall gCHUDTableItemStats::gCHUDTableItemStats(gCHUDTableItemStats *this)
+
+{
+  gCHUDTable::gCHUDTable((gCHUDTable *)this);
+  this->vftablePtr = &vftable;
+  CFFGFCImageList::CFFGFCImageList((CFFGFCImageList *)&this->gCHUDTableItemStats_data);
+  (this->gCHUDTableItemStats_data).offset_0x8 = 0;
+  return this;
+}
+
+

@@ -1,0 +1,2 @@
+; 20018fde gCPlayerMemory_PS::CreateAttributes
+20018fde | e95d513000 | JMP 0x2031e140

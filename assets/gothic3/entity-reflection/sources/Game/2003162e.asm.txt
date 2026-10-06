@@ -1,0 +1,4 @@
+; 2003162e ??0gCCharacterSensor_PS@@QAE@XZ
+2003162e | e90d642000 | JMP 0x20237a40
+; 20031633 gCEffectSystem::operator=
+; 20031633 Ordinal_628

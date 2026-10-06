@@ -1,0 +1,30 @@
+/* ENTRY 100028c4 | PSNavigation::SetDCCEnabled | STATUS decompiled | 12 ms */
+
+/* public: void __thiscall PSNavigation::SetDCCEnabled(bool) */
+
+void __thiscall PSNavigation::SetDCCEnabled(PSNavigation *this,bool param_1)
+
+{
+  int iVar1;
+  int *piVar2;
+  gCDynamicCollisionCircle_PS *this_00;
+  undefined1 unaff_retaddr;
+  
+                    /* 0x28c4  1937  ?SetDCCEnabled@PSNavigation@@QAEX_N@Z */
+  if (*(int **)this != (int *)0x0) {
+    iVar1 = (**(code **)(**(int **)this + 0x68))();
+    if (iVar1 != 0) {
+      piVar2 = (int *)(**(code **)(**(int **)this + 0x68))();
+      this_00 = (gCDynamicCollisionCircle_PS *)(**(code **)(*piVar2 + 0xec))(6);
+      if (this_00 != (gCDynamicCollisionCircle_PS *)0x0) {
+                    /* WARNING: Could not recover jumptable at 0x1001e8b2. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+        gCDynamicCollisionCircle_PS::SetDCCEnabled(this_00,(bool)unaff_retaddr);
+        return;
+      }
+    }
+  }
+  return;
+}
+
+

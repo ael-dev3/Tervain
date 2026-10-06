@@ -1,0 +1,2 @@
+; 30005466 eCEntityProxyInternal::AddReference
+30005466 | e9f5f64b00 | JMP 0x304c4b60

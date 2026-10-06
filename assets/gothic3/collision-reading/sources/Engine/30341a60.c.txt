@@ -1,0 +1,39 @@
+/* ENTRY 30341a60 | bTPropertyObject<eCCollisionShapeBase_PS,eCEntityPropertySet>::vfunction10 | STATUS decompiled | 12 ms */
+
+void __thiscall
+bTPropertyObject<eCCollisionShapeBase_PS,eCEntityPropertySet>::vfunction10
+          (bTPropertyObject<eCCollisionShapeBase_PS,eCEntityPropertySet> *this)
+
+{
+  bCObjectRefBase *pbVar1;
+  bCPropertyObjectFactory *this_00;
+  ulong uVar2;
+  bTPropertyObject<eCCollisionShapeBase_PS,eCEntityPropertySet> *pbVar3;
+  
+  pbVar3 = this;
+  this_00 = (bCPropertyObjectFactory *)
+            (**(code **)(*(int *)(this->
+                                 bTPropertyObject<eCCollisionShapeBase_PS,eCEntityPropertySet>_data)
+                                 .offset_0x0 + 0xc))();
+  bCPropertyObjectFactory::UnregisterPropertyObject(this_00,(bCPropertyObjectBase *)pbVar3);
+  pbVar1 = (this->bTPOPureSmartPtr<eCCollisionShapeBase_PS>_data).offset_0x4;
+  if (pbVar1 != (bCObjectRefBase *)0x0) {
+    uVar2 = bCObjectRefBase::GetReferenceCount((bCObjectRefBase *)pbVar1);
+    if (uVar2 == 1) {
+      (**(code **)(*(int *)(this->bTPOPureSmartPtr<eCCollisionShapeBase_PS>_data).offset_0x4 + 0x14)
+      )();
+    }
+  }
+  pbVar1 = (this->bTPOPureSmartPtr<eCCollisionShapeBase_PS>_data).offset_0x4;
+  if (pbVar1 != (bCObjectRefBase *)0x0) {
+    bCObjectRefBase::SetPropertyObject((bCObjectRefBase *)pbVar1,(bCPropertyObjectBase *)0x0);
+    bCObjectRefBase::ReleaseVirtualReference((bCObjectRefBase *)pbVar1);
+  }
+  (this->bTPOPureSmartPtr<eCCollisionShapeBase_PS>_data).offset_0x4 = (bCObjectRefBase *)0x0;
+                    /* WARNING: Could not recover jumptable at 0x30341ab7. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCPropertyObjectBase::Destroy((bCPropertyObjectBase *)this);
+  return;
+}
+
+

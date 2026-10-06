@@ -1,0 +1,12 @@
+/* ENTRY 100082d8 | bCSphere::~bCSphere | STATUS decompiled | 1 ms */
+
+/* public: __thiscall bCSphere::~bCSphere(void) */
+
+void __thiscall bCSphere::~bCSphere(bCSphere *this)
+
+{
+                    /* 0x82d8  426  ??1bCSphere@@QAE@XZ */
+  return;
+}
+
+

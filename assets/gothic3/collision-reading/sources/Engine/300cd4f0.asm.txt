@@ -1,0 +1,37 @@
+; 300cd4f0 FUN_300cd4f0
+300cd4f0 | 51 | PUSH ECX
+300cd4f1 | 8b4110 | MOV EAX,dword ptr [ECX + 0x10]
+300cd4f4 | 83c0ff | ADD EAX,-0x1
+300cd4f7 | 83f805 | CMP EAX,0x5
+300cd4fa | 7742 | JA 0x300cd53e
+; 300cd4fc switchD_300cd4fc::switchD
+300cd4fc | ff248544d50c30 | JMP dword ptr [EAX*0x4 + 0x300cd544]
+; 300cd503 switchD_300cd4fc::caseD_1
+; 300cd503 switchD_300cd4fc::caseD_6
+300cd503 | 83c148 | ADD ECX,0x48
+300cd506 | 83c404 | ADD ESP,0x4
+300cd509 | ff2518cdaf30 | JMP dword ptr [0x30afcd18]
+; 300cd50f switchD_300cd4fc::caseD_3
+300cd50f | 8b4974 | MOV ECX,dword ptr [ECX + 0x74]
+300cd512 | 83c404 | ADD ESP,0x4
+300cd515 | ff2514cdaf30 | JMP dword ptr [0x30afcd14]
+; 300cd51b switchD_300cd4fc::caseD_5
+300cd51b | 8b4974 | MOV ECX,dword ptr [ECX + 0x74]
+300cd51e | ff1500cdaf30 | CALL dword ptr [0x30afcd00]
+300cd524 | dcc0 | FADD ST0,ST0
+300cd526 | d91c24 | FSTP float ptr [ESP]
+300cd529 | d90424 | FLD float ptr [ESP]
+300cd52c | 59 | POP ECX
+300cd52d | c3 | RET
+; 300cd52e switchD_300cd4fc::caseD_4
+300cd52e | 8b4174 | MOV EAX,dword ptr [ECX + 0x74]
+300cd531 | d94004 | FLD float ptr [EAX + 0x4]
+300cd534 | dcc0 | FADD ST0,ST0
+300cd536 | d91c24 | FSTP float ptr [ESP]
+300cd539 | d90424 | FLD float ptr [ESP]
+300cd53c | 59 | POP ECX
+300cd53d | c3 | RET
+; 300cd53e switchD_300cd4fc::caseD_2
+300cd53e | d9ee | FLDZ
+300cd540 | 59 | POP ECX
+300cd541 | c3 | RET

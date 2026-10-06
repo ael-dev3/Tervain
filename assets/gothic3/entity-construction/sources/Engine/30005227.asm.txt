@@ -1,0 +1,2 @@
+; 30005227 ?RegisterEntity@eCSceneAdmin@@IAE_NPAVeCEntity@@@Z
+30005227 | e9245e4c00 | JMP 0x304cb050

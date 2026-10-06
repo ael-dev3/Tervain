@@ -1,0 +1,2 @@
+; 200257a7 gCDialog_PS::GetTalkingTo
+200257a7 | e934611e00 | JMP 0x2020b8e0

@@ -1,0 +1,21 @@
+/* ENTRY 1004be50 | FUN_1004be50 | STATUS decompiled | 5 ms */
+
+void FUN_1004be50(void)
+
+{
+  void *local_14;
+  undefined1 *puStack_10;
+  undefined *puStack_c;
+  undefined4 local_8;
+  
+  puStack_c = &DAT_100f8350;
+  puStack_10 = &LAB_100a6f80;
+  local_14 = ExceptionList;
+  local_8 = 0;
+  ExceptionList = &local_14;
+  thunk_FUN_1004be10();
+  ExceptionList = local_14;
+  return;
+}
+
+

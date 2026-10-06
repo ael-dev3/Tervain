@@ -1,0 +1,4 @@
+; 10006f41 ?GetBaseClass@bCAccessorPropertyObject@@QBE?AV1@XZ
+10006f41 | e9ba3e0900 | JMP 0x1009ae00
+; 10006f46 bCInfCylinder::InvScale
+; 10006f46 Ordinal_3472

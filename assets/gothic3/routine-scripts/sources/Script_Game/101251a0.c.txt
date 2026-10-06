@@ -1,0 +1,17 @@
+/* ENTRY 101251a0 | FUN_101251a0 | STATUS decompiled | 51 ms */
+
+void FUN_101251a0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Perception\\AssessTakeItem.cpp");
+  bCString::bCString(local_8,"IsBotheredByPlayerTheftOf");
+  thunk_FUN_10017a50(local_8,thunk_FUN_10040d00,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

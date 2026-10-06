@@ -1,0 +1,17 @@
+/* ENTRY 2031d9d0 | FUN_2031d9d0 | STATUS decompiled | 3 ms */
+
+undefined4 FUN_2031d9d0(undefined4 param_1,undefined4 param_2,undefined4 param_3)
+
+{
+  int iVar1;
+  undefined4 uVar2;
+  
+  iVar1 = thunk_FUN_203214f0(param_1,&param_1);
+  if ((iVar1 != 0) && (*(int **)(iVar1 + 4) != (int *)0x0)) {
+    uVar2 = (**(code **)(**(int **)(iVar1 + 4) + 0x74))(param_3,param_2);
+    return uVar2;
+  }
+  return 0;
+}
+
+

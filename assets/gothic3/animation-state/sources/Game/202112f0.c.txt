@@ -1,0 +1,50 @@
+/* ENTRY 202112f0 | FUN_202112f0 | STATUS decompiled | 14 ms */
+
+undefined4 __fastcall FUN_202112f0(int param_1)
+
+{
+  int *piVar1;
+  gCInventory_PS *this;
+  eCEntity *peVar2;
+  int iVar3;
+  uint uVar4;
+  uint uVar5;
+  
+  uVar4 = 0;
+  uVar5 = 0;
+  piVar1 = (int *)(**(code **)(**(int **)(param_1 + 0x14) + 0x68))();
+  this = (gCInventory_PS *)(**(code **)(*piVar1 + 0xec))(0x1f);
+  if (this == (gCInventory_PS *)0x0) {
+    uVar4 = 0;
+  }
+  else {
+    peVar2 = gCInventory_PS::GetStackFromSlot(this,2);
+    if (peVar2 == (eCEntity *)0x0) {
+      uVar4 = 0;
+    }
+    else {
+      iVar3 = (**(code **)(*(int *)peVar2 + 0xec))(0x31);
+      if (iVar3 != 0) {
+        uVar4 = (0x38 < (int)*(uint *)(iVar3 + 0x58)) - 1 & *(uint *)(iVar3 + 0x58);
+      }
+    }
+    peVar2 = gCInventory_PS::GetStackFromSlot(this,1);
+    if (peVar2 != (eCEntity *)0x0) {
+      iVar3 = (**(code **)(*(int *)peVar2 + 0xec))(0x31);
+      if (iVar3 != 0) {
+        uVar5 = (0x38 < (int)*(uint *)(iVar3 + 0x58)) - 1 & *(uint *)(iVar3 + 0x58);
+      }
+      goto LAB_20211380;
+    }
+  }
+  uVar5 = 0;
+LAB_20211380:
+  if ((uVar4 == *(uint *)(param_1 + 0x18)) && (uVar5 == *(uint *)(param_1 + 0x1c))) {
+    return 0;
+  }
+  *(uint *)(param_1 + 0x18) = uVar4;
+  *(uint *)(param_1 + 0x1c) = uVar5;
+  return 1;
+}
+
+

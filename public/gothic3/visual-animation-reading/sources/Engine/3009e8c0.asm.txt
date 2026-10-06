@@ -1,0 +1,6 @@
+; 3009e8c0 FUN_3009e8c0
+3009e8c0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+3009e8c4 | 8b89e8000000 | MOV ECX,dword ptr [ECX + 0xe8]
+3009e8ca | 8d0440 | LEA EAX,[EAX + EAX*0x2]
+3009e8cd | 8d0481 | LEA EAX,[ECX + EAX*0x4]
+3009e8d0 | c20400 | RET 0x4

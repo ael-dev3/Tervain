@@ -1,0 +1,12 @@
+/* ENTRY 2001a36b | gCStat::AccessBaseMaximum | STATUS decompiled | 3 ms */
+
+/* public: int & __thiscall gCStat::AccessBaseMaximum(void) */
+
+int * __thiscall gCStat::AccessBaseMaximum(gCStat *this)
+
+{
+                    /* 0x1a36b  1030  ?AccessBaseMaximum@gCStat@@QAEAAHXZ */
+  return &(this->gCAttribute_data).offset_0x14;
+}
+
+

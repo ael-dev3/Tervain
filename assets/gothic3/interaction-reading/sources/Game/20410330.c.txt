@@ -1,0 +1,39 @@
+/* ENTRY 20410330 | FUN_20410330 | STATUS decompiled | 11 ms */
+
+undefined4 __thiscall FUN_20410330(int param_1,int param_2)
+
+{
+  void *_Dst;
+  uint uVar1;
+  int iVar2;
+  int *piVar3;
+  
+  bCCriticalSectionWin32::Acquire((bCCriticalSectionWin32 *)&DAT_207cf464);
+  uVar1 = *(uint *)(param_1 + 0x18);
+  if (uVar1 != 0) {
+    piVar3 = (int *)(*(int *)(param_1 + 0x14) + uVar1 * 4);
+    do {
+      piVar3 = piVar3 + -1;
+      uVar1 = uVar1 - 1;
+      if (param_2 == *piVar3) goto LAB_20410361;
+    } while (uVar1 != 0);
+  }
+  uVar1 = 0xffffffff;
+LAB_20410361:
+  if (uVar1 < *(uint *)(param_1 + 0x18)) {
+    if (uVar1 < *(uint *)(param_1 + 0x18)) {
+      iVar2 = (*(uint *)(param_1 + 0x18) - uVar1) + -1;
+      if (0 < iVar2) {
+        _Dst = (void *)(*(int *)(param_1 + 0x14) + uVar1 * 4);
+        _memmove(_Dst,(void *)((int)_Dst + 4),iVar2 * 4);
+      }
+      *(int *)(param_1 + 0x18) = *(int *)(param_1 + 0x18) + -1;
+    }
+    bCCriticalSectionWin32::Release((bCCriticalSectionWin32 *)&DAT_207cf464);
+    return 1;
+  }
+  bCCriticalSectionWin32::Release((bCCriticalSectionWin32 *)&DAT_207cf464);
+  return 0;
+}
+
+

@@ -1,0 +1,53 @@
+/* ENTRY 10084910 | FUN_10084910 | STATUS decompiled | 23 ms */
+
+undefined4 FUN_10084910(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3)
+
+{
+  eCEntity *peVar1;
+  int iVar2;
+  Entity aEStack_2b8 [160];
+  undefined4 uStack_218;
+  Entity aEStack_210 [164];
+  undefined4 uStack_16c;
+  char *pcVar3;
+  Entity local_150 [168];
+  Entity local_a8 [168];
+  
+  Entity::Entity(local_a8);
+  if (param_2 == (Entity *)0x0) {
+    peVar1 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    Entity::AttachTo(local_a8,peVar1);
+  }
+  else {
+    Entity::operator=(local_a8,param_2);
+  }
+  Entity::Entity(local_150);
+  if (param_3 == (Entity *)0x0) {
+    peVar1 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    Entity::AttachTo(local_150,peVar1);
+  }
+  else {
+    Entity::operator=(local_150,param_3);
+  }
+  iVar2 = Entity::GetRandomNumber(3);
+  if (iVar2 == 0) {
+    pcVar3 = "NothingToGet_00";
+  }
+  else if (iVar2 == 1) {
+    pcVar3 = "NothingToGet_01";
+  }
+  else {
+    pcVar3 = "NothingToGet_02";
+  }
+  uStack_16c = 0x100849bc;
+  bCString::bCString((bCString *)&stack0xfffffe9c,pcVar3);
+  uStack_218 = 0x100849d6;
+  Entity::Entity(aEStack_210,local_150);
+  Entity::Entity(aEStack_2b8,local_a8);
+  thunk_FUN_1000db70();
+  Entity::~Entity(local_150);
+  Entity::~Entity(local_a8);
+  return 1;
+}
+
+

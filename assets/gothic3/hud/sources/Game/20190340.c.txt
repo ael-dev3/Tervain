@@ -1,0 +1,13 @@
+/* ENTRY 20190340 | gCHUDCrossHair::gCHUDCrossHair | STATUS decompiled | 8 ms */
+
+gCHUDCrossHair * __thiscall gCHUDCrossHair::gCHUDCrossHair(gCHUDCrossHair *this)
+
+{
+  CFFGFCStatic::CFFGFCStatic((CFFGFCStatic *)this);
+  this->vftablePtr = &vftable;
+  bCPoint::bCPoint((bCPoint *)&(this->gCHUDCrossHair_data).field_0xc,8,8);
+  bCPoint::bCPoint((bCPoint *)&(this->gCHUDCrossHair_data).field_0x14,0x20,0x20);
+  return this;
+}
+
+

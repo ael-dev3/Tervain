@@ -1,0 +1,47 @@
+/* ENTRY 1008ce70 | FUN_1008ce70 | STATUS decompiled | 15 ms */
+
+bCPropertyObjectBase * __thiscall FUN_1008ce70(int param_1,bCIStream *param_2)
+
+{
+  bool bVar1;
+  bCMessageAdmin *this;
+  bCPropertyObjectBase *pbVar2;
+  bEMessageTypes bVar3;
+  char *pcVar4;
+  char *pcVar5;
+  char *pcVar6;
+  int iVar7;
+  int iVar8;
+  ushort local_8;
+  bool local_6 [2];
+  ushort local_4 [2];
+  
+  local_8 = 0;
+  local_6[0] = false;
+  local_4[0] = 0;
+  local_4[1] = 0;
+  bCIStream::operator>>(param_2,local_4);
+  bCIStream::operator>>(param_2,local_6);
+  bCIStream::operator>>(param_2,&local_8);
+  if (*(int *)(param_1 + 8) != 0) {
+    bVar1 = bCPropertyObjectBase::IsRoot((bCPropertyObjectBase *)**(undefined4 **)(param_1 + 4));
+    if ((bVar1) &&
+       ((bCPropertyObjectBase *)**(undefined4 **)(param_1 + 4) != (bCPropertyObjectBase *)0x0)) {
+      pbVar2 = bCPropertyObjectBase::Clone((bCPropertyObjectBase *)**(undefined4 **)(param_1 + 4));
+      (**(code **)(*(int *)pbVar2 + 0x14))(param_2);
+      return pbVar2;
+    }
+  }
+  iVar8 = 5;
+  iVar7 = -1;
+  pcVar6 = (char *)0x0;
+  pcVar5 = (char *)0x0;
+  pcVar4 = &DAT_100ea870;
+  bVar3 = 3;
+  this = bCMessageAdmin::GetInstance();
+  bCMessageAdmin::OnMessage(this,bVar3,pcVar4,pcVar5,pcVar6,iVar7,iVar8);
+  (**(code **)(iRam00000000 + 0x14))(param_2);
+  return (bCPropertyObjectBase *)0x0;
+}
+
+

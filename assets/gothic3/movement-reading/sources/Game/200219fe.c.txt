@@ -1,0 +1,38 @@
+/* ENTRY 200219fe | gCCharacterMovement_PS::OnEnterProcessingRange | STATUS decompiled | 38 ms */
+
+/* protected: virtual void __thiscall gCCharacterMovement_PS::OnEnterProcessingRange(void) */
+
+void __thiscall gCCharacterMovement_PS::OnEnterProcessingRange(gCCharacterMovement_PS *this)
+
+{
+  bool bVar1;
+  gCCharacterMovement_PS gVar2;
+  eCEntity *peVar3;
+  int iVar4;
+  eEPropertySetType eVar5;
+  
+                    /* 0x219fe  5410  ?OnEnterProcessingRange@gCCharacterMovement_PS@@MAEXXZ */
+  eCEntityPropertySet::OnEnterProcessingRange((eCEntityPropertySet *)this);
+  eVar5 = 0x16;
+  peVar3 = (*this->vftablePtr->GetEntity)(this);
+  bVar1 = eCEntity::HasPropertySet((eCEntity *)peVar3,eVar5);
+  if (!bVar1) {
+    peVar3 = (*this->vftablePtr->GetEntity)(this);
+    if (peVar3 != (eCEntity *)0x0) {
+      iVar4 = (**(code **)(*(int *)peVar3 + 0xec))(5);
+      if (iVar4 != 0) {
+        gVar2 = (gCCharacterMovement_PS)
+                eCEntityProxy::IsEntityIDValid((eCEntityProxy *)(iVar4 + 0xac));
+        (this->gCCharacterMovement_PS_data).offset_0x259 = gVar2;
+      }
+    }
+    (this->gCCharacterMovement_PS_data).offset_0x22a = (gCCharacterMovement_PS)0x0;
+    (this->gCCharacterMovement_PS_data).offset_0x25f = (gCCharacterMovement_PS)0x0;
+    (this->gCCharacterMovement_PS_data).offset_0x25a = (gCCharacterMovement_PS)0x0;
+    bVar1 = NeedsComplexStaticCollisionTests(this);
+    (this->gCCharacterMovement_PS_data).offset_0x25f = (gCCharacterMovement_PS)!bVar1;
+  }
+  return;
+}
+
+

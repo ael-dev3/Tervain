@@ -1,0 +1,2 @@
+; 2001a519 ?SetStatus@gCQuest_PS@@QAE_NABW4gEQuestStatus@@@Z
+2001a519 | e9d2ca3100 | JMP 0x20336ff0

@@ -1,0 +1,2 @@
+; 2000b712 gCDialog_PS::AccessEndDialogTimestamp
+2000b712 | e9d9411a00 | JMP 0x201af8f0

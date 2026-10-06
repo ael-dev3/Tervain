@@ -1,0 +1,33 @@
+/* ENTRY 2001a4d8 | bTPropertyObject<gCStat,gCAttribute>::vfunction15 | STATUS decompiled | 11 ms */
+
+bCPropertyObjectBase * __thiscall
+bTPropertyObject<gCStat,gCAttribute>::vfunction15(bTPropertyObject<gCStat,gCAttribute> *this)
+
+{
+  bool bVar1;
+  bCPropertyObjectBase *this_00;
+  bCPropertyObjectBase bVar2;
+  
+  this_00 = (bCPropertyObjectBase *)new(0x10,400);
+  if (this_00 == (bCPropertyObjectBase *)0x0) {
+    this_00 = (bCPropertyObjectBase *)0x0;
+  }
+  else {
+    bCPropertyObjectBase::bCPropertyObjectBase(this_00);
+    this_00[2] = (bCPropertyObjectBase)0x0;
+    *this_00 = (bCPropertyObjectBase)&vftable;
+    bVar2 = (bCPropertyObjectBase)
+            bTPropertyObjectType<gCStat,gCAttribute>::~bTPropertyObjectType<gCStat,gCAttribute>();
+    this_00[1] = (bCPropertyObjectBase)((uint)this_00[1] & 0xfffffffb);
+    this_00[3] = bVar2;
+    this_00[2] = (bCPropertyObjectBase)0x0;
+    thunk_FUN_2039c070(0);
+  }
+  bVar1 = bCPropertyObjectBase::IsRoot((bCPropertyObjectBase *)this);
+  if (!bVar1) {
+    (**(code **)((int)*this_00 + 0x3c))(this);
+  }
+  return this_00;
+}
+
+

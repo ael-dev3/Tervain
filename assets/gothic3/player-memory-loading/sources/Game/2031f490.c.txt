@@ -1,0 +1,18 @@
+/* ENTRY 2031f490 | bTPropertyContainer<gEWeaponConfig>::scalar_deleting_destructor | STATUS decompiled | 6 ms */
+
+bTPropertyContainer<gEWeaponConfig> * __thiscall
+bTPropertyContainer<gEWeaponConfig>::scalar_deleting_destructor
+          (bTPropertyContainer<gEWeaponConfig> *this,byte param_1)
+
+{
+                    /* inlined destructor:
+                       bTPropertyContainer<gEWeaponConfig>::~bTPropertyContainer<gEWeaponConfig> */
+  this->vftablePtr = &vftable;
+  bCObjectBase::~bCObjectBase((bCObjectBase *)this);
+  if ((param_1 & 1) != 0) {
+    _free(this);
+  }
+  return this;
+}
+
+

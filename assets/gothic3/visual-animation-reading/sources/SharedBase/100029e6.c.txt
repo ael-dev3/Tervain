@@ -1,0 +1,13 @@
+/* ENTRY 100029e6 | bCByteAlphaColor::~bCByteAlphaColor | STATUS decompiled | 3 ms */
+
+/* public: __thiscall bCByteAlphaColor::~bCByteAlphaColor(void) */
+
+void __thiscall bCByteAlphaColor::~bCByteAlphaColor(bCByteAlphaColor *this)
+
+{
+                    /* 0x29e6  356  ??1bCByteAlphaColor@@QAE@XZ */
+  this->vftablePtr = (bCByteAlphaColor_vftable *)&bCColorBase::vftable;
+  return;
+}
+
+

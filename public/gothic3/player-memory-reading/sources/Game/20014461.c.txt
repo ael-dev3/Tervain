@@ -1,0 +1,52 @@
+/* ENTRY 20014461 | gCPlayerMemory_PS::WriteAttributes | STATUS decompiled | 26 ms */
+
+/* protected: bool __thiscall gCPlayerMemory_PS::WriteAttributes(class bCOStream &) */
+
+bool __thiscall gCPlayerMemory_PS::WriteAttributes(gCPlayerMemory_PS *this,bCOStream *param_1)
+
+{
+  bCOStream *pbVar1;
+  bCOStream *this_00;
+  bCString *pbVar2;
+  int iVar3;
+  int *piStack_18;
+  int iStack_14;
+  bCString *pbStack_10;
+  int iStack_8;
+  
+                    /* 0x14461  7579  ?WriteAttributes@gCPlayerMemory_PS@@IAE_NAAVbCOStream@@@Z */
+  this_00 = param_1;
+  pbVar1 = (bCOStream *)this[1].gCPlayerMemory_PS_data.offset_0x44;
+  bCOStream::operator<<((bCOStream *)param_1,(long)pbVar1);
+  thunk_FUN_20325c60(&piStack_18);
+  iStack_8 = this[1].gCPlayerMemory_PS_data.offset_0x3c;
+  param_1 = (bCOStream *)0x0;
+  pbVar2 = pbStack_10;
+  iVar3 = iStack_14;
+  do {
+    do {
+      if (((piStack_18 == &this[1].gCPlayerMemory_PS_data.offset_0x38) &&
+          (pbVar2 == (bCString *)0x0)) && (iVar3 == iStack_8)) {
+        if (param_1 != pbVar1) {
+          GE_MESSAGEF_WARN("gCPlayerMemory_PS::WriteAttributes -> Detected broken map count. Count: %d. Iterated: %d"
+                           ,pbVar1,param_1);
+        }
+        return true;
+      }
+      bCOStream::operator<<((bCOStream *)this_00,pbVar2);
+      bCAccessorPropertyObject::bCAccessorPropertyObject
+                ((bCAccessorPropertyObject *)&piStack_18,*(bCObjectRefBase **)(pbVar2 + 4));
+      ::operator<<(this_00,(bCAccessorPropertyObject *)&piStack_18);
+      param_1 = param_1 + 1;
+      bCAccessorPropertyObject::~bCAccessorPropertyObject((bCAccessorPropertyObject *)&piStack_18);
+      pbVar2 = *(bCString **)(pbVar2 + 8);
+    } while (pbVar2 != (bCString *)0x0);
+    do {
+      iVar3 = iVar3 + 1;
+      if (piStack_18[1] <= iVar3) break;
+      pbVar2 = *(bCString **)(*piStack_18 + iVar3 * 4);
+    } while (pbVar2 == (bCString *)0x0);
+  } while( true );
+}
+
+

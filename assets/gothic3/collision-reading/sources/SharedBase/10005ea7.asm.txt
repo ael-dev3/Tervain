@@ -1,0 +1,4 @@
+; 10005ea7 ?Scale@bCOrientedBox@@QAEXABVbCVector@@@Z
+10005ea7 | e9d4d10500 | JMP 0x10063080
+; 10005eac bCMatrix2::operator*
+; 10005eac Ordinal_929

@@ -1,0 +1,12 @@
+/* ENTRY 100061fe | bCVector4::bCVector4 | STATUS decompiled | 1 ms */
+
+/* public: __thiscall bCVector4::bCVector4(void) */
+
+bCVector4 * __thiscall bCVector4::bCVector4(bCVector4 *this)
+
+{
+                    /* 0x61fe  337  ??0bCVector4@@QAE@XZ */
+  return this;
+}
+
+

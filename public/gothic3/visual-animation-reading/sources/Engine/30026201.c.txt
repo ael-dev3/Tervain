@@ -1,0 +1,51 @@
+/* ENTRY 30026201 | eCVisualAnimation_PS::OnEnterProcessingRange | STATUS decompiled | 79 ms */
+
+/* protected: virtual void __thiscall eCVisualAnimation_PS::OnEnterProcessingRange(void) */
+
+void __thiscall eCVisualAnimation_PS::OnEnterProcessingRange(eCVisualAnimation_PS *this)
+
+{
+  eCWrapper_emfx2Actor *peVar1;
+  eCEntity *peVar2;
+  eCAnimationAdmin *this_00;
+  eCApplication *this_01;
+  eCCameraBase *peVar3;
+  bCVector *this_02;
+  float fVar4;
+  float fStack_14;
+  float fStack_10;
+  bCVector abStack_c [12];
+  
+                    /* 0x26201  11057  ?OnEnterProcessingRange@eCVisualAnimation_PS@@MAEXXZ */
+  peVar1 = eCVisualAnimationFactory::GetAssembledActor
+                     ((eCVisualAnimationFactory *)&this[7].eCEntityPropertySet_data.field_0x4);
+  if (peVar1 != (eCWrapper_emfx2Actor *)0x0) {
+    peVar2 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+    eCEntity::UpdateGeometry(peVar2);
+    if (this[0x12].eCEntityPropertySet_data.field_0xd != '\x01') {
+      if (this[6].eCEntityPropertySet_data.field_0x1 == '\0') {
+        this_00 = (eCAnimationAdmin *)thunk_FUN_3007c1e0();
+        fStack_10 = eCAnimationAdmin::GetPhysicControllerDistance(this_00);
+        this_01 = (eCApplication *)eCApplication::GetInstance();
+        peVar3 = eCApplication::GetCurrentCamera(this_01);
+        peVar2 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+        eCEntity::GetWorldPosition(peVar2);
+        this_02 = (bCVector *)bCVector::operator-((bCVector *)(peVar3 + 0x8c),abStack_c);
+        fVar4 = bCVector::GetMagnitude(this_02);
+        bCVector::~bCVector((bCVector *)&fStack_10);
+        if (fStack_14 < fVar4) {
+          return;
+        }
+      }
+      CreatePhysicsController(this,false,(eCVisualAnimation_PS *)0x0);
+      if ((*(char *)&this[0xf].vftablePtr == '\x01') ||
+         ((this[1].eCEntityPropertySet_data.field_0x4 == '\x01' &&
+          (0 < *(int *)&this[0xf].eCEntityPropertySet_data.offset_0xc)))) {
+        SetRagDollEnabled(this,true,0.0,true);
+      }
+    }
+  }
+  return;
+}
+
+

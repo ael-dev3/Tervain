@@ -1,0 +1,8 @@
+; 10011fa0 FUN_10011fa0
+10011fa0 | 8b09 | MOV ECX,dword ptr [ECX]
+10011fa2 | 85c9 | TEST ECX,ECX
+10011fa4 | 7503 | JNZ 0x10011fa9
+10011fa6 | 32c0 | XOR AL,AL
+10011fa8 | c3 | RET
+; 10011fa9 LAB_10011fa9
+10011fa9 | ff25ec7e0b10 | JMP dword ptr [0x100b7eec]

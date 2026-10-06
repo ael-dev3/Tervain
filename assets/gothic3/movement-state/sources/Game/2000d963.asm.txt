@@ -1,0 +1,2 @@
+; 2000d963 ?GetMovementIsControledByPlayer@gCCharacterMovement_PS@@QBE_NXZ
+2000d963 | e9d8432100 | JMP 0x20221d40

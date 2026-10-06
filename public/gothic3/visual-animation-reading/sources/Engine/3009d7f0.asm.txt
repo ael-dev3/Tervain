@@ -1,0 +1,10 @@
+; 3009d7f0 FUN_3009d7f0
+3009d7f0 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+3009d7f4 | 8a542404 | MOV DL,byte ptr [ESP + 0x4]
+3009d7f8 | 89817c010000 | MOV dword ptr [ECX + 0x17c],EAX
+3009d7fe | 8b44240c | MOV EAX,dword ptr [ESP + 0xc]
+3009d802 | 88917b010000 | MOV byte ptr [ECX + 0x17b],DL
+3009d808 | 50 | PUSH EAX
+3009d809 | 81c184010000 | ADD ECX,0x184
+3009d80f | ff1560dbaf30 | CALL dword ptr [0x30afdb60]
+3009d815 | c20c00 | RET 0xc

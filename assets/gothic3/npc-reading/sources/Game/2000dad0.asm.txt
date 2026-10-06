@@ -1,0 +1,2 @@
+; 2000dad0 bTPropertyType<gCNPC_PS,bCString>::vfunction1
+2000dad0 | e99b3e2f00 | JMP 0x20301970

@@ -1,0 +1,2 @@
+; 30044e0e ?GetProprietaryTouchingShape@eCCollisionShape_PS@@QBEPAVNxShape@@K@Z
+30044e0e | e94d192f00 | JMP 0x30336760

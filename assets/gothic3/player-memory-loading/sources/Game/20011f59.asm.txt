@@ -1,0 +1,2 @@
+; 20011f59 bTPropertyType<gCPlayerMemory_PS,bTValArray<bool>_>::scalar_deleting_destructor
+20011f59 | e9d2573100 | JMP 0x20327730

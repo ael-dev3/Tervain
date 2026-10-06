@@ -1,0 +1,10 @@
+/* ENTRY 10019550 | FUN_10019550 | STATUS decompiled | 2 ms */
+
+bCUnicodeString * __thiscall FUN_10019550(bCUnicodeString *param_1,bCUnicodeString *param_2)
+
+{
+  bCUnicodeString::SetText(param_1,param_2);
+  return param_1;
+}
+
+

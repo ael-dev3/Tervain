@@ -1,0 +1,2 @@
+; 30035936 eCWrapper_emfx2Actor::GetPlaySpeed
+30035936 | e9e55c0a00 | JMP 0x300db620

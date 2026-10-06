@@ -1,0 +1,55 @@
+/* ENTRY 30037c18 | eCVisualAnimation_PS::PostInitializeProperties | STATUS decompiled | 125 ms */
+
+/* public: virtual enum bEResult __thiscall eCVisualAnimation_PS::PostInitializeProperties(void) */
+
+bEResult __thiscall eCVisualAnimation_PS::PostInitializeProperties(eCVisualAnimation_PS *this)
+
+{
+  bCObjectBase bStack_8;
+  undefined4 uStack_4;
+  
+                    /* 0x37c18  11787
+                       ?PostInitializeProperties@eCVisualAnimation_PS@@UAE?AW4bEResult@@XZ */
+  bCObjectRefBase::PostInitializeProperties((bCObjectRefBase *)this);
+  this[1].eCEntityPropertySet_data.field_0x4 = 0;
+  this[1].eCEntityPropertySet_data.field_0x5 = 0;
+  this[1].eCEntityPropertySet_data.field_0x6 = 0;
+  this[1].eCEntityPropertySet_data.field_0x7 = 1;
+  *(undefined1 *)&this[1].eCEntityPropertySet_data.offset_0x8 = 1;
+  bCObjectBase::bCObjectBase(&bStack_8);
+  bStack_8 = (bCObjectBase)&bTPropertyContainer<eEShapeGroup>::vftable;
+  uStack_4 = 2;
+  (**(code **)(this[4].eCEntityPropertySet_data.offset_0x8 + 0x1c))(&bStack_8);
+  bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xfffffff4);
+  bCObjectBase::bCObjectBase((bCObjectBase *)&stack0xfffffff4);
+  bStack_8 = (bCObjectBase)0xa;
+  (*(this[5].vftablePtr)->CopyFrom)(this + 5,(bCObjectBase *)&stack0xfffffff4);
+  bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xfffffff4);
+  bCObjectBase::bCObjectBase((bCObjectBase *)&stack0xfffffff4);
+  bStack_8 = (bCObjectBase)0x2;
+  (**(code **)(*(int *)&this[5].eCEntityPropertySet_data.field_0x4 + 0x1c))(&stack0xfffffff4);
+  bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xfffffff0);
+  *(undefined4 *)&this[2].eCEntityPropertySet_data = 0x3f000000;
+  *(undefined4 *)&this[2].eCEntityPropertySet_data.field_0x4 = 0x3f000000;
+  *(undefined4 *)&this[3].eCEntityPropertySet_data.field_0x4 = 0x3f000000;
+  this[3].eCEntityPropertySet_data.offset_0x8 = 0x3dcccccd;
+  *(undefined4 *)&this[4].eCEntityPropertySet_data.field_0x4 = 0x3e4ccccd;
+  this[4].vftablePtr = (eCVisualAnimation_PS_vftable *)0x469ca400;
+  *(undefined4 *)&this[2].eCEntityPropertySet_data.offset_0xc = 0x42c80000;
+  *(undefined4 *)&this[4].eCEntityPropertySet_data = 0x3a83126f;
+  *(undefined1 *)&this[2].eCEntityPropertySet_data.offset_0x8 = 0;
+  this[3].vftablePtr = (eCVisualAnimation_PS_vftable *)0x3f4ccccd;
+  *(undefined1 *)&this[3].eCEntityPropertySet_data = 1;
+  this[3].eCEntityPropertySet_data.offset_0xc = 1;
+  *(undefined1 *)&this[6].eCEntityPropertySet_data = 0;
+  *(undefined1 *)((int)&this[1].eCEntityPropertySet_data.offset_0x8 + 1) = 0;
+  *(undefined4 *)&this[1].eCEntityPropertySet_data.offset_0xc = 0x7f7fffff;
+  this[2].vftablePtr = (eCVisualAnimation_PS_vftable *)0x7f7fffff;
+  this[6].eCEntityPropertySet_data.field_0x1 = 1;
+  this[5].eCEntityPropertySet_data.offset_0xc = 1;
+  *(undefined4 *)&this[7].eCEntityPropertySet_data = 0;
+  this[6].vftablePtr = (eCVisualAnimation_PS_vftable *)0x3f800000;
+  return 1;
+}
+
+

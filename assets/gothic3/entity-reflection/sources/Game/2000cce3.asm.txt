@@ -1,0 +1,4 @@
+; 2000cce3 ??0gCPlayerMemory_PS@@QAE@ABV0@@Z
+2000cce3 | e958173100 | JMP 0x2031e440
+; 2000cce8 gCMusicEventFragment::Create
+; 2000cce8 Ordinal_2371

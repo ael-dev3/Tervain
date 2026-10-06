@@ -1,0 +1,4 @@
+; 10004df9 ??BPropertyLPAttribs@PSPlayerMemory@@QBEJXZ
+10004df9 | e9f22f0200 | JMP 0x10027df0
+; 10004dfe PSDamage::PropertyDamageType::operator=
+; 10004dfe Ordinal_345

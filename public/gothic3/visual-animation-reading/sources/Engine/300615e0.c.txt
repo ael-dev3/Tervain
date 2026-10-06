@@ -1,0 +1,16 @@
+/* ENTRY 300615e0 | FUN_300615e0 | STATUS decompiled | 4 ms */
+
+void __fastcall FUN_300615e0(int *param_1)
+
+{
+  code *pcVar1;
+  int *unaff_ESI;
+  
+  (**(code **)(*param_1 + 0x58))("SpringDistRelaxed",0);
+  pcVar1 = *(code **)(*param_1 + 0x5c);
+  param_1[0x18] = *unaff_ESI;
+  (*pcVar1)("SpringDistRelaxed",0);
+  return;
+}
+
+

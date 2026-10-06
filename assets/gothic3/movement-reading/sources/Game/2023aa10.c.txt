@@ -1,0 +1,9 @@
+/* ENTRY 2023aa10 | FUN_2023aa10 | STATUS decompiled | 1 ms */
+
+undefined4 FUN_2023aa10(void)
+
+{
+  return 0xffffffff;
+}
+
+

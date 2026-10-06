@@ -1,0 +1,23 @@
+/* ENTRY 2000727f | FUN_2000727f | STATUS decompiled | 7 ms */
+
+undefined4 __thiscall FUN_2000727f(int *param_1,uint param_2)
+
+{
+  bool bVar1;
+  
+  if ((uint)param_1[1] <= param_2) {
+    GE_MESSAGEF_WARN("gCInventoryStackList::DisposeStack -> Trying to dispose stack at invalid index: %d."
+                     ,param_2);
+    return 0;
+  }
+  bVar1 = gCInventoryStack::IsDisposable(*(gCInventoryStack **)(*param_1 + param_2 * 4));
+  if (bVar1) {
+    thunk_FUN_201cf350(param_2);
+    return 1;
+  }
+  GE_MESSAGEF_WARN("gCInventoryStackList::DisposeStack -> Trying to dispose linked stack: %d.",
+                   param_2);
+  return 0;
+}
+
+

@@ -1,0 +1,12 @@
+/* ENTRY 30037eca | eCEntityProxyInternal::GetEntity | STATUS decompiled | 42 ms */
+
+/* public: class eCEntity * __thiscall eCEntityProxyInternal::GetEntity(void) */
+
+eCEntity * __thiscall eCEntityProxyInternal::GetEntity(eCEntityProxyInternal *this)
+
+{
+                    /* 0x37eca  7020  ?GetEntity@eCEntityProxyInternal@@QAEPAVeCEntity@@XZ */
+  return *(eCEntity **)this;
+}
+
+

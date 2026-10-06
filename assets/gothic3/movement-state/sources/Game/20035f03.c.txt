@@ -1,0 +1,15 @@
+/* ENTRY 20035f03 | gCCharacterSensor_PS::GetPosition | STATUS decompiled | 7 ms */
+
+/* public: class bCVector __thiscall gCCharacterSensor_PS::GetPosition(void)const  */
+
+bCVector * __thiscall gCCharacterSensor_PS::GetPosition(gCCharacterSensor_PS *this)
+
+{
+  bCVector *in_stack_00000004;
+  
+                    /* 0x35f03  3994  ?GetPosition@gCCharacterSensor_PS@@QBE?AVbCVector@@XZ */
+  bCVector::bCVector(in_stack_00000004,(bCVector *)&(this->gCCharacterSensor_PS_data).field_0x10);
+  return in_stack_00000004;
+}
+
+

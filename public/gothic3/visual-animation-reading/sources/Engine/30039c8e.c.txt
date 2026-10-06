@@ -1,0 +1,17 @@
+/* ENTRY 30039c8e | eCResourceAnimationActor_PS::GetLookAtConstraints | STATUS decompiled | 70 ms */
+
+/* public: class bTObjArray<struct eCResourceAnimationActor_PS::eSLookAtConstraintData> const &
+   __thiscall eCResourceAnimationActor_PS::GetLookAtConstraints(void)const  */
+
+bTObjArray<eCResourceAnimationActor_PS::eSLookAtConstraintData> * __thiscall
+eCResourceAnimationActor_PS::GetLookAtConstraints(eCResourceAnimationActor_PS *this)
+
+{
+                    /* 0x39c8e  7679
+                       ?GetLookAtConstraints@eCResourceAnimationActor_PS@@QBEABV?$bTObjArray@UeSLookAtConstraintData@eCResourceAnimationActor_PS@@@@XZ
+                        */
+  return (bTObjArray<eCResourceAnimationActor_PS::eSLookAtConstraintData> *)
+         &(this->eCResourceAnimationActor_PS_data).offset_0x10;
+}
+
+

@@ -1,0 +1,12 @@
+/* ENTRY 30019db2 | eCCollisionShape_PS::GetDisableResponse | STATUS decompiled | 6 ms */
+
+/* public: bool const & __thiscall eCCollisionShape_PS::GetDisableResponse(void)const  */
+
+bool * __thiscall eCCollisionShape_PS::GetDisableResponse(eCCollisionShape_PS *this)
+
+{
+                    /* 0x19db2  6878  ?GetDisableResponse@eCCollisionShape_PS@@QBEAB_NXZ */
+  return (bool *)&(this->eCCollisionShape_PS_data).field_0x11;
+}
+
+

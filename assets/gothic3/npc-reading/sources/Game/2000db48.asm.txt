@@ -1,0 +1,2 @@
+; 2000db48 bTPropertyContainer<gEGender>::vfunction7
+2000db48 | e933142f00 | JMP 0x202fef80

@@ -1,0 +1,19 @@
+/* ENTRY 20026049 | gCClock_PS::Invalidate | STATUS decompiled | 8 ms */
+
+/* protected: void __thiscall gCClock_PS::Invalidate(void) */
+
+void __thiscall gCClock_PS::Invalidate(gCClock_PS *this)
+
+{
+  undefined4 *puVar1;
+  
+                    /* 0x26049  4959  ?Invalidate@gCClock_PS@@IAEXXZ */
+  puVar1 = &(this->gCClock_PS_data).offset_0x4c;
+  (this->gCClock_PS_data).offset_0x54 = 0;
+  (this->gCClock_PS_data).offset_0x50 = 0;
+  *puVar1 = 0;
+  bCClock::Set((bCClock *)&(this->gCClock_PS_data).field_0x28,(bSTimeAndDate *)puVar1);
+  return;
+}
+
+

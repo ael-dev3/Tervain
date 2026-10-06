@@ -1,0 +1,4 @@
+; 3003c641 bTPropertyType<eCRigidBody_PS,bCVector>::vfunction1
+3003c641 | e9ca4f2f00 | JMP 0x30331610
+; 3003c646 eCResourceMaterialObject_PS::GetSpecularPower
+; 3003c646 Ordinal_8895

@@ -1,0 +1,2 @@
+; 10001ce9 bCSphere::GetPosition
+10001ce9 | e9929b0200 | JMP 0x1002b880

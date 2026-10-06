@@ -1,0 +1,9 @@
+; 2028bdd0 bTPropertyType<gCNavigation_PS,bTObjArray<bCString>_>::vfunction20
+2028bdd0 | 56 | PUSH ESI
+2028bdd1 | 8bf1 | MOV ESI,ECX
+2028bdd3 | ff15d8877d20 | CALL dword ptr [0x207d87d8]
+2028bdd9 | 8b4e18 | MOV ECX,dword ptr [ESI + 0x18]
+2028bddc | 56 | PUSH ESI
+2028bddd | ff15cc877d20 | CALL dword ptr [0x207d87cc]
+2028bde3 | 5e | POP ESI
+2028bde4 | c3 | RET

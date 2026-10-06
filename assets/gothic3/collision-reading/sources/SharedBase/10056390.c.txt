@@ -1,0 +1,25 @@
+/* ENTRY 10056390 | FUN_10056390 | STATUS decompiled | 7 ms */
+
+void __thiscall FUN_10056390(bCBox *param_1,float *param_2,float *param_3)
+
+{
+  undefined4 local_1c;
+  float local_18;
+  float local_14;
+  float local_10;
+  float local_c;
+  float local_8;
+  float local_4;
+  
+  local_18 = *param_2;
+  local_10 = param_2[2];
+  local_14 = param_2[1];
+  local_1c = 0;
+  local_c = param_2[3] - local_18;
+  local_8 = param_2[4] - local_14;
+  local_4 = param_2[5] - local_10;
+  bCUnitedRay::Intersects((bCUnitedRay *)&local_1c,param_1,param_3);
+  return;
+}
+
+

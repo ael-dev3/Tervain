@@ -1,0 +1,2 @@
+; 3001f0f5 ?AccessIgnoredByTraceRay@eCCollisionShape_PS@@QAEAA_NXZ
+3001f0f5 | e9463c0a00 | JMP 0x300c2d40

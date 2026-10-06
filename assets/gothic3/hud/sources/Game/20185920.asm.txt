@@ -1,0 +1,3 @@
+; 20185920 gCHUDStaticQuest::~gCHUDStaticQuest
+20185920 | c701f4686720 | MOV dword ptr [ECX],0x206768f4
+20185926 | ff25c8787d20 | JMP dword ptr [0x207d78c8]

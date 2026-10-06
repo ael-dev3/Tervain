@@ -1,0 +1,4 @@
+; 200203e7 ?AddValue@gCPlayerMemory_PS@@QAE_NABVbCString@@H@Z
+200203e7 | e934d42f00 | JMP 0x2031d820
+; 200203ec gCMusicTransition::AccessConnectIn
+; 200203ec Ordinal_1101

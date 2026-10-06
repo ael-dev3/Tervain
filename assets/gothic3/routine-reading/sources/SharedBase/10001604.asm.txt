@@ -1,0 +1,4 @@
+; 10001604 ??0bCAccessorProperty@@QAE@ABV0@@Z
+10001604 | e937230900 | JMP 0x10093940
+; 10001609 bCBitField::SetAt
+; 10001609 Ordinal_4063

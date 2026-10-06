@@ -1,0 +1,16 @@
+/* ENTRY 2002e474 | gCDamageReceiver_PS::PostInitializeProperties | STATUS decompiled | 9 ms */
+
+/* public: virtual enum bEResult __thiscall gCDamageReceiver_PS::PostInitializeProperties(void) */
+
+bEResult __thiscall gCDamageReceiver_PS::PostInitializeProperties(gCDamageReceiver_PS *this)
+
+{
+                    /* 0x2e474  5746
+                       ?PostInitializeProperties@gCDamageReceiver_PS@@UAE?AW4bEResult@@XZ */
+  bCObjectRefBase::PostInitializeProperties((bCObjectRefBase *)this);
+  *(undefined4 *)&(this->gCDamageReceiver_PS_data).field_0x10 = 1;
+  *(undefined4 *)&(this->gCDamageReceiver_PS_data).field_0x14 = 1;
+  return 1;
+}
+
+

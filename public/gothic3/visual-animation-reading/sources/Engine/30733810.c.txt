@@ -1,0 +1,25 @@
+/* ENTRY 30733810 | bTPropertyObject<eCVisualAnimation_PS,eCEntityPropertySet>::~bTPropertyObject<eCVisualAnimation_PS,eCEntityPropertySet> | STATUS decompiled | 10 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyObject<eCVisualAnimation_PS,eCEntityPropertySet>::
+~bTPropertyObject<eCVisualAnimation_PS,eCEntityPropertySet>
+          (bTPropertyObject<eCVisualAnimation_PS,eCEntityPropertySet> *this)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)
+             &eCVisualAnimation_PS::ms_PropertyObjectInstance_eCVisualAnimation_PS);
+  _DAT_30ada544 = 0;
+  _ms_PropertyObjectInstance_eCVisualAnimation_PS = &vftable;
+  _DAT_30ada548 =
+       bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet>::
+       ~bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet>();
+  _DAT_30ada544 = 0;
+  thunk_FUN_300ba8b0(1);
+  _atexit(~bTPropertyObject<eCVisualAnimation_PS,eCEntityPropertySet>);
+  return;
+}
+
+

@@ -1,0 +1,2 @@
+; 30020cd4 eCVisualAnimationLoD::vfunction15
+30020cd4 | e917b20700 | JMP 0x3009bef0

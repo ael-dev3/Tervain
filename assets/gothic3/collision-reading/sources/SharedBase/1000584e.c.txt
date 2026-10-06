@@ -1,0 +1,19 @@
+/* ENTRY 1000584e | bCOrientedBox::GetInvTransformed | STATUS decompiled | 4 ms */
+
+/* public: void __thiscall bCOrientedBox::GetInvTransformed(class bCOrientedBox &,class bCMatrix
+   const &)const  */
+
+void __thiscall
+bCOrientedBox::GetInvTransformed(bCOrientedBox *this,bCOrientedBox *param_1,bCMatrix *param_2)
+
+{
+  bCMatrix abStack_40 [64];
+  
+                    /* 0x584e  2489  ?GetInvTransformed@bCOrientedBox@@QBEXAAV1@ABVbCMatrix@@@Z */
+  Create(param_1,this);
+  bCMatrix::GetInverted(param_2,abStack_40);
+  Transform(param_1,abStack_40);
+  return;
+}
+
+

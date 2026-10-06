@@ -1,0 +1,11 @@
+; 201aea40 FUN_201aea40
+201aea40 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+201aea44 | 56 | PUSH ESI
+201aea45 | 50 | PUSH EAX
+201aea46 | 8bf1 | MOV ESI,ECX
+201aea48 | e8f8dae5ff | CALL 0x2000c545
+201aea4d | 50 | PUSH EAX
+201aea4e | 8bce | MOV ECX,ESI
+201aea50 | e88d19e7ff | CALL 0x200203e2
+201aea55 | 5e | POP ESI
+201aea56 | c20400 | RET 0x4

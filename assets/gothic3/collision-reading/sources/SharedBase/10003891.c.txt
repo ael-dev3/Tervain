@@ -1,0 +1,24 @@
+/* ENTRY 10003891 | bCBox::GetIntersection | STATUS decompiled | 32 ms */
+
+/* public: enum bCBox::bEIntersection __thiscall bCBox::GetIntersection(class bCBox const &)const
+    */
+
+bEIntersection __thiscall bCBox::GetIntersection(bCBox *this,bCBox *param_1)
+
+{
+  bool bVar1;
+  
+                    /* 0x3891  2424  ?GetIntersection@bCBox@@QBE?AW4bEIntersection@1@ABV1@@Z */
+  bVar1 = Intersects(this,param_1);
+  if (!bVar1) {
+    return 0;
+  }
+  bVar1 = Contains(this,param_1);
+  if (bVar1) {
+    return 1;
+  }
+  bVar1 = Contains(param_1,this);
+  return 3 - bVar1;
+}
+
+

@@ -1,0 +1,156 @@
+/* ENTRY 100014ab | bCOrientedBox::Intersects | STATUS decompiled | 155 ms */
+
+/* public: bool __thiscall bCOrientedBox::Intersects(class bCOrientedBox const &)const  */
+
+bool __thiscall bCOrientedBox::Intersects(bCOrientedBox *this,bCOrientedBox *param_1)
+
+{
+  bCOrientedBox *pbVar1;
+  float fVar2;
+  float fVar3;
+  float fVar4;
+  float fVar5;
+  float fVar6;
+  float fVar7;
+  undefined4 uVar8;
+  undefined4 uVar9;
+  float fVar10;
+  float fVar11;
+  float fVar12;
+  float fVar13;
+  float fVar14;
+  float fVar15;
+  int iVar16;
+  float afStack_48 [6];
+  float afStack_30 [3];
+  float fStack_24;
+  float fStack_20;
+  float fStack_1c;
+  float fStack_18;
+  float fStack_14;
+  float fStack_10;
+  float fStack_c;
+  float fStack_8;
+  float fStack_4;
+  
+                    /* 0x14ab  3403  ?Intersects@bCOrientedBox@@QBE_NABV1@@Z */
+  uVar8 = *(undefined4 *)(this + 0x1c);
+  pbVar1 = this + 0x18;
+  *(undefined4 *)(pbVar1 + (int)afStack_48 + (0xc - (int)this)) = *(undefined4 *)(this + 0x18);
+  uVar9 = *(undefined4 *)(this + 0x20);
+  *(undefined4 *)(pbVar1 + (int)afStack_48 + (0x10 - (int)this)) = uVar8;
+  uVar8 = *(undefined4 *)(this + 0x24);
+  *(undefined4 *)(pbVar1 + (int)afStack_48 + (0x14 - (int)this)) = uVar9;
+  uVar9 = *(undefined4 *)(this + 0x28);
+  *(undefined4 *)(pbVar1 + (int)afStack_48 + (0x18 - (int)this)) = uVar8;
+  uVar8 = *(undefined4 *)(this + 0x2c);
+  *(undefined4 *)(pbVar1 + (int)afStack_48 + (0x1c - (int)this)) = uVar9;
+  uVar9 = *(undefined4 *)(this + 0x30);
+  *(undefined4 *)(pbVar1 + (int)afStack_48 + (0x20 - (int)this)) = uVar8;
+  uVar8 = *(undefined4 *)(this + 0x34);
+  *(undefined4 *)(pbVar1 + ((int)&fStack_24 - (int)this)) = uVar9;
+  uVar9 = *(undefined4 *)(this + 0x38);
+  *(undefined4 *)(pbVar1 + ((int)&fStack_20 - (int)this)) = uVar8;
+  fVar2 = fStack_20;
+  *(undefined4 *)(pbVar1 + ((int)&fStack_1c - (int)this)) = uVar9;
+  fVar4 = fStack_10;
+  fVar3 = fStack_1c;
+  fStack_20 = fStack_18;
+  fStack_18 = fVar2;
+  fStack_1c = fStack_c;
+  fStack_c = fVar3;
+  fStack_10 = fStack_8;
+  fStack_8 = fVar4;
+  bCMatrix3::SetToProduct
+            ((bCMatrix3 *)&fStack_24,(bCMatrix3 *)&fStack_24,(bCMatrix3 *)(param_1 + 0x18));
+  afStack_48[0] = ABS(fStack_24);
+  afStack_48[1] = ABS(fStack_20);
+  afStack_48[2] = ABS(fStack_1c);
+  afStack_48[3] = ABS(fStack_18);
+  afStack_48[4] = ABS(fStack_14);
+  afStack_48[5] = ABS(fStack_10);
+  afStack_30[0] = ABS(fStack_c);
+  afStack_30[1] = ABS(fStack_8);
+  afStack_30[2] = ABS(fStack_4);
+  fVar10 = *(float *)param_1 - *(float *)this;
+  fVar11 = *(float *)(param_1 + 4) - *(float *)(this + 4);
+  fVar12 = *(float *)(param_1 + 8) - *(float *)(this + 8);
+  fVar13 = *(float *)(this + 0x20) * fVar12 +
+           fVar10 * *(float *)pbVar1 + fVar11 * *(float *)(this + 0x1c);
+  fVar2 = *(float *)(param_1 + 0xc);
+  fVar3 = *(float *)(param_1 + 0x10);
+  fVar4 = *(float *)(param_1 + 0x14);
+  fVar5 = *(float *)(this + 0xc);
+  if (ABS(fVar13) <= fVar2 * afStack_48[0] + fVar3 * afStack_48[1] + fVar4 * afStack_48[2] + fVar5)
+  {
+    fVar15 = *(float *)(this + 0x2c) * fVar12 +
+             fVar10 * *(float *)(this + 0x24) + *(float *)(this + 0x28) * fVar11;
+    fVar6 = *(float *)(this + 0x10);
+    if (ABS(fVar15) <= afStack_48[5] * fVar4 + fVar2 * afStack_48[3] + afStack_48[4] * fVar3 + fVar6
+       ) {
+      fVar14 = *(float *)(this + 0x38) * fVar12 +
+               fVar10 * *(float *)(this + 0x30) + *(float *)(this + 0x34) * fVar11;
+      fVar7 = *(float *)(this + 0x14);
+      if (ABS(fVar14) <=
+          fVar7 + afStack_30[2] * fVar4 + fVar2 * afStack_30[0] + afStack_30[1] * fVar3) {
+        if ((afStack_30[0] * fVar7 + afStack_48[0] * fVar5 + afStack_48[3] * fVar6 + fVar2 <
+             ABS(*(float *)(param_1 + 0x20) * fVar12 +
+                 *(float *)(param_1 + 0x1c) * fVar11 + *(float *)(param_1 + 0x18) * fVar10)) ||
+           (afStack_30[1] * fVar7 + afStack_48[1] * fVar5 + afStack_48[4] * fVar6 + fVar3 <
+            ABS(*(float *)(param_1 + 0x2c) * fVar12 +
+                fVar10 * *(float *)(param_1 + 0x24) + *(float *)(param_1 + 0x28) * fVar11))) {
+          return false;
+        }
+        if (ABS(*(float *)(param_1 + 0x38) * fVar12 +
+                fVar10 * *(float *)(param_1 + 0x30) + *(float *)(param_1 + 0x34) * fVar11) <=
+            afStack_30[2] * fVar7 + afStack_48[2] * fVar5 + fVar6 * afStack_48[5] + fVar4) {
+          iVar16 = 0;
+          do {
+            if (((0.999999 < afStack_48[iVar16]) || (0.999999 < afStack_48[iVar16 + 3])) ||
+               (0.999999 < afStack_48[iVar16 + 6])) {
+              return true;
+            }
+            iVar16 = iVar16 + 1;
+          } while (iVar16 < 3);
+          if (((afStack_48[3] * fVar7 + afStack_30[0] * fVar6 +
+                afStack_48[2] * fVar3 + afStack_48[1] * fVar4 <
+                ABS(fVar14 * fStack_18 - fVar15 * fStack_c)) ||
+              (fVar2 * afStack_48[2] + afStack_48[0] * fVar4 +
+               afStack_30[1] * fVar6 + afStack_48[4] * fVar7 <
+               ABS(fStack_14 * fVar14 - fVar15 * fStack_8))) ||
+             ((fVar2 * afStack_48[1] + afStack_48[0] * fVar3 +
+               afStack_30[2] * fVar6 + afStack_48[5] * fVar7 <
+               ABS(fVar14 * fStack_10 - fStack_4 * fVar15) ||
+              ((afStack_48[5] * fVar3 + afStack_48[4] * fVar4 +
+                afStack_48[0] * fVar7 + afStack_30[0] * fVar5 <
+                ABS(fVar13 * fStack_c - fStack_24 * fVar14) ||
+               (fVar2 * afStack_48[5] + afStack_48[3] * fVar4 +
+                afStack_48[1] * fVar7 + afStack_30[1] * fVar5 <
+                ABS(fVar13 * fStack_8 - fVar14 * fStack_20))))))) {
+            return false;
+          }
+          if (((ABS(fVar13 * fStack_4 - fVar14 * fStack_1c) <=
+                afStack_30[2] * fVar5 + afStack_48[2] * fVar7 +
+                fVar2 * afStack_48[4] + afStack_48[3] * fVar3) &&
+              (ABS(fStack_24 * fVar15 - fVar13 * fStack_18) <=
+               afStack_48[3] * fVar5 + afStack_48[0] * fVar6 +
+               afStack_30[2] * fVar3 + afStack_30[1] * fVar4)) &&
+             (ABS(fVar15 * fStack_20 - fStack_14 * fVar13) <=
+              afStack_48[4] * fVar5 + afStack_48[1] * fVar6 +
+              fVar2 * afStack_30[2] + afStack_30[0] * fVar4)) {
+            if (afStack_48[5] * fVar5 + afStack_48[2] * fVar6 +
+                fVar2 * afStack_30[1] + afStack_30[0] * fVar3 <
+                ABS(fVar15 * fStack_1c - fStack_10 * fVar13)) {
+              return false;
+            }
+            return true;
+          }
+        }
+        return false;
+      }
+    }
+  }
+  return false;
+}
+
+

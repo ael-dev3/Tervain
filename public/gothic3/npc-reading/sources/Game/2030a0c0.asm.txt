@@ -1,0 +1,3 @@
+; 2030a0c0 bTPropertyType<gCNPC_PS,bTPropertyContainer<gEGuardStatus>_>::vfunction1
+2030a0c0 | 8b411c | MOV EAX,dword ptr [ECX + 0x1c]
+2030a0c3 | c3 | RET

@@ -1,0 +1,120 @@
+/* ENTRY 202fa090 | bTPropertyContainer<gEBearing>::bTPropertyContainer<gEBearing> | STATUS decompiled | 60 ms */
+
+bTPropertyContainer<gEBearing> * __thiscall
+bTPropertyContainer<gEBearing>::bTPropertyContainer<gEBearing>(bTPropertyContainer<gEBearing> *this)
+
+{
+  undefined4 *puVar1;
+  bCObjectBase **ppbVar2;
+  
+  eCEntityPropertySet::eCEntityPropertySet((eCEntityPropertySet *)this);
+                    /* inlined constructor: gCNPC_PS::gCNPC_PS */
+  this->vftablePtr = (bTPropertyContainer<gEBearing>_vftable *)&gCNPC_PS::vftable;
+  bCString::bCString((bCString *)&this[1].bTPropertyContainer<gEBearing>_data);
+  bCString::bCString((bCString *)&this[1].bTPropertyContainer<gEBearing>_data.offset_0x4);
+  bCString::bCString((bCString *)&this[1].bTPropertyContainer<gEBearing>_data.offset_0x8);
+  puVar1 = &this[2].bTPropertyContainer<gEBearing>_data.offset_0x4;
+  bCObjectBase::bCObjectBase((bCObjectBase *)puVar1);
+                    /* inlined constructor:
+                       bTPropertyContainer<gEGender>::bTPropertyContainer<gEGender> */
+  *puVar1 = &bTPropertyContainer<gEGender>::vftable;
+  this[2].bTPropertyContainer<gEBearing>_data.offset_0x8 = DAT_207c0928;
+  bCObjectBase::bCObjectBase((bCObjectBase *)(this + 3));
+                    /* inlined constructor:
+                       bTPropertyContainer<gESpecies>::bTPropertyContainer<gESpecies> */
+  this[3].vftablePtr =
+       (bTPropertyContainer<gEBearing>_vftable *)&bTPropertyContainer<gESpecies>::vftable;
+  this[3].bTPropertyContainer<gEBearing>_data.offset_0x0 = DAT_207c092c;
+  puVar1 = &this[3].bTPropertyContainer<gEBearing>_data.offset_0x4;
+  bCObjectBase::bCObjectBase((bCObjectBase *)puVar1);
+                    /* inlined constructor:
+                       bTPropertyContainer<gEPoliticalAlignment>::bTPropertyContainer<gEPoliticalAlignment>
+                        */
+  *puVar1 = &bTPropertyContainer<gEPoliticalAlignment>::vftable;
+  this[3].bTPropertyContainer<gEBearing>_data.offset_0x8 = DAT_207b7f08;
+  bCObjectBase::bCObjectBase((bCObjectBase *)(this + 4));
+                    /* inlined constructor:
+                       bTPropertyContainer<gEClass>::bTPropertyContainer<gEClass> */
+  this[4].vftablePtr =
+       (bTPropertyContainer<gEBearing>_vftable *)&bTPropertyContainer<gEClass>::vftable;
+  this[4].bTPropertyContainer<gEBearing>_data.offset_0x0 = DAT_207c0930;
+  puVar1 = &this[4].bTPropertyContainer<gEBearing>_data.offset_0x4;
+  bCObjectBase::bCObjectBase((bCObjectBase *)puVar1);
+                    /* inlined constructor:
+                       bTPropertyContainer<gENPCType>::bTPropertyContainer<gENPCType> */
+  *puVar1 = &bTPropertyContainer<gENPCType>::vftable;
+  this[4].bTPropertyContainer<gEBearing>_data.offset_0x8 = DAT_207c0934;
+  bCPropertyID::bCPropertyID((bCPropertyID *)(this + 5));
+  bCObjectBase::bCObjectBase((bCObjectBase *)&this[6].bTPropertyContainer<gEBearing>_data);
+                    /* inlined constructor:
+                       bTPropertyContainer<gEAttitude>::bTPropertyContainer<gEAttitude> */
+  this[6].bTPropertyContainer<gEBearing>_data.offset_0x0 =
+       &bTPropertyContainer<gEAttitude>::vftable.GetVersion;
+  this[6].bTPropertyContainer<gEBearing>_data.offset_0x4 = DAT_207c0938;
+  ppbVar2 = &this[6].bTPropertyContainer<gEBearing>_data.offset_0x8;
+  bCObjectBase::bCObjectBase((bCObjectBase *)ppbVar2);
+                    /* inlined constructor:
+                       bTPropertyContainer<gEPlayerCrime>::bTPropertyContainer<gEPlayerCrime> */
+  *ppbVar2 = (bCObjectBase *)&bTPropertyContainer<gEPlayerCrime>::vftable;
+  this[7].vftablePtr = DAT_207b7f0c;
+  bCObjectBase::bCObjectBase((bCObjectBase *)&this[7].bTPropertyContainer<gEBearing>_data);
+                    /* inlined constructor:
+                       bTPropertyContainer<gEAttackReason>::bTPropertyContainer<gEAttackReason> */
+  this[7].bTPropertyContainer<gEBearing>_data.offset_0x0 =
+       &bTPropertyContainer<gEAttackReason>::vftable.GetVersion;
+  this[7].bTPropertyContainer<gEBearing>_data.offset_0x4 = DAT_207c093c;
+  ppbVar2 = &this[7].bTPropertyContainer<gEBearing>_data.offset_0x8;
+  bCObjectBase::bCObjectBase((bCObjectBase *)ppbVar2);
+  *ppbVar2 = (bCObjectBase *)&bTPropertyContainer<gEAttackReason>::vftable;
+  this[8].vftablePtr = DAT_207c093c;
+  bCObjectBase::bCObjectBase((bCObjectBase *)&this[8].bTPropertyContainer<gEBearing>_data);
+                    /* inlined constructor:
+                       bTPropertyContainer<gELastFightAgainstPlayer>::bTPropertyContainer<gELastFightAgainstPlayer>
+                        */
+  this[8].bTPropertyContainer<gEBearing>_data.offset_0x0 =
+       &bTPropertyContainer<gELastFightAgainstPlayer>::vftable.GetVersion;
+  this[8].bTPropertyContainer<gEBearing>_data.offset_0x4 = DAT_207c0940;
+  eCEntityProxy::eCEntityProxy
+            ((eCEntityProxy *)&this[9].bTPropertyContainer<gEBearing>_data.offset_0x8);
+  eCEntityProxy::eCEntityProxy
+            ((eCEntityProxy *)&this[0xb].bTPropertyContainer<gEBearing>_data.offset_0x4);
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)&this[0xd].bTPropertyContainer<gEBearing>_data);
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)(this + 0xf));
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)(this + 0x11));
+  bCObjectBase::bCObjectBase
+            ((bCObjectBase *)&this[0x12].bTPropertyContainer<gEBearing>_data.offset_0x8);
+                    /* inlined constructor:
+                       bTPropertyContainer<gEGuardStatus>::bTPropertyContainer<gEGuardStatus> */
+  this[0x12].bTPropertyContainer<gEBearing>_data.offset_0x8 =
+       (bCObjectBase *)&bTPropertyContainer<gEGuardStatus>::vftable;
+  this[0x13].vftablePtr = DAT_207bb2f4;
+  bCObjectBase::bCObjectBase
+            ((bCObjectBase *)&this[0x13].bTPropertyContainer<gEBearing>_data.offset_0x4);
+  this[0x13].bTPropertyContainer<gEBearing>_data.offset_0x4 = &vftable;
+  this[0x13].bTPropertyContainer<gEBearing>_data.offset_0x8 = DAT_207c0944;
+  this[0x14].vftablePtr = (bTPropertyContainer<gEBearing>_vftable *)0x0;
+  this[0x14].bTPropertyContainer<gEBearing>_data.offset_0x0 = (undefined **)0x0;
+  this[0x14].bTPropertyContainer<gEBearing>_data.offset_0x4 = 0;
+  this[0x14].bTPropertyContainer<gEBearing>_data.offset_0x8 = (bCObjectBase *)0x0;
+  this[0x15].vftablePtr = (bTPropertyContainer<gEBearing>_vftable *)0x0;
+  this[0x15].bTPropertyContainer<gEBearing>_data.offset_0x0 = (undefined **)0x0;
+  eCEntityProxy::eCEntityProxy
+            ((eCEntityProxy *)&this[0x15].bTPropertyContainer<gEBearing>_data.offset_0x8);
+  bCString::bCString((bCString *)&this[0x17].bTPropertyContainer<gEBearing>_data.offset_0x4);
+  bCString::bCString((bCString *)(this + 0x1a));
+  eCEntityProxy::eCEntityProxy
+            ((eCEntityProxy *)&this[0x1a].bTPropertyContainer<gEBearing>_data.offset_0x4);
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)&this[0x1c].bTPropertyContainer<gEBearing>_data);
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)(this + 0x1e));
+  this[0x1a].bTPropertyContainer<gEBearing>_data.offset_0x0 = (undefined **)0x0;
+  this[0x15].bTPropertyContainer<gEBearing>_data.offset_0x4 = 0;
+  this[0x17].bTPropertyContainer<gEBearing>_data.offset_0x8 = (bCObjectBase *)0x0;
+  this[0x18].bTPropertyContainer<gEBearing>_data.offset_0x8 = (bCObjectBase *)0x0;
+  this[0x19].vftablePtr = (bTPropertyContainer<gEBearing>_vftable *)0x0;
+  this[0x18].vftablePtr = (bTPropertyContainer<gEBearing>_vftable *)0x0;
+  this[0x18].bTPropertyContainer<gEBearing>_data.offset_0x0 = (undefined **)0x0;
+  this[0x18].bTPropertyContainer<gEBearing>_data.offset_0x4 = 0;
+  return this;
+}
+
+

@@ -1,0 +1,12 @@
+/* ENTRY 30034cfc | eCRigidBodyBase_PS::GetVersion | STATUS decompiled | 108 ms */
+
+/* public: virtual unsigned short __thiscall eCRigidBodyBase_PS::GetVersion(void)const  */
+
+ushort __thiscall eCRigidBodyBase_PS::GetVersion(eCRigidBodyBase_PS *this)
+
+{
+                    /* 0x34cfc  9464  ?GetVersion@eCRigidBodyBase_PS@@UBEGXZ */
+  return 2;
+}
+
+

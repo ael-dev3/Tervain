@@ -1,0 +1,16 @@
+/* ENTRY 300012d0 | eCVisualAnimation_PS::HasActor | STATUS decompiled | 6 ms */
+
+/* public: bool __thiscall eCVisualAnimation_PS::HasActor(void)const  */
+
+bool __thiscall eCVisualAnimation_PS::HasActor(eCVisualAnimation_PS *this)
+
+{
+  eCWrapper_emfx2Actor *peVar1;
+  
+                    /* 0x12d0  9710  ?HasActor@eCVisualAnimation_PS@@QBE_NXZ */
+  peVar1 = eCVisualAnimationFactory::GetAssembledActor
+                     ((eCVisualAnimationFactory *)&this[7].eCEntityPropertySet_data.field_0x4);
+  return peVar1 != (eCWrapper_emfx2Actor *)0x0;
+}
+
+

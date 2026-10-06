@@ -1,0 +1,2 @@
+; 30004895 eCIlluminated_PS::GetReciveShadows
+30004895 | e9d67a0900 | JMP 0x3009c370

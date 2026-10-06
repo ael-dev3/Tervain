@@ -1,0 +1,6 @@
+; 10002e78 ?GetVolume@bCOrientedBox@@QBEMXZ
+10002e78 | e933010600 | JMP 0x10062fb0
+; 10002e7d LAB_10002e7d
+10002e7d | e9ee630400 | JMP 0x10049270
+; 10002e82 bCQuaternion::SetQuaternion
+; 10002e82 Ordinal_4298

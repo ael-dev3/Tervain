@@ -1,0 +1,2 @@
+; 20017233 ?CanWalkOnFloor@gCCharacterMovement_PS@@QBE_NABVbCVector@@@Z
+20017233 | e9e8b02000 | JMP 0x20222320

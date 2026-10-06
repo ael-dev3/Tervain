@@ -1,0 +1,2 @@
+; 3004174f eCEffector::SetEntity2
+3004174f | e9dcfb0100 | JMP 0x30061330

@@ -1,0 +1,12 @@
+/* ENTRY 100041ce | bCObjectBase::AddReference | STATUS decompiled | 2 ms */
+
+/* public: virtual unsigned long __thiscall bCObjectBase::AddReference(void) */
+
+ulong __thiscall bCObjectBase::AddReference(bCObjectBase *this)
+
+{
+                    /* 0x41ce  1558  ?AddReference@bCObjectBase@@UAEKXZ */
+  return 1;
+}
+
+

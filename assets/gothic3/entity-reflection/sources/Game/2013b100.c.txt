@@ -1,0 +1,15 @@
+/* ENTRY 2013b100 | FUN_2013b100 | STATUS decompiled | 3 ms */
+
+undefined4 __fastcall FUN_2013b100(eCEntityPropertySet *param_1)
+
+{
+  char cVar1;
+  
+  cVar1 = (**(code **)((int)(param_1->bCObjectRefBase).bCObjectBase + 4))();
+  if (cVar1 != '\x01') {
+    eCEntityPropertySet::Create(param_1);
+  }
+  return 1;
+}
+
+

@@ -1,0 +1,2 @@
+; 3002556d eCEffector::Destroy
+3002556d | e90efb3500 | JMP 0x30385080

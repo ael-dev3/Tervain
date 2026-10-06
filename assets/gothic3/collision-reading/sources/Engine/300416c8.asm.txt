@@ -1,0 +1,4 @@
+; 300416c8 ?OnCacheOut@eCCollisionShape_PS@@MAEXXZ
+300416c8 | e9535a2f00 | JMP 0x30337120
+; 300416cd eCEntity::EnableRendering
+; 300416cd Ordinal_5810

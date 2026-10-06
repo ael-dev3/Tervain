@@ -1,0 +1,2 @@
+; 30022def ?OnProprietaryShapesChanged@eCCollisionShape_PS@@IAEXXZ
+30022def | e90c373100 | JMP 0x30336500

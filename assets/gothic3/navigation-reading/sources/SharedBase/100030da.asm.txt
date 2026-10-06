@@ -1,0 +1,4 @@
+; 100030da ?SetPropertyObject@bCObjectRefBase@@IAEXPBVbCPropertyObjectBase@@@Z
+100030da | e941740400 | JMP 0x1004a520
+; 100030df bCStretch::bCStretch
+; 100030df Ordinal_270

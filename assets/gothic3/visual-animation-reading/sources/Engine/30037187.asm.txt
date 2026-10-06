@@ -1,0 +1,2 @@
+; 30037187 bTPOPureSmartPtr<eCSpringAndDamperEffector>::vfunction11
+30037187 | e944540700 | JMP 0x300ac5d0

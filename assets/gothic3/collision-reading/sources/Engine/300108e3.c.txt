@@ -1,0 +1,12 @@
+/* ENTRY 300108e3 | eCCollisionShape::AccessTriggersOnIntersect | STATUS decompiled | 4 ms */
+
+/* public: bool & __thiscall eCCollisionShape::AccessTriggersOnIntersect(void) */
+
+bool * __thiscall eCCollisionShape::AccessTriggersOnIntersect(eCCollisionShape *this)
+
+{
+                    /* 0x108e3  3248  ?AccessTriggersOnIntersect@eCCollisionShape@@QAEAA_NXZ */
+  return (bool *)&(this->eCCollisionShape_data).offset_0x2f;
+}
+
+

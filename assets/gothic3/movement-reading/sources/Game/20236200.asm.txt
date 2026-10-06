@@ -1,0 +1,4 @@
+; 20236200 bTPropertyObject<gCCharacterMovement_PS,gCMovementBase_PS>::vfunction11
+20236200 | 6a00 | PUSH 0x0
+20236202 | e8d916dfff | CALL 0x200278e0
+20236207 | c3 | RET

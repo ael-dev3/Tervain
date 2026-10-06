@@ -1,0 +1,2 @@
+; 200152f8 gCStat::ApplyPerm
+200152f8 | e9235c3800 | JMP 0x2039af20

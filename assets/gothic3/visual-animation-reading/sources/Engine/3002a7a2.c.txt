@@ -1,0 +1,80 @@
+/* ENTRY 3002a7a2 | eCVisualAnimation_PS::eCVisualAnimation_PS | STATUS decompiled | 48 ms */
+
+/* public: __thiscall eCVisualAnimation_PS::eCVisualAnimation_PS(void) */
+
+eCVisualAnimation_PS * __thiscall
+eCVisualAnimation_PS::eCVisualAnimation_PS(eCVisualAnimation_PS *this)
+
+{
+  undefined4 *puVar1;
+  undefined1 *puVar2;
+  eCVisualAnimation_PS_vftable *peVar3;
+  
+                    /* 0x2a7a2  907  ??0eCVisualAnimation_PS@@QAE@XZ */
+  eCEntityPropertySet::eCEntityPropertySet((eCEntityPropertySet *)this);
+  this->vftablePtr = &vftable;
+  bCString::bCString((bCString *)(this + 1));
+  bCString::bCString((bCString *)&this[1].eCEntityPropertySet_data);
+  puVar1 = &this[4].eCEntityPropertySet_data.offset_0x8;
+  bCObjectBase::bCObjectBase((bCObjectBase *)puVar1);
+  *puVar1 = &bTPropertyContainer<eEShapeGroup>::vftable;
+  *(undefined4 *)&this[4].eCEntityPropertySet_data.offset_0xc = DAT_30ada2b8;
+  bCObjectBase::bCObjectBase((bCObjectBase *)(this + 5));
+  this[5].vftablePtr =
+       (eCVisualAnimation_PS_vftable *)&bTPropertyContainer<eEShapeMaterial>::vftable;
+  *(undefined4 *)&this[5].eCEntityPropertySet_data = DAT_30ada2bc;
+  puVar2 = &this[5].eCEntityPropertySet_data.field_0x4;
+  bCObjectBase::bCObjectBase((bCObjectBase *)puVar2);
+  *(bTPropertyContainer<eECollisionGroup>_vftable **)puVar2 =
+       &bTPropertyContainer<eECollisionGroup>::vftable;
+  puVar2 = &this[6].eCEntityPropertySet_data.field_0x4;
+  this[5].eCEntityPropertySet_data.offset_0x8 = DAT_30ada2c0;
+  bCPropertyObjectBase::bCPropertyObjectBase((bCPropertyObjectBase *)puVar2);
+  *(undefined4 *)&this[6].eCEntityPropertySet_data.offset_0xc = 0;
+  *(bTPropertyObject<eCSpringAndDamperEffector,eCEffector>_vftable **)puVar2 =
+       &bTPropertyObject<eCSpringAndDamperEffector,eCEffector>::vftable;
+  peVar3 = (eCVisualAnimation_PS_vftable *)
+           bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector>::
+           ~bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector>();
+  puVar1 = &this[6].eCEntityPropertySet_data.offset_0x8;
+  *puVar1 = *puVar1 | 4;
+  this[7].vftablePtr = peVar3;
+  *(undefined4 *)&this[6].eCEntityPropertySet_data.offset_0xc = 0;
+  thunk_FUN_300ae170(0);
+  eCVisualAnimationFactory::eCVisualAnimationFactory
+            ((eCVisualAnimationFactory *)&this[7].eCEntityPropertySet_data.field_0x4);
+  *(undefined4 *)&this[9].eCEntityPropertySet_data.offset_0xc = 0;
+  this[10].vftablePtr = (eCVisualAnimation_PS_vftable *)0x0;
+  *(undefined4 *)&this[10].eCEntityPropertySet_data = 0;
+  *(undefined4 *)&this[10].eCEntityPropertySet_data.field_0x4 = 0;
+  this[10].eCEntityPropertySet_data.offset_0x8 = 0;
+  *(undefined4 *)&this[10].eCEntityPropertySet_data.offset_0xc = 0;
+  this[0xb].vftablePtr = (eCVisualAnimation_PS_vftable *)0x0;
+  *(undefined4 *)&this[0xb].eCEntityPropertySet_data = 0;
+  *(undefined4 *)&this[0xb].eCEntityPropertySet_data.field_0x4 = 0;
+  this[0xb].eCEntityPropertySet_data.offset_0x8 = 0;
+  *(undefined4 *)&this[0xb].eCEntityPropertySet_data.offset_0xc = 0;
+  this[0xc].vftablePtr = (eCVisualAnimation_PS_vftable *)0x0;
+  bCBox::bCBox((bCBox *)&this[0xc].eCEntityPropertySet_data);
+  *(undefined4 *)&this[0xd].eCEntityPropertySet_data.field_0x4 = 0;
+  this[0xd].eCEntityPropertySet_data.offset_0x8 = 0;
+  *(undefined4 *)&this[0xd].eCEntityPropertySet_data.offset_0xc = 0;
+  *(undefined4 *)&this[0xe].eCEntityPropertySet_data.field_0x4 = 0;
+  this[0xe].eCEntityPropertySet_data.offset_0x8 = 0;
+  *(undefined4 *)&this[0xe].eCEntityPropertySet_data.offset_0xc = 0;
+  this[0xf].eCEntityPropertySet_data.offset_0x8 = 0;
+  *(undefined4 *)&this[0xf].eCEntityPropertySet_data.offset_0xc = 0;
+  this[0x10].vftablePtr = (eCVisualAnimation_PS_vftable *)0x0;
+  bCString::bCString((bCString *)&this[0x10].eCEntityPropertySet_data);
+  bCString::bCString((bCString *)&this[0x10].eCEntityPropertySet_data.field_0x4);
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)&this[0x11].eCEntityPropertySet_data);
+  bCString::bCString((bCString *)&this[0x12].eCEntityPropertySet_data.offset_0x8);
+  bCString::bCString((bCString *)&this[0x13].eCEntityPropertySet_data.field_0x4);
+  *(undefined4 *)&this[0x13].eCEntityPropertySet_data.offset_0xc = 0;
+  this[0x14].vftablePtr = (eCVisualAnimation_PS_vftable *)0x0;
+  *(undefined4 *)&this[0x14].eCEntityPropertySet_data = 0;
+  Invalidate(this);
+  return this;
+}
+
+

@@ -1,0 +1,46 @@
+/* ENTRY 304b48d0 | FUN_304b48d0 | STATUS decompiled | 35 ms */
+
+void __thiscall FUN_304b48d0(eCNode *param_1,uint param_2)
+
+{
+  undefined4 *puVar1;
+  eCNode_vftable *peVar2;
+  NotifyPropertyValueChangedExitEx *pNVar3;
+  bool bVar4;
+  undefined3 extraout_var;
+  int iVar5;
+  eCEntity *this_00;
+  bool unaff_DI;
+  int iVar6;
+  eCCollisionShape_PS *this;
+  
+  peVar2 = param_1->vftablePtr;
+  puVar1 = &param_1[1].eCNode_data.offset_0x8;
+  *puVar1 = *puVar1 ^ ((param_2 & 0xff) << 0xc ^ param_1[1].eCNode_data.offset_0x8) & 0x1000;
+  bVar4 = (*peVar2[1].NotifyPropertyValueChangedExitEx)(param_1,(char *)0xe,unaff_DI);
+  this = (eCCollisionShape_PS *)CONCAT31(extraout_var,bVar4);
+  if (this != (eCCollisionShape_PS *)0x0) {
+    (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"DisableCollision",false);
+    pNVar3 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+    (this->eCCollisionShape_PS_data).field_0x10 = param_2._0_1_ == false;
+    (*pNVar3)(this,"DisableCollision",false);
+    eCCollisionShape_PS::ClearTouchingShapes(this);
+  }
+  if (param_1[1].vftablePtr != (eCNode_vftable *)0x0) {
+    eCPhysicObject::SetCollisionEnabled((eCPhysicObject *)param_1[1].vftablePtr,param_2._0_1_);
+  }
+  iVar6 = 0;
+  iVar5 = eCNode::GetChildrenCount(param_1);
+  if (0 < iVar5) {
+    do {
+      bVar4 = param_2._0_1_;
+      this_00 = (eCEntity *)(*param_1->vftablePtr->GetChildAt)(param_1,iVar6);
+      eCEntity::EnableCollision(this_00,bVar4);
+      iVar6 = iVar6 + 1;
+      iVar5 = eCNode::GetChildrenCount(param_1);
+    } while (iVar6 < iVar5);
+  }
+  return;
+}
+
+

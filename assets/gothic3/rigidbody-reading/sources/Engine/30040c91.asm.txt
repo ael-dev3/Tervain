@@ -1,0 +1,4 @@
+; 30040c91 bTPropertyType<eCRigidBody_PS,bCVector>::vfunction2
+30040c91 | e99a092f00 | JMP 0x30331630
+; 30040c9b eCArchiveFile::IsInLegacyMode
+; 30040c9b Ordinal_10404

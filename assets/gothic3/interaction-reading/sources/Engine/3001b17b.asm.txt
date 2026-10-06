@@ -1,0 +1,2 @@
+; 3001b17b eCTemplateEntityProxy::~eCTemplateEntityProxy
+3001b17b | e910c24a00 | JMP 0x304c7390

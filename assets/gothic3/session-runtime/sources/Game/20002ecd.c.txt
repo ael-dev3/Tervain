@@ -1,0 +1,21 @@
+/* ENTRY 20002ecd | gCGameApp::IsGameRunning | STATUS decompiled | 14 ms */
+
+/* public: virtual bool __thiscall gCGameApp::IsGameRunning(void)const  */
+
+bool __thiscall gCGameApp::IsGameRunning(gCGameApp *this)
+
+{
+  bool bVar1;
+  int iVar2;
+  gCSession *this_00;
+  
+                    /* 0x2ecd  5155  ?IsGameRunning@gCGameApp@@UBE_NXZ */
+  iVar2 = thunk_FUN_20066480();
+  if (iVar2 == 0) {
+    return false;
+  }
+  this_00 = (gCSession *)thunk_FUN_20066480();
+  bVar1 = gCSession::IsGameRunning(this_00);
+  return bVar1;
+}
+

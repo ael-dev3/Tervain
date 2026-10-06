@@ -1,0 +1,4 @@
+; 10005cc2 ??0bCBox@@QAE@ABVbCVector@@0@Z
+10005cc2 | e929030300 | JMP 0x10035ff0
+; 10005cc7 bTVolume<bCFrustum>::GetCenter
+; 10005cc7 Ordinal_2134

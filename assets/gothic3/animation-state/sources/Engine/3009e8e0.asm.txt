@@ -1,0 +1,10 @@
+; 3009e8e0 FUN_3009e8e0
+3009e8e0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+3009e8e4 | 3b81ec000000 | CMP EAX,dword ptr [ECX + 0xec]
+3009e8ea | 7311 | JNC 0x3009e8fd
+3009e8ec | 8b89e8000000 | MOV ECX,dword ptr [ECX + 0xe8]
+3009e8f2 | 8b542408 | MOV EDX,dword ptr [ESP + 0x8]
+3009e8f6 | 8d0440 | LEA EAX,[EAX + EAX*0x2]
+3009e8f9 | 89548108 | MOV dword ptr [ECX + EAX*0x4 + 0x8],EDX
+; 3009e8fd LAB_3009e8fd
+3009e8fd | c20800 | RET 0x8

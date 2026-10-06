@@ -1,0 +1,22 @@
+; 30342d50 bTPropertyType<eCCollisionShapeBase_PS,bCObsoleteClass>::deleting_destructor
+30342d50 | 56 | PUSH ESI
+30342d51 | 8bf1 | MOV ESI,ECX
+30342d53 | c7062c188630 | MOV dword ptr [ESI],0x3086182c
+30342d59 | ff156ccaaf30 | CALL dword ptr [0x30afca6c]
+30342d5f | 8d4620 | LEA EAX,[ESI + 0x20]
+30342d62 | 50 | PUSH EAX
+30342d63 | e82865cdff | CALL 0x30019290
+30342d68 | 8b4e18 | MOV ECX,dword ptr [ESI + 0x18]
+30342d6b | 56 | PUSH ESI
+30342d6c | ff1514cbaf30 | CALL dword ptr [0x30afcb14]
+30342d72 | 8bce | MOV ECX,ESI
+30342d74 | c7067cd28130 | MOV dword ptr [ESI],0x3081d27c
+30342d7a | ff1560caaf30 | CALL dword ptr [0x30afca60]
+30342d80 | f644240801 | TEST byte ptr [ESP + 0x8],0x1
+30342d85 | 7409 | JZ 0x30342d90
+30342d87 | 56 | PUSH ESI
+30342d88 | e8dbe63200 | CALL 0x30671468
+; 30342d90 LAB_30342d90
+30342d90 | 8bc6 | MOV EAX,ESI
+30342d92 | 5e | POP ESI
+30342d93 | c20400 | RET 0x4

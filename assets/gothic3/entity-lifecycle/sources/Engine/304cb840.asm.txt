@@ -1,0 +1,2 @@
+; 304cb840 eCSceneAdmin::GetEntity
+304cb840 | e9114bb5ff | JMP 0x30020356

@@ -1,0 +1,24 @@
+/* ENTRY 3001fc26 | eCArchiveFile::Clear | STATUS decompiled | 6 ms */
+
+/* public: void __thiscall eCArchiveFile::Clear(void) */
+
+void __thiscall eCArchiveFile::Clear(eCArchiveFile *this)
+
+{
+  bCMemoryAdmin *this_00;
+  void *pvVar1;
+  
+                    /* 0x1fc26  3772  ?Clear@eCArchiveFile@@QAEXXZ */
+  Close(this);
+  bCString::Clear((bCString *)&this->eCArchiveFile_data);
+  if ((this->eCArchiveFile_data).offset_0x10 != (void *)0x0) {
+    thunk_FUN_3007cd40();
+    pvVar1 = (this->eCArchiveFile_data).offset_0x10;
+    this_00 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::DeleteObject(this_00,pvVar1);
+    (this->eCArchiveFile_data).offset_0x10 = (void *)0x0;
+  }
+  return;
+}
+
+

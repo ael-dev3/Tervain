@@ -1,0 +1,2 @@
+; 200100eb bTPropertyType<gCParty_PS,eCEntityProxy>::vfunction26
+200100eb | e9209e3000 | JMP 0x20319f10

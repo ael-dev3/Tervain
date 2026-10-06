@@ -1,0 +1,13 @@
+; 2031f490 bTPropertyContainer<gEWeaponConfig>::scalar_deleting_destructor
+2031f490 | 56 | PUSH ESI
+2031f491 | 8bf1 | MOV ESI,ECX
+2031f493 | c706c47b6920 | MOV dword ptr [ESI],0x20697bc4
+2031f499 | ff1500887d20 | CALL dword ptr [0x207d8800]
+2031f49f | f644240801 | TEST byte ptr [ESP + 0x8],0x1
+2031f4a4 | 7409 | JZ 0x2031f4af
+2031f4a6 | 56 | PUSH ESI
+2031f4a7 | e889441400 | CALL 0x20463935
+2031f4ac | 83c404 | ADD ESP,0x4
+2031f4af | 8bc6 | MOV EAX,ESI
+2031f4b1 | 5e | POP ESI
+2031f4b2 | c20400 | RET 0x4

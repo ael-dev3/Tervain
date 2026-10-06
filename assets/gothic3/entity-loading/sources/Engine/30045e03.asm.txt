@@ -1,0 +1,4 @@
+; 30045e03 ?OnPostRead@eCDynamicEntity@@MAEXXZ
+30045e03 | e908814700 | JMP 0x304bdf10
+; 30045e08 eCResourceSound_PS::GetMinDistance
+; 30045e08 Ordinal_7851

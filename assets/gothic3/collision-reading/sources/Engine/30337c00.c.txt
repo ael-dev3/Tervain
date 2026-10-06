@@ -1,0 +1,25 @@
+/* ENTRY 30337c00 | FUN_30337c00 | STATUS decompiled | 16 ms */
+
+void __fastcall FUN_30337c00(eCEntityPropertySet *param_1)
+
+{
+  eCEntity *this;
+  bCString *pbVar1;
+  eCPhysicsScene *peVar2;
+  eCEntityPropertySet *peStack_4;
+  
+  peStack_4 = param_1;
+  eCEntityPropertySet::OnExitProcessingRange(param_1);
+  this = (eCEntity *)(*param_1->vftablePtr->GetEntity)(param_1);
+  pbVar1 = eCEntity::GetName(this);
+  bCString::bCString((bCString *)&peStack_4,pbVar1);
+  peVar2 = eCPhysicsScene::GetInstance();
+  if (peVar2[0x14] != (eCPhysicsScene)0x0) {
+    *(undefined1 *)&param_1[3].eCEntityPropertySet_data = 0;
+    thunk_FUN_3033d2a0(0,0xffffffff);
+  }
+  bCString::~bCString((bCString *)&peStack_4);
+  return;
+}
+
+

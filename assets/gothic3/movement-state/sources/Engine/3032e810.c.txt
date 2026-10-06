@@ -1,0 +1,36 @@
+/* ENTRY 3032e810 | bTPropertyContainer<eERigidbody_Flag>::bTPropertyContainer<eERigidbody_Flag>_Constructor_or_Destructor | STATUS decompiled | 20 ms */
+
+undefined4 __fastcall
+bTPropertyContainer<eERigidbody_Flag>::
+bTPropertyContainer<eERigidbody_Flag>_Constructor_or_Destructor(eCRigidBodyBase_PS *param_1)
+
+{
+  bCObjectBase local_8;
+  undefined4 local_4;
+  
+  eCRigidBodyBase_PS::PostInitializeProperties((eCRigidBodyBase_PS *)param_1);
+  *(undefined4 *)(param_1 + 0x18) = 0x41200000;
+  *(undefined4 *)(param_1 + 0x50) = 0x3e4ccccd;
+  *(undefined4 *)(param_1 + 0x4c) = 0;
+  *(undefined4 *)(param_1 + 0x54) = 0x3dcccccd;
+  *(undefined4 *)(param_1 + 0x58) = 0;
+  *(undefined4 *)(param_1 + 0x74) = 0;
+  bCObjectBase::bCObjectBase(&local_8);
+  local_8 = (bCObjectBase)&vftable;
+  local_4 = 0;
+  (**(code **)(*(int *)(param_1 + 0x78) + 0x1c))(&local_8);
+  bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xfffffff4);
+  bCVector::Clear((bCVector *)(param_1 + 0x5c));
+  bCVector::Clear((bCVector *)(param_1 + 0x1c));
+  bCVector::Clear((bCVector *)(param_1 + 0x28));
+  bCVector::Clear((bCVector *)(param_1 + 0x34));
+  bCVector::Clear((bCVector *)(param_1 + 0x40));
+  bCVector::Clear((bCVector *)(param_1 + 0x68));
+  bCQuaternion::Clear((bCQuaternion *)(param_1 + 0xa8));
+  bCVector::Clear((bCVector *)(param_1 + 0x9c));
+  bCQuaternion::Clear((bCQuaternion *)(param_1 + 0xc4));
+  bCVector::Clear((bCVector *)(param_1 + 0xb8));
+  return 1;
+}
+
+

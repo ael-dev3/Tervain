@@ -1,0 +1,11 @@
+/* ENTRY 201c4100 | bTPropertyType<gCInventorySlot,eCTemplateEntityProxy>::vfunction5 | STATUS decompiled | 2 ms */
+
+bTPropertyType<gCInventorySlot,eCTemplateEntityProxy>_vftable * __thiscall
+bTPropertyType<gCInventorySlot,eCTemplateEntityProxy>::vfunction5
+          (bTPropertyType<gCInventorySlot,eCTemplateEntityProxy> *this)
+
+{
+  return this[6].vftablePtr;
+}
+
+

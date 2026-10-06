@@ -1,0 +1,15 @@
+/* ENTRY 2000a74a | gCNavigation_PS::SetCharacterMovement | STATUS decompiled | 6 ms */
+
+/* public: void __thiscall gCNavigation_PS::SetCharacterMovement(class gCCharacterMovement_PS *) */
+
+void __thiscall
+gCNavigation_PS::SetCharacterMovement(gCNavigation_PS *this,gCCharacterMovement_PS *param_1)
+
+{
+                    /* 0xa74a  6297
+                       ?SetCharacterMovement@gCNavigation_PS@@QAEXPAVgCCharacterMovement_PS@@@Z */
+  (this->gCNavigation_PS_data).offset_0x1dc = param_1;
+  return;
+}
+
+

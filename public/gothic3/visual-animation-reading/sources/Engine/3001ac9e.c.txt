@@ -1,0 +1,19 @@
+/* ENTRY 3001ac9e | eCVisualAnimation_PS::SetDisablePhysicLodding | STATUS decompiled | 9 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::SetDisablePhysicLodding(bool const &) */
+
+void __thiscall
+eCVisualAnimation_PS::SetDisablePhysicLodding(eCVisualAnimation_PS *this,bool *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x1ac9e  13272  ?SetDisablePhysicLodding@eCVisualAnimation_PS@@QAEXAB_N@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"DisablePhysicLodding",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  this[6].eCEntityPropertySet_data.field_0x1 = *param_1;
+  (*pNVar1)(this,"DisablePhysicLodding",false);
+  return;
+}
+
+

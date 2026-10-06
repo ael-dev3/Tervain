@@ -1,0 +1,34 @@
+/* ENTRY 20513b40 | bTPropertyType<gCNPC_PS,bTPropertyContainer<gEAttitude>_>::~bTPropertyType<gCNPC_PS,bTPropertyContainer<gEAttitude>_> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCNPC_PS,bTPropertyContainer<gEAttitude>_>::
+~bTPropertyType<gCNPC_PS,bTPropertyContainer<gEAttitude>_>
+          (bTPropertyType<gCNPC_PS,bTPropertyContainer<gEAttitude>_> *this)
+
+{
+  bTPropertyType<gCNPC_PS,bTPropertyContainer<gEAttitude>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"AttitudeToPlayer2");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_enuAttitudeToPlayer2,
+             (bCString *)&local_4,2);
+  _ms_PropertyMember_m_enuAttitudeToPlayer2 = &vftable;
+  DAT_207c0db4 = bTPropertyObjectType<gCNPC_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCNPC_PS,eCEntityPropertySet>();
+  _DAT_207c0db8 = 100;
+  _DAT_207c0dbc = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_enuAttitudeToPlayer2);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207c0db4,
+             (bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_enuAttitudeToPlayer2);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gEAttitude>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gEAttitude>_>);
+  return;
+}
+
+

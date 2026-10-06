@@ -1,0 +1,2 @@
+; 30042fd2 eCIlluminated_PS::GetShaderMaterialIllumination
+30042fd2 | e9f9fa1d00 | JMP 0x30222ad0

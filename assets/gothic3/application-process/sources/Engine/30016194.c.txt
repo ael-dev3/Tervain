@@ -1,0 +1,13 @@
+/* ENTRY 30016194 | eCApplication::SetWarmUp | STATUS decompiled | 11 ms */
+
+/* public: void __thiscall eCApplication::SetWarmUp(bool) */
+
+void __thiscall eCApplication::SetWarmUp(eCApplication *this,bool param_1)
+
+{
+                    /* 0x16194  14600  ?SetWarmUp@eCApplication@@QAEX_N@Z */
+  this[1].eCApplication_data.field_0x529 = param_1;
+  return;
+}
+
+

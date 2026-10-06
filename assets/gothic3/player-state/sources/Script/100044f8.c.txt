@@ -1,0 +1,12 @@
+/* ENTRY 100044f8 | PSNavigation::IsValid | STATUS decompiled | 2 ms */
+
+/* public: bool __thiscall PSNavigation::IsValid(void)const  */
+
+bool __thiscall PSNavigation::IsValid(PSNavigation *this)
+
+{
+                    /* 0x44f8  1842  ?IsValid@PSNavigation@@QBE_NXZ */
+  return *(int *)this != 0;
+}
+
+

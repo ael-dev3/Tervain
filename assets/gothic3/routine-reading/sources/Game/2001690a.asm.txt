@@ -1,0 +1,4 @@
+; 2001690a bTPropertyType<gCScriptRoutine_PS,float>::vfunction6
+2001690a | e9517a3400 | JMP 0x2035e360
+; 2001690f gCCollisionCircle_PSObj::SetEnabled
+; 2001690f Ordinal_6445

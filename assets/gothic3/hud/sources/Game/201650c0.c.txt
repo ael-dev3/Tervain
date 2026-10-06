@@ -1,0 +1,23 @@
+/* ENTRY 201650c0 | FUN_201650c0 | STATUS decompiled | 4 ms */
+
+void FUN_201650c0(int *param_1,int param_2)
+
+{
+  undefined4 uVar1;
+  
+  if (param_2 == 0) {
+    thunk_FUN_20193c40(param_1);
+  }
+  else if (param_2 == 3) {
+    if (param_1 == (int *)0x0) {
+      thunk_FUN_20164f70(0,0);
+      return;
+    }
+    uVar1 = (**(code **)(*param_1 + 0xec))(0x51);
+    thunk_FUN_20164f70(uVar1,0);
+    return;
+  }
+  return;
+}
+
+

@@ -1,0 +1,12 @@
+/* ENTRY 20018089 | gCInventoryStack::IsEmpty | STATUS decompiled | 4 ms */
+
+/* public: bool __thiscall gCInventoryStack::IsEmpty(void)const  */
+
+bool __thiscall gCInventoryStack::IsEmpty(gCInventoryStack *this)
+
+{
+                    /* 0x18089  5133  ?IsEmpty@gCInventoryStack@@QBE_NXZ */
+  return (int)(this->gCInventoryStack_data).offset_0x0 < 1;
+}
+
+

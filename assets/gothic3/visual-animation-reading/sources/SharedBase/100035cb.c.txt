@@ -1,0 +1,12 @@
+/* ENTRY 100035cb | bCVector::operator_class_NxVec3_const& | STATUS decompiled | 1 ms */
+
+/* public: __thiscall bCVector::operator class NxVec3 const &(void)const  */
+
+NxVec3 * __thiscall bCVector::operator_class_NxVec3_const_(bCVector *this)
+
+{
+                    /* 0x35cb  899  ??BbCVector@@QBEABVNxVec3@@XZ */
+  return (NxVec3 *)this;
+}
+
+

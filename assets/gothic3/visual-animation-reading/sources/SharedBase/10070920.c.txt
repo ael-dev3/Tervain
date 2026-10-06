@@ -1,0 +1,55 @@
+/* ENTRY 10070920 | FUN_10070920 | STATUS decompiled | 13 ms */
+
+void __thiscall FUN_10070920(bCUnitedRay *param_1,undefined4 *param_2)
+
+{
+  undefined4 *puVar1;
+  undefined4 *puVar2;
+  int iVar3;
+  undefined4 local_80;
+  undefined4 local_7c;
+  undefined4 local_78;
+  undefined4 local_74;
+  undefined4 local_70;
+  undefined4 local_6c;
+  undefined4 local_68;
+  undefined4 local_64;
+  undefined4 local_60;
+  undefined4 local_5c;
+  undefined4 local_58;
+  undefined4 local_54;
+  undefined4 local_50;
+  undefined4 local_4c;
+  undefined4 local_48;
+  undefined4 local_44;
+  
+  local_7c = param_2[1];
+  local_74 = param_2[3];
+  local_80 = *param_2;
+  local_78 = param_2[2];
+  local_70 = param_2[4];
+  local_6c = param_2[5];
+  local_68 = param_2[6];
+  local_64 = param_2[7];
+  local_60 = param_2[8];
+  local_5c = param_2[9];
+  local_58 = param_2[10];
+  local_54 = param_2[0xb];
+  local_50 = param_2[0xc];
+  local_4c = param_2[0xd];
+  local_48 = param_2[0xe];
+  local_44 = param_2[0xf];
+  iVar3 = 0x10;
+  puVar1 = (undefined4 *)bCMatrix::GetInvertedExcentric((bCMatrix *)&local_80);
+  puVar2 = (undefined4 *)&stack0xffffff7c;
+  do {
+    iVar3 = iVar3 + -1;
+    *puVar2 = *puVar1;
+    puVar2 = puVar2 + 1;
+    puVar1 = puVar1 + 1;
+  } while (iVar3 != 0);
+  bCUnitedRay::Transform(param_1,(bCMatrix *)&stack0xffffff7c);
+  return;
+}
+
+

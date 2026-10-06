@@ -1,0 +1,28 @@
+{
+  "schema": "gothic3-native-properties-output-receipt-v1",
+  "runtime": {
+    "path": "src/gothic3/native-properties.ts",
+    "sha256": "73fb367d9b1317fb22e4a700c15beb67b39f2725b248eff1a111a03d8ee824d5"
+  },
+  "producer": {
+    "path": "tools/gothic3/research_native_properties.py",
+    "sha256": "d15943b5007bd5b68ee4d2762e72055e0139ea2fb994ba054a8e9379a3e0ebdb"
+  },
+  "helper": {
+    "path": "tools/gothic3/research_native_combat.py",
+    "sha256": "e03ce4f8045376af81bbad51a16784880e3d1bf2e6d1956633e30edc03a6d3a7"
+  },
+  "publicRules": {
+    "path": "public/gothic3/properties/runtime-rules.json",
+    "bytes": 1469,
+    "sha256": "ab13c2391bdf6f779be042782b7552144c4c00fa7c95c688f6ec1b5feaa38e4d"
+  },
+  "audit": {
+    "entries": 83,
+    "instructions": 989,
+    "matchedBytes": 3556,
+    "allListedInstructionBytesMatchOriginalPE": true,
+    "nativeCodeExecuted": false
+  },
+  "nativeCodeExecuted": false
+}

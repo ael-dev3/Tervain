@@ -1,0 +1,15 @@
+; 205263a0 bTPropertyObject<gCAttribute,bCObjectRefBase>::~bTPropertyObject<gCAttribute,bCObjectRefBase>
+205263a0 | b9b4cf7c20 | MOV ECX,0x207ccfb4
+205263a5 | ff15b8877d20 | CALL dword ptr [0x207d87b8]
+205263ab | c705bccf7c2000000000 | MOV dword ptr [0x207ccfbc],0x0
+205263b5 | c705b4cf7c20942d6a20 | MOV dword ptr [0x207ccfb4],0x206a2d94
+205263bf | e8df79b0ff | CALL 0x2002dda3
+205263c4 | 6a01 | PUSH 0x1
+205263c6 | b9b4cf7c20 | MOV ECX,0x207ccfb4
+205263cb | a3c0cf7c20 | MOV [0x207ccfc0],EAX
+205263d0 | c705bccf7c2000000000 | MOV dword ptr [0x207ccfbc],0x0
+205263da | e8edc9afff | CALL 0x20022dcc
+205263df | 68402e5620 | PUSH 0x20562e40
+205263e4 | e8e5d3f3ff | CALL 0x204637ce
+205263e9 | 59 | POP ECX
+205263ea | c3 | RET

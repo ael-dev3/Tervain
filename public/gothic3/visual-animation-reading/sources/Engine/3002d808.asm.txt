@@ -1,0 +1,2 @@
+; 3002d808 eCVisualAnimationLoD::GetActor
+3002d808 | e923150900 | JMP 0x300bed30

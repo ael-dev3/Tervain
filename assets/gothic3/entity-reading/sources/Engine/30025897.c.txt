@@ -1,0 +1,36 @@
+/* ENTRY 30025897 | eCEntity::SetName | STATUS decompiled | 21 ms */
+
+/* public: virtual void __thiscall eCEntity::SetName(class bCString const &)
+   eCEntity member function inherited by eCSpatialEntity
+   eCEntity member function inherited by eCDynamicEntity */
+
+void __thiscall eCEntity::SetName(eCEntity *this,bCString *param_1)
+
+{
+  bool bVar1;
+  eCSceneAdmin *peVar2;
+  bCString *pbVar3;
+  bCString *this_00;
+  eCEntity *peVar4;
+  
+                    /* 0x25897  13843  ?SetName@eCEntity@@UAEXABVbCString@@@Z */
+  this_00 = (bCString *)&(this->eCEntity_data).field_0x108;
+  bVar1 = bCString::IsEmpty(this_00);
+  if (!bVar1) {
+    pbVar3 = this_00;
+    peVar4 = this;
+    peVar2 = (eCSceneAdmin *)thunk_FUN_3007bf20();
+    eCSceneAdmin::UnregisterNameInfo(peVar2,pbVar3,(eCEntity *)peVar4);
+  }
+  bCString::operator=(this_00,param_1);
+  bVar1 = bCString::IsEmpty(this_00);
+  if (!bVar1) {
+    peVar4 = this;
+    peVar2 = (eCSceneAdmin *)thunk_FUN_3007bf20();
+    eCSceneAdmin::RegisterNameInfo(peVar2,this_00,(eCEntity *)peVar4);
+  }
+  (*this->vftablePtr->Modified)(this);
+  return;
+}
+
+

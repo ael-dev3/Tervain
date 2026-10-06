@@ -1,0 +1,4 @@
+; 3002840c ?GetPropertySetType@eCVisualAnimation_PS@@MBE?AW4eEPropertySetType@@XZ
+3002840c | e94f540700 | JMP 0x3009d860
+; 30028411 eCGeometrySpatialContext::operator=
+; 30028411 Ordinal_1572

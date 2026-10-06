@@ -1,0 +1,4 @@
+; 10005c36 ??0bCAccessorCreator@@QAE@ABVbCString@@@Z
+10005c36 | e935d50800 | JMP 0x10093170
+; 10005c3b bCFrustum::GetScaled
+; 10005c3b Ordinal_2988

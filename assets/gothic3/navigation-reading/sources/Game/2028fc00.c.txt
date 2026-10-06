@@ -1,0 +1,9 @@
+/* ENTRY 2028fc00 | bTPropertyType<gCNavigation_PS,eCEntityProxy>::vfunction2 | STATUS decompiled | 0 ms */
+
+undefined4 __thiscall bTPropertyType<gCNavigation_PS,eCEntityProxy>::vfunction2(void)
+
+{
+  return 0x1c;
+}
+
+

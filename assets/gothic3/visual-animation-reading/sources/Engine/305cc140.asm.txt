@@ -1,0 +1,32 @@
+; 305cc140 eCVirtualFile::eCVirtualFile
+305cc140 | 56 | PUSH ESI
+305cc141 | 57 | PUSH EDI
+305cc142 | 8bf1 | MOV ESI,ECX
+305cc144 | ff1560d9af30 | CALL dword ptr [0x30afd960]
+305cc14a | 8b7c240c | MOV EDI,dword ptr [ESP + 0xc]
+305cc14e | 85ff | TEST EDI,EDI
+305cc150 | c7067cc98830 | MOV dword ptr [ESI],0x3088c97c
+305cc156 | c7460468c98830 | MOV dword ptr [ESI + 0x4],0x3088c968
+305cc15d | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+305cc164 | 7412 | JZ 0x305cc178
+305cc166 | 8b4704 | MOV EAX,dword ptr [EDI + 0x4]
+305cc169 | 8b4804 | MOV ECX,dword ptr [EAX + 0x4]
+305cc16c | 8b543904 | MOV EDX,dword ptr [ECX + EDI*0x1 + 0x4]
+305cc170 | 8b02 | MOV EAX,dword ptr [EDX]
+305cc172 | 8d4c3904 | LEA ECX,[ECX + EDI*0x1 + 0x4]
+305cc176 | ffd0 | CALL EAX
+305cc178 | 8b4608 | MOV EAX,dword ptr [ESI + 0x8]
+305cc17b | 85c0 | TEST EAX,EAX
+305cc17d | 7418 | JZ 0x305cc197
+305cc17f | 8b4804 | MOV ECX,dword ptr [EAX + 0x4]
+305cc182 | 8b5104 | MOV EDX,dword ptr [ECX + 0x4]
+305cc185 | 8d4c0204 | LEA ECX,[EDX + EAX*0x1 + 0x4]
+305cc189 | 8b01 | MOV EAX,dword ptr [ECX]
+305cc18b | 8b5004 | MOV EDX,dword ptr [EAX + 0x4]
+305cc18e | ffd2 | CALL EDX
+305cc190 | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+305cc197 | 897e08 | MOV dword ptr [ESI + 0x8],EDI
+305cc19a | 5f | POP EDI
+305cc19b | 8bc6 | MOV EAX,ESI
+305cc19d | 5e | POP ESI
+305cc19e | c20400 | RET 0x4

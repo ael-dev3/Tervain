@@ -1,0 +1,2 @@
+; 3001fca3 eCCollisionShape::vfunction15
+3001fca3 | e9582d0a00 | JMP 0x300c2a00

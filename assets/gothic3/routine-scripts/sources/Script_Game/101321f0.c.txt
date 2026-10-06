@@ -1,0 +1,17 @@
+/* ENTRY 101321f0 | FUN_101321f0 | STATUS decompiled | 7 ms */
+
+void FUN_101321f0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Commands\\AI_HackAttack.cpp");
+  bCString::bCString(local_8,"OnAI_HackAttack");
+  thunk_FUN_1001da70(local_8,&LAB_10002f13,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

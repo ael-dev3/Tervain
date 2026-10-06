@@ -1,0 +1,32 @@
+/* ENTRY 20500960 | bTPropertyType<gCCharacterMovement_PS,float>::~bTPropertyType<gCCharacterMovement_PS,float> | STATUS decompiled | 12 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCCharacterMovement_PS,float>::~bTPropertyType<gCCharacterMovement_PS,float>
+          (bTPropertyType<gCCharacterMovement_PS,float> *this)
+
+{
+  bTPropertyType<gCCharacterMovement_PS,float> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"SensorInertia");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCCharacterMovement_PS::ms_PropertyMember_m_fSensorInertia,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_fSensorInertia = &vftable;
+  DAT_207bde30 = bTPropertyObjectType<gCCharacterMovement_PS,gCMovementBase_PS>::
+                 ~bTPropertyObjectType<gCCharacterMovement_PS,gCMovementBase_PS>();
+  _DAT_207bde34 = 0x68;
+  _DAT_207bde38 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCCharacterMovement_PS::ms_PropertyMember_m_fSensorInertia);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bde30,
+             (bCPropertyTypeBase *)&gCCharacterMovement_PS::ms_PropertyMember_m_fSensorInertia);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}
+
+

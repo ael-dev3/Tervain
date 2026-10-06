@@ -1,0 +1,58 @@
+; 2035ae10 bTPropertyObject<gCScriptRoutine_PS,eCEntityPropertySet>::vfunction6
+2035ae10 | 53 | PUSH EBX
+2035ae11 | 56 | PUSH ESI
+2035ae12 | 8b74240c | MOV ESI,dword ptr [ESP + 0xc]
+2035ae16 | 57 | PUSH EDI
+2035ae17 | 56 | PUSH ESI
+2035ae18 | 8bd9 | MOV EBX,ECX
+2035ae1a | ff1504877d20 | CALL dword ptr [0x207d8704]
+2035ae20 | 0fb7f8 | MOVZX EDI,AX
+2035ae23 | 8d442410 | LEA EAX,[ESP + 0x10]
+2035ae27 | 50 | PUSH EAX
+2035ae28 | 8bce | MOV ECX,ESI
+2035ae2a | c744241400000000 | MOV dword ptr [ESP + 0x14],0x0
+2035ae32 | ff1560877d20 | CALL dword ptr [0x207d8760]
+2035ae38 | e8df08cbff | CALL 0x2000b71c
+2035ae3d | 50 | PUSH EAX
+2035ae3e | e8e4ceccff | CALL 0x20027d27
+2035ae43 | 8bc8 | MOV ECX,EAX
+2035ae45 | ff1508877d20 | CALL dword ptr [0x207d8708]
+2035ae4b | 84c0 | TEST AL,AL
+2035ae4d | 743c | JZ 0x2035ae8b
+2035ae4f | 8b4c2410 | MOV ECX,dword ptr [ESP + 0x10]
+2035ae53 | 55 | PUSH EBP
+2035ae54 | 8b2de0887d20 | MOV EBP,dword ptr [0x207d88e0]
+2035ae5a | 51 | PUSH ECX
+2035ae5b | ffd5 | CALL EBP
+2035ae5d | 8bc8 | MOV ECX,EAX
+2035ae5f | ff1564877d20 | CALL dword ptr [0x207d8764]
+2035ae65 | 8b16 | MOV EDX,dword ptr [ESI]
+2035ae67 | 8b5204 | MOV EDX,dword ptr [EDX + 0x4]
+2035ae6a | 8bd8 | MOV EBX,EAX
+2035ae6c | 8b442414 | MOV EAX,dword ptr [ESP + 0x14]
+2035ae70 | 50 | PUSH EAX
+2035ae71 | 53 | PUSH EBX
+2035ae72 | 8bce | MOV ECX,ESI
+2035ae74 | ffd2 | CALL EDX
+2035ae76 | 53 | PUSH EBX
+2035ae77 | ffd5 | CALL EBP
+2035ae79 | 8bc8 | MOV ECX,EAX
+2035ae7b | ff15dc887d20 | CALL dword ptr [0x207d88dc]
+2035ae81 | 5d | POP EBP
+2035ae82 | 668bc7 | MOV AX,DI
+2035ae85 | 5f | POP EDI
+2035ae86 | 5e | POP ESI
+2035ae87 | 5b | POP EBX
+2035ae88 | c20400 | RET 0x4
+; 2035ae8b LAB_2035ae8b
+2035ae8b | 8b03 | MOV EAX,dword ptr [EBX]
+2035ae8d | 8b501c | MOV EDX,dword ptr [EAX + 0x1c]
+2035ae90 | 57 | PUSH EDI
+2035ae91 | 56 | PUSH ESI
+2035ae92 | 8bcb | MOV ECX,EBX
+2035ae94 | ffd2 | CALL EDX
+2035ae96 | 668bc7 | MOV AX,DI
+2035ae99 | 5f | POP EDI
+2035ae9a | 5e | POP ESI
+2035ae9b | 5b | POP EBX
+2035ae9c | c20400 | RET 0x4

@@ -1,0 +1,2 @@
+; 100074c8 bCString::ConcatInPlace
+100074c8 | e9a3dd0000 | JMP 0x10015270

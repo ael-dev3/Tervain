@@ -1,0 +1,2 @@
+; 3003d749 eCEntityPropertySet::GetBoundary
+3003d749 | e922414400 | JMP 0x30481870

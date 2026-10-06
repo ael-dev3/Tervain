@@ -1,0 +1,3 @@
+; 304b2ca0 FUN_304b2ca0
+304b2ca0 | d98134010000 | FLD float ptr [ECX + 0x134]
+304b2ca6 | c3 | RET

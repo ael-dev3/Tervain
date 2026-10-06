@@ -1,0 +1,10 @@
+/* ENTRY 10066060 | FUN_10066060 | STATUS decompiled | 2 ms */
+
+bCPlane * __thiscall FUN_10066060(bCOrientedBox *param_1,bCPlane *param_2,int param_3)
+
+{
+  bCOrientedBox::GetPlane(param_1,param_3,param_2);
+  return param_2;
+}
+
+

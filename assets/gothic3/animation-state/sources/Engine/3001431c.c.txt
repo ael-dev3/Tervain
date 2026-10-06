@@ -1,0 +1,111 @@
+/* ENTRY 3001431c | eCWrapper_emfx2Actor::PlayMotion | STATUS decompiled | 47 ms */
+
+/* public: void __thiscall eCWrapper_emfx2Actor::PlayMotion(enum
+   eCWrapper_emfx2Actor::eEMotionType,class eCWrapper_emfx2Motion &,struct
+   eCWrapper_emfx2Motion::eSMotionDesc *) */
+
+void __thiscall
+eCWrapper_emfx2Actor::PlayMotion
+          (eCWrapper_emfx2Actor *this,eEMotionType param_1,eCWrapper_emfx2Motion *param_2,
+          eSMotionDesc *param_3)
+
+{
+  int iVar1;
+  bool bVar2;
+  undefined4 uVar3;
+  PlayModePingPong *pPVar4;
+  PlayModeBackward *this_00;
+  PlayModeForward *this_01;
+  undefined4 uStack_24;
+  undefined4 uStack_20;
+  undefined4 uStack_1c;
+  undefined4 uStack_18;
+  undefined4 uStack_14;
+  undefined4 uStack_10;
+  uint uStack_c;
+  undefined1 uStack_4;
+  
+                    /* 0x1431c  11688
+                       ?PlayMotion@eCWrapper_emfx2Actor@@QAEXW4eEMotionType@1@AAVeCWrapper_emfx2Motion@@PAUeSMotionDesc@3@@Z
+                        */
+  bVar2 = (*this->vftablePtr->IsValid)(this);
+  if ((!bVar2) || (*(int *)(param_2 + 4) == 0)) {
+    return;
+  }
+  (this->eCWrapper_emfx2Actor_data).offset_0x74 = 1;
+  bVar2 = HasMotionInstance(this,param_1);
+  if (bVar2) {
+    StopMotion(this,param_1,0.0);
+  }
+  if (param_3 == (eSMotionDesc *)0x0) {
+    uVar3 = FUN_30639950(*(undefined4 *)(param_2 + 4),0);
+    (&(this->eCWrapper_emfx2Actor_data).offset_0xc)[param_1] = uVar3;
+    return;
+  }
+  FUN_3064c510();
+  uStack_24 = *(undefined4 *)param_3;
+  uStack_14 = *(undefined4 *)(param_3 + 0xc);
+  uStack_1c = *(undefined4 *)(param_3 + 8);
+  uStack_4 = 1;
+  switch(param_1) {
+  case 0:
+    uStack_10 = 4;
+    break;
+  case 1:
+    uStack_10 = 3;
+    break;
+  case 2:
+    uStack_10 = 2;
+    break;
+  default:
+    uStack_10 = 0;
+    break;
+  case 4:
+    uStack_10 = 7;
+    break;
+  case 5:
+    uStack_10 = 6;
+    break;
+  case 6:
+    uStack_10 = 5;
+    break;
+  case 7:
+    uStack_10 = 8;
+  }
+  uStack_18 = *(undefined4 *)(param_3 + 0x10);
+  uStack_20 = *(undefined4 *)(param_3 + 0x14);
+  uStack_c = (uint)(*(int *)(param_3 + 0x18) == 2);
+  uVar3 = FUN_30639950(*(undefined4 *)(param_2 + 4),&uStack_24);
+  (&(this->eCWrapper_emfx2Actor_data).offset_0xc)[param_1] = uVar3;
+  if (param_1 == 0) {
+    (this->eCWrapper_emfx2Actor_data).offset_0x70 = *(undefined4 *)(param_3 + 4);
+  }
+  iVar1 = *(int *)(param_3 + 4);
+  if (iVar1 == 0) {
+    this_01 = (PlayModeForward *)thunk_FUN_300da0c0(8);
+    if (this_01 == (PlayModeForward *)0x0) {
+LAB_300dbad3:
+      pPVar4 = (PlayModePingPong *)0x0;
+    }
+    else {
+      pPVar4 = (PlayModePingPong *)EMotionFX::PlayModeForward::PlayModeForward(this_01);
+    }
+  }
+  else if (iVar1 == 1) {
+    this_00 = (PlayModeBackward *)thunk_FUN_300da0e0(8);
+    if (this_00 == (PlayModeBackward *)0x0) goto LAB_300dbad3;
+    pPVar4 = (PlayModePingPong *)EMotionFX::PlayModeBackward::PlayModeBackward(this_00);
+  }
+  else {
+    if (iVar1 != 2) goto LAB_300dbadf;
+    pPVar4 = (PlayModePingPong *)thunk_FUN_300da100(0xc);
+    if (pPVar4 == (PlayModePingPong *)0x0) goto LAB_300dbad3;
+    pPVar4 = EMotionFX::PlayModePingPong::PlayModePingPong(pPVar4);
+  }
+  FUN_3064c420(pPVar4);
+LAB_300dbadf:
+  FUN_3064c560();
+  return;
+}
+
+

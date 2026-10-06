@@ -1,0 +1,26 @@
+/* ENTRY 30017a21 | eCSceneAdmin::UnregisterResourceDataEntity | STATUS decompiled | 12 ms */
+
+/* protected: bool __thiscall eCSceneAdmin::UnregisterResourceDataEntity(class eCResourceDataEntity
+   *) */
+
+bool __thiscall
+eCSceneAdmin::UnregisterResourceDataEntity(eCSceneAdmin *this,eCResourceDataEntity *param_1)
+
+{
+  undefined1 uVar1;
+  bCPropertyID *pbVar2;
+  
+                    /* 0x17a21  14832
+                       ?UnregisterResourceDataEntity@eCSceneAdmin@@IAE_NPAVeCResourceDataEntity@@@Z
+                        */
+  if (param_1 == (eCResourceDataEntity *)0x0) {
+    return false;
+  }
+  bCCriticalSectionWin32::Acquire((bCCriticalSectionWin32 *)&DAT_30af24c4);
+  pbVar2 = eCNode::GetID((eCNode *)param_1);
+  uVar1 = thunk_FUN_3044fe00(pbVar2);
+  bCCriticalSectionWin32::Release((bCCriticalSectionWin32 *)&DAT_30af24c4);
+  return (bool)uVar1;
+}
+
+

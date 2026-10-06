@@ -1,0 +1,2 @@
+; 30008adf eCEntityProxy::CopyFrom
+30008adf | e9acb74b00 | JMP 0x304c4290

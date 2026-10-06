@@ -1,0 +1,4 @@
+; 20031ebc bTPropertyType<gCInventorySlot,eCEntityProxy>::vfunction26
+20031ebc | e9af2d1900 | JMP 0x201c4c70
+; 20031ec1 gCAmbientLibrary::GetSounds
+; 20031ec1 Ordinal_4464

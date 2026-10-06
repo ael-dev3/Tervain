@@ -1,0 +1,14 @@
+; 303a75d0 FUN_303a75d0
+303a75d0 | 56 | PUSH ESI
+303a75d1 | 8bf1 | MOV ESI,ECX
+303a75d3 | e8be91c9ff | CALL 0x30040796
+303a75d8 | 0fb74602 | MOVZX EAX,word ptr [ESI + 0x2]
+303a75dc | 8b542408 | MOV EDX,dword ptr [ESP + 0x8]
+303a75e0 | 8b4e04 | MOV ECX,dword ptr [ESI + 0x4]
+303a75e3 | 8b12 | MOV EDX,dword ptr [EDX]
+303a75e5 | 891481 | MOV dword ptr [ECX + EAX*0x4],EDX
+303a75e8 | 6683460201 | ADD word ptr [ESI + 0x2],0x1
+303a75ed | 0fb74602 | MOVZX EAX,word ptr [ESI + 0x2]
+303a75f1 | 83c0ff | ADD EAX,-0x1
+303a75f4 | 5e | POP ESI
+303a75f5 | c20400 | RET 0x4

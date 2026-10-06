@@ -1,0 +1,13 @@
+/* ENTRY 3002d808 | eCVisualAnimationLoD::GetActor | STATUS decompiled | 90 ms */
+
+/* public: class eCResourceAnimationActor_PS * __thiscall eCVisualAnimationLoD::GetActor(void) */
+
+eCResourceAnimationActor_PS * __thiscall eCVisualAnimationLoD::GetActor(eCVisualAnimationLoD *this)
+
+{
+                    /* 0x2d808  6101
+                       ?GetActor@eCVisualAnimationLoD@@QAEPAVeCResourceAnimationActor_PS@@XZ */
+  return (this->eCVisualAnimationLoD_data).offset_0x4;
+}
+
+

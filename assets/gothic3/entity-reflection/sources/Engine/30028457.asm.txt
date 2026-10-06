@@ -1,0 +1,2 @@
+; 30028457 ?Create@eCRigidBody_PS@@UAE?AW4bEResult@@XZ
+30028457 | e9245a3000 | JMP 0x3032de80

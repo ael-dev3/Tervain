@@ -1,0 +1,2 @@
+; 2001c436 ?AccessDay@gCClock_PS@@QAEAAKXZ
+2001c436 | e995aa1400 | JMP 0x20166ed0

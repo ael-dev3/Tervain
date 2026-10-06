@@ -1,0 +1,14 @@
+/* ENTRY 304c7590 | eCTemplateEntityProxy::eCTemplateEntityProxy | STATUS decompiled | 3 ms */
+
+eCTemplateEntityProxy * __thiscall
+eCTemplateEntityProxy::eCTemplateEntityProxy(eCTemplateEntityProxy *this,eCTemplateEntity *param_1)
+
+{
+  (this->eCTemplateEntityProxy_data).offset_0x0 = 0;
+  (this->eCTemplateEntityProxy_data).offset_0x4 = (bCPropertyID *)0x0;
+  this->vftablePtr = &vftable;
+  SetEntity(this,param_1);
+  return this;
+}
+
+

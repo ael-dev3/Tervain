@@ -1,0 +1,62 @@
+/* ENTRY 20286d40 | FUN_20286d40 | STATUS decompiled | 62 ms */
+
+void __thiscall FUN_20286d40(eCEntityPropertySet *param_1,char *param_2,bool param_3)
+
+{
+  bool bVar1;
+  eCSceneAdmin *peVar2;
+  eCNode *peVar3;
+  eCEntity *peVar4;
+  ushort *puVar5;
+  bCPropertyID *pbVar6;
+  eEGetEntityTypeHint eVar7;
+  
+  if (param_3 == false) {
+    bVar1 = bCString::operator==((bCString *)&DAT_207bfaa8,param_2);
+    if (bVar1) {
+      eVar7 = 0;
+      pbVar6 = (bCPropertyID *)(param_1 + 0x12);
+      peVar2 = (eCSceneAdmin *)
+               thunk_FUN_200ae8e0(pbVar6,0,0,&eCNode::RTTI_Type_Descriptor,
+                                  &eCEntity::RTTI_Type_Descriptor,0);
+      peVar3 = eCSceneAdmin::GetEntity(peVar2,pbVar6,eVar7);
+      peVar4 = (eCEntity *)___RTDynamicCast(peVar3);
+      if (peVar4 != (eCEntity *)0x0) {
+        puVar5 = eCEntity::GetRefCountTAPoints(peVar4);
+        *puVar5 = *puVar5 - 1;
+      }
+    }
+    bVar1 = bCString::operator==((bCString *)&DAT_207bfaac,param_2);
+    if (bVar1) {
+      eVar7 = 0;
+      pbVar6 = (bCPropertyID *)(param_1 + 8);
+      peVar2 = (eCSceneAdmin *)
+               thunk_FUN_200ae8e0(pbVar6,0,0,&eCNode::RTTI_Type_Descriptor,
+                                  &eCEntity::RTTI_Type_Descriptor,0);
+      peVar3 = eCSceneAdmin::GetEntity(peVar2,pbVar6,eVar7);
+      peVar4 = (eCEntity *)___RTDynamicCast(peVar3);
+      if (peVar4 != (eCEntity *)0x0) {
+        puVar5 = eCEntity::GetRefCountTAPoints(peVar4);
+        *puVar5 = *puVar5 - 1;
+      }
+    }
+    bVar1 = bCString::operator==((bCString *)&DAT_207bfab0,param_2);
+    if (bVar1) {
+      eVar7 = 0;
+      pbVar6 = (bCPropertyID *)(param_1 + 0xd);
+      peVar2 = (eCSceneAdmin *)
+               thunk_FUN_200ae8e0(pbVar6,0,0,&eCNode::RTTI_Type_Descriptor,
+                                  &eCEntity::RTTI_Type_Descriptor,0);
+      peVar3 = eCSceneAdmin::GetEntity(peVar2,pbVar6,eVar7);
+      peVar4 = (eCEntity *)___RTDynamicCast(peVar3);
+      if (peVar4 != (eCEntity *)0x0) {
+        puVar5 = eCEntity::GetRefCountTAPoints(peVar4);
+        *puVar5 = *puVar5 - 1;
+      }
+    }
+  }
+  eCEntityPropertySet::OnNotifyPropertyValueChangedEnterEx(param_1,param_2,param_3);
+  return;
+}
+
+

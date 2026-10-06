@@ -1,0 +1,4 @@
+; 2012bca0 FUN_2012bca0
+2012bca0 | ff158c6a7d20 | CALL dword ptr [0x207d6a8c]
+2012bca6 | b801000000 | MOV EAX,0x1
+2012bcab | c3 | RET

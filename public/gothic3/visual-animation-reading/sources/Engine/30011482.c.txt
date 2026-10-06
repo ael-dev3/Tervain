@@ -1,0 +1,16 @@
+/* ENTRY 30011482 | eCResourceAnimationMotion_PS::GetMotionObject | STATUS decompiled | 3 ms */
+
+/* public: class eCWrapper_emfx2Motion & __thiscall
+   eCResourceAnimationMotion_PS::GetMotionObject(void) */
+
+eCWrapper_emfx2Motion * __thiscall
+eCResourceAnimationMotion_PS::GetMotionObject(eCResourceAnimationMotion_PS *this)
+
+{
+                    /* 0x11482  7880
+                       ?GetMotionObject@eCResourceAnimationMotion_PS@@QAEAAVeCWrapper_emfx2Motion@@XZ
+                        */
+  return (eCWrapper_emfx2Motion *)&this->eCResourceAnimationMotion_PS_data;
+}
+
+

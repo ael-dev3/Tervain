@@ -1,0 +1,21 @@
+/* ENTRY 100088cd | bCClassNameBase::UnMangle | STATUS decompiled | 4 ms */
+
+/* public: static class bCString __stdcall bCClassNameBase::UnMangle(char const *) */
+
+char * bCClassNameBase::UnMangle(char *param_1)
+
+{
+  char *pcVar1;
+  char *in_stack_00000008;
+  
+                    /* 0x88cd  4608  ?UnMangle@bCClassNameBase@@SG?AVbCString@@PBD@Z */
+  pcVar1 = _strstr(in_stack_00000008," ");
+  if (pcVar1 != (char *)0x0) {
+    bCString::bCString((bCString *)param_1,pcVar1 + 1);
+    return param_1;
+  }
+  bCString::bCString((bCString *)param_1,in_stack_00000008);
+  return param_1;
+}
+
+

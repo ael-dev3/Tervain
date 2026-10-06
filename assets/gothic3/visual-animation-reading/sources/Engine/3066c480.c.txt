@@ -1,0 +1,22 @@
+/* ENTRY 3066c480 | FUN_3066c480 | STATUS decompiled | 8 ms */
+
+int __thiscall FUN_3066c480(int param_1,void *param_2,size_t param_3)
+
+{
+  if (param_2 == (void *)0x0) {
+    thunk_FUN_300ad900();
+    FUN_3066b040(*(undefined4 *)(param_1 + 4));
+    *(undefined4 *)(param_1 + 4) = 0;
+    return param_1;
+  }
+  thunk_FUN_300ad900();
+  FUN_3066b040(*(undefined4 *)(param_1 + 4));
+  *(undefined4 *)(param_1 + 4) = 0;
+  FUN_3066c3c0(param_3,0);
+  if (*(void **)(param_1 + 4) != (void *)0x0) {
+    _memcpy(*(void **)(param_1 + 4),param_2,param_3);
+  }
+  return param_1;
+}
+
+

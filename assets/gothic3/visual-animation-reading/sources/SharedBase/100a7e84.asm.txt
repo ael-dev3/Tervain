@@ -1,0 +1,15 @@
+; 100a7e84 _tolower
+100a7e84 | 833d2c692f1000 | CMP dword ptr [0x102f692c],0x0
+100a7e8b | 7510 | JNZ 0x100a7e9d
+100a7e8d | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+100a7e91 | 8d48bf | LEA ECX,[EAX + -0x41]
+100a7e94 | 83f919 | CMP ECX,0x19
+100a7e97 | 7711 | JA 0x100a7eaa
+100a7e99 | 83c020 | ADD EAX,0x20
+100a7e9c | c3 | RET
+100a7e9d | 6a00 | PUSH 0x0
+100a7e9f | ff742408 | PUSH dword ptr [ESP + 0x8]
+100a7ea3 | e8c5feffff | CALL 0x100a7d6d
+100a7ea8 | 59 | POP ECX
+100a7ea9 | 59 | POP ECX
+100a7eaa | c3 | RET

@@ -1,0 +1,12 @@
+/* ENTRY 300341ad | eCCollisionShape_PS::GetNumShapes | STATUS decompiled | 33 ms */
+
+/* public: virtual unsigned long __thiscall eCCollisionShape_PS::GetNumShapes(void)const  */
+
+ulong __thiscall eCCollisionShape_PS::GetNumShapes(eCCollisionShape_PS *this)
+
+{
+                    /* 0x341ad  7971  ?GetNumShapes@eCCollisionShape_PS@@UBEKXZ */
+  return (this->eCCollisionShape_PS_data).offset_0x18;
+}
+
+

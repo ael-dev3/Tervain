@@ -1,0 +1,11 @@
+/* ENTRY 200ba7c0 | bTPropertyObject<gCDamageReceiver_PS,eCEntityPropertySet>::vfunction1 | STATUS decompiled | 1 ms */
+
+bCObjectRefBase * __thiscall
+bTPropertyObject<gCDamageReceiver_PS,eCEntityPropertySet>::vfunction1
+          (bTPropertyObject<gCDamageReceiver_PS,eCEntityPropertySet> *this)
+
+{
+  return (this->bTPOPureSmartPtr<gCDamageReceiver_PS>_data).offset_0x4;
+}
+
+

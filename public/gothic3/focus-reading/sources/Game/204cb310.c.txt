@@ -1,0 +1,34 @@
+/* ENTRY 204cb310 | bTPropertyType<gCFocus_PS,bool>::~bTPropertyType<gCFocus_PS,bool> | STATUS decompiled | 16 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall bTPropertyType<gCFocus_PS,bool>::~bTPropertyType<gCFocus_PS,bool>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"DisplayType");
+  bCString::bCString(local_c,"DrawFocusName");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCFocus_PS::ms_PropertyMember_m_bDrawFocusName,local_c,local_8,
+             local_4,1,false);
+  _ms_PropertyMember_m_bDrawFocusName = &vftable;
+  DAT_207b930c = bTPropertyObjectType<gCFocus_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCFocus_PS,eCEntityPropertySet>();
+  _DAT_207b9310 = 0x124;
+  _DAT_207b9314 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCFocus_PS::ms_PropertyMember_m_bDrawFocusName);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b930c,
+             (bCPropertyTypeBase *)&gCFocus_PS::ms_PropertyMember_m_bDrawFocusName);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}
+
+

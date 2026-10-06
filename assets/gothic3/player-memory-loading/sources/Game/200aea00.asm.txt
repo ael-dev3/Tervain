@@ -1,0 +1,23 @@
+; 200aea00 bTPropertyObjectType<gCAttribute,bCObjectRefBase>::vfunction1
+200aea00 | a1c0617b20 | MOV EAX,[0x207b61c0]
+200aea05 | a801 | TEST AL,0x1
+200aea07 | 7514 | JNZ 0x200aea1d
+200aea09 | 8b0d94627b20 | MOV ECX,dword ptr [0x207b6294]
+200aea0f | 83c801 | OR EAX,0x1
+200aea12 | a3c0617b20 | MOV [0x207b61c0],EAX
+200aea17 | 890dbc617b20 | MOV dword ptr [0x207b61bc],ECX
+200aea1d | a802 | TEST AL,0x2
+200aea1f | 7530 | JNZ 0x200aea51
+200aea21 | 83c802 | OR EAX,0x2
+200aea24 | 68180a7d20 | PUSH 0x207d0a18
+200aea29 | b924927920 | MOV ECX,0x20799224
+200aea2e | a3c0617b20 | MOV [0x207b61c0],EAX
+200aea33 | e8a84d3b00 | CALL 0x204637e0
+200aea38 | 50 | PUSH EAX
+200aea39 | 68b8617b20 | PUSH 0x207b61b8
+200aea3e | ff1530887d20 | CALL dword ptr [0x207d8830]
+200aea44 | 6881dc0220 | PUSH 0x2002dc81
+200aea49 | e8804d3b00 | CALL 0x204637ce
+200aea4e | 83c404 | ADD ESP,0x4
+200aea51 | b8b8617b20 | MOV EAX,0x207b61b8
+200aea56 | c3 | RET

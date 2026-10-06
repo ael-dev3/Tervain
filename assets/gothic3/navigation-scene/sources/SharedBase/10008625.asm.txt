@@ -1,0 +1,4 @@
+; 10008625 ?Invert@bCMatrix@@QAEXXZ
+10008625 | e9e6130300 | JMP 0x10039a10
+; 1000862a bCMatrix3::GetSum
+; 1000862a Ordinal_3055

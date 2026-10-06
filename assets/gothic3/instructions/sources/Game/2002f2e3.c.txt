@@ -1,0 +1,28 @@
+/* ENTRY 2002f2e3 | gCScriptProcessingUnit::UpdateChannel | STATUS decompiled | 11 ms */
+
+/* protected: void __thiscall gCScriptProcessingUnit::UpdateChannel(void) */
+
+void __thiscall gCScriptProcessingUnit::UpdateChannel(gCScriptProcessingUnit *this)
+
+{
+  undefined1 *this_00;
+  eCEntity *peVar1;
+  bCMatrix *this_01;
+  bCVector *pbVar2;
+  
+                    /* 0x2f2e3  7415  ?UpdateChannel@gCScriptProcessingUnit@@IAEXXZ */
+  if ((this->gCScriptProcessingUnit_data).offset_0x68 != (int *)0x0) {
+    this_00 = &(this->gCScriptProcessingUnit_data).field_0x1c;
+    peVar1 = eCEntityProxy::GetEntity((eCEntityProxy *)this_00);
+    if ((peVar1 != (eCEntity *)0x0) && (DAT_207cc482 != '\0')) {
+      peVar1 = eCEntityProxy::GetEntity((eCEntityProxy *)this_00);
+      this_01 = eCEntity::GetWorldMatrix((eCEntity *)peVar1);
+      pbVar2 = bCMatrix::GetTranslation(this_01);
+      eCAudioChannel::SetLocation
+                ((eCAudioChannel *)(this->gCScriptProcessingUnit_data).offset_0x68,pbVar2);
+    }
+  }
+  return;
+}
+
+

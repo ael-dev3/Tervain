@@ -1,0 +1,32 @@
+/* ENTRY 20513fa0 | bTPropertyType<gCNPC_PS,float>::~bTPropertyType<gCNPC_PS,float> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCNPC_PS,float>::~bTPropertyType<gCNPC_PS,float>
+          (bTPropertyType<gCNPC_PS,float> *this)
+
+{
+  bTPropertyType<gCNPC_PS,float> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"DistToNearestMist");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_fDistToNearestMist,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_fDistToNearestMist = &vftable;
+  DAT_207c0eb0 = bTPropertyObjectType<gCNPC_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCNPC_PS,eCEntityPropertySet>();
+  _DAT_207c0eb4 = 0x94;
+  _DAT_207c0eb8 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_fDistToNearestMist);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207c0eb0,
+             (bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_fDistToNearestMist);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}
+
+

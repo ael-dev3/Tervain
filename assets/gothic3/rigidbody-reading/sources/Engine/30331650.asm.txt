@@ -1,0 +1,5 @@
+; 30331650 bTPropertyType<eCRigidBody_PS,bCVector>::vfunction7
+30331650 | 33c0 | XOR EAX,EAX
+30331652 | 394120 | CMP dword ptr [ECX + 0x20],EAX
+30331655 | 0f95c0 | SETNZ AL
+30331658 | c3 | RET

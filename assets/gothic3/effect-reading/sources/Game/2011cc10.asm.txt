@@ -1,0 +1,78 @@
+; 2011cc10 bTPropertyType<gCEffect_PS,bool>::vfunction15
+2011cc10 | 83ec08 | SUB ESP,0x8
+2011cc13 | 53 | PUSH EBX
+2011cc14 | 8b5c2410 | MOV EBX,dword ptr [ESP + 0x10]
+2011cc18 | 56 | PUSH ESI
+2011cc19 | 57 | PUSH EDI
+2011cc1a | 8bf9 | MOV EDI,ECX
+2011cc1c | 8b07 | MOV EAX,dword ptr [EDI]
+2011cc1e | 8b5040 | MOV EDX,dword ptr [EAX + 0x40]
+2011cc21 | 53 | PUSH EBX
+2011cc22 | ffd2 | CALL EDX
+2011cc24 | 0fb7c0 | MOVZX EAX,AX
+2011cc27 | 8d4c2410 | LEA ECX,[ESP + 0x10]
+2011cc2b | 51 | PUSH ECX
+2011cc2c | 8bcb | MOV ECX,EBX
+2011cc2e | 89442410 | MOV dword ptr [ESP + 0x10],EAX
+2011cc32 | ff1560877d20 | CALL dword ptr [0x207d8760]
+2011cc38 | 8b74241c | MOV ESI,dword ptr [ESP + 0x1c]
+2011cc3c | 8b16 | MOV EDX,dword ptr [ESI]
+2011cc3e | 8b02 | MOV EAX,dword ptr [EDX]
+2011cc40 | 8bce | MOV ECX,ESI
+2011cc42 | ffd0 | CALL EAX
+2011cc44 | 85c0 | TEST EAX,EAX
+2011cc46 | 742f | JZ 0x2011cc77
+2011cc48 | 8b16 | MOV EDX,dword ptr [ESI]
+2011cc4a | 8b02 | MOV EAX,dword ptr [EDX]
+2011cc4c | 55 | PUSH EBP
+2011cc4d | 8bce | MOV ECX,ESI
+2011cc4f | ffd0 | CALL EAX
+2011cc51 | 8be8 | MOV EBP,EAX
+2011cc53 | 8b5d00 | MOV EBX,dword ptr [EBP]
+2011cc56 | 6a01 | PUSH 0x1
+2011cc58 | 8bcf | MOV ECX,EDI
+2011cc5a | 83c358 | ADD EBX,0x58
+2011cc5d | ff153c877d20 | CALL dword ptr [0x207d873c]
+2011cc63 | 8bc8 | MOV ECX,EAX
+2011cc65 | ff15f8867d20 | CALL dword ptr [0x207d86f8]
+2011cc6b | 8b13 | MOV EDX,dword ptr [EBX]
+2011cc6d | 50 | PUSH EAX
+2011cc6e | 8bcd | MOV ECX,EBP
+2011cc70 | ffd2 | CALL EDX
+2011cc72 | 8b5c241c | MOV EBX,dword ptr [ESP + 0x1c]
+2011cc76 | 5d | POP EBP
+2011cc77 | 8b07 | MOV EAX,dword ptr [EDI]
+2011cc79 | 8b5064 | MOV EDX,dword ptr [EAX + 0x64]
+2011cc7c | 56 | PUSH ESI
+2011cc7d | 8bcf | MOV ECX,EDI
+2011cc7f | ffd2 | CALL EDX
+2011cc81 | 50 | PUSH EAX
+2011cc82 | 8bcb | MOV ECX,EBX
+2011cc84 | ff15ec857d20 | CALL dword ptr [0x207d85ec]
+2011cc8a | 8b06 | MOV EAX,dword ptr [ESI]
+2011cc8c | 8b10 | MOV EDX,dword ptr [EAX]
+2011cc8e | 8bce | MOV ECX,ESI
+2011cc90 | ffd2 | CALL EDX
+2011cc92 | 85c0 | TEST EAX,EAX
+2011cc94 | 7428 | JZ 0x2011ccbe
+2011cc96 | 8b06 | MOV EAX,dword ptr [ESI]
+2011cc98 | 8b10 | MOV EDX,dword ptr [EAX]
+2011cc9a | 8bce | MOV ECX,ESI
+2011cc9c | ffd2 | CALL EDX
+2011cc9e | 8bd8 | MOV EBX,EAX
+2011cca0 | 8b33 | MOV ESI,dword ptr [EBX]
+2011cca2 | 6a01 | PUSH 0x1
+2011cca4 | 8bcf | MOV ECX,EDI
+2011cca6 | 83c65c | ADD ESI,0x5c
+2011cca9 | ff153c877d20 | CALL dword ptr [0x207d873c]
+2011ccaf | 8bc8 | MOV ECX,EAX
+2011ccb1 | ff15f8867d20 | CALL dword ptr [0x207d86f8]
+2011ccb7 | 50 | PUSH EAX
+2011ccb8 | 8b06 | MOV EAX,dword ptr [ESI]
+2011ccba | 8bcb | MOV ECX,EBX
+2011ccbc | ffd0 | CALL EAX
+2011ccbe | 5f | POP EDI
+2011ccbf | 5e | POP ESI
+2011ccc0 | 5b | POP EBX
+2011ccc1 | 83c408 | ADD ESP,0x8
+2011ccc4 | c20800 | RET 0x8

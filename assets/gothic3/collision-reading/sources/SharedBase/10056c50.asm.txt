@@ -1,0 +1,2 @@
+; 10056c50 bCBox::Cull
+10056c50 | e9201ffbff | JMP 0x10008b75

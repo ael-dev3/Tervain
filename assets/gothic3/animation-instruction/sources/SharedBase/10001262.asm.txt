@@ -1,0 +1,4 @@
+; 10001262 ?Delete@bCString@@QAEHHH@Z
+10001262 | e9293c0100 | JMP 0x10014e90
+; 10001267 bCFrustum::Clear
+; 10001267 Ordinal_1616

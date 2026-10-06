@@ -1,0 +1,2 @@
+; 10008aad ?WriteData@bCPropertyObjectBase@@MAEXAAVbCOStream@@@Z
+10008aad | e91e070800 | JMP 0x100891d0

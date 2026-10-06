@@ -1,0 +1,18 @@
+/* ENTRY 100287e0 | FUN_100287e0 | STATUS decompiled | 4 ms */
+
+undefined4 __thiscall FUN_100287e0(void *this,bCString *param_1)
+
+{
+  int iVar1;
+  
+  if (*(int *)this == 0) {
+    return 0;
+  }
+  iVar1 = thunk_FUN_1001f480((void *)(*(int *)this + 0x18),param_1);
+  if (iVar1 == -1) {
+    iVar1 = thunk_FUN_100292e0((void *)(*(int *)this + 0x18),param_1);
+  }
+  return CONCAT31((int3)((uint)iVar1 >> 8),1);
+}
+
+

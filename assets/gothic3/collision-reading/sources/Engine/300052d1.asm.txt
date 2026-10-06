@@ -1,0 +1,4 @@
+; 300052d1 bTPropertyType<eCCollisionShape_PS,bool>::vfunction12
+300052d1 | e97a973300 | JMP 0x3033ea50
+; 300052d6 eCEventLogic_PS::OnProcess
+; 300052d6 Ordinal_11389

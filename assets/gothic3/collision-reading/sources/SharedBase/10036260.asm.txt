@@ -1,0 +1,24 @@
+; 10036260 FUN_10036260
+10036260 | 51 | PUSH ECX
+10036261 | d9410c | FLD float ptr [ECX + 0xc]
+10036264 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+10036268 | d801 | FADD float ptr [ECX]
+1003626a | d91c24 | FSTP float ptr [ESP]
+1003626d | d90424 | FLD float ptr [ESP]
+10036270 | dd0558720e10 | FLD double ptr [0x100e7258]
+10036276 | dcc9 | FMUL ST1
+10036278 | d9c9 | FXCH
+1003627a | d918 | FSTP float ptr [EAX]
+1003627c | d94110 | FLD float ptr [ECX + 0x10]
+1003627f | d84104 | FADD float ptr [ECX + 0x4]
+10036282 | d95c2408 | FSTP float ptr [ESP + 0x8]
+10036286 | d9442408 | FLD float ptr [ESP + 0x8]
+1003628a | d8c9 | FMUL ST1
+1003628c | d95804 | FSTP float ptr [EAX + 0x4]
+1003628f | d94114 | FLD float ptr [ECX + 0x14]
+10036292 | d84108 | FADD float ptr [ECX + 0x8]
+10036295 | d95c2408 | FSTP float ptr [ESP + 0x8]
+10036299 | d84c2408 | FMUL float ptr [ESP + 0x8]
+1003629d | d95808 | FSTP float ptr [EAX + 0x8]
+100362a0 | 59 | POP ECX
+100362a1 | c20400 | RET 0x4

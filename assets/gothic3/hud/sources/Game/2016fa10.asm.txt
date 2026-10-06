@@ -1,0 +1,3 @@
+; 2016fa10 gCHUDPageTutorial2::vfunction71
+2016fa10 | 83c128 | ADD ECX,0x28
+2016fa13 | e9d039ecff | JMP 0x200333e8

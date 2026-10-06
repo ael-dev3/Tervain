@@ -1,0 +1,26 @@
+/* ENTRY 30006334 | eCVisualAnimation_PS::Create | STATUS decompiled | 11 ms */
+
+/* public: virtual enum bEResult __thiscall eCVisualAnimation_PS::Create(void) */
+
+bEResult __thiscall eCVisualAnimation_PS::Create(eCVisualAnimation_PS *this)
+
+{
+  int iVar1;
+  undefined4 *puVar2;
+  
+                    /* 0x6334  4742  ?Create@eCVisualAnimation_PS@@UAE?AW4bEResult@@XZ */
+  eCEntityPropertySet::Create((eCEntityPropertySet *)this);
+  eCVisualAnimationFactory::Create
+            ((eCVisualAnimationFactory *)&this[7].eCEntityPropertySet_data.field_0x4);
+  puVar2 = &this[0xb].eCEntityPropertySet_data.offset_0x8;
+  thunk_FUN_300ab6b0(8,0);
+  iVar1 = *(int *)&this[0xb].eCEntityPropertySet_data.offset_0xc;
+  if ((7 < iVar1) && (8 < iVar1)) {
+    thunk_FUN_300ae3f0(*puVar2 + 0x60,iVar1 + -8);
+    thunk_FUN_300ab630(*puVar2 + 0x60,*(int *)&this[0xb].eCEntityPropertySet_data.offset_0xc + -8);
+  }
+  *(undefined4 *)&this[0xb].eCEntityPropertySet_data.offset_0xc = 8;
+  return 1;
+}
+
+

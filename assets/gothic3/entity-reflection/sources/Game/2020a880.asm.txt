@@ -1,0 +1,5 @@
+; 2020a880 bTPropertyType<gCClock_PS,float>::vfunction3
+2020a880 | 8b4918 | MOV ECX,dword ptr [ECX + 0x18]
+2020a883 | 8b01 | MOV EAX,dword ptr [ECX]
+2020a885 | 8b10 | MOV EDX,dword ptr [EAX]
+2020a887 | ffe2 | JMP EDX

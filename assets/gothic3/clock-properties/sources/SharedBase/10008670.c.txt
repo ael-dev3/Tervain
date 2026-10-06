@@ -1,0 +1,51 @@
+/* ENTRY 10008670 | bCClock::GetTimeAndDate | STATUS decompiled | 14 ms */
+
+/* public: void __thiscall bCClock::GetTimeAndDate(struct bSTimeAndDate &) */
+
+void __thiscall bCClock::GetTimeAndDate(bCClock *this,bSTimeAndDate *param_1)
+
+{
+  float fVar1;
+  ulong uVar2;
+  uint uVar3;
+  int iVar4;
+  uint uStack_8;
+  
+                    /* 0x8670  3077  ?GetTimeAndDate@bCClock@@QAEXAAUbSTimeAndDate@@@Z */
+  if (*(float *)(this + 0x1c) == -1.0) {
+    uVar2 = bCTimer::GetTimeStamp();
+    *(ulong *)(this + 0x18) = uVar2;
+    *(undefined4 *)(this + 0x1c) = 0;
+  }
+  if (this[0x20] == (bCClock)0x0) {
+    uVar2 = bCTimer::GetTimeStamp();
+    fVar1 = (float)(int)(uVar2 - *(int *)(this + 0x18));
+    if ((int)(uVar2 - *(int *)(this + 0x18)) < 0) {
+      fVar1 = fVar1 + 4.2949673e+09;
+    }
+    *(float *)(this + 0x1c) = fVar1 * *(float *)this * 0.001 + *(float *)(this + 0x1c);
+    uVar2 = bCTimer::GetTimeStamp();
+    *(ulong *)(this + 0x18) = uVar2;
+  }
+  fVar1 = *(float *)(this + 0x1c);
+  *(undefined4 *)(this + 0x1c) = 0;
+  *(float *)(this + 0x14) = *(float *)(this + 0x14) + fVar1;
+  uStack_8 = (uint)(longlong)ROUND(*(float *)(this + 0x14));
+  uStack_8 = uStack_8 / *(uint *)(this + 4);
+  iVar4 = *(uint *)(this + 4) * uStack_8;
+  uStack_8 = uStack_8 + *(int *)(this + 0x10);
+  fVar1 = (float)iVar4;
+  if (iVar4 < 0) {
+    fVar1 = fVar1 + 4.2949673e+09;
+  }
+  uVar3 = uStack_8 / *(uint *)(this + 8);
+  *(float *)(this + 0x14) = *(float *)(this + 0x14) - fVar1;
+  *(uint *)(this + 0xc) = *(int *)(this + 0xc) + uVar3;
+  *(uint *)(this + 0x10) = uStack_8 - *(uint *)(this + 8) * uVar3;
+  *(undefined4 *)param_1 = *(undefined4 *)(this + 0xc);
+  *(undefined4 *)(param_1 + 4) = *(undefined4 *)(this + 0x10);
+  *(undefined4 *)(param_1 + 8) = *(undefined4 *)(this + 0x14);
+  return;
+}
+
+

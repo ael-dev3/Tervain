@@ -1,0 +1,16 @@
+/* ENTRY 20034a54 | gCFocus_PS::OnPostProcess | STATUS decompiled | 7 ms */
+
+/* protected: virtual void __thiscall gCFocus_PS::OnPostProcess(void) */
+
+void __thiscall gCFocus_PS::OnPostProcess(gCFocus_PS *this)
+
+{
+                    /* 0x34a54  5516  ?OnPostProcess@gCFocus_PS@@MAEXXZ */
+  bCVector::Clear((bCVector *)&(this->gCFocus_PS_data).field_0x188);
+                    /* WARNING: Could not recover jumptable at 0x2013b0e2. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eCEntityPropertySet::OnPostProcess((eCEntityPropertySet *)this);
+  return;
+}
+
+

@@ -1,0 +1,11 @@
+/* ENTRY 30016bcb | bTPropertyObject<eCRigidBody_PS,eCRigidBodyBase_PS>::vfunction5 | STATUS decompiled | 3 ms */
+
+undefined4 __thiscall
+bTPropertyObject<eCRigidBody_PS,eCRigidBodyBase_PS>::vfunction5
+          (bTPropertyObject<eCRigidBody_PS,eCRigidBodyBase_PS> *this)
+
+{
+  return (this->bTPropertyObject<eCRigidBody_PS,eCRigidBodyBase_PS>_data).offset_0x0;
+}
+
+

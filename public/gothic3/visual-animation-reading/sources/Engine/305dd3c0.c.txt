@@ -1,0 +1,18 @@
+/* ENTRY 305dd3c0 | eCArchiveFile::eCArchiveFile | STATUS decompiled | 11 ms */
+
+eCArchiveFile * __thiscall eCArchiveFile::eCArchiveFile(eCArchiveFile *this)
+
+{
+  bCIOStream::bCIOStream((bCIOStream *)this);
+  this->vftablePtr = &vftable_for_bCIStream_;
+  this->vftablePtr = &vftable_for_bCOStream_;
+  bCString::bCString((bCString *)&this->eCArchiveFile_data);
+  eCVirtualFile::eCVirtualFile
+            ((eCVirtualFile *)&(this->eCArchiveFile_data).offset_0x4,(IFFVirtualFile *)0x0);
+  (this->eCArchiveFile_data).offset_0x10 = (void *)0x0;
+  (this->eCArchiveFile_data).offset_0x18 = 0;
+  (this->eCArchiveFile_data).offset_0x14 = 0;
+  return this;
+}
+
+

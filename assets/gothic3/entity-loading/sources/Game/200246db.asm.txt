@@ -1,0 +1,2 @@
+; 200246db ?Read@gCEntity@@UAE?AW4bEResult@@AAVbCIStream@@@Z
+200246db | e920751000 | JMP 0x2012bc00

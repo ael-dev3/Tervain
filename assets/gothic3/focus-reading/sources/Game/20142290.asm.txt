@@ -1,0 +1,15 @@
+; 20142290 bTPropertyType<gCFocus_PS,bTPropertyContainer<gEFocusLookAt>_>::vfunction12
+20142290 | 56 | PUSH ESI
+20142291 | 8bf1 | MOV ESI,ECX
+20142293 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+20142297 | 85c9 | TEST ECX,ECX
+20142299 | 7506 | JNZ 0x201422a1
+2014229b | 33c0 | XOR EAX,EAX
+2014229d | 5e | POP ESI
+2014229e | c20400 | RET 0x4
+201422a1 | 8b01 | MOV EAX,dword ptr [ECX]
+201422a3 | 8b10 | MOV EDX,dword ptr [EAX]
+201422a5 | ffd2 | CALL EDX
+201422a7 | 03461c | ADD EAX,dword ptr [ESI + 0x1c]
+201422aa | 5e | POP ESI
+201422ab | c20400 | RET 0x4

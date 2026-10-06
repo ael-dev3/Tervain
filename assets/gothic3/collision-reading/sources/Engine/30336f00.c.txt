@@ -1,0 +1,24 @@
+/* ENTRY 30336f00 | FUN_30336f00 | STATUS decompiled | 6 ms */
+
+undefined4 __thiscall FUN_30336f00(int param_1,bCRay *param_2)
+
+{
+  bool bVar1;
+  int iVar2;
+  
+  iVar2 = 0;
+  if (0 < *(int *)(param_1 + 0x2c)) {
+    do {
+      if ((*(int *)(*(int *)(param_1 + 0x28) + iVar2 * 4) != 0) &&
+         (bVar1 = eCCollisionShape::IntersectsRay
+                            (*(eCCollisionShape **)(*(int *)(param_1 + 0x28) + iVar2 * 4),param_2),
+         bVar1)) {
+        return 1;
+      }
+      iVar2 = iVar2 + 1;
+    } while (iVar2 < *(int *)(param_1 + 0x2c));
+  }
+  return 0;
+}
+
+

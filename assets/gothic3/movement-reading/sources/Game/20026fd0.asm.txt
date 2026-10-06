@@ -1,0 +1,4 @@
+; 20026fd0 ?GetVersion@gCCharacterMovement_PS@@UBEGXZ
+20026fd0 | e94bc21f00 | JMP 0x20223220
+; 20026fe9 gCInventory_PS::TransferAllTo
+; 20026fe9 Ordinal_7373

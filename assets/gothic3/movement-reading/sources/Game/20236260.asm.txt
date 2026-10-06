@@ -1,0 +1,12 @@
+; 20236260 bTPropertyType<gCCharacterMovement_PS,bool>::vfunction19
+20236260 | 56 | PUSH ESI
+20236261 | 8bf1 | MOV ESI,ECX
+20236263 | ff15dc877d20 | CALL dword ptr [0x207d87dc]
+20236269 | 8d4620 | LEA EAX,[ESI + 0x20]
+2023626c | 50 | PUSH EAX
+2023626d | e86458deff | CALL 0x2001bad6
+20236272 | 8b4e18 | MOV ECX,dword ptr [ESI + 0x18]
+20236275 | 56 | PUSH ESI
+20236276 | ff15dc867d20 | CALL dword ptr [0x207d86dc]
+2023627c | 5e | POP ESI
+2023627d | c3 | RET

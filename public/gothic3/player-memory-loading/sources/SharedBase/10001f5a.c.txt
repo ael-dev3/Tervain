@@ -1,0 +1,44 @@
+/* ENTRY 10001f5a | bCString::Realloc | STATUS decompiled | 10 ms */
+
+/* protected: void __thiscall bCString::Realloc(int) */
+
+void __thiscall bCString::Realloc(bCString *this,int param_1)
+
+{
+  int iVar1;
+  void *pvVar2;
+  bCMemoryAdmin *pbVar3;
+  int *piVar4;
+  ulong uVar5;
+  
+                    /* 0x1f5a  3901  ?Realloc@bCString@@IAEXH@Z */
+  iVar1 = *(int *)this;
+  if (iVar1 != 0) {
+    if ((*(ushort *)(iVar1 + -4) < 2) && (param_1 <= *(int *)(iVar1 + -8))) {
+      *(int *)(iVar1 + -8) = param_1;
+      *(undefined1 *)(param_1 + *(int *)this) = 0;
+      return;
+    }
+    *(short *)(iVar1 + -4) = *(short *)(iVar1 + -4) + -1;
+    pvVar2 = (void *)(iVar1 + -8);
+    if (*(short *)(iVar1 + -4) == 0) {
+      pbVar3 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar3,pvVar2);
+    }
+    *(undefined4 *)this = 0;
+  }
+  if (param_1 == 0) {
+    *(undefined4 *)this = 0;
+    return;
+  }
+  uVar5 = param_1 + 9;
+  pbVar3 = bCMemoryAdmin::GetInstance();
+  piVar4 = bCMemoryAdmin::Malloc(pbVar3,uVar5);
+  *piVar4 = param_1;
+  *(undefined2 *)(piVar4 + 1) = 1;
+  *(int **)this = piVar4 + 2;
+  *(undefined1 *)((int)(piVar4 + 2) + param_1) = 0;
+  return;
+}
+
+

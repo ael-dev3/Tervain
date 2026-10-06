@@ -1,0 +1,12 @@
+/* ENTRY 3009e900 | FUN_3009e900 | STATUS decompiled | 2 ms */
+
+undefined4 __thiscall FUN_3009e900(int param_1,uint param_2)
+
+{
+  if (*(uint *)(param_1 + 0xec) <= param_2) {
+    return 0;
+  }
+  return *(undefined4 *)(*(int *)(param_1 + 0xe8) + 8 + param_2 * 0xc);
+}
+
+

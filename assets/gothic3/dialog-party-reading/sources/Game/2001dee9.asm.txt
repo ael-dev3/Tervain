@@ -1,0 +1,2 @@
+; 2001dee9 gCDialog_PS::AddTalkedToBy
+2001dee9 | e952dc1e00 | JMP 0x2020bb40

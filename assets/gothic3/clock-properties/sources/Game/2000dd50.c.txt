@@ -1,0 +1,12 @@
+/* ENTRY 2000dd50 | gCClock_PS::OnPreProcess | STATUS decompiled | 4 ms */
+
+/* public: virtual void __thiscall gCClock_PS::OnPreProcess(void) */
+
+void __thiscall gCClock_PS::OnPreProcess(gCClock_PS *this)
+
+{
+                    /* 0xdd50  5540  ?OnPreProcess@gCClock_PS@@UAEXXZ */
+  return;
+}
+
+

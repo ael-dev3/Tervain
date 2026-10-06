@@ -1,0 +1,4 @@
+; 10008ce7 ?GetCircumAxisBox@bCOrientedBox@@QBEXAAVbCBox@@@Z
+10008ce7 | e924b50500 | JMP 0x10064210
+; 10008cec bCVariant::GetI64
+; 10008cec Ordinal_2397

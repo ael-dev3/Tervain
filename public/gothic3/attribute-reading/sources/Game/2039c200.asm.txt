@@ -1,0 +1,4 @@
+; 2039c200 bTPropertyObject<gCStat,gCAttribute>::vfunction11
+2039c200 | 6a00 | PUSH 0x0
+2039c202 | e8da16c7ff | CALL 0x2000d8e1
+2039c207 | c3 | RET

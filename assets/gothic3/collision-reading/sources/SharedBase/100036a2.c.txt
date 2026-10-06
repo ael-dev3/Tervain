@@ -1,0 +1,12 @@
+/* ENTRY 100036a2 | bCCapsule::GetOrientation | STATUS decompiled | 1 ms */
+
+/* public: class bCMatrix3 const & __thiscall bCCapsule::GetOrientation(void)const  */
+
+bCMatrix3 * __thiscall bCCapsule::GetOrientation(bCCapsule *this)
+
+{
+                    /* 0x36a2  2723  ?GetOrientation@bCCapsule@@QBEABVbCMatrix3@@XZ */
+  return (bCMatrix3 *)(this + 8);
+}
+
+

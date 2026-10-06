@@ -1,0 +1,13 @@
+/* ENTRY 30481680 | FUN_30481680 | STATUS decompiled | 2 ms */
+
+undefined4 __thiscall FUN_30481680(undefined4 *param_1,bCOStream *param_2)
+
+{
+  ushort uVar1;
+  
+  uVar1 = (**(code **)*param_1)();
+  bCOStream::operator<<(param_2,uVar1);
+  return 1;
+}
+
+

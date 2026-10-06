@@ -1,0 +1,17 @@
+; 3066ac80 FUN_3066ac80
+3066ac80 | 56 | PUSH ESI
+3066ac81 | 8bf1 | MOV ESI,ECX
+3066ac83 | 8b4604 | MOV EAX,dword ptr [ESI + 0x4]
+3066ac86 | 8b16 | MOV EDX,dword ptr [ESI]
+3066ac88 | 8d0c8504000000 | LEA ECX,[EAX*0x4 + 0x4]
+3066ac8f | 51 | PUSH ECX
+3066ac90 | 52 | PUSH EDX
+3066ac91 | e86ae50000 | CALL 0x30679200
+3066ac96 | 8b4e04 | MOV ECX,dword ptr [ESI + 0x4]
+3066ac99 | 8b542410 | MOV EDX,dword ptr [ESP + 0x10]
+3066ac9d | 8906 | MOV dword ptr [ESI],EAX
+3066ac9f | 83c408 | ADD ESP,0x8
+3066aca2 | 891488 | MOV dword ptr [EAX + ECX*0x4],EDX
+3066aca5 | 83460401 | ADD dword ptr [ESI + 0x4],0x1
+3066aca9 | 5e | POP ESI
+3066acaa | c20400 | RET 0x4

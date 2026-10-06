@@ -1,0 +1,4 @@
+; 3003cf51 bTPOPureSmartPtr<eCCollisionShape>::vfunction10
+3003cf51 | e94af03100 | JMP 0x3035bfa0
+; 3003cf56 eCThemeAdmin::ReadCompiled
+; 3003cf56 Ordinal_12320

@@ -1,0 +1,2 @@
+; 1000355d bCAccessorProperty::GetPropertyTypeObject
+1000355d | e90e060900 | JMP 0x10093b70

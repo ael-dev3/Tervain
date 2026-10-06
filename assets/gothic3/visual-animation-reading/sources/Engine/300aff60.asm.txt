@@ -1,0 +1,5 @@
+; 300aff60 bTPropertyContainer<eECollisionGroup>::vfunction7
+300aff60 | a1c0a2ad30 | MOV EAX,[0x30ada2c0]
+300aff65 | 894104 | MOV dword ptr [ECX + 0x4],EAX
+300aff68 | b801000000 | MOV EAX,0x1
+300aff6d | c3 | RET

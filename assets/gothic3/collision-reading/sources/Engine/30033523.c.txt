@@ -1,0 +1,26 @@
+/* ENTRY 30033523 | eCCollisionShape_PS::HasTriangleMesh | STATUS decompiled | 85 ms */
+
+/* public: bool const __thiscall eCCollisionShape_PS::HasTriangleMesh(void)const  */
+
+bool __thiscall eCCollisionShape_PS::HasTriangleMesh(eCCollisionShape_PS *this)
+
+{
+  int *piVar1;
+  int iVar2;
+  
+                    /* 0x33523  9762  ?HasTriangleMesh@eCCollisionShape_PS@@QBE?B_NXZ */
+  iVar2 = (this->eCCollisionShape_PS_data).offset_0x18 + -1;
+  if (-1 < iVar2) {
+    piVar1 = (int *)((this->eCCollisionShape_PS_data).offset_0x14 + iVar2 * 4);
+    do {
+      if (*(int *)(*piVar1 + 0x10) == 1) {
+        return true;
+      }
+      iVar2 = iVar2 + -1;
+      piVar1 = piVar1 + -1;
+    } while (-1 < iVar2);
+  }
+  return false;
+}
+
+

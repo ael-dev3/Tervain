@@ -1,0 +1,17 @@
+/* ENTRY 1013bfb0 | FUN_1013bfb0 | STATUS decompiled | 29 ms */
+
+void FUN_1013bfb0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Commands\\AI_TakeItem.cpp");
+  bCString::bCString(local_8,"_AI_TakeItem");
+  thunk_FUN_1004aa50(local_8,&LAB_10001a41,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

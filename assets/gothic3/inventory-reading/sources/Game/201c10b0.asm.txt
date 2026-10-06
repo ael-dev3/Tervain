@@ -1,0 +1,21 @@
+; 201c10b0 bTPropertyContainer<gESlot>::bTPropertyContainer<gESlot>_Constructor_or_Destructor
+201c10b0 | 83ec08 | SUB ESP,0x8
+201c10b3 | 56 | PUSH ESI
+201c10b4 | 8bf1 | MOV ESI,ECX
+201c10b6 | 8d4c2404 | LEA ECX,[ESP + 0x4]
+201c10ba | ff1500877d20 | CALL dword ptr [0x207d8700]
+201c10c0 | 8b4634 | MOV EAX,dword ptr [ESI + 0x34]
+201c10c3 | 8b401c | MOV EAX,dword ptr [EAX + 0x1c]
+201c10c6 | 8d4e34 | LEA ECX,[ESI + 0x34]
+201c10c9 | 8d542404 | LEA EDX,[ESP + 0x4]
+201c10cd | 52 | PUSH EDX
+201c10ce | c744240804c26520 | MOV dword ptr [ESP + 0x8],0x2065c204
+201c10d6 | c744240c00000000 | MOV dword ptr [ESP + 0xc],0x0
+201c10de | ffd0 | CALL EAX
+201c10e0 | 8d4c2404 | LEA ECX,[ESP + 0x4]
+201c10e4 | c744240404c26520 | MOV dword ptr [ESP + 0x4],0x2065c204
+201c10ec | ff1500887d20 | CALL dword ptr [0x207d8800]
+201c10f2 | b801000000 | MOV EAX,0x1
+201c10f7 | 5e | POP ESI
+201c10f8 | 83c408 | ADD ESP,0x8
+201c10fb | c3 | RET

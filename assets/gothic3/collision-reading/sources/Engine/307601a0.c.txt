@@ -1,0 +1,32 @@
+/* ENTRY 307601a0 | bTPropertyType<eCCollisionShape,float>::~bTPropertyType<eCCollisionShape,float> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<eCCollisionShape,float>::~bTPropertyType<eCCollisionShape,float>
+          (bTPropertyType<eCCollisionShape,float> *this)
+
+{
+  bTPropertyType<eCCollisionShape,float> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"SkinWidth");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&eCCollisionShape::ms_PropertyMember_m_fSkinWidth,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_fSkinWidth = &vftable;
+  DAT_30aecf18 = bTPropertyObjectType<eCCollisionShape,bCObjectRefBase>::
+                 ~bTPropertyObjectType<eCCollisionShape,bCObjectRefBase>();
+  _DAT_30aecf1c = 0x34;
+  _DAT_30aecf20 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&eCCollisionShape::ms_PropertyMember_m_fSkinWidth);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_30aecf18,
+             (bCPropertyTypeBase *)&eCCollisionShape::ms_PropertyMember_m_fSkinWidth);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}
+
+

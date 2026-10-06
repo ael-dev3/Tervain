@@ -1,0 +1,2 @@
+; 3000c018 ?OnRenderAlpha@eCEntityPropertySet@@MAEXF@Z
+3000c018 | e9e3574700 | JMP 0x30481800

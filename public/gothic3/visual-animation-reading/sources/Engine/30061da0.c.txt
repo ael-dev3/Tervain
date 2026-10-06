@@ -1,0 +1,16 @@
+/* ENTRY 30061da0 | FUN_30061da0 | STATUS decompiled | 4 ms */
+
+void __fastcall FUN_30061da0(int *param_1)
+
+{
+  code *pcVar1;
+  int *unaff_ESI;
+  
+  (**(code **)(*param_1 + 0x58))("BoneLinearDamping",0);
+  pcVar1 = *(code **)(*param_1 + 0x5c);
+  param_1[0xb] = *unaff_ESI;
+  (*pcVar1)("BoneLinearDamping",0);
+  return;
+}
+
+

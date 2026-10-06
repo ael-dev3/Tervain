@@ -1,0 +1,4 @@
+; 10006e97 ?IsEqual@bCOrientedBox@@QBE_NABV1@@Z
+10006e97 | e964c00500 | JMP 0x10062f00
+; 10006ea6 bCUnitedRay::CopyFrom
+; 10006ea6 Ordinal_1762

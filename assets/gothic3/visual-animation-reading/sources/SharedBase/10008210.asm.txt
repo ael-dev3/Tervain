@@ -1,0 +1,2 @@
+; 10008210 bCUnitedRay::operator=
+10008210 | e99b840600 | JMP 0x100706b0

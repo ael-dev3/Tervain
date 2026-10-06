@@ -1,0 +1,212 @@
+/* ENTRY 100787d0 | FUN_100787d0 | STATUS decompiled | 282 ms */
+
+undefined4 FUN_100787d0(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3)
+
+{
+  char cVar1;
+  bool bVar2;
+  bool bVar3;
+  eCEntity *peVar4;
+  bCString *pbVar5;
+  gEWeaponConfig gVar6;
+  int iVar7;
+  int iVar8;
+  Entity *this;
+  uint unaff_ESI;
+  Entity *pEVar9;
+  undefined4 uStack_250;
+  Entity aEStack_240 [136];
+  undefined4 uStack_1b8;
+  char *pcVar10;
+  bCString local_188 [4];
+  undefined4 local_184;
+  Entity local_180 [4];
+  Entity local_17c [4];
+  Entity local_178 [4];
+  PSRoutine local_174 [12];
+  PSInventory local_168 [12];
+  PSInventory local_15c [4];
+  PSInventory local_158 [4];
+  PropertyLastWeaponConfig aPStack_154 [8];
+  PSNpc local_14c [4];
+  PropertyLastWeaponConfig local_148 [4];
+  PropertyLastWeaponConfig local_144 [108];
+  Template local_d8 [20];
+  bCPropertyID local_c4 [8];
+  Entity local_bc [12];
+  Entity aEStack_b0 [8];
+  Entity local_a8 [168];
+  
+  local_184 = 0;
+  Entity::Entity(local_178);
+  if (param_2 == (Entity *)0x0) {
+    peVar4 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    Entity::AttachTo(local_178,peVar4);
+  }
+  else {
+    Entity::operator=(local_178,param_2);
+  }
+  Entity::Entity(local_a8);
+  if (param_3 == (Entity *)0x0) {
+    peVar4 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    Entity::AttachTo(local_a8,peVar4);
+  }
+  else {
+    Entity::operator=(local_a8,param_3);
+  }
+  Entity::Entity(aEStack_240,local_178);
+  thunk_FUN_1000d6f0();
+  Entity::Entity(aEStack_240,local_178);
+  cVar1 = thunk_FUN_100094e0();
+  if (cVar1 == '\x01') {
+LAB_10078898:
+    Entity::~Entity(aEStack_b0);
+    Entity::~Entity(local_180);
+    return 0;
+  }
+  pbVar5 = (bCString *)PSRoutine::GetCurrentState(local_174);
+  bVar2 = operator==("PS_Normal_Loop",pbVar5);
+  bCString::~bCString(local_188);
+  if (bVar2) {
+    gVar6 = PSPlayerMemory::PropertyLastWeaponConfig::operator_enum_gEWeaponConfig(local_144);
+    if (gVar6 == 2) {
+      Entity::Entity((Entity *)&stack0xfffffdbc,local_17c);
+      iVar7 = thunk_FUN_10009a40();
+      if (iVar7 == 0xc) {
+        PSInventory::FindStackIndex(local_158,2);
+      }
+      PSPlayerMemory::PropertyLastSpell::operator_class_bCPropertyID((PropertyLastSpell *)local_144)
+      ;
+      Template::Template(local_d8,local_c4);
+      bCPropertyID::~bCPropertyID(local_c4);
+      PSInventory::FindStackIndex(local_15c,local_d8,-1,false);
+      Entity::Entity((Entity *)&uStack_250,local_180);
+      iVar7 = thunk_FUN_1000bfa0();
+      if (iVar7 != 6) {
+        PSPlayerMemory::PropertyLastWeaponConfig::operator=
+                  (local_148,(gEWeaponConfig *)&stack0xfffffe74);
+      }
+      Template::~Template(local_d8);
+    }
+    gVar6 = PSPlayerMemory::PropertyLastWeaponConfig::operator_enum_gEWeaponConfig(aPStack_154);
+    if (gVar6 == 1) {
+      PSInventory::FindStackIndex(local_168,7);
+      iVar7 = PSInventory::FindStackIndex(local_168,0xe);
+      Entity::Entity((Entity *)&stack0xfffffda4,(Entity *)&stack0xfffffe74);
+      iVar8 = thunk_FUN_1000bfa0();
+      if ((iVar8 != 5) || (iVar7 == -1)) {
+        PSPlayerMemory::PropertyLastWeaponConfig::operator=
+                  (aPStack_154,(gEWeaponConfig *)&stack0xfffffe68);
+      }
+    }
+    gVar6 = PSPlayerMemory::PropertyLastWeaponConfig::operator_enum_gEWeaponConfig(aPStack_154);
+    if (gVar6 == 0) {
+      PSInventory::FindStackIndex(local_168,5);
+      PSInventory::FindStackIndex(local_168,6);
+      PSInventory::FindStackIndex(local_168,2);
+      Entity::Entity((Entity *)&stack0xfffffda8,(Entity *)&stack0xfffffe74);
+      thunk_FUN_1000bb70();
+      Entity::Entity((Entity *)&stack0xfffffdac,(Entity *)&stack0xfffffe74);
+      iVar7 = thunk_FUN_10009a40();
+      if (iVar7 == 0x18) {
+        PSInventory::FindStackIndex(local_168,2);
+      }
+      Entity::Entity((Entity *)&stack0xfffffda4,(Entity *)&stack0xfffffe74);
+      iVar7 = thunk_FUN_1000bfa0();
+      if (iVar7 != 4) {
+        Entity::Entity((Entity *)&stack0xfffffdac,(Entity *)&stack0xfffffe74);
+        thunk_FUN_1000af40();
+        Entity::Entity((Entity *)&stack0xfffffdac,(Entity *)&stack0xfffffe74);
+        thunk_FUN_1000afb0();
+      }
+    }
+    Entity::Entity((Entity *)&stack0xfffffda4,(Entity *)&stack0xfffffe74);
+    thunk_FUN_100096e0();
+    Entity::Entity((Entity *)&stack0xfffffdac,(Entity *)&stack0xfffffe74);
+    thunk_FUN_1000ecc0();
+    gVar6 = PSPlayerMemory::PropertyLastWeaponConfig::operator_enum_gEWeaponConfig(aPStack_154);
+    if (gVar6 == 1) {
+      pcVar10 = "PS_Ranged";
+    }
+    else if (gVar6 == 2) {
+      pcVar10 = "PS_Magic";
+    }
+    else {
+      pcVar10 = "PS_Melee";
+    }
+  }
+  else {
+    pbVar5 = (bCString *)PSRoutine::GetCurrentState((PSRoutine *)local_178);
+    bVar2 = operator==("PS_Melee_Loop",pbVar5);
+    bCString::~bCString((bCString *)&stack0xfffffe74);
+    if (bVar2) {
+      bVar2 = PSNpc::IsTransformed(local_14c);
+      if (bVar2) goto LAB_10078898;
+      uStack_250 = 0x10078be1;
+      Entity::Entity((Entity *)&stack0xfffffdb8,local_180);
+      iVar7 = thunk_FUN_10009a70();
+      if (iVar7 == 0xc) {
+        PSInventory::FindStackIndex(local_15c,1);
+      }
+      uStack_250 = 0x10078c12;
+      Entity::Entity((Entity *)&stack0xfffffdb8,local_180);
+      iVar7 = thunk_FUN_10009a40();
+      if (iVar7 == 0x18) {
+        PSInventory::FindStackIndex(local_15c,2);
+      }
+      pEVar9 = (Entity *)0x10078c40;
+      Entity::Entity((Entity *)&uStack_250,local_180);
+      thunk_FUN_100096e0();
+      this = (Entity *)&stack0xfffffdb8;
+    }
+    else {
+      pbVar5 = (bCString *)PSRoutine::GetCurrentState((PSRoutine *)local_17c);
+      bVar2 = operator==("PS_Ranged_Walk_Loop",pbVar5);
+      if (bVar2) {
+LAB_10078ca2:
+        bVar2 = true;
+      }
+      else {
+        pbVar5 = (bCString *)PSRoutine::GetCurrentState((PSRoutine *)local_180);
+        bVar3 = operator==("PS_Ranged_Aim_Loop",pbVar5);
+        bVar2 = false;
+        if (bVar3) goto LAB_10078ca2;
+      }
+      if ((unaff_ESI & 2) != 0) {
+        unaff_ESI = unaff_ESI & 0xfffffffd;
+        bCString::~bCString((bCString *)&stack0xfffffe74);
+      }
+      if ((unaff_ESI & 1) != 0) {
+        bCString::~bCString((bCString *)&stack0xfffffe70);
+      }
+      if (!bVar2) {
+        pbVar5 = (bCString *)PSRoutine::GetCurrentState((PSRoutine *)&local_184);
+        uStack_1b8 = 0x10078cee;
+        bVar2 = operator==("PS_Magic_Loop",pbVar5);
+        bCString::~bCString((bCString *)&stack0xfffffe6c);
+        if (!bVar2) goto LAB_10078d87;
+        Entity::Entity((Entity *)&stack0xfffffdac,(Entity *)&stack0xfffffe74);
+        iVar7 = thunk_FUN_10009a40();
+        if (iVar7 == 0xc) {
+          PSInventory::FindStackIndex(local_168,2);
+        }
+      }
+      Entity::Entity((Entity *)&stack0xfffffda4,(Entity *)&stack0xfffffe74);
+      thunk_FUN_100096e0();
+      this = (Entity *)&stack0xfffffdac;
+      pEVar9 = (Entity *)&stack0xfffffe74;
+    }
+    Entity::Entity(this,pEVar9);
+    thunk_FUN_1000ecc0();
+    pcVar10 = "PS_Normal";
+  }
+  uStack_1b8 = 0x10078d7d;
+  bCString::bCString((bCString *)&stack0xfffffe50,pcVar10);
+  PSRoutine::SetTask((PSRoutine *)local_188);
+LAB_10078d87:
+  Entity::~Entity(local_bc);
+  Entity::~Entity((Entity *)&stack0xfffffe74);
+  return 1;
+}
+
+

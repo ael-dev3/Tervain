@@ -1,0 +1,31 @@
+; 20218be0 FUN_20218be0
+20218be0 | 0f57c0 | XORPS XMM0,XMM0
+20218be3 | f30f100da4ce6520 | MOVSS XMM1,dword ptr [0x2065cea4]
+20218beb | 83c8ff | OR EAX,0xffffffff
+20218bee | 56 | PUSH ESI
+20218bef | 8bf1 | MOV ESI,ECX
+20218bf1 | f30f114634 | MOVSS dword ptr [ESI + 0x34],XMM0
+20218bf6 | f30f114e38 | MOVSS dword ptr [ESI + 0x38],XMM1
+20218bfb | f30f100dc4b16520 | MOVSS XMM1,dword ptr [0x2065b1c4]
+20218c03 | f30f114630 | MOVSS dword ptr [ESI + 0x30],XMM0
+20218c08 | f30f1005306a6820 | MOVSS XMM0,dword ptr [0x20686a30]
+20218c10 | f30f114e2c | MOVSS dword ptr [ESI + 0x2c],XMM1
+20218c15 | 89463c | MOV dword ptr [ESI + 0x3c],EAX
+20218c18 | 894640 | MOV dword ptr [ESI + 0x40],EAX
+20218c1b | 894644 | MOV dword ptr [ESI + 0x44],EAX
+20218c1e | 894648 | MOV dword ptr [ESI + 0x48],EAX
+20218c21 | 89464c | MOV dword ptr [ESI + 0x4c],EAX
+20218c24 | 894650 | MOV dword ptr [ESI + 0x50],EAX
+20218c27 | f30f11465c | MOVSS dword ptr [ESI + 0x5c],XMM0
+20218c2c | c6465400 | MOV byte ptr [ESI + 0x54],0x0
+20218c30 | ff15bc857d20 | CALL dword ptr [0x207d85bc]
+20218c36 | 50 | PUSH EAX
+20218c37 | 8d4e6c | LEA ECX,[ESI + 0x6c]
+20218c3a | ff15ac857d20 | CALL dword ptr [0x207d85ac]
+20218c40 | 8d4e60 | LEA ECX,[ESI + 0x60]
+20218c43 | c786ac00000003000000 | MOV dword ptr [ESI + 0xac],0x3
+20218c4d | c6465501 | MOV byte ptr [ESI + 0x55],0x1
+20218c51 | ff1540867d20 | CALL dword ptr [0x207d8640]
+20218c57 | c7465800000000 | MOV dword ptr [ESI + 0x58],0x0
+20218c5e | 5e | POP ESI
+20218c5f | c3 | RET

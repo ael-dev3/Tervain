@@ -1,0 +1,14 @@
+/* ENTRY 300400e3 | bTPropertyType<eCCollisionShape_PS,bCObsoleteClass>::vfunction20 | STATUS decompiled | 1190 ms */
+
+void __thiscall
+bTPropertyType<eCCollisionShape_PS,bCObsoleteClass>::vfunction20
+          (bTPropertyType<eCCollisionShape_PS,bCObsoleteClass> *this)
+
+{
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)this);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)this[6].vftablePtr,(bCPropertyTypeBase *)this);
+  return;
+}
+
+

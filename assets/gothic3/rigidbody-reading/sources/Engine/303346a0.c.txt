@@ -1,0 +1,30 @@
+/* ENTRY 303346a0 | bTPropertyObjectType<eCRigidBodyBase_PS,eCEntityPropertySet>::~bTPropertyObjectType<eCRigidBodyBase_PS,eCEntityPropertySet> | STATUS decompiled | 8 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined * __thiscall
+bTPropertyObjectType<eCRigidBodyBase_PS,eCEntityPropertySet>::
+~bTPropertyObjectType<eCRigidBodyBase_PS,eCEntityPropertySet>(void)
+
+{
+  bCString *pbVar1;
+  bCPropertyObjectSingleton *this;
+  bCPropertyObjectTypeBase *pbVar2;
+  
+  if ((_DAT_30aec250 & 1) == 0) {
+    _DAT_30aec250 = _DAT_30aec250 | 1;
+    bCPropertyObjectTypeBase::bCPropertyObjectTypeBase
+              ((bCPropertyObjectTypeBase *)&DAT_30aec214,true);
+    _DAT_30aec214 = &vftable;
+    pbVar1 = (bCString *)bTPropertyObjectType<eCRigidBody_PS,eCRigidBodyBase_PS>::vfunction2();
+    bCPropertyObjectFactory::bCPropertyObjectFactory
+              ((bCPropertyObjectFactory *)&DAT_30aec22c,pbVar1);
+    pbVar2 = (bCPropertyObjectTypeBase *)&DAT_30aec214;
+    this = bCPropertyObjectSingleton::GetInstance();
+    bCPropertyObjectSingleton::RegisterTemplate(this,pbVar2);
+    _atexit(~bTPropertyObjectType<eCRigidBodyBase_PS,eCEntityPropertySet>);
+  }
+  return &DAT_30aec214;
+}
+
+

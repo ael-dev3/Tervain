@@ -1,0 +1,15 @@
+{
+  "schema": "gothic3-interaction-reading-manifest-v1",
+  "outputs": [
+    {
+      "path": "hero-interaction.json",
+      "bytes": 3630,
+      "sha256": "56319cbd4ee27da36a6c398ff0075d4086c42ceaebe087b969bd94ccc03bae8d"
+    },
+    {
+      "path": "runtime-rules.json",
+      "bytes": 5421,
+      "sha256": "554934a8b804803a46318f74e26df226e65146971c96ac9617581f52e209d4b3"
+    }
+  ]
+}

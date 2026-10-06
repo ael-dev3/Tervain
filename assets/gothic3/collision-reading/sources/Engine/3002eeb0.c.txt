@@ -1,0 +1,12 @@
+/* ENTRY 3002eeb0 | eCCollisionShapeBase_PS::IsEditorRelevant | STATUS decompiled | 29 ms */
+
+/* public: virtual bool __thiscall eCCollisionShapeBase_PS::IsEditorRelevant(void)const  */
+
+bool __thiscall eCCollisionShapeBase_PS::IsEditorRelevant(eCCollisionShapeBase_PS *this)
+
+{
+                    /* 0x2eeb0  10330  ?IsEditorRelevant@eCCollisionShapeBase_PS@@UBE_NXZ */
+  return false;
+}
+
+

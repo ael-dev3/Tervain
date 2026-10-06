@@ -1,0 +1,4 @@
+; 2002065d bTPropertyType<gCCameraModeParams,float>::vfunction4
+2002065d | e9de6e0200 | JMP 0x20047540
+; 20020667 gCNavigation_PS::GetUnderWaterDepth
+; 20020667 Ordinal_4646

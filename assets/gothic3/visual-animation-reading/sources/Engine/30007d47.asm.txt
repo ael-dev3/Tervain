@@ -1,0 +1,2 @@
+; 30007d47 eCRenderContext::Create
+30007d47 | e9542e3a00 | JMP 0x303aaba0

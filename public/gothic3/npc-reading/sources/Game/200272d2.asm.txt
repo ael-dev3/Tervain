@@ -1,0 +1,2 @@
+; 200272d2 bTPropertyType<gCNPC_PS,bTPropertyContainer<gELastFightAgainstPlayer>_>::vfunction15
+200272d2 | e989122e00 | JMP 0x20308560

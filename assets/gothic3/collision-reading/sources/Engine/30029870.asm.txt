@@ -1,0 +1,4 @@
+; 30029870 ?CanBePaused@eCEntityPropertySet@@UBE_NXZ
+30029870 | e96b7d4500 | JMP 0x304815e0
+; 3002987f eLoDMesh::eCSplitMeshUniformGrid::CalculateNumSplitSlots
+; 3002987f Ordinal_3710

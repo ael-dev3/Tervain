@@ -1,0 +1,2 @@
+; 2000ea0c ?Invalidate@gCCharacterSensor_PS@@IAEXXZ
+2000ea0c | e9bf8c2200 | JMP 0x202376d0

@@ -1,0 +1,84 @@
+/* ENTRY 20227960 | FUN_20227960 | STATUS decompiled | 50 ms */
+
+void __thiscall FUN_20227960(gCCharacterMovement_PS *param_1,int param_2,eCContactIterator *param_3)
+
+{
+  undefined1 *this;
+  bool bVar1;
+  bool bVar2;
+  eEPropertySetType eVar3;
+  eCEntity *peVar4;
+  eCApplication *peVar5;
+  ulong uVar6;
+  bCVector *pbVar7;
+  eCCollisionShape *peVar8;
+  float fVar9;
+  eCEntity *unaff_retaddr;
+  bCVector abStack_c [12];
+  
+  eVar3 = eCContactIterator::GetCollisionType(param_3);
+  if ((eVar3 == 0xe) && (param_2 != 0)) {
+    peVar4 = (*param_1->vftablePtr->GetEntity)(param_1);
+    eCEntity::GetWorldPosition((eCEntity *)peVar4);
+    bCVector::operator-((bCVector *)&(param_1->gCCharacterMovement_PS_data).field_0x118,abStack_c);
+    bVar1 = eCContactIterator::IsValid(param_3);
+    if ((!bVar1) ||
+       ((bVar1 = gCCharacterMovement_PS::GetGoalReached(param_1,false,true,false), bVar1 ||
+        (fVar9 = bCVector::GetSquareMagnitude((bCVector *)&stack0xfffffff0), fVar9 != 0.0)))) {
+      (param_1->gCCharacterMovement_PS_data).offset_0x3b0 = 0;
+      (param_1->gCCharacterMovement_PS_data).offset_0x3a2 = 0;
+      (param_1->gCCharacterMovement_PS_data).offset_0x3aa = 0;
+    }
+    else {
+      peVar5 = eCApplication::GetInstance();
+      fVar9 = eCApplication::GetFrameTimeInSeconds((eCApplication *)peVar5);
+      (param_1->gCCharacterMovement_PS_data).offset_0x3b0 =
+           fVar9 + (float)(param_1->gCCharacterMovement_PS_data).offset_0x3b0;
+      peVar5 = eCApplication::GetInstance();
+      uVar6 = eCApplication::GetMasterFrameCounter((eCApplication *)peVar5);
+      if ((param_1->gCCharacterMovement_PS_data).offset_0x39c != uVar6) {
+        peVar5 = eCApplication::GetInstance();
+        uVar6 = eCApplication::GetMasterFrameCounter((eCApplication *)peVar5);
+        (param_1->gCCharacterMovement_PS_data).offset_0x39c = uVar6;
+        thunk_FUN_202332d0(&(param_1->gCCharacterMovement_PS_data).offset_0x3a0);
+        thunk_FUN_20233270(0);
+      }
+      pbVar7 = eCContactIterator::GetAvgCollisionPosition(param_3);
+      thunk_FUN_20233db0(pbVar7);
+    }
+    if ((int)(param_1->gCCharacterMovement_PS_data).offset_0xfc < 0xc) {
+      this = &(param_1->gCCharacterMovement_PS_data).field_0x23c;
+      peVar4 = eCEntityProxy::GetEntity((eCEntityProxy *)this);
+      if ((peVar4 != (eCEntity *)0x0) &&
+         (peVar4 = eCEntityProxy::GetEntity((eCEntityProxy *)this), unaff_retaddr == peVar4)) {
+        bVar1 = false;
+        bVar2 = eCContactIterator::GoNextShape(param_3);
+        if (bVar2) {
+          do {
+            peVar8 = eCContactIterator::GetShape(param_3,0);
+            if (*(int *)(peVar8 + 0x18) == 7) {
+              bVar1 = true;
+            }
+            bVar2 = eCContactIterator::GoNextPatch(param_3);
+            if (bVar2) {
+              do {
+                do {
+                  bVar2 = eCContactIterator::GoNextPoint(param_3);
+                } while (bVar2);
+                bVar2 = eCContactIterator::GoNextPatch(param_3);
+              } while (bVar2);
+            }
+            bVar2 = eCContactIterator::GoNextShape(param_3);
+          } while (bVar2);
+          if (bVar1) {
+            (param_1->gCCharacterMovement_PS_data).offset_0x390 = (gCCharacterMovement_PS)0x1;
+          }
+        }
+      }
+    }
+    bCVector::~bCVector((bCVector *)&stack0xfffffff0);
+  }
+  return;
+}
+
+

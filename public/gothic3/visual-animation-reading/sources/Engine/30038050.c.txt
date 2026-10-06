@@ -1,0 +1,13 @@
+/* ENTRY 30038050 | eCPhysicsScene::GetCriticalSection | STATUS decompiled | 7 ms */
+
+/* public: class bCCriticalSectionWin32 & __thiscall eCPhysicsScene::GetCriticalSection(void) */
+
+bCCriticalSectionWin32 * __thiscall eCPhysicsScene::GetCriticalSection(eCPhysicsScene *this)
+
+{
+                    /* 0x38050  6649
+                       ?GetCriticalSection@eCPhysicsScene@@QAEAAVbCCriticalSectionWin32@@XZ */
+  return (bCCriticalSectionWin32 *)&DAT_30ae5dc0;
+}
+
+

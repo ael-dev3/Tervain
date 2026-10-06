@@ -1,0 +1,10 @@
+/* ENTRY 10020100 | FUN_10020100 | STATUS decompiled | 2 ms */
+
+int * __thiscall FUN_10020100(int *param_1,undefined4 param_2)
+
+{
+  (**(code **)(*param_1 + 4))(&param_2,4);
+  return param_1;
+}
+
+

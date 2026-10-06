@@ -1,0 +1,13 @@
+/* ENTRY 10004e8f | bCOStream::operator<< | STATUS decompiled | 5 ms */
+
+/* public: class bCOStream & __thiscall bCOStream::operator<<(class bCString const &) */
+
+bCOStream * __thiscall bCOStream::operator<<(bCOStream *this,bCString *param_1)
+
+{
+                    /* 0x4e8f  728  ??6bCOStream@@QAEAAV0@ABVbCString@@@Z */
+  (*this->vftablePtr->Write)(this,param_1);
+  return (bCOStream *)this;
+}
+
+

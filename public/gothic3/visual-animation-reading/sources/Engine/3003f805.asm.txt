@@ -1,0 +1,2 @@
+; 3003f805 eCResourceDataEntity::Load
+3003f805 | e9a6024800 | JMP 0x304bfab0

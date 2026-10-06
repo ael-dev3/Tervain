@@ -1,0 +1,2 @@
+; 30037736 eCTemplateEntityProxy::SetEntity
+30037736 | e985fd4800 | JMP 0x304c74c0

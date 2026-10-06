@@ -1,0 +1,135 @@
+/* ENTRY 2002dd49 | gCNavZone_PS::IsZoneIllegal | STATUS decompiled | 96 ms */
+
+/* public: bool __thiscall gCNavZone_PS::IsZoneIllegal(void) */
+
+bool __thiscall gCNavZone_PS::IsZoneIllegal(gCNavZone_PS *this)
+
+{
+  bool bVar1;
+  bCVector *pbVar2;
+  bCVector *pbVar3;
+  bCTriangle *pbVar4;
+  bCMessageAdmin *this_00;
+  int iVar5;
+  bCVector *pbVar6;
+  int iVar7;
+  float fVar8;
+  float fVar9;
+  bEMessageTypes bVar10;
+  char *pcVar11;
+  char *pcVar12;
+  char *pcVar13;
+  float fVar14;
+  int iStack_c4;
+  bCStretch abStack_c0 [24];
+  bCTriangle abStack_a8 [36];
+  bCVector abStack_84 [12];
+  bCVector abStack_78 [12];
+  bCVector abStack_6c [12];
+  bCVector abStack_60 [12];
+  bCVector abStack_54 [12];
+  bCVector abStack_48 [12];
+  bCVector abStack_3c [12];
+  bCVector abStack_30 [12];
+  bCTriangle abStack_24 [36];
+  
+                    /* 0x2dd49  5287  ?IsZoneIllegal@gCNavZone_PS@@QAE_NXZ */
+  iVar5 = (this->gCNavZone_PS_data).offset_0x14;
+  if (iVar5 < 3) {
+    return false;
+  }
+  iStack_c4 = 0;
+  if (-1 < iVar5 + -2) {
+    do {
+      bCStretch::bCStretch(abStack_c0);
+      pbVar2 = (bCVector *)((int)(this->gCNavZone_PS_data).offset_0x10 + iStack_c4 * 0xc);
+      fVar8 = bCVector::GetZ(pbVar2);
+      fVar14 = 0.0;
+      fVar9 = bCVector::GetX(pbVar2);
+      pbVar2 = (bCVector *)bCVector::bCVector(abStack_60,fVar9,fVar14,fVar8);
+      bCStretch::SetStart(abStack_c0,pbVar2);
+      bCVector::~bCVector(abStack_60);
+      pbVar2 = (bCVector *)((int)(this->gCNavZone_PS_data).offset_0x10 + iStack_c4 * 0xc + 0xc);
+      fVar8 = bCVector::GetZ(pbVar2);
+      fVar14 = 0.0;
+      fVar9 = bCVector::GetX(pbVar2);
+      pbVar2 = (bCVector *)bCVector::bCVector(abStack_54,fVar9,fVar14,fVar8);
+      bCStretch::SetEnd(abStack_c0,pbVar2);
+      bCVector::~bCVector(abStack_54);
+      iVar5 = iStack_c4 + 2;
+      if (iVar5 <= (this->gCNavZone_PS_data).offset_0x14 + -1) {
+        iVar7 = iVar5 * 0xc;
+        do {
+          bCTriangle::bCTriangle(abStack_a8);
+          if (iVar5 < (this->gCNavZone_PS_data).offset_0x14 + -1) {
+            pbVar6 = (bCVector *)(iVar7 + (int)(this->gCNavZone_PS_data).offset_0x10);
+            pbVar2 = pbVar6 + 0xc;
+            fVar8 = bCVector::GetZ(pbVar2);
+            fVar14 = -10.0;
+            fVar9 = bCVector::GetX(pbVar2);
+            pbVar3 = (bCVector *)bCVector::bCVector(abStack_84,fVar9,fVar14,fVar8);
+            fVar8 = bCVector::GetZ(pbVar2);
+            fVar14 = 10.0;
+            fVar9 = bCVector::GetX(pbVar2);
+            pbVar2 = (bCVector *)bCVector::bCVector(abStack_48,fVar9,fVar14,fVar8);
+            fVar8 = bCVector::GetZ(pbVar6);
+            fVar14 = 0.0;
+            fVar9 = bCVector::GetX(pbVar6);
+            pbVar6 = (bCVector *)bCVector::bCVector(abStack_3c,fVar9,fVar14,fVar8);
+            pbVar4 = (bCTriangle *)bCTriangle::bCTriangle(abStack_24,pbVar6,pbVar2,pbVar3);
+            bCTriangle::operator=(abStack_a8,pbVar4);
+            bCTriangle::~bCTriangle(abStack_24);
+            bCVector::~bCVector(abStack_3c);
+            bCVector::~bCVector(abStack_48);
+            bCVector::~bCVector(abStack_84);
+LAB_2029f62e:
+            bVar1 = bCStretch::Intersects(abStack_c0,abStack_a8,(float *)m_fDummy_exref);
+            if (bVar1) {
+              iVar5 = *(int *)g_iDefaultMessagePriority_exref;
+              iVar7 = -1;
+              pcVar13 = (char *)0x0;
+              pcVar12 = (char *)0x0;
+              pcVar11 = "gCNavZone_PS::IsZoneIllegal - Found illegal zone!";
+              bVar10 = 3;
+              this_00 = bCMessageAdmin::GetInstance();
+              bCMessageAdmin::OnMessage(this_00,bVar10,pcVar11,pcVar12,pcVar13,iVar7,iVar5);
+              bCTriangle::~bCTriangle(abStack_a8);
+              bCStretch::~bCStretch(abStack_c0);
+              return true;
+            }
+          }
+          else if (iStack_c4 != 0) {
+            pbVar2 = (this->gCNavZone_PS_data).offset_0x10;
+            fVar8 = bCVector::GetZ(pbVar2);
+            fVar14 = -10.0;
+            fVar9 = bCVector::GetX(pbVar2);
+            pbVar3 = (bCVector *)bCVector::bCVector(abStack_6c,fVar9,fVar14,fVar8);
+            fVar8 = bCVector::GetZ(pbVar2);
+            fVar14 = 10.0;
+            fVar9 = bCVector::GetX(pbVar2);
+            pbVar6 = (bCVector *)bCVector::bCVector(abStack_78,fVar9,fVar14,fVar8);
+            fVar8 = bCVector::GetZ(pbVar2 + iVar7);
+            fVar14 = 0.0;
+            fVar9 = bCVector::GetX(pbVar2 + iVar7);
+            pbVar2 = (bCVector *)bCVector::bCVector(abStack_30,fVar9,fVar14,fVar8);
+            pbVar4 = (bCTriangle *)bCTriangle::bCTriangle(abStack_24,pbVar2,pbVar6,pbVar3);
+            bCTriangle::operator=(abStack_a8,pbVar4);
+            bCTriangle::~bCTriangle(abStack_24);
+            bCVector::~bCVector(abStack_30);
+            bCVector::~bCVector(abStack_78);
+            bCVector::~bCVector(abStack_6c);
+            goto LAB_2029f62e;
+          }
+          bCTriangle::~bCTriangle(abStack_a8);
+          iVar5 = iVar5 + 1;
+          iVar7 = iVar7 + 0xc;
+        } while (iVar5 <= (this->gCNavZone_PS_data).offset_0x14 + -1);
+      }
+      bCStretch::~bCStretch(abStack_c0);
+      iStack_c4 = iStack_c4 + 1;
+    } while (iStack_c4 <= (this->gCNavZone_PS_data).offset_0x14 + -2);
+  }
+  return false;
+}
+
+

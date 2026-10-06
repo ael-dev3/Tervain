@@ -1,0 +1,4 @@
+; 100050b5 ??1Entity@@QAE@XZ
+100050b5 | e9269d0200 | JMP 0x1002ede0
+; 100050ba PSPlayerMemory::SetHitPointsMax
+; 100050ba Ordinal_1952

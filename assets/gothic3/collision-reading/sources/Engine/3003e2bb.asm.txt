@@ -1,0 +1,4 @@
+; 3003e2bb ?AccessRange@eCCollisionShape_PS@@QAEAAV?$bTPropertyContainer@W4eEPhysicRangeType@@@@XZ
+3003e2bb | e9a0490800 | JMP 0x300c2c60
+; 3003e2c0 eCPhysicsScene_PS::AccessIsPhysicsEnabled
+; 3003e2c0 Ordinal_2838

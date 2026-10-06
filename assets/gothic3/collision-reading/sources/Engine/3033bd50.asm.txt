@@ -1,0 +1,9 @@
+; 3033bd50 bTPropertyType<eCCollisionShape_PS,bCObsoleteClass>::vfunction20
+3033bd50 | 56 | PUSH ESI
+3033bd51 | 8bf1 | MOV ESI,ECX
+3033bd53 | ff1570caaf30 | CALL dword ptr [0x30afca70]
+3033bd59 | 8b4e18 | MOV ECX,dword ptr [ESI + 0x18]
+3033bd5c | 56 | PUSH ESI
+3033bd5d | ff157ccaaf30 | CALL dword ptr [0x30afca7c]
+3033bd63 | 5e | POP ESI
+3033bd64 | c3 | RET

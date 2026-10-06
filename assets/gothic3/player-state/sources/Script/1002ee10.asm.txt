@@ -1,0 +1,8 @@
+; 1002ee10 FUN_1002ee10
+1002ee10 | 8b01 | MOV EAX,dword ptr [ECX]
+1002ee12 | 8b542404 | MOV EDX,dword ptr [ESP + 0x4]
+1002ee16 | 33c9 | XOR ECX,ECX
+1002ee18 | 3b02 | CMP EAX,dword ptr [EDX]
+1002ee1a | 0f94c1 | SETZ CL
+1002ee1d | 8ac1 | MOV AL,CL
+1002ee1f | c20400 | RET 0x4

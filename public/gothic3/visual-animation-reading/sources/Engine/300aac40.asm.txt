@@ -1,0 +1,7 @@
+; 300aac40 bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet>::vfunction5
+300aac40 | 682cd18130 | PUSH 0x3081d12c
+300aac45 | 68a4968130 | PUSH 0x308196a4
+300aac4a | ff1530dbaf30 | CALL dword ptr [0x30afdb30]
+300aac50 | 83c408 | ADD ESP,0x8
+300aac53 | 66b80100 | MOV AX,0x1
+300aac57 | c20400 | RET 0x4

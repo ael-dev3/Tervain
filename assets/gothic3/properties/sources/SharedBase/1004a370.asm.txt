@@ -1,0 +1,3 @@
+; 1004a370 FUN_1004a370
+1004a370 | 83c8ff | OR EAX,0xffffffff
+1004a373 | c20400 | RET 0x4

@@ -1,0 +1,3 @@
+; 2020c4f0 bTPropertyObject<gCDialog_PS,eCEntityPropertySet>::vfunction1
+2020c4f0 | 8b4108 | MOV EAX,dword ptr [ECX + 0x8]
+2020c4f3 | c3 | RET

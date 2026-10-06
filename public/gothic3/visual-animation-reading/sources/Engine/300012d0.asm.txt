@@ -1,0 +1,2 @@
+; 300012d0 eCVisualAnimation_PS::HasActor
+300012d0 | e98bd50900 | JMP 0x3009e860

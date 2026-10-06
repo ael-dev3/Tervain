@@ -1,0 +1,10 @@
+/* ENTRY 10066bc0 | FUN_10066bc0 | STATUS decompiled | 2 ms */
+
+bCOrientedBox * __thiscall FUN_10066bc0(bCOrientedBox *param_1,bCOrientedBox *param_2)
+
+{
+  bCOrientedBox::Create(param_1,param_2);
+  return param_1;
+}
+
+

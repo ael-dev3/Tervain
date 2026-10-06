@@ -1,0 +1,18 @@
+/* ENTRY 300056e1 | eCCollisionShape::SetAdaptScale | STATUS decompiled | 6 ms */
+
+/* public: void __thiscall eCCollisionShape::SetAdaptScale(float const &) */
+
+void __thiscall eCCollisionShape::SetAdaptScale(eCCollisionShape *this,float *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x56e1  12858  ?SetAdaptScale@eCCollisionShape@@QAEXABM@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"AdaptScale",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  (this->eCCollisionShape_data).offset_0x3c = *param_1;
+  (*pNVar1)(this,"AdaptScale",false);
+  return;
+}
+
+

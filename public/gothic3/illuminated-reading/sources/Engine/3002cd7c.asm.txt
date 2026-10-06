@@ -1,0 +1,2 @@
+; 3002cd7c eCIlluminated_PS::GetReciveStaticShadows
+3002cd7c | e92ff70600 | JMP 0x3009c4b0

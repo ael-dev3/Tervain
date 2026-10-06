@@ -1,0 +1,4 @@
+; 10003350 ?GetNormalized@bCBox@@QBE?AV1@XZ
+10003350 | e9db2f0300 | JMP 0x10036330
+; 10003355 bCVector2::InvScale
+; 10003355 Ordinal_3481

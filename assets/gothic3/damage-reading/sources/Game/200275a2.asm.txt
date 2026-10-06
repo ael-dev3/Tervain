@@ -1,0 +1,2 @@
+; 200275a2 bTPropertyType<gCDamageReceiver_PS,eCEntityProxy>::vfunction26
+200275a2 | e9b95b0900 | JMP 0x200bd160

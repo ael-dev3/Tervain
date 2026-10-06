@@ -1,0 +1,15 @@
+; 20209f20 bTPropertyObject<gCClock_PS,eCEntityPropertySet>::~bTPropertyObject<gCClock_PS,eCEntityPropertySet>
+20209f20 | 56 | PUSH ESI
+20209f21 | 8bf1 | MOV ESI,ECX
+20209f23 | ff15b8877d20 | CALL dword ptr [0x207d87b8]
+20209f29 | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+20209f30 | c706c45b6820 | MOV dword ptr [ESI],0x20685bc4
+20209f36 | e886f9e0ff | CALL 0x200198c1
+20209f3b | 6a01 | PUSH 0x1
+20209f3d | 8bce | MOV ECX,ESI
+20209f3f | 89460c | MOV dword ptr [ESI + 0xc],EAX
+20209f42 | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+20209f49 | e8aa5ce2ff | CALL 0x2002fbf8
+20209f4e | 8bc6 | MOV EAX,ESI
+20209f50 | 5e | POP ESI
+20209f51 | c20400 | RET 0x4

@@ -1,0 +1,12 @@
+/* ENTRY 10003d7d | bCPoint::~bCPoint | STATUS decompiled | 1 ms */
+
+/* public: __thiscall bCPoint::~bCPoint(void) */
+
+void __thiscall bCPoint::~bCPoint(bCPoint *this)
+
+{
+                    /* 0x3d7d  409  ??1bCPoint@@QAE@XZ */
+  return;
+}
+
+

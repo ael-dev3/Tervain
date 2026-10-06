@@ -1,0 +1,4 @@
+; 10004435 ?ReadSkipObject@bCPropertyObjectFactory@@KGGAAVbCIStream@@@Z
+10004435 | e9368e0800 | JMP 0x1008d270
+; 1000443a bCBitField::SetCount
+; 1000443a Ordinal_4149

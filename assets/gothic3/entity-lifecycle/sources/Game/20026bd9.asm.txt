@@ -1,0 +1,2 @@
+; 20026bd9 ?Create@gCEntity@@UAE?AW4bEResult@@XZ
+20026bd9 | e9c2501000 | JMP 0x2012bca0

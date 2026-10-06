@@ -1,0 +1,2 @@
+; 30015dca eCVisualAnimation_PS::GetBoneTwistSpringEnabled
+30015dca | e971c00400 | JMP 0x30061e40

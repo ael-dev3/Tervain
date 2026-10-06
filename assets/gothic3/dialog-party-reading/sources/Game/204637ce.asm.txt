@@ -1,0 +1,9 @@
+; 204637ce _atexit
+204637ce | ff742404 | PUSH dword ptr [ESP + 0x4]
+204637d2 | e8bbffffff | CALL 0x20463792
+204637d7 | f7d8 | NEG EAX
+204637d9 | 1bc0 | SBB EAX,EAX
+204637db | f7d8 | NEG EAX
+204637dd | 59 | POP ECX
+204637de | 48 | DEC EAX
+204637df | c3 | RET

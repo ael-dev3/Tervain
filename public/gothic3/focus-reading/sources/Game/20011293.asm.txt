@@ -1,0 +1,2 @@
+; 20011293 gCFocus_PS::IsProcessable
+20011293 | e9289e1200 | JMP 0x2013b0c0

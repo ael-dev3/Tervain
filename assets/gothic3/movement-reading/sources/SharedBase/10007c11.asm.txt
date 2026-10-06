@@ -1,0 +1,4 @@
+; 10007c11 ??0bCObjectBase@@QAE@XZ
+10007c11 | e9aa250400 | JMP 0x1004a1c0
+; 10007c16 bCTriangle::InvTranslate
+; 10007c16 Ordinal_3526

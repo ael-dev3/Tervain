@@ -1,0 +1,9 @@
+/* ENTRY 20403f50 | FUN_20403f50 | STATUS decompiled | 1 ms */
+
+undefined2 FUN_20403f50(void)
+
+{
+  return 0x54;
+}
+
+

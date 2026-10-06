@@ -1,0 +1,66 @@
+; 20321c40 bTPropertyType<gCPlayerMemory_PS,bool>::vfunction24
+20321c40 | 53 | PUSH EBX
+20321c41 | 56 | PUSH ESI
+20321c42 | 8b74240c | MOV ESI,dword ptr [ESP + 0xc]
+20321c46 | 85f6 | TEST ESI,ESI
+20321c48 | 8bd9 | MOV EBX,ECX
+20321c4a | 747f | JZ 0x20321ccb
+20321c4c | 8b06 | MOV EAX,dword ptr [ESI]
+20321c4e | 8b10 | MOV EDX,dword ptr [EAX]
+20321c50 | 57 | PUSH EDI
+20321c51 | 8bce | MOV ECX,ESI
+20321c53 | ffd2 | CALL EDX
+20321c55 | 85c0 | TEST EAX,EAX
+20321c57 | 742b | JZ 0x20321c84
+20321c59 | 8b06 | MOV EAX,dword ptr [ESI]
+20321c5b | 8b10 | MOV EDX,dword ptr [EAX]
+20321c5d | 55 | PUSH EBP
+20321c5e | 8bce | MOV ECX,ESI
+20321c60 | ffd2 | CALL EDX
+20321c62 | 8be8 | MOV EBP,EAX
+20321c64 | 8b7d00 | MOV EDI,dword ptr [EBP]
+20321c67 | 6a00 | PUSH 0x0
+20321c69 | 8bcb | MOV ECX,EBX
+20321c6b | 83c758 | ADD EDI,0x58
+20321c6e | ff153c877d20 | CALL dword ptr [0x207d873c]
+20321c74 | 8bc8 | MOV ECX,EAX
+20321c76 | ff15f8867d20 | CALL dword ptr [0x207d86f8]
+20321c7c | 50 | PUSH EAX
+20321c7d | 8b07 | MOV EAX,dword ptr [EDI]
+20321c7f | 8bcd | MOV ECX,EBP
+20321c81 | ffd0 | CALL EAX
+20321c83 | 5d | POP EBP
+20321c84 | 8b13 | MOV EDX,dword ptr [EBX]
+20321c86 | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+20321c89 | 56 | PUSH ESI
+20321c8a | 8bcb | MOV ECX,EBX
+20321c8c | ffd0 | CALL EAX
+20321c8e | 8b4c2414 | MOV ECX,dword ptr [ESP + 0x14]
+20321c92 | 8a11 | MOV DL,byte ptr [ECX]
+20321c94 | 8810 | MOV byte ptr [EAX],DL
+20321c96 | 8b06 | MOV EAX,dword ptr [ESI]
+20321c98 | 8b10 | MOV EDX,dword ptr [EAX]
+20321c9a | 8bce | MOV ECX,ESI
+20321c9c | ffd2 | CALL EDX
+20321c9e | 85c0 | TEST EAX,EAX
+20321ca0 | 7428 | JZ 0x20321cca
+20321ca2 | 8b06 | MOV EAX,dword ptr [ESI]
+20321ca4 | 8b10 | MOV EDX,dword ptr [EAX]
+20321ca6 | 8bce | MOV ECX,ESI
+20321ca8 | ffd2 | CALL EDX
+20321caa | 8bf8 | MOV EDI,EAX
+20321cac | 8b37 | MOV ESI,dword ptr [EDI]
+20321cae | 6a00 | PUSH 0x0
+20321cb0 | 8bcb | MOV ECX,EBX
+20321cb2 | 83c65c | ADD ESI,0x5c
+20321cb5 | ff153c877d20 | CALL dword ptr [0x207d873c]
+20321cbb | 8bc8 | MOV ECX,EAX
+20321cbd | ff15f8867d20 | CALL dword ptr [0x207d86f8]
+20321cc3 | 50 | PUSH EAX
+20321cc4 | 8b06 | MOV EAX,dword ptr [ESI]
+20321cc6 | 8bcf | MOV ECX,EDI
+20321cc8 | ffd0 | CALL EAX
+20321cca | 5f | POP EDI
+20321ccb | 5e | POP ESI
+20321ccc | 5b | POP EBX
+20321ccd | c20800 | RET 0x8

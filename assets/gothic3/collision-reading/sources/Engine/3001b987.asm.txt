@@ -1,0 +1,4 @@
+; 3001b987 ?AccessGroup@eCCollisionShape_PS@@QAEAAV?$bTPropertyContainer@W4eECollisionGroup@@@@XZ
+3001b987 | e9b4720a00 | JMP 0x300c2c40
+; 3001b9a0 eCColorSrcProxy::Read
+; 3001b9a0 Ordinal_12065

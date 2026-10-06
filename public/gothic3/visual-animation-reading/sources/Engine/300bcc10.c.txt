@@ -1,0 +1,13 @@
+/* ENTRY 300bcc10 | FUN_300bcc10 | STATUS decompiled | 3 ms */
+
+void __thiscall FUN_300bcc10(eCVisualAnimationFactory *param_1,bCString *param_2)
+
+{
+  eCVisualAnimationLoD::SetActorFileName(*(eCVisualAnimationLoD **)(param_1 + 8),param_2);
+  if (*(int *)(param_1 + 4) != 0) {
+    eCVisualAnimationFactory::CreateActorInstance(param_1);
+  }
+  return;
+}
+
+

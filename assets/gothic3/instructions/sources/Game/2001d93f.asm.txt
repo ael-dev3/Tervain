@@ -1,0 +1,4 @@
+; 2001d93f ?GameReset@gCScriptProcessingUnit@@QAEXXZ
+2001d93f | e9bce73400 | JMP 0x2036c100
+; 2001d944 gCGUIManager::OnProcess
+; 2001d944 Ordinal_5559

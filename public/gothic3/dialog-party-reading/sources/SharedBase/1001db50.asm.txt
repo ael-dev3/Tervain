@@ -1,0 +1,29 @@
+; 1001db50 FUN_1001db50
+1001db50 | 57 | PUSH EDI
+1001db51 | 8b7c240c | MOV EDI,dword ptr [ESP + 0xc]
+1001db55 | 85ff | TEST EDI,EDI
+1001db57 | 743b | JZ 0x1001db94
+1001db59 | 56 | PUSH ESI
+1001db5a | 8b74240c | MOV ESI,dword ptr [ESP + 0xc]
+1001db5e | 8bff | MOV EDI,EDI
+1001db60 | 83ef01 | SUB EDI,0x1
+1001db63 | 85f6 | TEST ESI,ESI
+1001db65 | 7425 | JZ 0x1001db8c
+1001db67 | 8b06 | MOV EAX,dword ptr [ESI]
+1001db69 | 85c0 | TEST EAX,EAX
+1001db6b | 741f | JZ 0x1001db8c
+1001db6d | 668140fcffff | ADD word ptr [EAX + -0x4],0xffff
+1001db73 | 0fb748fc | MOVZX ECX,word ptr [EAX + -0x4]
+1001db77 | 83c0f8 | ADD EAX,-0x8
+1001db7a | 6685c9 | TEST CX,CX
+1001db7d | 770d | JA 0x1001db8c
+1001db7f | 50 | PUSH EAX
+1001db80 | e8294ffeff | CALL 0x10002aae
+1001db85 | 8bc8 | MOV ECX,EAX
+1001db87 | e88645feff | CALL 0x10002112
+1001db8c | 83c604 | ADD ESI,0x4
+1001db8f | 85ff | TEST EDI,EDI
+1001db91 | 75cd | JNZ 0x1001db60
+1001db93 | 5e | POP ESI
+1001db94 | 5f | POP EDI
+1001db95 | c20800 | RET 0x8

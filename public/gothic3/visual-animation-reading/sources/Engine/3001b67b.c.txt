@@ -1,0 +1,26 @@
+/* ENTRY 3001b67b | eCVisualAnimationFactory::Create | STATUS decompiled | 4 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+/* public: enum bEResult __thiscall eCVisualAnimationFactory::Create(void) */
+
+bEResult __thiscall eCVisualAnimationFactory::Create(eCVisualAnimationFactory *this)
+
+{
+  eCVisualAnimationLoD *this_00;
+  int *piVar1;
+  
+                    /* 0x1b67b  4739  ?Create@eCVisualAnimationFactory@@QAE?AW4bEResult@@XZ */
+  Destroy(this);
+  this_00 = (eCVisualAnimationLoD *)new(0x2c,0x19c);
+  if (this_00 != (eCVisualAnimationLoD *)0x0) {
+    piVar1 = (int *)eCVisualAnimationLoD::eCVisualAnimationLoD(this_00,this);
+    *(int **)(this + 8) = piVar1;
+    (**(code **)(*piVar1 + 0x18))();
+    return 1;
+  }
+  *(undefined4 *)(this + 8) = 0;
+  (**(code **)(_DAT_00000000 + 0x18))();
+  return 1;
+}
+
+

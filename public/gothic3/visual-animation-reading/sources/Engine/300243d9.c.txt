@@ -1,0 +1,20 @@
+/* ENTRY 300243d9 | eCSpringAndDamperEffector::SetSpringMaxCompressForce | STATUS decompiled | 12 ms */
+
+/* public: void __thiscall eCSpringAndDamperEffector::SetSpringMaxCompressForce(float const &) */
+
+void __thiscall
+eCSpringAndDamperEffector::SetSpringMaxCompressForce(eCSpringAndDamperEffector *this,float *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x243d9  14263
+                       ?SetSpringMaxCompressForce@eCSpringAndDamperEffector@@QAEXABM@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"SpringMaxCompressForce",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  (this->eCEffector_data).offset_0x64 = *param_1;
+  (*pNVar1)(this,"SpringMaxCompressForce",false);
+  return;
+}
+
+

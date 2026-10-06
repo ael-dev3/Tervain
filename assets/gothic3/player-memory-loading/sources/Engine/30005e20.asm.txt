@@ -1,0 +1,2 @@
+; 30005e20 eCEntityPropertySet::Trigger
+30005e20 | e9ebbb4700 | JMP 0x30481a10

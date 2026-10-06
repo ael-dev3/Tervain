@@ -1,0 +1,4 @@
+; 10004363 ?GetPlane@bCOrientedBox@@QBE?AVbCPlane@@H@Z
+10004363 | e9f81c0600 | JMP 0x10066060
+; 10004368 bCMatrix2::bCMatrix2
+; 10004368 Ordinal_149

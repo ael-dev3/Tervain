@@ -1,0 +1,12 @@
+/* ENTRY 30006532 | eCEntityProxyInternal::GetEntity | STATUS decompiled | 0 ms */
+
+/* public: class eCEntity const * __thiscall eCEntityProxyInternal::GetEntity(void)const  */
+
+eCEntity * __thiscall eCEntityProxyInternal::GetEntity(eCEntityProxyInternal *this)
+
+{
+                    /* 0x6532  7021  ?GetEntity@eCEntityProxyInternal@@QBEPBVeCEntity@@XZ */
+  return *(eCEntity **)this;
+}
+
+

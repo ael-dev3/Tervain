@@ -1,0 +1,3 @@
+; 202bbf40 FUN_202bbf40
+202bbf40 | 8d4144 | LEA EAX,[ECX + 0x44]
+202bbf43 | c3 | RET

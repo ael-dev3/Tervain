@@ -1,0 +1,32 @@
+/* ENTRY 2020ba60 | FUN_2020ba60 | STATUS decompiled | 14 ms */
+
+void __thiscall FUN_2020ba60(void *this)
+
+{
+  bCMemoryAdmin *this_00;
+  void *pvVar1;
+  
+                    /* inlined constructor or destructor (approx location) for gCDialog_PS */
+  *(gCDialog_PS_vftable **)this = &gCDialog_PS::vftable;
+  if (*(int *)((int)this + 0x4c) != 0) {
+    thunk_FUN_20078cc0(*(int *)((int)this + 0x4c),*(undefined4 *)((int)this + 0x54));
+    pvVar1 = *(void **)((int)this + 0x4c);
+    this_00 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(this_00,pvVar1);
+    *(undefined4 *)((int)this + 0x4c) = 0;
+    *(undefined4 *)((int)this + 0x50) = 0;
+    *(undefined4 *)((int)this + 0x54) = 0;
+  }
+  eCEntityProxy::~eCEntityProxy((eCEntityProxy *)((int)this + 0x30));
+                    /* inlined constructor or destructor (approx location) for
+                       bTPropertyContainer<gETradeCategory> */
+  *(bCObjectBase *)((int)this + 0x20) = (bCObjectBase)&bTPropertyContainer<gETradeCategory>::vftable
+  ;
+  bCObjectBase::~bCObjectBase((bCObjectBase *)((int)this + 0x20));
+                    /* WARNING: Could not recover jumptable at 0x2020babc. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eCEntityPropertySet::~eCEntityPropertySet(this);
+  return;
+}
+
+

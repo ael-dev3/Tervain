@@ -1,0 +1,4 @@
+; 2002efaa ?GetPrimaryPoseExt@gCNPC_PS@@QAE?AW4gEPose@@W4gEAction@@W4gEPhase@@@Z
+2002efaa | e9319f2c00 | JMP 0x202f8ee0
+; 2002efaf gCNavZone_PS::AccessBottomToleranz
+; 2002efaf Ordinal_1041

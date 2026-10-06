@@ -1,0 +1,16 @@
+/* ENTRY 100641a0 | FUN_100641a0 | STATUS decompiled | 7 ms */
+
+void __thiscall FUN_100641a0(float *param_1,float *param_2)
+
+{
+  float10 fVar1;
+  
+  param_2[1] = *param_1;
+  param_2[2] = param_1[1];
+  param_2[3] = param_1[2];
+  fVar1 = (float10)FUN_100ab010();
+  *param_2 = (float)fVar1;
+  return;
+}
+
+

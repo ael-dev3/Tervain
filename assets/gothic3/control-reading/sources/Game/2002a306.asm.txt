@@ -1,0 +1,4 @@
+; 2002a306 bTPropertyType<gCCharacterControl_PS,unsigned_long>::vfunction5
+2002a306 | e9753d1f00 | JMP 0x2021e080
+; 2002a315 LAB_2002a315
+2002a315 | e9f6185200 | JMP 0x2054bc10

@@ -1,0 +1,16 @@
+/* ENTRY 20026792 | bTPropertyContainer<gEWeaponConfig>::vfunction5 | STATUS decompiled | 7 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<gEWeaponConfig>::vfunction5
+          (bTPropertyContainer<gEWeaponConfig> *this,bCIStream *param_1)
+
+{
+  bCIStream *pbVar1;
+  
+  pbVar1 = param_1;
+  bCIStream::operator>>(param_1,(ushort *)&param_1);
+  (**(code **)((int)*pbVar1 + 4))(&this->bTPropertyContainer<gEWeaponConfig>_data,4);
+  return 1;
+}
+
+

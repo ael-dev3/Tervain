@@ -1,0 +1,10 @@
+/* ENTRY 1009d140 | bCColorBase::~bCColorBase | STATUS decompiled | 1 ms */
+
+void __thiscall bCColorBase::~bCColorBase(bCColorBase *this)
+
+{
+  this->vftablePtr = &vftable;
+  return;
+}
+
+

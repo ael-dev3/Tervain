@@ -1,0 +1,23 @@
+/* ENTRY 3001847b | eCVisualAnimationFactory::eCVisualAnimationFactory | STATUS decompiled | 2 ms */
+
+/* public: __thiscall eCVisualAnimationFactory::eCVisualAnimationFactory(void) */
+
+void __thiscall eCVisualAnimationFactory::eCVisualAnimationFactory(eCVisualAnimationFactory *this)
+
+{
+                    /* 0x1847b  901  ??0eCVisualAnimationFactory@@QAE@XZ */
+  *(undefined4 *)(this + 0x10) = 0;
+  *(undefined4 *)(this + 0x14) = 0;
+  *(undefined4 *)(this + 0x18) = 0;
+  *(undefined4 *)(this + 0x20) = 0;
+  *(undefined4 *)(this + 0x24) = 0;
+  *(undefined4 *)(this + 0x28) = 0;
+  *(undefined4 *)(this + 0x2c) = 0xffffffff;
+  *(undefined4 *)(this + 8) = 0;
+  *(undefined4 *)(this + 0xc) = 0;
+  *(undefined4 *)(this + 4) = 0;
+  this[0x1c] = (eCVisualAnimationFactory)0x0;
+  return;
+}
+
+

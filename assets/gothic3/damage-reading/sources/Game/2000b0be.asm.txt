@@ -1,0 +1,2 @@
+; 2000b0be bTPropertyContainer<gEDamageType>::scalar_deleting_destructor
+2000b0be | e98d880a00 | JMP 0x200b3950

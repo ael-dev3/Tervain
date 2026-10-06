@@ -1,0 +1,11 @@
+/* ENTRY 2020c500 | bTPropertyObject<gCDialog_PS,eCEntityPropertySet>::vfunction5 | STATUS decompiled | 2 ms */
+
+undefined4 __thiscall
+bTPropertyObject<gCDialog_PS,eCEntityPropertySet>::vfunction5
+          (bTPropertyObject<gCDialog_PS,eCEntityPropertySet> *this)
+
+{
+  return (this->bTPropertyObject<gCDialog_PS,eCEntityPropertySet>_data).offset_0x0;
+}
+
+

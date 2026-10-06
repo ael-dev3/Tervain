@@ -1,0 +1,12 @@
+/* ENTRY 20026fd0 | gCCharacterMovement_PS::GetVersion | STATUS decompiled | 7 ms */
+
+/* public: virtual unsigned short __thiscall gCCharacterMovement_PS::GetVersion(void)const  */
+
+ushort __thiscall gCCharacterMovement_PS::GetVersion(gCCharacterMovement_PS *this)
+
+{
+                    /* 0x26fd0  4680  ?GetVersion@gCCharacterMovement_PS@@UBEGXZ */
+  return 0x4d;
+}
+
+

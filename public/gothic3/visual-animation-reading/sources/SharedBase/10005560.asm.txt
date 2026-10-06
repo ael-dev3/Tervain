@@ -1,0 +1,2 @@
+; 10005560 bCMessageAdmin::OnMessage
+10005560 | e9ab3f0400 | JMP 0x10049510

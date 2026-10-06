@@ -1,0 +1,2 @@
+; 100044f8 ?IsValid@PSNavigation@@QBE_NXZ
+100044f8 | e9f3750000 | JMP 0x1000baf0

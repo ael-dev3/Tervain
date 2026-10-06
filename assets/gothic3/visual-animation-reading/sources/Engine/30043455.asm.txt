@@ -1,0 +1,2 @@
+; 30043455 eCVisualAnimation_PS::GetChildByActor
+30043455 | e926b70500 | JMP 0x3009eb80

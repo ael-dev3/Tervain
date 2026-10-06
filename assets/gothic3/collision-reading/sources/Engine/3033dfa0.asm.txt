@@ -1,0 +1,3 @@
+; 3033dfa0 bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eEPhysicRangeType>_>::vfunction1
+3033dfa0 | 8b411c | MOV EAX,dword ptr [ECX + 0x1c]
+3033dfa3 | c3 | RET

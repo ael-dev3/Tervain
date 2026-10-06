@@ -1,0 +1,13 @@
+/* ENTRY 20017f85 | gCParty_PS::AccessPartyLeaderEntity | STATUS decompiled | 5 ms */
+
+/* public: class eCEntityProxy & __thiscall gCParty_PS::AccessPartyLeaderEntity(void) */
+
+eCEntityProxy * __thiscall gCParty_PS::AccessPartyLeaderEntity(gCParty_PS *this)
+
+{
+                    /* 0x17f85  1526  ?AccessPartyLeaderEntity@gCParty_PS@@QAEAAVeCEntityProxy@@XZ
+                        */
+  return (eCEntityProxy *)&(this->gCParty_PS_data).field_0x10;
+}
+
+

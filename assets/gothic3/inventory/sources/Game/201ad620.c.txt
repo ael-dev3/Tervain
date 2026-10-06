@@ -1,0 +1,40 @@
+/* ENTRY 201ad620 | FUN_201ad620 | STATUS decompiled | 10 ms */
+
+void __fastcall FUN_201ad620(int *param_1)
+
+{
+  code *pcVar1;
+  eCEntity *this;
+  bCString *pbVar2;
+  bCMessageAdmin *this_00;
+  bEMessageTypes bVar3;
+  char *pcVar4;
+  char *pcVar5;
+  char *pcVar6;
+  int iVar7;
+  int iVar8;
+  
+  if ((char)param_1[0x39] != '\0') {
+    pcVar1 = *(code **)(*param_1 + 0x68);
+    *(undefined1 *)(param_1 + 0x39) = 0;
+    this = (eCEntity *)(*pcVar1)();
+    if (this != (eCEntity *)0x0) {
+      pbVar2 = eCEntity::GetName(this);
+      GE_MESSAGEF_WARN("gCInventory_PS::OnPostRead -> Requesting forced patch for entity: %s. Resetting instance time stamp."
+                       ,*(undefined4 *)pbVar2);
+      this[0x4c].eCNode.bCObjectRefBase.bCObjectBase = (bCObjectBase)0x0;
+      return;
+    }
+    iVar8 = *(int *)g_iDefaultMessagePriority_exref;
+    iVar7 = -1;
+    pcVar6 = (char *)0x0;
+    pcVar5 = (char *)0x0;
+    pcVar4 = "gCInventory_PS::OnPostRead -> Cannot perform patch request. Entity unavailable.";
+    bVar3 = 3;
+    this_00 = bCMessageAdmin::GetInstance();
+    bCMessageAdmin::OnMessage(this_00,bVar3,pcVar4,pcVar5,pcVar6,iVar7,iVar8);
+  }
+  return;
+}
+
+

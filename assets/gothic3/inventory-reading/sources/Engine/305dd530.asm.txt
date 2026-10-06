@@ -1,0 +1,40 @@
+; 305dd530 FUN_305dd530
+305dd530 | 51 | PUSH ECX
+305dd531 | 56 | PUSH ESI
+305dd532 | 8bf1 | MOV ESI,ECX
+305dd534 | 837e1800 | CMP dword ptr [ESI + 0x18],0x0
+305dd538 | 7510 | JNZ 0x305dd54a
+305dd53a | 8b44240c | MOV EAX,dword ptr [ESP + 0xc]
+305dd53e | 50 | PUSH EAX
+305dd53f | ff1564d9af30 | CALL dword ptr [0x30afd964]
+305dd545 | 5e | POP ESI
+305dd546 | 59 | POP ECX
+305dd547 | c20400 | RET 0x4
+; 305dd54a LAB_305dd54a
+305dd54a | 8d4c2404 | LEA ECX,[ESP + 0x4]
+305dd54e | 51 | PUSH ECX
+305dd54f | 8bce | MOV ECX,ESI
+305dd551 | c7442408ffff0000 | MOV dword ptr [ESP + 0x8],0xffff
+305dd559 | ff153cd5af30 | CALL dword ptr [0x30afd53c]
+305dd55f | 0fb7442404 | MOVZX EAX,word ptr [ESP + 0x4]
+305dd564 | 8b7618 | MOV ESI,dword ptr [ESI + 0x18]
+305dd567 | 3b4604 | CMP EAX,dword ptr [ESI + 0x4]
+305dd56a | 7216 | JC 0x305dd582
+305dd56c | 50 | PUSH EAX
+305dd56d | 6840d48830 | PUSH 0x3088d440
+305dd572 | ff1530dbaf30 | CALL dword ptr [0x30afdb30]
+305dd578 | 83c408 | ADD ESP,0x8
+305dd57b | 33c0 | XOR EAX,EAX
+305dd57d | 5e | POP ESI
+305dd57e | 59 | POP ECX
+305dd57f | c20400 | RET 0x4
+; 305dd582 LAB_305dd582
+305dd582 | 8b16 | MOV EDX,dword ptr [ESI]
+305dd584 | 8b4c240c | MOV ECX,dword ptr [ESP + 0xc]
+305dd588 | 8d0482 | LEA EAX,[EDX + EAX*0x4]
+305dd58b | 50 | PUSH EAX
+305dd58c | ff1560dbaf30 | CALL dword ptr [0x30afdb60]
+305dd592 | b802000000 | MOV EAX,0x2
+305dd597 | 5e | POP ESI
+305dd598 | 59 | POP ECX
+305dd599 | c20400 | RET 0x4

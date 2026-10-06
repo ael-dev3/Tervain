@@ -1,0 +1,18 @@
+/* ENTRY 2000dc1a | bTPropertyType<gCInventorySlot,bTPropertyContainer<gESlot>_>::vfunction12 | STATUS decompiled | 5 ms */
+
+bTPropertyType<gCInventorySlot,bTPropertyContainer<gESlot>_>_vftable * __thiscall
+bTPropertyType<gCInventorySlot,bTPropertyContainer<gESlot>_>::vfunction12
+          (bTPropertyType<gCInventorySlot,bTPropertyContainer<gESlot>_> *this,undefined4 *param_1)
+
+{
+  int iVar1;
+  
+  if (param_1 == (undefined4 *)0x0) {
+    return (bTPropertyType<gCInventorySlot,bTPropertyContainer<gESlot>_>_vftable *)0x0;
+  }
+  iVar1 = (**(code **)*param_1)();
+  return (bTPropertyType<gCInventorySlot,bTPropertyContainer<gESlot>_>_vftable *)
+         ((int)&(this[7].vftablePtr)->vfunction1 + iVar1);
+}
+
+

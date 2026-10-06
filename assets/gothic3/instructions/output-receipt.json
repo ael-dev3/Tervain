@@ -1,0 +1,20 @@
+{
+  "schema": "gothic3-native-instructions-output-receipt-v1",
+  "schemaVersion": 1,
+  "nativeExecution": false,
+  "testsRun": false,
+  "runtimeRules": {
+    "path": "assets/gothic3/instructions/runtime-rules.json",
+    "sha256": "4480d3db2930646fc7c3ba8342dfd2ee649080f6de4a47f8b8668c1e00b13063"
+  },
+  "document": {
+    "url": "gothic3/instructions/native-instructions.json",
+    "bytes": 5212,
+    "sha256": "8f449d702fdf69e7a599e11ab689d0834ff1ab5da890a3afc5455ce7b20b7948"
+  },
+  "nativeEvidence": {
+    "path": "assets/gothic3/instructions/native-evidence.json",
+    "bytes": 354622,
+    "sha256": "f7ace51212f6eee3bd7e3cc352a0e99b0f313c4b3d211ae6082d8232923b2772"
+  }
+}

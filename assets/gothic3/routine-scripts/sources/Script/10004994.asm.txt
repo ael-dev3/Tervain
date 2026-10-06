@@ -1,0 +1,2 @@
+; 10004994 ?HasStatusEffects@PSNpc@@QBE_NH@Z
+10004994 | e907bb0100 | JMP 0x100204a0

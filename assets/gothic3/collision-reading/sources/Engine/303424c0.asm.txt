@@ -1,0 +1,5 @@
+; 303424c0 bTPropertyType<eCCollisionShapeBase_PS,bCObsoleteClass>::vfunction7
+303424c0 | 33c0 | XOR EAX,EAX
+303424c2 | 394120 | CMP dword ptr [ECX + 0x20],EAX
+303424c5 | 0f95c0 | SETNZ AL
+303424c8 | c3 | RET

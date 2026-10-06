@@ -1,0 +1,13 @@
+/* ENTRY 100a3130 | SetMessageBuffer | STATUS decompiled | 1 ms */
+
+/* void __stdcall SetMessageBuffer(char *) */
+
+void SetMessageBuffer(char *param_1)
+
+{
+                    /* 0xa3130  4263  ?SetMessageBuffer@@YGXPAD@Z */
+  DAT_102f4fd8 = param_1;
+  return;
+}
+
+

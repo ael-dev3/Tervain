@@ -1,0 +1,4 @@
+; 30037ca4 ?OnNotifyPropertyValueChangedExitEx@eCEntityPropertySet@@MAE_NPBD_N@Z
+30037ca4 | e9479e4400 | JMP 0x30481af0
+; 30037ca9 eCGfxGaugeAdmin::operator=
+; 30037ca9 Ordinal_1581

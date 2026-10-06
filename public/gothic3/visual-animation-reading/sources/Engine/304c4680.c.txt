@@ -1,0 +1,19 @@
+/* ENTRY 304c4680 | eCEntityProxy::eCEntityProxy_Constructor_or_Destructor | STATUS decompiled | 7 ms */
+
+void __fastcall eCEntityProxy::eCEntityProxy_Constructor_or_Destructor(undefined4 *param_1)
+
+{
+  *param_1 = &vftable;
+  if ((eCEntityProxyInternal *)param_1[1] != (eCEntityProxyInternal *)0x0) {
+    eCEntityProxyInternal::ReleaseReference((eCEntityProxyInternal *)param_1[1]);
+    param_1[1] = 0;
+  }
+  param_1[1] = 0;
+  bCPropertyID::Destroy((bCPropertyID *)(param_1 + 2));
+                    /* WARNING: Could not recover jumptable at 0x304c46b1. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCPropertyID::~bCPropertyID((bCPropertyID *)(param_1 + 2));
+  return;
+}
+
+

@@ -1,0 +1,3 @@
+; 300c2a90 FUN_300c2a90
+300c2a90 | 8a4144 | MOV AL,byte ptr [ECX + 0x44]
+300c2a93 | c3 | RET

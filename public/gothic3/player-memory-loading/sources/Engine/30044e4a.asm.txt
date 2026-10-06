@@ -1,0 +1,2 @@
+; 30044e4a eCEntityPropertySet::SupportsRenderDebugOutput
+30044e4a | e9a1c64300 | JMP 0x304814f0

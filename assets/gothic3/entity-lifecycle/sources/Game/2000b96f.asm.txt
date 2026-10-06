@@ -1,0 +1,4 @@
+; 2000b96f ?GameReset@gCNavPath_PS@@IAEXXZ
+2000b96f | e97cca2800 | JMP 0x202983f0
+; 2000b974 gCMusicTransitionList::FindTransitions
+; 2000b974 Ordinal_2847

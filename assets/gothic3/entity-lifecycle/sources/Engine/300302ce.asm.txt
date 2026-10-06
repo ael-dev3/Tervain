@@ -1,0 +1,4 @@
+; 300302ce ?GetEntity@eCSceneAdmin@@QBEPBVeCNode@@ABVbCPropertyID@@W4eEGetEntityTypeHint@@@Z
+300302ce | e96db54900 | JMP 0x304cb840
+; 300302d3 eCResourceDataEntity::Destroy
+; 300302d3 Ordinal_5279

@@ -147,6 +147,13 @@ export interface NativeSourceFile {
 }
 
 interface NativeChunk extends ResourceReceipt { url: string; entities?: number; headers?: number }
+interface NativeTemplateFile {
+  readonly index: number;
+  readonly source: NativeSource;
+  readonly url?: string;
+  readonly headers?: number;
+  readonly status?: string;
+}
 interface WorldSourceDescriptor {
   schema: 'gothic3-entity-chunks-v1';
   source: NativeSource;
@@ -165,6 +172,8 @@ export interface NativeTemplateIndex {
   helperParent: boolean;
   propertySets: string[];
   dataChunk: string;
+  /** Attached only by exact source-path resolution, never name-only lookup. */
+  source?: NativeSource;
 }
 
 export type SourceLookup<T> =
@@ -182,6 +191,7 @@ function chooseUnique<T>(candidates: readonly T[], label: string): SourceLookup<
 export class NativeWorldData {
   private filesPending: Promise<readonly NativeSourceFile[]> | null = null;
   private templatesPending: Promise<readonly NativeTemplateIndex[]> | null = null;
+  private templateFilesPending: Promise<readonly NativeTemplateFile[]> | null = null;
 
   constructor(readonly resources = gameplayResources) {}
 
@@ -235,6 +245,68 @@ export class NativeWorldData {
     return entities;
   }
 
+  /** Resolve original PropertyID references inside one source file. Native
+   * bCPropertyID equality compares its first 16 bytes; the final DWORD is a
+   * cache and is not part of the key. Keep only requested rows while scanning
+   * the source's bounded index chunks. */
+  async entitiesByPropertyIds(index: number, propertyIds: readonly string[]): Promise<ReadonlyMap<string, readonly NativeEntityIndex[]>> {
+    if (!Number.isSafeInteger(index) || index < 0 || !Array.isArray(propertyIds) ||
+        propertyIds.some((value) => typeof value !== 'string' || !/^[a-f0-9]{40}$/i.test(value))) {
+      throw new Error('Native entity lookup requires a source index and 20-byte PropertyIDs.');
+    }
+    const requested = new Set(propertyIds.map((value) => value.slice(0, 32).toLowerCase()));
+    const matches = new Map<string, NativeEntityIndex[]>();
+    for (const prefix of requested) matches.set(prefix, []);
+    if (!requested.size) return matches;
+    const source = await this.descriptor(index);
+    let entityCount = 0;
+    for (const chunk of source.indexChunks) {
+      const document = await this.resources.read<{ entities: NativeEntityIndex[] }>(chunk.url);
+      if (!Array.isArray(document.entities) || document.entities.length !== chunk.entities ||
+          document.entities.some((entity) => entity.file !== index || !entity.key ||
+            (entity.guid !== null && !/^[a-f0-9]{40}$/i.test(entity.guid)))) {
+        throw new Error('Native entity index differs: ' + chunk.url);
+      }
+      entityCount += document.entities.length;
+      for (const entity of document.entities) {
+        if (!entity.guid) continue;
+        const prefix = entity.guid.slice(0, 32).toLowerCase();
+        matches.get(prefix)?.push(entity);
+      }
+    }
+    const file = (await this.sourceFiles()).find((candidate) => candidate.index === index);
+    if (!file?.entities || entityCount !== file.entities) throw new Error('Native entity count differs: ' + index);
+    return new Map([...matches].map(([prefix, rows]) => [prefix, Object.freeze(rows.slice())]));
+  }
+
+  /** Search one selected native file's hash-checked index chunks without
+   * decoding unrelated full property-set payloads. Multiple names are kept as
+   * multiple matches because native entity lookup may be ambiguous. */
+  async entitiesNamed(index: number, names: readonly string[]): Promise<ReadonlyMap<string, readonly NativeEntityIndex[]>> {
+    const requested = new Set(names);
+    if (names.some((name) => typeof name !== 'string' || name.length === 0) || requested.size !== names.length) {
+      throw new Error('Native entity-name query must contain unique nonempty names');
+    }
+    const source = await this.descriptor(index);
+    const matches = new Map<string, NativeEntityIndex[]>();
+    for (const name of names) matches.set(name, []);
+    let entityCount = 0;
+    for (const chunk of source.indexChunks) {
+      const document = await this.resources.read<{ entities: NativeEntityIndex[] }>(chunk.url);
+      if (!Array.isArray(document.entities) || document.entities.length !== chunk.entities ||
+          document.entities.some((entity) => entity.file !== index || !entity.key)) {
+        throw new Error('Native entity index differs: ' + chunk.url);
+      }
+      entityCount += document.entities.length;
+      for (const entity of document.entities) {
+        if (requested.has(entity.name)) matches.get(entity.name)!.push(entity);
+      }
+    }
+    const file = (await this.sourceFiles()).find((candidate) => candidate.index === index);
+    if (!file?.entities || entityCount !== file.entities) throw new Error('Native entity count differs: ' + index);
+    return matches;
+  }
+
   async entity(record: NativeEntityIndex): Promise<SourceLookup<NativeEntityRecord>> {
     if (!record.dataChunk) return { kind: 'missing', reason: 'Selected gameplay properties are absent: ' + record.key };
     const document = await this.resources.read<{ entities: NativeEntityRecord[] }>(record.dataChunk);
@@ -271,8 +343,61 @@ export class NativeWorldData {
     return chooseUnique((await this.templateIndex()).filter((header) => header.guid === guid), guid);
   }
 
+  async templateByGuidWithSource(guid: string): Promise<SourceLookup<NativeTemplateIndex>> {
+    return this.attachTemplateSource(await this.templateByGuid(guid));
+  }
+
   async templateByName(name: string, includeHelpers = false): Promise<SourceLookup<NativeTemplateIndex>> {
     return chooseUnique((await this.templateIndex()).filter((header) => header.name === name && (includeHelpers || !header.helperParent)), name);
+  }
+
+  async templateByNameWithSource(name: string, includeHelpers = false): Promise<SourceLookup<NativeTemplateIndex>> {
+    return this.attachTemplateSource(await this.templateByName(name, includeHelpers));
+  }
+
+  private async attachTemplateSource(lookup: SourceLookup<NativeTemplateIndex>): Promise<SourceLookup<NativeTemplateIndex>> {
+    if (lookup.kind !== 'found') return lookup;
+    if (!this.templateFilesPending) this.templateFilesPending = this.readTemplateFiles().catch((error: unknown) => {
+      this.templateFilesPending = null;
+      throw error;
+    });
+    const files = (await this.templateFilesPending).filter((file) => file.index === lookup.value.file);
+    if (!files.length) return { kind: 'missing', reason: 'Native template source file is absent: ' + lookup.value.file };
+    if (files.length > 1) return { kind: 'ambiguous', candidates: files.map((file) => ({ ...lookup.value, source: file.source })) };
+    return { kind: 'found', value: { ...lookup.value, source: files[0]!.source } };
+  }
+
+  /** Resolve a named template only inside one exact logical source path.
+   * Duplicate names can include deleted placeholders from _deleted paths, so
+   * name-only lookup remains ambiguous instead of guessing which file wins. */
+  async templateByNameInSource(name: string, sourcePath: string,
+    includeHelpers = false): Promise<SourceLookup<NativeTemplateIndex>> {
+    if (!name || !sourcePath) return { kind: 'missing', reason: 'Native template lookup needs a name and exact source path.' };
+    if (!this.templateFilesPending) this.templateFilesPending = this.readTemplateFiles().catch((error: unknown) => {
+      this.templateFilesPending = null;
+      throw error;
+    });
+    const files = await this.templateFilesPending;
+    const matchingFiles = files.filter((file) => file.source.path === sourcePath);
+    if (!matchingFiles.length) return { kind: 'missing', reason: 'No native template source matches: ' + sourcePath };
+    if (matchingFiles.length !== 1) return { kind: 'missing', reason: `Native template path ${sourcePath} resolves to ${matchingFiles.length} source files.` };
+    const fileIndexes = new Set(matchingFiles.map((file) => file.index));
+    const selected = chooseUnique((await this.templateIndex()).filter((header) => fileIndexes.has(header.file) &&
+      header.name === name && (includeHelpers || !header.helperParent)), name + ' in ' + sourcePath);
+    return selected.kind === 'found'
+      ? { kind: 'found', value: { ...selected.value, source: matchingFiles[0]!.source } }
+      : selected;
+  }
+
+  private async readTemplateFiles(): Promise<readonly NativeTemplateFile[]> {
+    const manifest = await this.resources.manifest();
+    const files = await this.resources.read<NativeTemplateFile[]>(manifest.templates.files);
+    if (!Array.isArray(files) || new Set(files.map((file) => file.index)).size !== files.length ||
+        files.some((file) => !Number.isSafeInteger(file.index) || file.index < 0 || !file.source?.path ||
+          !/^[a-f0-9]{64}$/i.test(file.source.sha256))) {
+      throw new Error('Invalid native template file directory');
+    }
+    return files;
   }
 
   async template(record: NativeTemplateIndex): Promise<SourceLookup<NativeEntityRecord>> {

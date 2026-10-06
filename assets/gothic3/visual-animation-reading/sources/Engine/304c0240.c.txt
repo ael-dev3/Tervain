@@ -1,0 +1,155 @@
+/* ENTRY 304c0240 | FUN_304c0240 | STATUS decompiled | 61 ms */
+
+bool __thiscall FUN_304c0240(int *param_1,bCPropertyObjectBase *param_2)
+
+{
+  int iVar1;
+  bool bVar2;
+  bCString *pbVar3;
+  eCArchiveManager *this;
+  bCPropertyObjectSingleton *this_00;
+  bCPropertyObjectBase *pbVar4;
+  undefined4 uVar5;
+  bCString *pbVar6;
+  bCString local_24 [36];
+  
+  pbVar3 = (bCString *)param_2;
+  bVar2 = bCString::IsEmpty((bCString *)param_2);
+  if (bVar2) {
+    return false;
+  }
+  bVar2 = eCResourceLightmap_PS::IsProprietaryFileType(pbVar3);
+  if (bVar2) {
+    bCAccessorCreator::bCAccessorCreator((bCAccessorCreator *)&param_2);
+    pbVar3 = (bCString *)bTPropertyObjectType<eCResourceLightmap_PS,eCResourceBase_PS>::vfunction1()
+    ;
+  }
+  else {
+    bVar2 = eCResourceImage_PS::IsProprietaryFileType(pbVar3);
+    if ((!bVar2) && (bVar2 = eCResourceImage_PS::IsNativeFileType(pbVar3), !bVar2)) {
+      bVar2 = eCResourceMeshComplex_PS::IsProprietaryFileType(pbVar3);
+      if (bVar2) {
+        thunk_FUN_304c09d0();
+      }
+      else {
+        bVar2 = eCResourceAudioSample_PS::IsProprietaryFileType(pbVar3);
+        if (bVar2) {
+          thunk_FUN_304c0a10();
+        }
+        else {
+          bVar2 = eCResourceMeshLoD_PS::IsProprietaryFileType(pbVar3);
+          if (bVar2) {
+            thunk_FUN_304c0a50();
+          }
+          else {
+            bVar2 = eCResourceShaderMaterial_PS::IsProprietaryFileType(pbVar3);
+            if (bVar2) {
+              thunk_FUN_304c0a90();
+            }
+            else {
+              bVar2 = eCResourceMaterialTechnique_PS::IsProprietaryFileType(pbVar3);
+              if (bVar2) {
+                bVar2 = eCResourceMaterialObject_PS::IsProprietaryFileType(pbVar3);
+                if (bVar2) {
+                  thunk_FUN_304c0ad0();
+                }
+                else {
+                  bVar2 = eCResourceMaterialObjectExtended_PS::IsProprietaryFileType(pbVar3);
+                  if (bVar2) {
+                    thunk_FUN_304c0b10();
+                  }
+                  else {
+                    bVar2 = eCResourceMaterialConstant_PS::IsProprietaryFileType(pbVar3);
+                    if (bVar2) {
+                      thunk_FUN_304c0b50();
+                    }
+                    else {
+                      bVar2 = eCResourceMaterialEffectFile_PS::IsProprietaryFileType(pbVar3);
+                      if (bVar2) {
+                        thunk_FUN_304c0b90();
+                      }
+                      else {
+                        bVar2 = eCResourceMaterialImpostor_PS::IsProprietaryFileType(pbVar3);
+                        if (!bVar2) {
+                          return true;
+                        }
+                        thunk_FUN_304c0bd0();
+                      }
+                    }
+                  }
+                }
+                pbVar4 = bCAccessorCreator::operator->((bCAccessorCreator *)&param_2);
+                iVar1 = *param_1;
+                uVar5 = (*(code *)**(undefined4 **)pbVar4)
+                                  (0,&bCObjectRefBase::RTTI_Type_Descriptor,
+                                   &eCResourceBase_PS::RTTI_Type_Descriptor,0);
+                uVar5 = FUN_30671ae7(uVar5);
+                (**(code **)(iVar1 + 0x90))(uVar5);
+                bCAccessorCreator::~bCAccessorCreator((bCAccessorCreator *)&stack0x00000000);
+                return true;
+              }
+              bVar2 = eCResourceCollisionMesh_PS::IsProprietaryFileType(pbVar3);
+              if (bVar2) {
+                thunk_FUN_304c0c10();
+              }
+              else {
+                bVar2 = eCResourceAnimationActor_PS::IsNativeFileType(pbVar3);
+                if ((bVar2) ||
+                   (bVar2 = eCResourceAnimationActor_PS::IsProprietaryFileType(pbVar3), bVar2)) {
+                  thunk_FUN_304c0c50();
+                }
+                else {
+                  bVar2 = eCResourceAnimationMotion_PS::IsNativeFileType(pbVar3);
+                  if ((!bVar2) &&
+                     (bVar2 = eCResourceAnimationMotion_PS::IsProprietaryFileType(pbVar3), !bVar2))
+                  {
+                    bVar2 = eCResourceSpeedTree_PS::IsProprietaryFileType(pbVar3);
+                    if (!bVar2) {
+                      return false;
+                    }
+                    pbVar6 = local_24;
+                    this = eCArchiveManager::GetInstance();
+                    eCArchiveManager::GetFile((eCArchiveManager *)this,pbVar6);
+                    bVar2 = eCArchiveFile::IsValid((eCArchiveFile *)&stack0xffffffd8);
+                    if (bVar2) {
+                      thunk_FUN_304c0cd0(pbVar3);
+                      pbVar4 = bCAccessorCreator::operator->((bCAccessorCreator *)&stack0x00000000);
+                      iVar1 = *param_1;
+                      uVar5 = (*(code *)**(undefined4 **)pbVar4)
+                                        (0,&bCObjectRefBase::RTTI_Type_Descriptor,
+                                         &eCResourceBase_PS::RTTI_Type_Descriptor,0);
+                      uVar5 = FUN_30671ae7(uVar5);
+                      (**(code **)(iVar1 + 0x90))(uVar5);
+                      bCAccessorCreator::~bCAccessorCreator((bCAccessorCreator *)&stack0x00000000);
+                    }
+                    eCArchiveFile::~eCArchiveFile((eCArchiveFile *)&stack0xffffffd8);
+                    return bVar2;
+                  }
+                  thunk_FUN_304c0c90();
+                }
+              }
+            }
+          }
+        }
+      }
+      goto LAB_304c04de;
+    }
+    bCAccessorCreator::bCAccessorCreator((bCAccessorCreator *)&param_2);
+    pbVar3 = (bCString *)bTPropertyObjectType<eCResourceImage_PS,eCResourceBase_PS>::vfunction1();
+  }
+  this_00 = bCPropertyObjectSingleton::GetInstance();
+  param_2 = bCPropertyObjectSingleton::QueryNewObject(this_00,pbVar3);
+  bCAccessorCreator::SetInstance((bCAccessorCreator *)&param_2,param_2);
+LAB_304c04de:
+  pbVar4 = bCAccessorCreator::operator->((bCAccessorCreator *)&param_2);
+  iVar1 = *param_1;
+  uVar5 = (*(code *)**(undefined4 **)pbVar4)
+                    (0,&bCObjectRefBase::RTTI_Type_Descriptor,
+                     &eCResourceBase_PS::RTTI_Type_Descriptor,0);
+  uVar5 = FUN_30671ae7(uVar5);
+  (**(code **)(iVar1 + 0x90))(uVar5);
+  bCAccessorCreator::~bCAccessorCreator((bCAccessorCreator *)&stack0x00000000);
+  return true;
+}
+
+

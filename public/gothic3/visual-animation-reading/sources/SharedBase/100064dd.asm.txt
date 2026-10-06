@@ -1,0 +1,2 @@
+; 100064dd bCVector::SetVector
+100064dd | e98ee80100 | JMP 0x10024d70

@@ -1,0 +1,9 @@
+/* ENTRY 3009daa0 | FUN_3009daa0 | STATUS decompiled | 1 ms */
+
+undefined1 __fastcall FUN_3009daa0(int param_1)
+
+{
+  return *(undefined1 *)(param_1 + 300);
+}
+
+

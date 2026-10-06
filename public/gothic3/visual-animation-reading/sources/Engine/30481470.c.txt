@@ -1,0 +1,13 @@
+/* ENTRY 30481470 | eCEntityPropertySet::~eCEntityPropertySet | STATUS decompiled | 9 ms */
+
+void __thiscall eCEntityPropertySet::~eCEntityPropertySet(eCEntityPropertySet *this)
+
+{
+  this->vftablePtr = &vftable;
+                    /* WARNING: Could not recover jumptable at 0x30481476. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCObjectRefBase::~bCObjectRefBase((bCObjectRefBase *)this);
+  return;
+}
+
+

@@ -1,0 +1,121 @@
+/* ENTRY 2029f870 | FUN_2029f870 | STATUS decompiled | 111 ms */
+
+uint __thiscall FUN_2029f870(int param_1,undefined4 param_2)
+
+{
+  bool bVar1;
+  bCVector *pbVar2;
+  int iVar3;
+  int iVar4;
+  float fVar5;
+  undefined4 local_4c;
+  bCVector local_44 [4];
+  bCVector local_40 [4];
+  bCVector local_3c [8];
+  bCVector local_34 [4];
+  bCVector local_30 [8];
+  bCVector local_28 [4];
+  bCVector local_24 [8];
+  bCVector local_1c [4];
+  bCVector local_18 [12];
+  float local_c;
+  float local_8;
+  float local_4;
+  
+  local_4c = param_2;
+  bCMatrix::operator*((bCMatrix *)(param_1 + 0x104),local_18);
+  bCVector::operator-((bCVector *)(*(int *)(param_1 + 0x14) + -0xc + *(int *)(param_1 + 0x18) * 0xc)
+                      ,local_34);
+  bCVector::operator-(*(bCVector **)(param_1 + 0x14),local_44);
+  local_8 = 0.0;
+  bCVector::SetY(local_3c,&local_8);
+  local_8 = 0.0;
+  bCVector::SetY((bCVector *)&stack0xffffffb8,&local_8);
+  fVar5 = bCVector::GetMagnitude2D(local_3c,1);
+  local_8 = bCVector::GetMagnitude2D((bCVector *)&stack0xffffffb8,1);
+  if ((fVar5 != 0.0) && (local_8 != 0.0)) {
+    bCVector::operator/=(local_3c,fVar5);
+    bCVector::operator/=((bCVector *)&stack0xffffffb8,local_8);
+    local_8 = bCVector::GetAngleUnitRad(local_3c,(bCVector *)&stack0xffffffb8);
+    if (ABS(local_8) <= *(float *)g_fPI_exref - 0.001) {
+      bCVector::bCVector(local_30);
+      bCVector::SetCrossProduct(local_30,local_3c,(bCVector *)&stack0xffffffb8);
+      bVar1 = bCVector::HasZeroMagnitude(local_30);
+      if (!bVar1) {
+        if (*(float *)g_fPI_exref < local_8) {
+          local_8 = local_8 - *(float *)g_f2PI_exref;
+        }
+        if (local_8 < -*(float *)g_fPI_exref) {
+          local_8 = local_8 + *(float *)g_f2PI_exref;
+        }
+        local_8 = ABS(local_8);
+        local_4 = local_8;
+        fVar5 = bCVector::GetY(local_30);
+        if (0.0 < fVar5) {
+          local_8 = local_8 * -1.0;
+        }
+      }
+      iVar4 = 1;
+      local_4 = local_8;
+      if (1 < *(int *)(param_1 + 0x18)) {
+        iVar3 = 0xc;
+        do {
+          bCVector::operator=(local_3c,(bCVector *)&stack0xffffffb8);
+          pbVar2 = (bCVector *)
+                   bCVector::operator-((bCVector *)(*(int *)(param_1 + 0x14) + iVar3),local_18);
+          bCVector::operator=((bCVector *)&local_4c,pbVar2);
+          bCVector::~bCVector(local_1c);
+          bCVector::SetY((bCVector *)&local_4c,(float *)&stack0xffffffb0);
+          local_c = bCVector::GetMagnitude((bCVector *)&local_4c);
+          if (local_c == 0.0) {
+            local_8 = *(float *)g_f2PI_exref;
+            break;
+          }
+          bCVector::operator/=((bCVector *)&local_4c,local_c);
+          local_c = bCVector::GetAngleUnitRad(local_40,(bCVector *)&local_4c);
+          if (*(float *)g_fPI_exref - 0.001 < ABS(local_c)) {
+            local_8 = *(float *)g_f2PI_exref;
+            break;
+          }
+          bCVector::SetCrossProduct(local_34,local_40,(bCVector *)&local_4c);
+          bVar1 = bCVector::HasZeroMagnitude(local_34);
+          if (!bVar1) {
+            if (*(float *)g_fPI_exref < local_c) {
+              local_c = local_c - *(float *)g_f2PI_exref;
+            }
+            if (local_c < -*(float *)g_fPI_exref) {
+              local_c = local_c + *(float *)g_f2PI_exref;
+            }
+            local_c = ABS(local_c);
+            fVar5 = bCVector::GetY(local_34);
+            if (0.0 < fVar5) {
+              local_c = local_c * -1.0;
+            }
+          }
+          iVar4 = iVar4 + 1;
+          local_8 = local_c + local_8;
+          iVar3 = iVar3 + 0xc;
+        } while (iVar4 < *(int *)(param_1 + 0x18));
+      }
+      local_8 = ABS(local_8);
+      if (local_8 <= *(float *)g_fPI_exref) {
+        bCVector::~bCVector(local_34);
+        bCVector::~bCVector((bCVector *)&local_4c);
+        bCVector::~bCVector(local_40);
+        bCVector::~bCVector(local_28);
+        return 0;
+      }
+      bCVector::~bCVector(local_34);
+      bCVector::~bCVector((bCVector *)&local_4c);
+      bCVector::~bCVector(local_40);
+      bCVector::~bCVector(local_28);
+      return 1;
+    }
+  }
+  bCVector::~bCVector((bCVector *)&stack0xffffffb8);
+  bCVector::~bCVector(local_3c);
+  bCVector::~bCVector(local_24);
+  return (uint)local_4 & 0xff;
+}
+
+

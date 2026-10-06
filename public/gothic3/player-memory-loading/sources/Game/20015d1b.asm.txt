@@ -1,0 +1,2 @@
+; 20015d1b gCAttribute::Invalidate
+20015d1b | e9101d3800 | JMP 0x20397a30

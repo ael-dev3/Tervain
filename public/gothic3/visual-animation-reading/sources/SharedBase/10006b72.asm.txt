@@ -1,0 +1,2 @@
+; 10006b72 bCString::TrimRight
+10006b72 | e999e00000 | JMP 0x10014c10

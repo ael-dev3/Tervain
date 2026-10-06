@@ -1,0 +1,2 @@
+; 3002a1b7 eCVisualAnimation_PS::GetPhysicsControled
+3002a1b7 | e9c4780300 | JMP 0x30061a80

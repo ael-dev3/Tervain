@@ -1,0 +1,8 @@
+; 1001bd10 FUN_1001bd10
+1001bd10 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+1001bd14 | 8901 | MOV dword ptr [ECX],EAX
+1001bd16 | 33c9 | XOR ECX,ECX
+1001bd18 | 85c0 | TEST EAX,EAX
+1001bd1a | 0f95c1 | SETNZ CL
+1001bd1d | 8ac1 | MOV AL,CL
+1001bd1f | c20400 | RET 0x4

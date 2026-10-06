@@ -1,0 +1,12 @@
+/* ENTRY 20188510 | gCHUDListCtrlInvSpells::gCHUDListCtrlInvSpells | STATUS decompiled | 6 ms */
+
+void __thiscall gCHUDListCtrlInvSpells::gCHUDListCtrlInvSpells(gCHUDListCtrlInvSpells *this)
+
+{
+  this->vftablePtr = &vftable;
+  this->vftablePtr = &vftable;
+  FUN_20023c1d();
+  return;
+}
+
+

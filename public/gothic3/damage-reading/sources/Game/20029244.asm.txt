@@ -1,0 +1,2 @@
+; 20029244 bTPropertyType<gCDamageReceiver_PS,long>::vfunction15
+20029244 | e957320900 | JMP 0x200bc4a0

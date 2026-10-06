@@ -1,0 +1,2 @@
+; 30028272 ?RemoveShapesInternal@eCCollisionShape_PS@@MAEXW4eECollisionShapeType@@@Z
+30028272 | e9a9de3000 | JMP 0x30336120

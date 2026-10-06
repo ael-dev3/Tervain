@@ -1,0 +1,2 @@
+; 200257b6 ?IsPaused@gCSession@@QBE_NXZ
+200257b6 | e9852e0200 | JMP 0x20048640

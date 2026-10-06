@@ -1,0 +1,12 @@
+/* ENTRY 3003df41 | eCEntityProxy::Create | STATUS decompiled | 3 ms */
+
+/* protected: enum bEResult __thiscall eCEntityProxy::Create(void) */
+
+bEResult __thiscall eCEntityProxy::Create(eCEntityProxy *this)
+
+{
+                    /* 0x3df41  4457  ?Create@eCEntityProxy@@IAE?AW4bEResult@@XZ */
+  return 1;
+}
+
+

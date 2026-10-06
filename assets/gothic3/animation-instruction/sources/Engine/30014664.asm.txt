@@ -1,0 +1,2 @@
+; 30014664 ?SetIntroExtroBlending@eCWrapper_emfx2Actor@@QAEXW4eEMotionType@1@AAVbCString@@@Z
+30014664 | e9b7750c00 | JMP 0x300dbc20

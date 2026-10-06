@@ -1,0 +1,3 @@
+; 10027fd0 FUN_10027fd0
+10027fd0 | 8d4110 | LEA EAX,[ECX + 0x10]
+10027fd3 | c3 | RET

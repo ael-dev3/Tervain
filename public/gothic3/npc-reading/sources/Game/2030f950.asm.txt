@@ -1,0 +1,4 @@
+; 2030f950 bTPropertyObject<gCNPC_PS,eCEntityPropertySet>::vfunction11
+2030f950 | 6a00 | PUSH 0x0
+2030f952 | e8532bcfff | CALL 0x200024aa
+2030f957 | c3 | RET

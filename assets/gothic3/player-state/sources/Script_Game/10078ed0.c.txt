@@ -1,0 +1,239 @@
+/* ENTRY 10078ed0 | FUN_10078ed0 | STATUS decompiled | 382 ms */
+
+undefined4 FUN_10078ed0(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3,int param_4)
+
+{
+  bool bVar1;
+  char cVar2;
+  eCEntity *peVar3;
+  int iVar4;
+  gEUseType gVar5;
+  gEItemCategory gVar6;
+  Template *pTVar7;
+  undefined4 uVar8;
+  int iVar9;
+  Entity *pEVar10;
+  code *pcVar11;
+  Entity aEStack_4d4 [160];
+  undefined4 uStack_434;
+  Entity aEStack_41c [144];
+  undefined4 uStack_38c;
+  undefined1 *puStack_388;
+  char *pcVar12;
+  Entity local_364 [4];
+  PSRoutine local_360 [4];
+  Entity local_35c [4];
+  PSRoutine local_358 [20];
+  PSInventory local_344 [4];
+  PSInventory aPStack_340 [8];
+  PSInventory local_338 [16];
+  PSNpc local_328 [96];
+  Entity local_2c8 [12];
+  Entity aEStack_2bc [8];
+  Entity local_2b4 [156];
+  Template local_218 [12];
+  Entity local_20c [12];
+  Entity local_200 [8];
+  undefined1 local_1f8 [32];
+  PSItem local_1d8 [4];
+  PSItem local_1d4 [112];
+  Entity local_164 [4];
+  Entity local_160 [8];
+  Entity local_158 [168];
+  Entity local_b0 [176];
+  
+  Entity::Entity(local_35c);
+  if (param_2 == (Entity *)0x0) {
+    peVar3 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    Entity::AttachTo(local_35c,peVar3);
+  }
+  else {
+    Entity::operator=(local_35c,param_2);
+  }
+  Entity::Entity(local_2b4);
+  if (param_3 == (Entity *)0x0) {
+    peVar3 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    Entity::AttachTo(local_2b4,peVar3);
+  }
+  else {
+    Entity::operator=(local_2b4,param_3);
+  }
+  bVar1 = PSNpc::IsTransformed(local_328);
+  if (bVar1) {
+LAB_1007916e:
+    Entity::~Entity(local_2b4);
+    Entity::~Entity(local_35c);
+    return 0;
+  }
+  Entity::Entity(aEStack_41c,local_35c);
+  cVar2 = thunk_FUN_100094e0();
+  if (cVar2 == '\x01') goto LAB_1007916e;
+  Entity::Entity(aEStack_41c,local_35c);
+  thunk_FUN_1000d6f0();
+  iVar4 = PSInventory::FindStackIndexByQuickSlot(local_338,param_4);
+  gVar5 = PSInventory::GetUseType(local_338,iVar4);
+  pcVar11 = ~Entity_exref;
+  switch(gVar5) {
+  case 2:
+  case 3:
+  case 4:
+  case 5:
+  case 6:
+  case 7:
+  case 8:
+  case 9:
+  case 0xc:
+  case 0xf:
+  case 0x18:
+  case 0x33:
+  case 0x34:
+    bVar1 = PSInventory::PrintMissingRequirements(local_338,iVar4);
+    pcVar11 = ~Entity_exref;
+    if (!bVar1) goto LAB_1007916e;
+    if (gVar5 == 4) {
+      iVar9 = PSInventory::FindStackIndex(local_338,2);
+      gVar5 = PSInventory::GetUseType(local_338,iVar9);
+      if (gVar5 == 6) {
+        Entity::~Entity(local_2b4);
+        Entity::~Entity(local_35c);
+        return 0;
+      }
+    }
+    else if (gVar5 == 7) {
+      iVar9 = PSInventory::FindStackIndex(local_338,2);
+      gVar5 = PSInventory::GetUseType(local_338,iVar9);
+      if (gVar5 == 5) goto LAB_1007916e;
+    }
+    else if (gVar5 == 0xf) {
+      PSInventory::GetTemplateItem(local_338,(int)local_1f8);
+      PSItem::GetSpell(local_1d4);
+      bVar1 = Entity::operator!=(local_158,(Entity *)None_exref);
+      if ((bVar1) && (gVar6 = PSItem::GetCategory(local_1d8), gVar6 == 9)) {
+        pTVar7 = (Template *)Entity::GetTemplate(local_158);
+        puStack_388 = (undefined1 *)0x10079095;
+        bVar1 = PSInventory::HasLearnedSpell(local_344,pTVar7);
+        Template::~Template(local_218);
+        if (!bVar1) {
+          puStack_388 = (undefined1 *)0x100790bc;
+          Entity::GetName((Entity *)&stack0xfffffc98);
+          puStack_388 = &stack0xfffffc8c;
+          uStack_38c = 0x100790ca;
+          Entity::GetName(local_160);
+          uStack_38c = 0x100790d4;
+          bCString::~bCString((bCString *)&stack0xfffffc88);
+          uStack_38c = 0x100790de;
+          bCString::~bCString((bCString *)&stack0xfffffc8c);
+          uStack_38c = 0x100790e9;
+          Entity::~Entity(local_164);
+          uStack_38c = 0x100790f2;
+          Entity::~Entity(local_20c);
+          uStack_38c = 0x100790fb;
+          Entity::~Entity(local_2c8);
+          uStack_38c = 0x10079101;
+          Entity::~Entity((Entity *)&stack0xfffffc90);
+          return 0;
+        }
+      }
+      Entity::~Entity(local_158);
+      Entity::~Entity(local_200);
+    }
+    Entity::Entity((Entity *)&stack0xfffffbd8,local_364);
+    uVar8 = thunk_FUN_1000dec0();
+    switch(uVar8) {
+    case 2:
+      Entity::Entity((Entity *)&stack0xfffffbdc,local_364);
+      thunk_FUN_1000ecc0();
+      pcVar12 = "PS_Normal";
+      break;
+    default:
+switchD_1007914b_caseD_3:
+      Entity::~Entity(aEStack_2bc);
+      Entity::~Entity(local_364);
+      return 0;
+    case 4:
+      Entity::Entity((Entity *)&stack0xfffffbdc,local_364);
+      thunk_FUN_1000ecc0();
+      pcVar12 = "PS_Melee";
+      break;
+    case 5:
+      Entity::Entity((Entity *)&stack0xfffffbdc,local_364);
+      thunk_FUN_1000ecc0();
+      iVar4 = thunk_FUN_10009810();
+      if (iVar4 == -1) {
+        puStack_388 = (undefined1 *)0x10079264;
+        bCString::bCString((bCString *)&stack0xfffffc80,"MissingItem");
+        uStack_434 = 0x10079278;
+        Entity::Entity((Entity *)&stack0xfffffbd4,local_364);
+        Entity::Entity(aEStack_4d4,local_364);
+        thunk_FUN_1000db70();
+        goto switchD_1007914b_caseD_3;
+      }
+      pcVar12 = "PS_Ranged";
+      break;
+    case 6:
+      Entity::Entity((Entity *)&stack0xfffffbdc,local_364);
+      thunk_FUN_1000ecc0();
+      pcVar12 = "PS_Magic";
+      break;
+    case 7:
+      puStack_388 = (undefined1 *)0x1007931b;
+      PSInventory::EquipStackToSlot(aPStack_340,iVar4,0xe);
+      goto LAB_1007920a;
+    }
+    break;
+  case 0x10:
+    PSInventory::GetTemplateItem(local_338,(int)local_1f8);
+    pEVar10 = (Entity *)PSItem::GetSpell(local_1d4);
+    bVar1 = Entity::operator==((Entity *)None_exref,pEVar10);
+    Entity::~Entity(local_b0);
+    if (!bVar1) {
+      Entity::Entity((Entity *)&stack0xfffffbd8,local_364);
+      thunk_FUN_10009820();
+      Entity::Entity((Entity *)&stack0xfffffbdc,local_364);
+      thunk_FUN_1000ecc0();
+      puStack_388 = (undefined1 *)0x100793fa;
+      bCString::bCString((bCString *)&stack0xfffffc80,"PS_MagicPotion");
+      PSRoutine::SetTask(local_360);
+      Entity::~Entity(local_200);
+      goto LAB_1007920a;
+    }
+    Entity::~Entity(local_200);
+  case 0x11:
+  case 0x12:
+  case 0x13:
+  case 0x14:
+  case 0x15:
+  case 0x16:
+  case 0x17:
+  case 0x20:
+    Entity::Entity((Entity *)&stack0xfffffbd8,local_364);
+    thunk_FUN_10009820();
+    Entity::Entity((Entity *)&stack0xfffffbdc,local_364);
+    thunk_FUN_1000ecc0();
+    pcVar12 = "PS_QuickUse";
+    break;
+  case 0x2c:
+    gVar6 = PSInventory::GetCategory(local_338,iVar4);
+    if (gVar6 == 3) {
+      Entity::Entity((Entity *)&stack0xfffffbe0,local_35c);
+      thunk_FUN_10009820();
+      Entity::Entity(aEStack_41c,local_35c);
+      thunk_FUN_1000ecc0();
+      bCString::bCString((bCString *)&stack0xfffffc88,"PS_QuickUse");
+      PSRoutine::SetState(local_358);
+    }
+  default:
+    Entity::~Entity(local_2b4);
+    Entity::~Entity(local_35c);
+    return 1;
+  }
+  puStack_388 = (undefined1 *)0x10079200;
+  bCString::bCString((bCString *)&stack0xfffffc80,pcVar12);
+  PSRoutine::SetTask(local_360);
+LAB_1007920a:
+  (*pcVar11)();
+  (*pcVar11)();
+  return 1;
+}
+
+

@@ -1,0 +1,16 @@
+/* ENTRY 30337a50 | FUN_30337a50 | STATUS decompiled | 5 ms */
+
+void __fastcall FUN_30337a50(int param_1)
+
+{
+  thunk_FUN_3033c8e0();
+  thunk_FUN_3033c8e0();
+  *(undefined1 *)(param_1 + 0x40) = 0;
+  *(undefined4 *)(param_1 + 0x44) = 0;
+                    /* WARNING: Could not recover jumptable at 0x30337a6f. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCString::Clear((bCString *)(param_1 + 0x48));
+  return;
+}
+
+

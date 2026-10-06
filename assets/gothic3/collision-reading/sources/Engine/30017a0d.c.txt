@@ -1,0 +1,12 @@
+/* ENTRY 30017a0d | eCCollisionShape::AccessSkinWidth | STATUS decompiled | 3 ms */
+
+/* public: float & __thiscall eCCollisionShape::AccessSkinWidth(void) */
+
+float * __thiscall eCCollisionShape::AccessSkinWidth(eCCollisionShape *this)
+
+{
+                    /* 0x17a0d  3111  ?AccessSkinWidth@eCCollisionShape@@QAEAAMXZ */
+  return (float *)&(this->eCCollisionShape_data).offset_0x30;
+}
+
+

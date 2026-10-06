@@ -1,0 +1,15 @@
+/* ENTRY 20013ed5 | gCAttribute::ApplyDefaults | STATUS decompiled | 5 ms */
+
+/* protected: virtual void __thiscall gCAttribute::ApplyDefaults(void) */
+
+void __thiscall gCAttribute::ApplyDefaults(gCAttribute *this)
+
+{
+                    /* 0x13ed5  1955  ?ApplyDefaults@gCAttribute@@MAEXXZ */
+  bCString::operator=((bCString *)&(this->gCAttribute_data).field_0x8,"");
+  (this->gCAttribute_data).offset_0x10 = 100;
+  (this->gCAttribute_data).offset_0xc = 0;
+  return;
+}
+
+

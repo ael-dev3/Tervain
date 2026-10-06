@@ -1,0 +1,22 @@
+/* ENTRY 300073ab | bTPropertyObjectType<eCAnimationAdmin,eCEngineComponentBase>::vfunction1 | STATUS decompiled | 4 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined * __thiscall
+bTPropertyObjectType<eCAnimationAdmin,eCEngineComponentBase>::vfunction1(void)
+
+{
+  if ((DAT_30ad9bf8 & 1) == 0) {
+    DAT_30ad9bf8 = DAT_30ad9bf8 | 1;
+    _DAT_30ad9bf4 = DAT_30ad9d88;
+  }
+  if ((DAT_30ad9bf8 & 2) == 0) {
+    DAT_30ad9bf8 = DAT_30ad9bf8 | 2;
+    FUN_306713ae(&DAT_30af70ac);
+    bCClassNameBase::UnMangle(&DAT_30ad9bf0);
+    _atexit((_func_4879 *)&LAB_3000fba5);
+  }
+  return &DAT_30ad9bf0;
+}
+
+

@@ -1,0 +1,4 @@
+; 20005259 ?OnSaveGameEntityPostRead@gCPlayerMemory_PS@@UAEXXZ
+20005259 | e912833100 | JMP 0x2031d570
+; 2000525e gCLayerBase::CanGotoState
+; 2000525e Ordinal_2052

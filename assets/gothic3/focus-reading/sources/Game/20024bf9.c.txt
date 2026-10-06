@@ -1,0 +1,105 @@
+/* ENTRY 20024bf9 | gCFocus_PS::PostInitializeProperties | STATUS decompiled | 43 ms */
+
+/* public: virtual enum bEResult __thiscall gCFocus_PS::PostInitializeProperties(void) */
+
+bEResult __thiscall gCFocus_PS::PostInitializeProperties(gCFocus_PS *this)
+
+{
+  bCObjectBase bStack_8;
+  undefined4 uStack_4;
+  
+                    /* 0x24bf9  5756  ?PostInitializeProperties@gCFocus_PS@@UAE?AW4bEResult@@XZ */
+  bCObjectRefBase::PostInitializeProperties((bCObjectRefBase *)this);
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0x34 = 0x43fa0000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0x70 = 0x43fa0000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0x20 = 0x43960000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0x24 = 0x42b40000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0x28 = 0x42b40000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0x38 = 0x42b40000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0x3c = 0x42b40000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0x48 = 0x43af0000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0x4c = 0x42b40000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0x50 = 0x42b40000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0x5c = 0x43960000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0x60 = 0x42b40000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0x64 = 0x42b40000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0x74 = 0x43340000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0x78 = 0x42b40000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0x84 = 0x43af0000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0x88 = 0x42b40000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0x8c = 0x42b40000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0xa0 = 0x42b40000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0xb4 = 0x42b40000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0xc8 = 0x42b40000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0xdc = 0x42b40000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0xf0 = 0x42b40000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0x104 = 0x42b40000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0x2c = 0xc2b40000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0x30 = 0x3f800000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0x40 = 0xc2b40000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0x44 = 0x3f800000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0x54 = 0xc2b40000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0x58 = 0;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0x68 = 0xc2b40000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0x6c = 0xbf800000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0x7c = 0xc2b40000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0x80 = 0x3f800000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0x90 = 0xc2b40000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0x94 = 0xbf800000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0x98 = 0x455ac000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0x9c = 0x42340000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0xa4 = 0xc2b40000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0xa8 = 0xbf800000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0xac = 0x455ac000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0xb0 = 0x42340000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0xb8 = 0xc2b40000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0xbc = 0x3f800000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0xc0 = 0x455ac000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0xc4 = 0x42340000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0xcc = 0xc2b40000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0xd0 = 0xbf800000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0xd4 = 0x455ac000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0xd8 = 0x42340000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0xe0 = 0xc2b40000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0xe4 = 0xbf800000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0xe8 = 0x455ac000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0xec = 0x42340000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0xf4 = 0xc2b40000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0xf8 = 0x3f800000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0xfc = 0x455ac000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0x100 = 0x42340000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0x108 = 0xc2b40000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0x10c = 0xbf800000;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0x118 = 0x43160000;
+  bCObjectBase::bCObjectBase(&bStack_8);
+  bStack_8 = (bCObjectBase)&bTPropertyContainer<gEFocus>::vftable;
+  uStack_4 = 2;
+  (*(code *)(this->gCFocus_PS_data).offset_0x124[7])(&bStack_8);
+  bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xfffffff4);
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0x114 = 0x44fa0000;
+  (this->gCFocus_PS_data).field_0x121 = 0;
+  (this->gCFocus_PS_data).field_0x110 = 0;
+  *(undefined4 *)&(this->gCFocus_PS_data).field_0x11c = 0x41200000;
+  (this->gCFocus_PS_data).field_0x120 = 1;
+  (this->gCFocus_PS_data).field_0x122 = 0;
+  (this->gCFocus_PS_data).field_0x123 = 0;
+  (this->gCFocus_PS_data).field_0x154 = 0;
+  bCObjectBase::bCObjectBase((bCObjectBase *)&stack0xfffffff4);
+  bStack_8 = (bCObjectBase)0x1;
+  (*(code *)(this->gCFocus_PS_data).offset_0x10[7])(&stack0xfffffff4);
+  bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xfffffff0);
+  bCObjectBase::bCObjectBase((bCObjectBase *)&stack0xfffffff0);
+  (*(code *)(this->gCFocus_PS_data).offset_0x18[7])(&stack0xfffffff0);
+  bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xffffffec);
+  (this->gCFocus_PS_data).offset_0x158 = 0;
+  (this->gCFocus_PS_data).offset_0x160 = 0;
+  (this->gCFocus_PS_data).offset_0x15c = 0;
+  (this->gCFocus_PS_data).offset_0x164 = 0;
+  (this->gCFocus_PS_data).offset_0x170 = 0xbf800000;
+  (this->gCFocus_PS_data).offset_0x168 = 0x41200000;
+  (this->gCFocus_PS_data).offset_0x155 = (gCFocus_PS)0x1;
+  (this->gCFocus_PS_data).offset_0x16c = 0x41700000;
+  return 1;
+}
+
+

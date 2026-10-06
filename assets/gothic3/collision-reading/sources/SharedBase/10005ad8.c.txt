@@ -1,0 +1,21 @@
+/* ENTRY 10005ad8 | bCBox::GetCenterGround | STATUS decompiled | 5 ms */
+
+/* public: class bCVector __thiscall bCBox::GetCenterGround(void)const  */
+
+void __thiscall bCBox::GetCenterGround(bCBox *this)
+
+{
+  float fVar1;
+  float fVar2;
+  float *in_stack_00000004;
+  
+                    /* 0x5ad8  2150  ?GetCenterGround@bCBox@@QBE?AVbCVector@@XZ */
+  fVar1 = *(float *)this;
+  fVar2 = *(float *)(this + 0xc);
+  in_stack_00000004[1] = *(float *)(this + 4);
+  *in_stack_00000004 = (fVar1 + fVar2) * 0.5;
+  in_stack_00000004[2] = (*(float *)(this + 0x14) + *(float *)(this + 8)) * 0.5;
+  return;
+}
+
+

@@ -1,0 +1,20 @@
+/* ENTRY 200290d2 | gCInventory_PS::HasLearnedSkill | STATUS decompiled | 9 ms */
+
+/* public: bool __thiscall gCInventory_PS::HasLearnedSkill(class eCTemplateEntity const *)const  */
+
+bool __thiscall gCInventory_PS::HasLearnedSkill(gCInventory_PS *this,eCTemplateEntity *param_1)
+
+{
+  int iVar1;
+  
+                    /* 0x290d2  4837  ?HasLearnedSkill@gCInventory_PS@@QBE_NPBVeCTemplateEntity@@@Z
+                        */
+  iVar1 = FindSkillStackIndex(this,param_1);
+  iVar1 = FUN_20029be0(iVar1);
+  if (iVar1 != 0) {
+    return (bool)*(undefined1 *)(iVar1 + 0x54);
+  }
+  return false;
+}
+
+

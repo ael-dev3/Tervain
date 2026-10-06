@@ -1,0 +1,15 @@
+/* ENTRY 10003332 | Entity::IsPlayer | STATUS decompiled | 3 ms */
+
+/* public: bool __thiscall Entity::IsPlayer(void)const  */
+
+bool __thiscall Entity::IsPlayer(Entity *this)
+
+{
+  int *piVar1;
+  
+                    /* 0x3332  1787  ?IsPlayer@Entity@@QBE_NXZ */
+  piVar1 = (int *)GetPlayer();
+  return *(int *)this == *piVar1;
+}
+
+

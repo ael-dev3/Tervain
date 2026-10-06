@@ -1,0 +1,2 @@
+; 10005a65 bCObjectRefBase::NotifyPropertyValueChangedExitEx
+10005a65 | e956490400 | JMP 0x1004a3c0

@@ -1,0 +1,7 @@
+; 304bfab0 FUN_304bfab0
+304bfab0 | 8b4948 | MOV ECX,dword ptr [ECX + 0x48]
+304bfab3 | 85c9 | TEST ECX,ECX
+304bfab5 | 7506 | JNZ 0x304bfabd
+304bfab7 | 8d4103 | LEA EAX,[ECX + 0x3]
+304bfaba | c20400 | RET 0x4
+304bfabd | e9c8e7b6ff | JMP 0x3002e28a

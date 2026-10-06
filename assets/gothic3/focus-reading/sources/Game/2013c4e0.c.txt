@@ -1,0 +1,108 @@
+/* ENTRY 2013c4e0 | FUN_2013c4e0 | STATUS decompiled | 32 ms */
+
+undefined4 __thiscall FUN_2013c4e0(void *this)
+
+{
+  bCObjectBase local_8;
+  undefined4 local_4;
+  
+  bCObjectRefBase::PostInitializeProperties(this);
+  *(undefined4 *)((int)this + 0x38) = 0x43fa0000;
+  *(undefined4 *)((int)this + 0x74) = 0x43fa0000;
+  *(undefined4 *)((int)this + 0x24) = 0x43960000;
+  *(undefined4 *)((int)this + 0x28) = 0x42b40000;
+  *(undefined4 *)((int)this + 0x2c) = 0x42b40000;
+  *(undefined4 *)((int)this + 0x3c) = 0x42b40000;
+  *(undefined4 *)((int)this + 0x40) = 0x42b40000;
+  *(undefined4 *)((int)this + 0x4c) = 0x43af0000;
+  *(undefined4 *)((int)this + 0x50) = 0x42b40000;
+  *(undefined4 *)((int)this + 0x54) = 0x42b40000;
+  *(undefined4 *)((int)this + 0x60) = 0x43960000;
+  *(undefined4 *)((int)this + 100) = 0x42b40000;
+  *(undefined4 *)((int)this + 0x68) = 0x42b40000;
+  *(undefined4 *)((int)this + 0x78) = 0x43340000;
+  *(undefined4 *)((int)this + 0x7c) = 0x42b40000;
+  *(undefined4 *)((int)this + 0x88) = 0x43af0000;
+  *(undefined4 *)((int)this + 0x8c) = 0x42b40000;
+  *(undefined4 *)((int)this + 0x90) = 0x42b40000;
+  *(undefined4 *)((int)this + 0xa4) = 0x42b40000;
+  *(undefined4 *)((int)this + 0xb8) = 0x42b40000;
+  *(undefined4 *)((int)this + 0xcc) = 0x42b40000;
+  *(undefined4 *)((int)this + 0xe0) = 0x42b40000;
+  *(undefined4 *)((int)this + 0xf4) = 0x42b40000;
+  *(undefined4 *)((int)this + 0x108) = 0x42b40000;
+  *(undefined4 *)((int)this + 0x30) = 0xc2b40000;
+  *(undefined4 *)((int)this + 0x34) = 0x3f800000;
+  *(undefined4 *)((int)this + 0x44) = 0xc2b40000;
+  *(undefined4 *)((int)this + 0x48) = 0x3f800000;
+  *(undefined4 *)((int)this + 0x58) = 0xc2b40000;
+  *(undefined4 *)((int)this + 0x5c) = 0;
+  *(undefined4 *)((int)this + 0x6c) = 0xc2b40000;
+  *(undefined4 *)((int)this + 0x70) = 0xbf800000;
+  *(undefined4 *)((int)this + 0x80) = 0xc2b40000;
+  *(undefined4 *)((int)this + 0x84) = 0x3f800000;
+  *(undefined4 *)((int)this + 0x94) = 0xc2b40000;
+  *(undefined4 *)((int)this + 0x98) = 0xbf800000;
+  *(undefined4 *)((int)this + 0x9c) = 0x455ac000;
+  *(undefined4 *)((int)this + 0xa0) = 0x42340000;
+  *(undefined4 *)((int)this + 0xa8) = 0xc2b40000;
+  *(undefined4 *)((int)this + 0xac) = 0xbf800000;
+  *(undefined4 *)((int)this + 0xb0) = 0x455ac000;
+  *(undefined4 *)((int)this + 0xb4) = 0x42340000;
+  *(undefined4 *)((int)this + 0xbc) = 0xc2b40000;
+  *(undefined4 *)((int)this + 0xc0) = 0x3f800000;
+  *(undefined4 *)((int)this + 0xc4) = 0x455ac000;
+  *(undefined4 *)((int)this + 200) = 0x42340000;
+  *(undefined4 *)((int)this + 0xd0) = 0xc2b40000;
+  *(undefined4 *)((int)this + 0xd4) = 0xbf800000;
+  *(undefined4 *)((int)this + 0xd8) = 0x455ac000;
+  *(undefined4 *)((int)this + 0xdc) = 0x42340000;
+  *(undefined4 *)((int)this + 0xe4) = 0xc2b40000;
+  *(undefined4 *)((int)this + 0xe8) = 0xbf800000;
+  *(undefined4 *)((int)this + 0xec) = 0x455ac000;
+  *(undefined4 *)((int)this + 0xf0) = 0x42340000;
+  *(undefined4 *)((int)this + 0xf8) = 0xc2b40000;
+  *(undefined4 *)((int)this + 0xfc) = 0x3f800000;
+  *(undefined4 *)((int)this + 0x100) = 0x455ac000;
+  *(undefined4 *)((int)this + 0x104) = 0x42340000;
+  *(undefined4 *)((int)this + 0x10c) = 0xc2b40000;
+  *(undefined4 *)((int)this + 0x110) = 0xbf800000;
+  *(undefined4 *)((int)this + 0x11c) = 0x43160000;
+  bCObjectBase::bCObjectBase(&local_8);
+                    /* inlined constructor or destructor (approx location) for
+                       bTPropertyContainer<gEFocus> */
+  local_8 = (bCObjectBase)&bTPropertyContainer<gEFocus>::vftable;
+  local_4 = 2;
+  (**(code **)(*(int *)((int)this + 0x128) + 0x1c))(&local_8);
+  bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xfffffff4);
+  *(undefined4 *)((int)this + 0x118) = 0x44fa0000;
+  *(undefined1 *)((int)this + 0x125) = 0;
+  *(undefined1 *)((int)this + 0x114) = 0;
+  *(undefined4 *)((int)this + 0x120) = 0x41200000;
+  *(undefined1 *)((int)this + 0x124) = 1;
+  *(undefined1 *)((int)this + 0x126) = 0;
+  *(undefined1 *)((int)this + 0x127) = 0;
+  *(undefined1 *)((int)this + 0x158) = 0;
+  bCObjectBase::bCObjectBase((bCObjectBase *)&stack0xfffffff4);
+                    /* inlined constructor or destructor (approx location) for
+                       bTPropertyContainer<gEFocusLookAt> */
+  local_8 = (bCObjectBase)0x1;
+  (**(code **)(*(int *)((int)this + 0x14) + 0x1c))(&stack0xfffffff4);
+  bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xfffffff0);
+  bCObjectBase::bCObjectBase((bCObjectBase *)&stack0xfffffff0);
+                    /* inlined constructor or destructor (approx location) for
+                       bTPropertyContainer<gEFocusLookAtKeysFOR> */
+  (**(code **)(*(int *)((int)this + 0x1c) + 0x1c))(&stack0xfffffff0);
+  bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xffffffec);
+  *(undefined4 *)((int)this + 0x15c) = 0;
+  *(undefined4 *)((int)this + 0x164) = 0;
+  *(undefined4 *)((int)this + 0x160) = 0;
+  *(undefined4 *)((int)this + 0x168) = 0;
+  *(undefined4 *)((int)this + 0x174) = 0xbf800000;
+  *(undefined4 *)((int)this + 0x16c) = 0x41200000;
+  *(undefined1 *)((int)this + 0x159) = 1;
+  *(undefined4 *)((int)this + 0x170) = 0x41700000;
+  return 1;
+}
+
+

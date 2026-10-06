@@ -1,0 +1,12 @@
+{
+  "schema": "gothic3-routine-scripts-manifest-v1",
+  "inputSha256": "2f10fbb6307c4800bc44c90cb60dac0b32182c1f2416e11ac82b4ba0c35803c1",
+  "outputs": [
+    {
+      "path": "native-routine-scripts.json",
+      "bytes": 7622,
+      "sha256": "5747dd9f2b9f37f4f43c2bbc5e50e785b60ad4e595ab8ad6814e7d3f6f0a0680"
+    }
+  ],
+  "implementedAllRegisteredBodies": false
+}

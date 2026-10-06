@@ -1,0 +1,11 @@
+/* ENTRY 2002a306 | bTPropertyType<gCCharacterControl_PS,unsigned_long>::vfunction5 | STATUS decompiled | 2 ms */
+
+bTPropertyType<gCCharacterControl_PS,unsigned_long>_vftable * __thiscall
+bTPropertyType<gCCharacterControl_PS,unsigned_long>::vfunction5
+          (bTPropertyType<gCCharacterControl_PS,unsigned_long> *this)
+
+{
+  return this[6].vftablePtr;
+}
+
+

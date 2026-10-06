@@ -1,0 +1,13 @@
+/* ENTRY 3003b4fd | eCVisualAnimation_PS::AccessBoneProjectionDistance | STATUS decompiled | 7 ms */
+
+/* public: float & __thiscall eCVisualAnimation_PS::AccessBoneProjectionDistance(void) */
+
+float * __thiscall eCVisualAnimation_PS::AccessBoneProjectionDistance(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x3b4fd  2519  ?AccessBoneProjectionDistance@eCVisualAnimation_PS@@QAEAAMXZ
+                        */
+  return (float *)&this[4].eCEntityPropertySet_data.field_0x4;
+}
+
+

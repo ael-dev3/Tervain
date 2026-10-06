@@ -1,0 +1,31 @@
+/* ENTRY 20514220 | bTPropertyType<gCNPC_PS,bool>::~bTPropertyType<gCNPC_PS,bool> | STATUS decompiled | 10 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCNPC_PS,bool>::~bTPropertyType<gCNPC_PS,bool>(bTPropertyType<gCNPC_PS,bool> *this)
+
+{
+  bTPropertyType<gCNPC_PS,bool> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"LastFightComment");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_bLastFightComment,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_bLastFightComment = &vftable;
+  DAT_207c0f40 = bTPropertyObjectType<gCNPC_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCNPC_PS,eCEntityPropertySet>();
+  _DAT_207c0f44 = 0x9b;
+  _DAT_207c0f48 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_bLastFightComment)
+  ;
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207c0f40,
+             (bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_bLastFightComment);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}
+
+

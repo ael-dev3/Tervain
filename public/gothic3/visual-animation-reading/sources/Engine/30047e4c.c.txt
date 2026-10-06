@@ -1,0 +1,15 @@
+/* ENTRY 30047e4c | eCEffector::SetPos2 | STATUS decompiled | 7 ms */
+
+/* public: void __thiscall eCEffector::SetPos2(class bCVector const &) */
+
+void __thiscall eCEffector::SetPos2(eCEffector *this,bCVector *param_1)
+
+{
+                    /* 0x47e4c  13935  ?SetPos2@eCEffector@@QAEXABVbCVector@@@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"Pos2",false);
+  bCVector::operator=((bCVector *)&(this->eCEffector_data).field_0x4c,param_1);
+  (*this->vftablePtr->NotifyPropertyValueChangedExitEx)(this,"Pos2",false);
+  return;
+}
+
+

@@ -1,0 +1,82 @@
+/* ENTRY 20223510 | FUN_20223510 | STATUS decompiled | 52 ms */
+
+void __fastcall FUN_20223510(gCCharacterMovement_PS *param_1)
+
+{
+  int iVar1;
+  bool bVar2;
+  eCEntity *peVar3;
+  eCVisualAnimation_PS *this;
+  bCVector *pbVar4;
+  bCMatrix *this_00;
+  eEMotionOwner eVar5;
+  eCApplication *peVar6;
+  float fVar7;
+  float fVar8;
+  bCVector abStack_20 [4];
+  bCVector abStack_1c [8];
+  bCVector abStack_14 [4];
+  undefined1 auStack_10 [16];
+  
+  peVar3 = (*param_1->vftablePtr->GetEntity)(param_1);
+  this = (eCVisualAnimation_PS *)(**(code **)(*(int *)peVar3 + 0xec))(100);
+  if (this == (eCVisualAnimation_PS *)0x0) {
+    return;
+  }
+  bVar2 = eCVisualAnimation_PS::HasActor(this);
+  if (bVar2) {
+    gCCharacterMovement_PS::CalcAniVelocity(param_1);
+    bCVector::bCVector(abStack_1c,0.0,0.0,0.0);
+    fVar7 = eCRigidBody_PS::GetLocalTimeScale
+                      ((eCRigidBody_PS *)(param_1->gCCharacterMovement_PS_data).offset_0x16c);
+    if (*(float *)g_fEpsilon_exref < fVar7) {
+      bCVector::bCVector((bCVector *)&stack0xffffffd8,
+                         (bCVector *)&(param_1->gCCharacterMovement_PS_data).field_0x148);
+      eCRigidBody_PS::GetLocalTimeScale
+                ((eCRigidBody_PS *)(param_1->gCCharacterMovement_PS_data).offset_0x16c);
+      pbVar4 = (bCVector *)bCVector::operator/((bCVector *)&stack0xffffffd8,(float)auStack_10);
+      bCVector::operator=(abStack_20,pbVar4);
+      bCVector::~bCVector(abStack_14);
+      bCVector::~bCVector((bCVector *)&stack0xffffffd4);
+    }
+    iVar1 = (param_1->gCCharacterMovement_PS_data).offset_0xfc;
+    if ((((((iVar1 == 3) || (iVar1 == 4)) || (iVar1 == 5)) || ((iVar1 == 2 || (iVar1 == 7)))) ||
+        (iVar1 == 10)) && (fVar7 = bCVector::GetMagnitude(abStack_1c), 0.01 <= fVar7)) {
+      bCVector::bCVector((bCVector *)&stack0xffffffd8);
+      peVar3 = (*param_1->vftablePtr->GetEntity)(param_1);
+      this_00 = eCEntity::GetWorldMatrix((eCEntity *)peVar3);
+      bCMatrix::GetZAxis(this_00,(bCVector *)&stack0xffffffd8);
+      thunk_FUN_202128b0(this,abStack_1c,&stack0xffffffd8);
+      bCVector::~bCVector((bCVector *)&stack0xffffffd8);
+      bCVector::~bCVector(abStack_1c);
+      return;
+    }
+    if ((((float)(param_1->gCCharacterMovement_PS_data).offset_0x158 == 0.0) ||
+        (eVar5 = eCVisualAnimation_PS::GetMotionOwner(this,0), eVar5 != 0xb)) &&
+       (ABS((float)(param_1->gCCharacterMovement_PS_data).offset_0x158) < 10.0)) {
+      if (((float)(param_1->gCCharacterMovement_PS_data).offset_0x108 == 0.0) ||
+         (eVar5 = eCVisualAnimation_PS::GetMotionOwner(this,0), eVar5 != 0xb)) {
+        fVar7 = (float)(param_1->gCCharacterMovement_PS_data).offset_0x108;
+        peVar6 = eCApplication::GetInstance();
+        fVar8 = eCApplication::GetScaledFrameTimeInSeconds((eCApplication *)peVar6);
+        if (ABS(fVar7 / fVar8) < 10.0) {
+          thunk_FUN_20211f70(this);
+          bCVector::~bCVector(abStack_1c);
+          return;
+        }
+      }
+      peVar6 = eCApplication::GetInstance();
+      fVar7 = eCApplication::GetScaledFrameTimeInSeconds((eCApplication *)peVar6);
+      thunk_FUN_202123d0(this,(float)(param_1->gCCharacterMovement_PS_data).offset_0x108 / fVar7);
+      (param_1->gCCharacterMovement_PS_data).offset_0x108 = 0;
+      bCVector::~bCVector(abStack_1c);
+      return;
+    }
+    thunk_FUN_202123d0(this,(param_1->gCCharacterMovement_PS_data).offset_0x158);
+    bCVector::~bCVector(abStack_1c);
+    return;
+  }
+  return;
+}
+
+

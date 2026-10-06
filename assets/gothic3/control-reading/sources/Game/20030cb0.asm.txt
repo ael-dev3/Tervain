@@ -1,0 +1,2 @@
+; 20030cb0 bTPropertyObject<gCCharacterControl_PS,eCEntityPropertySet>::vfunction7
+20030cb0 | e9eb971e00 | JMP 0x2021a4a0

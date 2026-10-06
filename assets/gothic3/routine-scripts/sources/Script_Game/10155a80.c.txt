@@ -1,0 +1,17 @@
+/* ENTRY 10155a80 | FUN_10155a80 | STATUS decompiled | 7 ms */
+
+void FUN_10155a80(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Player\\Player_States\\PS_Ranged.cpp");
+  bCString::bCString(local_8,"PS_Ranged_Aim_Reload");
+  thunk_FUN_1001db60(local_8,&LAB_1000153c,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

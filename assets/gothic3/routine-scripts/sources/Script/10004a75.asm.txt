@@ -1,0 +1,4 @@
+; 10004a75 ??4PropertyAttackReason@PSNpc@@QAEAAV01@ABV01@@Z
+10004a75 | e966680000 | JMP 0x1000b2e0
+; 10004a7f PSNpc::IsPoisoned
+; 10004a7f Ordinal_1788

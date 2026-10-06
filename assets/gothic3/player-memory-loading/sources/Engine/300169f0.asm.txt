@@ -1,0 +1,2 @@
+; 300169f0 eCEntityPropertySet::OnDeinitialize
+300169f0 | e91baf4600 | JMP 0x30481910

@@ -1,0 +1,9 @@
+/* ENTRY 20317b50 | FUN_20317b50 | STATUS decompiled | 0 ms */
+
+undefined4 FUN_20317b50(void)
+
+{
+  return 0x4d;
+}
+
+

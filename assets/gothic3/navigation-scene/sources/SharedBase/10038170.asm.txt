@@ -1,0 +1,48 @@
+; 10038170 FUN_10038170
+10038170 | 83ec0c | SUB ESP,0xc
+10038173 | 56 | PUSH ESI
+10038174 | 8bf1 | MOV ESI,ECX
+10038176 | d94604 | FLD float ptr [ESI + 0x4]
+10038179 | d95c2408 | FSTP float ptr [ESP + 0x8]
+1003817d | d9442408 | FLD float ptr [ESP + 0x8]
+10038181 | d906 | FLD float ptr [ESI]
+10038183 | d95c2404 | FSTP float ptr [ESP + 0x4]
+10038187 | d9442404 | FLD float ptr [ESP + 0x4]
+1003818b | dcc8 | FMUL ST0
+1003818d | d9c1 | FLD ST1
+1003818f | deca | FMULP ST2
+10038191 | dec1 | FADDP
+10038193 | d95c240c | FSTP float ptr [ESP + 0xc]
+10038197 | d944240c | FLD float ptr [ESP + 0xc]
+1003819b | e8702e0700 | CALL 0x100ab010
+100381a0 | d95c240c | FSTP float ptr [ESP + 0xc]
+100381a4 | d944240c | FLD float ptr [ESP + 0xc]
+100381a8 | d95c240c | FSTP float ptr [ESP + 0xc]
+100381ac | d944240c | FLD float ptr [ESP + 0xc]
+100381b0 | d9c0 | FLD ST0
+100381b2 | d9ee | FLDZ
+100381b4 | dfe9 | FUCOMIP ST0,ST1
+100381b6 | ddd8 | FSTP ST0
+100381b8 | 9f | LAHF
+100381b9 | f6c444 | TEST AH,0x44
+100381bc | 8bc6 | MOV EAX,ESI
+100381be | 7a07 | JP 0x100381c7
+100381c0 | ddd8 | FSTP ST0
+100381c2 | 5e | POP ESI
+100381c3 | 83c40c | ADD ESP,0xc
+100381c6 | c3 | RET
+; 100381c7 LAB_100381c7
+100381c7 | d9e8 | FLD1
+100381c9 | def1 | FDIVRP
+100381cb | d95c240c | FSTP float ptr [ESP + 0xc]
+100381cf | d9442404 | FLD float ptr [ESP + 0x4]
+100381d3 | d944240c | FLD float ptr [ESP + 0xc]
+100381d7 | d9c0 | FLD ST0
+100381d9 | deca | FMULP ST2
+100381db | d9c9 | FXCH
+100381dd | d91e | FSTP float ptr [ESI]
+100381df | d84c2408 | FMUL float ptr [ESP + 0x8]
+100381e3 | d95e04 | FSTP float ptr [ESI + 0x4]
+100381e6 | 5e | POP ESI
+100381e7 | 83c40c | ADD ESP,0xc
+100381ea | c3 | RET

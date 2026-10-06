@@ -1,0 +1,2 @@
+; 30009971 eCWrapper_emfx2Actor::IsActorPlaying
+30009971 | e9ea1d0d00 | JMP 0x300db760

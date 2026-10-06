@@ -1,0 +1,15 @@
+{
+  "schema": "gothic3-control-reading-manifest-v1",
+  "outputs": [
+    {
+      "path": "hero-control.json",
+      "bytes": 1883,
+      "sha256": "964070108faf79966376659024ca97827862c0689263180ad826b3686c7ac63c"
+    },
+    {
+      "path": "runtime-rules.json",
+      "bytes": 62430,
+      "sha256": "9fb62739a024f14c71f42bd9610189dd5c70a1b88069bcf73681cdf3fbf7cf0f"
+    }
+  ]
+}

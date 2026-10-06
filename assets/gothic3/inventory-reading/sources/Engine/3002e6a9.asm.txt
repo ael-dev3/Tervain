@@ -1,0 +1,4 @@
+; 3002e6a9 ?CopyFrom@eCTemplateEntityProxy@@MAE?AW4bEResult@@ABV1@@Z
+3002e6a9 | e9128f4900 | JMP 0x304c75c0
+; 3002e6b3 eCStaticLightPreprocessor::ComputeStaticLighting
+; 3002e6b3 Ordinal_3982

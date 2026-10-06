@@ -1,0 +1,2 @@
+; 10003eb3 bCMatrix::operator<<
+10003eb3 | e9b8520200 | JMP 0x10029170

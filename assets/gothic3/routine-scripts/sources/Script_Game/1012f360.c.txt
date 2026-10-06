@@ -1,0 +1,17 @@
+/* ENTRY 1012f360 | FUN_1012f360 | STATUS decompiled | 7 ms */
+
+void FUN_1012f360(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Commands\\AI_Enjoy.cpp");
+  bCString::bCString(local_8,"_AI_Enjoy");
+  thunk_FUN_1004aa50(local_8,thunk_FUN_10053640,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

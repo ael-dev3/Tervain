@@ -1,0 +1,4 @@
+; 20022da4 bTPropertyType<gCNavigation_PS,eCEntityProxy>::vfunction5
+20022da4 | e947ce2600 | JMP 0x2028fbf0
+; 20022da9 gCArmorSet_PS::GetBody
+; 20022da9 Ordinal_2968

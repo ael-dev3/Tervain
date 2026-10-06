@@ -1,0 +1,17 @@
+/* ENTRY 2016d4d0 | gCHUDPageMain2::vfunction71 | STATUS decompiled | 10 ms */
+
+void __thiscall gCHUDPageMain2::vfunction71(gCHUDPageMain2 *this,undefined4 param_1,int param_2)
+
+{
+  thunk_FUN_20166110(param_1,param_2);
+  thunk_FUN_20166510(param_1,param_2);
+  thunk_FUN_20166340(param_1,param_2);
+  thunk_FUN_20165ed0(param_1,param_2);
+  thunk_FUN_201668d0(param_1,param_2);
+  if (param_2 == 0) {
+    thunk_FUN_20190080(param_1);
+  }
+  return;
+}
+
+

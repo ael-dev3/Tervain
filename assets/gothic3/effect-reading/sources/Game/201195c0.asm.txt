@@ -1,0 +1,3 @@
+; 201195c0 bTPropertyObject<gCEffect_PS,eCEntityPropertySet>::vfunction5
+201195c0 | 8b410c | MOV EAX,dword ptr [ECX + 0xc]
+201195c3 | c3 | RET

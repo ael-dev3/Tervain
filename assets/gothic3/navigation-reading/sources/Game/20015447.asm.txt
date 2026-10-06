@@ -1,0 +1,2 @@
+; 20015447 bTPropertyObject<gCNavigation_PS,eCEntityPropertySet>::vfunction9
+20015447 | e9e4722700 | JMP 0x2028c730

@@ -1,0 +1,15 @@
+/* ENTRY 2018eb40 | gCHUDProgressBarNPC::gCHUDProgressBarNPC | STATUS decompiled | 9 ms */
+
+gCHUDProgressBarNPC * __thiscall gCHUDProgressBarNPC::gCHUDProgressBarNPC(gCHUDProgressBarNPC *this)
+
+{
+  CFFGFCProgressBar::CFFGFCProgressBar((CFFGFCProgressBar *)this);
+  this->vftablePtr = &vftable;
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)&(this->gCHUDProgressBarNPC_data).field_0xc);
+  bCString::bCString((bCString *)&(this->gCHUDProgressBarNPC_data).field_0x28,"");
+  (this->gCHUDProgressBarNPC_data).offset_0x2c = 0;
+  (this->gCHUDProgressBarNPC_data).offset_0x2d = 1;
+  return this;
+}
+
+

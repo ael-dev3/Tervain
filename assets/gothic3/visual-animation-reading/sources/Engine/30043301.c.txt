@@ -1,0 +1,23 @@
+/* ENTRY 30043301 | eCVisualAnimation_PS::IntersectsRay | STATUS decompiled | 9 ms */
+
+/* public: virtual bool __thiscall eCVisualAnimation_PS::IntersectsRay(struct eSRayIntersectionDesc
+   &,class bCMatrix const &,class eCCollisionDesc * *)const  */
+
+bool __thiscall
+eCVisualAnimation_PS::IntersectsRay
+          (eCVisualAnimation_PS *this,eSRayIntersectionDesc *param_1,bCMatrix *param_2,
+          eCCollisionDesc **param_3)
+
+{
+  bool bVar1;
+  
+                    /* 0x43301  9872
+                       ?IntersectsRay@eCVisualAnimation_PS@@UBE_NAAUeSRayIntersectionDesc@@ABVbCMatrix@@PAPAVeCCollisionDesc@@@Z
+                        */
+  bVar1 = eCVisualAnimationFactory::IntersectsRay
+                    ((eCVisualAnimationFactory *)&this[7].eCEntityPropertySet_data.field_0x4,param_1
+                     ,param_2,param_3);
+  return bVar1;
+}
+
+

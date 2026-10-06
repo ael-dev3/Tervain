@@ -1,0 +1,4 @@
+; 30011833 bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_>::vfunction20
+30011833 | e908dd3100 | JMP 0x3032f540
+; 30011838 eCImageGroup::eCImageGroup
+; 30011838 Ordinal_444

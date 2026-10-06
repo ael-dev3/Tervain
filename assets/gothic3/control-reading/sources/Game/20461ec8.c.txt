@@ -1,0 +1,14 @@
+/* ENTRY 20461ec8 | ENGINE.DLL::eCEntityPropertySet::IsProcessable | STATUS decompiled | 1 ms */
+
+bool __thiscall eCEntityPropertySet::IsProcessable(eCEntityPropertySet *this)
+
+{
+  bool bVar1;
+  
+                    /* WARNING: Could not recover jumptable at 0x20461ec8. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bVar1 = IsProcessable(this);
+  return bVar1;
+}
+
+

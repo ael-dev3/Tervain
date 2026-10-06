@@ -1,0 +1,15 @@
+/* ENTRY 100046ba | bCObjectBase::Destroy | STATUS decompiled | 4 ms */
+
+/* protected: virtual void __thiscall bCObjectBase::Destroy(void) */
+
+void __thiscall bCObjectBase::Destroy(bCObjectBase *this)
+
+{
+                    /* 0x46ba  1938  ?Destroy@bCObjectBase@@MAEXXZ */
+                    /* WARNING: Could not recover jumptable at 0x1004a0a5. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  (*this->vftablePtr->IsValid)(this);
+  return;
+}
+
+

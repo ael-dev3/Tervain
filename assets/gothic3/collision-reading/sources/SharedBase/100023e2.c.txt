@@ -1,0 +1,12 @@
+/* ENTRY 100023e2 | bCOrientedBox::~bCOrientedBox | STATUS decompiled | 1 ms */
+
+/* public: __thiscall bCOrientedBox::~bCOrientedBox(void) */
+
+void __thiscall bCOrientedBox::~bCOrientedBox(bCOrientedBox *this)
+
+{
+                    /* 0x23e2  404  ??1bCOrientedBox@@QAE@XZ */
+  return;
+}
+
+

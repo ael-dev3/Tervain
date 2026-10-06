@@ -1,0 +1,32 @@
+/* ENTRY 20513960 | bTPropertyType<gCNPC_PS,bTPropertyContainer<gEClass>_>::~bTPropertyType<gCNPC_PS,bTPropertyContainer<gEClass>_> | STATUS decompiled | 10 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCNPC_PS,bTPropertyContainer<gEClass>_>::
+~bTPropertyType<gCNPC_PS,bTPropertyContainer<gEClass>_>
+          (bTPropertyType<gCNPC_PS,bTPropertyContainer<gEClass>_> *this)
+
+{
+  bTPropertyType<gCNPC_PS,bTPropertyContainer<gEClass>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"Class");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_enuClass,(bCString *)&local_4,2);
+  _ms_PropertyMember_m_enuClass = &vftable;
+  DAT_207c0d48 = bTPropertyObjectType<gCNPC_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCNPC_PS,eCEntityPropertySet>();
+  _DAT_207c0d4c = 0x40;
+  _DAT_207c0d50 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_enuClass);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207c0d48,
+             (bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_enuClass);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gEClass>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gEClass>_>);
+  return;
+}
+
+

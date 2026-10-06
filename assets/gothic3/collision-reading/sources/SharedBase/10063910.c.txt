@@ -1,0 +1,229 @@
+/* ENTRY 10063910 | FUN_10063910 | STATUS decompiled | 153 ms */
+
+void __thiscall FUN_10063910(float *param_1,float *param_2,int param_3)
+
+{
+  bCMatrix3 *this;
+  float fVar1;
+  float fVar2;
+  float fVar3;
+  double *pdVar4;
+  double *pdVar5;
+  float fVar6;
+  float fVar7;
+  float fVar8;
+  float fVar9;
+  float fVar10;
+  float fVar11;
+  float fVar12;
+  float fVar13;
+  float fVar14;
+  float fVar15;
+  float *pfVar16;
+  int iVar17;
+  int iVar18;
+  int local_50;
+  int *local_4c;
+  double *local_48;
+  double local_40;
+  double local_38;
+  double local_30;
+  double local_28;
+  float local_1c;
+  float local_18;
+  float local_14;
+  float local_10;
+  float local_c;
+  
+  if (param_3 == 0) {
+    param_1[3] = -3.4028235e+38;
+    param_1[4] = -3.4028235e+38;
+    param_1[5] = -3.4028235e+38;
+    return;
+  }
+  *param_1 = *param_2;
+  iVar18 = 1;
+  param_1[1] = param_2[1];
+  param_1[2] = param_2[2];
+  if (3 < param_3 + -1) {
+    iVar17 = (param_3 - 5U >> 2) + 1;
+    iVar18 = iVar17 * 4 + 1;
+    pfVar16 = param_2 + 8;
+    do {
+      iVar17 = iVar17 + -1;
+      *param_1 = pfVar16[-5] + *param_1;
+      param_1[1] = pfVar16[-4] + param_1[1];
+      param_1[2] = pfVar16[-3] + param_1[2];
+      *param_1 = pfVar16[-2] + *param_1;
+      param_1[1] = pfVar16[-1] + param_1[1];
+      param_1[2] = *pfVar16 + param_1[2];
+      *param_1 = pfVar16[1] + *param_1;
+      param_1[1] = pfVar16[2] + param_1[1];
+      param_1[2] = pfVar16[3] + param_1[2];
+      *param_1 = pfVar16[4] + *param_1;
+      param_1[1] = pfVar16[5] + param_1[1];
+      param_1[2] = pfVar16[6] + param_1[2];
+      pfVar16 = pfVar16 + 0xc;
+    } while (iVar17 != 0);
+  }
+  if (iVar18 < param_3) {
+    iVar17 = param_3 - iVar18;
+    pfVar16 = param_2 + iVar18 * 3 + 2;
+    do {
+      iVar17 = iVar17 + -1;
+      *param_1 = pfVar16[-2] + *param_1;
+      param_1[1] = pfVar16[-1] + param_1[1];
+      param_1[2] = param_1[2] + *pfVar16;
+      pfVar16 = pfVar16 + 3;
+    } while (iVar17 != 0);
+  }
+  fVar6 = 1.0 / (float)param_3;
+  fVar1 = *param_1;
+  *param_1 = fVar6 * fVar1;
+  fVar2 = param_1[1];
+  param_1[1] = fVar2 * fVar6;
+  fVar3 = param_1[2];
+  param_1[2] = fVar6 * fVar3;
+  fVar7 = 0.0;
+  fVar10 = 0.0;
+  fVar12 = 0.0;
+  fVar8 = 0.0;
+  fVar9 = fVar7;
+  fVar11 = fVar7;
+  if (0 < param_3) {
+    pfVar16 = param_2 + 2;
+    iVar18 = param_3;
+    fVar9 = 0.0;
+    fVar8 = 0.0;
+    fVar7 = 0.0;
+    do {
+      iVar18 = iVar18 + -1;
+      fVar13 = pfVar16[-2] - fVar6 * fVar1;
+      fVar14 = pfVar16[-1] - fVar2 * fVar6;
+      fVar15 = *pfVar16 - fVar6 * fVar3;
+      fVar11 = fVar13 * fVar13 + fVar11;
+      fVar10 = fVar14 * fVar13 + fVar10;
+      fVar12 = fVar15 * fVar13 + fVar12;
+      fVar9 = fVar14 * fVar14 + fVar9;
+      fVar8 = fVar15 * fVar14 + fVar8;
+      fVar7 = fVar15 * fVar15 + fVar7;
+      pfVar16 = pfVar16 + 3;
+    } while (iVar18 != 0);
+  }
+  local_38 = (double)(fVar12 * fVar6);
+  local_30 = (double)(fVar8 * fVar6);
+  local_40 = (double)(fVar7 * fVar6);
+  bCEigenVector::bCEigenVector((bCEigenVector *)&local_50,3);
+  *(double *)*local_4c = (double)(fVar11 * fVar6);
+  *(double *)(*local_4c + 8) = (double)(fVar10 * fVar6);
+  *(double *)(*local_4c + 0x10) = local_38;
+  *(double *)local_4c[1] = (double)(fVar10 * fVar6);
+  *(double *)(local_4c[1] + 8) = (double)(fVar9 * fVar6);
+  *(double *)(local_4c[1] + 0x10) = local_30;
+  *(double *)local_4c[2] = local_38;
+  *(double *)(local_4c[2] + 8) = local_30;
+  *(double *)(local_4c[2] + 0x10) = local_40;
+  bCEigenVector::IncrSortEigenStuff3((bCEigenVector *)&local_50);
+  param_1[3] = (float)*local_48;
+  param_1[4] = (float)local_48[1];
+  this = (bCMatrix3 *)(param_1 + 6);
+  param_1[5] = (float)local_48[2];
+  if (local_50 == 3) {
+    iVar18 = local_4c[1];
+    *(float *)this = (float)*(double *)(*local_4c + 8);
+    iVar17 = local_4c[2];
+    param_1[7] = (float)*(double *)(iVar18 + 8);
+    param_1[8] = (float)*(double *)(iVar17 + 8);
+    iVar18 = local_4c[1];
+    param_1[9] = (float)*(double *)(*local_4c + 0x10);
+    iVar17 = local_4c[2];
+    param_1[10] = (float)*(double *)(iVar18 + 0x10);
+    param_1[0xb] = (float)*(double *)(iVar17 + 0x10);
+    pdVar4 = (double *)local_4c[1];
+    pdVar5 = (double *)local_4c[2];
+    param_1[0xc] = (float)*(double *)*local_4c;
+    param_1[0xd] = (float)*pdVar4;
+    param_1[0xe] = (float)*pdVar5;
+  }
+  else {
+    *(undefined4 *)this = 0;
+    param_1[7] = 0.0;
+    param_1[8] = 0.0;
+    param_1[9] = 0.0;
+    param_1[10] = 0.0;
+    param_1[0xb] = 0.0;
+    param_1[0xc] = 0.0;
+    param_1[0xd] = 0.0;
+    param_1[0xe] = 0.0;
+  }
+  param_1[9] = -0.0 - param_1[9];
+  param_1[10] = -0.0 - param_1[10];
+  param_1[0xb] = -0.0 - param_1[0xb];
+  param_1[0xc] = -0.0 - param_1[0xc];
+  param_1[0xd] = -0.0 - param_1[0xd];
+  param_1[0xe] = -0.0 - param_1[0xe];
+  bCMatrix3::Orthonormalize(this);
+  if (param_1[3] != -1.0) {
+    fVar1 = *param_1;
+    fVar6 = *param_2 - fVar1;
+    fVar2 = param_1[1];
+    fVar7 = param_2[1] - fVar2;
+    fVar3 = param_1[2];
+    fVar8 = param_2[2] - fVar3;
+    fVar9 = fVar6 * *(float *)this + fVar7 * param_1[7] + fVar8 * param_1[8];
+    fVar10 = param_1[0xb] * fVar8 + fVar6 * param_1[9] + param_1[10] * fVar7;
+    local_28 = (double)fVar10;
+    fVar6 = param_1[0xd] * fVar7 + param_1[0xc] * fVar6 + param_1[0xe] * fVar8;
+    local_38 = (double)fVar6;
+    fVar7 = fVar9;
+    if (1 < param_3) {
+      local_c = *(float *)this;
+      local_14 = param_1[8];
+      local_10 = param_1[10];
+      local_18 = param_1[9];
+      local_1c = param_1[0xb];
+      local_40 = (double)CONCAT44(local_40._4_4_,param_1[0xd]);
+      local_30 = (double)CONCAT44(local_30._4_4_,param_1[0xc]);
+      param_2 = param_2 + 5;
+      param_3 = param_3 + -1;
+      do {
+        fVar8 = param_2[-2] - fVar1;
+        fVar11 = param_2[-1] - fVar2;
+        fVar12 = *param_2 - fVar3;
+        fVar13 = fVar11 * param_1[7] + fVar8 * local_c + fVar12 * local_14;
+        fVar14 = fVar13;
+        if ((fVar7 <= fVar13) && (fVar14 = fVar7, fVar9 < fVar13)) {
+          fVar9 = fVar13;
+        }
+        fVar7 = fVar14;
+        fVar13 = local_1c * fVar12 + local_18 * fVar8 + local_10 * fVar11;
+        fVar14 = fVar13;
+        if ((fVar10 <= fVar13) && (fVar14 = fVar10, (float)local_28 < fVar13)) {
+          local_28 = (double)fVar13;
+        }
+        fVar10 = fVar14;
+        fVar8 = fVar12 * param_1[0xe] + param_1[0xd] * fVar11 + param_1[0xc] * fVar8;
+        fVar11 = fVar8;
+        if ((fVar6 <= fVar8) && (fVar11 = fVar6, (float)local_38 < fVar8)) {
+          local_38 = (double)fVar8;
+        }
+        fVar6 = fVar11;
+        param_2 = param_2 + 3;
+        param_3 = param_3 + -1;
+      } while (param_3 != 0);
+    }
+    fVar8 = ((float)local_38 + fVar6) * 0.5;
+    fVar11 = ((float)local_28 + fVar10) * 0.5;
+    fVar12 = (fVar9 + fVar7) * 0.5;
+    *param_1 = fVar12 * *(float *)this + fVar11 * param_1[9] + fVar8 * param_1[0xc] + fVar1;
+    param_1[1] = param_1[7] * fVar12 + param_1[10] * fVar11 + param_1[0xd] * fVar8 + fVar2;
+    param_1[2] = fVar12 * param_1[8] + fVar11 * param_1[0xb] + fVar8 * param_1[0xe] + fVar3;
+    param_1[3] = (fVar9 - fVar7) * 0.5;
+    param_1[4] = ((float)local_28 - fVar10) * 0.5;
+    param_1[5] = ((float)local_38 - fVar6) * 0.5;
+  }
+  bCEigenVector::~bCEigenVector((bCEigenVector *)&local_50);
+  return;
+}
+
+

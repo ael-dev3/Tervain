@@ -1,0 +1,2 @@
+; 3002fa0e eCEffector::vfunction15
+3002fa0e | e9bd1a0300 | JMP 0x300614d0

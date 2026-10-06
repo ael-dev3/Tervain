@@ -1,0 +1,16 @@
+/* ENTRY 3004403a | eCVisualAnimation_PS::eSMotionDesc::operator>> | STATUS decompiled | 3 ms */
+
+/* public: class bCOStream & __thiscall eCVisualAnimation_PS::eSMotionDesc::operator>>(class
+   bCOStream &) */
+
+bCOStream * __thiscall
+eCVisualAnimation_PS::eSMotionDesc::operator>>(eSMotionDesc *this,bCOStream *param_1)
+
+{
+                    /* 0x4403a  1919  ??5eSMotionDesc@eCVisualAnimation_PS@@QAEAAVbCOStream@@AAV2@@Z
+                        */
+  ::operator>>((bCString *)(this + 4),param_1);
+  return param_1;
+}
+
+

@@ -1,0 +1,2 @@
+; 20001c9e gCEffect_PS::OnExitProcessingRange
+20001c9e | e94d6a1100 | JMP 0x201186f0

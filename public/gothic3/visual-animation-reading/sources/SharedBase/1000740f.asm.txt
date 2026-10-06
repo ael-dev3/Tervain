@@ -1,0 +1,2 @@
+; 1000740f bCString::Compare
+1000740f | e93cb90000 | JMP 0x10012d50

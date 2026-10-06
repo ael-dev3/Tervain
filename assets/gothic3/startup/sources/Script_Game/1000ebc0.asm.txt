@@ -1,0 +1,22 @@
+; 1000ebc0 FUN_1000ebc0
+1000ebc0 | 53 | PUSH EBX
+1000ebc1 | 56 | PUSH ESI
+1000ebc2 | 57 | PUSH EDI
+1000ebc3 | 6aff | PUSH -0x1
+1000ebc5 | 33db | XOR EBX,EBX
+1000ebc7 | 53 | PUSH EBX
+1000ebc8 | 8bf1 | MOV ESI,ECX
+1000ebca | e84b37ffff | CALL 0x1000231a
+1000ebcf | 6aff | PUSH -0x1
+1000ebd1 | 8d7e0c | LEA EDI,[ESI + 0xc]
+1000ebd4 | 53 | PUSH EBX
+1000ebd5 | 8bcf | MOV ECX,EDI
+1000ebd7 | 895e04 | MOV dword ptr [ESI + 0x4],EBX
+1000ebda | e83b37ffff | CALL 0x1000231a
+1000ebdf | 895f04 | MOV dword ptr [EDI + 0x4],EBX
+1000ebe2 | 5f | POP EDI
+1000ebe3 | 895e18 | MOV dword ptr [ESI + 0x18],EBX
+1000ebe6 | 895e1c | MOV dword ptr [ESI + 0x1c],EBX
+1000ebe9 | 5e | POP ESI
+1000ebea | 5b | POP EBX
+1000ebeb | c3 | RET

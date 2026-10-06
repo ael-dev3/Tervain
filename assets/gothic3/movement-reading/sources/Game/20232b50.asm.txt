@@ -1,0 +1,9 @@
+; 20232b50 bTPropertyType<gCCharacterMovement_PS,bool>::vfunction20
+20232b50 | 56 | PUSH ESI
+20232b51 | 8bf1 | MOV ESI,ECX
+20232b53 | ff15d8877d20 | CALL dword ptr [0x207d87d8]
+20232b59 | 8b4e18 | MOV ECX,dword ptr [ESI + 0x18]
+20232b5c | 56 | PUSH ESI
+20232b5d | ff15cc877d20 | CALL dword ptr [0x207d87cc]
+20232b63 | 5e | POP ESI
+20232b64 | c3 | RET

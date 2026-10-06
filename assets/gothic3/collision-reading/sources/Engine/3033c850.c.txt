@@ -1,0 +1,11 @@
+/* ENTRY 3033c850 | bTPropertyContainer<eEPhysicRangeType>::vfunction7 | STATUS decompiled | 3 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<eEPhysicRangeType>::vfunction7(bTPropertyContainer<eEPhysicRangeType> *this)
+
+{
+  (this->bTPropertyContainer<eEPhysicRangeType>_data).offset_0x0 = DAT_30aec2e8;
+  return 1;
+}
+
+

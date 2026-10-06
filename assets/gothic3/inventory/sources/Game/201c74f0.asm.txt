@@ -1,0 +1,2 @@
+; 201c74f0 gCInventorySlot::OnApplyStats
+201c74f0 | e9fb1de4ff | JMP 0x200092f0

@@ -1,0 +1,4 @@
+; 30016bcb bTPropertyObject<eCRigidBody_PS,eCRigidBodyBase_PS>::vfunction5
+30016bcb | e9a08e3100 | JMP 0x3032fa70
+; 30016bd5 eCCursor::IsVisible
+; 30016bd5 Ordinal_10717

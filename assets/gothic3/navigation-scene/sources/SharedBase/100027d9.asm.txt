@@ -1,0 +1,4 @@
+; 100027d9 ?Contains@bCInfDoubleCylinder@@QBE_NABVbCVector@@@Z
+100027d9 | e972ee0500 | JMP 0x10061650
+; 100027de bCObjectRefBase::OnNotifyPropertyValueChangedExitEx
+; 100027de Ordinal_3818

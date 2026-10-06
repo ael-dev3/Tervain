@@ -1,0 +1,12 @@
+/* ENTRY 30019dc1 | eCVisualAnimation_PS::GetSpringParentNodesScale | STATUS decompiled | 6 ms */
+
+/* public: float const & __thiscall eCVisualAnimation_PS::GetSpringParentNodesScale(void)const  */
+
+float * __thiscall eCVisualAnimation_PS::GetSpringParentNodesScale(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x19dc1  8925  ?GetSpringParentNodesScale@eCVisualAnimation_PS@@QBEABMXZ */
+  return (float *)(this + 6);
+}
+
+

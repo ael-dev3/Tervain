@@ -1,0 +1,4 @@
+; 200121c5 ?FindStackIndex@gCInventory_PS@@QBEHABVbCPropertyID@@W4gEInventoryFindQuality@@KH@Z
+200121c5 | e9d6bf1900 | JMP 0x201ae1a0
+; 200121ca gCArmorSet_PS::GetModAttrib4Value
+; 200121ca Ordinal_3816

@@ -1,0 +1,23 @@
+/* ENTRY 20397950 | FUN_20397950 | STATUS decompiled | 5 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+bCPropertyObjectBase * FUN_20397950(void)
+
+{
+  bCPropertyObjectSingleton *this;
+  bCString *pbVar1;
+  bCString local_4 [4];
+  
+  if ((_DAT_207ccf24 & 1) == 0) {
+    _DAT_207ccf24 = _DAT_207ccf24 | 1;
+    bCString::bCString(local_4,"gCAttribute");
+    pbVar1 = local_4;
+    this = bCPropertyObjectSingleton::GetInstance();
+    DAT_207ccf20 = bCPropertyObjectSingleton::GetRootObject(this,pbVar1);
+    bCString::~bCString(local_4);
+  }
+  return DAT_207ccf20;
+}
+
+

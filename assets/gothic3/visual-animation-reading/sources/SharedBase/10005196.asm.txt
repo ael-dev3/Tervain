@@ -1,0 +1,2 @@
+; 10005196 bCVector::GetTransformed
+10005196 | e9c5020500 | JMP 0x10055460

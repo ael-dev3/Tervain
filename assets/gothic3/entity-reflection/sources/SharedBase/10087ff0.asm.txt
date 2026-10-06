@@ -1,0 +1,14 @@
+; 10087ff0 bCPropertyObjectTypeBase::bCPropertyObjectTypeBase
+10087ff0 | 56 | PUSH ESI
+10087ff1 | 8bf1 | MOV ESI,ECX
+10087ff3 | 8d4e04 | LEA ECX,[ESI + 0x4]
+10087ff6 | c7066c9d0e10 | MOV dword ptr [ESI],0x100e9d6c
+10087ffc | e89cf7f7ff | CALL 0x1000779d
+10088001 | 33c0 | XOR EAX,EAX
+10088003 | 894608 | MOV dword ptr [ESI + 0x8],EAX
+10088006 | 89460c | MOV dword ptr [ESI + 0xc],EAX
+10088009 | 894610 | MOV dword ptr [ESI + 0x10],EAX
+1008800c | 804e1401 | OR byte ptr [ESI + 0x14],0x1
+10088010 | 8bc6 | MOV EAX,ESI
+10088012 | 5e | POP ESI
+10088013 | c3 | RET

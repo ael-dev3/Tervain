@@ -1,0 +1,5 @@
+; 10087f20 FUN_10087f20
+10087f20 | 8b4108 | MOV EAX,dword ptr [ECX + 0x8]
+10087f23 | 8b4c2404 | MOV ECX,dword ptr [ESP + 0x4]
+10087f27 | 8b0488 | MOV EAX,dword ptr [EAX + ECX*0x4]
+10087f2a | c20400 | RET 0x4

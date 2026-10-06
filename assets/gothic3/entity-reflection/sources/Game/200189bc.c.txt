@@ -1,0 +1,24 @@
+/* ENTRY 200189bc | gCParty_PS::gCParty_PS | STATUS decompiled | 13 ms */
+
+/* public: __thiscall gCParty_PS::gCParty_PS(class gCParty_PS const &) */
+
+gCParty_PS * __thiscall gCParty_PS::gCParty_PS(gCParty_PS *this,gCParty_PS *param_1)
+
+{
+  undefined ***this_00;
+  
+                    /* 0x189bc  290  ??0gCParty_PS@@QAE@ABV0@@Z */
+  eCEntityPropertySet::eCEntityPropertySet((eCEntityPropertySet *)this);
+  this->vftablePtr = &vftable;
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)&(this->gCParty_PS_data).field_0x10);
+  this_00 = &(this->gCParty_PS_data).offset_0x2c;
+  bCObjectBase::bCObjectBase((bCObjectBase *)this_00);
+  *this_00 = &bTPropertyContainer<gEPartyMemberType>::vftable.GetVersion;
+  (this->gCParty_PS_data).offset_0x30 = DAT_207c1414;
+  (this->gCParty_PS_data).offset_0x38 = 0;
+  (this->gCParty_PS_data).offset_0x3c = 0;
+  (this->gCParty_PS_data).offset_0x40 = 0;
+  return this;
+}
+
+

@@ -1,0 +1,12 @@
+/* ENTRY 3004831a | eCCollisionShape_PS::AccessDisableCollision | STATUS decompiled | 9 ms */
+
+/* public: bool & __thiscall eCCollisionShape_PS::AccessDisableCollision(void) */
+
+bool * __thiscall eCCollisionShape_PS::AccessDisableCollision(eCCollisionShape_PS *this)
+
+{
+                    /* 0x4831a  2668  ?AccessDisableCollision@eCCollisionShape_PS@@QAEAA_NXZ */
+  return (bool *)&(this->eCCollisionShape_PS_data).field_0x10;
+}
+
+

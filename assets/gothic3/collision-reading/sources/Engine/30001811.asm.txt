@@ -1,0 +1,4 @@
+; 30001811 bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeAABBAdapt>_>::vfunction9
+30001811 | e90ae93500 | JMP 0x30360120
+; 30001816 eCDX9Font::operator=
+; 30001816 Ordinal_1503

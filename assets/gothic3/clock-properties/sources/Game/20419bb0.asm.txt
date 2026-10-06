@@ -1,0 +1,43 @@
+; 20419bb0 bTPropertyContainer<eEAmbientDayTime>::bTPropertyContainer<eEAmbientDayTime>_Constructor_or_Destructor
+20419bb0 | 83ec08 | SUB ESP,0x8
+20419bb3 | 56 | PUSH ESI
+20419bb4 | 8bf1 | MOV ESI,ECX
+20419bb6 | 8b4e14 | MOV ECX,dword ptr [ESI + 0x14]
+20419bb9 | 85c9 | TEST ECX,ECX
+20419bbb | 746f | JZ 0x20419c2c
+20419bbd | e866f1beff | CALL 0x20008d28
+20419bc2 | 85c0 | TEST EAX,EAX
+20419bc4 | 7466 | JZ 0x20419c2c
+20419bc6 | 8d4c2404 | LEA ECX,[ESP + 0x4]
+20419bca | ff1500877d20 | CALL dword ptr [0x207d8700]
+20419bd0 | 8b442410 | MOV EAX,dword ptr [ESP + 0x10]
+20419bd4 | 8b4e14 | MOV ECX,dword ptr [ESI + 0x14]
+20419bd7 | c7442404ecd76a20 | MOV dword ptr [ESP + 0x4],0x206ad7ec
+20419bdf | 89442408 | MOV dword ptr [ESP + 0x8],EAX
+20419be3 | e840f1beff | CALL 0x20008d28
+20419be8 | 8bf0 | MOV ESI,EAX
+20419bea | 8b16 | MOV EDX,dword ptr [ESI]
+20419bec | 8b4258 | MOV EAX,dword ptr [EDX + 0x58]
+20419bef | 6a00 | PUSH 0x0
+20419bf1 | 68c4256620 | PUSH 0x206625c4
+20419bf6 | 8bce | MOV ECX,ESI
+20419bf8 | ffd0 | CALL EAX
+20419bfa | 8b561c | MOV EDX,dword ptr [ESI + 0x1c]
+20419bfd | 8b521c | MOV EDX,dword ptr [EDX + 0x1c]
+20419c00 | 8d4e1c | LEA ECX,[ESI + 0x1c]
+20419c03 | 8d442404 | LEA EAX,[ESP + 0x4]
+20419c07 | 50 | PUSH EAX
+20419c08 | ffd2 | CALL EDX
+20419c0a | 8b06 | MOV EAX,dword ptr [ESI]
+20419c0c | 8b505c | MOV EDX,dword ptr [EAX + 0x5c]
+20419c0f | 6a00 | PUSH 0x0
+20419c11 | 68c4256620 | PUSH 0x206625c4
+20419c16 | 8bce | MOV ECX,ESI
+20419c18 | ffd2 | CALL EDX
+20419c1a | 8d4c2404 | LEA ECX,[ESP + 0x4]
+20419c1e | c7442404ecd76a20 | MOV dword ptr [ESP + 0x4],0x206ad7ec
+20419c26 | ff1500887d20 | CALL dword ptr [0x207d8800]
+; 20419c2c LAB_20419c2c
+20419c2c | 5e | POP ESI
+20419c2d | 83c408 | ADD ESP,0x8
+20419c30 | c20400 | RET 0x4

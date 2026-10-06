@@ -1,0 +1,32 @@
+/* ENTRY 20513e60 | bTPropertyType<gCNPC_PS,float>::~bTPropertyType<gCNPC_PS,float> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCNPC_PS,float>::~bTPropertyType<gCNPC_PS,float>
+          (bTPropertyType<gCNPC_PS,float> *this)
+
+{
+  bTPropertyType<gCNPC_PS,float> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"LastFightTimestamp");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_fLastFightTimestamp,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_fLastFightTimestamp = &vftable;
+  DAT_207c0e68 = bTPropertyObjectType<gCNPC_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCNPC_PS,eCEntityPropertySet>();
+  _DAT_207c0e6c = 0x8c;
+  _DAT_207c0e70 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_fLastFightTimestamp);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207c0e68,
+             (bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_fLastFightTimestamp);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}
+
+

@@ -1,0 +1,2 @@
+; 30011482 eCResourceAnimationMotion_PS::GetMotionObject
+30011482 | e9d96c0800 | JMP 0x30098160

@@ -1,0 +1,2 @@
+; 2002dd49 ?IsZoneIllegal@gCNavZone_PS@@QAE_NXZ
+2002dd49 | e902162700 | JMP 0x2029f350

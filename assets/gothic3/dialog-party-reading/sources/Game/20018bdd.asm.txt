@@ -1,0 +1,2 @@
+; 20018bdd gCDialog_PS::Destroy
+20018bdd | e92e2c1f00 | JMP 0x2020b810

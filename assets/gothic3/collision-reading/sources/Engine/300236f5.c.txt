@@ -1,0 +1,19 @@
+/* ENTRY 300236f5 | eCCollisionShape_PS::Invalidate | STATUS decompiled | 11 ms */
+
+/* protected: void __thiscall eCCollisionShape_PS::Invalidate(void) */
+
+void __thiscall eCCollisionShape_PS::Invalidate(eCCollisionShape_PS *this)
+
+{
+                    /* 0x236f5  9926  ?Invalidate@eCCollisionShape_PS@@IAEXXZ */
+  thunk_FUN_3033c8e0();
+  thunk_FUN_3033c8e0();
+  (this->eCCollisionShape_PS_data).offset_0x2c = 0;
+  (this->eCCollisionShape_PS_data).offset_0x30 = 0;
+                    /* WARNING: Could not recover jumptable at 0x30337a6f. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCString::Clear((bCString *)&(this->eCCollisionShape_PS_data).field_0x34);
+  return;
+}
+
+

@@ -1,0 +1,3 @@
+; 3035c1d0 bTPropertyObject<eCCollisionShape,bCObjectRefBase>::vfunction4
+3035c1d0 | 8b490c | MOV ECX,dword ptr [ECX + 0xc]
+3035c1d3 | ff255ccaaf30 | JMP dword ptr [0x30afca5c]

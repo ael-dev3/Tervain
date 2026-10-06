@@ -1,0 +1,26 @@
+/* ENTRY 1009ae70 | FUN_1009ae70 | STATUS decompiled | 7 ms */
+
+void __fastcall FUN_1009ae70(int *param_1)
+
+{
+  int *piVar1;
+  bool bVar2;
+  bCString *pbVar3;
+  bCString *this;
+  
+  if (*param_1 != 0) {
+    piVar1 = (int *)*param_1;
+    pbVar3 = (bCString *)bTPropertyObject<bCObsoleteClass,bCObjectRefBase>::vfunction3();
+    this = (bCString *)(**(code **)(*piVar1 + 8))();
+    bVar2 = bCString::operator==(this,pbVar3);
+    if (!bVar2) goto LAB_1009ae9b;
+  }
+  bTPropertyObject<bCObsoleteClass,bCObjectRefBase>::vfunction3();
+LAB_1009ae9b:
+                    /* WARNING: Could not recover jumptable at 0x1009aea3. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  (**(code **)(*(int *)*param_1 + 4))();
+  return;
+}
+
+

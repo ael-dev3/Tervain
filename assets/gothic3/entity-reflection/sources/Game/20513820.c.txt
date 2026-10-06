@@ -1,0 +1,33 @@
+/* ENTRY 20513820 | bTPropertyType<gCNPC_PS,bTPropertyContainer<gESpecies>_>::~bTPropertyType<gCNPC_PS,bTPropertyContainer<gESpecies>_> | STATUS decompiled | 34 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCNPC_PS,bTPropertyContainer<gESpecies>_>::
+~bTPropertyType<gCNPC_PS,bTPropertyContainer<gESpecies>_>
+          (bTPropertyType<gCNPC_PS,bTPropertyContainer<gESpecies>_> *this)
+
+{
+  bTPropertyType<gCNPC_PS,bTPropertyContainer<gESpecies>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"Species");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_enuSpecies,(bCString *)&local_4,2)
+  ;
+  _ms_PropertyMember_m_enuSpecies = &vftable;
+  DAT_207c0d00 = bTPropertyObjectType<gCNPC_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCNPC_PS,eCEntityPropertySet>();
+  _DAT_207c0d04 = 0x30;
+  _DAT_207c0d08 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_enuSpecies);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207c0d00,
+             (bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_enuSpecies);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gESpecies>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gESpecies>_>);
+  return;
+}
+
+

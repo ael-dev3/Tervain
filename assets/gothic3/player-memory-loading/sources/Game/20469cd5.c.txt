@@ -1,0 +1,16 @@
+/* ENTRY 20469cd5 | std::bad_cast::bad_cast | STATUS decompiled | 2 ms */
+
+/* Library Function - Single Match
+    public: __thiscall std::bad_cast::bad_cast(char const *)
+   
+   Library: Visual Studio 2005 Release */
+
+bad_cast * __thiscall std::bad_cast::bad_cast(bad_cast *this,char *param_1)
+
+{
+  exception::exception((exception *)this,&param_1);
+  this->vftablePtr = &vftable;
+  return this;
+}
+
+

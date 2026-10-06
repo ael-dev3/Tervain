@@ -1,0 +1,4 @@
+; 10004692 ?GetMax@bCBox@@QBEABVbCVector@@XZ
+10004692 | e929600200 | JMP 0x1002a6c0
+; 10004697 bCMatrix::IsValid
+; 10004697 Ordinal_3679

@@ -1,0 +1,22 @@
+; 303372a0 bTPropertyContainer<eECollisionGroup>::bTPropertyContainer<eECollisionGroup>
+303372a0 | 56 | PUSH ESI
+303372a1 | 8bf1 | MOV ESI,ECX
+303372a3 | 57 | PUSH EDI
+303372a4 | 8d4e48 | LEA ECX,[ESI + 0x48]
+303372a7 | c706740f8630 | MOV dword ptr [ESI],0x30860f74
+303372ad | ff15dcdbaf30 | CALL dword ptr [0x30afdbdc]
+303372b3 | 8d4e34 | LEA ECX,[ESI + 0x34]
+303372b6 | e8fe8bcfff | CALL 0x3002feb9
+303372bb | 8d4e28 | LEA ECX,[ESI + 0x28]
+303372be | e8f68bcfff | CALL 0x3002feb9
+303372c3 | 8b3d20ccaf30 | MOV EDI,dword ptr [0x30afcc20]
+303372c9 | 8d4e1c | LEA ECX,[ESI + 0x1c]
+303372cc | c7018c0a8630 | MOV dword ptr [ECX],0x30860a8c
+303372d2 | ffd7 | CALL EDI
+303372d4 | 8d4e14 | LEA ECX,[ESI + 0x14]
+303372d7 | c701b4f48130 | MOV dword ptr [ECX],0x3081f4b4
+303372dd | ffd7 | CALL EDI
+303372df | 5f | POP EDI
+303372e0 | 8bce | MOV ECX,ESI
+303372e2 | 5e | POP ESI
+303372e3 | e903d9cdff | JMP 0x30014beb

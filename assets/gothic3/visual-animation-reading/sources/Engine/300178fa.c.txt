@@ -1,0 +1,13 @@
+/* ENTRY 300178fa | eCVisualAnimation_PS::GetSkeletonCollisionEnabled | STATUS decompiled | 5 ms */
+
+/* public: bool const & __thiscall eCVisualAnimation_PS::GetSkeletonCollisionEnabled(void)const  */
+
+bool * __thiscall eCVisualAnimation_PS::GetSkeletonCollisionEnabled(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x178fa  8828  ?GetSkeletonCollisionEnabled@eCVisualAnimation_PS@@QBEAB_NXZ
+                        */
+  return (bool *)&this[1].eCEntityPropertySet_data.field_0x7;
+}
+
+

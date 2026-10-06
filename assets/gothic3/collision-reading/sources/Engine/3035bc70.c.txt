@@ -1,0 +1,23 @@
+/* ENTRY 3035bc70 | bTPropertyObjectType<eCCollisionShape,bCObjectRefBase>::deleting_destructor | STATUS decompiled | 4 ms */
+
+bTPropertyObjectType<eCCollisionShape,bCObjectRefBase> * __thiscall
+bTPropertyObjectType<eCCollisionShape,bCObjectRefBase>::deleting_destructor
+          (bTPropertyObjectType<eCCollisionShape,bCObjectRefBase> *this,byte param_1)
+
+{
+                    /* inlined destructor:
+                       bTPropertyObjectType<eCCollisionShape,bCObjectRefBase>::~bTPropertyObjectType<eCCollisionShape,bCObjectRefBase>
+                        */
+  this->vftablePtr = &vftable;
+  bCPropertyObjectFactory::~bCPropertyObjectFactory
+            ((bCPropertyObjectFactory *)
+             &(this->bTPropertyObjectType<eCCollisionShape,bCObjectRefBase>_data).field_0x14);
+  bCPropertyObjectTypeBase::~bCPropertyObjectTypeBase((bCPropertyObjectTypeBase *)this);
+  if ((param_1 & 1) != 0) {
+                    /* WARNING: Subroutine does not return */
+    _free(this);
+  }
+  return this;
+}
+
+

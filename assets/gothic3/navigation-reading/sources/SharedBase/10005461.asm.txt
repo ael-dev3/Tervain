@@ -1,0 +1,4 @@
+; 10005461 ??1bCVector@@QAE@XZ
+10005461 | e91af70100 | JMP 0x10024b80
+; 10005466 bCInfCylinder::Separates
+; 10005466 Ordinal_4040

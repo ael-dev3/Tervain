@@ -1,0 +1,47 @@
+/* ENTRY 300251d5 | eCCollisionShape_PS::CopyFrom | STATUS decompiled | 31 ms */
+
+/* public: virtual enum bEResult __thiscall eCCollisionShape_PS::CopyFrom(class bCObjectBase const
+   &) */
+
+bEResult __thiscall eCCollisionShape_PS::CopyFrom(eCCollisionShape_PS *this,bCObjectBase *param_1)
+
+{
+  int *piVar1;
+  bCObjectRefBase *pbVar2;
+  int iVar3;
+  bCAccessorPropertyObject *pbVar4;
+  int iStack_1c;
+  bCAccessorPropertyObject abStack_18 [8];
+  bCAccessorPropertyObject abStack_10 [12];
+  
+                    /* 0x251d5  4050
+                       ?CopyFrom@eCCollisionShape_PS@@UAE?AW4bEResult@@ABVbCObjectBase@@@Z */
+  iStack_1c = 0;
+  if (0 < *(int *)(param_1 + 0x2c)) {
+    piVar1 = &(this->eCCollisionShape_PS_data).offset_0x14;
+    do {
+      bCAccessorPropertyObject::bCAccessorPropertyObject
+                (abStack_10,*(bCObjectRefBase **)(*(int *)(param_1 + 0x28) + iStack_1c * 4));
+      pbVar4 = abStack_18;
+      bCAccessorPropertyObject::Clone(abStack_10);
+      pbVar2 = bCAccessorPropertyObject::GetNativeObject((bCAccessorPropertyObject *)&iStack_1c);
+      iVar3 = (this->eCCollisionShape_PS_data).offset_0x18 + 1;
+      thunk_FUN_3033d2a0(iVar3,(iVar3 != 0) - 1);
+      iVar3 = (this->eCCollisionShape_PS_data).offset_0x18 + -1;
+      if (pbVar2 != (bCObjectRefBase *)0x0) {
+        (**(code **)(*(int *)pbVar2 + 0x20))(pbVar4);
+      }
+      if (*(int *)(*piVar1 + iVar3 * 4) != 0) {
+        (**(code **)(**(int **)(*piVar1 + iVar3 * 4) + 0x24))();
+        *(undefined4 *)(*piVar1 + iVar3 * 4) = 0;
+      }
+      *(bCObjectRefBase **)(*piVar1 + iVar3 * 4) = pbVar2;
+      bCAccessorPropertyObject::~bCAccessorPropertyObject(abStack_18);
+      bCAccessorPropertyObject::~bCAccessorPropertyObject(abStack_10);
+      iStack_1c = iStack_1c + 1;
+    } while (iStack_1c < *(int *)(param_1 + 0x2c));
+  }
+  return 1;
+}
+
+

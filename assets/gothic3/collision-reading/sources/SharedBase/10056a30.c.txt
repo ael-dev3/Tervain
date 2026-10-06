@@ -1,0 +1,10 @@
+/* ENTRY 10056a30 | FUN_10056a30 | STATUS decompiled | 2 ms */
+
+void __thiscall FUN_10056a30(bCBox *param_1,bCStretch *param_2)
+
+{
+  bCBox::Intersects(param_1,param_2,&bCBox::m_fDummy);
+  return;
+}
+
+

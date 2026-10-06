@@ -1,0 +1,2 @@
+; 2000ae8e ?GameReset@gCNavZone_PS@@IAEXXZ
+2000ae8e | e9dd5e2900 | JMP 0x202a0d70

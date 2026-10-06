@@ -1,0 +1,9 @@
+; 201841b0 gCHUDPage::gCHUDPage
+201841b0 | 56 | PUSH ESI
+201841b1 | 8bf1 | MOV ESI,ECX
+201841b3 | ff15cc787d20 | CALL dword ptr [0x207d78cc]
+201841b9 | c706bce36620 | MOV dword ptr [ESI],0x2066e3bc
+201841bf | c6461000 | MOV byte ptr [ESI + 0x10],0x0
+201841c3 | 8bc6 | MOV EAX,ESI
+201841c5 | 5e | POP ESI
+201841c6 | c3 | RET

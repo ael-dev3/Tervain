@@ -1,0 +1,2 @@
+; 10001159 bCAccessorProperty::ResolveProperty
+10001159 | e9622f0900 | JMP 0x100940c0

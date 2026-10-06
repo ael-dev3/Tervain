@@ -1,0 +1,20 @@
+/* ENTRY 2001317e | gCPlayerMemory_PS::GetAttribute | STATUS decompiled | 7 ms */
+
+/* public: class gCAttribute * __thiscall gCPlayerMemory_PS::GetAttribute(class bCString const
+   &)const  */
+
+gCAttribute * __thiscall gCPlayerMemory_PS::GetAttribute(gCPlayerMemory_PS *this,bCString *param_1)
+
+{
+  int iVar1;
+  
+                    /* 0x1317e  2948
+                       ?GetAttribute@gCPlayerMemory_PS@@QBEPAVgCAttribute@@ABVbCString@@@Z */
+  iVar1 = thunk_FUN_203214f0(param_1,&param_1);
+  if (iVar1 != 0) {
+    return *(gCAttribute **)(iVar1 + 4);
+  }
+  return (gCAttribute *)0x0;
+}
+
+

@@ -1,0 +1,11 @@
+/* ENTRY 2039b290 | gCStat::~gCStat | STATUS decompiled | 3 ms */
+
+void __thiscall gCStat::~gCStat(gCStat *this)
+
+{
+  this->vftablePtr = &vftable;
+  gCAttribute::~gCAttribute((gCAttribute *)this);
+  return;
+}
+
+

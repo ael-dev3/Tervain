@@ -1,0 +1,4 @@
+; 2000f312 ??0gCDamage_PS@@QAE@XZ
+2000f312 | e959430a00 | JMP 0x200b3670
+; 2000f317 gCInteraction_PS::Destroy
+; 2000f317 Ordinal_2598

@@ -1,0 +1,2 @@
+; 3001325a eCArchiveFile::operator=
+3001325a | e901a25c00 | JMP 0x305dd460

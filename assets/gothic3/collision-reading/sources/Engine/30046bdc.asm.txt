@@ -1,0 +1,4 @@
+; 30046bdc bTPropertyObjectType<eCCollisionShapeBase_PS,eCEntityPropertySet>::deleting_destructor
+30046bdc | e91faa2f00 | JMP 0x30341600
+; 30046be6 eCContextBase::Destroy
+; 30046be6 Ordinal_5101

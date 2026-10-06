@@ -1,0 +1,22 @@
+/* ENTRY 304816b0 | FUN_304816b0 | STATUS decompiled | 6 ms */
+
+undefined4 __thiscall FUN_304816b0(int param_1,bCIStream *param_2)
+
+{
+  bCIStream *this;
+  int local_4;
+  
+  this = param_2;
+  local_4 = param_1;
+  bCIStream::operator>>(param_2,(ushort *)&local_4);
+  if (1 < (ushort)local_4) {
+    bCIStream::operator>>(this,(bool *)&param_2);
+    *(byte *)(param_1 + 0x10) =
+         *(byte *)(param_1 + 0x10) ^ (*(byte *)(param_1 + 0x10) ^ param_2._0_1_) & 1;
+    return 1;
+  }
+  *(byte *)(param_1 + 0x10) = *(byte *)(param_1 + 0x10) | 1;
+  return 1;
+}
+
+

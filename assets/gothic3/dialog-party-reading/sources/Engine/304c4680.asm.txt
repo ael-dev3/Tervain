@@ -1,0 +1,16 @@
+; 304c4680 eCEntityProxy::eCEntityProxy_Constructor_or_Destructor
+304c4680 | 56 | PUSH ESI
+304c4681 | 8bf1 | MOV ESI,ECX
+304c4683 | 8b4e04 | MOV ECX,dword ptr [ESI + 0x4]
+304c4686 | 85c9 | TEST ECX,ECX
+304c4688 | c706f4bf8730 | MOV dword ptr [ESI],0x3087bff4
+304c468e | 740c | JZ 0x304c469c
+304c4690 | e897f2b3ff | CALL 0x3000392c
+304c4695 | c7460400000000 | MOV dword ptr [ESI + 0x4],0x0
+304c469c | c7460400000000 | MOV dword ptr [ESI + 0x4],0x0
+304c46a3 | 83c608 | ADD ESI,0x8
+304c46a6 | 8bce | MOV ECX,ESI
+304c46a8 | ff1534d8af30 | CALL dword ptr [0x30afd834]
+304c46ae | 8bce | MOV ECX,ESI
+304c46b0 | 5e | POP ESI
+304c46b1 | ff25f8daaf30 | JMP dword ptr [0x30afdaf8]

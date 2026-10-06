@@ -1,0 +1,13 @@
+/* ENTRY 3001700d | eCVisualAnimation_PS::SetDebugMode | STATUS decompiled | 6 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::SetDebugMode(bool) */
+
+void __thiscall eCVisualAnimation_PS::SetDebugMode(eCVisualAnimation_PS *this,bool param_1)
+
+{
+                    /* 0x1700d  13185  ?SetDebugMode@eCVisualAnimation_PS@@QAEX_N@Z */
+  *(bool *)&this[0xe].vftablePtr = param_1;
+  return;
+}
+
+

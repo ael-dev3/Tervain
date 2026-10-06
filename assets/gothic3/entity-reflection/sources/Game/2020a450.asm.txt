@@ -1,0 +1,2 @@
+; 2020a450 SHAREDBASE.DLL::bCPropertyTypeBase::Write
+2020a450 | ff25e0877d20 | JMP dword ptr [0x207d87e0]

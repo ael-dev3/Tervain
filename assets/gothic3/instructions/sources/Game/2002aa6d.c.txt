@@ -1,0 +1,83 @@
+/* ENTRY 2002aa6d | gCScriptAdmin::RunScriptState | STATUS decompiled | 41 ms */
+
+/* public: bool __thiscall gCScriptAdmin::RunScriptState(class bCString const &,class
+   bTObjStack<struct gScriptRunTimeSingleState> &,class gCScriptProcessingUnit *) */
+
+bool __thiscall
+gCScriptAdmin::RunScriptState
+          (gCScriptAdmin *this,bCString *param_1,bTObjStack<gScriptRunTimeSingleState> *param_2,
+          gCScriptProcessingUnit *param_3)
+
+{
+  bCString *pbVar1;
+  bool bVar2;
+  undefined1 uVar3;
+  eCSceneAdmin *this_00;
+  eCEntityAdmin *this_01;
+  int iVar4;
+  bCString *pbVar5;
+  bCString *pbVar6;
+  char *pcVar7;
+  bCMessageAdmin *this_02;
+  bCString **unaff_EBX;
+  undefined4 unaff_EDI;
+  bEMessageTypes bVar8;
+  bCString **ppbVar9;
+  char *pcVar10;
+  int iVar11;
+  
+                    /* 0x2aa6d  6167
+                       ?RunScriptState@gCScriptAdmin@@QAE_NABVbCString@@AAV?$bTObjStack@UgScriptRunTimeSingleState@@@@PAVgCScriptProcessingUnit@@@Z
+                        */
+  this_00 = (eCSceneAdmin *)thunk_FUN_200ae8e0();
+  this_01 = eCSceneAdmin::GetAccessToEntityAdmin(this_00);
+  bVar2 = eCEntityAdmin::IsProcessingEnabled(this_01);
+  pbVar1 = param_1;
+  if (!bVar2) {
+    return false;
+  }
+  iVar4 = thunk_FUN_20352fa0();
+  ppbVar9 = &param_1;
+  if (iVar4 == 0) {
+    pcVar10 = " !";
+    ppbVar9 = &param_1;
+    pbVar6 = pbVar1;
+    iVar11 = iVar4;
+    pbVar5 = (bCString *)
+             operator+((char *)&param_3,
+                       (bCString *)
+                       "gCScriptAdmin::RunScriptState - Scripted state is not registered: ");
+    pbVar6 = (bCString *)bCString::operator+(pbVar5,(char *)pbVar6);
+    pcVar7 = bCString::operator_char_const_(pbVar6);
+    bVar8 = 3;
+    this_02 = bCMessageAdmin::GetInstance();
+    bCMessageAdmin::OnMessage(this_02,bVar8,pcVar7,(char *)ppbVar9,pcVar10,iVar4,iVar11);
+    bCString::~bCString((bCString *)&stack0xfffffffc);
+    bCString::~bCString((bCString *)&param_1);
+    pbVar6 = pbVar1;
+    pbVar5 = (bCString *)
+             operator+((char *)&param_1,(bCString *)"Scripted state is not registered: ");
+    pbVar6 = (bCString *)bCString::operator+(pbVar5,(char *)pbVar6);
+    pcVar7 = bCString::operator_char_const_(pbVar6);
+    if (DAT_207ab9db != '\0') {
+      iVar4 = MessageBoxA((HWND)0x0,pcVar7,"gCScriptAdmin::RunScript(..)",0x12);
+      if (iVar4 == 3) {
+        FUN_20466768(0);
+        ppbVar9 = unaff_EBX;
+        goto LAB_2034ce70;
+      }
+      if (iVar4 == 5) {
+        DAT_207ab9db = '\0';
+      }
+    }
+    bCString::~bCString((bCString *)&stack0xfffffff4);
+    bCString::~bCString((bCString *)&stack0xfffffffc);
+    return true;
+  }
+LAB_2034ce70:
+  iVar4 = thunk_FUN_20352fa0(pbVar1,&stack0xfffffff0);
+  uVar3 = (**(code **)(*(int *)(iVar4 + 4) + 4))(ppbVar9,unaff_EDI);
+  return (bool)uVar3;
+}
+
+

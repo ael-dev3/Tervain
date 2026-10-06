@@ -1,0 +1,10 @@
+/* ENTRY 30341340 | FUN_30341340 | STATUS decompiled | 2 ms */
+
+undefined4 FUN_30341340(bCOStream *param_1)
+
+{
+  bCOStream::operator<<(param_1,1);
+  return 1;
+}
+
+

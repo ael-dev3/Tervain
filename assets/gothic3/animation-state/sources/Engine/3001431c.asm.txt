@@ -1,0 +1,2 @@
+; 3001431c ?PlayMotion@eCWrapper_emfx2Actor@@QAEXW4eEMotionType@1@AAVeCWrapper_emfx2Motion@@PAUeSMotionDesc@3@@Z
+3001431c | e93f760c00 | JMP 0x300db960

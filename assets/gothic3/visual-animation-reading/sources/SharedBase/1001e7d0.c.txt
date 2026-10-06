@@ -1,0 +1,13 @@
+/* ENTRY 1001e7d0 | bCIOStream::bCIOStream | STATUS decompiled | 3 ms */
+
+void __thiscall bCIOStream::bCIOStream(bCIOStream *this)
+
+{
+  this->vftablePtr = &vftable_for_bCIStream_;
+  this->vftablePtr = &vftable_for_bCOStream_;
+  bCOStream::~bCOStream((bCOStream *)&this->vftablePtr);
+  bCIStream::~bCIStream((bCIStream *)this);
+  return;
+}
+
+

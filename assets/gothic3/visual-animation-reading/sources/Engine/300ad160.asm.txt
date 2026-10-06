@@ -1,0 +1,3 @@
+; 300ad160 bTPropertyObject<eCVisualAnimation_PS,eCEntityPropertySet>::vfunction5
+300ad160 | 8b410c | MOV EAX,dword ptr [ECX + 0xc]
+300ad163 | c3 | RET

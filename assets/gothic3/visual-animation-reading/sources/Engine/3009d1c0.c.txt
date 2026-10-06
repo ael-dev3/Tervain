@@ -1,0 +1,29 @@
+/* ENTRY 3009d1c0 | FUN_3009d1c0 | STATUS decompiled | 11 ms */
+
+void __thiscall FUN_3009d1c0(int *param_1,int *param_2)
+
+{
+  int *piVar1;
+  eCResourceDataEntity *this;
+  bCString *pbVar2;
+  
+  piVar1 = param_2;
+  if (param_2 != (int *)0x0) {
+    (**(code **)(*param_2 + 0x20))();
+  }
+  if ((int *)*param_1 != (int *)0x0) {
+    (**(code **)(*(int *)*param_1 + 0x24))();
+    *param_1 = 0;
+  }
+  bCString::Clear((bCString *)(param_1 + 1));
+  if (piVar1 != (int *)0x0) {
+    *param_1 = (int)piVar1;
+    this = (eCResourceDataEntity *)(**(code **)(*piVar1 + 0x70))(&param_2);
+    pbVar2 = (bCString *)eCResourceDataEntity::GetFileName(this);
+    bCString::operator=((bCString *)(param_1 + 1),pbVar2);
+    bCString::~bCString((bCString *)&stack0x00000000);
+  }
+  return;
+}
+
+

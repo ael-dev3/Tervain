@@ -1,0 +1,31 @@
+/* ENTRY 20171ed0 | gCHUDDialogMenu2::~gCHUDDialogMenu2 | STATUS decompiled | 13 ms */
+
+void __thiscall gCHUDDialogMenu2::~gCHUDDialogMenu2(gCHUDDialogMenu2 *this)
+
+{
+  bCMemoryAdmin *this_00;
+  int iVar1;
+  void **ppvVar2;
+  void *pvVar3;
+  
+  this->vftablePtr = &vftable;
+  ppvVar2 = &(this->gCHUDDialogMenu2_data).offset_0xc;
+  iVar1 = 0xf;
+  do {
+    if (*ppvVar2 != (int *)0x0) {
+      (**(code **)(*(int *)*ppvVar2 + 0x104))(0);
+      pvVar3 = *ppvVar2;
+      this_00 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::DeleteObject(this_00,pvVar3);
+      *ppvVar2 = (void *)0x0;
+    }
+    ppvVar2 = ppvVar2 + 1;
+    iVar1 = iVar1 + -1;
+  } while (iVar1 != 0);
+  bCRect::~bCRect((bCRect *)&(this->gCHUDDialogMenu2_data).field_0x5c);
+  bCRect::~bCRect((bCRect *)&(this->gCHUDDialogMenu2_data).field_0x4c);
+  gCHUDDialog::~gCHUDDialog((gCHUDDialog *)this);
+  return;
+}
+
+

@@ -1,0 +1,46 @@
+/* ENTRY 30034a09 | eCCollisionShape::eCCollisionShape | STATUS decompiled | 1059 ms */
+
+/* public: __thiscall eCCollisionShape::eCCollisionShape(void) */
+
+eCCollisionShape * __thiscall eCCollisionShape::eCCollisionShape(eCCollisionShape *this)
+
+{
+  undefined ***pppuVar1;
+  undefined1 *this_00;
+  undefined1 *this_01;
+  
+                    /* 0x34a09  137  ??0eCCollisionShape@@QAE@XZ */
+  bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)this);
+  pppuVar1 = &(this->eCCollisionShape_data).offset_0x8;
+  this->vftablePtr = &vftable;
+  bCObjectBase::bCObjectBase((bCObjectBase *)pppuVar1);
+  *pppuVar1 = &bTPropertyContainer<eECollisionShapeType>::vftable.GetVersion;
+  (this->eCCollisionShape_data).offset_0xc = DAT_30adab04;
+  pppuVar1 = &(this->eCCollisionShape_data).offset_0x10;
+  bCObjectBase::bCObjectBase((bCObjectBase *)pppuVar1);
+  *pppuVar1 = &bTPropertyContainer<eEShapeGroup>::vftable.GetVersion;
+  (this->eCCollisionShape_data).offset_0x14 = DAT_30ada2b8;
+  pppuVar1 = &(this->eCCollisionShape_data).offset_0x18;
+  bCObjectBase::bCObjectBase((bCObjectBase *)pppuVar1);
+  *pppuVar1 = &bTPropertyContainer<eEShapeMaterial>::vftable.GetVersion;
+  (this->eCCollisionShape_data).offset_0x1c = DAT_30ada2bc;
+  pppuVar1 = &(this->eCCollisionShape_data).offset_0x20;
+  bCObjectBase::bCObjectBase((bCObjectBase *)pppuVar1);
+  *pppuVar1 = &bTPropertyContainer<eEShapeAABBAdapt>::vftable.GetVersion;
+  (this->eCCollisionShape_data).offset_0x24 = DAT_30adab08;
+  this_00 = &(this->eCCollisionShape_data).field_0x44;
+  bCBox::bCBox((bCBox *)this_00);
+  this_01 = &(this->eCCollisionShape_data).field_0x64;
+  bCVector::bCVector((bCVector *)this_01);
+  (this->eCCollisionShape_data).offset_0x70 = 0;
+  (this->eCCollisionShape_data).offset_0x40 = 0;
+  (this->eCCollisionShape_data).offset_0x42 = 0;
+  (this->eCCollisionShape_data).offset_0x5c = 0;
+  (this->eCCollisionShape_data).offset_0x60 = 0;
+  bCBox::Invalidate((bCBox *)this_00);
+  bCVector::Clear((bCVector *)this_01);
+  (this->eCCollisionShape_data).offset_0x29 = 0;
+  return this;
+}
+
+

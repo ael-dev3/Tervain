@@ -1,0 +1,4 @@
+; 300114f5 ?GetCenter@eCCollisionShape@@QAEAAVbCVector@@XZ
+300114f5 | e936c10b00 | JMP 0x300cd630
+; 300114ff eCWeatherZone_PS::SetAmbientIntensityOverwrite
+; 300114ff Ordinal_12895

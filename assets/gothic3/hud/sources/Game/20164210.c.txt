@@ -1,0 +1,13 @@
+/* ENTRY 20164210 | FUN_20164210 | STATUS decompiled | 2 ms */
+
+void FUN_20164210(undefined4 param_1,undefined4 param_2)
+
+{
+  thunk_FUN_20161a80(param_1,param_2);
+  thunk_FUN_20164d90(param_1,param_2);
+  thunk_FUN_201650c0(param_1,param_2);
+  thunk_FUN_20163c80(param_1,param_2);
+  return;
+}
+
+

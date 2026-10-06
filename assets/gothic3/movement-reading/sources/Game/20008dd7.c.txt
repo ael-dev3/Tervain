@@ -1,0 +1,31 @@
+/* ENTRY 20008dd7 | gCCharacterMovement_PS::vfunction15 | STATUS decompiled | 12 ms */
+
+gCCharacterMovement_PS * __thiscall
+gCCharacterMovement_PS::vfunction15(gCCharacterMovement_PS *this,byte param_1)
+
+{
+  undefined1 *_Memory;
+  int iVar1;
+  gCCharacterMovement_PS *this_00;
+  
+  if ((param_1 & 2) == 0) {
+    ~gCCharacterMovement_PS(this);
+    if ((param_1 & 1) != 0) {
+      _free(this);
+    }
+    return this;
+  }
+  iVar1 = *(int *)&this[-1].gCCharacterMovement_PS_data.field_0x3d4;
+  _Memory = &this[-1].gCCharacterMovement_PS_data.field_0x3d4;
+  this_00 = this + iVar1;
+  while (iVar1 = iVar1 + -1, -1 < iVar1) {
+    this_00 = this_00 + -1;
+    ~gCCharacterMovement_PS(this_00);
+  }
+  if ((param_1 & 1) != 0) {
+    _free(_Memory);
+  }
+  return (gCCharacterMovement_PS *)_Memory;
+}
+
+

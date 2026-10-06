@@ -1,0 +1,12 @@
+/* ENTRY 304c46c0 | FUN_304c46c0 | STATUS decompiled | 3 ms */
+
+void __thiscall FUN_304c46c0(int param_1,int param_2)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x304c46ce. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCPropertyID::operator==((bCPropertyID *)(param_1 + 8),(bCPropertyID *)(param_2 + 8));
+  return;
+}
+
+

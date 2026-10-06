@@ -1,0 +1,492 @@
+/* ENTRY 3003a5d5 | eCVisualAnimation_PS::CreatePhysicsController | STATUS decompiled | 441 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+/* public: void __thiscall eCVisualAnimation_PS::CreatePhysicsController(bool,class
+   eCVisualAnimation_PS *) */
+
+void __thiscall
+eCVisualAnimation_PS::CreatePhysicsController
+          (eCVisualAnimation_PS *this,bool param_1,eCVisualAnimation_PS *param_2)
+
+{
+  uint uVar1;
+  bool bVar2;
+  eCWrapper_emfx2Actor *peVar3;
+  int iVar4;
+  int iVar5;
+  int iVar6;
+  bCMemoryAdmin *pbVar7;
+  bCString *pbVar8;
+  eCModuleAdmin *this_00;
+  eCEngineComponentBase *peVar9;
+  eCAnimationAdmin *this_01;
+  eCApplication *this_02;
+  eCCameraBase *peVar10;
+  eCEntity *peVar11;
+  bCVector *this_03;
+  eCNovodexPhysicsController *this_04;
+  undefined4 *puVar12;
+  int *piVar13;
+  int iVar14;
+  int *piVar15;
+  void *pvVar16;
+  eCNovodexPhysicsController *peVar17;
+  int iVar18;
+  uint uVar19;
+  float fVar20;
+  float unaff_retaddr;
+  undefined4 uVar21;
+  TypeDescriptor *pTVar22;
+  TypeDescriptor *pTVar23;
+  ulong uVar24;
+  eCVisualAnimation_PS **ppeVar25;
+  undefined4 uVar26;
+  int *piStack_48;
+  int iStack_44;
+  int iStack_40;
+  void *pvStack_3c;
+  int iStack_38;
+  undefined4 uStack_34;
+  void *pvStack_30;
+  int iStack_2c;
+  undefined4 uStack_28;
+  int *piStack_24;
+  int iStack_20;
+  eCVisualAnimation_PS *peStack_1c;
+  eCVisualAnimation_PS *peStack_18;
+  undefined4 *puStack_14;
+  int iStack_10;
+  int iStack_c;
+  undefined1 uStack_8;
+  undefined1 uStack_7;
+  undefined1 uStack_6;
+  
+                    /* 0x3a5d5  4886  ?CreatePhysicsController@eCVisualAnimation_PS@@QAEX_NPAV1@@Z
+                        */
+  if ((this[0x12].eCEntityPropertySet_data.offset_0xc != 1) &&
+     (peVar3 = eCVisualAnimationFactory::GetAssembledActor
+                         ((eCVisualAnimationFactory *)&this[7].eCEntityPropertySet_data.field_0x4),
+     peVar3 != (eCWrapper_emfx2Actor *)0x0)) {
+    iVar18 = 0;
+    if ((param_1) || (this[0x10].eCEntityPropertySet_data.field_0xd == '\0')) {
+      pvStack_3c = (void *)0x0;
+      iStack_38 = 0;
+      uStack_34 = 0;
+      pvStack_30 = (void *)0x0;
+      iStack_2c = 0;
+      uStack_28 = 0;
+      piStack_24 = (int *)0x0;
+      iStack_20 = 0;
+      peStack_1c = (eCVisualAnimation_PS *)0x0;
+      CountSubSkeletons(this,(bTPtrArray<EMotionFX::Node*> *)&pvStack_3c);
+      if (0 < iStack_38) {
+        do {
+          iVar14 = 0;
+          if (0 < *(int *)&this[0xf].eCEntityPropertySet_data.offset_0xc) {
+            piVar15 = (int *)(this[0xf].eCEntityPropertySet_data.offset_0x8 + 8);
+            do {
+              iVar4 = *piVar15;
+              if (iVar4 != 0) {
+                piVar13 = (int *)(piVar15[-1] + iVar4 * 4);
+                do {
+                  piVar13 = piVar13 + -1;
+                  iVar4 = iVar4 + -1;
+                  if (*(int *)((int)pvStack_3c + iVar18 * 4) == *piVar13) {
+                    if (iVar4 != -1) goto LAB_300a598a;
+                    break;
+                  }
+                } while (iVar4 != 0);
+              }
+              iVar14 = iVar14 + 1;
+              piVar15 = piVar15 + 4;
+            } while (iVar14 < *(int *)&this[0xf].eCEntityPropertySet_data.offset_0xc);
+          }
+          iVar14 = iStack_2c + 1;
+          thunk_FUN_300abaf0(iVar14,(iVar14 != 0) - 1);
+          *(undefined4 *)((int)pvStack_30 + iVar14 * 4 + -4) =
+               *(undefined4 *)((int)pvStack_3c + iVar18 * 4);
+          iStack_2c = iVar14;
+LAB_300a598a:
+          iVar18 = iVar18 + 1;
+        } while (iVar18 < iStack_38);
+      }
+      piStack_48 = (int *)0x0;
+      if (0 < *(int *)&this[0xf].eCEntityPropertySet_data.offset_0xc) {
+        iVar14 = 0;
+        iVar18 = iStack_38;
+        pvVar16 = pvStack_3c;
+        do {
+          iVar4 = 0;
+          if (0 < *(int *)(iVar14 + 8 + this[0xf].eCEntityPropertySet_data.offset_0x8)) {
+            do {
+              iVar6 = iStack_20;
+              if (iVar18 != 0) {
+                iVar5 = iVar18;
+                do {
+                  iVar5 = iVar5 + -1;
+                  if (*(int *)(*(int *)(iVar14 + 4 + this[0xf].eCEntityPropertySet_data.offset_0x8)
+                              + iVar4 * 4) == *(int *)((int)pvVar16 + iVar5 * 4)) {
+                    if (iVar5 != -1) goto LAB_300a5a3e;
+                    break;
+                  }
+                } while (iVar5 != 0);
+              }
+              iVar18 = *(int *)(iVar14 + 4 + this[0xf].eCEntityPropertySet_data.offset_0x8);
+              iVar5 = iStack_20 + 1;
+              thunk_FUN_300abaf0(iVar5,(iVar5 != 0) - 1);
+              piStack_24[iVar6] = *(int *)(iVar18 + iVar4 * 4);
+              iVar18 = iStack_38;
+              pvVar16 = pvStack_3c;
+              iStack_20 = iVar5;
+LAB_300a5a3e:
+              iVar4 = iVar4 + 1;
+            } while (iVar4 < *(int *)(iVar14 + 8 + this[0xf].eCEntityPropertySet_data.offset_0x8));
+          }
+          piStack_48 = (int *)((int)piStack_48 + 1);
+          iVar14 = iVar14 + 0x10;
+        } while ((int)piStack_48 < *(int *)&this[0xf].eCEntityPropertySet_data.offset_0xc);
+      }
+      if (0 < iStack_20) {
+        piStack_48 = piStack_24;
+        iStack_40 = iStack_20;
+        do {
+          iStack_44 = 0;
+          if (0 < *(int *)&this[0xf].eCEntityPropertySet_data.offset_0xc) {
+            iVar18 = 0;
+            do {
+              uVar19 = 0;
+              if (0 < *(int *)(iVar18 + 8 + this[0xf].eCEntityPropertySet_data.offset_0x8)) {
+                do {
+                  iVar14 = this[0xf].eCEntityPropertySet_data.offset_0x8;
+                  iVar4 = *(int *)(iVar18 + 4 + iVar14);
+                  iVar14 = iVar18 + 4 + iVar14;
+                  if ((*(int *)(iVar4 + uVar19 * 4) == *piStack_48) &&
+                     (uVar1 = *(uint *)(iVar14 + 4), uVar19 < uVar1)) {
+                    iVar6 = (uVar1 - uVar19) + -1;
+                    if (0 < iVar6) {
+                      pvVar16 = (void *)(iVar4 + uVar19 * 4);
+                      _memmove(pvVar16,(void *)((int)pvVar16 + 4),iVar6 * 4);
+                    }
+                    piVar15 = (int *)(iVar14 + 4);
+                    *piVar15 = *piVar15 + -1;
+                  }
+                  uVar19 = uVar19 + 1;
+                } while ((int)uVar19 <
+                         *(int *)(iVar18 + 8 + this[0xf].eCEntityPropertySet_data.offset_0x8));
+              }
+              iStack_44 = iStack_44 + 1;
+              iVar18 = iVar18 + 0x10;
+            } while (iStack_44 < *(int *)&this[0xf].eCEntityPropertySet_data.offset_0xc);
+          }
+          piStack_48 = piStack_48 + 1;
+          iStack_40 = iStack_40 + -1;
+        } while (iStack_40 != 0);
+      }
+      iVar18 = iStack_2c;
+      if (0 < iStack_2c) {
+        puStack_14 = (undefined4 *)0x0;
+        iStack_10 = 0;
+        iStack_c = 0;
+        thunk_FUN_300abaf0(iStack_2c,0);
+        iStack_10 = iVar18;
+        if (iVar18 != iStack_c) {
+          if (iVar18 == 0) {
+            if (puStack_14 != (undefined4 *)0x0) {
+              puVar12 = puStack_14;
+              pbVar7 = bCMemoryAdmin::GetInstance();
+              bCMemoryAdmin::Free(pbVar7,puVar12);
+              puStack_14 = (undefined4 *)0x0;
+              iStack_10 = 0;
+              iStack_c = 0;
+            }
+          }
+          else {
+            uVar24 = iVar18 * 4;
+            puVar12 = puStack_14;
+            pbVar7 = bCMemoryAdmin::GetInstance();
+            puStack_14 = bCMemoryAdmin::Realloc(pbVar7,puVar12,uVar24);
+            iStack_c = iVar18;
+          }
+        }
+        if (0 < iVar18) {
+          puVar12 = puStack_14;
+          do {
+            *puVar12 = *(undefined4 *)(((int)pvStack_30 - (int)puStack_14) + (int)puVar12);
+            puVar12 = puVar12 + 1;
+            iVar18 = iVar18 + -1;
+          } while (iVar18 != 0);
+        }
+        peStack_18 = this;
+        if (param_2 != (eCVisualAnimation_PS *)0x0) {
+          peStack_18 = (eCVisualAnimation_PS *)param_2;
+        }
+        iVar14 = *(int *)&this[0xf].eCEntityPropertySet_data.offset_0xc + 1;
+        thunk_FUN_300b8190(iVar14,(iVar14 != 0) - 1);
+        iVar18 = *(int *)&this[0xf].eCEntityPropertySet_data.offset_0xc;
+        if (iVar14 < iVar18) {
+          thunk_FUN_300b85c0(this[0xf].eCEntityPropertySet_data.offset_0x8 + iVar14 * 0x10,
+                             iVar18 - iVar14);
+          pvVar16 = (void *)(this[0xf].eCEntityPropertySet_data.offset_0x8 + iVar14 * 0x10);
+          iVar18 = *(int *)&this[0xf].eCEntityPropertySet_data.offset_0xc - iVar14;
+          _memset(pvVar16,0,iVar18 * 0x10);
+          if (iVar18 != 0) {
+            puVar12 = (undefined4 *)((int)pvVar16 + 0xc);
+            do {
+              iVar18 = iVar18 + -1;
+              if (pvVar16 != (void *)0x0) {
+                puVar12[-2] = 0;
+                puVar12[-1] = 0;
+                *puVar12 = 0;
+              }
+              pvVar16 = (void *)((int)pvVar16 + 0x10);
+              puVar12 = puVar12 + 4;
+            } while (iVar18 != 0);
+          }
+        }
+        iVar18 = this[0xf].eCEntityPropertySet_data.offset_0x8;
+        *(int *)&this[0xf].eCEntityPropertySet_data.offset_0xc = iVar14;
+        puVar12 = (undefined4 *)(iVar14 * 0x10 + -0x10 + iVar18);
+        thunk_FUN_300b85c0(puVar12,1);
+        *puVar12 = 0;
+        puVar12[1] = 0;
+        puVar12[2] = 0;
+        puVar12[3] = 0;
+        if (puVar12 != (undefined4 *)0x0) {
+          puVar12[1] = 0;
+          puVar12[2] = 0;
+          puVar12[3] = 0;
+        }
+        *puVar12 = peStack_18;
+        thunk_FUN_300b7140(&puStack_14);
+        if (puStack_14 != (undefined4 *)0x0) {
+          puVar12 = puStack_14;
+          pbVar7 = bCMemoryAdmin::GetInstance();
+          bCMemoryAdmin::Free(pbVar7,puVar12);
+        }
+      }
+      if ((this[0x10].eCEntityPropertySet_data.field_0xd == '\x01') || (param_1)) {
+        this[0x10].eCEntityPropertySet_data.field_0xd = 1;
+        if ((&stack0x00000000 != (undefined1 *)0x24) && (piStack_24 != (int *)0x0)) {
+          piVar15 = piStack_24;
+          pbVar7 = bCMemoryAdmin::GetInstance();
+          bCMemoryAdmin::Free(pbVar7,piVar15);
+        }
+        if ((&stack0x00000000 != (undefined1 *)0x30) && (pvStack_30 != (void *)0x0)) {
+          pvVar16 = pvStack_30;
+          pbVar7 = bCMemoryAdmin::GetInstance();
+          bCMemoryAdmin::Free(pbVar7,pvVar16);
+        }
+        if (&stack0x00000000 == (undefined1 *)0x3c) {
+          return;
+        }
+        if (pvStack_3c == (void *)0x0) {
+          return;
+        }
+        pvVar16 = pvStack_3c;
+        pbVar7 = bCMemoryAdmin::GetInstance();
+        bCMemoryAdmin::Free(pbVar7,pvVar16);
+        return;
+      }
+      if ((&stack0x00000000 != (undefined1 *)0x24) && (piStack_24 != (int *)0x0)) {
+        piVar15 = piStack_24;
+        pbVar7 = bCMemoryAdmin::GetInstance();
+        bCMemoryAdmin::Free(pbVar7,piVar15);
+      }
+      if ((&stack0x00000000 != (undefined1 *)0x30) && (pvStack_30 != (void *)0x0)) {
+        pvVar16 = pvStack_30;
+        pbVar7 = bCMemoryAdmin::GetInstance();
+        bCMemoryAdmin::Free(pbVar7,pvVar16);
+      }
+      if ((&stack0x00000000 != (undefined1 *)0x3c) && (pvStack_3c != (void *)0x0)) {
+        pvVar16 = pvStack_3c;
+        pbVar7 = bCMemoryAdmin::GetInstance();
+        bCMemoryAdmin::Free(pbVar7,pvVar16);
+      }
+    }
+    if ((this[6].eCEntityPropertySet_data.field_0x1 == '\0') &&
+       (*(char *)&this[0xf].vftablePtr == '\0')) {
+      bVar2 = eCApplication::IsInitialised();
+      if (bVar2) {
+        this_01 = DAT_30ada350;
+        if ((DAT_30ada354 & bVar2) == 0) {
+          _DAT_30ada354 = _DAT_30ada354 | 1;
+          uVar26 = 0;
+          pTVar23 = &eCAnimationAdmin::RTTI_Type_Descriptor;
+          pTVar22 = &eCEngineComponentBase::RTTI_Type_Descriptor;
+          uVar21 = 0;
+          pbVar8 = (bCString *)
+                   bTPropertyObjectType<eCAnimationAdmin,eCEngineComponentBase>::vfunction1();
+          this_00 = (eCModuleAdmin *)eCModuleAdmin::GetInstance();
+          peVar9 = eCModuleAdmin::FindModule(this_00,pbVar8);
+          this_01 = (eCAnimationAdmin *)FUN_30671ae7(peVar9,uVar21,pTVar22,pTVar23,uVar26);
+          DAT_30ada350 = this_01;
+        }
+      }
+      else {
+        this_01 = (eCAnimationAdmin *)0x0;
+      }
+      eCAnimationAdmin::GetPhysicControllerDistance(this_01);
+      this_02 = (eCApplication *)eCApplication::GetInstance();
+      peVar10 = eCApplication::GetCurrentCamera(this_02);
+      peVar11 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+      eCEntity::GetWorldPosition(peVar11);
+      this_03 = (bCVector *)
+                bCVector::operator-((bCVector *)(peVar10 + 0x8c),(bCVector *)&piStack_24);
+      fVar20 = bCVector::GetSquareMagnitude(this_03);
+      bCVector::~bCVector((bCVector *)&uStack_28);
+      if (unaff_retaddr * unaff_retaddr < fVar20) {
+        return;
+      }
+    }
+    peVar17 = (eCNovodexPhysicsController *)0x0;
+    if (((*(int *)&this[0xf].eCEntityPropertySet_data.offset_0xc == 0) &&
+        (this[1].eCEntityPropertySet_data.field_0x4 == '\x01')) &&
+       (this[0xe].eCEntityPropertySet_data.offset_0x8 == 0)) {
+      uVar24 = 0x134;
+      *(undefined4 *)&this[0xf].eCEntityPropertySet_data.field_0x4 = 0;
+      *(undefined4 *)&this[0xf].eCEntityPropertySet_data = 0;
+      iStack_c = 0;
+      puStack_14 = (undefined4 *)((uint)puStack_14 & 0xffffff00);
+      iStack_10 = 0;
+      uStack_8 = 1;
+      uStack_7 = 1;
+      uStack_6 = 0;
+      peStack_1c = this;
+      peStack_18 = this;
+      pbVar7 = bCMemoryAdmin::GetInstance();
+      this_04 = bCMemoryAdmin::Malloc(pbVar7,uVar24);
+      if (this_04 != (eCNovodexPhysicsController *)0x0) {
+        peVar3 = eCVisualAnimationFactory::GetAssembledActor
+                           ((eCVisualAnimationFactory *)&this[7].eCEntityPropertySet_data.field_0x4)
+        ;
+        iVar18 = *(int *)(peVar3 + 0xc);
+        ppeVar25 = &peStack_1c;
+        peVar11 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+        peVar17 = EMotionFX::eCNovodexPhysicsController::eCNovodexPhysicsController
+                            (this_04,peVar11,iVar18,ppeVar25);
+      }
+      eCVisualAnimationFactory::GetAssembledActor
+                ((eCVisualAnimationFactory *)&this[7].eCEntityPropertySet_data.field_0x4);
+      thunk_FUN_300b8490(peVar17);
+      iVar14 = this[0xe].eCEntityPropertySet_data.offset_0x8 + 1;
+      thunk_FUN_300aee60(iVar14,(iVar14 != 0) - 1);
+      iVar18 = *(int *)&this[0xe].eCEntityPropertySet_data.field_0x4;
+      this[0xe].eCEntityPropertySet_data.offset_0x8 = iVar14;
+      *(eCNovodexPhysicsController **)(iVar18 + -4 + iVar14 * 4) = peVar17;
+    }
+    iStack_44 = 0;
+    if (0 < *(int *)&this[0xf].eCEntityPropertySet_data.offset_0xc) {
+      iVar18 = 0;
+      do {
+        _param_1 = 0;
+        if (0 < *(int *)(iVar18 + 8 + this[0xf].eCEntityPropertySet_data.offset_0x8)) {
+          do {
+            if (*(int *)&this[0xe].eCEntityPropertySet_data == 0) {
+              uVar24 = 0x134;
+              *(undefined4 *)&this[0xf].eCEntityPropertySet_data.field_0x4 = 0;
+              *(undefined4 *)&this[0xf].eCEntityPropertySet_data = 0;
+              iStack_c = 0;
+              puStack_14 = (undefined4 *)((uint)puStack_14 & 0xffffff00);
+              iStack_10 = 0;
+              uStack_8 = 1;
+              uStack_7 = 1;
+              uStack_6 = 0;
+              peStack_1c = this;
+              peStack_18 = this;
+              pbVar7 = bCMemoryAdmin::GetInstance();
+              peVar17 = bCMemoryAdmin::Malloc(pbVar7,uVar24);
+              if (peVar17 == (eCNovodexPhysicsController *)0x0) {
+                peVar17 = (eCNovodexPhysicsController *)0x0;
+              }
+              else {
+                peVar3 = eCVisualAnimationFactory::GetAssembledActor
+                                   ((eCVisualAnimationFactory *)
+                                    &this[7].eCEntityPropertySet_data.field_0x4);
+                iVar14 = *(int *)(peVar3 + 0xc);
+                ppeVar25 = &peStack_1c;
+                peVar11 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+                peVar17 = EMotionFX::eCNovodexPhysicsController::eCNovodexPhysicsController
+                                    (peVar17,peVar11,iVar14,ppeVar25);
+              }
+              *(eCNovodexPhysicsController **)&this[0xe].eCEntityPropertySet_data = peVar17;
+              peVar3 = eCVisualAnimationFactory::GetAssembledActor
+                                 ((eCVisualAnimationFactory *)
+                                  &this[7].eCEntityPropertySet_data.field_0x4);
+              iVar4 = *(int *)(peVar3 + 0xc);
+              iVar14 = *(int *)(iVar4 + 0x1cc);
+              uVar21 = *(undefined4 *)&this[0xe].eCEntityPropertySet_data;
+              iVar6 = iVar14 + 1;
+              *(int *)(iVar4 + 0x1cc) = iVar6;
+              if (*(int *)(iVar4 + 0x1d0) < iVar6) {
+                iVar14 = iVar14 + 2;
+                thunk_FUN_300ad900();
+                uVar26 = FUN_3066b020(*(undefined4 *)(iVar4 + 0x1d4),iVar14 * 4,2,0x10,2);
+                *(undefined4 *)(iVar4 + 0x1d4) = uVar26;
+                *(int *)(iVar4 + 0x1d0) = iVar14;
+              }
+              puVar12 = (undefined4 *)(*(int *)(iVar4 + 0x1d4) + -4 + *(int *)(iVar4 + 0x1cc) * 4);
+              if (puVar12 != (undefined4 *)0x0) {
+                *puVar12 = uVar21;
+              }
+            }
+            puVar12 = (undefined4 *)(iVar18 + this[0xf].eCEntityPropertySet_data.offset_0x8);
+            peStack_18 = (eCVisualAnimation_PS *)*puVar12;
+            iStack_c = *(undefined4 *)(puVar12[1] + _param_1 * 4);
+            uVar24 = 0x134;
+            puStack_14 = (undefined4 *)((uint)puStack_14 & 0xffffff00);
+            iStack_10 = 0;
+            uStack_8 = 0;
+            uStack_7 = 0;
+            uStack_6 = 0;
+            peStack_1c = this;
+            pbVar7 = bCMemoryAdmin::GetInstance();
+            peVar17 = bCMemoryAdmin::Malloc(pbVar7,uVar24);
+            if (peVar17 == (eCNovodexPhysicsController *)0x0) {
+              peVar17 = (eCNovodexPhysicsController *)0x0;
+            }
+            else {
+              peVar3 = eCVisualAnimationFactory::GetAssembledActor
+                                 ((eCVisualAnimationFactory *)
+                                  &this[7].eCEntityPropertySet_data.field_0x4);
+              iVar14 = *(int *)(peVar3 + 0xc);
+              ppeVar25 = &peStack_1c;
+              peVar11 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+              peVar17 = EMotionFX::eCNovodexPhysicsController::eCNovodexPhysicsController
+                                  (peVar17,peVar11,iVar14,ppeVar25);
+            }
+            peVar3 = eCVisualAnimationFactory::GetAssembledActor
+                               ((eCVisualAnimationFactory *)
+                                &this[7].eCEntityPropertySet_data.field_0x4);
+            iVar4 = *(int *)(peVar3 + 0xc);
+            iVar14 = *(int *)(iVar4 + 0x1cc);
+            iVar6 = iVar14 + 1;
+            *(int *)(iVar4 + 0x1cc) = iVar6;
+            if (*(int *)(iVar4 + 0x1d0) < iVar6) {
+              iVar14 = iVar14 + 2;
+              thunk_FUN_300ad900();
+              uVar21 = FUN_3066b020(*(undefined4 *)(iVar4 + 0x1d4),iVar14 * 4,2,0x10,2);
+              *(undefined4 *)(iVar4 + 0x1d4) = uVar21;
+              *(int *)(iVar4 + 0x1d0) = iVar14;
+            }
+            puVar12 = (undefined4 *)(*(int *)(iVar4 + 0x1d4) + -4 + *(int *)(iVar4 + 0x1cc) * 4);
+            if (puVar12 != (undefined4 *)0x0) {
+              *puVar12 = peVar17;
+            }
+            iVar4 = this[0xe].eCEntityPropertySet_data.offset_0x8 + 1;
+            thunk_FUN_300aee60(iVar4,(iVar4 != 0) - 1);
+            iVar14 = *(int *)&this[0xe].eCEntityPropertySet_data.field_0x4;
+            this[0xe].eCEntityPropertySet_data.offset_0x8 = iVar4;
+            *(eCNovodexPhysicsController **)(iVar14 + -4 + iVar4 * 4) = peVar17;
+            _param_1 = _param_1 + 1;
+          } while (_param_1 < *(int *)(iVar18 + 8 + this[0xf].eCEntityPropertySet_data.offset_0x8));
+        }
+        iVar18 = iVar18 + 0x10;
+        iStack_44 = iStack_44 + 1;
+      } while (iStack_44 < *(int *)&this[0xf].eCEntityPropertySet_data.offset_0xc);
+      return;
+    }
+  }
+  return;
+}
+
+

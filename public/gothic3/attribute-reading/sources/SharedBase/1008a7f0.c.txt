@@ -1,0 +1,30 @@
+/* ENTRY 1008a7f0 | FUN_1008a7f0 | STATUS decompiled | 7 ms */
+
+void FUN_1008a7f0(void)
+
+{
+  bTObjArray<bCString> *pbVar1;
+  bTObjArray<bCString> *pbVar2;
+  bCMemoryAdmin *this;
+  void *pvVar3;
+  
+  if (bCPOStream::ms_pmapStringSaveHashmap != (bTStringValMap<long> *)0x0) {
+    thunk_FUN_1008b230();
+  }
+  pbVar2 = bCPOStream::ms_parrStringList;
+  if ((bCPOStream::ms_parrStringList != (bTObjArray<bCString> *)0x0) &&
+     (*(int *)bCPOStream::ms_parrStringList != 0)) {
+    pbVar1 = bCPOStream::ms_parrStringList + 8;
+    thunk_FUN_1001db50(*(int *)bCPOStream::ms_parrStringList,
+                       *(undefined4 *)(bCPOStream::ms_parrStringList + 8));
+    pvVar3 = *(void **)pbVar2;
+    this = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(this,pvVar3);
+    *(undefined4 *)pbVar1 = 0;
+    *(undefined4 *)pbVar2 = 0;
+    *(undefined4 *)(pbVar2 + 4) = 0;
+  }
+  return;
+}
+
+

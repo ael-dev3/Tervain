@@ -1,0 +1,16 @@
+/* ENTRY 20033f5f | bTPropertyObject<gCCharacterMovement_PS,gCMovementBase_PS>::vfunction4 | STATUS decompiled | 3 ms */
+
+void __thiscall
+bTPropertyObject<gCCharacterMovement_PS,gCMovementBase_PS>::vfunction4
+          (bTPropertyObject<gCCharacterMovement_PS,gCMovementBase_PS> *this)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x202335b3. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCPropertyObjectTypeBase::GetDescription
+            ((bCPropertyObjectTypeBase *)
+             (this->bTPropertyObject<gCCharacterMovement_PS,gCMovementBase_PS>_data).offset_0x0);
+  return;
+}
+
+

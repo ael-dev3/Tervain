@@ -1,0 +1,2 @@
+; 30047e4c eCEffector::SetPos2
+30047e4c | e99f950100 | JMP 0x300613f0

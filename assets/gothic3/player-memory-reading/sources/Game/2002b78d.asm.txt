@@ -1,0 +1,2 @@
+; 2002b78d gCPlayerMemory_PS::Invalidate
+2002b78d | e95e1c2f00 | JMP 0x2031d3f0

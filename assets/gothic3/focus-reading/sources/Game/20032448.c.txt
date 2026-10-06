@@ -1,0 +1,16 @@
+/* ENTRY 20032448 | gCFocus_PS::OnProcess | STATUS decompiled | 10 ms */
+
+/* protected: virtual void __thiscall gCFocus_PS::OnProcess(void) */
+
+void __thiscall gCFocus_PS::OnProcess(gCFocus_PS *this)
+
+{
+                    /* 0x32448  5558  ?OnProcess@gCFocus_PS@@MAEXXZ */
+  eCEntityPropertySet::OnProcess((eCEntityPropertySet *)this);
+  if ((this->gCFocus_PS_data).field_0x110 == '\x01') {
+    FindFocusEntity(this,false);
+  }
+  return;
+}
+
+

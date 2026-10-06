@@ -1,0 +1,120 @@
+{
+  "schema": "gothic3-navigation-map-source-receipt-v1",
+  "source": {
+    "family": "projects_compiled",
+    "archive": "Projects_compiled.p00",
+    "path": "G3_World_01/NavigationMap.xnav",
+    "sha256": "1b163f4f1be7115aeef37835e798772a3437db3429a32b4d36d866437b9a41c3",
+    "selection": "static-effective-layer-candidate",
+    "layers": [
+      "Projects_compiled.pak",
+      "Projects_compiled.p00"
+    ],
+    "bytes": 14550529
+  },
+  "selectionIndexSha256": "6b780b236fdd1468946e0194bffd4681ad5481d7fcf1965b1043fae58d0462a2",
+  "sectionByteRanges": [
+    {
+      "section": "grid",
+      "start": 33,
+      "end": 302735,
+      "bytes": 302702,
+      "sha256": "712c3b0e485206ef7e2077de1febdd5e5ecad43aeed44c2f9452bf6f77d9c5ae"
+    },
+    {
+      "section": "negativeZones",
+      "start": 302735,
+      "end": 421584,
+      "bytes": 118849,
+      "sha256": "a655e3373a3e2b8359b36723dbe14277ce25fcd73d5371e1a1c508ebb2c1a4c5"
+    },
+    {
+      "section": "collisionCircles",
+      "start": 421584,
+      "end": 6604247,
+      "bytes": 6182663,
+      "sha256": "fc3d59677e72260d9612f1d1cdbd660a8376ca89b82002d10bc4946be08381ed"
+    },
+    {
+      "section": "preferredPaths",
+      "start": 6604247,
+      "end": 6634918,
+      "bytes": 30671,
+      "sha256": "cb982e61b85ed5f0ac91ad2541fd8fdb59c9b7e9b089634dac8754ceb29181da"
+    },
+    {
+      "section": "zoneObjects",
+      "start": 6634918,
+      "end": 6946137,
+      "bytes": 311219,
+      "sha256": "3d6f10cde0cac13ae8301751fc88b9b0b8cc219d6f25df137f8da7d76639dc94"
+    },
+    {
+      "section": "collisionCircleOverlaps",
+      "start": 6946137,
+      "end": 8634242,
+      "bytes": 1688105,
+      "sha256": "a3323b7f2eddfac8b4f15383de502fbd6d27b1adf5553ea3a9a8e79f34ed1661"
+    },
+    {
+      "section": "pathIntersections",
+      "start": 8634242,
+      "end": 8962783,
+      "bytes": 328541,
+      "sha256": "21eae17aea8b000b94b682ff4025209175b7a723786affdff405387e0d3499eb"
+    },
+    {
+      "section": "interactionAssignments",
+      "start": 8962783,
+      "end": 10934936,
+      "bytes": 1972153,
+      "sha256": "eaed767e39e1c8dfa47550038a0d7cb346332b4cdc94fc393ac4aebab8d124bf"
+    },
+    {
+      "section": "networkObjects",
+      "start": 10934936,
+      "end": 11157765,
+      "bytes": 222829,
+      "sha256": "7917312f92a9636df7fcfcfb0b4e7a46b41afa102eac60b2e53bbbfd1b0e6f6a"
+    },
+    {
+      "section": "networkLinks",
+      "start": 11157765,
+      "end": 11587150,
+      "bytes": 429385,
+      "sha256": "f7964c9a3583415361bb0baec54718ba0d8ffa540501c8a6953e05de07137541"
+    },
+    {
+      "section": "waypoints",
+      "start": 11587150,
+      "end": 14550474,
+      "bytes": 2963324,
+      "sha256": "61e32bec8c97334cf2ef4e5294509a135d3b3e0d823f03690c4de889289392de"
+    }
+  ],
+  "prefixByteCounts": {
+    "1": 347530
+  },
+  "counts": {
+    "grid": 49,
+    "negativeZones": 694,
+    "collisionCircles": 73898,
+    "preferredPaths": 195,
+    "zoneObjects": 2226,
+    "collisionCircleOverlaps": 73898,
+    "pathIntersections": 3159,
+    "interactionAssignments": 35994,
+    "networkObjects": 5385,
+    "networkLinks": 6317,
+    "waypoints": 6317
+  },
+  "output": {
+    "path": "map-lists.json.gz",
+    "sha256": "8ad7e6609f1c48913cb9abcabdcde7a9cdf9ad910191cdd993824ad5429526b1",
+    "bytes": 9519794,
+    "uncompressedSha256": "0605d8867ef6e4779165cf58277d0708bc2604c909dbf0406572a8c71744d304",
+    "uncompressedBytes": 60800718,
+    "encoding": "gzip"
+  },
+  "layoutCorroboration": "georgeto/g3dit30113b8254d3e6d0395d8e3c78618a99fbc0a6ca NavMap sections1..4; original PE ReadLists behavior is separately audited"
+}

@@ -1,0 +1,17 @@
+/* ENTRY 10162090 | FUN_10162090 | STATUS decompiled | 7 ms */
+
+void FUN_10162090(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Routine\\Routine_Tasks\\ZS_OrcParty.cpp");
+  bCString::bCString(local_8,"ZS_OrcParty");
+  thunk_FUN_1001db60(local_8,&LAB_100035c6,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

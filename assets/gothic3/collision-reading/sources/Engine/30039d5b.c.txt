@@ -1,0 +1,17 @@
+/* ENTRY 30039d5b | eCCollisionShape_PS::SetShapes | STATUS decompiled | 11 ms */
+
+/* public: void __thiscall eCCollisionShape_PS::SetShapes(class bTRefPtrArray<class eCCollisionShape
+   *> const &) */
+
+void __thiscall
+eCCollisionShape_PS::SetShapes(eCCollisionShape_PS *this,bTRefPtrArray<eCCollisionShape*> *param_1)
+
+{
+                    /* 0x39d5b  14178
+                       ?SetShapes@eCCollisionShape_PS@@QAEXABV?$bTRefPtrArray@PAVeCCollisionShape@@@@@Z
+                        */
+  thunk_FUN_3033f1d0();
+  return;
+}
+
+

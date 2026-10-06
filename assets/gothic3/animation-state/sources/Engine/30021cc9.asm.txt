@@ -1,0 +1,4 @@
+; 30021cc9 ?GetAniExtroBlending@eCAnimationAdmin@@QBEMAAVbCString@@@Z
+30021cc9 | e982e30600 | JMP 0x30090050
+; 30021cce eCAnimationAdmin::GetAniIntroBlending
+; 30021cce Ordinal_6183

@@ -1,0 +1,82 @@
+{
+  "schema": "gothic3-animation-spu-rules-v1",
+  "inputs": {
+    "Game": "b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f",
+    "Engine": "d49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3",
+    "Script": "9375605676faaae44a50d48539a7b3995bed471e099ef573666221a044cd4e08",
+    "Script_Game": "2f10fbb6307c4800bc44c90cb60dac0b32182c1f2416e11ac82b4ba0c35803c1"
+  },
+  "instructionPointer": "2001c76f",
+  "factoryAnimation": {
+    "completedByte": 0,
+    "visualAnimation": null,
+    "name": "",
+    "waitForFadeByte": null,
+    "phaseMode": null,
+    "phaseFinishedByte": null,
+    "motionDescriptor": {
+      "fadeIn": 0.30000001192092896,
+      "mode": 0,
+      "playSpeed": 1,
+      "loops": 4294967295,
+      "weight": 1,
+      "fadeOut": 0,
+      "blendMode": 1
+    }
+  },
+  "fieldOffsets": {
+    "completedByte": 148,
+    "visualAnimation": 304,
+    "name": 336,
+    "waitForFadeByte": 344,
+    "phaseMode": 348,
+    "phaseFinishedByte": 356
+  },
+  "descriptorOffsets": {
+    "fadeIn": 308,
+    "mode": 312,
+    "playSpeed": 316,
+    "loops": 320,
+    "weight": 324,
+    "fadeOut": 328,
+    "blendMode": 332
+  },
+  "sharedTimers": {
+    "elapsed": 152,
+    "duration": 156,
+    "activeInstruction": 116
+  },
+  "heroJumpCalls": [
+    {
+      "action": 54,
+      "useTypes": [
+        0,
+        0
+      ],
+      "phase": 12,
+      "duration": 0
+    },
+    {
+      "action": 57,
+      "useTypes": [
+        0,
+        0
+      ],
+      "phase": 5,
+      "duration": -1
+    }
+  ],
+  "profile": "one-SPU-live-scoped-storage; finite float32; live-owner proxy internals; successful fresh factory state",
+  "unknownIsNotZero": [
+    "waitForFadeByte",
+    "phaseMode",
+    "phaseFinishedByte"
+  ],
+  "remaining": [
+    "actual loaded/resident Hero/NPC/VisualAnimation/actor capabilities",
+    "full visual actor layer/resource/owner/blending services",
+    "lazy nonzero proxy-ID EntityAdmin lookup and destroyed owners",
+    "complete world/physics/browser session binding and progression"
+  ],
+  "gameplayReady": false
+}

@@ -1,0 +1,2 @@
+; 1000493a bCBox::GetWidth
+1000493a | e9d1690200 | JMP 0x1002b310

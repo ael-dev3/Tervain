@@ -1,0 +1,35 @@
+/* ENTRY 3003e306 | eCVisualAnimation_PS::vfunction15 | STATUS decompiled | 15 ms */
+
+/* WARNING: Type propagation algorithm not settling */
+
+eCVisualAnimation_PS * __thiscall
+eCVisualAnimation_PS::vfunction15(eCVisualAnimation_PS *this,byte param_1)
+
+{
+  byte *_Memory;
+  int iVar1;
+  eCVisualAnimation_PS *this_00;
+  
+  if ((param_1 & 2) == 0) {
+    ~eCVisualAnimation_PS(this);
+    if ((param_1 & 1) == 0) {
+      return this;
+    }
+                    /* WARNING: Subroutine does not return */
+    _free(this);
+  }
+  iVar1 = *(int *)&this[-1].eCEntityPropertySet_data.offset_0xc;
+  _Memory = &this[-1].eCEntityPropertySet_data.offset_0xc;
+  this_00 = (eCVisualAnimation_PS *)(iVar1 * 0x1a8 + (int)this);
+  while (iVar1 = iVar1 + -1, -1 < iVar1) {
+    this_00 = (eCVisualAnimation_PS *)((int)(this_00 + 0xffffffea) + 0x10);
+    ~eCVisualAnimation_PS(this_00);
+  }
+  if ((param_1 & 1) == 0) {
+    return (eCVisualAnimation_PS *)_Memory;
+  }
+                    /* WARNING: Subroutine does not return */
+  _free(_Memory);
+}
+
+

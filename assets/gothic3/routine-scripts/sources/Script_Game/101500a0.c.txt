@@ -1,0 +1,17 @@
+/* ENTRY 101500a0 | FUN_101500a0 | STATUS decompiled | 5 ms */
+
+void FUN_101500a0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Player\\Player_States\\PS_HUD.cpp");
+  bCString::bCString(local_8,"PlayerOpenMap");
+  thunk_FUN_10017a50(local_8,thunk_FUN_100801e0,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

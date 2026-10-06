@@ -1,0 +1,26 @@
+/* ENTRY 3001c341 | eCLocAdmin::ReserveString | STATUS decompiled | 4 ms */
+
+/* public: bool __thiscall eCLocAdmin::ReserveString(class bCString const &,struct
+   eCLocTable::SEntry const &) */
+
+bool __thiscall eCLocAdmin::ReserveString(eCLocAdmin *this,bCString *param_1,SEntry *param_2)
+
+{
+  bCString *pbVar1;
+  bool bVar2;
+  eCLocTable *this_00;
+  
+                    /* 0x1c341  12700
+                       ?ReserveString@eCLocAdmin@@QAE_NABVbCString@@ABUSEntry@eCLocTable@@@Z */
+  pbVar1 = (bCString *)(this + 0x10);
+  AddLanguage(this,pbVar1);
+  this_00 = (eCLocTable *)thunk_FUN_305e68e0(pbVar1);
+  bVar2 = eCLocTable::ExistsID(this_00,param_1);
+  if (bVar2) {
+    return false;
+  }
+  bVar2 = SetString(this,param_1,param_2,pbVar1);
+  return bVar2;
+}
+
+

@@ -1,0 +1,2 @@
+; 10002946 bCObjectBase::~bCObjectBase
+10002946 | e995760400 | JMP 0x10049fe0

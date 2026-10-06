@@ -1,0 +1,2 @@
+; 3000ec23 ??0eCEntityPropertySet@@QAE@ABV0@@Z
+3000ec23 | e9682e4700 | JMP 0x30481a90

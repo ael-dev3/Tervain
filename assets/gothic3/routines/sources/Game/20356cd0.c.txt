@@ -1,0 +1,10 @@
+/* ENTRY 20356cd0 | FUN_20356cd0 | STATUS decompiled | 3 ms */
+
+void __fastcall FUN_20356cd0(int param_1)
+
+{
+  gCScriptProcessingUnit::AIFullStop((gCScriptProcessingUnit *)(param_1 + 100),0);
+  return;
+}
+
+

@@ -1,0 +1,5 @@
+; 20235270 bTPropertyType<gCCharacterMovement_PS,float>::vfunction3
+20235270 | 8b4918 | MOV ECX,dword ptr [ECX + 0x18]
+20235273 | 8b01 | MOV EAX,dword ptr [ECX]
+20235275 | 8b10 | MOV EDX,dword ptr [EAX]
+20235277 | ffe2 | JMP EDX

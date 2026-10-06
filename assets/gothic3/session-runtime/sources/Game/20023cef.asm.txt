@@ -1,0 +1,2 @@
+; 20023cef ?IsGameRunning@gCSession@@QBE?B_NXZ
+20023cef | e9dce23400 | JMP 0x20371fd0

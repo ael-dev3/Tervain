@@ -1,0 +1,19 @@
+/* ENTRY 100011c7 | bCObjectBase::ReleaseReference | STATUS decompiled | 7 ms */
+
+/* public: virtual unsigned long __thiscall bCObjectBase::ReleaseReference(void) */
+
+ulong __thiscall bCObjectBase::ReleaseReference(bCObjectBase *this)
+
+{
+  bCMemoryAdmin *this_00;
+  
+                    /* 0x11c7  3921  ?ReleaseReference@bCObjectBase@@UAEKXZ */
+  if (this != (bCObjectBase *)0x0) {
+    (*this->vftablePtr->deleting_destructor)(this,0);
+    this_00 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::DeleteObject(this_00,this);
+  }
+  return 0;
+}
+
+

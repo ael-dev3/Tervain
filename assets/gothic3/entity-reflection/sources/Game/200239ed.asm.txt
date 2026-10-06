@@ -1,0 +1,2 @@
+; 200239ed ?Create@gCParty_PS@@UAE?AW4bEResult@@XZ
+200239ed | e9fe402f00 | JMP 0x20317af0

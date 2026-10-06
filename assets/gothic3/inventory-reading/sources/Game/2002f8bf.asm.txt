@@ -1,0 +1,2 @@
+; 2002f8bf ?GetVersion@gCInventory_PS@@UBEGXZ
+2002f8bf | e9bc951700 | JMP 0x201a8e80

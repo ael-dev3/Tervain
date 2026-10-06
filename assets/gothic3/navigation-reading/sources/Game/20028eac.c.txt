@@ -1,0 +1,12 @@
+/* ENTRY 20028eac | gCNavigation_PS::GetVersion | STATUS decompiled | 5 ms */
+
+/* public: virtual unsigned short __thiscall gCNavigation_PS::GetVersion(void)const  */
+
+ushort __thiscall gCNavigation_PS::GetVersion(gCNavigation_PS *this)
+
+{
+                    /* 0x28eac  4717  ?GetVersion@gCNavigation_PS@@UBEGXZ */
+  return 1;
+}
+
+

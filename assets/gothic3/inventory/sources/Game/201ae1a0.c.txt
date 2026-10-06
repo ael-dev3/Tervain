@@ -1,0 +1,13 @@
+/* ENTRY 201ae1a0 | FUN_201ae1a0 | STATUS decompiled | 2 ms */
+
+void FUN_201ae1a0(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4)
+
+{
+  undefined4 uVar1;
+  
+  uVar1 = thunk_FUN_201d2240(param_1);
+  FUN_2001a9e2(uVar1,param_2,param_3,param_4);
+  return;
+}
+
+

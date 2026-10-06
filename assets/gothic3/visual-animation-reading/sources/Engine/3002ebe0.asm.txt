@@ -1,0 +1,2 @@
+; 3002ebe0 eCPhysicObject::GetNumBones
+3002ebe0 | e94bb52d00 | JMP 0x3030a130

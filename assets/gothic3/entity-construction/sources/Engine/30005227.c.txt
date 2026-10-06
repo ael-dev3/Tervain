@@ -1,0 +1,28 @@
+/* ENTRY 30005227 | eCSceneAdmin::RegisterEntity | STATUS decompiled | 14 ms */
+
+/* protected: bool __thiscall eCSceneAdmin::RegisterEntity(class eCEntity *) */
+
+bool __thiscall eCSceneAdmin::RegisterEntity(eCSceneAdmin *this,eCEntity *param_1)
+
+{
+  char cVar1;
+  bCPropertyID *pbVar2;
+  undefined4 *puVar3;
+  
+                    /* 0x5227  12371  ?RegisterEntity@eCSceneAdmin@@IAE_NPAVeCEntity@@@Z */
+  if (param_1 == (eCEntity *)0x0) {
+    return false;
+  }
+  bCCriticalSectionWin32::Acquire((bCCriticalSectionWin32 *)&DAT_30af24f4);
+  cVar1 = (**(code **)(*(int *)param_1 + 4))();
+  if (cVar1 == '\0') {
+    (**(code **)(*(int *)param_1 + 0x18))();
+  }
+  pbVar2 = eCNode::GetID((eCNode *)param_1);
+  puVar3 = (undefined4 *)thunk_FUN_304cfc00(pbVar2);
+  *puVar3 = param_1;
+  bCCriticalSectionWin32::Release((bCCriticalSectionWin32 *)&DAT_30af24f4);
+  return true;
+}
+
+

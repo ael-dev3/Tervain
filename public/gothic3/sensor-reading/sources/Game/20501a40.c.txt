@@ -1,0 +1,25 @@
+/* ENTRY 20501a40 | bTPropertyObject<gCCharacterSensor_PS,eCEntityPropertySet>::~bTPropertyObject<gCCharacterSensor_PS,eCEntityPropertySet> | STATUS decompiled | 7 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyObject<gCCharacterSensor_PS,eCEntityPropertySet>::
+~bTPropertyObject<gCCharacterSensor_PS,eCEntityPropertySet>
+          (bTPropertyObject<gCCharacterSensor_PS,eCEntityPropertySet> *this)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)
+             &gCCharacterSensor_PS::ms_PropertyObjectInstance_gCCharacterSensor_PS);
+  _DAT_207be118 = 0;
+  _ms_PropertyObjectInstance_gCCharacterSensor_PS = &vftable;
+  _DAT_207be11c =
+       bTPropertyObjectType<gCCharacterSensor_PS,eCEntityPropertySet>::
+       ~bTPropertyObjectType<gCCharacterSensor_PS,eCEntityPropertySet>();
+  _DAT_207be118 = 0;
+  thunk_FUN_20239aa0(1);
+  _atexit(~bTPropertyObject<gCCharacterSensor_PS,eCEntityPropertySet>);
+  return;
+}
+
+

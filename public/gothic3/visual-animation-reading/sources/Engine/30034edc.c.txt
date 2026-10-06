@@ -1,0 +1,14 @@
+/* ENTRY 30034edc | eCEffector::CopyFrom | STATUS decompiled | 43 ms */
+
+/* public: virtual enum bEResult __thiscall eCEffector::CopyFrom(class bCObjectBase const &) */
+
+bEResult __thiscall eCEffector::CopyFrom(eCEffector *this,bCObjectBase *param_1)
+
+{
+                    /* 0x34edc  4085  ?CopyFrom@eCEffector@@UAE?AW4bEResult@@ABVbCObjectBase@@@Z */
+  (*this->vftablePtr->Destroy)(this);
+  (*this->vftablePtr->Create)(this);
+  return 1;
+}
+
+

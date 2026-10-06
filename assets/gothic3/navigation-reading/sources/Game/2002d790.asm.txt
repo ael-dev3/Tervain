@@ -1,0 +1,4 @@
+; 2002d790 bTPropertyType<gCNavigation_PS,bCString>::vfunction3
+2002d790 | e97b0f2600 | JMP 0x2028e710
+; 2002d795 gCInventoryStack::CompareAlchemy
+; 2002d795 Ordinal_2160

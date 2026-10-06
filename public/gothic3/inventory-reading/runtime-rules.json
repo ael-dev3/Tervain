@@ -1,0 +1,148 @@
+{
+  "schema": "gothic3-inventory-reading-rules-v1",
+  "inputs": {
+    "SharedBase": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214",
+    "Engine": "d49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3",
+    "Game": "b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f"
+  },
+  "nativeBytes": 232,
+  "getVersion": 9,
+  "propertyType": 31,
+  "nativeVtable": "2067cfac",
+  "slotNativeVtable": "2065c42c",
+  "fields": {
+    "gCInventory_PS": [
+      {
+        "name": "GeneratedPlunder",
+        "typeName": "bool",
+        "nativeOffset": 24,
+        "registrar": "Game:204ec530",
+        "reader": "Game:2001f456",
+        "defaultInitializer": "Game:2000ebc9"
+      },
+      {
+        "name": "GeneratedTrade",
+        "typeName": "bool",
+        "nativeOffset": 25,
+        "registrar": "Game:204ec5d0",
+        "reader": "Game:2001f456",
+        "defaultInitializer": "Game:2000ebc9"
+      },
+      {
+        "name": "TreasureSet1",
+        "typeName": "bCString",
+        "nativeOffset": 28,
+        "registrar": "Game:204ec670",
+        "reader": "Game:20008bed",
+        "defaultInitializer": "Game:2002a5a4"
+      },
+      {
+        "name": "TreasureSet2",
+        "typeName": "bCString",
+        "nativeOffset": 32,
+        "registrar": "Game:204ec720",
+        "reader": "Game:20008bed",
+        "defaultInitializer": "Game:2002a5a4"
+      },
+      {
+        "name": "TreasureSet3",
+        "typeName": "bCString",
+        "nativeOffset": 36,
+        "registrar": "Game:204ec7d0",
+        "reader": "Game:20008bed",
+        "defaultInitializer": "Game:2002a5a4"
+      },
+      {
+        "name": "TreasureSet4",
+        "typeName": "bCString",
+        "nativeOffset": 40,
+        "registrar": "Game:204ec880",
+        "reader": "Game:20008bed",
+        "defaultInitializer": "Game:2002a5a4"
+      },
+      {
+        "name": "TreasureSet5",
+        "typeName": "bCString",
+        "nativeOffset": 44,
+        "registrar": "Game:204ec930",
+        "reader": "Game:20008bed",
+        "defaultInitializer": "Game:2002a5a4"
+      }
+    ],
+    "gCInventorySlot": [
+      {
+        "name": "Template",
+        "typeName": "eCTemplateEntityProxy",
+        "nativeOffset": 12,
+        "registrar": "Game:204f3bb0",
+        "reader": "Game:2000aae7",
+        "defaultInitializer": "Game:2001a2fd"
+      },
+      {
+        "name": "Item",
+        "typeName": "eCEntityProxy",
+        "nativeOffset": 24,
+        "registrar": "Game:204f3ca0",
+        "reader": "Game:200097be",
+        "defaultInitializer": "Game:2002ae78"
+      },
+      {
+        "name": "Slot",
+        "typeName": "bTPropertyContainer<enum gESlot>",
+        "nativeOffset": 52,
+        "registrar": "Game:204f3d90",
+        "reader": "Game:2002ad06",
+        "defaultInitializer": "Game:200071e9"
+      }
+    ]
+  },
+  "sourceHero": {
+    "index": 7,
+    "archive": "Projects_compiled.p00",
+    "path": "G3_World_01/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}.lrentdat",
+    "sha256": "28f7273b3d54415b84445651a3dfa962c1ff158e9183deba81ba47e4d5d57938",
+    "packetOffset": 1187178,
+    "packetBytes": 411,
+    "packetSha256": "ccc25c1615cc51b1e8feb2d3cb41c00b053135d5828582d27f2af3141918e136"
+  },
+  "slotNativeVersion": 1,
+  "slotNativeBytes": 60,
+  "nativeBaseClassName": {
+    "gCInventory_PS": "eCEntityPropertySet",
+    "gCInventorySlot": "bCObjectRefBase"
+  },
+  "slotIteratorBaseSentinel": {
+    "nativeName": "bCObjectRefBase",
+    "normalizedRoot": null,
+    "source": "SharedBase:1009ae00"
+  },
+  "sources": {
+    "allocate": "Game:201ac030",
+    "attach": "Game:201a94a0",
+    "wrapperRead": "Game:201a9fd0",
+    "dataRead": "Game:201ac320",
+    "slotAllocate": "Game:201c6070",
+    "slotRead": "Game:201c3130",
+    "slotDataRead": "Game:201c6870"
+  },
+  "profile": {
+    "freshWrappers": true,
+    "successfulAllocations": true,
+    "slotArrayRealloc": "successful moving allocation if capacity grows; retained otherwise",
+    "slotDefaultGlobal": "actual current Game DWORD207b5f2c is supplied explicitly",
+    "strings": "current Hero empty CString text with physicallyNULL destination; table source mayNULL or allocated-empty",
+    "constructorSlotCount": {
+      "slotListConstructor": 19,
+      "afterInventoryClearDefaultItems": 0,
+      "backingCapacity": 27
+    }
+  },
+  "unresolved": [
+    "nonzero original InventoryStack clone/reader and stack callbacks",
+    "nonempty native CString allocation/refcount services",
+    "last wrapper/native reference destruction and MemoryAdmin.DeleteObject",
+    "legacy Inventory readers3..8 and unknown-version warnings",
+    "physical item/entity materialization and mutation/patching/equipment callbacks; serialized slots are not activated equipment",
+    "world/cache/processing and later startup item assurances are separate"
+  ]
+}

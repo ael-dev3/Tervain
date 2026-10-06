@@ -1,0 +1,82 @@
+/* ENTRY 2002b724 | bTPropertyObject<gCParty_PS,eCEntityPropertySet>::vfunction9 | STATUS decompiled | 38 ms */
+
+void __thiscall
+bTPropertyObject<gCParty_PS,eCEntityPropertySet>::vfunction9
+          (bTPropertyObject<gCParty_PS,eCEntityPropertySet> *this,bCOStream *param_1)
+
+{
+  bCOStream *this_00;
+  bool bVar1;
+  char cVar2;
+  bCPropertyTypeBase *pbVar3;
+  int iVar4;
+  bCAccessorPropertyObject *pbVar5;
+  bCPropertyTypeBase *this_01;
+  bCString *pbVar6;
+  ulong uVar7;
+  code *pcVar8;
+  bCAccessorProperty abStack_18 [12];
+  bCAccessorProperty abStack_c [12];
+  
+  this_00 = param_1;
+  bCPropertyObjectBase::WriteData((bCPropertyObjectBase *)this,(bCOStream *)param_1);
+  bCOStream::operator<<(this_00,0x1e);
+  bCAccessorCreator::bCAccessorCreator((bCAccessorCreator *)&param_1,(bCPropertyObjectBase *)this);
+  bCAccessorProperty::bCAccessorProperty(abStack_18,(bCAccessorCreator *)&param_1);
+  bCAccessorProperty::bCAccessorProperty(abStack_c,abStack_18);
+  uVar7 = 0;
+  do {
+    pcVar8 = IsValid_exref;
+    bVar1 = bCAccessorProperty::IsValid(abStack_c);
+    if (bVar1) {
+      pbVar3 = bCAccessorProperty::GetPropertyTypeObject(abStack_c);
+      iVar4 = ___RTDynamicCast(pbVar3,0,&bCPropertyTypeBase::RTTI_Type_Descriptor,
+                               &bTPropertyTypeOnly<bCObsoleteClass>::RTTI_Type_Descriptor,0);
+      if (iVar4 == 0) {
+        uVar7 = uVar7 + 1;
+      }
+    }
+    bVar1 = bCAccessorProperty::IsValid(abStack_c);
+    if (!bVar1) {
+      pbVar5 = bCAccessorProperty::GetAccessorPropertyObject(abStack_c);
+      bVar1 = bCAccessorPropertyObject::HasBaseClass(pbVar5);
+      if (!bVar1) {
+        bCOStream::operator<<(this_00,uVar7);
+        do {
+          cVar2 = (*pcVar8)();
+          if (cVar2 == '\x01') {
+            this_01 = (bCPropertyTypeBase *)bCAccessorProperty::GetPropertyTypeObject(abStack_18);
+            iVar4 = ___RTDynamicCast(this_01,0,&bCPropertyTypeBase::RTTI_Type_Descriptor,
+                                     &bTPropertyTypeOnly<bCObsoleteClass>::RTTI_Type_Descriptor,0);
+            pcVar8 = IsValid_exref;
+            if (iVar4 == 0) {
+              pbVar6 = bCPropertyTypeBase::GetPropertyName(this_01);
+              bCOStream::operator<<(this_00,pbVar6);
+              pbVar6 = (bCString *)(**(code **)((int)*this_01 + 0xc))();
+              bCOStream::operator<<(this_00,pbVar6);
+              (**(code **)((int)*this_01 + 0x34))(this_00,this);
+              pcVar8 = IsValid_exref;
+            }
+          }
+          cVar2 = (*pcVar8)();
+          if (cVar2 == '\0') {
+            pbVar5 = bCAccessorProperty::GetAccessorPropertyObject(abStack_18);
+            bVar1 = bCAccessorPropertyObject::HasBaseClass(pbVar5);
+            if (!bVar1) {
+              ::operator<<((bCOStream *)this_00,
+                           (bCObjectBase *)(this->bTPOPureSmartPtr<gCParty_PS>_data).offset_0x4);
+              bCAccessorProperty::~bCAccessorProperty(abStack_c);
+              bCAccessorProperty::~bCAccessorProperty(abStack_18);
+              bCAccessorCreator::~bCAccessorCreator((bCAccessorCreator *)&param_1);
+              return;
+            }
+          }
+          bCAccessorProperty::operator++(abStack_18);
+        } while( true );
+      }
+    }
+    bCAccessorProperty::operator++(abStack_c);
+  } while( true );
+}
+
+

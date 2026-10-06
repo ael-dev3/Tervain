@@ -1,0 +1,37 @@
+/* ENTRY 304c4410 | FUN_304c4410 | STATUS decompiled | 16 ms */
+
+undefined4 __thiscall FUN_304c4410(int param_1,bCIStream *param_2)
+
+{
+  bCIStream *this;
+  bool bVar1;
+  ushort local_18 [2];
+  bCPropertyID local_14 [20];
+  
+  this = param_2;
+  bCIStream::operator>>(param_2,local_18);
+  bCIStream::operator>>(this,(bool *)&param_2);
+  if (param_2._0_1_ == true) {
+    bCPropertyID::bCPropertyID(local_14);
+    operator>>((bCIStream *)this,local_14);
+    bVar1 = bCPropertyID::operator==(local_14,(bCPropertyID *)(param_1 + 8));
+    if (!bVar1) {
+      bCPropertyID::operator=((bCPropertyID *)(param_1 + 8),local_14);
+      if (*(eCEntityProxyInternal **)(param_1 + 4) != (eCEntityProxyInternal *)0x0) {
+        eCEntityProxyInternal::ReleaseReference(*(eCEntityProxyInternal **)(param_1 + 4));
+        *(undefined4 *)(param_1 + 4) = 0;
+      }
+    }
+    bCPropertyID::~bCPropertyID(local_14);
+    return 1;
+  }
+  if (*(eCEntityProxyInternal **)(param_1 + 4) != (eCEntityProxyInternal *)0x0) {
+    eCEntityProxyInternal::ReleaseReference(*(eCEntityProxyInternal **)(param_1 + 4));
+    *(undefined4 *)(param_1 + 4) = 0;
+  }
+  *(undefined4 *)(param_1 + 4) = 0;
+  bCPropertyID::Destroy((bCPropertyID *)(param_1 + 8));
+  return 1;
+}
+
+

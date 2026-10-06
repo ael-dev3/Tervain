@@ -1,0 +1,9 @@
+; 20183dc0 gCHUDMenuSecret2::~gCHUDMenuSecret2
+20183dc0 | 56 | PUSH ESI
+20183dc1 | 8bf1 | MOV ESI,ECX
+20183dc3 | 8d4e10 | LEA ECX,[ESI + 0x10]
+20183dc6 | c706a45d6720 | MOV dword ptr [ESI],0x20675da4
+20183dcc | ff15e0787d20 | CALL dword ptr [0x207d78e0]
+20183dd2 | 8bce | MOV ECX,ESI
+20183dd4 | 5e | POP ESI
+20183dd5 | e91f27eaff | JMP 0x200264f9

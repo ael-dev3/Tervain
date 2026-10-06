@@ -1,0 +1,18 @@
+/* ENTRY 300347c0 | eCCollisionShape::SetDisableResponse | STATUS decompiled | 346 ms */
+
+/* public: void __thiscall eCCollisionShape::SetDisableResponse(bool const &) */
+
+void __thiscall eCCollisionShape::SetDisableResponse(eCCollisionShape *this,bool *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x347c0  13273  ?SetDisableResponse@eCCollisionShape@@QAEXAB_N@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"DisableResponse",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  (this->eCCollisionShape_data).offset_0x2c = (bCObjectRefBase)*param_1;
+  (*pNVar1)(this,"DisableResponse",false);
+  return;
+}
+
+

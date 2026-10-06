@@ -1,0 +1,60 @@
+/* ENTRY 2000c0c7 | gCParty_PS::GetOnScreenDebugLines | STATUS decompiled | 445 ms */
+
+/* public: virtual void __thiscall gCParty_PS::GetOnScreenDebugLines(unsigned long,class
+   bTObjArray<struct eSPropertySetDebugLine> &)const  */
+
+void __thiscall
+gCParty_PS::GetOnScreenDebugLines
+          (gCParty_PS *this,ulong param_1,bTObjArray<eSPropertySetDebugLine> *param_2)
+
+{
+  bCString *pbVar1;
+  eCEntity *this_00;
+  bCString *pbVar2;
+  int iVar3;
+  int iVar4;
+  int unaff_retaddr;
+  int iStack_10;
+  gCParty_PS *pgStack_8;
+  int iStack_4;
+  
+                    /* 0xc0c7  3924
+                       ?GetOnScreenDebugLines@gCParty_PS@@UBEXKAAV?$bTObjArray@UeSPropertySetDebugLine@@@@@Z
+                        */
+  iStack_4 = (this->gCParty_PS_data).offset_0x3c;
+  iVar3 = 0;
+  iStack_10 = 0;
+  if (0 < iStack_4) {
+    do {
+      this_00 = eCEntityProxy::operator_class_eCEntity_const_
+                          ((eCEntityProxy *)(this->gCParty_PS_data).offset_0x38);
+      iVar4 = *(int *)(param_2 + 4) + 1;
+      thunk_FUN_2011a950(iVar4,(iVar4 != 0) - 1);
+      if (iVar4 < *(int *)(param_2 + 4)) {
+        thunk_FUN_2011a9f0(*(int *)param_2 + iVar4 * 8,*(int *)(param_2 + 4) - iVar4);
+        thunk_FUN_20119d10(*(int *)param_2 + iVar4 * 8,*(int *)(param_2 + 4) - iVar4);
+        iVar3 = iStack_10;
+      }
+      *(int *)(param_2 + 4) = iVar4;
+      pbVar1 = *(bCString **)param_2 + iVar4 * 8 + -8;
+      bCString::Format(*(bCString **)param_2,(char *)pbVar1);
+      if (this_00 == (eCEntity *)0x0) {
+        iStack_10 = 1;
+        pbVar2 = (bCString *)bCString::bCString((bCString *)&iStack_4,"<invalid>");
+      }
+      else {
+        pbVar2 = eCEntity::GetName((eCEntity *)this_00);
+      }
+      bCString::operator=(pbVar1 + 4,pbVar2);
+      if (iStack_10 != 0) {
+        iStack_10 = 0;
+        bCString::~bCString((bCString *)&iStack_4);
+      }
+      iVar3 = iVar3 + 1;
+      this = pgStack_8;
+    } while (iVar3 < unaff_retaddr);
+  }
+  return;
+}
+
+

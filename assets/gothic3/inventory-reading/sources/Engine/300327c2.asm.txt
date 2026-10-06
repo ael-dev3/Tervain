@@ -1,0 +1,4 @@
+; 300327c2 ?IsEntityIDValid@eCTemplateEntityProxy@@QBE_NXZ
+300327c2 | e9c9494900 | JMP 0x304c7190
+; 300327c7 eCPropertyProxy::SetValue
+; 300327c7 Ordinal_14521

@@ -1,0 +1,10 @@
+; 10056db0 FUN_10056db0
+10056db0 | 8b44240c | MOV EAX,dword ptr [ESP + 0xc]
+10056db4 | 8b542404 | MOV EDX,dword ptr [ESP + 0x4]
+10056db8 | 50 | PUSH EAX
+10056db9 | 8b44240c | MOV EAX,dword ptr [ESP + 0xc]
+10056dbd | 50 | PUSH EAX
+10056dbe | 50 | PUSH EAX
+10056dbf | 52 | PUSH EDX
+10056dc0 | e82fdbfaff | CALL 0x100048f4
+10056dc5 | c20c00 | RET 0xc

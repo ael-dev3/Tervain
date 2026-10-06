@@ -1,0 +1,27 @@
+; 2016ec60 gCHUDPageTrade2::~gCHUDPageTrade2
+2016ec60 | 56 | PUSH ESI
+2016ec61 | 8bf1 | MOV ESI,ECX
+2016ec63 | 8d8e9c030000 | LEA ECX,[ESI + 0x39c]
+2016ec69 | c7069c316720 | MOV dword ptr [ESI],0x2067319c
+2016ec6f | e8e6c7eaff | CALL 0x2001b45a
+2016ec74 | 8d8eac020000 | LEA ECX,[ESI + 0x2ac]
+2016ec7a | e86623ebff | CALL 0x20020fe5
+2016ec7f | 8d8e5c010000 | LEA ECX,[ESI + 0x15c]
+2016ec85 | e8df27eaff | CALL 0x20011469
+2016ec8a | 8d8efc000000 | LEA ECX,[ESI + 0xfc]
+2016ec90 | e8a1cee9ff | CALL 0x2000bb36
+2016ec95 | 8d4e78 | LEA ECX,[ESI + 0x78]
+2016ec98 | e80a76eaff | CALL 0x200162a7
+2016ec9d | 8d4e64 | LEA ECX,[ESI + 0x64]
+2016eca0 | e80beeebff | CALL 0x2002dab0
+2016eca5 | 8d4e50 | LEA ECX,[ESI + 0x50]
+2016eca8 | e803eeebff | CALL 0x2002dab0
+2016ecad | 8d4e3c | LEA ECX,[ESI + 0x3c]
+2016ecb0 | e8fbedebff | CALL 0x2002dab0
+2016ecb5 | 8d4e28 | LEA ECX,[ESI + 0x28]
+2016ecb8 | e8f3edebff | CALL 0x2002dab0
+2016ecbd | 8d4e14 | LEA ECX,[ESI + 0x14]
+2016ecc0 | e8ebedebff | CALL 0x2002dab0
+2016ecc5 | 8bce | MOV ECX,ESI
+2016ecc7 | 5e | POP ESI
+2016ecc8 | e98771ecff | JMP 0x20035e54

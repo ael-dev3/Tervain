@@ -161,10 +161,89 @@ export interface NativeMeleePlan {
   readonly deferredNativeBehavior: readonly string[];
 }
 
+/** Live callback boundary for the ordered effects produced by
+ * planNativeHeroMelee. Each method must target the same physical actor/property
+ * set used by the caller's combat snapshot. A renderer-only record or copied
+ * source candidate is not a valid target. */
+export interface NativeMeleeEffectHost {
+  setLastAttacker(victimId: string, attackerId: string | null): NativeKnowledge<void>;
+  setCurrentAttacker(victimId: string, attackerId: string): NativeKnowledge<void>;
+  setStamina(victimId: string, value: number): NativeKnowledge<void>;
+  setHitPoints(victimId: string, value: number): NativeKnowledge<void>;
+  setReceiverDamage(victimId: string, amount: number): NativeKnowledge<void>;
+  fullStopAndSetTask(victimId: string, task: string, reaction: number): NativeKnowledge<void>;
+  perceive(victimId: string, attackerId: string, kind: 'Attack' | 'Defeat' | 'Murder'): NativeKnowledge<void>;
+  setLastInflictor(victimId: string, carrierId: string): NativeKnowledge<void>;
+  impactEffects(victimId: string): NativeKnowledge<void>;
+  entityOnDamage(victimId: string): NativeKnowledge<void>;
+}
+
+export interface NativeMeleeEffectExecution {
+  readonly outcome: 'complete' | 'rejected' | 'unsupported' | 'partial' | 'blocked';
+  readonly applied: readonly NativeCombatEffect[];
+  readonly attempted: readonly NativeCombatEffect[];
+  readonly required: string | null;
+}
+
+function executeMeleeEffect(effect: NativeCombatEffect, host: NativeMeleeEffectHost): NativeKnowledge<void> {
+  switch (effect.type) {
+    case 'setLastAttacker': return host.setLastAttacker(effect.victimId, effect.attackerId);
+    case 'setCurrentAttacker': return host.setCurrentAttacker(effect.victimId, effect.attackerId);
+    case 'setStamina': return host.setStamina(effect.victimId, effect.value);
+    case 'setHitPoints': return host.setHitPoints(effect.victimId, effect.value);
+    case 'setReceiverDamage': return host.setReceiverDamage(effect.victimId, effect.amount);
+    case 'fullStopAndSetTask': return host.fullStopAndSetTask(effect.victimId, effect.task, effect.reaction);
+    case 'perception': return host.perceive(effect.victimId, effect.attackerId, effect.kind);
+    case 'setLastInflictor': return host.setLastInflictor(effect.victimId, effect.carrierId);
+    case 'nativeBoundary':
+      return effect.operation === 'impactEffects' ? host.impactEffects(effect.victimId) : host.entityOnDamage(effect.victimId);
+  }
+}
+
+/** Executes a resolved melee plan in source order. A failed callback retains
+ * its applied prefix. This does not supply missing actor, collision,
+ * perception, or task hosts. */
+function applyNativeMeleePlanOnce(plan: NativeMeleePlan, host: NativeMeleeEffectHost): NativeMeleeEffectExecution {
+  if (!plan.accepted) return { outcome: 'rejected', applied: [], attempted: [], required: null };
+  const applied: NativeCombatEffect[] = [];
+  const attempted: NativeCombatEffect[] = [];
+  for (const effect of plan.effects) {
+    attempted.push(effect);
+    let result: NativeKnowledge<void>;
+    try { result = executeMeleeEffect(effect, host); }
+    catch (error) {
+      const required = error instanceof Error ? error.message : String(error);
+      return { outcome: applied.length ? 'partial' : 'unsupported', applied: Object.freeze(applied),
+        attempted: Object.freeze(attempted), required };
+    }
+    if (result.status === 'unknown' || !result.source) {
+      const required = result.status === 'unknown' ? result.reason : 'Native melee effect callback lacks source provenance.';
+      return { outcome: applied.length ? 'partial' : 'unsupported', applied: Object.freeze(applied),
+        attempted: Object.freeze(attempted), required };
+    }
+    applied.push(effect);
+  }
+  return { outcome: 'complete', applied: Object.freeze(applied), attempted: Object.freeze(attempted), required: null };
+}
+
+/** One executor owns one contact plan. It is single-use because a native host
+ * may have applied a prefix before failing, and replaying those writes can
+ * duplicate combat callbacks. Create a new executor for a later contact. */
+export class NativeMeleeEffectExecutor {
+  private started = false;
+  constructor(readonly host: NativeMeleeEffectHost) {}
+  execute(plan: NativeMeleePlan): NativeMeleeEffectExecution {
+    if (this.started) return { outcome: 'blocked', applied: [], attempted: [],
+      required: 'This combat effect executor is single-use; a native callback may already have applied a prefix.' };
+    this.started = true;
+    return applyNativeMeleePlanOnce(plan, this.host);
+  }
+}
+
 const I32_MIN = -0x80000000;
 const I32_MAX = 0x7fffffff;
 const E = Object.freeze({
-  stats: ['Script_Game:10046c30', 'Script_Game:10046d30', 'Script_Game:10047a20', 'Script_Game:10047cd0', 'Script_Game:10047530', 'Script_Game:100477c0'],
+  stats: ['Script_Game:100187b0', 'Script_Game:10046c30', 'Script_Game:10046d30', 'Script_Game:10047a20', 'Script_Game:10047cd0', 'Script_Game:10047530', 'Script_Game:100477c0'],
   math: ['Script_Game:1003d6a0', 'Script_Game:1007f000', 'Script_Game:1003cbc0', 'Script_Game:1003c980'],
   rank: ['Script_Game:1003d1d0', 'Script_Game:1003d4d0', 'Script_Game:1003d5a0'],
   guard: ['Script_Game:100169d0', 'Script_Game:10016c60', 'Script_Game:10016830', 'Script_Game:10016e70', 'Script_Game:100171c0', 'Script_Game:1003d6a0', 'Script_Game:100467f0', 'Script_Game:10046af0', 'Script_Game:10045b20', 'Script_Game:10045e20'],
@@ -216,6 +295,14 @@ export function isNativeAmbientCreature(species: number): boolean {
   return [24, 25, 26, 27, 28, 30, 31, 32, 35, 36, 37, 42, 43, 44, 45, 46, 47].includes(species);
 }
 
+/** Species accepted by Script_Game:100187b0. That native predicate is used by
+ * both RefreshHitPoints (one point of HP) and the default NPC XP floor. Its
+ * exact switch excludes 47 even though the broader ambient-creature list
+ * includes it. */
+export function hasNativeReducedNpcFloor(species: number): boolean {
+  return [24, 25, 26, 27, 28, 30, 31, 32, 35, 36, 37, 42, 43, 44, 45, 46].includes(species);
+}
+
 /** Native FindSkillStackIndex match must be resolved before this predicate. */
 export function nativeSkillActive(stack: NativeKnowledge<null | {
   readonly referencedSkillMatches: boolean; readonly learnable: boolean;
@@ -252,7 +339,7 @@ export function deriveNativeNpcStats(actor: Pick<NativeActorCombatState, 'isPlay
     return unsupported('NPC strength requires exceptional float-to-integer conversion.', 'levels');
   }
   const strength = sub(10, trunc(currentLevel * NATIVE_COMBAT_CONSTANTS.npcStrengthMultiplier));
-  const refreshedHitPointsMax = isNativeAmbientCreature(actor.species) ? 1 : Math.max(100, Math.imul(levelMax, 20));
+  const refreshedHitPointsMax = hasNativeReducedNpcFloor(actor.species) ? 1 : Math.max(100, Math.imul(levelMax, 20));
   const refreshedStaminaMax = Math.max(100, Math.imul(levelMax, isNativeHumanoid(actor.species) ? 10 : 20));
   if (currentLevel < 0 || !nonnegativeI32(strength) || refreshedHitPointsMax < 0 || refreshedStaminaMax < 0) {
     return unsupported('Derived stats overflow the bounded native profile.', 'levels');
@@ -579,7 +666,29 @@ export function nativeNpcDefaultXp(victim: Pick<NativeActorCombatState, 'isPlaye
   if (victim.isPlayer || !nonnegativeI32(victim.rawLevel)) return unsupported('Default XP needs a native NPC raw level.', 'npc-raw-level');
   const amount = Math.imul(Math.max(1, victim.rawLevel), 5);
   if (!i32(Math.max(1, victim.rawLevel) * 5)) return unsupported('NPC XP multiplication overflows the bounded profile.', 'xp-overflow');
-  return resolved(Math.max(isNativeAmbientCreature(victim.species) ? 25 : 50, amount), ['Script_Game:100628c0', 'Script_Game:100187b0']);
+  return resolved(Math.max(hasNativeReducedNpcFloor(victim.species) ? 25 : 50, amount), ['Script_Game:100628c0', 'Script_Game:100187b0']);
+}
+
+export interface NativeHitPointAdjustment {
+  readonly before: number;
+  readonly requestedDelta: number;
+  /** Signed32 result of the native currentHP + delta operation before SetHitPoints clamps it. */
+  readonly wrappedValue: number;
+  readonly after: number;
+}
+
+/** Script_Game::AddHitPoints reads the current PlayerMemory or DamageReceiver
+ * HP, adds its signed amount, then calls SetHitPoints. The original long add
+ * wraps at32bits; SetHitPoints clamps the result to [0, maximum]. This is a
+ * state operation only: contact and the amount supplied by a combat caller
+ * must be resolved separately. */
+export function applyNativeAddHitPoints(current: number, maximum: number, amount: number): CombatResult<NativeHitPointAdjustment> {
+  if (![current, maximum].every(nonnegativeI32) || !i32(amount) || current > maximum) {
+    return unsupported('AddHitPoints requires valid signed32 current/max points and a signed32 amount.', 'hit-points');
+  }
+  const wrappedValue = add(current, amount);
+  return resolved(Object.freeze({ before: current, requestedDelta: amount, wrappedValue,
+    after: clampPoints(wrappedValue, maximum) }), ['Script_Game:10045e20', 'Script_Game:10045b20']);
 }
 
 export function nativeXpNext(level: number): CombatResult<number> {
@@ -600,6 +709,43 @@ export function applyNativeXp(player: NativePlayerProgress, amount: number): Com
   if (player.learnPerkActive.status === 'unknown' || !player.learnPerkActive.source) return unsupported('Perk_Learn activation is unresolved.', 'inventory:Perk_Learn');
   if (!i32(player.level + 1) || !i32(player.lp + (player.learnPerkActive.value ? 11 : 10))) return unsupported('Level/LP addition overflows the bounded profile.', 'progress-overflow');
   return resolved({ xp, level: add(player.level, 1), lp: add(player.lp, player.learnPerkActive.value ? 11 : 10), levelUp }, E.xp);
+}
+
+export interface NativeGiveXpPlan {
+  readonly requestedAmount: number;
+  readonly awardedAmount: number;
+  readonly progress: { readonly xp: number; readonly level: number; readonly lp: number; readonly levelUp: boolean };
+}
+
+/** Script_Game GiveXP with Self=world and Other=PC_Hero multiplies its
+ * requested integer by five before updating PlayerMemory.XP. The caller must
+ * still apply the returned state through the live Hero property path. */
+export function planNativeGiveXp(player: NativePlayerProgress, requestedAmount: number): CombatResult<NativeGiveXpPlan> {
+  if (!nonnegativeI32(requestedAmount)) return unsupported('Native GiveXP operand is outside the supported nonnegative int32 domain.', 'givexp-operand');
+  const awardedAmount = requestedAmount * 5;
+  if (!i32(awardedAmount)) return unsupported('Native GiveXP multiplication exceeds the bounded signed32 profile.', 'xp-overflow');
+  const progress = applyNativeXp(player, awardedAmount);
+  if (progress.status === 'unsupported') return progress;
+  return resolved({ requestedAmount, awardedAmount, progress: progress.value }, [...E.xp, 'Script_Game:100628c0']);
+}
+
+export interface NativeGiveXpSequencePlan {
+  readonly awards: readonly NativeGiveXpPlan[];
+  readonly progress: NativePlayerProgress;
+}
+
+/** Preflight consecutive XP-producing commands against one evolving Hero state. */
+export function planNativeGiveXpSequence(player: NativePlayerProgress,
+    requestedAmounts: readonly number[]): CombatResult<NativeGiveXpSequencePlan> {
+  let progress = player;
+  const awards: NativeGiveXpPlan[] = [];
+  for (const requestedAmount of requestedAmounts) {
+    const award = planNativeGiveXp(progress, requestedAmount);
+    if (award.status === 'unsupported') return award;
+    awards.push(award.value);
+    progress = { ...award.value.progress, learnPerkActive: progress.learnPerkActive };
+  }
+  return resolved({ awards, progress }, [...E.xp, 'Script_Game:100628c0']);
 }
 
 export interface NativeDefeatCredit {

@@ -1,0 +1,19 @@
+/* ENTRY 3003a7ab | eCEntityPropertySet::Destroy | STATUS decompiled | 10 ms */
+
+/* public: virtual void __thiscall eCEntityPropertySet::Destroy(void) */
+
+void __thiscall eCEntityPropertySet::Destroy(eCEntityPropertySet *this)
+
+{
+                    /* 0x3a7ab  5128  ?Destroy@eCEntityPropertySet@@UAEXXZ */
+  (*this->vftablePtr->SetEntity)(this,(eCEntity *)0x0);
+  (this->eCEntityPropertySet_data).offset_0x8 = 0;
+  (this->eCEntityPropertySet_data).offset_0xc =
+       (this->eCEntityPropertySet_data).offset_0xc & 0xf1 | 1;
+                    /* WARNING: Could not recover jumptable at 0x304814d3. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCObjectRefBase::Destroy((bCObjectRefBase *)this);
+  return;
+}
+
+

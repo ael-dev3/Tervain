@@ -1,0 +1,2 @@
+; 2002ecee thunk_FUN_200706c0
+2002ecee | e9cd190400 | JMP 0x200706c0

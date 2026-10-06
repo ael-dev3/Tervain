@@ -1,0 +1,33 @@
+/* ENTRY 20029c67 | gCInventory_PS::LinkStackToSlot | STATUS decompiled | 17 ms */
+
+/* public: bool __thiscall gCInventory_PS::LinkStackToSlot(int,enum gESlot,bool) */
+
+bool __thiscall
+gCInventory_PS::LinkStackToSlot(gCInventory_PS *this,int param_1,gESlot param_2,bool param_3)
+
+{
+  char cVar1;
+  gCInventoryStack *pgVar2;
+  eCEntity *peVar3;
+  undefined3 in_stack_0000000d;
+  
+                    /* 0x29c67  5304  ?LinkStackToSlot@gCInventory_PS@@QAE_NHW4gESlot@@_N@Z */
+  pgVar2 = FindStack(this,param_2);
+  if (pgVar2 == (gCInventoryStack *)0x0) {
+    peVar3 = (*this->vftablePtr->GetEntity)(this);
+    thunk_FUN_201ce740(param_2,peVar3);
+  }
+  peVar3 = (*this->vftablePtr->GetEntity)(this);
+  cVar1 = thunk_FUN_201cf590(param_1,param_2,peVar3,_param_3);
+  if (cVar1 == '\0') {
+    pgVar2 = FindStack(this,param_2);
+    if (pgVar2 == (gCInventoryStack *)0x0) {
+      peVar3 = (*this->vftablePtr->GetEntity)(this);
+      thunk_FUN_201ce6f0(param_2,peVar3);
+    }
+    return false;
+  }
+  return true;
+}
+
+

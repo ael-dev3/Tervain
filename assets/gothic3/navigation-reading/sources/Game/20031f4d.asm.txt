@@ -1,0 +1,2 @@
+; 20031f4d ?WriteSaveGame@gCNavigation_PS@@UAE?AW4bEResult@@AAVbCOStream@@@Z
+20031f4d | e95e462500 | JMP 0x202865b0

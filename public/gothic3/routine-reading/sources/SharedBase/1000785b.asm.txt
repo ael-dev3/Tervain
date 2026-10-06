@@ -1,0 +1,4 @@
+; 1000785b ??0bCCriticalSectionWin32@@QAE@XZ
+1000785b | e940960000 | JMP 0x10010ea0
+; 10007860 bCOrientedBox::GetCircumAxisBox
+; 10007860 Ordinal_2154

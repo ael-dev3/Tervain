@@ -1,0 +1,25 @@
+/* ENTRY 3033f140 | FUN_3033f140 | STATUS decompiled | 7 ms */
+
+void __thiscall FUN_3033f140(int *param_1,int *param_2)
+
+{
+  int iVar1;
+  int iVar2;
+  
+  thunk_FUN_3033d2a0(param_1[1] + 1,(param_1[1] + 1 != 0) - 1);
+  iVar2 = param_1[1] + -1;
+  if (param_2 != (int *)0x0) {
+    (**(code **)(*param_2 + 0x20))();
+  }
+  iVar1 = *param_1;
+  if (*(int *)(iVar1 + iVar2 * 4) != 0) {
+    (**(code **)(**(int **)(iVar1 + iVar2 * 4) + 0x24))();
+    *(undefined4 *)(*param_1 + iVar2 * 4) = 0;
+    *(int **)(*param_1 + iVar2 * 4) = param_2;
+    return;
+  }
+  *(int **)(iVar1 + iVar2 * 4) = param_2;
+  return;
+}
+
+

@@ -1,0 +1,2 @@
+; 30028894 ?SetDisableResponse@eCCollisionShape_PS@@QAEXAB_N@Z
+30028894 | e957a40900 | JMP 0x300c2cf0

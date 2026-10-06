@@ -1,0 +1,58 @@
+; 201a9fd0 bTPropertyObject<gCInventory_PS,eCEntityPropertySet>::vfunction6
+201a9fd0 | 53 | PUSH EBX
+201a9fd1 | 56 | PUSH ESI
+201a9fd2 | 8b74240c | MOV ESI,dword ptr [ESP + 0xc]
+201a9fd6 | 57 | PUSH EDI
+201a9fd7 | 56 | PUSH ESI
+201a9fd8 | 8bd9 | MOV EBX,ECX
+201a9fda | ff1504877d20 | CALL dword ptr [0x207d8704]
+201a9fe0 | 0fb7f8 | MOVZX EDI,AX
+201a9fe3 | 8d442410 | LEA EAX,[ESP + 0x10]
+201a9fe7 | 50 | PUSH EAX
+201a9fe8 | 8bce | MOV ECX,ESI
+201a9fea | c744241400000000 | MOV dword ptr [ESP + 0x14],0x0
+201a9ff2 | ff1560877d20 | CALL dword ptr [0x207d8760]
+201a9ff8 | e81f17e6ff | CALL 0x2000b71c
+201a9ffd | 50 | PUSH EAX
+201a9ffe | e8468ae6ff | CALL 0x20012a49
+201aa003 | 8bc8 | MOV ECX,EAX
+201aa005 | ff1508877d20 | CALL dword ptr [0x207d8708]
+201aa00b | 84c0 | TEST AL,AL
+201aa00d | 743c | JZ 0x201aa04b
+201aa00f | 8b4c2410 | MOV ECX,dword ptr [ESP + 0x10]
+201aa013 | 55 | PUSH EBP
+201aa014 | 8b2de0887d20 | MOV EBP,dword ptr [0x207d88e0]
+201aa01a | 51 | PUSH ECX
+201aa01b | ffd5 | CALL EBP
+201aa01d | 8bc8 | MOV ECX,EAX
+201aa01f | ff1564877d20 | CALL dword ptr [0x207d8764]
+201aa025 | 8b16 | MOV EDX,dword ptr [ESI]
+201aa027 | 8b5204 | MOV EDX,dword ptr [EDX + 0x4]
+201aa02a | 8bd8 | MOV EBX,EAX
+201aa02c | 8b442414 | MOV EAX,dword ptr [ESP + 0x14]
+201aa030 | 50 | PUSH EAX
+201aa031 | 53 | PUSH EBX
+201aa032 | 8bce | MOV ECX,ESI
+201aa034 | ffd2 | CALL EDX
+201aa036 | 53 | PUSH EBX
+201aa037 | ffd5 | CALL EBP
+201aa039 | 8bc8 | MOV ECX,EAX
+201aa03b | ff15dc887d20 | CALL dword ptr [0x207d88dc]
+201aa041 | 5d | POP EBP
+201aa042 | 668bc7 | MOV AX,DI
+201aa045 | 5f | POP EDI
+201aa046 | 5e | POP ESI
+201aa047 | 5b | POP EBX
+201aa048 | c20400 | RET 0x4
+; 201aa04b LAB_201aa04b
+201aa04b | 8b03 | MOV EAX,dword ptr [EBX]
+201aa04d | 8b501c | MOV EDX,dword ptr [EAX + 0x1c]
+201aa050 | 57 | PUSH EDI
+201aa051 | 56 | PUSH ESI
+201aa052 | 8bcb | MOV ECX,EBX
+201aa054 | ffd2 | CALL EDX
+201aa056 | 668bc7 | MOV AX,DI
+201aa059 | 5f | POP EDI
+201aa05a | 5e | POP ESI
+201aa05b | 5b | POP EBX
+201aa05c | c20400 | RET 0x4

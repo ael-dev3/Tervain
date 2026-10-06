@@ -1,0 +1,2 @@
+; 1000350d bCPoint::GetX
+1000350d | e92e8a0200 | JMP 0x1002bf40

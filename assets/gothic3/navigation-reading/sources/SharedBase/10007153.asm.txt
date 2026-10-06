@@ -1,0 +1,4 @@
+; 10007153 ??0bCGuid@@QAE@ABV0@@Z
+10007153 | e988b50000 | JMP 0x100126e0
+; 1000715d bCAxisAngle::bCAxisAngle
+; 1000715d Ordinal_31

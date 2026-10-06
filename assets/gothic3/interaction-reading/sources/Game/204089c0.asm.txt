@@ -1,0 +1,15 @@
+; 204089c0 bTPropertyType<gCInteraction_PS,eCEntityProxy>::vfunction12
+204089c0 | 56 | PUSH ESI
+204089c1 | 8bf1 | MOV ESI,ECX
+204089c3 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+204089c7 | 85c9 | TEST ECX,ECX
+204089c9 | 7506 | JNZ 0x204089d1
+204089cb | 33c0 | XOR EAX,EAX
+204089cd | 5e | POP ESI
+204089ce | c20400 | RET 0x4
+204089d1 | 8b01 | MOV EAX,dword ptr [ECX]
+204089d3 | 8b10 | MOV EDX,dword ptr [EAX]
+204089d5 | ffd2 | CALL EDX
+204089d7 | 03461c | ADD EAX,dword ptr [ESI + 0x1c]
+204089da | 5e | POP ESI
+204089db | c20400 | RET 0x4

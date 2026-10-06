@@ -1,0 +1,33 @@
+/* ENTRY 10001d89 | PSPlayerMemory::GetStaminaPointsPercent | STATUS decompiled | 17 ms */
+
+/* public: float __thiscall PSPlayerMemory::GetStaminaPointsPercent(void)const  */
+
+float __thiscall PSPlayerMemory::GetStaminaPointsPercent(PSPlayerMemory *this)
+
+{
+  bCString abStack_10 [4];
+  bCString abStack_c [4];
+  int iStack_8;
+  int iStack_4;
+  
+                    /* 0x1d89  1671  ?GetStaminaPointsPercent@PSPlayerMemory@@QBEMXZ */
+  bCString::bCString(abStack_10,"SP");
+  if (*(gCPlayerMemory_PS **)this == (gCPlayerMemory_PS *)0x0) {
+    iStack_8 = 0;
+  }
+  else {
+    iStack_8 = gCPlayerMemory_PS::GetValue(*(gCPlayerMemory_PS **)this,abStack_10);
+  }
+  bCString::~bCString(abStack_10);
+  bCString::bCString(abStack_c,"SP");
+  if (*(gCPlayerMemory_PS **)this == (gCPlayerMemory_PS *)0x0) {
+    iStack_4 = 0;
+  }
+  else {
+    iStack_4 = gCPlayerMemory_PS::GetMaximum(*(gCPlayerMemory_PS **)this,abStack_c);
+  }
+  bCString::~bCString(abStack_c);
+  return ((float)iStack_8 / (float)iStack_4) * 100.0;
+}
+
+

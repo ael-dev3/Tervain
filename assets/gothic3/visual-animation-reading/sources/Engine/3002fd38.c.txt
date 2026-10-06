@@ -1,0 +1,26 @@
+/* ENTRY 3002fd38 | eCVisualAnimation_PS::EnableSkeletonCollision | STATUS decompiled | 81 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::EnableSkeletonCollision(bool) */
+
+void __thiscall
+eCVisualAnimation_PS::EnableSkeletonCollision(eCVisualAnimation_PS *this,bool param_1)
+
+{
+  int iVar1;
+  undefined3 in_stack_00000005;
+  
+                    /* 0x2fd38  5821  ?EnableSkeletonCollision@eCVisualAnimation_PS@@QAEX_N@Z */
+  if (*(int *)&this[0xe].eCEntityPropertySet_data != 0) {
+    thunk_FUN_300c3560(_param_1);
+  }
+  iVar1 = 0;
+  if (0 < (int)this[0xe].eCEntityPropertySet_data.offset_0x8) {
+    do {
+      thunk_FUN_300c3560(_param_1);
+      iVar1 = iVar1 + 1;
+    } while (iVar1 < (int)this[0xe].eCEntityPropertySet_data.offset_0x8);
+  }
+  return;
+}
+
+

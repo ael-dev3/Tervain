@@ -1,0 +1,18 @@
+/* ENTRY 20189f90 | gCHUDListCtrlInventory::gCHUDListCtrlInventory | STATUS decompiled | 50 ms */
+
+void __thiscall gCHUDListCtrlInventory::gCHUDListCtrlInventory(gCHUDListCtrlInventory *this)
+
+{
+  this->vftablePtr = &vftable;
+  this->vftablePtr = &vftable;
+  CFFGFCImageList::~CFFGFCImageList
+            ((CFFGFCImageList *)&(this->gCHUDListCtrlInventory_data).field_0xc);
+  CFFGFCImageList::~CFFGFCImageList
+            ((CFFGFCImageList *)&(this->gCHUDListCtrlInventory_data).field_0x4);
+                    /* WARNING: Could not recover jumptable at 0x20189fb5. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  CFFGFCListCtrl::~CFFGFCListCtrl((CFFGFCListCtrl *)this);
+  return;
+}
+
+

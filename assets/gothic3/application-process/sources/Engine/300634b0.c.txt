@@ -1,0 +1,14 @@
+/* ENTRY 300634b0 | FUN_300634b0 | STATUS decompiled | 4 ms */
+
+void __thiscall FUN_300634b0(int param_1,float param_2)
+
+{
+  if (param_2 <= 0.0) {
+    *(undefined4 *)(param_1 + 0x528) = 0xbf800000;
+    return;
+  }
+  *(float *)(param_1 + 0x528) = 1000.0 / param_2;
+  return;
+}
+
+

@@ -1,0 +1,9 @@
+/* ENTRY 2020a870 | bTPropertyType<gCClock_PS,float>::vfunction2 | STATUS decompiled | 0 ms */
+
+undefined4 __thiscall bTPropertyType<gCClock_PS,float>::vfunction2(void)
+
+{
+  return 4;
+}
+
+

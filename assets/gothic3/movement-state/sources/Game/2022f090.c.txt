@@ -1,0 +1,19 @@
+/* ENTRY 2022f090 | FUN_2022f090 | STATUS decompiled | 9 ms */
+
+void __fastcall FUN_2022f090(gCCharacterMovement_PS *param_1)
+
+{
+  if ((int)(param_1->gCCharacterMovement_PS_data).offset_0xfc < 0xc) {
+    gCCharacterMovement_PS::ProcessControledMovements(param_1);
+  }
+  else {
+    gCCharacterMovement_PS::ProcessPhysicsMovements(param_1);
+  }
+  if ((param_1->gCCharacterMovement_PS_data).offset_0x228 == (gCCharacterMovement_PS)0x1) {
+    gCCharacterMovement_PS::ProcessMovementAnimation(param_1);
+  }
+  gCCharacterMovement_PS::ContributeFloorActions(param_1);
+  return;
+}
+
+

@@ -1,0 +1,4 @@
+; 10003332 ?IsPlayer@Entity@@QBE_NXZ
+10003332 | e979f60200 | JMP 0x100329b0
+; 1000333c PSDialog::operator=
+; 1000333c Ordinal_217

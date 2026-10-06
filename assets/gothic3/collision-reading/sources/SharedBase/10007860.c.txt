@@ -1,0 +1,15 @@
+/* ENTRY 10007860 | bCOrientedBox::GetCircumAxisBox | STATUS decompiled | 2 ms */
+
+/* public: class bCBox __thiscall bCOrientedBox::GetCircumAxisBox(void)const  */
+
+bCBox * __thiscall bCOrientedBox::GetCircumAxisBox(bCOrientedBox *this)
+
+{
+  bCBox *in_stack_00000004;
+  
+                    /* 0x7860  2154  ?GetCircumAxisBox@bCOrientedBox@@QBE?AVbCBox@@XZ */
+  GetCircumAxisBox(this,in_stack_00000004);
+  return in_stack_00000004;
+}
+
+

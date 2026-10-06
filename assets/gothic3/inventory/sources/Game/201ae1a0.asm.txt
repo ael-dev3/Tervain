@@ -1,0 +1,17 @@
+; 201ae1a0 FUN_201ae1a0
+201ae1a0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+201ae1a4 | 56 | PUSH ESI
+201ae1a5 | 50 | PUSH EAX
+201ae1a6 | 8bf1 | MOV ESI,ECX
+201ae1a8 | e8ce99e5ff | CALL 0x20007b7b
+201ae1ad | 8b4c2414 | MOV ECX,dword ptr [ESP + 0x14]
+201ae1b1 | 8b542410 | MOV EDX,dword ptr [ESP + 0x10]
+201ae1b5 | 51 | PUSH ECX
+201ae1b6 | 8b4c2410 | MOV ECX,dword ptr [ESP + 0x10]
+201ae1ba | 52 | PUSH EDX
+201ae1bb | 51 | PUSH ECX
+201ae1bc | 50 | PUSH EAX
+201ae1bd | 8d4e30 | LEA ECX,[ESI + 0x30]
+201ae1c0 | e81dc8e6ff | CALL 0x2001a9e2
+201ae1c5 | 5e | POP ESI
+201ae1c6 | c21000 | RET 0x10

@@ -1,0 +1,23 @@
+/* ENTRY 3003f445 | eCEntityAdmin::RegisterDynamicEntityContext | STATUS decompiled | 5 ms */
+
+/* protected: bool __thiscall eCEntityAdmin::RegisterDynamicEntityContext(class
+   eCEntityDynamicContext &) */
+
+bool __thiscall
+eCEntityAdmin::RegisterDynamicEntityContext(eCEntityAdmin *this,eCEntityDynamicContext *param_1)
+
+{
+  int iVar1;
+  
+                    /* 0x3f445  12368
+                       ?RegisterDynamicEntityContext@eCEntityAdmin@@IAE_NAAVeCEntityDynamicContext@@@Z
+                        */
+  iVar1 = (this->eCEntityAdmin_data).offset_0x4 + 1;
+  thunk_FUN_304c9e00(iVar1,(iVar1 != 0) - 1);
+  (this->eCEntityAdmin_data).offset_0x4 = iVar1;
+  *(eCEntityDynamicContext **)((int)(this->eCEntityAdmin_data).offset_0x0 + iVar1 * 4 + -4) =
+       param_1;
+  return true;
+}
+
+

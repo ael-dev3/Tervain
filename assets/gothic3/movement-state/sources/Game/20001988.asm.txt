@@ -1,0 +1,4 @@
+; 20001988 ?SetSpeedByMode@gCCharacterMovement_PS@@IAE_NW4gECharMovementMode@@@Z
+20001988 | e993052200 | JMP 0x20221f20
+; 2000198d gCDynamicLayer::OnActivate
+; 2000198d Ordinal_5345

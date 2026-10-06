@@ -1,0 +1,38 @@
+/* ENTRY 300135bb | eCEntity::GetPropertySetIndex | STATUS decompiled | 14 ms */
+
+/* public: int __thiscall eCEntity::GetPropertySetIndex(class eCEntityPropertySet const *)const  */
+
+int __thiscall eCEntity::GetPropertySetIndex(eCEntity *this,eCEntityPropertySet *param_1)
+
+{
+  eCEntityPropertySet *peVar1;
+  uint uVar2;
+  
+                    /* 0x135bb  8201  ?GetPropertySetIndex@eCEntity@@QBEHPBVeCEntityPropertySet@@@Z
+                        */
+  (*this->vftablePtr->OnReadContent)(this);
+  if (param_1 != (eCEntityPropertySet *)0x0) {
+    uVar2 = 0;
+    (*this->vftablePtr->OnReadContent)(this);
+    if ((this->eCEntity_data).offset_0x10e != 0) {
+      do {
+        (*this->vftablePtr->OnReadContent)(this);
+        if ((ushort)uVar2 < (this->eCEntity_data).offset_0x10e) {
+          peVar1 = *(eCEntityPropertySet **)
+                    ((this->eCEntity_data).offset_0x110 + (uVar2 & 0xffff) * 4);
+        }
+        else {
+          peVar1 = (eCEntityPropertySet *)0x0;
+        }
+        if (param_1 == peVar1) {
+          return uVar2;
+        }
+        uVar2 = uVar2 + 1;
+        (*this->vftablePtr->OnReadContent)(this);
+      } while ((int)uVar2 < (int)(uint)(this->eCEntity_data).offset_0x10e);
+    }
+  }
+  return -1;
+}
+
+

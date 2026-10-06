@@ -1,0 +1,17 @@
+/* ENTRY 2002e6f4 | gCCharacterMovement_PS::OnPostRead | STATUS decompiled | 14 ms */
+
+/* protected: virtual void __thiscall gCCharacterMovement_PS::OnPostRead(void) */
+
+void __thiscall gCCharacterMovement_PS::OnPostRead(gCCharacterMovement_PS *this)
+
+{
+                    /* 0x2e6f4  5517  ?OnPostRead@gCCharacterMovement_PS@@MAEXXZ */
+  eCEntityPropertySet::OnPostRead((eCEntityPropertySet *)this);
+  thunk_FUN_20213090();
+  thunk_FUN_20217250();
+  (this->gCCharacterMovement_PS_data).offset_0x278 = (gCCharacterMovement_PS *)this;
+  (this->gCCharacterMovement_PS_data).offset_0x2ac = (gCCharacterMovement_PS *)this;
+  return;
+}
+
+

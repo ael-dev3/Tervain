@@ -1,0 +1,10 @@
+/* ENTRY 2000e106 | bTPropertyObject<gCParty_PS,eCEntityPropertySet>::vfunction11 | STATUS decompiled | 1 ms */
+
+void __thiscall bTPropertyObject<gCParty_PS,eCEntityPropertySet>::vfunction11(void)
+
+{
+  thunk_FUN_2031bc00(0);
+  return;
+}
+
+

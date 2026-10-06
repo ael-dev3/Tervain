@@ -1,0 +1,2 @@
+; 2001db24 gCDamageReceiver_PS::GetPropertySetType
+2001db24 | e967c30900 | JMP 0x200b9e90

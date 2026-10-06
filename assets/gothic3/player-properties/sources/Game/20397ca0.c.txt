@@ -1,0 +1,10 @@
+/* ENTRY 20397ca0 | FUN_20397ca0 | STATUS decompiled | 1 ms */
+
+undefined4 __fastcall FUN_20397ca0(int *param_1)
+
+{
+  (**(code **)(*param_1 + 0x84))();
+  return 1;
+}
+
+

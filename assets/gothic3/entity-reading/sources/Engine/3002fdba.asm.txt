@@ -1,0 +1,4 @@
+; 3002fdba ?GetNumEntitiesByName@eCSceneAdmin@@QBEHABVbCString@@@Z
+3002fdba | e931b44900 | JMP 0x304cb1f0
+; 3002fdbf eCShaderParticle::Read
+; 3002fdbf Ordinal_12241

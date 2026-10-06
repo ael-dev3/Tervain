@@ -1,0 +1,4 @@
+; 2002f5ea bTPropertyType<gCInventory_PS,bCString>::vfunction5
+2002f5ea | e941bc1700 | JMP 0x201ab230
+; 2002f5ef gCEffectCommandModifyEntity::GetRootObject
+; 2002f5ef Ordinal_4252

@@ -1,0 +1,14 @@
+/* ENTRY 3003a404 | eCSpringAndDamperEffector::AccessDamperMaxStretchForce | STATUS decompiled | 4 ms */
+
+/* public: float & __thiscall eCSpringAndDamperEffector::AccessDamperMaxStretchForce(void) */
+
+float * __thiscall
+eCSpringAndDamperEffector::AccessDamperMaxStretchForce(eCSpringAndDamperEffector *this)
+
+{
+                    /* 0x3a404  2614
+                       ?AccessDamperMaxStretchForce@eCSpringAndDamperEffector@@QAEAAMXZ */
+  return (float *)&(this->eCEffector_data).offset_0x78;
+}
+
+

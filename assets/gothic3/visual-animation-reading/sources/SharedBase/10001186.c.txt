@@ -1,0 +1,23 @@
+/* ENTRY 10001186 | bCObjectRefBase::NotifyPropertyValueChangedEnterEx | STATUS decompiled | 6 ms */
+
+/* public: virtual bool __thiscall bCObjectRefBase::NotifyPropertyValueChangedEnterEx(char const
+   *,bool)
+   bCObjectRefBase member function inherited by bCThreadObjectRefBase
+   bCObjectRefBase member function inherited by bCObsoleteClass
+   bCObjectRefBase member function inherited by bCEvent */
+
+bool __thiscall
+bCObjectRefBase::NotifyPropertyValueChangedEnterEx(bCObjectRefBase *this,char *param_1,bool param_2)
+
+{
+  bool bVar1;
+  
+                    /* 0x1186  3811
+                       ?NotifyPropertyValueChangedEnterEx@bCObjectRefBase@@UAE_NPBD_N@Z */
+                    /* WARNING: Could not recover jumptable at 0x1004a3b5. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bVar1 = (*this->vftablePtr->OnNotifyPropertyValueChangedEnterEx)(this,param_1,param_2);
+  return bVar1;
+}
+
+

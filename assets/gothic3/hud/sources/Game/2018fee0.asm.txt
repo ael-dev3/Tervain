@@ -1,0 +1,8 @@
+; 2018fee0 gCHUDButton::gCHUDButton
+2018fee0 | 56 | PUSH ESI
+2018fee1 | 8bf1 | MOV ESI,ECX
+2018fee3 | ff15e4787d20 | CALL dword ptr [0x207d78e4]
+2018fee9 | c7069c936720 | MOV dword ptr [ESI],0x2067939c
+2018feef | 8bc6 | MOV EAX,ESI
+2018fef1 | 5e | POP ESI
+2018fef2 | c3 | RET

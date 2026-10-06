@@ -1,0 +1,4 @@
+; 3003f445 ?RegisterDynamicEntityContext@eCEntityAdmin@@IAE_NAAVeCEntityDynamicContext@@@Z
+3003f445 | e9c69e4800 | JMP 0x304c9310
+; 3003f44f eCContextBase::AccessID
+; 3003f44f Ordinal_2797

@@ -1,0 +1,32 @@
+/* ENTRY 30336b90 | FUN_30336b90 | STATUS decompiled | 9 ms */
+
+void __thiscall FUN_30336b90(int *param_1,eECollisionShapeType param_2)
+
+{
+  eCCollisionShape *this;
+  int iVar1;
+  eCEntity *peVar2;
+  eCPhysicObjectStateBuffer *this_00;
+  eECollisionShapeType eVar3;
+  
+  if ((param_2 != 0) && (iVar1 = (**(code **)(*param_1 + 0x160))(), iVar1 != 0)) {
+    eVar3 = param_2;
+    peVar2 = (eCEntity *)(**(code **)(*param_1 + 0x68))();
+    this_00 = eCPhysicObjectStateBuffer::GetBuffer(peVar2);
+    eCPhysicObjectStateBuffer::RemoveShapes(this_00,eVar3);
+    iVar1 = iVar1 + -1;
+    if (-1 < iVar1) {
+      do {
+        this = *(eCCollisionShape **)(param_1[10] + iVar1 * 4);
+        if (param_2 == (this->eCCollisionShape_data).offset_0xc) {
+          eCCollisionShape::SetProprietaryShape(this,(NxShape *)0x0);
+          thunk_FUN_3033c960(iVar1);
+        }
+        iVar1 = iVar1 + -1;
+      } while (-1 < iVar1);
+    }
+  }
+  return;
+}
+
+

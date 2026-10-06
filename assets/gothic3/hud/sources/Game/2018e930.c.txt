@@ -1,0 +1,32 @@
+/* ENTRY 2018e930 | FUN_2018e930 | STATUS decompiled | 10 ms */
+
+undefined4 __fastcall FUN_2018e930(CFFGFCTabCtrl *param_1)
+
+{
+  int iVar1;
+  undefined4 uVar2;
+  undefined4 local_1c [6];
+  undefined4 local_4;
+  
+  iVar1 = CFFGFCTabCtrl::GetCurSel(param_1);
+  uVar2 = 0;
+  if (-1 < iVar1) {
+    local_1c[0] = 8;
+    CFFGFCTabCtrl::GetItem(param_1,iVar1,(SFFGUITabCtrlItem *)local_1c);
+    switch(local_4) {
+    case 0:
+      return 1;
+    case 1:
+      return 2;
+    case 2:
+      return 3;
+    case 3:
+      return 4;
+    case 4:
+      uVar2 = 6;
+    }
+  }
+  return uVar2;
+}
+
+

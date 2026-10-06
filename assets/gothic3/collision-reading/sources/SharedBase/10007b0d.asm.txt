@@ -1,0 +1,4 @@
+; 10007b0d ??KbCBox@@QBE?AV0@M@Z
+10007b0d | e9def00200 | JMP 0x10036bf0
+; 10007b12 bCString::GetFloat
+; 10007b12 Ordinal_2355

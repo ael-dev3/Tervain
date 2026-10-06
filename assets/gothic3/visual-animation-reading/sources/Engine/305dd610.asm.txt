@@ -1,0 +1,36 @@
+; 305dd610 FUN_305dd610
+305dd610 | 56 | PUSH ESI
+305dd611 | 8bf1 | MOV ESI,ECX
+305dd613 | 8b460c | MOV EAX,dword ptr [ESI + 0xc]
+305dd616 | 8b5018 | MOV EDX,dword ptr [EAX + 0x18]
+305dd619 | 57 | PUSH EDI
+305dd61a | 8d7e0c | LEA EDI,[ESI + 0xc]
+305dd61d | 8bcf | MOV ECX,EDI
+305dd61f | ffd2 | CALL EDX
+305dd621 | 3c01 | CMP AL,0x1
+305dd623 | 7509 | JNZ 0x305dd62e
+305dd625 | 8b07 | MOV EAX,dword ptr [EDI]
+305dd627 | 8b5024 | MOV EDX,dword ptr [EAX + 0x24]
+305dd62a | 8bcf | MOV ECX,EDI
+305dd62c | ffd2 | CALL EDX
+305dd62e | 8d4e08 | LEA ECX,[ESI + 0x8]
+305dd631 | ff1558dbaf30 | CALL dword ptr [0x30afdb58]
+305dd637 | 8b4e18 | MOV ECX,dword ptr [ESI + 0x18]
+305dd63a | 85c9 | TEST ECX,ECX
+305dd63c | 741e | JZ 0x305dd65c
+305dd63e | e88db1a5ff | CALL 0x300387d0
+305dd643 | 8b4618 | MOV EAX,dword ptr [ESI + 0x18]
+305dd646 | 50 | PUSH EAX
+305dd647 | ff15acdbaf30 | CALL dword ptr [0x30afdbac]
+305dd64d | 8bc8 | MOV ECX,EAX
+305dd64f | ff15b0dbaf30 | CALL dword ptr [0x30afdbb0]
+305dd655 | c7461800000000 | MOV dword ptr [ESI + 0x18],0x0
+305dd65c | 8d7e1c | LEA EDI,[ESI + 0x1c]
+305dd65f | 57 | PUSH EDI
+305dd660 | e8a711a5ff | CALL 0x3002e80c
+305dd665 | c70700000000 | MOV dword ptr [EDI],0x0
+305dd66b | 5f | POP EDI
+305dd66c | c7461800000000 | MOV dword ptr [ESI + 0x18],0x0
+305dd673 | c6462000 | MOV byte ptr [ESI + 0x20],0x0
+305dd677 | 5e | POP ESI
+305dd678 | c3 | RET

@@ -1,0 +1,7 @@
+; 3066b040 FUN_3066b040
+3066b040 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+3066b044 | 50 | PUSH EAX
+3066b045 | ff15acdbaf30 | CALL dword ptr [0x30afdbac]
+3066b04b | 8bc8 | MOV ECX,EAX
+3066b04d | ff150cdbaf30 | CALL dword ptr [0x30afdb0c]
+3066b053 | c20400 | RET 0x4

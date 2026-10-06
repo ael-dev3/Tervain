@@ -1,0 +1,11 @@
+; 3030f3a0 FUN_3030f3a0
+3030f3a0 | 56 | PUSH ESI
+3030f3a1 | 8bf1 | MOV ESI,ECX
+3030f3a3 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+3030f3a7 | 898eb4010000 | MOV dword ptr [ESI + 0x1b4],ECX
+3030f3ad | e83ff3cfff | CALL 0x3000e6f1
+3030f3b2 | 8bc8 | MOV ECX,EAX
+3030f3b4 | e80cedcfff | CALL 0x3000e0c5
+3030f3b9 | 8986b8010000 | MOV dword ptr [ESI + 0x1b8],EAX
+3030f3bf | 5e | POP ESI
+3030f3c0 | c20400 | RET 0x4

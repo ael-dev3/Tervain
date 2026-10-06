@@ -1,0 +1,16 @@
+/* ENTRY 300ad130 | bTPropertyObject<eCVisualAnimation_PS,eCEntityPropertySet>::~bTPropertyObject<eCVisualAnimation_PS,eCEntityPropertySet> | STATUS decompiled | 3 ms */
+
+void __thiscall
+bTPropertyObject<eCVisualAnimation_PS,eCEntityPropertySet>::
+~bTPropertyObject<eCVisualAnimation_PS,eCEntityPropertySet>
+          (bTPropertyObject<eCVisualAnimation_PS,eCEntityPropertySet> *this)
+
+{
+  this->vftablePtr = &vftable;
+  vfunction10(this);
+  bTPOPureSmartPtr<eCVisualAnimation_PS>::~bTPOPureSmartPtr<eCVisualAnimation_PS>
+            ((bTPOPureSmartPtr<eCVisualAnimation_PS> *)this);
+  return;
+}
+
+

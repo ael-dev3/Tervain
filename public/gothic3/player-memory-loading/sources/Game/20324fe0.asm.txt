@@ -1,0 +1,2 @@
+; 20324fe0 bTPropertyType<gCCameraModeParams,float>::vfunction4
+20324fe0 | e978b6cfff | JMP 0x2002065d

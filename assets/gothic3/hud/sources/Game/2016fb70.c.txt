@@ -1,0 +1,52 @@
+/* ENTRY 2016fb70 | gCHUDDialogMain2::gCHUDDialogMain2 | STATUS decompiled | 70 ms */
+
+gCHUDDialogMain2 * __thiscall gCHUDDialogMain2::gCHUDDialogMain2(gCHUDDialogMain2 *this)
+
+{
+  undefined1 *this_00;
+  undefined1 *this_01;
+  
+  gCHUDDialog::gCHUDDialog((gCHUDDialog *)this);
+  this_00 = &(this->gCHUDDialogMain2_data).field_0x88;
+  this->vftablePtr = &vftable;
+  bCRect::bCRect((bCRect *)this_00);
+  this_01 = &(this->gCHUDDialogMain2_data).field_0x98;
+  bCRect::bCRect((bCRect *)this_01);
+  (this->gCHUDDialogMain2_data).offset_0x78 = (void *)0x0;
+  (this->gCHUDDialogMain2_data).offset_0x7c = (void *)0x0;
+  (this->gCHUDDialogMain2_data).offset_0x34 = (void *)0x0;
+  (this->gCHUDDialogMain2_data).offset_0x38 = 0;
+  (this->gCHUDDialogMain2_data).offset_0x3c = 0;
+  (this->gCHUDDialogMain2_data).offset_0x40 = 0;
+  (this->gCHUDDialogMain2_data).offset_0x44 = 0;
+  (this->gCHUDDialogMain2_data).offset_0x48 = 0;
+  (this->gCHUDDialogMain2_data).offset_0x4c = 0;
+  (this->gCHUDDialogMain2_data).offset_0x50 = 0;
+  (this->gCHUDDialogMain2_data).offset_0x54 = 0;
+  (this->gCHUDDialogMain2_data).offset_0x58 = 0;
+  (this->gCHUDDialogMain2_data).offset_0x5c = 0;
+  (this->gCHUDDialogMain2_data).offset_0x60 = 0;
+  (this->gCHUDDialogMain2_data).offset_0x64 = 0;
+  (this->gCHUDDialogMain2_data).offset_0x68 = 0;
+  (this->gCHUDDialogMain2_data).offset_0x6c = 0;
+  (this->gCHUDDialogMain2_data).offset_0x70 = 0;
+  (this->gCHUDDialogMain2_data).offset_0x74 = 0;
+  (this->gCHUDDialogMain2_data).offset_0x28 = (void *)0x0;
+  (this->gCHUDDialogMain2_data).offset_0x2c = 0;
+  (this->gCHUDDialogMain2_data).offset_0x30 = 0;
+  (this->gCHUDDialogMain2_data).offset_0xc = 0;
+  (this->gCHUDDialogMain2_data).offset_0x10 = 0;
+  (this->gCHUDDialogMain2_data).offset_0x14 = 0;
+  (this->gCHUDDialogMain2_data).offset_0x18 = 0;
+  (this->gCHUDDialogMain2_data).offset_0x1c = 0;
+  (this->gCHUDDialogMain2_data).offset_0x20 = 0;
+  (this->gCHUDDialogMain2_data).offset_0x24 = 0;
+  bCRect::SetRect((bCRect *)this_00,0,0,0,0);
+  bCRect::SetRect((bCRect *)this_01,0,0,0,0);
+  (this->gCHUDDialogMain2_data).offset_0x80 = 0xffffffff;
+  (this->gCHUDDialogMain2_data).offset_0x84 = 0xffffffff;
+  (this->gCHUDDialogMain2_data).offset_0xa8 = 0;
+  return this;
+}
+
+

@@ -1,0 +1,12 @@
+/* ENTRY 100053ad | bCOrientedBox::AccessExtent | STATUS decompiled | 1 ms */
+
+/* public: class bCVector & __thiscall bCOrientedBox::AccessExtent(void) */
+
+bCVector * __thiscall bCOrientedBox::AccessExtent(bCOrientedBox *this)
+
+{
+                    /* 0x53ad  1441  ?AccessExtent@bCOrientedBox@@QAEAAVbCVector@@XZ */
+  return (bCVector *)(this + 0xc);
+}
+
+

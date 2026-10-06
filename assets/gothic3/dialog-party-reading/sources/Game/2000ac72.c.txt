@@ -1,0 +1,11 @@
+/* ENTRY 2000ac72 | bTPropertyObject<gCDialog_PS,eCEntityPropertySet>::vfunction1 | STATUS decompiled | 3 ms */
+
+bCObjectRefBase * __thiscall
+bTPropertyObject<gCDialog_PS,eCEntityPropertySet>::vfunction1
+          (bTPropertyObject<gCDialog_PS,eCEntityPropertySet> *this)
+
+{
+  return (this->bTPOPureSmartPtr<gCDialog_PS>_data).offset_0x4;
+}
+
+

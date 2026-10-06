@@ -1,0 +1,2 @@
+; 200307a6 bTPropertyType<gCClock_PS,bCObsoleteClass>::vfunction16
+200307a6 | e9b5851d00 | JMP 0x20208d60

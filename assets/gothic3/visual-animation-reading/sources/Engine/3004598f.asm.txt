@@ -1,0 +1,2 @@
+; 3004598f eCVisualAnimation_PS::eSMotionDesc::eSMotionDesc
+3004598f | e9bc770500 | JMP 0x3009d150

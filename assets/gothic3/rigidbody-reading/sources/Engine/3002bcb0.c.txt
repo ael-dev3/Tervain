@@ -1,0 +1,32 @@
+/* ENTRY 3002bcb0 | eCRigidBody_PS::vfunction15 | STATUS decompiled | 39 ms */
+
+eCRigidBody_PS * __thiscall eCRigidBody_PS::vfunction15(eCRigidBody_PS *this,byte param_1)
+
+{
+  undefined4 *_Memory;
+  int iVar1;
+  eCRigidBody_PS *this_00;
+  
+  if ((param_1 & 2) == 0) {
+    ~eCRigidBody_PS(this);
+    if ((param_1 & 1) == 0) {
+      return this;
+    }
+                    /* WARNING: Subroutine does not return */
+    _free(this);
+  }
+  iVar1 = this[-1].eCRigidBody_PS_data.offset_0xe0;
+  _Memory = &this[-1].eCRigidBody_PS_data.offset_0xe0;
+  this_00 = this + iVar1;
+  while (iVar1 = iVar1 + -1, -1 < iVar1) {
+    this_00 = this_00 + -1;
+    ~eCRigidBody_PS(this_00);
+  }
+  if ((param_1 & 1) == 0) {
+    return (eCRigidBody_PS *)_Memory;
+  }
+                    /* WARNING: Subroutine does not return */
+  _free(_Memory);
+}
+
+

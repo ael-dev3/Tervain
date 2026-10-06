@@ -1,0 +1,16 @@
+/* ENTRY 30361270 | bTPropertyType<eCCollisionShape,float>::vfunction8 | STATUS decompiled | 6 ms */
+
+undefined4 __thiscall
+bTPropertyType<eCCollisionShape,float>::vfunction8(bTPropertyType<eCCollisionShape,float> *this)
+
+{
+  char cVar1;
+  
+  cVar1 = (*this->vftablePtr->vfunction7)();
+  if (cVar1 == '\0') {
+    return 0xffffffff;
+  }
+  return (this[8].vftablePtr)->vfunction2;
+}
+
+

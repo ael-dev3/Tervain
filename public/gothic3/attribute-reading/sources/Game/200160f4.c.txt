@@ -1,0 +1,11 @@
+/* ENTRY 200160f4 | bTPropertyObject<gCAttribute,bCObjectRefBase>::vfunction1 | STATUS decompiled | 2 ms */
+
+bCObjectRefBase * __thiscall
+bTPropertyObject<gCAttribute,bCObjectRefBase>::vfunction1
+          (bTPropertyObject<gCAttribute,bCObjectRefBase> *this)
+
+{
+  return (this->bTPOPureSmartPtr<gCAttribute>_data).offset_0x4;
+}
+
+

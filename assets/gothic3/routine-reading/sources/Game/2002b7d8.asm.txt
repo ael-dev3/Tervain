@@ -1,0 +1,4 @@
+; 2002b7d8 bTPropertyType<gCScriptRoutine_PS,bTPropertyContainer<gEAmbientAction>_>::vfunction15
+2002b7d8 | e983523300 | JMP 0x20360a60
+; 2002b7e7 gCEffectCommandKillEntity::Invalidate
+; 2002b7e7 Ordinal_4977

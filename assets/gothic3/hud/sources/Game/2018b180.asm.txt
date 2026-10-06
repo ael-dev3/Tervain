@@ -1,0 +1,11 @@
+; 2018b180 gCHUDStaticInvCash::gCHUDStaticInvCash
+2018b180 | 56 | PUSH ESI
+2018b181 | 8bf1 | MOV ESI,ECX
+2018b183 | e8de0ae9ff | CALL 0x2001bc66
+2018b188 | 8d4e10 | LEA ECX,[ESI + 0x10]
+2018b18b | c7067c816720 | MOV dword ptr [ESI],0x2067817c
+2018b191 | ff15d86d7d20 | CALL dword ptr [0x207d6dd8]
+2018b197 | c7462cffffffff | MOV dword ptr [ESI + 0x2c],0xffffffff
+2018b19e | 8bc6 | MOV EAX,ESI
+2018b1a0 | 5e | POP ESI
+2018b1a1 | c3 | RET

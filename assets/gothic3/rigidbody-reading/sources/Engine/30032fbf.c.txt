@@ -1,0 +1,10 @@
+/* ENTRY 30032fbf | bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_>::vfunction2 | STATUS decompiled | 34 ms */
+
+undefined4 __thiscall
+bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_>::vfunction2(void)
+
+{
+  return 8;
+}
+
+

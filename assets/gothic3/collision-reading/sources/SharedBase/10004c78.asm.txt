@@ -1,0 +1,4 @@
+; 10004c78 ?GetIdentity@bCMatrix3@@SG?AV1@XZ
+10004c78 | e933c30200 | JMP 0x10030fb0
+; 10004c7d bCFileSystem::MakeDir
+; 10004c7d Ordinal_3708

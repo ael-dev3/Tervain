@@ -1,0 +1,2 @@
+; 30047866 eCVisualAnimation_PS::SetBoneLinearDamping
+30047866 | e935a50100 | JMP 0x30061da0

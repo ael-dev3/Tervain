@@ -1,0 +1,40 @@
+{
+  "schema": "gothic3-navigation-scene-runtime-contract-v1",
+  "stage": "stored original map query-property binding and GetZone",
+  "nativeEntrypoints": {
+    "compileAdmin": "Game200131a1->202bdd40",
+    "compileStatic": "Game20013b29",
+    "readLists": "Game20025ee1->202d6180",
+    "getZone": "Game20016be9->202c47e0",
+    "zonePointTest": "Game2000271b->2029f870",
+    "pathPointTest": "Game2002a568->20297190",
+    "negativeZonePointTest": "Game20027aa2->202ebe80",
+    "doubleCylinderContains": "SharedBase10005e39->100605d0",
+    "matrixInverse": "SharedBase100029ff->10032970",
+    "propertyIdEquality": "SharedBase1000873d"
+  },
+  "supported": [
+    "Exact original stored list decoding, all section byte ranges and source-layer proof",
+    "Typed original zone/path state with first16byte PropertyID equality",
+    "Stored zone negative pointers and path intersections, with virtual observer boundaries",
+    "Ordered stored grid GetZone, native height priorities, angle winding, tapered-cylinder and endpoint margins"
+  ],
+  "hostBoundaries": [
+    "Live eCPropertySetProxy resolution and world/property-set lifetime",
+    "Path NotifyPropertyValueChangedEnterEx/ExitEx(false)",
+    "Live transform/cache updates; source flags never establish registration"
+  ],
+  "notImplemented": [
+    "Full CompileNavigationScene success flag, GameReset/rebuild and forced precompile",
+    "RecompileAIZonePropertiesForNavZones Game2000dc01->202c37e0",
+    "Door-to-path registration and NPC current-zone/start-position initialization in Game202bdd40",
+    "Circle/preferred-path/interaction live object binding, route search, obstacle avoidance and movement physics"
+  ],
+  "nextSourcePaths": [
+    "Game202bdd40 full admin orchestration and dependent door/AIZone calls",
+    "Game202c37e0 AIZone property inheritance",
+    "Game202d6180 remaining collision/preferred-path/interaction bindings"
+  ],
+  "precision": "JS float-store reconstruction; not captured native x87 equivalence. Boundary results may differ.",
+  "retry": "One binding attempt per scene. Partial callbacks block replay; reconstruct host/areas and fresh scene explicitly."
+}

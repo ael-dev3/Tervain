@@ -1,0 +1,18 @@
+/* ENTRY 30672720 | FUN_30672720 | STATUS decompiled | 6 ms */
+
+void FUN_30672720(void)
+
+{
+  ushort in_FPUControlWord;
+  float10 in_ST0;
+  
+  if ((DAT_30af7e58 != 0) && ((MXCSR & 0x1f80) == 0x1f80 && (in_FPUControlWord & 0x7f) == 0x7f)) {
+    FUN_306822a0();
+    return;
+  }
+  FUN_30682198((double)in_ST0);
+  FUN_30672778();
+  return;
+}
+
+

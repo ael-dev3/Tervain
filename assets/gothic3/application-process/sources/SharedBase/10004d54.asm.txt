@@ -1,0 +1,4 @@
+; 10004d54 ?GetTimeStamp@bCTimer@@SGKXZ
+10004d54 | e9f7700400 | JMP 0x1004be50
+; 10004d59 bCObjectRefBase::Destroy
+; 10004d59 Ordinal_1939

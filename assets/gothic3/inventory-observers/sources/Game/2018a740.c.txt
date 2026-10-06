@@ -1,0 +1,20 @@
+/* ENTRY 2018a740 | gCHUDListCtrlInventory::vfunction1 | STATUS decompiled | 5 ms */
+
+/* gCHUDListCtrlInventory member function inherited by gCHUDListCtrlInvQuickSlots
+   gCHUDListCtrlInventory member function inherited by gCHUDListCtrlInvStacks
+   gCHUDListCtrlInventory member function inherited by gCHUDListCtrlInvLootStacks
+   gCHUDListCtrlInventory member function inherited by gCHUDListCtrlInvUseStacks
+   gCHUDListCtrlInventory member function inherited by gCHUDListCtrlInvSpells
+   gCHUDListCtrlInventory member function inherited by gCHUDListCtrlInvTradeStacks
+   gCHUDListCtrlInventory member function inherited by gCHUDListCtrlInvTransforms
+   gCHUDListCtrlInventory member function inherited by gCHUDListCtrlInvDocuments
+   gCHUDListCtrlInventory member function inherited by gCHUDListCtrlInvSkills */
+
+void __thiscall gCHUDListCtrlInventory::vfunction1(gCHUDListCtrlInventory *this)
+
+{
+  (this->gCHUDListCtrlInventory_data).field_0x4 = 1;
+  return;
+}
+
+

@@ -1,0 +1,2 @@
+; 30005a79 eCWrapper_emfx2Actor::CreateInstance
+30005a79 | e9c2830d00 | JMP 0x300dde40

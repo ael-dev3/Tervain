@@ -1,0 +1,51 @@
+/* ENTRY 200224a3 | gCInventory_PS::Read | STATUS decompiled | 22 ms */
+
+/* public: virtual enum bEResult __thiscall gCInventory_PS::Read(class bCIStream &) */
+
+bEResult __thiscall gCInventory_PS::Read(gCInventory_PS *this,bCIStream *param_1)
+
+{
+  bCIStream *pbVar1;
+  bool bVar2;
+  
+                    /* 0x224a3  5919  ?Read@gCInventory_PS@@UAE?AW4bEResult@@AAVbCIStream@@@Z */
+  pbVar1 = param_1;
+  *(undefined1 *)&this[1].gCInventory_PS_data = 0;
+  bCIStream::operator>>((bCIStream *)param_1,(ushort *)&param_1);
+  switch((uint)param_1 & 0xffff) {
+  case 0:
+  case 1:
+  case 2:
+    goto switchD_201ad6b6_caseD_0;
+  case 3:
+    bVar2 = ReadV3(this,pbVar1);
+    break;
+  case 4:
+    bVar2 = ReadV4(this,pbVar1);
+    break;
+  case 5:
+    bVar2 = ReadV5(this,pbVar1);
+    break;
+  case 6:
+    bVar2 = ReadV6(this,pbVar1);
+    break;
+  case 7:
+    bVar2 = ReadV7(this,pbVar1);
+    break;
+  case 8:
+    bVar2 = ReadV8(this,pbVar1);
+    break;
+  case 9:
+    bVar2 = ReadV9(this,pbVar1);
+    break;
+  default:
+    return 0;
+  }
+  if (bVar2 == false) {
+    (*this->vftablePtr->Destroy)(this);
+  }
+switchD_201ad6b6_caseD_0:
+  return 1;
+}
+
+

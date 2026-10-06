@@ -1,0 +1,22 @@
+; 1002ab90 FUN_1002ab90
+1002ab90 | d901 | FLD float ptr [ECX]
+1002ab92 | d9442404 | FLD float ptr [ESP + 0x4]
+1002ab96 | d9c0 | FLD ST0
+1002ab98 | deca | FMULP ST2
+1002ab9a | d9c9 | FXCH
+1002ab9c | d919 | FSTP float ptr [ECX]
+1002ab9e | d94104 | FLD float ptr [ECX + 0x4]
+1002aba1 | d8c9 | FMUL ST1
+1002aba3 | d95904 | FSTP float ptr [ECX + 0x4]
+1002aba6 | d9c0 | FLD ST0
+1002aba8 | d84908 | FMUL float ptr [ECX + 0x8]
+1002abab | d95908 | FSTP float ptr [ECX + 0x8]
+1002abae | d9410c | FLD float ptr [ECX + 0xc]
+1002abb1 | d8c9 | FMUL ST1
+1002abb3 | d9590c | FSTP float ptr [ECX + 0xc]
+1002abb6 | d9c0 | FLD ST0
+1002abb8 | d84910 | FMUL float ptr [ECX + 0x10]
+1002abbb | d95910 | FSTP float ptr [ECX + 0x10]
+1002abbe | d84914 | FMUL float ptr [ECX + 0x14]
+1002abc1 | d95914 | FSTP float ptr [ECX + 0x14]
+1002abc4 | c20400 | RET 0x4

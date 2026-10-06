@@ -1,0 +1,2 @@
+; 3002a905 ?SetDisableCollision@eCCollisionShape@@QAEXAB_N@Z
+3002a905 | e9267d0900 | JMP 0x300c2630

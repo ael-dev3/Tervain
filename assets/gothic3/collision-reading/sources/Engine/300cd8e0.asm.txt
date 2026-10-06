@@ -1,0 +1,59 @@
+; 300cd8e0 FUN_300cd8e0
+300cd8e0 | 83ec0c | SUB ESP,0xc
+300cd8e3 | 56 | PUSH ESI
+300cd8e4 | 8bf1 | MOV ESI,ECX
+300cd8e6 | 8b4610 | MOV EAX,dword ptr [ESI + 0x10]
+300cd8e9 | 83e803 | SUB EAX,0x3
+300cd8ec | 7461 | JZ 0x300cd94f
+300cd8ee | 83e801 | SUB EAX,0x1
+300cd8f1 | 7436 | JZ 0x300cd929
+300cd8f3 | 83e801 | SUB EAX,0x1
+300cd8f6 | 0f8592000000 | JNZ 0x300cd98e
+300cd8fc | d9442414 | FLD float ptr [ESP + 0x14]
+300cd900 | 51 | PUSH ECX
+300cd901 | dc0d48eb8130 | FMUL double ptr [0x3081eb48]
+300cd907 | 8b4e74 | MOV ECX,dword ptr [ESI + 0x74]
+300cd90a | d95c2418 | FSTP float ptr [ESP + 0x18]
+300cd90e | d9442418 | FLD float ptr [ESP + 0x18]
+300cd912 | d91c24 | FSTP float ptr [ESP]
+300cd915 | ff1530ccaf30 | CALL dword ptr [0x30afcc30]
+300cd91b | 8bce | MOV ECX,ESI
+300cd91d | e8e09ff6ff | CALL 0x30037902
+300cd922 | 5e | POP ESI
+300cd923 | 83c40c | ADD ESP,0xc
+300cd926 | c20400 | RET 0x4
+; 300cd929 LAB_300cd929
+300cd929 | d9442414 | FLD float ptr [ESP + 0x14]
+300cd92d | 8b4674 | MOV EAX,dword ptr [ESI + 0x74]
+300cd930 | dc0d48eb8130 | FMUL double ptr [0x3081eb48]
+300cd936 | 8bce | MOV ECX,ESI
+300cd938 | d95c2414 | FSTP float ptr [ESP + 0x14]
+300cd93c | d9442414 | FLD float ptr [ESP + 0x14]
+300cd940 | d95804 | FSTP float ptr [EAX + 0x4]
+300cd943 | e8ba9ff6ff | CALL 0x30037902
+300cd948 | 5e | POP ESI
+300cd949 | 83c40c | ADD ESP,0xc
+300cd94c | c20400 | RET 0x4
+; 300cd94f LAB_300cd94f
+300cd94f | 8b4e74 | MOV ECX,dword ptr [ESI + 0x74]
+300cd952 | 83c10c | ADD ECX,0xc
+300cd955 | 51 | PUSH ECX
+300cd956 | 8d4c2408 | LEA ECX,[ESP + 0x8]
+300cd95a | ff1570dbaf30 | CALL dword ptr [0x30afdb70]
+300cd960 | 8d4c2404 | LEA ECX,[ESP + 0x4]
+300cd964 | ff158ccbaf30 | CALL dword ptr [0x30afcb8c]
+300cd96a | d9442414 | FLD float ptr [ESP + 0x14]
+300cd96e | dc0d48eb8130 | FMUL double ptr [0x3081eb48]
+300cd974 | 8d542404 | LEA EDX,[ESP + 0x4]
+300cd978 | 52 | PUSH EDX
+300cd979 | d918 | FSTP float ptr [EAX]
+300cd97b | 8b4e74 | MOV ECX,dword ptr [ESI + 0x74]
+300cd97e | ff1524cdaf30 | CALL dword ptr [0x30afcd24]
+300cd984 | 8d4c2404 | LEA ECX,[ESP + 0x4]
+300cd988 | ff156cdbaf30 | CALL dword ptr [0x30afdb6c]
+; 300cd98e LAB_300cd98e
+300cd98e | 8bce | MOV ECX,ESI
+300cd990 | e86d9ff6ff | CALL 0x30037902
+300cd995 | 5e | POP ESI
+300cd996 | 83c40c | ADD ESP,0xc
+300cd999 | c20400 | RET 0x4

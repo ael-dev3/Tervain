@@ -1,0 +1,49 @@
+; 1002e310 FUN_1002e310
+1002e310 | 51 | PUSH ECX
+1002e311 | 56 | PUSH ESI
+1002e312 | 8bf1 | MOV ESI,ECX
+1002e314 | d94604 | FLD float ptr [ESI + 0x4]
+1002e317 | d906 | FLD float ptr [ESI]
+1002e319 | d94608 | FLD float ptr [ESI + 0x8]
+1002e31c | d9c1 | FLD ST1
+1002e31e | deca | FMULP ST2
+1002e320 | d9c2 | FLD ST2
+1002e322 | decb | FMULP ST3
+1002e324 | d9c9 | FXCH
+1002e326 | dec2 | FADDP ST2,ST0
+1002e328 | dcc8 | FMUL ST0
+1002e32a | dec1 | FADDP
+1002e32c | d95c2404 | FSTP float ptr [ESP + 0x4]
+1002e330 | d9442404 | FLD float ptr [ESP + 0x4]
+1002e334 | d9c0 | FLD ST0
+1002e336 | d9ee | FLDZ
+1002e338 | dfe9 | FUCOMIP ST0,ST1
+1002e33a | ddd8 | FSTP ST0
+1002e33c | 9f | LAHF
+1002e33d | f6c444 | TEST AH,0x44
+1002e340 | 7a07 | JP 0x1002e349
+1002e342 | 8bc6 | MOV EAX,ESI
+1002e344 | ddd8 | FSTP ST0
+1002e346 | 5e | POP ESI
+1002e347 | 59 | POP ECX
+1002e348 | c3 | RET
+1002e349 | 51 | PUSH ECX
+1002e34a | d91c24 | FSTP float ptr [ESP]
+1002e34d | e87b2dfdff | CALL 0x100010cd
+1002e352 | d95c2408 | FSTP float ptr [ESP + 0x8]
+1002e356 | 83c404 | ADD ESP,0x4
+1002e359 | d906 | FLD float ptr [ESI]
+1002e35b | 8bc6 | MOV EAX,ESI
+1002e35d | d9442404 | FLD float ptr [ESP + 0x4]
+1002e361 | d9c0 | FLD ST0
+1002e363 | deca | FMULP ST2
+1002e365 | d9c9 | FXCH
+1002e367 | d91e | FSTP float ptr [ESI]
+1002e369 | d9c0 | FLD ST0
+1002e36b | d84e04 | FMUL float ptr [ESI + 0x4]
+1002e36e | d95e04 | FSTP float ptr [ESI + 0x4]
+1002e371 | d84e08 | FMUL float ptr [ESI + 0x8]
+1002e374 | d95e08 | FSTP float ptr [ESI + 0x8]
+1002e377 | 5e | POP ESI
+1002e378 | 59 | POP ECX
+1002e379 | c3 | RET

@@ -1,0 +1,11 @@
+/* ENTRY 202172d0 | gCCharacterEffect::gCCharacterEffect | STATUS decompiled | 1 ms */
+
+gCCharacterEffect * __thiscall gCCharacterEffect::gCCharacterEffect(gCCharacterEffect *this)
+
+{
+  this->vftablePtr = &vftable;
+  thunk_FUN_20217250();
+  return this;
+}
+
+

@@ -1,0 +1,12 @@
+/* ENTRY 20014961 | gCAttribute::Destroy | STATUS decompiled | 3 ms */
+
+/* public: virtual void __thiscall gCAttribute::Destroy(void) */
+
+void __thiscall gCAttribute::Destroy(gCAttribute *this)
+
+{
+                    /* 0x14961  2547  ?Destroy@gCAttribute@@UAEXXZ */
+  return;
+}
+
+

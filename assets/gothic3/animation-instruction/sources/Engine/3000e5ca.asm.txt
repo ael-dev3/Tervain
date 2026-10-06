@@ -1,0 +1,2 @@
+; 3000e5ca ?GetName@eCEntity@@QBEABVbCString@@XZ
+3000e5ca | e9814b4a00 | JMP 0x304b3150

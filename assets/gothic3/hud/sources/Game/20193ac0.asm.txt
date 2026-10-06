@@ -1,0 +1,23 @@
+; 20193ac0 gCHUDStaticMap::gCHUDStaticMap
+20193ac0 | 56 | PUSH ESI
+20193ac1 | 57 | PUSH EDI
+20193ac2 | 8bf1 | MOV ESI,ECX
+20193ac4 | ff1514797d20 | CALL dword ptr [0x207d7914]
+20193aca | 8d4e18 | LEA ECX,[ESI + 0x18]
+20193acd | c70634a46720 | MOV dword ptr [ESI],0x2067a434
+20193ad3 | ff1540827d20 | CALL dword ptr [0x207d8240]
+20193ad9 | 8d4e20 | LEA ECX,[ESI + 0x20]
+20193adc | ff1540827d20 | CALL dword ptr [0x207d8240]
+20193ae2 | 8b3db0787d20 | MOV EDI,dword ptr [0x207d78b0]
+20193ae8 | 8d4e28 | LEA ECX,[ESI + 0x28]
+20193aeb | ffd7 | CALL EDI
+20193aed | 8d4e30 | LEA ECX,[ESI + 0x30]
+20193af0 | ffd7 | CALL EDI
+20193af2 | 8d4e38 | LEA ECX,[ESI + 0x38]
+20193af5 | ff15fc817d20 | CALL dword ptr [0x207d81fc]
+20193afb | 8d4e4c | LEA ECX,[ESI + 0x4c]
+20193afe | ff15fc817d20 | CALL dword ptr [0x207d81fc]
+20193b04 | 5f | POP EDI
+20193b05 | 8bc6 | MOV EAX,ESI
+20193b07 | 5e | POP ESI
+20193b08 | c3 | RET

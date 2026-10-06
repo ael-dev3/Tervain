@@ -1,0 +1,18 @@
+; 304b60c0 FUN_304b60c0
+304b60c0 | 56 | PUSH ESI
+304b60c1 | 8bf1 | MOV ESI,ECX
+304b60c3 | 8b06 | MOV EAX,dword ptr [ESI]
+304b60c5 | 8b5078 | MOV EDX,dword ptr [EAX + 0x78]
+304b60c8 | ffd2 | CALL EDX
+304b60ca | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+304b60ce | 663b863e010000 | CMP AX,word ptr [ESI + 0x13e]
+304b60d5 | 7206 | JC 0x304b60dd
+304b60d7 | 33c0 | XOR EAX,EAX
+304b60d9 | 5e | POP ESI
+304b60da | c20400 | RET 0x4
+; 304b60dd LAB_304b60dd
+304b60dd | 8b8e40010000 | MOV ECX,dword ptr [ESI + 0x140]
+304b60e3 | 0fb7c0 | MOVZX EAX,AX
+304b60e6 | 8b0481 | MOV EAX,dword ptr [ECX + EAX*0x4]
+304b60e9 | 5e | POP ESI
+304b60ea | c20400 | RET 0x4

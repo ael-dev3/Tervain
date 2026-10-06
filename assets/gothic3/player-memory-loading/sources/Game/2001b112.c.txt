@@ -1,0 +1,14 @@
+/* ENTRY 2001b112 | bTPropertyType<gCPlayerMemory_PS,unsigned_long>::vfunction20 | STATUS decompiled | 5 ms */
+
+void __thiscall
+bTPropertyType<gCPlayerMemory_PS,unsigned_long>::vfunction20
+          (bTPropertyType<gCPlayerMemory_PS,unsigned_long> *this)
+
+{
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)this);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)this[6].vftablePtr,(bCPropertyTypeBase *)this);
+  return;
+}
+
+

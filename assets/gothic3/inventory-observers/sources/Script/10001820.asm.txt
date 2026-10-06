@@ -1,0 +1,4 @@
+; 10001820 ?UpdatePlayer@GUI2@@QAEXXZ
+10001820 | e98b8a0300 | JMP 0x1003a2b0
+; 10001825 PSParticle::PropertyUseVelocityScale::operator_bool
+; 10001825 Ordinal_1158

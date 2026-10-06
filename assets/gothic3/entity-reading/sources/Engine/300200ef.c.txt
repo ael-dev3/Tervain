@@ -1,0 +1,28 @@
+/* ENTRY 300200ef | eCSceneAdmin::UnregisterNameInfo | STATUS decompiled | 12 ms */
+
+/* public: bool __thiscall eCSceneAdmin::UnregisterNameInfo(class bCString const &,class eCEntity
+   const &) */
+
+bool __thiscall
+eCSceneAdmin::UnregisterNameInfo(eCSceneAdmin *this,bCString *param_1,eCEntity *param_2)
+
+{
+  undefined1 uVar1;
+  int iVar2;
+  
+                    /* 0x200ef  14830
+                       ?UnregisterNameInfo@eCSceneAdmin@@QAE_NABVbCString@@ABVeCEntity@@@Z */
+  if (this != (eCSceneAdmin *)0x0) {
+    bCCriticalSectionWin32::Acquire((bCCriticalSectionWin32 *)&DAT_30af24f4);
+    iVar2 = thunk_FUN_304ce450(param_1,&param_1);
+    if ((iVar2 != 0) && (iVar2 != -4)) {
+      uVar1 = thunk_FUN_304d0260(param_2);
+      bCCriticalSectionWin32::Release((bCCriticalSectionWin32 *)&DAT_30af24f4);
+      return (bool)uVar1;
+    }
+    bCCriticalSectionWin32::Release((bCCriticalSectionWin32 *)&DAT_30af24f4);
+  }
+  return false;
+}
+
+

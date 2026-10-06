@@ -1,0 +1,4 @@
+; 200083ff bTPOPureSmartPtr<gCClock_PS>::vfunction12
+200083ff | e91c072000 | JMP 0x20208b20
+; 20008404 gCSector::OnNotifyPropertyValueChangedExitEx
+; 20008404 Ordinal_5502

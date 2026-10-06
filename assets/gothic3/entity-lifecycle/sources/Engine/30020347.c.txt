@@ -1,0 +1,24 @@
+/* ENTRY 30020347 | eCNode::Read | STATUS decompiled | 13 ms */
+
+/* public: virtual enum bEResult __thiscall eCNode::Read(class bCIStream &) */
+
+bEResult __thiscall eCNode::Read(eCNode *this,bCIStream *param_1)
+
+{
+  bCIStream *pbVar1;
+  eCSceneAdmin *peVar2;
+  eCNode *peVar3;
+  
+                    /* 0x20347  12183  ?Read@eCNode@@UAE?AW4bEResult@@AAVbCIStream@@@Z */
+  pbVar1 = param_1;
+  bCIStream::operator>>((bCIStream *)param_1,(ushort *)&param_1);
+  peVar3 = this;
+  peVar2 = (eCSceneAdmin *)thunk_FUN_3007bf20();
+  eCSceneAdmin::UnregisterEntity(peVar2,(eCEntity *)peVar3);
+  ::operator>>(pbVar1,(bCPropertyID *)&(this->eCNode_data).field_0x14);
+  peVar2 = (eCSceneAdmin *)thunk_FUN_3007bf20();
+  eCSceneAdmin::RegisterEntity(peVar2,(eCEntity *)this);
+  return 1;
+}
+
+

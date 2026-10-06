@@ -1,0 +1,12 @@
+/* ENTRY 3000f312 | eCEntity::IsCachedIn | STATUS decompiled | 8 ms */
+
+/* public: bool __thiscall eCEntity::IsCachedIn(void)const  */
+
+bool __thiscall eCEntity::IsCachedIn(eCEntity *this)
+
+{
+                    /* 0xf312  10272  ?IsCachedIn@eCEntity@@QBE_NXZ */
+  return ((this->eCEntity_data).offset_0xc & 0x100) == 0x100;
+}
+
+

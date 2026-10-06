@@ -1,0 +1,12 @@
+/* ENTRY 3003a779 | eCCollisionShapeBase_PS::GetNumShapes | STATUS decompiled | 8 ms */
+
+/* public: virtual unsigned long __thiscall eCCollisionShapeBase_PS::GetNumShapes(void)const  */
+
+ulong __thiscall eCCollisionShapeBase_PS::GetNumShapes(eCCollisionShapeBase_PS *this)
+
+{
+                    /* 0x3a779  7970  ?GetNumShapes@eCCollisionShapeBase_PS@@UBEKXZ */
+  return 0;
+}
+
+

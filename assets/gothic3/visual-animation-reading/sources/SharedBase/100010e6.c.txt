@@ -1,0 +1,19 @@
+/* ENTRY 100010e6 | bCUnitedRay::Clear | STATUS decompiled | 3 ms */
+
+/* public: void __thiscall bCUnitedRay::Clear(void) */
+
+void __thiscall bCUnitedRay::Clear(bCUnitedRay *this)
+
+{
+                    /* 0x10e6  1631  ?Clear@bCUnitedRay@@QAEXXZ */
+  *(undefined4 *)this = 0;
+  *(undefined4 *)(this + 4) = 0;
+  *(undefined4 *)(this + 8) = 0;
+  *(undefined4 *)(this + 0xc) = 0;
+  *(undefined4 *)(this + 0x10) = 0;
+  *(undefined4 *)(this + 0x14) = 0;
+  *(undefined4 *)(this + 0x18) = 0;
+  return;
+}
+
+

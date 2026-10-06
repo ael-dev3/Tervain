@@ -1,0 +1,12 @@
+/* ENTRY 3002c485 | eCVisualAnimation_PS::GetLocalTimeScale | STATUS decompiled | 7 ms */
+
+/* public: float __thiscall eCVisualAnimation_PS::GetLocalTimeScale(void)const  */
+
+float __thiscall eCVisualAnimation_PS::GetLocalTimeScale(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x2c485  7669  ?GetLocalTimeScale@eCVisualAnimation_PS@@QBEMXZ */
+  return (float)this[0x13].eCEntityPropertySet_data.offset_0x8;
+}
+
+

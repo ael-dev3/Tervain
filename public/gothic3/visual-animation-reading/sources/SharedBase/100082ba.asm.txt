@@ -1,0 +1,2 @@
+; 100082ba bCMatrix::AccessElement
+100082ba | e9f1fb0100 | JMP 0x10027eb0

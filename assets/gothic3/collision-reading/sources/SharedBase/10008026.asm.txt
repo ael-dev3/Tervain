@@ -1,0 +1,4 @@
+; 10008026 ?Invalidate@bCCapsule@@IAEXXZ
+10008026 | e995f90400 | JMP 0x100579c0
+; 1000802b bCStretch::Invert
+; 1000802b Ordinal_3585

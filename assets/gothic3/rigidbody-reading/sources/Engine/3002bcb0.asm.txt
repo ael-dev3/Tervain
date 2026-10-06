@@ -1,0 +1,4 @@
+; 3002bcb0 eCRigidBody_PS::vfunction15
+3002bcb0 | e98b433000 | JMP 0x30330040
+; 3002bcbf eCEngineCaps_PS::OnPreProcess
+; 3002bcbf Ordinal_11368

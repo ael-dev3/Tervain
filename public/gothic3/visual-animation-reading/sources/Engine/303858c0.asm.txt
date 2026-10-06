@@ -1,0 +1,8 @@
+; 303858c0 bTPropertyObject<eCEffector,bCObjectRefBase>::~bTPropertyObject<eCEffector,bCObjectRefBase>
+303858c0 | 56 | PUSH ESI
+303858c1 | 8bf1 | MOV ESI,ECX
+303858c3 | c7068c5e8630 | MOV dword ptr [ESI],0x30865e8c
+303858c9 | e8f560c9ff | CALL 0x3001b9c3
+303858ce | 8bce | MOV ECX,ESI
+303858d0 | 5e | POP ESI
+303858d1 | e9a065cbff | JMP 0x3003be76

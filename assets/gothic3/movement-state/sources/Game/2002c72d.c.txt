@@ -1,0 +1,22 @@
+/* ENTRY 2002c72d | gCCharacterMovement_PS::ProcessMovements | STATUS decompiled | 10 ms */
+
+/* protected: void __thiscall gCCharacterMovement_PS::ProcessMovements(void) */
+
+void __thiscall gCCharacterMovement_PS::ProcessMovements(gCCharacterMovement_PS *this)
+
+{
+                    /* 0x2c72d  5856  ?ProcessMovements@gCCharacterMovement_PS@@IAEXXZ */
+  if ((int)(this->gCCharacterMovement_PS_data).offset_0xfc < 0xc) {
+    ProcessControledMovements(this);
+  }
+  else {
+    ProcessPhysicsMovements(this);
+  }
+  if ((this->gCCharacterMovement_PS_data).offset_0x228 == (gCCharacterMovement_PS)0x1) {
+    ProcessMovementAnimation(this);
+  }
+  ContributeFloorActions(this);
+  return;
+}
+
+

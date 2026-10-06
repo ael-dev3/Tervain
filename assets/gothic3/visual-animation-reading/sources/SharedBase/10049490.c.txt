@@ -1,0 +1,36 @@
+/* ENTRY 10049490 | FUN_10049490 | STATUS decompiled | 9 ms */
+
+uint __thiscall
+FUN_10049490(uint *param_1,int param_2,undefined4 param_3,undefined4 param_4,undefined4 param_5,
+            undefined4 param_6,undefined4 param_7,undefined4 param_8)
+
+{
+  code *pcVar1;
+  int *piVar2;
+  int iVar3;
+  int iVar4;
+  int iVar5;
+  
+  piVar2 = (int *)*param_1;
+  if (piVar2 == (int *)0x0) {
+    return 0;
+  }
+  iVar5 = 0;
+  if (0 < piVar2[1]) {
+    iVar4 = 0;
+    do {
+      pcVar1 = *(code **)(*piVar2 + iVar4);
+      iVar3 = *piVar2 + iVar4;
+      if ((pcVar1 != (code *)0x0) && (param_2 == *(int *)(iVar3 + 8))) {
+        (*pcVar1)(param_3,param_4,0,*(undefined4 *)(iVar3 + 4),param_6,param_7,param_8);
+      }
+      piVar2 = (int *)*param_1;
+      iVar5 = iVar5 + 1;
+      iVar4 = iVar4 + 0xc;
+    } while (iVar5 < piVar2[1]);
+    return (uint)piVar2 & 0xffffff00;
+  }
+  return (uint)piVar2 & 0xffffff00;
+}
+
+

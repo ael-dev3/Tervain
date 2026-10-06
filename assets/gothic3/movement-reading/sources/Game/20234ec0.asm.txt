@@ -1,0 +1,41 @@
+; 20234ec0 bTPropertyType<gCCharacterMovement_PS,bool>::vfunction13
+20234ec0 | 53 | PUSH EBX
+20234ec1 | 55 | PUSH EBP
+20234ec2 | 8b6c240c | MOV EBP,dword ptr [ESP + 0xc]
+20234ec6 | 85ed | TEST EBP,EBP
+20234ec8 | 56 | PUSH ESI
+20234ec9 | 8bf1 | MOV ESI,ECX
+20234ecb | 743c | JZ 0x20234f09
+20234ecd | 8b5c2414 | MOV EBX,dword ptr [ESP + 0x14]
+20234ed1 | 85db | TEST EBX,EBX
+20234ed3 | 7434 | JZ 0x20234f09
+20234ed5 | e8a04bddff | CALL 0x20009a7a
+20234eda | 50 | PUSH EAX
+20234edb | e83c68ddff | CALL 0x2000b71c
+20234ee0 | 8bc8 | MOV ECX,EAX
+20234ee2 | ff1508877d20 | CALL dword ptr [0x207d8708]
+20234ee8 | 84c0 | TEST AL,AL
+20234eea | 751d | JNZ 0x20234f09
+20234eec | 57 | PUSH EDI
+20234eed | 8b3e | MOV EDI,dword ptr [ESI]
+20234eef | 8b4760 | MOV EAX,dword ptr [EDI + 0x60]
+20234ef2 | 53 | PUSH EBX
+20234ef3 | 8bce | MOV ECX,ESI
+20234ef5 | ffd0 | CALL EAX
+20234ef7 | 8b575c | MOV EDX,dword ptr [EDI + 0x5c]
+20234efa | 50 | PUSH EAX
+20234efb | 55 | PUSH EBP
+20234efc | 8bce | MOV ECX,ESI
+20234efe | ffd2 | CALL EDX
+20234f00 | 5f | POP EDI
+20234f01 | 5e | POP ESI
+20234f02 | 5d | POP EBP
+20234f03 | b001 | MOV AL,0x1
+20234f05 | 5b | POP EBX
+20234f06 | c20800 | RET 0x8
+; 20234f09 LAB_20234f09
+20234f09 | 5e | POP ESI
+20234f0a | 5d | POP EBP
+20234f0b | 32c0 | XOR AL,AL
+20234f0d | 5b | POP EBX
+20234f0e | c20800 | RET 0x8

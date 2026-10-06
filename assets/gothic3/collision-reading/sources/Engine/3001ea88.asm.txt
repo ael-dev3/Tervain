@@ -1,0 +1,4 @@
+; 3001ea88 bTPropertyObject<eCCollisionShape_PS,eCCollisionShapeBase_PS>::vfunction8
+3001ea88 | e9531a3200 | JMP 0x303404e0
+; 3001ea8d eCLightStreaks_PS::OnCacheIn
+; 3001ea8d Ordinal_10913

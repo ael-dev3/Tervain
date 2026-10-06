@@ -1,0 +1,2 @@
+; 30008a1c eCVisualAnimation_PS::IsReferencedByTemplate
+30008a1c | e92f4e0900 | JMP 0x3009d850

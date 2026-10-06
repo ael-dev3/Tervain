@@ -1,0 +1,36 @@
+/* ENTRY 3000bc0d | eCArchiveFile::GetFileName | STATUS decompiled | 13 ms */
+
+/* public: void __thiscall eCArchiveFile::GetFileName(class bCString &)const  */
+
+void __thiscall eCArchiveFile::GetFileName(eCArchiveFile *this,bCString *param_1)
+
+{
+  eCVirtualFileSystem *peVar1;
+  bCString *pbStack_20;
+  bCString *pbStack_1c;
+  bCString *pbStack_18;
+  bCString abStack_c [4];
+  bCString abStack_8 [4];
+  bCString abStack_4 [4];
+  
+                    /* 0xbc0d  7099  ?GetFileName@eCArchiveFile@@QBEXAAVbCString@@@Z */
+  pbStack_18 = (bCString *)0x305dd023;
+  bCString::bCString(abStack_4);
+  pbStack_18 = (bCString *)0x305dd029;
+  bCString::bCString(abStack_8);
+  pbStack_18 = (bCString *)0x305dd02f;
+  bCString::bCString(abStack_c);
+  pbStack_18 = (bCString *)0x305dd034;
+  peVar1 = eCVirtualFileSystem::GetInstance();
+  pbStack_18 = abStack_c;
+  pbStack_1c = param_1;
+  pbStack_20 = abStack_8;
+  (**(code **)(*(int *)peVar1 + 0x28))(&this->eCArchiveFile_data,abStack_4);
+  bCString::operator+=(param_1,(bCString *)&pbStack_20);
+  bCString::~bCString((bCString *)&pbStack_20);
+  bCString::~bCString((bCString *)&pbStack_1c);
+  bCString::~bCString((bCString *)&pbStack_18);
+  return;
+}
+
+

@@ -1,0 +1,27 @@
+/* ENTRY 300150a5 | eCEntityProxy::~eCEntityProxy | STATUS decompiled | 7 ms */
+
+/* public: virtual __thiscall eCEntityProxy::~eCEntityProxy(void) */
+
+void __thiscall eCEntityProxy::~eCEntityProxy(eCEntityProxy *this)
+
+{
+  eCEntityProxyInternal *this_00;
+  undefined1 *this_01;
+  
+                    /* 0x150a5  1085  ??1eCEntityProxy@@UAE@XZ */
+  this_00 = (this->eCEntityProxy_data).offset_0x0;
+  this->vftablePtr = &vftable;
+  if (this_00 != (eCEntityProxyInternal *)0x0) {
+    eCEntityProxyInternal::ReleaseReference(this_00);
+    (this->eCEntityProxy_data).offset_0x0 = (eCEntityProxyInternal *)0x0;
+  }
+  (this->eCEntityProxy_data).offset_0x0 = (eCEntityProxyInternal *)0x0;
+  this_01 = &(this->eCEntityProxy_data).field_0x4;
+  bCPropertyID::Destroy((bCPropertyID *)this_01);
+                    /* WARNING: Could not recover jumptable at 0x304c46b1. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCPropertyID::~bCPropertyID((bCPropertyID *)this_01);
+  return;
+}
+
+

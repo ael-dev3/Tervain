@@ -1,0 +1,15 @@
+; 304c4b90 FUN_304c4b90
+304c4b90 | 8b4104 | MOV EAX,dword ptr [ECX + 0x4]
+304c4b93 | 83f801 | CMP EAX,0x1
+304c4b96 | 7607 | JBE 0x304c4b9f
+304c4b98 | 83c0ff | ADD EAX,-0x1
+304c4b9b | 894104 | MOV dword ptr [ECX + 0x4],EAX
+304c4b9e | c3 | RET
+; 304c4b9f LAB_304c4b9f
+304c4b9f | 51 | PUSH ECX
+304c4ba0 | c7410400000000 | MOV dword ptr [ECX + 0x4],0x0
+304c4ba7 | ff15acdbaf30 | CALL dword ptr [0x30afdbac]
+304c4bad | 8bc8 | MOV ECX,EAX
+304c4baf | ff15b0dbaf30 | CALL dword ptr [0x30afdbb0]
+304c4bb5 | 33c0 | XOR EAX,EAX
+304c4bb7 | c3 | RET

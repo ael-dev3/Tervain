@@ -1,0 +1,2 @@
+; 30047f0a ?Invalidate@eCCollisionShape@@IAEXXZ
+30047f0a | e9111b3100 | JMP 0x30359a20

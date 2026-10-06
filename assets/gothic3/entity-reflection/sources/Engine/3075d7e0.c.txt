@@ -1,0 +1,34 @@
+/* ENTRY 3075d7e0 | bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eECollisionGroup>_>::~bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eECollisionGroup>_> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eECollisionGroup>_>::
+~bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eECollisionGroup>_>
+          (bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eECollisionGroup>_> *this)
+
+{
+  bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eECollisionGroup>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"Group");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&eCCollisionShape_PS::ms_PropertyMember_m_enuGroup,
+             (bCString *)&local_4,2);
+  _ms_PropertyMember_m_enuGroup = &vftable;
+  DAT_30aec408 = bTPropertyObjectType<eCCollisionShape_PS,eCCollisionShapeBase_PS>::
+                 ~bTPropertyObjectType<eCCollisionShape_PS,eCCollisionShapeBase_PS>();
+  _DAT_30aec40c = 0x14;
+  _DAT_30aec410 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&eCCollisionShape_PS::ms_PropertyMember_m_enuGroup);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_30aec408,
+             (bCPropertyTypeBase *)&eCCollisionShape_PS::ms_PropertyMember_m_enuGroup);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<eECollisionGroup>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<eECollisionGroup>_>);
+  return;
+}
+
+

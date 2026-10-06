@@ -1,0 +1,4 @@
+; 10001b18 ?SetCurrentTarget@PSNpc@@QAEXABVEntity@@@Z
+10001b18 | e933e70100 | JMP 0x10020250
+; 10001b22 PSMagic::PropertyCastType::operator=
+; 10001b22 Ordinal_297

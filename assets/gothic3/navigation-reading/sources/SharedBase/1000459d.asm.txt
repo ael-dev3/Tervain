@@ -1,0 +1,4 @@
+; 1000459d ??0bCPropertyID@@QAE@ABVbCGuid@@@Z
+1000459d | e9fee50800 | JMP 0x10092ba0
+; 100045ac bCInfDoubleCylinder::GetVolume
+; 100045ac Ordinal_3226

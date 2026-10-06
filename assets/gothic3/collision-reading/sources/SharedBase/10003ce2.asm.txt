@@ -1,0 +1,4 @@
+; 10003ce2 ?GetTranslated@bCBox@@QBE?AV1@M@Z
+10003ce2 | e9e9290300 | JMP 0x100366d0
+; 10003ce7 bCMatrix3::bCMatrix3
+; 10003ce7 Ordinal_159

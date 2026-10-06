@@ -1,0 +1,4 @@
+; 10003742 ??4PropertyChapter@PSPlayerMemory@@QAEAAV01@ABV01@@Z
+10003742 | e959820000 | JMP 0x1000b9a0
+; 10003747 GUI::PrintScreen_InfoScript_Say
+; 10003747 Ordinal_1904

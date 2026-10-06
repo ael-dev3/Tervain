@@ -1,0 +1,28 @@
+; 2031fcf0 bTPOPureSmartPtr<gCPlayerMemory_PS>::~bTPOPureSmartPtr<gCPlayerMemory_PS>
+2031fcf0 | 56 | PUSH ESI
+2031fcf1 | 8bf1 | MOV ESI,ECX
+2031fcf3 | 8b4e08 | MOV ECX,dword ptr [ESI + 0x8]
+2031fcf6 | 85c9 | TEST ECX,ECX
+2031fcf8 | 57 | PUSH EDI
+2031fcf9 | c7069c7c6920 | MOV dword ptr [ESI],0x20697c9c
+2031fcff | 7415 | JZ 0x2031fd16
+2031fd01 | ff15c0877d20 | CALL dword ptr [0x207d87c0]
+2031fd07 | 83f801 | CMP EAX,0x1
+2031fd0a | 750a | JNZ 0x2031fd16
+2031fd0c | 8b4e08 | MOV ECX,dword ptr [ESI + 0x8]
+2031fd0f | 8b01 | MOV EAX,dword ptr [ECX]
+2031fd11 | 8b5014 | MOV EDX,dword ptr [EAX + 0x14]
+2031fd14 | ffd2 | CALL EDX
+2031fd16 | 8b7e08 | MOV EDI,dword ptr [ESI + 0x8]
+2031fd19 | 85ff | TEST EDI,EDI
+2031fd1b | 7412 | JZ 0x2031fd2f
+2031fd1d | 6a00 | PUSH 0x0
+2031fd1f | 8bcf | MOV ECX,EDI
+2031fd21 | ff15c4877d20 | CALL dword ptr [0x207d87c4]
+2031fd27 | 8bcf | MOV ECX,EDI
+2031fd29 | ff15c8877d20 | CALL dword ptr [0x207d87c8]
+2031fd2f | 5f | POP EDI
+2031fd30 | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+2031fd37 | 8bce | MOV ECX,ESI
+2031fd39 | 5e | POP ESI
+2031fd3a | ff2588877d20 | JMP dword ptr [0x207d8788]

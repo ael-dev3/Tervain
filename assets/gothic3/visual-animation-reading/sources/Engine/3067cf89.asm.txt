@@ -1,0 +1,10 @@
+; 3067cf89 __amsg_exit
+3067cf89 | e858190000 | CALL 0x3067e8e6
+3067cf8e | ff742404 | PUSH dword ptr [ESP + 0x4]
+3067cf92 | e88f170000 | CALL 0x3067e726
+3067cf97 | ff353048ad30 | PUSH dword ptr [0x30ad4830]
+3067cf9d | e8390f0000 | CALL 0x3067dedb
+3067cfa2 | 68ff000000 | PUSH 0xff
+3067cfa7 | ffd0 | CALL EAX
+3067cfa9 | 83c40c | ADD ESP,0xc
+3067cfac | c3 | RET

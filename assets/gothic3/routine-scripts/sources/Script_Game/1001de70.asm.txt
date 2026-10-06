@@ -1,0 +1,15 @@
+; 1001de70 gSArgsFor__AI_HoldInventoryItems::vector_deleting_destructor
+1001de70 | 56 | PUSH ESI
+1001de71 | 8bf1 | MOV ESI,ECX
+1001de73 | 8d4e04 | LEA ECX,[ESI + 0x4]
+1001de76 | ff15906f2210 | CALL dword ptr [0x10226f90]
+1001de7c | f644240801 | TEST byte ptr [ESP + 0x8],0x1
+1001de81 | c706d8992010 | MOV dword ptr [ESI],0x102099d8
+1001de87 | 7409 | JZ 0x1001de92
+1001de89 | 56 | PUSH ESI
+1001de8a | e825550c00 | CALL 0x100e33b4
+1001de8f | 83c404 | ADD ESP,0x4
+; 1001de92 LAB_1001de92
+1001de92 | 8bc6 | MOV EAX,ESI
+1001de94 | 5e | POP ESI
+1001de95 | c20400 | RET 0x4

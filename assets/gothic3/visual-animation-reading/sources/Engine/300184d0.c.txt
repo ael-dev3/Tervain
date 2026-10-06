@@ -1,0 +1,14 @@
+/* ENTRY 300184d0 | eCSpringAndDamperEffector::AccessSpringMaxStretchForce | STATUS decompiled | 2 ms */
+
+/* public: float & __thiscall eCSpringAndDamperEffector::AccessSpringMaxStretchForce(void) */
+
+float * __thiscall
+eCSpringAndDamperEffector::AccessSpringMaxStretchForce(eCSpringAndDamperEffector *this)
+
+{
+                    /* 0x184d0  3165
+                       ?AccessSpringMaxStretchForce@eCSpringAndDamperEffector@@QAEAAMXZ */
+  return (float *)&(this->eCEffector_data).offset_0x68;
+}
+
+

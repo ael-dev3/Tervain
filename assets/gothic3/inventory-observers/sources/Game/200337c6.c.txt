@@ -1,0 +1,24 @@
+/* ENTRY 200337c6 | gCGUIManager::UpdatePlayer | STATUS decompiled | 8 ms */
+
+/* public: void __thiscall gCGUIManager::UpdatePlayer(void) */
+
+void __thiscall gCGUIManager::UpdatePlayer(gCGUIManager *this)
+
+{
+  gCSession *this_00;
+  eCDynamicEntity *peVar1;
+  
+                    /* 0x337c6  7438  ?UpdatePlayer@gCGUIManager@@QAEXXZ */
+  if ((this->gCGUIManager_data).offset_0x0 != (void *)0x0) {
+    this_00 = (gCSession *)thunk_FUN_20066480();
+    if (this_00 != (gCSession *)0x0) {
+      peVar1 = gCSession::GetPlayer(this_00);
+      thunk_FUN_20170a70(peVar1,0);
+      return;
+    }
+    thunk_FUN_20170a70(0,0);
+  }
+  return;
+}
+
+

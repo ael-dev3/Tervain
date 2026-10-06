@@ -1,0 +1,31 @@
+/* ENTRY 30340360 | bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eEPhysicRangeType>_>::deleting_destructor | STATUS decompiled | 8 ms */
+
+bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eEPhysicRangeType>_> * __thiscall
+bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eEPhysicRangeType>_>::deleting_destructor
+          (bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eEPhysicRangeType>_> *this,
+          byte param_1)
+
+{
+                    /* inlined destructor:
+                       bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eEPhysicRangeType>_>::~bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eEPhysicRangeType>_>
+                        */
+  this->vftablePtr = &vftable;
+  bCPropertyTypeBase::Destroy((bCPropertyTypeBase *)this);
+  thunk_FUN_3008f120(this + 8);
+  bCPropertyObjectTypeBase::UnregisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)this[6].vftablePtr,(bCPropertyTypeBase *)this);
+                    /* inlined destructor:
+                       bTPropertyTypeOnly<bTPropertyContainer<eEPhysicRangeType>_>::~bTPropertyTypeOnly<bTPropertyContainer<eEPhysicRangeType>_>
+                        */
+  this->vftablePtr =
+       (bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eEPhysicRangeType>_>_vftable *)
+       &bTPropertyTypeOnly<bTPropertyContainer<eEPhysicRangeType>_>::vftable;
+  bCPropertyTypeBase::~bCPropertyTypeBase((bCPropertyTypeBase *)this);
+  if ((param_1 & 1) != 0) {
+                    /* WARNING: Subroutine does not return */
+    _free(this);
+  }
+  return this;
+}
+
+

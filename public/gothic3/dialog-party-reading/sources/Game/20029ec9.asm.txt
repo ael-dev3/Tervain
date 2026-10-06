@@ -1,0 +1,2 @@
+; 20029ec9 gCDialog_PS::AccessTeachEnabled
+20029ec9 | e9025b1800 | JMP 0x201af9d0

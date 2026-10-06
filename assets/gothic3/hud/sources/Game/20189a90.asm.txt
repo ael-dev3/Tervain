@@ -1,0 +1,4 @@
+; 20189a90 gCHUDListCtrlInvTransforms::~gCHUDListCtrlInvTransforms
+20189a90 | c701747b6720 | MOV dword ptr [ECX],0x20677b74
+20189a96 | c74110587b6720 | MOV dword ptr [ECX + 0x10],0x20677b58
+20189a9d | e94fd4e7ff | JMP 0x20006ef1

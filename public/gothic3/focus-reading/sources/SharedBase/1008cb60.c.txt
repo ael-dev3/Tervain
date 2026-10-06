@@ -1,0 +1,21 @@
+/* ENTRY 1008cb60 | FUN_1008cb60 | STATUS decompiled | 6 ms */
+
+undefined4 FUN_1008cb60(bCIStream *param_1,int *param_2)
+
+{
+  ushort local_8;
+  bool local_6 [2];
+  ushort local_4 [2];
+  
+  local_8 = 0;
+  local_6[0] = false;
+  local_4[0] = 0;
+  local_4[1] = 0;
+  bCIStream::operator>>(param_1,local_4);
+  bCIStream::operator>>(param_1,local_6);
+  bCIStream::operator>>(param_1,&local_8);
+  (**(code **)(*param_2 + 0x14))(param_1);
+  return 1;
+}
+
+

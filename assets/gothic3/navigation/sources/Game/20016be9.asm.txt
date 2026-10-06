@@ -1,0 +1,4 @@
+; 20016be9 ?GetZone@gCNavigationMap@@QAE?AW4bEResult@@ABVbCVector@@AAVbCPropertyID@@AA_N_N3M@Z
+20016be9 | e9f2db2a00 | JMP 0x202c47e0
+; 20016bee gCChatConsole::gCChatConsole
+; 20016bee Ordinal_50

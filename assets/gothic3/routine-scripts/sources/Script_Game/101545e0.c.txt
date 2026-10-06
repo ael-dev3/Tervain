@@ -1,0 +1,17 @@
+/* ENTRY 101545e0 | FUN_101545e0 | STATUS decompiled | 5 ms */
+
+void FUN_101545e0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Player\\Player_States\\PS_Melee.cpp");
+  bCString::bCString(local_8,"PS_Melee_Sneak");
+  thunk_FUN_1001db60(local_8,&LAB_10001172,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

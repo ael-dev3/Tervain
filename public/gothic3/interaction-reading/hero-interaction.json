@@ -1,0 +1,156 @@
+{
+  "schema": "gothic3-original-hero-interaction-v1",
+  "source": {
+    "archive": "Projects_compiled.p00",
+    "path": "G3_World_01/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}.lrentdat",
+    "sha256": "28f7273b3d54415b84445651a3dfa962c1ff158e9183deba81ba47e4d5d57938",
+    "packetOffset": 1187834,
+    "packetBytes": 236,
+    "packetSha256": "0551364e20ce1d23f4f52a8ec4eff3de788bc7dcbe3724bc89dd6fa72ce9de44",
+    "stringTableBoundary": 80040256,
+    "stringTableIndependentlyDecoded": true,
+    "genome": {
+      "version": 1,
+      "stringTableMarker": 1
+    }
+  },
+  "properties": [
+    {
+      "name": "FocusPriority",
+      "typeName": "bTPropertyContainer<enum gEFocusPriority>",
+      "nativeOffset": 20,
+      "raw": "010001000000",
+      "value": 1,
+      "sourceOffset": 1187871
+    },
+    {
+      "name": "Owner",
+      "typeName": "eCEntityProxy",
+      "nativeOffset": 28,
+      "raw": "010000",
+      "value": {
+        "version": 1,
+        "present": false
+      },
+      "sourceOffset": 1187887
+    },
+    {
+      "name": "User",
+      "typeName": "eCEntityProxy",
+      "nativeOffset": 56,
+      "raw": "010000",
+      "value": {
+        "version": 1,
+        "present": false
+      },
+      "sourceOffset": 1187900
+    },
+    {
+      "name": "UseType",
+      "typeName": "bTPropertyContainer<enum gEUseType>",
+      "nativeOffset": 84,
+      "raw": "010000000000",
+      "value": 0,
+      "sourceOffset": 1187913
+    },
+    {
+      "name": "ScriptUseFunc",
+      "typeName": "bCString",
+      "nativeOffset": 92,
+      "raw": "4f00",
+      "value": "",
+      "sourceOffset": 1187929
+    },
+    {
+      "name": "AnchorPoint",
+      "typeName": "eCEntityProxy",
+      "nativeOffset": 96,
+      "raw": "010000",
+      "value": {
+        "version": 1,
+        "present": false
+      },
+      "sourceOffset": 1187941
+    },
+    {
+      "name": "FocusNameType",
+      "typeName": "bTPropertyContainer<enum gEFocusNameType>",
+      "nativeOffset": 124,
+      "raw": "010000000000",
+      "value": 0,
+      "sourceOffset": 1187954
+    },
+    {
+      "name": "FocusNameBone",
+      "typeName": "bCString",
+      "nativeOffset": 132,
+      "raw": "e609",
+      "value": "Head_Head_End",
+      "sourceOffset": 1187970
+    },
+    {
+      "name": "FocusViewOffset",
+      "typeName": "bCVector",
+      "nativeOffset": 136,
+      "raw": "000000000000000000000000",
+      "value": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "sourceOffset": 1187982
+    },
+    {
+      "name": "FocusWorldOffset",
+      "typeName": "bCVector",
+      "nativeOffset": 148,
+      "raw": "000000000000000000000000",
+      "value": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "sourceOffset": 1188004
+    },
+    {
+      "name": "UsedByPlayer",
+      "typeName": "bool",
+      "nativeOffset": 160,
+      "raw": "00",
+      "value": false,
+      "sourceOffset": 1188026
+    },
+    {
+      "name": "EnterROIScript",
+      "typeName": "bCString",
+      "nativeOffset": 164,
+      "raw": "4f00",
+      "value": "",
+      "sourceOffset": 1188037
+    },
+    {
+      "name": "ExitROIScript",
+      "typeName": "bCString",
+      "nativeOffset": 168,
+      "raw": "4f00",
+      "value": "",
+      "sourceOffset": 1188049
+    },
+    {
+      "name": "Spell",
+      "typeName": "eCTemplateEntityProxy",
+      "nativeOffset": 172,
+      "raw": "010000",
+      "value": {
+        "version": 1,
+        "present": false
+      },
+      "sourceOffset": 1188061
+    }
+  ],
+  "nativeReadOffset": 1188064,
+  "outerVersion": 84,
+  "nativeReadVersion": 84,
+  "worldResident": false,
+  "tailBytes": 0
+}

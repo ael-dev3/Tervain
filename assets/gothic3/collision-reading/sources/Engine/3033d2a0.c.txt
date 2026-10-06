@@ -1,0 +1,23 @@
+/* ENTRY 3033d2a0 | FUN_3033d2a0 | STATUS decompiled | 4 ms */
+
+void __thiscall FUN_3033d2a0(int *param_1,uint param_2,undefined4 param_3)
+
+{
+  uint uVar1;
+  
+  thunk_FUN_3033c380(param_2,param_3);
+  uVar1 = param_2;
+  if (param_2 < (uint)param_1[1]) {
+    do {
+      if (*(int *)(*param_1 + uVar1 * 4) != 0) {
+        (**(code **)(**(int **)(*param_1 + uVar1 * 4) + 0x24))();
+        *(undefined4 *)(*param_1 + uVar1 * 4) = 0;
+      }
+      uVar1 = uVar1 + 1;
+    } while (uVar1 < (uint)param_1[1]);
+  }
+  param_1[1] = param_2;
+  return;
+}
+
+

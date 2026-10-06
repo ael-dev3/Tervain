@@ -1,0 +1,19 @@
+; 3009bd40 FUN_3009bd40
+3009bd40 | f30f10442404 | MOVSS XMM0,dword ptr [ESP + 0x4]
+3009bd46 | 0f2e0550a08130 | UCOMISS XMM0,dword ptr [0x3081a050]
+3009bd4d | 9f | LAHF
+3009bd4e | f6c444 | TEST AH,0x44
+3009bd51 | 7b1f | JNP 0x3009bd72
+3009bd53 | d9442404 | FLD float ptr [ESP + 0x4]
+3009bd57 | 51 | PUSH ECX
+3009bd58 | d91c24 | FSTP float ptr [ESP]
+3009bd5b | e8c33ffaff | CALL 0x3003fd23
+3009bd60 | d84c2408 | FMUL float ptr [ESP + 0x8]
+3009bd64 | 83c404 | ADD ESP,0x4
+3009bd67 | d95c2404 | FSTP float ptr [ESP + 0x4]
+3009bd6b | d9442404 | FLD float ptr [ESP + 0x4]
+3009bd6f | c20400 | RET 0x4
+3009bd72 | d9ee | FLDZ
+3009bd74 | d95c2404 | FSTP float ptr [ESP + 0x4]
+3009bd78 | d9442404 | FLD float ptr [ESP + 0x4]
+3009bd7c | c20400 | RET 0x4

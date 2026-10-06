@@ -1,0 +1,12 @@
+/* ENTRY 20022f9d | gCDialog_PS::Invalidate | STATUS decompiled | 6 ms */
+
+/* protected: void __thiscall gCDialog_PS::Invalidate(void) */
+
+void __thiscall gCDialog_PS::Invalidate(gCDialog_PS *this)
+
+{
+                    /* 0x22f9d  4966  ?Invalidate@gCDialog_PS@@IAEXXZ */
+  return;
+}
+
+

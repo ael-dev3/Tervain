@@ -1,0 +1,2 @@
+; 2000fe1b ??0gCStat@@QAE@ABV0@@Z
+2000fe1b | e910a50900 | JMP 0x200aa330

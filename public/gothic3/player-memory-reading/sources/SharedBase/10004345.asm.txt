@@ -1,0 +1,2 @@
+; 10004345 bCUnicodeString::Alloc
+10004345 | e936240100 | JMP 0x10016780

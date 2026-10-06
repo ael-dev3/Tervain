@@ -1,0 +1,21 @@
+/* ENTRY 2001b33d | gCInventory_PS::FindStackIndex | STATUS decompiled | 8 ms */
+
+/* public: int __thiscall gCInventory_PS::FindStackIndex(class eCTemplateEntity const *,enum
+   gEInventoryFindQuality,unsigned long,int)const  */
+
+int __thiscall
+gCInventory_PS::FindStackIndex
+          (gCInventory_PS *this,eCTemplateEntity *param_1,gEInventoryFindQuality param_2,
+          ulong param_3,int param_4)
+
+{
+  int iVar1;
+  
+                    /* 0x1b33d  2838
+                       ?FindStackIndex@gCInventory_PS@@QBEHPBVeCTemplateEntity@@W4gEInventoryFindQuality@@KH@Z
+                        */
+  iVar1 = FUN_2001a9e2();
+  return iVar1;
+}
+
+

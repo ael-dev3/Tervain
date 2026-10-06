@@ -1,0 +1,2 @@
+; 3000f312 eCEntity::IsCachedIn
+3000f312 | e9a93a4a00 | JMP 0x304b2dc0

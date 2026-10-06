@@ -1,0 +1,4 @@
+; 20035576 thunk_FUN_20233ee0
+20035576 | e965e91f00 | JMP 0x20233ee0
+; 2003557b gCDialog_PS::GetSaveGameRelevance
+; 2003557b Ordinal_4359

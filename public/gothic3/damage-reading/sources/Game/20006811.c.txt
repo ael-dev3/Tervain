@@ -1,0 +1,18 @@
+/* ENTRY 20006811 | gCDamageReceiver_PS::SetStaminaPoints | STATUS decompiled | 9 ms */
+
+/* public: void __thiscall gCDamageReceiver_PS::SetStaminaPoints(long const &) */
+
+void __thiscall gCDamageReceiver_PS::SetStaminaPoints(gCDamageReceiver_PS *this,long *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x6811  7079  ?SetStaminaPoints@gCDamageReceiver_PS@@QAEXABJ@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"StaminaPoints",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  *(long *)&(this->gCDamageReceiver_PS_data).field_0x18 = *param_1;
+  (*pNVar1)(this,"StaminaPoints",false);
+  return;
+}
+
+

@@ -1,0 +1,14 @@
+/* ENTRY 2016bd20 | gCHUDViewSynthRecipe2::~gCHUDViewSynthRecipe2 | STATUS decompiled | 9 ms */
+
+void __thiscall gCHUDViewSynthRecipe2::~gCHUDViewSynthRecipe2(gCHUDViewSynthRecipe2 *this)
+
+{
+  this->vftablePtr = &vftable;
+  gCHUDViewRecipe2::~gCHUDViewRecipe2
+            ((gCHUDViewRecipe2 *)&(this->gCHUDViewSynthRecipe2_data).field_0x20);
+  gCHUDView::~gCHUDView((gCHUDView *)&(this->gCHUDViewSynthRecipe2_data).field_0xc);
+  FUN_200156a9();
+  return;
+}
+
+

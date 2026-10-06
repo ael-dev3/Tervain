@@ -1,0 +1,4 @@
+; 300087ba bTPropertyObjectType<eCCollisionShape,bCObjectRefBase>::~bTPropertyObjectType<eCCollisionShape,bCObjectRefBase>
+300087ba | e951473500 | JMP 0x3035cf10
+; 300087bf eCActionMapper::~eCActionMapper
+; 300087bf Ordinal_983

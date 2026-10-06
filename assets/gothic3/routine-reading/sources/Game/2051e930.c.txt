@@ -1,0 +1,34 @@
+/* ENTRY 2051e930 | bTPropertyType<gCScriptRoutine_PS,bTPropertyContainer<gEAction>_>::~bTPropertyType<gCScriptRoutine_PS,bTPropertyContainer<gEAction>_> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCScriptRoutine_PS,bTPropertyContainer<gEAction>_>::
+~bTPropertyType<gCScriptRoutine_PS,bTPropertyContainer<gEAction>_>
+          (bTPropertyType<gCScriptRoutine_PS,bTPropertyContainer<gEAction>_> *this)
+
+{
+  bTPropertyType<gCScriptRoutine_PS,bTPropertyContainer<gEAction>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"Action");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCScriptRoutine_PS::ms_PropertyMember_m_enuAction,
+             (bCString *)&local_4,2);
+  _ms_PropertyMember_m_enuAction = &vftable;
+  DAT_207cc294 = bTPropertyObjectType<gCScriptRoutine_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCScriptRoutine_PS,eCEntityPropertySet>();
+  _DAT_207cc298 = 0x44;
+  _DAT_207cc29c = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCScriptRoutine_PS::ms_PropertyMember_m_enuAction);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cc294,
+             (bCPropertyTypeBase *)&gCScriptRoutine_PS::ms_PropertyMember_m_enuAction);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gEAction>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gEAction>_>);
+  return;
+}
+
+

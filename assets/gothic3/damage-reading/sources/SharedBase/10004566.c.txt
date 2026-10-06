@@ -1,0 +1,19 @@
+/* ENTRY 10004566 | bCPropertyObjectBase::GetTemplate | STATUS decompiled | 5 ms */
+
+/* public: class bCPropertyObjectTypeBase const * __thiscall
+   bCPropertyObjectBase::GetTemplate(void)const  */
+
+bCPropertyObjectTypeBase * __thiscall bCPropertyObjectBase::GetTemplate(bCPropertyObjectBase *this)
+
+{
+  bCPropertyObjectTypeBase *pbVar1;
+  
+                    /* 0x4566  3064
+                       ?GetTemplate@bCPropertyObjectBase@@QBEPBVbCPropertyObjectTypeBase@@XZ */
+                    /* WARNING: Could not recover jumptable at 0x10089185. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  pbVar1 = (bCPropertyObjectTypeBase *)(*this->vftablePtr->vfunction5)();
+  return pbVar1;
+}
+
+

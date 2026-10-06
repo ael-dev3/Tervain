@@ -1,0 +1,38 @@
+/* ENTRY 2000eb6f | gCStat::Clone | STATUS decompiled | 128 ms */
+
+/* public: virtual class gCAttribute * __thiscall gCStat::Clone(void)const  */
+
+gCAttribute * __thiscall gCStat::Clone(gCStat *this)
+
+{
+  bCPropertyObjectBase *pbVar1;
+  bCAccessorPropertyObject *this_00;
+  bCObjectRefBase *pbVar2;
+  gCAttribute *pgVar3;
+  undefined4 uVar4;
+  TypeDescriptor *pTVar5;
+  TypeDescriptor *pTVar6;
+  undefined4 uVar7;
+  bCAccessorPropertyObject abStack_c [4];
+  bCAccessorPropertyObject abStack_8 [8];
+  
+                    /* 0xeb6f  2110  ?Clone@gCStat@@UBEPAVgCAttribute@@XZ */
+  pbVar1 = bCObjectRefBase::GetPropertyObject((bCObjectRefBase *)this);
+  this_00 = (bCAccessorPropertyObject *)
+            bCAccessorPropertyObject::bCAccessorPropertyObject(abStack_8,pbVar1);
+  bCAccessorPropertyObject::Clone(this_00);
+  bCAccessorPropertyObject::~bCAccessorPropertyObject(abStack_c);
+  uVar7 = 0;
+  pTVar6 = &RTTI_Type_Descriptor;
+  pTVar5 = &bCObjectRefBase::RTTI_Type_Descriptor;
+  uVar4 = 0;
+  pbVar2 = bCAccessorPropertyObject::GetNativeObject((bCAccessorPropertyObject *)&stack0xffffffec);
+  pgVar3 = (gCAttribute *)___RTDynamicCast(pbVar2,uVar4,pTVar5,pTVar6,uVar7);
+  if (pgVar3 != (gCAttribute *)0x0) {
+    (**(code **)(*(int *)pgVar3 + 0x20))();
+  }
+  bCAccessorPropertyObject::~bCAccessorPropertyObject((bCAccessorPropertyObject *)&stack0xffffffec);
+  return pgVar3;
+}
+
+

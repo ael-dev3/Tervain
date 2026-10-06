@@ -1,0 +1,67 @@
+/* ENTRY 305c9680 | FUN_305c9680 | STATUS decompiled | 42 ms */
+
+int FUN_305c9680(int param_1,int param_2)
+
+{
+  bCString *pbVar1;
+  int iVar2;
+  eCArchiveManager *peVar3;
+  bCString *pbVar4;
+  bCString *pbVar5;
+  bCString *pbVar6;
+  bCString *pbVar7;
+  bCString local_14 [4];
+  bCString local_10 [4];
+  bCString *local_c;
+  bCString local_8 [4];
+  int local_4;
+  
+  pbVar4 = (bCString *)(param_1 + 4);
+  pbVar1 = (bCString *)bCString::Find(pbVar4,'%',0,false);
+  pbVar5 = (bCString *)(param_2 + 4);
+  local_4 = bCString::Find(pbVar5,'%',0,false);
+  if ((pbVar1 == (bCString *)0xffffffff) && (local_4 == -1)) {
+    iVar2 = bCString::CompareNoCase(pbVar4,pbVar5);
+    return iVar2;
+  }
+  bCString::bCString((bCString *)&local_c);
+  bCString::bCString(local_10);
+  bCString::bCString(local_14);
+  bCString::bCString((bCString *)&param_1);
+  bCString::operator=((bCString *)&local_c,pbVar4);
+  bCString::operator=(local_10,pbVar5);
+  if (pbVar1 != (bCString *)0xffffffff) {
+    pbVar4 = (bCString *)&param_1;
+    pbVar5 = local_14;
+    pbVar7 = (bCString *)0x0;
+    pbVar6 = (bCString *)&local_c;
+    peVar3 = eCArchiveManager::GetInstance();
+    eCArchiveManager::SplitPath((eCArchiveManager *)peVar3,pbVar6,pbVar7,pbVar5,pbVar4);
+    pbVar4 = (bCString *)bCString::Left(local_14,(int)local_8);
+    pbVar1 = (bCString *)bCString::operator+(pbVar4,pbVar1);
+    bCString::operator=(local_14,pbVar1);
+    bCString::~bCString((bCString *)&stack0x00000000);
+    bCString::~bCString(local_10);
+  }
+  if (local_c != (bCString *)0xffffffff) {
+    pbVar1 = (bCString *)&local_4;
+    pbVar4 = (bCString *)&stack0xffffffe4;
+    pbVar6 = (bCString *)0x0;
+    pbVar5 = (bCString *)&stack0xffffffe8;
+    peVar3 = eCArchiveManager::GetInstance();
+    eCArchiveManager::SplitPath((eCArchiveManager *)peVar3,pbVar5,pbVar6,pbVar4,pbVar1);
+    pbVar1 = (bCString *)bCString::Left((bCString *)&stack0xffffffe4,(int)&local_c);
+    pbVar1 = (bCString *)bCString::operator+(pbVar1,local_c);
+    bCString::operator=((bCString *)&stack0xffffffe0,pbVar1);
+    bCString::~bCString(local_8);
+    bCString::~bCString(local_14);
+  }
+  iVar2 = bCString::CompareNoCase(local_14,(bCString *)&stack0xffffffe8);
+  bCString::~bCString((bCString *)&local_4);
+  bCString::~bCString((bCString *)&stack0xffffffe4);
+  bCString::~bCString((bCString *)&stack0xffffffe8);
+  bCString::~bCString(local_14);
+  return iVar2;
+}
+
+

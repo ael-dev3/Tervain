@@ -1,0 +1,4 @@
+; 30028e61 bTPropertyContainer<eECollisionGroup>::vfunction7
+30028e61 | e9fa700800 | JMP 0x300aff60
+; 30028e6b eCShaderMaterialAdmin::GetActiveShaderPool
+; 30028e6b Ordinal_6093

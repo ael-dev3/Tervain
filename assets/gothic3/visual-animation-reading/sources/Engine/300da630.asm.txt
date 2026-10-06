@@ -1,0 +1,3 @@
+; 300da630 FUN_300da630
+300da630 | 8d4168 | LEA EAX,[ECX + 0x68]
+300da633 | c3 | RET

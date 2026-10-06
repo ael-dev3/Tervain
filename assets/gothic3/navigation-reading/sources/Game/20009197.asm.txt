@@ -1,0 +1,4 @@
+; 20009197 bTPropertyType<gCNavigation_PS,bCString>::vfunction9
+20009197 | e9e4592800 | JMP 0x2028eb80
+; 200091ab gCItem_PS::AccessModAttrib1Value
+; 200091ab Ordinal_1438

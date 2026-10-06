@@ -1,0 +1,137 @@
+/* ENTRY 3001f30c | eCVisualAnimation_PS::ProcessPhysicsLOD | STATUS decompiled | 93 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::ProcessPhysicsLOD(void) */
+
+void __thiscall eCVisualAnimation_PS::ProcessPhysicsLOD(eCVisualAnimation_PS *this)
+
+{
+  eCVisualAnimation_PS_vftable *peVar1;
+  eCApplication *peVar2;
+  eCAnimationAdmin *this_00;
+  eCCameraBase *peVar3;
+  eCEntity *this_01;
+  bCVector *this_02;
+  float unaff_EBX;
+  int iVar4;
+  float10 fVar5;
+  float10 fVar6;
+  float fVar7;
+  float fVar8;
+  bCVector abStack_10 [4];
+  bCVector abStack_c [12];
+  
+                    /* 0x1f30c  11992  ?ProcessPhysicsLOD@eCVisualAnimation_PS@@QAEXXZ */
+  if ((*(char *)&this[0xf].vftablePtr == '\x01') &&
+     (this[1].eCEntityPropertySet_data.field_0x4 == '\0')) {
+    if (*(int *)&this[0xe].eCEntityPropertySet_data != 0) {
+      fVar8 = (float)this[0x13].eCEntityPropertySet_data.offset_0x8;
+      peVar2 = (eCApplication *)eCApplication::GetInstance();
+      fVar7 = eCApplication::GetScaledFrameTimeInSeconds(peVar2);
+      fVar8 = fVar7 * fVar8 + *(float *)&this[0xf].eCEntityPropertySet_data;
+      *(float *)&this[0xf].eCEntityPropertySet_data = fVar8;
+      if (15.0 < fVar8) {
+        StopRagDoll(this);
+        return;
+      }
+      if (2.0 < fVar8) {
+        fVar5 = (float10)thunk_FUN_300c3a90();
+        if ((float)fVar5 < 2.0) {
+          fVar8 = (float)this[0x13].eCEntityPropertySet_data.offset_0x8;
+          peVar2 = (eCApplication *)eCApplication::GetInstance();
+          fVar7 = eCApplication::GetScaledFrameTimeInSeconds(peVar2);
+          *(float *)&this[0x14].eCEntityPropertySet_data.offset_0xc =
+               fVar7 * fVar8 + *(float *)&this[0x14].eCEntityPropertySet_data.offset_0xc;
+        }
+        if ((10.0 < *(float *)&this[0xf].eCEntityPropertySet_data) ||
+           (2.0 < *(float *)&this[0x14].eCEntityPropertySet_data.offset_0xc)) {
+          peVar2 = (eCApplication *)eCApplication::GetInstance();
+          fVar8 = eCApplication::GetScaledFrameTimeInSeconds(peVar2);
+          peVar1 = (eCVisualAnimation_PS_vftable *)(fVar8 + (float)this[0x15].vftablePtr);
+          this[0x15].vftablePtr = peVar1;
+          fVar6 = (float10)thunk_FUN_3009bc90(1.0 - (float)peVar1 / 5.0);
+          fVar8 = (float)(fVar6 * (float10)(float)this[0x13].eCEntityPropertySet_data.offset_0x8);
+          if (*(int *)&this[0xe].eCEntityPropertySet_data != 0) {
+            thunk_FUN_300c3b40(fVar8);
+          }
+          iVar4 = 0;
+          if (0 < (int)this[0xe].eCEntityPropertySet_data.offset_0x8) {
+            do {
+              thunk_FUN_300c3b40(fVar8);
+              iVar4 = iVar4 + 1;
+            } while (iVar4 < (int)this[0xe].eCEntityPropertySet_data.offset_0x8);
+          }
+        }
+        if ((float)fVar5 < 0.1) {
+          StopRagDoll(this);
+          return;
+        }
+      }
+    }
+  }
+  else if ((this[6].eCEntityPropertySet_data.field_0x1 != '\x01') &&
+          (*(float *)&this[0xf].eCEntityPropertySet_data.field_0x4 <= 0.0)) {
+    this_00 = (eCAnimationAdmin *)thunk_FUN_3007c1e0();
+    eCAnimationAdmin::GetPhysicControllerDistance(this_00);
+    peVar2 = (eCApplication *)eCApplication::GetInstance();
+    peVar3 = eCApplication::GetCurrentCamera(peVar2);
+    this_01 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+    eCEntity::GetWorldPosition(this_01);
+    this_02 = (bCVector *)bCVector::operator-((bCVector *)(peVar3 + 0x8c),abStack_c);
+    fVar8 = bCVector::GetSquareMagnitude(this_02);
+    bCVector::~bCVector(abStack_10);
+    if (unaff_EBX * unaff_EBX < fVar8) {
+      if ((0 < (int)this[0xe].eCEntityPropertySet_data.offset_0x8) ||
+         ((this[1].eCEntityPropertySet_data.field_0x4 == '\x01' &&
+          (*(int *)&this[0xe].eCEntityPropertySet_data != 0)))) {
+        StopRagDoll(this);
+        return;
+      }
+    }
+    else {
+      fVar5 = (float10)thunk_FUN_3009bd40(fVar8);
+      if ((float)fVar5 < unaff_EBX - 250.0) {
+        if ((*(int *)&this[0xe].eCEntityPropertySet_data == 0) &&
+           (this[1].eCEntityPropertySet_data.field_0x4 == '\x01')) {
+          SetRagDollEnabled(this,true,0.0,true);
+        }
+        else if (this[0xe].eCEntityPropertySet_data.offset_0x8 == 0) {
+          CreatePhysicsController(this,false,(eCVisualAnimation_PS *)0x0);
+        }
+        if (*(int *)&this[0xe].eCEntityPropertySet_data != 0) {
+          thunk_FUN_300c3520(0xbf800000);
+        }
+        if (0 < (int)this[0xe].eCEntityPropertySet_data.offset_0x8) {
+          iVar4 = 0;
+          do {
+            thunk_FUN_300c3520(0xbf800000);
+            iVar4 = iVar4 + 1;
+          } while (iVar4 < (int)this[0xe].eCEntityPropertySet_data.offset_0x8);
+          return;
+        }
+      }
+      else {
+        if ((*(int *)&this[0xe].eCEntityPropertySet_data == 0) &&
+           (this[1].eCEntityPropertySet_data.field_0x4 == '\x01')) {
+          SetRagDollEnabled(this,true,0.0,true);
+        }
+        else if (this[0xe].eCEntityPropertySet_data.offset_0x8 == 0) {
+          CreatePhysicsController(this,false,(eCVisualAnimation_PS *)0x0);
+        }
+        fVar5 = (float10)thunk_FUN_3009bc90((((float)fVar5 - unaff_EBX) - 250.0) / 250.0);
+        if (*(int *)&this[0xe].eCEntityPropertySet_data != 0) {
+          thunk_FUN_300c3520((float)((float10)1 - fVar5));
+        }
+        iVar4 = 0;
+        if (0 < (int)this[0xe].eCEntityPropertySet_data.offset_0x8) {
+          do {
+            thunk_FUN_300c3520((float)((float10)1 - fVar5));
+            iVar4 = iVar4 + 1;
+          } while (iVar4 < (int)this[0xe].eCEntityPropertySet_data.offset_0x8);
+        }
+      }
+    }
+  }
+  return;
+}
+
+

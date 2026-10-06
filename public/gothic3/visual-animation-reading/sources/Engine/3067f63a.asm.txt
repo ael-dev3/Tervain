@@ -1,0 +1,25 @@
+; 3067f63a fastzero_I
+3067f63a | 55 | PUSH EBP
+3067f63b | 8bec | MOV EBP,ESP
+3067f63d | 83ec04 | SUB ESP,0x4
+3067f640 | 897dfc | MOV dword ptr [EBP + -0x4],EDI
+3067f643 | 8b7d08 | MOV EDI,dword ptr [EBP + 0x8]
+3067f646 | 8b4d0c | MOV ECX,dword ptr [EBP + 0xc]
+3067f649 | c1e907 | SHR ECX,0x7
+3067f64c | 660fefc0 | PXOR XMM0,XMM0
+3067f650 | eb08 | JMP 0x3067f65a
+3067f65a | 660f7f07 | MOVDQA xmmword ptr [EDI],XMM0
+3067f65e | 660f7f4710 | MOVDQA xmmword ptr [EDI + 0x10],XMM0
+3067f663 | 660f7f4720 | MOVDQA xmmword ptr [EDI + 0x20],XMM0
+3067f668 | 660f7f4730 | MOVDQA xmmword ptr [EDI + 0x30],XMM0
+3067f66d | 660f7f4740 | MOVDQA xmmword ptr [EDI + 0x40],XMM0
+3067f672 | 660f7f4750 | MOVDQA xmmword ptr [EDI + 0x50],XMM0
+3067f677 | 660f7f4760 | MOVDQA xmmword ptr [EDI + 0x60],XMM0
+3067f67c | 660f7f4770 | MOVDQA xmmword ptr [EDI + 0x70],XMM0
+3067f681 | 8dbf80000000 | LEA EDI,[EDI + 0x80]
+3067f687 | 49 | DEC ECX
+3067f688 | 75d0 | JNZ 0x3067f65a
+3067f68a | 8b7dfc | MOV EDI,dword ptr [EBP + -0x4]
+3067f68d | 8be5 | MOV ESP,EBP
+3067f68f | 5d | POP EBP
+3067f690 | c3 | RET

@@ -1,0 +1,110 @@
+/* ENTRY 10059d80 | FUN_10059d80 | STATUS decompiled | 75 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+uint FUN_10059d80(gCScriptProcessingUnit *param_1)
+
+{
+  Entity *this;
+  int iVar1;
+  bool bVar2;
+  undefined3 extraout_var;
+  eCEntity *peVar4;
+  uint extraout_EAX;
+  bCString *this_00;
+  gCScriptProcessingUnit *unaff_retaddr;
+  Entity aEStack_d8 [140];
+  undefined4 uStack_4c;
+  eCEntity *local_20;
+  undefined4 local_1c;
+  undefined4 local_18;
+  uint local_14;
+  uint local_10;
+  uint local_c;
+  undefined1 local_8;
+  undefined1 local_7;
+  bCString local_4 [4];
+  int *piVar3;
+  
+  iVar1 = *(int *)(*(int *)param_1 + -0xc + *(int *)(param_1 + 4) * 0x18);
+  if ((_DAT_10221ca4 & 1) == 0) {
+    _DAT_10221ca4 = _DAT_10221ca4 | 1;
+    DAT_10221c9c = DAT_10221ca0;
+    DAT_10221ca0 = DAT_10221ca0 + 1;
+  }
+  piVar3 = (int *)(*(int *)param_1 + -0x18 + *(int *)(param_1 + 4) * 0x18);
+  if (*piVar3 <= DAT_10221c9c) {
+    *piVar3 = DAT_10221c9c + 1;
+    PSNpc::ForceNextPose((PSNpc *)(iVar1 + 0x38),1);
+    local_20 = (eCEntity *)0x36;
+    PSRoutine::PropertyAction::operator=((PropertyAction *)(iVar1 + 8),(gEAction *)&local_20);
+    local_20 = (eCEntity *)0x2;
+    PSRoutine::PropertyAniState::operator=((PropertyAniState *)(iVar1 + 8),(gEAniState *)&local_20);
+    this = (Entity *)(iVar1 + 4);
+    Entity::Entity(aEStack_d8,this);
+    thunk_FUN_1000d6f0();
+    bVar2 = PSCharacterMovement::CanJump((PSCharacterMovement *)(iVar1 + 0x48));
+    piVar3 = (int *)CONCAT31(extraout_var,bVar2);
+    if (!bVar2) goto LAB_1005a029;
+    PSCharacterMovement::SetMovementMode((PSCharacterMovement *)(iVar1 + 0x48),6);
+    Entity::Entity((Entity *)&stack0xffffff24,this);
+    thunk_FUN_1000c4d0();
+    Entity::GetAni(this,(gEAction)&local_20,0x36,0,0);
+    peVar4 = Entity::operator_class_eCEntity_(this);
+    bCString::bCString((bCString *)&local_18);
+    local_1c = 0;
+    local_20 = peVar4;
+    bCString::operator=((bCString *)&local_18,(bCString *)&stack0xffffffdc);
+    local_14 = 0;
+    local_10 = local_10 & 0xffffff00;
+    local_c = 0x3f800000;
+    local_8 = 0;
+    local_7 = 0;
+    bCString::~bCString((bCString *)&stack0xffffffdc);
+    bVar2 = gCScriptProcessingUnit::sAIPlayAniInstr(&local_20,param_1,false);
+    this_00 = (bCString *)&local_18;
+    if (!bVar2) goto LAB_10059eec;
+    bCString::~bCString(this_00);
+    param_1 = unaff_retaddr;
+  }
+  if ((_DAT_10221ca4 & 2) == 0) {
+    _DAT_10221ca4 = _DAT_10221ca4 | 2;
+    DAT_10221c98 = DAT_10221ca0;
+    DAT_10221ca0 = DAT_10221ca0 + 1;
+  }
+  if (*(int *)(*(int *)param_1 + -0x18 + *(int *)(param_1 + 4) * 0x18) <= DAT_10221c98) {
+    *(int *)(*(int *)param_1 + -0x18 + *(int *)(param_1 + 4) * 0x18) = DAT_10221c98 + 1;
+    uStack_4c = 0x10059f67;
+    Entity::GetAni((Entity *)(iVar1 + 4),(gEAction)&stack0x00000000,0x39,0,0);
+    Entity::operator_class_eCEntity_((Entity *)(iVar1 + 4));
+    bCString::bCString((bCString *)&local_1c);
+    local_20 = (eCEntity *)0x0;
+    bCString::operator=((bCString *)&local_1c,local_4);
+    local_18 = 0xffffffff;
+    local_14 = local_14 & 0xffffff00;
+    local_10 = 0x3f800000;
+    local_c = local_c & 0xffff0000;
+    bCString::~bCString(local_4);
+    bVar2 = gCScriptProcessingUnit::sAIPlayAniInstr(&stack0xffffffdc,unaff_retaddr,false);
+    this_00 = (bCString *)&local_1c;
+    if (!bVar2) {
+LAB_10059eec:
+      bCString::~bCString(this_00);
+      return extraout_EAX & 0xffffff00;
+    }
+    bCString::~bCString(this_00);
+  }
+  if ((_DAT_10221ca4 & 4) == 0) {
+    _DAT_10221ca4 = _DAT_10221ca4 | 4;
+    DAT_10221c94 = DAT_10221ca0;
+    DAT_10221ca0 = DAT_10221ca0 + 1;
+  }
+  piVar3 = (int *)(*(int *)param_1 + -0x18 + *(int *)(param_1 + 4) * 0x18);
+  if (*(int *)(*(int *)param_1 + -0x18 + *(int *)(param_1 + 4) * 0x18) <= DAT_10221c94) {
+    *piVar3 = DAT_10221c94 + 1;
+  }
+LAB_1005a029:
+  return CONCAT31((int3)((uint)piVar3 >> 8),1);
+}
+
+

@@ -1,0 +1,4 @@
+; 3002b94a ?IsPaused@eCApplication@@QAE_N_N@Z
+3002b94a | e9017c0300 | JMP 0x30063550
+; 3002b94f eCGfxImageAVIData::operator=
+; 3002b94f Ordinal_1583

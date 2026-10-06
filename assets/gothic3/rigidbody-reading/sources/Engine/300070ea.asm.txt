@@ -1,0 +1,2 @@
+; 300070ea bTPropertyType<eCRigidBody_PS,bCVector>::vfunction22
+300070ea | e931a83200 | JMP 0x30331920

@@ -1,0 +1,13 @@
+/* ENTRY 202181d0 | FUN_202181d0 | STATUS decompiled | 3 ms */
+
+void __thiscall FUN_202181d0(eCEntityPropertySet *param_1,eCEntity *param_2)
+
+{
+  eCEntityPropertySet::SetEntity(param_1,param_2);
+  if (param_2 != (eCEntity *)0x0) {
+    eCEntity::DisableProcessing((eCEntity *)param_2,false);
+  }
+  return;
+}
+
+

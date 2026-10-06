@@ -1,0 +1,4 @@
+; 2003347e bTPropertyType<gCClock_PS,unsigned_long>::vfunction11
+2003347e | e99d6c1d00 | JMP 0x2020a120
+; 20033483 gCNavigationAdmin::GetLocalXZCameraVectors
+; 20033483 Ordinal_3703

@@ -1,0 +1,4 @@
+; 1000195b ?IsValid@bCOrientedBox@@QBE_NXZ
+1000195b | e970150600 | JMP 0x10062ed0
+; 10001960 bCAxisAngle::bCAxisAngle
+; 10001960 Ordinal_33

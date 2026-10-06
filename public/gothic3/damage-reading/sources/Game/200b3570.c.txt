@@ -1,0 +1,9 @@
+/* ENTRY 200b3570 | FUN_200b3570 | STATUS decompiled | 0 ms */
+
+undefined4 FUN_200b3570(void)
+
+{
+  return 0x33;
+}
+
+

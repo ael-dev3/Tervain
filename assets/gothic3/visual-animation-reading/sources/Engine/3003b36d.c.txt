@@ -1,0 +1,12 @@
+/* ENTRY 3003b36d | eCEffector::GetVersion | STATUS decompiled | 3 ms */
+
+/* public: virtual unsigned short __thiscall eCEffector::GetVersion(void)const  */
+
+ushort __thiscall eCEffector::GetVersion(eCEffector *this)
+
+{
+                    /* 0x3b36d  9375  ?GetVersion@eCEffector@@UBEGXZ */
+  return 0x27;
+}
+
+

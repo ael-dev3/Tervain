@@ -1,0 +1,4 @@
+; 3002c5d9 bTPropertyType<eCCollisionShape,unsigned_short>::vfunction15
+3002c5d9 | e902583300 | JMP 0x30361de0
+; 3002c5de eCRigidBodyBase_PS::GetLinearMomentum
+; 3002c5de Ordinal_7637

@@ -1,0 +1,4 @@
+; 3003292f bTPropertyType<eCVisualAnimation_PS,float>::vfunction4
+3003292f | e9dce82f00 | JMP 0x30331210
+; 30032934 eCSkydome_PS::eCSkydome_PS
+; 30032934 Ordinal_749

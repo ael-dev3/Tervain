@@ -1,0 +1,22 @@
+/* ENTRY 30342bc0 | bTPropertyObject<eCCollisionShapeBase_PS,eCEntityPropertySet>::~bTPropertyObject<eCCollisionShapeBase_PS,eCEntityPropertySet> | STATUS decompiled | 6 ms */
+
+bTPropertyObject<eCCollisionShapeBase_PS,eCEntityPropertySet> * __thiscall
+bTPropertyObject<eCCollisionShapeBase_PS,eCEntityPropertySet>::
+~bTPropertyObject<eCCollisionShapeBase_PS,eCEntityPropertySet>
+          (bTPropertyObject<eCCollisionShapeBase_PS,eCEntityPropertySet> *this)
+
+{
+  undefined *puVar1;
+  
+  bCPropertyObjectBase::bCPropertyObjectBase((bCPropertyObjectBase *)this);
+  (this->bTPOPureSmartPtr<eCCollisionShapeBase_PS>_data).offset_0x4 = (bCObjectRefBase *)0x0;
+  this->vftablePtr = &vftable;
+  puVar1 = bTPropertyObjectType<eCCollisionShapeBase_PS,eCEntityPropertySet>::
+           ~bTPropertyObjectType<eCCollisionShapeBase_PS,eCEntityPropertySet>();
+  (this->bTPropertyObject<eCCollisionShapeBase_PS,eCEntityPropertySet>_data).offset_0x0 = puVar1;
+  (this->bTPOPureSmartPtr<eCCollisionShapeBase_PS>_data).offset_0x4 = (bCObjectRefBase *)0x0;
+  thunk_FUN_30342140(1);
+  return this;
+}
+
+

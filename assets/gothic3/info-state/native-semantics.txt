@@ -1,0 +1,68 @@
+Installed Gothic 3 InfoManager source state
+
+The offline compiler verifies original Game.dll, Engine.dll and FileSystem.dll
+instruction bytes. The executable argument initializer is compared separately
+with the recorded static Steamless derivative, not encrypted original .text.
+No game code is executed. This is source state, not a captured running game.
+
+Static provider selection
+Game ordinary InfoManager Read saves the entity-patching flag and tries the
+compiled provider when patching and compiled-project flags both equal 1. If
+compiled loading fails it calls the INI loader when the saved patch flag is 1.
+Patching=true plus compiled lookup=missing therefore joins both compiled-project
+branches to INI loading. INI loading checks the noinfos command-line substring;
+when present, this source catalog must not be used as the runtime table.
+
+GetInfoDir builds Data/Infos/ plus the current world's file base name. The three
+Infos archive manifests select exactly 4,381 G3_World_01 .info members, with no
+deleted entries. Each selected original member hash and critical flag/name are
+checked against the existing source catalog. All InfoGiven fields explicitly
+contain false. Permanent has 4,076 explicit false, 197 explicit true and 108 absent
+fields. The absent properties initialize false on the byte-proven fresh factory
+route. Duplicate identical critical keys are retained with original line/value
+evidence; differing duplicates stop compilation. SKALVERAM3879 repeats identical
+Permanent=false at lines 23 and 24, so either duplicate lookup yields the same flag.
+
+The Projects_compiled.p01 compiledinfos_G3_World_01.bin entry has attributes
+0x28020, including native deletion bit 0x8000. Its original 36 byte archive header
+is uniquely located and matched. FileSystem later-volume name presence suppresses
+older same-name entries without testing length/deletion; Engine then skips the
+deleted entry when caching. No local physical compiled-info/FPC/cache override,
+or archived FPC/cache member, appears in the separately recorded filename audit.
+An external filepathcache supplied by custom command line is not excluded.
+
+Historical .pak has 4,260 and .p00 has 4,265 records, kept as separate flag snapshots. Both
+have Given=false throughout and 143 Permanent=true. They must not be merged into
+the current INI catalog. Their commands/conditions are not ported by this module.
+
+World state versus save state
+The main-world World_MCP InfoManager class version 4 at source offset 256753 has
+zero runtime-tail bytes. Ordinary Read uses CMP AX,4 followed by unsigned JNC,
+so version 4 bypasses the older Given/list/partner runtime overlay. Info runtime
+packets are u16 packet version and one Given boolean; Permanent is not in them.
+ReadSaveGame is different: version>1 reads Given packets, including version 4.
+WriteSaveGame version 4 writes those packets, ordered selections and partner IDs.
+Ordinary Write version 4 does not. Save restoration is intentionally unsupported
+by this initial-state API and must invalidate current Given facts when attempted.
+
+Browser API and scope
+loadBrowserInfoState selects an explicit fresh G3_World_01 profile with patching
+enabled, compiled lookup missing and noInfosSkip=false. Stored native patch flag 1
+and original empty-command-line defaults support that chosen profile. This is
+not proof that an arbitrary running native process uses those values. Fresh
+startup callbacks, flag changes, restored saves and full session ordering remain
+unapplied; callers must preserve these limitations.
+
+Given facts require exact provider definition source identity. markGiven is only
+the native accepted-script boolean store and must be called by an accepted
+execution plan after its permanence exclusions pass. Menu selection alone must
+not consume an Info. This module never decides availability, runs commands,
+completes a quest or changes inventory. Stored Permanent is distinct from the
+derived native IsPermanent predicate in dialogue.ts.
+
+Reproduction (Python 3.10+, local copies, no native game execution)
+python -B tools/gothic3/research_info_runtime.py --study <LOCAL_DESKTOP_STUDY> --installation <LOCAL_GOTHIC3_INSTALLATION>
+python -B tools/gothic3/freeze_info_state.py
+
+Generated paths remain under public/gothic3/info-state and assets/gothic3/info-state.
+Other original gameplay data and shared receipts are unchanged by these tools.

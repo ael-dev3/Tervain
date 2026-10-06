@@ -1,0 +1,2 @@
+; 30041dee ?GetDependencies@eCEntityPropertySet@@UAEXAAV?$bTValArray@VbCString@@@@0AAV?$bTObjArray@VeCTemplateEntityProxy@@@@@Z
+30041dee | e95df84300 | JMP 0x30481650

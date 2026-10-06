@@ -1,0 +1,4 @@
+; 20027f9d bTPropertyType<gCNavigation_PS,eCEntityProxy>::vfunction20
+20027f9d | e94e3e2600 | JMP 0x2028bdf0
+; 20027fa7 gCInfo_PS::AccessParent
+; 20027fa7 Ordinal_1524

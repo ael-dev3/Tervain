@@ -1,0 +1,31 @@
+{
+  "schema": "gothic3-entity-loading-rules-v1",
+  "inputs": {
+    "SharedBase": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214",
+    "Engine": "d49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3",
+    "Game": "b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f"
+  },
+  "profile": {
+    "gameVersion": 64,
+    "dynamicVersion": 83,
+    "entityVersion": 83,
+    "nodeVersion": 1
+  },
+  "dynamicOffsets": {
+    "creator": 424,
+    "flags": 444
+  },
+  "order": [
+    "gCEntity.Read outer version",
+    "eCDynamicEntity.Read version",
+    "creator present bool and conditional PropertyID read",
+    "flags1bc OR1",
+    "eCEntity.Read version and ReadV83",
+    "conditional IsEntityPatchingEnabled",
+    "conditional PatchWithTemplate(creator,true)",
+    "flags1bc ANDfffd",
+    "dynamic return1"
+  ],
+  "constructionEvidenceOnly": true,
+  "worldResident": false
+}

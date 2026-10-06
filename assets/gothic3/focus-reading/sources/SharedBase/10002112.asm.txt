@@ -1,0 +1,2 @@
+; 10002112 bCMemoryAdmin::Free
+10002112 | e9d9e90100 | JMP 0x10020af0

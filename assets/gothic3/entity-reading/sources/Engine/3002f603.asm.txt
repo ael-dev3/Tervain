@@ -1,0 +1,2 @@
+; 3002f603 ?RegisterNameInfo@eCSceneAdmin@@QAE_NABVbCString@@ABVeCEntity@@@Z
+3002f603 | e998ca4900 | JMP 0x304cc0a0

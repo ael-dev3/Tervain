@@ -1,0 +1,2 @@
+; 30017409 eCVisualAnimation_PS::eSMotionDesc::GetMotion
+30017409 | e9128d0800 | JMP 0x300a0120

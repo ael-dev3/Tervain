@@ -1,0 +1,14 @@
+/* ENTRY 3035b700 | bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeGroup>_>::vfunction20 | STATUS decompiled | 5 ms */
+
+void __thiscall
+bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeGroup>_>::vfunction20
+          (bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeGroup>_> *this)
+
+{
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)this);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)this[6].vftablePtr,(bCPropertyTypeBase *)this);
+  return;
+}
+
+

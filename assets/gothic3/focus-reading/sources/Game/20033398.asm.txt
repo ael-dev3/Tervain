@@ -1,0 +1,2 @@
+; 20033398 bTPropertyType<gCFocus_PS,bool>::vfunction15
+20033398 | e933101100 | JMP 0x201443d0

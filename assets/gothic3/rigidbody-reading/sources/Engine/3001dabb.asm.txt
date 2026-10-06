@@ -1,0 +1,4 @@
+; 3001dabb bTPropertyType<eCRigidBody_PS,float>::vfunction5
+3001dabb | e9c0323100 | JMP 0x30330d80
+; 3001dac0 eCPhysicsScene::CollectPolysInAABB
+; 3001dac0 Ordinal_3884

@@ -1,0 +1,27 @@
+/* ENTRY 300395b8 | eCIlluminated_PS::GetRootObject | STATUS decompiled | 10 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+/* public: static class bCPropertyObjectBase const * __stdcall eCIlluminated_PS::GetRootObject(void)
+    */
+
+bCPropertyObjectBase * eCIlluminated_PS::GetRootObject(void)
+
+{
+  bCPropertyObjectSingleton *this;
+  bCString *pbVar1;
+  bCString abStack_4 [4];
+  
+                    /* 0x395b8  8528  ?GetRootObject@eCIlluminated_PS@@SGPBVbCPropertyObjectBase@@XZ
+                        */
+  if ((_DAT_30ae1c44 & 1) == 0) {
+    _DAT_30ae1c44 = _DAT_30ae1c44 | 1;
+    bCString::bCString(abStack_4,"eCIlluminated_PS");
+    pbVar1 = abStack_4;
+    this = bCPropertyObjectSingleton::GetInstance();
+    DAT_30ae1c40 = bCPropertyObjectSingleton::GetRootObject(this,pbVar1);
+    bCString::~bCString(abStack_4);
+  }
+  return DAT_30ae1c40;
+}
+
+

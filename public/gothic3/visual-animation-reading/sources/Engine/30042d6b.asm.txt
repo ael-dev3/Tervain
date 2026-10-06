@@ -1,0 +1,2 @@
+; 30042d6b eCVisualAnimationLoD::CopyFrom
+30042d6b | e920bf0700 | JMP 0x300bec90

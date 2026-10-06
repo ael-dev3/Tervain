@@ -1,0 +1,3 @@
+; 304b2be0 FUN_304b2be0
+304b2be0 | 8d413c | LEA EAX,[ECX + 0x3c]
+304b2be3 | c3 | RET

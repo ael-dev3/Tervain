@@ -1,0 +1,2 @@
+; 30046add eCAnimationAdmin::QueryMotionDataEntity
+30046add | e9ee900400 | JMP 0x3008fbd0

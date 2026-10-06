@@ -1,0 +1,68 @@
+/* ENTRY 30014457 | eCVisualAnimation_PS::eCLookAtConstraint::SetTargetPos | STATUS decompiled | 27 ms */
+
+/* public: bool __thiscall eCVisualAnimation_PS::eCLookAtConstraint::SetTargetPos(class bCVector
+   const &) */
+
+bool __thiscall
+eCVisualAnimation_PS::eCLookAtConstraint::SetTargetPos(eCLookAtConstraint *this,bCVector *param_1)
+
+{
+  int iVar1;
+  eCWrapper_emfx2Actor *peVar2;
+  bCMemoryAdmin *this_00;
+  LookAtConstraintEx *pLVar3;
+  int iVar4;
+  bCVector *this_01;
+  ulong uVar5;
+  float fVar6;
+  bCMatrix abStack_40 [64];
+  
+                    /* 0x14457  14346
+                       ?SetTargetPos@eCLookAtConstraint@eCVisualAnimation_PS@@QAE_NABVbCVector@@@Z
+                        */
+  iVar1 = thunk_FUN_3009e470();
+  if (iVar1 != 0) {
+    peVar2 = eCVisualAnimationFactory::GetAssembledActor
+                       ((eCVisualAnimationFactory *)(*(int *)(this + 4) + 0x94));
+    if (peVar2 != (eCWrapper_emfx2Actor *)0x0) {
+      if (*(int *)this == 0) {
+        uVar5 = 0x110;
+        this_00 = bCMemoryAdmin::GetInstance();
+        pLVar3 = bCMemoryAdmin::Malloc(this_00,uVar5);
+        if (pLVar3 == (LookAtConstraintEx *)0x0) {
+          pLVar3 = (LookAtConstraintEx *)0x0;
+        }
+        else {
+          peVar2 = eCVisualAnimationFactory::GetAssembledActor
+                             ((eCVisualAnimationFactory *)(*(int *)(this + 4) + 0x94));
+          pLVar3 = LookAtConstraintEx::LookAtConstraintEx
+                             (pLVar3,*(undefined4 *)(peVar2 + 0xc),iVar1,0);
+        }
+        *(LookAtConstraintEx **)this = pLVar3;
+        FUN_30640d20(1);
+        FUN_30640cc0(*(undefined4 *)(this + 0x14));
+        FUN_30641360(this + 0x18,this + 0x24);
+        iVar4 = FUN_306423e0();
+        if (iVar4 == 0) {
+          iVar4 = iVar1;
+        }
+        bCMatrix::bCMatrix(abStack_40,(bCMatrix *)(iVar4 + 0x84));
+        fVar6 = 0.0;
+        this_01 = bCMatrix::AccessTranslation(abStack_40);
+        bCVector::SetVector(this_01,fVar6);
+        FUN_30641140(abStack_40);
+        bCMatrix::Invert(abStack_40);
+        FUN_30641160(abStack_40);
+        eCVisualAnimationFactory::GetAssembledActor
+                  ((eCVisualAnimationFactory *)(*(int *)(this + 4) + 0x94));
+        thunk_FUN_300b8490(*(undefined4 *)this);
+        bCMatrix::~bCMatrix(abStack_40);
+      }
+      FUN_30641110(param_1);
+      return true;
+    }
+  }
+  return false;
+}
+
+

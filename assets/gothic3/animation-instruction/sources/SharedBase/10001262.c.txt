@@ -1,0 +1,74 @@
+/* ENTRY 10001262 | bCString::Delete | STATUS decompiled | 12 ms */
+
+/* public: int __thiscall bCString::Delete(int,int) */
+
+int __thiscall bCString::Delete(bCString *this,int param_1,int param_2)
+
+{
+  int iVar1;
+  int iVar2;
+  
+                    /* 0x1262  1922  ?Delete@bCString@@QAEHHH@Z */
+  if (param_2 == 0) {
+    if (*(int *)this == 0) {
+      return 0;
+    }
+    return *(int *)(*(int *)this + -8);
+  }
+  iVar1 = *(int *)this;
+  if (iVar1 == 0) {
+    iVar2 = 0;
+  }
+  else {
+    iVar2 = *(int *)(iVar1 + -8);
+  }
+  if (param_1 < iVar2) {
+    CopyBeforeWrite(this);
+    iVar1 = *(int *)this;
+    if (iVar1 == 0) {
+      iVar2 = 0;
+    }
+    else {
+      iVar2 = *(int *)(iVar1 + -8);
+    }
+    if (param_1 + param_2 < iVar2) {
+      if (iVar1 == 0) {
+        iVar2 = 0;
+      }
+      else {
+        iVar2 = *(int *)(iVar1 + -8);
+      }
+      _memmove((void *)(iVar1 + param_1),(void *)(iVar1 + param_1 + param_2),
+               (iVar2 - param_1) - param_2);
+      iVar1 = *(int *)this;
+      if (iVar1 == 0) {
+        iVar2 = 0;
+      }
+      else {
+        iVar2 = *(int *)(iVar1 + -8);
+      }
+      *(int *)(iVar1 + -8) = iVar2 - param_2;
+      iVar1 = *(int *)this;
+      if (iVar1 == 0) {
+        iVar2 = 0;
+      }
+      else {
+        iVar2 = *(int *)(iVar1 + -8);
+      }
+      *(undefined1 *)(iVar1 + iVar2) = 0;
+    }
+    else {
+      *(int *)(iVar1 + -8) = param_1;
+      *(undefined1 *)(param_1 + *(int *)this) = 0;
+    }
+    if (*(int *)this != 0) {
+      return *(int *)(*(int *)this + -8);
+    }
+  }
+  else if (iVar1 != 0) {
+    return *(int *)(iVar1 + -8);
+  }
+  return 0;
+}
+
+

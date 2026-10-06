@@ -1,0 +1,2 @@
+; 30037970 ?GetAniVariation@eCAnimationAdmin@@QBEXAAVbCString@@@Z
+30037970 | e91b850500 | JMP 0x3008fe90

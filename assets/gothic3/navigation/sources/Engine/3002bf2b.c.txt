@@ -1,0 +1,78 @@
+/* ENTRY 3002bf2b | eCEntityAdmin::CollectDynamicProcessingRangeEntity | STATUS decompiled | 97 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+/* protected: void __thiscall eCEntityAdmin::CollectDynamicProcessingRangeEntity(class eCEntity
+   *,class bTSmallArray<class eCEntity *> &,class bTSmallArray<class eCEntity *> &) */
+
+void __thiscall
+eCEntityAdmin::CollectDynamicProcessingRangeEntity
+          (eCEntityAdmin *this,eCEntity *param_1,bTSmallArray<eCEntity*> *param_2,
+          bTSmallArray<eCEntity*> *param_3)
+
+{
+  undefined2 *puVar1;
+  uint uVar2;
+  bool bVar3;
+  eSEntityFlags *peVar4;
+  bCBox *pbVar5;
+  
+                    /* 0x2bf2b  3866
+                       ?CollectDynamicProcessingRangeEntity@eCEntityAdmin@@IAEXPAVeCEntity@@AAV?$bTSmallArray@PAVeCEntity@@@@1@Z
+                        */
+  if ((DAT_30af23b4 & 1) == 0) {
+    DAT_30af23b4 = DAT_30af23b4 | 1;
+    _DAT_30af23b0 = 0x40;
+  }
+  if ((DAT_30af23b4 & 2) == 0) {
+    DAT_30af23b4 = DAT_30af23b4 | 2;
+    DAT_30af23ac = 0x100108;
+  }
+  peVar4 = eCEntity::GetEntityFlags((eCEntity *)param_1);
+  if (((*(uint *)peVar4 & DAT_30af23ac) == DAT_30af23ac) && ((_DAT_30af23b0 & *(uint *)peVar4) == 0)
+     ) {
+    if ((_DAT_30aee390 & 1) == 0) {
+      _DAT_30aee390 = _DAT_30aee390 | 1;
+      DAT_30aee38c = 0x20;
+    }
+    if ((*(uint *)peVar4 & DAT_30aee38c) != 0) {
+      pbVar5 = eCEntity::GetWorldNodeBoundary((eCEntity *)param_1);
+      bVar3 = IntersectsProcessingRangeRegion(this,pbVar5);
+      if (!bVar3) goto LAB_304c7f46;
+    }
+    bVar3 = eCEntity::HasProcessingRangeEntered((eCEntity *)param_1);
+    if (!bVar3) {
+      thunk_FUN_3039f600();
+      *(eCEntity **)(*(int *)(param_2 + 4) + (uint)*(ushort *)(param_2 + 2) * 4) = param_1;
+      *(short *)(param_2 + 2) = *(short *)(param_2 + 2) + 1;
+    }
+    thunk_FUN_3039f600();
+    *(eCEntity **)
+     ((int)(this->eCEntityAdmin_data).offset_0xa8 +
+     (uint)(ushort)(this->eCEntityAdmin_data).offset_0xa6 * 4) = param_1;
+    puVar1 = &(this->eCEntityAdmin_data).offset_0xa6;
+    *puVar1 = *puVar1 + 1;
+    uVar2 = (this->eCEntityAdmin_data).offset_0x94;
+    if (((uVar2 & *(uint *)peVar4) == uVar2) &&
+       (((this->eCEntityAdmin_data).offset_0x98 & *(uint *)peVar4) == 0)) {
+      thunk_FUN_3039f600();
+      *(eCEntity **)
+       ((int)(this->eCEntityAdmin_data).offset_0xb0 +
+       (uint)(ushort)(this->eCEntityAdmin_data).offset_0xae * 4) = param_1;
+      puVar1 = &(this->eCEntityAdmin_data).offset_0xae;
+      *puVar1 = *puVar1 + 1;
+      return;
+    }
+  }
+  else {
+LAB_304c7f46:
+    bVar3 = eCEntity::HasProcessingRangeEntered((eCEntity *)param_1);
+    if (bVar3) {
+      thunk_FUN_3039f600();
+      *(eCEntity **)(*(int *)(param_3 + 4) + (uint)*(ushort *)(param_3 + 2) * 4) = param_1;
+      *(short *)(param_3 + 2) = *(short *)(param_3 + 2) + 1;
+    }
+  }
+  return;
+}
+
+

@@ -1,0 +1,11 @@
+/* ENTRY 300ad150 | bTPropertyObject<eCVisualAnimation_PS,eCEntityPropertySet>::vfunction1 | STATUS decompiled | 2 ms */
+
+bCObjectRefBase * __thiscall
+bTPropertyObject<eCVisualAnimation_PS,eCEntityPropertySet>::vfunction1
+          (bTPropertyObject<eCVisualAnimation_PS,eCEntityPropertySet> *this)
+
+{
+  return (this->bTPOPureSmartPtr<eCVisualAnimation_PS>_data).offset_0x4;
+}
+
+

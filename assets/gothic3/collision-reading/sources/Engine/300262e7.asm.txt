@@ -1,0 +1,4 @@
+; 300262e7 bTPropertyObject<eCCollisionShape,bCObjectRefBase>::vfunction5
+300262e7 | e9d45e3300 | JMP 0x3035c1c0
+; 300262fb eCPropertySetCtrl::Process
+; 300262fb Ordinal_11962

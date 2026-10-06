@@ -1,0 +1,2 @@
+; 2002f243 gCParty_PS::~gCParty_PS
+2002f243 | e9288a2e00 | JMP 0x20317c70

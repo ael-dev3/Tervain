@@ -1,0 +1,4 @@
+; 20188510 gCHUDListCtrlInvSpells::gCHUDListCtrlInvSpells
+20188510 | c701f4756720 | MOV dword ptr [ECX],0x206775f4
+20188516 | c74110d8756720 | MOV dword ptr [ECX + 0x10],0x206775d8
+2018851d | e9fbb6e9ff | JMP 0x20023c1d

@@ -1,0 +1,2 @@
+; 100052fe MemHeap::ReAllocUnsynced
+100052fe | e98d840300 | JMP 0x1003d790

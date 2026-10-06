@@ -1,0 +1,2 @@
+; 2002ef3c bTPOPureSmartPtr<gCStat>::~bTPOPureSmartPtr<gCStat>
+2002ef3c | e9dfc93600 | JMP 0x2039b920

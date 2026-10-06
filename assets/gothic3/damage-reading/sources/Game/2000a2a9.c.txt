@@ -1,0 +1,10 @@
+/* ENTRY 2000a2a9 | bTPropertyType<gCDamageReceiver_PS,long>::vfunction1 | STATUS decompiled | 4 ms */
+
+bTPropertyType<gCDamageReceiver_PS,long>_vftable * __thiscall
+bTPropertyType<gCDamageReceiver_PS,long>::vfunction1(bTPropertyType<gCDamageReceiver_PS,long> *this)
+
+{
+  return this[7].vftablePtr;
+}
+
+

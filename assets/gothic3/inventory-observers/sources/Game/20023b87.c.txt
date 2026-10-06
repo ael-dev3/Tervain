@@ -1,0 +1,15 @@
+/* ENTRY 20023b87 | gCHUDTableStackStats::vfunction5_for_gCInventoryListener | STATUS decompiled | 6 ms */
+
+void __thiscall gCHUDTableStackStats::vfunction5_for_gCInventoryListener(gCHUDTableStackStats *this)
+
+{
+  if (*(int **)&this->gCHUDTable_data != (int *)0x0) {
+    (**(code **)(**(int **)&this->gCHUDTable_data + 0x154))(this);
+  }
+  *(undefined4 *)&this->gCHUDTable_data = 0;
+  *(undefined4 *)&(this->gCHUDTable_data).field_0x4 = 0xffffffff;
+  *(undefined1 *)&this[-1].vftablePtr = 1;
+  return;
+}
+
+

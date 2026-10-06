@@ -1,0 +1,10 @@
+/* ENTRY 2016e750 | FUN_2016e750 | STATUS decompiled | 1 ms */
+
+void FUN_2016e750(void)
+
+{
+  thunk_FUN_2016bab0();
+  return;
+}
+
+

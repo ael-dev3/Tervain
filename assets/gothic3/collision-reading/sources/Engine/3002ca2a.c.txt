@@ -1,0 +1,17 @@
+/* ENTRY 3002ca2a | bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeAABBAdapt>_>::vfunction8 | STATUS decompiled | 98 ms */
+
+undefined4 __thiscall
+bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeAABBAdapt>_>::vfunction8
+          (bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeAABBAdapt>_> *this)
+
+{
+  char cVar1;
+  
+  cVar1 = (*this->vftablePtr->vfunction7)();
+  if (cVar1 == '\0') {
+    return 0xffffffff;
+  }
+  return (this[8].vftablePtr)->vfunction2;
+}
+
+

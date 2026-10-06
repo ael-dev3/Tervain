@@ -1,0 +1,2 @@
+; 3002caf7 thunk_FUN_300c38f0
+3002caf7 | e9f46d0900 | JMP 0x300c38f0

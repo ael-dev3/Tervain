@@ -1,0 +1,4 @@
+; 200337c6 ?UpdatePlayer@gCGUIManager@@QAEXXZ
+200337c6 | e985b51200 | JMP 0x2015ed50
+; 200337cb gCScriptRoutine_PS::OnPostCopy
+; 200337cb Ordinal_5514

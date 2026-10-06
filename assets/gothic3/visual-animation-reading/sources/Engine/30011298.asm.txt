@@ -1,0 +1,2 @@
+; 30011298 eCWrapper_emfx2Actor::GetBoundary
+30011298 | e913980c00 | JMP 0x300daab0

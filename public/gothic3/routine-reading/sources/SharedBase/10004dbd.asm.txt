@@ -1,0 +1,4 @@
+; 10004dbd ?ForceLegacyMode@bCPOStream@@QAEXXZ
+10004dbd | e90e580800 | JMP 0x1008a5d0
+; 10004dc2 bCFPUAdmin::GetCurrentControlWord
+; 10004dc2 Ordinal_2229

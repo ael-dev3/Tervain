@@ -1,0 +1,61 @@
+; 100b4adc __VEC_memzero
+100b4adc | 55 | PUSH EBP
+100b4add | 8bec | MOV EBP,ESP
+100b4adf | 83ec10 | SUB ESP,0x10
+100b4ae2 | 897dfc | MOV dword ptr [EBP + -0x4],EDI
+100b4ae5 | 8b4508 | MOV EAX,dword ptr [EBP + 0x8]
+100b4ae8 | 99 | CDQ
+100b4ae9 | 8bf8 | MOV EDI,EAX
+100b4aeb | 33fa | XOR EDI,EDX
+100b4aed | 2bfa | SUB EDI,EDX
+100b4aef | 83e70f | AND EDI,0xf
+100b4af2 | 33fa | XOR EDI,EDX
+100b4af4 | 2bfa | SUB EDI,EDX
+100b4af6 | 85ff | TEST EDI,EDI
+100b4af8 | 753c | JNZ 0x100b4b36
+100b4afa | 8b4d10 | MOV ECX,dword ptr [EBP + 0x10]
+100b4afd | 8bd1 | MOV EDX,ECX
+100b4aff | 83e27f | AND EDX,0x7f
+100b4b02 | 8955f4 | MOV dword ptr [EBP + -0xc],EDX
+100b4b05 | 3bca | CMP ECX,EDX
+100b4b07 | 7412 | JZ 0x100b4b1b
+100b4b09 | 2bca | SUB ECX,EDX
+100b4b0b | 51 | PUSH ECX
+100b4b0c | 50 | PUSH EAX
+100b4b0d | e873ffffff | CALL 0x100b4a85
+100b4b12 | 83c408 | ADD ESP,0x8
+100b4b15 | 8b4508 | MOV EAX,dword ptr [EBP + 0x8]
+100b4b18 | 8b55f4 | MOV EDX,dword ptr [EBP + -0xc]
+100b4b1b | 85d2 | TEST EDX,EDX
+100b4b1d | 7445 | JZ 0x100b4b64
+100b4b1f | 034510 | ADD EAX,dword ptr [EBP + 0x10]
+100b4b22 | 2bc2 | SUB EAX,EDX
+100b4b24 | 8945f8 | MOV dword ptr [EBP + -0x8],EAX
+100b4b27 | 33c0 | XOR EAX,EAX
+100b4b29 | 8b7df8 | MOV EDI,dword ptr [EBP + -0x8]
+100b4b2c | 8b4df4 | MOV ECX,dword ptr [EBP + -0xc]
+100b4b2f | f3aa | STOSB.REP ES:EDI
+100b4b31 | 8b4508 | MOV EAX,dword ptr [EBP + 0x8]
+100b4b34 | eb2e | JMP 0x100b4b64
+100b4b36 | f7df | NEG EDI
+100b4b38 | 83c710 | ADD EDI,0x10
+100b4b3b | 897df0 | MOV dword ptr [EBP + -0x10],EDI
+100b4b3e | 33c0 | XOR EAX,EAX
+100b4b40 | 8b7d08 | MOV EDI,dword ptr [EBP + 0x8]
+100b4b43 | 8b4df0 | MOV ECX,dword ptr [EBP + -0x10]
+100b4b46 | f3aa | STOSB.REP ES:EDI
+100b4b48 | 8b45f0 | MOV EAX,dword ptr [EBP + -0x10]
+100b4b4b | 8b4d08 | MOV ECX,dword ptr [EBP + 0x8]
+100b4b4e | 8b5510 | MOV EDX,dword ptr [EBP + 0x10]
+100b4b51 | 03c8 | ADD ECX,EAX
+100b4b53 | 2bd0 | SUB EDX,EAX
+100b4b55 | 52 | PUSH EDX
+100b4b56 | 6a00 | PUSH 0x0
+100b4b58 | 51 | PUSH ECX
+100b4b59 | e87effffff | CALL 0x100b4adc
+100b4b5e | 83c40c | ADD ESP,0xc
+100b4b61 | 8b4508 | MOV EAX,dword ptr [EBP + 0x8]
+100b4b64 | 8b7dfc | MOV EDI,dword ptr [EBP + -0x4]
+100b4b67 | 8be5 | MOV ESP,EBP
+100b4b69 | 5d | POP EBP
+100b4b6a | c3 | RET

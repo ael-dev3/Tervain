@@ -1,0 +1,10 @@
+/* ENTRY 10030550 | FUN_10030550 | STATUS decompiled | 2 ms */
+
+void __thiscall FUN_10030550(void *this,Entity *param_1)
+
+{
+  PSCharacterMovement::SetAlignmentTarget((PSCharacterMovement *)((int)this + 0x44),param_1);
+  return;
+}
+
+

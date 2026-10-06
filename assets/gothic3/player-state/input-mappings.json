@@ -1,0 +1,1351 @@
+{
+  "schema": "gothic3-native-input-mappings-v1",
+  "gameSha256": "b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f",
+  "defaultSessionKeys": [
+    {
+      "sessionKey": 1,
+      "keyIdInstruction": {
+        "address": "20390f81",
+        "bytes": "66c744243c0100",
+        "assembly": "MOV word ptr [ESP + 0x3c],0x1"
+      },
+      "physicalKeys": [
+        {
+          "offset": 200,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "20390fa1",
+            "bytes": "c700c8000000",
+            "assembly": "MOV dword ptr [EAX],0xc8"
+          }
+        },
+        {
+          "offset": 17,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "20391048",
+            "bytes": "c70011000000",
+            "assembly": "MOV dword ptr [EAX],0x11"
+          }
+        }
+      ],
+      "nativeLabel": "Vorwärts",
+      "labelEvidence": {
+        "name": "UTF16 literal",
+        "address": "206a2aa4",
+        "bytes": "56006f0072007700e4007200740073000000",
+        "byteCount": 18,
+        "sha256": "67ac768cbdd485db4e9beaddfdc4e674ce148eb73d2e166161406c0bad39ed57"
+      }
+    },
+    {
+      "sessionKey": 2,
+      "keyIdInstruction": {
+        "address": "20391109",
+        "bytes": "66c744243c0200",
+        "assembly": "MOV word ptr [ESP + 0x3c],0x2"
+      },
+      "physicalKeys": [
+        {
+          "offset": 208,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "2039112e",
+            "bytes": "c700d0000000",
+            "assembly": "MOV dword ptr [EAX],0xd0"
+          }
+        },
+        {
+          "offset": 31,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "203911c8",
+            "bytes": "c7001f000000",
+            "assembly": "MOV dword ptr [EAX],0x1f"
+          }
+        }
+      ],
+      "nativeLabel": "Rückwärts",
+      "labelEvidence": {
+        "name": "UTF16 literal",
+        "address": "206a2a8c",
+        "bytes": "5200fc0063006b007700e4007200740073000000",
+        "byteCount": 20,
+        "sha256": "62ef7c862336a2f3682ae6ab27b16fb04b5302d876cf7b895861f5b0fb4279f2"
+      }
+    },
+    {
+      "sessionKey": 3,
+      "keyIdInstruction": {
+        "address": "20391289",
+        "bytes": "66c744243c0300",
+        "assembly": "MOV word ptr [ESP + 0x3c],0x3"
+      },
+      "physicalKeys": [
+        {
+          "offset": 203,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "203912ae",
+            "bytes": "c700cb000000",
+            "assembly": "MOV dword ptr [EAX],0xcb"
+          }
+        },
+        {
+          "offset": 30,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "20391348",
+            "bytes": "c7001e000000",
+            "assembly": "MOV dword ptr [EAX],0x1e"
+          }
+        }
+      ],
+      "nativeLabel": "Strafe Links",
+      "labelEvidence": {
+        "name": "UTF16 literal",
+        "address": "206a2a6c",
+        "bytes": "53007400720061006600650020004c0069006e006b0073000000",
+        "byteCount": 26,
+        "sha256": "9f562fab7a017e2b92539208ccc778fb49b491f69012de7524f8f9df5791a1e7"
+      }
+    },
+    {
+      "sessionKey": 4,
+      "keyIdInstruction": {
+        "address": "20391409",
+        "bytes": "66c744243c0400",
+        "assembly": "MOV word ptr [ESP + 0x3c],0x4"
+      },
+      "physicalKeys": [
+        {
+          "offset": 205,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "2039142e",
+            "bytes": "c700cd000000",
+            "assembly": "MOV dword ptr [EAX],0xcd"
+          }
+        },
+        {
+          "offset": 32,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "203914c8",
+            "bytes": "c70020000000",
+            "assembly": "MOV dword ptr [EAX],0x20"
+          }
+        }
+      ],
+      "nativeLabel": "Strafe Rechts",
+      "labelEvidence": {
+        "name": "UTF16 literal",
+        "address": "206a2a48",
+        "bytes": "53007400720061006600650020005200650063006800740073000000",
+        "byteCount": 28,
+        "sha256": "69bcdc01ed09e8fa83aa49b5e192df06b737d4a635ed4a06e3bf8b9287a8682b"
+      }
+    },
+    {
+      "sessionKey": 9,
+      "keyIdInstruction": {
+        "address": "20391589",
+        "bytes": "66c744243c0900",
+        "assembly": "MOV word ptr [ESP + 0x3c],0x9"
+      },
+      "physicalKeys": [
+        {
+          "offset": 7,
+          "device": 1,
+          "deviceMeaning": "mouse",
+          "offsetStoreInstruction": {
+            "address": "203915b2",
+            "bytes": "c70007000000",
+            "assembly": "MOV dword ptr [EAX],0x7"
+          }
+        },
+        {
+          "offset": 18,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "2039164c",
+            "bytes": "c70012000000",
+            "assembly": "MOV dword ptr [EAX],0x12"
+          }
+        }
+      ],
+      "nativeLabel": "Camera Rotation Rechts",
+      "labelEvidence": {
+        "name": "UTF16 literal",
+        "address": "206a2a10",
+        "bytes": "430061006d00650072006100200052006f0074006100740069006f006e0020005200650063006800740073000000",
+        "byteCount": 46,
+        "sha256": "a202613c9f1fbf9f356797bca174292db9578f5cb1c2de55d9279808b2c5236e"
+      }
+    },
+    {
+      "sessionKey": 10,
+      "keyIdInstruction": {
+        "address": "2039170d",
+        "bytes": "66c744243c0a00",
+        "assembly": "MOV word ptr [ESP + 0x3c],0xa"
+      },
+      "physicalKeys": [
+        {
+          "offset": 8,
+          "device": 1,
+          "deviceMeaning": "mouse",
+          "offsetStoreInstruction": {
+            "address": "20391736",
+            "bytes": "c70008000000",
+            "assembly": "MOV dword ptr [EAX],0x8"
+          }
+        },
+        {
+          "offset": 16,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "203917d0",
+            "bytes": "c70010000000",
+            "assembly": "MOV dword ptr [EAX],0x10"
+          }
+        }
+      ],
+      "nativeLabel": "Camera Rotation Links",
+      "labelEvidence": {
+        "name": "UTF16 literal",
+        "address": "206a29dc",
+        "bytes": "430061006d00650072006100200052006f0074006100740069006f006e0020004c0069006e006b0073000000",
+        "byteCount": 44,
+        "sha256": "d92e5877706efe9e9872219b57c85656b37ab4254182b57a605399246b85cf09"
+      }
+    },
+    {
+      "sessionKey": 7,
+      "keyIdInstruction": {
+        "address": "20391891",
+        "bytes": "66c744243c0700",
+        "assembly": "MOV word ptr [ESP + 0x3c],0x7"
+      },
+      "physicalKeys": [
+        {
+          "offset": 10,
+          "device": 1,
+          "deviceMeaning": "mouse",
+          "offsetStoreInstruction": {
+            "address": "203918ba",
+            "bytes": "c7000a000000",
+            "assembly": "MOV dword ptr [EAX],0xa"
+          }
+        }
+      ],
+      "nativeLabel": "Rotation Hoch",
+      "labelEvidence": {
+        "name": "UTF16 literal",
+        "address": "206a29b8",
+        "bytes": "52006f0074006100740069006f006e00200048006f00630068000000",
+        "byteCount": 28,
+        "sha256": "bd8388c6affe0b7d3391d6d7511ac551c3994120e6a655fa0acd6f7094088a63"
+      }
+    },
+    {
+      "sessionKey": 8,
+      "keyIdInstruction": {
+        "address": "20391976",
+        "bytes": "66c744243c0800",
+        "assembly": "MOV word ptr [ESP + 0x3c],0x8"
+      },
+      "physicalKeys": [
+        {
+          "offset": 9,
+          "device": 1,
+          "deviceMeaning": "mouse",
+          "offsetStoreInstruction": {
+            "address": "2039199f",
+            "bytes": "c70009000000",
+            "assembly": "MOV dword ptr [EAX],0x9"
+          }
+        }
+      ],
+      "nativeLabel": "Rotation Runter",
+      "labelEvidence": {
+        "name": "UTF16 literal",
+        "address": "206a2990",
+        "bytes": "52006f0074006100740069006f006e002000520075006e007400650072000000",
+        "byteCount": 32,
+        "sha256": "2098e796b6ddbbb4a9055a4bd5e802118ef960662af13263c2c3e6c61ddcd5e3"
+      }
+    },
+    {
+      "sessionKey": 11,
+      "keyIdInstruction": {
+        "address": "20391a5b",
+        "bytes": "66c744243c0b00",
+        "assembly": "MOV word ptr [ESP + 0x3c],0xb"
+      },
+      "physicalKeys": [
+        {
+          "offset": 54,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "20391a80",
+            "bytes": "c70036000000",
+            "assembly": "MOV dword ptr [EAX],0x36"
+          }
+        },
+        {
+          "offset": 42,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "20391b1a",
+            "bytes": "c7002a000000",
+            "assembly": "MOV dword ptr [EAX],0x2a"
+          }
+        }
+      ],
+      "nativeLabel": "Gehen",
+      "labelEvidence": {
+        "name": "UTF16 literal",
+        "address": "206a2980",
+        "bytes": "47006500680065006e000000",
+        "byteCount": 12,
+        "sha256": "a110ce3e813095a11bce5dc92448c96d978bbcd3b140e420aa97bd79ddc221e0"
+      }
+    },
+    {
+      "sessionKey": 12,
+      "keyIdInstruction": {
+        "address": "20391bdb",
+        "bytes": "66c744243c0c00",
+        "assembly": "MOV word ptr [ESP + 0x3c],0xc"
+      },
+      "physicalKeys": [
+        {
+          "offset": 58,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "20391c00",
+            "bytes": "c7003a000000",
+            "assembly": "MOV dword ptr [EAX],0x3a"
+          }
+        }
+      ],
+      "nativeLabel": "Gehen Toggle",
+      "labelEvidence": {
+        "name": "UTF16 literal",
+        "address": "206a2960",
+        "bytes": "47006500680065006e00200054006f00670067006c0065000000",
+        "byteCount": 26,
+        "sha256": "224cb103d0fda79f0a237ac185ee7a1a45be87537f8995428fffae6794a42095"
+      }
+    },
+    {
+      "sessionKey": 13,
+      "keyIdInstruction": {
+        "address": "20391cbc",
+        "bytes": "66c744243c0d00",
+        "assembly": "MOV word ptr [ESP + 0x3c],0xd"
+      },
+      "physicalKeys": [
+        {
+          "offset": 82,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "20391ce1",
+            "bytes": "c70052000000",
+            "assembly": "MOV dword ptr [EAX],0x52"
+          }
+        },
+        {
+          "offset": 56,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "20391d7b",
+            "bytes": "c70038000000",
+            "assembly": "MOV dword ptr [EAX],0x38"
+          }
+        }
+      ],
+      "nativeLabel": "Springen",
+      "labelEvidence": {
+        "name": "UTF16 literal",
+        "address": "206a2948",
+        "bytes": "53007000720069006e00670065006e000000",
+        "byteCount": 18,
+        "sha256": "c9fa879e08eb218824e8429214bc66b6007d8e320decc0c9b70fd2fe7221a582"
+      }
+    },
+    {
+      "sessionKey": 14,
+      "keyIdInstruction": {
+        "address": "20391e3c",
+        "bytes": "66c744243c0e00",
+        "assembly": "MOV word ptr [ESP + 0x3c],0xe"
+      },
+      "physicalKeys": [
+        {
+          "offset": 157,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "20391e61",
+            "bytes": "c7009d000000",
+            "assembly": "MOV dword ptr [EAX],0x9d"
+          }
+        },
+        {
+          "offset": 29,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "20391efb",
+            "bytes": "c7001d000000",
+            "assembly": "MOV dword ptr [EAX],0x1d"
+          }
+        }
+      ],
+      "nativeLabel": "Ducken",
+      "labelEvidence": {
+        "name": "UTF16 literal",
+        "address": "206a2938",
+        "bytes": "4400750063006b0065006e000000",
+        "byteCount": 14,
+        "sha256": "b62eb12554ac3a090c50c0427efa161d41163f787c93dc31b642f67c5dfa8044"
+      }
+    },
+    {
+      "sessionKey": 15,
+      "keyIdInstruction": {
+        "address": "20391fbc",
+        "bytes": "66c744243c0f00",
+        "assembly": "MOV word ptr [ESP + 0x3c],0xf"
+      },
+      "physicalKeys": [
+        {
+          "offset": 3,
+          "device": 1,
+          "deviceMeaning": "mouse",
+          "offsetStoreInstruction": {
+            "address": "20391fe5",
+            "bytes": "c70003000000",
+            "assembly": "MOV dword ptr [EAX],0x3"
+          }
+        }
+      ],
+      "nativeLabel": "Aktion 1",
+      "labelEvidence": {
+        "name": "UTF16 literal",
+        "address": "206a2920",
+        "bytes": "41006b00740069006f006e00200031000000",
+        "byteCount": 18,
+        "sha256": "e09348477c0aa773601cdb3a51df4047080342774a013ca142a60931dc284cf4"
+      }
+    },
+    {
+      "sessionKey": 16,
+      "keyIdInstruction": {
+        "address": "203920a1",
+        "bytes": "66c744243c1000",
+        "assembly": "MOV word ptr [ESP + 0x3c],0x10"
+      },
+      "physicalKeys": [
+        {
+          "offset": 4,
+          "device": 1,
+          "deviceMeaning": "mouse",
+          "offsetStoreInstruction": {
+            "address": "203920ca",
+            "bytes": "c70004000000",
+            "assembly": "MOV dword ptr [EAX],0x4"
+          }
+        }
+      ],
+      "nativeLabel": "Aktion 2",
+      "labelEvidence": {
+        "name": "UTF16 literal",
+        "address": "206a2908",
+        "bytes": "41006b00740069006f006e00200032000000",
+        "byteCount": 18,
+        "sha256": "db35b819fc5ba687c7f6b260496655042c658269a100cc1b51ff53c7ed5c4bd0"
+      }
+    },
+    {
+      "sessionKey": 17,
+      "keyIdInstruction": {
+        "address": "20392186",
+        "bytes": "66c744243c1100",
+        "assembly": "MOV word ptr [ESP + 0x3c],0x11"
+      },
+      "physicalKeys": [
+        {
+          "offset": 78,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "203921ab",
+            "bytes": "c7004e000000",
+            "assembly": "MOV dword ptr [EAX],0x4e"
+          }
+        },
+        {
+          "offset": 11,
+          "device": 1,
+          "deviceMeaning": "mouse",
+          "offsetStoreInstruction": {
+            "address": "20392249",
+            "bytes": "c7000b000000",
+            "assembly": "MOV dword ptr [EAX],0xb"
+          }
+        }
+      ],
+      "nativeLabel": "Zoomen +",
+      "labelEvidence": {
+        "name": "UTF16 literal",
+        "address": "206a28f0",
+        "bytes": "5a006f006f006d0065006e0020002b000000",
+        "byteCount": 18,
+        "sha256": "e9d1124e8fc03e87c14a9ad2371acfad01418937382c43334df1519b332b272a"
+      }
+    },
+    {
+      "sessionKey": 18,
+      "keyIdInstruction": {
+        "address": "2039230a",
+        "bytes": "66c744243c1200",
+        "assembly": "MOV word ptr [ESP + 0x3c],0x12"
+      },
+      "physicalKeys": [
+        {
+          "offset": 74,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "2039232f",
+            "bytes": "c7004a000000",
+            "assembly": "MOV dword ptr [EAX],0x4a"
+          }
+        },
+        {
+          "offset": 12,
+          "device": 1,
+          "deviceMeaning": "mouse",
+          "offsetStoreInstruction": {
+            "address": "203923cd",
+            "bytes": "c7000c000000",
+            "assembly": "MOV dword ptr [EAX],0xc"
+          }
+        }
+      ],
+      "nativeLabel": "Zoomen -",
+      "labelEvidence": {
+        "name": "UTF16 literal",
+        "address": "206a28d8",
+        "bytes": "5a006f006f006d0065006e0020002d000000",
+        "byteCount": 18,
+        "sha256": "25d8bec994b11cbfd072abaa0897ccd9d11f1f4ae49c6c74e742a9835bdab05d"
+      }
+    },
+    {
+      "sessionKey": 42,
+      "keyIdInstruction": {
+        "address": "2039248e",
+        "bytes": "66c744243c2a00",
+        "assembly": "MOV word ptr [ESP + 0x3c],0x2a"
+      },
+      "physicalKeys": [
+        {
+          "offset": 75,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "203924b3",
+            "bytes": "c7004b000000",
+            "assembly": "MOV dword ptr [EAX],0x4b"
+          }
+        }
+      ],
+      "nativeLabel": "Reset Camera",
+      "labelEvidence": {
+        "name": "UTF16 literal",
+        "address": "206a28b8",
+        "bytes": "520065007300650074002000430061006d006500720061000000",
+        "byteCount": 26,
+        "sha256": "056627f8f434f31ad79049171704b7af42ce038902f56346f7801c3b42181e66"
+      }
+    },
+    {
+      "sessionKey": 41,
+      "keyIdInstruction": {
+        "address": "2039256f",
+        "bytes": "66c744243c2900",
+        "assembly": "MOV word ptr [ESP + 0x3c],0x29"
+      },
+      "physicalKeys": [
+        {
+          "offset": 83,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "20392594",
+            "bytes": "c70053000000",
+            "assembly": "MOV dword ptr [EAX],0x53"
+          }
+        },
+        {
+          "offset": 20,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "2039262e",
+            "bytes": "c70014000000",
+            "assembly": "MOV dword ptr [EAX],0x14"
+          }
+        }
+      ],
+      "nativeLabel": "First Person Camera",
+      "labelEvidence": {
+        "name": "UTF16 literal",
+        "address": "206a2888",
+        "bytes": "46006900720073007400200050006500720073006f006e002000430061006d006500720061000000",
+        "byteCount": 40,
+        "sha256": "1ada2b2a5a7861c5dadd9980f2d208fe44f95b7387a35fdbce3c11ea82e4f9d0"
+      }
+    },
+    {
+      "sessionKey": 40,
+      "keyIdInstruction": {
+        "address": "203926ef",
+        "bytes": "66c744243c2800",
+        "assembly": "MOV word ptr [ESP + 0x3c],0x28"
+      },
+      "physicalKeys": [
+        {
+          "offset": 80,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "20392714",
+            "bytes": "c70050000000",
+            "assembly": "MOV dword ptr [EAX],0x50"
+          }
+        }
+      ],
+      "nativeLabel": "Camera Look",
+      "labelEvidence": {
+        "name": "UTF16 literal",
+        "address": "206a286c",
+        "bytes": "430061006d0065007200610020004c006f006f006b000000",
+        "byteCount": 24,
+        "sha256": "ff49a6072db63fd42a7c4bfaaf68be11cbedaf2673c9331c3d2ddead6f61129a"
+      }
+    },
+    {
+      "sessionKey": 19,
+      "keyIdInstruction": {
+        "address": "203927d0",
+        "bytes": "66c744243c1300",
+        "assembly": "MOV word ptr [ESP + 0x3c],0x13"
+      },
+      "physicalKeys": [
+        {
+          "offset": 11,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "203927f5",
+            "bytes": "c7000b000000",
+            "assembly": "MOV dword ptr [EAX],0xb"
+          }
+        }
+      ],
+      "nativeLabel": "QuickUse 0",
+      "labelEvidence": {
+        "name": "UTF16 literal",
+        "address": "206a2850",
+        "bytes": "51007500690063006b00550073006500200030000000",
+        "byteCount": 22,
+        "sha256": "7cd63089e3fffc2aa3cb2e4382d43aeba76628522b7eb2484453fcc080145994"
+      }
+    },
+    {
+      "sessionKey": 20,
+      "keyIdInstruction": {
+        "address": "203928b1",
+        "bytes": "66c744243c1400",
+        "assembly": "MOV word ptr [ESP + 0x3c],0x14"
+      },
+      "physicalKeys": [
+        {
+          "offset": 2,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "203928d6",
+            "bytes": "c70002000000",
+            "assembly": "MOV dword ptr [EAX],0x2"
+          }
+        }
+      ],
+      "nativeLabel": "QuickUse 1",
+      "labelEvidence": {
+        "name": "UTF16 literal",
+        "address": "206a2834",
+        "bytes": "51007500690063006b00550073006500200031000000",
+        "byteCount": 22,
+        "sha256": "c933903998f26024445df63a808c341f57b862b341636960554fdd6656cd3851"
+      }
+    },
+    {
+      "sessionKey": 21,
+      "keyIdInstruction": {
+        "address": "20392992",
+        "bytes": "66c744243c1500",
+        "assembly": "MOV word ptr [ESP + 0x3c],0x15"
+      },
+      "physicalKeys": [
+        {
+          "offset": 3,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "203929b7",
+            "bytes": "c70003000000",
+            "assembly": "MOV dword ptr [EAX],0x3"
+          }
+        }
+      ],
+      "nativeLabel": "QuickUse 2",
+      "labelEvidence": {
+        "name": "UTF16 literal",
+        "address": "206a2818",
+        "bytes": "51007500690063006b00550073006500200032000000",
+        "byteCount": 22,
+        "sha256": "8b7e8c9d465b83acf464993ba26cc795a305a898710a077c11f36923e22effe3"
+      }
+    },
+    {
+      "sessionKey": 22,
+      "keyIdInstruction": {
+        "address": "20392a73",
+        "bytes": "66c744243c1600",
+        "assembly": "MOV word ptr [ESP + 0x3c],0x16"
+      },
+      "physicalKeys": [
+        {
+          "offset": 4,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "20392a98",
+            "bytes": "c70004000000",
+            "assembly": "MOV dword ptr [EAX],0x4"
+          }
+        }
+      ],
+      "nativeLabel": "QuickUse 3",
+      "labelEvidence": {
+        "name": "UTF16 literal",
+        "address": "206a27fc",
+        "bytes": "51007500690063006b00550073006500200033000000",
+        "byteCount": 22,
+        "sha256": "c3861440ca8aa4f6194498834ded0c601338a26f88af9fc5662b57a122c38664"
+      }
+    },
+    {
+      "sessionKey": 23,
+      "keyIdInstruction": {
+        "address": "20392b54",
+        "bytes": "66c744243c1700",
+        "assembly": "MOV word ptr [ESP + 0x3c],0x17"
+      },
+      "physicalKeys": [
+        {
+          "offset": 5,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "20392b79",
+            "bytes": "c70005000000",
+            "assembly": "MOV dword ptr [EAX],0x5"
+          }
+        }
+      ],
+      "nativeLabel": "QuickUse 4",
+      "labelEvidence": {
+        "name": "UTF16 literal",
+        "address": "206a27e0",
+        "bytes": "51007500690063006b00550073006500200034000000",
+        "byteCount": 22,
+        "sha256": "342e6ddd49e257b2c8ddf37f872e4fc3b21205576b403a690f752451497dbff6"
+      }
+    },
+    {
+      "sessionKey": 24,
+      "keyIdInstruction": {
+        "address": "20392c35",
+        "bytes": "66c744243c1800",
+        "assembly": "MOV word ptr [ESP + 0x3c],0x18"
+      },
+      "physicalKeys": [
+        {
+          "offset": 6,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "20392c5a",
+            "bytes": "c70006000000",
+            "assembly": "MOV dword ptr [EAX],0x6"
+          }
+        }
+      ],
+      "nativeLabel": "QuickUse 5",
+      "labelEvidence": {
+        "name": "UTF16 literal",
+        "address": "206a27c4",
+        "bytes": "51007500690063006b00550073006500200035000000",
+        "byteCount": 22,
+        "sha256": "89a4a104786de46ece522a988712e44171bdac4701c2dcac3e22cffbb84df9a3"
+      }
+    },
+    {
+      "sessionKey": 25,
+      "keyIdInstruction": {
+        "address": "20392d16",
+        "bytes": "66c744243c1900",
+        "assembly": "MOV word ptr [ESP + 0x3c],0x19"
+      },
+      "physicalKeys": [
+        {
+          "offset": 7,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "20392d3b",
+            "bytes": "c70007000000",
+            "assembly": "MOV dword ptr [EAX],0x7"
+          }
+        }
+      ],
+      "nativeLabel": "QuickUse 6",
+      "labelEvidence": {
+        "name": "UTF16 literal",
+        "address": "206a27a8",
+        "bytes": "51007500690063006b00550073006500200036000000",
+        "byteCount": 22,
+        "sha256": "5ef406731d4dfaedbc2618762d9164e633022d9f9ea076b0bb7716d78fd66d8b"
+      }
+    },
+    {
+      "sessionKey": 26,
+      "keyIdInstruction": {
+        "address": "20392df7",
+        "bytes": "66c744243c1a00",
+        "assembly": "MOV word ptr [ESP + 0x3c],0x1a"
+      },
+      "physicalKeys": [
+        {
+          "offset": 8,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "20392e1c",
+            "bytes": "c70008000000",
+            "assembly": "MOV dword ptr [EAX],0x8"
+          }
+        }
+      ],
+      "nativeLabel": "QuickUse 7",
+      "labelEvidence": {
+        "name": "UTF16 literal",
+        "address": "206a278c",
+        "bytes": "51007500690063006b00550073006500200037000000",
+        "byteCount": 22,
+        "sha256": "521c679ddc8f8dcbca7e747fa48fff60d5829376cbeb583640a4361dfac47e83"
+      }
+    },
+    {
+      "sessionKey": 27,
+      "keyIdInstruction": {
+        "address": "20392ed8",
+        "bytes": "66c744243c1b00",
+        "assembly": "MOV word ptr [ESP + 0x3c],0x1b"
+      },
+      "physicalKeys": [
+        {
+          "offset": 9,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "20392efd",
+            "bytes": "c70009000000",
+            "assembly": "MOV dword ptr [EAX],0x9"
+          }
+        }
+      ],
+      "nativeLabel": "QuickUse 8",
+      "labelEvidence": {
+        "name": "UTF16 literal",
+        "address": "206a2770",
+        "bytes": "51007500690063006b00550073006500200038000000",
+        "byteCount": 22,
+        "sha256": "15aeb4fda25a485ee0529c9da1e675eafb20fe09a8cdb7cbbb9d4b0d346a1a87"
+      }
+    },
+    {
+      "sessionKey": 28,
+      "keyIdInstruction": {
+        "address": "20392fb9",
+        "bytes": "66c744243c1c00",
+        "assembly": "MOV word ptr [ESP + 0x3c],0x1c"
+      },
+      "physicalKeys": [
+        {
+          "offset": 10,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "20392fde",
+            "bytes": "c7000a000000",
+            "assembly": "MOV dword ptr [EAX],0xa"
+          }
+        }
+      ],
+      "nativeLabel": "QuickUse 9",
+      "labelEvidence": {
+        "name": "UTF16 literal",
+        "address": "206a2754",
+        "bytes": "51007500690063006b00550073006500200039000000",
+        "byteCount": 22,
+        "sha256": "89f2e6930d8943f3d469a54bf56dea015006316ecbf06cd316d4c243c3f67fb7"
+      }
+    },
+    {
+      "sessionKey": 30,
+      "keyIdInstruction": {
+        "address": "2039309a",
+        "bytes": "66c744243c1e00",
+        "assembly": "MOV word ptr [ESP + 0x3c],0x1e"
+      },
+      "physicalKeys": [
+        {
+          "offset": 223,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "203930bf",
+            "bytes": "c700df000000",
+            "assembly": "MOV dword ptr [EAX],0xdf"
+          }
+        }
+      ],
+      "nativeLabel": "Abbrechen",
+      "labelEvidence": {
+        "name": "UTF16 literal",
+        "address": "206a273c",
+        "bytes": "410062006200720065006300680065006e000000",
+        "byteCount": 20,
+        "sha256": "af61715e559d641f2337dba097b5fc52d3668bee10b55e1f4b1c38bc04b834db"
+      }
+    },
+    {
+      "sessionKey": 31,
+      "keyIdInstruction": {
+        "address": "2039317b",
+        "bytes": "66c744243c1f00",
+        "assembly": "MOV word ptr [ESP + 0x3c],0x1f"
+      },
+      "physicalKeys": [
+        {
+          "offset": 23,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "203931a0",
+            "bytes": "c70017000000",
+            "assembly": "MOV dword ptr [EAX],0x17"
+          }
+        },
+        {
+          "offset": 14,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "2039323a",
+            "bytes": "c7000e000000",
+            "assembly": "MOV dword ptr [EAX],0xe"
+          }
+        }
+      ],
+      "nativeLabel": "Inventar öffnen",
+      "labelEvidence": {
+        "name": "UTF16 literal",
+        "address": "206a2714",
+        "bytes": "49006e00760065006e007400610072002000f600660066006e0065006e000000",
+        "byteCount": 32,
+        "sha256": "61ae5e995b0febd895cb8b82a836970c1c412e9a593a458219dd77cf744d717b"
+      }
+    },
+    {
+      "sessionKey": 38,
+      "keyIdInstruction": {
+        "address": "203932fb",
+        "bytes": "66c744243c2600",
+        "assembly": "MOV word ptr [ESP + 0x3c],0x26"
+      },
+      "physicalKeys": [
+        {
+          "offset": 57,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "20393320",
+            "bytes": "c70039000000",
+            "assembly": "MOV dword ptr [EAX],0x39"
+          }
+        },
+        {
+          "offset": 5,
+          "device": 1,
+          "deviceMeaning": "mouse",
+          "offsetStoreInstruction": {
+            "address": "203933be",
+            "bytes": "c70005000000",
+            "assembly": "MOV dword ptr [EAX],0x5"
+          }
+        }
+      ],
+      "nativeLabel": "Waffe ziehen",
+      "labelEvidence": {
+        "name": "UTF16 literal",
+        "address": "206a26f4",
+        "bytes": "5700610066006600650020007a0069006500680065006e000000",
+        "byteCount": 26,
+        "sha256": "5d58c8584bfb3f3cf7a5a6b196914095cc9a849ad1d8977e7c017d07e8293255"
+      }
+    },
+    {
+      "sessionKey": 32,
+      "keyIdInstruction": {
+        "address": "2039347f",
+        "bytes": "66c744243c2000",
+        "assembly": "MOV word ptr [ESP + 0x3c],0x20"
+      },
+      "physicalKeys": [
+        {
+          "offset": 38,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "203934a4",
+            "bytes": "c70026000000",
+            "assembly": "MOV dword ptr [EAX],0x26"
+          }
+        }
+      ],
+      "nativeLabel": "Quest-Log",
+      "labelEvidence": {
+        "name": "UTF16 literal",
+        "address": "206a26dc",
+        "bytes": "510075006500730074002d004c006f0067000000",
+        "byteCount": 20,
+        "sha256": "158c1592ba80b5e21067425c53cea3acda0421a4462222455bf6ce1a8cb08fc5"
+      }
+    },
+    {
+      "sessionKey": 33,
+      "keyIdInstruction": {
+        "address": "20393560",
+        "bytes": "66c744243c2100",
+        "assembly": "MOV word ptr [ESP + 0x3c],0x21"
+      },
+      "physicalKeys": [
+        {
+          "offset": 46,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "20393585",
+            "bytes": "c7002e000000",
+            "assembly": "MOV dword ptr [EAX],0x2e"
+          }
+        }
+      ],
+      "nativeLabel": "Character-Screen",
+      "labelEvidence": {
+        "name": "UTF16 literal",
+        "address": "206a26b4",
+        "bytes": "4300680061007200610063007400650072002d00530063007200650065006e000000",
+        "byteCount": 34,
+        "sha256": "63d4eb5c796e440823159b6b51c5b27598b711fe937554a7a79cdb5388554849"
+      }
+    },
+    {
+      "sessionKey": 34,
+      "keyIdInstruction": {
+        "address": "20393641",
+        "bytes": "66c744243c2200",
+        "assembly": "MOV word ptr [ESP + 0x3c],0x22"
+      },
+      "physicalKeys": [
+        {
+          "offset": 48,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "20393666",
+            "bytes": "c70030000000",
+            "assembly": "MOV dword ptr [EAX],0x30"
+          }
+        }
+      ],
+      "nativeLabel": "Magie Buch",
+      "labelEvidence": {
+        "name": "UTF16 literal",
+        "address": "206a2698",
+        "bytes": "4d006100670069006500200042007500630068000000",
+        "byteCount": 22,
+        "sha256": "fda657dcfb9a26ca9a6230f76dcbaf3fbbc39af9ef5e7b928c9fe708d6e8cbf9"
+      }
+    },
+    {
+      "sessionKey": 35,
+      "keyIdInstruction": {
+        "address": "20393722",
+        "bytes": "66c744243c2300",
+        "assembly": "MOV word ptr [ESP + 0x3c],0x23"
+      },
+      "physicalKeys": [
+        {
+          "offset": 50,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "20393747",
+            "bytes": "c70032000000",
+            "assembly": "MOV dword ptr [EAX],0x32"
+          }
+        }
+      ],
+      "nativeLabel": "Karte",
+      "labelEvidence": {
+        "name": "UTF16 literal",
+        "address": "206a2688",
+        "bytes": "4b0061007200740065000000",
+        "byteCount": 12,
+        "sha256": "449df136796dd687285740c91728cfcd1bc62f9931f54b5b4d6d93f90e460c4e"
+      }
+    },
+    {
+      "sessionKey": 39,
+      "keyIdInstruction": {
+        "address": "20393803",
+        "bytes": "66c744243c2700",
+        "assembly": "MOV word ptr [ESP + 0x3c],0x27"
+      },
+      "physicalKeys": [
+        {
+          "offset": 19,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "20393829",
+            "bytes": "c70013000000",
+            "assembly": "MOV dword ptr [EAX],0x13"
+          }
+        },
+        {
+          "offset": 207,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "203938c3",
+            "bytes": "c700cf000000",
+            "assembly": "MOV dword ptr [EAX],0xcf"
+          }
+        }
+      ],
+      "nativeLabel": "Target locken",
+      "labelEvidence": {
+        "name": "UTF16 literal",
+        "address": "206a2664",
+        "bytes": "54006100720067006500740020006c006f0063006b0065006e000000",
+        "byteCount": 28,
+        "sha256": "9550b9411c89234f7002e8ac54b6fa8f0a34679a673fc7d913288e8f90330a3e"
+      }
+    },
+    {
+      "sessionKey": 43,
+      "keyIdInstruction": {
+        "address": "20393984",
+        "bytes": "66c744243c2b00",
+        "assembly": "MOV word ptr [ESP + 0x3c],0x2b"
+      },
+      "physicalKeys": [
+        {
+          "offset": 70,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "203939aa",
+            "bytes": "c70046000000",
+            "assembly": "MOV dword ptr [EAX],0x46"
+          }
+        }
+      ],
+      "nativeLabel": "Toggle HUD",
+      "labelEvidence": {
+        "name": "UTF16 literal",
+        "address": "206a2648",
+        "bytes": "54006f00670067006c00650020004800550044000000",
+        "byteCount": 22,
+        "sha256": "80f5b6997225490b4b4c71e0c9822c705c318abf6a0254acfd25b24859fca6c9"
+      }
+    },
+    {
+      "sessionKey": 44,
+      "keyIdInstruction": {
+        "address": "20393a66",
+        "bytes": "66c744243c2c00",
+        "assembly": "MOV word ptr [ESP + 0x3c],0x2c"
+      },
+      "physicalKeys": [
+        {
+          "offset": 197,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "20393a8c",
+            "bytes": "c700c5000000",
+            "assembly": "MOV dword ptr [EAX],0xc5"
+          }
+        }
+      ],
+      "nativeLabel": "Toggle entity debugging",
+      "labelEvidence": {
+        "name": "UTF16 literal",
+        "address": "206a260c",
+        "bytes": "54006f00670067006c006500200065006e007400690074007900200064006500620075006700670069006e0067000000",
+        "byteCount": 48,
+        "sha256": "d964f1b6ba9553dcc8151e1cf36c70f19b4ee865f1017ae4c28f63db7812ec78"
+      }
+    },
+    {
+      "sessionKey": 29,
+      "keyIdInstruction": {
+        "address": "20393b48",
+        "bytes": "66c744243c1d00",
+        "assembly": "MOV word ptr [ESP + 0x3c],0x1d"
+      },
+      "physicalKeys": [
+        {
+          "offset": 28,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "20393b6d",
+            "bytes": "c7001c000000",
+            "assembly": "MOV dword ptr [EAX],0x1c"
+          }
+        }
+      ],
+      "nativeLabel": "Bestätigen",
+      "labelEvidence": {
+        "name": "UTF16 literal",
+        "address": "206a25f0",
+        "bytes": "4200650073007400e40074006900670065006e000000",
+        "byteCount": 22,
+        "sha256": "9ca3960319790fa7304602c8e5663cfc7b3573ca09bcd62a6e21fb71b8080479"
+      }
+    },
+    {
+      "sessionKey": 37,
+      "keyIdInstruction": {
+        "address": "20393c29",
+        "bytes": "66c744243c2500",
+        "assembly": "MOV word ptr [ESP + 0x3c],0x25"
+      },
+      "physicalKeys": [
+        {
+          "offset": 63,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "20393c4e",
+            "bytes": "c7003f000000",
+            "assembly": "MOV dword ptr [EAX],0x3f"
+          }
+        }
+      ],
+      "nativeLabel": "Schnellspeichern",
+      "labelEvidence": {
+        "name": "UTF16 literal",
+        "address": "206a25c8",
+        "bytes": "5300630068006e0065006c006c00730070006500690063006800650072006e000000",
+        "byteCount": 34,
+        "sha256": "e6376ba2db0eb4f6184b6a3e256ff384e74f6b0ea59550c0a97b6a979f237189"
+      }
+    },
+    {
+      "sessionKey": 36,
+      "keyIdInstruction": {
+        "address": "20393cd8",
+        "bytes": "66c744243c2400",
+        "assembly": "MOV word ptr [ESP + 0x3c],0x24"
+      },
+      "physicalKeys": [
+        {
+          "offset": 67,
+          "device": 0,
+          "deviceMeaning": "keyboard",
+          "offsetStoreInstruction": {
+            "address": "20393cf4",
+            "bytes": "c70043000000",
+            "assembly": "MOV dword ptr [EAX],0x43"
+          }
+        }
+      ],
+      "nativeLabel": "Schnellladen",
+      "labelEvidence": {
+        "name": "UTF16 literal",
+        "address": "206a25a8",
+        "bytes": "5300630068006e0065006c006c006c006100640065006e000000",
+        "byteCount": 26,
+        "sha256": "52f6a87dfbdc0d528216d5634d9bb7a85adb6e48bf5beac1e5e0a2c4d9932ca0"
+      }
+    }
+  ],
+  "configurationReceipts": [
+    {
+      "path": "03_Configuration_and_Docs/Ini/controls.ini",
+      "bytes": 183847,
+      "sha256": "974d0318b1663be55b7e00d8911f02652e86ad772eaba956e409b8c45190ddab"
+    },
+    {
+      "path": "03_Configuration_and_Docs/Ini/ge3.ini",
+      "bytes": 16164,
+      "sha256": "e92011e2a083e33cfa4b1433679f5b26911bbe6b1cdd125f85f4971598b104bb"
+    },
+    {
+      "path": "03_Configuration_and_Docs/Ini/keyboard_and_console.txt",
+      "bytes": 28030,
+      "sha256": "6ec715b19d33b7dec2cf1200142d70a8feebd8c05ae13d59bb6b5e0396225593"
+    }
+  ],
+  "profileSelection": "20394560: setup CString+17c exactly Custom selects CreateINIKeys; otherwise installed defaults",
+  "scope": "Conditional default device offsets and UTF16 source labels; active native/user/browser mappings not inferred"
+}

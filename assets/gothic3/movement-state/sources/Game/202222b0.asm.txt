@@ -1,0 +1,3 @@
+; 202222b0 FUN_202222b0
+202222b0 | c681bc02000000 | MOV byte ptr [ECX + 0x2bc],0x0
+202222b7 | c3 | RET

@@ -1,0 +1,4 @@
+; 3000b37f SHAREDBASE.DLL::bCPropertyTypeBase::Read
+3000b37f | e95c303300 | JMP 0x3033e3e0
+; 3000b384 eCSpeedTreeCache::GetRootObject
+; 3000b384 Ordinal_8602

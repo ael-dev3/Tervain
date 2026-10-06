@@ -1,0 +1,14 @@
+/* ENTRY 20026c4c | gCInventoryStack::PostInitializeProperties | STATUS decompiled | 5 ms */
+
+/* public: virtual enum bEResult __thiscall gCInventoryStack::PostInitializeProperties(void) */
+
+bEResult __thiscall gCInventoryStack::PostInitializeProperties(gCInventoryStack *this)
+
+{
+                    /* 0x26c4c  5763
+                       ?PostInitializeProperties@gCInventoryStack@@UAE?AW4bEResult@@XZ */
+  ApplyDefaults(this);
+  return 1;
+}
+
+

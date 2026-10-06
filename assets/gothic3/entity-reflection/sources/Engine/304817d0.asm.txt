@@ -1,0 +1,4 @@
+; 304817d0 FUN_304817d0
+304817d0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+304817d4 | 89410c | MOV dword ptr [ECX + 0xc],EAX
+304817d7 | c20400 | RET 0x4

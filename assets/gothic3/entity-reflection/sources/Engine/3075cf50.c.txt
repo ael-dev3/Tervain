@@ -1,0 +1,32 @@
+/* ENTRY 3075cf50 | bTPropertyType<eCRigidBody_PS,float>::~bTPropertyType<eCRigidBody_PS,float> | STATUS decompiled | 16 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<eCRigidBody_PS,float>::~bTPropertyType<eCRigidBody_PS,float>
+          (bTPropertyType<eCRigidBody_PS,float> *this)
+
+{
+  bTPropertyType<eCRigidBody_PS,float> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"LinearDamping");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&eCRigidBody_PS::ms_PropertyMember_m_fLinearDamping,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_fLinearDamping = &vftable;
+  DAT_30aec0ec = bTPropertyObjectType<eCRigidBody_PS,eCRigidBodyBase_PS>::
+                 ~bTPropertyObjectType<eCRigidBody_PS,eCRigidBodyBase_PS>();
+  _DAT_30aec0f0 = 0x50;
+  _DAT_30aec0f4 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&eCRigidBody_PS::ms_PropertyMember_m_fLinearDamping);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_30aec0ec,
+             (bCPropertyTypeBase *)&eCRigidBody_PS::ms_PropertyMember_m_fLinearDamping);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}
+
+

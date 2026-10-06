@@ -1,0 +1,9 @@
+/* ENTRY 200295e6 | bTPropertyType<gCPlayerMemory_PS,bool>::vfunction2 | STATUS decompiled | 1 ms */
+
+undefined4 __thiscall bTPropertyType<gCPlayerMemory_PS,bool>::vfunction2(void)
+
+{
+  return 1;
+}
+
+

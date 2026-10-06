@@ -1,0 +1,2 @@
+; 300261d9 ?GetPropertySetAt@eCEntity@@QAEPAVeCEntityPropertySet@@H@Z
+300261d9 | e932ea4800 | JMP 0x304b4c10

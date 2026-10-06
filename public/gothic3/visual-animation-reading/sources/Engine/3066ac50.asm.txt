@@ -1,0 +1,4 @@
+; 3066ac50 FUN_3066ac50
+3066ac50 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+3066ac54 | 894104 | MOV dword ptr [ECX + 0x4],EAX
+3066ac57 | c20400 | RET 0x4

@@ -1,0 +1,94 @@
+/* ENTRY 100c9560 | FUN_100c9560 | STATUS decompiled | 51 ms */
+
+undefined4 FUN_100c9560(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3)
+
+{
+  bool bVar1;
+  eCEntity *peVar2;
+  Entity local_350 [88];
+  PropertyUserCount local_2f8 [4];
+  PropertyUserCount local_2f4 [76];
+  Entity local_2a8 [4];
+  Entity local_2a4 [4];
+  Entity local_2a0 [40];
+  PropertyIsOnDestination aPStack_278 [8];
+  PSNavigation local_270 [112];
+  Entity aEStack_200 [4];
+  Entity local_1fc [24];
+  PSInteraction local_1e4 [140];
+  Entity aEStack_158 [4];
+  Entity local_154 [4];
+  Entity local_150 [36];
+  PSItem local_12c [8];
+  PSNavigation local_124 [116];
+  Entity aEStack_b0 [4];
+  Entity local_ac [28];
+  PSInteraction local_90 [144];
+  
+  Entity::Entity(local_2a0);
+  if (param_2 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    Entity::AttachTo(local_2a0,peVar2);
+  }
+  else {
+    Entity::operator=(local_2a0,param_2);
+  }
+  Entity::Entity(local_150);
+  if (param_3 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    Entity::AttachTo(local_150,peVar2);
+  }
+  else {
+    Entity::operator=(local_150,param_3);
+  }
+  PSNavigation::GetCurrentDestinationPoint(local_270);
+  Entity::Entity(local_1fc,local_154);
+  bVar1 = PSNavigation::IsValid(local_124);
+  if (!bVar1) {
+    bVar1 = PSItem::IsValid(local_12c);
+    if (!bVar1) {
+      bVar1 = Entity::operator==(local_ac,local_1fc);
+      if (bVar1) {
+        Entity::~Entity(local_1fc);
+        Entity::~Entity(local_ac);
+        Entity::~Entity(local_154);
+        Entity::~Entity(local_2a4);
+        return 0;
+      }
+    }
+  }
+  bVar1 = Entity::operator!=(local_ac,(Entity *)None_exref);
+  if (bVar1) {
+    bVar1 = PSInteraction::IsValid(local_90);
+    if (bVar1) {
+      PSInteraction::SetUser(local_90,(Entity *)None_exref);
+      PSInteraction::GetAnchorPoint(local_90);
+      bVar1 = Entity::operator!=(local_350,(Entity *)None_exref);
+      if (bVar1) {
+        PSAnchor::PropertyUserCount::operator_unsigned_long(local_2f4);
+        PSAnchor::PropertyUserCount::operator=(local_2f4,(ulong *)&stack0xfffffcac);
+      }
+      Entity::~Entity(local_350);
+    }
+  }
+  bVar1 = PSInteraction::IsValid(local_1e4);
+  if (bVar1) {
+    PSInteraction::SetUser(local_1e4,local_2a8);
+    PSInteraction::GetAnchorPoint(local_1e4);
+    bVar1 = Entity::operator!=((Entity *)&stack0xfffffcac,(Entity *)None_exref);
+    if (bVar1) {
+      PSAnchor::PropertyUserCount::operator_unsigned_long(local_2f8);
+      PSAnchor::PropertyUserCount::operator=(local_2f8,(ulong *)&stack0xfffffca8);
+    }
+    Entity::~Entity((Entity *)&stack0xfffffcac);
+  }
+  PSNavigation::PropertyIsOnDestination::operator=(aPStack_278,(bool *)&stack0xfffffcab);
+  PSNavigation::SetCurrentDestinationPoint((PSNavigation *)aPStack_278,aEStack_200);
+  Entity::~Entity(aEStack_200);
+  Entity::~Entity(aEStack_b0);
+  Entity::~Entity(aEStack_158);
+  Entity::~Entity(local_2a8);
+  return 1;
+}
+
+

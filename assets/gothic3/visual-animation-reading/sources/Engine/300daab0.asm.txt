@@ -1,0 +1,15 @@
+; 300daab0 FUN_300daab0
+300daab0 | 56 | PUSH ESI
+300daab1 | 8b742408 | MOV ESI,dword ptr [ESP + 0x8]
+300daab5 | 57 | PUSH EDI
+300daab6 | 8bf9 | MOV EDI,ECX
+300daab8 | 8bce | MOV ECX,ESI
+300daaba | ff15a4cbaf30 | CALL dword ptr [0x30afcba4]
+300daac0 | 83c730 | ADD EDI,0x30
+300daac3 | 57 | PUSH EDI
+300daac4 | 8bce | MOV ECX,ESI
+300daac6 | ff1564dbaf30 | CALL dword ptr [0x30afdb64]
+300daacc | 5f | POP EDI
+300daacd | 8bc6 | MOV EAX,ESI
+300daacf | 5e | POP ESI
+300daad0 | c20400 | RET 0x4

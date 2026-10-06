@@ -1,0 +1,4 @@
+; 2002e3e8 ?ReadSaveGame@gCClock_PS@@UAE?AW4bEResult@@AAVbCIStream@@@Z
+2002e3e8 | e9139c1d00 | JMP 0x20208000
+; 2002e3ed gCPlayerMemory_PS::SetPlayerKnows
+; 2002e3ed Ordinal_6885

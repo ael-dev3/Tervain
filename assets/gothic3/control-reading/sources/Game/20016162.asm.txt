@@ -1,0 +1,2 @@
+; 20016162 bTPropertyType<gCCharacterControl_PS,bTPropertyContainer<gESessionKey>_>::vfunction26
+20016162 | e9c96f2000 | JMP 0x2021d130

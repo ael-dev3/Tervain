@@ -1,0 +1,10 @@
+/* ENTRY 20236df0 | FUN_20236df0 | STATUS decompiled | 1 ms */
+
+undefined4 __fastcall FUN_20236df0(bCObjectRefBase *param_1)
+
+{
+  bCObjectRefBase::PostInitializeProperties(param_1);
+  return 1;
+}
+
+

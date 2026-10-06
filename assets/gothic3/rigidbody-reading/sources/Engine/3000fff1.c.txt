@@ -1,0 +1,16 @@
+/* ENTRY 3000fff1 | eCEntity::GetWorldRotation | STATUS decompiled | 8 ms */
+
+/* public: class bCQuaternion __thiscall eCEntity::GetWorldRotation(void)const  */
+
+bCQuaternion * __thiscall eCEntity::GetWorldRotation(eCEntity *this)
+
+{
+  bCQuaternion *in_stack_00000004;
+  
+                    /* 0xfff1  9678  ?GetWorldRotation@eCEntity@@QBE?AVbCQuaternion@@XZ */
+  bCQuaternion::bCQuaternion(in_stack_00000004);
+  bCQuaternion::SetQuaternion(in_stack_00000004,(bCMatrix *)&(this->eCEntity_data).field_0x10);
+  return in_stack_00000004;
+}
+
+

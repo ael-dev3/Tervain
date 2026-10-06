@@ -1,0 +1,7 @@
+; 300c2ab0 FUN_300c2ab0
+300c2ab0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+300c2ab4 | 50 | PUSH EAX
+300c2ab5 | 83c148 | ADD ECX,0x48
+300c2ab8 | ff1564dbaf30 | CALL dword ptr [0x30afdb64]
+300c2abe | b801000000 | MOV EAX,0x1
+300c2ac3 | c20400 | RET 0x4

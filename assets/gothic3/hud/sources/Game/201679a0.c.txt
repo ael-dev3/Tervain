@@ -1,0 +1,49 @@
+/* ENTRY 201679a0 | gCHUDViewQuests2::~gCHUDViewQuests2 | STATUS decompiled | 34 ms */
+
+void __thiscall gCHUDViewQuests2::~gCHUDViewQuests2(gCHUDViewQuests2 *this)
+
+{
+  bCMemoryAdmin *this_00;
+  int iVar1;
+  void *pvVar2;
+  
+  this->vftablePtr = &vftable;
+  pvVar2 = (this->gCHUDViewQuests2_data).offset_0x384;
+  if (pvVar2 != (void *)0x0) {
+    thunk_FUN_201680a0(pvVar2,(this->gCHUDViewQuests2_data).offset_0x38c);
+    pvVar2 = (this->gCHUDViewQuests2_data).offset_0x384;
+    this_00 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(this_00,pvVar2);
+    (this->gCHUDViewQuests2_data).offset_0x384 = (void *)0x0;
+    (this->gCHUDViewQuests2_data).offset_0x388 = 0;
+    (this->gCHUDViewQuests2_data).offset_0x38c = 0;
+  }
+  FUN_20036877();
+  FUN_20036877();
+  iVar1 = 5;
+  do {
+    FUN_20036877();
+    iVar1 = iVar1 + -1;
+  } while (-1 < iVar1);
+  iVar1 = 5;
+  do {
+    FUN_20036877();
+    iVar1 = iVar1 + -1;
+  } while (-1 < iVar1);
+  gCHUDViewLocation2::~gCHUDViewLocation2
+            ((gCHUDViewLocation2 *)&(this->gCHUDViewQuests2_data).field_0x254);
+  gCHUDViewWorld2::~gCHUDViewWorld2((gCHUDViewWorld2 *)&(this->gCHUDViewQuests2_data).field_0x94);
+  gCHUDView::~gCHUDView((gCHUDView *)&(this->gCHUDViewQuests2_data).field_0x80);
+  gCHUDView::~gCHUDView((gCHUDView *)&(this->gCHUDViewQuests2_data).field_0x6c);
+  gCHUDStaticQuestLocation::~gCHUDStaticQuestLocation
+            ((gCHUDStaticQuestLocation *)&(this->gCHUDViewQuests2_data).field_0x5c);
+  gCHUDTabCtrlQuests::~gCHUDTabCtrlQuests
+            ((gCHUDTabCtrlQuests *)&(this->gCHUDViewQuests2_data).field_0x44);
+  gCHUDListCtrlQuests::~gCHUDListCtrlQuests
+            ((gCHUDListCtrlQuests *)&(this->gCHUDViewQuests2_data).field_0x20);
+  gCHUDStaticQuest::~gCHUDStaticQuest((gCHUDStaticQuest *)&(this->gCHUDViewQuests2_data).field_0xc);
+  FUN_200156a9();
+  return;
+}
+
+

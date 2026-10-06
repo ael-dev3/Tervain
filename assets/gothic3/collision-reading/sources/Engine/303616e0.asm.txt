@@ -1,0 +1,5 @@
+; 303616e0 bTPropertyType<eCCollisionShape,unsigned_short>::vfunction3
+303616e0 | 8b4918 | MOV ECX,dword ptr [ECX + 0x18]
+303616e3 | 8b01 | MOV EAX,dword ptr [ECX]
+303616e5 | 8b10 | MOV EDX,dword ptr [EAX]
+303616e7 | ffe2 | JMP EDX

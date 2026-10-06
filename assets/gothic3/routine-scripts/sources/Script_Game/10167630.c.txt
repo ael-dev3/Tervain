@@ -1,0 +1,17 @@
+/* ENTRY 10167630 | FUN_10167630 | STATUS decompiled | 6 ms */
+
+void FUN_10167630(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Routine\\Routine_Tasks\\ZS_Woodwork.cpp");
+  bCString::bCString(local_8,"ZS_Woodwork_SawLog");
+  thunk_FUN_1001db60(local_8,&LAB_100021ee,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

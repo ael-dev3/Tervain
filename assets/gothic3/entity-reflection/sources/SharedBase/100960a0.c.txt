@@ -1,0 +1,22 @@
+/* ENTRY 100960a0 | FUN_100960a0 | STATUS decompiled | 8 ms */
+
+bCAccessorPropertyObject * __thiscall
+FUN_100960a0(bCAccessorPropertyObject *param_1,bCAccessorCreator *param_2,bCPropertyID *param_3)
+
+{
+  bool bVar1;
+  bCAccessorPropertyObject local_8 [8];
+  
+  bCAccessorPropertyObject::bCAccessorPropertyObject(param_1);
+  *(undefined4 *)(param_1 + 8) = 0;
+  bVar1 = bCAccessorCreator::IsValid(param_2);
+  if (bVar1) {
+    bCAccessorPropertyObject::bCAccessorPropertyObject(local_8,param_2);
+    bCAccessorPropertyObject::operator=(param_1,local_8);
+    bCAccessorPropertyObject::~bCAccessorPropertyObject(local_8);
+    bCAccessorProperty::ResolveProperty((bCAccessorProperty *)param_1,param_3);
+  }
+  return param_1;
+}
+
+

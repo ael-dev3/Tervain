@@ -1,0 +1,111 @@
+/* ENTRY 30642aa0 | FUN_30642aa0 | STATUS decompiled | 22 ms */
+
+void __fastcall FUN_30642aa0(undefined4 *param_1)
+
+{
+  undefined4 *puVar1;
+  undefined4 uVar2;
+  int iVar3;
+  undefined4 *puVar4;
+  undefined4 local_100 [16];
+  undefined1 local_c0 [64];
+  undefined1 local_80 [64];
+  undefined1 local_40 [64];
+  
+  if (*(int *)(param_1[0x60] + 0x220) == 0) {
+    local_100[0] = param_1[0x3c];
+    local_100[1] = 0;
+    local_100[2] = 0;
+    local_100[3] = 0;
+    local_100[4] = 0;
+    local_100[5] = param_1[0x3d];
+    local_100[6] = 0;
+    local_100[7] = 0;
+    local_100[8] = 0;
+    local_100[9] = 0;
+    local_100[0xb] = 0;
+    local_100[0xc] = 0;
+    local_100[0xd] = 0;
+    local_100[0xe] = 0;
+    local_100[10] = param_1[0x3e];
+    local_100[0xf] = 0x3f800000;
+    puVar1 = local_100;
+    puVar4 = param_1;
+    for (iVar3 = 0x10; puVar4 = puVar4 + 1, iVar3 != 0; iVar3 = iVar3 + -1) {
+      *puVar4 = *puVar1;
+      puVar1 = puVar1 + 1;
+    }
+    uVar2 = thunk_FUN_300ad9a0(local_40);
+    thunk_FUN_300bc370(uVar2);
+  }
+  else if (*(int *)(param_1[0x60] + 0x220) == 1) {
+    puVar1 = (undefined4 *)thunk_FUN_300ad9a0(local_80);
+    local_100[0] = param_1[0x3c];
+    local_100[5] = param_1[0x3d];
+    puVar4 = param_1;
+    for (iVar3 = 0x10; puVar4 = puVar4 + 1, iVar3 != 0; iVar3 = iVar3 + -1) {
+      *puVar4 = *puVar1;
+      puVar1 = puVar1 + 1;
+    }
+    local_100[1] = 0;
+    local_100[2] = 0;
+    local_100[3] = 0;
+    local_100[4] = 0;
+    local_100[10] = param_1[0x3e];
+    local_100[6] = 0;
+    local_100[7] = 0;
+    local_100[8] = 0;
+    local_100[9] = 0;
+    local_100[0xb] = 0;
+    local_100[0xc] = 0;
+    local_100[0xd] = 0;
+    local_100[0xe] = 0;
+    local_100[0xf] = 0x3f800000;
+    thunk_FUN_300bc370(local_100);
+  }
+  else {
+    puVar1 = (undefined4 *)thunk_FUN_300ad9a0(local_c0);
+    local_100[0] = param_1[0x3c];
+    local_100[5] = param_1[0x3d];
+    puVar4 = param_1;
+    for (iVar3 = 0x10; puVar4 = puVar4 + 1, iVar3 != 0; iVar3 = iVar3 + -1) {
+      *puVar4 = *puVar1;
+      puVar1 = puVar1 + 1;
+    }
+    local_100[1] = 0;
+    local_100[2] = 0;
+    local_100[3] = 0;
+    local_100[4] = 0;
+    local_100[10] = param_1[0x3e];
+    local_100[6] = 0;
+    local_100[7] = 0;
+    local_100[8] = 0;
+    local_100[9] = 0;
+    local_100[0xb] = 0;
+    local_100[0xc] = 0;
+    local_100[0xd] = 0;
+    local_100[0xe] = 0;
+    local_100[0xf] = 0x3f800000;
+    thunk_FUN_300bc370(local_100);
+  }
+  local_100[1] = 0;
+  local_100[2] = 0;
+  local_100[3] = 0;
+  local_100[4] = 0;
+  local_100[6] = 0;
+  local_100[7] = 0;
+  local_100[8] = 0;
+  local_100[9] = 0;
+  local_100[0xb] = 0;
+  local_100[0xc] = param_1[0x39];
+  local_100[0xd] = param_1[0x3a];
+  local_100[0xe] = param_1[0x3b];
+  local_100[0] = 0x3f800000;
+  local_100[5] = 0x3f800000;
+  local_100[10] = 0x3f800000;
+  local_100[0xf] = 0x3f800000;
+  thunk_FUN_300bc370(local_100);
+  return;
+}
+
+

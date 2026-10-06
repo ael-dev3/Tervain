@@ -1,0 +1,17 @@
+; 10035ff0 FUN_10035ff0
+10035ff0 | 8bc1 | MOV EAX,ECX
+10035ff2 | 8b4c2404 | MOV ECX,dword ptr [ESP + 0x4]
+10035ff6 | d901 | FLD float ptr [ECX]
+10035ff8 | d918 | FSTP float ptr [EAX]
+10035ffa | d94104 | FLD float ptr [ECX + 0x4]
+10035ffd | d95804 | FSTP float ptr [EAX + 0x4]
+10036000 | d94108 | FLD float ptr [ECX + 0x8]
+10036003 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+10036007 | d95808 | FSTP float ptr [EAX + 0x8]
+1003600a | d901 | FLD float ptr [ECX]
+1003600c | d9580c | FSTP float ptr [EAX + 0xc]
+1003600f | d94104 | FLD float ptr [ECX + 0x4]
+10036012 | d95810 | FSTP float ptr [EAX + 0x10]
+10036015 | d94108 | FLD float ptr [ECX + 0x8]
+10036018 | d95814 | FSTP float ptr [EAX + 0x14]
+1003601b | c20800 | RET 0x8

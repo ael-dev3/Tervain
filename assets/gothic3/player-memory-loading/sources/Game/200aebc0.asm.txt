@@ -1,0 +1,23 @@
+; 200aebc0 bTPropertyType<gCPlayerMemory_PS,bTPropertyContainer<gEWeaponConfig>_>::vfunction4
+200aebc0 | a1f0617b20 | MOV EAX,[0x207b61f0]
+200aebc5 | a801 | TEST AL,0x1
+200aebc7 | 7514 | JNZ 0x200aebdd
+200aebc9 | 8b0d84627b20 | MOV ECX,dword ptr [0x207b6284]
+200aebcf | 83c801 | OR EAX,0x1
+200aebd2 | a3f0617b20 | MOV [0x207b61f0],EAX
+200aebd7 | 890dec617b20 | MOV dword ptr [0x207b61ec],ECX
+200aebdd | a802 | TEST AL,0x2
+200aebdf | 7530 | JNZ 0x200aec11
+200aebe1 | 83c802 | OR EAX,0x2
+200aebe4 | 68180a7d20 | PUSH 0x207d0a18
+200aebe9 | b93c937920 | MOV ECX,0x2079933c
+200aebee | a3f0617b20 | MOV [0x207b61f0],EAX
+200aebf3 | e8e84b3b00 | CALL 0x204637e0
+200aebf8 | 50 | PUSH EAX
+200aebf9 | 68e8617b20 | PUSH 0x207b61e8
+200aebfe | ff1530887d20 | CALL dword ptr [0x207d8830]
+200aec04 | 68c6b20020 | PUSH 0x2000b2c6
+200aec09 | e8c04b3b00 | CALL 0x204637ce
+200aec0e | 83c404 | ADD ESP,0x4
+200aec11 | b8e8617b20 | MOV EAX,0x207b61e8
+200aec16 | c3 | RET

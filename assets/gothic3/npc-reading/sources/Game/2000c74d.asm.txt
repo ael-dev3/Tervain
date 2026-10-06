@@ -1,0 +1,2 @@
+; 2000c74d bTPropertyContainer<gEPlayerCrime>::vfunction7
+2000c74d | e98e451100 | JMP 0x20120ce0

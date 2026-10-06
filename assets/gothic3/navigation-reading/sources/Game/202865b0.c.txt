@@ -1,0 +1,20 @@
+/* ENTRY 202865b0 | FUN_202865b0 | STATUS decompiled | 11 ms */
+
+undefined4 __thiscall FUN_202865b0(int param_1,bCOStream *param_2)
+
+{
+  bCVector::operator>>((bCVector *)(param_1 + 0x14),(bCOStream *)param_2);
+  operator<<((bCOStream *)param_2,(bCPropertyID *)(param_1 + 0x20));
+  operator<<((bCOStream *)param_2,(bCPropertyID *)(param_1 + 0x34));
+  operator<<((bCOStream *)param_2,(bCPropertyID *)(param_1 + 0x48));
+  bCOStream::operator<<(param_2,(bCString *)(param_1 + 0x5c));
+  operator<<((bCOStream *)param_2,(eCEntityProxy *)(param_1 + 0x90));
+  operator<<((bCOStream *)param_2,(eCEntityProxy *)(param_1 + 0xac));
+  operator<<((bCOStream *)param_2,(eCEntityProxy *)(param_1 + 200));
+  bCVector::operator>>((bCVector *)(param_1 + 0xe4),(bCOStream *)param_2);
+  operator<<((bCOStream *)param_2,(bCPropertyID *)(param_1 + 0xf0));
+  bCOStream::operator<<(param_2,*(bool *)(param_1 + 0x104));
+  return 1;
+}
+
+

@@ -1,0 +1,2 @@
+; 3003fc38 ?GetDepth@eCCollisionShape@@QAEMXZ
+3003fc38 | e9b3d80800 | JMP 0x300cd4f0

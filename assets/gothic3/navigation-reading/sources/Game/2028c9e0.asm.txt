@@ -1,0 +1,14 @@
+; 2028c9e0 bTPOPureSmartPtr<gCNavigation_PS>::vector_deleting_destructor
+2028c9e0 | 56 | PUSH ESI
+2028c9e1 | 8bf1 | MOV ESI,ECX
+2028c9e3 | e8e219daff | CALL 0x2002e3ca
+2028c9e8 | f644240801 | TEST byte ptr [ESP + 0x8],0x1
+2028c9ed | 7409 | JZ 0x2028c9f8
+2028c9ef | 56 | PUSH ESI
+2028c9f0 | e8406f1d00 | CALL 0x20463935
+2028c9f5 | 83c404 | ADD ESP,0x4
+; 2028c9f8 LAB_2028c9f8
+2028c9f8 | 8bc6 | MOV EAX,ESI
+2028c9fa | 5e | POP ESI
+2028c9fb | c20400 | RET 0x4
+; 2028ca10 bTPropertyObject<gCNavigation_PS,eCEntityPropertySet>::scalar_deleting_destructor

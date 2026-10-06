@@ -1,0 +1,2 @@
+; 3000cf95 bTPropertyType<eCCollisionShape,bCObsoleteClass>::vfunction16
+3000cf95 | e966f23400 | JMP 0x3035c200

@@ -1,0 +1,18 @@
+/* ENTRY 3002a905 | eCCollisionShape::SetDisableCollision | STATUS decompiled | 9 ms */
+
+/* public: void __thiscall eCCollisionShape::SetDisableCollision(bool const &) */
+
+void __thiscall eCCollisionShape::SetDisableCollision(eCCollisionShape *this,bool *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x2a905  13267  ?SetDisableCollision@eCCollisionShape@@QAEXAB_N@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"DisableCollision",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  (this->eCCollisionShape_data).offset_0x2b = (bCObjectRefBase)*param_1;
+  (*pNVar1)(this,"DisableCollision",false);
+  return;
+}
+
+

@@ -1,0 +1,61 @@
+; 3067f691 __VEC_memzero
+3067f691 | 55 | PUSH EBP
+3067f692 | 8bec | MOV EBP,ESP
+3067f694 | 83ec10 | SUB ESP,0x10
+3067f697 | 897dfc | MOV dword ptr [EBP + -0x4],EDI
+3067f69a | 8b4508 | MOV EAX,dword ptr [EBP + 0x8]
+3067f69d | 99 | CDQ
+3067f69e | 8bf8 | MOV EDI,EAX
+3067f6a0 | 33fa | XOR EDI,EDX
+3067f6a2 | 2bfa | SUB EDI,EDX
+3067f6a4 | 83e70f | AND EDI,0xf
+3067f6a7 | 33fa | XOR EDI,EDX
+3067f6a9 | 2bfa | SUB EDI,EDX
+3067f6ab | 85ff | TEST EDI,EDI
+3067f6ad | 753c | JNZ 0x3067f6eb
+3067f6af | 8b4d10 | MOV ECX,dword ptr [EBP + 0x10]
+3067f6b2 | 8bd1 | MOV EDX,ECX
+3067f6b4 | 83e27f | AND EDX,0x7f
+3067f6b7 | 8955f4 | MOV dword ptr [EBP + -0xc],EDX
+3067f6ba | 3bca | CMP ECX,EDX
+3067f6bc | 7412 | JZ 0x3067f6d0
+3067f6be | 2bca | SUB ECX,EDX
+3067f6c0 | 51 | PUSH ECX
+3067f6c1 | 50 | PUSH EAX
+3067f6c2 | e873ffffff | CALL 0x3067f63a
+3067f6c7 | 83c408 | ADD ESP,0x8
+3067f6ca | 8b4508 | MOV EAX,dword ptr [EBP + 0x8]
+3067f6cd | 8b55f4 | MOV EDX,dword ptr [EBP + -0xc]
+3067f6d0 | 85d2 | TEST EDX,EDX
+3067f6d2 | 7445 | JZ 0x3067f719
+3067f6d4 | 034510 | ADD EAX,dword ptr [EBP + 0x10]
+3067f6d7 | 2bc2 | SUB EAX,EDX
+3067f6d9 | 8945f8 | MOV dword ptr [EBP + -0x8],EAX
+3067f6dc | 33c0 | XOR EAX,EAX
+3067f6de | 8b7df8 | MOV EDI,dword ptr [EBP + -0x8]
+3067f6e1 | 8b4df4 | MOV ECX,dword ptr [EBP + -0xc]
+3067f6e4 | f3aa | STOSB.REP ES:EDI
+3067f6e6 | 8b4508 | MOV EAX,dword ptr [EBP + 0x8]
+3067f6e9 | eb2e | JMP 0x3067f719
+3067f6eb | f7df | NEG EDI
+3067f6ed | 83c710 | ADD EDI,0x10
+3067f6f0 | 897df0 | MOV dword ptr [EBP + -0x10],EDI
+3067f6f3 | 33c0 | XOR EAX,EAX
+3067f6f5 | 8b7d08 | MOV EDI,dword ptr [EBP + 0x8]
+3067f6f8 | 8b4df0 | MOV ECX,dword ptr [EBP + -0x10]
+3067f6fb | f3aa | STOSB.REP ES:EDI
+3067f6fd | 8b45f0 | MOV EAX,dword ptr [EBP + -0x10]
+3067f700 | 8b4d08 | MOV ECX,dword ptr [EBP + 0x8]
+3067f703 | 8b5510 | MOV EDX,dword ptr [EBP + 0x10]
+3067f706 | 03c8 | ADD ECX,EAX
+3067f708 | 2bd0 | SUB EDX,EAX
+3067f70a | 52 | PUSH EDX
+3067f70b | 6a00 | PUSH 0x0
+3067f70d | 51 | PUSH ECX
+3067f70e | e87effffff | CALL 0x3067f691
+3067f713 | 83c40c | ADD ESP,0xc
+3067f716 | 8b4508 | MOV EAX,dword ptr [EBP + 0x8]
+3067f719 | 8b7dfc | MOV EDI,dword ptr [EBP + -0x4]
+3067f71c | 8be5 | MOV ESP,EBP
+3067f71e | 5d | POP EBP
+3067f71f | c3 | RET

@@ -1,0 +1,13 @@
+/* ENTRY 10003ed6 | bCPropertyObjectBase::Read | STATUS decompiled | 5 ms */
+
+/* public: virtual unsigned short __thiscall bCPropertyObjectBase::Read(class bCIStream &) */
+
+ushort __thiscall bCPropertyObjectBase::Read(bCPropertyObjectBase *this,bCIStream *param_1)
+
+{
+                    /* 0x3ed6  3883  ?Read@bCPropertyObjectBase@@UAEGAAVbCIStream@@@Z */
+  bCIStream::operator>>((bCIStream *)param_1,(ushort *)&param_1);
+  return (ushort)param_1;
+}
+
+

@@ -1,0 +1,12 @@
+/* ENTRY 300c9470 | bTPropertyContainer<eECollisionShapeType>::vfunction8 | STATUS decompiled | 3 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<eECollisionShapeType>::vfunction8
+          (bTPropertyContainer<eECollisionShapeType> *this,int param_1)
+
+{
+  (this->bTPropertyContainer<eECollisionShapeType>_data).offset_0x0 = *(undefined ***)(param_1 + 4);
+  return 1;
+}
+
+

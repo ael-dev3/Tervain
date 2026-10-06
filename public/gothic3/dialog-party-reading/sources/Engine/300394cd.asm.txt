@@ -1,0 +1,2 @@
+; 300394cd eCEntityProxy::operator==
+300394cd | e96ead4800 | JMP 0x304c4240

@@ -1,0 +1,73 @@
+/* ENTRY 3008fe90 | FUN_3008fe90 | STATUS decompiled | 20 ms */
+
+void FUN_3008fe90(bCString *param_1)
+
+{
+  byte bVar1;
+  bCString *this;
+  int iVar2;
+  int iVar3;
+  int iVar4;
+  uint uVar5;
+  char cVar6;
+  uint local_4;
+  
+  this = param_1;
+  bCString::bCString((bCString *)&param_1,param_1);
+  bCString::ToUpper((bCString *)&param_1);
+  iVar2 = thunk_FUN_300921e0(&param_1,&local_4);
+  if (iVar2 != 0) {
+    iVar2 = bCString::GetLength(this);
+    iVar2 = iVar2 + -4;
+    if (-1 < iVar2) {
+      iVar3 = thunk_FUN_300921e0(&param_1,&local_4);
+      bVar1 = *(byte *)(iVar3 + 4);
+      iVar4 = _rand();
+      iVar3 = 2;
+      local_4 = iVar4 % (int)(bVar1 + 1) & 0xff;
+      uVar5 = local_4 / 10;
+      local_4 = local_4 % 10;
+      do {
+        iVar2 = iVar2 + 1;
+        switch(uVar5) {
+        case 0:
+          cVar6 = '0';
+          break;
+        case 1:
+          cVar6 = '1';
+          break;
+        case 2:
+          cVar6 = '2';
+          break;
+        case 3:
+          cVar6 = '3';
+          break;
+        case 4:
+          cVar6 = '4';
+          break;
+        case 5:
+          cVar6 = '5';
+          break;
+        case 6:
+          cVar6 = '6';
+          break;
+        case 7:
+          cVar6 = '7';
+          break;
+        case 8:
+          cVar6 = '8';
+          break;
+        default:
+          cVar6 = '9';
+        }
+        bCString::SetAt(this,iVar2,cVar6);
+        iVar3 = iVar3 + -1;
+        uVar5 = local_4 & 0xff;
+      } while (iVar3 != 0);
+    }
+  }
+  bCString::~bCString((bCString *)&param_1);
+  return;
+}
+
+

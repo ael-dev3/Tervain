@@ -1,0 +1,4 @@
+; 30006f32 ?GetWorldTreeBoundary@eCEntity@@QBEABVbCBox@@XZ
+30006f32 | e969ca4a00 | JMP 0x304b39a0
+; 30006f37 eCEventLogic_PS::GetReverseLogicOnUntrigger
+; 30006f37 Ordinal_8469

@@ -1,0 +1,19 @@
+/* ENTRY 201946d0 | FUN_201946d0 | STATUS decompiled | 5 ms */
+
+undefined4 __fastcall FUN_201946d0(CFFGFCTabCtrl *param_1)
+
+{
+  int iVar1;
+  undefined4 local_1c [6];
+  undefined4 local_4;
+  
+  iVar1 = CFFGFCTabCtrl::GetCurSel(param_1);
+  if (-1 < iVar1) {
+    local_1c[0] = 8;
+    CFFGFCTabCtrl::GetItem(param_1,iVar1,(SFFGUITabCtrlItem *)local_1c);
+    return local_4;
+  }
+  return 5;
+}
+
+

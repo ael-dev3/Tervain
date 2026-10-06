@@ -1,0 +1,2 @@
+; 30015f28 thunk_FUN_304bc2e0
+30015f28 | e9b3634a00 | JMP 0x304bc2e0

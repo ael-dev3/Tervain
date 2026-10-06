@@ -1,0 +1,4 @@
+; 10003bac ?GetFocusEntity@PSFocus@@QBE?AVEntity@@W4gECombatMode@@W4gEDirection@@@Z
+10003bac | e98f3d0100 | JMP 0x10017940
+; 10003bb1 PSMover::IsValid
+; 10003bb1 Ordinal_1841

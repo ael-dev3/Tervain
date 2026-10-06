@@ -1,0 +1,24 @@
+/* ENTRY 100031b6 | bCUnitedRay::Transform | STATUS decompiled | 8 ms */
+
+/* public: void __thiscall bCUnitedRay::Transform(class bCMatrix const &) */
+
+void __thiscall bCUnitedRay::Transform(bCUnitedRay *this,bCMatrix *param_1)
+
+{
+  undefined4 *puVar1;
+  bCMatrix abStack_c [12];
+  
+                    /* 0x31b6  4538  ?Transform@bCUnitedRay@@QAEXABVbCMatrix@@@Z */
+  puVar1 = (undefined4 *)bCVector::GetTransformedDirection((bCVector *)(this + 0x10),abStack_c);
+  *(undefined4 *)(this + 0x10) = *puVar1;
+  *(undefined4 *)(this + 0x14) = puVar1[1];
+  *(undefined4 *)(this + 0x18) = puVar1[2];
+  puVar1 = (undefined4 *)
+           bCVector::GetTransformed((bCVector *)(this + 4),(bCMatrix *)&stack0xfffffff0);
+  *(undefined4 *)(this + 4) = *puVar1;
+  *(undefined4 *)(this + 8) = puVar1[1];
+  *(undefined4 *)(this + 0xc) = puVar1[2];
+  return;
+}
+
+

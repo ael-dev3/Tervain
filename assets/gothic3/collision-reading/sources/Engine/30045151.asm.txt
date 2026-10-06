@@ -1,0 +1,4 @@
+; 30045151 bTPropertyObject<eCCollisionShapeBase_PS,eCEntityPropertySet>::vfunction8
+30045151 | e95adc2f00 | JMP 0x30342db0
+; 30045156 eCCommandManager::Invalidate
+; 30045156 Ordinal_9938

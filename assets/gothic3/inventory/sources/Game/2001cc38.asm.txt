@@ -1,0 +1,2 @@
+; 2001cc38 ?GetAmount@gCInventoryStack@@QBEABHXZ
+2001cc38 | e993230600 | JMP 0x2007efd0

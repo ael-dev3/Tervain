@@ -1,0 +1,16 @@
+/* ENTRY 3066adf0 | FUN_3066adf0 | STATUS decompiled | 5 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined * FUN_3066adf0(void)
+
+{
+  if ((_DAT_30af6d6c & 1) == 0) {
+    _DAT_30af6d6c = _DAT_30af6d6c | 1;
+    _DAT_30af6d68 = 0;
+    _atexit((_func_4879 *)&DAT_307b8050);
+  }
+  return &DAT_30af6d64;
+}
+
+

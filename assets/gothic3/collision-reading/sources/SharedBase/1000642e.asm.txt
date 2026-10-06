@@ -1,0 +1,4 @@
+; 1000642e ?Intersects@bCBox@@QBE_NABVbCLine@@AAM@Z
+1000642e | e9edfe0400 | JMP 0x10056320
+; 10006433 bCGuid::Init
+; 10006433 Ordinal_3330

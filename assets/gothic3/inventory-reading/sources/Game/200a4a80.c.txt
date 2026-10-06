@@ -1,0 +1,10 @@
+/* ENTRY 200a4a80 | bTPropertyContainer<gESlot>::vfunction7 | STATUS decompiled | 2 ms */
+
+undefined4 __thiscall bTPropertyContainer<gESlot>::vfunction7(bTPropertyContainer<gESlot> *this)
+
+{
+  (this->bTPropertyContainer<gESlot>_data).offset_0x0 = DAT_207b5f2c;
+  return 1;
+}
+
+

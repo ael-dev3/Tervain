@@ -1,0 +1,2 @@
+; 2001b199 ?OnStackCreate@gCInventory_PS@@UAEXHPBVgCInventoryStack@@@Z
+2001b199 | e9c21c1900 | JMP 0x201ace60

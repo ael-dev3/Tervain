@@ -1,0 +1,123 @@
+/* ENTRY 3001d7c3 | eCVisualAnimation_PS::~eCVisualAnimation_PS | STATUS decompiled | 53 ms */
+
+/* public: virtual __thiscall eCVisualAnimation_PS::~eCVisualAnimation_PS(void) */
+
+void __thiscall eCVisualAnimation_PS::~eCVisualAnimation_PS(eCVisualAnimation_PS *this)
+
+{
+  undefined4 *this_00;
+  byte *pbVar1;
+  undefined1 *puVar2;
+  eCVisualAnimation_PS *peVar3;
+  int iVar4;
+  bCMemoryAdmin *pbVar5;
+  void *pvVar6;
+  eCVisualAnimation_PS_vftable *peVar7;
+  
+                    /* 0x1d7c3  1387  ??1eCVisualAnimation_PS@@UAE@XZ */
+  pbVar1 = &this[0x13].eCEntityPropertySet_data.offset_0xc;
+  this->vftablePtr = &vftable;
+  if ((pbVar1 != (byte *)0x0) && (pvVar6 = *(void **)pbVar1, pvVar6 != (void *)0x0)) {
+    pbVar5 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar5,pvVar6);
+    *(undefined4 *)pbVar1 = 0;
+    this[0x14].vftablePtr = (eCVisualAnimation_PS_vftable *)0x0;
+    *(undefined4 *)&this[0x14].eCEntityPropertySet_data = 0;
+  }
+  bCString::~bCString((bCString *)&this[0x13].eCEntityPropertySet_data.field_0x4);
+  bCString::~bCString((bCString *)&this[0x12].eCEntityPropertySet_data.offset_0x8);
+  eCEntityProxy::~eCEntityProxy((eCEntityProxy *)&this[0x11].eCEntityPropertySet_data);
+  bCString::~bCString((bCString *)&this[0x10].eCEntityPropertySet_data.field_0x4);
+  bCString::~bCString((bCString *)&this[0x10].eCEntityPropertySet_data);
+  iVar4 = this[0xf].eCEntityPropertySet_data.offset_0x8;
+  if (iVar4 != 0) {
+    thunk_FUN_300b85c0(iVar4,this[0x10].vftablePtr);
+    pvVar6 = (void *)this[0xf].eCEntityPropertySet_data.offset_0x8;
+    pbVar5 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar5,pvVar6);
+    this[0xf].eCEntityPropertySet_data.offset_0x8 = 0;
+    *(undefined4 *)&this[0xf].eCEntityPropertySet_data.offset_0xc = 0;
+    this[0x10].vftablePtr = (eCVisualAnimation_PS_vftable *)0x0;
+  }
+  puVar2 = &this[0xe].eCEntityPropertySet_data.field_0x4;
+  if (puVar2 != (undefined1 *)0x0) {
+    pvVar6 = *(void **)puVar2;
+    if (pvVar6 != (void *)0x0) {
+      pbVar5 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar5,pvVar6);
+      *(undefined4 *)puVar2 = 0;
+      this[0xe].eCEntityPropertySet_data.offset_0x8 = 0;
+      *(undefined4 *)&this[0xe].eCEntityPropertySet_data.offset_0xc = 0;
+    }
+    pvVar6 = *(void **)puVar2;
+    if (pvVar6 != (void *)0x0) {
+      pbVar5 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar5,pvVar6);
+      *(undefined4 *)puVar2 = 0;
+      this[0xe].eCEntityPropertySet_data.offset_0x8 = 0;
+      *(undefined4 *)&this[0xe].eCEntityPropertySet_data.offset_0xc = 0;
+    }
+  }
+  thunk_FUN_3007cd40();
+  bCBox::~bCBox((bCBox *)&this[0xc].eCEntityPropertySet_data);
+  iVar4 = this[0xb].eCEntityPropertySet_data.offset_0x8;
+  if (iVar4 != 0) {
+    thunk_FUN_300ae3f0(iVar4,this[0xc].vftablePtr);
+    pvVar6 = (void *)this[0xb].eCEntityPropertySet_data.offset_0x8;
+    pbVar5 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar5,pvVar6);
+    this[0xb].eCEntityPropertySet_data.offset_0x8 = 0;
+    *(undefined4 *)&this[0xb].eCEntityPropertySet_data.offset_0xc = 0;
+    this[0xc].vftablePtr = (eCVisualAnimation_PS_vftable *)0x0;
+  }
+  peVar3 = this + 0xb;
+  if ((peVar3 != (eCVisualAnimation_PS *)0x0) &&
+     (peVar7 = peVar3->vftablePtr, peVar7 != (eCVisualAnimation_PS_vftable *)0x0)) {
+    pbVar5 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar5,peVar7);
+    peVar3->vftablePtr = (eCVisualAnimation_PS_vftable *)0x0;
+    *(undefined4 *)&this[0xb].eCEntityPropertySet_data = 0;
+    *(undefined4 *)&this[0xb].eCEntityPropertySet_data.field_0x4 = 0;
+  }
+  puVar2 = &this[10].eCEntityPropertySet_data.field_0x4;
+  if ((puVar2 != (undefined1 *)0x0) && (pvVar6 = *(void **)puVar2, pvVar6 != (void *)0x0)) {
+    pbVar5 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar5,pvVar6);
+    *(undefined4 *)puVar2 = 0;
+    this[10].eCEntityPropertySet_data.offset_0x8 = 0;
+    *(undefined4 *)&this[10].eCEntityPropertySet_data.offset_0xc = 0;
+  }
+  pbVar1 = &this[9].eCEntityPropertySet_data.offset_0xc;
+  if ((pbVar1 != (byte *)0x0) && (pvVar6 = *(void **)pbVar1, pvVar6 != (void *)0x0)) {
+    pbVar5 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar5,pvVar6);
+    *(undefined4 *)pbVar1 = 0;
+    this[10].vftablePtr = (eCVisualAnimation_PS_vftable *)0x0;
+    *(undefined4 *)&this[10].eCEntityPropertySet_data = 0;
+  }
+  eCVisualAnimationFactory::~eCVisualAnimationFactory
+            ((eCVisualAnimationFactory *)&this[7].eCEntityPropertySet_data.field_0x4);
+  puVar2 = &this[6].eCEntityPropertySet_data.field_0x4;
+  *(bTPropertyObject<eCSpringAndDamperEffector,eCEffector>_vftable **)puVar2 =
+       &bTPropertyObject<eCSpringAndDamperEffector,eCEffector>::vftable;
+  bTPropertyObject<eCSpringAndDamperEffector,eCEffector>::vfunction10
+            ((bTPropertyObject<eCSpringAndDamperEffector,eCEffector> *)puVar2);
+  bTPOPureSmartPtr<eCSpringAndDamperEffector>::~bTPOPureSmartPtr<eCSpringAndDamperEffector>
+            ((bTPOPureSmartPtr<eCSpringAndDamperEffector> *)puVar2);
+  puVar2 = &this[5].eCEntityPropertySet_data.field_0x4;
+  *(bTPropertyContainer<eECollisionGroup>_vftable **)puVar2 =
+       &bTPropertyContainer<eECollisionGroup>::vftable;
+  bCObjectBase::~bCObjectBase((bCObjectBase *)puVar2);
+  this[5].vftablePtr =
+       (eCVisualAnimation_PS_vftable *)&bTPropertyContainer<eEShapeMaterial>::vftable;
+  bCObjectBase::~bCObjectBase((bCObjectBase *)(this + 5));
+  this_00 = &this[4].eCEntityPropertySet_data.offset_0x8;
+  *this_00 = &bTPropertyContainer<eEShapeGroup>::vftable;
+  bCObjectBase::~bCObjectBase((bCObjectBase *)this_00);
+  bCString::~bCString((bCString *)&this[1].eCEntityPropertySet_data);
+  bCString::~bCString((bCString *)(this + 1));
+  eCEntityPropertySet::~eCEntityPropertySet((eCEntityPropertySet *)this);
+  return;
+}
+
+

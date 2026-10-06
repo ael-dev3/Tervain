@@ -1,0 +1,2 @@
+; 10004f02 bCErrorAdmin::CallFatalError
+10004f02 | e9d9d30100 | JMP 0x100222e0

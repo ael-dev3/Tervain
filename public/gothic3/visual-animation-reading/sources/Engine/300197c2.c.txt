@@ -1,0 +1,23 @@
+/* ENTRY 300197c2 | thunk_FUN_301d79b0 | STATUS decompiled | 10 ms */
+
+void thunk_FUN_301d79b0(undefined4 *param_1,undefined4 *param_2,int param_3)
+
+{
+  undefined4 *puVar1;
+  
+  for (; param_3 != 0; param_3 = param_3 + -1) {
+    *param_1 = *param_2;
+    param_1[1] = param_2[1];
+    bCUnicodeString::operator=((bCUnicodeString *)(param_1 + 2),(bCUnicodeString *)(param_2 + 2));
+    bCByteAlphaColor::operator=((bCByteAlphaColor *)(param_1 + 3),(bCByteAlphaColor *)(param_2 + 3))
+    ;
+    param_1[6] = param_2[6];
+    puVar1 = param_2 + 7;
+    param_2 = param_2 + 8;
+    param_1[7] = *puVar1;
+    param_1 = param_1 + 8;
+  }
+  return;
+}
+
+

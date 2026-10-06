@@ -1,0 +1,2 @@
+; 30007d1f eCEntityProxy::GetEntityID
+30007d1f | e91cc64b00 | JMP 0x304c4340

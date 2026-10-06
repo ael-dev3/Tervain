@@ -1,0 +1,2 @@
+; 20015681 ?GetVersion@gCCharacterSensor_PS@@UBEGXZ
+20015681 | e98a172200 | JMP 0x20236e10

@@ -1,0 +1,25 @@
+; 2018cd90 FUN_2018cd90
+2018cd90 | 56 | PUSH ESI
+2018cd91 | 8bf1 | MOV ESI,ECX
+2018cd93 | 8b4e2c | MOV ECX,dword ptr [ESI + 0x2c]
+2018cd96 | 85c9 | TEST ECX,ECX
+2018cd98 | 740e | JZ 0x2018cda8
+2018cd9a | 8b01 | MOV EAX,dword ptr [ECX]
+2018cd9c | 8b8054010000 | MOV EAX,dword ptr [EAX + 0x154]
+2018cda2 | 8d5628 | LEA EDX,[ESI + 0x28]
+2018cda5 | 52 | PUSH EDX
+2018cda6 | ffd0 | CALL EAX
+; 2018cda8 LAB_2018cda8
+2018cda8 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+2018cdac | 85c9 | TEST ECX,ECX
+2018cdae | 894e2c | MOV dword ptr [ESI + 0x2c],ECX
+2018cdb1 | c6463801 | MOV byte ptr [ESI + 0x38],0x1
+2018cdb5 | 740e | JZ 0x2018cdc5
+2018cdb7 | 8b11 | MOV EDX,dword ptr [ECX]
+2018cdb9 | 8b8250010000 | MOV EAX,dword ptr [EDX + 0x150]
+2018cdbf | 83c628 | ADD ESI,0x28
+2018cdc2 | 56 | PUSH ESI
+2018cdc3 | ffd0 | CALL EAX
+; 2018cdc5 LAB_2018cdc5
+2018cdc5 | 5e | POP ESI
+2018cdc6 | c20400 | RET 0x4

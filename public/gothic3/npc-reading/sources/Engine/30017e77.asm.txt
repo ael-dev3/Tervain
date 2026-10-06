@@ -1,0 +1,2 @@
+; 30017e77 ?SetEntity@eCEntityProxy@@QAEXPBVeCEntity@@@Z
+30017e77 | e924c54a00 | JMP 0x304c43a0

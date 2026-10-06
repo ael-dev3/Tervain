@@ -1,0 +1,2 @@
+; 20028abf ?GetFactor@gCClock_PS@@QBEABMXZ
+20028abf | e97ce51300 | JMP 0x20167040

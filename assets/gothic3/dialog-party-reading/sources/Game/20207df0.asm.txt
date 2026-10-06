@@ -1,0 +1,9 @@
+; 20207df0 gCClock_PS::~gCClock_PS
+20207df0 | 56 | PUSH ESI
+20207df1 | 8bf1 | MOV ESI,ECX
+20207df3 | 8d4e2c | LEA ECX,[ESI + 0x2c]
+20207df6 | c706fc586820 | MOV dword ptr [ESI],0x206858fc
+20207dfc | ff1584807d20 | CALL dword ptr [0x207d8084]
+20207e02 | 8bce | MOV ECX,ESI
+20207e04 | 5e | POP ESI
+20207e05 | ff2538727d20 | JMP dword ptr [0x207d7238]

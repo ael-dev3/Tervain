@@ -1,0 +1,16 @@
+/* ENTRY 20318700 | bTPropertyObject<gCParty_PS,eCEntityPropertySet>::vfunction4 | STATUS decompiled | 2 ms */
+
+void __thiscall
+bTPropertyObject<gCParty_PS,eCEntityPropertySet>::vfunction4
+          (bTPropertyObject<gCParty_PS,eCEntityPropertySet> *this)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x20318703. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCPropertyObjectTypeBase::GetDescription
+            ((bCPropertyObjectTypeBase *)
+             (this->bTPropertyObject<gCParty_PS,eCEntityPropertySet>_data).offset_0x0);
+  return;
+}
+
+

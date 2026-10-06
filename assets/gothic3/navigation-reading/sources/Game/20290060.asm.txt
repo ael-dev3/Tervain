@@ -1,0 +1,2 @@
+; 20290060 SHAREDBASE.DLL::bCPropertyTypeBase::Write
+20290060 | ff25e0877d20 | JMP dword ptr [0x207d87e0]

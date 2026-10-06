@@ -1,0 +1,2 @@
+; 10002aae ?GetInstance@bCMemoryAdmin@@SGAAV1@XZ
+10002aae | e93de10100 | JMP 0x10020bf0

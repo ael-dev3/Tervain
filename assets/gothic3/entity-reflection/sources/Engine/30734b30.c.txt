@@ -1,0 +1,32 @@
+/* ENTRY 30734b30 | bTPropertyType<eCVisualAnimation_PS,int>::~bTPropertyType<eCVisualAnimation_PS,int> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<eCVisualAnimation_PS,int>::~bTPropertyType<eCVisualAnimation_PS,int>
+          (bTPropertyType<eCVisualAnimation_PS,int> *this)
+
+{
+  bTPropertyType<eCVisualAnimation_PS,int> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"MaterialSwitch");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&eCVisualAnimation_PS::ms_PropertyMember_m_iMaterialSwitch,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_iMaterialSwitch = &vftable;
+  DAT_30ada99c = bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet>();
+  _DAT_30ada9a0 = 0x90;
+  _DAT_30ada9a4 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&eCVisualAnimation_PS::ms_PropertyMember_m_iMaterialSwitch);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_30ada99c,
+             (bCPropertyTypeBase *)&eCVisualAnimation_PS::ms_PropertyMember_m_iMaterialSwitch);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<int>::~bTPropertyTypeOnly<int>);
+  return;
+}
+
+

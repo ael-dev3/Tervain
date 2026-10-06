@@ -1,0 +1,2 @@
+; 20022c96 bTPropertyType<gCInteraction_PS,bool>::vfunction6
+20022c96 | e9458d3e00 | JMP 0x2040b9e0

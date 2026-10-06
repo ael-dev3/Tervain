@@ -1,0 +1,31 @@
+/* ENTRY 30310350 | FUN_30310350 | STATUS decompiled | 19 ms */
+
+void __thiscall FUN_30310350(int param_1,char param_2)
+
+{
+  bool bVar1;
+  eCPhysicsScene *peVar2;
+  bCCriticalSectionWin32 *this;
+  
+  if (*(int *)(param_1 + 0x1b8) != 0) {
+    peVar2 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+    bVar1 = eCPhysicsScene::IsLocked(peVar2);
+    if (!bVar1) {
+      peVar2 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+      this = eCPhysicsScene::GetCriticalSection(peVar2);
+      bCCriticalSectionWin32::Acquire(this);
+      bCCriticalSectionWin32::Release(this);
+      if (param_2 != '\0') {
+        (**(code **)(**(int **)(param_1 + 0x1b8) + 0x14c))();
+        return;
+      }
+      (**(code **)(**(int **)(param_1 + 0x1b8) + 0x148))(0x3ecccccc);
+      return;
+    }
+    thunk_FUN_303148f0(0xf);
+    *(char *)(param_1 + 0xcc) = param_2;
+  }
+  return;
+}
+
+

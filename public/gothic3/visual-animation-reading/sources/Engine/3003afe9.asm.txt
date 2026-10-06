@@ -1,0 +1,2 @@
+; 3003afe9 eCVisualAnimation_PS::GetActor
+3003afe9 | e9e22d0600 | JMP 0x3009ddd0

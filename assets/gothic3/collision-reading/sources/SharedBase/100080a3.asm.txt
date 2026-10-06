@@ -1,0 +1,4 @@
+; 100080a3 ?Intersects@bCBox@@QBE_NABVbCUnitedRay@@AAM@Z
+100080a3 | e9e8e10400 | JMP 0x10056290
+; 100080a8 bCRect::SetCoordinate
+; 100080a8 Ordinal_4138

@@ -1,0 +1,218 @@
+/* ENTRY 20289090 | FUN_20289090 | STATUS decompiled | 136 ms */
+
+void __fastcall FUN_20289090(gCNavigation_PS *param_1)
+
+{
+  undefined1 *this;
+  int iVar1;
+  char cVar2;
+  bool bVar3;
+  eCApplication *peVar4;
+  int *piVar5;
+  eCEntity *peVar6;
+  gCNavZone_PS *this_00;
+  gCDynamicCollisionCircle_PS *this_01;
+  gCCharacterMovement_PS *pgVar7;
+  undefined4 *puVar8;
+  eCEntity *peVar9;
+  gCNavPath_PS *this_02;
+  gCDynamicCollisionCircle_PS *pgVar10;
+  gCDynamicCollisionCircle_PS *unaff_EDI;
+  undefined4 uVar11;
+  eEPropertySetType eVar12;
+  undefined4 uVar13;
+  bCString abStack_6c [4];
+  bCString abStack_68 [4];
+  eCEntity *peStack_64;
+  eCEntityProxy eStack_60;
+  eCContactIterator aeStack_44 [68];
+  
+  uVar11 = 0;
+  peVar4 = eCApplication::GetInstance();
+  piVar5 = (int *)___RTDynamicCast(peVar4,uVar11);
+  cVar2 = (**(code **)(*piVar5 + 0x270))();
+  if (cVar2 != '\x01') {
+    return;
+  }
+  this = &(param_1->gCNavigation_PS_data).field_0xa8;
+  peVar6 = eCEntityProxy::GetEntity((eCEntityProxy *)this);
+  if (peVar6 == (eCEntity *)0x0) goto LAB_202895ed;
+  eCEntityProxy::eCEntityProxy(&eStack_60);
+  peVar6 = eCEntityProxy::GetEntity((eCEntityProxy *)this);
+  eCEntityProxy::SetEntity(&eStack_60,peVar6);
+  peVar6 = eCEntityProxy::GetEntity(&eStack_60);
+  if (peVar6 != (eCEntity *)0x0) {
+    eVar12 = 8;
+    peVar6 = eCEntityProxy::GetEntity(&eStack_60);
+    bVar3 = eCEntity::HasPropertySet((eCEntity *)peVar6,eVar12);
+    if (bVar3) {
+      peVar6 = eCEntityProxy::GetEntity(&eStack_60);
+      this_00 = (gCNavZone_PS *)(**(code **)(*(int *)peVar6 + 0xec))(8);
+      if ((param_1->gCNavigation_PS_data).offset_0x20c == (gCNavigation_PS)0x1) {
+        this_01 = (gCDynamicCollisionCircle_PS *)(param_1->gCNavigation_PS_data).offset_0x1d8;
+        if (this_01 == (gCDynamicCollisionCircle_PS *)0x0) {
+          peVar6 = (*param_1->vftablePtr->GetEntity)(param_1);
+          this_01 = (gCDynamicCollisionCircle_PS *)(**(code **)(*(int *)peVar6 + 0xec))(6);
+          if (this_01 == (gCDynamicCollisionCircle_PS *)0x0) {
+            peVar6 = (*param_1->vftablePtr->GetEntity)(param_1);
+            thunk_FUN_20290d80(peVar6);
+            peVar6 = (*param_1->vftablePtr->GetEntity)(param_1);
+            thunk_FUN_2028c960(peVar6);
+            bCString::bCString(abStack_6c,"GetDCCRadius");
+            peStack_64 = (eCEntity *)thunk_FUN_200a4bb0();
+            iVar1 = *(int *)peStack_64;
+            uVar13 = 0;
+            uVar11 = 0;
+            peVar6 = (*param_1->vftablePtr->GetEntity)(param_1);
+            (**(code **)(iVar1 + 0xbc))(abStack_6c,peVar6,uVar11,uVar13);
+            bCString::~bCString((bCString *)&stack0xffffff84);
+            gCDynamicCollisionCircle_PS::SetRadius(unaff_EDI,(float *)&stack0xffffff8c);
+            peVar6 = (*param_1->vftablePtr->GetEntity)(param_1);
+            this_01 = (gCDynamicCollisionCircle_PS *)(**(code **)(*(int *)peVar6 + 0xec))(6);
+            thunk_FUN_2028c990();
+          }
+          (param_1->gCNavigation_PS_data).offset_0x1d8 = this_01;
+          if (this_01 != (gCDynamicCollisionCircle_PS *)0x0) goto LAB_20289222;
+        }
+        else {
+LAB_20289222:
+          pgVar7 = gCNavigation_PS::GetCharacterMovement(param_1);
+          gCDynamicCollisionCircle_PS::SetCharacterMovement(this_01,pgVar7);
+          gCDynamicCollisionCircle_PS::SetNavigation(this_01,(gCNavigation_PS *)param_1);
+          gCNavZone_PS::RegisterDCCPS(this_00,(gCDynamicCollisionCircle_PS *)this_01);
+        }
+        peVar6 = (*this_00->vftablePtr->GetEntity)(this_00);
+        eCEntity::GetEntityFlags((eCEntity *)peVar6);
+        cVar2 = thunk_FUN_201327e0();
+        if (cVar2 == '\x01') {
+          peStack_64 = (*this_00->vftablePtr->GetEntity)(this_00);
+          iVar1 = *(int *)peStack_64;
+          uVar11 = eCContactIterator::eCContactIterator(aeStack_44,5);
+          peVar6 = (*param_1->vftablePtr->GetEntity)(param_1);
+          (**(code **)(iVar1 + 0x174))(peVar6,uVar11);
+          eCContactIterator::~eCContactIterator(aeStack_44);
+        }
+        peVar6 = (*param_1->vftablePtr->GetEntity)(param_1);
+        eCEntity::GetEntityFlags((eCEntity *)peVar6);
+        cVar2 = thunk_FUN_201327e0();
+        if (cVar2 == '\x01') {
+          peStack_64 = (*param_1->vftablePtr->GetEntity)(param_1);
+          iVar1 = *(int *)peStack_64;
+          uVar11 = eCContactIterator::eCContactIterator(aeStack_44,8);
+          peVar6 = eCEntityProxy::GetEntity(&eStack_60);
+          (**(code **)(iVar1 + 0x174))(peVar6,uVar11);
+          eCContactIterator::~eCContactIterator(aeStack_44);
+        }
+        puVar8 = (undefined4 *)thunk_FUN_200a4bb0();
+        if (puVar8 != (undefined4 *)0x0) {
+          bCString::bCString(abStack_68,"OnEnterArea");
+          peStack_64 = (eCEntity *)*puVar8;
+          uVar11 = 0;
+          peVar6 = eCEntityProxy::GetEntity(&eStack_60);
+          peVar9 = (*param_1->vftablePtr->GetEntity)(param_1);
+          (**(code **)(peStack_64 + 0xbc))(abStack_68,peVar9,peVar6,uVar11);
+          bCString::~bCString(abStack_68);
+        }
+      }
+      peVar6 = (*this_00->vftablePtr->GetEntity)(this_00);
+      eCEntity::GetEntityFlags((eCEntity *)peVar6);
+      cVar2 = thunk_FUN_201327e0();
+      if (cVar2 == '\x01') {
+        peVar6 = (*this_00->vftablePtr->GetEntity)(this_00);
+        iVar1 = *(int *)peVar6;
+        uVar11 = eCContactIterator::eCContactIterator(aeStack_44,5);
+        peVar6 = (*param_1->vftablePtr->GetEntity)(param_1);
+        (**(code **)(iVar1 + 0x178))(peVar6,uVar11);
+        eCContactIterator::~eCContactIterator(aeStack_44);
+      }
+      peVar6 = (*param_1->vftablePtr->GetEntity)(param_1);
+      eCEntity::GetEntityFlags((eCEntity *)peVar6);
+      cVar2 = thunk_FUN_201327e0();
+      if (cVar2 != '\x01') goto LAB_202895e3;
+      peVar6 = (*param_1->vftablePtr->GetEntity)(param_1);
+      eVar12 = 8;
+    }
+    else {
+      eVar12 = 10;
+      peVar6 = eCEntityProxy::GetEntity(&eStack_60);
+      bVar3 = eCEntity::HasPropertySet((eCEntity *)peVar6,eVar12);
+      if (!bVar3) goto LAB_202895e3;
+      peVar6 = eCEntityProxy::GetEntity(&eStack_60);
+      this_02 = (gCNavPath_PS *)(**(code **)(*(int *)peVar6 + 0xec))(10);
+      if ((param_1->gCNavigation_PS_data).offset_0x20c == (gCNavigation_PS)0x1) {
+        pgVar10 = (gCDynamicCollisionCircle_PS *)(param_1->gCNavigation_PS_data).offset_0x1d8;
+        if (pgVar10 == (gCDynamicCollisionCircle_PS *)0x0) {
+          peVar6 = (*param_1->vftablePtr->GetEntity)(param_1);
+          pgVar10 = (gCDynamicCollisionCircle_PS *)(**(code **)(*(int *)peVar6 + 0xec))(6);
+          (param_1->gCNavigation_PS_data).offset_0x1d8 = pgVar10;
+          if (pgVar10 != (gCDynamicCollisionCircle_PS *)0x0) goto LAB_2028942b;
+        }
+        else {
+LAB_2028942b:
+          gCNavPath_PS::RegisterDCCPS(this_02,pgVar10);
+        }
+        peVar6 = (*this_02->vftablePtr->GetEntity)(this_02);
+        eCEntity::GetEntityFlags((eCEntity *)peVar6);
+        cVar2 = thunk_FUN_201327e0();
+        if (cVar2 == '\x01') {
+          peStack_64 = (*this_02->vftablePtr->GetEntity)(this_02);
+          iVar1 = *(int *)peStack_64;
+          uVar11 = eCContactIterator::eCContactIterator(aeStack_44,5);
+          peVar6 = (*param_1->vftablePtr->GetEntity)(param_1);
+          (**(code **)(iVar1 + 0x174))(peVar6,uVar11);
+          eCContactIterator::~eCContactIterator(aeStack_44);
+        }
+        peVar6 = (*param_1->vftablePtr->GetEntity)(param_1);
+        eCEntity::GetEntityFlags((eCEntity *)peVar6);
+        cVar2 = thunk_FUN_201327e0();
+        if (cVar2 == '\x01') {
+          peStack_64 = (*param_1->vftablePtr->GetEntity)(param_1);
+          iVar1 = *(int *)peStack_64;
+          uVar11 = eCContactIterator::eCContactIterator(aeStack_44,10);
+          peVar6 = eCEntityProxy::GetEntity(&eStack_60);
+          (**(code **)(iVar1 + 0x174))(peVar6,uVar11);
+          eCContactIterator::~eCContactIterator(aeStack_44);
+        }
+        puVar8 = (undefined4 *)thunk_FUN_200a4bb0();
+        if (puVar8 != (undefined4 *)0x0) {
+          bCString::bCString(abStack_68,"OnEnterArea");
+          peStack_64 = (eCEntity *)*puVar8;
+          uVar11 = 0;
+          peVar6 = eCEntityProxy::GetEntity(&eStack_60);
+          peVar9 = (*param_1->vftablePtr->GetEntity)(param_1);
+          (**(code **)(peStack_64 + 0xbc))(abStack_68,peVar9,peVar6,uVar11);
+          bCString::~bCString(abStack_68);
+        }
+      }
+      peVar6 = (*this_02->vftablePtr->GetEntity)(this_02);
+      eCEntity::GetEntityFlags((eCEntity *)peVar6);
+      cVar2 = thunk_FUN_201327e0();
+      if (cVar2 == '\x01') {
+        peVar6 = (*this_02->vftablePtr->GetEntity)(this_02);
+        iVar1 = *(int *)peVar6;
+        uVar11 = eCContactIterator::eCContactIterator(aeStack_44,5);
+        peVar6 = (*param_1->vftablePtr->GetEntity)(param_1);
+        (**(code **)(iVar1 + 0x178))(peVar6,uVar11);
+        eCContactIterator::~eCContactIterator(aeStack_44);
+      }
+      peVar6 = (*param_1->vftablePtr->GetEntity)(param_1);
+      eCEntity::GetEntityFlags((eCEntity *)peVar6);
+      cVar2 = thunk_FUN_201327e0();
+      if (cVar2 != '\x01') goto LAB_202895e3;
+      peVar6 = (*param_1->vftablePtr->GetEntity)(param_1);
+      eVar12 = 10;
+    }
+    iVar1 = *(int *)peVar6;
+    uVar11 = eCContactIterator::eCContactIterator(aeStack_44,eVar12);
+    peVar6 = eCEntityProxy::GetEntity(&eStack_60);
+    (**(code **)(iVar1 + 0x178))(peVar6,uVar11);
+    eCContactIterator::~eCContactIterator(aeStack_44);
+  }
+LAB_202895e3:
+  eCEntityProxy::~eCEntityProxy(&eStack_60);
+LAB_202895ed:
+  (param_1->gCNavigation_PS_data).offset_0x20c = (gCNavigation_PS)0x0;
+  return;
+}
+
+

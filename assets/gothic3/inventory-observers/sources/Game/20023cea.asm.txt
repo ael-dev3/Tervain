@@ -1,0 +1,4 @@
+; 20023cea gCHUDTableRecipeStats::vfunction2_for_gCInventoryListener
+20023cea | e941911600 | JMP 0x2018ce30
+; 20023cef gCSession::IsGameRunning
+; 20023cef Ordinal_5156

@@ -1,0 +1,2 @@
+; 2028eb70 bTPropertyType<gCEffectCommandModifyEntity,bCString>::vfunction4
+2028eb70 | e93f9cd8ff | JMP 0x200187b4

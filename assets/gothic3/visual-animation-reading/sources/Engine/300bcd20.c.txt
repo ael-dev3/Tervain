@@ -1,0 +1,60 @@
+/* ENTRY 300bcd20 | FUN_300bcd20 | STATUS decompiled | 16 ms */
+
+void __fastcall FUN_300bcd20(eCVisualAnimationFactory *param_1)
+
+{
+  int *piVar1;
+  bCMemoryAdmin *this;
+  int iVar2;
+  bCString *this_00;
+  int iVar3;
+  void *pvVar4;
+  
+  eCVisualAnimationFactory::DestroyActorInstance(param_1);
+  if (*(int **)(param_1 + 8) != (int *)0x0) {
+    (**(code **)(**(int **)(param_1 + 8) + 0x24))();
+    *(undefined4 *)(param_1 + 8) = 0;
+  }
+  if (*(int **)(param_1 + 0xc) != (int *)0x0) {
+    (**(code **)(**(int **)(param_1 + 0xc) + 0x24))();
+    *(undefined4 *)(param_1 + 0xc) = 0;
+  }
+  iVar2 = 0;
+  if (0 < *(int *)(param_1 + 0x14)) {
+    iVar3 = 0;
+    do {
+      piVar1 = *(int **)(*(int *)(param_1 + 0x10) + 4 + iVar3);
+      if (piVar1 != (int *)0x0) {
+        (**(code **)(*piVar1 + 0x24))();
+        *(undefined4 *)(*(int *)(param_1 + 0x10) + 4 + iVar3) = 0;
+      }
+      piVar1 = *(int **)(*(int *)(param_1 + 0x10) + 8 + iVar3);
+      if (piVar1 != (int *)0x0) {
+        (**(code **)(*piVar1 + 0x24))();
+        *(undefined4 *)(*(int *)(param_1 + 0x10) + 8 + iVar3) = 0;
+      }
+      iVar2 = iVar2 + 1;
+      iVar3 = iVar3 + 0x10;
+    } while (iVar2 < *(int *)(param_1 + 0x14));
+  }
+  this_00 = *(bCString **)(param_1 + 0x10);
+  if (this_00 != (bCString *)0x0) {
+    for (iVar2 = *(int *)(param_1 + 0x18); iVar2 != 0; iVar2 = iVar2 + -1) {
+      bCString::~bCString(this_00);
+      this_00 = this_00 + 0x10;
+    }
+    pvVar4 = *(void **)(param_1 + 0x10);
+    this = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(this,pvVar4);
+    *(undefined4 *)(param_1 + 0x10) = 0;
+    *(undefined4 *)(param_1 + 0x14) = 0;
+    *(undefined4 *)(param_1 + 0x18) = 0;
+  }
+  *(undefined4 *)(param_1 + 8) = 0;
+  *(undefined4 *)(param_1 + 0xc) = 0;
+  *(undefined4 *)(param_1 + 4) = 0;
+  param_1[0x1c] = (eCVisualAnimationFactory)0x0;
+  return;
+}
+
+

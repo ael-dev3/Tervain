@@ -1,0 +1,2 @@
+; 3003dbdb bTPropertyContainer<eECollisionGroup>::vfunction5
+3003dbdb | e910c50600 | JMP 0x300aa0f0

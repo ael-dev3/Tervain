@@ -1,0 +1,34 @@
+/* ENTRY 10020b00 | MemHeap::Alloc | STATUS decompiled | 9 ms */
+
+void * MemHeap::Alloc(uint param_1)
+
+{
+  BOOL BVar1;
+  void *pvVar2;
+  void *pvStack_14;
+  undefined1 *puStack_10;
+  undefined *puStack_c;
+  undefined4 uStack_8;
+  
+  uStack_8 = 0xffffffff;
+  puStack_c = &DAT_100f8318;
+  puStack_10 = &LAB_100a6f80;
+  pvStack_14 = ExceptionList;
+  ExceptionList = &pvStack_14;
+  if (DAT_102fb000 == '\0') {
+    ExceptionList = &pvStack_14;
+    BVar1 = InitializeCriticalSectionAndSpinCount((LPCRITICAL_SECTION)&DAT_10189a18,1000);
+    DAT_102fb000 = BVar1 == 1;
+    if (!(bool)DAT_102fb000) goto LAB_1003d469;
+  }
+  EnterCriticalSection((LPCRITICAL_SECTION)&DAT_10189a18);
+LAB_1003d469:
+  uStack_8 = 0;
+  pvVar2 = AllocUnsynced(param_1);
+  uStack_8 = 0xffffffff;
+  LeaveCriticalSection((LPCRITICAL_SECTION)&DAT_10189a18);
+  ExceptionList = pvStack_14;
+  return pvVar2;
+}
+
+

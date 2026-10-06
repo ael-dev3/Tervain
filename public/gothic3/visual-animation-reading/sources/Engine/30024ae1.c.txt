@@ -1,0 +1,12 @@
+/* ENTRY 30024ae1 | eCVisualAnimation_PS::AccessBoneLinearDamping | STATUS decompiled | 10 ms */
+
+/* public: float & __thiscall eCVisualAnimation_PS::AccessBoneLinearDamping(void) */
+
+float * __thiscall eCVisualAnimation_PS::AccessBoneLinearDamping(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x24ae1  2518  ?AccessBoneLinearDamping@eCVisualAnimation_PS@@QAEAAMXZ */
+  return (float *)&this[2].eCEntityPropertySet_data;
+}
+
+

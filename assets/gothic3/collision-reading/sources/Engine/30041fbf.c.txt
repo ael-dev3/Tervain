@@ -1,0 +1,34 @@
+/* ENTRY 30041fbf | eCCollisionShape::SetShape | STATUS decompiled | 18 ms */
+
+/* public: enum bEResult __thiscall eCCollisionShape::SetShape(class bCOrientedBox const &) */
+
+bEResult __thiscall eCCollisionShape::SetShape(eCCollisionShape *this,bCOrientedBox *param_1)
+
+{
+  bCOrientedBox *this_00;
+  undefined4 uVar1;
+  bCObjectBase bStack_8;
+  undefined4 uStack_4;
+  
+                    /* 0x41fbf  14156
+                       ?SetShape@eCCollisionShape@@QAE?AW4bEResult@@ABVbCOrientedBox@@@Z */
+  bCObjectBase::bCObjectBase(&bStack_8);
+  bStack_8 = (bCObjectBase)&bTPropertyContainer<eECollisionShapeType>::vftable;
+  uStack_4 = 3;
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"ShapeType",false);
+  (*(code *)(this->eCCollisionShape_data).offset_0x8[7])(&bStack_8);
+  (*this->vftablePtr->NotifyPropertyValueChangedExitEx)(this,"ShapeType",false);
+  bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xfffffff4);
+  this_00 = (bCOrientedBox *)new(0x3c,0x32e);
+  if (this_00 == (bCOrientedBox *)0x0) {
+    uVar1 = 0;
+  }
+  else {
+    uVar1 = bCOrientedBox::bCOrientedBox(this_00,(bCOrientedBox *)bStack_8);
+  }
+  (this->eCCollisionShape_data).offset_0x70 = uVar1;
+  CalcShapeAABBLocal(this);
+  return 1;
+}
+
+

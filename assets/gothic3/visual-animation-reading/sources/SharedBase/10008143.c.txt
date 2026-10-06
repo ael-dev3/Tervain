@@ -1,0 +1,12 @@
+/* ENTRY 10008143 | bCObjectBase::Create | STATUS decompiled | 2 ms */
+
+/* public: virtual enum bEResult __thiscall bCObjectBase::Create(void) */
+
+bEResult __thiscall bCObjectBase::Create(bCObjectBase *this)
+
+{
+                    /* 0x8143  1808  ?Create@bCObjectBase@@UAE?AW4bEResult@@XZ */
+  return 1;
+}
+
+

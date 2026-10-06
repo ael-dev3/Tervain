@@ -1,0 +1,15 @@
+/* ENTRY 100010e6 | PSNpc::PropertyAttitudeToPlayer2::operator= | STATUS decompiled | 2 ms */
+
+/* public: class PSNpc::PropertyAttitudeToPlayer2 & __thiscall
+   PSNpc::PropertyAttitudeToPlayer2::operator=(class PSNpc::PropertyAttitudeToPlayer2 const &) */
+
+PropertyAttitudeToPlayer2 * __thiscall
+PSNpc::PropertyAttitudeToPlayer2::operator=
+          (PropertyAttitudeToPlayer2 *this,PropertyAttitudeToPlayer2 *param_1)
+
+{
+                    /* 0x10e6  274  ??4PropertyAttitudeToPlayer2@PSNpc@@QAEAAV01@ABV01@@Z */
+  return this;
+}
+
+

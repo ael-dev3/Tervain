@@ -1,0 +1,20 @@
+/* ENTRY 20353d10 | FUN_20353d10 | STATUS decompiled | 10 ms */
+
+void __thiscall FUN_20353d10(int *param_1,int param_2)
+
+{
+  int iVar1;
+  void *_Dst;
+  
+  thunk_FUN_20352660(*param_1 + param_2 * 0x18,1);
+  iVar1 = (param_1[1] - param_2) + -1;
+  if (0 < iVar1) {
+    _Dst = (void *)(*param_1 + param_2 * 0x18);
+    _memmove(_Dst,(void *)((int)_Dst + 0x18),iVar1 * 0x18);
+  }
+  thunk_FUN_203502c0(*param_1 + -0x18 + param_1[1] * 0x18,1);
+  param_1[1] = param_1[1] + -1;
+  return;
+}
+
+

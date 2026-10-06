@@ -1,0 +1,22 @@
+/* ENTRY 10004a02 | bCBox::GetIntersectionDistance | STATUS decompiled | 7 ms */
+
+/* public: float __thiscall bCBox::GetIntersectionDistance(class bCLine const &)const  */
+
+float __thiscall bCBox::GetIntersectionDistance(bCBox *this,bCLine *param_1)
+
+{
+  bool bVar1;
+  bCBox *pbStack_4;
+  
+  pbStack_4 = this;
+                    /* 0x4a02  2425  ?GetIntersectionDistance@bCBox@@QBEMABVbCLine@@@Z */
+  GE_MESSAGEF_WARN("The obsolete method %s was called! %s","bCBox::GetIntersectionDistance [Line]",
+                   "Use Intersects()");
+  bVar1 = Intersects(this,param_1,(float *)&pbStack_4);
+  if (!bVar1) {
+    pbStack_4 = (bCBox *)0xbf800000;
+  }
+  return (float)pbStack_4;
+}
+
+

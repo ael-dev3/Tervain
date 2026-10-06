@@ -1,0 +1,27 @@
+/* ENTRY 300365f7 | eCApplication::RelaxTick | STATUS decompiled | 60 ms */
+
+/* protected: void __thiscall eCApplication::RelaxTick(float) */
+
+void __thiscall eCApplication::RelaxTick(eCApplication *this,float param_1)
+
+{
+  float fVar1;
+  float fVar2;
+  
+                    /* 0x365f7  12385  ?RelaxTick@eCApplication@@IAEXM@Z */
+  if ((this->eCApplication_data).offset_0x4fc == (eCApplication)0x1) {
+    fVar1 = (float)(this->eCApplication_data).offset_0x4a4;
+    fVar2 = fVar1 - (float)(this->eCApplication_data).offset_0x4a8;
+    fVar2 = (fVar2 * fVar2) / 100000.0;
+    fVar1 = ((fVar2 * 4.0 + 1.0) / (fVar2 + 1.0)) * (fVar1 / 0.125);
+    (this->eCApplication_data).offset_0x4a8 =
+         (fVar1 * param_1 + (float)(this->eCApplication_data).offset_0x4a8) / (fVar1 + 1.0);
+    (this->eCApplication_data).offset_0x4a4 = (this->eCApplication_data).offset_0x4a8;
+    return;
+  }
+  (this->eCApplication_data).offset_0x4a8 = param_1;
+  (this->eCApplication_data).offset_0x4a4 = (this->eCApplication_data).offset_0x4a8;
+  return;
+}
+
+

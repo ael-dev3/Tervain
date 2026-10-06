@@ -1,0 +1,13 @@
+/* ENTRY 20162460 | gCHUDViewDialog2::~gCHUDViewDialog2 | STATUS decompiled | 30 ms */
+
+void __thiscall gCHUDViewDialog2::~gCHUDViewDialog2(gCHUDViewDialog2 *this)
+
+{
+  this->vftablePtr = &vftable;
+  gCHUDListCtrlDialog::~gCHUDListCtrlDialog
+            ((gCHUDListCtrlDialog *)&(this->gCHUDViewDialog2_data).field_0xc);
+  FUN_200156a9();
+  return;
+}
+
+

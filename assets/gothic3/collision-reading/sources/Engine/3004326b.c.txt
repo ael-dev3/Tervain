@@ -1,0 +1,39 @@
+/* ENTRY 3004326b | eCCollisionShape_PS::ShrinkTouchingShapes | STATUS decompiled | 18 ms */
+
+/* protected: void __thiscall eCCollisionShape_PS::ShrinkTouchingShapes(void) */
+
+void __thiscall eCCollisionShape_PS::ShrinkTouchingShapes(eCCollisionShape_PS *this)
+
+{
+  undefined4 *puVar1;
+  void *_Dst;
+  uint uVar2;
+  int iVar3;
+  
+                    /* 0x4326b  14665  ?ShrinkTouchingShapes@eCCollisionShape_PS@@IAEXXZ */
+  if ((this->eCCollisionShape_PS_data).offset_0x2c != '\0') {
+    uVar2 = (this->eCCollisionShape_PS_data).offset_0x24;
+    while (uVar2 = uVar2 - 1, -1 < (int)uVar2) {
+      iVar3 = (this->eCCollisionShape_PS_data).offset_0x20;
+      if (((*(int *)(iVar3 + uVar2 * 4) == 0) || (*(int *)(*(int *)(iVar3 + uVar2 * 4) + 0x60) == 0)
+          ) && (uVar2 < (uint)(this->eCCollisionShape_PS_data).offset_0x24)) {
+        iVar3 = (this->eCCollisionShape_PS_data).offset_0x20;
+        if (*(int *)(iVar3 + uVar2 * 4) != 0) {
+          (**(code **)(**(int **)(iVar3 + uVar2 * 4) + 0x24))();
+          *(undefined4 *)((this->eCCollisionShape_PS_data).offset_0x20 + uVar2 * 4) = 0;
+        }
+        iVar3 = ((this->eCCollisionShape_PS_data).offset_0x24 - uVar2) + -1;
+        if (0 < iVar3) {
+          _Dst = (void *)((this->eCCollisionShape_PS_data).offset_0x20 + uVar2 * 4);
+          _memmove(_Dst,(void *)((int)_Dst + 4),iVar3 * 4);
+        }
+        puVar1 = &(this->eCCollisionShape_PS_data).offset_0x24;
+        *puVar1 = *puVar1 + -1;
+      }
+    }
+    (this->eCCollisionShape_PS_data).offset_0x2c = 0;
+  }
+  return;
+}
+
+

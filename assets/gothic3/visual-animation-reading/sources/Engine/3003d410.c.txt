@@ -1,0 +1,27 @@
+/* ENTRY 3003d410 | eCVirtualFile::eCVirtualFile | STATUS decompiled | 12 ms */
+
+/* public: __thiscall eCVirtualFile::eCVirtualFile(class IFFVirtualFile *) */
+
+eCVirtualFile * __thiscall eCVirtualFile::eCVirtualFile(eCVirtualFile *this,IFFVirtualFile *param_1)
+
+{
+  int iVar1;
+  
+                    /* 0x3d410  895  ??0eCVirtualFile@@QAE@PAVIFFVirtualFile@@@Z */
+  bCFile::bCFile((bCFile *)this);
+  this->vftablePtr = &vftable_for_bCIStream_;
+  this->vftablePtr = &vftable_for_bCOStream_;
+  (this->eCVirtualFile_data).offset_0x0 = 0;
+  if (param_1 != (IFFVirtualFile *)0x0) {
+    (*(code *)**(undefined4 **)(param_1 + *(int *)(*(int *)(param_1 + 4) + 4) + 4))();
+  }
+  iVar1 = (this->eCVirtualFile_data).offset_0x0;
+  if (iVar1 != 0) {
+    (**(code **)(*(int *)(*(int *)(*(int *)(iVar1 + 4) + 4) + 4 + iVar1) + 4))();
+    (this->eCVirtualFile_data).offset_0x0 = 0;
+  }
+  (this->eCVirtualFile_data).offset_0x0 = (int)param_1;
+  return this;
+}
+
+

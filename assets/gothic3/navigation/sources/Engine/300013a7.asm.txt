@@ -1,0 +1,2 @@
+; 300013a7 ?OnEnterProcessingRange@eCEntity@@MAEXXZ
+300013a7 | e944754b00 | JMP 0x304b88f0

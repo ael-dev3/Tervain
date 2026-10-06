@@ -1,0 +1,4 @@
+; 10005baf ??XbCBox@@QAEAAV0@ABVbCMatrix3@@@Z
+10005baf | e96c4f0300 | JMP 0x1003ab20
+; 10005bb4 bCQuaternion::Multiply
+; 10005bb4 Ordinal_3779

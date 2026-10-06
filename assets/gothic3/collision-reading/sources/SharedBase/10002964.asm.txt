@@ -1,0 +1,4 @@
+; 10002964 ?InvTranslate@bCBox@@QAEXABVbCVector@@@Z
+10002964 | e917850200 | JMP 0x1002ae80
+; 10002969 bCFloatColor::AccessGreen
+; 10002969 Ordinal_1449

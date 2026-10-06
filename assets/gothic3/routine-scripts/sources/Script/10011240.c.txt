@@ -1,0 +1,12 @@
+/* ENTRY 10011240 | FUN_10011240 | STATUS decompiled | 4 ms */
+
+void __thiscall FUN_10011240(void *this,float param_1)
+
+{
+  if (*(gCCharacterControl_PS **)this != (gCCharacterControl_PS *)0x0) {
+    gCCharacterControl_PS::SetMovementConstraints(*(gCCharacterControl_PS **)this,param_1);
+  }
+  return;
+}
+
+

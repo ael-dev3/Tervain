@@ -1,0 +1,4 @@
+; 100048ae ??0bCAccessorProperty@@QAE@ABVbCAccessorCreator@@ABVbCPropertyID@@@Z
+100048ae | e9ed170900 | JMP 0x100960a0
+; 100048b3 bCAccessorEnum::GetValue
+; 100048b3 Ordinal_3201

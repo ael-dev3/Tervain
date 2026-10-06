@@ -1,0 +1,4 @@
+; 10003a71 ??5@YGAAVbCIStream@@AAV0@AAVbCPropertyID@@@Z
+10003a71 | e98aef0800 | JMP 0x10092a00
+; 10003a7b bCMatrix2::GetRotated
+; 10003a7b Ordinal_2901

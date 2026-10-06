@@ -1,0 +1,12 @@
+; 30331af0 bTPropertyType<eCRigidBody_PS,bCVector>::vfunction6
+30331af0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+30331af4 | 85c0 | TEST EAX,EAX
+30331af6 | 7410 | JZ 0x30331b08
+30331af8 | 8b11 | MOV EDX,dword ptr [ECX]
+30331afa | 50 | PUSH EAX
+30331afb | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+30331afe | ffd0 | CALL EAX
+30331b00 | 8bc8 | MOV ECX,EAX
+30331b02 | ff15e0ceaf30 | CALL dword ptr [0x30afcee0]
+; 30331b08 LAB_30331b08
+30331b08 | c20400 | RET 0x4

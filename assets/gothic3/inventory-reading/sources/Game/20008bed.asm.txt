@@ -1,0 +1,2 @@
+; 20008bed bTPropertyType<gCInventory_PS,bCString>::vfunction15
+20008bed | e96e2d1a00 | JMP 0x201ab960

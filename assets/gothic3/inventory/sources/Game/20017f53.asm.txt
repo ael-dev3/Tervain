@@ -1,0 +1,2 @@
+; 20017f53 ?MustSplitBeforeLinking@gCInventoryStack@@QBE_NW4gESlot@@PAVeCEntity@@@Z
+20017f53 | e958f51a00 | JMP 0x201c74b0

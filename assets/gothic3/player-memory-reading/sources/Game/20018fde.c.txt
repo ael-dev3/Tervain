@@ -1,0 +1,91 @@
+/* ENTRY 20018fde | gCPlayerMemory_PS::CreateAttributes | STATUS decompiled | 56 ms */
+
+/* protected: int __thiscall gCPlayerMemory_PS::CreateAttributes(void) */
+
+int __thiscall gCPlayerMemory_PS::CreateAttributes(gCPlayerMemory_PS *this)
+
+{
+  bool bVar1;
+  bool bVar2;
+  bool bVar3;
+  bool bVar4;
+  bool bVar5;
+  bool bVar6;
+  bool bVar7;
+  bool bVar8;
+  bool bVar9;
+  bool bVar10;
+  bool bVar11;
+  bool bVar12;
+  bool bVar13;
+  bool bVar14;
+  bool bVar15;
+  bCString abStack_3c [4];
+  bCString abStack_38 [4];
+  bCString abStack_34 [4];
+  bCString abStack_30 [4];
+  bCString abStack_2c [4];
+  bCString abStack_28 [4];
+  bCString abStack_24 [4];
+  bCString abStack_20 [4];
+  bCString abStack_1c [4];
+  bCString abStack_18 [4];
+  bCString abStack_14 [4];
+  bCString abStack_10 [4];
+  bCString abStack_c [4];
+  bCString abStack_8 [4];
+  bCString abStack_4 [4];
+  
+                    /* 0x18fde  2425  ?CreateAttributes@gCPlayerMemory_PS@@IAEHXZ */
+  bCString::bCString(abStack_4,"STR");
+  bCString::bCString(abStack_8,"DEX");
+  bCString::bCString(abStack_c,"INT");
+  bCString::bCString(abStack_10,"SMT");
+  bCString::bCString(abStack_14,"THF");
+  bCString::bCString(abStack_18,"ALC");
+  bCString::bCString(abStack_1c,"PROT_BLADE");
+  bCString::bCString(abStack_20,"PROT_IMPACT");
+  bCString::bCString(abStack_24,"PROT_MISSILE");
+  bCString::bCString(abStack_28,"PROT_FIRE");
+  bCString::bCString(abStack_2c,"PROT_ICE");
+  bCString::bCString(abStack_30,"PROT_LIGHTNING");
+  bCString::bCString(abStack_34,"HP");
+  bCString::bCString(abStack_38,"MP");
+  bCString::bCString(abStack_3c,"SP");
+  bVar1 = CreateStat(this,abStack_3c);
+  bVar2 = CreateStat(this,abStack_38);
+  bVar3 = CreateStat(this,abStack_34);
+  bVar4 = CreateAttrib(this,abStack_30);
+  bVar5 = CreateAttrib(this,abStack_2c);
+  bVar6 = CreateAttrib(this,abStack_28);
+  bVar7 = CreateAttrib(this,abStack_24);
+  bVar8 = CreateAttrib(this,abStack_20);
+  bVar9 = CreateAttrib(this,abStack_1c);
+  bVar10 = CreateAttrib(this,abStack_18);
+  bVar11 = CreateAttrib(this,abStack_14);
+  bVar12 = CreateAttrib(this,abStack_10);
+  bVar13 = CreateAttrib(this,abStack_c);
+  bVar14 = CreateAttrib(this,abStack_8);
+  bVar15 = CreateAttrib(this,abStack_4);
+  bCString::~bCString(abStack_3c);
+  bCString::~bCString(abStack_38);
+  bCString::~bCString(abStack_34);
+  bCString::~bCString(abStack_30);
+  bCString::~bCString(abStack_2c);
+  bCString::~bCString(abStack_28);
+  bCString::~bCString(abStack_24);
+  bCString::~bCString(abStack_20);
+  bCString::~bCString(abStack_1c);
+  bCString::~bCString(abStack_18);
+  bCString::~bCString(abStack_14);
+  bCString::~bCString(abStack_10);
+  bCString::~bCString(abStack_c);
+  bCString::~bCString(abStack_8);
+  bCString::~bCString(abStack_4);
+  return (uint)bVar15 +
+         (uint)bVar1 + (uint)bVar2 + (uint)bVar3 + (uint)bVar4 + (uint)bVar5 + (uint)bVar6 +
+         (uint)bVar7 + (uint)bVar8 + (uint)bVar9 + (uint)bVar10 + (uint)bVar11 + (uint)bVar12 +
+         (uint)bVar13 + (uint)bVar14;
+}
+
+

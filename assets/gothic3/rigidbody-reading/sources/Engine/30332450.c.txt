@@ -1,0 +1,17 @@
+/* ENTRY 30332450 | bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_>::vfunction6 | STATUS decompiled | 5 ms */
+
+void __thiscall
+bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_>::vfunction6
+          (bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_> *this,int param_1)
+
+{
+  bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_>_vftable *pbVar1;
+  
+  if (param_1 != 0) {
+    pbVar1 = (*this->vftablePtr->vfunction26)(this,(undefined4 *)param_1);
+    (**(code **)(pbVar1->vfunction1 + 0x18))();
+  }
+  return;
+}
+
+

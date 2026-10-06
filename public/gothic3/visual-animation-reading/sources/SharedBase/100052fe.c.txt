@@ -1,0 +1,59 @@
+/* ENTRY 100052fe | MemHeap::ReAllocUnsynced | STATUS decompiled | 21 ms */
+
+/* public: static void * __stdcall MemHeap::ReAllocUnsynced(void *,unsigned int) */
+
+void * MemHeap::ReAllocUnsynced(void *param_1,uint param_2)
+
+{
+  char cVar1;
+  void *pvVar2;
+  MemPointerArea *pMVar3;
+  SIZE_T SVar4;
+  void *pvVar5;
+  uint uVar6;
+  
+                    /* 0x52fe  3846  ?ReAllocUnsynced@MemHeap@@SGPAXPAXI@Z */
+  pvVar2 = param_1;
+  if (param_1 == (void *)0x0) {
+    pvVar2 = AllocUnsynced(param_2);
+    return pvVar2;
+  }
+  pMVar3 = GetPointerArea(param_1);
+  uVar6 = param_2;
+  if (pMVar3 != (MemPointerArea *)0x0) {
+    pvVar2 = (void *)(**(code **)(*(int *)(pMVar3 + 0xc) + 8))
+                               (*(undefined4 *)(pMVar3 + 8),pvVar2,param_2);
+    return pvVar2;
+  }
+  cVar1 = thunk_FUN_1003d6b0(&param_1,param_2);
+  pvVar2 = param_1;
+  if (cVar1 != '\0') {
+    return param_1;
+  }
+  uVar6 = uVar6 + 0xfff & 0xfffff000;
+  if (uVar6 < s_uiMinSize) {
+    s_uiMinSize = uVar6;
+  }
+  if (s_uiMaxSize < uVar6) {
+    s_uiMaxSize = uVar6;
+  }
+  SVar4 = HeapSize(s_hHeap,0,param_1);
+  s_uiActMemory = s_uiActMemory - SVar4;
+  pvVar5 = HeapReAlloc(s_hHeap,0,pvVar2,uVar6);
+  if (pvVar5 == (LPVOID)0x0) {
+    s_uiCountHeapAllocFails = s_uiCountHeapAllocFails + 1;
+    s_uiLastCompactSize = HeapCompact(s_hHeap,0);
+    pvVar5 = HeapReAlloc(s_hHeap,0,pvVar2,uVar6);
+    if (pvVar5 == (LPVOID)0x0) {
+      s_uiCountHeapCompactFails = s_uiCountHeapCompactFails + 1;
+      return (void *)0x0;
+    }
+  }
+  s_uiActMemory = s_uiActMemory + uVar6;
+  if (s_uiMaxMemory < s_uiActMemory) {
+    s_uiMaxMemory = s_uiActMemory;
+  }
+  return pvVar5;
+}
+
+

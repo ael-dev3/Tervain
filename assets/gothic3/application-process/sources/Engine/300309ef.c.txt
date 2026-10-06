@@ -1,0 +1,17 @@
+/* ENTRY 300309ef | eCApplication::SetMinFPS | STATUS decompiled | 19 ms */
+
+/* public: void __thiscall eCApplication::SetMinFPS(float) */
+
+void __thiscall eCApplication::SetMinFPS(eCApplication *this,float param_1)
+
+{
+                    /* 0x309ef  13802  ?SetMinFPS@eCApplication@@QAEXM@Z */
+  if (param_1 <= 0.0) {
+    (this->eCApplication_data).offset_0x4f8 = 0xbf800000;
+    return;
+  }
+  (this->eCApplication_data).offset_0x4f8 = param_1 * 10.0;
+  return;
+}
+
+

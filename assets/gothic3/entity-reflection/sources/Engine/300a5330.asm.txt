@@ -1,0 +1,91 @@
+; 300a5330 FUN_300a5330
+300a5330 | 53 | PUSH EBX
+300a5331 | 55 | PUSH EBP
+300a5332 | 56 | PUSH ESI
+300a5333 | 57 | PUSH EDI
+300a5334 | 8bf1 | MOV ESI,ECX
+300a5336 | e882d2f5ff | CALL 0x300025bd
+300a533b | 8b2decdbaf30 | MOV EBP,dword ptr [0x30afdbec]
+300a5341 | 8d4e14 | LEA ECX,[ESI + 0x14]
+300a5344 | c70694038230 | MOV dword ptr [ESI],0x30820394
+300a534a | ffd5 | CALL EBP
+300a534c | 8d4e18 | LEA ECX,[ESI + 0x18]
+300a534f | ffd5 | CALL EBP
+300a5351 | 8b1d08ccaf30 | MOV EBX,dword ptr [0x30afcc08]
+300a5357 | 8d7e5c | LEA EDI,[ESI + 0x5c]
+300a535a | 8bcf | MOV ECX,EDI
+300a535c | ffd3 | CALL EBX
+300a535e | c70704f38130 | MOV dword ptr [EDI],0x3081f304
+300a5364 | a1b8a2ad30 | MOV EAX,[0x30ada2b8]
+300a5369 | 894704 | MOV dword ptr [EDI + 0x4],EAX
+300a536c | 8d7e64 | LEA EDI,[ESI + 0x64]
+300a536f | 8bcf | MOV ECX,EDI
+300a5371 | ffd3 | CALL EBX
+300a5373 | c707dcf38130 | MOV dword ptr [EDI],0x3081f3dc
+300a5379 | 8b0dbca2ad30 | MOV ECX,dword ptr [0x30ada2bc]
+300a537f | 894f04 | MOV dword ptr [EDI + 0x4],ECX
+300a5382 | 8d7e6c | LEA EDI,[ESI + 0x6c]
+300a5385 | 8bcf | MOV ECX,EDI
+300a5387 | ffd3 | CALL EBX
+300a5389 | c707b4f48130 | MOV dword ptr [EDI],0x3081f4b4
+300a538f | 8b15c0a2ad30 | MOV EDX,dword ptr [0x30ada2c0]
+300a5395 | 8d9e80000000 | LEA EBX,[ESI + 0x80]
+300a539b | 8bcb | MOV ECX,EBX
+300a539d | 895704 | MOV dword ptr [EDI + 0x4],EDX
+300a53a0 | ff1520caaf30 | CALL dword ptr [0x30afca20]
+300a53a6 | 33ff | XOR EDI,EDI
+300a53a8 | 897b08 | MOV dword ptr [EBX + 0x8],EDI
+300a53ab | c7032cfa8130 | MOV dword ptr [EBX],0x3081fa2c
+300a53b1 | e86a30f8ff | CALL 0x30028420
+300a53b6 | 834b0404 | OR dword ptr [EBX + 0x4],0x4
+300a53ba | 57 | PUSH EDI
+300a53bb | 8bcb | MOV ECX,EBX
+300a53bd | 89430c | MOV dword ptr [EBX + 0xc],EAX
+300a53c0 | 897b08 | MOV dword ptr [EBX + 0x8],EDI
+300a53c3 | e88889f6ff | CALL 0x3000dd50
+300a53c8 | 8d8e94000000 | LEA ECX,[ESI + 0x94]
+300a53ce | e8a830f7ff | CALL 0x3001847b
+300a53d3 | 89bec4000000 | MOV dword ptr [ESI + 0xc4],EDI
+300a53d9 | 89bec8000000 | MOV dword ptr [ESI + 0xc8],EDI
+300a53df | 89becc000000 | MOV dword ptr [ESI + 0xcc],EDI
+300a53e5 | 89bed0000000 | MOV dword ptr [ESI + 0xd0],EDI
+300a53eb | 89bed4000000 | MOV dword ptr [ESI + 0xd4],EDI
+300a53f1 | 89bed8000000 | MOV dword ptr [ESI + 0xd8],EDI
+300a53f7 | 89bedc000000 | MOV dword ptr [ESI + 0xdc],EDI
+300a53fd | 89bee0000000 | MOV dword ptr [ESI + 0xe0],EDI
+300a5403 | 89bee4000000 | MOV dword ptr [ESI + 0xe4],EDI
+300a5409 | 8d8ef4000000 | LEA ECX,[ESI + 0xf4]
+300a540f | 89bee8000000 | MOV dword ptr [ESI + 0xe8],EDI
+300a5415 | 89beec000000 | MOV dword ptr [ESI + 0xec],EDI
+300a541b | 89bef0000000 | MOV dword ptr [ESI + 0xf0],EDI
+300a5421 | ff15a4cbaf30 | CALL dword ptr [0x30afcba4]
+300a5427 | 89be0c010000 | MOV dword ptr [ESI + 0x10c],EDI
+300a542d | 89be10010000 | MOV dword ptr [ESI + 0x110],EDI
+300a5433 | 89be14010000 | MOV dword ptr [ESI + 0x114],EDI
+300a5439 | 89be20010000 | MOV dword ptr [ESI + 0x120],EDI
+300a543f | 89be24010000 | MOV dword ptr [ESI + 0x124],EDI
+300a5445 | 89be28010000 | MOV dword ptr [ESI + 0x128],EDI
+300a544b | 8d8e44010000 | LEA ECX,[ESI + 0x144]
+300a5451 | 89be38010000 | MOV dword ptr [ESI + 0x138],EDI
+300a5457 | 89be3c010000 | MOV dword ptr [ESI + 0x13c],EDI
+300a545d | 89be40010000 | MOV dword ptr [ESI + 0x140],EDI
+300a5463 | ffd5 | CALL EBP
+300a5465 | 8d8e48010000 | LEA ECX,[ESI + 0x148]
+300a546b | ffd5 | CALL EBP
+300a546d | 8d8e58010000 | LEA ECX,[ESI + 0x158]
+300a5473 | e84183f7ff | CALL 0x3001d7b9
+300a5478 | 8d8e74010000 | LEA ECX,[ESI + 0x174]
+300a547e | ffd5 | CALL EBP
+300a5480 | 8d8e84010000 | LEA ECX,[ESI + 0x184]
+300a5486 | ffd5 | CALL EBP
+300a5488 | 89be8c010000 | MOV dword ptr [ESI + 0x18c],EDI
+300a548e | 89be90010000 | MOV dword ptr [ESI + 0x190],EDI
+300a5494 | 8bce | MOV ECX,ESI
+300a5496 | 89be94010000 | MOV dword ptr [ESI + 0x194],EDI
+300a549c | e8085ff9ff | CALL 0x3003b3a9
+300a54a1 | 5f | POP EDI
+300a54a2 | 8bc6 | MOV EAX,ESI
+300a54a4 | 5e | POP ESI
+300a54a5 | 5d | POP EBP
+300a54a6 | 5b | POP EBX
+300a54a7 | c3 | RET

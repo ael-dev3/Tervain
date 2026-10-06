@@ -1,0 +1,28 @@
+; 304be7f0 eCDynamicEntity::eCDynamicEntity
+304be7f0 | 56 | PUSH ESI
+304be7f1 | 57 | PUSH EDI
+304be7f2 | 8bf1 | MOV ESI,ECX
+304be7f4 | e832e2b5ff | CALL 0x3001ca2b
+304be7f9 | 8dbea8010000 | LEA EDI,[ESI + 0x1a8]
+304be7ff | 8bcf | MOV ECX,EDI
+304be801 | c706ecb38730 | MOV dword ptr [ESI],0x3087b3ec
+304be807 | ff1500dbaf30 | CALL dword ptr [0x30afdb00]
+304be80d | 8b463c | MOV EAX,dword ptr [ESI + 0x3c]
+304be810 | 6681a6bc0100000fff | AND word ptr [ESI + 0x1bc],0xff0f
+304be819 | 83e0ef | AND EAX,0xffffffef
+304be81c | 83c82c | OR EAX,0x2c
+304be81f | 89463c | MOV dword ptr [ESI + 0x3c],EAX
+304be822 | 33c0 | XOR EAX,EAX
+304be824 | 8886bd010000 | MOV byte ptr [ESI + 0x1bd],AL
+304be82a | 6681a6bc010000f0ff | AND word ptr [ESI + 0x1bc],0xfff0
+304be833 | 8bcf | MOV ECX,EDI
+304be835 | 8986a4010000 | MOV dword ptr [ESI + 0x1a4],EAX
+304be83b | ff1534d8af30 | CALL dword ptr [0x30afd834]
+304be841 | 814e3c00008000 | OR dword ptr [ESI + 0x3c],0x800000
+304be848 | e8ddb1b4ff | CALL 0x30009a2a
+304be84d | 83803401000001 | ADD dword ptr [EAX + 0x134],0x1
+304be854 | 0534010000 | ADD EAX,0x134
+304be859 | 5f | POP EDI
+304be85a | 8bc6 | MOV EAX,ESI
+304be85c | 5e | POP ESI
+304be85d | c3 | RET

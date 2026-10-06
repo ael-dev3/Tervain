@@ -1,0 +1,4 @@
+; 3000a727 bTPropertyType<eCCollisionShape_PS,bool>::vfunction1
+3000a727 | e9d4413300 | JMP 0x3033e900
+; 3000a72c eCShadowMapSpotLight::SetLightConeAngle
+; 3000a72c Ordinal_13626

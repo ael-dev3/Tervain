@@ -1,0 +1,2 @@
+; 300027c0 bTPropertyType<eCRigidBodyBase_PS,bool>::vfunction19
+300027c0 | e96b313300 | JMP 0x30335930

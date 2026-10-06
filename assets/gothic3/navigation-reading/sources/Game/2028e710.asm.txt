@@ -1,0 +1,5 @@
+; 2028e710 bTPropertyType<gCNavigation_PS,bCString>::vfunction3
+2028e710 | 8b491c | MOV ECX,dword ptr [ECX + 0x1c]
+2028e713 | 8b01 | MOV EAX,dword ptr [ECX]
+2028e715 | 8b10 | MOV EDX,dword ptr [EAX]
+2028e717 | ffe2 | JMP EDX

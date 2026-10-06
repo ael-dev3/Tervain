@@ -1,0 +1,2 @@
+; 10004fd4 bCPropertyObjectSingleton::GetInstance
+10004fd4 | e977b70800 | JMP 0x10090750

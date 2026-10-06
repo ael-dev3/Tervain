@@ -1,0 +1,213 @@
+{
+  "schema": "gothic3-live-startup-rules-v1",
+  "inputs": {
+    "Script_Game": "2f10fbb6307c4800bc44c90cb60dac0b32182c1f2416e11ac82b4ba0c35803c1",
+    "Game": "b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f",
+    "Script": "9375605676faaae44a50d48539a7b3995bed471e099ef573666221a044cd4e08",
+    "SharedBase": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214"
+  },
+  "helpers": [
+    {
+      "receiver": "102203d8",
+      "body": "10009400",
+      "call": "100d04f3"
+    },
+    {
+      "receiver": "102203dc",
+      "body": "10009680",
+      "call": "100d04fd"
+    },
+    {
+      "receiver": "102203e4",
+      "body": "1000e380",
+      "call": "100d0507"
+    },
+    {
+      "receiver": "102203fc",
+      "body": "1000ebc0",
+      "call": "100d0511"
+    },
+    {
+      "receiver": "102203d9",
+      "body": "1000a6f0",
+      "call": "100d051b"
+    },
+    {
+      "receiver": "10220420",
+      "body": "1000ed50",
+      "call": "100d0525"
+    },
+    {
+      "receiver": "10220640",
+      "body": "1000a800",
+      "call": "100d052f"
+    },
+    {
+      "receiver": "10220650",
+      "body": "1000ee40",
+      "call": "100d0539"
+    },
+    {
+      "receiver": "10220678",
+      "body": "1000a9a0",
+      "call": "100d0543"
+    },
+    {
+      "receiver": "102203da",
+      "body": "1000adc0",
+      "call": "100d054d"
+    },
+    {
+      "receiver": "102203db",
+      "body": "1000b3e0",
+      "call": "100d0557"
+    },
+    {
+      "receiver": "10220e84",
+      "body": "1000b4a0",
+      "call": "100d0561"
+    }
+  ],
+  "stats": [
+    {
+      "setter": "SetHitPointsMax",
+      "value": 200,
+      "body": "10045c90",
+      "call": "100cfe56"
+    },
+    {
+      "setter": "SetHitPoints",
+      "value": 200,
+      "body": "10045b20",
+      "call": "100cfe6c"
+    },
+    {
+      "setter": "SetManaPointsMax",
+      "value": 100,
+      "body": "100462a0",
+      "call": "100cfe80"
+    },
+    {
+      "setter": "SetManaPoints",
+      "value": 100,
+      "body": "100461d0",
+      "call": "100cfe94"
+    },
+    {
+      "setter": "SetStaminaPointsMax",
+      "value": 100,
+      "body": "10046960",
+      "call": "100cfea7"
+    },
+    {
+      "setter": "SetStaminaPoints",
+      "value": 100,
+      "body": "100467f0",
+      "call": "100cfebb"
+    },
+    {
+      "setter": "SetStrength",
+      "value": 100,
+      "body": "100443c0",
+      "call": "100cfecf"
+    },
+    {
+      "setter": "SetDexterity",
+      "value": 100,
+      "body": "10044490",
+      "call": "100cfee2"
+    },
+    {
+      "setter": "SetIntelligence",
+      "value": 0,
+      "body": "10044560",
+      "call": "100cfef6"
+    },
+    {
+      "setter": "SetSmithing",
+      "value": 10,
+      "body": "10044700",
+      "call": "100cff0a"
+    },
+    {
+      "setter": "SetAlchemy",
+      "value": 10,
+      "body": "100447d0",
+      "call": "100cff1d"
+    },
+    {
+      "setter": "SetTheft",
+      "value": 10,
+      "body": "10044630",
+      "call": "100cff31"
+    },
+    {
+      "setter": "SetProtectionBlades",
+      "value": 0,
+      "body": "10044f00",
+      "call": "100cff45"
+    },
+    {
+      "setter": "SetProtectionImpact",
+      "value": 0,
+      "body": "10044fd0",
+      "call": "100cff58"
+    },
+    {
+      "setter": "SetProtectionMissile",
+      "value": 0,
+      "body": "100450a0",
+      "call": "100cff6c"
+    },
+    {
+      "setter": "SetProtectionFire",
+      "value": 0,
+      "body": "10045170",
+      "call": "100cff80"
+    },
+    {
+      "setter": "SetProtectionIce",
+      "value": 0,
+      "body": "10045240",
+      "call": "100cff93"
+    },
+    {
+      "setter": "SetProtectionLightning",
+      "value": 0,
+      "body": "10045310",
+      "call": "100cffa7"
+    }
+  ],
+  "dirtyHackWarning": "OnGameStartUpDirtyHack - Mattes hack faild because AlShedim_TempleDoor_Tester_01 is not in da house!",
+  "doorTranslationDeltaCm": -50,
+  "pendingResetByOnInit": false,
+  "arithmeticProfile": "finite float32 door matrix, nearest-even final float32 subtraction; active native FPU not captured",
+  "lifetimeProfile": "captured168B nonowning Entity wrappers; destructor RET; constructors/AttachTo/PS capture require original host implementation",
+  "execution": "live sequential native calls; preserve already-applied prefix on unknown/throw; no atomic transaction or automatic replay",
+  "queue": "same control movement7, queue3 and array; original storage destruction/free conditional on nonNULL; pending164/168/16c untouched",
+  "destructorOrder": [
+    "Gorn",
+    "Ardea",
+    "Ardea_Orkboss",
+    "Larson",
+    "Player",
+    "Other",
+    "Self"
+  ],
+  "remaining": [
+    "native allocation/array metadata and other helper bodies",
+    "concrete Entity wrapper constructor/AttachTo/lookup validity",
+    "complete world matrix/cache/physics effect path",
+    "actual navigation routine, enclave property/NotifyEnclave, quest and inventory services",
+    "full direct stat wrapper branches including invalid/transformed/DamageReceiver cases",
+    "browser ScriptAdmin/session binding, full resident world, rendering, playable progression/endings"
+  ],
+  "audit": {
+    "entries": 69,
+    "instructions": 3034,
+    "originalInstructionBytes": 10360,
+    "allListedInstructionBytesMatchOriginalPE": true,
+    "nativeCodeExecuted": false,
+    "testsRun": false
+  }
+}

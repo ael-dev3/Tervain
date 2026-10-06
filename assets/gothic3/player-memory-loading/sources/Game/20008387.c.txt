@@ -1,0 +1,16 @@
+/* ENTRY 20008387 | gCAttribute::gCAttribute | STATUS decompiled | 6 ms */
+
+/* public: __thiscall gCAttribute::gCAttribute(void) */
+
+gCAttribute * __thiscall gCAttribute::gCAttribute(gCAttribute *this)
+
+{
+                    /* 0x8387  36  ??0gCAttribute@@QAE@XZ */
+  bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)this);
+  this->vftablePtr = &vftable;
+  bCString::bCString((bCString *)&(this->gCAttribute_data).field_0x8);
+  (*this->vftablePtr->ApplyDefaults)(this);
+  return this;
+}
+
+

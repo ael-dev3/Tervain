@@ -1,0 +1,6 @@
+; 307a9030 bTPropertyObject<eCEffector,bCObjectRefBase>::~bTPropertyObject<eCEffector,bCObjectRefBase>
+307a9030 | b940ddae30 | MOV ECX,0x30aedd40
+307a9035 | c70540ddae308c5e8630 | MOV dword ptr [0x30aedd40],0x30865e8c
+307a903f | e87f2987ff | CALL 0x3001b9c3
+307a9044 | b940ddae30 | MOV ECX,0x30aedd40
+307a9049 | e9282e89ff | JMP 0x3003be76

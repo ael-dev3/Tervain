@@ -1,0 +1,12 @@
+/* ENTRY 10013b70 | FUN_10013b70 | STATUS decompiled | 2 ms */
+
+bool __thiscall FUN_10013b70(bCString *param_1,char *param_2)
+
+{
+  int iVar1;
+  
+  iVar1 = bCString::Compare(param_1,param_2);
+  return iVar1 == 0;
+}
+
+

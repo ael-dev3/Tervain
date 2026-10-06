@@ -1,0 +1,10 @@
+/* ENTRY 10055480 | FUN_10055480 | STATUS decompiled | 3 ms */
+
+bCVector * __thiscall FUN_10055480(bCVector *param_1,bCVector *param_2,bCMatrix *param_3)
+
+{
+  bCVector::SetTransformedDirection(param_2,param_1,param_3);
+  return param_2;
+}
+
+

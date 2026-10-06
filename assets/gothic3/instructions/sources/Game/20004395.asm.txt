@@ -1,0 +1,2 @@
+; 20004395 ?GetWorldTime@gCScriptProcessingUnit@@QAEMXZ
+20004395 | e976403600 | JMP 0x20368410

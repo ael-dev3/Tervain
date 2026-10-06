@@ -1,0 +1,2 @@
+; 20017f85 gCParty_PS::AccessPartyLeaderEntity
+20017f85 | e966300900 | JMP 0x200aaff0

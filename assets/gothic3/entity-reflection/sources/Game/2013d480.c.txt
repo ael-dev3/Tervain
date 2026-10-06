@@ -1,0 +1,40 @@
+/* ENTRY 2013d480 | bTPropertyContainer<gEFocus>::bTPropertyContainer<gEFocus> | STATUS decompiled | 94 ms */
+
+bTPropertyContainer<gEFocus> * __thiscall
+bTPropertyContainer<gEFocus>::bTPropertyContainer<gEFocus>(bTPropertyContainer<gEFocus> *this)
+
+{
+  bCObjectBase **this_00;
+  undefined4 *this_01;
+  
+  eCEntityPropertySet::eCEntityPropertySet((eCEntityPropertySet *)this);
+                    /* inlined constructor: gCFocus_PS::gCFocus_PS */
+  this->vftablePtr = (bTPropertyContainer<gEFocus>_vftable *)&gCFocus_PS::vftable;
+  bCObjectBase::bCObjectBase((bCObjectBase *)&this[1].bTPropertyContainer<gEFocus>_data);
+                    /* inlined constructor:
+                       bTPropertyContainer<gEFocusLookAt>::bTPropertyContainer<gEFocusLookAt> */
+  this[1].bTPropertyContainer<gEFocus>_data.offset_0x0 =
+       &bTPropertyContainer<gEFocusLookAt>::vftable.GetVersion;
+  this[1].bTPropertyContainer<gEFocus>_data.offset_0x4 = DAT_207b8850;
+  this_00 = &this[1].bTPropertyContainer<gEFocus>_data.offset_0x8;
+  bCObjectBase::bCObjectBase((bCObjectBase *)this_00);
+                    /* inlined constructor:
+                       bTPropertyContainer<gEFocusLookAtKeysFOR>::bTPropertyContainer<gEFocusLookAtKeysFOR>
+                        */
+  *this_00 = (bCObjectBase *)&bTPropertyContainer<gEFocusLookAtKeysFOR>::vftable;
+  this[2].vftablePtr = DAT_207b8854;
+  this_01 = &this[0x12].bTPropertyContainer<gEFocus>_data.offset_0x4;
+  bCObjectBase::bCObjectBase((bCObjectBase *)this_01);
+  *this_01 = &vftable;
+  this[0x12].bTPropertyContainer<gEFocus>_data.offset_0x8 = DAT_207b5f34;
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)(this + 0x13));
+  bCVector::bCVector((bCVector *)&this[0x14].bTPropertyContainer<gEFocus>_data.offset_0x8);
+  this[0x17].bTPropertyContainer<gEFocus>_data.offset_0x4 = 0;
+  this[0x17].bTPropertyContainer<gEFocus>_data.offset_0x8 = (bCObjectBase *)0x0;
+  this[0x18].vftablePtr = (bTPropertyContainer<gEFocus>_vftable *)0x0;
+  bCVector::bCVector((bCVector *)&this[0x18].bTPropertyContainer<gEFocus>_data.offset_0x8);
+  gCFocus_PS::Invalidate((gCFocus_PS *)this);
+  return this;
+}
+
+

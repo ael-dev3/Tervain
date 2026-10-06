@@ -1,0 +1,23 @@
+/* ENTRY 10049510 | FUN_10049510 | STATUS decompiled | 9 ms */
+
+undefined4 __thiscall
+FUN_10049510(bCMessageAdmin *param_1,bEMessageTypes param_2,char *param_3,char *param_4,
+            char *param_5,int param_6,int param_7)
+
+{
+  bEMessageCallbackPriority bVar1;
+  
+  if (*(int *)(param_1 + 0x1c) < (int)param_2) {
+    EnterCriticalSection((LPCRITICAL_SECTION)(param_1 + 4));
+    bVar1 = 0;
+    do {
+      bCMessageAdmin::ExecuteCallbackType
+                (param_1,bVar1,param_2,param_3,param_4,param_5,param_6,param_7);
+      bVar1 = bVar1 + 1;
+    } while ((int)bVar1 < 3);
+    LeaveCriticalSection((LPCRITICAL_SECTION)(param_1 + 4));
+  }
+  return 1;
+}
+
+

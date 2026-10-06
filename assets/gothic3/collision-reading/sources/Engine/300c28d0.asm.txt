@@ -1,0 +1,19 @@
+; 300c28d0 FUN_300c28d0
+300c28d0 | 56 | PUSH ESI
+300c28d1 | 8bf1 | MOV ESI,ECX
+300c28d3 | 8b06 | MOV EAX,dword ptr [ESI]
+300c28d5 | 8b5058 | MOV EDX,dword ptr [EAX + 0x58]
+300c28d8 | 6a00 | PUSH 0x0
+300c28da | 6888108230 | PUSH 0x30821088
+300c28df | ffd2 | CALL EDX
+300c28e1 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+300c28e5 | 668b08 | MOV CX,word ptr [EAX]
+300c28e8 | 8b16 | MOV EDX,dword ptr [ESI]
+300c28ea | 8b425c | MOV EAX,dword ptr [EDX + 0x5c]
+300c28ed | 6a00 | PUSH 0x0
+300c28ef | 66894e3a | MOV word ptr [ESI + 0x3a],CX
+300c28f3 | 6888108230 | PUSH 0x30821088
+300c28f8 | 8bce | MOV ECX,ESI
+300c28fa | ffd0 | CALL EAX
+300c28fc | 5e | POP ESI
+300c28fd | c20400 | RET 0x4

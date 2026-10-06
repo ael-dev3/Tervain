@@ -1,0 +1,3 @@
+; 2018a750 gCHUDListCtrlInventory::vfunction2
+2018a750 | c6411801 | MOV byte ptr [ECX + 0x18],0x1
+2018a754 | c20800 | RET 0x8

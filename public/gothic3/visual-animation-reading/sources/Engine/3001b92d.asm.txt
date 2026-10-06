@@ -1,0 +1,2 @@
+; 3001b92d eCEffector::AccessEntity2
+3001b92d | e9ee590400 | JMP 0x30061320

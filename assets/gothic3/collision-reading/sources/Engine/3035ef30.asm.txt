@@ -1,0 +1,21 @@
+; 3035ef30 bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeGroup>_>::vfunction9
+3035ef30 | 56 | PUSH ESI
+3035ef31 | 8bf1 | MOV ESI,ECX
+3035ef33 | 8b06 | MOV EAX,dword ptr [ESI]
+3035ef35 | 8b5018 | MOV EDX,dword ptr [EAX + 0x18]
+3035ef38 | ffd2 | CALL EDX
+3035ef3a | 84c0 | TEST AL,AL
+3035ef3c | 7506 | JNZ 0x3035ef44
+; 3035ef3e LAB_3035ef3e
+3035ef3e | 33c0 | XOR EAX,EAX
+3035ef40 | 5e | POP ESI
+3035ef41 | c20400 | RET 0x4
+; 3035ef44 LAB_3035ef44
+3035ef44 | 8b4620 | MOV EAX,dword ptr [ESI + 0x20]
+3035ef47 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+3035ef4b | 3b4804 | CMP ECX,dword ptr [EAX + 0x4]
+3035ef4e | 73ee | JNC 0x3035ef3e
+3035ef50 | 8b00 | MOV EAX,dword ptr [EAX]
+3035ef52 | 8b0488 | MOV EAX,dword ptr [EAX + ECX*0x4]
+3035ef55 | 5e | POP ESI
+3035ef56 | c20400 | RET 0x4

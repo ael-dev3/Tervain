@@ -1,0 +1,17 @@
+/* ENTRY 1011d390 | FUN_1011d390 | STATUS decompiled | 7 ms */
+
+void FUN_1011d390(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Tasks\\Reaction_Tasks\\ZS_Unconscious.cpp");
+  bCString::bCString(local_8,"Defeat");
+  thunk_FUN_10017a50(local_8,thunk_FUN_100362f0,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

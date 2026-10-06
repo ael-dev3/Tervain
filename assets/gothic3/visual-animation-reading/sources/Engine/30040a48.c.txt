@@ -1,0 +1,79 @@
+/* ENTRY 30040a48 | eCVisualAnimation_PS::SetLookAtConstraint | STATUS decompiled | 40 ms */
+
+/* public: bool __thiscall eCVisualAnimation_PS::SetLookAtConstraint(class bCString const &,class
+   bCVector const &,class bCVector const &,float) */
+
+bool __thiscall
+eCVisualAnimation_PS::SetLookAtConstraint
+          (eCVisualAnimation_PS *this,bCString *param_1,bCVector *param_2,bCVector *param_3,
+          float param_4)
+
+{
+  bCString *pbVar1;
+  bool bVar2;
+  GetVersion *pGVar3;
+  eCWrapper_emfx2Actor *peVar4;
+  int iVar5;
+  int iVar6;
+  
+                    /* 0x40a48  13686
+                       ?SetLookAtConstraint@eCVisualAnimation_PS@@QAE_NABVbCString@@ABVbCVector@@1M@Z
+                        */
+  pbVar1 = param_1;
+  iVar5 = 0;
+  if (0 < *(int *)&this[0xb].eCEntityPropertySet_data) {
+    do {
+      bVar2 = bCString::operator==
+                        ((bCString *)((&(this[0xb].vftablePtr)->GetVersion)[iVar5] + 0x10),pbVar1);
+      if (bVar2) {
+        pGVar3 = (&(this[0xb].vftablePtr)->GetVersion)[iVar5];
+        if (pGVar3 != (GetVersion *)0x0) goto LAB_300a496d;
+        break;
+      }
+      iVar5 = iVar5 + 1;
+    } while (iVar5 < *(int *)&this[0xb].eCEntityPropertySet_data);
+  }
+  pGVar3 = (GetVersion *)new(0x30,0x10b6);
+  if (pGVar3 == (GetVersion *)0x0) {
+    pGVar3 = (GetVersion *)0x0;
+  }
+  else {
+    *(int *)pGVar3 = 0;
+    *(eCVisualAnimation_PS **)(pGVar3 + 4) = this;
+    *(eCVisualAnimation_PS **)(pGVar3 + 8) = this;
+    *(int *)(pGVar3 + 0xc) = 0;
+    bCString::bCString((bCString *)(pGVar3 + 0x10));
+    bCVector::bCVector((bCVector *)(pGVar3 + 0x18));
+    bCVector::bCVector((bCVector *)(pGVar3 + 0x24));
+  }
+  iVar5 = *(int *)&this[0xb].eCEntityPropertySet_data;
+  iVar6 = iVar5 + 1;
+  thunk_FUN_300af0a0(iVar6,(iVar6 != 0) - 1);
+  *(int *)&this[0xb].eCEntityPropertySet_data = iVar6;
+  (&(this[0xb].vftablePtr)->GetVersion)[iVar5] = pGVar3;
+LAB_300a496d:
+  if (*(int *)pGVar3 != 0) {
+    peVar4 = eCVisualAnimationFactory::GetAssembledActor
+                       ((eCVisualAnimationFactory *)(*(int *)(pGVar3 + 4) + 0x94));
+    if (peVar4 != (eCWrapper_emfx2Actor *)0x0) {
+      eCVisualAnimationFactory::GetAssembledActor
+                ((eCVisualAnimationFactory *)(*(int *)(pGVar3 + 4) + 0x94));
+      param_1 = *(bCString **)pGVar3;
+      thunk_FUN_300ac4f0(&param_1);
+    }
+    if (*(undefined4 **)pGVar3 != (undefined4 *)0x0) {
+      (**(code **)**(undefined4 **)pGVar3)(1);
+    }
+    *(int *)pGVar3 = 0;
+  }
+  *(int *)(pGVar3 + 0xc) = 0;
+  bCString::Clear((bCString *)(pGVar3 + 0x10));
+  bCString::operator=((bCString *)(pGVar3 + 0x10),pbVar1);
+  *(int *)(pGVar3 + 0xc) = 0;
+  bCVector::operator=((bCVector *)(pGVar3 + 0x18),param_2);
+  bCVector::operator=((bCVector *)(pGVar3 + 0x24),param_3);
+  *(float *)(pGVar3 + 0x14) = param_4;
+  return true;
+}
+
+

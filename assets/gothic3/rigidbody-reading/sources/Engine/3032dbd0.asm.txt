@@ -1,0 +1,9 @@
+; 3032dbd0 FUN_3032dbd0
+3032dbd0 | 8b01 | MOV EAX,dword ptr [ECX]
+3032dbd2 | 8b5068 | MOV EDX,dword ptr [EAX + 0x68]
+3032dbd5 | ffd2 | CALL EDX
+3032dbd7 | 50 | PUSH EAX
+3032dbd8 | e8e54dceff | CALL 0x300129c2
+3032dbdd | 8bc8 | MOV ECX,EAX
+3032dbdf | e84985d1ff | CALL 0x3004612d
+3032dbe4 | c3 | RET

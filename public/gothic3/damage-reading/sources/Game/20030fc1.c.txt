@@ -1,0 +1,21 @@
+/* ENTRY 20030fc1 | gCDamageReceiver_PS::gCDamageReceiver_PS | STATUS decompiled | 10 ms */
+
+/* public: __thiscall gCDamageReceiver_PS::gCDamageReceiver_PS(void) */
+
+gCDamageReceiver_PS * __thiscall gCDamageReceiver_PS::gCDamageReceiver_PS(gCDamageReceiver_PS *this)
+
+{
+  undefined ***this_00;
+  
+                    /* 0x30fc1  59  ??0gCDamageReceiver_PS@@QAE@XZ */
+  eCEntityPropertySet::eCEntityPropertySet((eCEntityPropertySet *)this);
+  this_00 = &(this->gCDamageReceiver_PS_data).offset_0x28;
+  this->vftablePtr = &vftable;
+  bCObjectBase::bCObjectBase((bCObjectBase *)this_00);
+  *this_00 = &bTPropertyContainer<gEDamageType>::vftable.GetVersion;
+  (this->gCDamageReceiver_PS_data).offset_0x2c = DAT_207b62a4;
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)&(this->gCDamageReceiver_PS_data).field_0x34);
+  return this;
+}
+
+

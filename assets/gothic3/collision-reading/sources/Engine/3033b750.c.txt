@@ -1,0 +1,14 @@
+/* ENTRY 3033b750 | bTPOPureSmartPtr<eCCollisionShape_PS>::bTPOPureSmartPtr<eCCollisionShape_PS> | STATUS decompiled | 4 ms */
+
+bTPOPureSmartPtr<eCCollisionShape_PS> * __thiscall
+bTPOPureSmartPtr<eCCollisionShape_PS>::bTPOPureSmartPtr<eCCollisionShape_PS>
+          (bTPOPureSmartPtr<eCCollisionShape_PS> *this)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase((bCPropertyObjectBase *)this);
+  this->vftablePtr = &vftable;
+  (this->bTPOPureSmartPtr<eCCollisionShape_PS>_data).offset_0x4 = (bCObjectRefBase *)0x0;
+  return this;
+}
+
+

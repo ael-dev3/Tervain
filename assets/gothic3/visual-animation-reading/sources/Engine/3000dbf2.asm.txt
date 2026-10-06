@@ -1,0 +1,2 @@
+; 3000dbf2 eCVisualAnimationLoD::eCVisualAnimationLoD
+3000dbf2 | e929120b00 | JMP 0x300bee20

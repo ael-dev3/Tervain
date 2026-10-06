@@ -1,0 +1,3 @@
+; 303616c0 bTPropertyType<eCCollisionShape,unsigned_short>::vfunction5
+303616c0 | 8b4118 | MOV EAX,dword ptr [ECX + 0x18]
+303616c3 | c3 | RET

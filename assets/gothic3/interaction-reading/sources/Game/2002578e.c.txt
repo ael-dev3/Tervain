@@ -1,0 +1,33 @@
+/* ENTRY 2002578e | gCInteraction_PS::PostInitializeProperties | STATUS decompiled | 27 ms */
+
+/* public: virtual enum bEResult __thiscall gCInteraction_PS::PostInitializeProperties(void) */
+
+bEResult __thiscall gCInteraction_PS::PostInitializeProperties(gCInteraction_PS *this)
+
+{
+  bCObjectBase bStack_8;
+  undefined4 uStack_4;
+  
+                    /* 0x2578e  5761
+                       ?PostInitializeProperties@gCInteraction_PS@@UAE?AW4bEResult@@XZ */
+  bCObjectRefBase::PostInitializeProperties((bCObjectRefBase *)this);
+  bCObjectBase::bCObjectBase(&bStack_8);
+  bStack_8 = (bCObjectBase)&bTPropertyContainer<gEFocusNameType>::vftable;
+  uStack_4 = 0;
+  (*(code *)(this->gCInteraction_PS_data).offset_0x78[7])(&bStack_8);
+  bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xfffffff4);
+  bCString::operator=((bCString *)&(this->gCInteraction_PS_data).field_0x80,"Head_Head_End");
+  bCVector::SetVector((bCVector *)&(this->gCInteraction_PS_data).field_0x84,0.0);
+  bCVector::SetVector((bCVector *)&(this->gCInteraction_PS_data).field_0x90,0.0);
+  bCObjectBase::bCObjectBase((bCObjectBase *)&stack0xfffffff4);
+  bStack_8 = (bCObjectBase)0x0;
+  (*(code *)(this->gCInteraction_PS_data).offset_0x50[7])(&stack0xfffffff4);
+  bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xfffffff0);
+  eCEntityProxy::SetEntity
+            ((eCEntityProxy *)&(this->gCInteraction_PS_data).field_0x18,(eCEntity *)0x0);
+  eCEntityProxy::SetEntity
+            ((eCEntityProxy *)&(this->gCInteraction_PS_data).field_0x34,(eCEntity *)0x0);
+  return 1;
+}
+
+

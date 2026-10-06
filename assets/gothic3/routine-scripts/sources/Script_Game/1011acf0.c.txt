@@ -1,0 +1,17 @@
+/* ENTRY 1011acf0 | FUN_1011acf0 | STATUS decompiled | 7 ms */
+
+void FUN_1011acf0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Tasks\\Reaction_Tasks\\ZS_ReactToZone.cpp");
+  bCString::bCString(local_8,"ZS_ReactToZone_Loop");
+  thunk_FUN_1001db60(local_8,&LAB_10002004,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

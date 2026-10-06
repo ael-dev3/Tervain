@@ -1,0 +1,15 @@
+/* ENTRY 3003c72c | eCSpringAndDamperEffector::eCSpringAndDamperEffector | STATUS decompiled | 6 ms */
+
+/* public: __thiscall eCSpringAndDamperEffector::eCSpringAndDamperEffector(void) */
+
+eCSpringAndDamperEffector * __thiscall
+eCSpringAndDamperEffector::eCSpringAndDamperEffector(eCSpringAndDamperEffector *this)
+
+{
+                    /* 0x3c72c  777  ??0eCSpringAndDamperEffector@@QAE@XZ */
+  eCEffector::eCEffector((eCEffector *)this);
+  this->vftablePtr = &vftable;
+  return this;
+}
+
+

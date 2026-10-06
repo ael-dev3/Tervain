@@ -1,0 +1,4 @@
+; 1000349f ?Create@bCPropertyTypeBase@@MAEXXZ
+1000349f | e92c560800 | JMP 0x10088ad0
+; 100034a4 bCString::bCString
+; 100034a4 Ordinal_272

@@ -1,0 +1,19 @@
+/* ENTRY 2001a235 | gCNavigationAdmin::DeregisterNavPathPS | STATUS decompiled | 5 ms */
+
+/* public: enum bEResult __thiscall gCNavigationAdmin::DeregisterNavPathPS(class gCNavPath_PS *) */
+
+bEResult __thiscall
+gCNavigationAdmin::DeregisterNavPathPS(gCNavigationAdmin *this,gCNavPath_PS *param_1)
+
+{
+  bEResult bVar1;
+  
+                    /* 0x1a235  2521
+                       ?DeregisterNavPathPS@gCNavigationAdmin@@QAE?AW4bEResult@@PAVgCNavPath_PS@@@Z
+                        */
+  bVar1 = gCNavigationMap::DeregisterNavPathPS
+                    ((gCNavigationMap *)&(this->gCNavigationAdmin_data).field_0x50,param_1);
+  return bVar1;
+}
+
+

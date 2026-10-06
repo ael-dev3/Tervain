@@ -1,0 +1,15 @@
+; 300b5cb0 bTPropertyType<eCVisualAnimation_PS,bTPropertyObject<eCSpringAndDamperEffector,eCEffector>_>::vfunction12
+300b5cb0 | 56 | PUSH ESI
+300b5cb1 | 8bf1 | MOV ESI,ECX
+300b5cb3 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+300b5cb7 | 85c9 | TEST ECX,ECX
+300b5cb9 | 7506 | JNZ 0x300b5cc1
+300b5cbb | 33c0 | XOR EAX,EAX
+300b5cbd | 5e | POP ESI
+300b5cbe | c20400 | RET 0x4
+300b5cc1 | 8b01 | MOV EAX,dword ptr [ECX]
+300b5cc3 | 8b10 | MOV EDX,dword ptr [EAX]
+300b5cc5 | ffd2 | CALL EDX
+300b5cc7 | 03461c | ADD EAX,dword ptr [ESI + 0x1c]
+300b5cca | 5e | POP ESI
+300b5ccb | c20400 | RET 0x4

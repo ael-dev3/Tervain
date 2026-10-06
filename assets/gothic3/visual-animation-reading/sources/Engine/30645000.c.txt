@@ -1,0 +1,12 @@
+/* ENTRY 30645000 | EMotionFX::PhysicsController::PhysicsController | STATUS decompiled | 5 ms */
+
+PhysicsController * __thiscall
+EMotionFX::PhysicsController::PhysicsController(PhysicsController *this,undefined4 param_1)
+
+{
+  Controller::Controller((Controller *)this,param_1);
+  this->vftablePtr = &vftable;
+  return this;
+}
+
+

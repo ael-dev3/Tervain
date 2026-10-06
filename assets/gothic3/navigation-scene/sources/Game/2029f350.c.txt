@@ -1,0 +1,131 @@
+/* ENTRY 2029f350 | FUN_2029f350 | STATUS decompiled | 102 ms */
+
+undefined4 __fastcall FUN_2029f350(int param_1)
+
+{
+  bool bVar1;
+  bCVector *pbVar2;
+  bCVector *pbVar3;
+  bCTriangle *pbVar4;
+  bCMessageAdmin *this;
+  int iVar5;
+  bCVector *pbVar6;
+  int iVar7;
+  float fVar8;
+  float fVar9;
+  bEMessageTypes bVar10;
+  char *pcVar11;
+  char *pcVar12;
+  char *pcVar13;
+  float fVar14;
+  int local_c4;
+  bCStretch local_c0 [24];
+  bCTriangle local_a8 [36];
+  bCVector local_84 [12];
+  bCVector local_78 [12];
+  bCVector local_6c [12];
+  bCVector local_60 [12];
+  bCVector local_54 [12];
+  bCVector local_48 [12];
+  bCVector local_3c [12];
+  bCVector local_30 [12];
+  bCTriangle local_24 [36];
+  
+  if (*(int *)(param_1 + 0x18) < 3) {
+    return 0;
+  }
+  local_c4 = 0;
+  if (-1 < *(int *)(param_1 + 0x18) + -2) {
+    do {
+      bCStretch::bCStretch(local_c0);
+      pbVar2 = (bCVector *)(*(int *)(param_1 + 0x14) + local_c4 * 0xc);
+      fVar8 = bCVector::GetZ(pbVar2);
+      fVar14 = 0.0;
+      fVar9 = bCVector::GetX(pbVar2);
+      pbVar2 = (bCVector *)bCVector::bCVector(local_60,fVar9,fVar14,fVar8);
+      bCStretch::SetStart(local_c0,pbVar2);
+      bCVector::~bCVector(local_60);
+      pbVar2 = (bCVector *)(*(int *)(param_1 + 0x14) + 0xc + local_c4 * 0xc);
+      fVar8 = bCVector::GetZ(pbVar2);
+      fVar14 = 0.0;
+      fVar9 = bCVector::GetX(pbVar2);
+      pbVar2 = (bCVector *)bCVector::bCVector(local_54,fVar9,fVar14,fVar8);
+      bCStretch::SetEnd(local_c0,pbVar2);
+      bCVector::~bCVector(local_54);
+      iVar5 = local_c4 + 2;
+      if (iVar5 <= *(int *)(param_1 + 0x18) + -1) {
+        iVar7 = iVar5 * 0xc;
+        do {
+          bCTriangle::bCTriangle(local_a8);
+          if (iVar5 < *(int *)(param_1 + 0x18) + -1) {
+            pbVar6 = (bCVector *)(iVar7 + *(int *)(param_1 + 0x14));
+            pbVar2 = pbVar6 + 0xc;
+            fVar8 = bCVector::GetZ(pbVar2);
+            fVar14 = -10.0;
+            fVar9 = bCVector::GetX(pbVar2);
+            pbVar3 = (bCVector *)bCVector::bCVector(local_84,fVar9,fVar14,fVar8);
+            fVar8 = bCVector::GetZ(pbVar2);
+            fVar14 = 10.0;
+            fVar9 = bCVector::GetX(pbVar2);
+            pbVar2 = (bCVector *)bCVector::bCVector(local_48,fVar9,fVar14,fVar8);
+            fVar8 = bCVector::GetZ(pbVar6);
+            fVar14 = 0.0;
+            fVar9 = bCVector::GetX(pbVar6);
+            pbVar6 = (bCVector *)bCVector::bCVector(local_3c,fVar9,fVar14,fVar8);
+            pbVar4 = (bCTriangle *)bCTriangle::bCTriangle(local_24,pbVar6,pbVar2,pbVar3);
+            bCTriangle::operator=(local_a8,pbVar4);
+            bCTriangle::~bCTriangle(local_24);
+            bCVector::~bCVector(local_3c);
+            bCVector::~bCVector(local_48);
+            bCVector::~bCVector(local_84);
+LAB_2029f62e:
+            bVar1 = bCStretch::Intersects(local_c0,local_a8,(float *)m_fDummy_exref);
+            if (bVar1) {
+              iVar5 = *(int *)g_iDefaultMessagePriority_exref;
+              iVar7 = -1;
+              pcVar13 = (char *)0x0;
+              pcVar12 = (char *)0x0;
+              pcVar11 = "gCNavZone_PS::IsZoneIllegal - Found illegal zone!";
+              bVar10 = 3;
+              this = bCMessageAdmin::GetInstance();
+              bCMessageAdmin::OnMessage(this,bVar10,pcVar11,pcVar12,pcVar13,iVar7,iVar5);
+              bCTriangle::~bCTriangle(local_a8);
+              bCStretch::~bCStretch(local_c0);
+              return 1;
+            }
+          }
+          else if (local_c4 != 0) {
+            pbVar2 = *(bCVector **)(param_1 + 0x14);
+            fVar8 = bCVector::GetZ(pbVar2);
+            fVar14 = -10.0;
+            fVar9 = bCVector::GetX(pbVar2);
+            pbVar3 = (bCVector *)bCVector::bCVector(local_6c,fVar9,fVar14,fVar8);
+            fVar8 = bCVector::GetZ(pbVar2);
+            fVar14 = 10.0;
+            fVar9 = bCVector::GetX(pbVar2);
+            pbVar6 = (bCVector *)bCVector::bCVector(local_78,fVar9,fVar14,fVar8);
+            fVar8 = bCVector::GetZ(pbVar2 + iVar7);
+            fVar14 = 0.0;
+            fVar9 = bCVector::GetX(pbVar2 + iVar7);
+            pbVar2 = (bCVector *)bCVector::bCVector(local_30,fVar9,fVar14,fVar8);
+            pbVar4 = (bCTriangle *)bCTriangle::bCTriangle(local_24,pbVar2,pbVar6,pbVar3);
+            bCTriangle::operator=(local_a8,pbVar4);
+            bCTriangle::~bCTriangle(local_24);
+            bCVector::~bCVector(local_30);
+            bCVector::~bCVector(local_78);
+            bCVector::~bCVector(local_6c);
+            goto LAB_2029f62e;
+          }
+          bCTriangle::~bCTriangle(local_a8);
+          iVar5 = iVar5 + 1;
+          iVar7 = iVar7 + 0xc;
+        } while (iVar5 <= *(int *)(param_1 + 0x18) + -1);
+      }
+      bCStretch::~bCStretch(local_c0);
+      local_c4 = local_c4 + 1;
+    } while (local_c4 <= *(int *)(param_1 + 0x18) + -2);
+  }
+  return 0;
+}
+
+

@@ -1,0 +1,2 @@
+; 20020fa4 ?RegisterNavPathPS@gCNavigationMap@@QAE?AW4bEResult@@PAVgCNavPath_PS@@@Z
+20020fa4 | e957552a00 | JMP 0x202c6500

@@ -1,0 +1,9 @@
+; 2018b1b0 gCHUDStaticInvCash::~gCHUDStaticInvCash
+2018b1b0 | 56 | PUSH ESI
+2018b1b1 | 8bf1 | MOV ESI,ECX
+2018b1b3 | 8d4e10 | LEA ECX,[ESI + 0x10]
+2018b1b6 | c7067c816720 | MOV dword ptr [ESI],0x2067817c
+2018b1bc | ff15b86d7d20 | CALL dword ptr [0x207d6db8]
+2018b1c2 | 8bce | MOV ECX,ESI
+2018b1c4 | 5e | POP ESI
+2018b1c5 | e9adb6eaff | JMP 0x20036877

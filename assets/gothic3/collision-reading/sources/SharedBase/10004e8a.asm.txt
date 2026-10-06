@@ -1,0 +1,4 @@
+; 10004e8a ?SetRadius@bCCapsule@@QAEXM@Z
+10004e8a | e971290500 | JMP 0x10057800
+; 10004e8f bCOStream::operator<<
+; 10004e8f Ordinal_728

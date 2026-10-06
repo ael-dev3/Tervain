@@ -1,0 +1,32 @@
+/* ENTRY 3075ce10 | bTPropertyType<eCRigidBody_PS,bCVector>::~bTPropertyType<eCRigidBody_PS,bCVector> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<eCRigidBody_PS,bCVector>::~bTPropertyType<eCRigidBody_PS,bCVector>
+          (bTPropertyType<eCRigidBody_PS,bCVector> *this)
+
+{
+  bTPropertyType<eCRigidBody_PS,bCVector> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"StartTorque");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&eCRigidBody_PS::ms_PropertyMember_m_vecInitialTorque,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_vecInitialTorque = &vftable;
+  DAT_30aec0a4 = bTPropertyObjectType<eCRigidBody_PS,eCRigidBodyBase_PS>::
+                 ~bTPropertyObjectType<eCRigidBody_PS,eCRigidBodyBase_PS>();
+  _DAT_30aec0a8 = 0x40;
+  _DAT_30aec0ac = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&eCRigidBody_PS::ms_PropertyMember_m_vecInitialTorque);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_30aec0a4,
+             (bCPropertyTypeBase *)&eCRigidBody_PS::ms_PropertyMember_m_vecInitialTorque);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bCVector>::~bTPropertyTypeOnly<bCVector>);
+  return;
+}
+
+

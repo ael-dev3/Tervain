@@ -1,0 +1,18 @@
+/* ENTRY 30005eb1 | thunk_FUN_303b85b0 | STATUS decompiled | 4 ms */
+
+void __thiscall thunk_FUN_303b85b0(int *param_1,int param_2)
+
+{
+  int iVar1;
+  
+  thunk_FUN_303b80a0(param_2,(param_2 != 0) - 1);
+  iVar1 = param_1[1];
+  if ((param_2 <= iVar1) && (param_2 < iVar1)) {
+    thunk_FUN_303b7fe0(*param_1 + param_2 * 0x10,iVar1 - param_2);
+    thunk_FUN_303b7db0(*param_1 + param_2 * 0x10,param_1[1] - param_2);
+  }
+  param_1[1] = param_2;
+  return;
+}
+
+

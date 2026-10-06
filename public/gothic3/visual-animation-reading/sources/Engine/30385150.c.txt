@@ -1,0 +1,14 @@
+/* ENTRY 30385150 | FUN_30385150 | STATUS decompiled | 4 ms */
+
+undefined4 __thiscall FUN_30385150(bCObjectRefBase *param_1,bCIStream *param_2)
+
+{
+  bCIStream *pbVar1;
+  
+  pbVar1 = param_2;
+  bCIStream::operator>>(param_2,(ushort *)&param_2);
+  bCObjectRefBase::Read(param_1,(bCIStream *)pbVar1);
+  return 1;
+}
+
+

@@ -1,0 +1,15 @@
+/* ENTRY 200062df | gCNavigation_PS::SetStartPosition | STATUS decompiled | 11 ms */
+
+/* public: void __thiscall gCNavigation_PS::SetStartPosition(class bCVector const &) */
+
+void __thiscall gCNavigation_PS::SetStartPosition(gCNavigation_PS *this,bCVector *param_1)
+
+{
+                    /* 0x62df  7082  ?SetStartPosition@gCNavigation_PS@@QAEXABVbCVector@@@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"StartPosition",false);
+  bCVector::operator=((bCVector *)&(this->gCNavigation_PS_data).field_0x10,param_1);
+  (*this->vftablePtr->NotifyPropertyValueChangedExitEx)(this,"StartPosition",false);
+  return;
+}
+
+

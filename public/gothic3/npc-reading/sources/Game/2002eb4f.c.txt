@@ -1,0 +1,289 @@
+/* ENTRY 2002eb4f | gCNPC_PS::TrackCurrentPose | STATUS decompiled | 223 ms */
+
+/* protected: void __thiscall gCNPC_PS::TrackCurrentPose(void) */
+
+void __thiscall gCNPC_PS::TrackCurrentPose(gCNPC_PS *this)
+
+{
+  undefined1 *this_00;
+  undefined4 uVar1;
+  bool bVar2;
+  eCEntity *peVar3;
+  eCVisualAnimation_PS *this_01;
+  eCWrapper_emfx2Actor *peVar4;
+  eSMotionDesc *this_02;
+  bCString *pbVar5;
+  int iVar6;
+  char *pcVar7;
+  int iVar8;
+  int iVar9;
+  float10 fVar10;
+  double dVar11;
+  int iStack_14;
+  double dStack_c;
+  
+                    /* 0x2eb4f  7372  ?TrackCurrentPose@gCNPC_PS@@IAEXXZ */
+  iVar8 = (this->gCNPC_PS_data).offset_0x1a0;
+  if (iVar8 != 0) {
+    (this->gCNPC_PS_data).offset_0x1a0 = 0;
+    *(int *)&(this->gCNPC_PS_data).field_0x190 = iVar8;
+    *(int *)&(this->gCNPC_PS_data).field_0x194 = iVar8;
+    return;
+  }
+  peVar3 = (*this->vftablePtr->GetEntity)(this);
+  this_01 = (eCVisualAnimation_PS *)(**(code **)(*(int *)peVar3 + 0xec))(100);
+  if (this_01 != (eCVisualAnimation_PS *)0x0) {
+    peVar4 = eCVisualAnimation_PS::GetActor(this_01);
+    if (peVar4 == (eCWrapper_emfx2Actor *)0x0) {
+      (this->gCNPC_PS_data).offset_0x1a0 = 0;
+      *(undefined4 *)&(this->gCNPC_PS_data).field_0x190 = 0;
+      *(undefined4 *)&(this->gCNPC_PS_data).field_0x194 = 0;
+      return;
+    }
+    peVar4 = eCVisualAnimation_PS::GetActor(this_01);
+    this_00 = &(this->gCNPC_PS_data).field_0x19c;
+    bCString::Clear((bCString *)this_00);
+    bVar2 = eCWrapper_emfx2Actor::HasMotionInstance(peVar4,0);
+    if ((bVar2) && (bVar2 = eCWrapper_emfx2Actor::IsActorPlaying(peVar4,0), bVar2)) {
+      this_02 = eCVisualAnimation_PS::GetMotionDesc(this_01,0);
+      pbVar5 = eCVisualAnimation_PS::eSMotionDesc::GetMotionFilename(this_02);
+      bCString::operator=((bCString *)this_00,pbVar5);
+      iVar9 = 0;
+      iVar8 = 4;
+      do {
+        iVar6 = bCString::Find((bCString *)this_00,'_',iVar9,false);
+        iVar9 = iVar6 + 1;
+        iVar8 = iVar8 + -1;
+      } while (iVar8 != 0);
+      *(undefined4 *)&(this->gCNPC_PS_data).field_0x190 = 1;
+      pcVar7 = bCString::GetBuffer((bCString *)this_00,0);
+      switch(pcVar7[iVar6 + 2]) {
+      case '0':
+        pcVar7 = bCString::GetBuffer((bCString *)this_00,0);
+        switch(pcVar7[iVar6 + 3]) {
+        case '0':
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x190 = 5;
+          break;
+        case '1':
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x190 = 6;
+          break;
+        case '2':
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x190 = 7;
+          break;
+        case '3':
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x190 = 8;
+        }
+        break;
+      case '1':
+        pcVar7 = bCString::GetBuffer((bCString *)this_00,0);
+        switch(pcVar7[iVar6 + 3]) {
+        case '0':
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x190 = 9;
+          break;
+        case '1':
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x190 = 10;
+          break;
+        case '2':
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x190 = 0xb;
+          break;
+        case '3':
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x190 = 0xc;
+          break;
+        case '_':
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x190 = 2;
+        }
+        break;
+      case '2':
+        pcVar7 = bCString::GetBuffer((bCString *)this_00,0);
+        switch(pcVar7[iVar6 + 3]) {
+        case '0':
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x190 = 0xd;
+          break;
+        case '1':
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x190 = 0xe;
+          break;
+        case '2':
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x190 = 0xf;
+          break;
+        case '3':
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x190 = 0x10;
+          break;
+        case '_':
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x190 = 3;
+        }
+        break;
+      case '3':
+        pcVar7 = bCString::GetBuffer((bCString *)this_00,0);
+        switch(pcVar7[iVar6 + 3]) {
+        case '0':
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x190 = 0x11;
+          break;
+        case '1':
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x190 = 0x12;
+          break;
+        case '2':
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x190 = 0x13;
+          break;
+        case '3':
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x190 = 0x14;
+          break;
+        case '_':
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x190 = 4;
+        }
+        break;
+      case '4':
+        pcVar7 = bCString::GetBuffer((bCString *)this_00,0);
+        if (pcVar7[iVar6 + 3] == '0') {
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x190 = 0x15;
+        }
+        break;
+      case '5':
+        pcVar7 = bCString::GetBuffer((bCString *)this_00,0);
+        if (pcVar7[iVar6 + 3] == '0') {
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x190 = 0x16;
+        }
+        break;
+      case '6':
+        pcVar7 = bCString::GetBuffer((bCString *)this_00,0);
+        if (pcVar7[iVar6 + 3] == '0') {
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x190 = 0x17;
+        }
+        break;
+      case '7':
+        pcVar7 = bCString::GetBuffer((bCString *)this_00,0);
+        if (pcVar7[iVar6 + 3] == '0') {
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x190 = 0x18;
+        }
+      }
+      *(undefined4 *)&(this->gCNPC_PS_data).field_0x194 =
+           *(undefined4 *)&(this->gCNPC_PS_data).field_0x190;
+      *(undefined4 *)&(this->gCNPC_PS_data).field_0x198 = 0x3f800000;
+      dVar11 = eCWrapper_emfx2Actor::GetMaxTime(peVar4,0);
+      dStack_c = 0.0;
+      if (0.0 < dVar11) {
+        dStack_c = eCWrapper_emfx2Actor::GetPlayTime(peVar4,0);
+        dStack_c = dStack_c / dVar11;
+      }
+      iStack_14 = 8;
+      do {
+        iVar8 = bCString::Find((bCString *)this_00,'_',iVar9,false);
+        iVar9 = iVar8 + 1;
+        iStack_14 = iStack_14 + -1;
+      } while (iStack_14 != 0);
+      *(undefined4 *)&(this->gCNPC_PS_data).field_0x194 = 1;
+      pcVar7 = bCString::GetBuffer((bCString *)this_00,0);
+      switch(pcVar7[iVar8 + 2]) {
+      case '0':
+        pcVar7 = bCString::GetBuffer((bCString *)this_00,0);
+        switch(pcVar7[iVar8 + 3]) {
+        case '0':
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x194 = 5;
+          break;
+        case '1':
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x194 = 6;
+          break;
+        case '2':
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x194 = 7;
+          break;
+        case '3':
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x194 = 8;
+        }
+        break;
+      case '1':
+        pcVar7 = bCString::GetBuffer((bCString *)this_00,0);
+        switch(pcVar7[iVar8 + 3]) {
+        case '0':
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x194 = 9;
+          break;
+        case '1':
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x194 = 10;
+          break;
+        case '2':
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x194 = 0xb;
+          break;
+        case '3':
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x194 = 0xc;
+          break;
+        case '_':
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x194 = 2;
+        }
+        break;
+      case '2':
+        pcVar7 = bCString::GetBuffer((bCString *)this_00,0);
+        switch(pcVar7[iVar8 + 3]) {
+        case '0':
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x194 = 0xd;
+          break;
+        case '1':
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x194 = 0xe;
+          break;
+        case '2':
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x194 = 0xf;
+          break;
+        case '3':
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x194 = 0x10;
+          break;
+        case '_':
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x194 = 3;
+        }
+        break;
+      case '3':
+        pcVar7 = bCString::GetBuffer((bCString *)this_00,0);
+        switch(pcVar7[iVar8 + 3]) {
+        case '0':
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x194 = 0x11;
+          break;
+        case '1':
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x194 = 0x12;
+          break;
+        case '2':
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x194 = 0x13;
+          break;
+        case '3':
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x194 = 0x14;
+          break;
+        case '_':
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x194 = 4;
+        }
+        break;
+      case '4':
+        pcVar7 = bCString::GetBuffer((bCString *)this_00,0);
+        if (pcVar7[iVar8 + 3] == '0') {
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x194 = 0x15;
+        }
+        break;
+      case '5':
+        pcVar7 = bCString::GetBuffer((bCString *)this_00,0);
+        if (pcVar7[iVar8 + 3] == '0') {
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x194 = 0x16;
+        }
+        break;
+      case '6':
+        pcVar7 = bCString::GetBuffer((bCString *)this_00,0);
+        if (pcVar7[iVar8 + 3] == '0') {
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x194 = 0x17;
+        }
+        break;
+      case '7':
+        pcVar7 = bCString::GetBuffer((bCString *)this_00,0);
+        if (pcVar7[iVar8 + 3] == '0') {
+          *(undefined4 *)&(this->gCNPC_PS_data).field_0x194 = 0x18;
+        }
+      }
+      fVar10 = (float10)dStack_c;
+      *(float *)&(this->gCNPC_PS_data).field_0x198 = (float)((float10)1 - fVar10);
+      if ((((float10)0.5 < fVar10) && (*(int *)(peVar4 + 0x74) == 0)) ||
+         ((fVar10 <= (float10)0.5 && (*(int *)(peVar4 + 0x74) == 1)))) {
+        uVar1 = *(undefined4 *)&(this->gCNPC_PS_data).field_0x190;
+        *(float *)&(this->gCNPC_PS_data).field_0x198 = (float)dStack_c;
+        *(undefined4 *)&(this->gCNPC_PS_data).field_0x190 =
+             *(undefined4 *)&(this->gCNPC_PS_data).field_0x194;
+        *(undefined4 *)&(this->gCNPC_PS_data).field_0x194 = uVar1;
+        return;
+      }
+    }
+  }
+  return;
+}
+
+

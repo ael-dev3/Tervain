@@ -1,0 +1,23 @@
+; 2040c270 bTPropertyType<gCInteraction_PS,eCTemplateEntityProxy>::vfunction6
+2040c270 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+2040c274 | 83ec0c | SUB ESP,0xc
+2040c277 | 85c0 | TEST EAX,EAX
+2040c279 | 742f | JZ 0x2040c2aa
+2040c27b | 8b11 | MOV EDX,dword ptr [ECX]
+2040c27d | 56 | PUSH ESI
+2040c27e | 50 | PUSH EAX
+2040c27f | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+2040c282 | ffd0 | CALL EAX
+2040c284 | 6a00 | PUSH 0x0
+2040c286 | 8d4c2408 | LEA ECX,[ESP + 0x8]
+2040c28a | 8bf0 | MOV ESI,EAX
+2040c28c | ff15d05e7d20 | CALL dword ptr [0x207d5ed0]
+2040c292 | 8d4c2404 | LEA ECX,[ESP + 0x4]
+2040c296 | 51 | PUSH ECX
+2040c297 | 8bce | MOV ECX,ESI
+2040c299 | ff152c6e7d20 | CALL dword ptr [0x207d6e2c]
+2040c29f | 8d4c2404 | LEA ECX,[ESP + 0x4]
+2040c2a3 | ff15c46e7d20 | CALL dword ptr [0x207d6ec4]
+2040c2a9 | 5e | POP ESI
+2040c2aa | 83c40c | ADD ESP,0xc
+2040c2ad | c20400 | RET 0x4

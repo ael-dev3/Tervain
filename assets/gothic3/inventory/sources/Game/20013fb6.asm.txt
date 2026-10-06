@@ -1,0 +1,4 @@
+; 20013fb6 ?SetType@gCInventoryStack@@QAEXABV?$bTPropertyContainer@W4gEStackType@@@@@Z
+20013fb6 | e905e10800 | JMP 0x200a20c0
+; 20013fc0 gCNavigationMap::GetZone
+; 20013fc0 Ordinal_4796

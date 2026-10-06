@@ -1,0 +1,13 @@
+/* ENTRY 30662e70 | EMotionFX::Motion::Motion | STATUS decompiled | 5 ms */
+
+Motion * __thiscall EMotionFX::Motion::Motion(Motion *this,int param_1)
+
+{
+  this->vftablePtr = &vftable;
+  MCore::String::String((String *)&this->Motion_data,param_1);
+  (this->Motion_data).offset_0x10 = 0;
+  (this->Motion_data).offset_0x14 = 0;
+  return this;
+}
+
+

@@ -1,0 +1,19 @@
+; 20321f30 bTPropertyType<gCPlayerMemory_PS,bool>::vfunction9
+20321f30 | 56 | PUSH ESI
+20321f31 | 8bf1 | MOV ESI,ECX
+20321f33 | 8b06 | MOV EAX,dword ptr [ESI]
+20321f35 | 8b5018 | MOV EDX,dword ptr [EAX + 0x18]
+20321f38 | ffd2 | CALL EDX
+20321f3a | 84c0 | TEST AL,AL
+20321f3c | 7506 | JNZ 0x20321f44
+20321f3e | 33c0 | XOR EAX,EAX
+20321f40 | 5e | POP ESI
+20321f41 | c20400 | RET 0x4
+20321f44 | 8b4620 | MOV EAX,dword ptr [ESI + 0x20]
+20321f47 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+20321f4b | 3b4804 | CMP ECX,dword ptr [EAX + 0x4]
+20321f4e | 73ee | JNC 0x20321f3e
+20321f50 | 8b00 | MOV EAX,dword ptr [EAX]
+20321f52 | 8b0488 | MOV EAX,dword ptr [EAX + ECX*0x4]
+20321f55 | 5e | POP ESI
+20321f56 | c20400 | RET 0x4

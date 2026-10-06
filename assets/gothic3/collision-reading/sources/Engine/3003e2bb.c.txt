@@ -1,0 +1,16 @@
+/* ENTRY 3003e2bb | eCCollisionShape_PS::AccessRange | STATUS decompiled | 10 ms */
+
+/* public: class bTPropertyContainer<enum eEPhysicRangeType> & __thiscall
+   eCCollisionShape_PS::AccessRange(void) */
+
+bTPropertyContainer<eEPhysicRangeType> * __thiscall
+eCCollisionShape_PS::AccessRange(eCCollisionShape_PS *this)
+
+{
+                    /* 0x3e2bb  3011
+                       ?AccessRange@eCCollisionShape_PS@@QAEAAV?$bTPropertyContainer@W4eEPhysicRangeType@@@@XZ
+                        */
+  return (bTPropertyContainer<eEPhysicRangeType> *)&(this->eCCollisionShape_PS_data).offset_0x8;
+}
+
+

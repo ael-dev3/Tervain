@@ -1,0 +1,9 @@
+/* ENTRY 20209ff0 | bTPropertyType<gCClock_PS,unsigned_long>::vfunction2 | STATUS decompiled | 0 ms */
+
+undefined4 __thiscall bTPropertyType<gCClock_PS,unsigned_long>::vfunction2(void)
+
+{
+  return 4;
+}
+
+

@@ -1,0 +1,49 @@
+/* ENTRY 305cce30 | FUN_305cce30 | STATUS decompiled | 22 ms */
+
+undefined4 __thiscall FUN_305cce30(int *param_1,undefined4 param_2)
+
+{
+  bool bVar1;
+  bCString *pbStack_28;
+  bCString *pbStack_24;
+  bCString **ppbStack_20;
+  bCString local_14 [8];
+  bCString *local_c;
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  ppbStack_20 = (bCString **)0x305cce43;
+  bCString::bCString(local_4);
+  ppbStack_20 = (bCString **)0x305cce49;
+  bCString::bCString(local_8);
+  ppbStack_20 = (bCString **)0x305cce4f;
+  bCString::bCString(local_14);
+  ppbStack_20 = (bCString **)0x305cce55;
+  bCString::bCString((bCString *)&local_c);
+  ppbStack_20 = &local_c;
+  pbStack_24 = local_14;
+  pbStack_28 = local_8;
+  (**(code **)(*param_1 + 0x28))(param_2,local_4);
+  bCString::operator+=((bCString *)&pbStack_28,(bCString *)&ppbStack_20);
+  bCString::bCString((bCString *)&pbStack_24);
+  bVar1 = eCFilePathCache::GetFilePath
+                    ((eCFilePathCache *)(param_1 + 4),(bCString *)&pbStack_28,
+                     (bCString *)&pbStack_24);
+  if (bVar1) {
+    bCString::operator=(local_c,(bCString *)&pbStack_24);
+    bCString::~bCString((bCString *)&pbStack_24);
+    bCString::~bCString((bCString *)&ppbStack_20);
+    bCString::~bCString((bCString *)&pbStack_28);
+    bCString::~bCString((bCString *)&stack0xffffffe4);
+    bCString::~bCString((bCString *)&stack0xffffffe8);
+    return 1;
+  }
+  bCString::~bCString((bCString *)&pbStack_24);
+  bCString::~bCString((bCString *)&ppbStack_20);
+  bCString::~bCString((bCString *)&pbStack_28);
+  bCString::~bCString((bCString *)&stack0xffffffe4);
+  bCString::~bCString((bCString *)&stack0xffffffe8);
+  return 0;
+}
+
+

@@ -1,0 +1,113 @@
+/* ENTRY 2028a120 | FUN_2028a120 | STATUS decompiled | 65 ms */
+
+void __thiscall FUN_2028a120(gCNavigation_PS *param_1,char param_2,char param_3,char param_4)
+
+{
+  void **ppvVar1;
+  bCMemoryAdmin *pbVar2;
+  eCEntity *peVar3;
+  bCVector *pbVar4;
+  void *pvVar5;
+  bCVector abStack_c [12];
+  
+  ppvVar1 = &(param_1->gCNavigation_PS_data).offset_0x108;
+  if ((ppvVar1 != (void **)0x0) && (pvVar5 = *ppvVar1, pvVar5 != (void *)0x0)) {
+    pbVar2 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar2,pvVar5);
+    *ppvVar1 = (void *)0x0;
+    (param_1->gCNavigation_PS_data).offset_0x10c = 0;
+    (param_1->gCNavigation_PS_data).offset_0x110 = 0;
+  }
+  ppvVar1 = &(param_1->gCNavigation_PS_data).offset_0x134;
+  if ((ppvVar1 != (void **)0x0) && (pvVar5 = *ppvVar1, pvVar5 != (void *)0x0)) {
+    pbVar2 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar2,pvVar5);
+    *ppvVar1 = (void *)0x0;
+    (param_1->gCNavigation_PS_data).offset_0x138 = 0;
+    (param_1->gCNavigation_PS_data).offset_0x13c = 0;
+  }
+  ppvVar1 = &(param_1->gCNavigation_PS_data).offset_0x114;
+  if ((ppvVar1 != (void **)0x0) && (pvVar5 = *ppvVar1, pvVar5 != (void *)0x0)) {
+    pbVar2 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar2,pvVar5);
+    *ppvVar1 = (void *)0x0;
+    (param_1->gCNavigation_PS_data).offset_0x118 = 0;
+    (param_1->gCNavigation_PS_data).offset_0x11c = 0;
+  }
+  ppvVar1 = &(param_1->gCNavigation_PS_data).offset_0x18c;
+  if ((ppvVar1 != (void **)0x0) && (pvVar5 = *ppvVar1, pvVar5 != (void *)0x0)) {
+    pbVar2 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar2,pvVar5);
+    *ppvVar1 = (void *)0x0;
+    (param_1->gCNavigation_PS_data).offset_0x190 = 0;
+    (param_1->gCNavigation_PS_data).offset_0x194 = 0;
+  }
+  ppvVar1 = &(param_1->gCNavigation_PS_data).offset_0x198;
+  if ((ppvVar1 != (void **)0x0) && (pvVar5 = *ppvVar1, pvVar5 != (void *)0x0)) {
+    pbVar2 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar2,pvVar5);
+    *ppvVar1 = (void *)0x0;
+    (param_1->gCNavigation_PS_data).offset_0x19c = 0;
+    (param_1->gCNavigation_PS_data).offset_0x1a0 = 0;
+  }
+  ppvVar1 = &(param_1->gCNavigation_PS_data).offset_0x1a4;
+  if ((ppvVar1 != (void **)0x0) && (pvVar5 = *ppvVar1, pvVar5 != (void *)0x0)) {
+    pbVar2 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar2,pvVar5);
+    *ppvVar1 = (void *)0x0;
+    (param_1->gCNavigation_PS_data).offset_0x1a8 = 0;
+    (param_1->gCNavigation_PS_data).offset_0x1ac = 0;
+  }
+  ppvVar1 = &(param_1->gCNavigation_PS_data).offset_0x1bc;
+  if ((ppvVar1 != (void **)0x0) && (pvVar5 = *ppvVar1, pvVar5 != (void *)0x0)) {
+    pbVar2 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar2,pvVar5);
+    *ppvVar1 = (void *)0x0;
+    (param_1->gCNavigation_PS_data).offset_0x1c0 = 0;
+    (param_1->gCNavigation_PS_data).offset_0x1c4 = 0;
+  }
+  (param_1->gCNavigation_PS_data).offset_0x20d = (gCNavigation_PS)0x0;
+  (param_1->gCNavigation_PS_data).offset_0x1c8 = 0xffffffff;
+  (param_1->gCNavigation_PS_data).offset_0x1cc = (gCNavigation_PS)0x0;
+  (param_1->gCNavigation_PS_data).offset_0x205 = (gCNavigation_PS)0x0;
+  (param_1->gCNavigation_PS_data).offset_0x1d0 = 0;
+  (param_1->gCNavigation_PS_data).offset_0x1d4 = 0;
+  eCEntityProxy::SetEntity
+            ((eCEntityProxy *)&(param_1->gCNavigation_PS_data).field_0x14c,(eCEntity *)0x0);
+  (param_1->gCNavigation_PS_data).field_0x101 = 0;
+  gCNavigation_PS::UpdateInteractObject(param_1);
+  (param_1->gCNavigation_PS_data).offset_0x218 = 4;
+  bCPropertyID::Destroy((bCPropertyID *)&(param_1->gCNavigation_PS_data).field_0x120);
+  if (param_4 == '\x01') {
+    bCPropertyID::Destroy((bCPropertyID *)&(param_1->gCNavigation_PS_data).field_0x220);
+    (param_1->gCNavigation_PS_data).offset_0x234 = (gCNavigation_PS)0x0;
+  }
+  if (((param_2 == '\x01') &&
+      (ppvVar1 = &(param_1->gCNavigation_PS_data).offset_0x140, ppvVar1 != (void **)0x0)) &&
+     (pvVar5 = *ppvVar1, pvVar5 != (void *)0x0)) {
+    pbVar2 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar2,pvVar5);
+    *ppvVar1 = (void *)0x0;
+    (param_1->gCNavigation_PS_data).offset_0x144 = 0;
+    (param_1->gCNavigation_PS_data).offset_0x148 = 0;
+  }
+  peVar3 = (*param_1->vftablePtr->GetEntity)(param_1);
+  if (peVar3 == (eCEntity *)0x0) {
+    pbVar4 = (bCVector *)bCVector::bCVector(abStack_c,0.0,0.0,0.0);
+    bCVector::operator=((bCVector *)&(param_1->gCNavigation_PS_data).field_0x1b0,pbVar4);
+    bCVector::~bCVector(abStack_c);
+  }
+  else {
+    peVar3 = (*param_1->vftablePtr->GetEntity)(param_1);
+    pbVar4 = eCEntity::GetWorldPosition((eCEntity *)peVar3);
+    bCVector::operator=((bCVector *)&(param_1->gCNavigation_PS_data).field_0x1b0,pbVar4);
+  }
+  if (param_3 == '\x01') {
+    gCNavigation_PS::UpdateZoneIDs(param_1);
+    bCPropertyID::Destroy((bCPropertyID *)&(param_1->gCNavigation_PS_data).field_0x238);
+    (param_1->gCNavigation_PS_data).offset_0x24c = (gCNavigation_PS)0x0;
+  }
+  return;
+}
+
+

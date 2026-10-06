@@ -1,0 +1,50 @@
+; 20221f20 FUN_20221f20
+20221f20 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+20221f24 | 83c0ff | ADD EAX,-0x1
+20221f27 | 83f80d | CMP EAX,0xd
+20221f2a | 776a | JA 0x20221f96
+20221f2c | 0fb680cc1f2220 | MOVZX EAX,byte ptr [EAX + 0x20221fcc]
+; 20221f33 switchD_20221f33::switchD
+20221f33 | ff2485ac1f2220 | JMP dword ptr [EAX*0x4 + 0x20221fac]
+; 20221f3a switchD_20221f33::caseD_3
+; 20221f3a switchD_20221f33::caseD_a
+20221f3a | d94144 | FLD float ptr [ECX + 0x44]
+20221f3d | b001 | MOV AL,0x1
+20221f3f | d99960010000 | FSTP float ptr [ECX + 0x160]
+20221f45 | c20400 | RET 0x4
+; 20221f48 switchD_20221f33::caseD_2
+20221f48 | d9414c | FLD float ptr [ECX + 0x4c]
+20221f4b | b001 | MOV AL,0x1
+20221f4d | d99960010000 | FSTP float ptr [ECX + 0x160]
+20221f53 | c20400 | RET 0x4
+; 20221f56 switchD_20221f33::caseD_5
+20221f56 | d94148 | FLD float ptr [ECX + 0x48]
+20221f59 | b001 | MOV AL,0x1
+20221f5b | d99960010000 | FSTP float ptr [ECX + 0x160]
+20221f61 | c20400 | RET 0x4
+; 20221f64 switchD_20221f33::caseD_e
+20221f64 | 0f57c0 | XORPS XMM0,XMM0
+20221f67 | f30f118160010000 | MOVSS dword ptr [ECX + 0x160],XMM0
+20221f6f | b001 | MOV AL,0x1
+20221f71 | c20400 | RET 0x4
+; 20221f74 switchD_20221f33::caseD_6
+20221f74 | d98184000000 | FLD float ptr [ECX + 0x84]
+20221f7a | b001 | MOV AL,0x1
+20221f7c | d99960010000 | FSTP float ptr [ECX + 0x160]
+20221f82 | c20400 | RET 0x4
+; 20221f85 switchD_20221f33::caseD_d
+20221f85 | d98188000000 | FLD float ptr [ECX + 0x88]
+20221f8b | b001 | MOV AL,0x1
+20221f8d | d99960010000 | FSTP float ptr [ECX + 0x160]
+20221f93 | c20400 | RET 0x4
+; 20221f96 switchD_20221f33::caseD_1
+; 20221f96 switchD_20221f33::caseD_4
+; 20221f96 switchD_20221f33::caseD_7
+; 20221f96 switchD_20221f33::caseD_8
+; 20221f96 switchD_20221f33::caseD_9
+; 20221f96 switchD_20221f33::caseD_b
+; 20221f96 switchD_20221f33::caseD_c
+20221f96 | f30f1005c4b16520 | MOVSS XMM0,dword ptr [0x2065b1c4]
+20221f9e | f30f118160010000 | MOVSS dword ptr [ECX + 0x160],XMM0
+20221fa6 | b001 | MOV AL,0x1
+20221fa8 | c20400 | RET 0x4

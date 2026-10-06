@@ -1,0 +1,2 @@
+; 10002306 bCPropertyObjectBase::Write
+10002306 | e9f56e0800 | JMP 0x10089200

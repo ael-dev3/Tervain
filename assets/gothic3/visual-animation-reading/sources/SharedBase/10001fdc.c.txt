@@ -1,0 +1,17 @@
+/* ENTRY 10001fdc | bCVector::GetMagnitude | STATUS decompiled | 4 ms */
+
+/* public: float __thiscall bCVector::GetMagnitude(void)const  */
+
+float __thiscall bCVector::GetMagnitude(bCVector *this)
+
+{
+  float10 fVar1;
+  
+                    /* 0x1fdc  2612  ?GetMagnitude@bCVector@@QBEMXZ */
+  fVar1 = (float10)FUN_100ab010(*(float *)(this + 8) * *(float *)(this + 8) +
+                                *(float *)this * *(float *)this +
+                                *(float *)(this + 4) * *(float *)(this + 4));
+  return (float)fVar1;
+}
+
+

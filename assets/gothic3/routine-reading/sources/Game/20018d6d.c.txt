@@ -1,0 +1,13 @@
+/* ENTRY 20018d6d | gCScriptRoutine_PS::Invalidate | STATUS decompiled | 7 ms */
+
+/* protected: void __thiscall gCScriptRoutine_PS::Invalidate(void) */
+
+void __thiscall gCScriptRoutine_PS::Invalidate(gCScriptRoutine_PS *this)
+
+{
+                    /* 0x18d6d  5058  ?Invalidate@gCScriptRoutine_PS@@IAEXXZ */
+  (this->gCScriptRoutine_PS_data).offset_0x1ec = 0;
+  return;
+}
+
+

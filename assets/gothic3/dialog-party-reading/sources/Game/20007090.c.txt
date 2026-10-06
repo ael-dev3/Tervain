@@ -1,0 +1,44 @@
+/* ENTRY 20007090 | gCClock_PS::OnNotifyPropertyValueChangedExitEx | STATUS decompiled | 21 ms */
+
+/* public: virtual bool __thiscall gCClock_PS::OnNotifyPropertyValueChangedExitEx(char const *,bool)
+    */
+
+bool __thiscall
+gCClock_PS::OnNotifyPropertyValueChangedExitEx(gCClock_PS *this,char *param_1,bool param_2)
+
+{
+  undefined4 *puVar1;
+  undefined1 *this_00;
+  int iVar2;
+  float fVar3;
+  bool bVar4;
+  undefined4 uStack_c;
+  undefined4 uStack_8;
+  undefined4 uStack_4;
+  
+                    /* 0x7090  5491  ?OnNotifyPropertyValueChangedExitEx@gCClock_PS@@UAE_NPBD_N@Z */
+  if (!param_2) {
+    iVar2 = *(int *)&(this->gCClock_PS_data).field_0x20 +
+            (*(int *)&(this->gCClock_PS_data).field_0x1c +
+            *(int *)&(this->gCClock_PS_data).field_0x18 * 0x3c) * 0x3c;
+    fVar3 = (float)iVar2;
+    if (iVar2 < 0) {
+      fVar3 = fVar3 + 4.2949673e+09;
+    }
+    (this->gCClock_PS_data).offset_0x54 = fVar3;
+    puVar1 = &(this->gCClock_PS_data).offset_0x4c;
+    (this->gCClock_PS_data).offset_0x50 = *(undefined4 *)&(this->gCClock_PS_data).field_0x14;
+    this_00 = &(this->gCClock_PS_data).field_0x28;
+    *puVar1 = *(undefined4 *)&(this->gCClock_PS_data).field_0x10;
+    bCClock::Set((bCClock *)this_00,(bSTimeAndDate *)puVar1);
+    uStack_c = *(undefined4 *)&(this->gCClock_PS_data).field_0x24;
+    uStack_8 = 0x15180;
+    uStack_4 = 0x16d;
+    bCClock::Adjust((bCClock *)this_00,(bSClockAdjustment *)&uStack_c);
+  }
+  bVar4 = eCEntityPropertySet::OnNotifyPropertyValueChangedExitEx
+                    ((eCEntityPropertySet *)this,param_1,param_2);
+  return bVar4;
+}
+
+

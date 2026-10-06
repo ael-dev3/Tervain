@@ -1,0 +1,12 @@
+/* ENTRY 3003e892 | eCWnd::GetFont | STATUS decompiled | 7 ms */
+
+/* public: class eCFont * __thiscall eCWnd::GetFont(void) */
+
+eCFont * __thiscall eCWnd::GetFont(eCWnd *this)
+
+{
+                    /* 0x3e892  7170  ?GetFont@eCWnd@@QAEPAVeCFont@@XZ */
+  return (eCFont *)(this->eCWnd_data).offset_0x6c;
+}
+
+

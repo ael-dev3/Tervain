@@ -1,0 +1,21 @@
+/* ENTRY 100052f4 | bCGothic3EngineDialogs::bCDialogHandle::ShowModalErrorDialog | STATUS decompiled | 3 ms */
+
+/* public: bool __thiscall bCGothic3EngineDialogs::bCDialogHandle::ShowModalErrorDialog(void) */
+
+bool __thiscall bCGothic3EngineDialogs::bCDialogHandle::ShowModalErrorDialog(bCDialogHandle *this)
+
+{
+  undefined1 uVar1;
+  
+                    /* 0x52f4  4459
+                       ?ShowModalErrorDialog@bCDialogHandle@bCGothic3EngineDialogs@@QAE_NXZ */
+  if (*(code **)(this + 0x10) != (code *)0x0) {
+                    /* WARNING: Could not recover jumptable at 0x10020ff7. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+    uVar1 = (**(code **)(this + 0x10))();
+    return (bool)uVar1;
+  }
+  return true;
+}
+
+

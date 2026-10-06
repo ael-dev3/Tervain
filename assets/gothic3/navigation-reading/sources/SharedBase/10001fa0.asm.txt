@@ -1,0 +1,4 @@
+; 10001fa0 ?NotifyPropertyDeprecated@bCObjectRefBase@@UAEXABVbCString@@0AAVbCMemoryStream@@G@Z
+10001fa0 | e93b850400 | JMP 0x1004a4e0
+; 10001fa5 bCMatrix3::GetRotatedLocalAxisY
+; 10001fa5 Ordinal_2962

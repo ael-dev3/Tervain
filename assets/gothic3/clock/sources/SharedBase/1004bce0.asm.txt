@@ -1,0 +1,16 @@
+; 1004bce0 FUN_1004bce0
+1004bce0 | f30f1005bc710e10 | MOVSS XMM0,dword ptr [0x100e71bc]
+1004bce8 | 8bc1 | MOV EAX,ECX
+1004bcea | f30f1100 | MOVSS dword ptr [EAX],XMM0
+1004bcee | 0f57c0 | XORPS XMM0,XMM0
+1004bcf1 | 33c9 | XOR ECX,ECX
+1004bcf3 | f30f114014 | MOVSS dword ptr [EAX + 0x14],XMM0
+1004bcf8 | f30f1005d0710e10 | MOVSS XMM0,dword ptr [0x100e71d0]
+1004bd00 | c7400480510100 | MOV dword ptr [EAX + 0x4],0x15180
+1004bd07 | c740086d010000 | MOV dword ptr [EAX + 0x8],0x16d
+1004bd0e | 89480c | MOV dword ptr [EAX + 0xc],ECX
+1004bd11 | 894810 | MOV dword ptr [EAX + 0x10],ECX
+1004bd14 | 894818 | MOV dword ptr [EAX + 0x18],ECX
+1004bd17 | f30f11401c | MOVSS dword ptr [EAX + 0x1c],XMM0
+1004bd1c | c6402001 | MOV byte ptr [EAX + 0x20],0x1
+1004bd20 | c3 | RET

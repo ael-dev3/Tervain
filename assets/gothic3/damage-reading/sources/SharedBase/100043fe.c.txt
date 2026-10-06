@@ -1,0 +1,34 @@
+/* ENTRY 100043fe | bCAccessorProperty::Iterate | STATUS decompiled | 8 ms */
+
+/* protected: bool __thiscall bCAccessorProperty::Iterate(void) */
+
+bool __thiscall bCAccessorProperty::Iterate(bCAccessorProperty *this)
+
+{
+  uint uVar1;
+  bool bVar2;
+  bCPropertyObjectBase *pbVar3;
+  bCPropertyObjectTypeBase *pbVar4;
+  
+                    /* 0x43fe  3693  ?Iterate@bCAccessorProperty@@IAE_NXZ */
+  *(int *)(this + 8) = *(int *)(this + 8) + 1;
+  uVar1 = *(uint *)(this + 8);
+  pbVar3 = (bCPropertyObjectBase *)
+           bCAccessorPropertyObject::GetRootObject((bCAccessorPropertyObject *)this);
+  pbVar4 = bCPropertyObjectBase::GetTemplate(pbVar3);
+  if (*(uint *)(pbVar4 + 0xc) <= uVar1) {
+    *(undefined4 *)(this + 8) = 0;
+    bCAccessorPropertyObject::operator++((bCAccessorPropertyObject *)this);
+  }
+  bVar2 = bCAccessorPropertyObject::IsValid((bCAccessorPropertyObject *)this);
+  if (!bVar2) {
+    return false;
+  }
+  uVar1 = *(uint *)(this + 8);
+  pbVar3 = (bCPropertyObjectBase *)
+           bCAccessorPropertyObject::GetRootObject((bCAccessorPropertyObject *)this);
+  pbVar4 = bCPropertyObjectBase::GetTemplate(pbVar3);
+  return uVar1 < *(uint *)(pbVar4 + 0xc);
+}
+
+

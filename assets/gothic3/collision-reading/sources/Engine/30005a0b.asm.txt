@@ -1,0 +1,2 @@
+; 30005a0b ?OnCacheIn@eCCollisionShape_PS@@MAEXXZ
+30005a0b | e9f0153300 | JMP 0x30337000

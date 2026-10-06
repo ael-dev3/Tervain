@@ -1,0 +1,4 @@
+; 100034a4 ??0bCString@@QAE@ABV0@@Z
+100034a4 | e937ec0000 | JMP 0x100120e0
+; 100034a9 bCEventWin32::Create
+; 100034a9 Ordinal_1803

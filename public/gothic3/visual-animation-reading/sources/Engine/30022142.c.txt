@@ -1,0 +1,136 @@
+/* ENTRY 30022142 | eCResourceAdmin::QueryResourceDataEntity | STATUS decompiled | 80 ms */
+
+/* public: class eCResourceDataEntity * __thiscall eCResourceAdmin::QueryResourceDataEntity(class
+   bCString const &,enum eEResourceCacheBehavior) */
+
+eCResourceDataEntity * __thiscall
+eCResourceAdmin::QueryResourceDataEntity
+          (eCResourceAdmin *this,bCString *param_1,eEResourceCacheBehavior param_2)
+
+{
+  eCInputReceiver_data *this_00;
+  bool bVar1;
+  char cVar2;
+  eCArchiveManager *this_01;
+  bCString *pbVar3;
+  eCSceneAdmin *peVar4;
+  eCResourceDataEntity *this_02;
+  bCPropertyObjectBase *pbVar5;
+  int *piVar6;
+  eCResourceBase_PS *peVar7;
+  undefined4 unaff_ESI;
+  bCString *pbVar8;
+  eCResourceDataEntity *peVar9;
+  bCString *pbVar10;
+  eEGetEntityTypeHint eVar11;
+  bCString *pbVar12;
+  bCString abStack_24 [4];
+  bCString abStack_20 [4];
+  bCString abStack_1c [4];
+  bCString abStack_18 [24];
+  
+                    /* 0x22142  12021
+                       ?QueryResourceDataEntity@eCResourceAdmin@@QAEPAVeCResourceDataEntity@@ABVbCString@@W4eEResourceCacheBehavior@@@Z
+                        */
+  bCString::bCString(abStack_24);
+  bCString::bCString(abStack_18);
+  bCString::bCString(abStack_1c);
+  bCString::bCString(abStack_20);
+  pbVar3 = abStack_20;
+  pbVar12 = abStack_1c;
+  pbVar10 = (bCString *)0x0;
+  pbVar8 = param_1;
+  this_01 = eCArchiveManager::GetInstance();
+  eCArchiveManager::SplitPath((eCArchiveManager *)this_01,pbVar8,pbVar10,pbVar12,pbVar3);
+  pbVar3 = (bCString *)bCString::operator+(abStack_1c,(bCString *)&param_1);
+  bCString::operator=((bCString *)&stack0xffffffd8,pbVar3);
+  bCString::~bCString((bCString *)&stack0x00000000);
+  bVar1 = bCString::IsEmpty((bCString *)&stack0xffffffd8);
+  if (bVar1) {
+    bCString::~bCString(abStack_24);
+    bCString::~bCString(abStack_20);
+    bCString::~bCString(abStack_1c);
+    bCString::~bCString((bCString *)&stack0xffffffd8);
+    return (eCResourceDataEntity *)0x0;
+  }
+  bCPropertyID::bCPropertyID((bCPropertyID *)abStack_18);
+  bCString::ToLower((bCString *)&stack0xffffffd8);
+  bCPropertyID::CreateFromString((bCPropertyID *)abStack_18,(bCString *)&stack0xffffffd8);
+  eVar11 = 1;
+  pbVar3 = abStack_18;
+  peVar4 = (eCSceneAdmin *)thunk_FUN_3007bf20();
+  this_02 = (eCResourceDataEntity *)eCSceneAdmin::GetEntity(peVar4,(bCPropertyID *)pbVar3,eVar11);
+  if (this_02 == (eCResourceDataEntity *)0x0) {
+    this_00 = &this[2].eCInputReceiver_data;
+    bCCriticalSectionWin32::Acquire((bCCriticalSectionWin32 *)this_00);
+    eVar11 = 1;
+    pbVar3 = abStack_18;
+    peVar4 = (eCSceneAdmin *)thunk_FUN_3007bf20();
+    this_02 = (eCResourceDataEntity *)eCSceneAdmin::GetEntity(peVar4,(bCPropertyID *)pbVar3,eVar11);
+    if (this_02 == (eCResourceDataEntity *)0x0) {
+      pbVar5 = bCAccessorCreator::operator->
+                         ((bCAccessorCreator *)&this[1].eCEngineComponentBase_data);
+      piVar6 = (int *)(*(code *)**(undefined4 **)pbVar5)();
+      this_02 = (eCResourceDataEntity *)(**(code **)(*piVar6 + 0x70))();
+      bVar1 = eCResourceDataEntity::CreateResourceFromFile(this_02,(bCString *)&stack0xffffffd8);
+      if (!bVar1) {
+        GE_MESSAGEF_WARN("eCResourceAdmin::QueryResourceDataEntity - second chance: try to resolve existing resourcedataentity: \'%s\'"
+                         ,unaff_ESI);
+        eVar11 = 1;
+        pbVar3 = abStack_18;
+        peVar4 = (eCSceneAdmin *)thunk_FUN_3007bf20();
+        this_02 = (eCResourceDataEntity *)
+                  eCSceneAdmin::GetEntity(peVar4,(bCPropertyID *)pbVar3,eVar11);
+        if (this_02 == (eCResourceDataEntity *)0x0) goto LAB_3043757d;
+      }
+      peVar7 = eCResourceDataEntity::SearchResourcePropertySet(this_02);
+      (**(code **)(*(int *)peVar7 + 0x78))(&stack0xffffffd8);
+      peVar9 = this_02;
+      peVar4 = (eCSceneAdmin *)thunk_FUN_3007bf20();
+      eCSceneAdmin::UnregisterResourceDataEntity(peVar4,(eCResourceDataEntity *)peVar9);
+      bCPropertyID::operator=
+                ((bCPropertyID *)&(this_02->eCNode_data).field_0x14,(bCPropertyID *)abStack_1c);
+      peVar9 = this_02;
+      peVar4 = (eCSceneAdmin *)thunk_FUN_3007bf20();
+      eCSceneAdmin::RegisterResourceDataEntity(peVar4,(eCResourceDataEntity *)peVar9);
+      cVar2 = (**(code **)(*(int *)peVar7 + 0x94))(&stack0xffffffd4);
+      if (cVar2 == '\0') {
+        if (this_02 != (eCResourceDataEntity *)0x0) {
+          (*this_02->vftablePtr->ReleaseReference)(this_02);
+        }
+LAB_3043757d:
+        bCCriticalSectionWin32::Release((bCCriticalSectionWin32 *)this_00);
+        bCPropertyID::~bCPropertyID((bCPropertyID *)abStack_18);
+        bCString::~bCString(abStack_24);
+        bCString::~bCString(abStack_20);
+        bCString::~bCString(abStack_1c);
+        bCString::~bCString((bCString *)&stack0xffffffd8);
+        return (eCResourceDataEntity *)0x0;
+      }
+    }
+    else {
+      (*this_02->vftablePtr->AddReference)(this_02);
+    }
+    bCCriticalSectionWin32::Release((bCCriticalSectionWin32 *)this_00);
+  }
+  else {
+    (*this_02->vftablePtr->AddReference)(this_02);
+  }
+  bVar1 = eCThreadPool::IsThreadingEnabled();
+  if ((bVar1) || (param_1 != (bCString *)0x3)) {
+    if (((int)param_1 < 0) || (pbVar3 = param_1, 1 < (int)param_1)) goto LAB_30437608;
+  }
+  else {
+    pbVar3 = (bCString *)&DAT_00000001;
+  }
+  eCResourceDataEntity::Load(this_02,(eEResourceCacheBehavior)pbVar3);
+LAB_30437608:
+  bCPropertyID::~bCPropertyID((bCPropertyID *)abStack_18);
+  bCString::~bCString(abStack_24);
+  bCString::~bCString(abStack_20);
+  bCString::~bCString(abStack_1c);
+  bCString::~bCString((bCString *)&stack0xffffffd8);
+  return (eCResourceDataEntity *)this_02;
+}
+
+

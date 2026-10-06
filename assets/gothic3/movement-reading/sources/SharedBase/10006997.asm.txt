@@ -1,0 +1,4 @@
+; 10006997 ??0bCPropertyObjectTypeBase@@IAE@_N@Z
+10006997 | e984160800 | JMP 0x10088020
+; 100069a6 bCRect::ContainsInclusive
+; 100069a6 Ordinal_1722

@@ -1,0 +1,2 @@
+; 10003ba2 bCVector::GetX
+10003ba2 | e939100200 | JMP 0x10024be0

@@ -1,0 +1,10 @@
+/* ENTRY 20020086 | gCHUDListCtrlInventory::vfunction2 | STATUS decompiled | 7 ms */
+
+void __thiscall gCHUDListCtrlInventory::vfunction2(gCHUDListCtrlInventory *this)
+
+{
+  (this->gCHUDListCtrlInventory_data).field_0x4 = 1;
+  return;
+}
+
+

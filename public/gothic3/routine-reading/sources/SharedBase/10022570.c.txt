@@ -1,0 +1,10 @@
+/* ENTRY 10022570 | FUN_10022570 | STATUS decompiled | 1 ms */
+
+void __thiscall FUN_10022570(bCErrorAdmin *param_1,char *param_2,char *param_3,int param_4)
+
+{
+  bCErrorAdmin::CallFatalError(param_1,param_2,(char *)0x0,param_3,param_4);
+  return;
+}
+
+

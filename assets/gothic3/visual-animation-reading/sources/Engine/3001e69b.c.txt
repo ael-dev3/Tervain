@@ -1,0 +1,13 @@
+/* ENTRY 3001e69b | eCEffector::Create | STATUS decompiled | 4 ms */
+
+/* public: virtual enum bEResult __thiscall eCEffector::Create(void) */
+
+bEResult __thiscall eCEffector::Create(eCEffector *this)
+
+{
+                    /* 0x1e69b  4448  ?Create@eCEffector@@UAE?AW4bEResult@@XZ */
+  bCObjectRefBase::Create((bCObjectRefBase *)this);
+  return 1;
+}
+
+

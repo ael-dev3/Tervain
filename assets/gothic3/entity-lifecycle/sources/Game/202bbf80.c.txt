@@ -1,0 +1,10 @@
+/* ENTRY 202bbf80 | FUN_202bbf80 | STATUS decompiled | 2 ms */
+
+void __thiscall FUN_202bbf80(int param_1,gCNavPath_PS *param_2)
+
+{
+  gCNavigationMap::DeregisterNavPathPS((gCNavigationMap *)(param_1 + 0x54),param_2);
+  return;
+}
+
+

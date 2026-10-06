@@ -1,0 +1,16 @@
+/* ENTRY 20118bc0 | gCEffect_PS::gCEffect_PS | STATUS decompiled | 10 ms */
+
+gCEffect_PS * __thiscall gCEffect_PS::gCEffect_PS(gCEffect_PS *this)
+
+{
+  eCEntityPropertySet::eCEntityPropertySet((eCEntityPropertySet *)this);
+  this->vftablePtr = &vftable;
+  bCString::bCString((bCString *)&(this->gCEffect_PS_data).field_0x10);
+  bCVector::bCVector((bCVector *)&(this->gCEffect_PS_data).field_0x14);
+  thunk_FUN_2011d360();
+  (this->gCEffect_PS_data).offset_0x28 = 0;
+  StopAllRuntimeEffects(this,false);
+  return this;
+}
+
+

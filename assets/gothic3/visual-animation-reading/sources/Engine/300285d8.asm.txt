@@ -1,0 +1,2 @@
+; 300285d8 eCSpringAndDamperEffector::SetSpringMaxStretchForce
+300285d8 | e923910300 | JMP 0x30061700

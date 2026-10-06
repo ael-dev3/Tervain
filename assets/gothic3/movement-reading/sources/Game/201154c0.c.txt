@@ -1,0 +1,16 @@
+/* ENTRY 201154c0 | gCEffectModule::gCEffectModule | STATUS decompiled | 7 ms */
+
+gCEffectModule * __thiscall gCEffectModule::gCEffectModule(gCEffectModule *this)
+
+{
+  eCModuleAdmin *peVar1;
+  
+  eCEffectModuleBase::eCEffectModuleBase((eCEffectModuleBase *)this);
+  this->vftablePtr = &vftable;
+  (this->gCEffectModule_data).offset_0x10 = (void *)0x0;
+  peVar1 = eCModuleAdmin::GetInstance();
+  (**(code **)(*(int *)peVar1 + 0x74))(this);
+  return this;
+}
+
+

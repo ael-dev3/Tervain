@@ -1,0 +1,23 @@
+/* ENTRY 20190dd0 | gCHUDLog::gCHUDLog | STATUS decompiled | 10 ms */
+
+gCHUDLog * __thiscall gCHUDLog::gCHUDLog(gCHUDLog *this)
+
+{
+  CFFGFCStatic::CFFGFCStatic((CFFGFCStatic *)this);
+  this->vftablePtr = &vftable;
+  (this->gCHUDLog_data).offset_0xc = (void *)0x0;
+  (this->gCHUDLog_data).offset_0x10 = 0;
+  (this->gCHUDLog_data).offset_0x14 = 0;
+  (this->gCHUDLog_data).offset_0x1c = 0;
+  (this->gCHUDLog_data).offset_0x20 = 0;
+  (this->gCHUDLog_data).offset_0x24 = 0;
+  (this->gCHUDLog_data).offset_0x2c = 0x3f800000;
+  (this->gCHUDLog_data).offset_0x28 = 0;
+  (this->gCHUDLog_data).offset_0x18 = 0xffffffff;
+  (this->gCHUDLog_data).offset_0x30 = 0x40000000;
+  (this->gCHUDLog_data).offset_0x34 = 0x32;
+  (this->gCHUDLog_data).offset_0x38 = 10;
+  return this;
+}
+
+

@@ -1,0 +1,30 @@
+/* ENTRY 1008fa30 | bTPropertyObject<bCObsoleteClass,bCObjectRefBase>::bTPropertyObject<bCObsoleteClass,bCObjectRefBase> | STATUS decompiled | 10 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+bTPropertyObject<bCObsoleteClass,bCObjectRefBase> * __thiscall
+bTPropertyObject<bCObsoleteClass,bCObjectRefBase>::bTPropertyObject<bCObsoleteClass,bCObjectRefBase>
+          (bTPropertyObject<bCObsoleteClass,bCObjectRefBase> *this)
+
+{
+  uint uVar1;
+  
+  bCPropertyObjectBase::bCPropertyObjectBase((bCPropertyObjectBase *)this);
+  uVar1 = _DAT_102f4838 & 1;
+  (this->bTPOPureSmartPtr<bCObsoleteClass>_data).offset_0x0 = (bCObjectRefBase *)0x0;
+  this->vftablePtr = &vftable;
+  if (uVar1 == 0) {
+    _DAT_102f4838 = _DAT_102f4838 | 1;
+    bCPropertyObjectFactory::bCPropertyObjectFactory((bCPropertyObjectFactory *)&DAT_102f47fc);
+    _atexit(bTPropertyObjectType<bCObsoleteClass,bCObjectRefBase>::
+            ~bTPropertyObjectType<bCObsoleteClass,bCObjectRefBase>);
+  }
+  (this->bCPropertyObjectBase_data).offset_0x0 =
+       (this->bCPropertyObjectBase_data).offset_0x0 & 0xfffffffb;
+  (this->bTPropertyObject<bCObsoleteClass,bCObjectRefBase>_data).offset_0x0 = &DAT_102f47fc;
+  (this->bTPOPureSmartPtr<bCObsoleteClass>_data).offset_0x0 = (bCObjectRefBase *)0x0;
+  thunk_FUN_1008ef40(0);
+  return this;
+}
+
+

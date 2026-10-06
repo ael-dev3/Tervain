@@ -1,0 +1,12 @@
+/* ENTRY 3001e6cd | eCVisualAnimation_PS::GetBoneAngularDamping | STATUS decompiled | 6 ms */
+
+/* public: float const & __thiscall eCVisualAnimation_PS::GetBoneAngularDamping(void)const  */
+
+float * __thiscall eCVisualAnimation_PS::GetBoneAngularDamping(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x1e6cd  6279  ?GetBoneAngularDamping@eCVisualAnimation_PS@@QBEABMXZ */
+  return (float *)&this[2].eCEntityPropertySet_data.field_0x4;
+}
+
+

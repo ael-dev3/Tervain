@@ -1,0 +1,12 @@
+/* ENTRY 3002303d | eCVisualAnimation_PS::GetBoneTwistSpring | STATUS decompiled | 11 ms */
+
+/* public: float const & __thiscall eCVisualAnimation_PS::GetBoneTwistSpring(void)const  */
+
+float * __thiscall eCVisualAnimation_PS::GetBoneTwistSpring(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x2303d  6297  ?GetBoneTwistSpring@eCVisualAnimation_PS@@QBEABMXZ */
+  return (float *)&this[2].eCEntityPropertySet_data.offset_0xc;
+}
+
+

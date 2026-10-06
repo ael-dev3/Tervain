@@ -1,0 +1,2 @@
+; 30020a68 eCVisualAnimation_PS::AccessBonesAreBreakable
+30020a68 | e903120400 | JMP 0x30061c70

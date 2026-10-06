@@ -1,0 +1,14 @@
+/* ENTRY 202243e0 | FUN_202243e0 | STATUS decompiled | 2 ms */
+
+void __fastcall FUN_202243e0(bCObjectBase param_1)
+
+{
+  eCEntityPropertySet::OnPostRead((eCEntityPropertySet *)param_1);
+  thunk_FUN_20213090();
+  thunk_FUN_20217250();
+  (((eCEntityPropertySet *)((int)param_1 + 0x27c))->bCObjectRefBase).bCObjectBase = param_1;
+  *(bCObjectBase *)((int)param_1 + 0x2b0) = param_1;
+  return;
+}
+
+

@@ -1,0 +1,2 @@
+; 10008198 bCPropertyObjectTypeBase::GetDescription
+10008198 | e903fc0700 | JMP 0x10087da0

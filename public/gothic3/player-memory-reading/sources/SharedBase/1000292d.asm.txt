@@ -1,0 +1,2 @@
+; 1000292d bCMemoryStream::Destroy
+1000292d | e91ece0100 | JMP 0x1001f750

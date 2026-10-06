@@ -1,0 +1,18 @@
+/* ENTRY 1000708b | bCString::GetText | STATUS decompiled | 2 ms */
+
+/* public: char const * __thiscall bCString::GetText(void)const  */
+
+char * __thiscall bCString::GetText(bCString *this)
+
+{
+  char *pcVar1;
+  
+                    /* 0x708b  3067  ?GetText@bCString@@QBEPBDXZ */
+  pcVar1 = *(char **)this;
+  if (pcVar1 == (char *)0x0) {
+    pcVar1 = "";
+  }
+  return pcVar1;
+}
+
+

@@ -1,0 +1,9 @@
+/* ENTRY 3009db10 | eCEntityPropertySet::OnPostRead | STATUS decompiled | 5 ms */
+
+void __thiscall eCEntityPropertySet::OnPostRead(eCEntityPropertySet *this)
+
+{
+  return;
+}
+
+

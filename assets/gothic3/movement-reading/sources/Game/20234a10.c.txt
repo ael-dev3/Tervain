@@ -1,0 +1,17 @@
+/* ENTRY 20234a10 | bTPropertyType<gCCharacterMovement_PS,bool>::vfunction8 | STATUS decompiled | 5 ms */
+
+undefined4 __thiscall
+bTPropertyType<gCCharacterMovement_PS,bool>::vfunction8
+          (bTPropertyType<gCCharacterMovement_PS,bool> *this)
+
+{
+  char cVar1;
+  
+  cVar1 = (*this->vftablePtr->vfunction7)();
+  if (cVar1 == '\0') {
+    return 0xffffffff;
+  }
+  return (this[8].vftablePtr)->vfunction2;
+}
+
+

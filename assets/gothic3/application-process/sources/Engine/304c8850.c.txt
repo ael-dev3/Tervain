@@ -1,0 +1,531 @@
+/* ENTRY 304c8850 | FUN_304c8850 | STATUS decompiled | 430 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __fastcall FUN_304c8850(eCEntityAdmin *param_1)
+
+{
+  undefined1 *this;
+  undefined1 *this_00;
+  undefined1 *this_01;
+  undefined2 *puVar1;
+  int *piVar2;
+  undefined4 *puVar3;
+  eCPVSCellItem *this_02;
+  eCEntity *peVar4;
+  bool bVar5;
+  ushort uVar6;
+  ulong uVar7;
+  eCApplication *peVar8;
+  bCVector *pbVar9;
+  bCVector *pbVar10;
+  eCFrustumDatabase *peVar11;
+  eCRenderSystemAdmin *peVar12;
+  eCPVSPrefetcher3 *peVar13;
+  bTSkipTree<bCBox,eCPVSCellItem::eSSkipTreeNode> *pbVar14;
+  eEProcessingRangeCull eVar15;
+  eEProcessingRangeCull eVar16;
+  eCModuleAdmin *this_03;
+  eCEngineComponentBase *peVar17;
+  eCPVSCellItem *peVar18;
+  int iVar19;
+  char *pcVar20;
+  bCErrorAdmin *this_04;
+  eSEntityFlags *peVar21;
+  eCContextBase *this_05;
+  bCMemoryAdmin *pbVar22;
+  ushort uVar23;
+  int *piVar24;
+  uint uVar25;
+  void *pvVar26;
+  ushort uVar27;
+  eCCameraBase *unaff_ESI;
+  uint uVar28;
+  float fVar29;
+  bCString *pbVar30;
+  undefined4 uVar31;
+  TypeDescriptor *pTVar32;
+  TypeDescriptor *pTVar33;
+  eCCameraBase *peVar34;
+  void *_Src;
+  undefined4 uVar35;
+  char *pcVar36;
+  bTSmallArray<eCPVSCellItem*> *pbVar37;
+  uint local_60;
+  undefined4 local_58;
+  eCCameraBase *local_54;
+  undefined4 local_50;
+  void *local_4c [2];
+  undefined4 local_44;
+  int local_40;
+  undefined2 local_3c;
+  undefined2 local_3a;
+  undefined4 local_38;
+  bCVector local_30 [4];
+  bCVector local_2c [4];
+  bCVector local_28 [4];
+  bCVector local_24 [4];
+  bCVector local_20 [4];
+  bCVector local_1c [4];
+  bCVector local_18 [4];
+  bCVector local_14 [16];
+  
+  uVar7 = bCTimer::GetTimeStamp();
+  (param_1->eCEntityAdmin_data).offset_0x80 = uVar7;
+  peVar8 = (eCApplication *)eCApplication::GetInstance();
+  local_54 = eCApplication::GetCurrentCamera(peVar8);
+  this = &(param_1->eCEntityAdmin_data).field_0xc;
+  bCSphere::SetPosition((bCSphere *)this,(bCVector *)(local_54 + 0x8c));
+  this_00 = &(param_1->eCEntityAdmin_data).field_0x1c;
+  local_40 = 0;
+  local_44 = (void *)0x0;
+  local_38 = 0;
+  local_3c = 0;
+  local_3a = 0;
+  pbVar9 = bCSphere::GetPosition((bCSphere *)this_00);
+  bCVector::bCVector(local_2c,pbVar9);
+  pbVar9 = bCSphere::GetPosition((bCSphere *)this);
+  bCVector::operator-=(local_2c,pbVar9);
+  fVar29 = bCVector::GetMagnitude(local_2c);
+  if (((float)(param_1->eCEntityAdmin_data).offset_0x3c < fVar29) ||
+     ((param_1->eCEntityAdmin_data).offset_0xc1 == (eCEntityAdmin)0x1)) {
+    this_01 = &(param_1->eCEntityAdmin_data).field_0x2c;
+    bCSphere::operator=((bCSphere *)this_01,(bCSphere *)this_00);
+    fVar29 = bCSphere::GetRadius((bCSphere *)this);
+    fVar29 = fVar29 + (float)(param_1->eCEntityAdmin_data).offset_0x3c;
+    local_50 = fVar29;
+    pbVar9 = bCSphere::GetPosition((bCSphere *)this);
+    bCSphere::SetSphere((bCSphere *)this_00,pbVar9,fVar29);
+    fVar29 = bCSphere::GetRadius((bCSphere *)this_01);
+    bCVector::bCVector(local_14,fVar29);
+    pbVar9 = local_20;
+    pbVar10 = bCSphere::GetPosition((bCSphere *)this_01);
+    pbVar9 = (bCVector *)bCVector::operator-(pbVar10,pbVar9);
+    bCVector::operator=((bCVector *)&(param_1->eCEntityAdmin_data).field_0x58,pbVar9);
+    bCVector::~bCVector(local_24);
+    bCVector::~bCVector(local_18);
+    fVar29 = bCSphere::GetRadius((bCSphere *)this_01);
+    bCVector::bCVector(local_24,fVar29);
+    pbVar9 = local_18;
+    pbVar10 = bCSphere::GetPosition((bCSphere *)this_01);
+    pbVar9 = (bCVector *)bCVector::operator+(pbVar10,pbVar9);
+    bCVector::operator=((bCVector *)&(param_1->eCEntityAdmin_data).field_0x64,pbVar9);
+    bCVector::~bCVector(local_1c);
+    bCVector::~bCVector(local_28);
+    fVar29 = bCSphere::GetRadius((bCSphere *)this_00);
+    bCVector::bCVector(local_28,fVar29);
+    pbVar9 = local_1c;
+    pbVar10 = bCSphere::GetPosition((bCSphere *)this_00);
+    pbVar9 = (bCVector *)bCVector::operator-(pbVar10,pbVar9);
+    bCVector::operator=((bCVector *)&(param_1->eCEntityAdmin_data).field_0x40,pbVar9);
+    bCVector::~bCVector(local_20);
+    bCVector::~bCVector(local_2c);
+    fVar29 = bCSphere::GetRadius((bCSphere *)this_00);
+    bCVector::bCVector(local_2c,fVar29);
+    pbVar9 = local_20;
+    pbVar10 = bCSphere::GetPosition((bCSphere *)this_00);
+    pbVar9 = (bCVector *)bCVector::operator+(pbVar10,pbVar9);
+    bCVector::operator=((bCVector *)&(param_1->eCEntityAdmin_data).field_0x4c,pbVar9);
+    bCVector::~bCVector(local_24);
+    bCVector::~bCVector(local_30);
+    (param_1->eCEntityAdmin_data).offset_0xb4 = 0;
+    bCCriticalSectionWin32::Acquire((bCCriticalSectionWin32 *)&DAT_30af23d0);
+    peVar8 = (eCApplication *)eCApplication::GetInstance();
+    eCApplication::GetTotalTime(peVar8);
+    pbVar37 = (bTSmallArray<eCPVSCellItem*> *)&local_44;
+    (param_1->eCEntityAdmin_data).offset_0xa6 = 0;
+    (param_1->eCEntityAdmin_data).offset_0xae = 0;
+    local_40 = 0;
+    local_44 = (void *)0x0;
+    peVar11 = eCCameraBase::GetFrustumDatabase(unaff_ESI);
+    peVar12 = (eCRenderSystemAdmin *)thunk_FUN_3007beb0();
+    peVar13 = (eCPVSPrefetcher3 *)eCRenderSystemAdmin::GetPVSPrefetcher3(peVar12);
+    eCPVSPrefetcher3::GetValidCells(peVar13,peVar11,pbVar37);
+    uVar27 = 0;
+    uVar6 = 0;
+    if (local_44._2_2_ != 0) {
+      do {
+        this_02 = *(eCPVSCellItem **)(local_40 + (uint)uVar27 * 4);
+        local_58 = eCPVSCellItem::GetCriticalSection();
+        bCCriticalSectionWin32::Acquire(local_58);
+        pbVar14 = eCPVSCellItem::GetStaticHierachy(this_02);
+        piVar2 = *(int **)pbVar14;
+        if (piVar2 != (int *)0x0) {
+          iVar19 = *piVar2;
+          while (iVar19 != 0) {
+            eVar15 = eCEntityAdmin::CullProcessingRangeRegion(param_1,(bCBox *)(piVar2 + 1));
+            if (eVar15 == 1) {
+              piVar24 = (int *)*piVar2;
+              uVar6 = *(ushort *)(piVar2 + 9);
+              if (uVar6 < *(ushort *)(piVar24 + 9)) {
+                iVar19 = (uint)uVar6 * 4;
+                uVar28 = (uint)*(ushort *)(piVar24 + 9) - (uint)uVar6 & 0xffff;
+                do {
+                  eCEntityAdmin::CollectStaticProcessingRangeEntity
+                            (param_1,*(eCEntity **)
+                                      (iVar19 + (int)(this_02->eCPVSCellItem_data).offset_0x54),
+                             (bTSmallArray<eCEntity*> *)&local_54,
+                             (bTSmallArray<eCEntity*> *)local_4c,1);
+                  iVar19 = iVar19 + 4;
+                  uVar28 = uVar28 - 1;
+                } while (uVar28 != 0);
+              }
+            }
+            else if (eVar15 == 2) {
+              uVar6 = *(ushort *)(piVar2 + 9);
+              if (uVar6 < *(ushort *)(piVar2 + 0x13)) {
+                iVar19 = (uint)uVar6 * 4;
+                local_60 = (uint)*(ushort *)(piVar2 + 0x13) - (uint)uVar6 & 0xffff;
+                do {
+                  eCEntityAdmin::CollectStaticProcessingRangeEntity
+                            (param_1,*(eCEntity **)
+                                      (iVar19 + (int)(this_02->eCPVSCellItem_data).offset_0x54),
+                             (bTSmallArray<eCEntity*> *)&local_54,
+                             (bTSmallArray<eCEntity*> *)local_4c,2);
+                  iVar19 = iVar19 + 4;
+                  local_60 = local_60 - 1;
+                } while (local_60 != 0);
+              }
+              piVar24 = piVar2 + 10;
+            }
+            else {
+              eVar16 = eCEntityAdmin::CullOldProcessingRangeRegion(param_1,(bCBox *)(piVar2 + 1));
+              if (eVar16 == 0) {
+                piVar24 = (int *)*piVar2;
+              }
+              else {
+                uVar6 = *(ushort *)(piVar2 + 9);
+                if (uVar6 < *(ushort *)(piVar2 + 0x13)) {
+                  iVar19 = (uint)uVar6 * 4;
+                  local_60 = (uint)*(ushort *)(piVar2 + 0x13) - (uint)uVar6 & 0xffff;
+                  do {
+                    eCEntityAdmin::CollectStaticProcessingRangeEntity
+                              (param_1,*(eCEntity **)
+                                        ((int)(this_02->eCPVSCellItem_data).offset_0x54 + iVar19),
+                               (bTSmallArray<eCEntity*> *)&local_54,
+                               (bTSmallArray<eCEntity*> *)local_4c,eVar15);
+                    iVar19 = iVar19 + 4;
+                    local_60 = local_60 - 1;
+                  } while (local_60 != 0);
+                }
+                piVar24 = piVar2 + 10;
+              }
+            }
+            piVar2 = piVar24;
+            iVar19 = *piVar24;
+          }
+        }
+        bCCriticalSectionWin32::Release(local_58);
+        uVar27 = uVar27 + 1;
+        uVar6 = local_44._2_2_;
+      } while (uVar27 < local_44._2_2_);
+    }
+    uVar27 = 0;
+    if (uVar6 != 0) {
+      do {
+        iVar19 = *(int *)(local_40 + (uint)uVar27 * 4);
+        uVar23 = 0;
+        if (*(short *)(iVar19 + 0x5e) != 0) {
+          do {
+            eCEntityAdmin::CollectDynamicProcessingRangeEntity
+                      (param_1,*(eCEntity **)(*(int *)(iVar19 + 0x60) + (uint)uVar23 * 4),
+                       (bTSmallArray<eCEntity*> *)&local_54,(bTSmallArray<eCEntity*> *)local_4c);
+            uVar23 = uVar23 + 1;
+          } while (uVar23 < *(ushort *)(iVar19 + 0x5e));
+          uVar6 = local_44._2_2_;
+        }
+        uVar27 = uVar27 + 1;
+      } while (uVar27 < uVar6);
+    }
+    bVar5 = eCApplication::IsInitialised();
+    if (bVar5) {
+      peVar12 = DAT_30af23a4;
+      if ((DAT_30af23a8 & bVar5) == 0) {
+        _DAT_30af23a8 = _DAT_30af23a8 | 1;
+        if ((DAT_30ad9b68 & 1) == 0) {
+          DAT_30ad9b68 = DAT_30ad9b68 | 1;
+          _DAT_30ad9b64 = DAT_30ad9db8;
+        }
+        if ((DAT_30ad9b68 & 2) == 0) {
+          DAT_30ad9b68 = DAT_30ad9b68 | 2;
+          FUN_306713ae(&DAT_30af70ac);
+          bCClassNameBase::UnMangle(&DAT_30ad9b60);
+          _atexit((_func_4879 *)&LAB_3000bd2a);
+        }
+        uVar35 = 0;
+        pTVar33 = &eCRenderSystemAdmin::RTTI_Type_Descriptor;
+        pTVar32 = &eCEngineComponentBase::RTTI_Type_Descriptor;
+        uVar31 = 0;
+        pbVar30 = (bCString *)&DAT_30ad9b60;
+        this_03 = (eCModuleAdmin *)eCModuleAdmin::GetInstance();
+        peVar17 = eCModuleAdmin::FindModule(this_03,pbVar30);
+        peVar12 = (eCRenderSystemAdmin *)FUN_30671ae7(peVar17,uVar31,pTVar32,pTVar33,uVar35);
+        DAT_30af23a4 = peVar12;
+      }
+    }
+    else {
+      peVar12 = (eCRenderSystemAdmin *)0x0;
+    }
+    peVar13 = (eCPVSPrefetcher3 *)eCRenderSystemAdmin::GetPVSPrefetcher3(peVar12);
+    peVar18 = eCPVSPrefetcher3::GetNonDeactivationCell(peVar13);
+    if (peVar18 != (eCPVSCellItem *)0x0) {
+      uVar6 = 0;
+      if (*(short *)(peVar18 + 0x56) != 0) {
+        do {
+          peVar4 = *(eCEntity **)(*(int *)(peVar18 + 0x58) + (uint)uVar6 * 4);
+          if ((DAT_30af23c0 & 1) == 0) {
+            DAT_30af23c0 = DAT_30af23c0 | 1;
+            _DAT_30af23bc = 0x40;
+          }
+          if ((DAT_30af23c0 & 2) == 0) {
+            DAT_30af23c0 = DAT_30af23c0 | 2;
+            DAT_30af23b8 = 0x100100;
+          }
+          peVar21 = eCEntity::GetEntityFlags(peVar4);
+          if (((*(uint *)peVar21 & DAT_30af23b8) == DAT_30af23b8) &&
+             ((_DAT_30af23bc & *(uint *)peVar21) == 0)) {
+            bVar5 = eCEntity::HasProcessingRangeEntered(peVar4);
+            if (!bVar5) {
+              if ((ushort)local_58 <= local_58._2_2_) {
+                if ((ushort)local_58 < 0x41) {
+                  uVar28 = (-(uint)(8 < (ushort)local_58) & 0xc) + 4;
+                }
+                else {
+                  uVar28 = (uint)((ushort)local_58 >> 2);
+                }
+                if (((uint)local_58 & 0xffff) + uVar28 < 0x10000) {
+                  uVar27 = (short)uVar28 + (ushort)local_58;
+                }
+                else {
+                  uVar27 = 0xfffe;
+                }
+                if ((ushort)local_58 < uVar27) {
+                  local_58 = (bCCriticalSectionWin32 *)CONCAT22(local_58._2_2_,uVar27);
+                  uVar7 = (uint)uVar27 * 4;
+                  peVar34 = local_54;
+                  pbVar22 = bCMemoryAdmin::GetInstance();
+                  local_54 = bCMemoryAdmin::Realloc(pbVar22,peVar34,uVar7);
+                }
+              }
+              *(eCEntity **)(local_54 + (uint)local_58._2_2_ * 4) = peVar4;
+              local_58 = (bCCriticalSectionWin32 *)CONCAT22(local_58._2_2_ + 1,(ushort)local_58);
+            }
+            uVar27 = (param_1->eCEntityAdmin_data).offset_0xa4;
+            if (uVar27 <= (ushort)(param_1->eCEntityAdmin_data).offset_0xa6) {
+              if (uVar27 < 0x41) {
+                uVar28 = (-(uint)(8 < uVar27) & 0xc) + 4;
+              }
+              else {
+                uVar28 = (uint)(uVar27 >> 2);
+              }
+              if (uVar27 + uVar28 < 0x10000) {
+                uVar27 = uVar27 + (short)uVar28;
+              }
+              else {
+                uVar27 = 0xfffe;
+              }
+              if ((ushort)(param_1->eCEntityAdmin_data).offset_0xa4 < uVar27) {
+                pvVar26 = (param_1->eCEntityAdmin_data).offset_0xa8;
+                (param_1->eCEntityAdmin_data).offset_0xa4 = uVar27;
+                uVar7 = (uint)uVar27 * 4;
+                pbVar22 = bCMemoryAdmin::GetInstance();
+                pvVar26 = bCMemoryAdmin::Realloc(pbVar22,pvVar26,uVar7);
+                (param_1->eCEntityAdmin_data).offset_0xa8 = pvVar26;
+              }
+            }
+            *(eCEntity **)
+             ((int)(param_1->eCEntityAdmin_data).offset_0xa8 +
+             (uint)(ushort)(param_1->eCEntityAdmin_data).offset_0xa6 * 4) = peVar4;
+            puVar1 = &(param_1->eCEntityAdmin_data).offset_0xa6;
+            *puVar1 = *puVar1 + 1;
+          }
+          else {
+            bVar5 = eCEntity::HasProcessingRangeEntered(peVar4);
+            if (bVar5) {
+              if ((ushort)local_50 <= local_50._2_2_) {
+                if ((ushort)local_50 < 0x41) {
+                  uVar28 = (-(uint)(8 < (ushort)local_50) & 0xc) + 4;
+                }
+                else {
+                  uVar28 = (uint)((ushort)local_50 >> 2);
+                }
+                if (((uint)local_50 & 0xffff) + uVar28 < 0x10000) {
+                  uVar27 = (short)uVar28 + (ushort)local_50;
+                }
+                else {
+                  uVar27 = 0xfffe;
+                }
+                if ((ushort)local_50 < uVar27) {
+                  local_50 = (float)CONCAT22(local_50._2_2_,uVar27);
+                  uVar7 = (uint)uVar27 * 4;
+                  pvVar26 = local_4c[0];
+                  pbVar22 = bCMemoryAdmin::GetInstance();
+                  local_4c[0] = bCMemoryAdmin::Realloc(pbVar22,pvVar26,uVar7);
+                }
+              }
+              *(eCEntity **)((int)local_4c[0] + (uint)local_50._2_2_ * 4) = peVar4;
+              local_50 = (float)CONCAT22(local_50._2_2_ + 1,(ushort)local_50);
+            }
+          }
+          uVar6 = uVar6 + 1;
+        } while (uVar6 < *(ushort *)(peVar18 + 0x56));
+      }
+      uVar6 = 0;
+      if (*(short *)(peVar18 + 0x5e) != 0) {
+        do {
+          eCEntityAdmin::CollectDynamicProcessingRangeEntity
+                    (param_1,*(eCEntity **)(*(int *)(peVar18 + 0x60) + (uint)uVar6 * 4),
+                     (bTSmallArray<eCEntity*> *)&local_58,(bTSmallArray<eCEntity*> *)&local_50);
+          uVar6 = uVar6 + 1;
+        } while (uVar6 < *(ushort *)(peVar18 + 0x5e));
+      }
+    }
+    (param_1->eCEntityAdmin_data).offset_0x9e = 0;
+    bCCriticalSectionWin32::Release((bCCriticalSectionWin32 *)&DAT_30af23d0);
+    (param_1->eCEntityAdmin_data).offset_0xc0 = (eCEntityAdmin)0x1;
+    (param_1->eCEntityAdmin_data).offset_0xc1 = (eCEntityAdmin)0x0;
+    if (local_44 != (void *)0x0) {
+      pvVar26 = local_44;
+      pbVar22 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar22,pvVar26);
+    }
+  }
+  else if ((param_1->eCEntityAdmin_data).offset_0x9e != 0) {
+    bCCriticalSectionWin32::Acquire((bCCriticalSectionWin32 *)&DAT_30af23d0);
+    uVar28 = (uint)(ushort)(param_1->eCEntityAdmin_data).offset_0x9e;
+    while (uVar28 != 0) {
+      uVar28 = uVar28 - 1;
+      eCEntityAdmin::UpdateProcessingRangeEntity
+                (param_1,*(eCEntity **)
+                          ((int)(param_1->eCEntityAdmin_data).offset_0xa0 + (uVar28 & 0xffff) * 4),
+                 (bTSmallArray<eCEntity*> *)&local_44,(bTSmallArray<eCEntity*> *)&local_3c);
+    }
+    (param_1->eCEntityAdmin_data).offset_0x9e = 0;
+    bCCriticalSectionWin32::Release((bCCriticalSectionWin32 *)&DAT_30af23d0);
+  }
+  uVar28 = 0;
+  if (local_50._2_2_ != 0) {
+    uVar25 = (uint)local_58 >> 0x10;
+    do {
+      piVar2 = (int *)((int)local_4c[0] + (uVar28 & 0xffff) * 4);
+      eCEntity::ExitProcessingRange((eCEntity *)*piVar2,false);
+      iVar19 = 0;
+      if (uVar25 != 0) {
+        do {
+          if (*piVar2 == *(int *)(local_54 + iVar19 * 4)) {
+            bCString::bCString((bCString *)&stack0xffffff98);
+            eCEntity::GetName((eCEntity *)*piVar2);
+            bCString::Format((bCString *)&stack0xffffff98,(char *)&stack0xffffff98);
+            iVar19 = 0x2a0;
+            pcVar36 = ".\\components\\scene\\admin\\ge_entityadmin.cpp";
+            pcVar20 = bCString::operator_char_const_((bCString *)&stack0xffffff9c);
+            this_04 = bCErrorAdmin::GetInstance();
+            bCErrorAdmin::CallFatalError(this_04,pcVar20,pcVar36,iVar19);
+            bCString::~bCString((bCString *)&stack0xffffff9c);
+            break;
+          }
+          iVar19 = iVar19 + 1;
+        } while (iVar19 < (int)uVar25);
+      }
+      uVar28 = uVar28 + 1;
+    } while ((int)uVar28 < (int)((uint)local_50 >> 0x10));
+  }
+  uVar28 = (uint)local_58 >> 0x10;
+  uVar25 = 0;
+  (param_1->eCEntityAdmin_data).offset_0xc0 = (eCEntityAdmin)0x0;
+  if (uVar28 != 0) {
+    do {
+      peVar34 = local_54 + (uVar25 & 0xffff) * 4;
+      peVar21 = eCEntity::GetEntityFlags(*(eCEntity **)(local_54 + (uVar25 & 0xffff) * 4));
+      if ((_DAT_30aee308 & 1) == 0) {
+        _DAT_30aee308 = _DAT_30aee308 | 1;
+        DAT_30aee304 = 0x100;
+      }
+      if ((*(uint *)peVar21 & DAT_30aee304) != 0) {
+        eCEntity::EnterProcessingRange(*(eCEntity **)peVar34,false);
+      }
+      uVar25 = uVar25 + 1;
+    } while ((int)uVar25 < (int)uVar28);
+  }
+  if ((param_1->eCEntityAdmin_data).offset_0x84 == (eCEntityAdmin)0x1) {
+    uVar6 = (param_1->eCEntityAdmin_data).offset_0xa6;
+    uVar28 = (uint)uVar6;
+    pvVar26 = (void *)0x0;
+    if ((param_1->eCEntityAdmin_data).offset_0xa4 == 0) {
+      _Src = (param_1->eCEntityAdmin_data).offset_0xa8;
+      pvVar26 = (void *)0x0;
+      uVar25 = uVar28;
+    }
+    else {
+      if ((uVar6 != 0) && ((short)(uVar28 + 1) != 0)) {
+        uVar7 = (uVar28 + 1 & 0xffff) * 4;
+        pvVar26 = (void *)0x0;
+        pbVar22 = bCMemoryAdmin::GetInstance();
+        pvVar26 = bCMemoryAdmin::Realloc(pbVar22,pvVar26,uVar7);
+      }
+      uVar25 = (uint)(ushort)(param_1->eCEntityAdmin_data).offset_0xa6;
+      _Src = (param_1->eCEntityAdmin_data).offset_0xa8;
+    }
+    _memcpy(pvVar26,_Src,uVar25 * 4);
+    uVar25 = 0;
+    if (uVar28 != 0) {
+      do {
+        (**(code **)(**(int **)((int)pvVar26 + (uVar25 & 0xffff) * 4) + 0x20))();
+        uVar25 = uVar25 + 1;
+      } while ((int)uVar25 < (int)uVar28);
+    }
+    uVar25 = 0;
+    if (uVar28 != 0) {
+      do {
+        puVar3 = (undefined4 *)((int)pvVar26 + (uVar25 & 0xffff) * 4);
+        peVar21 = eCEntity::GetEntityFlags((eCEntity *)*puVar3);
+        if ((DAT_30ada2a4 & 1) == 0) {
+          DAT_30ada2a4 = DAT_30ada2a4 | 1;
+          DAT_30ada2a0 = 0x800000;
+        }
+        if (((*(uint *)peVar21 & DAT_30ada2a0) != 0) &&
+           (bVar5 = eCEntity::HasProcessingRangeEntered((eCEntity *)*puVar3), bVar5)) {
+          peVar4 = (eCEntity *)*puVar3;
+          bVar5 = (*peVar4->vftablePtr->IsKilled)(peVar4);
+          if ((!bVar5) && (bVar5 = eCEntity::IsEnabled(peVar4), bVar5)) {
+            this_05 = (eCContextBase *)eCNode::GetCurrentContext((eCNode *)peVar4);
+            bVar5 = eCContextBase::IsEnabled(this_05);
+            if (bVar5) {
+              eCEntity::PreProcess(peVar4,false);
+              eCEntity::Process(peVar4,false);
+              eCEntity::PostProcess(peVar4,false);
+            }
+          }
+        }
+        uVar25 = uVar25 + 1;
+      } while ((int)uVar25 < (int)uVar28);
+    }
+    uVar25 = 0;
+    if (uVar28 != 0) {
+      do {
+        (**(code **)(**(int **)((int)pvVar26 + (uVar25 & 0xffff) * 4) + 0x24))();
+        uVar25 = uVar25 + 1;
+      } while ((int)uVar25 < (int)uVar28);
+    }
+    if (pvVar26 != (void *)0x0) {
+      pbVar22 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar22,pvVar26);
+    }
+  }
+  uVar7 = bCTimer::GetTimeStamp();
+  (param_1->eCEntityAdmin_data).offset_0x80 = uVar7 - (param_1->eCEntityAdmin_data).offset_0x80;
+  bCVector::~bCVector((bCVector *)&local_40);
+  if (local_4c[0] != (void *)0x0) {
+    pvVar26 = local_4c[0];
+    pbVar22 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar22,pvVar26);
+  }
+  if (local_54 != (eCCameraBase *)0x0) {
+    peVar34 = local_54;
+    pbVar22 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar22,peVar34);
+  }
+  return;
+}
+
+

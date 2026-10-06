@@ -1,0 +1,9 @@
+; 100a72d0 _atexit
+100a72d0 | ff742404 | PUSH dword ptr [ESP + 0x4]
+100a72d4 | e8bbffffff | CALL 0x100a7294
+100a72d9 | f7d8 | NEG EAX
+100a72db | 1bc0 | SBB EAX,EAX
+100a72dd | f7d8 | NEG EAX
+100a72df | 59 | POP ECX
+100a72e0 | 48 | DEC EAX
+100a72e1 | c3 | RET

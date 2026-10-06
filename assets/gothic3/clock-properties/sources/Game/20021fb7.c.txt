@@ -1,0 +1,12 @@
+/* ENTRY 20021fb7 | gCClock_PS::AccessSecond | STATUS decompiled | 6 ms */
+
+/* public: unsigned long & __thiscall gCClock_PS::AccessSecond(void) */
+
+ulong * __thiscall gCClock_PS::AccessSecond(gCClock_PS *this)
+
+{
+                    /* 0x21fb7  1658  ?AccessSecond@gCClock_PS@@QAEAAKXZ */
+  return (ulong *)&(this->gCClock_PS_data).field_0x20;
+}
+
+

@@ -1,0 +1,35 @@
+/* ENTRY 2031e440 | bTPropertyContainer<gEWeaponConfig>::bTPropertyContainer<gEWeaponConfig> | STATUS decompiled | 46 ms */
+
+bTPropertyContainer<gEWeaponConfig> * __thiscall
+bTPropertyContainer<gEWeaponConfig>::bTPropertyContainer<gEWeaponConfig>
+          (bTPropertyContainer<gEWeaponConfig> *this)
+
+{
+  eCEntityPropertySet::eCEntityPropertySet((eCEntityPropertySet *)this);
+                    /* inlined constructor: gCPlayerMemory_PS::gCPlayerMemory_PS */
+  this->vftablePtr = (bTPropertyContainer<gEWeaponConfig>_vftable *)&gCPlayerMemory_PS::vftable;
+  this[1].bTPropertyContainer<gEWeaponConfig>_data.offset_0x4 = 0;
+  this[1].bTPropertyContainer<gEWeaponConfig>_data.offset_0x8 = (bCObjectBase *)0x0;
+  this[2].vftablePtr = (bTPropertyContainer<gEWeaponConfig>_vftable *)0x0;
+  this[2].bTPropertyContainer<gEWeaponConfig>_data.offset_0x0 = (undefined **)0x0;
+  this[2].bTPropertyContainer<gEWeaponConfig>_data.offset_0x4 = 0;
+  this[2].bTPropertyContainer<gEWeaponConfig>_data.offset_0x8 = (bCObjectBase *)0x0;
+  this[3].vftablePtr = (bTPropertyContainer<gEWeaponConfig>_vftable *)0x0;
+  this[3].bTPropertyContainer<gEWeaponConfig>_data.offset_0x0 = (undefined **)0x0;
+  this[3].bTPropertyContainer<gEWeaponConfig>_data.offset_0x4 = 0;
+  this[3].bTPropertyContainer<gEWeaponConfig>_data.offset_0x8 = (bCObjectBase *)0x0;
+  this[4].vftablePtr = (bTPropertyContainer<gEWeaponConfig>_vftable *)0x0;
+  this[4].bTPropertyContainer<gEWeaponConfig>_data.offset_0x0 = (undefined **)0x0;
+  this[4].bTPropertyContainer<gEWeaponConfig>_data.offset_0x4 = 0;
+  this[4].bTPropertyContainer<gEWeaponConfig>_data.offset_0x8 = (bCObjectBase *)0x0;
+  this[5].vftablePtr = (bTPropertyContainer<gEWeaponConfig>_vftable *)0x0;
+  bCObjectBase::bCObjectBase((bCObjectBase *)(this + 6));
+  this[6].vftablePtr = &vftable;
+  this[6].bTPropertyContainer<gEWeaponConfig>_data.offset_0x0 = DAT_207c1578;
+  bCPropertyID::bCPropertyID
+            ((bCPropertyID *)&this[6].bTPropertyContainer<gEWeaponConfig>_data.offset_0x4);
+  thunk_FUN_20327550();
+  return this;
+}
+
+

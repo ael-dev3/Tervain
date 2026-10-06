@@ -1,0 +1,2 @@
+; 2000e859 ?CalcNearestPathPoint@gCNavPath_PS@@QAE?AVbCVector@@ABV2@@Z
+2000e859 | e9e28f2800 | JMP 0x20297840

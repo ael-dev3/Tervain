@@ -1,0 +1,22 @@
+; 1002aff0 FUN_1002aff0
+1002aff0 | d9410c | FLD float ptr [ECX + 0xc]
+1002aff3 | d901 | FLD float ptr [ECX]
+1002aff5 | dff1 | FCOMIP ST0,ST1
+1002aff7 | ddd8 | FSTP ST0
+1002aff9 | 7603 | JBE 0x1002affe
+; 1002affb LAB_1002affb
+1002affb | 32c0 | XOR AL,AL
+1002affd | c3 | RET
+; 1002affe LAB_1002affe
+1002affe | d94110 | FLD float ptr [ECX + 0x10]
+1002b001 | d94104 | FLD float ptr [ECX + 0x4]
+1002b004 | dff1 | FCOMIP ST0,ST1
+1002b006 | ddd8 | FSTP ST0
+1002b008 | 77f1 | JA 0x1002affb
+1002b00a | d94114 | FLD float ptr [ECX + 0x14]
+1002b00d | d94108 | FLD float ptr [ECX + 0x8]
+1002b010 | dff1 | FCOMIP ST0,ST1
+1002b012 | ddd8 | FSTP ST0
+1002b014 | 77e5 | JA 0x1002affb
+1002b016 | b001 | MOV AL,0x1
+1002b018 | c3 | RET

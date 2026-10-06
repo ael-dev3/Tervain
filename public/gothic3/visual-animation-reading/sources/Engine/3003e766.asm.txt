@@ -1,0 +1,2 @@
+; 3003e766 eCVisualAnimation_PS::SetSpringParentNodesScale
+3003e766 | e9753b0200 | JMP 0x300622e0

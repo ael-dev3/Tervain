@@ -1,0 +1,33 @@
+; 1002cf70 FUN_1002cf70
+1002cf70 | 83ec08 | SUB ESP,0x8
+1002cf73 | 56 | PUSH ESI
+1002cf74 | 8bf1 | MOV ESI,ECX
+1002cf76 | 833e00 | CMP dword ptr [ESI],0x0
+1002cf79 | 7521 | JNZ 0x1002cf9c
+1002cf7b | 6820280810 | PUSH 0x10082820
+1002cf80 | 68a82a0810 | PUSH 0x10082aa8
+1002cf85 | 68b8030810 | PUSH 0x100803b8
+1002cf8a | ff154c850b10 | CALL dword ptr [0x100b854c]
+1002cf90 | 83c40c | ADD ESP,0xc
+1002cf93 | 8bc6 | MOV EAX,ESI
+1002cf95 | 5e | POP ESI
+1002cf96 | 83c408 | ADD ESP,0x8
+1002cf99 | c20400 | RET 0x4
+; 1002cf9c LAB_1002cf9c
+1002cf9c | 8d4c2404 | LEA ECX,[ESP + 0x4]
+1002cfa0 | ff1548850b10 | CALL dword ptr [0x100b8548]
+1002cfa6 | 8b442410 | MOV EAX,dword ptr [ESP + 0x10]
+1002cfaa | 8b08 | MOV ECX,dword ptr [EAX]
+1002cfac | 8d542404 | LEA EDX,[ESP + 0x4]
+1002cfb0 | 894c2408 | MOV dword ptr [ESP + 0x8],ECX
+1002cfb4 | 8b0e | MOV ECX,dword ptr [ESI]
+1002cfb6 | 52 | PUSH EDX
+1002cfb7 | c7442408ec290810 | MOV dword ptr [ESP + 0x8],0x100829ec
+1002cfbf | ff155c7c0b10 | CALL dword ptr [0x100b7c5c]
+1002cfc5 | 8d4c2404 | LEA ECX,[ESP + 0x4]
+1002cfc9 | c7442404ec290810 | MOV dword ptr [ESP + 0x4],0x100829ec
+1002cfd1 | ff1514850b10 | CALL dword ptr [0x100b8514]
+1002cfd7 | 8bc6 | MOV EAX,ESI
+1002cfd9 | 5e | POP ESI
+1002cfda | 83c408 | ADD ESP,0x8
+1002cfdd | c20400 | RET 0x4

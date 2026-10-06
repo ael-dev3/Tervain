@@ -1,0 +1,2 @@
+; 3003fdaa eCVisualAnimation_PS::Clone
+3003fdaa | e921db0500 | JMP 0x3009d8d0

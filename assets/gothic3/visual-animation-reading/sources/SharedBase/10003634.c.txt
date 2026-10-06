@@ -1,0 +1,12 @@
+/* ENTRY 10003634 | bCSphere::bCSphere | STATUS decompiled | 1 ms */
+
+/* public: __thiscall bCSphere::bCSphere(void) */
+
+bCSphere * __thiscall bCSphere::bCSphere(bCSphere *this)
+
+{
+                    /* 0x3634  264  ??0bCSphere@@QAE@XZ */
+  return this;
+}
+
+

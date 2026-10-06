@@ -1,0 +1,4 @@
+; 300452cd ?IsReferencedByTemplate@eCEntityPropertySet@@UBE_NXZ
+300452cd | e91ec34300 | JMP 0x304815f0
+; 300452d2 eCWrapper_emfx2Motion::Write
+; 300452d2 Ordinal_15306

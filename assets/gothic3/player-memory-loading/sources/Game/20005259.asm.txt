@@ -1,0 +1,2 @@
+; 20005259 gCPlayerMemory_PS::OnSaveGameEntityPostRead
+20005259 | e912833100 | JMP 0x2031d570

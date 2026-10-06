@@ -1,0 +1,4 @@
+; 10008cba ??EbCAccessorProperty@@QAEAAV0@XZ
+10008cba | e9b1b30800 | JMP 0x10094070
+; 10008cbf bTKeyFramerData<bCMotion>::GetFrameBegin
+; 10008cbf Ordinal_2365

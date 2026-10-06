@@ -1,0 +1,9 @@
+; 1004bd40 FUN_1004bd40
+1004bd40 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+1004bd44 | 8b10 | MOV EDX,dword ptr [EAX]
+1004bd46 | 8911 | MOV dword ptr [ECX],EDX
+1004bd48 | 8b5004 | MOV EDX,dword ptr [EAX + 0x4]
+1004bd4b | 895104 | MOV dword ptr [ECX + 0x4],EDX
+1004bd4e | 8b4008 | MOV EAX,dword ptr [EAX + 0x8]
+1004bd51 | 894108 | MOV dword ptr [ECX + 0x8],EAX
+1004bd54 | c20400 | RET 0x4

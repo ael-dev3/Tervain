@@ -1,0 +1,4 @@
+; 10004f02 ?CallFatalError@bCErrorAdmin@@QAEXPBD00H@Z
+10004f02 | e9d9d30100 | JMP 0x100222e0
+; 10004f07 bCCommandLine::SetOptions
+; 10004f07 Ordinal_4272

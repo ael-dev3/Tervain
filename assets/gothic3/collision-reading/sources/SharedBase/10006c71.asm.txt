@@ -1,0 +1,4 @@
+; 10006c71 ?GetDepth@bCBox@@QBEMXZ
+10006c71 | e9da460200 | JMP 0x1002b350
+; 10006c76 bCVariant::CopyFrom
+; 10006c76 Ordinal_1763

@@ -1,0 +1,23 @@
+/* ENTRY 10003882 | bCFPUAdmin::bCFPUAdmin | STATUS decompiled | 5 ms */
+
+/* protected: __thiscall bCFPUAdmin::bCFPUAdmin(void) */
+
+bCFPUAdmin * __thiscall bCFPUAdmin::bCFPUAdmin(bCFPUAdmin *this)
+
+{
+  uint uVar1;
+  
+                    /* 0x3882  90  ??0bCFPUAdmin@@IAE@XZ */
+  *(undefined4 *)this = 0;
+  *(undefined4 *)(this + 4) = 0;
+  uVar1 = __controlfp(0,0);
+  *(uint *)this = uVar1;
+  __controlfp(0x9001f,0xffffffff);
+  uVar1 = __controlfp(0,0);
+  uVar1 = uVar1 & 0xfffeffff | 0xa001f;
+  *(uint *)(this + 4) = uVar1;
+  __controlfp(uVar1,0xffffffff);
+  return this;
+}
+
+

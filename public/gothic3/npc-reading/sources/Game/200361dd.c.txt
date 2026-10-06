@@ -1,0 +1,20 @@
+/* ENTRY 200361dd | gCNPC_PS::Invalidate | STATUS decompiled | 7 ms */
+
+/* protected: void __thiscall gCNPC_PS::Invalidate(void) */
+
+void __thiscall gCNPC_PS::Invalidate(gCNPC_PS *this)
+
+{
+                    /* 0x361dd  5033  ?Invalidate@gCNPC_PS@@IAEXXZ */
+  (this->gCNPC_PS_data).offset_0x1a0 = 0;
+  (this->gCNPC_PS_data).offset_0x154 = 0;
+  (this->gCNPC_PS_data).offset_0x178 = 0;
+  (this->gCNPC_PS_data).offset_0x188 = 0;
+  (this->gCNPC_PS_data).offset_0x18c = 0;
+  (this->gCNPC_PS_data).offset_0x17c = 0;
+  (this->gCNPC_PS_data).offset_0x180 = 0;
+  (this->gCNPC_PS_data).offset_0x184 = 0;
+  return;
+}
+
+

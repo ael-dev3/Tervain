@@ -1,0 +1,14 @@
+/* ENTRY 3002f487 | eCEntity::OnPostProcess | STATUS decompiled | 7 ms */
+
+/* protected: virtual void __thiscall eCEntity::OnPostProcess(void)
+   eCEntity member function inherited by eCSpatialEntity
+   eCEntity member function inherited by eCTemplateEntity */
+
+void __thiscall eCEntity::OnPostProcess(eCEntity *this)
+
+{
+                    /* 0x2f487  11336  ?OnPostProcess@eCEntity@@MAEXXZ */
+  return;
+}
+
+

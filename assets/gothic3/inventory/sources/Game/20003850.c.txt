@@ -1,0 +1,27 @@
+/* ENTRY 20003850 | gCInventoryStack::IsEquipped | STATUS decompiled | 7 ms */
+
+/* public: bool __thiscall gCInventoryStack::IsEquipped(class eCEntity const *)const  */
+
+bool __thiscall gCInventoryStack::IsEquipped(gCInventoryStack *this,eCEntity *param_1)
+
+{
+  gESlot gVar1;
+  gESlot gVar2;
+  
+                    /* 0x3850  5141  ?IsEquipped@gCInventoryStack@@QBE_NPBVeCEntity@@@Z */
+  gVar2 = (this->gCInventorySlot_data).offset_0x34;
+  if (gVar2 != 0) {
+    gVar1 = gCInventorySlot::GetPrimaryEquipSlot((gCInventorySlot *)this,param_1);
+    if (gVar1 == gVar2) {
+      return true;
+    }
+    if ((gVar2 != 0) &&
+       (gVar2 = gCInventorySlot::GetAlternativeEquipSlot((gCInventorySlot *)this,param_1),
+       gVar2 == (this->gCInventorySlot_data).offset_0x34)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+

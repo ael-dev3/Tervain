@@ -1,0 +1,12 @@
+/* ENTRY 30006104 | bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_>::vfunction7 | STATUS decompiled | 3 ms */
+
+bool __thiscall
+bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_>::vfunction7
+          (bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_> *this)
+
+{
+  return this[8].vftablePtr !=
+         (bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_>_vftable *)0x0;
+}
+
+

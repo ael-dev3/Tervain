@@ -1,0 +1,2 @@
+; 100039a9 bCObjectBase::GetVersion
+100039a9 | e922670400 | JMP 0x1004a0d0

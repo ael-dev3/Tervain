@@ -1,0 +1,185 @@
+/* ENTRY 2002a568 | gCNavPath_PS::Test3DPointOnPath | STATUS decompiled | 154 ms */
+
+/* public: bool __thiscall gCNavPath_PS::Test3DPointOnPath(class bCVector const &) */
+
+bool __thiscall gCNavPath_PS::Test3DPointOnPath(gCNavPath_PS *this,bCVector *param_1)
+
+{
+  void *pvVar1;
+  bool bVar2;
+  bCInfDoubleCylinder *pbVar3;
+  bCVector *this_00;
+  bCVector *pbVar4;
+  int iVar5;
+  int iVar6;
+  float fVar7;
+  bCVector *pbVar8;
+  float fStack_a8;
+  bCVector abStack_a4 [4];
+  bCVector abStack_a0 [4];
+  bCVector abStack_9c [4];
+  bCVector abStack_98 [4];
+  bCVector abStack_94 [4];
+  bCVector abStack_90 [4];
+  bCVector abStack_8c [4];
+  bCVector abStack_88 [4];
+  bCVector abStack_84 [4];
+  bCVector abStack_80 [4];
+  bCVector abStack_7c [4];
+  bCVector abStack_78 [4];
+  bCVector abStack_74 [4];
+  bCVector abStack_70 [4];
+  bCVector abStack_6c [4];
+  bCVector abStack_68 [4];
+  bCVector abStack_64 [12];
+  bCVector abStack_58 [4];
+  bCVector abStack_54 [4];
+  bCVector abStack_50 [12];
+  bCInfDoubleCylinder abStack_44 [12];
+  bCInfDoubleCylinder abStack_38 [20];
+  bCInfDoubleCylinder abStack_24 [36];
+  
+                    /* 0x2a568  7343  ?Test3DPointOnPath@gCNavPath_PS@@QAE_NABVbCVector@@@Z */
+  bCMatrix::operator*((bCMatrix *)&(this->gCNavPath_PS_data).field_0xc8,abStack_70);
+  iVar6 = (this->gCNavPath_PS_data).offset_0x14;
+  if (iVar6 < 2) {
+    if (iVar6 == 1) {
+      bCInfCylinder::bCInfCylinder
+                ((bCInfCylinder *)abStack_44,(this->gCNavPath_PS_data).offset_0x10,
+                 *(float *)(this->gCNavPath_PS_data).offset_0x1c);
+      bVar2 = bCInfCylinder::Contains((bCInfCylinder *)abStack_44,abStack_74);
+      bCInfCylinder::~bCInfCylinder((bCInfCylinder *)abStack_44);
+      bCVector::~bCVector(abStack_74);
+      return bVar2;
+    }
+  }
+  else {
+    bCInfDoubleCylinder::bCInfDoubleCylinder(abStack_24);
+    iVar6 = 0;
+    if (-1 < (this->gCNavPath_PS_data).offset_0x14 + -2) {
+      iVar5 = 0;
+      do {
+        pvVar1 = (this->gCNavPath_PS_data).offset_0x1c;
+        pbVar4 = (bCVector *)((int)(this->gCNavPath_PS_data).offset_0x10 + iVar5);
+        pbVar8 = (bCVector *)0x2029720c;
+        pbVar3 = (bCInfDoubleCylinder *)
+                 bCInfDoubleCylinder::bCInfDoubleCylinder
+                           (abStack_44,pbVar4,*(float *)((int)pvVar1 + iVar6 * 4),pbVar4 + 0xc,
+                            *(float *)((int)pvVar1 + iVar6 * 4 + 4));
+        bCInfDoubleCylinder::operator=(abStack_24,pbVar3);
+        bCInfDoubleCylinder::~bCInfDoubleCylinder(abStack_44);
+        bVar2 = bCInfDoubleCylinder::Contains(abStack_24,abStack_74);
+        if (bVar2) {
+          if ((iVar6 != 0) ||
+             (bVar2 = bCPropertyID::IsValid((bCPropertyID *)&(this->gCNavPath_PS_data).field_0x2c),
+             !bVar2)) {
+LAB_2029746f:
+            if (((this->gCNavPath_PS_data).offset_0x14 + -2 != iVar6) ||
+               (bVar2 = bCPropertyID::IsValid((bCPropertyID *)&(this->gCNavPath_PS_data).field_0x40)
+               , !bVar2)) goto LAB_20297664;
+            bCVector::bCVector((bCVector *)&stack0xffffff48,
+                               (bCVector *)&(this->gCNavPath_PS_data).field_0x78);
+            bCVector::bCVector((bCVector *)&stack0xffffff54,
+                               (bCVector *)&(this->gCNavPath_PS_data).field_0x84);
+            bCVector::bCVector(abStack_a0,
+                               (bCVector *)
+                               ((int)(this->gCNavPath_PS_data).offset_0x10 +
+                               ((this->gCNavPath_PS_data).offset_0x14 + -2) * 0xc));
+            bCVector::bCVector(abStack_94,abStack_88);
+            bCVector::SetY((bCVector *)&stack0xffffff48,(float *)&stack0xffffff40);
+            bCVector::SetY((bCVector *)&stack0xffffff54,(float *)&stack0xffffff40);
+            bCVector::SetY(abStack_a0,(float *)&stack0xffffff40);
+            bCVector::SetY(abStack_94,(float *)&stack0xffffff40);
+            bVar2 = bCVector::operator==((bCVector *)&stack0xffffff48,(bCVector *)&stack0xffffff54);
+            if (!bVar2) {
+              bCVector::operator-((bCVector *)&stack0xffffff54,abStack_7c);
+              bCVector::operator-(abStack_a4,abStack_74);
+              bCVector::operator-(abStack_9c,abStack_6c);
+              pbVar4 = (bCVector *)bCVector::CrossProduct(abStack_64,abStack_88);
+              bCVector::GetY(pbVar4);
+              bCVector::~bCVector(abStack_68);
+              pbVar4 = (bCVector *)bCVector::CrossProduct(abStack_68,abStack_8c);
+              fVar7 = bCVector::GetY(pbVar4);
+              bCVector::~bCVector(abStack_6c);
+              if (fVar7 * (float)pbVar8 < 0.0) {
+                bCVector::~bCVector(abStack_78);
+                bCVector::~bCVector(abStack_84);
+                bCVector::~bCVector(abStack_90);
+                bCVector::~bCVector((bCVector *)&fStack_a8);
+                pbVar8 = (bCVector *)&stack0xffffff4c;
+                goto LAB_202973ed;
+              }
+              bCVector::~bCVector(abStack_78);
+              bCVector::~bCVector(abStack_84);
+              bCVector::~bCVector(abStack_90);
+            }
+            bCVector::~bCVector(abStack_94);
+            bCVector::~bCVector(abStack_a0);
+            bCVector::~bCVector((bCVector *)&stack0xffffff54);
+            bCVector::~bCVector((bCVector *)&stack0xffffff48);
+LAB_20297664:
+            bCInfDoubleCylinder::~bCInfDoubleCylinder(abStack_38);
+            bCVector::~bCVector(abStack_88);
+            return true;
+          }
+          bCVector::bCVector(abStack_a4,(bCVector *)&(this->gCNavPath_PS_data).field_0x54);
+          bCVector::bCVector(abStack_98,(bCVector *)&(this->gCNavPath_PS_data).field_0x60);
+          bCVector::bCVector(abStack_68,
+                             (bCVector *)((int)(this->gCNavPath_PS_data).offset_0x10 + 0xc));
+          bCVector::bCVector(abStack_80,abStack_74);
+          fStack_a8 = 0.0;
+          bCVector::SetY(abStack_a4,&fStack_a8);
+          fStack_a8 = 0.0;
+          bCVector::SetY(abStack_98,&fStack_a8);
+          fStack_a8 = 0.0;
+          bCVector::SetY(abStack_68,&fStack_a8);
+          fStack_a8 = 0.0;
+          bCVector::SetY(abStack_80,&fStack_a8);
+          bVar2 = bCVector::operator==(abStack_a4,abStack_98);
+          if (bVar2) {
+LAB_20297447:
+            bCVector::~bCVector(abStack_94);
+            bCVector::~bCVector(abStack_7c);
+            bCVector::~bCVector((bCVector *)&stack0xffffff54);
+            bCVector::~bCVector((bCVector *)&stack0xffffff48);
+            goto LAB_2029746f;
+          }
+          pbVar4 = abStack_a4;
+          bCVector::operator-(abStack_98,abStack_8c);
+          bCVector::operator-(abStack_6c,abStack_54);
+          bCVector::operator-(abStack_88,abStack_64);
+          pbVar8 = (bCVector *)bCVector::CrossProduct(abStack_50,abStack_98);
+          bCVector::GetY(pbVar8);
+          bCVector::~bCVector(abStack_54);
+          pbVar8 = abStack_6c;
+          this_00 = (bCVector *)bCVector::CrossProduct(abStack_54,abStack_9c);
+          fVar7 = bCVector::GetY(this_00);
+          bCVector::~bCVector(abStack_58);
+          if (0.0 <= fVar7 * (float)pbVar4) {
+            bCVector::~bCVector(abStack_70);
+            bCVector::~bCVector(abStack_64);
+            bCVector::~bCVector(abStack_a0);
+            goto LAB_20297447;
+          }
+          bCVector::~bCVector(abStack_70);
+          bCVector::~bCVector(abStack_64);
+          bCVector::~bCVector(abStack_a0);
+          bCVector::~bCVector(abStack_94);
+          pbVar8 = abStack_7c;
+LAB_202973ed:
+          bCVector::~bCVector(pbVar8);
+          bCVector::~bCVector((bCVector *)&stack0xffffff54);
+          bCVector::~bCVector((bCVector *)&stack0xffffff48);
+          break;
+        }
+        iVar6 = iVar6 + 1;
+        iVar5 = iVar5 + 0xc;
+      } while (iVar6 <= (this->gCNavPath_PS_data).offset_0x14 + -2);
+    }
+    bCInfDoubleCylinder::~bCInfDoubleCylinder(abStack_38);
+  }
+  bCVector::~bCVector(abStack_88);
+  return false;
+}
+
+

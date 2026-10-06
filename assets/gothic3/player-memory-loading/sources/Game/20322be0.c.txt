@@ -1,0 +1,9 @@
+/* ENTRY 20322be0 | bTPropertyType<gCPlayerMemory_PS,bTValArray<bool>_>::vfunction2 | STATUS decompiled | 0 ms */
+
+undefined4 __thiscall bTPropertyType<gCPlayerMemory_PS,bTValArray<bool>_>::vfunction2(void)
+
+{
+  return 0xc;
+}
+
+

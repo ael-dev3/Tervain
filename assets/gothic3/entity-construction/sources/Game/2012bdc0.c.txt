@@ -1,0 +1,11 @@
+/* ENTRY 2012bdc0 | gCEntity::gCEntity | STATUS decompiled | 7 ms */
+
+gCEntity * __thiscall gCEntity::gCEntity(gCEntity *this)
+
+{
+  eCDynamicEntity::eCDynamicEntity((eCDynamicEntity *)this);
+  this->vftablePtr = &vftable;
+  return this;
+}
+
+

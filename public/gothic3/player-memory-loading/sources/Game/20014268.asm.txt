@@ -1,0 +1,2 @@
+; 20014268 gCPlayerMemory_PS::Read
+20014268 | e9f3a73000 | JMP 0x2031ea60

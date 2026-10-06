@@ -1,0 +1,4 @@
+; 1000495d ?Shrink@bCBox@@QAEXM@Z
+1000495d | e96e630200 | JMP 0x1002acd0
+; 10004962 bCBitField::GetSlotIndex
+; 10004962 Ordinal_3021

@@ -1,0 +1,10 @@
+/* ENTRY 2002310f | bTPropertyType<gCNavigation_PS,bool>::vfunction7 | STATUS decompiled | 3 ms */
+
+bool __thiscall
+bTPropertyType<gCNavigation_PS,bool>::vfunction7(bTPropertyType<gCNavigation_PS,bool> *this)
+
+{
+  return this[8].vftablePtr != (bTPropertyType<gCNavigation_PS,bool>_vftable *)0x0;
+}
+
+

@@ -1,0 +1,35 @@
+/* ENTRY 204caf50 | bTPropertyType<gCFocus_PS,bool>::~bTPropertyType<gCFocus_PS,bool> | STATUS decompiled | 17 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall bTPropertyType<gCFocus_PS,bool>::~bTPropertyType<gCFocus_PS,bool>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Advanced");
+  bCString::bCString(local_c,"AutoCollectFocus");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCFocus_PS::ms_PropertyMember_m_bAutoCollectFocus,local_c,
+             local_8,local_4,1,false);
+  _ms_PropertyMember_m_bAutoCollectFocus = &vftable;
+  DAT_207b927c = bTPropertyObjectType<gCFocus_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCFocus_PS,eCEntityPropertySet>();
+  _DAT_207b9280 = 0x114;
+  _DAT_207b9284 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCFocus_PS::ms_PropertyMember_m_bAutoCollectFocus);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b927c,
+             (bCPropertyTypeBase *)&gCFocus_PS::ms_PropertyMember_m_bAutoCollectFocus);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}
+
+

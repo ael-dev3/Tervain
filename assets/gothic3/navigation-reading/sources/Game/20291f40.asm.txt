@@ -1,0 +1,24 @@
+; 20291f40 bTPropertyType<gCNavigation_PS,bCVector>::vector_deleting_destructor
+20291f40 | 56 | PUSH ESI
+20291f41 | 8bf1 | MOV ESI,ECX
+20291f43 | c706ece46820 | MOV dword ptr [ESI],0x2068e4ec
+20291f49 | ff15dc877d20 | CALL dword ptr [0x207d87dc]
+20291f4f | 8d4620 | LEA EAX,[ESI + 0x20]
+20291f52 | 50 | PUSH EAX
+20291f53 | e87e9bd8ff | CALL 0x2001bad6
+20291f58 | 8b4e18 | MOV ECX,dword ptr [ESI + 0x18]
+20291f5b | 56 | PUSH ESI
+20291f5c | ff15dc867d20 | CALL dword ptr [0x207d86dc]
+20291f62 | 8bce | MOV ECX,ESI
+20291f64 | c70614526620 | MOV dword ptr [ESI],0x20665214
+20291f6a | ff15e8877d20 | CALL dword ptr [0x207d87e8]
+20291f70 | f644240801 | TEST byte ptr [ESP + 0x8],0x1
+20291f75 | 7409 | JZ 0x20291f80
+20291f77 | 56 | PUSH ESI
+20291f78 | e8b8191d00 | CALL 0x20463935
+20291f7d | 83c404 | ADD ESP,0x4
+; 20291f80 LAB_20291f80
+20291f80 | 8bc6 | MOV EAX,ESI
+20291f82 | 5e | POP ESI
+20291f83 | c20400 | RET 0x4
+; 20291fa0 bTPropertyType<gCNavigation_PS,bCPropertyID>::scalar_deleting_destructor

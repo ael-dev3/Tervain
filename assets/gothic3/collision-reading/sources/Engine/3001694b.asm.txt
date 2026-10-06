@@ -1,0 +1,4 @@
+; 3001694b bTPropertyType<eCCollisionShape_PS,bCObsoleteClass>::vfunction7
+3001694b | e950623200 | JMP 0x3033cba0
+; 30016950 eCSpeedTreeCollisionDesc::eCSpeedTreeCollisionDesc
+; 30016950 Ordinal_760

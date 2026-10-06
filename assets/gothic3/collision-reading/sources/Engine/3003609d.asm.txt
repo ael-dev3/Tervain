@@ -1,0 +1,4 @@
+; 3003609d bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eECollisionGroup>_>::vfunction19
+3003609d | e90ea13000 | JMP 0x303401b0
+; 300360a7 eCVegetation_Mesh::GetVersion
+; 300360a7 Ordinal_9517

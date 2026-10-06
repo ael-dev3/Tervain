@@ -1,0 +1,16 @@
+/* ENTRY 3001b987 | eCCollisionShape_PS::AccessGroup | STATUS decompiled | 7 ms */
+
+/* public: class bTPropertyContainer<enum eECollisionGroup> & __thiscall
+   eCCollisionShape_PS::AccessGroup(void) */
+
+bTPropertyContainer<eECollisionGroup> * __thiscall
+eCCollisionShape_PS::AccessGroup(eCCollisionShape_PS *this)
+
+{
+                    /* 0x1b987  2780
+                       ?AccessGroup@eCCollisionShape_PS@@QAEAAV?$bTPropertyContainer@W4eECollisionGroup@@@@XZ
+                        */
+  return (bTPropertyContainer<eECollisionGroup> *)&this->eCCollisionShape_PS_data;
+}
+
+

@@ -1,0 +1,17 @@
+/* ENTRY 10109630 | FUN_10109630 | STATUS decompiled | 29 ms */
+
+void FUN_10109630(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Decision\\CanSleep.cpp");
+  bCString::bCString(local_8,"CanSwim");
+  thunk_FUN_10017a50(local_8,&LAB_10001b9f,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

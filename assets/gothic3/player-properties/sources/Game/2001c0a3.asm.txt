@@ -1,0 +1,4 @@
+; 2001c0a3 ?SetBaseValue@gCPlayerMemory_PS@@QAE_NABVbCString@@H@Z
+2001c0a3 | e918173000 | JMP 0x2031d7c0
+; 2001c0a8 gCSessionKeys::GetRootObject
+; 2001c0a8 Ordinal_4323

@@ -1,0 +1,4 @@
+; 10001c58 ?GetProtectionIce@PSPlayerMemory@@QBEHXZ
+10001c58 | e9c3840200 | JMP 0x1002a120
+; 10001c62 PSMagic::PropertyAutoReload::operator=
+; 10001c62 Ordinal_279

@@ -1,0 +1,18 @@
+/* ENTRY 20005498 | gCDamage_PS::SetManaUsed | STATUS decompiled | 9 ms */
+
+/* public: void __thiscall gCDamage_PS::SetManaUsed(int const &) */
+
+void __thiscall gCDamage_PS::SetManaUsed(gCDamage_PS *this,int *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x5498  6700  ?SetManaUsed@gCDamage_PS@@QAEXABH@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"ManaUsed",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  *(int *)&this[1].gCDamage_PS_data.field_0x8 = *param_1;
+  (*pNVar1)(this,"ManaUsed",false);
+  return;
+}
+
+

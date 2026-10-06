@@ -1,0 +1,12 @@
+/* ENTRY 3002b837 | eCVisualAnimation_PS::GetBoneJointSpringEnabled | STATUS decompiled | 11 ms */
+
+/* public: bool const & __thiscall eCVisualAnimation_PS::GetBoneJointSpringEnabled(void)const  */
+
+bool * __thiscall eCVisualAnimation_PS::GetBoneJointSpringEnabled(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x2b837  6284  ?GetBoneJointSpringEnabled@eCVisualAnimation_PS@@QBEAB_NXZ */
+  return (bool *)&this[3].eCEntityPropertySet_data.offset_0xc;
+}
+
+

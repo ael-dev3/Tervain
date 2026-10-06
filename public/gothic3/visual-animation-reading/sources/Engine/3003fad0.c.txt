@@ -1,0 +1,15 @@
+/* ENTRY 3003fad0 | eCVisualAnimation_PS::eSMotionDesc::GetMotionOwner | STATUS decompiled | 2 ms */
+
+/* public: enum eCVisualAnimation_PS::eSMotionDesc::eEMotionOwner __thiscall
+   eCVisualAnimation_PS::eSMotionDesc::GetMotionOwner(void)const  */
+
+eEMotionOwner __thiscall eCVisualAnimation_PS::eSMotionDesc::GetMotionOwner(eSMotionDesc *this)
+
+{
+                    /* 0x3fad0  7882
+                       ?GetMotionOwner@eSMotionDesc@eCVisualAnimation_PS@@QBE?AW4eEMotionOwner@12@XZ
+                        */
+  return *(eEMotionOwner *)(this + 8);
+}
+
+

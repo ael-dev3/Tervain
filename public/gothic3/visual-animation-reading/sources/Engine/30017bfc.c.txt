@@ -1,0 +1,16 @@
+/* ENTRY 30017bfc | eCVisualAnimationLipSync::GetPhones | STATUS decompiled | 1 ms */
+
+/* public: class bTValArray<struct eCVisualAnimationLipSync::eSPhone> & __thiscall
+   eCVisualAnimationLipSync::GetPhones(void) */
+
+bTValArray<eCVisualAnimationLipSync::eSPhone> * __thiscall
+eCVisualAnimationLipSync::GetPhones(eCVisualAnimationLipSync *this)
+
+{
+                    /* 0x17bfc  8085
+                       ?GetPhones@eCVisualAnimationLipSync@@QAEAAV?$bTValArray@UeSPhone@eCVisualAnimationLipSync@@@@XZ
+                        */
+  return (bTValArray<eCVisualAnimationLipSync::eSPhone> *)&this->eCVisualAnimationLipSync_data;
+}
+
+

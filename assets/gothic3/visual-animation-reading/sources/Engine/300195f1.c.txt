@@ -1,0 +1,20 @@
+/* ENTRY 300195f1 | eCVisualAnimation_PS::SetBoneJointSpringEnabled | STATUS decompiled | 9 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::SetBoneJointSpringEnabled(bool const &) */
+
+void __thiscall
+eCVisualAnimation_PS::SetBoneJointSpringEnabled(eCVisualAnimation_PS *this,bool *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x195f1  12968  ?SetBoneJointSpringEnabled@eCVisualAnimation_PS@@QAEXAB_N@Z
+                        */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"BoneJointSpringEnabled",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  this[3].eCEntityPropertySet_data.offset_0xc = *param_1;
+  (*pNVar1)(this,"BoneJointSpringEnabled",false);
+  return;
+}
+
+

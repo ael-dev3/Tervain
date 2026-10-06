@@ -1,0 +1,2 @@
+; 200115b8 bTPropertyType<gCClock_PS,float>::vfunction24
+200115b8 | e953941f00 | JMP 0x2020aa10

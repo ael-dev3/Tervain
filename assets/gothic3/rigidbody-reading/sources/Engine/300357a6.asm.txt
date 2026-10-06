@@ -1,0 +1,4 @@
+; 300357a6 bTPropertyType<eCRigidBodyBase_PS,bool>::vfunction10
+300357a6 | e915f82f00 | JMP 0x30334fc0
+; 300357ab eLoDMesh::eCProgTriangle::GetVerts
+; 300357ab Ordinal_9574

@@ -1,0 +1,21 @@
+/* ENTRY 1000709f | bCOrientedBox::Contains | STATUS decompiled | 4 ms */
+
+/* public: bool __thiscall bCOrientedBox::Contains(class bCStretch const &)const  */
+
+bool __thiscall bCOrientedBox::Contains(bCOrientedBox *this,bCStretch *param_1)
+
+{
+  bool bVar1;
+  
+                    /* 0x709f  1703  ?Contains@bCOrientedBox@@QBE_NABVbCStretch@@@Z */
+  bVar1 = Contains(this,(bCVector *)param_1);
+  if (bVar1) {
+    bVar1 = Contains(this,(bCVector *)(param_1 + 0xc));
+    if (bVar1) {
+      return true;
+    }
+  }
+  return false;
+}
+
+

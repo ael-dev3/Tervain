@@ -1,0 +1,4 @@
+; 20034e69 ?AISetTaskTime@gCScriptProcessingUnit@@QAEXM@Z
+20034e69 | e9f22c3300 | JMP 0x20367b60
+; 20034e6e gCNpcInfoCtrl::gCNpcInfoCtrl
+; 20034e6e Ordinal_288

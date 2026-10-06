@@ -1,0 +1,4 @@
+; 100085e9 ?GetRootObject@bCPropertyObjectSingleton@@QBEPBVbCPropertyObjectBase@@ABVbCString@@@Z
+100085e9 | e9327f0800 | JMP 0x10090520
+; 100085ee bCInfCylinder::Intersects
+; 100085ee Ordinal_3379

@@ -1,0 +1,25 @@
+/* ENTRY 20226960 | FUN_20226960 | STATUS decompiled | 17 ms */
+
+void __fastcall FUN_20226960(gCCharacterMovement_PS *param_1)
+
+{
+  bool bVar1;
+  eCEntity *this;
+  eEPropertySetType eVar2;
+  
+  if (((param_1->gCCharacterMovement_PS_data).offset_0xfc != 1) &&
+     ((param_1->gCCharacterMovement_PS_data).offset_0x174 != 0)) {
+    eVar2 = 0x16;
+    this = (*param_1->vftablePtr->GetEntity)(param_1);
+    bVar1 = eCEntity::HasPropertySet((eCEntity *)this,eVar2);
+    if (bVar1) {
+      gCCharacterMovement_PS::CreateDependantPSets(param_1);
+      gCCharacterSensor_PS::ProcessPlayerMovements
+                ((gCCharacterSensor_PS *)(param_1->gCCharacterMovement_PS_data).offset_0x174);
+      return;
+    }
+  }
+  return;
+}
+
+

@@ -1,0 +1,31 @@
+/* ENTRY 300cd340 | FUN_300cd340 | STATUS decompiled | 14 ms */
+
+float10 __fastcall FUN_300cd340(int param_1)
+
+{
+  float fVar1;
+  
+  switch(*(undefined4 *)(param_1 + 0x10)) {
+  case 1:
+  case 6:
+                    /* WARNING: Could not recover jumptable at 0x300cd359. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+    fVar1 = bCBox::GetWidth((bCBox *)(param_1 + 0x48));
+    return (float10)fVar1;
+  default:
+    return (float10)0;
+  case 3:
+                    /* WARNING: Could not recover jumptable at 0x300cd365. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+    fVar1 = bCOrientedBox::GetWidth(*(bCOrientedBox **)(param_1 + 0x74));
+    return (float10)fVar1;
+  case 4:
+    fVar1 = *(float *)(*(int *)(param_1 + 0x74) + 4);
+    return (float10)(fVar1 + fVar1);
+  case 5:
+    fVar1 = bCSphere::GetRadius(*(bCSphere **)(param_1 + 0x74));
+    return (float10)(fVar1 + fVar1);
+  }
+}
+
+

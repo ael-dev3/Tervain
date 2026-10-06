@@ -1,0 +1,2 @@
+; 10002ad1 bCVector4::operator=
+10002ad1 | e92a180200 | JMP 0x10024300

@@ -1,0 +1,47 @@
+/* ENTRY 10001b77 | Entity::SortEntites | STATUS decompiled | 26 ms */
+
+/* protected: static int __cdecl Entity::SortEntites(void const *,void const *) */
+
+int __cdecl Entity::SortEntites(void *param_1,void *param_2)
+
+{
+  eCEntity *this;
+  eCEntity *this_00;
+  eCEntity *this_01;
+  bCMatrix *pbVar1;
+  bCVector *pbVar2;
+  bCVector *pbVar3;
+  float fVar4;
+  bCVector abStack_c [8];
+  float fStack_4;
+  
+                    /* 0x1b77  2020  ?SortEntites@Entity@@KAHPBX0@Z */
+  this_01 = DAT_100b3910;
+  this = *(eCEntity **)param_2;
+  this_00 = *(eCEntity **)param_1;
+  pbVar1 = eCEntity::GetWorldMatrix(DAT_100b3910);
+  bCMatrix::GetTranslation(pbVar1);
+  pbVar3 = abStack_c;
+  pbVar1 = eCEntity::GetWorldMatrix(this_00);
+  pbVar2 = bCMatrix::GetTranslation(pbVar1);
+  pbVar3 = (bCVector *)bCVector::operator-(pbVar2,pbVar3);
+  bCVector::GetSquareMagnitude(pbVar3);
+  bCVector::~bCVector((bCVector *)&stack0xfffffff0);
+  pbVar1 = eCEntity::GetWorldMatrix(this_01);
+  bCMatrix::GetTranslation(pbVar1);
+  pbVar3 = (bCVector *)&stack0xfffffff0;
+  pbVar1 = eCEntity::GetWorldMatrix(this);
+  pbVar2 = bCMatrix::GetTranslation(pbVar1);
+  pbVar3 = (bCVector *)bCVector::operator-(pbVar2,pbVar3);
+  fVar4 = bCVector::GetSquareMagnitude(pbVar3);
+  bCVector::~bCVector((bCVector *)&stack0xffffffec);
+  if (fStack_4 < fVar4) {
+    return -1;
+  }
+  if (fVar4 < fStack_4) {
+    return 1;
+  }
+  return 0;
+}
+
+

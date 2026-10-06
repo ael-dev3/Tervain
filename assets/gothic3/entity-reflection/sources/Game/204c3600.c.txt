@@ -1,0 +1,31 @@
+/* ENTRY 204c3600 | bTPropertyType<gCEffect_PS,bCVector>::~bTPropertyType<gCEffect_PS,bCVector> | STATUS decompiled | 12 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCEffect_PS,bCVector>::~bTPropertyType<gCEffect_PS,bCVector>
+          (bTPropertyType<gCEffect_PS,bCVector> *this)
+
+{
+  bTPropertyType<gCEffect_PS,bCVector> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"Offset");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCEffect_PS::ms_PropertyMember_m_vecOffset,(bCString *)&local_4,
+             1);
+  _ms_PropertyMember_m_vecOffset = &vftable;
+  DAT_207b7e8c = bTPropertyObjectType<gCEffect_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCEffect_PS,eCEntityPropertySet>();
+  _DAT_207b7e90 = 0x18;
+  _DAT_207b7e94 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCEffect_PS::ms_PropertyMember_m_vecOffset);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b7e8c,
+             (bCPropertyTypeBase *)&gCEffect_PS::ms_PropertyMember_m_vecOffset);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bCVector>::~bTPropertyTypeOnly<bCVector>);
+  return;
+}
+
+

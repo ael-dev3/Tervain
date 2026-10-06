@@ -1,0 +1,9 @@
+; 1009fe90 bCFloatAlphaColor::bCFloatAlphaColor
+1009fe90 | 0f57c0 | XORPS XMM0,XMM0
+1009fe93 | 8bc1 | MOV EAX,ECX
+1009fe95 | c70028ba0e10 | MOV dword ptr [EAX],0x100eba28
+1009fe9b | f30f114004 | MOVSS dword ptr [EAX + 0x4],XMM0
+1009fea0 | f30f114008 | MOVSS dword ptr [EAX + 0x8],XMM0
+1009fea5 | f30f11400c | MOVSS dword ptr [EAX + 0xc],XMM0
+1009feaa | f30f114010 | MOVSS dword ptr [EAX + 0x10],XMM0
+1009feaf | c3 | RET

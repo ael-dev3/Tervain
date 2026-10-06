@@ -1,0 +1,2 @@
+; 300361ba ?SearchForEntity@eCEntity@@IBEGW4eEPropertySetType@@@Z
+300361ba | e961ee4700 | JMP 0x304b5020

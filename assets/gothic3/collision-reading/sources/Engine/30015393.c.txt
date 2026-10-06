@@ -1,0 +1,12 @@
+/* ENTRY 30015393 | eCCollisionShape::GetCapsule | STATUS decompiled | 3 ms */
+
+/* public: class bCCapsule & __thiscall eCCollisionShape::GetCapsule(void) */
+
+bCCapsule * __thiscall eCCollisionShape::GetCapsule(eCCollisionShape *this)
+
+{
+                    /* 0x15393  6430  ?GetCapsule@eCCollisionShape@@QAEAAVbCCapsule@@XZ */
+  return (bCCapsule *)(this->eCCollisionShape_data).offset_0x70;
+}
+
+

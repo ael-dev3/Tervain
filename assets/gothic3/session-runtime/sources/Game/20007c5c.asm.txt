@@ -1,0 +1,4 @@
+; 20007c5c ??0gCSession@@QAE@XZ
+20007c5c | e95fd03600 | JMP 0x20374cc0
+; 20007c75 gCScriptProcessingUnit::SetCurrentAIState
+; 20007c75 Ordinal_6339

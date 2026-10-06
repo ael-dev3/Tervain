@@ -1,0 +1,2 @@
+; 3003f738 eCVisualAnimation_PS::Destroy
+3003f738 | e933590600 | JMP 0x300a5070

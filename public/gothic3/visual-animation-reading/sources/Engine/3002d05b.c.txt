@@ -1,0 +1,19 @@
+/* ENTRY 3002d05b | eCVisualAnimation_PS::EnableAutoAiming | STATUS decompiled | 295 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::EnableAutoAiming(bool,class eCEntity *,class
+   bCString &) */
+
+void __thiscall
+eCVisualAnimation_PS::EnableAutoAiming
+          (eCVisualAnimation_PS *this,bool param_1,eCEntity *param_2,bCString *param_3)
+
+{
+                    /* 0x2d05b  5761
+                       ?EnableAutoAiming@eCVisualAnimation_PS@@QAEX_NPAVeCEntity@@AAVbCString@@@Z */
+  this[0x13].vftablePtr = (eCVisualAnimation_PS_vftable *)param_2;
+  this[0x12].eCEntityPropertySet_data.field_0xf = param_1;
+  bCString::operator=((bCString *)&this[0x13].eCEntityPropertySet_data.field_0x4,param_3);
+  return;
+}
+
+

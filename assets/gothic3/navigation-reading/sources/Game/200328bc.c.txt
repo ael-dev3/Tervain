@@ -1,0 +1,70 @@
+/* ENTRY 200328bc | gCNavigation_PS::OnNotifyPropertyValueChangedEnterEx | STATUS decompiled | 24 ms */
+
+/* public: virtual bool __thiscall gCNavigation_PS::OnNotifyPropertyValueChangedEnterEx(char const
+   *,bool) */
+
+bool __thiscall
+gCNavigation_PS::OnNotifyPropertyValueChangedEnterEx
+          (gCNavigation_PS *this,char *param_1,bool param_2)
+
+{
+  bool bVar1;
+  eCSceneAdmin *peVar2;
+  eCNode *peVar3;
+  eCEntity *peVar4;
+  ushort *puVar5;
+  bCPropertyID *pbVar6;
+  eEGetEntityTypeHint eVar7;
+  
+                    /* 0x328bc  5486
+                       ?OnNotifyPropertyValueChangedEnterEx@gCNavigation_PS@@UAE_NPBD_N@Z */
+  if (!param_2) {
+    bVar1 = bCString::operator==((bCString *)&DAT_207bfaa8,param_1);
+    if (bVar1) {
+      eVar7 = 0;
+      pbVar6 = (bCPropertyID *)&(this->gCNavigation_PS_data).field_0x44;
+      peVar2 = (eCSceneAdmin *)
+               thunk_FUN_200ae8e0(pbVar6,0,0,&eCNode::RTTI_Type_Descriptor,
+                                  &eCEntity::RTTI_Type_Descriptor,0);
+      peVar3 = eCSceneAdmin::GetEntity(peVar2,pbVar6,eVar7);
+      peVar4 = (eCEntity *)___RTDynamicCast(peVar3);
+      if (peVar4 != (eCEntity *)0x0) {
+        puVar5 = eCEntity::GetRefCountTAPoints(peVar4);
+        *puVar5 = *puVar5 - 1;
+      }
+    }
+    bVar1 = bCString::operator==((bCString *)&DAT_207bfaac,param_1);
+    if (bVar1) {
+      eVar7 = 0;
+      pbVar6 = (bCPropertyID *)&(this->gCNavigation_PS_data).field_0x1c;
+      peVar2 = (eCSceneAdmin *)
+               thunk_FUN_200ae8e0(pbVar6,0,0,&eCNode::RTTI_Type_Descriptor,
+                                  &eCEntity::RTTI_Type_Descriptor,0);
+      peVar3 = eCSceneAdmin::GetEntity(peVar2,pbVar6,eVar7);
+      peVar4 = (eCEntity *)___RTDynamicCast(peVar3);
+      if (peVar4 != (eCEntity *)0x0) {
+        puVar5 = eCEntity::GetRefCountTAPoints(peVar4);
+        *puVar5 = *puVar5 - 1;
+      }
+    }
+    bVar1 = bCString::operator==((bCString *)&DAT_207bfab0,param_1);
+    if (bVar1) {
+      eVar7 = 0;
+      pbVar6 = (bCPropertyID *)&(this->gCNavigation_PS_data).field_0x30;
+      peVar2 = (eCSceneAdmin *)
+               thunk_FUN_200ae8e0(pbVar6,0,0,&eCNode::RTTI_Type_Descriptor,
+                                  &eCEntity::RTTI_Type_Descriptor,0);
+      peVar3 = eCSceneAdmin::GetEntity(peVar2,pbVar6,eVar7);
+      peVar4 = (eCEntity *)___RTDynamicCast(peVar3);
+      if (peVar4 != (eCEntity *)0x0) {
+        puVar5 = eCEntity::GetRefCountTAPoints(peVar4);
+        *puVar5 = *puVar5 - 1;
+      }
+    }
+  }
+  bVar1 = eCEntityPropertySet::OnNotifyPropertyValueChangedEnterEx
+                    ((eCEntityPropertySet *)this,param_1,param_2);
+  return bVar1;
+}
+
+

@@ -1,0 +1,60 @@
+/* ENTRY 20018f93 | gCNavPath_PS::OnPostRead | STATUS decompiled | 50 ms */
+
+/* public: virtual void __thiscall gCNavPath_PS::OnPostRead(void) */
+
+void __thiscall gCNavPath_PS::OnPostRead(gCNavPath_PS *this)
+
+{
+  eCEntity *this_00;
+  bCMatrix *pbVar1;
+  bCVector *this_01;
+  float fVar2;
+  float fVar3;
+  bCVector *pbVar4;
+  bCVector abStack_64 [4];
+  bCVector abStack_60 [4];
+  bCVector abStack_5c [4];
+  bCVector abStack_58 [4];
+  bCVector abStack_54 [8];
+  bCVector abStack_4c [8];
+  bCMatrix abStack_44 [4];
+  bCMatrix abStack_40 [64];
+  
+                    /* 0x18f93  5527  ?OnPostRead@gCNavPath_PS@@UAEXXZ */
+  GameReset(this);
+  if (((*(ushort *)&this[1].gCNavPath_PS_data.offset_0x14 < 0x27) &&
+      ((this->gCNavPath_PS_data).field_0x28 == '\0')) &&
+     ((this->gCNavPath_PS_data).offset_0x20 == 2)) {
+    this_00 = (*this->vftablePtr->GetEntity)(this);
+    pbVar1 = eCEntity::GetWorldMatrix((eCEntity *)this_00);
+    bCMatrix::bCMatrix(abStack_40,pbVar1);
+    bCMatrix::operator*(abStack_40,abStack_4c);
+    bCMatrix::operator*(abStack_44,abStack_5c);
+    fVar2 = bCVector::GetY(abStack_54);
+    fVar3 = bCVector::GetY(abStack_60);
+    if (ABS(fVar2 - fVar3) <= 200.0) {
+      pbVar4 = abStack_60;
+      this_01 = (bCVector *)bCVector::operator-(abStack_54,(bCVector *)&stack0xffffff94);
+      fVar2 = bCVector::GetMagnitude2D(this_01,(bECoordinate)pbVar4);
+      bCVector::~bCVector((bCVector *)&stack0xffffff90);
+      if (fVar2 <= 800.0) {
+        *(undefined4 *)(this->gCNavPath_PS_data).offset_0x1c = 0x41a00000;
+        *(undefined4 *)((int)(this->gCNavPath_PS_data).offset_0x1c + 4) = 0x41a00000;
+      }
+    }
+    SetTopToleranz(this,(float *)&stack0xffffff90);
+    SetBottomToleranz(this,(float *)&stack0xffffff90);
+    SetLinkInnerArea(this,(bool *)&stack0xffffff8f);
+    SetLinkInnerTopArea(this,(bool *)&stack0xffffff8f);
+    SetLinkInnerBottomArea(this,(bool *)&stack0xffffff8f);
+    bCVector::~bCVector(abStack_64);
+    bCVector::~bCVector(abStack_58);
+    bCMatrix::~bCMatrix((bCMatrix *)abStack_4c);
+  }
+                    /* WARNING: Could not recover jumptable at 0x202985f0. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eCEntityPropertySet::OnPostRead((eCEntityPropertySet *)this);
+  return;
+}
+
+

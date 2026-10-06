@@ -1,0 +1,2 @@
+; 2001dbd3 bTPropertyType<gCNPC_PS,bTPropertyContainer<gEGuardStatus>_>::vfunction1
+2001dbd3 | e9e8c42e00 | JMP 0x2030a0c0

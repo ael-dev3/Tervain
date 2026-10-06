@@ -1,0 +1,2 @@
+; 3002a7a2 eCVisualAnimation_PS::eCVisualAnimation_PS
+3002a7a2 | e989ab0700 | JMP 0x300a5330

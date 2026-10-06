@@ -1,0 +1,88 @@
+/* ENTRY 201b0b20 | FUN_201b0b20 | STATUS decompiled | 70 ms */
+
+uint __thiscall FUN_201b0b20(gCInventory_PS *param_1,int param_2)
+
+{
+  bool bVar1;
+  bool bVar2;
+  undefined3 extraout_var;
+  gCInventoryStack *this;
+  gEUseType gVar4;
+  eCEntity *peVar5;
+  undefined3 extraout_var_00;
+  undefined3 extraout_var_01;
+  gCInventoryStack *pgVar6;
+  gCInventoryStack *pgVar7;
+  gCInventorySlot *this_00;
+  undefined3 extraout_var_02;
+  undefined3 uVar8;
+  gESlot gVar9;
+  gESlot gVar10;
+  gESlot gStack_8;
+  gESlot gStack_4;
+  uint uVar3;
+  
+  bVar2 = gCInventory_PS::IsValidIndex(param_1,param_2);
+  uVar3 = CONCAT31(extraout_var,bVar2);
+  if (!bVar2) {
+LAB_201b0b35:
+    return uVar3 & 0xffffff00;
+  }
+  this = (gCInventoryStack *)gCInventory_PS::GetStack(param_1,param_2);
+  gVar4 = gCInventorySlot::GetUseType((gCInventorySlot *)this);
+  uVar3 = 0;
+  if (gVar4 == 0) goto LAB_201b0b35;
+  peVar5 = (*param_1->vftablePtr->GetEntity)(param_1);
+  bVar2 = gCInventoryStack::IsEquipped(this,peVar5);
+  uVar8 = extraout_var_00;
+  if (bVar2) goto LAB_201b0c6e;
+  gCInventorySlot::IsLinked((gCInventorySlot *)this);
+  gStack_8 = 0;
+  gStack_4 = 0;
+  peVar5 = (*param_1->vftablePtr->GetEntity)(param_1);
+  gCInventorySlot::GetEquipSlots((gCInventorySlot *)this,&gStack_8,&gStack_4,peVar5);
+  uVar8 = extraout_var_01;
+  if (gStack_8 == 0) goto LAB_201b0c6e;
+  bVar2 = false;
+  pgVar6 = gCInventory_PS::FindStack(param_1,gStack_4);
+  pgVar7 = gCInventory_PS::FindStack(param_1,gStack_8);
+  this_00 = (gCInventorySlot *)gCInventory_PS::FindStack(param_1,1);
+  if (((this_00 == (gCInventorySlot *)0x0) ||
+      (gVar4 = gCInventorySlot::GetUseType(this_00), gVar4 != 2)) ||
+     (gVar4 = gCInventorySlot::GetUseType((gCInventorySlot *)this), gVar4 != 2)) {
+    bVar1 = false;
+  }
+  else {
+    bVar1 = true;
+  }
+  if ((pgVar7 != (gCInventoryStack *)0x0) || (bVar1)) {
+    bVar2 = true;
+  }
+  gVar9 = gStack_8;
+  if (((bVar2) && (gStack_4 != 0)) && (pgVar6 == (gCInventoryStack *)0x0)) {
+    gVar9 = gStack_4;
+  }
+  if ((gVar9 == 2) || (gVar10 = gVar9, gVar9 == 5)) {
+    gCInventory_PS::UnlinkStackFromSlot(param_1,2);
+    gCInventory_PS::UnlinkStackFromSlot(param_1,5);
+    gVar4 = gCInventory_PS::GetStackUseType(param_1,1);
+    switch(gVar4) {
+    case 3:
+    case 0xc:
+    case 0x33:
+    case 0x34:
+      gVar10 = 1;
+      goto LAB_201b0c57;
+    }
+  }
+  else {
+LAB_201b0c57:
+    gCInventory_PS::UnlinkStackFromSlot(param_1,gVar10);
+  }
+  gCInventory_PS::LinkStackToSlot(param_1,param_2,gVar9,true);
+  uVar8 = extraout_var_02;
+LAB_201b0c6e:
+  return CONCAT31(uVar8,1);
+}
+
+

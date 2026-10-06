@@ -1,0 +1,4 @@
+; 200050c9 ?GameReset@gCNavigation_PS@@IAEXXZ
+200050c9 | e9821f2800 | JMP 0x20287050
+; 200050ce gCAmbientLibrary::GetObjects
+; 200050ce Ordinal_3907

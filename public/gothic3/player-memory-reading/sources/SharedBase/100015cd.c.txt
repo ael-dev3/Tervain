@@ -1,0 +1,12 @@
+/* ENTRY 100015cd | bCGuid::~bCGuid | STATUS decompiled | 2 ms */
+
+/* public: __thiscall bCGuid::~bCGuid(void) */
+
+void __thiscall bCGuid::~bCGuid(bCGuid *this)
+
+{
+                    /* 0x15cd  382  ??1bCGuid@@QAE@XZ */
+  return;
+}
+
+

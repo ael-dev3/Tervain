@@ -1,0 +1,39 @@
+/* ENTRY 3002659e | eCCollisionShape_PS::EnableShapeGroupCollision | STATUS decompiled | 24 ms */
+
+/* public: void __thiscall eCCollisionShape_PS::EnableShapeGroupCollision(enum
+   eEShapeGroup,bool,int) */
+
+void __thiscall
+eCCollisionShape_PS::EnableShapeGroupCollision
+          (eCCollisionShape_PS *this,eEShapeGroup param_1,bool param_2,int param_3)
+
+{
+  int *piVar1;
+  code *pcVar2;
+  eCEntity *peVar3;
+  eCPhysicObjectStateBuffer *this_00;
+  int iVar4;
+  char unaff_retaddr;
+  
+                    /* 0x2659e  5819
+                       ?EnableShapeGroupCollision@eCCollisionShape_PS@@QAEXW4eEShapeGroup@@_NH@Z */
+  iVar4 = 0;
+  if (0 < (this->eCCollisionShape_PS_data).offset_0x18) {
+    do {
+      piVar1 = *(int **)((this->eCCollisionShape_PS_data).offset_0x14 + iVar4 * 4);
+      if (param_1 == piVar1[6]) {
+        (**(code **)(*piVar1 + 0x58))("DisableCollision",0);
+        pcVar2 = *(code **)(*piVar1 + 0x5c);
+        *(bool *)((int)piVar1 + 0x2f) = unaff_retaddr == '\0';
+        (*pcVar2)("DisableCollision",0);
+      }
+      iVar4 = iVar4 + 1;
+    } while (iVar4 < (this->eCCollisionShape_PS_data).offset_0x18);
+  }
+  peVar3 = (*this->vftablePtr->GetEntity)(this);
+  this_00 = eCPhysicObjectStateBuffer::GetBuffer(peVar3);
+  eCPhysicObjectStateBuffer::EnableShapeCollision(this_00,param_1,param_2,param_3);
+  return;
+}
+
+

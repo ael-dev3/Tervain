@@ -1,0 +1,4 @@
+; 20001db1 bTPropertyType<gCNavigation_PS,bTValArray<bCPropertyID>_>::vfunction26
+20001db1 | e9ead22800 | JMP 0x2028f0a0
+; 20001dbb gCMusicSequencer::SetDayTime
+; 20001dbb Ordinal_6381

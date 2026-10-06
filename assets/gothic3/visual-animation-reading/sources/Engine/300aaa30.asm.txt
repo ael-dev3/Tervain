@@ -1,0 +1,7 @@
+; 300aaa30 bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector>::vfunction5
+300aaa30 | 682cd18130 | PUSH 0x3081d12c
+300aaa35 | 68a4968130 | PUSH 0x308196a4
+300aaa3a | ff1530dbaf30 | CALL dword ptr [0x30afdb30]
+300aaa40 | 83c408 | ADD ESP,0x8
+300aaa43 | 66b80100 | MOV AX,0x1
+300aaa47 | c20400 | RET 0x4

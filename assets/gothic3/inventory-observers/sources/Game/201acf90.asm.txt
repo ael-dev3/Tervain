@@ -1,0 +1,60 @@
+; 201acf90 FUN_201acf90
+201acf90 | 53 | PUSH EBX
+201acf91 | 8b5c2408 | MOV EBX,dword ptr [ESP + 0x8]
+201acf95 | 85db | TEST EBX,EBX
+201acf97 | 55 | PUSH EBP
+201acf98 | 8be9 | MOV EBP,ECX
+201acf9a | 746d | JZ 0x201ad009
+201acf9c | 8b4d50 | MOV ECX,dword ptr [EBP + 0x50]
+201acf9f | 33c0 | XOR EAX,EAX
+201acfa1 | 85c9 | TEST ECX,ECX
+201acfa3 | 7e11 | JLE 0x201acfb6
+201acfa5 | 8b554c | MOV EDX,dword ptr [EBP + 0x4c]
+; 201acfa8 LAB_201acfa8
+201acfa8 | 391a | CMP dword ptr [EDX],EBX
+201acfaa | 740d | JZ 0x201acfb9
+201acfac | 83c001 | ADD EAX,0x1
+201acfaf | 83c208 | ADD EDX,0x8
+201acfb2 | 3bc1 | CMP EAX,ECX
+201acfb4 | 7cf2 | JL 0x201acfa8
+; 201acfb6 LAB_201acfb6
+201acfb6 | 83c8ff | OR EAX,0xffffffff
+; 201acfb9 LAB_201acfb9
+201acfb9 | 3bc1 | CMP EAX,ECX
+201acfbb | 730a | JNC 0x201acfc7
+201acfbd | 8b4d4c | MOV ECX,dword ptr [EBP + 0x4c]
+201acfc0 | c644c10401 | MOV byte ptr [ECX + EAX*0x8 + 0x4],0x1
+201acfc5 | eb30 | JMP 0x201acff7
+; 201acfc7 LAB_201acfc7
+201acfc7 | 56 | PUSH ESI
+201acfc8 | 8b7550 | MOV ESI,dword ptr [EBP + 0x50]
+201acfcb | 57 | PUSH EDI
+201acfcc | 8d7d4c | LEA EDI,[EBP + 0x4c]
+201acfcf | 83c601 | ADD ESI,0x1
+201acfd2 | 8bd6 | MOV EDX,ESI
+201acfd4 | f7da | NEG EDX
+201acfd6 | 1bd2 | SBB EDX,EDX
+201acfd8 | f7da | NEG EDX
+201acfda | 83ea01 | SUB EDX,0x1
+201acfdd | 52 | PUSH EDX
+201acfde | 56 | PUSH ESI
+201acfdf | 8bcf | MOV ECX,EDI
+201acfe1 | e8d39de7ff | CALL 0x20026db9
+201acfe6 | 8b07 | MOV EAX,dword ptr [EDI]
+201acfe8 | 897704 | MOV dword ptr [EDI + 0x4],ESI
+201acfeb | 8d44f0f8 | LEA EAX,[EAX + ESI*0x8 + -0x8]
+201acfef | 5f | POP EDI
+201acff0 | 8918 | MOV dword ptr [EAX],EBX
+201acff2 | c6400401 | MOV byte ptr [EAX + 0x4],0x1
+201acff6 | 5e | POP ESI
+; 201acff7 LAB_201acff7
+201acff7 | 837d5001 | CMP dword ptr [EBP + 0x50],0x1
+201acffb | 750c | JNZ 0x201ad009
+201acffd | 8d4d14 | LEA ECX,[EBP + 0x14]
+201ad000 | 51 | PUSH ECX
+201ad001 | 8d4d30 | LEA ECX,[EBP + 0x30]
+201ad004 | e891a5e5ff | CALL 0x2000759a
+; 201ad009 LAB_201ad009
+201ad009 | 5d | POP EBP
+201ad00a | 5b | POP EBX
+201ad00b | c20400 | RET 0x4

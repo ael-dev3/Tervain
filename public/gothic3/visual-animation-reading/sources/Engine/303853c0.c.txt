@@ -1,0 +1,16 @@
+/* ENTRY 303853c0 | bTPropertyObjectType<eCEffector,bCObjectRefBase>::vfunction9 | STATUS decompiled | 7 ms */
+
+void __thiscall
+bTPropertyObjectType<eCEffector,bCObjectRefBase>::vfunction9
+          (bTPropertyObjectType<eCEffector,bCObjectRefBase> *this,bCPropertyObjectTypeBase *param_1)
+
+{
+  GE_MESSAGEF_WARN("The method %s detected an improper usage! \nHint:%s ",
+                   "bTPropertyObjectType<CLASS, BASECLASS>::CopyFrom",
+                   "It is not allowed to make a copy of propertytype.\nDo not call it from derived class or change access !"
+                  );
+  bCPropertyObjectTypeBase::CopyFrom((bCPropertyObjectTypeBase *)this,param_1);
+  return;
+}
+
+

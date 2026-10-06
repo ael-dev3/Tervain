@@ -1,0 +1,2 @@
+; 20023a9c bTPropertyContainer<gEFocusLookAtKeysFOR>::vfunction5
+20023a9c | e9bfb41100 | JMP 0x2013ef60

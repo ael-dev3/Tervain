@@ -1,0 +1,9 @@
+/* ENTRY 30360540 | bTPropertyType<eCCollisionShape,bool>::vfunction2 | STATUS decompiled | 1 ms */
+
+undefined4 __thiscall bTPropertyType<eCCollisionShape,bool>::vfunction2(void)
+
+{
+  return 1;
+}
+
+

@@ -1,0 +1,12 @@
+/* ENTRY 30033519 | eCEntity::GetLocalNodeBoundary | STATUS decompiled | 49 ms */
+
+/* public: class bCBox const & __thiscall eCEntity::GetLocalNodeBoundary(void)const  */
+
+bCBox * __thiscall eCEntity::GetLocalNodeBoundary(eCEntity *this)
+
+{
+                    /* 0x33519  7655  ?GetLocalNodeBoundary@eCEntity@@QBEABVbCBox@@XZ */
+  return (bCBox *)&(this->eCEntity_data).field_0xe0;
+}
+
+

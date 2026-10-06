@@ -1,0 +1,42 @@
+/* ENTRY 303314c0 | bTPropertyType<eCRigidBody_PS,float>::vfunction15 | STATUS decompiled | 17 ms */
+
+void __thiscall
+bTPropertyType<eCRigidBody_PS,float>::vfunction15
+          (bTPropertyType<eCRigidBody_PS,float> *this,bCIStream *param_1)
+
+{
+  int iVar1;
+  int *piVar2;
+  bCString *pbVar3;
+  char *pcVar4;
+  bTPropertyType<eCVisualAnimation_PS,float>_vftable *pbVar5;
+  undefined4 *in_stack_00000008;
+  undefined4 uVar6;
+  ulong uStack_4;
+  
+  (*this->vftablePtr->Read)(this,(bCIStream *)param_1);
+  bCIStream::operator>>(param_1,&uStack_4);
+  iVar1 = (**(code **)*in_stack_00000008)();
+  if (iVar1 != 0) {
+    piVar2 = (int *)(**(code **)*in_stack_00000008)();
+    iVar1 = *piVar2;
+    uVar6 = 1;
+    pbVar3 = bCPropertyTypeBase::GetPropertyName((bCPropertyTypeBase *)this);
+    pcVar4 = bCString::operator_char_const_(pbVar3);
+    (**(code **)(iVar1 + 0x58))(pcVar4,uVar6);
+  }
+  pbVar5 = (*this->vftablePtr->vfunction26)(this,in_stack_00000008);
+  bCIStream::operator>>(param_1,(float *)pbVar5);
+  iVar1 = (**(code **)*in_stack_00000008)();
+  if (iVar1 != 0) {
+    piVar2 = (int *)(**(code **)*in_stack_00000008)();
+    iVar1 = *piVar2;
+    uVar6 = 1;
+    pbVar3 = bCPropertyTypeBase::GetPropertyName((bCPropertyTypeBase *)this);
+    pcVar4 = bCString::operator_char_const_(pbVar3);
+    (**(code **)(iVar1 + 0x5c))(pcVar4,uVar6);
+  }
+  return;
+}
+
+

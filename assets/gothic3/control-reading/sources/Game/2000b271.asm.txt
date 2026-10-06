@@ -1,0 +1,2 @@
+; 2000b271 bTPropertyType<gCCharacterControl_PS,unsigned_long>::vfunction6
+2000b271 | e9da322100 | JMP 0x2021e550

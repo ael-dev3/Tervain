@@ -1,0 +1,15 @@
+/* ENTRY 20026e86 | gCParty_PS::GetSaveGameRelevance | STATUS decompiled | 7 ms */
+
+/* public: virtual enum eCEntityPropertySet::eEPSSaveGameRelevance __thiscall
+   gCParty_PS::GetSaveGameRelevance(void)const  */
+
+eEPSSaveGameRelevance __thiscall gCParty_PS::GetSaveGameRelevance(gCParty_PS *this)
+
+{
+                    /* 0x26e86  4371
+                       ?GetSaveGameRelevance@gCParty_PS@@UBE?AW4eEPSSaveGameRelevance@eCEntityPropertySet@@XZ
+                        */
+  return 2;
+}
+
+

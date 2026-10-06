@@ -1,0 +1,36 @@
+/* ENTRY 201a9110 | FUN_201a9110 | STATUS decompiled | 16 ms */
+
+void * __thiscall FUN_201a9110(void *this)
+
+{
+  eCEntityPropertySet::eCEntityPropertySet(this);
+                    /* inlined constructor or destructor (approx location) for gCInventoryListener
+                        */
+  *(gCInventoryListener_vftable **)((int)this + 0x14) = &gCInventoryListener::vftable;
+                    /* inlined constructor or destructor (approx location) for gCInventory_PS */
+  *(gCInventory_PS_vftable0 **)this = &gCInventory_PS::vftable_for_eCEntityPropertySet_;
+  *(gCInventory_PS_vftable1 **)((int)this + 0x14) =
+       &gCInventory_PS::vftable_for_gCInventoryListener_;
+  bCString::bCString((bCString *)((int)this + 0x1c));
+  bCString::bCString((bCString *)((int)this + 0x20));
+  bCString::bCString((bCString *)((int)this + 0x24));
+  bCString::bCString((bCString *)((int)this + 0x28));
+  bCString::bCString((bCString *)((int)this + 0x2c));
+  thunk_FUN_201cf930();
+  thunk_FUN_201cecc0();
+  *(undefined4 *)((int)this + 0x4c) = 0;
+  *(undefined4 *)((int)this + 0x50) = 0;
+  *(undefined4 *)((int)this + 0x54) = 0;
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)((int)this + 0x58));
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)((int)this + 0x74));
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)((int)this + 0x90));
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)((int)this + 0xac));
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)((int)this + 200));
+  eCEntityProxy::SetEntity((eCEntityProxy *)((int)this + 0x58),(eCEntity *)0x0);
+  eCEntityProxy::SetEntity((eCEntityProxy *)((int)this + 0x74),(eCEntity *)0x0);
+  eCEntityProxy::SetEntity((eCEntityProxy *)((int)this + 0x90),(eCEntity *)0x0);
+  gCInventory_PS::ClearDefaultItems(this);
+  return this;
+}
+
+

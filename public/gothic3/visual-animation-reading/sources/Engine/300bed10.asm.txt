@@ -1,0 +1,11 @@
+; 300bed10 FUN_300bed10
+300bed10 | 83790800 | CMP dword ptr [ECX + 0x8],0x0
+300bed14 | 7414 | JZ 0x300bed2a
+300bed16 | 8b4908 | MOV ECX,dword ptr [ECX + 0x8]
+300bed19 | 8b01 | MOV EAX,dword ptr [ECX]
+300bed1b | 8b542404 | MOV EDX,dword ptr [ESP + 0x4]
+300bed1f | 8b80a8000000 | MOV EAX,dword ptr [EAX + 0xa8]
+300bed25 | 6a00 | PUSH 0x0
+300bed27 | 52 | PUSH EDX
+300bed28 | ffd0 | CALL EAX
+300bed2a | c20400 | RET 0x4

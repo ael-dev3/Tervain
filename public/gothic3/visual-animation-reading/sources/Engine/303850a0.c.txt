@@ -1,0 +1,15 @@
+/* ENTRY 303850a0 | eCEffector::eCEffector | STATUS decompiled | 9 ms */
+
+eCEffector * __thiscall eCEffector::eCEffector(eCEffector *this)
+
+{
+  bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)this);
+  this->vftablePtr = &vftable;
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)&(this->eCEffector_data).field_0x8);
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)&(this->eCEffector_data).field_0x24);
+  bCVector::bCVector((bCVector *)&(this->eCEffector_data).field_0x40);
+  bCVector::bCVector((bCVector *)&(this->eCEffector_data).field_0x4c);
+  return this;
+}
+
+

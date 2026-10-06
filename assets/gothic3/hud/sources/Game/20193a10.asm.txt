@@ -1,0 +1,3 @@
+; 20193a10 gCHUDStaticDocCategory::~gCHUDStaticDocCategory
+20193a10 | c701c4a26720 | MOV dword ptr [ECX],0x2067a2c4
+20193a16 | ff2510797d20 | JMP dword ptr [0x207d7910]

@@ -1,0 +1,3 @@
+; 202222c0 FUN_202222c0
+202222c0 | 8a81bc020000 | MOV AL,byte ptr [ECX + 0x2bc]
+202222c6 | c3 | RET

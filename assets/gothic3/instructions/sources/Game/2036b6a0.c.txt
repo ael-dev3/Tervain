@@ -1,0 +1,59 @@
+/* ENTRY 2036b6a0 | FUN_2036b6a0 | STATUS decompiled | 23 ms */
+
+undefined4 __fastcall FUN_2036b6a0(gCScriptProcessingUnit *param_1)
+
+{
+  eCEntityProxy *this;
+  bool bVar1;
+  gCScriptAdmin *this_00;
+  eCEntity *peVar2;
+  int iVar3;
+  char unaff_retaddr;
+  eCEntity *peVar4;
+  int iStack_c;
+  gCScriptAdmin_vftable *pgStack_8;
+  
+  this_00 = (gCScriptAdmin *)thunk_FUN_200a4bb0();
+  this = (eCEntityProxy *)(param_1 + 0x20);
+  peVar2 = eCEntityProxy::GetEntity(this);
+  iStack_c = (**(code **)(*(int *)peVar2 + 0xec))(0x2d);
+  peVar2 = eCEntityProxy::GetEntity(this);
+  if ((peVar2 != (eCEntity *)0x0) && (iStack_c != 0)) {
+    bCString::bCString((bCString *)&stack0xfffffff0,(bCString *)(iStack_c + 0x14));
+    bVar1 = bCString::IsEmpty((bCString *)&stack0xfffffff0);
+    if (bVar1) {
+      peVar2 = eCEntityProxy::GetEntity(this);
+      iVar3 = (**(code **)(*(int *)peVar2 + 0xec))(0x1e);
+      if (iVar3 == 0) {
+        bCString::~bCString((bCString *)&stack0xfffffff0);
+        return 0;
+      }
+      if (unaff_retaddr == '\x01') {
+        param_1[100] = (gCScriptProcessingUnit)0x1;
+        bCString::operator=((bCString *)(param_1 + 0x68),(bCString *)(iStack_c + 0x18));
+      }
+      bCString::bCString((bCString *)&iStack_c,"ContinueRoutine");
+      pgStack_8 = this_00->vftablePtr;
+      iVar3 = 0;
+      peVar4 = (eCEntity *)0x0;
+      peVar2 = eCEntityProxy::GetEntity(this);
+      (*pgStack_8->CallScript)(this_00,(bCString *)&iStack_c,peVar2,peVar4,iVar3);
+      bCString::~bCString((bCString *)&iStack_c);
+    }
+    else {
+      if (unaff_retaddr == '\x01') {
+        param_1[100] = (gCScriptProcessingUnit)0x1;
+        bCString::operator=((bCString *)(param_1 + 0x68),(bCString *)(iStack_c + 0x18));
+      }
+      gCScriptAdmin::RunScriptRoutine(this_00,(bCString *)&stack0xfffffff0,param_1);
+    }
+    if (unaff_retaddr == '\x01') {
+      param_1[100] = (gCScriptProcessingUnit)0x0;
+    }
+    bCString::~bCString((bCString *)&stack0xfffffff0);
+    return 1;
+  }
+  return 0;
+}
+
+

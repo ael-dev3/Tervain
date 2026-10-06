@@ -1,0 +1,18 @@
+/* ENTRY 3002fdba | eCSceneAdmin::GetNumEntitiesByName | STATUS decompiled | 7 ms */
+
+/* public: int __thiscall eCSceneAdmin::GetNumEntitiesByName(class bCString const &)const  */
+
+int __thiscall eCSceneAdmin::GetNumEntitiesByName(eCSceneAdmin *this,bCString *param_1)
+
+{
+  int iVar1;
+  
+                    /* 0x2fdba  7952  ?GetNumEntitiesByName@eCSceneAdmin@@QBEHABVbCString@@@Z */
+  iVar1 = thunk_FUN_304cfd00(param_1,&param_1);
+  if ((iVar1 != 0) && (iVar1 != -4)) {
+    return *(int *)(iVar1 + 8);
+  }
+  return -1;
+}
+
+

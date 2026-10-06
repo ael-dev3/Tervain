@@ -1,0 +1,31 @@
+; 20066aa0 FUN_20066aa0
+20066aa0 | 56 | PUSH ESI
+20066aa1 | 8bf1 | MOV ESI,ECX
+20066aa3 | 8b4608 | MOV EAX,dword ptr [ESI + 0x8]
+20066aa6 | 8b4e04 | MOV ECX,dword ptr [ESI + 0x4]
+20066aa9 | 3bc8 | CMP ECX,EAX
+20066aab | 743e | JZ 0x20066aeb
+20066aad | 85c9 | TEST ECX,ECX
+20066aaf | 7508 | JNZ 0x20066ab9
+20066ab1 | 8bce | MOV ECX,ESI
+20066ab3 | 5e | POP ESI
+20066ab4 | e980defaff | JMP 0x20014939
+20066ab9 | 2bc1 | SUB EAX,ECX
+20066abb | 50 | PUSH EAX
+20066abc | 8b06 | MOV EAX,dword ptr [ESI]
+20066abe | 8d0c88 | LEA ECX,[EAX + ECX*0x4]
+20066ac1 | 51 | PUSH ECX
+20066ac2 | e86f5efbff | CALL 0x2001c936
+20066ac7 | 8b4604 | MOV EAX,dword ptr [ESI + 0x4]
+20066aca | 8d148500000000 | LEA EDX,[EAX*0x4 + 0x0]
+20066ad1 | 8b06 | MOV EAX,dword ptr [ESI]
+20066ad3 | 52 | PUSH EDX
+20066ad4 | 50 | PUSH EAX
+20066ad5 | ff15e0887d20 | CALL dword ptr [0x207d88e0]
+20066adb | 8bc8 | MOV ECX,EAX
+20066add | ff15e4887d20 | CALL dword ptr [0x207d88e4]
+20066ae3 | 8b4e04 | MOV ECX,dword ptr [ESI + 0x4]
+20066ae6 | 8906 | MOV dword ptr [ESI],EAX
+20066ae8 | 894e08 | MOV dword ptr [ESI + 0x8],ECX
+20066aeb | 5e | POP ESI
+20066aec | c3 | RET

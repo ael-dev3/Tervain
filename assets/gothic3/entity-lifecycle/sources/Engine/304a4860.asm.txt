@@ -1,0 +1,3 @@
+; 304a4860 FUN_304a4860
+304a4860 | 8a4145 | MOV AL,byte ptr [ECX + 0x45]
+304a4863 | c3 | RET

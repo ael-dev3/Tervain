@@ -1,0 +1,2 @@
+; 30005e70 eCEffector::AccessPos1
+30005e70 | e90bb50500 | JMP 0x30061380

@@ -1,0 +1,2 @@
+; 10006f41 bCAccessorPropertyObject::GetBaseClass
+10006f41 | e9ba3e0900 | JMP 0x1009ae00

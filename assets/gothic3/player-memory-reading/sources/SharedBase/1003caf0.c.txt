@@ -1,0 +1,27 @@
+/* ENTRY 1003caf0 | FUN_1003caf0 | STATUS decompiled | 9 ms */
+
+void FUN_1003caf0(void *param_1)
+
+{
+  char cVar1;
+  MemPointerArea *pMVar2;
+  SIZE_T SVar3;
+  
+  if (param_1 != (void *)0x0) {
+    pMVar2 = MemHeap::GetPointerArea(param_1);
+    if (pMVar2 != (MemPointerArea *)0x0) {
+      (**(code **)(*(int *)(pMVar2 + 0xc) + 4))(*(undefined4 *)(pMVar2 + 8));
+      return;
+    }
+    cVar1 = thunk_FUN_1003c920(param_1);
+    if (cVar1 == '\0') {
+      MemHeap::s_uiActCount = MemHeap::s_uiActCount - 1;
+      SVar3 = HeapSize(MemHeap::s_hHeap,0,param_1);
+      MemHeap::s_uiActMemory = MemHeap::s_uiActMemory - SVar3;
+      HeapFree(MemHeap::s_hHeap,0,param_1);
+    }
+  }
+  return;
+}
+
+

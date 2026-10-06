@@ -1,0 +1,39 @@
+/* ENTRY 30031f07 | eCSceneAdmin::RegisterResourceDataEntity | STATUS decompiled | 19 ms */
+
+/* protected: bool __thiscall eCSceneAdmin::RegisterResourceDataEntity(class eCResourceDataEntity *)
+    */
+
+bool __thiscall
+eCSceneAdmin::RegisterResourceDataEntity(eCSceneAdmin *this,eCResourceDataEntity *param_1)
+
+{
+  eCResourceDataEntity *this_00;
+  char cVar1;
+  bCPropertyID *pbVar2;
+  int iVar3;
+  undefined4 *puVar4;
+  
+                    /* 0x31f07  12377
+                       ?RegisterResourceDataEntity@eCSceneAdmin@@IAE_NPAVeCResourceDataEntity@@@Z */
+  this_00 = param_1;
+  if (param_1 != (eCResourceDataEntity *)0x0) {
+    bCCriticalSectionWin32::Acquire((bCCriticalSectionWin32 *)&DAT_30af24c4);
+    pbVar2 = eCNode::GetID((eCNode *)this_00);
+    iVar3 = thunk_FUN_3044f9d0(pbVar2,&param_1);
+    if (iVar3 == 0) {
+      cVar1 = (**(code **)(*(int *)this_00 + 4))();
+      if (cVar1 == '\0') {
+        (**(code **)(*(int *)this_00 + 0x18))();
+      }
+      pbVar2 = eCNode::GetID((eCNode *)this_00);
+      puVar4 = (undefined4 *)thunk_FUN_3044fa40(pbVar2);
+      *puVar4 = this_00;
+      bCCriticalSectionWin32::Release((bCCriticalSectionWin32 *)&DAT_30af24c4);
+      return true;
+    }
+    bCCriticalSectionWin32::Release((bCCriticalSectionWin32 *)&DAT_30af24c4);
+  }
+  return false;
+}
+
+

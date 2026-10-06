@@ -1,0 +1,54 @@
+/* ENTRY 10020310 | FUN_10020310 | STATUS decompiled | 33 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined4 FUN_10020310(int *param_1,gCScriptProcessingUnit *param_2)
+
+{
+  bool bVar1;
+  eCEntity *peVar2;
+  gEAction local_15c;
+  eCEntity *local_158;
+  undefined4 local_154;
+  Entity local_150 [4];
+  PropertyAction local_14c [164];
+  Entity local_a8 [168];
+  
+  peVar2 = gCScriptProcessingUnit::GetSelfEntity(param_2);
+  Entity::Entity(local_150,peVar2);
+  peVar2 = gCScriptProcessingUnit::GetTargetEntity(param_2);
+  Entity::Entity(local_a8,peVar2);
+  if ((_DAT_102211e8 & 1) == 0) {
+    _DAT_102211e8 = _DAT_102211e8 | 1;
+    DAT_102211e0 = DAT_102211e4;
+    DAT_102211e4 = DAT_102211e4 + 1;
+  }
+  if (*(int *)(*param_1 + -0x18 + param_1[1] * 0x18) <= DAT_102211e0) {
+    *(int *)(*param_1 + -0x18 + param_1[1] * 0x18) = DAT_102211e0 + 1;
+    local_15c = 0x2f;
+    PSRoutine::PropertyAction::operator=(local_14c,&local_15c);
+    local_158 = Entity::operator_class_eCEntity_(local_150);
+    local_154 = 100;
+    bVar1 = gCScriptProcessingUnit::sAIWaitInstr(&local_158,param_2,false);
+    if (!bVar1) {
+      Entity::~Entity(local_a8);
+      Entity::~Entity(local_150);
+      return 0;
+    }
+  }
+  if ((_DAT_102211e8 & 2) == 0) {
+    _DAT_102211e8 = _DAT_102211e8 | 2;
+    DAT_102211dc = DAT_102211e4;
+    DAT_102211e4 = DAT_102211e4 + 1;
+  }
+  if (*(int *)(*param_1 + -0x18 + param_1[1] * 0x18) <= DAT_102211dc) {
+    *(int *)(*param_1 + -0x18 + param_1[1] * 0x18) = DAT_102211dc + 1;
+    bCString::bCString((bCString *)&stack0xfffffe98,"ZS_Attack_Loop");
+    PSRoutine::SetState((PSRoutine *)local_14c);
+  }
+  Entity::~Entity(local_a8);
+  Entity::~Entity(local_150);
+  return 1;
+}
+
+

@@ -1,0 +1,4 @@
+; 300024c8 bTPropertyObject<eCCollisionShape_PS,eCCollisionShapeBase_PS>::vfunction10
+300024c8 | e9b3973300 | JMP 0x3033bc80
+; 300024d2 eCVegetation_Grid::~eCVegetation_Grid
+; 300024d2 Ordinal_1365

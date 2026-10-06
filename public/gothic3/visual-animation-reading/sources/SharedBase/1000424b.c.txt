@@ -1,0 +1,18 @@
+/* ENTRY 1000424b | thunk_FUN_1004be10 | STATUS decompiled | 5 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+int thunk_FUN_1004be10(void)
+
+{
+  LARGE_INTEGER LStack_8;
+  
+  if (DAT_101ab180 == 0) {
+    thunk_FUN_1004bae0();
+  }
+  QueryPerformanceCounter(&LStack_8);
+  return (int)(CONCAT44(LStack_8.s.HighPart,LStack_8.s.LowPart) / (ulonglong)DAT_101ab180) -
+         _DAT_101ab170;
+}
+
+

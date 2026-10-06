@@ -1,0 +1,2 @@
+; 3004606a eCVisualAnimation_PS::SetBoneSwingSpringDamping
+3004606a | e9d1bf0100 | JMP 0x30062040

@@ -1,0 +1,2 @@
+; 3003fc15 ?Lock@eCEntity@@QAEX_N@Z
+3003fc15 | e9664c4700 | JMP 0x304b4880

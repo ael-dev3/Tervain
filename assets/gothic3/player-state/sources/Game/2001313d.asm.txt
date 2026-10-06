@@ -1,0 +1,2 @@
+; 2001313d ?CreateINIKeys@gCSessionKeys@@QAEXXZ
+2001313d | e9ae0f3800 | JMP 0x203940f0

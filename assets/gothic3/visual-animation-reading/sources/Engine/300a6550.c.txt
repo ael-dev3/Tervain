@@ -1,0 +1,19 @@
+/* ENTRY 300a6550 | FUN_300a6550 | STATUS decompiled | 7 ms */
+
+void __fastcall FUN_300a6550(eCVisualAnimation_PS *param_1)
+
+{
+  eCWrapper_emfx2Actor *peVar1;
+  
+  peVar1 = eCVisualAnimationFactory::GetAssembledActor
+                     ((eCVisualAnimationFactory *)&param_1[7].eCEntityPropertySet_data.field_0x4);
+  if (peVar1 != (eCWrapper_emfx2Actor *)0x0) {
+    eCVisualAnimation_PS::DestroyPhysicsController(param_1);
+    eCVisualAnimation_PS::StopRagDoll(param_1);
+    eCVisualAnimation_PS::SetRagDollEnabled(param_1,false,0.0,true);
+    param_1[0x12].eCEntityPropertySet_data.field_0xd = 0;
+  }
+  return;
+}
+
+

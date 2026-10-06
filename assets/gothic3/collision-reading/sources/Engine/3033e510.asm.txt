@@ -1,0 +1,21 @@
+; 3033e510 bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eEPhysicRangeType>_>::vfunction9
+3033e510 | 56 | PUSH ESI
+3033e511 | 8bf1 | MOV ESI,ECX
+3033e513 | 8b06 | MOV EAX,dword ptr [ESI]
+3033e515 | 8b5018 | MOV EDX,dword ptr [EAX + 0x18]
+3033e518 | ffd2 | CALL EDX
+3033e51a | 84c0 | TEST AL,AL
+3033e51c | 7506 | JNZ 0x3033e524
+; 3033e51e LAB_3033e51e
+3033e51e | 33c0 | XOR EAX,EAX
+3033e520 | 5e | POP ESI
+3033e521 | c20400 | RET 0x4
+; 3033e524 LAB_3033e524
+3033e524 | 8b4620 | MOV EAX,dword ptr [ESI + 0x20]
+3033e527 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+3033e52b | 3b4804 | CMP ECX,dword ptr [EAX + 0x4]
+3033e52e | 73ee | JNC 0x3033e51e
+3033e530 | 8b00 | MOV EAX,dword ptr [EAX]
+3033e532 | 8b0488 | MOV EAX,dword ptr [EAX + ECX*0x4]
+3033e535 | 5e | POP ESI
+3033e536 | c20400 | RET 0x4

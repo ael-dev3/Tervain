@@ -1,0 +1,2 @@
+; 3003c2d6 eCVisualAnimation_PS::OnCacheIn
+3003c2d6 | e975180600 | JMP 0x3009db50

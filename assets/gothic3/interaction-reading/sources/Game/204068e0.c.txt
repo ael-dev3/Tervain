@@ -1,0 +1,11 @@
+/* ENTRY 204068e0 | bTPropertyContainer<gEUseType>::vfunction7 | STATUS decompiled | 2 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<gEUseType>::vfunction7(bTPropertyContainer<gEUseType> *this)
+
+{
+  (this->bTPropertyContainer<gEUseType>_data).offset_0x0 = DAT_207cef3c;
+  return 1;
+}
+
+

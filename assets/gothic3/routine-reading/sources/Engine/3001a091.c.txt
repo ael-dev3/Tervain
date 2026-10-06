@@ -1,0 +1,62 @@
+/* ENTRY 3001a091 | eCEntityPropertySet::NotifyPropertyValueChangedExitEx | STATUS decompiled | 10 ms */
+
+/* protected: virtual bool __thiscall eCEntityPropertySet::NotifyPropertyValueChangedExitEx(char
+   const *,bool)
+   eCEntityPropertySet member function inherited by eCAudioEmitter_PS
+   eCEntityPropertySet member function inherited by eCTriggerBase_PS
+   eCEntityPropertySet member function inherited by eCEventFilter_PS
+   eCEntityPropertySet member function inherited by eCTrigger_PS
+   eCEntityPropertySet member function inherited by eCTriggerCombiner_PS
+   eCEntityPropertySet member function inherited by eCTriggerList_PS
+   eCEntityPropertySet member function inherited by eCDynamicLight_PS
+   eCEntityPropertySet member function inherited by eCHemisphere_PS
+   eCEntityPropertySet member function inherited by eCIlluminated_PS
+   eCEntityPropertySet member function inherited by eCPointLight_PS
+   eCEntityPropertySet member function inherited by eCStaticLight_PS
+   eCEntityPropertySet member function inherited by eCStaticPointLight_PS
+   eCEntityPropertySet member function inherited by eCStaticSpotLight_PS
+   eCEntityPropertySet member function inherited by eCEffectBase_PS
+   eCEntityPropertySet member function inherited by eCParticle_PS
+   eCEntityPropertySet member function inherited by eCRigidBodyBase_PS
+   eCEntityPropertySet member function inherited by eCCollisionShapeBase_PS
+   eCEntityPropertySet member function inherited by eCPhysicsScene_PS
+   eCEntityPropertySet member function inherited by eCLinkContainer_PS
+   eCEntityPropertySet member function inherited by eCForceField_PS
+   eCEntityPropertySet member function inherited by eCEngineCaps_PS
+   eCEntityPropertySet member function inherited by eCVisualMeshBase_PS
+   eCEntityPropertySet member function inherited by eCVisualMeshDynamic_PS
+   eCEntityPropertySet member function inherited by eCVisualMeshStatic_PS
+   eCEntityPropertySet member function inherited by eCEditorEntityPropertySet
+   eCEntityPropertySet member function inherited by eCSpeedTree_PS
+   eCEntityPropertySet member function inherited by eCSpeedTreeWind_PS
+   eCEntityPropertySet member function inherited by eCSkydome_PS
+   eCEntityPropertySet member function inherited by eCStrip_PS
+   eCEntityPropertySet member function inherited by eCVegetationBrush_PS
+   eCEntityPropertySet member function inherited by eCVegetationRubber_PS
+   eCEntityPropertySet member function inherited by eCPrecipitation_PS
+   eCEntityPropertySet member function inherited by eCVisualAnimation_PS
+   eCEntityPropertySet member function inherited by eCEventDebugger_PS
+   eCEntityPropertySet member function inherited by eCEventLogic_PS
+   eCEntityPropertySet member function inherited by eCDirectionalLight_PS
+   eCEntityPropertySet member function inherited by eCParticleSystemBase_PS
+   eCEntityPropertySet member function inherited by eCRigidBody_PS
+   eCEntityPropertySet member function inherited by eCCollisionShape_PS */
+
+bool __thiscall
+eCEntityPropertySet::NotifyPropertyValueChangedExitEx
+          (eCEntityPropertySet *this,char *param_1,bool param_2)
+
+{
+  bool bVar1;
+  
+                    /* 0x1a091  10876
+                       ?NotifyPropertyValueChangedExitEx@eCEntityPropertySet@@MAE_NPBD_N@Z */
+  if ((this->eCEntityPropertySet_data).offset_0x8 != 0) {
+    (**(code **)(*(int *)(this->eCEntityPropertySet_data).offset_0x8 + 0x118))();
+  }
+  bVar1 = bCObjectRefBase::NotifyPropertyValueChangedExitEx((bCObjectRefBase *)this,param_1,param_2)
+  ;
+  return bVar1;
+}
+
+

@@ -1,0 +1,12 @@
+/* ENTRY 20025397 | gCParty_PS::Invalidate | STATUS decompiled | 6 ms */
+
+/* protected: void __thiscall gCParty_PS::Invalidate(void) */
+
+void __thiscall gCParty_PS::Invalidate(gCParty_PS *this)
+
+{
+                    /* 0x25397  5044  ?Invalidate@gCParty_PS@@IAEXXZ */
+  return;
+}
+
+

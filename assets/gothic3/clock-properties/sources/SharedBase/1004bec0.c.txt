@@ -1,0 +1,48 @@
+/* ENTRY 1004bec0 | FUN_1004bec0 | STATUS decompiled | 15 ms */
+
+void __thiscall FUN_1004bec0(float *param_1,float *param_2)
+
+{
+  float fVar1;
+  ulong uVar2;
+  uint uVar3;
+  int iVar4;
+  uint local_8;
+  
+  if (param_1[7] == -1.0) {
+    fVar1 = (float)bCTimer::GetTimeStamp();
+    param_1[6] = fVar1;
+    param_1[7] = 0.0;
+  }
+  if (*(char *)(param_1 + 8) == '\0') {
+    uVar2 = bCTimer::GetTimeStamp();
+    fVar1 = (float)(int)(uVar2 - (int)param_1[6]);
+    if ((int)(uVar2 - (int)param_1[6]) < 0) {
+      fVar1 = fVar1 + 4.2949673e+09;
+    }
+    param_1[7] = fVar1 * *param_1 * 0.001 + param_1[7];
+    fVar1 = (float)bCTimer::GetTimeStamp();
+    param_1[6] = fVar1;
+  }
+  fVar1 = param_1[7];
+  param_1[7] = 0.0;
+  param_1[5] = param_1[5] + fVar1;
+  local_8 = (uint)(longlong)ROUND(param_1[5]);
+  local_8 = local_8 / (uint)param_1[1];
+  iVar4 = (int)param_1[1] * local_8;
+  local_8 = local_8 + (int)param_1[4];
+  fVar1 = (float)iVar4;
+  if (iVar4 < 0) {
+    fVar1 = fVar1 + 4.2949673e+09;
+  }
+  uVar3 = local_8 / (uint)param_1[2];
+  param_1[5] = param_1[5] - fVar1;
+  param_1[3] = (float)((int)param_1[3] + uVar3);
+  param_1[4] = (float)(local_8 - (int)param_1[2] * uVar3);
+  *param_2 = param_1[3];
+  param_2[1] = param_1[4];
+  param_2[2] = param_1[5];
+  return;
+}
+
+

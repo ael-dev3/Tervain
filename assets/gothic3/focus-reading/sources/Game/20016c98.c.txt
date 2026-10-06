@@ -1,0 +1,17 @@
+/* ENTRY 20016c98 | bTPropertyType<gCFocus_PS,bTPropertyContainer<gEFocus>_>::vfunction6 | STATUS decompiled | 7 ms */
+
+void __thiscall
+bTPropertyType<gCFocus_PS,bTPropertyContainer<gEFocus>_>::vfunction6
+          (bTPropertyType<gCFocus_PS,bTPropertyContainer<gEFocus>_> *this,int param_1)
+
+{
+  bTPropertyType<gCFocus_PS,bTPropertyContainer<gEFocus>_>_vftable *pbVar1;
+  
+  if (param_1 != 0) {
+    pbVar1 = (*this->vftablePtr->vfunction26)(this,(undefined4 *)param_1);
+    (**(code **)(pbVar1->vfunction1 + 0x18))();
+  }
+  return;
+}
+
+

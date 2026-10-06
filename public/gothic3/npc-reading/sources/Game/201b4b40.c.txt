@@ -1,0 +1,16 @@
+/* ENTRY 201b4b40 | bTPropertyContainer<gEGuardStatus>::vfunction5 | STATUS decompiled | 6 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<gEGuardStatus>::vfunction5
+          (bTPropertyContainer<gEGuardStatus> *this,bCIStream *param_1)
+
+{
+  bCIStream *pbVar1;
+  
+  pbVar1 = param_1;
+  bCIStream::operator>>(param_1,(ushort *)&param_1);
+  (**(code **)((int)*pbVar1 + 4))(&this->bTPropertyContainer<gEGuardStatus>_data,4);
+  return 1;
+}
+
+

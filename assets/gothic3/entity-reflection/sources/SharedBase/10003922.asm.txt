@@ -1,0 +1,4 @@
+; 10003922 ?Destroy@bCPropertyObjectBase@@MAEXXZ
+10003922 | e939580800 | JMP 0x10089160
+; 10003927 bCBox::Separates
+; 10003927 Ordinal_4038

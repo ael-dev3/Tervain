@@ -1,0 +1,24 @@
+/* ENTRY 3032db70 | FUN_3032db70 | STATUS decompiled | 7 ms */
+
+void __fastcall FUN_3032db70(int *param_1)
+
+{
+  char cVar1;
+  eCDynamicEntity *peVar2;
+  eCPhysicsScene *this;
+  
+  if (param_1[0x3d] != 0) {
+    cVar1 = (**(code **)(*(int *)param_1[0x3d] + 0x68))();
+    if (cVar1 == '\x01') {
+      peVar2 = (eCDynamicEntity *)(**(code **)(*param_1 + 0x68))();
+      this = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+      eCPhysicsScene::AddDynamicEntity(this,peVar2);
+      (**(code **)(*param_1 + 0x1fc))
+                ((char)param_1[0x20],*(undefined1 *)((int)param_1 + 0x82),
+                 *(undefined1 *)((int)param_1 + 0x81));
+    }
+  }
+  return;
+}
+
+

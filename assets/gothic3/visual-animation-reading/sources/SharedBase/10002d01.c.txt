@@ -1,0 +1,15 @@
+/* ENTRY 10002d01 | bCUnicodeString::operator= | STATUS decompiled | 2 ms */
+
+/* public: class bCUnicodeString & __thiscall bCUnicodeString::operator=(class bCUnicodeString const
+   &) */
+
+bCUnicodeString * __thiscall
+bCUnicodeString::operator=(bCUnicodeString *this,bCUnicodeString *param_1)
+
+{
+                    /* 0x2d01  557  ??4bCUnicodeString@@QAEAAV0@ABV0@@Z */
+  SetText(this,param_1);
+  return this;
+}
+
+

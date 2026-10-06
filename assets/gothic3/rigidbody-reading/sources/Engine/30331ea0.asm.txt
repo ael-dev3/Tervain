@@ -1,0 +1,3 @@
+; 30331ea0 bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_>::vfunction1
+30331ea0 | 8b411c | MOV EAX,dword ptr [ECX + 0x1c]
+30331ea3 | c3 | RET

@@ -1,0 +1,4 @@
+; 10007bad ??6bCCapsule@@QAEAAVbCIStream@@AAV1@@Z
+10007bad | e9befd0400 | JMP 0x10057970
+; 10007bb2 bCRange3::GetRandom
+; 10007bb2 Ordinal_2867

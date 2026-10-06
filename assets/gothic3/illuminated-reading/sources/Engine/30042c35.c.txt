@@ -1,0 +1,12 @@
+/* ENTRY 30042c35 | bTPropertyContainer<eEStaticIlluminated>::vfunction8 | STATUS decompiled | 3 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<eEStaticIlluminated>::vfunction8
+          (bTPropertyContainer<eEStaticIlluminated> *this,int param_1)
+
+{
+  (this->bTPropertyContainer<eEStaticIlluminated>_data).offset_0x0 = *(undefined ***)(param_1 + 4);
+  return 1;
+}
+
+

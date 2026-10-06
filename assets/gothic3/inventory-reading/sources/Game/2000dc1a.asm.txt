@@ -1,0 +1,4 @@
+; 2000dc1a bTPropertyType<gCInventorySlot,bTPropertyContainer<gESlot>_>::vfunction12
+2000dc1a | e9a1771b00 | JMP 0x201c53c0
+; 2000dc24 gCEffectCommandEarthquake::Write
+; 2000dc24 Ordinal_7504

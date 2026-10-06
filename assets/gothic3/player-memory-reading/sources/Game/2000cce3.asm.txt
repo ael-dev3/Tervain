@@ -1,0 +1,2 @@
+; 2000cce3 gCPlayerMemory_PS::gCPlayerMemory_PS
+2000cce3 | e958173100 | JMP 0x2031e440

@@ -1,0 +1,4 @@
+; 200170b2 gCCharacterAnimation::gCCharacterAnimation
+200170b2 | e959c01f00 | JMP 0x20213110
+; 200170b7 gCFocus_PS::AccessNormalModeItemScanAzi
+; 200170b7 Ordinal_1494

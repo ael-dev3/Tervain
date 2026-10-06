@@ -1,0 +1,2 @@
+; 30029983 eCIlluminated_PS::Create
+30029983 | e9c8901f00 | JMP 0x30222a50

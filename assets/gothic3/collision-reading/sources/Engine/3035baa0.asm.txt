@@ -1,0 +1,7 @@
+; 3035baa0 bTPropertyObjectType<eCCollisionShape,bCObjectRefBase>::vfunction6
+3035baa0 | 689cd18130 | PUSH 0x3081d19c
+3035baa5 | 6864d18130 | PUSH 0x3081d164
+3035baaa | 687ccf8130 | PUSH 0x3081cf7c
+3035baaf | ff1530dbaf30 | CALL dword ptr [0x30afdb30]
+3035bab5 | 83c40c | ADD ESP,0xc
+3035bab8 | c20400 | RET 0x4

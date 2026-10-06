@@ -1,0 +1,2 @@
+; 20029654 ?SetTutorialFlags@gCPlayerMemory_PS@@QAEXABK@Z
+20029654 | e9c7120800 | JMP 0x200aa920

@@ -1,0 +1,2 @@
+; 200120b7 ?UnapplyTemp@gCStat@@UAE_NW4EAttribModOperation@@H@Z
+200120b7 | e994903800 | JMP 0x2039b150

@@ -1,0 +1,17 @@
+/* ENTRY 1010fb00 | FUN_1010fb00 | STATUS decompiled | 29 ms */
+
+void FUN_1010fb00(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Decision\\IsUpset.cpp");
+  bCString::bCString(local_8,"RemembersLastFight");
+  thunk_FUN_10017a50(local_8,thunk_FUN_1001bb60,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

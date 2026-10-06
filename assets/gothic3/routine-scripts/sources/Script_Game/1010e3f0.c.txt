@@ -1,0 +1,17 @@
+/* ENTRY 1010e3f0 | FUN_1010e3f0 | STATUS decompiled | 8 ms */
+
+void FUN_1010e3f0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Decision\\IsOwner.cpp");
+  bCString::bCString(local_8,"IsOwner");
+  thunk_FUN_10017a50(local_8,&LAB_10002955,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

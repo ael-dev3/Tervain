@@ -1,0 +1,4 @@
+; 20024edd ?GetPropertySetType@gCNavigation_PS@@UBE?AW4eEPropertySetType@@XZ
+20024edd | e9ae102600 | JMP 0x20285f90
+; 20024ee2 gCEntity::GetVersion
+; 20024ee2 Ordinal_4694

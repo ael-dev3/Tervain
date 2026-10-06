@@ -1,0 +1,15 @@
+/* ENTRY 3002dc8b | eCCollisionShape::SetMeshResourceName | STATUS decompiled | 31 ms */
+
+/* public: void __thiscall eCCollisionShape::SetMeshResourceName(class bCString &) */
+
+void __thiscall eCCollisionShape::SetMeshResourceName(eCCollisionShape *this,bCString *param_1)
+
+{
+                    /* 0x2dc8b  13797  ?SetMeshResourceName@eCCollisionShape@@QAEXAAVbCString@@@Z */
+                    /* WARNING: Could not recover jumptable at 0x300c2bf3. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCString::operator=((bCString *)(this->eCCollisionShape_data).offset_0x70,param_1);
+  return;
+}
+
+

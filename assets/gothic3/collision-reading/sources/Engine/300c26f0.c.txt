@@ -1,0 +1,16 @@
+/* ENTRY 300c26f0 | FUN_300c26f0 | STATUS decompiled | 3 ms */
+
+void __fastcall FUN_300c26f0(int *param_1)
+
+{
+  code *pcVar1;
+  undefined1 *unaff_ESI;
+  
+  (**(code **)(*param_1 + 0x58))("TriggersOnTouch",0);
+  pcVar1 = *(code **)(*param_1 + 0x5c);
+  *(undefined1 *)((int)param_1 + 0x31) = *unaff_ESI;
+  (*pcVar1)("TriggersOnTouch",0);
+  return;
+}
+
+

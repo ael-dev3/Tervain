@@ -1,0 +1,2 @@
+; 10007b94 bCSphere::AccessPosition
+10007b94 | e9c73c0200 | JMP 0x1002b860

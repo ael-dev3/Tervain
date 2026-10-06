@@ -1,0 +1,2 @@
+; 10007b8a bCVector::GetTransformedDirection
+10007b8a | e9f1d80400 | JMP 0x10055480

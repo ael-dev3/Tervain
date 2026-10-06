@@ -1,0 +1,13 @@
+/* ENTRY 2002121f | gCClock_PS::GetPropertySetType | STATUS decompiled | 6 ms */
+
+/* public: virtual enum eEPropertySetType __thiscall gCClock_PS::GetPropertySetType(void)const  */
+
+eEPropertySetType __thiscall gCClock_PS::GetPropertySetType(gCClock_PS *this)
+
+{
+                    /* 0x2121f  4037  ?GetPropertySetType@gCClock_PS@@UBE?AW4eEPropertySetType@@XZ
+                        */
+  return 0x20;
+}
+
+

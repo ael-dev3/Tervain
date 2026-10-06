@@ -1,0 +1,32 @@
+; 3032db70 FUN_3032db70
+3032db70 | 56 | PUSH ESI
+3032db71 | 8bf1 | MOV ESI,ECX
+3032db73 | 83bef400000000 | CMP dword ptr [ESI + 0xf4],0x0
+3032db7a | 744b | JZ 0x3032dbc7
+3032db7c | 8b8ef4000000 | MOV ECX,dword ptr [ESI + 0xf4]
+3032db82 | 8b01 | MOV EAX,dword ptr [ECX]
+3032db84 | 8b5068 | MOV EDX,dword ptr [EAX + 0x68]
+3032db87 | ffd2 | CALL EDX
+3032db89 | 3c01 | CMP AL,0x1
+3032db8b | 753a | JNZ 0x3032dbc7
+3032db8d | 8b06 | MOV EAX,dword ptr [ESI]
+3032db8f | 8b5068 | MOV EDX,dword ptr [EAX + 0x68]
+3032db92 | 8bce | MOV ECX,ESI
+3032db94 | ffd2 | CALL EDX
+3032db96 | 50 | PUSH EAX
+3032db97 | e8264eceff | CALL 0x300129c2
+3032db9c | 8bc8 | MOV ECX,EAX
+3032db9e | e89c02cfff | CALL 0x3001de3f
+3032dba3 | 0fb68e81000000 | MOVZX ECX,byte ptr [ESI + 0x81]
+3032dbaa | 0fb69682000000 | MOVZX EDX,byte ptr [ESI + 0x82]
+3032dbb1 | 8b06 | MOV EAX,dword ptr [ESI]
+3032dbb3 | 51 | PUSH ECX
+3032dbb4 | 0fb68e80000000 | MOVZX ECX,byte ptr [ESI + 0x80]
+3032dbbb | 52 | PUSH EDX
+3032dbbc | 8b90fc010000 | MOV EDX,dword ptr [EAX + 0x1fc]
+3032dbc2 | 51 | PUSH ECX
+3032dbc3 | 8bce | MOV ECX,ESI
+3032dbc5 | ffd2 | CALL EDX
+; 3032dbc7 LAB_3032dbc7
+3032dbc7 | 5e | POP ESI
+3032dbc8 | c3 | RET

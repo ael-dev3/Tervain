@@ -1,0 +1,26 @@
+/* ENTRY 303148f0 | FUN_303148f0 | STATUS decompiled | 10 ms */
+
+void __thiscall FUN_303148f0(int param_1,int param_2)
+
+{
+  int iVar1;
+  int *piVar2;
+  
+  iVar1 = 0;
+  if (*(short *)(param_1 + 2) != 0) {
+    piVar2 = *(int **)(param_1 + 4);
+    do {
+      if (param_2 == *piVar2) goto LAB_3031492b;
+      iVar1 = iVar1 + 1;
+      piVar2 = piVar2 + 1;
+    } while (iVar1 < (int)(uint)*(ushort *)(param_1 + 2));
+  }
+  thunk_FUN_30314220();
+  *(int *)(*(int *)(param_1 + 4) + (uint)*(ushort *)(param_1 + 2) * 4) = param_2;
+  *(short *)(param_1 + 2) = *(short *)(param_1 + 2) + 1;
+LAB_3031492b:
+  bCBitField::SetAt((bCBitField *)(param_1 + 8),param_2,true);
+  return;
+}
+
+

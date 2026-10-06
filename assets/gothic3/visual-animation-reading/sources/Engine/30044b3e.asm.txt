@@ -1,0 +1,2 @@
+; 30044b3e eCVisualAnimationFactory::CacheInResources
+30044b3e | e9ad7b0700 | JMP 0x300bc6f0

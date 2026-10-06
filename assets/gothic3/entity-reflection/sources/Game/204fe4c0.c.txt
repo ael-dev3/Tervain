@@ -1,0 +1,38 @@
+/* ENTRY 204fe4c0 | bTPropertyType<gCCharacterControl_PS,bTPropertyContainer<gESessionKey>_>::~bTPropertyType<gCCharacterControl_PS,bTPropertyContainer<gESessionKey>_> | STATUS decompiled | 14 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCCharacterControl_PS,bTPropertyContainer<gESessionKey>_>::
+~bTPropertyType<gCCharacterControl_PS,bTPropertyContainer<gESessionKey>_>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"ScriptParam");
+  bCString::bCString(local_c,"PressedKey");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCCharacterControl_PS::ms_PropertyMember_m_enuPressedKey,local_c
+             ,local_8,local_4,2,true);
+  _ms_PropertyMember_m_enuPressedKey = &vftable;
+  DAT_207bd8ec = bTPropertyObjectType<gCCharacterControl_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCCharacterControl_PS,eCEntityPropertySet>();
+  _DAT_207bd8f0 = 0x1c;
+  _DAT_207bd8f4 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCCharacterControl_PS::ms_PropertyMember_m_enuPressedKey);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bd8ec,
+             (bCPropertyTypeBase *)&gCCharacterControl_PS::ms_PropertyMember_m_enuPressedKey);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gESessionKey>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gESessionKey>_>);
+  return;
+}
+
+

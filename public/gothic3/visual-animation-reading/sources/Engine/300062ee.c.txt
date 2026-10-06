@@ -1,0 +1,17 @@
+/* ENTRY 300062ee | eCResourceBase_PS::WaitUntilNonProcessing | STATUS decompiled | 7 ms */
+
+/* public: void __thiscall eCResourceBase_PS::WaitUntilNonProcessing(int) */
+
+void __thiscall eCResourceBase_PS::WaitUntilNonProcessing(eCResourceBase_PS *this,int param_1)
+
+{
+  int iVar1;
+  
+  while ((iVar1 = (this->eCResourceBase_PS_data).offset_0xc, 2 < iVar1 &&
+         ((iVar1 < 6 || (iVar1 == 7))))) {
+    Sleep(0);
+  }
+  return;
+}
+
+

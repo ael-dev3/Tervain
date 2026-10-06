@@ -1,0 +1,8 @@
+; 30361990 bTPropertyType<eCCollisionShape,unsigned_short>::vfunction21
+30361990 | 68f8cf8130 | PUSH 0x3081cff8
+30361995 | 683cd58130 | PUSH 0x3081d53c
+3036199a | 687ccf8130 | PUSH 0x3081cf7c
+3036199f | ff1530dbaf30 | CALL dword ptr [0x30afdb30]
+303619a5 | 83c40c | ADD ESP,0xc
+303619a8 | 33c0 | XOR EAX,EAX
+303619aa | c3 | RET

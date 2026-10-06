@@ -1,0 +1,4 @@
+; 304c4b50 FUN_304c4b50
+304c4b50 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+304c4b54 | 8901 | MOV dword ptr [ECX],EAX
+304c4b56 | c20400 | RET 0x4

@@ -1,0 +1,21 @@
+/* ENTRY 300120a3 | eCSceneAdmin::UnregisterEntity | STATUS decompiled | 13 ms */
+
+/* protected: bool __thiscall eCSceneAdmin::UnregisterEntity(class eCEntity *) */
+
+bool __thiscall eCSceneAdmin::UnregisterEntity(eCSceneAdmin *this,eCEntity *param_1)
+
+{
+  undefined1 uVar1;
+  bCPropertyID *pbVar2;
+  
+                    /* 0x120a3  14826  ?UnregisterEntity@eCSceneAdmin@@IAE_NPAVeCEntity@@@Z */
+  if (param_1 == (eCEntity *)0x0) {
+    return false;
+  }
+  bCCriticalSectionWin32::Acquire((bCCriticalSectionWin32 *)&DAT_30af24f4);
+  pbVar2 = eCNode::GetID((eCNode *)param_1);
+  uVar1 = thunk_FUN_304d0490(pbVar2);
+  bCCriticalSectionWin32::Release((bCCriticalSectionWin32 *)&DAT_30af24f4);
+  return (bool)uVar1;
+}
+

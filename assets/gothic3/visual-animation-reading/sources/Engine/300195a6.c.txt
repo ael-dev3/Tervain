@@ -1,0 +1,49 @@
+/* ENTRY 300195a6 | eCVisualAnimationFactory::DestroyActorInstance | STATUS decompiled | 13 ms */
+
+/* public: bool __thiscall eCVisualAnimationFactory::DestroyActorInstance(void) */
+
+bool __thiscall eCVisualAnimationFactory::DestroyActorInstance(eCVisualAnimationFactory *this)
+
+{
+  eCVisualAnimationLoD *this_00;
+  bCMemoryAdmin *this_01;
+  int iVar1;
+  eCVisualAnimationFactory *peVar2;
+  int iVar3;
+  void *pvVar4;
+  
+                    /* 0x195a6  5394  ?DestroyActorInstance@eCVisualAnimationFactory@@QAE_NXZ */
+  if (*(int **)(this + 4) != (int *)0x0) {
+    (**(code **)(**(int **)(this + 4) + 0x24))();
+    *(undefined4 *)(this + 4) = 0;
+  }
+  if (*(eCVisualAnimationLoD **)(this + 8) != (eCVisualAnimationLoD *)0x0) {
+    eCVisualAnimationLoD::ReleaseResources(*(eCVisualAnimationLoD **)(this + 8));
+  }
+  iVar1 = 0;
+  if (0 < *(int *)(this + 0x14)) {
+    iVar3 = 0;
+    do {
+      eCVisualAnimationLoD::ReleaseResources
+                (*(eCVisualAnimationLoD **)(*(int *)(this + 0x10) + 4 + iVar3));
+      this_00 = *(eCVisualAnimationLoD **)(*(int *)(this + 0x10) + 8 + iVar3);
+      if (this_00 != (eCVisualAnimationLoD *)0x0) {
+        eCVisualAnimationLoD::ReleaseResources(this_00);
+      }
+      iVar1 = iVar1 + 1;
+      iVar3 = iVar3 + 0x10;
+    } while (iVar1 < *(int *)(this + 0x14));
+  }
+  peVar2 = this + 0x20;
+  if ((peVar2 != (eCVisualAnimationFactory *)0x0) &&
+     (pvVar4 = *(void **)peVar2, pvVar4 != (void *)0x0)) {
+    this_01 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(this_01,pvVar4);
+    *(int *)peVar2 = 0;
+    *(undefined4 *)(this + 0x24) = 0;
+    *(undefined4 *)(this + 0x28) = 0;
+  }
+  return true;
+}
+
+

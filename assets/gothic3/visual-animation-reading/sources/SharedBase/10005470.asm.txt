@@ -1,0 +1,2 @@
+; 10005470 bCUnitedRay::bCUnitedRay
+10005470 | e94b090500 | JMP 0x10055dc0

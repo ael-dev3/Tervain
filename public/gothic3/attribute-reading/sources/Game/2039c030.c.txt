@@ -1,0 +1,20 @@
+/* ENTRY 2039c030 | bTPropertyObject<gCStat,gCAttribute>::scalar_deleting_destructor | STATUS decompiled | 5 ms */
+
+bTPropertyObject<gCStat,gCAttribute> * __thiscall
+bTPropertyObject<gCStat,gCAttribute>::scalar_deleting_destructor
+          (bTPropertyObject<gCStat,gCAttribute> *this,byte param_1)
+
+{
+                    /* inlined destructor:
+                       bTPropertyObject<gCStat,gCAttribute>::~bTPropertyObject<gCStat,gCAttribute>
+                        */
+  this->vftablePtr = &vftable;
+  vfunction10(this);
+  bTPOPureSmartPtr<gCStat>::~bTPOPureSmartPtr<gCStat>((bTPOPureSmartPtr<gCStat> *)this);
+  if ((param_1 & 1) != 0) {
+    _free(this);
+  }
+  return this;
+}
+
+

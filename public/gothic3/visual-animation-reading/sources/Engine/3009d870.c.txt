@@ -1,0 +1,9 @@
+/* ENTRY 3009d870 | FUN_3009d870 | STATUS decompiled | 0 ms */
+
+undefined2 FUN_3009d870(void)
+
+{
+  return 0x40;
+}
+
+

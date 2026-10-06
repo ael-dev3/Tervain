@@ -1,0 +1,15 @@
+; 304c45a0 eCEntityProxy::eCEntityProxy
+304c45a0 | 56 | PUSH ESI
+304c45a1 | 8bf1 | MOV ESI,ECX
+304c45a3 | 57 | PUSH EDI
+304c45a4 | 8d7e08 | LEA EDI,[ESI + 0x8]
+304c45a7 | 8bcf | MOV ECX,EDI
+304c45a9 | c706f4bf8730 | MOV dword ptr [ESI],0x3087bff4
+304c45af | ff1500dbaf30 | CALL dword ptr [0x30afdb00]
+304c45b5 | 8bcf | MOV ECX,EDI
+304c45b7 | c7460400000000 | MOV dword ptr [ESI + 0x4],0x0
+304c45be | ff1534d8af30 | CALL dword ptr [0x30afd834]
+304c45c4 | 5f | POP EDI
+304c45c5 | 8bc6 | MOV EAX,ESI
+304c45c7 | 5e | POP ESI
+304c45c8 | c3 | RET

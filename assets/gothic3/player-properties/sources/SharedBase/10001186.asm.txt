@@ -1,0 +1,4 @@
+; 10001186 ?NotifyPropertyValueChangedEnterEx@bCObjectRefBase@@UAE_NPBD_N@Z
+10001186 | e925920400 | JMP 0x1004a3b0
+; 1000118b bCQuaternion::GetZ
+; 1000118b Ordinal_3287

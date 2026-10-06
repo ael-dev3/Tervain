@@ -1,0 +1,18 @@
+/* ENTRY 300153a7 | eCAnimationCollisionDesc::SetLocalToWorldMatrix | STATUS decompiled | 5 ms */
+
+/* public: void __thiscall eCAnimationCollisionDesc::SetLocalToWorldMatrix(class bCMatrix const &)
+    */
+
+void __thiscall
+eCAnimationCollisionDesc::SetLocalToWorldMatrix(eCAnimationCollisionDesc *this,bCMatrix *param_1)
+
+{
+                    /* 0x153a7  13681
+                       ?SetLocalToWorldMatrix@eCAnimationCollisionDesc@@QAEXABVbCMatrix@@@Z */
+                    /* WARNING: Could not recover jumptable at 0x3028e223. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCMatrix::operator=((bCMatrix *)&(this->eCAnimationCollisionDesc_data).field_0x18,param_1);
+  return;
+}
+
+

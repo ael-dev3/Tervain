@@ -1,0 +1,9 @@
+; 1000a800 FUN_1000a800
+1000a800 | 33c0 | XOR EAX,EAX
+1000a802 | 8801 | MOV byte ptr [ECX],AL
+1000a804 | 884101 | MOV byte ptr [ECX + 0x1],AL
+1000a807 | 884102 | MOV byte ptr [ECX + 0x2],AL
+1000a80a | 894104 | MOV dword ptr [ECX + 0x4],EAX
+1000a80d | 894108 | MOV dword ptr [ECX + 0x8],EAX
+1000a810 | 88410c | MOV byte ptr [ECX + 0xc],AL
+1000a813 | c3 | RET

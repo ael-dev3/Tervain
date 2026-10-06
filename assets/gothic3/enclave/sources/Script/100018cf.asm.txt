@@ -1,0 +1,4 @@
+; 100018cf ?GetMembers@PSEnclave@@QBE?BV?$bTValArray@PAVeCEntity@@@@XZ
+100018cf | e99c4c0100 | JMP 0x10016570
+; 100018d4 Entity::GetAIZoneSecurityLevel
+; 100018d4 Ordinal_1486

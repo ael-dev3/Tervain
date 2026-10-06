@@ -1,0 +1,17 @@
+/* ENTRY 1014ee70 | FUN_1014ee70 | STATUS decompiled | 5 ms */
+
+void FUN_1014ee70(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Player\\Player_States\\PS_Ghost.cpp");
+  bCString::bCString(local_8,"PS_GhostSummoner");
+  thunk_FUN_1001db60(local_8,&LAB_10001fe6,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

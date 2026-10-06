@@ -1,0 +1,13 @@
+/* ENTRY 201841d0 | gCHUDPage::~gCHUDPage | STATUS decompiled | 6 ms */
+
+void __thiscall gCHUDPage::~gCHUDPage(gCHUDPage *this)
+
+{
+  this->vftablePtr = &vftable;
+                    /* WARNING: Could not recover jumptable at 0x201841d6. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  CFFGFCView::~CFFGFCView((CFFGFCView *)this);
+  return;
+}
+
+

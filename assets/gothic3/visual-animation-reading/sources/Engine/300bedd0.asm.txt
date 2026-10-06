@@ -1,0 +1,3 @@
+; 300bedd0 FUN_300bedd0
+300bedd0 | 66b80400 | MOV AX,0x4
+300bedd4 | c3 | RET

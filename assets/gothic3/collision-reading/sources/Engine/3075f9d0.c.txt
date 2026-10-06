@@ -1,0 +1,37 @@
+/* ENTRY 3075f9d0 | bTPropertyType<eCCollisionShape,bTPropertyContainer<eECollisionShapeType>_>::~bTPropertyType<eCCollisionShape,bTPropertyContainer<eECollisionShapeType>_> | STATUS decompiled | 20 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<eCCollisionShape,bTPropertyContainer<eECollisionShapeType>_>::
+~bTPropertyType<eCCollisionShape,bTPropertyContainer<eECollisionShapeType>_>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Readonly");
+  bCString::bCString(local_c,"ShapeType");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&eCCollisionShape::ms_PropertyMember_m_eType,local_c,local_8,
+             local_4,2,true);
+  _ms_PropertyMember_m_eType = &vftable;
+  DAT_30aecd68 = bTPropertyObjectType<eCCollisionShape,bCObjectRefBase>::
+                 ~bTPropertyObjectType<eCCollisionShape,bCObjectRefBase>();
+  _DAT_30aecd6c = 0xc;
+  _DAT_30aecd70 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&eCCollisionShape::ms_PropertyMember_m_eType);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_30aecd68,
+             (bCPropertyTypeBase *)&eCCollisionShape::ms_PropertyMember_m_eType);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<eECollisionShapeType>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<eECollisionShapeType>_>);
+  return;
+}
+
+

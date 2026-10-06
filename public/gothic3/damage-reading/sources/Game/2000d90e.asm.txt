@@ -1,0 +1,2 @@
+; 2000d90e gCDamage_PS::PostInitializeProperties
+2000d90e | e9dd5c0a00 | JMP 0x200b35f0

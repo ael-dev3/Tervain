@@ -1,0 +1,20 @@
+/* ENTRY 10001d3e | PSInventory::GetCategory | STATUS decompiled | 5 ms */
+
+/* public: enum gEItemCategory __thiscall PSInventory::GetCategory(int)const  */
+
+gEItemCategory __thiscall PSInventory::GetCategory(PSInventory *this,int param_1)
+
+{
+  gEItemCategory gVar1;
+  
+                    /* 0x1d3e  1512  ?GetCategory@PSInventory@@QBE?AW4gEItemCategory@@H@Z */
+  if (*(gCInventory_PS **)this == (gCInventory_PS *)0x0) {
+    return 0;
+  }
+                    /* WARNING: Could not recover jumptable at 0x1001989b. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  gVar1 = gCInventory_PS::GetStackCategory(*(gCInventory_PS **)this,param_1);
+  return gVar1;
+}
+
+

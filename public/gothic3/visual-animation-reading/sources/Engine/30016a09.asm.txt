@@ -1,0 +1,2 @@
+; 30016a09 MCore::String::String
+30016a09 | e922320c00 | JMP 0x300d9c30

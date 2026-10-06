@@ -1,0 +1,2 @@
+; 10004d2c ?Cull@bCBox@@QBE_NABVbCStretch@@@Z
+10004d2c | e9ff1c0500 | JMP 0x10056a30

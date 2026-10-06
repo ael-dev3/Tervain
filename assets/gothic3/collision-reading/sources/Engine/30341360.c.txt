@@ -1,0 +1,12 @@
+/* ENTRY 30341360 | eCCollisionShapeBase_PS::eCCollisionShapeBase_PS | STATUS decompiled | 9 ms */
+
+eCCollisionShapeBase_PS * __thiscall
+eCCollisionShapeBase_PS::eCCollisionShapeBase_PS(eCCollisionShapeBase_PS *this)
+
+{
+  eCEntityPropertySet::eCEntityPropertySet((eCEntityPropertySet *)this);
+  this->vftablePtr = &vftable;
+  return this;
+}
+
+

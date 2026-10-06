@@ -1,0 +1,34 @@
+/* ENTRY 3003468a | thunk_FUN_300b71f0 | STATUS decompiled | 382 ms */
+
+void __thiscall thunk_FUN_300b71f0(int *param_1,int *param_2)
+
+{
+  int *piVar1;
+  int iVar2;
+  int *piVar3;
+  int iVar4;
+  int iVar5;
+  
+  piVar3 = param_2;
+  if (param_1 != param_2) {
+    thunk_FUN_300b00d0(param_2[1]);
+    thunk_FUN_300b15f0();
+    iVar4 = 0;
+    piVar1 = param_2 + 1;
+    param_2 = (int *)0x0;
+    if (*piVar1 != 0) {
+      do {
+        iVar2 = *piVar3;
+        iVar5 = *param_1 + iVar4;
+        thunk_FUN_300ae3f0(iVar5,1);
+        thunk_FUN_300ab630(iVar5,1);
+        thunk_FUN_300ab910(iVar5,iVar2 + iVar4,1);
+        param_2 = (int *)((int)param_2 + 1);
+        iVar4 = iVar4 + 0xc;
+      } while (param_2 < (uint)piVar3[1]);
+    }
+  }
+  return;
+}
+
+

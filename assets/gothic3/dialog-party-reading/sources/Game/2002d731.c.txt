@@ -1,0 +1,12 @@
+/* ENTRY 2002d731 | gCClock_PS::GetVersion | STATUS decompiled | 8 ms */
+
+/* public: virtual unsigned short __thiscall gCClock_PS::GetVersion(void)const  */
+
+ushort __thiscall gCClock_PS::GetVersion(gCClock_PS *this)
+
+{
+                    /* 0x2d731  4682  ?GetVersion@gCClock_PS@@UBEGXZ */
+  return 1;
+}
+
+

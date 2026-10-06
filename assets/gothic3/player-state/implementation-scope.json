@@ -1,0 +1,33 @@
+{
+  "schema": "gothic3-player-state-implementation-scope-v1",
+  "implementation": "src/gothic3/player-state.ts",
+  "integration": "NativeRoutineScripts.installPlayerStates shares its existing scheduler/SPU and delegated argument lifetime hooks",
+  "supported": [
+    "module-wide movement bytes, action queue and physically aliased pending record",
+    "standalone installed OnPlayerMovement/Walk/Sneak/Jump and normal/interact OnPlayerAction branches",
+    "NormalLoop focus/current-target calls, ordered movement preparation, exact dispatch table branches and source-backed no-op cases",
+    "ordinary actual-Player Navigation+218 and CharacterControl+ac wish writes; no physical translation",
+    "NormalSneak lazy stage, Self-gated Consume, actual Sneak helper and NormalLoop state transition",
+    "NormalJump frame growth,340B arguments, nonowning copies, inherited callback and strict RunScriptFunction result",
+    "_AI_Jump forcedpose, Action54/Ani2 hooks, Self Consume, CanJump false full return; true movement/SP prefix",
+    "each CallScriptFromScript actual GameApp/game-running and two ordered entity-processing gates; shared actual SP attribute operations"
+  ],
+  "selectedProfiles": [
+    "valid signed32 scalars and byte inputs; failed input validation is not claimed native failed-input behavior",
+    "successful JS queue allocation bounded65536records; no captured native allocator address claim",
+    "same SPU scheduler capability and guarded still-live340B argument allocation after callbacks",
+    "captured Entity pointer-field copies and captured reader capabilities; shared PS values remain mutable",
+    "fixed installed Get/Add/SetStaminaPoints registrations proven by initializer PUSHes; dynamic registration replacement is not inferred",
+    "explicit source-constructor/OnInit seed, not an observed native current session",
+    "standalone original callback entries from explicit live input properties; no full event dispatcher equivalence"
+  ],
+  "blocked": [
+    "full CharacterControl.OnAction axis/timer updates and OnPlayerGameKeyPressed prefilters/HUD/magic routing",
+    "native focus search and ref-counted proxy assignment unless a concrete host supplies examined semantics",
+    "physical movement mode changes, physics/animation application and PlayAni scheduling",
+    "parade opponent preparation, weapon selection/equipment and most quick-use handlers",
+    "loot/speech RNG/voice, master-thief template/skill, crime/dialogue/party interactions and HUD state bodies",
+    "DamageReceiver SP fallback until concrete captured scalar store is supplied"
+  ],
+  "scope": "Real examined source transitions with ordered prefix preserved on blocking; no whole-game gameplay equivalence"
+}

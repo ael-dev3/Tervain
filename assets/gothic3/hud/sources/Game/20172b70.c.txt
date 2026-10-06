@@ -1,0 +1,15 @@
+/* ENTRY 20172b70 | gCHUDMenuConfirm2::~gCHUDMenuConfirm2 | STATUS decompiled | 12 ms */
+
+void __thiscall gCHUDMenuConfirm2::~gCHUDMenuConfirm2(gCHUDMenuConfirm2 *this)
+
+{
+  this->vftablePtr = &vftable;
+  FUN_20036877();
+  gCHUDButton::~gCHUDButton((gCHUDButton *)&(this->gCHUDMenuConfirm2_data).field_0x2c);
+  gCHUDButton::~gCHUDButton((gCHUDButton *)&(this->gCHUDMenuConfirm2_data).field_0x1c);
+  gCHUDButton::~gCHUDButton((gCHUDButton *)&(this->gCHUDMenuConfirm2_data).field_0xc);
+  gCHUDMenu::~gCHUDMenu((gCHUDMenu *)this);
+  return;
+}
+
+

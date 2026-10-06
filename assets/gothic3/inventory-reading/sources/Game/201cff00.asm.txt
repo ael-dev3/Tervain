@@ -1,0 +1,118 @@
+; 201cff00 FUN_201cff00
+201cff00 | 55 | PUSH EBP
+201cff01 | 8bec | MOV EBP,ESP
+201cff03 | 83e4f8 | AND ESP,0xfffffff8
+201cff06 | 83ec14 | SUB ESP,0x14
+201cff09 | 53 | PUSH EBX
+201cff0a | 56 | PUSH ESI
+201cff0b | 57 | PUSH EDI
+201cff0c | 8bd9 | MOV EBX,ECX
+201cff0e | 33ff | XOR EDI,EDI
+201cff10 | 397b04 | CMP dword ptr [EBX + 0x4],EDI
+201cff13 | 7413 | JZ 0x201cff28
+; 201cff15 LAB_201cff15
+201cff15 | 8b4304 | MOV EAX,dword ptr [EBX + 0x4]
+201cff18 | 83e801 | SUB EAX,0x1
+201cff1b | 50 | PUSH EAX
+201cff1c | 8bcb | MOV ECX,EBX
+201cff1e | e8d2c8e5ff | CALL 0x2002c7f5
+201cff23 | 397b04 | CMP dword ptr [EBX + 0x4],EDI
+201cff26 | 75ed | JNZ 0x201cff15
+; 201cff28 LAB_201cff28
+201cff28 | 8b7508 | MOV ESI,dword ptr [EBP + 0x8]
+201cff2b | 56 | PUSH ESI
+201cff2c | 8d4c2418 | LEA ECX,[ESP + 0x18]
+201cff30 | 51 | PUSH ECX
+201cff31 | 897c241c | MOV dword ptr [ESP + 0x1c],EDI
+201cff35 | ff156c837d20 | CALL dword ptr [0x207d836c]
+201cff3b | 0fb74c2414 | MOVZX ECX,word ptr [ESP + 0x14]
+201cff40 | 8bc1 | MOV EAX,ECX
+201cff42 | 83e801 | SUB EAX,0x1
+201cff45 | 7423 | JZ 0x201cff6a
+201cff47 | 51 | PUSH ECX
+201cff48 | 6a01 | PUSH 0x1
+201cff4a | 68e0156820 | PUSH 0x206815e0
+201cff4f | ff1510897d20 | CALL dword ptr [0x207d8910]
+201cff55 | 83c40c | ADD ESP,0xc
+201cff58 | 8bcb | MOV ECX,EBX
+201cff5a | e8d167e3ff | CALL 0x20006730
+201cff5f | b001 | MOV AL,0x1
+201cff61 | 5f | POP EDI
+201cff62 | 5e | POP ESI
+201cff63 | 5b | POP EBX
+201cff64 | 8be5 | MOV ESP,EBP
+201cff66 | 5d | POP EBP
+201cff67 | c20400 | RET 0x4
+; 201cff6a LAB_201cff6a
+201cff6a | 56 | PUSH ESI
+201cff6b | 8d542414 | LEA EDX,[ESP + 0x14]
+201cff6f | 52 | PUSH EDX
+201cff70 | 897c2418 | MOV dword ptr [ESP + 0x18],EDI
+201cff74 | ff1570837d20 | CALL dword ptr [0x207d8370]
+201cff7a | 397c2410 | CMP dword ptr [ESP + 0x10],EDI
+201cff7e | 897c240c | MOV dword ptr [ESP + 0xc],EDI
+201cff82 | 0f8ea2000000 | JLE 0x201d002a
+; 201cff88 LAB_201cff88
+201cff88 | 8d4c2418 | LEA ECX,[ESP + 0x18]
+201cff8c | ff1574837d20 | CALL dword ptr [0x207d8374]
+201cff92 | 8d442418 | LEA EAX,[ESP + 0x18]
+201cff96 | 50 | PUSH EAX
+201cff97 | 56 | PUSH ESI
+201cff98 | ff1578837d20 | CALL dword ptr [0x207d8378]
+201cff9e | 6a00 | PUSH 0x0
+201cffa0 | 68108d7920 | PUSH 0x20798d10
+201cffa5 | 6830607920 | PUSH 0x20796030
+201cffaa | 6a00 | PUSH 0x0
+201cffac | 8d4c2428 | LEA ECX,[ESP + 0x28]
+201cffb0 | ff157c837d20 | CALL dword ptr [0x207d837c]
+201cffb6 | 50 | PUSH EAX
+201cffb7 | e8b43d2900 | CALL 0x20463d70
+201cffbc | 8bf8 | MOV EDI,EAX
+201cffbe | 83c414 | ADD ESP,0x14
+201cffc1 | 85ff | TEST EDI,EDI
+201cffc3 | 7433 | JZ 0x201cfff8
+201cffc5 | 8b17 | MOV EDX,dword ptr [EDI]
+201cffc7 | 8b4220 | MOV EAX,dword ptr [EDX + 0x20]
+201cffca | 8bcf | MOV ECX,EDI
+201cffcc | ffd0 | CALL EAX
+201cffce | 8b7304 | MOV ESI,dword ptr [EBX + 0x4]
+201cffd1 | 83c601 | ADD ESI,0x1
+201cffd4 | 8bce | MOV ECX,ESI
+201cffd6 | f7d9 | NEG ECX
+201cffd8 | 1bc9 | SBB ECX,ECX
+201cffda | f7d9 | NEG ECX
+201cffdc | 83e901 | SUB ECX,0x1
+201cffdf | 51 | PUSH ECX
+201cffe0 | 56 | PUSH ESI
+201cffe1 | 8bcb | MOV ECX,EBX
+201cffe3 | e83165e3ff | CALL 0x20006519
+201cffe8 | 8b13 | MOV EDX,dword ptr [EBX]
+201cffea | 897304 | MOV dword ptr [EBX + 0x4],ESI
+201cffed | 8d74b2fc | LEA ESI,[EDX + ESI*0x4 + -0x4]
+201cfff1 | 893e | MOV dword ptr [ESI],EDI
+201cfff3 | 8b7508 | MOV ESI,dword ptr [EBP + 0x8]
+201cfff6 | eb13 | JMP 0x201d000b
+; 201cfff8 LAB_201cfff8
+201cfff8 | 8b44240c | MOV EAX,dword ptr [ESP + 0xc]
+201cfffc | 50 | PUSH EAX
+201cfffd | 6898156820 | PUSH 0x20681598
+201d0002 | ff1510897d20 | CALL dword ptr [0x207d8910]
+201d0008 | 83c408 | ADD ESP,0x8
+; 201d000b LAB_201d000b
+201d000b | 8d4c2418 | LEA ECX,[ESP + 0x18]
+201d000f | ff158c837d20 | CALL dword ptr [0x207d838c]
+201d0015 | 8b44240c | MOV EAX,dword ptr [ESP + 0xc]
+201d0019 | 83c001 | ADD EAX,0x1
+201d001c | 3b442410 | CMP EAX,dword ptr [ESP + 0x10]
+201d0020 | 8944240c | MOV dword ptr [ESP + 0xc],EAX
+201d0024 | 0f8c5effffff | JL 0x201cff88
+; 201d002a LAB_201d002a
+201d002a | 8bcb | MOV ECX,EBX
+201d002c | e8ff66e3ff | CALL 0x20006730
+201d0031 | 5f | POP EDI
+201d0032 | 5e | POP ESI
+201d0033 | b001 | MOV AL,0x1
+201d0035 | 5b | POP EBX
+201d0036 | 8be5 | MOV ESP,EBP
+201d0038 | 5d | POP EBP
+201d0039 | c20400 | RET 0x4

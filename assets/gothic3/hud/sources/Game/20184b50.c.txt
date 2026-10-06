@@ -1,0 +1,11 @@
+/* ENTRY 20184b50 | gCHUDStaticTalk::gCHUDStaticTalk | STATUS decompiled | 6 ms */
+
+gCHUDStaticTalk * __thiscall gCHUDStaticTalk::gCHUDStaticTalk(gCHUDStaticTalk *this)
+
+{
+  CFFGFCStatic::CFFGFCStatic((CFFGFCStatic *)this);
+  this->vftablePtr = &vftable;
+  return this;
+}
+
+

@@ -1,0 +1,10 @@
+/* ENTRY 10056040 | FUN_10056040 | STATUS decompiled | 2 ms */
+
+void __thiscall FUN_10056040(bCBox *param_1,bCFrustum *param_2)
+
+{
+  bCFrustum::Cull(param_2,param_1);
+  return;
+}
+
+

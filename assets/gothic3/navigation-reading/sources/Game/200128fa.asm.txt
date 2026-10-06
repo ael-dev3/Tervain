@@ -1,0 +1,4 @@
+; 200128fa bTPropertyType<gCNavigation_PS,eCEntityProxy>::vfunction22
+200128fa | e921d62700 | JMP 0x2028ff20
+; 2001290e gCWorkspace::GetDatabases
+; 2001290e Ordinal_3204

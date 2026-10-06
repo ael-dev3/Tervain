@@ -1,0 +1,4 @@
+; 20021cce ?OnExitProcessingRange@gCCharacterMovement_PS@@MAEXXZ
+20021cce | e93dfa1f00 | JMP 0x20221710
+; 20021ce2 gCLock_PS::Read
+; 20021ce2 Ordinal_5922

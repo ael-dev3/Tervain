@@ -1,0 +1,177 @@
+/* ENTRY 202123d0 | FUN_202123d0 | STATUS decompiled | 196 ms */
+
+void __thiscall FUN_202123d0(int param_1,eCVisualAnimation_PS *param_2)
+
+{
+  bool bVar1;
+  char cVar2;
+  eCWrapper_emfx2Actor *this;
+  int *piVar3;
+  int iVar4;
+  eCApplication *peVar5;
+  ulong uVar6;
+  eCResourceDataEntity *this_00;
+  bCString *pbVar7;
+  undefined4 uVar8;
+  eEMotionOwner eVar9;
+  eCAnimationAdmin *unaff_EBP;
+  float fVar10;
+  double dVar11;
+  int local_2c;
+  double dStack_28;
+  undefined4 uStack_20;
+  undefined4 uStack_1c;
+  undefined4 uStack_18;
+  undefined4 uStack_14;
+  undefined4 uStack_10;
+  undefined4 uStack_c;
+  undefined4 uStack_8;
+  
+  if (param_2 == (eCVisualAnimation_PS *)0x0) {
+    return;
+  }
+  this = eCVisualAnimation_PS::GetActor(param_2);
+  if (this == (eCWrapper_emfx2Actor *)0x0) {
+    return;
+  }
+  bVar1 = eCVisualAnimation_PS::HasActor(param_2);
+  if ((bVar1) && (bVar1 = eCVisualAnimation_PS::GetRagDollEnabled(param_2), bVar1)) {
+    return;
+  }
+  local_2c = thunk_FUN_20214f00();
+  if (local_2c == 0) {
+    return;
+  }
+  piVar3 = (int *)(**(code **)(**(int **)(param_1 + 0x14) + 0x68))();
+  iVar4 = (**(code **)(*piVar3 + 0xec))(0x2d);
+  if (iVar4 == 0) {
+    return;
+  }
+  local_2c = *(int *)(iVar4 + 0x40);
+  cVar2 = thunk_FUN_202112f0();
+  eVar9 = 2;
+  bVar1 = eCVisualAnimation_PS::HasMotion(param_2,0);
+  if (bVar1) {
+    eVar9 = eCVisualAnimation_PS::GetMotionOwner(param_2,0);
+    switch(eVar9) {
+    case 2:
+      bVar1 = eCWrapper_emfx2Actor::IsMotionRunning(this,0);
+      if ((bVar1) && (fVar10 = eCWrapper_emfx2Actor::GetPlaySpeed(this,0), fVar10 != 0.0)) {
+        return;
+      }
+      break;
+    default:
+      goto LAB_20212879;
+    case 6:
+    case 7:
+      bVar1 = eCWrapper_emfx2Actor::IsMotionRunning(this,0);
+      if ((bVar1) && (fVar10 = eCWrapper_emfx2Actor::GetPlaySpeed(this,0), fVar10 != 0.0)) {
+        return;
+      }
+      eCVisualAnimation_PS::SetMotionOwner(param_2,0,2);
+      return;
+    case 8:
+      eCVisualAnimation_PS::SetMotionOwner(param_2,0,3);
+      return;
+    case 9:
+      fVar10 = eCAnimationAdmin::GetStandardAniFadeTime(unaff_EBP);
+      dStack_28 = (double)(fVar10 * 1000.0);
+      peVar5 = eCApplication::GetInstance();
+      uVar6 = eCApplication::GetTotalTime((eCApplication *)peVar5);
+      iVar4 = uVar6 - *(int *)(param_1 + 0x30);
+      fVar10 = (float)iVar4;
+      if (iVar4 < 0) {
+        fVar10 = fVar10 + 4.2949673e+09;
+      }
+      if (fVar10 < (float)dStack_28) {
+        return;
+      }
+    case 3:
+    case 10:
+      bVar1 = eCWrapper_emfx2Actor::IsMotionRunning(this,0);
+      if (bVar1) {
+        fVar10 = eCAnimationAdmin::GetStandardAniFadeTime(unaff_EBP);
+        eCWrapper_emfx2Actor::SwitchFadeOut(this,0,false,fVar10);
+        eCVisualAnimation_PS::StopMotion(param_2,0,0.0);
+      }
+      break;
+    case 0xb:
+      bVar1 = eCWrapper_emfx2Actor::IsMotionRunning(this,0);
+      if ((bVar1) && ((*(int *)(param_1 + 0x38) != local_2c || (cVar2 == '\x01')))) {
+        fVar10 = eCAnimationAdmin::GetStandardAniFadeTime(unaff_EBP);
+        eCWrapper_emfx2Actor::SwitchFadeOut(this,0,false,fVar10);
+        eCVisualAnimation_PS::StopMotion(param_2,0,0.0);
+      }
+      goto LAB_2021256b;
+    }
+    *(undefined4 *)(param_1 + 4) = 0;
+    *(undefined4 *)(param_1 + 8) = 0;
+    *(undefined4 *)(param_1 + 0xc) = 0;
+    *(undefined4 *)(param_1 + 0x10) = 0;
+  }
+LAB_2021256b:
+  *(int *)(param_1 + 0x38) = local_2c;
+  *(undefined1 *)(param_1 + 0x20) = 0;
+  peVar5 = eCApplication::GetInstance();
+  uVar6 = eCApplication::GetTotalTime((eCApplication *)peVar5);
+  *(ulong *)(param_1 + 0x30) = uVar6;
+  if (eVar9 != 10) {
+    *(undefined1 *)(param_1 + 0x3d) = 0;
+  }
+  eCVisualAnimation_PS::SetMotionOwner(param_2,0,0xb);
+  eCWrapper_emfx2Actor::StopMotion(this,1,0.0);
+  eCWrapper_emfx2Actor::StopMotion(this,2,0.0);
+  eCWrapper_emfx2Actor::StopMotion(this,3,0.0);
+  eCWrapper_emfx2Actor::SetTargetWeight(this,1,0.0);
+  eCWrapper_emfx2Actor::SetTargetWeight(this,2,0.0);
+  eCWrapper_emfx2Actor::SetTargetWeight(this,3,0.0);
+  uVar8 = 4;
+  if ((float)param_2 < 0.0) {
+    uVar8 = 3;
+  }
+  this_00 = (eCResourceDataEntity *)thunk_FUN_20211e00(0x35,0xf,0xf,2,uVar8,0,0xffffffff,2,0x19);
+  if (this_00 != (eCResourceDataEntity *)0x0) {
+    eCResourceDataEntity::GetFileName(this_00);
+    if (*(eCResourceDataEntity **)(param_1 + 4) == this_00) {
+      dVar11 = eCWrapper_emfx2Actor::GetMaxTime(this,0);
+      eCWrapper_emfx2Actor::SetPlaySpeed(this,0,ABS((float)param_2) / (90.0 / (float)dVar11));
+    }
+    else {
+      bVar1 = eCVisualAnimation_PS::HasMotion(param_2,0);
+      if (bVar1) {
+        eCVisualAnimation_PS::StopMotion(param_2,0,0.0);
+        eCWrapper_emfx2Actor::SetTargetWeight(this,0,0.0);
+      }
+      piVar3 = (int *)(**(code **)(**(int **)(param_1 + 0x14) + 0x68))();
+      iVar4 = (**(code **)(*piVar3 + 0xec))(0x1e);
+      pbVar7 = (bCString *)eCResourceDataEntity::GetFileName(this_00);
+      bCString::operator=((bCString *)(iVar4 + 0x1a0),pbVar7);
+      bCString::~bCString((bCString *)&local_2c);
+      eCVisualAnimation_PS::SetMotion(param_2,0,this_00);
+      pbVar7 = (bCString *)eCResourceDataEntity::GetFileName(this_00);
+      eCWrapper_emfx2Actor::SetIntroExtroBlending(this,0,pbVar7);
+      bCString::~bCString((bCString *)&stack0x00000000);
+      bVar1 = eCVisualAnimation_PS::HasMotion(param_2,0);
+      if (bVar1) {
+        thunk_FUN_20211140();
+        uStack_20 = 0;
+        uStack_c = 0;
+        uStack_1c = 0;
+        uStack_18 = 0x3f800000;
+        uStack_14 = 0xffffffff;
+        uStack_10 = 0x3f800000;
+        uStack_8 = 1;
+        eCVisualAnimation_PS::PlayMotion(param_2,0,(eSMotionDesc *)&uStack_20);
+        dVar11 = eCWrapper_emfx2Actor::GetMaxTime(this,0);
+        eCWrapper_emfx2Actor::SetPlaySpeed(this,0,ABS((float)param_2) / (90.0 / (float)dVar11));
+        *(eCResourceDataEntity **)(param_1 + 4) = this_00;
+      }
+    }
+    bCString::~bCString((bCString *)&stack0xffffffd0);
+  }
+  thunk_FUN_20213940(param_2);
+LAB_20212879:
+  return;
+}
+
+

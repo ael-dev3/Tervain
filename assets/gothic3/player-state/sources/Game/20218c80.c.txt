@@ -1,0 +1,28 @@
+/* ENTRY 20218c80 | FUN_20218c80 | STATUS decompiled | 9 ms */
+
+undefined4 __thiscall FUN_20218c80(void *this)
+
+{
+  bCObjectBase local_8;
+  undefined4 local_4;
+  
+  bCObjectRefBase::PostInitializeProperties(this);
+  bCObjectBase::bCObjectBase(&local_8);
+                    /* inlined constructor or destructor (approx location) for
+                       bTPropertyContainer<gESessionKey> */
+  local_8 = (bCObjectBase)&bTPropertyContainer<gESessionKey>::vftable;
+  local_4 = 0;
+  (**(code **)(*(int *)((int)this + 0x1c) + 0x1c))(&local_8);
+  bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xfffffff4);
+  *(undefined1 *)((int)this + 0x24) = 0;
+  *(undefined1 *)((int)this + 0x25) = 0;
+  bCObjectBase::bCObjectBase((bCObjectBase *)&stack0xfffffff4);
+                    /* inlined constructor or destructor (approx location) for
+                       bTPropertyContainer<gECharacterControlFOR> */
+  local_8 = (bCObjectBase)0x0;
+  (**(code **)(*(int *)((int)this + 0x14) + 0x1c))(&stack0xfffffff4);
+  bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xfffffff0);
+  return 1;
+}
+
+

@@ -1,0 +1,4 @@
+; 1000382d ?SetHighPrecision@bCFPUAdmin@@QAEXXZ
+1000382d | e90e850300 | JMP 0x1003bd40
+; 10003832 bCPropertyID::ExtractGuid
+; 10003832 Ordinal_2027

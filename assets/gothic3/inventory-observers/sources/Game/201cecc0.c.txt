@@ -1,0 +1,13 @@
+/* ENTRY 201cecc0 | FUN_201cecc0 | STATUS decompiled | 2 ms */
+
+undefined4 * __fastcall FUN_201cecc0(undefined4 *param_1)
+
+{
+  *param_1 = 0;
+  param_1[1] = 0;
+  param_1[2] = 0;
+  thunk_FUN_201ce910();
+  return param_1;
+}
+
+

@@ -1,0 +1,63 @@
+/* ENTRY 300a46e0 | FUN_300a46e0 | STATUS decompiled | 18 ms */
+
+bool __fastcall FUN_300a46e0(eCVisualAnimation_PS *param_1)
+
+{
+  undefined1 *this;
+  undefined1 *puVar1;
+  bool bVar2;
+  eCWrapper_emfx2Actor *peVar3;
+  eCWrapper_emfx2Actor *peVar4;
+  eCWrapper_emfx2Motion *this_00;
+  undefined4 uVar5;
+  eCWrapper_emfx2Motion *peVar6;
+  eCVisualAnimation_PS *this_01;
+  eCVisualAnimationLipSync *unaff_retaddr;
+  eEMotionType eVar7;
+  float fVar8;
+  eCResourceAnimationMotion_PS *peStack_4;
+  
+  this = &param_1[7].eCEntityPropertySet_data.field_0x4;
+  peVar3 = eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this);
+  if (peVar3 != (eCWrapper_emfx2Actor *)0x0) {
+    bVar2 = eCVisualAnimationFactory::StartFacialAnimation((eCVisualAnimationFactory *)this);
+    if (bVar2) {
+      eCVisualAnimation_PS::RelinkAttachments(param_1);
+      eCVisualAnimation_PS::RelinkLookAtConstraints(this_01);
+      puVar1 = &param_1[0x14].eCEntityPropertySet_data.field_0x4;
+      if (*(int *)&param_1[0x14].eCEntityPropertySet_data.field_0x4 != 0) {
+        fVar8 = 0.0;
+        eVar7 = 7;
+        peVar4 = (eCWrapper_emfx2Actor *)
+                 eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this);
+        eCWrapper_emfx2Actor::StopMotion(peVar4,eVar7,fVar8);
+        thunk_FUN_300b8560(puVar1);
+        *(undefined4 *)puVar1 = 0;
+      }
+      this_00 = (eCWrapper_emfx2Motion *)new(8,0xd19);
+      if (this_00 == (eCWrapper_emfx2Motion *)0x0) {
+        uVar5 = 0;
+      }
+      else {
+        uVar5 = eCWrapper_emfx2Motion::eCWrapper_emfx2Motion(this_00);
+      }
+      *(undefined4 *)puVar1 = uVar5;
+      peVar6 = eCResourceAnimationMotion_PS::GetMotionObject(peStack_4);
+      bVar2 = eCWrapper_emfx2Motion::CreateLipSyncMotion
+                        (*(eCWrapper_emfx2Motion **)puVar1,peVar6,unaff_retaddr);
+      if (!bVar2) {
+        thunk_FUN_300aa580(puVar1);
+        bVar2 = eCVisualAnimationFactory::StopFacialAnimation((eCVisualAnimationFactory *)this);
+        return bVar2;
+      }
+      peVar4 = (eCWrapper_emfx2Actor *)
+               eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this);
+      eCWrapper_emfx2Actor::PlayMotion
+                (peVar4,7,*(eCWrapper_emfx2Motion **)puVar1,(eSMotionDesc *)&stack0xffffffdc);
+      return true;
+    }
+  }
+  return false;
+}
+
+

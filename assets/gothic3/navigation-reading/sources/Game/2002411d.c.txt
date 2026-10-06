@@ -1,0 +1,13 @@
+/* ENTRY 2002411d | gCNavigation_PS::OnPostCopy | STATUS decompiled | 6 ms */
+
+/* public: virtual void __thiscall gCNavigation_PS::OnPostCopy(class eCEntityPropertySet const &) */
+
+void __thiscall gCNavigation_PS::OnPostCopy(gCNavigation_PS *this,eCEntityPropertySet *param_1)
+
+{
+                    /* 0x2411d  5513  ?OnPostCopy@gCNavigation_PS@@UAEXABVeCEntityPropertySet@@@Z */
+  Reset(this,false,true,true);
+  return;
+}
+
+

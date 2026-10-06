@@ -1,0 +1,4 @@
+; 10006f3c ?Find@bCString@@QBEHDH_N@Z
+10006f3c | e93fc90000 | JMP 0x10013880
+; 10006f41 bCAccessorPropertyObject::GetBaseClass
+; 10006f41 Ordinal_2106

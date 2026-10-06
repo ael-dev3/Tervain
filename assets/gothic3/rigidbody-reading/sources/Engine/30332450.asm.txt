@@ -1,0 +1,14 @@
+; 30332450 bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_>::vfunction6
+30332450 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+30332454 | 85c0 | TEST EAX,EAX
+30332456 | 7411 | JZ 0x30332469
+30332458 | 8b11 | MOV EDX,dword ptr [ECX]
+3033245a | 50 | PUSH EAX
+3033245b | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+3033245e | ffd0 | CALL EAX
+30332460 | 8b10 | MOV EDX,dword ptr [EAX]
+30332462 | 8bc8 | MOV ECX,EAX
+30332464 | 8b4218 | MOV EAX,dword ptr [EDX + 0x18]
+30332467 | ffd0 | CALL EAX
+; 30332469 LAB_30332469
+30332469 | c20400 | RET 0x4

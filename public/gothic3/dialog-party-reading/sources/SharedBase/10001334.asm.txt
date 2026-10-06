@@ -1,0 +1,2 @@
+; 10001334 bCSpieAdmin::GetInstance
+10001334 | e9579c0400 | JMP 0x1004af90

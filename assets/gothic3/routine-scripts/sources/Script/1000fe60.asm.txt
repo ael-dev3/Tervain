@@ -1,0 +1,8 @@
+; 1000fe60 FUN_1000fe60
+1000fe60 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+1000fe64 | 8901 | MOV dword ptr [ECX],EAX
+1000fe66 | 33c9 | XOR ECX,ECX
+1000fe68 | 85c0 | TEST EAX,EAX
+1000fe6a | 0f95c1 | SETNZ CL
+1000fe6d | 8ac1 | MOV AL,CL
+1000fe6f | c20400 | RET 0x4

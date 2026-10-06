@@ -1,0 +1,16 @@
+/* ENTRY 10008d23 | bCVector::HasZeroMagnitude | STATUS decompiled | 5 ms */
+
+/* public: bool __thiscall bCVector::HasZeroMagnitude(void)const  */
+
+bool __thiscall bCVector::HasZeroMagnitude(bCVector *this)
+
+{
+                    /* 0x8d23  3313  ?HasZeroMagnitude@bCVector@@QBE_NXZ */
+  if (*(float *)(this + 8) * *(float *)(this + 8) +
+      *(float *)this * *(float *)this + *(float *)(this + 4) * *(float *)(this + 4) == 0.0) {
+    return true;
+  }
+  return false;
+}
+
+

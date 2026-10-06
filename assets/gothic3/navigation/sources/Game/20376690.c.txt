@@ -1,0 +1,173 @@
+/* ENTRY 20376690 | FUN_20376690 | STATUS decompiled | 224 ms */
+
+void __thiscall FUN_20376690(gCSession *param_1,eEAudioChannelGroup param_2)
+
+{
+  gCSession *pgVar1;
+  bool bVar2;
+  gCNavigationAdmin *pgVar3;
+  int *piVar4;
+  eCEntity *peVar5;
+  gCClock_PS *this;
+  eCApplication *peVar6;
+  bCString *pbVar7;
+  int iVar8;
+  eCEngineComponentBase *peVar9;
+  eCAudioModule *peVar10;
+  eCAudioChannelGroup *peVar11;
+  gCPlayerMemory_PS *this_00;
+  eCLocString *this_01;
+  eCApplication *this_02;
+  eSSetupEngine *peVar12;
+  code *pcVar13;
+  eEAudioChannelGroup eVar14;
+  undefined1 uVar15;
+  eEAudioChannelGroup eVar16;
+  ulong local_2c;
+  bCString abStack_28 [4];
+  gCSession *local_24 [2];
+  bCCommandLine abStack_1c [28];
+  
+  local_24[0] = param_1;
+  if ((param_2 != 2) && ((param_1->gCSession_data).offset_0x18 != 0)) {
+    gCSession::Stop(param_1);
+  }
+  pcVar13 = GetInstance_exref;
+  if ((param_1->gCSession_data).offset_0xc4 != 0) {
+    if ((param_1->gCSession_data).offset_0x18 == 0) {
+      gCSession::CreatePlayerEntity(param_1);
+    }
+    if ((param_1->gCSession_data).offset_0x1c == 0) {
+      gCSession::CreateCameraEntity(param_1);
+    }
+    if (param_2 != 2) {
+      thunk_FUN_200a4bb0();
+      bCString::bCString((bCString *)&stack0xffffffbc,"");
+      pgVar3 = (gCNavigationAdmin *)thunk_FUN_20079ea0(0);
+      DAT_207cca44 = gCNavigationAdmin::CompileNavigationScene(pgVar3);
+    }
+    (param_1->gCSession_data).offset_0xe4 = (gCSession)(DAT_207cca44 == 1);
+    if ((param_2 == 0) || (param_2 == 1)) {
+      bCString::bCString((bCString *)&local_2c,"OnInit");
+      piVar4 = (int *)thunk_FUN_200a4bb0();
+      (**(code **)(*piVar4 + 0xbc))(&local_2c,0);
+      bCString::~bCString((bCString *)&local_2c);
+    }
+    if (param_2 == 0) {
+      bCString::bCString((bCString *)&local_2c,"OnGameStartUp");
+      piVar4 = (int *)thunk_FUN_200a4bb0();
+      (**(code **)(*piVar4 + 0xbc))(&local_2c,0);
+      bCString::~bCString((bCString *)&local_2c);
+    }
+    peVar5 = gCWorld::GetWorldEntity((gCWorld *)(param_1->gCSession_data).offset_0xc4);
+    if (peVar5 != (eCEntity *)0x0) {
+      peVar5 = gCWorld::GetWorldEntity((gCWorld *)(param_1->gCSession_data).offset_0xc4);
+      this = (gCClock_PS *)(**(code **)(*(int *)peVar5 + 0xec))();
+      if (this != (gCClock_PS *)0x0) {
+        bCCommandLine::bCCommandLine(abStack_1c);
+        peVar6 = eCApplication::GetInstance();
+        pbVar7 = eCApplication::GetCommandLineA((eCApplication *)peVar6);
+        bCCommandLine::Create(abStack_1c,pbVar7);
+        bCString::bCString((bCString *)&local_2c,"time");
+        bCCommandLine::GetOptions(abStack_1c);
+        iVar8 = thunk_FUN_20196400();
+        bCString::~bCString((bCString *)&local_2c);
+        if (iVar8 != 0) {
+          bCString::bCString((bCString *)&local_2c,"time");
+          bCCommandLine::GetOptions(abStack_1c);
+          iVar8 = thunk_FUN_20196400();
+          bCString::bCString(abStack_28,(bCString *)(iVar8 + 4));
+          bCString::~bCString((bCString *)&local_2c);
+          local_2c = bCString::GetInteger(abStack_28,0,false);
+          gCClock_PS::SetHour(this,&local_2c);
+          bCString::~bCString(abStack_28);
+        }
+        gCClock_PS::SetFactor(this,(float *)&DAT_2069eb48);
+        gCClock_PS::ResumeClock(this);
+        bCCommandLine::~bCCommandLine(abStack_1c);
+        param_1 = local_24[0];
+      }
+    }
+    gCSession::Resume(param_1);
+    if (param_2 == 0) {
+      eVar14 = param_2;
+      peVar9 = (eCEngineComponentBase *)thunk_FUN_20176730();
+      eCEngineComponentBase::Enable(peVar9,SUB41(eVar14,0));
+      eVar14 = param_2;
+      peVar10 = (eCAudioModule *)thunk_FUN_200f9cc0();
+      peVar11 = eCAudioModule::GetChannelGroup(peVar10,eVar14);
+      if (peVar11 != (eCAudioChannelGroup *)0x0) {
+        uVar15 = 1;
+        eVar14 = param_2;
+        peVar10 = (eCAudioModule *)thunk_FUN_200f9cc0();
+        peVar11 = eCAudioModule::GetChannelGroup(peVar10,eVar14);
+        eCAudioChannelGroup::OverrideMute(peVar11,(bool)uVar15);
+      }
+    }
+    pcVar13 = GetInstance_exref;
+    bVar2 = true;
+    peVar6 = eCApplication::GetInstance();
+    eCApplication::SetWarmUp((eCApplication *)peVar6,bVar2);
+    eVar14 = 0x14;
+    do {
+      eVar14 = eVar14 - 1;
+      peVar6 = eCApplication::GetInstance();
+      (**(code **)(*(int *)peVar6 + 0x2c0))();
+      Sleep(100);
+    } while (eVar14 != 0);
+    eVar16 = eVar14;
+    peVar6 = eCApplication::GetInstance();
+    eCApplication::SetWarmUp((eCApplication *)peVar6,SUB41(eVar16,0));
+    pgVar1 = local_24[0];
+    gCGUIManager::CloseMenu((gCGUIManager *)(local_24[0]->gCSession_data).offset_0xf0);
+    gCGUIManager::ClosePage((gCGUIManager *)(pgVar1->gCSession_data).offset_0xf0);
+    bCString::bCString((bCString *)local_24,"OnReturnFromMenu");
+    piVar4 = (int *)thunk_FUN_200a4bb0();
+    (**(code **)(*piVar4 + 0xbc))(local_24,0);
+    bCString::~bCString((bCString *)local_24);
+    if (param_2 == 0) {
+      bCString::bCString((bCString *)&stack0x00000004,"G3_Intro.bik");
+      pbVar7 = (bCString *)&stack0x00000004;
+      peVar6 = eCApplication::GetInstance();
+      eCApplication::PlayVideo((eCApplication *)peVar6,pbVar7);
+      bCString::~bCString((bCString *)&stack0x00000004);
+      bVar2 = true;
+      peVar9 = (eCEngineComponentBase *)thunk_FUN_20176730();
+      eCEngineComponentBase::Enable(peVar9,bVar2);
+      peVar10 = (eCAudioModule *)thunk_FUN_200f9cc0();
+      peVar11 = eCAudioModule::GetChannelGroup(peVar10,eVar14);
+      if (peVar11 != (eCAudioChannelGroup *)0x0) {
+        uVar15 = 0;
+        eVar14 = 0;
+        peVar10 = (eCAudioModule *)thunk_FUN_200f9cc0();
+        peVar11 = eCAudioModule::GetChannelGroup(peVar10,eVar14);
+        eCAudioChannelGroup::OverrideMute(peVar11,(bool)uVar15);
+      }
+    }
+    piVar4 = (int *)(pgVar1->gCSession_data).offset_0x18;
+    if (((piVar4 != (int *)0x0) &&
+        (this_00 = (gCPlayerMemory_PS *)(**(code **)(*piVar4 + 0xec))(),
+        this_00 != (gCPlayerMemory_PS *)0x0)) &&
+       (bVar2 = gCPlayerMemory_PS::IsTutorialEnabled(this_00,1), bVar2)) {
+      gCPlayerMemory_PS::EnableTutorial(this_00,1,false);
+      bCString::bCString((bCString *)local_24,"TUT_Start");
+      this_01 = (eCLocString *)
+                eCLocString::eCLocString((eCLocString *)abStack_28,(bCString *)local_24);
+      eCLocString::GetString(this_01);
+      gCGUIManager::OpenTutorial
+                ((gCGUIManager *)(pgVar1->gCSession_data).offset_0xf0,
+                 (bCUnicodeString *)&stack0x00000004);
+      bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0x00000004);
+      eCLocString::~eCLocString((eCLocString *)abStack_28);
+      bCString::~bCString((bCString *)local_24);
+    }
+  }
+  this_02 = (eCApplication *)(*pcVar13)();
+  peVar12 = eCApplication::GetSetupEngineDesc(this_02);
+                    /* WARNING: Could not recover jumptable at 0x20376a81. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eCThreadPool::EnableAllThreads((bool)peVar12[0x88]);
+  return;
+}
+
+

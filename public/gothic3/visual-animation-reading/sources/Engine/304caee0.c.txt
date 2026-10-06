@@ -1,0 +1,19 @@
+/* ENTRY 304caee0 | FUN_304caee0 | STATUS decompiled | 9 ms */
+
+undefined1 FUN_304caee0(eCNode *param_1)
+
+{
+  undefined1 uVar1;
+  bCPropertyID *pbVar2;
+  
+  if (param_1 == (eCNode *)0x0) {
+    return 0;
+  }
+  bCCriticalSectionWin32::Acquire((bCCriticalSectionWin32 *)&DAT_30af24c4);
+  pbVar2 = eCNode::GetID(param_1);
+  uVar1 = thunk_FUN_3044fe00(pbVar2);
+  bCCriticalSectionWin32::Release((bCCriticalSectionWin32 *)&DAT_30af24c4);
+  return uVar1;
+}
+
+

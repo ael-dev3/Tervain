@@ -1,0 +1,4 @@
+; 30044fe9 bTPropertyType<eCRigidBodyBase_PS,bool>::vfunction13
+30044fe9 | e982042f00 | JMP 0x30335470
+; 30044ff3 triangle::setActive
+; 30044ff3 Ordinal_16736

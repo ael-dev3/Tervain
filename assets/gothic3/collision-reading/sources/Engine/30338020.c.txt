@@ -1,0 +1,132 @@
+/* ENTRY 30338020 | FUN_30338020 | STATUS decompiled | 71 ms */
+
+/* WARNING: Exceeded maximum restarts with more pending */
+
+undefined4 __thiscall FUN_30338020(undefined4 param_1,bCString *param_2,bool param_3)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  bool bVar2;
+  eCResourceAdmin *this;
+  bCObjectBase this_00;
+  eCResourceBase_PS *peVar3;
+  eCResourceCollisionMesh_PS *this_01;
+  eEResourceState eVar4;
+  ulong uVar5;
+  eCCollisionShape *this_02;
+  eCEntity *peVar6;
+  eCPhysicObjectStateBuffer *this_03;
+  eCResourceCollisionMesh_PS *peVar7;
+  uint unaff_EBX;
+  eCResourceCollisionMesh_PS *this_04;
+  ushort uVar8;
+  undefined4 uVar9;
+  TypeDescriptor *pTVar10;
+  bCObjectBase *pbVar11;
+  bCString *pbVar12;
+  TypeDescriptor *pTVar13;
+  eEResourceCacheBehavior eVar14;
+  undefined4 uVar15;
+  eCResourceCollisionMesh_PS *local_38;
+  bCObjectBase local_2c;
+  bCObjectBase bStack_28;
+  bCObjectBase bStack_24;
+  uint uStack_20;
+  bCBox local_18 [24];
+  
+  eVar14 = 3;
+  pbVar12 = param_2;
+  this = (eCResourceAdmin *)thunk_FUN_3007c090();
+  this_00 = (bCObjectBase)eCResourceAdmin::QueryResourceDataEntity(this,pbVar12,eVar14);
+  if (this_00 != (bCObjectBase)0x0) {
+    uVar15 = 0;
+    pTVar13 = &eCResourceCollisionMesh_PS::RTTI_Type_Descriptor;
+    pTVar10 = &eCResourceBase_PS::RTTI_Type_Descriptor;
+    uVar9 = 0;
+    local_2c = this_00;
+    peVar3 = eCResourceDataEntity::SearchResourcePropertySet((eCResourceDataEntity *)this_00);
+    this_01 = (eCResourceCollisionMesh_PS *)FUN_30671ae7(peVar3,uVar9,pTVar10,pTVar13,uVar15);
+    if (this_01 != (eCResourceCollisionMesh_PS *)0x0) {
+      eVar4 = eCResourceBase_PS::GetCurrentResourceState((eCResourceBase_PS *)this_01);
+      if (eVar4 != 6) {
+        eCResourceDataEntity::Load((eCResourceDataEntity *)this_00,1);
+      }
+      bCBox::bCBox(local_18);
+      bCBox::Invalidate(local_18);
+      local_38 = (eCResourceCollisionMesh_PS *)0x0;
+      uVar5 = eCResourceCollisionMesh_PS::GetNumMeshes(this_01);
+      this_04 = this_01;
+      if (uVar5 != 0) {
+        do {
+          this_02 = (eCCollisionShape *)thunk_FUN_3033c9f0();
+          uVar8 = (ushort)local_38;
+          eCCollisionShape::SetShape(this_02,param_2,uVar8,param_3);
+          eCResourceCollisionMesh_PS::GetIndexedBoundary(this_04,local_18,uVar8);
+          bCBox::operator=((bCBox *)&(this_02->eCCollisionShape_data).field_0x44,local_18);
+          (*this_02->vftablePtr->NotifyPropertyValueChangedEnterEx)(this_02,"SkinWidth",false);
+          pNVar1 = this_02->vftablePtr->NotifyPropertyValueChangedExitEx;
+          (this_02->eCCollisionShape_data).offset_0x30 = 0x38d1b717;
+          (*pNVar1)(this_02,"SkinWidth",false);
+          bCObjectBase::bCObjectBase(&bStack_28);
+                    /* inlined constructor or destructor (approx location) for
+                       bTPropertyContainer<eEShapeGroup> */
+          bStack_28 = (bCObjectBase)&bTPropertyContainer<eEShapeGroup>::vftable;
+          bStack_24 = (bCObjectBase)0x1;
+          (*this_02->vftablePtr->NotifyPropertyValueChangedEnterEx)(this_02,"Group",false);
+          pbVar11 = &bStack_28;
+          (*(code *)(this_02->eCCollisionShape_data).offset_0x10[7])();
+          (*this_02->vftablePtr->NotifyPropertyValueChangedExitEx)(this_02,"Group",false);
+          local_2c = (bCObjectBase)&bTPropertyContainer<eEShapeGroup>::vftable;
+          bCObjectBase::~bCObjectBase(&local_2c);
+          bVar2 = eCResourceCollisionMesh_PS::GetIndexedMaterial
+                            (this_04,(eSPhysicMaterialInfos *)&stack0xffffffc3,uVar8);
+          if (bVar2) {
+            bCObjectBase::bCObjectBase(&bStack_24);
+                    /* inlined constructor or destructor (approx location) for
+                       bTPropertyContainer<eEShapeMaterial> */
+            bStack_24 = (bCObjectBase)&bTPropertyContainer<eEShapeMaterial>::vftable;
+            uStack_20 = unaff_EBX >> 0x18 & 0x1f;
+            (*this_02->vftablePtr->NotifyPropertyValueChangedEnterEx)(this_02,"Material",false);
+            (*(code *)(this_02->eCCollisionShape_data).offset_0x18[7])(&bStack_24);
+            (*this_02->vftablePtr->NotifyPropertyValueChangedExitEx)(this_02,"Material",false);
+            bStack_24 = (bCObjectBase)&bTPropertyContainer<eEShapeMaterial>::vftable;
+            bCObjectBase::~bCObjectBase(&bStack_24);
+            (*this_02->vftablePtr->NotifyPropertyValueChangedEnterEx)
+                      (this_02,"DisableCollision",false);
+            pNVar1 = this_02->vftablePtr->NotifyPropertyValueChangedExitEx;
+            (this_02->eCCollisionShape_data).offset_0x2b =
+                 (bCObjectRefBase)((unaff_EBX & 0x40000000) != 0);
+            (*pNVar1)(this_02,"DisableCollision",false);
+            (*this_02->vftablePtr->NotifyPropertyValueChangedEnterEx)
+                      (this_02,"DisableResponse",false);
+            pNVar1 = this_02->vftablePtr->NotifyPropertyValueChangedExitEx;
+            (this_02->eCCollisionShape_data).offset_0x2c =
+                 (bCObjectRefBase)((unaff_EBX & 0x80000000) != 0);
+            (*pNVar1)(this_02,"DisableResponse",false);
+            (*this_02->vftablePtr->NotifyPropertyValueChangedEnterEx)
+                      (this_02,"IgnoredByTraceRay",false);
+            pNVar1 = this_02->vftablePtr->NotifyPropertyValueChangedExitEx;
+            (this_02->eCCollisionShape_data).offset_0x28 =
+                 (bCObjectRefBase)((unaff_EBX & 0x20000000) != 0);
+            (*pNVar1)(this_02,"IgnoredByTraceRay",false);
+            this_04 = local_38;
+          }
+          thunk_FUN_3033f140(this_02);
+          peVar6 = (eCEntity *)(*this_01->vftablePtr->GetSize)(this_02);
+          this_03 = eCPhysicObjectStateBuffer::GetBuffer(peVar6);
+          eCPhysicObjectStateBuffer::AddShape(this_03,(eCCollisionShape *)pbVar11);
+          (*this_02->vftablePtr->ReleaseReference)(this_02);
+          local_38 = (eCResourceCollisionMesh_PS *)((int)&local_38->vftablePtr + 1);
+          peVar7 = (eCResourceCollisionMesh_PS *)eCResourceCollisionMesh_PS::GetNumMeshes(this_04);
+          this_00 = local_2c;
+        } while (local_38 < peVar7);
+      }
+      (**(code **)(*(int *)this_00 + 0x24))((void *)this_00);
+      bCBox::~bCBox(local_18);
+      return 1;
+    }
+    (**(code **)(*(int *)this_00 + 0x24))((void *)this_00);
+  }
+  return 0;
+}
+

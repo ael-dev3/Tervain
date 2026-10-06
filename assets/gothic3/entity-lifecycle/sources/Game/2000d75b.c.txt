@@ -1,0 +1,34 @@
+/* ENTRY 2000d75b | gCNavPath_PS::gCNavPath_PS | STATUS decompiled | 167 ms */
+
+/* public: __thiscall gCNavPath_PS::gCNavPath_PS(class gCNavPath_PS const &) */
+
+gCNavPath_PS * __thiscall gCNavPath_PS::gCNavPath_PS(gCNavPath_PS *this,gCNavPath_PS *param_1)
+
+{
+                    /* 0xd75b  274  ??0gCNavPath_PS@@QAE@ABV0@@Z */
+  eCEntityPropertySet::eCEntityPropertySet((eCEntityPropertySet *)this);
+  this->vftablePtr = &vftable;
+  (this->gCNavPath_PS_data).offset_0x10 = (void *)0x0;
+  (this->gCNavPath_PS_data).offset_0x14 = 0;
+  (this->gCNavPath_PS_data).offset_0x18 = 0;
+  (this->gCNavPath_PS_data).offset_0x1c = (void *)0x0;
+  (this->gCNavPath_PS_data).offset_0x20 = 0;
+  (this->gCNavPath_PS_data).offset_0x24 = 0;
+  bCPropertyID::bCPropertyID((bCPropertyID *)&(this->gCNavPath_PS_data).field_0x2c);
+  bCPropertyID::bCPropertyID((bCPropertyID *)&(this->gCNavPath_PS_data).field_0x40);
+  bCVector::bCVector((bCVector *)&(this->gCNavPath_PS_data).field_0x54);
+  bCVector::bCVector((bCVector *)&(this->gCNavPath_PS_data).field_0x60);
+  bCVector::bCVector((bCVector *)&(this->gCNavPath_PS_data).field_0x6c);
+  bCVector::bCVector((bCVector *)&(this->gCNavPath_PS_data).field_0x78);
+  bCVector::bCVector((bCVector *)&(this->gCNavPath_PS_data).field_0x84);
+  bCVector::bCVector((bCVector *)&(this->gCNavPath_PS_data).field_0x90);
+  (this->gCNavPath_PS_data).offset_0xa8 = (void *)0x0;
+  (this->gCNavPath_PS_data).offset_0xac = 0;
+  (this->gCNavPath_PS_data).offset_0xb0 = 0;
+  bCMatrix::bCMatrix((bCMatrix *)&(this->gCNavPath_PS_data).field_0xc8);
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)&(this->gCNavPath_PS_data).field_0x110);
+  Invalidate(this);
+  return this;
+}
+
+

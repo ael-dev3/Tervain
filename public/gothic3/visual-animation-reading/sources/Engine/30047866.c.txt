@@ -1,0 +1,19 @@
+/* ENTRY 30047866 | eCVisualAnimation_PS::SetBoneLinearDamping | STATUS decompiled | 12 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::SetBoneLinearDamping(float const &) */
+
+void __thiscall
+eCVisualAnimation_PS::SetBoneLinearDamping(eCVisualAnimation_PS *this,float *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x47866  12969  ?SetBoneLinearDamping@eCVisualAnimation_PS@@QAEXABM@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"BoneLinearDamping",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  *(float *)&this[2].eCEntityPropertySet_data = *param_1;
+  (*pNVar1)(this,"BoneLinearDamping",false);
+  return;
+}
+
+

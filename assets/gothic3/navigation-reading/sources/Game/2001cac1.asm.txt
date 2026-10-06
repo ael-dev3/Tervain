@@ -1,0 +1,2 @@
+; 2001cac1 ?OnUntouch@gCNavigation_PS@@MAEXPAVeCEntity@@AAVeCContactIterator@@@Z
+2001cac1 | e90a9a2600 | JMP 0x202864d0

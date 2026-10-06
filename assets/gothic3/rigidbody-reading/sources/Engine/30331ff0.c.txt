@@ -1,0 +1,19 @@
+/* ENTRY 30331ff0 | bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_>::vfunction12 | STATUS decompiled | 4 ms */
+
+bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_>_vftable * __thiscall
+bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_>::vfunction12
+          (bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_> *this,
+          undefined4 *param_1)
+
+{
+  int iVar1;
+  
+  if (param_1 == (undefined4 *)0x0) {
+    return (bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_>_vftable *)0x0;
+  }
+  iVar1 = (**(code **)*param_1)();
+  return (bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_>_vftable *)
+         ((int)&(this[7].vftablePtr)->vfunction1 + iVar1);
+}
+
+

@@ -1,0 +1,2 @@
+; 10007d65 bCString::Alloc
+10007d65 | e9d6b40000 | JMP 0x10013240

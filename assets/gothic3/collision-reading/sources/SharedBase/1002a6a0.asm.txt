@@ -1,0 +1,4 @@
+; 1002a6a0 FUN_1002a6a0
+1002a6a0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+1002a6a4 | 8d0481 | LEA EAX,[ECX + EAX*0x4]
+1002a6a7 | c20400 | RET 0x4

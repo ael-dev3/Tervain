@@ -1,0 +1,14 @@
+/* ENTRY 20356cb0 | FUN_20356cb0 | STATUS decompiled | 3 ms */
+
+void __fastcall FUN_20356cb0(int *param_1)
+
+{
+  eCEntity *peVar1;
+  
+  peVar1 = (eCEntity *)(**(code **)(*param_1 + 0x68))();
+  gCScriptProcessingUnit::SetSelfEntity((gCScriptProcessingUnit *)(param_1 + 0x19),peVar1);
+  gCScriptProcessingUnit::AIContinueRoutine((gCScriptProcessingUnit *)(param_1 + 0x19));
+  return;
+}
+
+

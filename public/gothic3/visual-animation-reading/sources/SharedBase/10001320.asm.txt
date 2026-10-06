@@ -1,0 +1,2 @@
+; 10001320 bCMatrix::IsIdentity
+10001320 | e97b780200 | JMP 0x10028ba0

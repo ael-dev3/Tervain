@@ -1,0 +1,18 @@
+/* ENTRY 10003e9f | PSFocus::SetFocusEntity | STATUS decompiled | 6 ms */
+
+/* public: void __thiscall PSFocus::SetFocusEntity(class Entity const &) */
+
+void __thiscall PSFocus::SetFocusEntity(PSFocus *this,Entity *param_1)
+
+{
+  eCEntity *peVar1;
+  
+                    /* 0x3e9f  1945  ?SetFocusEntity@PSFocus@@QAEXABVEntity@@@Z */
+  if (*(int *)this != 0) {
+    peVar1 = Entity::GetInstance(param_1);
+    gCFocus_PS::SetFocusEntity(*(gCFocus_PS **)this,peVar1);
+  }
+  return;
+}
+
+

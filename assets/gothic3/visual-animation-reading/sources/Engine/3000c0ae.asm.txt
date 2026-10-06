@@ -1,0 +1,2 @@
+; 3000c0ae eCVisualAnimation_PS::GetBoneLinearDamping
+3000c0ae | e9cd5c0500 | JMP 0x30061d80

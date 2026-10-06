@@ -1,0 +1,2 @@
+; 30001ba4 ?AccessShapeType@eCCollisionShape@@QAEAAV?$bTPropertyContainer@W4eECollisionShapeType@@@@XZ
+30001ba4 | e9d7080c00 | JMP 0x300c2480

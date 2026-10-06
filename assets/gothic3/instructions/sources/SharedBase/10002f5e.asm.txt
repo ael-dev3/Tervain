@@ -1,0 +1,4 @@
+; 10002f5e ?IsEmpty@bCString@@QBE_NXZ
+10002f5e | e98d020100 | JMP 0x100131f0
+; 10002f68 bCPropertyObjectBase::ReadData
+; 10002f68 Ordinal_3889

@@ -1,0 +1,2 @@
+; 20007a72 gCHUDPageTransform2::vfunction71
+20007a72 | e9097a1600 | JMP 0x2016f480

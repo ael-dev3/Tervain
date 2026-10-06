@@ -1,0 +1,13 @@
+/* ENTRY 3002ff8b | eCVisualAnimation_PS::AccessBoneSwingSpringDamping | STATUS decompiled | 8 ms */
+
+/* public: float & __thiscall eCVisualAnimation_PS::AccessBoneSwingSpringDamping(void) */
+
+float * __thiscall eCVisualAnimation_PS::AccessBoneSwingSpringDamping(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x2ff8b  2524  ?AccessBoneSwingSpringDamping@eCVisualAnimation_PS@@QAEAAMXZ
+                        */
+  return (float *)&this[3].eCEntityPropertySet_data.offset_0x8;
+}
+
+

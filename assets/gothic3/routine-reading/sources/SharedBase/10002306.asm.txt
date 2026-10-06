@@ -1,0 +1,4 @@
+; 10002306 ?Write@bCPropertyObjectBase@@UAEXAAVbCOStream@@@Z
+10002306 | e9f56e0800 | JMP 0x10089200
+; 1000230b bCFrustum::GetInvScaled
+; 1000230b Ordinal_2457

@@ -1,0 +1,2 @@
+; 3000a04c eCVisualAnimation_PS::eCActorAttachment::operator=
+3000a04c | e98fbc0600 | JMP 0x30075ce0

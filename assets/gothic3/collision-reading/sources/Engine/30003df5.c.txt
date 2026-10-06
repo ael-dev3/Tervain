@@ -1,0 +1,64 @@
+/* ENTRY 30003df5 | eCCollisionShape_PS::RemoveShapesInternal | STATUS decompiled | 30 ms */
+
+/* protected: virtual void __thiscall eCCollisionShape_PS::RemoveShapesInternal(void) */
+
+void __thiscall eCCollisionShape_PS::RemoveShapesInternal(eCCollisionShape_PS *this)
+
+{
+  GetEntity *pGVar1;
+  int iVar2;
+  char cVar3;
+  eCEntity *peVar4;
+  eCEntity *peVar5;
+  eCPhysicObject *peVar6;
+  NxActor *pNVar7;
+  int iVar8;
+  NxActor *pNVar9;
+  int iVar10;
+  bool bVar11;
+  bool bVar12;
+  
+                    /* 0x3df5  12560  ?RemoveShapesInternal@eCCollisionShape_PS@@MAEXXZ */
+  peVar4 = (*this->vftablePtr->GetEntity)(this);
+  if (peVar4 != (eCEntity *)0x0) {
+    peVar5 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+    peVar6 = (eCPhysicObject *)eCEntity::GetPhysicObject(peVar5);
+    pNVar7 = eCPhysicObject::GetActor(peVar6);
+    iVar8 = (**(code **)(*(int *)pNVar7 + 0x4c))();
+    if (iVar8 != 0) {
+      peVar5 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+      peVar6 = (eCPhysicObject *)eCEntity::GetPhysicObject(peVar5);
+      pNVar7 = eCPhysicObject::GetActor(peVar6);
+      cVar3 = (**(code **)(*(int *)pNVar7 + 0x68))();
+      pGVar1 = this->vftablePtr->GetEntity;
+      if (cVar3 == '\0') {
+        bVar12 = false;
+        bVar11 = false;
+        peVar5 = (eCEntity *)(*pGVar1)(this);
+        eCEntity::CacheOut(peVar5,bVar11,bVar12);
+        bVar11 = false;
+        peVar5 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+        eCEntity::CacheIn(peVar5,bVar11);
+        return;
+      }
+      peVar5 = (eCEntity *)(*pGVar1)(this);
+      peVar6 = (eCPhysicObject *)eCEntity::GetPhysicObject(peVar5);
+      pNVar7 = eCPhysicObject::GetActor(peVar6);
+      iVar8 = (**(code **)(*(int *)pNVar7 + 0x4c))();
+      while (iVar8 = iVar8 + -1, -1 < iVar8) {
+        peVar5 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+        peVar6 = (eCPhysicObject *)eCEntity::GetPhysicObject(peVar5);
+        pNVar7 = eCPhysicObject::GetActor(peVar6);
+        peVar5 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+        peVar6 = (eCPhysicObject *)eCEntity::GetPhysicObject(peVar5);
+        pNVar9 = eCPhysicObject::GetActor(peVar6);
+        iVar2 = *(int *)pNVar9;
+        iVar10 = (**(code **)(*(int *)pNVar7 + 0x50))();
+        (**(code **)(iVar2 + 0x48))(*(undefined4 *)(iVar10 + iVar8 * 4));
+      }
+    }
+  }
+  return;
+}
+
+

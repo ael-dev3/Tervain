@@ -1,0 +1,2 @@
+; 2000c545 ?FindSpellStackIndex@gCInventory_PS@@ABEHPBVeCTemplateEntity@@@Z
+2000c545 | e9c6221a00 | JMP 0x201ae810

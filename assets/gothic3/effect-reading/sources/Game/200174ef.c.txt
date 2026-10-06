@@ -1,0 +1,13 @@
+/* ENTRY 200174ef | gCEffect_PS::GetPropertySetType | STATUS decompiled | 6 ms */
+
+/* public: virtual enum eEPropertySetType __thiscall gCEffect_PS::GetPropertySetType(void)const  */
+
+eEPropertySetType __thiscall gCEffect_PS::GetPropertySetType(gCEffect_PS *this)
+
+{
+                    /* 0x174ef  4060  ?GetPropertySetType@gCEffect_PS@@UBE?AW4eEPropertySetType@@XZ
+                        */
+  return 0x60;
+}
+
+

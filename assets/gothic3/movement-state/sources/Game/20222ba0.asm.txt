@@ -1,0 +1,3 @@
+; 20222ba0 FUN_20222ba0
+20222ba0 | d98158010000 | FLD float ptr [ECX + 0x158]
+20222ba6 | c3 | RET

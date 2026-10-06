@@ -327,7 +327,10 @@ def main():
         instruction_proofs.append({'source': source, 'instructions': [found[address] for address in addresses]})
     if next(x for x in instructions['Script_Game:100628c0'] if x['address'] == '10062b1d')['bytes'] != '8d3c80':
         raise ValueError('The audited installed-build XP instruction changed')
-    evidence = {'version': 1, 'scope': 'verified bounded kernel; no ordinary-play integration',
+    evidence = {'version': 1,
+                'scope': 'verified bounded combat kernel; Hero GiveXP XP/level/LP bridge integrated; combat actions remain unavailable',
+                'ordinaryPlayIntegration': {'giveXP': 'XP and one threshold-crossing level/LP update; no live NPC activation',
+                                           'combatActions': 'not integrated'},
                 'nativeCodeExecuted': False, 'installedBuildHashesPinned': True,
                 'originalInputs': inputs, 'entries': receipts,
                 'constants': constants, 'registrations': regs, 'rules': RULES,
@@ -335,7 +338,8 @@ def main():
                 'audit': {'allInstructionBytesMatch': True, 'entryCount': len(receipts),
                           'instructionRecords': sum(x['instructionRecords'] for x in receipts),
                           'instructionBytes': sum(x['instructionBytes'] for x in receipts)},
-                'limitations': ['External contact, eligibility, skills, initialization and directional attitudes must be resolved with provenance.',
+                'limitations': ['The Hero GiveXP bridge handles XP and one level/LP update per crossing using the retained serialized NPC property set; the NPC property set is not attached to the live entity, and the level-up visual effect and combat actions are not integrated.',
+                                'External contact, eligibility, skills, initialization and directional attitudes must be resolved with provenance.',
                                 'Only selected standing humanoid Hero Impact/Blade/fist/single1H math and ordered state plans are implemented.',
                                 'AI/contact/native task execution/impact effects/ragdolls/statuses/spells/projectiles/full inventory/equipment are not implemented.',
                                 'Finite integer profile rejects exceptional conversion and derived-state overflow; damage amount <=0xffffff guarantees an exact binary64 product with binary32 multiplier.',
@@ -357,6 +361,7 @@ def main():
             if path.is_file() and path.name != 'manifest.json':
                 output_files.append({'path': path.relative_to(repo).as_posix(), 'bytes': path.stat().st_size, 'sha256': sha(path)})
     manifest = {'version': 1, 'scope': evidence['scope'], 'ordinaryPlayIntegrated': False,
+                'ordinaryPlayIntegration': evidence['ordinaryPlayIntegration'],
                 'kernel': {'path': 'src/gothic3/combat.ts', 'sha256': sha(repo / 'src/gothic3/combat.ts')},
                 'generator': {'path': 'tools/gothic3/research_native_combat.py', 'sha256': sha(Path(__file__))},
                 'originalInputs': inputs, 'audit': evidence['audit'],

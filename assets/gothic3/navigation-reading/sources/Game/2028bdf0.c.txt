@@ -1,0 +1,14 @@
+/* ENTRY 2028bdf0 | bTPropertyType<gCNavigation_PS,eCEntityProxy>::vfunction20 | STATUS decompiled | 4 ms */
+
+void __thiscall
+bTPropertyType<gCNavigation_PS,eCEntityProxy>::vfunction20
+          (bTPropertyType<gCNavigation_PS,eCEntityProxy> *this)
+
+{
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)this);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)this[6].vftablePtr,(bCPropertyTypeBase *)this);
+  return;
+}
+
+

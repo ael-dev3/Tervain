@@ -1,0 +1,2 @@
+; 3002355b ?EnterProcessingRange@eCEntity@@IAEX_N@Z
+3002355b | e910f14800 | JMP 0x304b2670

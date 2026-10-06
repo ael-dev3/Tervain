@@ -1,0 +1,6 @@
+; 200097be bTPropertyType<gCInventorySlot,eCEntityProxy>::vfunction15
+200097be | e91db91b00 | JMP 0x201c50e0
+; 200097c3 LAB_200097c3
+200097c3 | e9d8f75300 | JMP 0x20548fa0
+; 200097cd gCWorld::BackupFilesExists
+; 200097cd Ordinal_1984

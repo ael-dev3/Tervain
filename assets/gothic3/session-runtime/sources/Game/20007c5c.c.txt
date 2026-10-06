@@ -1,0 +1,28 @@
+/* ENTRY 20007c5c | gCSession::gCSession | STATUS decompiled | 20 ms */
+
+/* public: __thiscall gCSession::gCSession(void) */
+
+gCSession * __thiscall gCSession::gCSession(gCSession *this)
+
+{
+  undefined ***this_00;
+  eCModuleAdmin *peVar1;
+  
+                    /* 0x7c5c  326  ??0gCSession@@QAE@XZ */
+  eCEngineComponentBase::eCEngineComponentBase((eCEngineComponentBase *)this);
+  this_00 = &(this->gCSession_data).offset_0x10;
+  this->vftablePtr = &vftable;
+  bCObjectBase::bCObjectBase((bCObjectBase *)this_00);
+  *this_00 = &bTPropertyContainer<gESession_State>::vftable.GetVersion;
+  (this->gCSession_data).offset_0x14 = DAT_207ba6cc;
+  gCSessionInfo::gCSessionInfo((gCSessionInfo *)&(this->gCSession_data).field_0x2c);
+  gCSessionEditor::gCSessionEditor((gCSessionEditor *)&(this->gCSession_data).field_0x54);
+  bCString::bCString((bCString *)&(this->gCSession_data).field_0xf8);
+  Invalidate(this);
+  ms_pCurrentSession = (gCSession *)this;
+  peVar1 = eCModuleAdmin::GetInstance();
+  (**(code **)(*(int *)peVar1 + 0x74))(this);
+  return this;
+}
+
+

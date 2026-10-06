@@ -1,0 +1,4 @@
+; 3001cc74 ?SetShape@eCCollisionShape@@QAE?AW4bEResult@@ABVbCString@@G_N@Z
+3001cc74 | e987120b00 | JMP 0x300cdf00
+; 3001cc79 eCProgressCtrl::~eCProgressCtrl
+; 3001cc79 Ordinal_1245

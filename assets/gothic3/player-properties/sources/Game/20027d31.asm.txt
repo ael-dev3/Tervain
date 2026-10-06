@@ -1,0 +1,2 @@
+; 20027d31 ?ApplyDefaults@gCStat@@MAEXXZ
+20027d31 | e96a313700 | JMP 0x2039aea0

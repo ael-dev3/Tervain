@@ -1,0 +1,12 @@
+/* ENTRY 2000f821 | gCClock_PS::AccessFactor | STATUS decompiled | 5 ms */
+
+/* public: float & __thiscall gCClock_PS::AccessFactor(void) */
+
+float * __thiscall gCClock_PS::AccessFactor(gCClock_PS *this)
+
+{
+                    /* 0xf821  1215  ?AccessFactor@gCClock_PS@@QAEAAMXZ */
+  return (float *)&(this->gCClock_PS_data).field_0x24;
+}
+
+

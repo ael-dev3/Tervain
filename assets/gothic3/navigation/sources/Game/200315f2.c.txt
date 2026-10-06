@@ -1,0 +1,20 @@
+/* ENTRY 200315f2 | gCNavigation_PS::SetEnabled | STATUS decompiled | 14 ms */
+
+/* public: void __thiscall gCNavigation_PS::SetEnabled(bool) */
+
+void __thiscall gCNavigation_PS::SetEnabled(gCNavigation_PS *this,bool param_1)
+
+{
+  gCDynamicCollisionCircle_PS *this_00;
+  
+                    /* 0x315f2  6447  ?SetEnabled@gCNavigation_PS@@QAEX_N@Z */
+  (this->gCNavigation_PS_data).offset_0x250 = (gCNavigation_PS)param_1;
+  this_00 = (gCDynamicCollisionCircle_PS *)(this->gCNavigation_PS_data).offset_0x1d8;
+  if (this_00 != (gCDynamicCollisionCircle_PS *)0x0) {
+    gCDynamicCollisionCircle_PS::SetEnabled(this_00,param_1);
+    return;
+  }
+  return;
+}
+
+

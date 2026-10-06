@@ -1,0 +1,36 @@
+/* ENTRY 30733910 | bTPropertyType<eCVisualAnimation_PS,bCAnimationResourceString>::~bTPropertyType<eCVisualAnimation_PS,bCAnimationResourceString> | STATUS decompiled | 78 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<eCVisualAnimation_PS,bCAnimationResourceString>::
+~bTPropertyType<eCVisualAnimation_PS,bCAnimationResourceString>
+          (bTPropertyType<eCVisualAnimation_PS,bCAnimationResourceString> *this)
+
+{
+  bTPropertyType<eCVisualAnimation_PS,bCAnimationResourceString> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"FacialAnimFilePath");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&eCVisualAnimation_PS::ms_PropertyMember_m_strFacialAnimFilePath,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_strFacialAnimFilePath = &vftable;
+  DAT_30ada588 = bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet>();
+  _DAT_30ada58c = 0x18;
+  _DAT_30ada590 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&eCVisualAnimation_PS::ms_PropertyMember_m_strFacialAnimFilePath)
+  ;
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_30ada588,
+             (bCPropertyTypeBase *)&eCVisualAnimation_PS::ms_PropertyMember_m_strFacialAnimFilePath)
+  ;
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bCAnimationResourceString>::
+          ~bTPropertyTypeOnly<bCAnimationResourceString>);
+  return;
+}
+
+

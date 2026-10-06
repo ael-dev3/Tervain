@@ -1,0 +1,4 @@
+; 30035936 ?GetPlaySpeed@eCWrapper_emfx2Actor@@QBEMW4eEMotionType@1@@Z
+30035936 | e9e55c0a00 | JMP 0x300db620
+; 3003593b eCRenderSystemAdmin::GetID
+; 3003593b Ordinal_7317

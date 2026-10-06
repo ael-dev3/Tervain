@@ -1,0 +1,48 @@
+/* ENTRY 20407d60 | bTPropertyObject<gCInteraction_PS,eCEntityPropertySet>::vfunction16 | STATUS decompiled | 17 ms */
+
+void __thiscall
+bTPropertyObject<gCInteraction_PS,eCEntityPropertySet>::vfunction16
+          (bTPropertyObject<gCInteraction_PS,eCEntityPropertySet> *this,
+          bCPropertyObjectBase *param_1)
+
+{
+  int iVar1;
+  bCPropertyObjectBase *pbVar2;
+  bool bVar3;
+  bCPropertyTypeBase *pbVar4;
+  bCAccessorPropertyObject *this_00;
+  undefined4 uVar5;
+  bCAccessorProperty local_c [12];
+  
+  pbVar2 = param_1;
+  bCPropertyObjectBase::CopyFrom((bCPropertyObjectBase *)this,param_1);
+  bCAccessorCreator::bCAccessorCreator((bCAccessorCreator *)&param_1,(bCPropertyObjectBase *)this);
+  bCAccessorProperty::bCAccessorProperty(local_c,(bCAccessorCreator *)&param_1);
+  do {
+    bVar3 = bCAccessorProperty::IsValid(local_c);
+    if (bVar3) {
+      pbVar4 = bCAccessorProperty::GetPropertyTypeObject(local_c);
+      (**(code **)(*(int *)pbVar4 + 0x30))(this,pbVar2);
+    }
+    bVar3 = bCAccessorProperty::IsValid(local_c);
+    if (!bVar3) {
+      this_00 = bCAccessorProperty::GetAccessorPropertyObject(local_c);
+      bVar3 = bCAccessorPropertyObject::HasBaseClass(this_00);
+      if (!bVar3) {
+        if ((this->bTPOPureSmartPtr<gCInteraction_PS>_data).offset_0x4 == (bCObjectRefBase *)0x0) {
+          bTPOPureSmartPtr<gCInteraction_PS>::vfunction11
+                    ((bTPOPureSmartPtr<gCInteraction_PS> *)this);
+        }
+        iVar1 = *(int *)(this->bTPOPureSmartPtr<gCInteraction_PS>_data).offset_0x4;
+        uVar5 = (*(code *)**(undefined4 **)pbVar2)();
+        (**(code **)(iVar1 + 0x1c))(uVar5);
+        bCAccessorProperty::~bCAccessorProperty((bCAccessorProperty *)&stack0xfffffff0);
+        bCAccessorCreator::~bCAccessorCreator((bCAccessorCreator *)&stack0x00000000);
+        return;
+      }
+    }
+    bCAccessorProperty::operator++(local_c);
+  } while( true );
+}
+
+

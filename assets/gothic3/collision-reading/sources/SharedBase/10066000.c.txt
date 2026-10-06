@@ -1,0 +1,10 @@
+/* ENTRY 10066000 | FUN_10066000 | STATUS decompiled | 2 ms */
+
+bCSphere * __thiscall FUN_10066000(bCOrientedBox *param_1,bCSphere *param_2)
+
+{
+  bCOrientedBox::GetCircumSphere(param_1,param_2);
+  return param_2;
+}
+
+

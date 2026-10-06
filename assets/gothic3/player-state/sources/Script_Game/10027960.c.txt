@@ -1,0 +1,85 @@
+/* ENTRY 10027960 | FUN_10027960 | STATUS decompiled | 52 ms */
+
+undefined4 FUN_10027960(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3)
+
+{
+  bool bVar1;
+  eCEntity *peVar2;
+  gEPartyMemberType gVar3;
+  undefined4 uVar4;
+  code *pcVar5;
+  Entity *pEVar6;
+  undefined1 *puVar7;
+  undefined1 local_2a4 [4];
+  Entity local_2a0 [20];
+  PSInventory local_28c [4];
+  PSInventory local_288 [4];
+  PSInventory local_284 [4];
+  PSInventory local_280 [4];
+  PSInventory local_27c [28];
+  PropertyPickedPocket local_260 [20];
+  PropertyPickedPocket local_24c [64];
+  Entity local_20c [4];
+  Entity local_208 [4];
+  Entity local_204 [4];
+  Entity local_200 [4];
+  Entity local_1fc [4];
+  undefined1 local_1f8 [168];
+  Entity local_150 [88];
+  PropertyPartyMemberType local_f8 [80];
+  Entity local_a8 [168];
+  
+  Entity::Entity(local_150);
+  if (param_2 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    Entity::AttachTo(local_150,peVar2);
+  }
+  else {
+    Entity::operator=(local_150,param_2);
+  }
+  Entity::Entity(local_a8);
+  if (param_3 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    Entity::AttachTo(local_a8,peVar2);
+  }
+  else {
+    Entity::operator=(local_a8,param_3);
+  }
+  gVar3 = PSParty::PropertyPartyMemberType::operator_enum_gEPartyMemberType(local_f8);
+  pcVar5 = ~Entity_exref;
+  if (gVar3 != 5) {
+    Entity::Entity(local_2a0,local_150);
+    PSInventory::GeneratePlunderInvFromTreasureSets(local_27c);
+    bVar1 = PSDialog::PropertyPickedPocket::operator_bool(local_24c);
+    pcVar5 = ~Entity_exref;
+    if (!bVar1) {
+      puVar7 = local_1f8;
+      uVar4 = PSInventory::GetTreasureSet1(local_27c);
+      thunk_FUN_1004d8f0(param_1,local_2a4,uVar4,puVar7);
+      Entity::~Entity(local_1fc);
+      pEVar6 = local_1fc;
+      uVar4 = PSInventory::GetTreasureSet2(local_280);
+      thunk_FUN_1004d8f0(param_1,&stack0xfffffd58,uVar4,pEVar6);
+      Entity::~Entity(local_200);
+      pEVar6 = local_200;
+      uVar4 = PSInventory::GetTreasureSet3(local_284);
+      thunk_FUN_1004d8f0(param_1,&stack0xfffffd54,uVar4,pEVar6);
+      Entity::~Entity(local_204);
+      pEVar6 = local_204;
+      uVar4 = PSInventory::GetTreasureSet4(local_288);
+      thunk_FUN_1004d8f0(param_1,&stack0xfffffd50,uVar4,pEVar6);
+      Entity::~Entity(local_208);
+      pEVar6 = local_208;
+      uVar4 = PSInventory::GetTreasureSet5(local_28c);
+      thunk_FUN_1004d8f0(param_1,&stack0xfffffd4c,uVar4,pEVar6);
+      Entity::~Entity(local_20c);
+      PSDialog::PropertyPickedPocket::operator=(local_260,(bool *)&stack0xfffffd4b);
+    }
+    Entity::~Entity((Entity *)&stack0xfffffd4c);
+  }
+  (*pcVar5)();
+  (*pcVar5)();
+  return 1;
+}
+
+

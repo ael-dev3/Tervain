@@ -1,0 +1,40 @@
+; 30640e40 FUN_30640e40
+30640e40 | 51 | PUSH ECX
+30640e41 | d9442408 | FLD float ptr [ESP + 0x8]
+30640e45 | 56 | PUSH ESI
+30640e46 | 8bf1 | MOV ESI,ECX
+30640e48 | e8d3180300 | CALL 0x30672720
+30640e4d | d95c2404 | FSTP float ptr [ESP + 0x4]
+30640e51 | d9442404 | FLD float ptr [ESP + 0x4]
+30640e55 | d95c2404 | FSTP float ptr [ESP + 0x4]
+30640e59 | d944240c | FLD float ptr [ESP + 0xc]
+30640e5d | e83e240300 | CALL 0x306732a0
+30640e62 | d95c240c | FSTP float ptr [ESP + 0xc]
+30640e66 | 0f57c0 | XORPS XMM0,XMM0
+30640e69 | d944240c | FLD float ptr [ESP + 0xc]
+30640e6d | f30f10157cf98130 | MOVSS XMM2,dword ptr [0x3081f97c]
+30640e75 | d95c240c | FSTP float ptr [ESP + 0xc]
+30640e79 | d944240c | FLD float ptr [ESP + 0xc]
+30640e7d | f30f5c542404 | SUBSS XMM2,dword ptr [ESP + 0x4]
+30640e83 | f30f100d34848130 | MOVSS XMM1,dword ptr [0x30818434]
+30640e8b | d95e14 | FSTP float ptr [ESI + 0x14]
+30640e8e | d9442404 | FLD float ptr [ESP + 0x4]
+30640e92 | f30f115624 | MOVSS dword ptr [ESI + 0x24],XMM2
+30640e97 | f30f1054240c | MOVSS XMM2,dword ptr [ESP + 0xc]
+30640e9d | d95e18 | FSTP float ptr [ESI + 0x18]
+30640ea0 | f30f110e | MOVSS dword ptr [ESI],XMM1
+30640ea4 | f30f114604 | MOVSS dword ptr [ESI + 0x4],XMM0
+30640ea9 | f30f114608 | MOVSS dword ptr [ESI + 0x8],XMM0
+30640eae | f30f11460c | MOVSS dword ptr [ESI + 0xc],XMM0
+30640eb3 | f30f114610 | MOVSS dword ptr [ESI + 0x10],XMM0
+30640eb8 | f30f11461c | MOVSS dword ptr [ESI + 0x1c],XMM0
+30640ebd | f30f114620 | MOVSS dword ptr [ESI + 0x20],XMM0
+30640ec2 | f30f115628 | MOVSS dword ptr [ESI + 0x28],XMM2
+30640ec7 | f30f11462c | MOVSS dword ptr [ESI + 0x2c],XMM0
+30640ecc | f30f114630 | MOVSS dword ptr [ESI + 0x30],XMM0
+30640ed1 | f30f114634 | MOVSS dword ptr [ESI + 0x34],XMM0
+30640ed6 | f30f114638 | MOVSS dword ptr [ESI + 0x38],XMM0
+30640edb | f30f114e3c | MOVSS dword ptr [ESI + 0x3c],XMM1
+30640ee0 | 5e | POP ESI
+30640ee1 | 59 | POP ECX
+30640ee2 | c20400 | RET 0x4

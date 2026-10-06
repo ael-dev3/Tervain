@@ -1,0 +1,64 @@
+{
+  "schema": "gothic3-original-hero-control-v1",
+  "source": {
+    "archive": "Projects_compiled.p00",
+    "path": "G3_World_01/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}.lrentdat",
+    "sha256": "28f7273b3d54415b84445651a3dfa962c1ff158e9183deba81ba47e4d5d57938",
+    "packetOffset": 1186203,
+    "packetBytes": 223,
+    "packetSha256": "83afa1c3c553d79946dccaf749a5db89250c7d2833b40819674f95aced536d5b"
+  },
+  "properties": [
+    {
+      "name": "ControlFrameOfReference",
+      "typeName": "bTPropertyContainer<enum gECharacterControlFOR>",
+      "nativeOffset": 20,
+      "raw": "010000000000",
+      "value": {
+        "version": 1,
+        "value": 0
+      },
+      "sourceOffset": 1186240
+    },
+    {
+      "name": "PressedKey",
+      "typeName": "bTPropertyContainer<enum gESessionKey>",
+      "nativeOffset": 28,
+      "raw": "010000000000",
+      "value": {
+        "version": 1,
+        "value": 0
+      },
+      "sourceOffset": 1186256
+    },
+    {
+      "name": "IsPressed",
+      "typeName": "bool",
+      "nativeOffset": 36,
+      "raw": "00",
+      "value": false,
+      "sourceOffset": 1186272
+    },
+    {
+      "name": "IsPressedBefore",
+      "typeName": "bool",
+      "nativeOffset": 37,
+      "raw": "00",
+      "value": false,
+      "sourceOffset": 1186283
+    },
+    {
+      "name": "DurationPressedMSecs",
+      "typeName": "long",
+      "nativeOffset": 40,
+      "raw": "00000000",
+      "value": 0,
+      "sourceOffset": 1186294
+    }
+  ],
+  "tailRaw": "0000803f0000000000000000cdcc4c3dffffffffffffffffffffffffffffffffffffffffffffffff00010000b4430000000000000000000000000000803f000000000000000000000000000000000000803f000000000000000000000000000000000000803f000000000000000000000000000000000000803f",
+  "nativeReadOffset": 1186298,
+  "outerVersion": 2,
+  "nativeReadVersion": 2,
+  "worldResident": false
+}

@@ -1,0 +1,2 @@
+; 300200b8 eCEntity::UpdateInternals
+300200b8 | e953264900 | JMP 0x304b2710

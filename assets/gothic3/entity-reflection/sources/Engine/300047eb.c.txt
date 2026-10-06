@@ -1,0 +1,43 @@
+/* ENTRY 300047eb | eCIlluminated_PS::eCIlluminated_PS | STATUS decompiled | 24 ms */
+
+/* public: __thiscall eCIlluminated_PS::eCIlluminated_PS(class eCIlluminated_PS const &) */
+
+eCIlluminated_PS * __thiscall
+eCIlluminated_PS::eCIlluminated_PS(eCIlluminated_PS *this,eCIlluminated_PS *param_1)
+
+{
+  undefined ***pppuVar1;
+  int iVar2;
+  bCVector4 *this_00;
+  
+                    /* 0x47eb  435  ??0eCIlluminated_PS@@QAE@ABV0@@Z */
+  eCEntityPropertySet::eCEntityPropertySet((eCEntityPropertySet *)this);
+  pppuVar1 = &(this->eCIlluminated_PS_data).offset_0x4;
+  this->vftablePtr = &vftable;
+  bCObjectBase::bCObjectBase((bCObjectBase *)pppuVar1);
+  *pppuVar1 = &bTPropertyContainer<eEStaticIlluminated>::vftable.GetVersion;
+  (this->eCIlluminated_PS_data).offset_0x8 = DAT_30ae1c48;
+  pppuVar1 = &(this->eCIlluminated_PS_data).offset_0x10;
+  bCObjectBase::bCObjectBase((bCObjectBase *)pppuVar1);
+  *pppuVar1 = &bTPropertyContainer<eEDirectionalShadowType>::vftable.GetVersion;
+  (this->eCIlluminated_PS_data).offset_0x14 = DAT_30ae1c4c;
+  this_00 = (bCVector4 *)&(this->eCIlluminated_PS_data).field_0x28;
+  iVar2 = 6;
+  do {
+    bCVector4::bCVector4(this_00);
+    this_00 = this_00 + 0x10;
+    iVar2 = iVar2 + -1;
+  } while (-1 < iVar2);
+  (this->eCIlluminated_PS_data).offset_0x20 = 0;
+  (this->eCIlluminated_PS_data).offset_0x1c = 0;
+  (this->eCIlluminated_PS_data).offset_0x24 = 0;
+  (this->eCIlluminated_PS_data).offset_0x98 = 0;
+  _memset(&(this->eCIlluminated_PS_data).field_0x28,0,0x70);
+  (this->eCIlluminated_PS_data).offset_0x25 = 0;
+  (this->eCIlluminated_PS_data).offset_0xa0 = 0;
+  (this->eCIlluminated_PS_data).offset_0x9c = 0;
+  (this->eCIlluminated_PS_data).offset_0xa4 = 1;
+  return this;
+}
+
+

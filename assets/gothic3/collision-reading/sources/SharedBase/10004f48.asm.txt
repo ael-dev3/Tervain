@@ -1,0 +1,4 @@
+; 10004f48 ?Intersects@bCBox@@QBE_NABV1@@Z
+10004f48 | e9e3610200 | JMP 0x1002b130
+; 10004f4d bCTriangle::Cull
+; 10004f4d Ordinal_1904

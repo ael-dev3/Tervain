@@ -1,0 +1,16 @@
+/* ENTRY 30025680 | eCCollisionShape_PS::GetSaveGameRelevance | STATUS decompiled | 9 ms */
+
+/* public: virtual enum eCEntityPropertySet::eEPSSaveGameRelevance __thiscall
+   eCCollisionShape_PS::GetSaveGameRelevance(void)const  */
+
+eEPSSaveGameRelevance __thiscall
+eCCollisionShape_PS::GetSaveGameRelevance(eCCollisionShape_PS *this)
+
+{
+                    /* 0x25680  8669
+                       ?GetSaveGameRelevance@eCCollisionShape_PS@@UBE?AW4eEPSSaveGameRelevance@eCEntityPropertySet@@XZ
+                        */
+  return 1;
+}
+
+

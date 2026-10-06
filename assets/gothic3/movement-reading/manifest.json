@@ -1,0 +1,15 @@
+{
+  "schema": "gothic3-movement-reading-manifest-v1",
+  "outputs": [
+    {
+      "path": "hero-movement.json",
+      "bytes": 6919,
+      "sha256": "f38e951f47b2d76e23e030f0e202de7befe0b13afb4a137dc463cee9bb1eb6bf"
+    },
+    {
+      "path": "runtime-rules.json",
+      "bytes": 95352,
+      "sha256": "228cb5c6bc18066bddda05e5faa3b3dae959199c8d0a9e05f936c60b4d2db879"
+    }
+  ]
+}

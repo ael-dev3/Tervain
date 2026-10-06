@@ -1,0 +1,4 @@
+; 2002dcae bTPropertyType<gCNavigation_PS,bTObjArray<bCString>_>::vfunction26
+2002dcae | e92d182600 | JMP 0x2028f4e0
+; 2002dcb3 gCScriptAdmin::GetScriptDLLWithScript
+; 2002dcb3 Ordinal_4388

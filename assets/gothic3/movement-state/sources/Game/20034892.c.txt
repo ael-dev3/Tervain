@@ -1,0 +1,74 @@
+/* ENTRY 20034892 | gCCharacterMovement_PS::CalcQuadrupedDistances | STATUS decompiled | 42 ms */
+
+/* protected: void __thiscall gCCharacterMovement_PS::CalcQuadrupedDistances(void) */
+
+void __thiscall gCCharacterMovement_PS::CalcQuadrupedDistances(gCCharacterMovement_PS *this)
+
+{
+  int iVar1;
+  int iVar2;
+  bCVector *this_00;
+  bCErrorAdmin *this_01;
+  int iVar3;
+  float fVar4;
+  float fVar5;
+  char *pcVar6;
+  char *pcVar7;
+  float fStack_18;
+  float fStack_14;
+  
+                    /* 0x34892  2020  ?CalcQuadrupedDistances@gCCharacterMovement_PS@@IAEXXZ */
+  if ((((this->gCCharacterMovement_PS_data).field_0x12 != '\x01') &&
+      ((this->gCCharacterMovement_PS_data).field_0x78 != '\x01')) ||
+     ((float)(this->gCCharacterMovement_PS_data).offset_0x21c != -1.0)) {
+    return;
+  }
+  iVar3 = 0;
+  fStack_14 = 0.0;
+  fStack_18 = 0.0;
+  if (0 < (int)(this->gCCharacterMovement_PS_data).offset_0x304) {
+    do {
+      iVar2 = (this->gCCharacterMovement_PS_data).offset_0x300;
+      iVar1 = iVar3 * 4;
+      fVar4 = eCCollisionShape::GetWidth(*(eCCollisionShape **)(iVar1 + iVar2));
+      fVar5 = eCCollisionShape::GetDepth(*(eCCollisionShape **)(iVar1 + iVar2));
+      iVar2 = (this->gCCharacterMovement_PS_data).offset_0x300;
+      if (fVar4 <= fVar5) {
+        fVar4 = eCCollisionShape::GetDepth(*(eCCollisionShape **)(iVar2 + iVar1));
+      }
+      else {
+        fVar4 = eCCollisionShape::GetWidth(*(eCCollisionShape **)(iVar2 + iVar1));
+      }
+      fVar4 = fVar4 * 0.5;
+      this_00 = eCCollisionShape::GetCenter
+                          (*(eCCollisionShape **)
+                            ((this->gCCharacterMovement_PS_data).offset_0x300 + iVar1));
+      fVar5 = bCVector::GetZ(this_00);
+      if (fVar5 < 0.0) {
+        if (fStack_14 < fVar4 - fVar5) {
+          fStack_14 = fVar4 - fVar5;
+        }
+      }
+      else if (fStack_14 < fVar4 + fVar5) {
+        fStack_14 = fVar4 + fVar5;
+      }
+      if (fStack_18 < fVar4 - fVar5) {
+        fStack_18 = fVar4 - fVar5;
+      }
+      iVar3 = iVar3 + 1;
+    } while (iVar3 < (int)(this->gCCharacterMovement_PS_data).offset_0x304);
+  }
+  if ((fStack_18 != -1.0) && (fStack_14 != -1.0)) {
+    (this->gCCharacterMovement_PS_data).offset_0x21c = fStack_14 + 5.0;
+    (this->gCCharacterMovement_PS_data).offset_0x220 = fStack_18 + 5.0;
+    return;
+  }
+  iVar3 = 0x1adb;
+  pcVar7 = ".\\movement\\propertysets\\ge_ps_charactermovement.cpp";
+  pcVar6 = "C: detected quadruped with illegal shapes ";
+  this_01 = bCErrorAdmin::GetInstance();
+  bCErrorAdmin::CallFatalError(this_01,pcVar6,pcVar7,iVar3);
+  return;
+}
+
+

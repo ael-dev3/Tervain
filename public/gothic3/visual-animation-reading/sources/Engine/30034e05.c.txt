@@ -1,0 +1,19 @@
+/* ENTRY 30034e05 | eCVisualAnimation_PS::SetBoneJointSpringDamping | STATUS decompiled | 40 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::SetBoneJointSpringDamping(float const &) */
+
+void __thiscall
+eCVisualAnimation_PS::SetBoneJointSpringDamping(eCVisualAnimation_PS *this,float *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x34e05  12967  ?SetBoneJointSpringDamping@eCVisualAnimation_PS@@QAEXABM@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"BoneJointSpringDamping",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  *(float *)&this[4].eCEntityPropertySet_data = *param_1;
+  (*pNVar1)(this,"BoneJointSpringDamping",false);
+  return;
+}
+
+

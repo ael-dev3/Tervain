@@ -1,0 +1,17 @@
+/* ENTRY 10121500 | FUN_10121500 | STATUS decompiled | 7 ms */
+
+void FUN_10121500(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Perception\\AssessHit.cpp");
+  bCString::bCString(local_8,"CanBeKilled");
+  thunk_FUN_10017a50(local_8,thunk_FUN_1003c550,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

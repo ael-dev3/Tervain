@@ -1,0 +1,2 @@
+; 3003d320 eCRenderContextAnimation::eCRenderContextAnimation
+3003d320 | e93bb30900 | JMP 0x300d8660

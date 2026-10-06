@@ -1,0 +1,13 @@
+/* ENTRY 3002b3d7 | eCSpringAndDamperEffector::GetType | STATUS decompiled | 5 ms */
+
+/* public: virtual enum eEEffectorType __thiscall eCSpringAndDamperEffector::GetType(void)const  */
+
+eEEffectorType __thiscall eCSpringAndDamperEffector::GetType(eCSpringAndDamperEffector *this)
+
+{
+                    /* 0x2b3d7  9209  ?GetType@eCSpringAndDamperEffector@@UBE?AW4eEEffectorType@@XZ
+                        */
+  return 0;
+}
+
+

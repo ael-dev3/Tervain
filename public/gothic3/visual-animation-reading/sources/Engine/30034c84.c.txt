@@ -1,0 +1,24 @@
+/* ENTRY 30034c84 | eCVisualAnimation_PS::GetMotion | STATUS decompiled | 100 ms */
+
+/* public: class eCWrapper_emfx2Motion & __thiscall eCVisualAnimation_PS::GetMotion(enum
+   eCWrapper_emfx2Actor::eEMotionType) */
+
+eCWrapper_emfx2Motion * __thiscall
+eCVisualAnimation_PS::GetMotion(eCVisualAnimation_PS *this,eEMotionType param_1)
+
+{
+  eCResourceAnimationMotion_PS *this_00;
+  eCWrapper_emfx2Motion *peVar1;
+  
+                    /* 0x34c84  7875
+                       ?GetMotion@eCVisualAnimation_PS@@QAEAAVeCWrapper_emfx2Motion@@W4eEMotionType@eCWrapper_emfx2Actor@@@Z
+                        */
+  this_00 = (eCResourceAnimationMotion_PS *)
+            eSMotionDesc::GetMotion
+                      ((eSMotionDesc *)
+                       (this[0xb].eCEntityPropertySet_data.offset_0x8 + param_1 * 0xc));
+  peVar1 = eCResourceAnimationMotion_PS::GetMotionObject(this_00);
+  return peVar1;
+}
+
+

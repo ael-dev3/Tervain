@@ -1,0 +1,19 @@
+/* ENTRY 10004fd4 | bCPropertyObjectSingleton::GetInstance | STATUS decompiled | 6 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+/* public: static class bCPropertyObjectSingleton & __stdcall
+   bCPropertyObjectSingleton::GetInstance(void) */
+
+bCPropertyObjectSingleton * bCPropertyObjectSingleton::GetInstance(void)
+
+{
+                    /* 0x4fd4  2412  ?GetInstance@bCPropertyObjectSingleton@@SGAAV1@XZ */
+  if ((_DAT_102f48e4 & 1) == 0) {
+    _DAT_102f48e4 = _DAT_102f48e4 | 1;
+    bCPropertyObjectSingleton((bCPropertyObjectSingleton *)&DAT_102f48c0);
+    _atexit((_func_4879 *)&LAB_100e30a0);
+  }
+  return (bCPropertyObjectSingleton *)&DAT_102f48c0;
+}
+
+

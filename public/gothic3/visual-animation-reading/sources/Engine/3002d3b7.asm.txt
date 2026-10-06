@@ -1,0 +1,2 @@
+; 3002d3b7 eCArchiveFile::~eCArchiveFile
+3002d3b7 | e9f4035b00 | JMP 0x305dd7b0

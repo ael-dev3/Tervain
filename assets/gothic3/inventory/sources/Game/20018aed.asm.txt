@@ -1,0 +1,4 @@
+; 20018aed ?GetCategory@gCInventorySlot@@QBE?AW4gEItemCategory@@XZ
+20018aed | e97e751a00 | JMP 0x201c0070
+; 20018af7 gCFlock_PS::AccessSeekMemberDist
+; 20018af7 Ordinal_1663

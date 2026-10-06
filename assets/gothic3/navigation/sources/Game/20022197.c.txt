@@ -1,0 +1,41 @@
+/* ENTRY 20022197 | gCNavigationAdmin::Invalidate | STATUS decompiled | 14 ms */
+
+/* public: void __thiscall gCNavigationAdmin::Invalidate(void) */
+
+void __thiscall gCNavigationAdmin::Invalidate(gCNavigationAdmin *this)
+
+{
+  void **ppvVar1;
+  bCMemoryAdmin *pbVar2;
+  void *pvVar3;
+  
+                    /* 0x22197  5038  ?Invalidate@gCNavigationAdmin@@QAEXXZ */
+  gCNavigationMap::Invalidate((gCNavigationMap *)&(this->gCNavigationAdmin_data).field_0x50);
+  ppvVar1 = &(this->gCNavigationAdmin_data).offset_0x34;
+  if ((ppvVar1 != (void **)0x0) && (pvVar3 = *ppvVar1, pvVar3 != (void *)0x0)) {
+    pbVar2 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar2,pvVar3);
+    *ppvVar1 = (void *)0x0;
+    (this->gCNavigationAdmin_data).offset_0x38 = 0;
+    (this->gCNavigationAdmin_data).offset_0x3c = 0;
+  }
+  ppvVar1 = &(this->gCNavigationAdmin_data).offset_0x40;
+  if ((ppvVar1 != (void **)0x0) && (pvVar3 = *ppvVar1, pvVar3 != (void *)0x0)) {
+    pbVar2 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar2,pvVar3);
+    *ppvVar1 = (void *)0x0;
+    (this->gCNavigationAdmin_data).offset_0x44 = 0;
+    (this->gCNavigationAdmin_data).offset_0x48 = 0;
+  }
+  (this->gCNavigationAdmin_data).offset_0x4d = (eCEngineComponentBase)0x0;
+  (this->gCNavigationAdmin_data).offset_0x164 = 0;
+  (this->gCNavigationAdmin_data).offset_0x168 = 0;
+  (this->gCNavigationAdmin_data).offset_0x4c = (eCEngineComponentBase)0x0;
+  (this->gCNavigationAdmin_data).offset_0x4e = (eCEngineComponentBase)0x1;
+  (this->gCNavigationAdmin_data).offset_0x16c = (eCEngineComponentBase)0x1;
+  (this->gCNavigationAdmin_data).offset_0x170 = 0x3f800000;
+  (this->gCNavigationAdmin_data).offset_0x180 = 1000;
+  return;
+}
+
+

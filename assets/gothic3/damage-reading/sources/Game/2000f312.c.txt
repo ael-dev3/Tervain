@@ -1,0 +1,20 @@
+/* ENTRY 2000f312 | gCDamage_PS::gCDamage_PS | STATUS decompiled | 13 ms */
+
+/* public: __thiscall gCDamage_PS::gCDamage_PS(void) */
+
+gCDamage_PS * __thiscall gCDamage_PS::gCDamage_PS(gCDamage_PS *this)
+
+{
+  undefined ***this_00;
+  
+                    /* 0xf312  61  ??0gCDamage_PS@@QAE@XZ */
+  eCEntityPropertySet::eCEntityPropertySet((eCEntityPropertySet *)this);
+  this_00 = &(this->gCDamage_PS_data).offset_0x10;
+  this->vftablePtr = &vftable;
+  bCObjectBase::bCObjectBase((bCObjectBase *)this_00);
+  *this_00 = &bTPropertyContainer<gEDamageType>::vftable.GetVersion;
+  (this->gCDamage_PS_data).offset_0x14 = DAT_207b62a4;
+  return this;
+}
+
+

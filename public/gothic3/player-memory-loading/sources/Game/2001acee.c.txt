@@ -1,0 +1,13 @@
+/* ENTRY 2001acee | gCAttribute::GetValue | STATUS decompiled | 5 ms */
+
+/* public: virtual int __thiscall gCAttribute::GetValue(void)const 
+   gCAttribute member function inherited by gCStat */
+
+int __thiscall gCAttribute::GetValue(gCAttribute *this)
+
+{
+                    /* 0x1acee  4664  ?GetValue@gCAttribute@@UBEHXZ */
+  return (this->gCAttribute_data).offset_0x10 + (this->gCAttribute_data).offset_0xc;
+}
+
+

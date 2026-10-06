@@ -1,0 +1,54 @@
+/* ENTRY 1000c4d0 | FUN_1000c4d0 | STATUS decompiled | 31 ms */
+
+undefined4 FUN_1000c4d0(void)
+
+{
+  gCScriptAdmin *pgVar1;
+  int iVar2;
+  undefined4 in_stack_000000ac;
+  bCString *pbVar3;
+  undefined1 *puVar4;
+  code *pcVar5;
+  
+  iVar2 = 0;
+  switch(in_stack_000000ac) {
+  case 1:
+  case 3:
+  case 6:
+  case 8:
+  case 0x30:
+  case 0x36:
+    iVar2 = 10;
+    break;
+  case 2:
+  case 0xb:
+    iVar2 = 0x14;
+    break;
+  case 7:
+    iVar2 = 0x28;
+  }
+  bCString::bCString((bCString *)&stack0x000000ac,"AddStaminaPoints");
+  iVar2 = -iVar2;
+  puVar4 = &stack0x00000004;
+  pbVar3 = (bCString *)&stack0x000000ac;
+  pcVar5 = None_exref;
+  pgVar1 = (gCScriptAdmin *)thunk_FUN_10015630();
+  gCScriptAdmin::CallScriptFromScript(pgVar1,pbVar3,puVar4,pcVar5,iVar2);
+  bCString::~bCString((bCString *)&stack0x000000ac);
+  bCString::bCString((bCString *)&stack0x000000ac,"GetStaminaPoints");
+  iVar2 = 0;
+  puVar4 = &stack0x00000004;
+  pbVar3 = (bCString *)&stack0x000000ac;
+  pcVar5 = None_exref;
+  pgVar1 = (gCScriptAdmin *)thunk_FUN_10015630();
+  iVar2 = gCScriptAdmin::CallScriptFromScript(pgVar1,pbVar3,puVar4,pcVar5,iVar2);
+  bCString::~bCString((bCString *)&stack0x000000ac);
+  if (iVar2 < 1) {
+    Entity::~Entity((Entity *)&stack0x00000004);
+    return 0;
+  }
+  Entity::~Entity((Entity *)&stack0x00000004);
+  return 1;
+}
+
+

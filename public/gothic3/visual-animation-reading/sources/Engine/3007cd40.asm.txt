@@ -1,0 +1,29 @@
+; 3007cd40 FUN_3007cd40
+3007cd40 | 53 | PUSH EBX
+3007cd41 | 8bd9 | MOV EBX,ECX
+3007cd43 | 57 | PUSH EDI
+3007cd44 | 8b3b | MOV EDI,dword ptr [EBX]
+3007cd46 | 85ff | TEST EDI,EDI
+3007cd48 | 7440 | JZ 0x3007cd8a
+3007cd4a | 56 | PUSH ESI
+3007cd4b | 8b7308 | MOV ESI,dword ptr [EBX + 0x8]
+3007cd4e | 85f6 | TEST ESI,ESI
+3007cd50 | 7412 | JZ 0x3007cd64
+3007cd52 | 8bcf | MOV ECX,EDI
+3007cd54 | 83ee01 | SUB ESI,0x1
+3007cd57 | ff15dcdbaf30 | CALL dword ptr [0x30afdbdc]
+3007cd5d | 83c704 | ADD EDI,0x4
+3007cd60 | 85f6 | TEST ESI,ESI
+3007cd62 | 75ee | JNZ 0x3007cd52
+3007cd64 | 8b03 | MOV EAX,dword ptr [EBX]
+3007cd66 | 50 | PUSH EAX
+3007cd67 | ff15acdbaf30 | CALL dword ptr [0x30afdbac]
+3007cd6d | 8bc8 | MOV ECX,EAX
+3007cd6f | ff150cdbaf30 | CALL dword ptr [0x30afdb0c]
+3007cd75 | c70300000000 | MOV dword ptr [EBX],0x0
+3007cd7b | c7430400000000 | MOV dword ptr [EBX + 0x4],0x0
+3007cd82 | c7430800000000 | MOV dword ptr [EBX + 0x8],0x0
+3007cd89 | 5e | POP ESI
+3007cd8a | 5f | POP EDI
+3007cd8b | 5b | POP EBX
+3007cd8c | c3 | RET

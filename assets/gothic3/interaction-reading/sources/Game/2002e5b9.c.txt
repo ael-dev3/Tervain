@@ -1,0 +1,22 @@
+/* ENTRY 2002e5b9 | gCInteractionAdmin::GetInstance | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+/* public: static class gCInteractionAdmin & __stdcall gCInteractionAdmin::GetInstance(void) */
+
+gCInteractionAdmin * gCInteractionAdmin::GetInstance(void)
+
+{
+                    /* 0x2e5b9  3574  ?GetInstance@gCInteractionAdmin@@SGAAV1@XZ */
+  if ((_DAT_207cf404 & 1) == 0) {
+    _DAT_207cf404 = _DAT_207cf404 | 1;
+    eCEngineComponentBase::eCEngineComponentBase((eCEngineComponentBase *)&DAT_207cf3dc);
+    _DAT_207cf3dc = &vftable;
+    DAT_207cf3f0 = 0;
+    _DAT_207cf3f4 = 0;
+    _DAT_207cf3f8 = 0;
+    _atexit(~gCInteractionAdmin);
+  }
+  return (gCInteractionAdmin *)&DAT_207cf3dc;
+}
+
+

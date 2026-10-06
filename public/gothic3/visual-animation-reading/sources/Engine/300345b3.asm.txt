@@ -1,0 +1,2 @@
+; 300345b3 eCVisualAnimation_PS::AddBodyPart
+300345b3 | e9d81f0700 | JMP 0x300a6590

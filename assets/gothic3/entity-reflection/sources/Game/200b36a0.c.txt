@@ -1,0 +1,17 @@
+/* ENTRY 200b36a0 | bTPropertyContainer<gEDamageType>::bTPropertyContainer<gEDamageType> | STATUS decompiled | 9 ms */
+
+bTPropertyContainer<gEDamageType> * __thiscall
+bTPropertyContainer<gEDamageType>::bTPropertyContainer<gEDamageType>
+          (bTPropertyContainer<gEDamageType> *this)
+
+{
+  eCEntityPropertySet::eCEntityPropertySet((eCEntityPropertySet *)this);
+                    /* inlined constructor: gCDamage_PS::gCDamage_PS */
+  this->vftablePtr = (bTPropertyContainer<gEDamageType>_vftable *)&gCDamage_PS::vftable;
+  bCObjectBase::bCObjectBase((bCObjectBase *)&this[1].bTPropertyContainer<gEDamageType>_data);
+  this[1].bTPropertyContainer<gEDamageType>_data.offset_0x0 = &vftable.GetVersion;
+  this[1].bTPropertyContainer<gEDamageType>_data.offset_0x4 = DAT_207b62a4;
+  return this;
+}
+
+

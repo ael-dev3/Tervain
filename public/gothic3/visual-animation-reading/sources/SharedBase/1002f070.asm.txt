@@ -1,0 +1,13 @@
+; 1002f070 FUN_1002f070
+1002f070 | 8b542408 | MOV EDX,dword ptr [ESP + 0x8]
+1002f074 | d902 | FLD float ptr [EDX]
+1002f076 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+1002f07a | d801 | FADD float ptr [ECX]
+1002f07c | d918 | FSTP float ptr [EAX]
+1002f07e | d94204 | FLD float ptr [EDX + 0x4]
+1002f081 | d84104 | FADD float ptr [ECX + 0x4]
+1002f084 | d95804 | FSTP float ptr [EAX + 0x4]
+1002f087 | d94208 | FLD float ptr [EDX + 0x8]
+1002f08a | d84108 | FADD float ptr [ECX + 0x8]
+1002f08d | d95808 | FSTP float ptr [EAX + 0x8]
+1002f090 | c20800 | RET 0x8

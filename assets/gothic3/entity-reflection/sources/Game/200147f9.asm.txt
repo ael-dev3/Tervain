@@ -1,0 +1,2 @@
+; 200147f9 ?GetVersion@gCDamage_PS@@UBEGXZ
+200147f9 | e962ed0900 | JMP 0x200b3560

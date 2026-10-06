@@ -1,0 +1,18 @@
+/* ENTRY 30388690 | bTPropertyType<eCSpringAndDamperEffector,float>::vfunction12 | STATUS decompiled | 4 ms */
+
+bTPropertyType<eCSpringAndDamperEffector,float>_vftable * __thiscall
+bTPropertyType<eCSpringAndDamperEffector,float>::vfunction12
+          (bTPropertyType<eCSpringAndDamperEffector,float> *this,undefined4 *param_1)
+
+{
+  int iVar1;
+  
+  if (param_1 == (undefined4 *)0x0) {
+    return (bTPropertyType<eCSpringAndDamperEffector,float>_vftable *)0x0;
+  }
+  iVar1 = (**(code **)*param_1)();
+  return (bTPropertyType<eCSpringAndDamperEffector,float>_vftable *)
+         ((int)&(this[7].vftablePtr)->vfunction1 + iVar1);
+}
+
+

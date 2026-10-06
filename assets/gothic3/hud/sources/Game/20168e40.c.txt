@@ -1,0 +1,15 @@
+/* ENTRY 20168e40 | gCHUDViewSkill2::~gCHUDViewSkill2 | STATUS decompiled | 11 ms */
+
+void __thiscall gCHUDViewSkill2::~gCHUDViewSkill2(gCHUDViewSkill2 *this)
+
+{
+  this->vftablePtr = &vftable;
+  FUN_20036877();
+  FUN_20036877();
+  gCHUDTableSkillStats::~gCHUDTableSkillStats
+            ((gCHUDTableSkillStats *)&(this->gCHUDViewSkill2_data).field_0xc);
+  FUN_200156a9();
+  return;
+}
+
+

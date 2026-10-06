@@ -1,0 +1,24 @@
+/* ENTRY 10006375 | bCOrientedBox::GetPlanes | STATUS decompiled | 5 ms */
+
+/* public: void __thiscall bCOrientedBox::GetPlanes(class bCPlane * const)const  */
+
+void __thiscall bCOrientedBox::GetPlanes(bCOrientedBox *this,bCPlane *param_1)
+
+{
+  bCOrientedBox *this_00;
+  bCOrientedBox *this_01;
+  bCOrientedBox *this_02;
+  bCOrientedBox *this_03;
+  bCOrientedBox *this_04;
+  
+                    /* 0x6375  2746  ?GetPlanes@bCOrientedBox@@QBEXQAVbCPlane@@@Z */
+  GetPlane(this,0,param_1);
+  GetPlane(this_00,1,param_1 + 0x10);
+  GetPlane(this_01,2,param_1 + 0x20);
+  GetPlane(this_02,3,param_1 + 0x30);
+  GetPlane(this_03,4,param_1 + 0x40);
+  GetPlane(this_04,5,param_1 + 0x50);
+  return;
+}
+
+

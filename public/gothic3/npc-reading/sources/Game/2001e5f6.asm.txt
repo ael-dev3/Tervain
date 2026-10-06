@@ -1,0 +1,4 @@
+; 2001e5f6 ?OnPropertySetRemoved@gCNPC_PS@@UAEXXZ
+2001e5f6 | e955b72d00 | JMP 0x202f9d50
+; 2001e5fb gCNavPath_PS::DeregisterDCCPS
+; 2001e5fb Ordinal_2513

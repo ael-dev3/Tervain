@@ -1,0 +1,9 @@
+/* ENTRY 200097aa | bTPropertyType<gCPlayerMemory_PS,bCPropertyID>::vfunction2 | STATUS decompiled | 0 ms */
+
+undefined4 __thiscall bTPropertyType<gCPlayerMemory_PS,bCPropertyID>::vfunction2(void)
+
+{
+  return 0x14;
+}
+
+

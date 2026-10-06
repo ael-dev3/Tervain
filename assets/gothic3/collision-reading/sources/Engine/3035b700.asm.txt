@@ -1,0 +1,9 @@
+; 3035b700 bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeGroup>_>::vfunction20
+3035b700 | 56 | PUSH ESI
+3035b701 | 8bf1 | MOV ESI,ECX
+3035b703 | ff1570caaf30 | CALL dword ptr [0x30afca70]
+3035b709 | 8b4e18 | MOV ECX,dword ptr [ESI + 0x18]
+3035b70c | 56 | PUSH ESI
+3035b70d | ff157ccaaf30 | CALL dword ptr [0x30afca7c]
+3035b713 | 5e | POP ESI
+3035b714 | c3 | RET

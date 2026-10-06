@@ -1,0 +1,4 @@
+; 20005673 bTPropertyContainer<gEAIMode>::vfunction7
+20005673 | e948593500 | JMP 0x2035afc0
+; 20005678 gCMusicLink::gCMusicLink
+; 20005678 Ordinal_247

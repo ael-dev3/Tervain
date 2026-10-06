@@ -1,0 +1,13 @@
+; 10063050 FUN_10063050
+10063050 | d9410c | FLD float ptr [ECX + 0xc]
+10063053 | d9442404 | FLD float ptr [ESP + 0x4]
+10063057 | d9c0 | FLD ST0
+10063059 | deca | FMULP ST2
+1006305b | d9c9 | FXCH
+1006305d | d9590c | FSTP float ptr [ECX + 0xc]
+10063060 | d94110 | FLD float ptr [ECX + 0x10]
+10063063 | d8c9 | FMUL ST1
+10063065 | d95910 | FSTP float ptr [ECX + 0x10]
+10063068 | d84914 | FMUL float ptr [ECX + 0x14]
+1006306b | d95914 | FSTP float ptr [ECX + 0x14]
+1006306e | c20400 | RET 0x4

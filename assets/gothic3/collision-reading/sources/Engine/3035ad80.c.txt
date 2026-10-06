@@ -1,0 +1,19 @@
+/* ENTRY 3035ad80 | FUN_3035ad80 | STATUS decompiled | 7 ms */
+
+void __thiscall FUN_3035ad80(int param_1,int *param_2)
+
+{
+  bCString *pbVar1;
+  int iVar2;
+  
+  if ((*(int *)(param_1 + 0x10) == 1) || (*(int *)(param_1 + 0x10) == 6)) {
+    pbVar1 = *(bCString **)(param_1 + 0x74);
+    iVar2 = param_2[1] + 1;
+    thunk_FUN_30095b60(iVar2,(iVar2 != 0) - 1);
+    param_2[1] = iVar2;
+    bCString::operator=((bCString *)(*param_2 + -4 + iVar2 * 4),pbVar1);
+  }
+  return;
+}
+
+

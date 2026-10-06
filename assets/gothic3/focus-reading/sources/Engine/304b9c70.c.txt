@@ -1,0 +1,117 @@
+/* ENTRY 304b9c70 | FUN_304b9c70 | STATUS decompiled | 70 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+bool __thiscall FUN_304b9c70(int param_1,int param_2)
+
+{
+  bCBox *pbVar1;
+  bool bVar2;
+  bCVector *pbVar3;
+  float *pfVar4;
+  eCPhysicsScene *peVar5;
+  float fVar6;
+  bCVector *pbVar7;
+  eCEntity *peVar8;
+  ulong uVar9;
+  eCEntity *peVar10;
+  eEPropertySetType eVar11;
+  bTPtrArray<eCEntity*> *pbVar12;
+  eEShapeGroup eVar13;
+  bCVector local_48 [4];
+  bCVector local_44 [4];
+  bCVector local_40 [4];
+  bCVector local_3c [4];
+  bCVector local_38 [4];
+  bCVector local_34 [4];
+  bCVector local_30 [4];
+  bCVector local_2c [12];
+  bCVector local_20 [4];
+  bCVector local_1c [4];
+  bCVector local_18 [4];
+  bCVector local_14 [4];
+  bCVector local_10 [4];
+  bCVector local_c [8];
+  float local_4;
+  
+  if (param_2 == 0) {
+    return false;
+  }
+  bCVector::bCVector(local_30);
+  pbVar1 = (bCBox *)(param_2 + 0xe8);
+  bVar2 = bCBox::IsValid(pbVar1);
+  if (bVar2) {
+    fVar6 = bCBox::GetVolume(pbVar1);
+    if (fVar6 <= 0.0) goto LAB_304b9d10;
+    pbVar3 = (bCVector *)bCBox::GetCenter(pbVar1);
+    bCVector::operator=(local_34,pbVar3);
+    bCVector::~bCVector(local_1c);
+    fVar6 = bCBox::GetHeight(pbVar1);
+    if (fVar6 < 350.0) {
+      pfVar4 = bCVector::AccessY(local_34);
+      *pfVar4 = fVar6 * 0.25 + *pfVar4;
+    }
+  }
+  else {
+LAB_304b9d10:
+    pbVar3 = bCMatrix::GetTranslation((bCMatrix *)(param_2 + 0x40));
+    bCVector::bCVector(local_c,0.0,0.005,0.0);
+    pbVar3 = (bCVector *)bCVector::operator+(pbVar3,local_18);
+    bCVector::operator=(local_34,pbVar3);
+    bCVector::~bCVector(local_1c);
+    bCVector::~bCVector(local_10);
+  }
+  bCVector::bCVector(local_40);
+  pbVar1 = (bCBox *)(param_1 + 0xe8);
+  bVar2 = bCBox::IsValid(pbVar1);
+  if (bVar2) {
+    fVar6 = bCBox::GetVolume(pbVar1);
+    if (0.0 < fVar6) {
+      pbVar3 = (bCVector *)bCBox::GetCenter(pbVar1);
+      bCVector::operator=(local_44,pbVar3);
+      bCVector::~bCVector(local_14);
+      local_4 = bCBox::GetHeight(pbVar1);
+      if (local_4 < 350.0) {
+        pfVar4 = bCVector::AccessY(local_44);
+        *pfVar4 = local_4 * 0.25 + *pfVar4;
+      }
+      goto LAB_304b9e46;
+    }
+  }
+  pbVar3 = bCMatrix::GetTranslation((bCMatrix *)(param_1 + 0x40));
+  bCVector::bCVector(local_1c,0.0,0.005,0.0);
+  pbVar3 = (bCVector *)bCVector::operator+(pbVar3,local_10);
+  bCVector::operator=(local_44,pbVar3);
+  bCVector::~bCVector(local_14);
+  bCVector::~bCVector(local_20);
+LAB_304b9e46:
+  bCVector::operator-(local_38,local_2c);
+  thunk_FUN_30073b10(1,0);
+  _DAT_00000000 = param_1;
+  thunk_FUN_30073b10(2,0);
+  pbVar12 = (bTPtrArray<eCEntity*> *)&stack0xffffffac;
+  _DAT_00000004 = param_2;
+  peVar5 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+  eCPhysicsScene::SetQueryIgnoreEntities(peVar5,pbVar12);
+  eVar13 = 0;
+  eVar11 = 0;
+  peVar10 = (eCEntity *)0x0;
+  if (local_4._0_1_ == '\x01') {
+    uVar9 = 0xf;
+  }
+  else {
+    uVar9 = 0x1f;
+  }
+  pbVar7 = local_30;
+  pbVar3 = local_48;
+  peVar8 = (eCEntity *)0x0;
+  peVar5 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+  bVar2 = eCPhysicsScene::TraceRayFirstHit(peVar5,pbVar3,pbVar7,peVar8,uVar9,peVar10,eVar11,eVar13);
+  thunk_FUN_30081020();
+  bCVector::~bCVector(local_30);
+  bCVector::~bCVector(local_48);
+  bCVector::~bCVector(local_3c);
+  return !bVar2;
+}
+
+

@@ -1,0 +1,11 @@
+/* ENTRY 20003bf7 | bTPropertyObject<gCCharacterMovement_PS,gCMovementBase_PS>::vfunction5 | STATUS decompiled | 3 ms */
+
+undefined4 __thiscall
+bTPropertyObject<gCCharacterMovement_PS,gCMovementBase_PS>::vfunction5
+          (bTPropertyObject<gCCharacterMovement_PS,gCMovementBase_PS> *this)
+
+{
+  return (this->bTPropertyObject<gCCharacterMovement_PS,gCMovementBase_PS>_data).offset_0x0;
+}
+
+

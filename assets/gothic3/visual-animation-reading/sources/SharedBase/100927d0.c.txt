@@ -1,0 +1,35 @@
+/* ENTRY 100927d0 | FUN_100927d0 | STATUS decompiled | 11 ms */
+
+void __thiscall FUN_100927d0(bSCore *param_1,bCString *param_2)
+
+{
+  char *pcVar1;
+  ulong uVar2;
+  bSCore local_6c [16];
+  bCMd5 local_5c [92];
+  
+  bCMd5::bCMd5(local_5c);
+  bCMd5::Create(local_5c);
+  uVar2 = 0;
+  if (*(int *)param_2 != 0) {
+    uVar2 = *(ulong *)(*(int *)param_2 + -8);
+  }
+  pcVar1 = bCString::operator_char_const_(param_2);
+  bCMd5::Append(local_5c,pcVar1,uVar2);
+  bCMd5::Finish(local_5c,param_1);
+  bCMd5::Create(local_5c);
+  bCMd5::Append(local_5c,"MAGIC",5);
+  uVar2 = 0;
+  if (*(int *)param_2 != 0) {
+    uVar2 = *(ulong *)(*(int *)param_2 + -8);
+  }
+  pcVar1 = bCString::operator_char_const_(param_2);
+  bCMd5::Append(local_5c,pcVar1,uVar2);
+  bCMd5::Finish(local_5c,local_6c);
+  bCMd5::GetDigest32(local_5c,local_6c);
+  *(undefined4 *)(param_1 + 0x10) = 0;
+  bCMd5::~bCMd5(local_5c);
+  return;
+}
+
+

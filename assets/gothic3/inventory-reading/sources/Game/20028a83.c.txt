@@ -1,0 +1,43 @@
+/* ENTRY 20028a83 | gCInventory_PS::OnPostRead | STATUS decompiled | 16 ms */
+
+/* public: virtual void __thiscall gCInventory_PS::OnPostRead(void) */
+
+void __thiscall gCInventory_PS::OnPostRead(gCInventory_PS *this)
+
+{
+  GetEntity *pGVar1;
+  eCEntity *this_00;
+  bCString *pbVar2;
+  bCMessageAdmin *this_01;
+  bEMessageTypes bVar3;
+  char *pcVar4;
+  char *pcVar5;
+  char *pcVar6;
+  int iVar7;
+  int iVar8;
+  
+                    /* 0x28a83  5522  ?OnPostRead@gCInventory_PS@@UAEXXZ */
+  if (*(char *)&this[1].gCInventory_PS_data != '\0') {
+    pGVar1 = this->vftablePtr->GetEntity;
+    *(undefined1 *)&this[1].gCInventory_PS_data = 0;
+    this_00 = (*pGVar1)(this);
+    if (this_00 != (eCEntity *)0x0) {
+      pbVar2 = eCEntity::GetName((eCEntity *)this_00);
+      GE_MESSAGEF_WARN("gCInventory_PS::OnPostRead -> Requesting forced patch for entity: %s. Resetting instance time stamp."
+                       ,*(undefined4 *)pbVar2);
+      *(undefined4 *)(this_00 + 0x130) = 0;
+      return;
+    }
+    iVar8 = *(int *)g_iDefaultMessagePriority_exref;
+    iVar7 = -1;
+    pcVar6 = (char *)0x0;
+    pcVar5 = (char *)0x0;
+    pcVar4 = "gCInventory_PS::OnPostRead -> Cannot perform patch request. Entity unavailable.";
+    bVar3 = 3;
+    this_01 = bCMessageAdmin::GetInstance();
+    bCMessageAdmin::OnMessage(this_01,bVar3,pcVar4,pcVar5,pcVar6,iVar7,iVar8);
+  }
+  return;
+}
+
+

@@ -1,0 +1,4 @@
+; 300351cf SHAREDBASE.DLL::bCPropertyTypeBase::Write
+300351cf | e98c893000 | JMP 0x3033db60
+; 300351e3 eCSystemFont::Destroy
+; 300351e3 Ordinal_5337

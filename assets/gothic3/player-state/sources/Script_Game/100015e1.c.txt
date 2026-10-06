@@ -1,0 +1,16 @@
+/* ENTRY 100015e1 | thunk_FUN_10009680 | STATUS decompiled | 2 ms */
+
+void __fastcall thunk_FUN_10009680(undefined1 *param_1)
+
+{
+  *param_1 = 0;
+  param_1[1] = 0;
+  param_1[2] = 0;
+  param_1[3] = 0;
+  param_1[4] = 0;
+  param_1[5] = 0;
+  param_1[6] = 0;
+  return;
+}
+
+

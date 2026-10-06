@@ -1,0 +1,30 @@
+/* ENTRY 30008a71 | eCPhysicObjectStateBuffer::GetBuffer | STATUS decompiled | 12 ms */
+
+/* protected: static class eCPhysicObjectStateBuffer & __stdcall
+   eCPhysicObjectStateBuffer::GetBuffer(class eCEntity &) */
+
+eCPhysicObjectStateBuffer * eCPhysicObjectStateBuffer::GetBuffer(eCEntity *param_1)
+
+{
+  bool bVar1;
+  eCPhysicObject *peVar2;
+  eCPhysicObject *this;
+  eCPhysicObjectStateBuffer *peVar3;
+  
+                    /* 0x8a71  6368  ?GetBuffer@eCPhysicObjectStateBuffer@@KGAAV1@AAVeCEntity@@@Z */
+  bCCriticalSectionWin32::Acquire(&ms_csExecuteBuffer);
+  bVar1 = eCEntity::HasProcessingRangeEntered((eCEntity *)param_1);
+  if (bVar1) {
+    peVar2 = eCEntity::GetPhysicObject((eCEntity *)param_1);
+    if (peVar2 != (eCPhysicObject *)0x0) {
+      this = (eCPhysicObject *)eCEntity::GetPhysicObject((eCEntity *)param_1);
+      peVar3 = eCPhysicObject::GetBuffer(this);
+      bCCriticalSectionWin32::Release(&ms_csExecuteBuffer);
+      return peVar3;
+    }
+  }
+  bCCriticalSectionWin32::Release(&ms_csExecuteBuffer);
+  return &ms_BufferDefault;
+}
+
+

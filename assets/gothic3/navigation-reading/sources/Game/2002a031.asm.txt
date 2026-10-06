@@ -1,0 +1,2 @@
+; 2002a031 bTPropertyType<gCNavigation_PS,bTObjArray<bCString>_>::vfunction10
+2002a031 | e96a722600 | JMP 0x202912a0

@@ -1,0 +1,18 @@
+/* ENTRY 200109c4 | gCNPC_PS::Create | STATUS decompiled | 8 ms */
+
+/* public: virtual enum bEResult __thiscall gCNPC_PS::Create(void) */
+
+bEResult __thiscall gCNPC_PS::Create(gCNPC_PS *this)
+
+{
+  bool bVar1;
+  
+                    /* 0x109c4  2375  ?Create@gCNPC_PS@@UAE?AW4bEResult@@XZ */
+  bVar1 = (*this->vftablePtr->IsValid)(this);
+  if (!bVar1) {
+    eCEntityPropertySet::Create((eCEntityPropertySet *)this);
+  }
+  return 1;
+}
+
+

@@ -1,0 +1,2 @@
+; 3003eac7 ?CreateSpecificEntity@eCEntityDynamicContext@@UAEPAVeCDynamicEntity@@XZ
+3003eac7 | e954cd4600 | JMP 0x304ab820

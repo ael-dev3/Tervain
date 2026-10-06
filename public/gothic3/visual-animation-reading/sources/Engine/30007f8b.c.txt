@@ -1,0 +1,12 @@
+/* ENTRY 30007f8b | eCVisualAnimation_PS::GetRagDollEnabled | STATUS decompiled | 6 ms */
+
+/* public: bool __thiscall eCVisualAnimation_PS::GetRagDollEnabled(void)const  */
+
+bool __thiscall eCVisualAnimation_PS::GetRagDollEnabled(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x7f8b  8358  ?GetRagDollEnabled@eCVisualAnimation_PS@@QBE_NXZ */
+  return (bool)*(undefined1 *)&this[0xf].vftablePtr;
+}
+
+

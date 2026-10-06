@@ -1,0 +1,13 @@
+/* ENTRY 10006951 | bCBox::GetCoordinate | STATUS decompiled | 3 ms */
+
+/* public: void __thiscall bCBox::GetCoordinate(int,float &)const  */
+
+void __thiscall bCBox::GetCoordinate(bCBox *this,int param_1,float *param_2)
+
+{
+                    /* 0x6951  2198  ?GetCoordinate@bCBox@@QBEXHAAM@Z */
+  *param_2 = *(float *)(this + param_1 * 4);
+  return;
+}
+
+

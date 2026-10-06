@@ -1,0 +1,4 @@
+; 3003f41d bTPropertyType<eCCollisionShape_PS,bool>::vfunction15
+3003f41d | e90efc2f00 | JMP 0x3033f030
+; 3003f427 eCActionMapper::OnStartup
+; 3003f427 Ordinal_11515

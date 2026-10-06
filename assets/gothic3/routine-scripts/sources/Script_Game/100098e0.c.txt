@@ -1,0 +1,18 @@
+/* ENTRY 100098e0 | FUN_100098e0 | STATUS decompiled | 6 ms */
+
+undefined4 FUN_100098e0(void)
+
+{
+  int iVar1;
+  int in_stack_000000ac;
+  
+  iVar1 = PSInventory::FindStackIndex((PSInventory *)&stack0x00000028,2);
+  if (iVar1 == in_stack_000000ac) {
+    Entity::~Entity((Entity *)&stack0x00000004);
+    return 1;
+  }
+  Entity::~Entity((Entity *)&stack0x00000004);
+  return 0;
+}
+
+

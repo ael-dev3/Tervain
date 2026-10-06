@@ -1,0 +1,2 @@
+; 20027c96 gCStat::GetMaximum
+20027c96 | e945323700 | JMP 0x2039aee0

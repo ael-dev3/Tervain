@@ -1,0 +1,2 @@
+; 3003ecd4 ?Invalidate@eCAnimationAdmin@@IAEXXZ
+3003ecd4 | e9770e0500 | JMP 0x3008fb50

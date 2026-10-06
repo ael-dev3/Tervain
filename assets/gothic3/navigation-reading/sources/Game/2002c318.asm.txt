@@ -1,0 +1,4 @@
+; 2002c318 bTPropertyType<gCNavigation_PS,bCVector>::vfunction14
+2002c318 | e913182600 | JMP 0x2028db30
+; 2002c322 gCNavOffset_PS::Create
+; 2002c322 Ordinal_2377

@@ -1,0 +1,17 @@
+/* ENTRY 1002a300 | FUN_1002a300 | STATUS decompiled | 7 ms */
+
+void __thiscall FUN_1002a300(void *this,int param_1)
+
+{
+  void *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"PROT_LIGHTNING");
+  if (*(gCPlayerMemory_PS **)this != (gCPlayerMemory_PS *)0x0) {
+    gCPlayerMemory_PS::SetBaseValue(*(gCPlayerMemory_PS **)this,(bCString *)&local_4,param_1);
+  }
+  bCString::~bCString((bCString *)&local_4);
+  return;
+}
+
+

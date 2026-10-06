@@ -1,0 +1,12 @@
+/* ENTRY 201924f0 | gCHUDView::gCHUDView | STATUS decompiled | 7 ms */
+
+gCHUDView * __thiscall gCHUDView::gCHUDView(gCHUDView *this)
+
+{
+  CFFGFCStatic::CFFGFCStatic((CFFGFCStatic *)this);
+  this->vftablePtr = &vftable;
+  (this->gCHUDView_data).offset_0xc = 0;
+  return this;
+}
+
+

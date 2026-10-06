@@ -1,0 +1,4 @@
+; 10002568 ?NotifyPropertyValueChangedExit@bCObjectRefBase@@EAEKPBD@Z
+10002568 | e9137e0400 | JMP 0x1004a380
+; 1000256d bCCommandLine::operator>>
+; 1000256d Ordinal_616

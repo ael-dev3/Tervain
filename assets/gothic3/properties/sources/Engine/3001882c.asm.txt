@@ -1,0 +1,4 @@
+; 3001882c ?GetPropertySet@eCEntity@@UAEPAVeCEntityPropertySet@@W4eEPropertySetType@@@Z
+3001882c | e9bfc84900 | JMP 0x304b50f0
+; 30018831 eCSpeedTreeAdmin::EndRenderTerrainShadows
+; 30018831 Ordinal_5847

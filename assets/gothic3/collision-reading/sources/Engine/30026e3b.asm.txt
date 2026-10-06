@@ -1,0 +1,4 @@
+; 30026e3b bTPropertyType<eCCollisionShape,float>::vfunction22
+30026e3b | e9e0a23300 | JMP 0x30361120
+; 30026e40 eCParticle_PS::GetUseRevolution
+; 30026e40 Ordinal_9258

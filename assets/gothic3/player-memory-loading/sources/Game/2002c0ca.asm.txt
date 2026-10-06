@@ -1,0 +1,2 @@
+; 2002c0ca thunk_FUN_2028f6d0
+2002c0ca | e901362600 | JMP 0x2028f6d0

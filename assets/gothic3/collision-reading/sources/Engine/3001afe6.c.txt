@@ -1,0 +1,43 @@
+/* ENTRY 3001afe6 | eCCollisionShape::GetRuntimeOrientation | STATUS decompiled | 13 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+/* public: class bCMatrix3 & __thiscall eCCollisionShape::GetRuntimeOrientation(void) */
+
+bCMatrix3 * __thiscall eCCollisionShape::GetRuntimeOrientation(eCCollisionShape *this)
+
+{
+  float *pfVar1;
+  float unaff_ESI;
+  float fStack_24;
+  float fStack_20;
+  float fStack_1c;
+  float fStack_18;
+  float fStack_14;
+  float fStack_10;
+  float fStack_c;
+  float fStack_8;
+  
+                    /* 0x1afe6  8651  ?GetRuntimeOrientation@eCCollisionShape@@QAEAAVbCMatrix3@@XZ
+                        */
+  if ((_DAT_30aecbf0 & 1) == 0) {
+    _DAT_30aecbf0 = _DAT_30aecbf0 | 1;
+    bCMatrix3::bCMatrix3((bCMatrix3 *)&DAT_30aecbc4);
+    _atexit((_func_4879 *)&LAB_307a72a0);
+  }
+  if ((this->eCCollisionShape_data).offset_0x5c != 0) {
+    (**(code **)(*(int *)(this->eCCollisionShape_data).offset_0x5c + 0x48))(&fStack_24);
+    pfVar1 = bCMatrix3::AccessElement((bCMatrix3 *)&DAT_30aecbc4,0);
+    *pfVar1 = unaff_ESI;
+    pfVar1[3] = fStack_24;
+    pfVar1[6] = fStack_20;
+    pfVar1[1] = fStack_1c;
+    pfVar1[4] = fStack_18;
+    pfVar1[7] = fStack_14;
+    pfVar1[2] = fStack_10;
+    pfVar1[5] = fStack_c;
+    pfVar1[8] = fStack_8;
+  }
+  return (bCMatrix3 *)&DAT_30aecbc4;
+}
+
+

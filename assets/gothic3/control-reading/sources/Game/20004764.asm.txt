@@ -1,0 +1,2 @@
+; 20004764 ?SetEntity@gCCharacterControl_PS@@UAEXPAVeCEntity@@@Z
+20004764 | e9673a2100 | JMP 0x202181d0

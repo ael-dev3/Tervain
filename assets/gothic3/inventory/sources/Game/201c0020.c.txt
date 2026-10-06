@@ -1,0 +1,35 @@
+/* ENTRY 201c0020 | FUN_201c0020 | STATUS decompiled | 6 ms */
+
+undefined4 __fastcall FUN_201c0020(int param_1)
+
+{
+  eCEntity *peVar1;
+  undefined3 uVar2;
+  bCMessageAdmin *this;
+  undefined3 extraout_var;
+  bool bVar3;
+  bEMessageTypes bVar4;
+  char *pcVar5;
+  char *pcVar6;
+  char *pcVar7;
+  int iVar8;
+  int iVar9;
+  
+  bVar3 = *(int *)(param_1 + 0x38) != 0;
+  peVar1 = eCEntityProxy::GetEntity((eCEntityProxy *)(param_1 + 0x18));
+  uVar2 = (undefined3)((uint)peVar1 >> 8);
+  if ((peVar1 != (eCEntity *)0x0) != bVar3) {
+    iVar9 = *(int *)g_iDefaultMessagePriority_exref;
+    iVar8 = -1;
+    pcVar7 = (char *)0x0;
+    pcVar6 = (char *)0x0;
+    pcVar5 = &DAT_2067ed48;
+    bVar4 = 3;
+    this = bCMessageAdmin::GetInstance();
+    bCMessageAdmin::OnMessage(this,bVar4,pcVar5,pcVar6,pcVar7,iVar8,iVar9);
+    uVar2 = extraout_var;
+  }
+  return CONCAT31(uVar2,bVar3);
+}
+
+

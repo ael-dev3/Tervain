@@ -1,0 +1,4 @@
+; 10003e9f ?SetFocusEntity@PSFocus@@QAEXABVEntity@@@Z
+10003e9f | e95c3b0100 | JMP 0x10017a00
+; 10003ea4 PSNavigation::PropertyStartPosition::operator_class_bCVector
+; 10003ea4 Ordinal_1100

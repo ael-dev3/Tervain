@@ -1,0 +1,12 @@
+/* ENTRY 20461fd0 | ENGINE.DLL::eCEntityPropertySet::OnPropertySetRemoved | STATUS decompiled | 1 ms */
+
+void __thiscall eCEntityPropertySet::OnPropertySetRemoved(eCEntityPropertySet *this)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x20461fd0. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  OnPropertySetRemoved(this);
+  return;
+}
+
+

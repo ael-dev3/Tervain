@@ -1,0 +1,25 @@
+/* ENTRY 10006b9a | bCBox::GetCenterGround | STATUS decompiled | 6 ms */
+
+/* public: void __thiscall bCBox::GetCenterGround(class bCVector &)const  */
+
+void __thiscall bCBox::GetCenterGround(bCBox *this,bCVector *param_1)
+
+{
+  float fVar1;
+  float fVar2;
+  float fVar3;
+  float fVar4;
+  
+                    /* 0x6b9a  2151  ?GetCenterGround@bCBox@@QBEXAAVbCVector@@@Z */
+  fVar1 = *(float *)(this + 0x10);
+  fVar2 = *(float *)(this + 0x14);
+  fVar3 = *(float *)(this + 4);
+  fVar4 = *(float *)(this + 8);
+  *(float *)param_1 = (*(float *)this + *(float *)(this + 0xc)) * 0.5;
+  *(float *)(param_1 + 4) = (fVar3 + fVar1) * 0.5;
+  *(float *)(param_1 + 8) = (fVar4 + fVar2) * 0.5;
+  *(undefined4 *)(param_1 + 4) = *(undefined4 *)(this + 4);
+  return;
+}
+
+

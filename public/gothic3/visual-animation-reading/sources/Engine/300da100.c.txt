@@ -1,0 +1,13 @@
+/* ENTRY 300da100 | FUN_300da100 | STATUS decompiled | 3 ms */
+
+void FUN_300da100(ulong param_1)
+
+{
+  bCMemoryAdmin *this;
+  
+  this = bCMemoryAdmin::GetInstance();
+  bCMemoryAdmin::Malloc(this,param_1);
+  return;
+}
+
+

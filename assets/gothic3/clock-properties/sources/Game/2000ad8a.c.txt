@@ -1,0 +1,24 @@
+/* ENTRY 2000ad8a | gCClock_PS::gCClock_PS | STATUS decompiled | 12 ms */
+
+/* public: __thiscall gCClock_PS::gCClock_PS(void) */
+
+gCClock_PS * __thiscall gCClock_PS::gCClock_PS(gCClock_PS *this)
+
+{
+  undefined1 *this_00;
+  undefined4 *puVar1;
+  
+                    /* 0xad8a  53  ??0gCClock_PS@@QAE@XZ */
+  eCEntityPropertySet::eCEntityPropertySet((eCEntityPropertySet *)this);
+  this_00 = &(this->gCClock_PS_data).field_0x28;
+  this->vftablePtr = &vftable;
+  bCClock::bCClock((bCClock *)this_00);
+  puVar1 = &(this->gCClock_PS_data).offset_0x4c;
+  (this->gCClock_PS_data).offset_0x54 = 0;
+  (this->gCClock_PS_data).offset_0x50 = 0;
+  *puVar1 = 0;
+  bCClock::Set((bCClock *)this_00,(bSTimeAndDate *)puVar1);
+  return this;
+}
+
+

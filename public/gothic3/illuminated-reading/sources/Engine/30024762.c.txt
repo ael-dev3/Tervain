@@ -1,0 +1,24 @@
+/* ENTRY 30024762 | eCIlluminated_PS::GetTerrainShadowMap | STATUS decompiled | 17 ms */
+
+/* public: class eCTerrainShadowMap * __thiscall eCIlluminated_PS::GetTerrainShadowMap(void)const
+    */
+
+eCTerrainShadowMap * __thiscall eCIlluminated_PS::GetTerrainShadowMap(eCIlluminated_PS *this)
+
+{
+  eCIlluminationAdmin *this_00;
+  eCTerrainShadowMap *peVar1;
+  
+                    /* 0x24762  9064
+                       ?GetTerrainShadowMap@eCIlluminated_PS@@QBEPAVeCTerrainShadowMap@@XZ */
+  if ((this->eCIlluminated_PS_data).field_0x18 == '\x01') {
+    this_00 = (eCIlluminationAdmin *)thunk_FUN_3007c490();
+    peVar1 = eCIlluminationAdmin::GetTerrainShadowMap(this_00);
+    if ((peVar1 != (eCTerrainShadowMap *)0x0) && (peVar1[0x30] == (eCTerrainShadowMap)0x0)) {
+      return peVar1;
+    }
+  }
+  return (eCTerrainShadowMap *)0x0;
+}
+
+

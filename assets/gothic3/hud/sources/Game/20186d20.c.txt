@@ -1,0 +1,13 @@
+/* ENTRY 20186d20 | FUN_20186d20 | STATUS decompiled | 1 ms */
+
+void __thiscall FUN_20186d20(int param_1,int param_2)
+
+{
+  if (*(int *)(param_1 + 0x34) != param_2) {
+    *(int *)(param_1 + 0x34) = param_2;
+    *(undefined1 *)(param_1 + 0x28) = 1;
+  }
+  return;
+}
+
+

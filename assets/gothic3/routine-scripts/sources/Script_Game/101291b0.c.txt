@@ -1,0 +1,17 @@
+/* ENTRY 101291b0 | FUN_101291b0 | STATUS decompiled | 7 ms */
+
+void FUN_101291b0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Memory\\GetAttribute.cpp");
+  bCString::bCString(local_8,"AddProtectionLightning");
+  thunk_FUN_10017a50(local_8,&LAB_100021ad,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

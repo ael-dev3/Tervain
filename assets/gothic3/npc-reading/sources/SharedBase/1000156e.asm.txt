@@ -1,0 +1,4 @@
+; 1000156e ?GetClassNameA@bCAccessorPropertyObject@@QBEABVbCString@@XZ
+1000156e | e9fd980900 | JMP 0x1009ae70
+; 10001573 bCEulerAngles::AccessYaw
+; 10001573 Ordinal_1526

@@ -1,0 +1,25 @@
+/* ENTRY 10003d28 | bCString::Clear | STATUS decompiled | 5 ms */
+
+/* public: void __thiscall bCString::Clear(void) */
+
+void __thiscall bCString::Clear(bCString *this)
+
+{
+  int iVar1;
+  int *piVar2;
+  bCMemoryAdmin *this_00;
+  
+                    /* 0x3d28  1628  ?Clear@bCString@@QAEXXZ */
+  iVar1 = *(int *)this;
+  if ((iVar1 != 0) && (piVar2 = (int *)(iVar1 + -8), *piVar2 != 0)) {
+    *(short *)(iVar1 + -4) = *(short *)(iVar1 + -4) + -1;
+    if (*(short *)(iVar1 + -4) == 0) {
+      this_00 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(this_00,piVar2);
+    }
+    *(undefined4 *)this = 0;
+  }
+  return;
+}
+
+

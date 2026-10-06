@@ -1,0 +1,9 @@
+; 20174fb0 gCHUDMenuIntro2::~gCHUDMenuIntro2
+20174fb0 | 56 | PUSH ESI
+20174fb1 | 8bf1 | MOV ESI,ECX
+20174fb3 | 8d4e10 | LEA ECX,[ESI + 0x10]
+20174fb6 | c7061c446720 | MOV dword ptr [ESI],0x2067441c
+20174fbc | ff1570787d20 | CALL dword ptr [0x207d7870]
+20174fc2 | 8bce | MOV ECX,ESI
+20174fc4 | 5e | POP ESI
+20174fc5 | e92f15ebff | JMP 0x200264f9

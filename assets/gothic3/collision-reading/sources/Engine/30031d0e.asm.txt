@@ -1,0 +1,4 @@
+; 30031d0e ?GetProprietaryShape@eCCollisionShape@@QBEPAVNxShape@@XZ
+30031d0e | e9bd0d0900 | JMP 0x300c2ad0
+; 30031d22 eCParticleMaterialSimple::eCParticleMaterialSimple
+; 30031d22 Ordinal_568

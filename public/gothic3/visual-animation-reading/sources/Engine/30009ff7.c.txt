@@ -1,0 +1,24 @@
+/* ENTRY 30009ff7 | eCWrapper_emfx2Actor::GetPlayTime | STATUS decompiled | 6 ms */
+
+/* public: double __thiscall eCWrapper_emfx2Actor::GetPlayTime(enum
+   eCWrapper_emfx2Actor::eEMotionType)const  */
+
+double __thiscall eCWrapper_emfx2Actor::GetPlayTime(eCWrapper_emfx2Actor *this,eEMotionType param_1)
+
+{
+  int iVar1;
+  char cVar2;
+  
+                    /* 0x9ff7  8109  ?GetPlayTime@eCWrapper_emfx2Actor@@QBENW4eEMotionType@1@@Z */
+  if ((param_1 < 8) &&
+     (iVar1 = (&(this->eCWrapper_emfx2Actor_data).offset_0xc)[param_1], iVar1 != 0)) {
+    cVar2 = thunk_FUN_300e2c60(iVar1);
+    if (cVar2 != '\0') {
+      return *(double *)(iVar1 + 8);
+    }
+    (&(this->eCWrapper_emfx2Actor_data).offset_0xc)[param_1] = 0;
+  }
+  return 0.0;
+}
+
+

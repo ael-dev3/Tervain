@@ -1,0 +1,15 @@
+/* ENTRY 10006055 | bCCapsule::SetCenter | STATUS decompiled | 3 ms */
+
+/* public: void __thiscall bCCapsule::SetCenter(class bCVector const &) */
+
+void __thiscall bCCapsule::SetCenter(bCCapsule *this,bCVector *param_1)
+
+{
+                    /* 0x6055  4093  ?SetCenter@bCCapsule@@QAEXABVbCVector@@@Z */
+  *(undefined4 *)(this + 0x2c) = *(undefined4 *)param_1;
+  *(undefined4 *)(this + 0x30) = *(undefined4 *)(param_1 + 4);
+  *(undefined4 *)(this + 0x34) = *(undefined4 *)(param_1 + 8);
+  return;
+}
+
+

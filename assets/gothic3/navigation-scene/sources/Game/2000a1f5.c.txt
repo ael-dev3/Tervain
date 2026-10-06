@@ -1,0 +1,63 @@
+/* ENTRY 2000a1f5 | gCNavZone_PS::CalcZoneHeights | STATUS decompiled | 28 ms */
+
+/* public: enum bEResult __thiscall gCNavZone_PS::CalcZoneHeights(void) */
+
+bEResult __thiscall gCNavZone_PS::CalcZoneHeights(gCNavZone_PS *this)
+
+{
+  eCEntity *this_00;
+  bCMatrix *this_01;
+  bCVector *pbVar1;
+  int iVar2;
+  float fVar3;
+  float fVar4;
+  float fVar5;
+  float fStack_28;
+  bCVector abStack_20 [4];
+  int iStack_1c;
+  bCVector abStack_18 [4];
+  bCVector abStack_14 [4];
+  bCVector abStack_10 [16];
+  
+                    /* 0xa1f5  2025  ?CalcZoneHeights@gCNavZone_PS@@QAE?AW4bEResult@@XZ */
+  iVar2 = (this->gCNavZone_PS_data).offset_0x14;
+  (this->gCNavZone_PS_data).offset_0xf0 = 0;
+  (this->gCNavZone_PS_data).offset_0xf4 = 0;
+  (this->gCNavZone_PS_data).offset_0xf8 = 0;
+  if (iVar2 < 1) {
+    return 0;
+  }
+  iStack_1c = iVar2;
+  this_00 = (*this->vftablePtr->GetEntity)(this);
+  this_01 = eCEntity::GetWorldMatrix((eCEntity *)this_00);
+  bCMatrix::operator*(this_01,abStack_18);
+  fVar3 = bCVector::GetY((bCVector *)&iStack_1c);
+  (this->gCNavZone_PS_data).offset_0xf0 = fVar3;
+  fVar5 = fVar3;
+  fStack_28 = fVar3;
+  if (1 < iVar2) {
+    iVar2 = iVar2 + -1;
+    do {
+      pbVar1 = (bCVector *)bCMatrix::operator*(this_01,abStack_10);
+      bCVector::operator=(abStack_20,pbVar1);
+      bCVector::~bCVector(abStack_14);
+      fVar4 = bCVector::GetY(abStack_20);
+      if (fVar5 < fVar4) {
+        fVar5 = fVar4;
+      }
+      if (fVar4 < fStack_28) {
+        fStack_28 = fVar4;
+      }
+      iVar2 = iVar2 + -1;
+      (this->gCNavZone_PS_data).offset_0xf0 = fVar4 + (float)(this->gCNavZone_PS_data).offset_0xf0;
+    } while (iVar2 != 0);
+  }
+  fVar3 = (float)(this->gCNavZone_PS_data).offset_0xf0 / (float)(int)fVar3;
+  (this->gCNavZone_PS_data).offset_0xf0 = fVar3;
+  (this->gCNavZone_PS_data).offset_0xf4 = fVar5 - fVar3;
+  (this->gCNavZone_PS_data).offset_0xf8 = fVar3 - fStack_28;
+  bCVector::~bCVector(abStack_20);
+  return 1;
+}
+
+

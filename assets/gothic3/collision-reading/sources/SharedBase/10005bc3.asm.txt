@@ -1,0 +1,2 @@
+; 10005bc3 ??DbCBox@@QBE?AV0@ABVbCMatrix@@@Z
+10005bc3 | e9e84f0300 | JMP 0x1003abb0

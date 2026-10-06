@@ -1,0 +1,11 @@
+/* ENTRY 2031fe10 | bTPropertyObject<gCPlayerMemory_PS,eCEntityPropertySet>::vfunction5 | STATUS decompiled | 2 ms */
+
+undefined4 __thiscall
+bTPropertyObject<gCPlayerMemory_PS,eCEntityPropertySet>::vfunction5
+          (bTPropertyObject<gCPlayerMemory_PS,eCEntityPropertySet> *this)
+
+{
+  return (this->bTPropertyObject<gCPlayerMemory_PS,eCEntityPropertySet>_data).offset_0x0;
+}
+
+

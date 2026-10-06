@@ -1,0 +1,20 @@
+/* ENTRY 1004a3d0 | FUN_1004a3d0 | STATUS decompiled | 4 ms */
+
+uint __fastcall FUN_1004a3d0(int param_1)
+
+{
+  uint uVar1;
+  
+  if (*(int **)(param_1 + 4) != (int *)0x0) {
+                    /* WARNING: Could not recover jumptable at 0x1004a3de. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+    uVar1 = (**(code **)(**(int **)(param_1 + 4) + 0x30))();
+    return uVar1;
+  }
+  uVar1 = *(uint *)(param_1 + 8);
+  uVar1 = (uVar1 + 1 ^ uVar1) & 0x7fffffff ^ uVar1;
+  *(uint *)(param_1 + 8) = uVar1;
+  return uVar1 & 0x7fffffff;
+}
+
+

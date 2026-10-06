@@ -1,0 +1,76 @@
+/* ENTRY 20028f1f | gCNavigation_PS::gCNavigation_PS | STATUS decompiled | 26 ms */
+
+/* public: __thiscall gCNavigation_PS::gCNavigation_PS(void) */
+
+gCNavigation_PS * __thiscall gCNavigation_PS::gCNavigation_PS(gCNavigation_PS *this)
+
+{
+                    /* 0x28f1f  283  ??0gCNavigation_PS@@QAE@XZ */
+  eCEntityPropertySet::eCEntityPropertySet((eCEntityPropertySet *)this);
+  this->vftablePtr = &vftable;
+  bCVector::bCVector((bCVector *)&(this->gCNavigation_PS_data).field_0x10);
+  bCPropertyID::bCPropertyID((bCPropertyID *)&(this->gCNavigation_PS_data).field_0x1c);
+  bCPropertyID::bCPropertyID((bCPropertyID *)&(this->gCNavigation_PS_data).field_0x30);
+  bCPropertyID::bCPropertyID((bCPropertyID *)&(this->gCNavigation_PS_data).field_0x44);
+  bCString::bCString((bCString *)&(this->gCNavigation_PS_data).field_0x58);
+  (this->gCNavigation_PS_data).offset_0x5c = (void *)0x0;
+  (this->gCNavigation_PS_data).offset_0x60 = 0;
+  (this->gCNavigation_PS_data).offset_0x64 = 0;
+  (this->gCNavigation_PS_data).offset_0x68 = (void *)0x0;
+  (this->gCNavigation_PS_data).offset_0x6c = 0;
+  (this->gCNavigation_PS_data).offset_0x70 = 0;
+  (this->gCNavigation_PS_data).offset_0x74 = (void *)0x0;
+  (this->gCNavigation_PS_data).offset_0x78 = 0;
+  (this->gCNavigation_PS_data).offset_0x7c = 0;
+  (this->gCNavigation_PS_data).offset_0x80 = 0;
+  (this->gCNavigation_PS_data).offset_0x84 = 0;
+  (this->gCNavigation_PS_data).offset_0x88 = 0;
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)&(this->gCNavigation_PS_data).field_0x8c);
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)&(this->gCNavigation_PS_data).field_0xa8);
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)&(this->gCNavigation_PS_data).field_0xc4);
+  bCVector::bCVector((bCVector *)&(this->gCNavigation_PS_data).field_0xe0);
+  bCPropertyID::bCPropertyID((bCPropertyID *)&(this->gCNavigation_PS_data).field_0xec);
+  (this->gCNavigation_PS_data).offset_0x108 = (void *)0x0;
+  (this->gCNavigation_PS_data).offset_0x10c = 0;
+  (this->gCNavigation_PS_data).offset_0x110 = 0;
+  (this->gCNavigation_PS_data).offset_0x114 = (void *)0x0;
+  (this->gCNavigation_PS_data).offset_0x118 = 0;
+  (this->gCNavigation_PS_data).offset_0x11c = 0;
+  bCPropertyID::bCPropertyID((bCPropertyID *)&(this->gCNavigation_PS_data).field_0x120);
+  (this->gCNavigation_PS_data).offset_0x134 = (void *)0x0;
+  (this->gCNavigation_PS_data).offset_0x138 = 0;
+  (this->gCNavigation_PS_data).offset_0x13c = 0;
+  (this->gCNavigation_PS_data).offset_0x140 = (void *)0x0;
+  (this->gCNavigation_PS_data).offset_0x144 = 0;
+  (this->gCNavigation_PS_data).offset_0x148 = 0;
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)&(this->gCNavigation_PS_data).field_0x14c);
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)&(this->gCNavigation_PS_data).field_0x168);
+  (this->gCNavigation_PS_data).offset_0x18c = (void *)0x0;
+  (this->gCNavigation_PS_data).offset_0x190 = 0;
+  (this->gCNavigation_PS_data).offset_0x194 = 0;
+  (this->gCNavigation_PS_data).offset_0x198 = (void *)0x0;
+  (this->gCNavigation_PS_data).offset_0x19c = 0;
+  (this->gCNavigation_PS_data).offset_0x1a0 = 0;
+  (this->gCNavigation_PS_data).offset_0x1a4 = (void *)0x0;
+  (this->gCNavigation_PS_data).offset_0x1a8 = 0;
+  (this->gCNavigation_PS_data).offset_0x1ac = 0;
+  bCVector::bCVector((bCVector *)&(this->gCNavigation_PS_data).field_0x1b0);
+  (this->gCNavigation_PS_data).offset_0x1bc = (void *)0x0;
+  (this->gCNavigation_PS_data).offset_0x1c0 = 0;
+  (this->gCNavigation_PS_data).offset_0x1c4 = 0;
+  bCVector::bCVector((bCVector *)&(this->gCNavigation_PS_data).field_0x1e8);
+  bCQuaternion::bCQuaternion((bCQuaternion *)&(this->gCNavigation_PS_data).field_0x1f4);
+  bCPropertyID::bCPropertyID((bCPropertyID *)&(this->gCNavigation_PS_data).field_0x220);
+  bCPropertyID::Destroy((bCPropertyID *)&(this->gCNavigation_PS_data).field_0x220);
+  (this->gCNavigation_PS_data).offset_0x234 = (gCNavigation_PS)0x0;
+  bCPropertyID::bCPropertyID((bCPropertyID *)&(this->gCNavigation_PS_data).field_0x238);
+  bCPropertyID::Destroy((bCPropertyID *)&(this->gCNavigation_PS_data).field_0x238);
+  (this->gCNavigation_PS_data).offset_0x24c = (gCNavigation_PS)0x0;
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)&(this->gCNavigation_PS_data).field_0x254);
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)&(this->gCNavigation_PS_data).field_0x270);
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)&(this->gCNavigation_PS_data).field_0x28c);
+  Invalidate(this);
+  return this;
+}
+
+

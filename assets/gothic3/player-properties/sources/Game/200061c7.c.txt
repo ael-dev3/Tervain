@@ -1,0 +1,23 @@
+/* ENTRY 200061c7 | gCPlayerMemory_PS::EnableTutorial | STATUS decompiled | 9 ms */
+
+/* public: void __thiscall gCPlayerMemory_PS::EnableTutorial(enum gETutorialFlag,bool) */
+
+void __thiscall
+gCPlayerMemory_PS::EnableTutorial(gCPlayerMemory_PS *this,gETutorialFlag param_1,bool param_2)
+
+{
+  undefined4 *puVar1;
+  
+                    /* 0x61c7  2756  ?EnableTutorial@gCPlayerMemory_PS@@QAEXW4gETutorialFlag@@_N@Z
+                        */
+  if (param_2) {
+    puVar1 = &this[1].gCPlayerMemory_PS_data.offset_0x28;
+    *puVar1 = *puVar1 & ~param_1;
+    return;
+  }
+  puVar1 = &this[1].gCPlayerMemory_PS_data.offset_0x28;
+  *puVar1 = *puVar1 | param_1;
+  return;
+}
+
+

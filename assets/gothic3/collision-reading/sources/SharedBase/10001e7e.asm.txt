@@ -1,0 +1,4 @@
+; 10001e7e ??XbCBox@@QAEAAV0@ABVbCMatrix@@@Z
+10001e7e | e9bd8c0300 | JMP 0x1003ab40
+; 10001e83 bCAccessorPropertyObject::operator++
+; 10001e83 Ordinal_970

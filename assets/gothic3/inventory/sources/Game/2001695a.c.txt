@@ -1,0 +1,17 @@
+/* ENTRY 2001695a | gCInventory_PS::LearnSpell | STATUS decompiled | 9 ms */
+
+/* public: bool __thiscall gCInventory_PS::LearnSpell(class eCTemplateEntity const *) */
+
+bool __thiscall gCInventory_PS::LearnSpell(gCInventory_PS *this,eCTemplateEntity *param_1)
+
+{
+  bool bVar1;
+  int iVar2;
+  
+                    /* 0x1695a  5296  ?LearnSpell@gCInventory_PS@@QAE_NPBVeCTemplateEntity@@@Z */
+  iVar2 = FindSpellStackIndex(this,param_1);
+  bVar1 = LearnStack(this,iVar2);
+  return bVar1;
+}
+
+

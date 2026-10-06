@@ -1,0 +1,4 @@
+; 10005b32 ?InvTransform@bCOrientedBox@@QAEXABVbCMatrix@@@Z
+10005b32 | e9993a0600 | JMP 0x100695d0
+; 10005b37 MemHeap::GetPointerArea
+; 10005b37 Ordinal_2754

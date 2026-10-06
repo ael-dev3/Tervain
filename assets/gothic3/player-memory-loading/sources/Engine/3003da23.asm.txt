@@ -1,0 +1,2 @@
+; 3003da23 eCEntityPropertySet::IsPhysicRelevant
+3003da23 | e9083b4400 | JMP 0x30481530

@@ -1,0 +1,2 @@
+; 20029c67 ?LinkStackToSlot@gCInventory_PS@@QAE_NHW4gESlot@@_N@Z
+20029c67 | e904401800 | JMP 0x201adc70

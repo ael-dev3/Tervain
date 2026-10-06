@@ -1,0 +1,31 @@
+/* ENTRY 3002481b | eCArchiveFile::Read | STATUS decompiled | 16 ms */
+
+/* public: virtual unsigned long __thiscall eCArchiveFile::Read(class bCString &) */
+
+ulong __thiscall eCArchiveFile::Read(eCArchiveFile *this,bCString *param_1)
+
+{
+  int *piVar1;
+  ulong uVar2;
+  uint uVar3;
+  eCArchiveFile *peStack_4;
+  
+                    /* 0x2481b  12040  ?Read@eCArchiveFile@@UAEKAAVbCString@@@Z */
+  if ((this->eCArchiveFile_data).offset_0x10 == (void *)0x0) {
+    peStack_4 = this;
+    uVar2 = bCIStream::Read((bCIStream *)this,param_1);
+    return uVar2;
+  }
+  peStack_4 = (eCArchiveFile *)0xffff;
+  bCIStream::Read((bCIStream *)this,(ushort *)&peStack_4);
+  uVar3 = (uint)peStack_4 & 0xffff;
+  piVar1 = (this->eCArchiveFile_data).offset_0x10;
+  if ((uint)piVar1[1] <= uVar3) {
+    GE_MESSAGEF_WARN(&DAT_3088d440,uVar3);
+    return 0;
+  }
+  bCString::operator=(param_1,(bCString *)(*piVar1 + uVar3 * 4));
+  return 2;
+}
+
+

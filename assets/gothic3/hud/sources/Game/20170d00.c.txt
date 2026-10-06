@@ -1,0 +1,30 @@
+/* ENTRY 20170d00 | FUN_20170d00 | STATUS decompiled | 9 ms */
+
+void __thiscall FUN_20170d00(gCHUDDialog *param_1,int param_2,int param_3)
+
+{
+  int iVar1;
+  gCHUDDialog *pgVar2;
+  
+  gCHUDDialog::PlaySoundA(param_1,(uint)(param_2 == -1));
+  pgVar2 = param_1 + 0xe;
+  iVar1 = 0x11;
+  do {
+    (**(code **)(pgVar2->vftablePtr->MsgProc + 0x11c))(param_2,param_3);
+    pgVar2 = pgVar2 + 1;
+    iVar1 = iVar1 + -1;
+  } while (iVar1 != 0);
+  (**(code **)((param_1[0x1f].vftablePtr)->MsgProc + 0x11c))(param_2,param_3);
+  if (param_2 == -1) {
+    bTPropertyContainer<gESession_State>::
+    bTPropertyContainer<gESession_State>_Constructor_or_Destructor('\0');
+    return;
+  }
+  if (param_3 == -1) {
+    bTPropertyContainer<gESession_State>::
+    bTPropertyContainer<gESession_State>_Constructor_or_Destructor('\x01');
+  }
+  return;
+}
+
+

@@ -1,0 +1,16 @@
+/* ENTRY 3001b21b | eCVisualAnimation_PS::GetSaveGameRelevance | STATUS decompiled | 4 ms */
+
+/* protected: virtual enum eCEntityPropertySet::eEPSSaveGameRelevance __thiscall
+   eCVisualAnimation_PS::GetSaveGameRelevance(void)const  */
+
+eEPSSaveGameRelevance __thiscall
+eCVisualAnimation_PS::GetSaveGameRelevance(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x1b21b  8675
+                       ?GetSaveGameRelevance@eCVisualAnimation_PS@@MBE?AW4eEPSSaveGameRelevance@eCEntityPropertySet@@XZ
+                        */
+  return 2;
+}
+
+

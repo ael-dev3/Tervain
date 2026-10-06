@@ -1,0 +1,24 @@
+; 3008fc70 FUN_3008fc70
+3008fc70 | 56 | PUSH ESI
+3008fc71 | 57 | PUSH EDI
+3008fc72 | 8b7c240c | MOV EDI,dword ptr [ESP + 0xc]
+3008fc76 | 8bf1 | MOV ESI,ECX
+3008fc78 | 8bcf | MOV ECX,EDI
+3008fc7a | ff1574daaf30 | CALL dword ptr [0x30afda74]
+3008fc80 | 84c0 | TEST AL,AL
+3008fc82 | 751b | JNZ 0x3008fc9f
+3008fc84 | 837e4c00 | CMP dword ptr [ESI + 0x4c],0x0
+3008fc88 | 7415 | JZ 0x3008fc9f
+3008fc8a | 57 | PUSH EDI
+3008fc8b | 8d4e48 | LEA ECX,[ESI + 0x48]
+3008fc8e | e89378f8ff | CALL 0x30017526
+3008fc93 | 83f8ff | CMP EAX,-0x1
+3008fc96 | 7407 | JZ 0x3008fc9f
+3008fc98 | 5f | POP EDI
+3008fc99 | b001 | MOV AL,0x1
+3008fc9b | 5e | POP ESI
+3008fc9c | c20400 | RET 0x4
+3008fc9f | 5f | POP EDI
+3008fca0 | 32c0 | XOR AL,AL
+3008fca2 | 5e | POP ESI
+3008fca3 | c20400 | RET 0x4

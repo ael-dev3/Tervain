@@ -1,0 +1,10 @@
+/* ENTRY 2039c200 | bTPropertyObject<gCStat,gCAttribute>::vfunction11 | STATUS decompiled | 1 ms */
+
+void __thiscall bTPropertyObject<gCStat,gCAttribute>::vfunction11(void)
+
+{
+  thunk_FUN_2039c070(0);
+  return;
+}
+
+

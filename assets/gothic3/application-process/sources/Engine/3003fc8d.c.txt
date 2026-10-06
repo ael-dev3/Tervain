@@ -1,0 +1,12 @@
+/* ENTRY 3003fc8d | eCEntity::HasProcessingRangeEntered | STATUS decompiled | 7 ms */
+
+/* public: bool __thiscall eCEntity::HasProcessingRangeEntered(void)const  */
+
+bool __thiscall eCEntity::HasProcessingRangeEntered(eCEntity *this)
+
+{
+                    /* 0x3fc8d  9744  ?HasProcessingRangeEntered@eCEntity@@QBE_NXZ */
+  return ((byte)(this->eCEntity_data).offset_0xc & 0x80) == 0x80;
+}
+
+

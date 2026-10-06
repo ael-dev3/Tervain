@@ -1,0 +1,2 @@
+; 30041a01 thunk_FUN_300cff40
+30041a01 | e93ae50800 | JMP 0x300cff40

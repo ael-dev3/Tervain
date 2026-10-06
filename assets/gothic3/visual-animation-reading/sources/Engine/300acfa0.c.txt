@@ -1,0 +1,25 @@
+/* ENTRY 300acfa0 | bTPOPureSmartPtr<eCVisualAnimation_PS>::vfunction12 | STATUS decompiled | 5 ms */
+
+/* bTPOPureSmartPtr<eCVisualAnimation_PS> member function inherited by
+   bTPropertyObject<eCVisualAnimation_PS,eCEntityPropertySet> */
+
+undefined4 __thiscall
+bTPOPureSmartPtr<eCVisualAnimation_PS>::vfunction12
+          (bTPOPureSmartPtr<eCVisualAnimation_PS> *this,int param_1)
+
+{
+  int iVar1;
+  undefined4 uVar2;
+  
+  if (param_1 != 0) {
+    iVar1 = FUN_30671ae7(param_1,0,&bCObjectRefBase::RTTI_Type_Descriptor,
+                         &eCVisualAnimation_PS::RTTI_Type_Descriptor,0);
+    if (iVar1 != 0) {
+      uVar2 = thunk_FUN_300aaac0(iVar1);
+      return CONCAT31((int3)((uint)uVar2 >> 8),1);
+    }
+  }
+  return 0;
+}
+
+

@@ -1,0 +1,13 @@
+/* ENTRY 203573a0 | FUN_203573a0 | STATUS decompiled | 8 ms */
+
+void __fastcall FUN_203573a0(gCScriptRoutine_PS *param_1)
+
+{
+  gCScriptRoutine_PS::GameReset(param_1);
+                    /* WARNING: Could not recover jumptable at 0x203573ab. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eCEntityPropertySet::OnPostRead((eCEntityPropertySet *)param_1);
+  return;
+}
+
+

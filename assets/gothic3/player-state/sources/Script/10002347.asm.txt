@@ -1,0 +1,4 @@
+; 10002347 ?ForceNextPose@PSNpc@@QAE_NW4gEPose@@@Z
+10002347 | e9b4e00100 | JMP 0x10020400
+; 1000234c PSDialog::PropertySlaveryEnabled::operator=
+; 1000234c Ordinal_626

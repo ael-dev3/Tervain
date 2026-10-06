@@ -1,0 +1,17 @@
+/* ENTRY 10019870 | FUN_10019870 | STATUS decompiled | 4 ms */
+
+gEUseType __thiscall FUN_10019870(void *this,int param_1)
+
+{
+  gEUseType gVar1;
+  
+  if (*(gCInventory_PS **)this == (gCInventory_PS *)0x0) {
+    return 0;
+  }
+                    /* WARNING: Could not recover jumptable at 0x1001987b. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  gVar1 = gCInventory_PS::GetStackUseType(*(gCInventory_PS **)this,param_1);
+  return gVar1;
+}
+
+

@@ -1,0 +1,12 @@
+/* ENTRY 3001c472 | bTPropertyObjectType<eCCollisionShape,bCObjectRefBase>::vfunction6 | STATUS decompiled | 3 ms */
+
+void __thiscall bTPropertyObjectType<eCCollisionShape,bCObjectRefBase>::vfunction6(void)
+
+{
+  GE_MESSAGEF_WARN("The method %s detected an improper usage! \nHint:%s ",
+                   "bTPropertyObjectType<CLASS, BASECLASS>::Write",
+                   "METHOD Read/Write not used for current implementation!");
+  return;
+}
+
+

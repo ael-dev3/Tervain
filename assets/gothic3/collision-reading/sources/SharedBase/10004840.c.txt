@@ -1,0 +1,12 @@
+/* ENTRY 10004840 | bCMatrix3::~bCMatrix3 | STATUS decompiled | 1 ms */
+
+/* public: __thiscall bCMatrix3::~bCMatrix3(void) */
+
+void __thiscall bCMatrix3::~bCMatrix3(bCMatrix3 *this)
+
+{
+                    /* 0x4840  390  ??1bCMatrix3@@QAE@XZ */
+  return;
+}
+
+

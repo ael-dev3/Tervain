@@ -1,0 +1,2 @@
+; 300120a3 ?UnregisterEntity@eCSceneAdmin@@IAE_NPAVeCEntity@@@Z
+300120a3 | e908904b00 | JMP 0x304cb0b0

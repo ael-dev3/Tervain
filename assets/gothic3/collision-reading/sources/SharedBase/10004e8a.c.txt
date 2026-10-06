@@ -1,0 +1,13 @@
+/* ENTRY 10004e8a | bCCapsule::SetRadius | STATUS decompiled | 2 ms */
+
+/* public: void __thiscall bCCapsule::SetRadius(float) */
+
+void __thiscall bCCapsule::SetRadius(bCCapsule *this,float param_1)
+
+{
+                    /* 0x4e8a  4303  ?SetRadius@bCCapsule@@QAEXM@Z */
+  *(float *)(this + 4) = param_1;
+  return;
+}
+
+

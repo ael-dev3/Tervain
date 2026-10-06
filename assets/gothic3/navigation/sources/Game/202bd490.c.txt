@@ -1,0 +1,32 @@
+/* ENTRY 202bd490 | gCNavigationAdmin::gCNavigationAdmin | STATUS decompiled | 14 ms */
+
+gCNavigationAdmin * __thiscall gCNavigationAdmin::gCNavigationAdmin(gCNavigationAdmin *this)
+
+{
+  eCModuleAdmin *peVar1;
+  
+  eCEngineComponentBase::eCEngineComponentBase((eCEngineComponentBase *)this);
+  this->vftablePtr = &vftable;
+  (this->gCNavigationAdmin_data).offset_0x10 = (void *)0x0;
+  (this->gCNavigationAdmin_data).offset_0x14 = 0;
+  (this->gCNavigationAdmin_data).offset_0x18 = 0;
+  (this->gCNavigationAdmin_data).offset_0x1c = (void *)0x0;
+  (this->gCNavigationAdmin_data).offset_0x20 = 0;
+  (this->gCNavigationAdmin_data).offset_0x24 = 0;
+  (this->gCNavigationAdmin_data).offset_0x28 = (void *)0x0;
+  (this->gCNavigationAdmin_data).offset_0x2c = 0;
+  (this->gCNavigationAdmin_data).offset_0x30 = 0;
+  (this->gCNavigationAdmin_data).offset_0x34 = (void *)0x0;
+  (this->gCNavigationAdmin_data).offset_0x38 = 0;
+  (this->gCNavigationAdmin_data).offset_0x3c = 0;
+  (this->gCNavigationAdmin_data).offset_0x40 = (void *)0x0;
+  (this->gCNavigationAdmin_data).offset_0x44 = 0;
+  (this->gCNavigationAdmin_data).offset_0x48 = 0;
+  gCNavigationMap::gCNavigationMap((gCNavigationMap *)&(this->gCNavigationAdmin_data).field_0x50);
+  Invalidate(this);
+  peVar1 = eCModuleAdmin::GetInstance();
+  (**(code **)(*(int *)peVar1 + 0x74))(this);
+  return this;
+}
+
+

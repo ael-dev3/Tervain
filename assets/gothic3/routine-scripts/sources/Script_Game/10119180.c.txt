@@ -1,0 +1,17 @@
+/* ENTRY 10119180 | FUN_10119180 | STATUS decompiled | 7 ms */
+
+void FUN_10119180(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Tasks\\Reaction_Tasks\\ZS_RansackBody.cpp");
+  bCString::bCString(local_8,"ZS_RansackBody");
+  thunk_FUN_1001db60(local_8,&LAB_1000146f,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

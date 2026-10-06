@@ -1,0 +1,7 @@
+; 202f9d00 FUN_202f9d00
+202f9d00 | 56 | PUSH ESI
+202f9d01 | 8bf1 | MOV ESI,ECX
+202f9d03 | ff1508737d20 | CALL dword ptr [0x207d7308]
+202f9d09 | 8bce | MOV ECX,ESI
+202f9d0b | 5e | POP ESI
+202f9d0c | e93e4ed3ff | JMP 0x2002eb4f

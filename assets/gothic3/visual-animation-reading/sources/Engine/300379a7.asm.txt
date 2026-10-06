@@ -1,0 +1,2 @@
+; 300379a7 eCSpringAndDamperEffector::Write
+300379a7 | e9f4093500 | JMP 0x303883a0

@@ -1,0 +1,17 @@
+/* ENTRY 30022809 | eCWrapper_emfx2Motion::eCWrapper_emfx2Motion | STATUS decompiled | 6 ms */
+
+/* public: __thiscall eCWrapper_emfx2Motion::eCWrapper_emfx2Motion(void) */
+
+eCWrapper_emfx2Motion * __thiscall
+eCWrapper_emfx2Motion::eCWrapper_emfx2Motion(eCWrapper_emfx2Motion *this)
+
+{
+                    /* 0x22809  932  ??0eCWrapper_emfx2Motion@@QAE@XZ */
+  bCObjectBase::bCObjectBase((bCObjectBase *)this);
+  this->vftablePtr = &vftable;
+  (this->eCWrapper_emfx2Motion_data).offset_0x0 = (undefined4 *)0x0;
+  Destroy(this);
+  return this;
+}
+
+

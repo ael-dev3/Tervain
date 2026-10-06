@@ -1,0 +1,22 @@
+/* ENTRY 20161900 | gCHUDViewRecipe2::~gCHUDViewRecipe2 | STATUS decompiled | 49 ms */
+
+void __thiscall gCHUDViewRecipe2::~gCHUDViewRecipe2(gCHUDViewRecipe2 *this)
+
+{
+  this->vftablePtr = &vftable;
+  CFFGFCStatic::~CFFGFCStatic((CFFGFCStatic *)&(this->gCHUDViewRecipe2_data).field_0xcc);
+  FUN_20036877();
+  gCHUDTableRecipeStats::gCHUDTableRecipeStats
+            ((gCHUDTableRecipeStats *)&(this->gCHUDViewRecipe2_data).field_0x80);
+  FUN_20036877();
+  gCHUDTableItemStats::~gCHUDTableItemStats
+            ((gCHUDTableItemStats *)&(this->gCHUDViewRecipe2_data).field_0x3c);
+  gCHUDStaticInvIcon::~gCHUDStaticInvIcon
+            ((gCHUDStaticInvIcon *)&(this->gCHUDViewRecipe2_data).field_0x2c);
+  FUN_20036877();
+  FUN_20036877();
+  FUN_200156a9();
+  return;
+}
+
+

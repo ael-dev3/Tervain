@@ -1,0 +1,15 @@
+; 300ab420 bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet>::deleting_destructor
+300ab420 | 56 | PUSH ESI
+300ab421 | 8bf1 | MOV ESI,ECX
+300ab423 | 8d4e18 | LEA ECX,[ESI + 0x18]
+300ab426 | c706d4f78130 | MOV dword ptr [ESI],0x3081f7d4
+300ab42c | ff1538caaf30 | CALL dword ptr [0x30afca38]
+300ab432 | 8bce | MOV ECX,ESI
+300ab434 | ff1534caaf30 | CALL dword ptr [0x30afca34]
+300ab43a | f644240801 | TEST byte ptr [ESP + 0x8],0x1
+300ab43f | 7409 | JZ 0x300ab44a
+300ab441 | 56 | PUSH ESI
+300ab442 | e821605c00 | CALL 0x30671468
+300ab44a | 8bc6 | MOV EAX,ESI
+300ab44c | 5e | POP ESI
+300ab44d | c20400 | RET 0x4

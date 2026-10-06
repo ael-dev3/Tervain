@@ -1,0 +1,24 @@
+/* ENTRY 20236e30 | FUN_20236e30 | STATUS decompiled | 8 ms */
+
+undefined4 __thiscall FUN_20236e30(int param_1,bCIStream *param_2)
+
+{
+  ushort local_4 [2];
+  
+  local_4[0] = 0;
+  local_4[1] = 0;
+  bCIStream::operator>>(param_2,local_4);
+  if (1 < local_4[0]) {
+    bCVector::operator<<((bCVector *)(param_1 + 0x14),(bCIStream *)param_2);
+    bCVector::operator<<((bCVector *)(param_1 + 0x20),(bCIStream *)param_2);
+    bCVector::operator<<((bCVector *)(param_1 + 0x2c),(bCIStream *)param_2);
+    bCIStream::operator>>(param_2,(bool *)(param_1 + 0x38));
+    bCIStream::operator>>(param_2,(bool *)(param_1 + 0x39));
+    bCIStream::operator>>(param_2,(bool *)(param_1 + 0x40));
+    bCIStream::operator>>(param_2,(bool *)(param_1 + 0x41));
+    (**(code **)((int)*param_2 + 4))(param_1 + 0x44,0x1c);
+  }
+  return 1;
+}
+
+

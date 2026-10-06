@@ -1,0 +1,3 @@
+; 302274f0 bTPropertyType<eCIlluminated_PS,bTPropertyContainer<eEDirectionalShadowType>_>::vfunction1
+302274f0 | 8b411c | MOV EAX,dword ptr [ECX + 0x1c]
+302274f3 | c3 | RET

@@ -1,0 +1,2 @@
+; 20034356 bTPropertyType<gCNavigation_PS,eCEntityProxy>::vfunction25
+20034356 | e9f5ba2500 | JMP 0x2028fe50

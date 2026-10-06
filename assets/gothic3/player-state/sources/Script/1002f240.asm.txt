@@ -1,0 +1,6 @@
+; 1002f240 FUN_1002f240
+1002f240 | ff15287f0b10 | CALL dword ptr [0x100b7f28]
+1002f246 | 8bc8 | MOV ECX,EAX
+1002f248 | ff159c7c0b10 | CALL dword ptr [0x100b7c9c]
+1002f24e | 8a400c | MOV AL,byte ptr [EAX + 0xc]
+1002f251 | c3 | RET

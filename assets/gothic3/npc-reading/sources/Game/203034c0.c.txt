@@ -1,0 +1,11 @@
+/* ENTRY 203034c0 | bTPropertyType<gCNPC_PS,bTPropertyContainer<gESpecies>_>::vfunction1 | STATUS decompiled | 3 ms */
+
+bTPropertyType<gCNPC_PS,bTPropertyContainer<gESpecies>_>_vftable * __thiscall
+bTPropertyType<gCNPC_PS,bTPropertyContainer<gESpecies>_>::vfunction1
+          (bTPropertyType<gCNPC_PS,bTPropertyContainer<gESpecies>_> *this)
+
+{
+  return this[7].vftablePtr;
+}
+
+

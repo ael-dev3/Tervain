@@ -1,0 +1,4 @@
+; 30037191 bTPropertyType<eCCollisionShape_PS,bCObsoleteClass>::vfunction19
+30037191 | e9ea8b3000 | JMP 0x3033fd80
+; 3003719b eCMaterialCanvas::GetAlpha
+; 3003719b Ordinal_6130

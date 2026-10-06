@@ -1,0 +1,9 @@
+/* ENTRY 2013b120 | FUN_2013b120 | STATUS decompiled | 0 ms */
+
+undefined2 FUN_2013b120(void)
+
+{
+  return 0x2c;
+}
+
+

@@ -1,0 +1,4 @@
+; 3001923b ?PostInitializeProperties@eCCollisionShapeBase_PS@@UAE?AW4bEResult@@XZ
+3001923b | e980803200 | JMP 0x303412c0
+; 30019245 eCGUIAdmin::DrawTextA
+; 30019245 Ordinal_5722

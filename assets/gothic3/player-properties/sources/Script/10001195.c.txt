@@ -1,0 +1,20 @@
+/* ENTRY 10001195 | PSPlayerMemory::GetModifier | STATUS decompiled | 7 ms */
+
+/* public: int __thiscall PSPlayerMemory::GetModifier(class bCString const &)const  */
+
+int __thiscall PSPlayerMemory::GetModifier(PSPlayerMemory *this,bCString *param_1)
+
+{
+  int iVar1;
+  
+                    /* 0x1195  1603  ?GetModifier@PSPlayerMemory@@QBEHABVbCString@@@Z */
+  if (*(gCPlayerMemory_PS **)this != (gCPlayerMemory_PS *)0x0) {
+                    /* WARNING: Could not recover jumptable at 0x10029386. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+    iVar1 = gCPlayerMemory_PS::GetModifier(*(gCPlayerMemory_PS **)this,param_1);
+    return iVar1;
+  }
+  return 0;
+}
+
+

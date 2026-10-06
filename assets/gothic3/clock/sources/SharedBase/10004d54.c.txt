@@ -1,0 +1,25 @@
+/* ENTRY 10004d54 | bCTimer::GetTimeStamp | STATUS decompiled | 6 ms */
+
+/* public: static unsigned long __stdcall bCTimer::GetTimeStamp(void) */
+
+ulong bCTimer::GetTimeStamp(void)
+
+{
+  ulong uVar1;
+  void *pvStack_14;
+  undefined1 *puStack_10;
+  undefined *puStack_c;
+  undefined4 uStack_8;
+  
+                    /* 0x4d54  3087  ?GetTimeStamp@bCTimer@@SGKXZ */
+  puStack_c = &DAT_100f8350;
+  puStack_10 = &LAB_100a6f80;
+  pvStack_14 = ExceptionList;
+  uStack_8 = 0;
+  ExceptionList = &pvStack_14;
+  uVar1 = thunk_FUN_1004be10();
+  ExceptionList = pvStack_14;
+  return uVar1;
+}
+
+

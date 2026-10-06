@@ -1,0 +1,2 @@
+; 2002daa1 gCEffect_PS::Read
+2002daa1 | e9baa90e00 | JMP 0x20118460

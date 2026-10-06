@@ -1,0 +1,2 @@
+; 30005fab eCVisualAnimation_PS::GetNumAttachments
+30005fab | e9f07f0900 | JMP 0x3009dfa0

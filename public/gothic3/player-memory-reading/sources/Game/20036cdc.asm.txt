@@ -1,0 +1,2 @@
+; 20036cdc gCPlayerMemory_PS::gCPlayerMemory_PS
+20036cdc | e9df7c2e00 | JMP 0x2031e9c0

@@ -1,0 +1,16 @@
+; 20161fc0 gCHUDViewTutorial2::gCHUDViewTutorial2
+20161fc0 | 56 | PUSH ESI
+20161fc1 | 8bf1 | MOV ESI,ECX
+20161fc3 | e85cadeaff | CALL 0x2000cd24
+20161fc8 | 8d4e10 | LEA ECX,[ESI + 0x10]
+20161fcb | c706c4e96620 | MOV dword ptr [ESI],0x2066e9c4
+20161fd1 | e8909cebff | CALL 0x2001bc66
+20161fd6 | 8d4e20 | LEA ECX,[ESI + 0x20]
+20161fd9 | e8889cebff | CALL 0x2001bc66
+20161fde | 8d4e30 | LEA ECX,[ESI + 0x30]
+20161fe1 | ff1500797d20 | CALL dword ptr [0x207d7900]
+20161fe7 | 8d4e40 | LEA ECX,[ESI + 0x40]
+20161fea | e87c50ecff | CALL 0x2002706b
+20161fef | 8bc6 | MOV EAX,ESI
+20161ff1 | 5e | POP ESI
+20161ff2 | c3 | RET

@@ -1,0 +1,12 @@
+/* ENTRY 10006e83 | bCPropertyTypeBase::GetPropertyName | STATUS decompiled | 3 ms */
+
+/* public: class bCString const & __thiscall bCPropertyTypeBase::GetPropertyName(void)const  */
+
+bCString * __thiscall bCPropertyTypeBase::GetPropertyName(bCPropertyTypeBase *this)
+
+{
+                    /* 0x6e83  2823  ?GetPropertyName@bCPropertyTypeBase@@QBEABVbCString@@XZ */
+  return (bCString *)&this->bCPropertyTypeBase_data;
+}
+
+

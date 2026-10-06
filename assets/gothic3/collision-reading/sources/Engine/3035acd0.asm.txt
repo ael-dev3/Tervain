@@ -1,0 +1,56 @@
+; 3035acd0 bTPropertyContainer<eEShapeAABBAdapt>::bTPropertyContainer<eEShapeAABBAdapt>
+3035acd0 | 53 | PUSH EBX
+3035acd1 | 55 | PUSH EBP
+3035acd2 | 56 | PUSH ESI
+3035acd3 | 57 | PUSH EDI
+3035acd4 | 8bf1 | MOV ESI,ECX
+3035acd6 | ff1508dcaf30 | CALL dword ptr [0x30afdc08]
+3035acdc | 8b1d08ccaf30 | MOV EBX,dword ptr [0x30afcc08]
+3035ace2 | 8d7e0c | LEA EDI,[ESI + 0xc]
+3035ace5 | 8bcf | MOV ECX,EDI
+3035ace7 | c706e4128230 | MOV dword ptr [ESI],0x308212e4
+3035aced | ffd3 | CALL EBX
+3035acef | c707b4118230 | MOV dword ptr [EDI],0x308211b4
+3035acf5 | a104abad30 | MOV EAX,[0x30adab04]
+3035acfa | 894704 | MOV dword ptr [EDI + 0x4],EAX
+3035acfd | 8d7e14 | LEA EDI,[ESI + 0x14]
+3035ad00 | 8bcf | MOV ECX,EDI
+3035ad02 | ffd3 | CALL EBX
+3035ad04 | c70704f38130 | MOV dword ptr [EDI],0x3081f304
+3035ad0a | 8b0db8a2ad30 | MOV ECX,dword ptr [0x30ada2b8]
+3035ad10 | 894f04 | MOV dword ptr [EDI + 0x4],ECX
+3035ad13 | 8d7e1c | LEA EDI,[ESI + 0x1c]
+3035ad16 | 8bcf | MOV ECX,EDI
+3035ad18 | ffd3 | CALL EBX
+3035ad1a | c707dcf38130 | MOV dword ptr [EDI],0x3081f3dc
+3035ad20 | 8b15bca2ad30 | MOV EDX,dword ptr [0x30ada2bc]
+3035ad26 | 895704 | MOV dword ptr [EDI + 0x4],EDX
+3035ad29 | 8d7e24 | LEA EDI,[ESI + 0x24]
+3035ad2c | 8bcf | MOV ECX,EDI
+3035ad2e | ffd3 | CALL EBX
+3035ad30 | c70704128230 | MOV dword ptr [EDI],0x30821204
+3035ad36 | a108abad30 | MOV EAX,[0x30adab08]
+3035ad3b | 894704 | MOV dword ptr [EDI + 0x4],EAX
+3035ad3e | 8d7e48 | LEA EDI,[ESI + 0x48]
+3035ad41 | 8bcf | MOV ECX,EDI
+3035ad43 | ff15a4cbaf30 | CALL dword ptr [0x30afcba4]
+3035ad49 | 8d6e68 | LEA EBP,[ESI + 0x68]
+3035ad4c | 8bcd | MOV ECX,EBP
+3035ad4e | ff1584cbaf30 | CALL dword ptr [0x30afcb84]
+3035ad54 | 33db | XOR EBX,EBX
+3035ad56 | 8bcf | MOV ECX,EDI
+3035ad58 | 895e74 | MOV dword ptr [ESI + 0x74],EBX
+3035ad5b | 885e44 | MOV byte ptr [ESI + 0x44],BL
+3035ad5e | 66895e46 | MOV word ptr [ESI + 0x46],BX
+3035ad62 | 895e60 | MOV dword ptr [ESI + 0x60],EBX
+3035ad65 | 895e64 | MOV dword ptr [ESI + 0x64],EBX
+3035ad68 | ff157ccbaf30 | CALL dword ptr [0x30afcb7c]
+3035ad6e | 8bcd | MOV ECX,EBP
+3035ad70 | ff15e0ceaf30 | CALL dword ptr [0x30afcee0]
+3035ad76 | 5f | POP EDI
+3035ad77 | 885e2d | MOV byte ptr [ESI + 0x2d],BL
+3035ad7a | 8bc6 | MOV EAX,ESI
+3035ad7c | 5e | POP ESI
+3035ad7d | 5d | POP EBP
+3035ad7e | 5b | POP EBX
+3035ad7f | c3 | RET

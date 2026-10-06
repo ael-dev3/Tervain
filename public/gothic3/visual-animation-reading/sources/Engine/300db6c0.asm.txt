@@ -1,0 +1,28 @@
+; 300db6c0 FUN_300db6c0
+300db6c0 | 53 | PUSH EBX
+300db6c1 | 8b5c2408 | MOV EBX,dword ptr [ESP + 0x8]
+300db6c5 | 83fb07 | CMP EBX,0x7
+300db6c8 | 56 | PUSH ESI
+300db6c9 | 57 | PUSH EDI
+300db6ca | 8bf9 | MOV EDI,ECX
+300db6cc | 7723 | JA 0x300db6f1
+300db6ce | 8b749f10 | MOV ESI,dword ptr [EDI + EBX*0x4 + 0x10]
+300db6d2 | 85f6 | TEST ESI,ESI
+300db6d4 | 741b | JZ 0x300db6f1
+300db6d6 | 8b470c | MOV EAX,dword ptr [EDI + 0xc]
+300db6d9 | 8b880c020000 | MOV ECX,dword ptr [EAX + 0x20c]
+300db6df | 56 | PUSH ESI
+300db6e0 | e81d63f5ff | CALL 0x30031a02
+300db6e5 | 84c0 | TEST AL,AL
+300db6e7 | 7510 | JNZ 0x300db6f9
+300db6e9 | c7449f1000000000 | MOV dword ptr [EDI + EBX*0x4 + 0x10],0x0
+300db6f1 | d9ee | FLDZ
+300db6f3 | 5f | POP EDI
+300db6f4 | 5e | POP ESI
+300db6f5 | 5b | POP EBX
+300db6f6 | c20400 | RET 0x4
+300db6f9 | dd4608 | FLD double ptr [ESI + 0x8]
+300db6fc | 5f | POP EDI
+300db6fd | 5e | POP ESI
+300db6fe | 5b | POP EBX
+300db6ff | c20400 | RET 0x4

@@ -1,0 +1,34 @@
+/* ENTRY 30733f50 | bTPropertyType<eCVisualAnimation_PS,bTPropertyContainer<eEShapeMaterial>_>::~bTPropertyType<eCVisualAnimation_PS,bTPropertyContainer<eEShapeMaterial>_> | STATUS decompiled | 14 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<eCVisualAnimation_PS,bTPropertyContainer<eEShapeMaterial>_>::
+~bTPropertyType<eCVisualAnimation_PS,bTPropertyContainer<eEShapeMaterial>_>
+          (bTPropertyType<eCVisualAnimation_PS,bTPropertyContainer<eEShapeMaterial>_> *this)
+
+{
+  bTPropertyType<eCVisualAnimation_PS,bTPropertyContainer<eEShapeMaterial>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"BoneShapeMaterial");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&eCVisualAnimation_PS::ms_PropertyMember_m_enuBoneShapeMaterial,
+             (bCString *)&local_4,2);
+  _ms_PropertyMember_m_enuBoneShapeMaterial = &vftable;
+  DAT_30ada6f0 = bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet>();
+  _DAT_30ada6f4 = 100;
+  _DAT_30ada6f8 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&eCVisualAnimation_PS::ms_PropertyMember_m_enuBoneShapeMaterial);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_30ada6f0,
+             (bCPropertyTypeBase *)&eCVisualAnimation_PS::ms_PropertyMember_m_enuBoneShapeMaterial);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<eEShapeMaterial>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<eEShapeMaterial>_>);
+  return;
+}
+
+

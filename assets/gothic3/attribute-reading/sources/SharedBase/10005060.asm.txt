@@ -1,0 +1,2 @@
+; 10005060 bCPOStream::Create
+10005060 | e98b560800 | JMP 0x1008a6f0

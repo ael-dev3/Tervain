@@ -1,0 +1,56 @@
+/* ENTRY 2002554a | gCScriptRoutine_PS::GameReset | STATUS decompiled | 40 ms */
+
+/* protected: void __thiscall gCScriptRoutine_PS::GameReset(void) */
+
+void __thiscall gCScriptRoutine_PS::GameReset(gCScriptRoutine_PS *this)
+
+{
+  undefined1 *this_00;
+  NotifyPropertyValueChangedEnterEx *pNVar1;
+  NotifyPropertyValueChangedExitEx *pNVar2;
+  
+                    /* 0x2554a  2867  ?GameReset@gCScriptRoutine_PS@@IAEXXZ */
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedEnterEx;
+  (this->gCScriptRoutine_PS_data).offset_0x1ec = 0;
+  (*pNVar1)(this,"StatePosition",false);
+  pNVar2 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  *(undefined4 *)&(this->gCScriptRoutine_PS_data).field_0x24 = 0;
+  (*pNVar2)(this,"StatePosition",false);
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"StateTime",false);
+  pNVar2 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  *(undefined4 *)&(this->gCScriptRoutine_PS_data).field_0x20 = 0;
+  (*pNVar2)(this,"StateTime",false);
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"CommandTime",false);
+  pNVar2 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  *(undefined4 *)&(this->gCScriptRoutine_PS_data).field_0x28 = 0;
+  (*pNVar2)(this,"CommandTime",false);
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"CurrentBreakBlock",false);
+  pNVar2 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  *(undefined4 *)&(this->gCScriptRoutine_PS_data).field_0x34 = 0;
+  (*pNVar2)(this,"CurrentBreakBlock",false);
+  this_00 = &(this->gCScriptRoutine_PS_data).field_0x60;
+  gCScriptProcessingUnit::GameReset((gCScriptProcessingUnit *)this_00);
+  bCString::bCString((bCString *)&stack0xffffffec,
+                     (bCString *)&(this->gCScriptRoutine_PS_data).field_0x14);
+  gCScriptProcessingUnit::AISetTask((gCScriptProcessingUnit *)this_00);
+  gCScriptProcessingUnit::AISetTaskPosition
+            ((gCScriptProcessingUnit *)this_00,*(int *)&(this->gCScriptRoutine_PS_data).field_0x1c);
+  gCScriptProcessingUnit::AISetTaskTime
+            ((gCScriptProcessingUnit *)this_00,*(float *)&(this->gCScriptRoutine_PS_data).field_0x18
+            );
+  bCString::bCString((bCString *)&stack0xffffffe8,"");
+  gCScriptProcessingUnit::AISetTaskCallback((gCScriptProcessingUnit *)this_00);
+  bCString::bCString((bCString *)&stack0xffffffe4,
+                     (bCString *)&(this->gCScriptRoutine_PS_data).field_0x30);
+  gCScriptProcessingUnit::AISetState((gCScriptProcessingUnit *)this_00);
+  gCScriptProcessingUnit::AISetStatePosition
+            ((gCScriptProcessingUnit *)this_00,*(int *)&(this->gCScriptRoutine_PS_data).field_0x24);
+  gCScriptProcessingUnit::AISetStateTime
+            ((gCScriptProcessingUnit *)this_00,*(float *)&(this->gCScriptRoutine_PS_data).field_0x20
+            );
+  bCString::bCString((bCString *)&stack0xffffffe0,"");
+  gCScriptProcessingUnit::AISetLocalCallback((gCScriptProcessingUnit *)this_00);
+  return;
+}
+
+

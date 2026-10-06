@@ -1,0 +1,4 @@
+; 2003300a ?PostInitializeProperties@gCAttribute@@UAE?AW4bEResult@@XZ
+2003300a | e9914c3600 | JMP 0x20397ca0
+; 2003300f gCScriptAdmin::AddProfileTicks
+; 2003300f Ordinal_1891

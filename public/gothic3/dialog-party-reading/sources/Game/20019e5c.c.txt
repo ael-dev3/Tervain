@@ -1,0 +1,15 @@
+/* ENTRY 20019e5c | gCParty_PS::GetPartyMemberType | STATUS decompiled | 8 ms */
+
+/* public: class bTPropertyContainer<enum gEPartyMemberType> const & __thiscall
+   gCParty_PS::GetPartyMemberType(void)const  */
+
+bTPropertyContainer<gEPartyMemberType> * __thiscall gCParty_PS::GetPartyMemberType(gCParty_PS *this)
+
+{
+                    /* 0x19e5c  3954
+                       ?GetPartyMemberType@gCParty_PS@@QBEABV?$bTPropertyContainer@W4gEPartyMemberType@@@@XZ
+                        */
+  return (bTPropertyContainer<gEPartyMemberType> *)&(this->gCParty_PS_data).offset_0x2c;
+}
+
+

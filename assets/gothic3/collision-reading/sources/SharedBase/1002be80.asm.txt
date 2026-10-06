@@ -1,0 +1,12 @@
+; 1002be80 FUN_1002be80
+1002be80 | 56 | PUSH ESI
+1002be81 | 8b742408 | MOV ESI,dword ptr [ESP + 0x8]
+1002be85 | 8b06 | MOV EAX,dword ptr [ESI]
+1002be87 | 8b5004 | MOV EDX,dword ptr [EAX + 0x4]
+1002be8a | 6a10 | PUSH 0x10
+1002be8c | 51 | PUSH ECX
+1002be8d | 8bce | MOV ECX,ESI
+1002be8f | ffd2 | CALL EDX
+1002be91 | 8bc6 | MOV EAX,ESI
+1002be93 | 5e | POP ESI
+1002be94 | c20400 | RET 0x4

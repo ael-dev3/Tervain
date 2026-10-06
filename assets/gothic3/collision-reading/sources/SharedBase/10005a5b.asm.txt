@@ -1,0 +1,6 @@
+; 10005a5b ?GetRadius@bCCapsule@@QBE?BMXZ
+10005a5b | e9301d0500 | JMP 0x10057790
+; 10005a60 LAB_10005a60
+10005a60 | e91bf80300 | JMP 0x10045280
+; 10005a65 bCObjectRefBase::NotifyPropertyValueChangedExitEx
+; 10005a65 Ordinal_3813

@@ -1,0 +1,18 @@
+/* ENTRY 2002b094 | gCClock_PS::SetHour | STATUS decompiled | 8 ms */
+
+/* public: void __thiscall gCClock_PS::SetHour(unsigned long const &) */
+
+void __thiscall gCClock_PS::SetHour(gCClock_PS *this,ulong *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x2b094  6576  ?SetHour@gCClock_PS@@QAEXABK@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"Hour",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  *(ulong *)&(this->gCClock_PS_data).field_0x18 = *param_1;
+  (*pNVar1)(this,"Hour",false);
+  return;
+}
+
+

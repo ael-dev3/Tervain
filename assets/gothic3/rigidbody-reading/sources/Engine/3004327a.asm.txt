@@ -1,0 +1,4 @@
+; 3004327a bTPropertyObject<eCRigidBody_PS,eCRigidBodyBase_PS>::deleting_destructor
+3004327a | e9e1cc2e00 | JMP 0x3032ff60
+; 30043284 eCPropertyLogic::GetValueLowerBound
+; 30043284 Ordinal_9325

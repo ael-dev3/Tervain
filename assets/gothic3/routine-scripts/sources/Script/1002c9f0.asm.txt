@@ -1,0 +1,8 @@
+; 1002c9f0 FUN_1002c9f0
+1002c9f0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+1002c9f4 | 8901 | MOV dword ptr [ECX],EAX
+1002c9f6 | 33c9 | XOR ECX,ECX
+1002c9f8 | 85c0 | TEST EAX,EAX
+1002c9fa | 0f95c1 | SETNZ CL
+1002c9fd | 8ac1 | MOV AL,CL
+1002c9ff | c20400 | RET 0x4

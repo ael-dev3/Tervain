@@ -1,0 +1,2 @@
+; 30022809 eCWrapper_emfx2Motion::eCWrapper_emfx2Motion
+30022809 | e972a20c00 | JMP 0x300eca80

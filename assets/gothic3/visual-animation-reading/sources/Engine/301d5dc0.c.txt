@@ -1,0 +1,74 @@
+/* ENTRY 301d5dc0 | FUN_301d5dc0 | STATUS decompiled | 28 ms */
+
+int * __thiscall
+FUN_301d5dc0(int param_1,int param_2,int param_3,bCUnicodeString *param_4,int param_5,
+            bCByteAlphaColor *param_6,int param_7)
+
+{
+  undefined4 *puVar1;
+  int iVar2;
+  int iVar3;
+  int *piVar4;
+  int local_20;
+  int local_1c;
+  bCUnicodeString local_18 [4];
+  bCByteAlphaColor local_14 [12];
+  int local_8;
+  int local_4;
+  
+  iVar3 = 0;
+  if (0 < *(int *)(param_1 + 0x5c)) {
+    piVar4 = *(int **)(param_1 + 0x58);
+    do {
+      if ((*piVar4 == param_2) && (piVar4[1] == param_3)) {
+        piVar4 = *(int **)(param_1 + 0x58) + iVar3 * 8;
+        bCUnicodeString::operator=((bCUnicodeString *)(piVar4 + 2),param_4);
+        bCByteAlphaColor::operator=((bCByteAlphaColor *)(piVar4 + 3),param_6);
+        piVar4[6] = param_7;
+        piVar4[7] = param_5;
+        return piVar4;
+      }
+      iVar3 = iVar3 + 1;
+      piVar4 = piVar4 + 8;
+    } while (iVar3 < *(int *)(param_1 + 0x5c));
+  }
+  bCUnicodeString::bCUnicodeString(local_18);
+  bCByteAlphaColor::bCByteAlphaColor(local_14);
+  local_20 = param_2;
+  local_1c = param_3;
+  bCUnicodeString::operator=(local_18,param_4);
+  bCByteAlphaColor::operator=(local_14,param_6);
+  piVar4 = (int *)(param_1 + 0x58);
+  iVar3 = *(int *)(param_1 + 0x5c) + 1;
+  local_8 = param_7;
+  local_4 = param_5;
+  thunk_FUN_301d7900(iVar3,(iVar3 != 0) - 1);
+  if (iVar3 < *(int *)(param_1 + 0x5c)) {
+    thunk_FUN_301d4470(*piVar4 + iVar3 * 0x20,*(int *)(param_1 + 0x5c) - iVar3);
+    thunk_FUN_301d3e80(*piVar4 + iVar3 * 0x20,*(int *)(param_1 + 0x5c) - iVar3);
+  }
+  *(int *)(param_1 + 0x5c) = iVar3;
+  puVar1 = (undefined4 *)(iVar3 * 0x20 + -0x20 + *piVar4);
+  bCByteAlphaColor::~bCByteAlphaColor((bCByteAlphaColor *)(puVar1 + 3));
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)(puVar1 + 2));
+  *puVar1 = 0;
+  puVar1[1] = 0;
+  puVar1[2] = 0;
+  puVar1[3] = 0;
+  puVar1[4] = 0;
+  puVar1[5] = 0;
+  puVar1[6] = 0;
+  puVar1[7] = 0;
+  if (puVar1 != (undefined4 *)0x0) {
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)(puVar1 + 2));
+    bCByteAlphaColor::bCByteAlphaColor((bCByteAlphaColor *)(puVar1 + 3));
+  }
+  thunk_FUN_301d79b0(puVar1,&local_20,1);
+  iVar3 = *(int *)(param_1 + 0x5c);
+  iVar2 = *piVar4;
+  bCByteAlphaColor::~bCByteAlphaColor(local_14);
+  bCUnicodeString::~bCUnicodeString(local_18);
+  return (int *)(iVar3 * 0x20 + -0x20 + iVar2);
+}
+
+

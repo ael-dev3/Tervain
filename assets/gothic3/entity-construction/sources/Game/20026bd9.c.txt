@@ -1,0 +1,13 @@
+/* ENTRY 20026bd9 | gCEntity::Create | STATUS decompiled | 9 ms */
+
+/* public: virtual enum bEResult __thiscall gCEntity::Create(void) */
+
+bEResult __thiscall gCEntity::Create(gCEntity *this)
+
+{
+                    /* 0x26bd9  2347  ?Create@gCEntity@@UAE?AW4bEResult@@XZ */
+  eCDynamicEntity::Create((eCDynamicEntity *)this);
+  return 1;
+}
+
+

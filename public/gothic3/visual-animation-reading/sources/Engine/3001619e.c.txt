@@ -1,0 +1,10 @@
+/* ENTRY 3001619e | thunk_FUN_30385a30 | STATUS decompiled | 1 ms */
+
+void thunk_FUN_30385a30(void)
+
+{
+  FUN_30385a30();
+  return;
+}
+
+

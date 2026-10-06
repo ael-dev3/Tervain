@@ -1,0 +1,299 @@
+/* ENTRY 1005f9d0 | FUN_1005f9d0 | STATUS decompiled | 656 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined4 FUN_1005f9d0(bTObjStack<gScriptRunTimeSingleState> *param_1)
+
+{
+  bool bVar1;
+  char cVar2;
+  undefined4 extraout_EAX;
+  gSArgsFor__AI_HoldRightInventoryItem_Base *pgVar3;
+  bCString *pbVar4;
+  gCScriptAdmin *pgVar5;
+  uint extraout_EAX_00;
+  gSArgsFor__AI_HoldLeftInventoryItem_Base *pgVar6;
+  uint extraout_EAX_01;
+  gEUseType gVar7;
+  uint extraout_EAX_02;
+  uint extraout_EAX_03;
+  int *piVar8;
+  PSInteraction *pPVar9;
+  int unaff_EBX;
+  undefined4 unaff_EBP;
+  int iVar10;
+  Entity *pEVar11;
+  PSInventory *this;
+  gCScriptProcessingUnit *unaff_retaddr;
+  Entity aEStack_24c [4];
+  undefined4 uStack_248;
+  Entity aEStack_240 [124];
+  undefined4 uStack_1c4;
+  eCEntity *peStack_1c0;
+  bCString abStack_1b8 [4];
+  undefined4 uStack_1b4;
+  bTObjStack<gScriptRunTimeSingleState> *pbVar12;
+  gCScriptProcessingUnit *pgVar13;
+  undefined4 uStack_190;
+  gEAction local_17c;
+  int aiStack_178 [2];
+  int local_170;
+  Entity aEStack_164 [4];
+  Entity aEStack_160 [4];
+  undefined1 auStack_15c [4];
+  Entity local_158 [8];
+  undefined1 local_150 [12];
+  PSInteraction aPStack_144 [136];
+  Entity aEStack_bc [4];
+  Entity aEStack_b8 [4];
+  undefined1 auStack_b4 [4];
+  Entity local_b0 [4];
+  undefined1 local_ac [16];
+  PSInteraction aPStack_9c [144];
+  gCScriptProcessingUnit *pgStack_c;
+  
+  iVar10 = *(int *)(*(int *)param_1 + -0xc + *(int *)(param_1 + 4) * 0x18);
+  if ((_DAT_10221f08 & 1) == 0) {
+    _DAT_10221f08 = _DAT_10221f08 | 1;
+    DAT_10221f00 = DAT_10221f04;
+    DAT_10221f04 = DAT_10221f04 + 1;
+  }
+  piVar8 = (int *)(*(int *)param_1 + -0x18 + *(int *)(param_1 + 4) * 0x18);
+  local_170 = iVar10;
+  if (*(int *)(*(int *)param_1 + -0x18 + *(int *)(param_1 + 4) * 0x18) <= DAT_10221f00) {
+    *piVar8 = DAT_10221f00 + 1;
+    if (*(int *)(iVar10 + 0xac) == -1) goto LAB_10060213;
+    uStack_190 = 2;
+    PSInventory::GetItemFromSlot((PSInventory *)(iVar10 + 0x28),(gESlot)local_150);
+    PSInventory::GetItemFromSlot((PSInventory *)(iVar10 + 0x28),(gESlot)local_ac);
+    bVar1 = Entity::operator==((Entity *)None_exref,local_158);
+    if ((bVar1) && (bVar1 = Entity::operator==((Entity *)None_exref,local_b0), bVar1)) {
+LAB_1005fa93:
+      Entity::~Entity(local_b0);
+      Entity::~Entity(local_158);
+      return CONCAT31((int3)((uint)extraout_EAX >> 8),1);
+    }
+    local_17c = 0x41;
+    PSRoutine::PropertyAction::operator=((PropertyAction *)(iVar10 + 8),&local_17c);
+    bVar1 = Entity::operator!=((Entity *)None_exref,local_158);
+    if ((bVar1) && (bVar1 = Entity::operator!=((Entity *)None_exref,local_b0), bVar1)) {
+      pEVar11 = (Entity *)(iVar10 + 4);
+      uStack_248 = 0x1005fb1b;
+      Entity::Entity(aEStack_240,pEVar11);
+      cVar2 = thunk_FUN_100098e0();
+      if (cVar2 == '\0') {
+        uStack_248 = 0x1005fc12;
+        Entity::Entity(aEStack_240,pEVar11);
+        cVar2 = thunk_FUN_10009910();
+        if (cVar2 == '\0') goto LAB_1005fa93;
+        thunk_FUN_1001d9e0();
+        bCString::operator=((bCString *)(*(int *)param_1 + -0x14 + *(int *)(param_1 + 4) * 0x18),
+                            "_AI_HoldLeftInventoryItem_Base");
+        *(undefined1 *)(*(int *)param_1 + -0x10 + *(int *)(param_1 + 4) * 0x18) = 0;
+        pgVar6 = (gSArgsFor__AI_HoldLeftInventoryItem_Base *)new();
+        if (pgVar6 == (gSArgsFor__AI_HoldLeftInventoryItem_Base *)0x0) {
+          pgVar6 = (gSArgsFor__AI_HoldLeftInventoryItem_Base *)0x0;
+        }
+        else {
+          pgVar6 = gSArgsFor__AI_HoldLeftInventoryItem_Base::
+                   gSArgsFor__AI_HoldLeftInventoryItem_Base(pgVar6);
+        }
+        *(gSArgsFor__AI_HoldLeftInventoryItem_Base **)
+         (*(int *)param_1 + -0xc + *(int *)(param_1 + 4) * 0x18) = pgVar6;
+        iVar10 = *(int *)param_1 + *(int *)(param_1 + 4) * 0x18;
+        bCString::operator=((bCString *)(iVar10 + -8),(bCString *)(iVar10 + -0x20));
+        uStack_248 = 0x1005fc9e;
+        Entity::Entity(aEStack_240,pEVar11);
+        thunk_FUN_10053b10();
+        pbVar4 = (bCString *)(*(int *)param_1 + *(int *)(param_1 + 4) * 0x18 + -0x14);
+        pbVar12 = param_1;
+        pgVar5 = (gCScriptAdmin *)thunk_FUN_10015630();
+        bVar1 = gCScriptAdmin::RunScriptFunction(pgVar5,pbVar4,pbVar12,unaff_retaddr);
+        iVar10 = aiStack_178[0];
+        if (!bVar1) {
+          Entity::~Entity(local_b0);
+          Entity::~Entity(local_158);
+          return extraout_EAX_01 & 0xffffff00;
+        }
+      }
+      else {
+        thunk_FUN_1001d9e0();
+        bCString::operator=((bCString *)(*(int *)param_1 + -0x14 + *(int *)(param_1 + 4) * 0x18),
+                            "_AI_HoldRightInventoryItem_Base");
+        *(undefined1 *)(*(int *)param_1 + -0x10 + *(int *)(param_1 + 4) * 0x18) = 0;
+        pgVar3 = (gSArgsFor__AI_HoldRightInventoryItem_Base *)new();
+        if (pgVar3 == (gSArgsFor__AI_HoldRightInventoryItem_Base *)0x0) {
+          pgVar3 = (gSArgsFor__AI_HoldRightInventoryItem_Base *)0x0;
+        }
+        else {
+          pgVar3 = gSArgsFor__AI_HoldRightInventoryItem_Base::
+                   gSArgsFor__AI_HoldRightInventoryItem_Base(pgVar3);
+        }
+        *(gSArgsFor__AI_HoldRightInventoryItem_Base **)
+         (*(int *)param_1 + -0xc + *(int *)(param_1 + 4) * 0x18) = pgVar3;
+        iVar10 = *(int *)param_1 + *(int *)(param_1 + 4) * 0x18;
+        bCString::operator=((bCString *)(iVar10 + -8),(bCString *)(iVar10 + -0x20));
+        Entity::Entity(aEStack_24c,pEVar11);
+        thunk_FUN_10053b50();
+        pbVar4 = (bCString *)(*(int *)param_1 + *(int *)(param_1 + 4) * 0x18 + -0x14);
+        pbVar12 = param_1;
+        pgVar13 = pgStack_c;
+        pgVar5 = (gCScriptAdmin *)thunk_FUN_10015630();
+        bVar1 = gCScriptAdmin::RunScriptFunction(pgVar5,pbVar4,pbVar12,pgVar13);
+        iVar10 = aiStack_178[0];
+        if (!bVar1) goto LAB_1005fbdc;
+      }
+    }
+    Entity::~Entity(local_b0);
+    Entity::~Entity(local_158);
+  }
+  if ((_DAT_10221f08 & 2) == 0) {
+    _DAT_10221f08 = _DAT_10221f08 | 2;
+    DAT_10221efc = DAT_10221f04;
+    DAT_10221f04 = DAT_10221f04 + 1;
+  }
+  if (*(int *)(*(int *)param_1 + -0x18 + *(int *)(param_1 + 4) * 0x18) <= DAT_10221efc) {
+    *(int *)(*(int *)param_1 + -0x18 + *(int *)(param_1 + 4) * 0x18) = DAT_10221efc + 1;
+    PSInventory::GetItemFromSlot((PSInventory *)(iVar10 + 0x28),(gESlot)local_b0);
+    PSInventory::GetItemFromSlot((PSInventory *)(iVar10 + 0x28),(gESlot)auStack_15c);
+    bVar1 = Entity::operator!=((Entity *)None_exref,aEStack_160);
+    iVar10 = CONCAT31((int3)((uint)unaff_EBP >> 8),bVar1);
+    bVar1 = Entity::operator!=((Entity *)None_exref,aEStack_b8);
+    pPVar9 = aPStack_9c;
+    if (!bVar1) {
+      pPVar9 = aPStack_144;
+    }
+    gVar7 = PSInteraction::GetUseType(pPVar9);
+    bCString::bCString((bCString *)&stack0xfffffe74,"");
+    pEVar11 = (Entity *)(unaff_EBX + 4);
+    Entity::Entity(aEStack_24c,pEVar11);
+    cVar2 = thunk_FUN_1000c0a0();
+    if (cVar2 == '\0') {
+      uStack_1b4 = 0x1005fe10;
+      pbVar4 = (bCString *)Entity::GetAni(pEVar11,(gEAction)&stack0xfffffe78,0x44,0,gVar7);
+      bCString::operator=((bCString *)&uStack_190,pbVar4);
+      bCString::~bCString((bCString *)&stack0xfffffe74);
+      uStack_1b4 = 0;
+      peStack_1c0 = (eCEntity *)0x1005fe44;
+      bCString::bCString(abStack_1b8,(bCString *)&uStack_190);
+      peStack_1c0 = (eCEntity *)0x1005fe4e;
+      peStack_1c0 = Entity::operator_class_eCEntity_(pEVar11);
+      uStack_1c4 = 0x1005fe58;
+      thunk_FUN_10026ae0();
+      bVar1 = gCScriptProcessingUnit::sAIPlayAniInstr(&stack0xfffffe80,pgStack_c,false);
+      if (!bVar1) {
+        bCString::~bCString((bCString *)aiStack_178);
+        bCString::~bCString((bCString *)&uStack_190);
+        Entity::~Entity(aEStack_164);
+        Entity::~Entity(aEStack_bc);
+        return extraout_EAX_02 & 0xffffff00;
+      }
+    }
+    else {
+      uStack_1b4 = 0x1005fec3;
+      pbVar4 = (bCString *)Entity::GetOverlayAni(pEVar11,(gEAction)&stack0xfffffe78,0x44,0,gVar7);
+      bCString::operator=((bCString *)&uStack_190,pbVar4);
+      bCString::~bCString((bCString *)&stack0xfffffe74);
+      uStack_1b4 = 0;
+      peStack_1c0 = (eCEntity *)0x1005fef7;
+      bCString::bCString(abStack_1b8,(bCString *)&uStack_190);
+      peStack_1c0 = (eCEntity *)0x1005ff01;
+      peStack_1c0 = Entity::operator_class_eCEntity_(pEVar11);
+      uStack_1c4 = 0x1005ff0b;
+      thunk_FUN_10026ae0();
+      bVar1 = gCScriptProcessingUnit::sAIPlayAniInstr(&stack0xfffffe80,pgStack_c,false);
+      if (!bVar1) {
+        bCString::~bCString((bCString *)aiStack_178);
+        bCString::~bCString((bCString *)&uStack_190);
+        Entity::~Entity(aEStack_164);
+        Entity::~Entity(aEStack_bc);
+        return extraout_EAX_03 & 0xffffff00;
+      }
+    }
+    bCString::~bCString((bCString *)aiStack_178);
+    bCString::~bCString((bCString *)&uStack_190);
+    Entity::~Entity(aEStack_164);
+    Entity::~Entity(aEStack_bc);
+  }
+  if ((_DAT_10221f08 & 4) == 0) {
+    _DAT_10221f08 = _DAT_10221f08 | 4;
+    DAT_10221ef8 = DAT_10221f04;
+    DAT_10221f04 = DAT_10221f04 + 1;
+  }
+  if (*(int *)(*(int *)param_1 + -0x18 + *(int *)(param_1 + 4) * 0x18) <= DAT_10221ef8) {
+    *(int *)(*(int *)param_1 + -0x18 + *(int *)(param_1 + 4) * 0x18) = DAT_10221ef8 + 1;
+    this = (PSInventory *)(iVar10 + 0x28);
+    PSInventory::SwapSlots(this,2,1);
+    PSInventory::GetItemFromSlot(this,(gESlot)local_158);
+    PSInventory::GetItemFromSlot(this,(gESlot)auStack_b4);
+    Entity::operator!=((Entity *)None_exref,aEStack_160);
+    bVar1 = Entity::operator!=((Entity *)None_exref,aEStack_160);
+    pPVar9 = aPStack_144;
+    if (!bVar1) {
+      pPVar9 = aPStack_9c;
+    }
+    gVar7 = PSInteraction::GetUseType(pPVar9);
+    bCString::bCString((bCString *)&stack0xfffffe74,"");
+    pEVar11 = (Entity *)(unaff_EBX + 4);
+    Entity::Entity(aEStack_24c,pEVar11);
+    cVar2 = thunk_FUN_1000c0a0();
+    if (cVar2 == '\0') {
+      uStack_1b4 = 0x10060095;
+      pbVar4 = (bCString *)Entity::GetAni(pEVar11,(gEAction)&stack0xfffffe78,0x44,0,gVar7);
+      bCString::operator=((bCString *)&uStack_190,pbVar4);
+      bCString::~bCString((bCString *)&stack0xfffffe74);
+      uStack_1b4 = 0;
+      peStack_1c0 = (eCEntity *)0x100600c9;
+      bCString::bCString(abStack_1b8,(bCString *)&uStack_190);
+      peStack_1c0 = (eCEntity *)0x100600d3;
+      peStack_1c0 = Entity::operator_class_eCEntity_(pEVar11);
+      uStack_1c4 = 0x100600dd;
+      thunk_FUN_10026ae0();
+      bVar1 = gCScriptProcessingUnit::sAIPlayAniInstr(&stack0xfffffe80,pgStack_c,false);
+      if (!bVar1) {
+        bCString::~bCString((bCString *)aiStack_178);
+        bCString::~bCString((bCString *)&uStack_190);
+LAB_1005fbdc:
+        Entity::~Entity(aEStack_bc);
+        Entity::~Entity(aEStack_164);
+        return extraout_EAX_00 & 0xffffff00;
+      }
+    }
+    else {
+      uStack_1b4 = 0x1006012d;
+      pbVar4 = (bCString *)Entity::GetOverlayAni(pEVar11,(gEAction)&stack0xfffffe78,0x44,0,gVar7);
+      bCString::operator=((bCString *)&uStack_190,pbVar4);
+      bCString::~bCString((bCString *)&stack0xfffffe74);
+      uStack_1b4 = 0;
+      peStack_1c0 = (eCEntity *)0x10060161;
+      bCString::bCString(abStack_1b8,(bCString *)&uStack_190);
+      peStack_1c0 = (eCEntity *)0x1006016b;
+      peStack_1c0 = Entity::operator_class_eCEntity_(pEVar11);
+      uStack_1c4 = 0x10060175;
+      thunk_FUN_10026ae0();
+      bVar1 = gCScriptProcessingUnit::sAIPlayAniInstr(&stack0xfffffe80,pgStack_c,false);
+      if (!bVar1) {
+        bCString::~bCString((bCString *)aiStack_178);
+        bCString::~bCString((bCString *)&uStack_190);
+        goto LAB_1005fbdc;
+      }
+    }
+    bCString::~bCString((bCString *)aiStack_178);
+    bCString::~bCString((bCString *)&uStack_190);
+    Entity::~Entity(aEStack_bc);
+    Entity::~Entity(aEStack_164);
+  }
+  if ((_DAT_10221f08 & 8) == 0) {
+    _DAT_10221f08 = _DAT_10221f08 | 8;
+    DAT_10221ef4 = DAT_10221f04;
+    DAT_10221f04 = DAT_10221f04 + 1;
+  }
+  piVar8 = (int *)(*(int *)param_1 + -0x18 + *(int *)(param_1 + 4) * 0x18);
+  if (*(int *)(*(int *)param_1 + -0x18 + *(int *)(param_1 + 4) * 0x18) <= DAT_10221ef4) {
+    *piVar8 = DAT_10221ef4 + 1;
+  }
+LAB_10060213:
+  return CONCAT31((int3)((uint)piVar8 >> 8),1);
+}
+
+

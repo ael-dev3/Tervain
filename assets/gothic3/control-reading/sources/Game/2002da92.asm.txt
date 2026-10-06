@@ -1,0 +1,4 @@
+; 2002da92 ?GetPropertySetType@gCCharacterControl_PS@@UBE?AW4eEPropertySetType@@XZ
+2002da92 | e919a81e00 | JMP 0x202182b0
+; 2002daa1 gCEffect_PS::Read
+; 2002daa1 Ordinal_5906

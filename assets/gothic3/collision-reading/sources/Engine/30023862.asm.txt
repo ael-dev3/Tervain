@@ -1,0 +1,2 @@
+; 30023862 ?CopyFrom@eCCollisionShape@@UAE?AW4bEResult@@ABVbCObjectBase@@@Z
+30023862 | e9b9643300 | JMP 0x30359d20

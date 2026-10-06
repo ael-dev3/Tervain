@@ -1,0 +1,17 @@
+/* ENTRY 20323ee0 | bTPropertyType<gCPlayerMemory_PS,bTPropertyContainer<gEWeaponConfig>_>::vfunction6 | STATUS decompiled | 4 ms */
+
+void __thiscall
+bTPropertyType<gCPlayerMemory_PS,bTPropertyContainer<gEWeaponConfig>_>::vfunction6
+          (bTPropertyType<gCPlayerMemory_PS,bTPropertyContainer<gEWeaponConfig>_> *this,int param_1)
+
+{
+  bTPropertyType<gCPlayerMemory_PS,bTPropertyContainer<gEWeaponConfig>_>_vftable *pbVar1;
+  
+  if (param_1 != 0) {
+    pbVar1 = (*this->vftablePtr->vfunction26)(this,(undefined4 *)param_1);
+    (**(code **)(pbVar1->vfunction1 + 0x18))();
+  }
+  return;
+}
+
+

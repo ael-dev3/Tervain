@@ -1,0 +1,133 @@
+/* ENTRY 202ab040 | FUN_202ab040 | STATUS decompiled | 78 ms */
+
+undefined1 __fastcall FUN_202ab040(int *param_1)
+
+{
+  bool bVar1;
+  eCEntity *this;
+  bCMatrix *pbVar2;
+  bCVector *pbVar3;
+  bCVector *pbVar4;
+  int iVar5;
+  int iVar6;
+  float fVar7;
+  float fVar8;
+  float fStack_9c;
+  bCVector abStack_8c [8];
+  bCVector abStack_84 [4];
+  float fStack_80;
+  bCVector abStack_7c [8];
+  bCVector abStack_74 [4];
+  bCVector abStack_70 [8];
+  bCVector abStack_68 [4];
+  bCVector abStack_64 [4];
+  bCVector abStack_60 [4];
+  bCVector abStack_5c [4];
+  bCVector abStack_58 [8];
+  bCMatrix abStack_50 [8];
+  bCMatrix abStack_48 [8];
+  bCMatrix abStack_40 [56];
+  undefined1 uStack_8;
+  
+  this = (eCEntity *)(**(code **)(*param_1 + 0x68))();
+  pbVar2 = eCEntity::GetWorldMatrix(this);
+  bCMatrix::bCMatrix(abStack_40,pbVar2);
+  pbVar4 = (bCVector *)(param_1[5] + -0xc + param_1[6] * 0xc);
+  pbVar3 = (bCVector *)bCMatrix::operator*(abStack_40,abStack_58);
+  bCVector::operator-(pbVar3,pbVar4);
+  bCVector::~bCVector(abStack_60);
+  pbVar4 = (bCVector *)param_1[5];
+  pbVar3 = (bCVector *)bCMatrix::operator*(abStack_48,abStack_60);
+  bCVector::operator-(pbVar3,pbVar4);
+  bCVector::~bCVector(abStack_68);
+  bCVector::SetY(abStack_84,(float *)&stack0xffffff68);
+  bCVector::SetY((bCVector *)&stack0xffffff70,(float *)&stack0xffffff68);
+  fVar7 = bCVector::GetMagnitude(abStack_84);
+  fVar8 = bCVector::GetMagnitude((bCVector *)&stack0xffffff70);
+  if ((fVar7 != 0.0) && (fVar8 != 0.0)) {
+    bCVector::operator/=(abStack_84,fVar7);
+    bCVector::operator/=((bCVector *)&stack0xffffff70,fVar8);
+    fStack_9c = bCVector::GetAngleUnitRad(abStack_84,(bCVector *)&stack0xffffff70);
+    if (ABS(fStack_9c) <= *(float *)g_fPI_exref - 0.001) {
+      bCVector::bCVector(abStack_74);
+      bCVector::SetCrossProduct(abStack_74,abStack_84,(bCVector *)&stack0xffffff70);
+      bVar1 = bCVector::HasZeroMagnitude(abStack_74);
+      if (!bVar1) {
+        if (*(float *)g_fPI_exref < fStack_9c) {
+          fStack_9c = fStack_9c - *(float *)g_f2PI_exref;
+        }
+        if (fStack_9c < -*(float *)g_fPI_exref) {
+          fStack_9c = fStack_9c + *(float *)g_f2PI_exref;
+        }
+        fStack_9c = ABS(fStack_9c);
+        fVar7 = bCVector::GetY(abStack_74);
+        if (0.0 < fVar7) {
+          fStack_9c = fStack_9c * -1.0;
+        }
+      }
+      iVar5 = 1;
+      if (1 < param_1[6]) {
+        iVar6 = 0xc;
+        do {
+          bCVector::operator=(abStack_84,(bCVector *)&stack0xffffff70);
+          pbVar4 = (bCVector *)(param_1[5] + iVar6);
+          pbVar3 = (bCVector *)bCMatrix::operator*(abStack_50,abStack_5c);
+          pbVar4 = (bCVector *)bCVector::operator-(pbVar3,pbVar4);
+          bCVector::operator=((bCVector *)&stack0xffffff68,pbVar4);
+          bCVector::~bCVector(abStack_70);
+          bCVector::~bCVector(abStack_64);
+          fStack_80 = 0.0;
+          bCVector::SetY((bCVector *)&stack0xffffff68,&fStack_80);
+          fVar7 = bCVector::GetMagnitude((bCVector *)&stack0xffffff68);
+          if (fVar7 == 0.0) {
+            fStack_9c = *(float *)g_f2PI_exref;
+            break;
+          }
+          bCVector::operator/=((bCVector *)&stack0xffffff68,fVar7);
+          fVar7 = bCVector::GetAngleUnitRad(abStack_8c,(bCVector *)&stack0xffffff68);
+          if (*(float *)g_fPI_exref - 0.001 < ABS(fVar7)) {
+            fStack_9c = *(float *)g_f2PI_exref;
+            break;
+          }
+          bCVector::SetCrossProduct(abStack_7c,abStack_8c,(bCVector *)&stack0xffffff68);
+          bVar1 = bCVector::HasZeroMagnitude(abStack_7c);
+          if (!bVar1) {
+            if (*(float *)g_fPI_exref < fVar7) {
+              fVar7 = fVar7 - *(float *)g_f2PI_exref;
+            }
+            if (fVar7 < -*(float *)g_fPI_exref) {
+              fVar7 = fVar7 + *(float *)g_f2PI_exref;
+            }
+            fVar7 = ABS(fVar7);
+            fVar8 = bCVector::GetY(abStack_7c);
+            if (0.0 < fVar8) {
+              fVar7 = fVar7 * -1.0;
+            }
+          }
+          iVar5 = iVar5 + 1;
+          fStack_9c = fVar7 + fStack_9c;
+          iVar6 = iVar6 + 0xc;
+        } while (iVar5 < param_1[6]);
+      }
+      fStack_80 = ABS(fStack_9c);
+      if (fStack_80 <= *(float *)g_fPI_exref) {
+        bCVector::~bCVector(abStack_7c);
+        bCVector::~bCVector((bCVector *)&stack0xffffff68);
+        bCVector::~bCVector(abStack_8c);
+        bCMatrix::~bCMatrix((bCMatrix *)abStack_58);
+        return 0;
+      }
+      bCVector::~bCVector(abStack_7c);
+      bCVector::~bCVector((bCVector *)&stack0xffffff68);
+      bCVector::~bCVector(abStack_8c);
+      bCMatrix::~bCMatrix((bCMatrix *)abStack_58);
+      return 1;
+    }
+  }
+  bCVector::~bCVector((bCVector *)&stack0xffffff70);
+  bCVector::~bCVector(abStack_84);
+  bCMatrix::~bCMatrix(abStack_50);
+  return uStack_8;
+}
+
+

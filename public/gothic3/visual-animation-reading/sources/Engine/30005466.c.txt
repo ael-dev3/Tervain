@@ -1,0 +1,13 @@
+/* ENTRY 30005466 | eCEntityProxyInternal::AddReference | STATUS decompiled | 2 ms */
+
+/* public: unsigned long __thiscall eCEntityProxyInternal::AddReference(void) */
+
+ulong __thiscall eCEntityProxyInternal::AddReference(eCEntityProxyInternal *this)
+
+{
+                    /* 0x5466  3464  ?AddReference@eCEntityProxyInternal@@QAEKXZ */
+  *(int *)(this + 4) = *(int *)(this + 4) + 1;
+  return *(ulong *)(this + 4);
+}
+
+

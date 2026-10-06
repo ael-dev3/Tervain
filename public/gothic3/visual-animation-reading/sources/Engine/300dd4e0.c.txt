@@ -1,0 +1,172 @@
+/* ENTRY 300dd4e0 | FUN_300dd4e0 | STATUS decompiled | 119 ms */
+
+bool __thiscall FUN_300dd4e0(int param_1,int *param_2)
+
+{
+  bCVector *this;
+  char cVar1;
+  bCVector *pbVar2;
+  int iVar3;
+  int iVar4;
+  eCAnimationCollisionDesc *this_00;
+  uint uVar5;
+  uint *puVar6;
+  int iVar7;
+  int unaff_EBP;
+  uint uVar8;
+  int iVar9;
+  bCTriangle *this_01;
+  int *piVar10;
+  float fVar11;
+  int *unaff_retaddr;
+  float *pfVar12;
+  int iVar13;
+  int iStack_80;
+  int iStack_78;
+  int iStack_74;
+  undefined4 local_6c;
+  int local_68;
+  int iStack_64;
+  bCVector local_5c [8];
+  bCVector local_54 [4];
+  bCVector abStack_50 [12];
+  float local_44;
+  float fStack_40;
+  float local_3c;
+  float local_38;
+  float local_34;
+  float local_30;
+  undefined1 local_2c [40];
+  int *piStack_4;
+  
+  this = (bCVector *)(param_2 + 1);
+  bCVector::bCVector(local_54,this);
+  if (*param_2 == 0) {
+    bCVector::operator+=(local_54,(bCVector *)(param_2 + 4));
+  }
+  else {
+    pfVar12 = &local_3c;
+    pbVar2 = (bCVector *)bCVector::GetNormalized((bCVector *)(param_2 + 4));
+    pbVar2 = (bCVector *)bCVector::operator*(pbVar2,(float)pfVar12);
+    bCVector::operator+=(local_5c,pbVar2);
+    bCVector::~bCVector((bCVector *)&local_38);
+    bCVector::~bCVector((bCVector *)&local_44);
+  }
+  local_44 = bCVector::GetX(local_5c);
+  fStack_40 = bCVector::GetY(local_5c);
+  local_3c = bCVector::GetZ(local_5c);
+  local_38 = bCVector::GetX(this);
+  local_34 = bCVector::GetY(this);
+  local_30 = bCVector::GetZ(this);
+  thunk_FUN_300e3040(&local_38,&local_44);
+  iVar7 = 0;
+  iVar13 = 0;
+  bCVector::bCVector(abStack_50);
+  iVar3 = *(int *)(param_1 + 0xc);
+  iStack_64 = 0;
+  if (0 < *(int *)(iVar3 + 0x1b4)) {
+    iStack_78 = 0;
+    iVar7 = 0;
+    piVar10 = param_2;
+    do {
+      iVar3 = *(int *)(iVar3 + 0x1bc) + iStack_78;
+      iVar4 = *(int *)(iVar3 + 0x128) + ((uint)param_2 & 0xffff) * 8;
+      if (((*(int *)(iVar4 + 4) != 0) &&
+          (iVar4 = (**(code **)(**(int **)(iVar4 + 4) + 0xc))(), iVar4 != 0)) &&
+         (cVar1 = FUN_306464e0(local_2c,iVar3,abStack_50,0,0,&stack0xffffff78), cVar1 == '\x01')) {
+        bCVector::operator-=(abStack_50,(bCVector *)(piVar10 + 1));
+        fVar11 = bCVector::GetMagnitude(abStack_50);
+        if ((piVar10[0xe] != 2) || (fVar11 <= (float)piVar10[0x10])) {
+          if (iVar7 == 0) {
+            this_00 = (eCAnimationCollisionDesc *)new(0x68,0x6bc);
+            if (this_00 == (eCAnimationCollisionDesc *)0x0) {
+              iVar7 = 0;
+            }
+            else {
+              iVar7 = eCAnimationCollisionDesc::eCAnimationCollisionDesc(this_00);
+            }
+            *unaff_retaddr = iVar7;
+            iVar13 = iVar7;
+          }
+          iStack_80 = -1;
+          local_68 = 0;
+          if (0 < *(int *)(iVar4 + 4)) {
+            do {
+              iVar9 = *(int *)(*(int *)(iVar4 + 0xc) + local_68 * 4);
+              if ((*(int *)(iVar9 + 8) <= unaff_EBP) &&
+                 (unaff_EBP < *(int *)(iVar9 + 0x10) + *(int *)(iVar9 + 8))) {
+                local_6c = CONCAT22(*(short *)(iVar9 + 0x14) + *(short *)(iVar3 + 0x18c),
+                                    param_2._0_2_);
+                uVar5 = (local_6c >> 4) % *(uint *)(iStack_74 + 0x5c);
+                uVar8 = 0;
+                if (uVar5 < *(uint *)(iStack_74 + 0x5c)) {
+                  for (puVar6 = *(uint **)(*(int *)(iStack_74 + 0x58) + uVar5 * 4);
+                      puVar6 != (uint *)0x0; puVar6 = (uint *)puVar6[2]) {
+                    if (local_6c == *puVar6) {
+                      uVar8 = puVar6[1];
+                      break;
+                    }
+                  }
+                }
+                iStack_80 = *(int *)(iVar7 + 0x60);
+                if (iStack_80 != 0) {
+                  puVar6 = (uint *)(*(int *)(iVar7 + 0x5c) + iStack_80 * 4);
+                  do {
+                    puVar6 = puVar6 + -1;
+                    iStack_80 = iStack_80 + -1;
+                    if (uVar8 == *puVar6) {
+                      if (-1 < iStack_80) goto LAB_300dd798;
+                      break;
+                    }
+                  } while (iStack_80 != 0);
+                }
+                thunk_FUN_300e9320(uVar8);
+                iStack_80 = *(int *)(iVar7 + 0x60) + -1;
+              }
+LAB_300dd798:
+              local_68 = local_68 + 1;
+            } while (local_68 < *(int *)(iVar4 + 4));
+          }
+          iVar3 = *(int *)(iVar4 + 0x20);
+          iVar4 = *(int *)(iVar4 + 0x10);
+          if ((piStack_4[0xe] == 2) && (*(int *)(iVar7 + 0x14) != 0)) {
+            this_01 = *(bCTriangle **)(iVar7 + 0x10);
+            bCTriangle::SetA(this_01,(bCVector *)(iVar4 + *(int *)(iVar3 + unaff_EBP * 4) * 0xc));
+            bCTriangle::SetB(this_01,(bCVector *)(iVar4 + *(int *)(iVar3 + 4 + unaff_EBP * 4) * 0xc)
+                            );
+            bCTriangle::SetC(this_01,(bCVector *)(iVar4 + *(int *)(iVar3 + 8 + unaff_EBP * 4) * 0xc)
+                            );
+          }
+          else {
+            iVar9 = *(int *)(iVar7 + 0x14) + 1;
+            thunk_FUN_300e4a50(iVar9,(iVar9 != 0) - 1);
+            *(int *)(iVar7 + 0x14) = iVar9;
+            this_01 = (bCTriangle *)(iVar9 * 0x2c + -0x2c + *(int *)(iVar7 + 0x10));
+            bCTriangle::SetA(this_01,(bCVector *)(iVar4 + *(int *)(iVar3 + unaff_EBP * 4) * 0xc));
+            bCTriangle::SetB(this_01,(bCVector *)(iVar4 + *(int *)(iVar3 + 4 + unaff_EBP * 4) * 0xc)
+                            );
+            bCTriangle::SetC(this_01,(bCVector *)(iVar4 + *(int *)(iVar3 + 8 + unaff_EBP * 4) * 0xc)
+                            );
+            iVar7 = iVar13;
+          }
+          *(int *)(this_01 + 0x28) = iStack_80;
+          *(float *)(this_01 + 0x24) = fVar11;
+          piVar10 = piStack_4;
+          if (piStack_4[0xe] == 1) {
+            bCVector::~bCVector(abStack_50);
+            bCVector::~bCVector(local_5c);
+            return true;
+          }
+        }
+      }
+      iVar3 = *(int *)(iStack_74 + 0xc);
+      iStack_78 = iStack_78 + 400;
+      iStack_64 = iStack_64 + 1;
+    } while (iStack_64 < *(int *)(iVar3 + 0x1b4));
+  }
+  bCVector::~bCVector(abStack_50);
+  bCVector::~bCVector(local_5c);
+  return iVar7 != 0;
+}
+
+

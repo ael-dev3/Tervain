@@ -1,0 +1,2 @@
+; 10006e83 bCPropertyTypeBase::GetPropertyName
+10006e83 | e9681c0800 | JMP 0x10088af0

@@ -1,0 +1,51 @@
+; 1002aed0 FUN_1002aed0
+1002aed0 | d901 | FLD float ptr [ECX]
+1002aed2 | 8b542404 | MOV EDX,dword ptr [ESP + 0x4]
+1002aed6 | d902 | FLD float ptr [EDX]
+1002aed8 | d9c9 | FXCH
+1002aeda | dfe9 | FUCOMIP ST0,ST1
+1002aedc | ddd8 | FSTP ST0
+1002aede | 9f | LAHF
+1002aedf | f6c444 | TEST AH,0x44
+1002aee2 | 7b05 | JNP 0x1002aee9
+; 1002aee4 LAB_1002aee4
+1002aee4 | 32c0 | XOR AL,AL
+1002aee6 | c20400 | RET 0x4
+; 1002aee9 LAB_1002aee9
+1002aee9 | d94204 | FLD float ptr [EDX + 0x4]
+1002aeec | d94104 | FLD float ptr [ECX + 0x4]
+1002aeef | dfe9 | FUCOMIP ST0,ST1
+1002aef1 | ddd8 | FSTP ST0
+1002aef3 | 9f | LAHF
+1002aef4 | f6c444 | TEST AH,0x44
+1002aef7 | 7aeb | JP 0x1002aee4
+1002aef9 | d94208 | FLD float ptr [EDX + 0x8]
+1002aefc | d94108 | FLD float ptr [ECX + 0x8]
+1002aeff | dfe9 | FUCOMIP ST0,ST1
+1002af01 | ddd8 | FSTP ST0
+1002af03 | 9f | LAHF
+1002af04 | f6c444 | TEST AH,0x44
+1002af07 | 7adb | JP 0x1002aee4
+1002af09 | d9420c | FLD float ptr [EDX + 0xc]
+1002af0c | d9410c | FLD float ptr [ECX + 0xc]
+1002af0f | dfe9 | FUCOMIP ST0,ST1
+1002af11 | ddd8 | FSTP ST0
+1002af13 | 9f | LAHF
+1002af14 | f6c444 | TEST AH,0x44
+1002af17 | 7acb | JP 0x1002aee4
+1002af19 | d94210 | FLD float ptr [EDX + 0x10]
+1002af1c | d94110 | FLD float ptr [ECX + 0x10]
+1002af1f | dfe9 | FUCOMIP ST0,ST1
+1002af21 | ddd8 | FSTP ST0
+1002af23 | 9f | LAHF
+1002af24 | f6c444 | TEST AH,0x44
+1002af27 | 7abb | JP 0x1002aee4
+1002af29 | d94214 | FLD float ptr [EDX + 0x14]
+1002af2c | d94114 | FLD float ptr [ECX + 0x14]
+1002af2f | dfe9 | FUCOMIP ST0,ST1
+1002af31 | ddd8 | FSTP ST0
+1002af33 | 9f | LAHF
+1002af34 | f6c444 | TEST AH,0x44
+1002af37 | 7aab | JP 0x1002aee4
+1002af39 | b001 | MOV AL,0x1
+1002af3b | c20400 | RET 0x4

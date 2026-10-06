@@ -1,0 +1,54 @@
+; 1008ebe0 bTPropertyObject<bCObsoleteClass,bCObjectRefBase>::vfunction6
+1008ebe0 | 53 | PUSH EBX
+1008ebe1 | 56 | PUSH ESI
+1008ebe2 | 8b74240c | MOV ESI,dword ptr [ESP + 0xc]
+1008ebe6 | 57 | PUSH EDI
+1008ebe7 | 56 | PUSH ESI
+1008ebe8 | 8bf9 | MOV EDI,ECX
+1008ebea | e8e752f7ff | CALL 0x10003ed6
+1008ebef | 0fb7d8 | MOVZX EBX,AX
+1008ebf2 | 8d442410 | LEA EAX,[ESP + 0x10]
+1008ebf6 | 50 | PUSH EAX
+1008ebf7 | 8bce | MOV ECX,ESI
+1008ebf9 | c744241400000000 | MOV dword ptr [ESP + 0x14],0x0
+1008ec01 | e8207bf7ff | CALL 0x10006726
+1008ec06 | e89475f7ff | CALL 0x1000619f
+1008ec0b | 50 | PUSH EAX
+1008ec0c | e88e75f7ff | CALL 0x1000619f
+1008ec11 | 8bc8 | MOV ECX,EAX
+1008ec13 | e8a142f7ff | CALL 0x10002eb9
+1008ec18 | 84c0 | TEST AL,AL
+1008ec1a | 7438 | JZ 0x1008ec54
+1008ec1c | 8b4c2410 | MOV ECX,dword ptr [ESP + 0x10]
+1008ec20 | 51 | PUSH ECX
+1008ec21 | e8883ef7ff | CALL 0x10002aae
+1008ec26 | 8bc8 | MOV ECX,EAX
+1008ec28 | e8ab50f7ff | CALL 0x10003cd8
+1008ec2d | 8b16 | MOV EDX,dword ptr [ESI]
+1008ec2f | 8b5204 | MOV EDX,dword ptr [EDX + 0x4]
+1008ec32 | 8bf8 | MOV EDI,EAX
+1008ec34 | 8b442410 | MOV EAX,dword ptr [ESP + 0x10]
+1008ec38 | 50 | PUSH EAX
+1008ec39 | 57 | PUSH EDI
+1008ec3a | 8bce | MOV ECX,ESI
+1008ec3c | ffd2 | CALL EDX
+1008ec3e | 57 | PUSH EDI
+1008ec3f | e86a3ef7ff | CALL 0x10002aae
+1008ec44 | 8bc8 | MOV ECX,EAX
+1008ec46 | e8c734f7ff | CALL 0x10002112
+1008ec4b | 5f | POP EDI
+1008ec4c | 5e | POP ESI
+1008ec4d | 668bc3 | MOV AX,BX
+1008ec50 | 5b | POP EBX
+1008ec51 | c20400 | RET 0x4
+1008ec54 | 8b07 | MOV EAX,dword ptr [EDI]
+1008ec56 | 8b501c | MOV EDX,dword ptr [EAX + 0x1c]
+1008ec59 | 53 | PUSH EBX
+1008ec5a | 56 | PUSH ESI
+1008ec5b | 8bcf | MOV ECX,EDI
+1008ec5d | ffd2 | CALL EDX
+1008ec5f | 5f | POP EDI
+1008ec60 | 5e | POP ESI
+1008ec61 | 668bc3 | MOV AX,BX
+1008ec64 | 5b | POP EBX
+1008ec65 | c20400 | RET 0x4

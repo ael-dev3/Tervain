@@ -1,0 +1,2 @@
+; 30022430 eCVisualAnimation_PS::GetBoneMatrix
+30022430 | e9bbb90700 | JMP 0x3009ddf0

@@ -1,0 +1,10 @@
+/* ENTRY 10061650 | FUN_10061650 | STATUS decompiled | 3 ms */
+
+void __thiscall FUN_10061650(bCInfDoubleCylinder *param_1,bCVector *param_2)
+
+{
+  bCInfDoubleCylinder::Cull(param_1,param_2,false);
+  return;
+}
+
+

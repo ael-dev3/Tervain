@@ -1,0 +1,28 @@
+/* ENTRY 10006758 | bCMatrix::GetInverted | STATUS decompiled | 7 ms */
+
+/* public: void __thiscall bCMatrix::GetInverted(class bCMatrix &)const  */
+
+void __thiscall bCMatrix::GetInverted(bCMatrix *this,bCMatrix *param_1)
+
+{
+  int iVar1;
+  int iVar2;
+  
+                    /* 0x6758  2561  ?GetInverted@bCMatrix@@QBEXAAV1@@Z */
+  if ((((*(float *)(this + 0xc) == 0.0) && (*(float *)(this + 0x1c) == 0.0)) &&
+      (*(float *)(this + 0x2c) == 0.0)) && (*(float *)(this + 0x3c) == 1.0)) {
+    iVar1 = 0x10;
+    iVar2 = (int)param_1 - (int)this;
+    do {
+      iVar1 = iVar1 + -1;
+      *(undefined4 *)(this + iVar2) = *(undefined4 *)this;
+      this = this + 4;
+    } while (iVar1 != 0);
+    Invert(param_1);
+    return;
+  }
+  GetInvertedExcentric(this,param_1);
+  return;
+}
+
+

@@ -1,0 +1,41 @@
+/* ENTRY 30033eb0 | eCLinkContainer_PS::RemoveJoint | STATUS decompiled | 14 ms */
+
+/* public: void __thiscall eCLinkContainer_PS::RemoveJoint(class eCJoint &) */
+
+void __thiscall eCLinkContainer_PS::RemoveJoint(eCLinkContainer_PS *this,eCJoint *param_1)
+
+{
+  int iVar1;
+  int iVar2;
+  int *piVar3;
+  
+                    /* 0x33eb0  12506  ?RemoveJoint@eCLinkContainer_PS@@QAEXAAVeCJoint@@@Z */
+  iVar1 = (this->eCLinkContainer_PS_data).offset_0x4;
+  if (iVar1 != 0) {
+    piVar3 = (int *)((this->eCLinkContainer_PS_data).offset_0x0 + iVar1 * 4);
+    do {
+      piVar3 = piVar3 + -1;
+      iVar1 = iVar1 + -1;
+      if (param_1 == (eCJoint *)*piVar3) goto LAB_3034c2f8;
+    } while (iVar1 != 0);
+  }
+  iVar1 = -1;
+LAB_3034c2f8:
+  thunk_FUN_3034d230(iVar1);
+  if ((this->eCLinkContainer_PS_data).offset_0x18 == '\x01') {
+    iVar1 = 0;
+    (this->eCLinkContainer_PS_data).offset_0x18 = 0;
+    if (0 < (int)(this->eCLinkContainer_PS_data).offset_0x4) {
+      while (iVar2 = (**(code **)(*(int *)param_1 + 0xa8))(), iVar2 != 0) {
+        iVar1 = iVar1 + 1;
+        if ((int)(this->eCLinkContainer_PS_data).offset_0x4 <= iVar1) {
+          return;
+        }
+      }
+      (this->eCLinkContainer_PS_data).offset_0x18 = 1;
+    }
+  }
+  return;
+}
+
+

@@ -1,0 +1,3 @@
+; 200bbd70 bTPropertyType<gCDamageReceiver_PS,long>::vfunction1
+200bbd70 | 8b411c | MOV EAX,dword ptr [ECX + 0x1c]
+200bbd73 | c3 | RET

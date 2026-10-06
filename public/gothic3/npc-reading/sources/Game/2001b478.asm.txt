@@ -1,0 +1,2 @@
+; 2001b478 bTPropertyContainer<gELastFightAgainstPlayer>::vfunction5
+2001b478 | e9f3fe2d00 | JMP 0x202fb370

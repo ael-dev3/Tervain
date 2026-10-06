@@ -1,0 +1,17 @@
+/* ENTRY 10172370 | FUN_10172370 | STATUS decompiled | 7 ms */
+
+void FUN_10172370(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Engine\\Engine_Callback\\OnMovementModeChanged.cpp");
+  bCString::bCString(local_8,"ZS_Slide_Loop");
+  thunk_FUN_1001db60(local_8,&LAB_10001208,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

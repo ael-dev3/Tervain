@@ -1,0 +1,32 @@
+/* ENTRY 3075ceb0 | bTPropertyType<eCRigidBody_PS,float>::~bTPropertyType<eCRigidBody_PS,float> | STATUS decompiled | 14 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<eCRigidBody_PS,float>::~bTPropertyType<eCRigidBody_PS,float>
+          (bTPropertyType<eCRigidBody_PS,float> *this)
+
+{
+  bTPropertyType<eCRigidBody_PS,float> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"WakeUpCounter");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&eCRigidBody_PS::ms_PropertyMember_m_fWakeUpCounter,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_fWakeUpCounter = &vftable;
+  DAT_30aec0c8 = bTPropertyObjectType<eCRigidBody_PS,eCRigidBodyBase_PS>::
+                 ~bTPropertyObjectType<eCRigidBody_PS,eCRigidBodyBase_PS>();
+  _DAT_30aec0cc = 0x4c;
+  _DAT_30aec0d0 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&eCRigidBody_PS::ms_PropertyMember_m_fWakeUpCounter);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_30aec0c8,
+             (bCPropertyTypeBase *)&eCRigidBody_PS::ms_PropertyMember_m_fWakeUpCounter);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}
+
+

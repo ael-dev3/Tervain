@@ -1,0 +1,14 @@
+/* ENTRY 201a9520 | bTPOPureSmartPtr<gCInventory_PS>::bTPOPureSmartPtr<gCInventory_PS> | STATUS decompiled | 3 ms */
+
+bTPOPureSmartPtr<gCInventory_PS> * __thiscall
+bTPOPureSmartPtr<gCInventory_PS>::bTPOPureSmartPtr<gCInventory_PS>
+          (bTPOPureSmartPtr<gCInventory_PS> *this)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase((bCPropertyObjectBase *)this);
+  this->vftablePtr = &vftable;
+  (this->bTPOPureSmartPtr<gCInventory_PS>_data).offset_0x4 = (bCObjectRefBase *)0x0;
+  return this;
+}
+
+

@@ -1,0 +1,14 @@
+/* ENTRY 20213110 | gCCharacterAnimation::gCCharacterAnimation | STATUS decompiled | 3 ms */
+
+gCCharacterAnimation * __thiscall
+gCCharacterAnimation::gCCharacterAnimation(gCCharacterAnimation *this)
+
+{
+  this->vftablePtr = &vftable;
+  bCVector::bCVector((bCVector *)&(this->gCCharacterAnimation_data).field_0x20);
+  (this->gCCharacterAnimation_data).offset_0x3c = 0;
+  thunk_FUN_20213090();
+  return this;
+}
+
+

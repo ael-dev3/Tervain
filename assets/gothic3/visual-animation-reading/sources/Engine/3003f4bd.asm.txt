@@ -1,0 +1,2 @@
+; 3003f4bd eCResourceAnimationActor_PS::GetProprietaryFileExt
+3003f4bd | e9ee410500 | JMP 0x300936b0

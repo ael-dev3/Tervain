@@ -1,0 +1,17 @@
+/* ENTRY 10151500 | FUN_10151500 | STATUS decompiled | 5 ms */
+
+void FUN_10151500(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Player\\Player_States\\PS_Interact.cpp");
+  bCString::bCString(local_8,"PS_Interact_Alchemy");
+  thunk_FUN_1001db60(local_8,&LAB_100029aa,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

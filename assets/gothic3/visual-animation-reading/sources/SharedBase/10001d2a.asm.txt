@@ -1,0 +1,2 @@
+; 10001d2a bCVector::AccessY
+10001d2a | e9712e0200 | JMP 0x10024ba0

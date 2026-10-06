@@ -1,0 +1,2 @@
+; 10007829 bCVector::GetSquareMagnitude
+10007829 | e9f2dc0100 | JMP 0x10025520

@@ -1,0 +1,76 @@
+/* ENTRY 3000efd4 | eCVisualAnimation_PS::SetLookAtTarget | STATUS decompiled | 38 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::SetLookAtTarget(class eCEntity *,class bCString
+   const &) */
+
+void __thiscall
+eCVisualAnimation_PS::SetLookAtTarget
+          (eCVisualAnimation_PS *this,eCEntity *param_1,bCString *param_2)
+
+{
+  GetVersion *pGVar1;
+  int *piVar2;
+  bool bVar3;
+  eCEntity *peVar4;
+  eCVisualAnimationLoD *this_00;
+  eCResourceAnimationActor_PS *this_01;
+  eCResourceDataEntity *this_02;
+  bTObjArray<eCResourceAnimationActor_PS::eSLookAtConstraintData> *pbVar5;
+  bCString *pbVar6;
+  int iVar7;
+  int iVar8;
+  eEResourceCacheBehavior eVar9;
+  
+                    /* 0xefd4  13688
+                       ?SetLookAtTarget@eCVisualAnimation_PS@@QAEXPAVeCEntity@@ABVbCString@@@Z */
+  peVar4 = eCEntityProxy::GetEntity((eCEntityProxy *)&this[0x11].eCEntityPropertySet_data);
+  if ((peVar4 == param_1) &&
+     (bVar3 = bCString::operator==
+                        (param_2,(bCString *)&this[0x12].eCEntityPropertySet_data.offset_0x8), bVar3
+     )) {
+    return;
+  }
+  eCEntityProxy::SetEntity((eCEntityProxy *)&this[0x11].eCEntityPropertySet_data,param_1);
+  bCString::operator=((bCString *)&this[0x12].eCEntityPropertySet_data.offset_0x8,param_2);
+  if ((*(int *)&this[0xb].eCEntityPropertySet_data == 0) && (param_1 != (eCEntity *)0x0)) {
+    this_00 = (eCVisualAnimationLoD *)
+              eCVisualAnimationFactory::GetVisualAnimationLoD
+                        ((eCVisualAnimationFactory *)&this[7].eCEntityPropertySet_data.field_0x4);
+    this_01 = (eCResourceAnimationActor_PS *)eCVisualAnimationLoD::GetActor(this_00);
+    if (this_01 != (eCResourceAnimationActor_PS *)0x0) {
+      eVar9 = 1;
+      this_02 = (eCResourceDataEntity *)(*this_01->vftablePtr->GetEntity)(this_01);
+      eCResourceDataEntity::Load(this_02,eVar9);
+      pbVar5 = eCResourceAnimationActor_PS::GetLookAtConstraints(this_01);
+      iVar7 = 0;
+      if (0 < *(int *)(pbVar5 + 4)) {
+        iVar8 = 0;
+        do {
+          pbVar6 = (bCString *)(*(int *)pbVar5 + iVar8);
+          SetLookAtConstraint(this,pbVar6,(bCVector *)(pbVar6 + 8),(bCVector *)(pbVar6 + 0x14),
+                              *(float *)(*(int *)pbVar5 + 4 + iVar8));
+          iVar7 = iVar7 + 1;
+          iVar8 = iVar8 + 0x20;
+        } while (iVar7 < *(int *)(pbVar5 + 4));
+        return;
+      }
+    }
+  }
+  else {
+    iVar7 = 0;
+    if (0 < *(int *)&this[0xb].eCEntityPropertySet_data) {
+      do {
+        pGVar1 = (&(this[0xb].vftablePtr)->GetVersion)[iVar7];
+        piVar2 = *(int **)pGVar1;
+        if (piVar2 != (int *)0x0) {
+          (**(code **)(*piVar2 + 0x14))
+                    (CONCAT31((int3)((uint)pGVar1 >> 8),param_1 != (eCEntity *)0x0));
+        }
+        iVar7 = iVar7 + 1;
+      } while (iVar7 < *(int *)&this[0xb].eCEntityPropertySet_data);
+    }
+  }
+  return;
+}
+
+

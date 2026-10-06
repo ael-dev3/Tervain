@@ -1,0 +1,17 @@
+/* ENTRY 10116e60 | FUN_10116e60 | STATUS decompiled | 8 ms */
+
+void FUN_10116e60(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Tasks\\Reaction_Tasks\\ZS_Flee.cpp");
+  bCString::bCString(local_8,"ZS_Flee");
+  thunk_FUN_1001db60(local_8,&LAB_100016b8,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

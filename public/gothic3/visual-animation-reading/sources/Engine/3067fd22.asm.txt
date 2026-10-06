@@ -1,0 +1,36 @@
+; 3067fd22 FUN_3067fd22
+3067fd22 | 55 | PUSH EBP
+3067fd23 | 8bec | MOV EBP,ESP
+3067fd25 | 83ec08 | SUB ESP,0x8
+3067fd28 | 897dfc | MOV dword ptr [EBP + -0x4],EDI
+3067fd2b | 8975f8 | MOV dword ptr [EBP + -0x8],ESI
+3067fd2e | 8b750c | MOV ESI,dword ptr [EBP + 0xc]
+3067fd31 | 8b7d08 | MOV EDI,dword ptr [EBP + 0x8]
+3067fd34 | 8b4d10 | MOV ECX,dword ptr [EBP + 0x10]
+3067fd37 | c1e907 | SHR ECX,0x7
+3067fd3a | eb06 | JMP 0x3067fd42
+3067fd42 | 660f6f06 | MOVDQA XMM0,xmmword ptr [ESI]
+3067fd46 | 660f6f4e10 | MOVDQA XMM1,xmmword ptr [ESI + 0x10]
+3067fd4b | 660f6f5620 | MOVDQA XMM2,xmmword ptr [ESI + 0x20]
+3067fd50 | 660f6f5e30 | MOVDQA XMM3,xmmword ptr [ESI + 0x30]
+3067fd55 | 660f7f07 | MOVDQA xmmword ptr [EDI],XMM0
+3067fd59 | 660f7f4f10 | MOVDQA xmmword ptr [EDI + 0x10],XMM1
+3067fd5e | 660f7f5720 | MOVDQA xmmword ptr [EDI + 0x20],XMM2
+3067fd63 | 660f7f5f30 | MOVDQA xmmword ptr [EDI + 0x30],XMM3
+3067fd68 | 660f6f6640 | MOVDQA XMM4,xmmword ptr [ESI + 0x40]
+3067fd6d | 660f6f6e50 | MOVDQA XMM5,xmmword ptr [ESI + 0x50]
+3067fd72 | 660f6f7660 | MOVDQA XMM6,xmmword ptr [ESI + 0x60]
+3067fd77 | 660f6f7e70 | MOVDQA XMM7,xmmword ptr [ESI + 0x70]
+3067fd7c | 660f7f6740 | MOVDQA xmmword ptr [EDI + 0x40],XMM4
+3067fd81 | 660f7f6f50 | MOVDQA xmmword ptr [EDI + 0x50],XMM5
+3067fd86 | 660f7f7760 | MOVDQA xmmword ptr [EDI + 0x60],XMM6
+3067fd8b | 660f7f7f70 | MOVDQA xmmword ptr [EDI + 0x70],XMM7
+3067fd90 | 8db680000000 | LEA ESI,[ESI + 0x80]
+3067fd96 | 8dbf80000000 | LEA EDI,[EDI + 0x80]
+3067fd9c | 49 | DEC ECX
+3067fd9d | 75a3 | JNZ 0x3067fd42
+3067fd9f | 8b75f8 | MOV ESI,dword ptr [EBP + -0x8]
+3067fda2 | 8b7dfc | MOV EDI,dword ptr [EBP + -0x4]
+3067fda5 | 8be5 | MOV ESP,EBP
+3067fda7 | 5d | POP EBP
+3067fda8 | c3 | RET

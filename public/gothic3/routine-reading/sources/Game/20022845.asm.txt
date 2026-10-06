@@ -1,0 +1,4 @@
+; 20022845 bTPropertyObjectType<gCArena_PS,eCEntityPropertySet>::vfunction2
+20022845 | e986723300 | JMP 0x20359ad0
+; 2002284f gCMusicSequencer::GetFragmentList
+; 2002284f Ordinal_3468

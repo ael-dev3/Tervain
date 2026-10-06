@@ -1,0 +1,163 @@
+; 201bfac0 FUN_201bfac0
+201bfac0 | 8b4c2404 | MOV ECX,dword ptr [ESP + 0x4]
+201bfac4 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+201bfac8 | 8b54240c | MOV EDX,dword ptr [ESP + 0xc]
+201bfacc | 83c1fe | ADD ECX,-0x2
+201bfacf | 83f970 | CMP ECX,0x70
+201bfad2 | c70000000000 | MOV dword ptr [EAX],0x0
+201bfad8 | c70200000000 | MOV dword ptr [EDX],0x0
+201bfade | 0f8793000000 | JA 0x201bfb77
+201bfae4 | 0fb689b8fb1b20 | MOVZX ECX,byte ptr [ECX + 0x201bfbb8]
+; 201bfaeb switchD_201bfaeb::switchD
+201bfaeb | ff248d84fb1b20 | JMP dword ptr [ECX*0x4 + 0x201bfb84]
+; 201bfaf2 switchD_201bfaeb::caseD_70
+201bfaf2 | c7000f000000 | MOV dword ptr [EAX],0xf
+201bfaf8 | b001 | MOV AL,0x1
+201bfafa | c21000 | RET 0x10
+; 201bfafd switchD_201bfaeb::caseD_b
+201bfafd | c70012000000 | MOV dword ptr [EAX],0x12
+201bfb03 | b001 | MOV AL,0x1
+201bfb05 | c21000 | RET 0x10
+; 201bfb08 switchD_201bfaeb::caseD_9
+201bfb08 | c70005000000 | MOV dword ptr [EAX],0x5
+201bfb0e | b001 | MOV AL,0x1
+201bfb10 | c21000 | RET 0x10
+; 201bfb13 switchD_201bfaeb::caseD_72
+201bfb13 | c70011000000 | MOV dword ptr [EAX],0x11
+201bfb19 | b001 | MOV AL,0x1
+201bfb1b | c21000 | RET 0x10
+; 201bfb1e switchD_201bfaeb::caseD_a
+201bfb1e | c70009000000 | MOV dword ptr [EAX],0x9
+201bfb24 | b001 | MOV AL,0x1
+201bfb26 | c21000 | RET 0x10
+; 201bfb29 switchD_201bfaeb::caseD_2
+201bfb29 | c70006000000 | MOV dword ptr [EAX],0x6
+201bfb2f | c70205000000 | MOV dword ptr [EDX],0x5
+201bfb35 | b001 | MOV AL,0x1
+201bfb37 | c21000 | RET 0x10
+; 201bfb3a switchD_201bfaeb::caseD_3
+; 201bfb3a switchD_201bfaeb::caseD_c
+; 201bfb3a switchD_201bfaeb::caseD_33
+; 201bfb3a switchD_201bfaeb::caseD_34
+201bfb3a | c70006000000 | MOV dword ptr [EAX],0x6
+201bfb40 | b001 | MOV AL,0x1
+201bfb42 | c21000 | RET 0x10
+; 201bfb45 switchD_201bfaeb::caseD_5
+; 201bfb45 switchD_201bfaeb::caseD_6
+201bfb45 | c70007000000 | MOV dword ptr [EAX],0x7
+201bfb4b | b001 | MOV AL,0x1
+201bfb4d | c21000 | RET 0x10
+; 201bfb50 switchD_201bfaeb::caseD_4
+; 201bfb50 switchD_201bfaeb::caseD_7
+201bfb50 | c7000e000000 | MOV dword ptr [EAX],0xe
+201bfb56 | b001 | MOV AL,0x1
+201bfb58 | c21000 | RET 0x10
+; 201bfb5b switchD_201bfaeb::caseD_d
+201bfb5b | c7000b000000 | MOV dword ptr [EAX],0xb
+201bfb61 | b001 | MOV AL,0x1
+201bfb63 | c21000 | RET 0x10
+; 201bfb66 switchD_201bfaeb::caseD_e
+201bfb66 | c7000c000000 | MOV dword ptr [EAX],0xc
+201bfb6c | c7020d000000 | MOV dword ptr [EDX],0xd
+201bfb72 | b001 | MOV AL,0x1
+201bfb74 | c21000 | RET 0x10
+; 201bfb77 switchD_201bfaeb::caseD_8
+; 201bfb77 switchD_201bfaeb::caseD_f
+; 201bfb77 switchD_201bfaeb::caseD_10
+; 201bfb77 switchD_201bfaeb::caseD_11
+; 201bfb77 switchD_201bfaeb::caseD_12
+; 201bfb77 switchD_201bfaeb::caseD_13
+; 201bfb77 switchD_201bfaeb::caseD_14
+; 201bfb77 switchD_201bfaeb::caseD_15
+; 201bfb77 switchD_201bfaeb::caseD_16
+; 201bfb77 switchD_201bfaeb::caseD_17
+; 201bfb77 switchD_201bfaeb::caseD_18
+; 201bfb77 switchD_201bfaeb::caseD_19
+; 201bfb77 switchD_201bfaeb::caseD_1a
+; 201bfb77 switchD_201bfaeb::caseD_1b
+; 201bfb77 switchD_201bfaeb::caseD_1c
+; 201bfb77 switchD_201bfaeb::caseD_1d
+; 201bfb77 switchD_201bfaeb::caseD_1e
+; 201bfb77 switchD_201bfaeb::caseD_1f
+; 201bfb77 switchD_201bfaeb::caseD_20
+; 201bfb77 switchD_201bfaeb::caseD_21
+; 201bfb77 switchD_201bfaeb::caseD_22
+; 201bfb77 switchD_201bfaeb::caseD_23
+; 201bfb77 switchD_201bfaeb::caseD_24
+; 201bfb77 switchD_201bfaeb::caseD_25
+; 201bfb77 switchD_201bfaeb::caseD_26
+; 201bfb77 switchD_201bfaeb::caseD_27
+; 201bfb77 switchD_201bfaeb::caseD_28
+; 201bfb77 switchD_201bfaeb::caseD_29
+; 201bfb77 switchD_201bfaeb::caseD_2a
+; 201bfb77 switchD_201bfaeb::caseD_2b
+; 201bfb77 switchD_201bfaeb::caseD_2c
+; 201bfb77 switchD_201bfaeb::caseD_2d
+; 201bfb77 switchD_201bfaeb::caseD_2e
+; 201bfb77 switchD_201bfaeb::caseD_2f
+; 201bfb77 switchD_201bfaeb::caseD_30
+; 201bfb77 switchD_201bfaeb::caseD_31
+; 201bfb77 switchD_201bfaeb::caseD_32
+; 201bfb77 switchD_201bfaeb::caseD_35
+; 201bfb77 switchD_201bfaeb::caseD_36
+; 201bfb77 switchD_201bfaeb::caseD_37
+; 201bfb77 switchD_201bfaeb::caseD_38
+; 201bfb77 switchD_201bfaeb::caseD_39
+; 201bfb77 switchD_201bfaeb::caseD_3a
+; 201bfb77 switchD_201bfaeb::caseD_3b
+; 201bfb77 switchD_201bfaeb::caseD_3c
+; 201bfb77 switchD_201bfaeb::caseD_3d
+; 201bfb77 switchD_201bfaeb::caseD_3e
+; 201bfb77 switchD_201bfaeb::caseD_3f
+; 201bfb77 switchD_201bfaeb::caseD_40
+; 201bfb77 switchD_201bfaeb::caseD_41
+; 201bfb77 switchD_201bfaeb::caseD_42
+; 201bfb77 switchD_201bfaeb::caseD_43
+; 201bfb77 switchD_201bfaeb::caseD_44
+; 201bfb77 switchD_201bfaeb::caseD_45
+; 201bfb77 switchD_201bfaeb::caseD_46
+; 201bfb77 switchD_201bfaeb::caseD_47
+; 201bfb77 switchD_201bfaeb::caseD_48
+; 201bfb77 switchD_201bfaeb::caseD_49
+; 201bfb77 switchD_201bfaeb::caseD_4a
+; 201bfb77 switchD_201bfaeb::caseD_4b
+; 201bfb77 switchD_201bfaeb::caseD_4c
+; 201bfb77 switchD_201bfaeb::caseD_4d
+; 201bfb77 switchD_201bfaeb::caseD_4e
+; 201bfb77 switchD_201bfaeb::caseD_4f
+; 201bfb77 switchD_201bfaeb::caseD_50
+; 201bfb77 switchD_201bfaeb::caseD_51
+; 201bfb77 switchD_201bfaeb::caseD_52
+; 201bfb77 switchD_201bfaeb::caseD_53
+; 201bfb77 switchD_201bfaeb::caseD_54
+; 201bfb77 switchD_201bfaeb::caseD_55
+; 201bfb77 switchD_201bfaeb::caseD_56
+; 201bfb77 switchD_201bfaeb::caseD_57
+; 201bfb77 switchD_201bfaeb::caseD_58
+; 201bfb77 switchD_201bfaeb::caseD_59
+; 201bfb77 switchD_201bfaeb::caseD_5a
+; 201bfb77 switchD_201bfaeb::caseD_5b
+; 201bfb77 switchD_201bfaeb::caseD_5c
+; 201bfb77 switchD_201bfaeb::caseD_5d
+; 201bfb77 switchD_201bfaeb::caseD_5e
+; 201bfb77 switchD_201bfaeb::caseD_5f
+; 201bfb77 switchD_201bfaeb::caseD_60
+; 201bfb77 switchD_201bfaeb::caseD_61
+; 201bfb77 switchD_201bfaeb::caseD_62
+; 201bfb77 switchD_201bfaeb::caseD_63
+; 201bfb77 switchD_201bfaeb::caseD_64
+; 201bfb77 switchD_201bfaeb::caseD_65
+; 201bfb77 switchD_201bfaeb::caseD_66
+; 201bfb77 switchD_201bfaeb::caseD_67
+; 201bfb77 switchD_201bfaeb::caseD_68
+; 201bfb77 switchD_201bfaeb::caseD_69
+; 201bfb77 switchD_201bfaeb::caseD_6a
+; 201bfb77 switchD_201bfaeb::caseD_6b
+; 201bfb77 switchD_201bfaeb::caseD_6c
+; 201bfb77 switchD_201bfaeb::caseD_6d
+; 201bfb77 switchD_201bfaeb::caseD_6e
+; 201bfb77 switchD_201bfaeb::caseD_6f
+; 201bfb77 switchD_201bfaeb::caseD_71
+201bfb77 | c70000000000 | MOV dword ptr [EAX],0x0
+201bfb7d | b001 | MOV AL,0x1
+201bfb7f | c21000 | RET 0x10

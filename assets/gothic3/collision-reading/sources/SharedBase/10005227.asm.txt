@@ -1,0 +1,4 @@
+; 10005227 ?Translate@bCBox@@QAEXM@Z
+10005227 | e9045a0200 | JMP 0x1002ac30
+; 1000522c bCVector4::Clear
+; 1000522c Ordinal_1634

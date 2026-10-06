@@ -1,0 +1,2 @@
+; 2001bcde bTPropertyType<gCStat,int>::vfunction15
+2001bcde | e9fd153800 | JMP 0x2039d2e0

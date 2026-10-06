@@ -1,0 +1,20 @@
+/* ENTRY 2028f6d0 | FUN_2028f6d0 | STATUS decompiled | 6 ms */
+
+bCOStream * __thiscall FUN_2028f6d0(int *param_1,bCOStream *param_2)
+
+{
+  int iVar1;
+  
+  bCOStream::operator<<(param_2,'\x01');
+  bCOStream::operator<<(param_2,param_1[1]);
+  iVar1 = 0;
+  if (0 < param_1[1]) {
+    do {
+      operator>>((bCString *)(*param_1 + iVar1 * 4),(bCOStream *)param_2);
+      iVar1 = iVar1 + 1;
+    } while (iVar1 < param_1[1]);
+  }
+  return param_2;
+}
+
+

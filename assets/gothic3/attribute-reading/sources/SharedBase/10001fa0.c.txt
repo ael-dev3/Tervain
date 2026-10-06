@@ -1,0 +1,21 @@
+/* ENTRY 10001fa0 | bCObjectRefBase::NotifyPropertyDeprecated | STATUS decompiled | 4 ms */
+
+/* public: virtual void __thiscall bCObjectRefBase::NotifyPropertyDeprecated(class bCString const
+   &,class bCString const &,class bCMemoryStream &,unsigned short)
+   bCObjectRefBase member function inherited by bCThreadObjectRefBase
+   bCObjectRefBase member function inherited by bCObsoleteClass
+   bCObjectRefBase member function inherited by bCEvent */
+
+void __thiscall
+bCObjectRefBase::NotifyPropertyDeprecated
+          (bCObjectRefBase *this,bCString *param_1,bCString *param_2,bCMemoryStream *param_3,
+          ushort param_4)
+
+{
+                    /* 0x1fa0  3809
+                       ?NotifyPropertyDeprecated@bCObjectRefBase@@UAEXABVbCString@@0AAVbCMemoryStream@@G@Z
+                        */
+  return;
+}
+
+

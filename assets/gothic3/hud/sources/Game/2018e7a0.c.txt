@@ -1,0 +1,14 @@
+/* ENTRY 2018e7a0 | gCHUDTabCtrlInventory::gCHUDTabCtrlInventory | STATUS decompiled | 8 ms */
+
+gCHUDTabCtrlInventory * __thiscall
+gCHUDTabCtrlInventory::gCHUDTabCtrlInventory(gCHUDTabCtrlInventory *this)
+
+{
+  CFFGFCTabCtrl::CFFGFCTabCtrl((CFFGFCTabCtrl *)this);
+  this->vftablePtr = &vftable;
+  CFFGFCImageList::CFFGFCImageList((CFFGFCImageList *)&(this->gCHUDTabCtrlInventory_data).field_0xc)
+  ;
+  return this;
+}
+
+

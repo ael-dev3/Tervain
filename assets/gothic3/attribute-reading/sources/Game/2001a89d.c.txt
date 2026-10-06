@@ -1,0 +1,11 @@
+/* ENTRY 2001a89d | bTPropertyObjectType<gCAttribute,bCObjectRefBase>::vfunction4 | STATUS decompiled | 2 ms */
+
+undefined1 * __thiscall
+bTPropertyObjectType<gCAttribute,bCObjectRefBase>::vfunction4
+          (bTPropertyObjectType<gCAttribute,bCObjectRefBase> *this)
+
+{
+  return &(this->bTPropertyObjectType<gCAttribute,bCObjectRefBase>_data).field_0x14;
+}
+
+

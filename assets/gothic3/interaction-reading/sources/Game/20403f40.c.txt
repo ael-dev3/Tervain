@@ -1,0 +1,16 @@
+/* ENTRY 20403f40 | ENGINE.DLL::eCEntityPropertySet::OnNotifyPropertyValueChangedExitEx | STATUS decompiled | 2 ms */
+
+bool __thiscall
+eCEntityPropertySet::OnNotifyPropertyValueChangedExitEx
+          (eCEntityPropertySet *this,char *param_1,bool param_2)
+
+{
+  bool bVar1;
+  
+                    /* WARNING: Could not recover jumptable at 0x20403f40. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bVar1 = OnNotifyPropertyValueChangedExitEx(this,param_1,param_2);
+  return bVar1;
+}
+
+

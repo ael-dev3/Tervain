@@ -1,0 +1,4 @@
+; 30033b4f ?GetChildrenCount@eCNode@@QBEHXZ
+30033b4f | e95ccb4400 | JMP 0x304806b0
+; 30033b54 eCGfxAssistantAdmin::ComputeNormalMap
+; 30033b54 Ordinal_3940

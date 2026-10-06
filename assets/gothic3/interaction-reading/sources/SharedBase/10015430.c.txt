@@ -1,0 +1,10 @@
+/* ENTRY 10015430 | FUN_10015430 | STATUS decompiled | 2 ms */
+
+bCString * __thiscall FUN_10015430(bCString *param_1,bCString *param_2)
+
+{
+  bCString::SetText(param_1,param_2);
+  return param_1;
+}
+
+

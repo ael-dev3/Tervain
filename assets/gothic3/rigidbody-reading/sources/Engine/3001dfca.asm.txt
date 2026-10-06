@@ -1,0 +1,4 @@
+; 3001dfca bTPropertyType<eCRigidBodyBase_PS,bool>::vfunction21
+3001dfca | e981723100 | JMP 0x30335250
+; 3001dfcf eCResourceMaterialObject_PS::AccessDetailMapChannel
+; 3001dfcf Ordinal_2641

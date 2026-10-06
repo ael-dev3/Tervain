@@ -1,0 +1,17 @@
+/* ENTRY 10129370 | FUN_10129370 | STATUS decompiled | 6 ms */
+
+void FUN_10129370(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Memory\\GetAttribute.cpp");
+  bCString::bCString(local_8,"SetHitPoints");
+  thunk_FUN_10017a50(local_8,thunk_FUN_10045b20,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

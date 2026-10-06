@@ -1,0 +1,13 @@
+/* ENTRY 3003b039 | eCEntity::GetPropertySetCount | STATUS decompiled | 8 ms */
+
+/* public: int __thiscall eCEntity::GetPropertySetCount(void)const  */
+
+int __thiscall eCEntity::GetPropertySetCount(eCEntity *this)
+
+{
+                    /* 0x3b039  8200  ?GetPropertySetCount@eCEntity@@QBEHXZ */
+  (*this->vftablePtr->OnReadContent)(this);
+  return (uint)(this->eCEntity_data).offset_0x10e;
+}
+
+

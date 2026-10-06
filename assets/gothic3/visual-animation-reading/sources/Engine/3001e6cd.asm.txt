@@ -1,0 +1,2 @@
+; 3001e6cd eCVisualAnimation_PS::GetBoneAngularDamping
+3001e6cd | e90e370400 | JMP 0x30061de0

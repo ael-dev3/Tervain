@@ -1,0 +1,20 @@
+/* ENTRY 300285d8 | eCSpringAndDamperEffector::SetSpringMaxStretchForce | STATUS decompiled | 10 ms */
+
+/* public: void __thiscall eCSpringAndDamperEffector::SetSpringMaxStretchForce(float const &) */
+
+void __thiscall
+eCSpringAndDamperEffector::SetSpringMaxStretchForce(eCSpringAndDamperEffector *this,float *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x285d8  14264
+                       ?SetSpringMaxStretchForce@eCSpringAndDamperEffector@@QAEXABM@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"SpringMaxStretchForce",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  (this->eCEffector_data).offset_0x68 = *param_1;
+  (*pNVar1)(this,"SpringMaxStretchForce",false);
+  return;
+}
+
+

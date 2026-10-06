@@ -1,0 +1,94 @@
+/* ENTRY 2011e700 | FUN_2011e700 | STATUS decompiled | 92 ms */
+
+void __thiscall FUN_2011e700(void *this,char param_2)
+
+{
+  bool bVar1;
+  bCMemoryAdmin *this_00;
+  gCNavigationAdmin *this_01;
+  bTValArray<gCNavigation_PS*> *pbVar2;
+  int *piVar3;
+  int iVar4;
+  eCNode *this_02;
+  bCPropertyID *pbVar5;
+  eCEntity *peVar6;
+  eCEntity *peVar7;
+  eCEntityProxy *peVar8;
+  eCEntityProxy *peVar9;
+  int *piVar10;
+  int iVar11;
+  void *pvVar12;
+  eCEntityProxy eStack_1c;
+  
+  if ((param_2 != '\0') && (*(int *)((int)this + 0x4c) != 0)) {
+    thunk_FUN_20078cc0(*(int *)((int)this + 0x4c),*(undefined4 *)((int)this + 0x54));
+    pvVar12 = *(void **)((int)this + 0x4c);
+    this_00 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(this_00,pvVar12);
+    *(undefined4 *)((int)this + 0x4c) = 0;
+    *(undefined4 *)((int)this + 0x50) = 0;
+    *(undefined4 *)((int)this + 0x54) = 0;
+  }
+  this_01 = (gCNavigationAdmin *)thunk_FUN_20079ea0();
+  pbVar2 = gCNavigationAdmin::GetNavigationPSList(this_01);
+  _param_2 = 0;
+  if (0 < *(int *)(pbVar2 + 4)) {
+    do {
+      piVar3 = (int *)(**(code **)(**(int **)(*(int *)pbVar2 + _param_2 * 4) + 0x68))();
+      if ((piVar3 != (int *)0x0) && (iVar4 = (**(code **)(*piVar3 + 0xec))(0x1e), iVar4 != 0)) {
+        this_02 = (eCNode *)(**(code **)(*(int *)this + 0x68))();
+        pbVar5 = eCNode::GetID(this_02);
+        bVar1 = bCPropertyID::operator!=((bCPropertyID *)(iVar4 + 0x50),pbVar5);
+        if (!bVar1) {
+          peVar6 = (eCEntity *)(**(code **)(**(int **)(*(int *)pbVar2 + _param_2 * 4) + 0x68))();
+          iVar4 = 0;
+          if (0 < *(int *)((int)this + 0x50)) {
+            iVar11 = 0;
+            do {
+              peVar7 = eCEntityProxy::GetEntity
+                                 ((eCEntityProxy *)(*(int *)((int)this + 0x4c) + iVar11));
+              if (peVar7 == peVar6) break;
+              iVar4 = iVar4 + 1;
+              iVar11 = iVar11 + 0x1c;
+            } while (iVar4 < *(int *)((int)this + 0x50));
+          }
+          if (iVar4 == *(int *)((int)this + 0x50)) {
+            peVar8 = (eCEntityProxy *)eCEntityProxy::eCEntityProxy(&eStack_1c,peVar6);
+            piVar3 = (int *)((int)this + 0x4c);
+            iVar4 = *(int *)((int)this + 0x50) + 1;
+            thunk_FUN_200799b0(iVar4,(iVar4 != 0) - 1);
+            if (iVar4 < *(int *)((int)this + 0x50)) {
+              piVar10 = (int *)(*piVar3 + iVar4 * 0x1c);
+              for (iVar11 = *(int *)((int)this + 0x50) - iVar4; iVar11 != 0; iVar11 = iVar11 + -1) {
+                (**(code **)(*piVar10 + 0x1c))(0);
+                piVar10 = piVar10 + 7;
+              }
+              peVar9 = (eCEntityProxy *)(*(int *)((int)this + 0x50) - iVar4);
+              eCEntityProxy::~eCEntityProxy
+                        (peVar9,(eCEntityProxy *)(*piVar3 + iVar4 * 0x1c),(int)peVar9);
+            }
+            *(int *)((int)this + 0x50) = iVar4;
+            peVar9 = (eCEntityProxy *)(*piVar3 + -0x1c + iVar4 * 0x1c);
+            (**(code **)(*(int *)(*piVar3 + -0x1c + iVar4 * 0x1c) + 0x1c))(0);
+            peVar9->vftablePtr = (eCEntityProxy_vftable *)0x0;
+            (peVar9->eCEntityProxy_data).offset_0x0 = 0;
+            (peVar9->eCEntityProxy_data).offset_0x4 = 0;
+            (peVar9->eCEntityProxy_data).offset_0x8 = 0;
+            (peVar9->eCEntityProxy_data).offset_0xc = 0;
+            (peVar9->eCEntityProxy_data).offset_0x10 = 0;
+            (peVar9->eCEntityProxy_data).offset_0x14 = 0;
+            eCEntityProxy::eCEntityProxy(peVar9);
+                    /* inlined constructor: eCEntityProxy::eCEntityProxy */
+            peVar9->vftablePtr = &eCEntityProxy::vftable;
+            eCEntityProxy::operator=(peVar9,peVar8);
+            eCEntityProxy::~eCEntityProxy(&eStack_1c);
+          }
+        }
+      }
+      _param_2 = _param_2 + 1;
+    } while (_param_2 < *(int *)(pbVar2 + 4));
+  }
+  return;
+}
+
+

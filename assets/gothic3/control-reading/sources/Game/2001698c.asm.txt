@@ -1,0 +1,2 @@
+; 2001698c ?Write@gCCharacterControl_PS@@UAE?AW4bEResult@@AAVbCOStream@@@Z
+2001698c | e94f242000 | JMP 0x20218de0

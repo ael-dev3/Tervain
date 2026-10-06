@@ -1,0 +1,32 @@
+/* ENTRY 20016c61 | gCCharacterControl_PS::Invalidate | STATUS decompiled | 16 ms */
+
+/* protected: void __thiscall gCCharacterControl_PS::Invalidate(void) */
+
+void __thiscall gCCharacterControl_PS::Invalidate(gCCharacterControl_PS *this)
+
+{
+  bCMatrix *pbVar1;
+  
+                    /* 0x16c61  4955  ?Invalidate@gCCharacterControl_PS@@IAEXXZ */
+  (this->gCCharacterControl_PS_data).offset_0x30 = 0;
+  (this->gCCharacterControl_PS_data).offset_0x34 = 0x3d4ccccd;
+  (this->gCCharacterControl_PS_data).offset_0x2c = 0;
+  (this->gCCharacterControl_PS_data).offset_0x28 = 0x3f800000;
+  (this->gCCharacterControl_PS_data).offset_0x38 = 0xffffffff;
+  (this->gCCharacterControl_PS_data).offset_0x3c = 0xffffffff;
+  (this->gCCharacterControl_PS_data).offset_0x40 = 0xffffffff;
+  (this->gCCharacterControl_PS_data).offset_0x44 = 0xffffffff;
+  (this->gCCharacterControl_PS_data).offset_0x48 = 0xffffffff;
+  (this->gCCharacterControl_PS_data).offset_0x4c = 0xffffffff;
+  (this->gCCharacterControl_PS_data).offset_0x58 = 0x43b40000;
+  (this->gCCharacterControl_PS_data).offset_0x50 = (gCCharacterControl_PS)0x0;
+  pbVar1 = bCMatrix::GetIdentity();
+  bCMatrix::operator=((bCMatrix *)&(this->gCCharacterControl_PS_data).field_0x68,pbVar1);
+  (this->gCCharacterControl_PS_data).offset_0xa8 = 3;
+  (this->gCCharacterControl_PS_data).offset_0x51 = (gCCharacterControl_PS)0x1;
+  bCVector::Clear((bCVector *)&(this->gCCharacterControl_PS_data).field_0x5c);
+  (this->gCCharacterControl_PS_data).offset_0x54 = 0;
+  return;
+}
+
+

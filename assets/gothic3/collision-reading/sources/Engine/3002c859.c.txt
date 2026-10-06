@@ -1,0 +1,18 @@
+/* ENTRY 3002c859 | eCCollisionShape::SetFileVersion | STATUS decompiled | 113 ms */
+
+/* public: void __thiscall eCCollisionShape::SetFileVersion(unsigned short const &) */
+
+void __thiscall eCCollisionShape::SetFileVersion(eCCollisionShape *this,ushort *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x2c859  13386  ?SetFileVersion@eCCollisionShape@@QAEXABG@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"FileVersion",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  (this->eCCollisionShape_data).offset_0x36 = *param_1;
+  (*pNVar1)(this,"FileVersion",false);
+  return;
+}
+
+

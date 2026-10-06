@@ -1,0 +1,2 @@
+; 2002eaff bTPropertyType<gCClock_PS,unsigned_long>::vfunction8
+2002eaff | e91cb51d00 | JMP 0x2020a020

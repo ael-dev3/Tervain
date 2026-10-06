@@ -1,0 +1,49 @@
+/* ENTRY 202e5270 | FUN_202e5270 | STATUS decompiled | 17 ms */
+
+bCIStream * __thiscall FUN_202e5270(int *param_1,bCIStream *param_2)
+
+{
+  int iVar1;
+  ulong uVar2;
+  bCMemoryAdmin *this;
+  void *pvVar3;
+  int iVar4;
+  int iVar5;
+  ulong uVar6;
+  uchar local_5;
+  ulong local_4;
+  
+  bCIStream::operator>>(param_2,&local_5);
+  local_4 = 0;
+  bCIStream::operator>>(param_2,&local_4);
+  uVar2 = local_4;
+  if ((local_4 != 0) && (iVar4 = param_1[2], iVar4 < (int)local_4)) {
+    uVar6 = local_4 * 0x48;
+    pvVar3 = (void *)*param_1;
+    this = bCMemoryAdmin::GetInstance();
+    pvVar3 = bCMemoryAdmin::Realloc(this,pvVar3,uVar6);
+    *param_1 = (int)pvVar3;
+    thunk_FUN_202e2150((void *)((int)pvVar3 + param_1[2] * 0x48),uVar2 - iVar4);
+    param_1[2] = uVar2;
+  }
+  if ((int)uVar2 < param_1[1]) {
+    thunk_FUN_202e3040(*param_1 + uVar2 * 0x48,param_1[1] - uVar2);
+    thunk_FUN_202e2150(*param_1 + uVar2 * 0x48,param_1[1] - uVar2);
+  }
+  iVar4 = 0;
+  param_1[1] = uVar2;
+  if (0 < (int)uVar2) {
+    iVar5 = 0;
+    do {
+      iVar1 = *param_1;
+      eCPropertySetProxy::operator<<((eCPropertySetProxy *)(iVar1 + iVar5),(bCIStream *)param_2);
+      eCPropertySetProxy::operator<<((eCPropertySetProxy *)(iVar1 + iVar5) + 1,(bCIStream *)param_2)
+      ;
+      iVar4 = iVar4 + 1;
+      iVar5 = iVar5 + 0x48;
+    } while (iVar4 < param_1[1]);
+  }
+  return param_2;
+}
+
+

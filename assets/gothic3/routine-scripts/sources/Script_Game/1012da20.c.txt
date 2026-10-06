@@ -1,0 +1,17 @@
+/* ENTRY 1012da20 | FUN_1012da20 | STATUS decompiled | 7 ms */
+
+void FUN_1012da20(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Commands\\AI_Dialog.cpp");
+  bCString::bCString(local_8,"_AI_SayGuardNews");
+  thunk_FUN_1004aa50(local_8,&LAB_100030bc,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

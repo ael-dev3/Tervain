@@ -1,0 +1,12 @@
+/* ENTRY 10007b94 | bCSphere::AccessPosition | STATUS decompiled | 1 ms */
+
+/* public: class bCVector & __thiscall bCSphere::AccessPosition(void) */
+
+bCVector * __thiscall bCSphere::AccessPosition(bCSphere *this)
+
+{
+                    /* 0x7b94  1470  ?AccessPosition@bCSphere@@QAEAAVbCVector@@XZ */
+  return (bCVector *)(this + 4);
+}
+
+

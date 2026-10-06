@@ -1,0 +1,4 @@
+; 300018a7 bTPropertyObjectType<eCCollisionShape,bCObjectRefBase>::vfunction3
+300018a7 | e954a13500 | JMP 0x3035ba00
+; 300018b1 eCSpeedTree_PS::SetEnableWind
+; 300018b1 Ordinal_13323

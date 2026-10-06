@@ -1,0 +1,2 @@
+; 3000d4ea ?GetWorldMatrix@eCEntity@@QBEABVbCMatrix@@XZ
+3000d4ea | e931614a00 | JMP 0x304b3620

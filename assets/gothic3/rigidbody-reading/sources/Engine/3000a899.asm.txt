@@ -1,0 +1,4 @@
+; 3000a899 ?Create@eCRigidBodyBase_PS@@UAE?AW4bEResult@@XZ
+3000a899 | e9528c3200 | JMP 0x303334f0
+; 3000a8a3 eCImageList::operator>>
+; 3000a8a3 Ordinal_1887

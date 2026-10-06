@@ -1,0 +1,2 @@
+; 2002a9be bTPropertyObject<gCCharacterMovement_PS,gCMovementBase_PS>::scalar_deleting_destructor
+2002a9be | e96d912000 | JMP 0x20233b30

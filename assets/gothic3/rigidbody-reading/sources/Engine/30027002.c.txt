@@ -1,0 +1,11 @@
+/* ENTRY 30027002 | bTPropertyObjectType<eCRigidBodyBase_PS,eCEntityPropertySet>::vfunction3 | STATUS decompiled | 3 ms */
+
+undefined1 * __thiscall
+bTPropertyObjectType<eCRigidBodyBase_PS,eCEntityPropertySet>::vfunction3
+          (bTPropertyObjectType<eCRigidBodyBase_PS,eCEntityPropertySet> *this)
+
+{
+  return &(this->bTPropertyObjectType<eCRigidBodyBase_PS,eCEntityPropertySet>_data).field_0x14;
+}
+
+

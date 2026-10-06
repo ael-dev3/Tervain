@@ -1,0 +1,3 @@
+; 2021ce80 bTPropertyType<gCCharacterControl_PS,bTPropertyContainer<gESessionKey>_>::vfunction5
+2021ce80 | 8b4118 | MOV EAX,dword ptr [ECX + 0x18]
+2021ce83 | c3 | RET

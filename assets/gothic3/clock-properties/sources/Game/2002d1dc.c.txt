@@ -1,0 +1,12 @@
+/* ENTRY 2002d1dc | gCClock_PS::GetMinute | STATUS decompiled | 7 ms */
+
+/* public: unsigned long const & __thiscall gCClock_PS::GetMinute(void)const  */
+
+ulong * __thiscall gCClock_PS::GetMinute(gCClock_PS *this)
+
+{
+                    /* 0x2d1dc  3791  ?GetMinute@gCClock_PS@@QBEABKXZ */
+  return (ulong *)&(this->gCClock_PS_data).field_0x1c;
+}
+
+

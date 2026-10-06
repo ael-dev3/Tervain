@@ -1,0 +1,20 @@
+; 3009d040 FUN_3009d040
+3009d040 | 51 | PUSH ECX
+3009d041 | b801000000 | MOV EAX,0x1
+3009d046 | 8405b4a2ad30 | TEST byte ptr [0x30ada2b4],AL
+3009d04c | 7535 | JNZ 0x3009d083
+3009d04e | 0905b4a2ad30 | OR dword ptr [0x30ada2b4],EAX
+3009d054 | 68d4f08130 | PUSH 0x3081f0d4
+3009d059 | 8d4c2404 | LEA ECX,[ESP + 0x4]
+3009d05d | ff155cdbaf30 | CALL dword ptr [0x30afdb5c]
+3009d063 | 8d0424 | LEA EAX,[ESP]
+3009d066 | 50 | PUSH EAX
+3009d067 | ff15a4daaf30 | CALL dword ptr [0x30afdaa4]
+3009d06d | 8bc8 | MOV ECX,EAX
+3009d06f | ff15fcc9af30 | CALL dword ptr [0x30afc9fc]
+3009d075 | 8d0c24 | LEA ECX,[ESP]
+3009d078 | a3b0a2ad30 | MOV [0x30ada2b0],EAX
+3009d07d | ff15dcdbaf30 | CALL dword ptr [0x30afdbdc]
+3009d083 | a1b0a2ad30 | MOV EAX,[0x30ada2b0]
+3009d088 | 59 | POP ECX
+3009d089 | c3 | RET

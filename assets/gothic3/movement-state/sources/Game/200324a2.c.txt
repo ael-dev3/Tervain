@@ -1,0 +1,488 @@
+/* ENTRY 200324a2 | gCCharacterMovement_PS::ProcessControledRotation | STATUS decompiled | 840 ms */
+
+/* protected: void __thiscall gCCharacterMovement_PS::ProcessControledRotation(void) */
+
+void __thiscall gCCharacterMovement_PS::ProcessControledRotation(gCCharacterMovement_PS *this)
+
+{
+  undefined1 *this_00;
+  float fVar1;
+  int iVar2;
+  float fVar3;
+  bool bVar4;
+  eCEntity *peVar5;
+  bCMatrix *pbVar6;
+  bCVector *pbVar7;
+  eCApplication *peVar8;
+  bCQuaternion *pbVar9;
+  code *pcVar10;
+  float fVar11;
+  float fVar12;
+  float fVar13;
+  undefined8 *puVar14;
+  float *pfVar15;
+  float fVar16;
+  bCVector *pbVar17;
+  float fStack_14c;
+  float fStack_148;
+  undefined8 uStack_144;
+  float fStack_13c;
+  float fStack_138;
+  undefined4 uStack_134;
+  bCVector abStack_130 [4];
+  bCVector abStack_12c [4];
+  float fStack_128;
+  float fStack_124;
+  bCVector abStack_120 [4];
+  bCVector abStack_11c [4];
+  bCVector abStack_118 [4];
+  float fStack_114;
+  bCVector abStack_110 [4];
+  undefined4 uStack_10c;
+  undefined4 uStack_104;
+  bCVector abStack_100 [4];
+  bCQuaternion abStack_fc [4];
+  bCQuaternion abStack_f8 [4];
+  bCQuaternion abStack_f4 [8];
+  bCVector abStack_ec [4];
+  bCQuaternion abStack_e8 [4];
+  bCVector abStack_e4 [4];
+  bCQuaternion abStack_e0 [4];
+  bCQuaternion abStack_dc [4];
+  bCQuaternion abStack_d8 [8];
+  bCMatrix abStack_d0 [4];
+  bCMatrix abStack_cc [4];
+  bCMatrix abStack_c8 [36];
+  bCMatrix abStack_a4 [12];
+  bCMatrix abStack_98 [12];
+  bCMatrix abStack_8c [4];
+  bCMatrix abStack_88 [36];
+  bCMatrix3 abStack_64 [20];
+  bCMatrix3 abStack_50 [4];
+  undefined1 auStack_4c [4];
+  bCMatrix3 abStack_48 [16];
+  bCMatrix3 abStack_38 [12];
+  undefined1 auStack_2c [8];
+  bCMatrix3 abStack_24 [4];
+  bCMatrix3 abStack_20 [32];
+  
+                    /* 0x324a2  5847  ?ProcessControledRotation@gCCharacterMovement_PS@@IAEXXZ */
+  if ((this->gCCharacterMovement_PS_data).offset_0x229 == (gCCharacterMovement_PS)0x1) {
+    peVar5 = (*this->vftablePtr->GetEntity)(this);
+    pbVar6 = eCEntity::GetWorldMatrix((eCEntity *)peVar5);
+    bCMatrix::bCMatrix(abStack_c8,pbVar6);
+    pbVar7 = bCMatrix::GetYAxis(abStack_c8);
+    bCVector::bCVector(abStack_e4,pbVar7);
+    fVar11 = bCVector::GetY(abStack_e4);
+    if (ABS(fVar11) < *(float *)g_fEpsilon_exref) {
+      pbVar7 = (bCVector *)bCVector::bCVector((bCVector *)&fStack_138,1.0,0.0,0.0);
+      bCMatrix::SetRow(abStack_c8,0,pbVar7);
+      bCVector::~bCVector((bCVector *)&fStack_138);
+      pbVar7 = (bCVector *)bCVector::bCVector((bCVector *)&fStack_138,0.0,1.0,0.0);
+      bCMatrix::SetRow(abStack_c8,0,pbVar7);
+      bCVector::~bCVector((bCVector *)&fStack_138);
+      pbVar7 = (bCVector *)bCVector::bCVector((bCVector *)&fStack_138,0.0,0.0,1.0);
+      bCMatrix::SetRow(abStack_c8,0,pbVar7);
+      bCVector::~bCVector((bCVector *)&fStack_138);
+    }
+    bCVector::bCVector(abStack_120,0.0,1.0,0.0);
+    pbVar17 = (bCVector *)0x1;
+    pfVar15 = &fStack_138;
+    pbVar7 = bCMatrix::GetZAxis(abStack_c8);
+    pbVar7 = (bCVector *)bCVector::GetRemovedByDimensionNormalize(pbVar7,(bECoordinate)pfVar15);
+    bCMatrix::LookAt(abStack_cc,pbVar7,pbVar17);
+    bCVector::~bCVector((bCVector *)&fStack_13c);
+    bCVector::~bCVector((bCVector *)&fStack_124);
+    peVar8 = eCApplication::GetInstance();
+    fVar11 = eCApplication::GetScaledFrameTimeInSeconds((eCApplication *)peVar8);
+    bCQuaternion::bCQuaternion(abStack_f8,abStack_cc);
+    fVar12 = eCRigidBody_PS::GetLocalTimeScale
+                       ((eCRigidBody_PS *)(this->gCCharacterMovement_PS_data).offset_0x16c);
+    bCQuaternion::RotateLocalAxisY
+              (abStack_f8,(float)(this->gCCharacterMovement_PS_data).offset_0x22c * fVar11 * fVar12)
+    ;
+    ProcessQuadrupedXRotation(this,abStack_f8,false);
+    bCQuaternion::Normalize(abStack_f8);
+    (**(code **)(*(int *)(this->gCCharacterMovement_PS_data).offset_0x16c + 0x164))();
+    pbVar9 = abStack_fc;
+  }
+  else {
+    if ((this->gCCharacterMovement_PS_data).offset_0x228 != (gCCharacterMovement_PS)0x0) {
+      peVar5 = eCEntityProxy::GetEntity
+                         ((eCEntityProxy *)&(this->gCCharacterMovement_PS_data).field_0x318);
+      if (peVar5 != (eCEntity *)0x0) {
+        ProcessControledRotationToTarget(this);
+        return;
+      }
+      this_00 = &(this->gCCharacterMovement_PS_data).field_0x350;
+      bVar4 = bCVector::HasZeroMagnitude((bCVector *)this_00);
+      if (!bVar4) {
+        ProcessControledRotationLookAt(this,(bCVector *)this_00);
+        return;
+      }
+      peVar8 = eCApplication::GetInstance();
+      fVar11 = eCApplication::GetScaledFrameTimeInSeconds((eCApplication *)peVar8);
+      uStack_144 = (double)fVar11;
+      fStack_128 = eCRigidBody_PS::GetLocalTimeScale
+                             ((eCRigidBody_PS *)(this->gCCharacterMovement_PS_data).offset_0x16c);
+      pcVar10 = GetMatrix3_exref;
+      fStack_128 = fStack_128 * (float)uStack_144;
+      iVar2 = (this->gCCharacterMovement_PS_data).offset_0xfc;
+      if (((((((iVar2 == 3) || (iVar2 == 2)) || (iVar2 == 4)) || ((iVar2 == 5 || (iVar2 == 7)))) ||
+           ((iVar2 == 8 || ((iVar2 == 9 || (iVar2 == 10)))))) || (iVar2 == 0xb)) ||
+         ((iVar2 == 0xd || (iVar2 == 6)))) {
+        peVar5 = (*this->vftablePtr->GetEntity)(this);
+        pbVar6 = eCEntity::GetWorldMatrix((eCEntity *)peVar5);
+        bCMatrix::bCMatrix(abStack_c8,pbVar6);
+        pbVar7 = bCMatrix::GetYAxis(abStack_c8);
+        bCVector::bCVector(abStack_e4,pbVar7);
+        fVar11 = bCVector::GetY(abStack_e4);
+        if (ABS(fVar11) < *(float *)g_fEpsilon_exref) {
+          pbVar7 = (bCVector *)bCVector::bCVector((bCVector *)&uStack_144,1.0,0.0,0.0);
+          bCMatrix::SetRow(abStack_c8,0,pbVar7);
+          bCVector::~bCVector((bCVector *)&uStack_144);
+          pbVar7 = (bCVector *)bCVector::bCVector((bCVector *)&uStack_144,0.0,1.0,0.0);
+          bCMatrix::SetRow(abStack_c8,0,pbVar7);
+          bCVector::~bCVector((bCVector *)&uStack_144);
+          pbVar7 = (bCVector *)bCVector::bCVector((bCVector *)&uStack_144,0.0,0.0,1.0);
+          bCMatrix::SetRow(abStack_c8,0,pbVar7);
+          bCVector::~bCVector((bCVector *)&uStack_144);
+        }
+        bCVector::bCVector((bCVector *)&fStack_114,0.0,1.0,0.0);
+        pbVar17 = (bCVector *)0x1;
+        puVar14 = &uStack_144;
+        pbVar7 = bCMatrix::GetZAxis(abStack_c8);
+        pbVar7 = (bCVector *)bCVector::GetRemovedByDimensionNormalize(pbVar7,(bECoordinate)puVar14);
+        bCMatrix::LookAt(abStack_cc,pbVar7,pbVar17);
+        bCVector::~bCVector((bCVector *)&fStack_148);
+        bCVector::~bCVector(abStack_118);
+        bCQuaternion::bCQuaternion(abStack_f8,abStack_cc);
+        bCQuaternion::GetMatrix3(abStack_f8);
+        bCVector::bCVector((bCVector *)&fStack_128,0.0,0.0,1.0);
+        bCVector::operator*=((bCVector *)&fStack_128,abStack_50);
+        bCVector::RemoveDimensionNormalize((bCVector *)&fStack_128,1);
+        fVar11 = (float)((int)&uStack_144 + 4);
+        uStack_10c = 0;
+        uStack_134 = 0;
+        (this->gCCharacterMovement_PS_data).offset_0x108 = 0;
+        GetCurrentWayDirection(this);
+        fVar12 = bCVector::GetSquareMagnitude2D((bCVector *)&uStack_144,1);
+        if (fVar12 != 0.0) {
+          bCVector::RemoveDimensionNormalize((bCVector *)&uStack_144,1);
+          bVar4 = bCVector::operator!=(abStack_12c,(bCVector *)&uStack_144);
+          if (bVar4) {
+            fVar12 = bCVector::GetAngleUnitDeg(abStack_12c,(bCVector *)&uStack_144);
+            (this->gCCharacterMovement_PS_data).offset_0x108 = fVar12;
+            pbVar7 = (bCVector *)bCVector::CrossProduct(abStack_120,abStack_12c);
+            fVar12 = bCVector::GetY(pbVar7);
+            bCVector::~bCVector((bCVector *)&fStack_124);
+            if (fVar12 < 0.0) {
+              (this->gCCharacterMovement_PS_data).offset_0x108 =
+                   (float)(this->gCCharacterMovement_PS_data).offset_0x108 * -1.0;
+            }
+            fVar12 = (float)(this->gCCharacterMovement_PS_data).offset_0x108;
+            if (180.0 < fVar12) {
+              (this->gCCharacterMovement_PS_data).offset_0x108 = fVar12 - 360.0;
+            }
+            fVar12 = (float)(this->gCCharacterMovement_PS_data).offset_0x108;
+            if (fVar12 < -180.0) {
+              (this->gCCharacterMovement_PS_data).offset_0x108 = fVar12 + 360.0;
+            }
+            fVar12 = (float)(this->gCCharacterMovement_PS_data).offset_0x108;
+            if (ABS(fVar12) <= 1.0) {
+              fStack_13c = fVar12;
+              if (*(float *)g_fEpsilon_exref < ABS(fStack_138)) {
+                fStack_114 = fVar12 / fStack_138;
+              }
+            }
+            else {
+              CalcNewRotationAngleAndVelocity
+                        (this,abStack_130,(bCVector *)&fStack_148,fStack_138,&fStack_13c,&fStack_114
+                         ,true);
+            }
+          }
+        }
+        uStack_134 = CONCAT31(uStack_134._1_3_,1);
+        if ((-1.0 < (float)(this->gCCharacterMovement_PS_data).offset_0x378) &&
+           (bVar4 = GetMovementIsControledByPlayer(this), !bVar4)) {
+          uStack_134 = CONCAT31(uStack_134._1_3_,bVar4);
+        }
+        bCMatrix::bCMatrix(abStack_98);
+        bCMatrix::SetIdentity(abStack_98);
+        pbVar7 = (bCVector *)bCVector::bCVector((bCVector *)&fStack_124,0.0,0.0,1.0);
+        bCMatrix::SetXAxis(abStack_98,pbVar7);
+        bCVector::~bCVector((bCVector *)&fStack_124);
+        pbVar7 = (bCVector *)bCVector::bCVector((bCVector *)&fStack_124,1.0,0.0,0.0);
+        bCMatrix::SetYAxis(abStack_98,pbVar7);
+        bCVector::~bCVector((bCVector *)&fStack_124);
+        pbVar7 = (bCVector *)bCVector::bCVector((bCVector *)&fStack_124,0.0,1.0,0.0);
+        bCMatrix::SetZAxis(abStack_98,pbVar7);
+        bCVector::~bCVector((bCVector *)&fStack_124);
+        bCVector::bCVector(abStack_110);
+        bCQuaternion::bCQuaternion
+                  (abStack_e8,(bCQuaternion *)&(this->gCCharacterMovement_PS_data).field_0x2c8);
+        pbVar9 = (bCQuaternion *)bCQuaternion::bCQuaternion((bCQuaternion *)&fStack_124,abStack_98);
+        bVar4 = bCQuaternion::operator==(abStack_e8,pbVar9);
+        bCQuaternion::~bCQuaternion((bCQuaternion *)&fStack_124);
+        if (bVar4) {
+          peVar5 = (*this->vftablePtr->GetEntity)(this);
+          eCEntity::GetWorldPosition((eCEntity *)peVar5);
+          pbVar7 = (bCVector *)
+                   bCVector::operator-((bCVector *)&(this->gCCharacterMovement_PS_data).field_0x2bc,
+                                       (bCVector *)&fStack_124);
+          bCVector::operator=((bCVector *)&fStack_114,pbVar7);
+          bCVector::~bCVector((bCVector *)&fStack_128);
+          bCVector::RemoveDimensionNormalize((bCVector *)&fStack_114,1);
+          pbVar7 = (bCVector *)bCVector::bCVector((bCVector *)&fStack_128,0.0,0.0,0.0);
+          bVar4 = bCVector::operator==((bCVector *)&fStack_114,pbVar7);
+          bCVector::~bCVector((bCVector *)&fStack_128);
+          if (bVar4) {
+            pbVar7 = (bCVector *)bCVector::bCVector((bCVector *)&fStack_128,0.0,0.0,1.0);
+            bCVector::operator==((bCVector *)&fStack_114,pbVar7);
+            bCVector::~bCVector((bCVector *)&fStack_128);
+          }
+        }
+        else {
+          pbVar7 = (bCVector *)bCVector::bCVector((bCVector *)&fStack_124,0.0,0.0,1.0);
+          bCVector::operator=(abStack_110,pbVar7);
+          bCVector::~bCVector((bCVector *)&fStack_124);
+          bCQuaternion::Normalize(abStack_e8);
+          bCQuaternion::GetMatrix3(abStack_e8);
+          bCVector::operator*=((bCVector *)&fStack_114,abStack_38);
+          bCVector::RemoveDimensionNormalize((bCVector *)&fStack_114,1);
+          bCMatrix3::~bCMatrix3(abStack_38);
+        }
+        if (fStack_138._0_1_ == (bCVector)0x0) {
+          peVar5 = (*this->vftablePtr->GetEntity)(this);
+          eCEntity::GetWorldPosition((eCEntity *)peVar5);
+          pbVar7 = (bCVector *)
+                   bCVector::operator-((bCVector *)&(this->gCCharacterMovement_PS_data).field_0x2bc,
+                                       (bCVector *)&fStack_128);
+          bCVector::operator=(abStack_118,pbVar7);
+          bCVector::~bCVector(abStack_12c);
+          bCVector::RemoveDimensionNormalize(abStack_118,1);
+          bCVector::operator-((bCVector *)&(this->gCCharacterMovement_PS_data).field_0x35c,
+                              (bCVector *)&stack0xfffffea4);
+          fVar12 = bCVector::GetX((bCVector *)&stack0xfffffea0);
+          if ((fVar12 == 0.0) &&
+             (fVar12 = bCVector::GetZ((bCVector *)&stack0xfffffea0), fVar12 == 0.0)) {
+            bCVector::~bCVector((bCVector *)&stack0xfffffea0);
+            bCQuaternion::~bCQuaternion(abStack_f4);
+            bCVector::~bCVector(abStack_11c);
+            bCMatrix::~bCMatrix(abStack_a4);
+            bCVector::~bCVector((bCVector *)&stack0xfffffeac);
+            bCVector::~bCVector((bCVector *)&fStack_13c);
+            bCMatrix3::~bCMatrix3(abStack_64);
+            bCQuaternion::~bCQuaternion((bCQuaternion *)abStack_110);
+            bCVector::~bCVector(abStack_100);
+            bCMatrix::~bCMatrix((bCMatrix *)abStack_e4);
+            return;
+          }
+          bCVector::RemoveDimensionNormalize((bCVector *)&stack0xfffffea0,1);
+          bCVector::~bCVector((bCVector *)&stack0xfffffea0);
+          pcVar10 = GetMatrix3_exref;
+        }
+        bCVector::GetAngleUnitDeg((bCVector *)&fStack_13c,abStack_11c);
+        pbVar7 = (bCVector *)bCVector::CrossProduct(abStack_130,(bCVector *)&fStack_13c);
+        fVar12 = bCVector::GetY(pbVar7);
+        bCVector::~bCVector((bCVector *)&uStack_134);
+        if (fVar12 < 0.0) {
+          fVar11 = fVar11 * -1.0;
+        }
+        if (180.0 < fVar11) {
+          fVar11 = fVar11 - 360.0;
+        }
+        if (fVar11 < -180.0) {
+          fVar11 = fVar11 + 360.0;
+        }
+        fVar12 = *(float *)&(this->gCCharacterMovement_PS_data).field_0x28;
+        fVar16 = 1.0;
+        if ((0.0 < fVar12) &&
+           (fVar13 = *(float *)&(this->gCCharacterMovement_PS_data).field_0x3c, fVar13 < 0.0)) {
+          fVar16 = fVar12 / fVar13;
+          fVar1 = fVar16 * fVar12 * 0.5;
+          fVar13 = ABS(fVar11);
+          if (fVar13 <= fVar1) {
+            fVar16 = fVar16 * (fVar13 / fVar1);
+          }
+          else {
+            fVar16 = fVar16 + (fVar13 - fVar1) / fVar12;
+          }
+          if (1.0 < ABS(fStack_14c)) {
+            fVar16 = fVar16 + 0.2;
+          }
+        }
+        fVar12 = (float)(this->gCCharacterMovement_PS_data).offset_0x154;
+        fVar13 = 0.0;
+        if (0.0 < fVar12) {
+          fVar1 = *(float *)&(this->gCCharacterMovement_PS_data).field_0x34;
+          fVar3 = -((fVar12 * fVar12) / (fVar1 + fVar1));
+          if (0.0 < fVar3) {
+            fVar13 = (*(float *)&(this->gCCharacterMovement_PS_data).field_0x104 - fVar3) / fVar12 +
+                     -fVar12 / fVar1;
+          }
+        }
+        if ((fVar13 <= fVar16) || ((fVar13 < 1.0 && (0.0 < ABS(fStack_14c))))) {
+          if (ABS(fVar11) < 1.0) {
+            fStack_14c = fVar11;
+            bVar4 = GetMovementIsControledByPlayer(this);
+            if (!bVar4) {
+              fVar11 = 0.0;
+            }
+            (this->gCCharacterMovement_PS_data).offset_0x108 = fVar11;
+            if (0.0 < fStack_148) {
+              fStack_124 = (float)(this->gCCharacterMovement_PS_data).offset_0x108 / fStack_148;
+            }
+          }
+          else {
+            CalcNewRotationAngleAndVelocity
+                      (this,(bCVector *)((int)&uStack_144 + 4),abStack_120,fStack_148,&fStack_14c,
+                       &fStack_124,SUB81(uStack_144,0));
+            bVar4 = GetMovementIsControledByPlayer(this);
+            if (bVar4) {
+              (this->gCCharacterMovement_PS_data).offset_0x108 = fVar11;
+            }
+            else {
+              (this->gCCharacterMovement_PS_data).offset_0x108 = 0;
+            }
+          }
+        }
+        fStack_14c = (*(float *)g_f2PI_exref / 360.0) * fStack_14c;
+        ProcessQuadrupedXRotation(this,(bCQuaternion *)&fStack_114,false);
+        bCQuaternion::RotateLocalAxisY((bCQuaternion *)&fStack_114,fStack_14c);
+        bCQuaternion::Normalize((bCQuaternion *)&fStack_114);
+        (**(code **)(*(int *)(this->gCCharacterMovement_PS_data).offset_0x16c + 0x164))(&fStack_114)
+        ;
+        (this->gCCharacterMovement_PS_data).offset_0x158 = uStack_104;
+        bCQuaternion::~bCQuaternion(abStack_d8);
+        bCVector::~bCVector(abStack_100);
+        bCMatrix::~bCMatrix(abStack_88);
+        bCVector::~bCVector((bCVector *)&fStack_138);
+        bCVector::~bCVector(abStack_120);
+        bCMatrix3::~bCMatrix3(abStack_48);
+        bCQuaternion::~bCQuaternion(abStack_f4);
+        bCVector::~bCVector(abStack_e4);
+        bCMatrix::~bCMatrix(abStack_c8);
+      }
+      if ((this->gCCharacterMovement_PS_data).offset_0xfc == 1) {
+        peVar5 = (*this->vftablePtr->GetEntity)(this);
+        pbVar6 = eCEntity::GetWorldMatrix((eCEntity *)peVar5);
+        bCMatrix::bCMatrix(abStack_88,pbVar6);
+        pbVar7 = bCMatrix::GetYAxis(abStack_88);
+        bCVector::bCVector(abStack_e4,pbVar7);
+        fVar11 = bCVector::GetY(abStack_e4);
+        fVar11 = ABS(fVar11);
+        uStack_144._0_4_ = fVar11;
+        if (*(float *)g_fEpsilon_exref <= fVar11) {
+          bCVector::bCVector(abStack_100,0.0,1.0,0.0);
+          pbVar17 = (bCVector *)0x1;
+          pfVar15 = &fStack_114;
+          pbVar7 = bCMatrix::GetZAxis(abStack_88);
+          pbVar7 = (bCVector *)
+                   bCVector::GetRemovedByDimensionNormalize(pbVar7,(bECoordinate)pfVar15);
+          bCMatrix::LookAt(abStack_8c,pbVar7,pbVar17);
+          bCVector::~bCVector(abStack_118);
+          bCVector::~bCVector((bCVector *)&uStack_104);
+          bCQuaternion::bCQuaternion(abStack_f8,abStack_8c);
+          (*pcVar10)(auStack_4c);
+          bCVector::bCVector((bCVector *)&fStack_128,0.0,0.0,1.0);
+          bCVector::operator*=((bCVector *)&fStack_128,abStack_50);
+          bCVector::RemoveDimensionNormalize((bCVector *)&fStack_128,1);
+          bCQuaternion::bCQuaternion
+                    (abStack_e0,(bCQuaternion *)&(this->gCCharacterMovement_PS_data).field_0x2c8);
+          bCQuaternion::Normalize(abStack_e0);
+          (*pcVar10)(auStack_2c);
+          bCVector::bCVector((bCVector *)&uStack_134,0.0,0.0,1.0);
+          bCVector::operator*=((bCVector *)&uStack_134,abStack_20);
+          bCVector::RemoveDimensionNormalize((bCVector *)&uStack_134,1);
+          fVar11 = bCVector::GetAngleUnitDeg(abStack_11c,(bCVector *)&uStack_134);
+          (this->gCCharacterMovement_PS_data).offset_0x108 = fVar11;
+          pbVar7 = (bCVector *)bCVector::CrossProduct(abStack_110,abStack_11c);
+          fVar11 = bCVector::GetY(pbVar7);
+          bCVector::~bCVector((bCVector *)&fStack_114);
+          if (fVar11 < 0.0) {
+            (this->gCCharacterMovement_PS_data).offset_0x108 =
+                 (float)(this->gCCharacterMovement_PS_data).offset_0x108 * -1.0;
+          }
+          fVar11 = (float)(this->gCCharacterMovement_PS_data).offset_0x108;
+          if (180.0 < fVar11) {
+            (this->gCCharacterMovement_PS_data).offset_0x108 = fVar11 - 360.0;
+          }
+          fVar11 = (float)(this->gCCharacterMovement_PS_data).offset_0x108;
+          if (fVar11 < -180.0) {
+            (this->gCCharacterMovement_PS_data).offset_0x108 = fVar11 + 360.0;
+          }
+          fStack_14c = (float)(this->gCCharacterMovement_PS_data).offset_0x108;
+          fStack_148 = 0.0;
+          fStack_124 = 0.0;
+          uStack_144._0_4_ = ABS(fStack_14c);
+          if ((float)uStack_144 < 1.0) {
+            fStack_148 = fStack_14c;
+            if (0.0 < fStack_128) {
+              fStack_124 = fStack_14c / fStack_128;
+            }
+          }
+          else {
+            CalcNewRotationAngleAndVelocity
+                      (this,abStack_120,(bCVector *)&fStack_138,fStack_128,&fStack_148,&fStack_124,
+                       true);
+          }
+          fStack_148 = (*(float *)g_f2PI_exref / 360.0) * fStack_148;
+          ProcessQuadrupedXRotation(this,abStack_f4,false);
+          bCQuaternion::RotateLocalAxisY(abStack_f4,fStack_148);
+          bCQuaternion::Normalize(abStack_f4);
+          if (fStack_148 != 0.0) {
+            (**(code **)(*(int *)(this->gCCharacterMovement_PS_data).offset_0x16c + 0x164))
+                      (abStack_f4);
+          }
+          (this->gCCharacterMovement_PS_data).offset_0x158 = fStack_124;
+          bCVector::~bCVector((bCVector *)&fStack_138);
+          bCMatrix3::~bCMatrix3(abStack_24);
+          bCQuaternion::~bCQuaternion(abStack_d8);
+          bCVector::~bCVector(abStack_120);
+          bCMatrix3::~bCMatrix3(abStack_48);
+          bCQuaternion::~bCQuaternion(abStack_f4);
+        }
+        bCVector::~bCVector(abStack_e4);
+        bCMatrix::~bCMatrix(abStack_88);
+      }
+      return;
+    }
+    peVar5 = (*this->vftablePtr->GetEntity)(this);
+    pbVar6 = eCEntity::GetWorldMatrix((eCEntity *)peVar5);
+    bCMatrix::bCMatrix(abStack_c8,pbVar6);
+    pbVar7 = bCMatrix::GetYAxis(abStack_c8);
+    bCVector::bCVector(abStack_e4,pbVar7);
+    fVar11 = bCVector::GetY(abStack_e4);
+    if (ABS(fVar11) < *(float *)g_fEpsilon_exref) {
+      pbVar7 = (bCVector *)bCVector::bCVector((bCVector *)&fStack_138,1.0,0.0,0.0);
+      bCMatrix::SetRow(abStack_c8,0,pbVar7);
+      bCVector::~bCVector((bCVector *)&fStack_138);
+      pbVar7 = (bCVector *)bCVector::bCVector((bCVector *)&fStack_138,0.0,1.0,0.0);
+      bCMatrix::SetRow(abStack_c8,0,pbVar7);
+      bCVector::~bCVector((bCVector *)&fStack_138);
+      pbVar7 = (bCVector *)bCVector::bCVector((bCVector *)&fStack_138,0.0,0.0,1.0);
+      bCMatrix::SetRow(abStack_c8,0,pbVar7);
+      bCVector::~bCVector((bCVector *)&fStack_138);
+    }
+    bCVector::bCVector(abStack_120,0.0,1.0,0.0);
+    pbVar17 = (bCVector *)0x1;
+    pfVar15 = &fStack_138;
+    pbVar7 = bCMatrix::GetZAxis(abStack_c8);
+    pbVar7 = (bCVector *)bCVector::GetRemovedByDimensionNormalize(pbVar7,(bECoordinate)pfVar15);
+    bCMatrix::LookAt(abStack_cc,pbVar7,pbVar17);
+    bCVector::~bCVector((bCVector *)&fStack_13c);
+    bCVector::~bCVector((bCVector *)&fStack_124);
+    bCQuaternion::bCQuaternion(abStack_dc,abStack_cc);
+    ProcessQuadrupedXRotation(this,abStack_dc,false);
+    (**(code **)(*(int *)(this->gCCharacterMovement_PS_data).offset_0x16c + 0x164))();
+    pbVar9 = abStack_e0;
+  }
+  (this->gCCharacterMovement_PS_data).offset_0x158 = 0;
+  bCQuaternion::~bCQuaternion(pbVar9);
+  bCVector::~bCVector(abStack_ec);
+  bCMatrix::~bCMatrix(abStack_d0);
+  return;
+}
+
+

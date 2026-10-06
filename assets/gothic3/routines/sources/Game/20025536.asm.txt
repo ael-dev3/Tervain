@@ -1,0 +1,2 @@
+; 20025536 ?DetectDailyRoutineTask@gCScriptProcessingUnit@@QAE?AW4bEResult@@_N@Z
+20025536 | e965613400 | JMP 0x2036b6a0

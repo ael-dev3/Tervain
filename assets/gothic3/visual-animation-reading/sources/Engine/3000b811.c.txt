@@ -1,0 +1,57 @@
+/* ENTRY 3000b811 | eCVisualAnimationLoD::SetActor | STATUS decompiled | 15 ms */
+
+/* protected: bool __thiscall eCVisualAnimationLoD::SetActor(class eCResourceDataEntity *) */
+
+bool __thiscall
+eCVisualAnimationLoD::SetActor(eCVisualAnimationLoD *this,eCResourceDataEntity *param_1)
+
+{
+  eCResourceAnimationActor_PS *peVar1;
+  bool bVar2;
+  eCResourceBase_PS *peVar3;
+  eCResourceDataEntity *this_00;
+  eCWrapper_emfx2Actor *this_01;
+  eCResourceAnimationActor_PS *peVar4;
+  undefined4 uVar5;
+  TypeDescriptor *pTVar6;
+  TypeDescriptor *pTVar7;
+  undefined4 uVar8;
+  eEResourceCacheBehavior eVar9;
+  
+                    /* 0xb811  12853
+                       ?SetActor@eCVisualAnimationLoD@@IAE_NPAVeCResourceDataEntity@@@Z */
+  SetAnimationRenderHook(this,(eCAnimation_BaseRenderActor *)0x0);
+  peVar4 = (eCResourceAnimationActor_PS *)0x0;
+  (this->eCVisualAnimationLoD_data).offset_0xc = 0;
+  if (param_1 != (eCResourceDataEntity *)0x0) {
+    uVar8 = 0;
+    pTVar7 = &eCResourceAnimationActor_PS::RTTI_Type_Descriptor;
+    pTVar6 = &eCResourceBase_PS::RTTI_Type_Descriptor;
+    uVar5 = 0;
+    peVar3 = eCResourceDataEntity::SearchResourcePropertySet((eCResourceDataEntity *)param_1);
+    peVar4 = (eCResourceAnimationActor_PS *)FUN_30671ae7(peVar3,uVar5,pTVar6,pTVar7,uVar8);
+    if (peVar4 != (eCResourceAnimationActor_PS *)0x0) {
+      (**(code **)(*(int *)peVar4 + 0x20))();
+    }
+  }
+  peVar1 = (this->eCVisualAnimationLoD_data).offset_0x4;
+  if (peVar1 != (eCResourceAnimationActor_PS *)0x0) {
+    (**(code **)(*(int *)peVar1 + 0x24))();
+    (this->eCVisualAnimationLoD_data).offset_0x4 = (eCResourceAnimationActor_PS *)0x0;
+  }
+  (this->eCVisualAnimationLoD_data).offset_0x4 = peVar4;
+  if (peVar4 != (eCResourceAnimationActor_PS *)0x0) {
+    eVar9 = 1;
+    this_00 = (eCResourceDataEntity *)(**(code **)(*(int *)peVar4 + 0x70))();
+    eCResourceDataEntity::Load(this_00,eVar9);
+    this_01 = (eCWrapper_emfx2Actor *)
+              eCResourceAnimationActor_PS::GetEMFX2Actor
+                        ((eCResourceAnimationActor_PS *)(this->eCVisualAnimationLoD_data).offset_0x4
+                        );
+    bVar2 = eCWrapper_emfx2Actor::HasMesh(this_01);
+    (this->eCVisualAnimationLoD_data).offset_0xc = bVar2;
+  }
+  return true;
+}
+
+

@@ -1,0 +1,20 @@
+/* ENTRY 2001ae0b | gCNavigationAdmin::DeregisterInteractionPS | STATUS decompiled | 8 ms */
+
+/* public: enum bEResult __thiscall gCNavigationAdmin::DeregisterInteractionPS(class
+   gCInteraction_PS *) */
+
+bEResult __thiscall
+gCNavigationAdmin::DeregisterInteractionPS(gCNavigationAdmin *this,gCInteraction_PS *param_1)
+
+{
+  bEResult bVar1;
+  
+                    /* 0x1ae0b  2519
+                       ?DeregisterInteractionPS@gCNavigationAdmin@@QAE?AW4bEResult@@PAVgCInteraction_PS@@@Z
+                        */
+  bVar1 = gCNavigationMap::DeregisterInteractionPS
+                    ((gCNavigationMap *)&(this->gCNavigationAdmin_data).field_0x50,param_1);
+  return bVar1;
+}
+
+

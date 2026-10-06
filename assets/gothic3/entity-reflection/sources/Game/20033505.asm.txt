@@ -1,0 +1,4 @@
+; 20033505 bTPropertyType<gCClock_PS,float>::vfunction19
+20033505 | e9c67c1d00 | JMP 0x2020b1d0
+; 2003350a gCInventorySlot::GetBone
+; 2003350a Ordinal_2969

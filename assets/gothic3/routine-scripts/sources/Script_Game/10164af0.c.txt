@@ -1,0 +1,17 @@
+/* ENTRY 10164af0 | FUN_10164af0 | STATUS decompiled | 8 ms */
+
+void FUN_10164af0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Routine\\Routine_Tasks\\ZS_Sleep.cpp");
+  bCString::bCString(local_8,"ZS_Sleep_Loop");
+  thunk_FUN_1001db60(local_8,&LAB_1000359e,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

@@ -1,0 +1,7 @@
+; 306450e0 EMotionFX::Controller::Controller
+306450e0 | 8bc1 | MOV EAX,ECX
+306450e2 | 8b4c2404 | MOV ECX,dword ptr [ESP + 0x4]
+306450e6 | c70064fb8830 | MOV dword ptr [EAX],0x3088fb64
+306450ec | 894804 | MOV dword ptr [EAX + 0x4],ECX
+306450ef | c6400801 | MOV byte ptr [EAX + 0x8],0x1
+306450f3 | c20400 | RET 0x4

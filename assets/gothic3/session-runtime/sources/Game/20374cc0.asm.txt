@@ -1,0 +1,31 @@
+; 20374cc0 bTPropertyContainer<gESession_State>::bTPropertyContainer<gESession_State>
+20374cc0 | 56 | PUSH ESI
+20374cc1 | 57 | PUSH EDI
+20374cc2 | 8bf1 | MOV ESI,ECX
+20374cc4 | ff15dc6d7d20 | CALL dword ptr [0x207d6ddc]
+20374cca | 8d7e14 | LEA EDI,[ESI + 0x14]
+20374ccd | 8bcf | MOV ECX,EDI
+20374ccf | c70634f16920 | MOV dword ptr [ESI],0x2069f134
+20374cd5 | ff1500877d20 | CALL dword ptr [0x207d8700]
+20374cdb | c707ec376720 | MOV dword ptr [EDI],0x206737ec
+20374ce1 | a1cca67b20 | MOV EAX,[0x207ba6cc]
+20374ce6 | 8d4e30 | LEA ECX,[ESI + 0x30]
+20374ce9 | 894704 | MOV dword ptr [EDI + 0x4],EAX
+20374cec | e86828c9ff | CALL 0x20007559
+20374cf1 | 8d4e58 | LEA ECX,[ESI + 0x58]
+20374cf4 | e80b78c9ff | CALL 0x2000c504
+20374cf9 | 8d8efc000000 | LEA ECX,[ESI + 0xfc]
+20374cff | ff1528897d20 | CALL dword ptr [0x207d8928]
+20374d05 | 8bce | MOV ECX,ESI
+20374d07 | e80488cbff | CALL 0x2002d510
+20374d0c | 8935f8c87c20 | MOV dword ptr [0x207cc8f8],ESI
+20374d12 | ff1558717d20 | CALL dword ptr [0x207d7158]
+20374d18 | 8b10 | MOV EDX,dword ptr [EAX]
+20374d1a | 8bc8 | MOV ECX,EAX
+20374d1c | 8b4274 | MOV EAX,dword ptr [EDX + 0x74]
+20374d1f | 56 | PUSH ESI
+20374d20 | ffd0 | CALL EAX
+20374d22 | 5f | POP EDI
+20374d23 | 8bc6 | MOV EAX,ESI
+20374d25 | 5e | POP ESI
+20374d26 | c3 | RET

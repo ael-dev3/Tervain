@@ -1,0 +1,4 @@
+; 3003a1ac ?AccessMaterial@eCCollisionShape@@QAEAAV?$bTPropertyContainer@W4eEShapeMaterial@@@@XZ
+3003a1ac | e90f830800 | JMP 0x300c24c0
+; 3003a1b1 eCGfxCamera::sDisableOptimization
+; 3003a1b1 Ordinal_16533

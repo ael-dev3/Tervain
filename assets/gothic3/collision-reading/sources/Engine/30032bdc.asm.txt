@@ -1,0 +1,4 @@
+; 30032bdc bTPropertyType<eCCollisionShape_PS,bool>::vfunction6
+30032bdc | e9ffc13000 | JMP 0x3033ede0
+; 30032be1 eCLightmapBitmap::Destroy
+; 30032be1 Ordinal_5212

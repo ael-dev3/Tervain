@@ -1,0 +1,2 @@
+; 200290d2 ?HasLearnedSkill@gCInventory_PS@@QBE_NPBVeCTemplateEntity@@@Z
+200290d2 | e9f9571800 | JMP 0x201ae8d0

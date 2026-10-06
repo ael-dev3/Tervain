@@ -1,0 +1,4 @@
+; 200198c1 bTPropertyObjectType<gCClock_PS,eCEntityPropertySet>::~bTPropertyObjectType<gCClock_PS,eCEntityPropertySet>
+200198c1 | e93afe1e00 | JMP 0x20209700
+; 200198c6 gCMagicBarrier_PS::AccessOnEnterScript
+; 200198c6 Ordinal_1510

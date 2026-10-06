@@ -1,0 +1,26 @@
+/* ENTRY 2000b96f | gCNavPath_PS::GameReset | STATUS decompiled | 13 ms */
+
+/* protected: void __thiscall gCNavPath_PS::GameReset(void) */
+
+void __thiscall gCNavPath_PS::GameReset(gCNavPath_PS *this)
+
+{
+  void **ppvVar1;
+  bCMemoryAdmin *this_00;
+  void *pvVar2;
+  
+                    /* 0xb96f  2863  ?GameReset@gCNavPath_PS@@IAEXXZ */
+  ppvVar1 = &(this->gCNavPath_PS_data).offset_0xa8;
+  if ((ppvVar1 != (void **)0x0) && (pvVar2 = *ppvVar1, pvVar2 != (void *)0x0)) {
+    this_00 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(this_00,pvVar2);
+    *ppvVar1 = (void *)0x0;
+    (this->gCNavPath_PS_data).offset_0xac = 0;
+    (this->gCNavPath_PS_data).offset_0xb0 = 0;
+  }
+  (this->gCNavPath_PS_data).offset_0xb4 = (gCNavPath_PS)0x1;
+  eCEntityProxy::SetEntity((eCEntityProxy *)&(this->gCNavPath_PS_data).field_0x110,(eCEntity *)0x0);
+  return;
+}
+
+

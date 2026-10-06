@@ -1,0 +1,4 @@
+; 3003a828 bTPropertyType<eCCollisionShape,bool>::vfunction20
+3003a828 | e9430f3200 | JMP 0x3035b770
+; 3003a82d eCCameraBase::ScreenToWorld
+; 3003a82d Ordinal_12833

@@ -1,0 +1,4 @@
+; 300321be ?Invalidate@eCDynamicEntity@@IAEXXZ
+300321be | e94db54800 | JMP 0x304bd710
+; 300321c3 eCAudioSound::GetMode
+; 300321c3 Ordinal_7861

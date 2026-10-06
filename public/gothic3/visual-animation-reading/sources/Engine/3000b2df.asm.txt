@@ -1,0 +1,2 @@
+; 3000b2df eCVisualAnimation_PS::GetConstrainRootToWorld
+3000b2df | e9fc670500 | JMP 0x30061ae0

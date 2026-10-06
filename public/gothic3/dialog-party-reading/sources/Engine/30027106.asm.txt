@@ -1,0 +1,2 @@
+; 30027106 eCEntityProxyInternal::SetEntity
+30027106 | e945da4900 | JMP 0x304c4b50

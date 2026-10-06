@@ -1,0 +1,10 @@
+/* ENTRY 10088b30 | FUN_10088b30 | STATUS decompiled | 2 ms */
+
+uint FUN_10088b30(bCIStream *param_1)
+
+{
+  bCIStream::operator>>(param_1,(ushort *)&param_1);
+  return (uint)param_1 & 0xffff;
+}
+
+

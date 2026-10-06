@@ -1,0 +1,2 @@
+; 3002572f ?Create@eCDynamicEntity@@UAE?AW4bEResult@@XZ
+3002572f | e98c804900 | JMP 0x304bd7c0

@@ -1,0 +1,18 @@
+/* ENTRY 200257a7 | gCDialog_PS::GetTalkingTo | STATUS decompiled | 8 ms */
+
+/* public: class eCEntity * __thiscall gCDialog_PS::GetTalkingTo(void)const  */
+
+eCEntity * __thiscall gCDialog_PS::GetTalkingTo(gCDialog_PS *this)
+
+{
+  eCEntity *peVar1;
+  
+                    /* 0x257a7  4539  ?GetTalkingTo@gCDialog_PS@@QBEPAVeCEntity@@XZ */
+                    /* WARNING: Could not recover jumptable at 0x2020b8e3. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  peVar1 = eCEntityProxy::operator_class_eCEntity_
+                     ((eCEntityProxy *)&(this->gCDialog_PS_data).field_0x2c);
+  return peVar1;
+}
+
+

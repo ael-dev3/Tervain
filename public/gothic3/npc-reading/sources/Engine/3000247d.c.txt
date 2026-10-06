@@ -1,0 +1,45 @@
+/* ENTRY 3000247d | eCEntityProxy::Read | STATUS decompiled | 16 ms */
+
+/* public: virtual enum bEResult __thiscall eCEntityProxy::Read(class bCIStream &) */
+
+bEResult __thiscall eCEntityProxy::Read(eCEntityProxy *this,bCIStream *param_1)
+
+{
+  undefined1 *this_00;
+  eCEntityProxyInternal *peVar1;
+  bCIStream *this_01;
+  bool bVar2;
+  ushort auStack_18 [2];
+  bCPropertyID abStack_14 [20];
+  
+                    /* 0x247d  12094  ?Read@eCEntityProxy@@UAE?AW4bEResult@@AAVbCIStream@@@Z */
+  this_01 = param_1;
+  bCIStream::operator>>((bCIStream *)param_1,auStack_18);
+  bCIStream::operator>>((bCIStream *)this_01,(bool *)&param_1);
+  if ((char)param_1 == '\x01') {
+    bCPropertyID::bCPropertyID(abStack_14);
+    ::operator>>(this_01,abStack_14);
+    this_00 = &(this->eCEntityProxy_data).field_0x4;
+    bVar2 = bCPropertyID::operator==(abStack_14,(bCPropertyID *)this_00);
+    if (!bVar2) {
+      bCPropertyID::operator=((bCPropertyID *)this_00,abStack_14);
+      peVar1 = (this->eCEntityProxy_data).offset_0x0;
+      if (peVar1 != (eCEntityProxyInternal *)0x0) {
+        eCEntityProxyInternal::ReleaseReference(peVar1);
+        (this->eCEntityProxy_data).offset_0x0 = (eCEntityProxyInternal *)0x0;
+      }
+    }
+    bCPropertyID::~bCPropertyID(abStack_14);
+    return 1;
+  }
+  peVar1 = (this->eCEntityProxy_data).offset_0x0;
+  if (peVar1 != (eCEntityProxyInternal *)0x0) {
+    eCEntityProxyInternal::ReleaseReference(peVar1);
+    (this->eCEntityProxy_data).offset_0x0 = (eCEntityProxyInternal *)0x0;
+  }
+  (this->eCEntityProxy_data).offset_0x0 = (eCEntityProxyInternal *)0x0;
+  bCPropertyID::Destroy((bCPropertyID *)&(this->eCEntityProxy_data).field_0x4);
+  return 1;
+}
+
+

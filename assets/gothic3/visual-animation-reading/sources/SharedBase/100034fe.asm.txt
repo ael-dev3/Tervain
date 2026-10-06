@@ -1,0 +1,2 @@
+; 100034fe bCVector::SetZ
+100034fe | e9ed170200 | JMP 0x10024cf0

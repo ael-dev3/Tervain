@@ -1,0 +1,87 @@
+/* ENTRY 20007c75 | gCScriptProcessingUnit::SetCurrentAIState | STATUS decompiled | 42 ms */
+
+/* protected: enum bEResult __thiscall gCScriptProcessingUnit::SetCurrentAIState(class bCString &)
+    */
+
+bEResult __thiscall
+gCScriptProcessingUnit::SetCurrentAIState(gCScriptProcessingUnit *this,bCString *param_1)
+
+{
+  undefined1 *this_00;
+  int iVar1;
+  code *pcVar2;
+  bCMemoryAdmin *pbVar3;
+  int iVar4;
+  void *pvVar5;
+  eCEntity *peVar6;
+  int *piVar7;
+  ulong uVar8;
+  
+                    /* 0x7c75  6339
+                       ?SetCurrentAIState@gCScriptProcessingUnit@@IAE?AW4bEResult@@AAVbCString@@@Z
+                        */
+  pvVar5 = (this->gCScriptProcessingUnit_data).offset_0x0;
+  if (pvVar5 != (void *)0x0) {
+    thunk_FUN_20352660(pvVar5,(this->gCScriptProcessingUnit_data).offset_0x8);
+    pvVar5 = (this->gCScriptProcessingUnit_data).offset_0x0;
+    pbVar3 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar3,pvVar5);
+    (this->gCScriptProcessingUnit_data).offset_0x0 = (void *)0x0;
+    (this->gCScriptProcessingUnit_data).offset_0x4 = 0;
+    (this->gCScriptProcessingUnit_data).offset_0x8 = 0;
+  }
+  iVar1 = (this->gCScriptProcessingUnit_data).offset_0x8;
+  if (iVar1 < 1) {
+    iVar4 = iVar1 >> 3;
+    if (iVar4 < 0x401) {
+      if (iVar4 < 4) {
+        iVar4 = 4;
+      }
+    }
+    else {
+      iVar4 = 0x400;
+    }
+    pvVar5 = (this->gCScriptProcessingUnit_data).offset_0x0;
+    iVar4 = iVar4 + 1;
+    uVar8 = iVar4 * 0x18;
+    pbVar3 = bCMemoryAdmin::GetInstance();
+    pvVar5 = bCMemoryAdmin::Realloc(pbVar3,pvVar5,uVar8);
+    (this->gCScriptProcessingUnit_data).offset_0x0 = pvVar5;
+    thunk_FUN_203502c0((void *)((int)pvVar5 + (this->gCScriptProcessingUnit_data).offset_0x8 * 0x18)
+                       ,iVar4 - iVar1);
+    (this->gCScriptProcessingUnit_data).offset_0x8 = iVar4;
+  }
+  iVar1 = (this->gCScriptProcessingUnit_data).offset_0x4;
+  if (1 < iVar1) {
+    thunk_FUN_20352660((int)(this->gCScriptProcessingUnit_data).offset_0x0 + 0x18,iVar1 + -1);
+    thunk_FUN_203502c0((int)(this->gCScriptProcessingUnit_data).offset_0x0 + 0x18,
+                       (this->gCScriptProcessingUnit_data).offset_0x4 + -1);
+  }
+  (this->gCScriptProcessingUnit_data).offset_0x4 = 1;
+  bCString::operator=((bCString *)((int)(this->gCScriptProcessingUnit_data).offset_0x0 + 4),param_1)
+  ;
+  this_00 = &(this->gCScriptProcessingUnit_data).field_0x1c;
+  *(undefined1 *)((int)(this->gCScriptProcessingUnit_data).offset_0x0 + 8) = 1;
+  peVar6 = eCEntityProxy::GetEntity((eCEntityProxy *)this_00);
+  if (peVar6 != (eCEntity *)0x0) {
+    peVar6 = eCEntityProxy::GetEntity((eCEntityProxy *)this_00);
+    piVar7 = (int *)(**(code **)(*(int *)peVar6 + 0xec))(0x2d);
+    if (piVar7 != (int *)0x0) {
+      (**(code **)(*piVar7 + 0x58))("StatePosition",0);
+      pcVar2 = *(code **)(*piVar7 + 0x5c);
+      piVar7[10] = 0;
+      (*pcVar2)("StatePosition",0);
+      AISetStateTime(this,0.0);
+      (**(code **)(*piVar7 + 0x58))("CurrentState",0);
+      bCString::operator=((bCString *)(piVar7 + 0xd),param_1);
+      (**(code **)(*piVar7 + 0x5c))("CurrentState",0);
+      (**(code **)(*piVar7 + 0x58))("CurrentBreakBlock",0);
+      pcVar2 = *(code **)(*piVar7 + 0x5c);
+      piVar7[0xe] = 0;
+      (*pcVar2)("CurrentBreakBlock",0);
+    }
+  }
+  return 1;
+}
+
+

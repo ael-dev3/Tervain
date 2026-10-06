@@ -1,0 +1,2 @@
+; 10002428 ?Contains@bCBox@@QBE_NABVbCTriangle@@@Z
+10002428 | e973400500 | JMP 0x100564a0

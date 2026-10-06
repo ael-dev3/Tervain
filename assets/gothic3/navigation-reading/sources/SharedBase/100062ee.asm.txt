@@ -1,0 +1,4 @@
+; 100062ee ??0bCQuaternion@@QAE@XZ
+100062ee | e90df90100 | JMP 0x10025c00
+; 100062f3 bCStringConverter::ConvertStringToFloats
+; 100062f3 Ordinal_1726

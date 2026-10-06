@@ -1,0 +1,18 @@
+/* ENTRY 10005290 | bCOrientedBox::GetInvScaled | STATUS decompiled | 7 ms */
+
+/* public: class bCOrientedBox __thiscall bCOrientedBox::GetInvScaled(float)const  */
+
+float __thiscall bCOrientedBox::GetInvScaled(bCOrientedBox *this,float param_1)
+
+{
+  float in_stack_00000008;
+  
+                    /* 0x5290  2461  ?GetInvScaled@bCOrientedBox@@QBE?AV1@M@Z */
+  Create((bCOrientedBox *)param_1,this);
+  *(float *)((int)param_1 + 0xc) = in_stack_00000008 * *(float *)((int)param_1 + 0xc);
+  *(float *)((int)param_1 + 0x10) = *(float *)((int)param_1 + 0x10) * in_stack_00000008;
+  *(float *)((int)param_1 + 0x14) = in_stack_00000008 * *(float *)((int)param_1 + 0x14);
+  return param_1;
+}
+
+

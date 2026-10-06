@@ -1,0 +1,4 @@
+; 3003dca8 ?OnReadContent@eCNode@@UAEXXZ
+3003dca8 | e973294400 | JMP 0x30480620
+; 3003dcb2 eCDX9Primitive::SetIndexData
+; 3003dcb2 Ordinal_13526

@@ -1,0 +1,12 @@
+/* ENTRY 30436f60 | FUN_30436f60 | STATUS decompiled | 3 ms */
+
+void __fastcall FUN_30436f60(int param_1)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x30436f68. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  (*(code *)**(undefined4 **)(param_1 + 0x14))();
+  return;
+}
+
+

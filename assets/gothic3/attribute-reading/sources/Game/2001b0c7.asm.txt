@@ -1,0 +1,2 @@
+; 2001b0c7 gCAttribute::Clone
+2001b0c7 | e964cb3700 | JMP 0x20397c30

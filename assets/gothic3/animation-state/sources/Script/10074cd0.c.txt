@@ -1,0 +1,13 @@
+/* ENTRY 10074cd0 | FUN_10074cd0 | STATUS decompiled | 7 ms */
+
+void FUN_10074cd0(void)
+
+{
+  bCString::bCString((bCString *)&DAT_100b3a80,"N");
+  bCString::bCString((bCString *)&DAT_100b3a84,"O");
+  bCString::bCString((bCString *)&DAT_100b3a88,"I");
+  _atexit(FUN_1007b5d0);
+  return;
+}
+
+

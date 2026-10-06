@@ -1,0 +1,14 @@
+{
+  "schema": "gothic3-player-game-events-rules-v1",
+  "nativeExecution": false,
+  "scriptModuleSha256": "9375605676faaae44a50d48539a7b3995bed471e099ef573666221a044cd4e08",
+  "evidence": {
+    "path": "assets/gothic3/dialogue/native-evidence.json",
+    "sha256": "376b5df5539a8743c69c5e4e95eb25956b42508d8b6c095d4c39268146676d08",
+    "allRecordedInstructionBytesMatchSourcePE": true
+  },
+  "methods": {
+    "set": { "entryVA": "0x100022a7", "bodyVA": "0x100287e0", "arrayOffset": 24, "appendWhenFindReturns": -1 },
+    "clear": { "entryVA": "0x100022de", "bodyVA": "0x10028790", "arrayOffset": 24, "removeFirstMatchingEntry": true }
+  }
+}

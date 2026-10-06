@@ -1,0 +1,2 @@
+; 20034a86 bTPropertyType<gCNPC_PS,bool>::vfunction15
+20034a86 | e9f54b2d00 | JMP 0x20309680

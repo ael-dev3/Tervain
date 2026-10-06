@@ -1,0 +1,17 @@
+/* ENTRY 3004082c | eCResourceAnimationMotion_PS::GetFrameEffectList | STATUS decompiled | 6 ms */
+
+/* public: class bTObjArray<struct eCResourceAnimationMotion_PS::eSFrameEffect> const & __thiscall
+   eCResourceAnimationMotion_PS::GetFrameEffectList(void)const  */
+
+bTObjArray<eCResourceAnimationMotion_PS::eSFrameEffect> * __thiscall
+eCResourceAnimationMotion_PS::GetFrameEffectList(eCResourceAnimationMotion_PS *this)
+
+{
+                    /* 0x4082c  7195
+                       ?GetFrameEffectList@eCResourceAnimationMotion_PS@@QBEABV?$bTObjArray@UeSFrameEffect@eCResourceAnimationMotion_PS@@@@XZ
+                        */
+  return (bTObjArray<eCResourceAnimationMotion_PS::eSFrameEffect> *)
+         &(this->eCResourceAnimationMotion_PS_data).offset_0x20;
+}
+
+

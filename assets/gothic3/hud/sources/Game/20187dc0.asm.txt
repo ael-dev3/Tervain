@@ -1,0 +1,4 @@
+; 20187dc0 gCHUDListCtrlInvQuickSlots::~gCHUDListCtrlInvQuickSlots
+20187dc0 | c70164726720 | MOV dword ptr [ECX],0x20677264
+20187dc6 | c7411044726720 | MOV dword ptr [ECX + 0x10],0x20677244
+20187dcd | e97bdee9ff | JMP 0x20025c4d

@@ -1,0 +1,4 @@
+; 10005e7f ?GetEdge@bCOrientedBox@@QBE?AVbCStretch@@H@Z
+10005e7f | e9bc010600 | JMP 0x10066040
+; 10005e84 bCStretch::GetSum
+; 10005e84 Ordinal_3060

@@ -1,0 +1,12 @@
+/* ENTRY 2001a85c | gCNavigation_PS::IsInProcessingRange | STATUS decompiled | 6 ms */
+
+/* public: bool __thiscall gCNavigation_PS::IsInProcessingRange(void) */
+
+bool __thiscall gCNavigation_PS::IsInProcessingRange(gCNavigation_PS *this)
+
+{
+                    /* 0x1a85c  5162  ?IsInProcessingRange@gCNavigation_PS@@QAE_NXZ */
+  return (bool)(this->gCNavigation_PS_data).offset_0x1e1;
+}
+
+

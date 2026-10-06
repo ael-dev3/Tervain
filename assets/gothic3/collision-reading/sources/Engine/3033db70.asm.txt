@@ -1,0 +1,16 @@
+; 3033db70 bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eECollisionGroup>_>::vfunction8
+3033db70 | 56 | PUSH ESI
+3033db71 | 8bf1 | MOV ESI,ECX
+3033db73 | 8b06 | MOV EAX,dword ptr [ESI]
+3033db75 | 8b5018 | MOV EDX,dword ptr [EAX + 0x18]
+3033db78 | ffd2 | CALL EDX
+3033db7a | 84c0 | TEST AL,AL
+3033db7c | 7505 | JNZ 0x3033db83
+3033db7e | 83c8ff | OR EAX,0xffffffff
+3033db81 | 5e | POP ESI
+3033db82 | c3 | RET
+; 3033db83 LAB_3033db83
+3033db83 | 8b4620 | MOV EAX,dword ptr [ESI + 0x20]
+3033db86 | 8b4004 | MOV EAX,dword ptr [EAX + 0x4]
+3033db89 | 5e | POP ESI
+3033db8a | c3 | RET

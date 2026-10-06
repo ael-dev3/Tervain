@@ -1,0 +1,18 @@
+/* ENTRY 30047997 | eCVisualAnimation_PS::SetPhysicsControled | STATUS decompiled | 13 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::SetPhysicsControled(bool const &) */
+
+void __thiscall eCVisualAnimation_PS::SetPhysicsControled(eCVisualAnimation_PS *this,bool *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x47997  13914  ?SetPhysicsControled@eCVisualAnimation_PS@@QAEXAB_N@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"PhysicsControled",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  this[1].eCEntityPropertySet_data.field_0x4 = *param_1;
+  (*pNVar1)(this,"PhysicsControled",false);
+  return;
+}
+
+

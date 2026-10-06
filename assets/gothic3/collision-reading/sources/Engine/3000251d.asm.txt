@@ -1,0 +1,6 @@
+; 3000251d bTPropertyObject<eCCollisionShapeBase_PS,eCEntityPropertySet>::vfunction7
+3000251d | e92ef83300 | JMP 0x30341d50
+; 30002527 LAB_30002527
+30002527 | e904047a00 | JMP 0x307a2930
+; 3000252c eCVegetationRubber_PS::OnRender
+; 3000252c Ordinal_11446

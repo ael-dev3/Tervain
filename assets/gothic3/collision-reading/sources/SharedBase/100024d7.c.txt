@@ -1,0 +1,13 @@
+/* ENTRY 100024d7 | bCBox::bCBox | STATUS decompiled | 4 ms */
+
+/* public: __thiscall bCBox::bCBox(class bCVector const &,float) */
+
+bCBox * __thiscall bCBox::bCBox(bCBox *this,bCVector *param_1,float param_2)
+
+{
+                    /* 0x24d7  40  ??0bCBox@@QAE@ABVbCVector@@M@Z */
+  SetBox(this,param_1,param_2);
+  return this;
+}
+
+

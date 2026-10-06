@@ -1,0 +1,10 @@
+/* ENTRY 100ae1f6 | FUN_100ae1f6 | STATUS decompiled | 3 ms */
+
+void FUN_100ae1f6(void)
+
+{
+  FUN_100ae1d2(0,0,0,0,0);
+  return;
+}
+
+

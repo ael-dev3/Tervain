@@ -1,0 +1,19 @@
+/* ENTRY 3008fc70 | FUN_3008fc70 | STATUS decompiled | 5 ms */
+
+undefined4 __thiscall FUN_3008fc70(int param_1,bCString *param_2)
+
+{
+  bool bVar1;
+  int iVar2;
+  
+  bVar1 = bCString::IsEmpty(param_2);
+  if ((!bVar1) && (*(int *)(param_1 + 0x4c) != 0)) {
+    iVar2 = thunk_FUN_300915e0(param_2);
+    if (iVar2 != -1) {
+      return 1;
+    }
+  }
+  return 0;
+}
+
+

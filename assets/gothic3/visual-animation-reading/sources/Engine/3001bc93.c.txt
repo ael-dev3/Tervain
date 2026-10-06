@@ -1,0 +1,12 @@
+/* ENTRY 3001bc93 | eCThreadPool::IsThreadingEnabled | STATUS decompiled | 2 ms */
+
+/* public: static bool __stdcall eCThreadPool::IsThreadingEnabled(void) */
+
+bool eCThreadPool::IsThreadingEnabled(void)
+
+{
+                    /* 0x1bc93  10618  ?IsThreadingEnabled@eCThreadPool@@SG_NXZ */
+  return ms_bEnableThreads;
+}
+
+

@@ -1,0 +1,2 @@
+; 3002b567 ?GetProprietaryShapeAtIndex@eCCollisionShape_PS@@UBEPAVNxShape@@K@Z
+3002b567 | e914a93000 | JMP 0x30335e80

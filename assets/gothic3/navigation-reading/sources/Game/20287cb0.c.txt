@@ -1,0 +1,32 @@
+/* ENTRY 20287cb0 | FUN_20287cb0 | STATUS decompiled | 17 ms */
+
+void __fastcall FUN_20287cb0(bCObjectBase *param_1)
+
+{
+  undefined4 uVar1;
+  int iVar2;
+  gCNavigationAdmin *this;
+  eCEntity *this_00;
+  bCVector *pbVar3;
+  bCObjectBase *pbVar4;
+  
+  uVar1 = (**(code **)((int)*(bCObjectRefBase *)param_1 + 0x68))
+                    (0,&eCEntity::RTTI_Type_Descriptor,&eCTemplateEntity::RTTI_Type_Descriptor,0);
+  iVar2 = ___RTDynamicCast(uVar1);
+  if (iVar2 == 0) {
+    pbVar4 = param_1;
+    this = (gCNavigationAdmin *)thunk_FUN_20079ea0();
+    gCNavigationAdmin::RegisterNavigationPS(this,(gCNavigation_PS *)pbVar4);
+  }
+  this_00 = (eCEntity *)(**(code **)((int)*param_1 + 0x68))();
+  pbVar3 = eCEntity::GetWorldPosition(this_00);
+  (**(code **)((int)*param_1 + 0x58))("LastUseableNavigationPosition",0);
+  bCVector::operator=((bCVector *)(param_1 + 0x39),pbVar3);
+  (**(code **)((int)*param_1 + 0x5c))("LastUseableNavigationPosition",0);
+                    /* WARNING: Could not recover jumptable at 0x20287d27. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eCEntityPropertySet::OnPropertySetAdded((eCEntityPropertySet *)param_1);
+  return;
+}
+
+

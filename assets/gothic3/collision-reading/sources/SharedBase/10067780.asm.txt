@@ -1,0 +1,53 @@
+; 10067780 FUN_10067780
+10067780 | 83ec30 | SUB ESP,0x30
+10067783 | 8b442434 | MOV EAX,dword ptr [ESP + 0x34]
+10067787 | 8b5004 | MOV EDX,dword ptr [EAX + 0x4]
+1006778a | 56 | PUSH ESI
+1006778b | 8bf1 | MOV ESI,ECX
+1006778d | 8b08 | MOV ECX,dword ptr [EAX]
+1006778f | 894c2410 | MOV dword ptr [ESP + 0x10],ECX
+10067793 | 8b4808 | MOV ECX,dword ptr [EAX + 0x8]
+10067796 | 89542414 | MOV dword ptr [ESP + 0x14],EDX
+1006779a | 8b500c | MOV EDX,dword ptr [EAX + 0xc]
+1006779d | 894c2418 | MOV dword ptr [ESP + 0x18],ECX
+100677a1 | 8b4810 | MOV ECX,dword ptr [EAX + 0x10]
+100677a4 | 8954241c | MOV dword ptr [ESP + 0x1c],EDX
+100677a8 | 8b5014 | MOV EDX,dword ptr [EAX + 0x14]
+100677ab | 894c2420 | MOV dword ptr [ESP + 0x20],ECX
+100677af | 8b4818 | MOV ECX,dword ptr [EAX + 0x18]
+100677b2 | 89542424 | MOV dword ptr [ESP + 0x24],EDX
+100677b6 | 8b501c | MOV EDX,dword ptr [EAX + 0x1c]
+100677b9 | 8b4020 | MOV EAX,dword ptr [EAX + 0x20]
+100677bc | 894c2428 | MOV dword ptr [ESP + 0x28],ECX
+100677c0 | 8d4c2410 | LEA ECX,[ESP + 0x10]
+100677c4 | 8954242c | MOV dword ptr [ESP + 0x2c],EDX
+100677c8 | 89442430 | MOV dword ptr [ESP + 0x30],EAX
+100677cc | e856bcf9ff | CALL 0x10003427
+100677d1 | d95c2404 | FSTP float ptr [ESP + 0x4]
+100677d5 | 8d4c241c | LEA ECX,[ESP + 0x1c]
+100677d9 | e849bcf9ff | CALL 0x10003427
+100677de | d95c2408 | FSTP float ptr [ESP + 0x8]
+100677e2 | 8d4c2428 | LEA ECX,[ESP + 0x28]
+100677e6 | e83cbcf9ff | CALL 0x10003427
+100677eb | d95c240c | FSTP float ptr [ESP + 0xc]
+100677ef | 8d4c2410 | LEA ECX,[ESP + 0x10]
+100677f3 | 51 | PUSH ECX
+100677f4 | 8bce | MOV ECX,ESI
+100677f6 | e885e0f9ff | CALL 0x10005880
+100677fb | 8d542410 | LEA EDX,[ESP + 0x10]
+100677ff | 8d4e18 | LEA ECX,[ESI + 0x18]
+10067802 | 52 | PUSH EDX
+10067803 | 51 | PUSH ECX
+10067804 | e82e06faff | CALL 0x10007e37
+10067809 | d9460c | FLD float ptr [ESI + 0xc]
+1006780c | d84c2404 | FMUL float ptr [ESP + 0x4]
+10067810 | d95e0c | FSTP float ptr [ESI + 0xc]
+10067813 | d9442408 | FLD float ptr [ESP + 0x8]
+10067817 | d84e10 | FMUL float ptr [ESI + 0x10]
+1006781a | d95e10 | FSTP float ptr [ESI + 0x10]
+1006781d | d94614 | FLD float ptr [ESI + 0x14]
+10067820 | d84c240c | FMUL float ptr [ESP + 0xc]
+10067824 | d95e14 | FSTP float ptr [ESI + 0x14]
+10067827 | 5e | POP ESI
+10067828 | 83c430 | ADD ESP,0x30
+1006782b | c20400 | RET 0x4

@@ -1,0 +1,174 @@
+/* ENTRY 20297190 | FUN_20297190 | STATUS decompiled | 110 ms */
+
+bool __fastcall FUN_20297190(int param_1)
+
+{
+  bool bVar1;
+  bCInfDoubleCylinder *pbVar2;
+  bCVector *this;
+  bCVector *pbVar3;
+  int iVar4;
+  int iVar5;
+  float fVar6;
+  bCVector *pbVar7;
+  float local_a8;
+  bCVector local_a4 [4];
+  bCVector local_a0 [4];
+  bCVector local_9c [4];
+  bCVector local_98 [4];
+  bCVector local_94 [4];
+  bCVector local_90 [4];
+  bCVector local_8c [4];
+  bCVector local_88 [4];
+  bCVector local_84 [4];
+  bCVector local_80 [4];
+  bCVector local_7c [4];
+  bCVector local_78 [4];
+  bCVector local_74 [4];
+  bCVector local_70 [4];
+  bCVector local_6c [4];
+  bCVector local_68 [4];
+  bCVector local_64 [12];
+  bCVector local_58 [4];
+  bCVector local_54 [4];
+  bCVector local_50 [12];
+  bCInfDoubleCylinder local_44 [12];
+  bCInfDoubleCylinder abStack_38 [20];
+  bCInfDoubleCylinder local_24 [36];
+  
+  bCMatrix::operator*((bCMatrix *)(param_1 + 0xcc),local_70);
+  if (*(int *)(param_1 + 0x18) < 2) {
+    if (*(int *)(param_1 + 0x18) == 1) {
+      bCInfCylinder::bCInfCylinder
+                ((bCInfCylinder *)local_44,*(bCVector **)(param_1 + 0x14),
+                 **(float **)(param_1 + 0x20));
+      bVar1 = bCInfCylinder::Contains((bCInfCylinder *)local_44,local_74);
+      bCInfCylinder::~bCInfCylinder((bCInfCylinder *)local_44);
+      bCVector::~bCVector(local_74);
+      return bVar1;
+    }
+  }
+  else {
+    bCInfDoubleCylinder::bCInfDoubleCylinder(local_24);
+    iVar5 = 0;
+    if (-1 < *(int *)(param_1 + 0x18) + -2) {
+      iVar4 = 0;
+      do {
+        pbVar3 = (bCVector *)(*(int *)(param_1 + 0x14) + iVar4);
+        pbVar7 = (bCVector *)0x2029720c;
+        pbVar2 = (bCInfDoubleCylinder *)
+                 bCInfDoubleCylinder::bCInfDoubleCylinder
+                           (local_44,pbVar3,*(float *)(*(int *)(param_1 + 0x20) + iVar5 * 4),
+                            pbVar3 + 0xc,*(float *)(*(int *)(param_1 + 0x20) + 4 + iVar5 * 4));
+        bCInfDoubleCylinder::operator=(local_24,pbVar2);
+        bCInfDoubleCylinder::~bCInfDoubleCylinder(local_44);
+        bVar1 = bCInfDoubleCylinder::Contains(local_24,local_74);
+        if (bVar1) {
+          if ((iVar5 != 0) ||
+             (bVar1 = bCPropertyID::IsValid((bCPropertyID *)(param_1 + 0x30)), !bVar1)) {
+LAB_2029746f:
+            if ((*(int *)(param_1 + 0x18) + -2 != iVar5) ||
+               (bVar1 = bCPropertyID::IsValid((bCPropertyID *)(param_1 + 0x44)), !bVar1))
+            goto LAB_20297664;
+            bCVector::bCVector((bCVector *)&stack0xffffff48,(bCVector *)(param_1 + 0x7c));
+            bCVector::bCVector((bCVector *)&stack0xffffff54,(bCVector *)(param_1 + 0x88));
+            bCVector::bCVector(local_a0,(bCVector *)
+                                        (*(int *)(param_1 + 0x14) +
+                                        (*(int *)(param_1 + 0x18) + -2) * 0xc));
+            bCVector::bCVector(local_94,local_88);
+            bCVector::SetY((bCVector *)&stack0xffffff48,(float *)&stack0xffffff40);
+            bCVector::SetY((bCVector *)&stack0xffffff54,(float *)&stack0xffffff40);
+            bCVector::SetY(local_a0,(float *)&stack0xffffff40);
+            bCVector::SetY(local_94,(float *)&stack0xffffff40);
+            bVar1 = bCVector::operator==((bCVector *)&stack0xffffff48,(bCVector *)&stack0xffffff54);
+            if (!bVar1) {
+              bCVector::operator-((bCVector *)&stack0xffffff54,local_7c);
+              bCVector::operator-(local_a4,local_74);
+              bCVector::operator-(local_9c,local_6c);
+              pbVar3 = (bCVector *)bCVector::CrossProduct(local_64,local_88);
+              bCVector::GetY(pbVar3);
+              bCVector::~bCVector(local_68);
+              pbVar3 = (bCVector *)bCVector::CrossProduct(local_68,local_8c);
+              fVar6 = bCVector::GetY(pbVar3);
+              bCVector::~bCVector(local_6c);
+              if (fVar6 * (float)pbVar7 < 0.0) {
+                bCVector::~bCVector(local_78);
+                bCVector::~bCVector(local_84);
+                bCVector::~bCVector(local_90);
+                bCVector::~bCVector((bCVector *)&local_a8);
+                pbVar7 = (bCVector *)&stack0xffffff4c;
+                goto LAB_202973ed;
+              }
+              bCVector::~bCVector(local_78);
+              bCVector::~bCVector(local_84);
+              bCVector::~bCVector(local_90);
+            }
+            bCVector::~bCVector(local_94);
+            bCVector::~bCVector(local_a0);
+            bCVector::~bCVector((bCVector *)&stack0xffffff54);
+            bCVector::~bCVector((bCVector *)&stack0xffffff48);
+LAB_20297664:
+            bCInfDoubleCylinder::~bCInfDoubleCylinder(abStack_38);
+            bCVector::~bCVector(local_88);
+            return true;
+          }
+          bCVector::bCVector(local_a4,(bCVector *)(param_1 + 0x58));
+          bCVector::bCVector(local_98,(bCVector *)(param_1 + 100));
+          bCVector::bCVector(local_68,(bCVector *)(*(int *)(param_1 + 0x14) + 0xc));
+          bCVector::bCVector(local_80,local_74);
+          local_a8 = 0.0;
+          bCVector::SetY(local_a4,&local_a8);
+          local_a8 = 0.0;
+          bCVector::SetY(local_98,&local_a8);
+          local_a8 = 0.0;
+          bCVector::SetY(local_68,&local_a8);
+          local_a8 = 0.0;
+          bCVector::SetY(local_80,&local_a8);
+          bVar1 = bCVector::operator==(local_a4,local_98);
+          if (bVar1) {
+LAB_20297447:
+            bCVector::~bCVector(local_94);
+            bCVector::~bCVector(local_7c);
+            bCVector::~bCVector((bCVector *)&stack0xffffff54);
+            bCVector::~bCVector((bCVector *)&stack0xffffff48);
+            goto LAB_2029746f;
+          }
+          pbVar3 = local_a4;
+          bCVector::operator-(local_98,local_8c);
+          bCVector::operator-(local_6c,local_54);
+          bCVector::operator-(local_88,local_64);
+          pbVar7 = (bCVector *)bCVector::CrossProduct(local_50,local_98);
+          bCVector::GetY(pbVar7);
+          bCVector::~bCVector(local_54);
+          pbVar7 = local_6c;
+          this = (bCVector *)bCVector::CrossProduct(local_54,local_9c);
+          fVar6 = bCVector::GetY(this);
+          bCVector::~bCVector(local_58);
+          if (0.0 <= fVar6 * (float)pbVar3) {
+            bCVector::~bCVector(local_70);
+            bCVector::~bCVector(local_64);
+            bCVector::~bCVector(local_a0);
+            goto LAB_20297447;
+          }
+          bCVector::~bCVector(local_70);
+          bCVector::~bCVector(local_64);
+          bCVector::~bCVector(local_a0);
+          bCVector::~bCVector(local_94);
+          pbVar7 = local_7c;
+LAB_202973ed:
+          bCVector::~bCVector(pbVar7);
+          bCVector::~bCVector((bCVector *)&stack0xffffff54);
+          bCVector::~bCVector((bCVector *)&stack0xffffff48);
+          break;
+        }
+        iVar5 = iVar5 + 1;
+        iVar4 = iVar4 + 0xc;
+      } while (iVar5 <= *(int *)(param_1 + 0x18) + -2);
+    }
+    bCInfDoubleCylinder::~bCInfDoubleCylinder(abStack_38);
+  }
+  bCVector::~bCVector(local_88);
+  return false;
+}
+
+

@@ -1,0 +1,5 @@
+; 203242d0 bTPropertyType<gCPlayerMemory_PS,bCPropertyID>::vfunction3
+203242d0 | 8b4918 | MOV ECX,dword ptr [ECX + 0x18]
+203242d3 | 8b01 | MOV EAX,dword ptr [ECX]
+203242d5 | 8b10 | MOV EDX,dword ptr [EAX]
+203242d7 | ffe2 | JMP EDX

@@ -1,0 +1,45 @@
+/* ENTRY 10004bfb | bCString::Compare | STATUS decompiled | 8 ms */
+
+/* public: int __thiscall bCString::Compare(char const *)const  */
+
+int __thiscall bCString::Compare(bCString *this,char *param_1)
+
+{
+  byte bVar1;
+  byte *pbVar2;
+  bool bVar3;
+  
+                    /* 0x4bfb  1650  ?Compare@bCString@@QBEHPBD@Z */
+  pbVar2 = *(byte **)this;
+  if (param_1 == (char *)0x0) {
+    if (pbVar2 != (byte *)0x0) {
+      return (uint)(*(int *)(pbVar2 + -8) == 0);
+    }
+    return 1;
+  }
+  if (pbVar2 == (byte *)0x0) {
+    return -(uint)(*param_1 != '\0');
+  }
+  if (*param_1 == '\0') {
+    return 1;
+  }
+  while( true ) {
+    bVar1 = *pbVar2;
+    bVar3 = bVar1 < (byte)*param_1;
+    if (bVar1 != *param_1) break;
+    if (bVar1 == 0) {
+      return 0;
+    }
+    bVar1 = pbVar2[1];
+    bVar3 = bVar1 < (byte)param_1[1];
+    if (bVar1 != param_1[1]) break;
+    pbVar2 = pbVar2 + 2;
+    param_1 = param_1 + 2;
+    if (bVar1 == 0) {
+      return 0;
+    }
+  }
+  return (1 - (uint)bVar3) - (uint)(bVar3 != 0);
+}
+
+

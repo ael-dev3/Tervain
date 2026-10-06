@@ -1,0 +1,12 @@
+/* ENTRY 201c7490 | FUN_201c7490 | STATUS decompiled | 3 ms */
+
+bool __fastcall FUN_201c7490(gCInventorySlot *param_1)
+
+{
+  bool bVar1;
+  
+  bVar1 = gCInventorySlot::IsLinked(param_1);
+  return !bVar1;
+}
+
+

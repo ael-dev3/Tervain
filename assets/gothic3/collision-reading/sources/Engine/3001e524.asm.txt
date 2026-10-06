@@ -1,0 +1,4 @@
+; 3001e524 ?GetSphere@eCCollisionShape@@QAEAAVbCSphere@@XZ
+3001e524 | e997460a00 | JMP 0x300c2bc0
+; 3001e529 eCTexCoordSrcBumpOffset::Create
+; 3001e529 Ordinal_4704

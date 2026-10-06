@@ -1,0 +1,12 @@
+/* ENTRY 30017585 | eCCollisionShape::GetLastPosition | STATUS decompiled | 3 ms */
+
+/* public: class bCVector & __thiscall eCCollisionShape::GetLastPosition(void) */
+
+bCVector * __thiscall eCCollisionShape::GetLastPosition(eCCollisionShape *this)
+
+{
+                    /* 0x17585  7544  ?GetLastPosition@eCCollisionShape@@QAEAAVbCVector@@XZ */
+  return (bCVector *)&(this->eCCollisionShape_data).field_0x64;
+}
+
+

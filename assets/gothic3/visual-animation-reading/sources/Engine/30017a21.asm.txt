@@ -1,0 +1,2 @@
+; 30017a21 eCSceneAdmin::UnregisterResourceDataEntity
+30017a21 | e9ba344b00 | JMP 0x304caee0

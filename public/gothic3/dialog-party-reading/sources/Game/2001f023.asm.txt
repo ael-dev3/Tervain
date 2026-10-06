@@ -1,0 +1,2 @@
+; 2001f023 gCDialog_PS::SetPartyEnabled
+2001f023 | e9180a1900 | JMP 0x201afa40

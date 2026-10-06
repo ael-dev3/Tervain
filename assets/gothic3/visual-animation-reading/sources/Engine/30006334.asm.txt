@@ -1,0 +1,2 @@
+; 30006334 eCVisualAnimation_PS::Create
+30006334 | e9e7940900 | JMP 0x3009f820

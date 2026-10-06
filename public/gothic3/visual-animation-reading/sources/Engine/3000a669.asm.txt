@@ -1,0 +1,2 @@
+; 3000a669 eCEntity::EnableCollisionWith
+3000a669 | e9a28a4a00 | JMP 0x304b3110

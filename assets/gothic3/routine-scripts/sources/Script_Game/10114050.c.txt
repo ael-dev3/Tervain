@@ -1,0 +1,17 @@
+/* ENTRY 10114050 | FUN_10114050 | STATUS decompiled | 7 ms */
+
+void FUN_10114050(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Tasks\\Party_Tasks\\ZS_WaitForPlayer.cpp");
+  bCString::bCString(local_8,"ZS_WaitForPlayer_Loop");
+  thunk_FUN_1001db60(local_8,&LAB_100021c6,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

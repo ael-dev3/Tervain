@@ -1,0 +1,4 @@
+; 20036354 bTPropertyType<gCInventorySlot,eCTemplateEntityProxy>::vfunction5
+20036354 | e9a7dd1800 | JMP 0x201c4100
+; 20036359 gCInteraction_PS::AccessUseFunc
+; 20036359 Ordinal_1793

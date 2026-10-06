@@ -1,0 +1,38 @@
+/* ENTRY 3000f628 | eCCollisionShape_PS::SetShapeGroupInternal | STATUS decompiled | 28 ms */
+
+/* protected: virtual void __thiscall eCCollisionShape_PS::SetShapeGroupInternal(enum
+   eEShapeGroup,enum eEShapeGroup) */
+
+void __thiscall
+eCCollisionShape_PS::SetShapeGroupInternal
+          (eCCollisionShape_PS *this,eEShapeGroup param_1,eEShapeGroup param_2)
+
+{
+  int iVar1;
+  int *piVar2;
+  eCEntity *this_00;
+  eCPhysicObject *this_01;
+  eEShapeGroup eVar3;
+  int iVar4;
+  
+                    /* 0xf628  14174
+                       ?SetShapeGroupInternal@eCCollisionShape_PS@@MAEXW4eEShapeGroup@@0@Z */
+  this_00 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+  this_01 = (eCPhysicObject *)eCEntity::GetPhysicObject(this_00);
+  eCPhysicObject::GetActor(this_01);
+  iVar1 = (this->eCCollisionShape_PS_data).offset_0x18;
+  if ((iVar1 != 0) && (iVar4 = 0, 0 < iVar1)) {
+    do {
+      piVar2 = *(int **)(*(int *)((this->eCCollisionShape_PS_data).offset_0x14 + iVar4 * 4) + 0x60);
+      if ((piVar2 != (int *)0x0) &&
+         (eVar3 = (**(code **)(*piVar2 + 0xc))(), param_1 == (eVar3 & 0xffff))) {
+        (**(code **)(**(int **)(*(int *)((this->eCCollisionShape_PS_data).offset_0x14 + iVar4 * 4) +
+                               0x60) + 8))(param_2);
+      }
+      iVar4 = iVar4 + 1;
+    } while (iVar4 < iVar1);
+  }
+  return;
+}
+
+

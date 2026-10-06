@@ -1,0 +1,4 @@
+; 10006104 ?Intersects@bCBox@@QBE_NABVbCPlane@@@Z
+10006104 | e957090500 | JMP 0x10056a60
+; 10006109 bCVariant::SetType
+; 10006109 Ordinal_4408

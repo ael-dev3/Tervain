@@ -1,0 +1,12 @@
+/* ENTRY 3033b550 | bTPropertyContainer<eEPhysicRangeType>::vfunction8 | STATUS decompiled | 3 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<eEPhysicRangeType>::vfunction8
+          (bTPropertyContainer<eEPhysicRangeType> *this,int param_1)
+
+{
+  (this->bTPropertyContainer<eEPhysicRangeType>_data).offset_0x0 = *(undefined ***)(param_1 + 4);
+  return 1;
+}
+
+

@@ -1,0 +1,12 @@
+/* ENTRY 3000e5ca | eCEntity::GetName | STATUS decompiled | 5 ms */
+
+/* public: class bCString const & __thiscall eCEntity::GetName(void)const  */
+
+bCString * __thiscall eCEntity::GetName(eCEntity *this)
+
+{
+                    /* 0xe5ca  7894  ?GetName@eCEntity@@QBEABVbCString@@XZ */
+  return (bCString *)&(this->eCEntity_data).field_0x108;
+}
+
+

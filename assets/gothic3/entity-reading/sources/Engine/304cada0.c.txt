@@ -1,0 +1,22 @@
+/* ENTRY 304cada0 | FUN_304cada0 | STATUS decompiled | 8 ms */
+
+undefined1 __thiscall FUN_304cada0(int param_1,undefined4 param_2,undefined4 param_3)
+
+{
+  undefined1 uVar1;
+  int iVar2;
+  
+  if (param_1 != 0) {
+    bCCriticalSectionWin32::Acquire((bCCriticalSectionWin32 *)&DAT_30af24f4);
+    iVar2 = thunk_FUN_304ce450(param_2,&param_2);
+    if ((iVar2 != 0) && (iVar2 != -4)) {
+      uVar1 = thunk_FUN_304d0260(param_3);
+      bCCriticalSectionWin32::Release((bCCriticalSectionWin32 *)&DAT_30af24f4);
+      return uVar1;
+    }
+    bCCriticalSectionWin32::Release((bCCriticalSectionWin32 *)&DAT_30af24f4);
+  }
+  return 0;
+}
+
+

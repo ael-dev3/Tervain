@@ -1,0 +1,4 @@
+; 2000da3f ?GetAniName@gCScriptProcessingUnit@@IAEXAAVbCString@@PAVeCEntity@@W4gEAction@@V2@0_N@Z
+2000da3f | e9cca63500 | JMP 0x20368110
+; 2000da44 gCSector::GetDynamicLayerCount
+; 2000da44 Ordinal_3309

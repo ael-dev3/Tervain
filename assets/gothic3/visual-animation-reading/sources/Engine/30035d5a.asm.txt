@@ -1,0 +1,2 @@
+; 30035d5a eCVisualAnimation_PS::OnUpdateInternals
+30035d5a | e9817d0600 | JMP 0x3009dae0

@@ -1,0 +1,12 @@
+/* ENTRY 3003a1a7 | eCRigidBody_PS::GetVersion | STATUS decompiled | 10 ms */
+
+/* public: virtual unsigned short __thiscall eCRigidBody_PS::GetVersion(void)const  */
+
+ushort __thiscall eCRigidBody_PS::GetVersion(eCRigidBody_PS *this)
+
+{
+                    /* 0x3a1a7  9465  ?GetVersion@eCRigidBody_PS@@UBEGXZ */
+  return 0x41;
+}
+
+

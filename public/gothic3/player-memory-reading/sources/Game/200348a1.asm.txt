@@ -1,0 +1,2 @@
+; 200348a1 bTPropertyType<gCPlayerMemory_PS,bTPropertyContainer<gEWeaponConfig>_>::vfunction15
+200348a1 | e99af82e00 | JMP 0x20324140

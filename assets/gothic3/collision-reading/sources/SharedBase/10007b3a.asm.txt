@@ -1,0 +1,4 @@
+; 10007b3a ?GetMin@bCBox@@QBEXAAVbCVector@@@Z
+10007b3a | e9a12b0200 | JMP 0x1002a6e0
+; 10007b3f bCVector::operator*=
+; 10007b3f Ordinal_1218

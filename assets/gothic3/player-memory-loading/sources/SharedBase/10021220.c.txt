@@ -1,0 +1,16 @@
+/* ENTRY 10021220 | FUN_10021220 | STATUS decompiled | 2 ms */
+
+void __fastcall FUN_10021220(bCGothic3EngineDialogs *param_1)
+
+{
+  bCDialogHandle *pbVar1;
+  
+  pbVar1 = bCGothic3EngineDialogs::GetDialogHandle(param_1);
+  if ((*(short *)(pbVar1 + 4) != 0) && (*param_1 == (bCGothic3EngineDialogs)0x1)) {
+    bCGothic3EngineDialogs::UnloadGE3DialogLib(param_1);
+    return;
+  }
+  return;
+}
+
+

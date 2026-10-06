@@ -1,0 +1,4 @@
+; 30017a08 bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeAABBAdapt>_>::vfunction14
+30017a08 | e9f3873400 | JMP 0x30360200
+; 30017a0d eCCollisionShape::AccessSkinWidth
+; 30017a0d Ordinal_3111

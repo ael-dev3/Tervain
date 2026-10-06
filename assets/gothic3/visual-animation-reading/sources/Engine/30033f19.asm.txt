@@ -1,0 +1,2 @@
+; 30033f19 eCEffector::eCEffector
+30033f19 | e912d50200 | JMP 0x30061430

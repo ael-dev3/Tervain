@@ -1,0 +1,4 @@
+; 300048fe ?Read@eCEntityDynamicContext@@UAE?AW4bEResult@@AAVbCIStream@@@Z
+300048fe | e97d734a00 | JMP 0x304abc80
+; 30004903 eCParticleModule::Invalidate
+; 30004903 Ordinal_10085

@@ -1,0 +1,4 @@
+; 3001f22b bTPropertyContainer<eERigidbody_Flag>::vfunction7
+3001f22b | e9800f3100 | JMP 0x303301b0
+; 3001f235 eCResourceMaterialObject_PS::SetSpecularPower
+; 3001f235 Ordinal_14242

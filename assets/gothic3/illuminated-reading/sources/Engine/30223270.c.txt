@@ -1,0 +1,89 @@
+/* ENTRY 30223270 | FUN_30223270 | STATUS decompiled | 85 ms */
+
+/* WARNING: Removing unreachable block (ram,0x30223326) */
+/* WARNING: Removing unreachable block (ram,0x3022332d) */
+/* WARNING: Removing unreachable block (ram,0x3022333c) */
+/* WARNING: Removing unreachable block (ram,0x3022330a) */
+/* WARNING: Removing unreachable block (ram,0x302232da) */
+/* WARNING: Removing unreachable block (ram,0x302232e1) */
+/* WARNING: Removing unreachable block (ram,0x302232e9) */
+/* WARNING: Removing unreachable block (ram,0x302232ed) */
+/* WARNING: Removing unreachable block (ram,0x302232f0) */
+/* WARNING: Removing unreachable block (ram,0x3022334f) */
+
+void __thiscall FUN_30223270(eCIlluminated_PS *param_1,eCLightSet *param_2)
+
+{
+  eCLightSet *this;
+  int iVar1;
+  bTValArray<eCDynamicLight_PS*> *pbVar2;
+  bTValArray<eCDynamicLight_PS*> *pbVar3;
+  eSShaderMaterialLightList *peVar4;
+  int iVar5;
+  
+  this = *(eCLightSet **)(param_1 + 0xac);
+  if (this == param_2) {
+    return;
+  }
+  if (this != (eCLightSet *)0x0) {
+    if (param_2 != (eCLightSet *)0x0) {
+      pbVar2 = eCLightSet::GetEffectedDynamicLights(this);
+      pbVar3 = eCLightSet::GetEffectedDynamicLights(param_2);
+      thunk_FUN_3007f020(pbVar3);
+      iVar1 = *(int *)(pbVar2 + 4);
+      iVar5 = 0;
+      if (0 < iVar1) {
+        do {
+          (**(code **)(**(int **)(*(int *)pbVar2 + iVar5 * 4) + 0x178))(param_1);
+          iVar5 = iVar5 + 1;
+        } while (iVar5 < iVar1);
+      }
+      goto LAB_302233be;
+    }
+    if (this != (eCLightSet *)0x0) {
+      pbVar2 = eCLightSet::GetEffectedDynamicLights(this);
+      iVar1 = *(int *)(pbVar2 + 4);
+      iVar5 = 0;
+      if (0 < iVar1) {
+        do {
+          (**(code **)(**(int **)(*(int *)pbVar2 + iVar5 * 4) + 0x178))(param_1);
+          iVar5 = iVar5 + 1;
+        } while (iVar5 < iVar1);
+      }
+      goto LAB_302233be;
+    }
+  }
+  if (param_2 != (eCLightSet *)0x0) {
+    pbVar2 = eCLightSet::GetEffectedDynamicLights(param_2);
+    iVar1 = *(int *)(pbVar2 + 4);
+    iVar5 = 0;
+    if (0 < iVar1) {
+      do {
+        (**(code **)(**(int **)(*(int *)pbVar2 + iVar5 * 4) + 0x17c))(param_1);
+        iVar5 = iVar5 + 1;
+      } while (iVar5 < iVar1);
+    }
+  }
+LAB_302233be:
+  if (*(eCLightSet **)(param_1 + 0xac) != (eCLightSet *)0x0) {
+    eCLightSet::RemoveEffectedObject(*(eCLightSet **)(param_1 + 0xac),param_1);
+  }
+  if (param_2 != (eCLightSet *)0x0) {
+    (*param_2->vftablePtr->AddReference)(param_2);
+  }
+  if (*(int **)(param_1 + 0xac) != (int *)0x0) {
+    (**(code **)(**(int **)(param_1 + 0xac) + 0x24))();
+    *(undefined4 *)(param_1 + 0xac) = 0;
+  }
+  *(eCLightSet **)(param_1 + 0xac) = param_2;
+  if (param_2 == (eCLightSet *)0x0) {
+    *(undefined4 *)(param_1 + 0x30) = 0;
+    return;
+  }
+  eCLightSet::AddEffectedObject(param_2,param_1);
+  peVar4 = eCLightSet::GetShaderMaterialLightList(*(eCLightSet **)(param_1 + 0xac));
+  *(eSShaderMaterialLightList **)(param_1 + 0x30) = peVar4;
+  return;
+}
+
+

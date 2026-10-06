@@ -1,0 +1,4 @@
+; 2002eb4f ?TrackCurrentPose@gCNPC_PS@@IAEXXZ
+2002eb4f | e96ca52c00 | JMP 0x202f90c0
+; 2002eb54 gCInventoryStack::OnApplyStats
+; 2002eb54 Ordinal_5353

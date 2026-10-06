@@ -1,0 +1,18 @@
+/* ENTRY 30044e0e | eCCollisionShape_PS::GetProprietaryTouchingShape | STATUS decompiled | 10 ms */
+
+/* public: class NxShape * __thiscall eCCollisionShape_PS::GetProprietaryTouchingShape(unsigned
+   long)const  */
+
+NxShape * __thiscall
+eCCollisionShape_PS::GetProprietaryTouchingShape(eCCollisionShape_PS *this,ulong param_1)
+
+{
+                    /* 0x44e0e  8289
+                       ?GetProprietaryTouchingShape@eCCollisionShape_PS@@QBEPAVNxShape@@K@Z */
+  if ((uint)(this->eCCollisionShape_PS_data).offset_0x24 <= param_1) {
+    return (NxShape *)0x0;
+  }
+  return *(NxShape **)(*(int *)((this->eCCollisionShape_PS_data).offset_0x20 + param_1 * 4) + 0x60);
+}
+
+

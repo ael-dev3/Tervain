@@ -1,0 +1,16 @@
+/* ENTRY 10005e20 | bCSphere::Clear | STATUS decompiled | 3 ms */
+
+/* public: void __thiscall bCSphere::Clear(void) */
+
+void __thiscall bCSphere::Clear(bCSphere *this)
+
+{
+                    /* 0x5e20  1626  ?Clear@bCSphere@@QAEXXZ */
+  *(undefined4 *)this = 0xff7fffff;
+  *(undefined4 *)(this + 4) = 0;
+  *(undefined4 *)(this + 8) = 0;
+  *(undefined4 *)(this + 0xc) = 0;
+  return;
+}
+
+

@@ -1,0 +1,4 @@
+; 30040d13 ?OnNotifyPropertyValueChangedExitEx@eCCollisionShape_PS@@UAE_NPBD_N@Z
+30040d13 | e9a8562f00 | JMP 0x303363c0
+; 30040d18 eCRigidBodyBase_PS::SetGravityEnabled
+; 30040d18 Ordinal_13453

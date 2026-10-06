@@ -1,0 +1,2 @@
+; 30027741 eCVisualAnimationFactory::AddBodyPart
+30027741 | e94a600900 | JMP 0x300bd790

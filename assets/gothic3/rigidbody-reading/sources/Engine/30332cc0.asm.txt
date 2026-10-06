@@ -1,0 +1,22 @@
+; 30332cc0 bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_>::deleting_destructor
+30332cc0 | 56 | PUSH ESI
+30332cc1 | 8bf1 | MOV ESI,ECX
+30332cc3 | c706d4048630 | MOV dword ptr [ESI],0x308604d4
+30332cc9 | ff156ccaaf30 | CALL dword ptr [0x30afca6c]
+30332ccf | 8d4620 | LEA EAX,[ESI + 0x20]
+30332cd2 | 50 | PUSH EAX
+30332cd3 | e8b865ceff | CALL 0x30019290
+30332cd8 | 8b4e18 | MOV ECX,dword ptr [ESI + 0x18]
+30332cdb | 56 | PUSH ESI
+30332cdc | ff1514cbaf30 | CALL dword ptr [0x30afcb14]
+30332ce2 | 8bce | MOV ECX,ESI
+30332ce4 | c7065cfe8530 | MOV dword ptr [ESI],0x3085fe5c
+30332cea | ff1560caaf30 | CALL dword ptr [0x30afca60]
+30332cf0 | f644240801 | TEST byte ptr [ESP + 0x8],0x1
+30332cf5 | 7409 | JZ 0x30332d00
+30332cf7 | 56 | PUSH ESI
+30332cf8 | e86be73300 | CALL 0x30671468
+; 30332d00 LAB_30332d00
+30332d00 | 8bc6 | MOV EAX,ESI
+30332d02 | 5e | POP ESI
+30332d03 | c20400 | RET 0x4

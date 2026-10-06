@@ -1,0 +1,12 @@
+/* ENTRY 20007f04 | gCClock_PS::GetHour | STATUS decompiled | 6 ms */
+
+/* public: unsigned long const & __thiscall gCClock_PS::GetHour(void)const  */
+
+ulong * __thiscall gCClock_PS::GetHour(gCClock_PS *this)
+
+{
+                    /* 0x7f04  3528  ?GetHour@gCClock_PS@@QBEABKXZ */
+  return (ulong *)&(this->gCClock_PS_data).field_0x18;
+}
+
+

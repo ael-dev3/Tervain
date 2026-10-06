@@ -1,0 +1,63 @@
+/* ENTRY 10008841 | g_ArrayInsertionSort | STATUS decompiled | 12 ms */
+
+/* void __cdecl g_ArrayInsertionSort(void *,unsigned int,unsigned int,int (__cdecl*)(void const
+   *,void const *),bool) */
+
+void __cdecl
+g_ArrayInsertionSort
+          (void *param_1,uint param_2,uint param_3,_func_int_void_ptr_void_ptr *param_4,bool param_5
+          )
+
+{
+  void *_Src;
+  uint _Size;
+  int iVar1;
+  void *_Src_00;
+  int iVar2;
+  void *pvVar3;
+  int iStack_24;
+  int iStack_1c;
+  undefined1 auStack_18 [24];
+  
+                    /* 0x8841  4702  ?g_ArrayInsertionSort@@YAXPAXIIP6AHPBX1@Z_N@Z */
+  _Size = param_3;
+  if (0x18 < param_3) {
+    _qsort(param_1,param_2,param_3,(_PtFuncCompare *)param_4);
+    return;
+  }
+  param_3 = 0;
+  if (1 < (int)param_2) {
+    iStack_1c = 0;
+    iStack_24 = 10;
+    pvVar3 = param_1;
+    while( true ) {
+      pvVar3 = (void *)((int)pvVar3 + _Size);
+      _Src = pvVar3;
+      for (iVar2 = iStack_1c; -1 < iVar2; iVar2 = iVar2 + -1) {
+        _Src_00 = (void *)(iVar2 * _Size + (int)param_1);
+        iVar1 = (*param_4)(_Src,_Src_00);
+        if (iVar1 < 0) {
+          param_3 = param_3 + 1;
+          _memcpy(auStack_18,_Src,_Size);
+          _memcpy(_Src,_Src_00,_Size);
+          _memcpy(_Src_00,auStack_18,_Size);
+        }
+        else {
+          iVar2 = 0;
+        }
+        _Src = _Src_00;
+      }
+      if ((param_5) && (iStack_24 < (int)param_3)) break;
+      iStack_24 = iStack_24 + 5;
+      iVar2 = iStack_1c + 2;
+      iStack_1c = iStack_1c + 1;
+      if ((int)param_2 <= iVar2) {
+        return;
+      }
+    }
+    _qsort(param_1,param_2,_Size,(_PtFuncCompare *)param_4);
+  }
+  return;
+}
+
+

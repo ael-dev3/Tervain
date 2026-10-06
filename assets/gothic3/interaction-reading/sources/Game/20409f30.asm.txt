@@ -1,0 +1,11 @@
+; 20409f30 bTPropertyType<gCInteraction_PS,bCString>::vfunction6
+20409f30 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+20409f34 | 85c0 | TEST EAX,EAX
+20409f36 | 7410 | JZ 0x20409f48
+20409f38 | 8b11 | MOV EDX,dword ptr [ECX]
+20409f3a | 50 | PUSH EAX
+20409f3b | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+20409f3e | ffd0 | CALL EAX
+20409f40 | 8bc8 | MOV ECX,EAX
+20409f42 | ff15f4887d20 | CALL dword ptr [0x207d88f4]
+20409f48 | c20400 | RET 0x4

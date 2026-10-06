@@ -1,0 +1,59 @@
+/* ENTRY 2031dfa0 | FUN_2031dfa0 | STATUS decompiled | 64 ms */
+
+undefined4 __thiscall FUN_2031dfa0(gCPlayerMemory_PS *param_1,bCOStream *param_2)
+
+{
+  undefined4 *puVar1;
+  int iVar2;
+  
+  if ((param_1->gCPlayerMemory_PS_data).field_0x10 == '\x01') {
+    puVar1 = &param_1[1].gCPlayerMemory_PS_data.offset_0x28;
+    *puVar1 = *puVar1 | 0x70fc0e;
+    (param_1->gCPlayerMemory_PS_data).field_0x10 = 1;
+  }
+  bCOStream::operator<<(param_2,(bool)(param_1->gCPlayerMemory_PS_data).field_0x10);
+  thunk_FUN_2028f6d0(param_2);
+  bCOStream::operator<<(param_2,'\x01');
+  bCOStream::operator<<(param_2,(param_1->gCPlayerMemory_PS_data).offset_0x24);
+  iVar2 = (param_1->gCPlayerMemory_PS_data).offset_0x24;
+  if (iVar2 != 0) {
+    (**(code **)((int)*param_2 + 4))((param_1->gCPlayerMemory_PS_data).offset_0x20,iVar2 * 4);
+  }
+  bCOStream::operator<<(param_2,'\x01');
+  bCOStream::operator<<(param_2,(param_1->gCPlayerMemory_PS_data).offset_0x30);
+  iVar2 = (param_1->gCPlayerMemory_PS_data).offset_0x30;
+  if (iVar2 != 0) {
+    (**(code **)((int)*param_2 + 4))((param_1->gCPlayerMemory_PS_data).offset_0x2c,iVar2 * 4);
+  }
+  bCOStream::operator<<(param_2,'\x01');
+  bCOStream::operator<<(param_2,(param_1->gCPlayerMemory_PS_data).offset_0x3c);
+  iVar2 = (param_1->gCPlayerMemory_PS_data).offset_0x3c;
+  if (iVar2 != 0) {
+    (**(code **)((int)*param_2 + 4))((param_1->gCPlayerMemory_PS_data).offset_0x38,iVar2 * 4);
+  }
+  bCOStream::operator<<(param_2,'\x01');
+  bCOStream::operator<<(param_2,(param_1->gCPlayerMemory_PS_data).offset_0x48);
+  iVar2 = (param_1->gCPlayerMemory_PS_data).offset_0x48;
+  if (iVar2 != 0) {
+    (**(code **)((int)*param_2 + 4))((param_1->gCPlayerMemory_PS_data).offset_0x44,iVar2);
+  }
+  bCOStream::operator<<(param_2,*(long *)&(param_1->gCPlayerMemory_PS_data).field_0x50);
+  bCOStream::operator<<(param_2,*(long *)&(param_1->gCPlayerMemory_PS_data).field_0x54);
+  bCOStream::operator<<(param_2,*(long *)&(param_1->gCPlayerMemory_PS_data).field_0x58);
+  operator<<((bCOStream *)param_2,(bCObjectBase *)&(param_1->gCPlayerMemory_PS_data).offset_0x5c);
+  operator<<((bCOStream *)param_2,(bCPropertyID *)&(param_1->gCPlayerMemory_PS_data).field_0x64);
+  bCOStream::operator<<(param_2,param_1[1].gCPlayerMemory_PS_data.offset_0x14);
+  bCOStream::operator<<(param_2,param_1[1].gCPlayerMemory_PS_data.offset_0x18);
+  bCOStream::operator<<(param_2,param_1[1].gCPlayerMemory_PS_data.offset_0x1c);
+  bCOStream::operator<<(param_2,param_1[1].gCPlayerMemory_PS_data.offset_0x24);
+  bCOStream::operator<<(param_2,param_1[1].gCPlayerMemory_PS_data.offset_0x28);
+  bCOStream::operator<<(param_2,*(bool *)&param_1[1].gCPlayerMemory_PS_data.offset_0x2c);
+  bCOStream::operator<<(param_2,*(bool *)((int)&param_1[1].gCPlayerMemory_PS_data.offset_0x2c + 1));
+  bCOStream::operator<<(param_2,*(bool *)((int)&param_1[1].gCPlayerMemory_PS_data.offset_0x2c + 2));
+  bCOStream::operator<<(param_2,*(bool *)((int)&param_1[1].gCPlayerMemory_PS_data.offset_0x2c + 3));
+  bCOStream::operator<<(param_2,(float)param_1[1].gCPlayerMemory_PS_data.offset_0x30);
+  gCPlayerMemory_PS::WriteAttributes(param_1,(bCOStream *)param_2);
+  return 1;
+}
+
+

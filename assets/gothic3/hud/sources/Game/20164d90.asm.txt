@@ -1,0 +1,26 @@
+; 20164d90 FUN_20164d90
+20164d90 | 837c240805 | CMP dword ptr [ESP + 0x8],0x5
+20164d95 | 56 | PUSH ESI
+20164d96 | 8bf1 | MOV ESI,ECX
+20164d98 | 752a | JNZ 0x20164dc4
+20164d9a | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+20164d9e | 85c9 | TEST ECX,ECX
+20164da0 | 750e | JNZ 0x20164db0
+20164da2 | 33c0 | XOR EAX,EAX
+20164da4 | 50 | PUSH EAX
+20164da5 | 8bce | MOV ECX,ESI
+20164da7 | e882faecff | CALL 0x2003482e
+20164dac | 5e | POP ESI
+20164dad | c20800 | RET 0x8
+; 20164db0 LAB_20164db0
+20164db0 | 8b01 | MOV EAX,dword ptr [ECX]
+20164db2 | 8b90ec000000 | MOV EDX,dword ptr [EAX + 0xec]
+20164db8 | 6a4f | PUSH 0x4f
+20164dba | ffd2 | CALL EDX
+20164dbc | 50 | PUSH EAX
+20164dbd | 8bce | MOV ECX,ESI
+20164dbf | e86afaecff | CALL 0x2003482e
+; 20164dc4 LAB_20164dc4
+20164dc4 | 5e | POP ESI
+20164dc5 | c20800 | RET 0x8
+; 20164e50 gCHUDViewLetter2::scalar_deleting_destructor

@@ -1,0 +1,4 @@
+; 10004b06 ?SetIntelligence@PSPlayerMemory@@QAEXH@Z
+10004b06 | e955520200 | JMP 0x10029d60
+; 10004b10 Entity::IsInteractObject
+; 10004b10 Ordinal_1775

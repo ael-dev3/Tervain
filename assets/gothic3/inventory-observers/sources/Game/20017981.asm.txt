@@ -1,0 +1,2 @@
+; 20017981 gCHUDListCtrlInventory::vfunction1
+20017981 | e9ba2d1700 | JMP 0x2018a740

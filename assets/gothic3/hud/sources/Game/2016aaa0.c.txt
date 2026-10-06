@@ -1,0 +1,15 @@
+/* ENTRY 2016aaa0 | gCHUDViewSpell2::~gCHUDViewSpell2 | STATUS decompiled | 9 ms */
+
+void __thiscall gCHUDViewSpell2::~gCHUDViewSpell2(gCHUDViewSpell2 *this)
+
+{
+  this->vftablePtr = &vftable;
+  FUN_20036877();
+  FUN_20036877();
+  gCHUDTableSpellStats::~gCHUDTableSpellStats
+            ((gCHUDTableSpellStats *)&(this->gCHUDViewSpell2_data).field_0xc);
+  FUN_200156a9();
+  return;
+}
+
+

@@ -1,0 +1,13 @@
+/* ENTRY 2001b270 | gCHUDPageLoot2::vfunction71 | STATUS decompiled | 7 ms */
+
+void __thiscall
+gCHUDPageLoot2::vfunction71(gCHUDPageLoot2 *this,undefined4 param_1,undefined4 param_2)
+
+{
+  thunk_FUN_20165720(param_1,param_2);
+  thunk_FUN_20165ca0(param_1,param_2);
+  thunk_FUN_20165b70();
+  return;
+}
+
+

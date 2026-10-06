@@ -1,0 +1,12 @@
+/* ENTRY 20461fca | ENGINE.DLL::eCEntityPropertySet::OnPropertySetAdded | STATUS decompiled | 1 ms */
+
+void __thiscall eCEntityPropertySet::OnPropertySetAdded(eCEntityPropertySet *this)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x20461fca. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  OnPropertySetAdded(this);
+  return;
+}
+
+

@@ -1,0 +1,12 @@
+/* ENTRY 10004e99 | bCObjectRefBase::GetReferenceCount | STATUS decompiled | 4 ms */
+
+/* public: unsigned long __thiscall bCObjectRefBase::GetReferenceCount(void)const  */
+
+ulong __thiscall bCObjectRefBase::GetReferenceCount(bCObjectRefBase *this)
+
+{
+                    /* 0x4e99  2881  ?GetReferenceCount@bCObjectRefBase@@QBEKXZ */
+  return (this->bCObjectRefBase_data).offset_0x4 & 0x7fffffff;
+}
+
+

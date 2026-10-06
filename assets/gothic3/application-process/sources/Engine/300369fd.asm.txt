@@ -1,0 +1,2 @@
+; 300369fd ?GetEntityFlags@eCEntity@@QBEABUeSEntityFlags@@XZ
+300369fd | e9dec14700 | JMP 0x304b2be0

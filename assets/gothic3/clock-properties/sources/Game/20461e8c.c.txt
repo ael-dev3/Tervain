@@ -1,0 +1,16 @@
+/* ENTRY 20461e8c | ENGINE.DLL::eCEntityPropertySet::NotifyPropertyValueChangedEnterEx | STATUS decompiled | 2 ms */
+
+bool __thiscall
+eCEntityPropertySet::NotifyPropertyValueChangedEnterEx
+          (eCEntityPropertySet *this,char *param_1,bool param_2)
+
+{
+  bool bVar1;
+  
+                    /* WARNING: Could not recover jumptable at 0x20461e8c. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bVar1 = NotifyPropertyValueChangedEnterEx(this,param_1,param_2);
+  return bVar1;
+}
+
+

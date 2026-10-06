@@ -1,0 +1,20 @@
+/* ENTRY 30025eff | eCVisualAnimation_PS::SetBoneSwingSpringEnabled | STATUS decompiled | 14 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::SetBoneSwingSpringEnabled(bool const &) */
+
+void __thiscall
+eCVisualAnimation_PS::SetBoneSwingSpringEnabled(eCVisualAnimation_PS *this,bool *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x25eff  12976  ?SetBoneSwingSpringEnabled@eCVisualAnimation_PS@@QAEXAB_N@Z
+                        */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"BoneSwingSpringEnabled",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  *(bool *)&this[3].eCEntityPropertySet_data = *param_1;
+  (*pNVar1)(this,"BoneSwingSpringEnabled",false);
+  return;
+}
+
+

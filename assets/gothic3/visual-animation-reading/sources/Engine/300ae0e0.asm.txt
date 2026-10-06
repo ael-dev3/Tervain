@@ -1,0 +1,14 @@
+; 300ae0e0 bTPropertyObject<eCVisualAnimation_PS,eCEntityPropertySet>::deleting_destructor
+300ae0e0 | 56 | PUSH ESI
+300ae0e1 | 8bf1 | MOV ESI,ECX
+300ae0e3 | c70684fa8130 | MOV dword ptr [ESI],0x3081fa84
+300ae0e9 | e8a9a0f6ff | CALL 0x30018197
+300ae0ee | 8bce | MOV ECX,ESI
+300ae0f0 | e87656f9ff | CALL 0x3004376b
+300ae0f5 | f644240801 | TEST byte ptr [ESP + 0x8],0x1
+300ae0fa | 7409 | JZ 0x300ae105
+300ae0fc | 56 | PUSH ESI
+300ae0fd | e866335c00 | CALL 0x30671468
+300ae105 | 8bc6 | MOV EAX,ESI
+300ae107 | 5e | POP ESI
+300ae108 | c20400 | RET 0x4

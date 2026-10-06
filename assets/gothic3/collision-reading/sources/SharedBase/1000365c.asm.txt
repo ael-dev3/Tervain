@@ -1,0 +1,4 @@
+; 1000365c ??8bCOrientedBox@@QBE_NABV0@@Z
+1000365c | e97ffd0500 | JMP 0x100633e0
+; 10003666 bCEulerAngles::AccessPitch
+; 10003666 Ordinal_1465

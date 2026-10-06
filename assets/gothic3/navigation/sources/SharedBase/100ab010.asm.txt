@@ -1,0 +1,7 @@
+; 100ab010 FUN_100ab010
+100ab010 | 83ec0c | SUB ESP,0xc
+100ab013 | dd1424 | FST double ptr [ESP]
+100ab016 | e88d290100 | CALL 0x100bd9a8
+100ab01b | e80d000000 | CALL 0x100ab02d
+100ab020 | 83c40c | ADD ESP,0xc
+100ab023 | c3 | RET

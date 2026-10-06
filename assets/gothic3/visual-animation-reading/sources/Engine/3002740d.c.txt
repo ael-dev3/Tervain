@@ -1,0 +1,16 @@
+/* ENTRY 3002740d | eCVisualAnimationFactory::GetVisualAnimationLoD | STATUS decompiled | 2 ms */
+
+/* public: class eCVisualAnimationLoD * __thiscall
+   eCVisualAnimationFactory::GetVisualAnimationLoD(void) */
+
+eCVisualAnimationLoD * __thiscall
+eCVisualAnimationFactory::GetVisualAnimationLoD(eCVisualAnimationFactory *this)
+
+{
+                    /* 0x2740d  9596
+                       ?GetVisualAnimationLoD@eCVisualAnimationFactory@@QAEPAVeCVisualAnimationLoD@@XZ
+                        */
+  return *(eCVisualAnimationLoD **)(this + 8);
+}
+
+

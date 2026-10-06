@@ -1,0 +1,12 @@
+/* ENTRY 2001fe15 | gCDialog_PS::GetPartyEnabled | STATUS decompiled | 8 ms */
+
+/* public: bool const & __thiscall gCDialog_PS::GetPartyEnabled(void)const  */
+
+bool * __thiscall gCDialog_PS::GetPartyEnabled(gCDialog_PS *this)
+
+{
+                    /* 0x1fe15  3952  ?GetPartyEnabled@gCDialog_PS@@QBEAB_NXZ */
+  return (bool *)&(this->gCDialog_PS_data).field_0x25;
+}
+
+

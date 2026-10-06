@@ -1,0 +1,2 @@
+; 3002de07 eCLocAdmin::eCLocAdmin
+3002de07 | e954605b00 | JMP 0x305e3e60

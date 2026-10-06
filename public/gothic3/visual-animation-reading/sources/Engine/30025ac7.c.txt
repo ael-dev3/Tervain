@@ -1,0 +1,17 @@
+/* ENTRY 30025ac7 | eCArchiveManager::GetFile | STATUS decompiled | 7 ms */
+
+/* public: class eCArchiveFile __thiscall eCArchiveManager::GetFile(class bCString const &) */
+
+bCString * __thiscall eCArchiveManager::GetFile(eCArchiveManager *this,bCString *param_1)
+
+{
+  bCString *in_stack_00000008;
+  
+                    /* 0x25ac7  7084
+                       ?GetFile@eCArchiveManager@@QAE?AVeCArchiveFile@@ABVbCString@@@Z */
+  eCArchiveFile::eCArchiveFile((eCArchiveFile *)param_1);
+  GetFile(this,in_stack_00000008,(eCArchiveFile *)param_1);
+  return param_1;
+}
+
+

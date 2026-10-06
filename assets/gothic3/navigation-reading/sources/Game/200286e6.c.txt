@@ -1,0 +1,9 @@
+/* ENTRY 200286e6 | bTPropertyType<gCNavigation_PS,bCString>::vfunction2 | STATUS decompiled | 1 ms */
+
+undefined4 __thiscall bTPropertyType<gCNavigation_PS,bCString>::vfunction2(void)
+
+{
+  return 4;
+}
+
+

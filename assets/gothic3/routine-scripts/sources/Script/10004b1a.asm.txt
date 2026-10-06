@@ -1,0 +1,4 @@
+; 10004b1a ?GetItemFromSlot@PSInventory@@QBE?AVEntity@@W4gESlot@@@Z
+10004b1a | e9c14f0100 | JMP 0x10019ae0
+; 10004b1f PSAnchor::operator_class_gCAnchor_PS*
+; 10004b1f Ordinal_814

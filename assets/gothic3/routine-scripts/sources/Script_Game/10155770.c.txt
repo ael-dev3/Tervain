@@ -1,0 +1,17 @@
+/* ENTRY 10155770 | FUN_10155770 | STATUS decompiled | 6 ms */
+
+void FUN_10155770(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Player\\Player_States\\PS_Ranged.cpp");
+  bCString::bCString(local_8,"PS_Ranged_Walk");
+  thunk_FUN_1001db60(local_8,&LAB_10001dd4,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

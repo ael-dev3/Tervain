@@ -1,0 +1,14 @@
+/* ENTRY 30075bd0 | FUN_30075bd0 | STATUS decompiled | 3 ms */
+
+void __fastcall FUN_30075bd0(int *param_1)
+
+{
+  undefined4 unaff_ESI;
+  
+  (**(code **)(*param_1 + 0x58))("SkeletonShapeGroup",0);
+  (**(code **)(param_1[0x1b] + 0x1c))(unaff_ESI);
+  (**(code **)(*param_1 + 0x5c))("SkeletonShapeGroup",0);
+  return;
+}
+
+

@@ -1,0 +1,12 @@
+; 300beff0 FUN_300beff0
+300beff0 | 56 | PUSH ESI
+300beff1 | 6a00 | PUSH 0x0
+300beff3 | 8bf1 | MOV ESI,ECX
+300beff5 | e817c8f4ff | CALL 0x3000b811
+300beffa | 8d4e04 | LEA ECX,[ESI + 0x4]
+300beffd | ff1558dbaf30 | CALL dword ptr [0x30afdb58]
+300bf003 | c7460c00000000 | MOV dword ptr [ESI + 0xc],0x0
+300bf00a | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+300bf011 | c6461000 | MOV byte ptr [ESI + 0x10],0x0
+300bf015 | 5e | POP ESI
+300bf016 | c3 | RET

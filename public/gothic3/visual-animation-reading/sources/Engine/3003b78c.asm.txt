@@ -1,0 +1,2 @@
+; 3003b78c eCVisualAnimation_PS::eSMotionDesc::SetMotionOwner
+3003b78c | e95f1b0600 | JMP 0x3009d2f0

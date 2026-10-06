@@ -1,0 +1,24 @@
+; 20190dd0 gCHUDLog::gCHUDLog
+20190dd0 | 56 | PUSH ESI
+20190dd1 | 8bf1 | MOV ESI,ECX
+20190dd3 | ff1514797d20 | CALL dword ptr [0x207d7914]
+20190dd9 | 0f57c0 | XORPS XMM0,XMM0
+20190ddc | 33c0 | XOR EAX,EAX
+20190dde | c706b4996720 | MOV dword ptr [ESI],0x206799b4
+20190de4 | 894610 | MOV dword ptr [ESI + 0x10],EAX
+20190de7 | 894614 | MOV dword ptr [ESI + 0x14],EAX
+20190dea | 894618 | MOV dword ptr [ESI + 0x18],EAX
+20190ded | f30f114620 | MOVSS dword ptr [ESI + 0x20],XMM0
+20190df2 | f30f114624 | MOVSS dword ptr [ESI + 0x24],XMM0
+20190df7 | f30f114628 | MOVSS dword ptr [ESI + 0x28],XMM0
+20190dfc | f30f1005c4b16520 | MOVSS XMM0,dword ptr [0x2065b1c4]
+20190e04 | f30f114630 | MOVSS dword ptr [ESI + 0x30],XMM0
+20190e09 | f30f1005800e6620 | MOVSS XMM0,dword ptr [0x20660e80]
+20190e11 | 89462c | MOV dword ptr [ESI + 0x2c],EAX
+20190e14 | c7461cffffffff | MOV dword ptr [ESI + 0x1c],0xffffffff
+20190e1b | f30f114634 | MOVSS dword ptr [ESI + 0x34],XMM0
+20190e20 | c7463832000000 | MOV dword ptr [ESI + 0x38],0x32
+20190e27 | c7463c0a000000 | MOV dword ptr [ESI + 0x3c],0xa
+20190e2e | 8bc6 | MOV EAX,ESI
+20190e30 | 5e | POP ESI
+20190e31 | c3 | RET

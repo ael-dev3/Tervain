@@ -1,0 +1,13 @@
+/* ENTRY 10008369 | bCBox::SetCoordinate | STATUS decompiled | 1 ms */
+
+/* public: void __thiscall bCBox::SetCoordinate(int,float) */
+
+void __thiscall bCBox::SetCoordinate(bCBox *this,int param_1,float param_2)
+
+{
+                    /* 0x8369  4137  ?SetCoordinate@bCBox@@QAEXHM@Z */
+  *(float *)(this + param_1 * 4) = param_2;
+  return;
+}
+
+

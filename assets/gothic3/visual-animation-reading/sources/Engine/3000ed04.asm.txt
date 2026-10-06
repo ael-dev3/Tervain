@@ -1,0 +1,2 @@
+; 3000ed04 eCVisualAnimation_PS::SetForceAlwaysVisible
+3000ed04 | e977ed0800 | JMP 0x3009da80

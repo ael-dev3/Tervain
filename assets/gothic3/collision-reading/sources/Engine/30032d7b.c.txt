@@ -1,0 +1,35 @@
+/* ENTRY 30032d7b | eCCollisionShape::Write | STATUS decompiled | 165 ms */
+
+/* public: virtual enum bEResult __thiscall eCCollisionShape::Write(class bCOStream &) */
+
+bEResult __thiscall eCCollisionShape::Write(eCCollisionShape *this,bCOStream *param_1)
+
+{
+                    /* 0x32d7b  15045  ?Write@eCCollisionShape@@UAE?AW4bEResult@@AAVbCOStream@@@Z */
+  bCOStream::operator<<((bCOStream *)param_1,0x4a);
+  switch((this->eCCollisionShape_data).offset_0xc) {
+  case 1:
+  case 6:
+    bCOStream::operator<<
+              ((bCOStream *)param_1,(bCString *)(this->eCCollisionShape_data).offset_0x70);
+    bCOStream::operator<<((bCOStream *)param_1,(this->eCCollisionShape_data).offset_0x42);
+    break;
+  case 3:
+    bCOrientedBox::operator>>((bCOrientedBox *)(this->eCCollisionShape_data).offset_0x70,param_1);
+    break;
+  case 4:
+    bCCapsule::operator>>((bCCapsule *)(this->eCCollisionShape_data).offset_0x70,param_1);
+    break;
+  case 5:
+    bCSphere::operator>>((bCSphere *)(this->eCCollisionShape_data).offset_0x70,param_1);
+    break;
+  case 7:
+    bCVector::operator>>((bCVector *)(this->eCCollisionShape_data).offset_0x70,param_1);
+  }
+  bCObjectRefBase::Write((bCObjectRefBase *)this,param_1);
+  bCBox::operator>>((bCBox *)&(this->eCCollisionShape_data).field_0x44,param_1);
+  bCVector::operator>>((bCVector *)&(this->eCCollisionShape_data).field_0x64,param_1);
+  return 1;
+}
+
+

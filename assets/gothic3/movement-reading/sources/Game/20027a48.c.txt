@@ -1,0 +1,13 @@
+/* ENTRY 20027a48 | gCEffectModule::GetSystemBase | STATUS decompiled | 4 ms */
+
+/* public: virtual class eCEffectSystemBase * __thiscall gCEffectModule::GetSystemBase(void)const
+    */
+
+eCEffectSystemBase * __thiscall gCEffectModule::GetSystemBase(gCEffectModule *this)
+
+{
+                    /* 0x27a48  4524  ?GetSystemBase@gCEffectModule@@UBEPAVeCEffectSystemBase@@XZ */
+  return (this->gCEffectModule_data).offset_0x10;
+}
+
+

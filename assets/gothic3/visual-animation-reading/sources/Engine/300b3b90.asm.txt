@@ -1,0 +1,11 @@
+; 300b3b90 bTPropertyType<eCVisualAnimation_PS,float>::vfunction6
+300b3b90 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+300b3b94 | 85c0 | TEST EAX,EAX
+300b3b96 | 740f | JZ 0x300b3ba7
+300b3b98 | 8b11 | MOV EDX,dword ptr [ECX]
+300b3b9a | 50 | PUSH EAX
+300b3b9b | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+300b3b9e | ffd0 | CALL EAX
+300b3ba0 | 0f57c0 | XORPS XMM0,XMM0
+300b3ba3 | f30f1100 | MOVSS dword ptr [EAX],XMM0
+300b3ba7 | c20400 | RET 0x4

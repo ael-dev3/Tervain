@@ -1,0 +1,4 @@
+; 3000861b ?SetSkinWidth@eCCollisionShape@@QAEXABM@Z
+3000861b | e9f0a10b00 | JMP 0x300c2810
+; 30008620 eCAPIFont::~eCAPIFont
+; 30008620 Ordinal_974

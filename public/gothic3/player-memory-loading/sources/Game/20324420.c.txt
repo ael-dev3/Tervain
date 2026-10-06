@@ -1,0 +1,18 @@
+/* ENTRY 20324420 | bTPropertyType<gCPlayerMemory_PS,bCPropertyID>::vfunction12 | STATUS decompiled | 4 ms */
+
+bTPropertyType<gCPlayerMemory_PS,bCPropertyID>_vftable * __thiscall
+bTPropertyType<gCPlayerMemory_PS,bCPropertyID>::vfunction12
+          (bTPropertyType<gCPlayerMemory_PS,bCPropertyID> *this,undefined4 *param_1)
+
+{
+  int iVar1;
+  
+  if (param_1 == (undefined4 *)0x0) {
+    return (bTPropertyType<gCPlayerMemory_PS,bCPropertyID>_vftable *)0x0;
+  }
+  iVar1 = (**(code **)*param_1)();
+  return (bTPropertyType<gCPlayerMemory_PS,bCPropertyID>_vftable *)
+         ((int)&(this[7].vftablePtr)->vfunction1 + iVar1);
+}
+
+

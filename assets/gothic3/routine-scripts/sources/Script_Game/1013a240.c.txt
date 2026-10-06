@@ -1,0 +1,17 @@
+/* ENTRY 1013a240 | FUN_1013a240 | STATUS decompiled | 8 ms */
+
+void FUN_1013a240(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Commands\\AI_SelectWeapon.cpp");
+  bCString::bCString(local_8,"_AI_SelectWeapon");
+  thunk_FUN_1004aa50(local_8,thunk_FUN_1005e5f0,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

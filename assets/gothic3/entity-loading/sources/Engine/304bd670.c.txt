@@ -1,0 +1,35 @@
+/* ENTRY 304bd670 | FUN_304bd670 | STATUS decompiled | 17 ms */
+
+undefined4 __thiscall FUN_304bd670(eCEntity *param_1,bCIStream *param_2)
+
+{
+  undefined1 *puVar1;
+  bCIStream *this;
+  bool bVar2;
+  bool local_5;
+  ushort local_4 [2];
+  
+  this = param_2;
+  bCIStream::operator>>(param_2,local_4);
+  if (local_4[0] < 0x53) {
+    bCIStream::operator>>(this,&local_5);
+  }
+  bCIStream::operator>>(this,(bool *)&param_2);
+  if (param_2._0_1_ == true) {
+    operator>>((bCIStream *)this,(bCPropertyID *)&param_1[1].eCNode_data);
+  }
+  puVar1 = &param_1[1].eCNode_data.field_0x14;
+  *(ushort *)puVar1 = *(ushort *)puVar1 | 1;
+  eCEntity::Read(param_1,(bCIStream *)this);
+  if (param_2._0_1_ == true) {
+    bVar2 = eCEntity::IsEntityPatchingEnabled();
+    if (bVar2) {
+      eCEntity::PatchWithTemplate(param_1,(bCPropertyID *)&param_1[1].eCNode_data,true);
+    }
+  }
+  puVar1 = &param_1[1].eCNode_data.field_0x14;
+  *(ushort *)puVar1 = *(ushort *)puVar1 & 0xfffd;
+  return 1;
+}
+
+

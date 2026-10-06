@@ -1,0 +1,4 @@
+; 30031ed5 bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eECollisionGroup>_>::vfunction16
+30031ed5 | e986bb3000 | JMP 0x3033da60
+; 30031eda eCButtonCtrl::Read
+; 30031eda Ordinal_12048

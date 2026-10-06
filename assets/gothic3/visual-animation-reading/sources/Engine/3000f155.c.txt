@@ -1,0 +1,12 @@
+/* ENTRY 3000f155 | eCVisualAnimation_PS::GetSkeletonBoundary | STATUS decompiled | 6 ms */
+
+/* public: class bCBox const & __thiscall eCVisualAnimation_PS::GetSkeletonBoundary(void)const  */
+
+bCBox * __thiscall eCVisualAnimation_PS::GetSkeletonBoundary(eCVisualAnimation_PS *this)
+
+{
+                    /* 0xf155  8827  ?GetSkeletonBoundary@eCVisualAnimation_PS@@QBEABVbCBox@@XZ */
+  return (bCBox *)&this[0xc].eCEntityPropertySet_data;
+}
+
+

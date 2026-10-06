@@ -1,0 +1,8 @@
+; 10062f50 FUN_10062f50
+10062f50 | 51 | PUSH ECX
+10062f51 | d9410c | FLD float ptr [ECX + 0xc]
+10062f54 | dcc0 | FADD ST0,ST0
+10062f56 | d91c24 | FSTP float ptr [ESP]
+10062f59 | d90424 | FLD float ptr [ESP]
+10062f5c | 59 | POP ECX
+10062f5d | c3 | RET

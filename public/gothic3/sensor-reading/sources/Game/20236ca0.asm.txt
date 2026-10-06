@@ -1,0 +1,40 @@
+; 20236ca0 FUN_20236ca0
+20236ca0 | 53 | PUSH EBX
+20236ca1 | 55 | PUSH EBP
+20236ca2 | 8b6c240c | MOV EBP,dword ptr [ESP + 0xc]
+20236ca6 | 56 | PUSH ESI
+20236ca7 | 8bf1 | MOV ESI,ECX
+20236ca9 | 57 | PUSH EDI
+20236caa | 8d7e44 | LEA EDI,[ESI + 0x44]
+20236cad | 55 | PUSH EBP
+20236cae | 8bcf | MOV ECX,EDI
+20236cb0 | ff1540807d20 | CALL dword ptr [0x207d8040]
+20236cb6 | 84c0 | TEST AL,AL
+20236cb8 | b301 | MOV BL,0x1
+20236cba | 740c | JZ 0x20236cc8
+20236cbc | 55 | PUSH EBP
+20236cbd | 8bcf | MOV ECX,EDI
+20236cbf | ff153c887d20 | CALL dword ptr [0x207d883c]
+20236cc5 | 885e40 | MOV byte ptr [ESI + 0x40],BL
+; 20236cc8 LAB_20236cc8
+20236cc8 | 807e3900 | CMP byte ptr [ESI + 0x39],0x0
+20236ccc | 740c | JZ 0x20236cda
+20236cce | 807c241800 | CMP byte ptr [ESP + 0x18],0x0
+20236cd3 | 7405 | JZ 0x20236cda
+20236cd5 | 385e41 | CMP byte ptr [ESI + 0x41],BL
+20236cd8 | 751a | JNZ 0x20236cf4
+; 20236cda LAB_20236cda
+20236cda | 8d5e14 | LEA EBX,[ESI + 0x14]
+20236cdd | 57 | PUSH EDI
+20236cde | 8bcb | MOV ECX,EBX
+20236ce0 | ff153c887d20 | CALL dword ptr [0x207d883c]
+20236ce6 | 53 | PUSH EBX
+20236ce7 | 8d4e20 | LEA ECX,[ESI + 0x20]
+20236cea | ff153c887d20 | CALL dword ptr [0x207d883c]
+20236cf0 | c6464100 | MOV byte ptr [ESI + 0x41],0x0
+; 20236cf4 LAB_20236cf4
+20236cf4 | 5f | POP EDI
+20236cf5 | 5e | POP ESI
+20236cf6 | 5d | POP EBP
+20236cf7 | 5b | POP EBX
+20236cf8 | c20800 | RET 0x8

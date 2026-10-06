@@ -1,0 +1,2 @@
+; 3001a38e thunk_FUN_3009bbe0
+3001a38e | e94d180800 | JMP 0x3009bbe0

@@ -1,0 +1,14 @@
+; 3035ba40 bTPropertyObjectType<eCCollisionShape,bCObjectRefBase>::vfunction9
+3035ba40 | 56 | PUSH ESI
+3035ba41 | 68b0d08130 | PUSH 0x3081d0b0
+3035ba46 | 6874d08130 | PUSH 0x3081d074
+3035ba4b | 687ccf8130 | PUSH 0x3081cf7c
+3035ba50 | 8bf1 | MOV ESI,ECX
+3035ba52 | ff1530dbaf30 | CALL dword ptr [0x30afdb30]
+3035ba58 | 8b442414 | MOV EAX,dword ptr [ESP + 0x14]
+3035ba5c | 83c40c | ADD ESP,0xc
+3035ba5f | 50 | PUSH EAX
+3035ba60 | 8bce | MOV ECX,ESI
+3035ba62 | ff1540caaf30 | CALL dword ptr [0x30afca40]
+3035ba68 | 5e | POP ESI
+3035ba69 | c20400 | RET 0x4

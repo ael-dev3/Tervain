@@ -1,0 +1,21 @@
+/* ENTRY 20193b10 | gCHUDStaticMap::~gCHUDStaticMap | STATUS decompiled | 11 ms */
+
+void __thiscall gCHUDStaticMap::~gCHUDStaticMap(gCHUDStaticMap *this)
+
+{
+  this->vftablePtr = &vftable;
+  bCFloatAlphaColor::~bCFloatAlphaColor
+            ((bCFloatAlphaColor *)&(this->gCHUDStaticMap_data).field_0x48);
+  bCFloatAlphaColor::~bCFloatAlphaColor
+            ((bCFloatAlphaColor *)&(this->gCHUDStaticMap_data).field_0x34);
+  CFFGFCBitmap::~CFFGFCBitmap((CFFGFCBitmap *)&(this->gCHUDStaticMap_data).field_0x2c);
+  CFFGFCBitmap::~CFFGFCBitmap((CFFGFCBitmap *)&(this->gCHUDStaticMap_data).field_0x24);
+  bCPoint::~bCPoint((bCPoint *)&(this->gCHUDStaticMap_data).field_0x1c);
+  bCPoint::~bCPoint((bCPoint *)&(this->gCHUDStaticMap_data).field_0x14);
+                    /* WARNING: Could not recover jumptable at 0x20193b52. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  CFFGFCStatic::~CFFGFCStatic((CFFGFCStatic *)this);
+  return;
+}
+
+

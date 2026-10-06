@@ -1,0 +1,13 @@
+; 10063180 FUN_10063180
+10063180 | d901 | FLD float ptr [ECX]
+10063182 | d9442404 | FLD float ptr [ESP + 0x4]
+10063186 | d9c0 | FLD ST0
+10063188 | deea | FSUBP ST2,ST0
+1006318a | d9c9 | FXCH
+1006318c | d919 | FSTP float ptr [ECX]
+1006318e | d94104 | FLD float ptr [ECX + 0x4]
+10063191 | d8e1 | FSUB ST0,ST1
+10063193 | d95904 | FSTP float ptr [ECX + 0x4]
+10063196 | d86908 | FSUBR float ptr [ECX + 0x8]
+10063199 | d95908 | FSTP float ptr [ECX + 0x8]
+1006319c | c20400 | RET 0x4

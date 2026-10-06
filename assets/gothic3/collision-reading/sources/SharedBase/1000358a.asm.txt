@@ -1,0 +1,4 @@
+; 1000358a ??_5bCOrientedBox@@QAEAAV0@ABV0@@Z
+1000358a | e9b15f0600 | JMP 0x10069540
+; 1000358f bCFrustum::Intersects
+; 1000358f Ordinal_3367

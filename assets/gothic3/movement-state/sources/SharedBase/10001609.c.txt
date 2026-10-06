@@ -1,0 +1,22 @@
+/* ENTRY 10001609 | bCBitField::SetAt | STATUS decompiled | 5 ms */
+
+/* public: void __thiscall bCBitField::SetAt(int,bool) */
+
+void __thiscall bCBitField::SetAt(bCBitField *this,int param_1,bool param_2)
+
+{
+  uint *puVar1;
+  uint uVar2;
+  
+                    /* 0x1609  4063  ?SetAt@bCBitField@@QAEXH_N@Z */
+  puVar1 = (uint *)(*(int *)this + ((int)(param_1 + (param_1 >> 0x1f & 0x1fU)) >> 5) * 4);
+  uVar2 = 1 << ((byte)param_1 & 0x1f);
+  if (param_2) {
+    *puVar1 = *puVar1 | uVar2;
+    return;
+  }
+  *puVar1 = *puVar1 & ~uVar2;
+  return;
+}
+
+

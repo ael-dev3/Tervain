@@ -1,0 +1,2 @@
+; 300234d4 eCDesktop::GetInstance
+300234d4 | e907641d00 | JMP 0x301f98e0

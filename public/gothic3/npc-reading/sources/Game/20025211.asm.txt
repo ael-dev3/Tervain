@@ -1,0 +1,4 @@
+; 20025211 bTPropertyContainer<gENPCType>::vfunction7
+20025211 | e95a9e2d00 | JMP 0x202ff070
+; 20025216 gCEffectSystem::Destroy
+; 20025216 Ordinal_2583

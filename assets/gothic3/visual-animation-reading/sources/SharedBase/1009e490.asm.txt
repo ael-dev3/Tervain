@@ -1,0 +1,245 @@
+; 1009e490 bCByteColor::bCByteColor
+1009e490 | 8bc1 | MOV EAX,ECX
+1009e492 | 8b4c2404 | MOV ECX,dword ptr [ESP + 0x4]
+1009e496 | 83c1ff | ADD ECX,-0x1
+1009e499 | 83f931 | CMP ECX,0x31
+1009e49c | c70020b90e10 | MOV dword ptr [EAX],0x100eb920
+1009e4a2 | 0f87ef020000 | JA 0x1009e797
+1009e4a8 | ff248da8e70910 | JMP dword ptr [ECX*0x4 + 0x1009e7a8]
+1009e4af | b1ff | MOV CL,0xff
+1009e4b1 | 884806 | MOV byte ptr [EAX + 0x6],CL
+1009e4b4 | 884804 | MOV byte ptr [EAX + 0x4],CL
+1009e4b7 | 884805 | MOV byte ptr [EAX + 0x5],CL
+1009e4ba | c20400 | RET 0x4
+1009e4bd | b1c0 | MOV CL,0xc0
+1009e4bf | 884806 | MOV byte ptr [EAX + 0x6],CL
+1009e4c2 | 884804 | MOV byte ptr [EAX + 0x4],CL
+1009e4c5 | 884805 | MOV byte ptr [EAX + 0x5],CL
+1009e4c8 | c20400 | RET 0x4
+1009e4cb | b1af | MOV CL,0xaf
+1009e4cd | 884806 | MOV byte ptr [EAX + 0x6],CL
+1009e4d0 | 884804 | MOV byte ptr [EAX + 0x4],CL
+1009e4d3 | 884805 | MOV byte ptr [EAX + 0x5],CL
+1009e4d6 | c20400 | RET 0x4
+1009e4d9 | b17f | MOV CL,0x7f
+1009e4db | 884806 | MOV byte ptr [EAX + 0x6],CL
+1009e4de | 884804 | MOV byte ptr [EAX + 0x4],CL
+1009e4e1 | 884805 | MOV byte ptr [EAX + 0x5],CL
+1009e4e4 | c20400 | RET 0x4
+1009e4e7 | b14f | MOV CL,0x4f
+1009e4e9 | 884806 | MOV byte ptr [EAX + 0x6],CL
+1009e4ec | 884804 | MOV byte ptr [EAX + 0x4],CL
+1009e4ef | 884805 | MOV byte ptr [EAX + 0x5],CL
+1009e4f2 | c20400 | RET 0x4
+1009e4f5 | b1d3 | MOV CL,0xd3
+1009e4f7 | 884806 | MOV byte ptr [EAX + 0x6],CL
+1009e4fa | 884804 | MOV byte ptr [EAX + 0x4],CL
+1009e4fd | 884805 | MOV byte ptr [EAX + 0x5],CL
+1009e500 | c20400 | RET 0x4
+1009e503 | c6400480 | MOV byte ptr [EAX + 0x4],0x80
+1009e507 | c640058a | MOV byte ptr [EAX + 0x5],0x8a
+1009e50b | c6400687 | MOV byte ptr [EAX + 0x6],0x87
+1009e50f | c20400 | RET 0x4
+1009e512 | b180 | MOV CL,0x80
+1009e514 | c6400669 | MOV byte ptr [EAX + 0x6],0x69
+1009e518 | 884804 | MOV byte ptr [EAX + 0x4],CL
+1009e51b | 884805 | MOV byte ptr [EAX + 0x5],CL
+1009e51e | c20400 | RET 0x4
+1009e521 | 32c9 | XOR CL,CL
+1009e523 | c64004ff | MOV byte ptr [EAX + 0x4],0xff
+1009e527 | 884806 | MOV byte ptr [EAX + 0x6],CL
+1009e52a | 884805 | MOV byte ptr [EAX + 0x5],CL
+1009e52d | c20400 | RET 0x4
+1009e530 | 32c9 | XOR CL,CL
+1009e532 | c64004af | MOV byte ptr [EAX + 0x4],0xaf
+1009e536 | 884806 | MOV byte ptr [EAX + 0x6],CL
+1009e539 | 884805 | MOV byte ptr [EAX + 0x5],CL
+1009e53c | c20400 | RET 0x4
+1009e53f | 32c9 | XOR CL,CL
+1009e541 | c640047f | MOV byte ptr [EAX + 0x4],0x7f
+1009e545 | 884806 | MOV byte ptr [EAX + 0x6],CL
+1009e548 | 884805 | MOV byte ptr [EAX + 0x5],CL
+1009e54b | c20400 | RET 0x4
+1009e54e | 32c9 | XOR CL,CL
+1009e550 | c640044f | MOV byte ptr [EAX + 0x4],0x4f
+1009e554 | 884806 | MOV byte ptr [EAX + 0x6],CL
+1009e557 | 884805 | MOV byte ptr [EAX + 0x5],CL
+1009e55a | c20400 | RET 0x4
+1009e55d | 32c9 | XOR CL,CL
+1009e55f | 884804 | MOV byte ptr [EAX + 0x4],CL
+1009e562 | c64005ff | MOV byte ptr [EAX + 0x5],0xff
+1009e566 | 884806 | MOV byte ptr [EAX + 0x6],CL
+1009e569 | c20400 | RET 0x4
+1009e56c | 32c9 | XOR CL,CL
+1009e56e | 884804 | MOV byte ptr [EAX + 0x4],CL
+1009e571 | c64005af | MOV byte ptr [EAX + 0x5],0xaf
+1009e575 | 884806 | MOV byte ptr [EAX + 0x6],CL
+1009e578 | c20400 | RET 0x4
+1009e57b | 32c9 | XOR CL,CL
+1009e57d | 884804 | MOV byte ptr [EAX + 0x4],CL
+1009e580 | c640057f | MOV byte ptr [EAX + 0x5],0x7f
+1009e584 | 884806 | MOV byte ptr [EAX + 0x6],CL
+1009e587 | c20400 | RET 0x4
+1009e58a | 32c9 | XOR CL,CL
+1009e58c | 884804 | MOV byte ptr [EAX + 0x4],CL
+1009e58f | c640054f | MOV byte ptr [EAX + 0x5],0x4f
+1009e593 | 884806 | MOV byte ptr [EAX + 0x6],CL
+1009e596 | c20400 | RET 0x4
+1009e599 | 32c9 | XOR CL,CL
+1009e59b | c64006ff | MOV byte ptr [EAX + 0x6],0xff
+1009e59f | 884804 | MOV byte ptr [EAX + 0x4],CL
+1009e5a2 | 884805 | MOV byte ptr [EAX + 0x5],CL
+1009e5a5 | c20400 | RET 0x4
+1009e5a8 | 32c9 | XOR CL,CL
+1009e5aa | c64006af | MOV byte ptr [EAX + 0x6],0xaf
+1009e5ae | 884804 | MOV byte ptr [EAX + 0x4],CL
+1009e5b1 | 884805 | MOV byte ptr [EAX + 0x5],CL
+1009e5b4 | c20400 | RET 0x4
+1009e5b7 | 32c9 | XOR CL,CL
+1009e5b9 | c640067f | MOV byte ptr [EAX + 0x6],0x7f
+1009e5bd | 884804 | MOV byte ptr [EAX + 0x4],CL
+1009e5c0 | 884805 | MOV byte ptr [EAX + 0x5],CL
+1009e5c3 | c20400 | RET 0x4
+1009e5c6 | 32c9 | XOR CL,CL
+1009e5c8 | c640064f | MOV byte ptr [EAX + 0x6],0x4f
+1009e5cc | 884804 | MOV byte ptr [EAX + 0x4],CL
+1009e5cf | 884805 | MOV byte ptr [EAX + 0x5],CL
+1009e5d2 | c20400 | RET 0x4
+1009e5d5 | b1ff | MOV CL,0xff
+1009e5d7 | c6400400 | MOV byte ptr [EAX + 0x4],0x0
+1009e5db | 884806 | MOV byte ptr [EAX + 0x6],CL
+1009e5de | 884805 | MOV byte ptr [EAX + 0x5],CL
+1009e5e1 | c20400 | RET 0x4
+1009e5e4 | b1af | MOV CL,0xaf
+1009e5e6 | c6400400 | MOV byte ptr [EAX + 0x4],0x0
+1009e5ea | 884806 | MOV byte ptr [EAX + 0x6],CL
+1009e5ed | 884805 | MOV byte ptr [EAX + 0x5],CL
+1009e5f0 | c20400 | RET 0x4
+1009e5f3 | b17f | MOV CL,0x7f
+1009e5f5 | c6400400 | MOV byte ptr [EAX + 0x4],0x0
+1009e5f9 | 884806 | MOV byte ptr [EAX + 0x6],CL
+1009e5fc | 884805 | MOV byte ptr [EAX + 0x5],CL
+1009e5ff | c20400 | RET 0x4
+1009e602 | b14f | MOV CL,0x4f
+1009e604 | c6400400 | MOV byte ptr [EAX + 0x4],0x0
+1009e608 | 884806 | MOV byte ptr [EAX + 0x6],CL
+1009e60b | 884805 | MOV byte ptr [EAX + 0x5],CL
+1009e60e | c20400 | RET 0x4
+1009e611 | b1ff | MOV CL,0xff
+1009e613 | c6400600 | MOV byte ptr [EAX + 0x6],0x0
+1009e617 | 884804 | MOV byte ptr [EAX + 0x4],CL
+1009e61a | 884805 | MOV byte ptr [EAX + 0x5],CL
+1009e61d | c20400 | RET 0x4
+1009e620 | b1af | MOV CL,0xaf
+1009e622 | c6400600 | MOV byte ptr [EAX + 0x6],0x0
+1009e626 | 884804 | MOV byte ptr [EAX + 0x4],CL
+1009e629 | 884805 | MOV byte ptr [EAX + 0x5],CL
+1009e62c | c20400 | RET 0x4
+1009e62f | b17f | MOV CL,0x7f
+1009e631 | c6400600 | MOV byte ptr [EAX + 0x6],0x0
+1009e635 | 884804 | MOV byte ptr [EAX + 0x4],CL
+1009e638 | 884805 | MOV byte ptr [EAX + 0x5],CL
+1009e63b | c20400 | RET 0x4
+1009e63e | b14f | MOV CL,0x4f
+1009e640 | c6400600 | MOV byte ptr [EAX + 0x6],0x0
+1009e644 | 884804 | MOV byte ptr [EAX + 0x4],CL
+1009e647 | 884805 | MOV byte ptr [EAX + 0x5],CL
+1009e64a | c20400 | RET 0x4
+1009e64d | b1ff | MOV CL,0xff
+1009e64f | 884804 | MOV byte ptr [EAX + 0x4],CL
+1009e652 | c6400500 | MOV byte ptr [EAX + 0x5],0x0
+1009e656 | 884806 | MOV byte ptr [EAX + 0x6],CL
+1009e659 | c20400 | RET 0x4
+1009e65c | b1af | MOV CL,0xaf
+1009e65e | 884804 | MOV byte ptr [EAX + 0x4],CL
+1009e661 | c6400500 | MOV byte ptr [EAX + 0x5],0x0
+1009e665 | 884806 | MOV byte ptr [EAX + 0x6],CL
+1009e668 | c20400 | RET 0x4
+1009e66b | b17f | MOV CL,0x7f
+1009e66d | 884804 | MOV byte ptr [EAX + 0x4],CL
+1009e670 | c6400500 | MOV byte ptr [EAX + 0x5],0x0
+1009e674 | 884806 | MOV byte ptr [EAX + 0x6],CL
+1009e677 | c20400 | RET 0x4
+1009e67a | b14f | MOV CL,0x4f
+1009e67c | 884804 | MOV byte ptr [EAX + 0x4],CL
+1009e67f | c6400500 | MOV byte ptr [EAX + 0x5],0x0
+1009e683 | 884806 | MOV byte ptr [EAX + 0x6],CL
+1009e686 | c20400 | RET 0x4
+1009e689 | c6400429 | MOV byte ptr [EAX + 0x4],0x29
+1009e68d | c6400524 | MOV byte ptr [EAX + 0x5],0x24
+1009e691 | c6400621 | MOV byte ptr [EAX + 0x6],0x21
+1009e695 | c20400 | RET 0x4
+1009e698 | c64004ff | MOV byte ptr [EAX + 0x4],0xff
+1009e69c | c6400580 | MOV byte ptr [EAX + 0x5],0x80
+1009e6a0 | c6400600 | MOV byte ptr [EAX + 0x6],0x0
+1009e6a4 | c20400 | RET 0x4
+1009e6a7 | c64004ed | MOV byte ptr [EAX + 0x4],0xed
+1009e6ab | c6400591 | MOV byte ptr [EAX + 0x5],0x91
+1009e6af | c6400621 | MOV byte ptr [EAX + 0x6],0x21
+1009e6b3 | c20400 | RET 0x4
+1009e6b6 | c640043b | MOV byte ptr [EAX + 0x4],0x3b
+1009e6ba | c640055e | MOV byte ptr [EAX + 0x5],0x5e
+1009e6be | c640062b | MOV byte ptr [EAX + 0x6],0x2b
+1009e6c2 | c20400 | RET 0x4
+1009e6c5 | c6400408 | MOV byte ptr [EAX + 0x4],0x8
+1009e6c9 | c640052e | MOV byte ptr [EAX + 0x5],0x2e
+1009e6cd | c6400654 | MOV byte ptr [EAX + 0x6],0x54
+1009e6d1 | c20400 | RET 0x4
+1009e6d4 | c6400487 | MOV byte ptr [EAX + 0x4],0x87
+1009e6d8 | c64005ce | MOV byte ptr [EAX + 0x5],0xce
+1009e6dc | c64006eb | MOV byte ptr [EAX + 0x6],0xeb
+1009e6e0 | c20400 | RET 0x4
+1009e6e3 | c6400446 | MOV byte ptr [EAX + 0x4],0x46
+1009e6e7 | c6400582 | MOV byte ptr [EAX + 0x5],0x82
+1009e6eb | c64006b4 | MOV byte ptr [EAX + 0x6],0xb4
+1009e6ef | c20400 | RET 0x4
+1009e6f2 | c640047f | MOV byte ptr [EAX + 0x4],0x7f
+1009e6f6 | c64005ff | MOV byte ptr [EAX + 0x5],0xff
+1009e6fa | c64006d4 | MOV byte ptr [EAX + 0x6],0xd4
+1009e6fe | c20400 | RET 0x4
+1009e701 | c64004ff | MOV byte ptr [EAX + 0x4],0xff
+1009e705 | c64005d7 | MOV byte ptr [EAX + 0x5],0xd7
+1009e709 | c6400600 | MOV byte ptr [EAX + 0x6],0x0
+1009e70d | c20400 | RET 0x4
+1009e710 | c64004da | MOV byte ptr [EAX + 0x4],0xda
+1009e714 | c6400570 | MOV byte ptr [EAX + 0x5],0x70
+1009e718 | c64006d6 | MOV byte ptr [EAX + 0x6],0xd6
+1009e71c | c20400 | RET 0x4
+1009e71f | c64004a0 | MOV byte ptr [EAX + 0x4],0xa0
+1009e723 | c6400520 | MOV byte ptr [EAX + 0x5],0x20
+1009e727 | c64006f0 | MOV byte ptr [EAX + 0x6],0xf0
+1009e72b | c20400 | RET 0x4
+1009e72e | c640048f | MOV byte ptr [EAX + 0x4],0x8f
+1009e732 | c640055e | MOV byte ptr [EAX + 0x5],0x5e
+1009e736 | c6400699 | MOV byte ptr [EAX + 0x6],0x99
+1009e73a | c20400 | RET 0x4
+1009e73d | b12a | MOV CL,0x2a
+1009e73f | c6400480 | MOV byte ptr [EAX + 0x4],0x80
+1009e743 | 884806 | MOV byte ptr [EAX + 0x6],CL
+1009e746 | 884805 | MOV byte ptr [EAX + 0x5],CL
+1009e749 | c20400 | RET 0x4
+1009e74c | c6400487 | MOV byte ptr [EAX + 0x4],0x87
+1009e750 | c6400542 | MOV byte ptr [EAX + 0x5],0x42
+1009e754 | c640061f | MOV byte ptr [EAX + 0x6],0x1f
+1009e758 | c20400 | RET 0x4
+1009e75b | c6400473 | MOV byte ptr [EAX + 0x4],0x73
+1009e75f | c640053d | MOV byte ptr [EAX + 0x5],0x3d
+1009e763 | c640061a | MOV byte ptr [EAX + 0x6],0x1a
+1009e767 | c20400 | RET 0x4
+1009e76a | c64004a3 | MOV byte ptr [EAX + 0x4],0xa3
+1009e76e | c6400594 | MOV byte ptr [EAX + 0x5],0x94
+1009e772 | c6400680 | MOV byte ptr [EAX + 0x6],0x80
+1009e776 | c20400 | RET 0x4
+1009e779 | c64004ff | MOV byte ptr [EAX + 0x4],0xff
+1009e77d | c640057d | MOV byte ptr [EAX + 0x5],0x7d
+1009e781 | c6400640 | MOV byte ptr [EAX + 0x6],0x40
+1009e785 | c20400 | RET 0x4
+1009e788 | c64004f0 | MOV byte ptr [EAX + 0x4],0xf0
+1009e78c | c64005e6 | MOV byte ptr [EAX + 0x5],0xe6
+1009e790 | c640068c | MOV byte ptr [EAX + 0x6],0x8c
+1009e794 | c20400 | RET 0x4
+1009e797 | 32c9 | XOR CL,CL
+1009e799 | 884806 | MOV byte ptr [EAX + 0x6],CL
+1009e79c | 884804 | MOV byte ptr [EAX + 0x4],CL
+1009e79f | 884805 | MOV byte ptr [EAX + 0x5],CL
+1009e7a2 | c20400 | RET 0x4

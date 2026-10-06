@@ -1,0 +1,16 @@
+; 30332380 bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_>::vfunction8
+30332380 | 56 | PUSH ESI
+30332381 | 8bf1 | MOV ESI,ECX
+30332383 | 8b06 | MOV EAX,dword ptr [ESI]
+30332385 | 8b5018 | MOV EDX,dword ptr [EAX + 0x18]
+30332388 | ffd2 | CALL EDX
+3033238a | 84c0 | TEST AL,AL
+3033238c | 7505 | JNZ 0x30332393
+3033238e | 83c8ff | OR EAX,0xffffffff
+30332391 | 5e | POP ESI
+30332392 | c3 | RET
+; 30332393 LAB_30332393
+30332393 | 8b4620 | MOV EAX,dword ptr [ESI + 0x20]
+30332396 | 8b4004 | MOV EAX,dword ptr [EAX + 0x4]
+30332399 | 5e | POP ESI
+3033239a | c3 | RET

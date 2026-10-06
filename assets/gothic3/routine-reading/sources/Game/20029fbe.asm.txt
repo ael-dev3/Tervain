@@ -1,0 +1,4 @@
+; 20029fbe bTPropertyType<gCScriptRoutine_PS,long>::vfunction6
+20029fbe | e92d4c3300 | JMP 0x2035ebf0
+; 20029fc8 LAB_20029fc8
+20029fc8 | e993ba5300 | JMP 0x20565a60

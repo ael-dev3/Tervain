@@ -1,0 +1,4 @@
+; 30026440 bTPropertyType<eCCollisionShape,unsigned_short>::vfunction14
+30026440 | e9dbb73300 | JMP 0x30361c20
+; 30026445 eCResourceMaterialObject_PS::SetDetailMapChannel
+; 30026445 Ordinal_13225

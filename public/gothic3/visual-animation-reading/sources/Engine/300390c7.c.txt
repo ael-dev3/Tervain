@@ -1,0 +1,12 @@
+/* ENTRY 300390c7 | eCEffector::GetPos2 | STATUS decompiled | 3 ms */
+
+/* public: class bCVector const & __thiscall eCEffector::GetPos2(void)const  */
+
+bCVector * __thiscall eCEffector::GetPos2(eCEffector *this)
+
+{
+                    /* 0x390c7  8127  ?GetPos2@eCEffector@@QBEABVbCVector@@XZ */
+  return (bCVector *)&(this->eCEffector_data).field_0x4c;
+}
+
+

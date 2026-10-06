@@ -1,0 +1,23 @@
+; 2021daa0 bTPropertyType<gCCharacterControl_PS,bool>::vfunction26
+2021daa0 | 56 | PUSH ESI
+2021daa1 | 57 | PUSH EDI
+2021daa2 | 8b7c240c | MOV EDI,dword ptr [ESP + 0xc]
+2021daa6 | 85ff | TEST EDI,EDI
+2021daa8 | 8bf1 | MOV ESI,ECX
+2021daaa | 7522 | JNZ 0x2021dace
+2021daac | 680d030000 | PUSH 0x30d
+2021dab1 | 68f8976520 | PUSH 0x206597f8
+2021dab6 | 68c8976520 | PUSH 0x206597c8
+2021dabb | 6858986520 | PUSH 0x20659858
+2021dac0 | ff1518897d20 | CALL dword ptr [0x207d8918]
+2021dac6 | 8bc8 | MOV ECX,EAX
+2021dac8 | ff15f4867d20 | CALL dword ptr [0x207d86f4]
+; 2021dace LAB_2021dace
+2021dace | 8b06 | MOV EAX,dword ptr [ESI]
+2021dad0 | 8b502c | MOV EDX,dword ptr [EAX + 0x2c]
+2021dad3 | 57 | PUSH EDI
+2021dad4 | 8bce | MOV ECX,ESI
+2021dad6 | ffd2 | CALL EDX
+2021dad8 | 5f | POP EDI
+2021dad9 | 5e | POP ESI
+2021dada | c20400 | RET 0x4

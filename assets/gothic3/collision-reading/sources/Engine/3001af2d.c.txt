@@ -1,0 +1,16 @@
+/* ENTRY 3001af2d | eCCollisionShapeBase_PS::GetPropertySetType | STATUS decompiled | 5 ms */
+
+/* public: virtual enum eEPropertySetType __thiscall
+   eCCollisionShapeBase_PS::GetPropertySetType(void)const 
+   eCCollisionShapeBase_PS member function inherited by eCCollisionShape_PS */
+
+eEPropertySetType __thiscall
+eCCollisionShapeBase_PS::GetPropertySetType(eCCollisionShapeBase_PS *this)
+
+{
+                    /* 0x1af2d  8203
+                       ?GetPropertySetType@eCCollisionShapeBase_PS@@UBE?AW4eEPropertySetType@@XZ */
+  return 0xe;
+}
+
+

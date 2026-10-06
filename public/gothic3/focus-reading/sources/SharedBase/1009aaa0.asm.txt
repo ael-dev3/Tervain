@@ -1,0 +1,5 @@
+; 1009aaa0 FUN_1009aaa0
+1009aaa0 | 8bc1 | MOV EAX,ECX
+1009aaa2 | c70000000000 | MOV dword ptr [EAX],0x0
+1009aaa8 | c7400400000000 | MOV dword ptr [EAX + 0x4],0x0
+1009aaaf | c3 | RET

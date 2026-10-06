@@ -1,0 +1,4 @@
+; 200052cc bTPropertyType<gCNavigation_PS,bCVector>::vfunction12
+200052cc | e95f842800 | JMP 0x2028d730
+; 200052db gCNavHelper_PS::OnPropertySetAdded
+; 200052db Ordinal_5579

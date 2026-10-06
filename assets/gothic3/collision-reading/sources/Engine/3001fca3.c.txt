@@ -1,0 +1,32 @@
+/* ENTRY 3001fca3 | eCCollisionShape::vfunction15 | STATUS decompiled | 8 ms */
+
+eCCollisionShape * __thiscall eCCollisionShape::vfunction15(eCCollisionShape *this,byte param_1)
+
+{
+  undefined4 *_Memory;
+  int iVar1;
+  eCCollisionShape *this_00;
+  
+  if ((param_1 & 2) == 0) {
+    ~eCCollisionShape(this);
+    if ((param_1 & 1) == 0) {
+      return this;
+    }
+                    /* WARNING: Subroutine does not return */
+    _free(this);
+  }
+  _Memory = &this[-1].eCCollisionShape_data.offset_0x70;
+  iVar1 = *_Memory;
+  this_00 = this + iVar1;
+  while (iVar1 = iVar1 + -1, -1 < iVar1) {
+    this_00 = this_00 + -1;
+    ~eCCollisionShape(this_00);
+  }
+  if ((param_1 & 1) == 0) {
+    return (eCCollisionShape *)_Memory;
+  }
+                    /* WARNING: Subroutine does not return */
+  _free(_Memory);
+}
+
+

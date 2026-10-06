@@ -1,0 +1,2 @@
+; 10006064 ?GetInvScaled@bCOrientedBox@@QBEXAAV1@ABVbCVector@@@Z
+10006064 | e9b7d20500 | JMP 0x10063320

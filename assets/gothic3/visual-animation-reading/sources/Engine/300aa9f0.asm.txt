@@ -1,0 +1,14 @@
+; 300aa9f0 bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector>::vfunction9
+300aa9f0 | 56 | PUSH ESI
+300aa9f1 | 68b0d08130 | PUSH 0x3081d0b0
+300aa9f6 | 6874d08130 | PUSH 0x3081d074
+300aa9fb | 687ccf8130 | PUSH 0x3081cf7c
+300aaa00 | 8bf1 | MOV ESI,ECX
+300aaa02 | ff1530dbaf30 | CALL dword ptr [0x30afdb30]
+300aaa08 | 8b442414 | MOV EAX,dword ptr [ESP + 0x14]
+300aaa0c | 83c40c | ADD ESP,0xc
+300aaa0f | 50 | PUSH EAX
+300aaa10 | 8bce | MOV ECX,ESI
+300aaa12 | ff1540caaf30 | CALL dword ptr [0x30afca40]
+300aaa18 | 5e | POP ESI
+300aaa19 | c20400 | RET 0x4

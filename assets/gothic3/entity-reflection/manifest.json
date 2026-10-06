@@ -1,0 +1,20 @@
+{
+  "schema": "gothic3-entity-reflection-manifest-v1",
+  "outputs": [
+    {
+      "path": "serialized-candidates.json",
+      "bytes": 1503875,
+      "sha256": "d63e8c90b57bf6ce3214aa54f5d1956cacd8e9ec9c80caff817ddd4b5e48bfb2"
+    },
+    {
+      "path": "native-property-schemas.json",
+      "bytes": 342817,
+      "sha256": "8bca10dc20bca96af898f89f8ea5737d5e2b7acea17ac69f2d1144d0c6a551dc"
+    },
+    {
+      "path": "native-evidence.json",
+      "bytes": 4371013,
+      "sha256": "1da029301b4aa259272826575d331fcd5a860e7f32e741ca252479cea999387c"
+    }
+  ]
+}

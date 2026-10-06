@@ -1,0 +1,2 @@
+; 30016004 eCEntityPropertySet::OnUntrigger
+30016004 | e997b94600 | JMP 0x304819a0

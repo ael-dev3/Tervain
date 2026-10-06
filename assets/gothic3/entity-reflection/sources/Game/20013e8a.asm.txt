@@ -1,0 +1,4 @@
+; 20013e8a bTPropertyType<gCClock_PS,unsigned_long>::vfunction3
+20013e8a | e971611f00 | JMP 0x2020a000
+; 20013e94 gCInfoManager_PS::AccessChildMode
+; 20013e94 Ordinal_1079

@@ -1,0 +1,14 @@
+/* ENTRY 100059cf | bCAccessorPropertyObject::bCAccessorPropertyObject | STATUS decompiled | 1 ms */
+
+/* public: __thiscall bCAccessorPropertyObject::bCAccessorPropertyObject(void) */
+
+void __thiscall bCAccessorPropertyObject::bCAccessorPropertyObject(bCAccessorPropertyObject *this)
+
+{
+                    /* 0x59cf  30  ??0bCAccessorPropertyObject@@QAE@XZ */
+  *(undefined4 *)this = 0;
+  *(undefined4 *)(this + 4) = 0;
+  return;
+}
+
+

@@ -1,0 +1,2 @@
+; 20011e55 ?GetPropertySetType@gCNavPath_PS@@UBE?AW4eEPropertySetType@@XZ
+20011e55 | e986502800 | JMP 0x20296ee0

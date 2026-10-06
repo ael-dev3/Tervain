@@ -1,0 +1,4 @@
+; 3002c872 bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_>::vfunction6
+3002c872 | e9d95b3000 | JMP 0x30332450
+; 3002c877 eCEditCtrl::SetSel
+; 3002c877 Ordinal_14135

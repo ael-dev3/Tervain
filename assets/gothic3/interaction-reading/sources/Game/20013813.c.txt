@@ -1,0 +1,48 @@
+/* ENTRY 20013813 | gCInteractionAdmin::RemoveInteractionInROI | STATUS decompiled | 15 ms */
+
+/* public: bool __thiscall gCInteractionAdmin::RemoveInteractionInROI(class gCInteraction_PS *) */
+
+bool __thiscall
+gCInteractionAdmin::RemoveInteractionInROI(gCInteractionAdmin *this,gCInteraction_PS *param_1)
+
+{
+  undefined4 *puVar1;
+  void *_Dst;
+  uint uVar2;
+  uint uVar3;
+  int iVar4;
+  int *piVar5;
+  
+                    /* 0x13813  6086
+                       ?RemoveInteractionInROI@gCInteractionAdmin@@QAE_NPAVgCInteraction_PS@@@Z */
+  bCCriticalSectionWin32::Acquire((bCCriticalSectionWin32 *)&DAT_207cf464);
+  uVar3 = (this->gCInteractionAdmin_data).offset_0x14;
+  if (uVar3 != 0) {
+    piVar5 = (int *)((int)(this->gCInteractionAdmin_data).offset_0x10 + uVar3 * 4);
+    do {
+      piVar5 = piVar5 + -1;
+      uVar3 = uVar3 - 1;
+      if (param_1 == (gCInteraction_PS *)*piVar5) goto LAB_20410361;
+    } while (uVar3 != 0);
+  }
+  uVar3 = 0xffffffff;
+LAB_20410361:
+  if (uVar3 < (uint)(this->gCInteractionAdmin_data).offset_0x14) {
+    uVar2 = (this->gCInteractionAdmin_data).offset_0x14;
+    if (uVar3 < uVar2) {
+      iVar4 = (uVar2 - uVar3) + -1;
+      if (0 < iVar4) {
+        _Dst = (void *)((int)(this->gCInteractionAdmin_data).offset_0x10 + uVar3 * 4);
+        _memmove(_Dst,(void *)((int)_Dst + 4),iVar4 * 4);
+      }
+      puVar1 = &(this->gCInteractionAdmin_data).offset_0x14;
+      *puVar1 = *puVar1 + -1;
+    }
+    bCCriticalSectionWin32::Release((bCCriticalSectionWin32 *)&DAT_207cf464);
+    return true;
+  }
+  bCCriticalSectionWin32::Release((bCCriticalSectionWin32 *)&DAT_207cf464);
+  return false;
+}
+
+

@@ -1,0 +1,4 @@
+; 30028de9 ?SetFixedFPS@eCApplication@@QAEXM@Z
+30028de9 | e972a60300 | JMP 0x30063460
+; 30028dee eCIterator::CollectGameContexts
+; 30028dee Ordinal_3880

@@ -1,0 +1,25 @@
+/* ENTRY 10006c1c | bCErrorAdmin::GetInstance | STATUS decompiled | 7 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+/* public: static class bCErrorAdmin & __stdcall bCErrorAdmin::GetInstance(void) */
+
+bCErrorAdmin * bCErrorAdmin::GetInstance(void)
+
+{
+                    /* 0x6c1c  2408  ?GetInstance@bCErrorAdmin@@SGAAV1@XZ */
+  if ((_DAT_10142a8c & 1) == 0) {
+    _DAT_10142a8c = _DAT_10142a8c | 1;
+    InitializeCriticalSection((LPCRITICAL_SECTION)&DAT_10142a60);
+    _DAT_10142a58 = 0;
+    DAT_10142a5c = 0;
+    DAT_10142a5d = 0;
+    _DAT_10142a78 = 0;
+    _DAT_10142a7c = 0;
+    _DAT_10142a80 = 0;
+    Create((bCErrorAdmin *)&DAT_10142a58);
+    _atexit((_func_4879 *)&LAB_100e2770);
+  }
+  return (bCErrorAdmin *)&DAT_10142a58;
+}
+
+

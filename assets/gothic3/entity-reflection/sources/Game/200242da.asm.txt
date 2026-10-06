@@ -1,0 +1,2 @@
+; 200242da ??0gCDamage_PS@@QAE@ABV0@@Z
+200242da | e9c1f30800 | JMP 0x200b36a0

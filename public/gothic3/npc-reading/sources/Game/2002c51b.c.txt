@@ -1,0 +1,12 @@
+/* ENTRY 2002c51b | gCNPC_PS::OnPreProcess | STATUS decompiled | 5 ms */
+
+/* public: virtual void __thiscall gCNPC_PS::OnPreProcess(void) */
+
+void __thiscall gCNPC_PS::OnPreProcess(gCNPC_PS *this)
+
+{
+                    /* 0x2c51b  5544  ?OnPreProcess@gCNPC_PS@@UAEXXZ */
+  return;
+}
+
+

@@ -1,0 +1,4 @@
+; 100076a3 ?Release@bCCriticalSectionWin32@@QAEXXZ
+100076a3 | e978980000 | JMP 0x10010f20
+; 100076a8 bCRect::GetLeft
+; 100076a8 Ordinal_2582

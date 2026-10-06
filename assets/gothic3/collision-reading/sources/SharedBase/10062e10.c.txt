@@ -1,0 +1,9 @@
+/* ENTRY 10062e10 | FUN_10062e10 | STATUS decompiled | 3 ms */
+
+int __thiscall FUN_10062e10(int param_1,int param_2)
+
+{
+  return param_1 + (param_2 * 3 + 6) * 4;
+}
+
+

@@ -1,0 +1,13 @@
+/* ENTRY 10003463 | PSPlayerMemory::PropertyXP::operator= | STATUS decompiled | 2 ms */
+
+/* public: class PSPlayerMemory::PropertyXP & __thiscall PSPlayerMemory::PropertyXP::operator=(class
+   PSPlayerMemory::PropertyXP const &) */
+
+PropertyXP * __thiscall PSPlayerMemory::PropertyXP::operator=(PropertyXP *this,PropertyXP *param_1)
+
+{
+                    /* 0x3463  801  ??4PropertyXP@PSPlayerMemory@@QAEAAV01@ABV01@@Z */
+  return this;
+}
+
+

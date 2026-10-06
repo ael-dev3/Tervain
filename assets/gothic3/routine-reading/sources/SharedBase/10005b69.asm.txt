@@ -1,0 +1,4 @@
+; 10005b69 ?Free@MemHeap@@SGXPAX@Z
+10005b69 | e9e26f0300 | JMP 0x1003cb50
+; 10005b6e bCAxisAngle::operator=
+; 10005b6e Ordinal_454

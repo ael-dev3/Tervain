@@ -1,0 +1,68 @@
+/* ENTRY 3030abb0 | FUN_3030abb0 | STATUS decompiled | 31 ms */
+
+undefined4 __thiscall FUN_3030abb0(eCPhysicObject *param_1,undefined4 param_2)
+
+{
+  bCVector *this;
+  int *piVar1;
+  eCPhysicsScene *peVar2;
+  eCPhysicsScene *this_00;
+  float *pfVar3;
+  undefined4 *puVar4;
+  int iVar5;
+  int iVar6;
+  eCPhysicObject *peVar7;
+  int iVar8;
+  float fStack_38;
+  float fStack_34;
+  eCPhysicObject *peStack_30;
+  bCVector abStack_2c [16];
+  undefined1 local_1c [8];
+  undefined1 auStack_14 [20];
+  
+  peVar2 = eCPhysicsScene::GetInstance();
+  if (peVar2[0x14] != (eCPhysicsScene)0x0) {
+    thunk_FUN_300d0700(param_2);
+    iVar6 = (param_1->eCPhysicObject_data).offset_0x10;
+    thunk_FUN_300d1d00(iVar6,(iVar6 != 0) - 1);
+    peVar7 = param_1;
+    this_00 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+    eCPhysicsScene::AddSkeleton(this_00,(eCPhysicObject *)peVar7);
+    iVar6 = (param_1->eCPhysicObject_data).offset_0x1c + -1;
+    if (-1 < iVar6) {
+      iVar5 = iVar6 * 0x38;
+      peVar7 = param_1;
+      do {
+        piVar1 = *(int **)((peVar7->eCPhysicObject_data).offset_0xc + iVar6 * 4);
+        pfVar3 = (float *)(**(code **)(*piVar1 + 0x28))(local_1c);
+        fStack_34 = pfVar3[1] * 100.0;
+        param_1 = (eCPhysicObject *)(pfVar3[2] * 100.0);
+        fStack_38 = *pfVar3 * 100.0;
+        peStack_30 = param_1;
+        bCVector::bCVector(abStack_2c,(NxVec3 *)&fStack_38);
+        bCVector::operator=((bCVector *)(iVar5 + 0x1c + (peVar7->eCPhysicObject_data).offset_0x18),
+                            abStack_2c);
+        bCVector::~bCVector(abStack_2c);
+        iVar8 = (peVar7->eCPhysicObject_data).offset_0x18 + iVar5;
+        puVar4 = (undefined4 *)(**(code **)(*piVar1 + 0x30))(auStack_14);
+        *(undefined4 *)(iVar8 + 0x28) = *puVar4;
+        *(undefined4 *)(iVar8 + 0x2c) = puVar4[1];
+        *(undefined4 *)(iVar8 + 0x30) = puVar4[2];
+        *(undefined4 *)(iVar8 + 0x34) = puVar4[3];
+        this = (bCVector *)(iVar5 + (param_1->eCPhysicObject_data).offset_0x18);
+        bCVector::operator=(this,this + 0x1c);
+        *(undefined4 *)(this + 0xc) = *(undefined4 *)(this + 0x28);
+        *(undefined4 *)(this + 0x10) = *(undefined4 *)(this + 0x2c);
+        *(undefined4 *)(this + 0x14) = *(undefined4 *)(this + 0x30);
+        iVar6 = iVar6 + -1;
+        iVar5 = iVar5 + -0x38;
+        *(undefined4 *)(this + 0x18) = *(undefined4 *)(this + 0x34);
+        peVar7 = param_1;
+      } while (-1 < iVar6);
+    }
+    eCPhysicObject::Process(param_1);
+  }
+  return 1;
+}
+
+

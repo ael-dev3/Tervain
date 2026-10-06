@@ -1,0 +1,31 @@
+/* ENTRY 30021cc9 | eCAnimationAdmin::GetAniExtroBlending | STATUS decompiled | 19 ms */
+
+/* public: float __thiscall eCAnimationAdmin::GetAniExtroBlending(class bCString &)const  */
+
+float __thiscall eCAnimationAdmin::GetAniExtroBlending(eCAnimationAdmin *this,bCString *param_1)
+
+{
+  bCString *pbVar1;
+  int iVar2;
+  eCAnimationAdmin *peStack_4;
+  
+                    /* 0x21cc9  6182  ?GetAniExtroBlending@eCAnimationAdmin@@QBEMAAVbCString@@@Z */
+  pbVar1 = param_1;
+  peStack_4 = this;
+  iVar2 = bCString::Find(param_1,'%',0,false);
+  if (0 < iVar2) {
+    bCString::bCString((bCString *)&param_1,pbVar1,iVar2);
+    bCString::ToUpper((bCString *)&param_1);
+    iVar2 = thunk_FUN_300921e0(&param_1,&peStack_4);
+    if (iVar2 != 0) {
+      iVar2 = thunk_FUN_300921e0(&param_1,&peStack_4);
+      peStack_4 = (eCAnimationAdmin *)((float)*(byte *)(iVar2 + 4) / 15.0);
+      bCString::~bCString((bCString *)&param_1);
+      return (float)peStack_4;
+    }
+    bCString::~bCString((bCString *)&param_1);
+  }
+  return (float)(this->eCAnimationAdmin_data).offset_0x44;
+}
+
+

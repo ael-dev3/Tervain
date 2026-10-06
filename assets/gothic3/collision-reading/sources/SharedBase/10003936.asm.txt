@@ -1,0 +1,4 @@
+; 10003936 ?Shrink@bCBox@@QAEXABVbCVector@@@Z
+10003936 | e9e5730200 | JMP 0x1002ad20
+; 1000393b bCPropertyObjectFactory::ReadNewObject
+; 1000393b Ordinal_3893

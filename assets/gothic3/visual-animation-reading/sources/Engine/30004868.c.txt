@@ -1,0 +1,54 @@
+/* ENTRY 30004868 | eCVisualAnimation_PS::RemoveLookAtConstraint | STATUS decompiled | 22 ms */
+
+/* public: bool __thiscall eCVisualAnimation_PS::RemoveLookAtConstraint(class bCString const &) */
+
+bool __thiscall
+eCVisualAnimation_PS::RemoveLookAtConstraint(eCVisualAnimation_PS *this,bCString *param_1)
+
+{
+  eCLookAtConstraint *this_00;
+  bool bVar1;
+  bCMemoryAdmin *this_01;
+  int iVar2;
+  GetVersion **ppGVar3;
+  uint uVar4;
+  GetVersion *pGVar5;
+  
+                    /* 0x4868  12520
+                       ?RemoveLookAtConstraint@eCVisualAnimation_PS@@QAE_NABVbCString@@@Z */
+  uVar4 = 0;
+  if (0 < *(int *)&this[0xb].eCEntityPropertySet_data) {
+    do {
+      bVar1 = bCString::operator==
+                        ((bCString *)((&(this[0xb].vftablePtr)->GetVersion)[uVar4] + 0x10),param_1);
+      if (bVar1) {
+        this_00 = (eCLookAtConstraint *)(&(this[0xb].vftablePtr)->GetVersion)[uVar4];
+        ppGVar3 = &(this[0xb].vftablePtr)->GetVersion + uVar4;
+        if (this_00 != (eCLookAtConstraint *)0x0) {
+          eCLookAtConstraint::Destroy(this_00);
+          bCVector::~bCVector((bCVector *)(this_00 + 0x24));
+          bCVector::~bCVector((bCVector *)(this_00 + 0x18));
+          bCString::~bCString((bCString *)(this_00 + 0x10));
+          pGVar5 = *ppGVar3;
+          this_01 = bCMemoryAdmin::GetInstance();
+          bCMemoryAdmin::DeleteObject(this_01,pGVar5);
+          *ppGVar3 = (GetVersion *)0x0;
+        }
+        if (uVar4 < *(uint *)&this[0xb].eCEntityPropertySet_data) {
+          iVar2 = (*(uint *)&this[0xb].eCEntityPropertySet_data - uVar4) + -1;
+          if (0 < iVar2) {
+            ppGVar3 = &(this[0xb].vftablePtr)->GetVersion + uVar4;
+            _memmove(ppGVar3,ppGVar3 + 1,iVar2 * 4);
+          }
+          *(int *)&this[0xb].eCEntityPropertySet_data =
+               *(int *)&this[0xb].eCEntityPropertySet_data + -1;
+        }
+        return true;
+      }
+      uVar4 = uVar4 + 1;
+    } while ((int)uVar4 < *(int *)&this[0xb].eCEntityPropertySet_data);
+  }
+  return false;
+}
+
+

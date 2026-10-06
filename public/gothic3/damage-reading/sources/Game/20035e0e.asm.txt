@@ -1,0 +1,2 @@
+; 20035e0e bTPropertyType<gCDamage_PS,bTPropertyContainer<gEDamageType>_>::vfunction15
+20035e0e | e9bd050800 | JMP 0x200b63d0

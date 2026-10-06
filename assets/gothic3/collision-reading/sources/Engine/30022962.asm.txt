@@ -1,0 +1,4 @@
+; 30022962 bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeGroup>_>::vfunction10
+30022962 | e979c13300 | JMP 0x3035eae0
+; 30022971 eCTexCoordSrcBase::Destroy
+; 30022971 Ordinal_5343

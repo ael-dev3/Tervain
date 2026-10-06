@@ -1,0 +1,22 @@
+; 300cd030 FUN_300cd030
+300cd030 | 56 | PUSH ESI
+300cd031 | 8bf1 | MOV ESI,ECX
+300cd033 | 8b06 | MOV EAX,dword ptr [ESI]
+300cd035 | 8b5058 | MOV EDX,dword ptr [EAX + 0x58]
+300cd038 | 6a00 | PUSH 0x0
+300cd03a | 6898a68130 | PUSH 0x3081a698
+300cd03f | ffd2 | CALL EDX
+300cd041 | 8b461c | MOV EAX,dword ptr [ESI + 0x1c]
+300cd044 | 8b542408 | MOV EDX,dword ptr [ESP + 0x8]
+300cd048 | 8b401c | MOV EAX,dword ptr [EAX + 0x1c]
+300cd04b | 8d4e1c | LEA ECX,[ESI + 0x1c]
+300cd04e | 52 | PUSH EDX
+300cd04f | ffd0 | CALL EAX
+300cd051 | 8b16 | MOV EDX,dword ptr [ESI]
+300cd053 | 8b425c | MOV EAX,dword ptr [EDX + 0x5c]
+300cd056 | 6a00 | PUSH 0x0
+300cd058 | 6898a68130 | PUSH 0x3081a698
+300cd05d | 8bce | MOV ECX,ESI
+300cd05f | ffd0 | CALL EAX
+300cd061 | 5e | POP ESI
+300cd062 | c20400 | RET 0x4

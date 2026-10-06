@@ -1,0 +1,3 @@
+; 201afaf0 FUN_201afaf0
+201afaf0 | 8d412b | LEA EAX,[ECX + 0x2b]
+201afaf3 | c3 | RET

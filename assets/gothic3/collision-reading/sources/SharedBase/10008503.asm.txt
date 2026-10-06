@@ -1,0 +1,4 @@
+; 10008503 ??HbCBox@@QBE?AV0@ABVbCVector@@@Z
+10008503 | e988e60200 | JMP 0x10036b90
+; 10008508 bCGothic3EngineDialogs::GetDialogHandle
+; 10008508 Ordinal_2270

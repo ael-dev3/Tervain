@@ -1,0 +1,17 @@
+/* ENTRY 100333f0 | FUN_100333f0 | STATUS decompiled | 8 ms */
+
+float * FUN_100333f0(float *param_1)
+
+{
+  float10 fVar1;
+  
+  fVar1 = (float10)FUN_100ab010();
+  *param_1 = (float)fVar1;
+  fVar1 = (float10)FUN_100ab010();
+  param_1[1] = (float)fVar1;
+  fVar1 = (float10)FUN_100ab010();
+  param_1[2] = (float)fVar1;
+  return param_1;
+}
+
+

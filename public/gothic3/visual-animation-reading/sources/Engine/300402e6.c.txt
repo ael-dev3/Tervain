@@ -1,0 +1,12 @@
+/* ENTRY 300402e6 | eCVisualAnimation_PS::IsAutoAimingEnabled | STATUS decompiled | 9 ms */
+
+/* public: bool __thiscall eCVisualAnimation_PS::IsAutoAimingEnabled(void)const  */
+
+bool __thiscall eCVisualAnimation_PS::IsAutoAimingEnabled(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x402e6  10255  ?IsAutoAimingEnabled@eCVisualAnimation_PS@@QBE_NXZ */
+  return (bool)this[0x12].eCEntityPropertySet_data.field_0xf;
+}
+
+

@@ -1,0 +1,11 @@
+/* ENTRY 20191620 | gCHUDLogo::gCHUDLogo | STATUS decompiled | 8 ms */
+
+gCHUDLogo * __thiscall gCHUDLogo::gCHUDLogo(gCHUDLogo *this)
+
+{
+  CFFGFCStatic::CFFGFCStatic((CFFGFCStatic *)this);
+  this->vftablePtr = &vftable;
+  return this;
+}
+
+

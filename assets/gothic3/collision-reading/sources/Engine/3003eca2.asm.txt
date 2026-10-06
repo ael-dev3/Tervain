@@ -1,0 +1,2 @@
+; 3003eca2 ?GetAdaptToAABB@eCCollisionShape@@QBEAB_NXZ
+3003eca2 | e9693c0800 | JMP 0x300c2910

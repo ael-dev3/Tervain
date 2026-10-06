@@ -1,0 +1,12 @@
+/* ENTRY 10008201 | bCGuid::GetGuid | STATUS decompiled | 1 ms */
+
+/* public: struct _GUID * __thiscall bCGuid::GetGuid(void) */
+
+_GUID * __thiscall bCGuid::GetGuid(bCGuid *this)
+
+{
+                    /* 0x8201  2383  ?GetGuid@bCGuid@@QAEPAU_GUID@@XZ */
+  return (_GUID *)this;
+}
+
+

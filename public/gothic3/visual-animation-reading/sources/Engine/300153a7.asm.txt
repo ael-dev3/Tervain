@@ -1,0 +1,2 @@
+; 300153a7 eCAnimationCollisionDesc::SetLocalToWorldMatrix
+300153a7 | e9748e2700 | JMP 0x3028e220

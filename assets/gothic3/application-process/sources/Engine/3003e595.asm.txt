@@ -1,0 +1,2 @@
+; 3003e595 ?GetFrameTime@eCApplication@@QBEMXZ
+3003e595 | e9864d0200 | JMP 0x30063320

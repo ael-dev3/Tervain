@@ -1,0 +1,4 @@
+; 30045615 ?GetEntity@eCEntityPropertySet@@UBEPBVeCEntity@@XZ
+30045615 | e9f6bf4300 | JMP 0x30481610
+; 3004561a eCLightmapBitmap::FreeEmpty
+; 3004561a Ordinal_6056

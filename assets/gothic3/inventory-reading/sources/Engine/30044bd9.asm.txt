@@ -1,0 +1,2 @@
+; 30044bd9 ??4eCTemplateEntityProxy@@QAEABV0@ABV0@@Z
+30044bd9 | e962254800 | JMP 0x304c7140

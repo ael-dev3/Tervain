@@ -1,0 +1,3 @@
+; 304bf9a0 FUN_304bf9a0
+304bf9a0 | 8b4148 | MOV EAX,dword ptr [ECX + 0x48]
+304bf9a3 | c3 | RET

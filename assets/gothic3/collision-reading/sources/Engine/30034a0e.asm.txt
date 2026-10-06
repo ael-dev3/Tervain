@@ -1,0 +1,4 @@
+; 30034a0e bTPropertyContainer<eEShapeMaterial>::vfunction8
+30034a0e | e9ad550700 | JMP 0x300a9fc0
+; 30034a13 eCCollisionShape_PS::OnPreTouch
+; 30034a13 Ordinal_11374

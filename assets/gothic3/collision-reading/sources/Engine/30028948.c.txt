@@ -1,0 +1,12 @@
+/* ENTRY 30028948 | eCCollisionShape::GetPoint | STATUS decompiled | 4 ms */
+
+/* public: class bCVector & __thiscall eCCollisionShape::GetPoint(void) */
+
+bCVector * __thiscall eCCollisionShape::GetPoint(eCCollisionShape *this)
+
+{
+                    /* 0x28948  8112  ?GetPoint@eCCollisionShape@@QAEAAVbCVector@@XZ */
+  return (bCVector *)(this->eCCollisionShape_data).offset_0x70;
+}
+
+

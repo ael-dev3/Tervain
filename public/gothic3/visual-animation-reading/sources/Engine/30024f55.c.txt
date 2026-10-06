@@ -1,0 +1,95 @@
+/* ENTRY 30024f55 | eCVisualAnimation_PS::eCActorAttachment::Process | STATUS decompiled | 64 ms */
+
+/* public: bool __thiscall eCVisualAnimation_PS::eCActorAttachment::Process(unsigned long) */
+
+bool __thiscall
+eCVisualAnimation_PS::eCActorAttachment::Process(eCActorAttachment *this,ulong param_1)
+
+{
+  eCEntityProxy *this_00;
+  bCMatrix *pbVar1;
+  eCActorAttachment *peVar2;
+  int *piVar3;
+  eCEntity *peVar4;
+  eCEntity *peVar5;
+  int iVar6;
+  ulong uVar7;
+  eCEntity *peVar8;
+  bCMatrix *pbVar9;
+  bCString *pbVar10;
+  bCString *pbVar11;
+  bCPropertyID *this_01;
+  undefined4 *puVar12;
+  ulong *puVar13;
+  bCMatrix abStack_40 [64];
+  
+                    /* 0x24f55  11923  ?Process@eCActorAttachment@eCVisualAnimation_PS@@QAE_NK@Z */
+  if ((((byte)this[0x70] & 2) != 0) && (*(uint *)(this + 0x74) < param_1)) {
+    peVar4 = eCEntityProxy::GetEntity((eCEntityProxy *)(this + 4));
+    if (peVar4 != (eCEntity *)0x0) {
+      (**(code **)(*(int *)peVar4 + 0xf4))();
+      this[0x70] = (eCActorAttachment)((byte)this[0x70] & 0xfd);
+    }
+  }
+  this_00 = (eCEntityProxy *)(this + 4);
+  peVar5 = (eCEntity *)eCEntityProxy::GetEntity(this_00);
+  iVar6 = thunk_FUN_3009e470();
+  if (peVar5 == (eCEntity *)0x0) {
+    peVar2 = this + 0x70;
+    *peVar2 = (eCActorAttachment)((byte)*peVar2 & 4);
+    if (*peVar2 != (eCActorAttachment)0x0) {
+      eCEntityProxy::SetEntity(this_00,(eCEntity *)0x0);
+      return false;
+    }
+    puVar13 = &param_1;
+    this_01 = eCEntityProxy::GetEntityID(this_00);
+    puVar12 = (undefined4 *)bCPropertyID::GetText(this_01);
+    peVar5 = (eCEntity *)(**(code **)(**(int **)this + 0x68))(puVar13);
+    pbVar10 = eCEntity::GetName(peVar5);
+    GE_MESSAGEF_WARN("eCVisualAnimation_PS::eCActorAttachment::Process  - Can\'t attach entity to bone: %s of actor:%s. Entity with ID:%s not valid! Mark attachment as temp?"
+                     ,*(undefined4 *)(this + 0x68),*(undefined4 *)pbVar10,*puVar12);
+    bCString::~bCString((bCString *)&stack0x00000000);
+    return false;
+  }
+  if (iVar6 == 0) {
+    peVar8 = (eCEntity *)(**(code **)(**(int **)this + 0x68))();
+    pbVar10 = eCEntity::GetName(peVar8);
+    pbVar11 = eCEntity::GetName(peVar5);
+    GE_MESSAGEF_WARN("eCVisualAnimation_PS::eCActorAttachment::Process  - Can\'t attach entity:%s to bone: %s of actor:%s. Bone not found!"
+                     ,*(undefined4 *)pbVar11,*(undefined4 *)(this + 0x68),*(undefined4 *)pbVar10);
+    return false;
+  }
+  pbVar1 = (bCMatrix *)(iVar6 + 0x44);
+  piVar3 = *(int **)this;
+  param_1 = (ulong)(*peVar5->vftablePtr->GetParent)(peVar5);
+  uVar7 = (**(code **)(*piVar3 + 0x68))();
+  if (param_1 == uVar7) {
+    if (((byte)this[0x70] & 1) != 0) {
+      bCMatrix::bCMatrix(abStack_40,pbVar1);
+      bCMatrix::operator*=(abStack_40,(bCMatrix *)(this + 0x20));
+      (*peVar5->vftablePtr->SetLocalMatrix)(peVar5,abStack_40);
+      bCMatrix::~bCMatrix(abStack_40);
+      return true;
+    }
+    (*peVar5->vftablePtr->SetLocalMatrix)(peVar5,pbVar1);
+    return true;
+  }
+  if (((byte)this[0x70] & 1) == 0) {
+    peVar8 = (eCEntity *)(**(code **)(**(int **)this + 0x68))();
+    pbVar9 = eCEntity::GetWorldMatrix(peVar8);
+    bCMatrix::bCMatrix(abStack_40,pbVar9);
+    bCMatrix::operator*=(abStack_40,pbVar1);
+  }
+  else {
+    peVar8 = (eCEntity *)(**(code **)(**(int **)this + 0x68))();
+    pbVar9 = eCEntity::GetWorldMatrix(peVar8);
+    bCMatrix::bCMatrix(abStack_40,pbVar9);
+    bCMatrix::operator*=(abStack_40,pbVar1);
+    bCMatrix::operator*=(abStack_40,(bCMatrix *)(this + 0x20));
+  }
+  eCEntity::SetToWorldMatrix(peVar5,abStack_40);
+  bCMatrix::~bCMatrix(abStack_40);
+  return true;
+}
+
+

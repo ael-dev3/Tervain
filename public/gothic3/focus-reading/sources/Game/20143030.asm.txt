@@ -1,0 +1,13 @@
+; 20143030 bTPropertyType<gCFocus_PS,bTPropertyContainer<gEFocusLookAtKeysFOR>_>::vfunction6
+20143030 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+20143034 | 85c0 | TEST EAX,EAX
+20143036 | 7411 | JZ 0x20143049
+20143038 | 8b11 | MOV EDX,dword ptr [ECX]
+2014303a | 50 | PUSH EAX
+2014303b | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+2014303e | ffd0 | CALL EAX
+20143040 | 8b10 | MOV EDX,dword ptr [EAX]
+20143042 | 8bc8 | MOV ECX,EAX
+20143044 | 8b4218 | MOV EAX,dword ptr [EDX + 0x18]
+20143047 | ffd0 | CALL EAX
+20143049 | c20400 | RET 0x4

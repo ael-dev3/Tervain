@@ -1,0 +1,2 @@
+; 10008887 bCSpieAdmin::Create
+10008887 | e924290400 | JMP 0x1004b1b0

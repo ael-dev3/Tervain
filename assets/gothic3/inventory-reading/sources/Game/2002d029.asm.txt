@@ -1,0 +1,4 @@
+; 2002d029 ?PostInitializeProperties@gCInventorySlot@@UAE?AW4bEResult@@XZ
+2002d029 | e982401900 | JMP 0x201c10b0
+; 2002d033 gCWorkspace::AccessActiveProject
+; 2002d033 Ordinal_1003

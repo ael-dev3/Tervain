@@ -1,0 +1,4 @@
+; 10006ac3 ??0bCVector@@QAE@MMM@Z
+10006ac3 | e998770200 | JMP 0x1002e260
+; 10006ac8 bCUnicodeString::GetLength
+; 10006ac8 Ordinal_2586

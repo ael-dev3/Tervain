@@ -1,0 +1,2 @@
+; 30045ebc eCVisualAnimationFactory::CopyFrom
+30045ebc | e9ff6f0700 | JMP 0x300bcec0

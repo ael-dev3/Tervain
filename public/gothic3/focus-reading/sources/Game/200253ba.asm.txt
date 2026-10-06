@@ -1,0 +1,2 @@
+; 200253ba bTPropertyObject<gCFocus_PS,eCEntityPropertySet>::vfunction4
+200253ba | e941a91100 | JMP 0x2013fd00

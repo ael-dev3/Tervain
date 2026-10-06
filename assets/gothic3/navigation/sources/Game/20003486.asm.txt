@@ -1,0 +1,2 @@
+; 20003486 ?BuildMemberList@gCEnclave_PS@@QAEX_N@Z
+20003486 | e975b21100 | JMP 0x2011e700

@@ -1,0 +1,17 @@
+/* ENTRY 201ae330 | FUN_201ae330 | STATUS decompiled | 4 ms */
+
+gEUseType FUN_201ae330(undefined4 param_1)
+
+{
+  gCInventorySlot *this;
+  gEUseType gVar1;
+  
+  this = (gCInventorySlot *)FUN_20029be0(param_1);
+  if (this != (gCInventorySlot *)0x0) {
+    gVar1 = gCInventorySlot::GetUseType(this);
+    return gVar1;
+  }
+  return 0;
+}
+
+

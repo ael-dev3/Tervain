@@ -1,0 +1,4 @@
+; 10003a12 ?GetCircumSphere@bCOrientedBox@@QBE?AVbCSphere@@XZ
+10003a12 | e9e9250600 | JMP 0x10066000
+; 10003a17 operator+
+; 10003a17 Ordinal_1025

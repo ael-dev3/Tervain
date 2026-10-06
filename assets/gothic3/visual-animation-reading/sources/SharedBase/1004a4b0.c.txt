@@ -1,0 +1,11 @@
+/* ENTRY 1004a4b0 | FUN_1004a4b0 | STATUS decompiled | 4 ms */
+
+undefined4 __fastcall FUN_1004a4b0(bCObjectBase *param_1)
+
+{
+  bCObjectBase::Create(param_1);
+  param_1[2].vftablePtr = (bCObjectBase_vftable *)((uint)param_1[2].vftablePtr | 0x80000000);
+  return 1;
+}
+
+

@@ -1,0 +1,17 @@
+/* ENTRY 1016ddd0 | FUN_1016ddd0 | STATUS decompiled | 6 ms */
+
+void FUN_1016ddd0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Engine\\Engine_Callback\\OnDamage.cpp");
+  bCString::bCString(local_8,"OnDamage");
+  thunk_FUN_10017a50(local_8,&LAB_1000340e,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

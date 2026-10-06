@@ -1,0 +1,2 @@
+; 2001f5b9 bTPropertyContainer<gEFocusNameType>::vfunction8
+2001f5b9 | e952e60800 | JMP 0x200adc10

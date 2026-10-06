@@ -1,0 +1,36 @@
+/* ENTRY 10028ba0 | FUN_10028ba0 | STATUS decompiled | 6 ms */
+
+undefined1 __fastcall FUN_10028ba0(float *param_1)
+
+{
+  int iVar1;
+  float *pfVar2;
+  int iVar3;
+  float local_4;
+  
+  iVar3 = 0;
+  do {
+    iVar1 = 0;
+    pfVar2 = param_1;
+    do {
+      if (iVar3 == iVar1) {
+        local_4 = 1.0;
+      }
+      else {
+        local_4 = 0.0;
+      }
+      if (*pfVar2 != local_4) {
+        return 0;
+      }
+      iVar1 = iVar1 + 1;
+      pfVar2 = pfVar2 + 1;
+    } while (iVar1 < 4);
+    iVar3 = iVar3 + 1;
+    param_1 = param_1 + 4;
+    if (3 < iVar3) {
+      return 1;
+    }
+  } while( true );
+}
+
+

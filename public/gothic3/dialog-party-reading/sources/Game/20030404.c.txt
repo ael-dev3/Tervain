@@ -1,0 +1,16 @@
+/* ENTRY 20030404 | gCDialog_PS::AccessTradeCategory | STATUS decompiled | 7 ms */
+
+/* public: class bTPropertyContainer<enum gETradeCategory> & __thiscall
+   gCDialog_PS::AccessTradeCategory(void) */
+
+bTPropertyContainer<gETradeCategory> * __thiscall
+gCDialog_PS::AccessTradeCategory(gCDialog_PS *this)
+
+{
+                    /* 0x30404  1763
+                       ?AccessTradeCategory@gCDialog_PS@@QAEAAV?$bTPropertyContainer@W4gETradeCategory@@@@XZ
+                        */
+  return (bTPropertyContainer<gETradeCategory> *)&(this->gCDialog_PS_data).offset_0x1c;
+}
+
+

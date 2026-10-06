@@ -1,0 +1,2 @@
+; 200295e1 ?ApplyTemp@gCStat@@UAE_NW4EAttribModOperation@@H@Z
+200295e1 | e9ea1a3700 | JMP 0x2039b0d0

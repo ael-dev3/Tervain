@@ -1,0 +1,4 @@
+; 20027700 bTPropertyType<gCNavigation_PS,bTValArray<bCPropertyID>_>::vfunction2
+20027700 | e98b782600 | JMP 0x2028ef90
+; 20027705 gCEffect_PS::SetOffset
+; 20027705 Ordinal_6845

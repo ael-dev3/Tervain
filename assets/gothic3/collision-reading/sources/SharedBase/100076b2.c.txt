@@ -1,0 +1,12 @@
+/* ENTRY 100076b2 | bCOrientedBox::AccessCenter | STATUS decompiled | 1 ms */
+
+/* public: class bCVector & __thiscall bCOrientedBox::AccessCenter(void) */
+
+bCVector * __thiscall bCOrientedBox::AccessCenter(bCOrientedBox *this)
+
+{
+                    /* 0x76b2  1413  ?AccessCenter@bCOrientedBox@@QAEAAVbCVector@@XZ */
+  return (bCVector *)this;
+}
+
+

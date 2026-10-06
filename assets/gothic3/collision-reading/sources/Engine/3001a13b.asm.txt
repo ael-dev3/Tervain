@@ -1,0 +1,2 @@
+; 3001a13b ?GetShapeAABBAdaptMode@eCCollisionShape@@QBEABV?$bTPropertyContainer@W4eEShapeAABBAdapt@@@@XZ
+3001a13b | e990830a00 | JMP 0x300c24d0

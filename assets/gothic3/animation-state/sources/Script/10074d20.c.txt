@@ -1,0 +1,19 @@
+/* ENTRY 10074d20 | FUN_10074d20 | STATUS decompiled | 13 ms */
+
+void FUN_10074d20(void)
+
+{
+  bCString::bCString((bCString *)&DAT_100b3a8c,"None");
+  bCString::bCString((bCString *)&DAT_100b3a90,"Fwd");
+  bCString::bCString((bCString *)&DAT_100b3a94,"Back");
+  bCString::bCString((bCString *)&DAT_100b3a98,"Left");
+  bCString::bCString((bCString *)&DAT_100b3a9c,"Right");
+  bCString::bCString((bCString *)&DAT_100b3aa0,"FwdLeft");
+  bCString::bCString((bCString *)&DAT_100b3aa4,"FwdRight");
+  bCString::bCString((bCString *)&DAT_100b3aa8,"BackLeft");
+  bCString::bCString((bCString *)&DAT_100b3aac,"BackRight");
+  _atexit(FUN_1007b600);
+  return;
+}
+
+

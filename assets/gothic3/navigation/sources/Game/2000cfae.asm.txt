@@ -1,0 +1,2 @@
+; 2000cfae ?GetEnabled@gCNavigation_PS@@QBE_NXZ
+2000cfae | e91d942700 | JMP 0x202863d0

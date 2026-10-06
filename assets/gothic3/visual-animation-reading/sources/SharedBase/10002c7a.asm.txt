@@ -1,0 +1,2 @@
+; 10002c7a g_GetHashValue<bCString>
+10002c7a | e9514e0800 | JMP 0x10087ad0

@@ -1,0 +1,2 @@
+; 3003259c ?TraceRayFirstHit@eCCollisionShape_PS@@QAE_NAAVbCRay@@@Z
+3003259c | e95f493000 | JMP 0x30336f00

@@ -1,0 +1,13 @@
+; 30227aa0 bTPropertyType<eCIlluminated_PS,bTPropertyContainer<eEDirectionalShadowType>_>::vfunction6
+30227aa0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+30227aa4 | 85c0 | TEST EAX,EAX
+30227aa6 | 7411 | JZ 0x30227ab9
+30227aa8 | 8b11 | MOV EDX,dword ptr [ECX]
+30227aaa | 50 | PUSH EAX
+30227aab | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+30227aae | ffd0 | CALL EAX
+30227ab0 | 8b10 | MOV EDX,dword ptr [EAX]
+30227ab2 | 8bc8 | MOV ECX,EAX
+30227ab4 | 8b4218 | MOV EAX,dword ptr [EDX + 0x18]
+30227ab7 | ffd0 | CALL EAX
+30227ab9 | c20400 | RET 0x4

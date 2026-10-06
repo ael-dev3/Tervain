@@ -1,0 +1,4 @@
+; 10003049 ?GetPropertyTypeObject@bCAccessorProperty@@QAEPAVbCPropertyTypeBase@@XZ
+10003049 | e9720b0900 | JMP 0x10093bc0
+; 1000304e bCString::TrimRight
+; 1000304e Ordinal_4600

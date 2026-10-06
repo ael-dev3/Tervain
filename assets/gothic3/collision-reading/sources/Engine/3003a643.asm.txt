@@ -1,0 +1,4 @@
+; 3003a643 bTPropertyType<eCCollisionShape,bCObsoleteClass>::vfunction2
+3003a643 | e9c8293200 | JMP 0x3035d010
+; 3003a648 eCVegetation_Grid::GetWorldDimension
+; 3003a648 Ordinal_9650

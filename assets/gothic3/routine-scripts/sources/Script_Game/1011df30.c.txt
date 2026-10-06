@@ -1,0 +1,17 @@
+/* ENTRY 1011df30 | FUN_1011df30 | STATUS decompiled | 8 ms */
+
+void FUN_1011df30(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Tasks\\Reaction_Tasks\\ZS_WatchFight.cpp");
+  bCString::bCString(local_8,"ZS_WatchFight_WaitForFlee");
+  thunk_FUN_1001db60(local_8,&LAB_10002829,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

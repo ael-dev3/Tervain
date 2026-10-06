@@ -1,0 +1,62 @@
+/* ENTRY 30033cdf | eCEntityAdmin::OnEntityProcessingChanged | STATUS decompiled | 187 ms */
+
+/* public: void __thiscall eCEntityAdmin::OnEntityProcessingChanged(class eCEntity *) */
+
+void __thiscall eCEntityAdmin::OnEntityProcessingChanged(eCEntityAdmin *this,eCEntity *param_1)
+
+{
+  short sVar1;
+  void *pvVar2;
+  eCEntity *this_00;
+  bool bVar3;
+  ushort uVar4;
+  uint uVar5;
+  eSEntityFlags *peVar6;
+  uint uVar7;
+  int *piVar8;
+  ushort uVar9;
+  
+                    /* 0x33cdf  11060  ?OnEntityProcessingChanged@eCEntityAdmin@@QAEXPAVeCEntity@@@Z
+                        */
+  this_00 = param_1;
+  bVar3 = eCEntity::HasProcessingRangeEntered((eCEntity *)param_1);
+  if (bVar3) {
+    uVar7 = (uint)(ushort)(this->eCEntityAdmin_data).offset_0xae;
+    uVar5 = 0;
+    if (uVar7 != 0) {
+      piVar8 = (this->eCEntityAdmin_data).offset_0xb0;
+      do {
+        if (this_00 == (eCEntity *)*piVar8) {
+          uVar5 = uVar5 & 0xffff;
+          goto LAB_304c8233;
+        }
+        uVar5 = uVar5 + 1;
+        piVar8 = piVar8 + 1;
+      } while ((int)uVar5 < (int)uVar7);
+    }
+    uVar5 = 0xffff;
+LAB_304c8233:
+    peVar6 = eCEntity::GetEntityFlags((eCEntity *)this_00);
+    uVar7 = (this->eCEntityAdmin_data).offset_0x94;
+    uVar9 = (ushort)uVar5;
+    if (((*(uint *)peVar6 & uVar7) == uVar7) &&
+       (((this->eCEntityAdmin_data).offset_0x98 & *(uint *)peVar6) == 0)) {
+      if ((ushort)(this->eCEntityAdmin_data).offset_0xae <= uVar9) {
+        thunk_FUN_303a75d0(&param_1);
+        return;
+      }
+    }
+    else if ((uVar9 < (ushort)(this->eCEntityAdmin_data).offset_0xae) &&
+            (sVar1 = (this->eCEntityAdmin_data).offset_0xae, sVar1 != 0)) {
+      uVar4 = sVar1 - 1;
+      (this->eCEntityAdmin_data).offset_0xae = uVar4;
+      if ((uVar4 != 0) && (uVar4 != uVar9)) {
+        pvVar2 = (this->eCEntityAdmin_data).offset_0xb0;
+        *(undefined4 *)((int)pvVar2 + uVar5 * 4) = *(undefined4 *)((int)pvVar2 + (uint)uVar4 * 4);
+      }
+    }
+  }
+  return;
+}
+
+

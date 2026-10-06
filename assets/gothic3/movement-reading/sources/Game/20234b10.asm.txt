@@ -1,0 +1,16 @@
+; 20234b10 bTPropertyType<gCCharacterMovement_PS,bool>::vfunction11
+20234b10 | 56 | PUSH ESI
+20234b11 | 8bf1 | MOV ESI,ECX
+20234b13 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+20234b17 | 85c9 | TEST ECX,ECX
+20234b19 | 7506 | JNZ 0x20234b21
+20234b1b | 33c0 | XOR EAX,EAX
+20234b1d | 5e | POP ESI
+20234b1e | c20400 | RET 0x4
+; 20234b21 LAB_20234b21
+20234b21 | 8b01 | MOV EAX,dword ptr [ECX]
+20234b23 | 8b10 | MOV EDX,dword ptr [EAX]
+20234b25 | ffd2 | CALL EDX
+20234b27 | 03461c | ADD EAX,dword ptr [ESI + 0x1c]
+20234b2a | 5e | POP ESI
+20234b2b | c20400 | RET 0x4

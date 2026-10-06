@@ -1,0 +1,22 @@
+/* ENTRY 201c0070 | FUN_201c0070 | STATUS decompiled | 7 ms */
+
+undefined4 __fastcall FUN_201c0070(int param_1)
+
+{
+  eCTemplateEntity *this;
+  eCEntityPropertySet *peVar1;
+  
+  this = eCTemplateEntityProxy::GetEntity((eCTemplateEntityProxy *)(param_1 + 0xc));
+  if (this == (eCTemplateEntity *)0x0) {
+    GE_MESSAGEF_WARN("gCInventorySlot::GetCategory -> Template item is invalid.");
+    return 0;
+  }
+  peVar1 = eCEntity::GetPropertySet((eCEntity *)this,0x30);
+  if (peVar1 != (eCEntityPropertySet *)0x0) {
+    return *(undefined4 *)(peVar1 + 0x28);
+  }
+  GE_MESSAGEF_WARN("gCInventorySlot::GetCategory -> Template item misses gCItem_PS.");
+  return 0;
+}
+
+

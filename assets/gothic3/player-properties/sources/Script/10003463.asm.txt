@@ -1,0 +1,4 @@
+; 10003463 ??4PropertyXP@PSPlayerMemory@@QAEAAV01@ABV01@@Z
+10003463 | e988840000 | JMP 0x1000b8f0
+; 1000346d PSNavigation::GetSleepingPoint
+; 1000346d Ordinal_1658

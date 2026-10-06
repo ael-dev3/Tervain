@@ -1,0 +1,2 @@
+; 200230c4 ?IsEquippedToSlot@gCInventoryStack@@QBE_NW4gESlot@@@Z
+200230c4 | e9e7451a00 | JMP 0x201c76b0

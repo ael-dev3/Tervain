@@ -1,0 +1,33 @@
+; 1001fa10 FUN_1001fa10
+1001fa10 | 56 | PUSH ESI
+1001fa11 | 8bf1 | MOV ESI,ECX
+1001fa13 | 57 | PUSH EDI
+1001fa14 | 8b7e0c | MOV EDI,dword ptr [ESI + 0xc]
+1001fa17 | 037c240c | ADD EDI,dword ptr [ESP + 0xc]
+1001fa1b | 3b7e10 | CMP EDI,dword ptr [ESI + 0x10]
+1001fa1e | 7e2e | JLE 0x1001fa4e
+1001fa20 | 81ffffffff7f | CMP EDI,0x7fffffff
+1001fa26 | 7e07 | JLE 0x1001fa2f
+1001fa28 | 5f | POP EDI
+1001fa29 | 33c0 | XOR EAX,EAX
+1001fa2b | 5e | POP ESI
+1001fa2c | c20400 | RET 0x4
+; 1001fa2f LAB_1001fa2f
+1001fa2f | 8b4608 | MOV EAX,dword ptr [ESI + 0x8]
+1001fa32 | 57 | PUSH EDI
+1001fa33 | 50 | PUSH EAX
+1001fa34 | e87530feff | CALL 0x10002aae
+1001fa39 | 8bc8 | MOV ECX,EAX
+1001fa3b | e8f346feff | CALL 0x10004133
+1001fa40 | 397e0c | CMP dword ptr [ESI + 0xc],EDI
+1001fa43 | 894608 | MOV dword ptr [ESI + 0x8],EAX
+1001fa46 | 897e10 | MOV dword ptr [ESI + 0x10],EDI
+1001fa49 | 7e03 | JLE 0x1001fa4e
+1001fa4b | 897e0c | MOV dword ptr [ESI + 0xc],EDI
+; 1001fa4e LAB_1001fa4e
+1001fa4e | 8b4608 | MOV EAX,dword ptr [ESI + 0x8]
+1001fa51 | 03460c | ADD EAX,dword ptr [ESI + 0xc]
+1001fa54 | 897e0c | MOV dword ptr [ESI + 0xc],EDI
+1001fa57 | 5f | POP EDI
+1001fa58 | 5e | POP ESI
+1001fa59 | c20400 | RET 0x4

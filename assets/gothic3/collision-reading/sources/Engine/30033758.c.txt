@@ -1,0 +1,12 @@
+/* ENTRY 30033758 | eCCollisionShape::GetSphere | STATUS decompiled | 3 ms */
+
+/* public: class bCSphere const & __thiscall eCCollisionShape::GetSphere(void)const  */
+
+bCSphere * __thiscall eCCollisionShape::GetSphere(eCCollisionShape *this)
+
+{
+                    /* 0x33758  8904  ?GetSphere@eCCollisionShape@@QBEABVbCSphere@@XZ */
+  return (bCSphere *)(this->eCCollisionShape_data).offset_0x70;
+}
+
+

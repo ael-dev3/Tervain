@@ -1,0 +1,2 @@
+; 30012e22 eCCameraBase::GetViewMatrix
+30012e22 | e909a60400 | JMP 0x3005d430

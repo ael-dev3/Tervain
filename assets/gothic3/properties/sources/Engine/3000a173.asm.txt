@@ -1,0 +1,2 @@
+; 3000a173 ?GetPropertySet@eCEntity@@QBEPBVeCEntityPropertySet@@W4eEPropertySetType@@@Z
+3000a173 | e948944a00 | JMP 0x304b35c0

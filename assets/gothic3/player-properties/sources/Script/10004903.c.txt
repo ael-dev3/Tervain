@@ -1,0 +1,23 @@
+/* ENTRY 10004903 | PSPlayerMemory::GetManaPointsMax | STATUS decompiled | 10 ms */
+
+/* public: int __thiscall PSPlayerMemory::GetManaPointsMax(void)const  */
+
+int __thiscall PSPlayerMemory::GetManaPointsMax(PSPlayerMemory *this)
+
+{
+  int iVar1;
+  PSPlayerMemory *pPStack_4;
+  
+                    /* 0x4903  1594  ?GetManaPointsMax@PSPlayerMemory@@QBEHXZ */
+  pPStack_4 = this;
+  bCString::bCString((bCString *)&pPStack_4,"MP");
+  if (*(gCPlayerMemory_PS **)this != (gCPlayerMemory_PS *)0x0) {
+    iVar1 = gCPlayerMemory_PS::GetMaximum(*(gCPlayerMemory_PS **)this,(bCString *)&pPStack_4);
+    bCString::~bCString((bCString *)&pPStack_4);
+    return iVar1;
+  }
+  bCString::~bCString((bCString *)&pPStack_4);
+  return 0;
+}
+
+

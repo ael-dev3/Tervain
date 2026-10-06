@@ -1,0 +1,4 @@
+; 10003198 ?SetMin@bCBox@@QAEXABVbCVector@@@Z
+10003198 | e9a3750200 | JMP 0x1002a740
+; 1000319d bCMatrix::GetQuotient
+; 1000319d Ordinal_2849

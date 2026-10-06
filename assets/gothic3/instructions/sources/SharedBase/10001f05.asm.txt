@@ -1,0 +1,4 @@
+; 10001f05 ??4bCPropertyID@@QAEAAV0@ABV0@@Z
+10001f05 | e9660a0900 | JMP 0x10092970
+; 10001f0a bCStringConverter::operator=
+; 10001f0a Ordinal_550

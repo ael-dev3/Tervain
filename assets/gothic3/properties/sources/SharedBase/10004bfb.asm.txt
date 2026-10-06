@@ -1,0 +1,4 @@
+; 10004bfb ?Compare@bCString@@QBEHPBD@Z
+10004bfb | e9c0eb0000 | JMP 0x100137c0
+; 10004c00 bCPOStream::Invalidate
+; 10004c00 Ordinal_3556

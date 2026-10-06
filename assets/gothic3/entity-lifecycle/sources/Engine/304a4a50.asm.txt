@@ -1,0 +1,67 @@
+; 304a4a50 FUN_304a4a50
+304a4a50 | 83ec08 | SUB ESP,0x8
+304a4a53 | 53 | PUSH EBX
+304a4a54 | 55 | PUSH EBP
+304a4a55 | 8b6c2418 | MOV EBP,dword ptr [ESP + 0x18]
+304a4a59 | 837d0400 | CMP dword ptr [EBP + 0x4],0x0
+304a4a5d | 8bd9 | MOV EBX,ECX
+304a4a5f | 7e77 | JLE 0x304a4ad8
+304a4a61 | 56 | PUSH ESI
+304a4a62 | 8b742418 | MOV ESI,dword ptr [ESP + 0x18]
+304a4a66 | 57 | PUSH EDI
+304a4a67 | 8b3d30dbaf30 | MOV EDI,dword ptr [0x30afdb30]
+304a4a6d | 8d4900 | LEA ECX,[ECX]
+; 304a4a70 LAB_304a4a70
+304a4a70 | 8b06 | MOV EAX,dword ptr [ESI]
+304a4a72 | 8b5004 | MOV EDX,dword ptr [EAX + 0x4]
+304a4a75 | 6a08 | PUSH 0x8
+304a4a77 | 8d4c2414 | LEA ECX,[ESP + 0x14]
+304a4a7b | 51 | PUSH ECX
+304a4a7c | 8bce | MOV ECX,ESI
+304a4a7e | ffd2 | CALL EDX
+304a4a80 | 8b542414 | MOV EDX,dword ptr [ESP + 0x14]
+304a4a84 | 83faff | CMP EDX,-0x1
+304a4a87 | 8b4c2410 | MOV ECX,dword ptr [ESP + 0x10]
+304a4a8b | 7505 | JNZ 0x304a4a92
+304a4a8d | 83f9ff | CMP ECX,-0x1
+304a4a90 | 7444 | JZ 0x304a4ad6
+; 304a4a92 LAB_304a4a92
+304a4a92 | 8b4504 | MOV EAX,dword ptr [EBP + 0x4]
+304a4a95 | 3bc8 | CMP ECX,EAX
+304a4a97 | 7211 | JC 0x304a4aaa
+304a4a99 | 8b4350 | MOV EAX,dword ptr [EBX + 0x50]
+304a4a9c | 51 | PUSH ECX
+304a4a9d | 50 | PUSH EAX
+304a4a9e | 6828978730 | PUSH 0x30879728
+304a4aa3 | ffd7 | CALL EDI
+304a4aa5 | 83c40c | ADD ESP,0xc
+304a4aa8 | ebc6 | JMP 0x304a4a70
+; 304a4aaa LAB_304a4aaa
+304a4aaa | 3bd0 | CMP EDX,EAX
+304a4aac | 7211 | JC 0x304a4abf
+304a4aae | 8b4b50 | MOV ECX,dword ptr [EBX + 0x50]
+304a4ab1 | 52 | PUSH EDX
+304a4ab2 | 51 | PUSH ECX
+304a4ab3 | 68b0968730 | PUSH 0x308796b0
+304a4ab8 | ffd7 | CALL EDI
+304a4aba | 83c40c | ADD ESP,0xc
+304a4abd | ebb1 | JMP 0x304a4a70
+; 304a4abf LAB_304a4abf
+304a4abf | 8b4500 | MOV EAX,dword ptr [EBP]
+304a4ac2 | 8b0c88 | MOV ECX,dword ptr [EAX + ECX*0x4]
+304a4ac5 | 8b1490 | MOV EDX,dword ptr [EAX + EDX*0x4]
+304a4ac8 | 8b29 | MOV EBP,dword ptr [ECX]
+304a4aca | 8b457c | MOV EAX,dword ptr [EBP + 0x7c]
+304a4acd | 52 | PUSH EDX
+304a4ace | ffd0 | CALL EAX
+304a4ad0 | 8b6c2420 | MOV EBP,dword ptr [ESP + 0x20]
+304a4ad4 | eb9a | JMP 0x304a4a70
+; 304a4ad6 LAB_304a4ad6
+304a4ad6 | 5f | POP EDI
+304a4ad7 | 5e | POP ESI
+; 304a4ad8 LAB_304a4ad8
+304a4ad8 | 5d | POP EBP
+304a4ad9 | b801000000 | MOV EAX,0x1
+304a4ade | 5b | POP EBX
+304a4adf | 83c408 | ADD ESP,0x8
+304a4ae2 | c20800 | RET 0x8

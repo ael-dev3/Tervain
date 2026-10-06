@@ -1,0 +1,34 @@
+/* ENTRY 300092b4 | eCRigidBody_PS::eCRigidBody_PS | STATUS decompiled | 19 ms */
+
+/* public: __thiscall eCRigidBody_PS::eCRigidBody_PS(void) */
+
+eCRigidBody_PS * __thiscall eCRigidBody_PS::eCRigidBody_PS(eCRigidBody_PS *this)
+
+{
+  undefined ***this_00;
+  
+                    /* 0x92b4  706  ??0eCRigidBody_PS@@QAE@XZ */
+  eCRigidBodyBase_PS::eCRigidBodyBase_PS((eCRigidBodyBase_PS *)this);
+  this->vftablePtr = &vftable;
+  bCVector::bCVector((bCVector *)&(this->eCRigidBody_PS_data).field_0x8);
+  bCVector::bCVector((bCVector *)&(this->eCRigidBody_PS_data).field_0x14);
+  bCVector::bCVector((bCVector *)&(this->eCRigidBody_PS_data).field_0x20);
+  bCVector::bCVector((bCVector *)&(this->eCRigidBody_PS_data).field_0x2c);
+  bCVector::bCVector((bCVector *)&(this->eCRigidBody_PS_data).field_0x48);
+  bCVector::bCVector((bCVector *)&(this->eCRigidBody_PS_data).field_0x54);
+  this_00 = &(this->eCRigidBody_PS_data).offset_0x64;
+  bCObjectBase::bCObjectBase((bCObjectBase *)this_00);
+  *this_00 = &bTPropertyContainer<eERigidbody_Flag>::vftable.GetVersion;
+  (this->eCRigidBody_PS_data).offset_0x68 = DAT_30aebf38;
+  bCVector::bCVector((bCVector *)&(this->eCRigidBody_PS_data).field_0x70);
+  bCVector::bCVector((bCVector *)&(this->eCRigidBody_PS_data).field_0x7c);
+  bCVector::bCVector((bCVector *)&(this->eCRigidBody_PS_data).field_0x88);
+  bCQuaternion::bCQuaternion((bCQuaternion *)&(this->eCRigidBody_PS_data).field_0x94);
+  bCVector::bCVector((bCVector *)&(this->eCRigidBody_PS_data).field_0xa4);
+  bCQuaternion::bCQuaternion((bCQuaternion *)&(this->eCRigidBody_PS_data).field_0xb0);
+  bCVector::bCVector((bCVector *)&(this->eCRigidBody_PS_data).field_0xc0);
+  Invalidate(this);
+  return this;
+}
+
+

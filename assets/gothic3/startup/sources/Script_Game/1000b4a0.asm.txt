@@ -1,0 +1,18 @@
+; 1000b4a0 FUN_1000b4a0
+1000b4a0 | 33c0 | XOR EAX,EAX
+1000b4a2 | 8901 | MOV dword ptr [ECX],EAX
+1000b4a4 | 894104 | MOV dword ptr [ECX + 0x4],EAX
+1000b4a7 | 894108 | MOV dword ptr [ECX + 0x8],EAX
+1000b4aa | 89410c | MOV dword ptr [ECX + 0xc],EAX
+1000b4ad | 894110 | MOV dword ptr [ECX + 0x10],EAX
+1000b4b0 | 894114 | MOV dword ptr [ECX + 0x14],EAX
+1000b4b3 | 894118 | MOV dword ptr [ECX + 0x18],EAX
+1000b4b6 | 89411c | MOV dword ptr [ECX + 0x1c],EAX
+1000b4b9 | 894120 | MOV dword ptr [ECX + 0x20],EAX
+1000b4bc | 894124 | MOV dword ptr [ECX + 0x24],EAX
+1000b4bf | 894128 | MOV dword ptr [ECX + 0x28],EAX
+1000b4c2 | 89412c | MOV dword ptr [ECX + 0x2c],EAX
+1000b4c5 | 894130 | MOV dword ptr [ECX + 0x30],EAX
+1000b4c8 | 894134 | MOV dword ptr [ECX + 0x34],EAX
+1000b4cb | 894138 | MOV dword ptr [ECX + 0x38],EAX
+1000b4ce | c3 | RET

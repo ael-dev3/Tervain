@@ -1,0 +1,2 @@
+; 10001b36 bCErrorAdmin::PrintHistoryEntries
+10001b36 | e985fe0100 | JMP 0x100219c0

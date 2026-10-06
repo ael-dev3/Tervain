@@ -1,0 +1,2 @@
+; 2001324b SHAREDBASE.DLL::bCPropertyTypeBase::Read
+2001324b | e900b92700 | JMP 0x2028eb50

@@ -1,0 +1,18 @@
+/* ENTRY 2002df83 | gCParty_PS::SetWaiting | STATUS decompiled | 12 ms */
+
+/* public: void __thiscall gCParty_PS::SetWaiting(bool const &) */
+
+void __thiscall gCParty_PS::SetWaiting(gCParty_PS *this,bool *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x2df83  7207  ?SetWaiting@gCParty_PS@@QAEXAB_N@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"Waiting",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  (this->gCParty_PS_data).field_0x34 = *param_1;
+  (*pNVar1)(this,"Waiting",false);
+  return;
+}
+
+

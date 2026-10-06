@@ -1,0 +1,6 @@
+; 2000e782 bTPropertyType<gCInventorySlot,eCTemplateEntityProxy>::vfunction12
+2000e782 | e9e95a1b00 | JMP 0x201c4270
+; 2000e787 LAB_2000e787
+2000e787 | e904ba5300 | JMP 0x2054a190
+; 2000e791 gCWaterZone_PS::SetRadiusOffset
+; 2000e791 Ordinal_6929

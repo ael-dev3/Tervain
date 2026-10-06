@@ -1,0 +1,42 @@
+; 3032d5a0 FUN_3032d5a0
+3032d5a0 | 56 | PUSH ESI
+3032d5a1 | 8bf1 | MOV ESI,ECX
+3032d5a3 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+3032d5a7 | 85c9 | TEST ECX,ECX
+3032d5a9 | 898ef4000000 | MOV dword ptr [ESI + 0xf4],ECX
+3032d5af | 746a | JZ 0x3032d61b
+3032d5b1 | 8b01 | MOV EAX,dword ptr [ECX]
+3032d5b3 | 8b5068 | MOV EDX,dword ptr [EAX + 0x68]
+3032d5b6 | ffd2 | CALL EDX
+3032d5b8 | 3c01 | CMP AL,0x1
+3032d5ba | 755f | JNZ 0x3032d61b
+3032d5bc | 57 | PUSH EDI
+3032d5bd | e80054ceff | CALL 0x300129c2
+3032d5c2 | 8bc8 | MOV ECX,EAX
+3032d5c4 | e887aad0ff | CALL 0x30038050
+3032d5c9 | 8bf8 | MOV EDI,EAX
+3032d5cb | 8bcf | MOV ECX,EDI
+3032d5cd | ff151ccbaf30 | CALL dword ptr [0x30afcb1c]
+3032d5d3 | 8bcf | MOV ECX,EDI
+3032d5d5 | ff1518cbaf30 | CALL dword ptr [0x30afcb18]
+3032d5db | d94674 | FLD float ptr [ESI + 0x74]
+3032d5de | d80d1844ab30 | FMUL float ptr [0x30ab4418]
+3032d5e4 | 8b8ef4000000 | MOV ECX,dword ptr [ESI + 0xf4]
+3032d5ea | 8b01 | MOV EAX,dword ptr [ECX]
+3032d5ec | 8b90ec000000 | MOV EDX,dword ptr [EAX + 0xec]
+3032d5f2 | d95c240c | FSTP float ptr [ESP + 0xc]
+3032d5f6 | 51 | PUSH ECX
+3032d5f7 | d9442410 | FLD float ptr [ESP + 0x10]
+3032d5fb | d91c24 | FSTP float ptr [ESP]
+3032d5fe | ffd2 | CALL EDX
+3032d600 | 8b8ef4000000 | MOV ECX,dword ptr [ESI + 0xf4]
+3032d606 | d986f0000000 | FLD float ptr [ESI + 0xf0]
+3032d60c | 8b01 | MOV EAX,dword ptr [ECX]
+3032d60e | 8b906c010000 | MOV EDX,dword ptr [EAX + 0x16c]
+3032d614 | 51 | PUSH ECX
+3032d615 | d91c24 | FSTP float ptr [ESP]
+3032d618 | ffd2 | CALL EDX
+3032d61a | 5f | POP EDI
+; 3032d61b LAB_3032d61b
+3032d61b | 5e | POP ESI
+3032d61c | c20400 | RET 0x4

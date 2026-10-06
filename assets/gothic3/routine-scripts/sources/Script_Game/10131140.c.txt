@@ -1,0 +1,17 @@
+/* ENTRY 10131140 | FUN_10131140 | STATUS decompiled | 6 ms */
+
+void FUN_10131140(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Commands\\AI_GetUpParade.cpp");
+  bCString::bCString(local_8,"_AI_GetUpParade");
+  thunk_FUN_1004aa50(local_8,&LAB_1000333c,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

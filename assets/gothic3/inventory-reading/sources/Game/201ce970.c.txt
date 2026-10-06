@@ -1,0 +1,67 @@
+/* ENTRY 201ce970 | FUN_201ce970 | STATUS decompiled | 26 ms */
+
+undefined4 __thiscall FUN_201ce970(int *param_1,bCIStream *param_2)
+
+{
+  long lVar1;
+  bool bVar2;
+  bCObjectRefBase *pbVar3;
+  int *piVar4;
+  int iVar5;
+  undefined4 uVar6;
+  TypeDescriptor *pTVar7;
+  TypeDescriptor *pTVar8;
+  undefined4 uVar9;
+  long local_18;
+  uint local_14;
+  bCAccessorPropertyObject local_10 [12];
+  
+  thunk_FUN_201ce7d0();
+  local_14 = 0;
+  operator<<((ushort *)&local_14,param_2);
+  if ((local_14 & 0xffff) == 1) {
+    local_18 = 0;
+    operator<<(&local_18,param_2);
+    lVar1 = local_18;
+    thunk_FUN_201ce5e0(local_18,(local_18 != 0) - 1);
+    param_1[1] = lVar1;
+    iVar5 = 0;
+    if (0 < local_18) {
+      do {
+        bCAccessorPropertyObject::bCAccessorPropertyObject(local_10);
+        operator>>(param_2,local_10);
+        uVar9 = 0;
+        pTVar8 = &gCInventorySlot::RTTI_Type_Descriptor;
+        pTVar7 = &bCObjectRefBase::RTTI_Type_Descriptor;
+        uVar6 = 0;
+        pbVar3 = bCAccessorPropertyObject::GetNativeObject(local_10);
+        piVar4 = (int *)___RTDynamicCast(pbVar3,uVar6,pTVar7,pTVar8,uVar9);
+        if (piVar4 != (int *)0x0) {
+          bVar2 = eCTemplateEntityProxy::IsEntityIDValid((eCTemplateEntityProxy *)(piVar4 + 3));
+          if (bVar2) {
+            (**(code **)(*piVar4 + 0x20))();
+            *(int **)(*param_1 + iVar5 * 4) = piVar4;
+          }
+          else {
+            *(undefined4 *)(*param_1 + iVar5 * 4) = 0;
+          }
+        }
+        bCAccessorPropertyObject::~bCAccessorPropertyObject(local_10);
+        iVar5 = iVar5 + 1;
+      } while (iVar5 < local_18);
+    }
+  }
+  else {
+    GE_MESSAGEF_WARN("gCInventorySlotList::Read -> Detected unknown version. Expected: %d. Found: %d."
+                     ,1,local_14 & 0xffff);
+  }
+  if (param_1[1] < 0x13) {
+    GE_MESSAGEF_WARN(
+                    "gCInventorySlotList::Read -> Not all slots could be read. Initializing missing slots."
+                    );
+    thunk_FUN_201ce910();
+  }
+  return 1;
+}
+
+

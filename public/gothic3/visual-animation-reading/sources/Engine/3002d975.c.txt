@@ -1,0 +1,12 @@
+/* ENTRY 3002d975 | eCWrapper_emfx2Motion::IsMotionUsed | STATUS decompiled | 3 ms */
+
+/* public: bool __thiscall eCWrapper_emfx2Motion::IsMotionUsed(void)const  */
+
+bool __thiscall eCWrapper_emfx2Motion::IsMotionUsed(eCWrapper_emfx2Motion *this)
+
+{
+                    /* 0x2d975  10449  ?IsMotionUsed@eCWrapper_emfx2Motion@@QBE_NXZ */
+  return (this->eCWrapper_emfx2Motion_data).offset_0x0[6] != 0;
+}
+
+

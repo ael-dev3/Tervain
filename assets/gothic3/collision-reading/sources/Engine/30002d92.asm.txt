@@ -1,0 +1,4 @@
+; 30002d92 ?HasConvexMesh@eCCollisionShape_PS@@QBE?B_NXZ
+30002d92 | e9393a3300 | JMP 0x303367d0
+; 30002d9c eCParticle_PS::SetProjectionNormal
+; 30002d9c Ordinal_13976

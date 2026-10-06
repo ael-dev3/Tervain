@@ -1,0 +1,12 @@
+/* ENTRY 30015dca | eCVisualAnimation_PS::GetBoneTwistSpringEnabled | STATUS decompiled | 6 ms */
+
+/* public: bool const & __thiscall eCVisualAnimation_PS::GetBoneTwistSpringEnabled(void)const  */
+
+bool * __thiscall eCVisualAnimation_PS::GetBoneTwistSpringEnabled(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x15dca  6299  ?GetBoneTwistSpringEnabled@eCVisualAnimation_PS@@QBEAB_NXZ */
+  return (bool *)&this[2].eCEntityPropertySet_data.offset_0x8;
+}
+
+

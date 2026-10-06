@@ -1,0 +1,24 @@
+/* ENTRY 10006ece | bCBox::SetBox | STATUS decompiled | 6 ms */
+
+/* public: void __thiscall bCBox::SetBox(class bCVector const &,float) */
+
+void __thiscall bCBox::SetBox(bCBox *this,bCVector *param_1,float param_2)
+
+{
+                    /* 0x6ece  4086  ?SetBox@bCBox@@QAEXABVbCVector@@M@Z */
+  *(undefined4 *)this = *(undefined4 *)param_1;
+  *(undefined4 *)(this + 4) = *(undefined4 *)(param_1 + 4);
+  *(undefined4 *)(this + 8) = *(undefined4 *)(param_1 + 8);
+  *(float *)this = *(float *)this - param_2;
+  *(float *)(this + 4) = *(float *)(this + 4) - param_2;
+  *(float *)(this + 8) = *(float *)(this + 8) - param_2;
+  *(undefined4 *)(this + 0xc) = *(undefined4 *)param_1;
+  *(undefined4 *)(this + 0x10) = *(undefined4 *)(param_1 + 4);
+  *(undefined4 *)(this + 0x14) = *(undefined4 *)(param_1 + 8);
+  *(float *)(this + 0xc) = *(float *)(this + 0xc) + param_2;
+  *(float *)(this + 0x10) = *(float *)(this + 0x10) + param_2;
+  *(float *)(this + 0x14) = param_2 + *(float *)(this + 0x14);
+  return;
+}
+
+

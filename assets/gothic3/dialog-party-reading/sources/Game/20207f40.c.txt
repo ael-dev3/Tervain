@@ -1,0 +1,16 @@
+/* ENTRY 20207f40 | FUN_20207f40 | STATUS decompiled | 4 ms */
+
+undefined4 __fastcall FUN_20207f40(eCEntityPropertySet *param_1)
+
+{
+  char cVar1;
+  
+  cVar1 = (**(code **)((int)(param_1->bCObjectRefBase).bCObjectBase + 4))();
+  if (cVar1 != '\x01') {
+    bCClock::Pause((bCClock *)(param_1 + 0xb));
+    eCEntityPropertySet::Create(param_1);
+  }
+  return 1;
+}
+
+

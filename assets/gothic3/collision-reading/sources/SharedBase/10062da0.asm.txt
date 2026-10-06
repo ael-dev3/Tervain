@@ -1,0 +1,3 @@
+; 10062da0 FUN_10062da0
+10062da0 | 8d410c | LEA EAX,[ECX + 0xc]
+10062da3 | c3 | RET

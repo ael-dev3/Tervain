@@ -1,0 +1,2 @@
+; 1000179e ?GetPropertyTypeCount@bCPropertyObjectTypeBase@@QBEHXZ
+1000179e | e9cd660800 | JMP 0x10087e70

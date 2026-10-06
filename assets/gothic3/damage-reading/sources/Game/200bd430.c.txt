@@ -1,0 +1,17 @@
+/* ENTRY 200bd430 | bTPropertyType<gCDamageReceiver_PS,eCEntityProxy>::vfunction6 | STATUS decompiled | 3 ms */
+
+void __thiscall
+bTPropertyType<gCDamageReceiver_PS,eCEntityProxy>::vfunction6
+          (bTPropertyType<gCDamageReceiver_PS,eCEntityProxy> *this,int param_1)
+
+{
+  if (param_1 != 0) {
+                    /* WARNING: Could not recover jumptable at 0x200bd441. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+    (*this->vftablePtr->vfunction26)(this,(undefined4 *)param_1);
+    return;
+  }
+  return;
+}
+
+

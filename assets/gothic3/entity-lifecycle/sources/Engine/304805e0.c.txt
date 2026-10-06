@@ -1,0 +1,12 @@
+/* ENTRY 304805e0 | FUN_304805e0 | STATUS decompiled | 2 ms */
+
+void __fastcall FUN_304805e0(int param_1)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x304805e3. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCPropertyID::IsValid((bCPropertyID *)(param_1 + 0x18));
+  return;
+}
+
+

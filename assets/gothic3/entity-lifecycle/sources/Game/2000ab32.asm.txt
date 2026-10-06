@@ -1,0 +1,2 @@
+; 2000ab32 ?OnPropertySetAdded@gCNavigation_PS@@UAEXXZ
+2000ab32 | e979d12700 | JMP 0x20287cb0

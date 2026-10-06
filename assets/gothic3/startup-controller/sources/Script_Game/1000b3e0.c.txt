@@ -1,0 +1,9 @@
+/* ENTRY 1000b3e0 | FUN_1000b3e0 | STATUS decompiled | 1 ms */
+
+void FUN_1000b3e0(void)
+
+{
+  return;
+}
+
+

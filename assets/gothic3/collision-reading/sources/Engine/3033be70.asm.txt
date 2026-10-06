@@ -1,0 +1,111 @@
+; 3033be70 bTPropertyObject<eCCollisionShape_PS,eCCollisionShapeBase_PS>::vfunction7
+3033be70 | 83ec18 | SUB ESP,0x18
+3033be73 | 56 | PUSH ESI
+3033be74 | 8b742420 | MOV ESI,dword ptr [ESP + 0x20]
+3033be78 | 57 | PUSH EDI
+3033be79 | 6a00 | PUSH 0x0
+3033be7b | 683c3baa30 | PUSH 0x30aa3b3c
+3033be80 | 68003baa30 | PUSH 0x30aa3b00
+3033be85 | 6a00 | PUSH 0x0
+3033be87 | 56 | PUSH ESI
+3033be88 | 8bf9 | MOV EDI,ECX
+3033be8a | e8585c3300 | CALL 0x30671ae7
+3033be8f | 83c414 | ADD ESP,0x14
+3033be92 | 85c0 | TEST EAX,EAX
+3033be94 | 56 | PUSH ESI
+3033be95 | 8bcf | MOV ECX,EDI
+3033be97 | 7561 | JNZ 0x3033befa
+3033be99 | ff15b4caaf30 | CALL dword ptr [0x30afcab4]
+3033be9f | 56 | PUSH ESI
+3033bea0 | 8d4c240c | LEA ECX,[ESP + 0xc]
+3033bea4 | e89ee5cdff | CALL 0x3001a447
+3033bea9 | 8b07 | MOV EAX,dword ptr [EDI]
+3033beab | 8b5020 | MOV EDX,dword ptr [EAX + 0x20]
+3033beae | 56 | PUSH ESI
+3033beaf | 8bcf | MOV ECX,EDI
+3033beb1 | ffd2 | CALL EDX
+3033beb3 | 8b742410 | MOV ESI,dword ptr [ESP + 0x10]
+3033beb7 | 8b06 | MOV EAX,dword ptr [ESI]
+3033beb9 | 8b500c | MOV EDX,dword ptr [EAX + 0xc]
+3033bebc | 8bce | MOV ECX,ESI
+3033bebe | ffd2 | CALL EDX
+3033bec0 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+3033bec4 | 6a00 | PUSH 0x0
+3033bec6 | 8bf8 | MOV EDI,EAX
+3033bec8 | 8b06 | MOV EAX,dword ptr [ESI]
+3033beca | 8b5010 | MOV EDX,dword ptr [EAX + 0x10]
+3033becd | 6a00 | PUSH 0x0
+3033becf | 51 | PUSH ECX
+3033bed0 | 8bce | MOV ECX,ESI
+3033bed2 | ffd2 | CALL EDX
+3033bed4 | 8bc7 | MOV EAX,EDI
+3033bed6 | 2b44240c | SUB EAX,dword ptr [ESP + 0xc]
+3033beda | 8d4e04 | LEA ECX,[ESI + 0x4]
+3033bedd | 50 | PUSH EAX
+3033bede | ff1558caaf30 | CALL dword ptr [0x30afca58]
+3033bee4 | 8b16 | MOV EDX,dword ptr [ESI]
+3033bee6 | 8b4210 | MOV EAX,dword ptr [EDX + 0x10]
+3033bee9 | 6a00 | PUSH 0x0
+3033beeb | 6a00 | PUSH 0x0
+3033beed | 57 | PUSH EDI
+3033beee | 8bce | MOV ECX,ESI
+3033bef0 | ffd0 | CALL EAX
+3033bef2 | 5f | POP EDI
+3033bef3 | 5e | POP ESI
+3033bef4 | 83c418 | ADD ESP,0x18
+3033bef7 | c20400 | RET 0x4
+; 3033befa LAB_3033befa
+3033befa | ff15b4caaf30 | CALL dword ptr [0x30afcab4]
+3033bf00 | 8d4c2408 | LEA ECX,[ESP + 0x8]
+3033bf04 | ff15b0caaf30 | CALL dword ptr [0x30afcab0]
+3033bf0a | 6a00 | PUSH 0x0
+3033bf0c | 683c3baa30 | PUSH 0x30aa3b3c
+3033bf11 | 68003baa30 | PUSH 0x30aa3b00
+3033bf16 | 6a00 | PUSH 0x0
+3033bf18 | 56 | PUSH ESI
+3033bf19 | e8c95b3300 | CALL 0x30671ae7
+3033bf1e | 83c414 | ADD ESP,0x14
+3033bf21 | 85c0 | TEST EAX,EAX
+3033bf23 | 740c | JZ 0x3033bf31
+3033bf25 | 8bc8 | MOV ECX,EAX
+3033bf27 | ff15accaaf30 | CALL dword ptr [0x30afcaac]
+3033bf2d | 3c01 | CMP AL,0x1
+3033bf2f | 750a | JNZ 0x3033bf3b
+; 3033bf31 LAB_3033bf31
+3033bf31 | 8d4c2408 | LEA ECX,[ESP + 0x8]
+3033bf35 | ff15a8caaf30 | CALL dword ptr [0x30afcaa8]
+; 3033bf3b LAB_3033bf3b
+3033bf3b | 8b17 | MOV EDX,dword ptr [EDI]
+3033bf3d | 8b5220 | MOV EDX,dword ptr [EDX + 0x20]
+3033bf40 | 53 | PUSH EBX
+3033bf41 | 8d442410 | LEA EAX,[ESP + 0x10]
+3033bf45 | 50 | PUSH EAX
+3033bf46 | 8bcf | MOV ECX,EDI
+3033bf48 | ffd2 | CALL EDX
+3033bf4a | 6a00 | PUSH 0x0
+3033bf4c | 6a00 | PUSH 0x0
+3033bf4e | 6a00 | PUSH 0x0
+3033bf50 | 8d4c2418 | LEA ECX,[ESP + 0x18]
+3033bf54 | ff1584caaf30 | CALL dword ptr [0x30afca84]
+3033bf5a | 8d4c240c | LEA ECX,[ESP + 0xc]
+3033bf5e | ff15a4caaf30 | CALL dword ptr [0x30afcaa4]
+3033bf64 | 8bf8 | MOV EDI,EAX
+3033bf66 | 57 | PUSH EDI
+3033bf67 | 8bce | MOV ECX,ESI
+3033bf69 | ff1558caaf30 | CALL dword ptr [0x30afca58]
+3033bf6f | 8b1e | MOV EBX,dword ptr [ESI]
+3033bf71 | 57 | PUSH EDI
+3033bf72 | 6a00 | PUSH 0x0
+3033bf74 | 8d4c2414 | LEA ECX,[ESP + 0x14]
+3033bf78 | ff15a0caaf30 | CALL dword ptr [0x30afcaa0]
+3033bf7e | 50 | PUSH EAX
+3033bf7f | 8b4304 | MOV EAX,dword ptr [EBX + 0x4]
+3033bf82 | 8bce | MOV ECX,ESI
+3033bf84 | ffd0 | CALL EAX
+3033bf86 | 8d4c240c | LEA ECX,[ESP + 0xc]
+3033bf8a | ff159ccaaf30 | CALL dword ptr [0x30afca9c]
+3033bf90 | 5b | POP EBX
+3033bf91 | 5f | POP EDI
+3033bf92 | 5e | POP ESI
+3033bf93 | 83c418 | ADD ESP,0x18
+3033bf96 | c20400 | RET 0x4

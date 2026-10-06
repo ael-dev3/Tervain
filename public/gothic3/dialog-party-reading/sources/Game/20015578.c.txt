@@ -1,0 +1,26 @@
+/* ENTRY 20015578 | gCParty_PS::operator= | STATUS decompiled | 36 ms */
+
+/* public: class gCParty_PS const & __thiscall gCParty_PS::operator=(class gCParty_PS const &) */
+
+gCParty_PS * __thiscall gCParty_PS::operator=(gCParty_PS *this,gCParty_PS *param_1)
+
+{
+  bCPropertyObjectBase *pbVar1;
+  bCPropertyObjectBase *this_00;
+  
+                    /* 0x15578  700  ??4gCParty_PS@@QAEABV0@ABV0@@Z */
+  pbVar1 = bCObjectRefBase::GetPropertyObject((bCObjectRefBase *)this);
+  if (pbVar1 != (bCPropertyObjectBase *)0x0) {
+    pbVar1 = bCObjectRefBase::GetPropertyObject((bCObjectRefBase *)param_1);
+    if (pbVar1 != (bCPropertyObjectBase *)0x0) {
+      pbVar1 = bCObjectRefBase::GetPropertyObject((bCObjectRefBase *)param_1);
+      this_00 = (bCPropertyObjectBase *)bCObjectRefBase::GetPropertyObject((bCObjectRefBase *)this);
+      bCPropertyObjectBase::operator=(this_00,pbVar1);
+      return (gCParty_PS *)this;
+    }
+  }
+  (*this->vftablePtr->CopyFrom)(this,(bCObjectBase *)param_1);
+  return (gCParty_PS *)this;
+}
+
+

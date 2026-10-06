@@ -1,0 +1,2 @@
+; 2000eb06 ?GetVersion@gCNPC_PS@@UBEGXZ
+2000eb06 | e9a5a32e00 | JMP 0x202f8eb0

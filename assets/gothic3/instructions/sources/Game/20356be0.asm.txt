@@ -1,0 +1,3 @@
+; 20356be0 FUN_20356be0
+20356be0 | 8d4164 | LEA EAX,[ECX + 0x64]
+20356be3 | c3 | RET

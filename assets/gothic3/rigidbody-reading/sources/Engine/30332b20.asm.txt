@@ -1,0 +1,12 @@
+; 30332b20 bTPropertyType<eCRigidBody_PS,bCVector>::vfunction19
+30332b20 | 56 | PUSH ESI
+30332b21 | 8bf1 | MOV ESI,ECX
+30332b23 | ff156ccaaf30 | CALL dword ptr [0x30afca6c]
+30332b29 | 8d4620 | LEA EAX,[ESI + 0x20]
+30332b2c | 50 | PUSH EAX
+30332b2d | e85e67ceff | CALL 0x30019290
+30332b32 | 8b4e18 | MOV ECX,dword ptr [ESI + 0x18]
+30332b35 | 56 | PUSH ESI
+30332b36 | ff1514cbaf30 | CALL dword ptr [0x30afcb14]
+30332b3c | 5e | POP ESI
+30332b3d | c3 | RET

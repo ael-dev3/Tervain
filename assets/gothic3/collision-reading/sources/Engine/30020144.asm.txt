@@ -1,0 +1,4 @@
+; 30020144 ?RemoveShapes@eCCollisionShape_PS@@UAEXXZ
+30020144 | e977693100 | JMP 0x30336ac0
+; 30020149 eCStaticSpotLight_PS::eCStaticSpotLight_PS
+; 30020149 Ordinal_788

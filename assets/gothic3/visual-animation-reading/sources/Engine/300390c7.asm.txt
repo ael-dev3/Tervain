@@ -1,0 +1,2 @@
+; 300390c7 eCEffector::GetPos2
+300390c7 | e904830200 | JMP 0x300613d0

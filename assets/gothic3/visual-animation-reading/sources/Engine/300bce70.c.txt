@@ -1,0 +1,24 @@
+/* ENTRY 300bce70 | FUN_300bce70 | STATUS decompiled | 5 ms */
+
+void __fastcall FUN_300bce70(eCVisualAnimationFactory *param_1)
+
+{
+  eCVisualAnimationFactory *peVar1;
+  bCMemoryAdmin *this;
+  void *pvVar2;
+  
+  eCVisualAnimationFactory::Destroy(param_1);
+  peVar1 = param_1 + 0x20;
+  if ((peVar1 != (eCVisualAnimationFactory *)0x0) &&
+     (pvVar2 = *(void **)peVar1, pvVar2 != (void *)0x0)) {
+    this = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(this,pvVar2);
+    *(int *)peVar1 = 0;
+    *(undefined4 *)(param_1 + 0x24) = 0;
+    *(undefined4 *)(param_1 + 0x28) = 0;
+  }
+  thunk_FUN_300be830();
+  return;
+}
+
+

@@ -1,0 +1,31 @@
+/* ENTRY 204fc8a0 | bTPropertyType<gCClock_PS,unsigned_long>::~bTPropertyType<gCClock_PS,unsigned_long> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCClock_PS,unsigned_long>::~bTPropertyType<gCClock_PS,unsigned_long>
+          (bTPropertyType<gCClock_PS,unsigned_long> *this)
+
+{
+  bTPropertyType<gCClock_PS,unsigned_long> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"Minute");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCClock_PS::ms_PropertyMember_m_u32Minute,(bCString *)&local_4,1
+            );
+  _ms_PropertyMember_m_u32Minute = &vftable;
+  DAT_207bd424 = bTPropertyObjectType<gCClock_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCClock_PS,eCEntityPropertySet>();
+  _DAT_207bd428 = 0x20;
+  _DAT_207bd42c = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCClock_PS::ms_PropertyMember_m_u32Minute);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bd424,
+             (bCPropertyTypeBase *)&gCClock_PS::ms_PropertyMember_m_u32Minute);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<unsigned_long>::~bTPropertyTypeOnly<unsigned_long>);
+  return;
+}
+
+

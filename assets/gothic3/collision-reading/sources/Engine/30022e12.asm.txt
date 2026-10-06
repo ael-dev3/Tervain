@@ -1,0 +1,2 @@
+; 30022e12 ?GetDependencies@eCCollisionShape@@QAEXAAV?$bTValArray@VbCString@@@@0AAV?$bTObjArray@VeCTemplateEntityProxy@@@@@Z
+30022e12 | e9697f3300 | JMP 0x3035ad80

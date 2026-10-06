@@ -1,0 +1,13 @@
+/* ENTRY 20188e70 | gCHUDListCtrlInvTradeStacks::~gCHUDListCtrlInvTradeStacks | STATUS decompiled | 9 ms */
+
+void __thiscall
+gCHUDListCtrlInvTradeStacks::~gCHUDListCtrlInvTradeStacks(gCHUDListCtrlInvTradeStacks *this)
+
+{
+  this->vftablePtr = &vftable;
+  this->vftablePtr = &vftable;
+  gCHUDListCtrlInvStacks::~gCHUDListCtrlInvStacks((gCHUDListCtrlInvStacks *)this);
+  return;
+}
+
+

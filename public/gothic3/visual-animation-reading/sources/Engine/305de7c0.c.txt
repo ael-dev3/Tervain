@@ -1,0 +1,17 @@
+/* ENTRY 305de7c0 | eCArchiveManager::~eCArchiveManager | STATUS decompiled | 10 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined * __thiscall eCArchiveManager::~eCArchiveManager(void)
+
+{
+  if ((_DAT_30af6988 & 1) == 0) {
+    _DAT_30af6988 = _DAT_30af6988 | 1;
+    bCObjectBase::bCObjectBase((bCObjectBase *)&DAT_30af6984);
+    _DAT_30af6984 = &vftable;
+    _atexit(~eCArchiveManager);
+  }
+  return &DAT_30af6984;
+}
+
+

@@ -1,0 +1,2 @@
+; 30009142 ?WriteSaveGame@eCCollisionShape_PS@@UAE?AW4bEResult@@AAVbCOStream@@@Z
+30009142 | e9a9d53200 | JMP 0x303366f0

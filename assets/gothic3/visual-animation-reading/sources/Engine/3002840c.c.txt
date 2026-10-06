@@ -1,0 +1,14 @@
+/* ENTRY 3002840c | eCVisualAnimation_PS::GetPropertySetType | STATUS decompiled | 8 ms */
+
+/* protected: virtual enum eEPropertySetType __thiscall
+   eCVisualAnimation_PS::GetPropertySetType(void)const  */
+
+eEPropertySetType __thiscall eCVisualAnimation_PS::GetPropertySetType(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x2840c  8240
+                       ?GetPropertySetType@eCVisualAnimation_PS@@MBE?AW4eEPropertySetType@@XZ */
+  return 100;
+}
+
+

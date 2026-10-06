@@ -1,0 +1,17 @@
+/* ENTRY 10152300 | FUN_10152300 | STATUS decompiled | 6 ms */
+
+void FUN_10152300(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Player\\Player_States\\PS_Interact.cpp");
+  bCString::bCString(local_8,"PS_Interact_CarryStone_Loop");
+  thunk_FUN_1001db60(local_8,&LAB_10001f23,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

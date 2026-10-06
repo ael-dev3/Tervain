@@ -1,0 +1,4 @@
+; 30037b5f bTPropertyType<eCCollisionShape,bTPropertyContainer<eECollisionShapeType>_>::vfunction11
+30037b5f | e9ec663200 | JMP 0x3035e250
+; 30037b64 eCMaterialAdmin::GetAlphaVSolidIndicatorStatus
+; 30037b64 Ordinal_6151

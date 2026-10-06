@@ -1,0 +1,37 @@
+/* ENTRY 300107f3 | eCArchiveManager::GetFile | STATUS decompiled | 15 ms */
+
+/* public: bool __thiscall eCArchiveManager::GetFile(class bCString const &,class eCArchiveFile &)
+    */
+
+bool __thiscall
+eCArchiveManager::GetFile(eCArchiveManager *this,bCString *param_1,eCArchiveFile *param_2)
+
+{
+  eCArchiveFile *peVar1;
+  bool bVar2;
+  eCVirtualFileSystem *this_00;
+  bCString *pbVar3;
+  bCString *pbVar4;
+  
+                    /* 0x107f3  7085
+                       ?GetFile@eCArchiveManager@@QAE_NABVbCString@@AAVeCArchiveFile@@@Z */
+  pbVar3 = param_1;
+  bVar2 = bCString::IsEmpty(param_1);
+  if (!bVar2) {
+    bCString::bCString((bCString *)&param_1);
+    pbVar4 = (bCString *)&param_1;
+    this_00 = (eCVirtualFileSystem *)eCVirtualFileSystem::GetInstance();
+    bVar2 = eCVirtualFileSystem::GetFilePath(this_00,pbVar3,pbVar4);
+    peVar1 = param_2;
+    if (bVar2) {
+      eCArchiveFile::Clear((eCArchiveFile *)param_2);
+      bCString::operator=((bCString *)(peVar1 + 8),(bCString *)&param_1);
+      bCString::~bCString((bCString *)&param_1);
+      return true;
+    }
+    bCString::~bCString((bCString *)&param_1);
+  }
+  return false;
+}
+
+

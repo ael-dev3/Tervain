@@ -1,0 +1,15 @@
+/* ENTRY 10007b3f | bCVector::operator*= | STATUS decompiled | 3 ms */
+
+/* public: class bCVector & __thiscall bCVector::operator*=(float) */
+
+bCVector * __thiscall bCVector::operator*=(bCVector *this,float param_1)
+
+{
+                    /* 0x7b3f  1218  ??XbCVector@@QAEAAV0@M@Z */
+  *(float *)this = param_1 * *(float *)this;
+  *(float *)(this + 4) = *(float *)(this + 4) * param_1;
+  *(float *)(this + 8) = param_1 * *(float *)(this + 8);
+  return this;
+}
+
+

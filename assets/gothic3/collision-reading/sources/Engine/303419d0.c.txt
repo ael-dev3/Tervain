@@ -1,0 +1,13 @@
+/* ENTRY 303419d0 | bTPOPureSmartPtr<eCCollisionShapeBase_PS>::vfunction7 | STATUS decompiled | 3 ms */
+
+void __thiscall
+bTPOPureSmartPtr<eCCollisionShapeBase_PS>::vfunction7
+          (bTPOPureSmartPtr<eCCollisionShapeBase_PS> *this,bCOStream *param_1)
+
+{
+  ::operator<<(param_1,(bCObjectBase *)
+                       (this->bTPOPureSmartPtr<eCCollisionShapeBase_PS>_data).offset_0x4);
+  return;
+}
+
+

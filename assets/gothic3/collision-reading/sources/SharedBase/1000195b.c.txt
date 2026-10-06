@@ -1,0 +1,17 @@
+/* ENTRY 1000195b | bCOrientedBox::IsValid | STATUS decompiled | 4 ms */
+
+/* public: bool __thiscall bCOrientedBox::IsValid(void)const  */
+
+bool __thiscall bCOrientedBox::IsValid(bCOrientedBox *this)
+
+{
+                    /* 0x195b  3682  ?IsValid@bCOrientedBox@@QBE_NXZ */
+  if (((0.0 < *(float *)(this + 0xc) || *(float *)(this + 0xc) == 0.0) &&
+      (0.0 < *(float *)(this + 0x10) || *(float *)(this + 0x10) == 0.0)) &&
+     (0.0 < *(float *)(this + 0x14) || *(float *)(this + 0x14) == 0.0)) {
+    return true;
+  }
+  return false;
+}
+
+

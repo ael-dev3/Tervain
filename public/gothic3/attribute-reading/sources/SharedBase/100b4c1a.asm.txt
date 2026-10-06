@@ -1,0 +1,95 @@
+; 100b4c1a __VEC_memcpy
+100b4c1a | 55 | PUSH EBP
+100b4c1b | 8bec | MOV EBP,ESP
+100b4c1d | 83ec1c | SUB ESP,0x1c
+100b4c20 | 897df4 | MOV dword ptr [EBP + -0xc],EDI
+100b4c23 | 8975f8 | MOV dword ptr [EBP + -0x8],ESI
+100b4c26 | 895dfc | MOV dword ptr [EBP + -0x4],EBX
+100b4c29 | 8b5d0c | MOV EBX,dword ptr [EBP + 0xc]
+100b4c2c | 8bc3 | MOV EAX,EBX
+100b4c2e | 99 | CDQ
+100b4c2f | 8bc8 | MOV ECX,EAX
+100b4c31 | 8b4508 | MOV EAX,dword ptr [EBP + 0x8]
+100b4c34 | 33ca | XOR ECX,EDX
+100b4c36 | 2bca | SUB ECX,EDX
+100b4c38 | 83e10f | AND ECX,0xf
+100b4c3b | 33ca | XOR ECX,EDX
+100b4c3d | 2bca | SUB ECX,EDX
+100b4c3f | 99 | CDQ
+100b4c40 | 8bf8 | MOV EDI,EAX
+100b4c42 | 33fa | XOR EDI,EDX
+100b4c44 | 2bfa | SUB EDI,EDX
+100b4c46 | 83e70f | AND EDI,0xf
+100b4c49 | 33fa | XOR EDI,EDX
+100b4c4b | 2bfa | SUB EDI,EDX
+100b4c4d | 8bd1 | MOV EDX,ECX
+100b4c4f | 0bd7 | OR EDX,EDI
+100b4c51 | 754a | JNZ 0x100b4c9d
+100b4c53 | 8b7510 | MOV ESI,dword ptr [EBP + 0x10]
+100b4c56 | 8bce | MOV ECX,ESI
+100b4c58 | 83e17f | AND ECX,0x7f
+100b4c5b | 894de8 | MOV dword ptr [EBP + -0x18],ECX
+100b4c5e | 3bf1 | CMP ESI,ECX
+100b4c60 | 7413 | JZ 0x100b4c75
+100b4c62 | 2bf1 | SUB ESI,ECX
+100b4c64 | 56 | PUSH ESI
+100b4c65 | 53 | PUSH EBX
+100b4c66 | 50 | PUSH EAX
+100b4c67 | e827ffffff | CALL 0x100b4b93
+100b4c6c | 83c40c | ADD ESP,0xc
+100b4c6f | 8b4508 | MOV EAX,dword ptr [EBP + 0x8]
+100b4c72 | 8b4de8 | MOV ECX,dword ptr [EBP + -0x18]
+100b4c75 | 85c9 | TEST ECX,ECX
+100b4c77 | 7477 | JZ 0x100b4cf0
+100b4c79 | 8b5d10 | MOV EBX,dword ptr [EBP + 0x10]
+100b4c7c | 8b550c | MOV EDX,dword ptr [EBP + 0xc]
+100b4c7f | 03d3 | ADD EDX,EBX
+100b4c81 | 2bd1 | SUB EDX,ECX
+100b4c83 | 8955ec | MOV dword ptr [EBP + -0x14],EDX
+100b4c86 | 03d8 | ADD EBX,EAX
+100b4c88 | 2bd9 | SUB EBX,ECX
+100b4c8a | 895df0 | MOV dword ptr [EBP + -0x10],EBX
+100b4c8d | 8b75ec | MOV ESI,dword ptr [EBP + -0x14]
+100b4c90 | 8b7df0 | MOV EDI,dword ptr [EBP + -0x10]
+100b4c93 | 8b4de8 | MOV ECX,dword ptr [EBP + -0x18]
+100b4c96 | f3a4 | MOVSB.REP ES:EDI,ESI
+100b4c98 | 8b4508 | MOV EAX,dword ptr [EBP + 0x8]
+100b4c9b | eb53 | JMP 0x100b4cf0
+100b4c9d | 3bcf | CMP ECX,EDI
+100b4c9f | 7535 | JNZ 0x100b4cd6
+100b4ca1 | f7d9 | NEG ECX
+100b4ca3 | 83c110 | ADD ECX,0x10
+100b4ca6 | 894de4 | MOV dword ptr [EBP + -0x1c],ECX
+100b4ca9 | 8b750c | MOV ESI,dword ptr [EBP + 0xc]
+100b4cac | 8b7d08 | MOV EDI,dword ptr [EBP + 0x8]
+100b4caf | 8b4de4 | MOV ECX,dword ptr [EBP + -0x1c]
+100b4cb2 | f3a4 | MOVSB.REP ES:EDI,ESI
+100b4cb4 | 8b4d08 | MOV ECX,dword ptr [EBP + 0x8]
+100b4cb7 | 034de4 | ADD ECX,dword ptr [EBP + -0x1c]
+100b4cba | 8b550c | MOV EDX,dword ptr [EBP + 0xc]
+100b4cbd | 0355e4 | ADD EDX,dword ptr [EBP + -0x1c]
+100b4cc0 | 8b4510 | MOV EAX,dword ptr [EBP + 0x10]
+100b4cc3 | 2b45e4 | SUB EAX,dword ptr [EBP + -0x1c]
+100b4cc6 | 50 | PUSH EAX
+100b4cc7 | 52 | PUSH EDX
+100b4cc8 | 51 | PUSH ECX
+100b4cc9 | e84cffffff | CALL 0x100b4c1a
+100b4cce | 83c40c | ADD ESP,0xc
+100b4cd1 | 8b4508 | MOV EAX,dword ptr [EBP + 0x8]
+100b4cd4 | eb1a | JMP 0x100b4cf0
+100b4cd6 | 8b750c | MOV ESI,dword ptr [EBP + 0xc]
+100b4cd9 | 8b7d08 | MOV EDI,dword ptr [EBP + 0x8]
+100b4cdc | 8b4d10 | MOV ECX,dword ptr [EBP + 0x10]
+100b4cdf | 8bd1 | MOV EDX,ECX
+100b4ce1 | c1e902 | SHR ECX,0x2
+100b4ce4 | f3a5 | MOVSD.REP ES:EDI,ESI
+100b4ce6 | 8bca | MOV ECX,EDX
+100b4ce8 | 83e103 | AND ECX,0x3
+100b4ceb | f3a4 | MOVSB.REP ES:EDI,ESI
+100b4ced | 8b4508 | MOV EAX,dword ptr [EBP + 0x8]
+100b4cf0 | 8b5dfc | MOV EBX,dword ptr [EBP + -0x4]
+100b4cf3 | 8b75f8 | MOV ESI,dword ptr [EBP + -0x8]
+100b4cf6 | 8b7df4 | MOV EDI,dword ptr [EBP + -0xc]
+100b4cf9 | 8be5 | MOV ESP,EBP
+100b4cfb | 5d | POP EBP
+100b4cfc | c3 | RET

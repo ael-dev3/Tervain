@@ -1,0 +1,3 @@
+; 300c25b0 FUN_300c25b0
+300c25b0 | 8d412e | LEA EAX,[ECX + 0x2e]
+300c25b3 | c3 | RET

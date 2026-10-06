@@ -1,0 +1,2 @@
+; 300345f9 eCEntityPropertySet::OnUntouch
+300345f9 | e9c2d34400 | JMP 0x304819c0

@@ -1,0 +1,2 @@
+; 3003d39d ?IntersectsVolume@eCEntityPropertySet@@UBE_NAAVbCVolume@@ABVbCMatrix@@PAV?$bTValArray@VbCTriangle@@@@_N@Z
+3003d39d | e9be444400 | JMP 0x30481860

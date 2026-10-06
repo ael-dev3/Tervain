@@ -1,0 +1,15 @@
+/* ENTRY 300a5850 | FUN_300a5850 | STATUS decompiled | 8 ms */
+
+void __thiscall FUN_300a5850(eCVisualAnimation_PS *param_1,eCEntity *param_2)
+
+{
+  eCVisualAnimation_PS *local_4;
+  
+  local_4 = param_1;
+  bCString::bCString((bCString *)&local_4,"");
+  eCVisualAnimation_PS::SetLookAtTarget(param_1,param_2,(bCString *)&local_4);
+  bCString::~bCString((bCString *)&local_4);
+  return;
+}
+
+

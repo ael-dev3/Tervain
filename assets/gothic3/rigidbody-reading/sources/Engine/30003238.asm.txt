@@ -1,0 +1,2 @@
+; 30003238 ?GetRootObject@eCRigidBody_PS@@SGPBVbCPropertyObjectBase@@XZ
+30003238 | e993923200 | JMP 0x3032c4d0

@@ -1,0 +1,21 @@
+/* ENTRY 10092bd0 | FUN_10092bd0 | STATUS decompiled | 7 ms */
+
+bCString * __thiscall FUN_10092bd0(ulong *param_1,bCString *param_2)
+
+{
+  bCGuid *this;
+  _GUID local_24;
+  bCGuid local_14 [20];
+  
+  local_24.Data1 = *param_1;
+  local_24._4_4_ = param_1[1];
+  local_24.Data4._0_4_ = param_1[2];
+  local_24.Data4._4_4_ = param_1[3];
+  this = (bCGuid *)bCGuid::bCGuid(local_14,&local_24);
+  bCGuid::GetText(this);
+  bCGuid::~bCGuid((bCGuid *)(local_24.Data4 + 4));
+  bCString::ToLower(param_2);
+  return param_2;
+}
+
+

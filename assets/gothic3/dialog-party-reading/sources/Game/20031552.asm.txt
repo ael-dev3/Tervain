@@ -1,0 +1,2 @@
+; 20031552 gCParty_PS::Destroy
+20031552 | e989652e00 | JMP 0x20317ae0

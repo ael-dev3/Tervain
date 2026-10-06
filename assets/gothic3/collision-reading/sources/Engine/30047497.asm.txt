@@ -1,0 +1,4 @@
+; 30047497 bTPropertyType<eCCollisionShapeBase_PS,bCObsoleteClass>::vfunction24
+30047497 | e914b32f00 | JMP 0x303427b0
+; 300474a1 eCGfxMaterial::GetDiffuseMaterialSrc
+; 300474a1 Ordinal_6838

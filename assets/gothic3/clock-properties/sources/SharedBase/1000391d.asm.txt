@@ -1,0 +1,4 @@
+; 1000391d ?ComputeDefaultControlWord@bCFPUAdmin@@AAEXXZ
+1000391d | e93e840300 | JMP 0x1003bd60
+; 10003922 bCPropertyObjectBase::Destroy
+; 10003922 Ordinal_1943

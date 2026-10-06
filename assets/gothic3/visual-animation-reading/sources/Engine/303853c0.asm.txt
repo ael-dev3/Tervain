@@ -1,0 +1,14 @@
+; 303853c0 bTPropertyObjectType<eCEffector,bCObjectRefBase>::vfunction9
+303853c0 | 56 | PUSH ESI
+303853c1 | 68b0d08130 | PUSH 0x3081d0b0
+303853c6 | 6874d08130 | PUSH 0x3081d074
+303853cb | 687ccf8130 | PUSH 0x3081cf7c
+303853d0 | 8bf1 | MOV ESI,ECX
+303853d2 | ff1530dbaf30 | CALL dword ptr [0x30afdb30]
+303853d8 | 8b442414 | MOV EAX,dword ptr [ESP + 0x14]
+303853dc | 83c40c | ADD ESP,0xc
+303853df | 50 | PUSH EAX
+303853e0 | 8bce | MOV ECX,ESI
+303853e2 | ff1540caaf30 | CALL dword ptr [0x30afca40]
+303853e8 | 5e | POP ESI
+303853e9 | c20400 | RET 0x4

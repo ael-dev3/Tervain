@@ -1,0 +1,2 @@
+; 30041042 eCVisualAnimation_PS::PlayFacialMotion
+30041042 | e999360600 | JMP 0x300a46e0

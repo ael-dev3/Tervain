@@ -1,0 +1,23 @@
+; 303bcff0 FUN_303bcff0
+303bcff0 | 51 | PUSH ECX
+303bcff1 | 56 | PUSH ESI
+303bcff2 | 8bf1 | MOV ESI,ECX
+303bcff4 | 8d4628 | LEA EAX,[ESI + 0x28]
+303bcff7 | 50 | PUSH EAX
+303bcff8 | 8d4c2408 | LEA ECX,[ESP + 0x8]
+303bcffc | ff1590dbaf30 | CALL dword ptr [0x30afdb90]
+303bd002 | 8b16 | MOV EDX,dword ptr [ESI]
+303bd004 | 8b4260 | MOV EAX,dword ptr [EDX + 0x60]
+303bd007 | 8bce | MOV ECX,ESI
+303bd009 | ffd0 | CALL EAX
+303bd00b | 8b74240c | MOV ESI,dword ptr [ESP + 0xc]
+303bd00f | 50 | PUSH EAX
+303bd010 | 56 | PUSH ESI
+303bd011 | 8d4c240c | LEA ECX,[ESP + 0xc]
+303bd015 | ff1538dbaf30 | CALL dword ptr [0x30afdb38]
+303bd01b | 8d4c2404 | LEA ECX,[ESP + 0x4]
+303bd01f | ff15dcdbaf30 | CALL dword ptr [0x30afdbdc]
+303bd025 | 8bc6 | MOV EAX,ESI
+303bd027 | 5e | POP ESI
+303bd028 | 59 | POP ECX
+303bd029 | c20400 | RET 0x4

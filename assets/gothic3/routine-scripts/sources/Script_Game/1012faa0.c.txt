@@ -1,0 +1,17 @@
+/* ENTRY 1012faa0 | FUN_1012faa0 | STATUS decompiled | 6 ms */
+
+void FUN_1012faa0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Commands\\AI_EquipInventoryWeapons.cpp");
+  bCString::bCString(local_8,"_AI_EquipInventoryWeapons");
+  thunk_FUN_1004aa50(local_8,thunk_FUN_10053d50,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

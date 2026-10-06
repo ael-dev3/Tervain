@@ -1,0 +1,11 @@
+/* ENTRY 101082d0 | FUN_101082d0 | STATUS decompiled | 2 ms */
+
+void FUN_101082d0(void)
+
+{
+  thunk_FUN_1000eda0();
+  _atexit(FUN_1018b470);
+  return;
+}
+
+

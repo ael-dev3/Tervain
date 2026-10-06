@@ -1,0 +1,11 @@
+; 2016ba00 gCHUDViewSynthInventory2::~gCHUDViewSynthInventory2
+2016ba00 | 56 | PUSH ESI
+2016ba01 | 8bf1 | MOV ESI,ECX
+2016ba03 | 8d4e20 | LEA ECX,[ESI + 0x20]
+2016ba06 | c7067c1a6720 | MOV dword ptr [ESI],0x20671a7c
+2016ba0c | e8a5c2e9ff | CALL 0x20007cb6
+2016ba11 | 8d4e10 | LEA ECX,[ESI + 0x10]
+2016ba14 | e85eaeecff | CALL 0x20036877
+2016ba19 | 8bce | MOV ECX,ESI
+2016ba1b | 5e | POP ESI
+2016ba1c | e9889ceaff | JMP 0x200156a9

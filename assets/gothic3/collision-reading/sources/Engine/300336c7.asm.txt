@@ -1,0 +1,4 @@
+; 300336c7 ?GetOrientation@eCCollisionShape@@QAEAAVbCMatrix3@@XZ
+300336c7 | e9a4a00900 | JMP 0x300cd770
+; 300336cc eCAnimationAdmin::AddProfileTicks
+; 300336cc Ordinal_3443

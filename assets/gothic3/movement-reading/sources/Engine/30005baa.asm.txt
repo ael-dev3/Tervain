@@ -1,0 +1,2 @@
+; 30005baa ?GetPropertySetClassName@eCEntityPropertySet@@UBEABVbCString@@XZ
+30005baa | e9d1b94700 | JMP 0x30481580

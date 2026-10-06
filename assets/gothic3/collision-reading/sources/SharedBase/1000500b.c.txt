@@ -1,0 +1,76 @@
+/* ENTRY 1000500b | bCOrientedBox::GetVertices | STATUS decompiled | 81 ms */
+
+/* public: void __thiscall bCOrientedBox::GetVertices(class bCVector * const)const  */
+
+void __thiscall bCOrientedBox::GetVertices(bCOrientedBox *this,bCVector *param_1)
+
+{
+  float fVar1;
+  float fVar2;
+  float fVar3;
+  float fVar4;
+  float fVar5;
+  float fVar6;
+  float fVar7;
+  float fVar8;
+  float fVar9;
+  float fVar10;
+  float fVar11;
+  
+                    /* 0x500b  3222  ?GetVertices@bCOrientedBox@@QBEXQAVbCVector@@@Z */
+  fVar1 = *(float *)(this + 0xc);
+  fVar7 = fVar1 * *(float *)(this + 0x18);
+  fVar6 = *(float *)(this + 0x1c) * fVar1;
+  fVar1 = fVar1 * *(float *)(this + 0x20);
+  fVar2 = *(float *)(this + 0x10);
+  fVar8 = fVar2 * *(float *)(this + 0x24);
+  fVar9 = *(float *)(this + 0x28) * fVar2;
+  fVar2 = fVar2 * *(float *)(this + 0x2c);
+  fVar3 = *(float *)(this + 0x14);
+  fVar10 = fVar3 * *(float *)(this + 0x30);
+  fVar11 = *(float *)(this + 0x34) * fVar3;
+  fVar3 = fVar3 * *(float *)(this + 0x38);
+  fVar4 = *(float *)(this + 4);
+  fVar5 = *(float *)(this + 8);
+  *(float *)(param_1 + 0x48) = ((*(float *)this - fVar7) - fVar8) - fVar10;
+  *(float *)(param_1 + 0x4c) = ((fVar4 - fVar6) - fVar9) - fVar11;
+  *(float *)(param_1 + 0x50) = ((fVar5 - fVar1) - fVar2) - fVar3;
+  fVar4 = *(float *)(this + 4);
+  fVar5 = *(float *)(this + 8);
+  *(float *)(param_1 + 0x3c) = ((*(float *)this + fVar7) - fVar8) - fVar10;
+  *(float *)(param_1 + 0x40) = ((fVar4 + fVar6) - fVar9) - fVar11;
+  *(float *)(param_1 + 0x44) = ((fVar5 + fVar1) - fVar2) - fVar3;
+  fVar4 = *(float *)(this + 4);
+  fVar5 = *(float *)(this + 8);
+  *(float *)(param_1 + 0x30) = (fVar8 + *(float *)this + fVar7) - fVar10;
+  *(float *)(param_1 + 0x34) = (fVar9 + fVar4 + fVar6) - fVar11;
+  *(float *)(param_1 + 0x38) = (fVar2 + fVar5 + fVar1) - fVar3;
+  fVar4 = *(float *)(this + 4);
+  fVar5 = *(float *)(this + 8);
+  *(float *)(param_1 + 0x54) = (fVar8 + (*(float *)this - fVar7)) - fVar10;
+  *(float *)(param_1 + 0x58) = (fVar9 + (fVar4 - fVar6)) - fVar11;
+  *(float *)(param_1 + 0x5c) = (fVar2 + (fVar5 - fVar1)) - fVar3;
+  fVar4 = *(float *)(this + 4);
+  fVar5 = *(float *)(this + 8);
+  *(float *)(param_1 + 0x18) = fVar10 + ((*(float *)this - fVar7) - fVar8);
+  *(float *)(param_1 + 0x1c) = fVar11 + ((fVar4 - fVar6) - fVar9);
+  *(float *)(param_1 + 0x20) = fVar3 + ((fVar5 - fVar1) - fVar2);
+  fVar4 = *(float *)(this + 4);
+  fVar5 = *(float *)(this + 8);
+  *(float *)(param_1 + 0xc) = fVar10 + ((*(float *)this + fVar7) - fVar8);
+  *(float *)(param_1 + 0x10) = fVar11 + ((fVar4 + fVar6) - fVar9);
+  *(float *)(param_1 + 0x14) = fVar3 + ((fVar5 + fVar1) - fVar2);
+  fVar4 = *(float *)(this + 4);
+  fVar5 = *(float *)(this + 8);
+  *(float *)param_1 = fVar10 + fVar8 + *(float *)this + fVar7;
+  *(float *)(param_1 + 4) = fVar11 + fVar9 + fVar4 + fVar6;
+  *(float *)(param_1 + 8) = fVar3 + fVar2 + fVar5 + fVar1;
+  fVar4 = *(float *)(this + 4);
+  fVar5 = *(float *)(this + 8);
+  *(float *)(param_1 + 0x24) = fVar10 + fVar8 + (*(float *)this - fVar7);
+  *(float *)(param_1 + 0x28) = fVar11 + fVar9 + (fVar4 - fVar6);
+  *(float *)(param_1 + 0x2c) = fVar3 + fVar2 + (fVar5 - fVar1);
+  return;
+}
+
+

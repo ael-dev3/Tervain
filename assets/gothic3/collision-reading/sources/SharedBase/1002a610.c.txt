@@ -1,0 +1,24 @@
+/* ENTRY 1002a610 | FUN_1002a610 | STATUS decompiled | 5 ms */
+
+float10 __fastcall FUN_1002a610(int param_1)
+
+{
+  int iVar1;
+  float fVar2;
+  int iVar3;
+  undefined4 local_8;
+  
+  local_8 = 1e-05;
+  iVar3 = 3;
+  do {
+    iVar1 = iVar3 * 4;
+    iVar3 = iVar3 + -1;
+    fVar2 = *(float *)(param_1 + 8 + iVar1) - *(float *)(param_1 + iVar3 * 4);
+    if (local_8 < fVar2) {
+      local_8 = fVar2;
+    }
+  } while (iVar3 != 0);
+  return (float10)(local_8 * 0.5);
+}
+
+

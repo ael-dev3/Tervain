@@ -1,0 +1,5 @@
+; 30334fa0 bTPropertyType<eCRigidBodyBase_PS,bool>::vfunction3
+30334fa0 | 8b4918 | MOV ECX,dword ptr [ECX + 0x18]
+30334fa3 | 8b01 | MOV EAX,dword ptr [ECX]
+30334fa5 | 8b10 | MOV EDX,dword ptr [EAX]
+30334fa7 | ffe2 | JMP EDX

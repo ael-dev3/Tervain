@@ -1,0 +1,2 @@
+; 30024ae1 eCVisualAnimation_PS::AccessBoneLinearDamping
+30024ae1 | e9aad20300 | JMP 0x30061d90

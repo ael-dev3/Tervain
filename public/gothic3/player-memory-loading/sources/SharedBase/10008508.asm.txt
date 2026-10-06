@@ -1,0 +1,2 @@
+; 10008508 bCGothic3EngineDialogs::GetDialogHandle
+10008508 | e9c38b0100 | JMP 0x100210d0

@@ -1,0 +1,4 @@
+; 300480ae bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeMaterial>_>::vfunction15
+300480ae | e9ad793100 | JMP 0x3035fa60
+; 300480b3 eCIteratorReport::GetCollisionEntity
+; 300480b3 Ordinal_6522

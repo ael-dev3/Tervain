@@ -1,0 +1,30 @@
+/* ENTRY 205140e0 | bTPropertyType<gCNPC_PS,bool>::~bTPropertyType<gCNPC_PS,bool> | STATUS decompiled | 13 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCNPC_PS,bool>::~bTPropertyType<gCNPC_PS,bool>(bTPropertyType<gCNPC_PS,bool> *this)
+
+{
+  bTPropertyType<gCNPC_PS,bool> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"Ransacked");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_bRansacked,(bCString *)&local_4,1)
+  ;
+  _ms_PropertyMember_m_bRansacked = &vftable;
+  DAT_207c0ef8 = bTPropertyObjectType<gCNPC_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCNPC_PS,eCEntityPropertySet>();
+  _DAT_207c0efc = 0x99;
+  _DAT_207c0f00 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_bRansacked);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207c0ef8,
+             (bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_bRansacked);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}
+
+

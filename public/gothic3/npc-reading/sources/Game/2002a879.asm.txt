@@ -1,0 +1,4 @@
+; 2002a879 bTPropertyType<gCNPC_PS,bTPropertyContainer<gEPlayerCrime>_>::vfunction6
+2002a879 | e9c2c72d00 | JMP 0x20307040
+; 2002a883 gCInfoScript_PS::SetCurrentScriptLine
+; 2002a883 Ordinal_6354

@@ -1,0 +1,14 @@
+; 3035d450 bTPropertyType<eCCollisionShape,bCObsoleteClass>::vfunction6
+3035d450 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+3035d454 | 85c0 | TEST EAX,EAX
+3035d456 | 7411 | JZ 0x3035d469
+3035d458 | 8b11 | MOV EDX,dword ptr [ECX]
+3035d45a | 50 | PUSH EAX
+3035d45b | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+3035d45e | ffd0 | CALL EAX
+3035d460 | 8b10 | MOV EDX,dword ptr [EAX]
+3035d462 | 8bc8 | MOV ECX,EAX
+3035d464 | 8b4218 | MOV EAX,dword ptr [EDX + 0x18]
+3035d467 | ffd0 | CALL EAX
+; 3035d469 LAB_3035d469
+3035d469 | c20400 | RET 0x4

@@ -1,0 +1,2 @@
+; 30034a09 ??0eCCollisionShape@@QAE@XZ
+30034a09 | e9c2623200 | JMP 0x3035acd0

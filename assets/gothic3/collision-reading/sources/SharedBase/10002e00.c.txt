@@ -1,0 +1,15 @@
+/* ENTRY 10002e00 | bCCapsule::operator!= | STATUS decompiled | 2 ms */
+
+/* public: bool __thiscall bCCapsule::operator!=(class bCCapsule const &)const  */
+
+bool __thiscall bCCapsule::operator!=(bCCapsule *this,bCCapsule *param_1)
+
+{
+  bool bVar1;
+  
+                    /* 0x2e00  822  ??9bCCapsule@@QBE_NABV0@@Z */
+  bVar1 = IsEqual(this,param_1);
+  return (bool)('\x01' - bVar1);
+}
+
+

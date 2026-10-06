@@ -1,0 +1,7 @@
+; 3035c080 bTPOPureSmartPtr<eCCollisionShape>::vfunction7
+3035c080 | 8b4108 | MOV EAX,dword ptr [ECX + 0x8]
+3035c083 | 8b4c2404 | MOV ECX,dword ptr [ESP + 0x4]
+3035c087 | 50 | PUSH EAX
+3035c088 | 51 | PUSH ECX
+3035c089 | ff1548caaf30 | CALL dword ptr [0x30afca48]
+3035c08f | c20400 | RET 0x4

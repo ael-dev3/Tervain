@@ -1,0 +1,30 @@
+/* ENTRY 1001a5b0 | FUN_1001a5b0 | STATUS decompiled | 12 ms */
+
+int __thiscall
+FUN_1001a5b0(void *this,Template *param_1,ulong param_2,int param_3,ulong param_4,bool param_5)
+
+{
+  int iVar1;
+  ulong uVar2;
+  gCInventoryStack *this_00;
+  bool *pbVar3;
+  
+  iVar1 = PSInventory::AssureItems(this,param_1,param_2,param_3);
+  if (-1 < iVar1) {
+    if (*(gCInventory_PS **)this != (gCInventory_PS *)0x0) {
+      uVar2 = 0xffffffff;
+      if (-1 < (int)param_4) {
+        uVar2 = param_4;
+      }
+      gCInventory_PS::SetStackHotKey(*(gCInventory_PS **)this,iVar1,uVar2);
+    }
+    if (param_5 != false) {
+      pbVar3 = &param_5;
+      this_00 = gCInventory_PS::GetStack(*(gCInventory_PS **)this,iVar1);
+      gCInventoryStack::SetLearned(this_00,pbVar3);
+    }
+  }
+  return iVar1;
+}
+
+

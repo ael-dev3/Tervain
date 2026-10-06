@@ -1,0 +1,4 @@
+; 2002d68c bTPropertyType<gCClock_PS,unsigned_long>::vfunction22
+2002d68c | e97fcc1d00 | JMP 0x2020a310
+; 2002d691 gCInventoryStack::CreateIcons
+; 2002d691 Ordinal_2446

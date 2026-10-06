@@ -1,0 +1,4 @@
+; 10006feb ?RegisterPropertyTemplate@bCPropertyObjectTypeBase@@QAE_NPBVbCPropertyTypeBase@@@Z
+10006feb | e940110800 | JMP 0x10088130
+; 10006ff0 bCInfDoubleCylinder::operator!=
+; 10006ff0 Ordinal_832

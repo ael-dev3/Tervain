@@ -1,0 +1,12 @@
+/* ENTRY 3000bf14 | eCContextBase::IsEnabled | STATUS decompiled | 2 ms */
+
+/* public: bool __thiscall eCContextBase::IsEnabled(void)const  */
+
+bool __thiscall eCContextBase::IsEnabled(eCContextBase *this)
+
+{
+                    /* 0xbf14  10365  ?IsEnabled@eCContextBase@@QBE_NXZ */
+  return (bool)(this->eCContextBase_data).offset_0x41;
+}
+
+

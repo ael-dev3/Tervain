@@ -1,0 +1,20 @@
+/* ENTRY 300451e2 | eCSceneAdmin::GetEntityByName | STATUS decompiled | 9 ms */
+
+/* public: class eCEntity * __thiscall eCSceneAdmin::GetEntityByName(class bCString const &) */
+
+eCEntity * __thiscall eCSceneAdmin::GetEntityByName(eCSceneAdmin *this,bCString *param_1)
+
+{
+  int iVar1;
+  
+                    /* 0x451e2  7034  ?GetEntityByName@eCSceneAdmin@@QAEPAVeCEntity@@ABVbCString@@@Z
+                        */
+  iVar1 = thunk_FUN_304ce450(param_1,&param_1);
+  if (((iVar1 != 0) && ((undefined4 *)(iVar1 + 4) != (undefined4 *)0x0)) &&
+     (*(int *)(iVar1 + 8) != 0)) {
+    return (eCEntity *)**(undefined4 **)(iVar1 + 4);
+  }
+  return (eCEntity *)0x0;
+}
+
+

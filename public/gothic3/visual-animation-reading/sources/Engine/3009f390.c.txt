@@ -1,0 +1,68 @@
+/* ENTRY 3009f390 | FUN_3009f390 | STATUS decompiled | 27 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+FUN_3009f390(eCActorAttachment *param_1,eCEntity *param_2,bCString *param_3,bCMatrix *param_4,
+            int param_5,char param_6)
+
+{
+  bool bVar1;
+  eSEntityFlags *peVar2;
+  eCEntity *this;
+  ulong uVar3;
+  eCEntity *peVar4;
+  undefined1 uVar5;
+  
+  eCVisualAnimation_PS::eCActorAttachment::Destroy(param_1);
+  bCString::operator=((bCString *)(param_1 + 0x68),param_3);
+  *(undefined4 *)(param_1 + 100) = 0;
+  eCEntityProxy::SetEntity((eCEntityProxy *)(param_1 + 4),(eCEntity *)param_2);
+  peVar2 = eCEntity::GetEntityFlags(param_2);
+  if ((DAT_30ada2a4 & 1) == 0) {
+    DAT_30ada2a4 = DAT_30ada2a4 | 1;
+    DAT_30ada2a0 = 0x800000;
+  }
+  if ((*(uint *)peVar2 & DAT_30ada2a0) != 0) {
+    bVar1 = eCEntity::IsPhysicRelevant(param_2);
+    if (bVar1) {
+      uVar5 = 0;
+      (*param_2->vftablePtr[1].IsValid)(param_2);
+      peVar4 = (eCEntity *)0x0;
+      this = (eCEntity *)(**(code **)(**(int **)param_1 + 0x68))(param_2);
+      eCEntity::EnableCollisionWith(this,peVar4,(bool)uVar5);
+    }
+  }
+  if (param_4 == (bCMatrix *)0x0) {
+LAB_3009f43a:
+    param_1[0x70] = (eCActorAttachment)((byte)param_1[0x70] & 0xfe);
+  }
+  else {
+    bVar1 = bCMatrix::IsIdentity(param_4);
+    if (bVar1) goto LAB_3009f43a;
+    bCMatrix::operator=((bCMatrix *)(param_1 + 0x20),param_4);
+    param_1[0x70] = (eCActorAttachment)((byte)param_1[0x70] | 1);
+  }
+  uVar3 = bCTimer::GetTimeStamp();
+  *(ulong *)(param_1 + 0x74) = param_5 + uVar3;
+  if (param_5 != 0) {
+    param_1[0x70] = (eCActorAttachment)((byte)param_1[0x70] | 6);
+    eCVisualAnimation_PS::eCActorAttachment::Process(param_1,uVar3);
+    return;
+  }
+  param_1[0x70] = (eCActorAttachment)((byte)param_1[0x70] & 0xfd);
+  if (param_6 != '\x01') {
+    peVar2 = eCEntity::GetEntityFlags(param_2);
+    if ((_DAT_30ada2ac & 1) == 0) {
+      _DAT_30ada2ac = _DAT_30ada2ac | 1;
+      DAT_30ada2a8 = 0x20000000;
+    }
+    if ((*(uint *)peVar2 & DAT_30ada2a8) == 0) goto LAB_3009f49e;
+  }
+  param_1[0x70] = (eCActorAttachment)((byte)param_1[0x70] | 4);
+LAB_3009f49e:
+  eCVisualAnimation_PS::eCActorAttachment::Process(param_1,uVar3);
+  return;
+}
+
+

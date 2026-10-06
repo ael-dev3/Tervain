@@ -1,0 +1,4 @@
+; 100083e1 ?Transform@bCBox@@QAEXABVbCMatrix3@@@Z
+100083e1 | e9ca1e0300 | JMP 0x1003a2b0
+; 100083e6 bCPropertyObjectSingleton::operator=
+; 100083e6 Ordinal_524

@@ -1,0 +1,4 @@
+; 30016301 ?GetNativeFileExt@eCResourceAnimationMotion_PS@@SGXAAVbCString@@@Z
+30016301 | e97a1f0800 | JMP 0x30098280
+; 3001630b eCPropertySetCtrl::OnKeyDownEdit
+; 3001630b Ordinal_11128

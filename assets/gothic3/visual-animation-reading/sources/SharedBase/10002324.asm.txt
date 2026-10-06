@@ -1,0 +1,2 @@
+; 10002324 bCGothic3EngineDialogs::bCDialogHandle::AddReference
+10002324 | e907eb0100 | JMP 0x10020e30

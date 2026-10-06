@@ -1,0 +1,4 @@
+; 1000281a ?GetProtectionMissile@PSPlayerMemory@@QBEHXZ
+1000281a | e961780200 | JMP 0x1002a080
+; 1000281f PSPlayerMemory::PropertyLPPerks::operator=
+; 1000281f Ordinal_468

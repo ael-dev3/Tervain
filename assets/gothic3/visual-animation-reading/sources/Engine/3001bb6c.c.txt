@@ -1,0 +1,12 @@
+/* ENTRY 3001bb6c | eCVisualAnimation_PS::IsVisual | STATUS decompiled | 5 ms */
+
+/* public: virtual bool __thiscall eCVisualAnimation_PS::IsVisual(void)const  */
+
+bool __thiscall eCVisualAnimation_PS::IsVisual(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x1bb6c  10736  ?IsVisual@eCVisualAnimation_PS@@UBE_NXZ */
+  return true;
+}
+
+

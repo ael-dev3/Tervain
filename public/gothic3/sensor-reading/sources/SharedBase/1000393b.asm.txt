@@ -1,0 +1,2 @@
+; 1000393b ?ReadNewObject@bCPropertyObjectFactory@@IAEPAVbCPropertyObjectBase@@AAVbCIStream@@@Z
+1000393b | e930950800 | JMP 0x1008ce70

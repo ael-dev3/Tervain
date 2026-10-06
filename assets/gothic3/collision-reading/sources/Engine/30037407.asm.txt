@@ -1,0 +1,2 @@
+; 30037407 ?GetOuterAABBLocal@eCCollisionShape@@QAEAAVbCBox@@XZ
+30037407 | e934b70800 | JMP 0x300c2b40

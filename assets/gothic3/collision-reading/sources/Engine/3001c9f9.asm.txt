@@ -1,0 +1,2 @@
+; 3001c9f9 ?GetGroup@eCCollisionShape_PS@@QBEABV?$bTPropertyContainer@W4eECollisionGroup@@@@XZ
+3001c9f9 | e932620a00 | JMP 0x300c2c30

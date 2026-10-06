@@ -1,0 +1,35 @@
+/* ENTRY 300370c4 | eCCameraBase::WorldToScreen | STATUS decompiled | 76 ms */
+
+/* public: void __thiscall eCCameraBase::WorldToScreen(class bCVector &)const  */
+
+void __thiscall eCCameraBase::WorldToScreen(eCCameraBase *this,bCVector *param_1)
+
+{
+  float *pfVar1;
+  long lVar2;
+  undefined1 *this_00;
+  bCMatrix abStack_40 [64];
+  
+                    /* 0x370c4  15020  ?WorldToScreen@eCCameraBase@@QBEXAAVbCVector@@@Z */
+  bCMatrix::bCMatrix(abStack_40);
+  bCMatrix::operator=(abStack_40,(bCMatrix *)&(this->eCCameraBase_data).field_0x48);
+  bCMatrix::operator*=(abStack_40,(bCMatrix *)&(this->eCCameraBase_data).field_0x8);
+  bCVector::operator*=(param_1,abStack_40);
+  pfVar1 = bCVector::AccessX(param_1);
+  this_00 = &(this->eCCameraBase_data).field_0xbc;
+  lVar2 = bCRect::GetWidth((bCRect *)this_00);
+  *pfVar1 = (float)lVar2 * 0.5 * *pfVar1;
+  pfVar1 = bCVector::AccessY(param_1);
+  lVar2 = bCRect::GetHeight((bCRect *)this_00);
+  *pfVar1 = (float)lVar2 * -1.0 * 0.5 * *pfVar1;
+  pfVar1 = bCVector::AccessX(param_1);
+  lVar2 = bCRect::GetWidth((bCRect *)this_00);
+  *pfVar1 = (float)lVar2 * 0.5 + *pfVar1;
+  pfVar1 = bCVector::AccessY(param_1);
+  lVar2 = bCRect::GetHeight((bCRect *)this_00);
+  *pfVar1 = (float)lVar2 * 0.5 + *pfVar1;
+  bCMatrix::~bCMatrix(abStack_40);
+  return;
+}
+
+

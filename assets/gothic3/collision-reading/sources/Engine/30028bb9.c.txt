@@ -1,0 +1,12 @@
+/* ENTRY 30028bb9 | eCCollisionShapeBase_PS::Invalidate | STATUS decompiled | 9 ms */
+
+/* protected: void __thiscall eCCollisionShapeBase_PS::Invalidate(void) */
+
+void __thiscall eCCollisionShapeBase_PS::Invalidate(eCCollisionShapeBase_PS *this)
+
+{
+                    /* 0x28bb9  9925  ?Invalidate@eCCollisionShapeBase_PS@@IAEXXZ */
+  return;
+}
+
+

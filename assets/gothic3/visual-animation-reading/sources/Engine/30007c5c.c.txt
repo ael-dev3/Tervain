@@ -1,0 +1,55 @@
+/* ENTRY 30007c5c | eCArchiveManager::SplitPath | STATUS decompiled | 16 ms */
+
+/* public: void __thiscall eCArchiveManager::SplitPath(class bCString const &,class bCString *,class
+   bCString *,class bCString *) */
+
+void __thiscall
+eCArchiveManager::SplitPath
+          (eCArchiveManager *this,bCString *param_1,bCString *param_2,bCString *param_3,
+          bCString *param_4)
+
+{
+  eCVirtualFileSystem *peVar1;
+  bCString *pbVar2;
+  bCString **ppbStack_24;
+  bCString **ppbStack_20;
+  bCString *pbStack_1c;
+  bCString abStack_10 [4];
+  bCString *pbStack_c;
+  bCString *pbStack_8;
+  bCString *pbStack_4;
+  
+                    /* 0x7c5c  14712  ?SplitPath@eCArchiveManager@@QAEXABVbCString@@PAV2@11@Z */
+  pbStack_1c = (bCString *)0x305de491;
+  bCString::bCString((bCString *)&pbStack_4);
+  pbStack_1c = (bCString *)0x305de497;
+  bCString::bCString((bCString *)&pbStack_8);
+  pbStack_1c = (bCString *)0x305de49d;
+  bCString::bCString((bCString *)&pbStack_c);
+  pbStack_1c = (bCString *)0x305de4a3;
+  bCString::bCString(abStack_10);
+  pbStack_1c = (bCString *)0x305de4a8;
+  peVar1 = eCVirtualFileSystem::GetInstance();
+  pbStack_1c = abStack_10;
+  ppbStack_20 = &pbStack_c;
+  ppbStack_24 = &pbStack_8;
+  (**(code **)(*(int *)peVar1 + 0x28))(param_1,&pbStack_4);
+  if (pbStack_c != (bCString *)0x0) {
+    pbVar2 = (bCString *)bCString::operator+((bCString *)&stack0xffffffe8,abStack_10);
+    bCString::operator=(pbStack_c,pbVar2);
+    bCString::~bCString((bCString *)&stack0xffffffec);
+  }
+  if (pbStack_8 != (bCString *)0x0) {
+    bCString::operator=(pbStack_8,(bCString *)&ppbStack_20);
+  }
+  if (pbStack_4 != (bCString *)0x0) {
+    bCString::operator=(pbStack_4,(bCString *)&ppbStack_24);
+  }
+  bCString::~bCString((bCString *)&ppbStack_24);
+  bCString::~bCString((bCString *)&ppbStack_20);
+  bCString::~bCString((bCString *)&pbStack_1c);
+  bCString::~bCString((bCString *)&stack0xffffffe8);
+  return;
+}
+
+

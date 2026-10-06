@@ -1,0 +1,12 @@
+/* ENTRY 200040bb | gCPlayerMemory_PS::GetVersion | STATUS decompiled | 6 ms */
+
+/* public: virtual unsigned short __thiscall gCPlayerMemory_PS::GetVersion(void)const  */
+
+ushort __thiscall gCPlayerMemory_PS::GetVersion(gCPlayerMemory_PS *this)
+
+{
+                    /* 0x40bb  4720  ?GetVersion@gCPlayerMemory_PS@@UBEGXZ */
+  return 6;
+}
+
+

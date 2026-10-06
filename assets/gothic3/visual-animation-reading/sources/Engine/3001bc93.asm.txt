@@ -1,0 +1,2 @@
+; 3001bc93 eCThreadPool::IsThreadingEnabled
+3001bc93 | e9a89c4300 | JMP 0x30455940

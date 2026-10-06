@@ -1,0 +1,12 @@
+/* ENTRY 3002ee3d | eCRigidBodyBase_PS::Invalidate | STATUS decompiled | 11 ms */
+
+/* protected: void __thiscall eCRigidBodyBase_PS::Invalidate(void) */
+
+void __thiscall eCRigidBodyBase_PS::Invalidate(eCRigidBodyBase_PS *this)
+
+{
+                    /* 0x2ee3d  10144  ?Invalidate@eCRigidBodyBase_PS@@IAEXXZ */
+  return;
+}
+
+

@@ -1,0 +1,12 @@
+/* ENTRY 2001e443 | gCScriptProcessingUnit::GetIntParameter | STATUS decompiled | 1 ms */
+
+/* public: int __thiscall gCScriptProcessingUnit::GetIntParameter(void) */
+
+int __thiscall gCScriptProcessingUnit::GetIntParameter(gCScriptProcessingUnit *this)
+
+{
+                    /* 0x1e443  3582  ?GetIntParameter@gCScriptProcessingUnit@@QAEHXZ */
+  return (this->gCScriptProcessingUnit_data).offset_0x54;
+}
+
+

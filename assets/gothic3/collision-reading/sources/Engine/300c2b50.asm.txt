@@ -1,0 +1,3 @@
+; 300c2b50 FUN_300c2b50
+300c2b50 | 8b4174 | MOV EAX,dword ptr [ECX + 0x74]
+300c2b53 | c3 | RET

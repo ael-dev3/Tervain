@@ -1,0 +1,2 @@
+; 2002c197 gCPlayerMemory_PS::DestroyAttributes
+2002c197 | e934242f00 | JMP 0x2031e5d0

@@ -1,0 +1,2 @@
+; 30009a89 ?GetTouchType@eCCollisionShape_PS@@QBE?AW4eEPropertySetType@@XZ
+30009a89 | e942c83200 | JMP 0x303362d0

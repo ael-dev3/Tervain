@@ -1,0 +1,2 @@
+; 1000422d bCPOStream::bCPOStream
+1000422d | e99e660800 | JMP 0x1008a8d0

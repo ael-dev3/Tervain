@@ -1,0 +1,88 @@
+/* ENTRY 200152f8 | gCStat::ApplyPerm | STATUS decompiled | 43 ms */
+
+/* public: virtual bool __thiscall gCStat::ApplyPerm(enum EAttribModOperation,int) */
+
+bool __thiscall gCStat::ApplyPerm(gCStat *this,EAttribModOperation param_1,int param_2)
+
+{
+  bool bVar1;
+  int iVar2;
+  int iVar3;
+  SetValue *pSVar4;
+  gCStat_vftable *pgVar5;
+  
+                    /* 0x152f8  1964  ?ApplyPerm@gCStat@@UAE_NW4EAttribModOperation@@H@Z */
+  switch(param_1) {
+  case 1:
+    pgVar5 = this->vftablePtr;
+    iVar3 = (*pgVar5->GetMaximum)(this);
+    (*pgVar5->SetMaximum)(this,iVar3 + param_2);
+    pgVar5 = this->vftablePtr;
+    iVar3 = (*pgVar5->GetValue)(this);
+    (*pgVar5->SetValue)(this,iVar3 + param_2);
+    bVar1 = gCAttribute::ApplyPerm((gCAttribute *)this,param_1,param_2);
+    return bVar1;
+  case 2:
+    iVar3 = (*this->vftablePtr->GetMaximum)(this);
+    iVar3 = (iVar3 * param_2) / 100;
+    goto LAB_2039afc8;
+  case 3:
+    iVar3 = (*this->vftablePtr->GetMaximum)(this);
+    pgVar5 = this->vftablePtr;
+    iVar3 = (iVar3 * param_2) / 100;
+    iVar2 = (*pgVar5->GetMaximum)(this);
+    (*pgVar5->SetMaximum)(this,iVar2 + iVar3);
+LAB_2039afc8:
+    pgVar5 = this->vftablePtr;
+    iVar2 = (*pgVar5->GetValue)(this);
+    (*pgVar5->SetValue)(this,iVar2 + iVar3);
+    bVar1 = gCAttribute::ApplyPerm((gCAttribute *)this,param_1,param_2);
+    return bVar1;
+  case 4:
+    break;
+  case 5:
+    iVar2 = (*this->vftablePtr->GetMaximum)(this);
+    (*this->vftablePtr->SetMaximum)(this,iVar2);
+    if (0 < param_2 - iVar2) {
+      pgVar5 = this->vftablePtr;
+      iVar3 = (*pgVar5->GetValue)(this);
+      iVar3 = iVar3 + (param_2 - iVar2);
+      pSVar4 = pgVar5->SetValue;
+      goto LAB_2039b092;
+    }
+    break;
+  case 6:
+    iVar3 = (*this->vftablePtr->GetMaximum)(this);
+    iVar3 = (iVar3 * param_2) / 100;
+    pSVar4 = this->vftablePtr->SetValue;
+    goto LAB_2039b092;
+  case 7:
+    iVar3 = (*this->vftablePtr->GetMaximum)(this);
+    iVar3 = (iVar3 * param_2) / 100;
+    iVar2 = (*this->vftablePtr->GetMaximum)(this);
+    iVar2 = iVar3 - iVar2;
+    (*this->vftablePtr->SetMaximum)(this,iVar3);
+    if (0 < iVar2) {
+      pgVar5 = this->vftablePtr;
+      iVar3 = (*pgVar5->GetValue)(this);
+      iVar3 = iVar3 + iVar2;
+      goto LAB_2039b08e;
+    }
+    break;
+  case 8:
+    pgVar5 = this->vftablePtr;
+    iVar3 = (*pgVar5->GetMaximum)(this);
+LAB_2039b08e:
+    pSVar4 = pgVar5->SetValue;
+LAB_2039b092:
+    (*pSVar4)(this,iVar3);
+    break;
+  default:
+    goto switchD_2039af3a_default;
+  }
+switchD_2039af3a_default:
+  bVar1 = gCAttribute::ApplyPerm((gCAttribute *)this,param_1,param_2);
+  return bVar1;
+}
+
+

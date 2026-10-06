@@ -1,0 +1,12 @@
+/* ENTRY 100bd9a8 | FUN_100bd9a8 | STATUS decompiled | 2 ms */
+
+uint FUN_100bd9a8(undefined4 param_1,uint param_2)
+
+{
+  if ((param_2 & 0x7ff00000) != 0x7ff00000) {
+    return param_2 & 0x7ff00000;
+  }
+  return param_2;
+}
+
+

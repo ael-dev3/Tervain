@@ -1,0 +1,14 @@
+; 201c57f0 bTPropertyType<gCInventorySlot,bTPropertyContainer<gESlot>_>::vfunction6
+201c57f0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+201c57f4 | 85c0 | TEST EAX,EAX
+201c57f6 | 7411 | JZ 0x201c5809
+201c57f8 | 8b11 | MOV EDX,dword ptr [ECX]
+201c57fa | 50 | PUSH EAX
+201c57fb | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+201c57fe | ffd0 | CALL EAX
+201c5800 | 8b10 | MOV EDX,dword ptr [EAX]
+201c5802 | 8bc8 | MOV ECX,EAX
+201c5804 | 8b4218 | MOV EAX,dword ptr [EDX + 0x18]
+201c5807 | ffd0 | CALL EAX
+; 201c5809 LAB_201c5809
+201c5809 | c20400 | RET 0x4

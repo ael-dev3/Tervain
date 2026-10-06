@@ -1,0 +1,40 @@
+; 20367c90 FUN_20367c90
+20367c90 | d9442404 | FLD float ptr [ESP + 0x4]
+20367c94 | 56 | PUSH ESI
+20367c95 | dc0da0bf6520 | FMUL double ptr [0x2065bfa0]
+20367c9b | 8d7120 | LEA ESI,[ECX + 0x20]
+20367c9e | 57 | PUSH EDI
+20367c9f | 8b3d806d7d20 | MOV EDI,dword ptr [0x207d6d80]
+20367ca5 | d95960 | FSTP float ptr [ECX + 0x60]
+20367ca8 | 8bce | MOV ECX,ESI
+20367caa | ffd7 | CALL EDI
+20367cac | 85c0 | TEST EAX,EAX
+20367cae | 7443 | JZ 0x20367cf3
+20367cb0 | 8bce | MOV ECX,ESI
+20367cb2 | ffd7 | CALL EDI
+20367cb4 | 8b10 | MOV EDX,dword ptr [EAX]
+20367cb6 | 8bc8 | MOV ECX,EAX
+20367cb8 | 8b82ec000000 | MOV EAX,dword ptr [EDX + 0xec]
+20367cbe | 6a2d | PUSH 0x2d
+20367cc0 | ffd0 | CALL EAX
+20367cc2 | 8bf0 | MOV ESI,EAX
+20367cc4 | 85f6 | TEST ESI,ESI
+20367cc6 | 742b | JZ 0x20367cf3
+20367cc8 | 8b16 | MOV EDX,dword ptr [ESI]
+20367cca | 8b4258 | MOV EAX,dword ptr [EDX + 0x58]
+20367ccd | 6a00 | PUSH 0x0
+20367ccf | 684cdd6520 | PUSH 0x2065dd4c
+20367cd4 | 8bce | MOV ECX,ESI
+20367cd6 | ffd0 | CALL EAX
+20367cd8 | 8b16 | MOV EDX,dword ptr [ESI]
+20367cda | f30f1044240c | MOVSS XMM0,dword ptr [ESP + 0xc]
+20367ce0 | 8b425c | MOV EAX,dword ptr [EDX + 0x5c]
+20367ce3 | 6a00 | PUSH 0x0
+20367ce5 | 684cdd6520 | PUSH 0x2065dd4c
+20367cea | 8bce | MOV ECX,ESI
+20367cec | f30f114624 | MOVSS dword ptr [ESI + 0x24],XMM0
+20367cf1 | ffd0 | CALL EAX
+; 20367cf3 LAB_20367cf3
+20367cf3 | 5f | POP EDI
+20367cf4 | 5e | POP ESI
+20367cf5 | c20400 | RET 0x4

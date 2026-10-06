@@ -1,0 +1,26 @@
+/* ENTRY 2002504a | gCInfo_PS::Give | STATUS decompiled | 8 ms */
+
+/* public: static bool __stdcall gCInfo_PS::Give(class eCEntity *,class eCEntity *,class
+   bCPropertyID const &,unsigned long) */
+
+bool gCInfo_PS::Give(eCEntity *param_1,eCEntity *param_2,bCPropertyID *param_3,ulong param_4)
+
+{
+  bool bVar1;
+  eCSceneAdmin *this;
+  eCNode *peVar2;
+  eCTemplateEntity *peVar3;
+  eEGetEntityTypeHint eVar4;
+  
+                    /* 0x2504a  4818  ?Give@gCInfo_PS@@SG_NPAVeCEntity@@0ABVbCPropertyID@@K@Z */
+  eVar4 = 2;
+  this = (eCSceneAdmin *)
+         thunk_FUN_200ae8e0(param_3,2,0,&eCNode::RTTI_Type_Descriptor,
+                            &eCTemplateEntity::RTTI_Type_Descriptor,0);
+  peVar2 = eCSceneAdmin::GetEntity(this,param_3,eVar4);
+  peVar3 = (eCTemplateEntity *)___RTDynamicCast(peVar2);
+  bVar1 = Give(param_1,param_2,peVar3,param_4);
+  return bVar1;
+}
+
+

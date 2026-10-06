@@ -1,0 +1,12 @@
+/* ENTRY 20018863 | gCDialog_PS::OnPreProcess | STATUS decompiled | 7 ms */
+
+/* public: virtual void __thiscall gCDialog_PS::OnPreProcess(void) */
+
+void __thiscall gCDialog_PS::OnPreProcess(gCDialog_PS *this)
+
+{
+                    /* 0x18863  5541  ?OnPreProcess@gCDialog_PS@@UAEXXZ */
+  return;
+}
+
+

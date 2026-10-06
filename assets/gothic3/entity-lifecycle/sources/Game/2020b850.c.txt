@@ -1,0 +1,9 @@
+/* ENTRY 2020b850 | FUN_2020b850 | STATUS decompiled | 0 ms */
+
+undefined4 FUN_2020b850(void)
+
+{
+  return 0x44;
+}
+
+

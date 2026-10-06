@@ -1,0 +1,16 @@
+/* ENTRY 200adb50 | bTPropertyContainer<gEFocusPriority>::vfunction5 | STATUS decompiled | 4 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<gEFocusPriority>::vfunction5
+          (bTPropertyContainer<gEFocusPriority> *this,bCIStream *param_1)
+
+{
+  bCIStream *pbVar1;
+  
+  pbVar1 = param_1;
+  bCIStream::operator>>(param_1,(ushort *)&param_1);
+  (**(code **)((int)*pbVar1 + 4))(&this->bTPropertyContainer<gEFocusPriority>_data,4);
+  return 1;
+}
+
+

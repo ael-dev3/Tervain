@@ -1,0 +1,2 @@
+; 2002f6da ?GetType@gCInventoryStack@@QBEABV?$bTPropertyContainer@W4gEStackType@@@@XZ
+2002f6da | e971fa0400 | JMP 0x2007f150

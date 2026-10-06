@@ -1,0 +1,2 @@
+; 20018def gCDialog_PS::GetPropertySetType
+20018def | e95c2a1f00 | JMP 0x2020b850

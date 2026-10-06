@@ -1,0 +1,4 @@
+; 20036cdc ??0gCPlayerMemory_PS@@QAE@XZ
+20036cdc | e9df7c2e00 | JMP 0x2031e9c0
+; 20036ce1 gCWorld::GetSectorAt
+; 20036ce1 Ordinal_4412

@@ -1,0 +1,4 @@
+; 2000660e bTPropertyType<gCNPC_PS,bTPropertyContainer<gEPlayerCrime>_>::vfunction26
+2000660e | e90d083000 | JMP 0x20306e20
+; 20006618 gCEffectCommandPlaySound::AccessMinDistance
+; 20006618 Ordinal_1421

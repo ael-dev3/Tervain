@@ -1,0 +1,2 @@
+; 30003d55 eCEntityProxyInternal::eCEntityProxyInternal
+30003d55 | e9260e4c00 | JMP 0x304c4b80

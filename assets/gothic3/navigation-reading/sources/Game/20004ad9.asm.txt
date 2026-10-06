@@ -1,0 +1,2 @@
+; 20004ad9 ?OnIntersect@gCNavigation_PS@@MAEXPAVeCEntity@@AAVeCContactIterator@@@Z
+20004ad9 | e9021a2800 | JMP 0x202864e0

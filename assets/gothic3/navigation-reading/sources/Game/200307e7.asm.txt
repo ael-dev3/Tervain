@@ -1,0 +1,4 @@
+; 200307e7 bTPropertyType<gCNavigation_PS,bCVector>::vfunction24
+200307e7 | e974cf2500 | JMP 0x2028d760
+; 200307f1 gCInventorySlot::GetUseType
+; 200307f1 Ordinal_4656

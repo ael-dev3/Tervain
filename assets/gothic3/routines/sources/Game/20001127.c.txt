@@ -1,0 +1,15 @@
+/* ENTRY 20001127 | gCScriptRoutine_PS::SetCurrentTask | STATUS decompiled | 11 ms */
+
+/* public: void __thiscall gCScriptRoutine_PS::SetCurrentTask(class bCString const &) */
+
+void __thiscall gCScriptRoutine_PS::SetCurrentTask(gCScriptRoutine_PS *this,bCString *param_1)
+
+{
+                    /* 0x1127  6360  ?SetCurrentTask@gCScriptRoutine_PS@@QAEXABVbCString@@@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"CurrentTask",false);
+  bCString::operator=((bCString *)&(this->gCScriptRoutine_PS_data).field_0x14,param_1);
+  (*this->vftablePtr->NotifyPropertyValueChangedExitEx)(this,"CurrentTask",false);
+  return;
+}
+
+

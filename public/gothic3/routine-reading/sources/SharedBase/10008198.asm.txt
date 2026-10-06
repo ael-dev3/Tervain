@@ -1,0 +1,4 @@
+; 10008198 ?GetDescription@bCPropertyObjectTypeBase@@QBEABVbCString@@XZ
+10008198 | e903fc0700 | JMP 0x10087da0
+; 1000819d bCStretch::GetDifference
+; 1000819d Ordinal_2289

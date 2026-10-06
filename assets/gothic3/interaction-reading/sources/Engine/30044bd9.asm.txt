@@ -1,0 +1,2 @@
+; 30044bd9 eCTemplateEntityProxy::operator=
+30044bd9 | e962254800 | JMP 0x304c7140

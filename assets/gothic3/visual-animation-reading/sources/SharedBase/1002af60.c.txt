@@ -1,0 +1,15 @@
+/* ENTRY 1002af60 | FUN_1002af60 | STATUS decompiled | 8 ms */
+
+undefined1 __fastcall FUN_1002af60(float *param_1)
+
+{
+  if ((((param_1[3] != -3.4028235e+38) && (param_1[4] != -3.4028235e+38)) &&
+      (param_1[5] != -3.4028235e+38)) &&
+     (((*param_1 != 3.4028235e+38 && (param_1[1] != 3.4028235e+38)) && (param_1[2] != 3.4028235e+38)
+      ))) {
+    return 1;
+  }
+  return 0;
+}
+
+

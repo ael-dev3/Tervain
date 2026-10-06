@@ -1,0 +1,13 @@
+/* ENTRY 100072e8 | operator<< | STATUS decompiled | 2 ms */
+
+/* class bCIStream & __stdcall operator<<(float &,class bCIStream &) */
+
+bCIStream * operator<<(float *param_1,bCIStream *param_2)
+
+{
+                    /* 0x72e8  690  ??6@YGAAVbCIStream@@AAMAAV0@@Z */
+  (**(code **)(*(int *)param_2 + 4))(param_1,4);
+  return param_2;
+}
+
+

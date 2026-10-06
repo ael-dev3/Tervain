@@ -1,0 +1,37 @@
+/* ENTRY 1000888c | MemHeap::ReAlloc | STATUS decompiled | 8 ms */
+
+/* public: static void * __stdcall MemHeap::ReAlloc(void *,unsigned int) */
+
+void * MemHeap::ReAlloc(void *param_1,uint param_2)
+
+{
+  BOOL BVar1;
+  void *pvVar2;
+  void *pvStack_14;
+  undefined1 *puStack_10;
+  undefined *puStack_c;
+  undefined4 uStack_8;
+  
+                    /* 0x888c  3845  ?ReAlloc@MemHeap@@SGPAXPAXI@Z */
+  uStack_8 = 0xffffffff;
+  puStack_c = &DAT_100f8338;
+  puStack_10 = &LAB_100a6f80;
+  pvStack_14 = ExceptionList;
+  ExceptionList = &pvStack_14;
+  if (DAT_102fb000 == '\0') {
+    ExceptionList = &pvStack_14;
+    BVar1 = InitializeCriticalSectionAndSpinCount((LPCRITICAL_SECTION)&DAT_10189a18,1000);
+    DAT_102fb000 = BVar1 == 1;
+    if (!(bool)DAT_102fb000) goto LAB_1003d8f9;
+  }
+  EnterCriticalSection((LPCRITICAL_SECTION)&DAT_10189a18);
+LAB_1003d8f9:
+  uStack_8 = 0;
+  pvVar2 = ReAllocUnsynced(param_1,param_2);
+  uStack_8 = 0xffffffff;
+  LeaveCriticalSection((LPCRITICAL_SECTION)&DAT_10189a18);
+  ExceptionList = pvStack_14;
+  return pvVar2;
+}
+
+

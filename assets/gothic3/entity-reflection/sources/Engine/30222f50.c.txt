@@ -1,0 +1,47 @@
+/* ENTRY 30222f50 | bTPropertyContainer<eEDirectionalShadowType>::bTPropertyContainer<eEDirectionalShadowType> | STATUS decompiled | 17 ms */
+
+bTPropertyContainer<eEDirectionalShadowType> * __thiscall
+bTPropertyContainer<eEDirectionalShadowType>::bTPropertyContainer<eEDirectionalShadowType>
+          (bTPropertyContainer<eEDirectionalShadowType> *this)
+
+{
+  undefined4 *this_00;
+  int iVar1;
+  bCVector4 *this_01;
+  
+  eCEntityPropertySet::eCEntityPropertySet((eCEntityPropertySet *)this);
+  this_00 = &this[1].bTPropertyContainer<eEDirectionalShadowType>_data.offset_0x4;
+                    /* inlined constructor: eCIlluminated_PS::eCIlluminated_PS */
+  this->vftablePtr =
+       (bTPropertyContainer<eEDirectionalShadowType>_vftable *)&eCIlluminated_PS::vftable;
+  bCObjectBase::bCObjectBase((bCObjectBase *)this_00);
+                    /* inlined constructor:
+                       bTPropertyContainer<eEStaticIlluminated>::bTPropertyContainer<eEStaticIlluminated>
+                        */
+  *this_00 = &bTPropertyContainer<eEStaticIlluminated>::vftable;
+  this[1].bTPropertyContainer<eEDirectionalShadowType>_data.offset_0x8 = DAT_30ae1c48;
+  bCObjectBase::bCObjectBase
+            ((bCObjectBase *)&this[2].bTPropertyContainer<eEDirectionalShadowType>_data);
+  this[2].bTPropertyContainer<eEDirectionalShadowType>_data.offset_0x0 = &vftable.GetVersion;
+  this[2].bTPropertyContainer<eEDirectionalShadowType>_data.offset_0x4 = DAT_30ae1c4c;
+  this_01 = (bCVector4 *)&this[3].bTPropertyContainer<eEDirectionalShadowType>_data.offset_0x8;
+  iVar1 = 6;
+  do {
+    bCVector4::bCVector4(this_01);
+    this_01 = this_01 + 0x10;
+    iVar1 = iVar1 + -1;
+  } while (-1 < iVar1);
+  this[3].bTPropertyContainer<eEDirectionalShadowType>_data.offset_0x0 = (undefined **)0x0;
+  this[3].vftablePtr = (bTPropertyContainer<eEDirectionalShadowType>_vftable *)0x0;
+  *(undefined1 *)&this[3].bTPropertyContainer<eEDirectionalShadowType>_data.offset_0x4 = 0;
+  this[10].bTPropertyContainer<eEDirectionalShadowType>_data.offset_0x8 = (bCObjectBase *)0x0;
+  _memset(&this[3].bTPropertyContainer<eEDirectionalShadowType>_data.offset_0x8,0,0x70);
+  *(undefined1 *)((int)&this[3].bTPropertyContainer<eEDirectionalShadowType>_data.offset_0x4 + 1) =
+       0;
+  this[0xb].bTPropertyContainer<eEDirectionalShadowType>_data.offset_0x0 = (undefined **)0x0;
+  this[0xb].vftablePtr = (bTPropertyContainer<eEDirectionalShadowType>_vftable *)0x0;
+  *(undefined1 *)&this[0xb].bTPropertyContainer<eEDirectionalShadowType>_data.offset_0x4 = 1;
+  return this;
+}
+
+

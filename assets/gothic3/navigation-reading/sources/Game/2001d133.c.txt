@@ -1,0 +1,11 @@
+/* ENTRY 2001d133 | bTPropertyObject<gCNavigation_PS,eCEntityPropertySet>::vfunction5 | STATUS decompiled | 3 ms */
+
+undefined4 __thiscall
+bTPropertyObject<gCNavigation_PS,eCEntityPropertySet>::vfunction5
+          (bTPropertyObject<gCNavigation_PS,eCEntityPropertySet> *this)
+
+{
+  return (this->bTPropertyObject<gCNavigation_PS,eCEntityPropertySet>_data).offset_0x0;
+}
+
+

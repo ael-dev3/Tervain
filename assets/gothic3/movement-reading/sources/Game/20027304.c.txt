@@ -1,0 +1,59 @@
+/* ENTRY 20027304 | gCCharacterMovement_PS::PostInitializeProperties | STATUS decompiled | 25 ms */
+
+/* public: virtual enum bEResult __thiscall gCCharacterMovement_PS::PostInitializeProperties(void)
+    */
+
+bEResult __thiscall gCCharacterMovement_PS::PostInitializeProperties(gCCharacterMovement_PS *this)
+
+{
+                    /* 0x27304  5742
+                       ?PostInitializeProperties@gCCharacterMovement_PS@@UAE?AW4bEResult@@XZ */
+  bCObjectRefBase::PostInitializeProperties((bCObjectRefBase *)this);
+  *(undefined4 *)&(this->gCCharacterMovement_PS_data).field_0x1c = 0x43c80000;
+  *(undefined4 *)&(this->gCCharacterMovement_PS_data).field_0x20 = 0x43c80000;
+  *(undefined4 *)&(this->gCCharacterMovement_PS_data).field_0x24 = 0x43c80000;
+  *(undefined4 *)&(this->gCCharacterMovement_PS_data).field_0x2c = 0x3f000000;
+  *(undefined4 *)&(this->gCCharacterMovement_PS_data).field_0x28 = 0x43340000;
+  *(undefined4 *)&(this->gCCharacterMovement_PS_data).field_0x40 = 0x3ec00000;
+  *(undefined4 *)&(this->gCCharacterMovement_PS_data).field_0x38 = 0x43340000;
+  *(undefined4 *)&(this->gCCharacterMovement_PS_data).field_0x44 = 0x3fc00000;
+  *(undefined4 *)&(this->gCCharacterMovement_PS_data).field_0x30 = 0x447a0000;
+  *(undefined4 *)&(this->gCCharacterMovement_PS_data).field_0x3c = 0xc3340000;
+  (this->gCCharacterMovement_PS_data).field_0x48 = '3';
+  (this->gCCharacterMovement_PS_data).field_0x49 = '3';
+  (this->gCCharacterMovement_PS_data).field_0x4a = '3';
+  (this->gCCharacterMovement_PS_data).field_0x4b = '?';
+  *(undefined4 *)&(this->gCCharacterMovement_PS_data).field_0x34 = 0xc3fa0000;
+  *(undefined4 *)&(this->gCCharacterMovement_PS_data).field_0x18 = 0x42820000;
+  (this->gCCharacterMovement_PS_data).field_0x54 = '3';
+  (this->gCCharacterMovement_PS_data).field_0x55 = '3';
+  (this->gCCharacterMovement_PS_data).field_0x56 = '3';
+  (this->gCCharacterMovement_PS_data).field_0x57 = '?';
+  *(undefined4 *)&(this->gCCharacterMovement_PS_data).field_0x4c = 0x41a00000;
+  *(undefined4 *)&(this->gCCharacterMovement_PS_data).field_0x50 = 0x42440000;
+  *(undefined4 *)&(this->gCCharacterMovement_PS_data).field_0x5c = 0x41a00000;
+  *(undefined4 *)&(this->gCCharacterMovement_PS_data).field_0x70 = 0x3e19999a;
+  *(undefined4 *)&(this->gCCharacterMovement_PS_data).field_0x60 = 0x3f800000;
+  *(undefined4 *)&(this->gCCharacterMovement_PS_data).field_0x68 = 0x3ecccccd;
+  *(undefined4 *)&(this->gCCharacterMovement_PS_data).field_0x14 = 0x40a00000;
+  (this->gCCharacterMovement_PS_data).offset_0x74 = 0x40a00000;
+  *(undefined4 *)&(this->gCCharacterMovement_PS_data).field_0x80 = 0x3f800000;
+  *(undefined4 *)&(this->gCCharacterMovement_PS_data).field_0x84 = 0x3f800000;
+  (this->gCCharacterMovement_PS_data).field_0x10 = 1;
+  (this->gCCharacterMovement_PS_data).field_0x11 = 1;
+  (this->gCCharacterMovement_PS_data).field_0x12 = 0;
+  (this->gCCharacterMovement_PS_data).offset_0x25b = (gCCharacterMovement_PS)0x1;
+  *(undefined4 *)&(this->gCCharacterMovement_PS_data).field_0x64 = 0;
+  (this->gCCharacterMovement_PS_data).field_0x58 = 1;
+  *(undefined4 *)&(this->gCCharacterMovement_PS_data).field_0x6c = 0x44480000;
+  (this->gCCharacterMovement_PS_data).field_0x17a = 0;
+  (this->gCCharacterMovement_PS_data).field_0x78 = 0;
+  *(undefined4 *)&(this->gCCharacterMovement_PS_data).field_0x7c = 0x43fa0000;
+  *(undefined4 *)&(this->gCCharacterMovement_PS_data).field_0x88 = 0x43200000;
+  (this->gCCharacterMovement_PS_data).field_0x8c = 0;
+  *(undefined4 *)&(this->gCCharacterMovement_PS_data).field_0x90 = 0;
+  (this->gCCharacterMovement_PS_data).offset_0x94 = (gCCharacterMovement_PS)0x0;
+  return 1;
+}
+
+

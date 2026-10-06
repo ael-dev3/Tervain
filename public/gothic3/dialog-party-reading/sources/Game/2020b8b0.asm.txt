@@ -1,0 +1,2 @@
+; 2020b8b0 ENGINE.DLL::eCEntityPropertySet::OnProcess
+2020b8b0 | ff2508737d20 | JMP dword ptr [0x207d7308]

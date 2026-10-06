@@ -1,0 +1,4 @@
+; 300079cd bTPropertyObjectType<eCCollisionShape_PS,eCCollisionShapeBase_PS>::vfunction1
+300079cd | e95e6f0c00 | JMP 0x300ce930
+; 300079d2 eCUnicodeConfigFile::GetBool
+; 300079d2 Ordinal_6305

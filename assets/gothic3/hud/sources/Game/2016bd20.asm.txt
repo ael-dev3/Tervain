@@ -1,0 +1,11 @@
+; 2016bd20 gCHUDViewSynthRecipe2::~gCHUDViewSynthRecipe2
+2016bd20 | 56 | PUSH ESI
+2016bd21 | 8bf1 | MOV ESI,ECX
+2016bd23 | 8d4e24 | LEA ECX,[ESI + 0x24]
+2016bd26 | c7061c1c6720 | MOV dword ptr [ESI],0x20671c1c
+2016bd2c | e8a54cecff | CALL 0x200309d6
+2016bd31 | 8d4e10 | LEA ECX,[ESI + 0x10]
+2016bd34 | e8771decff | CALL 0x2002dab0
+2016bd39 | 8bce | MOV ECX,ESI
+2016bd3b | 5e | POP ESI
+2016bd3c | e96899eaff | JMP 0x200156a9

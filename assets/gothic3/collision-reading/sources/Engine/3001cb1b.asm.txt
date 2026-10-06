@@ -1,0 +1,2 @@
+; 3001cb1b ?GetRootObject@eCCollisionShape@@SGPBVbCPropertyObjectBase@@XZ
+3001cb1b | e980cb3300 | JMP 0x303596a0

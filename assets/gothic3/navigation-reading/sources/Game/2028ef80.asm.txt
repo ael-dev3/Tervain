@@ -1,0 +1,3 @@
+; 2028ef80 bTPropertyType<gCNavigation_PS,bTValArray<bCPropertyID>_>::vfunction5
+2028ef80 | 8b4118 | MOV EAX,dword ptr [ECX + 0x18]
+2028ef83 | c3 | RET

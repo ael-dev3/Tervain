@@ -1,0 +1,19 @@
+/* ENTRY 1009acb0 | FUN_1009acb0 | STATUS decompiled | 5 ms */
+
+bCAccessorPropertyObject * __thiscall
+FUN_1009acb0(bCAccessorPropertyObject *param_1,bCObjectRefBase *param_2)
+
+{
+  bCPropertyObjectBase *pbVar1;
+  
+  pbVar1 = (bCPropertyObjectBase *)0x0;
+  *(undefined4 *)param_1 = 0;
+  *(undefined4 *)(param_1 + 4) = 0;
+  if (param_2 != (bCObjectRefBase *)0x0) {
+    pbVar1 = bCObjectRefBase::GetPropertyObject(param_2);
+  }
+  bCAccessorPropertyObject::SetInstance(param_1,pbVar1);
+  return param_1;
+}
+
+

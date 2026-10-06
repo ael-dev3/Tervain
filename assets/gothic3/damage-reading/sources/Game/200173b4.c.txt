@@ -1,0 +1,13 @@
+/* ENTRY 200173b4 | gCDamage_PS::Read | STATUS decompiled | 8 ms */
+
+/* public: virtual enum bEResult __thiscall gCDamage_PS::Read(class bCIStream &) */
+
+bEResult __thiscall gCDamage_PS::Read(gCDamage_PS *this,bCIStream *param_1)
+
+{
+                    /* 0x173b4  5893  ?Read@gCDamage_PS@@UAE?AW4bEResult@@AAVbCIStream@@@Z */
+  bCIStream::operator>>((bCIStream *)param_1,(ushort *)&param_1);
+  return 1;
+}
+
+

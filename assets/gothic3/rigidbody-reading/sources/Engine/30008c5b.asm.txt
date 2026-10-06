@@ -1,0 +1,4 @@
+; 30008c5b bTPropertyType<eCRigidBody_PS,bCVector>::vfunction19
+30008c5b | e9c09e3200 | JMP 0x30332b20
+; 30008c65 Mesh::calcOneVertNormal
+; 30008c65 Ordinal_15332

@@ -1,0 +1,15 @@
+/* ENTRY 100041fb | bCSphere::Intersects | STATUS decompiled | 2 ms */
+
+/* public: bool __thiscall bCSphere::Intersects(class bCUnitedRay const &,float &)const  */
+
+bool __thiscall bCSphere::Intersects(bCSphere *this,bCUnitedRay *param_1,float *param_2)
+
+{
+  bool bVar1;
+  
+                    /* 0x41fb  3425  ?Intersects@bCSphere@@QBE_NABVbCUnitedRay@@AAM@Z */
+  bVar1 = bCUnitedRay::Intersects(param_1,this,param_2);
+  return bVar1;
+}
+
+

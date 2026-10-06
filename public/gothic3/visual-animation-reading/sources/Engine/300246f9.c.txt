@@ -1,0 +1,12 @@
+/* ENTRY 300246f9 | eCVisualAnimation_PS::GetBonesBreakMaxTorque | STATUS decompiled | 11 ms */
+
+/* public: float const & __thiscall eCVisualAnimation_PS::GetBonesBreakMaxTorque(void)const  */
+
+float * __thiscall eCVisualAnimation_PS::GetBonesBreakMaxTorque(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x246f9  6302  ?GetBonesBreakMaxTorque@eCVisualAnimation_PS@@QBEABMXZ */
+  return (float *)(this + 2);
+}
+
+

@@ -1,0 +1,14 @@
+/* ENTRY 20184cf0 | gCHUDListBoxQuests::~gCHUDListBoxQuests | STATUS decompiled | 7 ms */
+
+void __thiscall gCHUDListBoxQuests::~gCHUDListBoxQuests(gCHUDListBoxQuests *this)
+
+{
+  this->vftablePtr = &vftable;
+  bCString::~bCString((bCString *)&(this->gCHUDListBoxQuests_data).field_0x10);
+                    /* WARNING: Could not recover jumptable at 0x20184d05. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  CFFGFCListBox::~CFFGFCListBox((CFFGFCListBox *)this);
+  return;
+}
+
+

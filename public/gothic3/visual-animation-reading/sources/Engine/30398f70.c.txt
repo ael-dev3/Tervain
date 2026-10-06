@@ -1,0 +1,10 @@
+/* ENTRY 30398f70 | FUN_30398f70 | STATUS decompiled | 2 ms */
+
+undefined4 __thiscall FUN_30398f70(int param_1,int param_2)
+
+{
+  return CONCAT31((int3)((uint)*(int *)(param_1 + 0x14) >> 8),
+                  *(int *)(param_1 + 0x14) == *(int *)(param_2 + 4));
+}
+
+

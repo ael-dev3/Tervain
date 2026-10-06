@@ -1,0 +1,14 @@
+/* ENTRY 30335930 | bTPropertyType<eCRigidBodyBase_PS,bool>::vfunction19 | STATUS decompiled | 5 ms */
+
+void __thiscall
+bTPropertyType<eCRigidBodyBase_PS,bool>::vfunction19(bTPropertyType<eCRigidBodyBase_PS,bool> *this)
+
+{
+  bCPropertyTypeBase::Destroy((bCPropertyTypeBase *)this);
+  thunk_FUN_3008f120(this + 8);
+  bCPropertyObjectTypeBase::UnregisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)this[6].vftablePtr,(bCPropertyTypeBase *)this);
+  return;
+}
+
+

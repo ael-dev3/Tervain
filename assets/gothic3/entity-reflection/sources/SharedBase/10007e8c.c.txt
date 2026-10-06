@@ -1,0 +1,15 @@
+/* ENTRY 10007e8c | bCObjectRefBase::IsVirtualReferencingEnabled | STATUS decompiled | 3 ms */
+
+/* public: virtual bool __thiscall bCObjectRefBase::IsVirtualReferencingEnabled(void)const 
+   bCObjectRefBase member function inherited by bCThreadObjectRefBase
+   bCObjectRefBase member function inherited by bCObsoleteClass
+   bCObjectRefBase member function inherited by bCEvent */
+
+bool __thiscall bCObjectRefBase::IsVirtualReferencingEnabled(bCObjectRefBase *this)
+
+{
+                    /* 0x7e8c  3692  ?IsVirtualReferencingEnabled@bCObjectRefBase@@UBE_NXZ */
+  return true;
+}
+
+

@@ -1,0 +1,19 @@
+/* ENTRY 20169a90 | FUN_20169a90 | STATUS decompiled | 3 ms */
+
+void FUN_20169a90(undefined4 param_1,int param_2)
+
+{
+  if (param_2 == 0) {
+    thunk_FUN_2018a7f0(param_1);
+    thunk_FUN_2018a7f0(param_1);
+    thunk_FUN_2018a7f0(param_1);
+    thunk_FUN_2018a7f0(param_1);
+    thunk_FUN_2018a7f0(param_1);
+    thunk_FUN_2018a7f0(param_1);
+    thunk_FUN_2018a7f0(param_1);
+    thunk_FUN_20169580();
+  }
+  return;
+}
+
+

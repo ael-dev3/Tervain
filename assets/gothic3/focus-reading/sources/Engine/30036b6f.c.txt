@@ -1,0 +1,21 @@
+/* ENTRY 30036b6f | eCEntity::GetDistanceToEntity2 | STATUS decompiled | 133 ms */
+
+/* public: float __thiscall eCEntity::GetDistanceToEntity2(class eCEntity const &)const  */
+
+float __thiscall eCEntity::GetDistanceToEntity2(eCEntity *this,eCEntity *param_1)
+
+{
+  bCVector *pbVar1;
+  float fVar2;
+  bCVector abStack_c [12];
+  
+                    /* 0x36b6f  6886  ?GetDistanceToEntity2@eCEntity@@QBEMABV1@@Z */
+  bCMatrix::GetTranslation((bCMatrix *)&(this->eCEntity_data).field_0x10);
+  pbVar1 = bCMatrix::GetTranslation((bCMatrix *)(param_1 + 0x40));
+  pbVar1 = (bCVector *)bCVector::operator-(pbVar1,abStack_c);
+  fVar2 = bCVector::GetSquareMagnitude(pbVar1);
+  bCVector::~bCVector((bCVector *)&stack0xfffffff0);
+  return fVar2;
+}
+
+

@@ -1,0 +1,4 @@
+; 3002d43e ?AccessOverrideEntityAABB@eCCollisionShape@@QAEAA_NXZ
+3002d43e | e97d510900 | JMP 0x300c25c0
+; 3002d44d eCTabCtrl::Read
+; 3002d44d Ordinal_12264

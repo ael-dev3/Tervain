@@ -1,0 +1,31 @@
+/* ENTRY 20218d10 | FUN_20218d10 | STATUS decompiled | 13 ms */
+
+undefined4 __thiscall FUN_20218d10(int param_1,bCIStream *param_2)
+
+{
+  ushort local_4 [2];
+  
+  local_4[0] = 0;
+  local_4[1] = 0;
+  bCIStream::operator>>(param_2,local_4);
+  if (1 < local_4[0]) {
+    bCIStream::operator>>(param_2,(float *)(param_1 + 0x2c));
+    bCIStream::operator>>(param_2,(float *)(param_1 + 0x30));
+    bCIStream::operator>>(param_2,(float *)(param_1 + 0x34));
+    bCIStream::operator>>(param_2,(float *)(param_1 + 0x38));
+    bCIStream::operator>>(param_2,(ulong *)(param_1 + 0x3c));
+    bCIStream::operator>>(param_2,(ulong *)(param_1 + 0x40));
+    bCIStream::operator>>(param_2,(ulong *)(param_1 + 0x44));
+    bCIStream::operator>>(param_2,(ulong *)(param_1 + 0x48));
+    bCIStream::operator>>(param_2,(ulong *)(param_1 + 0x4c));
+    bCIStream::operator>>(param_2,(ulong *)(param_1 + 0x50));
+    bCIStream::operator>>(param_2,(bool *)(param_1 + 0x54));
+    bCIStream::operator>>(param_2,(bool *)(param_1 + 0x55));
+    bCIStream::operator>>(param_2,(float *)(param_1 + 0x5c));
+    bCVector::operator<<((bCVector *)(param_1 + 0x60),(bCIStream *)param_2);
+    bCMatrix::operator<<((bCMatrix *)(param_1 + 0x6c),(bCIStream *)param_2);
+  }
+  return 1;
+}
+
+

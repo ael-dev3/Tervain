@@ -1,0 +1,13 @@
+/* ENTRY 30331060 | bTPropertyType<eCRigidBody_PS,float>::vfunction21 | STATUS decompiled | 2 ms */
+
+undefined4 __thiscall bTPropertyType<eCRigidBody_PS,float>::vfunction21(void)
+
+{
+  GE_MESSAGEF_WARN("The method %s detected an improper usage! \nHint:%s ",
+                   "bTPropertyType<CLASS, TYPE>::DoClone",
+                   "It is not allowed to make a clone of propertytype.\nDo not call it from derived class or change access !"
+                  );
+  return 0;
+}
+
+

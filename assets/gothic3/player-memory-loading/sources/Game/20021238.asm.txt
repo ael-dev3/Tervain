@@ -1,0 +1,2 @@
+; 20021238 bTPropertyType<gCPlayerMemory_PS,bTPropertyContainer<gEWeaponConfig>_>::scalar_deleting_destructor
+20021238 | e9b3653000 | JMP 0x203277f0

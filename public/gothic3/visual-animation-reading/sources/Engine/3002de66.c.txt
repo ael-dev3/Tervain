@@ -1,0 +1,19 @@
+/* ENTRY 3002de66 | eCVisualAnimation_PS::SetSpringParentNodesOnly | STATUS decompiled | 9 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::SetSpringParentNodesOnly(bool const &) */
+
+void __thiscall
+eCVisualAnimation_PS::SetSpringParentNodesOnly(eCVisualAnimation_PS *this,bool *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x2de66  14265  ?SetSpringParentNodesOnly@eCVisualAnimation_PS@@QAEXAB_N@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"SpringParentNodesOnly",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  this[5].eCEntityPropertySet_data.offset_0xc = *param_1;
+  (*pNVar1)(this,"SpringParentNodesOnly",false);
+  return;
+}
+
+

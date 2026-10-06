@@ -1,0 +1,16 @@
+/* ENTRY 20208000 | FUN_20208000 | STATUS decompiled | 6 ms */
+
+undefined4 __thiscall FUN_20208000(int *param_1,bCIStream *param_2)
+
+{
+  bCIStream::operator>>(param_2,(ulong *)(param_1 + 5));
+  bCIStream::operator>>(param_2,(ulong *)(param_1 + 6));
+  bCIStream::operator>>(param_2,(ulong *)(param_1 + 7));
+  bCIStream::operator>>(param_2,(ulong *)(param_1 + 8));
+  bCIStream::operator>>(param_2,(ulong *)(param_1 + 9));
+  bCIStream::operator>>(param_2,(float *)(param_1 + 10));
+  (**(code **)(*param_1 + 0x50))(0,0);
+  return 1;
+}
+
+

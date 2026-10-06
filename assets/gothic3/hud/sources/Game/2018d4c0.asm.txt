@@ -1,0 +1,8 @@
+; 2018d4c0 gCHUDTableSkillStats::gCHUDTableSkillStats
+2018d4c0 | 56 | PUSH ESI
+2018d4c1 | 8bf1 | MOV ESI,ECX
+2018d4c3 | e87312e9ff | CALL 0x2001e73b
+2018d4c8 | c706d4896720 | MOV dword ptr [ESI],0x206789d4
+2018d4ce | 8bc6 | MOV EAX,ESI
+2018d4d0 | 5e | POP ESI
+2018d4d1 | c3 | RET

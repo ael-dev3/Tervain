@@ -1,0 +1,18 @@
+/* ENTRY 30028894 | eCCollisionShape_PS::SetDisableResponse | STATUS decompiled | 15 ms */
+
+/* public: void __thiscall eCCollisionShape_PS::SetDisableResponse(bool const &) */
+
+void __thiscall eCCollisionShape_PS::SetDisableResponse(eCCollisionShape_PS *this,bool *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x28894  13274  ?SetDisableResponse@eCCollisionShape_PS@@QAEXAB_N@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"DisableResponse",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  (this->eCCollisionShape_PS_data).field_0x11 = *param_1;
+  (*pNVar1)(this,"DisableResponse",false);
+  return;
+}
+
+

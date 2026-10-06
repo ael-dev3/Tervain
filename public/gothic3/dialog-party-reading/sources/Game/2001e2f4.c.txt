@@ -1,0 +1,22 @@
+/* ENTRY 2001e2f4 | gCDialog_PS::RemoveTalkedToBy | STATUS decompiled | 12 ms */
+
+/* public: bool __thiscall gCDialog_PS::RemoveTalkedToBy(class eCEntity *) */
+
+bool __thiscall gCDialog_PS::RemoveTalkedToBy(gCDialog_PS *this,eCEntity *param_1)
+
+{
+  int iVar1;
+  eCEntityProxy eStack_1c;
+  
+                    /* 0x1e2f4  6106  ?RemoveTalkedToBy@gCDialog_PS@@QAE_NPAVeCEntity@@@Z */
+  eCEntityProxy::eCEntityProxy(&eStack_1c,param_1);
+  iVar1 = thunk_FUN_200ae850(&eStack_1c);
+  eCEntityProxy::~eCEntityProxy(&eStack_1c);
+  if (-1 < iVar1) {
+    thunk_FUN_20079710(iVar1);
+    return true;
+  }
+  return false;
+}
+
+

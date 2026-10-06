@@ -1,0 +1,15 @@
+/* ENTRY 100073ce | bCObjectRefBase::Read | STATUS decompiled | 5 ms */
+
+/* public: virtual enum bEResult __thiscall bCObjectRefBase::Read(class bCIStream &)
+   bCObjectRefBase member function inherited by bCThreadObjectRefBase
+   bCObjectRefBase member function inherited by bCObsoleteClass */
+
+bEResult __thiscall bCObjectRefBase::Read(bCObjectRefBase *this,bCIStream *param_1)
+
+{
+                    /* 0x73ce  3876  ?Read@bCObjectRefBase@@UAE?AW4bEResult@@AAVbCIStream@@@Z */
+  bCIStream::operator>>((bCIStream *)param_1,(ushort *)&param_1);
+  return 1;
+}
+
+

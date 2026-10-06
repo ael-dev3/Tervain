@@ -1,0 +1,42 @@
+/* ENTRY 30020a4f | eCApplication::OnRun | STATUS decompiled | 25 ms */
+
+/* public: virtual void __thiscall eCApplication::OnRun(void) */
+
+void __thiscall eCApplication::OnRun(eCApplication *this)
+
+{
+  bool bVar1;
+  bCErrorAdmin *this_00;
+  bCValidateMemory *this_01;
+  void *pvStack_14;
+  undefined1 *puStack_10;
+  undefined *puStack_c;
+  undefined4 uStack_8;
+  
+                    /* 0x20a4f  11484  ?OnRun@eCApplication@@UAEXXZ */
+  uStack_8 = 0xffffffff;
+  puStack_c = &DAT_3094cd18;
+  puStack_10 = &LAB_30671bc4;
+  pvStack_14 = ExceptionList;
+  ExceptionList = &pvStack_14;
+  this_00 = bCErrorAdmin::GetInstance();
+  bVar1 = bCErrorAdmin::IsInPanicState(this_00);
+  if (!bVar1) {
+    if ((this->eCApplication_data).offset_0x500 == (eCApplication)0x1) {
+      this_01 = bCValidateMemory::GetInstance();
+      bCValidateMemory::Validate(this_01);
+    }
+    Process(this);
+    if ((this->eCApplication_data).field_0x12b == '\x01') {
+      uStack_8 = 0;
+      DoRender(this,true);
+      ExceptionList = pvStack_14;
+      return;
+    }
+    DoRender(this,true);
+  }
+  ExceptionList = pvStack_14;
+  return;
+}
+
+

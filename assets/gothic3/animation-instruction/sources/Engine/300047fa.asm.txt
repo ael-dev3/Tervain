@@ -1,0 +1,2 @@
+; 300047fa ?IsMotionRunning@eCWrapper_emfx2Actor@@QBE_NW4eEMotionType@1@@Z
+300047fa | e9e16f0d00 | JMP 0x300db7e0

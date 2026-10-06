@@ -1,0 +1,157 @@
+{
+  "schema": "gothic3-original-hero-rigidbody-v1",
+  "worldResident": false,
+  "source": {
+    "archive": "Projects_compiled.p00",
+    "path": "G3_World_01/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}.lrentdat",
+    "sha256": "28f7273b3d54415b84445651a3dfa962c1ff158e9183deba81ba47e4d5d57938",
+    "packetOffset": 1184616,
+    "packetBytes": 360,
+    "packetSha256": "1ec96930a7086adc183fe6ac5956c1ec1c48057bd3c632ede66639b160bba677"
+  },
+  "properties": [
+    {
+      "name": "TotalMass",
+      "nativeOffset": 24,
+      "typeName": "float",
+      "raw": "0000a042",
+      "value": 80.0,
+      "sourceOffset": 1184653
+    },
+    {
+      "name": "MassSpaceInertia",
+      "nativeOffset": 92,
+      "typeName": "bCVector",
+      "raw": "000000000000000000000000",
+      "value": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "sourceOffset": 1184667
+    },
+    {
+      "name": "StartVelocity",
+      "nativeOffset": 28,
+      "typeName": "bCVector",
+      "raw": "000000000000000000000000",
+      "value": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "sourceOffset": 1184689
+    },
+    {
+      "name": "StartAngularVelocity",
+      "nativeOffset": 40,
+      "typeName": "bCVector",
+      "raw": "000000000000000000000000",
+      "value": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "sourceOffset": 1184711
+    },
+    {
+      "name": "StartForce",
+      "nativeOffset": 52,
+      "typeName": "bCVector",
+      "raw": "000000000000000000000000",
+      "value": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "sourceOffset": 1184733
+    },
+    {
+      "name": "StartTorque",
+      "nativeOffset": 64,
+      "typeName": "bCVector",
+      "raw": "000000000000000000000000",
+      "value": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "sourceOffset": 1184755
+    },
+    {
+      "name": "WakeUpCounter",
+      "nativeOffset": 76,
+      "typeName": "float",
+      "raw": "00000000",
+      "value": 0.0,
+      "sourceOffset": 1184777
+    },
+    {
+      "name": "LinearDamping",
+      "nativeOffset": 80,
+      "typeName": "float",
+      "raw": "00000000",
+      "value": 0.0,
+      "sourceOffset": 1184791
+    },
+    {
+      "name": "AngularDamping",
+      "nativeOffset": 84,
+      "typeName": "float",
+      "raw": "cdcccc3d",
+      "value": 0.10000000149011612,
+      "sourceOffset": 1184805
+    },
+    {
+      "name": "MaxAngularVelocity",
+      "nativeOffset": 88,
+      "typeName": "float",
+      "raw": "00000000",
+      "value": 0.0,
+      "sourceOffset": 1184819
+    },
+    {
+      "name": "CenterOfMass",
+      "nativeOffset": 104,
+      "typeName": "bCVector",
+      "raw": "000000000000000000000000",
+      "value": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "sourceOffset": 1184833
+    },
+    {
+      "name": "CCDMotionTreshold",
+      "nativeOffset": 116,
+      "typeName": "float",
+      "raw": "00000000",
+      "value": 0.0,
+      "sourceOffset": 1184855
+    },
+    {
+      "name": "BodyFlag",
+      "nativeOffset": 120,
+      "typeName": "bTPropertyContainer<enum eERigidbody_Flag>",
+      "raw": "010000000000",
+      "value": {
+        "version": 1,
+        "value": 0
+      },
+      "sourceOffset": 1184869
+    },
+    {
+      "name": "PhysicsEnabled",
+      "nativeOffset": 20,
+      "typeName": "bool",
+      "raw": "01",
+      "value": true,
+      "sourceOffset": 1184885
+    }
+  ],
+  "tailRaw": "00000000000000000000000000000000000000000000000000000078d8ab4783cca045e9551fc60000000086c65c3f00000000a797013f78d8ab4783cca045e9551fc60000000086c65c3f00000000a797013f00",
+  "nativeReadOffset": 1184886,
+  "outerVersion": 65,
+  "nativeReadVersion": 65
+}

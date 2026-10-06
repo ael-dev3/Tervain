@@ -1,0 +1,2 @@
+; 3000abfa bTPropertyContainer<eECollisionGroup>::vfunction3
+3000abfa | e931f50900 | JMP 0x300aa130

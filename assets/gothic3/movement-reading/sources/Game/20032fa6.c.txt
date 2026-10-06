@@ -1,0 +1,10 @@
+/* ENTRY 20032fa6 | bTPropertyObject<gCCharacterMovement_PS,gCMovementBase_PS>::vfunction11 | STATUS decompiled | 1 ms */
+
+void __thiscall bTPropertyObject<gCCharacterMovement_PS,gCMovementBase_PS>::vfunction11(void)
+
+{
+  thunk_FUN_20236030(0);
+  return;
+}
+
+

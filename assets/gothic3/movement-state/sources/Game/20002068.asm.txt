@@ -1,0 +1,4 @@
+; 20002068 ?PutToGround@gCCharacterMovement_PS@@QAEM_N0@Z
+20002068 | e963292200 | JMP 0x202249d0
+; 2000206d gCInventoryStack::OnUnApplyStats
+; 2000206d Ordinal_5656

@@ -1,0 +1,4 @@
+; 100039a9 ?GetVersion@bCObjectBase@@UBEGXZ
+100039a9 | e922670400 | JMP 0x1004a0d0
+; 100039ae bCBitField::operator<<
+; 100039ae Ordinal_706

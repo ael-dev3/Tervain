@@ -1,0 +1,14 @@
+/* ENTRY 3000f3f3 | eCResourceAnimationActor_PS::GetNativeFileExt | STATUS decompiled | 2 ms */
+
+/* public: static void __stdcall eCResourceAnimationActor_PS::GetNativeFileExt(class bCString &) */
+
+void eCResourceAnimationActor_PS::GetNativeFileExt(bCString *param_1)
+
+{
+                    /* 0xf3f3  7901
+                       ?GetNativeFileExt@eCResourceAnimationActor_PS@@SGXAAVbCString@@@Z */
+  bCString::operator=(param_1,(bCString *)&DAT_30ada1e0);
+  return;
+}
+
+

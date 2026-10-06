@@ -1,0 +1,13 @@
+/* ENTRY 1000754a | bCMemoryStream::GetSize | STATUS decompiled | 3 ms */
+
+/* public: virtual __int64 __thiscall bCMemoryStream::GetSize(void)const 
+   bCMemoryStream member function inherited by bCPOStream */
+
+__int64 __thiscall bCMemoryStream::GetSize(bCMemoryStream *this)
+
+{
+                    /* 0x754a  3018  ?GetSize@bCMemoryStream@@UBE_JXZ */
+  return (__int64)(int)(this->bCMemoryStream_data).offset_0x8;
+}
+
+

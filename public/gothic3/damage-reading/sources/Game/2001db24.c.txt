@@ -1,0 +1,14 @@
+/* ENTRY 2001db24 | gCDamageReceiver_PS::GetPropertySetType | STATUS decompiled | 6 ms */
+
+/* public: virtual enum eEPropertySetType __thiscall
+   gCDamageReceiver_PS::GetPropertySetType(void)const  */
+
+eEPropertySetType __thiscall gCDamageReceiver_PS::GetPropertySetType(gCDamageReceiver_PS *this)
+
+{
+                    /* 0x1db24  4039
+                       ?GetPropertySetType@gCDamageReceiver_PS@@UBE?AW4eEPropertySetType@@XZ */
+  return 0x34;
+}
+
+

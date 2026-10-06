@@ -1,0 +1,13 @@
+/* ENTRY 10005d71 | bCFPUAdmin::SetMidPrecision | STATUS decompiled | 3 ms */
+
+/* public: void __thiscall bCFPUAdmin::SetMidPrecision(void) */
+
+void __thiscall bCFPUAdmin::SetMidPrecision(bCFPUAdmin *this)
+
+{
+                    /* 0x5d71  4264  ?SetMidPrecision@bCFPUAdmin@@QAEXXZ */
+  __controlfp(*(uint *)(this + 4) & 0xfffdffff | 0x10000,0x30000);
+  return;
+}
+
+

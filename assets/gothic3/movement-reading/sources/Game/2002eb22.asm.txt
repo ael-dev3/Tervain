@@ -1,0 +1,2 @@
+; 2002eb22 ?Destroy@gCCharacterMovement_PS@@UAEXXZ
+2002eb22 | e969951f00 | JMP 0x20228090

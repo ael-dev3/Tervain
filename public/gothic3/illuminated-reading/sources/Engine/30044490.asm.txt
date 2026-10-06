@@ -1,0 +1,2 @@
+; 30044490 eCIlluminated_PS::GetEnableDynamicLighting
+30044490 | e99b7d0500 | JMP 0x3009c230

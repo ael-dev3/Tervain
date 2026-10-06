@@ -1,0 +1,79 @@
+; 100a76a1 _strncmp
+100a76a1 | 55 | PUSH EBP
+100a76a2 | 8bec | MOV EBP,ESP
+100a76a4 | 51 | PUSH ECX
+100a76a5 | 8365fc00 | AND dword ptr [EBP + -0x4],0x0
+100a76a9 | 53 | PUSH EBX
+100a76aa | 8b5d10 | MOV EBX,dword ptr [EBP + 0x10]
+100a76ad | 85db | TEST EBX,EBX
+100a76af | 7507 | JNZ 0x100a76b8
+100a76b1 | 33c0 | XOR EAX,EAX
+100a76b3 | e99a000000 | JMP 0x100a7752
+100a76b8 | 83fb04 | CMP EBX,0x4
+100a76bb | 57 | PUSH EDI
+100a76bc | 7275 | JC 0x100a7733
+100a76be | 8d7bfc | LEA EDI,[EBX + -0x4]
+100a76c1 | 85ff | TEST EDI,EDI
+100a76c3 | 766e | JBE 0x100a7733
+100a76c5 | 8b4d0c | MOV ECX,dword ptr [EBP + 0xc]
+100a76c8 | 8b4508 | MOV EAX,dword ptr [EBP + 0x8]
+100a76cb | 8a10 | MOV DL,byte ptr [EAX]
+100a76cd | 83c004 | ADD EAX,0x4
+100a76d0 | 83c104 | ADD ECX,0x4
+100a76d3 | 84d2 | TEST DL,DL
+100a76d5 | 7452 | JZ 0x100a7729
+100a76d7 | 3a51fc | CMP DL,byte ptr [ECX + -0x4]
+100a76da | 754d | JNZ 0x100a7729
+100a76dc | 8a50fd | MOV DL,byte ptr [EAX + -0x3]
+100a76df | 84d2 | TEST DL,DL
+100a76e1 | 743c | JZ 0x100a771f
+100a76e3 | 3a51fd | CMP DL,byte ptr [ECX + -0x3]
+100a76e6 | 7537 | JNZ 0x100a771f
+100a76e8 | 8a50fe | MOV DL,byte ptr [EAX + -0x2]
+100a76eb | 84d2 | TEST DL,DL
+100a76ed | 7426 | JZ 0x100a7715
+100a76ef | 3a51fe | CMP DL,byte ptr [ECX + -0x2]
+100a76f2 | 7521 | JNZ 0x100a7715
+100a76f4 | 8a50ff | MOV DL,byte ptr [EAX + -0x1]
+100a76f7 | 84d2 | TEST DL,DL
+100a76f9 | 7410 | JZ 0x100a770b
+100a76fb | 3a51ff | CMP DL,byte ptr [ECX + -0x1]
+100a76fe | 750b | JNZ 0x100a770b
+100a7700 | 8345fc04 | ADD dword ptr [EBP + -0x4],0x4
+100a7704 | 397dfc | CMP dword ptr [EBP + -0x4],EDI
+100a7707 | 72c2 | JC 0x100a76cb
+100a7709 | eb3f | JMP 0x100a774a
+100a770b | 0fb640ff | MOVZX EAX,byte ptr [EAX + -0x1]
+100a770f | 0fb649ff | MOVZX ECX,byte ptr [ECX + -0x1]
+100a7713 | eb46 | JMP 0x100a775b
+100a7715 | 0fb640fe | MOVZX EAX,byte ptr [EAX + -0x2]
+100a7719 | 0fb649fe | MOVZX ECX,byte ptr [ECX + -0x2]
+100a771d | eb3c | JMP 0x100a775b
+100a771f | 0fb640fd | MOVZX EAX,byte ptr [EAX + -0x3]
+100a7723 | 0fb649fd | MOVZX ECX,byte ptr [ECX + -0x3]
+100a7727 | eb32 | JMP 0x100a775b
+100a7729 | 0fb640fc | MOVZX EAX,byte ptr [EAX + -0x4]
+100a772d | 0fb649fc | MOVZX ECX,byte ptr [ECX + -0x4]
+100a7731 | eb28 | JMP 0x100a775b
+100a7733 | 8b4d0c | MOV ECX,dword ptr [EBP + 0xc]
+100a7736 | 8b4508 | MOV EAX,dword ptr [EBP + 0x8]
+100a7739 | eb0f | JMP 0x100a774a
+100a773b | 8a10 | MOV DL,byte ptr [EAX]
+100a773d | 84d2 | TEST DL,DL
+100a773f | 7414 | JZ 0x100a7755
+100a7741 | 3a11 | CMP DL,byte ptr [ECX]
+100a7743 | 7510 | JNZ 0x100a7755
+100a7745 | 40 | INC EAX
+100a7746 | 41 | INC ECX
+100a7747 | ff45fc | INC dword ptr [EBP + -0x4]
+100a774a | 395dfc | CMP dword ptr [EBP + -0x4],EBX
+100a774d | 72ec | JC 0x100a773b
+100a774f | 33c0 | XOR EAX,EAX
+100a7751 | 5f | POP EDI
+100a7752 | 5b | POP EBX
+100a7753 | c9 | LEAVE
+100a7754 | c3 | RET
+100a7755 | 0fb600 | MOVZX EAX,byte ptr [EAX]
+100a7758 | 0fb609 | MOVZX ECX,byte ptr [ECX]
+100a775b | 2bc1 | SUB EAX,ECX
+100a775d | ebf2 | JMP 0x100a7751

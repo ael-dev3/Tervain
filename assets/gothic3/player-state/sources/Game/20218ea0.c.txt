@@ -1,0 +1,146 @@
+/* ENTRY 20218ea0 | bTPropertyContainer<gESessionKey>::bTPropertyContainer<gESessionKey>_Constructor_or_Destructor | STATUS decompiled | 97 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<gESessionKey>::bTPropertyContainer<gESessionKey>_Constructor_or_Destructor
+          (bTPropertyContainer<gESessionKey> *this,ushort *param_1)
+
+{
+  ushort uVar1;
+  AddReference *pAVar2;
+  bool bVar3;
+  int *piVar4;
+  ulong uVar5;
+  int iVar6;
+  gCSession *this_00;
+  eCApplication *this_01;
+  eCCameraBase *this_02;
+  bCMatrix *this_03;
+  bCVector *pbVar7;
+  float *pfVar8;
+  undefined4 uVar9;
+  undefined4 uVar10;
+  char *pcStack_a4;
+  char *pcStack_98;
+  char *pcStack_8c;
+  bCObjectBase local_60;
+  uint local_5c;
+  bCString abStack_40 [16];
+  bCString abStack_30 [48];
+  
+  uVar1 = *param_1;
+  bCObjectBase::bCObjectBase(&local_60);
+  local_60 = (bCObjectBase)&vftable;
+  local_5c = (uint)uVar1;
+  (*this->vftablePtr[1].vfunction8)(this,0x20686a20);
+  (**(code **)(this[1].bTPropertyContainer<gESessionKey>_data.offset_0x8 + 0x1c))();
+  (*this->vftablePtr[1].AddReference)(this);
+  bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xffffff90);
+  uVar1 = param_1[6];
+  pcStack_8c = (char *)0x20218f1b;
+  (*this->vftablePtr[1].vfunction8)(this,0x20686704);
+  pAVar2 = this->vftablePtr[1].AddReference;
+  pcStack_8c = "IsPressed";
+  *(byte *)&this[2].bTPropertyContainer<gESessionKey>_data.offset_0x0 = (byte)uVar1 & 1;
+  (*pAVar2)(this);
+  uVar1 = param_1[6];
+  pcStack_98 = (char *)0x20218f46;
+  (*this->vftablePtr[1].vfunction8)(this,0x20686710);
+  pAVar2 = this->vftablePtr[1].AddReference;
+  pcStack_98 = "IsPressedBefore";
+  *(byte *)((int)&this[2].bTPropertyContainer<gESessionKey>_data.offset_0x0 + 1) =
+       (byte)uVar1 >> 1 & 1;
+  (*pAVar2)(this);
+  pcStack_a4 = (char *)0x20218f69;
+  (*this->vftablePtr[1].vfunction8)(this,0x20686724);
+  pAVar2 = this->vftablePtr[1].AddReference;
+  this[2].bTPropertyContainer<gESessionKey>_data.offset_0x4 = *(undefined4 *)(param_1 + 4);
+  pcStack_a4 = "DurationPressedMSecs";
+  (*pAVar2)(this);
+  bCString::bCString(abStack_30,"OnPlayerGameKeyPressed");
+  piVar4 = (int *)thunk_FUN_200a4bb0();
+  iVar6 = *piVar4;
+  uVar10 = 0;
+  uVar9 = 0;
+  uVar5 = (*this->vftablePtr[1].GetProfileLastTicksFirst)(this);
+  iVar6 = (**(code **)(iVar6 + 0xbc))(abStack_30,uVar5,uVar9,uVar10);
+  bCString::~bCString(abStack_40);
+  if (iVar6 == 0) {
+    return 0;
+  }
+  this_00 = (gCSession *)gCSession::GetInstance();
+  bVar3 = gCSession::CanPlayerMove(this_00);
+  if (!bVar3) {
+    return 0;
+  }
+  switch(*param_1) {
+  case 1:
+    this[3].bTPropertyContainer<gESessionKey>_data.offset_0x8 = *(bCObjectBase **)(param_1 + 4);
+    break;
+  case 2:
+    this[4].bTPropertyContainer<gESessionKey>_data.offset_0x4 = *(undefined4 *)(param_1 + 4);
+    break;
+  case 3:
+    this[4].vftablePtr = *(bTPropertyContainer<gESessionKey>_vftable **)(param_1 + 4);
+    break;
+  case 4:
+    this[4].bTPropertyContainer<gESessionKey>_data.offset_0x0 = *(undefined ***)(param_1 + 4);
+    break;
+  case 5:
+  case 6:
+    this[3].vftablePtr = *(bTPropertyContainer<gESessionKey>_vftable **)(param_1 + 8);
+    break;
+  case 7:
+  case 8:
+    this[3].bTPropertyContainer<gESessionKey>_data.offset_0x0 = *(undefined ***)(param_1 + 8);
+    break;
+  case 0xd:
+    this[4].bTPropertyContainer<gESessionKey>_data.offset_0x8 = *(bCObjectBase **)(param_1 + 4);
+    break;
+  case 0xe:
+    this[5].vftablePtr = *(bTPropertyContainer<gESessionKey>_vftable **)(param_1 + 4);
+  }
+  piVar4 = (int *)(*this->vftablePtr[1].GetProfileLastTicksFirst)(this);
+  piVar4 = (int *)(**(code **)(*piVar4 + 0xec))(0x15);
+  if (piVar4 != (int *)0x0) {
+    (**(code **)(*piVar4 + 0xb8))(param_1);
+  }
+  this_01 = eCApplication::GetInstance();
+  this_02 = eCApplication::GetCurrentCamera((eCApplication *)this_01);
+  this_03 = eCCameraBase::GetViewMatrix(this_02);
+  bCMatrix::GetInverted(this_03);
+  pbVar7 = bCMatrix::GetZAxis((bCMatrix *)&pcStack_8c);
+  bCVector::bCVector((bCVector *)&pcStack_98,pbVar7);
+  pbVar7 = bCMatrix::GetXAxis((bCMatrix *)&pcStack_8c);
+  bCVector::bCVector((bCVector *)&pcStack_a4,pbVar7);
+  pfVar8 = bCVector::AccessY((bCVector *)&pcStack_98);
+  *pfVar8 = 0.0;
+  pfVar8 = bCVector::AccessY((bCVector *)&pcStack_a4);
+  *pfVar8 = 0.0;
+  bCVector::Normalize((bCVector *)&pcStack_98);
+  bCVector::Normalize((bCVector *)&pcStack_a4);
+  switch(*param_1) {
+  case 1:
+    pbVar7 = (bCVector *)&pcStack_98;
+    goto LAB_20219120;
+  case 2:
+    bCVector::operator-=((bCVector *)(this + 6),(bCVector *)&pcStack_98);
+    break;
+  case 3:
+    bCVector::operator-=((bCVector *)(this + 6),(bCVector *)&pcStack_a4);
+    break;
+  case 4:
+    pbVar7 = (bCVector *)&pcStack_a4;
+LAB_20219120:
+    bCVector::operator+=((bCVector *)(this + 6),pbVar7);
+  }
+  bVar3 = bCVector::HasZeroMagnitude((bCVector *)(this + 6));
+  if (!bVar3) {
+    bCVector::Normalize((bCVector *)(this + 6));
+  }
+  bCVector::~bCVector((bCVector *)&pcStack_a4);
+  bCVector::~bCVector((bCVector *)&pcStack_98);
+  bCMatrix::~bCMatrix((bCMatrix *)&pcStack_8c);
+  return 0xffffffff;
+}
+
+

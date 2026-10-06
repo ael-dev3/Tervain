@@ -1,0 +1,58 @@
+/* ENTRY 30338710 | FUN_30338710 | STATUS decompiled | 21 ms */
+
+undefined4 __thiscall FUN_30338710(int param_1,bCIStream *param_2)
+
+{
+  int iVar1;
+  bool bVar2;
+  bCObjectRefBase *pbVar3;
+  uint uVar4;
+  bool local_1d;
+  ushort local_1c [2];
+  uint local_18;
+  uint local_14;
+  bCAccessorPropertyObject local_10 [12];
+  
+  bCIStream::operator>>(param_2,local_1c);
+  bCIStream::operator>>(param_2,&local_18);
+  local_14 = 0;
+  if (local_18 != 0) {
+    do {
+      bCAccessorPropertyObject::bCAccessorPropertyObject(local_10);
+      operator>>((bCIStream *)param_2,local_10);
+      pbVar3 = bCAccessorPropertyObject::GetNativeObject(local_10);
+      bVar2 = false;
+      if (((*(ushort *)(pbVar3 + 0x3a) < 0x1e) && (*(int *)(pbVar3 + 0x10) != 1)) ||
+         (pbVar3[0x38] == (bCObjectRefBase)0x1)) {
+        bVar2 = true;
+      }
+      iVar1 = *(int *)(param_1 + 0x18);
+      pbVar3[0x44] = (bCObjectRefBase)0x0;
+      if (!bVar2 && iVar1 != 0xc) {
+        thunk_FUN_3033f140(pbVar3);
+      }
+      bCAccessorPropertyObject::~bCAccessorPropertyObject(local_10);
+      local_14 = local_14 + 1;
+    } while (local_14 < local_18);
+  }
+  if (local_1c[0] < 0x3f) {
+    if (0x28 < local_1c[0]) {
+      bCIStream::operator>>(param_2,&local_18);
+      uVar4 = 0;
+      if (local_18 != 0) {
+        do {
+          bCAccessorPropertyObject::bCAccessorPropertyObject(local_10);
+          operator>>((bCIStream *)param_2,local_10);
+          bCAccessorPropertyObject::~bCAccessorPropertyObject(local_10);
+          uVar4 = uVar4 + 1;
+        } while (uVar4 < local_18);
+      }
+    }
+    if (0x3d < local_1c[0]) {
+      bCIStream::operator>>(param_2,&local_1d);
+    }
+  }
+  return 1;
+}
+
+

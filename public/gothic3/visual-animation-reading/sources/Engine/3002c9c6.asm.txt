@@ -1,0 +1,2 @@
+; 3002c9c6 eCVisualAnimation_PS::CountSubSkeletons
+3002c9c6 | e9b5790700 | JMP 0x300a4380

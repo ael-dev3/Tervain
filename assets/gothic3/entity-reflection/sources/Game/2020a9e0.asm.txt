@@ -1,0 +1,16 @@
+; 2020a9e0 bTPropertyType<gCClock_PS,float>::vfunction12
+2020a9e0 | 56 | PUSH ESI
+2020a9e1 | 8bf1 | MOV ESI,ECX
+2020a9e3 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+2020a9e7 | 85c9 | TEST ECX,ECX
+2020a9e9 | 7506 | JNZ 0x2020a9f1
+2020a9eb | 33c0 | XOR EAX,EAX
+2020a9ed | 5e | POP ESI
+2020a9ee | c20400 | RET 0x4
+; 2020a9f1 LAB_2020a9f1
+2020a9f1 | 8b01 | MOV EAX,dword ptr [ECX]
+2020a9f3 | 8b10 | MOV EDX,dword ptr [EAX]
+2020a9f5 | ffd2 | CALL EDX
+2020a9f7 | 03461c | ADD EAX,dword ptr [ESI + 0x1c]
+2020a9fa | 5e | POP ESI
+2020a9fb | c20400 | RET 0x4

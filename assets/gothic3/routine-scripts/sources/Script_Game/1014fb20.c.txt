@@ -1,0 +1,17 @@
+/* ENTRY 1014fb20 | FUN_1014fb20 | STATUS decompiled | 5 ms */
+
+void FUN_1014fb20(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Player\\Player_States\\PS_HUD.cpp");
+  bCString::bCString(local_8,"GetQualityBonus");
+  thunk_FUN_10017a50(local_8,thunk_FUN_1007f000,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

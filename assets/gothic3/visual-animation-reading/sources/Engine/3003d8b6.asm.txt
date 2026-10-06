@@ -1,0 +1,2 @@
+; 3003d8b6 eCVisualAnimation_PS::AccessBonesBreakMaxTorque
+3003d8b6 | e975440200 | JMP 0x30061d30

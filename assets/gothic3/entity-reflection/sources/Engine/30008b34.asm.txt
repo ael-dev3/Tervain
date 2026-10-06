@@ -1,0 +1,4 @@
+; 30008b34 ?Read@eCIlluminated_PS@@MAE?AW4bEResult@@AAVbCIStream@@@Z
+30008b34 | e967a12100 | JMP 0x30222ca0
+; 30008b39 eCGUIManager::SetDesktopWindow
+; 30008b39 Ordinal_13223

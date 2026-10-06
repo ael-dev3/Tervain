@@ -1,0 +1,2 @@
+; 20024636 bTPropertyType<gCDialog_PS,float>::vfunction6
+20024636 | e995a11e00 | JMP 0x2020e7d0

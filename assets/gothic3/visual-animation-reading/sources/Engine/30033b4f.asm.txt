@@ -1,0 +1,2 @@
+; 30033b4f eCNode::GetChildrenCount
+30033b4f | e95ccb4400 | JMP 0x304806b0

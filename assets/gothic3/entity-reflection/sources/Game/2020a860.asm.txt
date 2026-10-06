@@ -1,0 +1,3 @@
+; 2020a860 bTPropertyType<gCClock_PS,float>::vfunction5
+2020a860 | 8b4118 | MOV EAX,dword ptr [ECX + 0x18]
+2020a863 | c3 | RET

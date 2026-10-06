@@ -1,0 +1,4 @@
+; 3001af2d ?GetPropertySetType@eCCollisionShapeBase_PS@@UBE?AW4eEPropertySetType@@XZ
+3001af2d | e9de633200 | JMP 0x30341310
+; 3001af32 eCStaticSpotLight_PS::AccessConeFallOff
+; 3001af32 Ordinal_2599

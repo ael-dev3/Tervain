@@ -1,0 +1,24 @@
+/* ENTRY 2018e590 | FUN_2018e590 | STATUS decompiled | 14 ms */
+
+eCEntityPropertySet * __fastcall FUN_2018e590(int param_1)
+
+{
+  gCInventoryStack *pgVar1;
+  eCTemplateEntity *this;
+  eCEntityPropertySet *peVar2;
+  
+  if (*(gCInventory_PS **)(param_1 + 0x38) != (gCInventory_PS *)0x0) {
+    pgVar1 = gCInventory_PS::GetStack(*(gCInventory_PS **)(param_1 + 0x38),*(int *)(param_1 + 0x3c))
+    ;
+    if (pgVar1 != (gCInventoryStack *)0x0) {
+      this = eCTemplateEntityProxy::GetEntity((eCTemplateEntityProxy *)(pgVar1 + 0xc));
+      if (this != (eCTemplateEntity *)0x0) {
+        peVar2 = eCEntity::GetPropertySet((eCEntity *)this,0x30);
+        return peVar2;
+      }
+    }
+  }
+  return (eCEntityPropertySet *)0x0;
+}
+
+

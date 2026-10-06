@@ -1,0 +1,2 @@
+; 20014894 ?ProcessControledTranslation@gCCharacterMovement_PS@@IAEXXZ
+20014894 | e907832100 | JMP 0x2022cba0

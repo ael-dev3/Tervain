@@ -1,0 +1,13 @@
+/* ENTRY 100ab010 | FUN_100ab010 | STATUS decompiled | 2 ms */
+
+void FUN_100ab010(void)
+
+{
+  float10 in_ST0;
+  
+  FUN_100bd9a8((double)in_ST0);
+  FUN_100ab02d();
+  return;
+}
+
+

@@ -1,0 +1,40 @@
+/* ENTRY 3000310c | eCVisualAnimation_PS::SetMotion | STATUS decompiled | 12 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::SetMotion(enum
+   eCWrapper_emfx2Actor::eEMotionType,class eCResourceAnimationMotion_PS *) */
+
+void __thiscall
+eCVisualAnimation_PS::SetMotion
+          (eCVisualAnimation_PS *this,eEMotionType param_1,eCResourceAnimationMotion_PS *param_2)
+
+{
+  undefined1 *this_00;
+  int iVar1;
+  eCWrapper_emfx2Actor *peVar2;
+  eCResourceAnimationMotion_PS *peVar3;
+  eCWrapper_emfx2Actor *this_01;
+  float fVar4;
+  
+                    /* 0x310c  13828
+                       ?SetMotion@eCVisualAnimation_PS@@QAEXW4eEMotionType@eCWrapper_emfx2Actor@@PAVeCResourceAnimationMotion_PS@@@Z
+                        */
+  this_00 = &this[7].eCEntityPropertySet_data.field_0x4;
+  peVar2 = eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+  if ((peVar2 != (eCWrapper_emfx2Actor *)0x0) &&
+     (param_1 < *(eEMotionType *)&this[0xb].eCEntityPropertySet_data.offset_0xc)) {
+    iVar1 = param_1 * 0xc;
+    peVar3 = eSMotionDesc::GetMotion
+                       ((eSMotionDesc *)(this[0xb].eCEntityPropertySet_data.offset_0x8 + iVar1));
+    if (peVar3 != (eCResourceAnimationMotion_PS *)0x0) {
+      fVar4 = 0.0;
+      this_01 = (eCWrapper_emfx2Actor *)
+                eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+      eCWrapper_emfx2Actor::StopMotion(this_01,param_1,fVar4);
+    }
+    eSMotionDesc::SetMotion
+              ((eSMotionDesc *)(this[0xb].eCEntityPropertySet_data.offset_0x8 + iVar1),param_2);
+  }
+  return;
+}
+
+

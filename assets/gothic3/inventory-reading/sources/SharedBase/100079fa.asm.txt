@@ -1,0 +1,6 @@
+; 100079fa ?Create@bCObjectRefBase@@UAE?AW4bEResult@@XZ
+100079fa | e9b12a0400 | JMP 0x1004a4b0
+; 100079ff LAB_100079ff
+100079ff | e9acb50d00 | JMP 0x100e2fb0
+; 10007a04 bCUnitedRay::operator*=
+; 10007a04 Ordinal_1211

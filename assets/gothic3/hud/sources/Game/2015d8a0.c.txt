@@ -1,0 +1,11 @@
+/* ENTRY 2015d8a0 | gCHUDDialog::gCHUDDialog | STATUS decompiled | 41 ms */
+
+gCHUDDialog * __thiscall gCHUDDialog::gCHUDDialog(gCHUDDialog *this,CFFGFCDialog *param_1)
+
+{
+  CFFGFCDialog::CFFGFCDialog((CFFGFCDialog *)this,param_1);
+  this->vftablePtr = &vftable;
+  return this;
+}
+
+

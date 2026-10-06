@@ -1,0 +1,17 @@
+/* ENTRY 10148d30 | FUN_10148d30 | STATUS decompiled | 7 ms */
+
+void FUN_10148d30(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Magic\\Magic_States\\ZS_Summoned.cpp");
+  bCString::bCString(local_8,"ZS_IceBomb_Loop");
+  thunk_FUN_1001db60(local_8,&LAB_100025e5,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

@@ -1,0 +1,15 @@
+/* ENTRY 20221d40 | FUN_20221d40 | STATUS decompiled | 2 ms */
+
+void __fastcall FUN_20221d40(int *param_1)
+
+{
+  eCEntity *this;
+  eEPropertySetType eVar1;
+  
+  eVar1 = 0x16;
+  this = (eCEntity *)(**(code **)(*param_1 + 0x6c))();
+  eCEntity::HasPropertySet(this,eVar1);
+  return;
+}
+
+

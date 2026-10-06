@@ -1,0 +1,36 @@
+/* ENTRY 30734a90 | bTPropertyType<eCVisualAnimation_PS,bTPropertyObject<eCSpringAndDamperEffector,eCEffector>_>::~bTPropertyType<eCVisualAnimation_PS,bTPropertyObject<eCSpringAndDamperEffector,eCEffector>_> | STATUS decompiled | 17 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<eCVisualAnimation_PS,bTPropertyObject<eCSpringAndDamperEffector,eCEffector>_>::
+~bTPropertyType<eCVisualAnimation_PS,bTPropertyObject<eCSpringAndDamperEffector,eCEffector>_>
+          (bTPropertyType<eCVisualAnimation_PS,bTPropertyObject<eCSpringAndDamperEffector,eCEffector>_>
+           *this)
+
+{
+  bTPropertyType<eCVisualAnimation_PS,bTPropertyObject<eCSpringAndDamperEffector,eCEffector>_>
+  *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"ClothEffector");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&eCVisualAnimation_PS::ms_PropertyMember_m_poClothEffector,
+             (bCString *)&local_4,3);
+  _ms_PropertyMember_m_poClothEffector = &vftable;
+  DAT_30ada978 = bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet>();
+  _DAT_30ada97c = 0x80;
+  _DAT_30ada980 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&eCVisualAnimation_PS::ms_PropertyMember_m_poClothEffector);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_30ada978,
+             (bCPropertyTypeBase *)&eCVisualAnimation_PS::ms_PropertyMember_m_poClothEffector);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyObject<eCSpringAndDamperEffector,eCEffector>_>::
+          ~bTPropertyTypeOnly<bTPropertyObject<eCSpringAndDamperEffector,eCEffector>_>);
+  return;
+}
+
+

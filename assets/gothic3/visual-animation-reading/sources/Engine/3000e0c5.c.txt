@@ -1,0 +1,12 @@
+/* ENTRY 3000e0c5 | eCPhysicObject::GetActor | STATUS decompiled | 2 ms */
+
+/* public: class NxActor & __thiscall eCPhysicObject::GetActor(void) */
+
+NxActor * __thiscall eCPhysicObject::GetActor(eCPhysicObject *this)
+
+{
+                    /* 0xe0c5  6099  ?GetActor@eCPhysicObject@@QAEAAVNxActor@@XZ */
+  return (this->eCPhysicObject_data).offset_0x4;
+}
+
+

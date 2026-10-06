@@ -1,0 +1,19 @@
+; 2007f190 FUN_2007f190
+2007f190 | 56 | PUSH ESI
+2007f191 | 8bf1 | MOV ESI,ECX
+2007f193 | 8b06 | MOV EAX,dword ptr [ESI]
+2007f195 | 8b5058 | MOV EDX,dword ptr [EAX + 0x58]
+2007f198 | 6a00 | PUSH 0x0
+2007f19a | 6808b26520 | PUSH 0x2065b208
+2007f19f | ffd2 | CALL EDX
+2007f1a1 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+2007f1a5 | 8a08 | MOV CL,byte ptr [EAX]
+2007f1a7 | 8b16 | MOV EDX,dword ptr [ESI]
+2007f1a9 | 8b425c | MOV EAX,dword ptr [EDX + 0x5c]
+2007f1ac | 6a00 | PUSH 0x0
+2007f1ae | 884e54 | MOV byte ptr [ESI + 0x54],CL
+2007f1b1 | 6808b26520 | PUSH 0x2065b208
+2007f1b6 | 8bce | MOV ECX,ESI
+2007f1b8 | ffd0 | CALL EAX
+2007f1ba | 5e | POP ESI
+2007f1bb | c20400 | RET 0x4

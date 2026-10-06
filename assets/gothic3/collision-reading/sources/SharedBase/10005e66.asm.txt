@@ -1,0 +1,4 @@
+; 10005e66 ?Merge@bCBox@@QAEXABV1@@Z
+10005e66 | e9954b0200 | JMP 0x1002aa00
+; 10005e6b bCMatrix::GetTranslation
+; 10005e6b Ordinal_3174

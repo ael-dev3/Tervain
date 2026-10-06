@@ -1,0 +1,4 @@
+; 100019bf ?GetPartyLeader@PSParty@@QBE?AVEntity@@XZ
+100019bf | e93c560200 | JMP 0x10027000
+; 100019c4 PSNpc::GetPrimaryPoseExt
+; 100019c4 Ordinal_1631

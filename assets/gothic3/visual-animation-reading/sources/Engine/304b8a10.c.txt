@@ -1,0 +1,40 @@
+/* ENTRY 304b8a10 | FUN_304b8a10 | STATUS decompiled | 12 ms */
+
+undefined4 __thiscall FUN_304b8a10(eCEntity *param_1,eCEntityPropertySet *param_2)
+
+{
+  uint *puVar1;
+  ushort uVar2;
+  bool bVar3;
+  char extraout_AL;
+  int iVar4;
+  undefined3 extraout_var;
+  undefined3 extraout_var_00;
+  undefined3 uVar5;
+  uint uVar6;
+  
+  iVar4 = eCEntity::GetPropertySetIndex(param_1,param_2);
+  bVar3 = eCEntity::RemovePropertySetAt(param_1,iVar4);
+  uVar5 = extraout_var;
+  if (bVar3) {
+    puVar1 = &(param_1->eCEntity_data).offset_0xc;
+    *puVar1 = *puVar1 & 0xfbffffff;
+    uVar6 = 0;
+    if ((param_1->eCEntity_data).offset_0x10e != 0) {
+      while ((**(code **)(**(int **)((param_1->eCEntity_data).offset_0x110 + (uVar6 & 0xffff) * 4) +
+                         0x84))(), extraout_AL == '\0') {
+        uVar2 = (param_1->eCEntity_data).offset_0x10e;
+        uVar6 = uVar6 + 1;
+        if ((int)(uint)uVar2 <= (int)uVar6) {
+          return CONCAT31((uint3)(byte)(uVar2 >> 8),1);
+        }
+      }
+      puVar1 = &(param_1->eCEntity_data).offset_0xc;
+      *puVar1 = *puVar1 | 0x4000000;
+      uVar5 = extraout_var_00;
+    }
+  }
+  return CONCAT31(uVar5,1);
+}
+
+

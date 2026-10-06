@@ -1,0 +1,12 @@
+/* ENTRY 3032f480 | bTPropertyContainer<eERigidbody_Flag>::vfunction8 | STATUS decompiled | 2 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<eERigidbody_Flag>::vfunction8
+          (bTPropertyContainer<eERigidbody_Flag> *this,int param_1)
+
+{
+  (this->bTPropertyContainer<eERigidbody_Flag>_data).offset_0x0 = *(undefined4 *)(param_1 + 4);
+  return 1;
+}
+
+

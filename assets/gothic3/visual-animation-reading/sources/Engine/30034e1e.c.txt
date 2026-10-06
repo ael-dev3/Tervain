@@ -1,0 +1,12 @@
+/* ENTRY 30034e1e | eCVisualAnimation_PS::GetBoneJointSpringDamping | STATUS decompiled | 10 ms */
+
+/* public: float const & __thiscall eCVisualAnimation_PS::GetBoneJointSpringDamping(void)const  */
+
+float * __thiscall eCVisualAnimation_PS::GetBoneJointSpringDamping(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x34e1e  6283  ?GetBoneJointSpringDamping@eCVisualAnimation_PS@@QBEABMXZ */
+  return (float *)&this[4].eCEntityPropertySet_data;
+}
+
+

@@ -1,0 +1,16 @@
+; 1004a3d0 FUN_1004a3d0
+1004a3d0 | 8b4104 | MOV EAX,dword ptr [ECX + 0x4]
+1004a3d3 | 85c0 | TEST EAX,EAX
+1004a3d5 | 7409 | JZ 0x1004a3e0
+1004a3d7 | 8b10 | MOV EDX,dword ptr [EAX]
+1004a3d9 | 8bc8 | MOV ECX,EAX
+1004a3db | 8b4230 | MOV EAX,dword ptr [EDX + 0x30]
+1004a3de | ffe0 | JMP EAX
+1004a3e0 | 8b5108 | MOV EDX,dword ptr [ECX + 0x8]
+1004a3e3 | 8d4201 | LEA EAX,[EDX + 0x1]
+1004a3e6 | 33c2 | XOR EAX,EDX
+1004a3e8 | 25ffffff7f | AND EAX,0x7fffffff
+1004a3ed | 33c2 | XOR EAX,EDX
+1004a3ef | 894108 | MOV dword ptr [ECX + 0x8],EAX
+1004a3f2 | 25ffffff7f | AND EAX,0x7fffffff
+1004a3f7 | c3 | RET

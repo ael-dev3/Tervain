@@ -1,0 +1,16 @@
+/* ENTRY 2000af65 | gCNavigationAdmin::GetNavigationPSInROIList | STATUS decompiled | 5 ms */
+
+/* public: class bTValArray<class gCNavigation_PS *> const & __thiscall
+   gCNavigationAdmin::GetNavigationPSInROIList(void) */
+
+bTValArray<gCNavigation_PS*> * __thiscall
+gCNavigationAdmin::GetNavigationPSInROIList(gCNavigationAdmin *this)
+
+{
+                    /* 0xaf65  3870
+                       ?GetNavigationPSInROIList@gCNavigationAdmin@@QAEABV?$bTValArray@PAVgCNavigation_PS@@@@XZ
+                        */
+  return (bTValArray<gCNavigation_PS*> *)&(this->gCNavigationAdmin_data).offset_0x40;
+}
+
+

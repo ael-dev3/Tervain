@@ -1,0 +1,13 @@
+/* ENTRY 2001b6b7 | gCCharacterControl_PS::ClearVolatileFrameStates | STATUS decompiled | 7 ms */
+
+/* protected: void __thiscall gCCharacterControl_PS::ClearVolatileFrameStates(void) */
+
+void __thiscall gCCharacterControl_PS::ClearVolatileFrameStates(gCCharacterControl_PS *this)
+
+{
+                    /* 0x1b6b7  2085  ?ClearVolatileFrameStates@gCCharacterControl_PS@@IAEXXZ */
+  (this->gCCharacterControl_PS_data).offset_0x54 = 0;
+  return;
+}
+
+

@@ -1,0 +1,4 @@
+; 10004d81 ?GetTransformed@bCOrientedBox@@QBEXAAV1@ABVbCMatrix@@@Z
+10004d81 | e92a470600 | JMP 0x100694b0
+; 10004d86 bCBox::GetTransformed
+; 10004d86 Ordinal_3101

@@ -1,0 +1,27 @@
+/* ENTRY 20320af0 | FUN_20320af0 | STATUS decompiled | 7 ms */
+
+undefined4 FUN_20320af0(void)
+
+{
+  bCString *pbVar1;
+  bCPropertyObjectSingleton *this;
+  bCPropertyObjectBase *pbVar2;
+  int *piVar3;
+  undefined4 uVar4;
+  bCPropertyObjectBase *local_4;
+  
+  bCAccessorCreator::bCAccessorCreator((bCAccessorCreator *)&local_4);
+  pbVar1 = (bCString *)bTPropertyObjectType<gCAttribute,bCObjectRefBase>::vfunction1();
+  this = bCPropertyObjectSingleton::GetInstance();
+  local_4 = bCPropertyObjectSingleton::QueryNewObject(this,pbVar1);
+  bCAccessorCreator::SetInstance((bCAccessorCreator *)&local_4,local_4);
+  pbVar2 = bCAccessorCreator::operator->((bCAccessorCreator *)&local_4);
+  piVar3 = (int *)(*(code *)**(undefined4 **)pbVar2)();
+  (**(code **)(*piVar3 + 0x20))();
+  pbVar2 = bCAccessorCreator::operator->((bCAccessorCreator *)&local_4);
+  uVar4 = (*(code *)**(undefined4 **)pbVar2)();
+  bCAccessorCreator::~bCAccessorCreator((bCAccessorCreator *)&local_4);
+  return uVar4;
+}
+
+

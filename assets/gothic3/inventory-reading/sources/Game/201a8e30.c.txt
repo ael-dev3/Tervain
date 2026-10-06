@@ -1,0 +1,16 @@
+/* ENTRY 201a8e30 | FUN_201a8e30 | STATUS decompiled | 10 ms */
+
+void __fastcall FUN_201a8e30(gCInventory_PS *param_1)
+
+{
+  eCEntityProxy::SetEntity
+            ((eCEntityProxy *)&(param_1->gCInventory_PS_data).field_0x40,(eCEntity *)0x0);
+  eCEntityProxy::SetEntity
+            ((eCEntityProxy *)&(param_1->gCInventory_PS_data).field_0x5c,(eCEntity *)0x0);
+  eCEntityProxy::SetEntity
+            ((eCEntityProxy *)&(param_1->gCInventory_PS_data).field_0x78,(eCEntity *)0x0);
+  gCInventory_PS::ClearDefaultItems(param_1);
+  return;
+}
+
+

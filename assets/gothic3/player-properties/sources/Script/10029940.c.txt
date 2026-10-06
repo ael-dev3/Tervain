@@ -1,0 +1,17 @@
+/* ENTRY 10029940 | FUN_10029940 | STATUS decompiled | 6 ms */
+
+void __thiscall FUN_10029940(void *this,int param_1)
+
+{
+  void *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"SP");
+  if (*(gCPlayerMemory_PS **)this != (gCPlayerMemory_PS *)0x0) {
+    gCPlayerMemory_PS::SetMaximum(*(gCPlayerMemory_PS **)this,(bCString *)&local_4,param_1);
+  }
+  bCString::~bCString((bCString *)&local_4);
+  return;
+}
+
+

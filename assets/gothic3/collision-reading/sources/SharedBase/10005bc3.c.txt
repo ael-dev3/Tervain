@@ -1,0 +1,21 @@
+/* ENTRY 10005bc3 | bCBox::operator* | STATUS decompiled | 4 ms */
+
+/* public: class bCBox __thiscall bCBox::operator*(class bCMatrix const &)const  */
+
+bCMatrix * __thiscall bCBox::operator*(bCBox *this,bCMatrix *param_1)
+
+{
+  bCMatrix *in_stack_00000008;
+  
+                    /* 0x5bc3  903  ??DbCBox@@QBE?AV0@ABVbCMatrix@@@Z */
+  *(undefined4 *)param_1 = *(undefined4 *)this;
+  *(undefined4 *)(param_1 + 4) = *(undefined4 *)(this + 4);
+  *(undefined4 *)(param_1 + 8) = *(undefined4 *)(this + 8);
+  *(undefined4 *)(param_1 + 0xc) = *(undefined4 *)(this + 0xc);
+  *(undefined4 *)(param_1 + 0x10) = *(undefined4 *)(this + 0x10);
+  *(undefined4 *)(param_1 + 0x14) = *(undefined4 *)(this + 0x14);
+  Transform((bCBox *)param_1,in_stack_00000008);
+  return param_1;
+}
+
+

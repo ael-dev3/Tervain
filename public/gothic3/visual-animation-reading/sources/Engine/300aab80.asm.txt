@@ -1,0 +1,9 @@
+; 300aab80 bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet>::~bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet>
+300aab80 | 56 | PUSH ESI
+300aab81 | 8bf1 | MOV ESI,ECX
+300aab83 | 8d4e18 | LEA ECX,[ESI + 0x18]
+300aab86 | c706d4f78130 | MOV dword ptr [ESI],0x3081f7d4
+300aab8c | ff1538caaf30 | CALL dword ptr [0x30afca38]
+300aab92 | 8bce | MOV ECX,ESI
+300aab94 | 5e | POP ESI
+300aab95 | ff2534caaf30 | JMP dword ptr [0x30afca34]

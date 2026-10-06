@@ -1,0 +1,12 @@
+/* ENTRY 30024b9a | eCVisualAnimation_PS::AccessPhysicsControled | STATUS decompiled | 11 ms */
+
+/* public: bool & __thiscall eCVisualAnimation_PS::AccessPhysicsControled(void) */
+
+bool * __thiscall eCVisualAnimation_PS::AccessPhysicsControled(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x24b9a  2982  ?AccessPhysicsControled@eCVisualAnimation_PS@@QAEAA_NXZ */
+  return (bool *)&this[1].eCEntityPropertySet_data.field_0x4;
+}
+
+

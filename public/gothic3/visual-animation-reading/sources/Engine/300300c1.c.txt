@@ -1,0 +1,32 @@
+/* ENTRY 300300c1 | bTPOPureSmartPtr<eCSpringAndDamperEffector>::~bTPOPureSmartPtr<eCSpringAndDamperEffector> | STATUS decompiled | 14 ms */
+
+void __thiscall
+bTPOPureSmartPtr<eCSpringAndDamperEffector>::~bTPOPureSmartPtr<eCSpringAndDamperEffector>
+          (bTPOPureSmartPtr<eCSpringAndDamperEffector> *this)
+
+{
+  bCObjectRefBase *pbVar1;
+  ulong uVar2;
+  
+  pbVar1 = (this->bTPOPureSmartPtr<eCSpringAndDamperEffector>_data).offset_0x4;
+  this->vftablePtr = &vftable;
+  if (pbVar1 != (bCObjectRefBase *)0x0) {
+    uVar2 = bCObjectRefBase::GetReferenceCount((bCObjectRefBase *)pbVar1);
+    if (uVar2 == 1) {
+      (**(code **)(*(int *)(this->bTPOPureSmartPtr<eCSpringAndDamperEffector>_data).offset_0x4 +
+                  0x14))();
+    }
+  }
+  pbVar1 = (this->bTPOPureSmartPtr<eCSpringAndDamperEffector>_data).offset_0x4;
+  if (pbVar1 != (bCObjectRefBase *)0x0) {
+    bCObjectRefBase::SetPropertyObject((bCObjectRefBase *)pbVar1,(bCPropertyObjectBase *)0x0);
+    bCObjectRefBase::ReleaseVirtualReference((bCObjectRefBase *)pbVar1);
+  }
+  (this->bTPOPureSmartPtr<eCSpringAndDamperEffector>_data).offset_0x4 = (bCObjectRefBase *)0x0;
+                    /* WARNING: Could not recover jumptable at 0x300ac8aa. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCPropertyObjectBase::~bCPropertyObjectBase((bCPropertyObjectBase *)this);
+  return;
+}
+
+

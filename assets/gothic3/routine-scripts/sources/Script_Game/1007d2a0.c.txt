@@ -1,0 +1,186 @@
+/* ENTRY 1007d2a0 | FUN_1007d2a0 | STATUS decompiled | 207 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined4 __thiscall
+FUN_1007d2a0(undefined4 param_1,bTObjStack<gScriptRunTimeSingleState> *param_2,
+            gCScriptProcessingUnit *param_3)
+
+{
+  int iVar1;
+  bool bVar2;
+  eCEntity *peVar3;
+  PSCamera *this;
+  undefined4 *puVar4;
+  bCString *pbVar5;
+  gCScriptAdmin *pgVar6;
+  Entity aEStack_360 [148];
+  undefined4 uStack_2cc;
+  gEAIMode *pgVar7;
+  undefined1 uVar8;
+  bTObjStack<gScriptRunTimeSingleState> *pbVar9;
+  gCScriptProcessingUnit *pgVar10;
+  PSCamera local_2a8 [3];
+  bool bStack_2a5;
+  gEAIMode local_2a4;
+  Entity local_2a0 [4];
+  PropertyAIMode local_29c [20];
+  PSFocus aPStack_288 [144];
+  Entity aEStack_1f8 [168];
+  Entity local_150 [168];
+  Entity aEStack_a8 [168];
+  
+  peVar3 = gCScriptProcessingUnit::GetSelfEntity(param_3);
+  Entity::Entity(local_2a0,peVar3);
+  peVar3 = gCScriptProcessingUnit::GetTargetEntity(param_3);
+  Entity::Entity(local_150,peVar3);
+  if ((_DAT_102223cc & 1) == 0) {
+    _DAT_102223cc = _DAT_102223cc | 1;
+    DAT_102223c4 = DAT_102223c8;
+    DAT_102223c8 = DAT_102223c8 + 1;
+  }
+  if (*(int *)(*(int *)param_2 + -0x18 + *(int *)(param_2 + 4) * 0x18) <= DAT_102223c4) {
+    *(int *)(*(int *)param_2 + -0x18 + *(int *)(param_2 + 4) * 0x18) = DAT_102223c4 + 1;
+    local_2a4 = 6;
+    PSRoutine::PropertyAIMode::operator=(local_29c,&local_2a4);
+    bVar2 = true;
+    uVar8 = 2;
+    pgVar7 = &local_2a4;
+    uStack_2cc = 0x1007d35b;
+    this = (PSCamera *)Entity::GetCamera();
+    uStack_2cc = 0x1007d363;
+    PSCamera::SetMode(this,(gECameraMode)pgVar7,(bool)uVar8,bVar2);
+    PSCamera::~PSCamera(local_2a8);
+    thunk_FUN_1001d8b0();
+    bCString::operator=((bCString *)(*(int *)param_2 + -0x14 + *(int *)(param_2 + 4) * 0x18),
+                        "_AI_ChangeAction");
+    *(undefined1 *)(*(int *)param_2 + -0x10 + *(int *)(param_2 + 4) * 0x18) = 0;
+    puVar4 = (undefined4 *)new();
+    if (puVar4 == (undefined4 *)0x0) {
+      puVar4 = (undefined4 *)0x0;
+    }
+    else {
+                    /* inlined constructor: gSArgsFor__AI_ChangeAction::gSArgsFor__AI_ChangeAction
+                        */
+      *puVar4 = &gSArgsFor__AI_ChangeAction::vftable;
+      Entity::Entity((Entity *)(puVar4 + 1));
+      Entity::Entity((Entity *)(puVar4 + 0x2b));
+    }
+    *(undefined4 **)(*(int *)param_2 + -0xc + *(int *)(param_2 + 4) * 0x18) = puVar4;
+    iVar1 = *(int *)param_2 + *(int *)(param_2 + 4) * 0x18;
+    bCString::operator=((bCString *)(iVar1 + -8),(bCString *)(iVar1 + -0x20));
+    Entity::Entity(aEStack_1f8,(Entity *)None_exref);
+    Entity::Entity(aEStack_a8,local_2a0);
+    Entity::operator=((Entity *)(puVar4 + 1),aEStack_a8);
+    Entity::operator=((Entity *)(puVar4 + 0x2b),aEStack_1f8);
+    puVar4[0x55] = 0;
+    Entity::~Entity(aEStack_a8);
+    Entity::~Entity(aEStack_1f8);
+    pbVar5 = (bCString *)(*(int *)param_2 + *(int *)(param_2 + 4) * 0x18 + -0x14);
+    pbVar9 = param_2;
+    pgVar10 = param_3;
+    pgVar6 = (gCScriptAdmin *)thunk_FUN_10015630();
+    bVar2 = gCScriptAdmin::RunScriptFunction(pgVar6,pbVar5,pbVar9,pgVar10);
+    if (!bVar2) goto LAB_1007d47d;
+  }
+  if ((_DAT_102223cc & 2) == 0) {
+    _DAT_102223cc = _DAT_102223cc | 2;
+    DAT_102223c0 = DAT_102223c8;
+    DAT_102223c8 = DAT_102223c8 + 1;
+  }
+  if (*(int *)(*(int *)param_2 + -0x18 + *(int *)(param_2 + 4) * 0x18) <= DAT_102223c0) {
+    *(int *)(*(int *)param_2 + -0x18 + *(int *)(param_2 + 4) * 0x18) = DAT_102223c0 + 1;
+    thunk_FUN_1001d8b0();
+    bCString::operator=((bCString *)(*(int *)param_2 + -0x14 + *(int *)(param_2 + 4) * 0x18),
+                        "_AI_HoldInventoryItems");
+    *(undefined1 *)(*(int *)param_2 + -0x10 + *(int *)(param_2 + 4) * 0x18) = 0;
+    puVar4 = (undefined4 *)new();
+    if (puVar4 == (undefined4 *)0x0) {
+      puVar4 = (undefined4 *)0x0;
+    }
+    else {
+                    /* inlined constructor:
+                       gSArgsFor__AI_HoldInventoryItems::gSArgsFor__AI_HoldInventoryItems */
+      *puVar4 = &gSArgsFor__AI_HoldInventoryItems::vftable;
+      Entity::Entity((Entity *)(puVar4 + 1));
+    }
+    *(undefined4 **)(*(int *)param_2 + -0xc + *(int *)(param_2 + 4) * 0x18) = puVar4;
+    iVar1 = *(int *)param_2 + *(int *)(param_2 + 4) * 0x18;
+    bCString::operator=((bCString *)(iVar1 + -8),(bCString *)(iVar1 + -0x20));
+    Entity::Entity(aEStack_1f8,local_2a0);
+    Entity::operator=((Entity *)(puVar4 + 1),aEStack_1f8);
+    puVar4[0x2b] = 0xffffffff;
+    puVar4[0x2c] = 0xffffffff;
+    Entity::~Entity(aEStack_1f8);
+    pbVar5 = (bCString *)(*(int *)param_2 + *(int *)(param_2 + 4) * 0x18 + -0x14);
+    pbVar9 = param_2;
+    pgVar10 = param_3;
+    pgVar6 = (gCScriptAdmin *)thunk_FUN_10015630();
+    bVar2 = gCScriptAdmin::RunScriptFunction(pgVar6,pbVar5,pbVar9,pgVar10);
+    if (!bVar2) goto LAB_1007d47d;
+  }
+  if ((_DAT_102223cc & 4) == 0) {
+    _DAT_102223cc = _DAT_102223cc | 4;
+    DAT_102223bc = DAT_102223c8;
+    DAT_102223c8 = DAT_102223c8 + 1;
+  }
+  if (*(int *)(*(int *)param_2 + -0x18 + *(int *)(param_2 + 4) * 0x18) <= DAT_102223bc) {
+    *(int *)(*(int *)param_2 + -0x18 + *(int *)(param_2 + 4) * 0x18) = DAT_102223bc + 1;
+    PSFocus::SetFocusEntity(aPStack_288,(Entity *)None_exref);
+    local_2a4 = 0;
+    PSFocus::PropertyFocusLookAtMode::operator=((PropertyFocusLookAtMode *)aPStack_288,&local_2a4);
+    bStack_2a5 = false;
+    PSFocus::PropertyEnableRangeRating::operator=
+              ((PropertyEnableRangeRating *)aPStack_288,&bStack_2a5);
+    Entity::SetLookAtTarget(local_2a0,(Entity *)None_exref);
+    Entity::SetAlignmentTarget(local_2a0,(Entity *)None_exref);
+    Entity::Entity(aEStack_360,local_2a0);
+    thunk_FUN_1000bae0();
+    thunk_FUN_1001d8b0();
+    bCString::operator=((bCString *)(*(int *)param_2 + -0x14 + *(int *)(param_2 + 4) * 0x18),
+                        "_AI_StandUp");
+    *(undefined1 *)(*(int *)param_2 + -0x10 + *(int *)(param_2 + 4) * 0x18) = 0;
+    puVar4 = (undefined4 *)new();
+    if (puVar4 == (undefined4 *)0x0) {
+      puVar4 = (undefined4 *)0x0;
+    }
+    else {
+                    /* inlined constructor: gSArgsFor__AI_StandUp::gSArgsFor__AI_StandUp */
+      *puVar4 = &gSArgsFor__AI_StandUp::vftable;
+      Entity::Entity((Entity *)(puVar4 + 1));
+    }
+    *(undefined4 **)(*(int *)param_2 + -0xc + *(int *)(param_2 + 4) * 0x18) = puVar4;
+    iVar1 = *(int *)param_2 + *(int *)(param_2 + 4) * 0x18;
+    bCString::operator=((bCString *)(iVar1 + -8),(bCString *)(iVar1 + -0x20));
+    Entity::Entity(aEStack_1f8,local_2a0);
+    Entity::operator=((Entity *)(puVar4 + 1),aEStack_1f8);
+    Entity::~Entity(aEStack_1f8);
+    pbVar5 = (bCString *)(*(int *)param_2 + *(int *)(param_2 + 4) * 0x18 + -0x14);
+    pbVar9 = param_2;
+    pgVar6 = (gCScriptAdmin *)thunk_FUN_10015630();
+    bVar2 = gCScriptAdmin::RunScriptFunction(pgVar6,pbVar5,pbVar9,param_3);
+    if (!bVar2) {
+LAB_1007d47d:
+      Entity::~Entity(local_150);
+      Entity::~Entity(local_2a0);
+      return 0;
+    }
+  }
+  if ((_DAT_102223cc & 8) == 0) {
+    _DAT_102223cc = _DAT_102223cc | 8;
+    DAT_102223b8 = DAT_102223c8;
+    DAT_102223c8 = DAT_102223c8 + 1;
+  }
+  if (*(int *)(*(int *)param_2 + -0x18 + *(int *)(param_2 + 4) * 0x18) <= DAT_102223b8) {
+    *(int *)(*(int *)param_2 + -0x18 + *(int *)(param_2 + 4) * 0x18) = DAT_102223b8 + 1;
+    uStack_2cc = 0x1007d7c0;
+    thunk_FUN_100c9560();
+    bCString::bCString((bCString *)&stack0xfffffd44,"PS_Ghost_Loop");
+    PSRoutine::SetState((PSRoutine *)local_29c);
+  }
+  Entity::~Entity(local_150);
+  Entity::~Entity(local_2a0);
+  return 1;
+}
+
+

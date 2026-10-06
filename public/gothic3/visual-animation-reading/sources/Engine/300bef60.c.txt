@@ -1,0 +1,52 @@
+/* ENTRY 300bef60 | FUN_300bef60 | STATUS decompiled | 14 ms */
+
+undefined4 __thiscall FUN_300bef60(eCVisualAnimationLoD *param_1,eCResourceDataEntity *param_2)
+
+{
+  eCResourceAnimationActor_PS *peVar1;
+  bool bVar2;
+  eCResourceBase_PS *peVar3;
+  eCResourceDataEntity *this;
+  eCWrapper_emfx2Actor *this_00;
+  eCResourceAnimationActor_PS *peVar4;
+  undefined4 uVar5;
+  TypeDescriptor *pTVar6;
+  TypeDescriptor *pTVar7;
+  undefined4 uVar8;
+  eEResourceCacheBehavior eVar9;
+  
+  eCVisualAnimationLoD::SetAnimationRenderHook(param_1,(eCAnimation_BaseRenderActor *)0x0);
+  peVar4 = (eCResourceAnimationActor_PS *)0x0;
+  (param_1->eCVisualAnimationLoD_data).offset_0xc = 0;
+  if (param_2 != (eCResourceDataEntity *)0x0) {
+    uVar8 = 0;
+    pTVar7 = &eCResourceAnimationActor_PS::RTTI_Type_Descriptor;
+    pTVar6 = &eCResourceBase_PS::RTTI_Type_Descriptor;
+    uVar5 = 0;
+    peVar3 = eCResourceDataEntity::SearchResourcePropertySet(param_2);
+    peVar4 = (eCResourceAnimationActor_PS *)FUN_30671ae7(peVar3,uVar5,pTVar6,pTVar7,uVar8);
+    if (peVar4 != (eCResourceAnimationActor_PS *)0x0) {
+      (**(code **)(*(int *)peVar4 + 0x20))();
+    }
+  }
+  peVar1 = (param_1->eCVisualAnimationLoD_data).offset_0x4;
+  if (peVar1 != (eCResourceAnimationActor_PS *)0x0) {
+    (**(code **)(*(int *)peVar1 + 0x24))();
+    (param_1->eCVisualAnimationLoD_data).offset_0x4 = (eCResourceAnimationActor_PS *)0x0;
+  }
+  (param_1->eCVisualAnimationLoD_data).offset_0x4 = peVar4;
+  if (peVar4 != (eCResourceAnimationActor_PS *)0x0) {
+    eVar9 = 1;
+    this = (eCResourceDataEntity *)(**(code **)(*(int *)peVar4 + 0x70))();
+    eCResourceDataEntity::Load(this,eVar9);
+    this_00 = (eCWrapper_emfx2Actor *)
+              eCResourceAnimationActor_PS::GetEMFX2Actor
+                        ((eCResourceAnimationActor_PS *)
+                         (param_1->eCVisualAnimationLoD_data).offset_0x4);
+    bVar2 = eCWrapper_emfx2Actor::HasMesh(this_00);
+    (param_1->eCVisualAnimationLoD_data).offset_0xc = bVar2;
+  }
+  return 1;
+}
+
+

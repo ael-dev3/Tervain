@@ -1,0 +1,2 @@
+; 100015cd bCGuid::~bCGuid
+100015cd | e96e0e0100 | JMP 0x10012440

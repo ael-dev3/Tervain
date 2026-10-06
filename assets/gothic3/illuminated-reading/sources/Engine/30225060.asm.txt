@@ -1,0 +1,5 @@
+; 30225060 bTPropertyContainer<eEStaticIlluminated>::vfunction7
+30225060 | a1481cae30 | MOV EAX,[0x30ae1c48]
+30225065 | 894104 | MOV dword ptr [ECX + 0x4],EAX
+30225068 | b801000000 | MOV EAX,0x1
+3022506d | c3 | RET

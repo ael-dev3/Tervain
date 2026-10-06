@@ -1,0 +1,14 @@
+/* ENTRY 1000287e | PSRoutine::PropertyAction::operator= | STATUS decompiled | 1 ms */
+
+/* public: class PSRoutine::PropertyAction & __thiscall PSRoutine::PropertyAction::operator=(class
+   PSRoutine::PropertyAction const &) */
+
+PropertyAction * __thiscall
+PSRoutine::PropertyAction::operator=(PropertyAction *this,PropertyAction *param_1)
+
+{
+                    /* 0x287e  252  ??4PropertyAction@PSRoutine@@QAEAAV01@ABV01@@Z */
+  return this;
+}
+
+

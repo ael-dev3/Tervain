@@ -1,0 +1,67 @@
+/* ENTRY 3020c670 | FUN_3020c670 | STATUS decompiled | 87 ms */
+
+void __thiscall FUN_3020c670(eCIlluminationAdmin *param_1,eCIlluminated_PS *param_2)
+
+{
+  int *piVar1;
+  char cVar2;
+  bCMemoryAdmin *pbVar3;
+  eCLightSet *peVar4;
+  int iVar5;
+  int iVar6;
+  void *pvVar7;
+  void *pvStack_c;
+  int iStack_8;
+  undefined4 uStack_4;
+  
+  bCCriticalSectionWin32::Acquire((bCCriticalSectionWin32 *)&DAT_30ae174c);
+  (*param_2->vftablePtr->GetEntity)(param_2);
+  iVar5 = 0;
+  pvStack_c = (void *)0x0;
+  iStack_8 = 0;
+  uStack_4 = 0;
+  if (0 < (int)(param_1->eCIlluminationAdmin_data).offset_0x4) {
+    do {
+      piVar1 = *(int **)((int)(param_1->eCIlluminationAdmin_data).offset_0x0 + iVar5 * 4);
+      if (((char)piVar1[5] == '\x01') && (cVar2 = (**(code **)(*piVar1 + 0x164))(), cVar2 != '\0'))
+      {
+        iVar6 = iStack_8 + 1;
+        thunk_FUN_30073bb0(iVar6);
+        *(int **)((int)pvStack_c + iVar6 * 4 + -4) = piVar1;
+        iStack_8 = iVar6;
+      }
+      iVar5 = iVar5 + 1;
+    } while (iVar5 < (int)(param_1->eCIlluminationAdmin_data).offset_0x4);
+    if (iStack_8 != 0) {
+      peVar4 = eCIlluminationAdmin::QueryLightSet
+                         (param_1,(bTValArray<eCDynamicLight_PS*> *)&pvStack_c);
+      eCIlluminated_PS::SetLightSet(param_2,peVar4);
+      if (peVar4 != (eCLightSet *)0x0) {
+        (**(code **)(*(int *)peVar4 + 0x24))();
+      }
+      if ((&stack0x00000000 != (undefined1 *)0xc) && (pvStack_c != (void *)0x0)) {
+        pvVar7 = pvStack_c;
+        pbVar3 = bCMemoryAdmin::GetInstance();
+        bCMemoryAdmin::Free(pbVar3,pvVar7);
+        pvStack_c = (void *)0x0;
+        iStack_8 = 0;
+        uStack_4 = 0;
+      }
+      goto LAB_3020c794;
+    }
+  }
+  eCIlluminated_PS::SetLightSet(param_2,(eCLightSet *)0x0);
+  if ((&stack0x00000000 != (undefined1 *)0xc) && (pvStack_c != (void *)0x0)) {
+    pvVar7 = pvStack_c;
+    pbVar3 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar3,pvVar7);
+    pvStack_c = (void *)0x0;
+    iStack_8 = 0;
+    uStack_4 = 0;
+  }
+LAB_3020c794:
+  bCCriticalSectionWin32::Release((bCCriticalSectionWin32 *)&DAT_30ae174c);
+  return;
+}
+
+

@@ -1,0 +1,13 @@
+; 10066be0 FUN_10066be0
+10066be0 | d9410c | FLD float ptr [ECX + 0xc]
+10066be3 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+10066be7 | dd0550740e10 | FLD double ptr [0x100e7450]
+10066bed | dcc9 | FMUL ST1
+10066bef | d9c9 | FXCH
+10066bf1 | d918 | FSTP float ptr [EAX]
+10066bf3 | d94110 | FLD float ptr [ECX + 0x10]
+10066bf6 | d8c9 | FMUL ST1
+10066bf8 | d95804 | FSTP float ptr [EAX + 0x4]
+10066bfb | d84914 | FMUL float ptr [ECX + 0x14]
+10066bfe | d95808 | FSTP float ptr [EAX + 0x8]
+10066c01 | c20400 | RET 0x4

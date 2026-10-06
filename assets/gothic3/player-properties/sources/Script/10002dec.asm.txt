@@ -1,0 +1,4 @@
+; 10002dec ?SetProtectionMissile@PSPlayerMemory@@QAEXH@Z
+10002dec | e94f740200 | JMP 0x1002a240
+; 10002df1 PSPlayerMemory::IsSetGameEvent
+; 10002df1 Ordinal_1797

@@ -1,0 +1,15 @@
+/* ENTRY 100062b2 | bCObjectRefBase::GetVersion | STATUS decompiled | 3 ms */
+
+/* public: virtual unsigned short __thiscall bCObjectRefBase::GetVersion(void)const 
+   bCObjectRefBase member function inherited by bCThreadObjectRefBase
+   bCObjectRefBase member function inherited by bCObsoleteClass
+   bCObjectRefBase member function inherited by bCEvent */
+
+ushort __thiscall bCObjectRefBase::GetVersion(bCObjectRefBase *this)
+
+{
+                    /* 0x62b2  3213  ?GetVersion@bCObjectRefBase@@UBEGXZ */
+  return 1;
+}
+
+

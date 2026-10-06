@@ -1,0 +1,28 @@
+/* ENTRY 202bcb30 | FUN_202bcb30 | STATUS decompiled | 19 ms */
+
+void __fastcall FUN_202bcb30(int param_1)
+
+{
+  int iVar1;
+  bool bVar2;
+  eCEntity *this;
+  int iVar3;
+  
+  *(undefined1 *)(param_1 + 0x50) = 0;
+  GE_MESSAGEF_INFO(5,"gCNavigationAdmin::UpdateNavigationEnabledFlags -> Start");
+  iVar3 = 0;
+  if (0 < *(int *)(param_1 + 0x3c)) {
+    do {
+      iVar1 = *(int *)(param_1 + 0x38);
+      this = (eCEntity *)(**(code **)(**(int **)(iVar1 + iVar3 * 4) + 0x68))();
+      bVar2 = eCEntity::IsEnabled(this);
+      gCNavigation_PS::SetEnabled(*(gCNavigation_PS **)(iVar1 + iVar3 * 4),bVar2);
+      iVar3 = iVar3 + 1;
+    } while (iVar3 < *(int *)(param_1 + 0x3c));
+  }
+  GE_MESSAGEF_INFO(5,"gCNavigationAdmin::UpdateNavigationEnabledFlags -> Done");
+  gCNavigationMap::UpdateNavigationEnabledFlags((gCNavigationMap *)(param_1 + 0x54));
+  return;
+}
+
+

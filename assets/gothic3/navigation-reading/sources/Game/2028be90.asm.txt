@@ -1,0 +1,46 @@
+; 2028be90 FUN_2028be90
+2028be90 | 53 | PUSH EBX
+2028be91 | 8b5c2408 | MOV EBX,dword ptr [ESP + 0x8]
+2028be95 | 85db | TEST EBX,EBX
+2028be97 | 55 | PUSH EBP
+2028be98 | 56 | PUSH ESI
+2028be99 | 8bf1 | MOV ESI,ECX
+2028be9b | 7408 | JZ 0x2028bea5
+2028be9d | 8bcb | MOV ECX,EBX
+2028be9f | ff15bc877d20 | CALL dword ptr [0x207d87bc]
+; 2028bea5 LAB_2028bea5
+2028bea5 | 8b4e08 | MOV ECX,dword ptr [ESI + 0x8]
+2028bea8 | 85c9 | TEST ECX,ECX
+2028beaa | 7415 | JZ 0x2028bec1
+2028beac | ff15c0877d20 | CALL dword ptr [0x207d87c0]
+2028beb2 | 83f801 | CMP EAX,0x1
+2028beb5 | 750a | JNZ 0x2028bec1
+2028beb7 | 8b4e08 | MOV ECX,dword ptr [ESI + 0x8]
+2028beba | 8b01 | MOV EAX,dword ptr [ECX]
+2028bebc | 8b5014 | MOV EDX,dword ptr [EAX + 0x14]
+2028bebf | ffd2 | CALL EDX
+; 2028bec1 LAB_2028bec1
+2028bec1 | 8b2dc4877d20 | MOV EBP,dword ptr [0x207d87c4]
+2028bec7 | 57 | PUSH EDI
+2028bec8 | 8b7e08 | MOV EDI,dword ptr [ESI + 0x8]
+2028becb | 85ff | TEST EDI,EDI
+2028becd | 740e | JZ 0x2028bedd
+2028becf | 6a00 | PUSH 0x0
+2028bed1 | 8bcf | MOV ECX,EDI
+2028bed3 | ffd5 | CALL EBP
+2028bed5 | 8bcf | MOV ECX,EDI
+2028bed7 | ff15c8877d20 | CALL dword ptr [0x207d87c8]
+; 2028bedd LAB_2028bedd
+2028bedd | 85db | TEST EBX,EBX
+2028bedf | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+2028bee6 | 5f | POP EDI
+2028bee7 | 7405 | JZ 0x2028beee
+2028bee9 | 56 | PUSH ESI
+2028beea | 8bcb | MOV ECX,EBX
+2028beec | ffd5 | CALL EBP
+; 2028beee LAB_2028beee
+2028beee | 895e08 | MOV dword ptr [ESI + 0x8],EBX
+2028bef1 | 5e | POP ESI
+2028bef2 | 5d | POP EBP
+2028bef3 | 5b | POP EBX
+2028bef4 | c20400 | RET 0x4

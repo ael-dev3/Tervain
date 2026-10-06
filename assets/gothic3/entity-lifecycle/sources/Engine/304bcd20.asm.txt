@@ -1,0 +1,24 @@
+; 304bcd20 eCSpatialEntity::eCSpatialEntity
+304bcd20 | 56 | PUSH ESI
+304bcd21 | 8bf1 | MOV ESI,ECX
+304bcd23 | e803fdb5ff | CALL 0x3001ca2b
+304bcd28 | 8d8ea8010000 | LEA ECX,[ESI + 0x1a8]
+304bcd2e | c7063cb28730 | MOV dword ptr [ESI],0x3087b23c
+304bcd34 | ff15a4cbaf30 | CALL dword ptr [0x30afcba4]
+304bcd3a | 8d8ec0010000 | LEA ECX,[ESI + 0x1c0]
+304bcd40 | ff15f8d5af30 | CALL dword ptr [0x30afd5f8]
+304bcd46 | 8b463c | MOV EAX,dword ptr [ESI + 0x3c]
+304bcd49 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+304bcd4d | 83e0af | AND EAX,0xffffffaf
+304bcd50 | 83c82c | OR EAX,0x2c
+304bcd53 | 51 | PUSH ECX
+304bcd54 | 8bce | MOV ECX,ESI
+304bcd56 | 89463c | MOV dword ptr [ESI + 0x3c],EAX
+304bcd59 | c786a401000000000000 | MOV dword ptr [ESI + 0x1a4],0x0
+304bcd63 | e80075b5ff | CALL 0x30014268
+304bcd68 | e8bdccb4ff | CALL 0x30009a2a
+304bcd6d | 83803001000001 | ADD dword ptr [EAX + 0x130],0x1
+304bcd74 | 0530010000 | ADD EAX,0x130
+304bcd79 | 8bc6 | MOV EAX,ESI
+304bcd7b | 5e | POP ESI
+304bcd7c | c20400 | RET 0x4

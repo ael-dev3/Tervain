@@ -1,0 +1,2 @@
+; 1000479b bTPropertyObject<bCObsoleteClass,bCObjectRefBase>::bTPropertyObject<bCObsoleteClass,bCObjectRefBase>
+1000479b | e990b20800 | JMP 0x1008fa30

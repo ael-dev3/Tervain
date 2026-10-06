@@ -1,0 +1,18 @@
+/* ENTRY 3003c7a4 | eCVisualAnimation_PS::SetLookAtTarget | STATUS decompiled | 13 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::SetLookAtTarget(class eCEntity *) */
+
+void __thiscall eCVisualAnimation_PS::SetLookAtTarget(eCVisualAnimation_PS *this,eCEntity *param_1)
+
+{
+  eCVisualAnimation_PS *peStack_4;
+  
+                    /* 0x3c7a4  13687  ?SetLookAtTarget@eCVisualAnimation_PS@@QAEXPAVeCEntity@@@Z */
+  peStack_4 = this;
+  bCString::bCString((bCString *)&peStack_4,"");
+  SetLookAtTarget(this,param_1,(bCString *)&peStack_4);
+  bCString::~bCString((bCString *)&peStack_4);
+  return;
+}
+
+

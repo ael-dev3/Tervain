@@ -1,0 +1,18 @@
+/* ENTRY 2001808e | gCAttribute::SetBaseValue | STATUS decompiled | 7 ms */
+
+/* public: void __thiscall gCAttribute::SetBaseValue(int const &) */
+
+void __thiscall gCAttribute::SetBaseValue(gCAttribute *this,int *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x1808e  6247  ?SetBaseValue@gCAttribute@@QAEXABH@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"BaseValue",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  (this->gCAttribute_data).offset_0x10 = *param_1;
+  (*pNVar1)(this,"BaseValue",false);
+  return;
+}
+
+

@@ -1,0 +1,12 @@
+/* ENTRY 20367e90 | FUN_20367e90 | STATUS decompiled | 3 ms */
+
+void __fastcall FUN_20367e90(int param_1)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x20367e93. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eCEntityProxy::GetEntity((eCEntityProxy *)(param_1 + 0x3c));
+  return;
+}
+
+

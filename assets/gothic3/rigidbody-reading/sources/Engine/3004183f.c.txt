@@ -1,0 +1,12 @@
+/* ENTRY 3004183f | eCRigidBody_PS::OnPostRead | STATUS decompiled | 8 ms */
+
+/* protected: virtual void __thiscall eCRigidBody_PS::OnPostRead(void) */
+
+void __thiscall eCRigidBody_PS::OnPostRead(eCRigidBody_PS *this)
+
+{
+                    /* 0x4183f  11349  ?OnPostRead@eCRigidBody_PS@@MAEXXZ */
+  return;
+}
+
+

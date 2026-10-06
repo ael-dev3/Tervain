@@ -1,0 +1,20 @@
+/* ENTRY 10006fb4 | bCOrientedBox::GetMerged | STATUS decompiled | 3 ms */
+
+/* public: void __thiscall bCOrientedBox::GetMerged(class bCOrientedBox &,class bCOrientedBox const
+   &)const  */
+
+void __thiscall
+bCOrientedBox::GetMerged(bCOrientedBox *this,bCOrientedBox *param_1,bCOrientedBox *param_2)
+
+{
+  bCOrientedBox *pbVar1;
+  bCOrientedBox *unaff_retaddr;
+  bCOrientedBox abStack_3c [60];
+  
+                    /* 0x6fb4  2636  ?GetMerged@bCOrientedBox@@QBEXAAV1@ABV1@@Z */
+  pbVar1 = (bCOrientedBox *)GetMerged(this,abStack_3c);
+  Create(unaff_retaddr,pbVar1);
+  return;
+}
+
+

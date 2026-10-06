@@ -1,0 +1,2 @@
+; 30024000 ?SetShape@eCCollisionShapeBase_PS@@UAE?AW4bEResult@@PAVeCCollisionShape@@@Z
+30024000 | e93bd23100 | JMP 0x30341240

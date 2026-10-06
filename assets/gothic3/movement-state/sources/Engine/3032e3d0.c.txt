@@ -1,0 +1,28 @@
+/* ENTRY 3032e3d0 | bTPropertyContainer<eERigidbody_Flag>::bTPropertyContainer<eERigidbody_Flag>_Constructor_or_Destructor | STATUS decompiled | 11 ms */
+
+void __thiscall
+bTPropertyContainer<eERigidbody_Flag>::
+bTPropertyContainer<eERigidbody_Flag>_Constructor_or_Destructor
+          (bTPropertyContainer<eERigidbody_Flag> *this,eERigidbody_Flag param_1)
+
+{
+  eERigidbody_Flag eVar1;
+  eCEntity *peVar2;
+  eCPhysicObjectStateBuffer *this_00;
+  bCObjectBase local_8;
+  eERigidbody_Flag local_4;
+  
+  eVar1 = this[0xf].bTPropertyContainer<eERigidbody_Flag>_data.offset_0x0;
+  bCObjectBase::bCObjectBase(&local_8);
+  local_8 = (bCObjectBase)&vftable;
+  local_4 = eVar1 | param_1;
+  (*(this[0xf].vftablePtr)->vfunction8)(this + 0xf,(int)&local_8);
+  local_8 = (bCObjectBase)&vftable;
+  bCObjectBase::~bCObjectBase(&local_8);
+  peVar2 = (eCEntity *)(*this->vftablePtr[1].GetProfileLastTicksFirst)(this);
+  this_00 = eCPhysicObjectStateBuffer::GetBuffer(peVar2);
+  eCPhysicObjectStateBuffer::AddBodyFlag(this_00,param_1);
+  return;
+}
+
+

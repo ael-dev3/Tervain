@@ -1,0 +1,22 @@
+; 20317c20 bTPropertyContainer<gEPartyMemberType>::bTPropertyContainer<gEPartyMemberType>
+20317c20 | 56 | PUSH ESI
+20317c21 | 57 | PUSH EDI
+20317c22 | 8bf1 | MOV ESI,ECX
+20317c24 | ff15f86d7d20 | CALL dword ptr [0x207d6df8]
+20317c2a | 8d4e14 | LEA ECX,[ESI + 0x14]
+20317c2d | c70634786920 | MOV dword ptr [ESI],0x20697834
+20317c33 | ff15d86d7d20 | CALL dword ptr [0x207d6dd8]
+20317c39 | 8d7e30 | LEA EDI,[ESI + 0x30]
+20317c3c | 8bcf | MOV ECX,EDI
+20317c3e | ff1500877d20 | CALL dword ptr [0x207d8700]
+20317c44 | c70754746920 | MOV dword ptr [EDI],0x20697454
+20317c4a | a114147c20 | MOV EAX,[0x207c1414]
+20317c4f | 894704 | MOV dword ptr [EDI + 0x4],EAX
+20317c52 | 33c0 | XOR EAX,EAX
+20317c54 | 89463c | MOV dword ptr [ESI + 0x3c],EAX
+20317c57 | 894640 | MOV dword ptr [ESI + 0x40],EAX
+20317c5a | 894644 | MOV dword ptr [ESI + 0x44],EAX
+20317c5d | 5f | POP EDI
+20317c5e | 8bc6 | MOV EAX,ESI
+20317c60 | 5e | POP ESI
+20317c61 | c3 | RET

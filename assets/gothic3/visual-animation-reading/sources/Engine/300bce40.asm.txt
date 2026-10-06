@@ -1,0 +1,15 @@
+; 300bce40 FUN_300bce40
+300bce40 | 8bc1 | MOV EAX,ECX
+300bce42 | 33c9 | XOR ECX,ECX
+300bce44 | 894810 | MOV dword ptr [EAX + 0x10],ECX
+300bce47 | 894814 | MOV dword ptr [EAX + 0x14],ECX
+300bce4a | 894818 | MOV dword ptr [EAX + 0x18],ECX
+300bce4d | 894820 | MOV dword ptr [EAX + 0x20],ECX
+300bce50 | 894824 | MOV dword ptr [EAX + 0x24],ECX
+300bce53 | 894828 | MOV dword ptr [EAX + 0x28],ECX
+300bce56 | c7402cffffffff | MOV dword ptr [EAX + 0x2c],0xffffffff
+300bce5d | 894808 | MOV dword ptr [EAX + 0x8],ECX
+300bce60 | 89480c | MOV dword ptr [EAX + 0xc],ECX
+300bce63 | 894804 | MOV dword ptr [EAX + 0x4],ECX
+300bce66 | 88481c | MOV byte ptr [EAX + 0x1c],CL
+300bce69 | c3 | RET

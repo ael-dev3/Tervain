@@ -1,0 +1,17 @@
+/* ENTRY 10161950 | FUN_10161950 | STATUS decompiled | 7 ms */
+
+void FUN_10161950(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Routine\\Routine_Tasks\\ZS_Monster.cpp");
+  bCString::bCString(local_8,"ZS_Monster_Roam");
+  thunk_FUN_1001db60(local_8,&LAB_10003058,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

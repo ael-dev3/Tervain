@@ -1,0 +1,4 @@
+; 30040c78 ??0eCRigidBodyBase_PS@@QAE@XZ
+30040c78 | e9f3282f00 | JMP 0x30333570
+; 30040c82 eCConfigFile::GetI16
+; 30040c82 Ordinal_7291

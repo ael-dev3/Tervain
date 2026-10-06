@@ -1,0 +1,2 @@
+; 200014d8 bTPropertyType<gCNPC_PS,bTPropertyContainer<gEBearing>_>::vfunction6
+200014d8 | e9f39a3000 | JMP 0x2030afd0

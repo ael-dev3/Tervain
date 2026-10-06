@@ -1,0 +1,2 @@
+; 30042997 ?SetShapeAABBAdaptMode@eCCollisionShape@@QAEXABV?$bTPropertyContainer@W4eEShapeAABBAdapt@@@@@Z
+30042997 | e9e4a60800 | JMP 0x300cd080

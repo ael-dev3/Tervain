@@ -1,0 +1,38 @@
+/* ENTRY 300aee60 | FUN_300aee60 | STATUS decompiled | 9 ms */
+
+void __thiscall FUN_300aee60(undefined4 *param_1,int param_2,int param_3)
+
+{
+  int iVar1;
+  bCMemoryAdmin *this;
+  void *pvVar2;
+  bool bVar3;
+  ulong uVar4;
+  
+  iVar1 = param_1[2];
+  if (iVar1 < param_2) {
+    bVar3 = param_3 == 0;
+    if ((param_3 < 1) && (param_3 = 0, bVar3)) {
+      param_3 = iVar1 >> 3;
+      if (param_3 < 0x401) {
+        if (param_3 < 8) {
+          param_3 = 8;
+        }
+      }
+      else {
+        param_3 = 0x400;
+      }
+    }
+    pvVar2 = (void *)*param_1;
+    param_3 = param_3 + param_2;
+    uVar4 = param_3 * 4;
+    this = bCMemoryAdmin::GetInstance();
+    pvVar2 = bCMemoryAdmin::Realloc(this,pvVar2,uVar4);
+    *param_1 = pvVar2;
+    _memset((void *)((int)pvVar2 + param_1[1] * 4),0,(param_3 - iVar1) * 4);
+    param_1[2] = param_3;
+  }
+  return;
+}
+
+

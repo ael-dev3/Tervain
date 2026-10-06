@@ -1,0 +1,19 @@
+/* ENTRY 300aa580 | FUN_300aa580 | STATUS decompiled | 3 ms */
+
+void FUN_300aa580(int *param_1)
+
+{
+  bCMemoryAdmin *this;
+  void *pvVar1;
+  
+  if ((int *)*param_1 != (int *)0x0) {
+    (**(code **)(*(int *)*param_1 + 0x38))(0);
+    pvVar1 = (void *)*param_1;
+    this = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::DeleteObject(this,pvVar1);
+    *param_1 = 0;
+  }
+  return;
+}
+
+

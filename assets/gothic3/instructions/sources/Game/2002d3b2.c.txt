@@ -1,0 +1,34 @@
+/* ENTRY 2002d3b2 | gCScriptProcessingUnit::sAIWaitInstr | STATUS decompiled | 16 ms */
+
+/* public: static bool __stdcall gCScriptProcessingUnit::sAIWaitInstr(void *,class
+   gCScriptProcessingUnit *,bool) */
+
+bool gCScriptProcessingUnit::sAIWaitInstr
+               (void *param_1,gCScriptProcessingUnit *param_2,bool param_3)
+
+{
+  float fVar1;
+  
+                    /* 0x2d3b2  8576  ?sAIWaitInstr@gCScriptProcessingUnit@@SG_NPAXPAV1@_N@Z */
+  if (!param_3) {
+    if (param_1 != (void *)0x0) {
+      *(undefined4 *)(param_2 + 0x98) = 0;
+      fVar1 = (float)*(int *)((int)param_1 + 4);
+      if (*(int *)((int)param_1 + 4) < 0) {
+        fVar1 = fVar1 + 4.2949673e+09;
+      }
+      *(float *)(param_2 + 0x9c) = fVar1;
+      eCEntityProxy::SetEntity((eCEntityProxy *)(param_2 + 0x78),*(eCEntity **)param_1);
+    }
+    if (*(float *)(param_2 + 0x98) < *(float *)(param_2 + 0x9c)) {
+      *(code **)(param_2 + 0x74) = sAIWaitInstr;
+      return false;
+    }
+  }
+  eCEntityProxy::SetEntity((eCEntityProxy *)(param_2 + 0x78),(eCEntity *)0x0);
+  eCEntityProxy::SetEntity((eCEntityProxy *)(param_2 + 0x108),(eCEntity *)0x0);
+  *(undefined4 *)(param_2 + 0x74) = 0;
+  return true;
+}
+
+

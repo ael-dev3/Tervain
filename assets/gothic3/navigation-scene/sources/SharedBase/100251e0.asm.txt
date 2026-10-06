@@ -1,0 +1,19 @@
+; 100251e0 FUN_100251e0
+100251e0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+100251e4 | 83ec0c | SUB ESP,0xc
+100251e7 | 56 | PUSH ESI
+100251e8 | 8bf1 | MOV ESI,ECX
+100251ea | 50 | PUSH EAX
+100251eb | 8d4c2408 | LEA ECX,[ESP + 0x8]
+100251ef | 51 | PUSH ECX
+100251f0 | 8bce | MOV ECX,ESI
+100251f2 | e89ffffdff | CALL 0x10005196
+100251f7 | d900 | FLD float ptr [EAX]
+100251f9 | d91e | FSTP float ptr [ESI]
+100251fb | d94004 | FLD float ptr [EAX + 0x4]
+100251fe | d95e04 | FSTP float ptr [ESI + 0x4]
+10025201 | d94008 | FLD float ptr [EAX + 0x8]
+10025204 | d95e08 | FSTP float ptr [ESI + 0x8]
+10025207 | 5e | POP ESI
+10025208 | 83c40c | ADD ESP,0xc
+1002520b | c20400 | RET 0x4

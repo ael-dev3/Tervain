@@ -1,0 +1,14 @@
+/* ENTRY 2018f140 | gCHUDStaticNPC::~gCHUDStaticNPC | STATUS decompiled | 10 ms */
+
+void __thiscall gCHUDStaticNPC::~gCHUDStaticNPC(gCHUDStaticNPC *this)
+
+{
+  this->vftablePtr = &vftable;
+  eCEntityProxy::~eCEntityProxy((eCEntityProxy *)&(this->gCHUDStaticNPC_data).field_0xc);
+                    /* WARNING: Could not recover jumptable at 0x2018f155. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  CFFGFCStatic::~CFFGFCStatic((CFFGFCStatic *)this);
+  return;
+}
+
+

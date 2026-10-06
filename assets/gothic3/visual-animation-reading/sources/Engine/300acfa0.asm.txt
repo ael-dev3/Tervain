@@ -1,0 +1,24 @@
+; 300acfa0 bTPOPureSmartPtr<eCVisualAnimation_PS>::vfunction12
+300acfa0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+300acfa4 | 85c0 | TEST EAX,EAX
+300acfa6 | 56 | PUSH ESI
+300acfa7 | 8bf1 | MOV ESI,ECX
+300acfa9 | 7506 | JNZ 0x300acfb1
+300acfab | 32c0 | XOR AL,AL
+300acfad | 5e | POP ESI
+300acfae | c20400 | RET 0x4
+300acfb1 | 6a00 | PUSH 0x0
+300acfb3 | 689430aa30 | PUSH 0x30aa3094
+300acfb8 | 682c20aa30 | PUSH 0x30aa202c
+300acfbd | 6a00 | PUSH 0x0
+300acfbf | 50 | PUSH EAX
+300acfc0 | e8224b5c00 | CALL 0x30671ae7
+300acfc5 | 83c414 | ADD ESP,0x14
+300acfc8 | 85c0 | TEST EAX,EAX
+300acfca | 74df | JZ 0x300acfab
+300acfcc | 50 | PUSH EAX
+300acfcd | 8bce | MOV ECX,ESI
+300acfcf | e89b66f6ff | CALL 0x3001366f
+300acfd4 | b001 | MOV AL,0x1
+300acfd6 | 5e | POP ESI
+300acfd7 | c20400 | RET 0x4

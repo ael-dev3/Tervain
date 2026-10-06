@@ -1,0 +1,4 @@
+; 20024776 SHAREDBASE.DLL::bCPropertyTypeBase::Read
+20024776 | e9450f2100 | JMP 0x202356c0
+; 2002477b gCSkill_PS::SetReqAttrib4Value
+; 2002477b Ordinal_6985

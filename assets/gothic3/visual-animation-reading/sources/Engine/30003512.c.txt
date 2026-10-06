@@ -1,0 +1,13 @@
+/* ENTRY 30003512 | bTPropertyContainer<eEShapeMaterial>::vfunction3 | STATUS decompiled | 4 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<eEShapeMaterial>::vfunction3
+          (bTPropertyContainer<eEShapeMaterial> *this,bCOStream *param_1)
+
+{
+  bCOStream::operator<<(param_1,1);
+  (**(code **)((int)*param_1 + 4))(&this->bTPropertyContainer<eEShapeMaterial>_data,4);
+  return 1;
+}
+
+

@@ -1,0 +1,2 @@
+; 2000dc01 ?RecompileAIZonePropertiesForNavZones@gCNavigationMap@@QAE?AW4bEResult@@XZ
+2000dc01 | e9da5b2b00 | JMP 0x202c37e0

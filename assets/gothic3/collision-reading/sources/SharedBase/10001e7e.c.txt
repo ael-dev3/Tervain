@@ -1,0 +1,13 @@
+/* ENTRY 10001e7e | bCBox::operator*= | STATUS decompiled | 2 ms */
+
+/* public: class bCBox & __thiscall bCBox::operator*=(class bCMatrix const &) */
+
+bCBox * __thiscall bCBox::operator*=(bCBox *this,bCMatrix *param_1)
+
+{
+                    /* 0x1e7e  1167  ??XbCBox@@QAEAAV0@ABVbCMatrix@@@Z */
+  Transform(this,param_1);
+  return this;
+}
+
+

@@ -1,0 +1,14 @@
+; 30652ac0 EMotionFX::Constraint::Constraint
+30652ac0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+30652ac4 | 56 | PUSH ESI
+30652ac5 | 50 | PUSH EAX
+30652ac6 | 8bf1 | MOV ESI,ECX
+30652ac8 | e81326ffff | CALL 0x306450e0
+30652acd | 8b4c240c | MOV ECX,dword ptr [ESP + 0xc]
+30652ad1 | 8b542410 | MOV EDX,dword ptr [ESP + 0x10]
+30652ad5 | c7069c078930 | MOV dword ptr [ESI],0x3089079c
+30652adb | 894e0c | MOV dword ptr [ESI + 0xc],ECX
+30652ade | 895610 | MOV dword ptr [ESI + 0x10],EDX
+30652ae1 | 8bc6 | MOV EAX,ESI
+30652ae3 | 5e | POP ESI
+30652ae4 | c20c00 | RET 0xc

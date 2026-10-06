@@ -1,0 +1,20 @@
+/* ENTRY 3067cf89 | __amsg_exit | STATUS decompiled | 4 ms */
+
+/* Library Function - Single Match
+    __amsg_exit
+   
+   Library: Visual Studio 2005 Release */
+
+void __cdecl __amsg_exit(int param_1)
+
+{
+  code *pcVar1;
+  
+  __FF_MSGBANNER();
+  FUN_3067e726(param_1);
+  pcVar1 = (code *)FUN_3067dedb(PTR___exit_30ad4830);
+  (*pcVar1)(0xff);
+  return;
+}
+
+

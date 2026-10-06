@@ -1,0 +1,4 @@
+; 2000a6d7 bTPropertyType<gCScriptRoutine_PS,bTPropertyContainer<gEAction>_>::vfunction6
+2000a6d7 | e9c4573500 | JMP 0x2035fea0
+; 2000a6e6 gCCameraAI_PS::GetCamModeInventory
+; 2000a6e6 Ordinal_3020

@@ -1,0 +1,20 @@
+; 304caa60 FUN_304caa60
+304caa60 | 8b542404 | MOV EDX,dword ptr [ESP + 0x4]
+304caa64 | 8d442404 | LEA EAX,[ESP + 0x4]
+304caa68 | 50 | PUSH EAX
+304caa69 | 52 | PUSH EDX
+304caa6a | 83c144 | ADD ECX,0x44
+304caa6d | e88247b5ff | CALL 0x3001f1f4
+304caa72 | 85c0 | TEST EAX,EAX
+304caa74 | 7405 | JZ 0x304caa7b
+304caa76 | 83c004 | ADD EAX,0x4
+304caa79 | 7505 | JNZ 0x304caa80
+; 304caa7b LAB_304caa7b
+304caa7b | 33c0 | XOR EAX,EAX
+304caa7d | c20400 | RET 0x4
+; 304caa80 LAB_304caa80
+304caa80 | 83780400 | CMP dword ptr [EAX + 0x4],0x0
+304caa84 | 74f5 | JZ 0x304caa7b
+304caa86 | 8b00 | MOV EAX,dword ptr [EAX]
+304caa88 | 8b00 | MOV EAX,dword ptr [EAX]
+304caa8a | c20400 | RET 0x4

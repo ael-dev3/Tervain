@@ -1,0 +1,8 @@
+; 3033b7e0 bTPropertyObjectType<eCCollisionShape_PS,eCCollisionShapeBase_PS>::vfunction8
+3033b7e0 | 68f8cf8130 | PUSH 0x3081cff8
+3033b7e5 | 68bccf8130 | PUSH 0x3081cfbc
+3033b7ea | 687ccf8130 | PUSH 0x3081cf7c
+3033b7ef | ff1530dbaf30 | CALL dword ptr [0x30afdb30]
+3033b7f5 | 83c40c | ADD ESP,0xc
+3033b7f8 | 33c0 | XOR EAX,EAX
+3033b7fa | c3 | RET

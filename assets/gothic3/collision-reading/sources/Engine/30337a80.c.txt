@@ -1,0 +1,27 @@
+/* ENTRY 30337a80 | FUN_30337a80 | STATUS decompiled | 15 ms */
+
+void __fastcall FUN_30337a80(eCCollisionShapeBase_PS *param_1)
+
+{
+  int iVar1;
+  
+  iVar1 = 0;
+  if (0 < *(int *)&param_1[2].eCEntityPropertySet_data) {
+    do {
+      eCCollisionShape::SetProprietaryShape
+                ((eCCollisionShape *)(&(param_1[2].vftablePtr)->GetVersion)[iVar1],(NxShape *)0x0);
+      iVar1 = iVar1 + 1;
+    } while (iVar1 < *(int *)&param_1[2].eCEntityPropertySet_data);
+  }
+  thunk_FUN_3033c8e0();
+  thunk_FUN_3033c8e0();
+  thunk_FUN_3033c8e0();
+  thunk_FUN_3033c8e0();
+  *(undefined1 *)&param_1[3].eCEntityPropertySet_data = 0;
+  *(undefined4 *)&param_1[3].eCEntityPropertySet_data.field_0x4 = 0;
+  bCString::Clear((bCString *)&param_1[3].eCEntityPropertySet_data.offset_0x8);
+  eCCollisionShapeBase_PS::Destroy(param_1);
+  return;
+}
+
+

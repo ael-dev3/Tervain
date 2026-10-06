@@ -1,0 +1,36 @@
+/* ENTRY 20533cd0 | bTPropertyType<gCInteraction_PS,eCTemplateEntityProxy>::~bTPropertyType<gCInteraction_PS,eCTemplateEntityProxy> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCInteraction_PS,eCTemplateEntityProxy>::
+~bTPropertyType<gCInteraction_PS,eCTemplateEntityProxy>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Script");
+  bCString::bCString(local_c,"Spell");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCInteraction_PS::ms_PropertyMember_m_entSpell,local_c,local_8,
+             local_4,1,false);
+  _ms_PropertyMember_m_entSpell = &vftable;
+  DAT_207cf28c = bTPropertyObjectType<gCInteraction_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCInteraction_PS,eCEntityPropertySet>();
+  _DAT_207cf290 = 0xac;
+  _DAT_207cf294 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCInteraction_PS::ms_PropertyMember_m_entSpell);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cf28c,
+             (bCPropertyTypeBase *)&gCInteraction_PS::ms_PropertyMember_m_entSpell);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<eCTemplateEntityProxy>::~bTPropertyTypeOnly<eCTemplateEntityProxy>);
+  return;
+}
+
+

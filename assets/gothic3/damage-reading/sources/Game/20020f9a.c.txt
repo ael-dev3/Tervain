@@ -1,0 +1,13 @@
+/* ENTRY 20020f9a | gCDamage_PS::GetPropertySetType | STATUS decompiled | 5 ms */
+
+/* public: virtual enum eEPropertySetType __thiscall gCDamage_PS::GetPropertySetType(void)const  */
+
+eEPropertySetType __thiscall gCDamage_PS::GetPropertySetType(gCDamage_PS *this)
+
+{
+                    /* 0x20f9a  4040  ?GetPropertySetType@gCDamage_PS@@UBE?AW4eEPropertySetType@@XZ
+                        */
+  return 0x33;
+}
+
+

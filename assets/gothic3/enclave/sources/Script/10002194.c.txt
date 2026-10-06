@@ -1,0 +1,20 @@
+/* ENTRY 10002194 | PSNavigation::IsInProcessingRange | STATUS decompiled | 5 ms */
+
+/* public: bool __thiscall PSNavigation::IsInProcessingRange(void)const  */
+
+bool __thiscall PSNavigation::IsInProcessingRange(PSNavigation *this)
+
+{
+  bool bVar1;
+  
+                    /* 0x2194  1772  ?IsInProcessingRange@PSNavigation@@QBE_NXZ */
+  if (*(gCNavigation_PS **)this == (gCNavigation_PS *)0x0) {
+    return true;
+  }
+                    /* WARNING: Could not recover jumptable at 0x1001e7e9. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bVar1 = gCNavigation_PS::IsInProcessingRange(*(gCNavigation_PS **)this);
+  return bVar1;
+}
+
+

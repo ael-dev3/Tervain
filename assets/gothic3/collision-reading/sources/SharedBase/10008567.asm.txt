@@ -1,0 +1,4 @@
+; 10008567 ?InvTranslate@bCOrientedBox@@QAEXABVbCVector@@@Z
+10008567 | e944ac0500 | JMP 0x100631b0
+; 1000856c bCFloatColor::GetProduct
+; 1000856c Ordinal_2782

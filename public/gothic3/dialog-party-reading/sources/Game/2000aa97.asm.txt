@@ -1,0 +1,2 @@
+; 2000aa97 gCParty_PS::GetMembers
+2000aa97 | e984d03000 | JMP 0x20317b20

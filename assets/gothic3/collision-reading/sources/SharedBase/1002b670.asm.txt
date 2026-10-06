@@ -1,0 +1,22 @@
+; 1002b670 FUN_1002b670
+1002b670 | 8bc1 | MOV EAX,ECX
+1002b672 | 8b4c2404 | MOV ECX,dword ptr [ESP + 0x4]
+1002b676 | d900 | FLD float ptr [EAX]
+1002b678 | d821 | FSUB float ptr [ECX]
+1002b67a | d918 | FSTP float ptr [EAX]
+1002b67c | d94004 | FLD float ptr [EAX + 0x4]
+1002b67f | d86104 | FSUB float ptr [ECX + 0x4]
+1002b682 | d95804 | FSTP float ptr [EAX + 0x4]
+1002b685 | d94008 | FLD float ptr [EAX + 0x8]
+1002b688 | d86108 | FSUB float ptr [ECX + 0x8]
+1002b68b | d95808 | FSTP float ptr [EAX + 0x8]
+1002b68e | d9400c | FLD float ptr [EAX + 0xc]
+1002b691 | d821 | FSUB float ptr [ECX]
+1002b693 | d9580c | FSTP float ptr [EAX + 0xc]
+1002b696 | d94010 | FLD float ptr [EAX + 0x10]
+1002b699 | d86104 | FSUB float ptr [ECX + 0x4]
+1002b69c | d95810 | FSTP float ptr [EAX + 0x10]
+1002b69f | d94014 | FLD float ptr [EAX + 0x14]
+1002b6a2 | d86108 | FSUB float ptr [ECX + 0x8]
+1002b6a5 | d95814 | FSTP float ptr [EAX + 0x14]
+1002b6a8 | c20400 | RET 0x4

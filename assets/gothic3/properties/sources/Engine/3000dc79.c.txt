@@ -1,0 +1,16 @@
+/* ENTRY 3000dc79 | eCEntity::GetPropertySetAt | STATUS decompiled | 8 ms */
+
+/* public: class eCEntityPropertySet const * __thiscall eCEntity::GetPropertySetAt(int)const  */
+
+eCEntityPropertySet * __thiscall eCEntity::GetPropertySetAt(eCEntity *this,int param_1)
+
+{
+                    /* 0xdc79  8198  ?GetPropertySetAt@eCEntity@@QBEPBVeCEntityPropertySet@@H@Z */
+  (*this->vftablePtr->OnReadContent)(this);
+  if ((this->eCEntity_data).offset_0x10e <= (ushort)param_1) {
+    return (eCEntityPropertySet *)0x0;
+  }
+  return *(eCEntityPropertySet **)((this->eCEntity_data).offset_0x110 + (param_1 & 0xffffU) * 4);
+}
+
+

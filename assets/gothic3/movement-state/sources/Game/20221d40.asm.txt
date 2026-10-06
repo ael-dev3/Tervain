@@ -1,0 +1,8 @@
+; 20221d40 FUN_20221d40
+20221d40 | 8b01 | MOV EAX,dword ptr [ECX]
+20221d42 | 8b506c | MOV EDX,dword ptr [EAX + 0x6c]
+20221d45 | 6a16 | PUSH 0x16
+20221d47 | ffd2 | CALL EDX
+20221d49 | 8bc8 | MOV ECX,EAX
+20221d4b | ff15e86c7d20 | CALL dword ptr [0x207d6ce8]
+20221d51 | c3 | RET

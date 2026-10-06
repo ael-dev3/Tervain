@@ -1,0 +1,4 @@
+; 30032998 ?GetVersion@eCIlluminated_PS@@UBEGXZ
+30032998 | e9f3001f00 | JMP 0x30222a90
+; 3003299d eCResourceMaterialEffectFile_PS::IsProprietaryFileType
+; 3003299d Ordinal_10541

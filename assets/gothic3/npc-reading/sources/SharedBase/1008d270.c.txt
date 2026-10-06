@@ -1,0 +1,32 @@
+/* ENTRY 1008d270 | FUN_1008d270 | STATUS decompiled | 12 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined4 FUN_1008d270(bCIStream *param_1)
+
+{
+  undefined2 extraout_var;
+  ushort local_8;
+  bool local_6 [2];
+  ushort local_4 [2];
+  
+  if ((_DAT_102f4850 & 1) == 0) {
+    _DAT_102f4850 = _DAT_102f4850 | 1;
+    bTPropertyObject<bCObsoleteClass,bCObjectRefBase>::
+    bTPropertyObject<bCObsoleteClass,bCObjectRefBase>
+              ((bTPropertyObject<bCObsoleteClass,bCObjectRefBase> *)&DAT_102f483c);
+    _atexit((_func_4879 *)&LAB_100e3000);
+  }
+  local_8 = 0;
+  local_6[0] = false;
+  local_4[0] = 0;
+  local_4[1] = 0;
+  bCIStream::operator>>((bCIStream *)param_1,local_4);
+  bCIStream::operator>>((bCIStream *)param_1,local_6);
+  bCIStream::operator>>((bCIStream *)param_1,&local_8);
+  bTPropertyObject<bCObsoleteClass,bCObjectRefBase>::vfunction6
+            ((bTPropertyObject<bCObsoleteClass,bCObjectRefBase> *)&DAT_102f483c,param_1);
+  return CONCAT22(extraout_var,1);
+}
+
+

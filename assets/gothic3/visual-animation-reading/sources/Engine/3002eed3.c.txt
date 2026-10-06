@@ -1,0 +1,12 @@
+/* ENTRY 3002eed3 | eCVisualAnimationLoD::GetActorFileName | STATUS decompiled | 3 ms */
+
+/* public: class bCString const & __thiscall eCVisualAnimationLoD::GetActorFileName(void)const  */
+
+bCString * __thiscall eCVisualAnimationLoD::GetActorFileName(eCVisualAnimationLoD *this)
+
+{
+                    /* 0x2eed3  6104  ?GetActorFileName@eCVisualAnimationLoD@@QBEABVbCString@@XZ */
+  return (bCString *)&this->eCVisualAnimationLoD_data;
+}
+
+

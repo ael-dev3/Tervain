@@ -1,0 +1,4 @@
+; 10004818 ??DbCOrientedBox@@QBE?AV0@ABVbCMatrix@@@Z
+10004818 | e9634d0600 | JMP 0x10069580
+; 1000481d bCUnicodeString::GetData
+; 1000481d Ordinal_2238

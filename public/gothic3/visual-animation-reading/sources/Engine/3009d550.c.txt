@@ -1,0 +1,39 @@
+/* ENTRY 3009d550 | FUN_3009d550 | STATUS decompiled | 18 ms */
+
+void __thiscall FUN_3009d550(int param_1,bCIStream *param_2)
+
+{
+  ushort uVar1;
+  bCIStream *this;
+  bCObjectRefBase *pbVar2;
+  ulong uVar3;
+  
+  this = param_2;
+  (**(code **)(*(int *)(param_1 + 4) + 0xc))(param_2);
+  bCString::bCString((bCString *)&stack0x00000000);
+  bCIStream::operator>>(this,(bCString *)&stack0x00000000);
+  bCString::operator=((bCString *)(param_1 + 0x68),(bCString *)&stack0x00000000);
+  uVar1 = (ushort)param_2;
+  *(undefined4 *)(param_1 + 100) = 0;
+  if (0x27 < (ushort)param_2) {
+    bCAccessorPropertyObject::bCAccessorPropertyObject((bCAccessorPropertyObject *)&stack0xfffffff4)
+    ;
+    operator>>((bCIStream *)this,(bCAccessorPropertyObject *)&stack0xfffffff4);
+    pbVar2 = bCAccessorPropertyObject::GetNativeObject((bCAccessorPropertyObject *)&stack0xfffffff4)
+    ;
+    *(bCObjectRefBase **)(param_1 + 0x6c) = pbVar2;
+    bCAccessorPropertyObject::~bCAccessorPropertyObject
+              ((bCAccessorPropertyObject *)&stack0xfffffff4);
+  }
+  if (0x3e < uVar1) {
+    bCIStream::operator>>(this,(uchar *)(param_1 + 0x70));
+    bCMatrix::operator<<((bCMatrix *)(param_1 + 0x20),(bCIStream *)this);
+    bCIStream::operator>>(this,(ulong *)&param_2);
+    uVar3 = bCTimer::GetTimeStamp();
+    *(undefined1 **)(param_1 + 0x74) = &param_2->field_0x0 + uVar3;
+  }
+  bCString::~bCString((bCString *)&stack0x00000000);
+  return;
+}
+
+

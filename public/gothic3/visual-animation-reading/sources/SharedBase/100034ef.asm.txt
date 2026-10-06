@@ -1,0 +1,2 @@
+; 100034ef bCPropertyID::CreateFromString
+100034ef | e9dcf20800 | JMP 0x100927d0

@@ -1,0 +1,79 @@
+/* ENTRY 30359e90 | FUN_30359e90 | STATUS decompiled | 35 ms */
+
+void __fastcall FUN_30359e90(int param_1)
+
+{
+  float *pfVar1;
+  bCBox *pbVar2;
+  bCVector *pbVar3;
+  bCVector *pbVar4;
+  float fVar5;
+  float local_80;
+  bCVector local_7c [4];
+  bCVector local_78 [4];
+  bCVector local_74 [8];
+  undefined1 local_6c [4];
+  bCVector local_68 [4];
+  undefined1 local_64 [8];
+  bCVector local_5c [24];
+  bCVector local_44 [4];
+  bCVector local_40 [4];
+  bCVector local_3c [4];
+  bCVector local_38 [28];
+  bCBox local_1c [28];
+  
+  switch(*(undefined4 *)(param_1 + 0x10)) {
+  case 3:
+    pbVar2 = (bCBox *)bCOrientedBox::GetCircumAxisBox(*(bCOrientedBox **)(param_1 + 0x74));
+    bCBox::SetBox((bCBox *)(param_1 + 0x48),pbVar2);
+    bCBox::~bCBox(local_1c);
+    return;
+  case 4:
+    local_80 = *(float *)(*(int *)(param_1 + 0x74) + 4);
+    pbVar3 = bCMatrix3::GetXAxis((bCMatrix3 *)(*(int *)(param_1 + 0x74) + 8));
+    bCVector::operator*(pbVar3,(float)local_6c);
+    pfVar1 = *(float **)(param_1 + 0x74);
+    fVar5 = *pfVar1;
+    local_80 = pfVar1[1];
+    pbVar3 = bCMatrix3::GetYAxis((bCMatrix3 *)(pfVar1 + 2));
+    local_80 = fVar5 * 0.5 + local_80;
+    bCVector::operator*(pbVar3,(float)local_7c);
+    pbVar3 = (bCVector *)&local_80;
+    pbVar4 = (bCVector *)bCVector::operator+((bCVector *)(*(int *)(param_1 + 0x74) + 0x2c),local_38)
+    ;
+    bCVector::operator+(pbVar4,pbVar3);
+    bCVector::~bCVector(local_40);
+    bCVector::~bCVector((bCVector *)&stack0xffffff78);
+    bCVector::~bCVector(local_7c);
+    pbVar3 = bCMatrix3::GetXAxis((bCMatrix3 *)(*(int *)(param_1 + 0x74) + 8));
+    bCVector::operator*(pbVar3,(float)local_64);
+    pbVar3 = bCMatrix3::GetYAxis((bCMatrix3 *)(*(int *)(param_1 + 0x74) + 8));
+    bCVector::operator*(pbVar3,(float)local_74);
+    pbVar3 = local_78;
+    pbVar4 = (bCVector *)bCVector::operator-((bCVector *)(*(int *)(param_1 + 0x74) + 0x2c),local_3c)
+    ;
+    bCVector::operator-(pbVar4,pbVar3);
+    bCVector::~bCVector(local_44);
+    bCVector::~bCVector((bCVector *)&local_80);
+    bCVector::~bCVector(local_74);
+    pbVar3 = local_68;
+    pbVar4 = bCBox::AccessMin((bCBox *)(param_1 + 0x48));
+    bCVector::operator=(pbVar4,pbVar3);
+    pbVar3 = local_5c;
+    pbVar4 = bCBox::AccessMax((bCBox *)(param_1 + 0x48));
+    bCVector::operator=(pbVar4,pbVar3);
+    bCVector::~bCVector(local_68);
+    bCVector::~bCVector(local_5c);
+    return;
+  case 5:
+    fVar5 = bCSphere::GetRadius(*(bCSphere **)(param_1 + 0x74));
+    pbVar3 = bCSphere::GetPosition(*(bCSphere **)(param_1 + 0x74));
+    bCBox::SetBox((bCBox *)(param_1 + 0x48),pbVar3,fVar5);
+    return;
+  case 7:
+    bCBox::Clear((bCBox *)(param_1 + 0x48));
+  }
+  return;
+}
+
+

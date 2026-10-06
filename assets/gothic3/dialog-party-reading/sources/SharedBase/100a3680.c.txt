@@ -1,0 +1,115 @@
+/* ENTRY 100a3680 | DiagAssert | STATUS decompiled | 113 ms */
+
+/* WARNING: Removing unreachable block (ram,0x100a3711) */
+/* WARNING: Removing unreachable block (ram,0x100a371e) */
+/* int __stdcall DiagAssert(unsigned long,char const *,char const *,unsigned long) */
+
+int DiagAssert(ulong param_1,char *param_2,char *param_3,ulong param_4)
+
+{
+  char cVar1;
+  byte bVar2;
+  undefined4 *puVar3;
+  ulong uVar4;
+  DWORD DVar5;
+  int iVar6;
+  HWND hWnd;
+  HWND hWnd_00;
+  char *pcVar7;
+  int iVar8;
+  DWORD dwMessageId;
+  undefined4 *puVar9;
+  undefined1 *puVar10;
+  uint uVar11;
+  char *local_118;
+  ulong local_114;
+  DWORD local_110;
+  undefined1 *local_10c;
+  char local_108 [264];
+  
+                    /* 0xa3680  1956  ?DiagAssert@@YGHKPBD0K@Z */
+  _memset(&DAT_102f53f0,0,0x1000);
+  local_10c = &DAT_102f53f0;
+  local_118 = (char *)0x0;
+  local_114 = param_1;
+  local_110 = GetLastError();
+  puVar9 = DAT_102f4fe4;
+  if (param_1 == 0) {
+    local_114 = DAT_10140988;
+  }
+  if (DAT_102f4fe8 < DAT_102f4fe4) {
+    FUN_100ae1f6();
+  }
+  while( true ) {
+    puVar3 = DAT_102f4fe8;
+    if (DAT_102f4fe8 < DAT_102f4fe4) {
+      FUN_100ae1f6();
+    }
+    dwMessageId = local_110;
+    if (puVar9 == puVar3) break;
+    if (DAT_102f4fe8 <= puVar9) {
+      FUN_100ae1f6();
+    }
+    dwMessageId = local_110;
+    DVar5 = FormatMessageA(0xb00,(LPCVOID)*puVar9,local_110,0,(LPSTR)&local_118,0,(va_list *)0x0);
+    if (DVar5 != 0) break;
+    if (DAT_102f4fe8 <= puVar9) {
+      FUN_100ae1f6();
+    }
+    puVar9 = puVar9 + 1;
+  }
+  pcVar7 = local_118;
+  if ((local_118 == (char *)0x0) &&
+     (FormatMessageA(0x1300,(LPCVOID)0x0,dwMessageId,0,(LPSTR)&local_118,0,(va_list *)0x0),
+     pcVar7 = local_118, local_118 == (char *)0x0)) {
+    pcVar7 = "**Last error code does not exist!!!!";
+  }
+  DVar5 = GetModuleFileNameA((HMODULE)0x0,local_108,0x104);
+  uVar4 = local_114;
+  if (DVar5 == 0) {
+    builtin_strncpy(local_108,"<unknown application>",0x16);
+  }
+  uVar11 = local_114 & 8;
+  puVar10 = local_10c;
+  if (uVar11 == 0) {
+    iVar6 = wsprintfA(&DAT_102f53f0,
+                      "Debug Assertion Failed!\n\nProgram : %s\nFile : %s\nLine : %d\nExpression : %s\nLast Error (0x%08X) : %s\n\n"
+                      ,local_108,param_3,param_4,param_2,dwMessageId,pcVar7);
+    puVar10 = &DAT_102f53f0 + iVar6;
+  }
+  if (local_118 != (char *)0x0) {
+    LocalFree(local_118);
+  }
+  bVar2 = (byte)uVar4;
+  if (((bVar2 & 4) == 4) || (uVar11 == 8)) {
+    FUN_100a3440(puVar10,(int)&DAT_102f63f0 - (int)puVar10,2);
+  }
+  if ((bVar2 & 2) == 2) {
+    OutputDebugStringA(&DAT_102f53f0);
+  }
+  iVar6 = 5;
+  if ((bVar2 & 1) == 1) {
+    hWnd = GetActiveWindow();
+    hWnd_00 = (HWND)0x0;
+    if (hWnd != (HWND)0x0) {
+      hWnd_00 = GetLastActivePopup(hWnd);
+    }
+    iVar6 = MessageBoxA(hWnd_00,&DAT_102f53f0,"ASSERTION FAILURE...",0x12012);
+  }
+  if (DAT_102f4fd8 != 0) {
+    pcVar7 = &DAT_102f53f0;
+    iVar8 = DAT_102f4fd8 + -0x102f53f0;
+    do {
+      cVar1 = *pcVar7;
+      pcVar7[iVar8] = cVar1;
+      pcVar7 = pcVar7 + 1;
+    } while (cVar1 != '\0');
+  }
+  SetLastError(dwMessageId);
+  if (iVar6 != 5) {
+    return 1;
+  }
+  return 0;
+}
+
+

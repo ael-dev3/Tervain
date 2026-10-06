@@ -1,0 +1,4 @@
+; 1000779d ??0bCString@@QAE@XZ
+1000779d | e97eb50000 | JMP 0x10012d20
+; 100077a2 bCUnitedRay::Intersects
+; 100077a2 Ordinal_3460

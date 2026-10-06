@@ -1,0 +1,4 @@
+; 10001d07 ??0bCObjectRefBase@@QAE@XZ
+10001d07 | e994880400 | JMP 0x1004a5a0
+; 10001d0c bCFlexibleVertexPtr::GetBuffer
+; 10001d0c Ordinal_2120

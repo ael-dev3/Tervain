@@ -1,0 +1,20 @@
+/* ENTRY 100294e0 | FUN_100294e0 | STATUS decompiled | 8 ms */
+
+int __fastcall FUN_100294e0(undefined4 *param_1)
+
+{
+  int iVar1;
+  undefined4 *local_4;
+  
+  local_4 = param_1;
+  bCString::bCString((bCString *)&local_4,"SP");
+  if ((gCPlayerMemory_PS *)*param_1 != (gCPlayerMemory_PS *)0x0) {
+    iVar1 = gCPlayerMemory_PS::GetValue((gCPlayerMemory_PS *)*param_1,(bCString *)&local_4);
+    bCString::~bCString((bCString *)&local_4);
+    return iVar1;
+  }
+  bCString::~bCString((bCString *)&local_4);
+  return 0;
+}
+
+

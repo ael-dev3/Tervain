@@ -1,0 +1,2 @@
+; 3001b351 bTPropertyContainer<eEShapeMaterial>::vfunction7
+3001b351 | e9ba4b0900 | JMP 0x300aff10

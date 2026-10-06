@@ -1,0 +1,25 @@
+/* ENTRY 20218de0 | FUN_20218de0 | STATUS decompiled | 15 ms */
+
+undefined4 __thiscall FUN_20218de0(int param_1,bCOStream *param_2)
+
+{
+  bCOStream::operator<<(param_2,2);
+  bCOStream::operator<<(param_2,*(float *)(param_1 + 0x2c));
+  bCOStream::operator<<(param_2,*(float *)(param_1 + 0x30));
+  bCOStream::operator<<(param_2,*(float *)(param_1 + 0x34));
+  bCOStream::operator<<(param_2,*(float *)(param_1 + 0x38));
+  bCOStream::operator<<(param_2,*(ulong *)(param_1 + 0x3c));
+  bCOStream::operator<<(param_2,*(ulong *)(param_1 + 0x40));
+  bCOStream::operator<<(param_2,*(ulong *)(param_1 + 0x44));
+  bCOStream::operator<<(param_2,*(ulong *)(param_1 + 0x48));
+  bCOStream::operator<<(param_2,*(ulong *)(param_1 + 0x4c));
+  bCOStream::operator<<(param_2,*(ulong *)(param_1 + 0x50));
+  bCOStream::operator<<(param_2,*(bool *)(param_1 + 0x54));
+  bCOStream::operator<<(param_2,*(bool *)(param_1 + 0x55));
+  bCOStream::operator<<(param_2,*(float *)(param_1 + 0x5c));
+  bCVector::operator>>((bCVector *)(param_1 + 0x60),(bCOStream *)param_2);
+  bCMatrix::operator>>((bCMatrix *)(param_1 + 0x6c),(bCOStream *)param_2);
+  return 1;
+}
+
+

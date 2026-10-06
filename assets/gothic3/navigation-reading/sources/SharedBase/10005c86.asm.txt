@@ -1,0 +1,4 @@
+; 10005c86 ?GetProfileLastTicksThird@bCObjectBase@@UBE?BKXZ
+10005c86 | e9c5430400 | JMP 0x1004a050
+; 10005c8b bCMatrix::ModifyRotation
+; 10005c8b Ordinal_3742

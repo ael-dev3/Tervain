@@ -1,0 +1,17 @@
+/* ENTRY 101444c0 | FUN_101444c0 | STATUS decompiled | 8 ms */
+
+void FUN_101444c0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Magic\\Magic_Spells\\MagicBeliar.cpp");
+  bCString::bCString(local_8,"MagicSummonMist");
+  thunk_FUN_10017a50(local_8,&LAB_10002379,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

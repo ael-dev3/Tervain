@@ -1,0 +1,4 @@
+; 2000fc45 bTPropertyType<gCScriptRoutine_PS,bCScriptString>::vfunction15
+2000fc45 | e936d83400 | JMP 0x2035d480
+; 2000fc4a gCCollisionCircle_PS::Destroy
+; 2000fc4a Ordinal_2557

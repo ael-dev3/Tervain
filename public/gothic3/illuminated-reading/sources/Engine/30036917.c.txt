@@ -1,0 +1,12 @@
+/* ENTRY 30036917 | eCIlluminated_PS::GetReciveTreeShadows | STATUS decompiled | 90 ms */
+
+/* public: bool const & __thiscall eCIlluminated_PS::GetReciveTreeShadows(void)const  */
+
+bool * __thiscall eCIlluminated_PS::GetReciveTreeShadows(eCIlluminated_PS *this)
+
+{
+                    /* 0x36917  8381  ?GetReciveTreeShadows@eCIlluminated_PS@@QBEAB_NXZ */
+  return (bool *)&(this->eCIlluminated_PS_data).field_0x18;
+}
+
+

@@ -1,0 +1,2 @@
+; 30044c5b eCVisualAnimation_PS::GetShowSkeleton
+30044c5b | e9708b0500 | JMP 0x3009d7d0

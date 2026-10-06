@@ -1,0 +1,20 @@
+; 304bccc0 eCSpatialEntity::eCSpatialEntity
+304bccc0 | 56 | PUSH ESI
+304bccc1 | 8bf1 | MOV ESI,ECX
+304bccc3 | e863fdb5ff | CALL 0x3001ca2b
+304bccc8 | 8d8ea8010000 | LEA ECX,[ESI + 0x1a8]
+304bccce | c7063cb28730 | MOV dword ptr [ESI],0x3087b23c
+304bccd4 | ff15a4cbaf30 | CALL dword ptr [0x30afcba4]
+304bccda | 8d8ec0010000 | LEA ECX,[ESI + 0x1c0]
+304bcce0 | ff15f8d5af30 | CALL dword ptr [0x30afd5f8]
+304bcce6 | 8b463c | MOV EAX,dword ptr [ESI + 0x3c]
+304bcce9 | 83e0af | AND EAX,0xffffffaf
+304bccec | 83c82c | OR EAX,0x2c
+304bccef | 89463c | MOV dword ptr [ESI + 0x3c],EAX
+304bccf2 | c786a401000000000000 | MOV dword ptr [ESI + 0x1a4],0x0
+304bccfc | e829cdb4ff | CALL 0x30009a2a
+304bcd01 | 83803001000001 | ADD dword ptr [EAX + 0x130],0x1
+304bcd08 | 0530010000 | ADD EAX,0x130
+304bcd0d | 8bc6 | MOV EAX,ESI
+304bcd0f | 5e | POP ESI
+304bcd10 | c3 | RET

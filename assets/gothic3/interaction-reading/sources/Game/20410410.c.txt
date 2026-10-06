@@ -1,0 +1,33 @@
+/* ENTRY 20410410 | FUN_20410410 | STATUS decompiled | 10 ms */
+
+undefined4 __thiscall FUN_20410410(int param_1,int param_2)
+
+{
+  int iVar1;
+  int *piVar2;
+  
+  bCCriticalSectionWin32::Acquire((bCCriticalSectionWin32 *)&DAT_207cf464);
+  iVar1 = *(int *)(param_1 + 0x18);
+  if (iVar1 != 0) {
+    piVar2 = (int *)(*(int *)(param_1 + 0x14) + iVar1 * 4);
+    do {
+      piVar2 = piVar2 + -1;
+      iVar1 = iVar1 + -1;
+      if (param_2 == *piVar2) {
+        if (iVar1 != -1) {
+          bCCriticalSectionWin32::Release((bCCriticalSectionWin32 *)&DAT_207cf464);
+          return 0;
+        }
+        break;
+      }
+    } while (iVar1 != 0);
+  }
+  iVar1 = *(int *)(param_1 + 0x18) + 1;
+  thunk_FUN_2005e820(iVar1,(iVar1 != 0) - 1);
+  *(int *)(param_1 + 0x18) = iVar1;
+  *(int *)(*(int *)(param_1 + 0x14) + -4 + iVar1 * 4) = param_2;
+  bCCriticalSectionWin32::Release((bCCriticalSectionWin32 *)&DAT_207cf464);
+  return 1;
+}
+
+

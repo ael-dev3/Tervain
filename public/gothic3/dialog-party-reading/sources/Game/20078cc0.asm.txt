@@ -1,0 +1,20 @@
+; 20078cc0 FUN_20078cc0
+20078cc0 | 57 | PUSH EDI
+20078cc1 | 8b7c240c | MOV EDI,dword ptr [ESP + 0xc]
+20078cc5 | 85ff | TEST EDI,EDI
+20078cc7 | 741d | JZ 0x20078ce6
+20078cc9 | 56 | PUSH ESI
+20078cca | 8b74240c | MOV ESI,dword ptr [ESP + 0xc]
+20078cce | 8bff | MOV EDI,EDI
+20078cd0 | 8b06 | MOV EAX,dword ptr [ESI]
+20078cd2 | 8b501c | MOV EDX,dword ptr [EAX + 0x1c]
+20078cd5 | 6a00 | PUSH 0x0
+20078cd7 | 8bce | MOV ECX,ESI
+20078cd9 | 83ef01 | SUB EDI,0x1
+20078cdc | ffd2 | CALL EDX
+20078cde | 83c61c | ADD ESI,0x1c
+20078ce1 | 85ff | TEST EDI,EDI
+20078ce3 | 75eb | JNZ 0x20078cd0
+20078ce5 | 5e | POP ESI
+20078ce6 | 5f | POP EDI
+20078ce7 | c20800 | RET 0x8

@@ -1,0 +1,2 @@
+; 2002a4d2 ?GetVersion@gCDialog_PS@@UBEGXZ
+2002a4d2 | e969131e00 | JMP 0x2020b840

@@ -1,0 +1,22 @@
+/* ENTRY 20188f20 | FUN_20188f20 | STATUS decompiled | 8 ms */
+
+void __fastcall FUN_20188f20(int param_1)
+
+{
+  int iVar1;
+  int iVar2;
+  
+  if (*(gCInventory_PS **)(param_1 + 0x14) != (gCInventory_PS *)0x0) {
+    iVar1 = gCInventory_PS::GetStackCount(*(gCInventory_PS **)(param_1 + 0x14));
+    iVar2 = 0;
+    if (0 < iVar1) {
+      do {
+        gCInventory_PS::SetTransactionAmount(*(gCInventory_PS **)(param_1 + 0x14),iVar2,0);
+        iVar2 = iVar2 + 1;
+      } while (iVar2 < iVar1);
+    }
+  }
+  return;
+}
+
+

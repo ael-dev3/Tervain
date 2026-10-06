@@ -1,0 +1,21 @@
+/* ENTRY 20233b30 | bTPropertyObject<gCCharacterMovement_PS,gCMovementBase_PS>::scalar_deleting_destructor | STATUS decompiled | 4 ms */
+
+bTPropertyObject<gCCharacterMovement_PS,gCMovementBase_PS> * __thiscall
+bTPropertyObject<gCCharacterMovement_PS,gCMovementBase_PS>::scalar_deleting_destructor
+          (bTPropertyObject<gCCharacterMovement_PS,gCMovementBase_PS> *this,byte param_1)
+
+{
+                    /* inlined destructor:
+                       bTPropertyObject<gCCharacterMovement_PS,gCMovementBase_PS>::~bTPropertyObject<gCCharacterMovement_PS,gCMovementBase_PS>
+                        */
+  this->vftablePtr = &vftable;
+  vfunction10(this);
+  bTPOPureSmartPtr<gCCharacterMovement_PS>::~bTPOPureSmartPtr<gCCharacterMovement_PS>
+            ((bTPOPureSmartPtr<gCCharacterMovement_PS> *)this);
+  if ((param_1 & 1) != 0) {
+    _free(this);
+  }
+  return this;
+}
+
+

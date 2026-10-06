@@ -1,0 +1,4 @@
+; 20011167 ?ReadSaveGame@gCPlayerMemory_PS@@UAE?AW4bEResult@@AAVbCIStream@@@Z
+20011167 | e964d93000 | JMP 0x2031ead0
+; 2001116c gCEffectCommandSpawnEntity::GetDescriptor
+; 2001116c Ordinal_3261

@@ -1,0 +1,227 @@
+/* ENTRY 20016be9 | gCNavigationMap::GetZone | STATUS decompiled | 187 ms */
+
+/* WARNING: Exceeded maximum restarts with more pending */
+/* public: enum bEResult __thiscall gCNavigationMap::GetZone(class bCVector const &,class
+   bCPropertyID &,bool &,bool,bool,float) */
+
+bEResult __thiscall
+gCNavigationMap::GetZone
+          (gCNavigationMap *this,bCVector *param_1,bCPropertyID *param_2,bool *param_3,bool param_4,
+          bool param_5,float param_6)
+
+{
+  void *pvVar1;
+  int iVar2;
+  int iVar3;
+  int iVar4;
+  double dVar5;
+  undefined1 uVar6;
+  bool bVar7;
+  uint uVar8;
+  uint uVar9;
+  int *piVar10;
+  eCEntityPropertySet *peVar11;
+  gCNavZone_PS *pgVar12;
+  eCEntity *this_00;
+  bCMatrix *pbVar13;
+  bCVector *pbVar14;
+  bCVector2 *pbVar15;
+  eCNode *peVar16;
+  bCPropertyID *pbVar17;
+  gCNavPath_PS *this_01;
+  uint uVar18;
+  undefined4 unaff_EDI;
+  float fVar19;
+  float fVar20;
+  bCVector *unaff_retaddr;
+  undefined4 uVar21;
+  TypeDescriptor *pTVar22;
+  TypeDescriptor *pTVar23;
+  undefined1 *puVar24;
+  undefined4 uVar25;
+  undefined4 uStack_94;
+  int iStack_90;
+  int iStack_8c;
+  float fStack_88;
+  undefined4 uStack_84;
+  bCVector2 abStack_80 [4];
+  bCVector abStack_7c [4];
+  bCVector abStack_78 [8];
+  undefined1 auStack_70 [4];
+  undefined4 uStack_6c;
+  undefined8 uStack_68;
+  bCVector2 abStack_60 [4];
+  bCVector2 abStack_5c [4];
+  bCVector2 abStack_58 [8];
+  bCVector abStack_50 [4];
+  bCVector abStack_4c [12];
+  bCMatrix abStack_40 [60];
+  bCVector *pbStack_4;
+  
+                    /* 0x16be9  4794
+                       ?GetZone@gCNavigationMap@@QAE?AW4bEResult@@ABVbCVector@@AAVbCPropertyID@@AA_N_N3M@Z
+                        */
+  if ((this->gCNavigationMap_data).offset_0xbc == 0) {
+    return 0;
+  }
+  bCPropertyID::Destroy(param_2);
+  fVar19 = bCVector::GetZ(param_1);
+  fVar20 = bCVector::GetX(param_1);
+  bCVector2::bCVector2((bCVector2 *)&uStack_6c,fVar20,fVar19);
+  bCVector::bCVector(abStack_78);
+  bCVector2::bCVector2(abStack_80);
+  bCMatrix::bCMatrix(abStack_40);
+  uStack_94._0_2_ = (ushort)uStack_94 & 0xff;
+  uStack_94 = (uint)(ushort)uStack_94;
+  iStack_90 = -1;
+  uStack_84 = 0xbf800000;
+  bCVector::GetX(param_1);
+  uVar8 = FUN_20465320();
+  bCVector::GetZ(param_1);
+  uVar9 = FUN_20465320();
+  uVar18 = (this->gCNavigationMap_data).offset_0xbc - 1;
+  uVar8 = ((int)uVar8 < 0) - 1 & uVar8;
+  if ((int)uVar8 < (int)uVar18) {
+    uVar18 = uVar8;
+  }
+  pvVar1 = (this->gCNavigationMap_data).offset_0xb8;
+  uVar8 = *(int *)((int)pvVar1 + 4) - 1;
+  uVar9 = ((int)uVar9 < 0) - 1 & uVar9;
+  if ((int)uVar8 <= (int)uVar9) {
+    uVar9 = uVar8;
+  }
+  iVar3 = uVar18 * 0xc;
+  iVar4 = uVar9 * 0xc;
+  piVar10 = (int *)(*(int *)((int)pvVar1 + iVar3) + iVar4);
+  iStack_8c = 0;
+  if (0 < piVar10[1]) {
+    fStack_88 = 0.0;
+    do {
+      uVar25 = 0;
+      pTVar23 = &gCNavZone_PS::RTTI_Type_Descriptor;
+      pTVar22 = &eCEntityPropertySet::RTTI_Type_Descriptor;
+      uVar21 = 0;
+      peVar11 = eCPropertySetProxy::GetPropertySet
+                          ((eCPropertySetProxy *)(*piVar10 + (int)fStack_88));
+      pgVar12 = (gCNavZone_PS *)___RTDynamicCast(peVar11,uVar21,pTVar22,pTVar23,uVar25);
+      if ((pgVar12 != (gCNavZone_PS *)0x0) &&
+         ((param_6 <= 0.0 || (param_6 < *(float *)&(pgVar12->gCNavZone_PS_data).field_0x1c)))) {
+        this_00 = (*pgVar12->vftablePtr->GetEntity)(pgVar12);
+        pbVar13 = eCEntity::GetWorldMatrix((eCEntity *)this_00);
+        bCMatrix::operator=(abStack_40,pbVar13);
+        pbVar14 = (bCVector *)bCMatrix::operator*(abStack_40,abStack_4c);
+        bCVector::operator=(abStack_7c,pbVar14);
+        bCVector::~bCVector(abStack_50);
+        fVar19 = bCVector::GetZ(abStack_7c);
+        fVar20 = bCVector::GetX(abStack_7c);
+        pbVar15 = (bCVector2 *)bCVector2::bCVector2(abStack_60,fVar20,fVar19);
+        bCVector2::operator=((bCVector2 *)&uStack_84,pbVar15);
+        bCVector2::~bCVector2(abStack_60);
+        gCNavZone_PS::CalcAbsHeightDiffFlagAndPrioFlag
+                  (pgVar12,unaff_retaddr,(bool *)&stack0xffffff6a,(bool *)&stack0xffffff69);
+        if (((SUB41((uint)unaff_EDI >> 8,0) == true) ||
+            (((char)((uint)unaff_EDI >> 0x18) == '\0' && (SUB41((uint)unaff_EDI >> 0x10,0) == true))
+            )) && ((uStack_94 == 0xffffffff ||
+                   (*(float *)&(pgVar12->gCNavZone_PS_data).field_0x1c < fStack_88)))) {
+          fVar19 = *(float *)&(pgVar12->gCNavZone_PS_data).field_0x1c;
+          puVar24 = auStack_70;
+          uStack_68 = (double)(fVar19 * fVar19);
+          pbVar15 = (bCVector2 *)bCVector2::operator-((bCVector2 *)&uStack_84,abStack_58);
+          fVar19 = bCVector2::GetSquareMagnitude(pbVar15);
+          dVar5 = (double)CONCAT44((undefined4)uStack_68,uStack_6c);
+          bCVector2::~bCVector2(abStack_5c);
+          if (fVar19 <= (float)dVar5) {
+            bVar7 = gCNavZone_PS::Test3DPointInZone(pgVar12,pbStack_4,true);
+            if (bVar7) {
+              peVar16 = (eCNode *)(*pgVar12->vftablePtr->GetEntity)(puVar24);
+              pbVar17 = eCNode::GetID(peVar16);
+              bCPropertyID::operator=(param_2,pbVar17);
+              uVar6 = uStack_94._1_1_;
+              *param_3 = false;
+              uStack_84 = *(undefined4 *)&(pgVar12->gCNavZone_PS_data).field_0x1c;
+              uStack_94 = CONCAT13(uVar6,(undefined3)uStack_94);
+              iStack_90 = iStack_8c;
+            }
+          }
+        }
+      }
+      iVar2 = *(int *)((int)(this->gCNavigationMap_data).offset_0xb8 + iVar3);
+      fStack_88 = (float)((int)fStack_88 + 0x24);
+      iStack_8c = iStack_8c + 1;
+      piVar10 = (int *)(iVar2 + iVar4);
+    } while (iStack_8c < *(int *)(iVar2 + 4 + iVar4));
+  }
+  uStack_94 = uStack_94 & 0xffffff00;
+  if (!param_4) {
+    if (-1 < iStack_90) {
+      pgVar12 = (gCNavZone_PS *)
+                eCPropertySetProxy::GetPropertySet
+                          ((eCPropertySetProxy *)
+                           (*(int *)(*(int *)((int)(this->gCNavigationMap_data).offset_0xb8 + iVar3)
+                                    + iVar4) + iStack_90 * 0x24));
+      bVar7 = gCNavZone_PS::Test3DPointInInternalNegZone(pgVar12,param_1);
+      uStack_94 = CONCAT31(uStack_94._1_3_,bVar7);
+    }
+    if (iStack_90 != -1) {
+      if (((char)uStack_94 != '\x01') && (uStack_94._3_1_ != '\0')) goto LAB_202c4c5f;
+      if ((char)uStack_94 == '\0') {
+        uStack_94 = CONCAT13(1,(undefined3)uStack_94);
+      }
+    }
+    uStack_94 = uStack_94 & 0xff0000ff;
+    piVar10 = (int *)(*(int *)((int)(this->gCNavigationMap_data).offset_0xb8 + iVar3) + iVar4);
+    iStack_8c = 0;
+    if (0 < piVar10[1]) {
+      fStack_88 = 0.0;
+      do {
+        uVar25 = 0;
+        pTVar23 = &gCNavPath_PS::RTTI_Type_Descriptor;
+        pTVar22 = &eCEntityPropertySet::RTTI_Type_Descriptor;
+        uVar21 = 0;
+        peVar11 = eCPropertySetProxy::GetPropertySet
+                            ((eCPropertySetProxy *)(*piVar10 + (int)fStack_88));
+        this_01 = (gCNavPath_PS *)___RTDynamicCast(peVar11,uVar21,pTVar22,pTVar23,uVar25);
+        if (this_01 != (gCNavPath_PS *)0x0) {
+          gCNavPath_PS::CalcAbsHeightDiffFlagAndPrioFlag
+                    (this_01,param_1,(bool *)((int)&uStack_94 + 2),(bool *)((int)&uStack_94 + 1));
+          if ((uStack_94._1_1_ == '\x01') ||
+             ((uStack_94._3_1_ == '\0' && (uStack_94._2_1_ == '\x01')))) {
+            bVar7 = gCNavPath_PS::Test3DPointOnPath(this_01,param_1);
+            if (bVar7) {
+              peVar16 = (eCNode *)(*this_01->vftablePtr->GetEntity)();
+              pbVar17 = eCNode::GetID(peVar16);
+              bCPropertyID::operator=(param_2,pbVar17);
+              *param_3 = true;
+              iStack_90 = iStack_8c;
+              break;
+            }
+          }
+        }
+        fStack_88 = (float)((int)fStack_88 + 0x24);
+        iStack_8c = iStack_8c + 1;
+        piVar10 = (int *)(*(int *)((int)(this->gCNavigationMap_data).offset_0xb8 + iVar3) + iVar4);
+      } while (iStack_8c < piVar10[1]);
+    }
+  }
+LAB_202c4c5f:
+  if (((!param_5) || (iStack_90 < 0)) || (*param_3 != false)) goto LAB_202c4cbb;
+  if ((char)uStack_94 != '\x01') {
+    if (!param_4) goto LAB_202c4cbb;
+    pgVar12 = (gCNavZone_PS *)
+              eCPropertySetProxy::GetPropertySet
+                        ((eCPropertySetProxy *)
+                         (*(int *)(*(int *)((int)(this->gCNavigationMap_data).offset_0xb8 + iVar3) +
+                                  iVar4) + iStack_90 * 0x24));
+    bVar7 = gCNavZone_PS::Test3DPointInInternalNegZone(pgVar12,param_1);
+    if (!bVar7) goto LAB_202c4cbb;
+  }
+  bCPropertyID::Destroy(param_2);
+LAB_202c4cbb:
+  bCMatrix::~bCMatrix(abStack_40);
+  bCVector2::~bCVector2(abStack_80);
+  bCVector::~bCVector(abStack_78);
+  bCVector2::~bCVector2((bCVector2 *)&uStack_6c);
+  return 1;
+}
+
+

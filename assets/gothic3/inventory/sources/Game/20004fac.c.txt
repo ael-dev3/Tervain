@@ -1,0 +1,24 @@
+/* ENTRY 20004fac | gCInventory_PS::TransferStackTo | STATUS decompiled | 12 ms */
+
+/* public: bool __thiscall gCInventory_PS::TransferStackTo(class gCInventory_PS *,int,enum
+   gEStackType) */
+
+bool __thiscall
+gCInventory_PS::TransferStackTo
+          (gCInventory_PS *this,gCInventory_PS *param_1,int param_2,gEStackType param_3)
+
+{
+  bool bVar1;
+  gCInventoryStack *pgVar2;
+  
+                    /* 0x4fac  7376  ?TransferStackTo@gCInventory_PS@@QAE_NPAV1@HW4gEStackType@@@Z
+                        */
+  pgVar2 = GetStack(this,param_2);
+  if (pgVar2 != (gCInventoryStack *)0x0) {
+    bVar1 = TransferItemsTo(this,param_1,param_2,*(int *)(pgVar2 + 0x3c),param_3);
+    return bVar1;
+  }
+  return false;
+}
+
+

@@ -1,0 +1,9 @@
+; 10053bd0 gSArgsFor__AI_TransferItem::gSArgsFor__AI_TransferItem
+10053bd0 | 56 | PUSH ESI
+10053bd1 | 8bf1 | MOV ESI,ECX
+10053bd3 | 8d4e04 | LEA ECX,[ESI + 0x4]
+10053bd6 | c7061ccb2010 | MOV dword ptr [ESI],0x1020cb1c
+10053bdc | ff1584652210 | CALL dword ptr [0x10226584]
+10053be2 | 8bc6 | MOV EAX,ESI
+10053be4 | 5e | POP ESI
+10053be5 | c3 | RET

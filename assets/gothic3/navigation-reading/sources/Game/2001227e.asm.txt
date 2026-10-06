@@ -1,0 +1,2 @@
+; 2001227e bTPropertyType<gCEffectCommandModifyEntity,bCString>::vfunction4
+2001227e | e9edc82700 | JMP 0x2028eb70

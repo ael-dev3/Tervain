@@ -1,0 +1,4 @@
+; 3004014c ?GetMotionDesc@eCVisualAnimation_PS@@QAEABUeSMotionDesc@1@W4eEMotionType@eCWrapper_emfx2Actor@@@Z
+3004014c | e96fe70500 | JMP 0x3009e8c0
+; 30040151 eCUnicodeConfigFile_KeyObject::Write
+; 30040151 Ordinal_15281

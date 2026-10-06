@@ -1,0 +1,16 @@
+/* ENTRY 3003ab8e | eCVisualAnimationFactory::GetAssembledActor | STATUS decompiled | 1 ms */
+
+/* public: class eCWrapper_emfx2Actor * __thiscall eCVisualAnimationFactory::GetAssembledActor(void)
+    */
+
+eCWrapper_emfx2Actor * __thiscall
+eCVisualAnimationFactory::GetAssembledActor(eCVisualAnimationFactory *this)
+
+{
+                    /* 0x3ab8e  6200
+                       ?GetAssembledActor@eCVisualAnimationFactory@@QAEPAVeCWrapper_emfx2Actor@@XZ
+                        */
+  return *(eCWrapper_emfx2Actor **)(this + 4);
+}
+
+

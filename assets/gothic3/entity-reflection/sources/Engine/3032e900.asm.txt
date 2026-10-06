@@ -1,0 +1,46 @@
+; 3032e900 bTPropertyContainer<eERigidbody_Flag>::bTPropertyContainer<eERigidbody_Flag>
+3032e900 | 56 | PUSH ESI
+3032e901 | 57 | PUSH EDI
+3032e902 | 8bf1 | MOV ESI,ECX
+3032e904 | e86f23d1ff | CALL 0x30040c78
+3032e909 | 8d4e1c | LEA ECX,[ESI + 0x1c]
+3032e90c | c706ccff8530 | MOV dword ptr [ESI],0x3085ffcc
+3032e912 | ff1584cbaf30 | CALL dword ptr [0x30afcb84]
+3032e918 | 8d4e28 | LEA ECX,[ESI + 0x28]
+3032e91b | ff1584cbaf30 | CALL dword ptr [0x30afcb84]
+3032e921 | 8d4e34 | LEA ECX,[ESI + 0x34]
+3032e924 | ff1584cbaf30 | CALL dword ptr [0x30afcb84]
+3032e92a | 8d4e40 | LEA ECX,[ESI + 0x40]
+3032e92d | ff1584cbaf30 | CALL dword ptr [0x30afcb84]
+3032e933 | 8d4e5c | LEA ECX,[ESI + 0x5c]
+3032e936 | ff1584cbaf30 | CALL dword ptr [0x30afcb84]
+3032e93c | 8d4e68 | LEA ECX,[ESI + 0x68]
+3032e93f | ff1584cbaf30 | CALL dword ptr [0x30afcb84]
+3032e945 | 8d7e78 | LEA EDI,[ESI + 0x78]
+3032e948 | 8bcf | MOV ECX,EDI
+3032e94a | ff1508ccaf30 | CALL dword ptr [0x30afcc08]
+3032e950 | c7070cfe8530 | MOV dword ptr [EDI],0x3085fe0c
+3032e956 | a138bfae30 | MOV EAX,[0x30aebf38]
+3032e95b | 8d8e84000000 | LEA ECX,[ESI + 0x84]
+3032e961 | 894704 | MOV dword ptr [EDI + 0x4],EAX
+3032e964 | ff1584cbaf30 | CALL dword ptr [0x30afcb84]
+3032e96a | 8d8e90000000 | LEA ECX,[ESI + 0x90]
+3032e970 | ff1584cbaf30 | CALL dword ptr [0x30afcb84]
+3032e976 | 8dbe9c000000 | LEA EDI,[ESI + 0x9c]
+3032e97c | 8bcf | MOV ECX,EDI
+3032e97e | ff1584cbaf30 | CALL dword ptr [0x30afcb84]
+3032e984 | 8d4f0c | LEA ECX,[EDI + 0xc]
+3032e987 | ff15e8ccaf30 | CALL dword ptr [0x30afcce8]
+3032e98d | 8dbeb8000000 | LEA EDI,[ESI + 0xb8]
+3032e993 | 8bcf | MOV ECX,EDI
+3032e995 | ff1584cbaf30 | CALL dword ptr [0x30afcb84]
+3032e99b | 8d4f0c | LEA ECX,[EDI + 0xc]
+3032e99e | ff15e8ccaf30 | CALL dword ptr [0x30afcce8]
+3032e9a4 | 8d8ed4000000 | LEA ECX,[ESI + 0xd4]
+3032e9aa | ff1584cbaf30 | CALL dword ptr [0x30afcb84]
+3032e9b0 | 8bce | MOV ECX,ESI
+3032e9b2 | e8214fd1ff | CALL 0x300438d8
+3032e9b7 | 5f | POP EDI
+3032e9b8 | 8bc6 | MOV EAX,ESI
+3032e9ba | 5e | POP ESI
+3032e9bb | c3 | RET

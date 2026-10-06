@@ -1,0 +1,14 @@
+/* ENTRY 300eca80 | eCWrapper_emfx2Motion::eCWrapper_emfx2Motion | STATUS decompiled | 61 ms */
+
+eCWrapper_emfx2Motion * __thiscall
+eCWrapper_emfx2Motion::eCWrapper_emfx2Motion(eCWrapper_emfx2Motion *this)
+
+{
+  bCObjectBase::bCObjectBase((bCObjectBase *)this);
+  this->vftablePtr = &vftable;
+  (this->eCWrapper_emfx2Motion_data).offset_0x0 = (undefined4 *)0x0;
+  Destroy(this);
+  return this;
+}
+
+

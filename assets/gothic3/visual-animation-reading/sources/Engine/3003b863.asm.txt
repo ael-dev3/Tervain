@@ -1,0 +1,2 @@
+; 3003b863 eCEntityPropertySet::Create
+3003b863 | e9785c4400 | JMP 0x304814e0

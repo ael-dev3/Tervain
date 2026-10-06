@@ -1,0 +1,2 @@
+; 300043db bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eEPhysicRangeType>_>::deleting_destructor
+300043db | e980bf3300 | JMP 0x30340360

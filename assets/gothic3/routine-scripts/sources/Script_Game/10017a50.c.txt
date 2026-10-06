@@ -1,0 +1,36 @@
+/* ENTRY 10017a50 | FUN_10017a50 | STATUS decompiled | 16 ms */
+
+undefined4 __thiscall
+FUN_10017a50(undefined4 param_1,bCString *param_2,undefined4 param_3,bCString *param_4)
+
+{
+  bCString *this;
+  int iVar1;
+  bCString local_c [4];
+  undefined4 local_8;
+  bCString local_4 [4];
+  
+  bCString::bCString(local_c);
+  bCString::bCString(local_4);
+  bCString::operator=(local_c,param_2);
+  local_8 = param_3;
+  bCString::operator=(local_4,param_4);
+  iVar1 = thunk_FUN_100e17c0();
+  thunk_FUN_10017980(*(int *)(iVar1 + 0x34) + 1);
+  this = (bCString *)(*(int *)(iVar1 + 0x30) + -0xc + *(int *)(iVar1 + 0x34) * 0xc);
+  bCString::~bCString(this + 8);
+  bCString::~bCString(this);
+  *(undefined4 *)this = 0;
+  *(undefined4 *)(this + 4) = 0;
+  *(undefined4 *)(this + 8) = 0;
+  if (this != (bCString *)0x0) {
+    bCString::bCString(this);
+    bCString::bCString(this + 8);
+  }
+  thunk_FUN_10017720(this,local_c,1);
+  bCString::~bCString(local_4);
+  bCString::~bCString(local_c);
+  return param_1;
+}
+
+

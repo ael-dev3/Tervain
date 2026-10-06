@@ -1,0 +1,14 @@
+/* ENTRY 10004b10 | bCString::SetAt | STATUS decompiled | 2 ms */
+
+/* public: void __thiscall bCString::SetAt(int,char) */
+
+void __thiscall bCString::SetAt(bCString *this,int param_1,char param_2)
+
+{
+                    /* 0x4b10  4064  ?SetAt@bCString@@QAEXHD@Z */
+  CopyBeforeWrite(this);
+  *(char *)(param_1 + *(int *)this) = param_2;
+  return;
+}
+
+

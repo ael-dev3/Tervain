@@ -1,0 +1,2 @@
+; 3000d1ca ?Read@eCRigidBodyBase_PS@@UAE?AW4bEResult@@AAVbCIStream@@@Z
+3000d1ca | e961633200 | JMP 0x30333530

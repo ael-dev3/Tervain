@@ -1,0 +1,24 @@
+/* ENTRY 200b35f0 | bTPropertyContainer<gEDamageType>::bTPropertyContainer<gEDamageType>_Constructor_or_Destructor | STATUS decompiled | 8 ms */
+
+undefined4 __fastcall
+bTPropertyContainer<gEDamageType>::bTPropertyContainer<gEDamageType>_Constructor_or_Destructor
+          (bCObjectRefBase *param_1)
+
+{
+  bCObjectBase local_8;
+  undefined4 local_4;
+  
+  bCObjectRefBase::PostInitializeProperties(param_1);
+  param_1[7].bCObjectBase = (bCObjectBase)0xa;
+  bCObjectBase::bCObjectBase(&local_8);
+  local_8 = (bCObjectBase)&vftable;
+  local_4 = 2;
+  (**(code **)((int)param_1[5].bCObjectBase + 0x1c))(&local_8);
+  bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xfffffff4);
+  param_1[8].bCObjectBase = (bCObjectBase)0x3f800000;
+  param_1[10].bCObjectBase = (bCObjectBase)0x0;
+  param_1[9].bCObjectBase = (bCObjectBase)0x3f800000;
+  return 1;
+}
+
+

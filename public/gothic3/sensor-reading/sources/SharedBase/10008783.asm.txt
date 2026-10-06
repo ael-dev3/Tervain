@@ -1,0 +1,4 @@
+; 10008783 ?Clear@bCQuaternion@@QAEXXZ
+10008783 | e938d60100 | JMP 0x10025dc0
+; 10008788 bCProfileIterator::EnterChild
+; 10008788 Ordinal_2014

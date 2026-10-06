@@ -1,0 +1,10 @@
+; 202900c0 bTPropertyType<gCNavigation_PS,eCEntityProxy>::vfunction6
+202900c0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+202900c4 | 85c0 | TEST EAX,EAX
+202900c6 | 740b | JZ 0x202900d3
+202900c8 | 8b11 | MOV EDX,dword ptr [ECX]
+202900ca | 89442404 | MOV dword ptr [ESP + 0x4],EAX
+202900ce | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+202900d1 | ffe0 | JMP EAX
+; 202900d3 LAB_202900d3
+202900d3 | c20400 | RET 0x4

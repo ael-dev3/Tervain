@@ -1,0 +1,16 @@
+/* ENTRY 30004acf | eCSpringAndDamperEffector::~eCSpringAndDamperEffector | STATUS decompiled | 5 ms */
+
+/* protected: virtual __thiscall eCSpringAndDamperEffector::~eCSpringAndDamperEffector(void) */
+
+void __thiscall
+eCSpringAndDamperEffector::~eCSpringAndDamperEffector(eCSpringAndDamperEffector *this)
+
+{
+                    /* 0x4acf  1325  ??1eCSpringAndDamperEffector@@MAE@XZ */
+  this->vftablePtr = &vftable;
+  eCEffector::Destroy((eCEffector *)this);
+  eCEffector::~eCEffector((eCEffector *)this);
+  return;
+}
+
+

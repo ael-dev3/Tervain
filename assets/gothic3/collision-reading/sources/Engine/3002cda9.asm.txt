@@ -1,0 +1,2 @@
+; 3002cda9 ?GetMeshResourceName@eCCollisionShape@@QAEAAVbCString@@XZ
+3002cda9 | e9325e0900 | JMP 0x300c2be0

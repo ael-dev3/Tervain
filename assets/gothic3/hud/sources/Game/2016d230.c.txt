@@ -1,0 +1,37 @@
+/* ENTRY 2016d230 | gCHUDPageMain2::~gCHUDPageMain2 | STATUS decompiled | 48 ms */
+
+void __thiscall gCHUDPageMain2::~gCHUDPageMain2(gCHUDPageMain2 *this)
+
+{
+  this->vftablePtr = &vftable;
+  gCHUDStaticCompass::~gCHUDStaticCompass
+            ((gCHUDStaticCompass *)&(this->gCHUDPageMain2_data).field_0x2a0);
+  gCHUDTextEffect::gCHUDTextEffect_Constructor_or_Destructor
+            ((CFFGFCStatic *)&(this->gCHUDPageMain2_data).field_0x270);
+  gCHUDLog::gCHUDLog_Constructor_or_Destructor
+            ((CFFGFCStatic *)&(this->gCHUDPageMain2_data).field_0x230);
+  gCHUDViewTalk2::~gCHUDViewTalk2((gCHUDViewTalk2 *)&(this->gCHUDPageMain2_data).field_0x210);
+  gCHUDViewBarPages2::~gCHUDViewBarPages2
+            ((gCHUDViewBarPages2 *)&(this->gCHUDPageMain2_data).field_0x1d8);
+  gCHUDViewBarQuickslots2::~gCHUDViewBarQuickslots2
+            ((gCHUDViewBarQuickslots2 *)&(this->gCHUDPageMain2_data).field_0x19c);
+  gCHUDViewBarFocus2::~gCHUDViewBarFocus2
+            ((gCHUDViewBarFocus2 *)&(this->gCHUDPageMain2_data).field_0x158);
+  gCHUDViewBarEndurance2::~gCHUDViewBarEndurance2
+            ((gCHUDViewBarEndurance2 *)&(this->gCHUDPageMain2_data).field_0x114);
+  gCHUDViewBarHealth2::~gCHUDViewBarHealth2
+            ((gCHUDViewBarHealth2 *)&(this->gCHUDPageMain2_data).field_0xd0);
+  gCHUDViewBarMana2::~gCHUDViewBarMana2
+            ((gCHUDViewBarMana2 *)&(this->gCHUDPageMain2_data).field_0x8c);
+  gCHUDView::~gCHUDView((gCHUDView *)&(this->gCHUDPageMain2_data).field_0x78);
+  gCHUDView::~gCHUDView((gCHUDView *)&(this->gCHUDPageMain2_data).field_0x64);
+  gCHUDView::~gCHUDView((gCHUDView *)&(this->gCHUDPageMain2_data).field_0x50);
+  gCHUDView::~gCHUDView((gCHUDView *)&(this->gCHUDPageMain2_data).field_0x3c);
+  gCHUDView::~gCHUDView((gCHUDView *)&(this->gCHUDPageMain2_data).field_0x28);
+  gCHUDView::~gCHUDView((gCHUDView *)&(this->gCHUDPageMain2_data).field_0x14);
+  gCHUDView::~gCHUDView((gCHUDView *)&this->gCHUDPageMain2_data);
+  gCHUDPage::~gCHUDPage((gCHUDPage *)this);
+  return;
+}
+
+

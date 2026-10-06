@@ -1,0 +1,20 @@
+/* ENTRY 20031ec6 | gCNavigationAdmin::RegisterInteractionPS | STATUS decompiled | 5 ms */
+
+/* public: enum bEResult __thiscall gCNavigationAdmin::RegisterInteractionPS(class gCInteraction_PS
+   *) */
+
+bEResult __thiscall
+gCNavigationAdmin::RegisterInteractionPS(gCNavigationAdmin *this,gCInteraction_PS *param_1)
+
+{
+  bEResult bVar1;
+  
+                    /* 0x31ec6  6030
+                       ?RegisterInteractionPS@gCNavigationAdmin@@QAE?AW4bEResult@@PAVgCInteraction_PS@@@Z
+                        */
+  bVar1 = gCNavigationMap::RegisterInteractionPS
+                    ((gCNavigationMap *)&(this->gCNavigationAdmin_data).field_0x50,param_1);
+  return bVar1;
+}
+
+

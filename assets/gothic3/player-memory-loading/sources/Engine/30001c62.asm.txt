@@ -1,0 +1,2 @@
+; 30001c62 eCEntityPropertySet::IntersectsRay
+30001c62 | e9e9fb4700 | JMP 0x30481850

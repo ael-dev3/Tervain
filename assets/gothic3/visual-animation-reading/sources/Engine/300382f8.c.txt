@@ -1,0 +1,42 @@
+/* ENTRY 300382f8 | thunk_FUN_300ad900 | STATUS decompiled | 29 ms */
+
+InstanceManagerBase_vftable * __fastcall thunk_FUN_300ad900(bad_alloc *param_1)
+
+{
+  InstanceManagerBase *this;
+  int extraout_EAX;
+  InstanceManagerBase_vftable *pIVar1;
+  bad_alloc *extraout_ECX;
+  InstanceManagerBase *pIVar2;
+  
+  if (DAT_30ada2c8 == (InstanceManagerBase *)0x0) {
+    std::bad_alloc::~bad_alloc(param_1,0xc);
+    if (this == (InstanceManagerBase *)0x0) {
+      DAT_30ada2c8 = (InstanceManagerBase *)0x0;
+    }
+    else {
+      MCore::InstanceManagerBase::InstanceManagerBase(this);
+      this->vftablePtr =
+           (InstanceManagerBase_vftable *)&MCore::InstanceManager<MCore::MemoryManager>::vftable;
+      this[1].vftablePtr = (InstanceManagerBase_vftable *)0x0;
+      DAT_30ada2c8 = this;
+    }
+    pIVar2 = DAT_30ada2c8;
+    FUN_3066adf0(DAT_30ada2c8);
+    FUN_3066ac80(pIVar2);
+    param_1 = extraout_ECX;
+  }
+  pIVar2 = DAT_30ada2c8 + 1;
+  if (pIVar2->vftablePtr == (InstanceManagerBase_vftable *)0x0) {
+    std::bad_alloc::~bad_alloc(param_1,0x50);
+    if (extraout_EAX != 0) {
+      pIVar1 = (InstanceManagerBase_vftable *)FUN_3066bc40();
+      pIVar2->vftablePtr = pIVar1;
+      return pIVar1;
+    }
+    pIVar2->vftablePtr = (InstanceManagerBase_vftable *)0x0;
+  }
+  return pIVar2->vftablePtr;
+}
+
+

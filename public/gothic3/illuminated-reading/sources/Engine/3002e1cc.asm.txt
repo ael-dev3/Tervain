@@ -1,0 +1,2 @@
+; 3002e1cc bTPropertyType<eCIlluminated_PS,bTPropertyContainer<eEDirectionalShadowType>_>::vfunction15
+3002e1cc | e92f9b1f00 | JMP 0x30227d00

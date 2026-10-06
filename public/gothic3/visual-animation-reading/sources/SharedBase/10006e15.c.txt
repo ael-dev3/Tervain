@@ -1,0 +1,25 @@
+/* ENTRY 10006e15 | bCVector::NormalizeApprox | STATUS decompiled | 8 ms */
+
+/* public: class bCVector const & __thiscall bCVector::NormalizeApprox(void) */
+
+bCVector * __thiscall bCVector::NormalizeApprox(bCVector *this)
+
+{
+  float fVar1;
+  float10 fVar2;
+  
+                    /* 0x6e15  3805  ?NormalizeApprox@bCVector@@QAEABV1@XZ */
+  fVar1 = *(float *)(this + 8) * *(float *)(this + 8) +
+          *(float *)this * *(float *)this + *(float *)(this + 4) * *(float *)(this + 4);
+  if (fVar1 == 0.0) {
+    return this;
+  }
+  fVar2 = (float10)thunk_FUN_10023840(fVar1);
+  fVar1 = (float)fVar2;
+  *(float *)this = fVar1 * *(float *)this;
+  *(float *)(this + 4) = fVar1 * *(float *)(this + 4);
+  *(float *)(this + 8) = fVar1 * *(float *)(this + 8);
+  return this;
+}
+
+

@@ -1,0 +1,10 @@
+/* ENTRY 3033d730 | bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eECollisionGroup>_>::vfunction2 | STATUS decompiled | 1 ms */
+
+undefined4 __thiscall
+bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eECollisionGroup>_>::vfunction2(void)
+
+{
+  return 8;
+}
+
+

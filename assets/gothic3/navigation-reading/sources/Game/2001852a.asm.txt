@@ -1,0 +1,2 @@
+; 2001852a bTPropertyType<gCNavigation_PS,bCVector>::vfunction10
+2001852a | e901512700 | JMP 0x2028d630

@@ -1,0 +1,2 @@
+; 20025dab ?Create@gCInventory_PS@@UAE?AW4bEResult@@XZ
+20025dab | e9b0301800 | JMP 0x201a8e60

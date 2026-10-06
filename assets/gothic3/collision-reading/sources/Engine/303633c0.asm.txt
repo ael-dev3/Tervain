@@ -1,0 +1,22 @@
+; 303633c0 bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeMaterial>_>::deleting_destructor
+303633c0 | 56 | PUSH ESI
+303633c1 | 8bf1 | MOV ESI,ECX
+303633c3 | c706a4348630 | MOV dword ptr [ESI],0x308634a4
+303633c9 | ff156ccaaf30 | CALL dword ptr [0x30afca6c]
+303633cf | 8d4620 | LEA EAX,[ESI + 0x20]
+303633d2 | 50 | PUSH EAX
+303633d3 | e8b85ecbff | CALL 0x30019290
+303633d8 | 8b4e18 | MOV ECX,dword ptr [ESI + 0x18]
+303633db | 56 | PUSH ESI
+303633dc | ff1514cbaf30 | CALL dword ptr [0x30afcb14]
+303633e2 | 8bce | MOV ECX,ESI
+303633e4 | c7062cf48130 | MOV dword ptr [ESI],0x3081f42c
+303633ea | ff1560caaf30 | CALL dword ptr [0x30afca60]
+303633f0 | f644240801 | TEST byte ptr [ESP + 0x8],0x1
+303633f5 | 7409 | JZ 0x30363400
+303633f7 | 56 | PUSH ESI
+303633f8 | e86be03000 | CALL 0x30671468
+; 30363400 LAB_30363400
+30363400 | 8bc6 | MOV EAX,ESI
+30363402 | 5e | POP ESI
+30363403 | c20400 | RET 0x4

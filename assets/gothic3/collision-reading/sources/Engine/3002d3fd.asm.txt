@@ -1,0 +1,4 @@
+; 3002d3fd bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeAABBAdapt>_>::vfunction19
+3002d3fd | e93e5d3300 | JMP 0x30363140
+; 3002d407 eCGfxTextureBlock::GetTextureCoordIndex
+; 3002d407 Ordinal_9104

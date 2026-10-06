@@ -1,0 +1,2 @@
+; 300436a8 ?SetShape@eCCollisionShape@@QAE?AW4bEResult@@ABVbCSphere@@@Z
+300436a8 | e9d3a60800 | JMP 0x300cdd80

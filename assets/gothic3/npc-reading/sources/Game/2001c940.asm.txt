@@ -1,0 +1,2 @@
+; 2001c940 bTPropertyType<gCNPC_PS,int>::vfunction26
+2001c940 | e9bbf92e00 | JMP 0x2030c300

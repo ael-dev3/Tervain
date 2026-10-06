@@ -1,0 +1,90 @@
+/* ENTRY 20213940 | FUN_20213940 | STATUS decompiled | 39 ms */
+
+void __thiscall FUN_20213940(int param_1,eCVisualAnimation_PS *param_2)
+
+{
+  bool bVar1;
+  eCWrapper_emfx2Actor *this;
+  bCString *pbVar2;
+  bCString *pbVar3;
+  double dVar4;
+  char *pcVar5;
+  char *pcVar6;
+  undefined *local_28;
+  undefined4 uStack_24;
+  bCString local_10 [4];
+  char local_c [4];
+  undefined8 local_8;
+  
+  this = eCVisualAnimation_PS::GetActor(param_2);
+  if (this != (eCWrapper_emfx2Actor *)0x0) {
+    local_8 = eCWrapper_emfx2Actor::GetPlayTime(this,0);
+    dVar4 = eCWrapper_emfx2Actor::GetMaxTime(this,0);
+    param_2 = (eCVisualAnimation_PS *)(float)((float10)local_8 / (float10)dVar4);
+    if ((float)param_2 <= 0.6) {
+      if (0.1 < (float)param_2) {
+        *(undefined1 *)(param_1 + 0x3c) = 0xff;
+      }
+    }
+    else {
+      *(undefined1 *)(param_1 + 0x3c) = 1;
+    }
+    bCString::bCString(local_10);
+    if (*(eCResourceDataEntity **)(param_1 + 4) != (eCResourceDataEntity *)0x0) {
+      pbVar2 = (bCString *)
+               eCResourceDataEntity::GetFileName(*(eCResourceDataEntity **)(param_1 + 4));
+      bCString::operator=(local_10,pbVar2);
+      bCString::~bCString((bCString *)&param_2);
+    }
+    uStack_24 = 0;
+    local_28 = &DAT_2065c620;
+    pcVar5 = local_c;
+    pcVar6 = &DAT_207cc708;
+    pbVar2 = (bCString *)operator+((char *)&local_8,(bCString *)&DAT_2065c620);
+    pbVar2 = (bCString *)bCString::operator+(pbVar2,pcVar6);
+    pcVar6 = bCString::operator_char_const_(pbVar2);
+    bVar1 = bCString::Contains((bCString *)&stack0xffffffe8,pcVar6,(int)pcVar5);
+    local_8._0_5_ = CONCAT14(bVar1,(undefined4)local_8);
+    bCString::~bCString((bCString *)&stack0xffffffec);
+    bCString::~bCString(local_10);
+    if (local_8._4_1_ == '\0') {
+      pbVar2 = local_10;
+      pcVar5 = &DAT_207cc70c;
+      pbVar3 = (bCString *)operator+(&stack0xffffffec,(bCString *)&DAT_2065c620);
+      pbVar3 = (bCString *)bCString::operator+(pbVar3,pcVar5);
+      pcVar5 = bCString::operator_char_const_(pbVar3);
+      local_c[0] = bCString::Contains((bCString *)&stack0xffffffe0,pcVar5,(int)pbVar2);
+      bCString::~bCString((bCString *)&stack0xffffffe8);
+      bCString::~bCString((bCString *)&stack0xffffffe4);
+      if (local_c[0] == '\0') {
+        pcVar5 = local_c;
+        pcVar6 = &DAT_207cc710;
+        pbVar2 = (bCString *)operator+(&stack0xffffffe8,(bCString *)&DAT_2065c620);
+        pbVar2 = (bCString *)bCString::operator+(pbVar2,pcVar6);
+        pcVar6 = bCString::operator_char_const_(pbVar2);
+        bVar1 = bCString::Contains((bCString *)&local_28,pcVar6,(int)pcVar5);
+        bCString::~bCString((bCString *)&stack0xffffffec);
+        bCString::~bCString((bCString *)&stack0xffffffe0);
+        if (bVar1) {
+          if (*(char *)(param_1 + 0x3c) != *(char *)(param_1 + 0x3d)) {
+            thunk_FUN_20217b80(*(char *)(param_1 + 0x3c) == '\x01');
+          }
+        }
+        else {
+          *(undefined1 *)(param_1 + 0x3c) = 0;
+        }
+      }
+      else if (*(char *)(param_1 + 0x3c) != *(char *)(param_1 + 0x3d)) {
+        thunk_FUN_20217b10(*(char *)(param_1 + 0x3c) == '\x01');
+      }
+    }
+    else if (*(char *)(param_1 + 0x3c) != *(char *)(param_1 + 0x3d)) {
+      thunk_FUN_20217aa0(*(char *)(param_1 + 0x3c) == '\x01');
+    }
+    bCString::~bCString((bCString *)&local_28);
+    *(undefined1 *)(param_1 + 0x3d) = *(undefined1 *)(param_1 + 0x3c);
+  }
+  return;
+}
+
+

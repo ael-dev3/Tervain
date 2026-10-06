@@ -1,0 +1,17 @@
+/* ENTRY 101413d0 | FUN_101413d0 | STATUS decompiled | 8 ms */
+
+void FUN_101413d0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Commands\\StartSayAttackEnd.cpp");
+  bCString::bCString(local_8,"StartSayAttackEnd");
+  thunk_FUN_10017a50(local_8,thunk_FUN_10064770,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

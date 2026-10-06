@@ -1,0 +1,4 @@
+; 10003f49 ?GetPoliticalSuspectComment@PSPlayerMemory@@QAEJW4gEPoliticalAlignment@@@Z
+10003f49 | e932470200 | JMP 0x10028680
+; 10003f4e PSInventory::DropStack
+; 10003f4e Ordinal_1444

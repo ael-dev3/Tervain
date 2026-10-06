@@ -1,0 +1,4 @@
+; 300074c8 bTPropertyType<eCCollisionShape,bTPropertyContainer<eECollisionShapeType>_>::vfunction19
+300074c8 | e923bb3500 | JMP 0x30362ff0
+; 300074cd eCActionMapper::Destroy
+; 300074cd Ordinal_5051

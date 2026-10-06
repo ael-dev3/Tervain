@@ -1,0 +1,5 @@
+; 2028fc10 bTPropertyType<gCNavigation_PS,eCEntityProxy>::vfunction3
+2028fc10 | 8b4918 | MOV ECX,dword ptr [ECX + 0x18]
+2028fc13 | 8b01 | MOV EAX,dword ptr [ECX]
+2028fc15 | 8b10 | MOV EDX,dword ptr [EAX]
+2028fc17 | ffe2 | JMP EDX

@@ -1,0 +1,17 @@
+/* ENTRY 101742a0 | FUN_101742a0 | STATUS decompiled | 117 ms */
+
+void FUN_101742a0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Engine\\Engine_Callback\\OnReturnFromMenu.cpp");
+  bCString::bCString(local_8,"OnReturnFromMenu");
+  thunk_FUN_10017a50(local_8,&LAB_10002ab8,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

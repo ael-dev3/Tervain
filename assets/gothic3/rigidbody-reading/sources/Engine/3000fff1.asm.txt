@@ -1,0 +1,4 @@
+; 3000fff1 ?GetWorldRotation@eCEntity@@QBE?AVbCQuaternion@@XZ
+3000fff1 | e96a4b4a00 | JMP 0x304b4b60
+; 3000fff6 eCCursor::GetHotSpot
+; 3000fff6 Ordinal_7289

@@ -1,0 +1,12 @@
+/* ENTRY 200257b6 | gCSession::IsPaused | STATUS decompiled | 5 ms */
+
+/* public: bool __thiscall gCSession::IsPaused(void)const  */
+
+bool __thiscall gCSession::IsPaused(gCSession *this)
+
+{
+                    /* 0x257b6  5195  ?IsPaused@gCSession@@QBE_NXZ */
+  return (bool)((byte)(this->gCSession_data).offset_0xcc & 1);
+}
+
+

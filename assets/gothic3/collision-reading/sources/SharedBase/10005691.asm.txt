@@ -1,0 +1,4 @@
+; 10005691 ?Destroy@bCCapsule@@QAEXXZ
+10005691 | e97a230500 | JMP 0x10057a10
+; 1000569b bCRay::GetIntersectionDistance
+; 1000569b Ordinal_2437

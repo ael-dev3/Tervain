@@ -1,0 +1,12 @@
+/* ENTRY 200154d3 | gCStat::GetMaximumModifier | STATUS decompiled | 4 ms */
+
+/* public: int const & __thiscall gCStat::GetMaximumModifier(void)const  */
+
+int * __thiscall gCStat::GetMaximumModifier(gCStat *this)
+
+{
+                    /* 0x154d3  3760  ?GetMaximumModifier@gCStat@@QBEABHXZ */
+  return &(this->gCAttribute_data).offset_0x18;
+}
+
+

@@ -1,0 +1,2 @@
+; 20018f16 bTPropertyContainer<gEHitDirection>::vfunction5
+20018f16 | e995f93300 | JMP 0x203588b0

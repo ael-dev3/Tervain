@@ -1,0 +1,10 @@
+; 201884f0 gCHUDListCtrlInvSpells::gCHUDListCtrlInvSpells
+201884f0 | 56 | PUSH ESI
+201884f1 | 8bf1 | MOV ESI,ECX
+201884f3 | e850b9e9ff | CALL 0x20023e48
+201884f8 | c706f4756720 | MOV dword ptr [ESI],0x206775f4
+201884fe | c74610d8756720 | MOV dword ptr [ESI + 0x10],0x206775d8
+20188505 | c74634ffffffff | MOV dword ptr [ESI + 0x34],0xffffffff
+2018850c | 8bc6 | MOV EAX,ESI
+2018850e | 5e | POP ESI
+2018850f | c3 | RET

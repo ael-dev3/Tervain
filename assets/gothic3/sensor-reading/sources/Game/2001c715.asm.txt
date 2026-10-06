@@ -1,0 +1,2 @@
+; 2001c715 ?SetGoalPosition@gCCharacterSensor_PS@@QAEXABVbCVector@@_N@Z
+2001c715 | e986a52100 | JMP 0x20236ca0

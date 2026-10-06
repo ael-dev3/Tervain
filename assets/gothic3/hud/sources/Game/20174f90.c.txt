@@ -1,0 +1,13 @@
+/* ENTRY 20174f90 | gCHUDMenuIntro2::gCHUDMenuIntro2 | STATUS decompiled | 6 ms */
+
+gCHUDMenuIntro2 * __thiscall gCHUDMenuIntro2::gCHUDMenuIntro2(gCHUDMenuIntro2 *this)
+
+{
+  gCHUDMenu::gCHUDMenu((gCHUDMenu *)this);
+  this->vftablePtr = &vftable;
+  CFFGFCAnimateCtrl::CFFGFCAnimateCtrl((CFFGFCAnimateCtrl *)&(this->gCHUDMenuIntro2_data).field_0xc)
+  ;
+  return this;
+}
+
+

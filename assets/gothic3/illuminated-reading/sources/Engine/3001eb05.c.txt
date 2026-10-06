@@ -1,0 +1,12 @@
+/* ENTRY 3001eb05 | eCIlluminated_PS::GetCastShadows | STATUS decompiled | 7 ms */
+
+/* public: bool const & __thiscall eCIlluminated_PS::GetCastShadows(void)const  */
+
+bool * __thiscall eCIlluminated_PS::GetCastShadows(eCIlluminated_PS *this)
+
+{
+                    /* 0x1eb05  6438  ?GetCastShadows@eCIlluminated_PS@@QBEAB_NXZ */
+  return (bool *)&(this->eCIlluminated_PS_data).field_0xc;
+}
+
+

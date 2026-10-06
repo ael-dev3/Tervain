@@ -1,0 +1,2 @@
+; 30044355 bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeMaterial>_>::vfunction14
+30044355 | e946b53100 | JMP 0x3035f8a0

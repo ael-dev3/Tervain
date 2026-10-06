@@ -1,0 +1,10 @@
+; 300b6ad0 bTPropertyType<eCVisualAnimation_PS,int>::vfunction6
+300b6ad0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+300b6ad4 | 85c0 | TEST EAX,EAX
+300b6ad6 | 740e | JZ 0x300b6ae6
+300b6ad8 | 8b11 | MOV EDX,dword ptr [ECX]
+300b6ada | 50 | PUSH EAX
+300b6adb | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+300b6ade | ffd0 | CALL EAX
+300b6ae0 | c700ffffffff | MOV dword ptr [EAX],0xffffffff
+300b6ae6 | c20400 | RET 0x4

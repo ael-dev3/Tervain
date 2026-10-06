@@ -1,0 +1,2 @@
+; 2003233a gCHUDTableRecipeStats::vfunction3_for_gCInventoryListener
+2003233a | e901ab1500 | JMP 0x2018ce40

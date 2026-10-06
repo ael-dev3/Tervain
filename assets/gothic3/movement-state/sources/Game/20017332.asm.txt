@@ -1,0 +1,2 @@
+; 20017332 ?OnUntouch@gCCharacterMovement_PS@@UAEXPAVeCEntity@@AAVeCContactIterator@@@Z
+20017332 | e909ea2000 | JMP 0x20225d40

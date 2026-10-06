@@ -1,0 +1,19 @@
+/* ENTRY 300db350 | FUN_300db350 | STATUS decompiled | 5 ms */
+
+float10 __thiscall FUN_300db350(int param_1,uint param_2)
+
+{
+  int iVar1;
+  char cVar2;
+  
+  if ((param_2 < 8) && (iVar1 = *(int *)(param_1 + 0x10 + param_2 * 4), iVar1 != 0)) {
+    cVar2 = thunk_FUN_300e2c60(iVar1);
+    if (cVar2 != '\0') {
+      return (float10)*(float *)(iVar1 + 0x28);
+    }
+    *(undefined4 *)(param_1 + 0x10 + param_2 * 4) = 0;
+  }
+  return (float10)0;
+}
+
+

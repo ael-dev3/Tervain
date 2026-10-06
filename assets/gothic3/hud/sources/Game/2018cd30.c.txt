@@ -1,0 +1,20 @@
+/* ENTRY 2018cd30 | gCHUDTableRecipeStats::gCHUDTableRecipeStats | STATUS decompiled | 8 ms */
+
+gCHUDTableRecipeStats * __thiscall
+gCHUDTableRecipeStats::gCHUDTableRecipeStats(gCHUDTableRecipeStats *this)
+
+{
+  gCHUDTable::gCHUDTable((gCHUDTable *)this);
+                    /* inlined constructor: gCInventoryListener::gCInventoryListener */
+  this->vftablePtr =
+       (gCHUDTableRecipeStats_vftable_for_gCInventoryListener *)&gCInventoryListener::vftable;
+  this[1].vftablePtr = (gCHUDTableRecipeStats_vftable_for_gCHUDTable *)0x0;
+  *(undefined4 *)&this[1].gCHUDTable_data = 0;
+  *(undefined4 *)&this[1].gCHUDTable_data.field_0x4 = 0;
+  this[1].gCHUDTable_data.field_0x8 = 0;
+  this->vftablePtr = &vftable_for_gCHUDTable;
+  this->vftablePtr = &vftable_for_gCInventoryListener;
+  return this;
+}
+
+

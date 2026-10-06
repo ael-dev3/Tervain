@@ -1,0 +1,15 @@
+/* ENTRY 2018e7c0 | gCHUDTabCtrlInventory::~gCHUDTabCtrlInventory | STATUS decompiled | 8 ms */
+
+void __thiscall gCHUDTabCtrlInventory::~gCHUDTabCtrlInventory(gCHUDTabCtrlInventory *this)
+
+{
+  this->vftablePtr = &vftable;
+  CFFGFCImageList::~CFFGFCImageList
+            ((CFFGFCImageList *)&(this->gCHUDTabCtrlInventory_data).field_0xc);
+                    /* WARNING: Could not recover jumptable at 0x2018e7d5. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  CFFGFCTabCtrl::~CFFGFCTabCtrl((CFFGFCTabCtrl *)this);
+  return;
+}
+
+

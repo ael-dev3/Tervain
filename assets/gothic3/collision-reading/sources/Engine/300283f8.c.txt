@@ -1,0 +1,35 @@
+/* ENTRY 300283f8 | bTPropertyObject<eCCollisionShape_PS,eCCollisionShapeBase_PS>::vfunction15 | STATUS decompiled | 14 ms */
+
+bCPropertyObjectBase * __thiscall
+bTPropertyObject<eCCollisionShape_PS,eCCollisionShapeBase_PS>::vfunction15
+          (bTPropertyObject<eCCollisionShape_PS,eCCollisionShapeBase_PS> *this)
+
+{
+  bool bVar1;
+  bCPropertyObjectBase *this_00;
+  bCPropertyObjectBase bVar2;
+  
+  this_00 = (bCPropertyObjectBase *)new(0x10,400);
+  if (this_00 == (bCPropertyObjectBase *)0x0) {
+    this_00 = (bCPropertyObjectBase *)0x0;
+  }
+  else {
+    bCPropertyObjectBase::bCPropertyObjectBase(this_00);
+    this_00[2] = (bCPropertyObjectBase)0x0;
+    *this_00 = (bCPropertyObjectBase)&vftable;
+    bVar2 = (bCPropertyObjectBase)
+            bTPropertyObjectType<eCCollisionShape_PS,eCCollisionShapeBase_PS>::
+            ~bTPropertyObjectType<eCCollisionShape_PS,eCCollisionShapeBase_PS>();
+    this_00[1] = (bCPropertyObjectBase)((uint)this_00[1] & 0xfffffffb);
+    this_00[3] = bVar2;
+    this_00[2] = (bCPropertyObjectBase)0x0;
+    thunk_FUN_3033f9f0(0);
+  }
+  bVar1 = bCPropertyObjectBase::IsRoot((bCPropertyObjectBase *)this);
+  if (!bVar1) {
+    (**(code **)((int)*this_00 + 0x3c))(this);
+  }
+  return this_00;
+}
+
+

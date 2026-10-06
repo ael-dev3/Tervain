@@ -1,0 +1,15 @@
+/* ENTRY 20020c7f | gCPlayerMemory_PS::GetSaveGameRelevance | STATUS decompiled | 5 ms */
+
+/* public: virtual enum eCEntityPropertySet::eEPSSaveGameRelevance __thiscall
+   gCPlayerMemory_PS::GetSaveGameRelevance(void)const  */
+
+eEPSSaveGameRelevance __thiscall gCPlayerMemory_PS::GetSaveGameRelevance(gCPlayerMemory_PS *this)
+
+{
+                    /* 0x20c7f  4372
+                       ?GetSaveGameRelevance@gCPlayerMemory_PS@@UBE?AW4eEPSSaveGameRelevance@eCEntityPropertySet@@XZ
+                        */
+  return 1;
+}
+
+

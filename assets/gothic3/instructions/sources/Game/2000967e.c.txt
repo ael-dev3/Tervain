@@ -1,0 +1,18 @@
+/* ENTRY 2000967e | gCScriptRoutine_PS::SetCurrentBreakBlock | STATUS decompiled | 10 ms */
+
+/* public: void __thiscall gCScriptRoutine_PS::SetCurrentBreakBlock(long const &) */
+
+void __thiscall gCScriptRoutine_PS::SetCurrentBreakBlock(gCScriptRoutine_PS *this,long *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x967e  6343  ?SetCurrentBreakBlock@gCScriptRoutine_PS@@QAEXABJ@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"CurrentBreakBlock",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  *(long *)&(this->gCScriptRoutine_PS_data).field_0x34 = *param_1;
+  (*pNVar1)(this,"CurrentBreakBlock",false);
+  return;
+}
+
+

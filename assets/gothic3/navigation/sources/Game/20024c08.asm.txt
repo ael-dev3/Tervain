@@ -1,0 +1,2 @@
+; 20024c08 ?Destroy@gCNavigation_PS@@UAEXXZ
+20024c08 | e913272600 | JMP 0x20287320

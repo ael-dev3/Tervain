@@ -1,0 +1,15 @@
+{
+  "schema": "gothic3-inventory-reading-manifest-v1",
+  "outputs": [
+    {
+      "path": "hero-inventory.json",
+      "bytes": 7245,
+      "sha256": "771cad3c1929b1e15f24f4214651d93d88ec4f71647b4cf6ef7cf14d6fd35042"
+    },
+    {
+      "path": "runtime-rules.json",
+      "bytes": 4851,
+      "sha256": "c5d5e2ff3220c64422db36ceadea493abbcea88fb9c34680d57d82cea7d3f1a8"
+    }
+  ]
+}

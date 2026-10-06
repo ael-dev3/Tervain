@@ -1,0 +1,5 @@
+; 304c4b80 FUN_304c4b80
+304c4b80 | 8bc1 | MOV EAX,ECX
+304c4b82 | c70000000000 | MOV dword ptr [EAX],0x0
+304c4b88 | c7400401000000 | MOV dword ptr [EAX + 0x4],0x1
+304c4b8f | c3 | RET

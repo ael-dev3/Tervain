@@ -1,0 +1,4 @@
+; 2001bffe ?ApplyDefaults@gCInventorySlot@@IAEXXZ
+2001bffe | e97d3f1a00 | JMP 0x201bff80
+; 2001c003 gCTreasureSetAdmin::~gCTreasureSetAdmin
+; 2001c003 Ordinal_548

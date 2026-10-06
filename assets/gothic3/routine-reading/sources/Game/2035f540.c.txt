@@ -1,0 +1,17 @@
+/* ENTRY 2035f540 | bTPropertyType<gCScriptRoutine_PS,bTPropertyContainer<gEAniState>_>::vfunction6 | STATUS decompiled | 6 ms */
+
+void __thiscall
+bTPropertyType<gCScriptRoutine_PS,bTPropertyContainer<gEAniState>_>::vfunction6
+          (bTPropertyType<gCScriptRoutine_PS,bTPropertyContainer<gEAniState>_> *this,int param_1)
+
+{
+  bTPropertyType<gCScriptRoutine_PS,bTPropertyContainer<gEAniState>_>_vftable *pbVar1;
+  
+  if (param_1 != 0) {
+    pbVar1 = (*this->vftablePtr->vfunction26)(this,(undefined4 *)param_1);
+    (**(code **)(pbVar1->vfunction1 + 0x18))();
+  }
+  return;
+}
+
+

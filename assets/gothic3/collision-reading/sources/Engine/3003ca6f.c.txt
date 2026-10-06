@@ -1,0 +1,265 @@
+/* ENTRY 3003ca6f | eCCollisionShape_PS::OnUpdatedWorldMatrix | STATUS decompiled | 241 ms */
+
+/* WARNING: Exceeded maximum restarts with more pending */
+/* protected: virtual void __thiscall eCCollisionShape_PS::OnUpdatedWorldMatrix(void) */
+
+void __thiscall eCCollisionShape_PS::OnUpdatedWorldMatrix(eCCollisionShape_PS *this)
+
+{
+  eCCollisionShape *this_00;
+  GetEntity *pGVar1;
+  bool bVar2;
+  char cVar3;
+  bCVector *pbVar4;
+  eCEntity *peVar5;
+  eSEntityFlags *peVar6;
+  eCPhysicsScene *peVar7;
+  eCPhysicQueryReport *peVar8;
+  eCEntity *peVar9;
+  eCEntity *peVar10;
+  bCVector *pbVar11;
+  eCEntity *peVar12;
+  int iVar13;
+  int iVar14;
+  eCVisualAnimation_PS *this_01;
+  bCVector *pbVar15;
+  int *piVar16;
+  bCString *pbVar17;
+  eCEntity *unaff_EBP;
+  bCVector *pbVar18;
+  bCVector *pbVar19;
+  bCVector *unaff_EDI;
+  undefined1 *puVar20;
+  eCContactIterator *peVar21;
+  eCEntity *peVar22;
+  eEShapeGroup eVar23;
+  bCMatrix *pbVar24;
+  bCVector abStack_f4 [4];
+  bCVector *pbStack_f0;
+  bCString *pbStack_ec;
+  bCVector abStack_e8 [4];
+  eCCollisionShape *peStack_e4;
+  bCVector abStack_e0 [4];
+  undefined1 *puStack_dc;
+  bCString *pbStack_d8;
+  bCVector abStack_d4 [4];
+  bCVector abStack_d0 [4];
+  bCVector abStack_cc [4];
+  bCVector abStack_c8 [20];
+  undefined4 uStack_b4;
+  bCVector abStack_b0 [4];
+  bCVector abStack_ac [28];
+  eCContactIterator aeStack_90 [4];
+  bCVector abStack_8c [4];
+  eCContactIterator aeStack_88 [4];
+  eCContactIterator aeStack_84 [68];
+  bCVector abStack_40 [4];
+  bCVector abStack_3c [8];
+  bCVector abStack_34 [4];
+  undefined1 auStack_30 [8];
+  bCVector abStack_28 [4];
+  bCMatrix abStack_24 [4];
+  bCVector abStack_20 [4];
+  bCVector abStack_1c [28];
+  
+                    /* 0x3ca6f  11612  ?OnUpdatedWorldMatrix@eCCollisionShape_PS@@MAEXXZ */
+  if ((this->eCCollisionShape_PS_data).offset_0x4 == 6) {
+    return;
+  }
+  pbStack_d8 = (bCString *)0x0;
+  if (0 < (this->eCCollisionShape_PS_data).offset_0x18) {
+    do {
+      pbVar17 = pbStack_d8;
+      this_00 = *(eCCollisionShape **)
+                 ((this->eCCollisionShape_PS_data).offset_0x14 + (int)pbStack_d8 * 4);
+      if ((this_00->eCCollisionShape_data).offset_0xc == 7) {
+        pbVar19 = (bCVector *)&(this_00->eCCollisionShape_data).field_0x64;
+        puStack_dc = pbVar19;
+        bCVector::bCVector(abStack_e8);
+        pbVar4 = eCCollisionShape::GetCenter(this_00);
+        bVar2 = bCVector::HasZeroMagnitude(pbVar4);
+        pGVar1 = this->vftablePtr->GetEntity;
+        if (bVar2) {
+          peVar5 = (eCEntity *)(*pGVar1)(this);
+          pbVar4 = eCEntity::GetWorldPosition(peVar5);
+          bCVector::operator=(abStack_e8,pbVar4);
+        }
+        else {
+          peVar5 = (eCEntity *)(*pGVar1)(this);
+          eCEntity::GetWorldMatrix(peVar5);
+          pbVar24 = abStack_24;
+          pbVar4 = eCCollisionShape::GetCenter(this_00);
+          pbVar4 = (bCVector *)bCVector::operator*(pbVar4,pbVar24);
+          bCVector::operator=((bCVector *)&pbStack_ec,pbVar4);
+          bCVector::~bCVector(abStack_28);
+        }
+        pbVar18 = pbVar19;
+        bCVector::operator-(abStack_e8,abStack_cc);
+        pbVar4 = (bCVector *)0x30337499;
+        bVar2 = bCVector::HasZeroMagnitude(abStack_d0);
+        if (bVar2) {
+          bCVector::~bCVector(abStack_d0);
+          bCVector::~bCVector((bCVector *)&pbStack_ec);
+        }
+        else {
+          if ((this_00->eCCollisionShape_data).offset_0x14 != 4) {
+            pbVar4 = abStack_ac;
+            bCVector::GetNormalized(abStack_d0);
+            bCVector::operator*(abStack_b0,(float)aeStack_88);
+            bCVector::operator-=(pbVar19,abStack_8c);
+            bCVector::~bCVector(abStack_8c);
+            bCVector::~bCVector((bCVector *)&uStack_b4);
+          }
+          peVar5 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+          peVar6 = eCEntity::GetEntityFlags(peVar5);
+          if ((DAT_30ada2a4 & 1) == 0) {
+            DAT_30ada2a4 = DAT_30ada2a4 | 1;
+            DAT_30ada2a0 = 0x800000;
+          }
+          if ((*(uint *)peVar6 & DAT_30ada2a0) != 0) {
+            (*this->vftablePtr->GetEntity)(this);
+          }
+          peVar7 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+          peVar8 = eCPhysicsScene::GetQueryReport(peVar7);
+          eVar23 = 0x30;
+          unaff_EBP = (eCEntity *)((uint)unaff_EBP & 0xffffff);
+          peVar9 = (*this->vftablePtr->GetEntity)(this);
+          peVar22 = (eCEntity *)0x482;
+          peVar10 = (*this->vftablePtr->GetEntity)(this);
+          peVar12 = (eCEntity *)pbVar19;
+          pbVar11 = (bCVector *)bCVector::operator-(abStack_f4,abStack_3c);
+          pbVar15 = pbVar19;
+          peVar7 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+          bVar2 = eCPhysicsScene::TraceRayNearestHit
+                            (peVar7,pbVar15,pbVar11,peVar12,(ulong)peVar10,peVar22,
+                             (eEPropertySetType)peVar9,eVar23);
+          bCVector::~bCVector(abStack_40);
+          if ((bVar2) && (*(int *)(peVar8 + 4) != 0)) {
+            peVar12 = (*this->vftablePtr->GetEntity)(this);
+            piVar16 = *(int **)(peVar8 + 4);
+            iVar13 = (**(code **)(*(int *)peVar12 + 0x60))();
+            iVar14 = (**(code **)(*piVar16 + 0x60))();
+            if (iVar14 == iVar13) goto LAB_3033768b;
+            eCEntity::GetEntityFlags(*(eCEntity **)(peVar8 + 4));
+            cVar3 = thunk_FUN_3009bdd0();
+            if (cVar3 == '\0') {
+              piVar16 = (int *)0x0;
+            }
+            else {
+              piVar16 = *(int **)(peVar8 + 4);
+            }
+            eCContactIterator::eCContactIterator
+                      (aeStack_84,0xe,(bCVector *)(peVar8 + 0x68),*(eCCollisionShape **)(peVar8 + 8)
+                      );
+            if (unaff_EBP != (eCEntity *)0x0) {
+              (*unaff_EBP->vftablePtr[1].Create)(*(undefined4 *)(peVar8 + 4),aeStack_84);
+            }
+            eCContactIterator::ResetIterator(aeStack_88);
+            if (piVar16 != (int *)0x0) {
+              iVar13 = *piVar16;
+              peVar21 = aeStack_88;
+              peVar12 = (*this->vftablePtr->GetEntity)(this);
+              (**(code **)(iVar13 + 0x174))(peVar12,peVar21);
+            }
+            eCContactIterator::~eCContactIterator(aeStack_88);
+          }
+          else {
+LAB_3033768b:
+            eVar23 = 0;
+            peVar9 = (*this->vftablePtr->GetEntity)(this);
+            peVar22 = (eCEntity *)0x493;
+            peVar10 = (*this->vftablePtr->GetEntity)(this);
+            peVar12 = (eCEntity *)pbVar19;
+            pbVar11 = (bCVector *)bCVector::operator-((bCVector *)&stack0xffffff08,abStack_1c);
+            pbVar15 = pbVar19;
+            peVar7 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+            bVar2 = eCPhysicsScene::TraceRayNearestHit
+                              (peVar7,pbVar15,pbVar11,peVar12,(ulong)peVar10,peVar22,
+                               (eEPropertySetType)peVar9,eVar23);
+            bCVector::~bCVector(abStack_20);
+            if ((bVar2) && (*(int *)(peVar8 + 4) != 0)) {
+              unaff_EBP = *(eCEntity **)(peVar8 + 4);
+              eCEntity::GetEntityFlags(unaff_EBP);
+              cVar3 = thunk_FUN_3009bdd0();
+              if (cVar3 == '\0') {
+                piVar16 = (int *)0x0;
+              }
+              else {
+                piVar16 = *(int **)(peVar8 + 4);
+              }
+              bCVector::bCVector(abStack_c8,(bCVector *)(peVar8 + 0x68));
+              peStack_e4 = *(eCCollisionShape **)(peVar8 + 8);
+              this_01 = (eCVisualAnimation_PS *)(**(code **)(**(int **)(peVar8 + 4) + 0xec))(100);
+              pbVar19 = pbStack_f0;
+              pbVar15 = unaff_EDI;
+              if (this_01 != (eCVisualAnimation_PS *)0x0) {
+                bCVector::operator-((bCVector *)&stack0xffffff04,abStack_d4);
+                bCVector::NormalizeApprox((bCVector *)&pbStack_d8);
+                bCUnitedRay::bCUnitedRay((bCUnitedRay *)&uStack_b4);
+                uStack_b4 = 1;
+                bCUnitedRay::SetOrigin((bCUnitedRay *)&uStack_b4,pbVar19);
+                bCUnitedRay::SetDirection((bCUnitedRay *)&uStack_b4,(bCVector *)&pbStack_d8);
+                puVar20 = &(this->eCCollisionShape_PS_data).field_0x34;
+                iVar13 = eCVisualAnimation_PS::IntersectPhysicsRayNearestHit
+                                   (this_01,(bCUnitedRay *)&uStack_b4,(float *)&pbStack_ec,
+                                    (bCString *)puVar20);
+                pbVar19 = pbVar18;
+                if (iVar13 != -1) {
+                  pbVar17 = pbStack_ec;
+                  pbVar15 = (bCVector *)
+                            bCUnitedRay::GetPoint((bCUnitedRay *)&uStack_b4,(float)auStack_30);
+                  pbVar19 = pbVar18;
+                  eCContactIterator::eCContactIterator(aeStack_90,100,pbVar15,pbVar17,(int)puVar20);
+                  pbVar18 = pbVar4;
+                  bCVector::~bCVector(abStack_34);
+                  if (pbVar18 != (bCVector *)0x0) {
+                    (**(code **)(*(int *)pbVar18 + 0x174))(piVar16,aeStack_90,iVar13);
+                  }
+                  eCContactIterator::ResetIterator(aeStack_90);
+                  if (piVar16 != (int *)0x0) {
+                    iVar13 = *piVar16;
+                    peVar21 = aeStack_90;
+                    peVar12 = (*this->vftablePtr->GetEntity)(this);
+                    (**(code **)(iVar13 + 0x174))(peVar12,peVar21);
+                  }
+                  eCContactIterator::~eCContactIterator(aeStack_90);
+                }
+                bCUnitedRay::~bCUnitedRay((bCUnitedRay *)abStack_b0);
+                bCVector::~bCVector(abStack_d4);
+                pbVar15 = pbVar18;
+                pbVar18 = pbVar19;
+              }
+              cVar3 = (char)((uint)pbVar18 >> 0x18);
+              bVar2 = eCEntity::HasPropertySet(unaff_EBP,0x1e);
+              if ((!bVar2) && (cVar3 == '\0')) {
+                eCContactIterator::eCContactIterator(aeStack_88,0xe,abStack_c8,peStack_e4);
+                if (pbVar15 != (bCVector *)0x0) {
+                  (**(code **)(*(int *)pbVar15 + 0x174))(unaff_EBP,aeStack_88);
+                }
+                eCContactIterator::ResetIterator(aeStack_88);
+                if (piVar16 != (int *)0x0) {
+                  iVar13 = *piVar16;
+                  peVar21 = aeStack_88;
+                  peVar12 = (*this->vftablePtr->GetEntity)(this);
+                  (**(code **)(iVar13 + 0x174))(peVar12,peVar21);
+                }
+                eCContactIterator::~eCContactIterator(aeStack_88);
+              }
+              bCVector::~bCVector(abStack_c8);
+              pbVar19 = pbStack_f0;
+            }
+          }
+          bCVector::operator=(pbVar19,(bCVector *)&stack0xffffff04);
+          bCVector::~bCVector(abStack_e0);
+          bCVector::~bCVector((bCVector *)&stack0xffffff04);
+          pbVar17 = pbStack_ec;
+        }
+      }
+      pbStack_d8 = pbVar17 + 1;
+    } while ((int)pbStack_d8 < (this->eCCollisionShape_PS_data).offset_0x18);
+  }
+  ShrinkTouchingShapes(this);
+  return;
+}
+
+

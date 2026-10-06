@@ -1,0 +1,12 @@
+/* ENTRY 2018b750 | gCHUDTableItemStats::~gCHUDTableItemStats | STATUS decompiled | 8 ms */
+
+void __thiscall gCHUDTableItemStats::~gCHUDTableItemStats(gCHUDTableItemStats *this)
+
+{
+  this->vftablePtr = &vftable;
+  CFFGFCImageList::~CFFGFCImageList((CFFGFCImageList *)&this->gCHUDTableItemStats_data);
+  gCHUDTable::~gCHUDTable((gCHUDTable *)this);
+  return;
+}
+
+

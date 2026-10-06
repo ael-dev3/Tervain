@@ -1,0 +1,35 @@
+/* ENTRY 2016b3a0 | FUN_2016b3a0 | STATUS decompiled | 16 ms */
+
+void __fastcall FUN_2016b3a0(int param_1)
+
+{
+  eCLocString *peVar1;
+  bCUnicodeString local_c [4];
+  bCString local_8 [4];
+  eCLocString local_4 [4];
+  
+  bCString::bCString(local_8,"HL_Adanos");
+  peVar1 = (eCLocString *)eCLocString::eCLocString(local_4,local_8);
+  eCLocString::GetString(peVar1);
+  CFFGFCWnd::SetWindowTextA((CFFGFCWnd *)(param_1 + 0x30),local_c);
+  bCUnicodeString::~bCUnicodeString(local_c);
+  eCLocString::~eCLocString(local_4);
+  bCString::~bCString(local_8);
+  bCString::bCString((bCString *)local_c,"HL_Beliar");
+  peVar1 = (eCLocString *)eCLocString::eCLocString(local_4,(bCString *)local_c);
+  eCLocString::GetString(peVar1);
+  CFFGFCWnd::SetWindowTextA((CFFGFCWnd *)(param_1 + 0x20),(bCUnicodeString *)local_8);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)local_8);
+  eCLocString::~eCLocString(local_4);
+  bCString::~bCString((bCString *)local_c);
+  bCString::bCString((bCString *)local_c,"HL_Innos");
+  peVar1 = (eCLocString *)eCLocString::eCLocString(local_4,(bCString *)local_c);
+  eCLocString::GetString(peVar1);
+  CFFGFCWnd::SetWindowTextA((CFFGFCWnd *)(param_1 + 0x10),(bCUnicodeString *)local_8);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)local_8);
+  eCLocString::~eCLocString(local_4);
+  bCString::~bCString((bCString *)local_c);
+  return;
+}
+
+

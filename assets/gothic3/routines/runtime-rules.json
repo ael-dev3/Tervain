@@ -1,0 +1,49 @@
+{
+  "schema": "gothic3-native-routines-rules-v1",
+  "inputSha256": "b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f",
+  "bodies": {
+    "fullStop": "2036eec0",
+    "continueRoutine": "20356cb0",
+    "detectDailyRoutine": "2036b6a0",
+    "setTask": "2036e910",
+    "setState": "2036bdb0",
+    "taskTime": "20367b60",
+    "stateTime": "20367c90"
+  },
+  "instructionSelectors": {
+    "1": "wait",
+    "2": "goto",
+    "3": "output",
+    "4": "play-animation",
+    "5": "combat-move",
+    "6": "prepare-aim",
+    "7": "play-aim",
+    "8": "hud-wait"
+  },
+  "instructionPointers": [
+    "2002d3b2",
+    "2002b940",
+    "2001fe51",
+    "2001c76f",
+    "2001ba9a",
+    "20027f3e",
+    "2001fbbd",
+    "20034dec"
+  ],
+  "timeMultiplier": 1000.0,
+  "propertyHooks": "Engine notifiers first call owning entity vtable+0x118 when present, then SharedBase object-reference notifier; host required",
+  "fullStopDefault": "abort any non-null active instruction; no implicit task/stack clear",
+  "setTaskTrueFlag": "no ordinary task mutation; detection-mode branch takes precedence",
+  "detectDailyTask": "Routine is ScriptRoutine_PS script name, not Navigation_PS routine label",
+  "limits": [
+    "native instruction implementations and complete script linker remain host boundaries",
+    "property Enter/Exit callbacks must be implemented by the host",
+    "state stack allocation represented structurally; allocation failure not emulated",
+    "daily detection excludes missing/None Self pointer profile",
+    "SPU process scheduler, instruction execution, combat/perception/pathfinding remain"
+  ],
+  "evidence": {
+    "path": "native-evidence.json",
+    "sha256": "8e6ba936ad7d952d2ab6e9d52e05105360e3d3c4f5f527cf9ecea132a2a8d951"
+  }
+}

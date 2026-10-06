@@ -1,0 +1,21 @@
+/* ENTRY 10002d2e | bCCapsule::IsEqual | STATUS decompiled | 9 ms */
+
+/* public: bool __thiscall bCCapsule::IsEqual(class bCCapsule const &)const  */
+
+bool __thiscall bCCapsule::IsEqual(bCCapsule *this,bCCapsule *param_1)
+
+{
+  bool bVar1;
+  
+                    /* 0x2d2e  3619  ?IsEqual@bCCapsule@@QBE_NABV1@@Z */
+  if ((*(float *)(this + 4) == *(float *)(param_1 + 4)) && (*(float *)this == *(float *)param_1)) {
+    bVar1 = bCMatrix3::IsEqual((bCMatrix3 *)(this + 8),(bCMatrix3 *)(param_1 + 8));
+    if (bVar1) {
+      bVar1 = bCVector::operator!=((bCVector *)(this + 0x2c),(bCVector *)(param_1 + 0x2c));
+      return !bVar1;
+    }
+  }
+  return false;
+}
+
+

@@ -1,0 +1,18 @@
+/* ENTRY 20170320 | FUN_20170320 | STATUS decompiled | 2 ms */
+
+void FUN_20170320(int *param_1)
+
+{
+  int iVar1;
+  
+  if (param_1 != (int *)0x0) {
+    iVar1 = 0;
+    do {
+      (**(code **)(*param_1 + 0x118))(0,iVar1);
+      iVar1 = iVar1 + 1;
+    } while (iVar1 < 7);
+  }
+  return;
+}
+
+

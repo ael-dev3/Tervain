@@ -1,0 +1,13 @@
+; 1001d9e0 FUN_1001d9e0
+1001d9e0 | 56 | PUSH ESI
+1001d9e1 | 8bf1 | MOV ESI,ECX
+1001d9e3 | 8b4604 | MOV EAX,dword ptr [ESI + 0x4]
+1001d9e6 | 83c001 | ADD EAX,0x1
+1001d9e9 | 50 | PUSH EAX
+1001d9ea | e87e4bfeff | CALL 0x1000256d
+1001d9ef | 8b4604 | MOV EAX,dword ptr [ESI + 0x4]
+1001d9f2 | 8b16 | MOV EDX,dword ptr [ESI]
+1001d9f4 | 8d0c40 | LEA ECX,[EAX + EAX*0x2]
+1001d9f7 | 8d44cae8 | LEA EAX,[EDX + ECX*0x8 + -0x18]
+1001d9fb | 5e | POP ESI
+1001d9fc | c3 | RET

@@ -1,0 +1,2 @@
+; 30038050 eCPhysicsScene::GetCriticalSection
+30038050 | e97bf72d00 | JMP 0x303177d0

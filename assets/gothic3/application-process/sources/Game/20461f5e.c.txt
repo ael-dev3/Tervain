@@ -1,0 +1,14 @@
+/* ENTRY 20461f5e | ENGINE.DLL::eCEntityPropertySet::GetDecayState | STATUS decompiled | 1 ms */
+
+eEDecayState __thiscall eCEntityPropertySet::GetDecayState(eCEntityPropertySet *this)
+
+{
+  eEDecayState eVar1;
+  
+                    /* WARNING: Could not recover jumptable at 0x20461f5e. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eVar1 = GetDecayState(this);
+  return eVar1;
+}
+
+

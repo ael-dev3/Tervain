@@ -1,0 +1,12 @@
+/* ENTRY 2028c320 | bTPOPureSmartPtr<gCNavigation_PS>::vfunction7 | STATUS decompiled | 3 ms */
+
+void __thiscall
+bTPOPureSmartPtr<gCNavigation_PS>::vfunction7
+          (bTPOPureSmartPtr<gCNavigation_PS> *this,bCOStream *param_1)
+
+{
+  ::operator<<(param_1,(bCObjectBase *)(this->bTPOPureSmartPtr<gCNavigation_PS>_data).offset_0x4);
+  return;
+}
+
+

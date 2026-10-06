@@ -1,0 +1,2 @@
+; 20024bf9 gCFocus_PS::PostInitializeProperties
+20024bf9 | e9e2781100 | JMP 0x2013c4e0

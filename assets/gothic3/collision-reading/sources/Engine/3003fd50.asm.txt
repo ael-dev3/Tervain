@@ -1,0 +1,4 @@
+; 3003fd50 bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eEPhysicRangeType>_>::vfunction24
+3003fd50 | e9cbe32f00 | JMP 0x3033e120
+; 3003fd55 eCPropertyCtrl::operator<<
+; 3003fd55 Ordinal_1959

@@ -1,0 +1,14 @@
+/* ENTRY 1000457a | PSPlayerMemory::PropertyLPPerks::operator= | STATUS decompiled | 1 ms */
+
+/* public: class PSPlayerMemory::PropertyLPPerks & __thiscall
+   PSPlayerMemory::PropertyLPPerks::operator=(class PSPlayerMemory::PropertyLPPerks const &) */
+
+PropertyLPPerks * __thiscall
+PSPlayerMemory::PropertyLPPerks::operator=(PropertyLPPerks *this,PropertyLPPerks *param_1)
+
+{
+                    /* 0x457a  469  ??4PropertyLPPerks@PSPlayerMemory@@QAEAAV01@ABV01@@Z */
+  return this;
+}
+
+

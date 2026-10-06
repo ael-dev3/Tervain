@@ -1,0 +1,12 @@
+/* ENTRY 20015b9a | gCDialog_PS::AccessTalkedToPlayer | STATUS decompiled | 6 ms */
+
+/* public: bool & __thiscall gCDialog_PS::AccessTalkedToPlayer(void) */
+
+bool * __thiscall gCDialog_PS::AccessTalkedToPlayer(gCDialog_PS *this)
+
+{
+                    /* 0x15b9a  1729  ?AccessTalkedToPlayer@gCDialog_PS@@QAEAA_NXZ */
+  return (bool *)&(this->gCDialog_PS_data).field_0x10;
+}
+
+

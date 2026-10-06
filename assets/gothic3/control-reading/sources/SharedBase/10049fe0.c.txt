@@ -1,0 +1,10 @@
+/* ENTRY 10049fe0 | bCObjectBase::~bCObjectBase | STATUS decompiled | 3 ms */
+
+void __thiscall bCObjectBase::~bCObjectBase(bCObjectBase *this)
+
+{
+  this->vftablePtr = &vftable;
+  return;
+}
+
+

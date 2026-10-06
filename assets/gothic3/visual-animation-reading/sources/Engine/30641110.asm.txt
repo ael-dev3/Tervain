@@ -1,0 +1,9 @@
+; 30641110 FUN_30641110
+30641110 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+30641114 | d900 | FLD float ptr [EAX]
+30641116 | d999e4000000 | FSTP float ptr [ECX + 0xe4]
+3064111c | d94004 | FLD float ptr [EAX + 0x4]
+3064111f | d999e8000000 | FSTP float ptr [ECX + 0xe8]
+30641125 | d94008 | FLD float ptr [EAX + 0x8]
+30641128 | d999ec000000 | FSTP float ptr [ECX + 0xec]
+3064112e | c20400 | RET 0x4

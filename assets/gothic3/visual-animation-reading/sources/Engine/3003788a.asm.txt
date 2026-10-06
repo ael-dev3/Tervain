@@ -1,0 +1,2 @@
+; 3003788a eCVisualAnimation_PS::eCActorAttachment::Read
+3003788a | e9c15c0600 | JMP 0x3009d550

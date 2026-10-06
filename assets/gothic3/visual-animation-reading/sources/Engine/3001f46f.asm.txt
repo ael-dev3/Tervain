@@ -1,0 +1,2 @@
+; 3001f46f eCResourceDataEntity::CreateResourceFromFile
+3001f46f | e9cc0d4a00 | JMP 0x304c0240

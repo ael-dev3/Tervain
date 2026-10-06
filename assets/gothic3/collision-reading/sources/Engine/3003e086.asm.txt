@@ -1,0 +1,4 @@
+; 3003e086 bTPropertyType<eCCollisionShape,float>::vfunction5
+3003e086 | e9852d3200 | JMP 0x30360e10
+; 3003e08b eCDecal_PS::SetDirectionOffset
+; 3003e08b Ordinal_13256

@@ -1,0 +1,2 @@
+; 2001ad3e ?Read@gCScriptRoutine_PS@@UAE?AW4bEResult@@AAVbCIStream@@@Z
+2001ad3e | e92dc03300 | JMP 0x20356d70

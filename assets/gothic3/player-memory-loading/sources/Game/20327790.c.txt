@@ -1,0 +1,26 @@
+/* ENTRY 20327790 | bTPropertyType<gCPlayerMemory_PS,long>::scalar_deleting_destructor | STATUS decompiled | 7 ms */
+
+bTPropertyType<gCPlayerMemory_PS,long> * __thiscall
+bTPropertyType<gCPlayerMemory_PS,long>::scalar_deleting_destructor
+          (bTPropertyType<gCPlayerMemory_PS,long> *this,byte param_1)
+
+{
+                    /* inlined destructor:
+                       bTPropertyType<gCPlayerMemory_PS,long>::~bTPropertyType<gCPlayerMemory_PS,long>
+                        */
+  this->vftablePtr = &vftable;
+  bCPropertyTypeBase::Destroy((bCPropertyTypeBase *)this);
+  thunk_FUN_20070e90(this + 8);
+  bCPropertyObjectTypeBase::UnregisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)this[6].vftablePtr,(bCPropertyTypeBase *)this);
+                    /* inlined destructor: bTPropertyTypeOnly<long>::~bTPropertyTypeOnly<long> */
+  this->vftablePtr =
+       (bTPropertyType<gCPlayerMemory_PS,long>_vftable *)&bTPropertyTypeOnly<long>::vftable;
+  bCPropertyTypeBase::~bCPropertyTypeBase((bCPropertyTypeBase *)this);
+  if ((param_1 & 1) != 0) {
+    _free(this);
+  }
+  return this;
+}
+
+

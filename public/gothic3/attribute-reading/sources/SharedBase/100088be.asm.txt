@@ -1,0 +1,2 @@
+; 100088be bCString::Format
+100088be | e92dc10000 | JMP 0x100149f0

@@ -1,0 +1,4 @@
+; 3003e969 ?OnPropertySetAdded@eCRigidBody_PS@@MAEXXZ
+3003e969 | e932f12e00 | JMP 0x3032daa0
+; 3003e978 eCLoDImportDesc::GetIndexArray
+; 3003e978 Ordinal_7389

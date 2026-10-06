@@ -1,0 +1,2 @@
+; 30038bf4 eCVisualAnimation_PS::eCLookAtConstraint::Create
+30038bf4 | e9e7680600 | JMP 0x3009f4e0

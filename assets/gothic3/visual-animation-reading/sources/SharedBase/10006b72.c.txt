@@ -1,0 +1,39 @@
+/* ENTRY 10006b72 | bCString::TrimRight | STATUS decompiled | 8 ms */
+
+/* public: void __thiscall bCString::TrimRight(void) */
+
+void __thiscall bCString::TrimRight(bCString *this)
+
+{
+  char cVar1;
+  int iVar2;
+  char *pcVar3;
+  char *pcVar4;
+  
+                    /* 0x6b72  4601  ?TrimRight@bCString@@QAEXXZ */
+  if ((*(int *)this != 0) && (*(int *)(*(int *)this + -8) != 0)) {
+    CopyBeforeWrite(this);
+    pcVar4 = *(char **)this;
+    cVar1 = *pcVar4;
+    pcVar3 = (char *)0x0;
+    if (cVar1 != '\0') {
+      do {
+        if ((cVar1 < '\0') || (iVar2 = _isspace((int)cVar1), iVar2 == 0)) {
+          pcVar3 = (char *)0x0;
+        }
+        else if (pcVar3 == (char *)0x0) {
+          pcVar3 = pcVar4;
+        }
+        cVar1 = pcVar4[1];
+        pcVar4 = pcVar4 + 1;
+      } while (cVar1 != '\0');
+      if (pcVar3 != (char *)0x0) {
+        *pcVar3 = '\0';
+        *(int *)(*(int *)this + -8) = (int)pcVar3 - *(int *)this;
+      }
+    }
+  }
+  return;
+}
+
+

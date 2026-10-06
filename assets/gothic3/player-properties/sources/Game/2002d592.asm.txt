@@ -1,0 +1,2 @@
+; 2002d592 ?GetDescription@gCAttribute@@QBE?AVeCLocString@@XZ
+2002d592 | e989a53600 | JMP 0x20397b20

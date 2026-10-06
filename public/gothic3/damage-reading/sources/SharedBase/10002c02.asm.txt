@@ -1,0 +1,2 @@
+; 10002c02 bCPropertyObjectFactory::GetRootObject
+10002c02 | e919a00800 | JMP 0x1008cc20

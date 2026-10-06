@@ -1,0 +1,18 @@
+/* ENTRY 30385ee0 | bTPropertyObject<eCEffector,bCObjectRefBase>::~bTPropertyObject<eCEffector,bCObjectRefBase> | STATUS decompiled | 4 ms */
+
+bTPropertyObject<eCEffector,bCObjectRefBase> * __thiscall
+bTPropertyObject<eCEffector,bCObjectRefBase>::~bTPropertyObject<eCEffector,bCObjectRefBase>
+          (bTPropertyObject<eCEffector,bCObjectRefBase> *this,byte param_1)
+
+{
+  this->vftablePtr = &vftable;
+  thunk_FUN_30385840();
+  bTPOPureSmartPtr<eCEffector>::~bTPOPureSmartPtr<eCEffector>((bTPOPureSmartPtr<eCEffector> *)this);
+  if ((param_1 & 1) != 0) {
+                    /* WARNING: Subroutine does not return */
+    _free(this);
+  }
+  return this;
+}
+
+

@@ -1,0 +1,3 @@
+; 304ca7b0 FUN_304ca7b0
+304ca7b0 | 8d4168 | LEA EAX,[ECX + 0x68]
+304ca7b3 | c3 | RET

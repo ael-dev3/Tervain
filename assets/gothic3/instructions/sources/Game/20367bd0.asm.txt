@@ -1,0 +1,8 @@
+; 20367bd0 FUN_20367bd0
+20367bd0 | 51 | PUSH ECX
+20367bd1 | d9415c | FLD float ptr [ECX + 0x5c]
+20367bd4 | dc35a0bf6520 | FDIV double ptr [0x2065bfa0]
+20367bda | d91c24 | FSTP float ptr [ESP]
+20367bdd | d90424 | FLD float ptr [ESP]
+20367be0 | 59 | POP ECX
+20367be1 | c3 | RET

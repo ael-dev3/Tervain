@@ -1,0 +1,14 @@
+/* ENTRY 30040c78 | eCRigidBodyBase_PS::eCRigidBodyBase_PS | STATUS decompiled | 11 ms */
+
+/* public: __thiscall eCRigidBodyBase_PS::eCRigidBodyBase_PS(void) */
+
+eCRigidBodyBase_PS * __thiscall eCRigidBodyBase_PS::eCRigidBodyBase_PS(eCRigidBodyBase_PS *this)
+
+{
+                    /* 0x40c78  704  ??0eCRigidBodyBase_PS@@QAE@XZ */
+  eCEntityPropertySet::eCEntityPropertySet((eCEntityPropertySet *)this);
+  this->vftablePtr = &vftable;
+  return this;
+}
+
+

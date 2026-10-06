@@ -1,0 +1,34 @@
+/* ENTRY 30046867 | eCVisualAnimationFactory::SetFacialActorFileName | STATUS decompiled | 13 ms */
+
+/* public: void __thiscall eCVisualAnimationFactory::SetFacialActorFileName(class bCString const &)
+    */
+
+void __thiscall
+eCVisualAnimationFactory::SetFacialActorFileName(eCVisualAnimationFactory *this,bCString *param_1)
+
+{
+  bool bVar1;
+  eCVisualAnimationLoD *peVar2;
+  
+                    /* 0x46867  13363
+                       ?SetFacialActorFileName@eCVisualAnimationFactory@@QAEXABVbCString@@@Z */
+  if (*(int **)(this + 0xc) != (int *)0x0) {
+    (**(code **)(**(int **)(this + 0xc) + 0x24))();
+    *(undefined4 *)(this + 0xc) = 0;
+  }
+  bVar1 = bCString::IsEmpty(param_1);
+  if (!bVar1) {
+    peVar2 = (eCVisualAnimationLoD *)new(0x2c,0x354);
+    if (peVar2 != (eCVisualAnimationLoD *)0x0) {
+      peVar2 = (eCVisualAnimationLoD *)eCVisualAnimationLoD::eCVisualAnimationLoD(peVar2,this);
+      *(eCVisualAnimationLoD **)(this + 0xc) = peVar2;
+      eCVisualAnimationLoD::SetActorFileName(peVar2,param_1);
+      return;
+    }
+    *(undefined4 *)(this + 0xc) = 0;
+    eCVisualAnimationLoD::SetActorFileName((eCVisualAnimationLoD *)0x0,param_1);
+  }
+  return;
+}
+
+

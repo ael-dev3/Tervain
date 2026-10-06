@@ -1,0 +1,30 @@
+/* ENTRY 2002dda3 | bTPropertyObjectType<gCAttribute,bCObjectRefBase>::~bTPropertyObjectType<gCAttribute,bCObjectRefBase> | STATUS decompiled | 8 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined * __thiscall
+bTPropertyObjectType<gCAttribute,bCObjectRefBase>::
+~bTPropertyObjectType<gCAttribute,bCObjectRefBase>(void)
+
+{
+  bCString *pbVar1;
+  bCPropertyObjectSingleton *this;
+  bCPropertyObjectTypeBase *pbVar2;
+  
+  if ((_DAT_207ccf64 & 1) == 0) {
+    _DAT_207ccf64 = _DAT_207ccf64 | 1;
+    bCPropertyObjectTypeBase::bCPropertyObjectTypeBase
+              ((bCPropertyObjectTypeBase *)&DAT_207ccf28,true);
+    _DAT_207ccf28 = &vftable;
+    pbVar1 = (bCString *)vfunction1();
+    bCPropertyObjectFactory::bCPropertyObjectFactory
+              ((bCPropertyObjectFactory *)&DAT_207ccf40,pbVar1);
+    pbVar2 = (bCPropertyObjectTypeBase *)&DAT_207ccf28;
+    this = bCPropertyObjectSingleton::GetInstance();
+    bCPropertyObjectSingleton::RegisterTemplate(this,pbVar2);
+    _atexit(~bTPropertyObjectType<gCAttribute,bCObjectRefBase>);
+  }
+  return &DAT_207ccf28;
+}
+
+

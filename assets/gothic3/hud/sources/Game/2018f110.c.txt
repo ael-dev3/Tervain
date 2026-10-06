@@ -1,0 +1,14 @@
+/* ENTRY 2018f110 | gCHUDStaticNPC::gCHUDStaticNPC | STATUS decompiled | 8 ms */
+
+gCHUDStaticNPC * __thiscall gCHUDStaticNPC::gCHUDStaticNPC(gCHUDStaticNPC *this)
+
+{
+  CFFGFCStatic::CFFGFCStatic((CFFGFCStatic *)this);
+  this->vftablePtr = &vftable;
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)&(this->gCHUDStaticNPC_data).field_0xc);
+  (this->gCHUDStaticNPC_data).offset_0x28 = 4;
+  (this->gCHUDStaticNPC_data).offset_0x2c = 1;
+  return this;
+}
+
+

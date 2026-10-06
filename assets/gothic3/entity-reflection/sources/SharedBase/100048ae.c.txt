@@ -1,0 +1,28 @@
+/* ENTRY 100048ae | bCAccessorProperty::bCAccessorProperty | STATUS decompiled | 7 ms */
+
+/* public: __thiscall bCAccessorProperty::bCAccessorProperty(class bCAccessorCreator const &,class
+   bCPropertyID const &) */
+
+bCAccessorProperty * __thiscall
+bCAccessorProperty::bCAccessorProperty
+          (bCAccessorProperty *this,bCAccessorCreator *param_1,bCPropertyID *param_2)
+
+{
+  bool bVar1;
+  bCAccessorPropertyObject abStack_8 [8];
+  
+                    /* 0x48ae  16
+                       ??0bCAccessorProperty@@QAE@ABVbCAccessorCreator@@ABVbCPropertyID@@@Z */
+  bCAccessorPropertyObject::bCAccessorPropertyObject((bCAccessorPropertyObject *)this);
+  *(undefined4 *)(this + 8) = 0;
+  bVar1 = bCAccessorCreator::IsValid(param_1);
+  if (bVar1) {
+    bCAccessorPropertyObject::bCAccessorPropertyObject(abStack_8,param_1);
+    bCAccessorPropertyObject::operator=((bCAccessorPropertyObject *)this,abStack_8);
+    bCAccessorPropertyObject::~bCAccessorPropertyObject(abStack_8);
+    ResolveProperty(this,param_2);
+  }
+  return this;
+}
+
+

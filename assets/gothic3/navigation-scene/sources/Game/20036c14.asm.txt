@@ -1,0 +1,4 @@
+; 20036c14 ?GetAngleSums@gCNavZone_PS@@IAE?AW4bEResult@@AAM0@Z
+20036c14 | e987972600 | JMP 0x202a03a0
+; 20036c19 gCCharacterMovement_PS::SaveFrameStates
+; 20036c19 Ordinal_6180

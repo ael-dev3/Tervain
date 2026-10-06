@@ -1,0 +1,12 @@
+/* ENTRY 3001b92d | eCEffector::AccessEntity2 | STATUS decompiled | 3 ms */
+
+/* public: class eCEntityProxy & __thiscall eCEffector::AccessEntity2(void) */
+
+eCEntityProxy * __thiscall eCEffector::AccessEntity2(eCEffector *this)
+
+{
+                    /* 0x1b92d  2716  ?AccessEntity2@eCEffector@@QAEAAVeCEntityProxy@@XZ */
+  return (eCEntityProxy *)&(this->eCEffector_data).field_0x24;
+}
+
+

@@ -1,0 +1,4 @@
+; 20007a2c bTPropertyType<gCNavigation_PS,bCVector>::vfunction25
+20007a2c | e9ef5d2800 | JMP 0x2028d820
+; 20007a31 gCCharacterSensor_PS::Create
+; 20007a31 Ordinal_2327

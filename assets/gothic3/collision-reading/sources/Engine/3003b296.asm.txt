@@ -1,0 +1,4 @@
+; 3003b296 bTPropertyType<eCCollisionShapeBase_PS,bCObsoleteClass>::vfunction1
+3003b296 | e9e5713000 | JMP 0x30342480
+; 3003b29b eCThemeAdmin::Write
+; 3003b29b Ordinal_15268

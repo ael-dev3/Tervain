@@ -1,0 +1,4 @@
+; 2001b4c8 ?GetLPAttribs@gCPlayerMemory_PS@@QBEABJXZ
+2001b4c8 | e953f00800 | JMP 0x200aa520
+; 2001b4cd gCNavPath_PS::GetNetIndex
+; 2001b4cd Ordinal_3879

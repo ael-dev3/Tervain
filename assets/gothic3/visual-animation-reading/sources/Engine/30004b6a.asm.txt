@@ -1,0 +1,2 @@
+; 30004b6a eCPhysicObject::Create
+30004b6a | e941603000 | JMP 0x3030abb0

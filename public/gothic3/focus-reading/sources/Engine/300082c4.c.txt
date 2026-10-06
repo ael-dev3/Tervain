@@ -1,0 +1,13 @@
+/* ENTRY 300082c4 | eCPhysicsScene::GetQueryReport | STATUS decompiled | 5 ms */
+
+/* public: class eCPhysicQueryReport & __thiscall eCPhysicsScene::GetQueryReport(void) */
+
+eCPhysicQueryReport * __thiscall eCPhysicsScene::GetQueryReport(eCPhysicsScene *this)
+
+{
+                    /* 0x82c4  8352  ?GetQueryReport@eCPhysicsScene@@QAEAAVeCPhysicQueryReport@@XZ
+                        */
+  return (eCPhysicQueryReport *)(this->eCPhysicsScene_data).offset_0x9c;
+}
+
+

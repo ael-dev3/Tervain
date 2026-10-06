@@ -1,0 +1,2 @@
+; 1000114f bCMemoryStream::bCMemoryStream
+1000114f | e94ce80100 | JMP 0x1001f9a0

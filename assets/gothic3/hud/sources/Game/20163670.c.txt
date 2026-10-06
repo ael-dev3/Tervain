@@ -1,0 +1,36 @@
+/* ENTRY 20163670 | FUN_20163670 | STATUS decompiled | 15 ms */
+
+void __thiscall FUN_20163670(int param_1,eCEntity *param_2,int param_3)
+
+{
+  bCString *pbVar1;
+  eCLocString *this;
+  bCString local_8 [4];
+  char local_4 [4];
+  
+  if (param_3 == 0) {
+    thunk_FUN_20188ed0(param_2);
+    return;
+  }
+  if (param_3 == 2) {
+    thunk_FUN_2018a7f0(param_2);
+    thunk_FUN_2018b1e0(param_2);
+    if (param_2 == (eCEntity *)0x0) {
+      bCUnicodeString::bCUnicodeString((bCUnicodeString *)&param_3,"");
+      CFFGFCWnd::SetWindowTextA((CFFGFCWnd *)(param_1 + 200),(bCUnicodeString *)&param_3);
+      bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&param_3);
+      return;
+    }
+    eCEntity::GetName(param_2);
+    pbVar1 = (bCString *)operator+(local_4,(bCString *)&DAT_2066c460);
+    this = (eCLocString *)eCLocString::eCLocString((eCLocString *)&stack0xfffffff4,pbVar1);
+    eCLocString::GetString(this);
+    CFFGFCWnd::SetWindowTextA((CFFGFCWnd *)(param_1 + 200),(bCUnicodeString *)&stack0x00000000);
+    bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0x00000000);
+    eCLocString::~eCLocString((eCLocString *)&stack0xfffffff4);
+    bCString::~bCString(local_8);
+  }
+  return;
+}
+
+

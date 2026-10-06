@@ -1,0 +1,16 @@
+/* ENTRY 30008a9e | thunk_FUN_300c04f0 | STATUS decompiled | 2 ms */
+
+void thunk_FUN_300c04f0(uint *param_1)
+
+{
+  if (0x7fffffff < *param_1) {
+    *param_1 = 0;
+    return;
+  }
+  if (0x3f800000 < *param_1) {
+    *param_1 = 0x3f800000;
+  }
+  return;
+}
+
+

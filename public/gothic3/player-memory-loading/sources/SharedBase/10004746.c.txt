@@ -1,0 +1,40 @@
+/* ENTRY 10004746 | bCErrorAdmin::PrintMemoryDumpStats | STATUS decompiled | 10 ms */
+
+/* protected: void __thiscall bCErrorAdmin::PrintMemoryDumpStats(void) */
+
+void __thiscall bCErrorAdmin::PrintMemoryDumpStats(bCErrorAdmin *this)
+
+{
+  bCDialogHandle *pbVar1;
+  bEGE3DialogsLogMessageType bVar2;
+  char *pcVar3;
+  undefined4 uStack_4;
+  
+                    /* 0x4746  3834  ?PrintMemoryDumpStats@bCErrorAdmin@@IAEXXZ */
+  uStack_4 = this;
+  bCGothic3EngineDialogs::bCGothic3EngineDialogs((bCGothic3EngineDialogs *)((int)&uStack_4 + 3));
+  pcVar3 = "Memory statistics";
+  bVar2 = 3;
+  pbVar1 = bCGothic3EngineDialogs::GetDialogHandle((bCGothic3EngineDialogs *)((int)&uStack_4 + 3));
+  bCGothic3EngineDialogs::bCDialogHandle::AddText(pbVar1,bVar2,pcVar3);
+  pcVar3 = "----------------------------";
+  bVar2 = 3;
+  pbVar1 = bCGothic3EngineDialogs::GetDialogHandle((bCGothic3EngineDialogs *)((int)&uStack_4 + 3));
+  bCGothic3EngineDialogs::bCDialogHandle::AddText(pbVar1,bVar2,pcVar3);
+  pcVar3 = " ";
+  bVar2 = 3;
+  pbVar1 = bCGothic3EngineDialogs::GetDialogHandle((bCGothic3EngineDialogs *)((int)&uStack_4 + 3));
+  bCGothic3EngineDialogs::bCDialogHandle::AddText(pbVar1,bVar2,pcVar3);
+  pcVar3 = "---> memory allocation summary <---";
+  bVar2 = 3;
+  pbVar1 = bCGothic3EngineDialogs::GetDialogHandle((bCGothic3EngineDialogs *)((int)&uStack_4 + 3));
+  bCGothic3EngineDialogs::bCDialogHandle::AddText(pbVar1,bVar2,pcVar3);
+  pcVar3 = " ";
+  bVar2 = 3;
+  pbVar1 = bCGothic3EngineDialogs::GetDialogHandle((bCGothic3EngineDialogs *)((int)&uStack_4 + 3));
+  bCGothic3EngineDialogs::bCDialogHandle::AddText(pbVar1,bVar2,pcVar3);
+  bCGothic3EngineDialogs::~bCGothic3EngineDialogs((bCGothic3EngineDialogs *)((int)&uStack_4 + 3));
+  return;
+}
+
+

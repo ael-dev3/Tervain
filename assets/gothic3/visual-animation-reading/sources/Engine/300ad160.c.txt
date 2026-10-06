@@ -1,0 +1,11 @@
+/* ENTRY 300ad160 | bTPropertyObject<eCVisualAnimation_PS,eCEntityPropertySet>::vfunction5 | STATUS decompiled | 2 ms */
+
+undefined4 __thiscall
+bTPropertyObject<eCVisualAnimation_PS,eCEntityPropertySet>::vfunction5
+          (bTPropertyObject<eCVisualAnimation_PS,eCEntityPropertySet> *this)
+
+{
+  return (this->bTPropertyObject<eCVisualAnimation_PS,eCEntityPropertySet>_data).offset_0x0;
+}
+
+

@@ -1,0 +1,11 @@
+/* ENTRY 30038442 | bTPropertyType<eCIlluminated_PS,bTPropertyContainer<eEStaticIlluminated>_>::vfunction1 | STATUS decompiled | 4 ms */
+
+bTPropertyType<eCIlluminated_PS,bTPropertyContainer<eEStaticIlluminated>_>_vftable * __thiscall
+bTPropertyType<eCIlluminated_PS,bTPropertyContainer<eEStaticIlluminated>_>::vfunction1
+          (bTPropertyType<eCIlluminated_PS,bTPropertyContainer<eEStaticIlluminated>_> *this)
+
+{
+  return this[7].vftablePtr;
+}
+
+

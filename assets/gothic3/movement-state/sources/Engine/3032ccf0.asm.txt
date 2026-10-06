@@ -1,0 +1,64 @@
+; 3032ccf0 FUN_3032ccf0
+3032ccf0 | 83ec18 | SUB ESP,0x18
+3032ccf3 | 56 | PUSH ESI
+3032ccf4 | 8bf1 | MOV ESI,ECX
+3032ccf6 | 8b06 | MOV EAX,dword ptr [ESI]
+3032ccf8 | 8b506c | MOV EDX,dword ptr [EAX + 0x6c]
+3032ccfb | ffd2 | CALL EDX
+3032ccfd | 8bc8 | MOV ECX,EAX
+3032ccff | e8892fd1ff | CALL 0x3003fc8d
+3032cd04 | 84c0 | TEST AL,AL
+3032cd06 | 0f8490000000 | JZ 0x3032cd9c
+3032cd0c | 83bef400000000 | CMP dword ptr [ESI + 0xf4],0x0
+3032cd13 | 0f8483000000 | JZ 0x3032cd9c
+3032cd19 | e8a45cceff | CALL 0x300129c2
+3032cd1e | 80781400 | CMP byte ptr [EAX + 0x14],0x0
+3032cd22 | 7525 | JNZ 0x3032cd49
+3032cd24 | d9ee | FLDZ
+3032cd26 | 8b742420 | MOV ESI,dword ptr [ESP + 0x20]
+3032cd2a | 83ec0c | SUB ESP,0xc
+3032cd2d | d9542408 | FST float ptr [ESP + 0x8]
+3032cd31 | d9542404 | FST float ptr [ESP + 0x4]
+3032cd35 | 8bce | MOV ECX,ESI
+3032cd37 | d91c24 | FSTP float ptr [ESP]
+3032cd3a | ff151ccdaf30 | CALL dword ptr [0x30afcd1c]
+3032cd40 | 8bc6 | MOV EAX,ESI
+3032cd42 | 5e | POP ESI
+3032cd43 | 83c418 | ADD ESP,0x18
+3032cd46 | c20400 | RET 0x4
+; 3032cd49 LAB_3032cd49
+3032cd49 | 8b8ef4000000 | MOV ECX,dword ptr [ESI + 0xf4]
+3032cd4f | 8b01 | MOV EAX,dword ptr [ECX]
+3032cd51 | 8b80dc000000 | MOV EAX,dword ptr [EAX + 0xdc]
+3032cd57 | 8d542404 | LEA EDX,[ESP + 0x4]
+3032cd5b | 52 | PUSH EDX
+3032cd5c | ffd0 | CALL EAX
+3032cd5e | d9442404 | FLD float ptr [ESP + 0x4]
+3032cd62 | dd0570038230 | FLD double ptr [0x30820370]
+3032cd68 | 8b742420 | MOV ESI,dword ptr [ESP + 0x20]
+3032cd6c | dcc9 | FMUL ST1
+3032cd6e | 8d4c2410 | LEA ECX,[ESP + 0x10]
+3032cd72 | d9c9 | FXCH
+3032cd74 | 51 | PUSH ECX
+3032cd75 | 8bce | MOV ECX,ESI
+3032cd77 | d95c2414 | FSTP float ptr [ESP + 0x14]
+3032cd7b | d944240c | FLD float ptr [ESP + 0xc]
+3032cd7f | d8c9 | FMUL ST1
+3032cd81 | d95c2418 | FSTP float ptr [ESP + 0x18]
+3032cd85 | d84c2410 | FMUL float ptr [ESP + 0x10]
+3032cd89 | d95c241c | FSTP float ptr [ESP + 0x1c]
+3032cd8d | ff1554cdaf30 | CALL dword ptr [0x30afcd54]
+3032cd93 | 8bc6 | MOV EAX,ESI
+3032cd95 | 5e | POP ESI
+3032cd96 | 83c418 | ADD ESP,0x18
+3032cd99 | c20400 | RET 0x4
+; 3032cd9c LAB_3032cd9c
+3032cd9c | 83c61c | ADD ESI,0x1c
+3032cd9f | 56 | PUSH ESI
+3032cda0 | 8b742424 | MOV ESI,dword ptr [ESP + 0x24]
+3032cda4 | 8bce | MOV ECX,ESI
+3032cda6 | ff1570dbaf30 | CALL dword ptr [0x30afdb70]
+3032cdac | 8bc6 | MOV EAX,ESI
+3032cdae | 5e | POP ESI
+3032cdaf | 83c418 | ADD ESP,0x18
+3032cdb2 | c20400 | RET 0x4

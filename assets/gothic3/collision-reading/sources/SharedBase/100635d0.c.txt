@@ -1,0 +1,21 @@
+/* ENTRY 100635d0 | FUN_100635d0 | STATUS decompiled | 13 ms */
+
+void __thiscall FUN_100635d0(float *param_1,float *param_2,float *param_3,float *param_4)
+
+{
+  float fVar1;
+  float fVar2;
+  
+  fVar1 = *param_2;
+  fVar2 = fVar1 * *param_1 + param_2[1] * param_1[1] + param_2[2] * param_1[2];
+  fVar1 = ABS(param_2[2] * param_1[0xe] + param_2[1] * param_1[0xd] + param_1[0xc] * fVar1) *
+          param_1[5] +
+          ABS(param_1[9] * fVar1 + param_2[1] * param_1[10] + param_2[2] * param_1[0xb]) *
+          param_1[4] +
+          ABS(param_1[6] * fVar1 + param_1[7] * param_2[1] + param_1[8] * param_2[2]) * param_1[3];
+  *param_3 = fVar2 - fVar1;
+  *param_4 = fVar1 + fVar2;
+  return;
+}
+
+

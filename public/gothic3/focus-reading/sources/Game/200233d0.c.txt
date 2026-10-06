@@ -1,0 +1,13 @@
+/* ENTRY 200233d0 | gCFocus_PS::Read | STATUS decompiled | 7 ms */
+
+/* public: virtual enum bEResult __thiscall gCFocus_PS::Read(class bCIStream &) */
+
+bEResult __thiscall gCFocus_PS::Read(gCFocus_PS *this,bCIStream *param_1)
+
+{
+                    /* 0x233d0  5911  ?Read@gCFocus_PS@@UAE?AW4bEResult@@AAVbCIStream@@@Z */
+  bCIStream::operator>>((bCIStream *)param_1,(ushort *)&param_1);
+  return 1;
+}
+
+

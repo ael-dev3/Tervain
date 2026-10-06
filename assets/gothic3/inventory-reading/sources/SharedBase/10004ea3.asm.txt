@@ -1,0 +1,4 @@
+; 10004ea3 ?AddVirtualReference@bCObjectRefBase@@IAEKXZ
+10004ea3 | e978570400 | JMP 0x1004a620
+; 10004ea8 bCMatrix::GetIdentity
+; 10004ea8 Ordinal_2405

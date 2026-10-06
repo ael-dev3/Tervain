@@ -1,0 +1,122 @@
+/* ENTRY 201afe30 | FUN_201afe30 | STATUS decompiled | 187 ms */
+
+undefined4 __thiscall FUN_201afe30(gCInventory_PS *param_1,int param_2,int param_3,int param_4)
+
+{
+  undefined1 *this;
+  bool bVar1;
+  bCMessageAdmin *this_00;
+  gCInventoryStack *this_01;
+  eCTemplateEntity *this_02;
+  eCTemplateEntity *this_03;
+  eCEntity *peVar2;
+  bCString *pbVar3;
+  gCSession *this_04;
+  eCDynamicEntity *peVar4;
+  gCInventoryStack *pgVar5;
+  bCPropertyID *pbVar6;
+  eCEntity *peVar7;
+  eCEntityPropertySet *peVar8;
+  int iVar9;
+  gCInventory_PS *unaff_retaddr;
+  bEMessageTypes bVar10;
+  char *pcVar11;
+  gESlot gVar12;
+  char *pcVar13;
+  char *pcVar14;
+  int iVar15;
+  gCInventory_PS *pgStack_8;
+  
+  if (param_2 == 0) {
+    iVar9 = *(int *)g_iDefaultMessagePriority_exref;
+    iVar15 = -1;
+    pcVar14 = (char *)0x0;
+    pcVar13 = (char *)0x0;
+    pcVar11 = "gCInventory_PS::TransferItemsTo -> Invalid target inventory.";
+    bVar10 = 3;
+    this_00 = bCMessageAdmin::GetInstance();
+    bCMessageAdmin::OnMessage(this_00,bVar10,pcVar11,pcVar13,pcVar14,iVar15,iVar9);
+    return 0;
+  }
+  if (param_4 < 1) {
+    GE_MESSAGEF_WARN("gCInventory_PS::TransferItemsTo -> Invalid transfer amount: %d.",param_4);
+    return 0;
+  }
+  this_01 = (gCInventoryStack *)FUN_2002d506(param_3);
+  if (this_01 == (gCInventoryStack *)0x0) {
+    GE_MESSAGEF_WARN("gCInventory_PS::TransferItemsTo -> Invalid source stack index: %d.",param_3);
+    return 0;
+  }
+  if ((int)(this_01->gCInventoryStack_data).offset_0x0 <= param_4) {
+    gVar12 = (this_01->gCInventorySlot_data).offset_0x34;
+    if (gVar12 != 0) {
+      if (gVar12 == 5) {
+        gCInventory_PS::UnlinkStackFromSlot(param_1,5);
+        gVar12 = 6;
+      }
+      gCInventory_PS::UnlinkStackFromSlot(param_1,gVar12);
+    }
+    bVar1 = gCInventoryStack::IsDisposable(this_01);
+    if (!bVar1) {
+      GE_MESSAGEF_WARN(
+                      "gCInventory_PS::TransferItemsTo -> Tying to remove all quantities of a stack that is not disposable."
+                      );
+      return 0;
+    }
+  }
+  this = &(this_01->gCInventorySlot_data).field_0x8;
+  this_02 = eCTemplateEntityProxy::GetEntity((eCTemplateEntityProxy *)this);
+  iVar9 = 0;
+  this_03 = eCTemplateEntityProxy::GetEntity((eCTemplateEntityProxy *)this);
+  if (this_03 == (eCTemplateEntity *)0x0) {
+    peVar8 = (eCEntityPropertySet *)0x0;
+  }
+  else {
+    peVar8 = eCEntity::GetPropertySet((eCEntity *)this_03,0x30);
+  }
+  peVar2 = (*unaff_retaddr->vftablePtr->GetEntity)(unaff_retaddr);
+  pbVar3 = eCEntity::GetName((eCEntity *)peVar2);
+  bCString::bCString((bCString *)&stack0xfffffff0,pbVar3);
+  if ((peVar8 == (eCEntityPropertySet *)0x0) || (peVar8[0x20] != (eCEntityPropertySet)0x0)) {
+    this_04 = (gCSession *)gCSession::GetInstance();
+    peVar4 = gCSession::GetPlayer(this_04);
+    peVar2 = (*unaff_retaddr->vftablePtr->GetEntity)(unaff_retaddr);
+    if (peVar2 != (eCEntity *)peVar4) {
+      pbVar3 = bCString::operator=((bCString *)&stack0xfffffff0,"Erzofen");
+      pcVar11 = bCString::operator_char_const_(pbVar3);
+      if (((pcVar11 == (char *)0x0) &&
+          (bVar1 = bCString::Contains((bCString *)&stack0xfffffff0,"Tester",0), !bVar1)) &&
+         (bVar1 = bCString::Contains((bCString *)&stack0xfffffff0,"Interact",0), !bVar1))
+      goto LAB_201affdf;
+    }
+  }
+  iVar9 = bTPropertyContainer<gEStackType>::
+          bTPropertyContainer<gEStackType>_Constructor_or_Destructor
+                    ((bTPropertyContainer<gEStackType> *)
+                     &(unaff_retaddr->gCInventory_PS_data).field_0x18,this_02,param_3,
+                     (this_01->gCInventoryStack_data).offset_0x4,param_4);
+LAB_201affdf:
+  pgVar5 = gCInventory_PS::GetStack(unaff_retaddr,iVar9);
+  if (pgVar5 != (gCInventoryStack *)0x0) {
+    (this_01->gCInventoryStack_data).offset_0x0 =
+         (this_01->gCInventoryStack_data).offset_0x0 - param_3;
+    bVar1 = gCInventoryStack::IsEmpty(this_01);
+    if (bVar1) {
+      FUN_2000727f(param_2);
+    }
+    if ((*(int *)(pgVar5 + 0x50) != 2) && ((this_01->gCInventoryStack_data).offset_0x14 != 2)) {
+      pbVar6 = eCNode::GetID((eCNode *)this_02);
+      peVar2 = (*unaff_retaddr->vftablePtr->GetEntity)(unaff_retaddr);
+      peVar7 = (*pgStack_8->vftablePtr->GetEntity)(pgStack_8);
+      gCInventory_PS::NotifyQuestManager(pgStack_8,peVar7,peVar2,pbVar6,param_3);
+    }
+    bCString::~bCString((bCString *)&stack0xfffffff0);
+    return 1;
+  }
+  GE_MESSAGEF_WARN("gCInventory_PS::TransferItemsTo -> Could not create items in target inventory.")
+  ;
+  bCString::~bCString((bCString *)&stack0xfffffff0);
+  return 0;
+}
+
+

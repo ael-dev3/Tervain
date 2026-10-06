@@ -1,0 +1,16 @@
+/* ENTRY 2000b0be | bTPropertyContainer<gEDamageType>::scalar_deleting_destructor | STATUS decompiled | 6 ms */
+
+bTPropertyContainer<gEDamageType> * __thiscall
+bTPropertyContainer<gEDamageType>::scalar_deleting_destructor
+          (bTPropertyContainer<gEDamageType> *this,byte param_1)
+
+{
+  this->vftablePtr = &vftable;
+  bCObjectBase::~bCObjectBase((bCObjectBase *)this);
+  if ((param_1 & 1) != 0) {
+    _free(this);
+  }
+  return this;
+}
+
+

@@ -1,0 +1,4 @@
+; 20022863 bTPropertyType<gCNPC_PS,bTPropertyContainer<gEPlayerCrime>_>::vfunction15
+20022863 | e9384a2e00 | JMP 0x203072a0
+; 20022868 gCNavPath_PS::GetSecurityLevel
+; 20022868 Ordinal_4418

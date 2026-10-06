@@ -1,0 +1,10 @@
+; 2011c9c0 bTPropertyType<gCEffect_PS,bool>::vfunction6
+2011c9c0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+2011c9c4 | 85c0 | TEST EAX,EAX
+2011c9c6 | 740b | JZ 0x2011c9d3
+2011c9c8 | 8b11 | MOV EDX,dword ptr [ECX]
+2011c9ca | 50 | PUSH EAX
+2011c9cb | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+2011c9ce | ffd0 | CALL EAX
+2011c9d0 | c60000 | MOV byte ptr [EAX],0x0
+2011c9d3 | c20400 | RET 0x4

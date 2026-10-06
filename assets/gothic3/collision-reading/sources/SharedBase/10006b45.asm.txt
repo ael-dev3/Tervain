@@ -1,0 +1,4 @@
+; 10006b45 ?GetVertex@bCBox@@QBEXHAAVbCVector@@@Z
+10006b45 | e966490200 | JMP 0x1002b4b0
+; 10006b4a bCPOStream::WriteFile
+; 10006b4a Ordinal_4677

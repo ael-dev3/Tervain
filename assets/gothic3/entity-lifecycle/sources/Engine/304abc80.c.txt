@@ -1,0 +1,105 @@
+/* ENTRY 304abc80 | FUN_304abc80 | STATUS decompiled | 51 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined4 __thiscall FUN_304abc80(eCContextBase *param_1,bCIStream *param_2)
+
+{
+  bCIStream *this;
+  bCIStream *pbVar1;
+  bool bVar2;
+  eCNode *peVar3;
+  bCMessageAdmin *this_00;
+  SetGraph *pSVar4;
+  bCMemoryAdmin *this_01;
+  int iVar5;
+  bEMessageTypes bVar6;
+  char *pcVar7;
+  char *pcVar8;
+  char *pcVar9;
+  int iVar10;
+  undefined4 *puVar11;
+  ushort local_4 [2];
+  
+  this = param_2;
+  local_4[0] = 0;
+  local_4[1] = 0;
+  bCIStream::operator>>(param_2,local_4);
+  if ((_DAT_30af219c & 1) == 0) {
+    _DAT_30af219c = _DAT_30af219c | 1;
+    DAT_30af218c = (undefined4 *)0x0;
+    DAT_30af2190 = 0;
+    _DAT_30af2194 = 0;
+    _atexit((_func_4879 *)&LAB_307b0190);
+  }
+  if (1 < local_4[0]) {
+    bCIStream::operator>>(this,(bool *)&(param_1->eCContextBase_data).offset_0x41);
+  }
+  if (0x26 < local_4[0]) {
+    bCIStream::operator>>(this,(float *)&(param_1->eCContextBase_data).offset_0x44);
+    bCIStream::operator>>(this,(float *)&(param_1->eCContextBase_data).offset_0x48);
+  }
+  if (0x27 < local_4[0]) {
+    bCBox::operator<<((bCBox *)&(param_1->eCContextBase_data).field_0x1c,(bCIStream *)this);
+  }
+  bCIStream::operator>>(this,(ulong *)&param_2);
+  pbVar1 = param_2;
+  thunk_FUN_30481020(param_2,(param_2 != (bCIStream *)0x0) - 1);
+  DAT_30af2190 = (int)pbVar1;
+  iVar5 = 0;
+  if (0 < (int)param_2) {
+    do {
+      peVar3 = (*param_1->vftablePtr->CreateSpecificEntity)(param_1);
+      DAT_30af218c[iVar5] = peVar3;
+      (**(code **)(*(int *)peVar3 + 0x10))(this);
+      iVar5 = iVar5 + 1;
+    } while (iVar5 < (int)param_2);
+  }
+  eCContextBase::ReadDependency(param_1,(bCIStream *)this,(bTValArray<eCNode*> *)&DAT_30af218c);
+  bVar2 = eCContextBase::HasGraph(param_1);
+  if (bVar2) {
+    iVar5 = *(int *)g_iDefaultMessagePriority_exref;
+    iVar10 = -1;
+    pcVar9 = (char *)0x0;
+    pcVar8 = (char *)0x0;
+    pcVar7 = 
+    "eCEntityDynamicContext::Read - warning valid graph found in read. Old nodes will be destroyed";
+    bVar6 = 3;
+    this_00 = bCMessageAdmin::GetInstance();
+    bCMessageAdmin::OnMessage(this_00,bVar6,pcVar7,pcVar8,pcVar9,iVar10,iVar5);
+  }
+  if (DAT_30af2190 < 1) {
+    pSVar4 = param_1->vftablePtr->SetGraph;
+    peVar3 = (eCNode *)0x0;
+  }
+  else {
+    peVar3 = (eCNode *)*DAT_30af218c;
+    pSVar4 = param_1->vftablePtr->SetGraph;
+  }
+  (*pSVar4)(param_1,peVar3);
+  iVar5 = 0;
+  if (0 < DAT_30af2190) {
+    do {
+      bVar2 = eCEntity::IsChildrenAvailableDisabled();
+      if (!bVar2) {
+        (**(code **)(*(int *)DAT_30af218c[iVar5] + 0x8c))(0);
+      }
+      if (DAT_30af218c[iVar5] != 0) {
+        (**(code **)(*(int *)DAT_30af218c[iVar5] + 0x24))();
+        DAT_30af218c[iVar5] = 0;
+      }
+      iVar5 = iVar5 + 1;
+    } while (iVar5 < DAT_30af2190);
+  }
+  if (DAT_30af218c != (undefined4 *)0x0) {
+    puVar11 = DAT_30af218c;
+    this_01 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(this_01,puVar11);
+    DAT_30af218c = (undefined4 *)0x0;
+    DAT_30af2190 = 0;
+    _DAT_30af2194 = 0;
+  }
+  return 1;
+}
+
+

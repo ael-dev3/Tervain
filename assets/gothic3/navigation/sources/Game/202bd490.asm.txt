@@ -1,0 +1,34 @@
+; 202bd490 gCNavigationAdmin::gCNavigationAdmin
+202bd490 | 56 | PUSH ESI
+202bd491 | 8bf1 | MOV ESI,ECX
+202bd493 | ff15dc6d7d20 | CALL dword ptr [0x207d6ddc]
+202bd499 | 33c0 | XOR EAX,EAX
+202bd49b | c7061c8f6520 | MOV dword ptr [ESI],0x20658f1c
+202bd4a1 | 894614 | MOV dword ptr [ESI + 0x14],EAX
+202bd4a4 | 894618 | MOV dword ptr [ESI + 0x18],EAX
+202bd4a7 | 89461c | MOV dword ptr [ESI + 0x1c],EAX
+202bd4aa | 894620 | MOV dword ptr [ESI + 0x20],EAX
+202bd4ad | 894624 | MOV dword ptr [ESI + 0x24],EAX
+202bd4b0 | 894628 | MOV dword ptr [ESI + 0x28],EAX
+202bd4b3 | 89462c | MOV dword ptr [ESI + 0x2c],EAX
+202bd4b6 | 894630 | MOV dword ptr [ESI + 0x30],EAX
+202bd4b9 | 894634 | MOV dword ptr [ESI + 0x34],EAX
+202bd4bc | 894638 | MOV dword ptr [ESI + 0x38],EAX
+202bd4bf | 89463c | MOV dword ptr [ESI + 0x3c],EAX
+202bd4c2 | 894640 | MOV dword ptr [ESI + 0x40],EAX
+202bd4c5 | 8d4e54 | LEA ECX,[ESI + 0x54]
+202bd4c8 | 894644 | MOV dword ptr [ESI + 0x44],EAX
+202bd4cb | 894648 | MOV dword ptr [ESI + 0x48],EAX
+202bd4ce | 89464c | MOV dword ptr [ESI + 0x4c],EAX
+202bd4d1 | e81a2fd7ff | CALL 0x200303f0
+202bd4d6 | 8bce | MOV ECX,ESI
+202bd4d8 | e8ba4cd6ff | CALL 0x20022197
+202bd4dd | ff1558717d20 | CALL dword ptr [0x207d7158]
+202bd4e3 | 8b10 | MOV EDX,dword ptr [EAX]
+202bd4e5 | 8bc8 | MOV ECX,EAX
+202bd4e7 | 8b4274 | MOV EAX,dword ptr [EDX + 0x74]
+202bd4ea | 56 | PUSH ESI
+202bd4eb | ffd0 | CALL EAX
+202bd4ed | 8bc6 | MOV EAX,ESI
+202bd4ef | 5e | POP ESI
+202bd4f0 | c3 | RET

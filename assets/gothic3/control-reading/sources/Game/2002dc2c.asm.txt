@@ -1,0 +1,2 @@
+; 2002dc2c ??1gCCharacterControl_PS@@UAE@XZ
+2002dc2c | e95faf1e00 | JMP 0x20218b90

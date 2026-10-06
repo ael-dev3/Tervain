@@ -1,0 +1,8 @@
+; 10010be0 FUN_10010be0
+10010be0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+10010be4 | 8901 | MOV dword ptr [ECX],EAX
+10010be6 | 33c9 | XOR ECX,ECX
+10010be8 | 85c0 | TEST EAX,EAX
+10010bea | 0f95c1 | SETNZ CL
+10010bed | 8ac1 | MOV AL,CL
+10010bef | c20400 | RET 0x4

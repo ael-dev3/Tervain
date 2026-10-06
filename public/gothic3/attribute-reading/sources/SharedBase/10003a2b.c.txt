@@ -1,0 +1,13 @@
+/* ENTRY 10003a2b | bCGothic3EngineDialogs::bCGothic3EngineDialogs | STATUS decompiled | 1 ms */
+
+/* public: __thiscall bCGothic3EngineDialogs::bCGothic3EngineDialogs(void) */
+
+void __thiscall bCGothic3EngineDialogs::bCGothic3EngineDialogs(bCGothic3EngineDialogs *this)
+
+{
+                    /* 0x3a2b  127  ??0bCGothic3EngineDialogs@@QAE@XZ */
+  *this = (bCGothic3EngineDialogs)0x0;
+  return;
+}
+
+

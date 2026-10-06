@@ -1,0 +1,2 @@
+; 20461fd0 ENGINE.DLL::eCEntityPropertySet::OnPropertySetRemoved
+20461fd0 | ff250c6e7d20 | JMP dword ptr [0x207d6e0c]

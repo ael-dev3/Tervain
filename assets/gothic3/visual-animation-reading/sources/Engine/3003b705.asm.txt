@@ -1,0 +1,2 @@
+; 3003b705 eCVisualAnimation_PS::HasMotion
+3003b705 | e976310600 | JMP 0x3009e880

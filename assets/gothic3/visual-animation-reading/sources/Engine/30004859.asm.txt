@@ -1,0 +1,2 @@
+; 30004859 eCVisualAnimation_PS::GetClothEffector
+30004859 | e982db0500 | JMP 0x300623e0

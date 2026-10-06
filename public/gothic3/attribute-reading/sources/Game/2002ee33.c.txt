@@ -1,0 +1,18 @@
+/* ENTRY 2002ee33 | gCStat::SetMaximum | STATUS decompiled | 5 ms */
+
+/* public: virtual void __thiscall gCStat::SetMaximum(int) */
+
+void __thiscall gCStat::SetMaximum(gCStat *this,int param_1)
+
+{
+  gCStat_vftable *pgVar1;
+  
+                    /* 0x2ee33  6719  ?SetMaximum@gCStat@@UAEXH@Z */
+  (*this->vftablePtr->GetMaximum)(this);
+  pgVar1 = this->vftablePtr;
+  (this->gCAttribute_data).offset_0x14 = param_1 - (this->gCAttribute_data).offset_0x18;
+  (*pgVar1->Cap)(this);
+  return;
+}
+
+

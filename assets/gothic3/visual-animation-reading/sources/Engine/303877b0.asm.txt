@@ -1,0 +1,11 @@
+; 303877b0 bTPropertyType<eCEffector,bCVector>::vfunction6
+303877b0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+303877b4 | 85c0 | TEST EAX,EAX
+303877b6 | 7410 | JZ 0x303877c8
+303877b8 | 8b11 | MOV EDX,dword ptr [ECX]
+303877ba | 50 | PUSH EAX
+303877bb | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+303877be | ffd0 | CALL EAX
+303877c0 | 8bc8 | MOV ECX,EAX
+303877c2 | ff15e0ceaf30 | CALL dword ptr [0x30afcee0]
+303877c8 | c20400 | RET 0x4

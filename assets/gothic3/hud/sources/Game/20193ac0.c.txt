@@ -1,0 +1,19 @@
+/* ENTRY 20193ac0 | gCHUDStaticMap::gCHUDStaticMap | STATUS decompiled | 10 ms */
+
+gCHUDStaticMap * __thiscall gCHUDStaticMap::gCHUDStaticMap(gCHUDStaticMap *this)
+
+{
+  CFFGFCStatic::CFFGFCStatic((CFFGFCStatic *)this);
+  this->vftablePtr = &vftable;
+  bCPoint::bCPoint((bCPoint *)&(this->gCHUDStaticMap_data).field_0x14);
+  bCPoint::bCPoint((bCPoint *)&(this->gCHUDStaticMap_data).field_0x1c);
+  CFFGFCBitmap::CFFGFCBitmap((CFFGFCBitmap *)&(this->gCHUDStaticMap_data).field_0x24);
+  CFFGFCBitmap::CFFGFCBitmap((CFFGFCBitmap *)&(this->gCHUDStaticMap_data).field_0x2c);
+  bCFloatAlphaColor::bCFloatAlphaColor((bCFloatAlphaColor *)&(this->gCHUDStaticMap_data).field_0x34)
+  ;
+  bCFloatAlphaColor::bCFloatAlphaColor((bCFloatAlphaColor *)&(this->gCHUDStaticMap_data).field_0x48)
+  ;
+  return this;
+}
+
+

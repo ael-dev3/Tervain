@@ -1,0 +1,12 @@
+/* ENTRY 30004895 | eCIlluminated_PS::GetReciveShadows | STATUS decompiled | 7 ms */
+
+/* public: bool const & __thiscall eCIlluminated_PS::GetReciveShadows(void)const  */
+
+bool * __thiscall eCIlluminated_PS::GetReciveShadows(eCIlluminated_PS *this)
+
+{
+                    /* 0x4895  8379  ?GetReciveShadows@eCIlluminated_PS@@QBEAB_NXZ */
+  return (bool *)&(this->eCIlluminated_PS_data).field_0xd;
+}
+
+

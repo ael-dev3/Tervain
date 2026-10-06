@@ -1,0 +1,4 @@
+; 3002e75d ?Destroy@eCRigidBody_PS@@UAEXXZ
+3002e75d | e90ef72f00 | JMP 0x3032de70
+; 3002e762 eCGfxFog::sGetMasterFog
+; 3002e762 Ordinal_16597

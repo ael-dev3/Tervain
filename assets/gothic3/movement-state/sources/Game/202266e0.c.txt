@@ -1,0 +1,81 @@
+/* ENTRY 202266e0 | FUN_202266e0 | STATUS decompiled | 45 ms */
+
+void __thiscall FUN_202266e0(gCCharacterMovement_PS *param_1,bCVector *param_2,char param_3)
+
+{
+  undefined1 *puVar1;
+  bool bVar2;
+  bool bVar3;
+  bCVector *pbVar4;
+  bCQuaternion *pbVar5;
+  eCEntity *peVar6;
+  bCVector *this;
+  float fVar7;
+  eEPropertySetType eVar8;
+  undefined4 local_20;
+  bCVector local_1c [12];
+  bCQuaternion local_10 [16];
+  
+  local_20 = 0;
+  gCCharacterMovement_PS::CreateDependantPSets(param_1);
+  if (param_3 != '\x01') {
+    bCVector::operator=((bCVector *)&(param_1->gCCharacterMovement_PS_data).field_0x35c,param_2);
+    (param_1->gCCharacterMovement_PS_data).offset_0x378 = 0xbf800000;
+    goto LAB_20226823;
+  }
+  bVar3 = false;
+  puVar1 = &(param_1->gCCharacterMovement_PS_data).field_0x35c;
+  pbVar4 = (bCVector *)bCVector::bCVector(local_1c,0.0,0.0,0.0);
+  bVar2 = bCVector::operator==((bCVector *)puVar1,pbVar4);
+  if (bVar2) {
+    bVar3 = true;
+    pbVar5 = (bCQuaternion *)bCQuaternion::bCQuaternion(local_10,0.0,0.0,0.0,1.0);
+    bVar2 = bCQuaternion::operator==
+                      ((bCQuaternion *)&(param_1->gCCharacterMovement_PS_data).field_0x368,pbVar5);
+    if (!bVar2) goto LAB_20226769;
+LAB_2022678c:
+    param_3 = true;
+  }
+  else {
+LAB_20226769:
+    peVar6 = (*param_1->vftablePtr->GetEntity)(param_1);
+    pbVar4 = eCEntity::GetWorldPosition((eCEntity *)peVar6);
+    bVar2 = bCVector::operator==((bCVector *)puVar1,pbVar4);
+    param_3 = false;
+    if (bVar2) goto LAB_2022678c;
+  }
+  if (bVar3) {
+    bCQuaternion::~bCQuaternion(local_10);
+  }
+  bCVector::~bCVector(local_1c);
+  bCVector::operator=((bCVector *)puVar1,param_2);
+  peVar6 = (*param_1->vftablePtr->GetEntity)(param_1);
+  pbVar4 = eCEntity::GetWorldPosition((eCEntity *)peVar6);
+  this = (bCVector *)bCVector::operator-((bCVector *)puVar1,local_1c);
+  fVar7 = bCVector::GetMagnitude2D(this,(bECoordinate)pbVar4);
+  (param_1->gCCharacterMovement_PS_data).offset_0x378 = fVar7;
+  bCVector::~bCVector((bCVector *)&local_20);
+  (param_1->gCCharacterMovement_PS_data).offset_0x21a = (gCCharacterMovement_PS)0x0;
+LAB_20226823:
+  eVar8 = 0x16;
+  peVar6 = (*param_1->vftablePtr->GetEntity)(param_1);
+  bVar3 = eCEntity::HasPropertySet((eCEntity *)peVar6,eVar8);
+  if ((bVar3) && ((param_1->gCCharacterMovement_PS_data).offset_0x174 != 0)) {
+    gCCharacterMovement_PS::CreateDependantPSets(param_1);
+    gCCharacterSensor_PS::SetGoalPosition
+              ((gCCharacterSensor_PS *)(param_1->gCCharacterMovement_PS_data).offset_0x174,param_2,
+               (bool)param_3);
+    (param_1->gCCharacterMovement_PS_data).offset_0x218 = (gCCharacterMovement_PS)0x0;
+    return;
+  }
+  puVar1 = &(param_1->gCCharacterMovement_PS_data).field_0x2bc;
+  bVar3 = bCVector::operator!=(param_2,(bCVector *)puVar1);
+  if (bVar3) {
+    (param_1->gCCharacterMovement_PS_data).offset_0x219 = (gCCharacterMovement_PS)0x1;
+  }
+  bCVector::operator=((bCVector *)puVar1,param_2);
+  (param_1->gCCharacterMovement_PS_data).offset_0x218 = (gCCharacterMovement_PS)0x0;
+  return;
+}
+
+

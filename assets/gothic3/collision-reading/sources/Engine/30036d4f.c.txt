@@ -1,0 +1,12 @@
+/* ENTRY 30036d4f | eCCollisionShape_PS::GetDisableCollision | STATUS decompiled | 103 ms */
+
+/* public: bool const & __thiscall eCCollisionShape_PS::GetDisableCollision(void)const  */
+
+bool * __thiscall eCCollisionShape_PS::GetDisableCollision(eCCollisionShape_PS *this)
+
+{
+                    /* 0x36d4f  6872  ?GetDisableCollision@eCCollisionShape_PS@@QBEAB_NXZ */
+  return (bool *)&(this->eCCollisionShape_PS_data).field_0x10;
+}
+
+

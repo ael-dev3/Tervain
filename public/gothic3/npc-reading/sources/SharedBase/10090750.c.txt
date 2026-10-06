@@ -1,0 +1,17 @@
+/* ENTRY 10090750 | FUN_10090750 | STATUS decompiled | 4 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined * FUN_10090750(void)
+
+{
+  if ((_DAT_102f48e4 & 1) == 0) {
+    _DAT_102f48e4 = _DAT_102f48e4 | 1;
+    bCPropertyObjectSingleton::bCPropertyObjectSingleton((bCPropertyObjectSingleton *)&DAT_102f48c0)
+    ;
+    _atexit((_func_4879 *)&LAB_100e30a0);
+  }
+  return &DAT_102f48c0;
+}
+
+

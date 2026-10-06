@@ -1,0 +1,62 @@
+/* ENTRY 30006127 | eCCollisionShape_PS::RemoveShapesInternal | STATUS decompiled | 32 ms */
+
+/* protected: virtual void __thiscall eCCollisionShape_PS::RemoveShapesInternal(enum eEShapeGroup)
+    */
+
+void __thiscall
+eCCollisionShape_PS::RemoveShapesInternal(eCCollisionShape_PS *this,eEShapeGroup param_1)
+
+{
+  char cVar1;
+  eCEntity *peVar2;
+  eCPhysicObject *this_00;
+  NxActor *pNVar3;
+  int iVar4;
+  int iVar5;
+  eEShapeGroup eVar6;
+  int iVar7;
+  bool bVar8;
+  bool bVar9;
+  int iStack_4;
+  
+                    /* 0x6127  12559
+                       ?RemoveShapesInternal@eCCollisionShape_PS@@MAEXW4eEShapeGroup@@@Z */
+  peVar2 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+  this_00 = (eCPhysicObject *)eCEntity::GetPhysicObject(peVar2);
+  pNVar3 = eCPhysicObject::GetActor(this_00);
+  iVar4 = (**(code **)(*(int *)pNVar3 + 0x4c))();
+  iStack_4 = 0;
+  iVar7 = iVar4;
+  if (iVar4 != 0) {
+    while (iVar7 = iVar7 + -1, -1 < iVar7) {
+      iVar5 = (**(code **)(*(int *)pNVar3 + 0x50))();
+      eVar6 = (**(code **)(**(int **)(iVar5 + iVar7 * 4) + 0xc))();
+      if (param_1 == (eVar6 & 0xffff)) {
+        iStack_4 = iStack_4 + 1;
+      }
+    }
+    iVar4 = iVar4 - iStack_4;
+    if ((iVar4 == 0) && (cVar1 = (**(code **)(*(int *)pNVar3 + 0x68))(), cVar1 == '\0')) {
+      bVar9 = false;
+      bVar8 = false;
+      peVar2 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+      eCEntity::CacheOut(peVar2,bVar8,bVar9);
+      peVar2 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+      eCEntity::CacheIn(peVar2,SUB41(iVar4,0));
+      return;
+    }
+    iVar7 = (**(code **)(*(int *)pNVar3 + 0x4c))();
+    while (iVar7 = iVar7 + -1, -1 < iVar7) {
+      iVar4 = (**(code **)(*(int *)pNVar3 + 0x50))();
+      eVar6 = (**(code **)(**(int **)(iVar4 + iVar7 * 4) + 0xc))();
+      if (param_1 == (eVar6 & 0xffff)) {
+        iVar4 = *(int *)pNVar3;
+        iVar5 = (**(code **)(iVar4 + 0x50))();
+        (**(code **)(iVar4 + 0x48))(*(undefined4 *)(iVar5 + iVar7 * 4));
+      }
+    }
+  }
+  return;
+}
+
+

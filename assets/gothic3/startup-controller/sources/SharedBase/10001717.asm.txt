@@ -1,0 +1,4 @@
+; 10001717 ?AccessTranslation@bCMatrix@@QAEAAVbCVector@@XZ
+10001717 | e924680200 | JMP 0x10027f40
+; 1000171c bCTriangle::Cull
+; 1000171c Ordinal_1903

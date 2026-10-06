@@ -1,0 +1,4 @@
+; 10004d95 ?InvScale@bCBox@@QAEXM@Z
+10004d95 | e9d65f0200 | JMP 0x1002ad70
+; 10004d9a bCFlexibleVertexFormat::GetOffsetSpecular
+; 10004d9a Ordinal_2710

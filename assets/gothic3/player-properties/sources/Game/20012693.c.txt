@@ -1,0 +1,18 @@
+/* ENTRY 20012693 | gCAttribute::SetModifier | STATUS decompiled | 8 ms */
+
+/* public: void __thiscall gCAttribute::SetModifier(int const &) */
+
+void __thiscall gCAttribute::SetModifier(gCAttribute *this,int *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x12693  6782  ?SetModifier@gCAttribute@@QAEXABH@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"Modifier",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  (this->gCAttribute_data).offset_0xc = *param_1;
+  (*pNVar1)(this,"Modifier",false);
+  return;
+}
+
+

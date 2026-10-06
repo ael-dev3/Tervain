@@ -1,0 +1,8 @@
+; 30317b80 FUN_30317b80
+30317b80 | 51 | PUSH ECX
+30317b81 | d981a8000000 | FLD float ptr [ECX + 0xa8]
+30317b87 | d8b1ac000000 | FDIV float ptr [ECX + 0xac]
+30317b8d | d91c24 | FSTP float ptr [ESP]
+30317b90 | d90424 | FLD float ptr [ESP]
+30317b93 | 59 | POP ECX
+30317b94 | c3 | RET

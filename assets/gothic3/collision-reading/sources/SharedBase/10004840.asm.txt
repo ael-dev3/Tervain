@@ -1,0 +1,4 @@
+; 10004840 ??1bCMatrix3@@QAE@XZ
+10004840 | e93b260200 | JMP 0x10026e80
+; 10004845 bCVector4::operator>>
+; 10004845 Ordinal_678

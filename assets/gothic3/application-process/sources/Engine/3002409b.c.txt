@@ -1,0 +1,30 @@
+/* ENTRY 3002409b | eCEntityAdmin::ProcessDynamicEntity | STATUS decompiled | 23 ms */
+
+/* protected: bool __thiscall eCEntityAdmin::ProcessDynamicEntity(class eCDynamicEntity &) */
+
+bool __thiscall eCEntityAdmin::ProcessDynamicEntity(eCEntityAdmin *this,eCDynamicEntity *param_1)
+
+{
+  char cVar1;
+  bool bVar2;
+  eCContextBase *this_00;
+  
+                    /* 0x2409b  11981
+                       ?ProcessDynamicEntity@eCEntityAdmin@@IAE_NAAVeCDynamicEntity@@@Z */
+  cVar1 = (**(code **)(*(int *)param_1 + 0xa0))();
+  if (cVar1 != '\x01') {
+    bVar2 = eCEntity::IsEnabled((eCEntity *)param_1);
+    if (bVar2) {
+      this_00 = (eCContextBase *)eCNode::GetCurrentContext((eCNode *)param_1);
+      bVar2 = eCContextBase::IsEnabled(this_00);
+      if (bVar2) {
+        eCEntity::PreProcess((eCEntity *)param_1,false);
+        eCEntity::Process((eCEntity *)param_1,false);
+        eCEntity::PostProcess((eCEntity *)param_1,false);
+      }
+    }
+  }
+  return true;
+}
+
+

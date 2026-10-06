@@ -1,0 +1,4 @@
+; 30047046 ?Write@eCCollisionShape_PS@@UAE?AW4bEResult@@AAVbCOStream@@@Z
+30047046 | e9e50a2f00 | JMP 0x30337b30
+; 3004704b eCCollisionShape_PS::GetBoundary
+; 3004704b Ordinal_6310

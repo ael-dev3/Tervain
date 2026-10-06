@@ -1,0 +1,54 @@
+/* ENTRY 10006681 | thunk_FUN_1008b230 | STATUS decompiled | 11 ms */
+
+void __fastcall thunk_FUN_1008b230(int *param_1)
+
+{
+  int *piVar1;
+  void *pvVar2;
+  bCMemoryAdmin *pbVar3;
+  int iVar4;
+  int *piVar5;
+  int iStack_4;
+  
+  iStack_4 = 0;
+  if (0 < param_1[1]) {
+    do {
+      piVar5 = *(int **)(*param_1 + iStack_4 * 4);
+      while (piVar5 != (int *)0x0) {
+        iVar4 = *piVar5;
+        piVar1 = (int *)piVar5[2];
+        if (iVar4 != 0) {
+          *(short *)(iVar4 + -4) = *(short *)(iVar4 + -4) + -1;
+          pvVar2 = (void *)(iVar4 + -8);
+          if (*(short *)(iVar4 + -4) == 0) {
+            pbVar3 = bCMemoryAdmin::GetInstance();
+            bCMemoryAdmin::Free(pbVar3,pvVar2);
+          }
+        }
+        pbVar3 = bCMemoryAdmin::GetInstance();
+        bCMemoryAdmin::DeleteObject(pbVar3,piVar5);
+        piVar5 = piVar1;
+      }
+      iStack_4 = iStack_4 + 1;
+    } while (iStack_4 < param_1[1]);
+  }
+  pvVar2 = (void *)*param_1;
+  if (pvVar2 != (void *)0x0) {
+    pbVar3 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar3,pvVar2);
+    *param_1 = 0;
+    param_1[1] = 0;
+    param_1[2] = 0;
+  }
+  param_1[3] = 0;
+  thunk_FUN_1008ac30(0x2b,0);
+  param_1[1] = 0x2b;
+  iVar4 = 0;
+  do {
+    *(undefined4 *)(iVar4 + *param_1) = 0;
+    iVar4 = iVar4 + 4;
+  } while (iVar4 < 0xac);
+  return;
+}
+
+

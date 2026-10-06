@@ -1,0 +1,2 @@
+; 2001fe01 ?AccessBaseValue@gCAttribute@@QAEAAHXZ
+2001fe01 | e99aa30800 | JMP 0x200aa1a0

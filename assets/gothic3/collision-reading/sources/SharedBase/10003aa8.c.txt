@@ -1,0 +1,19 @@
+/* ENTRY 10003aa8 | bCOrientedBox::GetCircumSphere | STATUS decompiled | 7 ms */
+
+/* public: void __thiscall bCOrientedBox::GetCircumSphere(class bCSphere &)const  */
+
+void __thiscall bCOrientedBox::GetCircumSphere(bCOrientedBox *this,bCSphere *param_1)
+
+{
+  float10 fVar1;
+  
+                    /* 0x3aa8  2157  ?GetCircumSphere@bCOrientedBox@@QBEXAAVbCSphere@@@Z */
+  *(undefined4 *)(param_1 + 4) = *(undefined4 *)this;
+  *(undefined4 *)(param_1 + 8) = *(undefined4 *)(this + 4);
+  *(undefined4 *)(param_1 + 0xc) = *(undefined4 *)(this + 8);
+  fVar1 = (float10)FUN_100ab010();
+  *(float *)param_1 = (float)fVar1;
+  return;
+}
+
+

@@ -1,0 +1,2 @@
+; 2002a26b bTPropertyType<gCPlayerMemory_PS,bTValArray<long>_>::vfunction12
+2002a26b | e9b0852f00 | JMP 0x20322820

@@ -1,0 +1,2 @@
+; 3003daaf eCResourceBase_PS::GetProprietaryFileName
+3003daaf | e93cf53700 | JMP 0x303bcff0

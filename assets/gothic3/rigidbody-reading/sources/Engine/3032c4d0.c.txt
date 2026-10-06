@@ -1,0 +1,23 @@
+/* ENTRY 3032c4d0 | FUN_3032c4d0 | STATUS decompiled | 5 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+bCPropertyObjectBase * FUN_3032c4d0(void)
+
+{
+  bCPropertyObjectSingleton *this;
+  bCString *pbVar1;
+  bCString local_4 [4];
+  
+  if ((_DAT_30aebf34 & 1) == 0) {
+    _DAT_30aebf34 = _DAT_30aebf34 | 1;
+    bCString::bCString(local_4,"eCRigidBody_PS");
+    pbVar1 = local_4;
+    this = bCPropertyObjectSingleton::GetInstance();
+    DAT_30aebf30 = bCPropertyObjectSingleton::GetRootObject(this,pbVar1);
+    bCString::~bCString(local_4);
+  }
+  return DAT_30aebf30;
+}
+
+

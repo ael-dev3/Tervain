@@ -1,0 +1,2 @@
+; 10005998 bCObsoleteClass::~bCObsoleteClass
+10005998 | e9634c0400 | JMP 0x1004a600

@@ -1,0 +1,29 @@
+/* ENTRY 3009d980 | FUN_3009d980 | STATUS decompiled | 11 ms */
+
+eCRenderContext * __fastcall FUN_3009d980(eCEntityPropertySet *param_1)
+
+{
+  eCRenderContextAnimation *this;
+  eCRenderContext *this_00;
+  eCEntity *peVar1;
+  bEResult bVar2;
+  
+  this = (eCRenderContextAnimation *)new(0x24,0x8af);
+  if (this == (eCRenderContextAnimation *)0x0) {
+    this_00 = (eCRenderContext *)0x0;
+  }
+  else {
+    this_00 = (eCRenderContext *)eCRenderContextAnimation::eCRenderContextAnimation(this);
+  }
+  peVar1 = (eCEntity *)(**(code **)(*(int *)param_1 + 0x68))();
+  bVar2 = eCRenderContext::Create(this_00,peVar1,param_1);
+  if (bVar2 == 1) {
+    return this_00;
+  }
+  if (this_00 != (eCRenderContext *)0x0) {
+    (*this_00->vftablePtr->ReleaseReference)(this_00);
+  }
+  return (eCRenderContext *)0x0;
+}
+
+

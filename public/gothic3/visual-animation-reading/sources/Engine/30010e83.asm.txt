@@ -1,0 +1,2 @@
+; 30010e83 eCVisualAnimation_PS::PlayMotion
+30010e83 | e9d8ee0800 | JMP 0x3009fd60

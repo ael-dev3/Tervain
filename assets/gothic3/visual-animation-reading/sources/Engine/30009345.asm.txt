@@ -1,0 +1,2 @@
+; 30009345 eCVisualAnimationLoD::GetActorWrapper
+30009345 | e9265d0b00 | JMP 0x300bf070

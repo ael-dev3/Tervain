@@ -1,0 +1,2 @@
+; 30036d4f ?GetDisableCollision@eCCollisionShape_PS@@QBEAB_NXZ
+30036d4f | e91cbf0800 | JMP 0x300c2c70

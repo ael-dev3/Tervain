@@ -1,0 +1,34 @@
+; 2020c450 bTPropertyObject<gCDialog_PS,eCEntityPropertySet>::vfunction10
+2020c450 | 56 | PUSH ESI
+2020c451 | 8bf1 | MOV ESI,ECX
+2020c453 | 8b4e0c | MOV ECX,dword ptr [ESI + 0xc]
+2020c456 | 8b01 | MOV EAX,dword ptr [ECX]
+2020c458 | 8b500c | MOV EDX,dword ptr [EAX + 0xc]
+2020c45b | 57 | PUSH EDI
+2020c45c | 56 | PUSH ESI
+2020c45d | ffd2 | CALL EDX
+2020c45f | 8bc8 | MOV ECX,EAX
+2020c461 | ff1580877d20 | CALL dword ptr [0x207d8780]
+2020c467 | 8b4e08 | MOV ECX,dword ptr [ESI + 0x8]
+2020c46a | 85c9 | TEST ECX,ECX
+2020c46c | 7415 | JZ 0x2020c483
+2020c46e | ff15c0877d20 | CALL dword ptr [0x207d87c0]
+2020c474 | 83f801 | CMP EAX,0x1
+2020c477 | 750a | JNZ 0x2020c483
+2020c479 | 8b4e08 | MOV ECX,dword ptr [ESI + 0x8]
+2020c47c | 8b01 | MOV EAX,dword ptr [ECX]
+2020c47e | 8b5014 | MOV EDX,dword ptr [EAX + 0x14]
+2020c481 | ffd2 | CALL EDX
+2020c483 | 8b7e08 | MOV EDI,dword ptr [ESI + 0x8]
+2020c486 | 85ff | TEST EDI,EDI
+2020c488 | 7412 | JZ 0x2020c49c
+2020c48a | 6a00 | PUSH 0x0
+2020c48c | 8bcf | MOV ECX,EDI
+2020c48e | ff15c4877d20 | CALL dword ptr [0x207d87c4]
+2020c494 | 8bcf | MOV ECX,EDI
+2020c496 | ff15c8877d20 | CALL dword ptr [0x207d87c8]
+2020c49c | 5f | POP EDI
+2020c49d | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+2020c4a4 | 8bce | MOV ECX,ESI
+2020c4a6 | 5e | POP ESI
+2020c4a7 | ff2584877d20 | JMP dword ptr [0x207d8784]

@@ -1,0 +1,283 @@
+/* ENTRY 202f90c0 | FUN_202f90c0 | STATUS decompiled | 191 ms */
+
+void __fastcall FUN_202f90c0(int *param_1)
+
+{
+  bCString *this;
+  bool bVar1;
+  int *piVar2;
+  eCVisualAnimation_PS *this_00;
+  eCWrapper_emfx2Actor *peVar3;
+  eSMotionDesc *this_01;
+  bCString *pbVar4;
+  int iVar5;
+  char *pcVar6;
+  int iVar7;
+  int iVar8;
+  float10 fVar9;
+  double dVar10;
+  int iStack_14;
+  double dStack_c;
+  
+  iVar7 = param_1[0x69];
+  if (iVar7 != 0) {
+    param_1[0x69] = 0;
+    param_1[0x65] = iVar7;
+    param_1[0x66] = iVar7;
+    return;
+  }
+  piVar2 = (int *)(**(code **)(*param_1 + 0x68))();
+  this_00 = (eCVisualAnimation_PS *)(**(code **)(*piVar2 + 0xec))(100);
+  if (this_00 != (eCVisualAnimation_PS *)0x0) {
+    peVar3 = eCVisualAnimation_PS::GetActor(this_00);
+    if (peVar3 == (eCWrapper_emfx2Actor *)0x0) {
+      param_1[0x69] = 0;
+      param_1[0x65] = 0;
+      param_1[0x66] = 0;
+      return;
+    }
+    peVar3 = eCVisualAnimation_PS::GetActor(this_00);
+    this = (bCString *)(param_1 + 0x68);
+    bCString::Clear(this);
+    bVar1 = eCWrapper_emfx2Actor::HasMotionInstance(peVar3,0);
+    if ((bVar1) && (bVar1 = eCWrapper_emfx2Actor::IsActorPlaying(peVar3,0), bVar1)) {
+      this_01 = eCVisualAnimation_PS::GetMotionDesc(this_00,0);
+      pbVar4 = eCVisualAnimation_PS::eSMotionDesc::GetMotionFilename(this_01);
+      bCString::operator=(this,pbVar4);
+      iVar8 = 0;
+      iVar7 = 4;
+      do {
+        iVar5 = bCString::Find(this,'_',iVar8,false);
+        iVar8 = iVar5 + 1;
+        iVar7 = iVar7 + -1;
+      } while (iVar7 != 0);
+      param_1[0x65] = 1;
+      pcVar6 = bCString::GetBuffer(this,0);
+      switch(pcVar6[iVar5 + 2]) {
+      case '0':
+        pcVar6 = bCString::GetBuffer(this,0);
+        switch(pcVar6[iVar5 + 3]) {
+        case '0':
+          param_1[0x65] = 5;
+          break;
+        case '1':
+          param_1[0x65] = 6;
+          break;
+        case '2':
+          param_1[0x65] = 7;
+          break;
+        case '3':
+          param_1[0x65] = 8;
+        }
+        break;
+      case '1':
+        pcVar6 = bCString::GetBuffer(this,0);
+        switch(pcVar6[iVar5 + 3]) {
+        case '0':
+          param_1[0x65] = 9;
+          break;
+        case '1':
+          param_1[0x65] = 10;
+          break;
+        case '2':
+          param_1[0x65] = 0xb;
+          break;
+        case '3':
+          param_1[0x65] = 0xc;
+          break;
+        case '_':
+          param_1[0x65] = 2;
+        }
+        break;
+      case '2':
+        pcVar6 = bCString::GetBuffer(this,0);
+        switch(pcVar6[iVar5 + 3]) {
+        case '0':
+          param_1[0x65] = 0xd;
+          break;
+        case '1':
+          param_1[0x65] = 0xe;
+          break;
+        case '2':
+          param_1[0x65] = 0xf;
+          break;
+        case '3':
+          param_1[0x65] = 0x10;
+          break;
+        case '_':
+          param_1[0x65] = 3;
+        }
+        break;
+      case '3':
+        pcVar6 = bCString::GetBuffer(this,0);
+        switch(pcVar6[iVar5 + 3]) {
+        case '0':
+          param_1[0x65] = 0x11;
+          break;
+        case '1':
+          param_1[0x65] = 0x12;
+          break;
+        case '2':
+          param_1[0x65] = 0x13;
+          break;
+        case '3':
+          param_1[0x65] = 0x14;
+          break;
+        case '_':
+          param_1[0x65] = 4;
+        }
+        break;
+      case '4':
+        pcVar6 = bCString::GetBuffer(this,0);
+        if (pcVar6[iVar5 + 3] == '0') {
+          param_1[0x65] = 0x15;
+        }
+        break;
+      case '5':
+        pcVar6 = bCString::GetBuffer(this,0);
+        if (pcVar6[iVar5 + 3] == '0') {
+          param_1[0x65] = 0x16;
+        }
+        break;
+      case '6':
+        pcVar6 = bCString::GetBuffer(this,0);
+        if (pcVar6[iVar5 + 3] == '0') {
+          param_1[0x65] = 0x17;
+        }
+        break;
+      case '7':
+        pcVar6 = bCString::GetBuffer(this,0);
+        if (pcVar6[iVar5 + 3] == '0') {
+          param_1[0x65] = 0x18;
+        }
+      }
+      param_1[0x66] = param_1[0x65];
+      param_1[0x67] = 0x3f800000;
+      dVar10 = eCWrapper_emfx2Actor::GetMaxTime(peVar3,0);
+      dStack_c = 0.0;
+      if (0.0 < dVar10) {
+        dStack_c = eCWrapper_emfx2Actor::GetPlayTime(peVar3,0);
+        dStack_c = dStack_c / dVar10;
+      }
+      iStack_14 = 8;
+      do {
+        iVar7 = bCString::Find(this,'_',iVar8,false);
+        iVar8 = iVar7 + 1;
+        iStack_14 = iStack_14 + -1;
+      } while (iStack_14 != 0);
+      param_1[0x66] = 1;
+      pcVar6 = bCString::GetBuffer(this,0);
+      switch(pcVar6[iVar7 + 2]) {
+      case '0':
+        pcVar6 = bCString::GetBuffer(this,0);
+        switch(pcVar6[iVar7 + 3]) {
+        case '0':
+          param_1[0x66] = 5;
+          break;
+        case '1':
+          param_1[0x66] = 6;
+          break;
+        case '2':
+          param_1[0x66] = 7;
+          break;
+        case '3':
+          param_1[0x66] = 8;
+        }
+        break;
+      case '1':
+        pcVar6 = bCString::GetBuffer(this,0);
+        switch(pcVar6[iVar7 + 3]) {
+        case '0':
+          param_1[0x66] = 9;
+          break;
+        case '1':
+          param_1[0x66] = 10;
+          break;
+        case '2':
+          param_1[0x66] = 0xb;
+          break;
+        case '3':
+          param_1[0x66] = 0xc;
+          break;
+        case '_':
+          param_1[0x66] = 2;
+        }
+        break;
+      case '2':
+        pcVar6 = bCString::GetBuffer(this,0);
+        switch(pcVar6[iVar7 + 3]) {
+        case '0':
+          param_1[0x66] = 0xd;
+          break;
+        case '1':
+          param_1[0x66] = 0xe;
+          break;
+        case '2':
+          param_1[0x66] = 0xf;
+          break;
+        case '3':
+          param_1[0x66] = 0x10;
+          break;
+        case '_':
+          param_1[0x66] = 3;
+        }
+        break;
+      case '3':
+        pcVar6 = bCString::GetBuffer(this,0);
+        switch(pcVar6[iVar7 + 3]) {
+        case '0':
+          param_1[0x66] = 0x11;
+          break;
+        case '1':
+          param_1[0x66] = 0x12;
+          break;
+        case '2':
+          param_1[0x66] = 0x13;
+          break;
+        case '3':
+          param_1[0x66] = 0x14;
+          break;
+        case '_':
+          param_1[0x66] = 4;
+        }
+        break;
+      case '4':
+        pcVar6 = bCString::GetBuffer(this,0);
+        if (pcVar6[iVar7 + 3] == '0') {
+          param_1[0x66] = 0x15;
+        }
+        break;
+      case '5':
+        pcVar6 = bCString::GetBuffer(this,0);
+        if (pcVar6[iVar7 + 3] == '0') {
+          param_1[0x66] = 0x16;
+        }
+        break;
+      case '6':
+        pcVar6 = bCString::GetBuffer(this,0);
+        if (pcVar6[iVar7 + 3] == '0') {
+          param_1[0x66] = 0x17;
+        }
+        break;
+      case '7':
+        pcVar6 = bCString::GetBuffer(this,0);
+        if (pcVar6[iVar7 + 3] == '0') {
+          param_1[0x66] = 0x18;
+        }
+      }
+      fVar9 = (float10)dStack_c;
+      param_1[0x67] = (int)(float)((float10)1 - fVar9);
+      if ((((float10)0.5 < fVar9) && (*(int *)(peVar3 + 0x74) == 0)) ||
+         ((fVar9 <= (float10)0.5 && (*(int *)(peVar3 + 0x74) == 1)))) {
+        iVar7 = param_1[0x65];
+        param_1[0x67] = (int)(float)dStack_c;
+        param_1[0x65] = param_1[0x66];
+        param_1[0x66] = iVar7;
+        return;
+      }
+    }
+  }
+  return;
+}
+
+

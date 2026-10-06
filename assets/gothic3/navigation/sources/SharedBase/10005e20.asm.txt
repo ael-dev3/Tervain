@@ -1,0 +1,4 @@
+; 10005e20 ?Clear@bCSphere@@QAEXXZ
+10005e20 | e94b0e0300 | JMP 0x10036c70
+; 10005e25 bCVariant::Clear
+; 10005e25 Ordinal_1632

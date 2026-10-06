@@ -1,0 +1,2 @@
+; 30040192 bTPOPureSmartPtr<eCIlluminated_PS>::vfunction11
+30040192 | e9295e1e00 | JMP 0x30225fc0

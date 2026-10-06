@@ -1,0 +1,4 @@
+; 10001fb9 ?SetModifier@PSPlayerMemory@@QAEXABVbCString@@H@Z
+10001fb9 | e922740200 | JMP 0x100293e0
+; 10001fc3 PSInfoScriptCommand::PSInfoScriptCommand
+; 10001fc3 Ordinal_68

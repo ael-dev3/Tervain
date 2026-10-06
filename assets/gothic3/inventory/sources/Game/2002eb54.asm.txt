@@ -1,0 +1,2 @@
+; 2002eb54 ?OnApplyStats@gCInventoryStack@@MAEXPAVeCEntity@@0@Z
+2002eb54 | e997891900 | JMP 0x201c74f0

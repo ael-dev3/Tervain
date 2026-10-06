@@ -1,0 +1,23 @@
+/* ENTRY 100062f8 | bCBitField::DisableAll | STATUS decompiled | 3 ms */
+
+/* public: void __thiscall bCBitField::DisableAll(void) */
+
+void __thiscall bCBitField::DisableAll(bCBitField *this)
+
+{
+  int iVar1;
+  undefined4 *puVar2;
+  
+                    /* 0x62f8  1960  ?DisableAll@bCBitField@@QAEXXZ */
+  iVar1 = *(int *)(this + 4);
+  puVar2 = *(undefined4 **)this;
+  if (iVar1 != 0) {
+    for (; iVar1 != 0; iVar1 = iVar1 + -1) {
+      *puVar2 = 0;
+      puVar2 = puVar2 + 1;
+    }
+  }
+  return;
+}
+
+

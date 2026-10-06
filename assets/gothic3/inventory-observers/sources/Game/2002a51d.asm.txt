@@ -1,0 +1,2 @@
+; 2002a51d ?OnStackChange@gCInventory_PS@@UAEXHPBVgCInventoryStack@@@Z
+2002a51d | e98e291800 | JMP 0x201aceb0

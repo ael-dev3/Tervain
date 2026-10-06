@@ -1,0 +1,35 @@
+/* ENTRY 2001bdb0 | gCPlayerMemory_PS::PostInitializeProperties | STATUS decompiled | 14 ms */
+
+/* public: virtual enum bEResult __thiscall gCPlayerMemory_PS::PostInitializeProperties(void) */
+
+bEResult __thiscall gCPlayerMemory_PS::PostInitializeProperties(gCPlayerMemory_PS *this)
+
+{
+  bEResult bVar1;
+  
+                    /* 0x1bdb0  5781
+                       ?PostInitializeProperties@gCPlayerMemory_PS@@UAE?AW4bEResult@@XZ */
+  bVar1 = bCObjectRefBase::PostInitializeProperties((bCObjectRefBase *)this);
+  if (bVar1 == 1) {
+    (this->gCPlayerMemory_PS_data).field_0x10 = 0;
+    *(undefined4 *)&this[1].gCPlayerMemory_PS_data.field_0xc = 0;
+    *(undefined4 *)&this[1].gCPlayerMemory_PS_data.field_0x10 = 0;
+    this[1].gCPlayerMemory_PS_data.offset_0x14 = 0;
+    this[1].gCPlayerMemory_PS_data.offset_0x18 = 0;
+    this[1].gCPlayerMemory_PS_data.offset_0x1c = 0;
+    this[1].gCPlayerMemory_PS_data.offset_0x20 = 0;
+    this[1].gCPlayerMemory_PS_data.offset_0x24 = 0;
+    this[1].gCPlayerMemory_PS_data.offset_0x28 = 0;
+    *(undefined1 *)&this[1].gCPlayerMemory_PS_data.offset_0x2c = 0;
+    *(undefined1 *)((int)&this[1].gCPlayerMemory_PS_data.offset_0x2c + 1) = 0;
+    *(undefined1 *)((int)&this[1].gCPlayerMemory_PS_data.offset_0x2c + 2) = 0;
+    *(undefined1 *)((int)&this[1].gCPlayerMemory_PS_data.offset_0x2c + 3) = 0;
+    this[1].gCPlayerMemory_PS_data.offset_0x30 = 0;
+    *(undefined1 *)&this[1].gCPlayerMemory_PS_data.offset_0x34 = 0;
+    CreateAttributes(this);
+    bVar1 = 1;
+  }
+  return bVar1;
+}
+
+

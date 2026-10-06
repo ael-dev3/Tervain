@@ -1,0 +1,41 @@
+/* ENTRY 3000f96b | thunk_FUN_3032b630 | STATUS decompiled | 7 ms */
+
+undefined4 __thiscall thunk_FUN_3032b630(int *param_1,uint *param_2)
+
+{
+  uint uVar1;
+  uint uVar2;
+  uint *puVar3;
+  uint uVar4;
+  
+  uVar1 = *param_2;
+  uVar2 = param_1[1];
+  uVar4 = (uVar1 >> 4) % uVar2;
+  if ((uVar2 != 0) && (uVar4 < uVar2)) {
+    param_2 = *(uint **)(*param_1 + uVar4 * 4);
+    if (param_2 != (uint *)0x0) {
+      if (uVar1 == *param_2) {
+        *(uint *)(*param_1 + uVar4 * 4) = param_2[4];
+        thunk_FUN_3032b2c0(&param_2);
+        param_1[3] = param_1[3] + -1;
+        return 1;
+      }
+      uVar2 = param_2[4];
+      puVar3 = param_2;
+      while (uVar2 != 0) {
+        param_2 = (uint *)puVar3[4];
+        if (uVar1 == *param_2) {
+          puVar3[4] = param_2[4];
+          thunk_FUN_3032b2c0(&param_2);
+          param_1[3] = param_1[3] + -1;
+          return 1;
+        }
+        puVar3 = param_2;
+        uVar2 = param_2[4];
+      }
+    }
+  }
+  return 0;
+}
+
+

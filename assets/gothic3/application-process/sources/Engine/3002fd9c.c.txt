@@ -1,0 +1,213 @@
+/* ENTRY 3002fd9c | eCApplication::DoRender | STATUS decompiled | 212 ms */
+
+/* protected: void __thiscall eCApplication::DoRender(bool) */
+
+void __thiscall eCApplication::DoRender(eCApplication *this,bool param_1)
+
+{
+  IsEditorRunning *pIVar1;
+  char cVar2;
+  bool bVar3;
+  int iVar4;
+  int *piVar5;
+  bCErrorAdmin *this_00;
+  eCGfxAdmin *peVar6;
+  eCGfxContextAdmin *peVar7;
+  int iVar8;
+  eEWindowMode eVar9;
+  bEResult bVar10;
+  eCGfxMixerAdmin *peVar11;
+  eCGUIModule *this_01;
+  tagRECT *lpRect;
+  long *plVar12;
+  long lVar13;
+  eCCameraBase *peVar14;
+  undefined4 unaff_ESI;
+  undefined4 unaff_EDI;
+  undefined1 uVar15;
+  eEMultiSample eVar16;
+  eEDepthFormat eVar17;
+  void **ppvVar18;
+  eEMasterFogging eVar19;
+  eSGfxContextDesc *peVar20;
+  bool *pbVar21;
+  bCRect *pbVar22;
+  void **ppvVar23;
+  bool bStack_2e;
+  bool bStack_2d;
+  bCRect abStack_2c [4];
+  bCRect abStack_28 [12];
+  bCRect abStack_1c [4];
+  bCRect abStack_18 [20];
+  bool bStack_4;
+  
+                    /* 0x2fd9c  5625  ?DoRender@eCApplication@@IAEX_N@Z */
+  iVar4 = thunk_FUN_3007beb0();
+  if (iVar4 != 0) {
+    piVar5 = (int *)thunk_FUN_3007beb0();
+    cVar2 = (**(code **)(*piVar5 + 4))();
+    if (cVar2 != '\0') {
+      this_00 = bCErrorAdmin::GetInstance();
+      bVar3 = bCErrorAdmin::IsInPanicState(this_00);
+      if (!bVar3) {
+        pbVar21 = &bStack_2e;
+        peVar6 = (eCGfxAdmin *)thunk_FUN_3007bf90();
+        peVar7 = (eCGfxContextAdmin *)eCGfxAdmin::GetAccessToContext(peVar6);
+        eCGfxContextAdmin::IsResetNeeded(peVar7,pbVar21);
+        if ((bStack_2e == true) || (this[1].eCApplication_data.field_0x528 == '\x01')) {
+          pbVar21 = &bStack_2d;
+          peVar6 = (eCGfxAdmin *)thunk_FUN_3007bf90();
+          peVar7 = (eCGfxContextAdmin *)eCGfxAdmin::GetAccessToContext(peVar6);
+          eCGfxContextAdmin::IsResetNecessary(peVar7,pbVar21);
+          if (bStack_2d == false) {
+            return;
+          }
+          DestroyRenderTarget(this);
+          iVar4 = thunk_FUN_3007beb0();
+          *(undefined1 *)(iVar4 + 0x281) = 1;
+          iVar4 = (**(code **)(*(int *)(this->eCApplication_data).offset_0x5c + 0x8c))(1);
+          iVar8 = thunk_FUN_3007beb0();
+          *(undefined1 *)(iVar8 + 0x281) = 0;
+          if (iVar4 != 1) {
+            return;
+          }
+          eVar17 = (this->eCApplication_data).offset_0x520;
+          eVar16 = (this->eCApplication_data).offset_0x51c;
+          peVar20 = (eSGfxContextDesc *)&(this->eCApplication_data).field_0x524;
+          eVar9 = eCWindow::GetWindowMode((eCWindow *)this);
+          uVar15 = eVar9 != 2;
+          peVar6 = (eCGfxAdmin *)thunk_FUN_3007bf90();
+          peVar7 = (eCGfxContextAdmin *)eCGfxAdmin::GetAccessToContext(peVar6);
+          bVar10 = eCGfxContextAdmin::ToggleNewMode(peVar7,(bool)uVar15,eVar16,eVar17,peVar20);
+          if (bVar10 != 1) {
+            return;
+          }
+          pbVar21 = (bool *)&stack0xffffffce;
+          peVar6 = (eCGfxAdmin *)thunk_FUN_3007bf90();
+          peVar7 = (eCGfxContextAdmin *)eCGfxAdmin::GetAccessToContext(peVar6);
+          eCGfxContextAdmin::IsResetNeeded(peVar7,pbVar21);
+          if (SUB41((uint)unaff_ESI >> 0x10,0) == true) {
+            return;
+          }
+          bCRect::bCRect(abStack_2c,0,0,*(long *)&(this->eCApplication_data).field_0xa70,
+                         *(long *)&(this->eCApplication_data).field_0xa74);
+          bCRect::bCRect(abStack_1c);
+          pbVar22 = abStack_1c;
+          peVar6 = (eCGfxAdmin *)thunk_FUN_3007bf90();
+          peVar11 = (eCGfxMixerAdmin *)eCGfxAdmin::GetAccessToMixer(peVar6);
+          eCGfxMixerAdmin::GetViewport(peVar11,(eSGfxViewport *)pbVar22);
+          bCRect::operator=(abStack_1c,abStack_2c);
+          pbVar22 = abStack_1c;
+          peVar6 = (eCGfxAdmin *)thunk_FUN_3007bf90();
+          peVar11 = (eCGfxMixerAdmin *)eCGfxAdmin::GetAccessToMixer(peVar6);
+          eCGfxMixerAdmin::SetViewport(peVar11,(eSGfxViewport *)pbVar22);
+          this_01 = (eCGUIModule *)eCGUIModule::GetInstance();
+          eCGUIModule::ReSize(this_01);
+          ConfineCursor(this);
+          CreateRenderTarget(this);
+          ppvVar23 = (void **)&(this->eCApplication_data).offset_0xa94;
+          ppvVar18 = (void **)&(this->eCApplication_data).offset_0xa90;
+          peVar6 = (eCGfxAdmin *)thunk_FUN_3007bf90();
+          peVar11 = (eCGfxMixerAdmin *)eCGfxAdmin::GetAccessToMixer(peVar6);
+          eCGfxMixerAdmin::GetRenderTarget(peVar11,ppvVar18,ppvVar23);
+          iVar4 = (**(code **)(*(int *)(this->eCApplication_data).offset_0x5c + 0x90))(1);
+          if (iVar4 != 1) {
+            bCRect::~bCRect(abStack_18);
+            bCRect::~bCRect(abStack_28);
+            return;
+          }
+          bCRect::~bCRect(abStack_18);
+          bCRect::~bCRect(abStack_28);
+        }
+        pIVar1 = this->vftablePtr->IsEditorRunning;
+        this[1].eCApplication_data.field_0x528 = 0;
+        bVar3 = (*pIVar1)(this);
+        if (bVar3) {
+          bCRect::bCRect(abStack_28);
+          lpRect = bCRect::operator_struct_tagRECT_(abStack_28);
+          GetClientRect((HWND)(this->eCMessageHandler_data).offset_0xc,lpRect);
+          iVar4 = (this->eCApplication_data).offset_0x0;
+          if (iVar4 == 0) {
+            iVar4 = *(int *)&(this->eCApplication_data).field_0x60;
+          }
+          plVar12 = bCRect::AccessLeft((bCRect *)(iVar4 + 0xc0));
+          *plVar12 = 0;
+          iVar4 = (this->eCApplication_data).offset_0x0;
+          if (iVar4 == 0) {
+            iVar4 = *(int *)&(this->eCApplication_data).field_0x60;
+          }
+          plVar12 = bCRect::AccessTop((bCRect *)(iVar4 + 0xc0));
+          *plVar12 = 0;
+          iVar4 = (this->eCApplication_data).offset_0x0;
+          if (iVar4 == 0) {
+            iVar4 = *(int *)&(this->eCApplication_data).field_0x60;
+          }
+          lVar13 = bCRect::GetWidth(abStack_28);
+          bCRect::SetRight((bCRect *)(iVar4 + 0xc0),lVar13);
+          iVar4 = (this->eCApplication_data).offset_0x0;
+          if (iVar4 == 0) {
+            iVar4 = *(int *)&(this->eCApplication_data).field_0x60;
+          }
+          lVar13 = bCRect::GetHeight(abStack_28);
+          bCRect::SetBottom((bCRect *)(iVar4 + 0xc0),lVar13);
+          bCRect::~bCRect(abStack_28);
+        }
+        else {
+          iVar4 = (this->eCApplication_data).offset_0x0;
+          if (iVar4 == 0) {
+            iVar4 = *(int *)&(this->eCApplication_data).field_0x60;
+          }
+          bCRect::SetRect((bCRect *)(iVar4 + 0xc0),0,0,
+                          *(long *)&(this->eCApplication_data).field_0xa70,
+                          *(long *)&(this->eCApplication_data).field_0xa74);
+        }
+        piVar5 = (int *)(this->eCApplication_data).offset_0x0;
+        if (piVar5 == (int *)0x0) {
+          piVar5 = *(int **)&(this->eCApplication_data).field_0x60;
+        }
+        (**(code **)(*piVar5 + 0x70))(1);
+        piVar5 = (int *)(this->eCApplication_data).offset_0x0;
+        if (piVar5 == (int *)0x0) {
+          piVar5 = *(int **)&(this->eCApplication_data).field_0x60;
+        }
+        (**(code **)(*piVar5 + 0x6c))(1);
+        (*this->vftablePtr->OnPreRender)(this);
+        thunk_FUN_3007beb0();
+        thunk_FUN_30060180();
+        bVar3 = (*this->vftablePtr->IsEditorRunning)(this);
+        if (bVar3) {
+          peVar14 = (eCCameraBase *)(this->eCApplication_data).offset_0x0;
+          if (peVar14 == (eCCameraBase *)0x0) {
+            peVar14 = *(eCCameraBase **)&(this->eCApplication_data).field_0x60;
+          }
+          eCCameraBase::Render(peVar14,false,bStack_4);
+        }
+        else {
+          bVar3 = eCThreadPool::IsThreadingEnabled();
+          if ((!bVar3) || (bVar3 = true, (char)((uint)unaff_EDI >> 0x10) != '\0')) {
+            bVar3 = false;
+          }
+          peVar14 = (eCCameraBase *)(this->eCApplication_data).offset_0x0;
+          if (peVar14 == (eCCameraBase *)0x0) {
+            peVar14 = *(eCCameraBase **)&(this->eCApplication_data).field_0x60;
+          }
+          eCCameraBase::Render(peVar14,bVar3,bStack_4);
+          eCThreadPool::EnableAllThreads(bVar3);
+        }
+        eVar19 = 1;
+        peVar6 = (eCGfxAdmin *)thunk_FUN_3007bf90();
+        peVar11 = (eCGfxMixerAdmin *)eCGfxAdmin::GetAccessToMixer(peVar6);
+        eCGfxMixerAdmin::SetMasterFogging(peVar11,eVar19);
+        (*this->vftablePtr->OnPostRender)(this);
+        eVar19 = 0;
+        peVar6 = (eCGfxAdmin *)thunk_FUN_3007bf90();
+        peVar11 = (eCGfxMixerAdmin *)eCGfxAdmin::GetAccessToMixer(peVar6);
+        eCGfxMixerAdmin::SetMasterFogging(peVar11,eVar19);
+        UpdateTick(this);
+      }
+    }
+  }
+  return;
+}
+
+

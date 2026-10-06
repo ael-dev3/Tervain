@@ -1,0 +1,2 @@
+; 20027aa2 ?Test3DPointInZone@gCNegZone_PSObj@@QAE_NABVbCVector@@_N@Z
+20027aa2 | e9d9432c00 | JMP 0x202ebe80

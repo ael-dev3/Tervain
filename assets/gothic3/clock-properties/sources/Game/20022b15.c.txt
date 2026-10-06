@@ -1,0 +1,45 @@
+/* ENTRY 20022b15 | gCAmbientModule::SetDayTime | STATUS decompiled | 57 ms */
+
+/* public: void __thiscall gCAmbientModule::SetDayTime(enum eEAmbientDayTime) */
+
+void __thiscall gCAmbientModule::SetDayTime(gCAmbientModule *this,eEAmbientDayTime param_1)
+
+{
+  gCAmbientSystem *this_00;
+  gCAmbientSequencer *pgVar1;
+  bCObjectBase bStack_1c;
+  undefined4 *puStack_18;
+  char *pcStack_14;
+  undefined4 uStack_10;
+  bCObjectBase bStack_8;
+  eEAmbientDayTime eStack_4;
+  
+                    /* 0x22b15  6375  ?SetDayTime@gCAmbientModule@@QAEXW4eEAmbientDayTime@@@Z */
+  this_00 = (this->gCAmbientModule_data).offset_0x10;
+  if (this_00 != (gCAmbientSystem *)0x0) {
+    uStack_10 = 0x20419bc2;
+    pgVar1 = gCAmbientSystem::GetSequencer(this_00);
+    if (pgVar1 != (gCAmbientSequencer *)0x0) {
+      uStack_10 = 0x20419bd0;
+      bCObjectBase::bCObjectBase(&bStack_8);
+      bStack_8 = (bCObjectBase)&bTPropertyContainer<eEAmbientDayTime>::vftable;
+      eStack_4 = param_1;
+      uStack_10 = 0x20419be8;
+      pgVar1 = gCAmbientSystem::GetSequencer((this->gCAmbientModule_data).offset_0x10);
+      uStack_10 = 0;
+      pcStack_14 = "DayTime";
+      puStack_18 = (undefined4 *)0x20419bfa;
+      (**(code **)(*(int *)pgVar1 + 0x58))();
+      puStack_18 = &uStack_10;
+      bStack_1c = (bCObjectBase)0x20419c0a;
+      (**(code **)(*(int *)(pgVar1 + 0x1c) + 0x1c))();
+      bStack_1c = (bCObjectBase)0x0;
+      (**(code **)(*(int *)pgVar1 + 0x5c))("DayTime");
+      bStack_1c = (bCObjectBase)&bTPropertyContainer<eEAmbientDayTime>::vftable;
+      bCObjectBase::~bCObjectBase(&bStack_1c);
+    }
+  }
+  return;
+}
+
+

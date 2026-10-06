@@ -1,0 +1,2 @@
+; 2002be1d ?SetLocalTimeScale@gCScriptProcessingUnit@@QAEXM@Z
+2002be1d | e93ec13300 | JMP 0x20367f60

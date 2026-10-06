@@ -1,0 +1,50 @@
+/* ENTRY 30027ca0 | eCRenderSystemAdmin::DrawBatchLineList | STATUS decompiled | 22 ms */
+
+/* public: void __thiscall eCRenderSystemAdmin::DrawBatchLineList(class bTSmallArray<class bCVector>
+   const &,unsigned long,bool,bool) */
+
+void __thiscall
+eCRenderSystemAdmin::DrawBatchLineList
+          (eCRenderSystemAdmin *this,bTSmallArray<bCVector> *param_1,ulong param_2,bool param_3,
+          bool param_4)
+
+{
+  undefined1 *this_00;
+  void *pvVar1;
+  bCMessageAdmin *this_01;
+  int iVar2;
+  bEMessageTypes bVar3;
+  char *pcVar4;
+  char *pcVar5;
+  char *pcVar6;
+  int iVar7;
+  
+                    /* 0x27ca0  5687
+                       ?DrawBatchLineList@eCRenderSystemAdmin@@QAEXABV?$bTSmallArray@VbCVector@@@@K_N1@Z
+                        */
+  this_00 = &(this->eCRenderSystemAdmin_data).field_0xc0;
+  bCCriticalSectionWin32::Acquire((bCCriticalSectionWin32 *)this_00);
+  thunk_FUN_303b85b0((this->eCRenderSystemAdmin_data).offset_0x230 + 1);
+  pvVar1 = (this->eCRenderSystemAdmin_data).offset_0x22c;
+  iVar2 = (this->eCRenderSystemAdmin_data).offset_0x230 * 0x10;
+  if (*(ushort *)(param_1 + 2) < 2) {
+    iVar2 = *(int *)g_iDefaultMessagePriority_exref;
+    iVar7 = -1;
+    pcVar6 = (char *)0x0;
+    pcVar5 = (char *)0x0;
+    pcVar4 = "eCRenderSystemAdmin::DrawBatchLineList - Vertex count < 2 !";
+    bVar3 = 3;
+    this_01 = bCMessageAdmin::GetInstance();
+    bCMessageAdmin::OnMessage(this_01,bVar3,pcVar4,pcVar5,pcVar6,iVar7,iVar2);
+    bCCriticalSectionWin32::Release((bCCriticalSectionWin32 *)this_00);
+    return;
+  }
+  thunk_FUN_3020f7e0(param_1);
+  *(bool *)((int)pvVar1 + iVar2 + -3) = param_4;
+  *(ulong *)((int)pvVar1 + iVar2 + -8) = param_2;
+  *(bool *)((int)pvVar1 + iVar2 + -4) = param_3;
+  bCCriticalSectionWin32::Release((bCCriticalSectionWin32 *)this_00);
+  return;
+}
+
+

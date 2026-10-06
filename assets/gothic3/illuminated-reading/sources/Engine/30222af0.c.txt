@@ -1,0 +1,11 @@
+/* ENTRY 30222af0 | FUN_30222af0 | STATUS decompiled | 2 ms */
+
+void __fastcall FUN_30222af0(int param_1)
+
+{
+  _memset((void *)(param_1 + 0x3c),0,0x70);
+  *(undefined1 *)(param_1 + 0x39) = 0;
+  return;
+}
+
+

@@ -1,0 +1,367 @@
+/* ENTRY 300a6a40 | FUN_300a6a40 | STATUS decompiled | 363 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __fastcall FUN_300a6a40(eCEntityPropertySet *param_1)
+
+{
+  byte bVar1;
+  eCActorAttachment *peVar2;
+  eCEntityPropertySet_vftable *peVar3;
+  GetEntity *pGVar4;
+  int *piVar5;
+  bool bVar6;
+  char cVar7;
+  ulong uVar8;
+  eCWrapper_emfx2Actor *peVar9;
+  eCWrapper_emfx2Actor *peVar10;
+  eCWrapper_emfx2Actor *this;
+  eCAnimationAdmin *peVar11;
+  eCResourceDataEntity *peVar12;
+  eCApplication *this_00;
+  eCCameraBase *this_01;
+  eCFrustumDatabase *peVar13;
+  eCEntity *peVar14;
+  eCFrustumElementItem *this_02;
+  eCEntityPropertySet *peVar15;
+  int iVar16;
+  bCSphere *this_03;
+  bCVector *pbVar17;
+  bCMatrix *pbVar18;
+  bCMemoryAdmin *pbVar19;
+  undefined1 *puVar20;
+  eCEntity *peVar21;
+  eCModuleAdmin *this_04;
+  eCEngineComponentBase *peVar22;
+  ulong uVar23;
+  void *pvVar24;
+  int iVar25;
+  undefined4 *puVar26;
+  double dVar27;
+  bCString *pbVar28;
+  undefined4 uVar29;
+  TypeDescriptor *pTVar30;
+  TypeDescriptor *pTVar31;
+  float fVar32;
+  undefined4 uVar33;
+  char cStack_80;
+  undefined1 local_7c;
+  double local_74 [2];
+  bCString abStack_60 [4];
+  undefined4 uStack_5c;
+  undefined4 uStack_58;
+  undefined4 uStack_54;
+  undefined4 uStack_50;
+  undefined4 uStack_48;
+  bCMatrix abStack_40 [64];
+  
+  eCEntityPropertySet::OnProcess(param_1);
+  uVar8 = bCTimer::GetTimeStamp();
+  puVar20 = &param_1[7].eCEntityPropertySet_data.field_0x4;
+  peVar9 = eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)puVar20);
+  if (peVar9 == (eCWrapper_emfx2Actor *)0x0) goto LAB_300a7055;
+  if (0.0 <= (float)param_1[0x10].eCEntityPropertySet_data.offset_0x8) {
+    peVar10 = (eCWrapper_emfx2Actor *)
+              eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)puVar20);
+    this = (eCWrapper_emfx2Actor *)
+           eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)puVar20);
+    local_74[0] = eCWrapper_emfx2Actor::GetMaxTime(peVar10,0);
+    dVar27 = eCWrapper_emfx2Actor::GetPlayTime(this,0);
+    bVar1 = param_1[0x10].eCEntityPropertySet_data.offset_0xc;
+    if ((bVar1 != 1) ||
+       ((float)param_1[0x10].eCEntityPropertySet_data.offset_0x8 <
+        (float)((float10)local_74[0] - (float10)dVar27))) {
+      if ((bVar1 == 0) && ((float)((float10)local_74[0] - (float10)dVar27) == 0.0)) {
+        peVar11 = (eCAnimationAdmin *)thunk_FUN_3007c1e0();
+        bVar6 = bCString::IsEmpty((bCString *)&param_1[0x10].eCEntityPropertySet_data);
+        if ((!bVar6) &&
+           (peVar12 = eCAnimationAdmin::QueryMotionDataEntity
+                                (peVar11,(bCString *)&param_1[0x10].eCEntityPropertySet_data,1),
+           peVar12 != (eCResourceDataEntity *)0x0)) {
+          eCVisualAnimation_PS::SetMotion((eCVisualAnimation_PS *)param_1,0,peVar12);
+          (**(code **)(*(int *)peVar12 + 0x24))();
+          thunk_FUN_3009bbe0();
+          uStack_5c = 0;
+          uStack_48 = 0;
+          uStack_58 = 0;
+          uStack_54 = 0x3f800000;
+          uStack_50 = 1;
+          eCVisualAnimation_PS::PlayMotion
+                    ((eCVisualAnimation_PS *)param_1,0,(eSMotionDesc *)&uStack_5c);
+        }
+        param_1[0x10].eCEntityPropertySet_data.offset_0xc = 1;
+      }
+    }
+    else {
+      peVar10 = (eCWrapper_emfx2Actor *)
+                eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)puVar20);
+      eCWrapper_emfx2Actor::SwitchFadeOut
+                (peVar10,0,false,(float)param_1[0x10].eCEntityPropertySet_data.offset_0x8);
+      peVar11 = (eCAnimationAdmin *)thunk_FUN_3007c1e0();
+      puVar20 = &param_1[0x10].eCEntityPropertySet_data.field_0x4;
+      bVar6 = bCString::IsEmpty((bCString *)puVar20);
+      if ((!bVar6) &&
+         (peVar12 = eCAnimationAdmin::QueryMotionDataEntity(peVar11,(bCString *)puVar20,1),
+         peVar12 != (eCResourceDataEntity *)0x0)) {
+        eCVisualAnimation_PS::SetMotion((eCVisualAnimation_PS *)param_1,0,peVar12);
+        (**(code **)(*(int *)peVar12 + 0x24))();
+        thunk_FUN_3009bbe0();
+        uStack_5c = 0;
+        uStack_48 = 0;
+        uStack_58 = 0;
+        uStack_54 = 0x3f800000;
+        uStack_50 = 1;
+        eCVisualAnimation_PS::PlayMotion
+                  ((eCVisualAnimation_PS *)param_1,0,(eSMotionDesc *)&uStack_5c);
+      }
+      param_1[0x10].eCEntityPropertySet_data.offset_0xc = 0;
+    }
+  }
+  eCVisualAnimation_PS::UpdateFrameEffects((eCVisualAnimation_PS *)param_1);
+  this_00 = (eCApplication *)eCApplication::GetInstance();
+  this_01 = (eCCameraBase *)eCApplication::GetCurrentCamera(this_00);
+  peVar13 = eCCameraBase::GetFrustumDatabase(this_01);
+  peVar14 = (eCEntity *)(*param_1->vftablePtr->GetEntity)(param_1);
+  this_02 = eCEntity::GetFrustumElementItem(peVar14);
+  bVar6 = eCFrustumElementItem::WasVisibleLastFrame(this_02,peVar13);
+  if ((bVar6) ||
+     ((((*(char *)&param_1[0xf].vftablePtr == '\x01' &&
+        (param_1[0x12].eCEntityPropertySet_data.field_0xd == '\0')) ||
+       (param_1[10].eCEntityPropertySet_data.offset_0x8 != 0)) ||
+      (param_1[0x12].eCEntityPropertySet_data.field_0xe != '\0')))) {
+    cStack_80 = '\x01';
+    if (param_1[0x12].eCEntityPropertySet_data.field_0xf == '\x01') {
+      eCVisualAnimation_PS::UpdateAim((eCVisualAnimation_PS *)param_1);
+    }
+    if (0 < *(int *)&param_1[0xb].eCEntityPropertySet_data) {
+      peVar21 = eCEntityProxy::GetEntity((eCEntityProxy *)&param_1[0x11].eCEntityPropertySet_data);
+      if (peVar21 != (eCEntity *)0x0) {
+        bCVector::bCVector((bCVector *)local_74);
+        peVar14 = (eCEntity *)
+                  eCEntityProxy::GetEntity((eCEntityProxy *)&param_1[0x11].eCEntityPropertySet_data)
+        ;
+        puVar26 = &param_1[0x12].eCEntityPropertySet_data.offset_0x8;
+        bVar6 = bCString::IsEmpty((bCString *)puVar26);
+        if (bVar6) {
+          this_03 = eCEntity::GetWorldNodeSphere(peVar14);
+          pbVar17 = bCSphere::GetPosition(this_03);
+          bCVector::operator=((bCVector *)local_74,pbVar17);
+LAB_300a6d4e:
+          peVar14 = (eCEntity *)(*param_1->vftablePtr->GetEntity)(param_1);
+          pbVar18 = eCEntity::GetWorldMatrix(peVar14);
+          bCMatrix::bCMatrix(abStack_40,pbVar18);
+          bCMatrix::Invert(abStack_40);
+          bCVector::operator*=((bCVector *)local_74,abStack_40);
+          iVar16 = *(int *)&param_1[0xb].eCEntityPropertySet_data;
+          if (0 < iVar16) {
+            iVar25 = 0;
+            do {
+              eCVisualAnimation_PS::eCLookAtConstraint::SetTargetPos
+                        ((eCLookAtConstraint *)(&(param_1[0xb].vftablePtr)->GetVersion)[iVar25],
+                         (bCVector *)local_74);
+              iVar25 = iVar25 + 1;
+            } while (iVar25 < iVar16);
+          }
+          bCMatrix::~bCMatrix(abStack_40);
+        }
+        else {
+          peVar15 = (*peVar14->vftablePtr->GetPropertySet)(peVar14,100);
+          if (peVar15 != (eCEntityPropertySet *)0x0) {
+            thunk_FUN_3009d3a0(peVar15);
+            thunk_FUN_3009d3c0(puVar26);
+            iVar16 = thunk_FUN_3009e470();
+            if (iVar16 != 0) {
+              bCVector::operator=((bCVector *)local_74,(bCVector *)(iVar16 + 0x74));
+              pbVar18 = eCEntity::GetWorldMatrix(peVar14);
+              bCVector::operator*=((bCVector *)local_74,pbVar18);
+            }
+            bCString::~bCString(abStack_60);
+            if (iVar16 != 0) goto LAB_300a6d4e;
+          }
+        }
+        bCVector::~bCVector((bCVector *)local_74);
+      }
+    }
+  }
+  else {
+    cStack_80 = '\0';
+  }
+  if ((param_1[0x12].eCEntityPropertySet_data.field_0xd == '\x01') ||
+     ((*(char *)&param_1[0xf].vftablePtr == '\x01' &&
+      (((*(int *)&param_1[0xe].eCEntityPropertySet_data != 0 &&
+        (cVar7 = thunk_FUN_300c35f0(), cVar7 == '\0')) ||
+       (*(int *)&param_1[0xe].eCEntityPropertySet_data == 0)))))) {
+    local_7c = 1;
+  }
+  else {
+    local_7c = 0;
+  }
+  local_74[0] = (double)CONCAT44(local_74[0]._4_4_,param_1[0x13].eCEntityPropertySet_data.offset_0x8
+                                );
+  peVar10 = (eCWrapper_emfx2Actor *)
+            eCVisualAnimationFactory::GetAssembledActor
+                      ((eCVisualAnimationFactory *)&param_1[7].eCEntityPropertySet_data.field_0x4);
+  fVar32 = local_74[0]._0_4_;
+  cVar7 = cStack_80;
+  peVar14 = (eCEntity *)(*param_1->vftablePtr->GetEntity)(param_1);
+  pbVar18 = eCEntity::GetWorldMatrix(peVar14);
+  eCWrapper_emfx2Actor::Process(peVar10,pbVar18,(bool)cVar7,(bool)local_7c,fVar32);
+  if (cStack_80 == '\x01') {
+    iVar16 = param_1[10].eCEntityPropertySet_data.offset_0x8;
+    while (iVar16 = iVar16 + -1, -1 < iVar16) {
+      iVar25 = iVar16 * 4;
+      bVar6 = eCEntityProxy::IsEntityIDValid
+                        ((eCEntityProxy *)
+                         (*(int *)(*(int *)&param_1[10].eCEntityPropertySet_data.field_0x4 +
+                                  iVar16 * 4) + 4));
+      if (bVar6) {
+        peVar2 = *(eCActorAttachment **)
+                  (*(int *)&param_1[10].eCEntityPropertySet_data.field_0x4 + iVar25);
+        eCVisualAnimation_PS::eCActorAttachment::Process(peVar2,0);
+        peVar14 = (eCEntity *)eCEntityProxy::GetEntity((eCEntityProxy *)(peVar2 + 4));
+        if (peVar14 != (eCEntity *)0x0) {
+          eCEntity::EnableRendering(peVar14,true);
+          eCEntity::DisableProcessing(peVar14,false);
+        }
+      }
+      eCVisualAnimation_PS::eCActorAttachment::Destroy
+                (*(eCActorAttachment **)
+                  (*(int *)&param_1[10].eCEntityPropertySet_data.field_0x4 + iVar25));
+      puVar26 = (undefined4 *)(*(int *)&param_1[10].eCEntityPropertySet_data.field_0x4 + iVar25);
+      peVar2 = (eCActorAttachment *)*puVar26;
+      if (peVar2 != (eCActorAttachment *)0x0) {
+        eCVisualAnimation_PS::eCActorAttachment::Destroy(peVar2);
+        bCString::~bCString((bCString *)(peVar2 + 0x68));
+        bCMatrix::~bCMatrix((bCMatrix *)(peVar2 + 0x20));
+        eCEntityProxy::~eCEntityProxy((eCEntityProxy *)(peVar2 + 4));
+        pvVar24 = (void *)*puVar26;
+        pbVar19 = bCMemoryAdmin::GetInstance();
+        bCMemoryAdmin::DeleteObject(pbVar19,pvVar24);
+        *puVar26 = 0;
+      }
+    }
+    thunk_FUN_300aed30(0,0xffffffff);
+    param_1[10].eCEntityPropertySet_data.offset_0x8 = 0;
+    peVar3 = param_1[10].vftablePtr;
+    while (peVar3 = (eCEntityPropertySet_vftable *)((int)&peVar3[-1].IntersectsVolume + 3),
+          -1 < (int)peVar3) {
+      iVar16 = (int)peVar3 * 4;
+      eCVisualAnimation_PS::eCActorAttachment::Process
+                (*(eCActorAttachment **)
+                  (iVar16 + *(int *)&param_1[9].eCEntityPropertySet_data.offset_0xc),uVar8);
+      bVar6 = eCEntityProxy::IsEntityIDValid
+                        ((eCEntityProxy *)
+                         (*(int *)(iVar16 + *(int *)&param_1[9].eCEntityPropertySet_data.offset_0xc)
+                         + 4));
+      if (!bVar6) {
+        eCVisualAnimation_PS::eCActorAttachment::Destroy
+                  (*(eCActorAttachment **)
+                    (iVar16 + *(int *)&param_1[9].eCEntityPropertySet_data.offset_0xc));
+        iVar25 = *(int *)&param_1[9].eCEntityPropertySet_data.offset_0xc;
+        peVar2 = *(eCActorAttachment **)(iVar25 + iVar16);
+        puVar26 = (undefined4 *)(iVar25 + iVar16);
+        if (peVar2 != (eCActorAttachment *)0x0) {
+          eCVisualAnimation_PS::eCActorAttachment::Destroy(peVar2);
+          bCString::~bCString((bCString *)(peVar2 + 0x68));
+          bCMatrix::~bCMatrix((bCMatrix *)(peVar2 + 0x20));
+          eCEntityProxy::~eCEntityProxy((eCEntityProxy *)(peVar2 + 4));
+          pvVar24 = (void *)*puVar26;
+          pbVar19 = bCMemoryAdmin::GetInstance();
+          bCMemoryAdmin::DeleteObject(pbVar19,pvVar24);
+          *puVar26 = 0;
+        }
+        if (peVar3 < param_1[10].vftablePtr) {
+          puVar20 = (undefined1 *)((int)param_1[10].vftablePtr + (-1 - (int)peVar3));
+          if (0 < (int)puVar20) {
+            pvVar24 = (void *)(*(int *)&param_1[9].eCEntityPropertySet_data.offset_0xc + iVar16);
+            _memmove(pvVar24,(void *)((int)pvVar24 + 4),(int)puVar20 * 4);
+          }
+          param_1[10].vftablePtr =
+               (eCEntityPropertySet_vftable *)
+               ((int)&param_1[10].vftablePtr[-1].IntersectsVolume + 3);
+        }
+      }
+    }
+    pGVar4 = param_1->vftablePtr->GetEntity;
+    if (param_1[1].eCEntityPropertySet_data.field_0x4 == '\0') {
+      peVar21 = (*pGVar4)(param_1);
+      (**(code **)(*(int *)peVar21 + 0xd8))();
+      peVar21 = (*param_1->vftablePtr->GetEntity)(param_1);
+      (**(code **)(*(int *)peVar21 + 0xdc))();
+    }
+    else {
+      peVar14 = (eCEntity *)(*pGVar4)(param_1);
+      eCEntity::UpdateGeometry(peVar14);
+    }
+  }
+LAB_300a7055:
+  if ((0.0 < *(float *)&param_1[0xf].eCEntityPropertySet_data.field_0x4) &&
+     (cVar7 = thunk_FUN_300c34d0(), cVar7 == '\x01')) {
+    eCVisualAnimation_PS::SetRagDollEnabled((eCVisualAnimation_PS *)param_1,false,0.0,true);
+  }
+  eCVisualAnimation_PS::ProcessPhysicsLOD((eCVisualAnimation_PS *)param_1);
+  peVar3 = param_1[0x14].vftablePtr;
+  while (peVar3 = (eCEntityPropertySet_vftable *)((int)&peVar3[-1].IntersectsVolume + 3),
+        -1 < (int)peVar3) {
+    iVar16 = (int)peVar3 * 4;
+    bVar6 = eCWrapper_emfx2Motion::IsMotionUsed
+                      (*(eCWrapper_emfx2Motion **)
+                        (*(int *)&param_1[0x13].eCEntityPropertySet_data.offset_0xc + iVar16));
+    if (!bVar6) {
+      iVar25 = *(int *)&param_1[0x13].eCEntityPropertySet_data.offset_0xc;
+      piVar5 = *(int **)(iVar25 + iVar16);
+      puVar26 = (undefined4 *)(iVar25 + iVar16);
+      if (piVar5 != (int *)0x0) {
+        (**(code **)(*piVar5 + 0x38))(0);
+        pvVar24 = (void *)*puVar26;
+        pbVar19 = bCMemoryAdmin::GetInstance();
+        bCMemoryAdmin::DeleteObject(pbVar19,pvVar24);
+        *puVar26 = 0;
+      }
+      if (peVar3 < param_1[0x14].vftablePtr) {
+        puVar20 = (undefined1 *)((int)param_1[0x14].vftablePtr + (-1 - (int)peVar3));
+        if (0 < (int)puVar20) {
+          pvVar24 = (void *)(*(int *)&param_1[0x13].eCEntityPropertySet_data.offset_0xc + iVar16);
+          _memmove(pvVar24,(void *)((int)pvVar24 + 4),(int)puVar20 * 4);
+        }
+        param_1[0x14].vftablePtr =
+             (eCEntityPropertySet_vftable *)
+             ((int)&param_1[0x14].vftablePtr[-1].IntersectsVolume + 3);
+      }
+    }
+  }
+  bVar6 = eCApplication::IsInitialised();
+  if (bVar6) {
+    peVar11 = DAT_30ada350;
+    if ((DAT_30ada354 & bVar6) == 0) {
+      _DAT_30ada354 = _DAT_30ada354 | 1;
+      if ((DAT_30ad9bf8 & 1) == 0) {
+        DAT_30ad9bf8 = DAT_30ad9bf8 | 1;
+        _DAT_30ad9bf4 = DAT_30ad9d88;
+      }
+      if ((DAT_30ad9bf8 & 2) == 0) {
+        DAT_30ad9bf8 = DAT_30ad9bf8 | 2;
+        FUN_306713ae(&DAT_30af70ac);
+        bCClassNameBase::UnMangle(&DAT_30ad9bf0);
+        _atexit((_func_4879 *)&LAB_3000fba5);
+      }
+      uVar33 = 0;
+      pTVar31 = &eCAnimationAdmin::RTTI_Type_Descriptor;
+      pTVar30 = &eCEngineComponentBase::RTTI_Type_Descriptor;
+      uVar29 = 0;
+      pbVar28 = (bCString *)&DAT_30ad9bf0;
+      this_04 = (eCModuleAdmin *)eCModuleAdmin::GetInstance();
+      peVar22 = eCModuleAdmin::FindModule(this_04,pbVar28);
+      peVar11 = (eCAnimationAdmin *)FUN_30671ae7(peVar22,uVar29,pTVar30,pTVar31,uVar33);
+      DAT_30ada350 = peVar11;
+    }
+  }
+  else {
+    peVar11 = (eCAnimationAdmin *)0x0;
+  }
+  uVar23 = bCTimer::GetTimeStamp();
+  eCAnimationAdmin::AddProfileTicks(peVar11,uVar23 - uVar8);
+  return;
+}
+
+

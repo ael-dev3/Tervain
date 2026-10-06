@@ -1,0 +1,13 @@
+/* ENTRY 3000f7ea | operator>> | STATUS decompiled | 3 ms */
+
+/* class bCIStream & __stdcall operator>>(class bCIStream &,class eCEntityProxy &) */
+
+bCIStream * operator>>(bCIStream *param_1,eCEntityProxy *param_2)
+
+{
+                    /* 0xf7ea  1861  ??5@YGAAVbCIStream@@AAV0@AAVeCEntityProxy@@@Z */
+  (**(code **)(*(int *)param_2 + 0xc))(param_1);
+  return param_1;
+}
+
+

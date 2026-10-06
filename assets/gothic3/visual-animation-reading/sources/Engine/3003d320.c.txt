@@ -1,0 +1,19 @@
+/* ENTRY 3003d320 | eCRenderContextAnimation::eCRenderContextAnimation | STATUS decompiled | 8 ms */
+
+/* public: __thiscall eCRenderContextAnimation::eCRenderContextAnimation(void) */
+
+eCRenderContextAnimation * __thiscall
+eCRenderContextAnimation::eCRenderContextAnimation(eCRenderContextAnimation *this)
+
+{
+                    /* 0x3d320  636  ??0eCRenderContextAnimation@@QAE@XZ */
+  eCRenderContext::eCRenderContext((eCRenderContext *)this);
+  (this->eCRenderContext_data).offset_0x8 = 0;
+  (this->eCRenderContext_data).offset_0x1c = 0;
+  (this->eCRenderContext_data).offset_0x18 = 0;
+  this->vftablePtr = &vftable;
+  (this->eCRenderContext_data).offset_0x10 = 0x6f;
+  return this;
+}
+
+

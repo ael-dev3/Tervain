@@ -1,0 +1,9 @@
+/* ENTRY 20285f90 | FUN_20285f90 | STATUS decompiled | 1 ms */
+
+undefined4 FUN_20285f90(void)
+
+{
+  return 5;
+}
+
+

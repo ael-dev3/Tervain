@@ -1,0 +1,38 @@
+/* ENTRY 10063800 | FUN_10063800 | STATUS decompiled | 13 ms */
+
+void __thiscall FUN_10063800(bCVector *param_1,float *param_2,bCMatrix3 *param_3)
+
+{
+  float fVar1;
+  float fVar2;
+  float fVar3;
+  float fVar4;
+  bCMatrix3 *pbVar5;
+  int iVar6;
+  
+  fVar1 = param_2[4];
+  fVar2 = param_2[5];
+  iVar6 = 9;
+  fVar3 = param_2[1];
+  fVar4 = param_2[2];
+  *(float *)param_1 = (*param_2 + param_2[3]) * 0.5;
+  *(float *)(param_1 + 4) = (fVar3 + fVar1) * 0.5;
+  *(float *)(param_1 + 8) = (fVar4 + fVar2) * 0.5;
+  fVar1 = param_2[4];
+  fVar2 = param_2[5];
+  fVar3 = param_2[1];
+  fVar4 = param_2[2];
+  *(float *)(param_1 + 0xc) = (param_2[3] - *param_2) * 0.5;
+  *(float *)(param_1 + 0x10) = (fVar1 - fVar3) * 0.5;
+  *(float *)(param_1 + 0x14) = (fVar2 - fVar4) * 0.5;
+  pbVar5 = param_3;
+  do {
+    iVar6 = iVar6 + -1;
+    *(undefined4 *)(pbVar5 + (int)(param_1 + (0x18 - (int)param_3))) = *(undefined4 *)pbVar5;
+    pbVar5 = pbVar5 + 4;
+  } while (iVar6 != 0);
+  bCVector::Transform(param_1,param_3);
+  return;
+}
+
+

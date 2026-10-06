@@ -1,0 +1,76 @@
+/* ENTRY 2034d3a0 | FUN_2034d3a0 | STATUS decompiled | 26 ms */
+
+undefined4 FUN_2034d3a0(char *param_1)
+
+{
+  char *pcVar1;
+  bool bVar2;
+  eCSceneAdmin *this;
+  eCEntityAdmin *this_00;
+  int iVar3;
+  bCString *pbVar4;
+  char *pcVar5;
+  bCMessageAdmin *this_01;
+  char *pcVar6;
+  undefined4 uVar7;
+  undefined4 *unaff_EBX;
+  undefined4 unaff_ESI;
+  undefined4 unaff_EDI;
+  undefined4 unaff_retaddr;
+  bEMessageTypes bVar8;
+  char *pcVar9;
+  int iVar10;
+  undefined4 *puVar11;
+  
+  this = (eCSceneAdmin *)thunk_FUN_200ae8e0();
+  this_00 = eCSceneAdmin::GetAccessToEntityAdmin(this);
+  bVar2 = eCEntityAdmin::IsProcessingEnabled(this_00);
+  pcVar1 = param_1;
+  if (!bVar2) {
+    return 0;
+  }
+  iVar3 = thunk_FUN_20353460();
+  puVar11 = &param_1;
+  if (iVar3 == 0) {
+    pcVar9 = " !";
+    pcVar6 = (char *)&param_1;
+    pcVar5 = pcVar1;
+    iVar10 = iVar3;
+    pbVar4 = (bCString *)
+             operator+(&stack0x00000014,
+                       (bCString *)
+                       "gCScriptAdmin::RunScriptFromScript - Scripted script is not registered: ");
+    pbVar4 = (bCString *)bCString::operator+(pbVar4,pcVar5);
+    pcVar5 = bCString::operator_char_const_(pbVar4);
+    bVar8 = 3;
+    this_01 = bCMessageAdmin::GetInstance();
+    bCMessageAdmin::OnMessage(this_01,bVar8,pcVar5,pcVar6,pcVar9,iVar3,iVar10);
+    bCString::~bCString((bCString *)&stack0xfffffffc);
+    bCString::~bCString((bCString *)&stack0x0000000c);
+    pcVar6 = pcVar1;
+    pbVar4 = (bCString *)
+             operator+(&stack0x0000000c,(bCString *)"Scripted script is not registered: ");
+    pbVar4 = (bCString *)bCString::operator+(pbVar4,pcVar6);
+    pcVar6 = bCString::operator_char_const_(pbVar4);
+    if (DAT_207ab9db != '\0') {
+      iVar3 = MessageBoxA((HWND)0x0,pcVar6,"gCScriptAdmin::RunScript(..)",0x12);
+      if (iVar3 == 3) {
+        FUN_20466768(0);
+        puVar11 = unaff_EBX;
+        goto LAB_2034d4b5;
+      }
+      if (iVar3 == 5) {
+        DAT_207ab9db = '\0';
+      }
+    }
+    bCString::~bCString((bCString *)&stack0xfffffff4);
+    bCString::~bCString((bCString *)&param_1);
+    return 1;
+  }
+LAB_2034d4b5:
+  iVar3 = thunk_FUN_20353460(pcVar1,&stack0xfffffff0);
+  uVar7 = (**(code **)(*(int *)(iVar3 + 4) + 4))(puVar11,unaff_EDI,unaff_ESI,unaff_retaddr);
+  return uVar7;
+}
+
+

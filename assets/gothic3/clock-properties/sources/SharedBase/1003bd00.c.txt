@@ -1,0 +1,10 @@
+/* ENTRY 1003bd00 | FUN_1003bd00 | STATUS decompiled | 3 ms */
+
+void __fastcall FUN_1003bd00(int param_1)
+
+{
+  __controlfp(*(uint *)(param_1 + 4) & 0xfffeffff | 0x20000,0x30000);
+  return;
+}
+
+

@@ -1,0 +1,4 @@
+; 20012e77 ?SetLastTask@gCScriptRoutine_PS@@QAEXABVbCString@@@Z
+20012e77 | e9a47f0900 | JMP 0x200aae20
+; 20012e7c gCNpcInfoCtrl::Render
+; 20012e7c Ordinal_6119

@@ -1,0 +1,15 @@
+/* ENTRY 1000204a | Entity::IsSprinting | STATUS decompiled | 4 ms */
+
+/* public: bool __thiscall Entity::IsSprinting(void)const  */
+
+bool __thiscall Entity::IsSprinting(Entity *this)
+
+{
+  bool bVar1;
+  
+                    /* 0x204a  1801  ?IsSprinting@Entity@@QBE_NXZ */
+  bVar1 = PSCharacterMovement::IsSprinting((PSCharacterMovement *)(this + 0x44));
+  return bVar1;
+}
+
+

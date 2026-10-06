@@ -1,0 +1,15 @@
+; 203227f0 bTPropertyType<gCPlayerMemory_PS,bTValArray<long>_>::vfunction11
+203227f0 | 56 | PUSH ESI
+203227f1 | 8bf1 | MOV ESI,ECX
+203227f3 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+203227f7 | 85c9 | TEST ECX,ECX
+203227f9 | 7506 | JNZ 0x20322801
+203227fb | 33c0 | XOR EAX,EAX
+203227fd | 5e | POP ESI
+203227fe | c20400 | RET 0x4
+20322801 | 8b01 | MOV EAX,dword ptr [ECX]
+20322803 | 8b10 | MOV EDX,dword ptr [EAX]
+20322805 | ffd2 | CALL EDX
+20322807 | 03461c | ADD EAX,dword ptr [ESI + 0x1c]
+2032280a | 5e | POP ESI
+2032280b | c20400 | RET 0x4

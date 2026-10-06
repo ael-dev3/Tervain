@@ -1,0 +1,4 @@
+; 30028948 ?GetPoint@eCCollisionShape@@QAEAAVbCVector@@XZ
+30028948 | e983a20900 | JMP 0x300c2bd0
+; 3002894d eCIlluminated_PS::SetEnableDynamicLighting
+; 3002894d Ordinal_13312

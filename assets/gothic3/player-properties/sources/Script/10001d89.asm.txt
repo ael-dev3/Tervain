@@ -1,0 +1,4 @@
+; 10001d89 ?GetStaminaPointsPercent@PSPlayerMemory@@QBEMXZ
+10001d89 | e9d2790200 | JMP 0x10029760
+; 10001d8e PSParticle::PropertyEnabled::operator_bool
+; 10001d8e Ordinal_970

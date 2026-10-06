@@ -1,0 +1,19 @@
+/* ENTRY 20026468 | bTPropertyObjectType<gCStat,gCAttribute>::scalar_deleting_destructor | STATUS decompiled | 6 ms */
+
+bTPropertyObjectType<gCStat,gCAttribute> * __thiscall
+bTPropertyObjectType<gCStat,gCAttribute>::scalar_deleting_destructor
+          (bTPropertyObjectType<gCStat,gCAttribute> *this,byte param_1)
+
+{
+  this->vftablePtr = &vftable;
+  bCPropertyObjectFactory::~bCPropertyObjectFactory
+            ((bCPropertyObjectFactory *)
+             &(this->bTPropertyObjectType<gCStat,gCAttribute>_data).field_0x14);
+  bCPropertyObjectTypeBase::~bCPropertyObjectTypeBase((bCPropertyObjectTypeBase *)this);
+  if ((param_1 & 1) != 0) {
+    _free(this);
+  }
+  return this;
+}
+
+

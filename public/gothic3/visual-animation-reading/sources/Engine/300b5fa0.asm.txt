@@ -1,0 +1,2 @@
+; 300b5fa0 SHAREDBASE.DLL::bCPropertyTypeBase::Read
+300b5fa0 | ff2564caaf30 | JMP dword ptr [0x30afca64]

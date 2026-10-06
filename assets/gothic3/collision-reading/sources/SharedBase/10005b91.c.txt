@@ -1,0 +1,14 @@
+/* ENTRY 10005b91 | bCBox::GetVolume | STATUS decompiled | 4 ms */
+
+/* public: float __thiscall bCBox::GetVolume(void)const  */
+
+float __thiscall bCBox::GetVolume(bCBox *this)
+
+{
+                    /* 0x5b91  3224  ?GetVolume@bCBox@@QBEMXZ */
+  return (*(float *)(this + 0x10) - *(float *)(this + 4)) *
+         (*(float *)(this + 0xc) - *(float *)this) *
+         (*(float *)(this + 0x14) - *(float *)(this + 8));
+}
+
+

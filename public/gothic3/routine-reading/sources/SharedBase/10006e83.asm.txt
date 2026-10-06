@@ -1,0 +1,4 @@
+; 10006e83 ?GetPropertyName@bCPropertyTypeBase@@QBEABVbCString@@XZ
+10006e83 | e9681c0800 | JMP 0x10088af0
+; 10006e88 bCNoise::GetTurbulence
+; 10006e88 Ordinal_3183

@@ -1,0 +1,17 @@
+/* ENTRY 20030995 | gCInventory_PS::LearnSkill | STATUS decompiled | 7 ms */
+
+/* public: bool __thiscall gCInventory_PS::LearnSkill(class eCTemplateEntity const *) */
+
+bool __thiscall gCInventory_PS::LearnSkill(gCInventory_PS *this,eCTemplateEntity *param_1)
+
+{
+  bool bVar1;
+  int iVar2;
+  
+                    /* 0x30995  5295  ?LearnSkill@gCInventory_PS@@QAE_NPBVeCTemplateEntity@@@Z */
+  iVar2 = FindSkillStackIndex(this,param_1);
+  bVar1 = LearnStack(this,iVar2);
+  return bVar1;
+}
+
+

@@ -1,0 +1,19 @@
+; 10067a50 FUN_10067a50
+10067a50 | 56 | PUSH ESI
+10067a51 | 8b742408 | MOV ESI,dword ptr [ESP + 0x8]
+10067a55 | 51 | PUSH ECX
+10067a56 | 8bce | MOV ECX,ESI
+10067a58 | e85e0cfaff | CALL 0x100086bb
+10067a5d | d906 | FLD float ptr [ESI]
+10067a5f | 8b44240c | MOV EAX,dword ptr [ESP + 0xc]
+10067a63 | d800 | FADD float ptr [EAX]
+10067a65 | d91e | FSTP float ptr [ESI]
+10067a67 | d94004 | FLD float ptr [EAX + 0x4]
+10067a6a | d84604 | FADD float ptr [ESI + 0x4]
+10067a6d | d95e04 | FSTP float ptr [ESI + 0x4]
+10067a70 | d94008 | FLD float ptr [EAX + 0x8]
+10067a73 | 8bc6 | MOV EAX,ESI
+10067a75 | d84608 | FADD float ptr [ESI + 0x8]
+10067a78 | d95e08 | FSTP float ptr [ESI + 0x8]
+10067a7b | 5e | POP ESI
+10067a7c | c20800 | RET 0x8

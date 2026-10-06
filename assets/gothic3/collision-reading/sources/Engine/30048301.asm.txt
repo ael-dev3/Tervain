@@ -1,0 +1,4 @@
+; 30048301 ?CopyFrom@eCCollisionShapeBase_PS@@UAE?AW4bEResult@@ABVbCObjectBase@@@Z
+30048301 | e99a8f2f00 | JMP 0x303412a0
+; 3004830b eCVegetation_Grid::CacheIn
+; 3004830b Ordinal_3633

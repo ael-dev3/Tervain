@@ -1,0 +1,11 @@
+/* ENTRY 2000c74d | bTPropertyContainer<gEPlayerCrime>::vfunction7 | STATUS decompiled | 134 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<gEPlayerCrime>::vfunction7(bTPropertyContainer<gEPlayerCrime> *this)
+
+{
+  (this->bTPropertyContainer<gEPlayerCrime>_data).offset_0x0 = DAT_207b7f0c;
+  return 1;
+}
+
+

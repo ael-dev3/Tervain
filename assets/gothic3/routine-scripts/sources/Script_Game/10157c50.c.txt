@@ -1,0 +1,17 @@
+/* ENTRY 10157c50 | FUN_10157c50 | STATUS decompiled | 8 ms */
+
+void FUN_10157c50(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Routine\\Routine_Tasks\\Routine_Callback.cpp");
+  bCString::bCString(local_8,"OnWork");
+  thunk_FUN_1001da70(local_8,&LAB_10001f3c,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

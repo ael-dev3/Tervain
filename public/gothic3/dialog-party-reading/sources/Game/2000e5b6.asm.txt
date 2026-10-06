@@ -1,0 +1,2 @@
+; 2000e5b6 gCParty_PS::OnChildrenAvailable
+2000e5b6 | e9a5953000 | JMP 0x20317b60

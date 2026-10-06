@@ -1,0 +1,4 @@
+; 10005a65 ?NotifyPropertyValueChangedExitEx@bCObjectRefBase@@UAE_NPBD_N@Z
+10005a65 | e956490400 | JMP 0x1004a3c0
+; 10005a6a bCMatrix::RotateLocalAxisY
+; 10005a6a Ordinal_4000

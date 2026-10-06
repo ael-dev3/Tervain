@@ -1,0 +1,49 @@
+/* ENTRY 2031da90 | FUN_2031da90 | STATUS decompiled | 15 ms */
+
+undefined4 __thiscall FUN_2031da90(int param_1,bCOStream *param_2)
+
+{
+  long lVar1;
+  bCOStream *this;
+  bCString *pbVar2;
+  int iVar3;
+  int *local_18;
+  int local_14;
+  bCString *local_10;
+  int local_8;
+  
+  this = param_2;
+  lVar1 = *(long *)(param_1 + 0xb4);
+  bCOStream::operator<<(param_2,lVar1);
+  thunk_FUN_20325c60(&local_18);
+  local_8 = *(int *)(param_1 + 0xac);
+  param_2 = (bCOStream *)0x0;
+  pbVar2 = local_10;
+  iVar3 = local_14;
+  do {
+    do {
+      if (((local_18 == (int *)(param_1 + 0xa8)) && (pbVar2 == (bCString *)0x0)) &&
+         (iVar3 == local_8)) {
+        if (param_2 != (bCOStream *)lVar1) {
+          GE_MESSAGEF_WARN("gCPlayerMemory_PS::WriteAttributes -> Detected broken map count. Count: %d. Iterated: %d"
+                           ,lVar1,param_2);
+        }
+        return 1;
+      }
+      bCOStream::operator<<(this,pbVar2);
+      bCAccessorPropertyObject::bCAccessorPropertyObject
+                ((bCAccessorPropertyObject *)&local_18,*(bCObjectRefBase **)(pbVar2 + 4));
+      operator<<((bCOStream *)this,(bCAccessorPropertyObject *)&local_18);
+      param_2 = (bCOStream *)((int)param_2 + 1);
+      bCAccessorPropertyObject::~bCAccessorPropertyObject((bCAccessorPropertyObject *)&local_18);
+      pbVar2 = *(bCString **)(pbVar2 + 8);
+    } while (pbVar2 != (bCString *)0x0);
+    do {
+      iVar3 = iVar3 + 1;
+      if (local_18[1] <= iVar3) break;
+      pbVar2 = *(bCString **)(*local_18 + iVar3 * 4);
+    } while (pbVar2 == (bCString *)0x0);
+  } while( true );
+}
+
+

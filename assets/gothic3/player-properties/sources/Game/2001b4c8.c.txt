@@ -1,0 +1,12 @@
+/* ENTRY 2001b4c8 | gCPlayerMemory_PS::GetLPAttribs | STATUS decompiled | 8 ms */
+
+/* public: long const & __thiscall gCPlayerMemory_PS::GetLPAttribs(void)const  */
+
+long * __thiscall gCPlayerMemory_PS::GetLPAttribs(gCPlayerMemory_PS *this)
+
+{
+                    /* 0x1b4c8  3633  ?GetLPAttribs@gCPlayerMemory_PS@@QBEABJXZ */
+  return (long *)&(this->gCPlayerMemory_PS_data).field_0x54;
+}
+
+

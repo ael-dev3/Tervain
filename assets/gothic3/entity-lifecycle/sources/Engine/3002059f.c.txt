@@ -1,0 +1,39 @@
+/* ENTRY 3002059f | eCNode::AttachChild | STATUS decompiled | 10 ms */
+
+/* public: virtual int __thiscall eCNode::AttachChild(class eCNode *)
+   eCNode member function inherited by eCEntity
+   eCNode member function inherited by eCSpatialEntity
+   eCNode member function inherited by eCDynamicEntity
+   eCNode member function inherited by eCResourceDataEntity
+   eCNode member function inherited by eCTemplateEntity */
+
+int __thiscall eCNode::AttachChild(eCNode *this,eCNode *param_1)
+
+{
+  undefined2 *puVar1;
+  code *pcVar2;
+  int iVar3;
+  
+                    /* 0x2059f  3552  ?AttachChild@eCNode@@UAEHPAV1@@Z */
+  if (param_1 == (eCNode *)0x0) {
+    return -1;
+  }
+  iVar3 = (**(code **)(*(int *)param_1 + 100))();
+  if (iVar3 != 0) {
+    MoveToNode((eCNode *)param_1,(eCNode *)this);
+    return 1;
+  }
+  pcVar2 = *(code **)(*(int *)param_1 + 0x74);
+  *(eCNode **)(param_1 + 0xc) = this;
+  (*pcVar2)((this->eCNode_data).offset_0x28);
+  (**(code **)(*(int *)param_1 + 0x20))();
+  thunk_FUN_30481100();
+  *(eCNode **)
+   ((int)(this->eCNode_data).offset_0x10 + (uint)(ushort)(this->eCNode_data).offset_0xe * 4) =
+       param_1;
+  puVar1 = &(this->eCNode_data).offset_0xe;
+  *puVar1 = *puVar1 + 1;
+  return (uint)(ushort)((this->eCNode_data).offset_0xe - 1);
+}
+
+

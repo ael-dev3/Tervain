@@ -1,0 +1,2 @@
+; 10006776 bCIStream::operator>>
+10006776 | e9d5860100 | JMP 0x1001ee50

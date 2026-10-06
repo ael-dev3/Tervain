@@ -1,0 +1,3 @@
+; 300aa9a0 bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector>::vfunction4
+300aa9a0 | 8d4118 | LEA EAX,[ECX + 0x18]
+300aa9a3 | c3 | RET

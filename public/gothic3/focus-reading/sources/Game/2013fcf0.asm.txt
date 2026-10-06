@@ -1,0 +1,3 @@
+; 2013fcf0 bTPropertyObject<gCFocus_PS,eCEntityPropertySet>::vfunction5
+2013fcf0 | 8b410c | MOV EAX,dword ptr [ECX + 0xc]
+2013fcf3 | c3 | RET

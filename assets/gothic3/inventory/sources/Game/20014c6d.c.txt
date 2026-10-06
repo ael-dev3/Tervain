@@ -1,0 +1,26 @@
+/* ENTRY 20014c6d | gCInventory_PS::ActivateSkill | STATUS decompiled | 14 ms */
+
+/* public: bool __thiscall gCInventory_PS::ActivateSkill(class eCTemplateEntity const *) */
+
+bool __thiscall gCInventory_PS::ActivateSkill(gCInventory_PS *this,eCTemplateEntity *param_1)
+
+{
+  code *pcVar1;
+  int iVar2;
+  int *piVar3;
+  
+                    /* 0x14c6d  1847  ?ActivateSkill@gCInventory_PS@@QAE_NPBVeCTemplateEntity@@@Z */
+  iVar2 = FindSkillStackIndex(this,param_1);
+  piVar3 = (int *)FUN_2002d506(iVar2);
+  if (piVar3 != (int *)0x0) {
+    iVar2 = piVar3[0x16];
+    (**(code **)(*piVar3 + 0x58))("ActivationCount",0);
+    pcVar1 = *(code **)(*piVar3 + 0x5c);
+    piVar3[0x16] = iVar2 + 1;
+    (*pcVar1)("ActivationCount",0);
+    return true;
+  }
+  return false;
+}
+
+

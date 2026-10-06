@@ -1,0 +1,4 @@
+; 100079b9 ?Invalidate@bCOrientedBox@@QAEXXZ
+100079b9 | e952b30500 | JMP 0x10062d10
+; 100079be bCMatrix::GetRotatedByLocalAxisY
+; 100079be Ordinal_2940

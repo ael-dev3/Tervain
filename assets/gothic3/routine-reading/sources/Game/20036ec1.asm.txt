@@ -1,0 +1,2 @@
+; 20036ec1 bTPropertyObject<gCScriptRoutine_PS,eCEntityPropertySet>::vfunction10
+20036ec1 | e91a2a3200 | JMP 0x203598e0

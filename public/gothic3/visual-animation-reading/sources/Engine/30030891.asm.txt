@@ -1,0 +1,2 @@
+; 30030891 eCVisualAnimation_PS::SupportsRenderDebugOutput
+30030891 | e91ad30600 | JMP 0x3009dbb0

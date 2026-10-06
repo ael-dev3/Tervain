@@ -1,0 +1,29 @@
+/* ENTRY 3003fdf5 | thunk_FUN_300c7aa0 | STATUS decompiled | 7 ms */
+
+void __thiscall thunk_FUN_300c7aa0(int param_1,undefined4 param_2,undefined4 param_3)
+
+{
+  undefined4 uVar1;
+  int iVar2;
+  int aiStack_c [3];
+  
+  uVar1 = *(undefined4 *)(param_1 + 0x130);
+  iVar2 = 0;
+  aiStack_c[0] = 0;
+  aiStack_c[1] = 0;
+  aiStack_c[2] = 0;
+  thunk_FUN_300c4a70(param_2,aiStack_c,param_3);
+  if (0 < aiStack_c[0]) {
+    do {
+      thunk_FUN_300c6340(param_1,param_2,*(undefined4 *)(aiStack_c[2] + iVar2 * 4),0);
+      thunk_FUN_300c7aa0(*(undefined4 *)(aiStack_c[2] + iVar2 * 4),param_3);
+      iVar2 = iVar2 + 1;
+    } while (iVar2 < aiStack_c[0]);
+  }
+  *(undefined4 *)(param_1 + 0x130) = uVar1;
+  thunk_FUN_300ad900();
+  FUN_3066b040(aiStack_c[2]);
+  return;
+}
+
+

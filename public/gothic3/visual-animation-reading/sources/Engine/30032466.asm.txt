@@ -1,0 +1,2 @@
+; 30032466 eCResourceAdmin::GetMainCache
+30032466 | e9f54a4000 | JMP 0x30436f60

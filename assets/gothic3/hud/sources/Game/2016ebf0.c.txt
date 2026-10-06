@@ -1,0 +1,24 @@
+/* ENTRY 2016ebf0 | gCHUDPageTrade2::gCHUDPageTrade2 | STATUS decompiled | 39 ms */
+
+gCHUDPageTrade2 * __thiscall gCHUDPageTrade2::gCHUDPageTrade2(gCHUDPageTrade2 *this)
+
+{
+  gCHUDPage::gCHUDPage((gCHUDPage *)this);
+  this->vftablePtr = &vftable;
+  gCHUDView::gCHUDView((gCHUDView *)&this->gCHUDPageTrade2_data);
+  gCHUDView::gCHUDView((gCHUDView *)&(this->gCHUDPageTrade2_data).field_0x14);
+  gCHUDView::gCHUDView((gCHUDView *)&(this->gCHUDPageTrade2_data).field_0x28);
+  gCHUDView::gCHUDView((gCHUDView *)&(this->gCHUDPageTrade2_data).field_0x3c);
+  gCHUDView::gCHUDView((gCHUDView *)&(this->gCHUDPageTrade2_data).field_0x50);
+  gCHUDViewItem2::gCHUDViewItem2((gCHUDViewItem2 *)&(this->gCHUDPageTrade2_data).field_0x64);
+  gCHUDViewAmount2::gCHUDViewAmount2((gCHUDViewAmount2 *)&(this->gCHUDPageTrade2_data).field_0xe8);
+  gCHUDViewTradeTransaction2::gCHUDViewTradeTransaction2
+            ((gCHUDViewTradeTransaction2 *)&(this->gCHUDPageTrade2_data).field_0x148);
+  gCHUDViewTradeInventory2::gCHUDViewTradeInventory2
+            ((gCHUDViewTradeInventory2 *)&(this->gCHUDPageTrade2_data).field_0x298);
+  gCHUDViewTradeVendor2::gCHUDViewTradeVendor2
+            ((gCHUDViewTradeVendor2 *)&(this->gCHUDPageTrade2_data).field_0x388);
+  return this;
+}
+
+

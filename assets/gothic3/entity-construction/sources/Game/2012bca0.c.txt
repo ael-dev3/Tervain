@@ -1,0 +1,10 @@
+/* ENTRY 2012bca0 | FUN_2012bca0 | STATUS decompiled | 2 ms */
+
+undefined4 __fastcall FUN_2012bca0(eCDynamicEntity *param_1)
+
+{
+  eCDynamicEntity::Create(param_1);
+  return 1;
+}
+
+

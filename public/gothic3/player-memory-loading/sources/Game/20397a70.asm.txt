@@ -1,0 +1,8 @@
+; 20397a70 FUN_20397a70
+20397a70 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+20397a74 | 2b4110 | SUB EAX,dword ptr [ECX + 0x10]
+20397a77 | 8b11 | MOV EDX,dword ptr [ECX]
+20397a79 | 894114 | MOV dword ptr [ECX + 0x14],EAX
+20397a7c | 8b427c | MOV EAX,dword ptr [EDX + 0x7c]
+20397a7f | ffd0 | CALL EAX
+20397a81 | c20400 | RET 0x4

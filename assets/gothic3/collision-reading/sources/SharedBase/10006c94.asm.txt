@@ -1,0 +1,4 @@
+; 10006c94 ??5bCOrientedBox@@QBEAAVbCOStream@@AAV1@@Z
+10006c94 | e917c90500 | JMP 0x100635b0
+; 10006c99 bCMatrix::AccessYAxis
+; 10006c99 Ordinal_1525

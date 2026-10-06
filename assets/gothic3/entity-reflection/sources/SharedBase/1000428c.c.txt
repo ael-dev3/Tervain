@@ -1,0 +1,25 @@
+/* ENTRY 1000428c | bCAccessorCreator::bCAccessorCreator | STATUS decompiled | 5 ms */
+
+/* public: __thiscall bCAccessorCreator::bCAccessorCreator(class bCAccessorCreator const &) */
+
+bCAccessorCreator * __thiscall
+bCAccessorCreator::bCAccessorCreator(bCAccessorCreator *this,bCAccessorCreator *param_1)
+
+{
+  int *piVar1;
+  
+                    /* 0x428c  9  ??0bCAccessorCreator@@QAE@ABV0@@Z */
+  *(undefined4 *)this = 0;
+  piVar1 = *(int **)param_1;
+  if (piVar1 != (int *)0x0) {
+    (**(code **)(*piVar1 + 0x30))();
+  }
+  if (*(int **)this != (int *)0x0) {
+    (**(code **)(**(int **)this + 0x34))();
+    *(undefined4 *)this = 0;
+  }
+  *(int **)this = piVar1;
+  return this;
+}
+
+

@@ -1,0 +1,2 @@
+; 30043793 eCVisualAnimation_PS::AccessBoneRaycastsEnabled
+30043793 | e978e40100 | JMP 0x30061c10

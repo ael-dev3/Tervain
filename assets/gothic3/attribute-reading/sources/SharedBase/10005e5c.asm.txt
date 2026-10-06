@@ -1,0 +1,2 @@
+; 10005e5c bTPropertyObject<bCObsoleteClass,bCObjectRefBase>::vfunction3
+10005e5c | e90f8b0800 | JMP 0x1008e970

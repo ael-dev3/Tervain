@@ -1,0 +1,12 @@
+/* ENTRY 2016dc20 | gCHUDPageQuests2::vfunction71 | STATUS decompiled | 7 ms */
+
+void __thiscall gCHUDPageQuests2::vfunction71(gCHUDPageQuests2 *this)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x2016dc2c. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  (**(code **)(*(int *)&(this->gCHUDPageQuests2_data).field_0x14 + 0x10c))();
+  return;
+}
+
+

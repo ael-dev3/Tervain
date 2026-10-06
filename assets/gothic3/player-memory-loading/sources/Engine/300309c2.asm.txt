@@ -1,0 +1,2 @@
+; 300309c2 eCEntityPropertySet::Clone
+300309c2 | e9790d4500 | JMP 0x30481740

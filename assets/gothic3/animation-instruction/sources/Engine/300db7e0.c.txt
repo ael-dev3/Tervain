@@ -1,0 +1,23 @@
+/* ENTRY 300db7e0 | FUN_300db7e0 | STATUS decompiled | 6 ms */
+
+uint __thiscall FUN_300db7e0(int param_1,uint param_2)
+
+{
+  int *piVar1;
+  char cVar2;
+  uint in_EAX;
+  undefined4 uVar3;
+  
+  if ((param_2 < 8) && (piVar1 = *(int **)(param_1 + 0x10 + param_2 * 4), piVar1 != (int *)0x0)) {
+    in_EAX = thunk_FUN_300e2c60(piVar1);
+    if ((char)in_EAX != '\0') {
+      uVar3 = (**(code **)(*piVar1 + 0x18))();
+      cVar2 = thunk_FUN_300e2ca0(uVar3);
+      return (uint)(cVar2 == '\x01');
+    }
+    *(undefined4 *)(param_1 + 0x10 + param_2 * 4) = 0;
+  }
+  return in_EAX & 0xffffff00;
+}
+
+

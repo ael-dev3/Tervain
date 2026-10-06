@@ -1,0 +1,5 @@
+; 3067cfe8 FUN_3067cfe8
+3067cfe8 | 6a08 | PUSH 0x8
+3067cfea | e8b7630000 | CALL 0x306833a6
+3067cfef | 59 | POP ECX
+3067cff0 | c3 | RET

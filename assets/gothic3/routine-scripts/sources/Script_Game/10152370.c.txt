@@ -1,0 +1,17 @@
+/* ENTRY 10152370 | FUN_10152370 | STATUS decompiled | 5 ms */
+
+void FUN_10152370(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Player\\Player_States\\PS_Interact.cpp");
+  bCString::bCString(local_8,"PS_Interact_CarryStone_End");
+  thunk_FUN_1001db60(local_8,&LAB_10002c2f,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

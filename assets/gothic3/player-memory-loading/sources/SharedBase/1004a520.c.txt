@@ -1,0 +1,10 @@
+/* ENTRY 1004a520 | FUN_1004a520 | STATUS decompiled | 1 ms */
+
+void __thiscall FUN_1004a520(int param_1,undefined4 param_2)
+
+{
+  *(undefined4 *)(param_1 + 4) = param_2;
+  return;
+}
+
+

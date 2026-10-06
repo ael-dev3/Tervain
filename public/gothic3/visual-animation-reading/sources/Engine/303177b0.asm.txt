@@ -1,0 +1,3 @@
+; 303177b0 FUN_303177b0
+303177b0 | 8b411c | MOV EAX,dword ptr [ECX + 0x1c]
+303177b3 | c3 | RET

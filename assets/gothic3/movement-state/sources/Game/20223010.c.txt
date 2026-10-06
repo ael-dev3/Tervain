@@ -1,0 +1,27 @@
+/* ENTRY 20223010 | FUN_20223010 | STATUS decompiled | 7 ms */
+
+void __fastcall FUN_20223010(int *param_1)
+
+{
+  eCEntity *peVar1;
+  bCVector *pbVar2;
+  bCMatrix *pbVar3;
+  eCEntity *peVar4;
+  
+  peVar1 = (eCEntity *)(**(code **)(*param_1 + 0x68))();
+  pbVar2 = eCEntity::GetWorldPosition(peVar1);
+  bCVector::operator=((bCVector *)(param_1 + 0x47),pbVar2);
+  peVar1 = (eCEntity *)(**(code **)(*param_1 + 0x68))();
+  pbVar3 = eCEntity::GetWorldMatrix(peVar1);
+  pbVar2 = bCMatrix::GetZAxis(pbVar3);
+  bCVector::operator=((bCVector *)(param_1 + 0x4a),pbVar2);
+  peVar4 = eCEntityProxy::GetEntity((eCEntityProxy *)(param_1 + 0x37));
+  if (peVar4 != (eCEntity *)0x0) {
+    peVar4 = eCEntityProxy::operator->((eCEntityProxy *)(param_1 + 0x37));
+    pbVar3 = eCEntity::GetWorldMatrix((eCEntity *)peVar4);
+    bCMatrix::operator=((bCMatrix *)(param_1 + 0x67),pbVar3);
+  }
+  return;
+}
+
+

@@ -1,0 +1,2 @@
+; 300427d0 eCEntity::IsPhysicRelevant
+300427d0 | e97b3a4700 | JMP 0x304b6250

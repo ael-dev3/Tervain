@@ -1,0 +1,14 @@
+/* ENTRY 20024edd | gCNavigation_PS::GetPropertySetType | STATUS decompiled | 8 ms */
+
+/* public: virtual enum eEPropertySetType __thiscall gCNavigation_PS::GetPropertySetType(void)const
+    */
+
+eEPropertySetType __thiscall gCNavigation_PS::GetPropertySetType(gCNavigation_PS *this)
+
+{
+                    /* 0x24edd  4083
+                       ?GetPropertySetType@gCNavigation_PS@@UBE?AW4eEPropertySetType@@XZ */
+  return 5;
+}
+
+

@@ -1,0 +1,2 @@
+; 2046038c SHAREDBASE.DLL::bCObjectRefBase::NotifyPropertyValueChangedExitEx
+2046038c | ff257c887d20 | JMP dword ptr [0x207d887c]

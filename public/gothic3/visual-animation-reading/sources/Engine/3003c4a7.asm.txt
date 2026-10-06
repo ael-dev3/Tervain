@@ -1,0 +1,2 @@
+; 3003c4a7 eCVisualAnimation_PS::AccessBoneSwingSpringEnabled
+3003c4a7 | e9c45a0200 | JMP 0x30061f70

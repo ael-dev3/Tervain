@@ -1,0 +1,16 @@
+; 1001de30 gSArgsFor__AI_StandUp::vector_deleting_destructor
+1001de30 | 56 | PUSH ESI
+1001de31 | 8bf1 | MOV ESI,ECX
+1001de33 | 8d4e04 | LEA ECX,[ESI + 0x4]
+1001de36 | ff15906f2210 | CALL dword ptr [0x10226f90]
+1001de3c | f644240801 | TEST byte ptr [ESP + 0x8],0x1
+1001de41 | c706d8992010 | MOV dword ptr [ESI],0x102099d8
+1001de47 | 7409 | JZ 0x1001de52
+1001de49 | 56 | PUSH ESI
+1001de4a | e865550c00 | CALL 0x100e33b4
+1001de4f | 83c404 | ADD ESP,0x4
+; 1001de52 LAB_1001de52
+1001de52 | 8bc6 | MOV EAX,ESI
+1001de54 | 5e | POP ESI
+1001de55 | c20400 | RET 0x4
+; 1001de70 gSArgsFor__AI_HoldInventoryItems::scalar_deleting_destructor

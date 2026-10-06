@@ -1,0 +1,15 @@
+/* ENTRY 10005e7f | bCOrientedBox::GetEdge | STATUS decompiled | 3 ms */
+
+/* public: class bCStretch __thiscall bCOrientedBox::GetEdge(int)const  */
+
+int __thiscall bCOrientedBox::GetEdge(bCOrientedBox *this,int param_1)
+
+{
+  int in_stack_00000008;
+  
+                    /* 0x5e7f  2317  ?GetEdge@bCOrientedBox@@QBE?AVbCStretch@@H@Z */
+  GetEdge(this,in_stack_00000008,(bCStretch *)param_1);
+  return param_1;
+}
+
+

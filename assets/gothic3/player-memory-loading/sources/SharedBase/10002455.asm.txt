@@ -1,0 +1,2 @@
+; 10002455 bCAccessorPropertyObject::SetInstance
+10002455 | e916840900 | JMP 0x1009a870

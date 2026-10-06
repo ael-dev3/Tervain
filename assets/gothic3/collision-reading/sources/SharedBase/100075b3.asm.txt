@@ -1,0 +1,4 @@
+; 100075b3 ?GetVertex@bCOrientedBox@@QBE?AVbCVector@@H@Z
+100075b3 | e9f81b0600 | JMP 0x100691b0
+; 100075b8 bCPropertyID::GetCore
+; 100075b8 Ordinal_2216

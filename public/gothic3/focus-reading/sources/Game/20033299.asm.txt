@@ -1,0 +1,2 @@
+; 20033299 bTPropertyType<gCFocus_PS,bTPropertyContainer<gEFocusLookAt>_>::vfunction6
+20033299 | e922f41000 | JMP 0x201426c0

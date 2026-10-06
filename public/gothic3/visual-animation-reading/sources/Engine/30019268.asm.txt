@@ -1,0 +1,2 @@
+; 30019268 eCVirtualFileSystem::eCVirtualFileSystem
+30019268 | e9f3625b00 | JMP 0x305cf560

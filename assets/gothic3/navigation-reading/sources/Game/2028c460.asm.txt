@@ -1,0 +1,3 @@
+; 2028c460 bTPropertyObject<gCNavigation_PS,eCEntityPropertySet>::vfunction5
+2028c460 | 8b410c | MOV EAX,dword ptr [ECX + 0xc]
+2028c463 | c3 | RET

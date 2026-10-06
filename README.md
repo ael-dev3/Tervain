@@ -56,7 +56,7 @@ Browser checks do not establish packaged desktop compatibility or performance on
 
 ## Separate study viewers
 
-The original Tervain game is separate from the [Gothic 3 reconstruction](docs/engineering/gothic3-browser-port.md) and the [local-install study viewer](docs/engineering/gothic3-local.md). The latter reads the visitor's own installed files in their browser and hosts no game data. Neither route grants rights to Gothic 3 material or establishes commercial-release clearance.
+The [Gothic 3 / Ardea reconstruction](https://ael-dev3.github.io/Tervain/gothic3/) is an incomplete TypeScript browser port; see its [scope and controls](docs/engineering/gothic3-browser-port.md) and [rebuilding process](docs/engineering/gothic3-rebuild-overview.md). It is separate from the original Tervain game and from the [local-install study viewer](docs/engineering/gothic3-local.md), which reads the visitor's own installed files in their browser and hosts no game data. Neither route grants rights to Gothic 3 material or establishes commercial-release clearance.
 
 
 ### Gothic 3 study viewer examples

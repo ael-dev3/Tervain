@@ -1,0 +1,2 @@
+; 30025941 eCEntityPropertySet::HasRenderAlphaComponent
+30025941 | e92abc4500 | JMP 0x30481570

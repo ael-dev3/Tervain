@@ -1,0 +1,19 @@
+/* ENTRY 1002b2b0 | FUN_1002b2b0 | STATUS decompiled | 6 ms */
+
+float10 __thiscall FUN_1002b2b0(bCBox *param_1,bCLine *param_2)
+
+{
+  bool bVar1;
+  bCBox *local_4;
+  
+  local_4 = param_1;
+  GE_MESSAGEF_WARN("The obsolete method %s was called! %s","bCBox::GetIntersectionDistance [Line]",
+                   "Use Intersects()");
+  bVar1 = bCBox::Intersects(param_1,param_2,(float *)&local_4);
+  if (!bVar1) {
+    local_4 = (bCBox *)0xbf800000;
+  }
+  return (float10)(float)local_4;
+}
+
+
