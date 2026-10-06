@@ -32,18 +32,17 @@ This product includes material from the Warpkeep project (https://github.com/ael
 
 Warpkeep names, logos and the Hegemony identity are not licensed by this notice.
 
-The generated sound effects, ambience and score were generated with ElevenLabs
-(https://elevenlabs.io) from original prompts written for Tervain on the free plan.
-The unchanged sources in assets/audio/source/world/ and runtime derivatives containing
-them are restricted to noncommercial prototype use with required ElevenLabs attribution.
-Commercial/Steam clearance is blocked until separately licensed or replaced; a later
-subscription does not retroactively license these generations. The crafted music and
-sounds are independent original Tervain compositions synthesized in tools/world-audio/compose/;
-this notice does not grant an open-content license to those renders. See
-docs/engineering/world-audio.md and docs/engineering/world-audio-assets.json for which
-file is which, with sources, terms and hashes, and public/world-audio-licenses.html for
-the equivalent built-site disclosure. The project software license does not override
-externally governed asset terms.
+The generated sound effects, ambience, score, songs and voices were generated with
+ElevenLabs (https://elevenlabs.io) from original descriptions, lyrics and lines.
+Current sources record paid-generation provenance and replace earlier free-plan
+outputs. Effects and speech follow the applicable general service terms; Eleven
+Music additionally excludes Studio Games on self-serve plans and prohibits licensing
+output as a music library. This unmonetized prototype does not establish commercial
+or Steam clearance. No open-content license or sublicensing grant is made here.
+Original code-composed music and sounds have independent Tervain provenance.
+See docs/engineering/world-audio.md, world-audio-assets.json and voice-assets.json
+in that directory for source records and hashes, and public/world-audio-licenses.html
+for the built-site disclosure. The project code license does not override asset terms.
 
 This product uses Three.js, including its unmodified Reflector addon, under the MIT
 License (copyright 2010-2026 three.js authors). The full copyright and permission

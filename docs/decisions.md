@@ -71,6 +71,9 @@ A51 follow-up, 5 October 2026: the owner added `Meshy_AI_Verdant_Sentinel_100418
 
 | A57 | Add original music and effects composed and synthesized in code. | A Tervain theme in D Dorian anchors regional and mood arrangements, fight loops, stings and three evening inn tunes. Original synthesis supplies bells, chimes, spring bubbles, crickets and a heartbeat. Deterministic renders and hashes are documented; listening quality remains separately reviewed. See [world sound](engineering/world-audio.md#crafted-in-code). |
 
+| A58 | Extend world sound with captioned speech for the current hero and residents, retaining observation without dialogue windows and unchanged quest authority. | Integrated from PR #30: twelve description-designed voices, world exchanges, remarks and overheard scenes; recorded paid generations replace the earlier generated bank. Casting, new wording and song lyrics remain proposals. Source records/transcript checks do not establish listening review or unrestricted commercial rights. See [world sound](engineering/world-audio.md#voices). |
+| A59 | Release completion requires an accepted integrated build live and no outstanding pull requests. | Resolve each PR by safe integration, supersession or rejection; preserve required checks and verified served version/revision. A version label or closed PR alone is insufficient release evidence. |
+
 ## Separate Gothic 3 reconstruction
 
 On 4 October 2026 the owner requested a TypeScript reconstruction of the local
@@ -198,3 +201,5 @@ These are scope boundaries for the foundation, not permanent bans. A later owner
 | 2026-10-05 | Added the crafted half of the world's sound, composed and synthesized in code. It has the Tervain theme in four mood arrangements, composed danger and battle loops, stings and six region motifs, the inn's three evening tunes, and a town bell on D, a wind chime, spring bubbles, temperature-paced crickets and a heartbeat. Includes composer checks, render hashes and the audition page's new sections. | A57. Local typecheck, the full test suite, the production build and a dev-server browser session pass (inn, crickets, bells, heartbeat, region motif). Historical PR CI did not execute build steps. No listening review is claimed. Version unchanged. |
 
 | 2026-10-04 | Showed four screenshots of the `/gothic3-local/` viewer in the README at the owner's request. | A narrow owner exception to A14 for these documentation files (see the Gothic 3 section above); no game data or runtime asset is added. See [the screenshots' provenance](engineering/gothic3-local.md#screenshots). |
+
+| 2026-10-06 | Integrated the current world-audio PR and selected serious world speech/paid-source replacement from PR #30, excluding the separate teaser and its capture tooling. | A56–A59. Final source validation and publication are recorded in [0.0.12](production/releases/0.0.12.md); no listening review or commercial clearance is asserted. |
