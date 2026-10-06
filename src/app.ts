@@ -50,6 +50,9 @@ import { loadMainHero } from './presentation/mainHero';
 import { createHeroRig } from './presentation/hero/rig';
 import { HuntingController } from './presentation/huntingController';
 import { loadMeshyNpcCatalog, type MeshyNpcCatalog } from './presentation/meshynpcs';
+import { ANIMALS, loadAnimalTemplates } from './presentation/animals';
+import type { AnimalDefinition } from './presentation/animals/catalog';
+import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { npcStyle } from './presentation/npcStyle';
 import type { CircleCollider } from './world/colliders';
 
@@ -75,6 +78,9 @@ export class App {
   player = new Player();
   private mainHeroInstalled = false;
   private treeTemplates: MeshyTreeTemplates | undefined;
+  /** The stag that grazes across the title meadow: the same template the wildlife uses later, loaded once. */
+  private menuDeer: { template: GLTF; definition: AnimalDefinition } | undefined;
+  private static readonly MENU_DEER_ID = '1005232412';
   private npcAssets: MeshyNpcCatalog | null = null;
   private menuAssets: MeshyNpcCatalog | null = null;
   private menuLoad: Promise<void> | null = null;
@@ -193,6 +199,13 @@ export class App {
     };
     window.addEventListener('pointerdown', first, { once: false });
     window.addEventListener('keydown', first, { once: false });
+    // Over the title and pause menus the pointer brushes through the heath (presentation only).
+    window.addEventListener('pointermove', (e) => {
+      if (!this.menuBackgroundActive || this.menuSceneDisposed) return;
+      const r = this.canvas.getBoundingClientRect();
+      if (r.width <= 0 || r.height <= 0) return;
+      this.menuScene.brush(((e.clientX - r.left) / r.width) * 2 - 1, 1 - ((e.clientY - r.top) / r.height) * 2);
+    }, { passive: true });
     this.canvas.addEventListener('mousedown', () => {
       if (this.mode === 'play' && this.overlay === 'none' && !this.input.locked) {
         this.input.swallowClick = true;
@@ -431,6 +444,21 @@ export class App {
     this.menuAssets = assets;
     this.replaceMenuScene();
     await this.prepareMenuGraphics();
+    void this.loadMenuDeer();
+  }
+
+  /**
+   * The title meadow's stag is cosmetic and follows the backdrop, so it never delays the menu. If its model cannot load
+   * the menu simply has none; the wildlife retries (and reports) the same download when the world is built.
+   */
+  private async loadMenuDeer() {
+    const definition = ANIMALS.find((a) => a.id === App.MENU_DEER_ID);
+    if (this.menuDeer || !definition) return;
+    const template = (await loadAnimalTemplates(undefined, [definition]).catch(() => null))?.get(definition.id);
+    if (!template || this.menuDeer) return;
+    this.menuDeer = { template, definition };
+    if (this.menuSceneDisposed || !this.menuScene.addDeer(template, definition)) return;
+    await this.renderer.compileAsync?.(this.menuScene.scene, this.menuScene.camera)?.catch(() => {});
   }
 
   private replaceMenuScene() {
@@ -439,7 +467,7 @@ export class App {
     const grove = this.menuScene.grove;
     const replacement = new MenuScene({ quality: this.settings.quality, treeTemplates: this.treeTemplates,
       trafficSeed: traffic.seed, trafficTime: traffic.elapsed, awakening, grove,
-      wardenRig: (this.menuAssets ?? this.npcAssets)?.create('menu:warden') });
+      wardenRig: (this.menuAssets ?? this.npcAssets)?.create('menu:warden'), deer: this.menuDeer });
     this.menuGraphicsReady = false;
     if (!this.menuSceneDisposed) this.menuScene.dispose();
     this.menuScene = replacement;
@@ -924,9 +952,11 @@ export class App {
     if (this.menuBackgroundActive) {
       // The menu vigil is cosmetic. No patrols or game clock run beneath it.
       this.menuScene.update(dt, this.settings.reducedMotion, this.audio.menuMusicPlayback);
-      // An open headland: wind and distant sea beneath the owner-supplied menu score.
+      // An open headland: wind and distant sea beneath the owner-supplied menu score. The wind rises as each gust the
+      // heath shows rolling up the slope reaches the lens.
+      const gust = this.menuScene.windAtLens;
       this.audio.update(dt, { nightness: 0.3, waterProximity: 0, seaProximity: 0.32, flow: 0,
-        millNear: 0, millTurning: false, windAmount: 0.6, quarryNear: 0,
+        millNear: 0, millTurning: false, windAmount: 0.3 + 0.7 * gust, windTone: 360 + 180 * gust, quarryNear: 0,
         quarryWorking: false, time: this.audioClock, underRoof: false });
       this.audio.updateWorld(dt, null);
       this.updateDebug(dt);
@@ -1049,6 +1079,11 @@ export class App {
     // Interactions can open a panel or kill the player after the frame's initial play flag.
     const worldActive = playing && !hitStopped && this.mode === 'play' && this.overlay === 'none'
       && !this.worldPaused && document.visibilityState !== 'hidden';
+    // Residents and bandits walk through the grass as well as the hero; the world adds its animals and cargo.
+    this.world.setGrassMovers([
+      ...this.npcs.filter((n) => !n.hidden && this.game.state.npcs[n.id].available).map((n) => ({ x: n.x, z: n.z, radius: 0.5, weight: 0.6 })),
+      ...this.enemies.filter((e) => e.alive).map((e) => ({ x: e.x, z: e.z, radius: e.radius + 0.25, weight: 0.8 })),
+    ]);
     this.world.update(dt, this.game.state, new THREE.Vector3(this.player.x, this.player.y, this.player.z), this.settings, hour, this.cam.camera, worldActive);
     this.hunting.afterWorld(dt, worldActive);
     this.audioUpdate(dt, this.cam.camera.position, hour);
@@ -1065,6 +1100,7 @@ export class App {
     if (this.menuBackgroundActive) {
       if (!this.menuGraphicsReady) return;
       this.menuScene.prepare(this.renderer);
+      this.menuScene.prepareFrame(this.renderer, this.lastFrameDt, this.settings.reducedMotion);
       this.renderer.toneMappingExposure = 1.05 * this.settings.brightness;
       if (!this.worldLook) this.worldLook = this.grade.getLook();
       this.grade.setLook({ ...App.MENU_LOOK, night: 0 });
@@ -1081,6 +1117,7 @@ export class App {
       this.worldLook = null;
     }
     this.grade.setLook({ night: this.world.sky.state.nightness });
+    this.world.prepareGrass(this.renderer, this.lastFrameDt);
     this.grade.render(this.world.scene, this.cam.camera, this.lastFrameDt, this.world.waterRenderInputs(this.settings));
   }
 

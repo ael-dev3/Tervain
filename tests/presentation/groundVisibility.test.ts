@@ -1,12 +1,11 @@
 import * as THREE from 'three';
 import { describe, expect, it, vi } from 'vitest';
-import { TileLayer, tileHorizontalDistance, type TileBuffers } from '../../src/presentation/ground/tileStream';
-import { createGrassPatch, grassPatchBounds, GRASS_Q, GRASS_THINNING_POWER } from '../../src/presentation/ground/grass';
-import { createPatchMaterial, createPushers } from '../../src/presentation/ground/patchMaterial';
+import { RANK_HEADROOM, TileLayer, tileHorizontalDistance, type TileBuffers } from '../../src/presentation/ground/tileStream';
+import { GRASS_CLUMP, GRASS_MAX_SCALE, GRASS_QUALITY, grassReach } from '../../src/presentation/grass/grassField';
 import { smoothstep } from '../../src/world/noise';
 
-const SIZE = 16, END = 48;
-function fixture(height = 0) {
+const SIZE = 16, END = 48, POWER = GRASS_QUALITY.high.far.fade.power;
+function fixture(height = 0, band?: { start: number; end: number }) {
   const geometry = new THREE.BufferGeometry().setAttribute('position', new THREE.Float32BufferAttribute([0, 0, 0, 1, 1, 0, 0, 1, 1], 3));
   const material = new THREE.MeshLambertMaterial();
   const generate = vi.fn((tx: number, tz: number, out: TileBuffers) => {
@@ -14,12 +13,13 @@ function fixture(height = 0) {
       out.base.set([tx * SIZE + 0.25 + i * 2, height, tz * SIZE + 0.25 + i * 2, i / 8], i * 4);
       out.shape.set([0, 1, 1, 0], i * 4);
       out.tint.set([1, 1, 1, 1], i * 4);
+      out.slope.set([0.1, -0.2, 0.5, 0.1], i * 4);
     }
     out.ymin = out.ymax = height;
     return 8;
   });
   const layer = new TileLayer({ name: 'test', tileSize: SIZE, capacity: 8, geometry, material, fadeStart: 12, fadeEnd: END,
-    power: GRASS_THINNING_POWER, maxHeight: 3, maxRadius: 3, receiveShadow: false, generate });
+    power: POWER, maxHeight: 3, maxRadius: 3, receiveShadow: false, band, generate });
   return { layer, generate, geometry, material };
 }
 
@@ -76,8 +76,9 @@ describe('Ground vegetation visibility', () => {
         const base = mesh.geometry.getAttribute('aBase');
         for (let i = 0; i < 8; i++) {
           const distance = Math.hypot(base.getX(i) - camera.x, base.getY(i) - camera.y, base.getZ(i) - camera.z);
-          const q = (1 - smoothstep(12, END, distance)) ** GRASS_THINNING_POWER;
-          if (q > base.getW(i) && (!mesh.visible || i >= mesh.geometry.instanceCount)) missing++;
+          const q = (1 - smoothstep(12, END, distance)) ** POWER;
+          // The shader keeps a clump while its rank is under q times the headroom (see grassMaterial.ts).
+          if (q * RANK_HEADROOM > base.getW(i) && (!mesh.visible || i >= mesh.geometry.instanceCount)) missing++;
         }
       }
       expect(missing).toBe(0);
@@ -95,8 +96,8 @@ describe('Ground vegetation visibility', () => {
       const base = mesh.geometry.getAttribute('aBase');
       const x0 = Math.floor(base.getX(0) / SIZE) * SIZE, z0 = Math.floor(base.getZ(0) / SIZE) * SIZE;
       const nearest = Math.hypot(tileHorizontalDistance(x0, z0, SIZE, camera), camera.y);
-      const q = (1 - smoothstep(12, END, nearest)) ** GRASS_THINNING_POWER;
-      const expected = q <= 0 ? 0 : Array.from({ length: 8 }, (_, i) => base.getW(i)).filter((rank) => rank < q + 1e-6).length;
+      const q = (1 - smoothstep(12, END, nearest)) ** POWER;
+      const expected = q <= 0 ? 0 : Array.from({ length: 8 }, (_, i) => base.getW(i)).filter((rank) => rank < q * RANK_HEADROOM + 1e-6).length;
       expect(mesh.geometry.instanceCount).toBe(expected);
       tested++;
     }
@@ -121,35 +122,46 @@ describe('Ground vegetation visibility', () => {
     layer.dispose();
   });
 
-  it('keeps all authored grass vertices inside deformation-aware bounds at every preset', () => {
+  it('bounds the tallest, widest blade the grass shader can build at every preset', () => {
     for (const quality of ['low', 'medium', 'high'] as const) {
-      const geometry = createGrassPatch(GRASS_Q[quality].blades, 12345);
-      const bounds = grassPatchBounds(geometry);
-      const position = geometry.getAttribute('position');
-      const blade = geometry.getAttribute('aBlade');
-      let maxHeight = 0, maxRadius = 0;
-      for (let i = 0; i < position.count; i++) {
-        const wind = 1.28 * blade.getW(i) * 0.13 * 1.5 * 1.12 * Math.hypot(1, 0.16);
-        maxRadius = Math.max(maxRadius, Math.hypot(position.getX(i), position.getZ(i)) * 1.45 * 1.12 + wind + 0.45);
-        maxHeight = Math.max(maxHeight, position.getY(i) * 1.5 * 1.12);
+      for (const level of [GRASS_QUALITY[quality].near, GRASS_QUALITY[quality].far]) {
+        const reach = grassReach(level);
+        // Mirrors GRASS_BLADE_GLSL at its extremes: random length 0.5 + 0.55 + 0.3, a seed stem 1.32 times longer, the
+        // outermost root (sqrt(frac) = 1, jitter 1.28) and the far level's widest compensated blade.
+        const height = GRASS_CLUMP.height * GRASS_MAX_SCALE.height * (0.5 + 0.55 + 0.3) * 1.32;
+        const root = GRASS_CLUMP.radius * GRASS_MAX_SCALE.radius * (0.72 + 0.56);
+        const share = Math.max(level.farBlades, 0.3);
+        const width = level.width * (0.6 + 0.75) * level.fade.sizeComp * (1 + (1 / share - 1) * 0.5);
+        expect(reach.maxHeight).toBeGreaterThanOrEqual(height - 1e-9);
+        // A blade keeps its length when it bends, so it can reach as far sideways as it is tall.
+        expect(reach.maxRadius).toBeGreaterThanOrEqual(root + height + width / 2 - 1e-9);
       }
-      expect(bounds.maxRadius).toBeGreaterThanOrEqual(maxRadius - 1e-7);
-      expect(bounds.maxHeight).toBeGreaterThanOrEqual(maxHeight - 1e-7);
-      geometry.dispose();
     }
   });
 
-  it('fades fixed-size tuft coverage after alpha testing with a frame-independent mask', () => {
-    const patch = createPatchMaterial({ uTime: { value: 0 }, uWind: { value: 1 } }, createPushers(), new THREE.Vector4(0, 1, 0, 1),
-      { vertexColors: false, fadeStart: 12, fadeEnd: 96, sizeComp: 1.12, power: GRASS_THINNING_POWER, windAmp: 0.13, rootShade: 0.34, tipShade: 1.1 });
-    const shader = { vertexShader: THREE.ShaderLib.lambert.vertexShader, fragmentShader: THREE.ShaderLib.lambert.fragmentShader, uniforms: {} } as Parameters<THREE.Material['onBeforeCompile']>[0];
-    patch.material.onBeforeCompile(shader, {} as THREE.WebGLRenderer);
-    expect(patch.ok()).toBe(true);
-    expect(shader.vertexShader).toContain('vGCoverage = gKeep');
-    expect(shader.vertexShader).not.toContain('gKeep * mix');
-    expect(shader.fragmentShader).toContain('floor(pixel)');
-    expect(shader.fragmentShader.indexOf('tvDistanceNoise(gl_FragCoord.xy) >= vGCoverage')).toBeGreaterThan(shader.fragmentShader.indexOf('#include <alphatest_fragment>'));
-    patch.material.dispose();
+  it('draws nothing outside its distance band, so two levels of detail can hand over', () => {
+    const { layer } = fixture(0, { start: 20, end: 30 });
+    const camera = new THREE.Vector3(0, 1, 0);
+    layer.update(camera);
+    let near = 0, inside = 0;
+    for (const child of layer.group.children) {
+      const mesh = child as THREE.Mesh<THREE.InstancedBufferGeometry>;
+      if (!mesh.visible) continue;
+      const base = mesh.geometry.getAttribute('aBase');
+      const x0 = Math.floor(base.getX(0) / SIZE) * SIZE, z0 = Math.floor(base.getZ(0) / SIZE) * SIZE;
+      const nearest = tileHorizontalDistance(x0, z0, SIZE, camera);
+      const farthest = Math.hypot(Math.max(Math.abs(x0 - camera.x), Math.abs(x0 + SIZE - camera.x)), Math.max(Math.abs(z0 - camera.z), Math.abs(z0 + SIZE - camera.z)), camera.y);
+      expect(nearest).toBeLessThanOrEqual(30);
+      expect(farthest).toBeGreaterThanOrEqual(20);
+      if (nearest < 20) near++;
+      inside++;
+    }
+    expect(inside).toBeGreaterThan(4);
+    expect(near).toBeGreaterThan(0);
+    // The slope attribute travels with the clumps.
+    const first = layer.group.children.find((c) => (c as THREE.Mesh).visible) as THREE.Mesh<THREE.InstancedBufferGeometry>;
+    expect(first.geometry.getAttribute('aSlope').getY(0)).toBeCloseTo(-0.2, 6);
+    layer.dispose();
   });
 
   it('releases its pooled buffers and shared resources only once', () => {
