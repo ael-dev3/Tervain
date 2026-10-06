@@ -11,6 +11,7 @@ import {
 } from './soundscape';
 import { VOICE_AUDIO, type VoiceBank, type VoiceLineId } from './voiceManifest';
 import { WORLD_AUDIO, type LoopId, type MusicId, type SongId } from './worldAudioManifest';
+import type { WaterSoundState } from '../water/waterSound';
 
 /**
  * Tervain's recorded world sound at run time: one-shots placed in the world, looping beds that follow the place,
@@ -57,6 +58,8 @@ export interface SoundProp {
   vy: number;
   vz: number;
   held: boolean;
+  /** How much of it is under water (0 dry .. 1 sunk): a floating barrel knocks hollow and sloshes. */
+  wet?: number;
 }
 
 export type GroundProbe = Pick<Terrain, 'deckAt' | 'carveAt' | 'seaDepth' | 'slopeAt'>;
@@ -77,6 +80,8 @@ export interface SoundFrame {
   terrain: GroundProbe;
   /** Lines the people nearby may say soon (voice.ts ids): their banks are decoded ahead and kept while wanted. */
   speech?: readonly string[];
+  /** The water around the listener and everything that disturbed it since the last frame. */
+  water?: WaterSoundState | null;
 }
 
 type Bus = keyof SoundBuses;
@@ -796,6 +801,7 @@ export class SoundWorld {
         // Fights and knocks are timed to the frame; the rest of the world is checked twenty times a second.
         if (frame.mode === 'play') this.updateEnemies(frame);
         if (frame.mode !== 'paused') this.updateProps(dt, frame);
+        if (frame.mode === 'play') this.updateWater(frame);
         for (const id of this.speechActive ? frame.speech ?? [] : []) {
           const line = VOICE_AUDIO.lines[id as VoiceLineId];
           if (line) void this.loadVoiceBank(line[0]);
@@ -850,13 +856,14 @@ export class SoundWorld {
   private updateBeds(dt: number, frame: SoundFrame | null) {
     const t = this.ctx.currentTime;
     this.open = !!frame;
-    // Under a menu the world's beds give way to the menu's own; indoors and in panels they are muffled.
-    const cutoff = !frame ? 20000 : frame.indoors ? 1100 : frame.mode === 'paused' ? 5200 : 20000;
+    // Under a menu the world's beds give way to the menu's own; indoors, in panels and under water they are muffled.
+    const under = (frame?.water?.under ?? 0) > 0.05;
+    const cutoff = !frame ? 20000 : under ? 420 : frame.indoors ? 1100 : frame.mode === 'paused' ? 5200 : 20000;
     this.target(this.outdoor.gain.gain, frame ? 1 : 0, t, frame ? 0.6 : 0.35);
     this.target(this.outdoor.filter.frequency, cutoff, t, 0.25, 1);
     const indoors = !!frame?.indoors;
     this.reverbs.forEach((r, i) => this.target(r.send.gain, (i === 1) === indoors ? 1 : 0, t, 0.3));
-    const targets = frame ? bedTargets({ ...frame.listener, indoors }, frame.world) : null;
+    const targets = frame ? bedTargets({ ...frame.listener, indoors }, frame.world, frame.water) : null;
     let active = 0;
     for (const id of Object.keys(WORLD_AUDIO.loops) as LoopId[]) {
       const target = targets?.[id];
@@ -890,7 +897,7 @@ export class SoundWorld {
       // only gives the side.
       panner.rolloffFactor = 0;
       gain.connect(panner).connect(this.outdoor.filter);
-    } else if (id === 'interior' || id === 'hall_drone') gain.connect(this.buses.ambience);
+    } else if (id === 'interior' || id === 'hall_drone' || id === 'underwater') gain.connect(this.buses.ambience);
     else gain.connect(this.outdoor.filter);
     const bed: Bed = { id, gain, panner, source: null, loading: false, buffer: null, silentFor: 0, target: 0 };
     this.beds.set(id, bed);
@@ -1050,6 +1057,47 @@ export class SoundWorld {
   }
 
   /** A barrel or crate that suddenly loses speed has hit something: louder for a harder knock. */
+  /** The water's one-shots: crests breaking near the listener, splashes, strokes, wading, getting in and out. */
+  private updateWater(frame: SoundFrame) {
+    const w = frame.water;
+    if (!w) return;
+    for (const b of w.breaks) {
+      const size = Math.min(1, b.size / 0.7);
+      this.play({ clip: b.rock ? 'water.rock' : 'water.wave', gain: (b.rock ? 0.55 : 0.42) * (0.55 + 0.45 * size), pitch: 0.06 },
+        { at: { x: b.x, y: 0.3, z: b.z }, bus: 'ambience', ref: 10, maxDistance: 95, reverb: 0.05, rate: 1.05 - 0.12 * size });
+    }
+    for (const e of w.events) {
+      const at = { x: e.x, y: e.y, z: e.z };
+      switch (e.kind) {
+        case 'splash':
+          this.play({ clip: 'water.splash.big', gain: 0.35 + 0.55 * e.energy, pitch: 0.06 }, { at, ref: 4, maxDistance: 70, reverb: 0.08, rate: 1.12 - 0.22 * e.energy });
+          break;
+        case 'plop':
+          this.play({ clip: 'water.splash.small', gain: 0.3 + 0.5 * e.energy, pitch: 0.1 }, { at, ref: 2.5, maxDistance: 45, reverb: 0.06, rate: 1.2 - 0.3 * e.energy });
+          break;
+        case 'fish':
+          this.play({ clip: 'water.fish', gain: 0.42, pitch: 0.08 }, { at, bus: 'ambience', ref: 4, maxDistance: 50, reverb: 0.08 });
+          break;
+        case 'stroke':
+          this.play({ clip: 'water.swim', gain: 0.32 + 0.35 * e.energy, pitch: 0.07 }, { at, ref: 2.5, maxDistance: 30, reverb: 0.04 });
+          break;
+        case 'wade':
+          this.play({ clip: 'water.wade', gain: 0.28 + 0.42 * e.energy, pitch: 0.07 }, { at, ref: 2.5, maxDistance: 30, reverb: 0.04 });
+          break;
+        case 'enter':
+          this.play({ clip: 'water.enter', gain: 0.4 + 0.4 * e.energy, pitch: 0.05 }, { at, ref: 3, maxDistance: 40, reverb: 0.05 });
+          break;
+        case 'exit':
+          this.play({ clip: 'water.exit', gain: 0.45, pitch: 0.05 }, { at, ref: 3, maxDistance: 35, reverb: 0.05 });
+          break;
+        case 'dive':
+        case 'surface':
+          this.play({ clip: 'water.bubbles', gain: 0.5, pitch: 0.08 });
+          break;
+      }
+    }
+  }
+
   private updateProps(dt: number, frame: SoundFrame) {
     for (const p of frame.props) {
       const speed = Math.hypot(p.vx, p.vy, p.vz);
@@ -1062,7 +1110,9 @@ export class SoundWorld {
       const lost = s.speed - speed;
       if (!p.held && s.speed > 1.1 && lost > Math.max(0.9, s.speed * 0.38) && s.cooldown <= 0) {
         const hard = Math.min(1, lost / 7);
-        this.play({ clip: 'wood.impact', gain: 0.25 + 0.65 * hard, pitch: 0.07 }, { at: { x: p.x, y: p.y, z: p.z }, rate: p.kind === 'barrel' ? 0.86 : 1.06, ref: 2.5, maxDistance: 45, reverb: 0.1 });
+        // Afloat, wood knocks hollow against rock and sloshes instead of thudding on the ground.
+        if ((p.wet ?? 0) > 0.08) this.play({ clip: 'water.knock', gain: 0.25 + 0.6 * hard, pitch: 0.08 }, { at: { x: p.x, y: p.y, z: p.z }, rate: p.kind === 'barrel' ? 0.92 : 1.08, ref: 2.5, maxDistance: 40, reverb: 0.08 });
+        else this.play({ clip: 'wood.impact', gain: 0.25 + 0.65 * hard, pitch: 0.07 }, { at: { x: p.x, y: p.y, z: p.z }, rate: p.kind === 'barrel' ? 0.86 : 1.06, ref: 2.5, maxDistance: 45, reverb: 0.1 });
         s.cooldown = 0.12;
       }
       s.speed = speed;

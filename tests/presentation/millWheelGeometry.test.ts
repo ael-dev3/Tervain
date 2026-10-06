@@ -3,11 +3,11 @@ import { describe, expect, it } from 'vitest';
 import { authorMillWheel, authorMillWheelSupports } from '../../src/presentation/millWheel';
 import { Ctx } from '../../src/presentation/buildKit';
 import { Region } from '../../src/presentation/regions';
-import { buildWater } from '../../src/presentation/waterMesh';
 import { buildStaticColliders } from '../../src/world/colliders';
 import { MILL_WHEEL, bySpec } from '../../src/world/layout';
 import { MILL_WHEEL_CONSTRUCTION as C, millWheelPlacement } from '../../src/world/millWheel';
 import { Terrain } from '../../src/world/terrain';
+import { WaterWorld } from '../../src/world/water/waterWorld';
 
 const material = new THREE.MeshBasicMaterial({ side: THREE.FrontSide });
 const terrain = new Terrain();
@@ -44,35 +44,27 @@ describe('the water mill is a grounded, connected rotating assembly', () => {
     group.traverse((o) => { if (o instanceof THREE.Mesh) o.geometry.dispose(); });
   });
 
-  it.each([0.62, 0.85])('the lowest real paddle tips reach actual household water at turning flow %f without touching the bed', (flow) => {
+  it.each([0.62, 0.85])('the lowest real paddle tips reach the race\'s solved water at turning flow %f without touching the bed', (flow) => {
     const { group, placement } = wheel();
-    const water = buildWater(terrain);
-    const geo = water.ribbons.village.mesh.geometry.clone();
-    const p = geo.getAttribute('position'), bed = geo.getAttribute('aBed'), level = geo.getAttribute('aLevel');
-    const across = geo.getAttribute('aAcross'), half = geo.getAttribute('aHalf'), perpendicular = geo.getAttribute('aPerp');
-    // Match the shader's managed width and level at both allocations that turn the mill; cosmetic waves are disabled.
-    const width = 0.18 + 0.82 * THREE.MathUtils.smoothstep(flow, 0.02, 0.75);
-    for (let i = 0; i < p.count; i++) {
-      const shift = across.getX(i) * half.getX(i) * (width - 1);
-      p.setX(i, p.getX(i) + perpendicular.getX(i) * shift);
-      p.setZ(i, p.getZ(i) + perpendicular.getY(i) * shift);
-      p.setY(i, bed.getX(i) + level.getX(i) * (0.25 + 0.75 * flow));
-    }
-    const surface = new THREE.Mesh(geo, material); surface.updateMatrixWorld(true);
-    let deepestWetTip = -Infinity;
+    // The shared water model, eased to this flow: the surface the race is drawn with and floating things ride on.
+    const water = new WaterWorld(terrain);
+    for (let i = 0; i < 400; i++) water.update(0.1, { spring: 1, main: 1, village: flow, quarry: 0.3 });
+    let deepestWetTip = -Infinity, bedClearance = Infinity;
     for (let phase = 0; phase < 24; phase++) {
       const angle = phase / 24 * Math.PI * 2;
       const vertices = (group.getObjectByName('wheel:planks') as THREE.Mesh).geometry.getAttribute('position');
       for (let i = 0; i < vertices.count; i++) {
         const x = placement.x + vertices.getX(i), y = placement.y + vertices.getY(i) * Math.cos(angle) - vertices.getZ(i) * Math.sin(angle), z = placement.z + vertices.getY(i) * Math.sin(angle) + vertices.getZ(i) * Math.cos(angle);
-        if (y > 1.1) continue;
-        const hit = new THREE.Raycaster(new THREE.Vector3(x, 2, z), new THREE.Vector3(0, -1, 0)).intersectObject(surface)[0];
-        if (hit && hit.point.y > terrain.heightAt(x, z)) deepestWetTip = Math.max(deepestWetTip, hit.point.y - y);
+        if (y > terrain.heightAt(x, z) + 1.1) continue;
+        bedClearance = Math.min(bedClearance, y - terrain.heightAt(x, z));
+        const sample = water.sample(x, z);
+        if (sample?.body === 'village') deepestWetTip = Math.max(deepestWetTip, sample.surface - y);
       }
     }
-    expect(deepestWetTip).toBeGreaterThan(0.005);
-    expect(deepestWetTip).toBeLessThan(0.18);
-    geo.dispose(); water.dispose(); group.traverse((o) => { if (o instanceof THREE.Mesh) o.geometry.dispose(); });
+    expect(deepestWetTip).toBeGreaterThan(0.05);
+    expect(deepestWetTip).toBeLessThan(0.3);
+    expect(bedClearance).toBeGreaterThan(0.02);
+    group.traverse((o) => { if (o instanceof THREE.Mesh) o.geometry.dispose(); });
   });
 
   it('the shaft enters the real mill wall and its outer bearing has planted posts below the axle', () => {

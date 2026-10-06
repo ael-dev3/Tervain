@@ -4,7 +4,7 @@ The owner reported flat water, polished coastal cliffs, poorly seated stones and
 
 ## Water shape and depth
 
-[`sea.ts`](../../src/presentation/sea.ts) uses three connected swells with 34/18/10 m wavelengths and 0.35/0.21/0.08 m amplitudes, plus a restrained 0.12 harmonic. These wavelengths resolve on the existing High coastal grid. Their conservative combined height envelope is **±0.7168 m**, inside the water pass's existing 1 m crest margin. The coast and stitched horizon geometry remain unchanged: High sea geometry is **37,164 triangles**. Swell displacement damps between 0.04 and 1.8 m mean bed depth, keeping the shallows clear of the bed across phases.
+`sea.ts` uses three connected swells with 34/18/10 m wavelengths and 0.35/0.21/0.08 m amplitudes, plus a restrained 0.12 harmonic. These wavelengths resolve on the existing High coastal grid. Their conservative combined height envelope is **±0.7168 m**, inside the water pass's existing 1 m crest margin. The coast and stitched horizon geometry remain unchanged: High sea geometry is **37,164 triangles**. Swell displacement damps between 0.04 and 1.8 m mean bed depth, keeping the shallows clear of the bed across phases.
 
 The vertex relief and fragment slope share one wave definition. Surface normals account for the derivative of shoreline damping; unresolved swell normals and fine wind ripples fade with distance. The shared [`waterOptics.ts`](../../src/presentation/waterOptics.ts) converts captured camera-axis depth to distance along the viewing ray before absorption. Metre-based Beer–Lambert transmission attenuates red more quickly than green and blue. Refraction is projected from a bounded world-distance bend rather than a fixed screen offset. Deeper blue-green body colour, restrained reflection distortion and broken shore wash make the shallow-to-deep transition visible. Streams retain their own material controls through the shared optics helper.
 
@@ -37,3 +37,5 @@ NPC/navigation routes retain their existing approximate canonical rock circles a
 ## Verification and publication
 
 Targeted regressions cover elevation-limited shore wetness, deterministic textures, unchanged terrain planes, differentiated wave slopes, shallow-bed clearance, depth absorption, exact transformed rock buffers and base embedding, finite curved-foot support, walking/jump landings at 30/60/120 Hz, save restoration and tall-rock blocking. Final combined checks, native GPU/input review and publication evidence are recorded in the [release record](../production/releases/0.0.10.md). Mathematical and shader-assembly tests alone do not establish visual quality or actual GPU compilation.
+
+_The sea and channel modules named above were replaced in 0.0.13 by the [water system](water-0.0.13.md)._

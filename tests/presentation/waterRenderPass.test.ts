@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { disposeSceneResources } from '../../src/presentation/disposeScene';
 import { Grade } from '../../src/presentation/grade';
-import { buildSea } from '../../src/presentation/sea';
+import { WaterSystem } from '../../src/presentation/water/waterSystem';
 import { detachWaterOptics, makeWaterOpticsUniforms } from '../../src/presentation/waterOptics';
 import { WaterRenderPass, type WaterRenderInputs } from '../../src/presentation/waterRenderPass';
 import { Terrain } from '../../src/world/terrain';
@@ -78,7 +78,7 @@ afterEach(() => {
 
 describe('water capture/composite orchestration', () => {
   it('does not capture shader-discarded sea while looking inland from the forest, and restores full reflection when turning west', () => {
-    const f = setup(), sea = buildSea(new Terrain(), 'high');
+    const f = setup(), water = new WaterSystem(new Terrain(), 'high'), sea = water.ocean;
     const previousSea = f.meshes[0]!;
     f.scene.remove(previousSea); previousSea.geometry.dispose(); previousSea.material.dispose();
     f.meshes[0] = sea.mesh; f.input.seaMaterial = sea.mesh.material; f.input.quality = 'high';
@@ -87,7 +87,8 @@ describe('water capture/composite orchestration', () => {
     f.camera.position.set(-206.956, 3.01, 11.92);
     f.camera.lookAt(-200, 2.45, 11.3846); f.camera.updateMatrixWorld();
     const frustum = new THREE.Frustum().setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(f.camera.projectionMatrix, f.camera.matrixWorldInverse));
-    expect(frustum.intersectsBox(sea.mesh.geometry.boundingBox!.clone().expandByScalar(1))).toBe(true);
+    // The sea's grid is laid across the screen, so its own bounds always intersect; only its visibility boxes decide.
+    expect(frustum.intersectsSphere(sea.mesh.geometry.boundingSphere!)).toBe(true);
     expect(f.render()).toBe(f.source.texture);
     expect(f.draws).toHaveLength(1);
     expect(sea.mesh.material.uniforms.uWaterReflectionReady!.value).toBe(0);

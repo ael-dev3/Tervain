@@ -103,7 +103,11 @@ export class HuntingController {
   afterWorld(dt: number, playing: boolean) {
     if (!playing || !this.canAct()) return;
     if (this.releasePending) { this.releasePending = false; this.release(); this.drawTime = 0; }
-    this.arrows.update(dt, (from, to, shot) => this.sweep(from, to, shot), (shot, impact) => this.impact(shot, impact as HuntingImpact));
+    const water = this.host.world.water as WorldScene['water'] | undefined;
+    this.arrows.update(dt, (from, to, shot) => this.sweep(from, to, shot), (shot, impact) => this.impact(shot, impact as HuntingImpact), water && {
+      sample: (x, z) => water.sample(x, z),
+      enter: (p, speed) => water.splash(p.x, p.y, p.z, Math.min(0.35, 0.08 + speed / 160), { x: 0, z: 0 }, 'plop'),
+    });
   }
 
   private release() {
@@ -164,7 +168,13 @@ export class HuntingController {
         world.animals.syncHunting(game.state.hunting);
         audio.huntingSound('arrow_flesh', impact.point, this.listener());
       } else audio.huntingSound('arrow_ground', impact.point, this.listener());
-    } else audio.huntingSound('arrow_ground', impact.point, this.listener());
+    } else if (!this.underWater(impact.point)) audio.huntingSound('arrow_ground', impact.point, this.listener());
+  }
+
+  /** A shaft stopped by a stream bed or the sea floor was already heard entering the water. */
+  private underWater(point: THREE.Vector3) {
+    const surface = (this.host.world.water as WorldScene['water'] | undefined)?.world.surfaceAt(point.x, point.z) ?? null;
+    return surface !== null && point.y < surface - 0.02;
   }
 
   private listener() {

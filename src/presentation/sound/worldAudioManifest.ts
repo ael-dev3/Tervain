@@ -228,6 +228,23 @@ export const WORLD_AUDIO = {
         "voice.cough": [[44.5, 0.99733], [45.55733, 1.14467], [46.762, 1.58733]]
       }
     },
+    "water": {
+      "file": "bank-water",
+      "duration": 39.7387,
+      "clips": {
+        "water.wave": [[0.06, 5.704]],
+        "water.rock": [[5.824, 4.45333]],
+        "water.splash.big": [[10.33733, 3.328]],
+        "water.splash.small": [[13.72533, 0.846], [14.63133, 0.84333]],
+        "water.swim": [[15.53467, 1.81067], [17.40533, 1.81667]],
+        "water.wade": [[19.282, 1.21667], [20.55867, 0.886], [21.50467, 0.63533], [22.2, 0.49667]],
+        "water.enter": [[22.75667, 3.05333]],
+        "water.exit": [[25.87, 4.42667]],
+        "water.knock": [[30.35667, 1.21667], [31.63333, 1.21667], [32.91, 0.742]],
+        "water.bubbles": [[33.712, 2.90667]],
+        "water.fish": [[36.67867, 3]]
+      }
+    },
     "crafted": {
       "file": "bank-crafted",
       "duration": 52.7814,
@@ -354,6 +371,42 @@ export const WORLD_AUDIO = {
       "duration": 9.65,
       "channels": 2,
       "sourceLevelDb": -12.1
+    },
+    "surf": {
+      "file": "loop-surf",
+      "duration": 21.65,
+      "channels": 2,
+      "sourceLevelDb": -19.6
+    },
+    "surf_rocks": {
+      "file": "loop-surf_rocks",
+      "duration": 19.65,
+      "channels": 2,
+      "sourceLevelDb": -23.5
+    },
+    "sea_far": {
+      "file": "loop-sea_far",
+      "duration": 19.65,
+      "channels": 2,
+      "sourceLevelDb": -20
+    },
+    "lap": {
+      "file": "loop-lap",
+      "duration": 14.65,
+      "channels": 1,
+      "sourceLevelDb": -27.4
+    },
+    "rapids": {
+      "file": "loop-rapids",
+      "duration": 14.65,
+      "channels": 1,
+      "sourceLevelDb": -15.5
+    },
+    "underwater": {
+      "file": "loop-underwater",
+      "duration": 15.65,
+      "channels": 2,
+      "sourceLevelDb": -19.7
     }
   },
   "music": {

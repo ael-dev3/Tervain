@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { WaterRenderPass, type WaterRenderInputs } from './waterRenderPass';
+import { WaterRenderPass, type WaterRenderInputs, type WaterUnder } from './waterRenderPass';
 import { detachWaterOptics } from './waterOptics';
 
 /**
@@ -58,6 +58,18 @@ uniform float uGrain;
 uniform float uNight;
 uniform float uChromatic;
 uniform vec2 uTexel;
+uniform sampler2D tDepth;
+uniform float uUnder;
+uniform float uUnderDepthReady;
+uniform vec3 uUnderColor;
+uniform vec3 uUnderAbsorb;
+uniform float uUnderSurface;
+uniform float uUnderNear;
+uniform float uUnderFar;
+uniform mat4 uUnderInverseProjection;
+uniform mat4 uUnderCameraWorld;
+uniform sampler2D tUnderCaustics;
+uniform float uUnderLight;
 varying vec2 vUv;
 
 vec3 sRGB(vec3 c) { return mix(c * 12.92, 1.055 * pow(max(c, 0.0), vec3(1.0 / 2.4)) - 0.055, step(0.0031308, c)); }
@@ -77,6 +89,32 @@ void main() {
   c.r = mix(c.r, texture2D(tScene, vUv + off).r, 0.6);
   c.b = mix(c.b, texture2D(tScene, vUv - off).b, 0.6);
   c += texture2D(tBloom, vUv).rgb * uBloom;
+  if (uUnder > 0.5) {
+    // Under the surface everything is seen through water: a slow refractive wobble, then absorption and in-scatter over
+    // the real path to each pixel. The surface overhead ends that path; the sky beyond comes through Snell's window.
+    vec2 wob = vec2(sin(vUv.y * 31.0 + uTime * 1.9), cos(vUv.x * 27.0 + uTime * 1.6)) * 0.0022;
+    c = texture2D(tScene, vUv + wob).rgb + texture2D(tBloom, vUv + wob).rgb * uBloom;
+    vec4 far = uUnderInverseProjection * vec4(vUv * 2.0 - 1.0, 1.0, 1.0);
+    vec3 ray = normalize(far.xyz / far.w);
+    vec3 dir = mat3(uUnderCameraWorld) * ray;
+    float path = 80.0;
+    if (uUnderDepthReady > 0.5) {
+      float d = texture2D(tDepth, vUv + wob).r;
+      if (d < 1.0) path = uUnderNear * uUnderFar / max(uUnderFar - d * (uUnderFar - uUnderNear), 1e-4) / max(-ray.z, 1e-3);
+    }
+    if (dir.y > 1e-4) path = min(path, uUnderSurface / dir.y);
+    else if (uUnderLight > 0.0 && path < 79.0) {
+      // Sunlight focused by the waves overhead plays over the bed: the caustic web, sharp near the surface.
+      vec3 bed = uUnderCameraWorld[3].xyz + dir * path;
+      float below = uUnderCameraWorld[3].y + uUnderSurface - bed.y;
+      float a = texture2D(tUnderCaustics, bed.xz * 0.31 + vec2(uTime * 0.021, uTime * 0.013)).r;
+      float b = texture2D(tUnderCaustics, bed.xz * 0.27 + vec2(-uTime * 0.017, uTime * 0.019) + 0.37).r;
+      float web = min(a, b) * 1.6 + (a + b) * 0.12;
+      c *= 1.0 + web * uUnderLight * smoothstep(0.05, 0.4, below) * exp(-below * 0.3);
+    }
+    vec3 keep = exp(-uUnderAbsorb * path);
+    c = c * keep + uUnderColor * (vec3(1.0) - keep);
+  }
 
   gl_FragColor = vec4(c, 1.0);
   #include <tonemapping_fragment>
@@ -147,6 +185,18 @@ export class Grade {
         uNight: { value: 0 },
         uChromatic: { value: 0 },
         uTexel: { value: new THREE.Vector2(1, 1) },
+        tDepth: { value: null as THREE.Texture | null },
+        uUnder: { value: 0 },
+        uUnderDepthReady: { value: 0 },
+        uUnderColor: { value: new THREE.Color() },
+        uUnderAbsorb: { value: new THREE.Vector3(0.3, 0.1, 0.08) },
+        uUnderSurface: { value: 0 },
+        uUnderNear: { value: 0.1 },
+        uUnderFar: { value: 1400 },
+        uUnderInverseProjection: { value: new THREE.Matrix4() },
+        uUnderCameraWorld: { value: new THREE.Matrix4() },
+        tUnderCaustics: { value: null as THREE.Texture | null },
+        uUnderLight: { value: 0 },
       },
       vertexShader: VERT,
       fragmentShader: FRAG,
@@ -258,6 +308,7 @@ export class Grade {
     }
     this.material.uniforms.tScene!.value = sceneColor;
     this.brightMat.uniforms.tScene!.value = sceneColor;
+    this.applyUnder(camera, water?.under ?? null);
     if (this.bloom) {
       // Bright pass into a quarter-resolution target, then a horizontal and a vertical blur.
       this.quad.material = this.brightMat;
@@ -277,6 +328,29 @@ export class Grade {
     this.material.uniforms.uBloom!.value = this.bloom ? this.bloomStrength : 0;
     r.setRenderTarget(null);
     r.render(this.scene, this.camera);
+  }
+
+  /** The underwater view's inputs: the camera's own matrices and the depth captured for the water pass, if any. */
+  private applyUnder(camera: THREE.Camera, under: WaterUnder | null) {
+    const u = this.material.uniforms;
+    const perspective = camera as THREE.PerspectiveCamera;
+    u.uUnder!.value = under && perspective.isPerspectiveCamera ? 1 : 0;
+    if (!under || !perspective.isPerspectiveCamera) {
+      u.tDepth!.value = null;
+      u.tUnderCaustics!.value = null;
+      return;
+    }
+    u.tUnderCaustics!.value = under.caustics;
+    u.uUnderLight!.value = under.caustics ? under.light : 0;
+    u.uUnderSurface!.value = Math.max(0, under.surface);
+    (u.uUnderColor!.value as THREE.Color).copy(under.color);
+    (u.uUnderAbsorb!.value as THREE.Vector3).copy(under.absorb);
+    (u.uUnderInverseProjection!.value as THREE.Matrix4).copy(perspective.projectionMatrixInverse);
+    (u.uUnderCameraWorld!.value as THREE.Matrix4).copy(perspective.matrixWorld);
+    u.uUnderNear!.value = perspective.near;
+    u.uUnderFar!.value = perspective.far;
+    u.tDepth!.value = this.target.depthTexture;
+    u.uUnderDepthReady!.value = this.target.depthTexture ? 1 : 0;
   }
 
   dispose() {

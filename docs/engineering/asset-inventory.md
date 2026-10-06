@@ -145,7 +145,7 @@ The owner-supplied All Animations GLB supersedes A37's runtime selection. The [c
 
 ## Original coastal follow-up in 0.0.10
 
-A46 revises original procedural [sea waves](../../src/presentation/sea.ts), [water optics](../../src/presentation/waterOptics.ts), generated stone textures and the shared seeded [rock geometry](../../src/presentation/rockGeometry.ts). Source triangles supply finite player/cargo contacts. No new third-party model, bitmap, dependency or separate Gothic 3 content is copied. Existing shader/source attribution remains in place. See [coastal water and rocks](coastal-water-rocks-0.0.10.md).
+A46 revises original procedural sea waves (since replaced by the [A60 water system](water-0.0.13.md)), [water optics](../../src/presentation/waterOptics.ts), generated stone textures and the shared seeded [rock geometry](../../src/presentation/rockGeometry.ts). Source triangles supply finite player/cargo contacts. No new third-party model, bitmap, dependency or separate Gothic 3 content is copied. Existing shader/source attribution remains in place. See [coastal water and rocks](coastal-water-rocks-0.0.10.md).
 
 ## Owner-supplied Meshy NPC cast (A49, 0.0.11 candidate)
 

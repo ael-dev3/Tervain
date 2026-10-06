@@ -229,6 +229,21 @@ export class CameraRig {
   }
 
   /**
+   * Keep the lens out of the waterline. Above water it stays a hand's breadth clear of the surface; a swimmer's camera
+   * may look up from below it, but then wholly below, never half in.
+   */
+  clearWater(surfaceAt: (x: number, z: number) => number | null, allowUnder: boolean) {
+    if (this.manual || this.mode !== 'follow') return;
+    const p = this.camera.position;
+    const surface = surfaceAt(p.x, p.z);
+    if (surface === null || !Number.isFinite(surface)) return;
+    const clear = 0.28, under = 0.3;
+    if (p.y >= surface + clear || (allowUnder && p.y <= surface - under)) return;
+    p.y = allowUnder && p.y < surface - 0.05 ? surface - under : surface + clear;
+    this.camera.lookAt(this.followPivot);
+  }
+
+  /**
    * The title view: a slow drift above the Grey Strand, looking along the beach to the lighthouse on Lantern Point with the sea
    * to the right. Static under reduced motion.
    */

@@ -7,7 +7,7 @@ import type { Settings } from '../platform/settings';
 import type { Collider, Colliders } from '../world/colliders';
 import type { Terrain } from '../world/terrain';
 import { roadWeight } from '../world/terrain';
-import { LIGHTHOUSE } from '../world/layout';
+import { LIGHTHOUSE, WORLD } from '../world/layout';
 import { lighthouseSurfacesAt, lighthouseTreadTop } from '../world/lighthouse';
 import { PLAYER_BODY_HEIGHT, PLAYER_BODY_RADIUS, PLAYER_FOOT_CLEARANCE, supportedPlayerHeight } from '../world/playerPlacement';
 import type { AudioEngine, SurfaceKind } from './audio';
@@ -69,6 +69,20 @@ const GRAVITY = 17;
 const FIRM_FOOTING_SLOPE = 0.95;
 /** Sample terrain along the whole move, so a sprint/dodge cannot skip a solid face or water strip. */
 const TERRAIN_STEP = 0.16;
+/** Water deeper than this lifts the wanderer off the bed into a swim; he finds his feet again below SWIM_EXIT. */
+export const SWIM_DEPTH = 1.35;
+export const SWIM_EXIT = 1.15;
+/** How far below the surface a swimmer's feet hang: chest under, head above. */
+export const SWIM_FLOAT = 1.25;
+/** Breaststroke and a hard crawl (m/s); the hard pace spends stamina. */
+export const SWIM_SPEED = 1.45;
+export const SWIM_SPRINT = 2.3;
+const SWIM_SPRINT_STAMINA = 6;
+/** Walking pace kept in water `depth` metres deep: legs push water from the shins up, and a waist-deep wade halves it. */
+export function wadeFactor(depth: number): number {
+  const t = Math.min(1, Math.max(0, (depth - 0.1) / 1.05));
+  return 1 - 0.5 * t * t * (3 - 2 * t);
+}
 
 /** Movable-body contacts share the authoritative player position with the static scenery controller. */
 export interface PlayerPhysicsContacts {
@@ -80,8 +94,18 @@ export interface PlayerPhysicsContacts {
   surfaceAt?(x: number, z: number, feetY: number): SurfaceKind | null;
 }
 
+/** The realm's water as the wanderer meets it: where it stands and moves, and what disturbing it does. */
+export interface PlayerWater {
+  sample(x: number, z: number): { surface: number; bed: number; depth: number; flowX: number; flowZ: number } | null;
+  splash(x: number, y: number, z: number, energy: number, push?: { x: number; z: number }, kind?: 'splash' | 'plop' | 'enter' | 'stroke' | 'wade'): void;
+  disturb(x: number, z: number, radius: number, strength: number, foam?: number): void;
+  emit(kind: 'enter' | 'exit' | 'stroke' | 'wade' | 'dive' | 'surface', x: number, y: number, z: number, energy?: number): void;
+}
+
 export interface PlayerCtx {
   terrain: Terrain;
+  /** Wading and swimming follow the realm's water when it is given; without it deep water simply blocks. */
+  water?: PlayerWater;
   colliders: Colliders;
   input: Input;
   settings: Settings;
@@ -129,6 +153,13 @@ export class Player {
   channel: { label: string; t: number; dur: number; done: () => void; kind?: 'skinning'; cancelled?: () => void } | null = null;
   shake = 0;
   inWater = false;
+  /** Swimming in water too deep to stand in; the depth of water at the feet (m, 0 on dry ground). */
+  swimming = false;
+  waterDepth = 0;
+  private soaked = 0;
+  private wakeClock = 0;
+  private strokeClock = 0;
+  private splashedAt = -Infinity;
   surface: SurfaceKind = 'grass';
   lastMoveSpeed = 0;
   mode: Mode = 'idle';
@@ -157,10 +188,11 @@ export class Player {
       ((game.state.inventory as Partial<Record<string, number>>).hunting_bow ?? 0) > 0;
   }
 
-  get bowAiming(): boolean { return this.huntingVisual.isAiming && this.state === 'free'; }
+  get bowAiming(): boolean { return this.huntingVisual.isAiming && this.state === 'free' && !this.swimming; }
 
   /** Gameplay supplies the camera/muzzle target direction and the normalized draw charge. */
   setBowAim(direction: { x: number; y: number; z: number } | null, drawProgress = 0): void {
+    if (this.swimming) direction = null;
     this.huntingVisual.setAim(this.state === 'free' && this.alive ? direction : null, drawProgress);
     if (direction && this.state === 'free' && Number.isFinite(direction.x) && Number.isFinite(direction.z) &&
       Math.hypot(direction.x, direction.z) > .001) this.yaw = Math.atan2(direction.x, direction.z);
@@ -168,7 +200,7 @@ export class Player {
 
   /** Returns the visible arrow tip, then animates the release hand; ammunition remains gameplay-owned. */
   releaseBow(): { origin: THREE.Vector3; direction: THREE.Vector3 } | null {
-    return this.state === 'free' && this.alive ? this.huntingVisual.release() : null;
+    return this.state === 'free' && this.alive && !this.swimming ? this.huntingVisual.release() : null;
   }
 
   get skinningProgress(): number | null {
@@ -265,6 +297,9 @@ export class Player {
     this.drawn = false;
     this.calm = 0;
     this.inWater = false;
+    this.swimming = false;
+    this.waterDepth = 0;
+    this.soaked = this.wakeClock = this.strokeClock = 0;
     this.mode = 'idle';
     this.rig.hitFlash = 0;
     this.rig.hero?.reset();
@@ -274,7 +309,7 @@ export class Player {
   }
 
   beginChannel(label: string, dur: number, done: () => void) {
-    if (this.state !== 'free') return false;
+    if (this.state !== 'free' || this.swimming) return false;
     this.state = 'channel';
     this.channel = { label, t: 0, dur, done };
     this.blocking = false;
@@ -305,7 +340,7 @@ export class Player {
         Math.abs(ctx.terrain.heightAt(LIGHTHOUSE.x, LIGHTHOUSE.z) + height - support) < 0.02);
       return wood ? 'deck' : 'stone';
     }
-    if (ctx.terrain.carveAt(this.x, this.z) > 0.12 || ctx.terrain.seaDepth(this.x, this.z) > 0.12) return 'water';
+    if (ctx.water ? this.waterDepth > 0.06 : ctx.terrain.carveAt(this.x, this.z) > 0.12 || ctx.terrain.seaDepth(this.x, this.z) > 0.12) return 'water';
     if (roadWeight(this.x, this.z) > 0.55) return 'road';
     if (ctx.terrain.slopeAt(this.x, this.z) > 0.5) return 'stone';
     if (shoreDistance(this.x, this.z) < 26 && cliffiness(this.z) < 0.5 && this.x < -200) return 'sand';
@@ -338,7 +373,11 @@ export class Player {
 
   /** A hillside is contact geometry, not a horizontal fence derived from a slope cutoff. */
   private travelAllowed(x: number, z: number, feetY: number, ctx: PlayerCtx): boolean {
-    return ctx.terrain.walkable(x, z, Infinity, feetY);
+    if (ctx.terrain.walkable(x, z, Infinity, feetY)) return true;
+    // Water too deep to walk in is waded or swum, anywhere inside the realm.
+    if (!ctx.water || x < WORLD.minX + 4 || x > WORLD.maxX - 4 || z < WORLD.minZ + 4 || z > WORLD.maxZ - 4) return false;
+    if (ctx.terrain.valleyRadius(x, z) > 1.02) return false;
+    return (ctx.water.sample(x, z)?.depth ?? 0) > 0.3;
   }
 
   /** Gravity along exposed steep ground lets loose footing slide downhill instead of holding a vertical pose. */
@@ -415,7 +454,7 @@ export class Player {
       const nx = physical.x;
       const nz = physical.z;
       const g = this.supportAt(nx, nz, ctx, physical.y);
-      if (!this.travelAllowed(nx, nz, physical.y, ctx) || g - this.y > (this.grounded ? this.stepHeightAt(nx, nz, g, ctx) : 0.18)) {
+      if (!this.travelAllowed(nx, nz, physical.y, ctx) || g - this.y > (this.grounded ? this.stepHeightAt(nx, nz, g, ctx) : this.swimming ? 0.45 : 0.18)) {
         if (!boundaryReported && ctx.terrain.valleyRadius(nx, nz) > 1.02) {
           boundaryReported = true;
           ctx.onBoundary();
@@ -535,6 +574,43 @@ export class Player {
     }
   }
 
+  /** Deep enough to swim, or shallow enough to stand again: the switch between the two, with its splash. */
+  private updateSwimming(water: ReturnType<PlayerWater['sample']>, ctx: PlayerCtx) {
+    this.waterDepth = water ? water.depth : 0;
+    if (!ctx.water) return;
+    if (!this.swimming && water && this.alive && water.depth >= SWIM_DEPTH && (this.grounded || this.y <= water.surface - SWIM_FLOAT + 0.05)) {
+      this.swimming = true;
+      // Whatever was in hand stops: no blows, guard, aim or work in deep water.
+      if (this.state === 'channel') this.cancelChannel();
+      if (this.state === 'light' || this.state === 'heavy' || this.state === 'dodge') { this.state = 'free'; this.timer = this.dur = 0; this.hitDone = true; }
+      this.blocking = false;
+      this.setBowAim(null);
+      this.grounded = false;
+      // A plunge already threw its spray as the feet broke the surface; wading out of one's depth is quieter.
+      if (this.clock - this.splashedAt < 0.6) ctx.water.emit('enter', this.x, water.surface, this.z, 0.8);
+      else ctx.water.splash(this.x, water.surface, this.z, 0.3, { x: this.vx * 0.3, z: this.vz * 0.3 }, 'enter');
+      this.vy = Math.min(0, this.vy) * 0.35;
+    } else if (this.swimming && (!water || water.depth < SWIM_EXIT || !this.alive)) {
+      this.swimming = false;
+      this.vy = 0;
+      // Feet find the bed; the ordinary footing takes over from here.
+      const ground = this.supportAt(this.x, this.z, ctx);
+      if (this.y - ground <= GROUND_FOLLOW_DROP + 0.4) { this.y = Math.max(this.y, ground); this.grounded = true; }
+    }
+    if (water && water.depth > 0.75) this.soaked = 1;
+  }
+
+  /** A footfall: the surface's own step, or in deeper water a wading slosh and the ripples it leaves. */
+  private footfall(ctx: PlayerCtx, sprinting: boolean) {
+    const water = ctx.water && this.waterDepth > 0.32 && !this.swimming ? ctx.water.sample(this.x, this.z) : null;
+    if (!water) {
+      ctx.audio.footstep(this.surface, sprinting);
+      return;
+    }
+    const f = this.facing, pace = Math.min(1, this.lastMoveSpeed / HERO_RUN_SPEED);
+    ctx.water!.splash(this.x + f.x * 0.25, water.surface, this.z + f.z * 0.25, 0.05 + 0.2 * pace, { x: this.vx * 0.25, z: this.vz * 0.25 }, 'wade');
+  }
+
   update(dt: number, ctx: PlayerCtx) {
     if (!Number.isFinite(dt) || dt <= 0) return;
     // Reading/paused controls may still request a pose; never drift or finish an action behind that UI.
@@ -557,6 +633,8 @@ export class Player {
     this.shake = Math.max(0, this.shake - dt * 1.6);
     this.staminaPause = Math.max(0, this.staminaPause - dt);
     this.inWater = false;
+    // Water: how deep it stands here, and whether that is deep enough to swim.
+    this.updateSwimming(ctx.water?.sample(this.x, this.z) ?? null, ctx);
 
     // Movement intent relative to the camera.
     const mv = control && (this.state === 'free' || this.state === 'light' || this.state === 'heavy') ? inp.move() : { x: 0, y: 0 };
@@ -575,7 +653,7 @@ export class Player {
     const hasInput = mag > 0.05;
 
     // Blocking.
-    const wantBlock = control && !hasBow && (this.state === 'free') && inp.held('block');
+    const wantBlock = control && !hasBow && !this.swimming && (this.state === 'free') && inp.held('block');
     if (wantBlock && !this.blocking) this.blockTime = 0;
     this.blocking = wantBlock;
     if (this.blocking) this.blockTime += dt;
@@ -589,7 +667,7 @@ export class Player {
 
     // Actions (edge-triggered).
     const arms = this.arms(ctx.game);
-    if (control && this.state === 'free') {
+    if (control && this.state === 'free' && !this.swimming) {
       if (!hasBow && inp.pressed('attack') && !this.blocking && this.stamina >= arms.cost.light) {
         this.startAction('light', arms);
         this.spend(arms.cost.light);
@@ -635,7 +713,9 @@ export class Player {
     let speed = 0;
     switch (this.state) {
       case 'free': {
-        const target = sprinting ? HERO_RUN_SPEED : this.blocking || this.bowAiming ? HERO_GUARD_SPEED : HERO_WALK_SPEED;
+        let target = sprinting ? HERO_RUN_SPEED : this.blocking || this.bowAiming ? HERO_GUARD_SPEED : HERO_WALK_SPEED;
+        if (this.swimming) target = sprinting ? SWIM_SPRINT : SWIM_SPEED;
+        else if (ctx.water) target *= wadeFactor(this.waterDepth);
         const back = mv.y < -0.3 && !this.blocking ? 0.7 : 1;
         speed = hasInput ? target * back * mag : 0;
         break;
@@ -701,18 +781,22 @@ export class Player {
     const lunging = this.state === 'light' || this.state === 'heavy';
     const forward = this.facing;
     // Releasing a direction in mid-air cannot apply ground friction. Directional input still provides modest air control.
-    const coasting = !this.grounded && !hasInput && this.state === 'free';
+    const coasting = !this.grounded && !this.swimming && !hasInput && this.state === 'free';
     const slope = this.channel?.kind === 'skinning' ? { x: 0, z: 0, slip: 0 } : this.downhillGravity(ctx);
-    const rate = this.grounded ? 13.3 + (2.2 - 13.3) * slope.slip : 2.8;
-    const targetVx = (coasting ? this.vx : (lunging ? forward.x : wx) * speed) + slope.x / rate;
-    const targetVz = (coasting ? this.vz : (lunging ? forward.z : wz) * speed) + slope.z / rate;
+    const rate = this.swimming ? 3.2 : this.grounded ? 13.3 + (2.2 - 13.3) * slope.slip : 2.8;
+    // The water carries a swimmer along with it and pulls at a wader's legs.
+    const current = ctx.water && (this.swimming || this.grounded) ? ctx.water.sample(this.x, this.z) : null;
+    const carry = this.swimming ? 1 : 0.35 * Math.min(1, this.waterDepth / 1.2);
+    const targetVx = (coasting ? this.vx : (lunging ? forward.x : wx) * speed) + slope.x / rate + (current?.flowX ?? 0) * carry;
+    const targetVz = (coasting ? this.vz : (lunging ? forward.z : wz) * speed) + slope.z / rate + (current?.flowZ ?? 0) * carry;
     const k = 1 - Math.exp(-dt * rate);
     const displacementX = targetVx * dt + (this.vx - targetVx) * k / rate;
     const displacementZ = targetVz * dt + (this.vz - targetVz) * k / rate;
     this.vx += (targetVx - this.vx) * k;
     this.vz += (targetVz - this.vz) * k;
     if (this.state !== 'dodge' && (Math.abs(this.vx) > 0.01 || Math.abs(this.vz) > 0.01)) {
-      const sf = (ctx.terrain.carveAt(this.x, this.z) > 0.12 || ctx.terrain.seaDepth(this.x, this.z) > 0.12) && !ctx.terrain.deckAt(this.x, this.z) ? 0.72 : 1;
+      // Without the water model, any water slows a step; with it, wading depth sets the pace above.
+      const sf = !ctx.water && (ctx.terrain.carveAt(this.x, this.z) > 0.12 || ctx.terrain.seaDepth(this.x, this.z) > 0.12) && !ctx.terrain.deckAt(this.x, this.z) ? 0.72 : 1;
       const fromX = this.x;
       const fromZ = this.z;
       const intendedX = displacementX * sf;
@@ -729,23 +813,38 @@ export class Player {
     if (this.state === 'free') {
       if (this.bowAiming) { /* Aim direction is supplied by the camera's selected target. */ }
       else if (this.blocking) this.yaw = lerpAngle(this.yaw, ctx.viewYaw, 1 - Math.exp(-dt * 14));
+      else if (this.swimming && hasInput) this.yaw = lerpAngle(this.yaw, Math.atan2(wx, wz), 1 - Math.exp(-dt * 5));
       else if (this.lastMoveSpeed > 0.4 && hasInput) this.yaw = lerpAngle(this.yaw, Math.atan2(this.vx, this.vz), 1 - Math.exp(-dt * 12));
     }
 
     // Feet follow legal small steps exactly; leaving a ledge starts a fall instead of snapping to its bottom.
     let ground = this.supportAt(this.x, this.z, ctx);
-    if (this.grounded) {
+    const swimWater = this.swimming ? ctx.water?.sample(this.x, this.z) ?? null : null;
+    if (swimWater) {
+      // A damped spring holds the swimmer at the surface: a plunge sinks and bobs back, the swell lifts and lowers him.
+      this.vy += (swimWater.surface - SWIM_FLOAT - this.y) * 22 * dt;
+      this.vy *= Math.exp(-dt * 6.5);
+      this.y += this.vy * dt;
+      if (this.y < ground) { this.y = ground; this.vy = Math.max(0, this.vy); }
+    } else if (this.grounded) {
       if (this.y - ground > GROUND_FOLLOW_DROP) this.grounded = false;
       else { this.y = ground; this.vy = 0; }
     }
-    if (!this.grounded) {
+    if (!this.grounded && !swimWater) {
       // Analytic ballistic step keeps jump height and fall travel consistent across frame rates.
       const nextY = this.y + this.vy * dt - 0.5 * GRAVITY * dt * dt;
       ground = this.fallingSupport(nextY, ground, ctx);
       const staticCeiling = ctx.colliders.ceilingAt(this.x, this.z, PLAYER_RADIUS, this.y + PLAYER_BODY_HEIGHT, nextY + PLAYER_BODY_HEIGHT);
       const movableCeiling = ctx.physics?.ceilingAt(this.x, this.z, PLAYER_RADIUS, this.y + PLAYER_BODY_HEIGHT, nextY + PLAYER_BODY_HEIGHT) ?? null;
       const ceiling = staticCeiling === null ? movableCeiling : movableCeiling === null ? staticCeiling : Math.min(staticCeiling, movableCeiling);
+      const fromY = this.y;
       this.y = ceiling === null ? nextY : ceiling - PLAYER_BODY_HEIGHT - 0.0001;
+      // Falling into water: spray as the feet break the surface.
+      const below = ctx.water && this.vy < -2.5 ? ctx.water.sample(this.x, this.z) : null;
+      if (below && fromY > below.surface && this.y <= below.surface) {
+        ctx.water!.splash(this.x, below.surface, this.z, Math.min(1, -this.vy / 12), { x: this.vx * 0.2, z: this.vz * 0.2 }, 'splash');
+        this.splashedAt = this.clock;
+      }
       this.vy = ceiling === null ? this.vy - GRAVITY * dt : 0;
       if (this.vy <= 0 && this.y <= ground) {
         // Stepping down a kerb is silent; a jump or a real drop lands audibly.
@@ -760,7 +859,7 @@ export class Player {
 
     // Stamina.
     if (sprinting && this.state === 'free' && this.lastMoveSpeed > 1) {
-      this.stamina = Math.max(0, this.stamina - SPRINT_STAMINA_PER_SECOND * dt);
+      this.stamina = Math.max(0, this.stamina - (this.swimming ? SWIM_SPRINT_STAMINA : SPRINT_STAMINA_PER_SECOND) * dt);
       this.staminaPause = 0.5;
       if (this.stamina <= SPRINT_MIN_STAMINA) {
         this.exhausted = true;
@@ -775,22 +874,55 @@ export class Player {
 
     // Footsteps and surface.
     this.surface = this.surfaceAt(ctx);
-    this.inWater = this.surface === 'water';
+    this.inWater = this.surface === 'water' || this.swimming;
     if (!this.rig.hero && this.grounded && this.lastMoveSpeed > 0.8 && (this.state === 'free')) {
       this.stepDist += this.lastMoveSpeed * dt;
       const stride = sprinting ? HERO_RUN_CYCLE / 2 : HERO_WALK_CYCLE / 2;
       if (this.stepDist > stride) {
         this.stepDist -= stride;
-        ctx.audio.footstep(this.surface, sprinting);
+        this.footfall(ctx, sprinting);
       }
     } else if (this.lastMoveSpeed < 0.3) this.stepDist = 0;
+    if (ctx.water) this.waterEffects(dt, ctx);
 
 
     this.applyPose(dt, ctx);
     // The imported rig reports actual heel strikes; surface sounds follow its visible contacts.
     const footfalls = this.rig.hero?.consumeFootfalls() ?? 0;
-    for (let i = 0; i < footfalls; i++) ctx.audio.footstep(this.surface, sprinting);
+    for (let i = 0; i < footfalls; i++) this.footfall(ctx, sprinting);
+    if (this.swimming && ctx.water) {
+      let strokes = this.rig.hero?.consumeStrokes() ?? 0;
+      if (!this.rig.hero) {
+        this.strokeClock += dt * 0.78;
+        strokes = Math.floor(this.strokeClock);
+        this.strokeClock -= strokes;
+      }
+      const w = strokes > 0 ? ctx.water.sample(this.x, this.z) : null;
+      if (w) {
+        const f = this.facing, pace = Math.min(1, this.lastMoveSpeed / SWIM_SPRINT);
+        ctx.water.splash(this.x + f.x * 0.75, w.surface, this.z + f.z * 0.75, 0.08 + 0.22 * pace, { x: f.x * 0.6, z: f.z * 0.6 }, 'stroke');
+      }
+    }
     ctx.game.setPlayerTransform(this.x, this.y, this.z, this.yaw);
+  }
+
+  /** Ripples around legs or a swimming body, and the drip of climbing out after a swim. */
+  private waterEffects(dt: number, ctx: PlayerCtx) {
+    const water = ctx.water!;
+    if (this.swimming || this.waterDepth > 0.15) {
+      this.wakeClock += dt;
+      if (this.wakeClock > 0.09) {
+        this.wakeClock = 0;
+        const speed = this.lastMoveSpeed;
+        if (speed > 0.25 || this.swimming) {
+          water.disturb(this.x, this.z, this.swimming ? 0.45 : 0.3, (this.swimming ? 0.006 : 0.004) * Math.min(3, 0.5 + speed), 0.05 * Math.min(1, speed / 2));
+        }
+      }
+    }
+    if (this.soaked > 0 && this.waterDepth < 0.02 && !this.swimming && this.grounded) {
+      water.emit('exit', this.x, this.y + 1, this.z, 0.6);
+      this.soaked = 0;
+    }
   }
 
   /** Resolve the moment a swing lands against everything in its arc. */
@@ -847,13 +979,14 @@ export class Player {
         mode = 'dead';
         break;
       default:
-        if (this.blocking) mode = 'block';
+        if (this.swimming) mode = 'swim';
+        else if (this.blocking) mode = 'block';
         else if (this.lastMoveSpeed > HERO_RUN_THRESHOLD + (this.mode === 'run' ? -0.3 : 0.3)) mode = 'run';
         else if (this.lastMoveSpeed > 0.12) mode = 'walk';
     }
-    if (!this.grounded && this.state === 'free') mode = 'run';
+    if (!this.grounded && !this.swimming && this.state === 'free') mode = 'run';
     this.mode = mode;
-    const speedNorm = Math.min(1, this.lastMoveSpeed / (mode === 'run' ? HERO_RUN_SPEED : HERO_WALK_SPEED));
+    const speedNorm = Math.min(1, this.lastMoveSpeed / (mode === 'swim' ? SWIM_SPEED : mode === 'run' ? HERO_RUN_SPEED : HERO_WALK_SPEED));
     // Integrate gait phase from actual travel. Multiplying a lifetime clock by changing speed made legs snap on turns/stops.
     const gait = mode === 'walk' || mode === 'run' || mode === 'block';
     if (gait && this.grounded) this.gaitTime += this.lastMoveSpeed * dt / (mode === 'run' ? HERO_RUN_CYCLE : HERO_WALK_CYCLE);

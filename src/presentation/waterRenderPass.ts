@@ -8,6 +8,21 @@ export interface WaterRenderInputs {
   quality: 'low' | 'medium' | 'high';
   enabled: boolean;
   reducedMotion: boolean;
+  /** Renderer work the water needs before every frame (its sky capture and ripple solve), on every quality. */
+  prepare?: (renderer: THREE.WebGLRenderer, scene: THREE.Scene, camera: THREE.Camera, dt: number) => void;
+  /** With the camera under water: how far above the eye the surface stands, and the water's colour and absorption. */
+  under?: WaterUnder | null;
+}
+
+export interface WaterUnder {
+  /** Metres from the eye up to the surface. */
+  surface: number;
+  /** Light the water scatters toward the eye (linear) and its absorption per metre. */
+  color: THREE.Color;
+  absorb: THREE.Vector3;
+  /** The caustic web thrown on the bed, and how much sunlight there is to throw it (0 at night). */
+  caustics: THREE.Texture | null;
+  light: number;
 }
 
 /** Reuse the opaque scene color/depth; only water is drawn again after the copy. */
@@ -172,6 +187,7 @@ export class WaterRenderPass {
   render(renderer: THREE.WebGLRenderer, scene: THREE.Scene, camera: THREE.Camera,
     source: THREE.WebGLRenderTarget, dt: number, input: WaterRenderInputs): THREE.Texture {
     if (this.disposed) throw new Error('WaterRenderPass has been disposed');
+    input.prepare?.(renderer, scene, camera, dt);
     if (!input.enabled || input.quality === 'low' || !source.depthTexture) {
       input.meshes.forEach(mesh => detachWaterOptics(mesh.material));
       this.releaseTargets();
@@ -210,6 +226,8 @@ export class WaterRenderPass {
         u.uWaterResolution!.value.set(source.width, source.height);
         const pc = camera as THREE.PerspectiveCamera;
         u.uWaterNear!.value = pc.near; u.uWaterFar!.value = pc.far;
+        u.uWaterInverseProjection?.value.copy(camera.projectionMatrixInverse);
+        u.uWaterCameraWorld?.value.copy(camera.matrixWorld);
         u.uWaterCapture!.value = 1;
       }
       // The copied opaque depth still hides water behind rocks, boats and people.

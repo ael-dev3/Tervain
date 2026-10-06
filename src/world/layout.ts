@@ -82,8 +82,11 @@ export const STREAMS: StreamSpec[] = [
   },
 ];
 
-/** Crossings where the main stream is shallow enough to wade. */
-export const FORD = { x: 53, z: 35, r: 8, depth: 0.32 } as const;
+/**
+ * Crossings where the main stream is shallow enough to wade. The ford's gravel bar sits just under the calm pool that
+ * backs up behind it, so the stream runs over it ankle- to knee-deep and drops in a riffle on the far side.
+ */
+export const FORD = { x: 53, z: 35, r: 8, depth: 0.8 } as const;
 
 export const DEEP_WATER = 0.85;
 
@@ -503,8 +506,10 @@ export const WELL_CONSTRUCTION = {
   beamWidth: 2.5, beamBottom: 2.35, beamHeight: 0.16, beamDepth: 0.16,
   hoodWidth: 3, hoodDepth: 1.8, hoodBottom: 2.48, hoodRise: 0.9,
 } as const;
-export const MILL_WHEEL = { x: -13.95, z: -8, r: 2.81 };
-export const SPRING_POOL = { x: -8, z: -94, r: 8 };
+/** Over the race's flat bed, so its paddles turn in the water rather than over the cut's sloping side. */
+export const MILL_WHEEL = { x: -13.45, z: -8, r: 2.81 };
+/** The holy spring's pool on the shrine side of the hill (see world/water/spring.ts for its basin). */
+export const SPRING_POOL = { x: -10.5, z: -93.2, r: 3.3 };
 export const SHRINE_PLATEAU = { x: -28, z: -102, r: 44, h: 7 };
 export const OVERLOOK_BUMP = { x: -140, z: 30, r: 46, h: 4.8 };
 export const LEDGE = { x: 122, z: -72, r: 12, h: 0 };

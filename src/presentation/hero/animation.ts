@@ -19,6 +19,22 @@ const finite = (value: number | undefined, fallback = 0) => Number.isFinite(valu
 /** Measured low-sole/backward-travel contact estimates, not source animation events. */
 export const HERO_GAIT_PHASE = { Walking: 0.292, Running: 0.311, rightContact: 0.48 } as const;
 export const HERO_IDLE_STANCE = { clip: 'Casual_Walk', time: 2.65 } as const;
+/**
+ * Swimming leans the whole figure forward about the chest (which stays at the waterline) so the head rides above the
+ * surface and the legs trail: steeply while stroking, more upright while treading water.
+ */
+export const HERO_SWIM = { pivot: 1.25, strokePitch: 1.12, treadPitch: 0.32, strokeHz: 0.78, treadHz: 0.5 } as const;
+const X_AXIS = new THREE.Vector3(1, 0, 0);
+
+/** Piecewise smooth keyframes over a cycle [0, 1): [time, value] pairs, the first repeated at 1. */
+function cycle(c: number, keys: readonly (readonly [number, number])[]): number {
+  for (let i = 0; i < keys.length; i++) {
+    const [t0, v0] = keys[i]!, [t1, v1] = keys[(i + 1) % keys.length]!;
+    const end = i + 1 < keys.length ? t1 : 1;
+    if (c >= t0 && c < end) return v0 + (v1 - v0) * smooth((c - t0) / Math.max(1e-6, end - t0));
+  }
+  return keys[0]![1];
+}
 
 /** Authored Mixamo motion on a private skeleton; physics alone moves the outer character root. */
 export class HeroAnimationController {
@@ -43,6 +59,10 @@ export class HeroAnimationController {
   private deadWeight = 0;
   private wasDead = false;
   private readonly deathClearance: number;
+  private swimBlend = 0;
+  private swimMoving = 0;
+  private swimClock = 0;
+  private strokesPending = 0;
 
   constructor(private readonly scene: THREE.Group, private readonly body: THREE.Group,
     private readonly bones: HeroBones, clips: readonly THREE.AnimationClip[]) {
@@ -149,6 +169,12 @@ export class HeroAnimationController {
 
   consumeFootfalls(): number { const result = this.pendingFootfalls; this.pendingFootfalls = 0; return result; }
 
+  /** Strokes completed since the last call (the moment the hands sweep wide), for the stroke's splash and sound. */
+  consumeStrokes(): number { const result = this.strokesPending; this.strokesPending = 0; return result; }
+
+  /** How far the figure is into its swimming lean, 0 upright .. 1. */
+  get swimming(): number { return this.swimBlend; }
+
   /** Equipment actions reuse the source's actual finger grip, without replacing its body or locomotion pose. */
   applyHandGrip(side: 'Left' | 'Right', amount: number): void {
     const weight = clamp(finite(amount), 0, 1);
@@ -163,6 +189,7 @@ export class HeroAnimationController {
     this.phase = this.idleClock = this.motionBlend = this.distance = this.runWeight = 0;
     this.cycleMetres = HERO_WALK_CYCLE;
     this.deadClock = this.deadWeight = 0; this.wasDead = false;
+    this.swimBlend = this.swimMoving = this.swimClock = this.strokesPending = 0;
     this.pendingFootfalls = 0; this.angles.clear();
     this.body.position.set(0, 0, 0); this.body.quaternion.identity();
     this.grounded = true; this.footContacts = [true, true];
@@ -179,6 +206,15 @@ export class HeroAnimationController {
     if (dead) this.deadClock = Math.min(this.deadClock + step, this.actions.get('Dead')!.getClip().duration);
     this.wasDead = dead;
     this.deadWeight = blend(this.deadWeight, dead ? 1 : 0, step, 14);
+    const swimming = p.mode === 'swim' && !dead;
+    this.swimBlend = blend(this.swimBlend, swimming ? 1 : 0, step, 4);
+    this.swimMoving = blend(this.swimMoving, swimming ? clamp(finite(p.speed), 0, 1) : 0, step, 3);
+    if (swimming) {
+      const before = this.swimClock;
+      this.swimClock += step * THREE.MathUtils.lerp(HERO_SWIM.treadHz, HERO_SWIM.strokeHz, this.swimMoving) * (0.8 + 0.4 * clamp(finite(p.speed), 0, 1.5));
+      // The pull ends at a fifth of a cycle: one stroke heard and seen per cycle.
+      this.strokesPending += Math.floor(this.swimClock - 0.2) - Math.floor(before - 0.2);
+    }
     const canStep = this.grounded && !dead && p.mode !== 'sit';
     const travel = canStep ? Math.max(0, finite(p.travel)) : 0;
     const speed = travel / dt;
@@ -219,7 +255,12 @@ export class HeroAnimationController {
       }
       support = clamp(-finite(lowest), 0, 0.08);
     }
-    this.body.position.y = support - this.deathClearance * this.deadWeight * smooth(clamp((deathProgress - 0.75) / 0.25, 0, 1)) || 0;
+    const deathY = support - this.deathClearance * this.deadWeight * smooth(clamp((deathProgress - 0.75) / 0.25, 0, 1)) || 0;
+    // The swimming lean turns about the chest, so the head stays at the waterline whatever the pitch.
+    const pitch = this.swimBlend * THREE.MathUtils.lerp(HERO_SWIM.treadPitch, HERO_SWIM.strokePitch, this.swimMoving)
+      + this.swimBlend * this.swimMoving * 0.06 * Math.sin(this.swimClock * Math.PI * 2);
+    this.body.quaternion.setFromAxisAngle(X_AXIS, pitch);
+    this.body.position.set(0, deathY + HERO_SWIM.pivot * (1 - Math.cos(pitch)), -HERO_SWIM.pivot * Math.sin(pitch));
     const leftDuty = THREE.MathUtils.lerp(0.472, 0.118, this.runWeight);
     const rightStart = THREE.MathUtils.lerp(0.488, 0.472, this.runWeight);
     const rightDuty = THREE.MathUtils.lerp(0.48, 0.143, this.runWeight);
@@ -358,9 +399,35 @@ export class HeroAnimationController {
         target['mixamorig:LeftUpLeg'] = [-1.15, 0, 0]; target['mixamorig:RightUpLeg'] = [-1.15, 0, 0];
         target['mixamorig:LeftLeg'] = [1.35, 0, 0]; target['mixamorig:RightLeg'] = [1.35, 0, 0];
         this.bones['mixamorig:Hips'].position.y -= 0.4; break;
+      case 'swim': {
+        // Breaststroke: pull wide, tuck the hands under the chin, shoot them forward as the legs kick and glide.
+        // Treading water: the hands scull in front and the legs cycle. The two blend by speed.
+        const c = fraction(this.swimClock), m = this.swimMoving;
+        const stroke = {
+          shoulder: cycle(c, [[0, -2.85], [0.2, -1.75], [0.42, -1.95], [0.7, -2.85]]),
+          elbow: cycle(c, [[0, -0.05], [0.2, -0.35], [0.42, -1.7], [0.7, -0.1]]),
+          out: cycle(c, [[0, 0.1], [0.2, 0.95], [0.42, 0.25], [0.7, 0.08]]),
+          thigh: cycle(c, [[0, -0.05], [0.2, -0.3], [0.45, -0.85], [0.62, -0.1]]),
+          knee: cycle(c, [[0, 0.1], [0.2, 0.45], [0.45, 1.6], [0.62, 0.15]]),
+          spread: cycle(c, [[0, 0], [0.4, 0.3], [0.6, 0.12]]),
+        };
+        const s = Math.sin(c * Math.PI * 2), k = Math.cos(c * Math.PI * 2);
+        const mix = (tread: number, swim: number) => tread + (swim - tread) * m;
+        arm('Left', mix(-1.25, stroke.shoulder), mix(-0.6, stroke.elbow), mix(0.35 + 0.3 * s, stroke.out) * amp);
+        arm('Right', mix(-1.25, stroke.shoulder), mix(-0.6, stroke.elbow), -mix(0.35 + 0.3 * s, stroke.out) * amp);
+        target['mixamorig:LeftUpLeg'] = [mix(-0.5 + 0.3 * s, stroke.thigh), 0, mix(0.1, stroke.spread)];
+        target['mixamorig:RightUpLeg'] = [mix(-0.5 - 0.3 * s, stroke.thigh), 0, -mix(0.1, stroke.spread)];
+        target['mixamorig:LeftLeg'] = [mix(0.9 + 0.4 * k, stroke.knee), 0, 0];
+        target['mixamorig:RightLeg'] = [mix(0.9 - 0.4 * k, stroke.knee), 0, 0];
+        // Chin up to look where he swims; the lean is the body's, so the neck takes back most of it.
+        target['mixamorig:Neck'] = [-0.25 - 0.2 * m, 0, 0];
+        target['mixamorig:Head'] = [-0.15 - 0.35 * m, 0, 0];
+        target['mixamorig:Spine2'] = [-0.08 * m, 0, 0];
+        break;
+      }
       default: break;
     }
-    if (!this.grounded) {
+    if (!this.grounded && p.mode !== 'swim') {
       // Only an airborne fallback pose; the physics solver supplies all actual jump displacement.
       target['mixamorig:LeftUpLeg'] = [-0.18, 0, 0]; target['mixamorig:RightUpLeg'] = [-0.14, 0, 0];
       target['mixamorig:LeftLeg'] = [0.35, 0, 0]; target['mixamorig:RightLeg'] = [0.3, 0, 0];

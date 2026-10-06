@@ -102,6 +102,16 @@ export async function openPage(url = process.env.TERVAIN_URL ?? 'http://127.0.0.
       } catch {
         /* already gone */
       }
+      // Each run made a throwaway profile; remove it once the browser has let go of its files.
+      const remove = (tries) => {
+        try {
+          fs.rmSync(profile, { recursive: true, force: true });
+        } catch {
+          if (tries > 0) setTimeout(() => remove(tries - 1), 500);
+        }
+      };
+      proc.once('exit', () => remove(20));
+      if (proc.exitCode !== null) remove(20);
     },
   };
   return page;

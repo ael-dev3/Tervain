@@ -21,6 +21,8 @@ The world's sound therefore has three parts:
   - fight loops, stings and a motif for each region;
   - three tunes heard from the inn;
   - world sounds tuned to the same key: the town bell, the shrine's wind chime, the spring's bubbles, crickets and a heartbeat.
+- **Water:** seventeen more generations for the water rework ([A60](../decisions.md)): six beds and eleven one-shot
+  sources placed from the water model. See [Water](#water).
 - **Voices:** twelve voices designed from written descriptions speak 244 lines in the world:
   - exchanges with the hero;
   - remarks;
@@ -55,6 +57,7 @@ The [audition page](#audition-page) lets the owner review every take, cue, bed, 
 | Residents | Each resident's work: the quarry hand's chisel, the mender's saw, sweeping, kneading dough, a quill, ledger pages, the spring steward's bucket, the mill hand's sacks; footsteps for ground actually walked; indistinct talk when two residents talk; now and then a cough or a shift of clothes; the hamlet's net-mender at work | Each person's animation mode and work gesture (`npcStyle`), with a few personal trades |
 | Voices | Interacting with a resident plays their next exchange: the hero's question when there is one, then the answer from where they stand. Residents remark as the player passes, by place, hour and the state of the valley. Pairs talk among themselves at the quarry, the mill and in the square, each scene once a game day. The hero speaks on waking, on reaching each place, at what he inspects and finds, at a beast, when badly wounded, at nightfall and dawn, and at the story's turns | Interaction, the remark and scene rules and game events, timed by the [speech director](../../src/presentation/speech.ts) on the game clock |
 | Places | Surf on the strand, wind on the lighthouse rock, the deepwood by day and by night, open meadow, Rillford and the hamlet by day and by night, the uneasy quiet of the Cut, the brook at its nearest bank following the water actually flowing, reeds and frogs at the ford and the spring's wetland, the mill wheel while it turns, the quarry while it works, the spring, the strand fire, the archive's room tone and the shrine hall's low hum | Listener position, the sky's night measure, stream flows and the mill/quarry state |
+| Water | Close surf at the nearest breaker line with each crest's crash as it breaks, surf bursting on rock, the open sea's far roar up the cliffs, still water lapping, white water at the spring's fall and cascades, a muffled sea under the surface; splashes, swimming strokes, wading, getting in and out, floating barrels knocking, arrows entering water, bubbles crossing the surface and fish rising | [The water model](water-0.0.13.md#sound): its sea, streams and pool, and events from what disturbed the water |
 | Wildlife | Gulls over the sea by day, songbirds and a dawn chorus in the woods, small birds, a woodpecker, crows over open ground and the forest ruin, owls at night, frogs by the water, dogs, hens and a dawn rooster in the villages, a horse at the wagons, creaking timber in the woods and at the wreck | Twelve emitter rules with rates that follow place and hour |
 | Crafted life | Crickets from dusk into the night, chirping faster in warm air (Dolbear's law) and silent in the cold before dawn, each keeping its own voice and spot; the shrine's wind chime, five tubes on the theme's mode, stirring in short bursts; small bubbles rising at the spring | A temperature curve over the day, and two more emitter rules |
 | The inn | From 18:30 to 23:30 music plays inside the inn, heard through its walls with rests between tunes. A lute plays the Wanderer's Air (the theme), the jig Hearthsmoke and the slow air Salt and Rope. Two original songs are sung there: The Drought Bell, a slow ballad for a baritone with lute and fiddle, and Bread and Water, a drinking jig for a woman's voice with the drinkers joining the chorus. A fight drowns it, and the score keeps quiet while it plays | The inn's place and the hour |
@@ -206,6 +209,22 @@ The story's text-first dialogue ([dialogue.ts](../../src/content/dialogue.ts)) w
   - Any other line loads when it is first wanted, for example a hero's remark or an exchange started from further away.
   - A bank nobody has wanted for a minute is dropped from memory.
   - Memory therefore follows what may be said soon, not how much has been written: lines for other hours and other states of the story stay unloaded until they apply.
+
+## Water
+
+The water rework ([A60](../decisions.md)) adds seventeen sources from the Sound Effects API
+(`eleven_text_to_sound_v2`), generated on 6 October 2026 from original descriptions:
+
+- **Beds:** surf (22 s), surf on rock, the open sea far off (20 s each), lapping, rapids (15 s each) and under water
+  (16 s), prepared as loops.
+- **One-shots:** a breaking wave, a wave on rock, a heavy splash, small splashes (two takes), breaststrokes (two),
+  knee-deep wading (four), getting in, climbing out, barrel knocks (three), bubbles and a fish. They are sliced into
+  the new `water` sprite bank.
+
+They are placed by the [water model](water-0.0.13.md#sound). Generation-time subscription evidence was not recorded
+with them, so, as with the six hunting recordings, their commercial clearance is not established. Prompts are in
+[plan.json](../../tools/world-audio/plan.json), and processing and hashes in
+[world-audio-assets.json](world-audio-assets.json). The earlier sources, banks and loops are byte-identical.
 
 ## Runtime
 
