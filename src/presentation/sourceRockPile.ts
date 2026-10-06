@@ -6,12 +6,13 @@ import type { BuildContext, SceneModule } from './context';
 import { assertNaturalModelBudget } from './naturalModelBudget';
 import { groundedNaturalGeometryY } from './treeGrounding';
 import { attachGroundedRockSurface } from './rockSurface';
+import { modelAssetUrl } from './assets/modelUrl';
 
 export const ROCK_PILE_FILE = 'weathered-rock-pile-under-20k.glb';
 let pending: Promise<GLTF> | null = null;
 
 export function rockPileUrl(base = import.meta.env.BASE_URL, page = document.baseURI): URL {
-  return new URL(`${base}models/scenery/${ROCK_PILE_FILE}`, page);
+  return modelAssetUrl(`scenery/${ROCK_PILE_FILE}`, base, page);
 }
 
 function sourceMesh(template: GLTF): THREE.Mesh<THREE.BufferGeometry, THREE.MeshStandardMaterial> {

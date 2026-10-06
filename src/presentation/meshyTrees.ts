@@ -4,6 +4,7 @@ import type { Species, TreeVariant } from './treeGen';
 import { assertNaturalModelBudget } from './naturalModelBudget';
 import { deduplicateTreeTextures } from './treeTexturePool';
 import { sampleLeafSurfaceSites } from './leafSurfaceSites';
+import { modelAssetUrl } from './assets/modelUrl';
 
 /** Owner-supplied sources. Plinth-bearing 3106/1459 are prepared reserves, not active plantings. */
 export const MESHY_TREE_IDS = ['fir-spire', 'oak-elder', 'palm-date', 'palm-fan', 'palm-lean', 'tree-0208', 'tree-1537', 'tree-1527', 'tree-1521', 'tree-4949', 'tree-1505', 'tree-4815', 'verdant-sentinel'] as const;
@@ -11,7 +12,7 @@ export type MeshyTreeTemplates = ReadonlyMap<string, readonly [GLTF, GLTF, GLTF]
 export const MESHY_TREE_LODS = ['near', 'mid', 'far'] as const;
 const pending = new Map<string, Promise<GLTF>>();
 export function meshyTreeUrl(id: string, lod: typeof MESHY_TREE_LODS[number], base = import.meta.env.BASE_URL, page = document.baseURI): URL {
-  return new URL(`${base}models/flora/meshy-012/${id}-${lod}.glb`, page);
+  return modelAssetUrl(`flora/meshy-012/${id}-${lod}.glb`, base, page);
 }
 interface Part { geometry: THREE.BufferGeometry; material: THREE.MeshStandardMaterial; matrix: THREE.Matrix4 }
 interface Parts { wood: Part | null; leaf: Part | null }

@@ -1,11 +1,12 @@
 import { GLTFLoader, type GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { modelAssetUrl } from './assets/modelUrl';
 
-const FILE = 'models/hero/weathered-wanderer-animated-hero.glb';
+const FILE = 'hero/weathered-wanderer-animated-hero.glb';
 let pending: Promise<GLTF> | null = null;
 
 /** Resolve from the built page, including the /Tervain/ Pages subdirectory. */
 export function mainHeroUrl(base = import.meta.env.BASE_URL, page = document.baseURI) {
-  return new URL(`${base}${FILE}`, page);
+  return modelAssetUrl(FILE, base, page);
 }
 
 /** Load once; a failed request is released so the loading screen's Retry works. */

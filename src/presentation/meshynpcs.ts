@@ -5,6 +5,7 @@ import { NPCS } from '../content/npcs';
 import { createNpcAttachments, setArmed, type Grip, type Rig, type NpcEquipment, type Mode } from './characters';
 import { BONES, type BoneName } from './human/skin';
 import { repairNpcSurfaceGeometry, repairNpcSurfaceMaterial } from './npcSurface';
+import { modelAssetUrl } from './assets/modelUrl';
 
 export const NPC_TRIANGLE_LIMIT = 50_000;
 export const NPC_ROLES = [
@@ -39,7 +40,7 @@ const ANGLES = ['legL', 'legR', 'armLx', 'armLy', 'armLz', 'armRx', 'armRy', 'ar
 
 /** Relative to the served page: works under /Tervain/ and another PC host. */
 export function meshyNpcUrl(file = 'manifest.json', base = import.meta.env.BASE_URL, page = document.baseURI): URL {
-  return new URL(`${base}models/npcs/${file}`, page);
+  return modelAssetUrl(`npcs/${file}`, base, page);
 }
 
 /** Reject incomplete assignments and dishonest budgets before downloading model data. */

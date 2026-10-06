@@ -9,6 +9,7 @@ import { groundedNaturalGeometryY } from './treeGrounding';
 import { buildFallingLeaves } from './fallingLeaves';
 import type { FloraTree } from './floraPopulation';
 import type { TreeVariant } from './treeGen';
+import { modelAssetUrl } from './assets/modelUrl';
 
 export const BROADLEAF_FILE = 'ancient-guardian-broadleaf-under-20k.glb';
 /** Owner-source height anchors uniform scale for the reviewed volume and tiny leaf fringe. */
@@ -33,7 +34,7 @@ function sourceParts(template: GLTF): Parts {
 }
 
 export function broadleafUrl(base = import.meta.env.BASE_URL, page = document.baseURI): URL {
-  return new URL(`${base}models/scenery/${BROADLEAF_FILE}`, page);
+  return modelAssetUrl(`scenery/${BROADLEAF_FILE}`, base, page);
 }
 
 export function loadSourceBroadleaf(): Promise<GLTF> {
