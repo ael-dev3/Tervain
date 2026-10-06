@@ -67,19 +67,28 @@ The unchanged source is archived at [assets/audio/source/the-sovereigns-oath-ori
 
 The [human-readable source record](menu-score.md) and [machine-readable audio inventory](menu-audio-assets.json) pin sizes, hashes, media properties, preparation, and source disclosure. Embedded metadata says the source was made with Suno; authorship, model/version and service/account terms were not independently verified. The owner instruction records this particular Tervain use, repository delivery and requested video. No separate open-content grant or independent ownership finding is asserted. Final integration, browser, video and publication evidence belongs to the [0.0.5 handoff](../production/releases/0.0.5.md).
 
-## Generated world sound, 5 October 2026
+## Generated world sound and voices, 5–6 October 2026
 
-A50 adds 99 sound-effects generations made for Tervain with the owner's ElevenLabs account from original prompts:
+A50's sound was generated on a free ElevenLabs plan. A53 made all of it again on the owner's paid plan, whose terms include a commercial licence, and added more. There are 110 generations from original prompts:
 
-- footsteps, combat, items, the world's moving parts, residents' work and voices, wildlife;
-- sixteen place beds;
-- the in-world score.
+- 84 effects, beds and calls: footsteps, combat, items, the world's moving parts, residents' work and voices, wildlife, and sixteen place beds;
+- 23 pieces of music from the Eleven Music API: the in-world score, and two songs sung at the inn with original lyrics;
+- three of the hero's sounds, put through his designed voice.
 
-The unchanged MP3 generations are archived in [assets/audio/source/world/](../../assets/audio/source/world/). Runtime sprites, loops and pieces in [public/assets/audio/world/](../../public/assets/audio/world/) are rebuilt by [tools/world-audio/prepare.mjs](../../tools/world-audio/prepare.mjs) as Ogg Opus with AAC fallbacks. Every prompt and hash is in [world-audio-assets.json](world-audio-assets.json). Credit to ElevenLabs (elevenlabs.io) is required under the free-plan sound-effects terms and is given in the About text and NOTICE; no independent rights review is asserted. Nothing from Gothic, Warpkeep or another game is used. A51 adds crafted music and sounds rendered by original code in [tools/world-audio/compose/](../../tools/world-audio/compose/): no recordings or generators, each render recorded by hash under `composed`. See [world-audio.md](world-audio.md).
+A53 also adds twelve voices designed from written descriptions; none is cloned from a person. They speak the game's 244 lines and the 199 recordings of the text-first story dialogue.
+
+- The unchanged MP3 generations are archived in [assets/audio/source/world/](../../assets/audio/source/world/) and [assets/audio/source/voice/](../../assets/audio/source/voice/).
+- Runtime sprites, loops, pieces and voice banks in [public/assets/audio/world/](../../public/assets/audio/world/) and [public/assets/audio/voice/](../../public/assets/audio/voice/) are rebuilt by [tools/world-audio/prepare.mjs](../../tools/world-audio/prepare.mjs) as Ogg Opus with AAC fallbacks.
+- [world-audio-assets.json](world-audio-assets.json) records every prompt and hash. [voice-assets.json](voice-assets.json) records every voice, line, transcript and hash.
+- The credit to ElevenLabs (elevenlabs.io) stays in the About text and NOTICE, although the paid plan does not require it. No independent rights review is asserted.
+- A50's free-plan generations are no longer used.
+- Nothing from Gothic, Warpkeep or another game is used.
+
+A51 adds crafted music and sounds rendered by original code in [tools/world-audio/compose/](../../tools/world-audio/compose/): no recordings or generators, each render recorded by hash under `composed`. See [world-audio.md](world-audio.md).
 
 ## Teaser for X, 5 October 2026
 
-A52's [teaser](../media/teaser/tervain-teaser-0.0.10.mp4) is filmed from Tervain's own prototype. Its sound comes from A50's generations and A51's crafted sounds, and its score is composed in code; the owner-supplied menu score is not used. Two typefaces are drawn into its captions: Cinzel (Natanael Gama) and Inter (Rasmus Andersson), both under the SIL Open Font License 1.1. They are fetched from Google Fonts while rendering, and no font files are in the repository. See the [teaser record](../production/teaser-x.md).
+A52's [teaser](../media/teaser/tervain-teaser-0.0.10.mp4) is filmed from Tervain's own prototype. Its sound comes from the game's generations and A51's crafted sounds, and its score is composed in code. The owner-supplied menu score is not used. The first cut used A50's free-plan takes. On 6 October it was re-scored with A53's paid-plan generations. Two typefaces are drawn into its captions: Cinzel (Natanael Gama) and Inter (Rasmus Andersson), both under the SIL Open Font License 1.1. They are fetched from Google Fonts while rendering, and no font files are in the repository. See the [teaser record](../production/teaser-x.md).
 
 ## Replacement people sheets (0.0.8)
 

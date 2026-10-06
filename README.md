@@ -22,7 +22,8 @@ The prototype includes:
 - A supplied animated Wanderer, grounded natural scenery and coastal water.
 - World pickups, inventory, equipment, an initially empty ten-slot item hotbar, journal and map.
 - Physical movable supplies, saved progress and keyboard/mouse or controller controls.
-- [World sound](docs/engineering/world-audio.md), generated and crafted in code: foley, place ambience, wildlife by hour and an in-world score.
+- [World sound](docs/engineering/world-audio.md), generated and crafted in code: foley, place ambience, wildlife by hour, an in-world score and songs at the inn.
+- [Voiced people](docs/engineering/world-audio.md#voices): the hero and eleven residents speak in the world, with captions.
 - A Templar vigil menu with The Sovereign's Oath, distant ships and a score-led spirit grove.
 
 [Launch address](https://ael-dev3.github.io/Tervain/) — GitHub Pages is currently disabled. The source remains available for local evaluation. Use a desktop WebGL browser; save data is stored in that browser.

@@ -8,8 +8,8 @@ Recorded 5 October 2026 ([A52](../decisions.md)). The brief: a teaser of the gam
 | --- | --- |
 | Length | 47.7 s: 85 beats at 106.99 BPM, with every cut on a beat |
 | Picture | 1920 × 1080 at 60 fps; H.264 High 4.2, two-pass, BT.709, fast start |
-| Sound | AAC-LC stereo, 256 kb/s, 48 kHz; −14.1 LUFS integrated, true peak −1.7 dBTP, loudness range 3.7 LU |
-| Size | 47.8 MiB (50.2 MB), below GitHub's 50 MiB warning |
+| Sound | AAC-LC stereo, 256 kb/s, 48 kHz; −14.0 LUFS integrated, true peak −1.7 dBTP, loudness range 3.5 LU |
+| Size | 47.9 MiB (50.2 MB), below GitHub's 50 MiB warning |
 | Captions | Burned in, because X starts videos muted |
 
 ## The cut
@@ -72,7 +72,11 @@ Set `TERVAIN_URL` when the dev server is not on `http://127.0.0.1:5173/`. `film.
 ## Sources and credits
 
 - **Picture.** Tervain's own prototype, captured from the browser. No Gothic 3 or Gothic 1 Remake data, captures or likenesses are used ([A14](../decisions.md)).
-- **Sound.** A50's effects and beds were generated with ElevenLabs. That credit is required; it is given on the title card and in the NOTICE. A51's crafted sounds and this score are composed in code. The owner-supplied menu score is not used.
+- **Sound.** The effects and beds are the game's own.
+  - The first cut used A50's free-plan generations.
+  - On 6 October the teaser was re-scored with A53's paid-plan generations, including the hero's hurt in his own voice. No free-plan output remains in it.
+  - The ElevenLabs credit stays on the title card and in the NOTICE.
+  - A51's crafted sounds and this score are composed in code. The owner-supplied menu score is not used.
 - **Fonts.** Cinzel (Natanael Gama) and Inter (Rasmus Andersson), SIL OFL 1.1, drawn into the picture.
 
 ## Posting on X
