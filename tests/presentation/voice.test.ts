@@ -274,6 +274,24 @@ describe('the hero keeps his remarks for a pause', () => {
 
 describe('overheard, and waiting for a voice', () => {
   const here = (npc: string) => ({ x: npc.length, y: 1.6, z: 0 });
+  it('holds listeners in an exchange while limiting speaking gestures to their actual turns', () => {
+    const d = new SpeechDirector({ say: () => 2, caption: () => {} });
+    const scene = SCENES.find(s => s.id === 'quarry.waiting')!;
+    const first = VOICE_LINES[scene.lines[0]!]!.speaker, second = VOICE_LINES[scene.lines[1]!]!.speaker;
+    expect(first).not.toBe(second);
+    expect(d.scene(scene, 0, here)).toBe(true);
+    expect(d.speakingFor(first)).toBe(0); expect(d.speakingFor(second)).toBe(0);
+    d.update(.3);
+    expect(d.speakingFor(first)).toBeCloseTo(2, 8); expect(d.speakingFor(second)).toBe(0);
+    expect(d.busyFor(first)).toBeGreaterThan(2); expect(d.busyFor(second)).toBeGreaterThan(2);
+    d.update(2);
+    expect(d.speakingFor(first)).toBe(0); expect(d.speakingFor(second)).toBe(0);
+    expect(d.busyFor(first)).toBeGreaterThan(0); expect(d.busyFor(second)).toBeGreaterThan(0);
+    d.update(.35);
+    expect(d.speakingFor(first)).toBe(0); expect(d.speakingFor(second)).toBeCloseTo(2, 8);
+    d.clear();
+    for (const speaker of scene.cast) { expect(d.speakingFor(speaker)).toBe(0); expect(d.busyFor(speaker)).toBe(0); }
+  });
   it('plays a scene in turns from where each person stands, once a day, holding both of them', () => {
     const said: { line: string; at?: { x: number } }[] = [];
     const d = new SpeechDirector({ say: (line, at) => { said.push({ line, at }); return 2; }, caption: () => {} });

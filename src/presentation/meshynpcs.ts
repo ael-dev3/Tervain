@@ -222,9 +222,10 @@ export function createMeshyNpcRig(asset: Pick<GLTF, 'scene' | 'animations'>, ent
     cur: Object.fromEntries(ANGLES.map(key => [key, 0])), materials: paint, hitFlash: 0, kind: 'humanoid',
   };
   const sole = npcSoleSamples(scene);
-  rig.npc = { settle(mode: Mode) {
+  let soleClearance = 0;
+  rig.npc = { settle(mode: Mode, dt: number) {
     root.userData.meshyNpc.soleClearance = 0;
-    if (!sole.length || mode === 'dead' || mode === 'dodge') return;
+    if (!sole.length || mode === 'dead' || mode === 'dodge') { soleClearance = 0; return; }
     root.updateMatrixWorld(true);
     let lowest = Infinity;
     const point = new THREE.Vector3();
@@ -237,8 +238,12 @@ export function createMeshyNpcRig(asset: Pick<GLTF, 'scene' | 'animations'>, ent
       }
     }
     const clearance = Math.min(0.1, Math.max(0, -lowest));
-    body.position.y += clearance;
-    root.userData.meshyNpc.soleClearance = clearance;
+    // Raise enough to keep a planted sole out of the floor; release that visual lift gently as the foot recovers.
+    // The poser resets body.position each frame, so retaining the filter value never accumulates actor height.
+    soleClearance = clearance >= soleClearance ? clearance
+      : clearance + (soleClearance - clearance) * Math.exp(-Math.max(0, dt) * 10);
+    body.position.y += soleClearance;
+    root.userData.meshyNpc.soleClearance = soleClearance;
   } };
   root.userData.meshyNpc.soleSamples = sole.reduce((total, sample) => total + sample.vertices.length, 0);
   if (carried) setArmed(rig, carried === 'sheathed' ? 'sheathed' : 'drawn');

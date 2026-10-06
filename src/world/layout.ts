@@ -82,11 +82,8 @@ export const STREAMS: StreamSpec[] = [
   },
 ];
 
-/**
- * Crossings where the main stream is shallow enough to wade. The ford's gravel bar sits just under the calm pool that
- * backs up behind it, so the stream runs over it ankle- to knee-deep and drops in a riffle on the far side.
- */
-export const FORD = { x: 53, z: 35, r: 8, depth: 0.8 } as const;
+/** Crossings where the main stream is shallow enough to wade. */
+export const FORD = { x: 53, z: 35, r: 8, depth: 0.32 } as const;
 
 export const DEEP_WATER = 0.85;
 

@@ -48,6 +48,7 @@ import { createHeroRig } from './presentation/hero/rig';
 import { HuntingController } from './presentation/huntingController';
 import { loadMeshyNpcCatalog, type MeshyNpcCatalog } from './presentation/meshynpcs';
 import { npcStyle } from './presentation/npcStyle';
+import type { CircleCollider } from './world/colliders';
 
 type Mode = 'loading' | 'title' | 'play' | 'dead';
 
@@ -875,6 +876,7 @@ export class App {
       // Someone speaking stops, turns to whom they are talking to and talks with their hands.
       for (const n of this.npcs) {
         n.talking = this.speech.busyFor(n.id) > 0;
+        n.speaking = this.speech.speakingFor(n.id) > 0;
         if (!n.talking) n.faceTo = null;
       }
       this.sceneClock += dt;
@@ -1678,7 +1680,24 @@ export class App {
   private updateActors(dt: number, hour: number) {
     const ctx = this.actorContext();
     ctx.hour = hour;
-    for (const n of this.npcs) n.update(dt, ctx);
+    const contacts = this.npcs.map(n => this.residentContact(n));
+    ctx.residentContacts = [...contacts, ...this.enemies.map(e => this.enemyContact(e))];
+    for (let i = 0; i < this.npcs.length; i++) {
+      const n = this.npcs[i]!;
+      n.update(dt, ctx);
+      // Later residents see this frame's resolved stance, including a newly arrived person.
+      Object.assign(contacts[i]!, this.residentContact(n));
+    }
+  }
+
+  private residentContact(n: NpcActor): CircleCollider {
+    return { id: `person:${n.id}`, kind: 'circle', x: n.x, z: n.z, r: .35,
+      active: !n.hidden && this.game.state.npcs[n.id].available, minY: n.y, maxY: n.y + n.rig.height };
+  }
+
+  private enemyContact(e: EnemyActor): CircleCollider {
+    return { id: `enemy:${e.id}`, kind: 'circle', x: e.x, z: e.z, r: e.radius,
+      active: e.alive, minY: e.y, maxY: e.y + e.rig.height };
   }
 
   /** Two people near each other may talk between themselves when the player comes close enough to overhear. */
@@ -1744,9 +1763,13 @@ export class App {
 
   private updateEnemies(dt: number) {
     const p = this.player;
+    const enemyContacts = this.enemies.map(e => this.enemyContact(e));
     const ctx: EnemyContext = {
       terrain: this.world.terrain,
       colliders: this.world.colliders,
+      nav: this.world.nav,
+      contacts: [...this.world.animals.contacts, ...this.npcs.map(n => this.residentContact(n)), ...enemyContacts,
+        { id: 'player', kind: 'circle', x: p.x, z: p.z, r: .32, active: p.alive, minY: p.y, maxY: p.y + 1.8 }],
       player: { x: p.x, z: p.z, y: p.y, alive: p.alive, invulnerable: p.invulnerable },
       reducedMotion: this.settings.reducedMotion,
       strikePlayer: (e, dmg, heavy) => p.receiveHit(dmg, heavy, e, this.playerContext(true)),
@@ -1760,7 +1783,11 @@ export class App {
       },
       time: this.world.time,
     };
-    for (const e of this.enemies) if (!(this.game.state.defeated[e.id] && !e.alive && e.fade <= 0)) e.update(dt, ctx);
+    for (let i = 0; i < this.enemies.length; i++) {
+      const e = this.enemies[i]!;
+      if (!(this.game.state.defeated[e.id] && !e.alive && e.fade <= 0)) e.update(dt, ctx);
+      Object.assign(enemyContacts[i]!, this.enemyContact(e));
+    }
   }
 
   private onEnemyDefeated(e: EnemyActor) {

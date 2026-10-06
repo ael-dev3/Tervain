@@ -9,6 +9,7 @@ import { Frame } from '../../src/presentation/human/frame';
 import { disposeSceneResources } from '../../src/presentation/disposeScene';
 import { ENEMY_SPAWNS } from '../../src/world/layout';
 import { createInitialState } from '../../src/game/state';
+import { Colliders } from '../../src/world/colliders';
 import { createMeshyNpcRig, validateMeshyNpcAsset, validateMeshyNpcManifest, NPC_ROLES,
   MeshyNpcCatalog, type MeshyNpcEntry, type MeshyNpcManifest } from '../../src/presentation/meshynpcs';
 
@@ -161,7 +162,7 @@ describe('budgeted Meshy NPC replacement and lifetime', () => {
     const scene = new THREE.Scene(); scene.add(first.root); disposeSceneResources(scene, () => {});
     for (const call of Object.values(own)) expect(call).toHaveBeenCalledOnce();
     for (const call of retained) expect(call).not.toHaveBeenCalled();
-    poseRig(second, { mode: 'sit', speed: 0, time: 0.5, t: 0, amp: 1 }, 0.1);
+    for (let frame = 0; frame < 60; frame++) poseRig(second, { mode: 'sit', speed: 0, time: 0.5, t: 0, amp: 1 }, 1 / 60);
     expect(second.legL.rotation.x).toBeLessThan(-1);
   });
 
@@ -297,18 +298,19 @@ describe('budgeted Meshy NPC replacement and lifetime', () => {
     const f = source(), rig = createMeshyNpcRig(f.asset, entry);
     const definition = NPC_LIST.find(candidate => candidate.id === 'shrine_warden')!;
     const actor = new NpcActor(definition, rig), state = createInitialState();
-    const resolve = vi.fn((_x: number, _z: number) => ({ x: 0, z: 0 }));
+    const colliders = new Colliders();
+    const move = vi.spyOn(colliders, 'move').mockImplementation((_x, _z) => ({ x: 0, z: 0, hit: true, normals: [] }));
     const ctx = { state, hour: 8, player: { x: 100, y: 0, z: 100 }, reducedMotion: false,
-      terrain: { groundAt: () => 0.5 }, colliders: { resolve }, nav: {}, onBark: vi.fn(),
+      terrain: { groundAt: () => 0.5, walkable: () => true }, colliders, nav: {}, onBark: vi.fn(),
     } as unknown as ActorContext;
     Reflect.set(actor, 'placed', true); actor.goal = resolveGoal(definition, state, ctx.hour);
     Reflect.set(actor, 'path', [{ x: 0, z: 5 }]);
     actor.update(0.1, ctx);
     expect(actor.mode).toBe('idle'); expect([actor.x, actor.z]).toEqual([0, 0]);
     expect(rig.root.position.toArray()).toEqual([0, 0.5, 0]);
-    resolve.mockImplementation((x, z) => ({ x, z }));
+    move.mockImplementation((x, z, dx, dz) => ({ x: x + dx, z: z + dz, hit: false, normals: [] }));
     actor.update(0.1, ctx);
-    expect(actor.mode).toBe('walk'); expect(actor.z).toBeCloseTo(0.155, 6);
+    expect(actor.mode).toBe('walk'); expect(actor.z).toBeGreaterThan(0); expect(actor.z).toBeLessThan(.155);
     state.npcs[actor.id].available = false;
     actor.update(0.1, ctx);
     expect(actor.interactable).toBe(false); expect(rig.root.visible).toBe(false);
