@@ -5,6 +5,7 @@ import type { NativeValue } from './dialogue';
 import { NativeHeapObjectViews } from './native-heap-views';
 import { NativeHeapCString } from './native-heap-cstring';
 import type { NativeMemoryAdmin, NativeMemoryBacking } from './native-memory-admin';
+import type { NativeCrtBytePointer } from './native-crt-dname';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = (reason: string): { known: false; reason: string } => ({ known: false, reason });
@@ -67,7 +68,7 @@ function terminated(view: NativeHeapObjectViews, offset = 0): Uint8Array {
 /** Actual CRT helper services. ___unDName is a separate native dependency;
  * providing a JavaScript label does not supply its owned output allocation. */
 export interface NativeSceneTypeInfoHost {
-  undname?(input: Uint8Array, flags: 0x2800): NativeValue<NativeMemoryBacking | null>;
+  undname?(input: NativeCrtBytePointer, flags: 0x2800): NativeValue<NativeMemoryBacking | null>;
   crtMalloc(bytes: number): NativeValue<NativeMemoryBacking | null>;
   crtFree(backing: NativeMemoryBacking): NativeValue<void>;
   lock(id: 14): NativeValue<void>;
@@ -79,14 +80,16 @@ export interface NativeSceneTypeInfoHost {
  * from SharedBase MemoryAdmin ownership and from the class-name CString. */
 export class NativeSceneTypeInfoName {
   readonly descriptor = storage('sceneTypeInfoDescriptor', '30aa3050', 27, true);
-  readonly list = storage('crtTypeInfoList', '30af70ac', 8);
+  readonly list: NativeHeapObjectViews;
   private active = false;
   private reentrant = false;
   private boundary: string | null = null;
   private held: boolean | null = false;
   private readonly nodes: NativeMemoryBacking[] = [];
   private readonly trace: string[] = [];
-  constructor(private readonly host: NativeSceneTypeInfoHost) {
+  constructor(private readonly host: NativeSceneTypeInfoHost, crtTypeInfoList?: NativeHeapObjectViews) {
+    this.list = crtTypeInfoList ?? storage('crtTypeInfoList', '30af70ac', 8);
+    if (this.list.bytes.length !== 8) throw new Error('Actual eight-byte CRT type-info list required');
     if (this.descriptor.readUnsigned(0) !== 0x30892abc || this.descriptor.readUnsigned(4) !== 0 ||
         [...terminated(this.descriptor, 8)].map(value => String.fromCharCode(value)).join('') !== '.?AVeCSceneAdmin@@\0') {
       throw new Error('Exact original SceneAdmin RTTI descriptor required');
@@ -108,7 +111,7 @@ export class NativeSceneTypeInfoName {
       const cached = this.descriptor.pointer<NativeMemoryBacking>(4).get();
       if (cached) { terminated(new NativeHeapObjectViews(cached)); return known(cached); }
       if (!this.host.undname) throw new Error('CRT.___unDName3069b26b is unowned');
-      const temporary = this.call('crt.undname.0x2800', () => this.host.undname!(terminated(this.descriptor, 9), 0x2800));
+      const temporary = this.call('crt.undname.0x2800', () => this.host.undname!({ fields: this.descriptor, offset: 9 }, 0x2800));
       if (!temporary) return known(null);
       const text = new NativeHeapObjectViews(temporary);
       let length = terminated(text).length - 1;

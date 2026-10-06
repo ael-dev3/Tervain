@@ -1,0 +1,20 @@
+/* ENTRY 306970c9 | DName::isEmpty | STATUS decompiled | 4 ms */
+
+/* Library Function - Single Match
+    public: int __thiscall DName::isEmpty(void)const 
+   
+   Libraries: Visual Studio 2003 Release, Visual Studio 2005 Release */
+
+int __thiscall DName::isEmpty(DName *this)
+
+{
+  int iVar1;
+  
+  if (*(int *)this != 0) {
+    iVar1 = isValid(this);
+    if (iVar1 != 0) {
+      return 0;
+    }
+  }
+  return 1;
+}

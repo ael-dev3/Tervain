@@ -1,0 +1,3 @@
+30696ea2 | 33c0 | XOR EAX,EAX
+30696ea4 | 40 | INC EAX
+30696ea5 | c3 | RET

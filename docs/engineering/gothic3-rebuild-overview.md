@@ -270,23 +270,28 @@ route when the reviewed changes reach `main`.
 
 The separate TypeScript route is live at
 [Gothic 3 / Ardea](https://ael-dev3.github.io/Tervain/gothic3/). The deployed
-checkpoint 74 is `main` commit
-`eec169d0002c2f9ec8c46585f9df18b69be1c4f1`, merged in
-[PR 41](https://github.com/ael-dev3/Tervain/pull/41) and published by successful
-[workflow run 37522723425](https://github.com/ael-dev3/Tervain/actions/runs/37522723425), attempt 1.
+integration through checkpoint 76 is `main` commit
+`0681c98d0f9bbc078f0ac8e15421a98ed7a8c799`, merged in
+[PR 44](https://github.com/ael-dev3/Tervain/pull/44) and published by successful
+[workflow run 37529314472](https://github.com/ael-dev3/Tervain/actions/runs/37529314472), attempt 1.
 
 The public browser check loads 202 scene objects and 70 character models,
 enters Ardea with Hero HP 100 and inspects the Hero model (10,692 triangles,
-three meshes). The route serves `gothic3-siaPiAJn.js`; no captured warnings or
+three meshes) and a coastal bandit (11,280 triangles, two meshes).
+The route serves `gothic3-CAj9xpg6.js`; no captured warnings or
 errors were observed. The checkpoint's standalone runtime admins are not
 connected to the browser NPC reader. The isolated shared heap
 owners in [checkpoint 75](gothic3-rebuilding-process.md#75-alias-selected-npc-fields-to-the-shared-heap)
 still require full native startup and browser integration; their tests do not
 establish an activated NPC or campaign progress.
-The next isolated component, [checkpoint 76](gothic3-rebuilding-process.md#76-separate-physical-sceneadmin-construction-from-singleton-lookup),
+[Checkpoint 76](gothic3-rebuilding-process.md#76-separate-physical-sceneadmin-construction-from-singleton-lookup)
 implements physical SceneAdmin construction separately from cached module
 lookup and class-name startup. Actual CRT, section, module and application
 services remain prerequisites before these owners can supply live NPCs.
+[Checkpoint 77](gothic3-rebuilding-process.md#77-own-the-engine-crt-heap-locks-and-selected-class-name-decoder)
+adds source-owned CRT heap/lock operations and the selected ordinary class RTTI
+decoder. Its isolated checks use explicitly admitted OS/TLS/platform fixtures;
+they do not supply full native startup to the live NPC reader.
 Subsequent build and deployment receipts are recorded in the
 [Pages workflow](https://github.com/ael-dev3/Tervain/actions/workflows/pages.yml).
 This is an incomplete reconstruction; hosting and a successful build do not

@@ -26,7 +26,8 @@ function fixture(overrides: Partial<NativeSceneTypeInfoHost> = {}) {
   const host: NativeSceneTypeInfoHost = {
     undname: (input, flags) => {
       calls.push('undname'); expect(flags).toBe(0x2800);
-      expect(String.fromCharCode(...input)).toBe('?AVeCSceneAdmin@@\0');
+      expect(input.offset).toBe(9);
+      expect(String.fromCharCode(...input.fields.bytes.subarray(input.offset))).toBe('?AVeCSceneAdmin@@\0');
       const backing = value(platform.crtMalloc(22))!;
       const bytes = new TextEncoder().encode('class eCSceneAdmin   \0');
       backing.bytes.set(bytes); backing.knownMask.fill(255, 0, bytes.length);

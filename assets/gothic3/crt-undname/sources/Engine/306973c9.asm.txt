@@ -1,0 +1,8 @@
+306973c9 | 8b410c | MOV EAX,dword ptr [ECX + 0xc]
+306973cc | 85c0 | TEST EAX,EAX
+306973ce | 7408 | JZ 0x306973d8
+306973d0 | 8b4908 | MOV ECX,dword ptr [ECX + 0x8]
+306973d3 | 8a4401ff | MOV AL,byte ptr [ECX + EAX*0x1 + -0x1]
+306973d7 | c3 | RET
+306973d8 | 32c0 | XOR AL,AL
+306973da | c3 | RET

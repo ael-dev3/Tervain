@@ -1,0 +1,40 @@
+/* ENTRY 3069b26b | ___unDName | STATUS decompiled | 13 ms */
+
+/* WARNING: Function: __SEH_prolog4 replaced with injection: SEH_prolog4 */
+/* WARNING: Function: __SEH_epilog4 replaced with injection: EH_epilog3 */
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+/* Library Function - Single Match
+    ___unDName
+   
+   Library: Visual Studio 2005 Release */
+
+char * ___unDName(char *param_1,char *param_2,int param_3,int param_4,undefined4 param_5,
+                 ushort param_6)
+
+{
+  int iVar1;
+  UnDecorator local_98 [120];
+  char *local_20;
+  undefined4 uStack_c;
+  undefined *local_8;
+  
+  local_8 = &DAT_30956ec0;
+  uStack_c = 0x3069b27a;
+  if ((param_4 != 0) && (iVar1 = FUN_306832e3(5), iVar1 != 0)) {
+    __lock(5);
+    local_8 = (undefined *)0x0;
+    DAT_30af7c54 = param_4;
+    _DAT_30af7c58 = param_5;
+    _DAT_30af7c64 = 0;
+    _DAT_30af7c5c = 0;
+    _DAT_30af7c60 = 0;
+    UnDecorator::UnDecorator
+              (local_98,param_1,param_2,param_3,(_func_char_ptr_long *)0x0,(uint)param_6);
+    local_20 = UnDecorator::operator_char_(local_98);
+    HeapManager::Destructor((HeapManager *)&DAT_30af7c54);
+    local_8 = (undefined *)0xfffffffe;
+    FUN_3069b305();
+    return local_20;
+  }
+  return (char *)0x0;
+}

@@ -1,0 +1,5 @@
+30696474 | ff742404 | PUSH dword ptr [ESP + 0x4]
+30696478 | ff15e4c6af30 | CALL dword ptr [0x30afc6e4]
+3069647e | 33c0 | XOR EAX,EAX
+30696480 | 40 | INC EAX
+30696481 | c20800 | RET 0x8

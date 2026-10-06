@@ -39,8 +39,9 @@ enclave callback. Native NPC
 activation, AI, responses, full death handling and most campaign progression remain
 unavailable.
 
-Checkpoints 73–76 add retained source NPC readers, shared runtime admins,
-heap-backed field owners and physical SceneAdmin startup components. The new
+Checkpoints 73–77 add retained source NPC readers, shared runtime admins,
+heap-backed field owners, physical SceneAdmin startup components and the
+selected Engine CRT class-name decoder. The new
 admin, heap and SceneAdmin owners remain separate from the live NPC reader,
 which still stops at its first property-factory dependency. The [overview](gothic3-rebuild-overview.md)
 records the latest confirmed publication; the individual receipts below
@@ -55,7 +56,7 @@ The [scope record](gothic3-browser-port.md) describes the current controls,
 limitations and source terms.
 
 This guide records the preceding hosted baseline and subsequent dated
-checkpoints that preserve the evidence for each stage. Sections 10–76 cover
+checkpoints that preserve the evidence for each stage. Sections 10–77 cover
 the later runtime work; each receipt identifies its source revision and scope.
 
 Each checkpoint's reproduction commands describe its recorded source revision.
@@ -4990,8 +4991,14 @@ two meshes). Wireframe and automatic rotation controls work. The retained
 source reader still stops at 338 / 6,544 bytes, with zero of 16 property sets
 attached and no graph context. No warnings or errors were captured on this
 Gothic route. The startup owners remain isolated; this browser check does not
-establish native NPC activation. Online publication of this integration has
-not yet been verified.
+establish native NPC activation. The integration was subsequently merged as
+`main` commit `0681c98d0f9bbc078f0ac8e15421a98ed7a8c799` in
+[PR 44](https://github.com/ael-dev3/Tervain/pull/44). The successful
+[Pages run 37529314472](https://github.com/ael-dev3/Tervain/actions/runs/37529314472),
+attempt 1, publishes that exact commit. A fresh public browser check confirms
+`gothic3-CAj9xpg6.js`, 202 scene objects, 70 characters, Hero HP 100, the Hero
+and bandit model counts, and the unchanged source-reader boundary. No Gothic
+warnings or errors were captured.
 
 The original Tervain route opens its menu before world construction. New Game
 advances through the counted loading phases to a playable High-quality view
@@ -5001,3 +5008,111 @@ recorded during preparation. This concurrent browser smoke check is not a
 performance benchmark; the matched measurements and the loading branch's
 browser validation are described in its separate
 [loading report](loading-performance.md).
+
+## 77. Own the Engine CRT heap, locks and selected class-name decoder
+
+Checkpoint 76 deliberately stopped at the original CRT demangler dependency.
+This component follows that dependency through its source heap, lock table,
+scratch arena and name graph. It remains separate from the live NPC reader.
+It supplies neither native NPC activation nor further campaign progression.
+
+### Source and physical ownership
+
+The [CRT source package](../../assets/gothic3/crt-undname/README.md) pins the
+original Engine.dll and 82 method receipts, including two recovered SEH entries.
+Its 3,686 unique instructions match the original PE bytes; eight omitted
+post-free instructions and fifteen SEH instructions are recovered from that
+image. The 166 files reproduce byte-identically, and 162 source references
+are checked. The producer executes no game code and captures no live state.
+
+```powershell
+python -B tools/gothic3/prepare_crt_undname_source.py --study "C:\path\to\Gothic3_Decompiled_Study_2026-10-04"
+```
+
+| Output | Bytes | SHA-256 |
+| --- | ---: | --- |
+| CRT rules | 165,908 | `d593c216c3cef9a2855be2dd3daa03170b36217b13d8065a320c7e5af495ef61` |
+| CRT evidence | 602,256 | `285a7ec06bfdbf9dcf1ad929fff03184da75ce2cb57e45998bb972655fc55b69` |
+
+[`NativeEngineCrtOwner`](../../src/gothic3/native-engine-crt-locks.ts) owns the
+actual heap-handle slot, heap selection, 20-byte OS fields, allocation policy,
+36-record lock table, fourteen static 24-byte sections, type-info list,
+TLS indexes and encoded section-initializer cache. HeapCreate publishes its
+retained handle before heap selection. Cold OS fields remain zero; a browser
+cannot infer that the original CRT startup initialized them. The NT heap path
+requires admitted platform and Windows-major fields; other heap modes retain
+their unsupported boundary.
+
+Section initialization follows the original decode/TLS/module/procedure
+lookup, encode/cache and invocation order. The selected Win32 platform owns
+canonical retained heap and section capabilities. Its explicit service
+registry can exercise the original missing pointer-export identity branches
+or an owned pointer codec. The default production platform has no inferred
+TLS/module facts. An unavailable service stops at that call with the preceding
+pointer stores retained. OS initialization, TLS errno construction, non-cold
+TLS dispatch, the lower-major process PE scan, new handlers and fatal runtime
+services remain prerequisites. Fixture OS and registry values are selected
+inputs, not observations of the original running game.
+
+Static locks initialize with spin 4000. Demangler lock 5 is dynamically
+allocated under creation lock 10; type-info cache mutation uses lock 14.
+Raw malloc and `__malloc_crt` remain distinct: the demangler and type-info
+node/name allocations use the original raw malloc callback, while lock
+creation uses the retry wrapper. Termination deletes/frees dynamic sections
+and clears their pointers before deleting the static sections. Native
+source store widths, failed allocation prefixes and callback order are retained.
+
+### Selected RTTI grammar and lifetime
+
+[`NativeCrtUndName`](../../src/gothic3/native-crt-undname.ts) shares the same
+60-byte demangler globals across wrappers of one CRT owner. It locks 5,
+installs the source allocator/free callbacks, clears the arena links, and
+constructs two physical Replicators in a 120-byte local frame. Its ordinary
+unqualified class branch consumes qualification `A`, class code `V` and the
+identifier bytes from the retained input pointer. Identifier validation,
+reference-table recording and concatenation use the source
+[`DName`/arena operations](../../src/gothic3/native-crt-dname.ts).
+Templates, scoped names, other type/function grammar and truncated scope
+concatenation stop explicitly at their unowned branches.
+
+The original SceneAdmin descriptor supplies offset 9 and flags `0x2800`.
+The normal graph consumes 152 scratch bytes in one 4,104-byte heap backing
+and writes `class eCSceneAdmin` into an independent 24-byte output allocation.
+This text is derived from the supplied identifier bytes; it is not a fixed
+label callback. The helper collapses repeated ASCII spaces, frees the scratch
+arena, unlocks 5 and expires its local Replicator frame. Globals retain their
+original dangling pointers, whose expired backing rejects later access.
+An unsupported call retains its suspended prefix and held-lock facts;
+shared recursive entry also stops before further source operations.
+
+The SceneAdmin type-info adapter passes the retained descriptor directly,
+uses the same CRT owner's eight-byte list, then applies the existing lock-14
+cache sequence: eight-byte list node, nineteen-byte cached name, physical
+links, temporary output free and unlock. Each CRT owner has one canonical
+SceneAdmin descriptor/cache. These services are component implementations;
+they are not yet imported by the browser NPC activation path.
+
+### Validation and next dependency
+
+Focused checks cover physical allocation/aliasing, source graph sizes,
+multiple identifiers, shared globals, cache/list identity, unknown services,
+failure cleanup, expired scratch/local-frame access and recursive entry.
+The earlier SceneAdmin startup tests now receive retained input capabilities.
+Independent source review checked the helper graph, CRT resolver/cache,
+physical aliases, partial failure prefixes and expired local-frame lifetime.
+Local validation passes `npm run typecheck` and all 2,154 tests across 209
+files in 129.90 seconds, including 69 new cases. The production build succeeds
+with 370 modules in 45.34 seconds. The Gothic entry and NPC chunks remain
+`gothic3-CAj9xpg6.js`, `browser-npc-entity-Dw-uaFUt.js` and
+`browser-npc-entity-services-iHoiZamx.js`: the new CRT owners have no browser
+application entry import. The existing large Tervain chunk warning remains.
+All 233 relative file links in the two rebuilding documents resolve, and
+`git diff --check` passes. These results establish component behavior and build
+compatibility; they do not establish activated NPCs or further quest progress.
+
+The live source reader remains at 338 / 6,544 bytes with zero of sixteen
+property sets attached and no native processing graph. Connecting these
+components requires owned CRT OS/TLS startup, the remaining ErrorAdmin path,
+EntityAdmin, module/application initialization, reflection/type registration,
+Navigation getters and indexed-string/name-map operations. Campaign completion
+still requires the full gameplay integration and playthrough described above.

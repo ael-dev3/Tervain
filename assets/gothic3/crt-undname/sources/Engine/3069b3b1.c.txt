@@ -1,0 +1,202 @@
+/* ENTRY 3069b3b1 | FUN_3069b3b1 | STATUS decompiled | 67 ms */
+
+DName * FUN_3069b3b1(DName *param_1,DName *param_2)
+
+{
+  byte bVar1;
+  byte *pbVar2;
+  DName *pDVar3;
+  int iVar4;
+  uint uVar5;
+  uint uVar6;
+  char *pcVar7;
+  DName local_28 [8];
+  DName local_20 [4];
+  byte local_1c;
+  DName local_18 [4];
+  uint local_14;
+  undefined4 local_10;
+  uint local_c;
+  byte local_5;
+  
+  pbVar2 = DAT_30af7c74;
+  bVar1 = *DAT_30af7c74;
+  if (bVar1 == 0) {
+    operator+((DNameStatus)param_1,(DName *)0x2);
+    return param_1;
+  }
+  DAT_30af7c74 = DAT_30af7c74 + 1;
+  local_10 = 0;
+  uVar6 = (uint)bVar1;
+  local_c = local_c & 0xfffff000;
+  uVar5 = 0xffffffff;
+  if (uVar6 < 0x4f) {
+    if (uVar6 != 0x4e) {
+      switch(uVar6) {
+      case 0x43:
+      case 0x44:
+      case 0x45:
+        pcVar7 = "char";
+        break;
+      case 0x46:
+      case 0x47:
+        pcVar7 = "short";
+        break;
+      case 0x48:
+      case 0x49:
+        pcVar7 = "int";
+        break;
+      case 0x4a:
+      case 0x4b:
+        pcVar7 = "long";
+        break;
+      default:
+        goto switchD_3069b401_caseD_4c;
+      case 0x4d:
+        pcVar7 = "float";
+      }
+      goto LAB_3069b5c5;
+    }
+LAB_3069b5eb:
+    DName::operator+=((DName *)&local_10,"double");
+LAB_3069b5f8:
+    if (uVar5 != 0xffffffff) {
+LAB_3069b569:
+      local_10 = 0;
+      local_c = local_c & 0xfffff000;
+      DName::DName(local_18,param_2);
+      if (uVar5 != 0xfffffffe) {
+        iVar4 = DName::isEmpty(param_2);
+        if (iVar4 != 0) {
+          if ((uVar5 & 1) == 0) {
+            if ((uVar5 & 2) != 0) {
+              DName::operator=((DName *)&local_10,"volatile");
+            }
+          }
+          else {
+            DName::operator=((DName *)&local_10,"const");
+            if ((uVar5 & 2) != 0) {
+              DName::operator+=((DName *)&local_10," volatile");
+            }
+          }
+        }
+        UnDecorator::getPtrRefType(param_1,(DName *)&local_10,(char)local_18);
+        return param_1;
+      }
+      local_14 = local_14 | 0x80;
+      UnDecorator::getPtrRefType(local_20,(DName *)&local_10,(char)local_18);
+      if ((local_1c & 0x80) == 0) {
+        DName::operator+=(local_20,"[]");
+      }
+      pDVar3 = local_20;
+      goto LAB_3069b54a;
+    }
+LAB_3069b601:
+    if (uVar6 == 0x43) {
+      pcVar7 = "signed ";
+      pDVar3 = local_18;
+LAB_3069b661:
+      pDVar3 = (DName *)operator+((char *)pDVar3,(DName *)pcVar7);
+      DName::operator=((DName *)&local_10,pDVar3);
+    }
+    else {
+      if ((((uVar6 == 0x45) || (uVar6 == 0x47)) || (uVar6 == 0x49)) || (uVar6 == 0x4b)) {
+        pcVar7 = "unsigned ";
+        pDVar3 = local_20;
+        goto LAB_3069b661;
+      }
+      if ((uVar6 == 0x5f) &&
+         (((local_5 == 0x45 || (local_5 == 0x47)) ||
+          ((local_5 == 0x49 || ((local_5 == 0x4b || (local_5 == 0x4d)))))))) {
+        pcVar7 = "unsigned ";
+        pDVar3 = local_28;
+        goto LAB_3069b661;
+      }
+    }
+    iVar4 = DName::isEmpty(param_2);
+    if (iVar4 == 0) {
+      pDVar3 = (DName *)operator+((char)local_28,(DName *)0x20);
+      DName::operator+=((DName *)&local_10,pDVar3);
+    }
+  }
+  else {
+    if (uVar6 == 0x4f) {
+      DName::operator=((DName *)&local_10,"long ");
+      goto LAB_3069b5eb;
+    }
+    if (0x4f < uVar6) {
+      if (uVar6 < 0x54) {
+        uVar5 = uVar6 & 3;
+        goto LAB_3069b5f8;
+      }
+      if (uVar6 == 0x58) {
+        pcVar7 = "void";
+        goto LAB_3069b5c5;
+      }
+      if (uVar6 != 0x5f) goto switchD_3069b401_caseD_4c;
+      local_5 = *DAT_30af7c74;
+      DAT_30af7c74 = pbVar2 + 2;
+      uVar5 = (uint)local_5;
+      if (uVar5 < 0x4e) {
+        if (uVar5 < 0x4c) {
+          if (uVar5 < 0x48) {
+            if (uVar5 < 0x46) {
+              if (uVar5 == 0x24) {
+                FUN_3069b3b1(local_20,param_2);
+                operator+((char *)param_1,(DName *)"__w64 ");
+                return param_1;
+              }
+              if (1 < uVar5 - 0x44) goto LAB_3069b558;
+              pcVar7 = "__int8";
+            }
+            else {
+              pcVar7 = "__int16";
+            }
+          }
+          else if (uVar5 < 0x48) {
+LAB_3069b558:
+            pcVar7 = "UNKNOWN";
+          }
+          else if (uVar5 < 0x4a) {
+            pcVar7 = "__int32";
+          }
+          else {
+            if (0x4b < uVar5) goto LAB_3069b558;
+            pcVar7 = "__int64";
+          }
+        }
+        else {
+          pcVar7 = "__int128";
+        }
+LAB_3069b5c5:
+        DName::operator=((DName *)&local_10,pcVar7);
+        goto LAB_3069b601;
+      }
+      if (uVar5 == 0x4e) {
+        pcVar7 = "bool";
+        goto LAB_3069b5c5;
+      }
+      if (uVar5 != 0x4f) {
+        if (uVar5 != 0x57) {
+          if (1 < uVar5 - 0x58) goto LAB_3069b558;
+          goto LAB_3069b521;
+        }
+        pcVar7 = "wchar_t";
+        goto LAB_3069b5c5;
+      }
+      uVar5 = 0xfffffffe;
+      goto LAB_3069b569;
+    }
+switchD_3069b401_caseD_4c:
+LAB_3069b521:
+    DAT_30af7c74 = DAT_30af7c74 + -1;
+    pDVar3 = (DName *)UnDecorator::getECSUDataType();
+    DName::operator=((DName *)&local_10,pDVar3);
+    iVar4 = DName::isEmpty((DName *)&local_10);
+    if (iVar4 == 0) goto LAB_3069b601;
+  }
+  pDVar3 = (DName *)&local_10;
+LAB_3069b54a:
+  DName::DName(param_1,pDVar3);
+  return param_1;
+}

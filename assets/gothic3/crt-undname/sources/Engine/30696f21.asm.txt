@@ -1,0 +1,5 @@
+30696f21 | 83790802 | CMP dword ptr [ECX + 0x8],0x2
+30696f25 | 0f95c0 | SETNZ AL
+30696f28 | fec8 | DEC AL
+30696f2a | 83e020 | AND EAX,0x20
+30696f2d | c3 | RET
