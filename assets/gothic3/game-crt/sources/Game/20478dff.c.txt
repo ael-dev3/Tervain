@@ -1,0 +1,13 @@
+/* ENTRY 20478dff | pcharNode::vfunction2 | STATUS decompiled | 2 ms */
+
+undefined4 __thiscall pcharNode::vfunction2(pcharNode *this)
+
+{
+  int iVar1;
+
+  iVar1 = (this->pcharNode_data).offset_0x8;
+  if (iVar1 != 0) {
+    return CONCAT31((int3)((uint)iVar1 >> 8),(this->pcharNode_data).offset_0x4[iVar1 + -1]);
+  }
+  return 0;
+}

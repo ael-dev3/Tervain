@@ -1,0 +1,28 @@
+/* ENTRY 2028cbd0 | bTPropertyObjectType<gCNavigation_PS,eCEntityPropertySet>::~bTPropertyObjectType<gCNavigation_PS,eCEntityPropertySet> | STATUS decompiled | 8 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined * __thiscall
+bTPropertyObjectType<gCNavigation_PS,eCEntityPropertySet>::
+~bTPropertyObjectType<gCNavigation_PS,eCEntityPropertySet>(void)
+
+{
+  bCString *pbVar1;
+  bCPropertyObjectSingleton *this;
+  bCPropertyObjectTypeBase *pbVar2;
+
+  if ((_DAT_207bf820 & 1) == 0) {
+    _DAT_207bf820 = _DAT_207bf820 | 1;
+    bCPropertyObjectTypeBase::bCPropertyObjectTypeBase
+              ((bCPropertyObjectTypeBase *)&DAT_207bf7e4,true);
+    _DAT_207bf7e4 = &vftable;
+    pbVar1 = (bCString *)vfunction1();
+    bCPropertyObjectFactory::bCPropertyObjectFactory
+              ((bCPropertyObjectFactory *)&DAT_207bf7fc,pbVar1);
+    pbVar2 = (bCPropertyObjectTypeBase *)&DAT_207bf7e4;
+    this = bCPropertyObjectSingleton::GetInstance();
+    bCPropertyObjectSingleton::RegisterTemplate(this,pbVar2);
+    _atexit(~bTPropertyObjectType<gCNavigation_PS,eCEntityPropertySet>);
+  }
+  return &DAT_207bf7e4;
+}

@@ -1,0 +1,4 @@
+20467dd2 | 6a00 | PUSH 0x0
+20467dd4 | e88bffffff | CALL 0x20467d64
+20467dd9 | 59 | POP ECX
+20467dda | c3 | RET

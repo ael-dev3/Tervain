@@ -1,0 +1,14 @@
+/* ENTRY 204739ee | __initp_eh_hooks | STATUS decompiled | 1 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+/* Library Function - Single Match
+    __initp_eh_hooks
+
+   Libraries: Visual Studio 2005 Release, Visual Studio 2008 Release */
+
+void __initp_eh_hooks(void)
+
+{
+  _DAT_207d1080 = FUN_20467d64(&LAB_2047396b);
+  return;
+}

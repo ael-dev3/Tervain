@@ -1,0 +1,64 @@
+20478ba7 | 55 | PUSH EBP
+20478ba8 | 8bec | MOV EBP,ESP
+20478baa | 56 | PUSH ESI
+20478bab | 57 | PUSH EDI
+20478bac | 8bf9 | MOV EDI,ECX
+20478bae | e84cffffff | CALL 0x20478aff
+20478bb3 | 85c0 | TEST EAX,EAX
+20478bb5 | 756c | JNZ 0x20478c23
+20478bb7 | 394508 | CMP dword ptr [EBP + 0x8],EAX
+20478bba | 751e | JNZ 0x20478bda
+20478bbc | e889ffffff | CALL 0x20478b4a
+20478bc1 | 8bf0 | MOV ESI,EAX
+20478bc3 | 6a00 | PUSH 0x0
+20478bc5 | 46 | INC ESI
+20478bc6 | 56 | PUSH ESI
+20478bc7 | b9e4147d20 | MOV ECX,0x207d14e4
+20478bcc | e855faffff | CALL 0x20478626
+20478bd1 | 85c0 | TEST EAX,EAX
+20478bd3 | 894508 | MOV dword ptr [EBP + 0x8],EAX
+20478bd6 | 7457 | JZ 0x20478c2f
+20478bd8 | eb03 | JMP 0x20478bdd
+20478bda | 8b750c | MOV ESI,dword ptr [EBP + 0xc]
+20478bdd | 8b4508 | MOV EAX,dword ptr [EBP + 0x8]
+20478be0 | 53 | PUSH EBX
+20478be1 | 8bde | MOV EBX,ESI
+20478be3 | 8b37 | MOV ESI,dword ptr [EDI]
+20478be5 | 89450c | MOV dword ptr [EBP + 0xc],EAX
+20478be8 | eb2f | JMP 0x20478c19
+20478bea | 85db | TEST EBX,EBX
+20478bec | 7e2f | JLE 0x20478c1d
+20478bee | 8b06 | MOV EAX,dword ptr [ESI]
+20478bf0 | 8bce | MOV ECX,ESI
+20478bf2 | ff10 | CALL dword ptr [EAX]
+20478bf4 | 8bf8 | MOV EDI,EAX
+20478bf6 | 85ff | TEST EDI,EDI
+20478bf8 | 741c | JZ 0x20478c16
+20478bfa | 8bc3 | MOV EAX,EBX
+20478bfc | 2bc7 | SUB EAX,EDI
+20478bfe | 7902 | JNS 0x20478c02
+20478c00 | 8bfb | MOV EDI,EBX
+20478c02 | 8b06 | MOV EAX,dword ptr [ESI]
+20478c04 | 57 | PUSH EDI
+20478c05 | ff750c | PUSH dword ptr [EBP + 0xc]
+20478c08 | 8bce | MOV ECX,ESI
+20478c0a | ff5008 | CALL dword ptr [EAX + 0x8]
+20478c0d | 85c0 | TEST EAX,EAX
+20478c0f | 7405 | JZ 0x20478c16
+20478c11 | 2bdf | SUB EBX,EDI
+20478c13 | 017d0c | ADD dword ptr [EBP + 0xc],EDI
+20478c16 | 8b7604 | MOV ESI,dword ptr [ESI + 0x4]
+20478c19 | 85f6 | TEST ESI,ESI
+20478c1b | 75cd | JNZ 0x20478bea
+20478c1d | 8b450c | MOV EAX,dword ptr [EBP + 0xc]
+20478c20 | 5b | POP EBX
+20478c21 | eb09 | JMP 0x20478c2c
+20478c23 | 837d0800 | CMP dword ptr [EBP + 0x8],0x0
+20478c27 | 7406 | JZ 0x20478c2f
+20478c29 | 8b4508 | MOV EAX,dword ptr [EBP + 0x8]
+20478c2c | c60000 | MOV byte ptr [EAX],0x0
+20478c2f | 8b4508 | MOV EAX,dword ptr [EBP + 0x8]
+20478c32 | 5f | POP EDI
+20478c33 | 5e | POP ESI
+20478c34 | 5d | POP EBP
+20478c35 | c20800 | RET 0x8

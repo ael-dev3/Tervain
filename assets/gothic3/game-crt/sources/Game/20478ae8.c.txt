@@ -1,0 +1,18 @@
+/* ENTRY 20478ae8 | DName::isValid | STATUS decompiled | 2 ms */
+
+/* Library Function - Single Match
+    public: int __thiscall DName::isValid(void)const
+
+   Library: Visual Studio 2005 Release */
+
+int __thiscall DName::isValid(DName *this)
+
+{
+  int iVar1;
+
+  iVar1 = (*(int *)(this + 4) << 0x1c) >> 0x1c;
+  if ((iVar1 != 0) && (iVar1 != 2)) {
+    return 0;
+  }
+  return 1;
+}

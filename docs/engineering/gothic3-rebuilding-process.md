@@ -39,12 +39,13 @@ enclave callback. Native NPC
 activation, AI, responses, full death handling and most campaign progression remain
 unavailable.
 
-Checkpoints 73–80 add retained source NPC readers, shared runtime admins,
+Checkpoints 73–81 add retained source NPC readers, shared runtime admins,
 heap-backed field owners, physical SceneAdmin startup components and the
 selected Engine CRT class-name decoder and an ordinary DLL attach prefix.
 Checkpoint 79 preserves Navigation notifications and application/area ownership;
 checkpoint 80 corrects the fresh CString text constructor and its owned byte
-operations before the Game Navigation class-name/type integration. The new
+operations, and checkpoint 81 adds the separate Game CRT ownership and startup
+prefix before the Game Navigation class-name/type integration. The new
 admin, heap and SceneAdmin owners remain separate from the live NPC reader,
 which still stops at its first property-factory dependency. The [overview](gothic3-rebuild-overview.md)
 records the latest confirmed publication; the individual receipts below
@@ -59,7 +60,7 @@ The [scope record](gothic3-browser-port.md) describes the current controls,
 limitations and source terms.
 
 This guide records the preceding hosted baseline and subsequent dated
-checkpoints that preserve the evidence for each stage. Sections 10–80 cover
+checkpoints that preserve the evidence for each stage. Sections 10–81 cover
 the later runtime work; each receipt identifies its source revision and scope.
 
 Each checkpoint's reproduction commands describe its recorded source revision.
@@ -5546,4 +5547,167 @@ physical allocations and registration logging on the same heap as the entity,
 wrapper and ErrorAdmin. These CString components do not supply those owners,
 the complete module/application startup or NPC processing services. The live
 browser NPC reader remains at 338/6,544 bytes and 0/16 attached property sets;
+full NPC activation, AI and campaign completion remain unavailable.
+
+### Confirmed publication of checkpoint 80
+
+[PR 49](https://github.com/ael-dev3/Tervain/pull/49) merged this constructor
+checkpoint as `60c38ff6c2f1516015fc29ffe9c4d66c3295be94`, with tree
+`ac970f997afef1f306d23741e0c7f8c210626b40`. Its reviewed PR head and merge
+commit have the same tree. PR check
+[37543201308](https://github.com/ael-dev3/Tervain/actions/runs/37543201308)
+and main publication
+[37543656027](https://github.com/ael-dev3/Tervain/actions/runs/37543656027)
+both pass on attempt 1; each checks 2,312 tests across 220 files.
+Pages deployment completes on 6 October 2026 at 23:01:25 UTC.
+
+The first public scene load reports one material HTTP 503 and 201 objects.
+One browser reload then loads 202 objects and 70 characters, enters Ardea,
+inspects the Hero and coastal bandit, and captures no warnings or errors.
+No Actions rerun or code change is used to recover that request.
+The live NPC boundary remains unchanged.
+
+## 81. Preserve canonical Game CRT ownership before Navigation type construction
+
+Date: 7 October 2026. This checkpoint supplies the selected Game.dll runtime
+prerequisites for constructing the original Navigation class name and type.
+It remains a component milestone: the live NPC reader and its property
+attachment boundary are unchanged.
+
+### Preserve a separate module owner
+
+The installed Engine.dll and Game.dll contain similar CRT algorithms but own
+different heaps, locks, pointer globals, locale objects and thread records.
+Using an Engine instance under a Game label would share the wrong physical
+state. [`native-engine-crt-locks.ts`](../../src/gothic3/native-engine-crt-locks.ts)
+now implements the admitted common operations under `NativeModuleCrtOwner`.
+The existing public Engine facade preserves its original source profile and
+trace addresses. [`native-game-crt.ts`](../../src/gothic3/native-game-crt.ts)
+provides one canonical Game owner per actual platform; conflicting host service
+callbacks are rejected.
+
+[`native-game-crt-profile.ts`](../../src/gothic3/native-game-crt-profile.ts)
+pins the actual Game method bodies and original module storage. Profiles are
+immutable and selected internally. Game image views retain their original byte
+ranges and masks; overlapping admitted ranges share their actual backing.
+The MBC reference counter is an alias of the MBC object, and pointer
+initialization uses the same section-initializer slot as the lock owner.
+Cold image bytes do not establish a created heap, initialized critical section
+or successful DLL attach.
+
+The owner implements the selected mode-1 HeapAlloc/HeapFree, calloc, pointer
+encoding and physical lock paths. The existing small-block, old-OS and
+unimplemented error-handler branches retain their source boundaries. Returned
+allocation identities and lower platform results must be owned; an unknown
+result cannot be converted into success or NULL. Engine and Game can use the
+same platform registry while retaining separate module heaps, allocations,
+TLS/FLS indices, locale counters and cleanup state.
+
+### Follow the original Game startup prefix
+
+[`native-crt-bootstrap.ts`](../../src/gothic3/native-crt-bootstrap.ts) and
+[`native-crt-thread-startup.ts`](../../src/gothic3/native-crt-thread-startup.ts)
+select the matching module receipt. The separate
+[`startup admission`](../../src/gothic3/native-game-crt-startup-source.ts)
+pins complete Game bodies and actual instruction addresses; it does not infer
+them by subtracting an Engine address offset.
+
+Game entry `20467ab3` calls security-cookie initialization `20476a99` and DLL
+startup `204679bd`. The selected process-attach path at `204677e4` retains:
+
+1. Actual entropy output, cookie and complement writes, and the retained stack
+   frame when an output or callback is unavailable.
+2. The original 148-byte OSVERSIONINFOA allocation, writer, source read order,
+   second process-heap query and free result before publishing OS globals.
+3. Game heap initialization, actual TLS/FLS procedure resolution, unencoded
+   getter publication, encoded pointer slots and physical locks.
+4. The zeroed 532-byte PTD allocation, publication before initialization,
+   physical MBC/locale reference counts and actual thread ID.
+5. The original 64-slot RTC initializer scan, then the unresolved
+   `GetCommandLineA` call at `204678b9` through IAT `207d7ca0`.
+
+That boundary keeps the completed effects and blocks replay. The original
+attach count remains zero. The Game DllMain thunk `2000f7cc`, body `20459430`,
+environment, I/O, argv/envp and later C/C++ initialization remain prerequisites.
+Stored terminate and exit procedure capabilities carry their actual Game
+source identities; their invocation remains unowned. The platform retains
+the selected Game FLS destructor `20468043` separately from Engine's `3067e143`.
+The TLS fallback uses the shared lower Win32 TlsAlloc endpoint without claiming
+an Engine source address for Game.
+
+### Distinguish the three initializer tables
+
+The early Game RTC table `[206e84d8,206e85d8)` is independently verified as 256
+zero bytes in the original PE. This does not initialize the later CRT exit or
+C++ object state.
+
+| Original Game table | Source evidence | Remaining dependency |
+| --- | --- | --- |
+| RTC table | 64 slots, all NULL | The selected prefix completes this scan. |
+| C table `[20655514,20655730)` | 135 slots, five non-NULL callbacks | The first callback initializes the physical encoded onexit array. None of these callbacks runs in this prefix. |
+| C++ table `[2056c000,20655410)` | 238,852 slots, 2,468 non-NULL callbacks | Navigation initializer `204b1840` is slot 136 and the 72nd non-NULL callback; 71 preceding callbacks remain dependencies. |
+
+The complete ordered later tables are separately pinned source files rather
+than unused raw strings in the browser runtime. The Game onexit array still
+needs actual Game allocations, encoded begin/end pointers and reverse cleanup;
+the platform's JavaScript shutdown callback list does not supply that state.
+
+### Reproduce this component checkpoint
+
+```powershell
+python -B tools/gothic3/prepare_game_crt_source.py --study '<LOCAL_DESKTOP_STUDY>'
+npm run typecheck
+npm test -- tests/gothic3-dialogue/game-crt-startup.test.ts tests/gothic3-dialogue/game-crt-owner.test.ts tests/gothic3-dialogue/crt-bootstrap.test.ts tests/gothic3-dialogue/native-crt-thread-startup.test.ts tests/gothic3-dialogue/native-engine-crt-locks.test.ts
+npm test
+npm run build
+```
+
+The additive [Game CRT source package](../../assets/gothic3/game-crt/README.md)
+records 138 methods and 5,166 byte-checked instructions, including 28 explicitly
+recovered original PE instructions. It retains the actual Game DLL, original
+PE entrypoint, CSV/C mappings, original complete C chunk hashes, normalized
+excerpts, imports, literals, physical storage and complete initializer order.
+Two final generations reproduce all 273 package files identically. All 276
+manifest references include the generated outputs, producer and imported local
+dependencies. Independent review verifies the method extents, PE bytes, tables,
+storage and normalized source excerpts. Earlier packages stay frozen.
+Preparation runs no native game code and captures no live process state.
+
+| Frozen output | SHA-256 |
+| --- | --- |
+| Game CRT rules | `e146c66c5349b0c3f65ceda9ed1df3e423d2ed3e2d606193e7d2350f977e237b` |
+| Game CRT evidence | `eadb76458ca86f4faa0536162989c2a5c742d7cec309d6e294593b9dc696c250` |
+| Source manifest | `7e44c8fb45b7fabf3e4deb31a62a8261adf61d9a52375bb7bc033a277d7456ec` |
+
+The focused five-file run passes **106 tests**. Cases cover module separation,
+canonical source pointer identities, immutable admission, physical aliases,
+cookie/OS output masks, encoded procedures, Game FLS cleanup, NULL/FALSE lower
+results, callback reentry and retained allocation/counter/lock prefixes. Each
+module retains its own source TLS allocator wrapper (`3067df49` for Engine,
+`20467e49` for Game) and one free-PTD procedure capability across its helpers.
+Only that module's retained wrapper can take its source allocator path; the
+wrapper ignores the destructor argument and delegates actual lower TlsAlloc.
+
+The full local run passes **2,348 tests across 222 files** in 128.51 seconds.
+Typecheck and the production build pass: 375 modules in 35.03 seconds. The
+existing large-chunk warning remains. The Gothic entry is still
+`gothic3-C3iMc5TP.js`, with NPC reader `browser-npc-entity-BF2Tojqt.js` and
+services `browser-npc-entity-services-Cw75FwNg.js`. These unchanged production
+chunks reflect that the Game CRT components are not yet connected to the live
+reader. All 275 relative file links across both rebuilding guides, the tool
+guide and new package README resolve; the reviewed diff is whitespace-clean.
+
+The production preview loads 202 scene objects, 70 character models and three
+source routine positions, enters Ardea with Hero HP 100 and the first Xardas
+quest running, then inspects the Hero and `Ardea_OutNovice_01`. The inspector
+reports 10,692 triangles/three meshes for the Hero and 11,280 triangles/two
+meshes for the bandit. Expanded developer details retain no Navigation owner,
+no NavigationAdmin membership and no processing graph. The captured console
+contains no warnings or errors.
+
+The next integration must supply the actual Game RTTI demangler and cached
+class-name owner, physical onexit state, SharedBase type/factory registration
+and fifteen Navigation descriptors on the same MemoryAdmin as the NPC entity,
+wrapper and ErrorAdmin. This prefix supplies none of those completed owners.
+The live reader remains at 338/6,544 bytes and 0/16 attached property sets;
 full NPC activation, AI and campaign completion remain unavailable.

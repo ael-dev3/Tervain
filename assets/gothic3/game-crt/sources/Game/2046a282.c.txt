@@ -1,0 +1,13 @@
+/* ENTRY 2046a282 | FUN_2046a282 | STATUS decompiled | 1 ms */
+
+undefined * FUN_2046a282(void)
+
+{
+  int iVar1;
+
+  iVar1 = FUN_20467fb4();
+  if (iVar1 == 0) {
+    return &DAT_207b2588;
+  }
+  return (undefined *)(iVar1 + 8);
+}

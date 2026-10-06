@@ -1,0 +1,7 @@
+/* ENTRY 20478957 | DNameStatusNode::vfunction2 | STATUS decompiled | 2 ms */
+
+byte __thiscall DNameStatusNode::vfunction2(DNameStatusNode *this)
+
+{
+  return ((this->DNameStatusNode_data).offset_0x4 != 2) - 1U & 0x20;
+}

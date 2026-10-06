@@ -1,0 +1,45 @@
+/* ENTRY 204636aa | FUN_204636aa | STATUS decompiled | 39 ms */
+
+undefined4 FUN_204636aa(undefined4 param_1)
+
+{
+  uint uVar1;
+  undefined4 *_Memory;
+  undefined4 *puVar2;
+  size_t sVar3;
+  size_t sVar4;
+  void *pvVar5;
+  undefined4 uVar6;
+
+  _Memory = (undefined4 *)FUN_20467ddb(DAT_207d2b80);
+  puVar2 = (undefined4 *)FUN_20467ddb(DAT_207d2b7c);
+  if (_Memory <= puVar2) {
+    uVar1 = ((int)puVar2 - (int)_Memory) + 4;
+    if (3 < uVar1) {
+      sVar3 = __msize(_Memory);
+      if (sVar3 < uVar1) {
+        sVar4 = 0x800;
+        if (sVar3 < 0x800) {
+          sVar4 = sVar3;
+        }
+        if ((sVar4 + sVar3 < sVar3) ||
+           (pvVar5 = __realloc_crt(_Memory,sVar4 + sVar3), pvVar5 == (void *)0x0)) {
+          if (sVar3 + 0x10 < sVar3) {
+            return 0;
+          }
+          pvVar5 = __realloc_crt(_Memory,sVar3 + 0x10);
+          if (pvVar5 == (void *)0x0) {
+            return 0;
+          }
+        }
+        puVar2 = (undefined4 *)((int)pvVar5 + ((int)puVar2 - (int)_Memory >> 2) * 4);
+        DAT_207d2b80 = FUN_20467d64(pvVar5);
+      }
+      uVar6 = FUN_20467d64(param_1);
+      *puVar2 = uVar6;
+      DAT_207d2b7c = FUN_20467d64(puVar2 + 1);
+      return param_1;
+    }
+  }
+  return 0;
+}

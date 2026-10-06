@@ -1,0 +1,2 @@
+20478953 | 8b410c | MOV EAX,dword ptr [ECX + 0xc]
+20478956 | c3 | RET

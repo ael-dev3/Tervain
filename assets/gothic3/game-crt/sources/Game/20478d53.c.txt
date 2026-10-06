@@ -1,0 +1,33 @@
+/* ENTRY 20478d53 | DNameNode::clone | STATUS decompiled | 5 ms */
+
+/* Library Function - Single Match
+    public: class DNameNode * __thiscall DNameNode::clone(void)
+
+   Library: Visual Studio 2005 Release */
+
+DNameNode * __thiscall DNameNode::clone(DNameNode *this)
+
+{
+  pDNameNode *this_00;
+  DName *pDVar1;
+  DNameNode *extraout_EAX;
+  DNameNode *pDVar2;
+
+  this_00 = HeapManager::getMemory((HeapManager *)&DAT_207d14e4,0xc,0);
+  if (this_00 == (pDNameNode *)0x0) {
+    pDVar2 = (DNameNode *)0x0;
+  }
+  else {
+    pDVar1 = HeapManager::getMemory((HeapManager *)&DAT_207d14e4,8,0);
+    if (pDVar1 == (DName *)0x0) {
+      pDVar1 = (DName *)0x0;
+    }
+    else {
+      *(uint *)(pDVar1 + 4) = *(uint *)(pDVar1 + 4) & 0xfffff000;
+      *(DNameNode **)pDVar1 = this;
+    }
+    pDNameNode::pDNameNode(this_00,pDVar1);
+    pDVar2 = extraout_EAX;
+  }
+  return pDVar2;
+}

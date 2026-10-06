@@ -1,0 +1,20 @@
+/* ENTRY 20478e51 | pDNameNode::getLastChar | STATUS decompiled | 2 ms */
+
+/* Library Function - Single Match
+    public: virtual char __thiscall pDNameNode::getLastChar(void)const
+
+   Libraries: Visual Studio 2003 Release, Visual Studio 2005 Release */
+
+char __thiscall pDNameNode::getLastChar(pDNameNode *this)
+
+{
+  DName *this_00;
+  char cVar1;
+
+  this_00 = (DName *)(this->pDNameNode_data).offset_0x4;
+  if (this_00 != (DName *)0x0) {
+    cVar1 = DName::getLastChar(this_00);
+    return cVar1;
+  }
+  return '\0';
+}

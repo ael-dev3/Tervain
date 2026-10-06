@@ -1,0 +1,45 @@
+/* ENTRY 204741c7 | ___crtInitCritSecAndSpinCount | STATUS decompiled | 14 ms */
+
+/* WARNING: Function: __SEH_prolog4 replaced with injection: SEH_prolog4 */
+/* WARNING: Function: __SEH_epilog4 replaced with injection: EH_epilog3 */
+/* Library Function - Single Match
+    ___crtInitCritSecAndSpinCount
+
+   Library: Visual Studio 2005 Release */
+
+int ___crtInitCritSecAndSpinCount(undefined4 param_1,undefined4 param_2)
+
+{
+  code *pcVar1;
+  int iVar2;
+  HMODULE hModule;
+  int local_20 [5];
+  undefined4 uStack_c;
+  undefined *local_8;
+
+  local_8 = &DAT_206e8e70;
+  uStack_c = 0x204741d3;
+  local_20[0] = 0;
+  pcVar1 = (code *)FUN_20467ddb(DAT_207d109c);
+  if (pcVar1 != (FARPROC)0x0) goto LAB_2047423d;
+  iVar2 = __get_osplatform(local_20);
+  if (iVar2 != 0) {
+                    /* WARNING: Subroutine does not return */
+    __invoke_watson((wchar_t *)0x0,(wchar_t *)0x0,(wchar_t *)0x0,0,0);
+  }
+  if (local_20[0] == 1) {
+LAB_2047422c:
+    pcVar1 = ___crtInitCritSecNoSpinCount_8;
+  }
+  else {
+    hModule = GetModuleHandleA("kernel32.dll");
+    if (hModule == (HMODULE)0x0) goto LAB_2047422c;
+    pcVar1 = GetProcAddress(hModule,"InitializeCriticalSectionAndSpinCount");
+    if (pcVar1 == (FARPROC)0x0) goto LAB_2047422c;
+  }
+  DAT_207d109c = FUN_20467d64(pcVar1);
+LAB_2047423d:
+  local_8 = (undefined *)0x0;
+  iVar2 = (*pcVar1)(param_1,param_2);
+  return iVar2;
+}

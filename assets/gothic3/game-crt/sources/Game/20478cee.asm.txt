@@ -1,0 +1,12 @@
+20478cee | 56 | PUSH ESI
+20478cef | 8bf1 | MOV ESI,ECX
+20478cf1 | 6a03 | PUSH 0x3
+20478cf3 | 8d4e2c | LEA ECX,[ESI + 0x2c]
+20478cf6 | e88cfdffff | CALL 0x20478a87
+20478cfb | 6a01 | PUSH 0x1
+20478cfd | 8d4e34 | LEA ECX,[ESI + 0x34]
+20478d00 | e882fdffff | CALL 0x20478a87
+20478d05 | 830eff | OR dword ptr [ESI],0xffffffff
+20478d08 | 8bc6 | MOV EAX,ESI
+20478d0a | 5e | POP ESI
+20478d0b | c3 | RET

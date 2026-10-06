@@ -1,0 +1,11 @@
+20478ae8 | 8b4104 | MOV EAX,dword ptr [ECX + 0x4]
+20478aeb | c1e01c | SHL EAX,0x1c
+20478aee | c1f81c | SAR EAX,0x1c
+20478af1 | 7408 | JZ 0x20478afb
+20478af3 | 83f802 | CMP EAX,0x2
+20478af6 | 7403 | JZ 0x20478afb
+20478af8 | 33c0 | XOR EAX,EAX
+20478afa | c3 | RET
+20478afb | 33c0 | XOR EAX,EAX
+20478afd | 40 | INC EAX
+20478afe | c3 | RET

@@ -1,0 +1,16 @@
+20467eb8 | a11c237b20 | MOV EAX,[0x207b231c]
+20467ebd | 83f8ff | CMP EAX,-0x1
+20467ec0 | 7416 | JZ 0x20467ed8
+20467ec2 | 50 | PUSH EAX
+20467ec3 | ff35900a7d20 | PUSH dword ptr [0x207d0a90]
+20467ec9 | e80dffffff | CALL 0x20467ddb
+20467ece | 59 | POP ECX
+20467ecf | ffd0 | CALL EAX
+20467ed1 | 830d1c237b20ff | OR dword ptr [0x207b231c],0xffffffff
+20467ed8 | a120237b20 | MOV EAX,[0x207b2320]
+20467edd | 83f8ff | CMP EAX,-0x1
+20467ee0 | 740e | JZ 0x20467ef0
+20467ee2 | 50 | PUSH EAX
+20467ee3 | ff15987b7d20 | CALL dword ptr [0x207d7b98]
+20467ee9 | 830d20237b20ff | OR dword ptr [0x207b2320],0xffffffff
+20467ef0 | e972b70000 | JMP 0x20473667

@@ -1,0 +1,2 @@
+20467e49 | ff15907b7d20 | CALL dword ptr [0x207d7b90]
+20467e4f | c20400 | RET 0x4

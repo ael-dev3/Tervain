@@ -1,0 +1,8 @@
+/* ENTRY 2046a0cc | FUN_2046a0cc | STATUS decompiled | 1 ms */
+
+void FUN_2046a0cc(undefined4 param_1)
+
+{
+  DAT_207d0dc0 = param_1;
+  return;
+}
