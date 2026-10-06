@@ -647,6 +647,14 @@ export class AudioEngine {
 
   /* ---- speech ---- */
 
+  /** A welcome must wait through browser suspension and initial graph creation, rather than being consumed unheard.
+   * Deliberate mute or an unavailable audio device retains the ordinary silent-caption fallback. */
+  get speechPlaybackPending(): boolean {
+    const volumes = this.getSettings().volumes;
+    return !this.disposed && this.enabled && !this.worldFailed && unit(volumes.master) > 0 && unit(volumes.dialogue) > 0
+      && (!this.ready || !this.soundWorld);
+  }
+
   /** A spoken line (src/content/voice.ts): it plays when the world's sound is running, and its length is returned either way. */
   say(line: string, at?: Vec3): number | null {
     const voiced = (VOICE_AUDIO.lines as Record<string, readonly [string, number, number, string]>)[line];

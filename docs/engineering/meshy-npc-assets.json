@@ -34,7 +34,7 @@
   },
   "selection": {
     "path": "tools/meshy-npc-sources.json",
-    "sha256": "5ba3938c159b9d1769823a41edc24c8f6ae493d2caf8684264801bc731c5d307"
+    "sha256": "762062fb5be85aef223faae41d9719fdf633d914ab59a808ba30a66210606057"
   },
   "fabric": {
     "path": "tools/assets/tervain-weathered-linen.png",
@@ -13976,5 +13976,8 @@
     },
     "releaseState": "The historical combined 0.0.11 candidate passed local strict TypeScript, 1027 tests in 97 files, a production build and bounded native game/gallery review; the prior 1020-test result predates final gait/equipment source. PR26's recorded required-CI attempt did not execute build steps and provides no build or deployment acceptance. Final integrated-source CI, deployment and hosted version/revision verification are pending integration. Historical evidence remains in docs/production/releases/0.0.11.md; these component checks do not establish a live release of the later candidate."
   },
-  "pathNormalization": "Machine-specific directory prefixes are normalized to owner-supplied/ or local-evidence/ labels. Source filenames, hashes and preparation evidence are unchanged; local artifacts require an explicitly supplied local root and are not repository-relative downloads."
+  "pathNormalization": "Machine-specific directory prefixes are normalized to owner-supplied/ or local-evidence/ labels. Source filenames, hashes and preparation evidence are unchanged; local artifacts require an explicitly supplied local root and are not repository-relative downloads.",
+  "runtimeRoleAliases": {
+    "named:trail_hunter": "ash-recorder"
+  }
 }

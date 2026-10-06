@@ -157,6 +157,7 @@
     }
   ],
   "roles": {
+    "named:trail_hunter": "ash-recorder",
     "named:caravan_master": "caravan-master",
     "named:rillford_reeve": "rillford-reeve",
     "named:spring_steward": "spring-steward",

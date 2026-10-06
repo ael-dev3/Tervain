@@ -99,7 +99,7 @@ describe('0.0.12 real source forest and connected habitats', () => {
     expect(conflicts).toEqual([]);
     expect([SPAWN, ...Object.values(ANCHORS), SLUICE.control, SHORTCUT.lever, ...PICKUP_LOCATIONS].filter(point => colliders.blocked(point.x, point.z, 0.55))).toEqual([]);
   });
-  it('connects all 32 scheduled and core routes with actual imported tree footprints and rocks', () => {
+  it('connects all 32 existing routes and both hunter camp commutes with actual imported tree footprints and rocks', () => {
     const colliders = buildStaticColliders(); registerFloraColliders(population, colliders);
     registerScatterColliders(createScatterPopulation(terrain, excl, population), colliders);
     const nav = new NavGrid(terrain, colliders, 0.55);
@@ -117,7 +117,13 @@ describe('0.0.12 real source forest and connected habitats', () => {
       }
       for (const override of npc.overrides ?? []) routes.push([`${npc.id}:${override.anchor}`, ANCHORS[anchors[0]!]!, ANCHORS[override.anchor]!]);
     }
-    expect(routes).toHaveLength(32); expect(routes.filter(([, start, end]) => !nav.findPath(start, end)).map(([name]) => name)).toEqual([]);
+    expect(routes.filter(([name]) => !name.startsWith('trail_hunter:'))).toHaveLength(32);
+    expect(routes.filter(([name]) => name.startsWith('trail_hunter:'))).toEqual([
+      ['trail_hunter:hunter_station:hunter_shelter', ANCHORS.hunter_station!, ANCHORS.hunter_shelter!],
+      ['trail_hunter:hunter_shelter:hunter_station', ANCHORS.hunter_shelter!, ANCHORS.hunter_station!],
+    ]);
+    expect(routes).toHaveLength(34);
+    expect(routes.filter(([, start, end]) => !nav.findPath(start, end)).map(([name]) => name)).toEqual([]);
   });
   it('places habitat floor cover only under actual source crowns and outside every canonical root', () => {
     const crowns = new PlantedCrownIndex();

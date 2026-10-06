@@ -1679,6 +1679,13 @@ export const VOICE_AUDIO = {
       "set": "story",
       "duration": 9.6427,
       "lines": 1
+    },
+    "trail_hunter-1": {
+      "file": "voice-trail_hunter-1",
+      "speaker": "trail_hunter",
+      "set": "spoken",
+      "duration": 10.5653,
+      "lines": 1
     }
   },
   "lines": {
@@ -3145,6 +3152,12 @@ export const VOICE_AUDIO = {
       3.08267,
       2.14133,
       "village_baker"
+    ],
+    "rowan.bark.supplies": [
+      "trail_hunter-1",
+      0.08,
+      10.40533,
+      "trail_hunter"
     ]
   },
   "story": {
@@ -4694,6 +4707,18 @@ export const VOICE_AUDIO = {
       "story-hero-5",
       0.87267,
       1.126,
+      "hero"
+    ],
+    "d.rowan_default": [
+      "trail_hunter-1",
+      0.08,
+      10.40533,
+      "trail_hunter"
+    ],
+    "d.rowan_default#0": [
+      "story-hero-1",
+      4.84667,
+      0.76333,
       "hero"
     ]
   }

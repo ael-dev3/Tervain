@@ -86,6 +86,14 @@
       "description": "A warm, chatty village baker in her fifties. Round, motherly voice, quick and kind, slightly out of breath from work. Cornish English accent.",
       "designSample": "No water, no dough, my love. I have been baking with the last of the rain barrel and praying over every loaf. Take one. You look like you need it.",
       "voiceId": "EMyu53sp8CUkgojdBwWs"
+    },
+    "trail_hunter": {
+      "name": "Tervain \u00b7 Rowan Vale",
+      "description": "A caravan master around sixty. Warm, gravelly baritone; unhurried, kindly but tired. Rural northern English accent. A man who has driven wagons all his life.",
+      "designSample": "Rillford is as far as the wagon goes. The ford road washed out in the thaw, and that bell has been ringing since dawn. Walk inland, friend.",
+      "voiceId": "ckBJf856iROfdJMSmIRb",
+      "sharedDesignedVoice": "caravan_master",
+      "role": "A calm woodland hunter; shares the original text-designed rural northern English baritone used for Joss Merrin."
     }
   },
   "lines": {
@@ -2040,6 +2048,21 @@
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
       "transcript": "The delivery date has not moved."
+    },
+    "rowan.bark.supplies": {
+      "speaker": "trail_hunter",
+      "text": "Rillford's pots are running thin. Take a bow from the bench if you need one. Bring back meat and I'll pay a fair price. Keep your hunt clear of the road.",
+      "model": "eleven_v4",
+      "format": "mp3_44100_192",
+      "generated": "2026-10-06",
+      "transcript": "Rilford's pots are running thin. Take a bow from the bench if you need one. Bring back meat, and I'll pay a fair price. Keep your hunt clear of the road",
+      "generationEvidence": {
+        "verifiedAt": "2026-10-06T12:49:47.076008+00:00",
+        "tier": "creator",
+        "status": "active",
+        "modelListedForTextToSpeech": true,
+        "source": "Generation-time authenticated /v1/user/subscription and /v1/models check; no account identifiers or credentials retained."
+      }
     }
   },
   "story": {
@@ -3929,6 +3952,16 @@
       "speaker": "hero",
       "text": "I understand.",
       "same": "d.mara_needs#0"
+    },
+    "d.rowan_default": {
+      "speaker": "trail_hunter",
+      "text": "Rillford's pots are running thin. Take a bow from the bench if you need one. Bring back meat and I'll pay a fair price. Keep your hunt clear of the road.",
+      "same": "rowan.bark.supplies"
+    },
+    "d.rowan_default#0": {
+      "speaker": "hero",
+      "text": "Thank you.",
+      "same": "d.joss_work#0"
     }
   }
 }

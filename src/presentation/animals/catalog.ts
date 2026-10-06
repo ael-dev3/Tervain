@@ -1,9 +1,10 @@
 import type { V2 } from '../../world/layout';
+import { CARAVAN_ANIMAL_REST } from '../../world/caravanAnimal';
 
 export const ANIMAL_TRIANGLE_LIMIT = 50_000;
 export type AnimalSpecies = 'tiger' | 'lion' | 'bear' | 'wolf' | 'cat' | 'dog' | 'boar' | 'deer';
 export type AnimalClip = 'Idle' | 'Walk' | 'Run' | 'Alert' | 'Call' | 'Graze' | 'Groom' | 'Sleep';
-export type AnimalHabitat = 'settlement' | 'woodland' | 'deepwood' | 'rocky-woodland' | 'warm-woodland';
+export type AnimalHabitat = 'settlement' | 'caravan-rest' | 'woodland' | 'deepwood' | 'rocky-woodland' | 'warm-woodland';
 export interface AnimalDefinition {
   readonly id: string;
   readonly species: AnimalSpecies;
@@ -12,6 +13,9 @@ export interface AnimalDefinition {
   readonly home: V2;
   readonly roam: number;
   readonly seated?: boolean;
+  /** Domesticated animals watch nearby travellers instead of fleeing from them. */
+  readonly tame?: boolean;
+  readonly homeYaw?: number;
 }
 
 const entry = (species: AnimalSpecies, id: string, habitat: AnimalHabitat, x: number, z: number, roam: number, seated = false): AnimalDefinition => ({
@@ -36,8 +40,8 @@ export const ANIMALS: readonly AnimalDefinition[] = [
   entry('boar', '1005232450', 'woodland', -205, -7, 13),
   entry('boar', '1005232442', 'woodland', -188, -19, 13),
   entry('boar', '1005174818', 'woodland', -157, 55, 14),
-  entry('deer', '1005232424', 'woodland', -228, 26, 16),
-  entry('deer', '1005232412', 'woodland', -212, 18, 16),
+  entry('deer', '1005232424', 'woodland', -218, 44, 12),
+  { ...entry('deer', '1005232412', 'caravan-rest', CARAVAN_ANIMAL_REST.x, CARAVAN_ANIMAL_REST.z, 0), tame: true, homeYaw: CARAVAN_ANIMAL_REST.yaw },
   entry('deer', '1005232351', 'woodland', -146, 28, 16),
   entry('deer', '1005232341', 'woodland', -119, 28, 16),
 ];

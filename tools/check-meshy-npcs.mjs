@@ -178,13 +178,20 @@ function main() {
   for (let i = 0; i < args.length; i++) { if (args[i] === '--only') only = args[++i]?.split(','); else if (args[i] === '--json') jsonOutput = resolve(args[++i]); else throw new Error(`Unknown argument ${args[i]}`); }
   const configBytes = readFileSync(resolve(repo, 'tools/meshy-npc-sources.json')); const config = JSON.parse(configBytes); need(config.maxTriangles === 50000, 'NPC manifest changes the owner-established 50k cap'); const provenancePath = resolve(repo, 'docs/engineering/meshy-npc-assets.json'); const provenance = JSON.parse(readFileSync(provenancePath, 'utf8'));
   need(provenance.selection.sha256 === sha256(configBytes), 'stale role-selection provenance');
+  const aliases = config.roleAliases ?? {};
+  const primaryRoles = new Set(config.assets.map(row => row.role));
+  need(aliases && typeof aliases === 'object' && !Array.isArray(aliases)
+    && Object.entries(aliases).every(([role, id]) => /^named:[a-z_]+$/.test(role) && !primaryRoles.has(role)
+      && config.assets.some(row => row.id === id)), 'invalid additional NPC role alias');
+  need(JSON.stringify(provenance.runtimeRoleAliases ?? {}) === JSON.stringify(aliases), 'stale additional NPC role provenance');
   const runtimeManifest = JSON.parse(readFileSync(resolve(repo, 'public/models/npcs/manifest.json'), 'utf8'));
   need(runtimeManifest.schema === 1 && runtimeManifest.maxTriangles === config.maxTriangles && runtimeManifest.assets?.length === config.assets.length, 'incompatible public NPC manifest');
   need(new Set(runtimeManifest.assets.map(entry => entry.id)).size === config.assets.length, 'duplicate public NPC manifest entry');
   need(new Set(runtimeManifest.assets.map(entry => entry.file)).size === config.assets.length
     && runtimeManifest.assets.every(entry => config.assets.some(row => row.id === entry.id && entry.file === `${row.id}.glb`))
-    && Object.keys(runtimeManifest.roles ?? {}).length === config.assets.length
-    && config.assets.every(row => runtimeManifest.roles[row.role] === row.id), 'public NPC assignments differ from the source selection');
+    && Object.keys(runtimeManifest.roles ?? {}).length === config.assets.length + Object.keys(aliases).length
+    && config.assets.every(row => runtimeManifest.roles[row.role] === row.id)
+    && Object.entries(aliases).every(([role, id]) => runtimeManifest.roles[role] === id), 'public NPC assignments differ from the source selection');
   const selected = config.assets.filter((asset) => !only || only.includes(asset.id)); need(selected.length > 0 && (!only || selected.length === new Set(only).size), 'unknown/empty --only selection');
   const known = new Set(config.assets.map((asset) => `${asset.id}.glb`)); const directory = resolve(repo, 'public/models/npcs');
   function glbs(folder, prefix = '') { return readdirSync(folder, { withFileTypes: true }).flatMap((entry) => { need(!entry.isSymbolicLink(), 'NPC asset folder contains a symlink'); const name = prefix + entry.name; return entry.isDirectory() ? glbs(resolve(folder, entry.name), name + '/') : name.endsWith('.glb') ? [name] : []; }); }

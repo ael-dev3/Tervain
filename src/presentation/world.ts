@@ -1,5 +1,6 @@
 import * as THREE from 'three';
-import { buildHunterSupplies } from './hunterSupplies';
+import { buildHunterSupplies, disposeHunterSupplies } from './hunterSupplies';
+import { buildAnimalCamp } from './animalCamp';
 import { NPCS } from '../content/npcs';
 import { S } from '../content/strings';
 import { hasFact } from '../game/state';
@@ -148,7 +149,12 @@ export class WorldScene {
     this.environment = buildEnvironment(this.scene, settings.quality);
     this.scenery = buildScenery(this.terrain, this.colliders, settings.quality);
     this.scene.add(this.scenery.group);
-    this.scene.add(buildHunterSupplies(this.terrain, this.colliders));
+    const hunterSupplies = buildHunterSupplies(this.terrain, this.colliders);
+    this.scene.add(hunterSupplies);
+    this.modules.push({ name: 'hunter supplies', module: { group: hunterSupplies, update() {}, dispose: () => disposeHunterSupplies(hunterSupplies) } });
+    const caravanAnimalCamp = buildAnimalCamp(this.terrain, this.colliders);
+    this.modules.push({ name: 'caravan animal rest', module: caravanAnimalCamp });
+    this.scene.add(caravanAnimalCamp.group);
     this.animals = buildAnimals(ctx, animalTemplates);
     this.modules.push({ name: 'land wildlife', module: this.animals });
     this.scene.add(this.animals.group);

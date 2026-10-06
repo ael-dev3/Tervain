@@ -55,6 +55,7 @@ export type NpcId =
   | 'mill_hand'
   | 'quarry_hand'
   | 'village_baker'
+  | 'trail_hunter'
   | 'caravan_master';
 
 export const NPC_IDS: readonly NpcId[] = [
@@ -69,6 +70,7 @@ export const NPC_IDS: readonly NpcId[] = [
   'quarry_hand',
   'village_baker',
   'caravan_master',
+  'trail_hunter',
 ];
 
 export const PRINCIPALS: readonly NpcId[] = ['rillford_reeve', 'spring_steward', 'quarry_foreman', 'maintenance_worker'];
@@ -265,6 +267,7 @@ export type Command =
   | { t: 'hitAnimal'; hit: AnimalHit }
   | { t: 'skinAnimal'; id: AnimalId }
   | { t: 'restockArrows' }
+  | { t: 'sellGameMeat' }
   | { t: 'rescueWorker'; method: 'fight' | 'shortcut' }
   | { t: 'openShortcut' }
   | { t: 'archiveAccess'; method: 'permission' | 'borrowed_key' | 'trespass'; observedBy?: NpcId[] }

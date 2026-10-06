@@ -3,6 +3,9 @@
   "maxTriangles": 50000,
   "targetTriangles": 46000,
   "height": 1.8,
+  "roleAliases": {
+    "named:trail_hunter": "ash-recorder"
+  },
   "assets": [
     {
       "id": "caravan-master",

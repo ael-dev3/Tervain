@@ -8,6 +8,7 @@ import type { NavGrid } from '../world/nav';
 import type { Terrain } from '../world/terrain';
 import { applyFlash, createBanditRig, createNpcRig, createThornback, poseRig, type Mode, type Pose, type Rig } from './characters';
 import { npcStyle } from './npcStyle';
+import { NpcApproachGreeting } from './npcApproachGreeting';
 
 const hourIn = (h: number, from: number, to: number) => (from <= to ? h >= from && h < to : h >= from || h < to);
 
@@ -40,13 +41,35 @@ export interface ActorContext {
   player: { x: number; z: number; y: number };
   reducedMotion: boolean;
   /** A remark, by its line in voice.ts. */
-  onBark: (a: NpcActor, line: string) => void;
+  onBark: (a: NpcActor, line: string) => boolean | void;
 }
 
 export const NPC_WALK_SPEED = 1.55;
 /** Actual Meshy sole sweeps measured at 60 Hz: 0.78 pose speed gives roughly this stance-cycle travel at 1.8 m stature. */
 export const NPC_WALK_CYCLE_METRES = 1.48;
 export const NPC_WALK_POSE_SPEED = 0.78;
+
+/** A coarse grid can reject a counter's whole cell even when the resident's exact working stance is clear. */
+export function finishNpcPath(path: V2[] | null, goal: V2, ctx: Pick<ActorContext, 'terrain' | 'colliders'>, height: number): V2[] | null {
+  const start = path?.at(-1);
+  if (!path || !start) return path;
+  const distance = Math.hypot(goal.x - start.x, goal.z - start.z);
+  if (distance < 0.01 || distance > 3) return path;
+  let x = start.x, z = start.z, y = ctx.terrain.groundAt(x, z);
+  const count = Math.ceil(distance / .15);
+  for (let i = 1; i <= count; i++) {
+    const nx = start.x + (goal.x - start.x) * i / count, nz = start.z + (goal.z - start.z) * i / count;
+    if (!ctx.terrain.walkable(nx, nz)) return path;
+    const ny = ctx.terrain.groundAt(nx, nz);
+    if (!Number.isFinite(ny) || Math.abs(ny - y) > .3) return path;
+    const step = ctx.colliders.move(x, z, nx - x, nz - z, .35, undefined,
+      { minY: Math.min(y, ny) + .02, maxY: Math.max(y, ny) + height });
+    if (Math.hypot(step.x - nx, step.z - nz) > .001) return path;
+    x = nx; z = nz; y = ny;
+  }
+  // Moving animals and the player are checked each frame rather than turning a temporary visitor into a permanent route gap.
+  return [...path, { x: goal.x, z: goal.z }];
+}
 
 export class NpcActor {
   readonly def: NpcDef;
@@ -68,11 +91,13 @@ export class NpcActor {
   private lastBarkKey = '';
   private placed = false;
   private viaMaint = false;
+  private readonly approachGreeting: NpcApproachGreeting | null;
   mode: Mode = 'idle';
 
   constructor(def: NpcDef, rig?: Rig) {
     this.def = def;
     this.rig = rig ?? createNpcRig(def);
+    this.approachGreeting = def.approachGreeting ? new NpcApproachGreeting(def.approachGreeting) : null;
     this.rig.root.traverse((o) => {
       o.userData.npc = def.id;
     });
@@ -142,7 +167,7 @@ export class NpcActor {
           this.yaw = a.yaw;
           this.path = null;
         } else {
-          this.path = ctx.nav.findPath({ x: this.x, z: this.z }, a);
+          this.path = finishNpcPath(ctx.nav.findPath({ x: this.x, z: this.z }, a), a, ctx, this.rig.height);
           this.pi = 0;
           if (!this.path) {
             // No route: fall back to a bounded state update rather than leaving them stuck.
@@ -161,7 +186,8 @@ export class NpcActor {
       const dx = wp.x - this.x;
       const dz = wp.z - this.z;
       const d = Math.hypot(dx, dz);
-      if (d < 0.35) this.pi++;
+      const arrivalRadius = this.goal.activity === 'work' && this.pi === this.path.length - 1 ? .06 : .35;
+      if (d < arrivalRadius) this.pi++;
       else {
         // Wait rather than shove through the player in a doorway.
         const pd = Math.hypot(ctx.player.x - (this.x + (dx / d) * 0.8), ctx.player.z - (this.z + (dz / d) * 0.8));
@@ -236,6 +262,12 @@ export class NpcActor {
 
     // Ambient remarks when the player passes close.
     if (!this.hidden) {
+      if (this.approachGreeting && this.def.approachGreeting) {
+        const distance = Math.hypot(ctx.player.x - this.x, ctx.player.z - this.z, ctx.player.y - this.y);
+        this.approachGreeting.update(dt, distance, !this.talking,
+          () => ctx.onBark(this, this.def.approachGreeting!.line) === true);
+        return;
+      }
       this.barkCooldown -= dt;
       const pd = Math.hypot(ctx.player.x - this.x, ctx.player.z - this.z);
       if (this.barkCooldown <= 0 && pd < 6.5 && !this.talking) {

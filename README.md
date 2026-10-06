@@ -24,7 +24,7 @@ The prototype includes:
 - The animated Wanderer, 17 adapted Meshy NPC roles and diverse supplied-tree habitats, with protected custom Pine geometry.
 - Rougher terrain, rooted vegetation, weathered buildings, grounded scenery and coastal water.
 - Nineteen supplied, optimized and rigged animals across settlement, forest and warm-woodland habitats.
-- Bow hunting, grounded carcasses and saved skinning rewards for fourteen wild animals; settlement cats and dogs remain peaceful.
+- Bow hunting, grounded carcasses and saved skinning rewards for thirteen wild animals; cats, dogs and the saddled trail mount remain protected. Rowan Vale welcomes you at a solid woodland supply table with an offline Eleven v4 voice.
 - Adaptive world music, surface footsteps, item/combat/work sounds, wildlife and captioned resident speech.
 - World pickups, inventory, equipment, an initially empty ten-slot item hotbar, journal and map.
 - Physical movable supplies, saved progress and keyboard/mouse or controller controls.

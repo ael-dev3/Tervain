@@ -30,15 +30,44 @@ function record(status: AnimalHuntRecord['status'], pose: { x: number; y: number
 const tiger = ANIMALS.find(animal => animal.species === 'tiger')!;
 
 describe('hunting through the existing nineteen animal controllers', () => {
-  it('maps every durable identity once, including all three boars, while five settlement pets stay peaceful', () => {
+  it('maps every durable identity once, including all three boars, while pets and the saddled companion stay peaceful', () => {
     expect(ANIMAL_IDS).toHaveLength(19); expect(new Set(Object.values(ANIMAL_MODEL_IDS)).size).toBe(19);
     expect(new Set(Object.values(ANIMAL_MODEL_IDS))).toEqual(new Set(ANIMALS.map(animal => animal.id)));
-    expect(ANIMAL_MODEL_IDS['boar-a']).toBe('1005232442'); expect(ANIMAL_MODEL_IDS['boar-c']).toBe('1005174818'); expect(HUNTABLE_ANIMAL_IDS).toHaveLength(14);
+    expect(ANIMAL_MODEL_IDS['boar-a']).toBe('1005232442'); expect(ANIMAL_MODEL_IDS['boar-c']).toBe('1005174818'); expect(HUNTABLE_ANIMAL_IDS).toHaveLength(13);
     const cat = ANIMALS.find(animal => animal.seated)!, module = buildAnimals({ terrain, colliders: new Colliders(), quality: 'low' }, new Map([[cat.id, fixture()]]), [cat], () => {});
     const pose = module.snapshot()[0]!;
     module.syncHunting({ 'cat-b': record('dead', pose) }, true);
     expect(module.nearestCarcass(pose)).toBeNull(); expect(module.snapshot()[0]!.visible).toBe(true);
     expect(module.traceArrow(new THREE.Vector3(pose.x, .3, pose.z + 3), new THREE.Vector3(0, 0, -1), 6)).toBeNull(); module.dispose?.();
+  });
+
+  it('ignores stale mount wounds, corpses and arrow effects, and calmly watches visitors at the inland caravan rest', () => {
+    const mount = ANIMALS.find(animal => animal.id === ANIMAL_MODEL_IDS['deer-mount'])!;
+    expect(mount.tame).toBe(true); expect(mount.habitat).toBe('caravan-rest'); expect(mount.roam).toBe(0);
+    const module = buildAnimals({ terrain, colliders: new Colliders(), quality: 'low' }, new Map([[mount.id, fixture()]]), [mount], () => {});
+    const pose = module.snapshot()[0]!, root = module.group.getObjectByName(`deer / ${mount.id}`)!, input = frame();
+    input.focus.set(pose.x + 2, pose.y, pose.z);
+    for (const status of ['injured', 'dead', 'skinned'] as const) {
+      module.syncHunting({ 'deer-mount': record(status, pose) }, true);
+      expect(module.snapshot()[0]!.visible).toBe(true);
+      expect(module.snapshot()[0]!.state).not.toBe('Dead');
+      expect(module.nearestCarcass(pose)).toBeNull(); expect(module.skinningFrame('deer-mount', pose)).toBeNull();
+      expect(module.traceArrow(new THREE.Vector3(pose.x, .3, pose.z + 3), new THREE.Vector3(0, 0, -1), 6)).toBeNull();
+      module.showArrowImpact({ id: 'deer-mount', zone: 'head', point: { x: pose.x, y: .3, z: pose.z }, distance: 1,
+        position: { x: pose.x, y: pose.y, z: pose.z }, yaw: pose.yaw }, new THREE.Vector3(0, 0, -1));
+      expect(root.getObjectByName('embedded hunting arrow')).toBeUndefined();
+      expect(module.group.getObjectByName('carcass stain:deer-mount')).toBeUndefined();
+      module.alertShot(pose); module.update(.1, input);
+      expect(module.snapshot()[0]!.state).not.toBe('Run');
+    }
+    for (let k = 0; k < 600; k++) {
+      module.update(.1, input);
+      const after = module.snapshot()[0]!;
+      expect(after.state).not.toBe('Run'); expect(after.visible).toBe(true);
+      expect(Math.hypot(after.x - pose.x, after.z - pose.z)).toBeLessThanOrEqual(mount.roam + .01);
+    }
+    expect(module.contacts).toHaveLength(1); expect(module.physicalActors).toHaveLength(1);
+    module.dispose?.();
   });
 
   it('starts collapse from the current animated pose, grounds every final surface, and offers an accessible chest knife stance', () => {

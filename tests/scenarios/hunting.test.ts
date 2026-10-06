@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { Game } from '../../src/game/game';
 import {
-  ANIMAL_IDS, ANIMAL_MODEL_IDS, HUNTABLE_ANIMAL_IDS, animalLoot, ARROW_QUIVER_CAPACITY, HUNTER_SUPPLY_POSITION,
+  ANIMAL_IDS, ANIMAL_MODEL_IDS, HUNTABLE_ANIMAL_IDS, PROTECTED_ANIMAL_IDS, animalLoot, ARROW_QUIVER_CAPACITY, HUNTER_SUPPLY_POSITION,
   huntingHint, normalizeHunting, SKINNING_REACH, type AnimalHit, type AnimalHuntRecord, type AnimalId,
 } from '../../src/game/hunting';
 import { createInitialState } from '../../src/game/state';
@@ -65,15 +65,19 @@ describe('bow hunting and durable harvests', () => {
     reject(game, { t: 'fireBow' }, 'player_dead');
   });
 
-  it('keeps all five cats and dogs peaceful through impacts, skinning and old save records', () => {
+  it('keeps five pets and the saddled companion peaceful through impacts, skinning and old save records', () => {
     for (const id of ANIMAL_IDS.filter(id => !HUNTABLE_ANIMAL_IDS.includes(id))) {
       const game = armed();
       reject(game, { t: 'fireBow', hit: hit(id, 'head') }, 'invalid_animal_hit');
       reject(game, { t: 'hitAnimal', hit: hit(id) }, 'invalid_animal_hit');
       reject(game, { t: 'skinAnimal', id }, 'peaceful_animal');
       expect(normalizeHunting({ [id]: { status: 'dead', bodyHits: 0, headshot: true, position, yaw: 0, atClock: 500 } })).toEqual({});
+      expect(animalLoot(id)).toEqual({ animal_hide: 0, raw_meat: 0 });
     }
-    expect(HUNTABLE_ANIMAL_IDS).toHaveLength(14);
+    expect(PROTECTED_ANIMAL_IDS).toHaveLength(6);
+    expect(PROTECTED_ANIMAL_IDS).toContain('deer-mount');
+    expect(HUNTABLE_ANIMAL_IDS).toHaveLength(13);
+    expect(HUNTABLE_ANIMAL_IDS.filter(id => id === 'stag' || id.startsWith('deer'))).toEqual(['stag', 'deer-a', 'deer-b']);
     expect(new Set(Object.values(ANIMAL_MODEL_IDS)).size).toBe(19);
     expect(ANIMAL_MODEL_IDS['boar-c']).toBe('1005174818');
   });
@@ -195,6 +199,24 @@ describe('bow hunting and durable harvests', () => {
 });
 
 describe('format-1 hunting save migration and sanitization', () => {
+  it.each(['injured', 'dead', 'skinned'] as const)('revives an erroneously %s saddled mount while preserving wild hunting and the rest of the save', status => {
+    const game = armed();
+    game.state.hunting['deer-a'] = { status: 'injured', bodyHits: 1, headshot: false, position, yaw: 0, atClock: 501 };
+    game.state.hunting['deer-mount'] = {
+      status, bodyHits: status === 'injured' ? 1 : 2, headshot: false,
+      position: { x: -212, y: 2, z: 18 }, yaw: 1, atClock: 500,
+    };
+    const before = structuredClone(game.state), restored = reload(game);
+    expect(restored.state.hunting).toEqual({ 'deer-a': before.hunting['deer-a'] });
+    // Restoring a companion never removes unrelated earned items or gifts replacement supplies.
+    expect(restored.state.inventory).toEqual(before.inventory);
+    expect(restored.state.player).toEqual(before.player);
+    expect(restored.state.quest).toEqual(before.quest);
+    expect(restored.state.locationChanges).toEqual(before.locationChanges);
+    reject(restored, { t: 'hitAnimal', hit: hit('deer-mount', 'head') }, 'invalid_animal_hit');
+    reject(restored, { t: 'skinAnimal', id: 'deer-mount' }, 'peaceful_animal');
+  });
+
   it('adds empty hunting records to old saves without gifting hunting equipment or changing quests', () => {
     const raw = structuredClone(createInitialState()) as unknown as Record<string, unknown>;
     delete raw.hunting;
@@ -233,6 +255,16 @@ describe('format-1 hunting save migration and sanitization', () => {
 });
 
 describe('early woodland hunting objectives', () => {
+  it('never treats a stale saddle-companion record as hunting progress or a corpse objective', () => {
+    const game = new Game();
+    game.state.hunting['deer-mount'] = { status: 'dead', bodyHits: 0, headshot: true, position, yaw: 0, atClock: 500 };
+    expect(huntingHint(game.state)).toBeNull();
+    game.state.discovered.deepwood = true;
+    game.state.inventory.hunting_bow = 1; game.state.inventory.skinning_knife = 1; game.state.inventory.arrow = 24;
+    game.state.equippedWeapon = 'hunting_bow';
+    expect(huntingHint(game.state)).toBe('hunting.objective.hunt');
+  });
+
   it('keeps the untouched beach objective until woodland discovery and yields to investigation', () => {
     const game = new Game();
     expect(huntingHint(game.state)).toBeNull();
@@ -301,10 +333,11 @@ describe('early woodland hunting objectives', () => {
     expect(huntingHint(game.state)).toBe('hunting.objective.kit');
   });
 
-  it('stops suggesting new hunts after woodland game is harvested while pets remain alive', () => {
+  it('stops suggesting new hunts after wild game is harvested while pets and the saddled companion remain alive', () => {
     const game = armed(0);
     game.state.discovered.deepwood = true;
     for (const id of HUNTABLE_ANIMAL_IDS) game.state.hunting[id] = { status: 'skinned', bodyHits: 0, headshot: true, position: { ...position }, yaw: 0, atClock: 500 };
     expect(huntingHint(game.state)).toBeNull();
+    expect(game.state.hunting['deer-mount']).toBeUndefined();
   });
 });

@@ -44,6 +44,13 @@ export interface NpcDef {
   sleepsKey: string;
   /** Principals and secondary voices get a stable, more careful interaction radius. */
   interactRadius?: number;
+  /** A personal welcome on arrival, rather than a periodic background remark. */
+  approachGreeting?: {
+    line: string;
+    radius: number;
+    leaveRadius: number;
+    cooldown: number;
+  };
 }
 
 const day = (anchor: string, activity: Activity = 'work', from = 6, to = 19): ScheduleEntry => ({ from, to, anchor, activity });
@@ -187,6 +194,18 @@ export const NPCS: Record<NpcId, NpcDef> = {
     schedule: [day('bakery_door', 'stand', 5, 17), { from: 17, to: 20, anchor: 'village_well', activity: 'talk' }, night('bakery_door', 20, 5)],
     sleepsKey: 'npc.sleeps.baker',
   },
+  trail_hunter: {
+    id: 'trail_hunter',
+    name: 'Rowan Vale',
+    titleKey: 'npc.title.trail_hunter',
+    faction: 'league',
+    home: 'hunter_shelter',
+    look: { skin: 0xb58d70, primary: 0x48503c, secondary: 0x65503a, hair: 0x3c3029, height: 1.02, girth: 1.06, accessory: 'cloak' },
+    schedule: [day('hunter_station', 'work', 6, 20), day('hunter_station', 'stand', 20, 22), night('hunter_shelter', 22, 6)],
+    sleepsKey: 'npc.sleeps.hunter',
+    interactRadius: 3,
+    approachGreeting: { line: 'rowan.bark.supplies', radius: 6, leaveRadius: 11, cooldown: 120 },
+  },
 };
 
 export const NPC_LIST: NpcDef[] = Object.values(NPCS);
@@ -207,6 +226,7 @@ const settledWith = (is: 'rillford' | 'quarry' | 'rotation'): Cond[] => [{ t: 'p
 const stranded: Cond = { t: 'not', c: F('ila_rescued') };
 
 export const BARKS: Bark[] = [
+  { npc: 'trail_hunter', line: 'rowan.bark.supplies' },
   { npc: 'mill_hand', when: [below], line: 'bess.bark.wheel' },
   { npc: 'mill_hand', when: [{ t: 'phase', below: 'settled' }], line: 'bess.bark.grain' },
   { npc: 'mill_hand', when: settledWith('rillford'), line: 'bess.bark.evening' },

@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { afterAll, beforeAll, describe, expect, it } from 'vitest';
+import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
 import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { ANIMALS, buildAnimals, validateAnimalTemplate } from '../../src/presentation/animals';
 import { requiredAnimalClips } from '../../src/presentation/animals/catalog';
@@ -15,14 +15,26 @@ import type { FrameContext } from '../../src/presentation/context';
 import { Terrain } from '../../src/world/terrain';
 import { buildStaticColliders, type Colliders } from '../../src/world/colliders';
 import { NavGrid } from '../../src/world/nav';
-import { ANCHORS, SPAWN } from '../../src/world/layout';
+import { ANCHORS, ROADS, SPAWN, WAGON } from '../../src/world/layout';
+import { PHYSICAL_PROPS } from '../../src/world/physics';
+import { distToPolyline } from '../../src/world/terrain';
+import { buildAnimalCamp } from '../../src/presentation/animalCamp';
+import type { SceneModule } from '../../src/presentation/context';
 import { createInitialState } from '../../src/game/state';
 import { worldView } from '../../src/game/worldView';
 import { animalBinary, animalTemplates } from './animalFixture';
 import { pineTemplates } from './pineFixture';
 import { meshyTreeTemplates } from './meshyTreeFixture';
 
-let pine: PineForest, meshy: MeshyForest, terrain: Terrain, colliders: Colliders, templates: ReadonlyMap<string, GLTF>;
+// Preserve the authored volumes and colliders; raster wood generation belongs to native acceptance.
+vi.mock('../../src/presentation/buildingTextures', async importOriginal => ({
+  ...await importOriginal<typeof import('../../src/presentation/buildingTextures')>(),
+  makeTexPair: () => ({
+    map: new THREE.DataTexture(new Uint8Array([150, 130, 110, 255]), 1, 1),
+    normal: new THREE.DataTexture(new Uint8Array([128, 128, 255, 255]), 1, 1),
+  }),
+}));
+let pine: PineForest, meshy: MeshyForest, terrain: Terrain, colliders: Colliders, camp: SceneModule, templates: ReadonlyMap<string, GLTF>;
 beforeAll(async () => {
   const [conifers, broadleaves, animals] = await Promise.all([pineTemplates(), meshyTreeTemplates(), animalTemplates()]);
   templates = animals; pine = createPineForest(conifers); meshy = createMeshyForest(broadleaves); terrain = new Terrain(); colliders = buildStaticColliders(terrain);
@@ -36,10 +48,37 @@ beforeAll(async () => {
   registerFloraColliders(population, colliders);
   const rocks = createScatterPopulation(terrain, exclusions, population); registerScatterColliders(rocks, colliders);
   terrain.registerRockSurfaces(rocks.flatMap(rock => rock.contact ? [rock.contact] : []));
+  camp = buildAnimalCamp(terrain, colliders);
 }, 30_000);
-afterAll(() => { pine?.dispose(); meshy?.dispose(); });
+afterAll(() => { pine?.dispose(); meshy?.dispose(); camp?.dispose?.(); });
 
 describe('all nineteen delivered animals in the canonical living world', () => {
+  it('grounds the protected transport mount beside real wagon equipment, outside roads, cargo and caravan staff footprints', () => {
+    const mount = ANIMALS.find(animal => animal.id === '1005232412')!;
+    const module = buildAnimals({ terrain, colliders, quality: 'low' }, templates, ANIMALS, () => {});
+    try {
+      const site = module.snapshot().find(animal => animal.id === mount.id)!;
+      expect(mount.roam).toBe(0); expect(mount.habitat).toBe('caravan-rest');
+      expect(Math.hypot(site.x - WAGON.x, site.z - WAGON.z)).toBeLessThan(8);
+      for (const road of ROADS) expect(distToPolyline(site.x, site.z, road.points).d - road.width / 2, 'mount body closes a road').toBeGreaterThan(site.radius + .4);
+      expect(Math.hypot(site.x - ANCHORS.overlook_wagon!.x, site.z - ANCHORS.overlook_wagon!.z)).toBeGreaterThan(site.radius + .8);
+      for (const prop of PHYSICAL_PROPS) expect(Math.hypot(site.x - prop.x, site.z - prop.z)).toBeGreaterThan(site.radius + Math.hypot(prop.width, prop.depth) / 2 + .3);
+      const props = colliders.all.filter(collider => collider.id.startsWith('caravan-mount:'));
+      expect(props).toHaveLength(6);
+      for (const prop of props) {
+        expect(Number.isFinite(prop.minY)).toBe(true); expect(Number.isFinite(prop.maxY)).toBe(true); expect(prop.maxY).toBeGreaterThan(prop.minY!);
+        const reach = prop.kind === 'circle' ? prop.r : Math.hypot(prop.hw, prop.hd);
+        expect(animalNavigationColliders(colliders).blocked(site.x, site.z, site.radius, { minY: site.y + .03, maxY: site.y + 2.25 })).toBe(false);
+        expect(Math.hypot(prop.x - WAGON.x, prop.z - WAGON.z)).toBeLessThan(10 + reach);
+      }
+      const input: FrameContext = { camera: new THREE.PerspectiveCamera(), focus: new THREE.Vector3(site.x + 2, site.y, site.z), time: 0,
+        sunDir: new THREE.Vector3(0, 1, 0), nightness: 0, reducedMotion: false, hour: 12, view: worldView(createInitialState()), quality: 'low' };
+      for (let k = 0; k < 600; k++) module.update(.1, input);
+      const after = module.snapshot().find(animal => animal.id === mount.id)!;
+      expect(after.x).toBe(site.x); expect(after.z).toBe(site.z); expect(['Walk', 'Run']).not.toContain(after.state);
+    } finally { module.dispose?.(); }
+  });
+
   it('ships distinct original skins, embedded textures, measured gaits and working bone animation for every source', () => {
     const topology = new Set<string>();
     for (const definition of ANIMALS) {

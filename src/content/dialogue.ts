@@ -510,7 +510,13 @@ N('hesper_caretaker', 'village_baker',
  * ===================================================================== */
 const notMet = (npc: NpcId): Cond => ({ t: 'not', c: { t: 'met', npc } });
 
+// Kept for the renderer-free dialogue contract; the live game speaks this in the world, without a dialogue panel.
+N('rowan_default', 'trail_hunter',
+  "Rillford's pots are running thin. Take a bow from the bench if you need one. Bring back meat and I'll pay a fair price. Keep your hunt clear of the road.",
+  [['Thank you.', 'end', { intent: 'leave' }]]);
+
 export const ENTRY_RULES: Record<NpcId, EntryRule[]> = {
+  trail_hunter: [{ node: 'rowan_default' }],
   caravan_master: [
     { when: [settled], node: 'joss_after' },
     { node: 'joss_intro', when: [notMet('caravan_master')] },

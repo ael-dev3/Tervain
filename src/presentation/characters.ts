@@ -1051,6 +1051,7 @@ export function poseRig(rig: Rig, p: Pose, dt: number) {
         const reach = Math.max(0, s);
         switch (p.workGesture ?? 'general') {
           case 'mending':
+          case 'provisioning':
             a.armRx = -0.68 - 0.08 * s;
             a.armLx = -0.72 + 0.06 * s;
             a.elbowR = -0.74 - 0.06 * reach;

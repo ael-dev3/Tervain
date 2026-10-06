@@ -116,7 +116,7 @@ describe('source pine footprints in the regional forest composition', () => {
     expect(conflicts).toEqual([]);
   });
 
-  it('connects all 32 core, scheduled and override routes with actual trees, rocks and static collision', () => {
+  it('connects all 32 existing routes and both hunter camp commutes with actual trees, rocks and static collision', () => {
     const colliders = buildStaticColliders(); registerFloraColliders(population, colliders);
     registerScatterColliders(createScatterPopulation(terrain, exclusions, population), colliders);
     const nav = new NavGrid(terrain, colliders, 0.55);
@@ -140,7 +140,12 @@ describe('source pine footprints in the regional forest composition', () => {
         routes.push([`${npc.id}: override ${override.anchor}`, ANCHORS[anchors[0]!]!, ANCHORS[override.anchor]!]);
       }
     }
-    expect(routes).toHaveLength(32);
+    expect(routes.filter(([name]) => !name.startsWith('trail_hunter:'))).toHaveLength(32);
+    expect(routes.filter(([name]) => name.startsWith('trail_hunter:'))).toEqual([
+      ['trail_hunter: hunter_station to hunter_shelter', ANCHORS.hunter_station!, ANCHORS.hunter_shelter!],
+      ['trail_hunter: hunter_shelter to hunter_station', ANCHORS.hunter_shelter!, ANCHORS.hunter_station!],
+    ]);
+    expect(routes).toHaveLength(34);
     expect(routes.filter(([, start, end]) => !nav.findPath(start, end)).map(([name]) => name)).toEqual([]);
   });
 });

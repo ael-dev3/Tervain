@@ -1,6 +1,7 @@
 import { biomeAt } from '../../world/biomes';
 import { Colliders, type Collider } from '../../world/colliders';
 import { BUILDINGS, ROADS, type V2 } from '../../world/layout';
+import { CARAVAN_ANIMAL_REST } from '../../world/caravanAnimal';
 import { distToPolyline, type Terrain } from '../../world/terrain';
 import type { AnimalDefinition } from './catalog';
 
@@ -30,6 +31,7 @@ function buildingDistance(x: number, z: number): number {
 }
 
 export function animalHabitatAllowed(definition: AnimalDefinition, point: V2): boolean {
+  if (definition.habitat === 'caravan-rest') return Math.hypot(point.x - CARAVAN_ANIMAL_REST.x, point.z - CARAVAN_ANIMAL_REST.z) <= CARAVAN_ANIMAL_REST.radius;
   const settled = buildingDistance(point.x, point.z);
   if (definition.habitat === 'settlement') return settled < 20;
   if (settled < 15) return false;

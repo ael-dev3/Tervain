@@ -77,7 +77,7 @@ export class AnimalHunting {
   update(dt: number, reducedMotion: boolean) {
     if (!this.running || this.disposed) return;
     this.effects.setReduced(this.reduced || reducedMotion); this.effects.update(dt);
-    // One shared budget even when a restored save contains fourteen carcasses.
+    // One shared budget even when a restored save contains every huntable carcass.
     let budget = 2048;
     for (let offset = 0; offset < this.residents.length; offset++) {
       const resident = this.residents[(this.scanCursor + offset) % this.residents.length]!;
