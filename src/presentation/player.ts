@@ -14,6 +14,7 @@ import type { AudioEngine, SurfaceKind } from './audio';
 import { createPlayerRig, poseRig, setArmed, setSash, applyFlash, type Mode, type Pose, type Rig } from './characters';
 import { EnemyActor, NpcActor, lerpAngle } from './actors';
 import { HERO_WALK_SPEED, HERO_RUN_SPEED, HERO_GUARD_SPEED, HERO_WALK_CYCLE, HERO_RUN_CYCLE, HERO_RUN_THRESHOLD } from './hero/locomotion';
+import { PlayerHuntingVisual } from './playerHunting';
 
 export type PlayerState = 'free' | 'light' | 'heavy' | 'dodge' | 'hurt' | 'channel' | 'dead';
 
@@ -123,7 +124,7 @@ export class Player {
   private stepDist = 0;
   private clock = 0;
   private gaitTime = 0;
-  channel: { label: string; t: number; dur: number; done: () => void } | null = null;
+  channel: { label: string; t: number; dur: number; done: () => void; kind?: 'skinning'; cancelled?: () => void } | null = null;
   shake = 0;
   inWater = false;
   surface: SurfaceKind = 'grass';
@@ -133,10 +134,14 @@ export class Player {
   drawn = false;
   private calm = 0;
   private shown: 'none' | 'sheathed' | 'drawn' | null = null;
+  readonly huntingVisual: PlayerHuntingVisual;
+  private skinningHeight: number | undefined;
+  private skinningArms: 'none' | 'sheathed' | 'drawn' = 'none';
 
   constructor(rig: Rig = createPlayerRig()) {
     this.rig = rig;
     this.group.add(this.rig.root);
+    this.huntingVisual = new PlayerHuntingVisual(this.rig);
     this.showArms('none');
   }
 
@@ -144,6 +149,47 @@ export class Player {
   arms(game: Game): Arms {
     return game.state.equippedWeapon === 'rusted_sword' && (game.state.inventory.rusted_sword ?? 0) > 0 ? BLADE : FISTS;
   }
+
+  bowEquipped(game: Game): boolean {
+    return String(game.state.equippedWeapon) === 'hunting_bow' &&
+      ((game.state.inventory as Partial<Record<string, number>>).hunting_bow ?? 0) > 0;
+  }
+
+  get bowAiming(): boolean { return this.huntingVisual.isAiming && this.state === 'free'; }
+
+  /** Gameplay supplies the camera/muzzle target direction and the normalized draw charge. */
+  setBowAim(direction: { x: number; y: number; z: number } | null, drawProgress = 0): void {
+    this.huntingVisual.setAim(this.state === 'free' && this.alive ? direction : null, drawProgress);
+    if (direction && this.state === 'free' && Number.isFinite(direction.x) && Number.isFinite(direction.z) &&
+      Math.hypot(direction.x, direction.z) > .001) this.yaw = Math.atan2(direction.x, direction.z);
+  }
+
+  /** Returns the visible arrow tip, then animates the release hand; ammunition remains gameplay-owned. */
+  releaseBow(): { origin: THREE.Vector3; direction: THREE.Vector3 } | null {
+    return this.state === 'free' && this.alive ? this.huntingVisual.release() : null;
+  }
+
+  get skinningProgress(): number | null {
+    return this.channel?.kind === 'skinning' ? Math.min(1, this.channel.t / this.channel.dur) : null;
+  }
+
+  beginSkinning(targetX: number, targetZ: number, duration = 3, done: () => void = () => {}, cancelled?: () => void, targetHeight?: number): boolean {
+    if (!this.grounded || ![targetX, targetZ, duration].every(Number.isFinite) || duration <= 0 ||
+      !this.beginChannel('Skinning animal', duration, done)) return false;
+    this.channel!.kind = 'skinning';
+    this.channel!.cancelled = cancelled;
+    this.skinningArms = this.shown ?? 'none';
+    this.showArms('none');
+    this.skinningHeight = targetHeight !== undefined && Number.isFinite(targetHeight) ? targetHeight - this.y : .4;
+    this.yaw = Math.atan2(targetX - this.x, targetZ - this.z);
+    this.setBowAim(null);
+    this.huntingVisual.setSkinning(0, 0, this.skinningHeight);
+    return true;
+  }
+
+  cancelSkinning(): void { if (this.channel?.kind === 'skinning') this.cancelChannel(); }
+
+  dispose(): void { this.cancelSkinning(); this.huntingVisual.dispose(); }
 
   /** Equipment changes remain visible while inventory pauses the world; an unfinished blow cannot change weapon halfway through. */
   syncEquipment(game: Game, draw = false) {
@@ -155,6 +201,8 @@ export class Player {
     this.blocking = false;
     this.blockTime = 0;
     const armed = this.arms(game) === BLADE;
+    this.cancelSkinning();
+    this.huntingVisual.setEquipped(this.bowEquipped(game));
     this.drawn = armed && draw;
     this.calm = 0;
     this.showArms(!armed ? 'none' : this.drawn ? 'drawn' : 'sheathed');
@@ -162,6 +210,7 @@ export class Player {
 
   /** Re-selecting the held blade readies it without cancelling a blow or dropping guard. */
   readyWeapon(game: Game) {
+    if (this.alive && this.bowEquipped(game)) { this.huntingVisual.setEquipped(true); return; }
     if (!this.alive || this.arms(game) !== BLADE) return;
     this.drawn = true;
     this.calm = 0;
@@ -187,6 +236,10 @@ export class Player {
   }
 
   setPosition(x: number, z: number, yaw: number, terrain: Terrain, feetY?: number) {
+    this.cancelSkinning();
+    this.huntingVisual.restorePose();
+    this.huntingVisual.setAim(null);
+    this.huntingVisual.setSkinning(null);
     this.x = x;
     this.z = z;
     this.yaw = yaw;
@@ -229,8 +282,13 @@ export class Player {
 
   cancelChannel() {
     if (this.state === 'channel') {
+      const cancelled = this.channel?.cancelled;
+      if (this.channel?.kind === 'skinning') this.showArms(this.skinningArms);
       this.state = 'free';
       this.channel = null;
+      this.huntingVisual.setSkinning(null);
+      this.huntingVisual.restorePose();
+      cancelled?.();
     }
   }
 
@@ -416,6 +474,8 @@ export class Player {
     const d = Math.hypot(dx, dz) || 1;
     const f = this.facing;
     const facing = (dx / d) * f.x + (dz / d) * f.z > 0.17;
+    this.cancelSkinning();
+    this.setBowAim(null);
     if (this.blocking && facing && this.state === 'free') {
       const arms = this.arms(ctx.game);
       const perfect = this.blockTime < PERFECT_BLOCK_WINDOW;
@@ -487,6 +547,9 @@ export class Player {
     const frameZ = this.z;
     this.clock += dt;
     const inp = ctx.input;
+    const hasBow = this.bowEquipped(ctx.game);
+    this.huntingVisual.setEquipped(hasBow);
+    if (this.state !== 'free') this.setBowAim(null);
     const control = ctx.controllable;
     this.iframes = Math.max(0, this.iframes - dt);
     this.shake = Math.max(0, this.shake - dt * 1.6);
@@ -510,14 +573,14 @@ export class Player {
     const hasInput = mag > 0.05;
 
     // Blocking.
-    const wantBlock = control && (this.state === 'free') && inp.held('block');
+    const wantBlock = control && !hasBow && (this.state === 'free') && inp.held('block');
     if (wantBlock && !this.blocking) this.blockTime = 0;
     this.blocking = wantBlock;
     if (this.blocking) this.blockTime += dt;
     if (!control && inp.uiOpen) inp.clearToggle('block');
 
     // Sprint.
-    const sprintHeld = control && inp.held('sprint') && hasInput && !this.blocking;
+    const sprintHeld = control && inp.held('sprint') && hasInput && !this.blocking && !this.bowAiming;
     if (sprintHeld && this.state === 'free' && this.stamina <= SPRINT_MIN_STAMINA) this.exhausted = true;
     const sprinting = sprintHeld && this.stamina > SPRINT_MIN_STAMINA && !this.exhausted && this.state === 'free';
     if (sprintHeld && this.exhausted) inp.clearToggle('sprint');
@@ -525,11 +588,11 @@ export class Player {
     // Actions (edge-triggered).
     const arms = this.arms(ctx.game);
     if (control && this.state === 'free') {
-      if (inp.pressed('attack') && !this.blocking && this.stamina >= arms.cost.light) {
+      if (!hasBow && inp.pressed('attack') && !this.blocking && this.stamina >= arms.cost.light) {
         this.startAction('light', arms);
         this.spend(arms.cost.light);
         ctx.audio.swing(false, arms === BLADE);
-      } else if (inp.pressed('heavy') && !this.exhausted && this.stamina >= arms.cost.heavy) {
+      } else if (!hasBow && inp.pressed('heavy') && !this.exhausted && this.stamina >= arms.cost.heavy) {
         this.startAction('heavy', arms);
         this.spend(arms.cost.heavy);
         ctx.audio.swing(true, arms === BLADE);
@@ -563,14 +626,14 @@ export class Player {
       this.calm += dt;
       if (this.calm > SHEATHE_AFTER) this.drawn = false;
     }
-    this.showArms(!hasBlade ? 'none' : this.drawn ? 'drawn' : 'sheathed');
+    this.showArms(this.channel?.kind === 'skinning' ? 'none' : !hasBlade ? 'none' : this.drawn ? 'drawn' : 'sheathed');
 
     // State timers.
     let pendingBlow = false;
     let speed = 0;
     switch (this.state) {
       case 'free': {
-        const target = sprinting ? HERO_RUN_SPEED : this.blocking ? HERO_GUARD_SPEED : HERO_WALK_SPEED;
+        const target = sprinting ? HERO_RUN_SPEED : this.blocking || this.bowAiming ? HERO_GUARD_SPEED : HERO_WALK_SPEED;
         const back = mv.y < -0.3 && !this.blocking ? 0.7 : 1;
         speed = hasInput ? target * back * mag : 0;
         break;
@@ -609,12 +672,19 @@ export class Player {
       case 'channel': {
         const ch = this.channel;
         if (ch) {
+          // A move requested on the final skinning frame still interrupts the cut before loot can be granted.
+          if (ch.kind === 'skinning' && control && Math.hypot(inp.move().x, inp.move().y) > .05) {
+            this.cancelChannel();
+            break;
+          }
           ch.t += dt;
           if (ch.t >= ch.dur) {
+            if (ch.kind === 'skinning') this.showArms(this.skinningArms);
             this.channel = null;
             this.state = 'free';
+            this.huntingVisual.setSkinning(null);
             ch.done();
-          } else if (control && (inp.move().x !== 0 || inp.move().y !== 0) && Math.hypot(inp.move().x, inp.move().y) > 0.6) {
+          } else if (control && ch.kind !== 'skinning' && Math.hypot(inp.move().x, inp.move().y) > .6) {
             this.cancelChannel();
           }
         } else this.state = 'free';
@@ -630,7 +700,7 @@ export class Player {
     const forward = this.facing;
     // Releasing a direction in mid-air cannot apply ground friction. Directional input still provides modest air control.
     const coasting = !this.grounded && !hasInput && this.state === 'free';
-    const slope = this.downhillGravity(ctx);
+    const slope = this.channel?.kind === 'skinning' ? { x: 0, z: 0, slip: 0 } : this.downhillGravity(ctx);
     const rate = this.grounded ? 13.3 + (2.2 - 13.3) * slope.slip : 2.8;
     const targetVx = (coasting ? this.vx : (lunging ? forward.x : wx) * speed) + slope.x / rate;
     const targetVz = (coasting ? this.vz : (lunging ? forward.z : wz) * speed) + slope.z / rate;
@@ -655,7 +725,8 @@ export class Player {
 
     // Facing.
     if (this.state === 'free') {
-      if (this.blocking) this.yaw = lerpAngle(this.yaw, ctx.viewYaw, 1 - Math.exp(-dt * 14));
+      if (this.bowAiming) { /* Aim direction is supplied by the camera's selected target. */ }
+      else if (this.blocking) this.yaw = lerpAngle(this.yaw, ctx.viewYaw, 1 - Math.exp(-dt * 14));
       else if (this.lastMoveSpeed > 0.4 && hasInput) this.yaw = lerpAngle(this.yaw, Math.atan2(this.vx, this.vz), 1 - Math.exp(-dt * 12));
     }
 
@@ -791,11 +862,14 @@ export class Player {
       travel: this.grounded && gait ? this.lastMoveSpeed * dt : 0,
       moveSpeed: this.lastMoveSpeed,
     };
+    this.huntingVisual.restorePose();
     poseRig(this.rig, pose, dt);
     applyFlash(this.rig, this.rig.hitFlash);
     if (this.rig.hitFlash > 0) this.rig.hitFlash = Math.max(0, this.rig.hitFlash - dt * 4);
     this.rig.root.position.set(this.x, this.y, this.z);
     this.rig.root.rotation.y = this.yaw;
+    this.huntingVisual.setSkinning(this.skinningProgress, this.channel?.t ?? 0, this.skinningHeight);
+    this.huntingVisual.apply(dt);
     // Clothing that shows local standing.
     const inv = g.inventory;
     const sash = (inv.league_sash ?? 0) > 0 ? 0x4d7a54 : (inv.contract_band ?? 0) > 0 ? 0x8a3a30 : (inv.witness_cord ?? 0) > 0 ? 0xd9c98a : null;

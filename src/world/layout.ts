@@ -329,7 +329,13 @@ export const INSPECT_LOCATIONS: WorldPoint[] = [
   { id: 'saltward_kit', x: 15, z: 20.5, r: 2.4 },
 ];
 
+/** Hunting gear is found just off the early woodland trail; hides buy replacement arrows here. */
+export const HUNTER_SUPPLY = { x: -229, z: 29, r: 3 } as const;
+
 export const PICKUP_LOCATIONS: (WorldPoint & { item: ItemId; qty: number; nameKey: string; yaw?: number })[] = [
+  { id: 'hunter_bow', x: HUNTER_SUPPLY.x - .5, z: HUNTER_SUPPLY.z, r: 2.4, item: 'hunting_bow', qty: 1, nameKey: 'pickup.hunter_bow', yaw: .7 },
+  { id: 'hunter_knife', x: HUNTER_SUPPLY.x + .5, z: HUNTER_SUPPLY.z, r: 2.4, item: 'skinning_knife', qty: 1, nameKey: 'pickup.hunter_knife', yaw: -.4 },
+  { id: 'hunter_arrows', x: HUNTER_SUPPLY.x, z: HUNTER_SUPPLY.z + 1, r: 2.4, item: 'arrow', qty: 24, nameKey: 'pickup.hunter_arrows', yaw: .3 },
   { id: 'quarry_brace', x: 90, z: -12, r: 2.6, item: 'sluice_brace', qty: 1, nameKey: 'pickup.brace' },
   { id: 'quarry_wrench', x: 91.6, z: -13, r: 2.6, item: 'gate_wrench', qty: 1, nameKey: 'pickup.wrench' },
   { id: 'side_path_cache', x: 112, z: 62, r: 3, item: 'coin', qty: 8, nameKey: 'pickup.cache' },

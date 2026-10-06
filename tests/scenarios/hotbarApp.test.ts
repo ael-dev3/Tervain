@@ -10,6 +10,7 @@ function fixture() {
   game.state.player.health = 40;
   const app = Object.assign(Object.create(App.prototype) as object, {
     game, mode: 'play', worldBuilding: false, worldBuildFailed: false, qualityReload: null,
+    hunting: { controls: vi.fn() },
     panels: { isOpen: false }, player: { alive: true, syncEquipment: vi.fn(), readyWeapon: vi.fn() },
     hud: { toast: vi.fn() }, audio: { uiConfirm: vi.fn(), pickup: vi.fn(), consume: vi.fn(), equip: vi.fn() },
     input: { consumePad: vi.fn(), clearToggle: vi.fn() },

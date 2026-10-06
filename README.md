@@ -16,7 +16,9 @@ For models, see the [3D asset credits and license ledger](docs/engineering/model
 
 ## Prototype status
 
-This integration develops the **0.0.12** browser prototype. A source version alone does not establish deployment; check the normal publish workflow and the game’s displayed revision. Tervain stays in the **0.0.x** stage until its quality gate is met. A desktop package and Steam integration are not yet available.
+The **0.0.13 hunting review candidate** builds on the verified **0.0.12** published baseline. Strict TypeScript, production builds, the combined suite of 1,575 tests in 157 files and browser gameplay/cover checks pass. The hunting game has not been deployed. Tervain stays in the **0.0.x** stage until its quality gate is met. A desktop package and Steam integration are not yet available.
+
+Find the bow, knife and 24 arrows beside the woodland trail; one head hit or two body hits kills an animal. Skin the carcass for hide and meat, then exchange a hide for six arrows. The candidate adds 18 distinct supplied, rigged animals, each below 50,000 triangles; the nineteenth boar still awaits its source model. See the [hunting guide](docs/engineering/hunting-0.0.13.md) and [candidate release record](docs/production/releases/0.0.13.md).
 
 The prototype includes:
 
@@ -25,10 +27,11 @@ The prototype includes:
 - Rougher terrain, rooted vegetation, weathered buildings, grounded scenery and coastal water.
 - Adaptive world music, surface footsteps, item/combat/work sounds, wildlife and captioned resident speech.
 - World pickups, inventory, equipment, an initially empty ten-slot item hotbar, journal and map.
+- The hunting candidate adds aim/draw/release bow controls, one-time animated carcass harvesting and saved hunting progress.
 - Physical movable supplies, saved progress and keyboard/mouse or controller controls.
 - A Templar vigil menu with The Sovereign's Oath, distant ships and a score-led spirit grove.
 
-**[Launch Tervain](https://ael-dev3.github.io/Tervain/)** — Published from `main` through the normal GitHub Pages workflow. Use a desktop WebGL browser; save data is stored in that browser. The title shows the version and F3 shows the source revision.
+**[Launch Tervain](https://ael-dev3.github.io/Tervain/)** — The verified live baseline is 0.0.12; the hunting candidate has not been deployed as a game. The complete 19-animal release awaits its remaining source model. Use a desktop WebGL browser; save data is stored in that browser. The title shows the version and F3 shows the source revision.
 
 See the [0.0.12 release record](docs/production/releases/0.0.12.md) for verified results and limitations, and the [prototype guide](docs/engineering/prototype.md) for controls and boundaries.
 

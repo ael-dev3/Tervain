@@ -52,6 +52,57 @@ describe('semantic audio captions', () => {
     expect(ctx.suspend).toHaveBeenCalledTimes(1);
     expect(ctx.resume).toHaveBeenCalledTimes(1);
   });
+
+  it('delivers hunting captions with muted volumes and no device, once per action', () => {
+    vi.stubGlobal('window', {});
+    const settings = defaultSettings();
+    settings.volumes.master = 0;
+    settings.volumes.effects = 0;
+    const audio = new AudioEngine(() => settings);
+    const caption = vi.fn();
+    audio.onCaption = caption;
+    audio.resume();
+    audio.setWildlifeActive(true);
+    audio.huntingSound('bow_draw');
+    audio.huntingSound('bow_draw');
+    audio.huntingSound('bow_release');
+    audio.huntingSound('arrow_flesh');
+    audio.huntingSound('arrow_ground');
+    audio.huntingSound('skinning');
+    audio.huntingSound('skinning');
+    audio.stopHuntingSounds('skinning');
+    audio.huntingSound('skinning_complete');
+    expect(caption.mock.calls.map(([text]) => text)).toEqual([
+      '[Bowstring draws taut]', '[Bowstring releases]', '[Arrow strikes an animal]',
+      '[Arrow strikes the ground]', '[Knife scrapes through hide]', '[Pelt packed away]',
+    ]);
+    audio.huntingSound('skinning');
+    expect(caption).toHaveBeenLastCalledWith('[Knife scrapes through hide]');
+    audio.dispose();
+  });
+
+  it('gates hunting event captions across pause, menu, hidden state, distance and disposal', () => {
+    const audio = new AudioEngine(defaultSettings);
+    const caption = vi.fn();
+    audio.onCaption = caption;
+    audio.huntingSound('bow_release');
+    audio.setWildlifeActive(true);
+    audio.setMenuActive(true);
+    audio.huntingSound('bow_release');
+    audio.setMenuActive(false);
+    audio.setPageHidden(true);
+    audio.huntingSound('bow_release');
+    audio.setPageHidden(false);
+    audio.huntingSound('arrow_flesh', { x: 0, y: 0, z: 100 }, { x: 0, y: 0, z: 0, heading: 0 });
+    expect(caption).not.toHaveBeenCalled();
+    audio.huntingSound('bow_release');
+    expect(caption).toHaveBeenCalledWith('[Bowstring releases]');
+    audio.setWildlifeActive(false);
+    audio.huntingSound('skinning');
+    audio.dispose();
+    audio.huntingSound('arrow_ground');
+    expect(caption).toHaveBeenCalledTimes(1);
+  });
 });
 
 const environment = (overrides: Partial<AmbienceEnvironment> = {}): AmbienceEnvironment => ({
@@ -175,6 +226,139 @@ async function flushMusic() {
   await Promise.resolve();
 }
 
+describe('animal effects and menu audio share the existing master mix', () => {
+  it('preserves nearby semantic calls with a missing audio device and applies event cooldown, distance and scene gates', () => {
+    let time = 0;
+    vi.stubGlobal('performance', { now: () => time * 1000 });
+    vi.stubGlobal('window', {});
+    const fetch = vi.fn();
+    vi.stubGlobal('fetch', fetch);
+    const settings = defaultSettings();
+    settings.volumes.master = settings.volumes.effects = 0;
+    const audio = new AudioEngine(() => settings);
+    const caption = vi.fn();
+    audio.onCaption = caption;
+    const listener = { x: 0, y: 1, z: 0, heading: 0 };
+    const event = { id: 'wolf-1', species: 'wolf' as const, position: { x: 0, y: 1, z: 3 }, gain: 1 };
+    audio.setWildlifeActive(true);
+    audio.resume();
+    expect(audio.enabled).toBe(false);
+    audio.animalCall(event, listener);
+    audio.animalCall(event, listener);
+    expect(caption).toHaveBeenCalledExactlyOnceWith('[A wolf calls]');
+    time = 7;
+    audio.animalCall(event, listener);
+    expect(caption).toHaveBeenCalledTimes(2);
+    audio.animalCall({ ...event, id: 'distant', position: { x: 0, y: 1, z: 50 } }, listener);
+    audio.animalCall({ ...event, id: 'invalid', position: { x: NaN, y: 1, z: 3 } }, listener);
+    audio.animalCall({ ...event, id: 'quiet', gain: 0 }, listener);
+    expect(caption).toHaveBeenCalledTimes(2);
+    audio.setWildlifeActive(false);
+    audio.animalCall({ ...event, id: 'paused' }, listener);
+    audio.setWildlifeActive(true);
+    audio.setMenuActive(true);
+    audio.animalCall({ ...event, id: 'menu' }, listener);
+    audio.setMenuActive(false);
+    audio.setPageHidden(true);
+    audio.animalCall({ ...event, id: 'hidden' }, listener);
+    expect(caption).toHaveBeenCalledTimes(2);
+    audio.setPageHidden(false);
+    audio.animalCall({ ...event, id: 'return' }, listener);
+    expect(caption).toHaveBeenCalledTimes(3);
+    expect(fetch).not.toHaveBeenCalled();
+    audio.dispose();
+    audio.animalCall({ ...event, id: 'disposed' }, listener);
+    expect(caption).toHaveBeenCalledTimes(3);
+  });
+
+  it('keeps call captions available through Master/Effects mute without fetching or decoding recordings', () => {
+    const { audio, settings } = audioFixture();
+    const fetch = vi.fn();
+    vi.stubGlobal('fetch', fetch);
+    const caption = vi.fn();
+    audio.onCaption = caption;
+    audio.setWildlifeActive(true);
+    const listener = { x: 0, y: 1, z: 0, heading: 0 };
+    const event = { id: 'cat-1', species: 'cat' as const, position: { x: 0, y: 1, z: 3 }, gain: 1 };
+    settings.volumes.master = 0;
+    audio.applySettings();
+    audio.animalCall(event, listener);
+    settings.volumes.master = 0.8;
+    settings.volumes.effects = 0;
+    audio.applySettings();
+    audio.animalCall({ ...event, id: 'cat-2' }, listener);
+    expect(caption.mock.calls.map(([text]) => text)).toEqual(['[A cat meows]', '[A cat meows]']);
+    expect(fetch).not.toHaveBeenCalled();
+    expect(audio.diagnostics.animals.voices).toBe(0);
+    audio.dispose();
+  });
+
+  it('gates recorded calls on gesture/playing state and stops voices when hidden, paused or Effects-muted', async () => {
+    let callTime = 0;
+    vi.stubGlobal('performance', { now: () => callTime * 1000 });
+    const settings = defaultSettings();
+    const ctx = new Context();
+    const pans: (Node & { pan: Param })[] = [];
+    Object.assign(ctx, {
+      createStereoPanner: () => { const pan = Object.assign(new Node(), { pan: new Param() }); pans.push(pan); return pan; },
+      decodeAudioData: vi.fn(async () => ({ duration: 2.5 })),
+    });
+    vi.stubGlobal('window', { AudioContext: vi.fn(function () { return ctx; }) });
+    const fetch = vi.fn(async (url: string) => url.endsWith('manifest.json')
+      ? new Response(JSON.stringify({ assets: [{ id: 'dog-call-1', species: 'dog',
+        path: 'public/assets/audio/animals/dog-call-1.mp3', sha256: 'a'.repeat(64) }] }))
+      : new Response(new Uint8Array([1, 2, 3])));
+    vi.stubGlobal('fetch', fetch);
+    const audio = new AudioEngine(() => settings);
+    const caption = vi.fn();
+    audio.onCaption = caption;
+    const listener = { x: 0, y: 1, z: 0, heading: 0 };
+    const event = { id: 'dog-1', species: 'dog' as const, position: { x: 0, y: 1, z: 3 }, gain: 1 };
+    audio.setWildlifeActive(true);
+    audio.animalCall({ ...event, id: 'locked-dog' }, listener);
+    expect(fetch).not.toHaveBeenCalled();
+    audio.resume();
+    audio.animalCall(event, listener);
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(audio.diagnostics.animals.voices).toBe(1);
+    expect(caption).toHaveBeenCalledTimes(2); // Each call event captions once; decoding never duplicates it.
+    expect(pans[0]!.connect).toHaveBeenCalledWith(ctx.gains[2]);
+    audio.setPageHidden(true);
+    expect(ctx.sources[4]!.stop).toHaveBeenCalledTimes(1);
+    expect(audio.diagnostics.animals.voices).toBe(0);
+    ctx.currentTime = 8;
+    callTime = 8;
+    audio.animalCall(event, listener);
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(ctx.sources).toHaveLength(5);
+    audio.setPageHidden(false);
+    audio.animalCall(event, listener);
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(ctx.sources).toHaveLength(6);
+    settings.volumes.effects = 0;
+    audio.applySettings();
+    expect(ctx.sources[5]!.stop).toHaveBeenCalledTimes(1);
+    ctx.currentTime = 16;
+    callTime = 16;
+    audio.animalCall(event, listener);
+    expect(ctx.sources).toHaveLength(6);
+    settings.volumes.effects = 0.75;
+    audio.applySettings();
+    ctx.currentTime = 24;
+    callTime = 24;
+    audio.animalCall(event, listener);
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(ctx.sources).toHaveLength(7);
+    audio.setWildlifeActive(false);
+    expect(ctx.sources[6]!.stop).toHaveBeenCalledTimes(1);
+    ctx.currentTime = 32;
+    callTime = 32;
+    audio.animalCall(event, listener);
+    expect(ctx.sources).toHaveLength(7);
+    audio.dispose();
+  });
+});
+
 function audioFixture(settings = defaultSettings()) {
   const ctx = new Context();
   const makeContext = vi.fn(function (_options: AudioContextOptions) { return ctx; });
@@ -231,6 +415,47 @@ describe('ambience signal and mix', () => {
 });
 
 describe('audio graph lifetime and automation', () => {
+  it('retires live model calls, skinning and delayed arrow decodes at a graphics-build boundary without replacing the device', async () => {
+    const ctx = new Context();
+    let finishDecode: (buffer: AudioBuffer) => void = () => {};
+    const decode = vi.fn(async () => ({ duration: 2.5 } as AudioBuffer));
+    Object.assign(ctx, {
+      createStereoPanner: () => Object.assign(new Node(), { pan: new Param() }),
+      decodeAudioData: decode,
+    });
+    const makeContext = vi.fn(function () { return ctx; });
+    vi.stubGlobal('window', { AudioContext: makeContext });
+    vi.stubGlobal('fetch', vi.fn(async (url: string) => url.endsWith('manifest.json')
+      ? new Response(JSON.stringify({ assets: url.includes('/animals/')
+        ? [{ id: 'dog-call-1', species: 'dog', path: 'public/assets/audio/animals/dog-call-1.mp3', sha256: 'a'.repeat(64) }]
+        : ['skinning', 'bow_release'].map((id) => ({ id, path: `public/assets/audio/hunting/${id}.mp3`, sha256: 'b'.repeat(64) })) }))
+      : new Response(new Uint8Array([1, 2, 3]))));
+    const audio = new AudioEngine(defaultSettings);
+    audio.resume(); audio.setWildlifeActive(true);
+    audio.huntingSound('skinning');
+    audio.animalCall({ id: 'dog-1', species: 'dog', position: { x: 0, y: 1, z: 3 }, gain: 1 }, { x: 0, y: 1, z: 0, heading: 0 });
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(audio.diagnostics.hunting.skinning).toBe(true);
+    expect(audio.diagnostics.animals.voices).toBe(1);
+    decode.mockImplementationOnce(() => new Promise((resolve) => { finishDecode = resolve; }));
+    audio.huntingSound('bow_release');
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(audio.diagnostics.hunting.pending).toBe(1);
+    const sources = ctx.sources.length;
+    audio.pauseWorld();
+    expect(audio.diagnostics.hunting).toMatchObject({ voices: 0, pending: 0, skinning: false });
+    expect(audio.diagnostics.animals.voices).toBe(0);
+    finishDecode({ duration: .65 } as AudioBuffer);
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(ctx.sources).toHaveLength(sources);
+    // A new event after the build uses the cached recording and the same device.
+    audio.huntingSound('bow_release');
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(audio.diagnostics.hunting.voices).toBe(1);
+    expect(makeContext).toHaveBeenCalledTimes(1);
+    audio.dispose();
+  });
+
   it('quiets procedural world envelopes for a graphics build without replacing sources, then restores them immediately', () => {
     const { ctx, audio } = audioFixture();
     audio.update(0.05, environment());

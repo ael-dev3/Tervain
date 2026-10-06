@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { buildHunterSupplies } from './hunterSupplies';
 import { NPCS } from '../content/npcs';
 import { S } from '../content/strings';
 import { hasFact } from '../game/state';
@@ -17,6 +18,8 @@ import { buildScatter } from './scatter';
 import { buildAmbient } from './ambient';
 import { buildGroundcover } from './groundcover';
 import { buildWildlife } from './wildlife';
+import { AnimalPopulation } from './animals/population';
+import { animalInspectionQuery } from './animals/catalog';
 import { buildEnvironment, type EnvironmentHandle } from './environment';
 import { Exclusions, type SwayUniforms } from './vegetation';
 import { ALL_NEEDS } from './assets/needs';
@@ -55,6 +58,7 @@ export class WorldScene {
   private waterMeshes: WaterRenderInputs['meshes'];
   readonly sway: SwayUniforms = { uTime: { value: 0 }, uWind: { value: 1 } };
   readonly library: AssetLibrary;
+  readonly animals: AnimalPopulation;
   /** Forest, ground cover, wildlife: updated every frame with the shared frame context. */
   readonly modules: { name: string; module: SceneModule }[] = [];
   private environment: EnvironmentHandle;
@@ -92,7 +96,9 @@ export class WorldScene {
     // Ground textures are generated, not downloaded; yield between layers so the loading text keeps painting.
     await initializePhysics();
     const tex = await makeTerrainTextures(settings.quality === 'high' ? 1024 : settings.quality === 'medium' ? 768 : 256, () => new Promise((r) => setTimeout(r, 0)));
-    return new WorldScene(state, settings, library, tex, pine, rockPile, treeTemplates, npcAssets);
+    const world = new WorldScene(state, settings, library, tex, pine, rockPile, treeTemplates, npcAssets);
+    await world.animals.preloadInspection();
+    return world;
   }
 
   /** Release GPU resources the scene graph does not own. */
@@ -142,6 +148,7 @@ export class WorldScene {
     for (const m of this.modules) this.scene.add(m.module.group);
     this.environment = buildEnvironment(this.scene, settings.quality);
     this.scenery = buildScenery(this.terrain, this.colliders, settings.quality);
+    this.scene.add(buildHunterSupplies(this.terrain, this.colliders));
     this.scene.add(this.scenery.group);
     // Register accepted source rocks and constructed thresholds before painting their ground contacts.
     // This field changes surface dressing only; support, obstacle identities and terrain planes are unchanged.
@@ -153,6 +160,10 @@ export class WorldScene {
     this.modules.push({ name: 'physical supplies', module: physicalProps });
     this.scene.add(physicalProps.group);
     this.nav = new NavGrid(this.terrain, this.colliders);
+    const animalInspection = typeof location === 'undefined' ? null : animalInspectionQuery(new URLSearchParams(location.search));
+    this.animals = new AnimalPopulation(this.terrain, this.colliders, settings.quality, animalInspection);
+    this.modules.push({ name: 'animals', module: this.animals });
+    this.scene.add(this.animals.group);
 
     // A few real lights near the player make lanterns matter at night without a per-lantern cost.
     for (let i = 0; i < 3; i++) {
@@ -186,6 +197,7 @@ export class WorldScene {
 
   /** Apply durable state that is not animated: doors, pickups, brace, gate, boards. Instant when `snap`. */
   syncStatic(state: WorldState, snap = false) {
+    this.animals.syncHunting(state.hunting);
     this.view = worldView(state);
     const v = this.view;
     const sc = this.scenery;
@@ -292,7 +304,7 @@ export class WorldScene {
   }
 
   /** Move the whole scene forward: sky, water, foliage, animated props. */
-  update(dt: number, state: WorldState, focus: THREE.Vector3, settings: Settings, hour: number, camera: THREE.Camera) {
+  update(dt: number, state: WorldState, focus: THREE.Vector3, settings: Settings, hour: number, camera: THREE.Camera, animalsActive = false) {
     this.time += dt;
     this.view = worldView(state);
     const v = this.view;
@@ -316,6 +328,9 @@ export class WorldScene {
       shadowFrustum = this.sky.sun.shadow.getFrustum();
     }
     const frame: FrameContext = { time: this.time, camera, focus, nightness: night, sunDir: this.sky.state.sunDir, shadowFrustum, reducedMotion: reduced, hour, view: v, quality: settings.quality };
+    this.animals.setRunning(animalsActive);
+    this.animals.syncHunting(state.hunting);
+    this.animals.setReduceEffects(settings.reduceEffects);
     this.environment.update(dt, frame);
     for (const m of this.modules) m.module.update(dt, frame);
 

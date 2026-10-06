@@ -6,6 +6,7 @@ import { S } from './content/strings';
 import { CLOCK_RATE } from './game/constants';
 import { Game } from './game/game';
 import { nextHint } from './game/hints';
+import { huntingHint } from './game/hunting';
 import { INSPECT_POINTS } from './content/inspect';
 import { ITEMS, itemAction } from './content/items';
 import { hasFact, hourOfDay, evalAll, createInitialState, formatClock, clockDay, evalCond } from './game/state';
@@ -30,7 +31,7 @@ import { chooseInteractable } from './presentation/interactionTarget';
 import { Player } from './presentation/player';
 import { Hud } from './presentation/ui/hud';
 import { MapView } from './presentation/ui/map';
-import { PanelHost, aboutPanel, controlsPanel, inventoryPanel, journalPanel, noticePanel, pauseMenu, settingsPanel, sluicePanel, slotsPanel, type PanelActions, type PanelCtx } from './presentation/ui/panels';
+import { PanelHost, aboutPanel, controlsPanel, huntingPanel, inventoryPanel, journalPanel, noticePanel, pauseMenu, settingsPanel, sluicePanel, slotsPanel, type PanelActions, type PanelCtx } from './presentation/ui/panels';
 import { h, clear } from './presentation/ui/dom';
 import { createMenuScreen } from './presentation/ui/menuView';
 import { installMenuMaterials } from './presentation/ui/menuMaterials';
@@ -44,6 +45,7 @@ import { disposeSceneResources } from './presentation/disposeScene';
 import { GAME_VERSION } from './version';
 import { loadMainHero } from './presentation/mainHero';
 import { createHeroRig } from './presentation/hero/rig';
+import { HuntingController } from './presentation/huntingController';
 import { loadMeshyNpcCatalog, type MeshyNpcCatalog } from './presentation/meshynpcs';
 import { npcStyle } from './presentation/npcStyle';
 
@@ -135,6 +137,7 @@ export class App {
   private wantPlayLock = false;
   private lastActiveNpcTag = '';
   captionsEnabled = true;
+  private hunting = new HuntingController(this, () => this.mode === 'play' && this.overlay === 'none' && !this.worldPaused && document.visibilityState !== 'hidden');
 
   constructor(private canvas: HTMLCanvasElement, private uiRoot: HTMLElement) {}
 
@@ -226,6 +229,7 @@ export class App {
       this.audio.setPageHidden(hidden);
       this.input.reset();
       if (hidden) {
+        this.hunting.controls(0, false);
         this.speech.clear();
         this.autosaveQuiet();
         if (this.mode === 'play' && this.overlay === 'none' && !this.bench.active) this.openPause();
@@ -251,7 +255,7 @@ export class App {
    */
   private applyShotParams() {
     const q = new URLSearchParams(location.search);
-    if (!q.has('shot')) return;
+    if (!q.has('shot') && !this.world.animals?.inspection) return;
     const num = (k: string, d: number) => (q.has(k) ? Number(q.get(k)) : d);
     this.quietStart = true;
     this.startNew();
@@ -262,6 +266,17 @@ export class App {
     this.cam.yaw = num('yaw', 0);
     this.cam.pitch = num('pitch', 0.25);
     this.cam.wantDist = num('dist', 6);
+    const animalFrame = this.world.animals?.inspectionFrame();
+    if (animalFrame && !q.has('cam')) {
+      const animalYaw = num('yaw', .55), distance = num('dist', animalFrame.distance);
+      // Review camera only: authored gameplay homes are not moved by an individual model query.
+      this.player.setPosition(animalFrame.x + Math.sin(animalYaw) * 7, animalFrame.z + Math.cos(animalYaw) * 7, animalYaw + Math.PI, this.world.terrain);
+      this.cam.manual = {
+        p: new THREE.Vector3(animalFrame.x + Math.sin(animalYaw) * distance, animalFrame.y + Math.max(1.4, distance * .23), animalFrame.z + Math.cos(animalYaw) * distance),
+        look: new THREE.Vector3(animalFrame.x, animalFrame.y + .7, animalFrame.z),
+      };
+      this.player.group.visible = false;
+    }
     this.debugTime(num('hour', 11));
     const camv = q.get('cam')?.split(',').map(Number);
     if (camv && camv.length === 6 && camv.every((n) => Number.isFinite(n))) this.cam.manual = { p: new THREE.Vector3(camv[0], camv[1], camv[2]), look: new THREE.Vector3(camv[3], camv[4], camv[5]) };
@@ -308,6 +323,7 @@ export class App {
     this.debugEl = h('div', { class: 'panel surface-paper', style: { position: 'absolute', right: '12px', top: '90px', width: 'min(420px, 92vw)', maxHeight: '80vh', overflow: 'auto', display: 'none', pointerEvents: 'auto', zIndex: '5' } });
     this.uiRoot.append(this.hud.el, this.titleEl, this.panels.el, this.debugEl, this.loadingEl);
     this.hud.onQuickSlotActivate = (slot) => this.activateQuickSlot(slot);
+    this.hud.onSkin = () => this.hunting.skin();
     this.hud.onAssignQuickSlot = (slot, item) => this.assignQuickSlot(slot, item);
     this.hud.onSwapQuickSlots = (from, to) => this.swapQuickSlots(from, to);
     this.mapView.onMarker = (marker) => {
@@ -324,6 +340,7 @@ export class App {
       this.syncMenuHudVisibility();
     };
     this.panels.onOpen = () => {
+      this.hunting.controls(0, false);
       this.speech.clear();
       this.titleEl.inert = true;
       this.input.uiOpen = true;
@@ -381,6 +398,7 @@ export class App {
       this.worldDisposed = false;
       if (this.rebuildPropPoses) this.world.physics.restore(this.rebuildPropPoses);
       this.world.scene.add(this.player.group);
+      this.hunting.attach();
       this.applyQualityToRenderer();
       this.npcs = npcs;
       for (const n of this.npcs) this.world.scene.add(n.rig.root);
@@ -422,6 +440,7 @@ export class App {
     if (!this.world || this.worldDisposed) return;
     const world = this.world;
     this.worldDisposed = true;
+    this.hunting.detach();
     const scene = world.scene;
     // This rig persists across quality/world rebuilds and keeps its GPU resources.
     scene.remove(this.player.group);
@@ -433,6 +452,9 @@ export class App {
   }
 
   private pauseForWorldBuild() {
+    this.hunting.reset();
+    this.audio?.setWildlifeActive(false);
+    this.world?.animals?.setRunning(false);
     this.speech.clear();
     if (!this.worldPaused) this.rebuildFocus = document.activeElement as HTMLElement | null;
     this.audio.pauseWorld();
@@ -667,6 +689,7 @@ export class App {
     if (this.worldPaused) return;
     this.speech.clear();
     this.inventoryNotesChanged = false;
+    this.hunting.reset();
     this.titleEl.classList.remove('on');
     this.panels.closeAll();
     this.mode = 'play';
@@ -725,6 +748,7 @@ export class App {
   private syncWorldFromState(snap: boolean) {
     this.player.syncEquipment(this.game);
     this.world.syncStatic(this.game.state, snap);
+    this.world.animals?.syncHunting(this.game.state.hunting, true);
     const ctx = this.actorContext();
     for (const n of this.npcs) n.snapToGoal(ctx);
     for (const e of this.enemies) {
@@ -776,6 +800,7 @@ export class App {
 
   private step(dt: number) {
     if (this.worldPaused) return;
+    this.hunting.syncInputMode();
     this.input.poll(dt);
     const state = this.game.state;
     if (this.worldDirty) {
@@ -789,6 +814,7 @@ export class App {
 
     // The frame in which an overlay closes stays paused, so the press that closed it cannot also act in the world.
     const playing = this.mode === 'play' && this.overlay === 'none' && overlayAtStart === 'none';
+    this.audio.setWildlifeActive(playing && document.visibilityState !== 'hidden');
     if (this.bench.active) this.stepBenchmark(dt);
 
     if (this.menuBackgroundActive) {
@@ -837,6 +863,7 @@ export class App {
       const look = this.input.look(dt);
       this.cam.applyLook(look.yaw, look.pitch, this.input.zoom());
     }
+    this.hunting.controls(dt, playing);
 
     // Simulation
     const hitStopped = this.hitStop > 0;
@@ -894,8 +921,8 @@ export class App {
 
     // Channelled action progress
     const ch = this.player.channel;
-    this.hud.setChannel(ch ? ch.label : null, ch ? ch.t / ch.dur : 0);
-    this.world.setWheelTurning(ch ? 3 : 0);
+    this.hud.setChannel(ch && ch.kind !== 'skinning' ? ch.label : null, ch ? ch.t / ch.dur : 0);
+    this.world.setWheelTurning(ch && ch.kind !== 'skinning' ? 3 : 0);
 
     // Bell in the drought
     this.updateBell(dt, playing);
@@ -904,14 +931,17 @@ export class App {
     if (this.cam.mode === 'follow' && !this.bench.active) {
       const sitting = 0;
       this.cam.follow(dt, this.player.x, this.player.y, this.player.z, this.world.terrain, this.world.colliders, this.settings.reducedMotion, this.player.shake, 1.55 + sitting);
-      this.player.group.visible = this.cam.bodyVisible;
+      this.player.group.visible = this.cam.bodyVisible && !this.world.animals.inspection;
     }
 
     // World presentation
-    this.world.update(dt, state, new THREE.Vector3(this.player.x, this.player.y, this.player.z), this.settings, hour, this.cam.camera);
+    this.world.update(dt, this.game.state, new THREE.Vector3(this.player.x, this.player.y, this.player.z), this.settings, hour, this.cam.camera, playing && document.visibilityState !== 'hidden');
+    this.hunting.afterWorld(dt, playing);
+    for (const call of this.world.animals.drainCalls()) this.audio.animalCall(call, { x: this.cam.camera.position.x, y: this.cam.camera.position.y, z: this.cam.camera.position.z, heading: this.cam.yaw });
     this.audioUpdate(dt, this.cam.camera.position, hour);
 
     this.updateHud(dt);
+    this.hunting.updateHud();
     if (this.panelKind === 'map' && this.mapCanvas) this.renderMap();
     this.updateDebug(dt);
     this.render();
@@ -1206,6 +1236,19 @@ export class App {
     this.panels.push(noticePanel(this.panelCtx()), { narrow: true });
   }
 
+  openHuntingNotes() {
+    this.panelKind = 'other';
+    this.panels.push(huntingPanel(this.panelCtx()), { narrow: true });
+  }
+
+  restockArrows() {
+    if (this.mode !== 'play' || this.overlay !== 'none' || this.worldPaused) return;
+    this.game.setPlayerTransform(this.player.x, this.player.y, this.player.z, this.player.yaw);
+    const result = this.game.dispatch({ t: 'restockArrows' });
+    if (!result.ok) this.hud.toast(S(`hunting.${result.reason}`), 'bad');
+    else this.audio.pickup();
+  }
+
   /* ========================= silent observation ========================= */
 
   /**
@@ -1483,6 +1526,7 @@ export class App {
           this.inventoryNotesChanged = true;
           this.input.clearToggle('block');
           this.player.syncEquipment(this.game, e.item !== null);
+          this.hunting.controls(0, false);
           break;
         case 'quickSlots':
         case 'mapMarker':
@@ -1506,7 +1550,10 @@ export class App {
         case 'item':
           if (e.delta > 0) this.hud.toast(S('toast.item.gain', { qty: e.delta, name: S(ITEMS[e.id].nameKey) }), 'good');
           if (e.delta > 0) this.speech.hero(e.id === 'rusted_sword' ? 'blade' : (`item.${e.id}` as HeroCue), { delay: 0.6 });
-          else if (e.id !== 'sluice_brace' && e.id !== 'votive_reed') this.hud.toast(S('toast.item.lose', { qty: -e.delta, name: S(ITEMS[e.id].nameKey) }));
+          else if (e.id !== 'sluice_brace' && e.id !== 'votive_reed' && e.id !== 'arrow') this.hud.toast(S('toast.item.lose', { qty: -e.delta, name: S(ITEMS[e.id].nameKey) }));
+          break;
+        case 'toast':
+          if (e.key.startsWith('hunting.')) this.hud.toast(S(e.key, e.params));
           break;
         case 'skill':
           this.hud.toast(S('toast.skill', { name: S(`skill.${e.id}`) }), 'good');
@@ -1580,6 +1627,7 @@ export class App {
       || this.inventoryNotesChanged
       || s.quickSlots.some((item) => item !== null)
       || s.equippedWeapon !== null
+      || Object.keys(s.hunting).length > 0
       || s.mapMarker !== null
       || s.playSeconds > 90;
   }
@@ -1714,6 +1762,7 @@ export class App {
   }
 
   private onPlayerDeath() {
+    this.hunting.reset();
     this.speech.clear();
     this.world.physics.release();
     this.audio.death();
@@ -1824,7 +1873,7 @@ export class App {
     if (this.mode === 'title') return;
     const s = this.game.state;
     const hint = nextHint(s);
-    const obj = this.settings.guidance ? S(hint.key) : null;
+    const obj = this.settings.guidance ? S(huntingHint(s) ?? hint.key) : null;
     this.hud.update({
       health: s.player.health,
       maxHealth: s.player.maxHealth,

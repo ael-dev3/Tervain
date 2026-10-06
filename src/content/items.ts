@@ -12,6 +12,11 @@ export interface ItemDef {
 export const ITEMS: Record<ItemId, ItemDef> = {
   coin: { id: 'coin', nameKey: 'item.coin', descKey: 'item.coin.desc', kind: 'currency' },
   rusted_sword: { id: 'rusted_sword', nameKey: 'item.rusted_sword', descKey: 'item.rusted_sword.desc', kind: 'weapon' },
+  hunting_bow: { id: 'hunting_bow', nameKey: 'item.hunting_bow', descKey: 'item.hunting_bow.desc', kind: 'weapon' },
+  arrow: { id: 'arrow', nameKey: 'item.arrow', descKey: 'item.arrow.desc', kind: 'material' },
+  skinning_knife: { id: 'skinning_knife', nameKey: 'item.skinning_knife', descKey: 'item.skinning_knife.desc', kind: 'tool' },
+  animal_hide: { id: 'animal_hide', nameKey: 'item.animal_hide', descKey: 'item.animal_hide.desc', kind: 'material' },
+  raw_meat: { id: 'raw_meat', nameKey: 'item.raw_meat', descKey: 'item.raw_meat.desc', kind: 'material' },
   sluice_brace: { id: 'sluice_brace', nameKey: 'item.sluice_brace', descKey: 'item.sluice_brace.desc', kind: 'quest' },
   gate_wrench: { id: 'gate_wrench', nameKey: 'item.gate_wrench', descKey: 'item.gate_wrench.desc', kind: 'tool' },
   archive_key: { id: 'archive_key', nameKey: 'item.archive_key', descKey: 'item.archive_key.desc', kind: 'quest' },
@@ -28,7 +33,7 @@ export const ITEMS: Record<ItemId, ItemDef> = {
 };
 
 /** Ordering for the small inventory panel. */
-export const ITEM_ORDER: ItemId[] = ['rusted_sword', 'coin', 'poultice', 'healing_herb', 'bread', 'shore_apple', 'field_mushroom', 'iron_scrap', 'sluice_brace', 'gate_wrench', 'votive_reed', 'archive_key', 'league_sash', 'contract_band', 'witness_cord'];
+export const ITEM_ORDER: ItemId[] = ['rusted_sword', 'hunting_bow', 'arrow', 'skinning_knife', 'animal_hide', 'raw_meat', 'coin', 'poultice', 'healing_herb', 'bread', 'shore_apple', 'field_mushroom', 'iron_scrap', 'sluice_brace', 'gate_wrench', 'votive_reed', 'archive_key', 'league_sash', 'contract_band', 'witness_cord'];
 
 export function isItemId(value: unknown): value is ItemId {
   return typeof value === 'string' && Object.hasOwn(ITEMS, value);

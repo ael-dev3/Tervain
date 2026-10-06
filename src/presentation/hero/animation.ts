@@ -149,6 +149,16 @@ export class HeroAnimationController {
 
   consumeFootfalls(): number { const result = this.pendingFootfalls; this.pendingFootfalls = 0; return result; }
 
+  /** Equipment actions reuse the source's actual finger grip, without replacing its body or locomotion pose. */
+  applyHandGrip(side: 'Left' | 'Right', amount: number): void {
+    const weight = clamp(finite(amount), 0, 1);
+    for (const finger of HERO_FINGERS) for (const joint of [1, 2, 3, 4] as const) {
+      const name = `mixamorig:${side}Hand${finger}${joint}` as HeroBoneName;
+      this.bones[name].quaternion.slerp(this.gripPose.get(name)!, weight);
+    }
+    this.scene.updateMatrixWorld(true);
+  }
+
   reset(): void {
     this.phase = this.idleClock = this.motionBlend = this.distance = this.runWeight = 0;
     this.cycleMetres = HERO_WALK_CYCLE;

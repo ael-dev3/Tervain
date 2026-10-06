@@ -48,7 +48,7 @@ describe('original loose pickup geometry', () => {
     expect(count / 3).toBeGreaterThan(50);
     expect(count / 3).toBeLessThan(1400);
     expect(Math.max(size.x, size.y, size.z)).toBeGreaterThan(0.1);
-    expect(Math.max(size.x, size.y, size.z)).toBeLessThan(0.9);
+    expect(Math.max(size.x, size.y, size.z)).toBeLessThan(item === 'hunting_bow' ? 1.4 : 0.9);
     expect(Math.min(size.x, size.y, size.z)).toBeGreaterThan(0.035);
     for (let i = 0; i < position.count; i++) {
       expect(Number.isFinite(position.getX(i) + position.getY(i) + position.getZ(i)), item).toBe(true);
@@ -57,10 +57,11 @@ describe('original loose pickup geometry', () => {
     geometry.dispose();
   });
 
-  it('keeps food hand-sized and gathered herbs compact rather than enlarging them for visibility', () => {
+  it('keeps food hand-sized, herbs compact and the hunter kit at usable physical sizes', () => {
     const ranges = {
       shore_apple: [0.10, 0.18], bread: [0.40, 0.60], field_mushroom: [0.14, 0.24],
       healing_herb: [0.45, 0.65], iron_scrap: [0.35, 0.60],
+      hunting_bow: [1.2, 1.4], skinning_knife: [.35, .50], arrow: [.60, .80],
     } as const;
     for (const item of WORLD_PICKUP_ITEM_IDS) {
       const { geometry } = pickupGeometry(item);
@@ -146,7 +147,7 @@ describe('persistent reachable world pickups with full scenery and vegetation', 
     nav = new NavGrid(terrain, colliders);
     targets = buildInteractables({ game, npcs: [], world: { terrain, scenery } } as unknown as App);
     // Exercise the real state synchronizer without creating a renderer/audio scene.
-    scene = Object.assign(Object.create(WorldScene.prototype) as WorldScene, { scenery, colliders, nav });
+    scene = Object.assign(Object.create(WorldScene.prototype) as WorldScene, { scenery, colliders, nav, animals: { syncHunting: vi.fn() } });
   }, 20000);
 
   afterAll(() => {
@@ -155,18 +156,18 @@ describe('persistent reachable world pickups with full scenery and vegetation', 
     vi.unstubAllGlobals();
   });
 
-  it('keeps quest tools/rewards intact and adds 32 one-time native items in only five batches', () => {
-    expect(additions).toHaveLength(32);
+  it('keeps quest tools/rewards intact with 32 provisions and three one-time hunter supplies in eight batches', () => {
+    expect(additions).toHaveLength(35);
     expect(new Set(PICKUP_LOCATIONS.map((point) => point.id)).size).toBe(PICKUP_LOCATIONS.length);
     expect(PICKUP_LOCATIONS.filter((point) => !isWorldPickupItem(point.item)).map((point) => point.id)).toEqual(['quarry_brace', 'quarry_wrench', 'side_path_cache', 'wreck_blade']);
     for (const point of additions) {
-      expect(point.qty, point.id).toBe(1);
+      expect(point.qty, point.id).toBe(point.id === 'hunter_arrows' ? 24 : 1);
       expect(scenery.pickups[point.id]?.userData.pickupInstance, point.id).toBeDefined();
     }
     const batches: THREE.InstancedMesh[] = [];
     scenery.group.traverse((object) => { if (object instanceof THREE.InstancedMesh && object.name.startsWith('loose-')) batches.push(object); });
-    expect(batches).toHaveLength(5);
-    expect(batches.reduce((n, mesh) => n + mesh.count, 0)).toBe(32);
+    expect(batches).toHaveLength(8);
+    expect(batches.reduce((n, mesh) => n + mesh.count, 0)).toBe(35);
     const triangles = batches.reduce((n, mesh) => n + (mesh.geometry.index?.count ?? mesh.geometry.getAttribute('position').count) / 3 * mesh.count, 0);
     expect(triangles).toBeLessThan(18000);
   });
@@ -175,7 +176,7 @@ describe('persistent reachable world pickups with full scenery and vegetation', 
     const target = targets.find((item) => item.id === `pickup:${point.id}`)!;
     expect(target).toBeDefined();
     expect(target.ignoreColliders).toBeUndefined();
-    expect(target.prompt()).toBe(S('prompt.pickup', { name: S(point.nameKey) }));
+    expect(target.prompt()).toBe(S('prompt.pickup', { name: S(`item.${point.item}`) }));
     expect(target.prompt()).not.toContain('prompt.');
     const object = scenery.pickups[point.id]!;
     const link = object.userData.pickupInstance as MeshLink;
@@ -207,7 +208,7 @@ describe('persistent reachable world pickups with full scenery and vegetation', 
   });
 
   it('hides a taken native instance on the same state sync, disables its prompt and restores the exact matrix on new-game sync', () => {
-    const point = additions[0]!;
+    const point = additions.find((candidate) => candidate.item === 'shore_apple')!;
     const target = targets.find((item) => item.id === `pickup:${point.id}`)!;
     const object = scenery.pickups[point.id]!;
     const neighbour = scenery.pickups[additions.find((other) => other.id !== point.id && other.item === point.item)!.id]!;

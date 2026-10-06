@@ -6,6 +6,7 @@ export type Action =
   | 'sprint'
   | 'jump'
   | 'interact'
+  | 'skin'
   | 'grab'
   | 'throw'
   | 'attack'
@@ -23,7 +24,7 @@ export type Action =
   | 'pause';
 
 export const ACTIONS: Action[] = [
-  'forward', 'back', 'left', 'right', 'sprint', 'jump', 'interact', 'grab', 'throw', 'attack', 'heavy', 'block', 'dodge',
+  'forward', 'back', 'left', 'right', 'sprint', 'jump', 'interact', 'skin', 'grab', 'throw', 'attack', 'heavy', 'block', 'dodge',
   'heal', 'journal', 'map', 'inventory', 'camLeft', 'camRight', 'quicksave', 'quickload', 'pause',
 ];
 
@@ -37,6 +38,7 @@ export const DEFAULT_BINDINGS: Bindings = {
   sprint: ['ShiftLeft'],
   jump: ['Space'],
   interact: ['KeyE'],
+  skin: ['KeyV'],
   grab: ['KeyF'],
   throw: ['KeyR'],
   attack: ['Mouse0', 'KeyJ'],

@@ -1,0 +1,2713 @@
+{
+  "schemaVersion": 1,
+  "requestedCount": 19,
+  "readyCount": 18,
+  "missingCount": 1,
+  "triangleBudgetPerModel": 50000,
+  "triangleTarget": 44500,
+  "totalReadyTriangles": 625788,
+  "totalReadyBytes": 115306400,
+  "units": "metres",
+  "upAxis": "+Y",
+  "forwardAxis": "+Z",
+  "motionProvenance": "Procedural articulated skeletal FK clips generated from hand-reviewed source anatomy. Sources contained no rigs or animations; these motions are authored approximations, not motion capture.",
+  "limitations": [
+    "boar-c source asset is unavailable.",
+    "cat-b is a seated source model; its bind pose is preserved and its Walk/Run clips are seated paw motions. Runtime uses it as a seated animal.",
+    "Native clips have sampled skin/ground/loop validation; slopes and paw contacts also depend on runtime grounding."
+  ],
+  "assets": [
+    {
+      "id": "bear-a",
+      "species": "bear",
+      "status": "ready",
+      "source": {
+        "name": "Meshy_AI__bear_1005170943_texture.glb",
+        "sha256": "8ce7280949fbb5506780b240a574a8b09acd6d9c48c58d0090c4f6e5077aa817",
+        "bytes": 1451232,
+        "triangles": 19170
+      },
+      "asset": {
+        "url": "/models/animals/bear-a.glb",
+        "sha256": "84be5211204ed0f461a3a4dc8865bd3e0d456cceabd51626dc1a104cd5487896",
+        "bytes": 1678040,
+        "triangles": 19170,
+        "joints": 20,
+        "bounds": {
+          "min": [
+            -0.5637738108634949,
+            0.0,
+            -1.3163034915924072
+          ],
+          "max": [
+            0.5637738108634949,
+            1.3125,
+            1.3163034915924072
+          ],
+          "extent": [
+            1.1275476217269897,
+            1.3125,
+            2.6326069831848145
+          ]
+        },
+        "units": "metres",
+        "upAxis": "+Y",
+        "forwardAxis": "+Z",
+        "groundY": 0,
+        "textureImages": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          }
+        ]
+      },
+      "rig": {
+        "type": "skinned-skeletal",
+        "weightMethod": "reviewed-anatomical-envelopes-welded-adjacency-smoothed-continuous-top-four-normalized",
+        "bones": [
+          "Root",
+          "Pelvis",
+          "Spine",
+          "Chest",
+          "Neck",
+          "Head",
+          "Jaw",
+          "Tail1",
+          "Tail2",
+          "FrontLeftUpper",
+          "FrontLeftLower",
+          "FrontLeftFoot",
+          "FrontRightUpper",
+          "FrontRightLower",
+          "FrontRightFoot",
+          "BackLeftUpper",
+          "BackLeftLower",
+          "BackLeftFoot",
+          "BackRightUpper",
+          "BackRightLower",
+          "BackRightFoot"
+        ],
+        "restFootPositions": {
+          "FrontLeftFoot": [
+            -0.409053,
+            0.02494,
+            0.286193
+          ],
+          "FrontRightFoot": [
+            0.402739,
+            0.023792,
+            0.292042
+          ],
+          "BackLeftFoot": [
+            -0.329277,
+            0.064776,
+            -0.738472
+          ],
+          "BackRightFoot": [
+            0.328148,
+            0.064776,
+            -0.737532
+          ]
+        },
+        "seatedRestPose": false
+      },
+      "animations": [
+        {
+          "name": "Call",
+          "duration": 2.4000000953674316,
+          "loop": false,
+          "nonconstantWeightedJointTargets": 6
+        },
+        {
+          "name": "Idle",
+          "duration": 3.0,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 5
+        },
+        {
+          "name": "Run",
+          "duration": 0.800000011920929,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 19
+        },
+        {
+          "name": "Walk",
+          "duration": 1.2000000476837158,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 19
+        }
+      ],
+      "processing": {
+        "sourceScaleToMetres": 1.3144783125753718,
+        "maxTextureDimension": 2048,
+        "resizedTextures": [],
+        "triangleTarget": 44500,
+        "motionProvenance": "Procedural skeletal FK cycles authored for this asset; not source motion capture. Seated cat preserves source pose."
+      },
+      "validation": {
+        "passed": true,
+        "weightedVertices": 12214,
+        "maximumWeightSumError": 1.1920928955078125e-07,
+        "geometryWarnings": [
+          "3 nonmanifold edges after geometric welding"
+        ],
+        "restSkinMaxErrorMetres": 2.8983077020688005e-07,
+        "samplesPerClip": 33,
+        "motionMinGroundYMetres": -0.002985996856685615,
+        "motionMaxAxisExtentRatio": 1.0461828669662652,
+        "loopEndpointMaxVertexGapMetres": 2.563370646864574e-07
+      }
+    },
+    {
+      "id": "lion",
+      "species": "lion",
+      "status": "ready",
+      "source": {
+        "name": "Meshy_AI_Lion_1005232726_texture.glb",
+        "sha256": "2c7ef06a3ed4a53fc3069bcb1fe0bbc25a081336bae1787b6233e6fbb311c604",
+        "bytes": 1639896,
+        "triangles": 17934
+      },
+      "asset": {
+        "url": "/models/animals/lion.glb",
+        "sha256": "8cf353e2311f3fd3acf11ceec522b5f6b74e8ce06a255bd42086c4c906454601",
+        "bytes": 1876932,
+        "triangles": 17934,
+        "joints": 20,
+        "bounds": {
+          "min": [
+            -0.38810792565345764,
+            0.0,
+            -1.3370070457458496
+          ],
+          "max": [
+            0.38810792565345764,
+            1.6406251192092896,
+            1.3370070457458496
+          ],
+          "extent": [
+            0.7762158513069153,
+            1.6406251192092896,
+            2.674014091491699
+          ]
+        },
+        "units": "metres",
+        "upAxis": "+Y",
+        "forwardAxis": "+Z",
+        "groundY": 0,
+        "textureImages": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          }
+        ]
+      },
+      "rig": {
+        "type": "skinned-skeletal",
+        "weightMethod": "reviewed-anatomical-envelopes-welded-adjacency-smoothed-continuous-top-four-normalized",
+        "bones": [
+          "Root",
+          "Pelvis",
+          "Spine",
+          "Chest",
+          "Neck",
+          "Head",
+          "Jaw",
+          "Tail1",
+          "Tail2",
+          "FrontLeftUpper",
+          "FrontLeftLower",
+          "FrontLeftFoot",
+          "FrontRightUpper",
+          "FrontRightLower",
+          "FrontRightFoot",
+          "BackLeftUpper",
+          "BackLeftLower",
+          "BackLeftFoot",
+          "BackRightUpper",
+          "BackRightLower",
+          "BackRightFoot"
+        ],
+        "restFootPositions": {
+          "FrontLeftFoot": [
+            -0.181671,
+            0.029531,
+            0.725389
+          ],
+          "FrontRightFoot": [
+            0.170682,
+            0.032169,
+            0.711538
+          ],
+          "BackLeftFoot": [
+            -0.211853,
+            0.041598,
+            -0.336627
+          ],
+          "BackRightFoot": [
+            0.210618,
+            0.042454,
+            -0.328339
+          ]
+        },
+        "seatedRestPose": false
+      },
+      "animations": [
+        {
+          "name": "Call",
+          "duration": 2.4000000953674316,
+          "loop": false,
+          "nonconstantWeightedJointTargets": 6
+        },
+        {
+          "name": "Idle",
+          "duration": 3.0,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 5
+        },
+        {
+          "name": "Run",
+          "duration": 0.800000011920929,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 19
+        },
+        {
+          "name": "Walk",
+          "duration": 1.2000000476837158,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 19
+        }
+      ],
+      "processing": {
+        "sourceScaleToMetres": 1.3458656142051597,
+        "maxTextureDimension": 2048,
+        "resizedTextures": [],
+        "triangleTarget": 44500,
+        "motionProvenance": "Procedural skeletal FK cycles authored for this asset; not source motion capture. Seated cat preserves source pose."
+      },
+      "validation": {
+        "passed": true,
+        "weightedVertices": 12333,
+        "maximumWeightSumError": 1.3329554349184036e-07,
+        "geometryWarnings": [
+          "1 nonmanifold edges after geometric welding"
+        ],
+        "restSkinMaxErrorMetres": 3.320307619433989e-07,
+        "samplesPerClip": 33,
+        "motionMinGroundYMetres": -0.0030719661027052217,
+        "motionMaxAxisExtentRatio": 1.026297383970713,
+        "loopEndpointMaxVertexGapMetres": 1.1354259262610409e-07
+      }
+    },
+    {
+      "id": "bear-b",
+      "species": "bear",
+      "status": "ready",
+      "source": {
+        "name": "Meshy_AI_Bear__1005232657_texture.glb",
+        "sha256": "b2a1761e0713649cc33a1bf15ede455526539a994d64f224458591b6eac25d13",
+        "bytes": 1327912,
+        "triangles": 10000
+      },
+      "asset": {
+        "url": "/models/animals/bear-b.glb",
+        "sha256": "5b26102e0232175f68f4124213052fc854743325b64efb35b02ca13cd3d8aafb",
+        "bytes": 1551224,
+        "triangles": 10000,
+        "joints": 20,
+        "bounds": {
+          "min": [
+            -0.39192503690719604,
+            0.0,
+            -1.1558656692504883
+          ],
+          "max": [
+            0.39192503690719604,
+            1.2820512056350708,
+            1.1558656692504883
+          ],
+          "extent": [
+            0.7838500738143921,
+            1.2820512056350708,
+            2.3117313385009766
+          ]
+        },
+        "units": "metres",
+        "upAxis": "+Y",
+        "forwardAxis": "+Z",
+        "groundY": 0,
+        "textureImages": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          }
+        ]
+      },
+      "rig": {
+        "type": "skinned-skeletal",
+        "weightMethod": "reviewed-anatomical-envelopes-welded-adjacency-smoothed-continuous-top-four-normalized",
+        "bones": [
+          "Root",
+          "Pelvis",
+          "Spine",
+          "Chest",
+          "Neck",
+          "Head",
+          "Jaw",
+          "Tail1",
+          "Tail2",
+          "FrontLeftUpper",
+          "FrontLeftLower",
+          "FrontLeftFoot",
+          "FrontRightUpper",
+          "FrontRightLower",
+          "FrontRightFoot",
+          "BackLeftUpper",
+          "BackLeftLower",
+          "BackLeftFoot",
+          "BackRightUpper",
+          "BackRightLower",
+          "BackRightFoot"
+        ],
+        "restFootPositions": {
+          "FrontLeftFoot": [
+            -0.17737,
+            0.107737,
+            0.05251
+          ],
+          "FrontRightFoot": [
+            0.15632,
+            0.111276,
+            0.06127
+          ],
+          "BackLeftFoot": [
+            -0.214147,
+            0.049233,
+            -0.836454
+          ],
+          "BackRightFoot": [
+            0.191575,
+            0.047738,
+            -0.862843
+          ]
+        },
+        "seatedRestPose": false
+      },
+      "animations": [
+        {
+          "name": "Call",
+          "duration": 2.4000000953674316,
+          "loop": false,
+          "nonconstantWeightedJointTargets": 6
+        },
+        {
+          "name": "Idle",
+          "duration": 3.0,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 5
+        },
+        {
+          "name": "Run",
+          "duration": 0.800000011920929,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 19
+        },
+        {
+          "name": "Walk",
+          "duration": 1.2000000476837158,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 19
+        }
+      ],
+      "processing": {
+        "sourceScaleToMetres": 1.157762081678694,
+        "maxTextureDimension": 2048,
+        "resizedTextures": [],
+        "triangleTarget": 44500,
+        "motionProvenance": "Procedural skeletal FK cycles authored for this asset; not source motion capture. Seated cat preserves source pose."
+      },
+      "validation": {
+        "passed": true,
+        "weightedVertices": 9275,
+        "maximumWeightSumError": 1.2665987014770508e-07,
+        "geometryWarnings": [],
+        "restSkinMaxErrorMetres": 2.968321134342446e-07,
+        "samplesPerClip": 33,
+        "motionMinGroundYMetres": -0.0029147148990956977,
+        "motionMaxAxisExtentRatio": 1.0734621820679644,
+        "loopEndpointMaxVertexGapMetres": 2.6377308966238413e-07
+      }
+    },
+    {
+      "id": "tiger",
+      "species": "tiger",
+      "status": "ready",
+      "source": {
+        "name": "Meshy_AI_tiger_1005232739_texture.glb",
+        "sha256": "23fd4488d6c24ec7b090c5c476bfd9f74f242aedcfcd46333bdd294ac861dcca",
+        "bytes": 15648728,
+        "triangles": 335654
+      },
+      "asset": {
+        "url": "/models/animals/tiger.glb",
+        "sha256": "46db83a39ed6b538586f3b73280c6d7cb04f82d9268d8c91771300330b80d788",
+        "bytes": 7908988,
+        "triangles": 44500,
+        "joints": 20,
+        "bounds": {
+          "min": [
+            -0.306214302778244,
+            0.0,
+            -1.2745091915130615
+          ],
+          "max": [
+            0.306214302778244,
+            1.2820513248443604,
+            1.2745091915130615
+          ],
+          "extent": [
+            0.612428605556488,
+            1.2820513248443604,
+            2.549018383026123
+          ]
+        },
+        "units": "metres",
+        "upAxis": "+Y",
+        "forwardAxis": "+Z",
+        "groundY": 0,
+        "textureImages": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          }
+        ]
+      },
+      "rig": {
+        "type": "skinned-skeletal",
+        "weightMethod": "reviewed-anatomical-envelopes-welded-adjacency-smoothed-continuous-top-four-normalized",
+        "bones": [
+          "Root",
+          "Pelvis",
+          "Spine",
+          "Chest",
+          "Neck",
+          "Head",
+          "Jaw",
+          "Tail1",
+          "Tail2",
+          "FrontLeftUpper",
+          "FrontLeftLower",
+          "FrontLeftFoot",
+          "FrontRightUpper",
+          "FrontRightLower",
+          "FrontRightFoot",
+          "BackLeftUpper",
+          "BackLeftLower",
+          "BackLeftFoot",
+          "BackRightUpper",
+          "BackRightLower",
+          "BackRightFoot"
+        ],
+        "restFootPositions": {
+          "FrontLeftFoot": [
+            -0.115324,
+            0.125756,
+            0.110529
+          ],
+          "FrontRightFoot": [
+            0.121564,
+            0.047676,
+            0.464545
+          ],
+          "BackLeftFoot": [
+            -0.100397,
+            0.054897,
+            -0.231412
+          ],
+          "BackRightFoot": [
+            0.077717,
+            0.030137,
+            -0.581307
+          ]
+        },
+        "seatedRestPose": false
+      },
+      "animations": [
+        {
+          "name": "Call",
+          "duration": 2.4000000953674316,
+          "loop": false,
+          "nonconstantWeightedJointTargets": 6
+        },
+        {
+          "name": "Idle",
+          "duration": 3.0,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 5
+        },
+        {
+          "name": "Run",
+          "duration": 0.800000011920929,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 19
+        },
+        {
+          "name": "Walk",
+          "duration": 1.2000000476837158,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 19
+        }
+      ],
+      "processing": {
+        "sourceScaleToMetres": 1.3426405479169905,
+        "maxTextureDimension": 2048,
+        "resizedTextures": [],
+        "triangleTarget": 44500,
+        "motionProvenance": "Procedural skeletal FK cycles authored for this asset; not source motion capture. Seated cat preserves source pose."
+      },
+      "validation": {
+        "passed": true,
+        "weightedVertices": 41589,
+        "maximumWeightSumError": 1.2957025319337845e-07,
+        "geometryWarnings": [],
+        "restSkinMaxErrorMetres": 2.52983959556399e-07,
+        "samplesPerClip": 33,
+        "motionMinGroundYMetres": -0.0028682326456357776,
+        "motionMaxAxisExtentRatio": 1.0411646287954213,
+        "loopEndpointMaxVertexGapMetres": 1.614963101413099e-07
+      }
+    },
+    {
+      "id": "wolf-a",
+      "species": "wolf",
+      "status": "ready",
+      "source": {
+        "name": "Meshy_AI_Wolf_1005232644_texture.glb",
+        "sha256": "968c13e84fe37952fd5b9f32456d702b631a700f31e12e960e81ccda2d48cb6c",
+        "bytes": 28599592,
+        "triangles": 757625
+      },
+      "asset": {
+        "url": "/models/animals/wolf-a.glb",
+        "sha256": "24a9b5a99d52bfea1299b9aa24737d32ece2048f849d3a5f41a42065e1ef55af",
+        "bytes": 8735888,
+        "triangles": 44500,
+        "joints": 20,
+        "bounds": {
+          "min": [
+            -0.23465567827224731,
+            0.0,
+            -0.9207883477210999
+          ],
+          "max": [
+            0.23465567827224731,
+            1.28125,
+            0.9207883477210999
+          ],
+          "extent": [
+            0.46931135654449463,
+            1.28125,
+            1.8415766954421997
+          ]
+        },
+        "units": "metres",
+        "upAxis": "+Y",
+        "forwardAxis": "+Z",
+        "groundY": 0,
+        "textureImages": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          }
+        ]
+      },
+      "rig": {
+        "type": "skinned-skeletal",
+        "weightMethod": "reviewed-anatomical-envelopes-welded-adjacency-smoothed-continuous-top-four-normalized",
+        "bones": [
+          "Root",
+          "Pelvis",
+          "Spine",
+          "Chest",
+          "Neck",
+          "Head",
+          "Jaw",
+          "Tail1",
+          "Tail2",
+          "FrontLeftUpper",
+          "FrontLeftLower",
+          "FrontLeftFoot",
+          "FrontRightUpper",
+          "FrontRightLower",
+          "FrontRightFoot",
+          "BackLeftUpper",
+          "BackLeftLower",
+          "BackLeftFoot",
+          "BackRightUpper",
+          "BackRightLower",
+          "BackRightFoot"
+        ],
+        "restFootPositions": {
+          "FrontLeftFoot": [
+            -0.142626,
+            0.023062,
+            0.37399
+          ],
+          "FrontRightFoot": [
+            0.07724,
+            0.023062,
+            0.436149
+          ],
+          "BackLeftFoot": [
+            -0.192839,
+            0.023062,
+            -0.63437
+          ],
+          "BackRightFoot": [
+            0.131829,
+            0.100251,
+            -0.662578
+          ]
+        },
+        "seatedRestPose": false
+      },
+      "animations": [
+        {
+          "name": "Call",
+          "duration": 2.4000000953674316,
+          "loop": false,
+          "nonconstantWeightedJointTargets": 6
+        },
+        {
+          "name": "Idle",
+          "duration": 3.0,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 5
+        },
+        {
+          "name": "Run",
+          "duration": 0.800000011920929,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 19
+        },
+        {
+          "name": "Walk",
+          "duration": 1.2000000476837158,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 19
+        }
+      ],
+      "processing": {
+        "sourceScaleToMetres": 0.971583109742775,
+        "maxTextureDimension": 2048,
+        "resizedTextures": [],
+        "triangleTarget": 44500,
+        "motionProvenance": "Procedural skeletal FK cycles authored for this asset; not source motion capture. Seated cat preserves source pose."
+      },
+      "validation": {
+        "passed": true,
+        "weightedVertices": 47513,
+        "maximumWeightSumError": 1.341104507446289e-07,
+        "geometryWarnings": [],
+        "restSkinMaxErrorMetres": 4.976373994738654e-07,
+        "samplesPerClip": 33,
+        "motionMinGroundYMetres": -0.002363945295201771,
+        "motionMaxAxisExtentRatio": 1.040531726651841,
+        "loopEndpointMaxVertexGapMetres": 1.1175138330570885e-07
+      }
+    },
+    {
+      "id": "wolf-b",
+      "species": "wolf",
+      "status": "ready",
+      "source": {
+        "name": "Meshy_AI_Wolf_1005232637_texture.glb",
+        "sha256": "4a7bb2485113e4878574f8c4645e1abb4db36f0cce27554624a57c46e075cea6",
+        "bytes": 7583356,
+        "triangles": 202214
+      },
+      "asset": {
+        "url": "/models/animals/wolf-b.glb",
+        "sha256": "8713287dba311a74e7e31d84bdec25794e458b310ade7b0000060d8e17c3cbfc",
+        "bytes": 3680672,
+        "triangles": 44500,
+        "joints": 20,
+        "bounds": {
+          "min": [
+            -0.37720680236816406,
+            0.0,
+            -1.1272146701812744
+          ],
+          "max": [
+            0.37720680236816406,
+            1.3333332538604736,
+            1.1272146701812744
+          ],
+          "extent": [
+            0.7544136047363281,
+            1.3333332538604736,
+            2.254429340362549
+          ]
+        },
+        "units": "metres",
+        "upAxis": "+Y",
+        "forwardAxis": "+Z",
+        "groundY": 0,
+        "textureImages": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          }
+        ]
+      },
+      "rig": {
+        "type": "skinned-skeletal",
+        "weightMethod": "reviewed-anatomical-envelopes-welded-adjacency-smoothed-continuous-top-four-normalized",
+        "bones": [
+          "Root",
+          "Pelvis",
+          "Spine",
+          "Chest",
+          "Neck",
+          "Head",
+          "Jaw",
+          "Tail1",
+          "Tail2",
+          "FrontLeftUpper",
+          "FrontLeftLower",
+          "FrontLeftFoot",
+          "FrontRightUpper",
+          "FrontRightLower",
+          "FrontRightFoot",
+          "BackLeftUpper",
+          "BackLeftLower",
+          "BackLeftFoot",
+          "BackRightUpper",
+          "BackRightLower",
+          "BackRightFoot"
+        ],
+        "restFootPositions": {
+          "FrontLeftFoot": [
+            -0.157224,
+            0.024,
+            0.524415
+          ],
+          "FrontRightFoot": [
+            0.129501,
+            0.024,
+            0.525164
+          ],
+          "BackLeftFoot": [
+            -0.200943,
+            0.036807,
+            -0.447671
+          ],
+          "BackRightFoot": [
+            0.176392,
+            0.048337,
+            -0.457064
+          ]
+        },
+        "seatedRestPose": false
+      },
+      "animations": [
+        {
+          "name": "Call",
+          "duration": 2.4000000953674316,
+          "loop": false,
+          "nonconstantWeightedJointTargets": 6
+        },
+        {
+          "name": "Idle",
+          "duration": 3.0,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 5
+        },
+        {
+          "name": "Run",
+          "duration": 0.800000011920929,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 19
+        },
+        {
+          "name": "Walk",
+          "duration": 1.2000000476837158,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 19
+        }
+      ],
+      "processing": {
+        "sourceScaleToMetres": 1.1248474218625533,
+        "maxTextureDimension": 2048,
+        "resizedTextures": [],
+        "triangleTarget": 44500,
+        "motionProvenance": "Procedural skeletal FK cycles authored for this asset; not source motion capture. Seated cat preserves source pose."
+      },
+      "validation": {
+        "passed": true,
+        "weightedVertices": 38901,
+        "maximumWeightSumError": 1.341104507446289e-07,
+        "geometryWarnings": [],
+        "restSkinMaxErrorMetres": 2.7418072445094156e-07,
+        "samplesPerClip": 33,
+        "motionMinGroundYMetres": -0.0024027688830692436,
+        "motionMaxAxisExtentRatio": 1.0368211501425508,
+        "loopEndpointMaxVertexGapMetres": 1.3199682829402033e-07
+      }
+    },
+    {
+      "id": "wolf-c",
+      "species": "wolf",
+      "status": "ready",
+      "source": {
+        "name": "Meshy_AI_wolf_1005232631_texture.glb",
+        "sha256": "8e11f90d5a90699cb0beda881e3a87617f5fa4bcb043a8f24095bb651a7fed1a",
+        "bytes": 7217736,
+        "triangles": 14840
+      },
+      "asset": {
+        "url": "/models/animals/wolf-c.glb",
+        "sha256": "0ee82413a1430e98cf643f0f1114399c0560749bd650c4f4a3d02f2e189269c4",
+        "bytes": 7450040,
+        "triangles": 14840,
+        "joints": 20,
+        "bounds": {
+          "min": [
+            -0.20625808835029602,
+            0.0,
+            -0.835435688495636
+          ],
+          "max": [
+            0.20625808835029602,
+            1.1267606019973755,
+            0.835435688495636
+          ],
+          "extent": [
+            0.41251617670059204,
+            1.1267606019973755,
+            1.670871376991272
+          ]
+        },
+        "units": "metres",
+        "upAxis": "+Y",
+        "forwardAxis": "+Z",
+        "groundY": 0,
+        "textureImages": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          }
+        ]
+      },
+      "rig": {
+        "type": "skinned-skeletal",
+        "weightMethod": "reviewed-anatomical-envelopes-welded-adjacency-smoothed-continuous-top-four-normalized",
+        "bones": [
+          "Root",
+          "Pelvis",
+          "Spine",
+          "Chest",
+          "Neck",
+          "Head",
+          "Jaw",
+          "Tail1",
+          "Tail2",
+          "FrontLeftUpper",
+          "FrontLeftLower",
+          "FrontLeftFoot",
+          "FrontRightUpper",
+          "FrontRightLower",
+          "FrontRightFoot",
+          "BackLeftUpper",
+          "BackLeftLower",
+          "BackLeftFoot",
+          "BackRightUpper",
+          "BackRightLower",
+          "BackRightFoot"
+        ],
+        "restFootPositions": {
+          "FrontLeftFoot": [
+            -0.067925,
+            0.0264,
+            0.299403
+          ],
+          "FrontRightFoot": [
+            0.066711,
+            0.020684,
+            0.305982
+          ],
+          "BackLeftFoot": [
+            -0.069932,
+            0.020282,
+            -0.722603
+          ],
+          "BackRightFoot": [
+            0.071783,
+            0.020282,
+            -0.727603
+          ]
+        },
+        "seatedRestPose": false
+      },
+      "animations": [
+        {
+          "name": "Call",
+          "duration": 2.4000000953674316,
+          "loop": false,
+          "nonconstantWeightedJointTargets": 6
+        },
+        {
+          "name": "Idle",
+          "duration": 3.0,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 5
+        },
+        {
+          "name": "Run",
+          "duration": 0.800000011920929,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 19
+        },
+        {
+          "name": "Walk",
+          "duration": 1.2000000476837158,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 19
+        }
+      ],
+      "processing": {
+        "sourceScaleToMetres": 0.8369505305087209,
+        "maxTextureDimension": 2048,
+        "resizedTextures": [],
+        "triangleTarget": 44500,
+        "motionProvenance": "Procedural skeletal FK cycles authored for this asset; not source motion capture. Seated cat preserves source pose."
+      },
+      "validation": {
+        "passed": true,
+        "weightedVertices": 11188,
+        "maximumWeightSumError": 1.341104507446289e-07,
+        "geometryWarnings": [],
+        "restSkinMaxErrorMetres": 2.138614419563303e-07,
+        "samplesPerClip": 33,
+        "motionMinGroundYMetres": -0.0024575658008373553,
+        "motionMaxAxisExtentRatio": 1.1030366656428134,
+        "loopEndpointMaxVertexGapMetres": 1.8691110368253836e-07
+      }
+    },
+    {
+      "id": "cat-a",
+      "species": "cat",
+      "status": "ready",
+      "source": {
+        "name": "Meshy_AI_cat_1005232619_texture.glb",
+        "sha256": "c82af13a94f32f7b61bda5066a10fa57394765d05c180954b2827fdd4f90ea06",
+        "bytes": 13314340,
+        "triangles": 216993
+      },
+      "asset": {
+        "url": "/models/animals/cat-a.glb",
+        "sha256": "baccfb757341ffe060c849205664221b5cabf4b8e21fbf4f371715c00b7eec44",
+        "bytes": 9106880,
+        "triangles": 44499,
+        "joints": 20,
+        "bounds": {
+          "min": [
+            -0.1836889237165451,
+            0.0,
+            -0.4251764714717865
+          ],
+          "max": [
+            0.1836889237165451,
+            0.5862069129943848,
+            0.4251764714717865
+          ],
+          "extent": [
+            0.3673778474330902,
+            0.5862069129943848,
+            0.850352942943573
+          ]
+        },
+        "units": "metres",
+        "upAxis": "+Y",
+        "forwardAxis": "+Z",
+        "groundY": 0,
+        "textureImages": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          }
+        ]
+      },
+      "rig": {
+        "type": "skinned-skeletal",
+        "weightMethod": "reviewed-anatomical-envelopes-welded-adjacency-smoothed-continuous-top-four-normalized",
+        "bones": [
+          "Root",
+          "Pelvis",
+          "Spine",
+          "Chest",
+          "Neck",
+          "Head",
+          "Jaw",
+          "Tail1",
+          "Tail2",
+          "FrontLeftUpper",
+          "FrontLeftLower",
+          "FrontLeftFoot",
+          "FrontRightUpper",
+          "FrontRightLower",
+          "FrontRightFoot",
+          "BackLeftUpper",
+          "BackLeftLower",
+          "BackLeftFoot",
+          "BackRightUpper",
+          "BackRightLower",
+          "BackRightFoot"
+        ],
+        "restFootPositions": {
+          "FrontLeftFoot": [
+            -0.047248,
+            0.013472,
+            0.256141
+          ],
+          "FrontRightFoot": [
+            0.136115,
+            0.018443,
+            0.193166
+          ],
+          "BackLeftFoot": [
+            -0.122148,
+            0.031276,
+            -0.213653
+          ],
+          "BackRightFoot": [
+            0.018984,
+            0.056369,
+            -0.162731
+          ]
+        },
+        "seatedRestPose": false
+      },
+      "animations": [
+        {
+          "name": "Call",
+          "duration": 2.4000000953674316,
+          "loop": false,
+          "nonconstantWeightedJointTargets": 6
+        },
+        {
+          "name": "Idle",
+          "duration": 3.0,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 5
+        },
+        {
+          "name": "Run",
+          "duration": 0.800000011920929,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 19
+        },
+        {
+          "name": "Walk",
+          "duration": 1.2000000476837158,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 19
+        }
+      ],
+      "processing": {
+        "sourceScaleToMetres": 0.44761805284684825,
+        "maxTextureDimension": 2048,
+        "resizedTextures": [],
+        "triangleTarget": 44500,
+        "motionProvenance": "Procedural skeletal FK cycles authored for this asset; not source motion capture. Seated cat preserves source pose."
+      },
+      "validation": {
+        "passed": true,
+        "weightedVertices": 41947,
+        "maximumWeightSumError": 1.2759119272232056e-07,
+        "geometryWarnings": [
+          "12 inconsistent winding edges after geometric welding",
+          "10 nonmanifold edges after geometric welding"
+        ],
+        "restSkinMaxErrorMetres": 1.1363525970111242e-07,
+        "samplesPerClip": 33,
+        "motionMinGroundYMetres": -0.00031538599016836256,
+        "motionMaxAxisExtentRatio": 1.0298238154883943,
+        "loopEndpointMaxVertexGapMetres": 4.020491980534047e-08
+      }
+    },
+    {
+      "id": "dog-a",
+      "species": "dog",
+      "status": "ready",
+      "source": {
+        "name": "Meshy_AI_dog_1005232529_texture.glb",
+        "sha256": "318f62cc06ca7f84bfe0ee518666fa7df07d4868e0404b2546e9a6224e4e6355",
+        "bytes": 4011120,
+        "triangles": 101084
+      },
+      "asset": {
+        "url": "/models/animals/dog-a.glb",
+        "sha256": "11ecab94ad6006329c5a9eab85d1ca4a28ea7be13ddb748936adb39d456ce569",
+        "bytes": 2880320,
+        "triangles": 44499,
+        "joints": 20,
+        "bounds": {
+          "min": [
+            -0.1654057651758194,
+            0.0,
+            -0.6076434254646301
+          ],
+          "max": [
+            0.1654057651758194,
+            0.9841269850730896,
+            0.6076434254646301
+          ],
+          "extent": [
+            0.3308115303516388,
+            0.9841269850730896,
+            1.2152868509292603
+          ]
+        },
+        "units": "metres",
+        "upAxis": "+Y",
+        "forwardAxis": "+Z",
+        "groundY": 0,
+        "textureImages": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          }
+        ]
+      },
+      "rig": {
+        "type": "skinned-skeletal",
+        "weightMethod": "reviewed-anatomical-envelopes-welded-adjacency-smoothed-continuous-top-four-normalized",
+        "bones": [
+          "Root",
+          "Pelvis",
+          "Spine",
+          "Chest",
+          "Neck",
+          "Head",
+          "Jaw",
+          "Tail1",
+          "Tail2",
+          "FrontLeftUpper",
+          "FrontLeftLower",
+          "FrontLeftFoot",
+          "FrontRightUpper",
+          "FrontRightLower",
+          "FrontRightFoot",
+          "BackLeftUpper",
+          "BackLeftLower",
+          "BackLeftFoot",
+          "BackRightUpper",
+          "BackRightLower",
+          "BackRightFoot"
+        ],
+        "restFootPositions": {
+          "FrontLeftFoot": [
+            -0.083448,
+            0.017714,
+            0.240827
+          ],
+          "FrontRightFoot": [
+            0.079648,
+            0.017714,
+            0.232559
+          ],
+          "BackLeftFoot": [
+            -0.122836,
+            0.017714,
+            -0.396222
+          ],
+          "BackRightFoot": [
+            0.118698,
+            0.017714,
+            -0.39821
+          ]
+        },
+        "seatedRestPose": false
+      },
+      "animations": [
+        {
+          "name": "Call",
+          "duration": 2.4000000953674316,
+          "loop": false,
+          "nonconstantWeightedJointTargets": 5
+        },
+        {
+          "name": "Idle",
+          "duration": 3.0,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 5
+        },
+        {
+          "name": "Run",
+          "duration": 0.800000011920929,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 19
+        },
+        {
+          "name": "Walk",
+          "duration": 1.2000000476837158,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 19
+        }
+      ],
+      "processing": {
+        "sourceScaleToMetres": 0.611580706072157,
+        "maxTextureDimension": 2048,
+        "resizedTextures": [],
+        "triangleTarget": 44500,
+        "motionProvenance": "Procedural skeletal FK cycles authored for this asset; not source motion capture. Seated cat preserves source pose."
+      },
+      "validation": {
+        "passed": true,
+        "weightedVertices": 31355,
+        "maximumWeightSumError": 1.2945383787155151e-07,
+        "geometryWarnings": [],
+        "restSkinMaxErrorMetres": 1.6895846164441356e-07,
+        "samplesPerClip": 33,
+        "motionMinGroundYMetres": -0.0018174016482727792,
+        "motionMaxAxisExtentRatio": 1.066197209485813,
+        "loopEndpointMaxVertexGapMetres": 1.2673042547254915e-07
+      }
+    },
+    {
+      "id": "dog-b",
+      "species": "dog",
+      "status": "ready",
+      "source": {
+        "name": "Meshy_AI_dog_1005232511_texture.glb",
+        "sha256": "dcf72635e50e74592233335ed5d1d4b983b28bb41469294305603245546cd6d8",
+        "bytes": 5587604,
+        "triangles": 16236
+      },
+      "asset": {
+        "url": "/models/animals/dog-b.glb",
+        "sha256": "49b76957c3a6c1e43da63f2f74ef7284fe035a6e1620dd4486a3acee159301c9",
+        "bytes": 5817944,
+        "triangles": 16236,
+        "joints": 20,
+        "bounds": {
+          "min": [
+            -0.1552351415157318,
+            0.0,
+            -0.507379412651062
+          ],
+          "max": [
+            0.1552351415157318,
+            0.9230769276618958,
+            0.507379412651062
+          ],
+          "extent": [
+            0.3104702830314636,
+            0.9230769276618958,
+            1.014758825302124
+          ]
+        },
+        "units": "metres",
+        "upAxis": "+Y",
+        "forwardAxis": "+Z",
+        "groundY": 0,
+        "textureImages": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          }
+        ]
+      },
+      "rig": {
+        "type": "skinned-skeletal",
+        "weightMethod": "reviewed-anatomical-envelopes-welded-adjacency-smoothed-continuous-top-four-normalized",
+        "bones": [
+          "Root",
+          "Pelvis",
+          "Spine",
+          "Chest",
+          "Neck",
+          "Head",
+          "Jaw",
+          "Tail1",
+          "Tail2",
+          "FrontLeftUpper",
+          "FrontLeftLower",
+          "FrontLeftFoot",
+          "FrontRightUpper",
+          "FrontRightLower",
+          "FrontRightFoot",
+          "BackLeftUpper",
+          "BackLeftLower",
+          "BackLeftFoot",
+          "BackRightUpper",
+          "BackRightLower",
+          "BackRightFoot"
+        ],
+        "restFootPositions": {
+          "FrontLeftFoot": [
+            -0.080222,
+            0.022921,
+            0.187532
+          ],
+          "FrontRightFoot": [
+            0.07918,
+            0.023962,
+            0.187532
+          ],
+          "BackLeftFoot": [
+            -0.088557,
+            0.018753,
+            -0.421948
+          ],
+          "BackRightFoot": [
+            0.088557,
+            0.018753,
+            -0.419865
+          ]
+        },
+        "seatedRestPose": false
+      },
+      "animations": [
+        {
+          "name": "Call",
+          "duration": 2.4000000953674316,
+          "loop": false,
+          "nonconstantWeightedJointTargets": 5
+        },
+        {
+          "name": "Idle",
+          "duration": 3.0,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 5
+        },
+        {
+          "name": "Run",
+          "duration": 0.800000011920929,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 19
+        },
+        {
+          "name": "Walk",
+          "duration": 1.2000000476837158,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 19
+        }
+      ],
+      "processing": {
+        "sourceScaleToMetres": 0.5323838376277595,
+        "maxTextureDimension": 2048,
+        "resizedTextures": [],
+        "triangleTarget": 44500,
+        "motionProvenance": "Procedural skeletal FK cycles authored for this asset; not source motion capture. Seated cat preserves source pose."
+      },
+      "validation": {
+        "passed": true,
+        "weightedVertices": 11518,
+        "maximumWeightSumError": 1.2200325727462769e-07,
+        "geometryWarnings": [],
+        "restSkinMaxErrorMetres": 1.3399266543872974e-07,
+        "samplesPerClip": 33,
+        "motionMinGroundYMetres": -0.0012933519398917333,
+        "motionMaxAxisExtentRatio": 1.0839502828887007,
+        "loopEndpointMaxVertexGapMetres": 6.304177678344118e-08
+      }
+    },
+    {
+      "id": "cat-b",
+      "species": "cat",
+      "status": "ready",
+      "source": {
+        "name": "Meshy_AI_cat_1005232608_texture.glb",
+        "sha256": "bd526c835317a9cd2d89cf084773a9f35114189a4f813d279213bc60f69d22b0",
+        "bytes": 19251528,
+        "triangles": 333721
+      },
+      "asset": {
+        "url": "/models/animals/cat-b.glb",
+        "sha256": "547d566fe7de49df0de5b88aedb9aa94253520c0c67e3c897b9fced2e7236d0a",
+        "bytes": 11641944,
+        "triangles": 44500,
+        "joints": 20,
+        "bounds": {
+          "min": [
+            -0.19136178493499756,
+            0.0,
+            -0.27098774909973145
+          ],
+          "max": [
+            0.19136178493499756,
+            0.6818182468414307,
+            0.27098774909973145
+          ],
+          "extent": [
+            0.3827235698699951,
+            0.6818182468414307,
+            0.5419754981994629
+          ]
+        },
+        "units": "metres",
+        "upAxis": "+Y",
+        "forwardAxis": "+Z",
+        "groundY": 0,
+        "textureImages": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          }
+        ]
+      },
+      "rig": {
+        "type": "skinned-skeletal",
+        "weightMethod": "reviewed-anatomical-envelopes-welded-adjacency-smoothed-continuous-top-four-normalized",
+        "bones": [
+          "Root",
+          "Pelvis",
+          "Spine",
+          "Chest",
+          "Neck",
+          "Head",
+          "Jaw",
+          "Tail1",
+          "Tail2",
+          "FrontLeftUpper",
+          "FrontLeftLower",
+          "FrontLeftFoot",
+          "FrontRightUpper",
+          "FrontRightLower",
+          "FrontRightFoot",
+          "BackLeftUpper",
+          "BackLeftLower",
+          "BackLeftFoot",
+          "BackRightUpper",
+          "BackRightLower",
+          "BackRightFoot"
+        ],
+        "restFootPositions": {
+          "FrontLeftFoot": [
+            -0.0807,
+            0.017248,
+            0.143794
+          ],
+          "FrontRightFoot": [
+            0.037376,
+            0.01518,
+            0.108785
+          ],
+          "BackLeftFoot": [
+            -0.109818,
+            0.012912,
+            -0.058476
+          ],
+          "BackRightFoot": [
+            0.063424,
+            0.017446,
+            -0.05933
+          ]
+        },
+        "seatedRestPose": true
+      },
+      "animations": [
+        {
+          "name": "Call",
+          "duration": 2.4000000953674316,
+          "loop": false,
+          "nonconstantWeightedJointTargets": 7
+        },
+        {
+          "name": "Idle",
+          "duration": 3.0,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 6
+        },
+        {
+          "name": "Run",
+          "duration": 0.800000011920929,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 19
+        },
+        {
+          "name": "Walk",
+          "duration": 1.2000000476837158,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 19
+        }
+      ],
+      "processing": {
+        "sourceScaleToMetres": 0.3585271156312912,
+        "maxTextureDimension": 2048,
+        "resizedTextures": [],
+        "triangleTarget": 44500,
+        "motionProvenance": "Procedural skeletal FK cycles authored for this asset; not source motion capture. Seated cat preserves source pose."
+      },
+      "validation": {
+        "passed": true,
+        "weightedVertices": 42624,
+        "maximumWeightSumError": 1.2665987014770508e-07,
+        "geometryWarnings": [
+          "2 inconsistent winding edges after geometric welding",
+          "1 nonmanifold edges after geometric welding"
+        ],
+        "restSkinMaxErrorMetres": 1.3651905494061928e-07,
+        "samplesPerClip": 33,
+        "motionMinGroundYMetres": -0.00010925826459146537,
+        "motionMaxAxisExtentRatio": 1.0918188471203623,
+        "loopEndpointMaxVertexGapMetres": 5.2608217619075546e-08
+      }
+    },
+    {
+      "id": "boar-a",
+      "species": "boar",
+      "status": "ready",
+      "source": {
+        "name": "Meshy_AI_boar_1005232442_texture.glb",
+        "sha256": "c93ee2d2a7884b9b6cd64336470c3fc9e8ce9b8ed74098d00d146dfa0b69c8b9",
+        "bytes": 1816940,
+        "triangles": 19638
+      },
+      "asset": {
+        "url": "/models/animals/boar-a.glb",
+        "sha256": "1115dd5e9638fcff57dfe06abb1dcc327d9ec8f21c679d9f55ace49a5207cc79",
+        "bytes": 2091616,
+        "triangles": 19638,
+        "joints": 20,
+        "bounds": {
+          "min": [
+            -0.330978125333786,
+            0.0,
+            -0.9113444685935974
+          ],
+          "max": [
+            0.330978125333786,
+            1.1232877969741821,
+            0.9113444685935974
+          ],
+          "extent": [
+            0.661956250667572,
+            1.1232877969741821,
+            1.8226889371871948
+          ]
+        },
+        "units": "metres",
+        "upAxis": "+Y",
+        "forwardAxis": "+Z",
+        "groundY": 0,
+        "textureImages": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          }
+        ]
+      },
+      "rig": {
+        "type": "skinned-skeletal",
+        "weightMethod": "reviewed-anatomical-envelopes-welded-adjacency-smoothed-continuous-top-four-normalized",
+        "bones": [
+          "Root",
+          "Pelvis",
+          "Spine",
+          "Chest",
+          "Neck",
+          "Head",
+          "Jaw",
+          "Tail1",
+          "Tail2",
+          "FrontLeftUpper",
+          "FrontLeftLower",
+          "FrontLeftFoot",
+          "FrontRightUpper",
+          "FrontRightLower",
+          "FrontRightFoot",
+          "BackLeftUpper",
+          "BackLeftLower",
+          "BackLeftFoot",
+          "BackRightUpper",
+          "BackRightLower",
+          "BackRightFoot"
+        ],
+        "restFootPositions": {
+          "FrontLeftFoot": [
+            -0.162405,
+            0.022016,
+            0.212138
+          ],
+          "FrontRightFoot": [
+            0.13901,
+            0.020219,
+            0.180326
+          ],
+          "BackLeftFoot": [
+            -0.154305,
+            0.026896,
+            -0.756819
+          ],
+          "BackRightFoot": [
+            0.149081,
+            0.020219,
+            -0.432831
+          ]
+        },
+        "seatedRestPose": false
+      },
+      "animations": [
+        {
+          "name": "Call",
+          "duration": 2.4000000953674316,
+          "loop": false,
+          "nonconstantWeightedJointTargets": 6
+        },
+        {
+          "name": "Graze",
+          "duration": 3.0,
+          "loop": false,
+          "nonconstantWeightedJointTargets": 6
+        },
+        {
+          "name": "Idle",
+          "duration": 3.0,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 5
+        },
+        {
+          "name": "Run",
+          "duration": 0.800000011920929,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 19
+        },
+        {
+          "name": "Walk",
+          "duration": 1.2000000476837158,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 19
+        }
+      ],
+      "processing": {
+        "sourceScaleToMetres": 0.9210658415531677,
+        "maxTextureDimension": 2048,
+        "resizedTextures": [],
+        "triangleTarget": 44500,
+        "motionProvenance": "Procedural skeletal FK cycles authored for this asset; not source motion capture. Seated cat preserves source pose."
+      },
+      "validation": {
+        "passed": true,
+        "weightedVertices": 13591,
+        "maximumWeightSumError": 1.2665987014770508e-07,
+        "geometryWarnings": [],
+        "restSkinMaxErrorMetres": 2.4881394386979937e-07,
+        "samplesPerClip": 33,
+        "motionMinGroundYMetres": -0.0024709356058388553,
+        "motionMaxAxisExtentRatio": 1.054980001490936,
+        "loopEndpointMaxVertexGapMetres": 1.1056544282276184e-07
+      }
+    },
+    {
+      "id": "boar-b",
+      "species": "boar",
+      "status": "ready",
+      "source": {
+        "name": "Meshy_AI_Wild_Boar_1005232450_texture.glb",
+        "sha256": "6f99c5a7b3f66162000a25e8bf6f88926019512376f6e31179111723f09c1046",
+        "bytes": 22966428,
+        "triangles": 494855
+      },
+      "asset": {
+        "url": "/models/animals/boar-b.glb",
+        "sha256": "fdf9d7e08ccdfe5e62d446019d1e06e78a7ac731c4393b960d5575a20e0a42e9",
+        "bytes": 10630120,
+        "triangles": 44499,
+        "joints": 20,
+        "bounds": {
+          "min": [
+            -0.2942695617675781,
+            0.0,
+            -1.097869634628296
+          ],
+          "max": [
+            0.2942695617675781,
+            1.25,
+            1.097869634628296
+          ],
+          "extent": [
+            0.5885391235351562,
+            1.25,
+            2.195739269256592
+          ]
+        },
+        "units": "metres",
+        "upAxis": "+Y",
+        "forwardAxis": "+Z",
+        "groundY": 0,
+        "textureImages": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/png"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          }
+        ]
+      },
+      "rig": {
+        "type": "skinned-skeletal",
+        "weightMethod": "reviewed-anatomical-envelopes-welded-adjacency-smoothed-continuous-top-four-normalized",
+        "bones": [
+          "Root",
+          "Pelvis",
+          "Spine",
+          "Chest",
+          "Neck",
+          "Head",
+          "Jaw",
+          "Tail1",
+          "Tail2",
+          "FrontLeftUpper",
+          "FrontLeftLower",
+          "FrontLeftFoot",
+          "FrontRightUpper",
+          "FrontRightLower",
+          "FrontRightFoot",
+          "BackLeftUpper",
+          "BackLeftLower",
+          "BackLeftFoot",
+          "BackRightUpper",
+          "BackRightLower",
+          "BackRightFoot"
+        ],
+        "restFootPositions": {
+          "FrontLeftFoot": [
+            -0.140259,
+            0.044446,
+            0.340008
+          ],
+          "FrontRightFoot": [
+            0.136493,
+            0.050142,
+            0.305998
+          ],
+          "BackLeftFoot": [
+            -0.178802,
+            0.059108,
+            -0.757755
+          ],
+          "BackRightFoot": [
+            0.19935,
+            0.06085,
+            -0.749123
+          ]
+        },
+        "seatedRestPose": false
+      },
+      "animations": [
+        {
+          "name": "Call",
+          "duration": 2.4000000953674316,
+          "loop": false,
+          "nonconstantWeightedJointTargets": 6
+        },
+        {
+          "name": "Graze",
+          "duration": 3.0,
+          "loop": false,
+          "nonconstantWeightedJointTargets": 6
+        },
+        {
+          "name": "Idle",
+          "duration": 3.0,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 5
+        },
+        {
+          "name": "Run",
+          "duration": 0.800000011920929,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 19
+        },
+        {
+          "name": "Walk",
+          "duration": 1.2000000476837158,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 19
+        }
+      ],
+      "processing": {
+        "sourceScaleToMetres": 1.155413505028081,
+        "maxTextureDimension": 2048,
+        "resizedTextures": [],
+        "triangleTarget": 44500,
+        "motionProvenance": "Procedural skeletal FK cycles authored for this asset; not source motion capture. Seated cat preserves source pose."
+      },
+      "validation": {
+        "passed": true,
+        "weightedVertices": 41208,
+        "maximumWeightSumError": 1.341104507446289e-07,
+        "geometryWarnings": [],
+        "restSkinMaxErrorMetres": 4.0778871910911286e-07,
+        "samplesPerClip": 33,
+        "motionMinGroundYMetres": -0.0023520294057225695,
+        "motionMaxAxisExtentRatio": 1.0509117671701214,
+        "loopEndpointMaxVertexGapMetres": 9.638876416166476e-08
+      }
+    },
+    {
+      "id": "stag",
+      "species": "deer",
+      "status": "ready",
+      "source": {
+        "name": "Meshy_AI_Red_Deer_Stag_1005232424_texture.glb",
+        "sha256": "be4abbf9a65eb72f13962ce90bbbc27e8b3445c7bf83e239959f49a75e181aab",
+        "bytes": 10483396,
+        "triangles": 190339
+      },
+      "asset": {
+        "url": "/models/animals/stag.glb",
+        "sha256": "31bf60b50d29c82de9143f5276a002a5e19329c9ec8b9a353bcfd5ee6eb379e6",
+        "bytes": 6992056,
+        "triangles": 44499,
+        "joints": 20,
+        "bounds": {
+          "min": [
+            -0.4812791049480438,
+            0.0,
+            -1.3035438060760498
+          ],
+          "max": [
+            0.4812791049480438,
+            2.8979592323303223,
+            1.3035438060760498
+          ],
+          "extent": [
+            0.9625582098960876,
+            2.8979592323303223,
+            2.6070876121520996
+          ]
+        },
+        "units": "metres",
+        "upAxis": "+Y",
+        "forwardAxis": "+Z",
+        "groundY": 0,
+        "textureImages": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          }
+        ]
+      },
+      "rig": {
+        "type": "skinned-skeletal",
+        "weightMethod": "reviewed-anatomical-envelopes-welded-adjacency-smoothed-continuous-top-four-normalized",
+        "bones": [
+          "Root",
+          "Pelvis",
+          "Spine",
+          "Chest",
+          "Neck",
+          "Head",
+          "Jaw",
+          "Tail1",
+          "Tail2",
+          "FrontLeftUpper",
+          "FrontLeftLower",
+          "FrontLeftFoot",
+          "FrontRightUpper",
+          "FrontRightLower",
+          "FrontRightFoot",
+          "BackLeftUpper",
+          "BackLeftLower",
+          "BackLeftFoot",
+          "BackRightUpper",
+          "BackRightLower",
+          "BackRightFoot"
+        ],
+        "restFootPositions": {
+          "FrontLeftFoot": [
+            -0.08606,
+            0.052163,
+            0.38139
+          ],
+          "FrontRightFoot": [
+            0.125114,
+            0.052163,
+            0.383545
+          ],
+          "BackLeftFoot": [
+            -0.250265,
+            0.101429,
+            -0.573559
+          ],
+          "BackRightFoot": [
+            0.200241,
+            0.052163,
+            -0.891816
+          ]
+        },
+        "seatedRestPose": false
+      },
+      "animations": [
+        {
+          "name": "Call",
+          "duration": 2.4000000953674316,
+          "loop": false,
+          "nonconstantWeightedJointTargets": 7
+        },
+        {
+          "name": "Graze",
+          "duration": 3.0,
+          "loop": false,
+          "nonconstantWeightedJointTargets": 7
+        },
+        {
+          "name": "Idle",
+          "duration": 3.0,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 6
+        },
+        {
+          "name": "Run",
+          "duration": 0.800000011920929,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 19
+        },
+        {
+          "name": "Walk",
+          "duration": 1.2000000476837158,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 19
+        }
+      ],
+      "processing": {
+        "sourceScaleToMetres": 1.5256741253848443,
+        "maxTextureDimension": 2048,
+        "resizedTextures": [],
+        "triangleTarget": 44500,
+        "motionProvenance": "Procedural skeletal FK cycles authored for this asset; not source motion capture. Seated cat preserves source pose."
+      },
+      "validation": {
+        "passed": true,
+        "weightedVertices": 37903,
+        "maximumWeightSumError": 1.2665987014770508e-07,
+        "geometryWarnings": [],
+        "restSkinMaxErrorMetres": 3.068921487958842e-07,
+        "samplesPerClip": 33,
+        "motionMinGroundYMetres": -0.003653818426472063,
+        "motionMaxAxisExtentRatio": 1.2147869417175252,
+        "loopEndpointMaxVertexGapMetres": 2.6632069019507723e-07
+      }
+    },
+    {
+      "id": "deer-mount",
+      "species": "deer",
+      "status": "ready",
+      "source": {
+        "name": "Meshy_AI_Deer_Mount_1005232412_texture.glb",
+        "sha256": "19cf404163f58fa7eb225a829751a82783694169b6ab30f2c93a84f9c5e7f5c2",
+        "bytes": 2623648,
+        "triangles": 38476
+      },
+      "asset": {
+        "url": "/models/animals/deer-mount.glb",
+        "sha256": "da169e9ada1007d0d90458a1e94f1312431e46c4de4ef9867f241727f80fdeb6",
+        "bytes": 3030868,
+        "triangles": 38476,
+        "joints": 20,
+        "bounds": {
+          "min": [
+            -0.7849103212356567,
+            0.0,
+            -1.1543793678283691
+          ],
+          "max": [
+            0.7849103212356567,
+            2.8125,
+            1.1543793678283691
+          ],
+          "extent": [
+            1.5698206424713135,
+            2.8125,
+            2.3087587356567383
+          ]
+        },
+        "units": "metres",
+        "upAxis": "+Y",
+        "forwardAxis": "+Z",
+        "groundY": 0,
+        "textureImages": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          }
+        ]
+      },
+      "rig": {
+        "type": "skinned-skeletal",
+        "weightMethod": "reviewed-anatomical-envelopes-welded-adjacency-smoothed-continuous-top-four-normalized",
+        "bones": [
+          "Root",
+          "Pelvis",
+          "Spine",
+          "Chest",
+          "Neck",
+          "Head",
+          "Jaw",
+          "Tail1",
+          "Tail2",
+          "FrontLeftUpper",
+          "FrontLeftLower",
+          "FrontLeftFoot",
+          "FrontRightUpper",
+          "FrontRightLower",
+          "FrontRightFoot",
+          "BackLeftUpper",
+          "BackLeftLower",
+          "BackLeftFoot",
+          "BackRightUpper",
+          "BackRightLower",
+          "BackRightFoot"
+        ],
+        "restFootPositions": {
+          "FrontLeftFoot": [
+            -0.183418,
+            0.07066,
+            0.344703
+          ],
+          "FrontRightFoot": [
+            0.180445,
+            0.06956,
+            0.351582
+          ],
+          "BackLeftFoot": [
+            -0.168293,
+            0.098342,
+            -0.887982
+          ],
+          "BackRightFoot": [
+            0.154162,
+            0.079093,
+            -0.85382
+          ]
+        },
+        "seatedRestPose": false
+      },
+      "animations": [
+        {
+          "name": "Call",
+          "duration": 2.4000000953674316,
+          "loop": false,
+          "nonconstantWeightedJointTargets": 6
+        },
+        {
+          "name": "Graze",
+          "duration": 3.0,
+          "loop": false,
+          "nonconstantWeightedJointTargets": 6
+        },
+        {
+          "name": "Idle",
+          "duration": 3.0,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 5
+        },
+        {
+          "name": "Run",
+          "duration": 0.800000011920929,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 19
+        },
+        {
+          "name": "Walk",
+          "duration": 1.2000000476837158,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 19
+        }
+      ],
+      "processing": {
+        "sourceScaleToMetres": 1.4047398633851997,
+        "maxTextureDimension": 2048,
+        "resizedTextures": [],
+        "triangleTarget": 44500,
+        "motionProvenance": "Procedural skeletal FK cycles authored for this asset; not source motion capture. Seated cat preserves source pose."
+      },
+      "validation": {
+        "passed": true,
+        "weightedVertices": 25885,
+        "maximumWeightSumError": 1.2665987014770508e-07,
+        "geometryWarnings": [],
+        "restSkinMaxErrorMetres": 3.8308729623933854e-07,
+        "samplesPerClip": 33,
+        "motionMinGroundYMetres": -0.004007000091606372,
+        "motionMaxAxisExtentRatio": 1.1503399899612061,
+        "loopEndpointMaxVertexGapMetres": 2.014172978643665e-07
+      }
+    },
+    {
+      "id": "cat-c",
+      "species": "cat",
+      "status": "ready",
+      "source": {
+        "name": "Meshy_AI_cat_1005232556_texture.glb",
+        "sha256": "02869e5775739d8f5d34b591eeb41dc07c0507c626bda91f523ffb9213eb6fa7",
+        "bytes": 14761504,
+        "triangles": 265126
+      },
+      "asset": {
+        "url": "/models/animals/cat-c.glb",
+        "sha256": "3033ec96c79387e2079b7708759b9962065eb83910dae66323eef5a55a40a416",
+        "bytes": 9133368,
+        "triangles": 44499,
+        "joints": 20,
+        "bounds": {
+          "min": [
+            -0.2849702835083008,
+            0.0,
+            -0.4554089903831482
+          ],
+          "max": [
+            0.2849702835083008,
+            0.5322580933570862,
+            0.4554089903831482
+          ],
+          "extent": [
+            0.5699405670166016,
+            0.5322580933570862,
+            0.9108179807662964
+          ]
+        },
+        "units": "metres",
+        "upAxis": "+Y",
+        "forwardAxis": "+Z",
+        "groundY": 0,
+        "textureImages": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          }
+        ]
+      },
+      "rig": {
+        "type": "skinned-skeletal",
+        "weightMethod": "reviewed-anatomical-envelopes-welded-adjacency-smoothed-continuous-top-four-normalized",
+        "bones": [
+          "Root",
+          "Pelvis",
+          "Spine",
+          "Chest",
+          "Neck",
+          "Head",
+          "Jaw",
+          "Tail1",
+          "Tail2",
+          "FrontLeftUpper",
+          "FrontLeftLower",
+          "FrontLeftFoot",
+          "FrontRightUpper",
+          "FrontRightLower",
+          "FrontRightFoot",
+          "BackLeftUpper",
+          "BackLeftLower",
+          "BackLeftFoot",
+          "BackRightUpper",
+          "BackRightLower",
+          "BackRightFoot"
+        ],
+        "restFootPositions": {
+          "FrontLeftFoot": [
+            -0.024131,
+            0.108751,
+            0.033306
+          ],
+          "FrontRightFoot": [
+            0.105225,
+            0.019332,
+            0.131458
+          ],
+          "BackLeftFoot": [
+            -0.125267,
+            0.039287,
+            -0.179148
+          ],
+          "BackRightFoot": [
+            0.029726,
+            0.025991,
+            -0.189581
+          ]
+        },
+        "seatedRestPose": false
+      },
+      "animations": [
+        {
+          "name": "Call",
+          "duration": 2.4000000953674316,
+          "loop": false,
+          "nonconstantWeightedJointTargets": 7
+        },
+        {
+          "name": "Idle",
+          "duration": 3.0,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 6
+        },
+        {
+          "name": "Run",
+          "duration": 0.800000011920929,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 18
+        },
+        {
+          "name": "Walk",
+          "duration": 1.2000000476837158,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 18
+        }
+      ],
+      "processing": {
+        "sourceScaleToMetres": 0.47971359013310766,
+        "maxTextureDimension": 2048,
+        "resizedTextures": [],
+        "triangleTarget": 44500,
+        "motionProvenance": "Procedural skeletal FK cycles authored for this asset; not source motion capture. Seated cat preserves source pose."
+      },
+      "validation": {
+        "passed": true,
+        "weightedVertices": 39697,
+        "maximumWeightSumError": 1.341104507446289e-07,
+        "geometryWarnings": [
+          "1 inconsistent winding edges after geometric welding"
+        ],
+        "restSkinMaxErrorMetres": 1.0545116877434418e-07,
+        "samplesPerClip": 33,
+        "motionMinGroundYMetres": -0.0011193320016444875,
+        "motionMaxAxisExtentRatio": 1.072813085981725,
+        "loopEndpointMaxVertexGapMetres": 3.7477195293540894e-08
+      }
+    },
+    {
+      "id": "boar-c",
+      "species": "boar",
+      "status": "missing",
+      "source": {
+        "name": "Meshy_AI_BOAR_1005174818_texture.glb"
+      },
+      "reason": "Source asset is unavailable; this distinct variant is not included. No replacement has been substituted."
+    },
+    {
+      "id": "deer-a",
+      "species": "deer",
+      "status": "ready",
+      "source": {
+        "name": "Meshy_AI_Deer_1005232351_texture.glb",
+        "sha256": "20a7c9e2ccecdcb3923d6f5cab68ee094b7460dabcc63b1842bdb39f6b3340da",
+        "bytes": 13840792,
+        "triangles": 199316
+      },
+      "asset": {
+        "url": "/models/animals/deer-a.glb",
+        "sha256": "2350e692546c0cba9e4dce1ea8b5bf0b49b06e6e53744154c71339391aeb3702",
+        "bytes": 10080316,
+        "triangles": 44499,
+        "joints": 20,
+        "bounds": {
+          "min": [
+            -0.5202631950378418,
+            0.0,
+            -1.2948514223098755
+          ],
+          "max": [
+            0.5202631950378418,
+            2.734693765640259,
+            1.2948514223098755
+          ],
+          "extent": [
+            1.0405263900756836,
+            2.734693765640259,
+            2.589702844619751
+          ]
+        },
+        "units": "metres",
+        "upAxis": "+Y",
+        "forwardAxis": "+Z",
+        "groundY": 0,
+        "textureImages": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          }
+        ]
+      },
+      "rig": {
+        "type": "skinned-skeletal",
+        "weightMethod": "reviewed-anatomical-envelopes-welded-adjacency-smoothed-continuous-top-four-normalized",
+        "bones": [
+          "Root",
+          "Pelvis",
+          "Spine",
+          "Chest",
+          "Neck",
+          "Head",
+          "Jaw",
+          "Tail1",
+          "Tail2",
+          "FrontLeftUpper",
+          "FrontLeftLower",
+          "FrontLeftFoot",
+          "FrontRightUpper",
+          "FrontRightLower",
+          "FrontRightFoot",
+          "BackLeftUpper",
+          "BackLeftLower",
+          "BackLeftFoot",
+          "BackRightUpper",
+          "BackRightLower",
+          "BackRightFoot"
+        ],
+        "restFootPositions": {
+          "FrontLeftFoot": [
+            -0.157504,
+            0.049224,
+            0.385096
+          ],
+          "FrontRightFoot": [
+            0.121101,
+            0.049224,
+            0.217494
+          ],
+          "BackLeftFoot": [
+            -0.241427,
+            0.049224,
+            -0.692317
+          ],
+          "BackRightFoot": [
+            0.18087,
+            0.049224,
+            -1.104151
+          ]
+        },
+        "seatedRestPose": false
+      },
+      "animations": [
+        {
+          "name": "Call",
+          "duration": 2.4000000953674316,
+          "loop": false,
+          "nonconstantWeightedJointTargets": 5
+        },
+        {
+          "name": "Graze",
+          "duration": 3.0,
+          "loop": false,
+          "nonconstantWeightedJointTargets": 5
+        },
+        {
+          "name": "Idle",
+          "duration": 3.0,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 5
+        },
+        {
+          "name": "Run",
+          "duration": 0.800000011920929,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 19
+        },
+        {
+          "name": "Walk",
+          "duration": 1.2000000476837158,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 19
+        }
+      ],
+      "processing": {
+        "sourceScaleToMetres": 1.439711617971108,
+        "maxTextureDimension": 2048,
+        "resizedTextures": [],
+        "triangleTarget": 44500,
+        "motionProvenance": "Procedural skeletal FK cycles authored for this asset; not source motion capture. Seated cat preserves source pose."
+      },
+      "validation": {
+        "passed": true,
+        "weightedVertices": 37107,
+        "maximumWeightSumError": 1.341104507446289e-07,
+        "geometryWarnings": [],
+        "restSkinMaxErrorMetres": 4.884241022387156e-07,
+        "samplesPerClip": 33,
+        "motionMinGroundYMetres": -0.003857724067973191,
+        "motionMaxAxisExtentRatio": 1.2040220898230183,
+        "loopEndpointMaxVertexGapMetres": 3.4695805730074193e-07
+      }
+    },
+    {
+      "id": "deer-b",
+      "species": "deer",
+      "status": "ready",
+      "source": {
+        "name": "Meshy_AI_Deer_1005232341_texture.glb",
+        "sha256": "3332cdc6a0c928e35ba87828a515fb1ffcfeb525a7321e531a29bc8129d5e37a",
+        "bytes": 16131904,
+        "triangles": 247788
+      },
+      "asset": {
+        "url": "/models/animals/deer-b.glb",
+        "sha256": "98c5bf1601c48652a95bef3b299e61eb0690a741d598c1c9c3ebb200b9203e39",
+        "bytes": 11019184,
+        "triangles": 44500,
+        "joints": 20,
+        "bounds": {
+          "min": [
+            -0.4922979772090912,
+            0.0,
+            -1.4026294946670532
+          ],
+          "max": [
+            0.4922979772090912,
+            2.8085107803344727,
+            1.4026294946670532
+          ],
+          "extent": [
+            0.9845959544181824,
+            2.8085107803344727,
+            2.8052589893341064
+          ]
+        },
+        "units": "metres",
+        "upAxis": "+Y",
+        "forwardAxis": "+Z",
+        "groundY": 0,
+        "textureImages": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          }
+        ]
+      },
+      "rig": {
+        "type": "skinned-skeletal",
+        "weightMethod": "reviewed-anatomical-envelopes-welded-adjacency-smoothed-continuous-top-four-normalized",
+        "bones": [
+          "Root",
+          "Pelvis",
+          "Spine",
+          "Chest",
+          "Neck",
+          "Head",
+          "Jaw",
+          "Tail1",
+          "Tail2",
+          "FrontLeftUpper",
+          "FrontLeftLower",
+          "FrontLeftFoot",
+          "FrontRightUpper",
+          "FrontRightLower",
+          "FrontRightFoot",
+          "BackLeftUpper",
+          "BackLeftLower",
+          "BackLeftFoot",
+          "BackRightUpper",
+          "BackRightLower",
+          "BackRightFoot"
+        ],
+        "restFootPositions": {
+          "FrontLeftFoot": [
+            -0.17103,
+            0.050553,
+            0.414819
+          ],
+          "FrontRightFoot": [
+            0.172556,
+            0.050553,
+            0.410487
+          ],
+          "BackLeftFoot": [
+            -0.213729,
+            0.050553,
+            -1.159636
+          ],
+          "BackRightFoot": [
+            0.222662,
+            0.050553,
+            -1.160887
+          ]
+        },
+        "seatedRestPose": false
+      },
+      "animations": [
+        {
+          "name": "Call",
+          "duration": 2.4000000953674316,
+          "loop": false,
+          "nonconstantWeightedJointTargets": 6
+        },
+        {
+          "name": "Graze",
+          "duration": 3.0,
+          "loop": false,
+          "nonconstantWeightedJointTargets": 6
+        },
+        {
+          "name": "Idle",
+          "duration": 3.0,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 5
+        },
+        {
+          "name": "Run",
+          "duration": 0.800000011920929,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 19
+        },
+        {
+          "name": "Walk",
+          "duration": 1.2000000476837158,
+          "loop": true,
+          "nonconstantWeightedJointTargets": 19
+        }
+      ],
+      "processing": {
+        "sourceScaleToMetres": 1.4798960236747387,
+        "maxTextureDimension": 2048,
+        "resizedTextures": [],
+        "triangleTarget": 44500,
+        "motionProvenance": "Procedural skeletal FK cycles authored for this asset; not source motion capture. Seated cat preserves source pose."
+      },
+      "validation": {
+        "passed": true,
+        "weightedVertices": 38606,
+        "maximumWeightSumError": 1.341104507446289e-07,
+        "geometryWarnings": [],
+        "restSkinMaxErrorMetres": 5.933550466262616e-07,
+        "samplesPerClip": 33,
+        "motionMinGroundYMetres": -0.003738823531947866,
+        "motionMaxAxisExtentRatio": 1.1133306025160887,
+        "loopEndpointMaxVertexGapMetres": 2.668965365742499e-07
+      }
+    }
+  ]
+}

@@ -113,6 +113,7 @@ function fixture() {
   // Exercise App's actual lifecycle methods without starting a renderer or constructing another scene.
   const app = Object.assign(Object.create(App.prototype) as object, {
     mode: 'play', settings, input, game: new Game(createInitialState()),
+    hunting: { reset: vi.fn(), detach: vi.fn(), attach: vi.fn(), controls: vi.fn(), syncInputMode: vi.fn(), afterWorld: vi.fn(), updateHud: vi.fn() },
     panels: { isOpen: false, closeAll: vi.fn(), el: new ElementFixture('DIV') },
     titleEl: new ElementFixture('DIV'), loadingEl: new ElementFixture('DIV'), debugEl: new ElementFixture('DIV'),
     hud: { el: { inert: true }, show: vi.fn(), showFade: vi.fn(), toast: vi.fn() },
@@ -121,7 +122,7 @@ function fixture() {
     syncMenuHudVisibility: vi.fn(), syncWorldFromState: vi.fn(),
     safePosition: (x: number, z: number, y = 0) => ({ x, z, y }),
     wantLock: vi.fn(), openPause: vi.fn(), speech: { clear: vi.fn() },
-    audio: { pauseWorld: vi.fn() },
+    audio: { pauseWorld: vi.fn(), setWildlifeActive: vi.fn() },
     wantPlayLock: false, lockingOut: false, worldBuilding: false, worldBuildFailed: false,
     worldDisposed: false, menuSceneDisposed: false, qualityReload: null, reloadAgain: false,
   });
@@ -448,7 +449,7 @@ describe('actual application world transitions', () => {
     Reflect.set(app, 'world', undefined);
     Reflect.set(app, 'mode', 'loading');
     const canvas = { addEventListener: vi.fn() };
-    const audio = { resume: vi.fn(), setPageHidden: vi.fn(), pauseWorld: vi.fn() };
+    const audio = { resume: vi.fn(), setPageHidden: vi.fn(), setWildlifeActive: vi.fn(), pauseWorld: vi.fn() };
     Object.assign(app, {
       canvas, audio, buildShell: vi.fn(), prepareMainHero: vi.fn().mockResolvedValue(undefined), applyPixelRatio: vi.fn(), onResize: vi.fn(),
       enterTitle: vi.fn(() => Reflect.set(app, 'mode', 'title')), applyShotParams: vi.fn(),

@@ -248,6 +248,29 @@ export function slotLabel(res: LoadResult, slot: SlotId): { title: string; meta:
 
 const closeBtn = (ctx: PanelCtx, label = S('menu.close')) => h('button', { class: 'btn', type: 'button', 'data-nav': true, 'data-focus-key': 'close-record', onClick: () => ctx.host.back() }, label);
 
+function huntingGuide(ctx: PanelCtx, compact = false): HTMLElement {
+  const pad = ctx.input.device === 'gamepad';
+  const controls = {
+    aim: pad ? 'LT' : ctx.input.label('block', codeLabel),
+    draw: pad ? 'RT' : ctx.input.label('attack', codeLabel),
+    skin: ctx.input.label('skin', codeLabel),
+  };
+  const notes = [
+    h('p', {}, S('hunting.guide.controls', controls)),
+    h('p', {}, S('hunting.guide.harvest', controls)),
+    h('p', {}, S('hunting.guide.supplies')),
+    h('p', { class: 'muted' }, S('hunting.guide.blood')),
+  ];
+  return compact
+    ? h('details', { class: 'hunting-guide hunting-guide-compact' }, h('summary', { 'data-nav': true, 'data-focus-key': 'hunter-field-guide' }, S('hunting.title')), notes)
+    : h('section', { class: 'hunting-guide', 'aria-label': S('hunting.title') }, notes);
+}
+
+/** The supply board and pause menu can share the same field notes as the inventory. */
+export function huntingPanel(ctx: PanelCtx): HTMLElement {
+  return h('div', {}, h('h1', {}, S('hunting.title')), huntingGuide(ctx), h('div', { class: 'row', style: { marginTop: '14px' } }, closeBtn(ctx)));
+}
+
 /* ---------------------------------------------------------------- journal */
 
 interface RecordPage { key: string; label: string; content: HTMLElement; count?: number }
@@ -417,7 +440,7 @@ export function inventoryPanel(ctx: PanelCtx): HTMLElement {
   }
   const skills = s.skills.map((key) => h('div', { class: 'learned-skill' }, h('strong', {}, S(`skill.${key}`)), h('p', {}, S(`skill.${key}.desc`))));
   const layout = h('div', { class: 'inventory-layout' },
-    h('aside', { class: 'record-summary' }, h('h2', {}, 'The wanderer'), h('dl', { class: 'record-stats' }, h('dt', {}, S('hud.health')), h('dd', {}, `${Math.round(s.player.health)} / ${s.player.maxHealth}`), h('dt', {}, S('hud.coin')), h('dd', {}, String(s.inventory.coin ?? 0))), h('h2', {}, S('inv.skills')), skills.length ? skills : h('p', { class: 'muted' }, S('inv.noskills'))),
+    h('aside', { class: 'record-summary' }, h('h2', {}, 'The wanderer'), h('dl', { class: 'record-stats' }, h('dt', {}, S('hud.health')), h('dd', {}, `${Math.round(s.player.health)} / ${s.player.maxHealth}`), h('dt', {}, S('hud.coin')), h('dd', {}, String(s.inventory.coin ?? 0))), h('h2', {}, S('inv.skills')), skills.length ? skills : h('p', { class: 'muted' }, S('inv.noskills')), huntingGuide(ctx, true)),
     h('div', { class: 'inventory-main' }, filters, grid, detail));
   record.append(
     h('header', { class: 'record-heading' }, icon('inventory'), h('div', {}, h('h1', {}, S('inv.title')), h('p', { class: 'sub' }, 'What you carry, and what you have learned.'))),
@@ -447,6 +470,8 @@ export function noticePanel(ctx: PanelCtx): HTMLElement {
     {},
     h('h1', {}, S('board.title')),
     h('div', { class: 'notice-list' }, v.noticeboard.map((k) => h('div', { class: 'notice-item' }, S(k)))),
+    h('h2', {}, S('hunting.title')),
+    huntingGuide(ctx),
     h('div', { class: 'row', style: { marginTop: '14px' } }, closeBtn(ctx)),
   );
 }
@@ -562,6 +587,7 @@ export function pauseMenu(ctx: PanelCtx): HTMLElement {
     b(S('menu.save'), () => ctx.host.push(slotsPanel(ctx, 'save'))),
     b(S('menu.load'), () => ctx.host.push(slotsPanel(ctx, 'load'))),
     b(S('journal.title'), () => ctx.host.push(journalPanel(ctx))),
+    b(S('hunting.title'), () => ctx.host.push(huntingPanel(ctx))),
     b(S('menu.settings'), () => ctx.host.push(settingsPanel(ctx))),
     b(S('menu.controls'), () => ctx.host.push(controlsPanel(ctx))),
     b(S('menu.quit'), () => ctx.actions.quitToTitle()),

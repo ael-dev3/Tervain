@@ -61,6 +61,12 @@ export function pickupCues(item: ItemId): Cue[] {
     case 'iron_scrap':
     case 'archive_key':
       return [{ clip: 'item.metal', gain: 0.5, pitch: 0.06 }, bag];
+    case 'skinning_knife':
+      return [{ clip: 'item.metal', gain: 0.35, pitch: 0.04 }, bag];
+    case 'hunting_bow':
+    case 'arrow':
+      // Handling wood and the quiver stays separate from drawing or firing a bow.
+      return [{ clip: 'wood.lift', gain: item === 'arrow' ? 0.2 : 0.3, pitch: 0.04 }, bag];
     case 'sluice_brace':
       return [{ clip: 'wood.lift', gain: 0.55, pitch: 0.04 }];
     case 'votive_reed':
@@ -69,12 +75,14 @@ export function pickupCues(item: ItemId): Cue[] {
       return [{ clip: 'item.herb', gain: 0.5, pitch: 0.06, from: 0, to: 1.6 }, bag];
     case 'shore_apple':
     case 'bread':
+    case 'raw_meat':
       return [{ clip: 'item.satchel', gain: 0.4, pitch: 0.04, from: 0.6, to: 2.0 }];
     case 'poultice':
       return [{ clip: 'item.satchel', gain: 0.4, pitch: 0.04, from: 0.6, to: 2.0 }];
     case 'league_sash':
     case 'contract_band':
     case 'witness_cord':
+    case 'animal_hide':
       return [{ clip: 'item.cloth', gain: 0.5, pitch: 0.05 }];
   }
 }

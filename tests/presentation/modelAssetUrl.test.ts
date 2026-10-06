@@ -7,6 +7,7 @@ import { meshyNpcUrl } from '../../src/presentation/meshynpcs';
 import { solitaryPineUrl } from '../../src/presentation/solitaryPine';
 import { broadleafUrl } from '../../src/presentation/sourceBroadleaf';
 import { rockPileUrl } from '../../src/presentation/sourceRockPile';
+import { animalModelUrl } from '../../src/presentation/animals/population';
 
 const SHA = '0123456789abcdef0123456789abcdef01234567';
 const HOSTED = `https://raw.githubusercontent.com/ael-dev3/Tervain/${SHA}/public/models/`;
@@ -22,6 +23,7 @@ describe('original model delivery', () => {
       broadleafUrl(base, page),
       rockPileUrl(base, page),
       warpkeepModelUrl('manifest.json', base, page),
+      animalModelUrl('models/animals/bear-a.glb', base, page),
     ];
     expect(urls.map((url) => url.href)).toEqual([
       'https://example.test/games/tervain/models/hero/weathered-wanderer-animated-hero.glb',
@@ -31,6 +33,7 @@ describe('original model delivery', () => {
       'https://example.test/games/tervain/models/scenery/ancient-guardian-broadleaf-under-20k.glb',
       'https://example.test/games/tervain/models/scenery/weathered-rock-pile-under-20k.glb',
       'https://example.test/games/tervain/models/warpkeep/manifest.json',
+      'https://example.test/games/tervain/models/animals/bear-a.glb',
     ]);
     expect(modelAssetUrl('hero/hero.glb', '/', 'http://localhost:5173/', '').href).toBe('http://localhost:5173/models/hero/hero.glb');
   });
@@ -40,6 +43,7 @@ describe('original model delivery', () => {
       expect(modelAssetUrl(file, './', 'https://example.test/Tervain/index.html', HOSTED).href).toBe(`${HOSTED}${file}`);
       expect(modelAssetUrl(file, '/', 'http://localhost:4173/', HOSTED).href).toBe(`${HOSTED}${file}`);
     }
+    expect(animalModelUrl('models/animals/deer-mount.glb', './', 'https://example.test/Tervain/index.html', HOSTED).href).toBe(`${HOSTED}animals/deer-mount.glb`);
   });
 
   it('rejects an unpublished or mutable production target instead of falling back locally', () => {

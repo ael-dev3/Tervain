@@ -54,12 +54,12 @@
       <span class="eyebrow">Tervain · source credits</span>
       <h1>3D models and their licenses</h1>
       <p class="lead">Original-game imported models were created with <a href="https://www.meshy.ai/">Meshy</a>, supplied for Tervain and adapted for its world. The historical Warpkeep archive has its own source records.</p>
-      <p class="meta">Inventory reviewed 6 October 2026 · 69 public GLBs · 209 archived Warpkeep GLBs</p>
+      <p class="meta">Inventory reviewed 6 October 2026 · 87 public GLBs · 209 archived Warpkeep GLBs</p>
     </header>
 
     <div class="notice">
       <span class="status">Source license classification pending</span>
-      <p>The 69 public model files derive from 35 recorded Meshy source files. Their generation-time or Community/listing licenses and source creator credits are not yet established by the available records. This page preserves credits and changes; it does not certify private ownership, a blanket CC license or commercial clearance.</p>
+      <p>The 87 public model files derive from 53 recorded Meshy source files, including 18 supplied animal variants. Their generation-time or Community/listing licenses and source creator credits are not yet established by the available records. This page preserves credits and changes; it does not certify private ownership, a blanket CC license or commercial clearance.</p>
     </div>
 
     <h2>Original Tervain model catalog</h2>
@@ -75,9 +75,71 @@
           <tr><td>Supplied tree families</td><td>45</td><td>15 sources with three prepared variants each: source-derived wood and crowns, material changes, connected custom foliage and LOD preparation. Catalog presence does not mean every source is currently placed. <a href="https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/meshy-tree-assets.json">Tree source and modification record</a>.</td></tr>
           <tr><td>Protected Solitary Pine</td><td>3</td><td>Optimized source wood, original needle-card artwork and derivative LODs. The protected current binaries retain their recorded hashes. <a href="https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/solitary-pine-assets.json">Pine provenance</a>.</td></tr>
           <tr><td>Broadleaf and rock pile</td><td>2</td><td>Source-derived crown/wood preparation and leaf additions; rock geometry retained with revised source textures. <a href="https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/broadleaf-assets.json">Broadleaf record</a> · <a href="https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/rock-pile-assets.json">Rock record</a>.</td></tr>
+          <tr><td>Animals</td><td>18</td><td>18 supplied static sources: metre normalization, source-preserving textures, geometry reductions where needed, original quadruped rigs and procedural Idle, Walk, Run, Call and selected Graze clips. License classification remains pending. <a href="https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/animal-assets.json">Animal source and modification record</a>.</td></tr>
         </tbody>
       </table>
     </div>
+
+    <details>
+      <summary>Supplied animals — 18 prepared GLBs</summary>
+      <p>Meshy source models supplied by Ael, with original Tervain preparation and procedural rigging and animation. Every source license branch and source creator credit remains pending; these records establish provenance and project-specific integration, not a new license grant. The distinct boar-c source is unavailable and has no prepared GLB or ledger asset row.</p>
+      <ul>
+      <li><strong>bear-a</strong> — <code>public/models/animals/bear-a.glb</code>
+        <p>Source: <code>Meshy_AI__bear_1005170943_texture.glb</code><br>Source SHA-256: <code>8ce7280949fbb5506780b240a574a8b09acd6d9c48c58d0090c4f6e5077aa817</code><br>Runtime SHA-256: <code>84be5211204ed0f461a3a4dc8865bd3e0d456cceabd51626dc1a104cd5487896</code></p>
+        <p>Source geometry retained at 19,170 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Idle, Run, Walk clips, not source animation or motion capture.</p></li>
+      <li><strong>lion</strong> — <code>public/models/animals/lion.glb</code>
+        <p>Source: <code>Meshy_AI_Lion_1005232726_texture.glb</code><br>Source SHA-256: <code>2c7ef06a3ed4a53fc3069bcb1fe0bbc25a081336bae1787b6233e6fbb311c604</code><br>Runtime SHA-256: <code>8cf353e2311f3fd3acf11ceec522b5f6b74e8ce06a255bd42086c4c906454601</code></p>
+        <p>Source geometry retained at 17,934 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Idle, Run, Walk clips, not source animation or motion capture.</p></li>
+      <li><strong>bear-b</strong> — <code>public/models/animals/bear-b.glb</code>
+        <p>Source: <code>Meshy_AI_Bear__1005232657_texture.glb</code><br>Source SHA-256: <code>b2a1761e0713649cc33a1bf15ede455526539a994d64f224458591b6eac25d13</code><br>Runtime SHA-256: <code>5b26102e0232175f68f4124213052fc854743325b64efb35b02ca13cd3d8aafb</code></p>
+        <p>Source geometry retained at 10,000 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Idle, Run, Walk clips, not source animation or motion capture.</p></li>
+      <li><strong>tiger</strong> — <code>public/models/animals/tiger.glb</code>
+        <p>Source: <code>Meshy_AI_tiger_1005232739_texture.glb</code><br>Source SHA-256: <code>23fd4488d6c24ec7b090c5c476bfd9f74f242aedcfcd46333bdd294ac861dcca</code><br>Runtime SHA-256: <code>46db83a39ed6b538586f3b73280c6d7cb04f82d9268d8c91771300330b80d788</code></p>
+        <p>UV-preserving decimation from 335,654 to 44,500 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Idle, Run, Walk clips, not source animation or motion capture.</p></li>
+      <li><strong>wolf-a</strong> — <code>public/models/animals/wolf-a.glb</code>
+        <p>Source: <code>Meshy_AI_Wolf_1005232644_texture.glb</code><br>Source SHA-256: <code>968c13e84fe37952fd5b9f32456d702b631a700f31e12e960e81ccda2d48cb6c</code><br>Runtime SHA-256: <code>24a9b5a99d52bfea1299b9aa24737d32ece2048f849d3a5f41a42065e1ef55af</code></p>
+        <p>UV-preserving decimation from 757,625 to 44,500 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Idle, Run, Walk clips, not source animation or motion capture.</p></li>
+      <li><strong>wolf-b</strong> — <code>public/models/animals/wolf-b.glb</code>
+        <p>Source: <code>Meshy_AI_Wolf_1005232637_texture.glb</code><br>Source SHA-256: <code>4a7bb2485113e4878574f8c4645e1abb4db36f0cce27554624a57c46e075cea6</code><br>Runtime SHA-256: <code>8713287dba311a74e7e31d84bdec25794e458b310ade7b0000060d8e17c3cbfc</code></p>
+        <p>UV-preserving decimation from 202,214 to 44,500 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Idle, Run, Walk clips, not source animation or motion capture.</p></li>
+      <li><strong>wolf-c</strong> — <code>public/models/animals/wolf-c.glb</code>
+        <p>Source: <code>Meshy_AI_wolf_1005232631_texture.glb</code><br>Source SHA-256: <code>8e11f90d5a90699cb0beda881e3a87617f5fa4bcb043a8f24095bb651a7fed1a</code><br>Runtime SHA-256: <code>0ee82413a1430e98cf643f0f1114399c0560749bd650c4f4a3d02f2e189269c4</code></p>
+        <p>Source geometry retained at 14,840 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Idle, Run, Walk clips, not source animation or motion capture.</p></li>
+      <li><strong>cat-a</strong> — <code>public/models/animals/cat-a.glb</code>
+        <p>Source: <code>Meshy_AI_cat_1005232619_texture.glb</code><br>Source SHA-256: <code>c82af13a94f32f7b61bda5066a10fa57394765d05c180954b2827fdd4f90ea06</code><br>Runtime SHA-256: <code>baccfb757341ffe060c849205664221b5cabf4b8e21fbf4f371715c00b7eec44</code></p>
+        <p>UV-preserving decimation from 216,993 to 44,499 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Idle, Run, Walk clips, not source animation or motion capture.</p></li>
+      <li><strong>dog-a</strong> — <code>public/models/animals/dog-a.glb</code>
+        <p>Source: <code>Meshy_AI_dog_1005232529_texture.glb</code><br>Source SHA-256: <code>318f62cc06ca7f84bfe0ee518666fa7df07d4868e0404b2546e9a6224e4e6355</code><br>Runtime SHA-256: <code>11ecab94ad6006329c5a9eab85d1ca4a28ea7be13ddb748936adb39d456ce569</code></p>
+        <p>UV-preserving decimation from 101,084 to 44,499 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Idle, Run, Walk clips, not source animation or motion capture.</p></li>
+      <li><strong>dog-b</strong> — <code>public/models/animals/dog-b.glb</code>
+        <p>Source: <code>Meshy_AI_dog_1005232511_texture.glb</code><br>Source SHA-256: <code>dcf72635e50e74592233335ed5d1d4b983b28bb41469294305603245546cd6d8</code><br>Runtime SHA-256: <code>49b76957c3a6c1e43da63f2f74ef7284fe035a6e1620dd4486a3acee159301c9</code></p>
+        <p>Source geometry retained at 16,236 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Idle, Run, Walk clips, not source animation or motion capture.</p></li>
+      <li><strong>cat-b</strong> — <code>public/models/animals/cat-b.glb</code>
+        <p>Source: <code>Meshy_AI_cat_1005232608_texture.glb</code><br>Source SHA-256: <code>bd526c835317a9cd2d89cf084773a9f35114189a4f813d279213bc60f69d22b0</code><br>Runtime SHA-256: <code>547d566fe7de49df0de5b88aedb9aa94253520c0c67e3c897b9fced2e7236d0a</code></p>
+        <p>UV-preserving decimation from 333,721 to 44,500 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Idle, Run, Walk clips, not source animation or motion capture. Seated source pose retained; runtime keeps this variant seated.</p></li>
+      <li><strong>boar-a</strong> — <code>public/models/animals/boar-a.glb</code>
+        <p>Source: <code>Meshy_AI_boar_1005232442_texture.glb</code><br>Source SHA-256: <code>c93ee2d2a7884b9b6cd64336470c3fc9e8ce9b8ed74098d00d146dfa0b69c8b9</code><br>Runtime SHA-256: <code>1115dd5e9638fcff57dfe06abb1dcc327d9ec8f21c679d9f55ace49a5207cc79</code></p>
+        <p>Source geometry retained at 19,638 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Graze, Idle, Run, Walk clips, not source animation or motion capture.</p></li>
+      <li><strong>boar-b</strong> — <code>public/models/animals/boar-b.glb</code>
+        <p>Source: <code>Meshy_AI_Wild_Boar_1005232450_texture.glb</code><br>Source SHA-256: <code>6f99c5a7b3f66162000a25e8bf6f88926019512376f6e31179111723f09c1046</code><br>Runtime SHA-256: <code>fdf9d7e08ccdfe5e62d446019d1e06e78a7ac731c4393b960d5575a20e0a42e9</code></p>
+        <p>UV-preserving decimation from 494,855 to 44,499 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Graze, Idle, Run, Walk clips, not source animation or motion capture.</p></li>
+      <li><strong>stag</strong> — <code>public/models/animals/stag.glb</code>
+        <p>Source: <code>Meshy_AI_Red_Deer_Stag_1005232424_texture.glb</code><br>Source SHA-256: <code>be4abbf9a65eb72f13962ce90bbbc27e8b3445c7bf83e239959f49a75e181aab</code><br>Runtime SHA-256: <code>31bf60b50d29c82de9143f5276a002a5e19329c9ec8b9a353bcfd5ee6eb379e6</code></p>
+        <p>UV-preserving decimation from 190,339 to 44,499 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Graze, Idle, Run, Walk clips, not source animation or motion capture.</p></li>
+      <li><strong>deer-mount</strong> — <code>public/models/animals/deer-mount.glb</code>
+        <p>Source: <code>Meshy_AI_Deer_Mount_1005232412_texture.glb</code><br>Source SHA-256: <code>19cf404163f58fa7eb225a829751a82783694169b6ab30f2c93a84f9c5e7f5c2</code><br>Runtime SHA-256: <code>da169e9ada1007d0d90458a1e94f1312431e46c4de4ef9867f241727f80fdeb6</code></p>
+        <p>Source geometry retained at 38,476 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Graze, Idle, Run, Walk clips, not source animation or motion capture.</p></li>
+      <li><strong>cat-c</strong> — <code>public/models/animals/cat-c.glb</code>
+        <p>Source: <code>Meshy_AI_cat_1005232556_texture.glb</code><br>Source SHA-256: <code>02869e5775739d8f5d34b591eeb41dc07c0507c626bda91f523ffb9213eb6fa7</code><br>Runtime SHA-256: <code>3033ec96c79387e2079b7708759b9962065eb83910dae66323eef5a55a40a416</code></p>
+        <p>UV-preserving decimation from 265,126 to 44,499 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Idle, Run, Walk clips, not source animation or motion capture.</p></li>
+      <li><strong>deer-a</strong> — <code>public/models/animals/deer-a.glb</code>
+        <p>Source: <code>Meshy_AI_Deer_1005232351_texture.glb</code><br>Source SHA-256: <code>20a7c9e2ccecdcb3923d6f5cab68ee094b7460dabcc63b1842bdb39f6b3340da</code><br>Runtime SHA-256: <code>2350e692546c0cba9e4dce1ea8b5bf0b49b06e6e53744154c71339391aeb3702</code></p>
+        <p>UV-preserving decimation from 199,316 to 44,499 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Graze, Idle, Run, Walk clips, not source animation or motion capture.</p></li>
+      <li><strong>deer-b</strong> — <code>public/models/animals/deer-b.glb</code>
+        <p>Source: <code>Meshy_AI_Deer_1005232341_texture.glb</code><br>Source SHA-256: <code>3332cdc6a0c928e35ba87828a515fb1ffcfeb525a7321e531a29bc8129d5e37a</code><br>Runtime SHA-256: <code>98c5bf1601c48652a95bef3b299e61eb0690a741d598c1c9c3ebb200b9203e39</code></p>
+        <p>UV-preserving decimation from 247,788 to 44,500 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Graze, Idle, Run, Walk clips, not source animation or motion capture.</p></li>
+      </ul>
+    </details>
 
     <h2>How the actual source license applies</h2>
     <p><a href="https://www.meshy.ai/terms-of-use">Meshy’s terms</a>, updated 19 September 2026, distinguish Free output under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>, paid-output terms and Community 3D output under <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>. Other Community content, including uploaded images, uses BY-NC 4.0. The source branch must be established for the specific asset; its filename does not prove that branch.</p>
@@ -98,7 +160,7 @@
     <p>Native terrain, buildings, props, grass, custom foliage and menu geometry also originate from Tervain code. Software ports keep their own notices; generated geometry and approved emblem artwork are not assigned a new media license by this ledger.</p>
     <p>The separate Gothic 3 study/reconstruction routes contain proprietary game derivatives and are outside the original Tervain asset library. They are not classified CC. This ledger records no general rights-holder redistribution or commercial-release clearance for them; see the <a href="https://github.com/ael-dev3/Tervain/blob/main/assets/gothic3/NOTICE.md">separate source notice</a>.</p>
     <footer>
-      <p class="meta">All 278 inventoried files matched their existing source-record hashes. No embedded CC declaration or external texture/model dependency was found in these GLBs. Metadata and credit alone do not establish the applicable license.</p>
+      <p class="meta">All 296 inventoried files matched their existing source-record hashes. No embedded CC declaration or external texture/model dependency was found in these GLBs. Metadata and credit alone do not establish the applicable license.</p>
       <p><a href="model-licenses.json">Download the complete model ledger</a> · <a href="https://github.com/ael-dev3/Tervain/blob/main/NOTICE">Project notices</a></p>
     </footer>
   </main>

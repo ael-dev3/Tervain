@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import * as THREE from 'three';
 import { Input } from '../../src/platform/input';
-import { defaultSettings, loadSettings, saveSettings } from '../../src/platform/settings';
+import { defaultSettings, findConflict, loadSettings, saveSettings } from '../../src/platform/settings';
 import { CameraRig } from '../../src/presentation/cameraRig';
 import { Player, type PlayerCtx } from '../../src/presentation/player';
 import type { AudioEngine } from '../../src/presentation/audio';
@@ -164,6 +164,50 @@ describe('input across world and interface boundaries',()=>{
     expect(navigate).toHaveBeenCalledWith(0,-1);
     input.uiOpen=false;input.poll(1/60);expect(input.move().y).toBe(0);
     setPad(null);input.poll(1/60);setPad(null,[0,-1,0,0]);input.poll(1/60);expect(input.move().y).toBe(1);
+  });
+
+  it('keeps skinning separate from grabbing and restores its default in legacy settings',()=>{
+    let stored = JSON.stringify({ bindings: { grab: ['KeyG'], attack: ['KeyP'] } });
+    vi.stubGlobal('localStorage', { getItem: () => stored, setItem: (_key: string, value: string) => { stored = value; } });
+    const legacy = loadSettings();
+    expect(legacy.bindings.skin).toEqual(['KeyV']);
+    expect(legacy.bindings.grab).toEqual(['KeyG']);
+    expect(findConflict(legacy.bindings, 'skin', 'KeyG')).toBe('grab');
+    legacy.bindings.skin = ['KeyB']; saveSettings(legacy);
+    expect(loadSettings().bindings.skin).toEqual(['KeyB']);
+    const { input, settings, key, release, setPad } = controls();
+    settings.bindings.skin = ['KeyB'];
+    key('KeyF'); expect(input.pressed('grab')).toBe(true); expect(input.pressed('skin')).toBe(false);
+    release('KeyF'); input.endFrame(); key('KeyB'); expect(input.pressed('skin')).toBe(true);
+    setPad(14); input.poll(1 / 60); expect(input.pressed('skin')).toBe(true);
+    expect(input.label('skin', (code) => code)).toBe('D-pad ←');
+  });
+
+  it('uses RT for bow draw without sprinting and keeps the ordinary melee controller layout',()=>{
+    const { input, key, release, setPad } = controls();
+    setPad(7); input.poll(1 / 60); expect(input.isDown('sprint')).toBe(true); expect(input.isDown('attack')).toBe(false);
+    input.bowMode = true; input.poll(1 / 60);
+    expect(input.isDown('attack')).toBe(false);
+    setPad(null); input.poll(1 / 60); setPad(7); input.poll(1 / 60);
+    expect(input.pressed('attack')).toBe(true); expect(input.isDown('attack')).toBe(true);
+    expect(input.held('sprint')).toBe(false); expect(input.label('attack', (code) => code)).toBe('RT');
+    key('ShiftLeft'); expect(input.isDown('sprint')).toBe(true); release('ShiftLeft');
+    key('KeyJ'); expect(input.isDown('attack')).toBe(true); release('KeyJ');
+    setPad(null); input.poll(1 / 60); expect(input.isDown('attack')).toBe(false);
+    input.bowMode = false; setPad(2); input.poll(1 / 60);
+    expect(input.pressed('attack')).toBe(true); expect(input.label('attack', (code) => code)).toBe('X');
+  });
+
+  it('does not turn a Skin button click into a bow shot even with the pointer captured',()=>{
+    const { input, emit, document, target } = controls();
+    input.bowMode = true; document.pointerLockElement = target;
+    emit('mousedown', { button: 0, target: { tagName: 'BUTTON', closest: () => ({}) } });
+    expect(input.isDown('attack')).toBe(false); expect(input.pressed('attack')).toBe(false);
+    emit('mousedown', { button: 0, target }); expect(input.isDown('attack')).toBe(true);
+    input.uiOpen = true; input.uiOpen = false;
+    expect(input.isDown('attack')).toBe(false);
+    emit('mouseup', { button: 0 }); emit('mousedown', { button: 0, target });
+    expect(input.isDown('attack')).toBe(true);
   });
 
 });

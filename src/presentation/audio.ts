@@ -1,5 +1,10 @@
 import type { ItemId, PlaceId } from '../game/types';
 import type { Settings } from '../platform/settings';
+import { AnimalAudio, ANIMAL_CALL_COOLDOWN_SECONDS, animalCallCaption, animalCallMix,
+  type AnimalAudioListener, type AnimalCallEvent } from './animalAudio';
+import { HuntingAudio, huntingSoundCaption, huntingSoundCooldown, huntingSoundMix,
+  type HuntingSoundKind, type HuntingSoundPosition } from './huntingAudio';
+export type { HuntingSoundKind, HuntingSoundPosition } from './huntingAudio';
 import {
   bellCue, consumeCues, EQUIP, hitCue, landCues, MAP_OPEN, PAGE, pickupCues, SATCHEL_CLOSE, SATCHEL_OPEN, stepCue, swingCue, UNEQUIP, worldCues,
   type Cue, type SurfaceKind, type WorldAction,
@@ -12,7 +17,8 @@ import { VOICE_AUDIO, type VoiceLineId } from './sound/voiceManifest';
  * Audio facade for the prototype. The owner-supplied menu score streams through
  * the music bus. In the world, the recorded sound (sound/soundWorld.ts) plays
  * footsteps, combat, items, the world's moving parts, residents, wildlife,
- * place beds and the in-world score; interface navigation stays deliberately
+ * place beds and the in-world score. Bounded model-specific animal calls and
+ * hunting recordings share the Effects bus; interface navigation stays deliberately
  * quiet. The broad procedural wind/water beds remain underneath and step back
  * while recorded beds sound. Semantic captions are raised independently of
  * AudioContext availability and volume settings.
@@ -138,6 +144,12 @@ export class AudioEngine {
   private musicListeners: [string, EventListener][] = [];
   private soundWorld: SoundWorld | null = null;
   private worldFailed = false;
+  private animals: AnimalAudio | null = null;
+  private hunting: HuntingAudio | null = null;
+  private wildlifeActive = false;
+  private readonly animalCaptionCooldowns = new Map<string, number>();
+  private readonly huntingCaptionCooldowns = new Map<HuntingSoundKind, number>();
+  private skinningCaptionActive = false;
   onCaption: ((text: string) => void) | null = null;
   onMusicState: ((state: MenuMusicState) => void) | null = null;
   enabled = true;
@@ -169,6 +181,12 @@ export class AudioEngine {
         };
         const v = this.getSettings().volumes;
         this.buses = { music: mk(v.music), effects: mk(v.effects), ambience: mk(v.ambience), dialogue: mk(v.dialogue) };
+        this.animals = new AnimalAudio(this.ctx, this.buses.effects, () => this.ready && !this.menuActive
+          && unit(this.getSettings().volumes.master) > 0 && unit(this.getSettings().volumes.effects) > 0);
+        this.animals.setActive(this.wildlifeActive);
+        this.hunting = new HuntingAudio(this.ctx, this.buses.effects, () => this.ready && !this.menuActive
+          && unit(this.getSettings().volumes.master) > 0 && unit(this.getSettings().volumes.effects) > 0);
+        this.hunting.setActive(this.wildlifeActive);
         this.noiseBuf = this.makeNoise();
         this.startBeds();
       } catch {
@@ -198,6 +216,7 @@ export class AudioEngine {
   setMenuActive(active: boolean) {
     if (active === this.menuActive || this.disposed) return;
     this.menuActive = active;
+    if (active) { this.animals?.stop(); this.stopHuntingSounds(); }
     this.syncMusic();
   }
 
@@ -396,6 +415,7 @@ export class AudioEngine {
   /** Suspend looping sources and the audio clock in a hidden tab. */
   setPageHidden(hidden: boolean) {
     this.pageHidden = hidden;
+    if (hidden) { this.animals?.stop(); this.stopHuntingSounds(); }
     this.syncMusic();
     this.soundWorld?.setHidden(hidden);
     if (this.disposed || !this.ctx || this.ctx.state === 'closed') return;
@@ -417,6 +437,8 @@ export class AudioEngine {
       sampleRate: this.ctx?.sampleRate ?? 0,
       baseLatency: this.ctx?.baseLatency ?? null,
       voices: this.sources.size,
+      animals: this.animals?.diagnostics ?? { state: 'not loaded', voices: 0, pending: 0, decoded: 0 },
+      hunting: this.hunting?.diagnostics ?? { state: 'not loaded', voices: 0, pending: 0, decoded: 0, skinning: false },
       music: {
         state: this.musicState, source: this.musicSource,
         currentTime: this.music?.currentTime ?? 0, duration: this.music?.duration ?? 0,
@@ -471,6 +493,7 @@ export class AudioEngine {
     this.target(this.buses.effects.gain, unit(v.effects), t, 0.035);
     this.target(this.buses.ambience.gain, unit(v.ambience), t, 0.035);
     this.target(this.buses.dialogue.gain, unit(v.dialogue), t, 0.035);
+    if (unit(v.master) === 0 || unit(v.effects) === 0) { this.animals?.stop(); this.hunting?.stop(); }
     this.syncMusic();
   }
 
@@ -551,6 +574,8 @@ export class AudioEngine {
   /** A graphics build stops world frames; retire their mix once without touching the menu score or device. */
   pauseWorld() {
     if (this.disposed) return;
+    this.animals?.stop();
+    this.stopHuntingSounds();
     // Reach the world even while the tab/context is suspended: late decodes must see the pause boundary.
     this.soundWorld?.update(1 / 20, null);
     if (this.ctx && this.ctx.state !== 'closed') {
@@ -564,6 +589,10 @@ export class AudioEngine {
   }
 
   private releaseGraph() {
+    this.animals?.dispose();
+    this.animals = null;
+    this.hunting?.dispose();
+    this.hunting = null;
     this.soundWorld?.dispose();
     this.soundWorld = null;
     this.clearMusicPause();
@@ -602,6 +631,9 @@ export class AudioEngine {
     this.enabled = false;
     this.onCaption = null;
     this.onMusicState = null;
+    this.animalCaptionCooldowns.clear();
+    this.huntingCaptionCooldowns.clear();
+    this.skinningCaptionActive = false;
     this.releaseGraph();
   }
 
@@ -622,6 +654,50 @@ export class AudioEngine {
   }
 
   /* ---- effects ---- */
+  /** Scene and pause state gate wildlife separately from the continuous ambience mix. */
+  setWildlifeActive(active: boolean) {
+    this.wildlifeActive = active;
+    this.animals?.setActive(active);
+    this.hunting?.setActive(active);
+    if (!active) this.stopHuntingSounds();
+  }
+
+  animalCall(event: AnimalCallEvent, listener: AnimalAudioListener) {
+    if (this.disposed || !this.wildlifeActive || this.pageHidden || this.menuActive
+      || !event.id || event.id.length > 100 || animalCallMix(event, listener).gain < 0.005) return;
+    const text = animalCallCaption(event.species);
+    if (!text) return;
+    // A semantic call survives an unavailable device or a muted Effects/Master
+    // mix. Its clock never depends on initializing/suspending an AudioContext.
+    const time = performance.now() / 1000;
+    if (time - (this.animalCaptionCooldowns.get(event.id) ?? -Infinity) < ANIMAL_CALL_COOLDOWN_SECONDS) return;
+    this.animalCaptionCooldowns.set(event.id, time);
+    if (this.animalCaptionCooldowns.size > 128) this.animalCaptionCooldowns.delete(this.animalCaptionCooldowns.keys().next().value!);
+    this.caption(text);
+    this.animals?.call(event, listener);
+  }
+
+  huntingSound(kind: HuntingSoundKind, position?: HuntingSoundPosition, listener?: AnimalAudioListener) {
+    if (this.disposed || !this.wildlifeActive || this.pageHidden || this.menuActive
+      || huntingSoundMix(position, listener).gain < 0.005) return;
+    const text = huntingSoundCaption(kind);
+    if (!text || (kind === 'skinning' && this.skinningCaptionActive)) return;
+    const time = performance.now() / 1000;
+    if (time - (this.huntingCaptionCooldowns.get(kind) ?? -Infinity) < huntingSoundCooldown(kind)) return;
+    this.huntingCaptionCooldowns.set(kind, time);
+    if (kind === 'skinning') this.skinningCaptionActive = true;
+    this.caption(text);
+    this.hunting?.sound(kind, position, listener);
+  }
+
+  /** Cancel a draw/skinning action, or release every effect before rebuilding a scene. */
+  stopHuntingSounds(kind?: HuntingSoundKind) {
+    this.hunting?.stop(kind);
+    if (kind === undefined) this.huntingCaptionCooldowns.clear();
+    else this.huntingCaptionCooldowns.delete(kind);
+    if (kind === undefined || kind === 'skinning') this.skinningCaptionActive = false;
+  }
+
   private cue(cues: Cue | readonly Cue[], opt?: PlayOptions) {
     if (!this.ready || !this.soundWorld) return;
     if (Array.isArray(cues)) this.soundWorld.playAll(cues, opt);

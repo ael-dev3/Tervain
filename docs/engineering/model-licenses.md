@@ -6,12 +6,20 @@ Reviewed 6 October 2026 against the actual original-game GLBs and historical War
 
 | Set | Files | Bytes | Recorded source and scope |
 | --- | ---: | ---: | --- |
-| Original-game public model catalog | 69 | 419,384,144 | 35 owner-supplied Meshy source files; source-derived Tervain preparation. Includes an earlier hero retained for audit and tree variants not necessarily placed. |
+| Original-game public model catalog | 87 | 534,690,544 | 53 owner-supplied Meshy source files; source-derived Tervain preparation. Includes an earlier hero retained for audit and tree variants not necessarily placed. |
 | Historical Warpkeep archive | 209 | 23,676,804 | 76 catalog assets, copied byte for byte from Warpkeep `786c0b2be6f2d2e7eb2de02ef3b6826c8907fc32`; archive-only. |
 
-All 278 actual file hashes match their existing engineering or archive records. None of these GLBs declares a CC license in embedded metadata or uses an external image/buffer URI. Thirty-one archived Warpkeep GLBs retain Ael/Warpkeep copyright text. An absent CC label is not evidence that CC rights are absent; an embedded copyright or generator label is not independent ownership proof.
+All 296 actual file hashes match their existing engineering or archive records. None of these GLBs declares a CC license in embedded metadata or uses an external image/buffer URI. Thirty-one archived Warpkeep GLBs retain Ael/Warpkeep copyright text. An absent CC label is not evidence that CC rights are absent; an embedded copyright or generator label is not independent ownership proof.
 
 The public ledger records file hashes, source filenames/hashes, source-record links, preparation changes, catalog/runtime scope and retained copyright metadata. It omits machine-specific paths, private prompts and account details.
+
+## Supplied animal supplement
+
+The working candidate adds **18 distinct animal GLBs** (115,306,400 bytes) from the supplied bear, lion, tiger, wolf, cat, dog, boar, stag and deer sources. [Animal preparation records](animal-assets.json) identify each source filename/SHA-256 and prepared file/SHA-256, source and final triangle counts, preserved materials, normalized units, reviewed quadruped weights and procedurally authored clips. The public JSON has one source and one runtime row per prepared variant, with the same hashes and changes; the static credits page retains individual source and runtime hashes. Models above the budget were decimated; smaller sources retain their geometry. Motion is authored procedural skeletal animation, not supplied animation or motion capture. The seated cat retains its seated source pose.
+
+Every added source uses the existing **pending-source-classification** status with no invented SPDX or license grant. Source creator and generation-time or Community/listing branch still require evidence. The distinct `boar-c` source is unavailable, has no prepared GLB and is excluded from the 87-file inventory. No replacement is credited as that source.
+
+The earlier `auditedModelRevision` continues to identify the unchanged 69-model snapshot. `supplementalModelAudit` identifies the candidate animal preparation receipt by SHA-256; it does not claim that this candidate is contained in that earlier revision. All 87 public files and 209 archive files are independently reconciled to the per-file ledger.
 
 ## Meshy source classification remains pending
 
@@ -43,6 +51,6 @@ The [Ael / Lyrics workflow credit](menu-grove-score.md#studied-workflow-and-attr
 
 ## Verification and maintenance
 
-The ledger's `auditedModelRevision` identifies the model snapshot; later documentation or credit changes do not validate different binaries. Recompute every listed file's bytes/SHA-256 against its existing source record when a model changes, add new source and modification records, and retain actual license notices. Reconcile the static credits page and JSON counts together. Published model delivery from an immutable build commit does not change the source license.
+The ledger's `auditedModelRevision` identifies the earlier model snapshot; `supplementalModelAudit` identifies the candidate animal receipt. Later documentation or credit changes do not validate different binaries. Recompute every listed file's bytes/SHA-256 against its existing source record when a model changes, add new source and modification records, and retain actual license notices. Reconcile the static credits page and JSON counts together. Published model delivery from an immutable build commit does not change the source license.
 
 Before claiming complete CC compliance, resolve all pending source branches, confirm required creator/source/license/change notices, and verify the distributed credits. Source provenance, permission evidence and a compliance claim are separate findings.

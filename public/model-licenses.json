@@ -3,11 +3,11 @@
   "reviewedAt": "2026-10-06",
   "auditedModelRevision": "d8c32707ce06dce951be2a0dced41138bc8c7a1c",
   "summary": {
-    "publicModelFiles": 69,
-    "publicModelBytes": 419384144,
+    "publicModelFiles": 87,
+    "publicModelBytes": 534690544,
     "archivedWarpkeepFiles": 209,
     "archivedWarpkeepBytes": 23676804,
-    "hashesMatchedExistingSourceRecords": 278,
+    "hashesMatchedExistingSourceRecords": 296,
     "modelsWithEmbeddedCcDeclaration": 0,
     "licenseClassification": "Unresolved Meshy branches are explicitly pending; absence of an embedded CC label does not establish absence of CC rights."
   },
@@ -666,6 +666,348 @@
       },
       "credit": "Owner-supplied Meshy natural asset; prepared for Tervain.",
       "changes": "2048px JPEG albedo; normalized 1024px source normal; 512px source roughness in dry-stone range; black unused emissive removed; metallic zero. Original geometry buffer bytes retained.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "animal-bear-a": {
+      "filename": "Meshy_AI__bear_1005170943_texture.glb",
+      "sha256": "8ce7280949fbb5506780b240a574a8b09acd6d9c48c58d0090c4f6e5077aa817",
+      "bytes": 1451232,
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/animal-assets.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Not established by the available source record",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "Generation-time Free/Paid status and Community/source-listing license are not recorded."
+      },
+      "credit": "Meshy bear source (bear-a) supplied by Ael; prepared and procedurally rigged and animated for Tervain.",
+      "changes": "Source geometry retained at 19,170 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Idle, Run, Walk clips, not source animation or motion capture.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "animal-lion": {
+      "filename": "Meshy_AI_Lion_1005232726_texture.glb",
+      "sha256": "2c7ef06a3ed4a53fc3069bcb1fe0bbc25a081336bae1787b6233e6fbb311c604",
+      "bytes": 1639896,
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/animal-assets.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Not established by the available source record",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "Generation-time Free/Paid status and Community/source-listing license are not recorded."
+      },
+      "credit": "Meshy lion source (lion) supplied by Ael; prepared and procedurally rigged and animated for Tervain.",
+      "changes": "Source geometry retained at 17,934 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Idle, Run, Walk clips, not source animation or motion capture.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "animal-bear-b": {
+      "filename": "Meshy_AI_Bear__1005232657_texture.glb",
+      "sha256": "b2a1761e0713649cc33a1bf15ede455526539a994d64f224458591b6eac25d13",
+      "bytes": 1327912,
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/animal-assets.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Not established by the available source record",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "Generation-time Free/Paid status and Community/source-listing license are not recorded."
+      },
+      "credit": "Meshy bear source (bear-b) supplied by Ael; prepared and procedurally rigged and animated for Tervain.",
+      "changes": "Source geometry retained at 10,000 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Idle, Run, Walk clips, not source animation or motion capture.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "animal-tiger": {
+      "filename": "Meshy_AI_tiger_1005232739_texture.glb",
+      "sha256": "23fd4488d6c24ec7b090c5c476bfd9f74f242aedcfcd46333bdd294ac861dcca",
+      "bytes": 15648728,
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/animal-assets.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Not established by the available source record",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "Generation-time Free/Paid status and Community/source-listing license are not recorded."
+      },
+      "credit": "Meshy tiger source (tiger) supplied by Ael; prepared and procedurally rigged and animated for Tervain.",
+      "changes": "UV-preserving decimation from 335,654 to 44,500 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Idle, Run, Walk clips, not source animation or motion capture.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "animal-wolf-a": {
+      "filename": "Meshy_AI_Wolf_1005232644_texture.glb",
+      "sha256": "968c13e84fe37952fd5b9f32456d702b631a700f31e12e960e81ccda2d48cb6c",
+      "bytes": 28599592,
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/animal-assets.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Not established by the available source record",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "Generation-time Free/Paid status and Community/source-listing license are not recorded."
+      },
+      "credit": "Meshy wolf source (wolf-a) supplied by Ael; prepared and procedurally rigged and animated for Tervain.",
+      "changes": "UV-preserving decimation from 757,625 to 44,500 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Idle, Run, Walk clips, not source animation or motion capture.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "animal-wolf-b": {
+      "filename": "Meshy_AI_Wolf_1005232637_texture.glb",
+      "sha256": "4a7bb2485113e4878574f8c4645e1abb4db36f0cce27554624a57c46e075cea6",
+      "bytes": 7583356,
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/animal-assets.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Not established by the available source record",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "Generation-time Free/Paid status and Community/source-listing license are not recorded."
+      },
+      "credit": "Meshy wolf source (wolf-b) supplied by Ael; prepared and procedurally rigged and animated for Tervain.",
+      "changes": "UV-preserving decimation from 202,214 to 44,500 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Idle, Run, Walk clips, not source animation or motion capture.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "animal-wolf-c": {
+      "filename": "Meshy_AI_wolf_1005232631_texture.glb",
+      "sha256": "8e11f90d5a90699cb0beda881e3a87617f5fa4bcb043a8f24095bb651a7fed1a",
+      "bytes": 7217736,
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/animal-assets.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Not established by the available source record",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "Generation-time Free/Paid status and Community/source-listing license are not recorded."
+      },
+      "credit": "Meshy wolf source (wolf-c) supplied by Ael; prepared and procedurally rigged and animated for Tervain.",
+      "changes": "Source geometry retained at 14,840 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Idle, Run, Walk clips, not source animation or motion capture.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "animal-cat-a": {
+      "filename": "Meshy_AI_cat_1005232619_texture.glb",
+      "sha256": "c82af13a94f32f7b61bda5066a10fa57394765d05c180954b2827fdd4f90ea06",
+      "bytes": 13314340,
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/animal-assets.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Not established by the available source record",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "Generation-time Free/Paid status and Community/source-listing license are not recorded."
+      },
+      "credit": "Meshy cat source (cat-a) supplied by Ael; prepared and procedurally rigged and animated for Tervain.",
+      "changes": "UV-preserving decimation from 216,993 to 44,499 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Idle, Run, Walk clips, not source animation or motion capture.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "animal-dog-a": {
+      "filename": "Meshy_AI_dog_1005232529_texture.glb",
+      "sha256": "318f62cc06ca7f84bfe0ee518666fa7df07d4868e0404b2546e9a6224e4e6355",
+      "bytes": 4011120,
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/animal-assets.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Not established by the available source record",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "Generation-time Free/Paid status and Community/source-listing license are not recorded."
+      },
+      "credit": "Meshy dog source (dog-a) supplied by Ael; prepared and procedurally rigged and animated for Tervain.",
+      "changes": "UV-preserving decimation from 101,084 to 44,499 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Idle, Run, Walk clips, not source animation or motion capture.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "animal-dog-b": {
+      "filename": "Meshy_AI_dog_1005232511_texture.glb",
+      "sha256": "dcf72635e50e74592233335ed5d1d4b983b28bb41469294305603245546cd6d8",
+      "bytes": 5587604,
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/animal-assets.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Not established by the available source record",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "Generation-time Free/Paid status and Community/source-listing license are not recorded."
+      },
+      "credit": "Meshy dog source (dog-b) supplied by Ael; prepared and procedurally rigged and animated for Tervain.",
+      "changes": "Source geometry retained at 16,236 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Idle, Run, Walk clips, not source animation or motion capture.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "animal-cat-b": {
+      "filename": "Meshy_AI_cat_1005232608_texture.glb",
+      "sha256": "bd526c835317a9cd2d89cf084773a9f35114189a4f813d279213bc60f69d22b0",
+      "bytes": 19251528,
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/animal-assets.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Not established by the available source record",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "Generation-time Free/Paid status and Community/source-listing license are not recorded."
+      },
+      "credit": "Meshy cat source (cat-b) supplied by Ael; prepared and procedurally rigged and animated for Tervain.",
+      "changes": "UV-preserving decimation from 333,721 to 44,500 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Idle, Run, Walk clips, not source animation or motion capture. Seated source pose retained; runtime keeps this variant seated.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "animal-boar-a": {
+      "filename": "Meshy_AI_boar_1005232442_texture.glb",
+      "sha256": "c93ee2d2a7884b9b6cd64336470c3fc9e8ce9b8ed74098d00d146dfa0b69c8b9",
+      "bytes": 1816940,
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/animal-assets.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Not established by the available source record",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "Generation-time Free/Paid status and Community/source-listing license are not recorded."
+      },
+      "credit": "Meshy boar source (boar-a) supplied by Ael; prepared and procedurally rigged and animated for Tervain.",
+      "changes": "Source geometry retained at 19,638 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Graze, Idle, Run, Walk clips, not source animation or motion capture.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "animal-boar-b": {
+      "filename": "Meshy_AI_Wild_Boar_1005232450_texture.glb",
+      "sha256": "6f99c5a7b3f66162000a25e8bf6f88926019512376f6e31179111723f09c1046",
+      "bytes": 22966428,
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/animal-assets.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Not established by the available source record",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "Generation-time Free/Paid status and Community/source-listing license are not recorded."
+      },
+      "credit": "Meshy boar source (boar-b) supplied by Ael; prepared and procedurally rigged and animated for Tervain.",
+      "changes": "UV-preserving decimation from 494,855 to 44,499 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Graze, Idle, Run, Walk clips, not source animation or motion capture.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "animal-stag": {
+      "filename": "Meshy_AI_Red_Deer_Stag_1005232424_texture.glb",
+      "sha256": "be4abbf9a65eb72f13962ce90bbbc27e8b3445c7bf83e239959f49a75e181aab",
+      "bytes": 10483396,
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/animal-assets.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Not established by the available source record",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "Generation-time Free/Paid status and Community/source-listing license are not recorded."
+      },
+      "credit": "Meshy deer source (stag) supplied by Ael; prepared and procedurally rigged and animated for Tervain.",
+      "changes": "UV-preserving decimation from 190,339 to 44,499 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Graze, Idle, Run, Walk clips, not source animation or motion capture.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "animal-deer-mount": {
+      "filename": "Meshy_AI_Deer_Mount_1005232412_texture.glb",
+      "sha256": "19cf404163f58fa7eb225a829751a82783694169b6ab30f2c93a84f9c5e7f5c2",
+      "bytes": 2623648,
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/animal-assets.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Not established by the available source record",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "Generation-time Free/Paid status and Community/source-listing license are not recorded."
+      },
+      "credit": "Meshy deer source (deer-mount) supplied by Ael; prepared and procedurally rigged and animated for Tervain.",
+      "changes": "Source geometry retained at 38,476 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Graze, Idle, Run, Walk clips, not source animation or motion capture.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "animal-cat-c": {
+      "filename": "Meshy_AI_cat_1005232556_texture.glb",
+      "sha256": "02869e5775739d8f5d34b591eeb41dc07c0507c626bda91f523ffb9213eb6fa7",
+      "bytes": 14761504,
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/animal-assets.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Not established by the available source record",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "Generation-time Free/Paid status and Community/source-listing license are not recorded."
+      },
+      "credit": "Meshy cat source (cat-c) supplied by Ael; prepared and procedurally rigged and animated for Tervain.",
+      "changes": "UV-preserving decimation from 265,126 to 44,499 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Idle, Run, Walk clips, not source animation or motion capture.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "animal-deer-a": {
+      "filename": "Meshy_AI_Deer_1005232351_texture.glb",
+      "sha256": "20a7c9e2ccecdcb3923d6f5cab68ee094b7460dabcc63b1842bdb39f6b3340da",
+      "bytes": 13840792,
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/animal-assets.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Not established by the available source record",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "Generation-time Free/Paid status and Community/source-listing license are not recorded."
+      },
+      "credit": "Meshy deer source (deer-a) supplied by Ael; prepared and procedurally rigged and animated for Tervain.",
+      "changes": "UV-preserving decimation from 199,316 to 44,499 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Graze, Idle, Run, Walk clips, not source animation or motion capture.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "animal-deer-b": {
+      "filename": "Meshy_AI_Deer_1005232341_texture.glb",
+      "sha256": "3332cdc6a0c928e35ba87828a515fb1ffcfeb525a7321e531a29bc8129d5e37a",
+      "bytes": 16131904,
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/animal-assets.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Not established by the available source record",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "Generation-time Free/Paid status and Community/source-listing license are not recorded."
+      },
+      "credit": "Meshy deer source (deer-b) supplied by Ael; prepared and procedurally rigged and animated for Tervain.",
+      "changes": "UV-preserving decimation from 247,788 to 44,500 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Graze, Idle, Run, Walk clips, not source animation or motion capture.",
       "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
     }
   },
@@ -6789,6 +7131,534 @@
         "evidenceStatus": "pending-source-classification"
       },
       "modified": true
+    },
+    {
+      "file": "public/models/animals/bear-a.glb",
+      "bytes": 1678040,
+      "sha256": "84be5211204ed0f461a3a4dc8865bd3e0d456cceabd51626dc1a104cd5487896",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "animal-bear-a",
+      "sourceFilename": "Meshy_AI__bear_1005170943_texture.glb",
+      "sourceSha256": "8ce7280949fbb5506780b240a574a8b09acd6d9c48c58d0090c4f6e5077aa817",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true,
+      "changes": "Source geometry retained at 19,170 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Idle, Run, Walk clips, not source animation or motion capture.",
+      "sourceTriangles": 19170,
+      "triangles": 19170,
+      "deformJoints": 20,
+      "animations": [
+        "Call",
+        "Idle",
+        "Run",
+        "Walk"
+      ],
+      "motionProvenance": "Procedural skeletal FK cycles authored for this asset; not source motion capture. Seated cat preserves source pose."
+    },
+    {
+      "file": "public/models/animals/lion.glb",
+      "bytes": 1876932,
+      "sha256": "8cf353e2311f3fd3acf11ceec522b5f6b74e8ce06a255bd42086c4c906454601",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "animal-lion",
+      "sourceFilename": "Meshy_AI_Lion_1005232726_texture.glb",
+      "sourceSha256": "2c7ef06a3ed4a53fc3069bcb1fe0bbc25a081336bae1787b6233e6fbb311c604",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true,
+      "changes": "Source geometry retained at 17,934 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Idle, Run, Walk clips, not source animation or motion capture.",
+      "sourceTriangles": 17934,
+      "triangles": 17934,
+      "deformJoints": 20,
+      "animations": [
+        "Call",
+        "Idle",
+        "Run",
+        "Walk"
+      ],
+      "motionProvenance": "Procedural skeletal FK cycles authored for this asset; not source motion capture. Seated cat preserves source pose."
+    },
+    {
+      "file": "public/models/animals/bear-b.glb",
+      "bytes": 1551224,
+      "sha256": "5b26102e0232175f68f4124213052fc854743325b64efb35b02ca13cd3d8aafb",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "animal-bear-b",
+      "sourceFilename": "Meshy_AI_Bear__1005232657_texture.glb",
+      "sourceSha256": "b2a1761e0713649cc33a1bf15ede455526539a994d64f224458591b6eac25d13",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true,
+      "changes": "Source geometry retained at 10,000 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Idle, Run, Walk clips, not source animation or motion capture.",
+      "sourceTriangles": 10000,
+      "triangles": 10000,
+      "deformJoints": 20,
+      "animations": [
+        "Call",
+        "Idle",
+        "Run",
+        "Walk"
+      ],
+      "motionProvenance": "Procedural skeletal FK cycles authored for this asset; not source motion capture. Seated cat preserves source pose."
+    },
+    {
+      "file": "public/models/animals/tiger.glb",
+      "bytes": 7908988,
+      "sha256": "46db83a39ed6b538586f3b73280c6d7cb04f82d9268d8c91771300330b80d788",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "animal-tiger",
+      "sourceFilename": "Meshy_AI_tiger_1005232739_texture.glb",
+      "sourceSha256": "23fd4488d6c24ec7b090c5c476bfd9f74f242aedcfcd46333bdd294ac861dcca",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true,
+      "changes": "UV-preserving decimation from 335,654 to 44,500 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Idle, Run, Walk clips, not source animation or motion capture.",
+      "sourceTriangles": 335654,
+      "triangles": 44500,
+      "deformJoints": 20,
+      "animations": [
+        "Call",
+        "Idle",
+        "Run",
+        "Walk"
+      ],
+      "motionProvenance": "Procedural skeletal FK cycles authored for this asset; not source motion capture. Seated cat preserves source pose."
+    },
+    {
+      "file": "public/models/animals/wolf-a.glb",
+      "bytes": 8735888,
+      "sha256": "24a9b5a99d52bfea1299b9aa24737d32ece2048f849d3a5f41a42065e1ef55af",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "animal-wolf-a",
+      "sourceFilename": "Meshy_AI_Wolf_1005232644_texture.glb",
+      "sourceSha256": "968c13e84fe37952fd5b9f32456d702b631a700f31e12e960e81ccda2d48cb6c",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true,
+      "changes": "UV-preserving decimation from 757,625 to 44,500 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Idle, Run, Walk clips, not source animation or motion capture.",
+      "sourceTriangles": 757625,
+      "triangles": 44500,
+      "deformJoints": 20,
+      "animations": [
+        "Call",
+        "Idle",
+        "Run",
+        "Walk"
+      ],
+      "motionProvenance": "Procedural skeletal FK cycles authored for this asset; not source motion capture. Seated cat preserves source pose."
+    },
+    {
+      "file": "public/models/animals/wolf-b.glb",
+      "bytes": 3680672,
+      "sha256": "8713287dba311a74e7e31d84bdec25794e458b310ade7b0000060d8e17c3cbfc",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "animal-wolf-b",
+      "sourceFilename": "Meshy_AI_Wolf_1005232637_texture.glb",
+      "sourceSha256": "4a7bb2485113e4878574f8c4645e1abb4db36f0cce27554624a57c46e075cea6",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true,
+      "changes": "UV-preserving decimation from 202,214 to 44,500 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Idle, Run, Walk clips, not source animation or motion capture.",
+      "sourceTriangles": 202214,
+      "triangles": 44500,
+      "deformJoints": 20,
+      "animations": [
+        "Call",
+        "Idle",
+        "Run",
+        "Walk"
+      ],
+      "motionProvenance": "Procedural skeletal FK cycles authored for this asset; not source motion capture. Seated cat preserves source pose."
+    },
+    {
+      "file": "public/models/animals/wolf-c.glb",
+      "bytes": 7450040,
+      "sha256": "0ee82413a1430e98cf643f0f1114399c0560749bd650c4f4a3d02f2e189269c4",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "animal-wolf-c",
+      "sourceFilename": "Meshy_AI_wolf_1005232631_texture.glb",
+      "sourceSha256": "8e11f90d5a90699cb0beda881e3a87617f5fa4bcb043a8f24095bb651a7fed1a",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true,
+      "changes": "Source geometry retained at 14,840 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Idle, Run, Walk clips, not source animation or motion capture.",
+      "sourceTriangles": 14840,
+      "triangles": 14840,
+      "deformJoints": 20,
+      "animations": [
+        "Call",
+        "Idle",
+        "Run",
+        "Walk"
+      ],
+      "motionProvenance": "Procedural skeletal FK cycles authored for this asset; not source motion capture. Seated cat preserves source pose."
+    },
+    {
+      "file": "public/models/animals/cat-a.glb",
+      "bytes": 9106880,
+      "sha256": "baccfb757341ffe060c849205664221b5cabf4b8e21fbf4f371715c00b7eec44",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "animal-cat-a",
+      "sourceFilename": "Meshy_AI_cat_1005232619_texture.glb",
+      "sourceSha256": "c82af13a94f32f7b61bda5066a10fa57394765d05c180954b2827fdd4f90ea06",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true,
+      "changes": "UV-preserving decimation from 216,993 to 44,499 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Idle, Run, Walk clips, not source animation or motion capture.",
+      "sourceTriangles": 216993,
+      "triangles": 44499,
+      "deformJoints": 20,
+      "animations": [
+        "Call",
+        "Idle",
+        "Run",
+        "Walk"
+      ],
+      "motionProvenance": "Procedural skeletal FK cycles authored for this asset; not source motion capture. Seated cat preserves source pose."
+    },
+    {
+      "file": "public/models/animals/dog-a.glb",
+      "bytes": 2880320,
+      "sha256": "11ecab94ad6006329c5a9eab85d1ca4a28ea7be13ddb748936adb39d456ce569",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "animal-dog-a",
+      "sourceFilename": "Meshy_AI_dog_1005232529_texture.glb",
+      "sourceSha256": "318f62cc06ca7f84bfe0ee518666fa7df07d4868e0404b2546e9a6224e4e6355",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true,
+      "changes": "UV-preserving decimation from 101,084 to 44,499 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Idle, Run, Walk clips, not source animation or motion capture.",
+      "sourceTriangles": 101084,
+      "triangles": 44499,
+      "deformJoints": 20,
+      "animations": [
+        "Call",
+        "Idle",
+        "Run",
+        "Walk"
+      ],
+      "motionProvenance": "Procedural skeletal FK cycles authored for this asset; not source motion capture. Seated cat preserves source pose."
+    },
+    {
+      "file": "public/models/animals/dog-b.glb",
+      "bytes": 5817944,
+      "sha256": "49b76957c3a6c1e43da63f2f74ef7284fe035a6e1620dd4486a3acee159301c9",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "animal-dog-b",
+      "sourceFilename": "Meshy_AI_dog_1005232511_texture.glb",
+      "sourceSha256": "dcf72635e50e74592233335ed5d1d4b983b28bb41469294305603245546cd6d8",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true,
+      "changes": "Source geometry retained at 16,236 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Idle, Run, Walk clips, not source animation or motion capture.",
+      "sourceTriangles": 16236,
+      "triangles": 16236,
+      "deformJoints": 20,
+      "animations": [
+        "Call",
+        "Idle",
+        "Run",
+        "Walk"
+      ],
+      "motionProvenance": "Procedural skeletal FK cycles authored for this asset; not source motion capture. Seated cat preserves source pose."
+    },
+    {
+      "file": "public/models/animals/cat-b.glb",
+      "bytes": 11641944,
+      "sha256": "547d566fe7de49df0de5b88aedb9aa94253520c0c67e3c897b9fced2e7236d0a",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "animal-cat-b",
+      "sourceFilename": "Meshy_AI_cat_1005232608_texture.glb",
+      "sourceSha256": "bd526c835317a9cd2d89cf084773a9f35114189a4f813d279213bc60f69d22b0",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true,
+      "changes": "UV-preserving decimation from 333,721 to 44,500 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Idle, Run, Walk clips, not source animation or motion capture. Seated source pose retained; runtime keeps this variant seated.",
+      "sourceTriangles": 333721,
+      "triangles": 44500,
+      "deformJoints": 20,
+      "animations": [
+        "Call",
+        "Idle",
+        "Run",
+        "Walk"
+      ],
+      "motionProvenance": "Procedural skeletal FK cycles authored for this asset; not source motion capture. Seated cat preserves source pose."
+    },
+    {
+      "file": "public/models/animals/boar-a.glb",
+      "bytes": 2091616,
+      "sha256": "1115dd5e9638fcff57dfe06abb1dcc327d9ec8f21c679d9f55ace49a5207cc79",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "animal-boar-a",
+      "sourceFilename": "Meshy_AI_boar_1005232442_texture.glb",
+      "sourceSha256": "c93ee2d2a7884b9b6cd64336470c3fc9e8ce9b8ed74098d00d146dfa0b69c8b9",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true,
+      "changes": "Source geometry retained at 19,638 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Graze, Idle, Run, Walk clips, not source animation or motion capture.",
+      "sourceTriangles": 19638,
+      "triangles": 19638,
+      "deformJoints": 20,
+      "animations": [
+        "Call",
+        "Graze",
+        "Idle",
+        "Run",
+        "Walk"
+      ],
+      "motionProvenance": "Procedural skeletal FK cycles authored for this asset; not source motion capture. Seated cat preserves source pose."
+    },
+    {
+      "file": "public/models/animals/boar-b.glb",
+      "bytes": 10630120,
+      "sha256": "fdf9d7e08ccdfe5e62d446019d1e06e78a7ac731c4393b960d5575a20e0a42e9",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "animal-boar-b",
+      "sourceFilename": "Meshy_AI_Wild_Boar_1005232450_texture.glb",
+      "sourceSha256": "6f99c5a7b3f66162000a25e8bf6f88926019512376f6e31179111723f09c1046",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true,
+      "changes": "UV-preserving decimation from 494,855 to 44,499 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Graze, Idle, Run, Walk clips, not source animation or motion capture.",
+      "sourceTriangles": 494855,
+      "triangles": 44499,
+      "deformJoints": 20,
+      "animations": [
+        "Call",
+        "Graze",
+        "Idle",
+        "Run",
+        "Walk"
+      ],
+      "motionProvenance": "Procedural skeletal FK cycles authored for this asset; not source motion capture. Seated cat preserves source pose."
+    },
+    {
+      "file": "public/models/animals/stag.glb",
+      "bytes": 6992056,
+      "sha256": "31bf60b50d29c82de9143f5276a002a5e19329c9ec8b9a353bcfd5ee6eb379e6",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "animal-stag",
+      "sourceFilename": "Meshy_AI_Red_Deer_Stag_1005232424_texture.glb",
+      "sourceSha256": "be4abbf9a65eb72f13962ce90bbbc27e8b3445c7bf83e239959f49a75e181aab",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true,
+      "changes": "UV-preserving decimation from 190,339 to 44,499 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Graze, Idle, Run, Walk clips, not source animation or motion capture.",
+      "sourceTriangles": 190339,
+      "triangles": 44499,
+      "deformJoints": 20,
+      "animations": [
+        "Call",
+        "Graze",
+        "Idle",
+        "Run",
+        "Walk"
+      ],
+      "motionProvenance": "Procedural skeletal FK cycles authored for this asset; not source motion capture. Seated cat preserves source pose."
+    },
+    {
+      "file": "public/models/animals/deer-mount.glb",
+      "bytes": 3030868,
+      "sha256": "da169e9ada1007d0d90458a1e94f1312431e46c4de4ef9867f241727f80fdeb6",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "animal-deer-mount",
+      "sourceFilename": "Meshy_AI_Deer_Mount_1005232412_texture.glb",
+      "sourceSha256": "19cf404163f58fa7eb225a829751a82783694169b6ab30f2c93a84f9c5e7f5c2",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true,
+      "changes": "Source geometry retained at 38,476 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Graze, Idle, Run, Walk clips, not source animation or motion capture.",
+      "sourceTriangles": 38476,
+      "triangles": 38476,
+      "deformJoints": 20,
+      "animations": [
+        "Call",
+        "Graze",
+        "Idle",
+        "Run",
+        "Walk"
+      ],
+      "motionProvenance": "Procedural skeletal FK cycles authored for this asset; not source motion capture. Seated cat preserves source pose."
+    },
+    {
+      "file": "public/models/animals/cat-c.glb",
+      "bytes": 9133368,
+      "sha256": "3033ec96c79387e2079b7708759b9962065eb83910dae66323eef5a55a40a416",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "animal-cat-c",
+      "sourceFilename": "Meshy_AI_cat_1005232556_texture.glb",
+      "sourceSha256": "02869e5775739d8f5d34b591eeb41dc07c0507c626bda91f523ffb9213eb6fa7",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true,
+      "changes": "UV-preserving decimation from 265,126 to 44,499 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Idle, Run, Walk clips, not source animation or motion capture.",
+      "sourceTriangles": 265126,
+      "triangles": 44499,
+      "deformJoints": 20,
+      "animations": [
+        "Call",
+        "Idle",
+        "Run",
+        "Walk"
+      ],
+      "motionProvenance": "Procedural skeletal FK cycles authored for this asset; not source motion capture. Seated cat preserves source pose."
+    },
+    {
+      "file": "public/models/animals/deer-a.glb",
+      "bytes": 10080316,
+      "sha256": "2350e692546c0cba9e4dce1ea8b5bf0b49b06e6e53744154c71339391aeb3702",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "animal-deer-a",
+      "sourceFilename": "Meshy_AI_Deer_1005232351_texture.glb",
+      "sourceSha256": "20a7c9e2ccecdcb3923d6f5cab68ee094b7460dabcc63b1842bdb39f6b3340da",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true,
+      "changes": "UV-preserving decimation from 199,316 to 44,499 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Graze, Idle, Run, Walk clips, not source animation or motion capture.",
+      "sourceTriangles": 199316,
+      "triangles": 44499,
+      "deformJoints": 20,
+      "animations": [
+        "Call",
+        "Graze",
+        "Idle",
+        "Run",
+        "Walk"
+      ],
+      "motionProvenance": "Procedural skeletal FK cycles authored for this asset; not source motion capture. Seated cat preserves source pose."
+    },
+    {
+      "file": "public/models/animals/deer-b.glb",
+      "bytes": 11019184,
+      "sha256": "98c5bf1601c48652a95bef3b299e61eb0690a741d598c1c9c3ebb200b9203e39",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "animal-deer-b",
+      "sourceFilename": "Meshy_AI_Deer_1005232341_texture.glb",
+      "sourceSha256": "3332cdc6a0c928e35ba87828a515fb1ffcfeb525a7321e531a29bc8129d5e37a",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true,
+      "changes": "UV-preserving decimation from 247,788 to 44,500 triangles; source PBR textures retained; metre normalization with +Y up and +Z forward; original Tervain quadruped skin with 20 deform joints plus root and anatomy-reviewed, adjacency-smoothed weights; procedurally authored Call, Graze, Idle, Run, Walk clips, not source animation or motion capture.",
+      "sourceTriangles": 247788,
+      "triangles": 44500,
+      "deformJoints": 20,
+      "animations": [
+        "Call",
+        "Graze",
+        "Idle",
+        "Run",
+        "Walk"
+      ],
+      "motionProvenance": "Procedural skeletal FK cycles authored for this asset; not source motion capture. Seated cat preserves source pose."
     }
   ],
   "proceduralGeometry": {
@@ -6804,5 +7674,13 @@
     "Establish each Meshy source\u2019s generation-time or Community/listing license and credited creator.",
     "Preserve actual model, image-input and animation rights separately; a model-service label does not clear third-party inputs.",
     "Update source classification and required attribution using evidence rather than selecting a blanket license."
-  ]
+  ],
+  "supplementalModelAudit": {
+    "reviewedAt": "2026-10-06",
+    "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/animal-assets.json",
+    "sourceRecordSha256": "2d67f47b7c2c9bbdce9e1ea6c7500f7f6cfb26f64ac47e34f19f17231a1bf350",
+    "publicAnimalModelFiles": 18,
+    "publicAnimalModelBytes": 115306400,
+    "scope": "Working candidate animal supplement to the unchanged earlier model snapshot; exact model hashes are recorded per file."
+  }
 }
