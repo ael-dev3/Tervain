@@ -1119,6 +1119,32 @@ describe('audio engine and the recorded world', () => {
     expect(ctx.sources.every((s) => !s.started || s.stopped)).toBe(true);
   });
 
+  it('retires the recorded world at a graphics-build boundary and reuses its decoded banks after recovery', async () => {
+    vi.useFakeTimers();
+    const { ctx, audio } = engine();
+    audio.resume();
+    for (let t = 0; t < 20; t += 0.05) audio.updateWorld(0.05, frame(PLACES.rillford));
+    await flush();
+    const piece = FakeMedia.made.at(-1)!;
+    audio.quest();
+    await flush();
+    expect(ctx.sources.some((s) => s.started && !s.stopped && s.buffer?.file?.startsWith('music-sting'))).toBe(true);
+    const bankLoads = ctx.decodeAudioData.mock.calls.length;
+    const nodes = ctx.nodes.length;
+    audio.pauseWorld();
+    expect(audio.diagnostics.world!.score.phase).toBe('off');
+    expect(ctx.sources.some((s) => s.started && !s.stopped && s.buffer?.file?.startsWith('music-sting'))).toBe(false);
+    // No App frames run during a rejected build; the native fade still retires the old score.
+    vi.advanceTimersByTime(1600);
+    expect(piece.paused).toBe(true);
+    expect(piece.src).toBe('');
+    expect(ctx.nodes).toHaveLength(nodes);
+    audio.updateWorld(0.05, frame(PLACES.rillford));
+    expect(audio.diagnostics.world!.banksReady).toBe(true);
+    expect(ctx.decodeAudioData).toHaveBeenCalledTimes(bankLoads);
+    audio.dispose();
+  });
+
   it('keeps captions and the menu graph when the recorded world cannot be built', () => {
     const { ctx, audio } = engine();
     Object.defineProperty(ctx, 'createConvolver', { value: undefined });

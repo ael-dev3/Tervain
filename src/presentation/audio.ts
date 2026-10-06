@@ -548,6 +548,21 @@ export class AudioEngine {
     this.soundWorld?.update(dt, frame);
   }
 
+  /** A graphics build stops world frames; retire their mix once without touching the menu score or device. */
+  pauseWorld() {
+    if (this.disposed) return;
+    // Reach the world even while the tab/context is suspended: late decodes must see the pause boundary.
+    this.soundWorld?.update(1 / 20, null);
+    if (this.ctx && this.ctx.state !== 'closed') {
+      const t = this.ctx.currentTime;
+      for (const gain of [this.wind?.gain, this.water?.gain, this.sea?.rumble, this.sea?.hiss]) {
+        if (gain) this.target(gain.gain, 0, t, 0.18);
+      }
+    }
+    // The first recovered world frame must replace the silent targets, even within the usual update interval.
+    this.lastAutomation = -Infinity;
+  }
+
   private releaseGraph() {
     this.soundWorld?.dispose();
     this.soundWorld = null;

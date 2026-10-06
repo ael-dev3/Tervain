@@ -231,6 +231,37 @@ describe('ambience signal and mix', () => {
 });
 
 describe('audio graph lifetime and automation', () => {
+  it('quiets procedural world envelopes for a graphics build without replacing sources, then restores them immediately', () => {
+    const { ctx, audio } = audioFixture();
+    audio.update(0.05, environment());
+    const beds = ctx.gains.slice(5);
+    expect(beds.some((node) => node.gain.value > 0)).toBe(true);
+    const sourceCount = ctx.sources.length;
+    audio.pauseWorld();
+    expect(beds.every((node) => node.gain.value === 0)).toBe(true);
+    expect(ctx.sources).toHaveLength(sourceCount);
+    // A build may finish within the 100 ms automation interval.
+    audio.update(0.001, environment());
+    expect(beds.some((node) => node.gain.value > 0)).toBe(true);
+    expect(ctx.sources).toHaveLength(sourceCount);
+    audio.dispose();
+  });
+
+  it('leaves the owner-supplied menu stream and its actual clock alone during a graphics build', async () => {
+    const { audio, media, ctx } = musicFixture();
+    audio.setMenuActive(true);
+    audio.resume();
+    await flushMusic();
+    media.currentTime = 47;
+    const sources = ctx.mediaSources.length;
+    audio.pauseWorld();
+    expect(media.paused).toBe(false);
+    expect(media.currentTime).toBe(47);
+    expect(media.play).toHaveBeenCalledOnce();
+    expect(ctx.mediaSources).toHaveLength(sources);
+    audio.dispose();
+  });
+
   it('initializes exactly one loop graph with independent source phases and rates', () => {
     const { ctx, audio, makeContext } = audioFixture();
     const count = ctx.nodes.length;

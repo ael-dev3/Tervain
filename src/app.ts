@@ -432,6 +432,7 @@ export class App {
 
   private pauseForWorldBuild() {
     if (!this.worldPaused) this.rebuildFocus = document.activeElement as HTMLElement | null;
+    this.audio.pauseWorld();
     this.worldBuildFailed = false;
     this.rebuildRetry = null;
     this.loadingEl.textContent = S('menu.loading');

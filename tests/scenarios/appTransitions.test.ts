@@ -121,6 +121,7 @@ function fixture() {
     syncMenuHudVisibility: vi.fn(), syncWorldFromState: vi.fn(),
     safePosition: (x: number, z: number, y = 0) => ({ x, z, y }),
     wantLock: vi.fn(), openPause: vi.fn(), speech: { clear: vi.fn() },
+    audio: { pauseWorld: vi.fn() },
     wantPlayLock: false, lockingOut: false, worldBuilding: false, worldBuildFailed: false,
     worldDisposed: false, menuSceneDisposed: false, qualityReload: null, reloadAgain: false,
   });
@@ -332,6 +333,7 @@ describe('actual application world transitions', () => {
     key('KeyW'); key('ShiftLeft'); key('Space');
     input.captureNext = vi.fn(); input.captureCancel = vi.fn();
     call('applySettings', true);
+    expect(Reflect.get(app, 'audio').pauseWorld).toHaveBeenCalledOnce();
     expect(oldWorld.dispose).toHaveBeenCalledOnce();
     expect(input.captureNext).toBeNull(); expect(input.captureCancel).toBeNull();
     expect(app.panels.el.inert).toBe(true);
@@ -354,8 +356,11 @@ describe('actual application world transitions', () => {
     expect(app.game.state).toEqual(savedState);
     expect(canvas.requestPointerLock).not.toHaveBeenCalled();
     expect(input.uiOpen).toBe(true);
+    // A failed scene stays silent without advancing gameplay or restarting its mix.
+    expect(Reflect.get(app, 'audio').pauseWorld).toHaveBeenCalledOnce();
 
     button.click(); button.click();
+    expect(Reflect.get(app, 'audio').pauseWorld).toHaveBeenCalledTimes(2);
     expect(create).toHaveBeenCalledTimes(2);
     expect(oldWorld.dispose).toHaveBeenCalledOnce();
     const recovered = nextWorld();
@@ -415,7 +420,7 @@ describe('actual application world transitions', () => {
     Reflect.set(app, 'world', undefined);
     Reflect.set(app, 'mode', 'loading');
     const canvas = { addEventListener: vi.fn() };
-    const audio = { resume: vi.fn(), setPageHidden: vi.fn() };
+    const audio = { resume: vi.fn(), setPageHidden: vi.fn(), pauseWorld: vi.fn() };
     Object.assign(app, {
       canvas, audio, buildShell: vi.fn(), prepareMainHero: vi.fn().mockResolvedValue(undefined), applyPixelRatio: vi.fn(), onResize: vi.fn(),
       enterTitle: vi.fn(() => Reflect.set(app, 'mode', 'title')), applyShotParams: vi.fn(),
