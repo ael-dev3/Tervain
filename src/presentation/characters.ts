@@ -68,6 +68,8 @@ export interface Pose {
   moveSpeed?: number;
   /** Authored, restrained task motion; no gameplay state is inferred from the gesture. */
   workGesture?: WorkGesture;
+  /** Talking or resting at a seat keeps the authored lower-body support instead of standing on every remark. */
+  seated?: boolean;
   /**
    * A resident's idle routine while standing: who they are (seed) and a clock in seconds. Without it a person stands in
    * the plain idle (the player, hostiles). `force` holds one variant (the people tool).
@@ -105,7 +107,7 @@ export interface Rig {
   /** The approved main hero has its own skeleton and distance-aware animation. */
   hero?: HeroAnimationController;
   /** Imported residents' bounded visual sole clearance. This never moves the physical actor root or performs foot IK. */
-  npc?: { settle(mode: Mode): void };
+  npc?: { settle(mode: Mode, dt: number): void };
   root: THREE.Group;
   /** Root of the visual body; lowered when sitting and rotated when defeated. */
   body: THREE.Group;
@@ -833,6 +835,19 @@ export function createThornback(): Rig {
 
 const lerpA = (cur: number, target: number, k: number) => cur + (target - cur) * k;
 const TAU = Math.PI * 2;
+const smooth01 = (value: number) => {
+  const t = Math.max(0, Math.min(1, value));
+  return t * t * (3 - 2 * t);
+};
+
+/** A short action inside a standing turn, with relaxed hands before and after it. */
+function idleEnvelope(variant: IdleVariant, clock: number): number {
+  const phase = ((clock % IDLE_TURN) + IDLE_TURN) % IDLE_TURN;
+  if (variant === 'scratch head') {
+    return smooth01((phase - 1) / .7) * (1 - smooth01((phase - 2.8) / .7));
+  }
+  return smooth01((phase - .55) / .95) * (1 - smooth01((phase - 5.45) / 1));
+}
 
 /**
  * Set pose targets from a mode and ease the rig toward them. dt is seconds. The right arm (-x) holds the weapon; the
@@ -840,9 +855,10 @@ const TAU = Math.PI * 2;
  */
 export function poseRig(rig: Rig, p: Pose, dt: number) {
   if (poseHeroRig(rig, p, dt)) return;
+  const frameDt = Number.isFinite(dt) ? Math.max(0, dt) : 0;
   const a: Record<string, number> = {};
   for (const k of ANGLE_KEYS) a[k] = 0;
-  const amp = p.amp;
+  const amp = Number.isFinite(p.amp) ? Math.max(0, Math.min(1, p.amp)) : 0;
   const sw = Math.sin(p.time * TAU);
   const cw = Math.cos(p.time * TAU);
   const blade = rig.grip === 'blade';
@@ -850,8 +866,9 @@ export function poseRig(rig: Rig, p: Pose, dt: number) {
   a.kneeR = 0.06;
   a.elbowL = -0.18;
   a.elbowR = -0.18;
-  const breathe = Math.sin(p.time * 1.6) * 0.012;
-  const speed = p.speed;
+  const breathe = Math.sin(p.time * 1.6) * 0.012 * amp;
+  const speed = Math.max(0, Math.min(1, p.speed));
+  const seated = p.mode === 'sit' || p.seated === true;
   let fast = 12;
 
   if (rig.kind === 'thornback') {
@@ -877,8 +894,11 @@ export function poseRig(rig: Rig, p: Pose, dt: number) {
           // their arms, look about or scratch their heads (proposal; presentation only).
           const c = p.idle.clock;
           const v = p.idle.force ?? idleVariant(p.idle.seed, c);
-          idlePose(a, v, c, amp);
-          fast = 3.2;
+          const relaxed = { ...a };
+          idlePose(a, v, c, 1);
+          const weight = amp * (p.idle.force ? 1 : idleEnvelope(v, c));
+          for (const key of ANGLE_KEYS) a[key] = lerpA(relaxed[key]!, a[key]!, weight);
+          fast = 4.2;
         }
         break;
       }
@@ -1047,7 +1067,7 @@ export function poseRig(rig: Rig, p: Pose, dt: number) {
         break;
       }
       case 'work': {
-        const s = Math.sin(p.time * 2.3);
+        const s = Math.sin(p.time * 2.3) * amp;
         const reach = Math.max(0, s);
         switch (p.workGesture ?? 'general') {
           case 'mending':
@@ -1098,7 +1118,7 @@ export function poseRig(rig: Rig, p: Pose, dt: number) {
             a.armRx = -0.12;
             a.armLz = 0.08;
             a.armRz = -0.08;
-            a.headY = Math.sin(p.time * 0.36) * 0.12;
+            a.headY = Math.sin(p.time * 0.36) * 0.12 * amp;
             a.torsoX = 0.025;
             break;
           case 'general':
@@ -1111,7 +1131,7 @@ export function poseRig(rig: Rig, p: Pose, dt: number) {
             a.legR = -0.08;
             break;
         }
-        fast = 18;
+        fast = 8;
         break;
       }
       case 'sit':
@@ -1126,7 +1146,7 @@ export function poseRig(rig: Rig, p: Pose, dt: number) {
         a.elbowL = -0.8;
         a.elbowR = -0.7;
         if (p.workGesture === 'writing') {
-          const s = Math.sin(p.time * 2.1);
+          const s = Math.sin(p.time * 2.1) * amp;
           a.armLx = -0.48 + 0.02 * s;
           a.armRx = -0.64 - 0.04 * s;
           a.elbowL = -0.58;
@@ -1135,12 +1155,19 @@ export function poseRig(rig: Rig, p: Pose, dt: number) {
         }
         break;
       case 'talk': {
-        a.armRx = -0.9 + Math.sin(p.time * 2.2) * 0.35;
-        a.armRz = 0.4;
-        a.elbowR = -0.9 - Math.sin(p.time * 2.2) * 0.3;
-        a.armLx = 0.1;
-        a.headX = Math.sin(p.time * 1.7) * 0.1;
-        a.headY = Math.sin(p.time * 0.9) * 0.18;
+        // A phrase has one open-hand gesture and a quiet pause, rather than endlessly pumping an arm.
+        const phrase = .5 + .5 * Math.sin(p.time * .85);
+        const gesture = smooth01((phrase - .28) / .55) * amp;
+        a.armRx = (seated ? -.5 : .04) - gesture * .65;
+        a.armRz = -.1 + gesture * .34;
+        a.elbowR = (seated ? -.7 : -.22) - gesture * .55;
+        a.armLx = seated ? -.6 : .04 + breathe;
+        a.armLz = .11;
+        a.elbowL = seated ? -.8 : -.22;
+        a.torsoX = .035 + breathe;
+        a.headX = .035 + Math.sin(p.time * 1.4) * .04 * amp;
+        a.headY = Math.sin(p.time * .45) * .06 * amp;
+        fast = 6;
         break;
       }
       case 'dead':
@@ -1154,10 +1181,38 @@ export function poseRig(rig: Rig, p: Pose, dt: number) {
         a.elbowR = -0.3;
         break;
     }
+    if (seated && (p.mode === 'idle' || p.mode === 'work' || p.mode === 'talk')) {
+      a.legL = a.legR = -1.55;
+      a.kneeL = a.kneeR = 1.5;
+      a.lower = -.48;
+      a.torsoX = .05 + breathe;
+    }
   }
 
-  const k = 1 - Math.exp(-dt * fast);
-  for (const key of ANGLE_KEYS) rig.cur[key] = lerpA(rig.cur[key]!, a[key]!, k);
+  const k = 1 - Math.exp(-frameDt * fast);
+  const peaceful = rig.kind === 'humanoid' && ['idle', 'walk', 'run', 'work', 'sit', 'talk'].includes(p.mode);
+  const seatTransition = peaceful && (a.lower! <= -.1 || rig.cur.lower! <= -.1);
+  let supportK = k;
+  if (seatTransition) {
+    // Hips and both legs fold together. Independent joint caps would tuck the feet away
+    // before the body has lowered, or straighten the knees while the pelvis is still seated.
+    for (const key of ['lower', 'legL', 'legR', 'kneeL', 'kneeR']) {
+      const difference = Math.abs(a[key]! - rig.cur[key]!);
+      if (difference > 1e-8) supportK = Math.min(supportK, (key === 'lower' ? .72 : 2.6) * frameDt / difference);
+    }
+  }
+  for (const key of ANGLE_KEYS) {
+    const previous = rig.cur[key]!;
+    const supported = seatTransition && ['lower', 'legL', 'legR', 'kneeL', 'kneeR'].includes(key);
+    let change = (a[key]! - previous) * (supported ? supportK : k);
+    // Peaceful transitions cannot fling a shoulder or drop the hips when a task changes.
+    // Attack/hurt/death timing and the imported hero controller retain their own authored response.
+    if (peaceful) {
+      const limit = (key === 'lower' ? .72 : key.startsWith('head') ? 1.5 : 4) * frameDt;
+      change = Math.max(-limit, Math.min(limit, change));
+    }
+    rig.cur[key] = previous + change;
+  }
   const c = rig.cur as Record<(typeof ANGLE_KEYS)[number], number>;
   if (rig.kind === 'humanoid') {
     const scale = rig.hipY / 0.95;
@@ -1177,10 +1232,10 @@ export function poseRig(rig: Rig, p: Pose, dt: number) {
     rig.body.position.y = c.bodyX !== 0 ? (0.22 * scale * Math.abs(c.bodyX)) / 1.5 : 0;
   }
   // The body pivot has just been reset from this frame's pose, so visual clearance cannot accumulate between frames.
-  rig.npc?.settle(p.mode);
+  rig.npc?.settle(p.mode, frameDt);
   // Hit flash tints materials briefly.
   if (rig.hitFlash > 0) {
-    rig.hitFlash = Math.max(0, rig.hitFlash - dt * 4);
+    rig.hitFlash = Math.max(0, rig.hitFlash - frameDt * 4);
   }
 }
 

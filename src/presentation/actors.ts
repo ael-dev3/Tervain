@@ -9,6 +9,7 @@ import type { Terrain } from '../world/terrain';
 import { applyFlash, createBanditRig, createNpcRig, createThornback, poseRig, type Mode, type Pose, type Rig } from './characters';
 import { npcStyle } from './npcStyle';
 import { NpcApproachGreeting } from './npcApproachGreeting';
+import { EnemyRoute } from './enemyRoute';
 
 const hourIn = (h: number, from: number, to: number) => (from <= to ? h >= from && h < to : h >= from || h < to);
 
@@ -35,6 +36,8 @@ export interface ActorContext {
   colliders: Colliders;
   /** Peaceful moving bodies, including the seated waystation pet. */
   wildlifeContacts?: readonly Collider[];
+  /** Other live residents, keyed by person:<id>; the moving actor excludes itself. */
+  residentContacts?: readonly Collider[];
   nav: NavGrid;
   state: WorldState;
   hour: number;
@@ -48,25 +51,62 @@ export const NPC_WALK_SPEED = 1.55;
 /** Actual Meshy sole sweeps measured at 60 Hz: 0.78 pose speed gives roughly this stance-cycle travel at 1.8 m stature. */
 export const NPC_WALK_CYCLE_METRES = 1.48;
 export const NPC_WALK_POSE_SPEED = 0.78;
+const NPC_RADIUS = .35;
+const NPC_ACCELERATION = 3.2;
+const NPC_BRAKING = 4;
+const arrivalRadius = (activity: Activity) => activity === 'work' || activity === 'sit' ? .06 : .15;
+const npcSeed = (id: string) => [...id].reduce((n, c) => (n * 31 + c.charCodeAt(0)) >>> 0, 17);
+
+/** Actual foot/body geometry, rather than a conservative navigation cell, decides a short local connection. */
+function clearNpcSegment(from: V2, to: V2, ctx: Pick<ActorContext, 'terrain' | 'colliders'>, height: number, extra: readonly Collider[] = []): boolean {
+  const distance = Math.hypot(to.x - from.x, to.z - from.z), steps = Math.max(1, Math.ceil(distance / .15));
+  let x = from.x, z = from.z, y = ctx.terrain.groundAt(x, z);
+  if (!Number.isFinite(y)) return false;
+  for (let i = 1; i <= steps; i++) {
+    const nx = from.x + (to.x - from.x) * i / steps, nz = from.z + (to.z - from.z) * i / steps;
+    const ny = ctx.terrain.groundAt(nx, nz);
+    if (!ctx.terrain.walkable(nx, nz) || !Number.isFinite(ny) || Math.abs(ny - y) > .3) return false;
+    const step = ctx.colliders.move(x, z, nx - x, nz - z, NPC_RADIUS, undefined,
+      { minY: Math.min(y, ny) + .02, maxY: Math.max(y, ny) + height }, extra);
+    if (Math.hypot(step.x - nx, step.z - nz) > .001) return false;
+    x = nx; z = nz; y = ny;
+  }
+  return true;
+}
+
+/** Stable places beside a shared conversation/office anchor; work surfaces and seats retain their authored placement. */
+export function npcGoalPosition(def: NpcDef, goal: Goal, ctx: Pick<ActorContext, 'terrain' | 'colliders'>, height: number): V2 & { yaw: number } {
+  const base = ANCHORS[goal.anchor] ?? { x: 0, z: 0, yaw: 0 };
+  if (goal.activity !== 'stand' && goal.activity !== 'talk') return base;
+  const entries = (d: NpcDef) => [...d.schedule, ...d.overrides ?? []];
+  const peers = Object.values(NPCS).filter(d => entries(d).some(e => e.anchor === goal.anchor && (e.activity === 'stand' || e.activity === 'talk'))).sort((a, b) => a.id.localeCompare(b.id));
+  if (peers.length < 2 || !peers.some(d => d.id === def.id)) return base;
+  const chosen: V2[] = [];
+  for (const [i, peer] of peers.entries()) {
+    const lateral = (i - (peers.length - 1) / 2) * 1.3;
+    const offsets = [{ x: lateral, z: 0 }, ...[.85, 1.5, 2.2].flatMap(r =>
+      [0, Math.PI / 2, -Math.PI / 2, Math.PI].map(angle => ({ x: Math.sin(angle + i * Math.PI) * r, z: Math.cos(angle + i * Math.PI) * r })))];
+    let stance: V2 = base;
+    for (const offset of offsets) {
+      const point = { x: base.x + offset.x * Math.cos(base.yaw) + offset.z * Math.sin(base.yaw), z: base.z - offset.x * Math.sin(base.yaw) + offset.z * Math.cos(base.yaw) };
+      const y = ctx.terrain.groundAt(point.x, point.z);
+      if (!Number.isFinite(y) || !ctx.terrain.walkable(point.x, point.z) || chosen.some(other => Math.hypot(point.x - other.x, point.z - other.z) < .82)
+        || ctx.colliders.blocked(point.x, point.z, NPC_RADIUS, { minY: y + .02, maxY: y + height })) continue;
+      stance = point; break;
+    }
+    chosen.push(stance);
+    if (peer.id === def.id) return { ...stance, yaw: base.yaw };
+  }
+  return base;
+}
 
 /** A coarse grid can reject a counter's whole cell even when the resident's exact working stance is clear. */
 export function finishNpcPath(path: V2[] | null, goal: V2, ctx: Pick<ActorContext, 'terrain' | 'colliders'>, height: number): V2[] | null {
   const start = path?.at(-1);
   if (!path || !start) return path;
   const distance = Math.hypot(goal.x - start.x, goal.z - start.z);
-  if (distance < 0.01 || distance > 3) return path;
-  let x = start.x, z = start.z, y = ctx.terrain.groundAt(x, z);
-  const count = Math.ceil(distance / .15);
-  for (let i = 1; i <= count; i++) {
-    const nx = start.x + (goal.x - start.x) * i / count, nz = start.z + (goal.z - start.z) * i / count;
-    if (!ctx.terrain.walkable(nx, nz)) return path;
-    const ny = ctx.terrain.groundAt(nx, nz);
-    if (!Number.isFinite(ny) || Math.abs(ny - y) > .3) return path;
-    const step = ctx.colliders.move(x, z, nx - x, nz - z, .35, undefined,
-      { minY: Math.min(y, ny) + .02, maxY: Math.max(y, ny) + height });
-    if (Math.hypot(step.x - nx, step.z - nz) > .001) return path;
-    x = nx; z = nz; y = ny;
-  }
+  if (distance < 0.01 || distance > 4) return path;
+  if (!clearNpcSegment(start, goal, ctx, height)) return path;
   // Moving animals and the player are checked each frame rather than turning a temporary visitor into a permanent route gap.
   return [...path, { x: goal.x, z: goal.z }];
 }
@@ -80,23 +120,37 @@ export class NpcActor {
   yaw = 0;
   hidden = false;
   talking = false;
+  /** Conversation reservations pause a route; only an actual voiced turn gestures. */
+  speaking = true;
   /** Whom they face while talking: the player unless another person is set (an overheard scene). */
   faceTo: { x: number; z: number } | null = null;
   goal: Goal = { anchor: '', activity: 'stand' };
   private path: V2[] | null = null;
   private pi = 0;
-  private clock = Math.random() * 10;
+  private clock = 0;
   private anim = 0;
   private barkCooldown = 8 + Math.random() * 10;
   private lastBarkKey = '';
   private placed = false;
   private viaMaint = false;
+  private maintenanceCursor = 0;
+  private destination: V2 & { yaw: number } = { x: 0, z: 0, yaw: 0 };
+  private speed = 0;
+  private routeRetry = 0;
+  private routeFailures = 0;
+  private stuck = 0;
+  private dynamicWait = 0;
+  private standDelay = 0;
+  private navVersion = -1;
+  private unavailable = false;
+  private waking = false;
   private readonly approachGreeting: NpcApproachGreeting | null;
   mode: Mode = 'idle';
 
   constructor(def: NpcDef, rig?: Rig) {
     this.def = def;
     this.rig = rig ?? createNpcRig(def);
+    this.clock = (npcSeed(def.id) % 1000) / 100;
     this.approachGreeting = def.approachGreeting ? new NpcApproachGreeting(def.approachGreeting) : null;
     this.rig.root.traverse((o) => {
       o.userData.npc = def.id;
@@ -111,117 +165,202 @@ export class NpcActor {
     return !this.hidden;
   }
 
-  private anchorPos(name: string): V2 & { yaw: number } {
-    return ANCHORS[name] ?? { x: 0, z: 0, yaw: 0 };
-  }
-
-  /** Put the actor at the place their schedule says they should be right now (used at load and for far-away actors). */
+  /** Initial load/time-skip placement only; running schedules always walk rather than teleporting at a distance. */
   snapToGoal(ctx: ActorContext) {
     const g = resolveGoal(this.def, ctx.state, ctx.hour);
     this.goal = g;
-    const a = this.anchorPos(g.anchor);
+    const a = this.destination = npcGoalPosition(this.def, g, ctx, this.rig.height);
     this.x = a.x;
     this.z = a.z;
     this.yaw = a.yaw;
     this.path = null;
+    this.pi = 0;
+    this.maintenanceCursor = 0;
+    this.speed = this.stuck = this.dynamicWait = this.standDelay = this.routeRetry = this.routeFailures = 0;
+    this.navVersion = ctx.colliders.version;
     this.hidden = g.activity === 'rest';
+    this.waking = false;
     this.placed = true;
     this.y = ctx.terrain.groundAt(this.x, this.z);
+    this.rig.root.position.set(this.x, this.y, this.z);
+    this.rig.root.rotation.y = this.yaw;
+    this.rig.root.visible = !this.hidden;
+  }
+
+  private atDestination() {
+    return Math.hypot(this.x - this.destination.x, this.z - this.destination.z) <= arrivalRadius(this.goal.activity);
+  }
+
+  private planRoute(ctx: ActorContext, maintenance = false) {
+    const from = { x: this.x, z: this.z }, to = this.destination;
+    const continuingMaintenance = this.viaMaint;
+    this.viaMaint = false;
+    if (Math.hypot(to.x - from.x, to.z - from.z) <= 3 && clearNpcSegment(from, to, ctx, this.rig.height)) {
+      this.path = [{ x: to.x, z: to.z }];
+    } else if (maintenance && this.def.id === 'maintenance_worker' && ctx.state.facts.ila_method === 'shortcut'
+      && (continuingMaintenance || Math.hypot(this.x - MAINT_ROUTE[0]!.x, this.z - MAINT_ROUTE[0]!.z) < 30) && this.maintenanceCursor < MAINT_ROUTE.length) {
+      let route = MAINT_ROUTE.slice(this.maintenanceCursor);
+      const last = route.at(-1)!;
+      if (continuingMaintenance && this.maintenanceCursor >= 2 && this.stuck > 1.5) {
+        // Once through the gate, a new static obstruction needs a quarry-side detour, never a return to the ledge.
+        const reconnect = finishNpcPath(ctx.nav.findPath(from, last), last, ctx, this.rig.height);
+        const end = reconnect?.at(-1);
+        if (reconnect?.length && end && Math.hypot(end.x - last.x, end.z - last.z) < .15) route = reconnect;
+      }
+      const rest = finishNpcPath(ctx.nav.findPath(last, to), to, ctx, this.rig.height);
+      this.path = rest?.length ? [...route, ...rest] : route;
+      this.viaMaint = true;
+    } else this.path = finishNpcPath(ctx.nav.findPath(from, to), to, ctx, this.rig.height);
+    if (this.path?.length === 0) this.path = null;
+    this.pi = 0;
+    this.stuck = 0;
+    this.routeFailures = this.path ? 0 : Math.min(3, this.routeFailures + 1);
+    this.routeRetry = Math.min(8, 2 ** this.routeFailures) + (npcSeed(this.id) % 10) / 10;
+  }
+
+  private passedWaypoint(point: V2) {
+    if (!this.viaMaint) return;
+    const index = MAINT_ROUTE.findIndex(p => p.x === point.x && p.z === point.z);
+    if (index >= 0) this.maintenanceCursor = Math.max(this.maintenanceCursor, index + 1);
+  }
+
+  private contacts(ctx: ActorContext): Collider[] {
+    return [...ctx.wildlifeContacts ?? [], ...ctx.residentContacts ?? [],
+      { id: 'player', kind: 'circle' as const, x: ctx.player.x, z: ctx.player.z, r: .4, active: true, minY: ctx.player.y + .02, maxY: ctx.player.y + 1.9 }]
+      .filter(c => c.active && c.id !== `person:${this.id}`);
+  }
+
+  /** A visitor in an open lane can be passed; an occupied doorway/workplace remains a polite wait. */
+  private tryPassing(ctx: ActorContext, contacts: readonly Collider[]) {
+    let joinIndex = this.pi, target = this.path?.[joinIndex];
+    if (!target) return false;
+    // A short grid corner is not the destination. Reconnect farther along the route, dropping the bypassed corners.
+    while (Math.hypot(target.x - this.x, target.z - this.z) < 3 && joinIndex < this.path!.length - 1) target = this.path![++joinIndex]!;
+    const dx = target.x - this.x, dz = target.z - this.z, distance = Math.hypot(dx, dz);
+    if (distance < 3) return false;
+    const fx = dx / distance, fz = dz / distance;
+    for (const side of [1, -1]) for (const width of [1.1, 1.65, 2.2]) {
+      const a = { x: this.x + fz * width * side, z: this.z - fx * width * side };
+      const b = { x: a.x + fx * 2.5, z: a.z + fz * 2.5 };
+      const c = { x: this.x + fx * 2.8, z: this.z + fz * 2.8 };
+      if (![a, b, c].every((point, i) => clearNpcSegment(i === 0 ? this : i === 1 ? a : b, point, ctx, this.rig.height, contacts))) continue;
+      // The remainder may cross an old corner's wall: static geometry must validate the new connection as well.
+      if (!clearNpcSegment(c, target, ctx, this.rig.height)) continue;
+      for (const point of this.path!.slice(this.pi, joinIndex)) this.passedWaypoint(point);
+      this.path = [a, b, c, ...this.path!.slice(joinIndex)];
+      this.pi = 0; this.dynamicWait = 0; this.stuck = 0;
+      return true;
+    }
+    return false;
   }
 
   update(dt: number, ctx: ActorContext) {
+    dt = Number.isFinite(dt) ? Math.min(2, Math.max(0, dt)) : 0;
     const avail = ctx.state.npcs[this.def.id].available;
     if (!avail) {
+      this.unavailable = true;
+      this.speed = 0;
       this.hidden = true;
       this.rig.root.visible = false;
       return;
     }
     if (!this.placed) this.snapToGoal(ctx);
+    const contacts = this.contacts(ctx);
     const goal = resolveGoal(this.def, ctx.state, ctx.hour);
     const changed = goal.anchor !== this.goal.anchor || goal.activity !== this.goal.activity;
-    if (changed) {
-      const prevAnchor = this.goal.anchor;
+    if (changed || this.unavailable) {
+      const wasResting = this.goal.activity === 'rest';
+      if (this.mode === 'sit' || this.goal.activity === 'sit' && this.talking) this.standDelay = .85;
       this.goal = goal;
-      const a = this.anchorPos(goal.anchor);
-      const distToPlayer = Math.hypot(this.x - ctx.player.x, this.z - ctx.player.z);
+      this.destination = npcGoalPosition(this.def, goal, ctx, this.rig.height);
       if (this.hidden && goal.activity !== 'rest') {
-        // Step out of the house at the door.
-        const home = this.anchorPos(this.def.home);
-        this.x = home.x;
-        this.z = home.z;
-        this.hidden = false;
+        if (wasResting || this.waking) {
+          // Share a doorway in turns, rather than materialising two bodies on the same home anchor.
+          this.waking = true;
+        } else this.hidden = false;
       }
-      if (goal.anchor !== prevAnchor) {
-        this.viaMaint = false;
-        const nearLedge = Math.hypot(this.x - MAINT_ROUTE[0]!.x, this.z - MAINT_ROUTE[0]!.z) < 30;
-        if (this.def.id === 'maintenance_worker' && nearLedge && ctx.state.facts.ila_method === 'shortcut') {
-          // She walks the old track through the maintenance gate rather than past the beast.
-          const wp = [...MAINT_ROUTE];
-          const rest = ctx.nav.findPath(wp[wp.length - 1]!, a);
-          this.path = rest ? [...wp, ...rest] : wp;
-          this.pi = 0;
-          this.viaMaint = true;
-        } else if (distToPlayer > 90) {
-          this.x = a.x;
-          this.z = a.z;
-          this.yaw = a.yaw;
-          this.path = null;
-        } else {
-          this.path = finishNpcPath(ctx.nav.findPath({ x: this.x, z: this.z }, a), a, ctx, this.rig.height);
-          this.pi = 0;
-          if (!this.path) {
-            // No route: fall back to a bounded state update rather than leaving them stuck.
-            this.x = a.x;
-            this.z = a.z;
-          }
-        }
-      }
+      if (goal.activity === 'rest') this.waking = false;
+      this.unavailable = false;
+      this.routeFailures = 0;
+      this.routeRetry = 0;
+      if (!this.atDestination()) this.planRoute(ctx, true);
+      else this.path = null;
     }
+    if (this.waking) {
+      const y = ctx.terrain.groundAt(this.x, this.z);
+      const resolved = ctx.colliders.resolve(this.x, this.z, NPC_RADIUS, `person:${this.id}`, { minY: y + .02, maxY: y + this.rig.height }, contacts);
+      if (Math.hypot(resolved.x - this.x, resolved.z - this.z) < .001) { this.hidden = false; this.waking = false; }
+    }
+
+    this.routeRetry = Math.max(0, this.routeRetry - dt);
+    if (this.navVersion !== ctx.colliders.version) { this.navVersion = ctx.colliders.version; this.routeRetry = 0; }
+    if (!this.hidden && !this.talking && !this.atDestination() && this.routeRetry === 0 && (!this.path || this.stuck > 1.5 && this.dynamicWait === 0)) this.planRoute(ctx, this.viaMaint);
 
     this.clock += dt;
     let moving = false;
-    const previousX = this.x, previousZ = this.z;
-    if (this.path && this.pi < this.path.length && !this.talking) {
+    let travelled = 0;
+    let dynamicBlocked = false;
+    const substeps = Math.max(1, Math.ceil(dt / .05)), stepDt = dt / substeps;
+    for (let sub = 0; sub < substeps; sub++) {
+      if (this.talking || this.hidden || this.standDelay > 0) { this.speed = 0; this.standDelay = Math.max(0, this.standDelay - stepDt); continue; }
+      while (this.path && this.pi < this.path.length) {
+        const wp = this.path[this.pi]!, d = Math.hypot(wp.x - this.x, wp.z - this.z);
+        if (d <= (this.pi === this.path.length - 1 ? arrivalRadius(this.goal.activity) : .2)) { this.passedWaypoint(wp); this.pi++; continue; }
+        // Short, verified corner cuts keep a route from stopping at every grid vertex.
+        const next = this.path[this.pi + 1];
+        if (next && d < .55) {
+          const n = Math.hypot(next.x - wp.x, next.z - wp.z), t = Math.min(1, .7 / (n || 1));
+          const ahead = { x: wp.x + (next.x - wp.x) * t, z: wp.z + (next.z - wp.z) * t };
+          if (clearNpcSegment(this, ahead, ctx, this.rig.height, contacts)) { this.passedWaypoint(wp); this.pi++; continue; }
+        }
+        break;
+      }
+      if (this.path && this.pi >= this.path.length) this.path = null;
+      if (!this.path) { this.speed = 0; continue; }
       const wp = this.path[this.pi]!;
       const dx = wp.x - this.x;
       const dz = wp.z - this.z;
       const d = Math.hypot(dx, dz);
-      const arrivalRadius = this.goal.activity === 'work' && this.pi === this.path.length - 1 ? .06 : .35;
-      if (d < arrivalRadius) this.pi++;
-      else {
-        // Wait rather than shove through the player in a doorway.
-        const pd = Math.hypot(ctx.player.x - (this.x + (dx / d) * 0.8), ctx.player.z - (this.z + (dz / d) * 0.8));
-        if (pd > 0.9) {
-          const step = Math.min(d, NPC_WALK_SPEED * dt);
-          let nx = this.x + (dx / d) * step;
-          let nz = this.z + (dz / d) * step;
-          if (!this.viaMaint) {
-            const r = ctx.colliders.resolve(nx, nz, 0.35);
-            nx = r.x;
-            nz = r.z;
-            if (ctx.wildlifeContacts?.length) {
-              const swept = ctx.colliders.move(this.x, this.z, nx - this.x, nz - this.z, 0.35, undefined,
-                { minY: this.y + 0.02, maxY: this.y + this.rig.height }, ctx.wildlifeContacts);
-              nx = swept.x; nz = swept.z;
-            }
-          }
-          this.x = nx;
-          this.z = nz;
-          const target = Math.atan2(dx, dz);
-          this.yaw = lerpAngle(this.yaw, target, 1 - Math.exp(-dt * 8));
-          moving = Math.hypot(nx - previousX, nz - previousZ) > 1e-6;
-        }
+      const yaw = Math.atan2(dx, dz);
+      this.yaw = lerpAngle(this.yaw, yaw, 1 - Math.exp(-stepDt * 8));
+      const alignment = Math.max(0, Math.cos(yaw - this.yaw));
+      const final = this.pi === this.path.length - 1;
+      let wanted = Math.min(NPC_WALK_SPEED, Math.sqrt(2 * NPC_BRAKING * Math.max(0, final ? d - arrivalRadius(this.goal.activity) : d))) * alignment;
+      const ahead = Math.min(d, .65), y = ctx.terrain.groundAt(this.x, this.z);
+      const hit = ctx.colliders.cast(this.x, this.z, this.x + dx / d * ahead, this.z + dz / d * ahead, NPC_RADIUS,
+        new Set([`person:${this.id}`]), { minY: y + .02, maxY: y + this.rig.height }, contacts, true);
+      if (hit) {
+        wanted = Math.min(wanted, Math.sqrt(2 * NPC_BRAKING * Math.max(0, hit.t * ahead - .025)));
+        dynamicBlocked ||= contacts.some(c => c.id === hit.collider.id);
       }
-      if (this.pi >= this.path.length) this.path = null;
+      const change = (wanted > this.speed ? NPC_ACCELERATION : NPC_BRAKING) * stepDt;
+      this.speed += Math.max(-change, Math.min(change, wanted - this.speed));
+      const step = Math.min(d, this.speed * alignment * stepDt);
+      const nx = this.x + dx / d * step, nz = this.z + dz / d * step, ny = ctx.terrain.groundAt(nx, nz);
+      if (!ctx.terrain.walkable(nx, nz) || !Number.isFinite(ny) || Math.abs(ny - y) > .3) { this.speed = 0; continue; }
+      const result = ctx.colliders.move(this.x, this.z, nx - this.x, nz - this.z, NPC_RADIUS, `person:${this.id}`,
+        { minY: Math.min(y, ny) + .02, maxY: Math.max(y, ny) + this.rig.height }, contacts);
+      const travel = Math.hypot(result.x - this.x, result.z - this.z), ground = ctx.terrain.groundAt(result.x, result.z);
+      // An overlapping visitor must not throw a resident across the lane in a single resolve call.
+      if (travel > step + .025 || !ctx.terrain.walkable(result.x, result.z) || !Number.isFinite(ground) || Math.abs(ground - y) > .3) { this.speed = 0; continue; }
+      this.x = result.x; this.z = result.z; this.y = ground;
+      travelled += travel;
+      if (result.hit && travel < step * .2) this.speed = 0;
     }
+
+    const travel = travelled;
+    moving = travel > 1e-6;
+    this.stuck = this.path && !this.talking && this.standDelay === 0 && travel < dt * .03 ? this.stuck + dt : 0;
+    this.dynamicWait = dynamicBlocked ? this.dynamicWait + dt : 0;
+    if (this.dynamicWait > 1.25 && this.stuck > .5) this.tryPassing(ctx, contacts);
 
     if (!moving) {
       if (this.talking) {
         const to = this.faceTo ?? ctx.player;
         const target = Math.atan2(to.x - this.x, to.z - this.z);
         this.yaw = lerpAngle(this.yaw, target, 1 - Math.exp(-dt * 6));
-      } else if (!this.path) {
-        const a = this.anchorPos(this.goal.anchor);
+      } else if (!this.path && this.atDestination()) {
+        const a = this.destination;
         this.yaw = lerpAngle(this.yaw, a.yaw, 1 - Math.exp(-dt * 3));
         if (this.goal.activity === 'rest' && Math.hypot(this.x - a.x, this.z - a.z) < 1.2) this.hidden = true;
       }
@@ -234,27 +373,27 @@ export class NpcActor {
 
     let mode: Mode = 'idle';
     if (moving) mode = 'walk';
-    else if (this.talking) mode = 'talk';
-    else if (!this.path) {
+    else if (this.talking) mode = this.speaking ? 'talk' : this.goal.activity === 'sit' && this.atDestination() ? 'sit' : 'idle';
+    else if (!this.path && this.atDestination()) {
       const act = this.goal.activity;
-      mode = act === 'work' ? 'work' : act === 'sit' ? 'sit' : act === 'talk' ? 'talk' : 'idle';
+      mode = act === 'work' ? 'work' : act === 'sit' ? 'sit' : 'idle';
       // Work only reads as work at a work place; a distant anchor mismatch leaves them idle.
     }
     this.mode = mode;
-    const travel = Math.hypot(this.x - previousX, this.z - previousZ);
     // A resident waiting at a doorway cannot keep walking in place. Only resolved route metres advance the gait.
-    this.anim += moving ? travel / (NPC_WALK_CYCLE_METRES * (this.rig.height / 1.8)) : dt * 0.3;
+    this.anim += travel / (NPC_WALK_CYCLE_METRES * (this.rig.height / 1.8));
     const style = npcStyle(this.def.id);
     const pose: Pose = {
       mode,
-      speed: moving ? NPC_WALK_POSE_SPEED : 0,
-      time: mode === 'work' || mode === 'sit' ? this.clock : this.anim,
+      speed: moving && dt > 0 ? NPC_WALK_POSE_SPEED * Math.min(1, travel / dt / NPC_WALK_SPEED) : 0,
+      time: mode === 'walk' ? this.anim : this.clock,
       t: 0,
       // Locomotion remains distance-matched; Reduced Motion reduces idle/work gestures rather than making moving feet shuffle.
       amp: ctx.reducedMotion && !moving ? 0.4 : 1,
       travel,
       moveSpeed: dt > 0 ? travel / dt : 0,
       workGesture: style.work,
+      seated: !moving && this.goal.activity === 'sit' && this.atDestination(),
       // Standing about, a resident folds their arms, looks round, shifts their weight (still when motion is reduced).
       idle: ctx.reducedMotion ? undefined : { seed: style.faceSeed, clock: this.clock },
     };
@@ -285,7 +424,10 @@ export class NpcActor {
   }
 
   get headPosition(): THREE.Vector3 {
-    return new THREE.Vector3(this.x, this.y + 1.95 * this.def.look.height + (this.mode === 'sit' ? -0.45 : 0), this.z);
+    const seated = this.goal.activity === 'sit' && this.atDestination() && this.mode !== 'walk';
+    const lower = this.rig.cur?.lower;
+    const supported = Number.isFinite(lower) ? Math.max(-.65, Math.min(0, lower!)) * ((this.rig.hipY || .95) / .95) : seated ? -.45 : 0;
+    return new THREE.Vector3(this.x, this.y + 1.95 * this.def.look.height + supported, this.z);
   }
 }
 
@@ -307,6 +449,9 @@ export type EnemyState = 'idle' | 'alert' | 'chase' | 'telegraph' | 'strike' | '
 export interface EnemyContext {
   terrain: Terrain;
   colliders: Colliders;
+  nav?: NavGrid;
+  /** Current finite bodies; the controller excludes its own enemy id. */
+  contacts?: readonly Collider[];
   player: { x: number; z: number; y: number; alive: boolean; invulnerable: boolean };
   reducedMotion: boolean;
   /** Called at the moment a strike would land. Returns true if it connected (for effects). */
@@ -330,7 +475,8 @@ export class EnemyActor {
   private struck = false;
   private clock = Math.random() * 5;
   private gait = 0;
-  private searchT = 0;
+  private readonly route = new EnemyRoute();
+  private routeState: EnemyState = 'idle';
   private dashDir = { x: 0, z: 0 };
   engaged = false;
   fade = 1;
@@ -408,30 +554,49 @@ export class EnemyActor {
     this.engaged = false;
     this.y = ctx.terrain.groundAt(this.x, this.z);
     this.gait = 0;
+    this.route.reset();
+  }
+
+  /** One finite capsule sweep for pursuit, recoil and creature lunges. */
+  private moveStep(dx: number, dz: number, ctx: EnemyContext): number {
+    let nx = this.x + dx, nz = this.z + dz;
+    if (!ctx.terrain.walkable(nx, nz, 1)) {
+      if (ctx.terrain.walkable(nx, this.z, 1)) nz = this.z;
+      else if (ctx.terrain.walkable(this.x, nz, 1)) nx = this.x;
+      else return 0;
+    }
+    const y = ctx.terrain.groundAt(this.x, this.z), ny = ctx.terrain.groundAt(nx, nz);
+    if (!Number.isFinite(ny) || Math.abs(ny - y) > .32) return 0;
+    const r = ctx.colliders.move(this.x, this.z, nx - this.x, nz - this.z, this.radius, `enemy:${this.id}`,
+      { minY: Math.min(y, ny) + .02, maxY: Math.max(y, ny) + this.rig.height }, ctx.contacts);
+    const travel = Math.hypot(r.x - this.x, r.z - this.z);
+    // A capsule introduced inside another body must not depenetrate by a visible teleport.
+    if (travel > Math.hypot(dx, dz) + .02 || !ctx.terrain.walkable(r.x, r.z, 1)
+      || Math.abs(ctx.terrain.groundAt(r.x, r.z) - y) > .32) return 0;
+    this.x = r.x; this.z = r.z;
+    return travel;
   }
 
   private moveToward(tx: number, tz: number, speed: number, dt: number, ctx: EnemyContext, stopDist = 0) {
-    const dx = tx - this.x;
-    const dz = tz - this.z;
-    const d = Math.hypot(dx, dz);
-    if (d <= stopDist || d < 1e-4) return false;
-    const step = Math.min(speed * dt, d - stopDist);
-    let nx = this.x + (dx / d) * step;
-    let nz = this.z + (dz / d) * step;
-    if (!ctx.terrain.walkable(nx, nz, 1.0)) {
-      // Slide along whichever axis stays walkable.
-      if (ctx.terrain.walkable(nx, this.z, 1.0)) nz = this.z;
-      else if (ctx.terrain.walkable(this.x, nz, 1.0)) nx = this.x;
-      else return false;
-    }
-    const r = ctx.colliders.resolve(nx, nz, this.radius);
-    this.x = r.x;
-    this.z = r.z;
-    this.yaw = lerpAngle(this.yaw, Math.atan2(dx, dz), enemyTurnEase(0.25, dt));
-    return true;
+    if (Math.hypot(tx - this.x, tz - this.z) <= stopDist) return false;
+    const waypoint = this.route.waypoint(this, { x: tx, z: tz }, dt, ctx, this.radius, this.rig.height);
+    if (!waypoint) return false;
+    const dx = waypoint.x - this.x, dz = waypoint.z - this.z, d = Math.hypot(dx, dz);
+    if (d < 1e-4) return false;
+    const remaining = Math.hypot(tx - this.x, tz - this.z) - stopDist;
+    const step = Math.min(speed * dt, d, remaining);
+    const ox = this.x, oz = this.z;
+    const travel = this.moveStep(dx / d * step, dz / d * step, ctx);
+    this.route.resolved(travel, step, dt);
+    if (travel > 1e-6) this.yaw = lerpAngle(this.yaw, Math.atan2(this.x - ox, this.z - oz), enemyTurnEase(0.25, dt));
+    return travel > 1e-6;
   }
 
   update(dt: number, ctx: EnemyContext) {
+    if (this.routeState !== this.state) {
+      this.route.reset();
+      this.routeState = this.state;
+    }
     const previousX = this.x, previousZ = this.z;
     this.clock += dt;
     if (this.state === 'dead') {
@@ -490,7 +655,8 @@ export class EnemyActor {
         if (dist <= this.cfg.reach) {
           this.state = 'telegraph';
           this.t = 0;
-          this.yaw = Math.atan2(dx, dz);
+          this.yaw = lerpAngle(this.yaw, Math.atan2(dx, dz), enemyTurnEase(0.25, dt));
+          this.route.reset();
           break;
         }
         this.moveToward(p.x, p.z, this.cfg.speed, dt, ctx, this.cfg.reach * 0.7);
@@ -514,11 +680,7 @@ export class EnemyActor {
         mode = 'strike';
         if (this.cfg.heavy) {
           // The creature lunges forward during its strike.
-          const r = ctx.colliders.resolve(this.x + this.dashDir.x * 7 * dt, this.z + this.dashDir.z * 7 * dt, this.radius);
-          if (ctx.terrain.walkable(r.x, r.z, 1.0)) {
-            this.x = r.x;
-            this.z = r.z;
-          }
+          this.moveStep(this.dashDir.x * 7 * dt, this.dashDir.z * 7 * dt, ctx);
         }
         if (!this.struck && this.t >= this.cfg.strike * 0.5) {
           this.struck = true;
@@ -545,21 +707,17 @@ export class EnemyActor {
         this.t -= dt;
         mode = 'idle';
         {
-          const r = ctx.colliders.resolve(this.x + this.dashDir.x * 2.2 * dt, this.z + this.dashDir.z * 2.2 * dt, this.radius);
-          if (ctx.terrain.walkable(r.x, r.z, 1.0)) {
-            this.x = r.x;
-            this.z = r.z;
-          }
+          this.moveStep(this.dashDir.x * 2.2 * dt, this.dashDir.z * 2.2 * dt, ctx);
         }
         if (this.t <= 0) this.state = p.alive ? 'chase' : 'return';
         break;
       case 'return': {
         mode = 'walk';
         speed01 = 0.7;
-        const moved = this.moveToward(this.spawn.x, this.spawn.z, this.cfg.speed * 0.7, dt, ctx, 0.6);
+        this.moveToward(this.spawn.x, this.spawn.z, this.cfg.speed * 0.7, dt, ctx, 0.6);
         // They regain their health while they return, and rest again at the post.
         this.hp = Math.min(this.maxHp, this.hp + dt * 12);
-        if (!moved || Math.hypot(this.x - this.spawn.x, this.z - this.spawn.z) < 1) {
+        if (Math.hypot(this.x - this.spawn.x, this.z - this.spawn.z) < 1) {
           this.state = 'idle';
           this.engaged = false;
         }
@@ -570,7 +728,6 @@ export class EnemyActor {
         break;
       }
     }
-    void this.searchT;
     this.applyTransform(ctx, mode, speed01, this.t, dt, Math.hypot(this.x - previousX, this.z - previousZ));
   }
 

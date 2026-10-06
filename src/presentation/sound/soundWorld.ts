@@ -150,7 +150,7 @@ const KEEPER_DOOR = frontOf(bySpec('keeper_cottage'), 2.4);
 const NET_MENDING: WorkSound = { clip: 'item.cloth', every: [5, 11], gain: 0.24 };
 export const AMBIENT_PEOPLE_SOUND: readonly { id: string; x: number; z: number; work: WorkSound | null; sleeps: boolean }[] = [
   { id: 'ambient:fisher', x: MENDER.x, z: MENDER.z, work: NET_MENDING, sleeps: true },
-  { id: 'ambient:fireside', x: FIRE.x + 1.6, z: FIRE.z + 1.5, work: null, sleeps: true },
+  { id: 'ambient:fireside', x: FIRE.x + 1.6, z: FIRE.z + 1.0, work: null, sleeps: true },
   { id: 'ambient:keeper', x: KEEPER_DOOR.x + 2.6, z: KEEPER_DOOR.z - 1.2, work: null, sleeps: false },
 ];
 

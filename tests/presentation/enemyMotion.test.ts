@@ -3,6 +3,10 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { EnemyActor, type EnemyContext, type EnemyState } from '../../src/presentation/actors';
 import { poseRig, type Pose, type Rig } from '../../src/presentation/characters';
 import type { EnemySpawn } from '../../src/world/layout';
+import { Colliders } from '../../src/world/colliders';
+import { NavGrid } from '../../src/world/nav';
+import type { Terrain } from '../../src/world/terrain';
+import { WORLD } from '../../src/world/layout';
 
 // Exercise the real hostile controller/contact/state transitions. Geometry and source skinning
 // have separate actual-file coverage; capturing the presentation pose makes gait continuity observable.
@@ -24,7 +28,8 @@ function setup(kind: EnemySpawn['kind'] = 'bandit') {
   const walkable = vi.fn(() => true);
   const ctx = {
     player: { x: 0, y: 0, z: 20, alive: true, invulnerable: false }, reducedMotion: false,
-    terrain: { groundAt: () => 0, walkable }, colliders: { resolve, segmentBlocked: () => false },
+    terrain: { groundAt: () => 0, walkable }, colliders: { resolve,
+      move: (ax: number, az: number, dx: number, dz: number) => resolve(ax + dx, az + dz), segmentBlocked: () => false },
     strikePlayer: vi.fn(() => true), onGrowl: vi.fn(), time: 0,
   } as unknown as EnemyContext;
   const tick = (dt = 1 / 60): Pose => {
@@ -152,5 +157,94 @@ describe('humanoid enemy movement presentation', () => {
     expect(p.mode).toBe('walk'); expect(p.speed).toBe(0.35); expect(p.time).toBeCloseTo(0.9 / 60, 8);
     expect(Math.hypot(s.enemy.x, s.enemy.z)).toBeCloseTo(0.9 / 60, 8);
     expect(s.enemy.hp).toBe(110); expect(s.enemy.radius).toBe(0.85);
+  });
+});
+
+describe('hostile navigation with real finite swept contacts', () => {
+  function world() {
+    const s = setup();
+    const colliders = new Colliders();
+    const terrain = { nx: (WORLD.maxX - WORLD.minX) / WORLD.cell, nz: (WORLD.maxZ - WORLD.minZ) / WORLD.cell,
+      groundAt: () => 0, walkable: () => true } as unknown as Terrain;
+    s.ctx.terrain = terrain; s.ctx.colliders = colliders;
+    return { ...s, colliders, terrain };
+  }
+
+  it.each([30, 60, 120])('goes around a blocking fence and returns to its post at %s Hz without teleporting', hz => {
+    const s = world(), dt = 1 / hz;
+    s.colliders.box('fence', 0, 6, 4, .08, 0, true, { minY: 0, maxY: 2 });
+    s.ctx.nav = new NavGrid(s.terrain, s.colliders);
+    s.enemy.state = 'chase';
+    let maxSide = 0;
+    for (let f = 0; f < 16 * hz && s.enemy.state === 'chase'; f++) {
+      const old = { x: s.enemy.x, z: s.enemy.z }, p = s.tick(dt);
+      expect(Math.hypot(s.enemy.x - old.x, s.enemy.z - old.z)).toBeLessThanOrEqual(3.5 * dt + .001);
+      expect(s.colliders.blocked(s.enemy.x, s.enemy.z, s.enemy.radius - .001)).toBe(false);
+      if (p.travel === 0) expect(p.mode).toBe('idle');
+      maxSide = Math.max(maxSide, Math.abs(s.enemy.x));
+    }
+    expect(maxSide).toBeGreaterThan(4.4);
+    expect(s.enemy.state).toBe('telegraph');
+    s.enemy.state = 'return'; s.ctx.player.alive = false;
+    for (let f = 0; f < 20 * hz && (s.enemy.state as EnemyState) !== 'idle'; f++) s.tick(dt);
+    expect(s.enemy.state).toBe('idle');
+    expect(Math.hypot(s.enemy.x, s.enemy.z)).toBeLessThan(1);
+  });
+
+  it('waits with still feet on an unreachable return and retries when a gate opens', () => {
+    const s = world(); s.enemy.x = 12;
+    s.colliders.box('closed-gate', 6, 0, .1, 5, 0, true, { minY: 0, maxY: 3 });
+    const findPath = vi.fn(() => null);
+    s.ctx.nav = { findPath } as unknown as NavGrid;
+    s.enemy.state = 'return'; s.ctx.player.alive = false;
+    for (let f = 0; f < 120; f++) { const p = s.tick(); expect(p.mode).toBe('idle'); expect(p.travel).toBe(0); }
+    expect(s.enemy.state).toBe('return'); expect(s.enemy.x).toBe(12);
+    expect(findPath.mock.calls.length).toBeGreaterThanOrEqual(2);
+    expect(findPath.mock.calls.length).toBeLessThanOrEqual(4);
+    s.colliders.setActive('closed-gate', false);
+    expect(s.tick().mode).toBe('walk');
+    for (let f = 0; f < 400 && (s.enemy.state as EnemyState) !== 'idle'; f++) s.tick();
+    expect(s.enemy.state).toBe('idle'); expect(Math.abs(s.enemy.x)).toBeLessThan(1);
+  });
+
+  it('chooses a genuinely wider detour for the Thornback rather than retrying the narrow humanoid route forever', () => {
+    const s = setup('thornback'), colliders = new Colliders();
+    const terrain = { nx: (WORLD.maxX - WORLD.minX) / WORLD.cell, nz: (WORLD.maxZ - WORLD.minZ) / WORLD.cell,
+      groundAt: () => 0, walkable: () => true } as unknown as Terrain;
+    colliders.circle('tree', 1, 5.1, .3, true, { minY: 0, maxY: 6 });
+    s.ctx.terrain = terrain; s.ctx.colliders = colliders; s.ctx.nav = new NavGrid(terrain, colliders);
+    expect(s.ctx.nav.forRadius(.85)).toBe(s.ctx.nav.forRadius(.85));
+    s.enemy.state = 'chase';
+    let minX = 0;
+    for (let f = 0; f < 600 && s.enemy.state === 'chase'; f++) {
+      s.tick(); minX = Math.min(minX, s.enemy.x);
+      expect(colliders.blocked(s.enemy.x, s.enemy.z, .849)).toBe(false);
+    }
+    expect(minX).toBeLessThan(-1); expect(s.enemy.state).toBe('telegraph');
+  });
+
+  it('sweeps a heavy lunge against a thin wall and ignores an overhead beam', () => {
+    const s = setup('thornback'), colliders = new Colliders(); s.ctx.colliders = colliders;
+    colliders.box('beam', 0, .1, 4, .01, 0, true, { minY: 4, maxY: 5 });
+    colliders.box('wall', 0, 1, 4, .01, 0, true, { minY: 0, maxY: 3 });
+    s.enemy.state = 'telegraph'; s.ctx.player.z = 2;
+    for (let f = 0; f < 58; f++) s.tick();
+    expect(s.enemy.state).toBe('strike');
+    for (let f = 0; f < 12; f++) s.tick();
+    expect(s.enemy.z).toBeGreaterThan(.01);
+    expect(s.enemy.z).toBeLessThan(.15);
+    expect(colliders.blocked(s.enemy.x, s.enemy.z, s.enemy.radius - .001, { minY: 0, maxY: 1.8 })).toBe(false);
+    expect(s.ctx.strikePlayer).toHaveBeenCalledTimes(1);
+  });
+
+  it('holds a finite living body, excludes itself and allows movement below a bridge resident', () => {
+    const s = world(); s.enemy.state = 'chase';
+    s.ctx.contacts = [{ id: 'enemy:ford_bandit_a', kind: 'circle', x: 0, z: 0, r: .4, active: true, minY: 0, maxY: 1.8 },
+      { id: 'person:other', kind: 'circle', x: 0, z: 2, r: .35, active: true, minY: 0, maxY: 1.8 }];
+    for (let f = 0; f < 60; f++) s.tick();
+    expect(s.enemy.z).toBeGreaterThan(1); expect(s.enemy.z).toBeLessThanOrEqual(1.251);
+    expect(s.tick().mode).toBe('idle');
+    s.ctx.contacts = s.ctx.contacts.map(c => ({ ...c, minY: 4, maxY: 5.8 }));
+    expect(s.tick().mode).toBe('run');
   });
 });

@@ -10,6 +10,7 @@ export class NavGrid {
   readonly w: number;
   readonly h: number;
   private blocked: Uint8Array;
+  private readonly widerGrids = new Map<number, NavGrid>();
   builtVersion = -1;
 
   constructor(private terrain: Terrain, private colliders: Colliders, private radius = 0.55) {
@@ -46,6 +47,17 @@ export class NavGrid {
 
   ensureFresh() {
     if (this.builtVersion !== this.colliders.version) this.rebuild();
+  }
+
+  /** A large creature needs a route sized for its whole body, including the smoothing clearance. */
+  forRadius(radius: number): NavGrid {
+    if (radius <= this.radius) return this;
+    let grid = this.widerGrids.get(radius);
+    if (!grid) {
+      grid = new NavGrid(this.terrain, this.colliders, radius);
+      this.widerGrids.set(radius, grid);
+    }
+    return grid;
   }
 
   isBlocked(i: number, j: number): boolean {

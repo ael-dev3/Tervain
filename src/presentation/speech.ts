@@ -86,6 +86,11 @@ export class SpeechDirector {
     return Math.max(0, Math.max(this.busy.get(speaker) ?? 0, held) - this.clock);
   }
 
+  /** The current spoken line only. A listener stays in the exchange without gesturing through another person's turn. */
+  speakingFor(speaker: Speaker): number {
+    return Math.max(0, (this.busy.get(speaker) ?? 0) - this.clock);
+  }
+
   /** The exchange someone would have with the player now: the first unheard one that applies, else a repeatable one. */
   nextTalk(npc: NpcId, state: WorldState): number | null {
     const i = this.peekTalk(npc, state);
