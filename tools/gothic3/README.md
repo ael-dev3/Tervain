@@ -394,3 +394,33 @@ prefixes. They do not provide application initialization or synthesize a
 registered module, demangler result, reflected type or active NPC. See
 [checkpoint 76](../../docs/engineering/gothic3-rebuilding-process.md#76-separate-physical-sceneadmin-construction-from-singleton-lookup)
 for the owned operations, source hashes and next integration gates.
+
+## Engine CRT class names and startup
+
+```powershell
+python -B tools/gothic3/prepare_crt_undname_source.py --study '<LOCAL_DESKTOP_STUDY>'
+python -B tools/gothic3/prepare_crt_bootstrap_source.py --study '<LOCAL_DESKTOP_STUDY>'
+```
+
+The first producer writes `assets/gothic3/crt-undname/`: original-PE receipts
+for the selected CRT heap, critical sections and class RTTI grammar. Its
+TypeScript owners use retained allocations and physical DName graphs. The
+identifier comes from actual input bytes; unsupported grammar branches retain
+their applied prefix and report a boundary.
+
+The second producer writes `assets/gothic3/crt-bootstrap/`, explicitly reusing
+earlier immutable receipts. It captures the Engine entry, security cookie,
+OS-version writer, TLS/FLS setup, pointer initialization, calloc, thread-data
+record, locale references and pre-C-init table. The original thread-data request
+is `calloc(1, 0x214)`, or 532 bytes. Captured original pointers retain their
+numerical bytes until mapped to corresponding owned capabilities.
+
+The ordinary process-attach component reaches `GetCommandLineA` after its
+selected NT heap and thread initialization. Environment/I/O services, full C
+initialization, Engine DllMain, module registration and the live NPC reader are
+separate remaining dependencies. Production constructors supply no inferred
+OS version, encoded NULL, thread-data record or active NPC.
+
+See [checkpoint 77](../../docs/engineering/gothic3-rebuilding-process.md#77-own-the-engine-crt-heap-locks-and-selected-class-name-decoder)
+and [checkpoint 78](../../docs/engineering/gothic3-rebuilding-process.md#78-rebuild-the-ordinary-engine-dll-attach-prefix)
+for reproducible source admission, component checks and remaining boundaries.

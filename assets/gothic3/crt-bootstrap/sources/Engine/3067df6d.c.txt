@@ -1,0 +1,14 @@
+/* ENTRY 3067df6d | FUN_3067df6d | STATUS decompiled | 5 ms */
+
+LPVOID FUN_3067df6d(void)
+
+{
+  LPVOID lpTlsValue;
+  
+  lpTlsValue = TlsGetValue(DAT_30ad4844);
+  if (lpTlsValue == (LPVOID)0x0) {
+    lpTlsValue = (LPVOID)FUN_3067dedb(DAT_30af7148);
+    TlsSetValue(DAT_30ad4844,lpTlsValue);
+  }
+  return lpTlsValue;
+}

@@ -1,0 +1,16 @@
+3067df6d | 56 | PUSH ESI
+3067df6e | ff354448ad30 | PUSH dword ptr [0x30ad4844]
+3067df74 | ff1598c6af30 | CALL dword ptr [0x30afc698]
+3067df7a | 8bf0 | MOV ESI,EAX
+3067df7c | 85f6 | TEST ESI,ESI
+3067df7e | 751b | JNZ 0x3067df9b
+3067df80 | ff354871af30 | PUSH dword ptr [0x30af7148]
+3067df86 | e850ffffff | CALL 0x3067dedb
+3067df8b | 59 | POP ECX
+3067df8c | 8bf0 | MOV ESI,EAX
+3067df8e | 56 | PUSH ESI
+3067df8f | ff354448ad30 | PUSH dword ptr [0x30ad4844]
+3067df95 | ff1504c7af30 | CALL dword ptr [0x30afc704]
+3067df9b | 8bc6 | MOV EAX,ESI
+3067df9d | 5e | POP ESI
+3067df9e | c3 | RET

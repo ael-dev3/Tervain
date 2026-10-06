@@ -250,3 +250,6 @@ public/gothic3/player-memory-loading/sources/** -whitespace
 tools/gothic3/prepare_crt_undname_source.py -text -eol
 assets/gothic3/crt-undname/** -text -eol whitespace=cr-at-eol,-blank-at-eof
 assets/gothic3/crt-undname/sources/** -whitespace
+tools/gothic3/prepare_crt_bootstrap_source.py -text -eol
+assets/gothic3/crt-bootstrap/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/crt-bootstrap/sources/** -whitespace

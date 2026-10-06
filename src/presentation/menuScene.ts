@@ -9,7 +9,15 @@ import { createTerrainMaterial } from './terrainMaterial';
 import type { SwayUniforms } from './vegetation';
 import { MENU_SEA_LEVEL, MENU_SUN_DIR, createMenuSky } from './menu/menuSky';
 import { MENU_BANNER, MENU_CAMERA, MENU_FIRE, MENU_TREE, menuHeight } from './menu/menuLayout';
-import { buildMenuGrass, buildMenuGroundGeometry, buildPuddles, restHeight } from './menu/menuLand';
+import { buildMenuGroundGeometry, buildPuddles, restHeight } from './menu/menuLand';
+import { buildMenuMeadow, type MenuMeadow } from './menu/menuMeadow';
+import { GrassTrample, type GrassMover } from './grass/trample';
+import { GrassWind, type GrassWindOptions } from './grass/wind';
+import { buildMenuDeer, type MenuDeer } from './menu/menuDeer';
+import { buildMenuFluff, type MenuFluff } from './menu/menuFluff';
+import { createAnimalFigure } from './animals';
+import type { AnimalDefinition } from './animals/catalog';
+import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { TREE_HOLLOW, buildAncientTree } from './menu/menuTree';
 import { buildMenuFire } from './menu/menuFire';
 import { buildMenuBanner, type CanvasSource } from './menu/menuBanner';
@@ -31,6 +39,11 @@ export type MenuQuality = 'low' | 'medium' | 'high';
 export interface MenuAwakeningState { time: number; duration: number; gain: number }
 
 const UP = new THREE.Vector3(0, 1, 0);
+
+/** The headland's wind: in off the sea from the low sun's side, up the slope and past the lens. */
+export const MENU_WIND: GrassWindOptions = { direction: [0.5, 0.87], steady: 0.2, gust: 0.55, speed: 3.4 };
+/** The meadow's trample field: texels across, metres covered and where it is centred (it never moves). */
+export const MENU_TRAMPLE = { size: { low: 128, medium: 256, high: 512 }, extent: 72, centre: { x: 0, z: -14 } } as const;
 
 /** Everything the scene needs that touches the DOM or generates textures, so tests can build the scene without either. */
 export interface MenuResources {
@@ -85,7 +98,7 @@ function browserResources(): MenuResources {
 export class MenuScene {
   readonly scene = new THREE.Scene();
   readonly camera = new THREE.PerspectiveCamera(MENU_CAMERA.fov, 16 / 9, 0.2, 2600);
-  readonly stats = { triangles: 0, meshes: 0, grassTufts: 0, leafCards: 0, treeTriangles: 0, treeSource: 'original-hermitage', banners: 1, lights: 0, ships: 0, wisps: 0 };
+  readonly stats = { triangles: 0, meshes: 0, grassTufts: 0, grassBlades: 0, grassTriangles: 0, leafCards: 0, treeTriangles: 0, treeSource: 'original-hermitage', banners: 1, lights: 0, ships: 0, wisps: 0, deer: 0 };
   readonly quality: MenuQuality;
   private readonly res: MenuResources;
   private readonly sway: SwayUniforms = { uTime: { value: 0 }, uWind: { value: 0.8 } };
@@ -105,7 +118,21 @@ export class MenuScene {
   private readonly air: ReturnType<typeof buildMenuAir>;
   private readonly camp: ReturnType<typeof buildMenuCamp>;
   private readonly banner: ReturnType<typeof buildMenuBanner>;
-  private readonly grass: ReturnType<typeof buildMenuGrass>;
+  private readonly meadow: MenuMeadow;
+  private readonly meadowWind: GrassWind;
+  private readonly meadowTrample: GrassTrample;
+  private readonly movers: GrassMover[] = [];
+  private readonly brushStamps: GrassMover[] = [];
+  /** Tree-local to world, for the spirits skimming the heath. */
+  private readonly treeMatrix = new THREE.Matrix4();
+  /** The viewer's hand in the grass: the last pointer position on screen, and where it last touched the ground. */
+  private readonly hand = { ndcX: 0, ndcY: 0, moved: false, x: Number.NaN, z: Number.NaN, vx: 0, vz: 0, reach: 0, life: 0 };
+  private readonly ray = new THREE.Raycaster();
+  /** A stag grazing its way across the heath, once its model has loaded, and the menu time it joined. */
+  private deer: MenuDeer | null = null;
+  private deerStart = 0;
+  /** Seed fluff carried off the heath on the same wind. */
+  private readonly fluff: MenuFluff;
   private readonly mats: ReturnType<MenuResources['materials']>;
   private readonly ground: THREE.Mesh;
   private readonly owned: { dispose(): void }[] = [];
@@ -119,7 +146,7 @@ export class MenuScene {
   private readonly baseFov = MENU_CAMERA.fov;
   static readonly MAX_FOV = 76;
 
-  constructor(opts: { quality?: MenuQuality; resources?: MenuResources; trafficSeed?: number; trafficTime?: number; awakening?: MenuAwakeningState; grove?: MenuGrove; wardenRig?: Rig; treeTemplates?: MeshyTreeTemplates } = {}) {
+  constructor(opts: { quality?: MenuQuality; resources?: MenuResources; trafficSeed?: number; trafficTime?: number; awakening?: MenuAwakeningState; grove?: MenuGrove; wardenRig?: Rig; treeTemplates?: MeshyTreeTemplates; deer?: { template: GLTF; definition: AnimalDefinition } } = {}) {
     this.quality = opts.quality ?? 'high';
     this.res = opts.resources ?? browserResources();
     // Deterministic standalone construction; the app supplies a fresh seed on each actual menu entry.
@@ -259,6 +286,7 @@ export class MenuScene {
     }
     this.scene.add(treeRoot);
     treeRoot.updateMatrixWorld(true);
+    this.treeMatrix.copy(treeRoot.matrixWorld);
     this.owned.push(tree.wood, tree.leaves, woodMat, bark.map, bark.normal);
     this.stats.leafCards = tree.stats.leafCards;
 
@@ -368,10 +396,18 @@ export class MenuScene {
       if (m.isMesh) this.owned.push(m.geometry);
     });
 
-    // Heath grass everywhere nothing else stands.
-    this.grass = buildMenuGrass(q, this.sway, this.camp.keep);
-    this.scene.add(this.grass.mesh);
-    this.owned.push(this.grass);
+    // The heath: blades by the hundred thousand wherever nothing else stands, bent by the sea wind and parted by
+    // anything that moves through it (the spirits skimming low, the viewer's own hand).
+    this.meadowWind = new GrassWind(MENU_WIND);
+    this.meadowTrample = new GrassTrample(MENU_TRAMPLE.size[q], MENU_TRAMPLE.extent, MENU_TRAMPLE.centre);
+    this.meadow = buildMenuMeadow({ quality: q, keep: this.camp.keep, wind: this.meadowWind, trample: this.meadowTrample,
+      patch: (sh) => this.wisps.lights.patch(sh), patchKey: this.wisps.lights.key });
+    this.scene.add(this.meadow.group);
+    this.owned.push(this.meadow, this.meadowTrample, this.meadowWind);
+    this.fluff = buildMenuFluff({ quality: q, wind: this.meadowWind, camera: this.camera, sunDir: MENU_SUN_DIR });
+    this.scene.add(this.fluff.points);
+    this.owned.push(this.fluff);
+    if (opts.deer) this.addDeer(opts.deer.template, opts.deer.definition);
 
     // Fire, far country, air.
     const fx = MENU_FIRE.x;
@@ -408,7 +444,9 @@ export class MenuScene {
       }
       if ((o as THREE.Light).isLight) this.stats.lights++;
     });
-    this.stats.grassTufts = this.grass.count;
+    this.stats.grassTufts = this.meadow.count;
+    this.stats.grassBlades = this.meadow.blades;
+    this.stats.grassTriangles = this.meadow.triangles;
     this.pose(0, 0);
   }
 
@@ -464,6 +502,129 @@ export class MenuScene {
     this.owned.push(rt);
   }
 
+  /**
+   * Renderer work before each menu frame: the meadow's trample field. Held still in reduced motion, like everything else
+   * in the scene.
+   */
+  prepareFrame(renderer: THREE.WebGLRenderer, dt: number, reducedMotion: boolean) {
+    if (this.disposed || reducedMotion) return;
+    this.meadowTrample.update(renderer, 0, 0, dt);
+  }
+
+  /**
+   * The pointer over the scene, in normalised device coordinates: the viewer's hand brushing through the heath. Only the
+   * latest position counts; the hand lifts out of the grass a moment after it stops moving.
+   */
+  brush(ndcX: number, ndcY: number) {
+    if (this.disposed || !Number.isFinite(ndcX) || !Number.isFinite(ndcY)) return;
+    this.hand.ndcX = THREE.MathUtils.clamp(ndcX, -1, 1);
+    this.hand.ndcY = THREE.MathUtils.clamp(ndcY, -1, 1);
+    this.hand.moved = true;
+  }
+
+  /** How hard the wind blows past the lens now, 0..1: the gust the viewer sees arriving is the one they hear. */
+  get windAtLens(): number {
+    return THREE.MathUtils.clamp(this.meadowWind.pushAt(MENU_CAMERA.x, MENU_CAMERA.z - 3) / (MENU_WIND.steady + MENU_WIND.gust), 0, 1);
+  }
+
+  /**
+   * Lets the stag into the heath (once; its model may arrive after the scene is built). Whenever it joins, it starts its
+   * round out of sight beyond the stones rather than appearing in the middle of the meadow.
+   */
+  addDeer(template: GLTF, definition: AnimalDefinition): boolean {
+    if (this.disposed || this.deer) return false;
+    this.deer = buildMenuDeer(createAnimalFigure(template, definition), { shadows: this.quality !== 'low' });
+    this.deerStart = this.time;
+    this.scene.add(this.deer.root);
+    this.owned.push(this.deer);
+    this.stats.deer = 1;
+    this.deer.update(0, 0);
+    return true;
+  }
+
+  /** Where a ray from the lens first meets the headland (marched, then refined): x, z and the distance in y. */
+  private groundHit(ndcX: number, ndcY: number): THREE.Vector3 | null {
+    this.ray.setFromCamera(new THREE.Vector2(ndcX, ndcY), this.camera);
+    const o = this.ray.ray.origin, d = this.ray.ray.direction;
+    const above = (t: number) => o.y + d.y * t - menuHeight(o.x + d.x * t, o.z + d.z * t);
+    let a = 0.3, b = 0;
+    for (let t = 0.3; t <= 80; t += 0.6 + t * 0.02) {
+      if (above(t) < 0) { b = t; break; }
+      a = t;
+    }
+    if (b <= 0) return null;
+    for (let i = 0; i < 8; i++) {
+      const m = (a + b) / 2;
+      if (above(m) < 0) b = m; else a = m;
+    }
+    return new THREE.Vector3(o.x + d.x * b, b, o.z + d.z * b);
+  }
+
+  /** Everything pushing through the heath this frame: the deer, low spirits and the viewer's hand. */
+  private gatherMovers(step: number) {
+    const movers = this.movers;
+    movers.length = 0;
+    this.deer?.movers(movers);
+    // Spirits skimming low over the heath part it as they pass; they weigh nothing, so nothing is laid flat.
+    if (this.wisps.group.visible) {
+      const g = this.grove, p = new THREE.Vector3(), v = new THREE.Vector3();
+      for (let i = 0; i < g.count && movers.length < 32; i++) {
+        if (g.outside[i]! < 0.5) continue;
+        p.set(g.position[i * 3]!, g.position[i * 3 + 1]!, g.position[i * 3 + 2]!).applyMatrix4(this.treeMatrix);
+        const h = p.y - menuHeight(p.x, p.z);
+        if (h > 1.9 || h < -0.5) continue;
+        const speed = Math.hypot(g.velocity[i * 3]!, g.velocity[i * 3 + 1]!, g.velocity[i * 3 + 2]!);
+        v.set(g.velocity[i * 3]!, g.velocity[i * 3 + 1]!, g.velocity[i * 3 + 2]!).transformDirection(this.treeMatrix).multiplyScalar(speed);
+        movers.push({ x: p.x, z: p.z, radius: 0.4 + 0.5 * (1 - Math.max(0, h) / 1.9), weight: 0, vx: v.x, vz: v.z });
+      }
+    }
+    // The hand: brushed along the path the pointer took since the last frame, so a quick sweep leaves no gaps.
+    const hand = this.hand;
+    const current = movers.slice();
+    const stamps = this.brushStamps;
+    stamps.length = 0;
+    const moved = hand.moved;
+    if (hand.moved) {
+      hand.moved = false;
+      const hit = this.groundHit(hand.ndcX, hand.ndcY);
+      if (hit) {
+        const fresh = !Number.isFinite(hand.x) || hand.life <= 0;
+        const dx = fresh ? 0 : hit.x - hand.x, dz = fresh ? 0 : hit.z - hand.z;
+        const speed = step > 0 ? Math.hypot(dx, dz) / step : 0;
+        const cap = speed > 14 ? 14 / speed : 1;
+        hand.vx = step > 0 ? (dx / step) * cap : 0;
+        hand.vz = step > 0 ? (dz / step) * cap : 0;
+        // A hand's breadth near the lens, wider far off so a stroke reads on screen at any distance.
+        hand.reach = THREE.MathUtils.clamp(hit.y * 0.1, 0.6, 2.6);
+        const fromX = hand.x, fromZ = hand.z;
+        hand.x = hit.x; hand.z = hit.z; hand.life = 1;
+        const stampCount = fresh ? 0 : Math.min(8, Math.floor(Math.hypot(dx, dz) / (hand.reach * 0.7)));
+        const weight = 0.15 + 0.35 * Math.min(1, speed / 6);
+        for (let k = 1; k <= stampCount; k++) {
+          const f = k / (stampCount + 1);
+          const footprint = { x: fromX + dx * f, z: fromZ + dz * f, radius: hand.reach, weight, vx: hand.vx, vz: hand.vz };
+          movers.push(footprint);
+          stamps.push(footprint);
+        }
+      } else hand.life = 0;
+    } else {
+      hand.life -= step / 0.35;
+      hand.vx *= 0.8; hand.vz *= 0.8;
+    }
+    if (hand.life > 0 && Number.isFinite(hand.x)) {
+      const speed = Math.hypot(hand.vx, hand.vz);
+      const footprint = { x: hand.x, z: hand.z, radius: hand.reach * THREE.MathUtils.smoothstep(hand.life, 0, 1),
+        weight: 0.15 + 0.35 * Math.min(1, speed / 6), vx: hand.vx, vz: hand.vz };
+      movers.push(footprint);
+      current.push(footprint);
+      if (moved) stamps.push(footprint);
+    } else {
+      hand.x = Number.NaN; hand.z = Number.NaN;
+    }
+    this.meadowTrample.setMovers(current);
+    this.meadowTrample.queueStamps(stamps);
+  }
+
   /** A fixed camera. Narrow screens widen the vertical field (up to a limit) so the tree and the fire stay in frame. */
   resize(width: number, height: number) {
     const aspect = Math.max(0.1, width / Math.max(1, height));
@@ -477,6 +638,7 @@ export class MenuScene {
     this.fire.setPixelScale(px);
     this.air.setPixelScale(px);
     this.wisps.setPixelScale(px);
+    this.fluff.setPixelScale(px);
   }
 
   /** Advances the menu clock. Reduced motion holds everything exactly where it is. */
@@ -523,7 +685,6 @@ export class MenuScene {
     this.far.update(t);
     this.ships.update(Math.max(0, t - this.trafficEpoch + this.trafficOffset));
     this.air.update(t);
-    this.banner.update(t, 1);
     this.camp.update(t, step, 1);
     // The score's own clock drives the awakening; repeating a time changes nothing.
     this.grove.advanceTo(this.awakening.time);
@@ -536,6 +697,13 @@ export class MenuScene {
     const audible = this.awakening.gain > 0 ? 1 : 0.35;
     const heart = (0.3 + 1.7 * Math.pow(low, 1.5) + 0.8 * Math.min(1.2, rh.accent)) * audible;
     this.hollow.update({ opening, heart, warm: 1, time: this.awakening.time });
+    // The sea wind swells with the score while it is audible (it eases in over seconds, so it follows phrases, not
+    // beats); the standard flies harder in each gust that crosses it.
+    this.meadowWind.update(step, { strength: this.awakening.gain > 0 ? 0.8 + 0.5 * rh.barLevel : 0.9 });
+    this.deer?.update(t - this.deerStart, step);
+    this.fluff.update(t);
+    this.banner.update(t, 0.45 + 1.1 * this.meadowWind.pushAt(MENU_BANNER.x, MENU_BANNER.z));
+    this.gatherMovers(step);
     this.grilleLight.position.copy(this.camp.lanterns[1]!);
     this.grilleLight.color.copy(this.grilleWarm).lerp(this.grilleCool, opening * 0.78);
     this.grilleLight.intensity = 2.5 + opening * (0.7 + low * 0.6);

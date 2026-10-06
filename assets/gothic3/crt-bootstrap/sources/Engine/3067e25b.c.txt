@@ -1,0 +1,8 @@
+/* ENTRY 3067e25b | FUN_3067e25b | STATUS decompiled | 2 ms */
+
+void FUN_3067e25b(void)
+
+{
+  FUN_306832b6(0xc);
+  return;
+}

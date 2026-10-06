@@ -1,0 +1,29 @@
+/* ENTRY 3067e264 | __freeptd | STATUS decompiled | 11 ms */
+
+/* Library Function - Single Match
+    __freeptd
+   
+   Library: Visual Studio 2005 Release */
+
+void __cdecl __freeptd(_ptiddata _Ptd)
+
+{
+  LPVOID pvVar1;
+  code *pcVar2;
+  int iVar3;
+  
+  if (DAT_30ad4840 != -1) {
+    if ((_Ptd == (_ptiddata)0x0) && (pvVar1 = TlsGetValue(DAT_30ad4844), pvVar1 != (LPVOID)0x0)) {
+      iVar3 = DAT_30ad4840;
+      pcVar2 = TlsGetValue(DAT_30ad4844);
+      _Ptd = (_ptiddata)(*pcVar2)(iVar3);
+    }
+    pcVar2 = (code *)FUN_3067dedb(DAT_30af714c,DAT_30ad4840,0);
+    (*pcVar2)();
+    FUN_3067e143(_Ptd);
+  }
+  if (DAT_30ad4844 != 0xffffffff) {
+    TlsSetValue(DAT_30ad4844,(LPVOID)0x0);
+  }
+  return;
+}

@@ -1,0 +1,6 @@
+30695e68 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+30695e6c | a3387caf30 | MOV [0x30af7c38],EAX
+30695e71 | a33c7caf30 | MOV [0x30af7c3c],EAX
+30695e76 | a3407caf30 | MOV [0x30af7c40],EAX
+30695e7b | a3447caf30 | MOV [0x30af7c44],EAX
+30695e80 | c3 | RET

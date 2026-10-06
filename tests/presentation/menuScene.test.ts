@@ -1,6 +1,11 @@
 import * as THREE from 'three';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { MenuScene, type MenuResources, type MenuAwakeningState } from '../../src/presentation/menuScene';
+import { MENU_CAMERA } from '../../src/presentation/menu/menuLayout';
+import type { GrassWind } from '../../src/presentation/grass/wind';
+import type { GrassMover, GrassTrample } from '../../src/presentation/grass/trample';
+import { ANIMALS } from '../../src/presentation/animals/catalog';
+import { animalFixture } from './animalFixture';
 import type { MatKey } from '../../src/presentation/regions';
 
 /** A 2D context stand-in that records nothing and returns inert objects; enough for the banner painters. */
@@ -113,6 +118,10 @@ describe('menu vigil scene', () => {
       expect(all.length).toBeLessThan(90);
       expect(menu.stats.triangles).toBeGreaterThan(20000);
       expect(menu.stats.triangles).toBeLessThan(q === 'low' ? 450000 : q === 'medium' ? 650000 : 900000);
+      // The heath is most of the picture, and most of the budget.
+      expect(menu.stats.grassTufts).toBeGreaterThan(q === 'low' ? 1500 : 3000);
+      expect(menu.stats.grassTriangles).toBeGreaterThan(menu.stats.triangles * 0.35);
+      expect(menu.stats.grassTriangles).toBeLessThan(menu.stats.triangles);
       for (const o of all) {
         const pos = o.geometry.getAttribute('position');
         expect(Array.from(pos.array).every(Number.isFinite), o.name).toBe(true);
@@ -183,6 +192,116 @@ describe('menu vigil scene', () => {
     b.update(0.03, false);
     expect(snapshot(a)).toEqual(snapshot(b));
     expect(snapshot(a)).not.toEqual(held);
+  });
+
+  it('lets the sea wind and the viewer’s hand move the heath, and holds it still in reduced motion', () => {
+    const { menu } = fixture('low');
+    const heath = menu as unknown as { meadowWind: GrassWind; meadowTrample: GrassTrample; movers: GrassMover[] };
+    const start = heath.meadowWind.uniforms.uGrassTime.value;
+    menu.update(0.05, false);
+    expect(heath.meadowWind.uniforms.uGrassTime.value).toBeGreaterThan(start);
+    // A pointer over the near heath brushes through it, a hand's breadth or more across.
+    menu.brush(-0.3, -0.7);
+    menu.update(0.016, false);
+    const first = heath.movers.at(-1)!;
+    expect(first.radius).toBeGreaterThanOrEqual(0.6);
+    expect(Math.hypot(first.x - MENU_CAMERA.x, first.z - MENU_CAMERA.z)).toBeLessThan(12);
+    // A quick sweep is stamped all along its path, leaning the grass the way the hand went.
+    menu.brush(0.2, -0.7);
+    menu.update(0.016, false);
+    expect(heath.movers.length).toBeGreaterThan(2);
+    const last = heath.movers.at(-1)!;
+    expect(Math.sign(last.vx!)).toBe(Math.sign(last.x - first.x));
+    // The hand lifts out of the grass soon after it stops.
+    for (let i = 0; i < 30; i++) menu.update(0.016, false);
+    expect(heath.movers).toHaveLength(0);
+    // Pointing at the sky touches nothing.
+    menu.brush(0, 0.95);
+    menu.update(0.016, false);
+    expect(heath.movers).toHaveLength(0);
+    for (const v of [Number.NaN, Infinity]) menu.brush(v, 0);
+    menu.update(0.016, false);
+    expect(heath.movers).toHaveLength(0);
+    expect(menu.windAtLens).toBeGreaterThanOrEqual(0);
+    expect(menu.windAtLens).toBeLessThanOrEqual(1);
+    const renderer = { getRenderTarget: vi.fn(() => null), setRenderTarget: vi.fn(), render: vi.fn(), clear: vi.fn(), autoClear: true };
+    menu.prepareFrame(renderer as unknown as THREE.WebGLRenderer, 0.05, true);
+    expect(renderer.render).not.toHaveBeenCalled();
+    menu.prepareFrame(renderer as unknown as THREE.WebGLRenderer, 0.05, false);
+    expect(renderer.render).toHaveBeenCalled();
+    expect(renderer.autoClear).toBe(true);
+    expect(heath.meadowTrample.uniforms.uTrample.value.w).toBe(1);
+    const held = heath.meadowWind.uniforms.uGrassTime.value;
+    menu.update(0.05, true);
+    expect(heath.meadowWind.uniforms.uGrassTime.value).toBe(held);
+  });
+
+  it('walks a stag through the heath when its model is supplied, and releases it with the scene', () => {
+    const r = resources();
+    const definition = ANIMALS.find((a) => a.species === 'deer')!;
+    const menu = new MenuScene({ quality: 'medium', resources: r.res, deer: { template: animalFixture(), definition } });
+    built.push(menu);
+    expect(menu.stats.deer).toBe(1);
+    expect(fixture('medium').menu.stats.deer).toBe(0);
+    const stag = menu.scene.getObjectByName('Menu_Heath_Deer')!;
+    expect(stag).toBeDefined();
+    const heath = menu as unknown as { movers: GrassMover[] };
+    for (let i = 0; i < 40; i++) menu.update(0.05, false);
+    expect(stag.visible).toBe(true);
+    const near = heath.movers.filter((m) => Math.hypot(m.x - stag.position.x, m.z - stag.position.z) < 1.5);
+    expect(near).toHaveLength(2);
+    // A stag whose model arrives later joins once, and walks in from out of sight rather than appearing mid-meadow.
+    const late = fixture('low').menu;
+    for (let i = 0; i < 600; i++) late.update(0.05, false);
+    expect(late.addDeer(animalFixture(), definition)).toBe(true);
+    expect(late.addDeer(animalFixture(), definition)).toBe(false);
+    late.update(0.05, false);
+    expect(late.scene.getObjectByName('Menu_Heath_Deer')!.position.x).toBeGreaterThan(30);
+    expect(late.stats.deer).toBe(1);
+    const geometries = new Set<THREE.BufferGeometry>();
+    stag.traverse((o) => { if ((o as THREE.Mesh).isMesh) geometries.add((o as THREE.Mesh).geometry); });
+    const spies = [...geometries].map((g) => vi.spyOn(g, 'dispose'));
+    menu.dispose();
+    for (const spy of spies) expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it.each([60, 120])('submits the whole pointer stroke when %i Hz menu frames share a 30 Hz GPU step', (hz) => {
+    const menu = fixture('low').menu;
+    const heath = menu as unknown as { movers: GrassMover[] };
+    const submitted: GrassMover[][] = [];
+    const expected: GrassMover[] = [];
+    const renderer = {
+      getRenderTarget: () => null,
+      setRenderTarget: vi.fn(),
+      clear: vi.fn(),
+      autoClear: true,
+      render: vi.fn((scene: THREE.Scene) => {
+        const material = (scene.children[0] as THREE.Mesh).material as THREE.ShaderMaterial;
+        const u = material.uniforms;
+        if (!u.uMoverCount) return;
+        submitted.push((u.uMovers!.value as THREE.Vector4[]).slice(0, u.uMoverCount.value as number)
+          .map((p) => ({ x: p.x, z: p.y, radius: p.z, weight: p.w })));
+      }),
+    } as unknown as THREE.WebGLRenderer;
+    const frames = hz / 30;
+    for (let frame = 0; frame < frames; frame++) {
+      menu.brush(-0.3 + (0.6 * frame) / (frames - 1), -0.7);
+      menu.update(1 / hz, false);
+      expected.push(...heath.movers.map((m) => ({ ...m })));
+      menu.prepareFrame(renderer, 1 / hz, false);
+      if (frame < frames - 1) expect(submitted).toHaveLength(0);
+    }
+    expect(expected.length).toBeGreaterThan(frames);
+    expect(submitted).toHaveLength(1);
+    const drawn = submitted.flat();
+    for (const stamp of expected) {
+      expect(drawn.some((p) => p.x === stamp.x && p.z === stamp.z && p.radius === stamp.radius), `${stamp.x}, ${stamp.z}`).toBe(true);
+    }
+    // Once stamped, interpolation samples are not replayed; only the hand's current contact stays active.
+    menu.update(1 / 30, false);
+    menu.prepareFrame(renderer, 1 / 30, false);
+    expect(submitted[1]).toHaveLength(1);
+    expect(submitted[1]![0]!.x).toBeCloseTo(expected.at(-1)!.x, 10);
   });
 
   it('retains the ship routes and exact phase when the graphics scene is rebuilt', () => {

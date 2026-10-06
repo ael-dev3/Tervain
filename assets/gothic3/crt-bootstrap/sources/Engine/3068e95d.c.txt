@@ -1,0 +1,16 @@
+/* ENTRY 3068e95d | FUN_3068e95d | STATUS decompiled | 4 ms */
+
+void FUN_3068e95d(void)
+
+{
+  undefined4 *puVar1;
+  
+  puVar1 = &DAT_3094c89c;
+  do {
+    if ((code *)*puVar1 != (code *)0x0) {
+      (*(code *)*puVar1)();
+    }
+    puVar1 = puVar1 + 1;
+  } while (puVar1 < &DAT_3094c99c);
+  return;
+}

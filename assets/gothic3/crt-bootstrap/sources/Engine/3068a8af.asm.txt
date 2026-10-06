@@ -1,0 +1,12 @@
+3068a8af | 6a08 | PUSH 0x8
+3068a8b1 | 68606c9530 | PUSH 0x30956c60
+3068a8b6 | e8453cffff | CALL 0x3067e500
+3068a8bb | e86b38ffff | CALL 0x3067e12b
+3068a8c0 | 8b4078 | MOV EAX,dword ptr [EAX + 0x78]
+3068a8c3 | 85c0 | TEST EAX,EAX
+3068a8c5 | 7416 | JZ 0x3068a8dd
+3068a8c7 | 8365fc00 | AND dword ptr [EBP + -0x4],0x0
+3068a8cb | ffd0 | CALL EAX
+3068a8cd | eb07 | JMP 0x3068a8d6
+3068a8d6 | c745fcfeffffff | MOV dword ptr [EBP + -0x4],0xfffffffe
+3068a8dd | e83430ffff | CALL 0x3067d916

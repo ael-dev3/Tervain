@@ -1,0 +1,7 @@
+306832b6 | 55 | PUSH EBP
+306832b7 | 8bec | MOV EBP,ESP
+306832b9 | 8b4508 | MOV EAX,dword ptr [EBP + 0x8]
+306832bc | ff34c5a04aad30 | PUSH dword ptr [EAX*0x8 + 0x30ad4aa0]
+306832c3 | ff15d8c6af30 | CALL dword ptr [0x30afc6d8]
+306832c9 | 5d | POP EBP
+306832ca | c3 | RET

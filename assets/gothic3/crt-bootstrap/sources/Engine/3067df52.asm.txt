@@ -1,0 +1,5 @@
+3067df52 | ff742404 | PUSH dword ptr [ESP + 0x4]
+3067df56 | ff354448ad30 | PUSH dword ptr [0x30ad4844]
+3067df5c | ff1598c6af30 | CALL dword ptr [0x30afc698]
+3067df62 | ffd0 | CALL EAX
+3067df64 | c20400 | RET 0x4

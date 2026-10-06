@@ -1,0 +1,116 @@
+/* ENTRY 3067717c | FUN_3067717c | STATUS decompiled | 41 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined4 FUN_3067717c(undefined4 param_1,int param_2,int param_3)
+
+{
+  DWORD DVar1;
+  DWORD DVar2;
+  DWORD DVar3;
+  HANDLE pvVar4;
+  LPOSVERSIONINFOA lpVersionInformation;
+  undefined4 uVar5;
+  BOOL BVar6;
+  int iVar7;
+  DWORD *_Memory;
+  code *pcVar8;
+  uint uVar9;
+  DWORD DVar10;
+  SIZE_T dwBytes;
+  
+  if (param_2 == 1) {
+    dwBytes = 0x94;
+    DVar10 = 0;
+    pvVar4 = GetProcessHeap();
+    lpVersionInformation = HeapAlloc(pvVar4,DVar10,dwBytes);
+    if (lpVersionInformation != (LPOSVERSIONINFOA)0x0) {
+      lpVersionInformation->dwOSVersionInfoSize = 0x94;
+      BVar6 = GetVersionExA(lpVersionInformation);
+      DVar10 = 0;
+      if (BVar6 == 0) {
+        pvVar4 = GetProcessHeap();
+        HeapFree(pvVar4,DVar10,lpVersionInformation);
+      }
+      else {
+        DVar1 = lpVersionInformation->dwPlatformId;
+        DVar2 = lpVersionInformation->dwMajorVersion;
+        DVar3 = lpVersionInformation->dwMinorVersion;
+        uVar9 = lpVersionInformation->dwBuildNumber & 0x7fff;
+        pvVar4 = GetProcessHeap();
+        HeapFree(pvVar4,DVar10,lpVersionInformation);
+        if (DVar1 != 2) {
+          uVar9 = uVar9 | 0x8000;
+        }
+        _DAT_30af7100 = DVar2 * 0x100 + DVar3;
+        DAT_30af70f8 = DVar1;
+        _DAT_30af70fc = uVar9;
+        DAT_30af7104 = DVar2;
+        _DAT_30af7108 = DVar3;
+        iVar7 = __heap_init();
+        if (iVar7 != 0) {
+          iVar7 = __mtinit();
+          if (iVar7 != 0) {
+            FUN_3068e95d();
+            DAT_30af91f8 = GetCommandLineA();
+            DAT_30af70d4 = FUN_3068e828();
+            iVar7 = __ioinit();
+            if (-1 < iVar7) {
+              iVar7 = __setargv();
+              if (-1 < iVar7) {
+                iVar7 = FUN_3068e4f2();
+                if (-1 < iVar7) {
+                  iVar7 = __cinit(0);
+                  if (iVar7 == 0) {
+                    DAT_30af70d0 = DAT_30af70d0 + 1;
+                    goto LAB_3067734b;
+                  }
+                }
+              }
+              FUN_3068892c();
+            }
+            __mtterm();
+          }
+          __heap_term();
+        }
+      }
+    }
+LAB_306771ac:
+    uVar5 = 0;
+  }
+  else {
+    if (param_2 == 0) {
+      if (DAT_30af70d0 < 1) goto LAB_306771ac;
+      DAT_30af70d0 = DAT_30af70d0 + -1;
+      if (DAT_30af7134 == 0) {
+        FUN_3067d35d();
+      }
+      if (param_3 == 0) {
+        FUN_3068892c();
+        __mtterm();
+        __heap_term();
+      }
+    }
+    else if (param_2 == 2) {
+      FUN_3067df6d();
+      _Memory = __calloc_crt(1,0x214);
+      if (_Memory == (DWORD *)0x0) goto LAB_306771ac;
+      pcVar8 = (code *)FUN_3067dedb(DAT_30af714c,DAT_30ad4840,_Memory);
+      iVar7 = (*pcVar8)();
+      if (iVar7 == 0) {
+                    /* WARNING: Subroutine does not return */
+        _free(_Memory);
+      }
+      FUN_3067dff5(_Memory,0);
+      DVar10 = GetCurrentThreadId();
+      _Memory[1] = 0xffffffff;
+      *_Memory = DVar10;
+    }
+    else if (param_2 == 3) {
+      __freeptd((_ptiddata)0x0);
+    }
+LAB_3067734b:
+    uVar5 = 1;
+  }
+  return uVar5;
+}

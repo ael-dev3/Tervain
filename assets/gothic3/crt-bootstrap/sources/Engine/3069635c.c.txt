@@ -1,0 +1,10 @@
+/* ENTRY 3069635c | FUN_3069635c | STATUS decompiled | 2 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void FUN_3069635c(undefined4 param_1)
+
+{
+  _DAT_30af7c4c = param_1;
+  return;
+}

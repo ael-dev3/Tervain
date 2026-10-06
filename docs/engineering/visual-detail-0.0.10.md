@@ -35,6 +35,8 @@ Per-world pine materials retain owned texture clones, including the new detail u
 
 ## Ground, grass and daylight
 
+> The folded grass described below was replaced in 0.0.13 by the [grass engine](grass-0.0.13.md) (A61).
+
 The eight original tileable terrain layers remain grass, heath, earth, gravel, sand, wet sand, rock and path. The world now generates 1,024 px layers on High, 768 px on Medium and 256 px on Low; the previous High/Medium size was 512 px. Generation yields between layers to keep the loading display responsive.
 
 The art changes are targeted. Grass and heath have richer green value groups. Earth has softer, shallower fractures instead of a strong polygon grid. Gravel contains separate rounded shingle embedded in soil rather than filling each Voronoi cell. Rock keeps weathered strata and occasional restrained fissures. Original leaf-litter marks with veins and matching relief are stamped into grass, heath, earth and path, wrapping at texture edges. These are surface marks, distinct from the animated detached leaves. Sand and wet sand retain their prior designs at the preset's new resolution.

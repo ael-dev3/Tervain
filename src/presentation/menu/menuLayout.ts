@@ -127,8 +127,10 @@ export function menuSplat(x: number, z: number): { w: number[]; wet: number } {
   const heath = 0.35 + 0.45 * patchy;
   w[0] = 1 - heath;
   w[1] = heath;
-  // Track: churned earth, gravel pressed into the ruts, a worn path verge.
-  const track = 1 - smoothstep(1.1, 2.2 + fine * 0.6, d);
+  // Track: two muddy wheel ruts with gravel pressed into them, a grassy hump between and grass to either side; boots
+  // have worn the near verges thin in places. The heath is the scene, the track only a line through it.
+  const rutMud = 1 - smoothstep(0.16, 0.4, Math.abs(d - 0.72));
+  const track = Math.max(rutMud, (1 - smoothstep(0.95, 1.7, d)) * (0.18 + 0.3 * (1 - patchy)));
   const rut = Math.max(Math.exp(-((d - 0.72) ** 2) / 0.05), 0);
   // Camp: trampled to mud round the fire, the log and the cart.
   const camp = Math.exp(-((x - (MENU_FIRE.x - 0.4)) ** 2 + (z - (MENU_FIRE.z + 0.2)) ** 2) / (6 + fine * 4));
