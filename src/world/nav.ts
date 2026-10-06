@@ -1,6 +1,29 @@
 import type { Colliders } from './colliders';
 import { WORLD, type V2 } from './layout';
 import type { Terrain } from './terrain';
+import { finishCooperatively, type CooperativeOptions } from '../platform/cooperative';
+
+export interface NavigationConstructionOptions extends CooperativeOptions {
+  onProgress?: (completed: number, total: number) => void;
+}
+
+function* navigationSteps(terrain: Terrain, colliders: Colliders, radius: number): Generator<number, Uint8Array> {
+  const blocked = new Uint8Array(terrain.nx * terrain.nz);
+  for (let j = 0; j < terrain.nz; j++) {
+    for (let i = 0; i < terrain.nx; i++) {
+      const x = WORLD.minX + (i + 0.5) * WORLD.cell, z = WORLD.minZ + (j + 0.5) * WORLD.cell;
+      let bad = !terrain.walkable(x, z, 0.8);
+      // Sample the whole cell: 2 m cells would otherwise let a route slip through a thin wall.
+      for (let k = 0; !bad && k < 9; k++) {
+        const ox = ((k % 3) - 1) * (WORLD.cell * 0.45), oz = (Math.floor(k / 3) - 1) * (WORLD.cell * 0.45);
+        if (colliders.blocked(x + ox, z + oz, radius)) bad = true;
+      }
+      blocked[j * terrain.nx + i] = bad ? 1 : 0;
+    }
+    if ((j + 1) % 4 === 0 || j + 1 === terrain.nz) yield j + 1;
+  }
+  return blocked;
+}
 
 /**
  * Grid navigation derived from the same terrain and colliders the player walks on. It is
@@ -13,11 +36,24 @@ export class NavGrid {
   private readonly widerGrids = new Map<number, NavGrid>();
   builtVersion = -1;
 
-  constructor(private terrain: Terrain, private colliders: Colliders, private radius = 0.55) {
+  constructor(private terrain: Terrain, private colliders: Colliders, private radius = 0.55, prepared?: { blocked: Uint8Array; version: number }) {
     this.w = terrain.nx;
     this.h = terrain.nz;
-    this.blocked = new Uint8Array(this.w * this.h);
-    this.rebuild();
+    this.blocked = prepared?.blocked ?? new Uint8Array(this.w * this.h);
+    if (prepared) this.builtVersion = prepared.version;
+    else this.rebuild();
+  }
+
+  /** Build navigation while loading, without exposing a partially traversable grid. */
+  static async create(terrain: Terrain, colliders: Colliders, radius = 0.55, options: NavigationConstructionOptions = {}): Promise<NavGrid> {
+    for (;;) {
+      const version = colliders.version;
+      const blocked = await finishCooperatively(navigationSteps(terrain, colliders, radius), {
+        ...options, onProgress: completed => options.onProgress?.(completed, terrain.nz),
+      });
+      // A changed gate invalidates every earlier row, not just the rows sampled after the yield.
+      if (version === colliders.version) return new NavGrid(terrain, colliders, radius, { blocked, version });
+    }
   }
 
   cellCenter(i: number, j: number): V2 {
@@ -29,19 +65,8 @@ export class NavGrid {
   }
 
   rebuild() {
-    for (let j = 0; j < this.h; j++) {
-      for (let i = 0; i < this.w; i++) {
-        const c = this.cellCenter(i, j);
-        let bad = !this.terrain.walkable(c.x, c.z, 0.8);
-        // Sample the whole cell: 2 m cells would otherwise let a route slip through a thin wall.
-        for (let k = 0; !bad && k < 9; k++) {
-          const ox = ((k % 3) - 1) * (WORLD.cell * 0.45);
-          const oz = (Math.floor(k / 3) - 1) * (WORLD.cell * 0.45);
-          if (this.colliders.blocked(c.x + ox, c.z + oz, this.radius)) bad = true;
-        }
-        this.blocked[j * this.w + i] = bad ? 1 : 0;
-      }
-    }
+    const steps = navigationSteps(this.terrain, this.colliders, this.radius);
+    for (;;) { const next = steps.next(); if (next.done) { this.blocked = next.value; break; } }
     this.builtVersion = this.colliders.version;
   }
 
@@ -57,6 +82,15 @@ export class NavGrid {
       grid = new NavGrid(this.terrain, this.colliders, radius);
       this.widerGrids.set(radius, grid);
     }
+    return grid;
+  }
+
+  async forRadiusAsync(radius: number, options: NavigationConstructionOptions = {}): Promise<NavGrid> {
+    if (radius <= this.radius) return this;
+    const existing = this.widerGrids.get(radius);
+    if (existing?.builtVersion === this.colliders.version) return existing;
+    const grid = await NavGrid.create(this.terrain, this.colliders, radius, options);
+    this.widerGrids.set(radius, grid);
     return grid;
   }
 

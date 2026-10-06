@@ -1,0 +1,12 @@
+/* ENTRY 30100fe0 | eCEngineComponentBase::eCEngineComponentBase | STATUS decompiled | 6 ms */
+
+eCEngineComponentBase * __thiscall
+eCEngineComponentBase::eCEngineComponentBase(eCEngineComponentBase *this)
+
+{
+  eCInputReceiver::eCInputReceiver((eCInputReceiver *)this);
+  (this->eCEngineComponentBase_data).offset_0x0 = 1;
+  (this->eCEngineComponentBase_data).offset_0x1 = 1;
+  this->vftablePtr = &vftable;
+  return this;
+}

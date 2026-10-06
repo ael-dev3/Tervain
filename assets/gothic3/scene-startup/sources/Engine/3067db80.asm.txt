@@ -1,0 +1,5 @@
+3067db80 | 8b7d08 | MOV EDI,dword ptr [EBP + 0x8]
+3067db83 | 6a0e | PUSH 0xe
+3067db85 | e82c570000 | CALL 0x306832b6
+3067db8a | 59 | POP ECX
+3067db8b | c3 | RET

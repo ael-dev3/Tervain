@@ -1,0 +1,11 @@
+10087b60 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+10087b64 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+10087b68 | 8b00 | MOV EAX,dword ptr [EAX]
+10087b6a | 8b09 | MOV ECX,dword ptr [ECX]
+10087b6c | 3bc8 | CMP ECX,EAX
+10087b6e | 7604 | JBE 0x10087b74
+10087b70 | 83c8ff | OR EAX,0xffffffff
+10087b73 | c3 | RET
+10087b74 | 1bc0 | SBB EAX,EAX
+10087b76 | f7d8 | NEG EAX
+10087b78 | c3 | RET

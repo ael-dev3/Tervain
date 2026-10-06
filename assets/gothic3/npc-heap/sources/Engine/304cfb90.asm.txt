@@ -1,0 +1,37 @@
+304cfb90 | 53 | PUSH EBX
+304cfb91 | 8b5c2408 | MOV EBX,dword ptr [ESP + 0x8]
+304cfb95 | 56 | PUSH ESI
+304cfb96 | 57 | PUSH EDI
+304cfb97 | 8bf1 | MOV ESI,ECX
+304cfb99 | 8b7e04 | MOV EDI,dword ptr [ESI + 0x4]
+304cfb9c | 53 | PUSH EBX
+304cfb9d | ff1588daaf30 | CALL dword ptr [0x30afda88]
+304cfba3 | 33d2 | XOR EDX,EDX
+304cfba5 | f7f7 | DIV EDI
+304cfba7 | 8b442414 | MOV EAX,dword ptr [ESP + 0x14]
+304cfbab | 8910 | MOV dword ptr [EAX],EDX
+304cfbad | 3b5604 | CMP EDX,dword ptr [ESI + 0x4]
+304cfbb0 | 7322 | JNC 0x304cfbd4
+304cfbb2 | 8b0e | MOV ECX,dword ptr [ESI]
+304cfbb4 | 8b3491 | MOV ESI,dword ptr [ECX + EDX*0x4]
+304cfbb7 | 85f6 | TEST ESI,ESI
+304cfbb9 | 7419 | JZ 0x304cfbd4
+304cfbbb | eb03 | JMP 0x304cfbc0
+304cfbc0 | 56 | PUSH ESI
+304cfbc1 | 8bcb | MOV ECX,EBX
+304cfbc3 | ff158cdaaf30 | CALL dword ptr [0x30afda8c]
+304cfbc9 | 84c0 | TEST AL,AL
+304cfbcb | 750f | JNZ 0x304cfbdc
+304cfbcd | 8b7618 | MOV ESI,dword ptr [ESI + 0x18]
+304cfbd0 | 85f6 | TEST ESI,ESI
+304cfbd2 | 75ec | JNZ 0x304cfbc0
+304cfbd4 | 5f | POP EDI
+304cfbd5 | 5e | POP ESI
+304cfbd6 | 33c0 | XOR EAX,EAX
+304cfbd8 | 5b | POP EBX
+304cfbd9 | c20800 | RET 0x8
+304cfbdc | 5f | POP EDI
+304cfbdd | 8bc6 | MOV EAX,ESI
+304cfbdf | 5e | POP ESI
+304cfbe0 | 5b | POP EBX
+304cfbe1 | c20800 | RET 0x8

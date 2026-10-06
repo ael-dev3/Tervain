@@ -5,6 +5,7 @@ import { assertNaturalModelBudget } from './naturalModelBudget';
 import { deduplicateTreeTextures } from './treeTexturePool';
 import { sampleLeafSurfaceSites } from './leafSurfaceSites';
 import { modelAssetUrl } from './assets/modelUrl';
+import { withModelLoadSlot } from './assets/modelLoadQueue';
 
 /** Owner-supplied sources. Plinth-bearing 3106/1459 are prepared reserves, not active plantings. */
 export const MESHY_TREE_IDS = ['fir-spire', 'oak-elder', 'palm-date', 'palm-fan', 'palm-lean', 'tree-0208', 'tree-1537', 'tree-1527', 'tree-1521', 'tree-4949', 'tree-1505', 'tree-4815', 'verdant-sentinel'] as const;
@@ -72,41 +73,45 @@ export function meshyTreeParts(gltf: GLTF): Parts {
 async function load(id: string, lod: typeof MESHY_TREE_LODS[number]): Promise<GLTF> {
   const key = `${id}:${lod}`, existing = pending.get(key);
   if (existing) return existing;
-  const controller = new AbortController(), timeout = setTimeout(() => controller.abort(), 120_000);
-  const request = (async () => {
-    const url = meshyTreeUrl(id, lod), response = await fetch(url, { signal: controller.signal });
-    if (!response.ok) throw new Error(`Tree ${id} could not load (HTTP ${response.status}).`);
-    if (response.headers.get('content-type')?.includes('text/html')) throw new Error(`Tree ${id} returned a page instead of model data.`);
-    const buffer = await response.arrayBuffer();
-    if (buffer.byteLength < 12) throw new Error(`Tree ${id} download is incomplete.`);
-    const header = new DataView(buffer);
-    if (header.getUint32(0, true) !== 0x46546c67 || header.getUint32(4, true) !== 2 || header.getUint32(8, true) !== buffer.byteLength) throw new Error(`Tree ${id} is not a complete GLB 2 file.`);
-    const gltf = await new GLTFLoader().parseAsync(buffer, new URL('.', url).href);
+  const request = withModelLoadSlot(async () => {
+    const controller = new AbortController(), timeout = setTimeout(() => controller.abort(), 120_000);
     try {
-      const bounds = new THREE.Box3().setFromObject(gltf.scene);
-      if (bounds.isEmpty() || ![...bounds.min, ...bounds.max].every(Number.isFinite)) throw new Error(`Tree ${id} has invalid geometry bounds.`);
-      assertDecodedTreeTextures(gltf, meshyTreeParts(gltf));
-      await deduplicateTreeTextures(gltf, buffer);
-    } catch (error) {
-      disposeRejectedTree(gltf);
-      throw error;
-    }
-    return gltf;
-  })().catch((error: unknown) => { pending.delete(key); throw error; }).finally(() => clearTimeout(timeout));
+      const url = meshyTreeUrl(id, lod), response = await fetch(url, { signal: controller.signal });
+      if (!response.ok) throw new Error(`Tree ${id} could not load (HTTP ${response.status}).`);
+      if (response.headers.get('content-type')?.includes('text/html')) throw new Error(`Tree ${id} returned a page instead of model data.`);
+      const buffer = await response.arrayBuffer();
+      if (buffer.byteLength < 12) throw new Error(`Tree ${id} download is incomplete.`);
+      const header = new DataView(buffer);
+      if (header.getUint32(0, true) !== 0x46546c67 || header.getUint32(4, true) !== 2 || header.getUint32(8, true) !== buffer.byteLength) throw new Error(`Tree ${id} is not a complete GLB 2 file.`);
+      const gltf = await new GLTFLoader().parseAsync(buffer, new URL('.', url).href);
+    try {
+        const bounds = new THREE.Box3().setFromObject(gltf.scene);
+        if (bounds.isEmpty() || ![...bounds.min, ...bounds.max].every(Number.isFinite)) throw new Error(`Tree ${id} has invalid geometry bounds.`);
+        assertDecodedTreeTextures(gltf, meshyTreeParts(gltf));
+        await deduplicateTreeTextures(gltf, buffer);
+      } catch (error) {
+        disposeRejectedTree(gltf);
+        throw error;
+      }
+      return gltf;
+    } finally { clearTimeout(timeout); }
+  }).catch((error: unknown) => { pending.delete(key); throw error; });
   pending.set(key, request);
   return request;
 }
 /** Decode a bounded number of trees concurrently; failed requests can be retried by the loading screen. */
 export async function loadMeshyTrees(ids: readonly string[] = MESHY_TREE_IDS, onProgress?: (loaded: number, total: number) => void): Promise<MeshyTreeTemplates> {
   const result = new Map<string, readonly [GLTF, GLTF, GLTF]>();
+  const selected = [...new Set(ids)];
   let next = 0, active = true;
+  onProgress?.(0, selected.length);
   try {
-    await Promise.all(Array.from({ length: Math.min(3, ids.length) }, async () => {
-      while (active && next < ids.length) {
-        const id = ids[next++]!;
+    await Promise.all(Array.from({ length: Math.min(3, selected.length) }, async () => {
+      while (active && next < selected.length) {
+        const id = selected[next++]!;
         const lods = await Promise.all(MESHY_TREE_LODS.map(lod => load(id, lod)));
         result.set(id, lods as unknown as readonly [GLTF, GLTF, GLTF]);
-        if (active) onProgress?.(result.size, ids.length);
+        if (active) onProgress?.(result.size, selected.length);
       }
     }));
   } finally {

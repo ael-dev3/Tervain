@@ -1,0 +1,17 @@
+10044f00 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+10044f04 | 2b4c2404 | SUB ECX,dword ptr [ESP + 0x4]
+10044f08 | 832d30fe2f1001 | SUB dword ptr [0x102ffe30],0x1
+10044f0f | 83e910 | SUB ECX,0x10
+10044f12 | b8abaaaaaa | MOV EAX,0xaaaaaaab
+10044f17 | f7e1 | MUL ECX
+10044f19 | c1ea08 | SHR EDX,0x8
+10044f1c | 89542408 | MOV dword ptr [ESP + 0x8],EDX
+10044f20 | 8b542408 | MOV EDX,dword ptr [ESP + 0x8]
+10044f24 | b81f000000 | MOV EAX,0x1f
+10044f29 | 8b4c2404 | MOV ECX,dword ptr [ESP + 0x4]
+10044f2d | 23c2 | AND EAX,EDX
+10044f2f | c1ea05 | SHR EDX,0x5
+10044f32 | f00fab849190fb2f00 | BTS.LOCK [ECX + EDX*0x4 + 0x2ffb90],EAX
+10044f3b | f0ff4908 | DEC.LOCK dword ptr [ECX + 0x8]
+10044f3f | 89510c | MOV dword ptr [ECX + 0xc],EDX
+10044f42 | c20800 | RET 0x8

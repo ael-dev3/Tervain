@@ -1,0 +1,155 @@
+/* ENTRY 304cc4b0 | eCSceneAdmin::eCSceneAdmin_Constructor_or_Destructor | STATUS decompiled | 41 ms */
+
+void __fastcall eCSceneAdmin::eCSceneAdmin_Constructor_or_Destructor(eCEngineComponentBase *param_1)
+
+{
+  bCMemoryAdmin *pbVar1;
+  undefined1 *puVar2;
+  eCInputReceiver_data *peVar3;
+  eCEngineComponentBase_data *peVar4;
+  eCEngineComponentBase *peVar5;
+  void *pvVar6;
+  eCEngineComponentBase_data eVar7;
+  eCEngineComponentBase_vftable *peVar8;
+  
+  param_1->vftablePtr = (eCEngineComponentBase_vftable *)&vftable;
+  bCBox::~bCBox((bCBox *)&param_1[0x10].eCInputReceiver_data);
+  puVar2 = &param_1[0xf].eCInputReceiver_data.offset_0x8;
+  if (puVar2 != (undefined1 *)0x0) {
+    pvVar6 = *(void **)puVar2;
+    if (pvVar6 != (void *)0x0) {
+      pbVar1 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar1,pvVar6);
+      *(undefined4 *)puVar2 = 0;
+      param_1[0xf].eCEngineComponentBase_data.offset_0x0 = 0;
+      param_1[0xf].eCEngineComponentBase_data.offset_0x1 = 0;
+      *(undefined2 *)&param_1[0xf].eCEngineComponentBase_data.field_0x2 = 0;
+      param_1[0x10].vftablePtr = (eCEngineComponentBase_vftable *)0x0;
+    }
+    pvVar6 = *(void **)puVar2;
+    if (pvVar6 != (void *)0x0) {
+      pbVar1 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar1,pvVar6);
+      *(undefined4 *)puVar2 = 0;
+      param_1[0xf].eCEngineComponentBase_data.offset_0x0 = 0;
+      param_1[0xf].eCEngineComponentBase_data.offset_0x1 = 0;
+      *(undefined2 *)&param_1[0xf].eCEngineComponentBase_data.field_0x2 = 0;
+      param_1[0x10].vftablePtr = (eCEngineComponentBase_vftable *)0x0;
+    }
+  }
+  eCEntityAdmin::~eCEntityAdmin((eCEntityAdmin *)&param_1[5].eCInputReceiver_data);
+  peVar3 = &param_1[4].eCInputReceiver_data;
+  thunk_FUN_304d1920();
+  if (peVar3 != (eCInputReceiver_data *)0x0) {
+    pvVar6 = *(void **)peVar3;
+    if (pvVar6 != (void *)0x0) {
+      pbVar1 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar1,pvVar6);
+      *(undefined4 *)peVar3 = 0;
+      *(undefined4 *)&param_1[4].eCInputReceiver_data.field_0x4 = 0;
+      *(undefined4 *)&param_1[4].eCInputReceiver_data.offset_0x8 = 0;
+    }
+    pvVar6 = *(void **)peVar3;
+    if (pvVar6 != (void *)0x0) {
+      pbVar1 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar1,pvVar6);
+      *(undefined4 *)peVar3 = 0;
+      *(undefined4 *)&param_1[4].eCInputReceiver_data.field_0x4 = 0;
+      *(undefined4 *)&param_1[4].eCInputReceiver_data.offset_0x8 = 0;
+    }
+  }
+  puVar2 = &param_1[3].eCInputReceiver_data.field_0x4;
+  thunk_FUN_304d16f0();
+  if (puVar2 != (undefined1 *)0x0) {
+    pvVar6 = *(void **)puVar2;
+    if (pvVar6 != (void *)0x0) {
+      pbVar1 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar1,pvVar6);
+      *(undefined4 *)puVar2 = 0;
+      *(undefined4 *)&param_1[3].eCInputReceiver_data.offset_0x8 = 0;
+      param_1[3].eCEngineComponentBase_data.offset_0x0 = 0;
+      param_1[3].eCEngineComponentBase_data.offset_0x1 = 0;
+      *(undefined2 *)&param_1[3].eCEngineComponentBase_data.field_0x2 = 0;
+    }
+    pvVar6 = *(void **)puVar2;
+    if (pvVar6 != (void *)0x0) {
+      pbVar1 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar1,pvVar6);
+      *(undefined4 *)puVar2 = 0;
+      *(undefined4 *)&param_1[3].eCInputReceiver_data.offset_0x8 = 0;
+      param_1[3].eCEngineComponentBase_data.offset_0x0 = 0;
+      param_1[3].eCEngineComponentBase_data.offset_0x1 = 0;
+      *(undefined2 *)&param_1[3].eCEngineComponentBase_data.field_0x2 = 0;
+    }
+  }
+  puVar2 = &param_1[2].eCInputReceiver_data.offset_0x8;
+  thunk_FUN_304d1160();
+  if (puVar2 != (undefined1 *)0x0) {
+    pvVar6 = *(void **)puVar2;
+    if (pvVar6 != (void *)0x0) {
+      pbVar1 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar1,pvVar6);
+      *(undefined4 *)puVar2 = 0;
+      param_1[2].eCEngineComponentBase_data.offset_0x0 = 0;
+      param_1[2].eCEngineComponentBase_data.offset_0x1 = 0;
+      *(undefined2 *)&param_1[2].eCEngineComponentBase_data.field_0x2 = 0;
+      param_1[3].vftablePtr = (eCEngineComponentBase_vftable *)0x0;
+    }
+    pvVar6 = *(void **)puVar2;
+    if (pvVar6 != (void *)0x0) {
+      pbVar1 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar1,pvVar6);
+      *(undefined4 *)puVar2 = 0;
+      param_1[2].eCEngineComponentBase_data.offset_0x0 = 0;
+      param_1[2].eCEngineComponentBase_data.offset_0x1 = 0;
+      *(undefined2 *)&param_1[2].eCEngineComponentBase_data.field_0x2 = 0;
+      param_1[3].vftablePtr = (eCEngineComponentBase_vftable *)0x0;
+    }
+  }
+  peVar4 = &param_1[1].eCEngineComponentBase_data;
+  thunk_FUN_304501e0();
+  if (peVar4 != (eCEngineComponentBase_data *)0x0) {
+    eVar7 = *peVar4;
+    if (eVar7 != (eCEngineComponentBase_data)0x0) {
+      pbVar1 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar1,(void *)eVar7);
+      peVar4->offset_0x0 = 0;
+      peVar4->offset_0x1 = 0;
+      *(undefined2 *)&peVar4->field_0x2 = 0;
+      param_1[2].vftablePtr = (eCEngineComponentBase_vftable *)0x0;
+      *(undefined4 *)&param_1[2].eCInputReceiver_data = 0;
+    }
+    eVar7 = *peVar4;
+    if (eVar7 != (eCEngineComponentBase_data)0x0) {
+      pbVar1 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar1,(void *)eVar7);
+      peVar4->offset_0x0 = 0;
+      peVar4->offset_0x1 = 0;
+      *(undefined2 *)&peVar4->field_0x2 = 0;
+      param_1[2].vftablePtr = (eCEngineComponentBase_vftable *)0x0;
+      *(undefined4 *)&param_1[2].eCInputReceiver_data = 0;
+    }
+  }
+  peVar5 = param_1 + 1;
+  thunk_FUN_304d12e0();
+  if (peVar5 != (eCEngineComponentBase *)0x0) {
+    peVar8 = peVar5->vftablePtr;
+    if (peVar8 != (eCEngineComponentBase_vftable *)0x0) {
+      pbVar1 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar1,peVar8);
+      peVar5->vftablePtr = (eCEngineComponentBase_vftable *)0x0;
+      *(undefined4 *)&param_1[1].eCInputReceiver_data = 0;
+      *(undefined4 *)&param_1[1].eCInputReceiver_data.field_0x4 = 0;
+    }
+    peVar8 = peVar5->vftablePtr;
+    if (peVar8 != (eCEngineComponentBase_vftable *)0x0) {
+      pbVar1 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar1,peVar8);
+      peVar5->vftablePtr = (eCEngineComponentBase_vftable *)0x0;
+      *(undefined4 *)&param_1[1].eCInputReceiver_data = 0;
+      *(undefined4 *)&param_1[1].eCInputReceiver_data.field_0x4 = 0;
+    }
+  }
+  eCEngineComponentBase::~eCEngineComponentBase(param_1);
+  return;
+}

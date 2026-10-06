@@ -1,0 +1,35 @@
+/* ENTRY 30088af0 | FUN_30088af0 | STATUS decompiled | 11 ms */
+
+undefined4 __thiscall FUN_30088af0(int param_1,bCString *param_2)
+
+{
+  bool bVar1;
+  bCAccessorPropertyObject *this;
+  bCString *pbVar2;
+  uint uVar3;
+  bCAccessorPropertyObject local_10 [12];
+  
+  bVar1 = bCString::IsEmpty(param_2);
+  if (!bVar1) {
+    uVar3 = 0;
+    if (0 < *(int *)(param_1 + 0x38)) {
+      bVar1 = *(int *)(param_1 + 0x38) != 0;
+      do {
+        if (bVar1) {
+          this = (bCAccessorPropertyObject *)
+                 bCAccessorPropertyObject::bCAccessorPropertyObject
+                           (local_10,*(bCObjectRefBase **)(*(int *)(param_1 + 0x34) + uVar3 * 4));
+          pbVar2 = bCAccessorPropertyObject::GetClassNameA(this);
+          bVar1 = bCString::operator==(param_2,pbVar2);
+          bCAccessorPropertyObject::~bCAccessorPropertyObject(local_10);
+          if (bVar1) {
+            return *(undefined4 *)(*(int *)(param_1 + 0x34) + uVar3 * 4);
+          }
+        }
+        uVar3 = uVar3 + 1;
+        bVar1 = uVar3 < *(uint *)(param_1 + 0x38);
+      } while ((int)uVar3 < (int)*(uint *)(param_1 + 0x38));
+    }
+  }
+  return 0;
+}

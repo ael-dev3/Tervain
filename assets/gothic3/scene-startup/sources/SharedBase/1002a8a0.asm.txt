@@ -1,0 +1,9 @@
+1002a8a0 | f30f1005f05d0e10 | MOVSS XMM0,dword ptr [0x100e5df0]
+1002a8a8 | f30f1101 | MOVSS dword ptr [ECX],XMM0
+1002a8ac | f30f114104 | MOVSS dword ptr [ECX + 0x4],XMM0
+1002a8b1 | f30f114108 | MOVSS dword ptr [ECX + 0x8],XMM0
+1002a8b6 | f30f1005f45d0e10 | MOVSS XMM0,dword ptr [0x100e5df4]
+1002a8be | f30f11410c | MOVSS dword ptr [ECX + 0xc],XMM0
+1002a8c3 | f30f114110 | MOVSS dword ptr [ECX + 0x10],XMM0
+1002a8c8 | f30f114114 | MOVSS dword ptr [ECX + 0x14],XMM0
+1002a8cd | c3 | RET

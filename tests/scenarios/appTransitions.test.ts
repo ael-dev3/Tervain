@@ -10,6 +10,7 @@ import { WorldScene } from '../../src/presentation/world';
 import { MenuScene } from '../../src/presentation/menuScene';
 import { track } from '../../src/presentation/human/sheetPool';
 import { HuntingController } from '../../src/presentation/huntingController';
+import { LoadingScreen } from '../../src/presentation/ui/loadingScreen';
 
 const menuFailure = vi.hoisted(() => ({ next: false }));
 const stagedActors = vi.hoisted(() => ({ roots: [] as unknown[] }));
@@ -65,16 +66,19 @@ vi.mock('../../src/presentation/menuScene', () => ({
 
 class ElementFixture {
   inert = false;
-  style = {};
+  disabled = false;
+  isConnected = true;
+  style = { setProperty: vi.fn() };
   className = '';
   readonly attributes = new Map<string, string>();
   readonly children: (ElementFixture | string)[] = [];
   readonly listeners = new Map<string, (() => void)[]>();
   readonly classes = new Set<string>();
   readonly classList = {
-    add: (name: string) => this.classes.add(name),
-    remove: (name: string) => this.classes.delete(name),
+    add: (...names: string[]) => names.forEach((name) => this.classes.add(name)),
+    remove: (...names: string[]) => names.forEach((name) => this.classes.delete(name)),
     contains: (name: string) => this.classes.has(name),
+    toggle: (name: string, force: boolean) => force ? this.classes.add(name) : this.classes.delete(name),
   };
   private text = '';
   constructor(readonly tagName: string) {}
@@ -86,6 +90,8 @@ class ElementFixture {
   setAttribute(name: string, value: string) { this.attributes.set(name, value); }
   removeAttribute(name: string) { this.attributes.delete(name); }
   addEventListener(name: string, fn: () => void) { this.listeners.set(name, [...this.listeners.get(name) ?? [], fn]); }
+  contains(element: ElementFixture): boolean { return this === element || this.children.some((child) => typeof child !== 'string' && child.contains(element)); }
+  closest(): null { return null; }
   focus() { Reflect.set(document, 'activeElement', this); }
   click() { for (const listener of this.listeners.get('click') ?? []) listener(); }
 }
@@ -106,17 +112,17 @@ function fixture() {
   const settings = defaultSettings();
   settings.toggleSprint = settings.toggleBlock = true;
   settings.bindings.block = ['KeyB'];
-  const canvas = { requestPointerLock: vi.fn() } as unknown as HTMLCanvasElement;
+  const canvas = { requestPointerLock: vi.fn(), focus: vi.fn() } as unknown as HTMLCanvasElement;
   const input = new Input(canvas, () => settings);
   const key = (code: string, repeat = false, type = 'keydown') => {
     for (const listener of listeners.get(type) ?? []) listener({ code, repeat, target: { tagName: 'BODY' }, preventDefault() {} });
   };
   // Exercise App's actual lifecycle methods without starting a renderer or constructing another scene.
   const app = Object.assign(Object.create(App.prototype) as object, {
-    mode: 'play', settings, input, game: new Game(createInitialState()),
+    mode: 'play', settings, input, canvas, game: new Game(createInitialState()),
     panels: { isOpen: false, closeAll: vi.fn(), el: new ElementFixture('DIV') },
     titleEl: new ElementFixture('DIV'), loadingEl: new ElementFixture('DIV'), debugEl: new ElementFixture('DIV'),
-    hud: { el: { inert: true }, show: vi.fn(), showFade: vi.fn(), toast: vi.fn() },
+    hud: { el: { inert: true }, show: vi.fn(), showFade: vi.fn(), toast: vi.fn(), caption: vi.fn() },
     player: {
       x: 0, y: 0, z: 0, yaw: 0, alive: true, state: 'free', group: new THREE.Group(), setPosition: vi.fn(),
       channel: null as { kind?: 'skinning'; t: number; dur: number; cancelled?: () => void } | null,
@@ -130,6 +136,7 @@ function fixture() {
     audio: { pauseWorld: vi.fn(), setWildlifeActive: vi.fn(), stopHuntingSounds: vi.fn(), huntingSound: vi.fn() },
     wantPlayLock: false, lockingOut: false, worldBuilding: false, worldBuildFailed: false,
     worldDisposed: false, menuSceneDisposed: false, qualityReload: null, reloadAgain: false,
+    bench: { active: false },
   });
   app.player.cancelSkinning.mockImplementation(() => {
     if (app.player.channel?.kind !== 'skinning') return;
@@ -139,6 +146,7 @@ function fixture() {
   const hunting = new HuntingController(app as unknown as ConstructorParameters<typeof HuntingController>[0],
     () => app.mode === 'play' && !app.panels.isOpen && !app.worldBuilding && !app.worldBuildFailed && !app.qualityReload && document.visibilityState !== 'hidden');
   Reflect.set(app, 'hunting', hunting);
+  Reflect.set(app, 'loadingScreen', new LoadingScreen(app.loadingEl as unknown as HTMLElement));
   vi.spyOn(hunting, 'controls'); vi.spyOn(hunting, 'reset');
   const call = (name: string, ...args: unknown[]) => Reflect.apply(Reflect.get(App.prototype, name), app, args);
   return { app, input, canvas, document, key, call, hunting };
@@ -179,6 +187,7 @@ function rebuildFixture() {
   Object.assign(f.app, {
     world: oldWorld, library: {}, menuScene: new MenuScene({ quality: f.app.settings.quality }), npcAssets: { create: () => undefined },
     applyUiSettings: vi.fn(), applyQualityToRenderer: vi.fn(), renderer: {},
+    prepareWorldGraphics: vi.fn().mockResolvedValue(undefined), prepareMenuGraphics: vi.fn().mockResolvedValue(undefined),
     frameClock: new FrameClock(), frameTimes: [], audioClock: 0, worldDirty: true,
     hud: { ...f.app.hud, el: new ElementFixture('DIV') },
   });
@@ -190,7 +199,7 @@ function rebuildFixture() {
 async function finishReload(app: object) { await Reflect.get(app, 'qualityReload'); }
 
 describe('actual application world transitions', () => {
-  it('preserves the loading error and prior menu until resident preparation succeeds, then installs the set once', async () => {
+  it('keeps residents uninstalled on download failure and installs the playable catalog once without rebuilding the menu', async () => {
     const { app, call } = rebuildFixture();
     Reflect.set(app, 'npcAssets', null);
     const previousMenu = Reflect.get(app, 'menuScene') as MenuScene;
@@ -202,34 +211,81 @@ describe('actual application world transitions', () => {
     expect(Reflect.get(app, 'npcAssets')).toBeNull();
     expect(Reflect.get(app, 'menuScene')).toBe(previousMenu);
     await call('prepareNpcAssets');
-    expect(previousMenu.dispose).toHaveBeenCalledOnce();
-    expect(models.create).toHaveBeenCalledWith('menu:warden');
+    expect(previousMenu.dispose).not.toHaveBeenCalled();
+    expect(models.create).not.toHaveBeenCalled();
     expect(Reflect.get(app, 'npcAssets')).toBe(models);
     const installed = Reflect.get(app, 'menuScene');
     await call('prepareNpcAssets');
     expect(Reflect.get(app, 'menuScene')).toBe(installed);
     expect(npcCatalog.load).toHaveBeenCalledTimes(2);
-    expect(treeCatalog.load).toHaveBeenCalledExactlyOnceWith(['tree-0208']);
-    expect(models.create).toHaveBeenCalledOnce();
+    expect(treeCatalog.load).not.toHaveBeenCalled();
+    expect(models.create).not.toHaveBeenCalled();
   });
 
-  it('keeps the previous menu and residents uninstalled when the required grove download fails, then retries', async () => {
+  it('loads only the menu resident and grove, keeps the old menu on failure, and retries without loading the playable cast', async () => {
     const { app, call } = rebuildFixture();
     Reflect.set(app, 'npcAssets', null);
     const previousMenu = Reflect.get(app, 'menuScene') as MenuScene;
     const failure = new Error('Required grove texture could not be decoded.');
     const trees = new Map(), residents = { create: vi.fn(() => undefined) };
     treeCatalog.load.mockRejectedValueOnce(failure).mockResolvedValueOnce(trees);
-    npcCatalog.load.mockResolvedValueOnce(residents);
-    await expect(call('prepareNpcAssets')).rejects.toBe(failure);
+    npcCatalog.load.mockResolvedValue(residents);
+    await expect(call('prepareMenuAssets')).rejects.toBe(failure);
     expect(previousMenu.dispose).not.toHaveBeenCalled();
-    expect(npcCatalog.load).not.toHaveBeenCalled();
+    expect(npcCatalog.load).toHaveBeenCalledExactlyOnceWith(undefined, ['menu:warden']);
+    expect(Reflect.get(app, 'npcAssets')).toBeNull();
     expect(Reflect.get(app, 'treeTemplates')).toBeUndefined();
-    await call('prepareNpcAssets');
+    await call('prepareMenuAssets');
     expect(Reflect.get(app, 'treeTemplates')).toBe(trees);
-    expect(Reflect.get(app, 'npcAssets')).toBe(residents);
+    expect(Reflect.get(app, 'npcAssets')).toBeNull();
+    expect(Reflect.get(app, 'menuAssets')).toBe(residents);
     expect(previousMenu.dispose).toHaveBeenCalledOnce();
     expect(treeCatalog.load).toHaveBeenCalledTimes(2);
+    expect(residents.create).toHaveBeenCalledExactlyOnceWith('menu:warden');
+  });
+
+  it('shares concurrent menu preparation so a first journey and menu recovery do not replace the backdrop twice', async () => {
+    const { app, call } = rebuildFixture();
+    const pending = deferred<{ create: ReturnType<typeof vi.fn> }>();
+    const assets = { create: vi.fn(() => undefined) };
+    npcCatalog.load.mockImplementation(() => pending.promise);
+    const previousMenu = Reflect.get(app, 'menuScene') as MenuScene;
+    const first = call('prepareMenuAssets') as Promise<void>;
+    const duplicate = call('prepareMenuAssets') as Promise<void>;
+    expect(duplicate).toBe(first);
+    expect(npcCatalog.load).toHaveBeenCalledExactlyOnceWith(undefined, ['menu:warden']);
+    expect(treeCatalog.load).toHaveBeenCalledOnce();
+    pending.resolve(assets);
+    await Promise.all([first, duplicate]);
+    expect(previousMenu.dispose).toHaveBeenCalledOnce();
+    expect(assets.create).toHaveBeenCalledExactlyOnceWith('menu:warden');
+    expect(Reflect.get(app, 'menuLoad')).toBeNull();
+  });
+
+  it('waits for the replacement menu graphics when imported assets replace the scene during compilation', async () => {
+    const { app, call } = rebuildFixture();
+    Reflect.deleteProperty(app, 'prepareMenuGraphics');
+    const first = deferred<void>(), second = deferred<void>();
+    const oldMenu = { scene: new THREE.Scene(), camera: new THREE.PerspectiveCamera(), prepare: vi.fn() };
+    const replacement = { scene: new THREE.Scene(), camera: new THREE.PerspectiveCamera(), prepare: vi.fn() };
+    const compileAsync = vi.fn().mockImplementationOnce(() => first.promise).mockImplementationOnce(() => second.promise);
+    Reflect.set(app, 'renderer', { compileAsync });
+    Reflect.set(app, 'menuScene', oldMenu);
+    Reflect.set(app, 'menuGraphicsReady', false);
+    let finished = false;
+    const preparation = (call('prepareMenuGraphics') as Promise<void>).then(() => { finished = true; });
+    expect(compileAsync).toHaveBeenCalledWith(oldMenu.scene, oldMenu.camera);
+    Reflect.set(app, 'menuScene', replacement);
+    first.resolve();
+    await vi.waitFor(() => expect(compileAsync).toHaveBeenCalledWith(replacement.scene, replacement.camera));
+    expect(oldMenu.prepare).toHaveBeenCalledOnce();
+    expect(replacement.prepare).toHaveBeenCalledOnce();
+    expect(finished).toBe(false);
+    expect(Reflect.get(app, 'menuGraphicsReady')).toBe(false);
+    second.resolve(); await preparation;
+    expect(finished).toBe(true);
+    expect(Reflect.get(app, 'menuGraphicsReady')).toBe(true);
+    expect(compileAsync).toHaveBeenCalledTimes(2);
   });
 
   it('resident download failure keeps a graphics rebuild paused and presents the existing Retry affordance', async () => {
@@ -242,7 +298,7 @@ describe('actual application world transitions', () => {
     expect(create).not.toHaveBeenCalled();
     expect(oldWorld.dispose).toHaveBeenCalledOnce();
     expect(Reflect.get(app, 'worldBuildFailed')).toBe(true);
-    expect(app.loadingEl.textContent).toContain('Retry graphics');
+    expect(app.loadingEl.textContent).toContain('Try again');
     expect(console.error).toHaveBeenCalledWith('Graphics rebuild failed', expect.objectContaining({ message: 'Resident models could not load (HTTP 503).' }));
     expect(app.titleEl.inert).toBe(true);
   });
@@ -441,7 +497,7 @@ describe('actual application world transitions', () => {
     expect(Reflect.get(app, 'worldBuildFailed')).toBe(true);
     expect(app.loadingEl.classList.contains('off')).toBe(false);
     expect(app.loadingEl.attributes.get('role')).toBe('alertdialog');
-    expect(app.loadingEl.textContent).toContain('Retry graphics');
+    expect(app.loadingEl.textContent).toContain('Try again');
     expect(app.mode).toBe('play'); expect(input.uiOpen).toBe(true);
     const button = Reflect.get(app, 'rebuildRetry') as ElementFixture;
     expect(document.activeElement).toBe(button);
@@ -459,7 +515,7 @@ describe('actual application world transitions', () => {
     button.click(); button.click();
     expect(Reflect.get(app, 'audio').pauseWorld).toHaveBeenCalledTimes(2);
     expect(app.speech.clear).toHaveBeenCalledTimes(2);
-    expect(create).toHaveBeenCalledTimes(2);
+    await vi.waitFor(() => expect(create).toHaveBeenCalledTimes(2));
     expect(oldWorld.dispose).toHaveBeenCalledOnce();
     const recovered = nextWorld();
     retry.resolve(recovered as unknown as WorldScene);
@@ -482,6 +538,7 @@ describe('actual application world transitions', () => {
     const low = deferred<WorldScene>(), high = deferred<WorldScene>();
     const create = vi.spyOn(WorldScene, 'create').mockImplementationOnce(() => low.promise).mockImplementationOnce(() => high.promise);
     app.settings.quality = 'low'; call('applySettings', true);
+    await vi.waitFor(() => expect(create).toHaveBeenCalledOnce());
     app.settings.quality = 'high'; call('applySettings', true);
     expect(create).toHaveBeenCalledOnce();
     expect(create.mock.calls[0]![1].quality).toBe('low');
@@ -504,7 +561,7 @@ describe('actual application world transitions', () => {
     const create = vi.spyOn(WorldScene, 'create').mockResolvedValue(nextWorld() as unknown as WorldScene);
     menuFailure.next = true; app.settings.quality = 'low';
     call('applySettings', true); await finishReload(app);
-    expect(oldMenu.dispose).toHaveBeenCalledOnce(); expect(create).not.toHaveBeenCalled();
+    expect(oldMenu.dispose).not.toHaveBeenCalled(); expect(create).not.toHaveBeenCalled();
     expect(oldWorld.dispose).not.toHaveBeenCalled();
     expect(Reflect.get(app, 'worldBuildFailed')).toBe(true);
     const retry = Reflect.get(app, 'rebuildRetry') as ElementFixture;
@@ -513,35 +570,52 @@ describe('actual application world transitions', () => {
     expect(create).toHaveBeenCalledOnce(); expect(Reflect.get(app, 'menuSceneDisposed')).toBe(false);
   });
 
-  it('keeps initial boot pending through failure and attaches its app listeners and RAF once after retry', async () => {
+  it('publishes an interactive title and its listeners before menu assets, then defers the world until Start', async () => {
     const { app, call, document, nextWorld } = rebuildFixture();
     Reflect.set(app, 'world', undefined);
     Reflect.set(app, 'mode', 'loading');
     const canvas = { addEventListener: vi.fn() };
     const audio = { ...app.audio, resume: vi.fn(), setPageHidden: vi.fn() };
+    const menuReady = deferred<void>();
     Object.assign(app, {
       canvas, audio, buildShell: vi.fn(), prepareMainHero: vi.fn().mockResolvedValue(undefined), applyPixelRatio: vi.fn(), onResize: vi.fn(),
       enterTitle: vi.fn(() => Reflect.set(app, 'mode', 'title')), applyShotParams: vi.fn(),
+      prepareMenuAssets: vi.fn(() => menuReady.promise), quietStart: true,
     });
     vi.stubGlobal('location', { search: '' });
     const first = deferred<WorldScene>(), retry = deferred<WorldScene>();
     const create = vi.spyOn(WorldScene, 'create').mockImplementationOnce(() => first.promise).mockImplementationOnce(() => retry.promise);
     const boot = call('init') as Promise<void>;
+    await boot;
+    expect(create).not.toHaveBeenCalled();
+    expect(Reflect.get(app, 'prepareMainHero')).not.toHaveBeenCalled();
+    expect(Reflect.get(app, 'prepareMenuAssets')).toHaveBeenCalledOnce();
+    expect(app.mode).toBe('title');
+    expect(Reflect.get(window, 'tervain')).toBe(app);
+    expect(canvas.addEventListener).toHaveBeenCalledOnce();
+    expect(document.addEventListener.mock.calls.map(([name]) => name)).toEqual(['pointerlockchange', 'keydown', 'visibilitychange']);
+    expect(requestAnimationFrame).toHaveBeenCalledOnce();
+    expect(app.loadingEl.classList.contains('off')).toBe(true);
+    call('startNew');
     await vi.waitFor(() => expect(create).toHaveBeenCalledOnce());
+    expect(Reflect.get(app, 'initialJourneyLoading')).toBe(true);
+    expect(app.input.uiOpen).toBe(true);
     first.reject(new Error('initial scene allocation'));
     await vi.waitFor(() => expect(Reflect.get(app, 'worldBuildFailed')).toBe(true));
-    expect(canvas.addEventListener).not.toHaveBeenCalled();
-    expect(document.addEventListener).not.toHaveBeenCalled();
-    expect(requestAnimationFrame).not.toHaveBeenCalled();
+    expect(app.loadingEl.textContent).toContain('Your journey could not begin.');
+    expect(canvas.addEventListener).toHaveBeenCalledOnce();
+    expect(requestAnimationFrame).toHaveBeenCalledOnce();
     (Reflect.get(app, 'rebuildRetry') as ElementFixture).click();
     retry.resolve(nextWorld() as unknown as WorldScene);
-    await boot;
+    await Reflect.get(app, 'initialLoad');
     expect(create).toHaveBeenCalledTimes(2);
     expect(canvas.addEventListener).toHaveBeenCalledOnce();
     expect(document.addEventListener.mock.calls.map(([name]) => name)).toEqual(['pointerlockchange', 'keydown', 'visibilitychange']);
     expect(requestAnimationFrame).toHaveBeenCalledOnce();
-    expect(app.mode).toBe('title');
+    expect(app.mode).toBe('play');
     expect(app.loadingEl.classList.contains('off')).toBe(true);
+    expect(Reflect.get(app, 'prepareWorldGraphics')).toHaveBeenCalledExactlyOnceWith(null);
+    menuReady.resolve();
     const visibility = document.addEventListener.mock.calls.find(([name]) => name === 'visibilitychange')?.[1] as (() => void) | undefined;
     expect(visibility).toBeTypeOf('function');
     app.speech.clear.mockClear();
@@ -553,6 +627,182 @@ describe('actual application world transitions', () => {
     document.visibilityState = 'visible';
     visibility!();
     expect(app.speech.clear).toHaveBeenCalledOnce();
+  });
+
+  it('keeps a chosen save through first-entry failure and retry, and exposes play only after its graphics finish', async () => {
+    const { app, call, nextWorld } = rebuildFixture();
+    Reflect.deleteProperty(app, 'world');
+    app.mode = 'title';
+    const chosen = createInitialState('slot-2');
+    chosen.inventory.arrow = 9;
+    chosen.inventory.skinning_knife = 1;
+    chosen.clock += 100;
+    Object.assign(chosen.player, { x: 12, y: 26.2, z: 34, yaw: .6 });
+    const load = vi.fn(() => ({ ok: true, state: chosen, recovered: 'previous' }));
+    Reflect.set(app, 'saves', { load });
+    Reflect.set(app, 'prepareMainHero', vi.fn().mockResolvedValue(undefined));
+    const first = deferred<WorldScene>(), retry = deferred<WorldScene>(), graphics = deferred<void>();
+    const create = vi.spyOn(WorldScene, 'create').mockImplementationOnce(() => first.promise).mockImplementationOnce(() => retry.promise);
+    Reflect.set(app, 'prepareWorldGraphics', vi.fn(() => graphics.promise));
+    call('loadSlot', 'slot-2');
+    await vi.waitFor(() => expect(create).toHaveBeenCalledOnce());
+    expect(app.game.state).toBe(chosen);
+    expect(app.input.uiOpen).toBe(true);
+    first.reject(new Error('First world allocation failed.'));
+    await Reflect.get(app, 'initialLoad');
+    expect(app.mode).toBe('title');
+    expect(app.game.state).toBe(chosen);
+    const selected = structuredClone(chosen);
+    call('startNew'); call('loadSlot', 'quick'); call('step', 1 / 60);
+    expect(app.game.state).toEqual(selected);
+    expect(load).toHaveBeenCalledOnce();
+    (Reflect.get(app, 'rebuildRetry') as ElementFixture).click();
+    await vi.waitFor(() => expect(create).toHaveBeenCalledTimes(2));
+    expect(create.mock.calls[1]![0]).toBe(chosen);
+    retry.resolve(nextWorld() as unknown as WorldScene);
+    await vi.waitFor(() => expect(Reflect.get(app, 'prepareWorldGraphics')).toHaveBeenCalledWith({ recovered: 'previous' }));
+    expect(app.mode).toBe('title');
+    expect(app.input.uiOpen).toBe(true);
+    expect(app.loadingEl.classList.contains('off')).toBe(false);
+    graphics.resolve();
+    await Reflect.get(app, 'initialLoad');
+    expect(app.mode).toBe('play');
+    expect(app.input.uiOpen).toBe(false);
+    expect(app.game.state.inventory.arrow).toBe(9);
+    expect(app.game.state.clock).toBe(chosen.clock);
+    expect(app.player.setPosition).toHaveBeenCalledWith(12, 34, .6, app.world.terrain, 26.2);
+    expect(app.hud.toast).toHaveBeenCalledWith('The latest write was damaged, so the previous save was restored.');
+    expect(app.hud.toast).toHaveBeenCalledWith('Game loaded.');
+  });
+
+  it('Back after a first-entry graphics failure disposes the staged world and restores the prior title state', async () => {
+    const { app, call, nextWorld } = rebuildFixture();
+    Reflect.deleteProperty(app, 'world');
+    app.mode = 'title';
+    app.game.state.inventory.coin = 17;
+    const prior = app.game.state;
+    const selected = createInitialState('slot-2');
+    selected.inventory.arrow = 19;
+    Reflect.set(app, 'saves', { load: vi.fn(() => ({ ok: true, state: selected, recovered: null })) });
+    Reflect.set(app, 'prepareMainHero', vi.fn().mockResolvedValue(undefined));
+    Reflect.set(app, 'prepareWorldGraphics', vi.fn().mockRejectedValue(new Error('The first view could not compile.')));
+    Reflect.set(app, 'buildTitle', vi.fn());
+    Reflect.set(app, 'focusTitle', vi.fn());
+    const staged = nextWorld();
+    vi.spyOn(WorldScene, 'create').mockResolvedValue(staged as unknown as WorldScene);
+    call('loadSlot', 'slot-2');
+    await Reflect.get(app, 'initialLoad');
+    expect(app.loadingEl.textContent).toContain('Your journey could not begin.');
+    expect(app.game.state).toBe(selected);
+    const screen = Reflect.get(app, 'loadingScreen') as LoadingScreen;
+    screen.navigate(0, 1); screen.confirm();
+    expect(staged.dispose).toHaveBeenCalledOnce();
+    expect(Reflect.get(app, 'world')).toBeUndefined();
+    expect(app.game.state).toBe(prior);
+    expect(app.game.state.inventory.coin).toBe(17);
+    expect(app.mode).toBe('title');
+    expect(Reflect.get(app, 'worldBuildFailed')).toBe(false);
+    expect(Reflect.get(app, 'initialJourneyLoading')).toBe(false);
+    expect(app.loadingEl.classList.contains('off')).toBe(true);
+    expect(app.titleEl.inert).toBe(false);
+  });
+
+  it('a repeated first-entry graphics failure keeps first-load recovery copy even after a world was allocated', async () => {
+    const { app, call, nextWorld } = rebuildFixture();
+    Reflect.deleteProperty(app, 'world');
+    app.mode = 'title';
+    Reflect.set(app, 'prepareMainHero', vi.fn().mockResolvedValue(undefined));
+    Reflect.set(app, 'prepareWorldGraphics', vi.fn().mockRejectedValue(new Error('The first view could not compile.')));
+    vi.spyOn(WorldScene, 'create').mockImplementation(async () => nextWorld() as unknown as WorldScene);
+    call('startNew');
+    await Reflect.get(app, 'initialLoad');
+    expect(app.loadingEl.textContent).toContain('Your journey could not begin.');
+    (Reflect.get(app, 'rebuildRetry') as ElementFixture).click();
+    await Reflect.get(app, 'initialLoad');
+    expect(app.loadingEl.textContent).toContain('Your journey could not begin.');
+    expect(app.mode).toBe('title');
+  });
+
+  it('changes quality before first entry by rebuilding only the menu and waiting for its graphics', async () => {
+    const { app, call, oldWorld } = rebuildFixture();
+    Reflect.deleteProperty(app, 'world');
+    app.mode = 'title';
+    const graphics = deferred<void>();
+    Reflect.set(app, 'prepareMenuGraphics', vi.fn(() => graphics.promise));
+    const create = vi.spyOn(WorldScene, 'create');
+    const oldMenu = Reflect.get(app, 'menuScene') as MenuScene;
+    app.settings.quality = 'low';
+    call('applySettings', true);
+    expect(oldMenu.dispose).toHaveBeenCalledOnce();
+    expect(Reflect.get(app, 'prepareMenuGraphics')).toHaveBeenCalledOnce();
+    expect(create).not.toHaveBeenCalled();
+    expect(oldWorld.dispose).not.toHaveBeenCalled();
+    expect(app.loadingEl.classList.contains('off')).toBe(false);
+    graphics.resolve(); await finishReload(app);
+    expect(app.mode).toBe('title');
+    expect(Reflect.get(app, 'world')).toBeUndefined();
+    expect(app.loadingEl.classList.contains('off')).toBe(true);
+    expect(create).not.toHaveBeenCalled();
+  });
+
+  it('keeps a quality rebuild paused through graphics preparation after the replacement world exists', async () => {
+    const { app, call, nextWorld } = rebuildFixture();
+    const graphics = deferred<void>();
+    Reflect.set(app, 'prepareWorldGraphics', vi.fn(() => graphics.promise));
+    const replacement = nextWorld();
+    vi.spyOn(WorldScene, 'create').mockResolvedValue(replacement as unknown as WorldScene);
+    call('applySettings', true);
+    await vi.waitFor(() => expect(Reflect.get(app, 'prepareWorldGraphics')).toHaveBeenCalledOnce());
+    expect(app.world).toBe(replacement);
+    expect(app.input.uiOpen).toBe(true);
+    expect(app.panels.el.inert).toBe(true);
+    expect(app.loadingEl.classList.contains('off')).toBe(false);
+    const before = structuredClone(app.game.state);
+    call('step', 1 / 60);
+    expect(app.game.state).toEqual(before);
+    expect(replacement.syncStatic).not.toHaveBeenCalled();
+    graphics.resolve(); await finishReload(app);
+    expect(app.input.uiOpen).toBe(false);
+    expect(app.panels.el.inert).toBe(false);
+    expect(app.loadingEl.classList.contains('off')).toBe(true);
+  });
+
+  it('the actual first-entry graphics path waits for shader compilation and a prepared paint before exposing play', async () => {
+    const { app, call, nextWorld } = rebuildFixture();
+    Reflect.deleteProperty(app, 'world');
+    Reflect.deleteProperty(app, 'prepareWorldGraphics');
+    app.mode = 'title';
+    Reflect.set(app, 'quietStart', true);
+    Reflect.set(app, 'prepareMainHero', vi.fn().mockResolvedValue(undefined));
+    const staged = { ...nextWorld(), colliders: [], update: vi.fn() };
+    Reflect.set(app, 'buildWorld', vi.fn(async () => Reflect.set(app, 'world', staged)));
+    const compiled = deferred<void>();
+    const compileAsync = vi.fn(() => compiled.promise);
+    Reflect.set(app, 'renderer', { compileAsync, getContext: vi.fn(() => undefined) });
+    const camera = new THREE.PerspectiveCamera();
+    Object.assign(app.cam, { camera, follow: vi.fn() });
+    const render = vi.fn();
+    Reflect.set(app, 'renderWorld', render);
+    const paints: FrameRequestCallback[] = [];
+    vi.stubGlobal('requestAnimationFrame', vi.fn((callback: FrameRequestCallback) => { paints.push(callback); return paints.length; }));
+    call('startNew');
+    await vi.waitFor(() => expect(compileAsync).toHaveBeenCalledWith(staged.scene, camera));
+    expect(staged.update).toHaveBeenCalledWith(0, app.game.state, expect.any(THREE.Vector3), app.settings, expect.any(Number), camera, false);
+    expect(render).not.toHaveBeenCalled();
+    expect(app.mode).toBe('title');
+    expect(app.input.uiOpen).toBe(true);
+    compiled.resolve();
+    await vi.waitFor(() => expect(render).toHaveBeenCalledOnce());
+    await vi.waitFor(() => expect(paints).toHaveLength(1));
+    expect(app.mode).toBe('title');
+    expect(Reflect.get(app, 'initialJourneyLoading')).toBe(true);
+    expect(app.loadingEl.classList.contains('off')).toBe(false);
+    paints[0]!(1000);
+    await Reflect.get(app, 'initialLoad');
+    expect(app.mode).toBe('play');
+    expect(app.input.uiOpen).toBe(false);
+    expect(app.loadingEl.classList.contains('off')).toBe(true);
+    expect(app.canvas.focus).toHaveBeenCalledExactlyOnceWith({ preventScroll: true });
   });
 
   it.each([['26.2', 26.2], ['Infinity', undefined], ['bad', undefined]] as const)('passes only a finite shot feet hint (%s) to height-aware placement', (hint, expected) => {

@@ -344,3 +344,53 @@ these modules requires its preceding source allocations to use the same heap,
 including the SceneAdmin registered map's 204-byte bucket backing and 28-byte
 nodes. See
 [checkpoint 74](../../docs/engineering/gothic3-rebuilding-process.md#74-own-the-shared-runtime-admin-chain-before-connecting-it-to-npcs).
+
+## NPC heap, PropertyID and CString prerequisites
+
+```powershell
+python -B tools/gothic3/prepare_npc_heap_source.py --study "C:\path\to\Gothic3_Decompiled_Study_2026-10-04"
+```
+
+This producer reads the pinned SharedBase and Engine DLLs, saved assembly,
+function catalogs and available C reconstruction in the same offline study.
+It adds `assets/gothic3/npc-heap/manifest.json`, `runtime-rules.json`,
+`native-evidence.json` and bounded `sources/SharedBase/` excerpts. It reuses
+the immutable runtime admin allocation inventory for selected Engine map/name
+methods, and the retained NPC record/string receipts for original ASCII names.
+The package pins the 20/40-byte heap buckets, the larger pointer-area prefix,
+PropertyID and CString methods, and the default comparator's PE import/export
+binding. An unbound IAT entry is distinguished from a runtime code pointer.
+
+The new package extends only a fresh MemoryAdmin owner. Entity constructor
+fields, a selected registered table, CString holders and Navigation fields
+can alias actual shared heap bytes under explicit isolated hosts. Full
+SceneAdmin/module startup, name-map integration and the lazy Navigation type
+registry remain prerequisites. The browser NPC read has not advanced. See
+[checkpoint 75](../../docs/engineering/gothic3-rebuilding-process.md#75-alias-selected-npc-fields-to-the-shared-heap).
+
+## SceneAdmin startup and allocator prerequisites
+
+```powershell
+python -B tools/gothic3/prepare_scene_startup_source.py --study "C:\path\to\Gothic3_Decompiled_Study_2026-10-04"
+```
+
+This separate producer reads the pinned SharedBase and Engine DLLs and their
+saved function catalogs, assembly and available C reconstruction. It writes
+`assets/gothic3/scene-startup/manifest.json`, `runtime-rules.json`,
+`native-evidence.json` and bounded source excerpts, and reuses the earlier
+immutable runtime-admin/NPC-heap receipts. Source data includes the 24/384-byte
+heap pools, an extended physical pointer-area prefix, all five SceneAdmin map
+constructors, base and EntityAdmin calls, cached singleton lookup, class-name
+guards, RTTI descriptors, CRT type-name wrapper, imports and shutdown callbacks.
+
+Ten CRT instructions missing from the saved disassembly are recovered with
+explicit byte/opcode checks against the PE. Cold source bytes distinguish
+file-backed data from loader zero-fill; zero critical-section storage is not
+treated as initialized platform ownership. Regeneration executes no native
+code and does not rewrite the older source packages.
+
+The TypeScript components own the selected physical constructor and lookup
+prefixes. They do not provide application initialization or synthesize a
+registered module, demangler result, reflected type or active NPC. See
+[checkpoint 76](../../docs/engineering/gothic3-rebuilding-process.md#76-separate-physical-sceneadmin-construction-from-singleton-lookup)
+for the owned operations, source hashes and next integration gates.

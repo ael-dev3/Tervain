@@ -11,7 +11,7 @@ import { BELL, MILL_WHEEL, SHORTCUT, SLUICE, STREAMS, WORLD } from '../world/lay
 import { NavGrid } from '../world/nav';
 import { Terrain, distToPolyline } from '../world/terrain';
 import { SkyRig } from './sky';
-import { buildTerrainTiles } from './terrainMesh';
+import { buildTerrainTilesAsync } from './terrainMesh';
 import { makeTerrainTextures, type TerrainTextures } from './terrainTextures';
 import { buildScenery, type SceneryHandles } from './settlement';
 import { buildFlora } from './flora';
@@ -33,37 +33,74 @@ import { buildRiteResponse, type RiteResponse } from './riteResponse';
 import { buildForestLandmarks } from './forestLandmarks';
 import { buildWoodlandAir } from './woodlandAir';
 import { setPickupVisible } from './worldPickups';
-import { loadSolitaryPine, type PineTemplates } from './solitaryPine';
+import { loadSolitaryPine, PINE_FILES, type PineTemplates } from './solitaryPine';
 import { LanternLightPool } from './lanternLights';
 import { RealmPhysics, initializePhysics } from '../world/physics';
 import { buildPhysicalProps } from './physicalProps';
 import type { MeshyNpcCatalog } from './meshynpcs';
 import { buildSourceRockPiles, loadSourceRockPile } from './sourceRockPile';
-import { loadMeshyTrees, type MeshyTreeTemplates } from './meshyTrees';
+import { loadMeshyTrees, MESHY_TREE_IDS, MESHY_TREE_LODS, type MeshyTreeTemplates } from './meshyTrees';
 import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { buildCoastalBackdrop } from './coastalBackdrop';
 import { createGroundContactField } from './groundContacts';
 import { buildAnimals, loadAnimalTemplates, type AnimalTemplates, type AnimalWildlife } from './animals';
+import { ANIMALS } from './animals/catalog';
+import { checkCancelled, yieldToBrowser, type CooperativeOptions } from '../platform/cooperative';
+import { disposeSceneResources } from './disposeScene';
+
+export interface WorldBuildProgress {
+  phase: 'models' | 'textures' | 'terrain' | 'woodland' | 'settlement' | 'physics' | 'navigation' | 'finishing';
+  label: string;
+  completed?: number;
+  total?: number;
+}
+
+export interface WorldCreateOptions extends CooperativeOptions {
+  onPhase?: (progress: WorldBuildProgress) => void;
+}
+
+type WorldModules = { name: string; module: SceneModule }[];
+type DustParticle = { x: number; y: number; z: number; vx: number; vy: number; vz: number; life: number };
+interface WorldResources {
+  scene: THREE.Scene;
+  terrain: Terrain;
+  colliders: Colliders;
+  sky: SkyRig;
+  water: WaterSystem;
+  sway: SwayUniforms;
+  modules: WorldModules;
+  environment: EnvironmentHandle;
+  scenery: SceneryHandles;
+  animals: AnimalWildlife;
+  terrainMesh: THREE.Group;
+  physics: RealmPhysics;
+  nav: NavGrid;
+  lanternLights: THREE.PointLight[];
+  dust: THREE.Points;
+  dustData: DustParticle[];
+  riteResponse: RiteResponse;
+  buildMs: number;
+  disposeOwned(): void;
+}
 
 /** Everything static in Bellwether Vale, plus the presentation that follows durable state. */
 export class WorldScene {
-  readonly scene = new THREE.Scene();
+  readonly scene: THREE.Scene;
   readonly terrain: Terrain;
   readonly colliders: Colliders;
   readonly nav: NavGrid;
   readonly physics: RealmPhysics;
   readonly sky: SkyRig;
   readonly water: WaterSystem;
-  readonly sway: SwayUniforms = { uTime: { value: 0 }, uWind: { value: 1 } };
+  readonly sway: SwayUniforms;
   readonly library: AssetLibrary;
   /** Forest, ground cover, wildlife: updated every frame with the shared frame context. */
-  readonly modules: { name: string; module: SceneModule }[] = [];
+  readonly modules: WorldModules;
   private environment: EnvironmentHandle;
-  private groundcover: ReturnType<typeof buildGroundcover>;
   readonly scenery: SceneryHandles;
   readonly animals: AnimalWildlife;
   readonly terrainMesh: THREE.Group;
-  private lanternLights: THREE.PointLight[] = [];
+  private lanternLights: THREE.PointLight[];
   private lanternPool = new LanternLightPool(3);
   private wheelSpin = 0;
   private bellSwing = 0;
@@ -76,127 +113,244 @@ export class WorldScene {
   private wheelTurn = 0;
   private lastNoticeKey = '';
   private dust: THREE.Points;
-  private dustData: { x: number; y: number; z: number; vx: number; vy: number; vz: number; life: number }[] = [];
+  private dustData: DustParticle[];
   private riteResponse: RiteResponse;
+  private disposeOwned: () => void;
   time = 0;
   /** Set by the app each frame: true while the player is standing inside the archive. */
   playerInArchive = false;
   view: WorldView;
   buildStats: { ms: number } = { ms: 0 };
 
-  /** Loads every model the scene modules asked for, then builds the world. */
-  static async create(state: WorldState, settings: Settings, library: AssetLibrary, onProgress?: (p: LoadProgress) => void, npcAssets?: MeshyNpcCatalog): Promise<WorldScene> {
+  /** Load, construct and activate in separate phases. No partial scene escapes this promise. */
+  static async create(state: WorldState, settings: Settings, library: AssetLibrary, onProgress?: (p: LoadProgress) => void, npcAssets?: MeshyNpcCatalog, options: WorldCreateOptions = {}): Promise<WorldScene> {
+    const yieldNow = options.yieldNow ?? yieldToBrowser;
+    const phase = (stage: WorldBuildProgress['phase'], label: string, completed?: number, total?: number) => {
+      checkCancelled(options.signal);
+      options.onPhase?.({ phase: stage, label, completed, total });
+    };
+    const checkpoint = async (stage: WorldBuildProgress['phase'], label: string, completed?: number, total?: number) => {
+      phase(stage, label, completed, total);
+      await yieldNow();
+      checkCancelled(options.signal);
+    };
+    const libraryModels = new Set<string>();
+    for (const need of ALL_NEEDS) {
+      const lod = library.resolveLod(need.id, need.lod);
+      if (lod) libraryModels.add(`${need.id}:${lod}`);
+    }
+    // Count actual GLBs: each woodland tree needs all of its LOD files before its group is ready.
+    const modelFamilies = {
+      library: { completed: 0, total: libraryModels.size },
+      pine: { completed: 0, total: PINE_FILES.length },
+      stone: { completed: 0, total: 1 },
+      trees: { completed: 0, total: new Set(MESHY_TREE_IDS).size * MESHY_TREE_LODS.length },
+      animals: { completed: 0, total: ANIMALS.length },
+    };
+    const modelTotal = Object.values(modelFamilies).reduce((sum, family) => sum + family.total, 0);
+    let modelProgressActive = true;
+    const modelProgress = (family: keyof typeof modelFamilies, completed: number, total: number, label: string, scale = 1) => {
+      if (!modelProgressActive) return;
+      const current = modelFamilies[family];
+      current.completed = Math.max(current.completed, Math.min(current.total, completed * scale));
+      phase('models', label, Object.values(modelFamilies).reduce((sum, entry) => sum + entry.completed, 0), modelTotal);
+      onProgress?.({ loaded: completed, total, label });
+    };
+    await checkpoint('models', 'World models', 0, modelTotal);
     setSharedLibrary(library);
-    await library.preload(ALL_NEEDS, onProgress);
-    onProgress?.({ loaded: 0, total: 1, label: 'Source woodland and stone' });
-    const [pine, rockPile, treeTemplates, animalTemplates] = await Promise.all([loadSolitaryPine(), loadSourceRockPile(),
-      loadMeshyTrees(undefined, (loaded, total) => onProgress?.({ loaded, total, label: 'Preparing the woodland' })),
-      loadAnimalTemplates((loaded, total) => onProgress?.({ loaded, total, label: 'Preparing the wildlife' }))]);
-    onProgress?.({ loaded: 1, total: 1, label: 'Source woodland and stone' });
-    // Ground textures are generated, not downloaded; yield between layers so the loading text keeps painting.
+    let pine: PineTemplates, rockPile: GLTF, treeTemplates: MeshyTreeTemplates, animalTemplates: AnimalTemplates;
+    try {
+      await library.preload(ALL_NEEDS, progress => modelProgress('library', progress.loaded, progress.total, progress.label));
+      [pine, rockPile, treeTemplates, animalTemplates] = await Promise.all([
+        loadSolitaryPine((loaded, total) => modelProgress('pine', loaded, total, 'Coastal pines')),
+        loadSourceRockPile((loaded, total) => modelProgress('stone', loaded, total, 'Woodland stone')),
+        loadMeshyTrees(undefined, (loaded, total) => modelProgress('trees', loaded, total, 'Woodland models', MESHY_TREE_LODS.length)),
+        loadAnimalTemplates((loaded, total) => modelProgress('animals', loaded, total, 'Wildlife models')),
+      ]);
+    } finally { modelProgressActive = false; }
+    await checkpoint('models', 'World models', modelTotal, modelTotal);
     await initializePhysics();
-    const tex = await makeTerrainTextures(settings.quality === 'high' ? 1024 : settings.quality === 'medium' ? 768 : 256, () => new Promise((r) => setTimeout(r, 0)));
-    return new WorldScene(state, settings, library, tex, pine, rockPile, treeTemplates, animalTemplates, npcAssets);
+    await checkpoint('textures', 'Ground materials', 0, 8);
+    const tex = await makeTerrainTextures(settings.quality === 'high' ? 1024 : settings.quality === 'medium' ? 768 : 256, yieldNow, {
+      signal: options.signal,
+      onProgress: (completed, total) => phase('textures', 'Ground materials', completed, total),
+    });
+    return await WorldScene.build(state, settings, library, tex, pine, rockPile, treeTemplates, animalTemplates, npcAssets, options, phase, checkpoint);
   }
 
   /** Release GPU resources the scene graph does not own. */
   dispose() {
-    this.physics.dispose();
-    this.water.dispose();
-    this.environment.dispose?.();
-    for (const m of this.modules) m.module.dispose?.();
-    this.riteResponse.dispose();
-    this.terrainTex.dispose();
-    this.scenery.dispose();
+    this.disposeOwned();
   }
 
-  private constructor(state: WorldState, settings: Settings, library: AssetLibrary, private terrainTex: TerrainTextures, pine: PineTemplates, rockPile: GLTF, treeTemplates: MeshyTreeTemplates, animalTemplates: AnimalTemplates, npcAssets?: MeshyNpcCatalog) {
+  private static async build(state: WorldState, settings: Settings, library: AssetLibrary, terrainTex: TerrainTextures, pine: PineTemplates, rockPile: GLTF,
+    treeTemplates: MeshyTreeTemplates, animalTemplates: AnimalTemplates, npcAssets: MeshyNpcCatalog | undefined, options: WorldCreateOptions,
+    phase: (stage: WorldBuildProgress['phase'], label: string, completed?: number, total?: number) => void,
+    checkpoint: (stage: WorldBuildProgress['phase'], label: string, completed?: number, total?: number) => Promise<void>): Promise<WorldScene> {
     const t0 = performance.now();
-    this.library = library;
-    this.terrain = new Terrain();
-    this.colliders = buildStaticColliders(this.terrain);
-    this.sky = new SkyRig(settings.quality === 'low' ? 1024 : settings.quality === 'medium' ? 2048 : 4096);
-    this.scene.add(this.sky.group);
-    this.scene.fog = this.sky.fog;
-    // The sky dome and stars are also drawn into the water's own small sky capture, for reflected clouds.
-    SkyCapture.include(this.sky.group);
-    this.water = new WaterSystem(this.terrain, settings.quality);
-    this.scene.add(this.water.group);
-    const ctx: BuildContext = { terrain: this.terrain, colliders: this.colliders, library, quality: settings.quality, settings, sway: this.sway, excl: new Exclusions(this.terrain), npcAssets };
-    const landmarks = buildForestLandmarks(this.terrain, this.colliders, settings.quality);
-    const forest = buildFlora(ctx, pine, true, treeTemplates);
-    forest.initializeFloor();
-    const scatter = buildScatter(ctx);
-    const sourceRocks = buildSourceRockPiles(ctx, rockPile);
-    const ambient = buildAmbient(ctx);
-    this.groundcover = buildGroundcover(ctx);
-    const wildlife = buildWildlife(ctx);
-    const air = buildWoodlandAir(ctx, this.sky.fog);
-    const backdrop = buildCoastalBackdrop(terrainTex);
-    this.modules.push(
-      { name: 'forest', module: forest }, { name: 'scatter', module: scatter },
-      { name: 'source rock piles', module: sourceRocks },
-      { name: 'groundcover', module: this.groundcover }, { name: 'wildlife', module: wildlife },
-      { name: 'ambient', module: ambient }, { name: 'woodland air', module: air },
-      { name: 'coastal promontory', module: backdrop },
-      { name: 'woodland landmarks', module: { group: landmarks.group, update() {}, stats: () => landmarks.stats, dispose: () => landmarks.dispose() } },
-    );
-    for (const m of this.modules) this.scene.add(m.module.group);
-    this.environment = buildEnvironment(this.scene, settings.quality);
-    this.scenery = buildScenery(this.terrain, this.colliders, settings.quality);
-    this.scene.add(this.scenery.group);
-    const hunterSupplies = buildHunterSupplies(this.terrain, this.colliders);
-    this.scene.add(hunterSupplies);
-    this.modules.push({ name: 'hunter supplies', module: { group: hunterSupplies, update() {}, dispose: () => disposeHunterSupplies(hunterSupplies) } });
-    const caravanAnimalCamp = buildAnimalCamp(this.terrain, this.colliders);
-    this.modules.push({ name: 'caravan animal rest', module: caravanAnimalCamp });
-    this.scene.add(caravanAnimalCamp.group);
-    this.animals = buildAnimals(ctx, animalTemplates);
-    this.modules.push({ name: 'land wildlife', module: this.animals });
-    this.scene.add(this.animals.group);
-    // Register accepted source rocks and constructed thresholds before painting their ground contacts.
-    // This field changes surface dressing only; support, obstacle identities and terrain planes are unchanged.
-    const contacts = createGroundContactField(this.terrain, this.colliders.rockMeshes);
-    this.terrainMesh = buildTerrainTiles(this.terrain, terrainTex, ctx.plantedCrowns, undefined, contacts);
-    this.scene.add(this.terrainMesh);
-    this.physics = new RealmPhysics(this.terrain, this.colliders, undefined, forest.physicalWood);
-    // Loose barrels and crates float on the same water that is drawn and heard.
-    this.physics.setWater(this.water.world);
-    const physicalProps = buildPhysicalProps(this.physics, settings.quality);
-    this.modules.push({ name: 'physical supplies', module: physicalProps });
-    this.scene.add(physicalProps.group);
-    this.nav = new NavGrid(this.terrain, this.colliders);
-    // Build the Thornback's wider lanes during loading, rather than on its first pursuit frame.
-    this.nav.forRadius(.85);
+    const scene = new THREE.Scene(), modules: WorldModules = [];
+    const owned: (() => void)[] = [() => terrainTex.dispose()];
+    let disposed = false;
+    const own = <T extends { dispose?(): void }>(resource: T): T => {
+      if (resource.dispose) owned.push(() => resource.dispose!());
+      return resource;
+    };
+    const addModule = <T extends SceneModule>(name: string, module: T): T => {
+      own(module);
+      modules.push({ name, module });
+      scene.add(module.group);
+      return module;
+    };
+    const disposeOwned = () => {
+      if (disposed) return;
+      disposed = true;
+      // A failing private hook must not prevent the remaining scene/resource cleanup or mask the build error.
+      for (let i = owned.length - 1; i >= 0; i--) { try { owned[i]!(); } catch { /* Continue releasing independent owners. */ } }
+    };
+    try {
+      const groundRows = (WORLD.maxZ - WORLD.minZ) / WORLD.cell + 1, groundTotal = groundRows + 3;
+      await checkpoint('terrain', 'Physical ground', 0, groundTotal);
+      const terrain = await Terrain.create({ ...options, onProgress: completed => phase('terrain', 'Physical ground', completed, groundTotal) });
+      const colliders = buildStaticColliders(terrain);
+      await checkpoint('terrain', 'Ground contacts', groundRows + 1, groundTotal);
+      const sky = own(new SkyRig(settings.quality === 'low' ? 1024 : settings.quality === 'medium' ? 2048 : 4096));
+      scene.add(sky.group);
+      scene.fog = sky.fog;
+      // The sky dome and stars are also drawn into the water's own small sky capture, for reflected clouds.
+      SkyCapture.include(sky.group);
+      await checkpoint('terrain', 'Sky and water', groundRows + 2, groundTotal);
+      const water = own(new WaterSystem(terrain, settings.quality));
+      scene.add(water.group);
+      await checkpoint('terrain', 'Physical ground ready', groundTotal, groundTotal);
+      const sway: SwayUniforms = { uTime: { value: 0 }, uWind: { value: 1 } };
+      const ctx: BuildContext = { terrain, colliders, library, quality: settings.quality, settings, sway, excl: new Exclusions(terrain), npcAssets };
+      await checkpoint('woodland', 'Woodland landmarks');
+      const landmarks = own(buildForestLandmarks(terrain, colliders, settings.quality));
+      addModule('woodland landmarks', { group: landmarks.group, update() {}, stats: () => landmarks.stats });
+      await checkpoint('woodland', 'Trees and forest floor');
+      const forest = addModule('forest', buildFlora(ctx, pine, true, treeTemplates));
+      await checkpoint('woodland', 'Forest floor');
+      forest.initializeFloor();
+      await checkpoint('woodland', 'Fallen branches and shore');
+      addModule('scatter', buildScatter(ctx));
+      await checkpoint('woodland', 'Woodland stone');
+      addModule('source rock piles', buildSourceRockPiles(ctx, rockPile));
+      // The residents' footprints precede grass placement, as in the original construction order.
+      await checkpoint('woodland', 'Hamlet neighbours');
+      addModule('ambient', buildAmbient(ctx));
+      await checkpoint('woodland', 'Grass and undergrowth');
+      addModule('groundcover', buildGroundcover(ctx));
+      await checkpoint('woodland', 'Woodland atmosphere');
+      addModule('wildlife', buildWildlife(ctx));
+      addModule('woodland air', buildWoodlandAir(ctx, sky.fog));
+      addModule('coastal promontory', buildCoastalBackdrop(terrainTex));
+      // Retain the original module update/draw ordering while still attaching each allocation immediately for cleanup.
+      const woodlandOrder = ['forest', 'scatter', 'source rock piles', 'groundcover', 'wildlife', 'ambient', 'woodland air', 'coastal promontory', 'woodland landmarks'];
+      modules.sort((a, b) => woodlandOrder.indexOf(a.name) - woodlandOrder.indexOf(b.name));
+      for (const module of modules) scene.add(module.module.group);
+      await checkpoint('woodland', 'Woodland', 1, 1);
+      await checkpoint('settlement', 'Buildings and supplies');
+      const environment = own(buildEnvironment(scene, settings.quality));
+      const scenery = own(buildScenery(terrain, colliders, settings.quality));
+      scene.add(scenery.group);
+      await checkpoint('settlement', 'Hunter supplies and caravan');
+      const hunterSupplies = buildHunterSupplies(terrain, colliders);
+      addModule('hunter supplies', { group: hunterSupplies, update() {}, dispose: () => disposeHunterSupplies(hunterSupplies) });
+      addModule('caravan animal rest', buildAnimalCamp(terrain, colliders));
+      await checkpoint('settlement', 'Wildlife');
+      const animals = addModule('land wildlife', buildAnimals(ctx, animalTemplates));
+      await checkpoint('settlement', 'Buildings, supplies and wildlife', 1, 1);
+      // Register accepted source rocks and constructed thresholds before painting their ground contacts.
+      // This field changes surface dressing only; support, obstacle identities and terrain planes are unchanged.
+      const contacts = createGroundContactField(terrain, colliders.rockMeshes);
+      await checkpoint('physics', 'Preparing terrain surface');
+      const terrainMesh = await buildTerrainTilesAsync(terrain, terrainTex, ctx.plantedCrowns, undefined, contacts, {
+        ...options, onProgress: progress => phase('physics', progress.phase === 'surface' ? 'Preparing terrain surface' : 'Ground tiles'),
+      });
+      scene.add(terrainMesh);
+      await checkpoint('physics', 'Physical contacts');
+      // Initialize saved collision state before physics and navigation, avoiding a duplicate first-frame rebuild.
+      const view = worldView(state);
+      colliders.setActive('archive_door', view.archiveDoor === 'locked');
+      colliders.setActive('archive_shutter', view.archiveShutter !== 'forced');
+      colliders.setActive('shortcut_gate', !view.shortcutOpen);
+      const physics = own(new RealmPhysics(terrain, colliders, undefined, forest.physicalWood));
+      // Loose barrels and crates float on the same water that is drawn and heard.
+      physics.setWater(water.world);
+      addModule('physical supplies', buildPhysicalProps(physics, settings.quality));
+      await checkpoint('physics', 'Physical contacts', 1, 1);
+      const navigationTotal = terrain.nz * 2;
+      await checkpoint('navigation', 'Walking routes', 0, navigationTotal);
+      const nav = await NavGrid.create(terrain, colliders, .55, {
+        ...options, onProgress: completed => phase('navigation', 'Walking routes', completed, navigationTotal),
+      });
+      // Build the Thornback's wider lanes during loading, rather than on its first pursuit frame.
+      await nav.forRadiusAsync(.85, { ...options, onProgress: completed => phase('navigation', 'Large creature routes', terrain.nz + completed, navigationTotal) });
+      await checkpoint('navigation', 'Walking routes', navigationTotal, navigationTotal);
+      await checkpoint('finishing', 'Preparing the scene');
 
-    // A few real lights near the player make lanterns matter at night without a per-lantern cost.
-    for (let i = 0; i < 3; i++) {
-      const l = new THREE.PointLight(0xffb060, 0, 16, 1.6);
-      this.lanternLights.push(l);
-      this.scene.add(l);
+      // A few real lights near the player make lanterns matter at night without a per-lantern cost.
+      const lanternLights: THREE.PointLight[] = [];
+      for (let i = 0; i < 3; i++) {
+        const l = new THREE.PointLight(0xffb060, 0, 16, 1.6);
+        lanternLights.push(l);
+        scene.add(l);
+      }
+
+      // Quarry dust.
+      const dustGeo = new THREE.BufferGeometry();
+      dustGeo.setAttribute('position', new THREE.Float32BufferAttribute(new Float32Array(90 * 3), 3));
+      const puff = document.createElement('canvas');
+      puff.width = puff.height = 32;
+      const pctx = puff.getContext('2d')!;
+      const grad = pctx.createRadialGradient(16, 16, 1, 16, 16, 15);
+      grad.addColorStop(0, 'rgba(255,255,255,0.9)');
+      grad.addColorStop(1, 'rgba(255,255,255,0)');
+      pctx.fillStyle = grad;
+      pctx.fillRect(0, 0, 32, 32);
+      const dust = new THREE.Points(dustGeo, new THREE.PointsMaterial({ color: 0xd9d0b5, size: 1.1, map: new THREE.CanvasTexture(puff), transparent: true, opacity: 0.55, depthWrite: false }));
+      dust.frustumCulled = false;
+      scene.add(dust);
+      const dustData: DustParticle[] = [];
+      for (let i = 0; i < 90; i++) dustData.push({ x: 0, y: -100, z: 0, vx: 0, vy: 0, vz: 0, life: 0 });
+
+      const riteResponse = own(buildRiteResponse(scenery.riteBowl));
+      checkCancelled(options.signal);
+      const world = new WorldScene(state, library, {
+        scene, terrain, colliders, sky, water, sway, modules, environment, scenery, animals, terrainMesh,
+        physics, nav, lanternLights, dust, dustData, riteResponse, buildMs: performance.now() - t0, disposeOwned,
+      });
+      phase('finishing', 'Scene ready', 1, 1);
+      return world;
+    } catch (error) {
+      disposeSceneResources(scene, disposeOwned);
+      throw error;
     }
+  }
 
-    // Quarry dust.
-    const dustGeo = new THREE.BufferGeometry();
-    dustGeo.setAttribute('position', new THREE.Float32BufferAttribute(new Float32Array(90 * 3), 3));
-    const puff = document.createElement('canvas');
-    puff.width = puff.height = 32;
-    const pctx = puff.getContext('2d')!;
-    const grad = pctx.createRadialGradient(16, 16, 1, 16, 16, 15);
-    grad.addColorStop(0, 'rgba(255,255,255,0.9)');
-    grad.addColorStop(1, 'rgba(255,255,255,0)');
-    pctx.fillStyle = grad;
-    pctx.fillRect(0, 0, 32, 32);
-    this.dust = new THREE.Points(dustGeo, new THREE.PointsMaterial({ color: 0xd9d0b5, size: 1.1, map: new THREE.CanvasTexture(puff), transparent: true, opacity: 0.55, depthWrite: false }));
-    this.dust.frustumCulled = false;
-    this.scene.add(this.dust);
-    for (let i = 0; i < 90; i++) this.dustData.push({ x: 0, y: -100, z: 0, vx: 0, vy: 0, vz: 0, life: 0 });
-
-    this.riteResponse = buildRiteResponse(this.scenery.riteBowl);
-
+  private constructor(state: WorldState, library: AssetLibrary, resources: WorldResources) {
+    this.library = library;
+    this.scene = resources.scene;
+    this.terrain = resources.terrain;
+    this.colliders = resources.colliders;
+    this.sky = resources.sky;
+    this.water = resources.water;
+    this.sway = resources.sway;
+    this.modules = resources.modules;
+    this.environment = resources.environment;
+    this.scenery = resources.scenery;
+    this.animals = resources.animals;
+    this.terrainMesh = resources.terrainMesh;
+    this.physics = resources.physics;
+    this.nav = resources.nav;
+    this.lanternLights = resources.lanternLights;
+    this.dust = resources.dust;
+    this.dustData = resources.dustData;
+    this.riteResponse = resources.riteResponse;
+    this.disposeOwned = resources.disposeOwned;
     this.view = worldView(state);
     this.syncStatic(state, true);
-    this.buildStats.ms = performance.now() - t0;
+    this.buildStats.ms = resources.buildMs;
   }
 
   /** Apply durable state that is not animated: doors, pickups, brace, gate, boards. Instant when `snap`. */

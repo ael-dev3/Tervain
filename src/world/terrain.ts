@@ -5,6 +5,7 @@ import { lighthouseRock, shapeCoast, shoreDistance } from './coast';
 import { lighthouseFloorAt, lighthouseSurfacesAt } from './lighthouse';
 import { buildingStepSurfacesAt } from './buildingEntries';
 import { springBasinGround } from './water/spring';
+import { checkCancelled, finishCooperatively, type CooperativeOptions } from '../platform/cooperative';
 import { isWorldPickupItem } from '../content/pickups';
 import {
   ANCHORS,
@@ -414,6 +415,34 @@ export function roadWeight(x: number, z: number): number {
   return w;
 }
 
+interface TerrainFields { heights: Float32Array; carve: Float32Array }
+// Physical ground does not depend on graphics or save state. Keep only complete source samples;
+// every world receives copies, while source rock registration remains private to its Terrain.
+let cachedTerrainFields: TerrainFields | null = null;
+function copyTerrainFields(fields: TerrainFields): TerrainFields {
+  return { heights: fields.heights.slice(), carve: fields.carve.slice() };
+}
+export interface TerrainConstructionOptions extends CooperativeOptions {
+  onProgress?: (completed: number, total: number) => void;
+}
+
+/** Both paths use these exact rows, including the water cuts and source-independent authored ground. */
+function* terrainFieldSteps(nx: number, nz: number): Generator<number, TerrainFields> {
+  const w = nx + 1, h = nz + 1;
+  const heights = new Float32Array(w * h), carve = new Float32Array(w * h);
+  for (let j = 0; j < h; j++) {
+    for (let i = 0; i < w; i++) {
+      const x = WORLD.minX + i * WORLD.cell, z = WORLD.minZ + j * WORLD.cell;
+      const base = baseHeight(x, z), c = carveDepthAt(x, z);
+      const basin = springBasinGround(x, z, raceTrenchGround(x, z, base - c));
+      heights[j * w + i] = basin.ground;
+      carve[j * w + i] = Math.max(c, basin.water);
+    }
+    if ((j + 1) % 4 === 0 || j + 1 === h) yield j + 1;
+  }
+  return { heights, carve };
+}
+
 export class Terrain {
   readonly nx = (WORLD.maxX - WORLD.minX) / WORLD.cell;
   readonly nz = (WORLD.maxZ - WORLD.minZ) / WORLD.cell;
@@ -429,24 +458,34 @@ export class Terrain {
     return this.rockSurfaces.supportAt(x, z, feetY);
   }
 
-  constructor() {
-    const w = this.nx + 1;
-    const h = this.nz + 1;
-    this.heights = new Float32Array(w * h);
-    this.carve = new Float32Array(w * h);
-    for (let j = 0; j < h; j++) {
-      for (let i = 0; i < w; i++) {
-        const x = WORLD.minX + i * WORLD.cell;
-        const z = WORLD.minZ + j * WORLD.cell;
-        const base = baseHeight(x, z);
-        const c = carveDepthAt(x, z);
-        // The race's cut through its rise and the spring's basin reshape the ground; the carve keeps its meaning as
-        // the depth of the cut water stands in (the basin's own still water included).
-        const basin = springBasinGround(x, z, raceTrenchGround(x, z, base - c));
-        this.heights[j * w + i] = basin.ground;
-        this.carve[j * w + i] = Math.max(c, basin.water);
+  constructor(fields?: TerrainFields) {
+    if (!fields) {
+      if (cachedTerrainFields) fields = copyTerrainFields(cachedTerrainFields);
+      else {
+        const steps = terrainFieldSteps(this.nx, this.nz);
+        for (;;) { const next = steps.next(); if (next.done) { fields = next.value; break; } }
+        cachedTerrainFields = copyTerrainFields(fields);
       }
     }
+    if (fields.heights.length !== (this.nx + 1) * (this.nz + 1) || fields.carve.length !== fields.heights.length) throw new Error('Physical ground requires complete height and water samples.');
+    this.heights = fields.heights;
+    this.carve = fields.carve;
+  }
+
+  /** A world receives the completed physical ground only after all sampled rows are ready. */
+  static async create(options: TerrainConstructionOptions = {}): Promise<Terrain> {
+    checkCancelled(options.signal);
+    const nx = (WORLD.maxX - WORLD.minX) / WORLD.cell, nz = (WORLD.maxZ - WORLD.minZ) / WORLD.cell;
+    if (cachedTerrainFields) {
+      options.onProgress?.(nz + 1, nz + 1);
+      checkCancelled(options.signal);
+      return new Terrain(copyTerrainFields(cachedTerrainFields));
+    }
+    const fields = await finishCooperatively(terrainFieldSteps(nx, nz), {
+      ...options, onProgress: completed => options.onProgress?.(completed, nz + 1),
+    });
+    cachedTerrainFields ??= copyTerrainFields(fields);
+    return new Terrain(fields);
   }
 
   private idx(i: number, j: number) {

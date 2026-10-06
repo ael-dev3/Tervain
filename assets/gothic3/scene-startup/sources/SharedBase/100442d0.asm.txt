@@ -1,0 +1,32 @@
+100442d0 | 8b44240c | MOV EAX,dword ptr [ESP + 0xc]
+100442d4 | 83f818 | CMP EAX,0x18
+100442d7 | 7707 | JA 0x100442e0
+100442d9 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+100442dd | c20c00 | RET 0xc
+100442e0 | 56 | PUSH ESI
+100442e1 | 50 | PUSH EAX
+100442e2 | e841cdfbff | CALL 0x10001028
+100442e7 | 8bf0 | MOV ESI,EAX
+100442e9 | 85f6 | TEST ESI,ESI
+100442eb | 7504 | JNZ 0x100442f1
+100442ed | 5e | POP ESI
+100442ee | c20c00 | RET 0xc
+100442f1 | 8b44240c | MOV EAX,dword ptr [ESP + 0xc]
+100442f5 | 8b08 | MOV ECX,dword ptr [EAX]
+100442f7 | 890e | MOV dword ptr [ESI],ECX
+100442f9 | 8b5004 | MOV EDX,dword ptr [EAX + 0x4]
+100442fc | 895604 | MOV dword ptr [ESI + 0x4],EDX
+100442ff | 8b4808 | MOV ECX,dword ptr [EAX + 0x8]
+10044302 | 894e08 | MOV dword ptr [ESI + 0x8],ECX
+10044305 | 8b500c | MOV EDX,dword ptr [EAX + 0xc]
+10044308 | 89560c | MOV dword ptr [ESI + 0xc],EDX
+1004430b | 8b4810 | MOV ECX,dword ptr [EAX + 0x10]
+1004430e | 894e10 | MOV dword ptr [ESI + 0x10],ECX
+10044311 | 8b5014 | MOV EDX,dword ptr [EAX + 0x14]
+10044314 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+10044318 | 50 | PUSH EAX
+10044319 | 895614 | MOV dword ptr [ESI + 0x14],EDX
+1004431c | e8dcf7fbff | CALL 0x10003afd
+10044321 | 8bc6 | MOV EAX,ESI
+10044323 | 5e | POP ESI
+10044324 | c20c00 | RET 0xc

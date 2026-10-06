@@ -1,0 +1,13 @@
+/* ENTRY 1002a8a0 | FUN_1002a8a0 | STATUS decompiled | 2 ms */
+
+void __fastcall FUN_1002a8a0(undefined4 *param_1)
+
+{
+  *param_1 = 0x7f7fffff;
+  param_1[1] = 0x7f7fffff;
+  param_1[2] = 0x7f7fffff;
+  param_1[3] = 0xff7fffff;
+  param_1[4] = 0xff7fffff;
+  param_1[5] = 0xff7fffff;
+  return;
+}

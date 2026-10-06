@@ -6,6 +6,7 @@ import { barkTextures } from './treeTextures';
 import { installBarkDetail } from './treeMaterials';
 import { assertNaturalModelBudget } from './naturalModelBudget';
 import { modelAssetUrl } from './assets/modelUrl';
+import { withModelLoadSlot, type ModelLoadProgress } from './assets/modelLoadQueue';
 
 export const PINE_FILES = ['solitary-pine-under-10k.glb', 'solitary-pine-mid.glb', 'solitary-pine-far.glb'] as const;
 export type PineSpecies = 'pine' | 'fir' | 'shorepine';
@@ -24,35 +25,45 @@ export function solitaryPineUrl(file: string, base = import.meta.env.BASE_URL, p
 function load(file: string): Promise<GLTF> {
   const existing = pending.get(file);
   if (existing) return existing;
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 60_000);
-  const request = (async () => {
-    const url = solitaryPineUrl(file);
-    const response = await fetch(url, { signal: controller.signal });
-    if (!response.ok) throw new Error(`The forest model could not load (HTTP ${response.status}).`);
-    if (response.headers.get('content-type')?.includes('text/html')) throw new Error('The forest model URL returned a page instead of model data.');
-    const buffer = await response.arrayBuffer();
-    if (buffer.byteLength < 12) throw new Error('The forest model download is incomplete.');
-    const header = new DataView(buffer);
-    if (header.getUint32(0, true) !== 0x46546c67 || header.getUint32(4, true) !== 2 || header.getUint32(8, true) !== buffer.byteLength) {
-      throw new Error('The forest model download is not a complete GLB 2 file.');
-    }
-    const gltf = await new GLTFLoader().parseAsync(buffer, new URL('.', url).href);
-    if (new THREE.Box3().setFromObject(gltf.scene).isEmpty()) throw new Error('The forest model contains no geometry.');
-    const decoded = parts(gltf);
-    if (file !== PINE_FILES[2] && !decoded.wood) throw new Error('Close forest models must include real woody branches.');
-    return gltf;
-  })().catch((error: unknown) => {
+  const request = withModelLoadSlot(async () => {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 60_000);
+    try {
+      const url = solitaryPineUrl(file);
+      const response = await fetch(url, { signal: controller.signal });
+      if (!response.ok) throw new Error(`The forest model could not load (HTTP ${response.status}).`);
+      if (response.headers.get('content-type')?.includes('text/html')) throw new Error('The forest model URL returned a page instead of model data.');
+      const buffer = await response.arrayBuffer();
+      if (buffer.byteLength < 12) throw new Error('The forest model download is incomplete.');
+      const header = new DataView(buffer);
+      if (header.getUint32(0, true) !== 0x46546c67 || header.getUint32(4, true) !== 2 || header.getUint32(8, true) !== buffer.byteLength) {
+        throw new Error('The forest model download is not a complete GLB 2 file.');
+      }
+      const gltf = await new GLTFLoader().parseAsync(buffer, new URL('.', url).href);
+      if (new THREE.Box3().setFromObject(gltf.scene).isEmpty()) throw new Error('The forest model contains no geometry.');
+      const decoded = parts(gltf);
+      if (file !== PINE_FILES[2] && !decoded.wood) throw new Error('Close forest models must include real woody branches.');
+      return gltf;
+    } finally { clearTimeout(timeout); }
+  }).catch((error: unknown) => {
     pending.delete(file);
     throw error;
-  }).finally(() => clearTimeout(timeout));
+  });
   pending.set(file, request);
   return request;
 }
 
 /** Cache CPU templates; every world receives separate disposable GPU resources. */
-export async function loadSolitaryPine(): Promise<PineTemplates> {
-  return await Promise.all(PINE_FILES.map(load)) as unknown as PineTemplates;
+export async function loadSolitaryPine(progress?: ModelLoadProgress): Promise<PineTemplates> {
+  let complete = 0, active = true;
+  progress?.(0, PINE_FILES.length);
+  try {
+    return await Promise.all(PINE_FILES.map(async file => {
+      const template = await load(file);
+      if (active) progress?.(++complete, PINE_FILES.length);
+      return template;
+    })) as unknown as PineTemplates;
+  } finally { active = false; }
 }
 
 interface Part { geometry: THREE.BufferGeometry; material: THREE.MeshStandardMaterial; matrix: THREE.Matrix4 }

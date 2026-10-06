@@ -47,6 +47,7 @@ assets/gothic3/entity-construction/** -text -eol whitespace=cr-at-eol,-blank-at-
 assets/gothic3/control-reading/** -text -eol whitespace=cr-at-eol,-blank-at-eof
 assets/gothic3/sensor-reading/** -text -eol whitespace=cr-at-eol,-blank-at-eof
 assets/gothic3/runtime-admin/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/npc-heap/** -text -eol whitespace=cr-at-eol,-blank-at-eof
 assets/gothic3/construction-reading-checkpoint.json -text -eol
 # These implementations/producers are individually byte-pinned by native receipts.
 src/gothic3/inventory.ts -text -eol
@@ -182,6 +183,9 @@ assets/gothic3/entity-construction/sources/** -whitespace
 assets/gothic3/control-reading/sources/** -whitespace
 assets/gothic3/sensor-reading/sources/** -whitespace
 assets/gothic3/runtime-admin/sources/** -whitespace
+assets/gothic3/npc-heap/sources/** -whitespace
+assets/gothic3/scene-startup/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/scene-startup/sources/** -whitespace
 public/gothic3/sensor-reading/sources/** -whitespace
 assets/gothic3/npc-reading/sources/** -whitespace
 assets/gothic3/inventory-reading/sources/** -whitespace

@@ -1,0 +1,45 @@
+/* ENTRY 30087db0 | FUN_30087db0 | STATUS decompiled | 12 ms */
+
+undefined4 __thiscall FUN_30087db0(int param_1,eCInputReceiver *param_2)
+
+{
+  eCInputReceiver *this;
+  bool bVar1;
+  char cVar2;
+  int iVar3;
+  eEInputPriority eVar4;
+  int *piVar5;
+  
+  this = param_2;
+  bVar1 = eCInputReceiver::IsInputEnabled(param_2);
+  if (bVar1) {
+    iVar3 = *(int *)(param_1 + 0x14);
+    if (iVar3 != 0) {
+      piVar5 = (int *)(*(int *)(param_1 + 0x10) + iVar3 * 4);
+      do {
+        piVar5 = piVar5 + -1;
+        iVar3 = iVar3 + -1;
+        if (this == (eCInputReceiver *)*piVar5) {
+          if (iVar3 != -1) {
+            return 1;
+          }
+          break;
+        }
+      } while (iVar3 != 0);
+    }
+    param_2 = this;
+    cVar2 = thunk_FUN_300882e0(&param_2);
+    if (cVar2 != '\x01') {
+      param_2 = this;
+      eVar4 = (*this->vftablePtr->GetInputPriority)(this);
+      if (eVar4 == 0) {
+        thunk_FUN_300885c0(&param_2);
+      }
+      else if (eVar4 == 1) {
+        thunk_FUN_300885c0(&param_2);
+        return 1;
+      }
+    }
+  }
+  return 1;
+}

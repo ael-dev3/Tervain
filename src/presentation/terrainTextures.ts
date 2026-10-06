@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { checkCancelled, type CooperativeOptions } from '../platform/cooperative';
 
 /**
  * Procedural ground textures for the terrain: eight tileable layers with albedo and a height-derived normal map, made once
@@ -378,12 +379,26 @@ const MAKERS: Record<LayerName, (n: number) => Layer> = { grass, heath, earth, g
 /** Relief strength per layer when turning height into a normal. */
 const RELIEF: Record<LayerName, number> = { grass: 3.4, heath: 3.7, earth: 6, gravel: 8, sand: 3.2, wetsand: 2.5, rock: 11, path: 4.5 };
 
-/** Builds all layers. `yieldNow` lets the caller repaint a loading screen between layers. */
-export async function makeTerrainTextures(size: number, yieldNow: () => Promise<void> = async () => {}): Promise<TerrainTextures> {
+export interface TerrainTextureData {
+  albedo: Uint8Array;
+  normal: Uint8Array;
+}
+
+export interface TerrainTextureOptions extends CooperativeOptions {
+  onProgress?: (completed: number, total: number, layer: LayerName) => void;
+  /** Test/offline hosts can opt out; browsers generate pixels away from their input/render thread. */
+  worker?: boolean;
+}
+
+/** CPU pixels only: identical seeds and packing in the worker and the cooperative fallback. */
+export async function generateTerrainTextureData(size: number, yieldNow: () => Promise<void> = async () => {}, options: TerrainTextureOptions = {}): Promise<TerrainTextureData> {
+  if (!Number.isInteger(size) || size < 1) throw new Error('Terrain texture size must be a positive integer.');
+  checkCancelled(options.signal);
   const n = size;
   const alb = new Uint8Array(n * n * 4 * LAYERS.length);
   const nrm = new Uint8Array(n * n * 4 * LAYERS.length);
   for (let li = 0; li < LAYERS.length; li++) {
+    checkCancelled(options.signal);
     const name = LAYERS[li]!;
     const L = MAKERS[name](n);
     const base = li * n * n * 4;
@@ -394,8 +409,62 @@ export async function makeTerrainTextures(size: number, yieldNow: () => Promise<
       alb[base + o * 4 + 3] = 255;
     }
     packNormal(L.h, n, RELIEF[name] * (n / 512), nrm, li);
+    options.onProgress?.(li + 1, LAYERS.length, name);
     await yieldNow();
   }
+  checkCancelled(options.signal);
+  return { albedo: alb, normal: nrm };
+}
+
+type TextureWorkerReply = { type: 'progress'; completed: number; total: number; layer: LayerName }
+  | { type: 'complete'; albedo: Uint8Array; normal: Uint8Array }
+  | { type: 'error'; message: string };
+
+/** Worker boot failures fall back; generation errors remain visible to the normal loading/retry screen. */
+async function textureDataInWorker(size: number, options: TerrainTextureOptions): Promise<TerrainTextureData | null> {
+  if (options.worker === false || typeof Worker === 'undefined') return null;
+  checkCancelled(options.signal);
+  let worker: Worker;
+  try { worker = new Worker(new URL('./terrainTextureWorker.ts', import.meta.url), { type: 'module' }); }
+  catch { return null; }
+  return await new Promise<TerrainTextureData | null>((resolve, reject) => {
+    let completed = false;
+    const finish = (result: TerrainTextureData | null, error?: unknown) => {
+      if (completed) return;
+      completed = true;
+      options.signal?.removeEventListener('abort', abort);
+      worker.terminate();
+      if (error !== undefined) reject(error); else resolve(result);
+    };
+    const abort = () => finish(null, options.signal?.reason ?? new DOMException('Loading was cancelled.', 'AbortError'));
+    options.signal?.addEventListener('abort', abort, { once: true });
+    worker.onmessage = (event: MessageEvent<TextureWorkerReply>) => {
+      if (completed) return;
+      const reply = event.data;
+      if (reply.type === 'error') finish(null, new Error(reply.message));
+      else if (reply.type === 'complete') finish({ albedo: reply.albedo, normal: reply.normal });
+      else {
+        try { options.onProgress?.(reply.completed, reply.total, reply.layer); }
+        catch (error) { finish(null, error); }
+      }
+    };
+    worker.onerror = event => {
+      event.preventDefault();
+      // Module loading/CSP failures cannot send our protocol. Explicit generation errors use the error reply above.
+      finish(null);
+    };
+    try { worker.postMessage({ size }); }
+    catch (error) { finish(null, error); }
+  });
+}
+
+/** Builds GPU texture handles on the main thread after the worker has transferred its pixel buffers. */
+export async function makeTerrainTextures(size: number, yieldNow: () => Promise<void> = async () => {}, options: TerrainTextureOptions = {}): Promise<TerrainTextures> {
+  if (!Number.isInteger(size) || size < 1) throw new Error('Terrain texture size must be a positive integer.');
+  checkCancelled(options.signal);
+  const data = await textureDataInWorker(size, options) ?? await generateTerrainTextureData(size, yieldNow, options);
+  checkCancelled(options.signal);
+  const n = size;
   const mk = (data: Uint8Array, srgb: boolean) => {
     const t = new THREE.DataArrayTexture(data, n, n, LAYERS.length);
     t.format = THREE.RGBAFormat;
@@ -409,8 +478,8 @@ export async function makeTerrainTextures(size: number, yieldNow: () => Promise<
     t.needsUpdate = true;
     return t;
   };
-  const albedo = mk(alb, true);
-  const normal = mk(nrm, false);
+  const albedo = mk(data.albedo, true);
+  const normal = mk(data.normal, false);
   return {
     albedo,
     normal,

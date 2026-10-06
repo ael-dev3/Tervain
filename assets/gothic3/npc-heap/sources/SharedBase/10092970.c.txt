@@ -1,0 +1,14 @@
+/* ENTRY 10092970 | FUN_10092970 | STATUS decompiled | 3 ms */
+
+void __thiscall FUN_10092970(undefined4 *param_1,undefined4 *param_2)
+
+{
+  if (param_1 != param_2) {
+    *param_1 = *param_2;
+    param_1[1] = param_2[1];
+    param_1[2] = param_2[2];
+    param_1[3] = param_2[3];
+    param_1[4] = 0;
+  }
+  return;
+}

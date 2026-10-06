@@ -1,0 +1,8 @@
+/* ENTRY 10010ef0 | FUN_10010ef0 | STATUS decompiled | 2 ms */
+
+void __thiscall FUN_10010ef0(LPCRITICAL_SECTION param_1,DWORD param_2)
+
+{
+  SetCriticalSectionSpinCount(param_1,param_2);
+  return;
+}

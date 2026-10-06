@@ -1,0 +1,5 @@
+10010ef0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+10010ef4 | 50 | PUSH EAX
+10010ef5 | 51 | PUSH ECX
+10010ef6 | ff1500962f10 | CALL dword ptr [0x102f9600]
+10010efc | c20400 | RET 0x4

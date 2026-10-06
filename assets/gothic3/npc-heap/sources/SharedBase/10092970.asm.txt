@@ -1,0 +1,14 @@
+10092970 | 8bc1 | MOV EAX,ECX
+10092972 | 8b4c2404 | MOV ECX,dword ptr [ESP + 0x4]
+10092976 | 3bc1 | CMP EAX,ECX
+10092978 | 741d | JZ 0x10092997
+1009297a | 8b11 | MOV EDX,dword ptr [ECX]
+1009297c | 8910 | MOV dword ptr [EAX],EDX
+1009297e | 8b5104 | MOV EDX,dword ptr [ECX + 0x4]
+10092981 | 895004 | MOV dword ptr [EAX + 0x4],EDX
+10092984 | 8b5108 | MOV EDX,dword ptr [ECX + 0x8]
+10092987 | 895008 | MOV dword ptr [EAX + 0x8],EDX
+1009298a | 8b490c | MOV ECX,dword ptr [ECX + 0xc]
+1009298d | 89480c | MOV dword ptr [EAX + 0xc],ECX
+10092990 | c7401000000000 | MOV dword ptr [EAX + 0x10],0x0
+10092997 | c20400 | RET 0x4

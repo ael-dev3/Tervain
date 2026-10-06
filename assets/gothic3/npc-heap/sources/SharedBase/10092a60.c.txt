@@ -1,0 +1,7 @@
+/* ENTRY 10092a60 | FUN_10092a60 | STATUS decompiled | 2 ms */
+
+int FUN_10092a60(uint *param_1)
+
+{
+  return (*param_1 >> 3) + param_1[4];
+}

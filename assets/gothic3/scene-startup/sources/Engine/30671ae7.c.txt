@@ -1,0 +1,56 @@
+/* ENTRY 30671ae7 | FUN_30671ae7 | STATUS decompiled | 40 ms */
+
+/* WARNING: Function: __SEH_prolog4 replaced with injection: SEH_prolog4 */
+/* WARNING: Function: __SEH_epilog4 replaced with injection: EH_epilog3 */
+
+int FUN_30671ae7(int *param_1,int param_2,_s_RTTICompleteObjectLocator *param_3,
+                TypeDescriptor *param_4,int param_5)
+
+{
+  uint uVar1;
+  int iVar2;
+  void *pvVar3;
+  _s_RTTIBaseClassDescriptor *p_Var4;
+  TypeDescriptor *pTVar5;
+  PMD *in_stack_ffffffc4;
+  bad_cast local_2c;
+  undefined4 local_20;
+  undefined4 uStack_c;
+  undefined4 local_8;
+  
+  uStack_c = 0x30671af3;
+  if (param_1 == (int *)0x0) {
+    iVar2 = 0;
+  }
+  else {
+    local_8 = 0;
+    pvVar3 = (void *)FUN_30671787();
+    pTVar5 = (TypeDescriptor *)((int)param_1 + (-(int)pvVar3 - param_2));
+    uVar1 = *(uint *)(*(int *)(*(int *)(*param_1 + -4) + 0x10) + 4);
+    if ((uVar1 & 1) == 0) {
+      p_Var4 = FindSITargetTypeInstance(param_3,param_4,(TypeDescriptor *)in_stack_ffffffc4);
+    }
+    else if ((uVar1 & 2) == 0) {
+      p_Var4 = FindMITargetTypeInstance
+                         (pvVar3,param_3,pTVar5,(int)param_4,(TypeDescriptor *)in_stack_ffffffc4);
+    }
+    else {
+      p_Var4 = FindVITargetTypeInstance
+                         (pvVar3,param_3,pTVar5,(int)param_4,(TypeDescriptor *)in_stack_ffffffc4);
+    }
+    if (p_Var4 == (_s_RTTIBaseClassDescriptor *)0x0) {
+      iVar2 = 0;
+      local_20 = 0;
+      if (param_5 != 0) {
+        std::bad_cast::bad_cast(&local_2c);
+                    /* WARNING: Subroutine does not return */
+        __CxxThrowException_8(&local_2c,&DAT_3094e4f8);
+      }
+    }
+    else {
+      iVar2 = PMDtoOffset(pvVar3,in_stack_ffffffc4);
+      iVar2 = iVar2 + (int)pvVar3;
+    }
+  }
+  return iVar2;
+}
