@@ -59,6 +59,7 @@ uniform float uNight;
 uniform float uChromatic;
 uniform vec2 uTexel;
 uniform sampler2D tDepth;
+uniform float uWaterTime;
 uniform float uUnder;
 uniform float uUnderDepthReady;
 uniform vec3 uUnderColor;
@@ -92,7 +93,7 @@ void main() {
   if (uUnder > 0.5) {
     // Under the surface everything is seen through water: a slow refractive wobble, then absorption and in-scatter over
     // the real path to each pixel. The surface overhead ends that path; the sky beyond comes through Snell's window.
-    vec2 wob = vec2(sin(vUv.y * 31.0 + uTime * 1.9), cos(vUv.x * 27.0 + uTime * 1.6)) * 0.0022;
+    vec2 wob = vec2(sin(vUv.y * 31.0 + uWaterTime * 1.9), cos(vUv.x * 27.0 + uWaterTime * 1.6)) * 0.0022;
     c = texture2D(tScene, vUv + wob).rgb + texture2D(tBloom, vUv + wob).rgb * uBloom;
     vec4 far = uUnderInverseProjection * vec4(vUv * 2.0 - 1.0, 1.0, 1.0);
     vec3 ray = normalize(far.xyz / far.w);
@@ -107,8 +108,8 @@ void main() {
       // Sunlight focused by the waves overhead plays over the bed: the caustic web, sharp near the surface.
       vec3 bed = uUnderCameraWorld[3].xyz + dir * path;
       float below = uUnderCameraWorld[3].y + uUnderSurface - bed.y;
-      float a = texture2D(tUnderCaustics, bed.xz * 0.31 + vec2(uTime * 0.021, uTime * 0.013)).r;
-      float b = texture2D(tUnderCaustics, bed.xz * 0.27 + vec2(-uTime * 0.017, uTime * 0.019) + 0.37).r;
+      float a = texture2D(tUnderCaustics, bed.xz * 0.31 + vec2(uWaterTime * 0.021, uWaterTime * 0.013)).r;
+      float b = texture2D(tUnderCaustics, bed.xz * 0.27 + vec2(-uWaterTime * 0.017, uWaterTime * 0.019) + 0.37).r;
       float web = min(a, b) * 1.6 + (a + b) * 0.12;
       c *= 1.0 + web * uUnderLight * smoothstep(0.05, 0.4, below) * exp(-below * 0.3);
     }
@@ -160,6 +161,7 @@ export class Grade {
   private w = 1;
   private h = 1;
   private time = 0;
+  private waterTime = 0;
   private waterPass = new WaterRenderPass();
   enabled = true;
   /** Off on the low preset: it costs three small passes. */
@@ -186,6 +188,7 @@ export class Grade {
         uChromatic: { value: 0 },
         uTexel: { value: new THREE.Vector2(1, 1) },
         tDepth: { value: null as THREE.Texture | null },
+        uWaterTime: { value: 0 },
         uUnder: { value: 0 },
         uUnderDepthReady: { value: 0 },
         uUnderColor: { value: new THREE.Color() },
@@ -289,6 +292,8 @@ export class Grade {
     }
     this.time += dt;
     this.material.uniforms.uTime!.value = this.time;
+    if (water && !water.reducedMotion) this.waterTime += dt;
+    this.material.uniforms.uWaterTime!.value = this.waterTime;
     const r = this.renderer;
     // Tone mapping belongs to the final pass (three applies it only when drawing to the screen); the scene itself is
     // written in linear light.

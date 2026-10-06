@@ -161,9 +161,12 @@ the ripples and the fish.
   - they drift with a current and bob with a moving surface;
   - one splash per drop;
   - buoyancy is released when the water is taken away.
+  - restoring formerly floating cargo on dry ground clears its standing forces and torques, so gravity resumes.
 - **Swimming:** the hero walks out of his depth into a swim and floats at the surface at swimming pace. He cannot
   fight, guard, jump or dodge there. A current carries him, he finds his feet in the shallows and drips on climbing
   out. Without the water model, deep water still simply blocks.
+  Dry bridges and elevated supports retain ordinary walking pace even above a deep bed; shallow submerged supports
+  let the swimmer regain footing and wade out.
 - **Hero pose:** the breaststroke keeps his head above the waterline with one stroke a cycle; treading is upright, and
   he stands straight on leaving the water.
 - **Sound:** surf on the strand's breaker line and on the headland's rock; calm water at the ford and the pool, white
@@ -174,7 +177,13 @@ the ripples and the fish.
   - no inland water sheet floating above its ground;
   - the pool at the model's level;
   - spray and ripple guards;
-  - arrows that splash once, slow, float and drift.
+  - arrows that splash once, slow, float and drift;
+  - a remembered camera side with separate water-entry and exit clearances prevents waves from repeatedly snapping
+    a stationary swimming view across the surface;
+  - underwater lens adjustments preserve the boom's bed and rock clearance, falling back above water at shallow banks;
+  - the sea grid projects against the wave surface at the lens, keeping foreground coverage above troughs and overhead
+    coverage below crests even when the eye crosses mean sea level;
+  - Reduced Motion freezes underwater refraction and caustics while preserving unrelated presentation timing.
 - **Browser review:** headless captures were checked on the strand at noon, low and at sunset, on Lantern Rocks, in
   the bay, at the ford, on the main stream, the village race, the spring and its fall, swimming (still and moving) and
   under water.

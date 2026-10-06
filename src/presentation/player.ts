@@ -576,9 +576,11 @@ export class Player {
 
   /** Deep enough to swim, or shallow enough to stand again: the switch between the two, with its splash. */
   private updateSwimming(water: ReturnType<PlayerWater['sample']>, ctx: PlayerCtx) {
-    this.waterDepth = water ? water.depth : 0;
+    this.waterDepth = water ? Math.max(0, Math.min(water.depth, water.surface - this.y)) : 0;
     if (!ctx.water) return;
-    if (!this.swimming && water && this.alive && water.depth >= SWIM_DEPTH && (this.grounded || this.y <= water.surface - SWIM_FLOAT + 0.05)) {
+    // A bridge, rock or loose body's top is footing: water below it cannot immerse the feet above it.
+    const standingDepth = water ? Math.max(0, water.surface - this.supportAt(this.x, this.z, ctx)) : 0;
+    if (!this.swimming && water && this.alive && standingDepth >= SWIM_DEPTH && (this.grounded || this.y <= water.surface - SWIM_FLOAT + 0.05)) {
       this.swimming = true;
       // Whatever was in hand stops: no blows, guard, aim or work in deep water.
       if (this.state === 'channel') this.cancelChannel();
@@ -590,14 +592,14 @@ export class Player {
       if (this.clock - this.splashedAt < 0.6) ctx.water.emit('enter', this.x, water.surface, this.z, 0.8);
       else ctx.water.splash(this.x, water.surface, this.z, 0.3, { x: this.vx * 0.3, z: this.vz * 0.3 }, 'enter');
       this.vy = Math.min(0, this.vy) * 0.35;
-    } else if (this.swimming && (!water || water.depth < SWIM_EXIT || !this.alive)) {
+    } else if (this.swimming && (!water || standingDepth < SWIM_EXIT || !this.alive)) {
       this.swimming = false;
       this.vy = 0;
       // Feet find the bed; the ordinary footing takes over from here.
       const ground = this.supportAt(this.x, this.z, ctx);
       if (this.y - ground <= GROUND_FOLLOW_DROP + 0.4) { this.y = Math.max(this.y, ground); this.grounded = true; }
     }
-    if (water && water.depth > 0.75) this.soaked = 1;
+    if (this.waterDepth > 0.75) this.soaked = 1;
   }
 
   /** A footfall: the surface's own step, or in deeper water a wading slosh and the ripples it leaves. */

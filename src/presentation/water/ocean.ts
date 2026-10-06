@@ -134,6 +134,7 @@ const VERT = /* glsl */ `
 attribute vec2 aGrid;
 uniform mat4 uGridInverse;
 uniform vec3 uGridCamera;
+uniform float uGridPlaneY;
 uniform vec4 uGridRange;   // ndc y bottom, ndc y top, ndc x half-extent, grid columns
 uniform float uGridFar;
 uniform float uTime;
@@ -150,12 +151,12 @@ vec3 gridPoint(vec2 g) {
   vec4 b = uGridInverse * vec4(ndc, 1.0, 1.0);
   vec3 near = a.xyz / a.w, far = b.xyz / b.w;
   vec3 dir = normalize(far - near);
-  float t = (SEA_LEVEL - uGridCamera.y) / (abs(dir.y) > 1e-5 ? dir.y : -1e-5);
+  float t = (uGridPlaneY - uGridCamera.y) / (abs(dir.y) > 1e-5 ? dir.y : -1e-5);
   if (!(t > 0.0) || t > uGridFar) {
     vec2 h = normalize(dir.xz + vec2(1e-5, 0.0));
-    return vec3(uGridCamera.x + h.x * uGridFar, SEA_LEVEL, uGridCamera.z + h.y * uGridFar);
+    return vec3(uGridCamera.x + h.x * uGridFar, uGridPlaneY, uGridCamera.z + h.y * uGridFar);
   }
-  return vec3(uGridCamera.x + dir.x * t, SEA_LEVEL, uGridCamera.z + dir.z * t);
+  return vec3(uGridCamera.x + dir.x * t, uGridPlaneY, uGridCamera.z + dir.z * t);
 }
 void main() {
   vec3 p = gridPoint(aGrid);
@@ -326,7 +327,7 @@ void main() {
 export interface OceanHandle {
   mesh: THREE.Mesh<THREE.BufferGeometry, THREE.ShaderMaterial>;
   /** Lay the grid for this camera and set the clock. */
-  update(camera: THREE.PerspectiveCamera, time: number, detail: number): void;
+  update(camera: THREE.PerspectiveCamera, time: number, detail: number, surface?: number): void;
   dispose(): void;
 }
 
@@ -361,6 +362,7 @@ export function buildOcean(bathymetry: Bathymetry, textures: { bed: THREE.DataTe
     uniforms: {
       ...THREE.UniformsUtils.clone(THREE.UniformsLib.fog), ...makeWaterOpticsUniforms(0.92),
       uGridInverse: { value: new THREE.Matrix4() }, uGridCamera: { value: new THREE.Vector3() },
+      uGridPlaneY: { value: SEA_LEVEL },
       uGridRange: { value: new THREE.Vector4(-1.2, 1, 1.2, q.columns) }, uGridFar: { value: FAR },
       uTime: { value: 0 }, uDetail: { value: quality === 'low' ? 0 : 1 },
       tBathy: { value: textures.bed }, tBathyWave: { value: textures.wave },
@@ -385,12 +387,16 @@ export function buildOcean(bathymetry: Bathymetry, textures: { bed: THREE.DataTe
   const forward = new THREE.Vector3(), horizon = new THREE.Vector3(), cameraPosition = new THREE.Vector3();
   return {
     mesh,
-    update(camera, time, detail) {
+    update(camera, time, detail, surface = SEA_LEVEL) {
       const u = material.uniforms;
       u.uTime!.value = time;
       u.uDetail!.value = detail;
       camera.updateMatrixWorld();
       camera.getWorldPosition(cameraPosition);
+      // The lens clears the actual wave, so it can stand above a trough yet below mean sea level (or under a crest
+      // while above the mean). Project against that same local surface to retain the correct foreground half of view.
+      const planeY = Number.isFinite(surface) ? surface : SEA_LEVEL;
+      u.uGridPlaneY!.value = planeY;
       viewProjection.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
       u.uGridInverse!.value.copy(viewProjection).invert();
       u.uGridCamera!.value.copy(cameraPosition);
@@ -400,9 +406,9 @@ export function buildOcean(bathymetry: Bathymetry, textures: { bed: THREE.DataTe
       if (forward.lengthSq() < 1e-8) forward.set(0, 0, -1);
       forward.normalize();
       horizon.copy(cameraPosition).addScaledVector(forward, FAR);
-      horizon.y = SEA_LEVEL;
+      horizon.y = planeY;
       horizon.project(camera);
-      const above = cameraPosition.y >= SEA_LEVEL;
+      const above = cameraPosition.y >= planeY;
       const top = Number.isFinite(horizon.y) ? Math.min(1.05, horizon.y + 0.02) : 1.05;
       u.uGridRange!.value.set(above ? -1.25 : Math.max(-1.25, horizon.y - 0.02), above ? top : 1.25, 1.25, q.columns);
     },

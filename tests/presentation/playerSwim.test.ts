@@ -4,9 +4,11 @@ import { Game } from '../../src/game/game';
 import type { Input } from '../../src/platform/input';
 import { defaultSettings } from '../../src/platform/settings';
 import type { AudioEngine } from '../../src/presentation/audio';
-import { Player, SWIM_DEPTH, SWIM_FLOAT, SWIM_SPEED, wadeFactor, type PlayerCtx, type PlayerWater } from '../../src/presentation/player';
+import { HERO_WALK_SPEED } from '../../src/presentation/hero/locomotion';
+import { Player, SWIM_DEPTH, SWIM_EXIT, SWIM_FLOAT, SWIM_SPEED, wadeFactor, type PlayerCtx, type PlayerWater } from '../../src/presentation/player';
 import { Colliders } from '../../src/world/colliders';
-import type { Terrain } from '../../src/world/terrain';
+import { Terrain } from '../../src/world/terrain';
+import { WaterWorld } from '../../src/world/water/waterWorld';
 
 vi.mock('../../src/presentation/characters', () => ({
   createPlayerRig: () => ({ root: new THREE.Group(), hitFlash: 0 }),
@@ -59,12 +61,91 @@ describe('wading and swimming', () => {
     expect(wadeFactor(3)).toBeCloseTo(0.5, 6);
   });
 
+  it('crosses the real dry footbridge at walking pace without current drift or wading effects', () => {
+    const s = setup();
+    s.ctx.terrain = new Terrain();
+    const water = new WaterWorld(s.ctx.terrain);
+    s.ctx.water!.sample = (x, z) => water.sample(x, z);
+    s.player.setPosition(36.6, 1.2, Math.PI / 2, s.ctx.terrain);
+    const beneath = water.sample(s.player.x, s.player.z)!;
+    expect(beneath.depth).toBeGreaterThan(1);
+    expect(beneath.surface).toBeLessThan(s.player.y);
+    s.run(1);
+    expect(s.player.x).toBe(36.6);
+    expect(s.player.z).toBe(1.2);
+    s.ctx.viewYaw = Math.PI / 2;
+    s.setMove(0, 1);
+    s.run(1);
+    expect(s.player.waterDepth).toBe(0);
+    expect(s.player.lastMoveSpeed).toBeCloseTo(HERO_WALK_SPEED, 2);
+    expect(s.player.surface).toBe('deck');
+    expect(s.audio.footstep).toHaveBeenCalledWith('deck', false);
+    expect(s.events).toEqual([]);
+    expect(s.ctx.water!.disturb).not.toHaveBeenCalled();
+  });
+
+  it('keeps a dry elevated deck over deep water out of swimming and wading', () => {
+    const s = setup(0.8);
+    const deck = { id: 'raised_deck', x: -12, z: 0, hx: 8, hz: 2, yaw: 0, y: 0.75 };
+    s.ctx.terrain.groundAt = s.ctx.terrain.supportAt = () => deck.y;
+    s.ctx.terrain.deckAt = () => deck;
+    s.player.setPosition(-12, 0, -Math.PI / 2, s.ctx.terrain);
+    expect(s.ctx.water!.sample(s.player.x, s.player.z)!.depth).toBeGreaterThan(SWIM_DEPTH);
+    s.run(1);
+    expect(s.player.x).toBe(-12);
+    expect(s.player.swimming).toBe(false);
+    expect(s.player.waterDepth).toBe(0);
+    s.setMove(0, 1);
+    s.run(1);
+    expect(s.player.lastMoveSpeed).toBeCloseTo(HERO_WALK_SPEED, 2);
+    expect(s.player.grounded).toBe(true);
+    expect(s.events).toEqual([]);
+    expect(s.ctx.water!.disturb).not.toHaveBeenCalled();
+    s.presses.add('jump');
+    s.run(1 / 60);
+    expect(s.audio.jump).toHaveBeenCalledWith('deck');
+  });
+
+  it('finds submerged ramp footing over a deep bed, wades up it and leaves the water', () => {
+    const s = setup();
+    const ramp = (x: number) => Math.max(-3, Math.min(0.3, -3 + (x + 6) * 0.6));
+    s.ctx.terrain.groundAt = s.ctx.terrain.supportAt = s.ctx.terrain.heightAt = () => -3;
+    s.ctx.water!.sample = () => ({ surface: 0, bed: -3, depth: 3, flowX: 0, flowZ: 0 });
+    s.ctx.physics = {
+      move: (x, y, z, dx, dz) => ({ x: x + dx, y, z: z + dz }),
+      supportAt: (x) => ramp(x), ceilingAt: () => null,
+    };
+    s.player.setPosition(-8, 0, Math.PI / 2, s.ctx.terrain);
+    s.run(1);
+    expect(s.player.swimming).toBe(true);
+    s.ctx.viewYaw = Math.PI / 2;
+    s.setMove(0, 1);
+    let foundFooting = false;
+    for (let i = 0; i < 8 * 60; i++) {
+      s.run(1 / 60);
+      if (!s.player.swimming && s.player.waterDepth > 0.1) {
+        foundFooting = true;
+        expect(s.player.grounded).toBe(true);
+        expect(s.player.y).toBeCloseTo(ramp(s.player.x), 5);
+        expect(s.player.waterDepth).toBeLessThan(SWIM_EXIT);
+      }
+    }
+    expect(foundFooting).toBe(true);
+    expect(s.player.swimming).toBe(false);
+    expect(s.player.grounded).toBe(true);
+    expect(s.player.y).toBeCloseTo(0.3, 5);
+    expect(s.player.waterDepth).toBe(0);
+    expect(s.events.some((e) => e.kind === 'wade')).toBe(true);
+    expect(s.events.some((e) => e.kind === 'exit')).toBe(true);
+  });
+
   it('walks out of its depth into a swim, floats at the surface and swims at swimming pace', () => {
     const s = setup();
     s.setMove(0, 1);
     s.run(9);
     expect(s.player.swimming).toBe(true);
-    expect(s.player.waterDepth).toBeGreaterThan(SWIM_DEPTH);
+    expect(s.ctx.water!.sample(s.player.x, s.player.z)!.depth).toBeGreaterThan(SWIM_DEPTH);
+    expect(s.player.waterDepth).toBeCloseTo(SWIM_FLOAT, 1);
     expect(s.player.y).toBeCloseTo(-SWIM_FLOAT, 1);
     expect(s.player.mode).toBe('swim');
     expect(s.player.lastMoveSpeed).toBeGreaterThan(SWIM_SPEED * 0.8);

@@ -132,7 +132,8 @@ export class WaterSystem {
       this.inland.refresh();
     }
     const detail = this.quality === 'low' || reduceEffects ? 0 : 1;
-    this.ocean.update(camera as THREE.PerspectiveCamera, this.world.time, detail);
+    camera.getWorldPosition(this.eye);
+    this.ocean.update(camera as THREE.PerspectiveCamera, this.world.time, detail, this.world.sea(this.eye.x, this.eye.z)?.surface);
     for (const m of this.inland.materials) {
       m.uniforms.uTime!.value = this.world.time;
       m.uniforms.uDetail!.value = detail;

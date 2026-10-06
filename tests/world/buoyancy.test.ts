@@ -92,4 +92,19 @@ describe('loose cargo afloat', () => {
       expect(p.poses(false)[0]!.position.y).toBeLessThan(-2.4);
     } finally { p.dispose(); }
   });
+
+  it('clears buoyancy forces when a floating body is restored dry so gravity takes over', () => {
+    const p = new RealmPhysics(bed, new Colliders(), [barrel]);
+    try {
+      p.setWater(water());
+      p.props[0]!.body.setTranslation({ x: 0, y: 0.2, z: 0 }, true);
+      tick(p, 8);
+      expect(p.wetness().barrel).toBeGreaterThan(0.2);
+      expect(p.props[0]!.body.userForce().y).toBeGreaterThan(250);
+      p.restore([{ id: barrel.id, position: { x: 10, y: 2, z: 0 }, rotation: { x: 0, y: 0, z: 0, w: 1 } }]);
+      tick(p, 2);
+      expect(p.wetness().barrel).toBe(0);
+      expect(p.poses(false)[0]!.position.y).toBeLessThan(-2.4);
+    } finally { p.dispose(); }
+  });
 });

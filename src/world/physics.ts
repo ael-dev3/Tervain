@@ -540,6 +540,7 @@ export class RealmPhysics {
       if (norm < 1e-6) continue;
       const p = this.props.find(p => p.spec.id === pose.id);
       if (!p) continue;
+      p.body.resetForces(true); p.body.resetTorques(true);
       p.body.setTranslation(pose.position, true);
       p.body.setRotation({ x: pose.rotation.x / norm, y: pose.rotation.y / norm, z: pose.rotation.z / norm, w: pose.rotation.w / norm }, true);
       p.body.setLinvel({ x: 0, y: 0, z: 0 }, true); p.body.setAngvel({ x: 0, y: 0, z: 0 }, true); p.previous = this.poseOf(p.spec.id, p.body);

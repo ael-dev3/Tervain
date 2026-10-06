@@ -51,6 +51,42 @@ describe('the sea as drawn', () => {
       expect(b.max.y).toBeCloseTo(SEA_LEVEL + SEA_MAX_RISE, 6);
     }
   });
+
+  it('covers the foreground above troughs and overhead below crests when the lens crosses mean sea level', () => {
+    const x = -340, z = 30;
+    let trough = { surface: Infinity, time: 0 }, crest = { surface: -Infinity, time: 0 };
+    for (let t = 0; t < 100; t += 0.1) {
+      const surface = water.world.sea(x, z, t)!.surface;
+      if (surface < trough.surface) trough = { surface, time: t };
+      if (surface > crest.surface) crest = { surface, time: t };
+    }
+    const raycaster = new THREE.Raycaster();
+    for (const [wave, above] of [[trough, true], [crest, false]] as const) {
+      const camera = new THREE.PerspectiveCamera(60, 16 / 9, 0.1, 1400);
+      camera.position.set(x, wave.surface + (above ? 0.28 : -0.3), z);
+      camera.lookAt(x, camera.position.y + 0.2, z - 10); camera.updateMatrixWorld();
+      expect(camera.position.y < SEA_LEVEL).toBe(above);
+      water.ocean.update(camera, wave.time, 1, wave.surface);
+      const u = water.ocean.mesh.material.uniforms, range = u.uGridRange!.value as THREE.Vector4;
+      const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -(u.uGridPlaneY!.value as number));
+      const edgeY = above ? -0.95 : 0.95;
+      expect(range.x).toBeLessThan(edgeY);
+      expect(range.y).toBeGreaterThan(edgeY);
+      for (const edgeX of [-0.95, 0.95]) {
+        raycaster.setFromCamera(new THREE.Vector2(edgeX, edgeY), camera);
+        const hit = raycaster.ray.intersectPlane(plane, new THREE.Vector3());
+        expect(hit).not.toBeNull();
+        expect(hit!.distanceTo(camera.position)).toBeLessThan(10);
+      }
+    }
+  });
+
+  it('uses mean sea level as the projection plane when the lens has no local sea sample', () => {
+    const camera = new THREE.PerspectiveCamera();
+    camera.position.set(-200, 4, 30); camera.lookAt(-340, 0, 30);
+    water.ocean.update(camera, 0, 1);
+    expect(water.ocean.mesh.material.uniforms.uGridPlaneY!.value).toBe(SEA_LEVEL);
+  });
 });
 
 describe('inland water as drawn', () => {

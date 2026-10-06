@@ -554,6 +554,34 @@ describe('water capture/composite orchestration', () => {
 });
 
 describe('Grade water attachment ownership', () => {
+  it('freezes underwater distortion and caustics in Reduced Motion while the grade clock continues', () => {
+    const f = setup();
+    const renderer = Object.assign(f.renderer, {
+      extensions: { has: () => true },
+      info: { autoReset: true, reset: vi.fn() },
+    });
+    const grade = new Grade(renderer as unknown as THREE.WebGLRenderer, { msaa: false });
+    grade.setBloom(false);
+    f.input.quality = 'low';
+    f.input.under = { surface: 0.3, color: new THREE.Color(0.02, 0.08, 0.09), absorb: new THREE.Vector3(0.32, 0.1, 0.075), caustics: null, light: 0 };
+    try {
+      const waterTime = () => {
+        const lastDraw = f.draws.at(-1)!;
+        const quad = lastDraw.scene.children[0] as THREE.Mesh<THREE.BufferGeometry, THREE.ShaderMaterial>;
+        return { water: quad.material.uniforms.uWaterTime!.value as number, grade: quad.material.uniforms.uTime!.value as number };
+      };
+      grade.render(f.scene, f.camera, 0.1, f.input);
+      expect(waterTime()).toEqual({ water: 0.1, grade: 0.1 });
+      f.input.reducedMotion = true;
+      for (let frame = 0; frame < 20; frame++) grade.render(f.scene, f.camera, 0.1, f.input);
+      expect(waterTime().water).toBe(0.1);
+      expect(waterTime().grade).toBeCloseTo(2.1, 8);
+      f.input.reducedMotion = false;
+      grade.render(f.scene, f.camera, 0.1, f.input);
+      expect(waterTime().water).toBeCloseTo(0.2, 8);
+    } finally { grade.dispose(); }
+  });
+
   it.each(['low', 'grade-disabled'] as const)('detaches and releases borrowed depth once when switching to %s', (mode) => {
     const f = setup();
     const renderer = Object.assign(f.renderer, {

@@ -2,7 +2,9 @@ import { describe, expect, it, vi } from 'vitest';
 import * as THREE from 'three';
 import { CameraRig } from '../../src/presentation/cameraRig';
 import { CAMERA_CLEARANCE } from '../../src/presentation/cameraObstruction';
-import { Colliders } from '../../src/world/colliders';
+import { buildStaticColliders, Colliders } from '../../src/world/colliders';
+import { Terrain } from '../../src/world/terrain';
+import { WaterWorld } from '../../src/world/water/waterWorld';
 
 const flat = { groundAt: () => 0 };
 const distance = (cam: CameraRig) => Math.hypot(cam.camera.position.x, cam.camera.position.y - 1.55, cam.camera.position.z);
@@ -148,5 +150,87 @@ describe('woodland camera obstruction', () => {
     const held = cam.camera.position.clone();
     cam.follow(1 / 60, 0, 0, 0, ground, new Colliders(), true, 1);
     expect(cam.camera.position.equals(held)).toBe(true);
+  });
+});
+
+describe('waterline camera stability', () => {
+  const deep = { groundAt: () => -30 };
+
+  it('keeps the underwater lens out of a real shallow coastal bank', () => {
+    const terrain = new Terrain(), water = new WaterWorld(terrain), cam = new CameraRig();
+    water.time = 4;
+    const x = -289.7614399256793, z = 30, swimmer = water.sample(x, z)!;
+    expect(swimmer.depth).toBeGreaterThan(1.35);
+    cam.yaw = -Math.PI / 2; cam.pitch = -0.12;
+    cam.follow(1 / 60, x, swimmer.surface - 1.25, z, terrain, buildStaticColliders(terrain), true, 0);
+    const p = cam.camera.position, r = CAMERA_CLEARANCE;
+    const floor = Math.max(terrain.groundAt(p.x,p.z), terrain.groundAt(p.x-r,p.z), terrain.groundAt(p.x+r,p.z), terrain.groundAt(p.x,p.z-r), terrain.groundAt(p.x,p.z+r));
+    const surface = water.surfaceAt(p.x, p.z)!;
+    expect(p.y).toBeGreaterThanOrEqual(floor + r);
+    expect(surface - 0.3).toBeLessThan(floor + r);
+    cam.clearWater((cx, cz) => water.surfaceAt(cx, cz), true);
+    expect(p.y).toBeGreaterThanOrEqual(floor + r);
+    expect(p.y).toBeGreaterThanOrEqual(surface + 0.28);
+  });
+
+  it('reuses the boom candidates to avoid lowering the lens into a submerged rock', () => {
+    const colliders = new Colliders(), cam = new CameraRig();
+    colliders.box('submerged-rock', 0, -6.2, 0.5, 0.5, 0, true, { minY: -1, maxY: -0.5 });
+    const near = vi.spyOn(colliders, 'near');
+    cam.pitch = Math.asin((-0.06 - 0.3) / cam.wantDist);
+    cam.follow(1 / 60, 0, -1.25, 0, deep, colliders, true, 0);
+    expect(cam.camera.position.y).toBeCloseTo(-0.06, 8);
+    cam.clearWater(() => 0, true);
+    expect(cam.camera.position.y).toBeCloseTo(0.28, 8);
+    expect(near).toHaveBeenCalledOnce();
+  });
+
+  it.each([-0.04, -0.06])('holds the chosen waterline side through passing waves at nominal eye height %s', eyeHeight => {
+    const cam = new CameraRig(), colliders = new Colliders();
+    cam.pitch = Math.asin((eyeHeight - 0.3) / cam.wantDist);
+    let previousY: number | null = null;
+    const initiallyUnder = eyeHeight < -0.05;
+    for (let frame = 0; frame < 600; frame++) {
+      const surface = Math.sin(frame / 60 * 2) * 0.06;
+      cam.follow(1 / 60, 0, -1.25, 0, deep, colliders, false, 0);
+      cam.clearWater(() => surface, true);
+      expect(cam.camera.position.y < surface).toBe(initiallyUnder);
+      expect(Math.abs(cam.camera.position.y - surface)).toBeGreaterThanOrEqual(0.28 - 1e-9);
+      if (previousY !== null) expect(Math.abs(cam.camera.position.y - previousY)).toBeLessThan(0.01);
+      previousY = cam.camera.position.y;
+    }
+  });
+
+  it('crosses the surface after a deliberate pitch change and keeps a non-swimmer above it', () => {
+    const cam = new CameraRig(), colliders = new Colliders();
+    const follow = (pitch: number, swimming = true) => {
+      cam.pitch = pitch;
+      cam.follow(1 / 60, 0, -1.25, 0, deep, colliders, true, 0);
+      cam.clearWater(() => 0, swimming);
+    };
+    follow(0);
+    expect(cam.camera.position.y).toBeGreaterThan(0);
+    follow(-0.12);
+    expect(cam.camera.position.y).toBeLessThan(-0.3);
+    follow(-0.055);
+    expect(cam.camera.position.y).toBeCloseTo(-0.3, 8);
+    follow(0);
+    expect(cam.camera.position.y).toBeGreaterThan(0.28);
+    follow(-0.12, false);
+    expect(cam.camera.position.y).toBeCloseTo(0.28, 8);
+  });
+
+  it.each(['reset', 'dry-ground'] as const)('forgets the previous side after %s', reset => {
+    const cam = new CameraRig(), colliders = new Colliders();
+    cam.pitch = -0.12;
+    cam.follow(1 / 60, 0, -1.25, 0, deep, colliders, true, 0);
+    cam.clearWater(() => 0, true);
+    expect(cam.camera.position.y).toBeLessThan(0);
+    if (reset === 'reset') cam.reset();
+    else cam.clearWater(() => null, true);
+    cam.pitch = -0.05;
+    cam.follow(1 / 60, 0, -1.25, 0, deep, colliders, true, 0);
+    cam.clearWater(() => 0, true);
+    expect(cam.camera.position.y).toBeCloseTo(0.28, 8);
   });
 });

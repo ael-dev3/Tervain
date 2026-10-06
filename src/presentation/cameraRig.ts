@@ -32,12 +32,18 @@ export class CameraRig {
   get isAiming() { return this.aiming; }
   private titleAngle = 0;
   private initialized = false;
+  private waterSide: 'above' | 'under' | null = null;
+  private waterTerrain: Pick<Terrain, 'groundAt'> | null = null;
+  private waterColliders: Collider[] = [];
   /** Used to hide the local body only when the boom is forced inside it. */
   get bodyVisible() { return this.manual !== null || this.curDist >= 0.85; }
 
   /** Teleports, respawns and loads must never inherit the previous pivot or a compressed boom. */
   reset() {
     this.initialized = false;
+    this.waterSide = null;
+    this.waterTerrain = null;
+    this.waterColliders = [];
     this.curDist = this.wantDist;
     this.shakeT = 0;
     this.aiming = false;
@@ -99,6 +105,8 @@ export class CameraRig {
     const aimOffset = this.aiming ? 0.42 : 0;
     this.followPivot.copy(this.smoothTarget);
     const candidates = colliders.near(px, pz, boomDistance + aimOffset + CAMERA_CLEARANCE + MAX_RECOIL);
+    this.waterTerrain = terrain;
+    this.waterColliders = candidates;
     if (aimOffset > 0) {
       // At yaw zero the screen's right is -X. Sweep the short shoulder shift before sweeping the boom.
       const offset = new THREE.Vector3(-Math.cos(this.yaw) * aimOffset, 0, Math.sin(this.yaw) * aimOffset);
@@ -233,14 +241,37 @@ export class CameraRig {
    * may look up from below it, but then wholly below, never half in.
    */
   clearWater(surfaceAt: (x: number, z: number) => number | null, allowUnder: boolean) {
-    if (this.manual || this.mode !== 'follow') return;
+    if (this.manual || this.mode !== 'follow') { this.waterSide = null; return; }
     const p = this.camera.position;
     const surface = surfaceAt(p.x, p.z);
-    if (surface === null || !Number.isFinite(surface)) return;
+    if (surface === null || !Number.isFinite(surface)) { this.waterSide = null; return; }
     const clear = 0.28, under = 0.3;
-    if (p.y >= surface + clear || (allowUnder && p.y <= surface - under)) return;
-    p.y = allowUnder && p.y < surface - 0.05 ? surface - under : surface + clear;
+    if (!allowUnder) this.waterSide = 'above';
+    else if (this.waterSide === null) this.waterSide = p.y < surface - 0.05 ? 'under' : 'above';
+    // follow() restores the nominal boom every frame. Keep the previous side until that boom is wholly across the
+    // clearance band, so small waves cannot repeatedly snap the eye above and below water without player input.
+    else if (this.waterSide === 'above' && p.y <= surface - under) this.waterSide = 'under';
+    else if (this.waterSide === 'under' && p.y >= surface + clear) this.waterSide = 'above';
+    let y = this.waterSide === 'under' ? Math.min(p.y, surface - under) : Math.max(p.y, surface + clear);
+    // A shallow bed or submerged rock may leave no room for a wholly underwater lens. Its water clearance must not
+    // undo follow()'s terrain and collider sweep; keep the eye above the surface until there is room below it.
+    if (this.waterSide === 'under' && y < p.y && !this.canLowerForWater(y)) {
+      this.waterSide = 'above';
+      y = Math.max(p.y, surface + clear);
+    }
+    if (y === p.y) return;
+    p.y = y;
     this.camera.lookAt(this.followPivot);
+  }
+
+  private canLowerForWater(y: number): boolean {
+    const terrain = this.waterTerrain;
+    if (!terrain) return true;
+    const p = this.camera.position, r = CAMERA_CLEARANCE;
+    const floor = Math.max(terrain.groundAt(p.x,p.z), terrain.groundAt(p.x-r,p.z), terrain.groundAt(p.x+r,p.z), terrain.groundAt(p.x,p.z-r), terrain.groundAt(p.x,p.z+r));
+    if (y < floor + r) return false;
+    const lowered = { x: p.x, y, z: p.z };
+    return this.waterColliders.every(c => cameraColliderEntry(p, lowered, c, terrain.groundAt(c.x, c.z), obstacleHeight(c)) === null);
   }
 
   /**
