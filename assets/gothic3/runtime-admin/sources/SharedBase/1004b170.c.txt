@@ -1,0 +1,20 @@
+/* ENTRY 1004b170 | FUN_1004b170 | STATUS decompiled | 6 ms */
+
+void __fastcall FUN_1004b170(int param_1)
+
+{
+  bCMessageAdmin *this;
+  _func_bool_bEMessageTypes_char_ptr_char_ptr_ulong_char_ptr_int_int *p_Var1;
+  undefined4 uStack_4;
+  
+  uStack_4 = param_1;
+  if (*(SOCKET *)(param_1 + 0x18) != 0xffffffff) {
+    uStack_4 = CONCAT13(1,(int3)param_1);
+    send(*(SOCKET *)(param_1 + 0x18),(char *)((int)&uStack_4 + 3),1,0);
+  }
+  p_Var1 = (_func_bool_bEMessageTypes_char_ptr_char_ptr_ulong_char_ptr_int_int *)&LAB_10005722;
+  this = bCMessageAdmin::GetInstance();
+  bCMessageAdmin::UnregisterCallback(this,p_Var1);
+  *(undefined4 *)(param_1 + 0x18) = 0xffffffff;
+  return;
+}

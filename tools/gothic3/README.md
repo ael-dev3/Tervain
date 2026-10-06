@@ -4,6 +4,9 @@ These standalone Python tools prepare the separate `/gothic3/` browser study.
 They do not run Gothic 3 or alter its installation or the completed desktop study.
 They are not part of the Tervain game runtime.
 
+For the complete data-to-TypeScript-to-browser workflow, see the
+[rebuilding overview](../../docs/engineering/gothic3-rebuild-overview.md).
+
 ```powershell
 python tools/gothic3/prepare_ardea.py --study "C:\path\to\Gothic3_Decompiled_Study_2026-10-04" --rimy "C:\path\to\Rimy3D.exe" --scratch "C:\outside-the-study\ardea-preparation"
 ```
@@ -283,3 +286,61 @@ the bounded browser death speech prerequisite; it does not implement native
 audio playback, manager heap layout or shutdown lifetime. The connected
 bandit death prefix and its explicit stopping point are described in
 [checkpoint 72](../../docs/engineering/gothic3-rebuilding-process.md#72-schedule-the-bandit-death-state-and-preserve-its-applied-prefix).
+
+## Selected original NPC entity records
+
+```powershell
+python tools/gothic3/prepare_npc_entity_source.py --study "C:\path\to\Gothic3_Decompiled_Study_2026-10-04"
+```
+
+This standard-library Python producer reads the verified original SysDyn
+resource and native evidence without executing or modifying the game. It
+exports Jack's three coastal bandits as complete 6,544-byte records, including
+their 48 property packets, indexed strings and source graph relationships.
+The study must contain `00_Original_Runtime/`, `01_Decompiled_Code/` and
+`02_Unpacked_Data/Archives/`. The producer also checks the pinned native
+receipts already committed to this repository. Outputs are
+`assets/gothic3/npc-entity/bandit-records.json`, `manifest.json`,
+`native-evidence.json` and
+`public/gothic3/gameplay/npc-entity/bandit-records.json.gz`.
+The manifest pins input and output hashes. The browser verifies available
+compressed bytes and every decoded byte before admission; when Fetch removes
+HTTP gzip encoding, the exact decoded receipt is checked.
+
+The package supplies source records and graph metadata. It does not create
+the other graph entities or activate the selected NPCs. The current original
+entity read stops at the Navigation default creator's unowned ErrorAdmin
+singleton, before serialized property reading or attachment. See
+[checkpoint 73](../../docs/engineering/gothic3-rebuilding-process.md#73-construct-retained-npc-owners-and-reach-the-first-property-factory)
+for the exact applied prefix and remaining prerequisites.
+
+## Shared runtime admin source and allocation evidence
+
+```powershell
+python tools/gothic3/prepare_runtime_admin_source.py --study "C:\path\to\Gothic3_Decompiled_Study_2026-10-04"
+```
+
+This standard-library producer reads the pinned SharedBase, Game and Engine
+PEs, function catalogs, saved assembly and available C reconstruction from the study's
+`00_Original_Runtime/` and `01_Decompiled_Code/`. It exports
+`assets/gothic3/runtime-admin/runtime-rules.json`, `native-evidence.json`,
+`manifest.json`, `prior-startup-allocations.json` and bounded
+`sources/SharedBase/`, `sources/Game/` and `sources/Engine/` excerpts. Every admitted
+instruction is compared with the original PE. Cold zero ranges, literal
+formatter strings, heap dispatch entries and pool geometry have byte receipts.
+An assembly-only body is recorded explicitly when no C/catalog entry exists;
+the ErrorAdmin shutdown has saved assembly even though its C entry is absent.
+
+The resulting rules supply the standalone TypeScript MemoryAdmin,
+Message/Spy/Spie and ErrorAdmin modules. The selected platform owns actual byte
+arrays, pointer capabilities, critical-section registrations and a reverse
+shutdown queue. Its empty diagnostic registries are a scoped platform profile,
+not a claim about the Windows host. Unsupported allocation and active logging
+branches remain explicit. Regeneration does not execute the native DLL or
+alter older receipts.
+
+The NPC reader still stops at its original ErrorAdmin boundary. Connecting
+these modules requires its preceding source allocations to use the same heap,
+including the SceneAdmin registered map's 204-byte bucket backing and 28-byte
+nodes. See
+[checkpoint 74](../../docs/engineering/gothic3-rebuilding-process.md#74-own-the-shared-runtime-admin-chain-before-connecting-it-to-npcs).

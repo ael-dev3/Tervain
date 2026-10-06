@@ -1,0 +1,35 @@
+/* ENTRY 304cc0a0 | FUN_304cc0a0 | STATUS decompiled | 15 ms */
+
+undefined4 FUN_304cc0a0(undefined4 param_1,undefined4 param_2)
+
+{
+  undefined4 uVar1;
+  int iVar2;
+  int iVar3;
+  undefined4 *local_c;
+  undefined4 local_8;
+  undefined4 local_4;
+  
+  bCCriticalSectionWin32::Acquire((bCCriticalSectionWin32 *)&DAT_30af24f4);
+  uVar1 = param_1;
+  iVar2 = thunk_FUN_304ce450(param_1,&param_1);
+  if ((iVar2 == 0) || ((int *)(iVar2 + 4) == (int *)0x0)) {
+    local_c = (undefined4 *)0x0;
+    local_8 = 0;
+    local_4 = 0;
+    thunk_FUN_30073b10(1,0);
+    local_8 = 1;
+    *local_c = param_2;
+    thunk_FUN_304d0f60(uVar1);
+    thunk_FUN_3007ef40(&local_c);
+    thunk_FUN_304d01a0();
+  }
+  else {
+    iVar3 = *(int *)(iVar2 + 8) + 1;
+    thunk_FUN_30073b10(iVar3,(iVar3 != 0) - 1);
+    *(int *)(iVar2 + 8) = iVar3;
+    *(undefined4 *)(*(int *)(iVar2 + 4) + -4 + iVar3 * 4) = param_2;
+  }
+  bCCriticalSectionWin32::Release((bCCriticalSectionWin32 *)&DAT_30af24f4);
+  return 1;
+}

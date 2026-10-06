@@ -1,0 +1,54 @@
+import { randomUUID } from 'node:crypto';
+import { describe, expect, it } from 'vitest';
+import { BrowserMatrixShutdownRegistry, createBrowserNpcEntityServices } from '../../src/gothic3/browser-npc-entity-services';
+import { OriginalControlModuleState } from '../../src/gothic3/control-reading';
+
+describe('selected browser NPC platform services', () => {
+  it('retains the actual shared Matrix module and registers its destructor once', () => {
+    const owner = createBrowserNpcEntityServices({ crypto: { randomUUID }, now: () => 42 });
+    const first = owner.control.matrixIdentity();
+    const second = owner.control.matrixIdentity();
+    expect(first.known).toBe(true);
+    expect(second).toEqual(first);
+    expect(owner.shutdown.registrations().map(({ module, address }) => ({ module, address })))
+      .toEqual([{ module: owner.matrixModule, address: '100e2910' }]);
+    expect(typeof owner.shutdown.registrations()[0]?.callback).toBe('function');
+    expect(owner.services.control).toBe(owner.control);
+    expect(owner.matrixModule.identityGuard.value & 1).toBe(1);
+  });
+
+  it('drains real callback registrations in reverse order once', () => {
+    const registry = new BrowserMatrixShutdownRegistry();
+    const first = OriginalControlModuleState.fromColdOriginalImage();
+    const second = OriginalControlModuleState.fromColdOriginalImage();
+    expect(registry.register(first, '100e2910')).toEqual({ known: true, value: 0 });
+    expect(registry.register(second, '100e2910')).toEqual({ known: true, value: 0 });
+    registry.dispose();
+    expect(registry.registrations()).toEqual([]);
+    expect(registry.execution().map(entry => entry.module)).toEqual([second, first]);
+    registry.dispose();
+    expect(registry.execution()).toHaveLength(2);
+    expect(registry.register(first, '100e2910').known).toBe(false);
+  });
+
+  it('executes the admitted RET without clearing Matrix cache or guard storage', () => {
+    const owner = createBrowserNpcEntityServices({ crypto: { randomUUID }, now: () => 42 });
+    const identity = owner.control.matrixIdentity();
+    expect(identity.known).toBe(true);
+    const bytes = owner.matrixModule.identity.bytes.slice();
+    const masks = owner.matrixModule.identity.knownMask.slice();
+    const guard = { ...owner.matrixModule.identityGuard };
+    owner.dispose();
+    expect(owner.shutdown.execution()).toHaveLength(1);
+    expect(owner.matrixModule.identity.bytes).toEqual(bytes);
+    expect(owner.matrixModule.identity.knownMask).toEqual(masks);
+    expect(owner.matrixModule.identityGuard).toEqual(guard);
+  });
+
+  it('retains no success registration for an unadmitted callback', () => {
+    const registry = new BrowserMatrixShutdownRegistry();
+    const module = OriginalControlModuleState.fromColdOriginalImage();
+    expect(registry.register(module, 'unported' as '100e2910').known).toBe(false);
+    expect(registry.registrations()).toEqual([]);
+  });
+});

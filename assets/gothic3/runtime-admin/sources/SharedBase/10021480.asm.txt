@@ -1,0 +1,8 @@
+10021480 | 33c0 | XOR EAX,EAX
+10021482 | 8901 | MOV dword ptr [ECX],EAX
+10021484 | 884104 | MOV byte ptr [ECX + 0x4],AL
+10021487 | 884105 | MOV byte ptr [ECX + 0x5],AL
+1002148a | 894120 | MOV dword ptr [ECX + 0x20],EAX
+1002148d | 894124 | MOV dword ptr [ECX + 0x24],EAX
+10021490 | 894128 | MOV dword ptr [ECX + 0x28],EAX
+10021493 | c3 | RET

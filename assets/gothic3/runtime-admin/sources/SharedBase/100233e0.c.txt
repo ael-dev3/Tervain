@@ -1,0 +1,31 @@
+/* ENTRY 100233e0 | FUN_100233e0 | STATUS decompiled | 5 ms */
+
+uint __thiscall FUN_100233e0(int *param_1,undefined4 *param_2)
+
+{
+  int iVar1;
+  uint in_EAX;
+  undefined4 *puVar2;
+  int iVar3;
+  undefined4 *puVar4;
+  
+  if ((char)param_1[4] != '\0') {
+    return in_EAX & 0xffffff00;
+  }
+  iVar1 = param_1[3];
+  iVar3 = iVar1 + 1;
+  param_1[3] = iVar3;
+  if (iVar3 == param_1[1]) {
+    param_1[3] = 0;
+  }
+  puVar2 = (undefined4 *)(iVar1 * 0xfa + *param_1);
+  *(bool *)(param_1 + 4) = param_1[3] == param_1[2];
+  puVar4 = puVar2;
+  for (iVar3 = 0x3e; iVar3 != 0; iVar3 = iVar3 + -1) {
+    *puVar4 = *param_2;
+    param_2 = param_2 + 1;
+    puVar4 = puVar4 + 1;
+  }
+  *(undefined2 *)puVar4 = *(undefined2 *)param_2;
+  return CONCAT31((int3)((uint)puVar2 >> 8),1);
+}

@@ -1,0 +1,14 @@
+100a7294 | 6a0c | PUSH 0xc
+100a7296 | 6830860f10 | PUSH 0x100f8630
+100a729b | e8c8780000 | CALL 0x100aeb68
+100a72a0 | e8ae310000 | CALL 0x100aa453
+100a72a5 | 8365fc00 | AND dword ptr [EBP + -0x4],0x0
+100a72a9 | ff7508 | PUSH dword ptr [EBP + 0x8]
+100a72ac | e8fbfeffff | CALL 0x100a71ac
+100a72b1 | 59 | POP ECX
+100a72b2 | 8945e4 | MOV dword ptr [EBP + -0x1c],EAX
+100a72b5 | c745fcfeffffff | MOV dword ptr [EBP + -0x4],0xfffffffe
+100a72bc | e809000000 | CALL 0x100a72ca
+100a72c1 | 8b45e4 | MOV EAX,dword ptr [EBP + -0x1c]
+100a72c4 | e8e4780000 | CALL 0x100aebad
+100a72c9 | c3 | RET

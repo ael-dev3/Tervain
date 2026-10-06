@@ -1,0 +1,17 @@
+/* ENTRY 304cfc80 | FUN_304cfc80 | STATUS decompiled | 5 ms */
+
+void FUN_304cfc80(undefined4 *param_1)
+
+{
+  bCMemoryAdmin *this;
+  void *pvVar1;
+  
+  if ((bCPropertyID *)*param_1 != (bCPropertyID *)0x0) {
+    bCPropertyID::~bCPropertyID((bCPropertyID *)*param_1);
+    pvVar1 = (void *)*param_1;
+    this = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::DeleteObject(this,pvVar1);
+    *param_1 = 0;
+  }
+  return;
+}

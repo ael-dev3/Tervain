@@ -1,0 +1,19 @@
+304d13a0 | 56 | PUSH ESI
+304d13a1 | 8bf1 | MOV ESI,ECX
+304d13a3 | 6a00 | PUSH 0x0
+304d13a5 | 6a2b | PUSH 0x2b
+304d13a7 | c70600000000 | MOV dword ptr [ESI],0x0
+304d13ad | c7460400000000 | MOV dword ptr [ESI + 0x4],0x0
+304d13b4 | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+304d13bb | c7460c00000000 | MOV dword ptr [ESI + 0xc],0x0
+304d13c2 | e8ad2bb5ff | CALL 0x30023f74
+304d13c7 | c746042b000000 | MOV dword ptr [ESI + 0x4],0x2b
+304d13ce | 33c0 | XOR EAX,EAX
+304d13d0 | 8b0e | MOV ECX,dword ptr [ESI]
+304d13d2 | c7040800000000 | MOV dword ptr [EAX + ECX*0x1],0x0
+304d13d9 | 83c004 | ADD EAX,0x4
+304d13dc | 3dac000000 | CMP EAX,0xac
+304d13e1 | 7ced | JL 0x304d13d0
+304d13e3 | 8bc6 | MOV EAX,ESI
+304d13e5 | 5e | POP ESI
+304d13e6 | c3 | RET
