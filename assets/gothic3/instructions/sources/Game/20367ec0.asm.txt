@@ -1,0 +1,25 @@
+; 20367ec0 FUN_20367ec0
+20367ec0 | 56 | PUSH ESI
+20367ec1 | 8b742408 | MOV ESI,dword ptr [ESP + 0x8]
+20367ec5 | 85f6 | TEST ESI,ESI
+20367ec7 | 7434 | JZ 0x20367efd
+20367ec9 | d9415c | FLD float ptr [ECX + 0x5c]
+20367ecc | 8b06 | MOV EAX,dword ptr [ESI]
+20367ece | dc35a0bf6520 | FDIV double ptr [0x2065bfa0]
+20367ed4 | 8b5058 | MOV EDX,dword ptr [EAX + 0x58]
+20367ed7 | 6a00 | PUSH 0x0
+20367ed9 | 6830dd6520 | PUSH 0x2065dd30
+20367ede | 8bce | MOV ECX,ESI
+20367ee0 | d95c2410 | FSTP float ptr [ESP + 0x10]
+20367ee4 | ffd2 | CALL EDX
+20367ee6 | d9442408 | FLD float ptr [ESP + 0x8]
+20367eea | 8b06 | MOV EAX,dword ptr [ESI]
+20367eec | d95e1c | FSTP float ptr [ESI + 0x1c]
+20367eef | 8b505c | MOV EDX,dword ptr [EAX + 0x5c]
+20367ef2 | 6a00 | PUSH 0x0
+20367ef4 | 6830dd6520 | PUSH 0x2065dd30
+20367ef9 | 8bce | MOV ECX,ESI
+20367efb | ffd2 | CALL EDX
+; 20367efd LAB_20367efd
+20367efd | 5e | POP ESI
+20367efe | c20400 | RET 0x4

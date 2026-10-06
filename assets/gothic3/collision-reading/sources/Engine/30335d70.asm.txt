@@ -1,0 +1,21 @@
+; 30335d70 FUN_30335d70
+30335d70 | 51 | PUSH ECX
+30335d71 | b801000000 | MOV EAX,0x1
+30335d76 | 8405e4c2ae30 | TEST byte ptr [0x30aec2e4],AL
+30335d7c | 7535 | JNZ 0x30335db3
+30335d7e | 0905e4c2ae30 | OR dword ptr [0x30aec2e4],EAX
+30335d84 | 686c0a8630 | PUSH 0x30860a6c
+30335d89 | 8d4c2404 | LEA ECX,[ESP + 0x4]
+30335d8d | ff155cdbaf30 | CALL dword ptr [0x30afdb5c]
+30335d93 | 8d0424 | LEA EAX,[ESP]
+30335d96 | 50 | PUSH EAX
+30335d97 | ff15a4daaf30 | CALL dword ptr [0x30afdaa4]
+30335d9d | 8bc8 | MOV ECX,EAX
+30335d9f | ff15fcc9af30 | CALL dword ptr [0x30afc9fc]
+30335da5 | 8d0c24 | LEA ECX,[ESP]
+30335da8 | a3e0c2ae30 | MOV [0x30aec2e0],EAX
+30335dad | ff15dcdbaf30 | CALL dword ptr [0x30afdbdc]
+; 30335db3 LAB_30335db3
+30335db3 | a1e0c2ae30 | MOV EAX,[0x30aec2e0]
+30335db8 | 59 | POP ECX
+30335db9 | c3 | RET

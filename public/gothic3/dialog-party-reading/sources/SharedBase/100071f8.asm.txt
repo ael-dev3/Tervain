@@ -1,0 +1,2 @@
+; 100071f8 bCPropertyObjectBase::CopyFrom
+100071f8 | e9e31e0800 | JMP 0x100890e0

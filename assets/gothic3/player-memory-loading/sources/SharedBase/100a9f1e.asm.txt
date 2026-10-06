@@ -1,0 +1,15 @@
+; 100a9f1e _mbstowcs
+100a9f1e | 55 | PUSH EBP
+100a9f1f | 8bec | MOV EBP,ESP
+100a9f21 | 833d2c692f1000 | CMP dword ptr [0x102f692c],0x0
+100a9f28 | 7507 | JNZ 0x100a9f31
+100a9f2a | 6870141410 | PUSH 0x10141470
+100a9f2f | eb02 | JMP 0x100a9f33
+100a9f31 | 6a00 | PUSH 0x0
+100a9f33 | ff7510 | PUSH dword ptr [EBP + 0x10]
+100a9f36 | ff750c | PUSH dword ptr [EBP + 0xc]
+100a9f39 | ff7508 | PUSH dword ptr [EBP + 0x8]
+100a9f3c | e850feffff | CALL 0x100a9d91
+100a9f41 | 83c410 | ADD ESP,0x10
+100a9f44 | 5d | POP EBP
+100a9f45 | c3 | RET

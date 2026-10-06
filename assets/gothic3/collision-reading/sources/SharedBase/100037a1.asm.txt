@@ -1,0 +1,4 @@
+; 100037a1 ?GetOrientation@bCOrientedBox@@QBEABVbCMatrix3@@XZ
+100037a1 | e95af60500 | JMP 0x10062e00
+; 100037a6 bCVector::operator==
+; 100037a6 Ordinal_812

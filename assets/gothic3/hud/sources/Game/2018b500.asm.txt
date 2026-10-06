@@ -1,0 +1,3 @@
+; 2018b500 gCHUDStaticInvCategory::~gCHUDStaticInvCategory
+2018b500 | c701ec826720 | MOV dword ptr [ECX],0x206782ec
+2018b506 | ff2510797d20 | JMP dword ptr [0x207d7910]

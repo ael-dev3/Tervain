@@ -1,0 +1,4 @@
+; 2001b4b4 ?SetEffectsByMode@gCCharacterMovement_PS@@IAE_NW4gECharMovementMode@@@Z
+2001b4b4 | e927912000 | JMP 0x202245e0
+; 2001b4be gCDummyCollectorParticle::gCDummyCollectorParticle
+; 2001b4be Ordinal_103

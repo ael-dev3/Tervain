@@ -1,0 +1,4 @@
+; 100026df ?SetBaseValue@PSPlayerMemory@@QAEXABVbCString@@H@Z
+100026df | e90c6d0200 | JMP 0x100293f0
+; 100026e4 PSParticle::PropertyUseColorScale::operator=
+; 100026e4 Ordinal_761

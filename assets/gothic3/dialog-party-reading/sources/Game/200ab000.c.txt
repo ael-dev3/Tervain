@@ -1,0 +1,14 @@
+/* ENTRY 200ab000 | FUN_200ab000 | STATUS decompiled | 38 ms */
+
+void __fastcall FUN_200ab000(int *param_1)
+
+{
+  eCEntityProxy *unaff_ESI;
+  
+  (**(code **)(*param_1 + 0x58))("PartyLeaderEntity",0);
+  eCEntityProxy::operator=((eCEntityProxy *)(param_1 + 5),unaff_ESI);
+  (**(code **)(*param_1 + 0x5c))("PartyLeaderEntity",0);
+  return;
+}
+
+

@@ -1,0 +1,56 @@
+/* ENTRY 3004843c | eCLocAdmin::SetString | STATUS decompiled | 22 ms */
+
+/* public: bool __thiscall eCLocAdmin::SetString(class bCString const &,struct eCLocTable::SEntry
+   const &,class bCString const &) */
+
+bool __thiscall
+eCLocAdmin::SetString(eCLocAdmin *this,bCString *param_1,SEntry *param_2,bCString *param_3)
+
+{
+  undefined4 uVar1;
+  bool bVar2;
+  undefined4 *puVar3;
+  eCLocAdmin *peVar4;
+  bCString *pbVar5;
+  int iVar6;
+  eCLocAdmin *peStack_c;
+  int iStack_8;
+  bCString *pbStack_4;
+  
+                    /* 0x4843c  14313
+                       ?SetString@eCLocAdmin@@QAE_NABVbCString@@ABUSEntry@eCLocTable@@0@Z */
+  bVar2 = bCUnicodeString::IsEmpty((bCUnicodeString *)param_2);
+  if ((bVar2) ||
+     (bVar2 = bCUnicodeString::Contains((bCUnicodeString *)param_2,L"N/A: id=",0), bVar2)) {
+    return false;
+  }
+  AddLanguage(this,param_3);
+  thunk_FUN_305e6740(&peStack_c);
+  pbVar5 = pbStack_4;
+  iVar6 = iStack_8;
+  do {
+    do {
+      peVar4 = peStack_c;
+      if (((peStack_c == this) && (pbVar5 == (bCString *)0x0)) && (iVar6 == *(int *)(this + 4))) {
+        this[0x38] = (eCLocAdmin)0x1;
+        return true;
+      }
+      bVar2 = bCString::operator==(param_3,pbVar5);
+      if (bVar2) {
+        eCLocTable::SetString((eCLocTable *)(pbVar5 + 4),param_1,param_2);
+        uVar1 = *(undefined4 *)(this + 0x4c);
+        puVar3 = (undefined4 *)thunk_FUN_305e6ad0(param_1);
+        *puVar3 = uVar1;
+        peVar4 = peStack_c;
+      }
+      pbVar5 = *(bCString **)(pbVar5 + 0x18);
+    } while (pbVar5 != (bCString *)0x0);
+    do {
+      iVar6 = iVar6 + 1;
+      if (*(int *)(peVar4 + 4) <= iVar6) break;
+      pbVar5 = *(bCString **)(*(int *)peVar4 + iVar6 * 4);
+    } while (pbVar5 == (bCString *)0x0);
+  } while( true );
+}
+
+

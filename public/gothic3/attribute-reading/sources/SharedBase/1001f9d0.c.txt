@@ -1,0 +1,21 @@
+/* ENTRY 1001f9d0 | bCMemoryStream::bCMemoryStream_Constructor_or_Destructor | STATUS decompiled | 5 ms */
+
+void __fastcall bCMemoryStream::bCMemoryStream_Constructor_or_Destructor(bCIOStream *param_1)
+
+{
+  bCMemoryAdmin *this;
+  bCIOStream_vftable0 *pbVar1;
+  
+  pbVar1 = param_1[1].vftablePtr;
+  param_1->vftablePtr = (bCIOStream_vftable0 *)&vftable_for_bCIStream;
+  param_1->vftablePtr = (bCIOStream_vftable1 *)&vftable_for_bCOStream;
+  this = bCMemoryAdmin::GetInstance();
+  bCMemoryAdmin::Free(this,pbVar1);
+  param_1[1].vftablePtr = (bCIOStream_vftable0 *)0x0;
+  param_1[2].vftablePtr = (bCIOStream_vftable0 *)0x0;
+  param_1[1].vftablePtr = (bCIOStream_vftable1 *)0x0;
+  bCIOStream::~bCIOStream(param_1);
+  return;
+}
+
+

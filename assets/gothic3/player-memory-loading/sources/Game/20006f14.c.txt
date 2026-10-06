@@ -1,0 +1,11 @@
+/* ENTRY 20006f14 | bTPropertyType<gCPlayerMemory_PS,bTPropertyContainer<gEWeaponConfig>_>::vfunction1 | STATUS decompiled | 3 ms */
+
+bTPropertyType<gCPlayerMemory_PS,bTPropertyContainer<gEWeaponConfig>_>_vftable * __thiscall
+bTPropertyType<gCPlayerMemory_PS,bTPropertyContainer<gEWeaponConfig>_>::vfunction1
+          (bTPropertyType<gCPlayerMemory_PS,bTPropertyContainer<gEWeaponConfig>_> *this)
+
+{
+  return this[7].vftablePtr;
+}
+
+

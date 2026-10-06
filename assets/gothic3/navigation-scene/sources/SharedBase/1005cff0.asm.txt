@@ -1,0 +1,42 @@
+; 1005cff0 FUN_1005cff0
+1005cff0 | 83ec0c | SUB ESP,0xc
+1005cff3 | 8b442410 | MOV EAX,dword ptr [ESP + 0x10]
+1005cff7 | d900 | FLD float ptr [EAX]
+1005cff9 | d91c24 | FSTP float ptr [ESP]
+1005cffc | d94008 | FLD float ptr [EAX + 0x8]
+1005cfff | d95c2408 | FSTP float ptr [ESP + 0x8]
+1005d003 | d90424 | FLD float ptr [ESP]
+1005d006 | d86104 | FSUB float ptr [ECX + 0x4]
+1005d009 | d91c24 | FSTP float ptr [ESP]
+1005d00c | d9442408 | FLD float ptr [ESP + 0x8]
+1005d010 | d8610c | FSUB float ptr [ECX + 0xc]
+1005d013 | d95c2408 | FSTP float ptr [ESP + 0x8]
+1005d017 | d90424 | FLD float ptr [ESP]
+1005d01a | d9442408 | FLD float ptr [ESP + 0x8]
+1005d01e | d901 | FLD float ptr [ECX]
+1005d020 | d9c2 | FLD ST2
+1005d022 | decb | FMULP ST3
+1005d024 | d9ee | FLDZ
+1005d026 | dcc8 | FMUL ST0
+1005d028 | dec3 | FADDP ST3,ST0
+1005d02a | d9c1 | FLD ST1
+1005d02c | deca | FMULP ST2
+1005d02e | d9ca | FXCH ST2
+1005d030 | dec1 | FADDP
+1005d032 | d95c2410 | FSTP float ptr [ESP + 0x10]
+1005d036 | d9442410 | FLD float ptr [ESP + 0x10]
+1005d03a | d9c1 | FLD ST1
+1005d03c | deca | FMULP ST2
+1005d03e | d9c9 | FXCH
+1005d040 | d95c2410 | FSTP float ptr [ESP + 0x10]
+1005d044 | d9442410 | FLD float ptr [ESP + 0x10]
+1005d048 | dff1 | FCOMIP ST0,ST1
+1005d04a | ddd8 | FSTP ST0
+1005d04c | 7608 | JBE 0x1005d056
+1005d04e | b001 | MOV AL,0x1
+1005d050 | 83c40c | ADD ESP,0xc
+1005d053 | c20400 | RET 0x4
+; 1005d056 LAB_1005d056
+1005d056 | 32c0 | XOR AL,AL
+1005d058 | 83c40c | ADD ESP,0xc
+1005d05b | c20400 | RET 0x4

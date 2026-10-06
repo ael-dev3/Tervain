@@ -1,0 +1,4 @@
+; 1000888c ?ReAlloc@MemHeap@@SGPAXPAXI@Z
+1000888c | e90f500300 | JMP 0x1003d8a0
+; 10008891 bCUnicodeString::bCUnicodeString
+; 10008891 Ordinal_295

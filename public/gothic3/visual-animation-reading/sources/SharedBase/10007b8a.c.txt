@@ -1,0 +1,16 @@
+/* ENTRY 10007b8a | bCVector::GetTransformedDirection | STATUS decompiled | 2 ms */
+
+/* public: class bCVector __thiscall bCVector::GetTransformedDirection(class bCMatrix const &)const
+    */
+
+bCMatrix * __thiscall bCVector::GetTransformedDirection(bCVector *this,bCMatrix *param_1)
+
+{
+  bCMatrix *in_stack_00000008;
+  
+                    /* 0x7b8a  3140  ?GetTransformedDirection@bCVector@@QBE?AV1@ABVbCMatrix@@@Z */
+  SetTransformedDirection((bCVector *)param_1,this,in_stack_00000008);
+  return param_1;
+}
+
+

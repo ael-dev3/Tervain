@@ -1,0 +1,4 @@
+; 20163810 FUN_20163810
+20163810 | 83c110 | ADD ECX,0x10
+20163813 | e97d26edff | JMP 0x20035e95
+; 201638d0 gCHUDViewTradeVendor2::scalar_deleting_destructor

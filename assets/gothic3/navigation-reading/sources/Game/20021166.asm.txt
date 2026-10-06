@@ -1,0 +1,2 @@
+; 20021166 ?ReadSaveGame@gCNavigation_PS@@UAE?AW4bEResult@@AAVbCIStream@@@Z
+20021166 | e9a5532600 | JMP 0x20286510

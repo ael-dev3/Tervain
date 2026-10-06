@@ -1,0 +1,30 @@
+/* ENTRY 10090590 | FUN_10090590 | STATUS decompiled | 8 ms */
+
+bCPropertyObjectBase * FUN_10090590(bCString *param_1)
+
+{
+  bCString *this;
+  bool bVar1;
+  int iVar2;
+  bCPropertyObjectFactory *this_00;
+  bCPropertyObjectBase *pbVar3;
+  
+  this = param_1;
+  bVar1 = bCString::IsEmpty(param_1);
+  if (!bVar1) {
+    bVar1 = bCString::IsEmpty(this);
+    if (!bVar1) {
+      iVar2 = thunk_FUN_10090c90(this,&param_1);
+      if ((iVar2 != 0) && ((int *)**(int **)(iVar2 + 4) != (int *)0x0)) {
+        this_00 = (bCPropertyObjectFactory *)(**(code **)(*(int *)**(int **)(iVar2 + 4) + 0xc))();
+        pbVar3 = bCPropertyObjectFactory::CloneObjectInstance(this_00);
+        return pbVar3;
+      }
+    }
+    GE_MESSAGEF_WARN("bCPropertyObjectSingleton::QueryNewObject - can not find rootobject of class: %s"
+                     ,*(undefined4 *)this);
+  }
+  return (bCPropertyObjectBase *)0x0;
+}
+
+

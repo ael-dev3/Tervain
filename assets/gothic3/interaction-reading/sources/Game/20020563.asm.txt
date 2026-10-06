@@ -1,0 +1,2 @@
+; 20020563 bTPropertyType<gCInteraction_PS,bTPropertyContainer<gEFocusNameType>_>::vfunction6
+20020563 | e938a33e00 | JMP 0x2040a8a0

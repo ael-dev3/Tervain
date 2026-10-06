@@ -1,0 +1,27 @@
+/* ENTRY 200368c2 | thunk_FUN_20320af0 | STATUS decompiled | 8 ms */
+
+undefined4 thunk_FUN_20320af0(void)
+
+{
+  bCString *pbVar1;
+  bCPropertyObjectSingleton *this;
+  bCPropertyObjectBase *pbVar2;
+  int *piVar3;
+  undefined4 uVar4;
+  bCPropertyObjectBase *pbStack_4;
+  
+  bCAccessorCreator::bCAccessorCreator((bCAccessorCreator *)&pbStack_4);
+  pbVar1 = (bCString *)bTPropertyObjectType<gCAttribute,bCObjectRefBase>::vfunction1();
+  this = bCPropertyObjectSingleton::GetInstance();
+  pbStack_4 = bCPropertyObjectSingleton::QueryNewObject(this,pbVar1);
+  bCAccessorCreator::SetInstance((bCAccessorCreator *)&pbStack_4,pbStack_4);
+  pbVar2 = bCAccessorCreator::operator->((bCAccessorCreator *)&pbStack_4);
+  piVar3 = (int *)(*(code *)**(undefined4 **)pbVar2)();
+  (**(code **)(*piVar3 + 0x20))();
+  pbVar2 = bCAccessorCreator::operator->((bCAccessorCreator *)&pbStack_4);
+  uVar4 = (*(code *)**(undefined4 **)pbVar2)();
+  bCAccessorCreator::~bCAccessorCreator((bCAccessorCreator *)&pbStack_4);
+  return uVar4;
+}
+
+

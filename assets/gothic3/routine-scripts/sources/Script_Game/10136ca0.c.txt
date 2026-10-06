@@ -1,0 +1,17 @@
+/* ENTRY 10136ca0 | FUN_10136ca0 | STATUS decompiled | 8 ms */
+
+void FUN_10136ca0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Commands\\AI_ParadeStumble.cpp");
+  bCString::bCString(local_8,"_AI_ParadeStumble");
+  thunk_FUN_1004aa50(local_8,&LAB_10001f69,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

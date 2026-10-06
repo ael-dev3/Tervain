@@ -1,0 +1,4 @@
+; 300389dd bTPropertyType<eCCollisionShape,float>::vfunction26
+300389dd | e9be863200 | JMP 0x303610a0
+; 300389e2 eCMaterialCanvas::SetTexture
+; 300389e2 Ordinal_14375

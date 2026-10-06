@@ -1,0 +1,10 @@
+/* ENTRY 2020fd40 | bTPropertyObject<gCDialog_PS,eCEntityPropertySet>::vfunction11 | STATUS decompiled | 1 ms */
+
+void __thiscall bTPropertyObject<gCDialog_PS,eCEntityPropertySet>::vfunction11(void)
+
+{
+  thunk_FUN_2020fa30(0);
+  return;
+}
+
+

@@ -1,0 +1,41 @@
+/* ENTRY 100011e0 | bCOrientedBox::Create | STATUS decompiled | 14 ms */
+
+/* public: void __thiscall bCOrientedBox::Create(class bCBox const &,class bCMatrix3 const &) */
+
+void __thiscall bCOrientedBox::Create(bCOrientedBox *this,bCBox *param_1,bCMatrix3 *param_2)
+
+{
+  float fVar1;
+  float fVar2;
+  float fVar3;
+  float fVar4;
+  bCMatrix3 *pbVar5;
+  int iVar6;
+  
+                    /* 0x11e0  1811  ?Create@bCOrientedBox@@QAEXABVbCBox@@ABVbCMatrix3@@@Z */
+  fVar1 = *(float *)(param_1 + 0x10);
+  fVar2 = *(float *)(param_1 + 0x14);
+  iVar6 = 9;
+  fVar3 = *(float *)(param_1 + 4);
+  fVar4 = *(float *)(param_1 + 8);
+  *(float *)this = (*(float *)param_1 + *(float *)(param_1 + 0xc)) * 0.5;
+  *(float *)(this + 4) = (fVar3 + fVar1) * 0.5;
+  *(float *)(this + 8) = (fVar4 + fVar2) * 0.5;
+  fVar1 = *(float *)(param_1 + 0x10);
+  fVar2 = *(float *)(param_1 + 0x14);
+  fVar3 = *(float *)(param_1 + 4);
+  fVar4 = *(float *)(param_1 + 8);
+  *(float *)(this + 0xc) = (*(float *)(param_1 + 0xc) - *(float *)param_1) * 0.5;
+  *(float *)(this + 0x10) = (fVar1 - fVar3) * 0.5;
+  *(float *)(this + 0x14) = (fVar2 - fVar4) * 0.5;
+  pbVar5 = param_2;
+  do {
+    iVar6 = iVar6 + -1;
+    *(undefined4 *)(pbVar5 + (int)(this + (0x18 - (int)param_2))) = *(undefined4 *)pbVar5;
+    pbVar5 = pbVar5 + 4;
+  } while (iVar6 != 0);
+  bCVector::Transform((bCVector *)this,param_2);
+  return;
+}
+
+

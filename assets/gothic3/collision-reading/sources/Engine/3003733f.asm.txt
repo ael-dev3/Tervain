@@ -1,0 +1,4 @@
+; 3003733f bTPropertyType<eCCollisionShape,bCObsoleteClass>::vfunction20
+3003733f | e99c4e3200 | JMP 0x3035c1e0
+; 30037344 eCStaticCtrl::operator>>
+; 30037344 Ordinal_1905

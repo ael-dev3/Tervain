@@ -1,0 +1,15 @@
+/* ENTRY 100036cf | PSRoutine::PropertyAmbientAction::operator= | STATUS decompiled | 1 ms */
+
+/* public: class PSRoutine::PropertyAmbientAction & __thiscall
+   PSRoutine::PropertyAmbientAction::operator=(class PSRoutine::PropertyAmbientAction const &) */
+
+PropertyAmbientAction * __thiscall
+PSRoutine::PropertyAmbientAction::operator=
+          (PropertyAmbientAction *this,PropertyAmbientAction *param_1)
+
+{
+                    /* 0x36cf  260  ??4PropertyAmbientAction@PSRoutine@@QAEAAV01@ABV01@@Z */
+  return this;
+}
+
+

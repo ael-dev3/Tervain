@@ -1,0 +1,32 @@
+/* ENTRY 30748cd0 | bTPropertyType<eCIlluminated_PS,bool>::~bTPropertyType<eCIlluminated_PS,bool> | STATUS decompiled | 21 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<eCIlluminated_PS,bool>::~bTPropertyType<eCIlluminated_PS,bool>
+          (bTPropertyType<eCIlluminated_PS,bool> *this)
+
+{
+  bTPropertyType<eCIlluminated_PS,bool> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"EnableDynamicLighting");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&eCIlluminated_PS::ms_PropertyMember_m_bEnableDynamicLighting,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_bEnableDynamicLighting = &vftable;
+  DAT_30ae1d84 = bTPropertyObjectType<eCIlluminated_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<eCIlluminated_PS,eCEntityPropertySet>();
+  _DAT_30ae1d88 = 0x14;
+  _DAT_30ae1d8c = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&eCIlluminated_PS::ms_PropertyMember_m_bEnableDynamicLighting);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_30ae1d84,
+             (bCPropertyTypeBase *)&eCIlluminated_PS::ms_PropertyMember_m_bEnableDynamicLighting);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}
+
+

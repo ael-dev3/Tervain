@@ -1,0 +1,20 @@
+; 1009add0 FUN_1009add0
+1009add0 | 833900 | CMP dword ptr [ECX],0x0
+1009add3 | 7503 | JNZ 0x1009add8
+1009add5 | 32c0 | XOR AL,AL
+1009add7 | c3 | RET
+; 1009add8 LAB_1009add8
+1009add8 | 56 | PUSH ESI
+1009add9 | 8b31 | MOV ESI,dword ptr [ECX]
+1009addb | e87cb0f6ff | CALL 0x10005e5c
+1009ade0 | 50 | PUSH EAX
+1009ade1 | 8b06 | MOV EAX,dword ptr [ESI]
+1009ade3 | 8b5008 | MOV EDX,dword ptr [EAX + 0x8]
+1009ade6 | 8bce | MOV ECX,ESI
+1009ade8 | ffd2 | CALL EDX
+1009adea | 8bc8 | MOV ECX,EAX
+1009adec | e8c880f6ff | CALL 0x10002eb9
+1009adf1 | 84c0 | TEST AL,AL
+1009adf3 | 0f94c0 | SETZ AL
+1009adf6 | 5e | POP ESI
+1009adf7 | c3 | RET

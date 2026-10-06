@@ -1,0 +1,2 @@
+; 30021e72 eCIlluminated_PS::GetLightSet
+30021e72 | e9490c2000 | JMP 0x30222ac0

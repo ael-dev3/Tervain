@@ -1,0 +1,18 @@
+/* ENTRY 3035c050 | bTPOPureSmartPtr<eCCollisionShape>::vfunction6 | STATUS decompiled | 5 ms */
+
+undefined4 __thiscall
+bTPOPureSmartPtr<eCCollisionShape>::vfunction6
+          (bTPOPureSmartPtr<eCCollisionShape> *this,bCIStream *param_1)
+
+{
+  bCIStream *pbVar1;
+  
+  if ((this->bTPOPureSmartPtr<eCCollisionShape>_data).offset_0x4 == (bCObjectRefBase *)0x0) {
+    (*this->vftablePtr->vfunction11)(this);
+  }
+  pbVar1 = ::operator>>(param_1,(bCObjectBase *)
+                                (this->bTPOPureSmartPtr<eCCollisionShape>_data).offset_0x4);
+  return CONCAT22((short)((uint)pbVar1 >> 0x10),0x53);
+}
+
+

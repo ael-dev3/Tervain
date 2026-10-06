@@ -1,0 +1,51 @@
+/* ENTRY 1000ee40 | FUN_1000ee40 | STATUS decompiled | 23 ms */
+
+void __fastcall FUN_1000ee40(int *param_1)
+
+{
+  bCMemoryAdmin *pbVar1;
+  int iVar2;
+  void *pvVar3;
+  
+  iVar2 = 0;
+  if (*param_1 != 0) {
+    thunk_FUN_100158f0(*param_1,param_1[2]);
+    pvVar3 = (void *)*param_1;
+    pbVar1 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar1,pvVar3);
+    *param_1 = 0;
+    param_1[1] = 0;
+    param_1[2] = 0;
+  }
+  thunk_FUN_10015b80(0x75,0);
+  if (0x75 < param_1[1]) {
+    thunk_FUN_100158f0(*param_1 + 0x4cc8,param_1[1] + -0x75);
+    thunk_FUN_100151e0(*param_1 + 0x4cc8,param_1[1] + -0x75);
+  }
+  param_1[1] = 0x75;
+  if (param_1[3] != 0) {
+    thunk_FUN_100158f0(param_1[3],param_1[5]);
+    pvVar3 = (void *)param_1[3];
+    pbVar1 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar1,pvVar3);
+    param_1[3] = 0;
+    param_1[4] = 0;
+    param_1[5] = 0;
+  }
+  if (param_1[6] != 0) {
+    thunk_FUN_100158f0(param_1[6],param_1[8]);
+    pvVar3 = (void *)param_1[6];
+    pbVar1 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar1,pvVar3);
+    param_1[6] = 0;
+    param_1[7] = 0;
+    param_1[8] = 0;
+  }
+  do {
+    Entity::operator=((Entity *)(*param_1 + iVar2),(Entity *)None_exref);
+    iVar2 = iVar2 + 0xa8;
+  } while (iVar2 < 0x4cc8);
+  return;
+}
+
+

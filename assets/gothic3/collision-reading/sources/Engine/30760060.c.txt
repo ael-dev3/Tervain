@@ -1,0 +1,32 @@
+/* ENTRY 30760060 | bTPropertyType<eCCollisionShape,bool>::~bTPropertyType<eCCollisionShape,bool> | STATUS decompiled | 14 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<eCCollisionShape,bool>::~bTPropertyType<eCCollisionShape,bool>
+          (bTPropertyType<eCCollisionShape,bool> *this)
+
+{
+  bTPropertyType<eCCollisionShape,bool> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"TriggersOnUntouch");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&eCCollisionShape::ms_PropertyMember_m_bTriggersOnUntouch,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_bTriggersOnUntouch = &vftable;
+  DAT_30aeced0 = bTPropertyObjectType<eCCollisionShape,bCObjectRefBase>::
+                 ~bTPropertyObjectType<eCCollisionShape,bCObjectRefBase>();
+  _DAT_30aeced4 = 0x32;
+  _DAT_30aeced8 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&eCCollisionShape::ms_PropertyMember_m_bTriggersOnUntouch);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_30aeced0,
+             (bCPropertyTypeBase *)&eCCollisionShape::ms_PropertyMember_m_bTriggersOnUntouch);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}
+
+

@@ -1,0 +1,14 @@
+/* ENTRY 2016e450 | gCHUDPageSpells2::~gCHUDPageSpells2 | STATUS decompiled | 13 ms */
+
+void __thiscall gCHUDPageSpells2::~gCHUDPageSpells2(gCHUDPageSpells2 *this)
+
+{
+  this->vftablePtr = &vftable;
+  gCHUDViewSpells2::~gCHUDViewSpells2((gCHUDViewSpells2 *)&(this->gCHUDPageSpells2_data).field_0x14)
+  ;
+  gCHUDView::~gCHUDView((gCHUDView *)&this->gCHUDPageSpells2_data);
+  gCHUDPage::~gCHUDPage((gCHUDPage *)this);
+  return;
+}
+
+

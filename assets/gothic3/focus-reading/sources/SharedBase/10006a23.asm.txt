@@ -1,0 +1,2 @@
+; 10006a23 bCPropertyTypeBase::bCPropertyTypeBase
+10006a23 | e928230800 | JMP 0x10088d50

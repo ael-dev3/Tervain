@@ -1,0 +1,6 @@
+; 200adc10 bTPropertyContainer<gEFocusNameType>::vfunction8
+200adc10 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+200adc14 | 8b5004 | MOV EDX,dword ptr [EAX + 0x4]
+200adc17 | 895104 | MOV dword ptr [ECX + 0x4],EDX
+200adc1a | b801000000 | MOV EAX,0x1
+200adc1f | c20400 | RET 0x4

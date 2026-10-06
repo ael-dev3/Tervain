@@ -1,0 +1,31 @@
+/* ENTRY 10008576 | bCBox::SetCenter | STATUS decompiled | 10 ms */
+
+/* public: void __thiscall bCBox::SetCenter(class bCVector const &) */
+
+void __thiscall bCBox::SetCenter(bCBox *this,bCVector *param_1)
+
+{
+  float fVar1;
+  float fVar2;
+  float fVar3;
+  float fVar4;
+  float fVar5;
+  
+                    /* 0x8576  4092  ?SetCenter@bCBox@@QAEXABVbCVector@@@Z */
+  fVar3 = (*(float *)(this + 0xc) - *(float *)this) * 0.5;
+  fVar4 = (*(float *)(this + 0x10) - *(float *)(this + 4)) * 0.5;
+  fVar5 = (*(float *)(this + 0x14) - *(float *)(this + 8)) * 0.5;
+  fVar1 = *(float *)(param_1 + 4);
+  fVar2 = *(float *)(param_1 + 8);
+  *(float *)this = *(float *)param_1 - fVar3;
+  *(float *)(this + 4) = fVar1 - fVar4;
+  *(float *)(this + 8) = fVar2 - fVar5;
+  fVar1 = *(float *)(param_1 + 4);
+  fVar2 = *(float *)(param_1 + 8);
+  *(float *)(this + 0xc) = *(float *)param_1 + fVar3;
+  *(float *)(this + 0x10) = fVar4 + fVar1;
+  *(float *)(this + 0x14) = fVar5 + fVar2;
+  return;
+}
+
+

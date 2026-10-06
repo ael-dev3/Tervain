@@ -1,0 +1,34 @@
+; 3009e790 FUN_3009e790
+3009e790 | 51 | PUSH ECX
+3009e791 | 56 | PUSH ESI
+3009e792 | 57 | PUSH EDI
+3009e793 | 8bf1 | MOV ESI,ECX
+3009e795 | e8db7df9ff | CALL 0x30036575
+3009e79a | 8d4c2408 | LEA ECX,[ESP + 0x8]
+3009e79e | ff15ecdbaf30 | CALL dword ptr [0x30afdbec]
+3009e7a4 | 8b7c2410 | MOV EDI,dword ptr [ESP + 0x10]
+3009e7a8 | 8d442408 | LEA EAX,[ESP + 0x8]
+3009e7ac | 50 | PUSH EAX
+3009e7ad | 8bcf | MOV ECX,EDI
+3009e7af | ff1530cbaf30 | CALL dword ptr [0x30afcb30]
+3009e7b5 | 8d4c2408 | LEA ECX,[ESP + 0x8]
+3009e7b9 | 51 | PUSH ECX
+3009e7ba | 8d4e10 | LEA ECX,[ESI + 0x10]
+3009e7bd | ff1560dbaf30 | CALL dword ptr [0x30afdb60]
+3009e7c3 | 8d5614 | LEA EDX,[ESI + 0x14]
+3009e7c6 | 52 | PUSH EDX
+3009e7c7 | 8bcf | MOV ECX,EDI
+3009e7c9 | c7460c00000000 | MOV dword ptr [ESI + 0xc],0x0
+3009e7d0 | ff15a0cbaf30 | CALL dword ptr [0x30afcba0]
+3009e7d6 | 57 | PUSH EDI
+3009e7d7 | 8d4e18 | LEA ECX,[ESI + 0x18]
+3009e7da | ff1568cbaf30 | CALL dword ptr [0x30afcb68]
+3009e7e0 | 57 | PUSH EDI
+3009e7e1 | 8d4e24 | LEA ECX,[ESI + 0x24]
+3009e7e4 | ff1568cbaf30 | CALL dword ptr [0x30afcb68]
+3009e7ea | 8d4c2408 | LEA ECX,[ESP + 0x8]
+3009e7ee | ff15dcdbaf30 | CALL dword ptr [0x30afdbdc]
+3009e7f4 | 5f | POP EDI
+3009e7f5 | 5e | POP ESI
+3009e7f6 | 59 | POP ECX
+3009e7f7 | c20400 | RET 0x4

@@ -1,0 +1,3 @@
+; 30385380 bTPropertyObjectType<eCEffector,bCObjectRefBase>::vfunction3
+30385380 | 8d4118 | LEA EAX,[ECX + 0x18]
+30385383 | c3 | RET

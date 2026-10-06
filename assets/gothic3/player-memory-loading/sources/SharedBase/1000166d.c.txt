@@ -1,0 +1,22 @@
+/* ENTRY 1000166d | bCAccessorPropertyObject::GetNativeObject | STATUS decompiled | 4 ms */
+
+/* public: class bCObjectRefBase * __thiscall bCAccessorPropertyObject::GetNativeObject(void) */
+
+bCObjectRefBase * __thiscall
+bCAccessorPropertyObject::GetNativeObject(bCAccessorPropertyObject *this)
+
+{
+  bCObjectRefBase *pbVar1;
+  
+                    /* 0x166d  2644
+                       ?GetNativeObject@bCAccessorPropertyObject@@QAEPAVbCObjectRefBase@@XZ */
+  if (*(undefined4 **)(this + 4) != (undefined4 *)0x0) {
+                    /* WARNING: Could not recover jumptable at 0x1009ac0b. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+    pbVar1 = (bCObjectRefBase *)(**(code **)**(undefined4 **)(this + 4))();
+    return pbVar1;
+  }
+  return (bCObjectRefBase *)0x0;
+}
+
+

@@ -1,0 +1,15 @@
+/* ENTRY 20185290 | gCHUDListCtrlQuests::gCHUDListCtrlQuests | STATUS decompiled | 7 ms */
+
+gCHUDListCtrlQuests * __thiscall gCHUDListCtrlQuests::gCHUDListCtrlQuests(gCHUDListCtrlQuests *this)
+
+{
+  CFFGFCListCtrl::CFFGFCListCtrl((CFFGFCListCtrl *)this);
+  this->vftablePtr = &vftable;
+  (this->gCHUDListCtrlQuests_data).offset_0xc = 1;
+  (this->gCHUDListCtrlQuests_data).offset_0x10 = 0x18;
+  CFFGFCImageList::CFFGFCImageList((CFFGFCImageList *)&(this->gCHUDListCtrlQuests_data).field_0x14);
+  (this->gCHUDListCtrlQuests_data).offset_0x1c = 0;
+  return this;
+}
+
+

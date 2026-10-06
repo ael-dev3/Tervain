@@ -1,0 +1,30 @@
+/* ENTRY 100042a5 | bCOrientedBox::GetProjectedExtent | STATUS decompiled | 15 ms */
+
+/* public: void __thiscall bCOrientedBox::GetProjectedExtent(class bCVector const &,float &,float
+   &)const  */
+
+void __thiscall
+bCOrientedBox::GetProjectedExtent
+          (bCOrientedBox *this,bCVector *param_1,float *param_2,float *param_3)
+
+{
+  float fVar1;
+  float fVar2;
+  
+                    /* 0x42a5  2815  ?GetProjectedExtent@bCOrientedBox@@QBEXABVbCVector@@AAM1@Z */
+  fVar1 = *(float *)param_1;
+  fVar2 = fVar1 * *(float *)this + *(float *)(param_1 + 4) * *(float *)(this + 4) +
+          *(float *)(param_1 + 8) * *(float *)(this + 8);
+  fVar1 = ABS(*(float *)(param_1 + 8) * *(float *)(this + 0x38) +
+              *(float *)(param_1 + 4) * *(float *)(this + 0x34) + *(float *)(this + 0x30) * fVar1) *
+          *(float *)(this + 0x14) +
+          ABS(*(float *)(this + 0x24) * fVar1 + *(float *)(param_1 + 4) * *(float *)(this + 0x28) +
+              *(float *)(param_1 + 8) * *(float *)(this + 0x2c)) * *(float *)(this + 0x10) +
+          ABS(*(float *)(this + 0x18) * fVar1 + *(float *)(this + 0x1c) * *(float *)(param_1 + 4) +
+              *(float *)(this + 0x20) * *(float *)(param_1 + 8)) * *(float *)(this + 0xc);
+  *param_2 = fVar2 - fVar1;
+  *param_3 = fVar1 + fVar2;
+  return;
+}
+
+

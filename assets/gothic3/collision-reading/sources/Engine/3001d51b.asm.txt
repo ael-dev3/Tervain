@@ -1,0 +1,4 @@
+; 3001d51b ?GetRootObject@eCCollisionShapeBase_PS@@SGPBVbCPropertyObjectBase@@XZ
+3001d51b | e9603c3200 | JMP 0x30341180
+; 3001d520 eCParticleSystemBase_PS::GetDirectionAngleHead
+; 3001d520 Ordinal_6858

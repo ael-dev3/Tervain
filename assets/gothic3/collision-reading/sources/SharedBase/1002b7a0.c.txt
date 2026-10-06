@@ -1,0 +1,10 @@
+/* ENTRY 1002b7a0 | FUN_1002b7a0 | STATUS decompiled | 2 ms */
+
+bCBox * __thiscall FUN_1002b7a0(bCBox *param_1,bCBox *param_2)
+
+{
+  bCBox::Merge(param_1,param_2);
+  return param_1;
+}
+
+

@@ -1,0 +1,12 @@
+/* ENTRY 20008337 | gCPlayerMemory_PS::GetChapter | STATUS decompiled | 5 ms */
+
+/* public: long const & __thiscall gCPlayerMemory_PS::GetChapter(void)const  */
+
+long * __thiscall gCPlayerMemory_PS::GetChapter(gCPlayerMemory_PS *this)
+
+{
+                    /* 0x8337  3036  ?GetChapter@gCPlayerMemory_PS@@QBEABJXZ */
+  return &this[1].gCPlayerMemory_PS_data.offset_0x24;
+}
+
+

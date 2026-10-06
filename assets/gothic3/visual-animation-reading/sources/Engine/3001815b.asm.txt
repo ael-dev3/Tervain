@@ -1,0 +1,2 @@
+; 3001815b eCEntityProxy::IsEntityIDValid
+3001815b | e9d0c14a00 | JMP 0x304c4330

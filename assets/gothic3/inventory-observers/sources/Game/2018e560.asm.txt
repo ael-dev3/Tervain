@@ -1,0 +1,17 @@
+; 2018e560 gCHUDTableStackStats::vfunction5_for_gCInventoryListener
+2018e560 | 56 | PUSH ESI
+2018e561 | 8bf1 | MOV ESI,ECX
+2018e563 | 8b4e04 | MOV ECX,dword ptr [ESI + 0x4]
+2018e566 | 85c9 | TEST ECX,ECX
+2018e568 | 740d | JZ 0x2018e577
+2018e56a | 8b01 | MOV EAX,dword ptr [ECX]
+2018e56c | 8b8054010000 | MOV EAX,dword ptr [EAX + 0x154]
+2018e572 | 8bd6 | MOV EDX,ESI
+2018e574 | 52 | PUSH EDX
+2018e575 | ffd0 | CALL EAX
+; 2018e577 LAB_2018e577
+2018e577 | c7460400000000 | MOV dword ptr [ESI + 0x4],0x0
+2018e57e | c74608ffffffff | MOV dword ptr [ESI + 0x8],0xffffffff
+2018e585 | c646fc01 | MOV byte ptr [ESI + -0x4],0x1
+2018e589 | 5e | POP ESI
+2018e58a | c3 | RET

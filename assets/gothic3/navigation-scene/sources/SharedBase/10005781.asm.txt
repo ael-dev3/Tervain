@@ -1,0 +1,4 @@
+; 10005781 ?Transform@bCVector@@QAEXABVbCMatrix@@@Z
+10005781 | e95afa0100 | JMP 0x100251e0
+; 10005786 bCByteAlphaColor::bCByteAlphaColor
+; 10005786 Ordinal_42

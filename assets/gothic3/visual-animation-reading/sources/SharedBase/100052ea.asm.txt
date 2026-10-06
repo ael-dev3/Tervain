@@ -1,0 +1,2 @@
+; 100052ea bCClock::bCClock
+100052ea | e9f1690400 | JMP 0x1004bce0

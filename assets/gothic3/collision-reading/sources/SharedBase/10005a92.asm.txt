@@ -1,0 +1,4 @@
+; 10005a92 ?Contains@bCBox@@QBE_NQBVbCVector@@@Z
+10005a92 | e999090500 | JMP 0x10056430
+; 10005a97 bCVector4::bCVector4
+; 10005a97 Ordinal_336

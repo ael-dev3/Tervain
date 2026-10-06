@@ -1,0 +1,69 @@
+/* ENTRY 20227b10 | FUN_20227b10 | STATUS decompiled | 33 ms */
+
+void __fastcall FUN_20227b10(int param_1)
+
+{
+  int iVar1;
+  int iVar2;
+  bCVector *this;
+  bCErrorAdmin *this_00;
+  int iVar3;
+  float fVar4;
+  float fVar5;
+  char *pcVar6;
+  char *pcVar7;
+  float local_18;
+  float local_14;
+  
+  if (((*(char *)(param_1 + 0x16) != '\x01') && (*(char *)(param_1 + 0x7c) != '\x01')) ||
+     (*(float *)(param_1 + 0x220) != -1.0)) {
+    return;
+  }
+  iVar3 = 0;
+  local_14 = 0.0;
+  local_18 = 0.0;
+  if (0 < *(int *)(param_1 + 0x308)) {
+    do {
+      iVar2 = *(int *)(param_1 + 0x304);
+      iVar1 = iVar3 * 4;
+      fVar4 = eCCollisionShape::GetWidth(*(eCCollisionShape **)(iVar1 + iVar2));
+      fVar5 = eCCollisionShape::GetDepth(*(eCCollisionShape **)(iVar1 + iVar2));
+      if (fVar4 <= fVar5) {
+        fVar4 = eCCollisionShape::GetDepth
+                          (*(eCCollisionShape **)(*(int *)(param_1 + 0x304) + iVar1));
+      }
+      else {
+        fVar4 = eCCollisionShape::GetWidth
+                          (*(eCCollisionShape **)(*(int *)(param_1 + 0x304) + iVar1));
+      }
+      fVar4 = fVar4 * 0.5;
+      this = eCCollisionShape::GetCenter(*(eCCollisionShape **)(*(int *)(param_1 + 0x304) + iVar1));
+      fVar5 = bCVector::GetZ(this);
+      if (fVar5 < 0.0) {
+        if (local_14 < fVar4 - fVar5) {
+          local_14 = fVar4 - fVar5;
+        }
+      }
+      else if (local_14 < fVar4 + fVar5) {
+        local_14 = fVar4 + fVar5;
+      }
+      if (local_18 < fVar4 - fVar5) {
+        local_18 = fVar4 - fVar5;
+      }
+      iVar3 = iVar3 + 1;
+    } while (iVar3 < *(int *)(param_1 + 0x308));
+  }
+  if ((local_18 != -1.0) && (local_14 != -1.0)) {
+    *(float *)(param_1 + 0x220) = local_14 + 5.0;
+    *(float *)(param_1 + 0x224) = local_18 + 5.0;
+    return;
+  }
+  iVar3 = 0x1adb;
+  pcVar7 = ".\\movement\\propertysets\\ge_ps_charactermovement.cpp";
+  pcVar6 = "C: detected quadruped with illegal shapes ";
+  this_00 = bCErrorAdmin::GetInstance();
+  bCErrorAdmin::CallFatalError(this_00,pcVar6,pcVar7,iVar3);
+  return;
+}
+
+

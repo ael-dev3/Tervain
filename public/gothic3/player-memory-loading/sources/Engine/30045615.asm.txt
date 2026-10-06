@@ -1,0 +1,2 @@
+; 30045615 eCEntityPropertySet::GetEntity
+30045615 | e9f6bf4300 | JMP 0x30481610

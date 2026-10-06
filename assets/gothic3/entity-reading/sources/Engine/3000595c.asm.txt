@@ -1,0 +1,4 @@
+; 3000595c ?EnableCollision@eCEntity@@QAEX_N@Z
+3000595c | e96fef4a00 | JMP 0x304b48d0
+; 30005961 eCWnd::eCWnd
+; 30005961 Ordinal_925

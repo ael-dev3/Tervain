@@ -1,0 +1,2 @@
+; 30011e73 eCCameraBase::GetPosition
+30011e73 | e978b60400 | JMP 0x3005d4f0

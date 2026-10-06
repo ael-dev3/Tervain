@@ -1,0 +1,18 @@
+/* ENTRY 20020e14 | gCDamageReceiver_PS::SetStaminaPointsMax | STATUS decompiled | 7 ms */
+
+/* public: void __thiscall gCDamageReceiver_PS::SetStaminaPointsMax(long const &) */
+
+void __thiscall gCDamageReceiver_PS::SetStaminaPointsMax(gCDamageReceiver_PS *this,long *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x20e14  7080  ?SetStaminaPointsMax@gCDamageReceiver_PS@@QAEXABJ@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"StaminaPointsMax",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  *(long *)&(this->gCDamageReceiver_PS_data).field_0x1c = *param_1;
+  (*pNVar1)(this,"StaminaPointsMax",false);
+  return;
+}
+
+

@@ -1,0 +1,4 @@
+; 10004c0a ??1bCCapsule@@QAE@XZ
+10004c0a | e9a12e0500 | JMP 0x10057ab0
+; 10004c0f bCRect::AccessCoordinate
+; 10004c0f Ordinal_1416

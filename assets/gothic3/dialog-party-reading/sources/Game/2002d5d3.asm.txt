@@ -1,0 +1,2 @@
+; 2002d5d3 gCParty_PS::GetRootObject
+2002d5d3 | e948a42e00 | JMP 0x20317a20

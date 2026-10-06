@@ -1,0 +1,26 @@
+; 10034900 FUN_10034900
+10034900 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+10034904 | d900 | FLD float ptr [EAX]
+10034906 | 83ec0c | SUB ESP,0xc
+10034909 | 56 | PUSH ESI
+1003490a | 8b742414 | MOV ESI,dword ptr [ESP + 0x14]
+1003490e | d91e | FSTP float ptr [ESI]
+10034910 | 51 | PUSH ECX
+10034911 | d94004 | FLD float ptr [EAX + 0x4]
+10034914 | 8bce | MOV ECX,ESI
+10034916 | d95e04 | FSTP float ptr [ESI + 0x4]
+10034919 | d94008 | FLD float ptr [EAX + 0x8]
+1003491c | 8d442408 | LEA EAX,[ESP + 0x8]
+10034920 | 50 | PUSH EAX
+10034921 | d95e08 | FSTP float ptr [ESI + 0x8]
+10034924 | e86d08fdff | CALL 0x10005196
+10034929 | d900 | FLD float ptr [EAX]
+1003492b | d91e | FSTP float ptr [ESI]
+1003492d | d94004 | FLD float ptr [EAX + 0x4]
+10034930 | d95e04 | FSTP float ptr [ESI + 0x4]
+10034933 | d94008 | FLD float ptr [EAX + 0x8]
+10034936 | 8bc6 | MOV EAX,ESI
+10034938 | d95e08 | FSTP float ptr [ESI + 0x8]
+1003493b | 5e | POP ESI
+1003493c | 83c40c | ADD ESP,0xc
+1003493f | c20800 | RET 0x8

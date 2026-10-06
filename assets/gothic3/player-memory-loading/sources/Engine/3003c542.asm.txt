@@ -1,0 +1,2 @@
+; 3003c542 eCEntityPropertySet::OnRender
+3003c542 | e9a9524400 | JMP 0x304817f0

@@ -1,0 +1,2 @@
+; 300368db eCWrapper_emfx2Actor::SetTargetWeight
+300368db | e9104a0a00 | JMP 0x300db2f0

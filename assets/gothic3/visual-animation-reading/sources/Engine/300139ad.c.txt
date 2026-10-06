@@ -1,0 +1,12 @@
+/* ENTRY 300139ad | eCVisualAnimation_PS::OnPostRead | STATUS decompiled | 6 ms */
+
+/* public: virtual void __thiscall eCVisualAnimation_PS::OnPostRead(void) */
+
+void __thiscall eCVisualAnimation_PS::OnPostRead(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x139ad  11353  ?OnPostRead@eCVisualAnimation_PS@@UAEXXZ */
+  return;
+}
+
+

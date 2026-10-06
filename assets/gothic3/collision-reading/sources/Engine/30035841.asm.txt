@@ -1,0 +1,4 @@
+; 30035841 ?GetWidth@eCCollisionShape@@QAEMXZ
+30035841 | e98a7b0900 | JMP 0x300cd3d0
+; 3003584b eCGUIRenderer::EndFrame
+; 3003584b Ordinal_5840

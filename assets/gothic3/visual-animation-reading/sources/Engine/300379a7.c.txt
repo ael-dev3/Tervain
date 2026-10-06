@@ -1,0 +1,16 @@
+/* ENTRY 300379a7 | eCSpringAndDamperEffector::Write | STATUS decompiled | 7 ms */
+
+/* public: virtual enum bEResult __thiscall eCSpringAndDamperEffector::Write(class bCOStream &) */
+
+bEResult __thiscall
+eCSpringAndDamperEffector::Write(eCSpringAndDamperEffector *this,bCOStream *param_1)
+
+{
+                    /* 0x379a7  15248
+                       ?Write@eCSpringAndDamperEffector@@UAE?AW4bEResult@@AAVbCOStream@@@Z */
+  bCOStream::operator<<((bCOStream *)param_1,0x3e);
+  eCEffector::Write((eCEffector *)this,param_1);
+  return 1;
+}
+
+

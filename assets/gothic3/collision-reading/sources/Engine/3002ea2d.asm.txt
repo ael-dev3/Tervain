@@ -1,0 +1,4 @@
+; 3002ea2d bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeAABBAdapt>_>::vfunction12
+3002ea2d | e9ce123300 | JMP 0x3035fd00
+; 3002ea32 eCColorSrcMask::GetVersion
+; 3002ea32 Ordinal_9361

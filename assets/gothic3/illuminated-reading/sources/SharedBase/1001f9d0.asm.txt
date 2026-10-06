@@ -1,0 +1,17 @@
+; 1001f9d0 bCMemoryStream::bCMemoryStream_Constructor_or_Destructor
+1001f9d0 | 56 | PUSH ESI
+1001f9d1 | 8bf1 | MOV ESI,ECX
+1001f9d3 | 8b4608 | MOV EAX,dword ptr [ESI + 0x8]
+1001f9d6 | 50 | PUSH EAX
+1001f9d7 | c706c4680e10 | MOV dword ptr [ESI],0x100e68c4
+1001f9dd | c74604b0680e10 | MOV dword ptr [ESI + 0x4],0x100e68b0
+1001f9e4 | e8c530feff | CALL 0x10002aae
+1001f9e9 | 8bc8 | MOV ECX,EAX
+1001f9eb | e82227feff | CALL 0x10002112
+1001f9f0 | 33c0 | XOR EAX,EAX
+1001f9f2 | 894608 | MOV dword ptr [ESI + 0x8],EAX
+1001f9f5 | 894610 | MOV dword ptr [ESI + 0x10],EAX
+1001f9f8 | 89460c | MOV dword ptr [ESI + 0xc],EAX
+1001f9fb | 8bce | MOV ECX,ESI
+1001f9fd | 5e | POP ESI
+1001f9fe | e9ff6dfeff | JMP 0x10006802

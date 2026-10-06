@@ -1,0 +1,2 @@
+; 2001695a ?LearnSpell@gCInventory_PS@@QAE_NPBVeCTemplateEntity@@@Z
+2001695a | e9e1801900 | JMP 0x201aea40

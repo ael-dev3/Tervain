@@ -1,0 +1,15 @@
+/* ENTRY 2039d090 | bTPropertyType<gCStat,int>::vfunction6 | STATUS decompiled | 6 ms */
+
+void __thiscall bTPropertyType<gCStat,int>::vfunction6(bTPropertyType<gCStat,int> *this,int param_1)
+
+{
+  bTPropertyType<gCDamage_PS,int>_vftable *pbVar1;
+  
+  if (param_1 != 0) {
+    pbVar1 = (*this->vftablePtr->vfunction26)(this,(undefined4 *)param_1);
+    pbVar1->vfunction1 = (vfunction1 *)0xffffffff;
+  }
+  return;
+}
+
+

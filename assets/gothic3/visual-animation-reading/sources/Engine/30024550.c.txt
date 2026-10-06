@@ -1,0 +1,21 @@
+/* ENTRY 30024550 | eCSpringAndDamperEffector::SetDamperVelCompressSaturate | STATUS decompiled | 12 ms */
+
+/* public: void __thiscall eCSpringAndDamperEffector::SetDamperVelCompressSaturate(float const &) */
+
+void __thiscall
+eCSpringAndDamperEffector::SetDamperVelCompressSaturate
+          (eCSpringAndDamperEffector *this,float *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x24550  13179
+                       ?SetDamperVelCompressSaturate@eCSpringAndDamperEffector@@QAEXABM@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"DamperVelCompressSaturate",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  (this->eCEffector_data).offset_0x6c = *param_1;
+  (*pNVar1)(this,"DamperVelCompressSaturate",false);
+  return;
+}
+
+

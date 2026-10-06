@@ -1,0 +1,85 @@
+/* ENTRY 10056560 | FUN_10056560 | STATUS decompiled | 50 ms */
+
+undefined4 __thiscall FUN_10056560(float *param_1,int param_2,uint param_3,float *param_4)
+
+{
+  float fVar1;
+  float fVar2;
+  float fVar3;
+  float fVar4;
+  float fVar5;
+  float fVar6;
+  int iVar7;
+  float *pfVar8;
+  float local_24;
+  float local_20;
+  
+  local_24 = 1e+18;
+  local_20 = -1e+18;
+  fVar1 = param_4[1];
+  fVar2 = *param_4;
+  fVar3 = param_4[2];
+  fVar6 = fVar3 * (param_1[2] + param_1[5]) * 0.5 +
+          fVar1 * (param_1[1] + param_1[4]) * 0.5 + fVar2 * (*param_1 + param_1[3]) * 0.5;
+  iVar7 = param_3 - 1;
+  fVar4 = (ABS(fVar3 * (param_1[5] - param_1[2])) + 0.0 +
+           ABS(param_4[1] * (param_1[4] - param_1[1])) + ABS(fVar2 * (param_1[3] - *param_1))) * 0.5
+  ;
+  if (3 < (int)param_3) {
+    param_3 = param_3 >> 2;
+    pfVar8 = (float *)(param_2 + -4 + iVar7 * 0xc);
+    iVar7 = iVar7 + param_3 * -4;
+    do {
+      fVar5 = pfVar8[3] * fVar3 + pfVar8[2] * fVar1 + pfVar8[1] * fVar2;
+      if (fVar5 < local_24) {
+        local_24 = fVar5;
+      }
+      if (local_20 < fVar5) {
+        local_20 = fVar5;
+      }
+      fVar5 = *pfVar8 * fVar3 + pfVar8[-1] * fVar1 + pfVar8[-2] * fVar2;
+      if (fVar5 < local_24) {
+        local_24 = fVar5;
+      }
+      if (local_20 < fVar5) {
+        local_20 = fVar5;
+      }
+      fVar5 = pfVar8[-3] * fVar3 + pfVar8[-4] * fVar1 + pfVar8[-5] * fVar2;
+      if (fVar5 < local_24) {
+        local_24 = fVar5;
+      }
+      if (local_20 < fVar5) {
+        local_20 = fVar5;
+      }
+      fVar5 = pfVar8[-6] * fVar3 + pfVar8[-7] * fVar1 + pfVar8[-8] * fVar2;
+      if (fVar5 < local_24) {
+        local_24 = fVar5;
+      }
+      if (local_20 < fVar5) {
+        local_20 = fVar5;
+      }
+      pfVar8 = pfVar8 + -0xc;
+      param_3 = param_3 - 1;
+    } while (param_3 != 0);
+  }
+  if (-1 < iVar7) {
+    pfVar8 = (float *)(param_2 + 8 + iVar7 * 0xc);
+    do {
+      fVar5 = fVar3 * *pfVar8 + pfVar8[-1] * fVar1 + pfVar8[-2] * fVar2;
+      if (fVar5 < local_24) {
+        local_24 = fVar5;
+      }
+      if (local_20 < fVar5) {
+        local_20 = fVar5;
+      }
+      iVar7 = iVar7 + -1;
+      pfVar8 = pfVar8 + -3;
+    } while (-1 < iVar7);
+  }
+  if ((local_24 <= fVar4 + fVar6) && (fVar6 - fVar4 <= local_20)) {
+    return 0;
+  }
+  return 1;
+}
+
+

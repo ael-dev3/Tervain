@@ -1,0 +1,48 @@
+/* ENTRY 305de480 | FUN_305de480 | STATUS decompiled | 23 ms */
+
+void FUN_305de480(undefined4 param_1)
+
+{
+  eCVirtualFileSystem *peVar1;
+  bCString *pbVar2;
+  bCString **ppbStack_24;
+  bCString **ppbStack_20;
+  bCString *pbStack_1c;
+  bCString local_10 [4];
+  bCString *local_c;
+  bCString *local_8;
+  bCString *local_4;
+  
+  pbStack_1c = (bCString *)0x305de491;
+  bCString::bCString((bCString *)&local_4);
+  pbStack_1c = (bCString *)0x305de497;
+  bCString::bCString((bCString *)&local_8);
+  pbStack_1c = (bCString *)0x305de49d;
+  bCString::bCString((bCString *)&local_c);
+  pbStack_1c = (bCString *)0x305de4a3;
+  bCString::bCString(local_10);
+  pbStack_1c = (bCString *)0x305de4a8;
+  peVar1 = eCVirtualFileSystem::GetInstance();
+  pbStack_1c = local_10;
+  ppbStack_20 = &local_c;
+  ppbStack_24 = &local_8;
+  (**(code **)(*(int *)peVar1 + 0x28))(param_1,&local_4);
+  if (local_c != (bCString *)0x0) {
+    pbVar2 = (bCString *)bCString::operator+((bCString *)&stack0xffffffe8,local_10);
+    bCString::operator=(local_c,pbVar2);
+    bCString::~bCString((bCString *)&stack0xffffffec);
+  }
+  if (local_8 != (bCString *)0x0) {
+    bCString::operator=(local_8,(bCString *)&ppbStack_20);
+  }
+  if (local_4 != (bCString *)0x0) {
+    bCString::operator=(local_4,(bCString *)&ppbStack_24);
+  }
+  bCString::~bCString((bCString *)&ppbStack_24);
+  bCString::~bCString((bCString *)&ppbStack_20);
+  bCString::~bCString((bCString *)&pbStack_1c);
+  bCString::~bCString((bCString *)&stack0xffffffe8);
+  return;
+}
+
+

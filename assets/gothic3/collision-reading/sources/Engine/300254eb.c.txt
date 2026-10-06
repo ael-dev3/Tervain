@@ -1,0 +1,12 @@
+/* ENTRY 300254eb | eCCollisionShape::GetVersion | STATUS decompiled | 3 ms */
+
+/* public: virtual unsigned short __thiscall eCCollisionShape::GetVersion(void)const  */
+
+ushort __thiscall eCCollisionShape::GetVersion(eCCollisionShape *this)
+
+{
+                    /* 0x254eb  9353  ?GetVersion@eCCollisionShape@@UBEGXZ */
+  return 0x4a;
+}
+
+

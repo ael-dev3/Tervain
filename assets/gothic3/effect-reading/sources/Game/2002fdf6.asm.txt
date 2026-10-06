@@ -1,0 +1,2 @@
+; 2002fdf6 bTPropertyType<gCEffect_PS,bCString>::vfunction6
+2002fdf6 | e905b20e00 | JMP 0x2011b000

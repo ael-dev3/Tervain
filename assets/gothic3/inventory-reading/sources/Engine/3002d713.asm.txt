@@ -1,0 +1,4 @@
+; 3002d713 ?OnPropertySetAdded@eCEntityPropertySet@@UAEXXZ
+3002d713 | e918414500 | JMP 0x30481830
+; 3002d718 eCPostProcessingAdmin::operator=
+; 3002d718 Ordinal_1691

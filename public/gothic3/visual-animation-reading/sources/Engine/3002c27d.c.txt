@@ -1,0 +1,20 @@
+/* ENTRY 3002c27d | eCVisualAnimation_PS::SetSkeletonCollisionEnabled | STATUS decompiled | 29 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::SetSkeletonCollisionEnabled(bool const &) */
+
+void __thiscall
+eCVisualAnimation_PS::SetSkeletonCollisionEnabled(eCVisualAnimation_PS *this,bool *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x2c27d  14194  ?SetSkeletonCollisionEnabled@eCVisualAnimation_PS@@QAEXAB_N@Z
+                        */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"SkeletonCollisionEnabled",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  this[1].eCEntityPropertySet_data.field_0x7 = *param_1;
+  (*pNVar1)(this,"SkeletonCollisionEnabled",false);
+  return;
+}
+
+

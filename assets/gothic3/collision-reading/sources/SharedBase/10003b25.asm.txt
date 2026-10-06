@@ -1,0 +1,2 @@
+; 10003b25 ?GetTransformed@bCBox@@QBE?AV1@ABVbCMatrix3@@@Z
+10003b25 | e9566f0300 | JMP 0x1003aa80

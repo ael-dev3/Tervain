@@ -1,0 +1,4 @@
+; 10004039 ?GetPrimaryPoseExt@PSNpc@@QBE_NW4gEAction@@W4gEPhase@@AAW4gEPose@@@Z
+10004039 | e922c10100 | JMP 0x10020160
+; 1000403e Info::GetConditionType
+; 1000403e Ordinal_1517

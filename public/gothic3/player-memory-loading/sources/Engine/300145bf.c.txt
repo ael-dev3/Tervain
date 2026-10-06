@@ -1,0 +1,25 @@
+/* ENTRY 300145bf | eCEntityPropertySet::IsEditorRelevant | STATUS decompiled | 6 ms */
+
+/* public: virtual bool __thiscall eCEntityPropertySet::IsEditorRelevant(void)const 
+   eCEntityPropertySet member function inherited by eCAudioEmitter_PS
+   eCEntityPropertySet member function inherited by eCDynamicLight_PS
+   eCEntityPropertySet member function inherited by eCHemisphere_PS
+   eCEntityPropertySet member function inherited by eCIlluminated_PS
+   eCEntityPropertySet member function inherited by eCPointLight_PS
+   eCEntityPropertySet member function inherited by eCStaticLight_PS
+   eCEntityPropertySet member function inherited by eCStaticPointLight_PS
+   eCEntityPropertySet member function inherited by eCStaticSpotLight_PS
+   eCEntityPropertySet member function inherited by eCSpeedTree_PS
+   eCEntityPropertySet member function inherited by eCSpeedTreeWind_PS
+   eCEntityPropertySet member function inherited by eCWeatherZone_PS
+   eCEntityPropertySet member function inherited by eCVisualAnimation_PS
+   eCEntityPropertySet member function inherited by eCDirectionalLight_PS */
+
+bool __thiscall eCEntityPropertySet::IsEditorRelevant(eCEntityPropertySet *this)
+
+{
+                    /* 0x145bf  10336  ?IsEditorRelevant@eCEntityPropertySet@@UBE_NXZ */
+  return true;
+}
+
+

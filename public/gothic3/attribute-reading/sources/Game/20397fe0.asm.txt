@@ -1,0 +1,7 @@
+; 20397fe0 bTPropertyObjectType<gCAttribute,bCObjectRefBase>::vfunction5
+20397fe0 | 6888936520 | PUSH 0x20659388
+20397fe5 | 683c936520 | PUSH 0x2065933c
+20397fea | ff1510897d20 | CALL dword ptr [0x207d8910]
+20397ff0 | 83c408 | ADD ESP,0x8
+20397ff3 | 66b80100 | MOV AX,0x1
+20397ff7 | c20400 | RET 0x4

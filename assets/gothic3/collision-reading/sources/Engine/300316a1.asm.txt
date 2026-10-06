@@ -1,0 +1,2 @@
+; 300316a1 ?AccessAdaptToAABB@eCCollisionShape@@QAEAA_NXZ
+300316a1 | e97a120900 | JMP 0x300c2920

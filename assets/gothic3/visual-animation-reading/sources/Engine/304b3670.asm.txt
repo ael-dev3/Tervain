@@ -1,0 +1,38 @@
+; 304b3670 FUN_304b3670
+304b3670 | 83ec40 | SUB ESP,0x40
+304b3673 | 56 | PUSH ESI
+304b3674 | 8bf1 | MOV ESI,ECX
+304b3676 | 8d4c2404 | LEA ECX,[ESP + 0x4]
+304b367a | ff15a8cdaf30 | CALL dword ptr [0x30afcda8]
+304b3680 | 8bce | MOV ECX,ESI
+304b3682 | e8f95db5ff | CALL 0x30009480
+304b3687 | 3c01 | CMP AL,0x1
+304b3689 | 7523 | JNZ 0x304b36ae
+304b368b | 8b06 | MOV EAX,dword ptr [ESI]
+304b368d | 8b5060 | MOV EDX,dword ptr [EAX + 0x60]
+304b3690 | 8bce | MOV ECX,ESI
+304b3692 | ffd2 | CALL EDX
+304b3694 | 83c040 | ADD EAX,0x40
+304b3697 | 50 | PUSH EAX
+304b3698 | 8d4c2408 | LEA ECX,[ESP + 0x8]
+304b369c | ff1578dbaf30 | CALL dword ptr [0x30afdb78]
+304b36a2 | 8d4c2404 | LEA ECX,[ESP + 0x4]
+304b36a6 | ff15c0ccaf30 | CALL dword ptr [0x30afccc0]
+304b36ac | eb0a | JMP 0x304b36b8
+304b36ae | 8d4c2404 | LEA ECX,[ESP + 0x4]
+304b36b2 | ff1534ceaf30 | CALL dword ptr [0x30afce34]
+304b36b8 | 8b442448 | MOV EAX,dword ptr [ESP + 0x48]
+304b36bc | 50 | PUSH EAX
+304b36bd | 8d4c2408 | LEA ECX,[ESP + 0x8]
+304b36c1 | ff1574ccaf30 | CALL dword ptr [0x30afcc74]
+304b36c7 | 8b16 | MOV EDX,dword ptr [ESI]
+304b36c9 | 8b92cc000000 | MOV EDX,dword ptr [EDX + 0xcc]
+304b36cf | 8d442404 | LEA EAX,[ESP + 0x4]
+304b36d3 | 50 | PUSH EAX
+304b36d4 | 8bce | MOV ECX,ESI
+304b36d6 | ffd2 | CALL EDX
+304b36d8 | 8d4c2404 | LEA ECX,[ESP + 0x4]
+304b36dc | ff1514dbaf30 | CALL dword ptr [0x30afdb14]
+304b36e2 | 5e | POP ESI
+304b36e3 | 83c440 | ADD ESP,0x40
+304b36e6 | c20400 | RET 0x4

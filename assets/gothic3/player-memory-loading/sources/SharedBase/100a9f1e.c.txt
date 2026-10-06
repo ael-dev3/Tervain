@@ -1,0 +1,24 @@
+/* ENTRY 100a9f1e | _mbstowcs | STATUS decompiled | 5 ms */
+
+/* Library Function - Single Match
+    _mbstowcs
+   
+   Library: Visual Studio 2005 Release */
+
+size_t __cdecl _mbstowcs(wchar_t *_Dest,char *_Source,size_t _MaxCount)
+
+{
+  size_t sVar1;
+  undefined **ppuVar2;
+  
+  if (DAT_102f692c == 0) {
+    ppuVar2 = &PTR_DAT_10141470;
+  }
+  else {
+    ppuVar2 = (undefined **)0x0;
+  }
+  sVar1 = __mbstowcs_l_helper(_Dest,_Source,_MaxCount,ppuVar2);
+  return sVar1;
+}
+
+

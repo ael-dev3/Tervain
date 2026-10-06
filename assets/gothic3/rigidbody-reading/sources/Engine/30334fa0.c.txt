@@ -1,0 +1,13 @@
+/* ENTRY 30334fa0 | bTPropertyType<eCRigidBodyBase_PS,bool>::vfunction3 | STATUS decompiled | 3 ms */
+
+void __thiscall
+bTPropertyType<eCRigidBodyBase_PS,bool>::vfunction3(bTPropertyType<eCRigidBodyBase_PS,bool> *this)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x30334fa7. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  (**(code **)(this[6].vftablePtr)->vfunction1)();
+  return;
+}
+
+

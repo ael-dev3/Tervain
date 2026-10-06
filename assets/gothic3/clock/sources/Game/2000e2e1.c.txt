@@ -1,0 +1,12 @@
+/* ENTRY 2000e2e1 | gCClock_PS::GetYear | STATUS decompiled | 5 ms */
+
+/* public: unsigned long const & __thiscall gCClock_PS::GetYear(void)const  */
+
+ulong * __thiscall gCClock_PS::GetYear(gCClock_PS *this)
+
+{
+                    /* 0xe2e1  4790  ?GetYear@gCClock_PS@@QBEABKXZ */
+  return (ulong *)&(this->gCClock_PS_data).field_0x10;
+}
+
+

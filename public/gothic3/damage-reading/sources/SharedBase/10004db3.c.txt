@@ -1,0 +1,36 @@
+/* ENTRY 10004db3 | bCPropertyObjectFactory::UnregisterPropertyObject | STATUS decompiled | 7 ms */
+
+/* public: bool __thiscall bCPropertyObjectFactory::UnregisterPropertyObject(class
+   bCPropertyObjectBase const *) */
+
+bool __thiscall
+bCPropertyObjectFactory::UnregisterPropertyObject
+          (bCPropertyObjectFactory *this,bCPropertyObjectBase *param_1)
+
+{
+  int iVar1;
+  int *piVar2;
+  
+                    /* 0x4db3  4615
+                       ?UnregisterPropertyObject@bCPropertyObjectFactory@@QAE_NPBVbCPropertyObjectBase@@@Z
+                        */
+  if ((param_1 != (bCPropertyObjectBase *)0x0) &&
+     (iVar1 = (this->bCPropertyObjectFactory_data).offset_0x4, 0 < iVar1)) {
+    piVar2 = (int *)((int)(this->bCPropertyObjectFactory_data).offset_0x0 + iVar1 * 4);
+    while( true ) {
+      piVar2 = piVar2 + -1;
+      iVar1 = iVar1 + -1;
+      if (param_1 == (bCPropertyObjectBase *)*piVar2) break;
+      if (iVar1 == 0) {
+        return false;
+      }
+    }
+    if (iVar1 != -1) {
+      thunk_FUN_1008de10(iVar1);
+      return true;
+    }
+  }
+  return false;
+}
+
+

@@ -1,0 +1,19 @@
+/* ENTRY 10055fc0 | bCBox::Contains | STATUS decompiled | 10 ms */
+
+bool __thiscall bCBox::Contains(bCBox *this,bCVector *param_1)
+
+{
+  if (((*(float *)this <= *(float *)param_1) && (*(float *)(this + 4) <= *(float *)(param_1 + 4)))
+     && (*(float *)(this + 8) <= *(float *)(param_1 + 8))) {
+    if (*(float *)(this + 0xc) < *(float *)param_1) {
+      return false;
+    }
+    if ((*(float *)(param_1 + 4) <= *(float *)(this + 0x10)) &&
+       (*(float *)(param_1 + 8) <= *(float *)(this + 0x14))) {
+      return true;
+    }
+  }
+  return false;
+}
+
+

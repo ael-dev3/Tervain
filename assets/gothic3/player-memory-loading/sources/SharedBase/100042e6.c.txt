@@ -1,0 +1,45 @@
+/* ENTRY 100042e6 | bCPropertyObjectTypeBase::GetPropertyTemplateIndex | STATUS decompiled | 15 ms */
+
+/* private: int __thiscall bCPropertyObjectTypeBase::GetPropertyTemplateIndex(class
+   bCPropertyTypeBase const &)const  */
+
+int __thiscall
+bCPropertyObjectTypeBase::GetPropertyTemplateIndex
+          (bCPropertyObjectTypeBase *this,bCPropertyTypeBase *param_1)
+
+{
+  uint uVar1;
+  bool bVar2;
+  undefined4 *puVar3;
+  bCString *pbVar4;
+  bCString *this_00;
+  uint uVar5;
+  
+                    /* 0x42e6  2833
+                       ?GetPropertyTemplateIndex@bCPropertyObjectTypeBase@@ABEHABVbCPropertyTypeBase@@@Z
+                        */
+  puVar3 = (undefined4 *)(**(code **)(*(int *)param_1 + 0x10))();
+  pbVar4 = (bCString *)(*this->vftablePtr->vfunction1)(this);
+  this_00 = (bCString *)(**(code **)*puVar3)();
+  bVar2 = bCString::operator==(this_00,pbVar4);
+  if (bVar2) {
+    uVar1 = (this->bCPropertyObjectTypeBase_data).offset_0x8;
+    uVar5 = 0;
+    if (0 < (int)uVar1) {
+      bVar2 = uVar1 != 0;
+      do {
+        if ((bVar2) &&
+           (param_1 ==
+            *(bCPropertyTypeBase **)
+             ((int)(this->bCPropertyObjectTypeBase_data).offset_0x4 + uVar5 * 4))) {
+          return uVar5;
+        }
+        uVar5 = uVar5 + 1;
+        bVar2 = uVar5 < uVar1;
+      } while ((int)uVar5 < (int)uVar1);
+    }
+  }
+  return -1;
+}
+
+

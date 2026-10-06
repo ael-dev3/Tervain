@@ -1,0 +1,2 @@
+; 300195f1 eCVisualAnimation_PS::SetBoneJointSpringEnabled
+300195f1 | e9aa8a0400 | JMP 0x300620a0

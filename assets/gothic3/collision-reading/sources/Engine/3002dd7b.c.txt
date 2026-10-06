@@ -1,0 +1,19 @@
+/* ENTRY 3002dd7b | eCCollisionShape::SetGroup | STATUS decompiled | 99 ms */
+
+/* public: void __thiscall eCCollisionShape::SetGroup(class bTPropertyContainer<enum eEShapeGroup>
+   const &) */
+
+void __thiscall
+eCCollisionShape::SetGroup(eCCollisionShape *this,bTPropertyContainer<eEShapeGroup> *param_1)
+
+{
+                    /* 0x2dd7b  13458
+                       ?SetGroup@eCCollisionShape@@QAEXABV?$bTPropertyContainer@W4eEShapeGroup@@@@@Z
+                        */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"Group",false);
+  (*(code *)(this->eCCollisionShape_data).offset_0x10[7])(param_1);
+  (*this->vftablePtr->NotifyPropertyValueChangedExitEx)(this,"Group",false);
+  return;
+}
+
+

@@ -1,0 +1,14 @@
+/* ENTRY 200280e7 | gCMovementBase_PS::gCMovementBase_PS | STATUS decompiled | 11 ms */
+
+/* public: __thiscall gCMovementBase_PS::gCMovementBase_PS(void) */
+
+gCMovementBase_PS * __thiscall gCMovementBase_PS::gCMovementBase_PS(gCMovementBase_PS *this)
+
+{
+                    /* 0x280e7  227  ??0gCMovementBase_PS@@QAE@XZ */
+  eCEntityPropertySet::eCEntityPropertySet((eCEntityPropertySet *)this);
+  this->vftablePtr = &vftable;
+  return this;
+}
+
+

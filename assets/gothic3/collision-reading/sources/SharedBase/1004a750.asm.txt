@@ -1,0 +1,16 @@
+; 1004a750 bCObjectRefBase::bCObjectRefBase
+1004a750 | 56 | PUSH ESI
+1004a751 | 8bf1 | MOV ESI,ECX
+1004a753 | c706ac7e0e10 | MOV dword ptr [ESI],0x100e7eac
+1004a759 | c7460400000000 | MOV dword ptr [ESI + 0x4],0x0
+1004a760 | e8e181fbff | CALL 0x10002946
+1004a765 | f644240801 | TEST byte ptr [ESP + 0x8],0x1
+1004a76a | 7409 | JZ 0x1004a775
+1004a76c | 56 | PUSH ESI
+1004a76d | e8bdfa0500 | CALL 0x100aa22f
+1004a772 | 83c404 | ADD ESP,0x4
+; 1004a775 LAB_1004a775
+1004a775 | 8bc6 | MOV EAX,ESI
+1004a777 | 5e | POP ESI
+1004a778 | c20400 | RET 0x4
+; 1004a790 bCObjectRefBase::scalar_deleting_destructor

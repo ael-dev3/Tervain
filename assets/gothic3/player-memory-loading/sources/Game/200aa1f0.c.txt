@@ -1,0 +1,14 @@
+/* ENTRY 200aa1f0 | gCAttribute::gCAttribute | STATUS decompiled | 84 ms */
+
+gCAttribute * __thiscall gCAttribute::gCAttribute(gCAttribute *this,bCObjectRefBase *param_1)
+
+{
+  bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)this,param_1);
+  this->vftablePtr = &vftable;
+  bCString::bCString((bCString *)&(this->gCAttribute_data).field_0x8,(bCString *)(param_1 + 0xc));
+  (this->gCAttribute_data).offset_0xc = *(undefined4 *)(param_1 + 0x10);
+  (this->gCAttribute_data).offset_0x10 = *(undefined4 *)(param_1 + 0x14);
+  return this;
+}
+
+

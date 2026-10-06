@@ -1,0 +1,17 @@
+/* ENTRY 10117840 | FUN_10117840 | STATUS decompiled | 7 ms */
+
+void FUN_10117840(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Tasks\\Reaction_Tasks\\ZS_Hunt.cpp");
+  bCString::bCString(local_8,"OnHunt");
+  thunk_FUN_1001da70(local_8,&LAB_10001a00,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

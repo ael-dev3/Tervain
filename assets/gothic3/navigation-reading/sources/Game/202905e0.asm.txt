@@ -1,0 +1,16 @@
+; 202905e0 bTPropertyType<gCNavigation_PS,bool>::vfunction12
+202905e0 | 56 | PUSH ESI
+202905e1 | 8bf1 | MOV ESI,ECX
+202905e3 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+202905e7 | 85c9 | TEST ECX,ECX
+202905e9 | 7506 | JNZ 0x202905f1
+202905eb | 33c0 | XOR EAX,EAX
+202905ed | 5e | POP ESI
+202905ee | c20400 | RET 0x4
+; 202905f1 LAB_202905f1
+202905f1 | 8b01 | MOV EAX,dword ptr [ECX]
+202905f3 | 8b10 | MOV EDX,dword ptr [EAX]
+202905f5 | ffd2 | CALL EDX
+202905f7 | 03461c | ADD EAX,dword ptr [ESI + 0x1c]
+202905fa | 5e | POP ESI
+202905fb | c20400 | RET 0x4

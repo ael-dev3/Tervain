@@ -1,0 +1,2 @@
+; 10004949 bCString::ConcatCopy
+10004949 | e912ee0000 | JMP 0x10013760

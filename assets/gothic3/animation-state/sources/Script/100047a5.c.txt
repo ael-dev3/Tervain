@@ -1,0 +1,22 @@
+/* ENTRY 100047a5 | Entity::GetAni | STATUS decompiled | 11 ms */
+
+/* public: class bCString __thiscall Entity::GetAni(enum gEAction,enum gEUseType,enum gEUseType,enum
+   gEPhase)const  */
+
+gEAction __thiscall
+Entity::GetAni(Entity *this,gEAction param_1,gEUseType param_2,gEUseType param_3,gEPhase param_4)
+
+{
+  bCString *in_stack_00000014;
+  Entity *pEStack_4;
+  
+                    /* 0x47a5  1499
+                       ?GetAni@Entity@@QBE?AVbCString@@W4gEAction@@W4gEUseType@@1W4gEPhase@@@Z */
+  pEStack_4 = this;
+  bCString::bCString((bCString *)&pEStack_4,"");
+  GetAniEx(this,param_1,param_3,param_4,param_2,in_stack_00000014,SUB41(&pEStack_4,0));
+  bCString::~bCString((bCString *)&stack0xfffffff8);
+  return param_1;
+}
+
+

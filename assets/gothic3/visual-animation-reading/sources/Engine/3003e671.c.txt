@@ -1,0 +1,12 @@
+/* ENTRY 3003e671 | eCVisualAnimation_PS::AccessBoneSwingSpring | STATUS decompiled | 5 ms */
+
+/* public: float & __thiscall eCVisualAnimation_PS::AccessBoneSwingSpring(void) */
+
+float * __thiscall eCVisualAnimation_PS::AccessBoneSwingSpring(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x3e671  2523  ?AccessBoneSwingSpring@eCVisualAnimation_PS@@QAEAAMXZ */
+  return (float *)&this[3].eCEntityPropertySet_data.field_0x4;
+}
+
+

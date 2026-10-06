@@ -1,0 +1,2 @@
+; 1000247d ?GetPoliticalCrimeCount@PSPlayerMemory@@QAEJW4gEPoliticalAlignment@@@Z
+1000247d | e91e620200 | JMP 0x100286a0

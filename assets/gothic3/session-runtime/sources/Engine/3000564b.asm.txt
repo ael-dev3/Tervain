@@ -1,0 +1,2 @@
+; 3000564b ?IsEditorRunning@eCApplication@@UBE_NXZ
+3000564b | e950df0500 | JMP 0x300635a0

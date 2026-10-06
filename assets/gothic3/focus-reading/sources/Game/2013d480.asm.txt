@@ -1,0 +1,43 @@
+; 2013d480 bTPropertyContainer<gEFocus>::bTPropertyContainer<gEFocus>
+2013d480 | 53 | PUSH EBX
+2013d481 | 56 | PUSH ESI
+2013d482 | 57 | PUSH EDI
+2013d483 | 8bf1 | MOV ESI,ECX
+2013d485 | ff15f86d7d20 | CALL dword ptr [0x207d6df8]
+2013d48b | 8b1d00877d20 | MOV EBX,dword ptr [0x207d8700]
+2013d491 | 8d7e14 | LEA EDI,[ESI + 0x14]
+2013d494 | 8bcf | MOV ECX,EDI
+2013d496 | c706a4a16620 | MOV dword ptr [ESI],0x2066a1a4
+2013d49c | ffd3 | CALL EBX
+2013d49e | c7075c9a6620 | MOV dword ptr [EDI],0x20669a5c
+2013d4a4 | a150887b20 | MOV EAX,[0x207b8850]
+2013d4a9 | 894704 | MOV dword ptr [EDI + 0x4],EAX
+2013d4ac | 8d7e1c | LEA EDI,[ESI + 0x1c]
+2013d4af | 8bcf | MOV ECX,EDI
+2013d4b1 | ffd3 | CALL EBX
+2013d4b3 | c707349b6620 | MOV dword ptr [EDI],0x20669b34
+2013d4b9 | 8b0d54887b20 | MOV ECX,dword ptr [0x207b8854]
+2013d4bf | 894f04 | MOV dword ptr [EDI + 0x4],ECX
+2013d4c2 | 8dbe28010000 | LEA EDI,[ESI + 0x128]
+2013d4c8 | 8bcf | MOV ECX,EDI
+2013d4ca | ffd3 | CALL EBX
+2013d4cc | c707a4c26520 | MOV dword ptr [EDI],0x2065c2a4
+2013d4d2 | 8b15345f7b20 | MOV EDX,dword ptr [0x207b5f34]
+2013d4d8 | 8d8e30010000 | LEA ECX,[ESI + 0x130]
+2013d4de | 895704 | MOV dword ptr [EDI + 0x4],EDX
+2013d4e1 | ff15d86d7d20 | CALL dword ptr [0x207d6dd8]
+2013d4e7 | 8d8e4c010000 | LEA ECX,[ESI + 0x14c]
+2013d4ed | ff1534897d20 | CALL dword ptr [0x207d8934]
+2013d4f3 | 33c0 | XOR EAX,EAX
+2013d4f5 | 8d8e8c010000 | LEA ECX,[ESI + 0x18c]
+2013d4fb | 898678010000 | MOV dword ptr [ESI + 0x178],EAX
+2013d501 | 89867c010000 | MOV dword ptr [ESI + 0x17c],EAX
+2013d507 | 898680010000 | MOV dword ptr [ESI + 0x180],EAX
+2013d50d | ff1534897d20 | CALL dword ptr [0x207d8934]
+2013d513 | 8bce | MOV ECX,ESI
+2013d515 | e86906eeff | CALL 0x2001db83
+2013d51a | 5f | POP EDI
+2013d51b | 8bc6 | MOV EAX,ESI
+2013d51d | 5e | POP ESI
+2013d51e | 5b | POP EBX
+2013d51f | c3 | RET

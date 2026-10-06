@@ -1,0 +1,2 @@
+; 10003ff8 ?Contains@bCBox@@QBE_NABV1@@Z
+10003ff8 | e9c3700200 | JMP 0x1002b0c0

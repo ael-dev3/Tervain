@@ -1,0 +1,138 @@
+/* ENTRY 100cfb70 | FUN_100cfb70 | STATUS decompiled | 196 ms */
+
+undefined4 FUN_100cfb70(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3)
+
+{
+  code *pcVar1;
+  code *pcVar2;
+  bool bVar3;
+  eCEntity *peVar4;
+  bCMemoryAdmin *pbVar5;
+  int iVar6;
+  bCString *pbVar7;
+  void *pvVar8;
+  PropertyLPAttribs aPStack_52c [32];
+  PropertyChapter local_50c [80];
+  Entity aEStack_4bc [16];
+  bCString abStack_4ac [128];
+  PropertyPoliticalAlignment aPStack_42c [32];
+  Entity aEStack_40c [4];
+  bCString abStack_408 [24];
+  Entity local_3f0 [132];
+  Entity aEStack_36c [8];
+  undefined1 auStack_364 [20];
+  PropertyExitROIScript aPStack_350 [140];
+  Entity aEStack_2c4 [36];
+  Entity local_2a0 [132];
+  Entity aEStack_21c [36];
+  Entity local_1f8 [132];
+  Entity aEStack_174 [168];
+  Entity aEStack_cc [72];
+  PSNavigation aPStack_84 [132];
+  
+  Entity::Entity(local_1f8);
+  if (param_2 == (Entity *)0x0) {
+    peVar4 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    Entity::AttachTo(local_1f8,peVar4);
+  }
+  else {
+    Entity::operator=(local_1f8,param_2);
+  }
+  Entity::Entity(local_2a0);
+  if (param_3 == (Entity *)0x0) {
+    peVar4 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    Entity::AttachTo(local_2a0,peVar4);
+  }
+  else {
+    Entity::operator=(local_2a0,param_3);
+  }
+  pcVar2 = ms_arrEntities_exref;
+  if (*(int *)ms_arrEntities_exref != 0) {
+    pcVar1 = ms_arrEntities_exref + 8;
+    thunk_FUN_100158f0();
+    pvVar8 = *(void **)pcVar2;
+    pbVar5 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar5,pvVar8);
+    *(undefined4 *)pcVar2 = 0;
+    *(undefined4 *)(pcVar2 + 4) = 0;
+    *(undefined4 *)pcVar1 = 0;
+  }
+  pcVar2 = ms_arrNPCs_exref;
+  if (*(int *)ms_arrNPCs_exref != 0) {
+    pcVar1 = ms_arrNPCs_exref + 8;
+    thunk_FUN_100158f0();
+    pvVar8 = *(void **)pcVar2;
+    pbVar5 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar5,pvVar8);
+    *(undefined4 *)pcVar2 = 0;
+    *(undefined4 *)(pcVar2 + 4) = 0;
+    *(undefined4 *)pcVar1 = 0;
+  }
+  *(undefined4 *)ms_u32LastFrame_exref = 0;
+  Entity::Entity(local_3f0,(eCEntity *)0x0);
+  Entity::operator=((Entity *)ms_Player_exref,local_3f0);
+  Entity::~Entity(local_3f0);
+  Entity::GetPlayer();
+  PSPlayerMemory::PropertyChapter::operator=(local_50c,(long *)&stack0xfffffab4);
+  thunk_FUN_100cfa10();
+  bCString::bCString((bCString *)&stack0xfffffaa0,"Larson");
+  Entity::GetEntity();
+  bCString::bCString((bCString *)&stack0xfffffaac,"Start");
+  PSNavigation::SetRoutine(aPStack_84,(bCString *)&stack0xfffffaac);
+  bCString::~bCString((bCString *)&stack0xfffffaac);
+  bCString::bCString((bCString *)&stack0xfffffa98,"Ardea_Orkboss");
+  Entity::GetEntity();
+  bCString::bCString((bCString *)&stack0xfffffaa4,"Ardea");
+  PSEnclave::GetEnclave(abStack_4ac);
+  bCString::~bCString((bCString *)&stack0xfffffaa0);
+  PSEnclave::PropertyPoliticalAlignment::operator=
+            (aPStack_42c,(gEPoliticalAlignment *)&stack0xfffffaa0);
+  PSEnclave::PropertyRaid::operator=((PropertyRaid *)aPStack_42c,(bool *)&stack0xfffffaa7);
+  PSEnclave::PropertyRevolution::operator=
+            ((PropertyRevolution *)aPStack_42c,(bool *)&stack0xfffffaa7);
+  thunk_FUN_100755e0(param_1,&stack0xfffffaa8);
+  bCString::bCString((bCString *)&stack0xfffffaa0,"Xardas_FindXardas");
+  pbVar7 = abStack_408;
+  iVar6 = Entity::GetWorldEntity();
+  PSQuestManager::RunQuest((PSQuestManager *)(iVar6 + 0x74),pbVar7);
+  Entity::~Entity(aEStack_40c);
+  bCString::~bCString((bCString *)&stack0xfffffa9c);
+  bCString::bCString((bCString *)&stack0xfffffa88,"Gorn");
+  Entity::GetEntity(auStack_364);
+  bVar3 = Entity::operator!=(aEStack_36c,(Entity *)None_exref);
+  if (bVar3) {
+    bCString::bCString((bCString *)&stack0xfffffa94,"OnExit_Gorn");
+    PSInteraction::PropertyExitROIScript::operator=(aPStack_350,(bCString *)&stack0xfffffa94);
+    bCString::~bCString((bCString *)&stack0xfffffa94);
+  }
+  thunk_FUN_10045c90(param_1,&stack0xfffffa9c,None_exref,200);
+  thunk_FUN_10045b20(param_1,&stack0xfffffa9c,None_exref,200);
+  thunk_FUN_100462a0(param_1,&stack0xfffffa9c,None_exref,100);
+  thunk_FUN_100461d0(param_1,&stack0xfffffa9c,None_exref,100);
+  thunk_FUN_10046960(param_1,&stack0xfffffa9c,None_exref,100);
+  thunk_FUN_100467f0(param_1,&stack0xfffffa9c,None_exref,100);
+  thunk_FUN_100443c0(param_1,&stack0xfffffa9c,None_exref,100);
+  thunk_FUN_10044490(param_1,&stack0xfffffa9c,None_exref,100);
+  thunk_FUN_10044560(param_1,&stack0xfffffa9c,None_exref,0);
+  thunk_FUN_10044700(param_1,&stack0xfffffa9c,None_exref,10);
+  thunk_FUN_100447d0(param_1,&stack0xfffffa9c,None_exref,10);
+  thunk_FUN_10044630(param_1,&stack0xfffffa9c,None_exref,10);
+  thunk_FUN_10044f00(param_1,&stack0xfffffa9c,None_exref,0);
+  thunk_FUN_10044fd0(param_1,&stack0xfffffa9c,None_exref,0);
+  thunk_FUN_100450a0(param_1,&stack0xfffffa9c,None_exref,0);
+  thunk_FUN_10045170(param_1,&stack0xfffffa9c,None_exref,0);
+  thunk_FUN_10045240(param_1,&stack0xfffffa9c,None_exref,0);
+  thunk_FUN_10045310(param_1,&stack0xfffffa9c,None_exref,0);
+  PSPlayerMemory::PropertyLPAttribs::operator=(aPStack_52c,(long *)&stack0xfffffa94);
+  thunk_FUN_10091ad0(param_1,&stack0xfffffa9c,None_exref,0);
+  Entity::~Entity(aEStack_36c);
+  Entity::~Entity(aEStack_4bc);
+  Entity::~Entity(aEStack_174);
+  Entity::~Entity(aEStack_cc);
+  Entity::~Entity((Entity *)&stack0xfffffa9c);
+  Entity::~Entity(aEStack_2c4);
+  Entity::~Entity(aEStack_21c);
+  return 1;
+}
+
+

@@ -1,0 +1,14 @@
+/* ENTRY 2016b890 | gCHUDViewBarSynthPages2::~gCHUDViewBarSynthPages2 | STATUS decompiled | 7 ms */
+
+void __thiscall gCHUDViewBarSynthPages2::~gCHUDViewBarSynthPages2(gCHUDViewBarSynthPages2 *this)
+
+{
+  this->vftablePtr = &vftable;
+  CFFGFCButton::~CFFGFCButton((CFFGFCButton *)&(this->gCHUDViewBarSynthPages2_data).field_0xc);
+                    /* WARNING: Could not recover jumptable at 0x2016b8a5. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  CFFGFCView::~CFFGFCView((CFFGFCView *)this);
+  return;
+}
+
+

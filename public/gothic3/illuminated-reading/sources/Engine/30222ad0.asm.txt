@@ -1,0 +1,3 @@
+; 30222ad0 FUN_30222ad0
+30222ad0 | 8d4130 | LEA EAX,[ECX + 0x30]
+30222ad3 | c3 | RET

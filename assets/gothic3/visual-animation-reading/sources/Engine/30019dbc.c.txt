@@ -1,0 +1,13 @@
+/* ENTRY 30019dbc | eCVisualAnimation_PS::AccessSkeletonCollisionEnabled | STATUS decompiled | 5 ms */
+
+/* public: bool & __thiscall eCVisualAnimation_PS::AccessSkeletonCollisionEnabled(void) */
+
+bool * __thiscall eCVisualAnimation_PS::AccessSkeletonCollisionEnabled(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x19dbc  3109
+                       ?AccessSkeletonCollisionEnabled@eCVisualAnimation_PS@@QAEAA_NXZ */
+  return (bool *)&this[1].eCEntityPropertySet_data.field_0x7;
+}
+
+

@@ -1,0 +1,12 @@
+/* ENTRY 2001fde3 | gCAttribute::GetTag | STATUS decompiled | 4 ms */
+
+/* public: class bCString const & __thiscall gCAttribute::GetTag(void)const  */
+
+bCString * __thiscall gCAttribute::GetTag(gCAttribute *this)
+
+{
+                    /* 0x1fde3  4529  ?GetTag@gCAttribute@@QBEABVbCString@@XZ */
+  return (bCString *)&(this->gCAttribute_data).field_0x8;
+}
+
+

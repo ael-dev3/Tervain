@@ -1,0 +1,2 @@
+; 2001b9be bTPropertyType<gCClock_PS,unsigned_long>::vfunction20
+2001b9be | e94dcb1e00 | JMP 0x20208510

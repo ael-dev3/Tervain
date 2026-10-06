@@ -1,0 +1,62 @@
+/* ENTRY 300425eb | eCVisualAnimation_PS::RemoveOnceAttachment | STATUS decompiled | 29 ms */
+
+/* public: bool __thiscall eCVisualAnimation_PS::RemoveOnceAttachment(class eCEntity *) */
+
+bool __thiscall
+eCVisualAnimation_PS::RemoveOnceAttachment(eCVisualAnimation_PS *this,eCEntity *param_1)
+
+{
+  eCActorAttachment *this_00;
+  uint uVar1;
+  eCEntity *peVar2;
+  bCMemoryAdmin *this_01;
+  int iVar3;
+  void *pvVar4;
+  uint uVar5;
+  undefined4 *puVar6;
+  
+                    /* 0x425eb  12531
+                       ?RemoveOnceAttachment@eCVisualAnimation_PS@@QAE_NPAVeCEntity@@@Z */
+  iVar3 = this[10].eCEntityPropertySet_data.offset_0x8;
+  uVar5 = 0;
+  if (0 < iVar3) {
+    do {
+      peVar2 = eCEntityProxy::GetEntity
+                         ((eCEntityProxy *)
+                          (*(int *)(*(int *)&this[10].eCEntityPropertySet_data.field_0x4 + uVar5 * 4
+                                   ) + 4));
+      if (peVar2 == param_1) {
+        eCActorAttachment::Destroy
+                  (*(eCActorAttachment **)
+                    (*(int *)&this[10].eCEntityPropertySet_data.field_0x4 + uVar5 * 4));
+        puVar6 = (undefined4 *)(*(int *)&this[10].eCEntityPropertySet_data.field_0x4 + uVar5 * 4);
+        this_00 = (eCActorAttachment *)*puVar6;
+        if (this_00 != (eCActorAttachment *)0x0) {
+          eCActorAttachment::Destroy(this_00);
+          bCString::~bCString((bCString *)(this_00 + 0x68));
+          bCMatrix::~bCMatrix((bCMatrix *)(this_00 + 0x20));
+          eCEntityProxy::~eCEntityProxy((eCEntityProxy *)(this_00 + 4));
+          pvVar4 = (void *)*puVar6;
+          this_01 = bCMemoryAdmin::GetInstance();
+          bCMemoryAdmin::DeleteObject(this_01,pvVar4);
+          *puVar6 = 0;
+        }
+        uVar1 = this[10].eCEntityPropertySet_data.offset_0x8;
+        if (uVar5 < uVar1) {
+          iVar3 = (uVar1 - uVar5) + -1;
+          if (0 < iVar3) {
+            pvVar4 = (void *)(*(int *)&this[10].eCEntityPropertySet_data.field_0x4 + uVar5 * 4);
+            _memmove(pvVar4,(void *)((int)pvVar4 + 4),iVar3 * 4);
+          }
+          puVar6 = &this[10].eCEntityPropertySet_data.offset_0x8;
+          *puVar6 = *puVar6 + -1;
+        }
+        return true;
+      }
+      uVar5 = uVar5 + 1;
+    } while ((int)uVar5 < iVar3);
+  }
+  return false;
+}
+
+

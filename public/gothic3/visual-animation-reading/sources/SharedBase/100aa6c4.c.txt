@@ -1,0 +1,49 @@
+/* ENTRY 100aa6c4 | FUN_100aa6c4 | STATUS decompiled | 18 ms */
+
+/* WARNING: Function: __SEH_prolog4 replaced with injection: SEH_prolog4 */
+/* WARNING: Function: __SEH_epilog4 replaced with injection: EH_epilog3 */
+/* WARNING: Removing unreachable block (ram,0x100aa797) */
+
+void FUN_100aa6c4(int param_1,int param_2,int param_3)
+
+{
+  int iVar1;
+  int *piVar2;
+  int *piVar3;
+  int iVar4;
+  code *pcVar5;
+  
+  __lock(8);
+  if (DAT_102f646c != 1) {
+    DAT_102f6468 = 1;
+    DAT_102f6464 = (undefined1)param_3;
+    if (param_2 == 0) {
+      piVar2 = (int *)FUN_100ae2f2(DAT_102f8584);
+      piVar3 = (int *)FUN_100ae2f2(DAT_102f8580);
+      if (piVar2 != (int *)0x0) {
+        while (piVar3 = piVar3 + -1, piVar2 <= piVar3) {
+          if (*piVar3 != 0) {
+            iVar1 = *piVar3;
+            iVar4 = __encoded_null();
+            if (iVar1 != iVar4) {
+              pcVar5 = (code *)FUN_100ae2f2(iVar1);
+              (*pcVar5)();
+            }
+          }
+        }
+      }
+      FUN_100aa465(&DAT_100e5a90);
+    }
+    FUN_100aa465(&DAT_100e5c98);
+  }
+  FUN_100aa791();
+  if (param_3 != 0) {
+    return;
+  }
+  DAT_102f646c = 1;
+  FUN_100bb7a2(8);
+  ___crtExitProcess(param_1);
+  return;
+}
+
+

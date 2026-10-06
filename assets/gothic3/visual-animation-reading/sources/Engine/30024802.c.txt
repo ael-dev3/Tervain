@@ -1,0 +1,26 @@
+/* ENTRY 30024802 | eCVisualAnimation_PS::PausePhysicsController | STATUS decompiled | 17 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::PausePhysicsController(bool,float) */
+
+void __thiscall
+eCVisualAnimation_PS::PausePhysicsController(eCVisualAnimation_PS *this,bool param_1,float param_2)
+
+{
+  int iVar1;
+  undefined3 in_stack_00000005;
+  
+                    /* 0x24802  11675  ?PausePhysicsController@eCVisualAnimation_PS@@QAEX_NM@Z */
+  if (*(int *)&this[0xe].eCEntityPropertySet_data != 0) {
+    thunk_FUN_300c3570(_param_1,param_2);
+  }
+  iVar1 = 0;
+  if (0 < (int)this[0xe].eCEntityPropertySet_data.offset_0x8) {
+    do {
+      thunk_FUN_300c3570(_param_1,param_2);
+      iVar1 = iVar1 + 1;
+    } while (iVar1 < (int)this[0xe].eCEntityPropertySet_data.offset_0x8);
+  }
+  return;
+}
+
+

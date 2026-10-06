@@ -1,0 +1,90 @@
+/* ENTRY 300416c8 | eCCollisionShape_PS::OnCacheOut | STATUS decompiled | 62 ms */
+
+/* protected: virtual void __thiscall eCCollisionShape_PS::OnCacheOut(void) */
+
+void __thiscall eCCollisionShape_PS::OnCacheOut(eCCollisionShape_PS *this)
+
+{
+  int *piVar1;
+  bool bVar2;
+  ushort uVar3;
+  eCEntity *peVar4;
+  eCPhysicObject *peVar5;
+  eCResourceAdmin *this_00;
+  eCResourceDataEntity *this_01;
+  bCString *pbVar6;
+  char *pcVar7;
+  bCMessageAdmin *this_02;
+  undefined4 *puVar8;
+  bEMessageTypes bVar9;
+  char *pcVar10;
+  eCResourceDataEntity *peVar11;
+  int iVar12;
+  eEResourceCacheBehavior eVar13;
+  bCString abStack_8 [4];
+  bCString abStack_4 [4];
+  
+                    /* 0x416c8  10923  ?OnCacheOut@eCCollisionShape_PS@@MAEXXZ */
+  eCEntityPropertySet::OnCacheOut((eCEntityPropertySet *)this);
+  peVar4 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+  bVar2 = eCEntity::HasProcessingRangeEntered(peVar4);
+  if (!bVar2) {
+    peVar4 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+    peVar5 = eCEntity::GetPhysicObject(peVar4);
+    if (peVar5 == (eCPhysicObject *)0x0) {
+      if (0 < (this->eCCollisionShape_PS_data).offset_0x18) {
+        piVar1 = (int *)(this->eCCollisionShape_PS_data).offset_0x14;
+        iVar12 = *(int *)(*piVar1 + 0x10);
+        if ((iVar12 == 1) || (iVar12 == 6)) {
+          bCString::bCString(abStack_8,*(bCString **)(*piVar1 + 0x74));
+          eVar13 = 1;
+          pbVar6 = abStack_8;
+          this_00 = (eCResourceAdmin *)thunk_FUN_3007c090();
+          this_01 = (eCResourceDataEntity *)
+                    eCResourceAdmin::QueryResourceDataEntity(this_00,pbVar6,eVar13);
+          if (this_01 == (eCResourceDataEntity *)0x0) {
+            pcVar10 = *(char **)(*(int *)(this->eCCollisionShape_PS_data).offset_0x14 + 0x74);
+            iVar12 = -1;
+            peVar11 = this_01;
+            pbVar6 = (bCString *)
+                     ::operator+((char *)abStack_4,
+                                 (bCString *)
+                                 "C: eCCollisionShape_PS::SetProprietaryShapes(): could not cache-in collision-resource: "
+                                );
+            pcVar7 = bCString::operator_char_const_(pbVar6);
+            bVar9 = 3;
+            this_02 = bCMessageAdmin::GetInstance();
+            bCMessageAdmin::OnMessage
+                      (this_02,bVar9,pcVar7,pcVar10,(char *)this_01,(int)peVar11,iVar12);
+            bCString::~bCString(abStack_8);
+            bCString::~bCString((bCString *)&stack0xfffffff4);
+            return;
+          }
+          eCResourceDataEntity::Unlock(this_01);
+          uVar3 = eCResourceDataEntity::Unlock(this_01);
+          pbVar6 = abStack_4;
+          puVar8 = (undefined4 *)eCResourceDataEntity::GetFileName(this_01);
+          GE_MESSAGEF_INFO(2,"eCCollisionShape_PS::OnCacheOut-> MESHES UNLOCKED: %s, Locked: %d",
+                           *puVar8,uVar3,pbVar6);
+          bCString::~bCString(abStack_4);
+          (*this_01->vftablePtr->ReleaseReference)(this_01);
+          bCString::~bCString(abStack_8);
+        }
+      }
+      if ((this->eCCollisionShape_PS_data).offset_0xc != 2) {
+        return;
+      }
+      peVar4 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+      eCEntity::DestroyPhysicObject(peVar4);
+      return;
+    }
+  }
+  peVar4 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+  pbVar6 = eCEntity::GetName(peVar4);
+  GE_MESSAGEF_WARN("eCCollisionShape_PS::OnCacheOut",
+                   ": tried to cacheout an entity which is in processingrange: %s",
+                   *(undefined4 *)pbVar6);
+  return;
+}
+
+

@@ -1,0 +1,21 @@
+; 2028e2d0 bTPropertyType<gCNavigation_PS,bCPropertyID>::vfunction9
+2028e2d0 | 56 | PUSH ESI
+2028e2d1 | 8bf1 | MOV ESI,ECX
+2028e2d3 | 8b06 | MOV EAX,dword ptr [ESI]
+2028e2d5 | 8b5018 | MOV EDX,dword ptr [EAX + 0x18]
+2028e2d8 | ffd2 | CALL EDX
+2028e2da | 84c0 | TEST AL,AL
+2028e2dc | 7506 | JNZ 0x2028e2e4
+; 2028e2de LAB_2028e2de
+2028e2de | 33c0 | XOR EAX,EAX
+2028e2e0 | 5e | POP ESI
+2028e2e1 | c20400 | RET 0x4
+; 2028e2e4 LAB_2028e2e4
+2028e2e4 | 8b4620 | MOV EAX,dword ptr [ESI + 0x20]
+2028e2e7 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+2028e2eb | 3b4804 | CMP ECX,dword ptr [EAX + 0x4]
+2028e2ee | 73ee | JNC 0x2028e2de
+2028e2f0 | 8b00 | MOV EAX,dword ptr [EAX]
+2028e2f2 | 8b0488 | MOV EAX,dword ptr [EAX + ECX*0x4]
+2028e2f5 | 5e | POP ESI
+2028e2f6 | c20400 | RET 0x4

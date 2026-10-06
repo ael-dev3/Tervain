@@ -1,0 +1,38 @@
+/* ENTRY 202181f0 | FUN_202181f0 | STATUS decompiled | 8 ms */
+
+void __fastcall FUN_202181f0(bCObjectBase *param_1)
+
+{
+  code *pcVar1;
+  int *piVar2;
+  bCObjectBase bVar3;
+  bCMessageAdmin *this;
+  bEMessageTypes bVar4;
+  char *pcVar5;
+  bCObjectBase bVar6;
+  int iVar7;
+  int iVar8;
+  
+  piVar2 = (int *)(**(code **)((int)*(bCObjectRefBase *)param_1 + 0x68))();
+  bVar3 = (bCObjectBase)(**(code **)(*piVar2 + 0xec))(0x15);
+  param_1[0x16] = bVar3;
+  if (bVar3 == (bCObjectBase)0x0) {
+    iVar8 = *(int *)g_iDefaultMessagePriority_exref;
+    iVar7 = -1;
+    pcVar5 = "C: gCCharacterControl_PS::Process(): PropertySet gCCharacterMovement_PS is missing!";
+    bVar4 = 3;
+    bVar6 = bVar3;
+    this = bCMessageAdmin::GetInstance();
+    bCMessageAdmin::OnMessage(this,bVar4,pcVar5,(char *)bVar3,(char *)bVar6,iVar7,iVar8);
+    return;
+  }
+  pcVar1 = *(code **)((int)*param_1 + 0x150);
+  *(undefined1 *)(param_1 + 0x15) = 1;
+  (*pcVar1)();
+                    /* WARNING: Could not recover jumptable at 0x20218246. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eCEntityPropertySet::OnPreProcess((eCEntityPropertySet *)param_1);
+  return;
+}
+
+

@@ -1,0 +1,12 @@
+/* ENTRY 20018fb1 | gCPlayerMemory_PS::AccessChapter | STATUS decompiled | 7 ms */
+
+/* public: long & __thiscall gCPlayerMemory_PS::AccessChapter(void) */
+
+long * __thiscall gCPlayerMemory_PS::AccessChapter(gCPlayerMemory_PS *this)
+
+{
+                    /* 0x18fb1  1076  ?AccessChapter@gCPlayerMemory_PS@@QAEAAJXZ */
+  return &this[1].gCPlayerMemory_PS_data.offset_0x24;
+}
+
+

@@ -1,0 +1,4 @@
+; 30010ff5 bTPropertyType<eCCollisionShape,bool>::vfunction14
+30010ff5 | e996fa3400 | JMP 0x30360a90
+; 30010ffa eCParticleSystemBase_PS::ProcessParticles
+; 30010ffa Ordinal_11990

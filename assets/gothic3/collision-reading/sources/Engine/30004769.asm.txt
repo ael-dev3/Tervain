@@ -1,0 +1,4 @@
+; 30004769 ?GetTriggersOnIntersect@eCCollisionShape@@QBEAB_NXZ
+30004769 | e922e00b00 | JMP 0x300c2790
+; 30004773 eCPropertyProxy::IsAddressValid
+; 30004773 Ordinal_10247

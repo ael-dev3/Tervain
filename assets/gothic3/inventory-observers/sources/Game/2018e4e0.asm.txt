@@ -1,0 +1,29 @@
+; 2018e4e0 gCHUDTableStackStats::vfunction3_for_gCInventoryListener
+2018e4e0 | 56 | PUSH ESI
+2018e4e1 | 8bf1 | MOV ESI,ECX
+2018e4e3 | 8b4608 | MOV EAX,dword ptr [ESI + 0x8]
+2018e4e6 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+2018e4ea | 3bc8 | CMP ECX,EAX
+2018e4ec | 752a | JNZ 0x2018e518
+2018e4ee | 8b4e04 | MOV ECX,dword ptr [ESI + 0x4]
+2018e4f1 | 85c9 | TEST ECX,ECX
+2018e4f3 | 740d | JZ 0x2018e502
+2018e4f5 | 8b01 | MOV EAX,dword ptr [ECX]
+2018e4f7 | 8b8054010000 | MOV EAX,dword ptr [EAX + 0x154]
+2018e4fd | 8bd6 | MOV EDX,ESI
+2018e4ff | 52 | PUSH EDX
+2018e500 | ffd0 | CALL EAX
+; 2018e502 LAB_2018e502
+2018e502 | c7460400000000 | MOV dword ptr [ESI + 0x4],0x0
+2018e509 | c74608ffffffff | MOV dword ptr [ESI + 0x8],0xffffffff
+2018e510 | c646fc01 | MOV byte ptr [ESI + -0x4],0x1
+2018e514 | 5e | POP ESI
+2018e515 | c20800 | RET 0x8
+; 2018e518 LAB_2018e518
+2018e518 | 7d0a | JGE 0x2018e524
+2018e51a | 83c0ff | ADD EAX,-0x1
+2018e51d | 894608 | MOV dword ptr [ESI + 0x8],EAX
+2018e520 | c646fc01 | MOV byte ptr [ESI + -0x4],0x1
+; 2018e524 LAB_2018e524
+2018e524 | 5e | POP ESI
+2018e525 | c20800 | RET 0x8

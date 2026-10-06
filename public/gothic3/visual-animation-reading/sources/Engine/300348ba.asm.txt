@@ -1,0 +1,2 @@
+; 300348ba eCVisualAnimation_PS::AccessBoneShapeGroup
+300348ba | e951d90200 | JMP 0x30062210

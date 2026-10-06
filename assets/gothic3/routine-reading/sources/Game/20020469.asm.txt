@@ -1,0 +1,2 @@
+; 20020469 ?GetSPU@gCScriptRoutine_PS@@QAEAAVgCScriptProcessingUnit@@XZ
+20020469 | e972673300 | JMP 0x20356be0

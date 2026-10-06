@@ -1,0 +1,17 @@
+; 10063110 FUN_10063110
+10063110 | d9442404 | FLD float ptr [ESP + 0x4]
+10063114 | d9e8 | FLD1
+10063116 | def1 | FDIVRP
+10063118 | d95c2404 | FSTP float ptr [ESP + 0x4]
+1006311c | d9410c | FLD float ptr [ECX + 0xc]
+1006311f | d9442404 | FLD float ptr [ESP + 0x4]
+10063123 | d9c0 | FLD ST0
+10063125 | deca | FMULP ST2
+10063127 | d9c9 | FXCH
+10063129 | d9590c | FSTP float ptr [ECX + 0xc]
+1006312c | d94110 | FLD float ptr [ECX + 0x10]
+1006312f | d8c9 | FMUL ST1
+10063131 | d95910 | FSTP float ptr [ECX + 0x10]
+10063134 | d84914 | FMUL float ptr [ECX + 0x14]
+10063137 | d95914 | FSTP float ptr [ECX + 0x14]
+1006313a | c20400 | RET 0x4

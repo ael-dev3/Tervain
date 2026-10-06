@@ -1,0 +1,20 @@
+/* ENTRY 3009db50 | FUN_3009db50 | STATUS decompiled | 3 ms */
+
+void __fastcall FUN_3009db50(int *param_1)
+
+{
+  eCVisualAnimationFactory *this;
+  int *piVar1;
+  
+  this = (eCVisualAnimationFactory *)(param_1 + 0x25);
+  eCVisualAnimationFactory::CacheInResources(this);
+  eCVisualAnimationFactory::GetMeshBoundary(this,(bCBox *)(param_1 + 0x3d));
+  piVar1 = (int *)(**(code **)(*param_1 + 0x68))();
+  (**(code **)(*piVar1 + 0xd8))();
+  piVar1 = (int *)(**(code **)(*param_1 + 0x68))();
+  (**(code **)(*piVar1 + 0xdc))();
+  eCVisualAnimationFactory::CreateActorInstance(this);
+  return;
+}
+
+

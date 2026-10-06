@@ -1,0 +1,2 @@
+; 20035d1e ?Write@gCNavigation_PS@@UAE?AW4bEResult@@AAVbCOStream@@@Z
+20035d1e | e9cd072500 | JMP 0x202864f0

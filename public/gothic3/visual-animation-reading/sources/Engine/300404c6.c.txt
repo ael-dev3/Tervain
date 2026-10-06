@@ -1,0 +1,13 @@
+/* ENTRY 300404c6 | eCCameraBase::GetFrustumDatabase | STATUS decompiled | 4 ms */
+
+/* public: class eCFrustumDatabase & __thiscall eCCameraBase::GetFrustumDatabase(void) */
+
+eCFrustumDatabase * __thiscall eCCameraBase::GetFrustumDatabase(eCCameraBase *this)
+
+{
+                    /* 0x404c6  7203  ?GetFrustumDatabase@eCCameraBase@@QAEAAVeCFrustumDatabase@@XZ
+                        */
+  return (this->eCCameraBase_data).offset_0xe4;
+}
+
+

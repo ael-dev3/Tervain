@@ -1,0 +1,4 @@
+; 3003f229 ?ExitProcessingRange@eCEntity@@IAEX_N@Z
+3003f229 | e992344700 | JMP 0x304b26c0
+; 3003f22e eCApplication::OnPlayAni
+; 3003f22e Ordinal_11328

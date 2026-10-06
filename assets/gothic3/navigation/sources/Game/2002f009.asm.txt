@@ -1,0 +1,2 @@
+; 2002f009 ?DeregisterNavigationPS@gCNavigationAdmin@@QAE?AW4bEResult@@PAVgCNavigation_PS@@@Z
+2002f009 | e9b2e02800 | JMP 0x202bd0c0

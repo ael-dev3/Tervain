@@ -1,0 +1,4 @@
+; 300392d4 ?OnUpdatedWorldMatrix@eCEntityPropertySet@@MAEXXZ
+300392d4 | e917874400 | JMP 0x304819f0
+; 300392d9 eCGfxMixerAdmin::SetMasterRedGamma
+; 300392d9 Ordinal_13734

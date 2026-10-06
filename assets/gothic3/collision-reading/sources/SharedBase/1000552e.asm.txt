@@ -1,0 +1,4 @@
+; 1000552e ?GetTransformed@bCOrientedBox@@QBE?AV1@ABVbCMatrix@@@Z
+1000552e | e9dd3e0600 | JMP 0x10069410
+; 10005533 bCMatrix2::SetElement
+; 10005533 Ordinal_4182

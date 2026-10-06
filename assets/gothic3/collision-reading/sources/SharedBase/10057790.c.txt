@@ -1,0 +1,9 @@
+/* ENTRY 10057790 | FUN_10057790 | STATUS decompiled | 2 ms */
+
+float10 __fastcall FUN_10057790(int param_1)
+
+{
+  return (float10)*(float *)(param_1 + 4);
+}
+
+

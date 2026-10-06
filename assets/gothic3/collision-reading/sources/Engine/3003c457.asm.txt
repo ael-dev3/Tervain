@@ -1,0 +1,2 @@
+; 3003c457 ?AccessDisableResponse@eCCollisionShape_PS@@QAEAA_NXZ
+3003c457 | e984680800 | JMP 0x300c2ce0

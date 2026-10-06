@@ -1,0 +1,46 @@
+/* ENTRY 3003788a | eCVisualAnimation_PS::eCActorAttachment::Read | STATUS decompiled | 75 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::eCActorAttachment::Read(class bCIStream &,unsigned
+   short) */
+
+void __thiscall
+eCVisualAnimation_PS::eCActorAttachment::Read
+          (eCActorAttachment *this,bCIStream *param_1,ushort param_2)
+
+{
+  ushort uVar1;
+  bCIStream *this_00;
+  bCObjectRefBase *pbVar2;
+  ulong uVar3;
+  
+                    /* 0x3788a  12034
+                       ?Read@eCActorAttachment@eCVisualAnimation_PS@@QAEXAAVbCIStream@@G@Z */
+  this_00 = param_1;
+  (**(code **)(*(int *)(this + 4) + 0xc))(param_1);
+  bCString::bCString((bCString *)&stack0x00000000);
+  bCIStream::operator>>((bCIStream *)this_00,(bCString *)&stack0x00000000);
+  bCString::operator=((bCString *)(this + 0x68),(bCString *)&stack0x00000000);
+  uVar1 = (ushort)param_1;
+  *(undefined4 *)(this + 100) = 0;
+  if (0x27 < (ushort)param_1) {
+    bCAccessorPropertyObject::bCAccessorPropertyObject((bCAccessorPropertyObject *)&stack0xfffffff4)
+    ;
+    ::operator>>(this_00,(bCAccessorPropertyObject *)&stack0xfffffff4);
+    pbVar2 = bCAccessorPropertyObject::GetNativeObject((bCAccessorPropertyObject *)&stack0xfffffff4)
+    ;
+    *(bCObjectRefBase **)(this + 0x6c) = pbVar2;
+    bCAccessorPropertyObject::~bCAccessorPropertyObject
+              ((bCAccessorPropertyObject *)&stack0xfffffff4);
+  }
+  if (0x3e < uVar1) {
+    bCIStream::operator>>((bCIStream *)this_00,(uchar *)(this + 0x70));
+    bCMatrix::operator<<((bCMatrix *)(this + 0x20),this_00);
+    bCIStream::operator>>((bCIStream *)this_00,(ulong *)&param_1);
+    uVar3 = bCTimer::GetTimeStamp();
+    *(bCIStream **)(this + 0x74) = param_1 + uVar3;
+  }
+  bCString::~bCString((bCString *)&stack0x00000000);
+  return;
+}
+
+

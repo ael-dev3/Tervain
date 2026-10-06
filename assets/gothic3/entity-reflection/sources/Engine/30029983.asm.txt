@@ -1,0 +1,4 @@
+; 30029983 ?Create@eCIlluminated_PS@@UAE?AW4bEResult@@XZ
+30029983 | e9c8901f00 | JMP 0x30222a50
+; 30029988 eCWeatherEnvironment::operator>>
+; 30029988 Ordinal_1916

@@ -1,0 +1,10 @@
+/* ENTRY 10066020 | FUN_10066020 | STATUS decompiled | 2 ms */
+
+bCBox * __thiscall FUN_10066020(bCOrientedBox *param_1,bCBox *param_2)
+
+{
+  bCOrientedBox::GetCircumAxisBox(param_1,param_2);
+  return param_2;
+}
+
+

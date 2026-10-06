@@ -1,0 +1,26 @@
+/* ENTRY 20018aed | gCInventorySlot::GetCategory | STATUS decompiled | 10 ms */
+
+/* public: enum gEItemCategory __thiscall gCInventorySlot::GetCategory(void)const  */
+
+gEItemCategory __thiscall gCInventorySlot::GetCategory(gCInventorySlot *this)
+
+{
+  eCTemplateEntity *this_00;
+  eCEntityPropertySet *peVar1;
+  
+                    /* 0x18aed  3031  ?GetCategory@gCInventorySlot@@QBE?AW4gEItemCategory@@XZ */
+  this_00 = eCTemplateEntityProxy::GetEntity
+                      ((eCTemplateEntityProxy *)&(this->gCInventorySlot_data).field_0x8);
+  if (this_00 == (eCTemplateEntity *)0x0) {
+    GE_MESSAGEF_WARN("gCInventorySlot::GetCategory -> Template item is invalid.");
+    return 0;
+  }
+  peVar1 = eCEntity::GetPropertySet((eCEntity *)this_00,0x30);
+  if (peVar1 != (eCEntityPropertySet *)0x0) {
+    return *(gEItemCategory *)(peVar1 + 0x28);
+  }
+  GE_MESSAGEF_WARN("gCInventorySlot::GetCategory -> Template item misses gCItem_PS.");
+  return 0;
+}
+
+

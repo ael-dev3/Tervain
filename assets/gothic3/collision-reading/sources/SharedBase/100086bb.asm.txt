@@ -1,0 +1,4 @@
+; 100086bb ?Create@bCOrientedBox@@QAEXABV1@@Z
+100086bb | e970a60500 | JMP 0x10062d30
+; 100086c0 bCMatrix3::Rotate
+; 100086c0 Ordinal_3972

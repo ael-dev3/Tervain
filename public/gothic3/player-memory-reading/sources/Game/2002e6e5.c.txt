@@ -1,0 +1,11 @@
+/* ENTRY 2002e6e5 | bTPropertyObject<gCPlayerMemory_PS,eCEntityPropertySet>::vfunction1 | STATUS decompiled | 3 ms */
+
+bCObjectRefBase * __thiscall
+bTPropertyObject<gCPlayerMemory_PS,eCEntityPropertySet>::vfunction1
+          (bTPropertyObject<gCPlayerMemory_PS,eCEntityPropertySet> *this)
+
+{
+  return (this->bTPOPureSmartPtr<gCPlayerMemory_PS>_data).offset_0x4;
+}
+
+

@@ -1,0 +1,2 @@
+; 1000206d bCPropertyObjectTypeBase::UnregisterPropertyTemplate
+1000206d | e90e5f0800 | JMP 0x10087f80

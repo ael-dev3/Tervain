@@ -1,0 +1,2 @@
+; 3001e69b eCEffector::Create
+3001e69b | e9f0693600 | JMP 0x30385090

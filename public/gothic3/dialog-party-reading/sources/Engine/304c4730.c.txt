@@ -1,0 +1,24 @@
+/* ENTRY 304c4730 | FUN_304c4730 | STATUS decompiled | 11 ms */
+
+eCEntity * __fastcall FUN_304c4730(eCEntityProxy *param_1)
+
+{
+  eCEntityProxyInternal *this;
+  bool bVar1;
+  eCEntity *peVar2;
+  
+  this = (param_1->eCEntityProxy_data).offset_0x0;
+  if ((this != (eCEntityProxyInternal *)0x0) &&
+     (peVar2 = eCEntityProxyInternal::GetEntity(this), peVar2 != (eCEntity *)0x0)) {
+    return peVar2;
+  }
+  peVar2 = (eCEntity *)0x0;
+  bVar1 = bCPropertyID::IsValid((bCPropertyID *)&(param_1->eCEntityProxy_data).field_0x4);
+  if ((bVar1) &&
+     (peVar2 = (*param_1->vftablePtr->ResolveEntity)(param_1), peVar2 != (eCEntity *)0x0)) {
+    eCEntityProxy::SetEntity(param_1,peVar2);
+  }
+  return peVar2;
+}
+
+

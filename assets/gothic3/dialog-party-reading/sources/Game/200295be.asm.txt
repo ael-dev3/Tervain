@@ -1,0 +1,2 @@
+; 200295be bTPropertyContainer<gETradeCategory>::vfunction5
+200295be | e9dd271e00 | JMP 0x2020bda0

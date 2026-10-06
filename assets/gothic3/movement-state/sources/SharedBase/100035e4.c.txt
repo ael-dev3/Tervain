@@ -1,0 +1,12 @@
+/* ENTRY 100035e4 | bCMatrix3::bCMatrix3 | STATUS decompiled | 1 ms */
+
+/* public: __thiscall bCMatrix3::bCMatrix3(void) */
+
+bCMatrix3 * __thiscall bCMatrix3::bCMatrix3(bCMatrix3 *this)
+
+{
+                    /* 0x35e4  161  ??0bCMatrix3@@QAE@XZ */
+  return this;
+}
+
+

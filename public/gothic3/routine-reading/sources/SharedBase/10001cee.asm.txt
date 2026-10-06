@@ -1,0 +1,4 @@
+; 10001cee ??5bCIStream@@QAEAAV0@AAVbCString@@@Z
+10001cee | e99dd10100 | JMP 0x1001ee90
+; 10001cfd bCCapsule::bCCapsule
+; 10001cfd Ordinal_58

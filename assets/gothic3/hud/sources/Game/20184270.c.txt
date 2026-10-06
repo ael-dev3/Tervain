@@ -1,0 +1,10 @@
+/* ENTRY 20184270 | FUN_20184270 | STATUS decompiled | 2 ms */
+
+void __fastcall FUN_20184270(CFFGFCWnd *param_1)
+
+{
+  CFFGFCWnd::AnimateWindow(param_1,200,0x90000);
+  return;
+}
+
+

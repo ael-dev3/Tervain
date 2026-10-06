@@ -1,0 +1,4 @@
+; 2001726f bTPropertyType<gCInventorySlot,bTPropertyContainer<gESlot>_>::vfunction5
+2001726f | e9dcdf1a00 | JMP 0x201c5250
+; 20017274 gCNegZone_PSObj::GetRadius
+; 20017274 Ordinal_4124

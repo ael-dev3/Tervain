@@ -1,0 +1,14 @@
+/* ENTRY 10027e60 | FUN_10027e60 | STATUS decompiled | 3 ms */
+
+undefined4 __fastcall FUN_10027e60(int *param_1)
+
+{
+  if (*param_1 == 0) {
+    GE_MESSAGEF_WARN("Cannot get property \'%s\' in propertyset \'%s\'!","LPPerks",
+                     "gCPlayerMemory_PS");
+    return 0;
+  }
+  return *(undefined4 *)(*param_1 + 0x5c);
+}
+
+

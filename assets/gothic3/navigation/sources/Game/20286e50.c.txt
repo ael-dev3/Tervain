@@ -1,0 +1,92 @@
+/* ENTRY 20286e50 | FUN_20286e50 | STATUS decompiled | 81 ms */
+
+void __fastcall FUN_20286e50(int *param_1)
+
+{
+  int *piVar1;
+  code *pcVar2;
+  int iVar3;
+  eCEntity *this;
+  bCVector *pbVar4;
+  bCMemoryAdmin *pbVar5;
+  void *pvVar6;
+  bCVector abStack_c [12];
+  
+  pcVar2 = *(code **)(*param_1 + 0x68);
+  param_1[0x73] = -1;
+  iVar3 = (*pcVar2)();
+  if (iVar3 == 0) {
+    pbVar4 = (bCVector *)bCVector::bCVector(abStack_c,0.0,0.0,0.0);
+    bCVector::operator=((bCVector *)(param_1 + 0x6d),pbVar4);
+    bCVector::~bCVector(abStack_c);
+  }
+  else {
+    this = (eCEntity *)(**(code **)(*param_1 + 0x68))();
+    pbVar4 = eCEntity::GetWorldPosition(this);
+    bCVector::operator=((bCVector *)(param_1 + 0x6d),pbVar4);
+  }
+  pbVar4 = (bCVector *)bCVector::bCVector(abStack_c,0.0,0.0,0.0);
+  bCVector::operator=((bCVector *)(param_1 + 5),pbVar4);
+  bCVector::~bCVector(abStack_c);
+  piVar1 = param_1 + 100;
+  if ((piVar1 != (int *)0x0) && (pvVar6 = (void *)*piVar1, pvVar6 != (void *)0x0)) {
+    pbVar5 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar5,pvVar6);
+    *piVar1 = 0;
+    param_1[0x65] = 0;
+    param_1[0x66] = 0;
+  }
+  piVar1 = param_1 + 0x67;
+  if ((piVar1 != (int *)0x0) && (pvVar6 = (void *)*piVar1, pvVar6 != (void *)0x0)) {
+    pbVar5 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar5,pvVar6);
+    *piVar1 = 0;
+    param_1[0x68] = 0;
+    param_1[0x69] = 0;
+  }
+  piVar1 = param_1 + 0x6a;
+  if ((piVar1 != (int *)0x0) && (pvVar6 = (void *)*piVar1, pvVar6 != (void *)0x0)) {
+    pbVar5 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar5,pvVar6);
+    *piVar1 = 0;
+    param_1[0x6b] = 0;
+    param_1[0x6c] = 0;
+  }
+  piVar1 = param_1 + 0x70;
+  if ((piVar1 != (int *)0x0) && (pvVar6 = (void *)*piVar1, pvVar6 != (void *)0x0)) {
+    pbVar5 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar5,pvVar6);
+    *piVar1 = 0;
+    param_1[0x71] = 0;
+    param_1[0x72] = 0;
+  }
+  *(undefined1 *)(param_1 + 0x74) = 0;
+  *(undefined1 *)((int)param_1 + 0x1d1) = 0;
+  param_1[0x75] = 0;
+  param_1[0x76] = 0;
+  param_1[0x77] = 0;
+  param_1[0x78] = 0;
+  *(undefined1 *)(param_1 + 0x79) = 1;
+  *(undefined1 *)((int)param_1 + 0x1e5) = 0;
+  *(undefined1 *)((int)param_1 + 0x1e6) = 0;
+  param_1[0x7a] = 0;
+  *(undefined1 *)((int)param_1 + 0x209) = 0;
+  *(undefined1 *)(param_1 + 0x82) = 0;
+  *(undefined1 *)(param_1 + 0x84) = 1;
+  *(undefined1 *)((int)param_1 + 0x211) = 0;
+  param_1[0x85] = 0;
+  param_1[0x86] = 4;
+  param_1[0x87] = 0;
+  *(undefined1 *)((int)param_1 + 0x255) = 0;
+  *(undefined1 *)(param_1 + 0x88) = 0;
+  param_1[0xab] = 0xffff;
+  param_1[99] = 0;
+  bCPropertyID::Destroy((bCPropertyID *)(param_1 + 0x89));
+  *(undefined1 *)(param_1 + 0x8e) = 0;
+  bCPropertyID::Destroy((bCPropertyID *)(param_1 + 0x8f));
+  *(undefined1 *)(param_1 + 0x94) = 0;
+  *(undefined1 *)(param_1 + 0x95) = 1;
+  return;
+}
+
+

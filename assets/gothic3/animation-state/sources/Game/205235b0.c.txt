@@ -1,0 +1,40 @@
+/* ENTRY 205235b0 | FUN_205235b0 | STATUS decompiled | 25 ms */
+
+void FUN_205235b0(void)
+
+{
+  bCString::bCString((bCString *)&g_pstrAniStateString,"Dummy0");
+  bCString::bCString((bCString *)&DAT_207cc7cc,"Dummy1");
+  bCString::bCString((bCString *)&DAT_207cc7d0,"Stand");
+  bCString::bCString((bCString *)&DAT_207cc7d4,"Sneak");
+  bCString::bCString((bCString *)&DAT_207cc7d8,"Parade");
+  bCString::bCString((bCString *)&DAT_207cc7dc,"Kneel");
+  bCString::bCString((bCString *)&DAT_207cc7e0,"SitGround");
+  bCString::bCString((bCString *)&DAT_207cc7e4,"SitStool");
+  bCString::bCString((bCString *)&DAT_207cc7e8,"SitBench");
+  bCString::bCString((bCString *)&DAT_207cc7ec,"SitThrone");
+  bCString::bCString((bCString *)&DAT_207cc7f0,"SleepBed");
+  bCString::bCString((bCString *)&DAT_207cc7f4,"SleepGround");
+  bCString::bCString((bCString *)&DAT_207cc7f8,"TiltOrcBoulder");
+  bCString::bCString((bCString *)&DAT_207cc7fc,"HoldOrcBoulder");
+  bCString::bCString((bCString *)&DAT_207cc800,"LiftOrcBoulder");
+  bCString::bCString((bCString *)&DAT_207cc804,"SitKnockDown");
+  bCString::bCString((bCString *)&DAT_207cc808,"LieKnockDown");
+  bCString::bCString((bCString *)&DAT_207cc80c,"LieKnockOut");
+  bCString::bCString((bCString *)&DAT_207cc810,"LieStraightDead");
+  bCString::bCString((bCString *)&DAT_207cc814,"LieDead");
+  bCString::bCString((bCString *)&DAT_207cc818,"LiePiercedKO");
+  bCString::bCString((bCString *)&DAT_207cc81c,"LiePiercedDead");
+  bCString::bCString((bCString *)&DAT_207cc820,"TalkStand");
+  bCString::bCString((bCString *)&DAT_207cc824,"TalkSitGround");
+  bCString::bCString((bCString *)&DAT_207cc828,"TalkSitStool");
+  bCString::bCString((bCString *)&DAT_207cc82c,"TalkSitBench");
+  bCString::bCString((bCString *)&DAT_207cc830,"TalkSitThrone");
+  bCString::bCString((bCString *)&DAT_207cc834,"Wade");
+  bCString::bCString((bCString *)&DAT_207cc838,"Swim");
+  bCString::bCString((bCString *)&DAT_207cc83c,"Dive");
+  _atexit(FUN_205624d0);
+  return;
+}
+
+

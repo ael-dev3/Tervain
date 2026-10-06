@@ -1,0 +1,4 @@
+; 100036ed ??5bCBox@@QBEAAVbCOStream@@AAV1@@Z
+100036ed | e91e810200 | JMP 0x1002b810
+; 100036f2 bCByteColor::AccessRed
+; 100036f2 Ordinal_1478

@@ -1,0 +1,12 @@
+/* ENTRY 30004769 | eCCollisionShape::GetTriggersOnIntersect | STATUS decompiled | 4 ms */
+
+/* public: bool const & __thiscall eCCollisionShape::GetTriggersOnIntersect(void)const  */
+
+bool * __thiscall eCCollisionShape::GetTriggersOnIntersect(eCCollisionShape *this)
+
+{
+                    /* 0x4769  9195  ?GetTriggersOnIntersect@eCCollisionShape@@QBEAB_NXZ */
+  return (bool *)&(this->eCCollisionShape_data).offset_0x2f;
+}
+
+

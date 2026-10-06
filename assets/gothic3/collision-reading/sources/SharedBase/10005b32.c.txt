@@ -1,0 +1,16 @@
+/* ENTRY 10005b32 | bCOrientedBox::InvTransform | STATUS decompiled | 5 ms */
+
+/* public: void __thiscall bCOrientedBox::InvTransform(class bCMatrix const &) */
+
+void __thiscall bCOrientedBox::InvTransform(bCOrientedBox *this,bCMatrix *param_1)
+
+{
+  bCMatrix abStack_40 [64];
+  
+                    /* 0x5b32  3492  ?InvTransform@bCOrientedBox@@QAEXABVbCMatrix@@@Z */
+  bCMatrix::GetInverted(param_1,abStack_40);
+  Transform(this,abStack_40);
+  return;
+}
+
+

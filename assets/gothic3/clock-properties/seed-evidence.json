@@ -1,0 +1,219 @@
+{
+  "schema": "gothic3-clock-property-seed-evidence-v1",
+  "native": {
+    "studyPath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}.lrentdat",
+    "sha256": "28f7273b3d54415b84445651a3dfa962c1ff158e9183deba81ba47e4d5d57938",
+    "bytes": 80176690
+  },
+  "entity": {
+    "name": "World_MCP",
+    "guid20": "7d1ccbd0bc24884d8fcb75ce15a713c700000000",
+    "index": 1,
+    "sourceOffset": 455,
+    "headerRaw": "4000530000530001007d1ccbd0bc24884d8fcb75ce15a713c700000000010100000001010000803f0000ff00000006000000803f000000000000000000000000000000000000803f000000000000000000000000000000000000803f000000000000000000000000000000000000803f0000803f000000000000000000000000000000000000803f000000000000000000000000000000000000803f000000000000000000000000000000000000803f6b0b5edd6b0b5edd6b0b5edd6b0b5e5d6b0b5e5d6b0b5e5d6b0b5edd6b0b5edd6b0b5edd6b0b5e5d6b0b5e5d6b0b5e5d6b0b5edd6b0b5edd6b0b5edd6b0b5e5d6b0b5e5d6b0b5e5dd84bc05d000000000000000000000000d84bc05d0000000000000000000000000000803f000000803f102e00000000803f0000"
+  },
+  "originalRecord": {
+    "name": "gCClock_PS",
+    "version": 1,
+    "properties": [
+      {
+        "name": "Year",
+        "type": "long",
+        "raw": "00000000",
+        "value": null
+      },
+      {
+        "name": "Day",
+        "type": "long",
+        "raw": "00000000",
+        "value": null
+      },
+      {
+        "name": "Hour",
+        "type": "long",
+        "raw": "0c000000",
+        "value": null
+      },
+      {
+        "name": "Minute",
+        "type": "long",
+        "raw": "00000000",
+        "value": null
+      },
+      {
+        "name": "Second",
+        "type": "long",
+        "raw": "00000000",
+        "value": null
+      },
+      {
+        "name": "Factor",
+        "type": "float",
+        "raw": "00004041",
+        "value": null
+      }
+    ],
+    "tail": ""
+  },
+  "serialization": {
+    "offset": 1121,
+    "sourceOffset": 1121,
+    "inlineStrings": false,
+    "outerVersion": 1,
+    "typeToVersionFillerRaw": "0100005300",
+    "objectVersion": 83,
+    "objectSize": 92,
+    "propertyVersion": 30,
+    "propertyCount": 6,
+    "headerRaw": "01000100010100011a00010000530053005c0000001e0006000000",
+    "tailOffset": 1234,
+    "tailSourceOffset": 1234,
+    "endOffset": 1234,
+    "endSourceOffset": 1234,
+    "properties": [
+      {
+        "offset": 1158,
+        "sourceOffset": 1158,
+        "recordOffset": 1148,
+        "recordSourceOffset": 1148,
+        "nameStringIndex": 27,
+        "typeStringIndex": 28,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "1b001c001e0004000000"
+      },
+      {
+        "offset": 1172,
+        "sourceOffset": 1172,
+        "recordOffset": 1162,
+        "recordSourceOffset": 1162,
+        "nameStringIndex": 29,
+        "typeStringIndex": 28,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "1d001c001e0004000000"
+      },
+      {
+        "offset": 1186,
+        "sourceOffset": 1186,
+        "recordOffset": 1176,
+        "recordSourceOffset": 1176,
+        "nameStringIndex": 30,
+        "typeStringIndex": 28,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "1e001c001e0004000000"
+      },
+      {
+        "offset": 1200,
+        "sourceOffset": 1200,
+        "recordOffset": 1190,
+        "recordSourceOffset": 1190,
+        "nameStringIndex": 31,
+        "typeStringIndex": 28,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "1f001c001e0004000000"
+      },
+      {
+        "offset": 1214,
+        "sourceOffset": 1214,
+        "recordOffset": 1204,
+        "recordSourceOffset": 1204,
+        "nameStringIndex": 32,
+        "typeStringIndex": 28,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "20001c001e0004000000"
+      },
+      {
+        "offset": 1228,
+        "sourceOffset": 1228,
+        "recordOffset": 1218,
+        "recordSourceOffset": 1218,
+        "nameStringIndex": 33,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "21000c001e0004000000"
+      }
+    ]
+  },
+  "stringReferences": {
+    "27": "Year",
+    "28": "long",
+    "29": "Day",
+    "30": "Hour",
+    "31": "Minute",
+    "32": "Second",
+    "33": "Factor",
+    "12": "float"
+  },
+  "byteChecks": [
+    {
+      "property": "Year",
+      "type": "long",
+      "sourceOffset": 1158,
+      "byteLength": 4,
+      "raw": "00000000",
+      "value": 0
+    },
+    {
+      "property": "Day",
+      "type": "long",
+      "sourceOffset": 1172,
+      "byteLength": 4,
+      "raw": "00000000",
+      "value": 0
+    },
+    {
+      "property": "Hour",
+      "type": "long",
+      "sourceOffset": 1186,
+      "byteLength": 4,
+      "raw": "0c000000",
+      "value": 12
+    },
+    {
+      "property": "Minute",
+      "type": "long",
+      "sourceOffset": 1200,
+      "byteLength": 4,
+      "raw": "00000000",
+      "value": 0
+    },
+    {
+      "property": "Second",
+      "type": "long",
+      "sourceOffset": 1214,
+      "byteLength": 4,
+      "raw": "00000000",
+      "value": 0
+    },
+    {
+      "property": "Factor",
+      "type": "float",
+      "sourceOffset": 1228,
+      "byteLength": 4,
+      "raw": "00004041",
+      "value": 12.0
+    }
+  ],
+  "derivedReadVersion": {
+    "sourceOffset": 1232,
+    "bytes": "0100",
+    "value": 1
+  },
+  "audit": {
+    "originalRecordBytesVerified": true,
+    "propertyValues": 6,
+    "nativeEntityReadExecuted": false,
+    "nativeClockReadExecuted": false
+  }
+}

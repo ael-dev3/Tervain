@@ -1,0 +1,2 @@
+; 100051e1 bCString::CompareNoCase
+100051e1 | e9badb0000 | JMP 0x10012da0

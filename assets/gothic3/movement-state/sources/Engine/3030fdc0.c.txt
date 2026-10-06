@@ -1,0 +1,55 @@
+/* ENTRY 3030fdc0 | FUN_3030fdc0 | STATUS decompiled | 40 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall FUN_3030fdc0(int param_1,bCVector *param_2)
+
+{
+  bool bVar1;
+  char cVar2;
+  eCPhysicsScene *peVar3;
+  bCCriticalSectionWin32 *this;
+  bCVector *pbVar4;
+  NxVec3 *pNVar5;
+  int iVar6;
+  bCVector *unaff_retaddr;
+  undefined4 uVar7;
+  float afStack_28 [3];
+  undefined1 auStack_1c [8];
+  undefined1 auStack_14 [12];
+  float fStack_8;
+  
+  if (*(int *)(param_1 + 0x1b8) != 0) {
+    peVar3 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+    bVar1 = eCPhysicsScene::IsLocked(peVar3);
+    if (bVar1) {
+      thunk_FUN_303148f0();
+      bCVector::operator=((bCVector *)(param_1 + 0x80),param_2);
+      return;
+    }
+    peVar3 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+    this = eCPhysicsScene::GetCriticalSection(peVar3);
+    bCCriticalSectionWin32::Acquire(this);
+    bCCriticalSectionWin32::Release(this);
+    cVar2 = (**(code **)(**(int **)(param_1 + 0x1b8) + 0x158))(0x80);
+    if (cVar2 != '\0') {
+      uVar7 = _DAT_30ab3be0;
+      pbVar4 = (bCVector *)bCVector::operator*(unaff_retaddr,(float)auStack_1c);
+      pNVar5 = bCVector::operator_class_NxVec3_(pbVar4);
+      iVar6 = (**(code **)(**(int **)(param_1 + 0x1b8) + 0x28))(auStack_14,uVar7);
+      fStack_8 = *(float *)(pNVar5 + 4) + *(float *)(iVar6 + 4);
+      afStack_28[0] = *(float *)(pNVar5 + 8) + *(float *)(iVar6 + 8);
+      (**(code **)(**(int **)(param_1 + 0x1b8) + 0x38))(&stack0xffffffd0);
+      bCVector::~bCVector((bCVector *)afStack_28);
+      return;
+    }
+    iVar6 = **(int **)(param_1 + 0x1b8);
+    pbVar4 = (bCVector *)bCVector::operator*(unaff_retaddr,(float)afStack_28);
+    pNVar5 = bCVector::operator_class_NxVec3_(pbVar4);
+    (**(code **)(iVar6 + 0xd4))(pNVar5);
+    bCVector::~bCVector((bCVector *)&stack0xffffffd0);
+  }
+  return;
+}
+
+

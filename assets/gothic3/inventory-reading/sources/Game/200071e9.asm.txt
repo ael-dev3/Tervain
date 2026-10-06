@@ -1,0 +1,2 @@
+; 200071e9 bTPropertyType<gCInventorySlot,bTPropertyContainer<gESlot>_>::vfunction6
+200071e9 | e902e61b00 | JMP 0x201c57f0

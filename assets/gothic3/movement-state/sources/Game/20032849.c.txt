@@ -1,0 +1,123 @@
+/* ENTRY 20032849 | gCCharacterMovement_PS::OnTouch | STATUS decompiled | 53 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+/* public: virtual void __thiscall gCCharacterMovement_PS::OnTouch(class eCEntity *,class
+   eCContactIterator &) */
+
+void __thiscall
+gCCharacterMovement_PS::OnTouch
+          (gCCharacterMovement_PS *this,eCEntity *param_1,eCContactIterator *param_2)
+
+{
+  undefined1 *this_00;
+  int iVar1;
+  bool bVar2;
+  bool bVar3;
+  eEPropertySetType eVar4;
+  eCEntity *peVar5;
+  bCVector *this_01;
+  eCCollisionShape *peVar6;
+  eSEntityFlags *peVar7;
+  float fVar8;
+  
+                    /* 0x32849  5643
+                       ?OnTouch@gCCharacterMovement_PS@@UAEXPAVeCEntity@@AAVeCContactIterator@@@Z */
+  if (param_1 != (eCEntity *)0x0) {
+    eVar4 = eCContactIterator::GetCollisionType(param_2);
+    if (eVar4 == 0xe) {
+      if ((this->gCCharacterMovement_PS_data).offset_0xfc == 0xd) {
+        peVar5 = (*this->vftablePtr->GetEntity)(this);
+        this_01 = eCEntity::GetWorldPosition((eCEntity *)peVar5);
+        fVar8 = bCVector::GetY(this_01);
+        if (fVar8 - *(float *)&(this->gCCharacterMovement_PS_data).field_0x98 <
+            *(float *)&(this->gCCharacterMovement_PS_data).field_0x18) {
+          (this->gCCharacterMovement_PS_data).field_0x17a = 0;
+        }
+      }
+      this_00 = &(this->gCCharacterMovement_PS_data).field_0x23c;
+      peVar5 = eCEntityProxy::GetEntity((eCEntityProxy *)this_00);
+      if ((peVar5 == (eCEntity *)0x0) ||
+         (peVar5 = eCEntityProxy::GetEntity((eCEntityProxy *)this_00), param_1 != peVar5)) {
+        iVar1 = (this->gCCharacterMovement_PS_data).offset_0xfc;
+        if (((iVar1 == 0xd) || (iVar1 == 6)) &&
+           (bVar3 = eCContactIterator::GoNextShape(param_2), bVar3)) {
+          do {
+            peVar6 = eCContactIterator::GetShape(param_2,0);
+            if ((peVar6 != (eCCollisionShape *)0x0) &&
+               ((((iVar1 = *(int *)(peVar6 + 0x18), iVar1 == 1 || (iVar1 == 6)) ||
+                 ((iVar1 == 0xc || (iVar1 == 9)))) &&
+                ((peVar6[0x2f] == (eCCollisionShape)0x0 && (peVar6[0x30] == (eCCollisionShape)0x0)))
+                ))) {
+              (this->gCCharacterMovement_PS_data).offset_0x3b8 = 0x40000000;
+            }
+            bVar3 = eCContactIterator::GoNextPatch(param_2);
+            if (bVar3) {
+              do {
+                do {
+                  bVar3 = eCContactIterator::GoNextPoint(param_2);
+                } while (bVar3);
+                bVar3 = eCContactIterator::GoNextPatch(param_2);
+              } while (bVar3);
+            }
+            bVar3 = eCContactIterator::GoNextShape(param_2);
+          } while (bVar3);
+        }
+      }
+      else {
+        bVar3 = false;
+        bVar2 = eCContactIterator::GoNextShape(param_2);
+        if (bVar2) {
+          do {
+            peVar6 = eCContactIterator::GetShape(param_2,0);
+            if ((peVar6 != (eCCollisionShape *)0x0) && (*(int *)(peVar6 + 0x18) == 7)) {
+              bVar3 = true;
+            }
+            bVar2 = eCContactIterator::GoNextPatch(param_2);
+            if (bVar2) {
+              do {
+                do {
+                  bVar2 = eCContactIterator::GoNextPoint(param_2);
+                } while (bVar2);
+                bVar2 = eCContactIterator::GoNextPatch(param_2);
+              } while (bVar2);
+            }
+            bVar2 = eCContactIterator::GoNextShape(param_2);
+          } while (bVar2);
+          if (bVar3) {
+            (this->gCCharacterMovement_PS_data).offset_0x390 = (gCCharacterMovement_PS)0x1;
+          }
+        }
+      }
+    }
+    peVar7 = eCEntity::GetEntityFlags((eCEntity *)param_1);
+    if ((_DAT_207b858c & 1) == 0) {
+      _DAT_207b858c = _DAT_207b858c | 1;
+      DAT_207b8588 = 0x800000;
+    }
+    if ((*(uint *)peVar7 & DAT_207b8588) != 0) {
+      eVar4 = 0x16;
+      peVar5 = (*this->vftablePtr->GetEntity)(this);
+      bVar3 = eCEntity::HasPropertySet((eCEntity *)peVar5,eVar4);
+      if (!bVar3) {
+        eVar4 = eCContactIterator::GetCollisionType(param_2);
+        if (eVar4 == 0xe) {
+          bVar3 = eCEntity::HasPropertySet((eCEntity *)param_1,0x16);
+          if (bVar3) {
+            (this->gCCharacterMovement_PS_data).offset_0x25a = (gCCharacterMovement_PS)0x1;
+          }
+        }
+        else {
+          eVar4 = eCContactIterator::GetCollisionType(param_2);
+          if (((eVar4 == 8) || (eVar4 = eCContactIterator::GetCollisionType(param_2), eVar4 == 10))
+             || (eVar4 = eCContactIterator::GetCollisionType(param_2), eVar4 == 0xb)) {
+            (this->gCCharacterMovement_PS_data).offset_0x259 = (gCCharacterMovement_PS)0x1;
+            return;
+          }
+        }
+      }
+    }
+  }
+  return;
+}
+
+

@@ -1,0 +1,17 @@
+/* ENTRY 10174a50 | FUN_10174a50 | STATUS decompiled | 8 ms */
+
+void FUN_10174a50(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Engine\\Engine_Callback\\OnTick.cpp");
+  bCString::bCString(local_8,"OnExit_Gorn");
+  thunk_FUN_10017a50(local_8,&LAB_1000205e,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

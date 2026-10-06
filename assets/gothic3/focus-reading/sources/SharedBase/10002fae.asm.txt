@@ -1,0 +1,2 @@
+; 10002fae bCAccessorPropertyObject::HasBaseClass
+10002fae | e91d7e0900 | JMP 0x1009add0

@@ -1,0 +1,17 @@
+/* ENTRY 10124240 | FUN_10124240 | STATUS decompiled | 8 ms */
+
+void FUN_10124240(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Perception\\AssessPlayerZone.cpp");
+  bCString::bCString(local_8,"AssessPlayerEnterZone");
+  thunk_FUN_10017a50(local_8,thunk_FUN_100403a0,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

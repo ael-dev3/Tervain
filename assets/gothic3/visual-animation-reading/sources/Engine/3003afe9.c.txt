@@ -1,0 +1,18 @@
+/* ENTRY 3003afe9 | eCVisualAnimation_PS::GetActor | STATUS decompiled | 8 ms */
+
+/* public: class eCWrapper_emfx2Actor const * __thiscall eCVisualAnimation_PS::GetActor(void)const
+    */
+
+eCWrapper_emfx2Actor * __thiscall eCVisualAnimation_PS::GetActor(eCVisualAnimation_PS *this)
+
+{
+  eCWrapper_emfx2Actor *peVar1;
+  
+                    /* 0x3afe9  6103  ?GetActor@eCVisualAnimation_PS@@QBEPBVeCWrapper_emfx2Actor@@XZ
+                        */
+  peVar1 = eCVisualAnimationFactory::GetAssembledActor
+                     ((eCVisualAnimationFactory *)&this[7].eCEntityPropertySet_data.field_0x4);
+  return peVar1;
+}
+
+

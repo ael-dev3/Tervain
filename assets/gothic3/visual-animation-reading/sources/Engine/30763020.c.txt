@@ -1,0 +1,35 @@
+/* ENTRY 30763020 | bTPropertyType<eCSpringAndDamperEffector,float>::~bTPropertyType<eCSpringAndDamperEffector,float> | STATUS decompiled | 18 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<eCSpringAndDamperEffector,float>::~bTPropertyType<eCSpringAndDamperEffector,float>
+          (bTPropertyType<eCSpringAndDamperEffector,float> *this)
+
+{
+  bTPropertyType<eCSpringAndDamperEffector,float> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"SpringDistCompressSaturate");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)
+             &eCSpringAndDamperEffector::ms_PropertyMember_m_fSpringDistCompressSaturate,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_fSpringDistCompressSaturate = &vftable;
+  DAT_30aedebc = bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector>::
+                 ~bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector>();
+  _DAT_30aedec0 = 0x5c;
+  _DAT_30aedec4 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)
+             &eCSpringAndDamperEffector::ms_PropertyMember_m_fSpringDistCompressSaturate);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_30aedebc,
+             (bCPropertyTypeBase *)
+             &eCSpringAndDamperEffector::ms_PropertyMember_m_fSpringDistCompressSaturate);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}
+
+

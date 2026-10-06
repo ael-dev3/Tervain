@@ -1,0 +1,48 @@
+/* ENTRY 3002fbb2 | eCEntity::CacheOut | STATUS decompiled | 29 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+/* public: void __thiscall eCEntity::CacheOut(bool,bool) */
+
+void __thiscall eCEntity::CacheOut(eCEntity *this,bool param_1,bool param_2)
+
+{
+  uint uVar1;
+  eCRenderSystemAdmin *this_00;
+  eCPVSPrefetcher3 *this_01;
+  int iVar2;
+  eCEntity *peVar3;
+  int iVar4;
+  bool bVar5;
+  bool bVar6;
+  
+                    /* 0x2fbb2  3646  ?CacheOut@eCEntity@@QAEX_N0@Z */
+  uVar1 = (this->eCEntity_data).offset_0xc;
+  while ((uVar1 & 0x200) != 0) {
+    Sleep(0);
+    uVar1 = (this->eCEntity_data).offset_0xc;
+  }
+  if ((_DAT_30aee308 & 1) == 0) {
+    _DAT_30aee308 = _DAT_30aee308 | 1;
+    DAT_30aee304 = 0x100;
+  }
+  if (((this->eCEntity_data).offset_0xc & DAT_30aee304) != 0) {
+    peVar3 = this;
+    this_00 = (eCRenderSystemAdmin *)thunk_FUN_3007beb0();
+    this_01 = (eCPVSPrefetcher3 *)eCRenderSystemAdmin::GetPVSPrefetcher3(this_00);
+    eCPVSPrefetcher3::CacheOut(this_01,(eCEntity *)peVar3);
+  }
+  if ((param_1) && (iVar2 = eCNode::GetChildrenCount((eCNode *)this), 0 < iVar2)) {
+    iVar2 = 0;
+    do {
+      bVar5 = true;
+      bVar6 = param_2;
+      peVar3 = (eCEntity *)(*this->vftablePtr->GetChildAt)(this,iVar2);
+      CacheOut(peVar3,bVar5,bVar6);
+      iVar2 = iVar2 + 1;
+      iVar4 = eCNode::GetChildrenCount((eCNode *)this);
+    } while (iVar2 < iVar4);
+  }
+  return;
+}
+
+

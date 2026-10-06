@@ -1,0 +1,17 @@
+/* ENTRY 10019ae0 | FUN_10019ae0 | STATUS decompiled | 5 ms */
+
+Entity * __thiscall FUN_10019ae0(void *this,Entity *param_1,gESlot param_2)
+
+{
+  eCEntity *peVar1;
+  
+  if (*(gCInventory_PS **)this == (gCInventory_PS *)0x0) {
+    Entity::Entity(param_1,(eCEntity *)0x0);
+    return param_1;
+  }
+  peVar1 = gCInventory_PS::GetStackFromSlot(*(gCInventory_PS **)this,param_2);
+  Entity::Entity(param_1,peVar1);
+  return param_1;
+}
+
+

@@ -1,0 +1,31 @@
+/* ENTRY 2031ead0 | FUN_2031ead0 | STATUS decompiled | 40 ms */
+
+undefined4 __thiscall FUN_2031ead0(gCPlayerMemory_PS *param_1,bCIStream *param_2)
+
+{
+  bCIStream::operator>>(param_2,(bool *)&(param_1->gCPlayerMemory_PS_data).field_0x10);
+  thunk_FUN_2028f890(param_2);
+  thunk_FUN_201237e0(param_2);
+  thunk_FUN_201237e0(param_2);
+  thunk_FUN_201237e0(param_2);
+  thunk_FUN_20321430(param_2);
+  bCIStream::operator>>(param_2,(long *)&(param_1->gCPlayerMemory_PS_data).field_0x50);
+  bCIStream::operator>>(param_2,(long *)&(param_1->gCPlayerMemory_PS_data).field_0x54);
+  bCIStream::operator>>(param_2,(long *)&(param_1->gCPlayerMemory_PS_data).field_0x58);
+  operator>>((bCIStream *)param_2,(bCObjectBase *)&(param_1->gCPlayerMemory_PS_data).offset_0x5c);
+  operator>>((bCIStream *)param_2,(bCPropertyID *)&(param_1->gCPlayerMemory_PS_data).field_0x64);
+  bCIStream::operator>>(param_2,&param_1[1].gCPlayerMemory_PS_data.offset_0x14);
+  bCIStream::operator>>(param_2,&param_1[1].gCPlayerMemory_PS_data.offset_0x18);
+  bCIStream::operator>>(param_2,&param_1[1].gCPlayerMemory_PS_data.offset_0x1c);
+  bCIStream::operator>>(param_2,&param_1[1].gCPlayerMemory_PS_data.offset_0x24);
+  bCIStream::operator>>(param_2,&param_1[1].gCPlayerMemory_PS_data.offset_0x28);
+  bCIStream::operator>>(param_2,(bool *)&param_1[1].gCPlayerMemory_PS_data.offset_0x2c);
+  bCIStream::operator>>(param_2,(bool *)((int)&param_1[1].gCPlayerMemory_PS_data.offset_0x2c + 1));
+  bCIStream::operator>>(param_2,(bool *)((int)&param_1[1].gCPlayerMemory_PS_data.offset_0x2c + 2));
+  bCIStream::operator>>(param_2,(bool *)((int)&param_1[1].gCPlayerMemory_PS_data.offset_0x2c + 3));
+  bCIStream::operator>>(param_2,(float *)&param_1[1].gCPlayerMemory_PS_data.offset_0x30);
+  gCPlayerMemory_PS::ReadAttributes(param_1,(bCIStream *)param_2);
+  return 1;
+}
+
+

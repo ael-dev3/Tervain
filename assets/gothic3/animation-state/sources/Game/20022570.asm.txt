@@ -1,0 +1,2 @@
+; 20022570 ?sAIPlayAniItlLoop@gCScriptProcessingUnit@@KGXPAV1@@Z
+20022570 | e95b7c3400 | JMP 0x2036a1d0

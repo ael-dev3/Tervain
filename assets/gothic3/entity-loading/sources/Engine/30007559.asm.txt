@@ -1,0 +1,2 @@
+; 30007559 ?SetEntity@eCFrustumElementItem@@QAEXPAVeCEntity@@@Z
+30007559 | e9421a3900 | JMP 0x30398fa0

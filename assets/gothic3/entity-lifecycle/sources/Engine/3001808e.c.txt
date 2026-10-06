@@ -1,0 +1,33 @@
+/* ENTRY 3001808e | eCEntity::OnPostRead | STATUS decompiled | 11 ms */
+
+/* protected: virtual void __thiscall eCEntity::OnPostRead(void)
+   eCEntity member function inherited by eCSpatialEntity
+   eCEntity member function inherited by eCTemplateEntity */
+
+void __thiscall eCEntity::OnPostRead(eCEntity *this)
+
+{
+  int *piVar1;
+  uint uVar2;
+  
+                    /* 0x1808e  11342  ?OnPostRead@eCEntity@@MAEXXZ */
+  uVar2 = 0;
+  (*this->vftablePtr->OnReadContent)(this);
+  if ((this->eCEntity_data).offset_0x10e != 0) {
+    do {
+      (*this->vftablePtr->OnReadContent)(this);
+      if ((ushort)uVar2 < (this->eCEntity_data).offset_0x10e) {
+        piVar1 = *(int **)((this->eCEntity_data).offset_0x110 + (uVar2 & 0xffff) * 4);
+      }
+      else {
+        piVar1 = (int *)0x0;
+      }
+      (**(code **)(*piVar1 + 300))();
+      uVar2 = uVar2 + 1;
+      (*this->vftablePtr->OnReadContent)(this);
+    } while ((int)uVar2 < (int)(uint)(this->eCEntity_data).offset_0x10e);
+  }
+  return;
+}
+
+

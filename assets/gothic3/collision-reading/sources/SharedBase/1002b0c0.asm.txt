@@ -1,0 +1,38 @@
+; 1002b0c0 FUN_1002b0c0
+1002b0c0 | 8b542404 | MOV EDX,dword ptr [ESP + 0x4]
+1002b0c4 | d902 | FLD float ptr [EDX]
+1002b0c6 | d901 | FLD float ptr [ECX]
+1002b0c8 | dff1 | FCOMIP ST0,ST1
+1002b0ca | ddd8 | FSTP ST0
+1002b0cc | 7605 | JBE 0x1002b0d3
+; 1002b0ce LAB_1002b0ce
+1002b0ce | 32c0 | XOR AL,AL
+1002b0d0 | c20400 | RET 0x4
+; 1002b0d3 LAB_1002b0d3
+1002b0d3 | d94204 | FLD float ptr [EDX + 0x4]
+1002b0d6 | d94104 | FLD float ptr [ECX + 0x4]
+1002b0d9 | dff1 | FCOMIP ST0,ST1
+1002b0db | ddd8 | FSTP ST0
+1002b0dd | 77ef | JA 0x1002b0ce
+1002b0df | d94208 | FLD float ptr [EDX + 0x8]
+1002b0e2 | d94108 | FLD float ptr [ECX + 0x8]
+1002b0e5 | dff1 | FCOMIP ST0,ST1
+1002b0e7 | ddd8 | FSTP ST0
+1002b0e9 | 77e3 | JA 0x1002b0ce
+1002b0eb | d9410c | FLD float ptr [ECX + 0xc]
+1002b0ee | d9420c | FLD float ptr [EDX + 0xc]
+1002b0f1 | dff1 | FCOMIP ST0,ST1
+1002b0f3 | ddd8 | FSTP ST0
+1002b0f5 | 77d7 | JA 0x1002b0ce
+1002b0f7 | d94110 | FLD float ptr [ECX + 0x10]
+1002b0fa | d94210 | FLD float ptr [EDX + 0x10]
+1002b0fd | dff1 | FCOMIP ST0,ST1
+1002b0ff | ddd8 | FSTP ST0
+1002b101 | 77cb | JA 0x1002b0ce
+1002b103 | d94114 | FLD float ptr [ECX + 0x14]
+1002b106 | d94214 | FLD float ptr [EDX + 0x14]
+1002b109 | dff1 | FCOMIP ST0,ST1
+1002b10b | ddd8 | FSTP ST0
+1002b10d | 77bf | JA 0x1002b0ce
+1002b10f | b001 | MOV AL,0x1
+1002b111 | c20400 | RET 0x4

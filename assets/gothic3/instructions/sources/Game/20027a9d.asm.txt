@@ -1,0 +1,4 @@
+; 20027a9d ?GetSelfEntity@gCScriptProcessingUnit@@QAEPAVeCEntity@@XZ
+20027a9d | e98e033400 | JMP 0x20367e30
+; 20027aa2 gCNegZone_PSObj::Test3DPointInZone
+; 20027aa2 Ordinal_7342

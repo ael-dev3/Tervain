@@ -1,0 +1,13 @@
+; 304c6620 eCPropertySetProxy::eCPropertySetProxy
+304c6620 | 56 | PUSH ESI
+304c6621 | 8bf1 | MOV ESI,ECX
+304c6623 | e89171b5ff | CALL 0x3001d7b9
+304c6628 | 33c0 | XOR EAX,EAX
+304c662a | 8bce | MOV ECX,ESI
+304c662c | c706f4c08730 | MOV dword ptr [ESI],0x3087c0f4
+304c6632 | 89461c | MOV dword ptr [ESI + 0x1c],EAX
+304c6635 | 894620 | MOV dword ptr [ESI + 0x20],EAX
+304c6638 | e80479b7ff | CALL 0x3003df41
+304c663d | 8bc6 | MOV EAX,ESI
+304c663f | 5e | POP ESI
+304c6640 | c3 | RET

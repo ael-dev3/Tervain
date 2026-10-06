@@ -1,0 +1,2 @@
+; 2002739f ?OnExitProcessingRange@gCNavigation_PS@@MAEXXZ
+2002739f | e9cc072600 | JMP 0x20287b70

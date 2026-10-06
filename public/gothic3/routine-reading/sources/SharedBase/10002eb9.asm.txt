@@ -1,0 +1,4 @@
+; 10002eb9 ??8bCString@@QBE_NABV0@@Z
+10002eb9 | e9f2030100 | JMP 0x100132b0
+; 10002ebe bCAccessorProperty::bCAccessorProperty
+; 10002ebe Ordinal_20

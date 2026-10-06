@@ -1,0 +1,11 @@
+; 2020e7d0 bTPropertyType<gCDialog_PS,float>::vfunction6
+2020e7d0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+2020e7d4 | 85c0 | TEST EAX,EAX
+2020e7d6 | 740f | JZ 0x2020e7e7
+2020e7d8 | 8b11 | MOV EDX,dword ptr [ECX]
+2020e7da | 50 | PUSH EAX
+2020e7db | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+2020e7de | ffd0 | CALL EAX
+2020e7e0 | 0f57c0 | XORPS XMM0,XMM0
+2020e7e3 | f30f1100 | MOVSS dword ptr [EAX],XMM0
+2020e7e7 | c20400 | RET 0x4

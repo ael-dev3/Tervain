@@ -1,0 +1,15 @@
+/* ENTRY 200292da | gCStat::gCStat | STATUS decompiled | 4 ms */
+
+/* public: __thiscall gCStat::gCStat(void) */
+
+gCStat * __thiscall gCStat::gCStat(gCStat *this)
+
+{
+                    /* 0x292da  339  ??0gCStat@@QAE@XZ */
+  gCAttribute::gCAttribute((gCAttribute *)this);
+  this->vftablePtr = &vftable;
+  ApplyDefaults(this);
+  return this;
+}
+
+

@@ -1,0 +1,2 @@
+; 10001b68 ?SetStaminaPointsMax@PSPlayerMemory@@QAEXH@Z
+10001b68 | e9d37d0200 | JMP 0x10029940

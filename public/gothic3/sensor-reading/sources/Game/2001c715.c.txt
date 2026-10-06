@@ -1,0 +1,32 @@
+/* ENTRY 2001c715 | gCCharacterSensor_PS::SetGoalPosition | STATUS decompiled | 14 ms */
+
+/* public: void __thiscall gCCharacterSensor_PS::SetGoalPosition(class bCVector const &,bool) */
+
+void __thiscall
+gCCharacterSensor_PS::SetGoalPosition(gCCharacterSensor_PS *this,bCVector *param_1,bool param_2)
+
+{
+  undefined1 *this_00;
+  undefined1 *this_01;
+  bool bVar1;
+  
+                    /* 0x1c715  6540  ?SetGoalPosition@gCCharacterSensor_PS@@QAEXABVbCVector@@_N@Z
+                        */
+  this_00 = &(this->gCCharacterSensor_PS_data).field_0x40;
+  bVar1 = bCVector::operator!=((bCVector *)this_00,param_1);
+  if (bVar1) {
+    bCVector::operator=((bCVector *)this_00,param_1);
+    (this->gCCharacterSensor_PS_data).offset_0x3c = 1;
+  }
+  if ((((this->gCCharacterSensor_PS_data).offset_0x35 == '\0') || (!param_2)) ||
+     ((this->gCCharacterSensor_PS_data).offset_0x3d == '\x01')) {
+    this_01 = &(this->gCCharacterSensor_PS_data).field_0x10;
+    bCVector::operator=((bCVector *)this_01,(bCVector *)this_00);
+    bCVector::operator=((bCVector *)&(this->gCCharacterSensor_PS_data).field_0x1c,
+                        (bCVector *)this_01);
+    (this->gCCharacterSensor_PS_data).offset_0x3d = 0;
+  }
+  return;
+}
+
+

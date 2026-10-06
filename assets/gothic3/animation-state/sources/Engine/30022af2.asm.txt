@@ -1,0 +1,2 @@
+; 30022af2 ?StopAtLoopEnd@eCVisualAnimation_PS@@QAEXW4eEMotionType@eCWrapper_emfx2Actor@@@Z
+30022af2 | e979bf0700 | JMP 0x3009ea70

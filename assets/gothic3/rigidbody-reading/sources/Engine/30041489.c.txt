@@ -1,0 +1,16 @@
+/* ENTRY 30041489 | bTPropertyType<eCRigidBodyBase_PS,bool>::vfunction22 | STATUS decompiled | 9 ms */
+
+void __thiscall
+bTPropertyType<eCRigidBodyBase_PS,bool>::vfunction22
+          (bTPropertyType<eCRigidBodyBase_PS,bool> *this,bCPropertyTypeBase *param_1)
+
+{
+  GE_MESSAGEF_WARN("The method %s detected an improper usage! \nHint:%s ",
+                   "bTPropertyType<CLASS, TYPE>::CopyFrom",
+                   "It is not allowed to make a copy of propertytype.\nDo not call it from derived class or change access !"
+                  );
+  bCPropertyTypeBase::CopyFrom((bCPropertyTypeBase *)this,param_1);
+  return;
+}
+
+

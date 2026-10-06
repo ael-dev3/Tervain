@@ -1,0 +1,4 @@
+; 3001d9bc ?SetEntity@eCEntityPropertySet@@UAEXPAVeCEntity@@@Z
+3001d9bc | e90f3e4600 | JMP 0x304817d0
+; 3001d9c1 eCVirtualFile::Close
+; 3001d9c1 Ordinal_3857

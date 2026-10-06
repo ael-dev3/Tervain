@@ -1,0 +1,18 @@
+/* ENTRY 100044a3 | bCString::operator_char_const* | STATUS decompiled | 3 ms */
+
+/* public: __thiscall bCString::operator char const *(void)const  */
+
+char * __thiscall bCString::operator_char_const_(bCString *this)
+
+{
+  char *pcVar1;
+  
+                    /* 0x44a3  895  ??BbCString@@QBEPBDXZ */
+  pcVar1 = *(char **)this;
+  if (pcVar1 == (char *)0x0) {
+    pcVar1 = "";
+  }
+  return pcVar1;
+}
+
+

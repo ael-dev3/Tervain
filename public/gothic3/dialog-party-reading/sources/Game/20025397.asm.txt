@@ -1,0 +1,2 @@
+; 20025397 gCParty_PS::Invalidate
+20025397 | e934272f00 | JMP 0x20317ad0

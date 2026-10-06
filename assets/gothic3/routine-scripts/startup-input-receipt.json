@@ -1,0 +1,1689 @@
+{
+  "source": "public/gothic3/startup/native-startup.json",
+  "sha256": "04fda37dd255ea66505f6ff863b338c15a45b7a4b89b5b4853b66122ef909f3d",
+  "bytes": 210418,
+  "scope": "Original source routine input objects; not a claim that every startup callback has run.",
+  "entities": [
+    {
+      "key": "world-0042:1",
+      "name": "Ardea_Orkboss",
+      "guid20": "089bb7d182cbc042913da7931f3d74af00000000",
+      "worldMatrixCm": [
+        0.9956614375114441,
+        0.0,
+        0.09305024147033691,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        -0.09305024147033691,
+        0.0,
+        0.9956614375114441,
+        0.0,
+        89106.9921875,
+        5145.9609375,
+        -10916.9365234375,
+        1.0
+      ],
+      "source": {
+        "family": "projects_compiled",
+        "archive": "Projects_compiled.p00",
+        "path": "G3_World_01/Myrtana/Ardea_City/G3_Myrtana_01_Ardea_NPC_01/G3_Myrtana_01_Ardea_NPC_01.lrentdat",
+        "sha256": "46b70fff7a3844e8c16e6e71d69d8f7c57b5f1e8429d73e814b2ce9ffe9f2ac0",
+        "selection": "static-effective-layer-candidate",
+        "layers": [
+          "Projects_compiled.pak",
+          "Projects_compiled.p00"
+        ]
+      },
+      "chunk": "gameplay/world/entity-chunks/0042-0000.json.gz",
+      "chunkSha256": "1939eaccd37e20b2cd5c5161bbf3a4b2b42b75a6146fadc2eeddd46cad42554a",
+      "classes": {
+        "gCNavigation_PS": {
+          "version": 37,
+          "values": {
+            "StartPosition": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "WorkingPoint": {
+              "rawGuid20": "6d62c61fe69d0f4da4b7d1f8c9290a7b00000000",
+              "referenceKind": "unspecified"
+            },
+            "RelaxingPoint": {
+              "rawGuid20": "ef0ebc5519b5564f916863d1c2f652db00000000",
+              "referenceKind": "unspecified"
+            },
+            "SleepingPoint": {
+              "rawGuid20": "aef515f171dec64c82c1e5fe4172956900000000",
+              "referenceKind": "unspecified"
+            },
+            "Routine": "Start",
+            "WorkingPoints": {
+              "prefix": 1,
+              "elementType": "class bCPropertyID",
+              "count": 1,
+              "items": [
+                {
+                  "rawGuid20": "6d62c61fe69d0f4da4b7d1f8c9290a7b00000000",
+                  "referenceKind": "unspecified"
+                }
+              ]
+            },
+            "RelaxingPoints": {
+              "prefix": 1,
+              "elementType": "class bCPropertyID",
+              "count": 1,
+              "items": [
+                {
+                  "rawGuid20": "ef0ebc5519b5564f916863d1c2f652db00000000",
+                  "referenceKind": "unspecified"
+                }
+              ]
+            },
+            "SleepingPoints": {
+              "prefix": 1,
+              "elementType": "class bCPropertyID",
+              "count": 1,
+              "items": [
+                {
+                  "rawGuid20": "aef515f171dec64c82c1e5fe4172956900000000",
+                  "referenceKind": "unspecified"
+                }
+              ]
+            },
+            "RoutineNames": {
+              "prefix": 1,
+              "elementType": "class bCString",
+              "count": 1,
+              "items": [
+                "Start"
+              ]
+            },
+            "CurrentDestinationPointProxy": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "CurrentZoneEntityProxy": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "LastZoneEntityProxy": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "LastUseableNavigationPosition": [
+              89106.9921875,
+              5145.9609375,
+              -10916.9365234375
+            ],
+            "LastUseableNavigationZoneID": {
+              "rawGuid20": "b70ea91d86b1484294641c6e2218eab300000000",
+              "referenceKind": "unspecified"
+            },
+            "LastUseableNavigationZoneIsPath": false
+          }
+        },
+        "gCNPC_PS": {
+          "version": 78,
+          "values": {
+            "Description": "",
+            "Voice": "Orc_Boss_Hard",
+            "RoleDescription": "arrogant, herausfordernd, befiehlt",
+            "Level": 15,
+            "LevelMax": 35,
+            "Gender": 0,
+            "Species": 5,
+            "PoliticalAlignment": 1,
+            "Class": 3,
+            "Type": 2,
+            "Enclave": {
+              "rawGuid20": "a5ddbeffda328b4199c43e34687133dd00000000",
+              "referenceKind": "unspecified"
+            },
+            "AttitudeToPlayer2": 2,
+            "LastPlayerCrime": 0,
+            "AttackReason": 0,
+            "LastPlayerAR": 0,
+            "LastFightAgainstPlayer": 0,
+            "LastFightTimestamp": 0.0,
+            "LastDistToTarget": 0.0,
+            "DistToNearestMist": 0.0,
+            "DefeatedByPlayer": false,
+            "Ransacked": false,
+            "Discovered": false,
+            "LastFightComment": false,
+            "CurrentTargetEntity": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "CurrentAttackerEntity": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "AlternativeTargetEntity": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "LastAttackerEntity": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "CombatState": 0,
+            "GuardPoint": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "GuardStatus": 0,
+            "LastDistToGuardPoint": 0.0,
+            "Bearing": 0,
+            "TeachAttribs": {
+              "prefix": 1,
+              "elementType": "class bCString",
+              "count": 0,
+              "items": []
+            },
+            "TeachSkills": {
+              "prefix": 1,
+              "elementType": "class eCTemplateEntityProxy",
+              "count": 0,
+              "items": []
+            },
+            "ManaUsed": 0,
+            "SpellTarget": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "LastSpell": "",
+            "StatusEffects": 0,
+            "TimeStampFrozen": 0,
+            "TimeStampBurning": 0,
+            "TimeStampPoisoned": 0,
+            "TimeStampDiseased": 0,
+            "TimeStampTransformed": 0
+          }
+        },
+        "gCScriptRoutine_PS": {
+          "version": 1,
+          "values": {
+            "Routine": "",
+            "CurrentTask": "",
+            "TaskTime": 0.0,
+            "TaskPosition": 0,
+            "StateTime": 0.0,
+            "StatePosition": 0,
+            "CommandTime": 0,
+            "LastTask": "",
+            "CurrentState": "",
+            "CurrentBreakBlock": 0,
+            "AniState": 2,
+            "Action": 24,
+            "AmbientAction": 0,
+            "AIMode": 0,
+            "HitDirection": 0
+          }
+        },
+        "gCInteraction_PS": {
+          "version": 84,
+          "values": {
+            "FocusPriority": 1,
+            "Owner": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "User": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "UseType": 0,
+            "ScriptUseFunc": "",
+            "AnchorPoint": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "FocusNameType": 0,
+            "FocusNameBone": "Head_Head_End",
+            "FocusViewOffset": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "FocusWorldOffset": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "UsedByPlayer": false,
+            "EnterROIScript": "",
+            "ExitROIScript": "",
+            "Spell": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "template",
+              "rawGuid20": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "key": "world-2419:243",
+      "name": "Gorn",
+      "guid20": "e0a62fc10ac41d4f8f76d07332b58ce500000000",
+      "worldMatrixCm": [
+        -0.3232894539833069,
+        0.0,
+        -0.9463005661964417,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.9463005661964417,
+        0.0,
+        -0.3232894539833069,
+        0.0,
+        88086.3125,
+        5135.349609375,
+        -10659.39453125,
+        1.0
+      ],
+      "source": {
+        "family": "projects_compiled",
+        "archive": "Projects_compiled.p00",
+        "path": "G3_World_01/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}.lrentdat",
+        "sha256": "28f7273b3d54415b84445651a3dfa962c1ff158e9183deba81ba47e4d5d57938",
+        "selection": "static-effective-layer-candidate",
+        "layers": [
+          "Projects_compiled.pak",
+          "Projects_compiled.p00"
+        ]
+      },
+      "chunk": "gameplay/world/entity-chunks/2419-0000.json.gz",
+      "chunkSha256": "3980cdb6c8b3d7f44d453b129e6da08ccd6d1a02dc03afe947a8954dec6ac75c",
+      "classes": {
+        "gCNavigation_PS": {
+          "version": 37,
+          "values": {
+            "StartPosition": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "WorkingPoint": {
+              "rawGuid20": "dd8a315d0a28044393796a18c1fcfaec00000000",
+              "referenceKind": "unspecified"
+            },
+            "RelaxingPoint": {
+              "rawGuid20": "dd8a315d0a28044393796a18c1fcfaec00000000",
+              "referenceKind": "unspecified"
+            },
+            "SleepingPoint": {
+              "rawGuid20": "dd8a315d0a28044393796a18c1fcfaec00000000",
+              "referenceKind": "unspecified"
+            },
+            "Routine": "Start",
+            "WorkingPoints": {
+              "prefix": 1,
+              "elementType": "class bCPropertyID",
+              "count": 4,
+              "items": [
+                {
+                  "rawGuid20": "dd8a315d0a28044393796a18c1fcfaec00000000",
+                  "referenceKind": "unspecified"
+                },
+                {
+                  "rawGuid20": "061fcfe12615aa4aba7cd3033ca87d3a33830d00",
+                  "referenceKind": "unspecified"
+                },
+                {
+                  "rawGuid20": "fe28ee78a84b6a4c817892294a98051d51840500",
+                  "referenceKind": "unspecified"
+                },
+                {
+                  "rawGuid20": "7d93b63001765a44a90e77b25ea5b13f00000000",
+                  "referenceKind": "unspecified"
+                }
+              ]
+            },
+            "RelaxingPoints": {
+              "prefix": 1,
+              "elementType": "class bCPropertyID",
+              "count": 4,
+              "items": [
+                {
+                  "rawGuid20": "dd8a315d0a28044393796a18c1fcfaec00000000",
+                  "referenceKind": "unspecified"
+                },
+                {
+                  "rawGuid20": "061fcfe12615aa4aba7cd3033ca87d3a33830d00",
+                  "referenceKind": "unspecified"
+                },
+                {
+                  "rawGuid20": "fe28ee78a84b6a4c817892294a98051d51840500",
+                  "referenceKind": "unspecified"
+                },
+                {
+                  "rawGuid20": "7d93b63001765a44a90e77b25ea5b13f00000000",
+                  "referenceKind": "unspecified"
+                }
+              ]
+            },
+            "SleepingPoints": {
+              "prefix": 1,
+              "elementType": "class bCPropertyID",
+              "count": 4,
+              "items": [
+                {
+                  "rawGuid20": "dd8a315d0a28044393796a18c1fcfaec00000000",
+                  "referenceKind": "unspecified"
+                },
+                {
+                  "rawGuid20": "061fcfe12615aa4aba7cd3033ca87d3a33830d00",
+                  "referenceKind": "unspecified"
+                },
+                {
+                  "rawGuid20": "47d814b8a4fad449aefe29f6f4d1bff42cc60400",
+                  "referenceKind": "unspecified"
+                },
+                {
+                  "rawGuid20": "7d93b63001765a44a90e77b25ea5b13f00000000",
+                  "referenceKind": "unspecified"
+                }
+              ]
+            },
+            "RoutineNames": {
+              "prefix": 1,
+              "elementType": "class bCString",
+              "count": 4,
+              "items": [
+                "Start",
+                "GothaPrison",
+                "Gotha",
+                "Reddock"
+              ]
+            },
+            "CurrentDestinationPointProxy": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "CurrentZoneEntityProxy": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "LastZoneEntityProxy": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "LastUseableNavigationPosition": [
+              88086.3125,
+              5135.349609375,
+              -10659.39453125
+            ],
+            "LastUseableNavigationZoneID": {
+              "rawGuid20": "8da176b750d91d44b83247fecbeaefe900000000",
+              "referenceKind": "unspecified"
+            },
+            "LastUseableNavigationZoneIsPath": false
+          }
+        },
+        "gCNPC_PS": {
+          "version": 78,
+          "values": {
+            "Description": "",
+            "Voice": "Gorn",
+            "RoleDescription": "stolzer Kämpfer; tatendurstig; brummig; FREUND",
+            "Level": 20,
+            "LevelMax": 50,
+            "Gender": 0,
+            "Species": 0,
+            "PoliticalAlignment": 0,
+            "Class": 3,
+            "Type": 3,
+            "Enclave": {
+              "rawGuid20": "0801cc875cbbfa4e974a9e27cabd78b700000000",
+              "referenceKind": "unspecified"
+            },
+            "AttitudeToPlayer2": 0,
+            "LastPlayerCrime": 0,
+            "AttackReason": 0,
+            "LastPlayerAR": 0,
+            "LastFightAgainstPlayer": 0,
+            "LastFightTimestamp": 0.0,
+            "LastDistToTarget": 0.0,
+            "DistToNearestMist": 0.0,
+            "DefeatedByPlayer": false,
+            "Ransacked": false,
+            "Discovered": false,
+            "LastFightComment": false,
+            "CurrentTargetEntity": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "CurrentAttackerEntity": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "AlternativeTargetEntity": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "LastAttackerEntity": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "CombatState": 0,
+            "GuardPoint": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "GuardStatus": 0,
+            "LastDistToGuardPoint": 0.0,
+            "Bearing": 0,
+            "TeachAttribs": {
+              "prefix": 1,
+              "elementType": "class bCString",
+              "count": 1,
+              "items": [
+                "STR"
+              ]
+            },
+            "TeachSkills": {
+              "prefix": 1,
+              "elementType": "class eCTemplateEntityProxy",
+              "count": 8,
+              "items": [
+                {
+                  "version": 1,
+                  "present": true,
+                  "referenceKind": "template",
+                  "rawGuid20": "0d2f0345b3f7a040af3f33a3ea9dd5e800000000"
+                },
+                {
+                  "version": 1,
+                  "present": true,
+                  "referenceKind": "template",
+                  "rawGuid20": "de52d3e92f5fe8458587a045f6f3a85c00000000"
+                },
+                {
+                  "version": 1,
+                  "present": true,
+                  "referenceKind": "template",
+                  "rawGuid20": "130e82527f602844a01c5b243c6dabd400000000"
+                },
+                {
+                  "version": 1,
+                  "present": true,
+                  "referenceKind": "template",
+                  "rawGuid20": "c5a7b733d43a4349aec57063f5f2573100000000"
+                },
+                {
+                  "version": 1,
+                  "present": true,
+                  "referenceKind": "template",
+                  "rawGuid20": "398c35fe05ca704090c68fd3aa8ba7e300000000"
+                },
+                {
+                  "version": 1,
+                  "present": true,
+                  "referenceKind": "template",
+                  "rawGuid20": "c12bc0b89b56c94caa20a52b62d152b100000000"
+                },
+                {
+                  "version": 1,
+                  "present": true,
+                  "referenceKind": "template",
+                  "rawGuid20": "69d39e7a98385245939ae3623b33cc1600000000"
+                },
+                {
+                  "version": 1,
+                  "present": true,
+                  "referenceKind": "template",
+                  "rawGuid20": "6aa1a5c6b25548438ea4cae3a7d1e88200000000"
+                }
+              ]
+            },
+            "ManaUsed": 0,
+            "SpellTarget": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "LastSpell": "",
+            "StatusEffects": 0,
+            "TimeStampFrozen": 0,
+            "TimeStampBurning": 0,
+            "TimeStampPoisoned": 0,
+            "TimeStampDiseased": 0,
+            "TimeStampTransformed": 0
+          }
+        },
+        "gCScriptRoutine_PS": {
+          "version": 1,
+          "values": {
+            "Routine": "",
+            "CurrentTask": "",
+            "TaskTime": 0.0,
+            "TaskPosition": 0,
+            "StateTime": 0.0,
+            "StatePosition": 0,
+            "CommandTime": 0,
+            "LastTask": "",
+            "CurrentState": "",
+            "CurrentBreakBlock": 0,
+            "AniState": 2,
+            "Action": 24,
+            "AmbientAction": 0,
+            "AIMode": 0,
+            "HitDirection": 0
+          }
+        },
+        "gCInteraction_PS": {
+          "version": 84,
+          "values": {
+            "FocusPriority": 1,
+            "Owner": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "User": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "UseType": 0,
+            "ScriptUseFunc": "",
+            "AnchorPoint": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "FocusNameType": 0,
+            "FocusNameBone": "Head_Head_End",
+            "FocusViewOffset": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "FocusWorldOffset": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "UsedByPlayer": false,
+            "EnterROIScript": "",
+            "ExitROIScript": "",
+            "Spell": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "template",
+              "rawGuid20": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "key": "world-2419:371",
+      "name": "PC_Hero",
+      "guid20": "054d6e4a5f059340bc5c2ca0cca6674500000000",
+      "worldMatrixCm": [
+        -0.48748207092285156,
+        0.0,
+        -0.8731330037117004,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.8731330037117004,
+        0.0,
+        -0.48748207092285156,
+        0.0,
+        87984.9375,
+        5145.56396484375,
+        -10197.4775390625,
+        1.0
+      ],
+      "source": {
+        "family": "projects_compiled",
+        "archive": "Projects_compiled.p00",
+        "path": "G3_World_01/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}.lrentdat",
+        "sha256": "28f7273b3d54415b84445651a3dfa962c1ff158e9183deba81ba47e4d5d57938",
+        "selection": "static-effective-layer-candidate",
+        "layers": [
+          "Projects_compiled.pak",
+          "Projects_compiled.p00"
+        ]
+      },
+      "chunk": "gameplay/world/entity-chunks/2419-0001.json.gz",
+      "chunkSha256": "62f48ea14f7313cb43c7ba54d47cb6b60ec8eb6ffb4088456add6975a5303033",
+      "classes": {
+        "gCNavigation_PS": {
+          "version": 37,
+          "values": {
+            "StartPosition": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "WorkingPoint": {
+              "rawGuid20": "6d62c61fe69d0f4da4b7d1f8c9290a7b00000000",
+              "referenceKind": "unspecified"
+            },
+            "RelaxingPoint": {
+              "rawGuid20": "ef0ebc5519b5564f916863d1c2f652db00000000",
+              "referenceKind": "unspecified"
+            },
+            "SleepingPoint": {
+              "rawGuid20": "aef515f171dec64c82c1e5fe4172956900000000",
+              "referenceKind": "unspecified"
+            },
+            "Routine": "Start",
+            "WorkingPoints": {
+              "prefix": 1,
+              "elementType": "class bCPropertyID",
+              "count": 1,
+              "items": [
+                {
+                  "rawGuid20": "6d62c61fe69d0f4da4b7d1f8c9290a7b00000000",
+                  "referenceKind": "unspecified"
+                }
+              ]
+            },
+            "RelaxingPoints": {
+              "prefix": 1,
+              "elementType": "class bCPropertyID",
+              "count": 1,
+              "items": [
+                {
+                  "rawGuid20": "ef0ebc5519b5564f916863d1c2f652db00000000",
+                  "referenceKind": "unspecified"
+                }
+              ]
+            },
+            "SleepingPoints": {
+              "prefix": 1,
+              "elementType": "class bCPropertyID",
+              "count": 1,
+              "items": [
+                {
+                  "rawGuid20": "aef515f171dec64c82c1e5fe4172956900000000",
+                  "referenceKind": "unspecified"
+                }
+              ]
+            },
+            "RoutineNames": {
+              "prefix": 1,
+              "elementType": "class bCString",
+              "count": 1,
+              "items": [
+                "Start"
+              ]
+            },
+            "CurrentDestinationPointProxy": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "CurrentZoneEntityProxy": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "LastZoneEntityProxy": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "LastUseableNavigationPosition": [
+              87984.9375,
+              5145.56396484375,
+              -10197.4775390625
+            ],
+            "LastUseableNavigationZoneID": {
+              "rawGuid20": "b1b58d628ef1ec46942ab108e5b550c700000000",
+              "referenceKind": "unspecified"
+            },
+            "LastUseableNavigationZoneIsPath": false
+          }
+        },
+        "gCNPC_PS": {
+          "version": 78,
+          "values": {
+            "Description": "",
+            "Voice": "Player",
+            "RoleDescription": "",
+            "Level": 0,
+            "LevelMax": 0,
+            "Gender": 0,
+            "Species": 0,
+            "PoliticalAlignment": 0,
+            "Class": 0,
+            "Type": 0,
+            "Enclave": {
+              "rawGuid20": "325b58ef971009409bd7129c9e6880f000000000",
+              "referenceKind": "unspecified"
+            },
+            "AttitudeToPlayer2": 0,
+            "LastPlayerCrime": 0,
+            "AttackReason": 0,
+            "LastPlayerAR": 0,
+            "LastFightAgainstPlayer": 0,
+            "LastFightTimestamp": 0.0,
+            "LastDistToTarget": 0.0,
+            "DistToNearestMist": 0.0,
+            "DefeatedByPlayer": false,
+            "Ransacked": false,
+            "Discovered": false,
+            "LastFightComment": false,
+            "CurrentTargetEntity": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "CurrentAttackerEntity": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "AlternativeTargetEntity": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "LastAttackerEntity": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "CombatState": 0,
+            "GuardPoint": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "GuardStatus": 0,
+            "LastDistToGuardPoint": 0.0,
+            "Bearing": 0,
+            "TeachAttribs": {
+              "prefix": 1,
+              "elementType": "class bCString",
+              "count": 0,
+              "items": []
+            },
+            "TeachSkills": {
+              "prefix": 1,
+              "elementType": "class eCTemplateEntityProxy",
+              "count": 0,
+              "items": []
+            },
+            "ManaUsed": 0,
+            "SpellTarget": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "LastSpell": "",
+            "StatusEffects": 0,
+            "TimeStampFrozen": 0,
+            "TimeStampBurning": 0,
+            "TimeStampPoisoned": 0,
+            "TimeStampDiseased": 0,
+            "TimeStampTransformed": 0
+          }
+        },
+        "gCScriptRoutine_PS": {
+          "version": 1,
+          "values": {
+            "Routine": "Rtn_Player",
+            "CurrentTask": "",
+            "TaskTime": 0.0,
+            "TaskPosition": 0,
+            "StateTime": 0.0,
+            "StatePosition": 0,
+            "CommandTime": 0,
+            "LastTask": "",
+            "CurrentState": "",
+            "CurrentBreakBlock": 0,
+            "AniState": 2,
+            "Action": 24,
+            "AmbientAction": 0,
+            "AIMode": 0,
+            "HitDirection": 0
+          }
+        },
+        "gCInteraction_PS": {
+          "version": 84,
+          "values": {
+            "FocusPriority": 1,
+            "Owner": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "User": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "UseType": 0,
+            "ScriptUseFunc": "",
+            "AnchorPoint": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "FocusNameType": 0,
+            "FocusNameBone": "Head_Head_End",
+            "FocusViewOffset": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "FocusWorldOffset": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "UsedByPlayer": false,
+            "EnterROIScript": "",
+            "ExitROIScript": "",
+            "Spell": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "template",
+              "rawGuid20": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "key": "world-2419:416",
+      "name": "Ardea",
+      "guid20": "a5ddbeffda328b4199c43e34687133dd00000000",
+      "worldMatrixCm": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        89817.3671875,
+        7552.10400390625,
+        -10730.56640625,
+        1.0
+      ],
+      "source": {
+        "family": "projects_compiled",
+        "archive": "Projects_compiled.p00",
+        "path": "G3_World_01/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}.lrentdat",
+        "sha256": "28f7273b3d54415b84445651a3dfa962c1ff158e9183deba81ba47e4d5d57938",
+        "selection": "static-effective-layer-candidate",
+        "layers": [
+          "Projects_compiled.pak",
+          "Projects_compiled.p00"
+        ]
+      },
+      "chunk": "gameplay/world/entity-chunks/2419-0001.json.gz",
+      "chunkSha256": "62f48ea14f7313cb43c7ba54d47cb6b60ec8eb6ffb4088456add6975a5303033",
+      "classes": {
+        "gCEnclave_PS": {
+          "version": 1,
+          "values": {
+            "PoliticalAlignment": 1,
+            "PlayerFame": 0,
+            "SuspectComment": {
+              "prefix": 1,
+              "elementType": "long",
+              "count": 5,
+              "items": [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            },
+            "CrimeCount": {
+              "prefix": 1,
+              "elementType": "long",
+              "count": 5,
+              "items": [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            },
+            "KnownPlayerCrime": 0,
+            "Revolution": false,
+            "Raid": false,
+            "Switched": false,
+            "MusicPlayed": false,
+            "Status": 0
+          }
+        }
+      }
+    },
+    {
+      "key": "world-2419:4843",
+      "name": "Yepas",
+      "guid20": "836f03d93f9a89488f5bd4a893bd979100000000",
+      "worldMatrixCm": [
+        0.857708752155304,
+        0.0,
+        -0.514136016368866,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.514136016368866,
+        0.0,
+        0.857708752155304,
+        0.0,
+        -47616.54296875,
+        227.240966796875,
+        -74924.9453125,
+        1.0
+      ],
+      "source": {
+        "family": "projects_compiled",
+        "archive": "Projects_compiled.p00",
+        "path": "G3_World_01/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}.lrentdat",
+        "sha256": "28f7273b3d54415b84445651a3dfa962c1ff158e9183deba81ba47e4d5d57938",
+        "selection": "static-effective-layer-candidate",
+        "layers": [
+          "Projects_compiled.pak",
+          "Projects_compiled.p00"
+        ]
+      },
+      "chunk": "gameplay/world/entity-chunks/2419-0017.json.gz",
+      "chunkSha256": "8ace065c53cecfec5d10131d5d769b63090123f99d4d3c2bc812db1f20c625ba",
+      "classes": {
+        "gCNavigation_PS": {
+          "version": 37,
+          "values": {
+            "StartPosition": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "WorkingPoint": {
+              "rawGuid20": "f33586a8274e5c439e6f9af9de9edd3b00000000",
+              "referenceKind": "unspecified"
+            },
+            "RelaxingPoint": {
+              "rawGuid20": "8ef9c8dea74b30458089bcf4ec6c417f00000000",
+              "referenceKind": "unspecified"
+            },
+            "SleepingPoint": {
+              "rawGuid20": "79892c0e05b4f048b7f49ef728dfb34200000000",
+              "referenceKind": "unspecified"
+            },
+            "Routine": "Start",
+            "WorkingPoints": {
+              "prefix": 1,
+              "elementType": "class bCPropertyID",
+              "count": 1,
+              "items": [
+                {
+                  "rawGuid20": "f33586a8274e5c439e6f9af9de9edd3b00000000",
+                  "referenceKind": "unspecified"
+                }
+              ]
+            },
+            "RelaxingPoints": {
+              "prefix": 1,
+              "elementType": "class bCPropertyID",
+              "count": 1,
+              "items": [
+                {
+                  "rawGuid20": "8ef9c8dea74b30458089bcf4ec6c417f00000000",
+                  "referenceKind": "unspecified"
+                }
+              ]
+            },
+            "SleepingPoints": {
+              "prefix": 1,
+              "elementType": "class bCPropertyID",
+              "count": 1,
+              "items": [
+                {
+                  "rawGuid20": "79892c0e05b4f048b7f49ef728dfb34200000000",
+                  "referenceKind": "unspecified"
+                }
+              ]
+            },
+            "RoutineNames": {
+              "prefix": 1,
+              "elementType": "class bCString",
+              "count": 1,
+              "items": [
+                "Start"
+              ]
+            },
+            "CurrentDestinationPointProxy": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "CurrentZoneEntityProxy": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "LastZoneEntityProxy": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "LastUseableNavigationPosition": [
+              -47616.54296875,
+              227.240966796875,
+              -74924.9453125
+            ],
+            "LastUseableNavigationZoneID": {
+              "rawGuid20": "0953f956b6d8024c81b55a7fb3d5b89100000000",
+              "referenceKind": "unspecified"
+            },
+            "LastUseableNavigationZoneIsPath": false
+          }
+        },
+        "gCNPC_PS": {
+          "version": 78,
+          "values": {
+            "Description": "",
+            "Voice": "Ass_Warrior_Dumb",
+            "RoleDescription": "",
+            "Level": 0,
+            "LevelMax": 20,
+            "Gender": 0,
+            "Species": 0,
+            "PoliticalAlignment": 7,
+            "Class": 3,
+            "Type": 0,
+            "Enclave": {
+              "rawGuid20": "e938d09b84be2e48ac7a0c3d3c76eafe00000000",
+              "referenceKind": "unspecified"
+            },
+            "AttitudeToPlayer2": 2,
+            "LastPlayerCrime": 0,
+            "AttackReason": 0,
+            "LastPlayerAR": 0,
+            "LastFightAgainstPlayer": 0,
+            "LastFightTimestamp": 0.0,
+            "LastDistToTarget": 0.0,
+            "DistToNearestMist": 0.0,
+            "DefeatedByPlayer": false,
+            "Ransacked": false,
+            "Discovered": false,
+            "LastFightComment": false,
+            "CurrentTargetEntity": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "CurrentAttackerEntity": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "AlternativeTargetEntity": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "LastAttackerEntity": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "CombatState": 0,
+            "GuardPoint": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "GuardStatus": 0,
+            "LastDistToGuardPoint": 0.0,
+            "Bearing": 0,
+            "TeachAttribs": {
+              "prefix": 1,
+              "elementType": "class bCString",
+              "count": 0,
+              "items": []
+            },
+            "TeachSkills": {
+              "prefix": 1,
+              "elementType": "class eCTemplateEntityProxy",
+              "count": 0,
+              "items": []
+            },
+            "ManaUsed": 0,
+            "SpellTarget": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "LastSpell": "",
+            "StatusEffects": 0,
+            "TimeStampFrozen": 0,
+            "TimeStampBurning": 0,
+            "TimeStampPoisoned": 0,
+            "TimeStampDiseased": 0,
+            "TimeStampTransformed": 0
+          }
+        },
+        "gCScriptRoutine_PS": {
+          "version": 1,
+          "values": {
+            "Routine": "",
+            "CurrentTask": "",
+            "TaskTime": 0.0,
+            "TaskPosition": 0,
+            "StateTime": 0.0,
+            "StatePosition": 0,
+            "CommandTime": 0,
+            "LastTask": "",
+            "CurrentState": "",
+            "CurrentBreakBlock": 0,
+            "AniState": 2,
+            "Action": 24,
+            "AmbientAction": 0,
+            "AIMode": 0,
+            "HitDirection": 0
+          }
+        },
+        "gCInteraction_PS": {
+          "version": 84,
+          "values": {
+            "FocusPriority": 1,
+            "Owner": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "User": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "UseType": 0,
+            "ScriptUseFunc": "",
+            "AnchorPoint": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "FocusNameType": 0,
+            "FocusNameBone": "Head_Head_End",
+            "FocusViewOffset": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "FocusWorldOffset": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "UsedByPlayer": false,
+            "EnterROIScript": "",
+            "ExitROIScript": "",
+            "Spell": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "template",
+              "rawGuid20": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "key": "world-2419:8256",
+      "name": "AlShedim_TempleDoor_Tester_01",
+      "guid20": "bf46281e384230409bb822bd2f600f4400000000",
+      "worldMatrixCm": [
+        -0.9684173464775085,
+        0.0,
+        -0.24934232234954834,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.24934232234954834,
+        0.0,
+        -0.9684173464775085,
+        0.0,
+        -47444.10546875,
+        1844.9525146484375,
+        -155671.859375,
+        1.0
+      ],
+      "source": {
+        "family": "projects_compiled",
+        "archive": "Projects_compiled.p00",
+        "path": "G3_World_01/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}.lrentdat",
+        "sha256": "28f7273b3d54415b84445651a3dfa962c1ff158e9183deba81ba47e4d5d57938",
+        "selection": "static-effective-layer-candidate",
+        "layers": [
+          "Projects_compiled.pak",
+          "Projects_compiled.p00"
+        ]
+      },
+      "chunk": "gameplay/world/entity-chunks/2419-0029.json.gz",
+      "chunkSha256": "bb76b91196751d245e594380af58ab7346145f40824ca1b656ed75e288a219d3",
+      "classes": {}
+    },
+    {
+      "key": "world-2419:8313",
+      "name": "Larson",
+      "guid20": "209b5f2b4e007149bf07f607fb07513900000000",
+      "worldMatrixCm": [
+        0.9999500513076782,
+        0.0,
+        -0.00999993085861206,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.00999993085861206,
+        0.0,
+        0.9999500513076782,
+        0.0,
+        45353.78515625,
+        19433.89453125,
+        106840.6640625,
+        1.0
+      ],
+      "source": {
+        "family": "projects_compiled",
+        "archive": "Projects_compiled.p00",
+        "path": "G3_World_01/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}.lrentdat",
+        "sha256": "28f7273b3d54415b84445651a3dfa962c1ff158e9183deba81ba47e4d5d57938",
+        "selection": "static-effective-layer-candidate",
+        "layers": [
+          "Projects_compiled.pak",
+          "Projects_compiled.p00"
+        ]
+      },
+      "chunk": "gameplay/world/entity-chunks/2419-0030.json.gz",
+      "chunkSha256": "8af2e45c7740ff4a9a92b8388978712b7de59523835f1ffcbb4fc07b3a54befb",
+      "classes": {
+        "gCNavigation_PS": {
+          "version": 37,
+          "values": {
+            "StartPosition": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "WorkingPoint": {
+              "rawGuid20": "d762f737c52de949bd117e81d1f4f38c00000000",
+              "referenceKind": "unspecified"
+            },
+            "RelaxingPoint": {
+              "rawGuid20": "0000000000000000000000000000000000000000",
+              "referenceKind": "unspecified"
+            },
+            "SleepingPoint": {
+              "rawGuid20": "0000000000000000000000000000000000000000",
+              "referenceKind": "unspecified"
+            },
+            "Routine": "Ingvar_OreQuest",
+            "WorkingPoints": {
+              "prefix": 1,
+              "elementType": "class bCPropertyID",
+              "count": 4,
+              "items": [
+                {
+                  "rawGuid20": "9b29b21f57304d439b67454c9a57f94100000000",
+                  "referenceKind": "unspecified"
+                },
+                {
+                  "rawGuid20": "d762f737c52de949bd117e81d1f4f38c00000000",
+                  "referenceKind": "unspecified"
+                },
+                {
+                  "rawGuid20": "7f73f71ebef8494983b0a701174df02300000000",
+                  "referenceKind": "unspecified"
+                },
+                {
+                  "rawGuid20": "7f73f71ebef8494983b0a701174df02300000000",
+                  "referenceKind": "unspecified"
+                }
+              ]
+            },
+            "RelaxingPoints": {
+              "prefix": 1,
+              "elementType": "class bCPropertyID",
+              "count": 4,
+              "items": [
+                {
+                  "rawGuid20": "aff728dc58e87140be6306a2a7c6b81600000000",
+                  "referenceKind": "unspecified"
+                },
+                {
+                  "rawGuid20": "0000000000000000000000000000000000000000",
+                  "referenceKind": "unspecified"
+                },
+                {
+                  "rawGuid20": "0000000000000000000000000000000000000000",
+                  "referenceKind": "unspecified"
+                },
+                {
+                  "rawGuid20": "abd541f7a89c0e40817f35221a4a86c800000000",
+                  "referenceKind": "unspecified"
+                }
+              ]
+            },
+            "SleepingPoints": {
+              "prefix": 1,
+              "elementType": "class bCPropertyID",
+              "count": 4,
+              "items": [
+                {
+                  "rawGuid20": "2ffd9c4058826149b2321937cd92912600000000",
+                  "referenceKind": "unspecified"
+                },
+                {
+                  "rawGuid20": "0000000000000000000000000000000000000000",
+                  "referenceKind": "unspecified"
+                },
+                {
+                  "rawGuid20": "0000000000000000000000000000000000000000",
+                  "referenceKind": "unspecified"
+                },
+                {
+                  "rawGuid20": "a3c57a40527a474cb9a8e66681ac317f00000000",
+                  "referenceKind": "unspecified"
+                }
+              ]
+            },
+            "RoutineNames": {
+              "prefix": 1,
+              "elementType": "class bCString",
+              "count": 4,
+              "items": [
+                "Start",
+                "Ingvar_OreQuest",
+                "Larson_OreCamp",
+                "Larson_OreCamp_2"
+              ]
+            },
+            "CurrentDestinationPointProxy": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "CurrentZoneEntityProxy": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "LastZoneEntityProxy": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "LastUseableNavigationPosition": [
+              45353.78515625,
+              19433.89453125,
+              106840.6640625
+            ],
+            "LastUseableNavigationZoneID": {
+              "rawGuid20": "abcd44ccafe92d48ae69f966343fe0eb00000000",
+              "referenceKind": "unspecified"
+            },
+            "LastUseableNavigationZoneIsPath": false
+          }
+        },
+        "gCNPC_PS": {
+          "version": 78,
+          "values": {
+            "Description": "",
+            "Voice": "Hum_Warrior_Calm",
+            "RoleDescription": "Schmied; selbstbewußt; ernst; ruhig; stark",
+            "Level": 20,
+            "LevelMax": 40,
+            "Gender": 0,
+            "Species": 0,
+            "PoliticalAlignment": 2,
+            "Class": 3,
+            "Type": 1,
+            "Enclave": {
+              "rawGuid20": "19ad157610a86c4dadd1f32d53b8208e00000000",
+              "referenceKind": "unspecified"
+            },
+            "AttitudeToPlayer2": 2,
+            "LastPlayerCrime": 0,
+            "AttackReason": 0,
+            "LastPlayerAR": 0,
+            "LastFightAgainstPlayer": 0,
+            "LastFightTimestamp": 0.0,
+            "LastDistToTarget": 0.0,
+            "DistToNearestMist": 0.0,
+            "DefeatedByPlayer": false,
+            "Ransacked": false,
+            "Discovered": false,
+            "LastFightComment": false,
+            "CurrentTargetEntity": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "CurrentAttackerEntity": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "AlternativeTargetEntity": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "LastAttackerEntity": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "CombatState": 0,
+            "GuardPoint": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "GuardStatus": 0,
+            "LastDistToGuardPoint": 0.0,
+            "Bearing": 0,
+            "TeachAttribs": {
+              "prefix": 1,
+              "elementType": "class bCString",
+              "count": 0,
+              "items": []
+            },
+            "TeachSkills": {
+              "prefix": 1,
+              "elementType": "class eCTemplateEntityProxy",
+              "count": 0,
+              "items": []
+            },
+            "ManaUsed": 0,
+            "SpellTarget": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "LastSpell": "",
+            "StatusEffects": 0,
+            "TimeStampFrozen": 0,
+            "TimeStampBurning": 0,
+            "TimeStampPoisoned": 0,
+            "TimeStampDiseased": 0,
+            "TimeStampTransformed": 0
+          }
+        },
+        "gCScriptRoutine_PS": {
+          "version": 1,
+          "values": {
+            "Routine": "",
+            "CurrentTask": "",
+            "TaskTime": 0.0,
+            "TaskPosition": 0,
+            "StateTime": 0.0,
+            "StatePosition": 0,
+            "CommandTime": 0,
+            "LastTask": "",
+            "CurrentState": "",
+            "CurrentBreakBlock": 0,
+            "AniState": 2,
+            "Action": 24,
+            "AmbientAction": 0,
+            "AIMode": 0,
+            "HitDirection": 0
+          }
+        },
+        "gCInteraction_PS": {
+          "version": 84,
+          "values": {
+            "FocusPriority": 1,
+            "Owner": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "User": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "UseType": 0,
+            "ScriptUseFunc": "",
+            "AnchorPoint": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "entity",
+              "rawGuid20": null
+            },
+            "FocusNameType": 0,
+            "FocusNameBone": "Head_Head_End",
+            "FocusViewOffset": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "FocusWorldOffset": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "UsedByPlayer": false,
+            "EnterROIScript": "",
+            "ExitROIScript": "",
+            "Spell": {
+              "version": 1,
+              "present": false,
+              "referenceKind": "template",
+              "rawGuid20": null
+            }
+          }
+        }
+      }
+    }
+  ]
+}

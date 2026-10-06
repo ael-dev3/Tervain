@@ -1,0 +1,2 @@
+; 20008a08 gCHUDPageTutorial2::vfunction71
+20008a08 | e903701600 | JMP 0x2016fa10

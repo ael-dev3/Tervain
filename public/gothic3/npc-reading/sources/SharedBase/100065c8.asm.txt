@@ -1,0 +1,4 @@
+; 100065c8 ??5bCIStream@@QAEAAV0@AAJ@Z
+100065c8 | e9a3870100 | JMP 0x1001ed70
+; 100065cd bCIStream::operator>>
+; 100065cd Ordinal_627

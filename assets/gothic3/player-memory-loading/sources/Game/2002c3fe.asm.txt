@@ -1,0 +1,2 @@
+; 2002c3fe bTPropertyType<gCPlayerMemory_PS,bTObjArray<bCString>_>::vfunction15
+2002c3fe | e93dac2f00 | JMP 0x20327040

@@ -1,0 +1,20 @@
+/* ENTRY 1000272a | PSPlayerMemory::SetProtectionBlades | STATUS decompiled | 9 ms */
+
+/* public: void __thiscall PSPlayerMemory::SetProtectionBlades(int) */
+
+void __thiscall PSPlayerMemory::SetProtectionBlades(PSPlayerMemory *this,int param_1)
+
+{
+  PSPlayerMemory *pPStack_4;
+  
+                    /* 0x272a  1980  ?SetProtectionBlades@PSPlayerMemory@@QAEXH@Z */
+  pPStack_4 = this;
+  bCString::bCString((bCString *)&pPStack_4,"PROT_BLADE");
+  if (*(gCPlayerMemory_PS **)this != (gCPlayerMemory_PS *)0x0) {
+    gCPlayerMemory_PS::SetBaseValue(*(gCPlayerMemory_PS **)this,(bCString *)&pPStack_4,param_1);
+  }
+  bCString::~bCString((bCString *)&pPStack_4);
+  return;
+}
+
+

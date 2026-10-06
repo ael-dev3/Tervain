@@ -1,0 +1,23 @@
+/* ENTRY 1000235b | bCObjectRefBase::ReleaseVirtualReference | STATUS decompiled | 10 ms */
+
+/* protected: unsigned long __thiscall bCObjectRefBase::ReleaseVirtualReference(void) */
+
+ulong __thiscall bCObjectRefBase::ReleaseVirtualReference(bCObjectRefBase *this)
+
+{
+  bool bVar1;
+  ulong uVar2;
+  
+                    /* 0x235b  3924  ?ReleaseVirtualReference@bCObjectRefBase@@IAEKXZ */
+  bVar1 = (*this->vftablePtr->IsVirtualReferencingEnabled)(this);
+  if (bVar1) {
+                    /* WARNING: Could not recover jumptable at 0x1004a676. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+    uVar2 = (*this->vftablePtr->ReleaseReference)(this);
+    return uVar2;
+  }
+  uVar2 = ReleaseReference(this);
+  return uVar2;
+}
+
+

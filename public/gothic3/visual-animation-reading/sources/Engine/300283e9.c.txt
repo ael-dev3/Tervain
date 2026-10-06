@@ -1,0 +1,17 @@
+/* ENTRY 300283e9 | bTPropertyType<eCSpringAndDamperEffector,float>::vfunction6 | STATUS decompiled | 8 ms */
+
+void __thiscall
+bTPropertyType<eCSpringAndDamperEffector,float>::vfunction6
+          (bTPropertyType<eCSpringAndDamperEffector,float> *this,int param_1)
+
+{
+  bTPropertyType<eCVisualAnimation_PS,float>_vftable *pbVar1;
+  
+  if (param_1 != 0) {
+    pbVar1 = (*this->vftablePtr->vfunction26)(this,(undefined4 *)param_1);
+    pbVar1->vfunction1 = (vfunction1 *)0x0;
+  }
+  return;
+}
+
+

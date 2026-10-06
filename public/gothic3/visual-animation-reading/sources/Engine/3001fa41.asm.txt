@@ -1,0 +1,2 @@
+; 3001fa41 eCSpringAndDamperEffector::AccessDamperVelStretchSaturate
+3001fa41 | e96a1d0400 | JMP 0x300617b0

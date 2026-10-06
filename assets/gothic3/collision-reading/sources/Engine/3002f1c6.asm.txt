@@ -1,0 +1,2 @@
+; 3002f1c6 ?Create@eCCollisionShapeBase_PS@@UAE?AW4bEResult@@XZ
+3002f1c6 | e915213100 | JMP 0x303412e0

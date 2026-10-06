@@ -1,0 +1,17 @@
+/* ENTRY 30043cde | bTPropertyContainer<eEDirectionalShadowType>::deleting_destructor | STATUS decompiled | 5 ms */
+
+bTPropertyContainer<eEDirectionalShadowType> * __thiscall
+bTPropertyContainer<eEDirectionalShadowType>::deleting_destructor
+          (bTPropertyContainer<eEDirectionalShadowType> *this,byte param_1)
+
+{
+  this->vftablePtr = &vftable;
+  bCObjectBase::~bCObjectBase((bCObjectBase *)this);
+  if ((param_1 & 1) != 0) {
+                    /* WARNING: Subroutine does not return */
+    _free(this);
+  }
+  return this;
+}
+
+

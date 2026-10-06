@@ -1,0 +1,64 @@
+/* ENTRY 30311ab0 | FUN_30311ab0 | STATUS decompiled | 42 ms */
+
+void __fastcall FUN_30311ab0(int param_1)
+
+{
+  if (*(short *)(param_1 + 0x1ca) != 0) {
+    thunk_FUN_300ca8c0(0,0xffffffff);
+    *(undefined4 *)(param_1 + 0xd4) = 0;
+    thunk_FUN_300ca960(0,0xffffffff);
+    *(undefined4 *)(param_1 + 0xe0) = 0;
+    thunk_FUN_300caa00(0,0xffffffff);
+    if (0 < *(int *)(param_1 + 0xec)) {
+      _memset(*(void **)(param_1 + 0xe8),0,*(int *)(param_1 + 0xec) * 0xc);
+    }
+    *(undefined4 *)(param_1 + 0xec) = 0;
+    thunk_FUN_300caab0(0,0xffffffff);
+    if (0 < *(int *)(param_1 + 0xf8)) {
+      _memset(*(void **)(param_1 + 0xf4),0,*(int *)(param_1 + 0xf8) * 8);
+    }
+    *(undefined4 *)(param_1 + 0xf8) = 0;
+    thunk_FUN_300cfd40(0,0xffffffff);
+    if (0 < *(int *)(param_1 + 0x104)) {
+      thunk_FUN_300d0c30(*(undefined4 *)(param_1 + 0x100),*(int *)(param_1 + 0x104));
+      thunk_FUN_300cf860(*(undefined4 *)(param_1 + 0x100),*(undefined4 *)(param_1 + 0x104));
+    }
+    *(undefined4 *)(param_1 + 0x104) = 0;
+    thunk_FUN_300cab60(0,0xffffffff);
+    *(undefined4 *)(param_1 + 0x110) = 0;
+    thunk_FUN_300cac00(0,0xffffffff);
+    *(undefined4 *)(param_1 + 0x11c) = 0;
+    thunk_FUN_300cac00(0,0xffffffff);
+    *(undefined4 *)(param_1 + 0x128) = 0;
+    thunk_FUN_300cac00(0,0xffffffff);
+    *(undefined4 *)(param_1 + 0x134) = 0;
+    thunk_FUN_300cac00(0,0xffffffff);
+    *(undefined4 *)(param_1 + 0x140) = 0;
+    thunk_FUN_300caca0(0,0xffffffff);
+    *(undefined4 *)(param_1 + 0x14c) = 0;
+    thunk_FUN_300caca0(0,0xffffffff);
+    *(undefined4 *)(param_1 + 0x158) = 0;
+    thunk_FUN_300caca0(0,0xffffffff);
+    *(undefined4 *)(param_1 + 0x164) = 0;
+    thunk_FUN_300caca0(0,0xffffffff);
+    *(undefined4 *)(param_1 + 0x170) = 0;
+    thunk_FUN_300caca0(0,0xffffffff);
+    *(undefined4 *)(param_1 + 0x17c) = 0;
+    thunk_FUN_300cad60(0,0xffffffff);
+    *(undefined4 *)(param_1 + 0x188) = 0;
+    thunk_FUN_300cad60(0,0xffffffff);
+    *(undefined4 *)(param_1 + 0x194) = 0;
+    thunk_FUN_300cae00(0,0xffffffff);
+    *(undefined4 *)(param_1 + 0x1a0) = 0;
+    thunk_FUN_300cae00(0,0xffffffff);
+    *(undefined4 *)(param_1 + 0x1ac) = 0;
+    *(undefined2 *)(param_1 + 0x1ca) = 0;
+                    /* WARNING: Could not recover jumptable at 0x30311c8f. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+    bCBitField::DisableAll((bCBitField *)(param_1 + 0x1d0));
+    return;
+  }
+  return;
+}
+
+

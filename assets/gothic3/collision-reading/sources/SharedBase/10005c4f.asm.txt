@@ -1,0 +1,4 @@
+; 10005c4f ?AccessAxis@bCOrientedBox@@QAEAAVbCVector@@H@Z
+10005c4f | e96cd10500 | JMP 0x10062dc0
+; 10005c54 bCInfDoubleCylinder::operator*=
+; 10005c54 Ordinal_1185

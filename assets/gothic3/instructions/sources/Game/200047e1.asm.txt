@@ -1,0 +1,2 @@
+; 200047e1 ?ProcessScript@gCScriptProcessingUnit@@QAE?AW4bEResult@@XZ
+200047e1 | e9faa13600 | JMP 0x2036e9e0

@@ -1,0 +1,17 @@
+/* ENTRY 300394cd | eCEntityProxy::operator== | STATUS decompiled | 5 ms */
+
+/* public: bool __thiscall eCEntityProxy::operator==(class eCEntityProxy const &)const  */
+
+bool __thiscall eCEntityProxy::operator==(eCEntityProxy *this,eCEntityProxy *param_1)
+
+{
+  bool bVar1;
+  
+                    /* 0x394cd  1983  ??8eCEntityProxy@@QBE_NABV0@@Z */
+                    /* WARNING: Could not recover jumptable at 0x304c4245. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bVar1 = (*this->vftablePtr->Compare)(this,param_1);
+  return bVar1;
+}
+
+

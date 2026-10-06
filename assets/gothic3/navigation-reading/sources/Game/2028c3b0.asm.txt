@@ -1,0 +1,36 @@
+; 2028c3b0 bTPropertyObject<gCNavigation_PS,eCEntityPropertySet>::vfunction10
+2028c3b0 | 56 | PUSH ESI
+2028c3b1 | 8bf1 | MOV ESI,ECX
+2028c3b3 | 8b4e0c | MOV ECX,dword ptr [ESI + 0xc]
+2028c3b6 | 8b01 | MOV EAX,dword ptr [ECX]
+2028c3b8 | 8b500c | MOV EDX,dword ptr [EAX + 0xc]
+2028c3bb | 57 | PUSH EDI
+2028c3bc | 56 | PUSH ESI
+2028c3bd | ffd2 | CALL EDX
+2028c3bf | 8bc8 | MOV ECX,EAX
+2028c3c1 | ff1580877d20 | CALL dword ptr [0x207d8780]
+2028c3c7 | 8b4e08 | MOV ECX,dword ptr [ESI + 0x8]
+2028c3ca | 85c9 | TEST ECX,ECX
+2028c3cc | 7415 | JZ 0x2028c3e3
+2028c3ce | ff15c0877d20 | CALL dword ptr [0x207d87c0]
+2028c3d4 | 83f801 | CMP EAX,0x1
+2028c3d7 | 750a | JNZ 0x2028c3e3
+2028c3d9 | 8b4e08 | MOV ECX,dword ptr [ESI + 0x8]
+2028c3dc | 8b01 | MOV EAX,dword ptr [ECX]
+2028c3de | 8b5014 | MOV EDX,dword ptr [EAX + 0x14]
+2028c3e1 | ffd2 | CALL EDX
+; 2028c3e3 LAB_2028c3e3
+2028c3e3 | 8b7e08 | MOV EDI,dword ptr [ESI + 0x8]
+2028c3e6 | 85ff | TEST EDI,EDI
+2028c3e8 | 7412 | JZ 0x2028c3fc
+2028c3ea | 6a00 | PUSH 0x0
+2028c3ec | 8bcf | MOV ECX,EDI
+2028c3ee | ff15c4877d20 | CALL dword ptr [0x207d87c4]
+2028c3f4 | 8bcf | MOV ECX,EDI
+2028c3f6 | ff15c8877d20 | CALL dword ptr [0x207d87c8]
+; 2028c3fc LAB_2028c3fc
+2028c3fc | 5f | POP EDI
+2028c3fd | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+2028c404 | 8bce | MOV ECX,ESI
+2028c406 | 5e | POP ESI
+2028c407 | ff2584877d20 | JMP dword ptr [0x207d8784]

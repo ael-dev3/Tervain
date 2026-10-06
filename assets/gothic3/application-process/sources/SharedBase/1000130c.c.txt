@@ -1,0 +1,22 @@
+/* ENTRY 1000130c | bCTimer::Reset | STATUS decompiled | 3 ms */
+
+/* public: void __thiscall bCTimer::Reset(void) */
+
+void __thiscall bCTimer::Reset(bCTimer *this)
+
+{
+  ulong uVar1;
+  
+                    /* 0x130c  3942  ?Reset@bCTimer@@QAEXXZ */
+  *(undefined4 *)(this + 8) = 0;
+  *(undefined4 *)(this + 0xc) = 0;
+  if (this[0x10] == (bCTimer)0x0) {
+    this[0x10] = (bCTimer)0x1;
+    uVar1 = GetTimeStamp();
+    *(ulong *)(this + 4) = uVar1;
+    this[0x10] = (bCTimer)0x0;
+  }
+  return;
+}
+
+

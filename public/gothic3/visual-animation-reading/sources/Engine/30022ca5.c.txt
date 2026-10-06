@@ -1,0 +1,16 @@
+/* ENTRY 30022ca5 | eCVisualAnimationFactory::GetFacialAnimationLoD | STATUS decompiled | 3 ms */
+
+/* public: class eCVisualAnimationLoD * __thiscall
+   eCVisualAnimationFactory::GetFacialAnimationLoD(void) */
+
+eCVisualAnimationLoD * __thiscall
+eCVisualAnimationFactory::GetFacialAnimationLoD(eCVisualAnimationFactory *this)
+
+{
+                    /* 0x22ca5  7067
+                       ?GetFacialAnimationLoD@eCVisualAnimationFactory@@QAEPAVeCVisualAnimationLoD@@XZ
+                        */
+  return *(eCVisualAnimationLoD **)(this + 0xc);
+}
+
+

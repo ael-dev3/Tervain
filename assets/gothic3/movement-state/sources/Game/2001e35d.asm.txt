@@ -1,0 +1,4 @@
+; 2001e35d ?ResetIsProcessing@gCCharacterMovement_PS@@QAEXXZ
+2001e35d | e94e3f2000 | JMP 0x202222b0
+; 2001e362 gCItem_PS::GetRobe
+; 2001e362 Ordinal_4214

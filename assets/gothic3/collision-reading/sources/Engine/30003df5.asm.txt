@@ -1,0 +1,4 @@
+; 30003df5 ?RemoveShapesInternal@eCCollisionShape_PS@@MAEXXZ
+30003df5 | e916213300 | JMP 0x30335f10
+; 30003dfa eCSpeedTree_PS::GetBoundary
+; 30003dfa Ordinal_6335

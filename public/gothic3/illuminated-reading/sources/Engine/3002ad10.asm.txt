@@ -1,0 +1,2 @@
+; 3002ad10 eCEntityPropertySet::OnNotifyPropertyValueChangedEnterEx
+3002ad10 | e9ab6d4500 | JMP 0x30481ac0

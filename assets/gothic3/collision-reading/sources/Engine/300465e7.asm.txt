@@ -1,0 +1,4 @@
+; 300465e7 bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeMaterial>_>::vfunction7
+300465e7 | e9748d3100 | JMP 0x3035f360
+; 300465f1 eCConfigFile_SectionObject::~eCConfigFile_SectionObject
+; 300465f1 Ordinal_1036

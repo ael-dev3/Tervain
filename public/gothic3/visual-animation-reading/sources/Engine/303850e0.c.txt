@@ -1,0 +1,18 @@
+/* ENTRY 303850e0 | eCEffector::~eCEffector | STATUS decompiled | 10 ms */
+
+void __thiscall eCEffector::~eCEffector(eCEffector *this)
+
+{
+  this->vftablePtr = &vftable;
+  bCObjectRefBase::Destroy((bCObjectRefBase *)this);
+  bCVector::~bCVector((bCVector *)&(this->eCEffector_data).field_0x4c);
+  bCVector::~bCVector((bCVector *)&(this->eCEffector_data).field_0x40);
+  eCEntityProxy::~eCEntityProxy((eCEntityProxy *)&(this->eCEffector_data).field_0x24);
+  eCEntityProxy::~eCEntityProxy((eCEntityProxy *)&(this->eCEffector_data).field_0x8);
+                    /* WARNING: Could not recover jumptable at 0x30385114. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCObjectRefBase::~bCObjectRefBase((bCObjectRefBase *)this);
+  return;
+}
+
+

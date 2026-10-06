@@ -1,0 +1,24 @@
+/* ENTRY 10008026 | bCCapsule::Invalidate | STATUS decompiled | 3 ms */
+
+/* protected: void __thiscall bCCapsule::Invalidate(void) */
+
+void __thiscall bCCapsule::Invalidate(bCCapsule *this)
+
+{
+                    /* 0x8026  3538  ?Invalidate@bCCapsule@@IAEXXZ */
+  *(undefined4 *)(this + 0xc) = 0;
+  *(undefined4 *)(this + 0x10) = 0;
+  *(undefined4 *)(this + 0x14) = 0;
+  *(undefined4 *)(this + 0x1c) = 0;
+  *(undefined4 *)(this + 0x20) = 0;
+  *(undefined4 *)(this + 0x24) = 0;
+  *(undefined4 *)(this + 8) = 0x3f800000;
+  *(undefined4 *)(this + 0x18) = 0x3f800000;
+  *(undefined4 *)(this + 0x28) = 0x3f800000;
+  *(undefined4 *)(this + 0x2c) = 0;
+  *(undefined4 *)(this + 0x30) = 0;
+  *(undefined4 *)(this + 0x34) = 0;
+  return;
+}
+
+

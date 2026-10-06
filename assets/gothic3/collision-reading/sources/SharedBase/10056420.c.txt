@@ -1,0 +1,10 @@
+/* ENTRY 10056420 | FUN_10056420 | STATUS decompiled | 2 ms */
+
+void __thiscall FUN_10056420(bCBox *param_1,bCFrustum *param_2)
+
+{
+  bCFrustum::Intersects(param_2,param_1);
+  return;
+}
+
+

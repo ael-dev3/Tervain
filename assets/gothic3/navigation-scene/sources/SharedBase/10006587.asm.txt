@@ -1,0 +1,4 @@
+; 10006587 ?GetInvertedExcentric@bCMatrix@@IBEXAAV1@@Z
+10006587 | e9e4ca0200 | JMP 0x10033070
+; 1000658c bCRect::GetBottomRight
+; 1000658c Ordinal_2117

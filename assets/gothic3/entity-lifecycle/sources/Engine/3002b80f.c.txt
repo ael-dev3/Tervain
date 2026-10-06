@@ -1,0 +1,23 @@
+/* ENTRY 3002b80f | eCEntity::ReleaseEntityProxyInternal | STATUS decompiled | 10 ms */
+
+/* protected: void __thiscall eCEntity::ReleaseEntityProxyInternal(void) */
+
+void __thiscall eCEntity::ReleaseEntityProxyInternal(eCEntity *this)
+
+{
+  eCEntityProxyInternal *peVar1;
+  
+                    /* 0x2b80f  12408  ?ReleaseEntityProxyInternal@eCEntity@@IAEXXZ */
+  peVar1 = (eCEntityProxyInternal *)(this->eCEntity_data).offset_0x15c;
+  if (peVar1 != (eCEntityProxyInternal *)0x0) {
+    eCEntityProxyInternal::SetEntity(peVar1,(eCEntity *)0x0);
+    peVar1 = (eCEntityProxyInternal *)(this->eCEntity_data).offset_0x15c;
+    if (peVar1 != (eCEntityProxyInternal *)0x0) {
+      eCEntityProxyInternal::ReleaseReference(peVar1);
+      (this->eCEntity_data).offset_0x15c = 0;
+    }
+  }
+  return;
+}
+
+

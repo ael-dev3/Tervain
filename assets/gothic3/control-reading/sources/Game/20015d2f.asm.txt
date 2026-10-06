@@ -1,0 +1,2 @@
+; 20015d2f bTPropertyType<gCCharacterControl_PS,bool>::vfunction6
+20015d2f | e98c7f2000 | JMP 0x2021dcc0

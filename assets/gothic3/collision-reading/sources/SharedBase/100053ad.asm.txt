@@ -1,0 +1,4 @@
+; 100053ad ?AccessExtent@bCOrientedBox@@QAEAAVbCVector@@XZ
+100053ad | e9eed90500 | JMP 0x10062da0
+; 100053b2 bCInfDoubleCylinder::Translate
+; 100053b2 Ordinal_4549

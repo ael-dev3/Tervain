@@ -1,0 +1,18 @@
+/* ENTRY 1000459d | bCPropertyID::bCPropertyID | STATUS decompiled | 4 ms */
+
+/* public: __thiscall bCPropertyID::bCPropertyID(class bCGuid const &) */
+
+bCPropertyID * __thiscall bCPropertyID::bCPropertyID(bCPropertyID *this,bCGuid *param_1)
+
+{
+                    /* 0x459d  215  ??0bCPropertyID@@QAE@ABVbCGuid@@@Z */
+  *(undefined4 *)(this + 0xc) = 0;
+  *(undefined4 *)(this + 8) = 0;
+  *(undefined4 *)(this + 4) = 0;
+  *(undefined4 *)this = 0;
+  *(undefined4 *)(this + 0x10) = 0;
+  SetGuid(this,param_1);
+  return this;
+}
+
+

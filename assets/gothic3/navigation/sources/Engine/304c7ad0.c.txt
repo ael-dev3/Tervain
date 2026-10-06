@@ -1,0 +1,12 @@
+/* ENTRY 304c7ad0 | FUN_304c7ad0 | STATUS decompiled | 2 ms */
+
+void __thiscall FUN_304c7ad0(int param_1,bCSphere *param_2)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x304c7ad3. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCSphere::operator=((bCSphere *)(param_1 + 0x10),param_2);
+  return;
+}
+
+

@@ -1,0 +1,4 @@
+; 3003b705 ?HasMotion@eCVisualAnimation_PS@@QBE_NW4eEMotionType@eCWrapper_emfx2Actor@@@Z
+3003b705 | e976310600 | JMP 0x3009e880
+; 3003b70a eCParticle_PS::SetStartSphereRadius
+; 3003b70a Ordinal_14286

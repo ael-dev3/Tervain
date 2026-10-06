@@ -1,0 +1,22 @@
+/* ENTRY 3003d749 | eCEntityPropertySet::GetBoundary | STATUS decompiled | 9 ms */
+
+/* public: virtual void __thiscall eCEntityPropertySet::GetBoundary(class bCBox &,bool)
+   eCEntityPropertySet member function inherited by eCDynamicLight_PS
+   eCEntityPropertySet member function inherited by eCIlluminated_PS
+   eCEntityPropertySet member function inherited by eCStaticLight_PS
+   eCEntityPropertySet member function inherited by eCEffectBase_PS
+   eCEntityPropertySet member function inherited by eCRigidBodyBase_PS
+   eCEntityPropertySet member function inherited by eCCollisionShapeBase_PS
+   eCEntityPropertySet member function inherited by eCPhysicsScene_PS
+   eCEntityPropertySet member function inherited by eCEngineCaps_PS */
+
+void __thiscall
+eCEntityPropertySet::GetBoundary(eCEntityPropertySet *this,bCBox *param_1,bool param_2)
+
+{
+                    /* 0x3d749  6314  ?GetBoundary@eCEntityPropertySet@@UAEXAAVbCBox@@_N@Z */
+  bCBox::Invalidate(param_1);
+  return;
+}
+
+

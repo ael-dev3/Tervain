@@ -1,0 +1,2 @@
+; 3033ed50 SHAREDBASE.DLL::bCPropertyTypeBase::Write
+3033ed50 | ff2568caaf30 | JMP dword ptr [0x30afca68]

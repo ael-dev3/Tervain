@@ -1,0 +1,10 @@
+/* ENTRY 20323950 | bTPropertyType<gCPlayerMemory_PS,bTPropertyContainer<gEWeaponConfig>_>::vfunction2 | STATUS decompiled | 0 ms */
+
+undefined4 __thiscall
+bTPropertyType<gCPlayerMemory_PS,bTPropertyContainer<gEWeaponConfig>_>::vfunction2(void)
+
+{
+  return 8;
+}
+
+

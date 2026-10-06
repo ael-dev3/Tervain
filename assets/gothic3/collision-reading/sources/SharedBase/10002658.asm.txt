@@ -1,0 +1,4 @@
+; 10002658 ?InvTranslate@bCOrientedBox@@QAEXM@Z
+10002658 | e9230b0600 | JMP 0x10063180
+; 1000265d bCUnicodeString::bCUnicodeString
+; 1000265d Ordinal_294

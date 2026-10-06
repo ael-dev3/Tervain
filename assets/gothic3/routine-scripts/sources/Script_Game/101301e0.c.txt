@@ -1,0 +1,17 @@
+/* ENTRY 101301e0 | FUN_101301e0 | STATUS decompiled | 8 ms */
+
+void FUN_101301e0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Commands\\AI_FinishingAttack.cpp");
+  bCString::bCString(local_8,"_AI_FinishingAttack");
+  thunk_FUN_1004aa50(local_8,&LAB_10002275,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

@@ -1,0 +1,13 @@
+/* ENTRY 30007559 | eCFrustumElementItem::SetEntity | STATUS decompiled | 2 ms */
+
+/* public: void __thiscall eCFrustumElementItem::SetEntity(class eCEntity *) */
+
+void __thiscall eCFrustumElementItem::SetEntity(eCFrustumElementItem *this,eCEntity *param_1)
+
+{
+                    /* 0x7559  13346  ?SetEntity@eCFrustumElementItem@@QAEXPAVeCEntity@@@Z */
+  *(eCEntity **)(this + 0xc) = param_1;
+  return;
+}
+
+

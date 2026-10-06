@@ -1,0 +1,17 @@
+/* ENTRY 2002eb72 | gCScriptProcessingUnit::SetOtherEntity | STATUS decompiled | 3 ms */
+
+/* public: void __thiscall gCScriptProcessingUnit::SetOtherEntity(class eCEntity *) */
+
+void __thiscall
+gCScriptProcessingUnit::SetOtherEntity(gCScriptProcessingUnit *this,eCEntity *param_1)
+
+{
+                    /* 0x2eb72  6860  ?SetOtherEntity@gCScriptProcessingUnit@@QAEXPAVeCEntity@@@Z */
+                    /* WARNING: Could not recover jumptable at 0x20367e83. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eCEntityProxy::SetEntity((eCEntityProxy *)&(this->gCScriptProcessingUnit_data).field_0x38,param_1)
+  ;
+  return;
+}
+
+

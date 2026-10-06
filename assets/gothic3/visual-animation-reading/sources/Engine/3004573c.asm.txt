@@ -1,0 +1,2 @@
+; 3004573c bTPropertyType<eCSpringAndDamperEffector,bCObsoleteClass>::vfunction16
+3004573c | e97f720600 | JMP 0x300ac9c0

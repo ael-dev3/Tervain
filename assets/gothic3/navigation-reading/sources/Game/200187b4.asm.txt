@@ -1,0 +1,4 @@
+; 200187b4 bTPropertyType<gCEffectCommandModifyEntity,bCString>::vfunction4
+200187b4 | e947f60200 | JMP 0x20047e00
+; 200187b9 gCPlayerMemory_PS::WriteSaveGame
+; 200187b9 Ordinal_7598

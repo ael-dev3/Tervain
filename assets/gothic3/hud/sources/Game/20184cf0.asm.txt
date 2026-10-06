@@ -1,0 +1,9 @@
+; 20184cf0 gCHUDListBoxQuests::~gCHUDListBoxQuests
+20184cf0 | 56 | PUSH ESI
+20184cf1 | 8bf1 | MOV ESI,ECX
+20184cf3 | 8d4e14 | LEA ECX,[ESI + 0x14]
+20184cf6 | c7067c656720 | MOV dword ptr [ESI],0x2067657c
+20184cfc | ff1534887d20 | CALL dword ptr [0x207d8834]
+20184d02 | 8bce | MOV ECX,ESI
+20184d04 | 5e | POP ESI
+20184d05 | ff25fc777d20 | JMP dword ptr [0x207d77fc]

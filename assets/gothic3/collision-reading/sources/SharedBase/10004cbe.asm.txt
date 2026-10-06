@@ -1,0 +1,4 @@
+; 10004cbe ??_0bCOrientedBox@@QAEAAV0@M@Z
+10004cbe | e98de80500 | JMP 0x10063550
+; 10004cc3 bCVector4::bCVector4
+; 10004cc3 Ordinal_334

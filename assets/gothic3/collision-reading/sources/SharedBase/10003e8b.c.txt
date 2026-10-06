@@ -1,0 +1,13 @@
+/* ENTRY 10003e8b | bCBox::operator* | STATUS decompiled | 3 ms */
+
+/* public: class bCBox __thiscall bCBox::operator*(float)const  */
+
+float __thiscall bCBox::operator*(bCBox *this,float param_1)
+
+{
+                    /* 0x3e8b  904  ??DbCBox@@QBE?AV0@M@Z */
+  GetScaled(this,param_1);
+  return param_1;
+}
+
+

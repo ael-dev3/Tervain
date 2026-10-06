@@ -1,0 +1,2 @@
+; 3002c3b8 ?OnInitializeEngine@eCApplication@@MAE?AW4bEResult@@AAUeSSetupEngine@@@Z
+3002c3b8 | e973bf0300 | JMP 0x30068330

@@ -1,0 +1,4 @@
+; 30046e7a bTPOPureSmartPtr<eCCollisionShape>::vfunction16
+30046e7a | e901713100 | JMP 0x3035df80
+; 30046e93 eCDecal_PS::CopyFrom
+; 30046e93 Ordinal_4075

@@ -1,0 +1,4 @@
+; 20028f1f ??0gCNavigation_PS@@QAE@XZ
+20028f1f | e93c0a2600 | JMP 0x20289960
+; 20028f24 gCMusicLink::Clone
+; 20028f24 Ordinal_2105

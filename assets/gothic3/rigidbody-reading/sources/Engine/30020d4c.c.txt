@@ -1,0 +1,28 @@
+/* ENTRY 30020d4c | eCRigidBody_PS::OnEnterProcessingRange | STATUS decompiled | 18 ms */
+
+/* protected: virtual void __thiscall eCRigidBody_PS::OnEnterProcessingRange(void) */
+
+void __thiscall eCRigidBody_PS::OnEnterProcessingRange(eCRigidBody_PS *this)
+
+{
+  char cVar1;
+  eCEntity *peVar2;
+  eCPhysicsScene *this_00;
+  
+                    /* 0x20d4c  11053  ?OnEnterProcessingRange@eCRigidBody_PS@@MAEXXZ */
+  if ((this->eCRigidBody_PS_data).offset_0xe0 != 0) {
+    cVar1 = (**(code **)(*(int *)(this->eCRigidBody_PS_data).offset_0xe0 + 0x68))();
+    if (cVar1 == '\x01') {
+      peVar2 = (*this->vftablePtr->GetEntity)(this);
+      this_00 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+      eCPhysicsScene::AddDynamicEntity(this_00,(eCDynamicEntity *)peVar2);
+      (*this->vftablePtr->EnableMovementControlByAI)
+                (this,(bool)(this->eCRigidBody_PS_data).offset_0x6c,
+                 (bool)(this->eCRigidBody_PS_data).offset_0x6e,
+                 (bool)(this->eCRigidBody_PS_data).offset_0x6d);
+    }
+  }
+  return;
+}
+
+

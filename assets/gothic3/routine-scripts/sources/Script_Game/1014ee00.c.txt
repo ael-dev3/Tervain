@@ -1,0 +1,17 @@
+/* ENTRY 1014ee00 | FUN_1014ee00 | STATUS decompiled | 5 ms */
+
+void FUN_1014ee00(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Player\\Player_States\\PS_Ghost.cpp");
+  bCString::bCString(local_8,"PS_Ghost_Jump");
+  thunk_FUN_1001db60(local_8,&LAB_1000266c,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

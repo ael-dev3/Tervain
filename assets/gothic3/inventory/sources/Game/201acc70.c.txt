@@ -1,0 +1,23 @@
+/* ENTRY 201acc70 | FUN_201acc70 | STATUS decompiled | 22 ms */
+
+void FUN_201acc70(eCEntity *param_1,eCEntity *param_2,undefined4 param_3,ulong param_4)
+
+{
+  bool bVar1;
+  gCWorld *this;
+  eCEntity *peVar2;
+  gCQuestManager_PS *this_00;
+  
+  if (((0 < (int)param_4) &&
+      (((param_1 != (eCEntity *)0x0 || (param_2 != (eCEntity *)0x0)) &&
+       (this = (gCWorld *)gCWorld::GetCurrentWorld(), this != (gCWorld *)0x0)))) &&
+     (((bVar1 = eCProcessibleElement::IsActive((eCProcessibleElement *)this), bVar1 &&
+       (peVar2 = gCWorld::GetWorldEntity(this), peVar2 != (eCEntity *)0x0)) &&
+      (this_00 = (gCQuestManager_PS *)(**(code **)(*(int *)peVar2 + 0xec))(0x35),
+      this_00 != (gCQuestManager_PS *)0x0)))) {
+    gCQuestManager_PS::OnReceiveItem(this_00,param_1,param_2,(bCPropertyID *)param_2,param_4);
+  }
+  return;
+}
+
+

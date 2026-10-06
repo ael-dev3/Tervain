@@ -1,0 +1,2 @@
+; 2000d698 ?AISetStatePosition@gCScriptProcessingUnit@@QAEXH@Z
+2000d698 | e983a63500 | JMP 0x20367d20

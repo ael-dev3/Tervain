@@ -1,0 +1,44 @@
+/* ENTRY 20029cb7 | gCScriptRoutine_PS::gCScriptRoutine_PS | STATUS decompiled | 27 ms */
+
+/* public: __thiscall gCScriptRoutine_PS::gCScriptRoutine_PS(class gCScriptRoutine_PS const &) */
+
+gCScriptRoutine_PS * __thiscall
+gCScriptRoutine_PS::gCScriptRoutine_PS(gCScriptRoutine_PS *this,gCScriptRoutine_PS *param_1)
+
+{
+  undefined ***pppuVar1;
+  
+                    /* 0x29cb7  319  ??0gCScriptRoutine_PS@@QAE@ABV0@@Z */
+  eCEntityPropertySet::eCEntityPropertySet((eCEntityPropertySet *)this);
+  this->vftablePtr = &vftable;
+  bCString::bCString((bCString *)&(this->gCScriptRoutine_PS_data).field_0x10);
+  bCString::bCString((bCString *)&(this->gCScriptRoutine_PS_data).field_0x14);
+  bCString::bCString((bCString *)&(this->gCScriptRoutine_PS_data).field_0x2c);
+  bCString::bCString((bCString *)&(this->gCScriptRoutine_PS_data).field_0x30);
+  pppuVar1 = &(this->gCScriptRoutine_PS_data).offset_0x38;
+  bCObjectBase::bCObjectBase((bCObjectBase *)pppuVar1);
+  *pppuVar1 = &bTPropertyContainer<gEAniState>::vftable.GetVersion;
+  (this->gCScriptRoutine_PS_data).offset_0x3c = DAT_207cbf3c;
+  pppuVar1 = &(this->gCScriptRoutine_PS_data).offset_0x40;
+  bCObjectBase::bCObjectBase((bCObjectBase *)pppuVar1);
+  *pppuVar1 = &bTPropertyContainer<gEAction>::vftable.GetVersion;
+  (this->gCScriptRoutine_PS_data).offset_0x44 = DAT_207cbf40;
+  pppuVar1 = &(this->gCScriptRoutine_PS_data).offset_0x48;
+  bCObjectBase::bCObjectBase((bCObjectBase *)pppuVar1);
+  *pppuVar1 = &bTPropertyContainer<gEAmbientAction>::vftable.GetVersion;
+  (this->gCScriptRoutine_PS_data).offset_0x4c = DAT_207cbf44;
+  pppuVar1 = &(this->gCScriptRoutine_PS_data).offset_0x50;
+  bCObjectBase::bCObjectBase((bCObjectBase *)pppuVar1);
+  *pppuVar1 = &bTPropertyContainer<gEAIMode>::vftable.GetVersion;
+  (this->gCScriptRoutine_PS_data).offset_0x54 = DAT_207cbf48;
+  pppuVar1 = &(this->gCScriptRoutine_PS_data).offset_0x58;
+  bCObjectBase::bCObjectBase((bCObjectBase *)pppuVar1);
+  *pppuVar1 = &bTPropertyContainer<gEHitDirection>::vftable.GetVersion;
+  (this->gCScriptRoutine_PS_data).offset_0x5c = DAT_207cbf4c;
+  gCScriptProcessingUnit::gCScriptProcessingUnit
+            ((gCScriptProcessingUnit *)&(this->gCScriptRoutine_PS_data).field_0x60);
+  (this->gCScriptRoutine_PS_data).offset_0x1ec = 0;
+  return this;
+}
+
+

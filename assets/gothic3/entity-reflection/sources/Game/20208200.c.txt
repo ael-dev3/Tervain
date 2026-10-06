@@ -1,0 +1,93 @@
+/* ENTRY 20208200 | FUN_20208200 | STATUS decompiled | 32 ms */
+
+void __fastcall FUN_20208200(eCEntityPropertySet *param_1)
+
+{
+  ulonglong uVar1;
+  bCObjectBase bVar2;
+  bCObjectBase bVar3;
+  bCObjectBase bVar4;
+  bCObjectBase bVar5;
+  float fVar6;
+  float fVar7;
+  bCObjectBase bVar8;
+  eCWeatherAdmin *this;
+  gCAmbientModule *this_00;
+  gCMusicModule *this_01;
+  uint local_10;
+  uint local_c;
+  uint local_8;
+  
+  eCEntityPropertySet::OnProcess(param_1);
+  bCClock::GetTimeAndDate((bCClock *)(param_1 + 0xb),(bSTimeAndDate *)(param_1 + 0x14));
+  bVar2 = param_1[0x16].bCObjectRefBase.bCObjectBase;
+  bVar3 = *(bCObjectBase *)(param_1 + 0x14);
+  bVar4 = param_1[0x15].bCObjectRefBase.bCObjectBase;
+  uVar1 = (ulonglong)ROUND((float)bVar2);
+  local_8 = (uint)uVar1;
+  bVar8 = (bCObjectBase)(local_8 / 0xe10);
+  uVar1 = (uVar1 & 0xffffffff) % 0xe10;
+  bVar5 = param_1[7].bCObjectRefBase.bCObjectBase;
+  if ((uint)bVar5 < 0x16) {
+    if ((uint)bVar5 < 0x14) {
+      if ((uint)bVar5 < 8) {
+        local_c = -(uint)((uint)bVar5 < 6) & 3;
+      }
+      else {
+        local_c = 1;
+      }
+    }
+    else {
+      local_c = 2;
+    }
+  }
+  else {
+    local_c = 3;
+  }
+  if ((uint)bVar8 < 0x16) {
+    if ((uint)bVar8 < 0x14) {
+      if ((uint)bVar8 < 8) {
+        local_10 = -(uint)((uint)bVar8 < 6) & 3;
+      }
+      else {
+        local_10 = 1;
+      }
+    }
+    else {
+      local_10 = 2;
+    }
+  }
+  else {
+    local_10 = 3;
+  }
+  param_1[5].bCObjectRefBase.bCObjectBase = bVar3;
+  param_1[6].bCObjectRefBase.bCObjectBase = bVar4;
+  param_1[7].bCObjectRefBase.bCObjectBase = bVar8;
+  param_1[8].bCObjectRefBase.bCObjectBase = SUB84(uVar1 / 0x3c,0);
+  param_1[9].bCObjectRefBase.bCObjectBase = SUB84(uVar1 % 0x3c,0);
+  fVar7 = (float)(int)bVar4;
+  if ((int)bVar4 < 0) {
+    fVar7 = fVar7 + 4.2949673e+09;
+  }
+  fVar6 = (float)(int)bVar3;
+  if ((int)bVar3 < 0) {
+    fVar6 = fVar6 + 4.2949673e+09;
+  }
+  this = (eCWeatherAdmin *)thunk_FUN_200a4af0();
+  if (this != (eCWeatherAdmin *)0x0) {
+    eCWeatherAdmin::SetCurrentDayTime(this,fVar6 * 365.0 + fVar7 + (float)bVar2 / 86400.0);
+  }
+  if (local_c != local_10) {
+    this_00 = (gCAmbientModule *)thunk_FUN_20209690();
+    this_01 = (gCMusicModule *)thunk_FUN_20176730();
+    if (this_01 != (gCMusicModule *)0x0) {
+      gCMusicModule::SetDayTime(this_01,(bCString *)(&DAT_207bd478 + local_10 * 4));
+    }
+    if (this_00 != (gCAmbientModule *)0x0) {
+      gCAmbientModule::SetDayTime(this_00,*(eEAmbientDayTime *)(&UNK_206857d0 + local_10 * 4));
+    }
+  }
+  return;
+}
+
+

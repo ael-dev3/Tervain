@@ -1,0 +1,2 @@
+; 2001c4b8 ?CalcAbsHeightDiffFlagAndPrioFlag@gCNavPath_PS@@QAEMABVbCVector@@AA_N1@Z
+2001c4b8 | e9a3bd2700 | JMP 0x20298260

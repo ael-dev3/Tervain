@@ -1,0 +1,69 @@
+/* ENTRY 2029f6e0 | FUN_2029f6e0 | STATUS decompiled | 31 ms */
+
+undefined4 __thiscall FUN_2029f6e0(int param_1,bCVector *param_2)
+
+{
+  int iVar1;
+  double dVar2;
+  bool bVar3;
+  bCVector *pbVar4;
+  bCVector2 *pbVar5;
+  float *pfVar6;
+  int iVar7;
+  float fVar8;
+  float fVar9;
+  bCVector2 local_44 [4];
+  bCVector2 local_40 [4];
+  bCVector2 local_3c [4];
+  bCVector2 local_38 [8];
+  bCVector2 local_30 [4];
+  undefined4 uStack_2c;
+  undefined8 local_28;
+  bCVector2 local_20 [4];
+  bCVector2 local_1c [4];
+  bCVector local_18 [4];
+  bCVector local_14 [16];
+  
+  fVar8 = bCVector::GetZ(param_2);
+  fVar9 = bCVector::GetX(param_2);
+  bCVector2::bCVector2(local_38,fVar9,fVar8);
+  bCVector::bCVector(local_14);
+  bCVector2::bCVector2(local_40);
+  iVar7 = 0;
+  if (0 < *(int *)(param_1 + 200)) {
+    do {
+      iVar1 = iVar7 * 4;
+      pbVar4 = gCNegZone_PSObj::GetWorldRadiusOffset
+                         (*(gCNegZone_PSObj **)(*(int *)(param_1 + 0xc4) + iVar1));
+      bCVector::operator=(local_14,pbVar4);
+      fVar8 = bCVector::GetZ(local_14);
+      fVar9 = bCVector::GetX(local_14);
+      pbVar5 = (bCVector2 *)bCVector2::bCVector2(local_30,fVar9,fVar8);
+      bCVector2::operator=(local_40,pbVar5);
+      bCVector2::~bCVector2(local_30);
+      pfVar6 = gCNegZone_PSObj::GetRadius(*(gCNegZone_PSObj **)(*(int *)(param_1 + 0xc4) + iVar1));
+      local_28 = (double)*pfVar6;
+      pbVar5 = (bCVector2 *)bCVector2::operator-(local_40,local_1c);
+      fVar8 = bCVector2::GetMagnitude(pbVar5);
+      dVar2 = (double)CONCAT44((undefined4)local_28,uStack_2c);
+      bCVector2::~bCVector2(local_20);
+      if (fVar8 <= (float)dVar2) {
+        bVar3 = gCNegZone_PSObj::Test3DPointInZone
+                          (*(gCNegZone_PSObj **)(*(int *)(param_1 + 0xc4) + iVar1),param_2,true);
+        if (bVar3) {
+          bCVector2::~bCVector2(local_44);
+          bCVector::~bCVector(local_18);
+          bCVector2::~bCVector2(local_3c);
+          return 1;
+        }
+      }
+      iVar7 = iVar7 + 1;
+    } while (iVar7 < *(int *)(param_1 + 200));
+  }
+  bCVector2::~bCVector2(local_40);
+  bCVector::~bCVector(local_14);
+  bCVector2::~bCVector2(local_38);
+  return 0;
+}
+
+

@@ -1,0 +1,9 @@
+/* ENTRY 1002b860 | FUN_1002b860 | STATUS decompiled | 1 ms */
+
+int __fastcall FUN_1002b860(int param_1)
+
+{
+  return param_1 + 4;
+}
+
+

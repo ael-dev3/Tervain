@@ -1,0 +1,17 @@
+/* ENTRY 1014baa0 | FUN_1014baa0 | STATUS decompiled | 8 ms */
+
+void FUN_1014baa0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Enclave\\Enclave.cpp");
+  bCString::bCString(local_8,"ZS_RevolutionSuccess");
+  thunk_FUN_1001db60(local_8,&LAB_100029e6,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

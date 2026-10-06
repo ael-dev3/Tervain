@@ -1,0 +1,2 @@
+; 2002fd01 ?OnNotifyPropertyValueChangedExitEx@gCCharacterMovement_PS@@MAE_NPBD_N@Z
+2002fd01 | e9ca7f1f00 | JMP 0x20227cd0

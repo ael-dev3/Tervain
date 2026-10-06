@@ -1,0 +1,26 @@
+/* ENTRY 20022705 | gCScriptProcessingUnit::GetTargetEntity | STATUS decompiled | 6 ms */
+
+/* public: class eCEntity * __thiscall gCScriptProcessingUnit::GetTargetEntity(void) */
+
+eCEntity * __thiscall gCScriptProcessingUnit::GetTargetEntity(gCScriptProcessingUnit *this)
+
+{
+  undefined1 *this_00;
+  eCEntity *peVar1;
+  int iVar2;
+  
+                    /* 0x22705  4544  ?GetTargetEntity@gCScriptProcessingUnit@@QAEPAVeCEntity@@XZ */
+  this_00 = &(this->gCScriptProcessingUnit_data).field_0x1c;
+  peVar1 = eCEntityProxy::GetEntity((eCEntityProxy *)this_00);
+  if (peVar1 != (eCEntity *)0x0) {
+    peVar1 = eCEntityProxy::GetEntity((eCEntityProxy *)this_00);
+    iVar2 = (**(code **)(*(int *)peVar1 + 0xec))(0x1e);
+    if (iVar2 != 0) {
+      peVar1 = eCEntityProxy::GetEntity((eCEntityProxy *)(iVar2 + 0x9c));
+      return peVar1;
+    }
+  }
+  return (eCEntity *)0x0;
+}
+
+

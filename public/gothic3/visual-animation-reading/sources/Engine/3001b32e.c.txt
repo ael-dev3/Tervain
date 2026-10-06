@@ -1,0 +1,19 @@
+/* ENTRY 3001b32e | eCVisualAnimation_PS::SetBonesBreakMaxTorque | STATUS decompiled | 9 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::SetBonesBreakMaxTorque(float const &) */
+
+void __thiscall
+eCVisualAnimation_PS::SetBonesBreakMaxTorque(eCVisualAnimation_PS *this,float *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x1b32e  12982  ?SetBonesBreakMaxTorque@eCVisualAnimation_PS@@QAEXABM@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"BonesBreakMaxTorque",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  this[2].vftablePtr = (eCVisualAnimation_PS_vftable *)*param_1;
+  (*pNVar1)(this,"BonesBreakMaxTorque",false);
+  return;
+}
+
+

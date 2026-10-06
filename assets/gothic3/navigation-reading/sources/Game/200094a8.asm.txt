@@ -1,0 +1,2 @@
+; 200094a8 bTPropertyType<gCNavigation_PS,eCEntityProxy>::vfunction14
+200094a8 | e9a36c2800 | JMP 0x20290150

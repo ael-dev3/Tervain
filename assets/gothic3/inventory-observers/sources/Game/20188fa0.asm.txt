@@ -1,0 +1,15 @@
+; 20188fa0 FUN_20188fa0
+20188fa0 | 56 | PUSH ESI
+20188fa1 | 8bf1 | MOV ESI,ECX
+20188fa3 | e8ef8ce9ff | CALL 0x20021c97
+20188fa8 | 837e1400 | CMP dword ptr [ESI + 0x14],0x0
+20188fac | 7411 | JZ 0x20188fbf
+20188fae | 8b4e14 | MOV ECX,dword ptr [ESI + 0x14]
+20188fb1 | 8b01 | MOV EAX,dword ptr [ECX]
+20188fb3 | 8b9050010000 | MOV EDX,dword ptr [EAX + 0x150]
+20188fb9 | 83c610 | ADD ESI,0x10
+20188fbc | 56 | PUSH ESI
+20188fbd | ffd2 | CALL EDX
+; 20188fbf LAB_20188fbf
+20188fbf | 5e | POP ESI
+20188fc0 | c3 | RET

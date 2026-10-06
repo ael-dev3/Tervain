@@ -1,0 +1,3 @@
+; 203097e0 bTPropertyType<gCNPC_PS,eCEntityProxy>::vfunction1
+203097e0 | 8b411c | MOV EAX,dword ptr [ECX + 0x1c]
+203097e3 | c3 | RET

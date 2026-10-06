@@ -1,0 +1,4 @@
+; 3002c6c9 bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeAABBAdapt>_>::vfunction10
+3002c6c9 | e932353300 | JMP 0x3035fc00
+; 3002c6ce eCDX9VertexData::GetDesc
+; 3002c6ce Ordinal_6811

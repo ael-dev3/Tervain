@@ -1,0 +1,12 @@
+/* ENTRY 10002374 | Entity::operator== | STATUS decompiled | 3 ms */
+
+/* public: bool __thiscall Entity::operator==(class Entity const &)const  */
+
+bool __thiscall Entity::operator==(Entity *this,Entity *param_1)
+
+{
+                    /* 0x2374  806  ??8Entity@@QBE_NABV0@@Z */
+  return *(int *)this == *(int *)param_1;
+}
+
+

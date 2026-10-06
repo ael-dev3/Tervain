@@ -1,0 +1,2 @@
+; 300135bb eCEntity::GetPropertySetIndex
+300135bb | e9302b4a00 | JMP 0x304b60f0

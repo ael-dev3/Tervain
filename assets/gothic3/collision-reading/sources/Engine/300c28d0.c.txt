@@ -1,0 +1,16 @@
+/* ENTRY 300c28d0 | FUN_300c28d0 | STATUS decompiled | 4 ms */
+
+void __fastcall FUN_300c28d0(int *param_1)
+
+{
+  code *pcVar1;
+  undefined2 *unaff_ESI;
+  
+  (**(code **)(*param_1 + 0x58))("FileVersion",0);
+  pcVar1 = *(code **)(*param_1 + 0x5c);
+  *(undefined2 *)((int)param_1 + 0x3a) = *unaff_ESI;
+  (*pcVar1)("FileVersion",0);
+  return;
+}
+
+

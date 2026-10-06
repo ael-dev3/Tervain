@@ -1,0 +1,10 @@
+/* ENTRY 300370a6 | bTPropertyObject<eCSpringAndDamperEffector,eCEffector>::vfunction11 | STATUS decompiled | 145 ms */
+
+void __thiscall bTPropertyObject<eCSpringAndDamperEffector,eCEffector>::vfunction11(void)
+
+{
+  thunk_FUN_300ae170(0);
+  return;
+}
+
+

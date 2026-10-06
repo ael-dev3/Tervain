@@ -1,0 +1,8 @@
+; 2012bdc0 gCEntity::gCEntity
+2012bdc0 | 56 | PUSH ESI
+2012bdc1 | 8bf1 | MOV ESI,ECX
+2012bdc3 | ff15846a7d20 | CALL dword ptr [0x207d6a84]
+2012bdc9 | c7063c816620 | MOV dword ptr [ESI],0x2066813c
+2012bdcf | 8bc6 | MOV EAX,ESI
+2012bdd1 | 5e | POP ESI
+2012bdd2 | c3 | RET

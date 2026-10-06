@@ -1,0 +1,146 @@
+/* ENTRY 200047e1 | gCScriptProcessingUnit::ProcessScript | STATUS decompiled | 121 ms */
+
+/* public: enum bEResult __thiscall gCScriptProcessingUnit::ProcessScript(void) */
+
+bEResult __thiscall gCScriptProcessingUnit::ProcessScript(gCScriptProcessingUnit *this)
+
+{
+  undefined1 *puVar1;
+  gCScriptProcessingUnit_data *pgVar2;
+  code *pcVar3;
+  int iVar4;
+  void *pvVar5;
+  int iVar6;
+  char cVar7;
+  bool bVar8;
+  eCApplication *peVar9;
+  int *piVar10;
+  gCScriptAdmin *this_00;
+  eCEntity *peVar11;
+  gCScriptRoutine_PS *this_01;
+  float fVar12;
+  undefined4 uVar13;
+  TypeDescriptor *pTVar14;
+  float fStack_4;
+  
+                    /* 0x47e1  5860  ?ProcessScript@gCScriptProcessingUnit@@QAE?AW4bEResult@@XZ */
+  pTVar14 = &eCApplication::RTTI_Type_Descriptor;
+  uVar13 = 0;
+  peVar9 = eCApplication::GetInstance();
+  piVar10 = (int *)___RTDynamicCast(peVar9,uVar13,pTVar14);
+  cVar7 = (**(code **)(*piVar10 + 0x270))();
+  if (cVar7 != '\0') {
+    fStack_4 = (float)(this->gCScriptProcessingUnit_data).offset_0x164;
+    if (fStack_4 < *(float *)g_fEpsilon_exref) {
+      fStack_4 = *(float *)g_fEpsilon_exref;
+    }
+    peVar9 = eCApplication::GetInstance();
+    fVar12 = eCApplication::GetScaledFrameTimeInSeconds((eCApplication *)peVar9);
+    fStack_4 = fVar12 * fStack_4;
+    fVar12 = fStack_4 * 1000.0;
+    (this->gCScriptProcessingUnit_data).offset_0x58 =
+         (float)(this->gCScriptProcessingUnit_data).offset_0x58 + fVar12;
+    (this->gCScriptProcessingUnit_data).offset_0x5c =
+         (float)(this->gCScriptProcessingUnit_data).offset_0x5c + fVar12;
+    (this->gCScriptProcessingUnit_data).offset_0x94 =
+         fVar12 + (float)(this->gCScriptProcessingUnit_data).offset_0x94;
+    this_00 = (gCScriptAdmin *)thunk_FUN_200a4bb0();
+    puVar1 = &(this->gCScriptProcessingUnit_data).field_0x1c;
+    this_01 = (gCScriptRoutine_PS *)0x0;
+    peVar11 = eCEntityProxy::GetEntity((eCEntityProxy *)puVar1);
+    if (peVar11 != (eCEntity *)0x0) {
+      peVar11 = eCEntityProxy::GetEntity((eCEntityProxy *)puVar1);
+      this_01 = (gCScriptRoutine_PS *)(**(code **)(*(int *)peVar11 + 0xec))();
+      if (this_01 != (gCScriptRoutine_PS *)0x0) {
+        puVar1 = &(this_01->gCScriptRoutine_PS_data).field_0x14;
+        bVar8 = bCString::operator!=
+                          ((bCString *)&(this->gCScriptProcessingUnit_data).field_0xc,
+                           (bCString *)puVar1);
+        if (bVar8) {
+          bCString::bCString((bCString *)&stack0xffffffe0,(bCString *)puVar1);
+          AISetTask(this);
+        }
+      }
+    }
+    pcVar3 = (code *)(this->gCScriptProcessingUnit_data).offset_0x70;
+    (this->gCScriptProcessingUnit_data).offset_0x184 = s_u32CurrentTimeStamp;
+    if ((pcVar3 != (code *)0x0) &&
+       ((*pcVar3)(0), (this->gCScriptProcessingUnit_data).offset_0x70 != 0)) {
+      RunLocalCallback(this,(gCScriptAdmin *)this_00,(gCScriptRoutine_PS *)this_01);
+      RunTaskCallback(this,(gCScriptAdmin *)this_00,(gCScriptRoutine_PS *)this_01);
+      UpdateTaskTime(this,(gCScriptRoutine_PS *)this_01);
+      UpdateStateTime(this,(gCScriptRoutine_PS *)this_01);
+      return 1;
+    }
+    if (0 < (this->gCScriptProcessingUnit_data).offset_0x4) {
+      pgVar2 = &this->gCScriptProcessingUnit_data;
+      do {
+        bVar8 = bCString::IsEmpty((bCString *)
+                                  ((int)pgVar2->offset_0x0 +
+                                  (this->gCScriptProcessingUnit_data).offset_0x4 * 0x18 + -0x14));
+        if (bVar8) break;
+        iVar4 = (this->gCScriptProcessingUnit_data).offset_0x4;
+        pvVar5 = pgVar2->offset_0x0;
+        iVar6 = *(int *)((int)pvVar5 + iVar4 * 0x18 + -0x18);
+        if (*(char *)((int)pvVar5 + iVar4 * 0x18 + -0x10) == '\x01') {
+          if (this_01 != (gCScriptRoutine_PS *)0x0) {
+            fStack_4 = *(float *)((int)pvVar5 +
+                                 (this->gCScriptProcessingUnit_data).offset_0x4 * 0x18 + -0x18);
+            gCScriptRoutine_PS::SetCurrentBreakBlock(this_01,(long *)&fStack_4);
+          }
+          bVar8 = gCScriptAdmin::RunScriptState
+                            (this_00,(bCString *)
+                                     ((int)pgVar2->offset_0x0 +
+                                     (this->gCScriptProcessingUnit_data).offset_0x4 * 0x18 + -0x14),
+                             (bTObjStack<gScriptRunTimeSingleState> *)pgVar2,
+                             (gCScriptProcessingUnit *)this);
+          if (bVar8) {
+            *(undefined4 *)
+             ((int)pgVar2->offset_0x0 +
+             (this->gCScriptProcessingUnit_data).offset_0x4 * 0x18 + -0x18) = 0;
+            if (0 < iVar6) {
+              UpdateTaskTime(this,(gCScriptRoutine_PS *)this_01);
+              UpdateStateTime(this,(gCScriptRoutine_PS *)this_01);
+              if (this_01 != (gCScriptRoutine_PS *)0x0) {
+                fStack_4 = *(float *)((int)pgVar2->offset_0x0 +
+                                     (this->gCScriptProcessingUnit_data).offset_0x4 * 0x18 + -0x18);
+                gCScriptRoutine_PS::SetCurrentBreakBlock(this_01,(long *)&fStack_4);
+              }
+              bVar8 = gCScriptAdmin::RunScriptState
+                                (this_00,(bCString *)
+                                         ((int)pgVar2->offset_0x0 +
+                                         (this->gCScriptProcessingUnit_data).offset_0x4 * 0x18 +
+                                         -0x14),(bTObjStack<gScriptRunTimeSingleState> *)pgVar2,
+                                 (gCScriptProcessingUnit *)this);
+              if (!bVar8) goto LAB_2036ec97;
+              *(undefined4 *)
+               ((int)pgVar2->offset_0x0 +
+               (this->gCScriptProcessingUnit_data).offset_0x4 * 0x18 + -0x18) = 0;
+              RunTaskCallback(this,(gCScriptAdmin *)this_00,(gCScriptRoutine_PS *)this_01);
+              goto LAB_2036eb9c;
+            }
+          }
+          else {
+LAB_2036ec97:
+            RunLocalCallback(this,(gCScriptAdmin *)this_00,(gCScriptRoutine_PS *)this_01);
+          }
+          RunTaskCallback(this,(gCScriptAdmin *)this_00,(gCScriptRoutine_PS *)this_01);
+          goto LAB_2036eb9c;
+        }
+        bVar8 = gCScriptAdmin::RunScriptFunction
+                          (this_00,(bCString *)((int)pvVar5 + iVar4 * 0x18 + -0x14),
+                           (bTObjStack<gScriptRunTimeSingleState> *)pgVar2,
+                           (gCScriptProcessingUnit *)this);
+        if (!bVar8) goto LAB_2036ec97;
+      } while (0 < (this->gCScriptProcessingUnit_data).offset_0x4);
+    }
+    DetectDailyRoutineTask(this,false);
+LAB_2036eb9c:
+    UpdateTaskTime(this,(gCScriptRoutine_PS *)this_01);
+    UpdateStateTime(this,(gCScriptRoutine_PS *)this_01);
+    UpdateChannel(this);
+  }
+  return 1;
+}
+
+

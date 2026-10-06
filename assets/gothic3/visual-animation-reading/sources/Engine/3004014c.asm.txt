@@ -1,0 +1,2 @@
+; 3004014c eCVisualAnimation_PS::GetMotionDesc
+3004014c | e96fe70500 | JMP 0x3009e8c0

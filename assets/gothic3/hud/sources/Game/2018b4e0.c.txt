@@ -1,0 +1,12 @@
+/* ENTRY 2018b4e0 | gCHUDStaticInvCategory::gCHUDStaticInvCategory | STATUS decompiled | 6 ms */
+
+gCHUDStaticInvCategory * __thiscall
+gCHUDStaticInvCategory::gCHUDStaticInvCategory(gCHUDStaticInvCategory *this)
+
+{
+  CFFGFCStatic::CFFGFCStatic((CFFGFCStatic *)this);
+  this->vftablePtr = &vftable;
+  return this;
+}
+
+

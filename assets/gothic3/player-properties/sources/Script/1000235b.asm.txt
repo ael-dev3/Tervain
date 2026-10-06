@@ -1,0 +1,2 @@
+; 1000235b ?GetMaximum@PSPlayerMemory@@QBEHABVbCString@@@Z
+1000235b | e900700200 | JMP 0x10029360

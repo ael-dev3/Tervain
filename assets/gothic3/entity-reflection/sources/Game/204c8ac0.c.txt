@@ -1,0 +1,35 @@
+/* ENTRY 204c8ac0 | bTPropertyType<gCFocus_PS,float>::~bTPropertyType<gCFocus_PS,float> | STATUS decompiled | 14 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall bTPropertyType<gCFocus_PS,float>::~bTPropertyType<gCFocus_PS,float>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"MeleeMode");
+  bCString::bCString(local_c,"MeleeModeCharacterScanAzi");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCFocus_PS::ms_PropertyMember_m_fMeleeModeCharacterScanAzi,
+             local_c,local_8,local_4,1,false);
+  _ms_PropertyMember_m_fMeleeModeCharacterScanAzi = &vftable;
+  DAT_207b8d00 = bTPropertyObjectType<gCFocus_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCFocus_PS,eCEntityPropertySet>();
+  _DAT_207b8d04 = 0x78;
+  _DAT_207b8d08 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCFocus_PS::ms_PropertyMember_m_fMeleeModeCharacterScanAzi);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b8d00,
+             (bCPropertyTypeBase *)&gCFocus_PS::ms_PropertyMember_m_fMeleeModeCharacterScanAzi);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}
+
+

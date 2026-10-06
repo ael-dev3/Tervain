@@ -1,0 +1,2 @@
+; 2000a826 bTPOPureSmartPtr<gCDialog_PS>::vfunction12
+2000a826 | e9151b2000 | JMP 0x2020c340

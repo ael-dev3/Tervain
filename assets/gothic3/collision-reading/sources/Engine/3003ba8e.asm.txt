@@ -1,0 +1,4 @@
+; 3003ba8e ?GetTouchingShapeAtIndex@eCCollisionShape_PS@@QBEPAVeCCollisionShape@@K@Z
+3003ba8e | e9adac2f00 | JMP 0x30336740
+; 3003ba93 eCVisualMeshDynamic_PS::operator=
+; 3003ba93 Ordinal_1843

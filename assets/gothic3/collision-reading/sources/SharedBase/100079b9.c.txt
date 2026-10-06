@@ -1,0 +1,15 @@
+/* ENTRY 100079b9 | bCOrientedBox::Invalidate | STATUS decompiled | 2 ms */
+
+/* public: void __thiscall bCOrientedBox::Invalidate(void) */
+
+void __thiscall bCOrientedBox::Invalidate(bCOrientedBox *this)
+
+{
+                    /* 0x79b9  3555  ?Invalidate@bCOrientedBox@@QAEXXZ */
+  *(undefined4 *)(this + 0xc) = 0xff7fffff;
+  *(undefined4 *)(this + 0x10) = 0xff7fffff;
+  *(undefined4 *)(this + 0x14) = 0xff7fffff;
+  return;
+}
+
+

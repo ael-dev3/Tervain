@@ -1,0 +1,2 @@
+; 2002ad06 bTPropertyType<gCInventorySlot,bTPropertyContainer<gESlot>_>::vfunction15
+2002ad06 | e945ad1900 | JMP 0x201c5a50

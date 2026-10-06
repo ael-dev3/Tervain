@@ -1,0 +1,12 @@
+/* ENTRY 2018db90 | gCHUDTableSpellStats::gCHUDTableSpellStats | STATUS decompiled | 6 ms */
+
+gCHUDTableSpellStats * __thiscall
+gCHUDTableSpellStats::gCHUDTableSpellStats(gCHUDTableSpellStats *this)
+
+{
+  gCHUDTable::gCHUDTable((gCHUDTable *)this);
+  this->vftablePtr = &vftable;
+  return this;
+}
+
+

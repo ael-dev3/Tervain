@@ -1,0 +1,10 @@
+/* ENTRY 20286650 | FUN_20286650 | STATUS decompiled | 1 ms */
+
+void FUN_20286650(bCBox *param_1)
+
+{
+  bCBox::Invalidate(param_1);
+  return;
+}
+
+

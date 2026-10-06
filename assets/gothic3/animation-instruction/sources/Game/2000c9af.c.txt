@@ -1,0 +1,19 @@
+/* ENTRY 2000c9af | gCScriptRoutine_PS::SetAniState | STATUS decompiled | 9 ms */
+
+/* public: void __thiscall gCScriptRoutine_PS::SetAniState(class bTPropertyContainer<enum
+   gEAniState> const &) */
+
+void __thiscall
+gCScriptRoutine_PS::SetAniState(gCScriptRoutine_PS *this,bTPropertyContainer<gEAniState> *param_1)
+
+{
+                    /* 0xc9af  6223
+                       ?SetAniState@gCScriptRoutine_PS@@QAEXABV?$bTPropertyContainer@W4gEAniState@@@@@Z
+                        */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"AniState",false);
+  (*(code *)(this->gCScriptRoutine_PS_data).offset_0x38[7])(param_1);
+  (*this->vftablePtr->NotifyPropertyValueChangedExitEx)(this,"AniState",false);
+  return;
+}
+
+

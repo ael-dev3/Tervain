@@ -1,0 +1,2 @@
+; 20023709 bTPropertyType<gCDialog_PS,bCObsoleteClass>::vfunction16
+20023709 | e9328e1e00 | JMP 0x2020c540

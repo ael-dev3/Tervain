@@ -1,0 +1,48 @@
+/* ENTRY 300a6470 | FUN_300a6470 | STATUS decompiled | 39 ms */
+
+void __fastcall FUN_300a6470(eCVisualAnimation_PS *param_1)
+
+{
+  eCWrapper_emfx2Actor *peVar1;
+  eCEntity *peVar2;
+  eCAnimationAdmin *this;
+  eCApplication *this_00;
+  eCCameraBase *peVar3;
+  bCVector *this_01;
+  float fVar4;
+  float fStack_14;
+  float fStack_10;
+  bCVector abStack_c [12];
+  
+  peVar1 = eCVisualAnimationFactory::GetAssembledActor
+                     ((eCVisualAnimationFactory *)&param_1[7].eCEntityPropertySet_data.field_0x4);
+  if (peVar1 != (eCWrapper_emfx2Actor *)0x0) {
+    peVar2 = (eCEntity *)(*param_1->vftablePtr->GetEntity)(param_1);
+    eCEntity::UpdateGeometry(peVar2);
+    if (param_1[0x12].eCEntityPropertySet_data.field_0xd != '\x01') {
+      if (param_1[6].eCEntityPropertySet_data.field_0x1 == '\0') {
+        this = (eCAnimationAdmin *)thunk_FUN_3007c1e0();
+        fStack_10 = eCAnimationAdmin::GetPhysicControllerDistance(this);
+        this_00 = (eCApplication *)eCApplication::GetInstance();
+        peVar3 = eCApplication::GetCurrentCamera(this_00);
+        peVar2 = (eCEntity *)(*param_1->vftablePtr->GetEntity)(param_1);
+        eCEntity::GetWorldPosition(peVar2);
+        this_01 = (bCVector *)bCVector::operator-((bCVector *)(peVar3 + 0x8c),abStack_c);
+        fVar4 = bCVector::GetMagnitude(this_01);
+        bCVector::~bCVector((bCVector *)&fStack_10);
+        if (fStack_14 < fVar4) {
+          return;
+        }
+      }
+      eCVisualAnimation_PS::CreatePhysicsController(param_1,false,(eCVisualAnimation_PS *)0x0);
+      if ((*(char *)&param_1[0xf].vftablePtr == '\x01') ||
+         ((param_1[1].eCEntityPropertySet_data.field_0x4 == '\x01' &&
+          (0 < *(int *)&param_1[0xf].eCEntityPropertySet_data.offset_0xc)))) {
+        eCVisualAnimation_PS::SetRagDollEnabled(param_1,true,0.0,true);
+      }
+    }
+  }
+  return;
+}
+
+

@@ -1,0 +1,4 @@
+; 10006f05 ?GetScaled@bCOrientedBox@@QBE?AV1@ABVbCVector@@@Z
+10006f05 | e996090600 | JMP 0x100678a0
+; 10006f0a bCObjectBase::GetProfileLastTicksSecond
+; 10006f0a Ordinal_2813

@@ -43,6 +43,7 @@ export interface ArdeaScene {
   version: number;
   units: 'metres';
   origin: Vec3;
+  spawnSource: { archive: string; path: string; sha256: string };
   bounds: { min: Vec3; max: Vec3 };
   spawn: Vec3;
   spawnYaw?: number;

@@ -1,0 +1,21 @@
+/* ENTRY 202feeb0 | bTPropertyObjectType<gCNPC_PS,eCEntityPropertySet>::vfunction1 | STATUS decompiled | 6 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined * __thiscall bTPropertyObjectType<gCNPC_PS,eCEntityPropertySet>::vfunction1(void)
+
+{
+  if ((DAT_207b4c30 & 1) == 0) {
+    DAT_207b4c30 = DAT_207b4c30 | 1;
+    _DAT_207b4c2c = DAT_207b4dbc;
+  }
+  if ((DAT_207b4c30 & 2) == 0) {
+    DAT_207b4c30 = DAT_207b4c30 | 2;
+    type_info::name((type_info *)&gCNPC_PS::RTTI_Type_Descriptor,(__type_info_node *)&DAT_207d0a18);
+    bCClassNameBase::UnMangle(&DAT_207b4c28);
+    _atexit((_func_4879 *)&LAB_2001df25);
+  }
+  return &DAT_207b4c28;
+}
+
+

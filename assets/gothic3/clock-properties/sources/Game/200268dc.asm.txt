@@ -1,0 +1,2 @@
+; 200268dc ?SetDayTime@gCMusicModule@@QAEXABVbCString@@@Z
+200268dc | e9ef342400 | JMP 0x20269dd0

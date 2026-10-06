@@ -1,0 +1,893 @@
+/* ENTRY 30036264 | thunk_FUN_300c6340 | STATUS decompiled | 4881 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall thunk_FUN_300c6340(void *this,int param_2,int *param_3,int param_4)
+
+{
+  uint uVar1;
+  bool bVar2;
+  byte bVar3;
+  eCPhysicsScene *peVar4;
+  bCCriticalSectionWin32 *this_00;
+  int iVar5;
+  NxScene *pNVar6;
+  bTObjArray<eCVisualAnimation_PS::eSSubSkeleton> *pbVar7;
+  bCString *this_01;
+  eCNovodexPhysicsController *peVar8;
+  bCVector *pbVar9;
+  bCMatrix *pbVar10;
+  NxSpringAndDamperEffector *pNVar11;
+  int *piVar12;
+  NxJoint *pNVar13;
+  bCVector *this_02;
+  byte bVar14;
+  byte bVar15;
+  undefined4 *puVar16;
+  undefined3 unaff_EBX;
+  float10 fVar17;
+  int unaff_retaddr;
+  NxJointDesc *pNVar18;
+  undefined4 in_stack_fffffdf0;
+  NxJoint *pNStack_20c;
+  int iStack_208;
+  undefined4 uStack_204;
+  float fStack_200;
+  float fStack_1fc;
+  uint *puStack_1f8;
+  char *pcVar19;
+  NxSpringAndDamperEffectorDesc *pNVar20;
+  float fVar21;
+  char cVar22;
+  char cStack_1ce;
+  char cStack_1cd;
+  uint uStack_1cc;
+  int iStack_1c8;
+  int iStack_1c4;
+  NxRevoluteJointDesc_vftable *pNStack_1c0;
+  undefined4 uStack_1bc;
+  int *apiStack_1b8 [10];
+  undefined4 auStack_190 [3];
+  float fStack_184;
+  undefined4 uStack_180;
+  undefined4 uStack_17c;
+  undefined4 uStack_178;
+  undefined4 uStack_174;
+  undefined4 uStack_170;
+  undefined4 uStack_16c;
+  float fStack_168;
+  undefined4 uStack_164;
+  undefined4 uStack_160;
+  float fStack_15c;
+  float fStack_158;
+  undefined4 uStack_154;
+  float fStack_150;
+  float fStack_14c;
+  undefined4 uStack_148;
+  float fStack_144;
+  float fStack_140;
+  undefined4 uStack_13c;
+  uint uStack_138;
+  undefined4 uStack_134;
+  float fStack_130;
+  float fStack_12c;
+  float fStack_128;
+  float fStack_124;
+  undefined4 uStack_120;
+  undefined4 uStack_11c;
+  uint uStack_118;
+  undefined4 uStack_114;
+  undefined4 uStack_110;
+  undefined4 uStack_10c;
+  undefined4 uStack_108;
+  undefined4 uStack_104;
+  undefined4 uStack_100;
+  undefined4 uStack_fc;
+  float fStack_f8;
+  float fStack_f4;
+  float afStack_f0 [2];
+  float fStack_e8;
+  float fStack_e4;
+  float fStack_e0;
+  float fStack_dc;
+  float fStack_d8;
+  float fStack_d4;
+  bCMatrix abStack_cc [4];
+  undefined4 uStack_c8;
+  undefined4 uStack_c4;
+  undefined4 uStack_c0;
+  undefined4 uStack_bc;
+  undefined4 uStack_b8;
+  undefined4 uStack_b4;
+  undefined4 uStack_b0;
+  undefined4 uStack_ac;
+  undefined4 uStack_a8;
+  undefined4 uStack_a4;
+  undefined4 uStack_a0;
+  undefined4 uStack_9c;
+  undefined4 uStack_98;
+  undefined4 uStack_94;
+  undefined4 uStack_90;
+  undefined4 uStack_8c;
+  undefined4 uStack_88;
+  bCMatrix abStack_84 [4];
+  bCMatrix abStack_80 [48];
+  bCMatrix abStack_50 [8];
+  bCMatrix abStack_48 [4];
+  bCMatrix abStack_44 [4];
+  bCMatrix abStack_40 [64];
+  
+  uStack_1cc = 0;
+  peVar4 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+  this_00 = eCPhysicsScene::GetCriticalSection(peVar4);
+  bCCriticalSectionWin32::Acquire(this_00);
+  bCCriticalSectionWin32::Release(this_00);
+  iVar5 = thunk_FUN_300c3670();
+  iStack_1c4 = iVar5;
+  pNStack_1c0 = (NxRevoluteJointDesc_vftable *)thunk_FUN_300c3670();
+  if ((iVar5 == -1) && (param_4 == 0)) {
+    return;
+  }
+  if (pNStack_1c0 == (NxRevoluteJointDesc_vftable *)0xffffffff) {
+    return;
+  }
+  if (*(char *)((int)this + 0x121) == '\x01') {
+    peVar4 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+    pNVar6 = eCPhysicsScene::GetScene(peVar4);
+    (**(code **)(*(int *)pNVar6 + 0x34))();
+    *(int *)((int)this + 0x20) = *(int *)((int)this + 0x20) + 1;
+    return;
+  }
+  if (((cStack_1ce == '\x01') &&
+      (pbVar7 = eCVisualAnimation_PS::GetSubSkeletons(*(eCVisualAnimation_PS **)((int)this + 300)),
+      pbVar7 != (bTObjArray<eCVisualAnimation_PS::eSSubSkeleton> *)0x0)) &&
+     (afStack_f0[0] = 0.0, 0 < *(int *)(pbVar7 + 4))) {
+    iStack_1c8 = 0;
+    do {
+      puVar16 = (undefined4 *)(*(int *)pbVar7 + iStack_1c8);
+      iVar5 = 0;
+      if (0 < (int)puVar16[2]) {
+        piVar12 = (int *)puVar16[1];
+        do {
+          if (param_3 == (int *)*piVar12) {
+            *(undefined4 *)((int)this + 0x130) = *puVar16;
+            break;
+          }
+          iVar5 = iVar5 + 1;
+          piVar12 = piVar12 + 1;
+        } while (iVar5 < (int)puVar16[2]);
+      }
+      iStack_1c8 = iStack_1c8 + 0x10;
+      afStack_f0[0] = (float)((int)afStack_f0[0] + 1);
+    } while ((int)afStack_f0[0] < *(int *)(pbVar7 + 4));
+  }
+  if (*(int *)((int)this + 0x28) == 0) {
+LAB_300c64d8:
+    bVar2 = false;
+  }
+  else {
+    if ((*(char *)((int)this + 0x121) != '\0') || (cStack_1cd != '\x01')) {
+      iVar5 = 0;
+      pcVar19 = "_ROOT";
+      uStack_1cc = 1;
+      this_01 = (bCString *)bCString::bCString((bCString *)afStack_f0,*(char **)(param_2 + 0x16c));
+      bVar2 = bCString::Contains(this_01,pcVar19,iVar5);
+      if (!bVar2) goto LAB_300c64d8;
+    }
+    bVar2 = true;
+  }
+  if ((uStack_1cc & 1) != 0) {
+    bCString::~bCString((bCString *)afStack_f0);
+  }
+  if (bVar2) {
+    peVar8 = eCVisualAnimation_PS::GetRagDollController(*(eCVisualAnimation_PS **)((int)this + 300))
+    ;
+    if (peVar8 == (eCNovodexPhysicsController *)0x0) {
+      thunk_FUN_300c36e0();
+    }
+    else {
+      thunk_FUN_300c3cc0();
+    }
+  }
+  bCMatrix::bCMatrix(abStack_80,(bCMatrix *)(param_3 + 0x11));
+  fVar21 = _DAT_30aa68a0;
+  pbVar9 = bCMatrix::AccessTranslation(abStack_80);
+  bCVector::operator*=(pbVar9,fVar21);
+  pbVar10 = (bCMatrix *)bCMatrix::operator*((bCMatrix *)((int)this + 0x30),abStack_40);
+  bCMatrix::operator=(abStack_84,pbVar10);
+  bCMatrix::~bCMatrix(abStack_44);
+  if (*(char *)(*(int *)((int)this + 0x130) + 0x7c) == '\x01') {
+    pNVar20 = (NxSpringAndDamperEffectorDesc *)&uStack_c8;
+    uStack_c8 = 0;
+    uStack_c4 = 0;
+    uStack_b8 = 0;
+    uStack_bc = 0;
+    uStack_c0 = 0;
+    uStack_ac = 0;
+    uStack_b0 = 0;
+    uStack_b4 = 0;
+    uStack_a8 = 0;
+    uStack_a4 = 0;
+    uStack_a0 = 0;
+    uStack_9c = 0;
+    uStack_98 = 0;
+    uStack_94 = 0;
+    uStack_90 = 0;
+    uStack_8c = 0;
+    uStack_88 = 0;
+    peVar4 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+    pNVar11 = eCPhysicsScene::CreateSpringAndDamperEffector(peVar4,pNVar20);
+    if (param_3 == (int *)0x0) {
+      param_3 = *(int **)(*(int *)((int)this + 0x14) + iStack_1c8 * 4);
+    }
+    piVar12 = *(int **)(*(int *)((int)this + 0x14) + iStack_1c4 * 4);
+    (**(code **)(*param_3 + 0xa0))();
+    (**(code **)(*piVar12 + 0xa0))();
+    fStack_e8 = fStack_dc - fStack_f8;
+    fStack_e4 = fStack_d8 - fStack_f4;
+    fStack_e0 = fStack_d4 - afStack_f0[0];
+    fVar17 = (float10)FUN_30672810();
+    fStack_1fc = (float)fVar17;
+    iVar5 = *(int *)(*(int *)((int)this + 0x130) + 0x88);
+    puStack_1f8 = (uint *)(fStack_1fc * *(float *)(iVar5 + 100));
+    fStack_200 = fStack_1fc * *(float *)(iVar5 + 0x5c);
+    uStack_204 = 0x300c6764;
+    (**(code **)(*(int *)pNVar11 + 0x10))();
+    iVar5 = *(int *)(*(int *)((int)this + 0x130) + 0x88);
+    uStack_204 = *(undefined4 *)(iVar5 + 0x7c);
+    iStack_208 = *(int *)(iVar5 + 0x78);
+    pNStack_20c = *(NxJoint **)(iVar5 + 0x74);
+    (**(code **)(*(int *)pNVar11 + 0x18))(*(undefined4 *)(iVar5 + 0x70));
+    (**(code **)(*(int *)pNVar11 + 0xc))(param_3,&uStack_11c,piVar12,&uStack_100);
+    *(int *)((int)this + 0x20) = *(int *)((int)this + 0x20) + 1;
+    goto LAB_300c7a79;
+  }
+  cVar22 = *(char *)(*(int *)((int)this + 0x130) + 0x21);
+  bCString::bCString((bCString *)&fStack_e4,*(char **)(unaff_retaddr + 0x16c));
+  if (cVar22 == '\0') {
+    bCString::Contains((bCString *)&fStack_e4,"_PHX_BREAKABLE",0);
+  }
+  cVar22 = (char)((uint3)unaff_EBX >> 0x10);
+  uStack_1cc = thunk_FUN_300ac2f0();
+  if (uStack_1cc == 0) {
+    uStack_1bc = 3;
+    iVar5 = 0;
+    puVar16 = auStack_190;
+    do {
+      apiStack_1b8[iVar5] = (int *)0x0;
+      puVar16[-2] = 0;
+      puVar16[-1] = 0;
+      *puVar16 = 0x3f800000;
+      puVar16[-8] = 0x3f800000;
+      puVar16[-7] = 0;
+      puVar16[-6] = 0;
+      puVar16[6] = 0;
+      puVar16[5] = 0;
+      puVar16[4] = 0;
+      iVar5 = iVar5 + 1;
+      puVar16 = puVar16 + 3;
+    } while (iVar5 < 2);
+    pNStack_1c0 = (NxRevoluteJointDesc_vftable *)&NxSphericalJointDesc::vftable;
+    fStack_144 = 0.0;
+    fStack_140 = 0.0;
+    uStack_13c = 0x3f800000;
+    uStack_138 = 0;
+    uStack_134 = 0;
+    fStack_130 = 1.0;
+    iVar5 = 0;
+    puVar16 = auStack_190;
+    do {
+      apiStack_1b8[iVar5] = (int *)0x0;
+      puVar16[-2] = 0;
+      puVar16[-1] = 0;
+      *puVar16 = 0x3f800000;
+      puVar16[-8] = 0x3f800000;
+      puVar16[-7] = 0;
+      puVar16[-6] = 0;
+      puVar16[6] = 0;
+      puVar16[5] = 0;
+      puVar16[4] = 0;
+      iVar5 = iVar5 + 1;
+      puVar16 = puVar16 + 3;
+    } while (iVar5 < 2);
+    fStack_168 = 3.4028235e+38;
+    uStack_164 = 0x7f7fffff;
+    uStack_160 = 0;
+    fStack_15c = 0.0;
+    fStack_12c = 0.0;
+    fStack_128 = 0.0;
+    fStack_124 = 1.0;
+    uStack_120 = 0;
+    uStack_11c = 0;
+    uStack_118 = 0;
+    uStack_114 = 0;
+    uStack_110 = 0;
+    uStack_10c = 0;
+    uStack_108 = 0;
+    uStack_104 = 0;
+    uStack_100 = 0;
+    uStack_148 = 0x3f800000;
+    fStack_f8 = 0.0;
+    uStack_154 = 0;
+    fStack_150 = 0.0;
+    fStack_14c = 1.0;
+    if (param_3 == (int *)0x0) {
+      apiStack_1b8[0] = *(int **)(*(int *)((int)this + 0x14) + iStack_1c8 * 4);
+    }
+    else {
+      apiStack_1b8[0] = param_3;
+    }
+    apiStack_1b8[1] = *(int **)(*(int *)((int)this + 0x14) + iStack_1c4 * 4);
+    uStack_fc = 0;
+    fStack_158 = (float)((*(char *)(*(int *)((int)this + 0x130) + 0x1e) != '\0') + 2);
+    pbVar9 = bCMatrix::GetTranslation(abStack_84);
+    cVar22 = (char)((uint)in_stack_fffffdf0 >> 0x10);
+    bCVector::operator_class_NxVec3_const_(pbVar9);
+    piVar12 = (int *)_NxGetUtilLib_0();
+    (**(code **)(*piVar12 + 0xc0))();
+    pbVar9 = bCMatrix::GetYAxis((bCMatrix *)&uStack_8c);
+    bCVector::operator_class_NxVec3_const_(pbVar9);
+    piVar12 = (int *)_NxGetUtilLib_0();
+    puStack_1f8 = (uint *)0x300c78a1;
+    (**(code **)(*piVar12 + 0xc4))();
+    iVar5 = *(int *)((int)this + 0x130);
+    if ((*(char *)(iVar5 + 0x74) != '\x01') || (cVar22 != '\0')) {
+      uVar1 = uStack_138;
+      if (*(char *)(iVar5 + 0x34) != '\0') {
+        fStack_15c = *(float *)(iVar5 + 0x38);
+        fStack_158 = *(float *)(iVar5 + 0x3c);
+        uVar1 = uStack_138 | 4;
+        if (cVar22 != '\0') {
+          if (*(float *)(iVar5 + 0x78) == 0.0) {
+            uVar1 = uStack_138 & 0xfffffffb;
+          }
+          else {
+            fStack_15c = *(float *)(iVar5 + 0x78) * fStack_15c;
+            fStack_158 = *(float *)(iVar5 + 0x78) * fStack_158;
+          }
+        }
+      }
+      uStack_138 = uVar1;
+      uVar1 = uStack_138;
+      if (*(char *)(iVar5 + 0x40) != '\0') {
+        fStack_150 = *(float *)(iVar5 + 0x44);
+        fStack_14c = *(float *)(iVar5 + 0x48);
+        uVar1 = uStack_138 | 8;
+        if (cVar22 != '\0') {
+          if (*(float *)(iVar5 + 0x78) == 0.0) {
+            uVar1 = uStack_138 & 0xfffffff7;
+          }
+          else {
+            fStack_150 = *(float *)(iVar5 + 0x78) * fStack_150;
+            fStack_14c = *(float *)(iVar5 + 0x78) * fStack_14c;
+          }
+        }
+      }
+      uStack_138 = uVar1;
+      if (*(char *)(iVar5 + 0x4c) != '\0') {
+        fStack_144 = *(float *)(iVar5 + 0x50);
+        fStack_140 = *(float *)(iVar5 + 0x54);
+        if (*(float *)(iVar5 + 0x78) == 0.0) {
+          uStack_138 = uStack_138 & 0xffffffef;
+        }
+        else {
+          fStack_144 = *(float *)(iVar5 + 0x78) * fStack_144;
+          fStack_140 = *(float *)(iVar5 + 0x78) * fStack_140;
+          uStack_138 = uStack_138 | 0x10;
+        }
+      }
+    }
+    if (0.0 < *(float *)(iVar5 + 0x58)) {
+      uStack_134 = 1;
+      fStack_184 = *(float *)(iVar5 + 0x58);
+    }
+LAB_300c7a1c:
+    pNVar18 = (NxJointDesc *)&fStack_1fc;
+    peVar4 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+    pNVar13 = eCPhysicsScene::CreateJointInternal(peVar4,pNVar18);
+    iVar5 = *(int *)((int)this + 0x130);
+    pNStack_20c = pNVar13;
+    if (*(char *)(iVar5 + 0x21) == '\x01') {
+LAB_300c7a3b:
+      pNStack_20c = pNVar13;
+      (**(code **)(*(int *)pNVar13 + 0x1c))
+                (*(undefined4 *)(iVar5 + 0x24),*(undefined4 *)(iVar5 + 0x28));
+    }
+  }
+  else {
+    bVar3 = (byte)*(undefined2 *)(uStack_1cc + 0x4c);
+    bVar14 = bVar3 >> 3 & 1;
+    bVar15 = bVar3 >> 4 & 1;
+    bVar3 = bVar3 >> 5 & 1;
+    if (bVar14 == 0) {
+      if (bVar15 == 0) goto LAB_300c6e33;
+      if (bVar3 == 0) {
+        uStack_1bc = 1;
+        iVar5 = 0;
+        puVar16 = auStack_190;
+        do {
+          apiStack_1b8[iVar5] = (int *)0x0;
+          puVar16[-2] = 0;
+          puVar16[-1] = 0;
+          *puVar16 = 0x3f800000;
+          puVar16[-8] = 0x3f800000;
+          puVar16[-7] = 0;
+          puVar16[-6] = 0;
+          puVar16[6] = 0;
+          puVar16[5] = 0;
+          puVar16[4] = 0;
+          iVar5 = iVar5 + 1;
+          puVar16 = puVar16 + 3;
+        } while (iVar5 < 2);
+        pNStack_1c0 = &NxRevoluteJointDesc::vftable;
+        uStack_13c = 0x7f7fffff;
+        uStack_138 = 0;
+        uStack_134 = 0;
+        fStack_130 = 0.0;
+        fStack_12c = 0.0;
+        fStack_128 = 0.0;
+        iVar5 = 0;
+        puVar16 = auStack_190;
+        do {
+          apiStack_1b8[iVar5] = (int *)0x0;
+          puVar16[-2] = 0;
+          puVar16[-1] = 0;
+          *puVar16 = 0x3f800000;
+          puVar16[-8] = 0x3f800000;
+          puVar16[-7] = 0;
+          puVar16[-6] = 0;
+          puVar16[6] = 0;
+          puVar16[5] = 0;
+          puVar16[4] = 0;
+          iVar5 = iVar5 + 1;
+          puVar16 = puVar16 + 3;
+        } while (iVar5 < 2);
+        fStack_124 = 1.0;
+        uStack_120 = 0x3db295ea;
+        uStack_154 = *(undefined4 *)(uStack_1cc + 0x20);
+        fStack_168 = 3.4028235e+38;
+        uStack_164 = 0x7f7fffff;
+        uStack_148 = *(undefined4 *)(uStack_1cc + 0x2c);
+        uStack_160 = 0;
+        fStack_15c = 0.0;
+        fStack_150 = 0.5;
+        fStack_14c = 0.5;
+        fStack_144 = 0.5;
+        fStack_140 = 0.5;
+        if (param_3 == (int *)0x0) {
+          apiStack_1b8[0] = *(int **)(*(int *)((int)this + 0x14) + iStack_1c8 * 4);
+        }
+        else {
+          apiStack_1b8[0] = param_3;
+        }
+        apiStack_1b8[1] = *(int **)(*(int *)((int)this + 0x14) + iStack_1c4 * 4);
+        iVar5 = *(int *)((int)this + 0x130);
+        uStack_11c = 1;
+        fStack_158 = (float)((*(char *)(iVar5 + 0x1e) != '\0') + 2);
+        if (((*(char *)(iVar5 + 0x74) != '\x01') || (cVar22 != '\0')) &&
+           (*(char *)(iVar5 + 0x34) != '\0')) {
+          uStack_11c = 5;
+          fStack_130 = *(float *)(iVar5 + 0x38);
+          fStack_12c = *(float *)(iVar5 + 0x3c);
+          if (cVar22 != '\0') {
+            if (*(float *)(iVar5 + 0x78) == 0.0) {
+              uStack_11c = 1;
+            }
+            else {
+              fStack_130 = *(float *)(iVar5 + 0x78) * fStack_130;
+              fStack_12c = *(float *)(iVar5 + 0x78) * fStack_12c;
+            }
+          }
+        }
+        fVar21 = *(float *)(iVar5 + 0x58);
+        if (0.0 < fVar21) {
+          fStack_124 = fVar21;
+        }
+        uStack_118 = (uint)(0.0 < fVar21);
+        pbVar9 = bCMatrix::GetTranslation(abStack_84);
+        bCVector::operator_class_NxVec3_const_(pbVar9);
+        piVar12 = (int *)_NxGetUtilLib_0();
+        (**(code **)(*piVar12 + 0xc0))();
+        bCMatrix::GetZAxis((bCMatrix *)&uStack_8c);
+        pbVar9 = (bCVector *)&fStack_f8;
+        puStack_1f8 = (uint *)0x300c6df7;
+        this_02 = bCMatrix::GetXAxis((bCMatrix *)&uStack_8c);
+        puStack_1f8 = (uint *)0x300c6dff;
+        pbVar9 = (bCVector *)bCVector::GetCrossProduct(this_02,pbVar9);
+        bCVector::operator_class_NxVec3_(pbVar9);
+        piVar12 = (int *)_NxGetUtilLib_0();
+        puStack_1f8 = &uStack_1cc;
+        fStack_1fc = 5.1088184e-10;
+        (**(code **)(*piVar12 + 0xc4))();
+        bCVector::~bCVector((bCVector *)&fStack_12c);
+        goto LAB_300c7a1c;
+      }
+LAB_300c6e43:
+      if (bVar15 != 0) goto LAB_300c7118;
+      uStack_1bc = 1;
+      iVar5 = 0;
+      puVar16 = auStack_190;
+      do {
+        apiStack_1b8[iVar5] = (int *)0x0;
+        puVar16[-2] = 0;
+        puVar16[-1] = 0;
+        *puVar16 = 0x3f800000;
+        puVar16[-8] = 0x3f800000;
+        puVar16[-7] = 0;
+        puVar16[-6] = 0;
+        puVar16[6] = 0;
+        puVar16[5] = 0;
+        puVar16[4] = 0;
+        iVar5 = iVar5 + 1;
+        puVar16 = puVar16 + 3;
+      } while (iVar5 < 2);
+      pNStack_1c0 = &NxRevoluteJointDesc::vftable;
+      uStack_13c = 0x7f7fffff;
+      uStack_138 = 0;
+      uStack_134 = 0;
+      fStack_130 = 0.0;
+      fStack_12c = 0.0;
+      fStack_128 = 0.0;
+      iVar5 = 0;
+      puVar16 = auStack_190;
+      do {
+        apiStack_1b8[iVar5] = (int *)0x0;
+        puVar16[-2] = 0;
+        puVar16[-1] = 0;
+        *puVar16 = 0x3f800000;
+        puVar16[-8] = 0x3f800000;
+        puVar16[-7] = 0;
+        puVar16[-6] = 0;
+        puVar16[6] = 0;
+        puVar16[5] = 0;
+        puVar16[4] = 0;
+        iVar5 = iVar5 + 1;
+        puVar16 = puVar16 + 3;
+      } while (iVar5 < 2);
+      fStack_124 = 1.0;
+      uStack_120 = 0x3db295ea;
+      uStack_154 = *(undefined4 *)(uStack_1cc + 0x24);
+      fStack_168 = 3.4028235e+38;
+      uStack_164 = 0x7f7fffff;
+      uStack_148 = *(undefined4 *)(uStack_1cc + 0x30);
+      uStack_160 = 0;
+      fStack_15c = 0.0;
+      fStack_150 = 0.5;
+      fStack_14c = 0.5;
+      fStack_144 = 0.5;
+      fStack_140 = 0.5;
+      if (param_3 == (int *)0x0) {
+        apiStack_1b8[0] = *(int **)(*(int *)((int)this + 0x14) + iStack_1c8 * 4);
+      }
+      else {
+        apiStack_1b8[0] = param_3;
+      }
+      apiStack_1b8[1] = *(int **)(*(int *)((int)this + 0x14) + iStack_1c4 * 4);
+      iVar5 = *(int *)((int)this + 0x130);
+      uStack_11c = 1;
+      fStack_158 = (float)((*(char *)(iVar5 + 0x1e) != '\0') + 2);
+      if (((*(char *)(iVar5 + 0x74) != '\x01') || (cVar22 != '\0')) &&
+         (*(char *)(iVar5 + 0x34) != '\0')) {
+        uStack_11c = 5;
+        fStack_130 = *(float *)(iVar5 + 0x38);
+        fStack_12c = *(float *)(iVar5 + 0x3c);
+        if (cVar22 != '\0') {
+          if (*(float *)(iVar5 + 0x78) == 0.0) {
+            uStack_11c = 1;
+          }
+          else {
+            fStack_130 = *(float *)(iVar5 + 0x78) * fStack_130;
+            fStack_12c = *(float *)(iVar5 + 0x78) * fStack_12c;
+          }
+        }
+      }
+      fVar21 = *(float *)(iVar5 + 0x58);
+      if (0.0 < fVar21) {
+        fStack_124 = fVar21;
+      }
+      uStack_118 = (uint)(0.0 < fVar21);
+      pbVar9 = bCMatrix::GetTranslation(abStack_84);
+      bCVector::operator_class_NxVec3_const_(pbVar9);
+      piVar12 = (int *)_NxGetUtilLib_0();
+      (**(code **)(*piVar12 + 0xc0))();
+      pbVar9 = bCMatrix::GetYAxis((bCMatrix *)&uStack_8c);
+      bCVector::operator_class_NxVec3_const_(pbVar9);
+      piVar12 = (int *)_NxGetUtilLib_0();
+      puStack_1f8 = (uint *)0x300c710f;
+      (**(code **)(*piVar12 + 0xc4))();
+      goto LAB_300c7a1c;
+    }
+    if (bVar15 != 0) {
+LAB_300c6e33:
+      if (bVar3 != 0) goto LAB_300c6e3b;
+LAB_300c7118:
+      uStack_1bc = 3;
+      iVar5 = 0;
+      puVar16 = auStack_190;
+      do {
+        apiStack_1b8[iVar5] = (int *)0x0;
+        puVar16[-2] = 0;
+        puVar16[-1] = 0;
+        *puVar16 = 0x3f800000;
+        puVar16[-8] = 0x3f800000;
+        puVar16[-7] = 0;
+        puVar16[-6] = 0;
+        puVar16[6] = 0;
+        puVar16[5] = 0;
+        puVar16[4] = 0;
+        iVar5 = iVar5 + 1;
+        puVar16 = puVar16 + 3;
+      } while (iVar5 < 2);
+      pNStack_1c0 = (NxRevoluteJointDesc_vftable *)&NxSphericalJointDesc::vftable;
+      fStack_144 = 0.0;
+      fStack_140 = 0.0;
+      uStack_13c = 0x3f800000;
+      uStack_138 = 0;
+      uStack_134 = 0;
+      fStack_130 = 1.0;
+      iVar5 = 0;
+      puVar16 = auStack_190;
+      do {
+        apiStack_1b8[iVar5] = (int *)0x0;
+        puVar16[-2] = 0;
+        puVar16[-1] = 0;
+        *puVar16 = 0x3f800000;
+        puVar16[-8] = 0x3f800000;
+        puVar16[-7] = 0;
+        puVar16[-6] = 0;
+        puVar16[6] = 0;
+        puVar16[5] = 0;
+        puVar16[4] = 0;
+        iVar5 = iVar5 + 1;
+        puVar16 = puVar16 + 3;
+      } while (iVar5 < 2);
+      fStack_168 = 3.4028235e+38;
+      uStack_164 = 0x7f7fffff;
+      uStack_160 = 0;
+      fStack_15c = 0.0;
+      fStack_12c = 0.0;
+      fStack_128 = 0.0;
+      fStack_124 = 1.0;
+      uStack_120 = 0;
+      uStack_11c = 0;
+      uStack_118 = 0;
+      uStack_114 = 0;
+      uStack_110 = 0;
+      uStack_10c = 0;
+      uStack_108 = 0;
+      uStack_104 = 0;
+      uStack_100 = 0;
+      uStack_148 = 0x3f800000;
+      fStack_f8 = 0.0;
+      uStack_154 = 0;
+      fStack_150 = 0.0;
+      fStack_14c = 1.0;
+      if (param_3 == (int *)0x0) {
+        apiStack_1b8[0] = *(int **)(*(int *)((int)this + 0x14) + iStack_1c8 * 4);
+      }
+      else {
+        apiStack_1b8[0] = param_3;
+      }
+      apiStack_1b8[1] = *(int **)(*(int *)((int)this + 0x14) + iStack_1c4 * 4);
+      uStack_fc = 0;
+      fStack_158 = (float)((*(char *)(*(int *)((int)this + 0x130) + 0x1e) != '\0') + 2);
+      if (param_3 == (int *)0x0) {
+        pbVar9 = bCMatrix::GetTranslation(abStack_84);
+        cVar22 = (char)((uint)in_stack_fffffdf0 >> 0x10);
+        bCVector::operator_class_NxVec3_const_(pbVar9);
+        piVar12 = (int *)_NxGetUtilLib_0();
+        (**(code **)(*piVar12 + 0xc0))();
+        pbVar9 = bCMatrix::GetXAxis((bCMatrix *)&uStack_8c);
+        bCVector::operator_class_NxVec3_const_(pbVar9);
+        piVar12 = (int *)_NxGetUtilLib_0();
+        puStack_1f8 = (uint *)0x300c7365;
+        (**(code **)(*piVar12 + 0xc4))();
+      }
+      else {
+        bCMatrix::bCMatrix(abStack_44,(bCMatrix *)(unaff_retaddr + 0x44));
+        cVar22 = (char)((uint)in_stack_fffffdf0 >> 0x10);
+        fVar21 = _DAT_30aa68a0;
+        pbVar9 = bCMatrix::AccessTranslation(abStack_44);
+        bCVector::operator*=(pbVar9,fVar21);
+        pbVar10 = (bCMatrix *)
+                  bCMatrix::operator*((bCMatrix *)((int)this + 0x30),(bCMatrix *)&uStack_c8);
+        bCMatrix::operator=(abStack_48,pbVar10);
+        bCMatrix::~bCMatrix(abStack_cc);
+        pbVar9 = bCMatrix::GetTranslation(abStack_48);
+        bCVector::operator_class_NxVec3_const_(pbVar9);
+        piVar12 = (int *)_NxGetUtilLib_0();
+        (**(code **)(*piVar12 + 0xc0))();
+        pbVar9 = bCMatrix::GetXAxis(abStack_50);
+        bCVector::operator_class_NxVec3_const_(pbVar9);
+        piVar12 = (int *)_NxGetUtilLib_0();
+        puStack_1f8 = &uStack_1cc;
+        fStack_1fc = 5.109682e-10;
+        (**(code **)(*piVar12 + 0xc4))();
+        bCMatrix::~bCMatrix(abStack_80);
+      }
+      iVar5 = *(int *)((int)this + 0x130);
+      if ((*(char *)(iVar5 + 0x74) != '\x01') || (uVar1 = uStack_138, cVar22 != '\0')) {
+        uVar1 = uStack_138;
+        if (*(char *)(iVar5 + 0x34) != '\0') {
+          fStack_15c = *(float *)(iVar5 + 0x38);
+          fStack_158 = *(float *)(iVar5 + 0x3c);
+          uVar1 = uStack_138 | 4;
+          if (cVar22 != '\0') {
+            if (*(float *)(iVar5 + 0x78) == 0.0) {
+              uVar1 = uStack_138 & 0xfffffffb;
+            }
+            else {
+              fStack_15c = *(float *)(iVar5 + 0x78) * fStack_15c;
+              fStack_158 = *(float *)(iVar5 + 0x78) * fStack_158;
+            }
+          }
+        }
+        uStack_138 = uVar1;
+        uVar1 = uStack_138;
+        if (*(char *)(iVar5 + 0x40) != '\0') {
+          fStack_150 = *(float *)(iVar5 + 0x44);
+          fStack_14c = *(float *)(iVar5 + 0x48);
+          uVar1 = uStack_138 | 8;
+          if (cVar22 != '\0') {
+            if (*(float *)(iVar5 + 0x78) == 0.0) {
+              uVar1 = uStack_138 & 0xfffffff7;
+            }
+            else {
+              fStack_150 = *(float *)(iVar5 + 0x78) * fStack_150;
+              fStack_14c = *(float *)(iVar5 + 0x78) * fStack_14c;
+            }
+          }
+        }
+        uStack_138 = uVar1;
+        uVar1 = uStack_138;
+        if (*(char *)(iVar5 + 0x4c) != '\0') {
+          fStack_144 = *(float *)(iVar5 + 0x50);
+          fStack_140 = *(float *)(iVar5 + 0x54);
+          uVar1 = uStack_138 | 0x10;
+          if (cVar22 != '\0') {
+            if (*(float *)(iVar5 + 0x78) == 0.0) {
+              uVar1 = uStack_138 & 0xffffffef;
+            }
+            else {
+              fStack_144 = *(float *)(iVar5 + 0x78) * fStack_144;
+              fStack_140 = *(float *)(iVar5 + 0x78) * fStack_140;
+            }
+          }
+        }
+      }
+      uStack_138 = uVar1;
+      if (0.0 < *(float *)(iVar5 + 0x58)) {
+        uStack_134 = 1;
+        fStack_184 = *(float *)(iVar5 + 0x58);
+      }
+      fStack_128 = *(float *)(iStack_208 + 0x2c);
+      uStack_180 = *(undefined4 *)(iStack_208 + 0x1c);
+      uStack_174 = *(undefined4 *)(iStack_208 + 0x28);
+      fStack_124 = *(float *)(iStack_208 + 0x30);
+      uStack_138 = uStack_138 | 3;
+      uStack_178 = 0x3f000000;
+      uStack_17c = 0x3f000000;
+      fStack_168 = (fStack_124 + fStack_128) * 0.5;
+      uStack_16c = 0x3f000000;
+      uStack_170 = 0x3f000000;
+      uStack_160 = 0x3f000000;
+      uStack_164 = 0x3f000000;
+      goto LAB_300c7a1c;
+    }
+    if (bVar3 != 0) {
+LAB_300c6e3b:
+      if (bVar14 == 0) goto LAB_300c6e43;
+      goto LAB_300c7118;
+    }
+    uStack_1bc = 1;
+    puVar16 = auStack_190;
+    iVar5 = 0;
+    do {
+      apiStack_1b8[iVar5] = (int *)0x0;
+      puVar16[-2] = 0;
+      puVar16[-1] = 0;
+      *puVar16 = 0x3f800000;
+      puVar16[-8] = 0x3f800000;
+      puVar16[-7] = 0;
+      puVar16[-6] = 0;
+      puVar16[6] = 0;
+      puVar16[5] = 0;
+      puVar16[4] = 0;
+      iVar5 = iVar5 + 1;
+      puVar16 = puVar16 + 3;
+    } while (iVar5 < 2);
+    pNStack_1c0 = &NxRevoluteJointDesc::vftable;
+    uStack_13c = 0x7f7fffff;
+    uStack_138 = 0;
+    uStack_134 = 0;
+    fStack_130 = 0.0;
+    fStack_12c = 0.0;
+    fStack_128 = 0.0;
+    iVar5 = 0;
+    puVar16 = auStack_190;
+    do {
+      apiStack_1b8[iVar5] = (int *)0x0;
+      puVar16[-2] = 0;
+      puVar16[-1] = 0;
+      *puVar16 = 0x3f800000;
+      puVar16[-8] = 0x3f800000;
+      puVar16[-7] = 0;
+      puVar16[-6] = 0;
+      puVar16[6] = 0;
+      puVar16[5] = 0;
+      puVar16[4] = 0;
+      iVar5 = iVar5 + 1;
+      puVar16 = puVar16 + 3;
+    } while (iVar5 < 2);
+    fStack_124 = 1.0;
+    uStack_120 = 0x3db295ea;
+    uStack_154 = *(undefined4 *)(uStack_1cc + 0x1c);
+    fStack_168 = 3.4028235e+38;
+    uStack_164 = 0x7f7fffff;
+    uStack_148 = *(undefined4 *)(uStack_1cc + 0x28);
+    uStack_160 = 0;
+    fStack_15c = 0.0;
+    fStack_150 = 0.5;
+    fStack_14c = 0.5;
+    fStack_144 = 0.5;
+    fStack_140 = 0.5;
+    if (param_3 == (int *)0x0) {
+      apiStack_1b8[0] = *(int **)(*(int *)((int)this + 0x14) + iStack_1c8 * 4);
+    }
+    else {
+      apiStack_1b8[0] = param_3;
+    }
+    apiStack_1b8[1] = *(int **)(*(int *)((int)this + 0x14) + iStack_1c4 * 4);
+    iVar5 = *(int *)((int)this + 0x130);
+    uStack_11c = 1;
+    fStack_158 = (float)((*(char *)(iVar5 + 0x1e) != '\0') + 2);
+    if (((*(char *)(iVar5 + 0x74) != '\x01') || (cVar22 != '\0')) &&
+       (*(char *)(iVar5 + 0x34) != '\0')) {
+      uStack_11c = 5;
+      fStack_130 = *(float *)(iVar5 + 0x38);
+      fStack_12c = *(float *)(iVar5 + 0x3c);
+      if (cVar22 != '\0') {
+        if (*(float *)(iVar5 + 0x78) == 0.0) {
+          uStack_11c = 1;
+        }
+        else {
+          fStack_130 = *(float *)(iVar5 + 0x78) * fStack_130;
+          fStack_12c = *(float *)(iVar5 + 0x78) * fStack_12c;
+        }
+      }
+    }
+    fVar21 = *(float *)(iVar5 + 0x58);
+    if (0.0 < fVar21) {
+      fStack_124 = fVar21;
+    }
+    uStack_118 = (uint)(0.0 < fVar21);
+    pbVar9 = bCMatrix::GetTranslation(abStack_84);
+    cVar22 = (char)((uint)in_stack_fffffdf0 >> 0x18);
+    bCVector::operator_class_NxVec3_const_(pbVar9);
+    piVar12 = (int *)_NxGetUtilLib_0();
+    (**(code **)(*piVar12 + 0xc0))();
+    pbVar9 = bCMatrix::GetXAxis((bCMatrix *)&uStack_8c);
+    bCVector::operator_class_NxVec3_const_(pbVar9);
+    piVar12 = (int *)_NxGetUtilLib_0();
+    puStack_1f8 = (uint *)0x300c6aff;
+    (**(code **)(*piVar12 + 0xc4))();
+    pNVar18 = (NxJointDesc *)&fStack_1fc;
+    peVar4 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+    pNVar13 = eCPhysicsScene::CreateJointInternal(peVar4,pNVar18);
+    pNStack_20c = pNVar13;
+    if (cVar22 == '\x01') {
+      iVar5 = *(int *)((int)this + 0x130);
+      goto LAB_300c7a3b;
+    }
+  }
+  if (pNVar13 != (NxJoint *)0x0) {
+    thunk_FUN_300d24f0(&pNStack_20c);
+  }
+  *(int *)((int)this + 0x20) = *(int *)((int)this + 0x20) + 1;
+  bCString::~bCString((bCString *)&uStack_120);
+LAB_300c7a79:
+  bCMatrix::~bCMatrix((bCMatrix *)&uStack_c0);
+  return;
+}
+
+

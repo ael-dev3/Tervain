@@ -1,0 +1,17 @@
+/* ENTRY 10129060 | FUN_10129060 | STATUS decompiled | 7 ms */
+
+void FUN_10129060(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Memory\\GetAttribute.cpp");
+  bCString::bCString(local_8,"AddProtectionMissile");
+  thunk_FUN_10017a50(local_8,&LAB_10001118,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

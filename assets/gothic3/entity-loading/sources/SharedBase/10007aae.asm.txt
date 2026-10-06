@@ -1,0 +1,4 @@
+; 10007aae ?GetPureScaling@bCMatrix@@QBE?AVbCVector@@XZ
+10007aae | e93db90200 | JMP 0x100333f0
+; 10007ab8 bCVector::GetInverted
+; 10007ab8 Ordinal_2572

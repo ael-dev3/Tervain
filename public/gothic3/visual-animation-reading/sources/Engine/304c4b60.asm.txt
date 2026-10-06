@@ -1,0 +1,4 @@
+; 304c4b60 FUN_304c4b60
+304c4b60 | 83410401 | ADD dword ptr [ECX + 0x4],0x1
+304c4b64 | 8b4104 | MOV EAX,dword ptr [ECX + 0x4]
+304c4b67 | c3 | RET

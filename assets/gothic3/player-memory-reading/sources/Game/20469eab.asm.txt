@@ -1,0 +1,61 @@
+; 20469eab __VEC_memzero
+20469eab | 55 | PUSH EBP
+20469eac | 8bec | MOV EBP,ESP
+20469eae | 83ec10 | SUB ESP,0x10
+20469eb1 | 897dfc | MOV dword ptr [EBP + -0x4],EDI
+20469eb4 | 8b4508 | MOV EAX,dword ptr [EBP + 0x8]
+20469eb7 | 99 | CDQ
+20469eb8 | 8bf8 | MOV EDI,EAX
+20469eba | 33fa | XOR EDI,EDX
+20469ebc | 2bfa | SUB EDI,EDX
+20469ebe | 83e70f | AND EDI,0xf
+20469ec1 | 33fa | XOR EDI,EDX
+20469ec3 | 2bfa | SUB EDI,EDX
+20469ec5 | 85ff | TEST EDI,EDI
+20469ec7 | 753c | JNZ 0x20469f05
+20469ec9 | 8b4d10 | MOV ECX,dword ptr [EBP + 0x10]
+20469ecc | 8bd1 | MOV EDX,ECX
+20469ece | 83e27f | AND EDX,0x7f
+20469ed1 | 8955f4 | MOV dword ptr [EBP + -0xc],EDX
+20469ed4 | 3bca | CMP ECX,EDX
+20469ed6 | 7412 | JZ 0x20469eea
+20469ed8 | 2bca | SUB ECX,EDX
+20469eda | 51 | PUSH ECX
+20469edb | 50 | PUSH EAX
+20469edc | e873ffffff | CALL 0x20469e54
+20469ee1 | 83c408 | ADD ESP,0x8
+20469ee4 | 8b4508 | MOV EAX,dword ptr [EBP + 0x8]
+20469ee7 | 8b55f4 | MOV EDX,dword ptr [EBP + -0xc]
+20469eea | 85d2 | TEST EDX,EDX
+20469eec | 7445 | JZ 0x20469f33
+20469eee | 034510 | ADD EAX,dword ptr [EBP + 0x10]
+20469ef1 | 2bc2 | SUB EAX,EDX
+20469ef3 | 8945f8 | MOV dword ptr [EBP + -0x8],EAX
+20469ef6 | 33c0 | XOR EAX,EAX
+20469ef8 | 8b7df8 | MOV EDI,dword ptr [EBP + -0x8]
+20469efb | 8b4df4 | MOV ECX,dword ptr [EBP + -0xc]
+20469efe | f3aa | STOSB.REP ES:EDI
+20469f00 | 8b4508 | MOV EAX,dword ptr [EBP + 0x8]
+20469f03 | eb2e | JMP 0x20469f33
+20469f05 | f7df | NEG EDI
+20469f07 | 83c710 | ADD EDI,0x10
+20469f0a | 897df0 | MOV dword ptr [EBP + -0x10],EDI
+20469f0d | 33c0 | XOR EAX,EAX
+20469f0f | 8b7d08 | MOV EDI,dword ptr [EBP + 0x8]
+20469f12 | 8b4df0 | MOV ECX,dword ptr [EBP + -0x10]
+20469f15 | f3aa | STOSB.REP ES:EDI
+20469f17 | 8b45f0 | MOV EAX,dword ptr [EBP + -0x10]
+20469f1a | 8b4d08 | MOV ECX,dword ptr [EBP + 0x8]
+20469f1d | 8b5510 | MOV EDX,dword ptr [EBP + 0x10]
+20469f20 | 03c8 | ADD ECX,EAX
+20469f22 | 2bd0 | SUB EDX,EAX
+20469f24 | 52 | PUSH EDX
+20469f25 | 6a00 | PUSH 0x0
+20469f27 | 51 | PUSH ECX
+20469f28 | e87effffff | CALL 0x20469eab
+20469f2d | 83c40c | ADD ESP,0xc
+20469f30 | 8b4508 | MOV EAX,dword ptr [EBP + 0x8]
+20469f33 | 8b7dfc | MOV EDI,dword ptr [EBP + -0x4]
+20469f36 | 8be5 | MOV ESP,EBP
+20469f38 | 5d | POP EBP
+20469f39 | c3 | RET

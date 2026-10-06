@@ -1,0 +1,14 @@
+; 1001e7a0 bCIOStream::bCIOStream
+1001e7a0 | 56 | PUSH ESI
+1001e7a1 | 57 | PUSH EDI
+1001e7a2 | 8bf1 | MOV ESI,ECX
+1001e7a4 | e8b45cfeff | CALL 0x1000445d
+1001e7a9 | 8d7e04 | LEA EDI,[ESI + 0x4]
+1001e7ac | 8bcf | MOV ECX,EDI
+1001e7ae | e8c05ffeff | CALL 0x10004773
+1001e7b3 | c707145f0e10 | MOV dword ptr [EDI],0x100e5f14
+1001e7b9 | 5f | POP EDI
+1001e7ba | c706285f0e10 | MOV dword ptr [ESI],0x100e5f28
+1001e7c0 | 8bc6 | MOV EAX,ESI
+1001e7c2 | 5e | POP ESI
+1001e7c3 | c3 | RET

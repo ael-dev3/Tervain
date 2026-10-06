@@ -2,8 +2,17 @@ Native combat kernel checkpoint
 ===============================
 
 src/gothic3/combat.ts exports pure bounded arithmetic queries and ordered state
-plans. Nothing in ordinary gameplay calls this module yet. A resolved math query
-does not establish native contact or mean that a full combat task was ported.
+plans. Its GiveXP planner feeds an ordinary-play Hero reward path that updates
+XP and handles one threshold crossing by updating Level and LP; the
+melee/combat-task kernel remains unintegrated. A resolved math query does not
+establish native contact or mean that a full combat task was ported.
+
+The progression bridge seeds `Perk_Learn` as inactive from the hash-checked
+starting-inventory capture. The full accessor-framed serialized `gCNPC_PS`
+packet is now read; its legacy Level record passes through the byte-verified
+obsolete-class reader and remains opaque, while the current Level begins at
+the verified new-game value. The retained NPC property set is still not
+attached to the live Hero entity, and the level-up visual effect remains absent.
 
 Implemented profile: untransformed Hero with valid PlayerMemory, fist or single
 one-hand mode, Action1..5, Impact1/Blade2, initialized humanoid NPC species0/5,

@@ -1,0 +1,4 @@
+; 10001d2a ?AccessY@bCVector@@QAEAAMXZ
+10001d2a | e9712e0200 | JMP 0x10024ba0
+; 10001d34 bCRandom::FRand48
+; 10001d34 Ordinal_2028

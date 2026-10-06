@@ -1,0 +1,15 @@
+/* ENTRY 2000c130 | gCCharacterMovement_PS::OnAction | STATUS decompiled | 65 ms */
+
+/* public: virtual int __thiscall gCCharacterMovement_PS::OnAction(struct
+   eCInpShared::eSGameKeyMessage const &) */
+
+int __thiscall
+gCCharacterMovement_PS::OnAction(gCCharacterMovement_PS *this,eSGameKeyMessage *param_1)
+
+{
+                    /* 0xc130  5340
+                       ?OnAction@gCCharacterMovement_PS@@UAEHABUeSGameKeyMessage@eCInpShared@@@Z */
+  return -1;
+}
+
+

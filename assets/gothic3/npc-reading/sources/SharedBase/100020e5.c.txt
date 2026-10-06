@@ -1,0 +1,25 @@
+/* ENTRY 100020e5 | bCPropertyObjectSingleton::EnableRegistration | STATUS decompiled | 4 ms */
+
+/* public: void __thiscall bCPropertyObjectSingleton::EnableRegistration(void *,bool) */
+
+void __thiscall
+bCPropertyObjectSingleton::EnableRegistration
+          (bCPropertyObjectSingleton *this,void *param_1,bool param_2)
+
+{
+                    /* 0x20e5  2001  ?EnableRegistration@bCPropertyObjectSingleton@@QAEXPAX_N@Z */
+  if (param_2) {
+    if (param_1 == (void *)(this->bCPropertyObjectSingleton_data).offset_0x4) {
+      (this->bCPropertyObjectSingleton_data).offset_0x0 = 1;
+      (this->bCPropertyObjectSingleton_data).offset_0x4 = 0;
+      return;
+    }
+  }
+  else if ((!param_2) && ((this->bCPropertyObjectSingleton_data).offset_0x4 == 0)) {
+    (this->bCPropertyObjectSingleton_data).offset_0x0 = 0;
+    (this->bCPropertyObjectSingleton_data).offset_0x4 = param_1;
+  }
+  return;
+}
+
+

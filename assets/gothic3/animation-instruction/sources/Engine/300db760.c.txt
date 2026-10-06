@@ -1,0 +1,23 @@
+/* ENTRY 300db760 | FUN_300db760 | STATUS decompiled | 7 ms */
+
+uint __thiscall FUN_300db760(int param_1,uint param_2)
+
+{
+  int iVar1;
+  uint in_EAX;
+  
+  if ((param_2 < 8) && (iVar1 = *(int *)(param_1 + 0x10 + param_2 * 4), iVar1 != 0)) {
+    in_EAX = thunk_FUN_300e2c60(iVar1);
+    if ((char)in_EAX != '\0') {
+      if (((*(int *)(iVar1 + 0x38) == -1) || (*(int *)(iVar1 + 0x34) < *(int *)(iVar1 + 0x38))) &&
+         (*(char *)(iVar1 + 0x54) == '\0')) {
+        return 1;
+      }
+      return 0;
+    }
+    *(undefined4 *)(param_1 + 0x10 + param_2 * 4) = 0;
+  }
+  return in_EAX & 0xffffff00;
+}
+
+

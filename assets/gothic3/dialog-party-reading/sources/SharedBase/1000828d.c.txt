@@ -1,0 +1,12 @@
+/* ENTRY 1000828d | bCClock::~bCClock | STATUS decompiled | 1 ms */
+
+/* public: __thiscall bCClock::~bCClock(void) */
+
+void __thiscall bCClock::~bCClock(bCClock *this)
+
+{
+                    /* 0x828d  360  ??1bCClock@@QAE@XZ */
+  return;
+}
+
+

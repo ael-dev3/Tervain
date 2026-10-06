@@ -1,0 +1,2 @@
+; 3000d0cb ?InsertFileName@eCFilePathCache@@QAE_NABVbCString@@H@Z
+3000d0cb | e9e0cd5b00 | JMP 0x305c9eb0

@@ -1,0 +1,4 @@
+; 100059cf ??0bCAccessorPropertyObject@@QAE@XZ
+100059cf | e9cc500900 | JMP 0x1009aaa0
+; 100059d4 bCPropertyObjectTypeBase::GetPropertyType
+; 100059d4 Ordinal_2835

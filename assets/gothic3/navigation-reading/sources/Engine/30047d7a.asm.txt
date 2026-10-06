@@ -1,0 +1,4 @@
+; 30047d7a ?GetOnScreenDebugLines@eCEntityPropertySet@@UBEXKAAV?$bTObjArray@UeSPropertySetDebugLine@@@@@Z
+30047d7a | e9d19c4300 | JMP 0x30481a50
+; 30047d7f eCWeatherZone_PS::SetSkyColor
+; 30047d7f Ordinal_14198

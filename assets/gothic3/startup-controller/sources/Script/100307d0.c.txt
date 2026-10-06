@@ -1,0 +1,237 @@
+/* ENTRY 100307d0 | FUN_100307d0 | STATUS decompiled | 131 ms */
+
+undefined4 __thiscall FUN_100307d0(void *this,eCEntity *param_1)
+
+{
+  void *pvVar1;
+  void *pvVar2;
+  eCEntityPropertySet *peVar3;
+  undefined4 uVar4;
+  uint3 extraout_var;
+  uint3 extraout_var_00;
+  uint3 extraout_var_01;
+  uint3 extraout_var_02;
+  uint3 extraout_var_03;
+  uint3 extraout_var_04;
+  uint3 extraout_var_05;
+  uint3 extraout_var_06;
+  uint3 extraout_var_07;
+  uint3 extraout_var_08;
+  uint3 extraout_var_09;
+  uint3 extraout_var_10;
+  uint3 extraout_var_11;
+  uint3 extraout_var_12;
+  uint3 extraout_var_13;
+  uint3 extraout_var_14;
+  uint3 extraout_var_15;
+  uint3 extraout_var_16;
+  uint3 extraout_var_17;
+  uint3 extraout_var_18;
+  uint3 extraout_var_19;
+  uint3 extraout_var_20;
+  uint3 extraout_var_21;
+  uint3 extraout_var_22;
+  uint3 extraout_var_23;
+  uint3 extraout_var_24;
+  uint3 extraout_var_25;
+  uint3 extraout_var_26;
+  uint3 extraout_var_27;
+  uint3 extraout_var_28;
+  uint3 extraout_var_29;
+  uint3 extraout_var_30;
+  uint3 extraout_var_31;
+  uint3 extraout_var_32;
+  uint3 extraout_var_33;
+  uint3 extraout_var_34;
+  uint3 extraout_var_35;
+  uint3 extraout_var_36;
+  uint3 extraout_var_37;
+  uint3 extraout_var_38;
+  uint3 extraout_var_39;
+  int iVar5;
+  
+  pvVar1 = _memset(this,0,0xa8);
+  if ((param_1 != (eCEntity *)0x0) &&
+     (pvVar1 = (void *)(**(code **)(*(int *)param_1 + 0xa0))(), (char)pvVar1 == '\0')) {
+    pvVar2 = (void *)eCEntity::GetPropertySetCount(param_1);
+    iVar5 = 0;
+    pvVar1 = pvVar2;
+    if (0 < (int)pvVar2) {
+      do {
+        peVar3 = eCEntity::GetPropertySetAt(param_1,iVar5);
+        uVar4 = (**(code **)(*(int *)peVar3 + 0x60))();
+        pvVar1 = (void *)0x0;
+        switch(uVar4) {
+        case 5:
+          PSNavigation::AttachTo((PSNavigation *)((int)this + 0x30),peVar3);
+          pvVar1 = (void *)((uint)extraout_var_09 << 8);
+          break;
+        case 0xd:
+          PSRigidBody::AttachTo((PSRigidBody *)((int)this + 0x3c),peVar3);
+          pvVar1 = (void *)((uint)extraout_var_12 << 8);
+          break;
+        case 0xe:
+          PSCollisionShape::AttachTo((PSCollisionShape *)((int)this + 0xc),peVar3);
+          pvVar1 = (void *)((uint)extraout_var_00 << 8);
+          break;
+        case 0x15:
+          PSCharacterMovement::AttachTo((PSCharacterMovement *)((int)this + 0x44),peVar3);
+          pvVar1 = (void *)((uint)extraout_var_14 << 8);
+          break;
+        case 0x16:
+          PSCharacterControl::AttachTo((PSCharacterControl *)((int)this + 0x40),peVar3);
+          pvVar1 = (void *)((uint)extraout_var_13 << 8);
+          break;
+        case 0x18:
+          PSCamera::AttachTo((PSCamera *)((int)this + 0x80),peVar3);
+          pvVar1 = (void *)((uint)extraout_var_32 << 8);
+          break;
+        case 0x1e:
+          PSNpc::AttachTo((PSNpc *)((int)this + 0x34),peVar3);
+          pvVar1 = (void *)((uint)extraout_var_10 << 8);
+          break;
+        case 0x1f:
+          PSInventory::AttachTo((PSInventory *)((int)this + 0x24),peVar3);
+          pvVar1 = (void *)((uint)extraout_var_06 << 8);
+          break;
+        case 0x20:
+          PSClock::AttachTo((PSClock *)((int)this + 0x10),peVar3);
+          pvVar1 = (void *)((uint)extraout_var_01 << 8);
+          break;
+        case 0x27:
+          PSTrigger::AttachTo((PSTrigger *)((int)this + 0xa0),peVar3);
+          pvVar1 = (void *)((uint)extraout_var_38 << 8);
+          break;
+        case 0x2d:
+          PSRoutine::AttachTo((PSRoutine *)((int)this + 4),peVar3);
+          pvVar1 = (void *)((uint)extraout_var << 8);
+          break;
+        case 0x30:
+          PSItem::AttachTo((PSItem *)((int)this + 0x28),peVar3);
+          pvVar1 = (void *)((uint)extraout_var_07 << 8);
+          break;
+        case 0x31:
+          PSInteraction::AttachTo((PSInteraction *)((int)this + 0x1c),peVar3);
+          pvVar1 = (void *)((uint)extraout_var_04 << 8);
+          break;
+        case 0x32:
+          PSTouchDamage::AttachTo((PSTouchDamage *)((int)this + 0x50),peVar3);
+          pvVar1 = (void *)((uint)extraout_var_17 << 8);
+          break;
+        case 0x33:
+          PSDamage::AttachTo((PSDamage *)((int)this + 0x48),peVar3);
+          pvVar1 = (void *)((uint)extraout_var_16 << 8);
+          break;
+        case 0x34:
+          PSDamageReceiver::AttachTo((PSDamageReceiver *)((int)this + 0x4c),peVar3);
+          pvVar1 = (void *)((uint)extraout_var_15 << 8);
+          break;
+        case 0x35:
+          PSQuestManager::AttachTo((PSQuestManager *)((int)this + 0x74),peVar3);
+          pvVar1 = (void *)((uint)extraout_var_26 << 8);
+          break;
+        case 0x37:
+          PSInfoManager::AttachTo((PSInfoManager *)((int)this + 0x20),peVar3);
+          pvVar1 = (void *)((uint)extraout_var_05 << 8);
+          break;
+        case 0x3b:
+          PSFocus::AttachTo((PSFocus *)((int)this + 0x18),peVar3);
+          pvVar1 = (void *)((uint)extraout_var_03 << 8);
+          break;
+        case 0x3c:
+          PSPlayerMemory::AttachTo((PSPlayerMemory *)((int)this + 0x38),peVar3);
+          pvVar1 = (void *)((uint)extraout_var_11 << 8);
+          break;
+        case 0x3e:
+          PSEnclave::AttachTo((PSEnclave *)((int)this + 0x84),peVar3);
+          pvVar1 = (void *)((uint)extraout_var_33 << 8);
+          break;
+        case 0x3f:
+          PSArena::AttachTo((PSArena *)((int)this + 0x88),peVar3);
+          pvVar1 = (void *)((uint)extraout_var_34 << 8);
+          break;
+        case 0x44:
+          PSDialog::AttachTo((PSDialog *)((int)this + 0x54),peVar3);
+          pvVar1 = (void *)((uint)extraout_var_18 << 8);
+          break;
+        case 0x45:
+          PSLock::AttachTo((PSLock *)((int)this + 0x2c),peVar3);
+          pvVar1 = (void *)((uint)extraout_var_08 << 8);
+          break;
+        case 0x46:
+          PSDoor::AttachTo((PSDoor *)((int)this + 0x14),peVar3);
+          pvVar1 = (void *)((uint)extraout_var_02 << 8);
+          break;
+        case 0x4d:
+          PSParty::AttachTo((PSParty *)((int)this + 0x58),peVar3);
+          pvVar1 = (void *)((uint)extraout_var_19 << 8);
+          break;
+        case 0x4e:
+          PSAnchor::AttachTo((PSAnchor *)((int)this + 0x5c),peVar3);
+          pvVar1 = (void *)((uint)extraout_var_20 << 8);
+          break;
+        case 0x4f:
+          PSLetter::AttachTo((PSLetter *)((int)this + 0x60),peVar3);
+          pvVar1 = (void *)((uint)extraout_var_21 << 8);
+          break;
+        case 0x50:
+          PSBook::AttachTo((PSBook *)((int)this + 100),peVar3);
+          pvVar1 = (void *)((uint)extraout_var_22 << 8);
+          break;
+        case 0x51:
+          PSMap::AttachTo((PSMap *)((int)this + 0x68),peVar3);
+          pvVar1 = (void *)((uint)extraout_var_23 << 8);
+          break;
+        case 0x53:
+          PSProjectile::AttachTo((PSProjectile *)((int)this + 0x70),peVar3);
+          pvVar1 = (void *)((uint)extraout_var_25 << 8);
+          break;
+        case 0x55:
+          PSStrip::AttachTo((PSStrip *)((int)this + 0x78),peVar3);
+          pvVar1 = (void *)((uint)extraout_var_27 << 8);
+          break;
+        case 0x57:
+          PSParticle::AttachTo((PSParticle *)((int)this + 0x7c),peVar3);
+          pvVar1 = (void *)((uint)extraout_var_28 << 8);
+          break;
+        case 0x5e:
+          PSAIZone::AttachTo((PSAIZone *)((int)this + 0x8c),peVar3);
+          pvVar1 = (void *)((uint)extraout_var_35 << 8);
+          break;
+        case 0x60:
+          PSEffect::AttachTo((PSEffect *)((int)this + 0x90),peVar3);
+          pvVar1 = (void *)((uint)extraout_var_29 << 8);
+          break;
+        case 100:
+          PSAnimation::AttachTo((PSAnimation *)((int)this + 8),peVar3);
+          pvVar1 = (void *)((uint)extraout_var_36 << 8);
+          break;
+        case 0x65:
+          PSMagic::AttachTo((PSMagic *)((int)this + 0x94),peVar3);
+          pvVar1 = (void *)((uint)extraout_var_30 << 8);
+          break;
+        case 0x66:
+          PSSkill::AttachTo((PSSkill *)((int)this + 0x98),peVar3);
+          pvVar1 = (void *)((uint)extraout_var_31 << 8);
+          break;
+        case 0x67:
+          PSMover::AttachTo((PSMover *)((int)this + 0x9c),peVar3);
+          pvVar1 = (void *)((uint)extraout_var_37 << 8);
+          break;
+        case 0x6c:
+          PSTreasureSet::AttachTo((PSTreasureSet *)((int)this + 0xa4),peVar3);
+          pvVar1 = (void *)((uint)extraout_var_39 << 8);
+          break;
+        case 0x6d:
+          PSRecipe::AttachTo((PSRecipe *)((int)this + 0x6c),peVar3);
+          pvVar1 = (void *)((uint)extraout_var_24 << 8);
+        }
+        iVar5 = iVar5 + 1;
+      } while (iVar5 < (int)pvVar2);
+    }
+    *(eCEntity **)this = param_1;
+  }
+  return CONCAT31((int3)((uint)pvVar1 >> 8),1);
+}
+
+

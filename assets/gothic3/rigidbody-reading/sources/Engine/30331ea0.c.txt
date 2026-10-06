@@ -1,0 +1,11 @@
+/* ENTRY 30331ea0 | bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_>::vfunction1 | STATUS decompiled | 3 ms */
+
+bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_>_vftable * __thiscall
+bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_>::vfunction1
+          (bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_> *this)
+
+{
+  return this[7].vftablePtr;
+}
+
+

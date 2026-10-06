@@ -1,0 +1,2 @@
+; 2002ba44 bTPropertyObjectType<gCInventorySlot,bCObjectRefBase>::vfunction1
+2002ba44 | e9a7701900 | JMP 0x201c2af0

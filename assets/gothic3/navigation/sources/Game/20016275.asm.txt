@@ -1,0 +1,4 @@
+; 20016275 ?UpdateZoneIDs@gCNavigation_PS@@QAEXXZ
+20016275 | e9063d2700 | JMP 0x20289f80
+; 2001627a gCGameApp::GetSaveGameFolder
+; 2001627a Ordinal_4349

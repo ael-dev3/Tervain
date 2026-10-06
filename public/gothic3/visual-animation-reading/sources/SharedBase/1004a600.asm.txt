@@ -1,0 +1,4 @@
+; 1004a600 bCObjectRefBase::bCObjectRefBase
+1004a600 | c701ac7e0e10 | MOV dword ptr [ECX],0x100e7eac
+1004a606 | c7410400000000 | MOV dword ptr [ECX + 0x4],0x0
+1004a60d | e93483fbff | JMP 0x10002946

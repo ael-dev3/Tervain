@@ -1,0 +1,18 @@
+/* ENTRY 10007b76 | bCBox::GetIntersectionDistance | STATUS decompiled | 4 ms */
+
+/* public: float __thiscall bCBox::GetIntersectionDistance(class bCRay const &)const  */
+
+float __thiscall bCBox::GetIntersectionDistance(bCBox *this,bCRay *param_1)
+
+{
+  bool bVar1;
+  
+                    /* 0x7b76  2426  ?GetIntersectionDistance@bCBox@@QBEMABVbCRay@@@Z */
+  bVar1 = Intersects(this,param_1,(float *)&param_1);
+  if (!bVar1) {
+    param_1 = (bCRay *)0xbf800000;
+  }
+  return (float)param_1;
+}
+
+

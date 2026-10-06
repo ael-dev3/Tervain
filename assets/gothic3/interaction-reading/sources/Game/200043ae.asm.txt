@@ -1,0 +1,2 @@
+; 200043ae bTPOPureSmartPtr<gCInteraction_PS>::vfunction12
+200043ae | e9bd134000 | JMP 0x20405770

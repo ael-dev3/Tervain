@@ -1,0 +1,14 @@
+/* ENTRY 20188310 | gCHUDListCtrlInvSkills::gCHUDListCtrlInvSkills | STATUS decompiled | 12 ms */
+
+gCHUDListCtrlInvSkills * __thiscall
+gCHUDListCtrlInvSkills::gCHUDListCtrlInvSkills(gCHUDListCtrlInvSkills *this)
+
+{
+  gCHUDListCtrlInvUseStacks::gCHUDListCtrlInvUseStacks((gCHUDListCtrlInvUseStacks *)this);
+  this->vftablePtr = &vftable;
+  this->vftablePtr = &vftable;
+  (this->gCHUDListCtrlInvSkills_data).offset_0x0 = 0xffffffff;
+  return this;
+}
+
+

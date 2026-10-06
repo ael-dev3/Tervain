@@ -1,0 +1,2 @@
+; 3000c0bd eCEntityPropertySet::OnExitProcessingRange
+3000c0bd | e98e584700 | JMP 0x30481950

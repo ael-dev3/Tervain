@@ -1,0 +1,19 @@
+/* ENTRY 2018ef50 | FUN_2018ef50 | STATUS decompiled | 7 ms */
+
+void __thiscall FUN_2018ef50(int param_1,eCEntity *param_2)
+
+{
+  eCEntityProxy *this;
+  eCEntity *peVar1;
+  
+  this = (eCEntityProxy *)(param_1 + 0x10);
+  peVar1 = eCEntityProxy::GetEntity(this);
+  if (peVar1 != param_2) {
+    eCEntityProxy::GetEntity(this);
+    eCEntityProxy::SetEntity(this,param_2);
+    thunk_FUN_2018ecd0();
+  }
+  return;
+}
+
+

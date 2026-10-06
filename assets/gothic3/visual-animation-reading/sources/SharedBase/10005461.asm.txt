@@ -1,0 +1,2 @@
+; 10005461 bCVector::~bCVector
+10005461 | e91af70100 | JMP 0x10024b80

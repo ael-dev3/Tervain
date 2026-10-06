@@ -1,0 +1,17 @@
+/* ENTRY 101749e0 | FUN_101749e0 | STATUS decompiled | 7 ms */
+
+void FUN_101749e0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Engine\\Engine_Callback\\OnTick.cpp");
+  bCString::bCString(local_8,"OnTick");
+  thunk_FUN_10017a50(local_8,&LAB_10002fdb,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

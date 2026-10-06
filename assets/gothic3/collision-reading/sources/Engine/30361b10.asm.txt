@@ -1,0 +1,16 @@
+; 30361b10 bTPropertyType<eCCollisionShape,unsigned_short>::vfunction8
+30361b10 | 56 | PUSH ESI
+30361b11 | 8bf1 | MOV ESI,ECX
+30361b13 | 8b06 | MOV EAX,dword ptr [ESI]
+30361b15 | 8b5018 | MOV EDX,dword ptr [EAX + 0x18]
+30361b18 | ffd2 | CALL EDX
+30361b1a | 84c0 | TEST AL,AL
+30361b1c | 7505 | JNZ 0x30361b23
+30361b1e | 83c8ff | OR EAX,0xffffffff
+30361b21 | 5e | POP ESI
+30361b22 | c3 | RET
+; 30361b23 LAB_30361b23
+30361b23 | 8b4620 | MOV EAX,dword ptr [ESI + 0x20]
+30361b26 | 8b4004 | MOV EAX,dword ptr [EAX + 0x4]
+30361b29 | 5e | POP ESI
+30361b2a | c3 | RET

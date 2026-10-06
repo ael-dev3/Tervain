@@ -1,0 +1,2 @@
+; 3002c04d eCIlluminated_PS::GetStaticIlluminated
+3002c04d | e99e020700 | JMP 0x3009c2f0

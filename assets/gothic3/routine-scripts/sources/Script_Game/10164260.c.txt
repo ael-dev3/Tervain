@@ -1,0 +1,17 @@
+/* ENTRY 10164260 | FUN_10164260 | STATUS decompiled | 8 ms */
+
+void FUN_10164260(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Routine\\Routine_Tasks\\ZS_SlaveBabe.cpp");
+  bCString::bCString(local_8,"ZS_SlaveBabe_Dance");
+  thunk_FUN_1001db60(local_8,&LAB_1000233d,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

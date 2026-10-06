@@ -1,0 +1,12 @@
+; 2016dba0 gCHUDPageQuests2::gCHUDPageQuests2
+2016dba0 | 56 | PUSH ESI
+2016dba1 | 8bf1 | MOV ESI,ECX
+2016dba3 | e8bf21eaff | CALL 0x2000fd67
+2016dba8 | 8d4e14 | LEA ECX,[ESI + 0x14]
+2016dbab | c70664296720 | MOV dword ptr [ESI],0x20672964
+2016dbb1 | e8f161ecff | CALL 0x20033da7
+2016dbb6 | 8d4e28 | LEA ECX,[ESI + 0x28]
+2016dbb9 | e8ff15ebff | CALL 0x2001f1bd
+2016dbbe | 8bc6 | MOV EAX,ESI
+2016dbc0 | 5e | POP ESI
+2016dbc1 | c3 | RET

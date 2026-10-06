@@ -1,0 +1,2 @@
+; 3001767f bTPropertyContainer<eEShapeAABBAdapt>::vfunction8
+3001767f | e98c1f0b00 | JMP 0x300c9610

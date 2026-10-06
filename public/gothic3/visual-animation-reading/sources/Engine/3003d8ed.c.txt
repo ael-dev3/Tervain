@@ -1,0 +1,12 @@
+/* ENTRY 3003d8ed | eCSpringAndDamperEffector::Invalidate | STATUS decompiled | 3 ms */
+
+/* protected: void __thiscall eCSpringAndDamperEffector::Invalidate(void) */
+
+void __thiscall eCSpringAndDamperEffector::Invalidate(eCSpringAndDamperEffector *this)
+
+{
+                    /* 0x3d8ed  10178  ?Invalidate@eCSpringAndDamperEffector@@IAEXXZ */
+  return;
+}
+
+

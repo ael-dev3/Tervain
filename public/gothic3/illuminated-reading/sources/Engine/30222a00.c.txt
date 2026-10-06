@@ -1,0 +1,16 @@
+/* ENTRY 30222a00 | FUN_30222a00 | STATUS decompiled | 7 ms */
+
+void __fastcall FUN_30222a00(int *param_1)
+
+{
+  eCFrustumElementItem *this;
+  eCIlluminated_PS *peVar1;
+  
+  (**(code **)(*param_1 + 0x118))();
+  peVar1 = (eCIlluminated_PS *)0x0;
+  this = eCEntity::GetFrustumElementItem((eCEntity *)param_1[3]);
+  eCFrustumElementItem::SetIlluminationPS(this,peVar1);
+  return;
+}
+
+

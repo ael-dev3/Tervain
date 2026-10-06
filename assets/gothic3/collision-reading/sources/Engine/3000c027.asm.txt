@@ -1,0 +1,4 @@
+; 3000c027 bTPropertyType<eCCollisionShapeBase_PS,bCObsoleteClass>::vfunction9
+3000c027 | e974663300 | JMP 0x303426a0
+; 3000c03b eCContactIterator::CreateIterator
+; 3000c03b Ordinal_4856

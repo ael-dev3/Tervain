@@ -1,0 +1,23 @@
+/* ENTRY 201ce740 | FUN_201ce740 | STATUS decompiled | 6 ms */
+
+undefined4 __thiscall FUN_201ce740(int *param_1,uint param_2,eCEntity *param_3)
+
+{
+  gCInventorySlot *this;
+  bool bVar1;
+  
+  if ((uint)param_1[1] <= param_2) {
+    return 0;
+  }
+  this = *(gCInventorySlot **)(*param_1 + param_2 * 4);
+  if (this != (gCInventorySlot *)0x0) {
+    bVar1 = gCInventorySlot::IsLinked(this);
+    if (!bVar1) {
+      return 1;
+    }
+    gCInventorySlot::UnLinkFromSlot(this,param_3);
+  }
+  return 0;
+}
+
+

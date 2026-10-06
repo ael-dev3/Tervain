@@ -1,0 +1,2 @@
+; 300343d8 eCFrustumElementItem::WasVisibleLastFrame
+300343d8 | e9934b3600 | JMP 0x30398f70

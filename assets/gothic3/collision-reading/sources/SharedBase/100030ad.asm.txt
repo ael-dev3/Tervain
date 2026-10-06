@@ -1,0 +1,4 @@
+; 100030ad ?Scale@bCBox@@QAEXM@Z
+100030ad | e9de7a0200 | JMP 0x1002ab90
+; 100030b2 bCMultiReadExclusiveWriteWin32::EndWrite
+; 100030b2 Ordinal_2013

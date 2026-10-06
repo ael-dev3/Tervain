@@ -1,0 +1,4 @@
+; 100890d0 FUN_100890d0
+100890d0 | 8b01 | MOV EAX,dword ptr [ECX]
+100890d2 | 8b5038 | MOV EDX,dword ptr [EAX + 0x38]
+100890d5 | ffe2 | JMP EDX

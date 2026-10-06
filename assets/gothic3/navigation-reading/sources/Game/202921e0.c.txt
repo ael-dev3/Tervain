@@ -1,0 +1,24 @@
+/* ENTRY 202921e0 | bTPropertyObject<gCNavigation_PS,eCEntityPropertySet>::~bTPropertyObject<gCNavigation_PS,eCEntityPropertySet> | STATUS decompiled | 6 ms */
+
+bTPropertyObject<gCNavigation_PS,eCEntityPropertySet> * __thiscall
+bTPropertyObject<gCNavigation_PS,eCEntityPropertySet>::
+~bTPropertyObject<gCNavigation_PS,eCEntityPropertySet>
+          (bTPropertyObject<gCNavigation_PS,eCEntityPropertySet> *this)
+
+{
+  undefined *puVar1;
+  
+  bCPropertyObjectBase::bCPropertyObjectBase((bCPropertyObjectBase *)this);
+  (this->bTPOPureSmartPtr<gCNavigation_PS>_data).offset_0x4 = (bCObjectRefBase *)0x0;
+  this->vftablePtr = &vftable;
+  puVar1 = bTPropertyObjectType<gCNavigation_PS,eCEntityPropertySet>::
+           ~bTPropertyObjectType<gCNavigation_PS,eCEntityPropertySet>();
+  *(uint *)&this->bTPOPureSmartPtr<gCNavigation_PS>_data =
+       *(uint *)&this->bTPOPureSmartPtr<gCNavigation_PS>_data & 0xfffffffb;
+  (this->bTPropertyObject<gCNavigation_PS,eCEntityPropertySet>_data).offset_0x0 = puVar1;
+  (this->bTPOPureSmartPtr<gCNavigation_PS>_data).offset_0x4 = (bCObjectRefBase *)0x0;
+  thunk_FUN_20291900(0);
+  return this;
+}
+
+

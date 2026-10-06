@@ -1,0 +1,29 @@
+/* ENTRY 201c14f0 | FUN_201c14f0 | STATUS decompiled | 11 ms */
+
+void * __thiscall FUN_201c14f0(void *this)
+
+{
+  bCObjectBase *this_00;
+  bCObjectBase local_8;
+  undefined4 local_4;
+  
+  bCObjectRefBase::bCObjectRefBase(this);
+                    /* inlined constructor or destructor (approx location) for gCInventorySlot */
+  *(gCInventorySlot_vftable **)this = &gCInventorySlot::vftable;
+  eCTemplateEntityProxy::eCTemplateEntityProxy((eCTemplateEntityProxy *)((int)this + 0xc));
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)((int)this + 0x18));
+  this_00 = (bCObjectBase *)((int)this + 0x34);
+  bCObjectBase::bCObjectBase(this_00);
+                    /* inlined constructor or destructor (approx location) for
+                       bTPropertyContainer<gESlot> */
+  *this_00 = (bCObjectBase)&bTPropertyContainer<gESlot>::vftable;
+  *(undefined4 *)((int)this + 0x38) = DAT_207b5f2c;
+  bCObjectBase::bCObjectBase(&local_8);
+  local_8 = (bCObjectBase)&bTPropertyContainer<gESlot>::vftable;
+  local_4 = 0;
+  (**(code **)((int)*this_00 + 0x1c))(&local_8);
+  bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xfffffff4);
+  return this;
+}
+
+

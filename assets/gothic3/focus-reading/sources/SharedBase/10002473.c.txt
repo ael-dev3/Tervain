@@ -1,0 +1,12 @@
+/* ENTRY 10002473 | bCPropertyObjectBase::GetReferenceCount | STATUS decompiled | 4 ms */
+
+/* public: unsigned long __thiscall bCPropertyObjectBase::GetReferenceCount(void) */
+
+ulong __thiscall bCPropertyObjectBase::GetReferenceCount(bCPropertyObjectBase *this)
+
+{
+                    /* 0x2473  2882  ?GetReferenceCount@bCPropertyObjectBase@@QAEKXZ */
+  return (this->bCPropertyObjectBase_data).offset_0x0 >> 3 & 0xffffff;
+}
+
+

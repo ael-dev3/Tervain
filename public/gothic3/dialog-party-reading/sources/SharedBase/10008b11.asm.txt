@@ -1,0 +1,2 @@
+; 10008b11 bCSpyAdmin::GetInstance
+10008b11 | e96a290400 | JMP 0x1004b480

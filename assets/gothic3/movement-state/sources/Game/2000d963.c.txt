@@ -1,0 +1,20 @@
+/* ENTRY 2000d963 | gCCharacterMovement_PS::GetMovementIsControledByPlayer | STATUS decompiled | 9 ms */
+
+/* public: bool __thiscall gCCharacterMovement_PS::GetMovementIsControledByPlayer(void)const  */
+
+bool __thiscall gCCharacterMovement_PS::GetMovementIsControledByPlayer(gCCharacterMovement_PS *this)
+
+{
+  bool bVar1;
+  eCEntity *this_00;
+  eEPropertySetType eVar2;
+  
+                    /* 0xd963  3839  ?GetMovementIsControledByPlayer@gCCharacterMovement_PS@@QBE_NXZ
+                        */
+  eVar2 = 0x16;
+  this_00 = (*this->vftablePtr->GetEntity)(this);
+  bVar1 = eCEntity::HasPropertySet((eCEntity *)this_00,eVar2);
+  return bVar1;
+}
+
+

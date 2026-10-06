@@ -1,0 +1,13 @@
+/* ENTRY 202864c0 | ENGINE.DLL::eCEntityPropertySet::OnTouch | STATUS decompiled | 1 ms */
+
+void __thiscall
+eCEntityPropertySet::OnTouch(eCEntityPropertySet *this,eCEntity *param_1,eCContactIterator *param_2)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x202864c0. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  OnTouch(this,param_1,param_2);
+  return;
+}
+
+

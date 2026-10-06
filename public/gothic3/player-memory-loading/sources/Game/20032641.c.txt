@@ -1,0 +1,14 @@
+/* ENTRY 20032641 | gCPlayerMemory_PS::GetPropertySetType | STATUS decompiled | 7 ms */
+
+/* public: virtual enum eEPropertySetType __thiscall
+   gCPlayerMemory_PS::GetPropertySetType(void)const  */
+
+eEPropertySetType __thiscall gCPlayerMemory_PS::GetPropertySetType(gCPlayerMemory_PS *this)
+
+{
+                    /* 0x32641  4086
+                       ?GetPropertySetType@gCPlayerMemory_PS@@UBE?AW4eEPropertySetType@@XZ */
+  return 0x3c;
+}
+
+

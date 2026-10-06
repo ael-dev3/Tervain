@@ -1,0 +1,14 @@
+; 3035f800 bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeMaterial>_>::vfunction6
+3035f800 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+3035f804 | 85c0 | TEST EAX,EAX
+3035f806 | 7411 | JZ 0x3035f819
+3035f808 | 8b11 | MOV EDX,dword ptr [ECX]
+3035f80a | 50 | PUSH EAX
+3035f80b | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+3035f80e | ffd0 | CALL EAX
+3035f810 | 8b10 | MOV EDX,dword ptr [EAX]
+3035f812 | 8bc8 | MOV ECX,EAX
+3035f814 | 8b4218 | MOV EAX,dword ptr [EDX + 0x18]
+3035f817 | ffd0 | CALL EAX
+; 3035f819 LAB_3035f819
+3035f819 | c20400 | RET 0x4

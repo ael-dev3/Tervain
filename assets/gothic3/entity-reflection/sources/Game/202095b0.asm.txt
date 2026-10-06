@@ -1,0 +1,2 @@
+; 202095b0 bTPropertyObjectType<gCClock_PS,eCEntityPropertySet>::vfunction1
+202095b0 | e93629e1ff | JMP 0x2001beeb

@@ -1,0 +1,14 @@
+/* ENTRY 2028bf10 | bTPOPureSmartPtr<gCNavigation_PS>::bTPOPureSmartPtr<gCNavigation_PS> | STATUS decompiled | 3 ms */
+
+bTPOPureSmartPtr<gCNavigation_PS> * __thiscall
+bTPOPureSmartPtr<gCNavigation_PS>::bTPOPureSmartPtr<gCNavigation_PS>
+          (bTPOPureSmartPtr<gCNavigation_PS> *this)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase((bCPropertyObjectBase *)this);
+  this->vftablePtr = &vftable;
+  (this->bTPOPureSmartPtr<gCNavigation_PS>_data).offset_0x4 = (bCObjectRefBase *)0x0;
+  return this;
+}
+
+

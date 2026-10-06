@@ -1,0 +1,34 @@
+/* ENTRY 300cd630 | FUN_300cd630 | STATUS decompiled | 16 ms */
+
+bCVector * __fastcall FUN_300cd630(int param_1)
+
+{
+  bCVector *pbVar1;
+  
+  if ((`public:_class_bCVector&___thiscall_eCCollisionShape::GetCenter(void)'::__l3::
+       _local_static_guard__3__ & 1) == 0) {
+    `public:_class_bCVector&___thiscall_eCCollisionShape::GetCenter(void)'::__l3::
+    _local_static_guard__3__ =
+         `public:_class_bCVector&___thiscall_eCCollisionShape::GetCenter(void)'::__l3::
+         _local_static_guard__3__ | 1;
+    bCVector::bCVector(&`public:_class_bCVector&___thiscall_eCCollisionShape::GetCenter(void)'::__l3
+                        ::s_vecZero,0.0,0.0,0.0);
+    _atexit((_func_4879 *)&LAB_30032a01);
+  }
+  switch(*(undefined4 *)(param_1 + 0x10)) {
+  default:
+    return &`public:_class_bCVector&___thiscall_eCCollisionShape::GetCenter(void)'::__l3::s_vecZero;
+  case 3:
+  case 7:
+    return *(bCVector **)(param_1 + 0x74);
+  case 4:
+    return (bCVector *)(*(int *)(param_1 + 0x74) + 0x2c);
+  case 5:
+                    /* WARNING: Could not recover jumptable at 0x300cd689. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+    pbVar1 = bCSphere::AccessPosition(*(bCSphere **)(param_1 + 0x74));
+    return pbVar1;
+  }
+}
+
+

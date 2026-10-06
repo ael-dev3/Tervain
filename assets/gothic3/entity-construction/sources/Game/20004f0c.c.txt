@@ -1,0 +1,14 @@
+/* ENTRY 20004f0c | gCEntity::gCEntity | STATUS decompiled | 11 ms */
+
+/* protected: __thiscall gCEntity::gCEntity(void) */
+
+gCEntity * __thiscall gCEntity::gCEntity(gCEntity *this)
+
+{
+                    /* 0x4f0c  153  ??0gCEntity@@IAE@XZ */
+  eCDynamicEntity::eCDynamicEntity((eCDynamicEntity *)this);
+  this->vftablePtr = &vftable;
+  return this;
+}
+
+

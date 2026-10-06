@@ -1,0 +1,11 @@
+/* ENTRY 303883a0 | FUN_303883a0 | STATUS decompiled | 5 ms */
+
+undefined4 __thiscall FUN_303883a0(eCEffector *param_1,bCOStream *param_2)
+
+{
+  bCOStream::operator<<(param_2,0x3e);
+  eCEffector::Write(param_1,(bCOStream *)param_2);
+  return 1;
+}
+
+

@@ -1,0 +1,12 @@
+/* ENTRY 201926a0 | gCHUDTabCtrlPages::gCHUDTabCtrlPages | STATUS decompiled | 33 ms */
+
+gCHUDTabCtrlPages * __thiscall gCHUDTabCtrlPages::gCHUDTabCtrlPages(gCHUDTabCtrlPages *this)
+
+{
+  CFFGFCTabCtrl::CFFGFCTabCtrl((CFFGFCTabCtrl *)this);
+  this->vftablePtr = &vftable;
+  CFFGFCImageList::CFFGFCImageList((CFFGFCImageList *)&(this->gCHUDTabCtrlPages_data).field_0xc);
+  return this;
+}
+
+

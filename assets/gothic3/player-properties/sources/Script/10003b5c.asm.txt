@@ -1,0 +1,4 @@
+; 10003b5c ?GetProtectionLightning@PSPlayerMemory@@QBEHXZ
+10003b5c | e90f660200 | JMP 0x1002a170
+; 10003b66 PSAIZone::PSAIZone
+; 10003b66 Ordinal_14

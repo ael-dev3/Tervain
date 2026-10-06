@@ -1,0 +1,26 @@
+/* ENTRY 20012ec2 | gCNPC_PS::GetPrimaryPoseExt | STATUS decompiled | 12 ms */
+
+/* public: enum gEPose __thiscall gCNPC_PS::GetPrimaryPoseExt(enum gEAction,class bCString) */
+
+gEPose __thiscall gCNPC_PS::GetPrimaryPoseExt(gCNPC_PS *this,gEAction param_1)
+
+{
+  bool bVar1;
+  gEPose gVar2;
+  gEPhase gVar3;
+  
+                    /* 0x12ec2  4004
+                       ?GetPrimaryPoseExt@gCNPC_PS@@QAE?AW4gEPose@@W4gEAction@@VbCString@@@Z */
+  bVar1 = operator==("Recover",(bCString *)&stack0x00000008);
+  if (bVar1) {
+    gVar3 = 3;
+  }
+  else {
+    gVar3 = 8;
+  }
+  gVar2 = GetPrimaryPoseExt(this,param_1,gVar3);
+  bCString::~bCString((bCString *)&stack0x00000008);
+  return gVar2;
+}
+
+

@@ -1,0 +1,28 @@
+/* ENTRY 20066aa0 | FUN_20066aa0 | STATUS decompiled | 6 ms */
+
+void __fastcall FUN_20066aa0(int *param_1)
+
+{
+  int iVar1;
+  bCMemoryAdmin *this;
+  void *pvVar2;
+  ulong uVar3;
+  
+  iVar1 = param_1[1];
+  if (iVar1 != param_1[2]) {
+    if (iVar1 == 0) {
+      thunk_FUN_20064e80();
+      return;
+    }
+    thunk_FUN_20063f20(*param_1 + iVar1 * 4,param_1[2] - iVar1);
+    uVar3 = param_1[1] * 4;
+    pvVar2 = (void *)*param_1;
+    this = bCMemoryAdmin::GetInstance();
+    pvVar2 = bCMemoryAdmin::Realloc(this,pvVar2,uVar3);
+    *param_1 = (int)pvVar2;
+    param_1[2] = param_1[1];
+  }
+  return;
+}
+
+

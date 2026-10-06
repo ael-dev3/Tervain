@@ -1,0 +1,19 @@
+; 10063000 FUN_10063000
+10063000 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+10063004 | d9410c | FLD float ptr [ECX + 0xc]
+10063007 | d918 | FSTP float ptr [EAX]
+10063009 | d94110 | FLD float ptr [ECX + 0x10]
+1006300c | d95804 | FSTP float ptr [EAX + 0x4]
+1006300f | d94114 | FLD float ptr [ECX + 0x14]
+10063012 | d95808 | FSTP float ptr [EAX + 0x8]
+10063015 | d900 | FLD float ptr [EAX]
+10063017 | dd0550740e10 | FLD double ptr [0x100e7450]
+1006301d | dcc9 | FMUL ST1
+1006301f | d9c9 | FXCH
+10063021 | d918 | FSTP float ptr [EAX]
+10063023 | d94004 | FLD float ptr [EAX + 0x4]
+10063026 | d8c9 | FMUL ST1
+10063028 | d95804 | FSTP float ptr [EAX + 0x4]
+1006302b | d84808 | FMUL float ptr [EAX + 0x8]
+1006302e | d95808 | FSTP float ptr [EAX + 0x8]
+10063031 | c20400 | RET 0x4

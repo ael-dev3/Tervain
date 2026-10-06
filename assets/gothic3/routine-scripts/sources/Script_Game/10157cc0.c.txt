@@ -1,0 +1,17 @@
+/* ENTRY 10157cc0 | FUN_10157cc0 | STATUS decompiled | 8 ms */
+
+void FUN_10157cc0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Routine\\Routine_Tasks\\Routine_Callback.cpp");
+  bCString::bCString(local_8,"OnSleep");
+  thunk_FUN_1001da70(local_8,&LAB_10002d33,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

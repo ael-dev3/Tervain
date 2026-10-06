@@ -1,0 +1,4 @@
+; 3003c542 ?OnRender@eCEntityPropertySet@@MAEXF@Z
+3003c542 | e9a9524400 | JMP 0x304817f0
+; 3003c55b eCWeatherZone_PS::SetFogColor
+; 3003c55b Ordinal_13421

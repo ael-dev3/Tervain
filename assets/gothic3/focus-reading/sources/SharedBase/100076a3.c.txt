@@ -1,0 +1,13 @@
+/* ENTRY 100076a3 | bCCriticalSectionWin32::Release | STATUS decompiled | 3 ms */
+
+/* public: void __thiscall bCCriticalSectionWin32::Release(void) */
+
+void __thiscall bCCriticalSectionWin32::Release(bCCriticalSectionWin32 *this)
+
+{
+                    /* 0x76a3  3911  ?Release@bCCriticalSectionWin32@@QAEXXZ */
+  LeaveCriticalSection((LPCRITICAL_SECTION)this);
+  return;
+}
+
+

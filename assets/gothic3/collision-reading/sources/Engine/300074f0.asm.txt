@@ -1,0 +1,4 @@
+; 300074f0 ?SetWidth@eCCollisionShape@@QAEXM@Z
+300074f0 | e9eb630c00 | JMP 0x300cd8e0
+; 300074fa eCWnd::SetChildStyle
+; 300074fa Ordinal_13028

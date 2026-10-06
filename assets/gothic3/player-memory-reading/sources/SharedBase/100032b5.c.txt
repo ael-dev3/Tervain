@@ -1,0 +1,15 @@
+/* ENTRY 100032b5 | bCAccessorPropertyObject::GetRootObject | STATUS decompiled | 1 ms */
+
+/* public: class bCPropertyObjectBase const * __thiscall
+   bCAccessorPropertyObject::GetRootObject(void)const  */
+
+bCPropertyObjectBase * __thiscall
+bCAccessorPropertyObject::GetRootObject(bCAccessorPropertyObject *this)
+
+{
+                    /* 0x32b5  2896
+                       ?GetRootObject@bCAccessorPropertyObject@@QBEPBVbCPropertyObjectBase@@XZ */
+  return *(bCPropertyObjectBase **)this;
+}
+
+

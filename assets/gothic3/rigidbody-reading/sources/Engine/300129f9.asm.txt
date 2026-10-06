@@ -1,0 +1,4 @@
+; 300129f9 bTPropertyType<eCRigidBodyBase_PS,bool>::vfunction7
+300129f9 | e9b2253200 | JMP 0x30334fb0
+; 300129fe eCStrip_PS::GetOffsetRight
+; 300129fe Ordinal_8001

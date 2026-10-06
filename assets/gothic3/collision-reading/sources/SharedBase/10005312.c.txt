@@ -1,0 +1,15 @@
+/* ENTRY 10005312 | bCOrientedBox::Translate | STATUS decompiled | 4 ms */
+
+/* public: void __thiscall bCOrientedBox::Translate(class bCVector const &) */
+
+void __thiscall bCOrientedBox::Translate(bCOrientedBox *this,bCVector *param_1)
+
+{
+                    /* 0x5312  4552  ?Translate@bCOrientedBox@@QAEXABVbCVector@@@Z */
+  *(float *)this = *(float *)param_1 + *(float *)this;
+  *(float *)(this + 4) = *(float *)(param_1 + 4) + *(float *)(this + 4);
+  *(float *)(this + 8) = *(float *)(param_1 + 8) + *(float *)(this + 8);
+  return;
+}
+
+

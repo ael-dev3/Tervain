@@ -1,0 +1,2 @@
+; 2002dff6 ?SetTaskPosition@gCScriptRoutine_PS@@QAEXABJ@Z
+2002dff6 | e9a5cc0700 | JMP 0x200aaca0

@@ -1,0 +1,19 @@
+/* ENTRY 20289030 | FUN_20289030 | STATUS decompiled | 5 ms */
+
+undefined4 FUN_20289030(bCIStream *param_1)
+
+{
+  bCIStream *pbVar1;
+  
+  pbVar1 = param_1;
+  bCIStream::operator>>(param_1,(ushort *)&param_1);
+  if ((ushort)param_1 < 0x25) {
+    thunk_FUN_2028d3f0(pbVar1);
+    thunk_FUN_20276a10(pbVar1);
+    thunk_FUN_2028d3f0(pbVar1);
+    thunk_FUN_20276a10(pbVar1);
+  }
+  return 1;
+}
+
+

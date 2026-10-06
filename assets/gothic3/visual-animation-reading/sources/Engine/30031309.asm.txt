@@ -1,0 +1,2 @@
+; 30031309 eCVisualAnimation_PS::AccessBoneTwistSpringEnabled
+30031309 | e9420b0300 | JMP 0x30061e50

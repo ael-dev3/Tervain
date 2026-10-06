@@ -1,0 +1,39 @@
+/* ENTRY 3001f1a9 | eCContextBase::ReadDependency | STATUS decompiled | 9 ms */
+
+/* protected: enum bEResult __thiscall eCContextBase::ReadDependency(class bCIStream &,class
+   bTValArray<class eCNode *> &) */
+
+bEResult __thiscall
+eCContextBase::ReadDependency(eCContextBase *this,bCIStream *param_1,bTValArray<eCNode*> *param_2)
+
+{
+  uint unaff_EBX;
+  uint unaff_EBP;
+  undefined1 auStack_8 [8];
+  
+                    /* 0x1f1a9  12322
+                       ?ReadDependency@eCContextBase@@IAE?AW4bEResult@@AAVbCIStream@@AAV?$bTValArray@PAVeCNode@@@@@Z
+                        */
+  if (0 < *(int *)(param_2 + 4)) {
+    while (((**(code **)(*(int *)param_1 + 4))(auStack_8,8), unaff_EBX != 0xffffffff ||
+           (unaff_EBP != 0xffffffff))) {
+      if (unaff_EBP < *(uint *)(param_2 + 4)) {
+        if (unaff_EBX < *(uint *)(param_2 + 4)) {
+          (**(code **)(**(int **)(*(int *)param_2 + unaff_EBP * 4) + 0x7c))
+                    (*(undefined4 *)(*(int *)param_2 + unaff_EBX * 4));
+        }
+        else {
+          GE_MESSAGEF_WARN("eCContextBase::ReadDependency - warning: File: \'%s\'. Illegal childnode detected. Nodeindex: %d"
+                           ,*(undefined4 *)&(this->eCContextBase_data).field_0x4c,unaff_EBX);
+        }
+      }
+      else {
+        GE_MESSAGEF_WARN("eCContextBase::ReadDependency - warning: File:\'%s\'. Illegal parentnode detected. Nodeindex: %d"
+                         ,*(undefined4 *)&(this->eCContextBase_data).field_0x4c,unaff_EBP);
+      }
+    }
+  }
+  return 1;
+}
+
+

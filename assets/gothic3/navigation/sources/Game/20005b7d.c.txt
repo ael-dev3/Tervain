@@ -1,0 +1,85 @@
+/* ENTRY 20005b7d | gCNavigationAdmin::RegisterNavigationPS | STATUS decompiled | 50 ms */
+
+/* public: enum bEResult __thiscall gCNavigationAdmin::RegisterNavigationPS(class gCNavigation_PS *)
+    */
+
+bEResult __thiscall
+gCNavigationAdmin::RegisterNavigationPS(gCNavigationAdmin *this,gCNavigation_PS *param_1)
+
+{
+  void **ppvVar1;
+  gCNavigation_PS *this_00;
+  char cVar2;
+  bool bVar3;
+  int iVar4;
+  eCApplication *peVar5;
+  int *piVar6;
+  eCEntity *peVar7;
+  bCVector *pbVar8;
+  undefined4 uVar9;
+  TypeDescriptor *pTVar10;
+  TypeDescriptor *pTVar11;
+  undefined4 uVar12;
+  bCPropertyID abStack_30 [4];
+  undefined1 auStack_2c [16];
+  eCEntityProxy eStack_1c;
+  
+                    /* 0x5b7d  6036
+                       ?RegisterNavigationPS@gCNavigationAdmin@@QAE?AW4bEResult@@PAVgCNavigation_PS@@@Z
+                        */
+  this_00 = param_1;
+  iVar4 = (this->gCNavigationAdmin_data).offset_0x38;
+  ppvVar1 = &(this->gCNavigationAdmin_data).offset_0x34;
+  if (iVar4 != 0) {
+    piVar6 = (int *)((int)*ppvVar1 + iVar4 * 4);
+    do {
+      piVar6 = piVar6 + -1;
+      iVar4 = iVar4 + -1;
+      if (param_1 == (gCNavigation_PS *)*piVar6) {
+        if (iVar4 != -1) {
+          return 0;
+        }
+        break;
+      }
+    } while (iVar4 != 0);
+  }
+  iVar4 = (this->gCNavigationAdmin_data).offset_0x38 + 1;
+  thunk_FUN_2005eaa0(iVar4,(iVar4 != 0) - 1);
+  uVar12 = 1;
+  pTVar11 = &gCGameApp::RTTI_Type_Descriptor;
+  (this->gCNavigationAdmin_data).offset_0x38 = iVar4;
+  pTVar10 = &eCApplication::RTTI_Type_Descriptor;
+  uVar9 = 0;
+  *(gCNavigation_PS **)((int)*ppvVar1 + iVar4 * 4 + -4) = this_00;
+  peVar5 = eCApplication::GetInstance();
+  piVar6 = (int *)___RTDynamicCast(peVar5,uVar9,pTVar10,pTVar11,uVar12);
+  cVar2 = (**(code **)(*piVar6 + 0x270))();
+  if (cVar2 == '\x01') {
+    bCPropertyID::bCPropertyID(abStack_30);
+    peVar7 = (eCEntity *)(**(code **)(*(int *)this_00 + 0x68))();
+    pbVar8 = eCEntity::GetWorldPosition(peVar7);
+    gCNavigationMap::GetZone
+              ((gCNavigationMap *)&(this->gCNavigationAdmin_data).field_0x50,pbVar8,abStack_30,
+               (bool *)&param_1,false,true,-1.0);
+    eCEntityProxy::SetEntity((eCEntityProxy *)(this_00 + 200),(eCEntity *)0x0);
+    bCPropertyID::Destroy((bCPropertyID *)(this_00 + 0xf0));
+    eCEntityProxy::eCEntityProxy(&eStack_1c);
+    eCEntityProxy::SetEntity(&eStack_1c,abStack_30);
+    (**(code **)(*(int *)this_00 + 0x58))("CurrentZoneEntityProxy",0);
+    eCEntityProxy::operator=((eCEntityProxy *)(this_00 + 0xac),(eCEntityProxy *)(auStack_2c + 8));
+    (**(code **)(*(int *)this_00 + 0x5c))("CurrentZoneEntityProxy",0);
+    pbVar8 = (bCVector *)bCVector::bCVector((bCVector *)&stack0xffffffb4,0.0,0.0,0.0);
+    bVar3 = bCVector::operator==((bCVector *)(this_00 + 0x14),pbVar8);
+    bCVector::~bCVector((bCVector *)&stack0xffffffb4);
+    if (bVar3) {
+      peVar7 = (eCEntity *)(**(code **)(*(int *)this_00 + 0x68))();
+      pbVar8 = eCEntity::GetWorldPosition(peVar7);
+      gCNavigation_PS::SetStartPosition((gCNavigation_PS *)this_00,pbVar8);
+    }
+    eCEntityProxy::~eCEntityProxy((eCEntityProxy *)auStack_2c);
+    bCPropertyID::~bCPropertyID((bCPropertyID *)&stack0xffffffc0);
+  }
+  return 1;
+}
+
+

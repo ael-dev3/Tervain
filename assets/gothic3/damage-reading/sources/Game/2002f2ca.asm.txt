@@ -1,0 +1,2 @@
+; 2002f2ca bTPropertyObject<gCDamage_PS,eCEntityPropertySet>::vfunction1
+2002f2ca | e9614e0800 | JMP 0x200b4130

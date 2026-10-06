@@ -1,0 +1,19 @@
+/* ENTRY 200190ce | gCScriptProcessingUnit::sSetNewFrame | STATUS decompiled | 3 ms */
+
+/* public: static void __stdcall gCScriptProcessingUnit::sSetNewFrame(unsigned long) */
+
+void gCScriptProcessingUnit::sSetNewFrame(ulong param_1)
+
+{
+                    /* 0x190ce  8578  ?sSetNewFrame@gCScriptProcessingUnit@@SGXK@Z */
+  s_u32CurrentTimeStamp = param_1;
+  s_u32MaxTaskCallbacks = s_u32CurrentTaskCallbacks / 0x14 + 1;
+  s_u32CalledTaskCallbacks = 0;
+  s_u32CalledStateCallbacks = 0;
+  s_u32MaxStateCallbacks = s_u32CurrentStateCallbacks;
+  s_u32CurrentTaskCallbacks = 0;
+  s_u32CurrentStateCallbacks = 0;
+  return;
+}
+
+

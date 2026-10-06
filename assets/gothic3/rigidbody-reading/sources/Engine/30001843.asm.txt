@@ -1,0 +1,4 @@
+; 30001843 bTPropertyType<eCRigidBody_PS,float>::vfunction10
+30001843 | e978f53200 | JMP 0x30330dc0
+; 30001848 eCLocAdmin::GetID
+; 30001848 Ordinal_7308

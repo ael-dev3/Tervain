@@ -1,0 +1,12 @@
+/* ENTRY 2000b154 | gCStat::Destroy | STATUS decompiled | 4 ms */
+
+/* public: virtual void __thiscall gCStat::Destroy(void) */
+
+void __thiscall gCStat::Destroy(gCStat *this)
+
+{
+                    /* 0xb154  2656  ?Destroy@gCStat@@UAEXXZ */
+  return;
+}
+
+

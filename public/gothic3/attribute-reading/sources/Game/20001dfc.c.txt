@@ -1,0 +1,18 @@
+/* ENTRY 20001dfc | bTPropertyObject<gCAttribute,bCObjectRefBase>::scalar_deleting_destructor | STATUS decompiled | 4 ms */
+
+bTPropertyObject<gCAttribute,bCObjectRefBase> * __thiscall
+bTPropertyObject<gCAttribute,bCObjectRefBase>::scalar_deleting_destructor
+          (bTPropertyObject<gCAttribute,bCObjectRefBase> *this,byte param_1)
+
+{
+  this->vftablePtr = &vftable;
+  vfunction10(this);
+  bTPOPureSmartPtr<gCAttribute>::~bTPOPureSmartPtr<gCAttribute>
+            ((bTPOPureSmartPtr<gCAttribute> *)this);
+  if ((param_1 & 1) != 0) {
+    _free(this);
+  }
+  return this;
+}
+
+

@@ -1,0 +1,13 @@
+/* ENTRY 2000bd70 | gCDamageReceiver_PS::Read | STATUS decompiled | 216 ms */
+
+/* public: virtual enum bEResult __thiscall gCDamageReceiver_PS::Read(class bCIStream &) */
+
+bEResult __thiscall gCDamageReceiver_PS::Read(gCDamageReceiver_PS *this,bCIStream *param_1)
+
+{
+                    /* 0xbd70  5892  ?Read@gCDamageReceiver_PS@@UAE?AW4bEResult@@AAVbCIStream@@@Z */
+  bCIStream::operator>>((bCIStream *)param_1,(ushort *)&param_1);
+  return 1;
+}
+
+

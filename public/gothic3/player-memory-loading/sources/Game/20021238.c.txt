@@ -1,0 +1,24 @@
+/* ENTRY 20021238 | bTPropertyType<gCPlayerMemory_PS,bTPropertyContainer<gEWeaponConfig>_>::scalar_deleting_destructor | STATUS decompiled | 9 ms */
+
+bTPropertyType<gCPlayerMemory_PS,bTPropertyContainer<gEWeaponConfig>_> * __thiscall
+bTPropertyType<gCPlayerMemory_PS,bTPropertyContainer<gEWeaponConfig>_>::scalar_deleting_destructor
+          (bTPropertyType<gCPlayerMemory_PS,bTPropertyContainer<gEWeaponConfig>_> *this,byte param_1
+          )
+
+{
+  this->vftablePtr = &vftable;
+  bCPropertyTypeBase::Destroy((bCPropertyTypeBase *)this);
+  thunk_FUN_20070e90(this + 8);
+  bCPropertyObjectTypeBase::UnregisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)this[6].vftablePtr,(bCPropertyTypeBase *)this);
+  this->vftablePtr =
+       (bTPropertyType<gCPlayerMemory_PS,bTPropertyContainer<gEWeaponConfig>_>_vftable *)
+       &bTPropertyTypeOnly<bTPropertyContainer<gEWeaponConfig>_>::vftable;
+  bCPropertyTypeBase::~bCPropertyTypeBase((bCPropertyTypeBase *)this);
+  if ((param_1 & 1) != 0) {
+    _free(this);
+  }
+  return this;
+}
+
+

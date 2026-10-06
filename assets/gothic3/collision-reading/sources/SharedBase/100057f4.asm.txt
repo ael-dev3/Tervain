@@ -1,0 +1,4 @@
+; 100057f4 ?Intersects@bCBox@@QBE_NABVbCSphere@@@Z
+100057f4 | e9170c0500 | JMP 0x10056410
+; 100057f9 bCClock::Resume
+; 100057f9 Ordinal_3947

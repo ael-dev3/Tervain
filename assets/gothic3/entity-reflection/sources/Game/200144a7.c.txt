@@ -1,0 +1,13 @@
+/* ENTRY 200144a7 | gCCharacterControl_PS::Create | STATUS decompiled | 7 ms */
+
+/* public: virtual enum bEResult __thiscall gCCharacterControl_PS::Create(void) */
+
+bEResult __thiscall gCCharacterControl_PS::Create(gCCharacterControl_PS *this)
+
+{
+                    /* 0x144a7  2325  ?Create@gCCharacterControl_PS@@UAE?AW4bEResult@@XZ */
+  eCEntityPropertySet::Create((eCEntityPropertySet *)this);
+  return 1;
+}
+
+

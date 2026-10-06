@@ -1,0 +1,14 @@
+/* ENTRY 10027000 | FUN_10027000 | STATUS decompiled | 4 ms */
+
+Entity * __thiscall FUN_10027000(void *this,Entity *param_1)
+
+{
+  if (*(int *)this == 0) {
+    Entity::Entity(param_1,(eCEntity *)0x0);
+    return param_1;
+  }
+  Entity::Entity(param_1,(eCEntityProxy *)(*(int *)this + 0x14));
+  return param_1;
+}
+
+

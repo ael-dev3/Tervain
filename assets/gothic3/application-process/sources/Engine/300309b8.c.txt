@@ -1,0 +1,12 @@
+/* ENTRY 300309b8 | eCApplication::OnProcess | STATUS decompiled | 11 ms */
+
+/* public: virtual void __thiscall eCApplication::OnProcess(void) */
+
+void __thiscall eCApplication::OnProcess(eCApplication *this)
+
+{
+                    /* 0x309b8  11378  ?OnProcess@eCApplication@@UAEXXZ */
+  return;
+}
+
+

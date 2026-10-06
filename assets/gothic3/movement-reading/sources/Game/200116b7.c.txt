@@ -1,0 +1,94 @@
+/* ENTRY 200116b7 | gCCharacterMovement_PS::GetDependencies | STATUS decompiled | 60 ms */
+
+/* public: virtual void __thiscall gCCharacterMovement_PS::GetDependencies(class bTValArray<class
+   bCString> &,class bTValArray<class bCString> &,class bTObjArray<class eCTemplateEntityProxy> &)
+    */
+
+void __thiscall
+gCCharacterMovement_PS::GetDependencies
+          (gCCharacterMovement_PS *this,bTValArray<bCString> *param_1,bTValArray<bCString> *param_2,
+          bTObjArray<eCTemplateEntityProxy> *param_3)
+
+{
+  bTValArray<bCString> *pbVar1;
+  bTValArray<bCString> *pbVar2;
+  bTObjArray<eCTemplateEntityProxy> *pbVar3;
+  char cVar4;
+  eCModuleAdmin *this_00;
+  int *piVar5;
+  char *pcVar6;
+  bCString *pbVar7;
+  int iVar8;
+  undefined1 *puStack_8;
+  bCString abStack_4 [4];
+  
+                    /* 0x116b7  3224
+                       ?GetDependencies@gCCharacterMovement_PS@@UAEXAAV?$bTValArray@VbCString@@@@0AAV?$bTObjArray@VeCTemplateEntityProxy@@@@@Z
+                        */
+  bCString::bCString((bCString *)&puStack_8,"gCEffectModule");
+  pbVar7 = (bCString *)&puStack_8;
+  this_00 = eCModuleAdmin::GetInstance();
+  eCModuleAdmin::FindModule(this_00,pbVar7);
+  piVar5 = (int *)___RTDynamicCast();
+  bCString::~bCString((bCString *)&puStack_8);
+  piVar5 = (int *)(**(code **)(*piVar5 + 0xbc))();
+  pbVar3 = param_3;
+  pbVar2 = param_2;
+  iVar8 = 0;
+  puStack_8 = &(this->gCCharacterMovement_PS_data).field_0x2a8;
+  do {
+    pcVar6 = (char *)eCCollisionShape::GetMaterialName((eEShapeMaterial)abStack_4);
+    pbVar7 = (bCString *)operator+((char *)&param_2,(bCString *)"eff_ani_slide_");
+    bCString::operator+(pbVar7,pcVar6);
+    bCString::~bCString((bCString *)&stack0x00000000);
+    bCString::~bCString((bCString *)&stack0xfffffff4);
+    (**(code **)(*piVar5 + 0x10))(&param_1);
+    cVar4 = thunk_FUN_20217480();
+    if (cVar4 == '\x01') {
+      (**(code **)(*piVar5 + 0x10))();
+    }
+    cVar4 = thunk_FUN_20217480();
+    if (cVar4 == '\x01') {
+      (**(code **)(*piVar5 + 0x10))();
+    }
+    cVar4 = thunk_FUN_202175c0();
+    if (cVar4 == '\x01') {
+      (**(code **)(*piVar5 + 0x10))();
+    }
+    cVar4 = thunk_FUN_202175c0();
+    if (cVar4 == '\x01') {
+      (**(code **)(*piVar5 + 0x10))();
+    }
+    cVar4 = thunk_FUN_20217700();
+    if (cVar4 == '\x01') {
+      (**(code **)(*piVar5 + 0x10))();
+    }
+    cVar4 = thunk_FUN_20217700();
+    if (cVar4 == '\x01') {
+      (**(code **)(*piVar5 + 0x10))();
+    }
+    cVar4 = thunk_FUN_20217840();
+    if (cVar4 == '\x01') {
+      (**(code **)(*piVar5 + 0x10))();
+    }
+    cVar4 = thunk_FUN_20217970();
+    if (cVar4 == '\x01') {
+      (**(code **)(*piVar5 + 0x10))();
+    }
+    bCString::~bCString((bCString *)&param_3);
+    iVar8 = iVar8 + 1;
+  } while (iVar8 < 0x16);
+  bCString::bCString((bCString *)&param_3,"eff_ani_slide_earth_01");
+  pbVar1 = param_1;
+  (**(code **)(*piVar5 + 0x10))();
+  bCString::~bCString(abStack_4);
+  bCString::bCString((bCString *)&stack0xfffffff4,"eff_ani_swim_waves_01");
+  (**(code **)(*piVar5 + 0x10))(&stack0xfffffff4,pbVar1,pbVar2);
+  bCString::~bCString((bCString *)&stack0xffffffe4);
+  bCString::bCString((bCString *)&stack0xffffffe4,"eff_ani_wade_waves_01");
+  (**(code **)(*piVar5 + 0x10))(&stack0xffffffe4,pbVar1,pbVar2,pbVar3);
+  bCString::~bCString((bCString *)&stack0xffffffd4);
+  return;
+}
+
+

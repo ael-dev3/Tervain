@@ -1,0 +1,15 @@
+/* ENTRY 10027e20 | FUN_10027e20 | STATUS decompiled | 5 ms */
+
+undefined4 * __thiscall FUN_10027e20(void *this,long *param_1)
+
+{
+  if (*(gCPlayerMemory_PS **)this == (gCPlayerMemory_PS *)0x0) {
+    GE_MESSAGEF_WARN("Cannot set property \'%s\' in propertyset \'%s\'!","LPAttribs",
+                     "gCPlayerMemory_PS");
+    return this;
+  }
+  gCPlayerMemory_PS::SetLPAttribs(*(gCPlayerMemory_PS **)this,param_1);
+  return this;
+}
+
+

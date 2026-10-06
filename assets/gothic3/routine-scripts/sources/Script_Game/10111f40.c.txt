@@ -1,0 +1,17 @@
+/* ENTRY 10111f40 | FUN_10111f40 | STATUS decompiled | 7 ms */
+
+void FUN_10111f40(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Decision\\WantToThreaten.cpp");
+  bCString::bCString(local_8,"WantToThreaten");
+  thunk_FUN_10017a50(local_8,&LAB_10002450,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

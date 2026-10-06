@@ -1,0 +1,2 @@
+; 2002f04a bTPOPureSmartPtr<gCClock_PS>::vfunction11
+2002f04a | e921991d00 | JMP 0x20208970

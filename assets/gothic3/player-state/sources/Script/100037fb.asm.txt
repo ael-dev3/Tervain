@@ -1,0 +1,4 @@
+; 100037fb ?SetMovementMode@PSCharacterMovement@@QAEXW4gECharMovementMode@@@Z
+100037fb | e900e50000 | JMP 0x10011d00
+; 10003800 PSBook::PSBook
+; 10003800 Ordinal_27

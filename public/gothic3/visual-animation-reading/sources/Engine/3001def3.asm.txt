@@ -1,0 +1,2 @@
+; 3001def3 eCVisualAnimationFactory::Write
+3001def3 | e938ea0900 | JMP 0x300bc930

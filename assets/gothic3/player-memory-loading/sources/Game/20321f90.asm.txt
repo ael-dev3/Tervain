@@ -1,0 +1,40 @@
+; 20321f90 bTPropertyType<gCPlayerMemory_PS,bool>::vfunction13
+20321f90 | 53 | PUSH EBX
+20321f91 | 55 | PUSH EBP
+20321f92 | 8b6c240c | MOV EBP,dword ptr [ESP + 0xc]
+20321f96 | 85ed | TEST EBP,EBP
+20321f98 | 56 | PUSH ESI
+20321f99 | 8bf1 | MOV ESI,ECX
+20321f9b | 743c | JZ 0x20321fd9
+20321f9d | 8b5c2414 | MOV EBX,dword ptr [ESP + 0x14]
+20321fa1 | 85db | TEST EBX,EBX
+20321fa3 | 7434 | JZ 0x20321fd9
+20321fa5 | e8d07aceff | CALL 0x20009a7a
+20321faa | 50 | PUSH EAX
+20321fab | e86c97ceff | CALL 0x2000b71c
+20321fb0 | 8bc8 | MOV ECX,EAX
+20321fb2 | ff1508877d20 | CALL dword ptr [0x207d8708]
+20321fb8 | 84c0 | TEST AL,AL
+20321fba | 751d | JNZ 0x20321fd9
+20321fbc | 57 | PUSH EDI
+20321fbd | 8b3e | MOV EDI,dword ptr [ESI]
+20321fbf | 8b4760 | MOV EAX,dword ptr [EDI + 0x60]
+20321fc2 | 53 | PUSH EBX
+20321fc3 | 8bce | MOV ECX,ESI
+20321fc5 | ffd0 | CALL EAX
+20321fc7 | 8b575c | MOV EDX,dword ptr [EDI + 0x5c]
+20321fca | 50 | PUSH EAX
+20321fcb | 55 | PUSH EBP
+20321fcc | 8bce | MOV ECX,ESI
+20321fce | ffd2 | CALL EDX
+20321fd0 | 5f | POP EDI
+20321fd1 | 5e | POP ESI
+20321fd2 | 5d | POP EBP
+20321fd3 | b001 | MOV AL,0x1
+20321fd5 | 5b | POP EBX
+20321fd6 | c20800 | RET 0x8
+20321fd9 | 5e | POP ESI
+20321fda | 5d | POP EBP
+20321fdb | 32c0 | XOR AL,AL
+20321fdd | 5b | POP EBX
+20321fde | c20800 | RET 0x8

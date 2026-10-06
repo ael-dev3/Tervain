@@ -1,0 +1,28 @@
+/* ENTRY 30041240 | eCVisualAnimation_PS::OnChildrenAvailable | STATUS decompiled | 21 ms */
+
+/* public: virtual void __thiscall eCVisualAnimation_PS::OnChildrenAvailable(unsigned long,unsigned
+   long,class eCTemplateEntity *) */
+
+void __thiscall
+eCVisualAnimation_PS::OnChildrenAvailable
+          (eCVisualAnimation_PS *this,ulong param_1,ulong param_2,eCTemplateEntity *param_3)
+
+{
+  eCEntity *peVar1;
+  eCEntity *this_00;
+  bool bVar2;
+  
+                    /* 0x41240  10967
+                       ?OnChildrenAvailable@eCVisualAnimation_PS@@UAEXKKPAVeCTemplateEntity@@@Z */
+  peVar1 = (*this->vftablePtr->GetEntity)(this);
+  if (peVar1 != (eCEntity *)0x0) {
+    bVar2 = false;
+    this_00 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+    eCEntity::UpdateInternals(this_00,bVar2);
+    return;
+  }
+  GE_MESSAGEF_WARN("eCVisualAnimation_PS::OnChildrenAvailable -> Entity unavailable.");
+  return;
+}
+
+

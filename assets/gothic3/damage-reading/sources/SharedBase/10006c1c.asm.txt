@@ -1,0 +1,2 @@
+; 10006c1c bCErrorAdmin::GetInstance
+10006c1c | e93fad0100 | JMP 0x10021960

@@ -1,0 +1,16 @@
+; 201ab3a0 bTPropertyType<gCInventory_PS,bCString>::vfunction12
+201ab3a0 | 56 | PUSH ESI
+201ab3a1 | 8bf1 | MOV ESI,ECX
+201ab3a3 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+201ab3a7 | 85c9 | TEST ECX,ECX
+201ab3a9 | 7506 | JNZ 0x201ab3b1
+201ab3ab | 33c0 | XOR EAX,EAX
+201ab3ad | 5e | POP ESI
+201ab3ae | c20400 | RET 0x4
+; 201ab3b1 LAB_201ab3b1
+201ab3b1 | 8b01 | MOV EAX,dword ptr [ECX]
+201ab3b3 | 8b10 | MOV EDX,dword ptr [EAX]
+201ab3b5 | ffd2 | CALL EDX
+201ab3b7 | 034620 | ADD EAX,dword ptr [ESI + 0x20]
+201ab3ba | 5e | POP ESI
+201ab3bb | c20400 | RET 0x4

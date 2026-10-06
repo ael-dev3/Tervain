@@ -1,0 +1,4 @@
+; 2001d2d7 bTPropertyType<gCNavigation_PS,bTValArray<bCPropertyID>_>::vfunction5
+2001d2d7 | e9a41c2700 | JMP 0x2028ef80
+; 2001d2e1 gCEffectCommandPlaySound::AccessMaxDistance
+; 2001d2e1 Ordinal_1393

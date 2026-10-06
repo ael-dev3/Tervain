@@ -1,0 +1,14 @@
+/* ENTRY 2031d470 | FUN_2031d470 | STATUS decompiled | 2 ms */
+
+void __thiscall FUN_2031d470(int param_1,uint param_2,char param_3)
+
+{
+  if (param_3 != '\0') {
+    *(uint *)(param_1 + 0x98) = *(uint *)(param_1 + 0x98) & ~param_2;
+    return;
+  }
+  *(uint *)(param_1 + 0x98) = *(uint *)(param_1 + 0x98) | param_2;
+  return;
+}
+
+

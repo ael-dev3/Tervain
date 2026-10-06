@@ -1,0 +1,4 @@
+; 2000b9f1 bTPropertyObjectType<gCCharacterMovement_PS,gCMovementBase_PS>::vfunction2
+2000b9f1 | e9ea600500 | JMP 0x20061ae0
+; 2000ba00 gCInfo_PS::SetPermanent
+; 2000ba00 Ordinal_6879

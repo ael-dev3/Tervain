@@ -1,0 +1,4 @@
+; 300059ac ?SetEnableCCD@eCCollisionShape@@QAEXAB_N@Z
+300059ac | e9bfcb0b00 | JMP 0x300c2570
+; 300059b6 eCVegetation_GridNode::Create
+; 300059b6 Ordinal_4726

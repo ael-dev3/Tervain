@@ -1,0 +1,4 @@
+; 3002659e ?EnableShapeGroupCollision@eCCollisionShape_PS@@QAEXW4eEShapeGroup@@_NH@Z
+3002659e | e9ed023100 | JMP 0x30336890
+; 300265a3 eCHemisphere_PS::CopyFrom
+; 300265a3 Ordinal_4128

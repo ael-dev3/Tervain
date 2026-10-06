@@ -1,0 +1,2 @@
+; 3001c0cb eCVisualAnimationLoD::Destroy
+3001c0cb | e9202f0a00 | JMP 0x300beff0

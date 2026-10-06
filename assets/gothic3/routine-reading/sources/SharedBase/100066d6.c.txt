@@ -1,0 +1,27 @@
+/* ENTRY 100066d6 | bCPOStream::~bCPOStream | STATUS decompiled | 9 ms */
+
+/* public: virtual __thiscall bCPOStream::~bCPOStream(void) */
+
+void __thiscall bCPOStream::~bCPOStream(bCPOStream *this)
+
+{
+  bCPOStream bVar1;
+  
+                    /* 0x66d6  405  ??1bCPOStream@@UAE@XZ */
+  bVar1 = (this->bCPOStream_data).offset_0x0;
+  this->vftablePtr = &vftable_for_bCIStream_;
+  this->vftablePtr = &vftable_for_bCOStream_;
+  if (bVar1 == (bCPOStream)0x1) {
+    ms_pMainPOStream = (bCPOStream *)0x0;
+    ms_bLegacyMode = true;
+    thunk_FUN_1008b4d0(&ms_parrStringList);
+    thunk_FUN_1008b5c0(&ms_pmapStringSaveHashmap);
+    ClearStringHeaderMap(this);
+  }
+  (this->bCPOStream_data).offset_0x1 = (bCPOStream)0x0;
+  bCMemoryStream::Destroy((bCMemoryStream *)this);
+  bCMemoryStream::~bCMemoryStream((bCMemoryStream *)this);
+  return;
+}
+
+

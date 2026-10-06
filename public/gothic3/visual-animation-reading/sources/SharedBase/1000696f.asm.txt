@@ -1,0 +1,2 @@
+; 1000696f bCUnicodeString::Realloc
+1000696f | e9ac150100 | JMP 0x10017f20

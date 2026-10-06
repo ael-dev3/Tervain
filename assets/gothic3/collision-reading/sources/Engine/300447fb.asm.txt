@@ -1,0 +1,2 @@
+; 300447fb ?SetLastPosition@eCCollisionShape@@QAEXABVbCVector@@@Z
+300447fb | e920e40700 | JMP 0x300c2c20

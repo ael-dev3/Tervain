@@ -1,0 +1,2 @@
+; 100086b6 bCObjectBase::Write
+100086b6 | e9451a0400 | JMP 0x1004a100

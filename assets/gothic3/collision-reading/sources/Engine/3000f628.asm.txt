@@ -1,0 +1,2 @@
+; 3000f628 ?SetShapeGroupInternal@eCCollisionShape_PS@@MAEXW4eEShapeGroup@@0@Z
+3000f628 | e923743200 | JMP 0x30336a50

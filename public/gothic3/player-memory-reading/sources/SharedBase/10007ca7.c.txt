@@ -1,0 +1,27 @@
+/* ENTRY 10007ca7 | GE_MESSAGEF_WARN | STATUS decompiled | 5 ms */
+
+void GE_MESSAGEF_WARN(char *param_1)
+
+{
+  bCMessageAdmin *this;
+  bEMessageTypes bVar1;
+  char *_Dest;
+  char *pcVar2;
+  char *pcVar3;
+  int iVar4;
+  int iVar5;
+  
+                    /* 0x7ca7  4775  GE_MESSAGEF_WARN */
+  _Dest = (char *)(*(int *)((int)ThreadLocalStoragePointer + _tls_index * 4) + 0x108);
+  _vsprintf(_Dest,param_1,&stack0x00000008);
+  iVar5 = 5;
+  iVar4 = -1;
+  pcVar3 = (char *)0x0;
+  pcVar2 = (char *)0x0;
+  bVar1 = 3;
+  this = bCMessageAdmin::GetInstance();
+  bCMessageAdmin::OnMessage(this,bVar1,_Dest,pcVar2,pcVar3,iVar4,iVar5);
+  return;
+}
+
+

@@ -1,0 +1,2 @@
+; 10055fc0 bCBox::Contains
+10055fc0 | e982b4faff | JMP 0x10001447

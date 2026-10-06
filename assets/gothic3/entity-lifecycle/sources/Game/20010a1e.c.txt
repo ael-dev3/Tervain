@@ -1,0 +1,12 @@
+/* ENTRY 20010a1e | gCNPC_PS::GetPropertySetType | STATUS decompiled | 8 ms */
+
+/* public: virtual enum eEPropertySetType __thiscall gCNPC_PS::GetPropertySetType(void)const  */
+
+eEPropertySetType __thiscall gCNPC_PS::GetPropertySetType(gCNPC_PS *this)
+
+{
+                    /* 0x10a1e  4078  ?GetPropertySetType@gCNPC_PS@@UBE?AW4eEPropertySetType@@XZ */
+  return 0x1e;
+}
+
+

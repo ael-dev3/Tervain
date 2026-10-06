@@ -1,0 +1,4 @@
+; 303328b0 bTPropertyObject<eCRigidBody_PS,eCRigidBodyBase_PS>::vfunction11
+303328b0 | 6a00 | PUSH 0x0
+303328b2 | e81f03d1ff | CALL 0x30042bd6
+303328b7 | c3 | RET

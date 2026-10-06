@@ -1,0 +1,25 @@
+/* ENTRY 2000d90e | gCDamage_PS::PostInitializeProperties | STATUS decompiled | 34 ms */
+
+/* public: virtual enum bEResult __thiscall gCDamage_PS::PostInitializeProperties(void) */
+
+bEResult __thiscall gCDamage_PS::PostInitializeProperties(gCDamage_PS *this)
+
+{
+  bCObjectBase bStack_8;
+  undefined4 uStack_4;
+  
+                    /* 0xd90e  5747  ?PostInitializeProperties@gCDamage_PS@@UAE?AW4bEResult@@XZ */
+  bCObjectRefBase::PostInitializeProperties((bCObjectRefBase *)this);
+  this[1].vftablePtr = (gCDamage_PS_vftable *)0xa;
+  bCObjectBase::bCObjectBase(&bStack_8);
+  bStack_8 = (bCObjectBase)&bTPropertyContainer<gEDamageType>::vftable;
+  uStack_4 = 2;
+  (*(code *)(this->gCDamage_PS_data).offset_0x10[7])(&bStack_8);
+  bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xfffffff4);
+  *(undefined4 *)&this[1].gCDamage_PS_data = 0x3f800000;
+  *(undefined4 *)&this[1].gCDamage_PS_data.field_0x8 = 0;
+  *(undefined4 *)&this[1].gCDamage_PS_data.field_0x4 = 0x3f800000;
+  return 1;
+}
+
+

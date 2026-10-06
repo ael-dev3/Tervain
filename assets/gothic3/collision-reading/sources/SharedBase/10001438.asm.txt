@@ -1,0 +1,2 @@
+; 10001438 ?GetMagnitude@bCBox@@QBEXAAVbCVector@@@Z
+10001438 | e9d39f0200 | JMP 0x1002b410

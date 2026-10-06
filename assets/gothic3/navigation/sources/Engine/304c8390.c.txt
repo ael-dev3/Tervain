@@ -1,0 +1,20 @@
+/* ENTRY 304c8390 | FUN_304c8390 | STATUS decompiled | 6 ms */
+
+void __fastcall FUN_304c8390(int param_1)
+
+{
+  bCSphere::Clear((bCSphere *)(param_1 + 0x10));
+  bCSphere::Clear((bCSphere *)(param_1 + 0x20));
+  *(undefined1 *)(param_1 + 0xc5) = 0;
+  *(undefined4 *)(param_1 + 0xb8) = 0;
+  *(undefined4 *)(param_1 + 0x84) = 0;
+  *(undefined1 *)(param_1 + 0x88) = 0;
+  *(undefined2 *)(param_1 + 0xbe) = 0;
+  *(undefined1 *)(param_1 + 0xc4) = 0;
+  *(undefined4 *)(param_1 + 0x40) = 0x437a0000;
+  *(undefined4 *)(param_1 + 0x98) = 0x4800008;
+  *(undefined4 *)(param_1 + 0x9c) = 0x42;
+  return;
+}
+
+

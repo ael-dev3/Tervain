@@ -1,0 +1,24 @@
+; 1014cca0 FUN_1014cca0
+1014cca0 | 83ec08 | SUB ESP,0x8
+1014cca3 | 56 | PUSH ESI
+1014cca4 | 8b3538732210 | MOV ESI,dword ptr [0x10227338]
+1014ccaa | 680cf02010 | PUSH 0x1020f00c
+1014ccaf | 8d4c240c | LEA ECX,[ESP + 0xc]
+1014ccb3 | ffd6 | CALL ESI
+1014ccb5 | 68e4f02010 | PUSH 0x1020f0e4
+1014ccba | 8d4c2408 | LEA ECX,[ESP + 0x8]
+1014ccbe | ffd6 | CALL ESI
+1014ccc0 | 8d442408 | LEA EAX,[ESP + 0x8]
+1014ccc4 | 50 | PUSH EAX
+1014ccc5 | 68ec1e0010 | PUSH 0x10001eec
+1014ccca | 8d4c240c | LEA ECX,[ESP + 0xc]
+1014ccce | 51 | PUSH ECX
+1014cccf | b9b2222210 | MOV ECX,0x102222b2
+1014ccd4 | e80d62ebff | CALL 0x10002ee6
+1014ccd9 | 8d4c2404 | LEA ECX,[ESP + 0x4]
+1014ccdd | ff153c732210 | CALL dword ptr [0x1022733c]
+1014cce3 | 8d4c2408 | LEA ECX,[ESP + 0x8]
+1014cce7 | ff153c732210 | CALL dword ptr [0x1022733c]
+1014cced | 5e | POP ESI
+1014ccee | 83c408 | ADD ESP,0x8
+1014ccf1 | c3 | RET

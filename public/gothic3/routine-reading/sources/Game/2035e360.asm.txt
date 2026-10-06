@@ -1,0 +1,12 @@
+; 2035e360 bTPropertyType<gCScriptRoutine_PS,float>::vfunction6
+2035e360 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+2035e364 | 85c0 | TEST EAX,EAX
+2035e366 | 740f | JZ 0x2035e377
+2035e368 | 8b11 | MOV EDX,dword ptr [ECX]
+2035e36a | 50 | PUSH EAX
+2035e36b | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+2035e36e | ffd0 | CALL EAX
+2035e370 | 0f57c0 | XORPS XMM0,XMM0
+2035e373 | f30f1100 | MOVSS dword ptr [EAX],XMM0
+; 2035e377 LAB_2035e377
+2035e377 | c20400 | RET 0x4

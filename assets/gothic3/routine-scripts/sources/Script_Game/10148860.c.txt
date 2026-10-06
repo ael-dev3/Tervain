@@ -1,0 +1,16 @@
+/* ENTRY 10148860 | FUN_10148860 | STATUS decompiled | 6 ms */
+
+void FUN_10148860(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Magic\\Magic_States\\ZS_Summoned.cpp");
+  bCString::bCString(local_8,"ZS_Firerain");
+  thunk_FUN_1001db60(local_8,&LAB_100015aa,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+

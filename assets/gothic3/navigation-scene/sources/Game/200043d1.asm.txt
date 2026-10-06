@@ -1,0 +1,2 @@
+; 200043d1 ?Test3DPointInInternalNegZone@gCNavZone_PS@@QAE_NABVbCVector@@@Z
+200043d1 | e90ab32900 | JMP 0x2029f6e0

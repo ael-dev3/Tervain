@@ -1,0 +1,15 @@
+/* ENTRY 10028230 | FUN_10028230 | STATUS decompiled | 6 ms */
+
+undefined4 * __thiscall FUN_10028230(void *this,long *param_1)
+
+{
+  if (*(gCPlayerMemory_PS **)this == (gCPlayerMemory_PS *)0x0) {
+    GE_MESSAGEF_WARN("Cannot set property \'%s\' in propertyset \'%s\'!","Chapter",
+                     "gCPlayerMemory_PS");
+    return this;
+  }
+  gCPlayerMemory_PS::SetChapter(*(gCPlayerMemory_PS **)this,param_1);
+  return this;
+}
+
+

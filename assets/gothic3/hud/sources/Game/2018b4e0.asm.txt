@@ -1,0 +1,8 @@
+; 2018b4e0 gCHUDStaticInvCategory::gCHUDStaticInvCategory
+2018b4e0 | 56 | PUSH ESI
+2018b4e1 | 8bf1 | MOV ESI,ECX
+2018b4e3 | ff1514797d20 | CALL dword ptr [0x207d7914]
+2018b4e9 | c706ec826720 | MOV dword ptr [ESI],0x206782ec
+2018b4ef | 8bc6 | MOV EAX,ESI
+2018b4f1 | 5e | POP ESI
+2018b4f2 | c3 | RET

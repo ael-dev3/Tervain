@@ -1,0 +1,15 @@
+/* ENTRY 10004d2c | bCBox::Cull | STATUS decompiled | 2 ms */
+
+/* public: bool __thiscall bCBox::Cull(class bCStretch const &)const  */
+
+bool __thiscall bCBox::Cull(bCBox *this,bCStretch *param_1)
+
+{
+  bool bVar1;
+  
+                    /* 0x4d2c  1843  ?Cull@bCBox@@QBE_NABVbCStretch@@@Z */
+  bVar1 = Intersects(this,param_1,&m_fDummy);
+  return bVar1;
+}
+
+

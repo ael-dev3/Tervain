@@ -1,0 +1,4 @@
+; 10002194 ?IsInProcessingRange@PSNavigation@@QBE_NXZ
+10002194 | e947c60100 | JMP 0x1001e7e0
+; 10002199 PSInfoManager::Give
+; 10002199 Ordinal_1712

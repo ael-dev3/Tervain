@@ -1,0 +1,3 @@
+; 3032fa80 bTPropertyObject<eCRigidBody_PS,eCRigidBodyBase_PS>::vfunction4
+3032fa80 | 8b490c | MOV ECX,dword ptr [ECX + 0xc]
+3032fa83 | ff255ccaaf30 | JMP dword ptr [0x30afca5c]

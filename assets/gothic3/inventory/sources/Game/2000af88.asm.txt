@@ -1,0 +1,2 @@
+; 2000af88 ?ApplyDefaults@gCInventoryStack@@IAEXXZ
+2000af88 | e9a3c61b00 | JMP 0x201c7630

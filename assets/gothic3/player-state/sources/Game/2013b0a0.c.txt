@@ -1,0 +1,12 @@
+/* ENTRY 2013b0a0 | FUN_2013b0a0 | STATUS decompiled | 3 ms */
+
+void __thiscall FUN_2013b0a0(int param_1,eCEntity *param_2)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x2013b0a6. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eCEntityProxy::SetEntity((eCEntityProxy *)(param_1 + 0x130),param_2);
+  return;
+}
+
+

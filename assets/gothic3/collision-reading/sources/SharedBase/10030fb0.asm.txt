@@ -1,0 +1,18 @@
+; 10030fb0 FUN_10030fb0
+10030fb0 | 51 | PUSH ECX
+10030fb1 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+10030fb5 | 0f57c0 | XORPS XMM0,XMM0
+10030fb8 | f30f110424 | MOVSS dword ptr [ESP],XMM0
+10030fbd | 8b0c24 | MOV ECX,dword ptr [ESP]
+10030fc0 | f30f1005bc710e10 | MOVSS XMM0,dword ptr [0x100e71bc]
+10030fc8 | 894804 | MOV dword ptr [EAX + 0x4],ECX
+10030fcb | 894808 | MOV dword ptr [EAX + 0x8],ECX
+10030fce | 89480c | MOV dword ptr [EAX + 0xc],ECX
+10030fd1 | 894814 | MOV dword ptr [EAX + 0x14],ECX
+10030fd4 | 894818 | MOV dword ptr [EAX + 0x18],ECX
+10030fd7 | 89481c | MOV dword ptr [EAX + 0x1c],ECX
+10030fda | f30f1100 | MOVSS dword ptr [EAX],XMM0
+10030fde | f30f114010 | MOVSS dword ptr [EAX + 0x10],XMM0
+10030fe3 | f30f114020 | MOVSS dword ptr [EAX + 0x20],XMM0
+10030fe8 | 59 | POP ECX
+10030fe9 | c20400 | RET 0x4

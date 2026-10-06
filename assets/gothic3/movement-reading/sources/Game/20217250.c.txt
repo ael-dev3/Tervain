@@ -1,0 +1,37 @@
+/* ENTRY 20217250 | FUN_20217250 | STATUS decompiled | 8 ms */
+
+void __fastcall FUN_20217250(int param_1)
+
+{
+  eCModuleAdmin *this;
+  eCEngineComponentBase *peVar1;
+  bCString *pbVar2;
+  undefined4 uVar3;
+  TypeDescriptor *pTVar4;
+  TypeDescriptor *pTVar5;
+  undefined4 uVar6;
+  int local_4;
+  
+  *(undefined4 *)(param_1 + 4) = 0;
+  local_4 = param_1;
+  bCString::bCString((bCString *)&local_4,"gCEffectModule");
+  uVar6 = 0;
+  pTVar5 = &eCEffectModuleBase::RTTI_Type_Descriptor;
+  pTVar4 = &eCEngineComponentBase::RTTI_Type_Descriptor;
+  uVar3 = 0;
+  pbVar2 = (bCString *)&local_4;
+  this = eCModuleAdmin::GetInstance();
+  peVar1 = eCModuleAdmin::FindModule(this,pbVar2);
+  uVar3 = ___RTDynamicCast(peVar1,uVar3,pTVar4,pTVar5,uVar6);
+  *(undefined4 *)(param_1 + 8) = uVar3;
+  bCString::~bCString((bCString *)&local_4);
+  if (*(int **)(param_1 + 8) != (int *)0x0) {
+    uVar3 = (**(code **)(**(int **)(param_1 + 8) + 0xbc))();
+    *(undefined4 *)(param_1 + 0xc) = uVar3;
+    return;
+  }
+  *(undefined4 *)(param_1 + 0xc) = 0;
+  return;
+}
+
+

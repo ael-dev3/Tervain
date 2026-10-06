@@ -1,0 +1,22 @@
+/* ENTRY 3003a710 | eCCollisionShape_PS::AddShape | STATUS decompiled | 14 ms */
+
+/* public: virtual enum bEResult __thiscall eCCollisionShape_PS::AddShape(class eCCollisionShape *)
+    */
+
+bEResult __thiscall
+eCCollisionShape_PS::AddShape(eCCollisionShape_PS *this,eCCollisionShape *param_1)
+
+{
+  eCEntity *peVar1;
+  eCPhysicObjectStateBuffer *this_00;
+  
+                    /* 0x3a710  3494
+                       ?AddShape@eCCollisionShape_PS@@UAE?AW4bEResult@@PAVeCCollisionShape@@@Z */
+  thunk_FUN_3033f140(param_1);
+  peVar1 = (*this->vftablePtr->GetEntity)(this);
+  this_00 = eCPhysicObjectStateBuffer::GetBuffer(peVar1);
+  eCPhysicObjectStateBuffer::AddShape(this_00,param_1);
+  return 1;
+}
+
+

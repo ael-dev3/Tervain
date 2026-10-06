@@ -1,0 +1,18 @@
+/* ENTRY 10002b67 | Entity::SetCollisionGroup | STATUS decompiled | 4 ms */
+
+/* public: void __thiscall Entity::SetCollisionGroup(enum eECollisionGroup) */
+
+void __thiscall Entity::SetCollisionGroup(Entity *this,eECollisionGroup param_1)
+
+{
+                    /* 0x2b67  1930  ?SetCollisionGroup@Entity@@QAEXW4eECollisionGroup@@@Z */
+  if (*(eCEntity **)this != (eCEntity *)0x0) {
+                    /* WARNING: Could not recover jumptable at 0x10030206. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+    eCEntity::SetCollisionGroup(*(eCEntity **)this,param_1);
+    return;
+  }
+  return;
+}
+
+

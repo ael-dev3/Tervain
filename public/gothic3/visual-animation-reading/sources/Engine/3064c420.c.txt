@@ -1,0 +1,16 @@
+/* ENTRY 3064c420 | FUN_3064c420 | STATUS decompiled | 5 ms */
+
+void __thiscall FUN_3064c420(int param_1,int param_2)
+
+{
+  if (param_2 != 0) {
+    if (*(undefined4 **)(param_1 + 0x48) != (undefined4 *)0x0) {
+      (**(code **)**(undefined4 **)(param_1 + 0x48))(1);
+    }
+    *(int *)(param_1 + 0x48) = param_2;
+    FUN_30662df0(param_1);
+  }
+  return;
+}
+
+

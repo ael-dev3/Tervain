@@ -1,0 +1,2 @@
+; 30022381 ?SetDisableCollision@eCCollisionShape_PS@@QAEXAB_N@Z
+30022381 | e90a090a00 | JMP 0x300c2c90

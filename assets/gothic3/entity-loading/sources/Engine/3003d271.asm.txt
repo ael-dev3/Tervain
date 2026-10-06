@@ -1,0 +1,4 @@
+; 3003d271 ?Read@eCEntity@@UAE?AW4bEResult@@AAVbCIStream@@@Z
+3003d271 | e98a614700 | JMP 0x304b3400
+; 3003d276 eCAPITexture::eCAPITexture
+; 3003d276 Ordinal_60

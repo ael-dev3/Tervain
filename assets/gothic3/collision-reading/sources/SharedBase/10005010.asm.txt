@@ -1,0 +1,2 @@
+; 10005010 ?SetOrientation@bCOrientedBox@@QAEXABVbCMatrix3@@@Z
+10005010 | e95bde0500 | JMP 0x10062e70

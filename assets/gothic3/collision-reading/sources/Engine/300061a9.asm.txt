@@ -1,0 +1,2 @@
+; 300061a9 ?GetEntity@eCCollisionShape@@QBEPAVeCEntity@@XZ
+300061a9 | e9c2383500 | JMP 0x30359a70

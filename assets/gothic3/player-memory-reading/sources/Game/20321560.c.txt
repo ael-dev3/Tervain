@@ -1,0 +1,30 @@
+/* ENTRY 20321560 | FUN_20321560 | STATUS decompiled | 8 ms */
+
+bCString * __thiscall FUN_20321560(int *param_1,bCString *param_2)
+
+{
+  bCString *pbVar1;
+  int iVar2;
+  bCString *this;
+  int unaff_EBX;
+  
+  pbVar1 = param_2;
+  iVar2 = thunk_FUN_20320500(param_2,&param_2);
+  if (iVar2 != 0) {
+    return (bCString *)(iVar2 + 4);
+  }
+  this = (bCString *)new(0xc,0x199);
+  if (this == (bCString *)0x0) {
+    this = (bCString *)0x0;
+  }
+  else {
+    bCString::bCString(this);
+  }
+  bCString::operator=(this,pbVar1);
+  *(undefined4 *)(this + 8) = *(undefined4 *)(*param_1 + unaff_EBX * 4);
+  *(bCString **)(*param_1 + unaff_EBX * 4) = this;
+  param_1[3] = param_1[3] + 1;
+  return this + 4;
+}
+
+

@@ -1,0 +1,12 @@
+/* ENTRY 3002b797 | eCCollisionShape::AccessEnableCCD | STATUS decompiled | 4 ms */
+
+/* public: bool & __thiscall eCCollisionShape::AccessEnableCCD(void) */
+
+bool * __thiscall eCCollisionShape::AccessEnableCCD(eCCollisionShape *this)
+
+{
+                    /* 0x2b797  2692  ?AccessEnableCCD@eCCollisionShape@@QAEAA_NXZ */
+  return (bool *)&(this->eCCollisionShape_data).offset_0x29;
+}
+
+

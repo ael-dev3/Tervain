@@ -1,0 +1,5 @@
+; 2016dc20 gCHUDPageQuests2::vfunction71
+2016dc20 | 8b4128 | MOV EAX,dword ptr [ECX + 0x28]
+2016dc23 | 8b800c010000 | MOV EAX,dword ptr [EAX + 0x10c]
+2016dc29 | 83c128 | ADD ECX,0x28
+2016dc2c | ffe0 | JMP EAX

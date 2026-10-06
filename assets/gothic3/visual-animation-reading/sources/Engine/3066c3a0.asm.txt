@@ -1,0 +1,11 @@
+; 3066c3a0 MCore::String::~String
+3066c3a0 | 56 | PUSH ESI
+3066c3a1 | 8bf1 | MOV ESI,ECX
+3066c3a3 | c7061c1d8230 | MOV dword ptr [ESI],0x30821d1c
+3066c3a9 | e84abf9cff | CALL 0x300382f8
+3066c3ae | 8b4e04 | MOV ECX,dword ptr [ESI + 0x4]
+3066c3b1 | 51 | PUSH ECX
+3066c3b2 | 8bc8 | MOV ECX,EAX
+3066c3b4 | e887ecffff | CALL 0x3066b040
+3066c3b9 | 5e | POP ESI
+3066c3ba | c3 | RET

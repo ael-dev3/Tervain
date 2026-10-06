@@ -1,0 +1,4 @@
+; 10005b91 ?GetVolume@bCBox@@QBEMXZ
+10005b91 | e9da570200 | JMP 0x1002b370
+; 10005b96 bCIStream::operator>>
+; 10005b96 Ordinal_637

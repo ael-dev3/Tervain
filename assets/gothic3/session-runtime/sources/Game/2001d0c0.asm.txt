@@ -1,0 +1,2 @@
+; 2001d0c0 ??0gCGameApp@@QAE@XZ
+2001d0c0 | e95b3c0300 | JMP 0x20050d20

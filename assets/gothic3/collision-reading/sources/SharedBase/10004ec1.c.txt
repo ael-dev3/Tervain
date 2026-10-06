@@ -1,0 +1,12 @@
+/* ENTRY 10004ec1 | bCBox::AccessCoordinate | STATUS decompiled | 1 ms */
+
+/* public: float & __thiscall bCBox::AccessCoordinate(int) */
+
+float * __thiscall bCBox::AccessCoordinate(bCBox *this,int param_1)
+
+{
+                    /* 0x4ec1  1415  ?AccessCoordinate@bCBox@@QAEAAMH@Z */
+  return (float *)(this + param_1 * 4);
+}
+
+

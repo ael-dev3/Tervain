@@ -1,0 +1,12 @@
+/* ENTRY 100048f9 | bCClock::IsPaused | STATUS decompiled | 1 ms */
+
+/* public: bool __thiscall bCClock::IsPaused(void)const  */
+
+bool __thiscall bCClock::IsPaused(bCClock *this)
+
+{
+                    /* 0x48f9  3656  ?IsPaused@bCClock@@QBE_NXZ */
+  return (bool)this[0x20];
+}
+
+

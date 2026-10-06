@@ -1,0 +1,12 @@
+/* ENTRY 2018cd60 | gCHUDTableRecipeStats::gCHUDTableRecipeStats | STATUS decompiled | 5 ms */
+
+void __thiscall gCHUDTableRecipeStats::gCHUDTableRecipeStats(gCHUDTableRecipeStats *this)
+
+{
+  this->vftablePtr = &vftable_for_gCHUDTable;
+  this->vftablePtr = &vftable_for_gCInventoryListener;
+  gCHUDTable::~gCHUDTable((gCHUDTable *)this);
+  return;
+}
+
+

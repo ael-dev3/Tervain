@@ -1,0 +1,33 @@
+/* ENTRY 20394560 | FUN_20394560 | STATUS decompiled | 11 ms */
+
+undefined4 __fastcall FUN_20394560(gCSessionKeys *param_1)
+
+{
+  bool bVar1;
+  eCApplication *peVar2;
+  eCKeyboard *this;
+  eCMouse *this_00;
+  eSSetupEngine *peVar3;
+  char *pcVar4;
+  
+  peVar2 = eCApplication::GetInstance();
+  this = eCApplication::GetKeyboard((eCApplication *)peVar2);
+  peVar2 = eCApplication::GetInstance();
+  this_00 = eCApplication::GetMouse((eCApplication *)peVar2);
+  eCKeyboard::ClearKeyBuffer(this);
+  eCMouse::ClearBuffer(this_00);
+  pcVar4 = "Custom";
+  peVar2 = eCApplication::GetInstance();
+  peVar3 = eCApplication::GetSetupEngineDesc((eCApplication *)peVar2);
+  bVar1 = bCString::operator==((bCString *)(peVar3 + 0x17c),pcVar4);
+  if (bVar1) {
+    gCSessionKeys::CreateINIKeys(param_1);
+    bCObjectRefBase::Create((bCObjectRefBase *)param_1);
+    return 1;
+  }
+  gCSessionKeys::CreateDefaultKeys(param_1);
+  bCObjectRefBase::Create((bCObjectRefBase *)param_1);
+  return 1;
+}
+
+

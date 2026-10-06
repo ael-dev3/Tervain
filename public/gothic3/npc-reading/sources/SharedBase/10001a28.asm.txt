@@ -1,0 +1,4 @@
+; 10001a28 ?IsValid@bCAccessorPropertyObject@@QBE_NXZ
+10001a28 | e9a38e0900 | JMP 0x1009a8d0
+; 10001a2d bCInterpolatorBase::GetFrameBegin
+; 10001a2d Ordinal_2368

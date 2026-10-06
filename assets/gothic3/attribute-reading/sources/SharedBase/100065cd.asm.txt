@@ -1,0 +1,2 @@
+; 100065cd bCIStream::operator>>
+100065cd | e93e870100 | JMP 0x1001ed10

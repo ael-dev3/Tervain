@@ -1,0 +1,36 @@
+/* ENTRY 20467fb4 | FUN_20467fb4 | STATUS decompiled | 7 ms */
+
+DWORD * FUN_20467fb4(void)
+
+{
+  DWORD dwErrCode;
+  code *pcVar1;
+  DWORD *_Memory;
+  int iVar2;
+  DWORD DVar3;
+  
+  dwErrCode = GetLastError();
+  pcVar1 = (code *)FUN_20467e6d(DAT_207b231c);
+  _Memory = (DWORD *)(*pcVar1)();
+  if (_Memory == (DWORD *)0x0) {
+    _Memory = __calloc_crt(1,0x214);
+    if (_Memory != (DWORD *)0x0) {
+      pcVar1 = (code *)FUN_20467ddb(DAT_207d0a8c,DAT_207b231c,_Memory);
+      iVar2 = (*pcVar1)();
+      if (iVar2 == 0) {
+        _free(_Memory);
+        _Memory = (DWORD *)0x0;
+      }
+      else {
+        FUN_20467ef5(_Memory,0);
+        DVar3 = GetCurrentThreadId();
+        _Memory[1] = 0xffffffff;
+        *_Memory = DVar3;
+      }
+    }
+  }
+  SetLastError(dwErrCode);
+  return _Memory;
+}
+
+

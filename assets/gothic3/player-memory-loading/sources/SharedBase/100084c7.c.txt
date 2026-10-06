@@ -1,0 +1,17 @@
+/* ENTRY 100084c7 | bCPropertyTypeBase::CopyFrom | STATUS decompiled | 4 ms */
+
+/* protected: virtual void __thiscall bCPropertyTypeBase::CopyFrom(class bCPropertyTypeBase const &)
+   bCPropertyTypeBase member function inherited by bTPropertyTypeOnly<bCObsoleteClass> */
+
+void __thiscall bCPropertyTypeBase::CopyFrom(bCPropertyTypeBase *this,bCPropertyTypeBase *param_1)
+
+{
+                    /* 0x84c7  1757  ?CopyFrom@bCPropertyTypeBase@@MAEXABV1@@Z */
+  GE_MESSAGEF_WARN("The method %s detected an improper usage! \nHint:%s ",
+                   "bCPropertyTypeBase::CopyFrom",
+                   "It is not allowed to make a copy of propertytype.\nDo not call it from derived class or change access !"
+                  );
+  return;
+}
+
+

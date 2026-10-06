@@ -1,0 +1,12 @@
+; 10024300 FUN_10024300
+10024300 | 8bc1 | MOV EAX,ECX
+10024302 | 8b4c2404 | MOV ECX,dword ptr [ESP + 0x4]
+10024306 | d901 | FLD float ptr [ECX]
+10024308 | d918 | FSTP float ptr [EAX]
+1002430a | d94104 | FLD float ptr [ECX + 0x4]
+1002430d | d95804 | FSTP float ptr [EAX + 0x4]
+10024310 | d94108 | FLD float ptr [ECX + 0x8]
+10024313 | d95808 | FSTP float ptr [EAX + 0x8]
+10024316 | d9410c | FLD float ptr [ECX + 0xc]
+10024319 | d9580c | FSTP float ptr [EAX + 0xc]
+1002431c | c20400 | RET 0x4

@@ -1,0 +1,16 @@
+; 100bd9a8 FUN_100bd9a8
+100bd9a8 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+100bd9ac | 250000f07f | AND EAX,0x7ff00000
+100bd9b1 | 3d0000f07f | CMP EAX,0x7ff00000
+100bd9b6 | 7401 | JZ 0x100bd9b9
+100bd9b8 | c3 | RET
+; 100bd9b9 LAB_100bd9b9
+100bd9b9 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+100bd9bd | c3 | RET
+; 100bd9be LAB_100bd9be
+100bd9be | 66813c247f02 | CMP word ptr [ESP],0x27f
+100bd9c4 | 7403 | JZ 0x100bd9c9
+100bd9c6 | d92c24 | FLDCW word ptr [ESP]
+; 100bd9c9 LAB_100bd9c9
+100bd9c9 | 5a | POP EDX
+100bd9ca | c3 | RET

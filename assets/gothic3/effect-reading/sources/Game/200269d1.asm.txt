@@ -1,0 +1,2 @@
+; 200269d1 bTPOPureSmartPtr<gCEffect_PS>::vfunction12
+200269d1 | e92a2a0f00 | JMP 0x20119400

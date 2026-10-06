@@ -1,0 +1,10 @@
+/* ENTRY 201ab230 | bTPropertyType<gCInventory_PS,bCString>::vfunction5 | STATUS decompiled | 3 ms */
+
+bTPropertyType<gCInventory_PS,bCString>_vftable * __thiscall
+bTPropertyType<gCInventory_PS,bCString>::vfunction5(bTPropertyType<gCInventory_PS,bCString> *this)
+
+{
+  return this[7].vftablePtr;
+}
+
+

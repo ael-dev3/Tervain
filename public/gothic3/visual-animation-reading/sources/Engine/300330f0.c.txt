@@ -1,0 +1,26 @@
+/* ENTRY 300330f0 | eCWrapper_emfx2Actor::GetTargetWeight | STATUS decompiled | 142 ms */
+
+/* public: float __thiscall eCWrapper_emfx2Actor::GetTargetWeight(enum
+   eCWrapper_emfx2Actor::eEMotionType)const  */
+
+float __thiscall
+eCWrapper_emfx2Actor::GetTargetWeight(eCWrapper_emfx2Actor *this,eEMotionType param_1)
+
+{
+  int iVar1;
+  char cVar2;
+  
+                    /* 0x330f0  9053  ?GetTargetWeight@eCWrapper_emfx2Actor@@QBEMW4eEMotionType@1@@Z
+                        */
+  if ((param_1 < 8) &&
+     (iVar1 = (&(this->eCWrapper_emfx2Actor_data).offset_0xc)[param_1], iVar1 != 0)) {
+    cVar2 = thunk_FUN_300e2c60(iVar1);
+    if (cVar2 != '\0') {
+      return *(float *)(iVar1 + 0x28);
+    }
+    (&(this->eCWrapper_emfx2Actor_data).offset_0xc)[param_1] = 0;
+  }
+  return 0.0;
+}
+
+

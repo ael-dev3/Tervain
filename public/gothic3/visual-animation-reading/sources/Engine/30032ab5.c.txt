@@ -1,0 +1,15 @@
+/* ENTRY 30032ab5 | eCVisualAnimationLoD::GetMeshBoundary | STATUS decompiled | 5 ms */
+
+/* public: void __thiscall eCVisualAnimationLoD::GetMeshBoundary(class bCBox &)const  */
+
+void __thiscall eCVisualAnimationLoD::GetMeshBoundary(eCVisualAnimationLoD *this,bCBox *param_1)
+
+{
+                    /* 0x32ab5  7818  ?GetMeshBoundary@eCVisualAnimationLoD@@QBEXAAVbCBox@@@Z */
+  if ((this->eCVisualAnimationLoD_data).offset_0x4 != (eCResourceAnimationActor_PS *)0x0) {
+    (**(code **)(*(int *)(this->eCVisualAnimationLoD_data).offset_0x4 + 0xa8))(param_1,0);
+  }
+  return;
+}
+
+

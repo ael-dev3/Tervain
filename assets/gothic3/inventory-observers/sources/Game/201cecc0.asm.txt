@@ -1,0 +1,11 @@
+; 201cecc0 FUN_201cecc0
+201cecc0 | 33c0 | XOR EAX,EAX
+201cecc2 | 56 | PUSH ESI
+201cecc3 | 8bf1 | MOV ESI,ECX
+201cecc5 | 8906 | MOV dword ptr [ESI],EAX
+201cecc7 | 894604 | MOV dword ptr [ESI + 0x4],EAX
+201cecca | 894608 | MOV dword ptr [ESI + 0x8],EAX
+201ceccd | e8babee3ff | CALL 0x2000ab8c
+201cecd2 | 8bc6 | MOV EAX,ESI
+201cecd4 | 5e | POP ESI
+201cecd5 | c3 | RET

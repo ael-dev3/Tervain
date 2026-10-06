@@ -1,0 +1,6 @@
+; 307985f0 bTPropertyObject<eCVisualAnimation_PS,eCEntityPropertySet>::~bTPropertyObject<eCVisualAnimation_PS,eCEntityPropertySet>
+307985f0 | b93ca5ad30 | MOV ECX,0x30ada53c
+307985f5 | c7053ca5ad3084fa8130 | MOV dword ptr [0x30ada53c],0x3081fa84
+307985ff | e893fb87ff | CALL 0x30018197
+30798604 | b93ca5ad30 | MOV ECX,0x30ada53c
+30798609 | e95db18aff | JMP 0x3004376b

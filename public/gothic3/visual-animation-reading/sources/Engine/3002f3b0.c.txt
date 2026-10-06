@@ -1,0 +1,12 @@
+/* ENTRY 3002f3b0 | eCSpringAndDamperEffector::GetVersion | STATUS decompiled | 3 ms */
+
+/* public: virtual unsigned short __thiscall eCSpringAndDamperEffector::GetVersion(void)const  */
+
+ushort __thiscall eCSpringAndDamperEffector::GetVersion(eCSpringAndDamperEffector *this)
+
+{
+                    /* 0x2f3b0  9492  ?GetVersion@eCSpringAndDamperEffector@@UBEGXZ */
+  return 0x3e;
+}
+
+

@@ -1,0 +1,2 @@
+; 3003816d ??0eCTemplateEntityProxy@@QAE@PAVeCTemplateEntity@@@Z
+3003816d | e91ef44800 | JMP 0x304c7590

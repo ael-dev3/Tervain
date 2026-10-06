@@ -1,0 +1,125 @@
+{
+  "schema": "gothic3-clock-properties-rules-v1",
+  "inputs": {
+    "Game": "b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f",
+    "Engine": "d49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3",
+    "SharedBase": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214"
+  },
+  "profile": "one-physical-original-gCClock_PS-finite-explicit-clock-profile",
+  "vtable": "206858fc",
+  "propertyOffsets": {
+    "Year": 20,
+    "Day": 24,
+    "Hour": 28,
+    "Minute": 32,
+    "Second": 36,
+    "Factor": 40
+  },
+  "propertyType": 32,
+  "isProcessable": true,
+  "embeddedClockOffset": 44,
+  "scratchOffsets": {
+    "years": 80,
+    "days": 84,
+    "seconds": 88
+  },
+  "secondsPerDay": 86400,
+  "daysPerYear": 365,
+  "musicStringsBase": "207bd478",
+  "ambientDayTime": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "constructor": {
+    "baseReferenceWord": 1,
+    "scratch": {
+      "years": 0,
+      "days": 0,
+      "seconds": 0
+    },
+    "clock": "constructor then Set zero",
+    "propertyValuesWrittenByConstructor": false,
+    "PostInitializeProperties": {
+      "Year": 0,
+      "Day": 0,
+      "Hour": 0,
+      "Minute": 0,
+      "Second": 0,
+      "Factor": 12
+    },
+    "postInitializeDoesNotAdjustEmbeddedClock": true
+  },
+  "physicalBinding": "lowercase calendar accessor view aliases exact existing Uppercase value storage; one binding per clock and values object",
+  "setters": "NotifyEnter(name,false); property write; NotifyExit(name,false); no direct Process publication",
+  "notifications": {
+    "outer": "owner.Modified read; virtual OnNotify",
+    "inheritedEnterExit": "owner.Modified read; SharedBase true",
+    "nonpropagatedClockExit": [
+      "scratch.seconds from wrapping calendar seconds",
+      "scratch.days from Day",
+      "scratch.years from Year",
+      "bCClock.Set(same scratch)",
+      "read current Factor",
+      "bCClock.Adjust",
+      "inherited Engine Exit"
+    ],
+    "propagatedClockExit": "inherited Engine Exit only",
+    "propertyFilter": null
+  },
+  "Read": "consume arbitrary uint16 version; direct virtual OnNotifyExit(NULL,false); return1; no inherited base.Read call",
+  "Create": "if invalid, Pause then base.Create highbit; return1",
+  "Invalidate": "scratch.seconds=0; days=0; years=0; bCClock.Set; property fields and adjustment remain",
+  "processOrder": [
+    "base.OnProcess(empty)",
+    "bCClock.GetTimeAndDate(same scratch)",
+    "capture old property Hour after advancing read",
+    "classify old and new uint32 Hour",
+    "direct publication Year/Day/Hour/Minute/Second without Notify",
+    "weather float32 computation, regardless of module existence",
+    "GetWeatherAdmin",
+    "SetCurrentDayTime if nonnull",
+    "if daytime changed capture AmbientModule then MusicModule",
+    "Music.SetDayTime if captured music nonnull",
+    "Ambient.SetDayTime if captured ambient nonnull"
+  ],
+  "weatherSetter": "Engine3004070f->305a7ea0 direct storedfloat32 write admin+0x30; actual supplied storage wrapper available",
+  "hostConsumerContracts": {
+    "moduleGetters": "original IsInitialised gate then static cached FindModule/RTDynamicCast effect; unknown is not null",
+    "music": "captured module pointer and exact live global bCString reference; full native music system/sequencer/trigger subcalls are host work",
+    "ambient": "captured module pointer and enum; full native system/sequencer/property-container/notification subcalls are host work"
+  },
+  "arithmeticProfile": {
+    "precisionBits": [
+      24,
+      53,
+      64
+    ],
+    "rounding": "nearest-even",
+    "capturedNativeControlWord": false,
+    "timestamps": "selected monotonic u32 milliseconds, fewer than2^32ms between related reads; no timestamp callback reentrant clock mutation",
+    "finiteOnly": true,
+    "nativeFPUExceptionEnvironmentPorted": false
+  },
+  "lifetimeProfile": "stable live concrete Clock_PS and physical plain data storage during a call; owner slot may be reread; reentrant consumer setters permitted, recursive OnProcess unsupported",
+  "remaining": [
+    "full original reflective construction/deserialization/entity scheduling",
+    "original module lookup/cache/app registration services",
+    "music and ambient systems, sequencers and trigger payload consumers",
+    "live contents of global music daytime strings",
+    "savegame clock baseline restoration and copy/destructor paths",
+    "captured active native x87 environment and exceptions"
+  ],
+  "audit": {
+    "functionEntries": 150,
+    "instructionRecords": 1045,
+    "matchedInstructionBytes": 3436,
+    "allListedInstructionBytesMatchOriginalPE": true,
+    "selectedFunctionScopeOnly": true,
+    "nativeCodeExecuted": false,
+    "testsExecuted": false,
+    "buildExecuted": false,
+    "browserExecuted": false
+  }
+}

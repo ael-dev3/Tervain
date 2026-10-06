@@ -1,0 +1,2 @@
+; 2001f456 bTPropertyType<gCInventory_PS,bool>::vfunction15
+2001f456 | e965bc1800 | JMP 0x201ab0c0

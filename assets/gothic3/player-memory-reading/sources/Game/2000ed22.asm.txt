@@ -1,0 +1,2 @@
+; 2000ed22 gCPlayerMemory_PS::ReadAttributes
+2000ed22 | e9d9f93000 | JMP 0x2031e700

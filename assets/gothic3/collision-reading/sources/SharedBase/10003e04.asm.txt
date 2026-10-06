@@ -1,0 +1,4 @@
+; 10003e04 ?GetShrunk@bCBox@@QBE?AV1@ABVbCVector@@@Z
+10003e04 | e9472a0300 | JMP 0x10036850
+; 10003e09 bCMatrix::operator[]
+; 10003e09 Ordinal_860

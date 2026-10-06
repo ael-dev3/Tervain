@@ -1,0 +1,32 @@
+/* ENTRY 20513780 | bTPropertyType<gCNPC_PS,bTPropertyContainer<gEGender>_>::~bTPropertyType<gCNPC_PS,bTPropertyContainer<gEGender>_> | STATUS decompiled | 35 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCNPC_PS,bTPropertyContainer<gEGender>_>::
+~bTPropertyType<gCNPC_PS,bTPropertyContainer<gEGender>_>
+          (bTPropertyType<gCNPC_PS,bTPropertyContainer<gEGender>_> *this)
+
+{
+  bTPropertyType<gCNPC_PS,bTPropertyContainer<gEGender>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"Gender");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_enuGender,(bCString *)&local_4,2);
+  _ms_PropertyMember_m_enuGender = &vftable;
+  DAT_207c0cdc = bTPropertyObjectType<gCNPC_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCNPC_PS,eCEntityPropertySet>();
+  _DAT_207c0ce0 = 0x28;
+  _DAT_207c0ce4 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_enuGender);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207c0cdc,
+             (bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_enuGender);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gEGender>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gEGender>_>);
+  return;
+}
+
+

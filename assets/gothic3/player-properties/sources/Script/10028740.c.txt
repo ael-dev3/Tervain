@@ -1,0 +1,12 @@
+/* ENTRY 10028740 | FUN_10028740 | STATUS decompiled | 2 ms */
+
+void __thiscall FUN_10028740(void *this,uint param_1,undefined1 param_2)
+
+{
+  if ((*(int *)this != 0) && (param_1 < 9)) {
+    *(undefined1 *)(param_1 + *(int *)(*(int *)this + 0x48)) = param_2;
+  }
+  return;
+}
+
+

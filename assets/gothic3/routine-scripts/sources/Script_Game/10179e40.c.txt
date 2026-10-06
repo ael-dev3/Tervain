@@ -1,0 +1,17 @@
+/* ENTRY 10179e40 | FUN_10179e40 | STATUS decompiled | 7 ms */
+
+void FUN_10179e40(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Engine\\Engine_States\\IS_Running_NotEnoughGold.cpp");
+  bCString::bCString(local_8,"IS_Running_NotEnoughGold");
+  thunk_FUN_1001db60(local_8,&LAB_1000139d,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

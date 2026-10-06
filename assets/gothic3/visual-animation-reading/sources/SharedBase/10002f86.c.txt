@@ -1,0 +1,47 @@
+/* ENTRY 10002f86 | bCPropertyObjectFactory::~bCPropertyObjectFactory | STATUS decompiled | 11 ms */
+
+/* public: virtual __thiscall bCPropertyObjectFactory::~bCPropertyObjectFactory(void) */
+
+void __thiscall bCPropertyObjectFactory::~bCPropertyObjectFactory(bCPropertyObjectFactory *this)
+
+{
+  int *piVar1;
+  int iVar2;
+  void *pvVar3;
+  bCMemoryAdmin *pbVar4;
+  bCPropertyObjectFactory_data *pbVar5;
+  
+                    /* 0x2f86  414  ??1bCPropertyObjectFactory@@UAE@XZ */
+  piVar1 = &(this->bCPropertyObjectFactory_data).offset_0x10;
+  this->vftablePtr = &vftable;
+  if ((piVar1 != (int *)0x0) && (iVar2 = *piVar1, iVar2 != 0)) {
+    *(short *)(iVar2 + -4) = *(short *)(iVar2 + -4) + -1;
+    pvVar3 = (void *)(iVar2 + -8);
+    if (*(short *)(iVar2 + -4) == 0) {
+      pbVar4 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar4,pvVar3);
+    }
+  }
+  pbVar5 = &this->bCPropertyObjectFactory_data;
+  if (pbVar5 != (bCPropertyObjectFactory_data *)0x0) {
+    pvVar3 = pbVar5->offset_0x0;
+    if (pvVar3 != (void *)0x0) {
+      pbVar4 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar4,pvVar3);
+      pbVar5->offset_0x0 = (void *)0x0;
+      (this->bCPropertyObjectFactory_data).offset_0x4 = 0;
+      (this->bCPropertyObjectFactory_data).offset_0x8 = 0;
+    }
+    pvVar3 = pbVar5->offset_0x0;
+    if (pvVar3 != (void *)0x0) {
+      pbVar4 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar4,pvVar3);
+      pbVar5->offset_0x0 = (void *)0x0;
+      (this->bCPropertyObjectFactory_data).offset_0x4 = 0;
+      (this->bCPropertyObjectFactory_data).offset_0x8 = 0;
+    }
+  }
+  return;
+}
+
+

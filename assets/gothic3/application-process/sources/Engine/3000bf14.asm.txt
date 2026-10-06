@@ -1,0 +1,4 @@
+; 3000bf14 ?IsEnabled@eCContextBase@@QBE_NXZ
+3000bf14 | e947894900 | JMP 0x304a4860
+; 3000bf1e eCVertexProcessorAdditional::Create
+; 3000bf1e Ordinal_4731

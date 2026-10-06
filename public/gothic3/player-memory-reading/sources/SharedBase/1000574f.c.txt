@@ -1,0 +1,22 @@
+/* ENTRY 1000574f | bCAccessorCreator::SetInstance | STATUS decompiled | 4 ms */
+
+/* public: void __thiscall bCAccessorCreator::SetInstance(class bCPropertyObjectBase *) */
+
+void __thiscall
+bCAccessorCreator::SetInstance(bCAccessorCreator *this,bCPropertyObjectBase *param_1)
+
+{
+                    /* 0x574f  4227  ?SetInstance@bCAccessorCreator@@QAEXPAVbCPropertyObjectBase@@@Z
+                        */
+  if (param_1 != (bCPropertyObjectBase *)0x0) {
+    (**(code **)(*(int *)param_1 + 0x30))();
+  }
+  if (*(int **)this != (int *)0x0) {
+    (**(code **)(**(int **)this + 0x34))();
+    *(undefined4 *)this = 0;
+  }
+  *(bCPropertyObjectBase **)this = param_1;
+  return;
+}
+
+

@@ -1,0 +1,77 @@
+/* ENTRY 200043d1 | gCNavZone_PS::Test3DPointInInternalNegZone | STATUS decompiled | 55 ms */
+
+/* public: bool __thiscall gCNavZone_PS::Test3DPointInInternalNegZone(class bCVector const &) */
+
+bool __thiscall gCNavZone_PS::Test3DPointInInternalNegZone(gCNavZone_PS *this,bCVector *param_1)
+
+{
+  int iVar1;
+  double dVar2;
+  bool bVar3;
+  bCVector *pbVar4;
+  bCVector2 *pbVar5;
+  float *pfVar6;
+  int iVar7;
+  float fVar8;
+  float fVar9;
+  bCVector2 abStack_44 [4];
+  bCVector2 abStack_40 [4];
+  bCVector2 abStack_3c [4];
+  bCVector2 abStack_38 [8];
+  bCVector2 abStack_30 [4];
+  undefined4 uStack_2c;
+  undefined8 uStack_28;
+  bCVector2 abStack_20 [4];
+  bCVector2 abStack_1c [4];
+  bCVector abStack_18 [4];
+  bCVector abStack_14 [16];
+  
+                    /* 0x43d1  7337
+                       ?Test3DPointInInternalNegZone@gCNavZone_PS@@QAE_NABVbCVector@@@Z */
+  fVar8 = bCVector::GetZ(param_1);
+  fVar9 = bCVector::GetX(param_1);
+  bCVector2::bCVector2(abStack_38,fVar9,fVar8);
+  bCVector::bCVector(abStack_14);
+  bCVector2::bCVector2(abStack_40);
+  iVar7 = 0;
+  if (0 < (int)(this->gCNavZone_PS_data).offset_0xc4) {
+    do {
+      iVar1 = iVar7 * 4;
+      pbVar4 = gCNegZone_PSObj::GetWorldRadiusOffset
+                         (*(gCNegZone_PSObj **)((int)(this->gCNavZone_PS_data).offset_0xc0 + iVar1))
+      ;
+      bCVector::operator=(abStack_14,pbVar4);
+      fVar8 = bCVector::GetZ(abStack_14);
+      fVar9 = bCVector::GetX(abStack_14);
+      pbVar5 = (bCVector2 *)bCVector2::bCVector2(abStack_30,fVar9,fVar8);
+      bCVector2::operator=(abStack_40,pbVar5);
+      bCVector2::~bCVector2(abStack_30);
+      pfVar6 = gCNegZone_PSObj::GetRadius
+                         (*(gCNegZone_PSObj **)((int)(this->gCNavZone_PS_data).offset_0xc0 + iVar1))
+      ;
+      uStack_28 = (double)*pfVar6;
+      pbVar5 = (bCVector2 *)bCVector2::operator-(abStack_40,abStack_1c);
+      fVar8 = bCVector2::GetMagnitude(pbVar5);
+      dVar2 = (double)CONCAT44((undefined4)uStack_28,uStack_2c);
+      bCVector2::~bCVector2(abStack_20);
+      if (fVar8 <= (float)dVar2) {
+        bVar3 = gCNegZone_PSObj::Test3DPointInZone
+                          (*(gCNegZone_PSObj **)((int)(this->gCNavZone_PS_data).offset_0xc0 + iVar1)
+                           ,param_1,true);
+        if (bVar3) {
+          bCVector2::~bCVector2(abStack_44);
+          bCVector::~bCVector(abStack_18);
+          bCVector2::~bCVector2(abStack_3c);
+          return true;
+        }
+      }
+      iVar7 = iVar7 + 1;
+    } while (iVar7 < (int)(this->gCNavZone_PS_data).offset_0xc4);
+  }
+  bCVector2::~bCVector2(abStack_40);
+  bCVector::~bCVector(abStack_14);
+  bCVector2::~bCVector2(abStack_38);
+  return false;
+}
+
+

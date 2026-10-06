@@ -1,0 +1,79 @@
+/* ENTRY 3030a140 | FUN_3030a140 | STATUS decompiled | 46 ms */
+
+void __fastcall FUN_3030a140(int param_1)
+
+{
+  int *piVar1;
+  bool bVar2;
+  char cVar3;
+  eCPhysicsScene *peVar4;
+  eCPhysicsScene *peVar5;
+  bCCriticalSectionWin32 *pbVar6;
+  int iVar7;
+  int iVar8;
+  eCEntity *peVar9;
+  
+  peVar4 = eCPhysicsScene::GetInstance();
+  if (peVar4[0x14] != (eCPhysicsScene)0x0) {
+    if (*(char *)(param_1 + 0xd) == '\0') {
+      *(undefined1 *)(param_1 + 0xd) = 1;
+      peVar5 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+      pbVar6 = eCPhysicsScene::GetCriticalSection(peVar5);
+      bCCriticalSectionWin32::Acquire(pbVar6);
+      peVar9 = *(eCEntity **)(param_1 + 4);
+      peVar5 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+      bVar2 = eCPhysicsScene::IsEntityFrozen(peVar5,peVar9);
+      if (!bVar2) {
+        if (*(int **)(param_1 + 4) == (int *)0x0) {
+          iVar8 = 0;
+        }
+        else {
+          iVar8 = (**(code **)(**(int **)(param_1 + 4) + 0xec))(0xe);
+        }
+        if ((*(int **)(param_1 + 8) != (int *)0x0) &&
+           (cVar3 = (**(code **)(**(int **)(param_1 + 8) + 0x68))(), cVar3 == '\x01')) {
+          iVar7 = thunk_FUN_3030e530(*(undefined4 *)(param_1 + 4));
+          if (iVar7 != 0) {
+            (**(code **)(**(int **)(param_1 + 8) + 0x154))(~*(uint *)(iVar7 + 0x7c) & 0x7e);
+          }
+          if ((iVar8 != 0) && (*(char *)(iVar8 + 0x24) == '\0')) {
+            (**(code **)(**(int **)(param_1 + 8) + 0x60))(1);
+          }
+          (**(code **)(**(int **)(param_1 + 8) + 0x148))(0x3ecccccc);
+        }
+        iVar7 = 0;
+        if (0 < *(int *)(param_1 + 0x14)) {
+          do {
+            piVar1 = *(int **)(*(int *)(param_1 + 0x10) + iVar7 * 4);
+            if ((iVar8 == 0) || (*(char *)(iVar8 + 0x24) == '\0')) {
+              (**(code **)(*piVar1 + 0x60))(1);
+            }
+            (**(code **)(*piVar1 + 0x148))(0x3ecccccc);
+            (**(code **)(*piVar1 + 0x154))(0x7e);
+            iVar7 = iVar7 + 1;
+          } while (iVar7 < *(int *)(param_1 + 0x14));
+        }
+      }
+      bCCriticalSectionWin32::Release(pbVar6);
+    }
+    if (0 < *(int *)(param_1 + 0x14)) {
+      peVar5 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+      pbVar6 = eCPhysicsScene::GetCriticalSection(peVar5);
+      bCCriticalSectionWin32::Acquire(pbVar6);
+      iVar8 = 0;
+      if (0 < *(int *)(param_1 + 0x14)) {
+        do {
+          (**(code **)(**(int **)(*(int *)(param_1 + 0x10) + iVar8 * 4) + 0x148))(0x3ecccccc);
+          iVar8 = iVar8 + 1;
+        } while (iVar8 < *(int *)(param_1 + 0x14));
+      }
+                    /* WARNING: Could not recover jumptable at 0x3030a2ba. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+      bCCriticalSectionWin32::Release(pbVar6);
+      return;
+    }
+  }
+  return;
+}
+
+

@@ -1,0 +1,2 @@
+; 2002ae78 bTPropertyType<gCInventorySlot,eCEntityProxy>::vfunction6
+2002ae78 | e913a01900 | JMP 0x201c4e90

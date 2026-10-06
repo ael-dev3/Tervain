@@ -1,0 +1,54 @@
+/* ENTRY 20024ffa | gCScriptProcessingUnit::AIFullStop | STATUS decompiled | 10 ms */
+
+/* public: void __thiscall gCScriptProcessingUnit::AIFullStop(enum
+   gCScriptProcessingUnit::gEAIInstruction) */
+
+void __thiscall
+gCScriptProcessingUnit::AIFullStop(gCScriptProcessingUnit *this,gEAIInstruction param_1)
+
+{
+  code *pcVar1;
+  bool bVar2;
+  
+                    /* 0x24ffa  966  ?AIFullStop@gCScriptProcessingUnit@@QAEXW4gEAIInstruction@1@@Z
+                        */
+  pcVar1 = (code *)(this->gCScriptProcessingUnit_data).offset_0x70;
+  if (pcVar1 == (code *)0x0) {
+    return;
+  }
+  switch(param_1) {
+  case 1:
+    bVar2 = pcVar1 == sAIWaitInstr;
+    break;
+  case 2:
+    bVar2 = pcVar1 == sAIGotoInstr;
+    break;
+  case 3:
+    bVar2 = pcVar1 == sAIOutputInstr;
+    break;
+  case 4:
+    bVar2 = pcVar1 == sAIPlayAniInstr;
+    break;
+  case 5:
+    bVar2 = pcVar1 == sAICombatMoveInstr;
+    break;
+  case 6:
+    bVar2 = pcVar1 == sAIPrepareAimInstr;
+    break;
+  case 7:
+    bVar2 = pcVar1 == sAIPlayAimInstr;
+    break;
+  case 8:
+    bVar2 = pcVar1 == sAIHUDWaitInstr;
+    break;
+  default:
+    goto switchD_2036eed3_default;
+  }
+  if (bVar2) {
+switchD_2036eed3_default:
+    (*pcVar1)(0,this,1);
+  }
+  return;
+}
+
+

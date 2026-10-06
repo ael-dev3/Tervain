@@ -1,0 +1,4 @@
+; 30005ea2 bTPropertyType<eCCollisionShape,unsigned_short>::vfunction9
+30005ea2 | e9a9bc3500 | JMP 0x30361b50
+; 30005ea7 eCParticle_PS::SetInitialAge
+; 30005ea7 Ordinal_13532

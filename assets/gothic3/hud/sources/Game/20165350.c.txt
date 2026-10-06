@@ -1,0 +1,20 @@
+/* ENTRY 20165350 | gCHUDViewInventory2::vfunction68 | STATUS decompiled | 9 ms */
+
+void __thiscall
+gCHUDViewInventory2::vfunction68(gCHUDViewInventory2 *this,undefined4 param_1,int param_2)
+
+{
+  undefined4 uVar1;
+  
+  if (param_2 == 0) {
+    thunk_FUN_2018b1e0(param_1);
+    thunk_FUN_2018a7f0(param_1);
+    uVar1 = thunk_FUN_2018e930();
+    thunk_FUN_20188730(uVar1);
+    uVar1 = thunk_FUN_2018e930();
+    thunk_FUN_2018b510(uVar1);
+  }
+  return;
+}
+
+

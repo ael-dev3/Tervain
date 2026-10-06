@@ -1,0 +1,4 @@
+; 30008a71 ?GetBuffer@eCPhysicObjectStateBuffer@@KGAAV1@AAVeCEntity@@@Z
+30008a71 | e95a693000 | JMP 0x3030f3d0
+; 30008a76 eCTexCoordSrcRotator::GetPSImplementation
+; 30008a76 Ordinal_8048

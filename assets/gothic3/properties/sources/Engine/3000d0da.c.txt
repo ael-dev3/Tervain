@@ -1,0 +1,24 @@
+/* ENTRY 3000d0da | eCSpatialEntity::eCSpatialEntity | STATUS decompiled | 15 ms */
+
+/* protected: __thiscall eCSpatialEntity::eCSpatialEntity(class eCSpatialEntity const &) */
+
+eCSpatialEntity * __thiscall
+eCSpatialEntity::eCSpatialEntity(eCSpatialEntity *this,eCSpatialEntity *param_1)
+
+{
+  int iVar1;
+  
+                    /* 0xd0da  753  ??0eCSpatialEntity@@IAE@ABV0@@Z */
+  eCEntity::eCEntity((eCEntity *)this);
+  this->vftablePtr = &vftable;
+  bCBox::bCBox((bCBox *)&(this->eCSpatialEntity_data).field_0x4);
+  bCOrientedBox::bCOrientedBox((bCOrientedBox *)&(this->eCSpatialEntity_data).field_0x1c);
+  (this->eCEntity_data).offset_0xc = (this->eCEntity_data).offset_0xc & 0xffffffaf | 0x2c;
+  (this->eCSpatialEntity_data).offset_0x0 = 0;
+  CopyFrom(this,(bCObjectBase *)param_1);
+  iVar1 = thunk_FUN_3007bf20();
+  *(int *)(iVar1 + 0x130) = *(int *)(iVar1 + 0x130) + 1;
+  return this;
+}
+
+

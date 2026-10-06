@@ -1,0 +1,26 @@
+; 30763020 bTPropertyType<eCSpringAndDamperEffector,float>::~bTPropertyType<eCSpringAndDamperEffector,float>
+30763020 | 51 | PUSH ECX
+30763021 | 68d4898130 | PUSH 0x308189d4
+30763026 | 8d4c2404 | LEA ECX,[ESP + 0x4]
+3076302a | ff155cdbaf30 | CALL dword ptr [0x30afdb5c]
+30763030 | 6a01 | PUSH 0x1
+30763032 | 8d442404 | LEA EAX,[ESP + 0x4]
+30763036 | 50 | PUSH EAX
+30763037 | b9a4deae30 | MOV ECX,0x30aedea4
+3076303c | ff1598caaf30 | CALL dword ptr [0x30afca98]
+30763042 | c705a4deae30ac608630 | MOV dword ptr [0x30aedea4],0x308660ac
+3076304c | e8cf538cff | CALL 0x30028420
+30763051 | b9a4deae30 | MOV ECX,0x30aedea4
+30763056 | a3bcdeae30 | MOV [0x30aedebc],EAX
+3076305b | c705c0deae305c000000 | MOV dword ptr [0x30aedec0],0x5c
+30763065 | c705c4deae3000000000 | MOV dword ptr [0x30aedec4],0x0
+3076306f | ff1570caaf30 | CALL dword ptr [0x30afca70]
+30763075 | 8b0dbcdeae30 | MOV ECX,dword ptr [0x30aedebc]
+3076307b | 68a4deae30 | PUSH 0x30aedea4
+30763080 | ff157ccaaf30 | CALL dword ptr [0x30afca7c]
+30763086 | 8d0c24 | LEA ECX,[ESP]
+30763089 | ff15dcdbaf30 | CALL dword ptr [0x30afdbdc]
+3076308f | 6810937a30 | PUSH 0x307a9310
+30763094 | e8fde4f0ff | CALL 0x30671596
+30763099 | 83c408 | ADD ESP,0x8
+3076309c | c3 | RET

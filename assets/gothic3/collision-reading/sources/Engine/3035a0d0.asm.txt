@@ -1,0 +1,64 @@
+; 3035a0d0 FUN_3035a0d0
+3035a0d0 | 83ec5c | SUB ESP,0x5c
+3035a0d3 | 53 | PUSH EBX
+3035a0d4 | 8bd9 | MOV EBX,ECX
+3035a0d6 | 837b6000 | CMP dword ptr [EBX + 0x60],0x0
+3035a0da | 7509 | JNZ 0x3035a0e5
+3035a0dc | 32c0 | XOR AL,AL
+3035a0de | 5b | POP EBX
+3035a0df | 83c45c | ADD ESP,0x5c
+3035a0e2 | c20400 | RET 0x4
+; 3035a0e5 LAB_3035a0e5
+3035a0e5 | 56 | PUSH ESI
+3035a0e6 | 57 | PUSH EDI
+3035a0e7 | 8b7c246c | MOV EDI,dword ptr [ESP + 0x6c]
+3035a0eb | 8bcf | MOV ECX,EDI
+3035a0ed | ff158cd0af30 | CALL dword ptr [0x30afd08c]
+3035a0f3 | 8bc8 | MOV ECX,EAX
+3035a0f5 | ff158ccdaf30 | CALL dword ptr [0x30afcd8c]
+3035a0fb | d905705aab30 | FLD float ptr [0x30ab5a70]
+3035a101 | 51 | PUSH ECX
+3035a102 | 8bf0 | MOV ESI,EAX
+3035a104 | d91c24 | FSTP float ptr [ESP]
+3035a107 | 8d442410 | LEA EAX,[ESP + 0x10]
+3035a10b | 50 | PUSH EAX
+3035a10c | 8bcf | MOV ECX,EDI
+3035a10e | ff15b0d5af30 | CALL dword ptr [0x30afd5b0]
+3035a114 | 8bc8 | MOV ECX,EAX
+3035a116 | ff15c8cbaf30 | CALL dword ptr [0x30afcbc8]
+3035a11c | 8bc8 | MOV ECX,EAX
+3035a11e | ff1550cdaf30 | CALL dword ptr [0x30afcd50]
+3035a124 | d90560f98130 | FLD float ptr [0x3081f960]
+3035a12a | f30f1000 | MOVSS XMM0,dword ptr [EAX]
+3035a12e | 8b4b60 | MOV ECX,dword ptr [EBX + 0x60]
+3035a131 | f30f11442418 | MOVSS dword ptr [ESP + 0x18],XMM0
+3035a137 | f30f104004 | MOVSS XMM0,dword ptr [EAX + 0x4]
+3035a13c | f30f1144241c | MOVSS dword ptr [ESP + 0x1c],XMM0
+3035a142 | f30f104008 | MOVSS XMM0,dword ptr [EAX + 0x8]
+3035a147 | f30f11442420 | MOVSS dword ptr [ESP + 0x20],XMM0
+3035a14d | f30f1006 | MOVSS XMM0,dword ptr [ESI]
+3035a151 | 6a01 | PUSH 0x1
+3035a153 | f30f11442428 | MOVSS dword ptr [ESP + 0x28],XMM0
+3035a159 | f30f104604 | MOVSS XMM0,dword ptr [ESI + 0x4]
+3035a15e | 8d442434 | LEA EAX,[ESP + 0x34]
+3035a162 | 50 | PUSH EAX
+3035a163 | f30f11442430 | MOVSS dword ptr [ESP + 0x30],XMM0
+3035a169 | f30f104608 | MOVSS XMM0,dword ptr [ESI + 0x8]
+3035a16e | 6a00 | PUSH 0x0
+3035a170 | 51 | PUSH ECX
+3035a171 | f30f1144243c | MOVSS dword ptr [ESP + 0x3c],XMM0
+3035a177 | d91c24 | FSTP float ptr [ESP]
+3035a17a | 8b11 | MOV EDX,dword ptr [ECX]
+3035a17c | 8b5270 | MOV EDX,dword ptr [EDX + 0x70]
+3035a17f | 8d442428 | LEA EAX,[ESP + 0x28]
+3035a183 | 50 | PUSH EAX
+3035a184 | ffd2 | CALL EDX
+3035a186 | 8d4c240c | LEA ECX,[ESP + 0xc]
+3035a18a | 8ad8 | MOV BL,AL
+3035a18c | ff156cdbaf30 | CALL dword ptr [0x30afdb6c]
+3035a192 | 5f | POP EDI
+3035a193 | 5e | POP ESI
+3035a194 | 8ac3 | MOV AL,BL
+3035a196 | 5b | POP EBX
+3035a197 | 83c45c | ADD ESP,0x5c
+3035a19a | c20400 | RET 0x4

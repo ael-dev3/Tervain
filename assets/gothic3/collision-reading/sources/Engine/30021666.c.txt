@@ -1,0 +1,32 @@
+/* ENTRY 30021666 | bTPOPureSmartPtr<eCCollisionShapeBase_PS>::~bTPOPureSmartPtr<eCCollisionShapeBase_PS> | STATUS decompiled | 11 ms */
+
+void __thiscall
+bTPOPureSmartPtr<eCCollisionShapeBase_PS>::~bTPOPureSmartPtr<eCCollisionShapeBase_PS>
+          (bTPOPureSmartPtr<eCCollisionShapeBase_PS> *this)
+
+{
+  bCObjectRefBase *pbVar1;
+  ulong uVar2;
+  
+  pbVar1 = (this->bTPOPureSmartPtr<eCCollisionShapeBase_PS>_data).offset_0x4;
+  this->vftablePtr = &vftable;
+  if (pbVar1 != (bCObjectRefBase *)0x0) {
+    uVar2 = bCObjectRefBase::GetReferenceCount((bCObjectRefBase *)pbVar1);
+    if (uVar2 == 1) {
+      (**(code **)(*(int *)(this->bTPOPureSmartPtr<eCCollisionShapeBase_PS>_data).offset_0x4 + 0x14)
+      )();
+    }
+  }
+  pbVar1 = (this->bTPOPureSmartPtr<eCCollisionShapeBase_PS>_data).offset_0x4;
+  if (pbVar1 != (bCObjectRefBase *)0x0) {
+    bCObjectRefBase::SetPropertyObject((bCObjectRefBase *)pbVar1,(bCPropertyObjectBase *)0x0);
+    bCObjectRefBase::ReleaseVirtualReference((bCObjectRefBase *)pbVar1);
+  }
+  (this->bTPOPureSmartPtr<eCCollisionShapeBase_PS>_data).offset_0x4 = (bCObjectRefBase *)0x0;
+                    /* WARNING: Could not recover jumptable at 0x30341a3a. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCPropertyObjectBase::~bCPropertyObjectBase((bCPropertyObjectBase *)this);
+  return;
+}
+
+

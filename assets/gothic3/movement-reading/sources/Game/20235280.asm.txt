@@ -1,0 +1,5 @@
+; 20235280 bTPropertyType<gCCharacterMovement_PS,float>::vfunction7
+20235280 | 33c0 | XOR EAX,EAX
+20235282 | 394120 | CMP dword ptr [ECX + 0x20],EAX
+20235285 | 0f95c0 | SETNZ AL
+20235288 | c3 | RET

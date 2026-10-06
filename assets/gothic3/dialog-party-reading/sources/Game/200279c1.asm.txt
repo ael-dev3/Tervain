@@ -1,0 +1,2 @@
+; 200279c1 bTPropertyObject<gCParty_PS,eCEntityPropertySet>::vfunction1
+200279c1 | e91a0d2f00 | JMP 0x203186e0

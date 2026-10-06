@@ -1,0 +1,7 @@
+; 305dcfe0 FUN_305dcfe0
+305dcfe0 | 83c108 | ADD ECX,0x8
+305dcfe3 | ff1574daaf30 | CALL dword ptr [0x30afda74]
+305dcfe9 | f6d8 | NEG AL
+305dcfeb | 1bc0 | SBB EAX,EAX
+305dcfed | 83c001 | ADD EAX,0x1
+305dcff0 | c3 | RET

@@ -1,0 +1,26 @@
+/* ENTRY 200ae850 | FUN_200ae850 | STATUS decompiled | 74 ms */
+
+int __thiscall FUN_200ae850(int *param_1,eCEntityProxy *param_2)
+
+{
+  bool bVar1;
+  int iVar2;
+  int iVar3;
+  
+  iVar3 = param_1[1];
+  if (iVar3 == 0) {
+    return -1;
+  }
+  iVar2 = iVar3 * 0x1c;
+  do {
+    iVar2 = iVar2 + -0x1c;
+    iVar3 = iVar3 + -1;
+    bVar1 = eCEntityProxy::operator==(param_2,(eCEntityProxy *)(*param_1 + iVar2));
+    if (bVar1) {
+      return iVar3;
+    }
+  } while (iVar3 != 0);
+  return -1;
+}
+
+

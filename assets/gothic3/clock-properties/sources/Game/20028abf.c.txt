@@ -1,0 +1,12 @@
+/* ENTRY 20028abf | gCClock_PS::GetFactor | STATUS decompiled | 6 ms */
+
+/* public: float const & __thiscall gCClock_PS::GetFactor(void)const  */
+
+float * __thiscall gCClock_PS::GetFactor(gCClock_PS *this)
+
+{
+                    /* 0x28abf  3394  ?GetFactor@gCClock_PS@@QBEABMXZ */
+  return (float *)&(this->gCClock_PS_data).field_0x24;
+}
+
+

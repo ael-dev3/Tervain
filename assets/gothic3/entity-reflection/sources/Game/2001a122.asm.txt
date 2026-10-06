@@ -1,0 +1,2 @@
+; 2001a122 bTPropertyType<gCClock_PS,unsigned_long>::vfunction5
+2001a122 | e9b9fe1e00 | JMP 0x20209fe0

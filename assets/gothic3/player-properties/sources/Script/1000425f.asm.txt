@@ -1,0 +1,4 @@
+; 1000425f ?SetValue@PSPlayerMemory@@QAEXABVbCString@@H@Z
+1000425f | e95c510200 | JMP 0x100293c0
+; 10004264 PSEnclave::PropertySwitched::operator_bool
+; 10004264 Ordinal_1116

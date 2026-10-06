@@ -1,0 +1,4 @@
+; 3001be6e bTPropertyType<eCCollisionShape,bCObsoleteClass>::vfunction21
+3001be6e | e9cd123400 | JMP 0x3035d140
+; 3001be7d eCResourceLightmap_PS::IsProprietaryFileType
+; 3001be7d Ordinal_10539

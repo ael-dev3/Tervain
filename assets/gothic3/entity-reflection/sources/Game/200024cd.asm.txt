@@ -1,0 +1,4 @@
+; 200024cd ?GetVersion@gCDamageReceiver_PS@@UBEGXZ
+200024cd | e9ae790b00 | JMP 0x200b9e80
+; 200024d7 gCInfoScriptLine_PS::GetRootObject
+; 200024d7 Ordinal_4269

@@ -1,0 +1,18 @@
+/* ENTRY 2002c12e | gCDialog_PS::Create | STATUS decompiled | 9 ms */
+
+/* public: virtual enum bEResult __thiscall gCDialog_PS::Create(void) */
+
+bEResult __thiscall gCDialog_PS::Create(gCDialog_PS *this)
+
+{
+  bool bVar1;
+  
+                    /* 0x2c12e  2337  ?Create@gCDialog_PS@@UAE?AW4bEResult@@XZ */
+  bVar1 = (*this->vftablePtr->IsValid)(this);
+  if (!bVar1) {
+    eCEntityPropertySet::Create((eCEntityPropertySet *)this);
+  }
+  return 1;
+}
+
+

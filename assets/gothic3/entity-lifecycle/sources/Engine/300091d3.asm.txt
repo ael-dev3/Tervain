@@ -1,0 +1,4 @@
+; 300091d3 ?Create@eCEntity@@UAE?AW4bEResult@@XZ
+300091d3 | e9a8b54a00 | JMP 0x304b4780
+; 300091d8 eCPointLight_PS::GetEffect
+; 300091d8 Ordinal_6922

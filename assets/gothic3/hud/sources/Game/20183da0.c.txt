@@ -1,0 +1,12 @@
+/* ENTRY 20183da0 | gCHUDMenuSecret2::gCHUDMenuSecret2 | STATUS decompiled | 8 ms */
+
+gCHUDMenuSecret2 * __thiscall gCHUDMenuSecret2::gCHUDMenuSecret2(gCHUDMenuSecret2 *this)
+
+{
+  gCHUDMenu::gCHUDMenu((gCHUDMenu *)this);
+  this->vftablePtr = &vftable;
+  CFFGFCButton::CFFGFCButton((CFFGFCButton *)&(this->gCHUDMenuSecret2_data).field_0xc);
+  return this;
+}
+
+

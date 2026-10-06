@@ -1,0 +1,4 @@
+; 3001e1f5 bTPropertyType<eCVisualAnimation_PS,bool>::vfunction4
+3001e1f5 | e9960b3200 | JMP 0x3033ed90
+; 3001e1fa eCParticleSystemBase_PS::SetRenderMesh
+; 3001e1fa Ordinal_14038

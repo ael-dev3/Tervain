@@ -1,0 +1,5 @@
+; 3033cb90 bTPropertyType<eCCollisionShape_PS,bCObsoleteClass>::vfunction3
+3033cb90 | 8b4918 | MOV ECX,dword ptr [ECX + 0x18]
+3033cb93 | 8b01 | MOV EAX,dword ptr [ECX]
+3033cb95 | 8b10 | MOV EDX,dword ptr [EAX]
+3033cb97 | ffe2 | JMP EDX

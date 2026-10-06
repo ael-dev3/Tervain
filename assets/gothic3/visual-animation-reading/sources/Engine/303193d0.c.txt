@@ -1,0 +1,42 @@
+/* ENTRY 303193d0 | FUN_303193d0 | STATUS decompiled | 16 ms */
+
+void __thiscall FUN_303193d0(eCPhysicsScene *param_1,eCJoint *param_2)
+
+{
+  int iVar1;
+  eCEntity *peVar2;
+  eCEntity *peVar3;
+  NxJoint *pNVar4;
+  eCLinkContainer_PS *this;
+  eCLinkContainer_PS *this_00;
+  
+  iVar1 = (**(code **)(*(int *)param_2 + 0xa8))();
+  if (iVar1 != 0) {
+    peVar2 = eCEntityProxy::GetEntity((eCEntityProxy *)(param_2 + 0xc));
+    peVar3 = eCEntityProxy::GetEntity((eCEntityProxy *)(param_2 + 0x28));
+    if (peVar2 == (eCEntity *)0x0) {
+      this = (eCLinkContainer_PS *)0x0;
+    }
+    else {
+      this = (eCLinkContainer_PS *)(**(code **)(*(int *)peVar2 + 0xec))(0x52);
+    }
+    if (peVar3 == (eCEntity *)0x0) {
+      this_00 = (eCLinkContainer_PS *)0x0;
+    }
+    else {
+      this_00 = (eCLinkContainer_PS *)(**(code **)(*(int *)peVar3 + 0xec))(0x52);
+    }
+    if (this != (eCLinkContainer_PS *)0x0) {
+      eCLinkContainer_PS::RemoveJoint(this,param_2);
+    }
+    if (this_00 != (eCLinkContainer_PS *)0x0) {
+      eCLinkContainer_PS::RemoveJoint(this_00,param_2);
+    }
+    pNVar4 = (NxJoint *)(**(code **)(*(int *)param_2 + 0xa8))();
+    eCPhysicsScene::ReleaseJointInternal(param_1,pNVar4);
+    return;
+  }
+  return;
+}
+
+

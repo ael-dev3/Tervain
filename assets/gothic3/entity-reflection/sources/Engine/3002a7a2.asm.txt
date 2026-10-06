@@ -1,0 +1,2 @@
+; 3002a7a2 ??0eCVisualAnimation_PS@@QAE@XZ
+3002a7a2 | e989ab0700 | JMP 0x300a5330

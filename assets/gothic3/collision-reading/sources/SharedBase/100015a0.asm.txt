@@ -1,0 +1,4 @@
+; 100015a0 ?GetTranslated@bCOrientedBox@@QBEXAAV1@M@Z
+100015a0 | e9bb1c0600 | JMP 0x10063260
+; 100015a5 bCBox::Intersects
+; 100015a5 Ordinal_3355

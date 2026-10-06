@@ -1,0 +1,4 @@
+; 100083c3 ?CompareFast@bCString@@QBE_NABV1@@Z
+100083c3 | e938920000 | JMP 0x10011600
+; 100083cd bCByteAlphaColor::operator+
+; 100083cd Ordinal_1029

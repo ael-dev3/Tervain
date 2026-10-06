@@ -1,0 +1,4 @@
+; 1000507e ?SetMax@bCBox@@QAEXABVbCVector@@@Z
+1000507e | e9dd560200 | JMP 0x1002a760
+; 10005083 bCFlexibleVertexPtr::bCFlexibleVertexPtr
+; 10005083 Ordinal_97

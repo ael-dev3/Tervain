@@ -1,0 +1,81 @@
+/* ENTRY 30359d20 | FUN_30359d20 | STATUS decompiled | 23 ms */
+
+undefined4 __thiscall FUN_30359d20(bCObjectBase *param_1,bCObjectBase *param_2)
+
+{
+  int iVar1;
+  bCOrientedBox *this;
+  bCObjectBase bVar2;
+  bCSphere *this_00;
+  bCCapsule *this_01;
+  bCVector *this_02;
+  bCString *this_03;
+  
+  bCObjectBase::CopyFrom(param_1,param_2);
+  (**(code **)((int)*param_1 + 0x14))();
+  (**(code **)((int)*param_1 + 0x18))();
+  iVar1 = *(int *)(param_2 + 0x10);
+  if ((iVar1 == 1) || (iVar1 == 6)) {
+    this_03 = (bCString *)new(4,0x245);
+    if (this_03 == (bCString *)0x0) {
+      bVar2 = (bCObjectBase)0x0;
+    }
+    else {
+      bVar2 = (bCObjectBase)bCString::bCString(this_03);
+    }
+    param_1[0x1d] = bVar2;
+    bCString::operator=((bCString *)bVar2,*(bCString **)(param_2 + 0x74));
+    *(undefined2 *)&param_1[0x11].field_0x2 = *(undefined2 *)(param_2 + 0x46);
+    goto LAB_30359e6f;
+  }
+  if (iVar1 == 3) {
+    this = (bCOrientedBox *)new(0x3c,0x24b);
+    if (this != (bCOrientedBox *)0x0) {
+      bVar2 = (bCObjectBase)bCOrientedBox::bCOrientedBox(this,*(bCOrientedBox **)(param_2 + 0x74));
+      param_1[0x1d] = bVar2;
+      goto LAB_30359e6f;
+    }
+  }
+  else {
+    if (iVar1 != 5) {
+      if (iVar1 == 4) {
+        this_01 = (bCCapsule *)new(0x38,0x253);
+        if (this_01 == (bCCapsule *)0x0) {
+          param_1[0x1d] = (bCObjectBase)0x0;
+          bCCapsule::SetCapsule((bCCapsule *)0x0,*(bCCapsule **)(param_2 + 0x74));
+        }
+        else {
+          bVar2 = (bCObjectBase)bCCapsule::bCCapsule(this_01);
+          param_1[0x1d] = bVar2;
+          bCCapsule::SetCapsule((bCCapsule *)bVar2,*(bCCapsule **)(param_2 + 0x74));
+        }
+      }
+      else if (iVar1 == 7) {
+        this_02 = (bCVector *)new(0xc,600);
+        if (this_02 == (bCVector *)0x0) {
+          param_1[0x1d] = (bCObjectBase)0x0;
+          bCVector::SetVector((bCVector *)0x0,*(bCVector **)(param_2 + 0x74));
+        }
+        else {
+          bVar2 = (bCObjectBase)bCVector::bCVector(this_02);
+          param_1[0x1d] = bVar2;
+          bCVector::SetVector((bCVector *)bVar2,*(bCVector **)(param_2 + 0x74));
+        }
+      }
+      goto LAB_30359e6f;
+    }
+    this_00 = (bCSphere *)new(0x10,0x24f);
+    if (this_00 != (bCSphere *)0x0) {
+      bVar2 = (bCObjectBase)bCSphere::bCSphere(this_00,*(bCSphere **)(param_2 + 0x74));
+      param_1[0x1d] = bVar2;
+      goto LAB_30359e6f;
+    }
+  }
+  param_1[0x1d] = (bCObjectBase)0x0;
+LAB_30359e6f:
+  bCBox::operator=((bCBox *)(param_1 + 0x12),(bCBox *)(param_2 + 0x48));
+  *(undefined1 *)(param_1 + 0x11) = 0;
+  return 1;
+}
+
+

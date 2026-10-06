@@ -1,0 +1,2 @@
+; 20008152 bTPropertyType<gCNPC_PS,eCEntityProxy>::vfunction1
+20008152 | e989163000 | JMP 0x203097e0

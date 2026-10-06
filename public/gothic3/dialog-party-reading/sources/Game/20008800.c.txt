@@ -1,0 +1,18 @@
+/* ENTRY 20008800 | gCDialog_PS::SetEndDialogTimestamp | STATUS decompiled | 9 ms */
+
+/* public: void __thiscall gCDialog_PS::SetEndDialogTimestamp(float const &) */
+
+void __thiscall gCDialog_PS::SetEndDialogTimestamp(gCDialog_PS *this,float *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x8800  6451  ?SetEndDialogTimestamp@gCDialog_PS@@QAEXABM@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"EndDialogTimestamp",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  *(float *)&(this->gCDialog_PS_data).field_0x14 = *param_1;
+  (*pNVar1)(this,"EndDialogTimestamp",false);
+  return;
+}
+
+

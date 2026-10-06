@@ -1,0 +1,4 @@
+; 2002c04d ?HasStatusEffect@gCNPC_PS@@QBE_NW4gEStatusEffect@@@Z
+2002c04d | e99ed82c00 | JMP 0x202f98f0
+; 2002c061 gCCollisionCircle_PSObj::SetEntityID
+; 2002c061 Ordinal_6460

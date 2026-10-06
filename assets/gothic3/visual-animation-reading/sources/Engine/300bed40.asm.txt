@@ -1,0 +1,3 @@
+; 300bed40 FUN_300bed40
+300bed40 | 8d4104 | LEA EAX,[ECX + 0x4]
+300bed43 | c3 | RET

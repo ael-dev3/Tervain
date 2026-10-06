@@ -1,0 +1,11 @@
+/* ENTRY 20034428 | bTPropertyContainer<gEGuardStatus>::vfunction7 | STATUS decompiled | 2 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<gEGuardStatus>::vfunction7(bTPropertyContainer<gEGuardStatus> *this)
+
+{
+  (this->bTPropertyContainer<gEGuardStatus>_data).offset_0x0 = DAT_207bb2f4;
+  return 1;
+}
+
+

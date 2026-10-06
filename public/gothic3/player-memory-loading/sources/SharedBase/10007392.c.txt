@@ -1,0 +1,13 @@
+/* ENTRY 10007392 | bCAccessorCreator::bCAccessorCreator | STATUS decompiled | 1 ms */
+
+/* protected: __thiscall bCAccessorCreator::bCAccessorCreator(void) */
+
+void __thiscall bCAccessorCreator::bCAccessorCreator(bCAccessorCreator *this)
+
+{
+                    /* 0x7392  8  ??0bCAccessorCreator@@IAE@XZ */
+  *(undefined4 *)this = 0;
+  return;
+}
+
+

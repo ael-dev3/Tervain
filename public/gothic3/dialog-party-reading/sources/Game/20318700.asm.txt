@@ -1,0 +1,3 @@
+; 20318700 bTPropertyObject<gCParty_PS,eCEntityPropertySet>::vfunction4
+20318700 | 8b490c | MOV ECX,dword ptr [ECX + 0xc]
+20318703 | ff2578877d20 | JMP dword ptr [0x207d8778]

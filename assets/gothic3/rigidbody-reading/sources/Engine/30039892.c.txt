@@ -1,0 +1,11 @@
+/* ENTRY 30039892 | bTPropertyObject<eCRigidBody_PS,eCRigidBodyBase_PS>::vfunction1 | STATUS decompiled | 4 ms */
+
+bCObjectRefBase * __thiscall
+bTPropertyObject<eCRigidBody_PS,eCRigidBodyBase_PS>::vfunction1
+          (bTPropertyObject<eCRigidBody_PS,eCRigidBodyBase_PS> *this)
+
+{
+  return (this->bTPOPureSmartPtr<eCRigidBody_PS>_data).offset_0x4;
+}
+
+

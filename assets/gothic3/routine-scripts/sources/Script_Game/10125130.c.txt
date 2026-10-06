@@ -1,0 +1,17 @@
+/* ENTRY 10125130 | FUN_10125130 | STATUS decompiled | 51 ms */
+
+void FUN_10125130(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Perception\\AssessTakeItem.cpp");
+  bCString::bCString(local_8,"AssessTakeItem");
+  thunk_FUN_10017a50(local_8,thunk_FUN_100410e0,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

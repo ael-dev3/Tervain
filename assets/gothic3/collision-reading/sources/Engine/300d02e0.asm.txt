@@ -1,0 +1,5 @@
+; 300d02e0 bTPropertyContainer<eECollisionShapeType>::vfunction7
+300d02e0 | a104abad30 | MOV EAX,[0x30adab04]
+300d02e5 | 894104 | MOV dword ptr [ECX + 0x4],EAX
+300d02e8 | b801000000 | MOV EAX,0x1
+300d02ed | c3 | RET

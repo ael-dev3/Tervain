@@ -1,0 +1,2 @@
+; 30007d8d eCWrapper_emfx2Actor::RunStopPrevention
+30007d8d | e9ae3a0d00 | JMP 0x300db840

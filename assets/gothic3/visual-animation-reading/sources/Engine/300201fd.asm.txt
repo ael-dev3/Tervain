@@ -1,0 +1,2 @@
+; 300201fd eCSpringAndDamperEffector::AccessDamperMaxCompressForce
+300201fd | e90e160400 | JMP 0x30061810

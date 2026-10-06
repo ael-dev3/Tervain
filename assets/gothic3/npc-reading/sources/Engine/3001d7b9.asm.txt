@@ -1,0 +1,4 @@
+; 3001d7b9 ??0eCEntityProxy@@QAE@XZ
+3001d7b9 | e9e26d4a00 | JMP 0x304c45a0
+; 3001d7be eCResourceMeshComplex_PS::IntersectsVolume
+; 3001d7be Ordinal_9883

@@ -1,0 +1,4 @@
+; 2001e939 bTPropertyType<gCNPC_PS,float>::vfunction15
+2001e939 | e9c2a42e00 | JMP 0x20308e00
+; 2001e93e gCPropertyDummyVisual_PS::SetVisPSType
+; 2001e93e Ordinal_7197

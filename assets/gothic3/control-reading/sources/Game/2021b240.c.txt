@@ -1,0 +1,12 @@
+/* ENTRY 2021b240 | bTPropertyContainer<gECharacterControlFOR>::vfunction7 | STATUS decompiled | 2 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<gECharacterControlFOR>::vfunction7
+          (bTPropertyContainer<gECharacterControlFOR> *this)
+
+{
+  (this->bTPropertyContainer<gECharacterControlFOR>_data).offset_0x0 = DAT_207bd774;
+  return 1;
+}
+
+

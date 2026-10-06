@@ -1,0 +1,12 @@
+/* ENTRY 2000b712 | gCDialog_PS::AccessEndDialogTimestamp | STATUS decompiled | 10 ms */
+
+/* public: float & __thiscall gCDialog_PS::AccessEndDialogTimestamp(void) */
+
+float * __thiscall gCDialog_PS::AccessEndDialogTimestamp(gCDialog_PS *this)
+
+{
+                    /* 0xb712  1194  ?AccessEndDialogTimestamp@gCDialog_PS@@QAEAAMXZ */
+  return (float *)&(this->gCDialog_PS_data).field_0x14;
+}
+
+

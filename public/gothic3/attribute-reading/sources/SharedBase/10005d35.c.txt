@@ -1,0 +1,16 @@
+/* ENTRY 10005d35 | bCPropertyTypeBase::Read | STATUS decompiled | 6 ms */
+
+/* public: virtual unsigned short __thiscall bCPropertyTypeBase::Read(class bCIStream &)
+   bCPropertyTypeBase member function inherited by bTPropertyTypeOnly<bCObsoleteClass>
+   bCPropertyTypeBase member function inherited by bTPropertyType<bCObsoleteClass,bCObsoleteClass>
+    */
+
+ushort __thiscall bCPropertyTypeBase::Read(bCPropertyTypeBase *this,bCIStream *param_1)
+
+{
+                    /* 0x5d35  3886  ?Read@bCPropertyTypeBase@@UAEGAAVbCIStream@@@Z */
+  bCIStream::operator>>((bCIStream *)param_1,(ushort *)&param_1);
+  return (ushort)param_1;
+}
+
+

@@ -1,0 +1,21 @@
+/* ENTRY 2001a2fd | bTPropertyType<gCInventorySlot,eCTemplateEntityProxy>::vfunction6 | STATUS decompiled | 10 ms */
+
+void __thiscall
+bTPropertyType<gCInventorySlot,eCTemplateEntityProxy>::vfunction6
+          (bTPropertyType<gCInventorySlot,eCTemplateEntityProxy> *this,int param_1)
+
+{
+  bTPropertyType<gCEffectCommandSpawnEntity,eCTemplateEntityProxy>_vftable *this_00;
+  eCTemplateEntityProxy eStack_c;
+  
+  if (param_1 != 0) {
+    this_00 = (*this->vftablePtr->vfunction26)(this,(undefined4 *)param_1);
+    eCTemplateEntityProxy::eCTemplateEntityProxy(&eStack_c,(eCTemplateEntity *)0x0);
+    eCTemplateEntityProxy::operator=
+              ((eCTemplateEntityProxy *)this_00,(eCTemplateEntityProxy *)&eStack_c);
+    eCTemplateEntityProxy::~eCTemplateEntityProxy(&eStack_c);
+  }
+  return;
+}
+
+

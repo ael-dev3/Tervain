@@ -1,0 +1,4 @@
+; 30031def bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eECollisionGroup>_>::vfunction8
+30031def | e97cbd3000 | JMP 0x3033db70
+; 30031df4 eCDX9Texture::SaveTextureToMemory
+; 30031df4 Ordinal_12826

@@ -1,0 +1,15 @@
+/* ENTRY 10008567 | bCOrientedBox::InvTranslate | STATUS decompiled | 3 ms */
+
+/* public: void __thiscall bCOrientedBox::InvTranslate(class bCVector const &) */
+
+void __thiscall bCOrientedBox::InvTranslate(bCOrientedBox *this,bCVector *param_1)
+
+{
+                    /* 0x8567  3515  ?InvTranslate@bCOrientedBox@@QAEXABVbCVector@@@Z */
+  *(float *)this = *(float *)this - *(float *)param_1;
+  *(float *)(this + 4) = *(float *)(this + 4) - *(float *)(param_1 + 4);
+  *(float *)(this + 8) = *(float *)(this + 8) - *(float *)(param_1 + 8);
+  return;
+}
+
+

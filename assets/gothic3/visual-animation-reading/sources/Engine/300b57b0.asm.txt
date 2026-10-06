@@ -1,0 +1,13 @@
+; 300b57b0 bTPropertyType<eCVisualAnimation_PS,bTPropertyContainer<eECollisionGroup>_>::vfunction6
+300b57b0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+300b57b4 | 85c0 | TEST EAX,EAX
+300b57b6 | 7411 | JZ 0x300b57c9
+300b57b8 | 8b11 | MOV EDX,dword ptr [ECX]
+300b57ba | 50 | PUSH EAX
+300b57bb | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+300b57be | ffd0 | CALL EAX
+300b57c0 | 8b10 | MOV EDX,dword ptr [EAX]
+300b57c2 | 8bc8 | MOV ECX,EAX
+300b57c4 | 8b4218 | MOV EAX,dword ptr [EDX + 0x18]
+300b57c7 | ffd0 | CALL EAX
+300b57c9 | c20400 | RET 0x4

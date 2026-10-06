@@ -1,0 +1,4 @@
+; 30012edb bTPropertyType<eCCollisionShape,bCObsoleteClass>::vfunction13
+30012edb | e9c0a43400 | JMP 0x3035d3a0
+; 30012ee0 eCParticleSystemBase_PS::SetTrailSpeed
+; 30012ee0 Ordinal_14435

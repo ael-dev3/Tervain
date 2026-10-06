@@ -1,0 +1,19 @@
+/* ENTRY 300420c8 | eCCollisionShape::SetMaterial | STATUS decompiled | 8 ms */
+
+/* public: void __thiscall eCCollisionShape::SetMaterial(class bTPropertyContainer<enum
+   eEShapeMaterial> const &) */
+
+void __thiscall
+eCCollisionShape::SetMaterial(eCCollisionShape *this,bTPropertyContainer<eEShapeMaterial> *param_1)
+
+{
+                    /* 0x420c8  13743
+                       ?SetMaterial@eCCollisionShape@@QAEXABV?$bTPropertyContainer@W4eEShapeMaterial@@@@@Z
+                        */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"Material",false);
+  (*(code *)(this->eCCollisionShape_data).offset_0x18[7])(param_1);
+  (*this->vftablePtr->NotifyPropertyValueChangedExitEx)(this,"Material",false);
+  return;
+}
+
+

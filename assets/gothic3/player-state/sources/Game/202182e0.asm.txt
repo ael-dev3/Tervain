@@ -1,0 +1,4 @@
+; 202182e0 FUN_202182e0
+202182e0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+202182e4 | 8981ac000000 | MOV dword ptr [ECX + 0xac],EAX
+202182ea | c20400 | RET 0x4

@@ -1,0 +1,2 @@
+; 10008431 bCString::Release
+10008431 | e9cab20000 | JMP 0x10013700

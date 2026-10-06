@@ -1,0 +1,4 @@
+; 2002b873 ?AccessMinute@gCClock_PS@@QAEAAKXZ
+2002b873 | e918b71300 | JMP 0x20166f90
+; 2002b878 gCTouchDamage_PS::GetSaveGameRelevance
+; 2002b878 Ordinal_4377

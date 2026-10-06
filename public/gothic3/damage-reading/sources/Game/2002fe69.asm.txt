@@ -1,0 +1,2 @@
+; 2002fe69 bTPropertyType<gCDamage_PS,float>::vfunction26
+2002fe69 | e9f2720800 | JMP 0x200b7160

@@ -1,0 +1,14 @@
+/* ENTRY 30003dff | eCVisualAnimation_PS::eCActorAttachment::ForceRelinkNode | STATUS decompiled | 1 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::eCActorAttachment::ForceRelinkNode(void) */
+
+void __thiscall eCVisualAnimation_PS::eCActorAttachment::ForceRelinkNode(eCActorAttachment *this)
+
+{
+                    /* 0x3dff  6051  ?ForceRelinkNode@eCActorAttachment@eCVisualAnimation_PS@@QAEXXZ
+                        */
+  *(undefined4 *)(this + 100) = 0;
+  return;
+}
+
+

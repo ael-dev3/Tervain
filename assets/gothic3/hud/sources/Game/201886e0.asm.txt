@@ -1,0 +1,4 @@
+; 201886e0 gCHUDListCtrlInvStacks::~gCHUDListCtrlInvStacks
+201886e0 | c701bc776720 | MOV dword ptr [ECX],0x206777bc
+201886e6 | c74110a0776720 | MOV dword ptr [ECX + 0x10],0x206777a0
+201886ed | e95bd5e9ff | JMP 0x20025c4d

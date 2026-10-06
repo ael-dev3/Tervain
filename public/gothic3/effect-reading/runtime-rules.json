@@ -1,0 +1,130 @@
+{
+  "schema": "gothic3-effect-reading-rules-v1",
+  "inputs": {
+    "SharedBase": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214",
+    "Engine": "d49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3",
+    "Game": "b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f"
+  },
+  "nativeBytes": 64,
+  "getVersion": 1,
+  "propertyType": 96,
+  "nativeVtable": "20666f8c",
+  "wrapperVtable": "20666c84",
+  "fields": [
+    {
+      "name": "Effect",
+      "typeName": "bCString",
+      "nativeOffset": 20,
+      "registrar": "Game:204c3550",
+      "defaultInitializer": "Game:2002fdf6",
+      "reader": "Game:2003047c",
+      "member": "Game:2000d710"
+    },
+    {
+      "name": "Offset",
+      "typeName": "bCVector",
+      "nativeOffset": 24,
+      "registrar": "Game:204c3600",
+      "defaultInitializer": "Game:2002086a",
+      "reader": "Game:2002f6d0",
+      "member": "Game:2001c04e"
+    },
+    {
+      "name": "Probability",
+      "typeName": "float",
+      "nativeOffset": 36,
+      "registrar": "Game:204c36a0",
+      "defaultInitializer": "Game:20021b9d",
+      "reader": "Game:2002f9c3",
+      "member": "Game:2000f2b3"
+    },
+    {
+      "name": "Static",
+      "typeName": "bool",
+      "nativeOffset": 40,
+      "registrar": "Game:204c3740",
+      "defaultInitializer": "Game:200206da",
+      "reader": "Game:20002365",
+      "member": "Game:20015749"
+    }
+  ],
+  "dispatch": {
+    "0": "Game:2001567c",
+    "4": "SharedBase:10007f81",
+    "16": "Game:2002daa1",
+    "24": "Game:20020185",
+    "32": "SharedBase:100022d4",
+    "36": "SharedBase:1000551a",
+    "64": "Game:2000d9a9",
+    "76": "Engine:3002ad10",
+    "80": "Engine:30037ca4",
+    "88": "Engine:3003b5bb",
+    "92": "Engine:3001a091",
+    "96": "Game:200174ef",
+    "104": "Engine:3002292b",
+    "132": "Game:200152f3",
+    "220": "Game:2000623f",
+    "224": "Game:20001c9e",
+    "280": "Game:20014e66",
+    "288": "Game:2000ba41",
+    "292": "Engine:3003f98b",
+    "296": "Engine:30004318",
+    "300": "Engine:3003d10e",
+    "312": "Engine:3002d713",
+    "316": "Engine:3000c0c7"
+  },
+  "sourceHero": {
+    "index": 17,
+    "archive": "Projects_compiled.p00",
+    "path": "G3_World_01/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}.lrentdat",
+    "sha256": "28f7273b3d54415b84445651a3dfa962c1ff158e9183deba81ba47e4d5d57938",
+    "packetOffset": 1191565,
+    "packetBytes": 92,
+    "packetSha256": "364c745d009a1cbe64f7c021ea328677a37fe2750f82b74c6b55d557bb230c71",
+    "nativeReadOffset": 1191651,
+    "nativeTailBytes": 2,
+    "stringTableBoundary": 80040256,
+    "stringTableIndependentlyDecoded": true,
+    "genome": {
+      "version": 1,
+      "stringTableMarker": 1
+    }
+  },
+  "sources": {
+    "allocate": "Game:2011d670",
+    "attach": "Game:20118f80",
+    "wrapperRead": "Game:20119ea0",
+    "dataRead": "Game:2011dab0",
+    "initialize": "Game:2011d990"
+  },
+  "runtimeMap": {
+    "offset": 48,
+    "bucketCount": 43,
+    "capacity": 51,
+    "allocationBytes": 204,
+    "elementCountOffset": 60,
+    "constructor": "Game:2011d360",
+    "grow": "Game:20119db0"
+  },
+  "createEffectOperands": [
+    "same CString slot",
+    "current owner from virtual68",
+    "NULL",
+    "captured64B matrix temporary",
+    "literal1"
+  ],
+  "profile": {
+    "freshSuccessfulAllocation": true,
+    "indexedArchive": true,
+    "canonicalBool": true,
+    "worldResident": false,
+    "CStringOwnership": "actual indexed/literal buffer/header/refcount assignment required; known NULL literal-empty branch is concrete"
+  },
+  "unresolved": [
+    "effect-module cached application/RTTI discovery and physical system+14",
+    "actual effect-system create/stop and native warning services",
+    "actual shared Matrix.GetIdentity lazy cache/CRT; no duplicate identity module",
+    "CString source buffer sharing/refcounts/freeing supplied by actual host",
+    "runtime-effect insertion/terminal destruction, legacy/repeated reads and full scene activation"
+  ]
+}

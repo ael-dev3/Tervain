@@ -1,0 +1,13 @@
+/* ENTRY 20190710 | gCHUDLabel::~gCHUDLabel | STATUS decompiled | 5 ms */
+
+void __thiscall gCHUDLabel::~gCHUDLabel(gCHUDLabel *this)
+
+{
+  this->vftablePtr = &vftable;
+                    /* WARNING: Could not recover jumptable at 0x20190716. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  CFFGFCStatic::~CFFGFCStatic((CFFGFCStatic *)this);
+  return;
+}
+
+

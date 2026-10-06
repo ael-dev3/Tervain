@@ -1,0 +1,4 @@
+; 100050ba ?SetHitPointsMax@PSPlayerMemory@@QAEXH@Z
+100050ba | e901480200 | JMP 0x100298c0
+; 100050c4 PSStatistics::GetValue
+; 100050c4 Ordinal_1700

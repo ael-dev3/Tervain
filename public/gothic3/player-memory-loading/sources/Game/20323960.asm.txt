@@ -1,0 +1,5 @@
+; 20323960 bTPropertyType<gCPlayerMemory_PS,bTPropertyContainer<gEWeaponConfig>_>::vfunction3
+20323960 | 8b4918 | MOV ECX,dword ptr [ECX + 0x18]
+20323963 | 8b01 | MOV EAX,dword ptr [ECX]
+20323965 | 8b10 | MOV EDX,dword ptr [EAX]
+20323967 | ffe2 | JMP EDX

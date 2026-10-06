@@ -1,0 +1,2 @@
+; 30004480 EMotionFX::eCNovodexPhysicsController::vfunction2
+30004480 | e9ab000c00 | JMP 0x300c4530

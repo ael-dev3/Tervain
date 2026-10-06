@@ -1,0 +1,18 @@
+/* ENTRY 200b3950 | bTPropertyContainer<gEDamageType>::scalar_deleting_destructor | STATUS decompiled | 5 ms */
+
+bTPropertyContainer<gEDamageType> * __thiscall
+bTPropertyContainer<gEDamageType>::scalar_deleting_destructor
+          (bTPropertyContainer<gEDamageType> *this,byte param_1)
+
+{
+                    /* inlined destructor:
+                       bTPropertyContainer<gEDamageType>::~bTPropertyContainer<gEDamageType> */
+  this->vftablePtr = &vftable;
+  bCObjectBase::~bCObjectBase((bCObjectBase *)this);
+  if ((param_1 & 1) != 0) {
+    _free(this);
+  }
+  return this;
+}
+
+

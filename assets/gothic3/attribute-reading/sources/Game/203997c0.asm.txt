@@ -1,0 +1,15 @@
+; 203997c0 bTPropertyType<gCAttribute,bCString>::vfunction12
+203997c0 | 56 | PUSH ESI
+203997c1 | 8bf1 | MOV ESI,ECX
+203997c3 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+203997c7 | 85c9 | TEST ECX,ECX
+203997c9 | 7506 | JNZ 0x203997d1
+203997cb | 33c0 | XOR EAX,EAX
+203997cd | 5e | POP ESI
+203997ce | c20400 | RET 0x4
+203997d1 | 8b01 | MOV EAX,dword ptr [ECX]
+203997d3 | 8b10 | MOV EDX,dword ptr [EAX]
+203997d5 | ffd2 | CALL EDX
+203997d7 | 034620 | ADD EAX,dword ptr [ESI + 0x20]
+203997da | 5e | POP ESI
+203997db | c20400 | RET 0x4

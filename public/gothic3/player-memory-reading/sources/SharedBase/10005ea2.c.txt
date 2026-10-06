@@ -1,0 +1,31 @@
+/* ENTRY 10005ea2 | bCPOStream::ClearStringHeaderMap | STATUS decompiled | 9 ms */
+
+/* public: void __thiscall bCPOStream::ClearStringHeaderMap(void) */
+
+void __thiscall bCPOStream::ClearStringHeaderMap(bCPOStream *this)
+
+{
+  bTObjArray<bCString> *pbVar1;
+  bTObjArray<bCString> *pbVar2;
+  bCMemoryAdmin *this_00;
+  void *pvVar3;
+  
+                    /* 0x5ea2  1637  ?ClearStringHeaderMap@bCPOStream@@QAEXXZ */
+  if (ms_pmapStringSaveHashmap != (bTStringValMap<long> *)0x0) {
+    thunk_FUN_1008b230();
+  }
+  pbVar2 = ms_parrStringList;
+  if ((ms_parrStringList != (bTObjArray<bCString> *)0x0) && (*(int *)ms_parrStringList != 0)) {
+    pbVar1 = ms_parrStringList + 8;
+    thunk_FUN_1001db50(*(int *)ms_parrStringList,*(undefined4 *)(ms_parrStringList + 8));
+    pvVar3 = *(void **)pbVar2;
+    this_00 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(this_00,pvVar3);
+    *(undefined4 *)pbVar1 = 0;
+    *(undefined4 *)pbVar2 = 0;
+    *(undefined4 *)(pbVar2 + 4) = 0;
+  }
+  return;
+}
+
+

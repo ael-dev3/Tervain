@@ -1,0 +1,17 @@
+/* ENTRY 100071f8 | bCPropertyObjectBase::CopyFrom | STATUS decompiled | 3 ms */
+
+/* public: virtual void __thiscall bCPropertyObjectBase::CopyFrom(class bCPropertyObjectBase const
+   &) */
+
+void __thiscall
+bCPropertyObjectBase::CopyFrom(bCPropertyObjectBase *this,bCPropertyObjectBase *param_1)
+
+{
+                    /* 0x71f8  1753  ?CopyFrom@bCPropertyObjectBase@@UAEXABV1@@Z */
+  (this->bCPropertyObjectBase_data).offset_0x0 =
+       (this->bCPropertyObjectBase_data).offset_0x0 ^
+       (*(uint *)(param_1 + 4) ^ (this->bCPropertyObjectBase_data).offset_0x0) & 2;
+  return;
+}
+
+

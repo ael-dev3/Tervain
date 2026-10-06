@@ -1,0 +1,12 @@
+/* ENTRY 20016a68 | gCDamage_PS::Invalidate | STATUS decompiled | 7 ms */
+
+/* protected: void __thiscall gCDamage_PS::Invalidate(void) */
+
+void __thiscall gCDamage_PS::Invalidate(gCDamage_PS *this)
+
+{
+                    /* 0x16a68  4963  ?Invalidate@gCDamage_PS@@IAEXXZ */
+  return;
+}
+
+

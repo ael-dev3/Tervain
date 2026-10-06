@@ -1,0 +1,2 @@
+; 3002af2c eCVisualAnimationFactory::~eCVisualAnimationFactory
+3002af2c | e93f1f0900 | JMP 0x300bce70

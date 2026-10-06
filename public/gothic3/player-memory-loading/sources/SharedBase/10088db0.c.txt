@@ -1,0 +1,42 @@
+/* ENTRY 10088db0 | bCPropertyTypeBase::~bCPropertyTypeBase | STATUS decompiled | 11 ms */
+
+void __thiscall bCPropertyTypeBase::~bCPropertyTypeBase(bCPropertyTypeBase *this)
+
+{
+  int *piVar1;
+  int iVar2;
+  void *pvVar3;
+  bCMemoryAdmin *pbVar4;
+  
+  piVar1 = &(this->bCPropertyTypeBase_data).offset_0x8;
+  this->vftablePtr = &vftable;
+  if ((piVar1 != (int *)0x0) && (iVar2 = *piVar1, iVar2 != 0)) {
+    *(short *)(iVar2 + -4) = *(short *)(iVar2 + -4) + -1;
+    pvVar3 = (void *)(iVar2 + -8);
+    if (*(short *)(iVar2 + -4) == 0) {
+      pbVar4 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar4,pvVar3);
+    }
+  }
+  piVar1 = &(this->bCPropertyTypeBase_data).offset_0x4;
+  if ((piVar1 != (int *)0x0) && (iVar2 = *piVar1, iVar2 != 0)) {
+    *(short *)(iVar2 + -4) = *(short *)(iVar2 + -4) + -1;
+    pvVar3 = (void *)(iVar2 + -8);
+    if (*(short *)(iVar2 + -4) == 0) {
+      pbVar4 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar4,pvVar3);
+    }
+  }
+  if ((&this->bCPropertyTypeBase_data != (bCPropertyTypeBase_data *)0x0) &&
+     (iVar2 = (this->bCPropertyTypeBase_data).offset_0x0, iVar2 != 0)) {
+    *(short *)(iVar2 + -4) = *(short *)(iVar2 + -4) + -1;
+    pvVar3 = (void *)(iVar2 + -8);
+    if (*(short *)(iVar2 + -4) == 0) {
+      pbVar4 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar4,pvVar3);
+    }
+  }
+  return;
+}
+
+

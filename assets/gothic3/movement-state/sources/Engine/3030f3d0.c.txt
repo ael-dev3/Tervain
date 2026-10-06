@@ -1,0 +1,26 @@
+/* ENTRY 3030f3d0 | FUN_3030f3d0 | STATUS decompiled | 14 ms */
+
+eCPhysicObjectStateBuffer * FUN_3030f3d0(eCEntity *param_1)
+
+{
+  bool bVar1;
+  eCPhysicObject *peVar2;
+  eCPhysicObject *this;
+  eCPhysicObjectStateBuffer *peVar3;
+  
+  bCCriticalSectionWin32::Acquire(&eCPhysicObjectStateBuffer::ms_csExecuteBuffer);
+  bVar1 = eCEntity::HasProcessingRangeEntered(param_1);
+  if (bVar1) {
+    peVar2 = eCEntity::GetPhysicObject(param_1);
+    if (peVar2 != (eCPhysicObject *)0x0) {
+      this = (eCPhysicObject *)eCEntity::GetPhysicObject(param_1);
+      peVar3 = eCPhysicObject::GetBuffer(this);
+      bCCriticalSectionWin32::Release(&eCPhysicObjectStateBuffer::ms_csExecuteBuffer);
+      return peVar3;
+    }
+  }
+  bCCriticalSectionWin32::Release(&eCPhysicObjectStateBuffer::ms_csExecuteBuffer);
+  return &eCPhysicObjectStateBuffer::ms_BufferDefault;
+}
+
+

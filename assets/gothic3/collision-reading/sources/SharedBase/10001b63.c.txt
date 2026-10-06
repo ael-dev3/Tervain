@@ -1,0 +1,12 @@
+/* ENTRY 10001b63 | bCCapsule::GetCenter | STATUS decompiled | 2 ms */
+
+/* public: class bCVector & __thiscall bCCapsule::GetCenter(void) */
+
+bCVector * __thiscall bCCapsule::GetCenter(bCCapsule *this)
+
+{
+                    /* 0x1b63  2138  ?GetCenter@bCCapsule@@QAEAAVbCVector@@XZ */
+  return (bCVector *)(this + 0x2c);
+}
+
+

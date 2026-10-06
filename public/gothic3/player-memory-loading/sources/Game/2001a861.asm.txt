@@ -1,0 +1,2 @@
+; 2001a861 bTPropertyType<gCEnclave_PS,bTValArray<long>_>::vfunction4
+2001a861 | e91a930400 | JMP 0x20063b80

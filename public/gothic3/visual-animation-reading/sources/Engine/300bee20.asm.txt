@@ -1,0 +1,19 @@
+; 300bee20 eCVisualAnimationLoD::eCVisualAnimationLoD
+300bee20 | 56 | PUSH ESI
+300bee21 | 8bf1 | MOV ESI,ECX
+300bee23 | ff1508ccaf30 | CALL dword ptr [0x30afcc08]
+300bee29 | 8d4e04 | LEA ECX,[ESI + 0x4]
+300bee2c | c70614028230 | MOV dword ptr [ESI],0x30820214
+300bee32 | ff15ecdbaf30 | CALL dword ptr [0x30afdbec]
+300bee38 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+300bee3c | 33c0 | XOR EAX,EAX
+300bee3e | 894614 | MOV dword ptr [ESI + 0x14],EAX
+300bee41 | 894618 | MOV dword ptr [ESI + 0x18],EAX
+300bee44 | 89461c | MOV dword ptr [ESI + 0x1c],EAX
+300bee47 | 89460c | MOV dword ptr [ESI + 0xc],EAX
+300bee4a | 894608 | MOV dword ptr [ESI + 0x8],EAX
+300bee4d | 884610 | MOV byte ptr [ESI + 0x10],AL
+300bee50 | 894e20 | MOV dword ptr [ESI + 0x20],ECX
+300bee53 | 8bc6 | MOV EAX,ESI
+300bee55 | 5e | POP ESI
+300bee56 | c20400 | RET 0x4

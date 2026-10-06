@@ -1,0 +1,12 @@
+/* ENTRY 3000e07a | eCCollisionShape::AccessTriggersOnUntouch | STATUS decompiled | 3 ms */
+
+/* public: bool & __thiscall eCCollisionShape::AccessTriggersOnUntouch(void) */
+
+bool * __thiscall eCCollisionShape::AccessTriggersOnUntouch(eCCollisionShape *this)
+
+{
+                    /* 0xe07a  3250  ?AccessTriggersOnUntouch@eCCollisionShape@@QAEAA_NXZ */
+  return (bool *)&(this->eCCollisionShape_data).offset_0x2e;
+}
+
+

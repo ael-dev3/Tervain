@@ -1,0 +1,17 @@
+; 201ae8d0 FUN_201ae8d0
+201ae8d0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+201ae8d4 | 56 | PUSH ESI
+201ae8d5 | 50 | PUSH EAX
+201ae8d6 | 8bf1 | MOV ESI,ECX
+201ae8d8 | e8eafae5ff | CALL 0x2000e3c7
+201ae8dd | 50 | PUSH EAX
+201ae8de | 8d4e30 | LEA ECX,[ESI + 0x30]
+201ae8e1 | e8fab2e7ff | CALL 0x20029be0
+201ae8e6 | 85c0 | TEST EAX,EAX
+201ae8e8 | 5e | POP ESI
+201ae8e9 | 7406 | JZ 0x201ae8f1
+201ae8eb | 8a4054 | MOV AL,byte ptr [EAX + 0x54]
+201ae8ee | c20400 | RET 0x4
+; 201ae8f1 LAB_201ae8f1
+201ae8f1 | 32c0 | XOR AL,AL
+201ae8f3 | c20400 | RET 0x4

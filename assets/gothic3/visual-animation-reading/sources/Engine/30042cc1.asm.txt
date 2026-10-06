@@ -1,0 +1,2 @@
+; 30042cc1 eCVisualAnimation_PS::AddOnceAttachment
+30042cc1 | e95a150600 | JMP 0x300a4220

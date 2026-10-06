@@ -1,0 +1,18 @@
+/* ENTRY 3002a856 | eCRigidBody_PS::OnExitProcessingRange | STATUS decompiled | 19 ms */
+
+/* protected: virtual void __thiscall eCRigidBody_PS::OnExitProcessingRange(void) */
+
+void __thiscall eCRigidBody_PS::OnExitProcessingRange(eCRigidBody_PS *this)
+
+{
+  eCEntity *peVar1;
+  eCPhysicsScene *this_00;
+  
+                    /* 0x2a856  11074  ?OnExitProcessingRange@eCRigidBody_PS@@MAEXXZ */
+  peVar1 = (*this->vftablePtr->GetEntity)(this);
+  this_00 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+  eCPhysicsScene::RemoveDynamicEntity(this_00,(eCDynamicEntity *)peVar1);
+  return;
+}
+
+

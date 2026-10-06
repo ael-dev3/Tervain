@@ -1,0 +1,2 @@
+; 20010cf8 bTPropertyType<gCDamage_PS,bTPropertyContainer<gEDamageType>_>::vfunction26
+20010cf8 | e983510a00 | JMP 0x200b5e80

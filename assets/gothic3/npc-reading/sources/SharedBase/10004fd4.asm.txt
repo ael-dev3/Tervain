@@ -1,0 +1,4 @@
+; 10004fd4 ?GetInstance@bCPropertyObjectSingleton@@SGAAV1@XZ
+10004fd4 | e977b70800 | JMP 0x10090750
+; 10004fd9 bCGuid::MakeNullGuid
+; 10004fd9 Ordinal_3712

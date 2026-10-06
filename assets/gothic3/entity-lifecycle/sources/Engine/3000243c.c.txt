@@ -1,0 +1,25 @@
+/* ENTRY 3000243c | eCNode::eCNode | STATUS decompiled | 10 ms */
+
+/* public: __thiscall eCNode::eCNode(class eCNode const &) */
+
+eCNode * __thiscall eCNode::eCNode(eCNode *this,eCNode *param_1)
+
+{
+  undefined1 *this_00;
+  
+                    /* 0x243c  549  ??0eCNode@@QAE@ABV0@@Z */
+  bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)this);
+  this->vftablePtr = &vftable;
+  this_00 = &(this->eCNode_data).field_0x14;
+  (this->eCNode_data).offset_0x10 = (void *)0x0;
+  (this->eCNode_data).offset_0xc = 0;
+  (this->eCNode_data).offset_0xe = 0;
+  bCPropertyID::bCPropertyID((bCPropertyID *)this_00);
+  (this->eCNode_data).offset_0x8 = 0;
+  (this->eCNode_data).offset_0x28 = 0;
+  bCPropertyID::CreateRandom((bCPropertyID *)this_00);
+  bCObjectBase::CopyFrom((bCObjectBase *)this,(bCObjectBase *)param_1);
+  return this;
+}
+
+

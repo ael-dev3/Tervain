@@ -1,0 +1,13 @@
+/* ENTRY 30028de9 | eCApplication::SetFixedFPS | STATUS decompiled | 19 ms */
+
+/* public: void __thiscall eCApplication::SetFixedFPS(float) */
+
+void __thiscall eCApplication::SetFixedFPS(eCApplication *this,float param_1)
+
+{
+                    /* 0x28de9  13406  ?SetFixedFPS@eCApplication@@QAEXM@Z */
+  (this->eCApplication_data).offset_0x4ec = 1000.0 / param_1;
+  return;
+}
+
+

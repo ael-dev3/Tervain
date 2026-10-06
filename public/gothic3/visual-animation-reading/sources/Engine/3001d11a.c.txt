@@ -1,0 +1,49 @@
+/* ENTRY 3001d11a | eCModuleAdmin::FindModule | STATUS decompiled | 13 ms */
+
+/* public: class eCEngineComponentBase * __thiscall eCModuleAdmin::FindModule(class bCString const
+   &)const  */
+
+eCEngineComponentBase * __thiscall eCModuleAdmin::FindModule(eCModuleAdmin *this,bCString *param_1)
+
+{
+  int iVar1;
+  uint uVar2;
+  bool bVar3;
+  bCAccessorPropertyObject *this_00;
+  bCString *pbVar4;
+  uint uVar5;
+  bCAccessorPropertyObject abStack_10 [12];
+  
+                    /* 0x1d11a  6023
+                       ?FindModule@eCModuleAdmin@@QBEPAVeCEngineComponentBase@@ABVbCString@@@Z */
+  bVar3 = bCString::IsEmpty(param_1);
+  if (!bVar3) {
+    iVar1 = (this->eCModuleAdmin_data).offset_0x4;
+    uVar5 = 0;
+    if (0 < iVar1) {
+      bVar3 = iVar1 != 0;
+      do {
+        if (bVar3) {
+          this_00 = (bCAccessorPropertyObject *)
+                    bCAccessorPropertyObject::bCAccessorPropertyObject
+                              (abStack_10,
+                               *(bCObjectRefBase **)
+                                ((int)(this->eCModuleAdmin_data).offset_0x0 + uVar5 * 4));
+          pbVar4 = bCAccessorPropertyObject::GetClassNameA(this_00);
+          bVar3 = bCString::operator==(param_1,pbVar4);
+          bCAccessorPropertyObject::~bCAccessorPropertyObject(abStack_10);
+          if (bVar3) {
+            return *(eCEngineComponentBase **)
+                    ((int)(this->eCModuleAdmin_data).offset_0x0 + uVar5 * 4);
+          }
+        }
+        uVar2 = (this->eCModuleAdmin_data).offset_0x4;
+        uVar5 = uVar5 + 1;
+        bVar3 = uVar5 < uVar2;
+      } while ((int)uVar5 < (int)uVar2);
+    }
+  }
+  return (eCEngineComponentBase *)0x0;
+}
+
+

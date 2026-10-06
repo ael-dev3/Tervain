@@ -1,0 +1,2 @@
+; 3000cf68 eCWrapper_emfx2Actor::IntersectsRay
+3000cf68 | e973050d00 | JMP 0x300dd4e0

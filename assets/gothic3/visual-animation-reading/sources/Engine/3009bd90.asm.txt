@@ -1,0 +1,12 @@
+; 3009bd90 FUN_3009bd90
+3009bd90 | d9442408 | FLD float ptr [ESP + 0x8]
+3009bd94 | 56 | PUSH ESI
+3009bd95 | 8b742408 | MOV ESI,dword ptr [ESP + 0x8]
+3009bd99 | 51 | PUSH ECX
+3009bd9a | 8b4c2414 | MOV ECX,dword ptr [ESP + 0x14]
+3009bd9e | d91c24 | FSTP float ptr [ESP]
+3009bda1 | 56 | PUSH ESI
+3009bda2 | ff15c8cbaf30 | CALL dword ptr [0x30afcbc8]
+3009bda8 | 8bc6 | MOV EAX,ESI
+3009bdaa | 5e | POP ESI
+3009bdab | c20c00 | RET 0xc

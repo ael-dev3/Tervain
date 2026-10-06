@@ -1,0 +1,4 @@
+; 200203e2 ?LearnStack@gCInventory_PS@@QAE_NH@Z
+200203e2 | e949e31800 | JMP 0x201ae730
+; 200203e7 gCPlayerMemory_PS::AddValue
+; 200203e7 Ordinal_1919

@@ -1,0 +1,22 @@
+/* ENTRY 10004039 | PSNpc::GetPrimaryPoseExt | STATUS decompiled | 8 ms */
+
+/* public: bool __thiscall PSNpc::GetPrimaryPoseExt(enum gEAction,enum gEPhase,enum gEPose &)const
+    */
+
+bool __thiscall
+PSNpc::GetPrimaryPoseExt(PSNpc *this,gEAction param_1,gEPhase param_2,gEPose *param_3)
+
+{
+  gEPose gVar1;
+  
+                    /* 0x4039  1632
+                       ?GetPrimaryPoseExt@PSNpc@@QBE_NW4gEAction@@W4gEPhase@@AAW4gEPose@@@Z */
+  if (*(gCNPC_PS **)this != (gCNPC_PS *)0x0) {
+    gVar1 = gCNPC_PS::GetPrimaryPoseExt(*(gCNPC_PS **)this,param_1,param_2);
+    *param_3 = gVar1;
+    return (int)gVar1 < 0x19;
+  }
+  return false;
+}
+
+

@@ -1,0 +1,2 @@
+; 20033096 ?CreatePlayerEntity@gCSession@@IAEXXZ
+20033096 | e9f51d3400 | JMP 0x20374e90

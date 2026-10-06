@@ -1,0 +1,4 @@
+; 2036bda0 FUN_2036bda0
+2036bda0 | 6a00 | PUSH 0x0
+2036bda2 | e88f97cbff | CALL 0x20025536
+2036bda7 | c3 | RET

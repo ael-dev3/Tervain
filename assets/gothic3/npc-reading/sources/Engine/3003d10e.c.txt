@@ -1,0 +1,37 @@
+/* ENTRY 3003d10e | eCEntityPropertySet::OnPostRead | STATUS decompiled | 7 ms */
+
+/* public: virtual void __thiscall eCEntityPropertySet::OnPostRead(void)
+   eCEntityPropertySet member function inherited by eCAudioEmitter_PS
+   eCEntityPropertySet member function inherited by eCDecal_PS
+   eCEntityPropertySet member function inherited by eCTriggerBase_PS
+   eCEntityPropertySet member function inherited by eCEventFilter_PS
+   eCEntityPropertySet member function inherited by eCTriggerCombiner_PS
+   eCEntityPropertySet member function inherited by eCDynamicLight_PS
+   eCEntityPropertySet member function inherited by eCIlluminated_PS
+   eCEntityPropertySet member function inherited by eCStaticLight_PS
+   eCEntityPropertySet member function inherited by eCStaticSpotLight_PS
+   eCEntityPropertySet member function inherited by eCLightStreaks_PS
+   eCEntityPropertySet member function inherited by eCEffectBase_PS
+   eCEntityPropertySet member function inherited by eCRigidBodyBase_PS
+   eCEntityPropertySet member function inherited by eCCollisionShapeBase_PS
+   eCEntityPropertySet member function inherited by eCEngineCaps_PS
+   eCEntityPropertySet member function inherited by eCVisualMeshBase_PS
+   eCEntityPropertySet member function inherited by eCSpeedTreeWind_PS
+   eCEntityPropertySet member function inherited by eCSkydome_PS
+   eCEntityPropertySet member function inherited by eCStrip_PS
+   eCEntityPropertySet member function inherited by eCVegetation_PS
+   eCEntityPropertySet member function inherited by eCVegetationBrush_PS
+   eCEntityPropertySet member function inherited by eCVegetationRubber_PS
+   eCEntityPropertySet member function inherited by eCPrecipitation_PS
+   eCEntityPropertySet member function inherited by eCWeatherZone_PS
+   eCEntityPropertySet member function inherited by eCEventDebugger_PS
+   eCEntityPropertySet member function inherited by eCParticleSystemBase_PS */
+
+void __thiscall eCEntityPropertySet::OnPostRead(eCEntityPropertySet *this)
+
+{
+                    /* 0x3d10e  11343  ?OnPostRead@eCEntityPropertySet@@UAEXXZ */
+  return;
+}
+
+

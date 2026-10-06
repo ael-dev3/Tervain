@@ -1,0 +1,70 @@
+/* ENTRY 10022760 | FUN_10022760 | STATUS decompiled | 12 ms */
+
+void __fastcall FUN_10022760(bCErrorAdmin *param_1)
+
+{
+  undefined4 *puVar1;
+  bCMemoryAdmin *this;
+  bCMessageAdmin *this_00;
+  _func_bool_bEMessageTypes_char_ptr_char_ptr_ulong_char_ptr_int_int *p_Var2;
+  void *pvVar3;
+  bEMessageCallbackPriority bVar4;
+  ulong uVar5;
+  
+  bCErrorAdmin::Destroy(param_1);
+  *(undefined4 *)param_1 = 0;
+  param_1[4] = (bCErrorAdmin)0x0;
+  param_1[5] = (bCErrorAdmin)0x0;
+  *(undefined4 *)(param_1 + 0x20) = 0;
+  *(undefined4 *)(param_1 + 0x24) = 0;
+  *(undefined4 *)(param_1 + 0x28) = 0;
+  puVar1 = (undefined4 *)FUN_100aabd2(0x14);
+  if (puVar1 == (undefined4 *)0x0) {
+    puVar1 = (undefined4 *)0x0;
+  }
+  else {
+    uVar5 = 0x30d4;
+    pvVar3 = (void *)0x0;
+    *puVar1 = 0;
+    puVar1[1] = 0;
+    puVar1[2] = 0;
+    puVar1[3] = 0;
+    *(undefined1 *)(puVar1 + 4) = 0;
+    this = bCMemoryAdmin::GetInstance();
+    pvVar3 = bCMemoryAdmin::Realloc(this,pvVar3,uVar5);
+    *puVar1 = pvVar3;
+    if (*(char *)(puVar1 + 4) != '\0') {
+      puVar1[3] = puVar1[1];
+    }
+    puVar1[1] = 0x32;
+    *(undefined1 *)(puVar1 + 4) = 0;
+  }
+  *(undefined4 **)(param_1 + 0x20) = puVar1;
+  puVar1 = (undefined4 *)FUN_100aabd2(0xc);
+  if (puVar1 == (undefined4 *)0x0) {
+    puVar1 = (undefined4 *)0x0;
+  }
+  else {
+    *puVar1 = 0;
+    puVar1[1] = 0;
+    puVar1[2] = 0;
+  }
+  *(undefined4 **)(param_1 + 0x24) = puVar1;
+  puVar1 = (undefined4 *)FUN_100aabd2(0xc);
+  if (puVar1 == (undefined4 *)0x0) {
+    puVar1 = (undefined4 *)0x0;
+  }
+  else {
+    *puVar1 = 0;
+    puVar1[1] = 0;
+    puVar1[2] = 0;
+  }
+  bVar4 = 1;
+  p_Var2 = (_func_bool_bEMessageTypes_char_ptr_char_ptr_ulong_char_ptr_int_int *)&LAB_10002df6;
+  *(undefined4 **)(param_1 + 0x28) = puVar1;
+  this_00 = bCMessageAdmin::GetInstance();
+  bCMessageAdmin::RegisterCallback(this_00,p_Var2,bVar4,(ulong)param_1);
+  return;
+}
+
+

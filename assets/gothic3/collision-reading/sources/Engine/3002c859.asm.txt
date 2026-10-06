@@ -1,0 +1,2 @@
+; 3002c859 ?SetFileVersion@eCCollisionShape@@QAEXABG@Z
+3002c859 | e972600900 | JMP 0x300c28d0

@@ -1,0 +1,11 @@
+/* ENTRY 10092a30 | FUN_10092a30 | STATUS decompiled | 3 ms */
+
+bCOStream * FUN_10092a30(bCOStream *param_1,int param_2)
+
+{
+  (**(code **)(*(int *)param_1 + 4))(param_2,0x10);
+  operator>>(*(ulong *)(param_2 + 0x10),param_1);
+  return param_1;
+}
+
+

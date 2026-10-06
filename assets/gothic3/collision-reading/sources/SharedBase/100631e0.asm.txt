@@ -1,0 +1,19 @@
+; 100631e0 FUN_100631e0
+100631e0 | 56 | PUSH ESI
+100631e1 | 8b742408 | MOV ESI,dword ptr [ESP + 0x8]
+100631e5 | 51 | PUSH ECX
+100631e6 | 8bce | MOV ECX,ESI
+100631e8 | e8ce54faff | CALL 0x100086bb
+100631ed | d9460c | FLD float ptr [ESI + 0xc]
+100631f0 | d944240c | FLD float ptr [ESP + 0xc]
+100631f4 | d9c0 | FLD ST0
+100631f6 | deca | FMULP ST2
+100631f8 | d9c9 | FXCH
+100631fa | d95e0c | FSTP float ptr [ESI + 0xc]
+100631fd | d94610 | FLD float ptr [ESI + 0x10]
+10063200 | d8c9 | FMUL ST1
+10063202 | d95e10 | FSTP float ptr [ESI + 0x10]
+10063205 | d84e14 | FMUL float ptr [ESI + 0x14]
+10063208 | d95e14 | FSTP float ptr [ESI + 0x14]
+1006320b | 5e | POP ESI
+1006320c | c20800 | RET 0x8

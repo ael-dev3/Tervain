@@ -1,0 +1,18 @@
+; 300a9a60 LookAtConstraintEx::LookAtConstraintEx
+300a9a60 | 8b44240c | MOV EAX,dword ptr [ESP + 0xc]
+300a9a64 | 8b542404 | MOV EDX,dword ptr [ESP + 0x4]
+300a9a68 | 56 | PUSH ESI
+300a9a69 | 8bf1 | MOV ESI,ECX
+300a9a6b | 8b4c240c | MOV ECX,dword ptr [ESP + 0xc]
+300a9a6f | 50 | PUSH EAX
+300a9a70 | 51 | PUSH ECX
+300a9a71 | 52 | PUSH EDX
+300a9a72 | 8bce | MOV ECX,ESI
+300a9a74 | e8d77b5900 | CALL 0x30641650
+300a9a79 | 0f57c0 | XORPS XMM0,XMM0
+300a9a7c | c706f4f08130 | MOV dword ptr [ESI],0x3081f0f4
+300a9a82 | c6860801000000 | MOV byte ptr [ESI + 0x108],0x0
+300a9a89 | f30f11860c010000 | MOVSS dword ptr [ESI + 0x10c],XMM0
+300a9a91 | 8bc6 | MOV EAX,ESI
+300a9a93 | 5e | POP ESI
+300a9a94 | c20c00 | RET 0xc

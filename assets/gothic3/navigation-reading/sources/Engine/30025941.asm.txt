@@ -1,0 +1,4 @@
+; 30025941 ?HasRenderAlphaComponent@eCEntityPropertySet@@UBE_NXZ
+30025941 | e92abc4500 | JMP 0x30481570
+; 30025946 eCMenu::operator<<
+; 30025946 Ordinal_1953

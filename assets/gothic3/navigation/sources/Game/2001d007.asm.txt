@@ -1,0 +1,4 @@
+; 2001d007 ?SetDCC@gCNavigation_PS@@QAEXPAVgCDynamicCollisionCircle_PS@@@Z
+2001d007 | e9e4912600 | JMP 0x202861f0
+; 2001d00c gCMusicTransition::GetFadeOutBegin
+; 2001d00c Ordinal_3399

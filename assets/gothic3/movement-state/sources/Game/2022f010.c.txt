@@ -1,0 +1,30 @@
+/* ENTRY 2022f010 | FUN_2022f010 | STATUS decompiled | 15 ms */
+
+void __fastcall FUN_2022f010(gCCharacterMovement_PS *param_1)
+
+{
+  bool bVar1;
+  bCVector *this;
+  undefined4 local_10;
+  undefined1 local_c [12];
+  
+  local_10 = 0;
+  gCCharacterMovement_PS::ValidateZoneGeometry(param_1);
+  gCCharacterMovement_PS::ProcessControledTranslation(param_1);
+  gCCharacterMovement_PS::ProcessControledRotation(param_1);
+  gCCharacterMovement_PS::ContributeFloorMovements(param_1);
+  this = (bCVector *)
+         (**(code **)(*(int *)(param_1->gCCharacterMovement_PS_data).offset_0x16c + 0x18c))(local_c)
+  ;
+  bVar1 = bCVector::HasZeroMagnitude(this);
+  if ((!bVar1) || ((param_1->gCCharacterMovement_PS_data).field_0x8c != '\0')) {
+    bVar1 = false;
+  }
+  bCVector::~bCVector((bCVector *)&local_10);
+  if (bVar1 != false) {
+    (**(code **)(*(int *)(param_1->gCCharacterMovement_PS_data).offset_0x16c + 0x1f0))(0xe);
+  }
+  return;
+}
+
+

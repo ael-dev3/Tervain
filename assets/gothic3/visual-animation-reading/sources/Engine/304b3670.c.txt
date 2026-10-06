@@ -1,0 +1,26 @@
+/* ENTRY 304b3670 | FUN_304b3670 | STATUS decompiled | 16 ms */
+
+void __thiscall FUN_304b3670(eCNode *param_1,bCMatrix *param_2)
+
+{
+  bool bVar1;
+  eCNode *peVar2;
+  bCMatrix local_40 [64];
+  
+  bCMatrix::bCMatrix(local_40);
+  bVar1 = eCNode::HasParent(param_1);
+  if (bVar1) {
+    peVar2 = (*param_1->vftablePtr->GetParent)(param_1);
+    bCMatrix::operator=(local_40,(bCMatrix *)(peVar2 + 0x40));
+    bCMatrix::Invert(local_40);
+  }
+  else {
+    bCMatrix::SetIdentity(local_40);
+  }
+  bCMatrix::operator*=(local_40,param_2);
+  (*param_1->vftablePtr[1].IsVirtualReferencingEnabled)(param_1);
+  bCMatrix::~bCMatrix((bCMatrix *)&stack0xffffffbc);
+  return;
+}
+
+

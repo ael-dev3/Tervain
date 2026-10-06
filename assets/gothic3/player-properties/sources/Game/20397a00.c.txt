@@ -1,0 +1,12 @@
+/* ENTRY 20397a00 | FUN_20397a00 | STATUS decompiled | 3 ms */
+
+void __fastcall FUN_20397a00(int param_1)
+
+{
+  bCString::operator=((bCString *)(param_1 + 0xc),"");
+  *(undefined4 *)(param_1 + 0x14) = 100;
+  *(undefined4 *)(param_1 + 0x10) = 0;
+  return;
+}
+
+

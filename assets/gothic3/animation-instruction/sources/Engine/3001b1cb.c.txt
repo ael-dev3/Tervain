@@ -1,0 +1,22 @@
+/* ENTRY 3001b1cb | eCAnimationAdmin::IsAnimationMissed | STATUS decompiled | 8 ms */
+
+/* public: bool __thiscall eCAnimationAdmin::IsAnimationMissed(class bCString const &)const  */
+
+bool __thiscall eCAnimationAdmin::IsAnimationMissed(eCAnimationAdmin *this,bCString *param_1)
+
+{
+  bool bVar1;
+  int iVar2;
+  
+                    /* 0x1b1cb  10252  ?IsAnimationMissed@eCAnimationAdmin@@QBE_NABVbCString@@@Z */
+  bVar1 = bCString::IsEmpty(param_1);
+  if ((!bVar1) && ((this->eCAnimationAdmin_data).offset_0x38 != 0)) {
+    iVar2 = thunk_FUN_300915e0(param_1);
+    if (iVar2 != -1) {
+      return true;
+    }
+  }
+  return false;
+}
+
+

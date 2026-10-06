@@ -1,0 +1,8 @@
+; 30335250 bTPropertyType<eCRigidBodyBase_PS,bool>::vfunction21
+30335250 | 68f8cf8130 | PUSH 0x3081cff8
+30335255 | 683cd58130 | PUSH 0x3081d53c
+3033525a | 687ccf8130 | PUSH 0x3081cf7c
+3033525f | ff1530dbaf30 | CALL dword ptr [0x30afdb30]
+30335265 | 83c40c | ADD ESP,0xc
+30335268 | 33c0 | XOR EAX,EAX
+3033526a | c3 | RET

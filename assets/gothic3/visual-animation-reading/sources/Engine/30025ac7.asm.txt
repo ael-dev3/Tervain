@@ -1,0 +1,2 @@
+; 30025ac7 eCArchiveManager::GetFile
+30025ac7 | e9f48a5b00 | JMP 0x305de5c0

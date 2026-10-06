@@ -1,0 +1,2 @@
+; 3001560e eCVisualAnimation_PS::IntersectPhysicsRayNearestHit
+3001560e | e9ad890800 | JMP 0x3009dfc0

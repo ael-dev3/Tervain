@@ -1,0 +1,28 @@
+/* ENTRY 3002d272 | eCVisualAnimationLoD::RequestResources | STATUS decompiled | 266 ms */
+
+/* public: bool __thiscall eCVisualAnimationLoD::RequestResources(void) */
+
+bool __thiscall eCVisualAnimationLoD::RequestResources(eCVisualAnimationLoD *this)
+
+{
+  eCResourceAdmin *this_00;
+  eCResourceDataEntity *peVar1;
+  bCString *pbVar2;
+  eEResourceCacheBehavior eVar3;
+  
+                    /* 0x2d272  12698  ?RequestResources@eCVisualAnimationLoD@@QAE_NXZ */
+  if ((this->eCVisualAnimationLoD_data).offset_0x4 == (eCResourceAnimationActor_PS *)0x0) {
+    eVar3 = 3;
+    pbVar2 = (bCString *)&this->eCVisualAnimationLoD_data;
+    this_00 = (eCResourceAdmin *)thunk_FUN_3007c090();
+    peVar1 = eCResourceAdmin::QueryResourceDataEntity(this_00,pbVar2,eVar3);
+    if (peVar1 != (eCResourceDataEntity *)0x0) {
+      SetActor(this,peVar1);
+      (**(code **)(*(int *)peVar1 + 0x24))();
+    }
+    return true;
+  }
+  return true;
+}
+
+

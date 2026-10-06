@@ -1,0 +1,10 @@
+; 2028f7e0 bTPropertyType<gCNavigation_PS,bTObjArray<bCString>_>::vfunction6
+2028f7e0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+2028f7e4 | 85c0 | TEST EAX,EAX
+2028f7e6 | 740b | JZ 0x2028f7f3
+2028f7e8 | 8b11 | MOV EDX,dword ptr [ECX]
+2028f7ea | 89442404 | MOV dword ptr [ESP + 0x4],EAX
+2028f7ee | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+2028f7f1 | ffe0 | JMP EAX
+; 2028f7f3 LAB_2028f7f3
+2028f7f3 | c20400 | RET 0x4

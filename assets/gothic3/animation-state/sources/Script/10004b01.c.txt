@@ -1,0 +1,58 @@
+/* ENTRY 10004b01 | Entity::GetAniEx | STATUS decompiled | 38 ms */
+
+/* public: class bCString __thiscall Entity::GetAniEx(enum gEUseType,enum gEUseType,enum
+   gEAction,enum gEPhase,class bCString const &,bool)const  */
+
+gEUseType __thiscall
+Entity::GetAniEx(Entity *this,gEUseType param_1,gEUseType param_2,gEAction param_3,gEPhase param_4,
+                bCString *param_5,bool param_6)
+
+{
+  bCString *pbVar1;
+  bool bVar2;
+  bCString *pbVar3;
+  undefined3 in_stack_00000019;
+  char in_stack_0000001c;
+  bCString abStack_c [4];
+  bCString abStack_8 [4];
+  gEPose gStack_4;
+  
+                    /* 0x4b01  1502
+                       ?GetAniEx@Entity@@QBE?AVbCString@@W4gEUseType@@0W4gEAction@@W4gEPhase@@ABV2@_N@Z
+                        */
+  bCString::bCString(abStack_c);
+  bVar2 = PSAnimation::GetSkeletonName((PSAnimation *)(this + 8),abStack_c);
+  pbVar1 = param_5;
+  if (!bVar2) {
+    bCString::bCString((bCString *)param_1,"");
+    bCString::~bCString(abStack_c);
+    return param_1;
+  }
+  bVar2 = PSNpc::GetPrimaryPoseExt((PSNpc *)(this + 0x34),param_4,(gEPhase)param_5,&gStack_4);
+  if (bVar2) {
+    param_5 = (bCString *)PSNavigation::GetAniDirection((PSNavigation *)(this + 0x30));
+    bVar2 = FixAniDirection(this,param_4,(gEPhase)pbVar1,(gEDirection *)&param_5);
+    if (bVar2) {
+      bCString::bCString(abStack_8);
+      pbVar3 = _param_6;
+      bVar2 = bCString::IsEmpty(_param_6);
+      if (bVar2) {
+        pbVar3 = (bCString *)(g_pstrActionString_exref + param_4 * 4);
+      }
+      bCString::operator=(abStack_8,pbVar3);
+      pbVar3 = (bCString *)
+               PSRoutine::PropertyAniState::operator_enum_gEAniState((PropertyAniState *)(this + 4))
+      ;
+      thunk_FUN_1002f7b0(param_1,(char *)abStack_c,pbVar3,param_2,param_3,gStack_4,(int)abStack_8,
+                         pbVar1,(uint)(in_stack_0000001c != '\0'),(int)param_5,0);
+      bCString::~bCString(abStack_8);
+      goto LAB_1002fbfe;
+    }
+  }
+  bCString::bCString((bCString *)param_1,"");
+LAB_1002fbfe:
+  bCString::~bCString(abStack_c);
+  return param_1;
+}
+
+

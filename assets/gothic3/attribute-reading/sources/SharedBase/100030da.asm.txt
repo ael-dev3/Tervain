@@ -1,0 +1,2 @@
+; 100030da bCObjectRefBase::SetPropertyObject
+100030da | e941740400 | JMP 0x1004a520

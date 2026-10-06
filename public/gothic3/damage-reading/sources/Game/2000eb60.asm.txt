@@ -1,0 +1,2 @@
+; 2000eb60 bTPropertyContainer<gEDamageType>::vfunction7
+2000eb60 | e91b610a00 | JMP 0x200b4c80

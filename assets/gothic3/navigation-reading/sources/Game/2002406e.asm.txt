@@ -1,0 +1,4 @@
+; 2002406e bTPropertyType<gCCameraModeParams,bool>::vfunction4
+2002406e | e97dc82600 | JMP 0x202908f0
+; 20024078 gCNPC_PS::GetTimeStampTransformed
+; 20024078 Ordinal_4583

@@ -1,0 +1,30 @@
+/* ENTRY 30028420 | bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector>::~bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector> | STATUS decompiled | 12 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined * __thiscall
+bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector>::
+~bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector>(void)
+
+{
+  bCString *pbVar1;
+  bCPropertyObjectSingleton *this;
+  bCPropertyObjectTypeBase *pbVar2;
+  
+  if ((_DAT_30ada39c & 1) == 0) {
+    _DAT_30ada39c = _DAT_30ada39c | 1;
+    bCPropertyObjectTypeBase::bCPropertyObjectTypeBase
+              ((bCPropertyObjectTypeBase *)&DAT_30ada360,true);
+    _DAT_30ada360 = &vftable;
+    pbVar1 = (bCString *)vfunction1();
+    bCPropertyObjectFactory::bCPropertyObjectFactory
+              ((bCPropertyObjectFactory *)&DAT_30ada378,pbVar1);
+    pbVar2 = (bCPropertyObjectTypeBase *)&DAT_30ada360;
+    this = bCPropertyObjectSingleton::GetInstance();
+    bCPropertyObjectSingleton::RegisterTemplate(this,pbVar2);
+    _atexit(~bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector>);
+  }
+  return &DAT_30ada360;
+}
+
+

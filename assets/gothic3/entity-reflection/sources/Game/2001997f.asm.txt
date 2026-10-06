@@ -1,0 +1,4 @@
+; 2001997f ??1gCClock_PS@@UAE@XZ
+2001997f | e96ce41e00 | JMP 0x20207df0
+; 20019984 gCGeometryLayer::Create
+; 20019984 Ordinal_2354

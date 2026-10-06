@@ -1,0 +1,80 @@
+/* ENTRY 20016275 | gCNavigation_PS::UpdateZoneIDs | STATUS decompiled | 167 ms */
+
+/* public: void __thiscall gCNavigation_PS::UpdateZoneIDs(void) */
+
+void __thiscall gCNavigation_PS::UpdateZoneIDs(gCNavigation_PS *this)
+
+{
+  undefined1 *this_00;
+  char cVar1;
+  bool bVar2;
+  eCApplication *peVar3;
+  int *piVar4;
+  eCEntity *peVar5;
+  bCVector *pbVar6;
+  gCNavigationAdmin *this_01;
+  eCEntity *peVar7;
+  bCPropertyID *pbVar8;
+  bool *pbVar9;
+  undefined1 uVar10;
+  undefined4 uVar11;
+  TypeDescriptor *pTVar12;
+  TypeDescriptor *pTVar13;
+  undefined4 uVar14;
+  bool abStack_34 [4];
+  bCPropertyID abStack_30 [20];
+  eCEntityProxy eStack_1c;
+  
+                    /* 0x16275  7453  ?UpdateZoneIDs@gCNavigation_PS@@QAEXXZ */
+  uVar14 = 1;
+  pTVar13 = &gCGameApp::RTTI_Type_Descriptor;
+  pTVar12 = &eCApplication::RTTI_Type_Descriptor;
+  uVar11 = 0;
+  peVar3 = eCApplication::GetInstance();
+  piVar4 = (int *)___RTDynamicCast(peVar3,uVar11,pTVar12,pTVar13,uVar14);
+  cVar1 = (**(code **)(*piVar4 + 0x270))();
+  if (cVar1 != '\0') {
+    bCPropertyID::bCPropertyID(abStack_30);
+    uVar10 = 1;
+    pbVar9 = abStack_34;
+    pbVar8 = abStack_30;
+    peVar5 = (*this->vftablePtr->GetEntity)(this);
+    pbVar6 = eCEntity::GetWorldPosition((eCEntity *)peVar5);
+    this_01 = (gCNavigationAdmin *)thunk_FUN_20079ea0();
+    gCNavigationAdmin::GetZone(this_01,pbVar6,pbVar8,pbVar9,(bool)uVar10);
+    bVar2 = bCPropertyID::IsValid(abStack_30);
+    if (bVar2) {
+      peVar5 = (*this->vftablePtr->GetEntity)(this);
+      pbVar6 = eCEntity::GetWorldPosition((eCEntity *)peVar5);
+      (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)
+                (this,"LastUseableNavigationPosition",false);
+      bCVector::operator=((bCVector *)&(this->gCNavigation_PS_data).field_0xe0,pbVar6);
+      (*this->vftablePtr->NotifyPropertyValueChangedExitEx)
+                (this,"LastUseableNavigationPosition",false);
+      SetLastUseableNavZoneID(this,abStack_30,abStack_34[0]);
+    }
+    eCEntityProxy::eCEntityProxy(&eStack_1c);
+    eCEntityProxy::SetEntity(&eStack_1c,abStack_30);
+    this_00 = &(this->gCNavigation_PS_data).field_0xa8;
+    peVar5 = eCEntityProxy::GetEntity((eCEntityProxy *)this_00);
+    peVar7 = eCEntityProxy::GetEntity(&eStack_1c);
+    if (peVar5 != peVar7) {
+      (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"LastZoneEntityProxy",false);
+      eCEntityProxy::operator=
+                ((eCEntityProxy *)&(this->gCNavigation_PS_data).field_0xc4,(eCEntityProxy *)this_00)
+      ;
+      (*this->vftablePtr->NotifyPropertyValueChangedExitEx)(this,"LastZoneEntityProxy",false);
+      (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"CurrentZoneEntityProxy",false);
+      eCEntityProxy::operator=((eCEntityProxy *)this_00,(eCEntityProxy *)&eStack_1c);
+      (*this->vftablePtr->NotifyPropertyValueChangedExitEx)(this,"CurrentZoneEntityProxy",false);
+      peVar5 = (*this->vftablePtr->GetEntity)(this);
+      pbVar6 = eCEntity::GetWorldPosition((eCEntity *)peVar5);
+      thunk_FUN_20290e20(0,pbVar6);
+    }
+    eCEntityProxy::~eCEntityProxy(&eStack_1c);
+    bCPropertyID::~bCPropertyID(abStack_30);
+  }
+  return;
+}
+
+

@@ -1,0 +1,16 @@
+; 20192e50 gCHUDTable::gCHUDTable
+20192e50 | 56 | PUSH ESI
+20192e51 | 8bf1 | MOV ESI,ECX
+20192e53 | ff1514797d20 | CALL dword ptr [0x207d7914]
+20192e59 | 33c0 | XOR EAX,EAX
+20192e5b | 894610 | MOV dword ptr [ESI + 0x10],EAX
+20192e5e | c70654a16720 | MOV dword ptr [ESI],0x2067a154
+20192e64 | 894614 | MOV dword ptr [ESI + 0x14],EAX
+20192e67 | 894618 | MOV dword ptr [ESI + 0x18],EAX
+20192e6a | 89461c | MOV dword ptr [ESI + 0x1c],EAX
+20192e6d | 884624 | MOV byte ptr [ESI + 0x24],AL
+20192e70 | 884625 | MOV byte ptr [ESI + 0x25],AL
+20192e73 | c74620ffffffff | MOV dword ptr [ESI + 0x20],0xffffffff
+20192e7a | 8bc6 | MOV EAX,ESI
+20192e7c | 5e | POP ESI
+20192e7d | c3 | RET

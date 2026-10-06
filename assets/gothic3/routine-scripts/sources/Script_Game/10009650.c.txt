@@ -1,0 +1,11 @@
+/* ENTRY 10009650 | FUN_10009650 | STATUS decompiled | 5 ms */
+
+void FUN_10009650(void)
+
+{
+  PSCharacterControl::SetMovementConstraints((PSCharacterControl *)&stack0x00000044,360.0);
+  Entity::~Entity((Entity *)&stack0x00000004);
+  return;
+}
+
+

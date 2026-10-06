@@ -1,0 +1,16 @@
+/* ENTRY 200b3300 | FUN_200b3300 | STATUS decompiled | 1 ms */
+
+void __fastcall FUN_200b3300(int *param_1)
+
+{
+  code *pcVar1;
+  int *unaff_ESI;
+  
+  (**(code **)(*param_1 + 0x58))("DamageAmount",0);
+  pcVar1 = *(code **)(*param_1 + 0x5c);
+  param_1[7] = *unaff_ESI;
+  (*pcVar1)("DamageAmount",0);
+  return;
+}
+
+

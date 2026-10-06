@@ -1,0 +1,26 @@
+/* ENTRY 30020a95 | eCEffector::operator= | STATUS decompiled | 10 ms */
+
+/* public: class eCEffector const & __thiscall eCEffector::operator=(class eCEffector const &) */
+
+eCEffector * __thiscall eCEffector::operator=(eCEffector *this,eCEffector *param_1)
+
+{
+  bCPropertyObjectBase *pbVar1;
+  bCPropertyObjectBase *this_00;
+  
+                    /* 0x20a95  1531  ??4eCEffector@@QAEABV0@ABV0@@Z */
+  pbVar1 = bCObjectRefBase::GetPropertyObject((bCObjectRefBase *)this);
+  if (pbVar1 != (bCPropertyObjectBase *)0x0) {
+    pbVar1 = bCObjectRefBase::GetPropertyObject((bCObjectRefBase *)param_1);
+    if (pbVar1 != (bCPropertyObjectBase *)0x0) {
+      pbVar1 = bCObjectRefBase::GetPropertyObject((bCObjectRefBase *)param_1);
+      this_00 = (bCPropertyObjectBase *)bCObjectRefBase::GetPropertyObject((bCObjectRefBase *)this);
+      bCPropertyObjectBase::operator=(this_00,pbVar1);
+      return (eCEffector *)this;
+    }
+  }
+  (*this->vftablePtr->CopyFrom)(this,(bCObjectBase *)param_1);
+  return (eCEffector *)this;
+}
+
+

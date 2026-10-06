@@ -1,0 +1,2 @@
+; 30029253 eCVisualAnimation_PS::SetInterBoneCollision
+30029253 | e908890300 | JMP 0x30061b60

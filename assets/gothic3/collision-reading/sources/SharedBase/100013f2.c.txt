@@ -1,0 +1,12 @@
+/* ENTRY 100013f2 | bCBox::GetMin | STATUS decompiled | 2 ms */
+
+/* public: class bCVector const & __thiscall bCBox::GetMin(void)const  */
+
+bCVector * __thiscall bCBox::GetMin(bCBox *this)
+
+{
+                    /* 0x13f2  2640  ?GetMin@bCBox@@QBEABVbCVector@@XZ */
+  return (bCVector *)this;
+}
+
+

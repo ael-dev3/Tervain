@@ -1,0 +1,2 @@
+; 200183bd gCParty_PS::SetPartyLeaderEntity
+200183bd | e93e2c0900 | JMP 0x200ab000

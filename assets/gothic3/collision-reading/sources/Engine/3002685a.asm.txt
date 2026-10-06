@@ -1,0 +1,4 @@
+; 3002685a ?GetShapeType@eCCollisionShape@@QBEABV?$bTPropertyContainer@W4eECollisionShapeType@@@@XZ
+3002685a | e911bc0900 | JMP 0x300c2470
+; 30026864 LAB_30026864
+30026864 | e987167700 | JMP 0x30797ef0

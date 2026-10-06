@@ -1,0 +1,15 @@
+/* ENTRY 100012c6 | PSCharacterControl::SetMovementConstraints | STATUS decompiled | 6 ms */
+
+/* public: void __thiscall PSCharacterControl::SetMovementConstraints(float) */
+
+void __thiscall PSCharacterControl::SetMovementConstraints(PSCharacterControl *this,float param_1)
+
+{
+                    /* 0x12c6  1967  ?SetMovementConstraints@PSCharacterControl@@QAEXM@Z */
+  if (*(gCCharacterControl_PS **)this != (gCCharacterControl_PS *)0x0) {
+    gCCharacterControl_PS::SetMovementConstraints(*(gCCharacterControl_PS **)this,param_1);
+  }
+  return;
+}
+
+

@@ -1,0 +1,78 @@
+/* ENTRY 100018cf | PSEnclave::GetMembers | STATUS decompiled | 53 ms */
+
+/* public: class bTValArray<class eCEntity *> const __thiscall PSEnclave::GetMembers(void)const  */
+
+undefined4 * __thiscall PSEnclave::GetMembers(PSEnclave *this)
+
+{
+  bool bVar1;
+  bTObjArray<eCEntityProxy> *pbVar2;
+  Entity *this_00;
+  bCMemoryAdmin *this_01;
+  int iVar3;
+  int iVar4;
+  int iVar5;
+  undefined4 *in_stack_00000004;
+  void *pvVar6;
+  void *pvStack_bc;
+  int iStack_b8;
+  undefined4 uStack_b4;
+  eCEntity *peStack_b0;
+  int iStack_ac;
+  Entity aEStack_a8 [168];
+  
+                    /* 0x18cf  1599  ?GetMembers@PSEnclave@@QBE?BV?$bTValArray@PAVeCEntity@@@@XZ */
+  iVar4 = 0;
+  pvStack_bc = (void *)0x0;
+  iStack_b8 = 0;
+  uStack_b4 = 0;
+  if (*(gCEnclave_PS **)this != (gCEnclave_PS *)0x0) {
+    iStack_ac = 0;
+    pbVar2 = gCEnclave_PS::GetMembers(*(gCEnclave_PS **)this);
+    if (0 < *(int *)(pbVar2 + 4)) {
+      iVar3 = 0;
+      do {
+        pbVar2 = gCEnclave_PS::GetMembers(*(gCEnclave_PS **)this);
+        bVar1 = eCEntityProxy::IsEntityIDValid((eCEntityProxy *)(*(int *)pbVar2 + iVar3));
+        if (bVar1) {
+          pbVar2 = gCEnclave_PS::GetMembers(*(gCEnclave_PS **)this);
+          peStack_b0 = eCEntityProxy::GetEntity((eCEntityProxy *)(*(int *)pbVar2 + iVar3));
+          iVar5 = iVar4 + 1;
+          thunk_FUN_10016f20(&pvStack_bc,iVar5,(iVar5 != 0) - 1);
+          *(eCEntity **)((int)pvStack_bc + iVar5 * 4 + -4) = peStack_b0;
+          iStack_b8 = iVar5;
+        }
+        else {
+          this_00 = (Entity *)Entity::Entity(aEStack_a8);
+          peStack_b0 = Entity::operator_class_eCEntity_(this_00);
+          iVar5 = iVar4 + 1;
+          thunk_FUN_10016f20(&pvStack_bc,iVar5,(iVar5 != 0) - 1);
+          *(eCEntity **)((int)pvStack_bc + iVar5 * 4 + -4) = peStack_b0;
+          iStack_b8 = iVar5;
+          Entity::~Entity(aEStack_a8);
+        }
+        iVar4 = iVar4 + 1;
+        iStack_ac = iStack_ac + 1;
+        iVar3 = iVar3 + 0x1c;
+        pbVar2 = gCEnclave_PS::GetMembers(*(gCEnclave_PS **)this);
+      } while (iStack_ac < *(int *)(pbVar2 + 4));
+    }
+    *in_stack_00000004 = 0;
+    in_stack_00000004[1] = 0;
+    in_stack_00000004[2] = 0;
+    thunk_FUN_10017540(in_stack_00000004,(int *)&pvStack_bc);
+    if ((&stack0x00000000 != (undefined1 *)0xbc) && (pvStack_bc != (void *)0x0)) {
+      pvVar6 = pvStack_bc;
+      this_01 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(this_01,pvVar6);
+    }
+    return in_stack_00000004;
+  }
+  *in_stack_00000004 = 0;
+  in_stack_00000004[1] = 0;
+  in_stack_00000004[2] = 0;
+  thunk_FUN_10017540(in_stack_00000004,(int *)&pvStack_bc);
+  return in_stack_00000004;
+}
+
+

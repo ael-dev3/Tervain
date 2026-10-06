@@ -1,0 +1,10 @@
+/* ENTRY 30337bd0 | FUN_30337bd0 | STATUS decompiled | 7 ms */
+
+undefined4 __fastcall FUN_30337bd0(eCCollisionShape_PS *param_1)
+
+{
+  eCCollisionShape_PS::ShrinkTouchingShapes(param_1);
+  return (param_1->eCCollisionShape_PS_data).offset_0x24;
+}
+
+

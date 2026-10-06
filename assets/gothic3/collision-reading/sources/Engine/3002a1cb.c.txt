@@ -1,0 +1,12 @@
+/* ENTRY 3002a1cb | eCCollisionShape::AccessFileVersion | STATUS decompiled | 4 ms */
+
+/* public: unsigned short & __thiscall eCCollisionShape::AccessFileVersion(void) */
+
+ushort * __thiscall eCCollisionShape::AccessFileVersion(eCCollisionShape *this)
+
+{
+                    /* 0x2a1cb  2736  ?AccessFileVersion@eCCollisionShape@@QAEAAGXZ */
+  return &(this->eCCollisionShape_data).offset_0x36;
+}
+
+

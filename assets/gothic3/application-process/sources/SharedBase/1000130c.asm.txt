@@ -1,0 +1,4 @@
+; 1000130c ?Reset@bCTimer@@QAEXXZ
+1000130c | e99fad0400 | JMP 0x1004c0b0
+; 10001311 bCPoint::operator=
+; 10001311 Ordinal_516

@@ -1,0 +1,4 @@
+; 20034d60 ?AIContinueRoutine@gCScriptRoutine_PS@@QAEXXZ
+20034d60 | e94b1f3200 | JMP 0x20356cb0
+; 20034d65 gCChatConsole::OnFinishedOpening
+; 20034d65 Ordinal_5430

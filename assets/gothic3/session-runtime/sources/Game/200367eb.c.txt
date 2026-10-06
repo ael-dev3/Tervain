@@ -1,0 +1,26 @@
+/* ENTRY 200367eb | thunk_FUN_2037bcd0 | STATUS decompiled | 7 ms */
+
+void __thiscall thunk_FUN_2037bcd0(undefined4 *param_1,bCObjectRefBase *param_2)
+
+{
+  bCPropertyObjectBase *pbVar1;
+  
+  if (param_2 != (bCObjectRefBase *)0x0) {
+    pbVar1 = bCObjectRefBase::GetPropertyObject(param_2);
+    if (pbVar1 != (bCPropertyObjectBase *)0x0) {
+      pbVar1 = bCObjectRefBase::GetPropertyObject(param_2);
+      (**(code **)(*(int *)pbVar1 + 0x30))();
+    }
+  }
+  if ((bCObjectRefBase *)*param_1 != (bCObjectRefBase *)0x0) {
+    pbVar1 = bCObjectRefBase::GetPropertyObject((bCObjectRefBase *)*param_1);
+    if (pbVar1 != (bCPropertyObjectBase *)0x0) {
+      pbVar1 = bCObjectRefBase::GetPropertyObject((bCObjectRefBase *)*param_1);
+      (**(code **)(*(int *)pbVar1 + 0x34))();
+    }
+  }
+  *param_1 = param_2;
+  return;
+}
+
+

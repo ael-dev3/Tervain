@@ -1,0 +1,2 @@
+; 1000779d bCString::bCString
+1000779d | e97eb50000 | JMP 0x10012d20

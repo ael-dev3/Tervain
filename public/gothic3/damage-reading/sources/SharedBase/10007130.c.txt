@@ -1,0 +1,20 @@
+/* ENTRY 10007130 | bCPropertyObjectBase::bCPropertyObjectBase | STATUS decompiled | 4 ms */
+
+/* protected: __thiscall bCPropertyObjectBase::bCPropertyObjectBase(void) */
+
+void __thiscall bCPropertyObjectBase::bCPropertyObjectBase(bCPropertyObjectBase *this)
+
+{
+  uint uVar1;
+  
+                    /* 0x7130  220  ??0bCPropertyObjectBase@@IAE@XZ */
+  (this->bCPropertyObjectBase_data).offset_0x0 =
+       (this->bCPropertyObjectBase_data).offset_0x0 & 0xf8000007;
+  uVar1 = (this->bCPropertyObjectBase_data).offset_0x0;
+  this->vftablePtr = &vftable;
+  (this->bCPropertyObjectBase_data).offset_0x0 =
+       (uVar1 & 0xfffffff8) + 8 & 0x7fffff8 | uVar1 & 0xf8000002 | 2;
+  return;
+}
+
+

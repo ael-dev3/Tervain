@@ -1,0 +1,35 @@
+/* ENTRY 20227cd0 | FUN_20227cd0 | STATUS decompiled | 17 ms */
+
+bool __thiscall FUN_20227cd0(gCCharacterMovement_PS *param_1,char *param_2,undefined4 param_3)
+
+{
+  char *pcVar1;
+  bool bVar2;
+  eCEntity *peVar3;
+  bCString *this;
+  int iVar4;
+  char *pcVar5;
+  
+  bVar2 = SUB41(param_3,0);
+  if (bVar2 != true) {
+    peVar3 = (*param_1->vftablePtr->GetEntity)(param_1);
+    pcVar1 = param_2;
+    if (peVar3 != (eCEntity *)0x0) {
+      pcVar5 = "ForceGroundAlignment";
+      this = (bCString *)bCString::bCString((bCString *)&param_2,param_2);
+      iVar4 = bCString::Compare(this,pcVar5);
+      param_3 = CONCAT31(param_3._1_3_,iVar4 == 0);
+      bCString::~bCString((bCString *)&param_2);
+      if ((char)param_3 != '\0') {
+        gCCharacterMovement_PS::CalcQuadrupedDistances(param_1);
+        return true;
+      }
+      bVar2 = eCEntityPropertySet::OnNotifyPropertyValueChangedExitEx
+                        ((eCEntityPropertySet *)param_1,pcVar1,bVar2);
+      return bVar2;
+    }
+  }
+  return true;
+}
+
+

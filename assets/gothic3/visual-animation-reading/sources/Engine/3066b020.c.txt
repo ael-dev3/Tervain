@@ -1,0 +1,13 @@
+/* ENTRY 3066b020 | FUN_3066b020 | STATUS decompiled | 5 ms */
+
+void FUN_3066b020(void *param_1,ulong param_2)
+
+{
+  bCMemoryAdmin *this;
+  
+  this = bCMemoryAdmin::GetInstance();
+  bCMemoryAdmin::Realloc(this,param_1,param_2);
+  return;
+}
+
+

@@ -1,0 +1,4 @@
+; 1000665e ?GetTranslated@bCOrientedBox@@QBE?AV1@M@Z
+1000665e | e97d120600 | JMP 0x100678e0
+; 10006663 bCVector2::operator=
+; 10006663 Ordinal_578

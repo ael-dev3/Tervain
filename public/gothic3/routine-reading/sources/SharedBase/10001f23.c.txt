@@ -1,0 +1,12 @@
+/* ENTRY 10001f23 | bCPropertyObjectSingleton::IsRegistrationEnabled | STATUS decompiled | 2 ms */
+
+/* public: bool __thiscall bCPropertyObjectSingleton::IsRegistrationEnabled(void) */
+
+bool __thiscall bCPropertyObjectSingleton::IsRegistrationEnabled(bCPropertyObjectSingleton *this)
+
+{
+                    /* 0x1f23  3663  ?IsRegistrationEnabled@bCPropertyObjectSingleton@@QAE_NXZ */
+  return (bool)(this->bCPropertyObjectSingleton_data).offset_0x0;
+}
+
+

@@ -1,0 +1,2 @@
+; 300336cc eCAnimationAdmin::AddProfileTicks
+300336cc | e93fc30500 | JMP 0x3008fa10

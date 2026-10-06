@@ -1,0 +1,2 @@
+; 3000eb24 bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eEPhysicRangeType>_>::vfunction20
+3000eb24 | e9e7ca3200 | JMP 0x3033b610

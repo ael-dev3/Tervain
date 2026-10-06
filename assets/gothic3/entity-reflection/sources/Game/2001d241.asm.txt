@@ -1,0 +1,4 @@
+; 2001d241 bTPropertyType<gCClock_PS,unsigned_long>::vfunction12
+2001d241 | e90acf1e00 | JMP 0x2020a150
+; 2001d246 gCCameraAI_PS::OnAction
+; 2001d246 Ordinal_5338

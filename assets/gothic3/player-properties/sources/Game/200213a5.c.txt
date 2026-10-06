@@ -1,0 +1,24 @@
+/* ENTRY 200213a5 | gCAttribute::Cap | STATUS decompiled | 7 ms */
+
+/* protected: virtual void __thiscall gCAttribute::Cap(void) */
+
+void __thiscall gCAttribute::Cap(gCAttribute *this)
+
+{
+  int iVar1;
+  int iVar2;
+  
+                    /* 0x213a5  2067  ?Cap@gCAttribute@@MAEXXZ */
+  iVar1 = (*this->vftablePtr->GetMaximum)(this);
+  iVar2 = (*this->vftablePtr->GetValue)(this);
+  if (iVar1 < iVar2) {
+    (*this->vftablePtr->SetValue)(this,iVar1);
+    return;
+  }
+  if (iVar2 < 0) {
+    (*this->vftablePtr->SetValue)(this,0);
+  }
+  return;
+}
+
+

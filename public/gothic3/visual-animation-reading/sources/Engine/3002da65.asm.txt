@@ -1,0 +1,2 @@
+; 3002da65 eCVisualAnimation_PS::GetLastAutoAimAngle
+3002da65 | e906000700 | JMP 0x3009da70

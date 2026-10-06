@@ -1,0 +1,12 @@
+; 30335930 bTPropertyType<eCRigidBodyBase_PS,bool>::vfunction19
+30335930 | 56 | PUSH ESI
+30335931 | 8bf1 | MOV ESI,ECX
+30335933 | ff156ccaaf30 | CALL dword ptr [0x30afca6c]
+30335939 | 8d4620 | LEA EAX,[ESI + 0x20]
+3033593c | 50 | PUSH EAX
+3033593d | e84e39ceff | CALL 0x30019290
+30335942 | 8b4e18 | MOV ECX,dword ptr [ESI + 0x18]
+30335945 | 56 | PUSH ESI
+30335946 | ff1514cbaf30 | CALL dword ptr [0x30afcb14]
+3033594c | 5e | POP ESI
+3033594d | c3 | RET

@@ -1,0 +1,4 @@
+; 100038eb ?GetPlane@bCOrientedBox@@QBEXHAAVbCPlane@@@Z
+100038eb | e9300b0600 | JMP 0x10064420
+; 100038f0 bCMatrix3::GetRotatedLocal
+; 100038f0 Ordinal_2947

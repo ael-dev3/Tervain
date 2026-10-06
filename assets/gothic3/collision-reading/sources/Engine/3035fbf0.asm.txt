@@ -1,0 +1,5 @@
+; 3035fbf0 bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeAABBAdapt>_>::vfunction7
+3035fbf0 | 33c0 | XOR EAX,EAX
+3035fbf2 | 394120 | CMP dword ptr [ECX + 0x20],EAX
+3035fbf5 | 0f95c0 | SETNZ AL
+3035fbf8 | c3 | RET

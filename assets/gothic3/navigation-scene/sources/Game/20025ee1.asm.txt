@@ -1,0 +1,2 @@
+; 20025ee1 ?ReadLists@gCNavigationMap@@QAE?AW4bEResult@@XZ
+20025ee1 | e99a022b00 | JMP 0x202d6180

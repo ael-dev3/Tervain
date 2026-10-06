@@ -1,0 +1,10 @@
+/* ENTRY 3032de80 | FUN_3032de80 | STATUS decompiled | 7 ms */
+
+undefined4 __fastcall FUN_3032de80(eCEntityPropertySet *param_1)
+
+{
+  eCEntityPropertySet::Create(param_1);
+  return 1;
+}
+
+

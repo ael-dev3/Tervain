@@ -1,0 +1,19 @@
+; 200ab080 FUN_200ab080
+200ab080 | 56 | PUSH ESI
+200ab081 | 8bf1 | MOV ESI,ECX
+200ab083 | 8b06 | MOV EAX,dword ptr [ESI]
+200ab085 | 8b5058 | MOV EDX,dword ptr [EAX + 0x58]
+200ab088 | 6a00 | PUSH 0x0
+200ab08a | 68c4dd6520 | PUSH 0x2065ddc4
+200ab08f | ffd2 | CALL EDX
+200ab091 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+200ab095 | 8a08 | MOV CL,byte ptr [EAX]
+200ab097 | 8b16 | MOV EDX,dword ptr [ESI]
+200ab099 | 8b425c | MOV EAX,dword ptr [EDX + 0x5c]
+200ab09c | 6a00 | PUSH 0x0
+200ab09e | 884e38 | MOV byte ptr [ESI + 0x38],CL
+200ab0a1 | 68c4dd6520 | PUSH 0x2065ddc4
+200ab0a6 | 8bce | MOV ECX,ESI
+200ab0a8 | ffd0 | CALL EAX
+200ab0aa | 5e | POP ESI
+200ab0ab | c20400 | RET 0x4

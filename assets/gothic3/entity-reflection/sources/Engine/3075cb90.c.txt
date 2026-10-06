@@ -1,0 +1,32 @@
+/* ENTRY 3075cb90 | bTPropertyType<eCRigidBody_PS,bCVector>::~bTPropertyType<eCRigidBody_PS,bCVector> | STATUS decompiled | 16 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<eCRigidBody_PS,bCVector>::~bTPropertyType<eCRigidBody_PS,bCVector>
+          (bTPropertyType<eCRigidBody_PS,bCVector> *this)
+
+{
+  bTPropertyType<eCRigidBody_PS,bCVector> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"MassSpaceInertia");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&eCRigidBody_PS::ms_PropertyMember_m_vecMassSpaceInertia,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_vecMassSpaceInertia = &vftable;
+  DAT_30aec014 = bTPropertyObjectType<eCRigidBody_PS,eCRigidBodyBase_PS>::
+                 ~bTPropertyObjectType<eCRigidBody_PS,eCRigidBodyBase_PS>();
+  _DAT_30aec018 = 0x5c;
+  _DAT_30aec01c = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&eCRigidBody_PS::ms_PropertyMember_m_vecMassSpaceInertia);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_30aec014,
+             (bCPropertyTypeBase *)&eCRigidBody_PS::ms_PropertyMember_m_vecMassSpaceInertia);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bCVector>::~bTPropertyTypeOnly<bCVector>);
+  return;
+}
+
+

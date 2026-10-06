@@ -1,0 +1,22 @@
+/* ENTRY 2002a1da | bTPropertyObjectType<gCPlayerMemory_PS,eCEntityPropertySet>::vfunction1 | STATUS decompiled | 6 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined * __thiscall bTPropertyObjectType<gCPlayerMemory_PS,eCEntityPropertySet>::vfunction1(void)
+
+{
+  if ((DAT_207b61d8 & 1) == 0) {
+    DAT_207b61d8 = DAT_207b61d8 | 1;
+    _DAT_207b61d4 = DAT_207b628c;
+  }
+  if ((DAT_207b61d8 & 2) == 0) {
+    DAT_207b61d8 = DAT_207b61d8 | 2;
+    type_info::name((type_info *)&gCPlayerMemory_PS::RTTI_Type_Descriptor,
+                    (__type_info_node *)&DAT_207d0a18);
+    bCClassNameBase::UnMangle(&DAT_207b61d0);
+    _atexit((_func_4879 *)&LAB_20015113);
+  }
+  return &DAT_207b61d0;
+}
+
+

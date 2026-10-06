@@ -1,0 +1,2 @@
+; 300195a6 eCVisualAnimationFactory::DestroyActorInstance
+300195a6 | e9b5300a00 | JMP 0x300bc660

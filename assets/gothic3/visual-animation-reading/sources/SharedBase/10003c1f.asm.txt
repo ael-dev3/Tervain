@@ -1,0 +1,2 @@
+; 10003c1f bCVector::SetVector
+10003c1f | e9ac110200 | JMP 0x10024dd0

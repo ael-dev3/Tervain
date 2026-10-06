@@ -1,0 +1,4 @@
+; 200287cc gCHUDPageSpells2::vfunction71
+200287cc | e9cf5c1400 | JMP 0x2016e4a0
+; 200287d1 gCNavPath_PS::GetLinkInnerBottomArea
+; 200287d1 Ordinal_3686

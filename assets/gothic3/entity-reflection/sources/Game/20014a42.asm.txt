@@ -1,0 +1,4 @@
+; 20014a42 bTPropertyObjectType<gCArena_PS,eCEntityPropertySet>::vfunction2
+20014a42 | e919441f00 | JMP 0x20208e60
+; 20014a47 gCInfoScriptLine_PS::GetEntity2
+; 20014a47 Ordinal_3347

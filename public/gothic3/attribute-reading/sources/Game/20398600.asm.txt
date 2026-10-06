@@ -1,0 +1,2 @@
+; 20398600 bTPropertyObjectType<gCCameraModeParams,bCObjectRefBase>::vfunction2
+20398600 | e9f343c9ff | JMP 0x2002c9f8

@@ -1,0 +1,9 @@
+; 2031f420 bTPropertyType<gCPlayerMemory_PS,unsigned_long>::vfunction20
+2031f420 | 56 | PUSH ESI
+2031f421 | 8bf1 | MOV ESI,ECX
+2031f423 | ff15d8877d20 | CALL dword ptr [0x207d87d8]
+2031f429 | 8b4e18 | MOV ECX,dword ptr [ESI + 0x18]
+2031f42c | 56 | PUSH ESI
+2031f42d | ff15cc877d20 | CALL dword ptr [0x207d87cc]
+2031f433 | 5e | POP ESI
+2031f434 | c3 | RET

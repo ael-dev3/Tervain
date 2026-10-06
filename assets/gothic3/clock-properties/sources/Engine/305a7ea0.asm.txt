@@ -1,0 +1,4 @@
+; 305a7ea0 FUN_305a7ea0
+305a7ea0 | f30f10442404 | MOVSS XMM0,dword ptr [ESP + 0x4]
+305a7ea6 | f30f114130 | MOVSS dword ptr [ECX + 0x30],XMM0
+305a7eab | c20400 | RET 0x4

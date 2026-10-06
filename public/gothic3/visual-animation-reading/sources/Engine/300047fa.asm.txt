@@ -1,0 +1,2 @@
+; 300047fa eCWrapper_emfx2Actor::IsMotionRunning
+300047fa | e9e16f0d00 | JMP 0x300db7e0

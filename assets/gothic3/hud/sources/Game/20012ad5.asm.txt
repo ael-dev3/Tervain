@@ -1,0 +1,2 @@
+; 20012ad5 gCHUDPageTrade2::vfunction70
+20012ad5 | e916c51500 | JMP 0x2016eff0

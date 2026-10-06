@@ -1,0 +1,2 @@
+; 3000abeb ?Read@eCVisualAnimation_PS@@UAE?AW4bEResult@@AAVbCIStream@@@Z
+3000abeb | e9d0820900 | JMP 0x300a2ec0

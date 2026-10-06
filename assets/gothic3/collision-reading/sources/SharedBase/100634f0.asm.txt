@@ -1,0 +1,13 @@
+; 100634f0 FUN_100634f0
+100634f0 | 8bc1 | MOV EAX,ECX
+100634f2 | 8b4c2404 | MOV ECX,dword ptr [ESP + 0x4]
+100634f6 | d900 | FLD float ptr [EAX]
+100634f8 | d821 | FSUB float ptr [ECX]
+100634fa | d918 | FSTP float ptr [EAX]
+100634fc | d94004 | FLD float ptr [EAX + 0x4]
+100634ff | d86104 | FSUB float ptr [ECX + 0x4]
+10063502 | d95804 | FSTP float ptr [EAX + 0x4]
+10063505 | d94008 | FLD float ptr [EAX + 0x8]
+10063508 | d86108 | FSUB float ptr [ECX + 0x8]
+1006350b | d95808 | FSTP float ptr [EAX + 0x8]
+1006350e | c20400 | RET 0x4

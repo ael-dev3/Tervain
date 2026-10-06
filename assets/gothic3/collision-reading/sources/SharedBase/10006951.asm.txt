@@ -1,0 +1,4 @@
+; 10006951 ?GetCoordinate@bCBox@@QBEXHAAM@Z
+10006951 | e9ca3d0200 | JMP 0x1002a720
+; 10006960 bCInfCylinder::GetScaled
+; 10006960 Ordinal_2990

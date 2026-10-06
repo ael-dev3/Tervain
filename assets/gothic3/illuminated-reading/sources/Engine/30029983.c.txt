@@ -1,0 +1,18 @@
+/* ENTRY 30029983 | eCIlluminated_PS::Create | STATUS decompiled | 8 ms */
+
+/* public: virtual enum bEResult __thiscall eCIlluminated_PS::Create(void) */
+
+bEResult __thiscall eCIlluminated_PS::Create(eCIlluminated_PS *this)
+
+{
+  bool bVar1;
+  
+                    /* 0x29983  4541  ?Create@eCIlluminated_PS@@UAE?AW4bEResult@@XZ */
+  bVar1 = (*this->vftablePtr->IsValid)(this);
+  if (!bVar1) {
+    eCEntityPropertySet::Create((eCEntityPropertySet *)this);
+  }
+  return 1;
+}
+
+

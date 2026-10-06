@@ -1,0 +1,12 @@
+/* ENTRY 20461cca | ENGINE.DLL::eCApplication::OnMouse | STATUS decompiled | 1 ms */
+
+void __thiscall eCApplication::OnMouse(eCApplication *this)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x20461cca. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  OnMouse(this);
+  return;
+}
+
+

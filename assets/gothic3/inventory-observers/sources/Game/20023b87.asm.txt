@@ -1,0 +1,2 @@
+; 20023b87 gCHUDTableStackStats::vfunction5_for_gCInventoryListener
+20023b87 | e9d4a91600 | JMP 0x2018e560

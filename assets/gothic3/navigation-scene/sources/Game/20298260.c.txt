@@ -1,0 +1,48 @@
+/* ENTRY 20298260 | FUN_20298260 | STATUS decompiled | 25 ms */
+
+void __thiscall
+FUN_20298260(gCNavPath_PS *param_1,bCVector *param_2,undefined1 *param_3,undefined1 *param_4)
+
+{
+  float fVar1;
+  float fVar2;
+  float fVar3;
+  float local_c;
+  
+  if (((float)(param_1->gCNavPath_PS_data).offset_0xbc < 0.0) ||
+     ((float)(param_1->gCNavPath_PS_data).offset_0xc0 < 0.0)) {
+    gCNavPath_PS::CalcPathHeights(param_1);
+  }
+  fVar1 = (float)(param_1->gCNavPath_PS_data).offset_0xb8;
+  local_c = 0.0;
+  fVar3 = fVar1 + (float)(param_1->gCNavPath_PS_data).offset_0xbc +
+          *(float *)&(param_1->gCNavPath_PS_data).field_0x9c;
+  fVar1 = (fVar1 - (float)(param_1->gCNavPath_PS_data).offset_0xc0) -
+          *(float *)&(param_1->gCNavPath_PS_data).field_0xa0;
+  fVar2 = bCVector::GetY(param_2);
+  if (fVar2 <= fVar3) {
+    fVar3 = bCVector::GetY(param_2);
+    if (fVar3 < fVar1) {
+      local_c = bCVector::GetY(param_2);
+      local_c = local_c - fVar1;
+    }
+  }
+  else {
+    local_c = bCVector::GetY(param_2);
+    local_c = local_c - fVar3;
+  }
+  if (local_c != 0.0) {
+    *param_3 = 0;
+    if (local_c <= 0.0) {
+      *param_4 = (param_1->gCNavPath_PS_data).field_0xa6;
+      return;
+    }
+    *param_4 = (param_1->gCNavPath_PS_data).field_0xa5;
+    return;
+  }
+  *param_3 = 1;
+  *param_4 = (param_1->gCNavPath_PS_data).field_0xa4;
+  return;
+}
+
+

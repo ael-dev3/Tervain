@@ -1,0 +1,16 @@
+/* ENTRY 30043c6b | eCVisualAnimation_PS::AccessResourceFilePath | STATUS decompiled | 8 ms */
+
+/* public: class bCAnimationResourceString & __thiscall
+   eCVisualAnimation_PS::AccessResourceFilePath(void) */
+
+bCAnimationResourceString * __thiscall
+eCVisualAnimation_PS::AccessResourceFilePath(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x43c6b  3048
+                       ?AccessResourceFilePath@eCVisualAnimation_PS@@QAEAAVbCAnimationResourceString@@XZ
+                        */
+  return (bCAnimationResourceString *)(this + 1);
+}
+
+

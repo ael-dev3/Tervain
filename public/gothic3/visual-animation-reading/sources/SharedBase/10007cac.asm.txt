@@ -1,0 +1,2 @@
+; 10007cac bCMessageAdmin::RegisterCallback
+10007cac | e99f190400 | JMP 0x10049650

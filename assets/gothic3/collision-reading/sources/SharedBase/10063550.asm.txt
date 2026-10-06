@@ -1,0 +1,18 @@
+; 10063550 FUN_10063550
+10063550 | d9442404 | FLD float ptr [ESP + 0x4]
+10063554 | 8bc1 | MOV EAX,ECX
+10063556 | d9e8 | FLD1
+10063558 | def1 | FDIVRP
+1006355a | d95c2404 | FSTP float ptr [ESP + 0x4]
+1006355e | d9400c | FLD float ptr [EAX + 0xc]
+10063561 | d9442404 | FLD float ptr [ESP + 0x4]
+10063565 | d9c0 | FLD ST0
+10063567 | deca | FMULP ST2
+10063569 | d9c9 | FXCH
+1006356b | d9580c | FSTP float ptr [EAX + 0xc]
+1006356e | d94010 | FLD float ptr [EAX + 0x10]
+10063571 | d8c9 | FMUL ST1
+10063573 | d95810 | FSTP float ptr [EAX + 0x10]
+10063576 | d84814 | FMUL float ptr [EAX + 0x14]
+10063579 | d95814 | FSTP float ptr [EAX + 0x14]
+1006357c | c20400 | RET 0x4

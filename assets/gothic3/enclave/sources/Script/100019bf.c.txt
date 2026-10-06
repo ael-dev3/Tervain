@@ -1,0 +1,19 @@
+/* ENTRY 100019bf | PSParty::GetPartyLeader | STATUS decompiled | 5 ms */
+
+/* public: class Entity __thiscall PSParty::GetPartyLeader(void)const  */
+
+Entity * __thiscall PSParty::GetPartyLeader(PSParty *this)
+
+{
+  Entity *in_stack_00000004;
+  
+                    /* 0x19bf  1620  ?GetPartyLeader@PSParty@@QBE?AVEntity@@XZ */
+  if (*(int *)this == 0) {
+    Entity::Entity(in_stack_00000004,(eCEntity *)0x0);
+    return in_stack_00000004;
+  }
+  Entity::Entity(in_stack_00000004,(eCEntityProxy *)(*(int *)this + 0x14));
+  return in_stack_00000004;
+}
+
+

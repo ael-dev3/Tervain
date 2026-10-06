@@ -1,0 +1,20 @@
+/* ENTRY 10002dec | PSPlayerMemory::SetProtectionMissile | STATUS decompiled | 10 ms */
+
+/* public: void __thiscall PSPlayerMemory::SetProtectionMissile(int) */
+
+void __thiscall PSPlayerMemory::SetProtectionMissile(PSPlayerMemory *this,int param_1)
+
+{
+  PSPlayerMemory *pPStack_4;
+  
+                    /* 0x2dec  1985  ?SetProtectionMissile@PSPlayerMemory@@QAEXH@Z */
+  pPStack_4 = this;
+  bCString::bCString((bCString *)&pPStack_4,"PROT_MISSILE");
+  if (*(gCPlayerMemory_PS **)this != (gCPlayerMemory_PS *)0x0) {
+    gCPlayerMemory_PS::SetBaseValue(*(gCPlayerMemory_PS **)this,(bCString *)&pPStack_4,param_1);
+  }
+  bCString::~bCString((bCString *)&pPStack_4);
+  return;
+}
+
+

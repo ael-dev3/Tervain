@@ -1,0 +1,22 @@
+/* ENTRY 3003f805 | eCResourceDataEntity::Load | STATUS decompiled | 11 ms */
+
+/* public: enum bEResult __thiscall eCResourceDataEntity::Load(enum eEResourceCacheBehavior) */
+
+bEResult __thiscall
+eCResourceDataEntity::Load(eCResourceDataEntity *this,eEResourceCacheBehavior param_1)
+
+{
+  eCResourceBase_PS *this_00;
+  bEResult bVar1;
+  
+                    /* 0x3f805  10757
+                       ?Load@eCResourceDataEntity@@QAE?AW4bEResult@@W4eEResourceCacheBehavior@@@Z */
+  this_00 = (eCResourceBase_PS *)(this->eCResourceDataEntity_data).offset_0x18;
+  if (this_00 == (eCResourceBase_PS *)0x0) {
+    return 3;
+  }
+  bVar1 = eCResourceBase_PS::Load(this_00,param_1);
+  return bVar1;
+}
+
+

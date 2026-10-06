@@ -1,0 +1,56 @@
+/* ENTRY 30452fa0 | FUN_30452fa0 | STATUS decompiled | 18 ms */
+
+uint __thiscall FUN_30452fa0(eCMainCache *param_1,eCResourceDataEntity *param_2)
+
+{
+  eCResourceBase_PS *peVar1;
+  int iVar2;
+  uint uVar3;
+  eCImageCache *peVar4;
+  eCSoundCache *peVar5;
+  eCMeshCache *peVar6;
+  eCMaterialCache *peVar7;
+  eCCollisionMeshCache *peVar8;
+  eCAnimationCache *peVar9;
+  eCSpeedTreeCache *peVar10;
+  
+  peVar1 = eCResourceDataEntity::SearchResourcePropertySet(param_2);
+  uVar3 = 0;
+  if (peVar1 != (eCResourceBase_PS *)0x0) {
+    iVar2 = (**(code **)(*(int *)peVar1 + 0x6c))();
+    uVar3 = iVar2 - 1;
+    switch(uVar3) {
+    case 0:
+      peVar4 = eCMainCache::AccessImageCache(param_1);
+      uVar3 = (**(code **)(*(int *)peVar4 + 0x68))(param_2);
+      return uVar3;
+    case 1:
+      peVar6 = eCMainCache::AccessMeshCache(param_1);
+      uVar3 = (**(code **)(*(int *)peVar6 + 0x68))(param_2);
+      return uVar3;
+    case 2:
+      peVar5 = eCMainCache::AccessSoundCache(param_1);
+      uVar3 = (**(code **)(*(int *)peVar5 + 0x68))(param_2);
+      return uVar3;
+    case 3:
+      peVar7 = eCMainCache::AccessMaterialCache(param_1);
+      uVar3 = (**(code **)(*(int *)peVar7 + 0x68))(param_2);
+      return uVar3;
+    case 4:
+      peVar8 = eCMainCache::AccessCollisionMeshCache(param_1);
+      uVar3 = (**(code **)(*(int *)peVar8 + 0x68))(param_2);
+      return uVar3;
+    case 5:
+      peVar9 = eCMainCache::AccessAnimationCache(param_1);
+      uVar3 = (**(code **)(*(int *)peVar9 + 0x68))(param_2);
+      return uVar3;
+    case 6:
+      peVar10 = eCMainCache::AccessSpeedTreeCache(param_1);
+      uVar3 = (**(code **)(*(int *)peVar10 + 0x68))(param_2);
+      return uVar3;
+    }
+  }
+  return uVar3 & 0xffffff00;
+}
+
+

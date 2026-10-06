@@ -1,0 +1,2 @@
+; 2000e7f0 bTPropertyType<gCInteraction_PS,eCTemplateEntityProxy>::vfunction12
+2000e7f0 | e91bd73f00 | JMP 0x2040bf10

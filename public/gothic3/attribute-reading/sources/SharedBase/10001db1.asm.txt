@@ -1,0 +1,2 @@
+; 10001db1 bCErrorAdmin::Create
+10001db1 | e9aa090200 | JMP 0x10022760

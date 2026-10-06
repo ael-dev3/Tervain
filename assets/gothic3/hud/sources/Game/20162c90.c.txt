@@ -1,0 +1,25 @@
+/* ENTRY 20162c90 | gCHUDViewTradeTransaction2::gCHUDViewTradeTransaction2 | STATUS decompiled | 35 ms */
+
+gCHUDViewTradeTransaction2 * __thiscall
+gCHUDViewTradeTransaction2::gCHUDViewTradeTransaction2(gCHUDViewTradeTransaction2 *this)
+
+{
+  gCHUDPageView::gCHUDPageView((gCHUDPageView *)this);
+  this->vftablePtr = &vftable;
+  gCHUDListCtrlInvTradeStacks::gCHUDListCtrlInvTradeStacks
+            ((gCHUDListCtrlInvTradeStacks *)&(this->gCHUDViewTradeTransaction2_data).field_0xc);
+  gCHUDListCtrlInvTradeStacks::gCHUDListCtrlInvTradeStacks
+            ((gCHUDListCtrlInvTradeStacks *)&(this->gCHUDViewTradeTransaction2_data).field_0x64);
+  gCHUDLabel::gCHUDLabel((gCHUDLabel *)&(this->gCHUDViewTradeTransaction2_data).field_0xbc);
+  gCHUDLabel::gCHUDLabel((gCHUDLabel *)&(this->gCHUDViewTradeTransaction2_data).field_0xcc);
+  gCHUDLabel::gCHUDLabel((gCHUDLabel *)&(this->gCHUDViewTradeTransaction2_data).field_0xdc);
+  gCHUDLabel::gCHUDLabel((gCHUDLabel *)&(this->gCHUDViewTradeTransaction2_data).field_0xec);
+  CFFGFCButton::CFFGFCButton((CFFGFCButton *)&(this->gCHUDViewTradeTransaction2_data).field_0xfc);
+  CFFGFCButton::CFFGFCButton((CFFGFCButton *)&(this->gCHUDViewTradeTransaction2_data).field_0x10c);
+  CFFGFCButton::CFFGFCButton((CFFGFCButton *)&(this->gCHUDViewTradeTransaction2_data).field_0x11c);
+  CFFGFCButton::CFFGFCButton((CFFGFCButton *)&(this->gCHUDViewTradeTransaction2_data).field_0x12c);
+  CFFGFCButton::CFFGFCButton((CFFGFCButton *)&(this->gCHUDViewTradeTransaction2_data).field_0x13c);
+  return this;
+}
+
+

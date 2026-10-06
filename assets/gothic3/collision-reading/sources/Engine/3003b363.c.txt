@@ -1,0 +1,16 @@
+/* ENTRY 3003b363 | eCCollisionShapeBase_PS::AddShape | STATUS decompiled | 10 ms */
+
+/* public: virtual enum bEResult __thiscall eCCollisionShapeBase_PS::AddShape(class bCString const
+   &)
+   eCCollisionShapeBase_PS member function inherited by eCCollisionShape_PS */
+
+bEResult __thiscall
+eCCollisionShapeBase_PS::AddShape(eCCollisionShapeBase_PS *this,bCString *param_1)
+
+{
+                    /* 0x3b363  3491
+                       ?AddShape@eCCollisionShapeBase_PS@@UAE?AW4bEResult@@ABVbCString@@@Z */
+  return 0;
+}
+
+

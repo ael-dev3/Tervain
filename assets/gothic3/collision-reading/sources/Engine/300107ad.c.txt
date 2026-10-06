@@ -1,0 +1,12 @@
+/* ENTRY 300107ad | eCCollisionShape::GetFileVersion | STATUS decompiled | 2 ms */
+
+/* public: unsigned short const & __thiscall eCCollisionShape::GetFileVersion(void)const  */
+
+ushort * __thiscall eCCollisionShape::GetFileVersion(eCCollisionShape *this)
+
+{
+                    /* 0x107ad  7124  ?GetFileVersion@eCCollisionShape@@QBEABGXZ */
+  return &(this->eCCollisionShape_data).offset_0x36;
+}
+
+

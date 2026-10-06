@@ -1,0 +1,18 @@
+/* ENTRY 201635e0 | gCHUDViewTradeVendor2::~gCHUDViewTradeVendor2 | STATUS decompiled | 18 ms */
+
+void __thiscall gCHUDViewTradeVendor2::~gCHUDViewTradeVendor2(gCHUDViewTradeVendor2 *this)
+
+{
+  this->vftablePtr = &vftable;
+  CFFGFCStatic::~CFFGFCStatic((CFFGFCStatic *)&(this->gCHUDViewTradeVendor2_data).field_0xc4);
+  gCHUDListCtrlInvTradeStacks::~gCHUDListCtrlInvTradeStacks
+            ((gCHUDListCtrlInvTradeStacks *)&(this->gCHUDViewTradeVendor2_data).field_0x6c);
+  gCHUDStaticInvCash::~gCHUDStaticInvCash
+            ((gCHUDStaticInvCash *)&(this->gCHUDViewTradeVendor2_data).field_0x3c);
+  gCHUDStaticInvCash::~gCHUDStaticInvCash
+            ((gCHUDStaticInvCash *)&(this->gCHUDViewTradeVendor2_data).field_0xc);
+  FUN_200156a9();
+  return;
+}
+
+

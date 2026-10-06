@@ -1,0 +1,2 @@
+; 100132b0 bCString::CompareFast
+100132b0 | e90e51ffff | JMP 0x100083c3

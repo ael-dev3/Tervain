@@ -1,0 +1,2 @@
+; 100086d4 bCString::Contains
+100086d4 | e917be0000 | JMP 0x100144f0

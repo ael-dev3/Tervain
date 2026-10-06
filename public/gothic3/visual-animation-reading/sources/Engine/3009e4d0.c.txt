@@ -1,0 +1,91 @@
+/* ENTRY 3009e4d0 | FUN_3009e4d0 | STATUS decompiled | 40 ms */
+
+undefined4 __thiscall FUN_3009e4d0(undefined4 *param_1,eCNode *param_2)
+
+{
+  eCEntityProxy *this;
+  bCMatrix *pbVar1;
+  byte *pbVar2;
+  int *piVar3;
+  eCEntity *peVar4;
+  eCEntity *peVar5;
+  int iVar6;
+  eCNode *peVar7;
+  eCEntity *peVar8;
+  bCMatrix *pbVar9;
+  bCString *pbVar10;
+  bCString *pbVar11;
+  bCPropertyID *this_00;
+  undefined4 *puVar12;
+  undefined4 *puVar13;
+  bCMatrix abStack_40 [64];
+  
+  if (((*(byte *)(param_1 + 0x1c) & 2) != 0) && ((uint)param_1[0x1d] < param_2)) {
+    peVar4 = eCEntityProxy::GetEntity((eCEntityProxy *)(param_1 + 1));
+    if (peVar4 != (eCEntity *)0x0) {
+      (**(code **)(*(int *)peVar4 + 0xf4))();
+      *(byte *)(param_1 + 0x1c) = *(byte *)(param_1 + 0x1c) & 0xfd;
+    }
+  }
+  this = (eCEntityProxy *)(param_1 + 1);
+  peVar5 = (eCEntity *)eCEntityProxy::GetEntity(this);
+  iVar6 = thunk_FUN_3009e470();
+  if (peVar5 == (eCEntity *)0x0) {
+    pbVar2 = (byte *)(param_1 + 0x1c);
+    *pbVar2 = *pbVar2 & 4;
+    if (*pbVar2 != 0) {
+      eCEntityProxy::SetEntity(this,(eCEntity *)0x0);
+      return 0;
+    }
+    puVar13 = &param_2;
+    this_00 = eCEntityProxy::GetEntityID(this);
+    puVar12 = (undefined4 *)bCPropertyID::GetText(this_00);
+    peVar5 = (eCEntity *)(**(code **)(*(int *)*param_1 + 0x68))(puVar13);
+    pbVar10 = eCEntity::GetName(peVar5);
+    GE_MESSAGEF_WARN("eCVisualAnimation_PS::eCActorAttachment::Process  - Can\'t attach entity to bone: %s of actor:%s. Entity with ID:%s not valid! Mark attachment as temp?"
+                     ,param_1[0x1a],*(undefined4 *)pbVar10,*puVar12);
+    bCString::~bCString((bCString *)&stack0x00000000);
+    return 0;
+  }
+  if (iVar6 == 0) {
+    peVar8 = (eCEntity *)(**(code **)(*(int *)*param_1 + 0x68))();
+    pbVar10 = eCEntity::GetName(peVar8);
+    pbVar11 = eCEntity::GetName(peVar5);
+    GE_MESSAGEF_WARN("eCVisualAnimation_PS::eCActorAttachment::Process  - Can\'t attach entity:%s to bone: %s of actor:%s. Bone not found!"
+                     ,*(undefined4 *)pbVar11,param_1[0x1a],*(undefined4 *)pbVar10);
+    return 0;
+  }
+  pbVar1 = (bCMatrix *)(iVar6 + 0x44);
+  piVar3 = (int *)*param_1;
+  param_2 = (*peVar5->vftablePtr->GetParent)(peVar5);
+  peVar7 = (eCNode *)(**(code **)(*piVar3 + 0x68))();
+  if (param_2 == peVar7) {
+    if ((*(byte *)(param_1 + 0x1c) & 1) != 0) {
+      bCMatrix::bCMatrix(abStack_40,pbVar1);
+      bCMatrix::operator*=(abStack_40,(bCMatrix *)(param_1 + 8));
+      (*peVar5->vftablePtr->SetLocalMatrix)(peVar5,abStack_40);
+      bCMatrix::~bCMatrix(abStack_40);
+      return 1;
+    }
+    (*peVar5->vftablePtr->SetLocalMatrix)(peVar5,pbVar1);
+    return 1;
+  }
+  if ((*(byte *)(param_1 + 0x1c) & 1) == 0) {
+    peVar8 = (eCEntity *)(**(code **)(*(int *)*param_1 + 0x68))();
+    pbVar9 = eCEntity::GetWorldMatrix(peVar8);
+    bCMatrix::bCMatrix(abStack_40,pbVar9);
+    bCMatrix::operator*=(abStack_40,pbVar1);
+  }
+  else {
+    peVar8 = (eCEntity *)(**(code **)(*(int *)*param_1 + 0x68))();
+    pbVar9 = eCEntity::GetWorldMatrix(peVar8);
+    bCMatrix::bCMatrix(abStack_40,pbVar9);
+    bCMatrix::operator*=(abStack_40,pbVar1);
+    bCMatrix::operator*=(abStack_40,(bCMatrix *)(param_1 + 8));
+  }
+  eCEntity::SetToWorldMatrix(peVar5,abStack_40);
+  bCMatrix::~bCMatrix(abStack_40);
+  return 1;
+}
+
+

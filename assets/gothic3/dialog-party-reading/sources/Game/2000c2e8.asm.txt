@@ -1,0 +1,2 @@
+; 2000c2e8 gCParty_PS::SupportsRenderDebugOutput
+2000c2e8 | e9a3b83000 | JMP 0x20317b90

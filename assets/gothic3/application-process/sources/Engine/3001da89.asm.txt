@@ -1,0 +1,4 @@
+; 3001da89 ?UpdateTick@eCApplication@@IAEXXZ
+3001da89 | e9226d0400 | JMP 0x300647b0
+; 3001da8e eCDX9Effect::SetTexture
+; 3001da8e Ordinal_14371

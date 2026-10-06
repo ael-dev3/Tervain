@@ -1,0 +1,12 @@
+/* ENTRY 20014669 | gCInventoryStack::GetTransactionAmount | STATUS decompiled | 2 ms */
+
+/* public: int __thiscall gCInventoryStack::GetTransactionAmount(void)const  */
+
+int __thiscall gCInventoryStack::GetTransactionAmount(gCInventoryStack *this)
+
+{
+                    /* 0x14669  4600  ?GetTransactionAmount@gCInventoryStack@@QBEHXZ */
+  return (this->gCInventoryStack_data).offset_0x20;
+}
+
+

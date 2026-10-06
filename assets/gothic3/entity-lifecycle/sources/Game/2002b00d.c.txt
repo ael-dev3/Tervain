@@ -1,0 +1,44 @@
+/* ENTRY 2002b00d | gCNavPath_PS::OnPropertySetAdded | STATUS decompiled | 22 ms */
+
+/* public: virtual void __thiscall gCNavPath_PS::OnPropertySetAdded(void) */
+
+void __thiscall gCNavPath_PS::OnPropertySetAdded(gCNavPath_PS *this)
+
+{
+  eCEntity *peVar1;
+  int iVar2;
+  gCNavigationAdmin *this_00;
+  bCMatrix *pbVar3;
+  undefined4 uVar4;
+  TypeDescriptor *pTVar5;
+  TypeDescriptor *pTVar6;
+  undefined4 uVar7;
+  gCNavPath_PS *pgVar8;
+  
+                    /* 0x2b00d  5581  ?OnPropertySetAdded@gCNavPath_PS@@UAEXXZ */
+  uVar7 = 0;
+  pTVar6 = &eCTemplateEntity::RTTI_Type_Descriptor;
+  pTVar5 = &eCEntity::RTTI_Type_Descriptor;
+  uVar4 = 0;
+  peVar1 = (*this->vftablePtr->GetEntity)(this);
+  iVar2 = ___RTDynamicCast(peVar1,uVar4,pTVar5,pTVar6,uVar7);
+  if (iVar2 == 0) {
+    pgVar8 = this;
+    this_00 = (gCNavigationAdmin *)thunk_FUN_20079ea0();
+    gCNavigationAdmin::RegisterNavPathPS(this_00,(gCNavPath_PS *)pgVar8);
+  }
+  peVar1 = (*this->vftablePtr->GetEntity)(this);
+  if (peVar1 != (eCEntity *)0x0) {
+    peVar1 = (*this->vftablePtr->GetEntity)(this);
+    pbVar3 = eCEntity::GetWorldMatrix((eCEntity *)peVar1);
+    pbVar3 = (bCMatrix *)bCMatrix::GetInverted(pbVar3);
+    bCMatrix::operator=((bCMatrix *)&(this->gCNavPath_PS_data).field_0xc8,pbVar3);
+    bCMatrix::~bCMatrix((bCMatrix *)&stack0xffffffbc);
+  }
+                    /* WARNING: Could not recover jumptable at 0x2029890d. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eCEntityPropertySet::OnPropertySetAdded((eCEntityPropertySet *)this);
+  return;
+}
+
+

@@ -1,0 +1,17 @@
+/* ENTRY 101515e0 | FUN_101515e0 | STATUS decompiled | 6 ms */
+
+void FUN_101515e0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Player\\Player_States\\PS_Interact.cpp");
+  bCString::bCString(local_8,"PS_Interact_PickOre");
+  thunk_FUN_1001db60(local_8,thunk_FUN_10089a40,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

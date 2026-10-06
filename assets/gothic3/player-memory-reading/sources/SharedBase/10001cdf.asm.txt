@@ -1,0 +1,2 @@
+; 10001cdf operator<<
+10001cdf | e9ecd20100 | JMP 0x1001efd0

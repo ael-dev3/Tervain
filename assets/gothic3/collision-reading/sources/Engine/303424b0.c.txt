@@ -1,0 +1,14 @@
+/* ENTRY 303424b0 | bTPropertyType<eCCollisionShapeBase_PS,bCObsoleteClass>::vfunction3 | STATUS decompiled | 5 ms */
+
+void __thiscall
+bTPropertyType<eCCollisionShapeBase_PS,bCObsoleteClass>::vfunction3
+          (bTPropertyType<eCCollisionShapeBase_PS,bCObsoleteClass> *this)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x303424b7. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  (**(code **)(this[6].vftablePtr)->vfunction1)();
+  return;
+}
+
+

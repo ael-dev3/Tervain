@@ -1,0 +1,4 @@
+; 10004ca0 ?SetPoliticalPlayerCrime@PSPlayerMemory@@QAEXW4gEPoliticalAlignment@@_N@Z
+10004ca0 | e99b3a0200 | JMP 0x10028740
+; 10004ca5 PSDamageReceiver::PropertyStaminaPointsMax::operator=
+; 10004ca5 Ordinal_658

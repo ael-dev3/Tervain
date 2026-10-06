@@ -1,0 +1,4 @@
+; 3001b671 bTPropertyType<eCCollisionShapeBase_PS,bCObsoleteClass>::vfunction5
+3001b671 | e91a6e3200 | JMP 0x30342490
+; 3001b67b eCVisualAnimationFactory::Create
+; 3001b67b Ordinal_4739

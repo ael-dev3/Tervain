@@ -1,5 +1,9 @@
 import { loadOriginalInitialState } from './initial-state';
 import type { OriginalInitialState } from './initial-state';
+import { loadOriginalIntrinsicInventory } from './inventory-source';
+import type { IntrinsicInventoryDocument } from './inventory-source';
+import { loadNativeStartupDocument } from './startup';
+import type { NativeStartupDocument } from './startup';
 import { QuestStatus } from './quest-state';
 
 function text(parent: HTMLElement, value: string, tag = 'p', className?: string): HTMLElement {
@@ -26,7 +30,28 @@ function callbackLabel(callback: unknown): string {
   return JSON.stringify(callback) ?? 'Unresolved original callback';
 }
 
-function render(view: HTMLElement, state: OriginalInitialState): void {
+function startupOperationLabel(operation: Readonly<Record<string, unknown>>): string {
+  const target = typeof operation.entity === 'string' ? operation.entity + ': ' : '';
+  switch (operation.kind) {
+    case 'resetEntityCaches': return 'Reset the script entity caches';
+    case 'setPlayerChapter': return 'Hero Chapter = ' + operation.value;
+    case 'repairDoorTranslation': return target + 'adjust door height by ' + operation.deltaYcm + ' cm';
+    case 'repairNpcAlignment': case 'setEnclaveAlignment': return target + 'PoliticalAlignment = ' + operation.alignment;
+    case 'setNavigationRoutine': return target + 'routine ' + operation.routine;
+    case 'setEnclaveRaid': return target + 'Raid = ' + operation.value;
+    case 'setEnclaveRevolution': return target + 'Revolution = ' + operation.value;
+    case 'notifyEnclave': return 'NotifyEnclave(' + operation.self + ', ' + operation.other + ', event ' + operation.event + ')';
+    case 'runQuest': return 'RunQuest ' + operation.quest;
+    case 'setExitRoiScript': return target + 'ExitROIScript = ' + operation.script;
+    case 'setPlayerStat': return 'Hero ' + operation.setter + '(' + operation.value + ')';
+    case 'setPlayerLearningPointsAttributes': return 'Hero attribute LP = ' + operation.value;
+    case 'inventoryPopulate': return 'InventoryPopulate(Hero, None, ' + operation.argument + ')';
+    default: return JSON.stringify(operation);
+  }
+}
+
+function render(view: HTMLElement, state: OriginalInitialState, intrinsic: IntrinsicInventoryDocument,
+  startup: NativeStartupDocument): void {
   text(view, 'Original player state', 'h3');
   text(view, 'Source state with partial player startup. Quest startup and remaining native callbacks have not been applied.');
   const stats = state.player.stats;
@@ -42,7 +67,22 @@ function render(view: HTMLElement, state: OriginalInitialState): void {
     ' · factor ' + state.clock.factor + '. Elapsed time is not running in this view.');
   text(view, 'Player game events: ' + (state.view.playerGameEvents.join(', ') || 'none in the initialized source seed') + '.');
 
+  const infoSnapshot = state.infos.snapshot();
+  const infoState = section(view, infoSnapshot.records.length + ' original dialogue states');
+  text(infoState, 'Fresh-world INI profile: ' + infoSnapshot.records.filter((record) => record.currentGiven).length +
+    ' Given=true · ' + infoSnapshot.records.filter((record) => record.permanent).length +
+    ' stored Permanent=true. This is before startup, with no native save restored.');
+  text(infoState, 'The latest compiled-info archive entry deletes the older catalog. The native loader falls back to source INIs for this profile.');
+  text(infoState, 'Dialogue eligibility, derived permanence and command execution need their remaining runtime services. Inspecting these states changes no Given flag.');
+  for (const note of infoSnapshot.unapplied) text(infoState, note, 'p', 'record-meta');
+
   const pending = section(view, 'Pending startup', true);
+  const recipe = section(pending, 'Original startup order');
+  text(recipe, 'OnInit resets ' + startup.onInitHelpers.length + ' script helpers before OnGameStartUp. These are source instructions; this inspector does not execute them.');
+  const operations = document.createElement('ol');
+  recipe.append(operations);
+  for (const operation of startup.startupOperations) text(operations, startupOperationLabel(operation), 'li');
+  text(recipe, 'Ardea enters its raid before RunQuest. Completing this callback also requires the later session, NPC task and ROI lifecycle.');
   const xardas = state.quests.state('Xardas_FindXardas');
   text(pending, 'Xardas_FindXardas: ' + (xardas?.status === QuestStatus.Open ? 'Open' : 'unexpected source status') +
     '. The original startup RunQuest has not been applied.');
@@ -58,14 +98,15 @@ function render(view: HTMLElement, state: OriginalInitialState): void {
   }
 
   const inventory = section(view, state.view.inventory.length + ' original inventory assurances');
-  text(inventory, 'Amounts, qualities and hotkeys come from the recorded native startup assurances. Item-use and creation callbacks remain incomplete. Original template names are shown.');
+  text(inventory, 'Amounts, qualities and hotkeys come from the original startup assurances. Intrinsic stack creation leaves 116 Learned=false and explicitly sets five true. External inventory observers and later physical equipping remain unapplied.');
   const list = document.createElement('ul');
   inventory.append(list);
-  for (const stack of state.view.inventory) {
+  for (const stack of intrinsic.stacks) {
     text(list, stack.templateName + ' × ' + stack.amount + ' · quality ' + stack.quality +
       (stack.quickSlot === null ? '' : ' · quickslot ' + stack.quickSlot) +
-      ' · learned ' + (stack.learned === null ? 'unresolved' : String(stack.learned)), 'li');
+      ' · intrinsic Learned ' + stack.intrinsicLearned, 'li');
   }
+  for (const limitation of intrinsic.limitations) text(inventory, limitation, 'p', 'record-meta');
 
   const questSeed = section(view, state.questDocument.questCount + ' original quest states');
   text(questSeed, state.questDocument.runtimePacketCount + ' compiled runtime packets and four fresh factory/INI records. All are Open, with zero delivery counters and activation times before startup.');
@@ -86,9 +127,10 @@ export async function showOriginalPlayerState(parent: HTMLElement): Promise<void
   text(view, 'Reading original player and quest state…');
   try {
     const state = await loadOriginalInitialState();
+    const [intrinsic, startup] = await Promise.all([loadOriginalIntrinsicInventory(state.player), loadNativeStartupDocument()]);
     if (!view.isConnected) return;
     view.replaceChildren();
-    render(view, state);
+    render(view, state, intrinsic, startup);
   } catch (error) {
     if (view.isConnected) {
       view.replaceChildren();

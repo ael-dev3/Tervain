@@ -1,0 +1,8 @@
+; 20183ef0 gCHUDDialog::gCHUDDialog
+20183ef0 | 56 | PUSH ESI
+20183ef1 | 8bf1 | MOV ESI,ECX
+20183ef3 | ff150c787d20 | CALL dword ptr [0x207d780c]
+20183ef9 | c706e4c76620 | MOV dword ptr [ESI],0x2066c7e4
+20183eff | 8bc6 | MOV EAX,ESI
+20183f01 | 5e | POP ESI
+20183f02 | c3 | RET

@@ -1,0 +1,15 @@
+/* ENTRY 1004a750 | bCObjectRefBase::bCObjectRefBase | STATUS decompiled | 6 ms */
+
+bCObjectRefBase * __thiscall bCObjectRefBase::bCObjectRefBase(bCObjectRefBase *this,byte param_1)
+
+{
+  this->vftablePtr = &vftable;
+  (this->bCObjectRefBase_data).offset_0x0 = 0;
+  bCObjectBase::~bCObjectBase((bCObjectBase *)this);
+  if ((param_1 & 1) != 0) {
+    _free(this);
+  }
+  return this;
+}
+
+

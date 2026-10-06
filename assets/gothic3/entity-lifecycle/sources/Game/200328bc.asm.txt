@@ -1,0 +1,4 @@
+; 200328bc ?OnNotifyPropertyValueChangedEnterEx@gCNavigation_PS@@UAE_NPBD_N@Z
+200328bc | e97f442500 | JMP 0x20286d40
+; 200328c1 gCEffectSystem::GetItems
+; 200328c1 Ordinal_3626

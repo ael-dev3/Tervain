@@ -1,0 +1,23 @@
+; 201c43b0 bTPropertyType<gCInventorySlot,eCTemplateEntityProxy>::vfunction26
+201c43b0 | 56 | PUSH ESI
+201c43b1 | 57 | PUSH EDI
+201c43b2 | 8b7c240c | MOV EDI,dword ptr [ESP + 0xc]
+201c43b6 | 85ff | TEST EDI,EDI
+201c43b8 | 8bf1 | MOV ESI,ECX
+201c43ba | 7522 | JNZ 0x201c43de
+201c43bc | 680d030000 | PUSH 0x30d
+201c43c1 | 68f8976520 | PUSH 0x206597f8
+201c43c6 | 68c8976520 | PUSH 0x206597c8
+201c43cb | 6858986520 | PUSH 0x20659858
+201c43d0 | ff1518897d20 | CALL dword ptr [0x207d8918]
+201c43d6 | 8bc8 | MOV ECX,EAX
+201c43d8 | ff15f4867d20 | CALL dword ptr [0x207d86f4]
+; 201c43de LAB_201c43de
+201c43de | 8b06 | MOV EAX,dword ptr [ESI]
+201c43e0 | 8b502c | MOV EDX,dword ptr [EAX + 0x2c]
+201c43e3 | 57 | PUSH EDI
+201c43e4 | 8bce | MOV ECX,ESI
+201c43e6 | ffd2 | CALL EDX
+201c43e8 | 5f | POP EDI
+201c43e9 | 5e | POP ESI
+201c43ea | c20400 | RET 0x4

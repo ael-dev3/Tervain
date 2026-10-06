@@ -1,0 +1,2 @@
+; 30046add ?QueryMotionDataEntity@eCAnimationAdmin@@QAEPAVeCResourceDataEntity@@ABVbCString@@W4eEResourceCacheBehavior@@@Z
+30046add | e9ee900400 | JMP 0x3008fbd0

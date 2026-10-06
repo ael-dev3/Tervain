@@ -1,0 +1,2 @@
+; 100052f9 bCAccessorPropertyObject::Read
+100052f9 | e922560900 | JMP 0x1009a920

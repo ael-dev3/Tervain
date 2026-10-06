@@ -1,0 +1,12 @@
+/* ENTRY 200364da | gCScriptProcessingUnit::AIGetStateTime | STATUS decompiled | 3 ms */
+
+/* public: float __thiscall gCScriptProcessingUnit::AIGetStateTime(void) */
+
+float __thiscall gCScriptProcessingUnit::AIGetStateTime(gCScriptProcessingUnit *this)
+
+{
+                    /* 0x364da  969  ?AIGetStateTime@gCScriptProcessingUnit@@QAEMXZ */
+  return (float)(this->gCScriptProcessingUnit_data).offset_0x5c / 1000.0;
+}
+
+

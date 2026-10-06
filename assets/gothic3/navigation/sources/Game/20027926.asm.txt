@@ -1,0 +1,2 @@
+; 20027926 ?GetDistToGround@gCCharacterMovement_PS@@QBEMABVbCVector@@_N@Z
+20027926 | e975da1f00 | JMP 0x202253a0

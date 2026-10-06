@@ -1,0 +1,2 @@
+; 20007059 bTPropertyType<gCInventory_PS,bCString>::vfunction12
+20007059 | e942431a00 | JMP 0x201ab3a0

@@ -1,0 +1,27 @@
+/* ENTRY 3003d235 | eCRigidBodyBase_PS::GetRootObject | STATUS decompiled | 30 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+/* public: static class bCPropertyObjectBase const * __stdcall
+   eCRigidBodyBase_PS::GetRootObject(void) */
+
+bCPropertyObjectBase * eCRigidBodyBase_PS::GetRootObject(void)
+
+{
+  bCPropertyObjectSingleton *this;
+  bCString *pbVar1;
+  bCString abStack_4 [4];
+  
+                    /* 0x3d235  8586
+                       ?GetRootObject@eCRigidBodyBase_PS@@SGPBVbCPropertyObjectBase@@XZ */
+  if ((_DAT_30aec210 & 1) == 0) {
+    _DAT_30aec210 = _DAT_30aec210 | 1;
+    bCString::bCString(abStack_4,"eCRigidBodyBase_PS");
+    pbVar1 = abStack_4;
+    this = bCPropertyObjectSingleton::GetInstance();
+    DAT_30aec20c = bCPropertyObjectSingleton::GetRootObject(this,pbVar1);
+    bCString::~bCString(abStack_4);
+  }
+  return DAT_30aec20c;
+}
+
+

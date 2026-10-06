@@ -1,0 +1,18 @@
+/* ENTRY 10007e28 | bCBox::Invalidate | STATUS decompiled | 3 ms */
+
+/* public: void __thiscall bCBox::Invalidate(void) */
+
+void __thiscall bCBox::Invalidate(bCBox *this)
+
+{
+                    /* 0x7e28  3537  ?Invalidate@bCBox@@QAEXXZ */
+  *(undefined4 *)this = 0x7f7fffff;
+  *(undefined4 *)(this + 4) = 0x7f7fffff;
+  *(undefined4 *)(this + 8) = 0x7f7fffff;
+  *(undefined4 *)(this + 0xc) = 0xff7fffff;
+  *(undefined4 *)(this + 0x10) = 0xff7fffff;
+  *(undefined4 *)(this + 0x14) = 0xff7fffff;
+  return;
+}
+
+

@@ -1,0 +1,2 @@
+; 2002a568 ?Test3DPointOnPath@gCNavPath_PS@@QAE_NABVbCVector@@@Z
+2002a568 | e923cc2600 | JMP 0x20297190

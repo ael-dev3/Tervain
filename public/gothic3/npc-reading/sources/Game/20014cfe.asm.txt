@@ -1,0 +1,4 @@
+; 20014cfe bTPropertyType<gCNPC_PS,eCEntityProxy>::vfunction26
+20014cfe | e99d4d2f00 | JMP 0x20309aa0
+; 20014d03 gCDialogManagerCtrl::DoSelectEntry
+; 20014d03 Ordinal_2712

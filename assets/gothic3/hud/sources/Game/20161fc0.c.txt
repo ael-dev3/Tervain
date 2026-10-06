@@ -1,0 +1,15 @@
+/* ENTRY 20161fc0 | gCHUDViewTutorial2::gCHUDViewTutorial2 | STATUS decompiled | 35 ms */
+
+gCHUDViewTutorial2 * __thiscall gCHUDViewTutorial2::gCHUDViewTutorial2(gCHUDViewTutorial2 *this)
+
+{
+  gCHUDPageView::gCHUDPageView((gCHUDPageView *)this);
+  this->vftablePtr = &vftable;
+  gCHUDLabel::gCHUDLabel((gCHUDLabel *)&(this->gCHUDViewTutorial2_data).field_0xc);
+  gCHUDLabel::gCHUDLabel((gCHUDLabel *)&(this->gCHUDViewTutorial2_data).field_0x1c);
+  CFFGFCCheckBox::CFFGFCCheckBox((CFFGFCCheckBox *)&(this->gCHUDViewTutorial2_data).field_0x2c);
+  gCHUDButton::gCHUDButton((gCHUDButton *)&(this->gCHUDViewTutorial2_data).field_0x3c);
+  return this;
+}
+
+

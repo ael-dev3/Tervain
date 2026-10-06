@@ -1,0 +1,22 @@
+/* ENTRY 20398c20 | bTPropertyObjectType<gCCameraModeParams,bCObjectRefBase>::vfunction2 | STATUS decompiled | 4 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined * __thiscall bTPropertyObjectType<gCCameraModeParams,bCObjectRefBase>::vfunction2(void)
+
+{
+  if ((DAT_207b4594 & 1) == 0) {
+    DAT_207b4594 = DAT_207b4594 | 1;
+    _DAT_207b4590 = DAT_207b471c;
+  }
+  if ((DAT_207b4594 & 2) == 0) {
+    DAT_207b4594 = DAT_207b4594 | 2;
+    type_info::name((type_info *)&bCObjectRefBase::RTTI_Type_Descriptor,
+                    (__type_info_node *)&DAT_207d0a18);
+    bCClassNameBase::UnMangle(&DAT_207b458c);
+    _atexit((_func_4879 *)&LAB_20007a81);
+  }
+  return &DAT_207b458c;
+}
+
+

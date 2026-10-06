@@ -1,0 +1,2 @@
+; 20012ed6 bTPropertyType<gCNPC_PS,bTPropertyContainer<gEGender>_>::vfunction15
+20012ed6 | e995042f00 | JMP 0x20303370

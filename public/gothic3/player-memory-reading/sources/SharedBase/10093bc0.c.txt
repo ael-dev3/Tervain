@@ -1,0 +1,30 @@
+/* ENTRY 10093bc0 | FUN_10093bc0 | STATUS decompiled | 8 ms */
+
+bCPropertyTypeBase * __fastcall FUN_10093bc0(bCAccessorPropertyObject *param_1)
+
+{
+  uint uVar1;
+  bool bVar2;
+  bCPropertyObjectBase *pbVar3;
+  bCPropertyObjectTypeBase *pbVar4;
+  bCPropertyObjectTypeBase *this;
+  bCPropertyTypeBase *pbVar5;
+  int iVar6;
+  
+  bVar2 = bCAccessorPropertyObject::IsValid(param_1);
+  if (bVar2) {
+    uVar1 = *(uint *)(param_1 + 8);
+    pbVar3 = (bCPropertyObjectBase *)bCAccessorPropertyObject::GetRootObject(param_1);
+    pbVar4 = bCPropertyObjectBase::GetTemplate(pbVar3);
+    if (uVar1 < *(uint *)(pbVar4 + 0xc)) {
+      iVar6 = *(int *)(param_1 + 8);
+      pbVar3 = (bCPropertyObjectBase *)bCAccessorPropertyObject::GetRootObject(param_1);
+      this = (bCPropertyObjectTypeBase *)bCPropertyObjectBase::GetTemplate(pbVar3);
+      pbVar5 = bCPropertyObjectTypeBase::GetPropertyType(this,iVar6);
+      return pbVar5;
+    }
+  }
+  return (bCPropertyTypeBase *)0x0;
+}
+
+

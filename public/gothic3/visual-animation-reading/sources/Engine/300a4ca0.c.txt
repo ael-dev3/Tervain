@@ -1,0 +1,87 @@
+/* ENTRY 300a4ca0 | FUN_300a4ca0 | STATUS decompiled | 48 ms */
+
+void __thiscall FUN_300a4ca0(eCVisualAnimation_PS *param_1,byte param_2,int *param_3)
+
+{
+  bCString *pbVar1;
+  undefined4 uVar2;
+  bCString *this;
+  bCString *this_00;
+  bCString *this_01;
+  bCString *this_02;
+  bCString *this_03;
+  bCString *this_04;
+  undefined4 in_stack_ffffffb8;
+  undefined4 local_44;
+  undefined4 local_40;
+  bCString local_3c [4];
+  undefined4 local_38;
+  bCString local_34 [4];
+  undefined4 local_30;
+  bCString local_2c [4];
+  undefined4 local_28;
+  bCString local_24 [4];
+  bCString local_20 [4];
+  bCString local_1c [28];
+  
+  if ((param_2 & 1) == 1) {
+    bCString::bCString((bCString *)&stack0xffffffb8);
+    bCString::bCString((bCString *)&local_44);
+    bCString::bCString((bCString *)&local_40);
+    bCString::bCString(local_3c);
+    bCString::bCString((bCString *)&local_38);
+    bCString::bCString(local_34);
+    eCVisualAnimation_PS::GetStatus(param_1,(SStatus *)&stack0xffffffb8);
+    thunk_FUN_300b7fe0(param_3[1] + 1);
+    pbVar1 = (bCString *)(*param_3 + -8 + param_3[1] * 8);
+    bCString::operator=(pbVar1,"Anim #1");
+    uVar2 = FUN_30672060(in_stack_ffffffb8);
+    FUN_30672060(uVar2);
+    bCString::Format(this,(char *)(pbVar1 + 4));
+    thunk_FUN_300b7fe0(param_3[1] + 1);
+    pbVar1 = (bCString *)(*param_3 + -8 + param_3[1] * 8);
+    bCString::operator=(pbVar1,"Anim #2");
+    uVar2 = FUN_30672060(local_40);
+    FUN_30672060(uVar2);
+    bCString::Format(this_00,(char *)(pbVar1 + 4));
+    thunk_FUN_300b7fe0(param_3[1] + 1);
+    pbVar1 = (bCString *)(*param_3 + -8 + param_3[1] * 8);
+    bCString::operator=(pbVar1,"Anim #3");
+    uVar2 = FUN_30672060(local_38);
+    FUN_30672060(uVar2);
+    bCString::Format(this_01,(char *)(pbVar1 + 4));
+    thunk_FUN_300b7fe0(param_3[1] + 1);
+    pbVar1 = (bCString *)(*param_3 + -8 + param_3[1] * 8);
+    bCString::operator=(pbVar1,"Anim #4");
+    uVar2 = FUN_30672060(local_30);
+    FUN_30672060(uVar2);
+    bCString::Format(this_02,(char *)(pbVar1 + 4));
+    thunk_FUN_300b7fe0(param_3[1] + 1);
+    pbVar1 = (bCString *)(*param_3 + -8 + param_3[1] * 8);
+    bCString::operator=(pbVar1,"Over #1");
+    uVar2 = FUN_30672060(local_28);
+    FUN_30672060(uVar2);
+    bCString::Format(this_03,(char *)(pbVar1 + 4));
+    thunk_FUN_300b7fe0();
+    pbVar1 = (bCString *)(*param_3 + -8 + param_3[1] * 8);
+    bCString::operator=(pbVar1,"Over #2");
+    uVar2 = FUN_30672060();
+    FUN_30672060(uVar2);
+    bCString::Format(this_04,(char *)(pbVar1 + 4));
+    local_44 = 0x300a4eee;
+    bCString::~bCString(local_1c);
+    local_44 = 0x300a4ef8;
+    bCString::~bCString(local_20);
+    local_44 = 0x300a4f02;
+    bCString::~bCString(local_24);
+    local_44 = 0x300a4f0c;
+    bCString::~bCString((bCString *)&local_28);
+    local_44 = 0x300a4f16;
+    bCString::~bCString(local_2c);
+    local_44 = 0x300a4f20;
+    bCString::~bCString((bCString *)&local_30);
+  }
+  return;
+}
+
+

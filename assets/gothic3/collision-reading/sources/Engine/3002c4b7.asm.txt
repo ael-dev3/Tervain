@@ -1,0 +1,2 @@
+; 3002c4b7 bTPropertyObject<eCCollisionShapeBase_PS,eCEntityPropertySet>::deleting_destructor
+3002c4b7 | e9445c3100 | JMP 0x30342100

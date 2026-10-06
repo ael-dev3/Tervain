@@ -1,0 +1,14 @@
+/* ENTRY 20165e50 | gCHUDViewBarEndurance2::gCHUDViewBarEndurance2 | STATUS decompiled | 10 ms */
+
+gCHUDViewBarEndurance2 * __thiscall
+gCHUDViewBarEndurance2::gCHUDViewBarEndurance2(gCHUDViewBarEndurance2 *this)
+
+{
+  CFFGFCView::CFFGFCView((CFFGFCView *)this);
+  this->vftablePtr = &vftable;
+  gCHUDProgressBarNPC::gCHUDProgressBarNPC
+            ((gCHUDProgressBarNPC *)&(this->gCHUDViewBarEndurance2_data).field_0xc);
+  return this;
+}
+
+

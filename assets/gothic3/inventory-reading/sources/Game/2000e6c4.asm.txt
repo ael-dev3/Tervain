@@ -1,0 +1,2 @@
+; 2000e6c4 ?GetPropertySetType@gCInventory_PS@@UBE?AW4eEPropertySetType@@XZ
+2000e6c4 | e9c7a71900 | JMP 0x201a8e90

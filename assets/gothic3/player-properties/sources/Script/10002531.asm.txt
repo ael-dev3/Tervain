@@ -1,0 +1,4 @@
+; 10002531 ?GetSmithing@PSPlayerMemory@@QBEHXZ
+10002531 | e90a770200 | JMP 0x10029c40
+; 10002536 PSParticle::PropertyExtentMultiplier::operator=
+; 10002536 Ordinal_406

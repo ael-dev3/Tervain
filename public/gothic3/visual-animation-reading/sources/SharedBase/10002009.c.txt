@@ -1,0 +1,19 @@
+/* ENTRY 10002009 | bCString::Release | STATUS decompiled | 4 ms */
+
+/* protected: static void __stdcall bCString::Release(struct bCString::bSStringData *) */
+
+void bCString::Release(bSStringData *param_1)
+
+{
+  bCMemoryAdmin *this;
+  
+                    /* 0x2009  3913  ?Release@bCString@@KGXPAUbSStringData@1@@Z */
+  if ((param_1 != (bSStringData *)0x0) &&
+     (*(short *)(param_1 + 4) = *(short *)(param_1 + 4) + -1, *(short *)(param_1 + 4) == 0)) {
+    this = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(this,param_1);
+  }
+  return;
+}
+
+

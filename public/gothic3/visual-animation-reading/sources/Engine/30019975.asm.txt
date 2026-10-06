@@ -1,0 +1,2 @@
+; 30019975 bTPropertyType<eCVisualAnimation_PS,bTPropertyContainer<eECollisionGroup>_>::vfunction26
+30019975 | e916bb0900 | JMP 0x300b5490

@@ -1,0 +1,13 @@
+/* ENTRY 10005835 | bCCapsule::operator= | STATUS decompiled | 2 ms */
+
+/* public: class bCCapsule const & __thiscall bCCapsule::operator=(class bCCapsule const &) */
+
+bCCapsule * __thiscall bCCapsule::operator=(bCCapsule *this,bCCapsule *param_1)
+
+{
+                    /* 0x5835  459  ??4bCCapsule@@QAEABV0@ABV0@@Z */
+  SetCapsule(this,param_1);
+  return this;
+}
+
+

@@ -1,0 +1,41 @@
+/* ENTRY 30046add | eCAnimationAdmin::QueryMotionDataEntity | STATUS decompiled | 31 ms */
+
+/* public: class eCResourceDataEntity * __thiscall eCAnimationAdmin::QueryMotionDataEntity(class
+   bCString const &,enum eEResourceCacheBehavior) */
+
+eCResourceDataEntity * __thiscall
+eCAnimationAdmin::QueryMotionDataEntity
+          (eCAnimationAdmin *this,bCString *param_1,eEResourceCacheBehavior param_2)
+
+{
+  eCArchiveManager *this_00;
+  eCResourceAdmin *this_01;
+  eCResourceDataEntity *peVar1;
+  bCString *pbVar2;
+  bCString *pbVar3;
+  bCString *pbVar4;
+  eCAnimationAdmin *peStack_4;
+  
+                    /* 0x46add  12009
+                       ?QueryMotionDataEntity@eCAnimationAdmin@@QAEPAVeCResourceDataEntity@@ABVbCString@@W4eEResourceCacheBehavior@@@Z
+                        */
+  peStack_4 = this;
+  bCString::bCString((bCString *)&peStack_4);
+  pbVar4 = (bCString *)0x0;
+  pbVar3 = (bCString *)&peStack_4;
+  pbVar2 = (bCString *)0x0;
+  this_00 = eCArchiveManager::GetInstance();
+  eCArchiveManager::SplitPath((eCArchiveManager *)this_00,param_1,pbVar2,pbVar3,pbVar4);
+  bCString::operator+=((bCString *)&peStack_4,(bCString *)&(this->eCAnimationAdmin_data).field_0x40)
+  ;
+  pbVar3 = (bCString *)&peStack_4;
+  this_01 = (eCResourceAdmin *)thunk_FUN_3007c090();
+  peVar1 = eCResourceAdmin::QueryResourceDataEntity(this_01,pbVar3,param_2);
+  if (peVar1 == (eCResourceDataEntity *)0x0) {
+    GE_MESSAGEF_WARN(&DAT_3081dc88,"eCAnimationAdmin::QueryMotionDataEntity",peStack_4);
+  }
+  bCString::~bCString((bCString *)&peStack_4);
+  return peVar1;
+}
+
+

@@ -1,0 +1,2 @@
+; 30047474 eCVisualAnimationFactory::CreateActorInstance
+30047474 | e997550700 | JMP 0x300bca10

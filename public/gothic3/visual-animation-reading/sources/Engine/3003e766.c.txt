@@ -1,0 +1,19 @@
+/* ENTRY 3003e766 | eCVisualAnimation_PS::SetSpringParentNodesScale | STATUS decompiled | 12 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::SetSpringParentNodesScale(float const &) */
+
+void __thiscall
+eCVisualAnimation_PS::SetSpringParentNodesScale(eCVisualAnimation_PS *this,float *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x3e766  14266  ?SetSpringParentNodesScale@eCVisualAnimation_PS@@QAEXABM@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"SpringParentNodesScale",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  this[6].vftablePtr = (eCVisualAnimation_PS_vftable *)*param_1;
+  (*pNVar1)(this,"SpringParentNodesScale",false);
+  return;
+}
+
+

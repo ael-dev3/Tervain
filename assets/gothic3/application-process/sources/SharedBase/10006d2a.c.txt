@@ -1,0 +1,19 @@
+/* ENTRY 10006d2a | bCTimer::Resume | STATUS decompiled | 2 ms */
+
+/* public: void __thiscall bCTimer::Resume(void) */
+
+void __thiscall bCTimer::Resume(bCTimer *this)
+
+{
+  ulong uVar1;
+  
+                    /* 0x6d2a  3948  ?Resume@bCTimer@@QAEXXZ */
+  if (this[0x10] == (bCTimer)0x1) {
+    uVar1 = GetTimeStamp();
+    *(ulong *)(this + 4) = uVar1;
+    this[0x10] = (bCTimer)0x0;
+  }
+  return;
+}
+
+

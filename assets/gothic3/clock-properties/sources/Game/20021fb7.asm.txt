@@ -1,0 +1,2 @@
+; 20021fb7 ?AccessSecond@gCClock_PS@@QAEAAKXZ
+20021fb7 | e934501400 | JMP 0x20166ff0

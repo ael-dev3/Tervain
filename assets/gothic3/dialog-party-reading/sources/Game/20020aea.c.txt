@@ -1,0 +1,16 @@
+/* ENTRY 20020aea | gCParty_PS::AccessPartyMemberType | STATUS decompiled | 6 ms */
+
+/* public: class bTPropertyContainer<enum gEPartyMemberType> & __thiscall
+   gCParty_PS::AccessPartyMemberType(void) */
+
+bTPropertyContainer<gEPartyMemberType> * __thiscall
+gCParty_PS::AccessPartyMemberType(gCParty_PS *this)
+
+{
+                    /* 0x20aea  1527
+                       ?AccessPartyMemberType@gCParty_PS@@QAEAAV?$bTPropertyContainer@W4gEPartyMemberType@@@@XZ
+                        */
+  return (bTPropertyContainer<gEPartyMemberType> *)&(this->gCParty_PS_data).offset_0x2c;
+}
+
+

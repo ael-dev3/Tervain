@@ -1,0 +1,7 @@
+; 2055be10 bTPropertyObject<gCNavigation_PS,eCEntityPropertySet>::~bTPropertyObject<gCNavigation_PS,eCEntityPropertySet>
+2055be10 | b970f87b20 | MOV ECX,0x207bf870
+2055be15 | c70570f87b20ece36820 | MOV dword ptr [0x207bf870],0x2068e3ec
+2055be1f | e83499abff | CALL 0x20015758
+2055be24 | b970f87b20 | MOV ECX,0x207bf870
+2055be29 | e99c25adff | JMP 0x2002e3ca
+; 2055be40 bTPropertyTypeOnly<bCVector>::~bTPropertyTypeOnly<bCVector>

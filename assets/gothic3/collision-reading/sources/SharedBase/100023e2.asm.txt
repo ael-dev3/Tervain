@@ -1,0 +1,4 @@
+; 100023e2 ??1bCOrientedBox@@QAE@XZ
+100023e2 | e919090600 | JMP 0x10062d00
+; 100023e7 bCOrientedBox::operator!=
+; 100023e7 Ordinal_836

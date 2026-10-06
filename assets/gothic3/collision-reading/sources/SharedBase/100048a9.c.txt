@@ -1,0 +1,26 @@
+/* ENTRY 100048a9 | bCBox::GetInvTranslated | STATUS decompiled | 7 ms */
+
+/* public: class bCBox __thiscall bCBox::GetInvTranslated(float)const  */
+
+void __thiscall bCBox::GetInvTranslated(bCBox *this,float param_1)
+
+{
+  float in_stack_00000008;
+  
+                    /* 0x48a9  2512  ?GetInvTranslated@bCBox@@QBE?AV1@M@Z */
+  *(undefined4 *)param_1 = *(undefined4 *)this;
+  *(undefined4 *)((int)param_1 + 4) = *(undefined4 *)(this + 4);
+  *(undefined4 *)((int)param_1 + 8) = *(undefined4 *)(this + 8);
+  *(undefined4 *)((int)param_1 + 0xc) = *(undefined4 *)(this + 0xc);
+  *(undefined4 *)((int)param_1 + 0x10) = *(undefined4 *)(this + 0x10);
+  *(undefined4 *)((int)param_1 + 0x14) = *(undefined4 *)(this + 0x14);
+  *(float *)param_1 = in_stack_00000008 + *(float *)param_1;
+  *(float *)((int)param_1 + 4) = in_stack_00000008 + *(float *)((int)param_1 + 4);
+  *(float *)((int)param_1 + 8) = *(float *)((int)param_1 + 8) + in_stack_00000008;
+  *(float *)((int)param_1 + 0xc) = *(float *)((int)param_1 + 0xc) + in_stack_00000008;
+  *(float *)((int)param_1 + 0x10) = *(float *)((int)param_1 + 0x10) + in_stack_00000008;
+  *(float *)((int)param_1 + 0x14) = in_stack_00000008 + *(float *)((int)param_1 + 0x14);
+  return;
+}
+
+

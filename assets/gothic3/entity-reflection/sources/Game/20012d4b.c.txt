@@ -1,0 +1,10 @@
+/* ENTRY 20012d4b | bTPropertyType<gCClock_PS,unsigned_long>::vfunction1 | STATUS decompiled | 2 ms */
+
+bTPropertyType<gCClock_PS,unsigned_long>_vftable * __thiscall
+bTPropertyType<gCClock_PS,unsigned_long>::vfunction1(bTPropertyType<gCClock_PS,unsigned_long> *this)
+
+{
+  return this[7].vftablePtr;
+}
+
+

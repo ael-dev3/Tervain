@@ -1,0 +1,12 @@
+/* ENTRY 204628a0 | ENGINE.DLL::eCDynamicEntity::OnPostRead | STATUS decompiled | 1 ms */
+
+void __thiscall eCDynamicEntity::OnPostRead(eCDynamicEntity *this)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x204628a0. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  OnPostRead(this);
+  return;
+}
+
+

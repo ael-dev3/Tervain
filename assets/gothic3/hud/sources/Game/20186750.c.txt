@@ -1,0 +1,13 @@
+/* ENTRY 20186750 | gCHUDStaticQuestLocation::~gCHUDStaticQuestLocation | STATUS decompiled | 4 ms */
+
+void __thiscall gCHUDStaticQuestLocation::~gCHUDStaticQuestLocation(gCHUDStaticQuestLocation *this)
+
+{
+  this->vftablePtr = &vftable;
+                    /* WARNING: Could not recover jumptable at 0x20186756. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  CFFGFCStatic::~CFFGFCStatic((CFFGFCStatic *)this);
+  return;
+}
+
+

@@ -1,0 +1,36 @@
+/* ENTRY 30341670 | eCCollisionShapeBase_PS::deleting_destructor | STATUS decompiled | 10 ms */
+
+eCCollisionShapeBase_PS * __thiscall
+eCCollisionShapeBase_PS::deleting_destructor(eCCollisionShapeBase_PS *this,byte param_1)
+
+{
+  byte *_Memory;
+  int iVar1;
+  eCCollisionShapeBase_PS *this_00;
+  
+  if ((param_1 & 2) == 0) {
+    this->vftablePtr = &vftable;
+    eCEntityPropertySet::~eCEntityPropertySet((eCEntityPropertySet *)this);
+    if ((param_1 & 1) == 0) {
+      return this;
+    }
+                    /* WARNING: Subroutine does not return */
+    _free(this);
+  }
+  _Memory = &this[-1].eCEntityPropertySet_data.offset_0xc;
+  iVar1 = *(int *)_Memory;
+  this_00 = this + iVar1;
+  while (iVar1 = iVar1 + -1, -1 < iVar1) {
+    this_00 = this_00 + -1;
+                    /* inlined destructor: eCCollisionShapeBase_PS::~eCCollisionShapeBase_PS */
+    this_00->vftablePtr = &vftable;
+    eCEntityPropertySet::~eCEntityPropertySet((eCEntityPropertySet *)this_00);
+  }
+  if ((param_1 & 1) == 0) {
+    return (eCCollisionShapeBase_PS *)_Memory;
+  }
+                    /* WARNING: Subroutine does not return */
+  _free(_Memory);
+}
+
+

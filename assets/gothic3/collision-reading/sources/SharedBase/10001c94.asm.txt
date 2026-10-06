@@ -1,0 +1,4 @@
+; 10001c94 ?GetCenter@bCBox@@QBE?AVbCVector@@XZ
+10001c94 | e9c7450300 | JMP 0x10036260
+; 10001c99 bCVector::GetCoordinate
+; 10001c99 Ordinal_2206

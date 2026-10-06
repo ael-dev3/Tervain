@@ -1,0 +1,16 @@
+/* ENTRY 300274e9 | eCVisualAnimation_PS::GetBoneShapeGroup | STATUS decompiled | 9 ms */
+
+/* public: class bTPropertyContainer<enum eEShapeGroup> const & __thiscall
+   eCVisualAnimation_PS::GetBoneShapeGroup(void)const  */
+
+bTPropertyContainer<eEShapeGroup> * __thiscall
+eCVisualAnimation_PS::GetBoneShapeGroup(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x274e9  6292
+                       ?GetBoneShapeGroup@eCVisualAnimation_PS@@QBEABV?$bTPropertyContainer@W4eEShapeGroup@@@@XZ
+                        */
+  return (bTPropertyContainer<eEShapeGroup> *)&this[4].eCEntityPropertySet_data.offset_0x8;
+}
+
+

@@ -1,0 +1,4 @@
+; 20015b9f bTPropertyContainer<gESpecies>::vfunction5
+20015b9f | e90c532e00 | JMP 0x202faeb0
+; 20015ba4 gCDummyCollectorNegZone::RefreshAdditionalProperties
+; 20015ba4 Ordinal_6013

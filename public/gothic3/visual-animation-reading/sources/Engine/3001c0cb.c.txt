@@ -1,0 +1,17 @@
+/* ENTRY 3001c0cb | eCVisualAnimationLoD::Destroy | STATUS decompiled | 4 ms */
+
+/* public: virtual void __thiscall eCVisualAnimationLoD::Destroy(void) */
+
+void __thiscall eCVisualAnimationLoD::Destroy(eCVisualAnimationLoD *this)
+
+{
+                    /* 0x1c0cb  5380  ?Destroy@eCVisualAnimationLoD@@UAEXXZ */
+  SetActor(this,(eCResourceDataEntity *)0x0);
+  bCString::Clear((bCString *)&this->eCVisualAnimationLoD_data);
+  (this->eCVisualAnimationLoD_data).offset_0x8 = 0;
+  (this->eCVisualAnimationLoD_data).offset_0x4 = (eCResourceAnimationActor_PS *)0x0;
+  (this->eCVisualAnimationLoD_data).offset_0xc = 0;
+  return;
+}
+
+

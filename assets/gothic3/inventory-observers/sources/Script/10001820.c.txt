@@ -1,0 +1,25 @@
+/* ENTRY 10001820 | GUI2::UpdatePlayer | STATUS decompiled | 7 ms */
+
+/* public: void __thiscall GUI2::UpdatePlayer(void) */
+
+void __thiscall GUI2::UpdatePlayer(GUI2 *this)
+
+{
+  gCSession *this_00;
+  gCGUIManager *this_01;
+  
+                    /* 0x1820  2100  ?UpdatePlayer@GUI2@@QAEXXZ */
+  this_00 = (gCSession *)thunk_FUN_10039100();
+  if (this_00 != (gCSession *)0x0) {
+    this_01 = gCSession::GetGUIManager(this_00);
+    if (this_01 != (gCGUIManager *)0x0) {
+                    /* WARNING: Could not recover jumptable at 0x1003a2c7. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+      gCGUIManager::UpdatePlayer(this_01);
+      return;
+    }
+  }
+  return;
+}
+
+

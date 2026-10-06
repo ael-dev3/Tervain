@@ -1,0 +1,19 @@
+; 30061c80 FUN_30061c80
+30061c80 | 56 | PUSH ESI
+30061c81 | 8bf1 | MOV ESI,ECX
+30061c83 | 8b06 | MOV EAX,dword ptr [ESI]
+30061c85 | 8b5058 | MOV EDX,dword ptr [EAX + 0x58]
+30061c88 | 6a00 | PUSH 0x0
+30061c8a | 68dc8b8130 | PUSH 0x30818bdc
+30061c8f | ffd2 | CALL EDX
+30061c91 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+30061c95 | 8a08 | MOV CL,byte ptr [EAX]
+30061c97 | 8b16 | MOV EDX,dword ptr [ESI]
+30061c99 | 8b425c | MOV EAX,dword ptr [EDX + 0x5c]
+30061c9c | 6a00 | PUSH 0x0
+30061c9e | 884e21 | MOV byte ptr [ESI + 0x21],CL
+30061ca1 | 68dc8b8130 | PUSH 0x30818bdc
+30061ca6 | 8bce | MOV ECX,ESI
+30061ca8 | ffd0 | CALL EAX
+30061caa | 5e | POP ESI
+30061cab | c20400 | RET 0x4

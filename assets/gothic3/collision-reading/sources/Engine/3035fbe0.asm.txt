@@ -1,0 +1,5 @@
+; 3035fbe0 bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeAABBAdapt>_>::vfunction3
+3035fbe0 | 8b4918 | MOV ECX,dword ptr [ECX + 0x18]
+3035fbe3 | 8b01 | MOV EAX,dword ptr [ECX]
+3035fbe5 | 8b10 | MOV EDX,dword ptr [EAX]
+3035fbe7 | ffe2 | JMP EDX

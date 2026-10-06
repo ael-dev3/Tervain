@@ -1,0 +1,3 @@
+; 201af880 FUN_201af880
+201af880 | 8d4114 | LEA EAX,[ECX + 0x14]
+201af883 | c3 | RET

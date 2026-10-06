@@ -1,0 +1,2 @@
+; 300451e2 ?GetEntityByName@eCSceneAdmin@@QAEPAVeCEntity@@ABVbCString@@@Z
+300451e2 | e979584800 | JMP 0x304caa60

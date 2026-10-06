@@ -1,0 +1,46 @@
+/* ENTRY 20011a63 | FUN_20011a63 | STATUS decompiled | 13 ms */
+
+void __fastcall FUN_20011a63(int *param_1)
+
+{
+  bCString *pbVar1;
+  bCMemoryAdmin *pbVar2;
+  int iVar3;
+  bCString *this;
+  void *pvVar4;
+  int iStack_4;
+  
+  iStack_4 = 0;
+  if (0 < param_1[1]) {
+    do {
+      this = *(bCString **)(*param_1 + iStack_4 * 4);
+      while (this != (bCString *)0x0) {
+        pbVar1 = *(bCString **)(this + 8);
+        bCString::~bCString(this);
+        pbVar2 = bCMemoryAdmin::GetInstance();
+        bCMemoryAdmin::DeleteObject(pbVar2,this);
+        this = pbVar1;
+      }
+      iStack_4 = iStack_4 + 1;
+    } while (iStack_4 < param_1[1]);
+  }
+  pvVar4 = (void *)*param_1;
+  if (pvVar4 != (void *)0x0) {
+    pbVar2 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar2,pvVar4);
+    *param_1 = 0;
+    param_1[1] = 0;
+    param_1[2] = 0;
+  }
+  param_1[3] = 0;
+  thunk_FUN_203205f0(0x2b,0);
+  param_1[1] = 0x2b;
+  iVar3 = 0;
+  do {
+    *(undefined4 *)(iVar3 + *param_1) = 0;
+    iVar3 = iVar3 + 4;
+  } while (iVar3 < 0xac);
+  return;
+}
+
+

@@ -1,0 +1,4 @@
+; 20016509 ?SetFlagsByMode@gCCharacterMovement_PS@@IAE_NW4gECharMovementMode@@@Z
+20016509 | e972b52000 | JMP 0x20221a80
+; 20016513 gCFocus_PS::AccessFocusLocked
+; 20016513 Ordinal_1228

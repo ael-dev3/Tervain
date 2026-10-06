@@ -1,0 +1,24 @@
+; 20236340 bTPropertyType<gCCharacterMovement_PS,bool>::vector_deleting_destructor
+20236340 | 56 | PUSH ESI
+20236341 | 8bf1 | MOV ESI,ECX
+20236343 | c706f47a6820 | MOV dword ptr [ESI],0x20687af4
+20236349 | ff15dc877d20 | CALL dword ptr [0x207d87dc]
+2023634f | 8d4620 | LEA EAX,[ESI + 0x20]
+20236352 | 50 | PUSH EAX
+20236353 | e87e57deff | CALL 0x2001bad6
+20236358 | 8b4e18 | MOV ECX,dword ptr [ESI + 0x18]
+2023635b | 56 | PUSH ESI
+2023635c | ff15dc867d20 | CALL dword ptr [0x207d86dc]
+20236362 | 8bce | MOV ECX,ESI
+20236364 | c7066cc06520 | MOV dword ptr [ESI],0x2065c06c
+2023636a | ff15e8877d20 | CALL dword ptr [0x207d87e8]
+20236370 | f644240801 | TEST byte ptr [ESP + 0x8],0x1
+20236375 | 7409 | JZ 0x20236380
+20236377 | 56 | PUSH ESI
+20236378 | e8b8d52200 | CALL 0x20463935
+2023637d | 83c404 | ADD ESP,0x4
+; 20236380 LAB_20236380
+20236380 | 8bc6 | MOV EAX,ESI
+20236382 | 5e | POP ESI
+20236383 | c20400 | RET 0x4
+; 202363a0 bTPropertyType<gCCharacterMovement_PS,float>::scalar_deleting_destructor

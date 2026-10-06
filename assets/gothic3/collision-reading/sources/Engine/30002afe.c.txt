@@ -1,0 +1,16 @@
+/* ENTRY 30002afe | eCCollisionShapeBase_PS::AddShape | STATUS decompiled | 6 ms */
+
+/* public: virtual enum bEResult __thiscall eCCollisionShapeBase_PS::AddShape(class eCCollisionShape
+   *) */
+
+bEResult __thiscall
+eCCollisionShapeBase_PS::AddShape(eCCollisionShapeBase_PS *this,eCCollisionShape *param_1)
+
+{
+                    /* 0x2afe  3492
+                       ?AddShape@eCCollisionShapeBase_PS@@UAE?AW4bEResult@@PAVeCCollisionShape@@@Z
+                        */
+  return 1;
+}
+
+

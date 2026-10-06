@@ -1,0 +1,11 @@
+/* ENTRY 20024276 | bTPropertyContainer<gESessionKey>::vfunction7 | STATUS decompiled | 2 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<gESessionKey>::vfunction7(bTPropertyContainer<gESessionKey> *this)
+
+{
+  (this->bTPropertyContainer<gESessionKey>_data).offset_0x0 = DAT_207bd778;
+  return 1;
+}
+
+

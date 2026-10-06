@@ -1,0 +1,37 @@
+/* ENTRY 1000dde0 | FUN_1000dde0 | STATUS decompiled | 14 ms */
+
+void __thiscall FUN_1000dde0(int param_1)
+
+{
+  bool bVar1;
+  Entity *this;
+  char in_stack_000000a8;
+  Entity aEStack_168 [164];
+  undefined4 uStack_c4;
+  Entity *pEVar2;
+  Entity local_ac [4];
+  Entity local_a8 [168];
+  
+  pEVar2 = local_a8;
+  uStack_c4 = 0x1000ddfe;
+  this = (Entity *)Entity::GetPlayer();
+  uStack_c4 = 0x1000de06;
+  bVar1 = Entity::operator==(this,pEVar2);
+  Entity::~Entity(local_ac);
+  if (bVar1) {
+    *(char *)(param_1 + 4) = in_stack_000000a8;
+  }
+  if (in_stack_000000a8 == '\x01') {
+    Entity::Entity(aEStack_168,(Entity *)&stack0x00000000);
+    thunk_FUN_1000d3f0();
+    uStack_c4 = 0x1000de5f;
+    PSRoutine::PropertyAniState::operator=
+              ((PropertyAniState *)&stack0x00000004,(gEAniState *)&stack0xffffff50);
+    uStack_c4 = 0x1000de6e;
+    Entity::SetMovementMode((Entity *)&stack0x00000000,2);
+  }
+  Entity::~Entity((Entity *)&stack0x00000000);
+  return;
+}
+
+

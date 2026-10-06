@@ -1,0 +1,97 @@
+/* ENTRY 20025a13 | gCClock_PS::OnProcess | STATUS decompiled | 48 ms */
+
+/* public: virtual void __thiscall gCClock_PS::OnProcess(void) */
+
+void __thiscall gCClock_PS::OnProcess(gCClock_PS *this)
+
+{
+  undefined4 *puVar1;
+  ulonglong uVar2;
+  float fVar3;
+  int iVar4;
+  int iVar5;
+  uint uVar6;
+  float fVar7;
+  float fVar8;
+  eCWeatherAdmin *this_00;
+  gCAmbientModule *this_01;
+  gCMusicModule *this_02;
+  uint uStack_10;
+  uint uStack_c;
+  uint uStack_8;
+  
+                    /* 0x25a13  5552  ?OnProcess@gCClock_PS@@UAEXXZ */
+  eCEntityPropertySet::OnProcess((eCEntityPropertySet *)this);
+  puVar1 = &(this->gCClock_PS_data).offset_0x4c;
+  bCClock::GetTimeAndDate((bCClock *)&(this->gCClock_PS_data).field_0x28,(bSTimeAndDate *)puVar1);
+  fVar3 = (float)(this->gCClock_PS_data).offset_0x54;
+  iVar4 = *puVar1;
+  iVar5 = (this->gCClock_PS_data).offset_0x50;
+  uVar2 = (ulonglong)ROUND(fVar3);
+  uStack_8 = (uint)uVar2;
+  uStack_8 = uStack_8 / 0xe10;
+  uVar2 = (uVar2 & 0xffffffff) % 0xe10;
+  uVar6 = *(uint *)&(this->gCClock_PS_data).field_0x18;
+  if (uVar6 < 0x16) {
+    if (uVar6 < 0x14) {
+      if (uVar6 < 8) {
+        uStack_c = -(uint)(uVar6 < 6) & 3;
+      }
+      else {
+        uStack_c = 1;
+      }
+    }
+    else {
+      uStack_c = 2;
+    }
+  }
+  else {
+    uStack_c = 3;
+  }
+  if (uStack_8 < 0x16) {
+    if (uStack_8 < 0x14) {
+      if (uStack_8 < 8) {
+        uStack_10 = -(uint)(uStack_8 < 6) & 3;
+      }
+      else {
+        uStack_10 = 1;
+      }
+    }
+    else {
+      uStack_10 = 2;
+    }
+  }
+  else {
+    uStack_10 = 3;
+  }
+  *(int *)&(this->gCClock_PS_data).field_0x10 = iVar4;
+  *(int *)&(this->gCClock_PS_data).field_0x14 = iVar5;
+  *(uint *)&(this->gCClock_PS_data).field_0x18 = uStack_8;
+  *(int *)&(this->gCClock_PS_data).field_0x1c = (int)(uVar2 / 0x3c);
+  *(int *)&(this->gCClock_PS_data).field_0x20 = (int)(uVar2 % 0x3c);
+  fVar8 = (float)iVar5;
+  if (iVar5 < 0) {
+    fVar8 = fVar8 + 4.2949673e+09;
+  }
+  fVar7 = (float)iVar4;
+  if (iVar4 < 0) {
+    fVar7 = fVar7 + 4.2949673e+09;
+  }
+  this_00 = (eCWeatherAdmin *)thunk_FUN_200a4af0();
+  if (this_00 != (eCWeatherAdmin *)0x0) {
+    eCWeatherAdmin::SetCurrentDayTime(this_00,fVar7 * 365.0 + fVar8 + fVar3 / 86400.0);
+  }
+  if (uStack_c != uStack_10) {
+    this_01 = (gCAmbientModule *)thunk_FUN_20209690();
+    this_02 = (gCMusicModule *)thunk_FUN_20176730();
+    if (this_02 != (gCMusicModule *)0x0) {
+      gCMusicModule::SetDayTime(this_02,(bCString *)(&DAT_207bd478 + uStack_10 * 4));
+    }
+    if (this_01 != (gCAmbientModule *)0x0) {
+      gCAmbientModule::SetDayTime(this_01,*(eEAmbientDayTime *)(&UNK_206857d0 + uStack_10 * 4));
+    }
+  }
+  return;
+}
+
+

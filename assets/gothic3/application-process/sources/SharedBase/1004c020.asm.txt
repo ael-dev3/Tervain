@@ -1,0 +1,31 @@
+; 1004c020 FUN_1004c020
+1004c020 | 51 | PUSH ECX
+1004c021 | 56 | PUSH ESI
+1004c022 | 8bf1 | MOV ESI,ECX
+1004c024 | 807e1000 | CMP byte ptr [ESI + 0x10],0x0
+1004c028 | 7527 | JNZ 0x1004c051
+1004c02a | e8258dfbff | CALL 0x10004d54
+1004c02f | 8bc8 | MOV ECX,EAX
+1004c031 | 2b4e04 | SUB ECX,dword ptr [ESI + 0x4]
+1004c034 | 85c9 | TEST ECX,ECX
+1004c036 | 894c2404 | MOV dword ptr [ESP + 0x4],ECX
+1004c03a | db442404 | FILD dword ptr [ESP + 0x4]
+1004c03e | 7d06 | JGE 0x1004c046
+1004c040 | d80584810e10 | FADD float ptr [0x100e8184]
+; 1004c046 LAB_1004c046
+1004c046 | d80e | FMUL float ptr [ESI]
+1004c048 | 894604 | MOV dword ptr [ESI + 0x4],EAX
+1004c04b | d8460c | FADD float ptr [ESI + 0xc]
+1004c04e | d95e0c | FSTP float ptr [ESI + 0xc]
+; 1004c051 LAB_1004c051
+1004c051 | d9460c | FLD float ptr [ESI + 0xc]
+1004c054 | 0f57c0 | XORPS XMM0,XMM0
+1004c057 | d84608 | FADD float ptr [ESI + 0x8]
+1004c05a | 8b54240c | MOV EDX,dword ptr [ESP + 0xc]
+1004c05e | f30f11460c | MOVSS dword ptr [ESI + 0xc],XMM0
+1004c063 | d95e08 | FSTP float ptr [ESI + 0x8]
+1004c066 | d94608 | FLD float ptr [ESI + 0x8]
+1004c069 | 5e | POP ESI
+1004c06a | d91a | FSTP float ptr [EDX]
+1004c06c | 59 | POP ECX
+1004c06d | c20400 | RET 0x4

@@ -1,0 +1,4 @@
+; 10004908 ?Widen@bCBox@@QAEXABVbCVector@@@Z
+10004908 | e933620200 | JMP 0x1002ab40
+; 1000490d bCFile::SeekToEnd
+; 1000490d Ordinal_4036

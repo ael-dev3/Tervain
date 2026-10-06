@@ -1,0 +1,24 @@
+/* ENTRY 1008a9c0 | bCPOStream::bCPOStream_Constructor_or_Destructor | STATUS decompiled | 10 ms */
+
+void __fastcall bCPOStream::bCPOStream_Constructor_or_Destructor(bCPOStream *param_1)
+
+{
+  bCPOStream bVar1;
+  
+  bVar1 = (param_1->bCPOStream_data).offset_0x0;
+  param_1->vftablePtr = &vftable_for_bCIStream_;
+  param_1->vftablePtr = &vftable_for_bCOStream_;
+  if (bVar1 == (bCPOStream)0x1) {
+    ms_pMainPOStream = (bCPOStream *)0x0;
+    ms_bLegacyMode = true;
+    thunk_FUN_1008b4d0(&ms_parrStringList);
+    thunk_FUN_1008b5c0(&ms_pmapStringSaveHashmap);
+    ClearStringHeaderMap(param_1);
+  }
+  (param_1->bCPOStream_data).offset_0x1 = (bCPOStream)0x0;
+  bCMemoryStream::Destroy((bCMemoryStream *)param_1);
+  bCMemoryStream::~bCMemoryStream((bCMemoryStream *)param_1);
+  return;
+}
+
+

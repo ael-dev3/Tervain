@@ -1,0 +1,17 @@
+/* ENTRY 1007e0b0 | gSArgsFor__AI_Jump::scalar_deleting_destructor | STATUS decompiled | 8 ms */
+
+gSArgsFor__AI_Jump * __thiscall
+gSArgsFor__AI_Jump::scalar_deleting_destructor(gSArgsFor__AI_Jump *this,byte param_1)
+
+{
+  Entity::~Entity((Entity *)&(this->gScrArgument_data).field_0xa8);
+  Entity::~Entity((Entity *)&this->gScrArgument_data);
+                    /* inlined destructor: gScrArgument::~gScrArgument */
+  this->vftablePtr = (gSArgsFor__AI_Jump_vftable *)&gScrArgument::vftable;
+  if ((param_1 & 1) != 0) {
+    _free(this);
+  }
+  return this;
+}
+
+

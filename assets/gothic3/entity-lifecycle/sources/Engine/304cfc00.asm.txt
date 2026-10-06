@@ -1,0 +1,44 @@
+; 304cfc00 FUN_304cfc00
+304cfc00 | 53 | PUSH EBX
+304cfc01 | 8b5c2408 | MOV EBX,dword ptr [ESP + 0x8]
+304cfc05 | 56 | PUSH ESI
+304cfc06 | 8d44240c | LEA EAX,[ESP + 0xc]
+304cfc0a | 50 | PUSH EAX
+304cfc0b | 53 | PUSH EBX
+304cfc0c | 8bf1 | MOV ESI,ECX
+304cfc0e | e88982b7ff | CALL 0x30047e9c
+304cfc13 | 85c0 | TEST EAX,EAX
+304cfc15 | 7408 | JZ 0x304cfc1f
+304cfc17 | 5e | POP ESI
+304cfc18 | 83c014 | ADD EAX,0x14
+304cfc1b | 5b | POP EBX
+304cfc1c | c20400 | RET 0x4
+; 304cfc1f LAB_304cfc1f
+304cfc1f | 57 | PUSH EDI
+304cfc20 | 6899010000 | PUSH 0x199
+304cfc25 | 6a1c | PUSH 0x1c
+304cfc27 | ff15a8dbaf30 | CALL dword ptr [0x30afdba8]
+304cfc2d | 8bf8 | MOV EDI,EAX
+304cfc2f | 85ff | TEST EDI,EDI
+304cfc31 | 740a | JZ 0x304cfc3d
+304cfc33 | 8bcf | MOV ECX,EDI
+304cfc35 | ff1500dbaf30 | CALL dword ptr [0x30afdb00]
+304cfc3b | eb02 | JMP 0x304cfc3f
+; 304cfc3d LAB_304cfc3d
+304cfc3d | 33ff | XOR EDI,EDI
+; 304cfc3f LAB_304cfc3f
+304cfc3f | 53 | PUSH EBX
+304cfc40 | 8bcf | MOV ECX,EDI
+304cfc42 | ff1578daaf30 | CALL dword ptr [0x30afda78]
+304cfc48 | 8b0e | MOV ECX,dword ptr [ESI]
+304cfc4a | 8b442410 | MOV EAX,dword ptr [ESP + 0x10]
+304cfc4e | 8b1481 | MOV EDX,dword ptr [ECX + EAX*0x4]
+304cfc51 | 895718 | MOV dword ptr [EDI + 0x18],EDX
+304cfc54 | 8b0e | MOV ECX,dword ptr [ESI]
+304cfc56 | 893c81 | MOV dword ptr [ECX + EAX*0x4],EDI
+304cfc59 | 83460c01 | ADD dword ptr [ESI + 0xc],0x1
+304cfc5d | 8d4714 | LEA EAX,[EDI + 0x14]
+304cfc60 | 5f | POP EDI
+304cfc61 | 5e | POP ESI
+304cfc62 | 5b | POP EBX
+304cfc63 | c20400 | RET 0x4

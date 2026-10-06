@@ -1,0 +1,4 @@
+; 30038c2b bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeGroup>_>::vfunction8
+30038c2b | e9c0623200 | JMP 0x3035eef0
+; 30038c30 eCMessageHandler::OnSysColorChange
+; 30038c30 Ordinal_11524

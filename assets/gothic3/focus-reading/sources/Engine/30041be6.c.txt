@@ -1,0 +1,18 @@
+/* ENTRY 30041be6 | eCPhysicsScene::SetQueryFilterCallback | STATUS decompiled | 6 ms */
+
+/* public: void __thiscall eCPhysicsScene::SetQueryFilterCallback(bool (__stdcall*)(class eCEntity
+   *,class eCCollisionShape *)) */
+
+void __thiscall
+eCPhysicsScene::SetQueryFilterCallback
+          (eCPhysicsScene *this,_func_bool_eCEntity_ptr_eCCollisionShape_ptr *param_1)
+
+{
+                    /* 0x41be6  13991
+                       ?SetQueryFilterCallback@eCPhysicsScene@@QAEXP6G_NPAVeCEntity@@PAVeCCollisionShape@@@Z@Z
+                        */
+  (this->eCPhysicsScene_data).offset_0x90 = param_1;
+  return;
+}
+
+

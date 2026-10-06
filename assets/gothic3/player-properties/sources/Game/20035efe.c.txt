@@ -1,0 +1,18 @@
+/* ENTRY 20035efe | gCStat::SetMaximumModifier | STATUS decompiled | 6 ms */
+
+/* public: void __thiscall gCStat::SetMaximumModifier(int const &) */
+
+void __thiscall gCStat::SetMaximumModifier(gCStat *this,int *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x35efe  6720  ?SetMaximumModifier@gCStat@@QAEXABH@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"MaximumModifier",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  (this->gCAttribute_data).offset_0x18 = *param_1;
+  (*pNVar1)(this,"MaximumModifier",false);
+  return;
+}
+
+

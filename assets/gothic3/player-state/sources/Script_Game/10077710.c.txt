@@ -1,0 +1,279 @@
+/* ENTRY 10077710 | FUN_10077710 | STATUS decompiled | 730 ms */
+
+undefined4 FUN_10077710(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3)
+
+{
+  bool bVar1;
+  char cVar2;
+  eCEntity *peVar3;
+  bCString *pbVar4;
+  int iVar5;
+  ulong uVar6;
+  gEAIMode gVar7;
+  code *pcVar8;
+  code *pcVar9;
+  float10 fVar10;
+  float fVar11;
+  Entity aEStack_380 [8];
+  undefined4 uStack_378;
+  Entity aEStack_370 [136];
+  undefined4 uStack_2e8;
+  Entity aEStack_2bc [124];
+  undefined4 uStack_240;
+  char *in_stack_fffffdcc;
+  undefined4 uVar13;
+  double dVar12;
+  Entity local_200 [4];
+  Entity local_1fc [4];
+  Entity local_1f8 [4];
+  PSRoutine local_1f4 [8];
+  PSFocus local_1ec [16];
+  PropertyIsPressed aPStack_1dc [4];
+  PSInventory local_1d8 [4];
+  PropertyDurationPressedMSecs local_1d4 [16];
+  PropertyIsPressed local_1c4 [8];
+  PropertyIsPressed local_1bc [4];
+  PropertyIsPressed local_1b8 [68];
+  Entity aEStack_174 [20];
+  Entity local_160 [4];
+  PropertyAIMode local_15c [4];
+  Entity local_158 [4];
+  undefined1 local_154 [140];
+  Entity local_c8 [28];
+  Entity local_ac [4];
+  Entity local_a8 [168];
+  
+  Entity::Entity(local_1f8);
+  if (param_2 == (Entity *)0x0) {
+    peVar3 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    Entity::AttachTo(local_1f8,peVar3);
+  }
+  else {
+    Entity::operator=(local_1f8,param_2);
+  }
+  Entity::Entity(local_a8);
+  if (param_3 == (Entity *)0x0) {
+    peVar3 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    Entity::AttachTo(local_a8,peVar3);
+  }
+  else {
+    Entity::operator=(local_a8,param_3);
+  }
+  bVar1 = PSCharacterControl::PropertyIsPressed::operator_bool(local_1b8);
+  pcVar8 = GetCurrentTask_exref;
+  if (!bVar1) {
+    DAT_10220420 = bVar1;
+  }
+  pbVar4 = (bCString *)PSRoutine::GetCurrentTask(local_1f4);
+  bVar1 = operator==("PS_Ranged",pbVar4);
+  bCString::~bCString((bCString *)&stack0xfffffdfc);
+  if (bVar1) {
+    Entity::Entity(aEStack_2bc,local_1fc);
+    cVar2 = thunk_FUN_100094e0();
+    if (cVar2 == '\x01') {
+      Entity::~Entity(local_ac);
+      Entity::~Entity(local_1fc);
+      return 0;
+    }
+    Entity::Entity(aEStack_2bc,local_1fc);
+    iVar5 = thunk_FUN_1000c1d0();
+    bVar1 = PSCharacterControl::PropertyIsPressed::operator_bool(local_1bc);
+    if ((!bVar1) ||
+       (bVar1 = PSCharacterControl::PropertyIsPressedBefore::operator_bool
+                          ((PropertyIsPressedBefore *)local_1bc), bVar1)) {
+      bVar1 = PSCharacterControl::PropertyIsPressed::operator_bool(local_1bc);
+      if ((!bVar1) &&
+         ((bVar1 = PSCharacterControl::PropertyIsPressedBefore::operator_bool
+                             ((PropertyIsPressedBefore *)local_1bc), bVar1 && (iVar5 != 6))))
+      goto LAB_10077915;
+    }
+    else if (iVar5 == 6) {
+      PSInventory::GetItemFromSlot(local_1d8,(gESlot)local_154);
+      Entity::operator!=((Entity *)None_exref,local_158);
+      Entity::Entity((Entity *)&stack0xfffffd3c,local_200);
+      thunk_FUN_100107c0();
+      Entity::~Entity(local_158);
+    }
+    else {
+LAB_10077915:
+      Entity::Entity((Entity *)&stack0xfffffd40,local_1fc);
+      thunk_FUN_100107c0();
+    }
+  }
+  pbVar4 = (bCString *)PSRoutine::GetCurrentTask((PSRoutine *)local_1fc);
+  bVar1 = operator==("PS_Melee",pbVar4);
+  bCString::~bCString((bCString *)&stack0xfffffdf4);
+  if (bVar1) {
+    bVar1 = PSCharacterControl::PropertyIsPressed::operator_bool(local_1c4);
+    if ((!bVar1) ||
+       (bVar1 = PSCharacterControl::PropertyIsPressedBefore::operator_bool
+                          ((PropertyIsPressedBefore *)local_1c4), bVar1)) {
+      bVar1 = PSCharacterControl::PropertyIsPressed::operator_bool(local_1c4);
+      if (!bVar1) {
+        pbVar4 = (bCString *)PSRoutine::GetCurrentState((PSRoutine *)local_200);
+        bVar1 = operator==("PS_Melee_PowerAttack",pbVar4);
+        bCString::~bCString((bCString *)&stack0xfffffdf0);
+        if (bVar1) {
+          fVar11 = PSRoutine::GetStateTime((PSRoutine *)&stack0xfffffdfc);
+          Entity::Entity((Entity *)&stack0xfffffd34,(Entity *)&stack0xfffffdf8);
+          fVar10 = (float10)thunk_FUN_1000a2e0();
+          if (fVar10 < (float10)fVar11) {
+            fVar11 = PSRoutine::GetStateTime((PSRoutine *)&stack0xfffffdfc);
+            Entity::Entity((Entity *)&stack0xfffffd34,(Entity *)&stack0xfffffdf8);
+            fVar10 = (float10)thunk_FUN_1000a2e0();
+            if (fVar10 < (float10)fVar11) goto LAB_10077d8a;
+            Entity::Entity((Entity *)&stack0xfffffd38,(Entity *)&stack0xfffffdf8);
+            cVar2 = thunk_FUN_10009d40();
+            if (cVar2 != '\0') {
+              PSRoutine::FullStop((PSRoutine *)&stack0xfffffdfc);
+              pbVar4 = (bCString *)&stack0xfffffddc;
+              goto LAB_10077b40;
+            }
+          }
+          PSRoutine::FullStop((PSRoutine *)&stack0xfffffdfc);
+          pbVar4 = (bCString *)&stack0xfffffddc;
+        }
+        else {
+          pbVar4 = (bCString *)PSRoutine::GetCurrentState((PSRoutine *)&stack0xfffffdfc);
+          bVar1 = operator==("PS_Melee_FinishingAttack",pbVar4);
+          bCString::~bCString((bCString *)&stack0xfffffdec);
+          if (bVar1) {
+            fVar11 = PSRoutine::GetStateTime((PSRoutine *)&stack0xfffffdf8);
+            uVar13 = SUB84((double)fVar11,0);
+            Entity::Entity((Entity *)&stack0xfffffd30,(Entity *)&stack0xfffffdf4);
+            fVar10 = (float10)thunk_FUN_1000a2e0();
+            dVar12 = (double)CONCAT44((int)((ulonglong)(double)fVar11 >> 0x20),uVar13);
+          }
+          else {
+            pbVar4 = (bCString *)PSRoutine::GetCurrentState((PSRoutine *)&stack0xfffffdf8);
+            bVar1 = operator==("PS_Melee_PierceAttack",pbVar4);
+            bCString::~bCString((bCString *)&stack0xfffffde8);
+            if (!bVar1) {
+              pbVar4 = (bCString *)PSRoutine::GetCurrentState((PSRoutine *)&stack0xfffffdf4);
+              bVar1 = operator==("PS_Melee_HackAttack",pbVar4);
+              bCString::~bCString((bCString *)&stack0xfffffde4);
+              if (bVar1) {
+                fVar11 = PSRoutine::GetStateTime((PSRoutine *)&stack0xfffffdf0);
+                dVar12 = (double)fVar11;
+                Entity::Entity((Entity *)&stack0xfffffd28,(Entity *)&stack0xfffffdec);
+                fVar10 = (float10)thunk_FUN_1000a2e0();
+                if ((float10)dVar12 <= fVar10) {
+                  PSRoutine::FullStop((PSRoutine *)&stack0xfffffdf0);
+                  pbVar4 = (bCString *)&stack0xfffffdd0;
+                  in_stack_fffffdcc = "PS_Melee_WhirlAttack";
+                  goto LAB_10077b40;
+                }
+              }
+              else if (DAT_10220421 == '\x01') {
+                uVar6 = PSCharacterControl::PropertyDurationPressedMSecs::operator_unsigned_long
+                                  (local_1d4);
+                if (uVar6 < 0xc9) {
+                  Entity::Entity((Entity *)&stack0xfffffd2c,(Entity *)&stack0xfffffdec);
+                  thunk_FUN_1000bbf0();
+                }
+              }
+              else {
+                PSCharacterControl::PropertyDurationPressedMSecs::operator_unsigned_long(local_1d4);
+              }
+              goto LAB_10077d8a;
+            }
+            fVar11 = PSRoutine::GetStateTime((PSRoutine *)&stack0xfffffdf4);
+            dVar12 = (double)fVar11;
+            Entity::Entity((Entity *)&stack0xfffffd2c,(Entity *)&stack0xfffffdf0);
+            fVar10 = (float10)thunk_FUN_1000a2e0();
+          }
+          if (fVar10 < (float10)dVar12) goto LAB_10077d8a;
+          PSRoutine::FullStop((PSRoutine *)&stack0xfffffdf0);
+          pbVar4 = (bCString *)&stack0xfffffdd0;
+          in_stack_fffffdcc = "PS_Melee_QuickAttack";
+        }
+LAB_10077b40:
+        bCString::bCString(pbVar4,in_stack_fffffdcc);
+        PSRoutine::SetState((PSRoutine *)&stack0xfffffdf0);
+        goto LAB_10077f7b;
+      }
+      uVar6 = PSCharacterControl::PropertyDurationPressedMSecs::operator_unsigned_long
+                        ((PropertyDurationPressedMSecs *)local_1c4);
+      if (((0x32 < uVar6) && (DAT_10220420 == '\0')) &&
+         (DAT_10220420 = '\x01', DAT_10220421 == '\x01')) {
+        PSFocus::GetFocusEntity(local_1ec);
+        gVar7 = PSRoutine::PropertyAIMode::operator_enum_gEAIMode(local_15c);
+        if ((gVar7 != 8) ||
+           (fVar11 = Entity::GetDistanceTo((Entity *)&stack0xfffffdf8,local_160), 300.0 < fVar11)) {
+          Entity::Entity((Entity *)&stack0xfffffd38,(Entity *)&stack0xfffffdf8);
+          thunk_FUN_10009dc0();
+          Entity::~Entity(local_160);
+        }
+        else {
+          Entity::~Entity(local_160);
+        }
+      }
+    }
+    else {
+      PSFocus::GetFocusEntity(local_1ec);
+      Entity::Entity((Entity *)&stack0xfffffd38,local_160);
+      uStack_378 = 0x100779a2;
+      Entity::Entity(aEStack_370,(Entity *)&stack0xfffffdf8);
+      thunk_FUN_1000a760();
+      Entity::Entity((Entity *)&stack0xfffffd34,(Entity *)&stack0xfffffdf8);
+      thunk_FUN_1000a790();
+      Entity::~Entity(local_160);
+    }
+LAB_10077d8a:
+    Entity::Entity((Entity *)&stack0xfffffd28,(Entity *)None_exref);
+    Entity::Entity(aEStack_380,(Entity *)&stack0xfffffdec);
+    cVar2 = thunk_FUN_1000c600();
+    pcVar8 = GetCurrentTask_exref;
+    if (cVar2 == '\x01') {
+      Entity::Entity((Entity *)&stack0xfffffd28,(Entity *)&stack0xfffffdec);
+      thunk_FUN_100107c0();
+      pcVar8 = GetCurrentTask_exref;
+    }
+  }
+  pbVar4 = (bCString *)(*pcVar8)();
+  bVar1 = operator==("ZS_SitKnockDown",pbVar4);
+  bCString::~bCString((bCString *)&stack0xfffffde0);
+  pcVar9 = operator_bool_exref;
+  if (((bVar1) &&
+      (bVar1 = PSCharacterControl::PropertyIsPressed::operator_bool((PropertyIsPressed *)local_1d8),
+      pcVar9 = operator_bool_exref, bVar1)) &&
+     (bVar1 = PSCharacterControl::PropertyIsPressedBefore::operator_bool
+                        ((PropertyIsPressedBefore *)local_1d8), !bVar1)) {
+    PSFocus::GetFocusEntity((PSFocus *)local_200);
+    Entity::Entity((Entity *)&stack0xfffffd24,aEStack_174);
+    Entity::Entity((Entity *)&stack0xfffffc7c,(Entity *)&stack0xfffffde4);
+    thunk_FUN_1000a760();
+    uStack_2e8 = 0x10077e84;
+    Entity::Entity((Entity *)&stack0xfffffd20,(Entity *)&stack0xfffffde4);
+    thunk_FUN_1000a790();
+    uStack_2e8 = 0x10077ea2;
+    Entity::Entity((Entity *)&stack0xfffffd20,(Entity *)&stack0xfffffde4);
+    thunk_FUN_100107c0();
+    Entity::~Entity(aEStack_174);
+  }
+  pbVar4 = (bCString *)(*pcVar8)();
+  uStack_240 = 0x10077ed8;
+  bVar1 = operator==("PS_Interact",pbVar4);
+  bCString::~bCString((bCString *)&stack0xfffffddc);
+  if (((bVar1) && (bVar1 = PSCharacterControl::PropertyIsPressed::operator_bool(aPStack_1dc), bVar1)
+      ) && (cVar2 = (*pcVar9)(), cVar2 == '\0')) {
+    uStack_2e8 = 0x10077f14;
+    Entity::Entity((Entity *)&stack0xfffffd20,(Entity *)&stack0xfffffde4);
+    thunk_FUN_100108d0();
+  }
+  pbVar4 = (bCString *)(*pcVar8)();
+  bVar1 = operator==("PS_Normal",pbVar4);
+  bCString::~bCString((bCString *)&stack0xfffffde0);
+  if (((bVar1) &&
+      (bVar1 = PSCharacterControl::PropertyIsPressed::operator_bool((PropertyIsPressed *)local_1d8),
+      bVar1)) && (cVar2 = (*pcVar9)(), cVar2 == '\0')) {
+    Entity::Entity((Entity *)&stack0xfffffd24,(Entity *)&stack0xfffffde8);
+    thunk_FUN_100108d0();
+  }
+LAB_10077f7b:
+  Entity::~Entity(local_c8);
+  Entity::~Entity((Entity *)&stack0xfffffde8);
+  return 1;
+}
+
+

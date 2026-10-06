@@ -1,0 +1,15 @@
+; 20463a9b PMDtoOffset
+20463a9b | 8b5004 | MOV EDX,dword ptr [EAX + 0x4]
+20463a9e | 33c9 | XOR ECX,ECX
+20463aa0 | 85d2 | TEST EDX,EDX
+20463aa2 | 7c11 | JL 0x20463ab5
+20463aa4 | 8bca | MOV ECX,EDX
+20463aa6 | 8b542404 | MOV EDX,dword ptr [ESP + 0x4]
+20463aaa | 8b1411 | MOV EDX,dword ptr [ECX + EDX*0x1]
+20463aad | 56 | PUSH ESI
+20463aae | 8b7008 | MOV ESI,dword ptr [EAX + 0x8]
+20463ab1 | 030c32 | ADD ECX,dword ptr [EDX + ESI*0x1]
+20463ab4 | 5e | POP ESI
+20463ab5 | 8b00 | MOV EAX,dword ptr [EAX]
+20463ab7 | 03c1 | ADD EAX,ECX
+20463ab9 | c3 | RET

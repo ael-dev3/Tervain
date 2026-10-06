@@ -1,0 +1,2 @@
+; 10001028 MemHeap::AllocUnsynced
+10001028 | e9c3c20300 | JMP 0x1003d2f0

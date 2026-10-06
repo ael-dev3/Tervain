@@ -1,0 +1,25 @@
+/* ENTRY 1000bfa0 | FUN_1000bfa0 | STATUS decompiled | 10 ms */
+
+undefined4 FUN_1000bfa0(void)
+
+{
+  int iVar1;
+  gEUseType gVar2;
+  gEUseType gVar3;
+  undefined4 uVar4;
+  int in_stack_000000ac;
+  int in_stack_000000b0;
+  
+  iVar1 = in_stack_000000b0;
+  if ((in_stack_000000ac == in_stack_000000b0) && (in_stack_000000ac != -1)) {
+    Entity::~Entity((Entity *)&stack0x00000004);
+    return 0;
+  }
+  gVar2 = PSInventory::GetUseType((PSInventory *)&stack0x00000028,in_stack_000000ac);
+  gVar3 = PSInventory::GetUseType((PSInventory *)&stack0x00000028,iVar1);
+  uVar4 = thunk_FUN_1000bf60(gVar2,gVar3);
+  Entity::~Entity((Entity *)&stack0x00000004);
+  return uVar4;
+}
+
+

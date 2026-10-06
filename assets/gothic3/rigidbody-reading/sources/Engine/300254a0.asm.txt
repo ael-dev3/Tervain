@@ -1,0 +1,4 @@
+; 300254a0 bTPropertyType<eCRigidBody_PS,float>::vfunction6
+300254a0 | e9bbbd3000 | JMP 0x30331260
+; 300254a5 eCDecal_PS::Read
+; 300254a5 Ordinal_12078

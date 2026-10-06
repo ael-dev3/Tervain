@@ -1,0 +1,35 @@
+/* ENTRY 10004fc0 | bCMemoryStream::AccessBuffer | STATUS decompiled | 9 ms */
+
+/* public: unsigned char * __thiscall bCMemoryStream::AccessBuffer(unsigned long) */
+
+uchar * __thiscall bCMemoryStream::AccessBuffer(bCMemoryStream *this,ulong param_1)
+
+{
+  int iVar1;
+  bCMemoryAdmin *this_00;
+  void *pvVar2;
+  ulong uVar3;
+  ulong uVar4;
+  
+                    /* 0x4fc0  1411  ?AccessBuffer@bCMemoryStream@@QAEPAEK@Z */
+  uVar3 = (this->bCMemoryStream_data).offset_0x4 + param_1;
+  if ((int)(this->bCMemoryStream_data).offset_0x8 < (int)uVar3) {
+    if (0x7fffffff < (int)uVar3) {
+      return (uchar *)0x0;
+    }
+    pvVar2 = (this->bCMemoryStream_data).offset_0x0;
+    uVar4 = uVar3;
+    this_00 = bCMemoryAdmin::GetInstance();
+    pvVar2 = bCMemoryAdmin::Realloc(this_00,pvVar2,uVar4);
+    (this->bCMemoryStream_data).offset_0x0 = pvVar2;
+    (this->bCMemoryStream_data).offset_0x8 = uVar3;
+    if ((int)uVar3 < (int)(this->bCMemoryStream_data).offset_0x4) {
+      (this->bCMemoryStream_data).offset_0x4 = uVar3;
+    }
+  }
+  iVar1 = (this->bCMemoryStream_data).offset_0x4;
+  (this->bCMemoryStream_data).offset_0x4 = uVar3;
+  return (uchar *)((int)(this->bCMemoryStream_data).offset_0x0 + iVar1);
+}
+
+

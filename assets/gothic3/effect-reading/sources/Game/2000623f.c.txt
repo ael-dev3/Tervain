@@ -1,0 +1,16 @@
+/* ENTRY 2000623f | gCEffect_PS::OnEnterProcessingRange | STATUS decompiled | 8 ms */
+
+/* public: virtual void __thiscall gCEffect_PS::OnEnterProcessingRange(void) */
+
+void __thiscall gCEffect_PS::OnEnterProcessingRange(gCEffect_PS *this)
+
+{
+                    /* 0x623f  5413  ?OnEnterProcessingRange@gCEffect_PS@@UAEXXZ */
+  if ((this->gCEffect_PS_data).field_0x24 == '\x01') {
+    CreateEffect(this);
+    return;
+  }
+  return;
+}
+
+

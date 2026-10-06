@@ -1,0 +1,39 @@
+/* ENTRY 30359960 | FUN_30359960 | STATUS decompiled | 14 ms */
+
+void __thiscall FUN_30359960(int param_1,bCMatrix3 *param_2)
+
+{
+  float *pfVar1;
+  eCPhysicsScene *this;
+  bCCriticalSectionWin32 *this_00;
+  float local_24;
+  float local_20;
+  float local_1c;
+  float local_18;
+  float local_14;
+  float local_10;
+  float local_c;
+  float local_8;
+  float local_4;
+  
+  if (*(int *)(param_1 + 0x60) != 0) {
+    pfVar1 = bCMatrix3::AccessElement(param_2,0);
+    local_24 = *pfVar1;
+    local_20 = pfVar1[3];
+    local_1c = pfVar1[6];
+    local_18 = pfVar1[1];
+    local_14 = pfVar1[4];
+    local_10 = pfVar1[7];
+    local_c = pfVar1[2];
+    local_8 = pfVar1[5];
+    local_4 = pfVar1[8];
+    this = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+    this_00 = eCPhysicsScene::GetCriticalSection(this);
+    bCCriticalSectionWin32::Acquire(this_00);
+    bCCriticalSectionWin32::Release(this_00);
+    (**(code **)(**(int **)(param_1 + 0x60) + 0x3c))(&local_24);
+  }
+  return;
+}
+
+

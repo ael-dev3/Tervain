@@ -1,0 +1,18 @@
+/* ENTRY 1000665e | bCOrientedBox::GetTranslated | STATUS decompiled | 4 ms */
+
+/* public: class bCOrientedBox __thiscall bCOrientedBox::GetTranslated(float)const  */
+
+float __thiscall bCOrientedBox::GetTranslated(bCOrientedBox *this,float param_1)
+
+{
+  float in_stack_00000008;
+  
+                    /* 0x665e  3153  ?GetTranslated@bCOrientedBox@@QBE?AV1@M@Z */
+  Create((bCOrientedBox *)param_1,this);
+  *(float *)param_1 = in_stack_00000008 + *(float *)param_1;
+  *(float *)((int)param_1 + 4) = *(float *)((int)param_1 + 4) + in_stack_00000008;
+  *(float *)((int)param_1 + 8) = in_stack_00000008 + *(float *)((int)param_1 + 8);
+  return param_1;
+}
+
+

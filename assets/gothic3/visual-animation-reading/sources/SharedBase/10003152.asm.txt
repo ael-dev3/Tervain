@@ -1,0 +1,2 @@
+; 10003152 bCByteAlphaColor::bCByteAlphaColor
+10003152 | e969bc0900 | JMP 0x1009edc0

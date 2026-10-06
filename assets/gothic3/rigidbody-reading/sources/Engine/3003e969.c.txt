@@ -1,0 +1,53 @@
+/* ENTRY 3003e969 | eCRigidBody_PS::OnPropertySetAdded | STATUS decompiled | 49 ms */
+
+/* protected: virtual void __thiscall eCRigidBody_PS::OnPropertySetAdded(void) */
+
+void __thiscall eCRigidBody_PS::OnPropertySetAdded(eCRigidBody_PS *this)
+
+{
+  undefined1 *this_00;
+  eCEntity *peVar1;
+  int iVar2;
+  eCEntity *peVar3;
+  bCVector *pbVar4;
+  undefined4 *puVar5;
+  undefined4 uVar6;
+  TypeDescriptor *pTVar7;
+  TypeDescriptor *pTVar8;
+  undefined4 uVar9;
+  
+                    /* 0x3e969  11412  ?OnPropertySetAdded@eCRigidBody_PS@@MAEXXZ */
+  uVar9 = 0;
+  pTVar8 = &eCTemplateEntity::RTTI_Type_Descriptor;
+  pTVar7 = &eCEntity::RTTI_Type_Descriptor;
+  uVar6 = 0;
+  peVar1 = (*this->vftablePtr->GetEntity)(this);
+  iVar2 = FUN_30671ae7(peVar1,uVar6,pTVar7,pTVar8,uVar9);
+  if (iVar2 == 0) {
+    this_00 = &(this->eCRigidBody_PS_data).field_0x88;
+    peVar3 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+    pbVar4 = eCEntity::GetWorldPosition(peVar3);
+    bCVector::operator=((bCVector *)this_00,pbVar4);
+    peVar3 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+    puVar5 = (undefined4 *)eCEntity::GetWorldRotation(peVar3);
+    *(undefined4 *)&(this->eCRigidBody_PS_data).field_0x94 = *puVar5;
+    *(undefined4 *)&(this->eCRigidBody_PS_data).field_0x98 = puVar5[1];
+    *(undefined4 *)&(this->eCRigidBody_PS_data).field_0x9c = puVar5[2];
+    *(undefined4 *)&(this->eCRigidBody_PS_data).field_0xa0 = puVar5[3];
+    bCQuaternion::~bCQuaternion((bCQuaternion *)&stack0xffffffec);
+    bCVector::operator=((bCVector *)&(this->eCRigidBody_PS_data).field_0xa4,(bCVector *)this_00);
+    *(undefined4 *)&(this->eCRigidBody_PS_data).field_0xb0 =
+         *(undefined4 *)&(this->eCRigidBody_PS_data).field_0x94;
+    *(undefined4 *)&(this->eCRigidBody_PS_data).field_0xb4 =
+         *(undefined4 *)&(this->eCRigidBody_PS_data).field_0x98;
+    *(undefined4 *)&(this->eCRigidBody_PS_data).field_0xb8 =
+         *(undefined4 *)&(this->eCRigidBody_PS_data).field_0x9c;
+    *(undefined4 *)&(this->eCRigidBody_PS_data).field_0xbc =
+         *(undefined4 *)&(this->eCRigidBody_PS_data).field_0xa0;
+    eCEntityPropertySet::OnPropertySetAdded((eCEntityPropertySet *)this);
+    return;
+  }
+  return;
+}
+
+

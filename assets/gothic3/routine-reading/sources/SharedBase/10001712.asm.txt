@@ -1,0 +1,4 @@
+; 10001712 ??1bCAccessorProperty@@QAE@XZ
+10001712 | e9f9b80200 | JMP 0x1002d010
+; 10001717 bCMatrix::AccessTranslation
+; 10001717 Ordinal_1497

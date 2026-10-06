@@ -1,0 +1,4 @@
+; 20031ac5 bTPropertyType<gCNPC_PS,int>::vfunction6
+20031ac5 | e956aa2d00 | JMP 0x2030c520
+; 20031aca gCDummyCollectorFreepoint::operator=
+; 20031aca Ordinal_600

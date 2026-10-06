@@ -1,0 +1,4 @@
+; 30047195 bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eEPhysicRangeType>_>::vfunction3
+30047195 | e9366e2f00 | JMP 0x3033dfd0
+; 3004719a eCIPSourceBackBuffer::CreateImageData
+; 3004719a Ordinal_4847

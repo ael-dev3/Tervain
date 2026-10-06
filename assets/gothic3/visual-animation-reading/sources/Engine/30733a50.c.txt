@@ -1,0 +1,34 @@
+/* ENTRY 30733a50 | bTPropertyType<eCVisualAnimation_PS,bool>::~bTPropertyType<eCVisualAnimation_PS,bool> | STATUS decompiled | 80 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<eCVisualAnimation_PS,bool>::~bTPropertyType<eCVisualAnimation_PS,bool>
+          (bTPropertyType<eCVisualAnimation_PS,bool> *this)
+
+{
+  bTPropertyType<eCVisualAnimation_PS,bool> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"ConstrainRootToWorld");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&eCVisualAnimation_PS::ms_PropertyMember_m_bConstrainRootToWorld,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_bConstrainRootToWorld = &vftable;
+  DAT_30ada5d0 = bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet>();
+  _DAT_30ada5d4 = 0x1d;
+  _DAT_30ada5d8 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&eCVisualAnimation_PS::ms_PropertyMember_m_bConstrainRootToWorld)
+  ;
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_30ada5d0,
+             (bCPropertyTypeBase *)&eCVisualAnimation_PS::ms_PropertyMember_m_bConstrainRootToWorld)
+  ;
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}
+
+

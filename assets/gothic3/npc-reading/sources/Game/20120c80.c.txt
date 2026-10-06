@@ -1,0 +1,12 @@
+/* ENTRY 20120c80 | bTPropertyContainer<gEPoliticalAlignment>::vfunction7 | STATUS decompiled | 3 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<gEPoliticalAlignment>::vfunction7
+          (bTPropertyContainer<gEPoliticalAlignment> *this)
+
+{
+  (this->bTPropertyContainer<gEPoliticalAlignment>_data).offset_0x0 = DAT_207b7f08;
+  return 1;
+}
+
+

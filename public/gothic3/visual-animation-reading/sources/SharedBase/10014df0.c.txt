@@ -1,0 +1,30 @@
+/* ENTRY 10014df0 | FUN_10014df0 | STATUS decompiled | 6 ms */
+
+void __fastcall FUN_10014df0(bCString *param_1)
+
+{
+  int iVar1;
+  int iVar2;
+  int iVar3;
+  
+  if (*(int *)param_1 != 0) {
+    bCString::CopyBeforeWrite(param_1);
+    if (*(int *)param_1 == 0) {
+      iVar2 = 0;
+    }
+    else {
+      iVar2 = *(int *)(*(int *)param_1 + -8);
+    }
+    iVar3 = 0;
+    if (0 < iVar2) {
+      do {
+        iVar1 = _tolower((int)*(char *)(*(int *)param_1 + iVar3));
+        *(char *)(iVar3 + *(int *)param_1) = (char)iVar1;
+        iVar3 = iVar3 + 1;
+      } while (iVar3 < iVar2);
+    }
+  }
+  return;
+}
+
+

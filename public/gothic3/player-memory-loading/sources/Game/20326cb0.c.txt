@@ -1,0 +1,49 @@
+/* ENTRY 20326cb0 | bTPropertyType<gCPlayerMemory_PS,bTValArray<long>_>::vfunction15 | STATUS decompiled | 17 ms */
+
+void __thiscall
+bTPropertyType<gCPlayerMemory_PS,bTValArray<long>_>::vfunction15
+          (bTPropertyType<gCPlayerMemory_PS,bTValArray<long>_> *this,bCIStream *param_1)
+
+{
+  vfunction26 *pvVar1;
+  ushort uVar2;
+  int iVar3;
+  int *piVar4;
+  bCString *pbVar5;
+  char *pcVar6;
+  undefined4 *in_stack_00000008;
+  undefined4 uVar7;
+  ulong uStack_4;
+  
+  uVar2 = (*this->vftablePtr->Read)(this,(bCIStream *)param_1);
+  bCIStream::operator>>(param_1,&uStack_4);
+  iVar3 = (**(code **)*in_stack_00000008)();
+  if (iVar3 != 0) {
+    piVar4 = (int *)(**(code **)*in_stack_00000008)();
+    iVar3 = *piVar4;
+    uVar7 = 1;
+    pbVar5 = bCPropertyTypeBase::GetPropertyName((bCPropertyTypeBase *)this);
+    pcVar6 = bCString::operator_char_const_(pbVar5);
+    (**(code **)(iVar3 + 0x58))(pcVar6,uVar7);
+  }
+  pvVar1 = this->vftablePtr->vfunction26;
+  if (uVar2 < 0x1e) {
+    (*pvVar1)(this,in_stack_00000008);
+  }
+  else {
+    (*pvVar1)(this,in_stack_00000008);
+    thunk_FUN_201237e0(param_1);
+  }
+  iVar3 = (**(code **)*in_stack_00000008)();
+  if (iVar3 != 0) {
+    piVar4 = (int *)(**(code **)*in_stack_00000008)();
+    iVar3 = *piVar4;
+    uVar7 = 1;
+    pbVar5 = bCPropertyTypeBase::GetPropertyName((bCPropertyTypeBase *)this);
+    pcVar6 = bCString::operator_char_const_(pbVar5);
+    (**(code **)(iVar3 + 0x5c))(pcVar6,uVar7);
+  }
+  return;
+}
+
+

@@ -1,0 +1,2 @@
+; 200187b9 gCPlayerMemory_PS::WriteSaveGame
+200187b9 | e9e2573000 | JMP 0x2031dfa0

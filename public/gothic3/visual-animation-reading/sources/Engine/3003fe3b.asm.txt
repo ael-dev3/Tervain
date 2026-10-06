@@ -1,0 +1,2 @@
+; 3003fe3b eCEffector::GetType
+3003fe3b | e900523400 | JMP 0x30385040

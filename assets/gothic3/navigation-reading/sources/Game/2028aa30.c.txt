@@ -1,0 +1,10 @@
+/* ENTRY 2028aa30 | FUN_2028aa30 | STATUS decompiled | 6 ms */
+
+void __fastcall FUN_2028aa30(gCNavigation_PS *param_1)
+
+{
+  gCNavigation_PS::Reset(param_1,false,true,true);
+  return;
+}
+
+

@@ -1,0 +1,4 @@
+; 200162ca bTPropertyType<gCCharacterControl_PS,bool>::vfunction15
+200162ca | e9417c2000 | JMP 0x2021df10
+; 200162cf gCMagic_PS::GetAnimActionPowerCast
+; 200162cf Ordinal_2924

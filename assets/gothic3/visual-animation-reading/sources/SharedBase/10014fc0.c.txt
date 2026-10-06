@@ -1,0 +1,102 @@
+/* ENTRY 10014fc0 | FUN_10014fc0 | STATUS decompiled | 33 ms */
+
+int __thiscall FUN_10014fc0(bCString *param_1,char *param_2,char *param_3)
+
+{
+  char cVar1;
+  void *_Src;
+  size_t _Size;
+  char *pcVar2;
+  char *pcVar3;
+  int iVar4;
+  char *pcVar5;
+  int iVar6;
+  int iVar7;
+  size_t _Size_00;
+  int iVar8;
+  int local_14;
+  
+  pcVar3 = *(char **)param_1;
+  if ((pcVar3 == (char *)0x0) || (*(int *)(pcVar3 + -8) == 0)) {
+    return 0;
+  }
+  pcVar5 = param_2;
+  do {
+    cVar1 = *pcVar5;
+    pcVar5 = pcVar5 + 1;
+  } while (cVar1 != '\0');
+  iVar6 = (int)pcVar5 - (int)(param_2 + 1);
+  if (iVar6 == 0) {
+    return 0;
+  }
+  pcVar5 = param_3;
+  do {
+    cVar1 = *pcVar5;
+    pcVar5 = pcVar5 + 1;
+  } while (cVar1 != '\0');
+  _Size = (int)pcVar5 - (int)(param_3 + 1);
+  pcVar5 = pcVar3 + *(int *)(pcVar3 + -8);
+  iVar8 = 0;
+  if (pcVar3 < pcVar5) {
+    do {
+      pcVar2 = _strstr(pcVar3,param_2);
+      while (pcVar2 != (char *)0x0) {
+        pcVar3 = pcVar2 + iVar6;
+        iVar8 = iVar8 + 1;
+        pcVar2 = _strstr(pcVar3,param_2);
+      }
+      do {
+        cVar1 = *pcVar3;
+        pcVar3 = pcVar3 + 1;
+      } while (cVar1 != '\0');
+    } while (pcVar3 < pcVar5);
+    if (0 < iVar8) {
+      bCString::CopyBeforeWrite(param_1);
+      _Src = *(void **)param_1;
+      iVar4 = 0;
+      if (_Src == (void *)0x0) {
+        local_14 = 0;
+      }
+      else {
+        local_14 = *(int *)((int)_Src + -8);
+      }
+      iVar7 = (_Size - iVar6) * iVar8 + local_14;
+      if (_Src != (void *)0x0) {
+        iVar4 = *(int *)((int)_Src + -8);
+      }
+      if ((iVar4 < iVar7) || (1 < *(ushort *)((int)_Src + -4))) {
+        bCString::Alloc(param_1,iVar7);
+        _memcpy(*(void **)param_1,_Src,*(size_t *)((int)_Src + -8));
+        bCString::Release((bSStringData *)((int)_Src + -8));
+      }
+      pcVar3 = *(char **)param_1;
+      if (pcVar3 == (char *)0x0) {
+        iVar4 = 0;
+      }
+      else {
+        iVar4 = *(int *)(pcVar3 + -8);
+      }
+      pcVar5 = pcVar3 + iVar4;
+      while (pcVar3 < pcVar5) {
+        pcVar2 = _strstr(pcVar3,param_2);
+        while (pcVar2 != (char *)0x0) {
+          _Size_00 = ((*(int *)param_1 - (int)pcVar2) - iVar6) + local_14;
+          pcVar3 = pcVar2 + _Size;
+          _memmove(pcVar3,pcVar2 + iVar6,_Size_00);
+          _memcpy(pcVar2,param_3,_Size);
+          local_14 = local_14 + (_Size - iVar6);
+          pcVar3[_Size_00] = '\0';
+          pcVar2 = _strstr(pcVar3,param_2);
+        }
+        do {
+          cVar1 = *pcVar3;
+          pcVar3 = pcVar3 + 1;
+        } while (cVar1 != '\0');
+      }
+      *(int *)(*(int *)param_1 + -8) = iVar7;
+    }
+  }
+  return iVar8;
+}
+
+

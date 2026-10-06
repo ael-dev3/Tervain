@@ -1,0 +1,2 @@
+; 30002b76 ?SetShape@eCCollisionShape@@QAE?AW4bEResult@@ABVbCCapsule@@@Z
+30002b76 | e965b00c00 | JMP 0x300cdbe0

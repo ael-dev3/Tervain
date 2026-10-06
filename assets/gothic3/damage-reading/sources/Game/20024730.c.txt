@@ -1,0 +1,18 @@
+/* ENTRY 20024730 | gCDamage_PS::SetDamageManaMultiplier | STATUS decompiled | 12 ms */
+
+/* public: void __thiscall gCDamage_PS::SetDamageManaMultiplier(float const &) */
+
+void __thiscall gCDamage_PS::SetDamageManaMultiplier(gCDamage_PS *this,float *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x24730  6369  ?SetDamageManaMultiplier@gCDamage_PS@@QAEXABM@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"DamageManaMultiplier",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  *(float *)&this[1].gCDamage_PS_data = *param_1;
+  (*pNVar1)(this,"DamageManaMultiplier",false);
+  return;
+}
+
+

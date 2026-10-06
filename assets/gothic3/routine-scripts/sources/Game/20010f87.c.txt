@@ -1,0 +1,18 @@
+/* ENTRY 20010f87 | gCPlayerMemory_PS::SetIsConsumingItem | STATUS decompiled | 11 ms */
+
+/* public: void __thiscall gCPlayerMemory_PS::SetIsConsumingItem(bool const &) */
+
+void __thiscall gCPlayerMemory_PS::SetIsConsumingItem(gCPlayerMemory_PS *this,bool *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x10f87  6601  ?SetIsConsumingItem@gCPlayerMemory_PS@@QAEXAB_N@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"IsConsumingItem",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  *(bool *)&this[1].gCPlayerMemory_PS_data.offset_0x34 = *param_1;
+  (*pNVar1)(this,"IsConsumingItem",false);
+  return;
+}
+
+

@@ -1,0 +1,4 @@
+; 30014ac9 bTPropertyType<eCCollisionShape_PS,bool>::vfunction11
+30014ac9 | e9529f3200 | JMP 0x3033ea20
+; 30014ace eCSoundCache::Destroy
+; 30014ace Ordinal_5318

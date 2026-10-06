@@ -1,0 +1,4 @@
+; 30038e33 bTPropertyType<eCCollisionShape,bTPropertyContainer<eECollisionShapeType>_>::vfunction13
+30038e33 | e9d8583200 | JMP 0x3035e710
+; 30038e38 eCColorSrcSkydomeSampler::operator=
+; 30038e38 Ordinal_1485

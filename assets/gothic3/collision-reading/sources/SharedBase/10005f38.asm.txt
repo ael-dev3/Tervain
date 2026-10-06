@@ -1,0 +1,4 @@
+; 10005f38 ?Normalize@bCBox@@QAEXXZ
+10005f38 | e933010300 | JMP 0x10036070
+; 10005f3d bCByteAlphaColor::SetAlpha
+; 10005f3d Ordinal_4055

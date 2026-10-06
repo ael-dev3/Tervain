@@ -1,0 +1,12 @@
+/* ENTRY 2018e440 | gCHUDTableStackStats::~gCHUDTableStackStats | STATUS decompiled | 35 ms */
+
+void __thiscall gCHUDTableStackStats::~gCHUDTableStackStats(gCHUDTableStackStats *this)
+
+{
+  this->vftablePtr = &vftable_for_gCHUDTableItemStats;
+  this->vftablePtr = &vftable_for_gCInventoryListener;
+  gCHUDTableItemStats::~gCHUDTableItemStats((gCHUDTableItemStats *)this);
+  return;
+}
+
+

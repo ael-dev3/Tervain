@@ -1,0 +1,28 @@
+/* ENTRY 20221df0 | FUN_20221df0 | STATUS decompiled | 6 ms */
+
+undefined1 __fastcall FUN_20221df0(int param_1)
+
+{
+  bool bVar1;
+  bCVector *this;
+  bool bVar2;
+  undefined1 local_11;
+  bCVector local_c [12];
+  
+  bVar2 = false;
+  if (*(int *)(param_1 + 0x100) == 1) {
+    bVar2 = true;
+    this = (bCVector *)(**(code **)(**(int **)(param_1 + 0x170) + 0x18c))(local_c);
+    bVar1 = bCVector::HasZeroMagnitude(this);
+    local_11 = 1;
+    if (bVar1) goto LAB_20221e32;
+  }
+  local_11 = 0;
+LAB_20221e32:
+  if (bVar2) {
+    bCVector::~bCVector(local_c);
+  }
+  return local_11;
+}
+
+

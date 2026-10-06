@@ -1,0 +1,46 @@
+/* ENTRY 20118570 | FUN_20118570 | STATUS decompiled | 20 ms */
+
+void __fastcall FUN_20118570(int *param_1)
+
+{
+  bCString *this;
+  undefined4 *puVar1;
+  bool bVar2;
+  gCEffectModule *this_00;
+  gCEffectSystem *pgVar3;
+  bCMatrix *pbVar4;
+  bCVector *this_01;
+  undefined4 uVar5;
+  int iVar6;
+  bCVector *pbVar7;
+  bCMatrix local_40 [64];
+  
+  if ((param_1[0xb] == 0) && ((*(byte *)(param_1 + 4) & 0xe) == 0)) {
+    this = (bCString *)(param_1 + 5);
+    bVar2 = bCString::IsEmpty(this);
+    if (!bVar2) {
+      this_00 = (gCEffectModule *)gCEffectModule::GetInstance();
+      pgVar3 = gCEffectModule::GetSystem(this_00);
+      if (pgVar3 != (gCEffectSystem *)0x0) {
+        pbVar4 = bCMatrix::GetIdentity();
+        bCMatrix::bCMatrix(local_40,pbVar4);
+        pbVar7 = (bCVector *)(param_1 + 6);
+        this_01 = bCMatrix::AccessTranslation(local_40);
+        bCVector::operator=(this_01,pbVar7);
+        puVar1 = *(undefined4 **)pgVar3;
+        uVar5 = (**(code **)(*param_1 + 0x68))(0,local_40);
+        iVar6 = (*(code *)*puVar1)(this,uVar5);
+        param_1[0xb] = iVar6;
+        if (iVar6 == 0) {
+          GE_MESSAGEF_WARN("gCEffect_PS::CreateEffect -> Could not create effect: %s.",
+                           *(undefined4 *)this);
+          bCString::operator=(this,"");
+        }
+        bCMatrix::~bCMatrix((bCMatrix *)&stack0xffffffac);
+      }
+    }
+  }
+  return;
+}
+
+

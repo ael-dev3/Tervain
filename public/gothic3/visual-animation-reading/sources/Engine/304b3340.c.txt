@@ -1,0 +1,13 @@
+/* ENTRY 304b3340 | FUN_304b3340 | STATUS decompiled | 7 ms */
+
+void FUN_304b3340(eCJoint *param_1)
+
+{
+  eCPhysicsScene *this;
+  
+  this = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+  eCPhysicsScene::ReleaseJoint(this,param_1);
+  return;
+}
+
+

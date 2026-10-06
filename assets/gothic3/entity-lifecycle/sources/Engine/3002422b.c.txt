@@ -1,0 +1,39 @@
+/* ENTRY 3002422b | eCNode::SetContext | STATUS decompiled | 17 ms */
+
+/* protected: virtual void __thiscall eCNode::SetContext(class eCContextBase *)
+   eCNode member function inherited by eCEntity
+   eCNode member function inherited by eCDynamicEntity
+   eCNode member function inherited by eCResourceDataEntity
+   eCNode member function inherited by eCTemplateEntity */
+
+void __thiscall eCNode::SetContext(eCNode *this,eCContextBase *param_1)
+
+{
+  int *piVar1;
+  eCNode *peVar2;
+  int iVar3;
+  
+                    /* 0x2422b  13131  ?SetContext@eCNode@@MAEXPAVeCContextBase@@@Z */
+  if (param_1 == (eCContextBase *)0x0) {
+    iVar3 = (this->eCNode_data).offset_0x28;
+    if (iVar3 != 0) {
+      piVar1 = (int *)(iVar3 + 0x3c);
+      *piVar1 = *piVar1 + -1;
+    }
+  }
+  else if (param_1 != (eCContextBase *)(this->eCNode_data).offset_0x28) {
+    *(int *)(param_1 + 0x3c) = *(int *)(param_1 + 0x3c) + 1;
+  }
+  (this->eCNode_data).offset_0x28 = param_1;
+  if ((this->eCNode_data).offset_0xe != 0) {
+    iVar3 = 0;
+    do {
+      peVar2 = (*this->vftablePtr->GetChildAt)(this,iVar3);
+      (**(code **)(*(int *)peVar2 + 0x74))(param_1);
+      iVar3 = iVar3 + 1;
+    } while (iVar3 < (int)(uint)(ushort)(this->eCNode_data).offset_0xe);
+  }
+  return;
+}
+
+

@@ -1,0 +1,2 @@
+; 2001ab0e ?GetVersion@gCCharacterControl_PS@@UBEGXZ
+2001ab0e | e98dd71f00 | JMP 0x202182a0

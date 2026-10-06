@@ -1,0 +1,2 @@
+; 200173b4 gCDamage_PS::Read
+200173b4 | e9c7c10900 | JMP 0x200b3580

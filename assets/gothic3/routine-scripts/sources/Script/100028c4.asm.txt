@@ -1,0 +1,2 @@
+; 100028c4 ?SetDCCEnabled@PSNavigation@@QAEX_N@Z
+100028c4 | e9b7bf0100 | JMP 0x1001e880

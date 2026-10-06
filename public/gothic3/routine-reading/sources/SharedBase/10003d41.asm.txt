@@ -1,0 +1,4 @@
+; 10003d41 ?Acquire@bCCriticalSectionWin32@@QAEXXZ
+10003d41 | e9cad10000 | JMP 0x10010f10
+; 10003d46 bCSphere::GetTranslated
+; 10003d46 Ordinal_3159

@@ -1,0 +1,13 @@
+/* ENTRY 20001b27 | gCNavigationAdmin::UpdateEnabledFlags | STATUS decompiled | 3 ms */
+
+/* public: void __thiscall gCNavigationAdmin::UpdateEnabledFlags(void) */
+
+void __thiscall gCNavigationAdmin::UpdateEnabledFlags(gCNavigationAdmin *this)
+
+{
+                    /* 0x1b27  7427  ?UpdateEnabledFlags@gCNavigationAdmin@@QAEXXZ */
+  (this->gCNavigationAdmin_data).offset_0x4c = (eCEngineComponentBase)0x1;
+  return;
+}
+
+

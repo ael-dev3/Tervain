@@ -1,0 +1,26 @@
+/* ENTRY 1000c010 | FUN_1000c010 | STATUS decompiled | 11 ms */
+
+undefined4 FUN_1000c010(void)
+
+{
+  gEUseType gVar1;
+  gEUseType gVar2;
+  undefined4 uVar3;
+  PSInteraction local_13c [140];
+  Entity local_b0 [8];
+  undefined1 local_a8 [24];
+  PSInteraction local_90 [140];
+  Entity local_4 [4];
+  
+  PSInventory::GetItemFromSlot((PSInventory *)&stack0x00000028,(gESlot)local_a8);
+  gVar1 = PSInteraction::GetUseType(local_90);
+  PSInventory::GetItemFromSlot((PSInventory *)&stack0x00000024,(gESlot)&stack0xfffffeac);
+  gVar2 = PSInteraction::GetUseType(local_13c);
+  uVar3 = thunk_FUN_1000bf60(gVar1,gVar2);
+  Entity::~Entity((Entity *)&stack0xfffffea8);
+  Entity::~Entity(local_b0);
+  Entity::~Entity(local_4);
+  return uVar3;
+}
+
+

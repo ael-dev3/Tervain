@@ -1,0 +1,19 @@
+/* ENTRY 307a6210 | bTPropertyObject<eCCollisionShape_PS,eCCollisionShapeBase_PS>::~bTPropertyObject<eCCollisionShape_PS,eCCollisionShapeBase_PS> | STATUS decompiled | 4 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyObject<eCCollisionShape_PS,eCCollisionShapeBase_PS>::
+~bTPropertyObject<eCCollisionShape_PS,eCCollisionShapeBase_PS>(void)
+
+{
+  _ms_PropertyObjectInstance_eCCollisionShape_PS = &vftable;
+  vfunction10((bTPropertyObject<eCCollisionShape_PS,eCCollisionShapeBase_PS> *)
+              &eCCollisionShape_PS::ms_PropertyObjectInstance_eCCollisionShape_PS);
+  bTPOPureSmartPtr<eCCollisionShape_PS>::~bTPOPureSmartPtr<eCCollisionShape_PS>
+            ((bTPOPureSmartPtr<eCCollisionShape_PS> *)
+             &eCCollisionShape_PS::ms_PropertyObjectInstance_eCCollisionShape_PS);
+  return;
+}
+
+

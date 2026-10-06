@@ -1,0 +1,11 @@
+/* ENTRY 30028e61 | bTPropertyContainer<eECollisionGroup>::vfunction7 | STATUS decompiled | 4 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<eECollisionGroup>::vfunction7(bTPropertyContainer<eECollisionGroup> *this)
+
+{
+  (this->bTPropertyContainer<eECollisionGroup>_data).offset_0x0 = DAT_30ada2c0;
+  return 1;
+}
+
+

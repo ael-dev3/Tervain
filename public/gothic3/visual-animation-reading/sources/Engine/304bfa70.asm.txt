@@ -1,0 +1,17 @@
+; 304bfa70 FUN_304bfa70
+304bfa70 | 8b4948 | MOV ECX,dword ptr [ECX + 0x48]
+304bfa73 | 85c9 | TEST ECX,ECX
+304bfa75 | 56 | PUSH ESI
+304bfa76 | 8b742408 | MOV ESI,dword ptr [ESP + 0x8]
+304bfa7a | 7513 | JNZ 0x304bfa8f
+304bfa7c | 68e8838130 | PUSH 0x308183e8
+304bfa81 | 8bce | MOV ECX,ESI
+304bfa83 | ff155cdbaf30 | CALL dword ptr [0x30afdb5c]
+304bfa89 | 8bc6 | MOV EAX,ESI
+304bfa8b | 5e | POP ESI
+304bfa8c | c20400 | RET 0x4
+304bfa8f | 56 | PUSH ESI
+304bfa90 | e81ae0b7ff | CALL 0x3003daaf
+304bfa95 | 8bc6 | MOV EAX,ESI
+304bfa97 | 5e | POP ESI
+304bfa98 | c20400 | RET 0x4

@@ -1,0 +1,2 @@
+; 2001bd60 bTPropertyType<gCNavigation_PS,bCString>::vfunction24
+2001bd60 | e92b2b2700 | JMP 0x2028e890

@@ -1,0 +1,15 @@
+/* ENTRY 30035a5d | eCInputReceiver::eCInputReceiver | STATUS decompiled | 50 ms */
+
+/* public: __thiscall eCInputReceiver::eCInputReceiver(void) */
+
+eCInputReceiver * __thiscall eCInputReceiver::eCInputReceiver(eCInputReceiver *this)
+
+{
+                    /* 0x35a5d  458  ??0eCInputReceiver@@QAE@XZ */
+  bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)this);
+  this->vftablePtr = &vftable;
+  (this->eCInputReceiver_data).offset_0x8 = 1;
+  return this;
+}
+
+

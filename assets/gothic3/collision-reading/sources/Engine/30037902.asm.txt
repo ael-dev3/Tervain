@@ -1,0 +1,4 @@
+; 30037902 ?CalcShapeAABBLocal@eCCollisionShape@@IAEXXZ
+30037902 | e989253200 | JMP 0x30359e90
+; 30037911 eCUnicodeConfigFile_SectionObject::Invalidate
+; 30037911 Ordinal_10210

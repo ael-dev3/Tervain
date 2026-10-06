@@ -1,0 +1,2 @@
+; 3002d844 eCEntity::QueryEntityProxyInternal
+3002d844 | e987564800 | JMP 0x304b2ed0

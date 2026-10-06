@@ -1,0 +1,4 @@
+; 200303ff bTPropertyType<gCNavigation_PS,bCString>::scalar_deleting_destructor
+200303ff | e9fc1b2600 | JMP 0x20292000
+; 20030404 gCDialog_PS::AccessTradeCategory
+; 20030404 Ordinal_1763

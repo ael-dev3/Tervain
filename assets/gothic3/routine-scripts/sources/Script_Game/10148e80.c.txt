@@ -1,0 +1,17 @@
+/* ENTRY 10148e80 | FUN_10148e80 | STATUS decompiled | 8 ms */
+
+void FUN_10148e80(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Magic\\Magic_States\\ZS_Summoned.cpp");
+  bCString::bCString(local_8,"ZS_Timebubble");
+  thunk_FUN_1001db60(local_8,&LAB_100016f4,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

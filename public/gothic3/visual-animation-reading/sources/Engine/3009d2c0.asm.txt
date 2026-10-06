@@ -1,0 +1,7 @@
+; 3009d2c0 FUN_3009d2c0
+3009d2c0 | 83c104 | ADD ECX,0x4
+3009d2c3 | ff1574daaf30 | CALL dword ptr [0x30afda74]
+3009d2c9 | f6d8 | NEG AL
+3009d2cb | 1bc0 | SBB EAX,EAX
+3009d2cd | 83c001 | ADD EAX,0x1
+3009d2d0 | c3 | RET

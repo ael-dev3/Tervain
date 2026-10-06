@@ -1,0 +1,2 @@
+; 2000cb1c bTPropertyObject<gCEffect_PS,eCEntityPropertySet>::vfunction16
+2000cb1c | e96f0d1100 | JMP 0x2011d890

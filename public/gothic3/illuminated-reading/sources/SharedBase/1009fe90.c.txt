@@ -1,0 +1,14 @@
+/* ENTRY 1009fe90 | bCFloatAlphaColor::bCFloatAlphaColor | STATUS decompiled | 3 ms */
+
+void __thiscall bCFloatAlphaColor::bCFloatAlphaColor(bCFloatAlphaColor *this)
+
+{
+  this->vftablePtr = &vftable;
+  (this->bCFloatColor_data).offset_0x0 = 0.0;
+  (this->bCFloatColor_data).offset_0x4 = 0.0;
+  (this->bCFloatColor_data).offset_0x8 = 0.0;
+  (this->bCFloatAlphaColor_data).offset_0x0 = 0.0;
+  return;
+}
+
+

@@ -1,0 +1,2 @@
+; 3002ed0c eCVisualAnimationFactory::GetMainActorFileName
+3002ed0c | e95fd80800 | JMP 0x300bc570

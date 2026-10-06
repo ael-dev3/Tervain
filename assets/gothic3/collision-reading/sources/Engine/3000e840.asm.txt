@@ -1,0 +1,4 @@
+; 3000e840 ?GetDisableResponse@eCCollisionShape@@QBEAB_NXZ
+3000e840 | e92b3e0b00 | JMP 0x300c2670
+; 3000e84a eCSplash::eCSplash
+; 3000e84a Ordinal_770

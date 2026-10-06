@@ -1,0 +1,23 @@
+/* ENTRY 300210a8 | eCEntityAdmin::Invalidate | STATUS decompiled | 8 ms */
+
+/* protected: void __thiscall eCEntityAdmin::Invalidate(void) */
+
+void __thiscall eCEntityAdmin::Invalidate(eCEntityAdmin *this)
+
+{
+                    /* 0x210a8  9968  ?Invalidate@eCEntityAdmin@@IAEXXZ */
+  bCSphere::Clear((bCSphere *)&(this->eCEntityAdmin_data).field_0xc);
+  bCSphere::Clear((bCSphere *)&(this->eCEntityAdmin_data).field_0x1c);
+  (this->eCEntityAdmin_data).offset_0xc1 = (eCEntityAdmin)0x0;
+  (this->eCEntityAdmin_data).offset_0xb4 = 0;
+  (this->eCEntityAdmin_data).offset_0x80 = 0;
+  (this->eCEntityAdmin_data).offset_0x84 = (eCEntityAdmin)0x0;
+  (this->eCEntityAdmin_data).offset_0xba = 0;
+  (this->eCEntityAdmin_data).offset_0xc0 = (eCEntityAdmin)0x0;
+  (this->eCEntityAdmin_data).offset_0x3c = 0x437a0000;
+  (this->eCEntityAdmin_data).offset_0x94 = 0x4800008;
+  (this->eCEntityAdmin_data).offset_0x98 = 0x42;
+  return;
+}
+
+

@@ -1,0 +1,2 @@
+; 20029492 ?Create@gCDamageReceiver_PS@@UAE?AW4bEResult@@XZ
+20029492 | e9a9090900 | JMP 0x200b9e40

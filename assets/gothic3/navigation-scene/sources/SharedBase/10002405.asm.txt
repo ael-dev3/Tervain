@@ -1,0 +1,4 @@
+; 10002405 ?GetAngleUnitRad@bCVector@@QBEMABV1@@Z
+10002405 | e956320200 | JMP 0x10025660
+; 10002414 bCUnitedRay::operator>>
+; 10002414 Ordinal_676

@@ -1,0 +1,8 @@
+; 303610f0 bTPropertyType<eCCollisionShape,float>::vfunction21
+303610f0 | 68f8cf8130 | PUSH 0x3081cff8
+303610f5 | 683cd58130 | PUSH 0x3081d53c
+303610fa | 687ccf8130 | PUSH 0x3081cf7c
+303610ff | ff1530dbaf30 | CALL dword ptr [0x30afdb30]
+30361105 | 83c40c | ADD ESP,0xc
+30361108 | 33c0 | XOR EAX,EAX
+3036110a | c3 | RET

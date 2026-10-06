@@ -1,0 +1,2 @@
+; 20025e37 bTPropertyType<gCFocus_PS,eCEntityProxy>::vfunction12
+20025e37 | e9e4f11100 | JMP 0x20145020

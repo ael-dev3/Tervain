@@ -1,0 +1,2 @@
+; 3000f7ea operator>>
+3000f7ea | e9714d4b00 | JMP 0x304c4560

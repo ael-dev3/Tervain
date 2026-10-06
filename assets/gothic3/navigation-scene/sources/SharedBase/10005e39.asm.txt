@@ -1,0 +1,4 @@
+; 10005e39 ?Cull@bCInfDoubleCylinder@@QBE_NABVbCVector@@_N@Z
+10005e39 | e992a70500 | JMP 0x100605d0
+; 10005e3e bCVector::TransformDirection
+; 10005e3e Ordinal_4543

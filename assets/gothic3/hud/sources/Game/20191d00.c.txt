@@ -1,0 +1,26 @@
+/* ENTRY 20191d00 | gCHUDTextEffect::gCHUDTextEffect_Constructor_or_Destructor | STATUS decompiled | 12 ms */
+
+void __fastcall gCHUDTextEffect::gCHUDTextEffect_Constructor_or_Destructor(CFFGFCStatic *param_1)
+
+{
+  bCMemoryAdmin *this;
+  IFFGUIMsgProc IVar1;
+  
+  (param_1->CFFGFCWnd).IFFGUIMsgProc = (IFFGUIMsgProc)&vftable;
+  IVar1 = param_1[4].CFFGFCWnd.IFFGUIMsgProc;
+  if (IVar1 != (IFFGUIMsgProc)0x0) {
+    thunk_FUN_201921a0(IVar1,param_1[6].CFFGFCWnd.IFFGUIMsgProc);
+    IVar1 = param_1[4].CFFGFCWnd.IFFGUIMsgProc;
+    this = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(this,(void *)IVar1);
+    param_1[4].CFFGFCWnd.IFFGUIMsgProc = (IFFGUIMsgProc)0x0;
+    param_1[5].CFFGFCWnd.IFFGUIMsgProc = (IFFGUIMsgProc)0x0;
+    param_1[6].CFFGFCWnd.IFFGUIMsgProc = (IFFGUIMsgProc)0x0;
+  }
+                    /* WARNING: Could not recover jumptable at 0x20191d44. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  CFFGFCStatic::~CFFGFCStatic(param_1);
+  return;
+}
+
+

@@ -1,0 +1,2 @@
+; 100052b3 bCRect::GetWidth
+100052b3 | e9f8760200 | JMP 0x1002c9b0

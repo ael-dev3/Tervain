@@ -1,0 +1,13 @@
+/* ENTRY 30016126 | eCEntity::GetFrustumElementItem | STATUS decompiled | 5 ms */
+
+/* public: class eCFrustumElementItem & __thiscall eCEntity::GetFrustumElementItem(void) */
+
+eCFrustumElementItem * __thiscall eCEntity::GetFrustumElementItem(eCEntity *this)
+
+{
+                    /* 0x16126  7208
+                       ?GetFrustumElementItem@eCEntity@@QAEAAVeCFrustumElementItem@@XZ */
+  return (eCFrustumElementItem *)&(this->eCEntity_data).field_0x11c;
+}
+
+

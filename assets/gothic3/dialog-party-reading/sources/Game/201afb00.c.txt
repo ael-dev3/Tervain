@@ -1,0 +1,16 @@
+/* ENTRY 201afb00 | FUN_201afb00 | STATUS decompiled | 2 ms */
+
+void __fastcall FUN_201afb00(int *param_1)
+
+{
+  code *pcVar1;
+  undefined1 *unaff_ESI;
+  
+  (**(code **)(*param_1 + 0x58))("SlaveryEnabled",0);
+  pcVar1 = *(code **)(*param_1 + 0x5c);
+  *(undefined1 *)((int)param_1 + 0x2b) = *unaff_ESI;
+  (*pcVar1)("SlaveryEnabled",0);
+  return;
+}
+
+

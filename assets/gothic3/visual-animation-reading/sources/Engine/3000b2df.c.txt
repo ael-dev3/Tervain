@@ -1,0 +1,12 @@
+/* ENTRY 3000b2df | eCVisualAnimation_PS::GetConstrainRootToWorld | STATUS decompiled | 6 ms */
+
+/* public: bool const & __thiscall eCVisualAnimation_PS::GetConstrainRootToWorld(void)const  */
+
+bool * __thiscall eCVisualAnimation_PS::GetConstrainRootToWorld(eCVisualAnimation_PS *this)
+
+{
+                    /* 0xb2df  6629  ?GetConstrainRootToWorld@eCVisualAnimation_PS@@QBEAB_NXZ */
+  return (bool *)&this[1].eCEntityPropertySet_data.field_0x5;
+}
+
+

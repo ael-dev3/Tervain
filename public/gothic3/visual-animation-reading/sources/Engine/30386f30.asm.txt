@@ -1,0 +1,9 @@
+; 30386f30 bTPropertyType<eCEffector,eCEntityProxy>::vfunction6
+30386f30 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+30386f34 | 85c0 | TEST EAX,EAX
+30386f36 | 740b | JZ 0x30386f43
+30386f38 | 8b11 | MOV EDX,dword ptr [ECX]
+30386f3a | 89442404 | MOV dword ptr [ESP + 0x4],EAX
+30386f3e | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+30386f41 | ffe0 | JMP EAX
+30386f43 | c20400 | RET 0x4

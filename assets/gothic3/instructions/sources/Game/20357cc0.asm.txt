@@ -1,0 +1,55 @@
+; 20357cc0 bTPropertyContainer<gEHitDirection>::bTPropertyContainer<gEHitDirection>
+20357cc0 | 53 | PUSH EBX
+20357cc1 | 56 | PUSH ESI
+20357cc2 | 57 | PUSH EDI
+20357cc3 | 8bf1 | MOV ESI,ECX
+20357cc5 | ff15f86d7d20 | CALL dword ptr [0x207d6df8]
+20357ccb | 8b3d28897d20 | MOV EDI,dword ptr [0x207d8928]
+20357cd1 | 8d4e14 | LEA ECX,[ESI + 0x14]
+20357cd4 | c70654c76920 | MOV dword ptr [ESI],0x2069c754
+20357cda | ffd7 | CALL EDI
+20357cdc | 8d4e18 | LEA ECX,[ESI + 0x18]
+20357cdf | ffd7 | CALL EDI
+20357ce1 | 8d4e30 | LEA ECX,[ESI + 0x30]
+20357ce4 | ffd7 | CALL EDI
+20357ce6 | 8d4e34 | LEA ECX,[ESI + 0x34]
+20357ce9 | ffd7 | CALL EDI
+20357ceb | 8b3d00877d20 | MOV EDI,dword ptr [0x207d8700]
+20357cf1 | 8d5e3c | LEA EBX,[ESI + 0x3c]
+20357cf4 | 8bcb | MOV ECX,EBX
+20357cf6 | ffd7 | CALL EDI
+20357cf8 | c7038cc26920 | MOV dword ptr [EBX],0x2069c28c
+20357cfe | a13cbf7c20 | MOV EAX,[0x207cbf3c]
+20357d03 | 894304 | MOV dword ptr [EBX + 0x4],EAX
+20357d06 | 8d5e44 | LEA EBX,[ESI + 0x44]
+20357d09 | 8bcb | MOV ECX,EBX
+20357d0b | ffd7 | CALL EDI
+20357d0d | c70364c36920 | MOV dword ptr [EBX],0x2069c364
+20357d13 | 8b0d40bf7c20 | MOV ECX,dword ptr [0x207cbf40]
+20357d19 | 894b04 | MOV dword ptr [EBX + 0x4],ECX
+20357d1c | 8d5e4c | LEA EBX,[ESI + 0x4c]
+20357d1f | 8bcb | MOV ECX,EBX
+20357d21 | ffd7 | CALL EDI
+20357d23 | c7033cc46920 | MOV dword ptr [EBX],0x2069c43c
+20357d29 | 8b1544bf7c20 | MOV EDX,dword ptr [0x207cbf44]
+20357d2f | 895304 | MOV dword ptr [EBX + 0x4],EDX
+20357d32 | 8d5e54 | LEA EBX,[ESI + 0x54]
+20357d35 | 8bcb | MOV ECX,EBX
+20357d37 | ffd7 | CALL EDI
+20357d39 | c70314c56920 | MOV dword ptr [EBX],0x2069c514
+20357d3f | a148bf7c20 | MOV EAX,[0x207cbf48]
+20357d44 | 894304 | MOV dword ptr [EBX + 0x4],EAX
+20357d47 | 8d5e5c | LEA EBX,[ESI + 0x5c]
+20357d4a | 8bcb | MOV ECX,EBX
+20357d4c | ffd7 | CALL EDI
+20357d4e | c703ecc56920 | MOV dword ptr [EBX],0x2069c5ec
+20357d54 | 8b0d4cbf7c20 | MOV ECX,dword ptr [0x207cbf4c]
+20357d5a | 894b04 | MOV dword ptr [EBX + 0x4],ECX
+20357d5d | 8d4e64 | LEA ECX,[ESI + 0x64]
+20357d60 | e8ae45cdff | CALL 0x2002c313
+20357d65 | 5f | POP EDI
+20357d66 | c686f001000000 | MOV byte ptr [ESI + 0x1f0],0x0
+20357d6d | 8bc6 | MOV EAX,ESI
+20357d6f | 5e | POP ESI
+20357d70 | 5b | POP EBX
+20357d71 | c20400 | RET 0x4

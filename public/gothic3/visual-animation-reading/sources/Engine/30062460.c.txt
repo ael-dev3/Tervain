@@ -1,0 +1,10 @@
+/* ENTRY 30062460 | FUN_30062460 | STATUS decompiled | 3 ms */
+
+void __fastcall FUN_30062460(int param_1)
+
+{
+  eCEntityProxy::GetEntity((eCEntityProxy *)(param_1 + 4));
+  return;
+}
+
+

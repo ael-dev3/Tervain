@@ -1,0 +1,2 @@
+; 1000655f ??GbCOrientedBox@@QBE?AV0@ABVbCVector@@@Z
+1000655f | e95c2a0600 | JMP 0x10068fc0

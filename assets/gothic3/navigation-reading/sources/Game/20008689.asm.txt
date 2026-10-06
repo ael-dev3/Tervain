@@ -1,0 +1,2 @@
+; 20008689 ?SetWishedMovementMode@gCNavigation_PS@@QAEXW4gECharMovementMode@@@Z
+20008689 | e9b2dc2700 | JMP 0x20286340

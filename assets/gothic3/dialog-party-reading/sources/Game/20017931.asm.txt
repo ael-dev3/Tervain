@@ -1,0 +1,2 @@
+; 20017931 gCDialog_PS::SetTalkedToPlayer
+20017931 | e96a7f1900 | JMP 0x201af8a0

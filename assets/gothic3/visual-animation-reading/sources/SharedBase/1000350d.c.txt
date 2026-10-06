@@ -1,0 +1,12 @@
+/* ENTRY 1000350d | bCPoint::GetX | STATUS decompiled | 1 ms */
+
+/* public: long __thiscall bCPoint::GetX(void)const  */
+
+long __thiscall bCPoint::GetX(bCPoint *this)
+
+{
+                    /* 0x350d  3247  ?GetX@bCPoint@@QBEJXZ */
+  return *(long *)this;
+}
+
+

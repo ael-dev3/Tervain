@@ -1,0 +1,36 @@
+/* ENTRY 20518bc0 | bTPropertyType<gCPlayerMemory_PS,long>::~bTPropertyType<gCPlayerMemory_PS,long> | STATUS decompiled | 39 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCPlayerMemory_PS,long>::~bTPropertyType<gCPlayerMemory_PS,long>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Common");
+  bCString::bCString(local_c,"LPAttribs");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCPlayerMemory_PS::ms_PropertyMember_m_iLPAttribs,local_c,
+             local_8,local_4,1,false);
+  _ms_PropertyMember_m_iLPAttribs = &vftable;
+  DAT_207c175c = bTPropertyObjectType<gCPlayerMemory_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCPlayerMemory_PS,eCEntityPropertySet>();
+  _DAT_207c1760 = 0x58;
+  _DAT_207c1764 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCPlayerMemory_PS::ms_PropertyMember_m_iLPAttribs);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207c175c,
+             (bCPropertyTypeBase *)&gCPlayerMemory_PS::ms_PropertyMember_m_iLPAttribs);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<long>::~bTPropertyTypeOnly<long>);
+  return;
+}
+
+

@@ -1,0 +1,13 @@
+/* ENTRY 20011e55 | gCNavPath_PS::GetPropertySetType | STATUS decompiled | 5 ms */
+
+/* public: virtual enum eEPropertySetType __thiscall gCNavPath_PS::GetPropertySetType(void)const  */
+
+eEPropertySetType __thiscall gCNavPath_PS::GetPropertySetType(gCNavPath_PS *this)
+
+{
+                    /* 0x11e55  4081  ?GetPropertySetType@gCNavPath_PS@@UBE?AW4eEPropertySetType@@XZ
+                        */
+  return 10;
+}
+
+

@@ -1,0 +1,2 @@
+; 300036c0 bTPropertyObjectType<eCIlluminated_PS,eCEntityPropertySet>::~bTPropertyObjectType<eCIlluminated_PS,eCEntityPropertySet>
+300036c0 | e93b1a2200 | JMP 0x30225100

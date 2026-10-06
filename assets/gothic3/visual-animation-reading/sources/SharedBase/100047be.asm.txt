@@ -1,0 +1,2 @@
+; 100047be bCString::ToLower
+100047be | e92d060100 | JMP 0x10014df0

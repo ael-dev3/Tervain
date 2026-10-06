@@ -1,0 +1,22 @@
+/* ENTRY 304c9b10 | FUN_304c9b10 | STATUS decompiled | 11 ms */
+
+undefined4 __thiscall FUN_304c9b10(int param_1,bCBox *param_2)
+
+{
+  bCVector *pbVar1;
+  bCVector *pbVar2;
+  
+  pbVar1 = bCBox::GetMax(param_2);
+  pbVar2 = bCBox::GetMin(param_2);
+  if ((((*(float *)pbVar2 <= *(float *)(param_1 + 0x50)) &&
+       (*(float *)(param_1 + 0x44) <= *(float *)pbVar1)) &&
+      (*(float *)(pbVar2 + 4) <= *(float *)(param_1 + 0x54))) &&
+     (((*(float *)(param_1 + 0x48) <= *(float *)(pbVar1 + 4) &&
+       (*(float *)(pbVar2 + 8) <= *(float *)(param_1 + 0x58))) &&
+      (*(float *)(param_1 + 0x4c) <= *(float *)(pbVar1 + 8))))) {
+    return 1;
+  }
+  return 0;
+}
+
+

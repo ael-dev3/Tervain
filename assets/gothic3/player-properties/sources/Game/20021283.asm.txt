@@ -1,0 +1,2 @@
+; 20021283 ?GetRootObject@gCStat@@SGPBVbCPropertyObjectBase@@XZ
+20021283 | e9689b3700 | JMP 0x2039adf0

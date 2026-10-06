@@ -1,0 +1,4 @@
+; 30042a9b ?GetRootObject@eCCollisionShape_PS@@SGPBVbCPropertyObjectBase@@XZ
+30042a9b | e9d0322f00 | JMP 0x30335d70
+; 30042aa0 eCGUIConsoleEdit::Complete
+; 30042aa0 Ordinal_3923

@@ -1,0 +1,4 @@
+; 3001808e ?OnPostRead@eCEntity@@MAEXXZ
+3001808e | e9addb4900 | JMP 0x304b5c40
+; 3001809d eCWnd::GetStyleEx
+; 3001809d Ordinal_9013

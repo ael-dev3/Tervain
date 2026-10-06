@@ -1,0 +1,15 @@
+; 100ae1d2 FUN_100ae1d2
+100ae1d2 | 55 | PUSH EBP
+100ae1d3 | 8bec | MOV EBP,ESP
+100ae1d5 | ff35a0642f10 | PUSH dword ptr [0x102f64a0]
+100ae1db | e812010000 | CALL 0x100ae2f2
+100ae1e0 | 85c0 | TEST EAX,EAX
+100ae1e2 | 59 | POP ECX
+100ae1e3 | 7403 | JZ 0x100ae1e8
+100ae1e5 | 5d | POP EBP
+100ae1e6 | ffe0 | JMP EAX
+100ae1e8 | 6a02 | PUSH 0x2
+100ae1ea | e89f2c0100 | CALL 0x100c0e8e
+100ae1ef | 59 | POP ECX
+100ae1f0 | 5d | POP EBP
+100ae1f1 | e9a8feffff | JMP 0x100ae09e

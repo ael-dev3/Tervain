@@ -1,0 +1,12 @@
+/* ENTRY 3000d4ea | eCEntity::GetWorldMatrix | STATUS decompiled | 7 ms */
+
+/* public: class bCMatrix const & __thiscall eCEntity::GetWorldMatrix(void)const  */
+
+bCMatrix * __thiscall eCEntity::GetWorldMatrix(eCEntity *this)
+
+{
+                    /* 0xd4ea  9661  ?GetWorldMatrix@eCEntity@@QBEABVbCMatrix@@XZ */
+  return (bCMatrix *)&(this->eCEntity_data).field_0x10;
+}
+
+

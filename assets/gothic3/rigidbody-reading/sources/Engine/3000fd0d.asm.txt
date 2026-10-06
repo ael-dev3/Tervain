@@ -1,0 +1,4 @@
+; 3000fd0d bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_>::vfunction10
+3000fd0d | e9de213200 | JMP 0x30331ef0
+; 3000fd17 eCLoDImportDesc::GetVersion
+; 3000fd17 Ordinal_9419

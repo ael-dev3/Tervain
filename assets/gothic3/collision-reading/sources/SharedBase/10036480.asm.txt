@@ -1,0 +1,22 @@
+; 10036480 FUN_10036480
+10036480 | d901 | FLD float ptr [ECX]
+10036482 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+10036486 | 56 | PUSH ESI
+10036487 | 8b742408 | MOV ESI,dword ptr [ESP + 0x8]
+1003648b | d91e | FSTP float ptr [ESI]
+1003648d | 50 | PUSH EAX
+1003648e | d94104 | FLD float ptr [ECX + 0x4]
+10036491 | d95e04 | FSTP float ptr [ESI + 0x4]
+10036494 | d94108 | FLD float ptr [ECX + 0x8]
+10036497 | d95e08 | FSTP float ptr [ESI + 0x8]
+1003649a | d9410c | FLD float ptr [ECX + 0xc]
+1003649d | d95e0c | FSTP float ptr [ESI + 0xc]
+100364a0 | d94110 | FLD float ptr [ECX + 0x10]
+100364a3 | d95e10 | FSTP float ptr [ESI + 0x10]
+100364a6 | d94114 | FLD float ptr [ECX + 0x14]
+100364a9 | 8bce | MOV ECX,ESI
+100364ab | d95e14 | FSTP float ptr [ESI + 0x14]
+100364ae | e867d2fcff | CALL 0x1000371a
+100364b3 | 8bc6 | MOV EAX,ESI
+100364b5 | 5e | POP ESI
+100364b6 | c20800 | RET 0x8

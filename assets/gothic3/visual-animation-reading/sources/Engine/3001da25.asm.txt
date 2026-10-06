@@ -1,0 +1,2 @@
+; 3001da25 eCRenderContext::eCRenderContext
+3001da25 | e986d23800 | JMP 0x303aacb0

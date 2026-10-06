@@ -1,0 +1,4 @@
+; 20036c0f bTPropertyType<gCNavigation_PS,bool>::scalar_deleting_destructor
+20036c0f | e96cb52500 | JMP 0x20292180
+; 20036c14 gCNavZone_PS::GetAngleSums
+; 20036c14 Ordinal_2914

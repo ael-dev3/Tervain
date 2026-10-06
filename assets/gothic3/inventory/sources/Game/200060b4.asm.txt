@@ -1,0 +1,2 @@
+; 200060b4 ?Give@gCInfo_PS@@SG_NPAVeCEntity@@0PBVeCTemplateEntity@@K@Z
+200060b4 | e947db4200 | JMP 0x20433c00

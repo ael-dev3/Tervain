@@ -1,0 +1,4 @@
+; 300328d0 bTPropertyObject<eCCollisionShapeBase_PS,eCEntityPropertySet>::vfunction1
+300328d0 | e92bf23000 | JMP 0x30341b00
+; 300328d5 eCWnd::OnMouseIdle
+; 300328d5 Ordinal_11214

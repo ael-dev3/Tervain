@@ -1,0 +1,4 @@
+; 100066d6 ??1bCPOStream@@UAE@XZ
+100066d6 | e9e5420800 | JMP 0x1008a9c0
+; 100066db bCMatrix3::GetRotatedLocal
+; 100066db Ordinal_2950

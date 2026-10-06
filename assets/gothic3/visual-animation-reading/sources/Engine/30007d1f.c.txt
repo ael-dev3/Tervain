@@ -1,0 +1,12 @@
+/* ENTRY 30007d1f | eCEntityProxy::GetEntityID | STATUS decompiled | 2 ms */
+
+/* public: class bCPropertyID const & __thiscall eCEntityProxy::GetEntityID(void)const  */
+
+bCPropertyID * __thiscall eCEntityProxy::GetEntityID(eCEntityProxy *this)
+
+{
+                    /* 0x7d1f  7039  ?GetEntityID@eCEntityProxy@@QBEABVbCPropertyID@@XZ */
+  return (bCPropertyID *)&(this->eCEntityProxy_data).field_0x4;
+}
+
+

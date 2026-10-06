@@ -1,0 +1,10 @@
+/* ENTRY 202fef80 | bTPropertyContainer<gEGender>::vfunction7 | STATUS decompiled | 3 ms */
+
+undefined4 __thiscall bTPropertyContainer<gEGender>::vfunction7(bTPropertyContainer<gEGender> *this)
+
+{
+  (this->bTPropertyContainer<gEGender>_data).offset_0x0 = DAT_207c0928;
+  return 1;
+}
+
+

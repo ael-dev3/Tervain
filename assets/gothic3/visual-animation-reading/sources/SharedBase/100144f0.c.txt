@@ -1,0 +1,12 @@
+/* ENTRY 100144f0 | FUN_100144f0 | STATUS decompiled | 20 ms */
+
+bool __thiscall FUN_100144f0(bCString *param_1,char *param_2,int param_3)
+
+{
+  int iVar1;
+  
+  iVar1 = bCString::Find(param_1,param_2,param_3,false);
+  return iVar1 != -1;
+}
+
+

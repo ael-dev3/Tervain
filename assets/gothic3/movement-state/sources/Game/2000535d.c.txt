@@ -1,0 +1,73 @@
+/* ENTRY 2000535d | gCCharacterMovement_PS::ContributeFloorActions | STATUS decompiled | 39 ms */
+
+/* protected: void __thiscall gCCharacterMovement_PS::ContributeFloorActions(void) */
+
+void __thiscall gCCharacterMovement_PS::ContributeFloorActions(gCCharacterMovement_PS *this)
+
+{
+  undefined1 *this_00;
+  GetEntity *pGVar1;
+  eCApplication *this_01;
+  eCEntity *peVar2;
+  eCEntity *peVar3;
+  int iVar4;
+  bCVector *this_02;
+  float unaff_EBX;
+  undefined4 uVar5;
+  undefined4 uVar6;
+  undefined4 uVar7;
+  undefined4 uVar8;
+  bCVector *pbVar9;
+  code *pcVar10;
+  float afStack_1c [2];
+  bCVector abStack_14 [4];
+  bCVector abStack_10 [16];
+  
+                    /* 0x535d  2210  ?ContributeFloorActions@gCCharacterMovement_PS@@IAEXXZ */
+  if (*(int *)&(this->gCCharacterMovement_PS_data).field_0xf4 == 0x13) {
+    this_01 = eCApplication::GetInstance();
+    afStack_1c[0] = eCApplication::GetScaledFrameTimeInSeconds((eCApplication *)this_01);
+    afStack_1c[0] = afStack_1c[0] + (float)(this->gCCharacterMovement_PS_data).offset_0x3c8;
+    (this->gCCharacterMovement_PS_data).offset_0x3c8 = afStack_1c[0];
+    if (1.0 <= afStack_1c[0]) {
+      pGVar1 = this->vftablePtr->GetEntity;
+      (this->gCCharacterMovement_PS_data).offset_0x3c8 = afStack_1c[0] - 1.0;
+      peVar2 = (*pGVar1)(this);
+      this_00 = &(this->gCCharacterMovement_PS_data).field_0xd8;
+      peVar3 = eCEntityProxy::GetEntity((eCEntityProxy *)this_00);
+      if (((peVar3 != (eCEntity *)0x0) &&
+          (iVar4 = (**(code **)(*(int *)peVar3 + 0xec))(0x33), iVar4 != 0)) &&
+         (peVar2 != (eCEntity *)0x0)) {
+        uVar7 = *(undefined4 *)(iVar4 + 0x18);
+        uVar6 = *(undefined4 *)(iVar4 + 0x1c);
+        iVar4 = *(int *)peVar2;
+        uVar8 = 0;
+        uVar5 = 0;
+        pcVar10 = g_InvalidContact_exref;
+        peVar2 = eCEntityProxy::GetEntity((eCEntityProxy *)this_00);
+        (**(code **)(iVar4 + 0x188))(peVar2,uVar5,uVar6,uVar7,uVar8,pcVar10);
+      }
+    }
+  }
+  else {
+    (this->gCCharacterMovement_PS_data).offset_0x3c8 = 0;
+  }
+  if ((this->gCCharacterMovement_PS_data).offset_0xfc == 10) {
+    afStack_1c[0] = 0.0;
+    peVar2 = (*this->vftablePtr->GetEntity)(this);
+    iVar4 = (**(code **)(*(int *)peVar2 + 0xec))(5);
+    if (iVar4 != 0) {
+      unaff_EBX = -0.0 - *(float *)(iVar4 + 0x18c);
+    }
+    bCVector::bCVector((bCVector *)afStack_1c,0.0,unaff_EBX,0.0);
+    pbVar9 = abStack_10;
+    peVar2 = (*this->vftablePtr->GetEntity)(this);
+    this_02 = eCEntity::GetWorldPosition((eCEntity *)peVar2);
+    bCVector::operator+(this_02,pbVar9);
+    bCVector::~bCVector((bCVector *)&stack0xffffffe0);
+    bCVector::~bCVector(abStack_14);
+  }
+  return;
+}
+
+

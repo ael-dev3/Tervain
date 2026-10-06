@@ -1,0 +1,17 @@
+/* ENTRY 10166e80 | FUN_10166e80 | STATUS decompiled | 6 ms */
+
+void FUN_10166e80(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Routine\\Routine_Tasks\\ZS_Trader.cpp");
+  bCString::bCString(local_8,"ZS_Trader_SweepFloor");
+  thunk_FUN_1001db60(local_8,&LAB_100028b5,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

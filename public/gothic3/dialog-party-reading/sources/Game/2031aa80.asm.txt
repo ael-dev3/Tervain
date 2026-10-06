@@ -1,0 +1,13 @@
+; 2031aa80 bTPropertyType<gCParty_PS,bTPropertyContainer<gEPartyMemberType>_>::vfunction6
+2031aa80 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+2031aa84 | 85c0 | TEST EAX,EAX
+2031aa86 | 7411 | JZ 0x2031aa99
+2031aa88 | 8b11 | MOV EDX,dword ptr [ECX]
+2031aa8a | 50 | PUSH EAX
+2031aa8b | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+2031aa8e | ffd0 | CALL EAX
+2031aa90 | 8b10 | MOV EDX,dword ptr [EAX]
+2031aa92 | 8bc8 | MOV ECX,EAX
+2031aa94 | 8b4218 | MOV EAX,dword ptr [EDX + 0x18]
+2031aa97 | ffd0 | CALL EAX
+2031aa99 | c20400 | RET 0x4

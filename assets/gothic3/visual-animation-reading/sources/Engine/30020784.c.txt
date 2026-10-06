@@ -1,0 +1,38 @@
+/* ENTRY 30020784 | eCVisualAnimation_PS::StopRagDoll | STATUS decompiled | 20 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::StopRagDoll(void) */
+
+void __thiscall eCVisualAnimation_PS::StopRagDoll(eCVisualAnimation_PS *this)
+
+{
+  undefined1 *this_00;
+  eCWrapper_emfx2Actor *peVar1;
+  eCVisualAnimation_PS *peStack_4;
+  
+                    /* 0x20784  14731  ?StopRagDoll@eCVisualAnimation_PS@@QAEXXZ */
+  this_00 = &this[7].eCEntityPropertySet_data.field_0x4;
+  peStack_4 = this;
+  peVar1 = eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+  if (peVar1 != (eCWrapper_emfx2Actor *)0x0) {
+    DestroyPhysicsController(this);
+    if (*(int *)&this[0xe].eCEntityPropertySet_data != 0) {
+      eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+      peStack_4 = *(eCVisualAnimation_PS **)&this[0xe].eCEntityPropertySet_data;
+      thunk_FUN_300ac4f0(&peStack_4);
+      if (*(undefined4 **)&this[0xe].eCEntityPropertySet_data != (undefined4 *)0x0) {
+        (**(code **)**(undefined4 **)&this[0xe].eCEntityPropertySet_data)(1);
+      }
+      *(undefined4 *)&this[0xe].eCEntityPropertySet_data = 0;
+      *(undefined4 *)&this[0xf].eCEntityPropertySet_data.field_0x4 = 0;
+      *(undefined4 *)&this[0xf].eCEntityPropertySet_data = 0;
+    }
+    *(undefined4 *)&this[0xf].eCEntityPropertySet_data = 0;
+    this[0x15].vftablePtr = (eCVisualAnimation_PS_vftable *)0x0;
+    *(undefined4 *)&this[0x14].eCEntityPropertySet_data.offset_0xc = 0;
+    this[0x13].eCEntityPropertySet_data.offset_0x8 = 0x3f800000;
+    this[0x12].eCEntityPropertySet_data.field_0xd = 1;
+  }
+  return;
+}
+
+

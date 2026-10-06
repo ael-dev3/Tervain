@@ -1,0 +1,17 @@
+/* ENTRY 10141cd0 | FUN_10141cd0 | STATUS decompiled | 8 ms */
+
+void FUN_10141cd0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Commands\\StartSayAttackReason.cpp");
+  bCString::bCString(local_8,"StartSayFollow");
+  thunk_FUN_10017a50(local_8,thunk_FUN_10065b30,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

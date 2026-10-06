@@ -1,0 +1,35 @@
+/* ENTRY 30734590 | bTPropertyType<eCVisualAnimation_PS,float>::~bTPropertyType<eCVisualAnimation_PS,float> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<eCVisualAnimation_PS,float>::~bTPropertyType<eCVisualAnimation_PS,float>
+          (bTPropertyType<eCVisualAnimation_PS,float> *this)
+
+{
+  bTPropertyType<eCVisualAnimation_PS,float> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"BoneProjectionDistance");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)
+             &eCVisualAnimation_PS::ms_PropertyMember_m_fBoneProjectionDistance,(bCString *)&local_4
+             ,1);
+  _ms_PropertyMember_m_fBoneProjectionDistance = &vftable;
+  DAT_30ada858 = bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet>();
+  _DAT_30ada85c = 0x58;
+  _DAT_30ada860 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)
+             &eCVisualAnimation_PS::ms_PropertyMember_m_fBoneProjectionDistance);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_30ada858,
+             (bCPropertyTypeBase *)
+             &eCVisualAnimation_PS::ms_PropertyMember_m_fBoneProjectionDistance);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}
+
+

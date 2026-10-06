@@ -1,0 +1,15 @@
+/* ENTRY 300447fb | eCCollisionShape::SetLastPosition | STATUS decompiled | 6 ms */
+
+/* public: void __thiscall eCCollisionShape::SetLastPosition(class bCVector const &) */
+
+void __thiscall eCCollisionShape::SetLastPosition(eCCollisionShape *this,bCVector *param_1)
+
+{
+                    /* 0x447fb  13605  ?SetLastPosition@eCCollisionShape@@QAEXABVbCVector@@@Z */
+                    /* WARNING: Could not recover jumptable at 0x300c2c23. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCVector::operator=((bCVector *)&(this->eCCollisionShape_data).field_0x64,param_1);
+  return;
+}
+
+

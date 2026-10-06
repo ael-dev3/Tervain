@@ -1,0 +1,26 @@
+/* ENTRY 3003e90f | eCAnimationAdmin::Create | STATUS decompiled | 34 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+/* public: virtual enum bEResult __thiscall eCAnimationAdmin::Create(void) */
+
+bEResult __thiscall eCAnimationAdmin::Create(eCAnimationAdmin *this)
+
+{
+  eCAnimation_HardwareSkinner *this_00;
+  int *piVar1;
+  
+                    /* 0x3e90f  4377  ?Create@eCAnimationAdmin@@UAE?AW4bEResult@@XZ */
+  eCEngineComponentBase::Create((eCEngineComponentBase *)this);
+  this_00 = (eCAnimation_HardwareSkinner *)new(0x28,0xea);
+  if (this_00 != (eCAnimation_HardwareSkinner *)0x0) {
+    piVar1 = (int *)eCAnimation_HardwareSkinner::eCAnimation_HardwareSkinner(this_00);
+    (this->eCAnimationAdmin_data).offset_0x0 = piVar1;
+    (**(code **)(*piVar1 + 0x18))();
+    return 1;
+  }
+  (this->eCAnimationAdmin_data).offset_0x0 = 0;
+  (**(code **)(_DAT_00000000 + 0x18))();
+  return 1;
+}
+
+

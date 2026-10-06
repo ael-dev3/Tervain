@@ -1,0 +1,9 @@
+/* ENTRY 20325410 | bTPropertyType<gCPlayerMemory_PS,unsigned_long>::vfunction2 | STATUS decompiled | 0 ms */
+
+undefined4 __thiscall bTPropertyType<gCPlayerMemory_PS,unsigned_long>::vfunction2(void)
+
+{
+  return 4;
+}
+
+

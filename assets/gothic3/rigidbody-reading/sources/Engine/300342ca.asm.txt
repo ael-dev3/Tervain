@@ -1,0 +1,4 @@
+; 300342ca ?IsEditorRelevant@eCRigidBody_PS@@UBE_NXZ
+300342ca | e9e19b2f00 | JMP 0x3032deb0
+; 300342d9 eCGfxLight::Read
+; 300342d9 Ordinal_12122

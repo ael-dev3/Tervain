@@ -1,0 +1,2 @@
+; 300402e6 eCVisualAnimation_PS::IsAutoAimingEnabled
+300402e6 | e935d50500 | JMP 0x3009d820

@@ -1,0 +1,2 @@
+; 20033bae ?CalcNextSteps@gCCharacterMovement_PS@@IAEXXZ
+20033bae | e94d221f00 | JMP 0x20225e00

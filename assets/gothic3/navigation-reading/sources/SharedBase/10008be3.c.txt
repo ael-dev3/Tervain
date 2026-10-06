@@ -1,0 +1,12 @@
+/* ENTRY 10008be3 | bCGuid::GetGuid | STATUS decompiled | 1 ms */
+
+/* public: struct _GUID const * __thiscall bCGuid::GetGuid(void)const  */
+
+_GUID * __thiscall bCGuid::GetGuid(bCGuid *this)
+
+{
+                    /* 0x8be3  2384  ?GetGuid@bCGuid@@QBEPBU_GUID@@XZ */
+  return (_GUID *)this;
+}
+
+

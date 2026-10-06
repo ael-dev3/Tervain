@@ -1,0 +1,12 @@
+/* ENTRY 300129c2 | eCPhysicsScene::GetInstance | STATUS decompiled | 1 ms */
+
+/* public: static class eCPhysicsScene & __stdcall eCPhysicsScene::GetInstance(void) */
+
+eCPhysicsScene * eCPhysicsScene::GetInstance(void)
+
+{
+                    /* 0x129c2  7431  ?GetInstance@eCPhysicsScene@@SGAAV1@XZ */
+  return s_pCurrentInstance;
+}
+
+

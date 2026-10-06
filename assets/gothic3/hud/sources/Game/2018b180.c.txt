@@ -1,0 +1,13 @@
+/* ENTRY 2018b180 | gCHUDStaticInvCash::gCHUDStaticInvCash | STATUS decompiled | 8 ms */
+
+gCHUDStaticInvCash * __thiscall gCHUDStaticInvCash::gCHUDStaticInvCash(gCHUDStaticInvCash *this)
+
+{
+  gCHUDLabel::gCHUDLabel((gCHUDLabel *)this);
+  this->vftablePtr = &vftable;
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)&(this->gCHUDStaticInvCash_data).field_0xc);
+  (this->gCHUDStaticInvCash_data).offset_0x28 = 0xffffffff;
+  return this;
+}
+
+

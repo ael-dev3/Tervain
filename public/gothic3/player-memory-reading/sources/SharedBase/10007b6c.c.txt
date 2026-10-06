@@ -1,0 +1,32 @@
+/* ENTRY 10007b6c | bCUnicodeString::bCUnicodeString | STATUS decompiled | 6 ms */
+
+/* public: __thiscall bCUnicodeString::bCUnicodeString(class bCUnicodeString const &) */
+
+bCUnicodeString * __thiscall
+bCUnicodeString::bCUnicodeString(bCUnicodeString *this,bCUnicodeString *param_1)
+
+{
+  int iVar1;
+  
+                    /* 0x7b6c  293  ??0bCUnicodeString@@QAE@ABV0@@Z */
+  iVar1 = *(int *)param_1;
+  if (iVar1 == 0) {
+    *(undefined4 *)this = 0;
+    return this;
+  }
+  if (0 < *(int *)(iVar1 + -0xc)) {
+    *(int *)this = iVar1;
+    *(int *)(iVar1 + -0xc) = *(int *)(iVar1 + -0xc) + 1;
+    return this;
+  }
+  iVar1 = *(int *)(iVar1 + -8);
+  if (iVar1 == 0) {
+    *(undefined4 *)this = 0;
+    return this;
+  }
+  Alloc(this,iVar1);
+  _memcpy(*(void **)this,*(void **)param_1,iVar1 * 2);
+  return this;
+}
+
+

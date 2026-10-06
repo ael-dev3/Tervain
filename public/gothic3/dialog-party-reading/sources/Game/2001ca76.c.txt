@@ -1,0 +1,35 @@
+/* ENTRY 2001ca76 | gCDialog_PS::~gCDialog_PS | STATUS decompiled | 18 ms */
+
+/* public: virtual __thiscall gCDialog_PS::~gCDialog_PS(void) */
+
+void __thiscall gCDialog_PS::~gCDialog_PS(gCDialog_PS *this)
+
+{
+  undefined ***this_00;
+  int iVar1;
+  bCMemoryAdmin *this_01;
+  void *pvVar2;
+  
+                    /* 0x1ca76  404  ??1gCDialog_PS@@UAE@XZ */
+  this->vftablePtr = &vftable;
+  iVar1 = (this->gCDialog_PS_data).offset_0x48;
+  if (iVar1 != 0) {
+    thunk_FUN_20078cc0(iVar1,(this->gCDialog_PS_data).offset_0x50);
+    pvVar2 = (void *)(this->gCDialog_PS_data).offset_0x48;
+    this_01 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(this_01,pvVar2);
+    (this->gCDialog_PS_data).offset_0x48 = 0;
+    (this->gCDialog_PS_data).offset_0x4c = 0;
+    (this->gCDialog_PS_data).offset_0x50 = 0;
+  }
+  eCEntityProxy::~eCEntityProxy((eCEntityProxy *)&(this->gCDialog_PS_data).field_0x2c);
+  this_00 = &(this->gCDialog_PS_data).offset_0x1c;
+  *this_00 = &bTPropertyContainer<gETradeCategory>::vftable.GetVersion;
+  bCObjectBase::~bCObjectBase((bCObjectBase *)this_00);
+                    /* WARNING: Could not recover jumptable at 0x2020babc. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eCEntityPropertySet::~eCEntityPropertySet((eCEntityPropertySet *)this);
+  return;
+}
+
+

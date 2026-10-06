@@ -1,0 +1,18 @@
+/* ENTRY 10002e19 | bCBox::IsValid | STATUS decompiled | 10 ms */
+
+/* public: bool __thiscall bCBox::IsValid(void)const  */
+
+bool __thiscall bCBox::IsValid(bCBox *this)
+
+{
+                    /* 0x2e19  3670  ?IsValid@bCBox@@QBE_NXZ */
+  if ((((*(float *)(this + 0xc) != -3.4028235e+38) && (*(float *)(this + 0x10) != -3.4028235e+38))
+      && (*(float *)(this + 0x14) != -3.4028235e+38)) &&
+     (((*(float *)this != 3.4028235e+38 && (*(float *)(this + 4) != 3.4028235e+38)) &&
+      (*(float *)(this + 8) != 3.4028235e+38)))) {
+    return true;
+  }
+  return false;
+}
+
+

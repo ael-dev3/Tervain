@@ -1,0 +1,2 @@
+; 10007987 ?Contains@bCBox@@QBE_NABVbCFrustum@@@Z
+10007987 | e984eb0400 | JMP 0x10056510

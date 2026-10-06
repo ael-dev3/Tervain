@@ -1,0 +1,12 @@
+/* ENTRY 2002018f | SHAREDBASE.DLL::bCPropertyTypeBase::Write | STATUS decompiled | 1 ms */
+
+void __thiscall bCPropertyTypeBase::Write(bCPropertyTypeBase *this,bCOStream *param_1)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x20322610. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  Write(this,param_1);
+  return;
+}
+
+

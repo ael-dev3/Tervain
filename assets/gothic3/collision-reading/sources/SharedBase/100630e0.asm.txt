@@ -1,0 +1,12 @@
+; 100630e0 FUN_100630e0
+100630e0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+100630e4 | d900 | FLD float ptr [EAX]
+100630e6 | d801 | FADD float ptr [ECX]
+100630e8 | d919 | FSTP float ptr [ECX]
+100630ea | d94004 | FLD float ptr [EAX + 0x4]
+100630ed | d84104 | FADD float ptr [ECX + 0x4]
+100630f0 | d95904 | FSTP float ptr [ECX + 0x4]
+100630f3 | d94008 | FLD float ptr [EAX + 0x8]
+100630f6 | d84108 | FADD float ptr [ECX + 0x8]
+100630f9 | d95908 | FSTP float ptr [ECX + 0x8]
+100630fc | c20400 | RET 0x4

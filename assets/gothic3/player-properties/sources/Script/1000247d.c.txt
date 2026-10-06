@@ -1,0 +1,17 @@
+/* ENTRY 1000247d | PSPlayerMemory::GetPoliticalCrimeCount | STATUS decompiled | 3 ms */
+
+/* public: long __thiscall PSPlayerMemory::GetPoliticalCrimeCount(enum gEPoliticalAlignment) */
+
+long __thiscall
+PSPlayerMemory::GetPoliticalCrimeCount(PSPlayerMemory *this,gEPoliticalAlignment param_1)
+
+{
+                    /* 0x247d  1624
+                       ?GetPoliticalCrimeCount@PSPlayerMemory@@QAEJW4gEPoliticalAlignment@@@Z */
+  if ((*(int *)this != 0) && (param_1 < 9)) {
+    return *(long *)(*(int *)(*(int *)this + 0x3c) + param_1 * 4);
+  }
+  return 0;
+}
+
+

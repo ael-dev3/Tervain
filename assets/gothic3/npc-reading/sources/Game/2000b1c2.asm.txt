@@ -1,0 +1,2 @@
+; 2000b1c2 bTPropertyContainer<gEAttitude>::vfunction7
+2000b1c2 | e9f93e2f00 | JMP 0x202ff0c0

@@ -1,0 +1,31 @@
+/* ENTRY 300a2bd0 | FUN_300a2bd0 | STATUS decompiled | 6 ms */
+
+void __fastcall FUN_300a2bd0(int param_1)
+
+{
+  int iVar1;
+  undefined4 *puVar2;
+  int iVar3;
+  int local_4;
+  
+  iVar3 = 0;
+  local_4 = param_1;
+  if (0 < *(int *)(param_1 + 0x124)) {
+    do {
+      iVar1 = *(int *)(param_1 + 0x120);
+      eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)(param_1 + 0x94));
+      local_4 = *(int *)(iVar1 + iVar3 * 4);
+      thunk_FUN_300ac4f0(&local_4);
+      puVar2 = *(undefined4 **)(iVar3 * 4 + *(int *)(param_1 + 0x120));
+      if (puVar2 != (undefined4 *)0x0) {
+        (**(code **)*puVar2)(1);
+      }
+      iVar3 = iVar3 + 1;
+    } while (iVar3 < *(int *)(param_1 + 0x124));
+  }
+  thunk_FUN_300aee60(0,0xffffffff);
+  *(undefined4 *)(param_1 + 0x124) = 0;
+  return;
+}
+
+

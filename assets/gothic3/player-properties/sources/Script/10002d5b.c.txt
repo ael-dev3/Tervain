@@ -1,0 +1,20 @@
+/* ENTRY 10002d5b | PSPlayerMemory::SetHitPoints | STATUS decompiled | 8 ms */
+
+/* public: void __thiscall PSPlayerMemory::SetHitPoints(int) */
+
+void __thiscall PSPlayerMemory::SetHitPoints(PSPlayerMemory *this,int param_1)
+
+{
+  PSPlayerMemory *pPStack_4;
+  
+                    /* 0x2d5b  1951  ?SetHitPoints@PSPlayerMemory@@QAEXH@Z */
+  pPStack_4 = this;
+  bCString::bCString((bCString *)&pPStack_4,"HP");
+  if (*(gCPlayerMemory_PS **)this != (gCPlayerMemory_PS *)0x0) {
+    gCPlayerMemory_PS::SetBaseValue(*(gCPlayerMemory_PS **)this,(bCString *)&pPStack_4,param_1);
+  }
+  bCString::~bCString((bCString *)&pPStack_4);
+  return;
+}
+
+

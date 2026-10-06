@@ -1,0 +1,13 @@
+/* ENTRY 30010c80 | eCCollisionShape::SetShape | STATUS decompiled | 3 ms */
+
+/* public: enum bEResult __thiscall eCCollisionShape::SetShape(class eCCollisionShape const &) */
+
+bEResult __thiscall eCCollisionShape::SetShape(eCCollisionShape *this,eCCollisionShape *param_1)
+
+{
+                    /* 0x10c80  14154  ?SetShape@eCCollisionShape@@QAE?AW4bEResult@@ABV1@@Z */
+  (*this->vftablePtr->CopyFrom)(this,(bCObjectBase *)param_1);
+  return 1;
+}
+
+

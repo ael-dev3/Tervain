@@ -1,0 +1,2 @@
+; 200079aa ?CreateStat@gCPlayerMemory_PS@@IAE_NABVbCString@@@Z
+200079aa | e9c1633100 | JMP 0x2031dd70

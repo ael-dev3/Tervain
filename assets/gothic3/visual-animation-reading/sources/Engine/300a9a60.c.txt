@@ -1,0 +1,15 @@
+/* ENTRY 300a9a60 | LookAtConstraintEx::LookAtConstraintEx | STATUS decompiled | 5 ms */
+
+LookAtConstraintEx * __thiscall
+LookAtConstraintEx::LookAtConstraintEx
+          (LookAtConstraintEx *this,undefined4 param_1,int param_2,undefined4 param_3)
+
+{
+  EMotionFX::LookAtConstraint::LookAtConstraint((LookAtConstraint *)this,param_1,param_2,param_3);
+  this->vftablePtr = &vftable;
+  (this->LookAtConstraintEx_data).offset_0x0 = 0;
+  (this->LookAtConstraintEx_data).offset_0x4 = 0;
+  return this;
+}
+
+

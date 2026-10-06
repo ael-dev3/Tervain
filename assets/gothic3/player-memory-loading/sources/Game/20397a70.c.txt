@@ -1,0 +1,11 @@
+/* ENTRY 20397a70 | FUN_20397a70 | STATUS decompiled | 2 ms */
+
+void __thiscall FUN_20397a70(int *param_1,int param_2)
+
+{
+  param_1[5] = param_2 - param_1[4];
+  (**(code **)(*param_1 + 0x7c))();
+  return;
+}
+
+

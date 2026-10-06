@@ -1,0 +1,36 @@
+/* ENTRY 20533820 | bTPropertyType<gCInteraction_PS,bCVector>::~bTPropertyType<gCInteraction_PS,bCVector> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCInteraction_PS,bCVector>::~bTPropertyType<gCInteraction_PS,bCVector>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Focus");
+  bCString::bCString(local_c,"FocusViewOffset");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCInteraction_PS::ms_PropertyMember_m_vecFocusViewOffset,local_c
+             ,local_8,local_4,1,false);
+  _ms_PropertyMember_m_vecFocusViewOffset = &vftable;
+  DAT_207cf1d0 = bTPropertyObjectType<gCInteraction_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCInteraction_PS,eCEntityPropertySet>();
+  _DAT_207cf1d4 = 0x88;
+  _DAT_207cf1d8 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCInteraction_PS::ms_PropertyMember_m_vecFocusViewOffset);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cf1d0,
+             (bCPropertyTypeBase *)&gCInteraction_PS::ms_PropertyMember_m_vecFocusViewOffset);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bCVector>::~bTPropertyTypeOnly<bCVector>);
+  return;
+}
+
+

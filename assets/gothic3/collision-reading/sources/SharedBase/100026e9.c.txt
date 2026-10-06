@@ -1,0 +1,18 @@
+/* ENTRY 100026e9 | bCOrientedBox::GetTranslated | STATUS decompiled | 5 ms */
+
+/* public: void __thiscall bCOrientedBox::GetTranslated(class bCOrientedBox &,class bCVector const
+   &)const  */
+
+void __thiscall
+bCOrientedBox::GetTranslated(bCOrientedBox *this,bCOrientedBox *param_1,bCVector *param_2)
+
+{
+                    /* 0x26e9  3154  ?GetTranslated@bCOrientedBox@@QBEXAAV1@ABVbCVector@@@Z */
+  Create(param_1,this);
+  *(float *)param_1 = *(float *)param_1 + *(float *)param_2;
+  *(float *)(param_1 + 4) = *(float *)(param_2 + 4) + *(float *)(param_1 + 4);
+  *(float *)(param_1 + 8) = *(float *)(param_2 + 8) + *(float *)(param_1 + 8);
+  return;
+}
+
+

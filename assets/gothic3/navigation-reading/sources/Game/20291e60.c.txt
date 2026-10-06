@@ -1,0 +1,15 @@
+/* ENTRY 20291e60 | bTPropertyType<gCNavigation_PS,eCEntityProxy>::vfunction19 | STATUS decompiled | 5 ms */
+
+void __thiscall
+bTPropertyType<gCNavigation_PS,eCEntityProxy>::vfunction19
+          (bTPropertyType<gCNavigation_PS,eCEntityProxy> *this)
+
+{
+  bCPropertyTypeBase::Destroy((bCPropertyTypeBase *)this);
+  thunk_FUN_20070e90(this + 8);
+  bCPropertyObjectTypeBase::UnregisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)this[6].vftablePtr,(bCPropertyTypeBase *)this);
+  return;
+}
+
+

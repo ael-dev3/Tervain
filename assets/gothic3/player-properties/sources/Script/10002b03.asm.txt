@@ -1,0 +1,4 @@
+; 10002b03 ?SetManaPointsMax@PSPlayerMemory@@QAEXH@Z
+10002b03 | e9f86d0200 | JMP 0x10029900
+; 10002b08 PSRigidBody::IsValid
+; 10002b08 Ordinal_1850

@@ -1,0 +1,2 @@
+; 10007dab bCPropertyID::~bCPropertyID
+10007dab | e910ad0800 | JMP 0x10092ac0

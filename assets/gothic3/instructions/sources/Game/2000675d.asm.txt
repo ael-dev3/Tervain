@@ -1,0 +1,2 @@
+; 2000675d ?RunLocalCallback@gCScriptProcessingUnit@@IAEXPAVgCScriptAdmin@@PAVgCScriptRoutine_PS@@@Z
+2000675d | e96e193600 | JMP 0x203680d0

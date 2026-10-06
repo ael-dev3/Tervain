@@ -1,0 +1,4 @@
+; 30023ef2 ?IsEnabled@eCEntity@@QBE_NXZ
+30023ef2 | e969f04800 | JMP 0x304b2f60
+; 30023f01 vertex::vertex
+; 30023f01 Ordinal_947

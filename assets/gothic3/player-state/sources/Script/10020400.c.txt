@@ -1,0 +1,16 @@
+/* ENTRY 10020400 | FUN_10020400 | STATUS decompiled | 5 ms */
+
+uint __thiscall FUN_10020400(void *this,gEPose param_1)
+
+{
+  uint in_EAX;
+  undefined3 extraout_var;
+  
+  if (*(gCNPC_PS **)this == (gCNPC_PS *)0x0) {
+    return in_EAX & 0xffffff00;
+  }
+  gCNPC_PS::ForceNextPose(*(gCNPC_PS **)this,param_1);
+  return CONCAT31(extraout_var,1);
+}
+
+

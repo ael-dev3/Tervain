@@ -1,0 +1,2 @@
+; 20018ac0 bTPropertyType<gCNPC_PS,bTPropertyContainer<gEClass>_>::vfunction1
+20018ac0 | e9ebbb2e00 | JMP 0x203046b0

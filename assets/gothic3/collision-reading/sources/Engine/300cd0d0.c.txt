@@ -1,0 +1,73 @@
+/* ENTRY 300cd0d0 | bTPropertyContainer<eEShapeAABBAdapt>::bTPropertyContainer<eEShapeAABBAdapt> | STATUS decompiled | 26 ms */
+
+bTPropertyContainer<eEShapeAABBAdapt> * __thiscall
+bTPropertyContainer<eEShapeAABBAdapt>::bTPropertyContainer<eEShapeAABBAdapt>
+          (bTPropertyContainer<eEShapeAABBAdapt> *this,bCObjectRefBase *param_1)
+
+{
+  bCObjectBase **ppbVar1;
+  
+  bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)this,param_1);
+  ppbVar1 = &(this->bTPropertyContainer<eEShapeAABBAdapt>_data).offset_0x8;
+                    /* inlined constructor: eCCollisionShape::eCCollisionShape */
+  this->vftablePtr = (bTPropertyContainer<eEShapeAABBAdapt>_vftable *)&eCCollisionShape::vftable;
+  bCObjectBase::bCObjectBase((bCObjectBase *)ppbVar1);
+                    /* inlined constructor:
+                       bTPropertyContainer<eECollisionShapeType>::bTPropertyContainer<eECollisionShapeType>
+                        */
+  *ppbVar1 = (bCObjectBase *)&bTPropertyContainer<eECollisionShapeType>::vftable;
+  this[1].vftablePtr = *(bTPropertyContainer<eEShapeAABBAdapt>_vftable **)(param_1 + 0x10);
+  bCObjectBase::bCObjectBase((bCObjectBase *)&this[1].bTPropertyContainer<eEShapeAABBAdapt>_data);
+                    /* inlined constructor:
+                       bTPropertyContainer<eEShapeGroup>::bTPropertyContainer<eEShapeGroup> */
+  this[1].bTPropertyContainer<eEShapeAABBAdapt>_data.offset_0x0 =
+       &bTPropertyContainer<eEShapeGroup>::vftable.GetVersion;
+  this[1].bTPropertyContainer<eEShapeAABBAdapt>_data.offset_0x4 = *(undefined4 *)(param_1 + 0x18);
+  ppbVar1 = &this[1].bTPropertyContainer<eEShapeAABBAdapt>_data.offset_0x8;
+  bCObjectBase::bCObjectBase((bCObjectBase *)ppbVar1);
+                    /* inlined constructor:
+                       bTPropertyContainer<eEShapeMaterial>::bTPropertyContainer<eEShapeMaterial> */
+  *ppbVar1 = (bCObjectBase *)&bTPropertyContainer<eEShapeMaterial>::vftable;
+  this[2].vftablePtr = *(bTPropertyContainer<eEShapeAABBAdapt>_vftable **)(param_1 + 0x20);
+  bCObjectBase::bCObjectBase((bCObjectBase *)&this[2].bTPropertyContainer<eEShapeAABBAdapt>_data);
+  this[2].bTPropertyContainer<eEShapeAABBAdapt>_data.offset_0x0 = &vftable.GetVersion;
+  this[2].bTPropertyContainer<eEShapeAABBAdapt>_data.offset_0x4 = *(undefined4 *)(param_1 + 0x28);
+  *(bCObjectRefBase *)&this[2].bTPropertyContainer<eEShapeAABBAdapt>_data.offset_0x8 = param_1[0x2c]
+  ;
+  *(bCObjectRefBase *)((int)&this[2].bTPropertyContainer<eEShapeAABBAdapt>_data.offset_0x8 + 1) =
+       param_1[0x2d];
+  *(bCObjectRefBase *)((int)&this[2].bTPropertyContainer<eEShapeAABBAdapt>_data.offset_0x8 + 2) =
+       param_1[0x2e];
+  *(bCObjectRefBase *)((int)&this[2].bTPropertyContainer<eEShapeAABBAdapt>_data.offset_0x8 + 3) =
+       param_1[0x2f];
+  *(bCObjectRefBase *)&this[3].vftablePtr = param_1[0x30];
+  *(bCObjectRefBase *)((int)&this[3].vftablePtr + 1) = param_1[0x31];
+  *(bCObjectRefBase *)((int)&this[3].vftablePtr + 2) = param_1[0x32];
+  *(bCObjectRefBase *)((int)&this[3].vftablePtr + 3) = param_1[0x33];
+  this[3].bTPropertyContainer<eEShapeAABBAdapt>_data.offset_0x0 = *(undefined ***)(param_1 + 0x34);
+  *(bCObjectRefBase *)&this[3].bTPropertyContainer<eEShapeAABBAdapt>_data.offset_0x4 = param_1[0x38]
+  ;
+  *(undefined2 *)((int)&this[3].bTPropertyContainer<eEShapeAABBAdapt>_data.offset_0x4 + 2) =
+       *(undefined2 *)(param_1 + 0x3a);
+  *(bCObjectRefBase *)&this[3].bTPropertyContainer<eEShapeAABBAdapt>_data.offset_0x8 = param_1[0x3c]
+  ;
+  this[4].vftablePtr = *(bTPropertyContainer<eEShapeAABBAdapt>_vftable **)(param_1 + 0x40);
+  *(bCObjectRefBase *)&this[4].bTPropertyContainer<eEShapeAABBAdapt>_data.offset_0x0 = param_1[0x44]
+  ;
+  *(undefined2 *)((int)&this[4].bTPropertyContainer<eEShapeAABBAdapt>_data.offset_0x0 + 2) =
+       *(undefined2 *)(param_1 + 0x46);
+  bCBox::bCBox((bCBox *)&this[4].bTPropertyContainer<eEShapeAABBAdapt>_data.offset_0x4,
+               (bCBox *)(param_1 + 0x48));
+  this[6].vftablePtr = *(bTPropertyContainer<eEShapeAABBAdapt>_vftable **)(param_1 + 0x60);
+  this[6].bTPropertyContainer<eEShapeAABBAdapt>_data.offset_0x0 = *(undefined ***)(param_1 + 100);
+  bCVector::bCVector((bCVector *)&this[6].bTPropertyContainer<eEShapeAABBAdapt>_data.offset_0x4,
+                     (bCVector *)(param_1 + 0x68));
+  this[7].bTPropertyContainer<eEShapeAABBAdapt>_data.offset_0x0 = *(undefined ***)(param_1 + 0x74);
+  this[7].bTPropertyContainer<eEShapeAABBAdapt>_data.offset_0x0 = *(undefined ***)(param_1 + 0x74);
+  this[7].bTPropertyContainer<eEShapeAABBAdapt>_data.offset_0x0 = *(undefined ***)(param_1 + 0x74);
+  this[7].bTPropertyContainer<eEShapeAABBAdapt>_data.offset_0x0 = *(undefined ***)(param_1 + 0x74);
+  this[7].bTPropertyContainer<eEShapeAABBAdapt>_data.offset_0x0 = *(undefined ***)(param_1 + 0x74);
+  return this;
+}
+
+

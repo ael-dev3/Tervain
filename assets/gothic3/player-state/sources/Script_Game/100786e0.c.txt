@@ -1,0 +1,49 @@
+/* ENTRY 100786e0 | FUN_100786e0 | STATUS decompiled | 19 ms */
+
+undefined4 FUN_100786e0(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3)
+
+{
+  bool bVar1;
+  eCEntity *peVar2;
+  gESpecies gVar3;
+  Entity aEStack_20c [164];
+  undefined4 uStack_168;
+  Entity local_150 [52];
+  PropertySpecies local_11c [16];
+  PSCharacterMovement local_10c [100];
+  Entity local_a8 [168];
+  
+  Entity::Entity(local_150);
+  if (param_2 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    uStack_168 = 0x10078723;
+    Entity::AttachTo(local_150,peVar2);
+  }
+  else {
+    uStack_168 = 0x1007872c;
+    Entity::operator=(local_150,param_2);
+  }
+  Entity::Entity(local_a8);
+  if (param_3 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    uStack_168 = 0x10078752;
+    Entity::AttachTo(local_a8,peVar2);
+  }
+  else {
+    uStack_168 = 0x1007875e;
+    Entity::operator=(local_a8,param_3);
+  }
+  bVar1 = PSCharacterMovement::CanJump(local_10c);
+  if (bVar1) {
+    gVar3 = PSNpc::PropertySpecies::operator_enum_gESpecies(local_11c);
+    if (gVar3 == 0) {
+      Entity::Entity(aEStack_20c,local_150);
+      thunk_FUN_100108d0();
+    }
+  }
+  Entity::~Entity(local_a8);
+  Entity::~Entity(local_150);
+  return 1;
+}
+
+

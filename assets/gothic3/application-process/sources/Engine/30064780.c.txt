@@ -1,0 +1,14 @@
+/* ENTRY 30064780 | FUN_30064780 | STATUS decompiled | 4 ms */
+
+void __thiscall FUN_30064780(int param_1,undefined4 param_2)
+
+{
+  if ((*(char *)(param_1 + 0x532) == '\x01') || (*(char *)(param_1 + 0x531) == '\0')) {
+    *(undefined1 *)(param_1 + 0x531) = 1;
+  }
+  *(undefined4 *)(param_1 + 0x524) = param_2;
+  *(undefined1 *)(param_1 + 0x532) = 1;
+  return;
+}
+
+

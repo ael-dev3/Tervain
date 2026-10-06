@@ -1,0 +1,584 @@
+/* ENTRY 2001a519 | gCQuest_PS::SetStatus | STATUS decompiled | 594 ms */
+
+/* public: bool __thiscall gCQuest_PS::SetStatus(enum gEQuestStatus const &) */
+
+bool __thiscall gCQuest_PS::SetStatus(gCQuest_PS *this,gEQuestStatus *param_1)
+
+{
+  undefined1 *puVar1;
+  int *piVar2;
+  gCEnclave_PS *this_00;
+  bool bVar3;
+  gCWorld *pgVar4;
+  undefined4 uVar5;
+  wchar_t *pwVar6;
+  gCSession *pgVar7;
+  eCLocString *peVar8;
+  bCUnicodeString *pbVar9;
+  gCGUIManager *pgVar10;
+  eCDynamicEntity *peVar11;
+  int iVar12;
+  eCLocString *this_01;
+  bCString *pbVar13;
+  char *pcVar14;
+  gCAttribute *this_02;
+  gCEnclaveAdmin *pgVar15;
+  bTValArray<gCEnclave_PS*> *pbVar16;
+  eCEntity *peVar17;
+  bCString *this_03;
+  gCWorld *pgVar18;
+  gCInfoManager_PS *this_04;
+  gCPlayerMemory_PS *this_05;
+  undefined4 *puVar19;
+  undefined4 *puVar20;
+  eCSceneAdmin *this_06;
+  gCArena_PS *this_07;
+  gCPlayerMemory_PS *unaff_EBP;
+  bCObjectBase bVar21;
+  code *pcVar22;
+  undefined4 *unaff_retaddr;
+  bCUnicodeString *pbVar23;
+  char *pcVar24;
+  bCUnicodeString *pbVar25;
+  bCObjectBase *pbVar26;
+  bCUnicodeString *pbVar27;
+  gEGameMessageType gVar28;
+  char *pcVar29;
+  bCObjectBase bStack_13c;
+  bCObjectBase bStack_138;
+  undefined4 uStack_134;
+  bCUnicodeString abStack_130 [4];
+  int *piStack_12c;
+  bCString abStack_128 [4];
+  bCString abStack_124 [4];
+  bCString abStack_120 [8];
+  bCString abStack_118 [8];
+  bCString abStack_110 [4];
+  bCString abStack_10c [4];
+  bCString abStack_108 [4];
+  bCString abStack_104 [4];
+  bCUnicodeString abStack_100 [4];
+  bCUnicodeString abStack_fc [8];
+  bCUnicodeString abStack_f4 [8];
+  eCLocString aeStack_ec [12];
+  bCUnicodeString abStack_e0 [8];
+  bCUnicodeString abStack_d8 [4];
+  bCUnicodeString abStack_d4 [4];
+  bCUnicodeString abStack_d0 [4];
+  eCLocString aeStack_cc [4];
+  bCUnicodeString abStack_c8 [4];
+  eCLocString aeStack_c4 [4];
+  eCLocString aeStack_c0 [4];
+  bCUnicodeString abStack_bc [4];
+  bCUnicodeString abStack_b8 [4];
+  bCString abStack_b4 [4];
+  eCLocString aeStack_b0 [4];
+  bCUnicodeString abStack_ac [8];
+  eCLocString aeStack_a4 [4];
+  bCUnicodeString abStack_a0 [4];
+  bCUnicodeString abStack_9c [4];
+  bCUnicodeString abStack_98 [4];
+  bCUnicodeString abStack_94 [8];
+  wchar_t awStack_8c [2];
+  wchar_t awStack_88 [2];
+  eCLocString aeStack_84 [4];
+  bCString abStack_80 [4];
+  eCLocString aeStack_7c [4];
+  bCUnicodeString abStack_78 [4];
+  bCUnicodeString abStack_74 [4];
+  eCLocString aeStack_70 [4];
+  bCUnicodeString abStack_6c [4];
+  eCLocString aeStack_68 [4];
+  bCString abStack_64 [8];
+  eCLocString aeStack_5c [8];
+  bCString abStack_54 [4];
+  bCString abStack_50 [4];
+  bCUnicodeString abStack_4c [8];
+  bCString abStack_44 [4];
+  bCUnicodeString abStack_40 [4];
+  bCUnicodeString abStack_3c [4];
+  wchar_t awStack_38 [2];
+  bCUnicodeString abStack_34 [8];
+  bCUnicodeString abStack_2c [4];
+  bCUnicodeString abStack_28 [4];
+  bCUnicodeString abStack_24 [4];
+  bCUnicodeString abStack_20 [4];
+  eCLocString aeStack_1c [12];
+  bCUnicodeString abStack_10 [16];
+  
+                    /* 0x1a519  7094  ?SetStatus@gCQuest_PS@@QAE_NABW4gEQuestStatus@@@Z */
+  pcVar22 = ~bCUnicodeString_exref;
+  switch(*param_1) {
+  case 0:
+    thunk_FUN_20334c90();
+    return false;
+  case 1:
+    iVar12 = (this->gCQuest_PS_data).offset_0x8c;
+    if ((iVar12 != 0) && (iVar12 != 6)) {
+      return false;
+    }
+    pgVar4 = gCWorld::GetCurrentWorld();
+    if (pgVar4 == (gCWorld *)0x0) {
+      return false;
+    }
+    pgVar18 = (gCWorld *)gCWorld::GetCurrentWorld();
+    peVar17 = gCWorld::GetWorldEntity(pgVar18);
+    if (peVar17 == (eCEntity *)0x0) {
+      return false;
+    }
+    pgVar18 = (gCWorld *)gCWorld::GetCurrentWorld();
+    peVar17 = gCWorld::GetWorldEntity(pgVar18);
+    uVar5 = (**(code **)(*(int *)peVar17 + 0xec))(0x20,0,&eCEntityPropertySet::RTTI_Type_Descriptor)
+    ;
+    iVar12 = ___RTDynamicCast(uVar5);
+    if (iVar12 == 0) {
+      return false;
+    }
+    (this->gCQuest_PS_data).offset_0x90 = *(undefined4 *)(iVar12 + 0x14);
+    (this->gCQuest_PS_data).offset_0x94 = *(undefined4 *)(iVar12 + 0x18);
+    puVar1 = &(this->gCQuest_PS_data).field_0x20;
+    (this->gCQuest_PS_data).offset_0x98 = *(undefined4 *)(iVar12 + 0x1c);
+    pbVar9 = (bCUnicodeString *)eCLocString::GetString((eCLocString *)puVar1);
+    bCUnicodeString::GetAnsiText(pbVar9);
+    thunk_FUN_20334bf0("gCQuest_PS::SetStatus","Quest %s (%s) changed to status = Running",
+                       *(undefined4 *)&(this->gCQuest_PS_data).field_0x8);
+    bCString::~bCString(abStack_54);
+    pcVar22 = ~bCUnicodeString_exref;
+    bCUnicodeString::~bCUnicodeString(abStack_10);
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)&stack0xfffffec0);
+    bCString::bCString(abStack_104,"GO_QuestRunning");
+    eCLocString::GetString((eCLocString *)puVar1);
+    pbVar27 = (bCUnicodeString *)&DAT_2069a1fc;
+    pbVar13 = abStack_44;
+    peVar8 = (eCLocString *)eCLocString::eCLocString(aeStack_7c,abStack_104);
+    pbVar9 = (bCUnicodeString *)eCLocString::GetString(peVar8);
+    pbVar9 = (bCUnicodeString *)bCUnicodeString::operator+(pbVar9,(wchar_t *)pbVar13);
+    pbVar9 = (bCUnicodeString *)bCUnicodeString::operator+(pbVar9,pbVar27);
+    bCUnicodeString::operator=((bCUnicodeString *)&stack0xfffffeb8,pbVar9);
+    bCUnicodeString::~bCUnicodeString(abStack_10);
+    bCUnicodeString::~bCUnicodeString(abStack_4c);
+    bCUnicodeString::~bCUnicodeString(abStack_fc);
+    eCLocString::~eCLocString(aeStack_84);
+    bCUnicodeString::~bCUnicodeString(abStack_f4);
+    bCString::~bCString(abStack_10c);
+    gVar28 = 7;
+    pbVar9 = (bCUnicodeString *)&stack0xfffffeb8;
+    pgVar7 = (gCSession *)gCSession::GetInstance();
+    pgVar10 = (gCGUIManager *)gCSession::GetGUIManager(pgVar7);
+    gCGUIManager::PrintGameMessage(pgVar10,pbVar9,gVar28);
+    if (*(int *)&(this->gCQuest_PS_data).field_0x7c != 0) {
+      bCString::bCString(abStack_118,"GO_QuestTimeLimit");
+      peVar8 = (eCLocString *)eCLocString::eCLocString(aeStack_ec,abStack_118);
+      pbVar9 = (bCUnicodeString *)eCLocString::GetString(peVar8);
+      bCUnicodeString::operator=((bCUnicodeString *)&stack0xfffffeb8,pbVar9);
+      bCUnicodeString::~bCUnicodeString(abStack_2c);
+      eCLocString::~eCLocString(aeStack_ec);
+      bCString::~bCString(abStack_118);
+      pbVar9 = (bCUnicodeString *)
+               bCUnicodeString::GetFormattedString
+                         ((wchar_t *)aeStack_7c,&DAT_2069a1d8,
+                          *(undefined4 *)&(this->gCQuest_PS_data).field_0x7c);
+      pwVar6 = bCUnicodeString::operator_wchar_t_(pbVar9);
+      bCUnicodeString::Replace((bCUnicodeString *)&stack0xfffffeb8,L"$(day)",pwVar6);
+      bCUnicodeString::~bCUnicodeString((bCUnicodeString *)aeStack_7c);
+      gVar28 = 0xc;
+      pbVar9 = (bCUnicodeString *)&stack0xfffffeb8;
+      pgVar7 = (gCSession *)gCSession::GetInstance();
+      pgVar10 = (gCGUIManager *)gCSession::GetGUIManager(pgVar7);
+      gCGUIManager::PrintGameMessage(pgVar10,pbVar9,gVar28);
+    }
+    break;
+  case 2:
+  case 7:
+    iVar12 = (this->gCQuest_PS_data).offset_0x8c;
+    if ((iVar12 != 0) && (iVar12 != 1)) {
+      return false;
+    }
+    pgVar7 = (gCSession *)gCSession::GetInstance();
+    gCSession::GetPlayer(pgVar7);
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)&bStack_13c);
+    bCString::bCString(abStack_108,"GO_QuestSuccess");
+    eCLocString::GetString((eCLocString *)&(this->gCQuest_PS_data).field_0x20);
+    pbVar27 = (bCUnicodeString *)&DAT_2069a1fc;
+    pwVar6 = awStack_38;
+    peVar8 = (eCLocString *)eCLocString::eCLocString(aeStack_68,abStack_108);
+    pbVar9 = (bCUnicodeString *)eCLocString::GetString(peVar8);
+    pbVar9 = (bCUnicodeString *)bCUnicodeString::operator+(pbVar9,pwVar6);
+    pbVar9 = (bCUnicodeString *)bCUnicodeString::operator+(pbVar9,pbVar27);
+    bCUnicodeString::operator=((bCUnicodeString *)&stack0xfffffebc,pbVar9);
+    bCUnicodeString::~bCUnicodeString(abStack_e0);
+    bCUnicodeString::~bCUnicodeString(abStack_40);
+    bCUnicodeString::~bCUnicodeString(abStack_d8);
+    eCLocString::~eCLocString(aeStack_70);
+    bCUnicodeString::~bCUnicodeString(abStack_d0);
+    bCString::~bCString(abStack_110);
+    gVar28 = 8;
+    pbVar9 = (bCUnicodeString *)&stack0xfffffebc;
+    pgVar7 = (gCSession *)gCSession::GetInstance();
+    pgVar10 = (gCGUIManager *)gCSession::GetGUIManager(pgVar7);
+    gCGUIManager::PrintGameMessage(pgVar10,pbVar9,gVar28);
+    bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffebc);
+    if (0 < *(int *)&(this->gCQuest_PS_data).field_0x3c) {
+      pgVar7 = (gCSession *)gCSession::GetInstance();
+      peVar11 = gCSession::GetPlayer(pgVar7);
+      iVar12 = thunk_FUN_20162380(peVar11);
+      if (iVar12 == 0) {
+        thunk_FUN_20334c90("gCQuest_PS::SetStatus",
+                           "Can\'t give PoliticalFame, no PlayerMemory-Propertyset found.");
+      }
+      else {
+        piVar2 = (int *)(*(int *)(iVar12 + 0x24) + (this->gCQuest_PS_data).offset_0x38 * 4);
+        *piVar2 = *piVar2 + *(int *)&(this->gCQuest_PS_data).field_0x3c;
+        bCUnicodeString::bCUnicodeString((bCUnicodeString *)&stack0xfffffebc);
+        bCUnicodeString::bCUnicodeString(abStack_b8,*(long *)&(this->gCQuest_PS_data).field_0x3c);
+        pbVar9 = abStack_c8;
+        peVar8 = aeStack_68;
+        pbVar13 = (bCString *)operator+((char *)awStack_38,(bCString *)"GO_PoliticalFame_");
+        this_01 = (eCLocString *)eCLocString::eCLocString(aeStack_c4,pbVar13);
+        pbVar27 = (bCUnicodeString *)eCLocString::GetString(this_01);
+        pbVar27 = (bCUnicodeString *)bCUnicodeString::operator+(pbVar27,(wchar_t *)peVar8);
+        pbVar9 = (bCUnicodeString *)bCUnicodeString::operator+(pbVar27,pbVar9);
+        bCUnicodeString::operator=((bCUnicodeString *)&stack0xfffffeb0,pbVar9);
+        bCUnicodeString::~bCUnicodeString(abStack_24);
+        bCUnicodeString::~bCUnicodeString(abStack_d4);
+        bCUnicodeString::~bCUnicodeString(abStack_74);
+        eCLocString::~eCLocString(aeStack_cc);
+        bCString::~bCString(abStack_44);
+        bCUnicodeString::~bCUnicodeString((bCUnicodeString *)aeStack_c4);
+        gVar28 = 0xb;
+        pbVar9 = (bCUnicodeString *)&stack0xfffffeb0;
+        pgVar7 = (gCSession *)gCSession::GetInstance();
+        pgVar10 = (gCGUIManager *)gCSession::GetGUIManager(pgVar7);
+        gCGUIManager::PrintGameMessage(pgVar10,pbVar9,gVar28);
+        bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffeb0);
+      }
+    }
+    puVar1 = &(this->gCQuest_PS_data).field_0x48;
+    bVar3 = bCString::IsEmpty((bCString *)puVar1);
+    if (!bVar3) {
+      pgVar7 = (gCSession *)gCSession::GetInstance();
+      gCSession::GetPlayer(pgVar7);
+      bStack_13c = (bCObjectBase)thunk_FUN_20162380();
+      if (bStack_13c != (bCObjectBase)0x0) {
+        iVar12 = gCPlayerMemory_PS::GetBaseValue((gCPlayerMemory_PS *)bStack_13c,(bCString *)puVar1)
+        ;
+        gCPlayerMemory_PS::SetBaseValue
+                  ((gCPlayerMemory_PS *)bStack_13c,(bCString *)puVar1,
+                   iVar12 + *(int *)&(this->gCQuest_PS_data).field_0x4c);
+        pcVar14 = puVar1;
+        pbVar13 = (bCString *)operator+((char *)abStack_ac,(bCString *)"<invalid attrib ");
+        pbVar13 = (bCString *)bCString::operator+(pbVar13,pcVar14);
+        pcVar14 = bCString::operator_char_const_(pbVar13);
+        bCUnicodeString::bCUnicodeString((bCUnicodeString *)&stack0xfffffeb8,pcVar14);
+        bCString::~bCString(abStack_64);
+        bCString::~bCString(abStack_b4);
+        bCString::Remove((bCString *)puVar1," ");
+        this_02 = (gCAttribute *)gCPlayerMemory_PS::GetAttribute(unaff_EBP,(bCString *)puVar1);
+        if (this_02 == (gCAttribute *)0x0) {
+          thunk_FUN_20334c90("gCQuest_PS::SetStatus",
+                             "Attrib \'%s\' not found, can\'t display correct game output",
+                             *(undefined4 *)puVar1);
+        }
+        else {
+          peVar8 = (eCLocString *)gCAttribute::GetLongName(this_02);
+          pbVar9 = (bCUnicodeString *)eCLocString::GetString(peVar8);
+          bCUnicodeString::operator=((bCUnicodeString *)&stack0xfffffeb4,pbVar9);
+          bCUnicodeString::~bCUnicodeString(abStack_28);
+          eCLocString::~eCLocString(aeStack_b0);
+        }
+        iVar12 = (**(code **)(*piStack_12c + 100))(piStack_12c);
+        bCUnicodeString::bCUnicodeString(abStack_3c,iVar12);
+        pbVar9 = (bCUnicodeString *)
+                 bCUnicodeString::bCUnicodeString
+                           ((bCUnicodeString *)aeStack_84,
+                            *(long *)&(this->gCQuest_PS_data).field_0x4c);
+        pwVar6 = awStack_8c;
+        pbVar25 = (bCUnicodeString *)&DAT_2069a16c;
+        pbVar27 = (bCUnicodeString *)bCUnicodeString::operator+(abStack_130,(wchar_t *)aeStack_1c);
+        pbVar27 = (bCUnicodeString *)bCUnicodeString::operator+(pbVar27,pbVar25);
+        pbVar27 = (bCUnicodeString *)bCUnicodeString::operator+(pbVar27,pwVar6);
+        bCUnicodeString::operator+(pbVar27,pbVar9);
+        bCUnicodeString::~bCUnicodeString(abStack_100);
+        bCUnicodeString::~bCUnicodeString(abStack_9c);
+        bCUnicodeString::~bCUnicodeString(abStack_2c);
+        bCUnicodeString::~bCUnicodeString(abStack_94);
+        bCUnicodeString::~bCUnicodeString(abStack_4c);
+        gVar28 = 0xf;
+        pbVar9 = (bCUnicodeString *)&piStack_12c;
+        pgVar7 = (gCSession *)gCSession::GetInstance();
+        pgVar10 = (gCGUIManager *)gCSession::GetGUIManager(pgVar7);
+        gCGUIManager::PrintGameMessage(pgVar10,pbVar9,gVar28);
+        bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&piStack_12c);
+        bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffec0);
+      }
+    }
+    if (0 < *(int *)&(this->gCQuest_PS_data).field_0x44) {
+      bStack_13c = (bCObjectBase)0x0;
+      pgVar15 = (gCEnclaveAdmin *)gCEnclaveAdmin::GetInstance();
+      pbVar16 = gCEnclaveAdmin::GetEnclaves(pgVar15);
+      if (0 < *(int *)(pbVar16 + 4)) {
+        do {
+          pgVar15 = (gCEnclaveAdmin *)gCEnclaveAdmin::GetInstance();
+          pbVar16 = gCEnclaveAdmin::GetEnclaves(pgVar15);
+          this_00 = *(gCEnclave_PS **)(*(int *)pbVar16 + (int)bStack_13c * 4);
+          pbVar13 = (bCString *)&(this->gCQuest_PS_data).field_0x40;
+          peVar17 = (*this_00->vftablePtr->GetEntity)(this_00);
+          this_03 = eCEntity::GetName((eCEntity *)peVar17);
+          bVar3 = bCString::operator==(this_03,pbVar13);
+          if (bVar3) {
+            puVar1 = &(this_00->gCEnclave_PS_data).field_0x18;
+            *(int *)puVar1 = *(int *)puVar1 + *(int *)&(this->gCQuest_PS_data).field_0x44;
+            bCUnicodeString::bCUnicodeString((bCUnicodeString *)&stack0xfffffec0);
+            bCString::bCString(abStack_120,"GO_EnclaveFame");
+            bCUnicodeString::bCUnicodeString
+                      (abStack_d8,*(long *)&(this->gCQuest_PS_data).field_0x44);
+            peVar8 = (eCLocString *)gCEnclave_PS::GetDisplayName(this_00);
+            pbVar27 = (bCUnicodeString *)eCLocString::GetString(peVar8);
+            pwVar6 = awStack_88;
+            pbVar23 = (bCUnicodeString *)&DAT_2069a0d4;
+            pbVar9 = abStack_100;
+            peVar8 = (eCLocString *)eCLocString::eCLocString((eCLocString *)abStack_f4,abStack_124);
+            pbVar25 = (bCUnicodeString *)eCLocString::GetString(peVar8);
+            pbVar9 = (bCUnicodeString *)bCUnicodeString::operator+(pbVar25,(wchar_t *)pbVar9);
+            pbVar9 = (bCUnicodeString *)bCUnicodeString::operator+(pbVar9,pbVar23);
+            pbVar9 = (bCUnicodeString *)bCUnicodeString::operator+(pbVar9,pwVar6);
+            pbVar9 = (bCUnicodeString *)bCUnicodeString::operator+(pbVar9,pbVar27);
+            bCUnicodeString::operator=((bCUnicodeString *)&stack0xfffffeac,pbVar9);
+            bCUnicodeString::~bCUnicodeString(abStack_a0);
+            bCUnicodeString::~bCUnicodeString(abStack_20);
+            bCUnicodeString::~bCUnicodeString(abStack_98);
+            bCUnicodeString::~bCUnicodeString((bCUnicodeString *)abStack_110);
+            bCUnicodeString::~bCUnicodeString((bCUnicodeString *)abStack_10c);
+            eCLocString::~eCLocString((eCLocString *)abStack_104);
+            bCUnicodeString::~bCUnicodeString(abStack_fc);
+            eCLocString::~eCLocString((eCLocString *)abStack_f4);
+            bCUnicodeString::~bCUnicodeString((bCUnicodeString *)aeStack_ec);
+            bCString::~bCString((bCString *)&uStack_134);
+            gVar28 = 10;
+            pbVar9 = (bCUnicodeString *)&stack0xfffffeac;
+            pgVar7 = (gCSession *)gCSession::GetInstance();
+            pgVar10 = (gCGUIManager *)gCSession::GetGUIManager(pgVar7);
+            gCGUIManager::PrintGameMessage(pgVar10,pbVar9,gVar28);
+            bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffeac);
+          }
+          bVar21 = (bCObjectBase)((int)bStack_13c + 1);
+          bStack_13c = bVar21;
+          pgVar15 = (gCEnclaveAdmin *)gCEnclaveAdmin::GetInstance();
+          pbVar16 = gCEnclaveAdmin::GetEnclaves(pgVar15);
+        } while ((int)bVar21 < *(int *)(pbVar16 + 4));
+      }
+    }
+    if (*(int *)&(this->gCQuest_PS_data).field_0x30 != 0) {
+      bCString::bCString(abStack_128,"GiveXP");
+      piStack_12c = (int *)thunk_FUN_200a4bb0();
+      iVar12 = *piStack_12c;
+      pgVar7 = (gCSession *)gCSession::GetInstance();
+      peVar11 = gCSession::GetPlayer(pgVar7);
+      pgVar18 = (gCWorld *)gCWorld::GetCurrentWorld();
+      peVar17 = gCWorld::GetWorldEntity(pgVar18);
+      (**(code **)(iVar12 + 0xbc))(abStack_128,peVar17,peVar11);
+      bCString::~bCString(abStack_124);
+      pgVar7 = (gCSession *)gCSession::GetInstance();
+      peVar11 = gCSession::GetPlayer(pgVar7);
+      this_04 = (gCInfoManager_PS *)GetInfoManager(this);
+      gCInfoManager_PS::StartComment(this_04,(eCEntity *)peVar11);
+      pbVar9 = (bCUnicodeString *)
+               eCLocString::GetString((eCLocString *)&(this->gCQuest_PS_data).field_0x20);
+      bCUnicodeString::GetAnsiText(pbVar9);
+      thunk_FUN_20334bf0("gCQuest_PS::SetStatus","Quest %s (%s) changed to status = Success",
+                         *(undefined4 *)&(this->gCQuest_PS_data).field_0x8);
+      bCString::~bCString((bCString *)abStack_d0);
+      bCUnicodeString::~bCUnicodeString(abStack_c8);
+    }
+    iVar12 = bCString::CompareNoCase
+                       ((bCString *)&(this->gCQuest_PS_data).field_0x8,"Ardea_Revolution");
+    if (iVar12 == 0) {
+      pgVar7 = (gCSession *)gCSession::GetInstance();
+      peVar11 = gCSession::GetPlayer(pgVar7);
+      if (((peVar11 != (eCDynamicEntity *)0x0) &&
+          (this_05 = (gCPlayerMemory_PS *)(**(code **)(*(int *)peVar11 + 0xec))(),
+          this_05 != (gCPlayerMemory_PS *)0x0)) &&
+         (bVar3 = gCPlayerMemory_PS::IsTutorialEnabled(this_05,8), bVar3)) {
+        gCPlayerMemory_PS::EnableTutorial(this_05,8,false);
+        bCString::bCString(abStack_108,"TUT_AfterFight");
+        peVar8 = (eCLocString *)eCLocString::eCLocString(aeStack_c0,abStack_108);
+        eCLocString::GetString(peVar8);
+        pbVar13 = abStack_118;
+        pgVar7 = (gCSession *)gCSession::GetInstance();
+        pgVar10 = (gCGUIManager *)gCSession::GetGUIManager(pgVar7);
+        gCGUIManager::OpenTutorial(pgVar10,(bCUnicodeString *)pbVar13);
+        bCUnicodeString::~bCUnicodeString((bCUnicodeString *)abStack_118);
+        eCLocString::~eCLocString(aeStack_c0);
+        bCString::~bCString(abStack_108);
+      }
+    }
+    goto LAB_20337daa;
+  case 3:
+    iVar12 = (this->gCQuest_PS_data).offset_0x8c;
+    if ((iVar12 != 0) && (iVar12 != 1)) {
+      return false;
+    }
+    if (iVar12 == 1) {
+      bCUnicodeString::bCUnicodeString((bCUnicodeString *)&bStack_138);
+      bCString::bCString(abStack_120,"GO_QuestFailure");
+      eCLocString::GetString((eCLocString *)&(this->gCQuest_PS_data).field_0x20);
+      pbVar25 = (bCUnicodeString *)&DAT_2069a1fc;
+      pbVar9 = abStack_ac;
+      peVar8 = (eCLocString *)eCLocString::eCLocString((eCLocString *)abStack_9c,abStack_120);
+      pbVar27 = (bCUnicodeString *)eCLocString::GetString(peVar8);
+      pbVar9 = (bCUnicodeString *)bCUnicodeString::operator+(pbVar27,(wchar_t *)pbVar9);
+      pbVar9 = (bCUnicodeString *)bCUnicodeString::operator+(pbVar9,pbVar25);
+      bCUnicodeString::operator=((bCUnicodeString *)&stack0xfffffec0,pbVar9);
+      bCUnicodeString::~bCUnicodeString(abStack_bc);
+      bCUnicodeString::~bCUnicodeString((bCUnicodeString *)abStack_b4);
+      bCUnicodeString::~bCUnicodeString(abStack_ac);
+      eCLocString::~eCLocString(aeStack_a4);
+      bCUnicodeString::~bCUnicodeString(abStack_9c);
+      bCString::~bCString(abStack_128);
+      gVar28 = 0xd;
+      pbVar9 = (bCUnicodeString *)&stack0xfffffec0;
+      pgVar7 = (gCSession *)gCSession::GetInstance();
+      pgVar10 = (gCGUIManager *)gCSession::GetGUIManager(pgVar7);
+      gCGUIManager::PrintGameMessage(pgVar10,pbVar9,gVar28);
+      bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffec0);
+    }
+    pbVar9 = abStack_94;
+    pbVar27 = (bCUnicodeString *)
+              eCLocString::GetString((eCLocString *)&(this->gCQuest_PS_data).field_0x20);
+    puVar19 = (undefined4 *)bCUnicodeString::GetAnsiText(pbVar27);
+    thunk_FUN_20334bf0("gCQuest_PS::SetStatus","Quest %s (%s) changed to status = Failed",
+                       *(undefined4 *)&(this->gCQuest_PS_data).field_0x8,*puVar19,pbVar9);
+    bCString::~bCString((bCString *)abStack_98);
+    break;
+  case 4:
+    if ((this->gCQuest_PS_data).offset_0x8c != 0) {
+      return false;
+    }
+    pbVar9 = (bCUnicodeString *)
+             eCLocString::GetString((eCLocString *)&(this->gCQuest_PS_data).field_0x20);
+    bCUnicodeString::GetAnsiText(pbVar9);
+    thunk_FUN_20334bf0("gCQuest_PS::SetStatus","Quest %s (%s) changed to status = Obsolete",
+                       *(undefined4 *)&(this->gCQuest_PS_data).field_0x8);
+    bCString::~bCString(abStack_80);
+    bCUnicodeString::~bCUnicodeString(abStack_78);
+    goto LAB_20337daa;
+  case 5:
+    if ((this->gCQuest_PS_data).offset_0x8c != 1) {
+      return false;
+    }
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)&bStack_138);
+    bCString::bCString(abStack_118,"GO_QuestCancel");
+    puVar1 = &(this->gCQuest_PS_data).field_0x20;
+    eCLocString::GetString((eCLocString *)puVar1);
+    pbVar27 = (bCUnicodeString *)&DAT_2069a1fc;
+    pbVar13 = abStack_64;
+    peVar8 = (eCLocString *)eCLocString::eCLocString((eCLocString *)abStack_54,abStack_118);
+    pbVar9 = (bCUnicodeString *)eCLocString::GetString(peVar8);
+    pbVar9 = (bCUnicodeString *)bCUnicodeString::operator+(pbVar9,(wchar_t *)pbVar13);
+    pbVar9 = (bCUnicodeString *)bCUnicodeString::operator+(pbVar9,pbVar27);
+    bCUnicodeString::operator=((bCUnicodeString *)&stack0xfffffec0,pbVar9);
+    pcVar22 = ~bCUnicodeString_exref;
+    bCUnicodeString::~bCUnicodeString(abStack_74);
+    bCUnicodeString::~bCUnicodeString(abStack_6c);
+    bCUnicodeString::~bCUnicodeString((bCUnicodeString *)abStack_64);
+    eCLocString::~eCLocString(aeStack_5c);
+    bCUnicodeString::~bCUnicodeString((bCUnicodeString *)abStack_54);
+    bCString::~bCString(abStack_120);
+    gVar28 = 0xc;
+    pbVar9 = (bCUnicodeString *)&stack0xfffffec0;
+    pgVar7 = (gCSession *)gCSession::GetInstance();
+    pgVar10 = (gCGUIManager *)gCSession::GetGUIManager(pgVar7);
+    gCGUIManager::PrintGameMessage(pgVar10,pbVar9,gVar28);
+    pbVar9 = abStack_4c;
+    pbVar27 = (bCUnicodeString *)eCLocString::GetString((eCLocString *)puVar1);
+    puVar19 = (undefined4 *)bCUnicodeString::GetAnsiText(pbVar27);
+    thunk_FUN_20334bf0("gCQuest_PS::SetStatus","Quest %s (%s) changed to status = Cancelled",
+                       *(undefined4 *)&(this->gCQuest_PS_data).field_0x8,*puVar19,pbVar9);
+    bCString::~bCString(abStack_50);
+    goto LAB_20337da2;
+  case 6:
+    if ((this->gCQuest_PS_data).offset_0x8c != 1) {
+      return false;
+    }
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)&bStack_138);
+    bCString::bCString(abStack_110,"GO_QuestCancel");
+    puVar1 = &(this->gCQuest_PS_data).field_0x20;
+    eCLocString::GetString((eCLocString *)puVar1);
+    pbVar25 = (bCUnicodeString *)&DAT_2069a1fc;
+    pbVar9 = abStack_2c;
+    peVar8 = (eCLocString *)eCLocString::eCLocString(aeStack_1c,abStack_110);
+    pbVar27 = (bCUnicodeString *)eCLocString::GetString(peVar8);
+    pbVar9 = (bCUnicodeString *)bCUnicodeString::operator+(pbVar27,(wchar_t *)pbVar9);
+    pbVar9 = (bCUnicodeString *)bCUnicodeString::operator+(pbVar9,pbVar25);
+    bCUnicodeString::operator=((bCUnicodeString *)&stack0xfffffec0,pbVar9);
+    pcVar22 = ~bCUnicodeString_exref;
+    bCUnicodeString::~bCUnicodeString(abStack_3c);
+    bCUnicodeString::~bCUnicodeString(abStack_34);
+    bCUnicodeString::~bCUnicodeString(abStack_2c);
+    eCLocString::~eCLocString((eCLocString *)abStack_24);
+    bCUnicodeString::~bCUnicodeString((bCUnicodeString *)aeStack_1c);
+    bCString::~bCString(abStack_118);
+    gVar28 = 0xc;
+    pbVar9 = (bCUnicodeString *)&stack0xfffffec0;
+    pgVar7 = (gCSession *)gCSession::GetInstance();
+    pgVar10 = (gCGUIManager *)gCSession::GetGUIManager(pgVar7);
+    gCGUIManager::PrintGameMessage(pgVar10,pbVar9,gVar28);
+    puVar19 = &uStack_134;
+    pbVar9 = (bCUnicodeString *)eCLocString::GetString((eCLocString *)puVar1);
+    puVar20 = (undefined4 *)bCUnicodeString::GetAnsiText(pbVar9);
+    thunk_FUN_20334bf0("gCQuest_PS::SetStatus","Quest %s (%s) changed to status = Lost",
+                       *(undefined4 *)&(this->gCQuest_PS_data).field_0x8,*puVar20,puVar19);
+    bCString::~bCString((bCString *)&bStack_138);
+LAB_20337da2:
+    (*pcVar22)();
+    break;
+  default:
+    return false;
+  }
+  (*pcVar22)();
+LAB_20337daa:
+  bCObjectBase::bCObjectBase(&bStack_138);
+  uStack_134 = *unaff_retaddr;
+  bStack_138 = (bCObjectBase)&bTPropertyContainer<gEQuestStatus>::vftable;
+  (*(code *)(this->gCQuest_PS_data).offset_0x88[7])();
+  bStack_13c = (bCObjectBase)&bTPropertyContainer<gEQuestStatus>::vftable;
+  bCObjectBase::~bCObjectBase(&bStack_13c);
+  iVar12 = (this->gCQuest_PS_data).offset_0x10;
+  if ((iVar12 != 5) && (iVar12 != 0xc)) {
+    return true;
+  }
+  pcVar14 = &(this->gCQuest_PS_data).field_0x74;
+  pbVar13 = (bCString *)pcVar14;
+  this_06 = (eCSceneAdmin *)thunk_FUN_200ae8e0();
+  peVar17 = eCSceneAdmin::GetEntityByName(this_06,pbVar13);
+  if (peVar17 == (eCEntity *)0x0) {
+    pcVar29 = "\' not found";
+    pcVar24 = "Arena \'";
+  }
+  else {
+    this_07 = (gCArena_PS *)(**(code **)(*(int *)peVar17 + 0xec))(0x3f);
+    if (this_07 != (gCArena_PS *)0x0) {
+      bVar21._1_3_ = 0;
+      bVar21._0_1_ = (this->gCQuest_PS_data).offset_0x8c == 1;
+      bCObjectBase::bCObjectBase(&bStack_13c);
+      bStack_13c = (bCObjectBase)&bTPropertyContainer<gEArenaStatus>::vftable;
+      bStack_138 = bVar21;
+      gCArena_PS::SetStatus(this_07,(bTPropertyContainer<gEArenaStatus> *)&bStack_13c);
+      bStack_13c = (bCObjectBase)&bTPropertyContainer<gEArenaStatus>::vftable;
+      bCObjectBase::~bCObjectBase(&bStack_13c);
+      return true;
+    }
+    pcVar29 = "\' doesn\'t contain a gCArena_PS";
+    pcVar24 = "Entity \'";
+  }
+  pbVar26 = &bStack_13c;
+  pbVar13 = (bCString *)operator+((char *)&uStack_134,(bCString *)pcVar24);
+  pbVar13 = (bCString *)bCString::operator+(pbVar13,pcVar14);
+  pcVar14 = bCString::operator_char_const_(pbVar13);
+  thunk_FUN_20334c90("gCQuest_PS::SetStatus",pcVar14,pbVar26,pcVar29);
+  bCString::~bCString((bCString *)&stack0xfffffebc);
+  bCString::~bCString((bCString *)&bStack_13c);
+  return true;
+}
+
+

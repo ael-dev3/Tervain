@@ -1,0 +1,2 @@
+; 200203ce ?GetBaseValue@gCPlayerMemory_PS@@QBEHABVbCString@@@Z
+200203ce | e9ddd22f00 | JMP 0x2031d6b0

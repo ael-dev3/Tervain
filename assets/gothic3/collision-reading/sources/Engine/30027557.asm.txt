@@ -1,0 +1,2 @@
+; 30027557 ?AccessTriggersOnTouch@eCCollisionShape@@QAEAA_NXZ
+30027557 | e984b10900 | JMP 0x300c26e0

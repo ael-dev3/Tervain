@@ -1,0 +1,2 @@
+; 20025176 ??0gCDamageReceiver_PS@@QAE@ABV0@@Z
+20025176 | e9854e0900 | JMP 0x200ba000

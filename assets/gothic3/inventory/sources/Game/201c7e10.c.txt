@@ -1,0 +1,24 @@
+/* ENTRY 201c7e10 | bTPropertyContainer<gEStackType>::bTPropertyContainer<gEStackType> | STATUS decompiled | 8 ms */
+
+bTPropertyContainer<gEStackType> * __thiscall
+bTPropertyContainer<gEStackType>::bTPropertyContainer<gEStackType>
+          (bTPropertyContainer<gEStackType> *this)
+
+{
+  bCObjectBase **this_00;
+  
+  gCInventorySlot::gCInventorySlot((gCInventorySlot *)this);
+  this_00 = &this[4].bTPropertyContainer<gEStackType>_data.offset_0x8;
+                    /* inlined constructor: gCInventoryStack::gCInventoryStack */
+  this->vftablePtr = (bTPropertyContainer<gEStackType>_vftable *)&gCInventoryStack::vftable;
+  bCObjectBase::bCObjectBase((bCObjectBase *)this_00);
+  *this_00 = (bCObjectBase *)&vftable;
+  this[5].vftablePtr = DAT_207b5f30;
+  CFFGFCBitmap::CFFGFCBitmap((CFFGFCBitmap *)(this + 6));
+  CFFGFCBitmap::CFFGFCBitmap
+            ((CFFGFCBitmap *)&this[6].bTPropertyContainer<gEStackType>_data.offset_0x4);
+  gCInventoryStack::ApplyDefaults((gCInventoryStack *)this);
+  return this;
+}
+
+

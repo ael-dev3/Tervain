@@ -1,0 +1,78 @@
+/* ENTRY 10050480 | FUN_10050480 | STATUS decompiled | 59 ms */
+
+void __fastcall FUN_10050480(float *param_1)
+
+{
+  float fVar1;
+  float10 fVar2;
+  
+  if (1e-05 <= param_1[8] * param_1[8] + param_1[6] * param_1[6] + param_1[7] * param_1[7]) {
+    fVar2 = (float10)FUN_100ab010();
+    fVar1 = 1.0 / (float)fVar2;
+    param_1[6] = fVar1 * param_1[6];
+    param_1[7] = param_1[7] * fVar1;
+    param_1[8] = fVar1 * param_1[8];
+  }
+  else {
+    param_1[6] = 0.0;
+    param_1[7] = 0.0;
+    param_1[8] = 1.0;
+  }
+  if (1e-05 <= param_1[5] * param_1[5] + param_1[3] * param_1[3] + param_1[4] * param_1[4]) {
+    fVar2 = (float10)FUN_100ab010();
+    fVar1 = 1.0 / (float)fVar2;
+    param_1[3] = fVar1 * param_1[3];
+    param_1[4] = param_1[4] * fVar1;
+    param_1[5] = fVar1 * param_1[5];
+  }
+  else {
+    param_1[3] = 0.0;
+    param_1[4] = 1.0;
+    param_1[5] = 0.0;
+  }
+  if (1e-05 <= param_1[2] * param_1[2] + *param_1 * *param_1 + param_1[1] * param_1[1]) {
+    fVar2 = (float10)FUN_100ab010();
+    fVar1 = 1.0 / (float)fVar2;
+    *param_1 = fVar1 * *param_1;
+    param_1[1] = param_1[1] * fVar1;
+    param_1[2] = fVar1 * param_1[2];
+  }
+  else {
+    *param_1 = 1.0;
+    param_1[1] = 0.0;
+    param_1[2] = 0.0;
+  }
+  fVar1 = param_1[8] * param_1[5] + param_1[6] * param_1[3] + param_1[7] * param_1[4];
+  param_1[3] = param_1[3] - fVar1 * param_1[6];
+  param_1[4] = param_1[4] - param_1[7] * fVar1;
+  param_1[5] = param_1[5] - fVar1 * param_1[8];
+  if (param_1[5] * param_1[5] + param_1[3] * param_1[3] + param_1[4] * param_1[4] < 1e-05) {
+    param_1[3] = 0.0;
+    param_1[4] = 0.0;
+    param_1[5] = 1.0;
+    fVar1 = param_1[5] * param_1[8] + param_1[3] * param_1[6] + param_1[4] * param_1[7];
+    param_1[3] = param_1[3] - fVar1 * param_1[6];
+    param_1[4] = param_1[4] - param_1[7] * fVar1;
+    param_1[5] = param_1[5] - fVar1 * param_1[8];
+    if (param_1[5] * param_1[5] + param_1[3] * param_1[3] + param_1[4] * param_1[4] < 1e-05) {
+      param_1[3] = 0.0;
+      param_1[4] = 1.0;
+      param_1[5] = 0.0;
+      fVar1 = param_1[5] * param_1[8] + param_1[3] * param_1[6] + param_1[4] * param_1[7];
+      param_1[3] = param_1[3] - fVar1 * param_1[6];
+      param_1[4] = param_1[4] - param_1[7] * fVar1;
+      param_1[5] = param_1[5] - fVar1 * param_1[8];
+    }
+  }
+  fVar2 = (float10)FUN_100ab010();
+  fVar1 = 1.0 / (float)fVar2;
+  param_1[3] = fVar1 * param_1[3];
+  param_1[4] = param_1[4] * fVar1;
+  param_1[5] = fVar1 * param_1[5];
+  *param_1 = param_1[8] * param_1[4] - param_1[7] * param_1[5];
+  param_1[1] = param_1[6] * param_1[5] - param_1[8] * param_1[3];
+  param_1[2] = param_1[3] * param_1[7] - param_1[4] * param_1[6];
+  return;
+}
+
+

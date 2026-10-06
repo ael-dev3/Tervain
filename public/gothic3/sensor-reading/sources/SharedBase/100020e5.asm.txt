@@ -1,0 +1,4 @@
+; 100020e5 ?EnableRegistration@bCPropertyObjectSingleton@@QAEXPAX_N@Z
+100020e5 | e926df0800 | JMP 0x10090010
+; 100020ea bCFlexibleVertexPtr::~bCFlexibleVertexPtr
+; 100020ea Ordinal_376

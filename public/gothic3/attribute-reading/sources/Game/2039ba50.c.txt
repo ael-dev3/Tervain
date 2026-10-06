@@ -1,0 +1,15 @@
+/* ENTRY 2039ba50 | bTPropertyObject<gCStat,gCAttribute>::vfunction4 | STATUS decompiled | 2 ms */
+
+void __thiscall
+bTPropertyObject<gCStat,gCAttribute>::vfunction4(bTPropertyObject<gCStat,gCAttribute> *this)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x2039ba53. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCPropertyObjectTypeBase::GetDescription
+            ((bCPropertyObjectTypeBase *)
+             (this->bTPropertyObject<gCStat,gCAttribute>_data).offset_0x0);
+  return;
+}
+
+

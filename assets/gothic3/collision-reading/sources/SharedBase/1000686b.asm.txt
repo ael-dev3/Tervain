@@ -1,0 +1,4 @@
+; 1000686b ?GetCenter@bCOrientedBox@@QBEABVbCVector@@XZ
+1000686b | e970c50500 | JMP 0x10062de0
+; 10006870 bCVector::GetTransformed
+; 10006870 Ordinal_3138

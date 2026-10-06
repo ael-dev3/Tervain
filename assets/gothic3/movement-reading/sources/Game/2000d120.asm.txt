@@ -1,0 +1,4 @@
+; 2000d120 bTPropertyType<gCCharacterMovement_PS,bool>::vfunction19
+2000d120 | e93b912200 | JMP 0x20236260
+; 2000d12a gCInventory_PS::OnDestroyInventory
+; 2000d12a Ordinal_5394

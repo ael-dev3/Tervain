@@ -1,0 +1,12 @@
+/* ENTRY 2002f8bf | gCInventory_PS::GetVersion | STATUS decompiled | 6 ms */
+
+/* public: virtual unsigned short __thiscall gCInventory_PS::GetVersion(void)const  */
+
+ushort __thiscall gCInventory_PS::GetVersion(gCInventory_PS *this)
+
+{
+                    /* 0x2f8bf  4703  ?GetVersion@gCInventory_PS@@UBEGXZ */
+  return 9;
+}
+
+

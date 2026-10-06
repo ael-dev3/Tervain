@@ -1,0 +1,21 @@
+/* ENTRY 2015ed50 | FUN_2015ed50 | STATUS decompiled | 5 ms */
+
+void __fastcall FUN_2015ed50(int param_1)
+
+{
+  gCSession *this;
+  eCDynamicEntity *peVar1;
+  
+  if (*(int *)(param_1 + 4) != 0) {
+    this = (gCSession *)thunk_FUN_20066480();
+    if (this != (gCSession *)0x0) {
+      peVar1 = gCSession::GetPlayer(this);
+      thunk_FUN_20170a70(peVar1,0);
+      return;
+    }
+    thunk_FUN_20170a70(0,0);
+  }
+  return;
+}
+
+

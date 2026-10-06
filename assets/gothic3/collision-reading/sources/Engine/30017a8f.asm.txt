@@ -1,0 +1,4 @@
+; 30017a8f ?HasGroup@eCCollisionShape_PS@@QBE?B_NW4eEShapeGroup@@@Z
+30017a8f | e99ced3100 | JMP 0x30336830
+; 30017a94 eCSpatialEntity::DoClone
+; 30017a94 Ordinal_5537

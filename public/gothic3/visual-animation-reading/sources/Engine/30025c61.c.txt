@@ -1,0 +1,16 @@
+/* ENTRY 30025c61 | eCVisualAnimation_PS::GetRagDollController | STATUS decompiled | 7 ms */
+
+/* public: class EMotionFX::eCNovodexPhysicsController * __thiscall
+   eCVisualAnimation_PS::GetRagDollController(void) */
+
+eCNovodexPhysicsController * __thiscall
+eCVisualAnimation_PS::GetRagDollController(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x25c61  8357
+                       ?GetRagDollController@eCVisualAnimation_PS@@QAEPAVeCNovodexPhysicsController@EMotionFX@@XZ
+                        */
+  return *(eCNovodexPhysicsController **)&this[0xe].eCEntityPropertySet_data;
+}
+
+

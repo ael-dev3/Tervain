@@ -1,0 +1,14 @@
+/* ENTRY 20163a90 | gCHUDViewBook2::gCHUDViewBook2 | STATUS decompiled | 9 ms */
+
+gCHUDViewBook2 * __thiscall gCHUDViewBook2::gCHUDViewBook2(gCHUDViewBook2 *this)
+
+{
+  gCHUDPageView::gCHUDPageView((gCHUDPageView *)this);
+  this->vftablePtr = &vftable;
+  CFFGFCStatic::CFFGFCStatic((CFFGFCStatic *)&(this->gCHUDViewBook2_data).field_0xc);
+  CFFGFCStatic::CFFGFCStatic((CFFGFCStatic *)&(this->gCHUDViewBook2_data).field_0x1c);
+  CFFGFCStatic::CFFGFCStatic((CFFGFCStatic *)&(this->gCHUDViewBook2_data).field_0x2c);
+  return this;
+}
+
+

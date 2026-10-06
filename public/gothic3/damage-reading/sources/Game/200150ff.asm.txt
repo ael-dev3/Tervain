@@ -1,0 +1,2 @@
+; 200150ff bTPropertyType<gCDamage_PS,float>::vfunction15
+200150ff | e9dc240a00 | JMP 0x200b75e0

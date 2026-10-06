@@ -1,0 +1,4 @@
+; 10003f26 ??4PropertyLPAttribs@PSPlayerMemory@@QAEAAV01@ABV01@@Z
+10003f26 | e9d5790000 | JMP 0x1000b900
+; 10003f2b PSNpc::GetAlternativeTarget
+; 10003f2b Ordinal_1494

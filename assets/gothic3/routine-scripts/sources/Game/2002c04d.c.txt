@@ -1,0 +1,12 @@
+/* ENTRY 2002c04d | gCNPC_PS::HasStatusEffect | STATUS decompiled | 7 ms */
+
+/* public: bool __thiscall gCNPC_PS::HasStatusEffect(enum gEStatusEffect)const  */
+
+bool __thiscall gCNPC_PS::HasStatusEffect(gCNPC_PS *this,gEStatusEffect param_1)
+
+{
+                    /* 0x2c04d  4847  ?HasStatusEffect@gCNPC_PS@@QBE_NW4gEStatusEffect@@@Z */
+  return param_1 == ((this->gCNPC_PS_data).offset_0x178 & param_1);
+}
+
+

@@ -1,0 +1,2 @@
+; 1000694c bCGuid::Generate
+1000694c | e91fbc0000 | JMP 0x10012570

@@ -1,0 +1,9 @@
+/* ENTRY 30341310 | FUN_30341310 | STATUS decompiled | 1 ms */
+
+undefined4 FUN_30341310(void)
+
+{
+  return 0xe;
+}
+
+

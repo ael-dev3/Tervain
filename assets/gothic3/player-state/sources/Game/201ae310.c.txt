@@ -1,0 +1,17 @@
+/* ENTRY 201ae310 | FUN_201ae310 | STATUS decompiled | 4 ms */
+
+gEItemCategory FUN_201ae310(undefined4 param_1)
+
+{
+  gCInventorySlot *this;
+  gEItemCategory gVar1;
+  
+  this = (gCInventorySlot *)FUN_20029be0(param_1);
+  if (this != (gCInventorySlot *)0x0) {
+    gVar1 = gCInventorySlot::GetCategory(this);
+    return gVar1;
+  }
+  return 0;
+}
+
+

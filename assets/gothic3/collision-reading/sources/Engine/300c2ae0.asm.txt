@@ -1,0 +1,8 @@
+; 300c2ae0 FUN_300c2ae0
+300c2ae0 | 8b01 | MOV EAX,dword ptr [ECX]
+300c2ae2 | 8b542404 | MOV EDX,dword ptr [ESP + 0x4]
+300c2ae6 | 8b401c | MOV EAX,dword ptr [EAX + 0x1c]
+300c2ae9 | 52 | PUSH EDX
+300c2aea | ffd0 | CALL EAX
+300c2aec | b801000000 | MOV EAX,0x1
+300c2af1 | c20400 | RET 0x4

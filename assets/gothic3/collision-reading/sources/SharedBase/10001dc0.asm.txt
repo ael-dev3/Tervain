@@ -1,0 +1,4 @@
+; 10001dc0 ?GetCoordinate@bCBox@@QBEMH@Z
+10001dc0 | e90b890200 | JMP 0x1002a6d0
+; 10001dc5 bCTriangle::operator/
+; 10001dc5 Ordinal_1095

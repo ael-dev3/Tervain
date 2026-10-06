@@ -1,0 +1,18 @@
+/* ENTRY 2000f9bb | gCClock_PS::SetDay | STATUS decompiled | 8 ms */
+
+/* public: void __thiscall gCClock_PS::SetDay(unsigned long const &) */
+
+void __thiscall gCClock_PS::SetDay(gCClock_PS *this,ulong *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0xf9bb  6374  ?SetDay@gCClock_PS@@QAEXABK@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"Day",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  *(ulong *)&(this->gCClock_PS_data).field_0x14 = *param_1;
+  (*pNVar1)(this,"Day",false);
+  return;
+}
+
+

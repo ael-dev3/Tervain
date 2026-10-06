@@ -1,0 +1,9 @@
+/* ENTRY 30222b10 | FUN_30222b10 | STATUS decompiled | 1 ms */
+
+undefined4 __fastcall FUN_30222b10(int param_1)
+
+{
+  return *(undefined4 *)(param_1 + 0x34);
+}
+
+

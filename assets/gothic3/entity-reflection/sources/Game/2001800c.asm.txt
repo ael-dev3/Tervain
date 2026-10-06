@@ -1,0 +1,4 @@
+; 2001800c ?GetVersion@gCInteraction_PS@@UBEGXZ
+2001800c | e93fbf3e00 | JMP 0x20403f50
+; 20018011 gCWorld::GetWorldEntity
+; 20018011 Ordinal_4775

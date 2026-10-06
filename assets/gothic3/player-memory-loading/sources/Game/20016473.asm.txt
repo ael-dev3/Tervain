@@ -1,0 +1,2 @@
+; 20016473 bTPOPureSmartPtr<gCPlayerMemory_PS>::vfunction11
+20016473 | e9981a3100 | JMP 0x20327f10

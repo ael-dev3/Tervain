@@ -1,0 +1,2 @@
+; 30042c35 bTPropertyContainer<eEStaticIlluminated>::vfunction8
+30042c35 | e9160c1e00 | JMP 0x30223850

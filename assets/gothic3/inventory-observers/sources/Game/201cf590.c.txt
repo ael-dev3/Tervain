@@ -1,0 +1,44 @@
+/* ENTRY 201cf590 | FUN_201cf590 | STATUS decompiled | 22 ms */
+
+undefined4 __thiscall FUN_201cf590(int *param_1,uint param_2,eCEntity *param_3)
+
+{
+  uint uVar1;
+  gCInventorySlot *this;
+  bool bVar2;
+  uint uVar3;
+  eCEntity *peVar4;
+  gCItem_PS *this_00;
+  
+  uVar1 = param_1[1];
+  if (uVar1 <= param_2) {
+    GE_MESSAGEF_WARN("gCInventoryStackList::LinkStack -> Invalid stack index: %d.",param_2);
+    return 0;
+  }
+  uVar3 = FUN_2002f013(param_3);
+  if (uVar3 != param_2) {
+    if (uVar3 < uVar1) {
+      GE_MESSAGEF_WARN(
+                      "gCInventoryStackList::LinkStack -> Trying to link stack to an occupied slot."
+                      );
+      return 0;
+    }
+    this = *(gCInventorySlot **)(*param_1 + param_2 * 4);
+    bVar2 = gCInventorySlot::LinkToSlot(this,param_3,(gESlot)param_3);
+    if (!bVar2) {
+      GE_MESSAGEF_WARN("gCInventoryStackList::LinkStack -> Could not link stack to slot.");
+      return 0;
+    }
+    peVar4 = eCEntityProxy::GetEntity((eCEntityProxy *)&(this->gCInventorySlot_data).field_0x14);
+    this_00 = (gCItem_PS *)thunk_FUN_20188450(peVar4);
+    if (this_00 != (gCItem_PS *)0x0) {
+      gCItem_PS::SetQuality(this_00,(ulong *)&stack0x00000000);
+    }
+    if (param_1[3] != 0) {
+      (**(code **)(*(int *)param_1[3] + 4))(param_2,this);
+    }
+  }
+  return 1;
+}
+
+

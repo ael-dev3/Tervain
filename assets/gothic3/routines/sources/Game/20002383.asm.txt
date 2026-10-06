@@ -1,0 +1,4 @@
+; 20002383 ?AIFullStop@gCScriptRoutine_PS@@QAEXXZ
+20002383 | e948493500 | JMP 0x20356cd0
+; 2000238d gCIrcNetwork::~gCIrcNetwork
+; 2000238d Ordinal_471

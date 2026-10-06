@@ -1,0 +1,29 @@
+/* ENTRY 30042b63 | eCVisualAnimation_PS::eCActorAttachment::Write | STATUS decompiled | 12 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::eCActorAttachment::Write(class bCOStream &) */
+
+void __thiscall
+eCVisualAnimation_PS::eCActorAttachment::Write(eCActorAttachment *this,bCOStream *param_1)
+
+{
+  bCAccessorPropertyObject *pbVar1;
+  ulong uVar2;
+  
+                    /* 0x42b63  15025
+                       ?Write@eCActorAttachment@eCVisualAnimation_PS@@QAEXAAVbCOStream@@@Z */
+  (**(code **)(*(int *)(this + 4) + 0x10))(param_1);
+  bCOStream::operator<<((bCOStream *)param_1,(bCString *)(this + 0x68));
+  pbVar1 = (bCAccessorPropertyObject *)
+           bCAccessorPropertyObject::bCAccessorPropertyObject
+                     ((bCAccessorPropertyObject *)&stack0xfffffff4,
+                      *(bCObjectRefBase **)(this + 0x6c));
+  ::operator<<(param_1,pbVar1);
+  bCAccessorPropertyObject::~bCAccessorPropertyObject((bCAccessorPropertyObject *)&stack0xfffffff4);
+  bCOStream::operator<<((bCOStream *)param_1,(uchar)this[0x70]);
+  bCMatrix::operator>>((bCMatrix *)(this + 0x20),param_1);
+  uVar2 = bCTimer::GetTimeStamp();
+  bCOStream::operator<<((bCOStream *)param_1,*(int *)(this + 0x74) - uVar2);
+  return;
+}
+
+

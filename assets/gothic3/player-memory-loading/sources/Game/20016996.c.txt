@@ -1,0 +1,43 @@
+/* ENTRY 20016996 | gCPlayerMemory_PS::ReadAttributesV3 | STATUS decompiled | 19 ms */
+
+/* protected: bool __thiscall gCPlayerMemory_PS::ReadAttributesV3(class bCIStream &) */
+
+bool __thiscall gCPlayerMemory_PS::ReadAttributesV3(gCPlayerMemory_PS *this,bCIStream *param_1)
+
+{
+  bCObjectRefBase *pbVar1;
+  int iVar2;
+  undefined4 uVar3;
+  TypeDescriptor *pTVar4;
+  TypeDescriptor *pTVar5;
+  undefined4 uVar6;
+  long lStack_18;
+  gCPlayerMemory_PS *pgStack_14;
+  bCAccessorPropertyObject abStack_10 [12];
+  
+  pgStack_14 = this;
+                    /* 0x16996  5979  ?ReadAttributesV3@gCPlayerMemory_PS@@IAE_NAAVbCIStream@@@Z */
+  DestroyAttributes(this);
+  iVar2 = 0;
+  lStack_18 = 0;
+  ::operator<<(&lStack_18,param_1);
+  if (0 < lStack_18) {
+    do {
+      bCAccessorPropertyObject::bCAccessorPropertyObject(abStack_10);
+      ::operator>>(param_1,abStack_10);
+      uVar6 = 0;
+      pTVar5 = &gCAttribute::RTTI_Type_Descriptor;
+      pTVar4 = &bCObjectRefBase::RTTI_Type_Descriptor;
+      uVar3 = 0;
+      pbVar1 = bCAccessorPropertyObject::GetNativeObject(abStack_10);
+      ___RTDynamicCast(pbVar1,uVar3,pTVar4,pTVar5,uVar6);
+      bCAccessorPropertyObject::~bCAccessorPropertyObject(abStack_10);
+      iVar2 = iVar2 + 1;
+      this = pgStack_14;
+    } while (iVar2 < lStack_18);
+  }
+  CreateAttributes(this);
+  return true;
+}
+
+

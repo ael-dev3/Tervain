@@ -1,0 +1,40 @@
+/* ENTRY 3033e2f0 | bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eEPhysicRangeType>_>::vfunction16 | STATUS decompiled | 20 ms */
+
+void __thiscall
+bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eEPhysicRangeType>_>::vfunction16
+          (bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eEPhysicRangeType>_> *this,
+          bCIStream *param_1,char param_2)
+
+{
+  bCIStream *this_00;
+  bCMemoryAdmin *pbVar1;
+  void *pvVar2;
+  int *piVar3;
+  undefined4 *unaff_retaddr;
+  undefined3 in_stack_00000009;
+  char in_stack_0000000c;
+  bCIStream *pbVar4;
+  ulong uStack_4;
+  
+  this_00 = param_1;
+  (*this->vftablePtr->Read)(this,(bCIStream *)param_1);
+  param_1 = (bCIStream *)0x0;
+  bCIStream::operator>>(this_00,(ulong *)&param_1);
+  pbVar4 = param_1;
+  pbVar1 = bCMemoryAdmin::GetInstance();
+  pvVar2 = bCMemoryAdmin::Malloc(pbVar1,(ulong)pbVar4);
+  (**(code **)((int)*this_00 + 4))(pvVar2,param_1);
+  if (in_stack_0000000c == '\x01') {
+    bCMemoryStream::bCMemoryStream((bCMemoryStream *)&stack0xffffffe4);
+    bCMemoryStream::Write((bCMemoryStream *)&stack0xffffffe8,pvVar2,uStack_4);
+    bCMemoryStream::SetPosition((bCMemoryStream *)&stack0xffffffe4,0,0);
+    piVar3 = (int *)(**(code **)*unaff_retaddr)();
+    (**(code **)(*piVar3 + 0x54))(param_1,_param_2,&stack0xffffffe4,0);
+    bCMemoryStream::~bCMemoryStream((bCMemoryStream *)&stack0xffffffe4);
+  }
+  pbVar1 = bCMemoryAdmin::GetInstance();
+  bCMemoryAdmin::Free(pbVar1,pvVar2);
+  return;
+}
+
+

@@ -1,0 +1,11 @@
+/* ENTRY 300ac970 | bTPropertyObject<eCSpringAndDamperEffector,eCEffector>::vfunction1 | STATUS decompiled | 2 ms */
+
+bCObjectRefBase * __thiscall
+bTPropertyObject<eCSpringAndDamperEffector,eCEffector>::vfunction1
+          (bTPropertyObject<eCSpringAndDamperEffector,eCEffector> *this)
+
+{
+  return (this->bTPOPureSmartPtr<eCSpringAndDamperEffector>_data).offset_0x4;
+}
+
+

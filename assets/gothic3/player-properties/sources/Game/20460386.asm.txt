@@ -1,0 +1,2 @@
+; 20460386 SHAREDBASE.DLL::bCObjectRefBase::NotifyPropertyValueChangedEnterEx
+20460386 | ff2580887d20 | JMP dword ptr [0x207d8880]

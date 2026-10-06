@@ -1,0 +1,17 @@
+/* ENTRY 20029c3a | bTPropertyType<gCAttribute,bCString>::vfunction6 | STATUS decompiled | 7 ms */
+
+void __thiscall
+bTPropertyType<gCAttribute,bCString>::vfunction6
+          (bTPropertyType<gCAttribute,bCString> *this,int param_1)
+
+{
+  bTPropertyType<gCEffectCommandModifyEntity,bCString>_vftable *this_00;
+  
+  if (param_1 != 0) {
+    this_00 = (*this->vftablePtr->vfunction26)(this,(undefined4 *)param_1);
+    bCString::Clear((bCString *)this_00);
+  }
+  return;
+}
+
+

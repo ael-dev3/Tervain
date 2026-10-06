@@ -1,0 +1,2 @@
+; 100020e5 bCPropertyObjectSingleton::EnableRegistration
+100020e5 | e926df0800 | JMP 0x10090010

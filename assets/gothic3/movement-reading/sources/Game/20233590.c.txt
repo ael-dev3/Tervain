@@ -1,0 +1,11 @@
+/* ENTRY 20233590 | bTPropertyObject<gCCharacterMovement_PS,gCMovementBase_PS>::vfunction1 | STATUS decompiled | 2 ms */
+
+bCObjectRefBase * __thiscall
+bTPropertyObject<gCCharacterMovement_PS,gCMovementBase_PS>::vfunction1
+          (bTPropertyObject<gCCharacterMovement_PS,gCMovementBase_PS> *this)
+
+{
+  return (this->bTPOPureSmartPtr<gCCharacterMovement_PS>_data).offset_0x4;
+}
+
+

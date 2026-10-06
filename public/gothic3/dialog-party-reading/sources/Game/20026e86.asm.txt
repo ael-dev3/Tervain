@@ -1,0 +1,2 @@
+; 20026e86 gCParty_PS::GetSaveGameRelevance
+20026e86 | e9f50c2f00 | JMP 0x20317b80

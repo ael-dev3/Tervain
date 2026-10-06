@@ -1,0 +1,2 @@
+; 30012f80 bTPropertyObject<eCIlluminated_PS,eCEntityPropertySet>::vfunction6
+30012f80 | e91b202100 | JMP 0x30224fa0

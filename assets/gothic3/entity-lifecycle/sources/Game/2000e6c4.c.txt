@@ -1,0 +1,14 @@
+/* ENTRY 2000e6c4 | gCInventory_PS::GetPropertySetType | STATUS decompiled | 7 ms */
+
+/* public: virtual enum eEPropertySetType __thiscall gCInventory_PS::GetPropertySetType(void)const
+    */
+
+eEPropertySetType __thiscall gCInventory_PS::GetPropertySetType(gCInventory_PS *this)
+
+{
+                    /* 0xe6c4  4069
+                       ?GetPropertySetType@gCInventory_PS@@UBE?AW4eEPropertySetType@@XZ */
+  return 0x1f;
+}
+
+

@@ -1,0 +1,4 @@
+; 20004070 bTPropertyType<gCCharacterMovement_PS,bool>::vfunction5
+20004070 | e95b092300 | JMP 0x202349d0
+; 20004075 gCAIHelper_FreePoint_PS::GetVersion
+; 20004075 Ordinal_4671

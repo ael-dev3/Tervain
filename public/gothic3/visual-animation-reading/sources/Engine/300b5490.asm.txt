@@ -1,0 +1,22 @@
+; 300b5490 bTPropertyType<eCVisualAnimation_PS,bTPropertyContainer<eECollisionGroup>_>::vfunction26
+300b5490 | 56 | PUSH ESI
+300b5491 | 57 | PUSH EDI
+300b5492 | 8b7c240c | MOV EDI,dword ptr [ESP + 0xc]
+300b5496 | 85ff | TEST EDI,EDI
+300b5498 | 8bf1 | MOV ESI,ECX
+300b549a | 7522 | JNZ 0x300b54be
+300b549c | 680d030000 | PUSH 0x30d
+300b54a1 | 6850d48130 | PUSH 0x3081d450
+300b54a6 | 6820d48130 | PUSH 0x3081d420
+300b54ab | 68b0d48130 | PUSH 0x3081d4b0
+300b54b0 | ff15c0daaf30 | CALL dword ptr [0x30afdac0]
+300b54b6 | 8bc8 | MOV ECX,EAX
+300b54b8 | ff15f4caaf30 | CALL dword ptr [0x30afcaf4]
+300b54be | 8b06 | MOV EAX,dword ptr [ESI]
+300b54c0 | 8b502c | MOV EDX,dword ptr [EAX + 0x2c]
+300b54c3 | 57 | PUSH EDI
+300b54c4 | 8bce | MOV ECX,ESI
+300b54c6 | ffd2 | CALL EDX
+300b54c8 | 5f | POP EDI
+300b54c9 | 5e | POP ESI
+300b54ca | c20400 | RET 0x4

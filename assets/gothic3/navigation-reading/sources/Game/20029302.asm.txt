@@ -1,0 +1,4 @@
+; 20029302 bTPropertyType<gCNavigation_PS,eCEntityProxy>::vfunction8
+20029302 | e929692600 | JMP 0x2028fc30
+; 2002930c gCMusicFragmentList::gCMusicFragmentList
+; 2002930c Ordinal_242

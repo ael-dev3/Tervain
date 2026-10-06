@@ -1,0 +1,19 @@
+/* ENTRY 30033aa5 | eCVisualAnimation_PS::SetBoneProjectionDistance | STATUS decompiled | 102 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::SetBoneProjectionDistance(float const &) */
+
+void __thiscall
+eCVisualAnimation_PS::SetBoneProjectionDistance(eCVisualAnimation_PS *this,float *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x33aa5  12970  ?SetBoneProjectionDistance@eCVisualAnimation_PS@@QAEXABM@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"BoneProjectionDistance",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  *(float *)&this[4].eCEntityPropertySet_data.field_0x4 = *param_1;
+  (*pNVar1)(this,"BoneProjectionDistance",false);
+  return;
+}
+
+

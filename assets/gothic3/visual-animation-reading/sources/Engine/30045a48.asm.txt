@@ -1,0 +1,2 @@
+; 30045a48 bTPropertyObjectType<eCEffector,bCObjectRefBase>::vfunction8
+30045a48 | e943f93300 | JMP 0x30385390

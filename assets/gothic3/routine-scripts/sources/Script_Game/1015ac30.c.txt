@@ -1,0 +1,17 @@
+/* ENTRY 1015ac30 | FUN_1015ac30 | STATUS decompiled | 7 ms */
+
+void FUN_1015ac30(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Routine\\Routine_Tasks\\ZS_Boss.cpp");
+  bCString::bCString(local_8,"ZS_Boss");
+  thunk_FUN_1001db60(local_8,&LAB_100020a9,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

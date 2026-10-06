@@ -1,0 +1,15 @@
+/* ENTRY 201662e0 | gCHUDViewBarHealth2::~gCHUDViewBarHealth2 | STATUS decompiled | 11 ms */
+
+void __thiscall gCHUDViewBarHealth2::~gCHUDViewBarHealth2(gCHUDViewBarHealth2 *this)
+
+{
+  this->vftablePtr = &vftable;
+  gCHUDProgressBarNPC::~gCHUDProgressBarNPC
+            ((gCHUDProgressBarNPC *)&(this->gCHUDViewBarHealth2_data).field_0xc);
+                    /* WARNING: Could not recover jumptable at 0x201662f4. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  CFFGFCView::~CFFGFCView((CFFGFCView *)this);
+  return;
+}
+
+

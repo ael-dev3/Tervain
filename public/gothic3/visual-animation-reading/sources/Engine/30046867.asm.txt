@@ -1,0 +1,2 @@
+; 30046867 eCVisualAnimationFactory::SetFacialActorFileName
+30046867 | e9145d0700 | JMP 0x300bc580

@@ -1,0 +1,4 @@
+; 30022958 bTPropertyType<eCCollisionShape,bCObsoleteClass>::vfunction9
+30022958 | e9b3aa3300 | JMP 0x3035d410
+; 3002295d eCSoundCache::Invalidate
+; 3002295d Ordinal_10166

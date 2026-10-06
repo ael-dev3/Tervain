@@ -1,0 +1,2 @@
+; 20028a0b gCDialog_PS::GetPickedPocket
+20028a0b | e930711800 | JMP 0x201afb40

@@ -1,0 +1,21 @@
+/* ENTRY 20164160 | gCHUDViewDocument2::~gCHUDViewDocument2 | STATUS decompiled | 13 ms */
+
+void __thiscall gCHUDViewDocument2::~gCHUDViewDocument2(gCHUDViewDocument2 *this)
+
+{
+  this->vftablePtr = &vftable;
+  gCHUDViewMap2::~gCHUDViewMap2((gCHUDViewMap2 *)&(this->gCHUDViewDocument2_data).field_0x1ac);
+  gCHUDViewBook2::~gCHUDViewBook2((gCHUDViewBook2 *)&(this->gCHUDViewDocument2_data).field_0x16c);
+  gCHUDViewLetter2::~gCHUDViewLetter2
+            ((gCHUDViewLetter2 *)&(this->gCHUDViewDocument2_data).field_0x13c);
+  gCHUDViewRecipe2::~gCHUDViewRecipe2
+            ((gCHUDViewRecipe2 *)&(this->gCHUDViewDocument2_data).field_0x5c);
+  gCHUDView::~gCHUDView((gCHUDView *)&(this->gCHUDViewDocument2_data).field_0x48);
+  gCHUDView::~gCHUDView((gCHUDView *)&(this->gCHUDViewDocument2_data).field_0x34);
+  gCHUDView::~gCHUDView((gCHUDView *)&(this->gCHUDViewDocument2_data).field_0x20);
+  gCHUDView::~gCHUDView((gCHUDView *)&(this->gCHUDViewDocument2_data).field_0xc);
+  FUN_200156a9();
+  return;
+}
+
+

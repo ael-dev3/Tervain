@@ -1,0 +1,14 @@
+/* ENTRY 304c6620 | eCPropertySetProxy::eCPropertySetProxy | STATUS decompiled | 5 ms */
+
+eCPropertySetProxy * __thiscall eCPropertySetProxy::eCPropertySetProxy(eCPropertySetProxy *this)
+
+{
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)this);
+  this->vftablePtr = &vftable;
+  (this->eCPropertySetProxy_data).offset_0x10 = 0;
+  (this->eCPropertySetProxy_data).offset_0x14 = (bCString *)0x0;
+  eCEntityProxy::Create((eCEntityProxy *)this);
+  return this;
+}
+
+

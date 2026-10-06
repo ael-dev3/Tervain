@@ -1,0 +1,17 @@
+/* ENTRY 10156ba0 | FUN_10156ba0 | STATUS decompiled | 8 ms */
+
+void FUN_10156ba0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Routine\\Rtn_Player.cpp");
+  bCString::bCString(local_8,"Rtn_Player");
+  thunk_FUN_100a12c0(local_8,&LAB_10002761,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

@@ -1,0 +1,114 @@
+/* ENTRY 30641650 | EMotionFX::LookAtConstraint::LookAtConstraint | STATUS decompiled | 35 ms */
+
+LookAtConstraint * __thiscall
+EMotionFX::LookAtConstraint::LookAtConstraint
+          (LookAtConstraint *this,undefined4 param_1,int param_2,undefined4 param_3)
+
+{
+  uint uVar1;
+  undefined4 *puVar2;
+  int iVar3;
+  undefined4 *puVar4;
+  undefined1 *puVar5;
+  undefined1 local_6c [16];
+  undefined1 local_5c [16];
+  undefined4 local_4c [16];
+  void *local_c;
+  undefined1 *puStack_8;
+  undefined4 local_4;
+  
+  local_4 = 0xffffffff;
+  puStack_8 = &LAB_3072c538;
+  local_c = ExceptionList;
+  uVar1 = DAT_30ad43ec ^ (uint)&stack0xffffff84;
+  ExceptionList = &local_c;
+  Constraint::Constraint((Constraint *)this,param_1,param_2,param_3);
+  this->vftablePtr = &vftable;
+  (this->LookAtConstraint_data).offset_0xc0 = 0;
+  (this->LookAtConstraint_data).offset_0xc4 = 0;
+  (this->LookAtConstraint_data).offset_0xc8 = 0;
+  (this->LookAtConstraint_data).offset_0xcc = 0x3f800000;
+  (this->LookAtConstraint_data).offset_0xd0 = 0;
+  (this->LookAtConstraint_data).offset_0xd4 = 0;
+  (this->LookAtConstraint_data).offset_0xd8 = 0;
+  (this->LookAtConstraint_data).offset_0xec = 0x3f800000;
+  puVar2 = (undefined4 *)(param_2 + 0x44);
+  puVar4 = local_4c;
+  for (iVar3 = 0x10; iVar3 != 0; iVar3 = iVar3 + -1) {
+    *puVar4 = *puVar2;
+    puVar2 = puVar2 + 1;
+    puVar4 = puVar4 + 1;
+  }
+  local_4 = 0;
+  FUN_30641270(uVar1);
+  puVar5 = local_6c;
+  thunk_FUN_300adb60(local_5c,local_4c);
+  puVar2 = (undefined4 *)FUN_30641580(puVar5);
+  (this->LookAtConstraint_data).offset_0xc0 = *puVar2;
+  (this->LookAtConstraint_data).offset_0xc4 = puVar2[1];
+  (this->LookAtConstraint_data).offset_0xc8 = puVar2[2];
+  (this->LookAtConstraint_data).offset_0xcc = puVar2[3];
+  (this->LookAtConstraint_data).offset_0x40 = 0x3f800000;
+  (this->LookAtConstraint_data).offset_0x44 = 0;
+  (this->LookAtConstraint_data).offset_0x48 = 0;
+  (this->LookAtConstraint_data).offset_0x4c = 0;
+  (this->LookAtConstraint_data).offset_0x50 = 0;
+  (this->LookAtConstraint_data).offset_0x54 = 0x3f800000;
+  (this->LookAtConstraint_data).offset_0x58 = 0;
+  (this->LookAtConstraint_data).offset_0x5c = 0;
+  (this->LookAtConstraint_data).offset_0x60 = 0;
+  (this->LookAtConstraint_data).offset_0x64 = 0;
+  (this->LookAtConstraint_data).offset_0x68 = 0x3f800000;
+  (this->LookAtConstraint_data).offset_0x6c = 0;
+  (this->LookAtConstraint_data).offset_0x70 = 0;
+  (this->LookAtConstraint_data).offset_0x74 = 0;
+  (this->LookAtConstraint_data).offset_0x78 = 0;
+  (this->LookAtConstraint_data).offset_0x7c = 0x3f800000;
+  (this->LookAtConstraint_data).offset_0x0 = 0x3f800000;
+  (this->LookAtConstraint_data).offset_0x4 = 0;
+  (this->LookAtConstraint_data).offset_0x8 = 0;
+  (this->LookAtConstraint_data).offset_0xc = 0;
+  (this->LookAtConstraint_data).offset_0x10 = 0;
+  (this->LookAtConstraint_data).offset_0x14 = 0x3f800000;
+  (this->LookAtConstraint_data).offset_0x18 = 0;
+  (this->LookAtConstraint_data).offset_0x1c = 0;
+  (this->LookAtConstraint_data).offset_0x20 = 0;
+  (this->LookAtConstraint_data).offset_0x24 = 0;
+  (this->LookAtConstraint_data).offset_0x28 = 0x3f800000;
+  (this->LookAtConstraint_data).offset_0x2c = 0;
+  (this->LookAtConstraint_data).offset_0x30 = 0;
+  (this->LookAtConstraint_data).offset_0x34 = 0;
+  (this->LookAtConstraint_data).offset_0x38 = 0;
+  (this->LookAtConstraint_data).offset_0x3c = 0x3f800000;
+  iVar3 = thunk_FUN_300ac2f0(0x7000002);
+  if (iVar3 == 0) {
+    (this->LookAtConstraint_data).offset_0x80 = 0x3f800000;
+    (this->LookAtConstraint_data).offset_0x84 = 0;
+    (this->LookAtConstraint_data).offset_0x88 = 0;
+    (this->LookAtConstraint_data).offset_0x8c = 0;
+    (this->LookAtConstraint_data).offset_0x90 = 0;
+    (this->LookAtConstraint_data).offset_0x94 = 0x3f800000;
+    (this->LookAtConstraint_data).offset_0x98 = 0;
+    (this->LookAtConstraint_data).offset_0x9c = 0;
+    (this->LookAtConstraint_data).offset_0xa0 = 0;
+    (this->LookAtConstraint_data).offset_0xa4 = 0;
+    (this->LookAtConstraint_data).offset_0xa8 = 0x3f800000;
+    (this->LookAtConstraint_data).offset_0xac = 0;
+    (this->LookAtConstraint_data).offset_0xb0 = 0;
+    (this->LookAtConstraint_data).offset_0xb4 = 0;
+    (this->LookAtConstraint_data).offset_0xb8 = 0;
+    (this->LookAtConstraint_data).offset_0xbc = 0x3f800000;
+    (this->LookAtConstraint_data).offset_0xdc = 0x3f800000;
+    (this->LookAtConstraint_data).offset_0xe0 = 0x3f800000;
+    (this->LookAtConstraint_data).offset_0xe4 = 0;
+    (this->LookAtConstraint_data).offset_0xe8 = 0;
+  }
+  else {
+    FUN_30641360(iVar3 + 0x1c,iVar3 + 0x28);
+  }
+  (this->LookAtConstraint_data).offset_0xf0 = 0;
+  ExceptionList = local_c;
+  return this;
+}
+
+

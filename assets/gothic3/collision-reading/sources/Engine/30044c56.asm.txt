@@ -1,0 +1,4 @@
+; 30044c56 bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eECollisionGroup>_>::vfunction20
+30044c56 | e995682f00 | JMP 0x3033b4f0
+; 30044c5b eCVisualAnimation_PS::GetShowSkeleton
+; 30044c5b Ordinal_8808

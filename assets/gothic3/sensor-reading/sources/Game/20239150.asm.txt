@@ -1,0 +1,3 @@
+; 20239150 bTPropertyObject<gCCharacterSensor_PS,eCEntityPropertySet>::vfunction4
+20239150 | 8b490c | MOV ECX,dword ptr [ECX + 0xc]
+20239153 | ff2578877d20 | JMP dword ptr [0x207d8778]

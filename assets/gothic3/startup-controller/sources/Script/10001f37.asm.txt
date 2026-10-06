@@ -1,0 +1,4 @@
+; 10001f37 ?IsValid@PSNpc@@QBE_NXZ
+10001f37 | e974920000 | JMP 0x1000b1b0
+; 10001f3c PSInfoScriptCommand::GetID2
+; 10001f3c Ordinal_1571

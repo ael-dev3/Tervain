@@ -1,0 +1,51 @@
+/* ENTRY 20357c00 | bTPropertyContainer<gEHitDirection>::bTPropertyContainer<gEHitDirection> | STATUS decompiled | 20 ms */
+
+bTPropertyContainer<gEHitDirection> * __thiscall
+bTPropertyContainer<gEHitDirection>::bTPropertyContainer<gEHitDirection>
+          (bTPropertyContainer<gEHitDirection> *this)
+
+{
+  bCObjectBase **ppbVar1;
+  
+  eCEntityPropertySet::eCEntityPropertySet((eCEntityPropertySet *)this);
+                    /* inlined constructor: gCScriptRoutine_PS::gCScriptRoutine_PS */
+  this->vftablePtr = (bTPropertyContainer<gEHitDirection>_vftable *)&gCScriptRoutine_PS::vftable;
+  bCString::bCString((bCString *)&this[1].bTPropertyContainer<gEHitDirection>_data);
+  bCString::bCString((bCString *)&this[1].bTPropertyContainer<gEHitDirection>_data.offset_0x4);
+  bCString::bCString((bCString *)(this + 3));
+  bCString::bCString((bCString *)&this[3].bTPropertyContainer<gEHitDirection>_data);
+  ppbVar1 = &this[3].bTPropertyContainer<gEHitDirection>_data.offset_0x8;
+  bCObjectBase::bCObjectBase((bCObjectBase *)ppbVar1);
+                    /* inlined constructor:
+                       bTPropertyContainer<gEAniState>::bTPropertyContainer<gEAniState> */
+  *ppbVar1 = (bCObjectBase *)&bTPropertyContainer<gEAniState>::vftable;
+  this[4].vftablePtr = DAT_207cbf3c;
+  bCObjectBase::bCObjectBase((bCObjectBase *)&this[4].bTPropertyContainer<gEHitDirection>_data);
+                    /* inlined constructor:
+                       bTPropertyContainer<gEAction>::bTPropertyContainer<gEAction> */
+  this[4].bTPropertyContainer<gEHitDirection>_data.offset_0x0 =
+       &bTPropertyContainer<gEAction>::vftable.GetVersion;
+  this[4].bTPropertyContainer<gEHitDirection>_data.offset_0x4 = DAT_207cbf40;
+  ppbVar1 = &this[4].bTPropertyContainer<gEHitDirection>_data.offset_0x8;
+  bCObjectBase::bCObjectBase((bCObjectBase *)ppbVar1);
+                    /* inlined constructor:
+                       bTPropertyContainer<gEAmbientAction>::bTPropertyContainer<gEAmbientAction> */
+  *ppbVar1 = (bCObjectBase *)&bTPropertyContainer<gEAmbientAction>::vftable;
+  this[5].vftablePtr = DAT_207cbf44;
+  bCObjectBase::bCObjectBase((bCObjectBase *)&this[5].bTPropertyContainer<gEHitDirection>_data);
+                    /* inlined constructor:
+                       bTPropertyContainer<gEAIMode>::bTPropertyContainer<gEAIMode> */
+  this[5].bTPropertyContainer<gEHitDirection>_data.offset_0x0 =
+       &bTPropertyContainer<gEAIMode>::vftable.GetVersion;
+  this[5].bTPropertyContainer<gEHitDirection>_data.offset_0x4 = DAT_207cbf48;
+  ppbVar1 = &this[5].bTPropertyContainer<gEHitDirection>_data.offset_0x8;
+  bCObjectBase::bCObjectBase((bCObjectBase *)ppbVar1);
+  *ppbVar1 = (bCObjectBase *)&vftable;
+  this[6].vftablePtr = DAT_207cbf4c;
+  gCScriptProcessingUnit::gCScriptProcessingUnit
+            ((gCScriptProcessingUnit *)&this[6].bTPropertyContainer<gEHitDirection>_data);
+  *(undefined1 *)&this[0x1f].vftablePtr = 0;
+  return this;
+}
+
+

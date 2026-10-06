@@ -1,0 +1,38 @@
+/* ENTRY 10006f41 | bCAccessorPropertyObject::GetBaseClass | STATUS decompiled | 7 ms */
+
+/* public: class bCAccessorPropertyObject __thiscall
+   bCAccessorPropertyObject::GetBaseClass(void)const  */
+
+undefined4 * __thiscall bCAccessorPropertyObject::GetBaseClass(bCAccessorPropertyObject *this)
+
+{
+  int *piVar1;
+  bool bVar2;
+  bCString *pbVar3;
+  bCString *this_00;
+  bCPropertyObjectSingleton *this_01;
+  bCPropertyObjectBase *pbVar4;
+  undefined4 *in_stack_00000004;
+  
+                    /* 0x6f41  2106  ?GetBaseClass@bCAccessorPropertyObject@@QBE?AV1@XZ */
+  if (*(int *)this != 0) {
+    piVar1 = *(int **)this;
+    pbVar3 = (bCString *)bTPropertyObject<bCObsoleteClass,bCObjectRefBase>::vfunction3();
+    this_00 = (bCString *)(**(code **)(*piVar1 + 8))();
+    bVar2 = bCString::operator==(this_00,pbVar3);
+    if (!bVar2) {
+      pbVar3 = (bCString *)(**(code **)(**(int **)this + 8))();
+      *in_stack_00000004 = 0;
+      in_stack_00000004[1] = 0;
+      this_01 = (bCPropertyObjectSingleton *)bCPropertyObjectSingleton::GetInstance();
+      pbVar4 = bCPropertyObjectSingleton::GetRootObject(this_01,pbVar3);
+      *in_stack_00000004 = pbVar4;
+      return in_stack_00000004;
+    }
+  }
+  *in_stack_00000004 = 0;
+  in_stack_00000004[1] = 0;
+  return in_stack_00000004;
+}
+
+

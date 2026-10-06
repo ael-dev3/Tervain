@@ -1,0 +1,26 @@
+; Original PE manually recovered ASM-only function; no study C/ASM function entry
+3075d680 | 51 | PUSH ECX
+3075d681 | 68b8108230 | PUSH 0x308210b8
+3075d686 | 8d4c2404 | LEA ECX,[ESP + 0x4]
+3075d68a | ff155cdbaf30 | CALL dword ptr [0x30afdb5c]
+3075d690 | 6a01 | PUSH 0x00000001
+3075d692 | 8d442404 | LEA EAX,[ESP + 0x4]
+3075d696 | 50 | PUSH EAX
+3075d697 | b9b0c2ae30 | MOV ECX,0x30aec2b0
+3075d69c | ff1598caaf30 | CALL dword ptr [0x30afca98]
+3075d6a2 | c705b0c2ae30d4098630 | MOV dword ptr [0x30aec2b0],0x308609d4
+3075d6ac | e801e08bff | CALL 0x3001b6b2
+3075d6b1 | b9b0c2ae30 | MOV ECX,0x30aec2b0
+3075d6b6 | a3c8c2ae30 | MOV [0x30aec2c8],EAX
+3075d6bb | c705ccc2ae3014000000 | MOV dword ptr [0x30aec2cc],0x00000014
+3075d6c5 | c705d0c2ae3000000000 | MOV dword ptr [0x30aec2d0],0x00000000
+3075d6cf | ff1570caaf30 | CALL dword ptr [0x30afca70]
+3075d6d5 | 8b0dc8c2ae30 | MOV ECX,dword ptr [0x30aec2c8]
+3075d6db | 68b0c2ae30 | PUSH 0x30aec2b0
+3075d6e0 | ff157ccaaf30 | CALL dword ptr [0x30afca7c]
+3075d6e6 | 8d0c24 | LEA ECX,[ESP]
+3075d6e9 | ff15dcdbaf30 | CALL dword ptr [0x30afdbdc]
+3075d6ef | 6870617a30 | PUSH 0x307a6170
+3075d6f4 | e89d3ef1ff | CALL 0x30671596
+3075d6f9 | 83c408 | ADD ESP,0x8
+3075d6fc | c3 | RET

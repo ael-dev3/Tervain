@@ -1,0 +1,11 @@
+; 201438e0 bTPropertyType<gCFocus_PS,float>::vfunction6
+201438e0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+201438e4 | 85c0 | TEST EAX,EAX
+201438e6 | 740f | JZ 0x201438f7
+201438e8 | 8b11 | MOV EDX,dword ptr [ECX]
+201438ea | 50 | PUSH EAX
+201438eb | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+201438ee | ffd0 | CALL EAX
+201438f0 | 0f57c0 | XORPS XMM0,XMM0
+201438f3 | f30f1100 | MOVSS dword ptr [EAX],XMM0
+201438f7 | c20400 | RET 0x4

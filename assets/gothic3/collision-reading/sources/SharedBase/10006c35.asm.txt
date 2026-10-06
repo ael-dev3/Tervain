@@ -1,0 +1,4 @@
+; 10006c35 ?GetEdge@bCOrientedBox@@QBEXHAAVbCStretch@@@Z
+10006c35 | e946d60500 | JMP 0x10064280
+; 10006c3a bCFloatColor::operator*
+; 10006c3a Ordinal_913

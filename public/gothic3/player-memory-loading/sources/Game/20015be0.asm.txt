@@ -1,0 +1,2 @@
+; 20015be0 bTPropertyType<gCNavHelper_PS,bCPropertyID>::vfunction4
+20015be0 | e9abb90400 | JMP 0x20061590

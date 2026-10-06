@@ -1,0 +1,14 @@
+/* ENTRY 20323960 | bTPropertyType<gCPlayerMemory_PS,bTPropertyContainer<gEWeaponConfig>_>::vfunction3 | STATUS decompiled | 3 ms */
+
+void __thiscall
+bTPropertyType<gCPlayerMemory_PS,bTPropertyContainer<gEWeaponConfig>_>::vfunction3
+          (bTPropertyType<gCPlayerMemory_PS,bTPropertyContainer<gEWeaponConfig>_> *this)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x20323967. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  (**(code **)(this[6].vftablePtr)->vfunction1)();
+  return;
+}
+
+

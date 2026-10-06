@@ -1,0 +1,23 @@
+; 10028790 FUN_10028790
+10028790 | 51 | PUSH ECX
+10028791 | 0f57c0 | XORPS XMM0,XMM0
+10028794 | f30f110424 | MOVSS dword ptr [ESP],XMM0
+10028799 | 8b0424 | MOV EAX,dword ptr [ESP]
+1002879c | 8901 | MOV dword ptr [ECX],EAX
+1002879e | 894104 | MOV dword ptr [ECX + 0x4],EAX
+100287a1 | 894108 | MOV dword ptr [ECX + 0x8],EAX
+100287a4 | 89410c | MOV dword ptr [ECX + 0xc],EAX
+100287a7 | 894110 | MOV dword ptr [ECX + 0x10],EAX
+100287aa | 894114 | MOV dword ptr [ECX + 0x14],EAX
+100287ad | 894118 | MOV dword ptr [ECX + 0x18],EAX
+100287b0 | 89411c | MOV dword ptr [ECX + 0x1c],EAX
+100287b3 | 894120 | MOV dword ptr [ECX + 0x20],EAX
+100287b6 | 894124 | MOV dword ptr [ECX + 0x24],EAX
+100287b9 | 894128 | MOV dword ptr [ECX + 0x28],EAX
+100287bc | 89412c | MOV dword ptr [ECX + 0x2c],EAX
+100287bf | 894130 | MOV dword ptr [ECX + 0x30],EAX
+100287c2 | 894134 | MOV dword ptr [ECX + 0x34],EAX
+100287c5 | 894138 | MOV dword ptr [ECX + 0x38],EAX
+100287c8 | 89413c | MOV dword ptr [ECX + 0x3c],EAX
+100287cb | 59 | POP ECX
+100287cc | c3 | RET

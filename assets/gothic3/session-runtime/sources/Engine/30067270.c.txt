@@ -1,0 +1,82 @@
+/* ENTRY 30067270 | FUN_30067270 | STATUS decompiled | 38 ms */
+
+void __fastcall FUN_30067270(int *param_1)
+
+{
+  bool bVar1;
+  bCErrorAdmin *pbVar2;
+  int iVar3;
+  eCSceneAdmin *peVar4;
+  eCEntityAdmin *peVar5;
+  eCPhysicsScene *peVar6;
+  void *local_14;
+  undefined1 *puStack_10;
+  undefined *puStack_c;
+  undefined4 local_8;
+  
+  local_8 = 0xffffffff;
+  puStack_c = &DAT_3094cd08;
+  puStack_10 = &LAB_30671bc4;
+  local_14 = ExceptionList;
+  if (*(char *)((int)param_1 + 0x15f) != '\x01') {
+    ExceptionList = &local_14;
+    param_1[0x146] = param_1[0x146] + 1;
+    pbVar2 = bCErrorAdmin::GetInstance();
+    bVar1 = bCErrorAdmin::IsInPanicState(pbVar2);
+    if (!bVar1) {
+      (**(code **)(*param_1 + 0x2b4))();
+      (**(code **)(*param_1 + 0x2b8))();
+      eCModuleAdmin::Process((eCModuleAdmin *)param_1[0x24]);
+      (**(code **)(*param_1 + 0x2c4))();
+      iVar3 = thunk_FUN_3007bf20();
+      if (iVar3 != 0) {
+        peVar4 = (eCSceneAdmin *)thunk_FUN_3007bf20();
+        peVar5 = (eCEntityAdmin *)eCSceneAdmin::GetAccessToEntityAdmin(peVar4);
+        eCEntityAdmin::Process(peVar5);
+      }
+      eCModuleAdmin::PostProcess((eCModuleAdmin *)param_1[0x24]);
+      peVar6 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+      eCPhysicsScene::Simulate(peVar6);
+      iVar3 = thunk_FUN_3007bf20();
+      if (iVar3 != 0) {
+        peVar4 = (eCSceneAdmin *)thunk_FUN_3007bf20();
+        peVar5 = (eCEntityAdmin *)eCSceneAdmin::GetAccessToEntityAdmin(peVar4);
+        eCEntityAdmin::KillEntities(peVar5);
+      }
+    }
+    ExceptionList = local_14;
+    return;
+  }
+  local_8 = 0;
+  ExceptionList = &local_14;
+  param_1[0x146] = param_1[0x146] + 1;
+  pbVar2 = bCErrorAdmin::GetInstance();
+  bVar1 = bCErrorAdmin::IsInPanicState(pbVar2);
+  if (!bVar1) {
+    (**(code **)(*param_1 + 0x2b4))();
+    (**(code **)(*param_1 + 0x2b8))();
+    eCModuleAdmin::Process((eCModuleAdmin *)param_1[0x24]);
+    (**(code **)(*param_1 + 0x2c4))();
+    iVar3 = thunk_FUN_3007bf20();
+    if (iVar3 != 0) {
+      peVar4 = (eCSceneAdmin *)thunk_FUN_3007bf20();
+      peVar5 = (eCEntityAdmin *)eCSceneAdmin::GetAccessToEntityAdmin(peVar4);
+      eCEntityAdmin::Process(peVar5);
+    }
+    eCModuleAdmin::PostProcess((eCModuleAdmin *)param_1[0x24]);
+    peVar6 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+    eCPhysicsScene::Simulate(peVar6);
+    iVar3 = thunk_FUN_3007bf20();
+    if (iVar3 != 0) {
+      peVar4 = (eCSceneAdmin *)thunk_FUN_3007bf20();
+      peVar5 = (eCEntityAdmin *)eCSceneAdmin::GetAccessToEntityAdmin(peVar4);
+      eCEntityAdmin::KillEntities(peVar5);
+    }
+    ExceptionList = local_14;
+    return;
+  }
+  ExceptionList = local_14;
+  return;
+}
+
+

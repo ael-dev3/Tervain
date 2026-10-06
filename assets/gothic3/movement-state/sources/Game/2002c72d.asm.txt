@@ -1,0 +1,4 @@
+; 2002c72d ?ProcessMovements@gCCharacterMovement_PS@@IAEXXZ
+2002c72d | e95e292000 | JMP 0x2022f090
+; 2002c732 gCCharacterSensor_PS::GetGoalChanged
+; 2002c732 Ordinal_3493

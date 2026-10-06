@@ -1,0 +1,13 @@
+/* ENTRY 20018d63 | gCNavigation_PS::GetCurrentAniDirection | STATUS decompiled | 6 ms */
+
+/* public: enum gEDirection __thiscall gCNavigation_PS::GetCurrentAniDirection(void)const  */
+
+gEDirection __thiscall gCNavigation_PS::GetCurrentAniDirection(gCNavigation_PS *this)
+
+{
+                    /* 0x18d63  3129
+                       ?GetCurrentAniDirection@gCNavigation_PS@@QBE?AW4gEDirection@@XZ */
+  return *(gEDirection *)&(this->gCNavigation_PS_data).field_0x184;
+}
+
+

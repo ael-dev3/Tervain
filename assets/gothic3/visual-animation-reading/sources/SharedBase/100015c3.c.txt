@@ -1,0 +1,12 @@
+/* ENTRY 100015c3 | bCVector::AccessX | STATUS decompiled | 2 ms */
+
+/* public: float & __thiscall bCVector::AccessX(void) */
+
+float * __thiscall bCVector::AccessX(bCVector *this)
+
+{
+                    /* 0x15c3  1511  ?AccessX@bCVector@@QAEAAMXZ */
+  return (float *)this;
+}
+
+

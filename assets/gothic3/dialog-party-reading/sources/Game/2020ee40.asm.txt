@@ -1,0 +1,22 @@
+; 2020ee40 bTPropertyType<gCDialog_PS,bTPropertyContainer<gETradeCategory>_>::vfunction26
+2020ee40 | 56 | PUSH ESI
+2020ee41 | 57 | PUSH EDI
+2020ee42 | 8b7c240c | MOV EDI,dword ptr [ESP + 0xc]
+2020ee46 | 85ff | TEST EDI,EDI
+2020ee48 | 8bf1 | MOV ESI,ECX
+2020ee4a | 7522 | JNZ 0x2020ee6e
+2020ee4c | 680d030000 | PUSH 0x30d
+2020ee51 | 68f8976520 | PUSH 0x206597f8
+2020ee56 | 68c8976520 | PUSH 0x206597c8
+2020ee5b | 6858986520 | PUSH 0x20659858
+2020ee60 | ff1518897d20 | CALL dword ptr [0x207d8918]
+2020ee66 | 8bc8 | MOV ECX,EAX
+2020ee68 | ff15f4867d20 | CALL dword ptr [0x207d86f4]
+2020ee6e | 8b06 | MOV EAX,dword ptr [ESI]
+2020ee70 | 8b502c | MOV EDX,dword ptr [EAX + 0x2c]
+2020ee73 | 57 | PUSH EDI
+2020ee74 | 8bce | MOV ECX,ESI
+2020ee76 | ffd2 | CALL EDX
+2020ee78 | 5f | POP EDI
+2020ee79 | 5e | POP ESI
+2020ee7a | c20400 | RET 0x4

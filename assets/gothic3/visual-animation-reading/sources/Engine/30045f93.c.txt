@@ -1,0 +1,255 @@
+/* ENTRY 30045f93 | eCVisualAnimation_PS::GetStatus | STATUS decompiled | 141 ms */
+
+/* protected: void __thiscall eCVisualAnimation_PS::GetStatus(struct eCVisualAnimation_PS::SStatus
+   &) */
+
+void __thiscall eCVisualAnimation_PS::GetStatus(eCVisualAnimation_PS *this,SStatus *param_1)
+
+{
+  undefined1 *this_00;
+  SStatus *this_01;
+  bool bVar1;
+  eCWrapper_emfx2Actor *peVar2;
+  bCString *pbVar3;
+  eCWrapper_emfx2Actor *peVar4;
+  float fVar5;
+  double dVar6;
+  double dVar7;
+  eEMotionType eStack_1c;
+  eEMotionType eStack_18;
+  eEMotionType eStack_14;
+  eEMotionType eStack_10;
+  eEMotionType eStack_c;
+  
+                    /* 0x45f93  8975  ?GetStatus@eCVisualAnimation_PS@@IAEXAAUSStatus@1@@Z */
+  this_01 = param_1;
+  this_00 = &this[7].eCEntityPropertySet_data.field_0x4;
+  peVar2 = eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+  if (peVar2 != (eCWrapper_emfx2Actor *)0x0) {
+    pbVar3 = bCString::operator=((bCString *)(param_1 + 0x14),"");
+    pbVar3 = bCString::operator=((bCString *)(param_1 + 0x10),pbVar3);
+    pbVar3 = bCString::operator=((bCString *)(param_1 + 0xc),pbVar3);
+    pbVar3 = bCString::operator=((bCString *)(param_1 + 8),pbVar3);
+    pbVar3 = bCString::operator=((bCString *)(param_1 + 4),pbVar3);
+    bCString::operator=((bCString *)param_1,pbVar3);
+    *(undefined4 *)(param_1 + 0x2c) = 0;
+    *(undefined4 *)(param_1 + 0x28) = 0;
+    *(undefined4 *)(param_1 + 0x24) = 0;
+    *(undefined4 *)(param_1 + 0x20) = 0;
+    *(undefined4 *)(param_1 + 0x1c) = 0;
+    *(undefined4 *)(param_1 + 0x18) = 0;
+    *(undefined4 *)(param_1 + 0x44) = 0;
+    *(undefined4 *)(param_1 + 0x40) = 0;
+    *(undefined4 *)(param_1 + 0x3c) = 0;
+    *(undefined4 *)(param_1 + 0x38) = 0;
+    *(undefined4 *)(param_1 + 0x34) = 0;
+    *(undefined4 *)(param_1 + 0x30) = 0;
+    param_1 = (SStatus *)&DAT_00000008;
+    eStack_1c = 8;
+    eStack_18 = 8;
+    eStack_14 = 8;
+    eStack_10 = 8;
+    eStack_c = 8;
+    if ((*(int *)&this[0xb].eCEntityPropertySet_data.offset_0xc != 0) &&
+       (bVar1 = bCString::IsEmpty((bCString *)(this[0xb].eCEntityPropertySet_data.offset_0x8 + 4)),
+       !bVar1)) {
+      peVar4 = (eCWrapper_emfx2Actor *)
+               eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+      bVar1 = eCWrapper_emfx2Actor::HasMotionInstance(peVar4,0);
+      if (bVar1) {
+        peVar4 = (eCWrapper_emfx2Actor *)
+                 eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+        bVar1 = eCWrapper_emfx2Actor::IsActorPlaying(peVar4,0);
+        if (bVar1) {
+          param_1 = (SStatus *)0x0;
+        }
+      }
+    }
+    if ((1 < *(uint *)&this[0xb].eCEntityPropertySet_data.offset_0xc) &&
+       (bVar1 = bCString::IsEmpty((bCString *)(this[0xb].eCEntityPropertySet_data.offset_0x8 + 0x10)
+                                 ), !bVar1)) {
+      peVar4 = (eCWrapper_emfx2Actor *)
+               eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+      bVar1 = eCWrapper_emfx2Actor::HasMotionInstance(peVar4,1);
+      if (bVar1) {
+        peVar4 = (eCWrapper_emfx2Actor *)
+                 eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+        bVar1 = eCWrapper_emfx2Actor::IsActorPlaying(peVar4,1);
+        if (bVar1) {
+          eStack_1c = 1;
+        }
+      }
+    }
+    if ((2 < *(uint *)&this[0xb].eCEntityPropertySet_data.offset_0xc) &&
+       (bVar1 = bCString::IsEmpty((bCString *)(this[0xb].eCEntityPropertySet_data.offset_0x8 + 0x1c)
+                                 ), !bVar1)) {
+      peVar4 = (eCWrapper_emfx2Actor *)
+               eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+      bVar1 = eCWrapper_emfx2Actor::HasMotionInstance(peVar4,2);
+      if (bVar1) {
+        peVar4 = (eCWrapper_emfx2Actor *)
+                 eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+        bVar1 = eCWrapper_emfx2Actor::IsActorPlaying(peVar4,2);
+        if (bVar1) {
+          eStack_18 = 2;
+        }
+      }
+    }
+    if ((3 < *(uint *)&this[0xb].eCEntityPropertySet_data.offset_0xc) &&
+       (bVar1 = bCString::IsEmpty((bCString *)(this[0xb].eCEntityPropertySet_data.offset_0x8 + 0x28)
+                                 ), !bVar1)) {
+      peVar4 = (eCWrapper_emfx2Actor *)
+               eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+      bVar1 = eCWrapper_emfx2Actor::HasMotionInstance(peVar4,3);
+      if (bVar1) {
+        peVar4 = (eCWrapper_emfx2Actor *)
+                 eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+        bVar1 = eCWrapper_emfx2Actor::IsActorPlaying(peVar4,3);
+        if (bVar1) {
+          eStack_14 = 3;
+        }
+      }
+    }
+    if ((4 < *(uint *)&this[0xb].eCEntityPropertySet_data.offset_0xc) &&
+       (bVar1 = bCString::IsEmpty((bCString *)(this[0xb].eCEntityPropertySet_data.offset_0x8 + 0x34)
+                                 ), !bVar1)) {
+      peVar4 = (eCWrapper_emfx2Actor *)
+               eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+      bVar1 = eCWrapper_emfx2Actor::HasMotionInstance(peVar4,4);
+      if (bVar1) {
+        peVar4 = (eCWrapper_emfx2Actor *)
+                 eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+        bVar1 = eCWrapper_emfx2Actor::IsActorPlaying(peVar4,4);
+        if (bVar1) {
+          eStack_10 = 4;
+        }
+      }
+    }
+    if ((5 < *(uint *)&this[0xb].eCEntityPropertySet_data.offset_0xc) &&
+       (bVar1 = bCString::IsEmpty((bCString *)(this[0xb].eCEntityPropertySet_data.offset_0x8 + 0x40)
+                                 ), !bVar1)) {
+      peVar4 = (eCWrapper_emfx2Actor *)
+               eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+      bVar1 = eCWrapper_emfx2Actor::HasMotionInstance(peVar4,5);
+      if (bVar1) {
+        peVar4 = (eCWrapper_emfx2Actor *)
+                 eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+        bVar1 = eCWrapper_emfx2Actor::IsActorPlaying(peVar4,5);
+        if (bVar1) {
+          eStack_c = 5;
+        }
+      }
+    }
+    if (param_1 < (SStatus *)&DAT_00000008) {
+      bCString::operator=((bCString *)this_01,
+                          (bCString *)
+                          (this[0xb].eCEntityPropertySet_data.offset_0x8 + 4 + (int)param_1 * 0xc));
+      peVar4 = (eCWrapper_emfx2Actor *)
+               eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+      fVar5 = eCWrapper_emfx2Actor::GetTargetWeight(peVar4,(eEMotionType)param_1);
+      *(float *)(this_01 + 0x30) = fVar5;
+      peVar4 = (eCWrapper_emfx2Actor *)
+               eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+      dVar6 = eCWrapper_emfx2Actor::GetMaxTime(peVar4,(eEMotionType)param_1);
+      if (0.0 < dVar6) {
+        peVar4 = (eCWrapper_emfx2Actor *)
+                 eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+        dVar7 = eCWrapper_emfx2Actor::GetPlayTime(peVar4,(eEMotionType)param_1);
+        *(float *)(this_01 + 0x18) = (float)((float10)dVar7 / (float10)dVar6);
+      }
+    }
+    if (eStack_1c < 8) {
+      bCString::operator=((bCString *)(this_01 + 4),
+                          (bCString *)
+                          (this[0xb].eCEntityPropertySet_data.offset_0x8 + 4 + eStack_1c * 0xc));
+      peVar4 = (eCWrapper_emfx2Actor *)
+               eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+      fVar5 = eCWrapper_emfx2Actor::GetTargetWeight(peVar4,eStack_1c);
+      *(float *)(this_01 + 0x34) = fVar5;
+      peVar4 = (eCWrapper_emfx2Actor *)
+               eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+      dVar6 = eCWrapper_emfx2Actor::GetMaxTime(peVar4,eStack_1c);
+      if (0.0 < dVar6) {
+        peVar4 = (eCWrapper_emfx2Actor *)
+                 eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+        dVar7 = eCWrapper_emfx2Actor::GetPlayTime(peVar4,eStack_1c);
+        *(float *)(this_01 + 0x1c) = (float)((float10)dVar7 / (float10)dVar6);
+      }
+    }
+    if (eStack_18 < 8) {
+      bCString::operator=((bCString *)(this_01 + 8),
+                          (bCString *)
+                          (this[0xb].eCEntityPropertySet_data.offset_0x8 + 4 + eStack_18 * 0xc));
+      peVar4 = (eCWrapper_emfx2Actor *)
+               eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+      fVar5 = eCWrapper_emfx2Actor::GetTargetWeight(peVar4,eStack_18);
+      *(float *)(this_01 + 0x38) = fVar5;
+      peVar4 = (eCWrapper_emfx2Actor *)
+               eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+      dVar6 = eCWrapper_emfx2Actor::GetMaxTime(peVar4,eStack_18);
+      if (0.0 < dVar6) {
+        peVar4 = (eCWrapper_emfx2Actor *)
+                 eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+        dVar7 = eCWrapper_emfx2Actor::GetPlayTime(peVar4,eStack_18);
+        *(float *)(this_01 + 0x20) = (float)((float10)dVar7 / (float10)dVar6);
+      }
+    }
+    if (eStack_14 < 8) {
+      bCString::operator=((bCString *)(this_01 + 0xc),
+                          (bCString *)
+                          (this[0xb].eCEntityPropertySet_data.offset_0x8 + 4 + eStack_14 * 0xc));
+      peVar4 = (eCWrapper_emfx2Actor *)
+               eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+      fVar5 = eCWrapper_emfx2Actor::GetTargetWeight(peVar4,eStack_14);
+      *(float *)(this_01 + 0x3c) = fVar5;
+      peVar4 = (eCWrapper_emfx2Actor *)
+               eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+      dVar6 = eCWrapper_emfx2Actor::GetMaxTime(peVar4,eStack_14);
+      if (0.0 < dVar6) {
+        peVar4 = (eCWrapper_emfx2Actor *)
+                 eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+        dVar7 = eCWrapper_emfx2Actor::GetPlayTime(peVar4,eStack_14);
+        *(float *)(this_01 + 0x24) = (float)((float10)dVar7 / (float10)dVar6);
+      }
+    }
+    if (eStack_10 < 8) {
+      bCString::operator=((bCString *)(this_01 + 0x10),
+                          (bCString *)
+                          (this[0xb].eCEntityPropertySet_data.offset_0x8 + 4 + eStack_10 * 0xc));
+      peVar4 = (eCWrapper_emfx2Actor *)
+               eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+      fVar5 = eCWrapper_emfx2Actor::GetTargetWeight(peVar4,eStack_10);
+      *(float *)(this_01 + 0x40) = fVar5;
+      peVar4 = (eCWrapper_emfx2Actor *)
+               eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+      dVar6 = eCWrapper_emfx2Actor::GetMaxTime(peVar4,eStack_10);
+      if (0.0 < dVar6) {
+        peVar4 = (eCWrapper_emfx2Actor *)
+                 eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+        dVar7 = eCWrapper_emfx2Actor::GetPlayTime(peVar4,eStack_10);
+        *(float *)(this_01 + 0x28) = (float)((float10)dVar7 / (float10)dVar6);
+      }
+    }
+    if (eStack_c < 8) {
+      bCString::operator=((bCString *)(this_01 + 0x14),
+                          (bCString *)
+                          (this[0xb].eCEntityPropertySet_data.offset_0x8 + 4 + eStack_c * 0xc));
+      peVar4 = (eCWrapper_emfx2Actor *)
+               eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+      fVar5 = eCWrapper_emfx2Actor::GetTargetWeight(peVar4,eStack_c);
+      *(float *)(this_01 + 0x44) = fVar5;
+      peVar4 = (eCWrapper_emfx2Actor *)
+               eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+      dVar6 = eCWrapper_emfx2Actor::GetMaxTime(peVar4,eStack_c);
+      if (0.0 < dVar6) {
+        peVar4 = (eCWrapper_emfx2Actor *)
+                 eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+        dVar7 = eCWrapper_emfx2Actor::GetPlayTime(peVar4,eStack_c);
+        *(float *)(this_01 + 0x2c) = (float)((float10)dVar7 / (float10)dVar6);
+      }
+    }
+  }
+  return;
+}
+
+

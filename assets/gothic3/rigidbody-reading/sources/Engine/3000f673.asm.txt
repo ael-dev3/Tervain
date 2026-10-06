@@ -1,0 +1,4 @@
+; 3000f673 bTPropertyContainer<eERigidbody_Flag>::vfunction5
+3000f673 | e928fe3100 | JMP 0x3032f4a0
+; 3000f678 eCShadowMapDirectionalLight::Create
+; 3000f678 Ordinal_4670

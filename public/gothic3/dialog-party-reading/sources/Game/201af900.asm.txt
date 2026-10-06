@@ -1,0 +1,19 @@
+; 201af900 FUN_201af900
+201af900 | 56 | PUSH ESI
+201af901 | 8bf1 | MOV ESI,ECX
+201af903 | 8b06 | MOV EAX,dword ptr [ESI]
+201af905 | 8b5058 | MOV EDX,dword ptr [EAX + 0x58]
+201af908 | 6a00 | PUSH 0x0
+201af90a | 6854d76720 | PUSH 0x2067d754
+201af90f | ffd2 | CALL EDX
+201af911 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+201af915 | d900 | FLD float ptr [EAX]
+201af917 | 8b16 | MOV EDX,dword ptr [ESI]
+201af919 | 8b425c | MOV EAX,dword ptr [EDX + 0x5c]
+201af91c | d95e18 | FSTP float ptr [ESI + 0x18]
+201af91f | 6a00 | PUSH 0x0
+201af921 | 6854d76720 | PUSH 0x2067d754
+201af926 | 8bce | MOV ECX,ESI
+201af928 | ffd0 | CALL EAX
+201af92a | 5e | POP ESI
+201af92b | c20400 | RET 0x4

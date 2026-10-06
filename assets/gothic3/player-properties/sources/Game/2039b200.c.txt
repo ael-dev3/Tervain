@@ -1,0 +1,35 @@
+/* ENTRY 2039b200 | FUN_2039b200 | STATUS decompiled | 39 ms */
+
+int * __fastcall FUN_2039b200(bCObjectRefBase *param_1)
+
+{
+  bCPropertyObjectBase *pbVar1;
+  bCAccessorPropertyObject *this;
+  bCObjectRefBase *pbVar2;
+  int *piVar3;
+  undefined4 uVar4;
+  TypeDescriptor *pTVar5;
+  TypeDescriptor *pTVar6;
+  undefined4 uVar7;
+  bCAccessorPropertyObject local_c [4];
+  bCAccessorPropertyObject local_8 [8];
+  
+  pbVar1 = bCObjectRefBase::GetPropertyObject(param_1);
+  this = (bCAccessorPropertyObject *)
+         bCAccessorPropertyObject::bCAccessorPropertyObject(local_8,pbVar1);
+  bCAccessorPropertyObject::Clone(this);
+  bCAccessorPropertyObject::~bCAccessorPropertyObject(local_c);
+  uVar7 = 0;
+  pTVar6 = &gCStat::RTTI_Type_Descriptor;
+  pTVar5 = &bCObjectRefBase::RTTI_Type_Descriptor;
+  uVar4 = 0;
+  pbVar2 = bCAccessorPropertyObject::GetNativeObject((bCAccessorPropertyObject *)&stack0xffffffec);
+  piVar3 = (int *)___RTDynamicCast(pbVar2,uVar4,pTVar5,pTVar6,uVar7);
+  if (piVar3 != (int *)0x0) {
+    (**(code **)(*piVar3 + 0x20))();
+  }
+  bCAccessorPropertyObject::~bCAccessorPropertyObject((bCAccessorPropertyObject *)&stack0xffffffec);
+  return piVar3;
+}
+
+

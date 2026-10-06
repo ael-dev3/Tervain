@@ -1,0 +1,24 @@
+/* ENTRY 3002d63c | eCSpringAndDamperEffector::PostInitializeProperties | STATUS decompiled | 8 ms */
+
+/* public: virtual enum bEResult __thiscall
+   eCSpringAndDamperEffector::PostInitializeProperties(void) */
+
+bEResult __thiscall
+eCSpringAndDamperEffector::PostInitializeProperties(eCSpringAndDamperEffector *this)
+
+{
+                    /* 0x2d63c  11770
+                       ?PostInitializeProperties@eCSpringAndDamperEffector@@UAE?AW4bEResult@@XZ */
+  (this->eCEffector_data).offset_0x5c = 0;
+  (this->eCEffector_data).offset_0x60 = 0x40000000;
+  (this->eCEffector_data).offset_0x58 = 0x3dcccccd;
+  (this->eCEffector_data).offset_0x64 = 0x3f800000;
+  (this->eCEffector_data).offset_0x6c = 0x3dcccccd;
+  (this->eCEffector_data).offset_0x70 = 0x3dcccccd;
+  (this->eCEffector_data).offset_0x68 = 0x40800000;
+  (this->eCEffector_data).offset_0x74 = 0x3e800000;
+  (this->eCEffector_data).offset_0x78 = 0x3e800000;
+  return 1;
+}
+
+

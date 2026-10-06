@@ -1,0 +1,2 @@
+; 2001563b ?CreateItems@gCInventory_PS@@QAEHABVbCPropertyID@@KK@Z
+2001563b | e9f08d1900 | JMP 0x201ae430

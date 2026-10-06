@@ -1,0 +1,2 @@
+; 30046fbf eCEntity::GetWorldPosition
+30046fbf | e97cc74600 | JMP 0x304b3740

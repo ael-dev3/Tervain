@@ -1,0 +1,54 @@
+{
+  "schema": "gothic3-player-properties-manifest-v1",
+  "inputs": {
+    "Game": {
+      "path": "00_Original_Runtime/Game.dll",
+      "sha256": "b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f"
+    },
+    "Script": {
+      "path": "00_Original_Runtime/Script.dll",
+      "sha256": "9375605676faaae44a50d48539a7b3995bed471e099ef573666221a044cd4e08"
+    },
+    "Script_Game": {
+      "path": "00_Original_Runtime/scripts/Script_Game.dll",
+      "sha256": "2f10fbb6307c4800bc44c90cb60dac0b32182c1f2416e11ac82b4ba0c35803c1"
+    },
+    "SharedBase": {
+      "path": "00_Original_Runtime/SharedBase.dll",
+      "sha256": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214"
+    }
+  },
+  "allListedInstructionBytesMatchOriginalPE": true,
+  "hero": {
+    "path": "public/gothic3/player-properties/serialized-hero.json",
+    "bytes": 5627,
+    "sha256": "96e4e3a61a07f7bdfa080f5d3cd668a2f805376360b15e79b9ccd51796cf0400"
+  },
+  "rules": {
+    "path": "public/gothic3/player-properties/runtime-rules.json",
+    "bytes": 7777,
+    "sha256": "3ddecd36537e8b76f48cadd0f618d4941444bc1e4e1b466c47b4d4a309a4a827"
+  },
+  "nativeEvidence": {
+    "path": "assets/gothic3/player-properties/native-evidence.json",
+    "bytes": 1154686,
+    "sha256": "251833250d6454707c1579e59019344bbdde64a89e8a20a9e1a3a6c11b64d434"
+  },
+  "seedEvidence": {
+    "path": "assets/gothic3/player-properties/seed-evidence.json",
+    "bytes": 107554,
+    "sha256": "c816284453cee78d59b09b2bd54f6a17899dc99ee622ae14c4d0c865ed51b5df"
+  },
+  "audit": {
+    "entries": 383,
+    "instructions": 6088,
+    "matchedBytes": 18846,
+    "allListedInstructionBytesMatchOriginalPE": true,
+    "nativeCodeExecuted": false,
+    "testsExecuted": false,
+    "buildExecuted": false,
+    "browserExecuted": false,
+    "sourceSeedAttributes": 15,
+    "sourcePropertyValues": 75
+  }
+}

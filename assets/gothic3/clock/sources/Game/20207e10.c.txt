@@ -1,0 +1,12 @@
+/* ENTRY 20207e10 | FUN_20207e10 | STATUS decompiled | 2 ms */
+
+void __fastcall FUN_20207e10(int param_1)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x20207e13. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCClock::Pause((bCClock *)(param_1 + 0x2c));
+  return;
+}
+
+

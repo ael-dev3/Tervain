@@ -1,0 +1,11 @@
+/* ENTRY 3033dfa0 | bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eEPhysicRangeType>_>::vfunction1 | STATUS decompiled | 3 ms */
+
+bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eEPhysicRangeType>_>_vftable * __thiscall
+bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eEPhysicRangeType>_>::vfunction1
+          (bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eEPhysicRangeType>_> *this)
+
+{
+  return this[7].vftablePtr;
+}
+
+

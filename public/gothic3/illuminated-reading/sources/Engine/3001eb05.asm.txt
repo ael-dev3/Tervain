@@ -1,0 +1,2 @@
+; 3001eb05 eCIlluminated_PS::GetCastShadows
+3001eb05 | e906d80700 | JMP 0x3009c310

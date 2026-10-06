@@ -1,0 +1,4 @@
+; 30042f7d ?AddPropertySet@eCEntity@@UAE_NPAVeCEntityPropertySet@@_N@Z
+30042f7d | e9ce6a4700 | JMP 0x304b9a50
+; 30042f87 eCFrustumFilter::Destroy
+; 30042f87 Ordinal_5142

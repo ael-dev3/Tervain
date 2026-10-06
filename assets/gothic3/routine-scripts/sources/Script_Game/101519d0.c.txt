@@ -1,0 +1,17 @@
+/* ENTRY 101519d0 | FUN_101519d0 | STATUS decompiled | 18 ms */
+
+void FUN_101519d0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Player\\Player_States\\PS_Interact.cpp");
+  bCString::bCString(local_8,"PS_Interact_SitStool");
+  thunk_FUN_1001db60(local_8,&LAB_100034e5,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

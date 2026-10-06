@@ -1,0 +1,38 @@
+/* ENTRY 204fe3d0 | bTPropertyType<gCCharacterControl_PS,bTPropertyContainer<gECharacterControlFOR>_>::~bTPropertyType<gCCharacterControl_PS,bTPropertyContainer<gECharacterControlFOR>_> | STATUS decompiled | 23 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCCharacterControl_PS,bTPropertyContainer<gECharacterControlFOR>_>::
+~bTPropertyType<gCCharacterControl_PS,bTPropertyContainer<gECharacterControlFOR>_>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Common");
+  bCString::bCString(local_c,"ControlFrameOfReference");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCCharacterControl_PS::ms_PropertyMember_m_enuControlFOR,local_c
+             ,local_8,local_4,2,false);
+  _ms_PropertyMember_m_enuControlFOR = &vftable;
+  DAT_207bd8c8 = bTPropertyObjectType<gCCharacterControl_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCCharacterControl_PS,eCEntityPropertySet>();
+  _DAT_207bd8cc = 0x14;
+  _DAT_207bd8d0 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCCharacterControl_PS::ms_PropertyMember_m_enuControlFOR);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bd8c8,
+             (bCPropertyTypeBase *)&gCCharacterControl_PS::ms_PropertyMember_m_enuControlFOR);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gECharacterControlFOR>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gECharacterControlFOR>_>);
+  return;
+}
+
+

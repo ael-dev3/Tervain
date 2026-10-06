@@ -1,0 +1,13 @@
+/* ENTRY 2002b2ec | gCInteraction_PS::Read | STATUS decompiled | 9 ms */
+
+/* public: virtual enum bEResult __thiscall gCInteraction_PS::Read(class bCIStream &) */
+
+bEResult __thiscall gCInteraction_PS::Read(gCInteraction_PS *this,bCIStream *param_1)
+
+{
+                    /* 0x2b2ec  5918  ?Read@gCInteraction_PS@@UAE?AW4bEResult@@AAVbCIStream@@@Z */
+  bCIStream::operator>>((bCIStream *)param_1,(ushort *)&param_1);
+  return 1;
+}
+
+

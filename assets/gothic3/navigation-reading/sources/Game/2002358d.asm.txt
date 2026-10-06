@@ -1,0 +1,4 @@
+; 2002358d bTPropertyType<gCDamageReceiver_PS,eCEntityProxy>::vfunction4
+2002358d | e9bee10300 | JMP 0x20061750
+; 20023592 gCAmbientSequencer::gCAmbientSequencer
+; 20023592 Ordinal_15

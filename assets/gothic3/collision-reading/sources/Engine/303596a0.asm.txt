@@ -1,0 +1,21 @@
+; 303596a0 FUN_303596a0
+303596a0 | 51 | PUSH ECX
+303596a1 | b801000000 | MOV EAX,0x1
+303596a6 | 840590cbae30 | TEST byte ptr [0x30aecb90],AL
+303596ac | 7535 | JNZ 0x303596e3
+303596ae | 090590cbae30 | OR dword ptr [0x30aecb90],EAX
+303596b4 | 68602f8630 | PUSH 0x30862f60
+303596b9 | 8d4c2404 | LEA ECX,[ESP + 0x4]
+303596bd | ff155cdbaf30 | CALL dword ptr [0x30afdb5c]
+303596c3 | 8d0424 | LEA EAX,[ESP]
+303596c6 | 50 | PUSH EAX
+303596c7 | ff15a4daaf30 | CALL dword ptr [0x30afdaa4]
+303596cd | 8bc8 | MOV ECX,EAX
+303596cf | ff15fcc9af30 | CALL dword ptr [0x30afc9fc]
+303596d5 | 8d0c24 | LEA ECX,[ESP]
+303596d8 | a38ccbae30 | MOV [0x30aecb8c],EAX
+303596dd | ff15dcdbaf30 | CALL dword ptr [0x30afdbdc]
+; 303596e3 LAB_303596e3
+303596e3 | a18ccbae30 | MOV EAX,[0x30aecb8c]
+303596e8 | 59 | POP ECX
+303596e9 | c3 | RET

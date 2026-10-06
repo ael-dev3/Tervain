@@ -1,0 +1,18 @@
+/* ENTRY 2011b530 | bTPropertyType<gCEffect_PS,bCVector>::vfunction12 | STATUS decompiled | 5 ms */
+
+bTPropertyType<gCEffect_PS,bCVector>_vftable * __thiscall
+bTPropertyType<gCEffect_PS,bCVector>::vfunction12
+          (bTPropertyType<gCEffect_PS,bCVector> *this,undefined4 *param_1)
+
+{
+  int iVar1;
+  
+  if (param_1 == (undefined4 *)0x0) {
+    return (bTPropertyType<gCEffect_PS,bCVector>_vftable *)0x0;
+  }
+  iVar1 = (**(code **)*param_1)();
+  return (bTPropertyType<gCEffect_PS,bCVector>_vftable *)
+         ((int)&(this[7].vftablePtr)->vfunction1 + iVar1);
+}
+
+

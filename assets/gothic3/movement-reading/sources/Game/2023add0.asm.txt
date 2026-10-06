@@ -1,0 +1,8 @@
+; 2023add0 gCMovementBase_PS::gCMovementBase_PS
+2023add0 | 56 | PUSH ESI
+2023add1 | 8bf1 | MOV ESI,ECX
+2023add3 | ff15f86d7d20 | CALL dword ptr [0x207d6df8]
+2023add9 | c706e4886820 | MOV dword ptr [ESI],0x206888e4
+2023addf | 8bc6 | MOV EAX,ESI
+2023ade1 | 5e | POP ESI
+2023ade2 | c3 | RET

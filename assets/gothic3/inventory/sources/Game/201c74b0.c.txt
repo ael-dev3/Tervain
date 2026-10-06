@@ -1,0 +1,20 @@
+/* ENTRY 201c74b0 | FUN_201c74b0 | STATUS decompiled | 5 ms */
+
+undefined4 __thiscall FUN_201c74b0(gCInventorySlot *param_1,int param_2,eCEntity *param_3)
+
+{
+  gESlot gVar1;
+  undefined4 uVar2;
+  
+  gVar1 = gCInventorySlot::GetAlternativeEquipSlot(param_1,param_3);
+  if (gVar1 != 0) {
+    return 1;
+  }
+  gVar1 = gCInventorySlot::GetPrimaryEquipSlot(param_1,param_3);
+  if ((gVar1 != 0xe) || (uVar2 = 1, param_2 != 1)) {
+    uVar2 = 0;
+  }
+  return uVar2;
+}
+
+

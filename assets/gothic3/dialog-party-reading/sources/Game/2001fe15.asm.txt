@@ -1,0 +1,2 @@
+; 2001fe15 gCDialog_PS::GetPartyEnabled
+2001fe15 | e906fc1800 | JMP 0x201afa20

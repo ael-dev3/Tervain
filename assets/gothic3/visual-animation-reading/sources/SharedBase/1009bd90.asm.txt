@@ -1,0 +1,3 @@
+; 1009bd90 bCColorBase::~bCColorBase
+1009bd90 | c70120730e10 | MOV dword ptr [ECX],0x100e7320
+1009bd96 | c3 | RET

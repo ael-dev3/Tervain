@@ -1,0 +1,4 @@
+; 10005312 ?Translate@bCOrientedBox@@QAEXABVbCVector@@@Z
+10005312 | e9c9dd0500 | JMP 0x100630e0
+; 10005317 bCMatrix2::bCMatrix2
+; 10005317 Ordinal_151

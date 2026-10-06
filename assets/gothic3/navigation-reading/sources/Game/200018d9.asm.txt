@@ -1,0 +1,2 @@
+; 200018d9 gCNavigation_PS::vfunction15
+200018d9 | e962012900 | JMP 0x20291a40

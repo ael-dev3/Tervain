@@ -1,0 +1,4 @@
+; 30003512 bTPropertyContainer<eEShapeMaterial>::vfunction3
+30003512 | e9096b0a00 | JMP 0x300aa020
+; 30003517 eCGfxGaugeAdmin::Destroy
+; 30003517 Ordinal_5158

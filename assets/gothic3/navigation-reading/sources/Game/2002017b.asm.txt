@@ -1,0 +1,4 @@
+; 2002017b ?OnSaveGameEntityPostRead@gCNavigation_PS@@UAEXXZ
+2002017b | e9f0a72600 | JMP 0x2028a970
+; 20020185 gCEffect_PS::Create
+; 20020185 Ordinal_2345

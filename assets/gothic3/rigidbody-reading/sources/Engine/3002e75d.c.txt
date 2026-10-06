@@ -1,0 +1,14 @@
+/* ENTRY 3002e75d | eCRigidBody_PS::Destroy | STATUS decompiled | 9 ms */
+
+/* public: virtual void __thiscall eCRigidBody_PS::Destroy(void) */
+
+void __thiscall eCRigidBody_PS::Destroy(eCRigidBody_PS *this)
+
+{
+                    /* 0x2e75d  5299  ?Destroy@eCRigidBody_PS@@UAEXXZ */
+  Invalidate(this);
+  eCEntityPropertySet::Destroy((eCEntityPropertySet *)this);
+  return;
+}
+
+

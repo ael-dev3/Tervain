@@ -1,0 +1,2 @@
+; 30002b21 eCVisualAnimationLoD::Create
+30002b21 | e9dac10b00 | JMP 0x300bed00

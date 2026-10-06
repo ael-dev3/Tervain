@@ -1,0 +1,3 @@
+; 2023b050 bTPropertyObjectType<gCMovementBase_PS,eCEntityPropertySet>::vfunction3
+2023b050 | 8d4118 | LEA EAX,[ECX + 0x18]
+2023b053 | c3 | RET

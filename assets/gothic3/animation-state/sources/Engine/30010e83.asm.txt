@@ -1,0 +1,2 @@
+; 30010e83 ?PlayMotion@eCVisualAnimation_PS@@QAEXW4eEMotionType@eCWrapper_emfx2Actor@@PAUeSMotionDesc@eCWrapper_emfx2Motion@@@Z
+30010e83 | e9d8ee0800 | JMP 0x3009fd60

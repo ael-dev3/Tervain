@@ -1,0 +1,2 @@
+; 2002b61b bTPropertyType<gCNPC_PS,bTPropertyContainer<gENPCType>_>::vfunction6
+2002b61b | e9a09f2d00 | JMP 0x203055c0

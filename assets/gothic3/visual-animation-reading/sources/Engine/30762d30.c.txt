@@ -1,0 +1,30 @@
+/* ENTRY 30762d30 | bTPropertyType<eCEffector,eCEntityProxy>::~bTPropertyType<eCEffector,eCEntityProxy> | STATUS decompiled | 16 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<eCEffector,eCEntityProxy>::~bTPropertyType<eCEffector,eCEntityProxy>
+          (bTPropertyType<eCEffector,eCEntityProxy> *this)
+
+{
+  bTPropertyType<eCEffector,eCEntityProxy> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"Entity2");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&eCEffector::ms_PropertyMember_m_Entity2,(bCString *)&local_4,1);
+  _ms_PropertyMember_m_Entity2 = &vftable;
+  DAT_30aedd8c = bTPropertyObjectType<eCEffector,bCObjectRefBase>::
+                 ~bTPropertyObjectType<eCEffector,bCObjectRefBase>();
+  _DAT_30aedd90 = 0x28;
+  _DAT_30aedd94 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&eCEffector::ms_PropertyMember_m_Entity2);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_30aedd8c,
+             (bCPropertyTypeBase *)&eCEffector::ms_PropertyMember_m_Entity2);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<eCEntityProxy>::~bTPropertyTypeOnly<eCEntityProxy>);
+  return;
+}
+
+

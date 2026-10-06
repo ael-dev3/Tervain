@@ -1,0 +1,11 @@
+/* ENTRY 305dd480 | FUN_305dd480 | STATUS decompiled | 6 ms */
+
+bCString * __thiscall FUN_305dd480(eCArchiveFile *param_1,bCString *param_2)
+
+{
+  bCString::bCString(param_2);
+  eCArchiveFile::GetFileName(param_1,param_2);
+  return param_2;
+}
+
+

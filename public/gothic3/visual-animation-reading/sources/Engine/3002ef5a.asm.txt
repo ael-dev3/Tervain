@@ -1,0 +1,2 @@
+; 3002ef5a eCEffector::Invalidate
+3002ef5a | e901613500 | JMP 0x30385060

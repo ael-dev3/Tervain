@@ -1,0 +1,14 @@
+/* ENTRY 2002b3c3 | gCNPC_PS::OnProcess | STATUS decompiled | 26 ms */
+
+/* public: virtual void __thiscall gCNPC_PS::OnProcess(void) */
+
+void __thiscall gCNPC_PS::OnProcess(gCNPC_PS *this)
+
+{
+                    /* 0x2b3c3  5565  ?OnProcess@gCNPC_PS@@UAEXXZ */
+  eCEntityPropertySet::OnProcess((eCEntityPropertySet *)this);
+  TrackCurrentPose(this);
+  return;
+}
+
+

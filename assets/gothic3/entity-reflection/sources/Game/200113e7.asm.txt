@@ -1,0 +1,4 @@
+; 200113e7 ??0gCCharacterControl_PS@@QAE@ABV0@@Z
+200113e7 | e9447e2000 | JMP 0x20219230
+; 200113ec gCInteraction_PS::gCInteraction_PS
+; 200113ec Ordinal_191

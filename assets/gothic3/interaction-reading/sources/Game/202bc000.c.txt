@@ -1,0 +1,10 @@
+/* ENTRY 202bc000 | FUN_202bc000 | STATUS decompiled | 1 ms */
+
+void __thiscall FUN_202bc000(int param_1,gCInteraction_PS *param_2)
+
+{
+  gCNavigationMap::DeregisterInteractionPS((gCNavigationMap *)(param_1 + 0x54),param_2);
+  return;
+}
+
+

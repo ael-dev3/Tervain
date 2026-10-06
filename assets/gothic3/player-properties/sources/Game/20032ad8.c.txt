@@ -1,0 +1,12 @@
+/* ENTRY 20032ad8 | gCAttribute::GetBaseValue | STATUS decompiled | 3 ms */
+
+/* public: int const & __thiscall gCAttribute::GetBaseValue(void)const  */
+
+int * __thiscall gCAttribute::GetBaseValue(gCAttribute *this)
+
+{
+                    /* 0x32ad8  2961  ?GetBaseValue@gCAttribute@@QBEABHXZ */
+  return &(this->gCAttribute_data).offset_0x10;
+}
+
+

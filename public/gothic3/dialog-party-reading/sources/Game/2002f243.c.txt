@@ -1,0 +1,35 @@
+/* ENTRY 2002f243 | gCParty_PS::~gCParty_PS | STATUS decompiled | 21 ms */
+
+/* public: virtual __thiscall gCParty_PS::~gCParty_PS(void) */
+
+void __thiscall gCParty_PS::~gCParty_PS(gCParty_PS *this)
+
+{
+  undefined ***this_00;
+  int iVar1;
+  bCMemoryAdmin *this_01;
+  void *pvVar2;
+  
+                    /* 0x2f243  514  ??1gCParty_PS@@UAE@XZ */
+  this->vftablePtr = &vftable;
+  iVar1 = (this->gCParty_PS_data).offset_0x38;
+  if (iVar1 != 0) {
+    thunk_FUN_20078cc0(iVar1,(this->gCParty_PS_data).offset_0x40);
+    pvVar2 = (void *)(this->gCParty_PS_data).offset_0x38;
+    this_01 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(this_01,pvVar2);
+    (this->gCParty_PS_data).offset_0x38 = 0;
+    (this->gCParty_PS_data).offset_0x3c = 0;
+    (this->gCParty_PS_data).offset_0x40 = 0;
+  }
+  this_00 = &(this->gCParty_PS_data).offset_0x2c;
+  *this_00 = &bTPropertyContainer<gEPartyMemberType>::vftable.GetVersion;
+  bCObjectBase::~bCObjectBase((bCObjectBase *)this_00);
+  eCEntityProxy::~eCEntityProxy((eCEntityProxy *)&(this->gCParty_PS_data).field_0x10);
+                    /* WARNING: Could not recover jumptable at 0x20317ccc. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eCEntityPropertySet::~eCEntityPropertySet((eCEntityPropertySet *)this);
+  return;
+}
+
+

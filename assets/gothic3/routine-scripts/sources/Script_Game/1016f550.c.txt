@@ -1,0 +1,17 @@
+/* ENTRY 1016f550 | FUN_1016f550 | STATUS decompiled | 65 ms */
+
+void FUN_1016f550(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Engine\\Engine_Callback\\OnEnterProcessingRange.cpp");
+  bCString::bCString(local_8,"Respawn");
+  thunk_FUN_10017a50(local_8,thunk_FUN_100cef90,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

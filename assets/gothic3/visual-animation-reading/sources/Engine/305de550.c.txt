@@ -1,0 +1,31 @@
+/* ENTRY 305de550 | FUN_305de550 | STATUS decompiled | 18 ms */
+
+undefined4 FUN_305de550(bCString *param_1,eCArchiveFile *param_2)
+
+{
+  eCArchiveFile *peVar1;
+  bool bVar2;
+  eCVirtualFileSystem *this;
+  bCString *pbVar3;
+  bCString *pbVar4;
+  
+  pbVar3 = param_1;
+  bVar2 = bCString::IsEmpty(param_1);
+  if (!bVar2) {
+    bCString::bCString((bCString *)&param_1);
+    pbVar4 = (bCString *)&param_1;
+    this = (eCVirtualFileSystem *)eCVirtualFileSystem::GetInstance();
+    bVar2 = eCVirtualFileSystem::GetFilePath(this,pbVar3,pbVar4);
+    peVar1 = param_2;
+    if (bVar2) {
+      eCArchiveFile::Clear(param_2);
+      bCString::operator=((bCString *)&peVar1->eCArchiveFile_data,(bCString *)&param_1);
+      bCString::~bCString((bCString *)&param_1);
+      return 1;
+    }
+    bCString::~bCString((bCString *)&param_1);
+  }
+  return 0;
+}
+
+

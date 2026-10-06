@@ -1,0 +1,15 @@
+/* ENTRY 10021020 | FUN_10021020 | STATUS decompiled | 2 ms */
+
+void __fastcall FUN_10021020(int param_1)
+
+{
+  if (*(code **)(param_1 + 0x18) != (code *)0x0) {
+                    /* WARNING: Could not recover jumptable at 0x10021027. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+    (**(code **)(param_1 + 0x18))();
+    return;
+  }
+  return;
+}
+
+

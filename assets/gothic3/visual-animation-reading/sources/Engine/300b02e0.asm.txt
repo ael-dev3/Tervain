@@ -1,0 +1,15 @@
+; 300b02e0 FUN_300b02e0
+300b02e0 | 56 | PUSH ESI
+300b02e1 | 8bf1 | MOV ESI,ECX
+300b02e3 | 8b4604 | MOV EAX,dword ptr [ESI + 0x4]
+300b02e6 | 85c0 | TEST EAX,EAX
+300b02e8 | 740f | JZ 0x300b02f9
+300b02ea | 50 | PUSH EAX
+300b02eb | ff15acdbaf30 | CALL dword ptr [0x30afdbac]
+300b02f1 | 8bc8 | MOV ECX,EAX
+300b02f3 | ff150cdbaf30 | CALL dword ptr [0x30afdb0c]
+300b02f9 | c7460400000000 | MOV dword ptr [ESI + 0x4],0x0
+300b0300 | 66c7060000 | MOV word ptr [ESI],0x0
+300b0305 | 66c746020000 | MOV word ptr [ESI + 0x2],0x0
+300b030b | 5e | POP ESI
+300b030c | c3 | RET

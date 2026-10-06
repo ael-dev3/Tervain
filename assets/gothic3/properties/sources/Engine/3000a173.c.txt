@@ -1,0 +1,20 @@
+/* ENTRY 3000a173 | eCEntity::GetPropertySet | STATUS decompiled | 8 ms */
+
+/* public: class eCEntityPropertySet const * __thiscall eCEntity::GetPropertySet(enum
+   eEPropertySetType)const  */
+
+eCEntityPropertySet * __thiscall eCEntity::GetPropertySet(eCEntity *this,eEPropertySetType param_1)
+
+{
+  eCEntityPropertySet *peVar1;
+  
+                    /* 0xa173  8193
+                       ?GetPropertySet@eCEntity@@QBEPBVeCEntityPropertySet@@W4eEPropertySetType@@@Z
+                        */
+                    /* WARNING: Could not recover jumptable at 0x304b35c8. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  peVar1 = (*this->vftablePtr->GetPropertySet)(this,param_1);
+  return peVar1;
+}
+
+

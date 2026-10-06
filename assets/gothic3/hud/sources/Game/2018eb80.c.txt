@@ -1,0 +1,15 @@
+/* ENTRY 2018eb80 | gCHUDProgressBarNPC::~gCHUDProgressBarNPC | STATUS decompiled | 8 ms */
+
+void __thiscall gCHUDProgressBarNPC::~gCHUDProgressBarNPC(gCHUDProgressBarNPC *this)
+
+{
+  this->vftablePtr = &vftable;
+  bCString::~bCString((bCString *)&(this->gCHUDProgressBarNPC_data).field_0x28);
+  eCEntityProxy::~eCEntityProxy((eCEntityProxy *)&(this->gCHUDProgressBarNPC_data).field_0xc);
+                    /* WARNING: Could not recover jumptable at 0x2018eb9e. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  CFFGFCProgressBar::~CFFGFCProgressBar((CFFGFCProgressBar *)this);
+  return;
+}
+
+

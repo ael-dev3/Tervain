@@ -1,0 +1,4 @@
+; 3003da23 ?IsPhysicRelevant@eCEntityPropertySet@@UBE_NXZ
+3003da23 | e9083b4400 | JMP 0x30481530
+; 3003da28 eCVisualAnimation_PS::GetBoneShapeMaterial
+; 3003da28 Ordinal_6293

@@ -1,0 +1,17 @@
+/* ENTRY 1013eba0 | FUN_1013eba0 | STATUS decompiled | 7 ms */
+
+void FUN_1013eba0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Commands\\AI_WhirlAttack.cpp");
+  bCString::bCString(local_8,"_AI_WhirlAttack");
+  thunk_FUN_1004aa50(local_8,&LAB_100028dd,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

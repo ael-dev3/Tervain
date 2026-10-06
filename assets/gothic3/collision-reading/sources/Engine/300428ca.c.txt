@@ -1,0 +1,9 @@
+/* ENTRY 300428ca | bTPropertyType<eCCollisionShape,unsigned_short>::vfunction2 | STATUS decompiled | 1 ms */
+
+undefined4 __thiscall bTPropertyType<eCCollisionShape,unsigned_short>::vfunction2(void)
+
+{
+  return 2;
+}
+
+

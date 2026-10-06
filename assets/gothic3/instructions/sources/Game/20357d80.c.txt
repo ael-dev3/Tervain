@@ -1,0 +1,23 @@
+/* ENTRY 20357d80 | FUN_20357d80 | STATUS decompiled | 11 ms */
+
+void __fastcall FUN_20357d80(eCEntityPropertySet *param_1)
+
+{
+  ulong uVar1;
+  eCEntity *peVar2;
+  ulong uVar3;
+  gCScriptAdmin *this;
+  
+  uVar1 = bCTimer::GetTimeStamp();
+  eCEntityPropertySet::OnProcess(param_1);
+  peVar2 = (eCEntity *)(**(code **)((int)(param_1->bCObjectRefBase).bCObjectBase + 0x68))();
+  gCScriptProcessingUnit::SetSelfEntity((gCScriptProcessingUnit *)(param_1 + 0x19),peVar2);
+  gCScriptProcessingUnit::ProcessScript((gCScriptProcessingUnit *)(param_1 + 0x19));
+  uVar3 = bCTimer::GetTimeStamp();
+  uVar3 = uVar3 - uVar1;
+  this = (gCScriptAdmin *)thunk_FUN_200a4bb0();
+  gCScriptAdmin::AddProfileTicks(this,uVar3);
+  return;
+}
+
+

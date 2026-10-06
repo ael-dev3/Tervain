@@ -1,0 +1,2 @@
+; 10004d59 bCObjectRefBase::Destroy
+10004d59 | e932570400 | JMP 0x1004a490

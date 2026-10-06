@@ -1,0 +1,214 @@
+/* ENTRY 30004480 | EMotionFX::eCNovodexPhysicsController::vfunction2 | STATUS decompiled | 142 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall EMotionFX::eCNovodexPhysicsController::vfunction2(eCNovodexPhysicsController *this)
+
+{
+  undefined1 *puVar1;
+  eCVisualAnimation_PS *this_00;
+  bool bVar2;
+  eCPhysicsScene *peVar3;
+  bCMatrix *pbVar4;
+  bCCriticalSectionWin32 *this_01;
+  bCVector *pbVar5;
+  int iVar6;
+  uint *puVar7;
+  bCVector *pbVar8;
+  float *pfVar9;
+  NxVec3 *pNVar10;
+  eCWrapper_emfx2Actor *this_02;
+  eCApplication *this_03;
+  int iVar11;
+  int iVar12;
+  int *piVar13;
+  float10 fVar14;
+  float10 fVar15;
+  float fVar16;
+  float unaff_retaddr;
+  eEMotionType eVar17;
+  float fStack_9c;
+  float fStack_98;
+  float fStack_94;
+  float fStack_90;
+  float fStack_8c;
+  float fStack_88;
+  float fStack_84;
+  float fStack_80;
+  float fStack_7c;
+  undefined4 uStack_78;
+  undefined4 uStack_74;
+  undefined4 uStack_70;
+  bCVector abStack_6c [12];
+  bCVector abStack_60 [12];
+  bCMatrix abStack_54 [4];
+  bCMatrix abStack_50 [60];
+  float afStack_14 [5];
+  
+  if ((((this->eCNovodexPhysicsController_data).offset_0x11c != '\x01') ||
+      ((this->eCNovodexPhysicsController_data).offset_0x100 != '\0')) &&
+     ((this->eCNovodexPhysicsController_data).offset_0x0 != (void *)0x0)) {
+    peVar3 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+    fVar16 = eCPhysicsScene::GetStateAlpha(peVar3);
+    (this->eCNovodexPhysicsController_data).offset_0x18 = fVar16;
+    eCPhysicObject::Process((this->eCNovodexPhysicsController_data).offset_0x0);
+    puVar1 = &(this->eCNovodexPhysicsController_data).field_0x24;
+    pbVar4 = eCEntity::GetWorldMatrix
+                       ((eCEntity *)(this->eCNovodexPhysicsController_data).offset_0x4);
+    bCMatrix::operator=((bCMatrix *)puVar1,pbVar4);
+    pbVar4 = (bCMatrix *)bCMatrix::GetInverted((bCMatrix *)puVar1);
+    bCMatrix::operator=((bCMatrix *)&(this->eCNovodexPhysicsController_data).field_0x74,pbVar4);
+    bCMatrix::~bCMatrix(abStack_50);
+    if ((this->eCNovodexPhysicsController_data).offset_0x115 == '\x01') {
+      peVar3 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+      this_01 = eCPhysicsScene::GetCriticalSection(peVar3);
+      bCCriticalSectionWin32::Acquire(this_01);
+      bCCriticalSectionWin32::Release(this_01);
+      fStack_9c = 0.0;
+      if (0 < (this->eCNovodexPhysicsController_data).offset_0xe0) {
+        iVar12 = 0;
+        do {
+          iVar11 = *(int *)((int)(this->eCNovodexPhysicsController_data).offset_0xdc + iVar12 + 4) +
+                   0x44;
+          bCMatrix::operator*((bCMatrix *)&(this->eCNovodexPhysicsController_data).field_0x24,
+                              abStack_50);
+          fVar16 = _DAT_30aa68a0;
+          pbVar5 = bCMatrix::AccessTranslation(abStack_54);
+          bCVector::operator*=(pbVar5,fVar16);
+          if (((this->eCNovodexPhysicsController_data).offset_0xb8 == '\x01') &&
+             (iVar6 = thunk_FUN_300ac2f0(0x500002), iVar6 != 0)) {
+            iVar11 = (**(code **)**(undefined4 **)(iVar6 + 8))(iVar11);
+            if (iVar11 == -0x666fffff) {
+              pbVar5 = bCMatrix::GetXAxis(abStack_54);
+              bCVector::bCVector(abStack_6c,pbVar5);
+              puVar7 = (uint *)(**(code **)(**(int **)((int)(this->eCNovodexPhysicsController_data).
+                                                            offset_0xdc + iVar12 + 8) + 0x50))();
+              piVar13 = (int *)*puVar7;
+              iVar11 = (**(code **)(*piVar13 + 0x5c))();
+              (**(code **)(*(int *)(~-(uint)(iVar11 != 2) & (uint)piVar13) + 0x8c))(afStack_14);
+              bCVector::operator*=(abStack_6c,afStack_14[0]);
+              pbVar5 = abStack_6c;
+              pbVar8 = bCMatrix::AccessTranslation(abStack_54);
+              bCVector::operator+=(pbVar8,pbVar5);
+              pbVar5 = abStack_6c;
+            }
+            else {
+              if (iVar11 != -0x666ffffd) goto LAB_300c47a0;
+              pbVar5 = bCMatrix::GetXAxis(abStack_54);
+              bCVector::bCVector(abStack_60,pbVar5);
+              puVar7 = (uint *)(**(code **)(**(int **)((int)(this->eCNovodexPhysicsController_data).
+                                                            offset_0xdc + iVar12 + 8) + 0x50))();
+              piVar13 = (int *)*puVar7;
+              iVar11 = (**(code **)(*piVar13 + 0x5c))();
+              piVar13 = (int *)(~-(uint)(iVar11 != 3) & (uint)piVar13);
+              fVar14 = (float10)(**(code **)(*piVar13 + 0x90))();
+              fVar15 = (float10)(**(code **)(*piVar13 + 0x98))();
+              bCVector::operator*=
+                        (abStack_60,
+                         (float)((float10)(float)fVar14 + (float10)(float)fVar14 + fVar15) * 0.5);
+              pbVar5 = abStack_60;
+              pbVar8 = bCMatrix::AccessTranslation(abStack_54);
+              bCVector::operator+=(pbVar8,pbVar5);
+              pbVar5 = abStack_60;
+            }
+            bCVector::~bCVector(pbVar5);
+          }
+LAB_300c47a0:
+          uStack_70 = 0;
+          uStack_74 = 0;
+          uStack_78 = 0;
+          fStack_9c = 1.0;
+          fStack_98 = 0.0;
+          fStack_94 = 0.0;
+          fStack_90 = 0.0;
+          fStack_8c = 1.0;
+          fStack_88 = 0.0;
+          fStack_84 = 0.0;
+          fStack_80 = 0.0;
+          fStack_7c = 1.0;
+          pfVar9 = bCMatrix::AccessElement(abStack_54,0);
+          fStack_9c = *pfVar9;
+          fStack_98 = pfVar9[4];
+          fStack_94 = pfVar9[8];
+          fStack_90 = pfVar9[1];
+          fStack_8c = pfVar9[5];
+          fStack_88 = pfVar9[9];
+          fStack_84 = pfVar9[2];
+          fStack_80 = pfVar9[6];
+          fStack_7c = pfVar9[10];
+          pbVar5 = bCMatrix::GetTranslation(abStack_54);
+          pNVar10 = bCVector::operator_class_NxVec3_const_(pbVar5);
+          uStack_78 = *(undefined4 *)pNVar10;
+          uStack_74 = *(undefined4 *)(pNVar10 + 4);
+          uStack_70 = *(undefined4 *)(pNVar10 + 8);
+          (**(code **)(**(int **)((int)(this->eCNovodexPhysicsController_data).offset_0xdc +
+                                 iVar12 + 8) + 0x34))(&fStack_9c);
+          if (((*(int *)((int)(this->eCNovodexPhysicsController_data).offset_0xdc + iVar12 + 0xc) !=
+                0) && (this_00 = (eCVisualAnimation_PS *)
+                                 (this->eCNovodexPhysicsController_data).offset_0x120,
+                      this_00 != (eCVisualAnimation_PS *)0x0)) &&
+             (bVar2 = eCVisualAnimation_PS::HasActor(this_00), bVar2)) {
+            eVar17 = 0;
+            this_02 = (eCWrapper_emfx2Actor *)
+                      eCVisualAnimation_PS::GetActor
+                                ((eCVisualAnimation_PS *)
+                                 (this->eCNovodexPhysicsController_data).offset_0x120);
+            fVar16 = eCWrapper_emfx2Actor::GetPlaySpeed(this_02,eVar17);
+            if ((fVar16 != 0.0) || (unaff_retaddr == 0.0)) {
+              fVar16 = 100.0;
+              pbVar5 = bCMatrix::AccessTranslation(abStack_50);
+              bCVector::operator*=(pbVar5,fVar16);
+              eCEntity::SetToWorldMatrix
+                        (*(eCEntity **)
+                          ((int)(this->eCNovodexPhysicsController_data).offset_0xdc + iVar12 + 0xc),
+                         abStack_50);
+            }
+          }
+          bCMatrix::~bCMatrix(abStack_50);
+          fStack_9c = (float)((int)fStack_9c + 1);
+          iVar12 = iVar12 + 0x14;
+        } while ((int)fStack_9c < (this->eCNovodexPhysicsController_data).offset_0xe0);
+      }
+      if ((this->eCNovodexPhysicsController_data).offset_0x100 == '\0') {
+        return;
+      }
+    }
+    if ((this->eCNovodexPhysicsController_data).offset_0x14 != 0) {
+      if ((this->eCNovodexPhysicsController_data).offset_0x100 == '\x01') {
+        if ((float)(this->eCNovodexPhysicsController_data).offset_0x104 <= 0.0) {
+          fStack_9c = (float)(this->eCNovodexPhysicsController_data).offset_0x118;
+          if (fStack_9c != -1.0) {
+            *(float *)&(this->eCNovodexPhysicsController_data).field_0x110 = fStack_9c;
+          }
+        }
+        else {
+          this_03 = (eCApplication *)eCApplication::GetInstance();
+          fVar16 = eCApplication::GetScaledFrameTimeInSeconds(this_03);
+          *(float *)&(this->eCNovodexPhysicsController_data).field_0x10c = fVar16;
+          fVar16 = fVar16 + (float)(this->eCNovodexPhysicsController_data).offset_0x108;
+          (this->eCNovodexPhysicsController_data).offset_0x108 = fVar16;
+          fStack_9c = (float)(this->eCNovodexPhysicsController_data).offset_0x104;
+          if (fStack_9c <= fVar16) {
+            (this->eCNovodexPhysicsController_data).offset_0x108 = fStack_9c;
+          }
+          puVar1 = &(this->eCNovodexPhysicsController_data).field_0x110;
+          fVar14 = (float10)thunk_FUN_3009bc90((float)(this->eCNovodexPhysicsController_data).
+                                                      offset_0x108 / fStack_9c);
+          *(float *)puVar1 = (float)fVar14;
+          thunk_FUN_300c04f0(puVar1);
+        }
+      }
+      iVar12 = (this->eCNovodexPhysicsController_data).offset_0x1c;
+      if (iVar12 == 0) {
+        iVar12 = (this->Controller_data).offset_0x0;
+      }
+      thunk_FUN_300c3e00(iVar12);
+      if (*(float *)&(this->eCNovodexPhysicsController_data).field_0x110 == 1.0) {
+        (this->eCNovodexPhysicsController_data).offset_0x100 = 0;
+      }
+    }
+  }
+  return;
+}
+
+

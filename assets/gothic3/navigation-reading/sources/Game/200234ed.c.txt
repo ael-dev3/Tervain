@@ -1,0 +1,18 @@
+/* ENTRY 200234ed | gCNavigation_PS::OnTouch | STATUS decompiled | 8 ms */
+
+/* protected: virtual void __thiscall gCNavigation_PS::OnTouch(class eCEntity *,class
+   eCContactIterator &) */
+
+void __thiscall
+gCNavigation_PS::OnTouch(gCNavigation_PS *this,eCEntity *param_1,eCContactIterator *param_2)
+
+{
+                    /* 0x234ed  5650
+                       ?OnTouch@gCNavigation_PS@@MAEXPAVeCEntity@@AAVeCContactIterator@@@Z */
+                    /* WARNING: Could not recover jumptable at 0x202864c0. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eCEntityPropertySet::OnTouch((eCEntityPropertySet *)this,param_1,param_2);
+  return;
+}
+
+

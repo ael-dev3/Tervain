@@ -1,0 +1,20 @@
+/* ENTRY 200242da | gCDamage_PS::gCDamage_PS | STATUS decompiled | 12 ms */
+
+/* public: __thiscall gCDamage_PS::gCDamage_PS(class gCDamage_PS const &) */
+
+gCDamage_PS * __thiscall gCDamage_PS::gCDamage_PS(gCDamage_PS *this,gCDamage_PS *param_1)
+
+{
+  undefined ***this_00;
+  
+                    /* 0x242da  60  ??0gCDamage_PS@@QAE@ABV0@@Z */
+  eCEntityPropertySet::eCEntityPropertySet((eCEntityPropertySet *)this);
+  this_00 = &(this->gCDamage_PS_data).offset_0x10;
+  this->vftablePtr = &vftable;
+  bCObjectBase::bCObjectBase((bCObjectBase *)this_00);
+  *this_00 = &bTPropertyContainer<gEDamageType>::vftable.GetVersion;
+  (this->gCDamage_PS_data).offset_0x14 = DAT_207b62a4;
+  return this;
+}
+
+

@@ -1,0 +1,4 @@
+; 100059c0 ??EbCAccessorProperty@@QAE?AV0@H@Z
+100059c0 | e9bbe60800 | JMP 0x10094080
+; 100059c5 bCFlexibleVertexFormat::HasXYZ
+; 100059c5 Ordinal_3310

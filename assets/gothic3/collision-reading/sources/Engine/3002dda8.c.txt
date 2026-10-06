@@ -1,0 +1,18 @@
+/* ENTRY 3002dda8 | eCCollisionShape::SetTriggersOnTouch | STATUS decompiled | 7 ms */
+
+/* public: void __thiscall eCCollisionShape::SetTriggersOnTouch(bool const &) */
+
+void __thiscall eCCollisionShape::SetTriggersOnTouch(eCCollisionShape *this,bool *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x2dda8  14458  ?SetTriggersOnTouch@eCCollisionShape@@QAEXAB_N@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"TriggersOnTouch",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  (this->eCCollisionShape_data).offset_0x2d = (bCObjectRefBase)*param_1;
+  (*pNVar1)(this,"TriggersOnTouch",false);
+  return;
+}
+
+

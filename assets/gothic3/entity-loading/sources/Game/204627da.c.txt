@@ -1,0 +1,14 @@
+/* ENTRY 204627da | ENGINE.DLL::eCEntity::ReadV83 | STATUS decompiled | 2 ms */
+
+bEResult __thiscall eCEntity::ReadV83(eCEntity *this,bCIStream *param_1,ushort param_2)
+
+{
+  bEResult bVar1;
+  
+                    /* WARNING: Could not recover jumptable at 0x204627da. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bVar1 = ReadV83(this,param_1,param_2);
+  return bVar1;
+}
+
+

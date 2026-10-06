@@ -1,0 +1,5 @@
+; 30334fb0 bTPropertyType<eCRigidBodyBase_PS,bool>::vfunction7
+30334fb0 | 33c0 | XOR EAX,EAX
+30334fb2 | 394120 | CMP dword ptr [ECX + 0x20],EAX
+30334fb5 | 0f95c0 | SETNZ AL
+30334fb8 | c3 | RET

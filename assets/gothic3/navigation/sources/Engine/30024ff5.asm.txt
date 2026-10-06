@@ -1,0 +1,4 @@
+; 30024ff5 ?IntersectsProcessingRangeRegion@eCEntityAdmin@@QAE_NABVbCBox@@@Z
+30024ff5 | e9164b4a00 | JMP 0x304c9b10
+; 30024ffa eCMouse::Create
+; 30024ffa Ordinal_4583

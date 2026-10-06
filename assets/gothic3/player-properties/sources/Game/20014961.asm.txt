@@ -1,0 +1,2 @@
+; 20014961 ?Destroy@gCAttribute@@UAEXXZ
+20014961 | e9da303800 | JMP 0x20397a40

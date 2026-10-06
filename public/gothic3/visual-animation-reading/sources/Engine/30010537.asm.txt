@@ -1,0 +1,2 @@
+; 30010537 eCVisualAnimation_PS::IsProcessable
+30010537 | e9e4d50800 | JMP 0x3009db20

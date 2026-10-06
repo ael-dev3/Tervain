@@ -1,0 +1,4 @@
+; 2001bb03 bTPropertyObjectType<gCNavigation_PS,eCEntityPropertySet>::vfunction1
+2001bb03 | e9f80f2700 | JMP 0x2028cb00
+; 2001bb12 gCSessionEditor::Destroy
+; 2001bb12 Ordinal_2652

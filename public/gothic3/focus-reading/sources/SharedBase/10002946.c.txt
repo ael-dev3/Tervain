@@ -1,0 +1,13 @@
+/* ENTRY 10002946 | bCObjectBase::~bCObjectBase | STATUS decompiled | 3 ms */
+
+/* public: virtual __thiscall bCObjectBase::~bCObjectBase(void) */
+
+void __thiscall bCObjectBase::~bCObjectBase(bCObjectBase *this)
+
+{
+                    /* 0x2946  401  ??1bCObjectBase@@UAE@XZ */
+  this->vftablePtr = &vftable;
+  return;
+}
+
+

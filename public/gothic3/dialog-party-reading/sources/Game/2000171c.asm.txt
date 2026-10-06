@@ -1,0 +1,2 @@
+; 2000171c bTPropertyType<gCParty_PS,bCObsoleteClass>::vfunction16
+2000171c | e90f703100 | JMP 0x20318730

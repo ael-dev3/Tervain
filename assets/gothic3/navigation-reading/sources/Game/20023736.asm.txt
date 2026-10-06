@@ -1,0 +1,4 @@
+; 20023736 bTPropertyType<gCNavigation_PS,bCString>::vfunction13
+20023736 | e9b5b42600 | JMP 0x2028ebf0
+; 20023740 gCInfoManager_PS::AccessCurrentInfoIndex
+; 20023740 Ordinal_1123

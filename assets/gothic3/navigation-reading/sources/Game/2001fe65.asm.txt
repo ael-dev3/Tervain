@@ -1,0 +1,2 @@
+; 2001fe65 bTPropertyType<gCCollisionCircle_PS,bTValArray<bCPropertyID>_>::vfunction4
+2001fe65 | e9361a0400 | JMP 0x200618a0

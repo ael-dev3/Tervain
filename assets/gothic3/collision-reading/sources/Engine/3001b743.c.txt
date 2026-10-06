@@ -1,0 +1,18 @@
+/* ENTRY 3001b743 | eCCollisionShape::SetTriggersOnUntouch | STATUS decompiled | 6 ms */
+
+/* public: void __thiscall eCCollisionShape::SetTriggersOnUntouch(bool const &) */
+
+void __thiscall eCCollisionShape::SetTriggersOnUntouch(eCCollisionShape *this,bool *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x1b743  14459  ?SetTriggersOnUntouch@eCCollisionShape@@QAEXAB_N@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"TriggersOnUntouch",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  (this->eCCollisionShape_data).offset_0x2e = (bCObjectRefBase)*param_1;
+  (*pNVar1)(this,"TriggersOnUntouch",false);
+  return;
+}
+
+

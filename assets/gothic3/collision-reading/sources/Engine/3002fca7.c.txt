@@ -1,0 +1,39 @@
+/* ENTRY 3002fca7 | eCCollisionShape_PS::RemoveShapesInternal | STATUS decompiled | 137 ms */
+
+/* protected: virtual void __thiscall eCCollisionShape_PS::RemoveShapesInternal(class NxShape *) */
+
+void __thiscall
+eCCollisionShape_PS::RemoveShapesInternal(eCCollisionShape_PS *this,NxShape *param_1)
+
+{
+  char cVar1;
+  eCEntity *peVar2;
+  eCPhysicObject *this_00;
+  NxActor *pNVar3;
+  int iVar4;
+  bool bVar5;
+  bool bVar6;
+  
+                    /* 0x2fca7  12557  ?RemoveShapesInternal@eCCollisionShape_PS@@MAEXPAVNxShape@@@Z
+                        */
+  peVar2 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+  this_00 = (eCPhysicObject *)eCEntity::GetPhysicObject(peVar2);
+  pNVar3 = eCPhysicObject::GetActor(this_00);
+  iVar4 = (**(code **)(*(int *)pNVar3 + 0x4c))();
+  if (iVar4 != 0) {
+    if (iVar4 == 1) {
+      cVar1 = (**(code **)(*(int *)pNVar3 + 0x68))();
+      if (cVar1 == '\0') {
+        bVar6 = false;
+        bVar5 = false;
+        peVar2 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+        eCEntity::CacheOut(peVar2,bVar5,bVar6);
+        return;
+      }
+    }
+    (**(code **)(*(int *)pNVar3 + 0x48))(param_1);
+  }
+  return;
+}
+
+

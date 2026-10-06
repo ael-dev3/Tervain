@@ -1,0 +1,9 @@
+/* ENTRY 1002ee10 | FUN_1002ee10 | STATUS decompiled | 2 ms */
+
+undefined4 __thiscall FUN_1002ee10(void *this,int *param_1)
+
+{
+  return CONCAT31((int3)((uint)*(int *)this >> 8),*(int *)this == *param_1);
+}
+
+

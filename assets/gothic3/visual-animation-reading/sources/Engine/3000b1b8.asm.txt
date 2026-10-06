@@ -1,0 +1,2 @@
+; 3000b1b8 eCVisualAnimationFactory::IsBodyPartVisible
+3000b1b8 | e9b3160b00 | JMP 0x300bc870

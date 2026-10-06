@@ -1,0 +1,21 @@
+/* ENTRY 20367a80 | FUN_20367a80 | STATUS decompiled | 3 ms */
+
+int FUN_20367a80(ulong param_1)
+
+{
+  int iVar1;
+  
+  gCScriptProcessingUnit::s_u32CurrentTimeStamp = param_1;
+  iVar1 = gCScriptProcessingUnit::s_u32CurrentTaskCallbacks * -0x33333333;
+  gCScriptProcessingUnit::s_u32MaxTaskCallbacks =
+       gCScriptProcessingUnit::s_u32CurrentTaskCallbacks / 0x14 + 1;
+  gCScriptProcessingUnit::s_u32CalledTaskCallbacks = 0;
+  gCScriptProcessingUnit::s_u32CalledStateCallbacks = 0;
+  gCScriptProcessingUnit::s_u32MaxStateCallbacks =
+       gCScriptProcessingUnit::s_u32CurrentStateCallbacks;
+  gCScriptProcessingUnit::s_u32CurrentTaskCallbacks = 0;
+  gCScriptProcessingUnit::s_u32CurrentStateCallbacks = 0;
+  return iVar1;
+}
+
+

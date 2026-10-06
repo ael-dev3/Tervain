@@ -1,0 +1,4 @@
+; 10004b6f ??4bCAccessorPropertyObject@@QAEABV0@ABV0@@Z
+10004b6f | e96c610900 | JMP 0x1009ace0
+; 10004b74 bCPropertyObjectBase::AddReference
+; 10004b74 Ordinal_1560

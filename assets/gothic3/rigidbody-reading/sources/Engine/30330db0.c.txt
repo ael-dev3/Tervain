@@ -1,0 +1,10 @@
+/* ENTRY 30330db0 | bTPropertyType<eCRigidBody_PS,float>::vfunction7 | STATUS decompiled | 4 ms */
+
+bool __thiscall
+bTPropertyType<eCRigidBody_PS,float>::vfunction7(bTPropertyType<eCRigidBody_PS,float> *this)
+
+{
+  return this[8].vftablePtr != (bTPropertyType<eCRigidBody_PS,float>_vftable *)0x0;
+}
+
+

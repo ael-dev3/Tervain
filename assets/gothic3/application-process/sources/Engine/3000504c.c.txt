@@ -1,0 +1,88 @@
+/* ENTRY 3000504c | eCApplication::Process | STATUS decompiled | 57 ms */
+
+/* public: void __thiscall eCApplication::Process(void) */
+
+void __thiscall eCApplication::Process(eCApplication *this)
+
+{
+  undefined4 *puVar1;
+  bool bVar2;
+  bCErrorAdmin *pbVar3;
+  int iVar4;
+  eCSceneAdmin *peVar5;
+  eCEntityAdmin *peVar6;
+  eCPhysicsScene *peVar7;
+  void *pvStack_14;
+  undefined1 *puStack_10;
+  undefined *puStack_c;
+  undefined4 uStack_8;
+  
+                    /* 0x504c  11926  ?Process@eCApplication@@QAEXXZ */
+  uStack_8 = 0xffffffff;
+  puStack_c = &DAT_3094cd08;
+  puStack_10 = &LAB_30671bc4;
+  pvStack_14 = ExceptionList;
+  if ((this->eCApplication_data).field_0x12b != '\x01') {
+    puVar1 = &(this->eCApplication_data).offset_0x4e4;
+    ExceptionList = &pvStack_14;
+    *puVar1 = *puVar1 + 1;
+    pbVar3 = bCErrorAdmin::GetInstance();
+    bVar2 = bCErrorAdmin::IsInPanicState(pbVar3);
+    if (!bVar2) {
+      (*this->vftablePtr->OnKeyboard)(this);
+      (*this->vftablePtr->OnMouse)(this);
+      eCModuleAdmin::Process((eCModuleAdmin *)(this->eCApplication_data).offset_0x5c);
+      (*this->vftablePtr->OnProcess)(this);
+      iVar4 = thunk_FUN_3007bf20();
+      if (iVar4 != 0) {
+        peVar5 = (eCSceneAdmin *)thunk_FUN_3007bf20();
+        peVar6 = (eCEntityAdmin *)eCSceneAdmin::GetAccessToEntityAdmin(peVar5);
+        eCEntityAdmin::Process(peVar6);
+      }
+      eCModuleAdmin::PostProcess((eCModuleAdmin *)(this->eCApplication_data).offset_0x5c);
+      peVar7 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+      eCPhysicsScene::Simulate(peVar7);
+      iVar4 = thunk_FUN_3007bf20();
+      if (iVar4 != 0) {
+        peVar5 = (eCSceneAdmin *)thunk_FUN_3007bf20();
+        peVar6 = (eCEntityAdmin *)eCSceneAdmin::GetAccessToEntityAdmin(peVar5);
+        eCEntityAdmin::KillEntities(peVar6);
+      }
+    }
+    ExceptionList = pvStack_14;
+    return;
+  }
+  uStack_8 = 0;
+  puVar1 = &(this->eCApplication_data).offset_0x4e4;
+  ExceptionList = &pvStack_14;
+  *puVar1 = *puVar1 + 1;
+  pbVar3 = bCErrorAdmin::GetInstance();
+  bVar2 = bCErrorAdmin::IsInPanicState(pbVar3);
+  if (!bVar2) {
+    (*this->vftablePtr->OnKeyboard)(this);
+    (*this->vftablePtr->OnMouse)(this);
+    eCModuleAdmin::Process((eCModuleAdmin *)(this->eCApplication_data).offset_0x5c);
+    (*this->vftablePtr->OnProcess)(this);
+    iVar4 = thunk_FUN_3007bf20();
+    if (iVar4 != 0) {
+      peVar5 = (eCSceneAdmin *)thunk_FUN_3007bf20();
+      peVar6 = (eCEntityAdmin *)eCSceneAdmin::GetAccessToEntityAdmin(peVar5);
+      eCEntityAdmin::Process(peVar6);
+    }
+    eCModuleAdmin::PostProcess((eCModuleAdmin *)(this->eCApplication_data).offset_0x5c);
+    peVar7 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+    eCPhysicsScene::Simulate(peVar7);
+    iVar4 = thunk_FUN_3007bf20();
+    if (iVar4 != 0) {
+      peVar5 = (eCSceneAdmin *)thunk_FUN_3007bf20();
+      peVar6 = (eCEntityAdmin *)eCSceneAdmin::GetAccessToEntityAdmin(peVar5);
+      eCEntityAdmin::KillEntities(peVar6);
+    }
+    ExceptionList = pvStack_14;
+    return;
+  }
+  ExceptionList = pvStack_14;
+  return;
+}
+
+

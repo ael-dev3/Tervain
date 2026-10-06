@@ -1,0 +1,17 @@
+/* ENTRY 1017b990 | FUN_1017b990 | STATUS decompiled | 7 ms */
+
+void FUN_1017b990(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Engine\\Engine_States\\IS_Running_ProcessInfo.cpp");
+  bCString::bCString(local_8,"IS_Running_ProcessInfo");
+  thunk_FUN_1001db60(local_8,&LAB_10002d88,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

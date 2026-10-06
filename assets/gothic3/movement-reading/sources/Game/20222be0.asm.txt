@@ -1,0 +1,3 @@
+; 20222be0 FUN_20222be0
+20222be0 | 83c8ff | OR EAX,0xffffffff
+20222be3 | c20400 | RET 0x4

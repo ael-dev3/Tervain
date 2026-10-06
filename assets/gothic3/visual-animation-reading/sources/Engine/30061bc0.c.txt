@@ -1,0 +1,16 @@
+/* ENTRY 30061bc0 | FUN_30061bc0 | STATUS decompiled | 3 ms */
+
+void __fastcall FUN_30061bc0(int *param_1)
+
+{
+  code *pcVar1;
+  undefined1 *unaff_ESI;
+  
+  (**(code **)(*param_1 + 0x58))("SkeletonCollisionEnabled",0);
+  pcVar1 = *(code **)(*param_1 + 0x5c);
+  *(undefined1 *)((int)param_1 + 0x1f) = *unaff_ESI;
+  (*pcVar1)("SkeletonCollisionEnabled",0);
+  return;
+}
+
+

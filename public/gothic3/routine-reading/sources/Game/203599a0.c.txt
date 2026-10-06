@@ -1,0 +1,16 @@
+/* ENTRY 203599a0 | bTPropertyObject<gCScriptRoutine_PS,eCEntityPropertySet>::vfunction4 | STATUS decompiled | 3 ms */
+
+void __thiscall
+bTPropertyObject<gCScriptRoutine_PS,eCEntityPropertySet>::vfunction4
+          (bTPropertyObject<gCScriptRoutine_PS,eCEntityPropertySet> *this)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x203599a3. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCPropertyObjectTypeBase::GetDescription
+            ((bCPropertyObjectTypeBase *)
+             (this->bTPropertyObject<gCScriptRoutine_PS,eCEntityPropertySet>_data).offset_0x0);
+  return;
+}
+
+

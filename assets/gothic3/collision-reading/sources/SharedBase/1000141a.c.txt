@@ -1,0 +1,16 @@
+/* ENTRY 1000141a | bCBox::IntersectsSweep | STATUS decompiled | 3 ms */
+
+/* public: bool __thiscall bCBox::IntersectsSweep(class bCBox const &,class bCBox const &,float
+   &)const  */
+
+bool __thiscall bCBox::IntersectsSweep(bCBox *this,bCBox *param_1,bCBox *param_2,float *param_3)
+
+{
+  bool bVar1;
+  
+                    /* 0x141a  3463  ?IntersectsSweep@bCBox@@QBE_NABV1@0AAM@Z */
+  bVar1 = IntersectsSweep(this,param_1,param_2,param_2,param_3);
+  return bVar1;
+}
+
+

@@ -1,0 +1,2 @@
+; 3003a7d8 eCEffector::~eCEffector
+3003a7d8 | e903a93400 | JMP 0x303850e0

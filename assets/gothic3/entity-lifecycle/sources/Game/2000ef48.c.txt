@@ -1,0 +1,12 @@
+/* ENTRY 2000ef48 | gCEntity::Invalidate | STATUS decompiled | 5 ms */
+
+/* protected: void __thiscall gCEntity::Invalidate(void) */
+
+void __thiscall gCEntity::Invalidate(gCEntity *this)
+
+{
+                    /* 0xef48  4991  ?Invalidate@gCEntity@@IAEXXZ */
+  return;
+}
+
+

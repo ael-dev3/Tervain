@@ -1,0 +1,2 @@
+; 3000ea16 eCPhysicsScene::ReleaseJoint
+3000ea16 | e9b5a93000 | JMP 0x303193d0

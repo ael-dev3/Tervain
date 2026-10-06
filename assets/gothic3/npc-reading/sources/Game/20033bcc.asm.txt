@@ -1,0 +1,2 @@
+; 20033bcc bTPropertyType<gCNPC_PS,bTObjArray<eCTemplateEntityProxy>_>::vfunction26
+20033bcc | e92f7f2d00 | JMP 0x2030bb00

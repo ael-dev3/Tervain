@@ -1,0 +1,11 @@
+; 30361b90 bTPropertyType<eCCollisionShape,unsigned_short>::vfunction6
+30361b90 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+30361b94 | 85c0 | TEST EAX,EAX
+30361b96 | 740d | JZ 0x30361ba5
+30361b98 | 8b11 | MOV EDX,dword ptr [ECX]
+30361b9a | 50 | PUSH EAX
+30361b9b | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+30361b9e | ffd0 | CALL EAX
+30361ba0 | 66c7000000 | MOV word ptr [EAX],0x0
+; 30361ba5 LAB_30361ba5
+30361ba5 | c20400 | RET 0x4

@@ -1,0 +1,10 @@
+/* ENTRY 2035af20 | bTPropertyContainer<gEAction>::vfunction7 | STATUS decompiled | 3 ms */
+
+undefined4 __thiscall bTPropertyContainer<gEAction>::vfunction7(bTPropertyContainer<gEAction> *this)
+
+{
+  (this->bTPropertyContainer<gEAction>_data).offset_0x0 = DAT_207cbf40;
+  return 1;
+}
+
+

@@ -1,0 +1,13 @@
+/* ENTRY 3000f5bf | eCInputDispatcher::Create | STATUS decompiled | 5 ms */
+
+/* public: virtual enum bEResult __thiscall eCInputDispatcher::Create(void) */
+
+bEResult __thiscall eCInputDispatcher::Create(eCInputDispatcher *this)
+
+{
+                    /* 0xf5bf  4549  ?Create@eCInputDispatcher@@UAE?AW4bEResult@@XZ */
+  bCObjectRefBase::Create((bCObjectRefBase *)this);
+  return 1;
+}
+
+

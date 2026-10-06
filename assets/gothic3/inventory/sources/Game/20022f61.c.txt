@@ -1,0 +1,41 @@
+/* ENTRY 20022f61 | gCInventory_PS::gCInventory_PS | STATUS decompiled | 22 ms */
+
+/* public: __thiscall gCInventory_PS::gCInventory_PS(void) */
+
+gCInventory_PS * __thiscall gCInventory_PS::gCInventory_PS(gCInventory_PS *this)
+
+{
+  undefined1 *this_00;
+  undefined1 *this_01;
+  
+                    /* 0x22f61  199  ??0gCInventory_PS@@QAE@XZ */
+  eCEntityPropertySet::eCEntityPropertySet((eCEntityPropertySet *)this);
+  this->vftablePtr = (gCInventory_PS_vftable1 *)&gCInventoryListener::vftable;
+  this->vftablePtr = &vftable_for_eCEntityPropertySet_;
+  this->vftablePtr = &vftable_for_gCInventoryListener_;
+  bCString::bCString((bCString *)&(this->gCInventory_PS_data).field_0x4);
+  bCString::bCString((bCString *)&(this->gCInventory_PS_data).field_0x8);
+  bCString::bCString((bCString *)&(this->gCInventory_PS_data).field_0xc);
+  bCString::bCString((bCString *)&(this->gCInventory_PS_data).field_0x10);
+  bCString::bCString((bCString *)&(this->gCInventory_PS_data).field_0x14);
+  thunk_FUN_201cf930();
+  thunk_FUN_201cecc0();
+  this_00 = &(this->gCInventory_PS_data).field_0x40;
+  (this->gCInventory_PS_data).offset_0x34 = (void *)0x0;
+  (this->gCInventory_PS_data).offset_0x38 = 0;
+  (this->gCInventory_PS_data).offset_0x3c = 0;
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)this_00);
+  this_01 = &(this->gCInventory_PS_data).field_0x5c;
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)this_01);
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)&(this->gCInventory_PS_data).field_0x78);
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)&(this->gCInventory_PS_data).field_0x94);
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)&(this->gCInventory_PS_data).field_0xb0);
+  eCEntityProxy::SetEntity((eCEntityProxy *)this_00,(eCEntity *)0x0);
+  eCEntityProxy::SetEntity((eCEntityProxy *)this_01,(eCEntity *)0x0);
+  eCEntityProxy::SetEntity((eCEntityProxy *)&(this->gCInventory_PS_data).field_0x78,(eCEntity *)0x0)
+  ;
+  ClearDefaultItems(this);
+  return this;
+}
+
+

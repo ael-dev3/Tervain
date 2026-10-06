@@ -1,0 +1,34 @@
+{
+  "effectiveIndex": {
+    "studyPath": "02_Unpacked_Data/_metadata/effective_layers.json",
+    "bytes": 89704319,
+    "sha256": "6b780b236fdd1468946e0194bffd4681ad5481d7fcf1965b1043fae58d0462a2"
+  },
+  "rigSource": {
+    "path": "public/gothic3/animated/hero-native.json",
+    "bytes": 6385203,
+    "sha256": "80e274ba176b88d4780937d6794a1bf5d3f8988be76f5ee820c41f697697c97e"
+  },
+  "catalog": {
+    "path": "public/gothic3/animation-state/resource-catalog.json.gz",
+    "bytes": 357290,
+    "sha256": "c07e4620e6fc5f90f2e6288a943a025df5f387b34a1c4f0679a6cb33c883c09b",
+    "contentEncoding": "gzip",
+    "uncompressedBytes": 2751360,
+    "uncompressedSha256": "33fbee4bef273132b8afb8c8a9453a0ab793820beaefba8b266da006a67b0aeb"
+  },
+  "motions": {
+    "path": "public/gothic3/animation-state/hero-motions.json.gz",
+    "bytes": 2547405,
+    "sha256": "bb21f9100e0da5f9e2941d97831f3ee785b21ade50339fe74fba9afaec948318",
+    "contentEncoding": "gzip",
+    "uncompressedBytes": 10460152,
+    "uncompressedSha256": "80c9e95f6599460c9b807bdf3f0da68fe405bdead8610c71779f909748994f64"
+  },
+  "motionCount": 5782,
+  "aliasCount": 5758,
+  "ambiguousAliases": 24,
+  "decodedSelected": 32,
+  "nativeCodeExecuted": false,
+  "testsExecuted": false
+}

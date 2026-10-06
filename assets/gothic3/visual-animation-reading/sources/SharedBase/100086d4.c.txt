@@ -1,0 +1,15 @@
+/* ENTRY 100086d4 | bCString::Contains | STATUS decompiled | 3 ms */
+
+/* public: bool __thiscall bCString::Contains(char const *,int)const  */
+
+bool __thiscall bCString::Contains(bCString *this,char *param_1,int param_2)
+
+{
+  int iVar1;
+  
+                    /* 0x86d4  1718  ?Contains@bCString@@QBE_NPBDH@Z */
+  iVar1 = Find(this,param_1,param_2,false);
+  return iVar1 != -1;
+}
+
+

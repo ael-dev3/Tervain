@@ -1,0 +1,20 @@
+/* ENTRY 2031d7c0 | FUN_2031d7c0 | STATUS decompiled | 4 ms */
+
+undefined4 FUN_2031d7c0(undefined4 param_1)
+
+{
+  int *piVar1;
+  int iVar2;
+  int unaff_retaddr;
+  
+  iVar2 = thunk_FUN_203214f0(param_1,&param_1);
+  if ((iVar2 != 0) && (piVar1 = *(int **)(iVar2 + 4), piVar1 != (int *)0x0)) {
+    (**(code **)(*piVar1 + 0x58))("BaseValue",0);
+    piVar1[5] = unaff_retaddr;
+    (**(code **)(*piVar1 + 0x5c))("BaseValue",0);
+    return 1;
+  }
+  return 0;
+}
+
+

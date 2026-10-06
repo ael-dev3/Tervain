@@ -1,0 +1,4 @@
+; 2000f808 ?UnapplyTemp@gCAttribute@@UAE_NW4EAttribModOperation@@H@Z
+2000f808 | e9c3833800 | JMP 0x20397bd0
+; 2000f80d gCInfoManager_PS::GetChildInfos
+; 2000f80d Ordinal_3046

@@ -1,0 +1,23 @@
+/* ENTRY 201a8d80 | FUN_201a8d80 | STATUS decompiled | 6 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+bCPropertyObjectBase * FUN_201a8d80(void)
+
+{
+  bCPropertyObjectSingleton *this;
+  bCString *pbVar1;
+  bCString local_4 [4];
+  
+  if ((_DAT_207bb0b8 & 1) == 0) {
+    _DAT_207bb0b8 = _DAT_207bb0b8 | 1;
+    bCString::bCString(local_4,"gCInventory_PS");
+    pbVar1 = local_4;
+    this = bCPropertyObjectSingleton::GetInstance();
+    DAT_207bb0b4 = bCPropertyObjectSingleton::GetRootObject(this,pbVar1);
+    bCString::~bCString(local_4);
+  }
+  return DAT_207bb0b4;
+}
+
+

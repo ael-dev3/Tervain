@@ -1,0 +1,2 @@
+; 2000f259 ?IsPaused@gCClock_PS@@QBE_NXZ
+2000f259 | e9928d1f00 | JMP 0x20207ff0

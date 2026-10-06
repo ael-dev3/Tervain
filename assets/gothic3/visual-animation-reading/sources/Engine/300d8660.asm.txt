@@ -1,0 +1,13 @@
+; 300d8660 eCRenderContextAnimation::eCRenderContextAnimation
+300d8660 | 56 | PUSH ESI
+300d8661 | 8bf1 | MOV ESI,ECX
+300d8663 | e8bd53f4ff | CALL 0x3001da25
+300d8668 | 33c0 | XOR EAX,EAX
+300d866a | 89460c | MOV dword ptr [ESI + 0xc],EAX
+300d866d | 894620 | MOV dword ptr [ESI + 0x20],EAX
+300d8670 | 88461c | MOV byte ptr [ESI + 0x1c],AL
+300d8673 | c7061cec8130 | MOV dword ptr [ESI],0x3081ec1c
+300d8679 | c646146f | MOV byte ptr [ESI + 0x14],0x6f
+300d867d | 8bc6 | MOV EAX,ESI
+300d867f | 5e | POP ESI
+300d8680 | c3 | RET

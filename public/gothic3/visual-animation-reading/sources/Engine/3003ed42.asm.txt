@@ -1,0 +1,2 @@
+; 3003ed42 eCSpringAndDamperEffector::AccessSpringMaxCompressForce
+3003ed42 | e949290200 | JMP 0x30061690

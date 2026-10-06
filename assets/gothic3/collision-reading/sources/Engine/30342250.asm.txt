@@ -1,0 +1,2 @@
+; 30342250 bTPropertyObjectType<eCCollisionShape_PS,eCCollisionShapeBase_PS>::vfunction2
+30342250 | e98ccaccff | JMP 0x3000ece1

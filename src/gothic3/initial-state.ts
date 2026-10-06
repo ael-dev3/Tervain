@@ -1,7 +1,10 @@
 import questReceiptText from '../../assets/gothic3/dialogue/initial-quests-output.json?raw';
+import { assetUrl } from './assets';
 import type { NativeQuest, NativeSource } from './catalog';
 import { gameplayResources } from './native-data';
 import { NativeQuests, QuestStatus } from './quest-state';
+import { loadBrowserInfoState } from './info-state';
+import type { NativeInfoState } from './info-state';
 import type { NativeClock, QuestHost, QuestLogPair } from './quest-state';
 import { readNativeResource } from './resource';
 import type { ResourceReceipt } from './resource';
@@ -96,6 +99,24 @@ interface InitialQuestOutputReceipt {
   runtimePacketCount: number;
   details: { path: string; sha256: string };
 }
+
+interface NativeStartingInventoryDocument {
+  schema: 'gothic3-native-starting-inventory-v1';
+  schemaVersion: 1;
+  sourceSeed: { url: string; sha256: string; bytes: number };
+  scope: 'intrinsic-stack-state-before-external-inventory-observers-and-later-startup-equipping';
+  stacks: readonly { index: number; templateName: string; templateGuid20: string; amount: number;
+    quality: number; quickSlot: number | null; hotKeyUnsigned: number; activationCount: number; intrinsicLearned: boolean;
+    stackType: number; linkedSlot: number; externalObserverEffects: string;
+    learnedOperation: 'preserve' | 'setTrue'; startupOperation: { finalBoolean: boolean } }[];
+}
+interface NativeInventoryManifest {
+  schema: 'gothic3-native-inventory-manifest-v1';
+  schemaVersion: 1;
+  startingInventory: 'starting-inventory.json';
+  inputs: readonly { module: string; sha256: string }[];
+  outputs: readonly ({ url: string } & ResourceReceipt)[];
+}
 export interface OriginalInitialState {
   scope: 'source-state-with-partial-player-startup-and-unapplied-quest-startup';
   player: InitializedPlayerSeed;
@@ -103,6 +124,8 @@ export interface OriginalInitialState {
   questDocument: InitialQuestDocument;
   /** Seeded state only. The default host rejects all attempted effects. */
   quests: NativeQuests;
+  /** Explicit fresh-world INI profile, before startup; not a restored save. */
+  infos: NativeInfoState;
   view: { xp: number; learningPointsAttributes: number; learningPointsPerks: number; chapter: number;
     level: number; playerGameEvents: string[]; inventory: InitializedInventoryStack[]; equipment: InitializedEquipment[] };
   pendingStartup: { explicitQuestRuns: string[]; callbacks: unknown[]; notes: string[] };
@@ -158,6 +181,86 @@ function validatePlayer(player: InitializedPlayerSeed): void {
   if (!Array.isArray(player.unsupportedCallbacks) || !Array.isArray(player.limitations) ||
       player.limitations.some((note) => typeof note !== 'string') ||
       !Array.isArray(player.nativeStartup?.explicitQuestRuns)) throw new Error('Player initialization scope is missing');
+}
+
+export interface OriginalPlayerProgressSeed {
+  readonly source: { readonly path: string; readonly sha256: string };
+  readonly inventorySource: { readonly path: string; readonly sha256: string };
+  readonly inventory: readonly { readonly index: number; readonly templateName: string; readonly templateGuid20: string;
+    readonly amount: number; readonly quality: number; readonly quickSlot: number | null; readonly learned: boolean }[];
+  readonly xp: number;
+  readonly lpAttribs: number;
+  readonly level: number;
+  readonly learnPerkActive:
+    | { readonly status: 'known'; readonly value: boolean; readonly source: string }
+    | { readonly status: 'unknown'; readonly reason: string };
+}
+
+/** Read only the hash-checked startup record needed to seed Hero progression.
+ * This remains serialized pre-OnGameStartUp state, not an activated live NPC. */
+export async function loadOriginalPlayerProgressSeed(): Promise<OriginalPlayerProgressSeed> {
+  const manifest = await gameplayResources.manifest();
+  const path = manifest.initial.initializedPlayer;
+  if (typeof path !== 'string' || path.length === 0) throw new Error('Original initialized Hero source path is unavailable.');
+  const receipt = manifest.outputs.find((entry) => entry.path === path);
+  if (!receipt || !hash(receipt.sha256)) throw new Error('Original initialized Hero source receipt is unavailable.');
+  const player = await gameplayResources.read<InitializedPlayerSeed>(path);
+  validatePlayer(player);
+  const learnStacks = player.inventory.stacks.filter((stack) => stack.templateName === 'It_Perk_Learn');
+  if (learnStacks.length !== 1 || learnStacks[0]?.index !== 75) throw new Error('Original Perk_Learn inventory stack identity differs.');
+  const inventoryResponse = await fetch(assetUrl('inventory/manifest.json'), { cache: 'no-cache' });
+  if (!inventoryResponse.ok) throw new Error('Native starting-inventory manifest HTTP ' + inventoryResponse.status);
+  const inventoryManifest = await inventoryResponse.json() as NativeInventoryManifest;
+  const expectedInputs = new Map([
+    ['Game', 'b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f'],
+    ['Script', '9375605676faaae44a50d48539a7b3995bed471e099ef573666221a044cd4e08'],
+    ['SharedBase', '5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214'],
+  ]);
+  if (inventoryManifest.schema !== 'gothic3-native-inventory-manifest-v1' || inventoryManifest.schemaVersion !== 1 ||
+      inventoryManifest.startingInventory !== 'starting-inventory.json' || inventoryManifest.inputs.length !== expectedInputs.size ||
+      inventoryManifest.inputs.some((input) => expectedInputs.get(input.module) !== input.sha256)) {
+    throw new Error('Native starting-inventory evidence profile differs from the installed Hero source build.');
+  }
+  const startingReceipt = inventoryManifest.outputs.find((output) => output.url === inventoryManifest.startingInventory);
+  if (!startingReceipt) throw new Error('Hash-checked starting-inventory output receipt is unavailable.');
+  const startingInventory = await readNativeResource<NativeStartingInventoryDocument>(
+    'inventory/' + inventoryManifest.startingInventory, startingReceipt);
+  const learnStack = startingInventory.stacks.find((stack) => stack.templateName === 'It_Perk_Learn');
+  const initializedLearnStack = learnStacks[0]!;
+  const startup = initializedLearnStack.startupOperation as { finalBoolean?: unknown } | undefined;
+  if (startingInventory.schema !== 'gothic3-native-starting-inventory-v1' || startingInventory.schemaVersion !== 1 ||
+      startingInventory.scope !== 'intrinsic-stack-state-before-external-inventory-observers-and-later-startup-equipping' ||
+      startingInventory.sourceSeed.sha256 !== receipt.sha256 || startingInventory.sourceSeed.bytes !== receipt.bytes ||
+      startingInventory.stacks.length !== 121 || !learnStack || learnStack.index !== 75 ||
+      learnStack.activationCount !== 0 || learnStack.intrinsicLearned !== false || learnStack.learnedOperation !== 'preserve' ||
+      learnStack.startupOperation.finalBoolean !== false || initializedLearnStack.nativeNewStackDefaultLearned !== false ||
+      initializedLearnStack.learned !== null || initializedLearnStack.learnedOperation !== 'preserve' || startup?.finalBoolean !== false) {
+    throw new Error('Original Perk_Learn stack state cannot be proven from the empty-list startup and inventory receipts.');
+  }
+  const inventory = startingInventory.stacks.map((stack, index) => {
+    const initialized = player.inventory.stacks[index];
+    if (!initialized || stack.index !== index || initialized.index !== index ||
+        stack.templateName !== initialized.templateName || stack.templateGuid20 !== initialized.templateGuid20 ||
+        stack.amount !== initialized.amount || stack.quality !== initialized.quality ||
+        stack.quickSlot !== initialized.quickSlot || stack.hotKeyUnsigned !== initialized.hotKeyUnsigned ||
+        stack.intrinsicLearned !== (initialized.learnedOperation === 'setTrue') ||
+        stack.activationCount !== 0 || stack.stackType !== 0 || stack.linkedSlot !== 0 ||
+        stack.externalObserverEffects !== 'requires-complete-runtime-observer-registry') {
+      throw new Error('Original starting inventory facts differ from initialized player stack ' + index + '.');
+    }
+    return Object.freeze({ index, templateName: stack.templateName, templateGuid20: stack.templateGuid20,
+      amount: stack.amount, quality: stack.quality, quickSlot: stack.quickSlot, learned: stack.intrinsicLearned });
+  });
+  if (inventory.length !== 121 || new Set(inventory.map((stack) => stack.templateName)).size !== inventory.length) {
+    throw new Error('Original starting inventory does not have 121 uniquely named source stacks.');
+  }
+  const learnPerkActive = Object.freeze({ status: 'known' as const,
+    value: learnStack.intrinsicLearned || learnStack.activationCount > 0,
+    source: 'inventory/starting-inventory.json#stacks[75]+Game:201ae890+Script_Game:100628c0' });
+  return Object.freeze({ source: Object.freeze({ path, sha256: receipt.sha256 }),
+    inventorySource: Object.freeze({ path: 'inventory/' + inventoryManifest.startingInventory, sha256: startingReceipt.sha256 }),
+    inventory: Object.freeze(inventory), xp: player.memory.XP,
+    lpAttribs: player.memory.LPAttribs, level: player.serialized.npc.Level as number, learnPerkActive: Object.freeze(learnPerkActive) });
 }
 
 function validateClock(clock: InitialWorldClock, player: InitializedPlayerSeed): void {
@@ -242,9 +345,10 @@ export async function loadOriginalInitialState(host: QuestHost = sourceOnlyQuest
   if (receipt.schema !== 'gothic3-initial-quests-output-v1' || receipt.output?.path !== 'initial-quests.json') {
     throw new Error('Invalid separate initial-quest receipt');
   }
-  const [sourcePlayer, sourceClock, definitions, sourceQuests] = await Promise.all([
+  const [sourcePlayer, sourceClock, definitions, sourceQuests, infos] = await Promise.all([
     gameplayResources.read<InitializedPlayerSeed>(playerPath), gameplayResources.read<InitialWorldClock>(clockPath),
     gameplayResources.read<NativeQuest[]>(questPath), readNativeResource<InitialQuestDocument>('dialogue/' + receipt.output.path, receipt.output),
+    loadBrowserInfoState(),
   ]);
   validatePlayer(sourcePlayer);
   validateClock(sourceClock, sourcePlayer);
@@ -258,7 +362,7 @@ export async function loadOriginalInitialState(host: QuestHost = sourceOnlyQuest
     quests.seed(record.id, { status: record.status, counters: record.counters, startedAt: record.startedAt,
       logKeys: record.logKeys, logPairs: record.logPairs });
   }
-  return { scope: 'source-state-with-partial-player-startup-and-unapplied-quest-startup', player, clock, questDocument, quests,
+  return { scope: 'source-state-with-partial-player-startup-and-unapplied-quest-startup', player, clock, questDocument, quests, infos,
     view: { xp: player.memory.XP, learningPointsAttributes: player.memory.LPAttribs, learningPointsPerks: player.memory.LPPerks,
       chapter: player.memory.Chapter, level: player.serialized.npc.Level as number,
       playerGameEvents: [...player.memory.PlayerKnows.items], inventory: player.inventory.stacks, equipment: player.inventory.equipment },

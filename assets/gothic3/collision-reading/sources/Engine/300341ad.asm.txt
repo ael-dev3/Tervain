@@ -1,0 +1,4 @@
+; 300341ad ?GetNumShapes@eCCollisionShape_PS@@UBEKXZ
+300341ad | e9fe213000 | JMP 0x303363b0
+; 300341b2 eCMaterialEffectCache::Execute_ParticlePoolEffect
+; 300341b2 Ordinal_5934

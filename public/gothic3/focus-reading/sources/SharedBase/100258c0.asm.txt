@@ -1,0 +1,10 @@
+; 100258c0 FUN_100258c0
+100258c0 | 8bc1 | MOV EAX,ECX
+100258c2 | 8b4c2404 | MOV ECX,dword ptr [ESP + 0x4]
+100258c6 | d901 | FLD float ptr [ECX]
+100258c8 | d918 | FSTP float ptr [EAX]
+100258ca | d94104 | FLD float ptr [ECX + 0x4]
+100258cd | d95804 | FSTP float ptr [EAX + 0x4]
+100258d0 | d94108 | FLD float ptr [ECX + 0x8]
+100258d3 | d95808 | FSTP float ptr [EAX + 0x8]
+100258d6 | c20400 | RET 0x4

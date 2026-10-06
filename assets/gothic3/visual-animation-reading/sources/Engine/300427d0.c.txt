@@ -1,0 +1,32 @@
+/* ENTRY 300427d0 | eCEntity::IsPhysicRelevant | STATUS decompiled | 18 ms */
+
+/* public: bool __thiscall eCEntity::IsPhysicRelevant(void)const  */
+
+bool __thiscall eCEntity::IsPhysicRelevant(eCEntity *this)
+
+{
+  char cVar1;
+  int *piVar2;
+  uint uVar3;
+  
+                    /* 0x427d0  10490  ?IsPhysicRelevant@eCEntity@@QBE_NXZ */
+  (*this->vftablePtr->OnReadContent)(this);
+  uVar3 = (uint)(this->eCEntity_data).offset_0x10e;
+  do {
+    if (uVar3 == 0) {
+      return false;
+    }
+    uVar3 = uVar3 - 1;
+    (*this->vftablePtr->OnReadContent)(this);
+    if ((ushort)uVar3 < (this->eCEntity_data).offset_0x10e) {
+      piVar2 = *(int **)((this->eCEntity_data).offset_0x110 + (uVar3 & 0xffff) * 4);
+    }
+    else {
+      piVar2 = (int *)0x0;
+    }
+    cVar1 = (**(code **)(*piVar2 + 0x88))();
+  } while (cVar1 != '\x01');
+  return true;
+}
+
+

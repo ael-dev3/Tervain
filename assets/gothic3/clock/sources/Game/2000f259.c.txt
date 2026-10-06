@@ -1,0 +1,17 @@
+/* ENTRY 2000f259 | gCClock_PS::IsPaused | STATUS decompiled | 8 ms */
+
+/* public: bool __thiscall gCClock_PS::IsPaused(void)const  */
+
+bool __thiscall gCClock_PS::IsPaused(gCClock_PS *this)
+
+{
+  bool bVar1;
+  
+                    /* 0xf259  5192  ?IsPaused@gCClock_PS@@QBE_NXZ */
+                    /* WARNING: Could not recover jumptable at 0x20207ff3. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bVar1 = bCClock::IsPaused((bCClock *)&(this->gCClock_PS_data).field_0x28);
+  return bVar1;
+}
+
+

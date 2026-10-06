@@ -1,0 +1,4 @@
+; 30044521 bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeGroup>_>::vfunction15
+30044521 | e9aaac3100 | JMP 0x3035f1d0
+; 30044535 eCDX9Device::CalcTextRect
+; 30044535 Ordinal_3678

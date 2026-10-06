@@ -1,0 +1,60 @@
+; 30641580 FUN_30641580
+30641580 | 83ec08 | SUB ESP,0x8
+30641583 | 56 | PUSH ESI
+30641584 | 8bf1 | MOV ESI,ECX
+30641586 | d94604 | FLD float ptr [ESI + 0x4]
+30641589 | d906 | FLD float ptr [ESI]
+3064158b | d95c2408 | FSTP float ptr [ESP + 0x8]
+3064158f | d9442408 | FLD float ptr [ESP + 0x8]
+30641593 | d94608 | FLD float ptr [ESI + 0x8]
+30641596 | d9460c | FLD float ptr [ESI + 0xc]
+30641599 | d9c2 | FLD ST2
+3064159b | decb | FMULP ST3
+3064159d | d9c3 | FLD ST3
+3064159f | decc | FMULP ST4
+306415a1 | d9ca | FXCH ST2
+306415a3 | dec3 | FADDP ST3,ST0
+306415a5 | dcc8 | FMUL ST0
+306415a7 | dec2 | FADDP ST2,ST0
+306415a9 | dcc8 | FMUL ST0
+306415ab | dec1 | FADDP
+306415ad | d95c2404 | FSTP float ptr [ESP + 0x4]
+306415b1 | d9442404 | FLD float ptr [ESP + 0x4]
+306415b5 | d9c0 | FLD ST0
+306415b7 | d9ee | FLDZ
+306415b9 | d9c9 | FXCH
+306415bb | dfe9 | FUCOMIP ST0,ST1
+306415bd | ddd8 | FSTP ST0
+306415bf | 9f | LAHF
+306415c0 | f6c444 | TEST AH,0x44
+306415c3 | 7a0d | JP 0x306415d2
+306415c5 | 0f57c0 | XORPS XMM0,XMM0
+306415c8 | ddd8 | FSTP ST0
+306415ca | f30f11442404 | MOVSS dword ptr [ESP + 0x4],XMM0
+306415d0 | eb11 | JMP 0x306415e3
+306415d2 | e839120300 | CALL 0x30672810
+306415d7 | d95c2404 | FSTP float ptr [ESP + 0x4]
+306415db | d9442404 | FLD float ptr [ESP + 0x4]
+306415df | d95c2404 | FSTP float ptr [ESP + 0x4]
+306415e3 | d9442404 | FLD float ptr [ESP + 0x4]
+306415e7 | 8b442410 | MOV EAX,dword ptr [ESP + 0x10]
+306415eb | d9e8 | FLD1
+306415ed | def1 | FDIVRP
+306415ef | d95c2404 | FSTP float ptr [ESP + 0x4]
+306415f3 | d9442408 | FLD float ptr [ESP + 0x8]
+306415f7 | d9442404 | FLD float ptr [ESP + 0x4]
+306415fb | d9c0 | FLD ST0
+306415fd | deca | FMULP ST2
+306415ff | d9c9 | FXCH
+30641601 | d918 | FSTP float ptr [EAX]
+30641603 | d9c0 | FLD ST0
+30641605 | d84e04 | FMUL float ptr [ESI + 0x4]
+30641608 | d95804 | FSTP float ptr [EAX + 0x4]
+3064160b | d94608 | FLD float ptr [ESI + 0x8]
+3064160e | d8c9 | FMUL ST1
+30641610 | d95808 | FSTP float ptr [EAX + 0x8]
+30641613 | d84e0c | FMUL float ptr [ESI + 0xc]
+30641616 | 5e | POP ESI
+30641617 | d9580c | FSTP float ptr [EAX + 0xc]
+3064161a | 83c408 | ADD ESP,0x8
+3064161d | c20400 | RET 0x4

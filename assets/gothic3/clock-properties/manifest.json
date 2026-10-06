@@ -1,0 +1,34 @@
+{
+  "schema": "gothic3-clock-properties-manifest-v1",
+  "seed": {
+    "path": "serialized-clock.json",
+    "bytes": 686,
+    "sha256": "e382d21f54eae7694eb9cb23e9a980c4db83b4e4ba3e27d9b2740ac006f756da"
+  },
+  "rules": {
+    "path": "public/gothic3/clock-properties/runtime-rules.json",
+    "bytes": 4768,
+    "sha256": "0a5e8ffb3dd8ef74fa0091158ad23b63835813ea5ae2922e77973b1408856e15"
+  },
+  "nativeEvidence": {
+    "path": "assets/gothic3/clock-properties/native-evidence.json",
+    "bytes": 287715,
+    "sha256": "dc625198d76cb2e9a6de4fb1a226b4cc5cc0561c95ae129760d537edf5f37d11"
+  },
+  "seedEvidence": {
+    "path": "assets/gothic3/clock-properties/seed-evidence.json",
+    "bytes": 5745,
+    "sha256": "198e2a3505e8d7193f6ae63781d33900f672b9d28dac25ac4a962a018138cc1a"
+  },
+  "audit": {
+    "functionEntries": 150,
+    "instructionRecords": 1045,
+    "matchedInstructionBytes": 3436,
+    "allListedInstructionBytesMatchOriginalPE": true,
+    "selectedFunctionScopeOnly": true,
+    "nativeCodeExecuted": false,
+    "testsExecuted": false,
+    "buildExecuted": false,
+    "browserExecuted": false
+  }
+}

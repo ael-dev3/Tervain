@@ -1,0 +1,2 @@
+; 3005dba0 eCEntityProxy::GetEntity
+3005dba0 | e9a19bfcff | JMP 0x30027746

@@ -1,0 +1,32 @@
+/* ENTRY 200098bd | gCScriptAdmin::gCScriptAdmin | STATUS decompiled | 17 ms */
+
+/* public: __thiscall gCScriptAdmin::gCScriptAdmin(void) */
+
+gCScriptAdmin * __thiscall gCScriptAdmin::gCScriptAdmin(gCScriptAdmin *this)
+
+{
+  eCModuleAdmin *peVar1;
+  
+                    /* 0x98bd  316  ??0gCScriptAdmin@@QAE@XZ */
+  eCScriptAdminBase::eCScriptAdminBase((eCScriptAdminBase *)this);
+  this->vftablePtr = &vftable;
+  gCScriptProcessingUnit::gCScriptProcessingUnit
+            ((gCScriptProcessingUnit *)&(this->gCScriptAdmin_data).field_0x10);
+  (this->gCScriptAdmin_data).offset_0x1a0 = 0;
+  (this->gCScriptAdmin_data).offset_0x1a4 = 0;
+  (this->gCScriptAdmin_data).offset_0x1a8 = 0;
+  thunk_FUN_203553d0();
+  thunk_FUN_20355430();
+  thunk_FUN_20355490();
+  thunk_FUN_203554f0();
+  thunk_FUN_20355550();
+  eCEngineComponentBase::Invalidate((eCEngineComponentBase *)this);
+  ClearDLLList(this);
+  (this->gCScriptAdmin_data).offset_0x1fc = 0;
+  (this->gCScriptAdmin_data).offset_0x200 = 0;
+  peVar1 = eCModuleAdmin::GetInstance();
+  (**(code **)(*(int *)peVar1 + 0x74))(this);
+  return this;
+}
+
+

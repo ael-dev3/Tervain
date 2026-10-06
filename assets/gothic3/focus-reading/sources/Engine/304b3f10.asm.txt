@@ -1,0 +1,23 @@
+; 304b3f10 FUN_304b3f10
+304b3f10 | 83ec0c | SUB ESP,0xc
+304b3f13 | 56 | PUSH ESI
+304b3f14 | 83c140 | ADD ECX,0x40
+304b3f17 | ff15a8ccaf30 | CALL dword ptr [0x30afcca8]
+304b3f1d | 8b4c2414 | MOV ECX,dword ptr [ESP + 0x14]
+304b3f21 | 83c140 | ADD ECX,0x40
+304b3f24 | 8bf0 | MOV ESI,EAX
+304b3f26 | ff15a8ccaf30 | CALL dword ptr [0x30afcca8]
+304b3f2c | 56 | PUSH ESI
+304b3f2d | 8d4c2408 | LEA ECX,[ESP + 0x8]
+304b3f31 | 51 | PUSH ECX
+304b3f32 | 8bc8 | MOV ECX,EAX
+304b3f34 | ff158cccaf30 | CALL dword ptr [0x30afcc8c]
+304b3f3a | 8bc8 | MOV ECX,EAX
+304b3f3c | ff15d4ccaf30 | CALL dword ptr [0x30afccd4]
+304b3f42 | d95c2414 | FSTP float ptr [ESP + 0x14]
+304b3f46 | 8d4c2404 | LEA ECX,[ESP + 0x4]
+304b3f4a | ff156cdbaf30 | CALL dword ptr [0x30afdb6c]
+304b3f50 | d9442414 | FLD float ptr [ESP + 0x14]
+304b3f54 | 5e | POP ESI
+304b3f55 | 83c40c | ADD ESP,0xc
+304b3f58 | c20400 | RET 0x4

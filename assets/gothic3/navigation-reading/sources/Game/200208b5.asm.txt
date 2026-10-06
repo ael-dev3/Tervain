@@ -1,0 +1,4 @@
+; 200208b5 bTPropertyObject<gCNavigation_PS,eCEntityPropertySet>::vfunction16
+200208b5 | e9460e2700 | JMP 0x20291700
+; 200208bf gCScreenOutputCtrl::PrintScreen_InfoScript_Say
+; 200208bf Ordinal_5815

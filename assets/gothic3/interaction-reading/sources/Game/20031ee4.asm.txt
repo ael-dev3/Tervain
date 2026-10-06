@@ -1,0 +1,2 @@
+; 20031ee4 gCInteraction_PS::GetPropertySetType
+20031ee4 | e977203d00 | JMP 0x20403f60

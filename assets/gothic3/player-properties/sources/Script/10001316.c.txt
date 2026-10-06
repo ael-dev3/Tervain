@@ -1,0 +1,23 @@
+/* ENTRY 10001316 | PSPlayerMemory::GetDexterity | STATUS decompiled | 12 ms */
+
+/* public: int __thiscall PSPlayerMemory::GetDexterity(void)const  */
+
+int __thiscall PSPlayerMemory::GetDexterity(PSPlayerMemory *this)
+
+{
+  int iVar1;
+  PSPlayerMemory *pPStack_4;
+  
+                    /* 0x1316  1537  ?GetDexterity@PSPlayerMemory@@QBEHXZ */
+  pPStack_4 = this;
+  bCString::bCString((bCString *)&pPStack_4,"DEX");
+  if (*(gCPlayerMemory_PS **)this != (gCPlayerMemory_PS *)0x0) {
+    iVar1 = gCPlayerMemory_PS::GetValue(*(gCPlayerMemory_PS **)this,(bCString *)&pPStack_4);
+    bCString::~bCString((bCString *)&pPStack_4);
+    return iVar1;
+  }
+  bCString::~bCString((bCString *)&pPStack_4);
+  return 0;
+}
+
+

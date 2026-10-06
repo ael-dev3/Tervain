@@ -1,0 +1,87 @@
+/* ENTRY 100157b0 | FUN_100157b0 | STATUS decompiled | 24 ms */
+
+undefined4 __thiscall FUN_100157b0(bCString *param_1,char *param_2,bCString *param_3)
+
+{
+  bCString bVar1;
+  char cVar2;
+  int iVar3;
+  bCString *pbVar4;
+  size_t _Size;
+  bCString *pbVar5;
+  char *pcVar6;
+  undefined4 *puVar7;
+  void *pvVar8;
+  bCMemoryAdmin *pbVar9;
+  char *unaff_EBX;
+  int unaff_retaddr;
+  
+  pbVar5 = param_3;
+  if ((*(int *)param_1 == 0) || (iVar3 = *(int *)(*(int *)param_1 + -8), iVar3 == 0)) {
+    pbVar4 = param_3;
+    do {
+      bVar1 = *pbVar4;
+      pbVar4 = pbVar4 + 1;
+    } while (bVar1 != (bCString)0x0);
+    _Size = (int)pbVar4 - (int)(param_3 + 1);
+    bCString::Realloc(param_1,_Size);
+    if (0 < (int)_Size) {
+      _memcpy(*(void **)param_1,pbVar5,_Size);
+    }
+  }
+  else if ((int)param_2 < iVar3) {
+    if ((int)param_2 < 1) {
+      pbVar5 = (bCString *)operator+((char *)&param_3,param_3);
+      bCString::SetText(param_1,pbVar5);
+      if ((&stack0x00000000 == (undefined1 *)0xfffffffc) || (param_2 == (char *)0x0))
+      goto LAB_10015934;
+      *(short *)(param_2 + -4) = *(short *)(param_2 + -4) + -1;
+      unaff_EBX = param_2;
+    }
+    else {
+      bCString::Left(param_1,(int)&param_2);
+      pcVar6 = param_2;
+      do {
+        cVar2 = *pcVar6;
+        pcVar6 = pcVar6 + 1;
+      } while (cVar2 != '\0');
+      bCString::ConcatInPlace((bCString *)&stack0x00000000,param_2,(int)pcVar6 - (int)(param_2 + 1))
+      ;
+      puVar7 = (undefined4 *)bCString::Right(param_1,(int)&param_2);
+      pcVar6 = (char *)*puVar7;
+      if ((pcVar6 != (char *)0x0) && (*(int *)(pcVar6 + -8) != 0)) {
+        bCString::ConcatInPlace((bCString *)&stack0xfffffffc,pcVar6,*(int *)(pcVar6 + -8));
+      }
+      if ((&stack0x00000000 != (undefined1 *)0x0) && (unaff_retaddr != 0)) {
+        *(short *)(unaff_retaddr + -4) = *(short *)(unaff_retaddr + -4) + -1;
+        pvVar8 = (void *)(unaff_retaddr + -8);
+        if (*(short *)(unaff_retaddr + -4) == 0) {
+          pbVar9 = bCMemoryAdmin::GetInstance();
+          bCMemoryAdmin::Free(pbVar9,pvVar8);
+        }
+      }
+      bCString::SetText(param_1,(bCString *)&stack0xfffffffc);
+      if ((&stack0x00000000 == (undefined1 *)0x4) || (unaff_EBX == (char *)0x0)) goto LAB_10015934;
+      *(short *)(unaff_EBX + -4) = *(short *)(unaff_EBX + -4) + -1;
+    }
+    pcVar6 = unaff_EBX + -8;
+    if (*(short *)(unaff_EBX + -4) == 0) {
+      pbVar9 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar9,pcVar6);
+    }
+  }
+  else {
+    do {
+      bVar1 = *pbVar5;
+      pbVar5 = pbVar5 + 1;
+    } while (bVar1 != (bCString)0x0);
+    bCString::ConcatInPlace(param_1,(char *)param_3,(int)pbVar5 - (int)(param_3 + 1));
+  }
+LAB_10015934:
+  if (*(int *)param_1 == 0) {
+    return 0;
+  }
+  return *(undefined4 *)(*(int *)param_1 + -8);
+}
+
+

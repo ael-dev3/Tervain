@@ -1,0 +1,3 @@
+; 20285fc0 FUN_20285fc0
+20285fc0 | 32c0 | XOR AL,AL
+20285fc2 | c3 | RET

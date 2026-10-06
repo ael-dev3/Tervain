@@ -1,0 +1,20 @@
+/* ENTRY 3002d3b7 | eCArchiveFile::~eCArchiveFile | STATUS decompiled | 119 ms */
+
+/* public: virtual __thiscall eCArchiveFile::~eCArchiveFile(void) */
+
+void __thiscall eCArchiveFile::~eCArchiveFile(eCArchiveFile *this)
+
+{
+                    /* 0x2d3b7  995  ??1eCArchiveFile@@UAE@XZ */
+  this->vftablePtr = &vftable_for_bCIStream_;
+  this->vftablePtr = &vftable_for_bCOStream_;
+  Destroy(this);
+  eCVirtualFile::~eCVirtualFile((eCVirtualFile *)&(this->eCArchiveFile_data).offset_0x4);
+  bCString::~bCString((bCString *)&this->eCArchiveFile_data);
+                    /* WARNING: Could not recover jumptable at 0x305dd7d9. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCIOStream::~bCIOStream((bCIOStream *)this);
+  return;
+}
+
+

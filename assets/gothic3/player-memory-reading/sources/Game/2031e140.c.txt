@@ -1,0 +1,88 @@
+/* ENTRY 2031e140 | FUN_2031e140 | STATUS decompiled | 77 ms */
+
+int __fastcall FUN_2031e140(gCPlayerMemory_PS *param_1)
+
+{
+  bool bVar1;
+  bool bVar2;
+  bool bVar3;
+  bool bVar4;
+  bool bVar5;
+  bool bVar6;
+  bool bVar7;
+  bool bVar8;
+  bool bVar9;
+  bool bVar10;
+  bool bVar11;
+  bool bVar12;
+  bool bVar13;
+  bool bVar14;
+  bool bVar15;
+  bCString local_3c [4];
+  bCString local_38 [4];
+  bCString local_34 [4];
+  bCString local_30 [4];
+  bCString local_2c [4];
+  bCString local_28 [4];
+  bCString local_24 [4];
+  bCString local_20 [4];
+  bCString local_1c [4];
+  bCString local_18 [4];
+  bCString local_14 [4];
+  bCString local_10 [4];
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"STR");
+  bCString::bCString(local_8,"DEX");
+  bCString::bCString(local_c,"INT");
+  bCString::bCString(local_10,"SMT");
+  bCString::bCString(local_14,"THF");
+  bCString::bCString(local_18,"ALC");
+  bCString::bCString(local_1c,"PROT_BLADE");
+  bCString::bCString(local_20,"PROT_IMPACT");
+  bCString::bCString(local_24,"PROT_MISSILE");
+  bCString::bCString(local_28,"PROT_FIRE");
+  bCString::bCString(local_2c,"PROT_ICE");
+  bCString::bCString(local_30,"PROT_LIGHTNING");
+  bCString::bCString(local_34,"HP");
+  bCString::bCString(local_38,"MP");
+  bCString::bCString(local_3c,"SP");
+  bVar1 = gCPlayerMemory_PS::CreateStat(param_1,local_3c);
+  bVar2 = gCPlayerMemory_PS::CreateStat(param_1,local_38);
+  bVar3 = gCPlayerMemory_PS::CreateStat(param_1,local_34);
+  bVar4 = gCPlayerMemory_PS::CreateAttrib(param_1,local_30);
+  bVar5 = gCPlayerMemory_PS::CreateAttrib(param_1,local_2c);
+  bVar6 = gCPlayerMemory_PS::CreateAttrib(param_1,local_28);
+  bVar7 = gCPlayerMemory_PS::CreateAttrib(param_1,local_24);
+  bVar8 = gCPlayerMemory_PS::CreateAttrib(param_1,local_20);
+  bVar9 = gCPlayerMemory_PS::CreateAttrib(param_1,local_1c);
+  bVar10 = gCPlayerMemory_PS::CreateAttrib(param_1,local_18);
+  bVar11 = gCPlayerMemory_PS::CreateAttrib(param_1,local_14);
+  bVar12 = gCPlayerMemory_PS::CreateAttrib(param_1,local_10);
+  bVar13 = gCPlayerMemory_PS::CreateAttrib(param_1,local_c);
+  bVar14 = gCPlayerMemory_PS::CreateAttrib(param_1,local_8);
+  bVar15 = gCPlayerMemory_PS::CreateAttrib(param_1,local_4);
+  bCString::~bCString(local_3c);
+  bCString::~bCString(local_38);
+  bCString::~bCString(local_34);
+  bCString::~bCString(local_30);
+  bCString::~bCString(local_2c);
+  bCString::~bCString(local_28);
+  bCString::~bCString(local_24);
+  bCString::~bCString(local_20);
+  bCString::~bCString(local_1c);
+  bCString::~bCString(local_18);
+  bCString::~bCString(local_14);
+  bCString::~bCString(local_10);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return (uint)bVar15 +
+         (uint)bVar1 + (uint)bVar2 + (uint)bVar3 + (uint)bVar4 + (uint)bVar5 + (uint)bVar6 +
+         (uint)bVar7 + (uint)bVar8 + (uint)bVar9 + (uint)bVar10 + (uint)bVar11 + (uint)bVar12 +
+         (uint)bVar13 + (uint)bVar14;
+}
+
+

@@ -1,0 +1,4 @@
+; 300178dc ?GetWidth@eCCollisionShape@@QBE?BMXZ
+300178dc | e95f5a0b00 | JMP 0x300cd340
+; 300178e1 eCEntity::CopyEntityPrivateData
+; 300178e1 Ordinal_4022

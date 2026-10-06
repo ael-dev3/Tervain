@@ -1,0 +1,4 @@
+; 2002eb72 ?SetOtherEntity@gCScriptProcessingUnit@@QAEXPAVeCEntity@@@Z
+2002eb72 | e909933300 | JMP 0x20367e80
+; 2002eb77 gCQuest_PS::GetRunningTimeHours
+; 2002eb77 Ordinal_4341

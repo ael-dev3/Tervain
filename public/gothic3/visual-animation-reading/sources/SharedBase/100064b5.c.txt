@@ -1,0 +1,42 @@
+/* ENTRY 100064b5 | bCString::Left | STATUS decompiled | 8 ms */
+
+/* public: class bCString __thiscall bCString::Left(int)const  */
+
+int __thiscall bCString::Left(bCString *this,int param_1)
+
+{
+  void *_Src;
+  int iVar1;
+  size_t in_stack_00000008;
+  
+                    /* 0x64b5  3694  ?Left@bCString@@QBE?AV1@H@Z */
+  if ((int)in_stack_00000008 < 0) {
+    bCString((bCString *)param_1,*(char **)this);
+    return param_1;
+  }
+  _Src = *(void **)this;
+  if (_Src == (void *)0x0) {
+    iVar1 = 0;
+  }
+  else {
+    iVar1 = *(int *)((int)_Src + -8);
+  }
+  if ((int)in_stack_00000008 < iVar1) {
+    if ((0 < (int)in_stack_00000008) && (in_stack_00000008 != 0)) {
+      Alloc((bCString *)param_1,in_stack_00000008);
+      _memcpy(*(void **)param_1,_Src,in_stack_00000008);
+      return param_1;
+    }
+    *(undefined4 *)param_1 = 0;
+  }
+  else {
+    *(void **)param_1 = _Src;
+    if (_Src != (void *)0x0) {
+      *(short *)((int)_Src + -4) = *(short *)((int)_Src + -4) + 1;
+      return param_1;
+    }
+  }
+  return param_1;
+}
+
+

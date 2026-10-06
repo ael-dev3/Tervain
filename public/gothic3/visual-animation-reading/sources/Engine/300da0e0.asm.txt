@@ -1,0 +1,7 @@
+; 300da0e0 FUN_300da0e0
+300da0e0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+300da0e4 | 50 | PUSH EAX
+300da0e5 | ff15acdbaf30 | CALL dword ptr [0x30afdbac]
+300da0eb | 8bc8 | MOV ECX,EAX
+300da0ed | ff1590caaf30 | CALL dword ptr [0x30afca90]
+300da0f3 | c20400 | RET 0x4

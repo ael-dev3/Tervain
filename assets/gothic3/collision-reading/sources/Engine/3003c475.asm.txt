@@ -1,0 +1,2 @@
+; 3003c475 ?GetAdaptScale@eCCollisionShape@@QBEABMXZ
+3003c475 | e9f6640800 | JMP 0x300c2970

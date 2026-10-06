@@ -1,0 +1,53 @@
+/* ENTRY 202e7750 | FUN_202e7750 | STATUS decompiled | 22 ms */
+
+bCIStream * __thiscall FUN_202e7750(int *param_1,bCIStream *param_2)
+
+{
+  bCIStream *this;
+  ulong uVar1;
+  bCMemoryAdmin *this_00;
+  void *pvVar2;
+  int iVar3;
+  int iVar4;
+  ulong uVar5;
+  int local_8;
+  ulong local_4;
+  
+  this = param_2;
+  bCIStream::operator>>(param_2,(uchar *)&param_2);
+  local_4 = 0;
+  bCIStream::operator>>(this,&local_4);
+  uVar1 = local_4;
+  if ((local_4 != 0) && (iVar3 = param_1[2], iVar3 < (int)local_4)) {
+    uVar5 = local_4 * 0x48;
+    pvVar2 = (void *)*param_1;
+    this_00 = bCMemoryAdmin::GetInstance();
+    pvVar2 = bCMemoryAdmin::Realloc(this_00,pvVar2,uVar5);
+    *param_1 = (int)pvVar2;
+    thunk_FUN_202e5620((void *)((int)pvVar2 + param_1[2] * 0x48),uVar1 - iVar3);
+    param_1[2] = uVar1;
+  }
+  if ((int)uVar1 < param_1[1]) {
+    thunk_FUN_202e6610(*param_1 + uVar1 * 0x48,param_1[1] - uVar1);
+    thunk_FUN_202e5620(*param_1 + uVar1 * 0x48,param_1[1] - uVar1);
+  }
+  iVar3 = 0;
+  param_1[1] = uVar1;
+  if (0 < (int)uVar1) {
+    local_8 = 0;
+    do {
+      iVar4 = *param_1 + local_8;
+      thunk_FUN_20276a10(this);
+      operator<<((float *)(iVar4 + 0xc),(bCIStream *)this);
+      bCVector::operator<<((bCVector *)(iVar4 + 0x10),(bCIStream *)this);
+      operator<<((bool *)(iVar4 + 0x1c),(bCIStream *)this);
+      bCPropertyID::operator<<((bCPropertyID *)(iVar4 + 0x20),(bCIStream *)this);
+      bCPropertyID::operator<<((bCPropertyID *)(iVar4 + 0x34),(bCIStream *)this);
+      local_8 = local_8 + 0x48;
+      iVar3 = iVar3 + 1;
+    } while (iVar3 < param_1[1]);
+  }
+  return this;
+}
+
+

@@ -1,0 +1,100 @@
+/* ENTRY 3001da89 | eCApplication::UpdateTick | STATUS decompiled | 53 ms */
+
+/* protected: void __thiscall eCApplication::UpdateTick(void) */
+
+void __thiscall eCApplication::UpdateTick(eCApplication *this)
+
+{
+  undefined1 *this_00;
+  float fVar1;
+  bool bVar2;
+  ulong uVar3;
+  float fVar4;
+  undefined4 uVar5;
+  float fStack_c;
+  DWORD DStack_8;
+  float fStack_4;
+  
+                    /* 0x1da89  14949  ?UpdateTick@eCApplication@@IAEXXZ */
+  uVar3 = bCTimer::GetTimeStamp();
+  (this->eCApplication_data).offset_0x4dc = uVar3;
+  bVar2 = (*this->vftablePtr->IsGameRunning)(this);
+  if ((bVar2) &&
+     ((this->eCApplication_data).offset_0x4e8 == (this->eCApplication_data).offset_0x4e4)) {
+    GE_MESSAGEF_WARN(
+                    "C: eCApplication::UpdateTick (): more than one timer update in a frame detected!"
+                    );
+    return;
+  }
+  (this->eCApplication_data).offset_0x4c8 = (this->eCApplication_data).offset_0x4a4;
+  this_00 = &(this->eCApplication_data).field_0x464;
+  (this->eCApplication_data).offset_0x4cc = (this->eCApplication_data).offset_0x4ac;
+  (this->eCApplication_data).offset_0x4d0 = (this->eCApplication_data).offset_0x4b0;
+  (this->eCApplication_data).offset_0x4d4 = (this->eCApplication_data).offset_0x4b4;
+  bCTimer::GetTime((bCTimer *)this_00,&fStack_c);
+  bCTimer::Reset((bCTimer *)this_00);
+  fVar4 = 0.0;
+  uVar5 = 0x3727c5ac;
+  if (fStack_c <= 0.0) {
+    fStack_c = 1e-05;
+  }
+  (this->eCApplication_data).offset_0x4a0 = 1000.0 / fStack_c;
+  RelaxTick(this,fStack_c);
+  if ((float)(this->eCApplication_data).offset_0x4a4 == 0.0) {
+    (this->eCApplication_data).offset_0x4a4 = uVar5;
+  }
+  fStack_4 = (float)(this->eCApplication_data).offset_0x4ec;
+  if ((fVar4 < fStack_4) || (fVar4 < (float)(this->eCApplication_data).offset_0x4f0)) {
+    if (fStack_4 <= fVar4) {
+      (this->eCApplication_data).offset_0x4a4 = (this->eCApplication_data).offset_0x4f0;
+      (this->eCApplication_data).offset_0x4f0 = 0xbf800000;
+    }
+    else {
+      fVar4 = (float)(this->eCApplication_data).offset_0x4a4;
+      if (fStack_4 <= fVar4) {
+        (this->eCApplication_data).offset_0x4a4 = (this->eCApplication_data).offset_0x4ec;
+      }
+      else {
+        fStack_4 = fStack_4 - fVar4;
+        DStack_8 = (DWORD)ROUND(fStack_4);
+        Sleep(DStack_8);
+        (this->eCApplication_data).offset_0x4a4 = (this->eCApplication_data).offset_0x4ec;
+      }
+    }
+  }
+  else {
+    fVar1 = (float)(this->eCApplication_data).offset_0x4f8;
+    (this->eCApplication_data).offset_0x4fe = (eCApplication)0x0;
+    if ((fVar4 < fVar1) && (fVar1 < (float)(this->eCApplication_data).offset_0x4a4)) {
+      (this->eCApplication_data).offset_0x4a4 = fVar1;
+    }
+    fStack_4 = (float)(this->eCApplication_data).offset_0x4f4;
+    if ((fVar4 < fStack_4) &&
+       (fVar4 = (float)(this->eCApplication_data).offset_0x4a4, fVar4 < fStack_4)) {
+      fStack_4 = fStack_4 - fVar4;
+      DStack_8 = (DWORD)ROUND(fStack_4);
+      Sleep(DStack_8);
+      (this->eCApplication_data).offset_0x4a4 = (this->eCApplication_data).offset_0x4f4;
+    }
+  }
+  fVar4 = (float)(int)(this->eCApplication_data).offset_0x4dc;
+  if ((int)(this->eCApplication_data).offset_0x4dc < 0) {
+    fVar4 = fVar4 + 4.2949673e+09;
+  }
+  (this->eCApplication_data).offset_0x4e0 = fVar4;
+  fVar4 = (float)(this->eCApplication_data).offset_0x4a4;
+  (this->eCApplication_data).offset_0x4e8 = (this->eCApplication_data).offset_0x4e4;
+  (this->eCApplication_data).offset_0x4ac = fVar4 / 1000.0;
+  fVar1 = (float)(this->eCApplication_data).offset_0x49c * fVar4;
+  (this->eCApplication_data).offset_0x4b0 = fVar1;
+  fVar1 = fVar1 / 1000.0;
+  (this->eCApplication_data).offset_0x4b4 = fVar1;
+  (this->eCApplication_data).offset_0x4b8 = 1.0 / fVar4;
+  fVar4 = 1.0 / (fVar4 / 1000.0);
+  (this->eCApplication_data).offset_0x4bc = fVar4;
+  (this->eCApplication_data).offset_0x4c0 = fVar4;
+  (this->eCApplication_data).offset_0x4c4 = 1.0 / fVar1;
+  return;
+}
+
+

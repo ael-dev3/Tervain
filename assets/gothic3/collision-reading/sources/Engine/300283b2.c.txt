@@ -1,0 +1,33 @@
+/* ENTRY 300283b2 | eCCollisionShape::GetHeight | STATUS decompiled | 17 ms */
+
+/* public: float const __thiscall eCCollisionShape::GetHeight(void)const  */
+
+float __thiscall eCCollisionShape::GetHeight(eCCollisionShape *this)
+
+{
+  float fVar1;
+  
+                    /* 0x283b2  7274  ?GetHeight@eCCollisionShape@@QBE?BMXZ */
+  switch((this->eCCollisionShape_data).offset_0xc) {
+  case 1:
+  case 6:
+                    /* WARNING: Could not recover jumptable at 0x300cd259. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+    fVar1 = bCBox::GetHeight((bCBox *)&(this->eCCollisionShape_data).field_0x44);
+    return fVar1;
+  default:
+    return 0.0;
+  case 3:
+                    /* WARNING: Could not recover jumptable at 0x300cd265. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+    fVar1 = bCOrientedBox::GetHeight((bCOrientedBox *)(this->eCCollisionShape_data).offset_0x70);
+    return fVar1;
+  case 4:
+    return *(float *)(this->eCCollisionShape_data).offset_0x70;
+  case 5:
+    fVar1 = bCSphere::GetRadius((bCSphere *)(this->eCCollisionShape_data).offset_0x70);
+    return fVar1 + fVar1;
+  }
+}
+
+

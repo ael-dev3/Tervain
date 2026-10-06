@@ -1,0 +1,29 @@
+/* ENTRY 10008607 | bCGuid::GetText | STATUS decompiled | 11 ms */
+
+/* public: class bCString __thiscall bCGuid::GetText(void)const  */
+
+bCString * __thiscall bCGuid::GetText(bCGuid *this)
+
+{
+  int iVar1;
+  bCString *in_stack_00000004;
+  CHAR *pCVar2;
+  CHAR aCStack_4b0 [400];
+  OLECHAR aOStack_320 [400];
+  
+                    /* 0x8607  3065  ?GetText@bCGuid@@QBE?AVbCString@@XZ */
+  if (this[0x10] != (bCGuid)0x0) {
+    iVar1 = StringFromGUID2((GUID *)this,aOStack_320,400);
+    if (iVar1 != 0) {
+      WideCharToMultiByte(0,0,aOStack_320,-1,aCStack_4b0,400,(LPCSTR)0x0,(LPBOOL)0x0);
+      pCVar2 = aCStack_4b0;
+      goto LAB_10012a93;
+    }
+  }
+  pCVar2 = "{}";
+LAB_10012a93:
+  bCString::bCString(in_stack_00000004,pCVar2);
+  return in_stack_00000004;
+}
+
+

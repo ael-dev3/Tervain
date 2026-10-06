@@ -1,0 +1,12 @@
+/* ENTRY 3000e804 | eCCollisionShape_PS::GetTouchingBone | STATUS decompiled | 8 ms */
+
+/* public: class bCString const & __thiscall eCCollisionShape_PS::GetTouchingBone(void)const  */
+
+bCString * __thiscall eCCollisionShape_PS::GetTouchingBone(eCCollisionShape_PS *this)
+
+{
+                    /* 0xe804  9158  ?GetTouchingBone@eCCollisionShape_PS@@QBEABVbCString@@XZ */
+  return (bCString *)&(this->eCCollisionShape_PS_data).field_0x34;
+}
+
+

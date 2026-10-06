@@ -1,0 +1,2 @@
+; 3003bb42 bTPropertyObjectType<eCResourceAdmin,eCEngineComponentBase>::vfunction1
+3003bb42 | e969b60300 | JMP 0x300771b0

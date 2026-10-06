@@ -1,0 +1,2 @@
+; 20015307 ?Write@gCClock_PS@@UAE?AW4bEResult@@AAVbCOStream@@@Z
+20015307 | e9e42d1f00 | JMP 0x202080f0

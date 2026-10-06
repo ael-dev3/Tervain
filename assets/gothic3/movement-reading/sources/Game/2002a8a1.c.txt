@@ -1,0 +1,15 @@
+/* ENTRY 2002a8a1 | gCCharacterMovement_PS::CopyFrom | STATUS decompiled | 8 ms */
+
+/* public: virtual enum bEResult __thiscall gCCharacterMovement_PS::CopyFrom(class bCObjectBase
+   const &) */
+
+bEResult __thiscall
+gCCharacterMovement_PS::CopyFrom(gCCharacterMovement_PS *this,bCObjectBase *param_1)
+
+{
+                    /* 0x2a8a1  2228
+                       ?CopyFrom@gCCharacterMovement_PS@@UAE?AW4bEResult@@ABVbCObjectBase@@@Z */
+  return 1;
+}
+
+

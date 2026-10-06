@@ -1,0 +1,18 @@
+/* ENTRY 20021b98 | gCDamageReceiver_PS::SetManaPoints | STATUS decompiled | 9 ms */
+
+/* public: void __thiscall gCDamageReceiver_PS::SetManaPoints(long const &) */
+
+void __thiscall gCDamageReceiver_PS::SetManaPoints(gCDamageReceiver_PS *this,long *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x21b98  6698  ?SetManaPoints@gCDamageReceiver_PS@@QAEXABJ@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"ManaPoints",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  *(long *)&(this->gCDamageReceiver_PS_data).field_0x20 = *param_1;
+  (*pNVar1)(this,"ManaPoints",false);
+  return;
+}
+
+

@@ -1,0 +1,18 @@
+/* ENTRY 3002d56f | eCVisualAnimation_PS::SetBoneTwistSpring | STATUS decompiled | 159 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::SetBoneTwistSpring(float const &) */
+
+void __thiscall eCVisualAnimation_PS::SetBoneTwistSpring(eCVisualAnimation_PS *this,float *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x2d56f  12977  ?SetBoneTwistSpring@eCVisualAnimation_PS@@QAEXABM@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"BoneTwistSpring",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  *(float *)&this[2].eCEntityPropertySet_data.offset_0xc = *param_1;
+  (*pNVar1)(this,"BoneTwistSpring",false);
+  return;
+}
+
+

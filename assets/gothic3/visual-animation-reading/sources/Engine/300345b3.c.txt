@@ -1,0 +1,54 @@
+/* ENTRY 300345b3 | eCVisualAnimation_PS::AddBodyPart | STATUS decompiled | 239 ms */
+
+/* public: bool __thiscall eCVisualAnimation_PS::AddBodyPart(class eCEntity *,class bCString const
+   &,bool) */
+
+bool __thiscall
+eCVisualAnimation_PS::AddBodyPart
+          (eCVisualAnimation_PS *this,eCEntity *param_1,bCString *param_2,bool param_3)
+
+{
+  bool bVar1;
+  bool bVar2;
+  undefined4 uVar3;
+  eCVisualAnimation_PS *this_00;
+  ulong uVar4;
+  eCEntity *this_01;
+  eCVisualAnimation_PS *this_02;
+  
+                    /* 0x345b3  3365
+                       ?AddBodyPart@eCVisualAnimation_PS@@QAE_NPAVeCEntity@@ABVbCString@@_N@Z */
+  uVar3 = (**(code **)(*(int *)param_1 + 0xec))
+                    (100,0,&eCEntityPropertySet::RTTI_Type_Descriptor,&RTTI_Type_Descriptor,0);
+  this_00 = (eCVisualAnimation_PS *)FUN_30671ae7(uVar3);
+  if (this_00 == (eCVisualAnimation_PS *)0x0) {
+    return false;
+  }
+  if (this[0x10].eCEntityPropertySet_data.field_0xd == '\0') {
+    CreatePhysicsController(this,true,(eCVisualAnimation_PS *)this);
+  }
+  bVar1 = eCVisualAnimationFactory::AddBodyPart
+                    ((eCVisualAnimationFactory *)&this[7].eCEntityPropertySet_data.field_0x4,
+                     (bCString *)param_1,(eCVisualAnimation_PS *)this_00);
+  uVar4 = CountSubSkeletons(this_00,(bTPtrArray<EMotionFX::Node*> *)0x0);
+  if (uVar4 != 0) {
+    CreatePhysicsController(this,true,(eCVisualAnimation_PS *)this_00);
+  }
+  RelinkAttachments(this);
+  RelinkLookAtConstraints(this_02);
+  this_00[0x12].eCEntityPropertySet_data.offset_0xc = 1;
+  if ((char)param_2 == '\x01') {
+    eCEntity::RemovePropertySet((eCEntity *)param_1,(eCEntityPropertySet *)this_00);
+    (**(code **)(*(int *)param_1 + 0xd8))();
+    eCEntity::UpdateGeometry((eCEntity *)param_1);
+  }
+  this_01 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+  bVar2 = eCEntity::HasProcessingRangeEntered(this_01);
+  if (bVar2) {
+    (*this->vftablePtr->OnExitProcessingRange)(this);
+    (*this->vftablePtr->OnEnterProcessingRange)(this);
+  }
+  return bVar1;
+}
+
+

@@ -1,0 +1,514 @@
+/* ENTRY 3031f490 | FUN_3031f490 | STATUS decompiled | 925 ms */
+
+/* WARNING: Removing unreachable block (ram,0x3031fc92) */
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined1 __thiscall
+FUN_3031f490(eCPhysicsScene *param_1,bCVector *param_2,bCVector *param_3,eCEntity *param_4,
+            uint param_5,eCEntity *param_6,eEPropertySetType param_7,eEShapeGroup param_8)
+
+{
+  undefined4 *puVar1;
+  int iVar2;
+  float fVar3;
+  longlong lVar4;
+  bool bVar5;
+  bCVector bVar6;
+  undefined1 uVar7;
+  undefined1 uVar8;
+  bCVector *pbVar9;
+  eCRenderSystemAdmin *peVar10;
+  ulong uVar11;
+  bCVector *pbVar12;
+  bCVector *pbVar13;
+  NxVec3 *pNVar14;
+  undefined4 uVar15;
+  uint uVar16;
+  int iVar17;
+  uint uVar18;
+  byte bVar19;
+  int *unaff_EBP;
+  int iVar20;
+  __uint64 _Var21;
+  bCVector *unaff_retaddr;
+  bCVector *in_stack_fffffef4;
+  ulong in_stack_fffffef8;
+  undefined1 *puVar22;
+  bCVector bVar23;
+  bCVector local_b8 [4];
+  undefined4 *local_b4;
+  NxVec3 *local_b0;
+  undefined8 local_ac;
+  float fStack_a4;
+  uint local_a0;
+  float local_9c;
+  float local_98;
+  bCVector local_94 [4];
+  bCVector local_90 [4];
+  bCVector abStack_8c [3];
+  char cStack_89;
+  bCVector abStack_88 [3];
+  undefined1 local_85;
+  bCVector local_84 [4];
+  float local_80;
+  float local_7c;
+  uint local_78;
+  undefined8 local_74;
+  int iStack_6c;
+  uint local_68 [3];
+  int iStack_5c;
+  uint local_58;
+  uint local_54;
+  undefined4 local_50;
+  undefined4 local_4c;
+  undefined4 local_48;
+  undefined4 local_44;
+  float fStack_38;
+  float fStack_34;
+  float fStack_30;
+  NxVec3 aNStack_2c [20];
+  float fStack_18;
+  uint uStack_8;
+  
+  local_9c = 0.0;
+  if (((param_1->eCPhysicsScene_data).offset_0x8 == 0) ||
+     ((param_1->eCPhysicsScene_data).offset_0xc8 == (eCPhysicsScene)0x1)) {
+    return 0;
+  }
+  bVar19 = (byte)param_5;
+  if (((((param_1->eCPhysicsScene_data).offset_0x90 == 0) && (param_4 == (eCEntity *)0x0)) &&
+      (param_6 == (eCEntity *)0x0)) &&
+     (((param_7 == 0 && ((int)(param_1->eCPhysicsScene_data).offset_0xa4 < 1)) &&
+      ((param_5 & 0x1c) == 0)))) {
+    eCPhysicQueryReport::Reset((eCPhysicQueryReport *)(param_1->eCPhysicsScene_data).offset_0x9c);
+    if ((bVar19 & 3) == 3) {
+      local_98 = 4.2039e-45;
+    }
+    else if ((bVar19 & 1) == 1) {
+      local_98 = 1.4013e-45;
+    }
+    else {
+      if ((bVar19 & 2) != 2) {
+        return 0;
+      }
+      local_98 = 2.8026e-45;
+    }
+    local_74 = bCTimer::QueryPerformanceCounter();
+    local_68[0] = param_5 & 0x20;
+    local_54 = param_5 & 0x80;
+    local_58 = param_5 & 0x40;
+    uVar18 = ((param_5 & 0x100) != 0x100) - 1 & 0x10 | (local_54 != 0x80) - 1 & 2 |
+             (local_68[0] != 0x20) - 1 & 0x40 | (local_58 != 0x40) - 1 & 4 | 1;
+    local_85 = (param_5 & 0x1000) != 0x1000;
+    local_78 = uVar18;
+    if ((bool)local_85) {
+      local_ac._0_4_ = bCVector::GetMagnitude(param_3);
+      if ((float)local_ac != 1.0) {
+        local_9c = 1.4013e-45;
+        param_3 = (bCVector *)bCVector::GetInvScaled(param_3,(float)local_94);
+      }
+    }
+    else {
+      local_ac._0_4_ = 1.0;
+    }
+    bCVector::bCVector((bCVector *)local_68,param_3);
+    if ((local_a0 & 1) != 0) {
+      bCVector::~bCVector((bCVector *)&local_98);
+    }
+    if ((float)local_b0 == 0.0) {
+LAB_303203de:
+      bCVector::~bCVector((bCVector *)local_68);
+      return 0;
+    }
+    uStack_8 = uVar18;
+    bCCriticalSectionWin32::Acquire((bCCriticalSectionWin32 *)&DAT_30ae5dc0);
+    if (cStack_89 == '\0') {
+      fVar3 = 3.4028235e+38;
+    }
+    else {
+      fVar3 = (float)local_b0 * _DAT_30ab3c6c;
+    }
+    local_ac = (double)fVar3;
+    local_a0 = 0xffffffff;
+    local_b0 = bCVector::operator_class_NxVec3_const_((bCVector *)local_68);
+    pbVar13 = (bCVector *)bCVector::operator*(unaff_retaddr,(float)&local_98);
+    pNVar14 = bCVector::operator_class_NxVec3_(pbVar13);
+    local_80 = (float)(double)CONCAT44((float)local_ac,local_b0);
+    local_58 = *(uint *)pNVar14;
+    local_54 = *(uint *)(pNVar14 + 4);
+    local_50 = *(undefined4 *)(pNVar14 + 8);
+    local_4c = *local_b4;
+    local_48 = local_b4[1];
+    local_44 = local_b4[2];
+    local_b0 = (NxVec3 *)(**(code **)(*(int *)(param_1->eCPhysicsScene_data).offset_0x8 + 0xf0))();
+    bCVector::~bCVector((bCVector *)&local_98);
+    if (local_b0 == (NxVec3 *)0x0) {
+      if ((param_1->eCPhysicsScene_data).offset_0x59 == (eCPhysicsScene)0x1) {
+        bVar6 = (bCVector)0x1;
+        bVar23 = (bCVector)0xff;
+        pbVar9 = param_2;
+        pbVar12 = (bCVector *)bCVector::operator+(unaff_retaddr,abStack_88);
+        pbVar13 = unaff_retaddr;
+        peVar10 = (eCRenderSystemAdmin *)thunk_FUN_3007beb0();
+        eCRenderSystemAdmin::DrawBatchLineList
+                  (peVar10,pbVar13,pbVar12,(ulong)pbVar9,(bool)bVar23,(bool)bVar6);
+        bCVector::~bCVector(abStack_8c);
+        bVar6 = (bCVector)bCVector::bCVector((bCVector *)&local_b0,20.0,0.0,0.0);
+        bVar23 = SUB41(&local_9c,0);
+        pbVar13 = param_2;
+        pbVar9 = (bCVector *)bCVector::operator+(unaff_retaddr,(bCVector *)&stack0xffffff40);
+        uVar11 = bCVector::operator+(pbVar9,pbVar13);
+        pbVar13 = param_2;
+        pbVar9 = (bCVector *)bCVector::operator+(unaff_retaddr,local_94);
+        peVar10 = (eCRenderSystemAdmin *)thunk_FUN_3007beb0();
+        eCRenderSystemAdmin::DrawBatchLineList
+                  (peVar10,pbVar9,pbVar13,uVar11,(bool)bVar23,(bool)bVar6);
+        bCVector::~bCVector((bCVector *)&local_98);
+        bCVector::~bCVector((bCVector *)((int)&local_ac + 4));
+        bCVector::~bCVector((bCVector *)&stack0xffffff34);
+        bCVector::~bCVector((bCVector *)&stack0xffffff44);
+        bVar6 = (bCVector)bCVector::bCVector((bCVector *)&stack0xffffff44,20.0,0.0,0.0);
+        bVar23 = (bCVector)((char)&local_ac + '\x04');
+        pbVar13 = param_2;
+        pbVar9 = (bCVector *)bCVector::operator+(unaff_retaddr,(bCVector *)&stack0xffffff34);
+        uVar11 = bCVector::operator-(pbVar9,pbVar13);
+        pbVar13 = param_2;
+        pbVar9 = (bCVector *)bCVector::operator+(unaff_retaddr,(bCVector *)&local_a0);
+        peVar10 = (eCRenderSystemAdmin *)thunk_FUN_3007beb0();
+        eCRenderSystemAdmin::DrawBatchLineList
+                  (peVar10,pbVar9,pbVar13,uVar11,(bool)bVar23,(bool)bVar6);
+        bCVector::~bCVector((bCVector *)&fStack_a4);
+        bCVector::~bCVector((bCVector *)&local_b4);
+        bCVector::~bCVector((bCVector *)&stack0xffffff28);
+        bCVector::~bCVector((bCVector *)&stack0xffffff38);
+        uVar8 = bCVector::bCVector((bCVector *)&stack0xffffff38,0.0,0.0,20.0);
+        uVar7 = SUB41(&local_b4,0);
+        pbVar13 = param_2;
+        pbVar9 = (bCVector *)bCVector::operator+(unaff_retaddr,(bCVector *)&stack0xffffff28);
+        uVar11 = bCVector::operator+(pbVar9,pbVar13);
+        pbVar13 = param_2;
+        pbVar9 = (bCVector *)bCVector::operator+(unaff_retaddr,(bCVector *)&local_ac);
+        peVar10 = (eCRenderSystemAdmin *)thunk_FUN_3007beb0();
+        eCRenderSystemAdmin::DrawBatchLineList
+                  (peVar10,pbVar9,pbVar13,uVar11,(bool)uVar7,(bool)uVar8);
+        bCVector::~bCVector((bCVector *)&local_b0);
+        bCVector::~bCVector((bCVector *)&stack0xffffff40);
+        bCVector::~bCVector((bCVector *)&stack0xffffff1c);
+        bCVector::~bCVector((bCVector *)&stack0xffffff2c);
+        uVar8 = bCVector::bCVector((bCVector *)&stack0xffffff2c,0.0,0.0,20.0);
+        uVar7 = SUB41(&stack0xffffff40,0);
+        pbVar13 = param_2;
+        pbVar9 = (bCVector *)bCVector::operator+(unaff_retaddr,(bCVector *)&stack0xffffff1c);
+        uVar11 = bCVector::operator-(pbVar9,pbVar13);
+        pbVar13 = (bCVector *)bCVector::operator+(unaff_retaddr,local_b8);
+        peVar10 = (eCRenderSystemAdmin *)thunk_FUN_3007beb0();
+        eCRenderSystemAdmin::DrawBatchLineList
+                  (peVar10,pbVar13,param_2,uVar11,(bool)uVar7,(bool)uVar8);
+        bCVector::~bCVector((bCVector *)&stack0xffffff44);
+        bCVector::~bCVector((bCVector *)&stack0xffffff34);
+        bCVector::~bCVector((bCVector *)&stack0xffffff10);
+        bCVector::~bCVector((bCVector *)&stack0xffffff20);
+      }
+      _Var21 = bCTimer::QueryPerformanceCounter();
+      lVar4 = _Var21 - CONCAT44((undefined4)local_74,local_78);
+      uVar16 = (uint)lVar4;
+      puVar1 = &(param_1->eCPhysicsScene_data).offset_0x7c;
+      uVar18 = *puVar1;
+      *puVar1 = *puVar1 + uVar16;
+      puVar1 = &(param_1->eCPhysicsScene_data).offset_0x80;
+      *puVar1 = *puVar1 + (int)((ulonglong)lVar4 >> 0x20) + (uint)CARRY4(uVar18,uVar16);
+      puVar1 = &(param_1->eCPhysicsScene_data).offset_0x84;
+      *puVar1 = *puVar1 + 1;
+      bCCriticalSectionWin32::Release((bCCriticalSectionWin32 *)&DAT_30ae5dc0);
+      goto LAB_303203de;
+    }
+    local_9c = fStack_18 * 100.0;
+    pNVar14 = local_b0;
+    if ((param_1->eCPhysicsScene_data).offset_0x59 == (eCPhysicsScene)0x1) {
+      bVar6 = (bCVector)0x1;
+      bVar23 = (bCVector)0x0;
+      uVar11 = thunk_FUN_3009bd90();
+      pbVar9 = (bCVector *)bCVector::operator+(unaff_retaddr,(bCVector *)&stack0xffffff44);
+      pbVar13 = unaff_retaddr;
+      peVar10 = (eCRenderSystemAdmin *)thunk_FUN_3007beb0();
+      eCRenderSystemAdmin::DrawBatchLineList(peVar10,pbVar13,pbVar9,uVar11,(bool)bVar23,(bool)bVar6)
+      ;
+      bCVector::~bCVector((bCVector *)&stack0xffffff40);
+      bCVector::~bCVector(abStack_8c);
+      thunk_FUN_3009bd90();
+      bCVector::operator+(unaff_retaddr,(bCVector *)&local_b0);
+      bCVector::~bCVector(local_90);
+      bVar6 = (bCVector)0x1;
+      bVar23 = (bCVector)0x0;
+      uVar11 = bCVector::bCVector((bCVector *)&stack0xffffff3c,20.0,0.0,0.0);
+      pbVar9 = (bCVector *)bCVector::operator+((bCVector *)&local_b4,local_90);
+      pbVar13 = local_b8;
+      peVar10 = (eCRenderSystemAdmin *)thunk_FUN_3007beb0();
+      eCRenderSystemAdmin::DrawBatchLineList(peVar10,pbVar13,pbVar9,uVar11,(bool)bVar23,(bool)bVar6)
+      ;
+      bCVector::~bCVector(local_94);
+      bCVector::~bCVector((bCVector *)&stack0xffffff38);
+      bVar6 = (bCVector)0x1;
+      bVar23 = (bCVector)0x0;
+      uVar11 = bCVector::bCVector((bCVector *)&stack0xffffff38,20.0,0.0,0.0);
+      pbVar9 = (bCVector *)bCVector::operator-(local_b8,local_94);
+      pbVar13 = (bCVector *)&stack0xffffff44;
+      peVar10 = (eCRenderSystemAdmin *)thunk_FUN_3007beb0();
+      eCRenderSystemAdmin::DrawBatchLineList(peVar10,pbVar13,pbVar9,uVar11,(bool)bVar23,(bool)bVar6)
+      ;
+      bCVector::~bCVector((bCVector *)&local_98);
+      bCVector::~bCVector((bCVector *)&stack0xffffff34);
+      bVar23 = (bCVector)0x1;
+      uVar7 = 0;
+      uVar11 = bCVector::bCVector((bCVector *)&stack0xffffff34,0.0,0.0,20.0);
+      pbVar9 = (bCVector *)bCVector::operator+((bCVector *)&stack0xffffff44,(bCVector *)&local_98);
+      pbVar13 = (bCVector *)&stack0xffffff40;
+      peVar10 = (eCRenderSystemAdmin *)thunk_FUN_3007beb0();
+      eCRenderSystemAdmin::DrawBatchLineList(peVar10,pbVar13,pbVar9,uVar11,(bool)uVar7,(bool)bVar23)
+      ;
+      bCVector::~bCVector((bCVector *)&local_9c);
+      bCVector::~bCVector((bCVector *)&stack0xffffff30);
+      uVar7 = 1;
+      bVar23 = (bCVector)0x0;
+      uVar11 = bCVector::bCVector((bCVector *)&stack0xffffff30,0.0,0.0,20.0);
+      pbVar9 = (bCVector *)bCVector::operator-((bCVector *)&stack0xffffff40,(bCVector *)&local_9c);
+      pbVar13 = (bCVector *)&stack0xffffff3c;
+      peVar10 = (eCRenderSystemAdmin *)thunk_FUN_3007beb0();
+      eCRenderSystemAdmin::DrawBatchLineList(peVar10,pbVar13,pbVar9,uVar11,(bool)bVar23,(bool)uVar7)
+      ;
+      bCVector::~bCVector((bCVector *)&local_a0);
+      bCVector::~bCVector((bCVector *)&stack0xffffff2c);
+      bCVector::~bCVector((bCVector *)&stack0xffffff3c);
+      pNVar14 = (NxVec3 *)unaff_EBP;
+    }
+    iVar20 = (**(code **)(*(int *)pNVar14 + 4))();
+    pNVar14 = local_b0;
+    *(undefined4 *)((param_1->eCPhysicsScene_data).offset_0x9c + 4) = *(undefined4 *)(iVar20 + 4);
+    *(undefined1 *)(param_1->eCPhysicsScene_data).offset_0x9c = 1;
+    if ((param_5 & 0x100) == 0x100) {
+      local_7c = local_9c * 100.0;
+      *(float *)((param_1->eCPhysicsScene_data).offset_0x9c + 0x8c) = local_7c;
+    }
+    if ((param_5 & 0x400) != 0) {
+      *(int *)((param_1->eCPhysicsScene_data).offset_0x9c + 8) = *(int *)((int)local_b0 + 4);
+    }
+    if ((param_5 & 0x800) != 0) {
+      uVar15 = (**(code **)(*(int *)local_b0 + 4))();
+      *(undefined4 *)((param_1->eCPhysicsScene_data).offset_0x9c + 0xc) = uVar15;
+    }
+    if (local_58 == 0x80) {
+      local_ac._0_4_ = fStack_38 * 100.0;
+      local_ac._4_4_ = fStack_34 * 100.0;
+      fStack_a4 = fStack_30 * 100.0;
+      bCVector::bCVector((bCVector *)&stack0xffffff44,(NxVec3 *)&local_ac);
+      bCVector::operator=((bCVector *)((param_1->eCPhysicsScene_data).offset_0x9c + 0x68),
+                          (bCVector *)&stack0xffffff44);
+      bCVector::~bCVector((bCVector *)&stack0xffffff44);
+    }
+    if (iStack_6c == 0x20) {
+      bCVector::bCVector((bCVector *)&stack0xffffff44,aNStack_2c);
+      pbVar13 = (bCVector *)((param_1->eCPhysicsScene_data).offset_0x9c + 0x74);
+    }
+    else {
+      if (iStack_5c != 0x40) goto LAB_303200f8;
+      bCVector::bCVector((bCVector *)&stack0xffffff44,aNStack_2c);
+      pbVar13 = (bCVector *)((param_1->eCPhysicsScene_data).offset_0x9c + 0x80);
+    }
+    bCVector::operator=(pbVar13,(bCVector *)&stack0xffffff44);
+    bCVector::~bCVector((bCVector *)&stack0xffffff44);
+LAB_303200f8:
+    if ((param_5 & 0x200) != 0) {
+      uVar18 = (**(code **)(*(int *)pNVar14 + 0x50))();
+      *(uint *)((param_1->eCPhysicsScene_data).offset_0x9c + 100) = (uVar18 & 0xffff) - 1;
+    }
+    _Var21 = bCTimer::QueryPerformanceCounter();
+    lVar4 = _Var21 - CONCAT44((undefined4)local_74,local_78);
+    uVar16 = (uint)lVar4;
+    puVar1 = &(param_1->eCPhysicsScene_data).offset_0x7c;
+    uVar18 = *puVar1;
+    *puVar1 = *puVar1 + uVar16;
+    puVar1 = &(param_1->eCPhysicsScene_data).offset_0x80;
+    *puVar1 = *puVar1 + (int)((ulonglong)lVar4 >> 0x20) + (uint)CARRY4(uVar18,uVar16);
+    puVar1 = &(param_1->eCPhysicsScene_data).offset_0x84;
+    *puVar1 = *puVar1 + 1;
+    bCCriticalSectionWin32::Release((bCCriticalSectionWin32 *)&DAT_30ae5dc0);
+    bCVector::~bCVector((bCVector *)local_68);
+    return 1;
+  }
+  local_ac._0_4_ = 0.0;
+  local_9c = 3.4028235e+38;
+  iVar20 = -1;
+  bVar5 = eCPhysicsScene::TraceRayAllHits
+                    (param_1,param_2,param_3,param_4,param_5 | 0x100,param_6,param_7,param_8);
+  if (bVar5) {
+    iVar2 = (param_1->eCPhysicsScene_data).offset_0x9c;
+    iVar17 = 0;
+    if (0 < *(int *)(iVar2 + 0x14)) {
+      local_68[0] = *(int *)(iVar2 + 0x14);
+      do {
+        local_98 = *(float *)(*(int *)(iVar2 + 0x58) + iVar17 * 4);
+        if (local_98 < local_9c) {
+          local_ac._0_4_ = *(float *)(*(int *)(iVar2 + 0x10) + iVar17 * 4);
+          iVar20 = iVar17;
+          local_9c = local_98;
+        }
+        iVar17 = iVar17 + 1;
+      } while (iVar17 < (int)local_68[0]);
+    }
+    *(float *)(iVar2 + 4) = (float)local_ac;
+    if ((float)local_ac != 0.0) {
+      if ((param_5 & 0x40) == 0) {
+        if ((param_5 & 0x20) != 0) {
+          iVar2 = (param_1->eCPhysicsScene_data).offset_0x9c;
+          pbVar9 = (bCVector *)(*(int *)(iVar2 + 0x40) + iVar20 * 0xc);
+          pbVar13 = (bCVector *)(iVar2 + 0x74);
+          goto LAB_3031f5df;
+        }
+      }
+      else {
+        iVar2 = (param_1->eCPhysicsScene_data).offset_0x9c;
+        pbVar9 = (bCVector *)(*(int *)(iVar2 + 0x4c) + iVar20 * 0xc);
+        pbVar13 = (bCVector *)(iVar2 + 0x80);
+LAB_3031f5df:
+        bCVector::operator=(pbVar13,pbVar9);
+      }
+      if ((char)bVar19 < '\0') {
+        iVar2 = (param_1->eCPhysicsScene_data).offset_0x9c;
+        bCVector::operator=((bCVector *)(iVar2 + 0x68),
+                            (bCVector *)(*(int *)(iVar2 + 0x28) + iVar20 * 0xc));
+      }
+      iVar2 = (param_1->eCPhysicsScene_data).offset_0x9c;
+      *(undefined4 *)(iVar2 + 0x8c) = *(undefined4 *)(*(int *)(iVar2 + 0x58) + iVar20 * 4);
+      if ((param_5 & 0x400) != 0) {
+        iVar2 = (param_1->eCPhysicsScene_data).offset_0x9c;
+        *(undefined4 *)(iVar2 + 8) = *(undefined4 *)(*(int *)(iVar2 + 0x1c) + iVar20 * 4);
+      }
+      if ((param_5 & 0x200) != 0) {
+        iVar2 = (param_1->eCPhysicsScene_data).offset_0x9c;
+        *(undefined4 *)(iVar2 + 100) = *(undefined4 *)(*(int *)(iVar2 + 0x34) + iVar20 * 4);
+      }
+    }
+  }
+  *(bool *)(param_1->eCPhysicsScene_data).offset_0x9c = (float)local_ac != 0.0;
+  if ((float)local_ac == 0.0) {
+    if ((param_1->eCPhysicsScene_data).offset_0x59 != (eCPhysicsScene)0x1) goto LAB_3031facc;
+    bVar6 = (bCVector)0x1;
+    bVar23 = (bCVector)0xff;
+    pbVar9 = param_3;
+    pbVar12 = (bCVector *)bCVector::operator+(param_2,local_94);
+    pbVar13 = param_2;
+    peVar10 = (eCRenderSystemAdmin *)thunk_FUN_3007beb0();
+    eCRenderSystemAdmin::DrawBatchLineList
+              (peVar10,pbVar13,pbVar12,(ulong)pbVar9,(bool)bVar23,(bool)bVar6);
+    bCVector::~bCVector((bCVector *)&local_98);
+    bVar6 = (bCVector)bCVector::bCVector((bCVector *)&local_78,20.0,0.0,0.0);
+    bVar23 = SUB41(&stack0xffffff44,0);
+    pbVar13 = param_3;
+    pbVar9 = (bCVector *)bCVector::operator+(param_2,(bCVector *)&local_ac);
+    uVar11 = bCVector::operator+(pbVar9,pbVar13);
+    pbVar13 = param_3;
+    pbVar9 = (bCVector *)bCVector::operator+(param_2,(bCVector *)&local_a0);
+    peVar10 = (eCRenderSystemAdmin *)thunk_FUN_3007beb0();
+    eCRenderSystemAdmin::DrawBatchLineList(peVar10,pbVar9,pbVar13,uVar11,(bool)bVar23,(bool)bVar6);
+    bCVector::~bCVector((bCVector *)&fStack_a4);
+    bCVector::~bCVector((bCVector *)&stack0xffffff38);
+    bCVector::~bCVector(local_b8);
+    bCVector::~bCVector(local_84);
+    uVar7 = bCVector::bCVector(local_84,20.0,0.0,0.0);
+    bVar23 = SUB41(&stack0xffffff38,0);
+    pbVar13 = param_3;
+    pbVar9 = (bCVector *)bCVector::operator+(param_2,local_b8);
+    uVar11 = bCVector::operator-(pbVar9,pbVar13);
+    pbVar13 = param_3;
+    pbVar9 = (bCVector *)bCVector::operator+(param_2,(bCVector *)&local_ac);
+    peVar10 = (eCRenderSystemAdmin *)thunk_FUN_3007beb0();
+    eCRenderSystemAdmin::DrawBatchLineList(peVar10,pbVar9,pbVar13,uVar11,(bool)bVar23,(bool)uVar7);
+    bCVector::~bCVector((bCVector *)&local_b0);
+    bCVector::~bCVector((bCVector *)&stack0xffffff2c);
+    bCVector::~bCVector((bCVector *)&stack0xffffff3c);
+    bCVector::~bCVector(local_90);
+    uVar8 = bCVector::bCVector(local_90,0.0,0.0,20.0);
+    uVar7 = SUB41(&stack0xffffff2c,0);
+    pbVar13 = param_3;
+    pbVar9 = (bCVector *)bCVector::operator+(param_2,(bCVector *)&stack0xffffff3c);
+    uVar11 = bCVector::operator+(pbVar9,pbVar13);
+    pbVar13 = param_3;
+    pbVar9 = (bCVector *)bCVector::operator+(param_2,local_b8);
+    peVar10 = (eCRenderSystemAdmin *)thunk_FUN_3007beb0();
+    eCRenderSystemAdmin::DrawBatchLineList(peVar10,pbVar9,pbVar13,uVar11,(bool)uVar7,(bool)uVar8);
+    bCVector::~bCVector((bCVector *)&stack0xffffff44);
+    bCVector::~bCVector((bCVector *)&stack0xffffff20);
+    bCVector::~bCVector((bCVector *)&stack0xffffff30);
+    bCVector::~bCVector((bCVector *)&local_9c);
+    uVar8 = bCVector::bCVector((bCVector *)&local_9c,0.0,0.0,20.0);
+    uVar7 = SUB41(&stack0xffffff20,0);
+    pbVar13 = param_3;
+    pbVar9 = (bCVector *)bCVector::operator+(param_2,(bCVector *)&stack0xffffff30);
+    in_stack_fffffef8 = bCVector::operator-(pbVar9,pbVar13);
+    pbVar13 = (bCVector *)bCVector::operator+(param_2,(bCVector *)&stack0xffffff3c);
+    in_stack_fffffef4 = param_3;
+  }
+  else {
+    if ((param_1->eCPhysicsScene_data).offset_0x59 != (eCPhysicsScene)0x1) goto LAB_3031facc;
+    local_9c = *(float *)((param_1->eCPhysicsScene_data).offset_0x9c + 0x8c);
+    bCVector::GetNormalized(param_3);
+    bCVector::operator*((bCVector *)&local_78,(float)&stack0xffffff44);
+    bVar6 = (bCVector)0x1;
+    bVar23 = (bCVector)0x0;
+    puVar22 = &stack0xffffff40;
+    pbVar9 = (bCVector *)bCVector::operator+(param_2,(bCVector *)&local_9c);
+    pbVar13 = param_2;
+    peVar10 = (eCRenderSystemAdmin *)thunk_FUN_3007beb0();
+    eCRenderSystemAdmin::DrawBatchLineList
+              (peVar10,pbVar13,pbVar9,(ulong)puVar22,(bool)bVar23,(bool)bVar6);
+    bCVector::~bCVector((bCVector *)&local_a0);
+    bCVector::~bCVector((bCVector *)&stack0xffffff3c);
+    bCVector::operator*((bCVector *)&local_80,(float)&stack0xffffff3c);
+    bCVector::operator+(param_2,local_b8);
+    bCVector::~bCVector((bCVector *)&stack0xffffff34);
+    bVar23 = (bCVector)0x1;
+    uVar7 = 0;
+    uVar11 = bCVector::bCVector((bCVector *)&stack0xffffff34,20.0,0.0,0.0);
+    pbVar9 = (bCVector *)
+             bCVector::operator+((bCVector *)&stack0xffffff44,(bCVector *)((int)&local_ac + 4));
+    pbVar13 = (bCVector *)&stack0xffffff40;
+    peVar10 = (eCRenderSystemAdmin *)thunk_FUN_3007beb0();
+    eCRenderSystemAdmin::DrawBatchLineList(peVar10,pbVar13,pbVar9,uVar11,(bool)uVar7,(bool)bVar23);
+    bCVector::~bCVector((bCVector *)&local_ac);
+    bCVector::~bCVector((bCVector *)&stack0xffffff30);
+    uVar7 = 1;
+    bVar23 = (bCVector)0x0;
+    uVar11 = bCVector::bCVector((bCVector *)&stack0xffffff30,20.0,0.0,0.0);
+    pbVar9 = (bCVector *)bCVector::operator-((bCVector *)&stack0xffffff40,(bCVector *)&local_ac);
+    pbVar13 = (bCVector *)&stack0xffffff3c;
+    peVar10 = (eCRenderSystemAdmin *)thunk_FUN_3007beb0();
+    eCRenderSystemAdmin::DrawBatchLineList(peVar10,pbVar13,pbVar9,uVar11,(bool)bVar23,(bool)uVar7);
+    bCVector::~bCVector((bCVector *)&local_b0);
+    bCVector::~bCVector((bCVector *)&stack0xffffff2c);
+    bVar6 = (bCVector)0x1;
+    bVar23 = (bCVector)0x0;
+    uVar11 = bCVector::bCVector((bCVector *)&stack0xffffff2c,0.0,0.0,20.0);
+    pbVar9 = (bCVector *)bCVector::operator+((bCVector *)&stack0xffffff3c,(bCVector *)&local_b0);
+    pbVar13 = (bCVector *)&stack0xffffff38;
+    peVar10 = (eCRenderSystemAdmin *)thunk_FUN_3007beb0();
+    eCRenderSystemAdmin::DrawBatchLineList(peVar10,pbVar13,pbVar9,uVar11,(bool)bVar23,(bool)bVar6);
+    bCVector::~bCVector((bCVector *)&local_b4);
+    bCVector::~bCVector((bCVector *)&stack0xffffff28);
+    uVar7 = 0x5d;
+    bCVector::bCVector((bCVector *)&stack0xffffff28,0.0,0.0,20.0);
+    uVar8 = 0x6d;
+    bCVector::operator-((bCVector *)&stack0xffffff38,(bCVector *)&local_b4);
+    pbVar13 = (bCVector *)&stack0xffffff34;
+  }
+  peVar10 = (eCRenderSystemAdmin *)thunk_FUN_3007beb0();
+  eCRenderSystemAdmin::DrawBatchLineList
+            (peVar10,pbVar13,in_stack_fffffef4,in_stack_fffffef8,(bool)uVar7,(bool)uVar8);
+  bCVector::~bCVector((bCVector *)&stack0xffffff38);
+  bCVector::~bCVector((bCVector *)&stack0xffffff14);
+  bCVector::~bCVector((bCVector *)&stack0xffffff24);
+  bCVector::~bCVector((bCVector *)((int)&local_ac + 4));
+LAB_3031facc:
+  return *(undefined1 *)(param_1->eCPhysicsScene_data).offset_0x9c;
+}
+
+

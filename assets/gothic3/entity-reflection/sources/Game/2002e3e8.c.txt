@@ -1,0 +1,19 @@
+/* ENTRY 2002e3e8 | gCClock_PS::ReadSaveGame | STATUS decompiled | 15 ms */
+
+/* public: virtual enum bEResult __thiscall gCClock_PS::ReadSaveGame(class bCIStream &) */
+
+bEResult __thiscall gCClock_PS::ReadSaveGame(gCClock_PS *this,bCIStream *param_1)
+
+{
+                    /* 0x2e3e8  5988  ?ReadSaveGame@gCClock_PS@@UAE?AW4bEResult@@AAVbCIStream@@@Z */
+  bCIStream::operator>>((bCIStream *)param_1,(ulong *)&(this->gCClock_PS_data).field_0x10);
+  bCIStream::operator>>((bCIStream *)param_1,(ulong *)&(this->gCClock_PS_data).field_0x14);
+  bCIStream::operator>>((bCIStream *)param_1,(ulong *)&(this->gCClock_PS_data).field_0x18);
+  bCIStream::operator>>((bCIStream *)param_1,(ulong *)&(this->gCClock_PS_data).field_0x1c);
+  bCIStream::operator>>((bCIStream *)param_1,(ulong *)&(this->gCClock_PS_data).field_0x20);
+  bCIStream::operator>>((bCIStream *)param_1,(float *)&(this->gCClock_PS_data).field_0x24);
+  (*this->vftablePtr->OnNotifyPropertyValueChangedExitEx)(this,(char *)0x0,false);
+  return 1;
+}
+
+

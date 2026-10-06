@@ -1,0 +1,10 @@
+/* ENTRY 303882f0 | FUN_303882f0 | STATUS decompiled | 4 ms */
+
+undefined4 __fastcall FUN_303882f0(eCEffector *param_1)
+
+{
+  eCEffector::Create(param_1);
+  return 1;
+}
+
+

@@ -1,0 +1,78 @@
+/* ENTRY 200295f5 | gCScriptProcessingUnit::Invalidate | STATUS decompiled | 28 ms */
+
+/* public: void __thiscall gCScriptProcessingUnit::Invalidate(void) */
+
+void __thiscall gCScriptProcessingUnit::Invalidate(gCScriptProcessingUnit *this)
+
+{
+  int iVar1;
+  bCMemoryAdmin *pbVar2;
+  int iVar3;
+  void *pvVar4;
+  ulong uVar5;
+  
+                    /* 0x295f5  5057  ?Invalidate@gCScriptProcessingUnit@@QAEXXZ */
+  (this->gCScriptProcessingUnit_data).offset_0x68 = (int *)0x0;
+  (this->gCScriptProcessingUnit_data).offset_0x6c = (int *)0x0;
+  (this->gCScriptProcessingUnit_data).offset_0x54 = 0;
+  (this->gCScriptProcessingUnit_data).offset_0x58 = 0;
+  (this->gCScriptProcessingUnit_data).offset_0x5c = 0;
+  pvVar4 = (this->gCScriptProcessingUnit_data).offset_0x0;
+  if (pvVar4 != (void *)0x0) {
+    thunk_FUN_20352660(pvVar4,(this->gCScriptProcessingUnit_data).offset_0x8);
+    pvVar4 = (this->gCScriptProcessingUnit_data).offset_0x0;
+    pbVar2 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar2,pvVar4);
+    (this->gCScriptProcessingUnit_data).offset_0x0 = (void *)0x0;
+    (this->gCScriptProcessingUnit_data).offset_0x4 = 0;
+    (this->gCScriptProcessingUnit_data).offset_0x8 = 0;
+  }
+  iVar1 = (this->gCScriptProcessingUnit_data).offset_0x8;
+  if (iVar1 < 1) {
+    iVar3 = iVar1 >> 3;
+    if (iVar3 < 0x401) {
+      if (iVar3 < 4) {
+        iVar3 = 4;
+      }
+    }
+    else {
+      iVar3 = 0x400;
+    }
+    pvVar4 = (this->gCScriptProcessingUnit_data).offset_0x0;
+    iVar3 = iVar3 + 1;
+    uVar5 = iVar3 * 0x18;
+    pbVar2 = bCMemoryAdmin::GetInstance();
+    pvVar4 = bCMemoryAdmin::Realloc(pbVar2,pvVar4,uVar5);
+    (this->gCScriptProcessingUnit_data).offset_0x0 = pvVar4;
+    thunk_FUN_203502c0((void *)((int)pvVar4 + (this->gCScriptProcessingUnit_data).offset_0x8 * 0x18)
+                       ,iVar3 - iVar1);
+    (this->gCScriptProcessingUnit_data).offset_0x8 = iVar3;
+  }
+  iVar1 = (this->gCScriptProcessingUnit_data).offset_0x4;
+  if (1 < iVar1) {
+    thunk_FUN_20352660((int)(this->gCScriptProcessingUnit_data).offset_0x0 + 0x18,iVar1 + -1);
+    thunk_FUN_203502c0((int)(this->gCScriptProcessingUnit_data).offset_0x0 + 0x18,
+                       (this->gCScriptProcessingUnit_data).offset_0x4 + -1);
+  }
+  (this->gCScriptProcessingUnit_data).offset_0x4 = 1;
+  bCString::Clear((bCString *)&(this->gCScriptProcessingUnit_data).field_0xc);
+  bCString::Clear((bCString *)&(this->gCScriptProcessingUnit_data).field_0x10);
+  (this->gCScriptProcessingUnit_data).offset_0x94 = 0;
+  (this->gCScriptProcessingUnit_data).offset_0x70 = 0;
+  (this->gCScriptProcessingUnit_data).offset_0x90 = (gCScriptProcessingUnit)0x0;
+  (this->gCScriptProcessingUnit_data).offset_0x124 = 0;
+  (this->gCScriptProcessingUnit_data).offset_0x128 = 0;
+  (this->gCScriptProcessingUnit_data).offset_0x12c = 0;
+  (this->gCScriptProcessingUnit_data).offset_0x164 = 0x3f800000;
+  bCVector::Clear((bCVector *)&(this->gCScriptProcessingUnit_data).field_0x9c);
+  bCQuaternion::Clear((bCQuaternion *)&(this->gCScriptProcessingUnit_data).field_0xa8);
+  bCMatrix::Clear((bCMatrix *)&(this->gCScriptProcessingUnit_data).field_0xb8);
+  bCVector::Clear((bCVector *)&(this->gCScriptProcessingUnit_data).field_0xf8);
+  bCString::Clear((bCString *)&(this->gCScriptProcessingUnit_data).field_0x14c);
+  (this->gCScriptProcessingUnit_data).offset_0x60 = (gCScriptProcessingUnit)0x0;
+  bCString::Clear((bCString *)&(this->gCScriptProcessingUnit_data).field_0x64);
+  (this->gCScriptProcessingUnit_data).offset_0x184 = 0;
+  return;
+}
+
+

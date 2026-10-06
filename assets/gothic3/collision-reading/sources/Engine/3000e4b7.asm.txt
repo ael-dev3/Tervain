@@ -1,0 +1,2 @@
+; 3000e4b7 ?GetTriggersOnTouch@eCCollisionShape@@QBEAB_NXZ
+3000e4b7 | e914420b00 | JMP 0x300c26d0

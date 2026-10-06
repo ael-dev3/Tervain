@@ -1,0 +1,2 @@
+; 20033087 bTPropertyContainer<gEFocusPriority>::vfunction8
+20033087 | e9a4aa0700 | JMP 0x200adb30

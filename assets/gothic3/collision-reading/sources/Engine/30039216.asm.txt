@@ -1,0 +1,4 @@
+; 30039216 ?GetGroup@eCCollisionShape@@QBEABV?$bTPropertyContainer@W4eEShapeGroup@@@@XZ
+30039216 | e975920800 | JMP 0x300c2490
+; 3003922a eCAmbientOcclusionPreprocessor::SetMaxLeafsPerNode
+; 3003922a Ordinal_13778

@@ -1,0 +1,7 @@
+; 1006af60 FUN_1006af60
+1006af60 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+1006af64 | 50 | PUSH EAX
+1006af65 | 51 | PUSH ECX
+1006af66 | 8b4c240c | MOV ECX,dword ptr [ESP + 0xc]
+1006af6a | e8a06af9ff | CALL 0x10001a0f
+1006af6f | c20800 | RET 0x8

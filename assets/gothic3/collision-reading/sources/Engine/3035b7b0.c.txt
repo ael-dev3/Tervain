@@ -1,0 +1,14 @@
+/* ENTRY 3035b7b0 | bTPropertyType<eCCollisionShape,unsigned_short>::vfunction20 | STATUS decompiled | 4 ms */
+
+void __thiscall
+bTPropertyType<eCCollisionShape,unsigned_short>::vfunction20
+          (bTPropertyType<eCCollisionShape,unsigned_short> *this)
+
+{
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)this);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)this[6].vftablePtr,(bCPropertyTypeBase *)this);
+  return;
+}
+
+

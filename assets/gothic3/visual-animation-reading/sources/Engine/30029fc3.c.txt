@@ -1,0 +1,12 @@
+/* ENTRY 30029fc3 | eCEffector::PostInitializeProperties | STATUS decompiled | 4 ms */
+
+/* public: virtual enum bEResult __thiscall eCEffector::PostInitializeProperties(void) */
+
+bEResult __thiscall eCEffector::PostInitializeProperties(eCEffector *this)
+
+{
+                    /* 0x29fc3  11733  ?PostInitializeProperties@eCEffector@@UAE?AW4bEResult@@XZ */
+  return 1;
+}
+
+

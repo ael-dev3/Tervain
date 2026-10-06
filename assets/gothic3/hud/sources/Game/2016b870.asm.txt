@@ -1,0 +1,10 @@
+; 2016b870 gCHUDViewBarSynthPages2::gCHUDViewBarSynthPages2
+2016b870 | 56 | PUSH ESI
+2016b871 | 8bf1 | MOV ESI,ECX
+2016b873 | ff15cc787d20 | CALL dword ptr [0x207d78cc]
+2016b879 | 8d4e10 | LEA ECX,[ESI + 0x10]
+2016b87c | c7060c196720 | MOV dword ptr [ESI],0x2067190c
+2016b882 | ff15e4787d20 | CALL dword ptr [0x207d78e4]
+2016b888 | 8bc6 | MOV EAX,ESI
+2016b88a | 5e | POP ESI
+2016b88b | c3 | RET

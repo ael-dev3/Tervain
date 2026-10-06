@@ -1,0 +1,13 @@
+/* ENTRY 30019164 | eCApplication::SetPaused | STATUS decompiled | 11 ms */
+
+/* public: void __thiscall eCApplication::SetPaused(bool) */
+
+void __thiscall eCApplication::SetPaused(eCApplication *this,bool param_1)
+
+{
+                    /* 0x19164  13907  ?SetPaused@eCApplication@@QAEX_N@Z */
+  (this->eCApplication_data).offset_0x4fd = (eCApplication)param_1;
+  return;
+}
+
+

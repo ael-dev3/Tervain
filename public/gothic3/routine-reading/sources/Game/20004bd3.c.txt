@@ -1,0 +1,11 @@
+/* ENTRY 20004bd3 | bTPropertyContainer<gEHitDirection>::vfunction7 | STATUS decompiled | 3 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<gEHitDirection>::vfunction7(bTPropertyContainer<gEHitDirection> *this)
+
+{
+  (this->bTPropertyContainer<gEHitDirection>_data).offset_0x0 = DAT_207cbf4c;
+  return 1;
+}
+
+

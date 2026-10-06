@@ -1,0 +1,28 @@
+/* ENTRY 3003259c | eCCollisionShape_PS::TraceRayFirstHit | STATUS decompiled | 14 ms */
+
+/* public: bool __thiscall eCCollisionShape_PS::TraceRayFirstHit(class bCRay &) */
+
+bool __thiscall eCCollisionShape_PS::TraceRayFirstHit(eCCollisionShape_PS *this,bCRay *param_1)
+
+{
+  int iVar1;
+  bool bVar2;
+  int iVar3;
+  
+                    /* 0x3259c  14770  ?TraceRayFirstHit@eCCollisionShape_PS@@QAE_NAAVbCRay@@@Z */
+  iVar3 = 0;
+  if (0 < (this->eCCollisionShape_PS_data).offset_0x18) {
+    do {
+      iVar1 = (this->eCCollisionShape_PS_data).offset_0x14;
+      if ((*(int *)(iVar1 + iVar3 * 4) != 0) &&
+         (bVar2 = eCCollisionShape::IntersectsRay(*(eCCollisionShape **)(iVar1 + iVar3 * 4),param_1)
+         , bVar2)) {
+        return true;
+      }
+      iVar3 = iVar3 + 1;
+    } while (iVar3 < (this->eCCollisionShape_PS_data).offset_0x18);
+  }
+  return false;
+}
+
+

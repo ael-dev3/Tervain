@@ -1,0 +1,14 @@
+/* ENTRY 20173040 | gCHUDMenuCredits2::gCHUDMenuCredits2 | STATUS decompiled | 12 ms */
+
+gCHUDMenuCredits2 * __thiscall gCHUDMenuCredits2::gCHUDMenuCredits2(gCHUDMenuCredits2 *this)
+
+{
+  gCHUDMenu::gCHUDMenu((gCHUDMenu *)this);
+  this->vftablePtr = &vftable;
+  CFFGFCAnimateCtrl::CFFGFCAnimateCtrl
+            ((CFFGFCAnimateCtrl *)&(this->gCHUDMenuCredits2_data).field_0xc);
+  gCHUDButton::gCHUDButton((gCHUDButton *)&(this->gCHUDMenuCredits2_data).field_0x1c);
+  return this;
+}
+
+

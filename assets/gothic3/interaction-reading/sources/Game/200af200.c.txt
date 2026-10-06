@@ -1,0 +1,11 @@
+/* ENTRY 200af200 | bTPropertyContainer<gEFocusPriority>::vfunction7 | STATUS decompiled | 40 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<gEFocusPriority>::vfunction7(bTPropertyContainer<gEFocusPriority> *this)
+
+{
+  (this->bTPropertyContainer<gEFocusPriority>_data).offset_0x0 = DAT_207b61a8;
+  return 1;
+}
+
+

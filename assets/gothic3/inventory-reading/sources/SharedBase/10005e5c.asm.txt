@@ -1,0 +1,4 @@
+; 10005e5c bTPropertyObject<bCObsoleteClass,bCObjectRefBase>::vfunction3
+10005e5c | e90f8b0800 | JMP 0x1008e970
+; 10005e61 bCUnitedRay::operator+=
+; 10005e61 Ordinal_1250

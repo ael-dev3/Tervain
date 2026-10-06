@@ -1,0 +1,11 @@
+/* ENTRY 3001130b | bTPropertyContainer<eEShapeAABBAdapt>::vfunction7 | STATUS decompiled | 2 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<eEShapeAABBAdapt>::vfunction7(bTPropertyContainer<eEShapeAABBAdapt> *this)
+
+{
+  (this->bTPropertyContainer<eEShapeAABBAdapt>_data).offset_0x0 = DAT_30adab08;
+  return 1;
+}
+
+

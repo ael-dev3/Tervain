@@ -1,0 +1,17 @@
+/* ENTRY 1009ac00 | FUN_1009ac00 | STATUS decompiled | 2 ms */
+
+undefined4 __fastcall FUN_1009ac00(int param_1)
+
+{
+  undefined4 uVar1;
+  
+  if (*(undefined4 **)(param_1 + 4) != (undefined4 *)0x0) {
+                    /* WARNING: Could not recover jumptable at 0x1009ac0b. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+    uVar1 = (**(code **)**(undefined4 **)(param_1 + 4))();
+    return uVar1;
+  }
+  return 0;
+}
+
+

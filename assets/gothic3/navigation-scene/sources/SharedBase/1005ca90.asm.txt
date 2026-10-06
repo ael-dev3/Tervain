@@ -1,0 +1,57 @@
+; 1005ca90 FUN_1005ca90
+1005ca90 | 83ec0c | SUB ESP,0xc
+1005ca93 | 807c241401 | CMP byte ptr [ESP + 0x14],0x1
+1005ca98 | 8b442410 | MOV EAX,dword ptr [ESP + 0x10]
+1005ca9c | d900 | FLD float ptr [EAX]
+1005ca9e | d91c24 | FSTP float ptr [ESP]
+1005caa1 | d94008 | FLD float ptr [EAX + 0x8]
+1005caa4 | d95c2408 | FSTP float ptr [ESP + 0x8]
+1005caa8 | d90424 | FLD float ptr [ESP]
+1005caab | d86104 | FSUB float ptr [ECX + 0x4]
+1005caae | d91c24 | FSTP float ptr [ESP]
+1005cab1 | d9442408 | FLD float ptr [ESP + 0x8]
+1005cab5 | d8610c | FSUB float ptr [ECX + 0xc]
+1005cab8 | d95c2408 | FSTP float ptr [ESP + 0x8]
+1005cabc | d90424 | FLD float ptr [ESP]
+1005cabf | d9442408 | FLD float ptr [ESP + 0x8]
+1005cac3 | d901 | FLD float ptr [ECX]
+1005cac5 | d9c2 | FLD ST2
+1005cac7 | decb | FMULP ST3
+1005cac9 | d9ee | FLDZ
+1005cacb | dcc8 | FMUL ST0
+1005cacd | dec3 | FADDP ST3,ST0
+1005cacf | d9c1 | FLD ST1
+1005cad1 | deca | FMULP ST2
+1005cad3 | d9ca | FXCH ST2
+1005cad5 | dec1 | FADDP
+1005cad7 | 7522 | JNZ 0x1005cafb
+1005cad9 | d95c2414 | FSTP float ptr [ESP + 0x14]
+1005cadd | d9442414 | FLD float ptr [ESP + 0x14]
+1005cae1 | d9c1 | FLD ST1
+1005cae3 | deca | FMULP ST2
+1005cae5 | dd0578870e10 | FLD double ptr [0x100e8778]
+1005caeb | dcca | FMUL ST2
+1005caed | deca | FMULP ST2
+1005caef | d9c9 | FXCH
+1005caf1 | d95c2414 | FSTP float ptr [ESP + 0x14]
+1005caf5 | d9442414 | FLD float ptr [ESP + 0x14]
+1005caf9 | eb16 | JMP 0x1005cb11
+; 1005cafb LAB_1005cafb
+1005cafb | d95c2414 | FSTP float ptr [ESP + 0x14]
+1005caff | d9442414 | FLD float ptr [ESP + 0x14]
+1005cb03 | d9c1 | FLD ST1
+1005cb05 | deca | FMULP ST2
+1005cb07 | d9c9 | FXCH
+1005cb09 | d95c2414 | FSTP float ptr [ESP + 0x14]
+1005cb0d | d9442414 | FLD float ptr [ESP + 0x14]
+; 1005cb11 LAB_1005cb11
+1005cb11 | dff1 | FCOMIP ST0,ST1
+1005cb13 | ddd8 | FSTP ST0
+1005cb15 | 7608 | JBE 0x1005cb1f
+1005cb17 | b001 | MOV AL,0x1
+1005cb19 | 83c40c | ADD ESP,0xc
+1005cb1c | c20800 | RET 0x8
+; 1005cb1f LAB_1005cb1f
+1005cb1f | 32c0 | XOR AL,AL
+1005cb21 | 83c40c | ADD ESP,0xc
+1005cb24 | c20800 | RET 0x8

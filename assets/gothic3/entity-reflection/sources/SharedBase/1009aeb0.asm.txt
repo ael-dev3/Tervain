@@ -1,0 +1,51 @@
+; 1009aeb0 FUN_1009aeb0
+1009aeb0 | 83ec08 | SUB ESP,0x8
+1009aeb3 | 56 | PUSH ESI
+1009aeb4 | 8bf1 | MOV ESI,ECX
+1009aeb6 | 57 | PUSH EDI
+1009aeb7 | 8b7e04 | MOV EDI,dword ptr [ESI + 0x4]
+1009aeba | 85ff | TEST EDI,EDI
+1009aebc | 7409 | JZ 0x1009aec7
+1009aebe | 8b07 | MOV EAX,dword ptr [EDI]
+1009aec0 | 8b5030 | MOV EDX,dword ptr [EAX + 0x30]
+1009aec3 | 8bcf | MOV ECX,EDI
+1009aec5 | ffd2 | CALL EDX
+; 1009aec7 LAB_1009aec7
+1009aec7 | 53 | PUSH EBX
+1009aec8 | 8d44240c | LEA EAX,[ESP + 0xc]
+1009aecc | 50 | PUSH EAX
+1009aecd | 8bce | MOV ECX,ESI
+1009aecf | e86dc0f6ff | CALL 0x10006f41
+1009aed4 | 8bd8 | MOV EBX,EAX
+1009aed6 | 8b4b04 | MOV ECX,dword ptr [EBX + 0x4]
+1009aed9 | 51 | PUSH ECX
+1009aeda | 8bce | MOV ECX,ESI
+1009aedc | e87475f6ff | CALL 0x10002455
+1009aee1 | 8b13 | MOV EDX,dword ptr [EBX]
+1009aee3 | 8b4c2410 | MOV ECX,dword ptr [ESP + 0x10]
+1009aee7 | 85c9 | TEST ECX,ECX
+1009aee9 | 8916 | MOV dword ptr [ESI],EDX
+1009aeeb | 5b | POP EBX
+1009aeec | 7407 | JZ 0x1009aef5
+1009aeee | 8b01 | MOV EAX,dword ptr [ECX]
+1009aef0 | 8b5034 | MOV EDX,dword ptr [EAX + 0x34]
+1009aef3 | ffd2 | CALL EDX
+; 1009aef5 LAB_1009aef5
+1009aef5 | 833e00 | CMP dword ptr [ESI],0x0
+1009aef8 | 7408 | JZ 0x1009af02
+1009aefa | 57 | PUSH EDI
+1009aefb | 8bce | MOV ECX,ESI
+1009aefd | e85375f6ff | CALL 0x10002455
+; 1009af02 LAB_1009af02
+1009af02 | 85ff | TEST EDI,EDI
+1009af04 | 7409 | JZ 0x1009af0f
+1009af06 | 8b07 | MOV EAX,dword ptr [EDI]
+1009af08 | 8b5034 | MOV EDX,dword ptr [EAX + 0x34]
+1009af0b | 8bcf | MOV ECX,EDI
+1009af0d | ffd2 | CALL EDX
+; 1009af0f LAB_1009af0f
+1009af0f | 5f | POP EDI
+1009af10 | 8bc6 | MOV EAX,ESI
+1009af12 | 5e | POP ESI
+1009af13 | 83c408 | ADD ESP,0x8
+1009af16 | c3 | RET

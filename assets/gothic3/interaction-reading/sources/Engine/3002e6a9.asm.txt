@@ -1,0 +1,2 @@
+; 3002e6a9 eCTemplateEntityProxy::CopyFrom
+3002e6a9 | e9128f4900 | JMP 0x304c75c0

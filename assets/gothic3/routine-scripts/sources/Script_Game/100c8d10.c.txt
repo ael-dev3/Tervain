@@ -1,0 +1,150 @@
+/* ENTRY 100c8d10 | gSArgsFor__AI_Cast::~gSArgsFor__AI_Cast | STATUS decompiled | 148 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+uint __thiscall
+gSArgsFor__AI_Cast::~gSArgsFor__AI_Cast
+          (gSArgsFor__AI_Cast *this,bTObjStack<gScriptRunTimeSingleState> *param_1,
+          gCScriptProcessingUnit *param_2)
+
+{
+  bool bVar1;
+  eCEntity *peVar2;
+  undefined4 uVar3;
+  int iVar4;
+  undefined4 *puVar5;
+  bCString *pbVar6;
+  gCScriptAdmin *this_00;
+  uint extraout_EAX;
+  code *pcVar7;
+  Entity aEStack_4d0 [164];
+  undefined4 uStack_42c;
+  Entity aEStack_424 [152];
+  undefined4 uStack_38c;
+  gCScriptProcessingUnit *pgStack_388;
+  undefined1 *puStack_384;
+  bTObjStack<gScriptRunTimeSingleState> *pbVar8;
+  bCString local_35c [8];
+  undefined1 local_354 [12];
+  Entity local_348 [4];
+  PSRoutine aPStack_344 [32];
+  PSInventory local_324 [12];
+  PSNpc local_318 [120];
+  Entity aEStack_2a0 [136];
+  PropertyAnimActionPowerCast local_218 [32];
+  Entity aEStack_1f8 [168];
+  Entity local_150 [32];
+  PSItem local_130 [136];
+  Entity local_a8 [168];
+  
+  peVar2 = gCScriptProcessingUnit::GetSelfEntity(param_2);
+  Entity::Entity(local_348,peVar2);
+  peVar2 = gCScriptProcessingUnit::GetTargetEntity(param_2);
+  Entity::Entity(local_a8,peVar2);
+  if ((_DAT_10223708 & 1) == 0) {
+    _DAT_10223708 = _DAT_10223708 | 1;
+    DAT_10223700 = DAT_10223704;
+    DAT_10223704 = DAT_10223704 + 1;
+  }
+  pcVar7 = ~Entity_exref;
+  if (DAT_10223700 < *(int *)(*(int *)param_1 + -0x18 + *(int *)(param_1 + 4) * 0x18))
+  goto LAB_100c902e;
+  *(int *)(*(int *)param_1 + -0x18 + *(int *)(param_1 + 4) * 0x18) = DAT_10223700 + 1;
+  PSInventory::FindStackIndex(local_324,1);
+  PSInventory::GetTemplateItem(local_324,(int)local_150);
+  PSNpc::GetCurrentTarget(local_318);
+  PSItem::GetSpell(local_130);
+  puStack_384 = local_354;
+  pgStack_388 = param_2;
+  uStack_38c = 0x100c8df4;
+  uVar3 = thunk_FUN_100672d0();
+  bCString::bCString((bCString *)&stack0xfffffc98,"");
+  switch(uVar3) {
+  case 0x29:
+  case 0x2c:
+  case 0x2d:
+    PSMagic::PropertyAnimActionCast::operator_class_bCString((PropertyAnimActionCast *)local_218);
+    puStack_384 = (undefined1 *)0x100c8ea3;
+    bCString::operator=((bCString *)&stack0xfffffc94,(bCString *)&stack0xfffffc9c);
+    pbVar6 = (bCString *)&stack0xfffffc9c;
+    break;
+  case 0x2a:
+    iVar4 = Entity::GetRandomNumber(100);
+    if (iVar4 < 0x14) {
+      PSMagic::PropertyAnimActionPowerCast::operator_class_bCString(local_218);
+      puStack_384 = (undefined1 *)0x100c8e4b;
+      bCString::operator=((bCString *)&stack0xfffffc94,local_35c);
+      pbVar6 = local_35c;
+    }
+    else {
+      PSMagic::PropertyAnimActionCast::operator_class_bCString((PropertyAnimActionCast *)local_218);
+      puStack_384 = (undefined1 *)0x100c8e7c;
+      bCString::operator=((bCString *)&stack0xfffffc94,(bCString *)&stack0xfffffca0);
+      pbVar6 = (bCString *)&stack0xfffffca0;
+    }
+    break;
+  default:
+    goto switchD_100c8e16_caseD_2b;
+  }
+  bCString::~bCString(pbVar6);
+switchD_100c8e16_caseD_2b:
+  puStack_384 = (undefined1 *)0x100c8ebb;
+  thunk_FUN_1001d8b0();
+  puStack_384 = (undefined1 *)0x100c8ed2;
+  bCString::operator=((bCString *)(*(int *)param_1 + -0x14 + *(int *)(param_1 + 4) * 0x18),
+                      "_AI_Cast");
+  puStack_384 = (undefined1 *)0x164;
+  *(undefined1 *)(*(int *)param_1 + -0x10 + *(int *)(param_1 + 4) * 0x18) = 0;
+  pgStack_388 = (gCScriptProcessingUnit *)0x100c8eef;
+  puVar5 = (undefined4 *)new();
+  if (puVar5 == (undefined4 *)0x0) {
+    puVar5 = (undefined4 *)0x0;
+  }
+  else {
+    *puVar5 = &vftable;
+    Entity::Entity((Entity *)(puVar5 + 1));
+    Entity::Entity((Entity *)(puVar5 + 0x2c));
+    bCString::bCString((bCString *)(puVar5 + 0x57));
+  }
+  *(undefined4 **)(*(int *)param_1 + -0xc + *(int *)(param_1 + 4) * 0x18) = puVar5;
+  iVar4 = *(int *)param_1 + *(int *)(param_1 + 4) * 0x18;
+  bCString::operator=((bCString *)(iVar4 + -8),(bCString *)(iVar4 + -0x20));
+  bCString::bCString((bCString *)&stack0xfffffc88,local_35c);
+  uStack_42c = 0x100c8f72;
+  Entity::Entity(aEStack_424,aEStack_1f8);
+  Entity::Entity(aEStack_4d0,local_348);
+  thunk_FUN_10026c10();
+  pbVar6 = (bCString *)(*(int *)param_1 + *(int *)(param_1 + 4) * 0x18 + -0x14);
+  pbVar8 = param_1;
+  this_00 = (gCScriptAdmin *)thunk_FUN_10015630();
+  bVar1 = gCScriptAdmin::RunScriptFunction(this_00,pbVar6,pbVar8,param_2);
+  if (!bVar1) {
+    bCString::~bCString(local_35c);
+    Entity::~Entity(aEStack_2a0);
+    Entity::~Entity(aEStack_1f8);
+    Entity::~Entity(local_150);
+    Entity::~Entity(local_a8);
+    Entity::~Entity(local_348);
+    return extraout_EAX & 0xffffff00;
+  }
+  bCString::~bCString(local_35c);
+  pcVar7 = ~Entity_exref;
+  Entity::~Entity(aEStack_2a0);
+  Entity::~Entity(aEStack_1f8);
+  Entity::~Entity(local_150);
+LAB_100c902e:
+  if ((_DAT_10223708 & 2) == 0) {
+    _DAT_10223708 = _DAT_10223708 | 2;
+    DAT_102236fc = DAT_10223704;
+    DAT_10223704 = DAT_10223704 + 1;
+  }
+  if (*(int *)(*(int *)param_1 + -0x18 + *(int *)(param_1 + 4) * 0x18) <= DAT_102236fc) {
+    *(int *)(*(int *)param_1 + -0x18 + *(int *)(param_1 + 4) * 0x18) = DAT_102236fc + 1;
+    PSRoutine::ContinueRoutine(aPStack_344);
+  }
+  (*pcVar7)();
+  uVar3 = (*pcVar7)();
+  return CONCAT31((int3)((uint)uVar3 >> 8),1);
+}
+
+

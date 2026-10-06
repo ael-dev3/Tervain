@@ -1,0 +1,11 @@
+/* ENTRY 30333570 | eCRigidBodyBase_PS::eCRigidBodyBase_PS | STATUS decompiled | 10 ms */
+
+eCRigidBodyBase_PS * __thiscall eCRigidBodyBase_PS::eCRigidBodyBase_PS(eCRigidBodyBase_PS *this)
+
+{
+  eCEntityPropertySet::eCEntityPropertySet((eCEntityPropertySet *)this);
+  this->vftablePtr = &vftable;
+  return this;
+}
+
+

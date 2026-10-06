@@ -1,0 +1,2 @@
+; 30009ff7 ?GetPlayTime@eCWrapper_emfx2Actor@@QBENW4eEMotionType@1@@Z
+30009ff7 | e9c4160d00 | JMP 0x300db6c0

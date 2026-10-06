@@ -1,0 +1,2 @@
+; 2000d7ab bTPropertyType<gCDamageReceiver_PS,bTPropertyContainer<gEDamageType>_>::vfunction1
+2000d7ab | e950ee0a00 | JMP 0x200bc600

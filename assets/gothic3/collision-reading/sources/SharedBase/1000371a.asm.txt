@@ -1,0 +1,4 @@
+; 1000371a ?Intersect@bCBox@@QAEXABV1@@Z
+1000371a | e9d1290300 | JMP 0x100360f0
+; 1000371f bCSphere::InvScale
+; 1000371f Ordinal_3478

@@ -1,0 +1,4 @@
+; 30003b2a bTPropertyType<eCCollisionShape,bCObsoleteClass>::vfunction19
+30003b2a | e971fa3500 | JMP 0x303635a0
+; 30003b2f eCTriggerList_PS::Invalidate
+; 30003b2f Ordinal_10206

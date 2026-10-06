@@ -1,0 +1,4 @@
+; 100063c5 ??0bCGuid@@QAE@XZ
+100063c5 | e9b6c50000 | JMP 0x10012980
+; 100063ca bCSphericalRotation::SetLongitude
+; 100063ca Ordinal_4237

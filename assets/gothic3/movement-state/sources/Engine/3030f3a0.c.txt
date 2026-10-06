@@ -1,0 +1,16 @@
+/* ENTRY 3030f3a0 | FUN_3030f3a0 | STATUS decompiled | 9 ms */
+
+void __thiscall FUN_3030f3a0(int param_1,eCEntity *param_2)
+
+{
+  eCPhysicObject *this;
+  NxActor *pNVar1;
+  
+  *(eCEntity **)(param_1 + 0x1b4) = param_2;
+  this = (eCPhysicObject *)eCEntity::GetPhysicObject(param_2);
+  pNVar1 = eCPhysicObject::GetActor(this);
+  *(NxActor **)(param_1 + 0x1b8) = pNVar1;
+  return;
+}
+
+

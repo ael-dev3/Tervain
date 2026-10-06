@@ -1,0 +1,16 @@
+/* ENTRY 3003f09e | eCEntity::RemoveLink | STATUS decompiled | 9 ms */
+
+/* public: void __thiscall eCEntity::RemoveLink(class eCJoint &) */
+
+void __thiscall eCEntity::RemoveLink(eCEntity *this,eCJoint *param_1)
+
+{
+  eCPhysicsScene *this_00;
+  
+                    /* 0x3f09e  12516  ?RemoveLink@eCEntity@@QAEXAAVeCJoint@@@Z */
+  this_00 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+  eCPhysicsScene::ReleaseJoint(this_00,param_1);
+  return;
+}
+
+

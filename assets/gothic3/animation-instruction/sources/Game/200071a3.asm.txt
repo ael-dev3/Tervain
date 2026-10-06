@@ -1,0 +1,4 @@
+; 200071a3 thunk_FUN_20214f00
+200071a3 | e958dd2000 | JMP 0x20214f00
+; 200071ad gCEffect::Start
+; 200071ad Ordinal_7292

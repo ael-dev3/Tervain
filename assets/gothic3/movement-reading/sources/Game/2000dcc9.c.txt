@@ -1,0 +1,27 @@
+/* ENTRY 2000dcc9 | gCCharacterMovement_PS::GetRootObject | STATUS decompiled | 5 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+/* public: static class bCPropertyObjectBase const * __stdcall
+   gCCharacterMovement_PS::GetRootObject(void) */
+
+bCPropertyObjectBase * gCCharacterMovement_PS::GetRootObject(void)
+
+{
+  bCPropertyObjectSingleton *this;
+  bCString *pbVar1;
+  bCString abStack_4 [4];
+  
+                    /* 0xdcc9  4232
+                       ?GetRootObject@gCCharacterMovement_PS@@SGPBVbCPropertyObjectBase@@XZ */
+  if ((_DAT_207bd9c8 & 1) == 0) {
+    _DAT_207bd9c8 = _DAT_207bd9c8 | 1;
+    bCString::bCString(abStack_4,"gCCharacterMovement_PS");
+    pbVar1 = abStack_4;
+    this = bCPropertyObjectSingleton::GetInstance();
+    DAT_207bd9c4 = bCPropertyObjectSingleton::GetRootObject(this,pbVar1);
+    bCString::~bCString(abStack_4);
+  }
+  return DAT_207bd9c4;
+}
+
+

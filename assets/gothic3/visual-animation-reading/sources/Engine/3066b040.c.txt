@@ -1,0 +1,13 @@
+/* ENTRY 3066b040 | FUN_3066b040 | STATUS decompiled | 4 ms */
+
+void FUN_3066b040(void *param_1)
+
+{
+  bCMemoryAdmin *this;
+  
+  this = bCMemoryAdmin::GetInstance();
+  bCMemoryAdmin::Free(this,param_1);
+  return;
+}
+
+

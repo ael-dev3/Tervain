@@ -1,0 +1,2 @@
+; 20014e66 gCEffect_PS::OnCacheOut
+20014e66 | e9c5381000 | JMP 0x20118730

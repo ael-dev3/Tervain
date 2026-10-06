@@ -1,0 +1,2 @@
+; 2001bdb0 gCPlayerMemory_PS::PostInitializeProperties
+2001bdb0 | e90b263000 | JMP 0x2031e3c0

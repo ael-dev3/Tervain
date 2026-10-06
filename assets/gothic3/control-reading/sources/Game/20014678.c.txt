@@ -1,0 +1,15 @@
+/* ENTRY 20014678 | gCCharacterControl_PS::CopyFrom | STATUS decompiled | 7 ms */
+
+/* public: virtual enum bEResult __thiscall gCCharacterControl_PS::CopyFrom(class bCObjectBase const
+   &) */
+
+bEResult __thiscall
+gCCharacterControl_PS::CopyFrom(gCCharacterControl_PS *this,bCObjectBase *param_1)
+
+{
+                    /* 0x14678  2227
+                       ?CopyFrom@gCCharacterControl_PS@@UAE?AW4bEResult@@ABVbCObjectBase@@@Z */
+  return 1;
+}
+
+

@@ -1,0 +1,24 @@
+/* ENTRY 3032ddf0 | FUN_3032ddf0 | STATUS decompiled | 6 ms */
+
+void __fastcall FUN_3032ddf0(int param_1)
+
+{
+  *(undefined4 *)(param_1 + 0xe0) = 0;
+  *(undefined4 *)(param_1 + 0xe4) = 0;
+  *(undefined4 *)(param_1 + 0xe8) = 0;
+  *(undefined4 *)(param_1 + 0xec) = 0;
+  *(undefined1 *)(param_1 + 0x80) = 0;
+  *(undefined1 *)(param_1 + 0x82) = 0;
+  *(undefined1 *)(param_1 + 0x81) = 0;
+  *(undefined1 *)(param_1 + 0x83) = 0;
+  *(undefined4 *)(param_1 + 0xf4) = 0;
+  *(undefined4 *)(param_1 + 0xf0) = 0x3f800000;
+  bCVector::Clear((bCVector *)(param_1 + 0x84));
+  bCVector::Clear((bCVector *)(param_1 + 0x90));
+                    /* WARNING: Could not recover jumptable at 0x3032de65. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCVector::Clear((bCVector *)(param_1 + 0xd4));
+  return;
+}
+
+

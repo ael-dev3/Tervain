@@ -1,0 +1,12 @@
+/* ENTRY 304805c0 | FUN_304805c0 | STATUS decompiled | 1 ms */
+
+bool __fastcall FUN_304805c0(int *param_1)
+
+{
+  int iVar1;
+  
+  iVar1 = (**(code **)(*param_1 + 100))();
+  return iVar1 != 0;
+}
+
+

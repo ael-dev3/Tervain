@@ -1,0 +1,4 @@
+; 30027d63 SHAREDBASE.DLL::bCPropertyTypeBase::Write
+30027d63 | e978713300 | JMP 0x3035eee0
+; 30027d6d eCParticle_PS::SetColorScaleRepeats
+; 30027d6d Ordinal_13090

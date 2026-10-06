@@ -1,0 +1,15 @@
+/* ENTRY 3001e1a5 | eCEffector::SetPos1 | STATUS decompiled | 7 ms */
+
+/* public: void __thiscall eCEffector::SetPos1(class bCVector const &) */
+
+void __thiscall eCEffector::SetPos1(eCEffector *this,bCVector *param_1)
+
+{
+                    /* 0x1e1a5  13934  ?SetPos1@eCEffector@@QAEXABVbCVector@@@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"Pos1",false);
+  bCVector::operator=((bCVector *)&(this->eCEffector_data).field_0x40,param_1);
+  (*this->vftablePtr->NotifyPropertyValueChangedExitEx)(this,"Pos1",false);
+  return;
+}
+
+

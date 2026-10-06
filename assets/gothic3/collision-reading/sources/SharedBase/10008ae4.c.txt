@@ -1,0 +1,13 @@
+/* ENTRY 10008ae4 | bCOrientedBox::bCOrientedBox | STATUS decompiled | 2 ms */
+
+/* public: __thiscall bCOrientedBox::bCOrientedBox(class bCOrientedBox const &) */
+
+bCOrientedBox * __thiscall bCOrientedBox::bCOrientedBox(bCOrientedBox *this,bCOrientedBox *param_1)
+
+{
+                    /* 0x8ae4  192  ??0bCOrientedBox@@QAE@ABV0@@Z */
+  Create(this,param_1);
+  return this;
+}
+
+

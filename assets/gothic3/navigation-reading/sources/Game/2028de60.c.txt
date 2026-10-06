@@ -1,0 +1,9 @@
+/* ENTRY 2028de60 | bTPropertyType<gCNavigation_PS,bCPropertyID>::vfunction2 | STATUS decompiled | 0 ms */
+
+undefined4 __thiscall bTPropertyType<gCNavigation_PS,bCPropertyID>::vfunction2(void)
+
+{
+  return 0x14;
+}
+
+

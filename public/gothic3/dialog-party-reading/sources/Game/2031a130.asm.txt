@@ -1,0 +1,9 @@
+; 2031a130 bTPropertyType<gCParty_PS,eCEntityProxy>::vfunction6
+2031a130 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+2031a134 | 85c0 | TEST EAX,EAX
+2031a136 | 740b | JZ 0x2031a143
+2031a138 | 8b11 | MOV EDX,dword ptr [ECX]
+2031a13a | 89442404 | MOV dword ptr [ESP + 0x4],EAX
+2031a13e | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+2031a141 | ffe0 | JMP EAX
+2031a143 | c20400 | RET 0x4

@@ -1,0 +1,17 @@
+/* ENTRY 101319d0 | FUN_101319d0 | STATUS decompiled | 7 ms */
+
+void FUN_101319d0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Commands\\AI_Goto_Ext.cpp");
+  bCString::bCString(local_8,"HandleControlledReturnHome");
+  thunk_FUN_10017a50(local_8,thunk_FUN_10055bd0,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

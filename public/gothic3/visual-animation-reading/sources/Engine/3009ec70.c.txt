@@ -1,0 +1,35 @@
+/* ENTRY 3009ec70 | FUN_3009ec70 | STATUS decompiled | 10 ms */
+
+void __fastcall FUN_3009ec70(int param_1)
+
+{
+  int iVar1;
+  bCVector abStack_24 [4];
+  undefined4 uStack_20;
+  bCVector abStack_18 [8];
+  undefined4 uStack_10;
+  
+  if (*(int *)(param_1 + 0x11c) != 0) {
+    uStack_20 = 0x3009ec8f;
+    bCVector::bCVector(abStack_18,(bCVector *)&stack0x00000010);
+    bCVector::bCVector(abStack_24,(bCVector *)&stack0x00000004);
+    thunk_FUN_300c38f0();
+  }
+  iVar1 = 0;
+  if (0 < *(int *)(param_1 + 0x124)) {
+    do {
+      uStack_20 = 0x3009ecc9;
+      bCVector::bCVector(abStack_18,(bCVector *)&stack0x00000010);
+      bCVector::bCVector(abStack_24,(bCVector *)&stack0x00000004);
+      thunk_FUN_300c38f0();
+      iVar1 = iVar1 + 1;
+    } while (iVar1 < *(int *)(param_1 + 0x124));
+  }
+  uStack_10 = 0x3009ecf5;
+  bCVector::~bCVector((bCVector *)&stack0x00000004);
+  uStack_10 = 0x3009ecff;
+  bCVector::~bCVector((bCVector *)&stack0x00000010);
+  return;
+}
+
+

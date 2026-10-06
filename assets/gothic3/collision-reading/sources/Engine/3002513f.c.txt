@@ -1,0 +1,12 @@
+/* ENTRY 3002513f | eCCollisionShape::AccessAdaptScale | STATUS decompiled | 3 ms */
+
+/* public: float & __thiscall eCCollisionShape::AccessAdaptScale(void) */
+
+float * __thiscall eCCollisionShape::AccessAdaptScale(eCCollisionShape *this)
+
+{
+                    /* 0x2513f  2452  ?AccessAdaptScale@eCCollisionShape@@QAEAAMXZ */
+  return (float *)&(this->eCCollisionShape_data).offset_0x3c;
+}
+
+

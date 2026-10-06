@@ -1,0 +1,3 @@
+; 30481470 eCEntityPropertySet::~eCEntityPropertySet
+30481470 | c7018c5d8730 | MOV dword ptr [ECX],0x30875d8c
+30481476 | ff2504dcaf30 | JMP dword ptr [0x30afdc04]

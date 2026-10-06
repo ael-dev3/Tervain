@@ -1,0 +1,17 @@
+; 2039b1d0 FUN_2039b1d0
+2039b1d0 | 56 | PUSH ESI
+2039b1d1 | 8bf1 | MOV ESI,ECX
+2039b1d3 | 8b06 | MOV EAX,dword ptr [ESI]
+2039b1d5 | 8b5064 | MOV EDX,dword ptr [EAX + 0x64]
+2039b1d8 | ffd2 | CALL EDX
+2039b1da | 85c0 | TEST EAX,EAX
+2039b1dc | 7d0b | JGE 0x2039b1e9
+2039b1de | 8b06 | MOV EAX,dword ptr [ESI]
+2039b1e0 | 8b506c | MOV EDX,dword ptr [EAX + 0x6c]
+2039b1e3 | 6a00 | PUSH 0x0
+2039b1e5 | 8bce | MOV ECX,ESI
+2039b1e7 | ffd2 | CALL EDX
+; 2039b1e9 LAB_2039b1e9
+2039b1e9 | 8bce | MOV ECX,ESI
+2039b1eb | 5e | POP ESI
+2039b1ec | e9b461c8ff | JMP 0x200213a5

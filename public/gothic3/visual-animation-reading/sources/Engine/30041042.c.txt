@@ -1,0 +1,72 @@
+/* ENTRY 30041042 | eCVisualAnimation_PS::PlayFacialMotion | STATUS decompiled | 32 ms */
+
+/* public: bool __thiscall eCVisualAnimation_PS::PlayFacialMotion(class eCResourceAnimationMotion_PS
+   *,class eCVisualAnimationLipSync *) */
+
+bool __thiscall
+eCVisualAnimation_PS::PlayFacialMotion
+          (eCVisualAnimation_PS *this,eCResourceAnimationMotion_PS *param_1,
+          eCVisualAnimationLipSync *param_2)
+
+{
+  undefined1 *this_00;
+  undefined1 *puVar1;
+  bool bVar2;
+  eCWrapper_emfx2Actor *peVar3;
+  eCWrapper_emfx2Actor *peVar4;
+  eCWrapper_emfx2Motion *this_01;
+  undefined4 uVar5;
+  eCWrapper_emfx2Motion *peVar6;
+  eCVisualAnimation_PS *this_02;
+  eCVisualAnimationLipSync *unaff_retaddr;
+  eEMotionType eVar7;
+  float fVar8;
+  eCResourceAnimationMotion_PS *peStack_4;
+  
+                    /* 0x41042  11686
+                       ?PlayFacialMotion@eCVisualAnimation_PS@@QAE_NPAVeCResourceAnimationMotion_PS@@PAVeCVisualAnimationLipSync@@@Z
+                        */
+  this_00 = &this[7].eCEntityPropertySet_data.field_0x4;
+  peVar3 = eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+  if (peVar3 != (eCWrapper_emfx2Actor *)0x0) {
+    bVar2 = eCVisualAnimationFactory::StartFacialAnimation((eCVisualAnimationFactory *)this_00);
+    if (bVar2) {
+      RelinkAttachments(this);
+      RelinkLookAtConstraints(this_02);
+      puVar1 = &this[0x14].eCEntityPropertySet_data.field_0x4;
+      if (*(int *)&this[0x14].eCEntityPropertySet_data.field_0x4 != 0) {
+        fVar8 = 0.0;
+        eVar7 = 7;
+        peVar4 = (eCWrapper_emfx2Actor *)
+                 eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+        eCWrapper_emfx2Actor::StopMotion(peVar4,eVar7,fVar8);
+        thunk_FUN_300b8560(puVar1);
+        *(undefined4 *)puVar1 = 0;
+      }
+      this_01 = (eCWrapper_emfx2Motion *)new(8,0xd19);
+      if (this_01 == (eCWrapper_emfx2Motion *)0x0) {
+        uVar5 = 0;
+      }
+      else {
+        uVar5 = eCWrapper_emfx2Motion::eCWrapper_emfx2Motion(this_01);
+      }
+      *(undefined4 *)puVar1 = uVar5;
+      peVar6 = eCResourceAnimationMotion_PS::GetMotionObject(peStack_4);
+      bVar2 = eCWrapper_emfx2Motion::CreateLipSyncMotion
+                        (*(eCWrapper_emfx2Motion **)puVar1,peVar6,unaff_retaddr);
+      if (!bVar2) {
+        thunk_FUN_300aa580(puVar1);
+        bVar2 = eCVisualAnimationFactory::StopFacialAnimation((eCVisualAnimationFactory *)this_00);
+        return bVar2;
+      }
+      peVar4 = (eCWrapper_emfx2Actor *)
+               eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+      eCWrapper_emfx2Actor::PlayMotion
+                (peVar4,7,*(eCWrapper_emfx2Motion **)puVar1,(eSMotionDesc *)&stack0xffffffdc);
+      return true;
+    }
+  }
+  return false;
+}
+
+

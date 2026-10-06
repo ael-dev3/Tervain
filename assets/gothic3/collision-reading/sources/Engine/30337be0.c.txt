@@ -1,0 +1,11 @@
+/* ENTRY 30337be0 | FUN_30337be0 | STATUS decompiled | 2 ms */
+
+void __fastcall FUN_30337be0(int param_1)
+
+{
+  *(undefined1 *)(param_1 + 0x40) = 0;
+  thunk_FUN_3033d2a0(0,0xffffffff);
+  return;
+}
+
+

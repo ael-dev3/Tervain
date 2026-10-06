@@ -1,0 +1,20 @@
+/* ENTRY 30034af4 | eCVisualAnimation_PS::eSMotionDesc::~eSMotionDesc | STATUS decompiled | 99 ms */
+
+/* public: __thiscall eCVisualAnimation_PS::eSMotionDesc::~eSMotionDesc(void) */
+
+void __thiscall eCVisualAnimation_PS::eSMotionDesc::~eSMotionDesc(eSMotionDesc *this)
+
+{
+                    /* 0x34af4  1401  ??1eSMotionDesc@eCVisualAnimation_PS@@QAE@XZ */
+  if (*(int **)this != (int *)0x0) {
+    (**(code **)(**(int **)this + 0x24))();
+    *(undefined4 *)this = 0;
+  }
+  bCString::Clear((bCString *)(this + 4));
+                    /* WARNING: Could not recover jumptable at 0x3009d1b4. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCString::~bCString((bCString *)(this + 4));
+  return;
+}
+
+

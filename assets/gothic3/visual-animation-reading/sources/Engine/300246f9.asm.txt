@@ -1,0 +1,2 @@
+; 300246f9 eCVisualAnimation_PS::GetBonesBreakMaxTorque
+300246f9 | e922d60300 | JMP 0x30061d20

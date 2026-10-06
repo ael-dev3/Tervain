@@ -1,0 +1,15 @@
+/* ENTRY 10007ecd | bCMatrix::GetInverted | STATUS decompiled | 2 ms */
+
+/* public: class bCMatrix __thiscall bCMatrix::GetInverted(void)const  */
+
+bCMatrix * __thiscall bCMatrix::GetInverted(bCMatrix *this)
+
+{
+  bCMatrix *in_stack_00000004;
+  
+                    /* 0x7ecd  2560  ?GetInverted@bCMatrix@@QBE?AV1@XZ */
+  GetInverted(this,in_stack_00000004);
+  return in_stack_00000004;
+}
+
+

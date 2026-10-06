@@ -1,0 +1,2 @@
+; 2002121f ?GetPropertySetType@gCClock_PS@@UBE?AW4eEPropertySetType@@XZ
+2002121f | e9bc6d1e00 | JMP 0x20207fe0

@@ -1,0 +1,4 @@
+; 2000b131 bTPropertyType<gCNavigation_PS,bTValArray<bCPropertyID>_>::vfunction12
+2000b131 | e9ea3e2800 | JMP 0x2028f020
+; 2000b136 gCMagic_PS::AccessReqAttrib3Tag
+; 2000b136 Ordinal_1612

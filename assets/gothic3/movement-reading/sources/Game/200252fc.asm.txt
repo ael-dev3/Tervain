@@ -1,0 +1,2 @@
+; 200252fc bTPropertyType<gCCharacterMovement_PS,bool>::vfunction10
+200252fc | e93ff72000 | JMP 0x20234a40

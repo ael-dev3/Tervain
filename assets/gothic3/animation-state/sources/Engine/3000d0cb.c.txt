@@ -1,0 +1,77 @@
+/* ENTRY 3000d0cb | eCFilePathCache::InsertFileName | STATUS decompiled | 37 ms */
+
+/* public: bool __thiscall eCFilePathCache::InsertFileName(class bCString const &,int) */
+
+bool __thiscall eCFilePathCache::InsertFileName(eCFilePathCache *this,bCString *param_1,int param_2)
+
+{
+  bool bVar1;
+  uint uVar2;
+  int iVar3;
+  bCString *this_00;
+  bCString *pbVar4;
+  bCMessageAdmin *this_01;
+  char *pcVar5;
+  bEMessageTypes bVar6;
+  int *piVar7;
+  char *pcVar8;
+  int iVar9;
+  undefined4 uStack_c;
+  bCString abStack_8 [4];
+  int iStack_4;
+  
+                    /* 0xd0cb  9822  ?InsertFileName@eCFilePathCache@@QAE_NABVbCString@@H@Z */
+  pbVar4 = param_1;
+  bVar1 = bCString::IsEmpty(param_1);
+  if (!bVar1) {
+    bCCriticalSectionWin32::Acquire((bCCriticalSectionWin32 *)&DAT_30af68bc);
+    if ((uint)param_2 < *(uint *)(this + 0x18)) {
+      bCString::bCString(abStack_8);
+      uStack_c = 0;
+      bCString::operator=(abStack_8,pbVar4);
+      iStack_4 = -1;
+      uVar2 = thunk_FUN_305cad60(&uStack_c);
+      bCString::~bCString(abStack_8);
+      if (uVar2 < *(uint *)(this + 4)) {
+        if (*(int *)(*(int *)this + 8 + uVar2 * 0xc) == param_2) {
+          iVar3 = bCString::Find(pbVar4,'%',0,false);
+          if (iVar3 == -1) goto LAB_305c9fb7;
+        }
+        pcVar8 = "\'";
+        pcVar5 = "eCFilePathCache::InsertFileName: Filename not unique: \'";
+      }
+      else {
+        bCString::bCString(abStack_8);
+        uStack_c = 0;
+        bCString::operator=(abStack_8,pbVar4);
+        iStack_4 = param_2;
+        uVar2 = thunk_FUN_305cb640(&uStack_c);
+        bCString::~bCString(abStack_8);
+        if (uVar2 < *(uint *)(this + 4)) {
+LAB_305c9fb7:
+          bCCriticalSectionWin32::Release((bCCriticalSectionWin32 *)&DAT_30af68bc);
+          return true;
+        }
+        pcVar8 = "\' to the internal file list";
+        pcVar5 = "eCFilePathCache::InsertFileName: Error on adding \'";
+      }
+      piVar7 = &param_2;
+      iVar9 = 0;
+      iVar3 = 0;
+      this_00 = (bCString *)::operator+((char *)&param_1,(bCString *)pcVar5);
+      pbVar4 = (bCString *)bCString::operator+(this_00,(char *)pbVar4);
+      pcVar5 = bCString::operator_char_const_(pbVar4);
+      bVar6 = 3;
+      this_01 = bCMessageAdmin::GetInstance();
+      bCMessageAdmin::OnMessage(this_01,bVar6,pcVar5,(char *)piVar7,pcVar8,iVar3,iVar9);
+      bCString::~bCString((bCString *)&stack0x00000000);
+      bCString::~bCString((bCString *)&iStack_4);
+      bCCriticalSectionWin32::Release((bCCriticalSectionWin32 *)&DAT_30af68bc);
+      return false;
+    }
+    bCCriticalSectionWin32::Release((bCCriticalSectionWin32 *)&DAT_30af68bc);
+  }
+  return false;
+}
+
+

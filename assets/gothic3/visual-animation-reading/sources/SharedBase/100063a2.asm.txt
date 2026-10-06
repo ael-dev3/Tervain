@@ -1,0 +1,2 @@
+; 100063a2 bCUnitedRay::Intersects
+100063a2 | e939950600 | JMP 0x1006f8e0

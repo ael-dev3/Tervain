@@ -1,0 +1,2 @@
+; 30003b43 eCPropertySetProxy::eCPropertySetProxy
+30003b43 | e9d82a4c00 | JMP 0x304c6620

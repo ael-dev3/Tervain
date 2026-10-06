@@ -1,0 +1,2 @@
+; 3001e55b eCEntity::GetWorldNodeBoundary
+3001e55b | e950544900 | JMP 0x304b39b0

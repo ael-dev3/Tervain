@@ -1,0 +1,17 @@
+/* ENTRY 300301b6 | eCEntityDynamicContext::SetCreationCallbackFunc | STATUS decompiled | 4 ms */
+
+/* public: void __thiscall eCEntityDynamicContext::SetCreationCallbackFunc(class eCEntity *
+   (__stdcall*)(void)) */
+
+void __thiscall
+eCEntityDynamicContext::SetCreationCallbackFunc
+          (eCEntityDynamicContext *this,_func_eCEntity_ptr *param_1)
+
+{
+                    /* 0x301b6  13138
+                       ?SetCreationCallbackFunc@eCEntityDynamicContext@@QAEXP6GPAVeCEntity@@XZ@Z */
+  (this->eCEntityDynamicContext_data).offset_0x0 = param_1;
+  return;
+}
+
+

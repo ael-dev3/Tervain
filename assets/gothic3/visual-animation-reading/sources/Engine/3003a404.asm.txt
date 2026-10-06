@@ -1,0 +1,2 @@
+; 3003a404 eCSpringAndDamperEffector::AccessDamperMaxStretchForce
+3003a404 | e967740200 | JMP 0x30061870

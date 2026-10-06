@@ -1,0 +1,6 @@
+; 100019e2 ?GetInSphere@bCOrientedBox@@QBEXAAVbCSphere@@@Z
+100019e2 | e949270600 | JMP 0x10064130
+; 100019e7 LAB_100019e7
+100019e7 | e984000400 | JMP 0x10041a70
+; 100019ec bCMemoryStream::Decrypt
+; 100019ec Ordinal_1920

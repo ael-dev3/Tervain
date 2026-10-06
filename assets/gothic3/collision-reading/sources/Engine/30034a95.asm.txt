@@ -1,0 +1,4 @@
+; 30034a95 bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eEPhysicRangeType>_>::vfunction12
+30034a95 | e956963000 | JMP 0x3033e0f0
+; 30034a9a eCDepthMap::GetImage
+; 30034a9a Ordinal_7335

@@ -1,0 +1,20 @@
+; 100362c0 FUN_100362c0
+100362c0 | 51 | PUSH ECX
+100362c1 | d901 | FLD float ptr [ECX]
+100362c3 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+100362c7 | d8410c | FADD float ptr [ECX + 0xc]
+100362ca | f30f104104 | MOVSS XMM0,dword ptr [ECX + 0x4]
+100362cf | f30f114004 | MOVSS dword ptr [EAX + 0x4],XMM0
+100362d4 | d91c24 | FSTP float ptr [ESP]
+100362d7 | d90424 | FLD float ptr [ESP]
+100362da | dd0558720e10 | FLD double ptr [0x100e7258]
+100362e0 | dcc9 | FMUL ST1
+100362e2 | d9c9 | FXCH
+100362e4 | d918 | FSTP float ptr [EAX]
+100362e6 | d94114 | FLD float ptr [ECX + 0x14]
+100362e9 | d84108 | FADD float ptr [ECX + 0x8]
+100362ec | d95c2408 | FSTP float ptr [ESP + 0x8]
+100362f0 | d84c2408 | FMUL float ptr [ESP + 0x8]
+100362f4 | d95808 | FSTP float ptr [EAX + 0x8]
+100362f7 | 59 | POP ECX
+100362f8 | c20400 | RET 0x4

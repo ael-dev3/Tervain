@@ -1,0 +1,13 @@
+/* ENTRY 20022773 | gCNavigation_PS::CopyFrom | STATUS decompiled | 6 ms */
+
+/* public: virtual enum bEResult __thiscall gCNavigation_PS::CopyFrom(class bCObjectBase const &) */
+
+bEResult __thiscall gCNavigation_PS::CopyFrom(gCNavigation_PS *this,bCObjectBase *param_1)
+
+{
+                    /* 0x22773  2273
+                       ?CopyFrom@gCNavigation_PS@@UAE?AW4bEResult@@ABVbCObjectBase@@@Z */
+  return 1;
+}
+
+

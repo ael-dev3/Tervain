@@ -1,0 +1,39 @@
+/* ENTRY 3006c520 | FUN_3006c520 | STATUS decompiled | 27 ms */
+
+void __fastcall FUN_3006c520(eCApplication *param_1)
+
+{
+  bool bVar1;
+  bCErrorAdmin *this;
+  bCValidateMemory *this_00;
+  void *local_14;
+  undefined1 *puStack_10;
+  undefined *puStack_c;
+  undefined4 local_8;
+  
+  local_8 = 0xffffffff;
+  puStack_c = &DAT_3094cd18;
+  puStack_10 = &LAB_30671bc4;
+  local_14 = ExceptionList;
+  ExceptionList = &local_14;
+  this = bCErrorAdmin::GetInstance();
+  bVar1 = bCErrorAdmin::IsInPanicState(this);
+  if (!bVar1) {
+    if ((param_1->eCApplication_data).offset_0x500 == (eCApplication)0x1) {
+      this_00 = bCValidateMemory::GetInstance();
+      bCValidateMemory::Validate(this_00);
+    }
+    eCApplication::Process(param_1);
+    if ((param_1->eCApplication_data).field_0x12b == '\x01') {
+      local_8 = 0;
+      eCApplication::DoRender(param_1,true);
+      ExceptionList = local_14;
+      return;
+    }
+    eCApplication::DoRender(param_1,true);
+  }
+  ExceptionList = local_14;
+  return;
+}
+
+

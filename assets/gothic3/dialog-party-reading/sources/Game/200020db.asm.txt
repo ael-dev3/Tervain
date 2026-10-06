@@ -1,0 +1,2 @@
+; 200020db bTPropertyObject<gCDialog_PS,eCEntityPropertySet>::vfunction11
+200020db | e960dc2000 | JMP 0x2020fd40

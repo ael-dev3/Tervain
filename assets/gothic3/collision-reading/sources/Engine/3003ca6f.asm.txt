@@ -1,0 +1,2 @@
+; 3003ca6f ?OnUpdatedWorldMatrix@eCCollisionShape_PS@@MAEXXZ
+3003ca6f | e95ca92f00 | JMP 0x303373d0

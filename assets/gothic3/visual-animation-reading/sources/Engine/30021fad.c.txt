@@ -1,0 +1,14 @@
+/* ENTRY 30021fad | eCSpringAndDamperEffector::AccessSpringDistRelaxed | STATUS decompiled | 3 ms */
+
+/* public: float & __thiscall eCSpringAndDamperEffector::AccessSpringDistRelaxed(void) */
+
+float * __thiscall
+eCSpringAndDamperEffector::AccessSpringDistRelaxed(eCSpringAndDamperEffector *this)
+
+{
+                    /* 0x21fad  3162  ?AccessSpringDistRelaxed@eCSpringAndDamperEffector@@QAEAAMXZ
+                        */
+  return (float *)&(this->eCEffector_data).offset_0x5c;
+}
+
+

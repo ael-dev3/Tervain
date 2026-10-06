@@ -1,0 +1,4 @@
+; 100046ba ?Destroy@bCObjectBase@@MAEXXZ
+100046ba | e9e1590400 | JMP 0x1004a0a0
+; 100046bf bCVector4::InvScale
+; 100046bf Ordinal_3484

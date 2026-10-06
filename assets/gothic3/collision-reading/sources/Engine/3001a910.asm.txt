@@ -1,0 +1,2 @@
+; 3001a910 ?SetShape@eCCollisionShapeBase_PS@@UAE?AW4bEResult@@ABVbCString@@@Z
+3001a910 | e93b693200 | JMP 0x30341250

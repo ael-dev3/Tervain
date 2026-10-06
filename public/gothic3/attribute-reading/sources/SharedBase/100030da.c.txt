@@ -1,0 +1,16 @@
+/* ENTRY 100030da | bCObjectRefBase::SetPropertyObject | STATUS decompiled | 4 ms */
+
+/* protected: void __thiscall bCObjectRefBase::SetPropertyObject(class bCPropertyObjectBase const *)
+    */
+
+void __thiscall
+bCObjectRefBase::SetPropertyObject(bCObjectRefBase *this,bCPropertyObjectBase *param_1)
+
+{
+                    /* 0x30da  4293
+                       ?SetPropertyObject@bCObjectRefBase@@IAEXPBVbCPropertyObjectBase@@@Z */
+  (this->bCObjectRefBase_data).offset_0x0 = param_1;
+  return;
+}
+
+

@@ -1,0 +1,4 @@
+; 3032deb0 FUN_3032deb0
+3032deb0 | b864000000 | MOV EAX,0x64
+3032deb5 | b001 | MOV AL,0x1
+3032deb7 | c3 | RET

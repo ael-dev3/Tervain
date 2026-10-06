@@ -1,0 +1,98 @@
+/* ENTRY 10066c10 | FUN_10066c10 | STATUS decompiled | 41 ms */
+
+void __thiscall FUN_10066c10(float *param_1,undefined4 param_2,float *param_3)
+
+{
+  float fVar1;
+  float fVar2;
+  float fVar3;
+  float local_3c;
+  float local_38;
+  float local_30;
+  float local_2c;
+  
+  fVar1 = param_1[3];
+  local_3c = fVar1 * param_1[6];
+  local_38 = param_1[7] * fVar1;
+  fVar1 = fVar1 * param_1[8];
+  fVar2 = param_1[4];
+  local_30 = fVar2 * param_1[9];
+  local_2c = fVar2 * param_1[10];
+  fVar2 = fVar2 * param_1[0xb];
+  fVar3 = param_1[5];
+  switch(param_2) {
+  case 0:
+    local_3c = *param_1 + local_3c;
+    local_38 = param_1[1] + local_38;
+    fVar1 = param_1[2] + fVar1;
+    break;
+  case 1:
+    local_3c = *param_1 + local_3c;
+    local_38 = param_1[1] + local_38;
+    fVar1 = param_1[2] + fVar1;
+    goto LAB_10066e7a;
+  case 2:
+    local_3c = *param_1 - local_3c;
+    local_38 = param_1[1] - local_38;
+    fVar1 = param_1[2] - fVar1;
+LAB_10066e7a:
+    local_30 = local_3c - local_30;
+    local_2c = local_38 - local_2c;
+    fVar1 = fVar1 - fVar2;
+    goto LAB_10066f67;
+  case 3:
+    local_3c = *param_1 - local_3c;
+    local_38 = param_1[1] - local_38;
+    fVar1 = param_1[2] - fVar1;
+    break;
+  case 4:
+    local_3c = *param_1 + local_3c;
+    local_38 = param_1[1] + local_38;
+    fVar1 = param_1[2] + fVar1;
+    goto LAB_10066de7;
+  case 5:
+    local_3c = *param_1 + local_3c;
+    local_38 = param_1[1] + local_38;
+    fVar1 = param_1[2] + fVar1;
+    goto LAB_10066d2d;
+  case 6:
+    local_3c = *param_1 - local_3c;
+    local_38 = param_1[1] - local_38;
+    fVar1 = param_1[2] - fVar1;
+LAB_10066d2d:
+    local_30 = local_3c - local_30;
+    local_2c = local_38 - local_2c;
+    fVar1 = fVar1 - fVar2;
+    goto LAB_10066d51;
+  case 7:
+    local_3c = *param_1 - local_3c;
+    local_38 = param_1[1] - local_38;
+    fVar1 = param_1[2] - fVar1;
+LAB_10066de7:
+    local_30 = local_3c + local_30;
+    local_2c = local_38 + local_2c;
+    fVar1 = fVar1 + fVar2;
+LAB_10066d51:
+    local_3c = local_30 - fVar3 * param_1[0xc];
+    local_38 = local_2c - fVar3 * param_1[0xd];
+    fVar1 = fVar1 - fVar3 * param_1[0xe];
+    goto LAB_10066f8b;
+  default:
+    goto switchD_10066cf2_default;
+  }
+  local_30 = local_3c + local_30;
+  local_2c = local_38 + local_2c;
+  fVar1 = fVar1 + fVar2;
+LAB_10066f67:
+  local_3c = local_30 + fVar3 * param_1[0xc];
+  local_38 = local_2c + fVar3 * param_1[0xd];
+  fVar1 = fVar1 + fVar3 * param_1[0xe];
+LAB_10066f8b:
+  *param_3 = local_3c;
+  param_3[1] = local_38;
+  param_3[2] = fVar1;
+switchD_10066cf2_default:
+  return;
+}
+
+

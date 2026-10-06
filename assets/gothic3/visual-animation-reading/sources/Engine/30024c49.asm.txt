@@ -1,0 +1,2 @@
+; 30024c49 eCSpringAndDamperEffector::AccessDamperVelCompressSaturate
+30024c49 | e902cb0300 | JMP 0x30061750

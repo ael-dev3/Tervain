@@ -1,0 +1,14 @@
+; 1009ab60 FUN_1009ab60
+1009ab60 | 56 | PUSH ESI
+1009ab61 | 8bf1 | MOV ESI,ECX
+1009ab63 | 8b4e04 | MOV ECX,dword ptr [ESI + 0x4]
+1009ab66 | 85c9 | TEST ECX,ECX
+1009ab68 | 740e | JZ 0x1009ab78
+1009ab6a | 8b01 | MOV EAX,dword ptr [ECX]
+1009ab6c | 8b5034 | MOV EDX,dword ptr [EAX + 0x34]
+1009ab6f | ffd2 | CALL EDX
+1009ab71 | c7460400000000 | MOV dword ptr [ESI + 0x4],0x0
+; 1009ab78 LAB_1009ab78
+1009ab78 | c7460400000000 | MOV dword ptr [ESI + 0x4],0x0
+1009ab7f | 5e | POP ESI
+1009ab80 | c3 | RET

@@ -1,0 +1,2 @@
+; 2002b8eb ?NotifyListeners@gCInventory_PS@@IAEXW4EEvent@1@HPBVgCInventoryStack@@@Z
+2002b8eb | e9d0141800 | JMP 0x201acdc0

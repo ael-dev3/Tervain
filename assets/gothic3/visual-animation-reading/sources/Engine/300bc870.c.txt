@@ -1,0 +1,27 @@
+/* ENTRY 300bc870 | FUN_300bc870 | STATUS decompiled | 6 ms */
+
+bCString __thiscall FUN_300bc870(int param_1,bCString *param_2)
+
+{
+  int iVar1;
+  int iVar2;
+  int iVar3;
+  bCString *this;
+  
+  iVar3 = 0;
+  if (0 < *(int *)(param_1 + 0x14)) {
+    iVar2 = 0;
+    do {
+      this = (bCString *)(*(int *)(param_1 + 0x10) + iVar2);
+      iVar1 = bCString::CompareNoCase(this,param_2);
+      if (iVar1 == 0) {
+        return this[0xc];
+      }
+      iVar3 = iVar3 + 1;
+      iVar2 = iVar2 + 0x10;
+    } while (iVar3 < *(int *)(param_1 + 0x14));
+  }
+  return (bCString)0x0;
+}
+
+

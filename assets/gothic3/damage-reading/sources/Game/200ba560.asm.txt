@@ -1,0 +1,22 @@
+; 200ba560 FUN_200ba560
+200ba560 | 56 | PUSH ESI
+200ba561 | 8bf1 | MOV ESI,ECX
+200ba563 | 8b06 | MOV EAX,dword ptr [ESI]
+200ba565 | 8b5058 | MOV EDX,dword ptr [EAX + 0x58]
+200ba568 | 6a00 | PUSH 0x0
+200ba56a | 681cec6520 | PUSH 0x2065ec1c
+200ba56f | ffd2 | CALL EDX
+200ba571 | 8b462c | MOV EAX,dword ptr [ESI + 0x2c]
+200ba574 | 8b542408 | MOV EDX,dword ptr [ESP + 0x8]
+200ba578 | 8b401c | MOV EAX,dword ptr [EAX + 0x1c]
+200ba57b | 8d4e2c | LEA ECX,[ESI + 0x2c]
+200ba57e | 52 | PUSH EDX
+200ba57f | ffd0 | CALL EAX
+200ba581 | 8b16 | MOV EDX,dword ptr [ESI]
+200ba583 | 8b425c | MOV EAX,dword ptr [EDX + 0x5c]
+200ba586 | 6a00 | PUSH 0x0
+200ba588 | 681cec6520 | PUSH 0x2065ec1c
+200ba58d | 8bce | MOV ECX,ESI
+200ba58f | ffd0 | CALL EAX
+200ba591 | 5e | POP ESI
+200ba592 | c20400 | RET 0x4

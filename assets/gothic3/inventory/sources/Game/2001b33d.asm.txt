@@ -1,0 +1,2 @@
+; 2001b33d ?FindStackIndex@gCInventory_PS@@QBEHPBVeCTemplateEntity@@W4gEInventoryFindQuality@@KH@Z
+2001b33d | e94e2e1900 | JMP 0x201ae190

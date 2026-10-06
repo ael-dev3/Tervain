@@ -1,0 +1,10 @@
+/* ENTRY 30481a40 | FUN_30481a40 | STATUS decompiled | 1 ms */
+
+void __fastcall FUN_30481a40(int param_1)
+
+{
+  *(byte *)(param_1 + 0x10) = *(byte *)(param_1 + 0x10) & 0xf5 | 4;
+  return;
+}
+
+

@@ -1,0 +1,20 @@
+/* ENTRY 300182cd | eCIlluminated_PS::PostInitializeProperties | STATUS decompiled | 6 ms */
+
+/* public: virtual enum bEResult __thiscall eCIlluminated_PS::PostInitializeProperties(void) */
+
+bEResult __thiscall eCIlluminated_PS::PostInitializeProperties(eCIlluminated_PS *this)
+
+{
+                    /* 0x182cd  11740
+                       ?PostInitializeProperties@eCIlluminated_PS@@UAE?AW4bEResult@@XZ */
+  *(undefined1 *)&this->eCIlluminated_PS_data = 1;
+  (this->eCIlluminated_PS_data).field_0x1 = 1;
+  (this->eCIlluminated_PS_data).field_0xc = 1;
+  (this->eCIlluminated_PS_data).field_0xd = 1;
+  (this->eCIlluminated_PS_data).field_0x18 = 0;
+  (this->eCIlluminated_PS_data).field_0x19 = 1;
+  (this->eCIlluminated_PS_data).field_0x1a = 1;
+  return 1;
+}
+
+

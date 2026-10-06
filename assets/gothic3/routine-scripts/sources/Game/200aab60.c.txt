@@ -1,0 +1,16 @@
+/* ENTRY 200aab60 | FUN_200aab60 | STATUS decompiled | 2 ms */
+
+void __fastcall FUN_200aab60(int *param_1)
+
+{
+  code *pcVar1;
+  undefined1 *unaff_ESI;
+  
+  (**(code **)(*param_1 + 0x58))("IsConsumingItem",0);
+  pcVar1 = *(code **)(*param_1 + 0x5c);
+  *(undefined1 *)(param_1 + 0x29) = *unaff_ESI;
+  (*pcVar1)("IsConsumingItem",0);
+  return;
+}
+
+

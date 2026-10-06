@@ -1,0 +1,11 @@
+/* ENTRY 3001032a | bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeGroup>_>::vfunction5 | STATUS decompiled | 3 ms */
+
+bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeGroup>_>_vftable * __thiscall
+bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeGroup>_>::vfunction5
+          (bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeGroup>_> *this)
+
+{
+  return this[6].vftablePtr;
+}
+
+

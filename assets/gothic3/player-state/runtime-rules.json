@@ -1,0 +1,542 @@
+{
+  "schema": "gothic3-player-state-rules-v1",
+  "scriptGameSha256": "2f10fbb6307c4800bc44c90cb60dac0b32182c1f2416e11ac82b4ba0c35803c1",
+  "bodies": {
+    "PS_Normal_Loop": "1009a660",
+    "PS_Normal_Sneak": "1009ac30",
+    "PS_Normal_Jump": "1009b950",
+    "_AI_Jump": "10059d80"
+  },
+  "labels": {
+    "PS_Normal_Loop": {
+      "mask": "10222ab0",
+      "counter": "10222aac",
+      "labels": [
+        "10222aa8"
+      ]
+    },
+    "PS_Normal_Sneak": {
+      "mask": "10222abc",
+      "counter": "10222ab8",
+      "labels": [
+        "10222ab4"
+      ]
+    },
+    "PS_Normal_Jump": {
+      "mask": "10222af8",
+      "counter": "10222af4",
+      "labels": [
+        "10222af0",
+        "10222aec"
+      ]
+    },
+    "_AI_Jump": {
+      "mask": "10221ca4",
+      "counter": "10221ca0",
+      "labels": [
+        "10221c9c",
+        "10221c98",
+        "10221c94"
+      ]
+    }
+  },
+  "signals": [
+    {
+      "signal": 54,
+      "tableIndex": 0,
+      "target": "1009a78b"
+    },
+    {
+      "signal": 55,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 56,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 57,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 58,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 59,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 60,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 61,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 62,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 63,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 64,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 65,
+      "tableIndex": 1,
+      "target": "1009a7c1"
+    },
+    {
+      "signal": 66,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 67,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 68,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 69,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 70,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 71,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 72,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 73,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 74,
+      "tableIndex": 2,
+      "target": "1009a7b7"
+    },
+    {
+      "signal": 75,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 76,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 77,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 78,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 79,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 80,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 81,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 82,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 83,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 84,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 85,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 86,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 87,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 88,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 89,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 90,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 91,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 92,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 93,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 94,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 95,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 96,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 97,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 98,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 99,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 100,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 101,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 102,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 103,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 104,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 105,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 106,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 107,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 108,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 109,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 110,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 111,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 112,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 113,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 114,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 115,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 116,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 117,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 118,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 119,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 120,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 121,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 122,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 123,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 124,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 125,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 126,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 127,
+      "tableIndex": 13,
+      "target": "1009a854"
+    },
+    {
+      "signal": 128,
+      "tableIndex": 3,
+      "target": "1009a840"
+    },
+    {
+      "signal": 129,
+      "tableIndex": 4,
+      "target": "1009a7d7"
+    },
+    {
+      "signal": 130,
+      "tableIndex": 5,
+      "target": "1009a7db"
+    },
+    {
+      "signal": 131,
+      "tableIndex": 6,
+      "target": "1009a7ea"
+    },
+    {
+      "signal": 132,
+      "tableIndex": 7,
+      "target": "1009a7fa"
+    },
+    {
+      "signal": 133,
+      "tableIndex": 8,
+      "target": "1009a7fe"
+    },
+    {
+      "signal": 134,
+      "tableIndex": 9,
+      "target": "1009a80d"
+    },
+    {
+      "signal": 135,
+      "tableIndex": 10,
+      "target": "1009a81d"
+    },
+    {
+      "signal": 136,
+      "tableIndex": 11,
+      "target": "1009a821"
+    },
+    {
+      "signal": 137,
+      "tableIndex": 12,
+      "target": "1009a830"
+    }
+  ],
+  "quickUseNonDefaultUseTypes": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    12,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    32,
+    44,
+    51,
+    52
+  ],
+  "strings": {
+    "10211424": "PS_Normal_Jump",
+    "10211410": "PS_Normal_Sneak",
+    "102113fc": "Perk_MasterThief",
+    "102113e8": "PS_Normal_Take",
+    "1020ee6c": "PS_Interact"
+  },
+  "hostInputProfile": "explicit game action signals and live flag bytes; not a captured native keyboard binding",
+  "controlStorage": {
+    "movementObject": "102203dc",
+    "queueObject": "10220420",
+    "pendingSignal": "10220584",
+    "pendingArgument": "10220588",
+    "pendingOther": "1022058c",
+    "pendingSharesQueueOffsets": [
+      "164",
+      "168",
+      "16c"
+    ],
+    "initProfile": "Explicit OnInit movement/flag reset and CRT queue constructor, not a captured running session"
+  },
+  "registeredInputBodies": {
+    "OnPlayerMovement": "10077630",
+    "OnPlayerAction": "10077710",
+    "OnPlayerWalk": "10078460",
+    "OnPlayerSneak": "100785c0",
+    "OnPlayerJump": "100786e0"
+  },
+  "scriptDispatch": {
+    "CallScriptFromScript": "2034dc70",
+    "GameApp270": "20002ecd->20051710",
+    "gates": "GameApp reference cast/dereference, slot270 AL!=0, EntityAdmin processing AL!=0; then RunScriptFromScript2034d3a0 repeats processing AL!=0",
+    "GetStaminaPoints": "10046590",
+    "AddStaminaPoints": "10046af0",
+    "SetStaminaPoints": "100467f0",
+    "RunScriptFunction": "2034cea0",
+    "functionBodyReturn": "AL==1 pops current live top; every other AL returns0"
+  },
+  "queueOperandRules": {
+    "loopUseConsume": "captured Self; SUB ESP,a8 at1009a879 then LEA[ESP+b8] at1009a87f selects pre-SUB+10",
+    "sneakStateConsume": "captured Self; SUB ESP,a8 at1009acb7 then LEA[ESP+b0] at1009acbd selects pre-SUB+8",
+    "lootResetQueue": "captured Self; SUB ESP,a8 at1008015e then LEA[ESP+b8] at10080164 selects pre-SUB+10",
+    "quickUseConsume": "captured Self;10078ed0",
+    "weaponToggleConsume": "captured Self;100787d0",
+    "jumpConsume": "captured argument Self;10059e1f",
+    "equalityGate": "each Consume/Reset rereads live Entity.GetPlayer; captured pointer equality required"
+  },
+  "unsupported": [
+    "physical movement/animation integration",
+    "complete combat/weapon/quick-use scripts",
+    "Talk/crime/quest/voice/HUD states outside examined branches"
+  ]
+}

@@ -1,0 +1,2 @@
+; 30030f80 bTPropertyType<eCIlluminated_PS,bCObsoleteClass>::vfunction16
+30030f80 | e9db331f00 | JMP 0x30224360

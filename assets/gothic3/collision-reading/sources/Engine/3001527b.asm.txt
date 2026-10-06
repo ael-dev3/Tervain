@@ -1,0 +1,4 @@
+; 3001527b bTPropertyType<eCCollisionShape_PS,bCObsoleteClass>::vfunction2
+3001527b | e900793200 | JMP 0x3033cb80
+; 3001528a eCImageGroup::operator=
+; 3001528a Ordinal_1618

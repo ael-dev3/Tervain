@@ -1,0 +1,2 @@
+; 2001b62b bTPOPureSmartPtr<gCDamage_PS>::vfunction11
+2001b62b | e910a20900 | JMP 0x200b5840

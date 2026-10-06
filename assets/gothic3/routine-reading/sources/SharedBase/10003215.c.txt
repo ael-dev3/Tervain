@@ -1,0 +1,14 @@
+/* ENTRY 10003215 | bCErrorAdmin::CallFatalError | STATUS decompiled | 2 ms */
+
+/* public: void __thiscall bCErrorAdmin::CallFatalError(char const *,char const *,int) */
+
+void __thiscall
+bCErrorAdmin::CallFatalError(bCErrorAdmin *this,char *param_1,char *param_2,int param_3)
+
+{
+                    /* 0x3215  1592  ?CallFatalError@bCErrorAdmin@@QAEXPBD0H@Z */
+  CallFatalError(this,param_1,(char *)0x0,param_2,param_3);
+  return;
+}
+
+

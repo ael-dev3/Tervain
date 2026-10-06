@@ -1,0 +1,2 @@
+; 30033519 eCEntity::GetLocalNodeBoundary
+30033519 | e9a2054800 | JMP 0x304b3ac0

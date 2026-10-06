@@ -1,0 +1,11 @@
+/* ENTRY 2023b040 | bTPropertyObjectType<gCMovementBase_PS,eCEntityPropertySet>::vfunction4 | STATUS decompiled | 1 ms */
+
+undefined1 * __thiscall
+bTPropertyObjectType<gCMovementBase_PS,eCEntityPropertySet>::vfunction4
+          (bTPropertyObjectType<gCMovementBase_PS,eCEntityPropertySet> *this)
+
+{
+  return &(this->bTPropertyObjectType<gCMovementBase_PS,eCEntityPropertySet>_data).field_0x14;
+}
+
+

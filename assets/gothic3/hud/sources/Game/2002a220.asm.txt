@@ -1,0 +1,4 @@
+; 2002a220 gCHUDPageSkills2::vfunction71
+2002a220 | e93b3d1400 | JMP 0x2016df60
+; 2002a225 gCNavPath_PS::SetRadius
+; 2002a225 Ordinal_6920

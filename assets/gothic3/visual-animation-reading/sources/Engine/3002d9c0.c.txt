@@ -1,0 +1,12 @@
+/* ENTRY 3002d9c0 | eCVisualAnimation_PS::GetBoneSwingSpringDamping | STATUS decompiled | 7 ms */
+
+/* public: float const & __thiscall eCVisualAnimation_PS::GetBoneSwingSpringDamping(void)const  */
+
+float * __thiscall eCVisualAnimation_PS::GetBoneSwingSpringDamping(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x2d9c0  6295  ?GetBoneSwingSpringDamping@eCVisualAnimation_PS@@QBEABMXZ */
+  return (float *)&this[3].eCEntityPropertySet_data.offset_0x8;
+}
+
+

@@ -1,0 +1,2 @@
+; 2000551f ?IsTutorialEnabled@gCPlayerMemory_PS@@QBE_NW4gETutorialFlag@@@Z
+2000551f | e92c7f3100 | JMP 0x2031d450

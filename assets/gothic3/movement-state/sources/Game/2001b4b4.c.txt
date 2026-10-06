@@ -1,0 +1,129 @@
+/* ENTRY 2001b4b4 | gCCharacterMovement_PS::SetEffectsByMode | STATUS decompiled | 106 ms */
+
+/* protected: bool __thiscall gCCharacterMovement_PS::SetEffectsByMode(enum gECharMovementMode) */
+
+bool __thiscall
+gCCharacterMovement_PS::SetEffectsByMode(gCCharacterMovement_PS *this,gECharMovementMode param_1)
+
+{
+  undefined1 *this_00;
+  float fVar1;
+  bool bVar2;
+  eCEntity *peVar3;
+  gCEffect_PS *pgVar4;
+  bCVector *pbVar5;
+  char *pcVar6;
+  bCString *pbVar7;
+  gCEffectModule *pgVar8;
+  gCEffectSystem *pgVar9;
+  gCEffectMap *pgVar10;
+  char acStack_14 [4];
+  undefined1 auStack_10 [4];
+  bCVector abStack_c [8];
+  bCString abStack_4 [4];
+  
+                    /* 0x1b4b4  6443
+                       ?SetEffectsByMode@gCCharacterMovement_PS@@IAE_NW4gECharMovementMode@@@Z */
+  this_00 = &(this->gCCharacterMovement_PS_data).field_0x3d4;
+  bVar2 = bCString::IsEmpty((bCString *)this_00);
+  if (((!bVar2) && (peVar3 = (*this->vftablePtr->GetEntity)(this), peVar3 != (eCEntity *)0x0)) &&
+     (pgVar4 = (gCEffect_PS *)(**(code **)(*(int *)peVar3 + 0xec))(0x60),
+     pgVar4 != (gCEffect_PS *)0x0)) {
+    pbVar5 = (bCVector *)bCVector::bCVector(abStack_c,0.0,0.0,0.0);
+    (*pgVar4->vftablePtr->NotifyPropertyValueChangedEnterEx)(pgVar4,"Offset",false);
+    bCVector::operator=((bCVector *)&(pgVar4->gCEffect_PS_data).field_0x14,pbVar5);
+    (*pgVar4->vftablePtr->NotifyPropertyValueChangedExitEx)(pgVar4,"Offset",false);
+    bCVector::~bCVector(abStack_c);
+    gCEffect_PS::StopRuntimeEffect(pgVar4,(bCString *)this_00,true);
+    bCString::Clear((bCString *)this_00);
+  }
+  if (param_1 == 0xc) {
+    pcVar6 = (char *)eCCollisionShape::GetMaterialName((eEShapeMaterial)auStack_10);
+    pbVar7 = (bCString *)operator+(acStack_14,(bCString *)"eff_ani_slide_");
+    bCString::operator+(pbVar7,pcVar6);
+    bCString::~bCString((bCString *)&stack0xffffffe4);
+    bCString::~bCString((bCString *)&stack0xffffffe8);
+    pbVar7 = abStack_4;
+    pgVar8 = (gCEffectModule *)gCEffectModule::GetInstance();
+    pgVar9 = (gCEffectSystem *)gCEffectModule::GetSystem(pgVar8);
+    pgVar10 = (gCEffectMap *)gCEffectSystem::GetItems(pgVar9);
+    bVar2 = gCEffectMap::Contains(pgVar10,pbVar7);
+    if (bVar2) {
+      peVar3 = (*this->vftablePtr->GetEntity)(this);
+      if ((peVar3 != (eCEntity *)0x0) &&
+         (pgVar4 = (gCEffect_PS *)(**(code **)(*(int *)peVar3 + 0xec))(0x60),
+         pgVar4 != (gCEffect_PS *)0x0)) {
+LAB_2022477e:
+        gCEffect_PS::StartRuntimeEffect(pgVar4,(bCString *)&param_1,(bCVector *)0x0);
+        bCString::operator=((bCString *)this_00,(bCString *)&param_1);
+        bCString::~bCString((bCString *)&param_1);
+        return true;
+      }
+    }
+    else {
+      bCString::operator=(abStack_4,"eff_ani_slide_earth_01");
+      pbVar7 = abStack_4;
+      pgVar8 = (gCEffectModule *)gCEffectModule::GetInstance();
+      pgVar9 = (gCEffectSystem *)gCEffectModule::GetSystem(pgVar8);
+      pgVar10 = (gCEffectMap *)gCEffectSystem::GetItems(pgVar9);
+      bVar2 = gCEffectMap::Contains(pgVar10,pbVar7);
+      if (bVar2) {
+        peVar3 = (*this->vftablePtr->GetEntity)(this);
+        if ((peVar3 == (eCEntity *)0x0) ||
+           (pgVar4 = (gCEffect_PS *)(**(code **)(*(int *)peVar3 + 0xec))(0x60),
+           pgVar4 == (gCEffect_PS *)0x0)) goto LAB_202248e7;
+        goto LAB_2022477e;
+      }
+    }
+    pcVar6 = " npc %s does not contain a gCEffect_PS, can\'t spawn slide effect";
+  }
+  else {
+    if (param_1 == 7) {
+      bCString::bCString((bCString *)&param_1,"eff_ani_swim_waves_01");
+      pbVar7 = (bCString *)&param_1;
+      pgVar8 = (gCEffectModule *)gCEffectModule::GetInstance();
+      pgVar9 = (gCEffectSystem *)gCEffectModule::GetSystem(pgVar8);
+      pgVar10 = (gCEffectMap *)gCEffectSystem::GetItems(pgVar9);
+      bVar2 = gCEffectMap::Contains(pgVar10,pbVar7);
+      if (!bVar2) goto LAB_202248e7;
+      peVar3 = (*this->vftablePtr->GetEntity)(this);
+      if ((peVar3 != (eCEntity *)0x0) &&
+         (pgVar4 = (gCEffect_PS *)(**(code **)(*(int *)peVar3 + 0xec))(0x60),
+         pgVar4 != (gCEffect_PS *)0x0)) {
+        fVar1 = -120.0;
+LAB_20224886:
+        bCVector::bCVector(abStack_c,0.0,fVar1,0.0);
+        gCEffect_PS::StartRuntimeEffect(pgVar4,(bCString *)&param_1,abStack_c);
+        bCString::operator=((bCString *)this_00,(bCString *)&param_1);
+        bCVector::~bCVector(abStack_c);
+        bCString::~bCString((bCString *)&param_1);
+        return true;
+      }
+    }
+    else {
+      if (param_1 != 10) {
+        return true;
+      }
+      bCString::bCString((bCString *)&param_1,"eff_ani_wade_waves_01");
+      pbVar7 = (bCString *)&param_1;
+      pgVar8 = (gCEffectModule *)gCEffectModule::GetInstance();
+      pgVar9 = (gCEffectSystem *)gCEffectModule::GetSystem(pgVar8);
+      pgVar10 = (gCEffectMap *)gCEffectSystem::GetItems(pgVar9);
+      bVar2 = gCEffectMap::Contains(pgVar10,pbVar7);
+      if (!bVar2) goto LAB_202248e7;
+      peVar3 = (*this->vftablePtr->GetEntity)(this);
+      pgVar4 = (gCEffect_PS *)thunk_FUN_20232b90(peVar3);
+      if (pgVar4 != (gCEffect_PS *)0x0) {
+        fVar1 = 120.0;
+        goto LAB_20224886;
+      }
+    }
+    pcVar6 = " npc %s does not contain a gCEffect_PS, can\'t spawn wade effect";
+  }
+  GE_MESSAGEF_WARN("gCCharacterMovement_PS::SetEffectsByMode",pcVar6);
+LAB_202248e7:
+  bCString::~bCString((bCString *)&param_1);
+  return true;
+}
+
+

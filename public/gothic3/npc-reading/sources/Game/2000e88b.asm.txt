@@ -1,0 +1,2 @@
+; 2000e88b bTPropertyType<gCNPC_PS,bool>::vfunction6
+2000e88b | e9a0ab2f00 | JMP 0x20309430

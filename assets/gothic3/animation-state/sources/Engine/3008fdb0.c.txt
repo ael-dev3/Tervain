@@ -1,0 +1,34 @@
+/* ENTRY 3008fdb0 | FUN_3008fdb0 | STATUS decompiled | 17 ms */
+
+void FUN_3008fdb0(bCString *param_1)
+
+{
+  bCString *this;
+  int iVar1;
+  undefined1 *puVar2;
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  this = param_1;
+  iVar1 = bCString::Find(param_1,'%',0,false);
+  if (0 < iVar1) {
+    iVar1 = bCString::Find(this,'%',0,false);
+    bCString::bCString((bCString *)&param_1,this,iVar1);
+    bCString::ToUpper((bCString *)&param_1);
+    iVar1 = thunk_FUN_300921e0(&param_1,local_4);
+    if (iVar1 == 0) {
+      bCString::bCString(local_8);
+      bCString::bCString(local_4,"_");
+      bCString::GetWord(this,0xb,local_4,local_8,false,false);
+      bCString::~bCString(local_4);
+      iVar1 = bCString::GetInteger(local_8,0,false);
+      puVar2 = (undefined1 *)thunk_FUN_30092250(&param_1);
+      *puVar2 = (char)iVar1;
+      bCString::~bCString(local_8);
+    }
+    bCString::~bCString((bCString *)&param_1);
+  }
+  return;
+}
+
+

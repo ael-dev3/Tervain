@@ -1,0 +1,4 @@
+; 30028a8d SHAREDBASE.DLL::bCPropertyTypeBase::Read
+30028a8d | e9be8f3000 | JMP 0x30331a50
+; 30028a97 eCPropertySetProxy::eCPropertySetProxy
+; 30028a97 Ordinal_630

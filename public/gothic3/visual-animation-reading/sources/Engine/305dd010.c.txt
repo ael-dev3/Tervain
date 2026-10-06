@@ -1,0 +1,33 @@
+/* ENTRY 305dd010 | FUN_305dd010 | STATUS decompiled | 15 ms */
+
+void __thiscall FUN_305dd010(int param_1,bCString *param_2)
+
+{
+  eCVirtualFileSystem *peVar1;
+  bCString *pbStack_20;
+  bCString *pbStack_1c;
+  bCString *pbStack_18;
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  pbStack_18 = (bCString *)0x305dd023;
+  bCString::bCString(local_4);
+  pbStack_18 = (bCString *)0x305dd029;
+  bCString::bCString(local_8);
+  pbStack_18 = (bCString *)0x305dd02f;
+  bCString::bCString(local_c);
+  pbStack_18 = (bCString *)0x305dd034;
+  peVar1 = eCVirtualFileSystem::GetInstance();
+  pbStack_18 = local_c;
+  pbStack_1c = param_2;
+  pbStack_20 = local_8;
+  (**(code **)(*(int *)peVar1 + 0x28))(param_1 + 8,local_4);
+  bCString::operator+=(param_2,(bCString *)&pbStack_20);
+  bCString::~bCString((bCString *)&pbStack_20);
+  bCString::~bCString((bCString *)&pbStack_1c);
+  bCString::~bCString((bCString *)&pbStack_18);
+  return;
+}
+
+

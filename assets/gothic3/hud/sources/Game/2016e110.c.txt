@@ -1,0 +1,14 @@
+/* ENTRY 2016e110 | gCHUDPageSlideshow2::gCHUDPageSlideshow2 | STATUS decompiled | 13 ms */
+
+gCHUDPageSlideshow2 * __thiscall gCHUDPageSlideshow2::gCHUDPageSlideshow2(gCHUDPageSlideshow2 *this)
+
+{
+  gCHUDPage::gCHUDPage((gCHUDPage *)this);
+  this->vftablePtr = &vftable;
+  CFFGFCStatic::CFFGFCStatic((CFFGFCStatic *)&this->gCHUDPageSlideshow2_data);
+  CFFGFCStatic::CFFGFCStatic((CFFGFCStatic *)&(this->gCHUDPageSlideshow2_data).field_0x10);
+  gCHUDStaticTalk::gCHUDStaticTalk((gCHUDStaticTalk *)&(this->gCHUDPageSlideshow2_data).field_0x20);
+  return this;
+}
+
+

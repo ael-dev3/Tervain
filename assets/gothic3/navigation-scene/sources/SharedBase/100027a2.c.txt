@@ -1,0 +1,16 @@
+/* ENTRY 100027a2 | bCVector::GetMagnitude2D | STATUS decompiled | 4 ms */
+
+/* public: float __thiscall bCVector::GetMagnitude2D(enum bCVector::bECoordinate)const  */
+
+float __thiscall bCVector::GetMagnitude2D(bCVector *this,bECoordinate param_1)
+
+{
+  float10 fVar1;
+  
+                    /* 0x27a2  2595  ?GetMagnitude2D@bCVector@@QBEMW4bECoordinate@1@@Z */
+  GetSquareMagnitude2D(this,param_1);
+  fVar1 = (float10)FUN_100ab010();
+  return (float)fVar1;
+}
+
+

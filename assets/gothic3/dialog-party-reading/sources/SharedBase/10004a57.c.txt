@@ -1,0 +1,45 @@
+/* ENTRY 10004a57 | bCErrorAdmin::ExecuteErrorCallbacks | STATUS decompiled | 9 ms */
+
+/* protected: void __thiscall bCErrorAdmin::ExecuteErrorCallbacks(enum bEErrorPositionHandling,enum
+   bEErrorType) */
+
+void __thiscall
+bCErrorAdmin::ExecuteErrorCallbacks
+          (bCErrorAdmin *this,bEErrorPositionHandling param_1,bEErrorType param_2)
+
+{
+  undefined4 *puVar1;
+  code *pcVar2;
+  int iVar3;
+  
+                    /* 0x4a57  2018
+                       ?ExecuteErrorCallbacks@bCErrorAdmin@@IAEXW4bEErrorPositionHandling@@W4bEErrorType@@@Z
+                        */
+  if (param_1 == 0) {
+    if ((*(int *)(this + 0x24) != 0) && (iVar3 = *(int *)(*(int *)(this + 0x24) + 4), 0 < iVar3)) {
+      do {
+        iVar3 = iVar3 + -1;
+        puVar1 = (undefined4 *)(**(int **)(this + 0x24) + iVar3 * 8);
+        pcVar2 = (code *)*puVar1;
+        if (pcVar2 != (code *)0x0) {
+          (*pcVar2)(param_2,puVar1[1]);
+        }
+      } while (iVar3 != 0);
+    }
+  }
+  else if (((param_1 == 1) && (*(int *)(this + 0x28) != 0)) &&
+          (iVar3 = *(int *)(*(int *)(this + 0x28) + 4), 0 < iVar3)) {
+    do {
+      iVar3 = iVar3 + -1;
+      puVar1 = (undefined4 *)(**(int **)(this + 0x28) + iVar3 * 8);
+      pcVar2 = (code *)*puVar1;
+      if (pcVar2 != (code *)0x0) {
+        (*pcVar2)(param_2,puVar1[1]);
+      }
+    } while (iVar3 != 0);
+    return;
+  }
+  return;
+}
+
+

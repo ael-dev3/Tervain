@@ -1,0 +1,24 @@
+/* ENTRY 2000c8dd | gCDialog_PS::gCDialog_PS | STATUS decompiled | 175 ms */
+
+/* public: __thiscall gCDialog_PS::gCDialog_PS(void) */
+
+gCDialog_PS * __thiscall gCDialog_PS::gCDialog_PS(gCDialog_PS *this)
+
+{
+  undefined ***this_00;
+  
+                    /* 0xc8dd  67  ??0gCDialog_PS@@QAE@XZ */
+  eCEntityPropertySet::eCEntityPropertySet((eCEntityPropertySet *)this);
+  this_00 = &(this->gCDialog_PS_data).offset_0x1c;
+  this->vftablePtr = &vftable;
+  bCObjectBase::bCObjectBase((bCObjectBase *)this_00);
+  *this_00 = &bTPropertyContainer<gETradeCategory>::vftable.GetVersion;
+  (this->gCDialog_PS_data).offset_0x20 = DAT_207bd4c4;
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)&(this->gCDialog_PS_data).field_0x2c);
+  (this->gCDialog_PS_data).offset_0x48 = 0;
+  (this->gCDialog_PS_data).offset_0x4c = 0;
+  (this->gCDialog_PS_data).offset_0x50 = 0;
+  return this;
+}
+
+

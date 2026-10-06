@@ -1,0 +1,16 @@
+/* ENTRY 10002347 | PSNpc::ForceNextPose | STATUS decompiled | 5 ms */
+
+/* public: bool __thiscall PSNpc::ForceNextPose(enum gEPose) */
+
+bool __thiscall PSNpc::ForceNextPose(PSNpc *this,gEPose param_1)
+
+{
+                    /* 0x2347  1480  ?ForceNextPose@PSNpc@@QAE_NW4gEPose@@@Z */
+  if (*(gCNPC_PS **)this == (gCNPC_PS *)0x0) {
+    return false;
+  }
+  gCNPC_PS::ForceNextPose(*(gCNPC_PS **)this,param_1);
+  return true;
+}
+
+

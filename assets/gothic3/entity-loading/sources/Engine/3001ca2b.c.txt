@@ -1,0 +1,33 @@
+/* ENTRY 3001ca2b | eCEntity::eCEntity | STATUS decompiled | 14 ms */
+
+/* protected: __thiscall eCEntity::eCEntity(void) */
+
+eCEntity * __thiscall eCEntity::eCEntity(eCEntity *this)
+
+{
+  code *pcVar1;
+  
+                    /* 0x1ca2b  277  ??0eCEntity@@IAE@XZ */
+  eCNode::eCNode((eCNode *)this);
+  this->vftablePtr = &vftable;
+  bCMatrix::bCMatrix((bCMatrix *)&(this->eCEntity_data).field_0x10);
+  bCMatrix::bCMatrix((bCMatrix *)&(this->eCEntity_data).field_0x50);
+  bCBox::bCBox((bCBox *)&(this->eCEntity_data).field_0x90);
+  bCSphere::bCSphere((bCSphere *)&(this->eCEntity_data).field_0xa8);
+  bCBox::bCBox((bCBox *)&(this->eCEntity_data).field_0xb8);
+  bCSphere::bCSphere((bCSphere *)&(this->eCEntity_data).field_0xd0);
+  bCBox::bCBox((bCBox *)&(this->eCEntity_data).field_0xe0);
+  bCString::bCString((bCString *)&(this->eCEntity_data).field_0x108);
+  (this->eCEntity_data).offset_0x110 = 0;
+  (this->eCEntity_data).offset_0x10c = 0;
+  (this->eCEntity_data).offset_0x10e = 0;
+  pcVar1 = g_ArraySortDefaultCompare_exref;
+  (this->eCEntity_data).offset_0x118 = 1;
+  (this->eCEntity_data).offset_0x114 = pcVar1;
+  eCFrustumElementItem::eCFrustumElementItem
+            ((eCFrustumElementItem *)&(this->eCEntity_data).field_0x11c);
+  Invalidate(this);
+  return this;
+}
+
+

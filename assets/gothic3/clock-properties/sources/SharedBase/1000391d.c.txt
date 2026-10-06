@@ -1,0 +1,19 @@
+/* ENTRY 1000391d | bCFPUAdmin::ComputeDefaultControlWord | STATUS decompiled | 5 ms */
+
+/* private: void __thiscall bCFPUAdmin::ComputeDefaultControlWord(void) */
+
+void __thiscall bCFPUAdmin::ComputeDefaultControlWord(bCFPUAdmin *this)
+
+{
+  uint uVar1;
+  
+                    /* 0x391d  1660  ?ComputeDefaultControlWord@bCFPUAdmin@@AAEXXZ */
+  __controlfp(0x9001f,0xffffffff);
+  uVar1 = __controlfp(0,0);
+  uVar1 = uVar1 & 0xfffeffff | 0xa001f;
+  *(uint *)(this + 4) = uVar1;
+  __controlfp(uVar1,0xffffffff);
+  return;
+}
+
+

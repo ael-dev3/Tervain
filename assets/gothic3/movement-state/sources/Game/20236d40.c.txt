@@ -1,0 +1,10 @@
+/* ENTRY 20236d40 | FUN_20236d40 | STATUS decompiled | 2 ms */
+
+bCQuaternion * __thiscall FUN_20236d40(int param_1,bCQuaternion *param_2)
+
+{
+  bCQuaternion::bCQuaternion(param_2,(bCQuaternion *)(param_1 + 0x50));
+  return param_2;
+}
+
+

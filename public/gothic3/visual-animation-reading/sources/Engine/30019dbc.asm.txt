@@ -1,0 +1,2 @@
+; 30019dbc eCVisualAnimation_PS::AccessSkeletonCollisionEnabled
+30019dbc | e9ef7d0400 | JMP 0x30061bb0

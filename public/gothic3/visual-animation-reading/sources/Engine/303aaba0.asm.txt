@@ -1,0 +1,13 @@
+; 303aaba0 FUN_303aaba0
+303aaba0 | 56 | PUSH ESI
+303aaba1 | 8bf1 | MOV ESI,ECX
+303aaba3 | 8b06 | MOV EAX,dword ptr [ESI]
+303aaba5 | 8b5018 | MOV EDX,dword ptr [EAX + 0x18]
+303aaba8 | ffd2 | CALL EDX
+303aabaa | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+303aabae | 8b4c240c | MOV ECX,dword ptr [ESP + 0xc]
+303aabb2 | 89460c | MOV dword ptr [ESI + 0xc],EAX
+303aabb5 | 894e10 | MOV dword ptr [ESI + 0x10],ECX
+303aabb8 | b801000000 | MOV EAX,0x1
+303aabbd | 5e | POP ESI
+303aabbe | c20800 | RET 0x8

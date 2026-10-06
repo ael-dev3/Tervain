@@ -1,0 +1,19 @@
+/* ENTRY 300259cd | eCVisualAnimation_PS::SetBonesBreakMaxForce | STATUS decompiled | 12 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::SetBonesBreakMaxForce(float const &) */
+
+void __thiscall
+eCVisualAnimation_PS::SetBonesBreakMaxForce(eCVisualAnimation_PS *this,float *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x259cd  12981  ?SetBonesBreakMaxForce@eCVisualAnimation_PS@@QAEXABM@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"BonesBreakMaxForce",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  *(float *)&this[1].eCEntityPropertySet_data.offset_0xc = *param_1;
+  (*pNVar1)(this,"BonesBreakMaxForce",false);
+  return;
+}
+
+

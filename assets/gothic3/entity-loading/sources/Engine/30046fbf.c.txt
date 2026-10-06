@@ -1,0 +1,17 @@
+/* ENTRY 30046fbf | eCEntity::GetWorldPosition | STATUS decompiled | 12 ms */
+
+/* public: class bCVector const & __thiscall eCEntity::GetWorldPosition(void)const  */
+
+bCVector * __thiscall eCEntity::GetWorldPosition(eCEntity *this)
+
+{
+  bCVector *pbVar1;
+  
+                    /* 0x46fbf  9675  ?GetWorldPosition@eCEntity@@QBEABVbCVector@@XZ */
+                    /* WARNING: Could not recover jumptable at 0x304b3743. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  pbVar1 = bCMatrix::GetTranslation((bCMatrix *)&(this->eCEntity_data).field_0x10);
+  return pbVar1;
+}
+
+

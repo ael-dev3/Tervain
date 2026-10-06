@@ -1,0 +1,31 @@
+/* ENTRY 30031fd9 | eCVisualAnimation_PS::UpdateLoD | STATUS decompiled | 12 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::UpdateLoD(struct eSEntityLoDInfoDesc const *) */
+
+void __thiscall
+eCVisualAnimation_PS::UpdateLoD(eCVisualAnimation_PS *this,eSEntityLoDInfoDesc *param_1)
+
+{
+  float fVar1;
+  ushort uVar2;
+  
+                    /* 0x31fd9  14903
+                       ?UpdateLoD@eCVisualAnimation_PS@@QAEXPBUeSEntityLoDInfoDesc@@@Z */
+  fVar1 = *(float *)param_1;
+  if (0.25 < fVar1) {
+    *(undefined2 *)&this[0x14].eCEntityPropertySet_data.offset_0x8 = 0;
+    return;
+  }
+  uVar2 = 0;
+  while (((float)(&DAT_3081eb18)[uVar2] < fVar1 || (fVar1 <= (float)(&DAT_3081eb1c)[uVar2]))) {
+    uVar2 = uVar2 + 1;
+    if (3 < uVar2) {
+      *(undefined2 *)&this[0x14].eCEntityPropertySet_data.offset_0x8 = 0;
+      return;
+    }
+  }
+  *(ushort *)&this[0x14].eCEntityPropertySet_data.offset_0x8 = uVar2;
+  return;
+}
+
+

@@ -1,0 +1,17 @@
+/* ENTRY 1014f8f0 | FUN_1014f8f0 | STATUS decompiled | 5 ms */
+
+void FUN_1014f8f0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Player\\Player_States\\PS_HUD.cpp");
+  bCString::bCString(local_8,"OnPlayerUseStack");
+  thunk_FUN_10017a50(local_8,&LAB_10002667,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

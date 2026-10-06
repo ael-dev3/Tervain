@@ -1,0 +1,13 @@
+/* ENTRY 10004ca5 | bCBox::operator|= | STATUS decompiled | 2 ms */
+
+/* public: class bCBox & __thiscall bCBox::operator|=(class bCBox const &) */
+
+bCBox * __thiscall bCBox::operator|=(bCBox *this,bCBox *param_1)
+
+{
+                    /* 0x4ca5  1323  ??_5bCBox@@QAEAAV0@ABV0@@Z */
+  Merge(this,param_1);
+  return this;
+}
+
+

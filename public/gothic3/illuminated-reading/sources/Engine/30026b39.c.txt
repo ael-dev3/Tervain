@@ -1,0 +1,11 @@
+/* ENTRY 30026b39 | bTPropertyContainer<eEStaticIlluminated>::vfunction7 | STATUS decompiled | 24 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<eEStaticIlluminated>::vfunction7(bTPropertyContainer<eEStaticIlluminated> *this)
+
+{
+  (this->bTPropertyContainer<eEStaticIlluminated>_data).offset_0x0 = DAT_30ae1c48;
+  return 1;
+}
+
+

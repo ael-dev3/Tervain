@@ -1,0 +1,30 @@
+/* ENTRY 201acd10 | FUN_201acd10 | STATUS decompiled | 7 ms */
+
+void __thiscall FUN_201acd10(int param_1,int param_2)
+
+{
+  uint uVar1;
+  uint uVar2;
+  int *piVar3;
+  
+  if (param_2 != 0) {
+    uVar1 = *(uint *)(param_1 + 0x50);
+    uVar2 = 0;
+    if (0 < (int)uVar1) {
+      piVar3 = *(int **)(param_1 + 0x4c);
+      do {
+        if (*piVar3 == param_2) goto LAB_201acd37;
+        uVar2 = uVar2 + 1;
+        piVar3 = piVar3 + 2;
+      } while ((int)uVar2 < (int)uVar1);
+    }
+    uVar2 = 0xffffffff;
+LAB_201acd37:
+    if (uVar2 < uVar1) {
+      *(undefined1 *)(*(int *)(param_1 + 0x4c) + 4 + uVar2 * 8) = 0;
+    }
+  }
+  return;
+}
+
+

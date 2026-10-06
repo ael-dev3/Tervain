@@ -1,0 +1,10 @@
+/* ENTRY 2011ab30 | bTPropertyType<gCEffect_PS,bCString>::vfunction5 | STATUS decompiled | 3 ms */
+
+bTPropertyType<gCEffect_PS,bCString>_vftable * __thiscall
+bTPropertyType<gCEffect_PS,bCString>::vfunction5(bTPropertyType<gCEffect_PS,bCString> *this)
+
+{
+  return this[7].vftablePtr;
+}
+
+

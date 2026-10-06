@@ -1,0 +1,30 @@
+/* ENTRY 30023d4e | eCEntityProxy::eCEntityProxy | STATUS decompiled | 14 ms */
+
+/* public: __thiscall eCEntityProxy::eCEntityProxy(class eCEntityProxy const &) */
+
+eCEntityProxy * __thiscall eCEntityProxy::eCEntityProxy(eCEntityProxy *this,eCEntityProxy *param_1)
+
+{
+  undefined1 *this_00;
+  eCEntityProxyInternal *this_01;
+  
+                    /* 0x23d4e  286  ??0eCEntityProxy@@QAE@ABV0@@Z */
+  this_00 = &(this->eCEntityProxy_data).field_0x4;
+  this->vftablePtr = &vftable;
+  bCPropertyID::bCPropertyID((bCPropertyID *)this_00);
+  (this->eCEntityProxy_data).offset_0x0 = (eCEntityProxyInternal *)0x0;
+  bCPropertyID::Destroy((bCPropertyID *)this_00);
+  if (*(eCEntityProxyInternal **)(param_1 + 4) != (eCEntityProxyInternal *)0x0) {
+    eCEntityProxyInternal::AddReference(*(eCEntityProxyInternal **)(param_1 + 4));
+  }
+  this_01 = (this->eCEntityProxy_data).offset_0x0;
+  if (this_01 != (eCEntityProxyInternal *)0x0) {
+    eCEntityProxyInternal::ReleaseReference(this_01);
+    (this->eCEntityProxy_data).offset_0x0 = (eCEntityProxyInternal *)0x0;
+  }
+  bCPropertyID::operator=((bCPropertyID *)this_00,(bCPropertyID *)(param_1 + 8));
+  (this->eCEntityProxy_data).offset_0x0 = *(eCEntityProxyInternal **)(param_1 + 4);
+  return this;
+}
+
+

@@ -1,0 +1,19 @@
+/* ENTRY 3000a3cb | eCEntityProxy::Compare | STATUS decompiled | 4 ms */
+
+/* protected: virtual bool __thiscall eCEntityProxy::Compare(class eCEntityProxy const &)const  */
+
+bool __thiscall eCEntityProxy::Compare(eCEntityProxy *this,eCEntityProxy *param_1)
+
+{
+  bool bVar1;
+  
+                    /* 0xa3cb  3894  ?Compare@eCEntityProxy@@MBE_NABV1@@Z */
+                    /* WARNING: Could not recover jumptable at 0x304c46ce. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bVar1 = bCPropertyID::operator==
+                    ((bCPropertyID *)&(this->eCEntityProxy_data).field_0x4,
+                     (bCPropertyID *)(param_1 + 8));
+  return bVar1;
+}
+
+

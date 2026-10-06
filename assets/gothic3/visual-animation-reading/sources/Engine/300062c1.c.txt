@@ -1,0 +1,59 @@
+/* ENTRY 300062c1 | eCVisualAnimationLoD::Read | STATUS decompiled | 19 ms */
+
+/* public: virtual enum bEResult __thiscall eCVisualAnimationLoD::Read(class bCIStream &) */
+
+bEResult __thiscall eCVisualAnimationLoD::Read(eCVisualAnimationLoD *this,bCIStream *param_1)
+
+{
+  bCIStream *this_00;
+  bool bVar1;
+  ushort uVar2;
+  ushort auStack_c [2];
+  long lStack_8;
+  eCVisualAnimationLoD *peStack_4;
+  
+                    /* 0x62c1  12303  ?Read@eCVisualAnimationLoD@@UAE?AW4bEResult@@AAVbCIStream@@@Z
+                        */
+  this_00 = param_1;
+  peStack_4 = this;
+  bCIStream::operator>>((bCIStream *)param_1,(ushort *)&param_1);
+  (*this->vftablePtr->Destroy)(this);
+  if ((ushort)param_1 == 1) {
+    bCIStream::operator>>((bCIStream *)this_00,auStack_c);
+  }
+  if ((ushort)param_1 < 3) {
+    bCIStream::operator>>((bCIStream *)this_00,auStack_c);
+    if (auStack_c[0] == 0) {
+      GE_MESSAGEF_WARN(&DAT_30820f00,"eCVisualAnimationLoD::Read");
+    }
+    uVar2 = 0;
+    if (auStack_c[0] != 0) {
+      do {
+        bCString::bCString((bCString *)&lStack_8);
+        bCIStream::operator>>((bCIStream *)this_00,(bCString *)&lStack_8);
+        if (uVar2 == 0) {
+          SetActorFileName(peStack_4,(bCString *)&lStack_8);
+        }
+        bCString::~bCString((bCString *)&lStack_8);
+        uVar2 = uVar2 + 1;
+      } while (uVar2 < auStack_c[0]);
+    }
+    if ((ushort)param_1 < 3) {
+      return 1;
+    }
+  }
+  bCString::bCString((bCString *)auStack_c);
+  bCIStream::operator>>((bCIStream *)this_00,(bCString *)auStack_c);
+  bVar1 = bCString::IsEmpty((bCString *)auStack_c);
+  if (!bVar1) {
+    SetActorFileName(peStack_4,(bCString *)auStack_c);
+  }
+  bCString::~bCString((bCString *)auStack_c);
+  if (3 < (ushort)param_1) {
+    bCIStream::operator>>((bCIStream *)this_00,&lStack_8);
+    (peStack_4->eCVisualAnimationLoD_data).offset_0x20 = lStack_8;
+  }
+  return 1;
+}
+
+

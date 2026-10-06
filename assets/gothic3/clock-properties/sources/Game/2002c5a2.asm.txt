@@ -1,0 +1,2 @@
+; 2002c5a2 ?SetMinute@gCClock_PS@@QAEXABK@Z
+2002c5a2 | e9f9a91300 | JMP 0x20166fa0

@@ -1,0 +1,66 @@
+; 20324d00 bTPropertyType<gCPlayerMemory_PS,float>::vfunction24
+20324d00 | 53 | PUSH EBX
+20324d01 | 56 | PUSH ESI
+20324d02 | 8b74240c | MOV ESI,dword ptr [ESP + 0xc]
+20324d06 | 85f6 | TEST ESI,ESI
+20324d08 | 8bd9 | MOV EBX,ECX
+20324d0a | 747f | JZ 0x20324d8b
+20324d0c | 8b06 | MOV EAX,dword ptr [ESI]
+20324d0e | 8b10 | MOV EDX,dword ptr [EAX]
+20324d10 | 57 | PUSH EDI
+20324d11 | 8bce | MOV ECX,ESI
+20324d13 | ffd2 | CALL EDX
+20324d15 | 85c0 | TEST EAX,EAX
+20324d17 | 742b | JZ 0x20324d44
+20324d19 | 8b06 | MOV EAX,dword ptr [ESI]
+20324d1b | 8b10 | MOV EDX,dword ptr [EAX]
+20324d1d | 55 | PUSH EBP
+20324d1e | 8bce | MOV ECX,ESI
+20324d20 | ffd2 | CALL EDX
+20324d22 | 8be8 | MOV EBP,EAX
+20324d24 | 8b7d00 | MOV EDI,dword ptr [EBP]
+20324d27 | 6a00 | PUSH 0x0
+20324d29 | 8bcb | MOV ECX,EBX
+20324d2b | 83c758 | ADD EDI,0x58
+20324d2e | ff153c877d20 | CALL dword ptr [0x207d873c]
+20324d34 | 8bc8 | MOV ECX,EAX
+20324d36 | ff15f8867d20 | CALL dword ptr [0x207d86f8]
+20324d3c | 50 | PUSH EAX
+20324d3d | 8b07 | MOV EAX,dword ptr [EDI]
+20324d3f | 8bcd | MOV ECX,EBP
+20324d41 | ffd0 | CALL EAX
+20324d43 | 5d | POP EBP
+20324d44 | 8b13 | MOV EDX,dword ptr [EBX]
+20324d46 | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+20324d49 | 56 | PUSH ESI
+20324d4a | 8bcb | MOV ECX,EBX
+20324d4c | ffd0 | CALL EAX
+20324d4e | 8b4c2414 | MOV ECX,dword ptr [ESP + 0x14]
+20324d52 | d901 | FLD float ptr [ECX]
+20324d54 | 8b16 | MOV EDX,dword ptr [ESI]
+20324d56 | d918 | FSTP float ptr [EAX]
+20324d58 | 8b02 | MOV EAX,dword ptr [EDX]
+20324d5a | 8bce | MOV ECX,ESI
+20324d5c | ffd0 | CALL EAX
+20324d5e | 85c0 | TEST EAX,EAX
+20324d60 | 7428 | JZ 0x20324d8a
+20324d62 | 8b16 | MOV EDX,dword ptr [ESI]
+20324d64 | 8b02 | MOV EAX,dword ptr [EDX]
+20324d66 | 8bce | MOV ECX,ESI
+20324d68 | ffd0 | CALL EAX
+20324d6a | 8bf8 | MOV EDI,EAX
+20324d6c | 8b37 | MOV ESI,dword ptr [EDI]
+20324d6e | 6a00 | PUSH 0x0
+20324d70 | 8bcb | MOV ECX,EBX
+20324d72 | 83c65c | ADD ESI,0x5c
+20324d75 | ff153c877d20 | CALL dword ptr [0x207d873c]
+20324d7b | 8bc8 | MOV ECX,EAX
+20324d7d | ff15f8867d20 | CALL dword ptr [0x207d86f8]
+20324d83 | 8b16 | MOV EDX,dword ptr [ESI]
+20324d85 | 50 | PUSH EAX
+20324d86 | 8bcf | MOV ECX,EDI
+20324d88 | ffd2 | CALL EDX
+20324d8a | 5f | POP EDI
+20324d8b | 5e | POP ESI
+20324d8c | 5b | POP EBX
+20324d8d | c20800 | RET 0x8

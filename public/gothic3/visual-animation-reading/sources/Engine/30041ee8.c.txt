@@ -1,0 +1,19 @@
+/* ENTRY 30041ee8 | eCVisualAnimation_PS::SetBoneAngularDamping | STATUS decompiled | 9 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::SetBoneAngularDamping(float const &) */
+
+void __thiscall
+eCVisualAnimation_PS::SetBoneAngularDamping(eCVisualAnimation_PS *this,float *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x41ee8  12965  ?SetBoneAngularDamping@eCVisualAnimation_PS@@QAEXABM@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"BoneAngularDamping",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  *(float *)&this[2].eCEntityPropertySet_data.field_0x4 = *param_1;
+  (*pNVar1)(this,"BoneAngularDamping",false);
+  return;
+}
+
+

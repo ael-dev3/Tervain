@@ -1,0 +1,32 @@
+/* ENTRY 2051e5f0 | bTPropertyType<gCScriptRoutine_PS,long>::~bTPropertyType<gCScriptRoutine_PS,long> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCScriptRoutine_PS,long>::~bTPropertyType<gCScriptRoutine_PS,long>
+          (bTPropertyType<gCScriptRoutine_PS,long> *this)
+
+{
+  bTPropertyType<gCScriptRoutine_PS,long> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"CommandTime");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCScriptRoutine_PS::ms_PropertyMember_m_iCommandTime,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_iCommandTime = &vftable;
+  DAT_207cc1d8 = bTPropertyObjectType<gCScriptRoutine_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCScriptRoutine_PS,eCEntityPropertySet>();
+  _DAT_207cc1dc = 0x2c;
+  _DAT_207cc1e0 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCScriptRoutine_PS::ms_PropertyMember_m_iCommandTime);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cc1d8,
+             (bCPropertyTypeBase *)&gCScriptRoutine_PS::ms_PropertyMember_m_iCommandTime);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<long>::~bTPropertyTypeOnly<long>);
+  return;
+}
+
+

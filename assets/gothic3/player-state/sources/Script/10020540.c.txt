@@ -1,0 +1,15 @@
+/* ENTRY 10020540 | FUN_10020540 | STATUS decompiled | 4 ms */
+
+bool __fastcall FUN_10020540(undefined4 *param_1)
+
+{
+  bool bVar1;
+  
+  if ((gCNPC_PS *)*param_1 != (gCNPC_PS *)0x0) {
+    bVar1 = gCNPC_PS::HasStatusEffect((gCNPC_PS *)*param_1,0x10);
+    return bVar1;
+  }
+  return false;
+}
+
+

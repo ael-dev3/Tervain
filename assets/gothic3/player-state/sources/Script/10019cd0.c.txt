@@ -1,0 +1,17 @@
+/* ENTRY 10019cd0 | FUN_10019cd0 | STATUS decompiled | 4 ms */
+
+int __thiscall FUN_10019cd0(void *this,ulong param_1)
+
+{
+  int iVar1;
+  
+  if ((*(gCInventory_PS **)this != (gCInventory_PS *)0x0) && (-1 < (int)param_1)) {
+                    /* WARNING: Could not recover jumptable at 0x10019ce8. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+    iVar1 = gCInventory_PS::FindStackIndexByHotKey(*(gCInventory_PS **)this,param_1);
+    return iVar1;
+  }
+  return -1;
+}
+
+

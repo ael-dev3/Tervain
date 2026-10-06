@@ -1,0 +1,13 @@
+/* ENTRY 10088a70 | FUN_10088a70 | STATUS decompiled | 2 ms */
+
+void FUN_10088a70(void)
+
+{
+  GE_MESSAGEF_WARN("The method %s detected an improper usage! \nHint:%s ",
+                   "bCPropertyTypeBase::CopyFrom",
+                   "It is not allowed to make a copy of propertytype.\nDo not call it from derived class or change access !"
+                  );
+  return;
+}
+
+

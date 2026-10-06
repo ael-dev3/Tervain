@@ -1,0 +1,4 @@
+; 2000ca18 ??0gCFocus_PS@@QAE@ABV0@@Z
+2000ca18 | e9030b1300 | JMP 0x2013d520
+; 2000ca1d gCAttribModDesc::operator==
+; 2000ca1d Ordinal_782

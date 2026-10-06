@@ -1,0 +1,3 @@
+; 20367eb0 FUN_20367eb0
+20367eb0 | 8b4158 | MOV EAX,dword ptr [ECX + 0x58]
+20367eb3 | c3 | RET

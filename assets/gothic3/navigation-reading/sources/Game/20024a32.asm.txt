@@ -1,0 +1,4 @@
+; 20024a32 ?GetSaveGameRelevance@gCNavigation_PS@@UBE?AW4eEPSSaveGameRelevance@eCEntityPropertySet@@XZ
+20024a32 | e929152600 | JMP 0x20285f60
+; 20024a37 gCAIHelper_FreePoint_PS::OnPreProcess
+; 20024a37 Ordinal_5537

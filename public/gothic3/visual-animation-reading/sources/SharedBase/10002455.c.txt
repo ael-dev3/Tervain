@@ -1,0 +1,32 @@
+/* ENTRY 10002455 | bCAccessorPropertyObject::SetInstance | STATUS decompiled | 8 ms */
+
+/* protected: void __thiscall bCAccessorPropertyObject::SetInstance(class bCPropertyObjectBase *) */
+
+void __thiscall
+bCAccessorPropertyObject::SetInstance(bCAccessorPropertyObject *this,bCPropertyObjectBase *param_1)
+
+{
+  int *piVar1;
+  bCPropertyObjectFactory *this_00;
+  bCPropertyObjectBase *pbVar2;
+  
+                    /* 0x2455  4229
+                       ?SetInstance@bCAccessorPropertyObject@@IAEXPAVbCPropertyObjectBase@@@Z */
+  if (param_1 != (bCPropertyObjectBase *)0x0) {
+    (**(code **)(*(int *)param_1 + 0x30))();
+  }
+  if (*(int **)(this + 4) != (int *)0x0) {
+    (**(code **)(**(int **)(this + 4) + 0x34))();
+    *(undefined4 *)(this + 4) = 0;
+  }
+  if ((param_1 != (bCPropertyObjectBase *)0x0) && (*(int *)this == 0)) {
+    piVar1 = (int *)(**(code **)(*(int *)param_1 + 0x10))();
+    this_00 = (bCPropertyObjectFactory *)(**(code **)(*piVar1 + 0xc))();
+    pbVar2 = bCPropertyObjectFactory::GetRootObject(this_00);
+    *(bCPropertyObjectBase **)this = pbVar2;
+  }
+  *(bCPropertyObjectBase **)(this + 4) = param_1;
+  return;
+}
+
+

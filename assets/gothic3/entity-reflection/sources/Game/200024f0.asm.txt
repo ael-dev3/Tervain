@@ -1,0 +1,2 @@
+; 200024f0 ?Read@gCCharacterControl_PS@@UAE?AW4bEResult@@AAVbCIStream@@@Z
+200024f0 | e91b682100 | JMP 0x20218d10

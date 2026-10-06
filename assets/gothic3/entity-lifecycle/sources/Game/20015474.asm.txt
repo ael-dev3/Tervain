@@ -1,0 +1,2 @@
+; 20015474 ?OnPropertySetRemoved@gCNavPath_PS@@UAEXXZ
+20015474 | e9d7332800 | JMP 0x20298850

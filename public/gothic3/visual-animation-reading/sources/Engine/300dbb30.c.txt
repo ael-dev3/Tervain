@@ -1,0 +1,49 @@
+/* ENTRY 300dbb30 | FUN_300dbb30 | STATUS decompiled | 36 ms */
+
+void __thiscall
+FUN_300dbb30(eCWrapper_emfx2Actor *param_1,undefined4 param_2,undefined4 param_3,char param_4,
+            float param_5)
+
+{
+  int *piVar1;
+  bool bVar2;
+  eCApplication *this;
+  float fVar3;
+  
+  this = (eCApplication *)eCApplication::GetInstance();
+  fVar3 = eCApplication::GetScaledFrameTimeInSeconds(this);
+  *(double *)&(param_1->eCWrapper_emfx2Actor_data).field_0x4c = (double)(fVar3 * param_5);
+  if ((param_1->eCWrapper_emfx2Actor_data).offset_0x74 == '\x01') {
+    bVar2 = eCWrapper_emfx2Actor::IsActorPlaying(param_1,0);
+    if (!bVar2) {
+      bVar2 = eCWrapper_emfx2Actor::IsActorPlaying(param_1,4);
+      if (!bVar2) {
+        *(undefined8 *)&(param_1->eCWrapper_emfx2Actor_data).field_0x4c = 0;
+        goto LAB_300dbb83;
+      }
+    }
+    eCWrapper_emfx2Actor::RunStopPrevention
+              (param_1,(float)*(double *)&(param_1->eCWrapper_emfx2Actor_data).field_0x4c);
+  }
+LAB_300dbb83:
+  if ((param_4 == '\0') &&
+     (piVar1 = *(int **)((param_1->eCWrapper_emfx2Actor_data).offset_0x8 + 0x20c),
+     piVar1 != (int *)0x0)) {
+    (**(code **)(*piVar1 + 0x18))
+              (*(undefined8 *)&(param_1->eCWrapper_emfx2Actor_data).field_0x4c,param_3);
+  }
+  if ((char)param_3 == '\x01') {
+    if (param_4 == '\0') {
+      thunk_FUN_300e2d90(*(undefined8 *)&(param_1->eCWrapper_emfx2Actor_data).field_0x4c);
+      FUN_3063b5e0();
+    }
+    thunk_FUN_300e2e00(*(undefined8 *)&(param_1->eCWrapper_emfx2Actor_data).field_0x4c);
+    FUN_3063b700();
+    bCBox::operator=((bCBox *)&(param_1->eCWrapper_emfx2Actor_data).field_0x2c,
+                     (bCBox *)((param_1->eCWrapper_emfx2Actor_data).offset_0x8 + 0x1d8));
+  }
+  (param_1->eCWrapper_emfx2Actor_data).offset_0x44 = 1;
+  return;
+}
+
+

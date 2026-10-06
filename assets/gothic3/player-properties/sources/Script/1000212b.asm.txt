@@ -1,0 +1,4 @@
+; 1000212b ?SetPoliticalFame@PSPlayerMemory@@QAEXW4gEPoliticalAlignment@@J@Z
+1000212b | e9b0650200 | JMP 0x100286e0
+; 10002130 PSParticle::PropertyDisableFogging::operator=
+; 10002130 Ordinal_361

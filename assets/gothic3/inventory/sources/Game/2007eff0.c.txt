@@ -1,0 +1,16 @@
+/* ENTRY 2007eff0 | FUN_2007eff0 | STATUS decompiled | 2 ms */
+
+void __fastcall FUN_2007eff0(int *param_1)
+
+{
+  code *pcVar1;
+  int *unaff_ESI;
+  
+  (**(code **)(*param_1 + 0x58))("Amount",0);
+  pcVar1 = *(code **)(*param_1 + 0x5c);
+  param_1[0xf] = *unaff_ESI;
+  (*pcVar1)("Amount",0);
+  return;
+}
+
+

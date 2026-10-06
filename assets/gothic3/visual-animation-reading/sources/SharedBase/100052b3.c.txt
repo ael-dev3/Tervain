@@ -1,0 +1,12 @@
+/* ENTRY 100052b3 | bCRect::GetWidth | STATUS decompiled | 2 ms */
+
+/* public: long __thiscall bCRect::GetWidth(void)const  */
+
+long __thiscall bCRect::GetWidth(bCRect *this)
+
+{
+                    /* 0x52b3  3243  ?GetWidth@bCRect@@QBEJXZ */
+  return *(int *)(this + 8) - *(int *)this;
+}
+
+

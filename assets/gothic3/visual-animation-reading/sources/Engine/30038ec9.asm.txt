@@ -1,0 +1,2 @@
+; 30038ec9 eCWrapper_emfx2Actor::HasMotionInstance
+30038ec9 | e9621b0a00 | JMP 0x300daa30

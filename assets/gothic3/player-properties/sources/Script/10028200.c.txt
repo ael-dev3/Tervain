@@ -1,0 +1,14 @@
+/* ENTRY 10028200 | FUN_10028200 | STATUS decompiled | 3 ms */
+
+undefined4 __fastcall FUN_10028200(int *param_1)
+
+{
+  if (*param_1 == 0) {
+    GE_MESSAGEF_WARN("Cannot get property \'%s\' in propertyset \'%s\'!","Chapter",
+                     "gCPlayerMemory_PS");
+    return 0;
+  }
+  return *(undefined4 *)(*param_1 + 0x94);
+}
+
+

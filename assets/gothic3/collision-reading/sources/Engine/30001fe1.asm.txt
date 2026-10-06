@@ -1,0 +1,4 @@
+; 30001fe1 bTPOPureSmartPtr<eCCollisionShapeBase_PS>::vfunction12
+30001fe1 | e92af93300 | JMP 0x30341910
+; 30001ff5 eCWindow::GetInstance
+; 30001ff5 Ordinal_7436

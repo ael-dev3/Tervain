@@ -1,0 +1,39 @@
+/* ENTRY 300392d4 | eCEntityPropertySet::OnUpdatedWorldMatrix | STATUS decompiled | 10 ms */
+
+/* protected: virtual void __thiscall eCEntityPropertySet::OnUpdatedWorldMatrix(void)
+   eCEntityPropertySet member function inherited by eCTriggerBase_PS
+   eCEntityPropertySet member function inherited by eCEventFilter_PS
+   eCEntityPropertySet member function inherited by eCTrigger_PS
+   eCEntityPropertySet member function inherited by eCTriggerCombiner_PS
+   eCEntityPropertySet member function inherited by eCTriggerList_PS
+   eCEntityPropertySet member function inherited by eCStaticLight_PS
+   eCEntityPropertySet member function inherited by eCStaticSpotLight_PS
+   eCEntityPropertySet member function inherited by eCEffectBase_PS
+   eCEntityPropertySet member function inherited by eCRigidBodyBase_PS
+   eCEntityPropertySet member function inherited by eCCollisionShapeBase_PS
+   eCEntityPropertySet member function inherited by eCPhysicsScene_PS
+   eCEntityPropertySet member function inherited by eCLinkContainer_PS
+   eCEntityPropertySet member function inherited by eCForceField_PS
+   eCEntityPropertySet member function inherited by eCEngineCaps_PS
+   eCEntityPropertySet member function inherited by eCVisualMeshBase_PS
+   eCEntityPropertySet member function inherited by eCVisualMeshDynamic_PS
+   eCEntityPropertySet member function inherited by eCVisualMeshStatic_PS
+   eCEntityPropertySet member function inherited by eCSpeedTree_PS
+   eCEntityPropertySet member function inherited by eCSpeedTreeWind_PS
+   eCEntityPropertySet member function inherited by eCSkydome_PS
+   eCEntityPropertySet member function inherited by eCVegetation_PS
+   eCEntityPropertySet member function inherited by eCPrecipitation_PS
+   eCEntityPropertySet member function inherited by eCWeatherZone_PS
+   eCEntityPropertySet member function inherited by eCVisualAnimation_PS
+   eCEntityPropertySet member function inherited by eCEventDebugger_PS
+   eCEntityPropertySet member function inherited by eCEventLogic_PS
+   eCEntityPropertySet member function inherited by eCParticleSystemBase_PS */
+
+void __thiscall eCEntityPropertySet::OnUpdatedWorldMatrix(eCEntityPropertySet *this)
+
+{
+                    /* 0x392d4  11619  ?OnUpdatedWorldMatrix@eCEntityPropertySet@@MAEXXZ */
+  return;
+}
+
+

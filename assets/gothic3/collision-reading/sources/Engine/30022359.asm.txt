@@ -1,0 +1,2 @@
+; 30022359 bTPropertyObjectType<eCCollisionShape,bCObjectRefBase>::vfunction1
+30022359 | e9f2c30a00 | JMP 0x300ce750

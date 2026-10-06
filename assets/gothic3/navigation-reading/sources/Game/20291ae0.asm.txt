@@ -1,0 +1,15 @@
+; 20291ae0 bTPropertyObject<gCNavigation_PS,eCEntityPropertySet>::~bTPropertyObject<gCNavigation_PS,eCEntityPropertySet>
+20291ae0 | 56 | PUSH ESI
+20291ae1 | 8bf1 | MOV ESI,ECX
+20291ae3 | ff15b8877d20 | CALL dword ptr [0x207d87b8]
+20291ae9 | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+20291af0 | c706ece36820 | MOV dword ptr [ESI],0x2068e3ec
+20291af6 | e84111d9ff | CALL 0x20022c3c
+20291afb | 6a01 | PUSH 0x1
+20291afd | 8bce | MOV ECX,ESI
+20291aff | 89460c | MOV dword ptr [ESI + 0xc],EAX
+20291b02 | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+20291b09 | e81d14d8ff | CALL 0x20012f2b
+20291b0e | 8bc6 | MOV EAX,ESI
+20291b10 | 5e | POP ESI
+20291b11 | c20400 | RET 0x4

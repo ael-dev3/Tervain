@@ -1,0 +1,11 @@
+/* ENTRY 20320a30 | bTPropertyContainer<gEWeaponConfig>::vfunction7 | STATUS decompiled | 2 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<gEWeaponConfig>::vfunction7(bTPropertyContainer<gEWeaponConfig> *this)
+
+{
+  (this->bTPropertyContainer<gEWeaponConfig>_data).offset_0x0 = DAT_207c1578;
+  return 1;
+}
+
+

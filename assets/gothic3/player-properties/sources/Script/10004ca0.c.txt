@@ -1,0 +1,19 @@
+/* ENTRY 10004ca0 | PSPlayerMemory::SetPoliticalPlayerCrime | STATUS decompiled | 2 ms */
+
+/* public: void __thiscall PSPlayerMemory::SetPoliticalPlayerCrime(enum gEPoliticalAlignment,bool)
+    */
+
+void __thiscall
+PSPlayerMemory::SetPoliticalPlayerCrime
+          (PSPlayerMemory *this,gEPoliticalAlignment param_1,bool param_2)
+
+{
+                    /* 0x4ca0  1978
+                       ?SetPoliticalPlayerCrime@PSPlayerMemory@@QAEXW4gEPoliticalAlignment@@_N@Z */
+  if ((*(int *)this != 0) && (param_1 < 9)) {
+    *(bool *)(param_1 + *(int *)(*(int *)this + 0x48)) = param_2;
+  }
+  return;
+}
+
+

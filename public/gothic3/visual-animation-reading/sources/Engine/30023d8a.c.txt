@@ -1,0 +1,36 @@
+/* ENTRY 30023d8a | eCVisualAnimationFactory::GetMeshBoundary | STATUS decompiled | 18 ms */
+
+/* public: void __thiscall eCVisualAnimationFactory::GetMeshBoundary(class bCBox &)const  */
+
+void __thiscall
+eCVisualAnimationFactory::GetMeshBoundary(eCVisualAnimationFactory *this,bCBox *param_1)
+
+{
+  int iVar1;
+  int iVar2;
+  bCBox abStack_18 [24];
+  
+                    /* 0x23d8a  7817  ?GetMeshBoundary@eCVisualAnimationFactory@@QBEXAAVbCBox@@@Z */
+  CacheInResources(this);
+  bCBox::bCBox(abStack_18);
+  bCBox::Invalidate(param_1);
+  if (*(eCVisualAnimationLoD **)(this + 8) != (eCVisualAnimationLoD *)0x0) {
+    eCVisualAnimationLoD::GetMeshBoundary(*(eCVisualAnimationLoD **)(this + 8),abStack_18);
+    bCBox::Merge(param_1,abStack_18);
+  }
+  iVar2 = 0;
+  if (0 < *(int *)(this + 0x14)) {
+    iVar1 = 0;
+    do {
+      eCVisualAnimationLoD::GetMeshBoundary
+                (*(eCVisualAnimationLoD **)(*(int *)(this + 0x10) + 4 + iVar1),abStack_18);
+      bCBox::Merge(param_1,abStack_18);
+      iVar2 = iVar2 + 1;
+      iVar1 = iVar1 + 0x10;
+    } while (iVar2 < *(int *)(this + 0x14));
+  }
+  bCBox::~bCBox(abStack_18);
+  return;
+}
+
+

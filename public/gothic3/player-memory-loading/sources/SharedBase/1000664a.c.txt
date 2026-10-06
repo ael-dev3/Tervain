@@ -1,0 +1,12 @@
+/* ENTRY 1000664a | bCAccessorCreator::IsValid | STATUS decompiled | 2 ms */
+
+/* public: bool __thiscall bCAccessorCreator::IsValid(void)const  */
+
+bool __thiscall bCAccessorCreator::IsValid(bCAccessorCreator *this)
+
+{
+                    /* 0x664a  3666  ?IsValid@bCAccessorCreator@@QBE_NXZ */
+  return *(int *)this != 0;
+}
+
+

@@ -1,0 +1,2 @@
+; 20036e76 gCInteractionAdmin::AddInteractionInROI
+20036e76 | e995953d00 | JMP 0x20410410

@@ -1,0 +1,2 @@
+; 100076a3 bCCriticalSectionWin32::Release
+100076a3 | e978980000 | JMP 0x10010f20

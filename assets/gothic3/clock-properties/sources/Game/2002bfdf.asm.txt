@@ -1,0 +1,4 @@
+; 2002bfdf ?SetFactor@gCClock_PS@@QAEXABM@Z
+2002bfdf | e97cb01300 | JMP 0x20167060
+; 2002bfe4 gCCameraAI_PS::GetCamModeDialogLerp2
+; 2002bfe4 Ordinal_3006

@@ -1,0 +1,17 @@
+/* ENTRY 3001815b | eCEntityProxy::IsEntityIDValid | STATUS decompiled | 3 ms */
+
+/* public: bool __thiscall eCEntityProxy::IsEntityIDValid(void)const  */
+
+bool __thiscall eCEntityProxy::IsEntityIDValid(eCEntityProxy *this)
+
+{
+  bool bVar1;
+  
+                    /* 0x1815b  10376  ?IsEntityIDValid@eCEntityProxy@@QBE_NXZ */
+                    /* WARNING: Could not recover jumptable at 0x304c4333. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bVar1 = bCPropertyID::IsValid((bCPropertyID *)&(this->eCEntityProxy_data).field_0x4);
+  return bVar1;
+}
+
+

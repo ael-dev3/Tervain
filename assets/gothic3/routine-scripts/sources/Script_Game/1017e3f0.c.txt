@@ -1,0 +1,17 @@
+/* ENTRY 1017e3f0 | FUN_1017e3f0 | STATUS decompiled | 7 ms */
+
+void FUN_1017e3f0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Test\\ZS_NavEval.cpp");
+  bCString::bCString(local_8,"ZS_NavEval_Loop");
+  thunk_FUN_1001db60(local_8,&LAB_10003567,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

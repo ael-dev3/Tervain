@@ -1,0 +1,73 @@
+/* ENTRY 2034d000 | FUN_2034d000 | STATUS decompiled | 26 ms */
+
+bool FUN_2034d000(char *param_1)
+
+{
+  char *pcVar1;
+  bool bVar2;
+  undefined1 uVar3;
+  eCSceneAdmin *this;
+  eCEntityAdmin *this_00;
+  int iVar4;
+  bCString *pbVar5;
+  char *pcVar6;
+  bCMessageAdmin *this_01;
+  char *pcVar7;
+  undefined4 *unaff_EBX;
+  bEMessageTypes bVar8;
+  char *pcVar9;
+  int iVar10;
+  undefined4 *puVar11;
+  
+  this = (eCSceneAdmin *)thunk_FUN_200ae8e0();
+  this_00 = eCSceneAdmin::GetAccessToEntityAdmin(this);
+  bVar2 = eCEntityAdmin::IsProcessingEnabled(this_00);
+  pcVar1 = param_1;
+  if (!bVar2) {
+    return bVar2;
+  }
+  iVar4 = thunk_FUN_20353200();
+  puVar11 = &param_1;
+  if (iVar4 == 0) {
+    pcVar9 = " !";
+    pcVar7 = (char *)&param_1;
+    pcVar6 = pcVar1;
+    iVar10 = iVar4;
+    pbVar5 = (bCString *)
+             operator+(&stack0x00000008,
+                       (bCString *)
+                       "gCScriptAdmin::RunScriptCallback - Scripted callback is not registered: ");
+    pbVar5 = (bCString *)bCString::operator+(pbVar5,pcVar6);
+    pcVar6 = bCString::operator_char_const_(pbVar5);
+    bVar8 = 3;
+    this_01 = bCMessageAdmin::GetInstance();
+    bCMessageAdmin::OnMessage(this_01,bVar8,pcVar6,pcVar7,pcVar9,iVar4,iVar10);
+    bCString::~bCString((bCString *)&stack0xfffffffc);
+    bCString::~bCString((bCString *)&stack0x00000000);
+    pcVar7 = pcVar1;
+    pbVar5 = (bCString *)
+             operator+(&stack0x00000000,(bCString *)"Scripted callback is not registered: ");
+    pbVar5 = (bCString *)bCString::operator+(pbVar5,pcVar7);
+    pcVar7 = bCString::operator_char_const_(pbVar5);
+    if (DAT_207ab9db != '\0') {
+      iVar4 = MessageBoxA((HWND)0x0,pcVar7,"gCScriptAdmin::RunScript(..)",0x12);
+      if (iVar4 == 3) {
+        FUN_20466768(0);
+        puVar11 = unaff_EBX;
+        goto LAB_2034d110;
+      }
+      if (iVar4 == 5) {
+        DAT_207ab9db = '\0';
+      }
+    }
+    bCString::~bCString((bCString *)&stack0xfffffff4);
+    bCString::~bCString((bCString *)&stack0xfffffff8);
+    return true;
+  }
+LAB_2034d110:
+  iVar4 = thunk_FUN_20353200(pcVar1,&stack0xfffffff0);
+  uVar3 = (**(code **)(*(int *)(iVar4 + 4) + 4))(puVar11);
+  return (bool)uVar3;
+}
+
+

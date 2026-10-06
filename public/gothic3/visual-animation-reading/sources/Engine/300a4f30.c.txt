@@ -1,0 +1,49 @@
+/* ENTRY 300a4f30 | FUN_300a4f30 | STATUS decompiled | 18 ms */
+
+void __fastcall FUN_300a4f30(int param_1)
+
+{
+  bCVector *pbVar1;
+  bCMemoryAdmin *this;
+  float fVar2;
+  void *pvVar3;
+  bCVector local_c [12];
+  
+  fVar2 = 1.0;
+  pbVar1 = (bCVector *)bCVector::bCVector(local_c,0.0);
+  bCBox::SetBox((bCBox *)(param_1 + 0xf4),pbVar1,fVar2);
+  bCVector::~bCVector(local_c);
+  *(undefined1 *)(param_1 + 0x118) = 0;
+  *(undefined1 *)(param_1 + 0x119) = 0;
+  bCString::Clear((bCString *)(param_1 + 0x144));
+  bCString::Clear((bCString *)(param_1 + 0x148));
+  *(undefined4 *)(param_1 + 0x14c) = 0xbf800000;
+  *(undefined4 *)(param_1 + 0x11c) = 0;
+  *(undefined1 *)(param_1 + 300) = 0;
+  *(undefined1 *)(param_1 + 0x178) = 0;
+  *(undefined4 *)(param_1 + 0x134) = 0;
+  *(undefined4 *)(param_1 + 0x130) = 0;
+  *(undefined1 *)(param_1 + 0x151) = 0;
+  *(undefined1 *)(param_1 + 0x179) = 0;
+  *(undefined4 *)(param_1 + 0x1a4) = 0;
+  *(undefined1 *)(param_1 + 0x17a) = 0;
+  *(undefined1 *)(param_1 + 0x17b) = 0;
+  *(undefined4 *)(param_1 + 0x17c) = 0;
+  *(undefined4 *)(param_1 + 0x188) = 0x3f800000;
+  if (*(int *)(param_1 + 0x138) != 0) {
+    thunk_FUN_300b85c0(*(int *)(param_1 + 0x138),*(undefined4 *)(param_1 + 0x140));
+    pvVar3 = *(void **)(param_1 + 0x138);
+    this = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(this,pvVar3);
+    *(undefined4 *)(param_1 + 0x138) = 0;
+    *(undefined4 *)(param_1 + 0x13c) = 0;
+    *(undefined4 *)(param_1 + 0x140) = 0;
+  }
+  *(undefined4 *)(param_1 + 0x1a0) = 0;
+  *(undefined4 *)(param_1 + 0x198) = 0;
+  *(undefined2 *)(param_1 + 0x19c) = 0;
+  *(undefined4 *)(param_1 + 0x180) = 0xbf34bc6a;
+  return;
+}
+
+

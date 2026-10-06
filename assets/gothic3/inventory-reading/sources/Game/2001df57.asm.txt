@@ -1,0 +1,4 @@
+; 2001df57 bTPropertyType<gCInventory_PS,bool>::vfunction26
+2001df57 | e9f4cc1800 | JMP 0x201aac50
+; 2001df6b gCMagic_PS::AccessCastType
+; 2001df6b Ordinal_1072

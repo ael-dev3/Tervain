@@ -1,0 +1,4 @@
+; 10004c96 ??9bCVector@@QBE_NABV0@@Z
+10004c96 | e9a50d0200 | JMP 0x10025a40
+; 10004ca5 bCBox::operator|=
+; 10004ca5 Ordinal_1323

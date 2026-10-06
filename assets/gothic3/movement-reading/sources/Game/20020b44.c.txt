@@ -1,0 +1,15 @@
+/* ENTRY 20020b44 | gCCharacterMovement_PS::OnPostUpdateInternals | STATUS decompiled | 7 ms */
+
+/* protected: virtual void __thiscall gCCharacterMovement_PS::OnPostUpdateInternals(void) */
+
+void __thiscall gCCharacterMovement_PS::OnPostUpdateInternals(gCCharacterMovement_PS *this)
+
+{
+                    /* 0x20b44  5536  ?OnPostUpdateInternals@gCCharacterMovement_PS@@MAEXXZ */
+                    /* WARNING: Could not recover jumptable at 0x202216f0. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eCEntityPropertySet::OnPostUpdateInternals((eCEntityPropertySet *)this);
+  return;
+}
+
+

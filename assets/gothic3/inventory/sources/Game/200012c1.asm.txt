@@ -1,0 +1,4 @@
+; 200012c1 ?GetActivationCount@gCInventoryStack@@QBEABHXZ
+200012c1 | e90adf0700 | JMP 0x2007f1d0
+; 200012cb gCNPC_PS::SetSpecies
+; 200012cb Ordinal_7066

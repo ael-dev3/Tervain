@@ -1,0 +1,11 @@
+/* ENTRY 203984c0 | bTPropertyObject<gCAttribute,bCObjectRefBase>::vfunction5 | STATUS decompiled | 2 ms */
+
+undefined4 __thiscall
+bTPropertyObject<gCAttribute,bCObjectRefBase>::vfunction5
+          (bTPropertyObject<gCAttribute,bCObjectRefBase> *this)
+
+{
+  return (this->bTPropertyObject<gCAttribute,bCObjectRefBase>_data).offset_0x0;
+}
+
+

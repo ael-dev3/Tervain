@@ -1,0 +1,2 @@
+; 30014371 ?AccessIgnoredByTraceRay@eCCollisionShape@@QAEAA_NXZ
+30014371 | e98ae10a00 | JMP 0x300c2500

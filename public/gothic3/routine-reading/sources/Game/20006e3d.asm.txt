@@ -1,0 +1,4 @@
+; 20006e3d bTPropertyObject<gCScriptRoutine_PS,eCEntityPropertySet>::vfunction4
+20006e3d | e95e2b3500 | JMP 0x203599a0
+; 20006e47 gCDummyCollectorCollisionCircle::GetPropertySetType
+; 20006e47 Ordinal_4045

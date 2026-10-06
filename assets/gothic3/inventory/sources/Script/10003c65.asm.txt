@@ -1,0 +1,2 @@
+; 10003c65 ?AssureItems@PSInventory@@QAEHABVTemplate@@KH@Z
+10003c65 | e966680100 | JMP 0x1001a4d0

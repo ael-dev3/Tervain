@@ -1,0 +1,16 @@
+/* ENTRY 3003c7b8 | eCCollisionShape::AccessShapeAABBAdaptMode | STATUS decompiled | 4 ms */
+
+/* public: class bTPropertyContainer<enum eEShapeAABBAdapt> & __thiscall
+   eCCollisionShape::AccessShapeAABBAdaptMode(void) */
+
+bTPropertyContainer<eEShapeAABBAdapt> * __thiscall
+eCCollisionShape::AccessShapeAABBAdaptMode(eCCollisionShape *this)
+
+{
+                    /* 0x3c7b8  3094
+                       ?AccessShapeAABBAdaptMode@eCCollisionShape@@QAEAAV?$bTPropertyContainer@W4eEShapeAABBAdapt@@@@XZ
+                        */
+  return (bTPropertyContainer<eEShapeAABBAdapt> *)&(this->eCCollisionShape_data).offset_0x20;
+}
+
+

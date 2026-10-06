@@ -1,0 +1,2 @@
+; 1000349f bCPropertyTypeBase::Create
+1000349f | e92c560800 | JMP 0x10088ad0

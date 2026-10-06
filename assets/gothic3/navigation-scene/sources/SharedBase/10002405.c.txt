@@ -1,0 +1,27 @@
+/* ENTRY 10002405 | bCVector::GetAngleUnitRad | STATUS decompiled | 11 ms */
+
+/* public: float __thiscall bCVector::GetAngleUnitRad(class bCVector const &)const  */
+
+float __thiscall bCVector::GetAngleUnitRad(bCVector *this,bCVector *param_1)
+
+{
+  bCVector *pbVar1;
+  float10 fVar2;
+  
+                    /* 0x2405  2084  ?GetAngleUnitRad@bCVector@@QBEMABV1@@Z */
+  pbVar1 = (bCVector *)
+           (*(float *)(param_1 + 8) * *(float *)(this + 8) +
+           *(float *)param_1 * *(float *)this + *(float *)(param_1 + 4) * *(float *)(this + 4));
+  param_1 = pbVar1;
+  if (1.0 < (float)pbVar1) {
+    param_1 = (bCVector *)0x3f800000;
+  }
+  if ((-1.0 <= (float)param_1) && (1.0 < (float)pbVar1)) {
+    fVar2 = (float10)FUN_100aac80();
+    return (float)fVar2;
+  }
+  fVar2 = (float10)FUN_100aac80();
+  return (float)fVar2;
+}
+
+

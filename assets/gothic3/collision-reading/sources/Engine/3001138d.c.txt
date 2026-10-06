@@ -1,0 +1,55 @@
+/* ENTRY 3001138d | bTPropertyObject<eCCollisionShape_PS,eCCollisionShapeBase_PS>::vfunction7 | STATUS decompiled | 23 ms */
+
+void __thiscall
+bTPropertyObject<eCCollisionShape_PS,eCCollisionShapeBase_PS>::vfunction7
+          (bTPropertyObject<eCCollisionShape_PS,eCCollisionShapeBase_PS> *this,bCOStream *param_1)
+
+{
+  bCOStream bVar1;
+  bool bVar2;
+  int iVar3;
+  bCPOStream *this_00;
+  ulong uVar4;
+  uchar *puVar5;
+  int unaff_EDI;
+  __int64 _Var6;
+  undefined4 uStack_18;
+  bCOStream bStack_14;
+  int *piStack_10;
+  
+  iVar3 = FUN_30671ae7(param_1,0,&bCOStream::RTTI_Type_Descriptor,&bCPOStream::RTTI_Type_Descriptor,
+                       0);
+  if (iVar3 == 0) {
+    bCPropertyObjectBase::Write((bCPropertyObjectBase *)this,(bCOStream *)param_1);
+    thunk_FUN_3008c7e0(param_1);
+    (*this->vftablePtr->vfunction9)(this,param_1);
+    iVar3 = (**(code **)(*piStack_10 + 0xc))();
+    (**(code **)(*piStack_10 + 0x10))(uStack_18,0,0);
+    bCOStream::operator<<((bCOStream *)(piStack_10 + 1),iVar3 - unaff_EDI);
+    (**(code **)(*piStack_10 + 0x10))(iVar3,0,0);
+    return;
+  }
+  bCPropertyObjectBase::Write((bCPropertyObjectBase *)this,(bCOStream *)param_1);
+  bCPOStream::bCPOStream((bCPOStream *)&uStack_18);
+  this_00 = (bCPOStream *)
+            FUN_30671ae7(param_1,0,&bCOStream::RTTI_Type_Descriptor,
+                         &bCPOStream::RTTI_Type_Descriptor,0);
+  if (this_00 != (bCPOStream *)0x0) {
+    bVar2 = bCPOStream::IsForcedLegacyMode(this_00);
+    if (!bVar2) goto LAB_3033bf3b;
+  }
+  bCPOStream::ForceLegacyMode((bCPOStream *)&uStack_18);
+LAB_3033bf3b:
+  (*this->vftablePtr->vfunction9)(this,&bStack_14);
+  bCMemoryStream::SetPosition((bCMemoryStream *)&uStack_18,0,0);
+  _Var6 = bCMemoryStream::GetSize((bCMemoryStream *)&uStack_18);
+  uVar4 = (ulong)_Var6;
+  bCOStream::operator<<(param_1,uVar4);
+  bVar1 = *param_1;
+  puVar5 = bCMemoryStream::AccessBuffer((bCMemoryStream *)&uStack_18,0);
+  (**(code **)((int)bVar1 + 4))(puVar5,uVar4);
+  bCPOStream::~bCPOStream((bCPOStream *)&stack0xffffffe0);
+  return;
+}
+
+

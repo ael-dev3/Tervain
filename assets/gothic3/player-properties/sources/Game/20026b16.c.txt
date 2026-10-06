@@ -1,0 +1,12 @@
+/* ENTRY 20026b16 | gCAttribute::GetModifier | STATUS decompiled | 4 ms */
+
+/* public: int const & __thiscall gCAttribute::GetModifier(void)const  */
+
+int * __thiscall gCAttribute::GetModifier(gCAttribute *this)
+
+{
+                    /* 0x26b16  3827  ?GetModifier@gCAttribute@@QBEABHXZ */
+  return &(this->gCAttribute_data).offset_0xc;
+}
+
+

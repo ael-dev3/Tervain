@@ -1,0 +1,2 @@
+; 300164cd eCEntity::DisableProcessing
+300164cd | e99efc4900 | JMP 0x304b6170

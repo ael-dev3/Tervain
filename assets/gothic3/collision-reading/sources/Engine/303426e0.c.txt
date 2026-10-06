@@ -1,0 +1,41 @@
+/* ENTRY 303426e0 | bTPropertyType<eCCollisionShapeBase_PS,bCObsoleteClass>::vfunction10 | STATUS decompiled | 16 ms */
+
+void __thiscall
+bTPropertyType<eCCollisionShapeBase_PS,bCObsoleteClass>::vfunction10
+          (bTPropertyType<eCCollisionShapeBase_PS,bCObsoleteClass> *this,bCObjectRefBase *param_1,
+          int param_2)
+
+{
+  int iVar1;
+  int *piVar2;
+  bCString *pbVar3;
+  char *pcVar4;
+  bTPropertyType<eCPerformanceAdmin,bCObsoleteClass>_vftable *this_00;
+  undefined4 uVar5;
+  
+  if ((param_1 != (bCObjectRefBase *)0x0) && (param_2 != 0)) {
+    iVar1 = (*(code *)**(undefined4 **)param_1)();
+    if (iVar1 != 0) {
+      piVar2 = (int *)(*(code *)**(undefined4 **)param_1)();
+      iVar1 = *piVar2;
+      uVar5 = 0;
+      pbVar3 = bCPropertyTypeBase::GetPropertyName((bCPropertyTypeBase *)this);
+      pcVar4 = bCString::operator_char_const_(pbVar3);
+      (**(code **)(iVar1 + 0x58))(pcVar4,uVar5);
+    }
+    this_00 = (*this->vftablePtr->vfunction26)(this,(undefined4 *)param_1);
+    bCObjectRefBase::operator=((bCObjectRefBase *)this_00,(bCObjectRefBase *)param_2);
+    iVar1 = (*(code *)**(undefined4 **)param_1)();
+    if (iVar1 != 0) {
+      piVar2 = (int *)(*(code *)**(undefined4 **)param_1)();
+      iVar1 = *piVar2;
+      uVar5 = 0;
+      pbVar3 = bCPropertyTypeBase::GetPropertyName((bCPropertyTypeBase *)this);
+      pcVar4 = bCString::operator_char_const_(pbVar3);
+      (**(code **)(iVar1 + 0x5c))(pcVar4,uVar5);
+    }
+  }
+  return;
+}
+
+

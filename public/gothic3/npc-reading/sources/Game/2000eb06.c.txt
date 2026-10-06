@@ -1,0 +1,12 @@
+/* ENTRY 2000eb06 | gCNPC_PS::GetVersion | STATUS decompiled | 6 ms */
+
+/* public: virtual unsigned short __thiscall gCNPC_PS::GetVersion(void)const  */
+
+ushort __thiscall gCNPC_PS::GetVersion(gCNPC_PS *this)
+
+{
+                    /* 0xeb06  4712  ?GetVersion@gCNPC_PS@@UBEGXZ */
+  return 0x4e;
+}
+
+

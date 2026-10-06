@@ -1,0 +1,2 @@
+; 3000da80 eCEntityPropertySet::OnChildrenAvailable
+3000da80 | e92b3e4700 | JMP 0x304818b0

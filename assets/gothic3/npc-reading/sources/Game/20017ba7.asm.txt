@@ -1,0 +1,2 @@
+; 20017ba7 bTPropertyType<gCNPC_PS,int>::vfunction1
+20017ba7 | e994442f00 | JMP 0x2030c040

@@ -1,0 +1,21 @@
+/* ENTRY 3002fe14 | eCRigidBody_PS::Write | STATUS decompiled | 21 ms */
+
+/* public: virtual enum bEResult __thiscall eCRigidBody_PS::Write(class bCOStream &) */
+
+bEResult __thiscall eCRigidBody_PS::Write(eCRigidBody_PS *this,bCOStream *param_1)
+
+{
+                    /* 0x2fe14  15226  ?Write@eCRigidBody_PS@@UAE?AW4bEResult@@AAVbCOStream@@@Z */
+  bCOStream::operator<<((bCOStream *)param_1,0x41);
+  bCOStream::operator<<((bCOStream *)param_1,(bool)(this->eCRigidBody_PS_data).offset_0x6c);
+  bCOStream::operator<<((bCOStream *)param_1,(bool)(this->eCRigidBody_PS_data).offset_0x6e);
+  bCOStream::operator<<((bCOStream *)param_1,(bool)(this->eCRigidBody_PS_data).offset_0x6f);
+  bCVector::operator>>((bCVector *)&(this->eCRigidBody_PS_data).field_0x70,param_1);
+  bCVector::operator>>((bCVector *)&(this->eCRigidBody_PS_data).field_0x7c,param_1);
+  (**(code **)(*(int *)param_1 + 4))(&(this->eCRigidBody_PS_data).field_0xa4,0x1c);
+  (**(code **)(*(int *)param_1 + 4))(&(this->eCRigidBody_PS_data).field_0x88,0x1c);
+  bCOStream::operator<<((bCOStream *)param_1,(bool)(this->eCRigidBody_PS_data).offset_0x6d);
+  return 1;
+}
+
+

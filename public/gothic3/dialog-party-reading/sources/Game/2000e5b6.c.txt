@@ -1,0 +1,16 @@
+/* ENTRY 2000e5b6 | gCParty_PS::OnChildrenAvailable | STATUS decompiled | 49 ms */
+
+/* protected: virtual void __thiscall gCParty_PS::OnChildrenAvailable(unsigned long,unsigned
+   long,class eCTemplateEntity *) */
+
+void __thiscall
+gCParty_PS::OnChildrenAvailable
+          (gCParty_PS *this,ulong param_1,ulong param_2,eCTemplateEntity *param_3)
+
+{
+                    /* 0xe5b6  5373  ?OnChildrenAvailable@gCParty_PS@@MAEXKKPAVeCTemplateEntity@@@Z
+                        */
+  return;
+}
+
+

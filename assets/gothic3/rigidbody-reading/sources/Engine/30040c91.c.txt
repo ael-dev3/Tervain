@@ -1,0 +1,9 @@
+/* ENTRY 30040c91 | bTPropertyType<eCRigidBody_PS,bCVector>::vfunction2 | STATUS decompiled | 28 ms */
+
+undefined4 __thiscall bTPropertyType<eCRigidBody_PS,bCVector>::vfunction2(void)
+
+{
+  return 0xc;
+}
+
+

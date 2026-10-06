@@ -1,0 +1,4 @@
+; 3003686d bTPropertyObject<eCCollisionShape,bCObjectRefBase>::vfunction1
+3003686d | e93e593200 | JMP 0x3035c1b0
+; 30036872 eCSphericalJointDesc::GetJointProjectionMode
+; 30036872 Ordinal_7523

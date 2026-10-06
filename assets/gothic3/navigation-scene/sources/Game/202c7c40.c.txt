@@ -1,0 +1,417 @@
+/* ENTRY 202c7c40 | FUN_202c7c40 | STATUS decompiled | 413 ms */
+
+/* WARNING: Exceeded maximum restarts with more pending */
+
+undefined4 __thiscall
+FUN_202c7c40(gCNavigationMap *param_1,bCVector *param_2,float param_3,int *param_4,int *param_5,
+            char param_6,undefined1 param_7,bCVector *param_8)
+
+{
+  bool bVar1;
+  bCMemoryAdmin *this;
+  uint uVar2;
+  uint uVar3;
+  eCEntityPropertySet *peVar4;
+  int *piVar5;
+  eCEntity *peVar6;
+  bCMatrix *pbVar7;
+  bCVector *pbVar8;
+  bCVector2 *pbVar9;
+  eCNode *peVar10;
+  gCNavPath_PS *this_00;
+  int iVar11;
+  bCPropertyID *pbVar12;
+  uint uVar13;
+  int iVar14;
+  float fVar15;
+  float fVar16;
+  undefined4 uVar17;
+  undefined1 uVar18;
+  TypeDescriptor *pTVar19;
+  undefined1 uVar20;
+  TypeDescriptor *pTVar21;
+  undefined1 *puVar22;
+  undefined4 uVar23;
+  void *pvVar24;
+  bool bStack_1af;
+  bool bStack_1ae;
+  bool bStack_1ad;
+  int local_1ac;
+  int local_1a8;
+  bCPropertyID *local_1a4;
+  undefined8 uStack_1a0;
+  bCVector2 local_190 [4];
+  bCVector2 abStack_18c [4];
+  int local_188;
+  bCVector local_184 [4];
+  bCVector abStack_180 [8];
+  bCVector2 local_178 [8];
+  undefined8 local_170;
+  int local_168;
+  bCVector2 abStack_164 [4];
+  bCVector2 abStack_160 [4];
+  bCVector2 abStack_15c [4];
+  bCVector abStack_158 [8];
+  bCVector abStack_150 [4];
+  bCVector abStack_14c [4];
+  bCVector abStack_148 [4];
+  bCVector abStack_144 [8];
+  undefined1 auStack_13c [4];
+  bCVector abStack_138 [8];
+  bCVector abStack_130 [4];
+  bCVector abStack_12c [8];
+  undefined1 auStack_124 [4];
+  bCVector abStack_120 [4];
+  bCVector abStack_11c [8];
+  bCVector abStack_114 [4];
+  bCVector abStack_110 [8];
+  bCVector abStack_108 [8];
+  undefined1 auStack_100 [4];
+  bCVector abStack_fc [8];
+  bCVector abStack_f4 [4];
+  bCVector abStack_f0 [8];
+  bCVector abStack_e8 [4];
+  bCVector abStack_e4 [8];
+  undefined1 auStack_dc [4];
+  bCVector abStack_d8 [4];
+  bCVector abStack_d4 [8];
+  bCVector abStack_cc [4];
+  bCVector abStack_c8 [8];
+  bCVector abStack_c0 [8];
+  undefined1 auStack_b8 [4];
+  bCVector abStack_b4 [8];
+  bCVector abStack_ac [4];
+  bCVector abStack_a8 [8];
+  bCVector abStack_a0 [4];
+  bCVector abStack_9c [4];
+  bCVector abStack_98 [8];
+  bCVector abStack_90 [4];
+  bCVector abStack_8c [8];
+  bCVector abStack_84 [4];
+  bCVector abStack_80 [8];
+  bCVector abStack_78 [8];
+  undefined1 auStack_70 [4];
+  bCVector abStack_6c [8];
+  bCVector abStack_64 [4];
+  bCVector abStack_60 [8];
+  bCVector abStack_58 [4];
+  bCVector abStack_54 [8];
+  undefined1 auStack_4c [12];
+  bCMatrix local_40 [8];
+  bCMatrix abStack_38 [56];
+  
+  if ((param_1->gCNavigationMap_data).offset_0xbc == 0) {
+    return 0;
+  }
+  if ((param_4 != (int *)0x0) && (pvVar24 = (void *)*param_4, pvVar24 != (void *)0x0)) {
+    this = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(this,pvVar24);
+    *param_4 = 0;
+    param_4[1] = 0;
+    param_4[2] = 0;
+  }
+  fVar15 = bCVector::GetZ(param_2);
+  fVar16 = bCVector::GetX(param_2);
+  bCVector2::bCVector2(local_178,fVar16,fVar15);
+  bCVector::bCVector(local_184);
+  bCVector2::bCVector2(local_190);
+  bCMatrix::bCMatrix(local_40);
+  bCVector::GetX(param_2);
+  uVar2 = FUN_20465320();
+  bCVector::GetZ(param_2);
+  uVar3 = FUN_20465320();
+  pbVar12 = (bCPropertyID *)((param_1->gCNavigationMap_data).offset_0xbc - 1);
+  local_1a4 = (bCPropertyID *)(((int)uVar2 < 0) - 1 & uVar2);
+  if ((int)pbVar12 <= (int)local_1a4) {
+    local_1a4 = pbVar12;
+  }
+  pvVar24 = (param_1->gCNavigationMap_data).offset_0xb8;
+  uVar2 = *(int *)((int)pvVar24 + 4) - 1;
+  uVar3 = uVar3 & ((int)uVar3 < 0) - 1;
+  if ((int)uVar2 <= (int)uVar3) {
+    uVar3 = uVar2;
+  }
+  if (param_8 == (bCVector *)0x0) {
+    local_1ac = 0;
+    if (0 < (int)(param_1->gCNavigationMap_data).offset_0x38) {
+      local_170 = (double)(param_3 * param_3);
+      do {
+        iVar14 = local_1ac;
+        peVar6 = (eCEntity *)
+                 (**(code **)(**(int **)((int)(param_1->gCNavigationMap_data).offset_0x34 +
+                                        local_1ac * 4) + 0x68))();
+        pbVar7 = eCEntity::GetWorldMatrix(peVar6);
+        bCMatrix::operator=(abStack_38,pbVar7);
+        pbVar8 = (bCVector *)bCMatrix::operator*(abStack_38,abStack_14c);
+        bCVector::operator=(abStack_180,pbVar8);
+        bCVector::~bCVector(abStack_150);
+        fVar15 = bCVector::GetZ(abStack_180);
+        fVar16 = bCVector::GetX(abStack_180);
+        pbVar9 = (bCVector2 *)bCVector2::bCVector2(abStack_15c,fVar16,fVar15);
+        bCVector2::operator=(abStack_18c,pbVar9);
+        bCVector2::~bCVector2(abStack_15c);
+        iVar11 = *(int *)((int)(param_1->gCNavigationMap_data).offset_0x34 + iVar14 * 4);
+        uStack_1a0 = (double)(*(float *)(iVar11 + 0x20) * *(float *)(iVar11 + 0x20) +
+                             (float)(double)CONCAT44(local_168,local_170._4_4_));
+        pbVar9 = (bCVector2 *)bCVector2::operator-(abStack_18c,abStack_164);
+        fVar15 = bCVector2::GetSquareMagnitude(pbVar9);
+        bStack_1af = fVar15 <= (float)(double)CONCAT44((undefined4)uStack_1a0,local_1a4);
+        bCVector2::~bCVector2((bCVector2 *)&local_168);
+        if (bStack_1af != false) {
+          pbVar8 = (bCVector *)0x0;
+          uVar18 = 1;
+          uVar20 = param_7;
+          peVar10 = (eCNode *)
+                    (**(code **)(**(int **)((int)(param_1->gCNavigationMap_data).offset_0x34 +
+                                           iVar14 * 4) + 0x68))();
+          pbVar12 = eCNode::GetID(peVar10);
+          bVar1 = gCNavigationMap::IsInZone
+                            (param_1,param_2,param_3,pbVar12,(bool)uVar18,(bool)uVar20,pbVar8);
+          if (bVar1) {
+            peVar10 = (eCNode *)
+                      (**(code **)(**(int **)((int)(param_1->gCNavigationMap_data).offset_0x34 +
+                                             iVar14 * 4) + 0x68))();
+            local_1a4 = eCNode::GetID(peVar10);
+            iVar11 = param_4[1] + 1;
+            thunk_FUN_20063fc0(iVar11,(iVar11 != 0) - 1);
+            param_4[1] = iVar11;
+            bCPropertyID::operator=((bCPropertyID *)(*param_4 + -0x14 + iVar11 * 0x14),local_1a4);
+            iVar11 = param_5[1] + 1;
+            thunk_FUN_200ae420(iVar11,(iVar11 != 0) - 1);
+            param_5[1] = iVar11;
+            *(undefined1 *)(*param_5 + -1 + iVar11) = 0;
+            iVar14 = local_1ac;
+          }
+        }
+        local_1ac = iVar14 + 1;
+      } while (local_1ac < (int)(param_1->gCNavigationMap_data).offset_0x38);
+    }
+  }
+  else {
+    local_188 = (int)local_1a4 * 0xc;
+    iVar11 = *(int *)(local_188 + (int)pvVar24);
+    local_168 = uVar3 * 0xc;
+    piVar5 = (int *)(iVar11 + local_168);
+    local_1ac = 0;
+    if (0 < *(int *)(iVar11 + 4 + local_168)) {
+      local_1a8 = 0;
+      do {
+        uVar23 = 0;
+        pTVar21 = &gCNavZone_PS::RTTI_Type_Descriptor;
+        pTVar19 = &eCEntityPropertySet::RTTI_Type_Descriptor;
+        uVar17 = 0;
+        peVar4 = eCPropertySetProxy::GetPropertySet((eCPropertySetProxy *)(*piVar5 + local_1a8));
+        piVar5 = (int *)___RTDynamicCast(peVar4,uVar17,pTVar19,pTVar21,uVar23);
+        if (piVar5 != (int *)0x0) {
+          peVar6 = (eCEntity *)(**(code **)(*piVar5 + 0x68))();
+          pbVar7 = eCEntity::GetWorldMatrix(peVar6);
+          bCMatrix::operator=(abStack_38,pbVar7);
+          pbVar8 = (bCVector *)bCMatrix::operator*(abStack_38,abStack_14c);
+          bCVector::operator=(abStack_180,pbVar8);
+          bCVector::~bCVector(abStack_150);
+          fVar15 = bCVector::GetZ(abStack_180);
+          fVar16 = bCVector::GetX(abStack_180);
+          pbVar9 = (bCVector2 *)
+                   bCVector2::bCVector2((bCVector2 *)((int)&local_170 + 4),fVar16,fVar15);
+          bCVector2::operator=(abStack_18c,pbVar9);
+          bCVector2::~bCVector2((bCVector2 *)((int)&local_170 + 4));
+          uStack_1a0 = (double)((float)param_4 * (float)param_4 +
+                               (float)piVar5[8] * (float)piVar5[8]);
+          pbVar9 = (bCVector2 *)bCVector2::operator-(abStack_18c,abStack_15c);
+          fVar15 = bCVector2::GetSquareMagnitude(pbVar9);
+          bStack_1af = fVar15 <= (float)(double)CONCAT44((undefined4)uStack_1a0,local_1a4);
+          bCVector2::~bCVector2(abStack_160);
+          if (bStack_1af != false) {
+            uVar18 = 1;
+            pbVar8 = param_8;
+            uVar20 = param_7;
+            peVar10 = (eCNode *)(**(code **)(*piVar5 + 0x68))();
+            pbVar12 = eCNode::GetID(peVar10);
+            bVar1 = gCNavigationMap::IsInZone
+                              (param_1,param_2,param_3,pbVar12,(bool)uVar18,(bool)uVar20,pbVar8);
+            if (bVar1) {
+              peVar10 = (eCNode *)(**(code **)(*piVar5 + 0x68))();
+              pbVar12 = eCNode::GetID(peVar10);
+              thunk_FUN_20282b30(pbVar12);
+              bStack_1af = false;
+              thunk_FUN_202e6be0(&bStack_1af);
+              goto LAB_202c87b7;
+            }
+          }
+        }
+        local_1a8 = local_1a8 + 0x24;
+        local_1ac = local_1ac + 1;
+        piVar5 = (int *)(local_168 +
+                        *(int *)((int)(param_1->gCNavigationMap_data).offset_0xb8 + local_188));
+      } while (local_1ac < piVar5[1]);
+    }
+  }
+  if (param_6 != '\x01') {
+    bCVector::bCVector((bCVector *)((int)&uStack_1a0 + 4));
+    local_1a4 = (bCPropertyID *)0xffffffff;
+    do {
+      switch(local_1a4) {
+      case (bCPropertyID *)0x0:
+        pbVar9 = abStack_160;
+        pbVar8 = (bCVector *)bCVector::bCVector(abStack_ac,1.0,0.0,0.0);
+        bCVector::operator*(pbVar8,(float)pbVar9);
+        pbVar8 = (bCVector *)bCVector::operator+(param_2,abStack_158);
+        bCVector::operator=((bCVector *)&local_1a4,pbVar8);
+        bCVector::~bCVector((bCVector *)abStack_15c);
+        bCVector::~bCVector((bCVector *)&local_168);
+        bCVector::~bCVector(abStack_b4);
+        break;
+      case (bCPropertyID *)0x1:
+        puVar22 = auStack_124;
+        pbVar8 = (bCVector *)bCVector::bCVector(abStack_148,-1.0,0.0,0.0);
+        bCVector::operator*(pbVar8,(float)puVar22);
+        pbVar8 = (bCVector *)bCVector::operator+(param_2,abStack_80);
+        bCVector::operator=((bCVector *)&local_1a4,pbVar8);
+        bCVector::~bCVector(abStack_84);
+        bCVector::~bCVector(abStack_12c);
+        bCVector::~bCVector(abStack_150);
+        break;
+      case (bCPropertyID *)0x2:
+        puVar22 = auStack_4c;
+        pbVar8 = (bCVector *)bCVector::bCVector(abStack_f4,0.0,0.0,1.0);
+        bCVector::operator*(pbVar8,(float)puVar22);
+        pbVar8 = (bCVector *)bCVector::operator+(param_2,abStack_110);
+        bCVector::operator=((bCVector *)&local_1a4,pbVar8);
+        bCVector::~bCVector(abStack_114);
+        bCVector::~bCVector(abStack_54);
+        bCVector::~bCVector(abStack_fc);
+        break;
+      case (bCPropertyID *)0x3:
+        puVar22 = auStack_dc;
+        pbVar8 = (bCVector *)bCVector::bCVector(abStack_64,0.0,0.0,-1.0);
+        bCVector::operator*(pbVar8,(float)puVar22);
+        pbVar8 = (bCVector *)bCVector::operator+(param_2,abStack_98);
+        bCVector::operator=((bCVector *)&local_1a4,pbVar8);
+        bCVector::~bCVector(abStack_9c);
+        bCVector::~bCVector(abStack_e4);
+        bCVector::~bCVector(abStack_6c);
+        break;
+      case (bCPropertyID *)0x4:
+        puVar22 = auStack_13c;
+        pbVar8 = (bCVector *)bCVector::bCVector(abStack_130,0.7072,0.0,0.7072);
+        bCVector::operator*(pbVar8,(float)puVar22);
+        pbVar8 = (bCVector *)bCVector::operator+(param_2,abStack_c8);
+        bCVector::operator=((bCVector *)&local_1a4,pbVar8);
+        bCVector::~bCVector(abStack_cc);
+        bCVector::~bCVector(abStack_144);
+        bCVector::~bCVector(abStack_138);
+        break;
+      case (bCPropertyID *)0x5:
+        puVar22 = auStack_100;
+        pbVar8 = (bCVector *)bCVector::bCVector(abStack_e8,-0.7072,0.0,-0.7072);
+        bCVector::operator*(pbVar8,(float)puVar22);
+        pbVar8 = (bCVector *)bCVector::operator+(param_2,abStack_11c);
+        bCVector::operator=((bCVector *)&local_1a4,pbVar8);
+        bCVector::~bCVector(abStack_120);
+        bCVector::~bCVector(abStack_108);
+        bCVector::~bCVector(abStack_f0);
+        break;
+      case (bCPropertyID *)0x6:
+        puVar22 = auStack_b8;
+        pbVar8 = (bCVector *)bCVector::bCVector(abStack_a0,-0.7072,0.0,0.7072);
+        bCVector::operator*(pbVar8,(float)puVar22);
+        pbVar8 = (bCVector *)bCVector::operator+(param_2,abStack_d4);
+        bCVector::operator=((bCVector *)&local_1a4,pbVar8);
+        bCVector::~bCVector(abStack_d8);
+        bCVector::~bCVector(abStack_c0);
+        bCVector::~bCVector(abStack_a8);
+        break;
+      case (bCPropertyID *)0x7:
+        puVar22 = auStack_70;
+        pbVar8 = (bCVector *)bCVector::bCVector(abStack_58,0.7072,0.0,-0.7072);
+        bCVector::operator*(pbVar8,(float)puVar22);
+        pbVar8 = (bCVector *)bCVector::operator+(param_2,abStack_8c);
+        bCVector::operator=((bCVector *)&local_1a4,pbVar8);
+        bCVector::~bCVector(abStack_90);
+        bCVector::~bCVector(abStack_78);
+        bCVector::~bCVector(abStack_60);
+        break;
+      default:
+        bCVector::operator=((bCVector *)((int)&uStack_1a0 + 4),param_2);
+      }
+      bCVector::GetX((bCVector *)((int)&uStack_1a0 + 4));
+      uVar2 = FUN_20465320();
+      bCVector::GetZ((bCVector *)((int)&uStack_1a0 + 4));
+      uVar3 = FUN_20465320();
+      uVar13 = (param_1->gCNavigationMap_data).offset_0xbc - 1;
+      uVar2 = ((int)uVar2 < 0) - 1 & uVar2;
+      if ((int)uVar13 <= (int)uVar2) {
+        uVar2 = uVar13;
+      }
+      local_188 = uVar2 * 0xc;
+      piVar5 = (int *)((int)(param_1->gCNavigationMap_data).offset_0xb8 + local_188);
+      uVar2 = piVar5[1] - 1;
+      uVar3 = uVar3 & ((int)uVar3 < 0) - 1;
+      if ((int)uVar2 <= (int)uVar3) {
+        uVar3 = uVar2;
+      }
+      local_168 = uVar3 * 0xc;
+      bStack_1ad = false;
+      bStack_1ae = false;
+      piVar5 = (int *)(local_168 + *piVar5);
+      local_1ac = 0;
+      if (0 < piVar5[1]) {
+        local_1a8 = 0;
+        do {
+          uVar23 = 0;
+          pTVar21 = &gCNavPath_PS::RTTI_Type_Descriptor;
+          pTVar19 = &eCEntityPropertySet::RTTI_Type_Descriptor;
+          uVar17 = 0;
+          peVar4 = eCPropertySetProxy::GetPropertySet((eCPropertySetProxy *)(*piVar5 + local_1a8));
+          this_00 = (gCNavPath_PS *)___RTDynamicCast(peVar4,uVar17,pTVar19,pTVar21,uVar23);
+          if (this_00 != (gCNavPath_PS *)0x0) {
+            gCNavPath_PS::CalcAbsHeightDiffFlagAndPrioFlag
+                      (this_00,(bCVector *)((int)&uStack_1a0 + 4),&bStack_1ad,&bStack_1ae);
+            if ((bStack_1ae == true) || (bStack_1ad == true)) {
+              bVar1 = gCNavPath_PS::Test3DPointOnPath(this_00,(bCVector *)((int)&uStack_1a0 + 4));
+              if (bVar1) {
+                peVar10 = (eCNode *)(*this_00->vftablePtr->GetEntity)();
+                pbVar12 = eCNode::GetID(peVar10);
+                iVar11 = thunk_FUN_202e2a20(pbVar12);
+                if (iVar11 == -1) {
+                  peVar10 = (eCNode *)(*this_00->vftablePtr->GetEntity)();
+                  pbVar12 = eCNode::GetID(peVar10);
+                  iVar11 = param_4[1] + 1;
+                  local_170._0_4_ = pbVar12;
+                  thunk_FUN_20063fc0(iVar11,(iVar11 != 0) - 1);
+                  param_4[1] = iVar11;
+                  bCPropertyID::operator=
+                            ((bCPropertyID *)(*param_4 + -0x14 + iVar11 * 0x14),
+                             (bCPropertyID *)local_170);
+                  iVar11 = param_5[1] + 1;
+                  thunk_FUN_200ae420(iVar11,(iVar11 != 0) - 1);
+                  param_5[1] = iVar11;
+                  *(undefined1 *)(*param_5 + -1 + iVar11) = 1;
+                  if (param_8 != (bCVector *)0x0) {
+                    bCVector::operator=(param_8,(bCVector *)((int)&uStack_1a0 + 4));
+                    goto LAB_202c87ad;
+                  }
+                }
+              }
+            }
+          }
+          local_1a8 = local_1a8 + 0x24;
+          local_1ac = local_1ac + 1;
+          piVar5 = (int *)(local_168 +
+                          *(int *)((int)(param_1->gCNavigationMap_data).offset_0xb8 + local_188));
+        } while (local_1ac < piVar5[1]);
+      }
+      local_1a4 = local_1a4 + 1;
+    } while ((int)local_1a4 < 8);
+LAB_202c87ad:
+    bCVector::~bCVector((bCVector *)((int)&uStack_1a0 + 4));
+  }
+LAB_202c87b7:
+  bCMatrix::~bCMatrix(local_40);
+  bCVector2::~bCVector2(local_190);
+  bCVector::~bCVector(local_184);
+  bCVector2::~bCVector2(local_178);
+  return 1;
+}
+
+

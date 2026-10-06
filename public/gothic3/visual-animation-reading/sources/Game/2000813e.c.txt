@@ -1,0 +1,22 @@
+/* ENTRY 2000813e | gCClock_PS::Destroy | STATUS decompiled | 13 ms */
+
+/* public: virtual void __thiscall gCClock_PS::Destroy(void) */
+
+void __thiscall gCClock_PS::Destroy(gCClock_PS *this)
+
+{
+  undefined4 *puVar1;
+  
+                    /* 0x813e  2556  ?Destroy@gCClock_PS@@UAEXXZ */
+  puVar1 = &(this->gCClock_PS_data).offset_0x4c;
+  (this->gCClock_PS_data).offset_0x54 = 0;
+  (this->gCClock_PS_data).offset_0x50 = 0;
+  *puVar1 = 0;
+  bCClock::Set((bCClock *)&(this->gCClock_PS_data).field_0x28,(bSTimeAndDate *)puVar1);
+                    /* WARNING: Could not recover jumptable at 0x20207f38. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eCEntityPropertySet::Destroy((eCEntityPropertySet *)this);
+  return;
+}
+
+

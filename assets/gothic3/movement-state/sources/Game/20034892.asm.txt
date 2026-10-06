@@ -1,0 +1,2 @@
+; 20034892 ?CalcQuadrupedDistances@gCCharacterMovement_PS@@IAEXXZ
+20034892 | e979321f00 | JMP 0x20227b10

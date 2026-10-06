@@ -1,0 +1,12 @@
+/* ENTRY 3003e595 | eCApplication::GetFrameTime | STATUS decompiled | 14 ms */
+
+/* public: float __thiscall eCApplication::GetFrameTime(void)const  */
+
+float __thiscall eCApplication::GetFrameTime(eCApplication *this)
+
+{
+                    /* 0x3e595  7196  ?GetFrameTime@eCApplication@@QBEMXZ */
+  return (float)(this->eCApplication_data).offset_0x4a4;
+}
+
+

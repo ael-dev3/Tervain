@@ -1,0 +1,84 @@
+/* ENTRY 30027741 | eCVisualAnimationFactory::AddBodyPart | STATUS decompiled | 45 ms */
+
+/* public: bool __thiscall eCVisualAnimationFactory::AddBodyPart(class bCString const &,class
+   eCVisualAnimation_PS *) */
+
+bool __thiscall
+eCVisualAnimationFactory::AddBodyPart
+          (eCVisualAnimationFactory *this,bCString *param_1,eCVisualAnimation_PS *param_2)
+
+{
+  bCString *this_00;
+  int iVar1;
+  bool bVar2;
+  eCVisualAnimationFactory *peVar3;
+  eCVisualAnimationLoD *peVar4;
+  int *piVar5;
+  eCWrapper_emfx2Actor *peVar6;
+  eCWrapper_emfx2Actor *this_01;
+  undefined4 unaff_EBX;
+  undefined4 uVar7;
+  undefined4 uVar8;
+  undefined4 uVar9;
+  undefined4 uVar10;
+  
+                    /* 0x27741  3364
+                       ?AddBodyPart@eCVisualAnimationFactory@@QAE_NABVbCString@@PAVeCVisualAnimation_PS@@@Z
+                        */
+  RemoveBodyPart(this,param_1);
+  peVar3 = eCVisualAnimation_PS::GetAnimationFactory((eCVisualAnimation_PS *)param_2);
+  if (*(int *)(peVar3 + 8) == 0) {
+    return false;
+  }
+  thunk_FUN_300be910(*(int *)(this + 0x14) + 1);
+  this_00 = (bCString *)(*(int *)(this + 0x14) * 0x10 + -0x10 + *(int *)(this + 0x10));
+  bCString::operator=(this_00,param_1);
+  peVar4 = (eCVisualAnimationLoD *)new(0x2c,0x1de);
+  if (peVar4 == (eCVisualAnimationLoD *)0x0) {
+    piVar5 = (int *)0x0;
+  }
+  else {
+    piVar5 = (int *)eCVisualAnimationLoD::eCVisualAnimationLoD(peVar4,this);
+  }
+  *(int **)(this_00 + 4) = piVar5;
+  (**(code **)(*piVar5 + 0x1c))(unaff_EBX);
+  *(undefined4 *)(*(int *)(this_00 + 4) + 0x24) = *(undefined4 *)(param_2 + 0x90);
+  peVar3 = eCVisualAnimation_PS::GetAnimationFactory((eCVisualAnimation_PS *)param_2);
+  iVar1 = *(int *)(peVar3 + 0xc);
+  if (iVar1 != 0) {
+    peVar4 = (eCVisualAnimationLoD *)new(0x2c,0x1e9);
+    if (peVar4 == (eCVisualAnimationLoD *)0x0) {
+      piVar5 = (int *)0x0;
+    }
+    else {
+      piVar5 = (int *)eCVisualAnimationLoD::eCVisualAnimationLoD(peVar4,this);
+    }
+    *(int **)(this_00 + 8) = piVar5;
+    (**(code **)(*piVar5 + 0x1c))(iVar1);
+    *(undefined4 *)(*(int *)(this_00 + 8) + 0x24) = *(undefined4 *)(param_2 + 0x90);
+  }
+  if (*(int *)(this + 4) != 0) {
+    peVar6 = eCVisualAnimationLoD::GetActorWrapper(*(eCVisualAnimationLoD **)(this_00 + 4));
+    if (peVar6 != (eCWrapper_emfx2Actor *)0x0) {
+      this_01 = (eCWrapper_emfx2Actor *)
+                eCVisualAnimationLoD::GetActorWrapper(*(eCVisualAnimationLoD **)(this_00 + 4));
+      bVar2 = (*this_01->vftablePtr->IsValid)(this_01);
+      if (bVar2) {
+        peVar6 = eCWrapper_emfx2Actor::CreateInstance(this_01);
+        uVar7 = *(undefined4 *)(*(int *)(this + 4) + 0xc);
+        uVar10 = 0;
+        uVar8 = *(undefined4 *)(peVar6 + 0xc);
+        uVar9 = 0;
+        thunk_FUN_300be3a0(uVar7,uVar8,0,0);
+        FUN_30644e80(uVar7,uVar8,uVar9,uVar10);
+        FUN_3063e910();
+        thunk_FUN_30073fc0(0,0xffffffff);
+        *(undefined4 *)(this + 0x24) = 0;
+        (**(code **)(*(int *)peVar6 + 0x24))();
+      }
+    }
+  }
+  return true;
+}
+
+

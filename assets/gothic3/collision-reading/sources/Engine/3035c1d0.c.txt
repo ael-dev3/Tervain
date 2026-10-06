@@ -1,0 +1,16 @@
+/* ENTRY 3035c1d0 | bTPropertyObject<eCCollisionShape,bCObjectRefBase>::vfunction4 | STATUS decompiled | 3 ms */
+
+void __thiscall
+bTPropertyObject<eCCollisionShape,bCObjectRefBase>::vfunction4
+          (bTPropertyObject<eCCollisionShape,bCObjectRefBase> *this)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x3035c1d3. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCPropertyObjectTypeBase::GetDescription
+            ((bCPropertyObjectTypeBase *)
+             (this->bTPropertyObject<eCCollisionShape,bCObjectRefBase>_data).offset_0x0);
+  return;
+}
+
+

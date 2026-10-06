@@ -1,0 +1,4 @@
+; 20035c06 ?SetChapter@gCPlayerMemory_PS@@QAEXABJ@Z
+20035c06 | e9b54c0700 | JMP 0x200aa8c0
+; 20035c10 gCQuest_PS::AccessLogTopic
+; 20035c10 Ordinal_1368

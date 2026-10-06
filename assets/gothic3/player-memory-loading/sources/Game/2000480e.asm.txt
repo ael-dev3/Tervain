@@ -1,0 +1,2 @@
+; 2000480e thunk_FUN_200af690
+2000480e | e97dae0a00 | JMP 0x200af690

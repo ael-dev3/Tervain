@@ -1,0 +1,14 @@
+/* ENTRY 3035eac0 | bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeGroup>_>::vfunction3 | STATUS decompiled | 3 ms */
+
+void __thiscall
+bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeGroup>_>::vfunction3
+          (bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeGroup>_> *this)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x3035eac7. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  (**(code **)(this[6].vftablePtr)->vfunction1)();
+  return;
+}
+
+

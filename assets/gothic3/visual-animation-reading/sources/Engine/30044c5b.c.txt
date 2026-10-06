@@ -1,0 +1,12 @@
+/* ENTRY 30044c5b | eCVisualAnimation_PS::GetShowSkeleton | STATUS decompiled | 9 ms */
+
+/* public: bool __thiscall eCVisualAnimation_PS::GetShowSkeleton(void) */
+
+bool __thiscall eCVisualAnimation_PS::GetShowSkeleton(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x44c5b  8808  ?GetShowSkeleton@eCVisualAnimation_PS@@QAE_NXZ */
+  return (bool)*(undefined1 *)((int)&this[0xe].vftablePtr + 1);
+}
+
+

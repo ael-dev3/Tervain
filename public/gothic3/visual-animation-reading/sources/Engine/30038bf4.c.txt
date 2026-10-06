@@ -1,0 +1,24 @@
+/* ENTRY 30038bf4 | eCVisualAnimation_PS::eCLookAtConstraint::Create | STATUS decompiled | 72 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::eCLookAtConstraint::Create(class bCString const
+   &,class bCVector const &,class bCVector const &,float) */
+
+void __thiscall
+eCVisualAnimation_PS::eCLookAtConstraint::Create
+          (eCLookAtConstraint *this,bCString *param_1,bCVector *param_2,bCVector *param_3,
+          float param_4)
+
+{
+                    /* 0x38bf4  4569
+                       ?Create@eCLookAtConstraint@eCVisualAnimation_PS@@QAEXABVbCString@@ABVbCVector@@1M@Z
+                        */
+  Destroy(this);
+  bCString::operator=((bCString *)(this + 0x10),param_1);
+  *(undefined4 *)(this + 0xc) = 0;
+  bCVector::operator=((bCVector *)(this + 0x18),param_2);
+  bCVector::operator=((bCVector *)(this + 0x24),param_3);
+  *(float *)(this + 0x14) = param_4;
+  return;
+}
+
+

@@ -1,0 +1,12 @@
+/* ENTRY 300aa0d0 | bTPropertyContainer<eECollisionGroup>::vfunction8 | STATUS decompiled | 2 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<eECollisionGroup>::vfunction8
+          (bTPropertyContainer<eECollisionGroup> *this,int param_1)
+
+{
+  (this->bTPropertyContainer<eECollisionGroup>_data).offset_0x0 = *(undefined ***)(param_1 + 4);
+  return 1;
+}
+
+

@@ -1,0 +1,14 @@
+/* ENTRY 3002ce08 | eCIlluminated_PS::OnCacheOut | STATUS decompiled | 293 ms */
+
+/* protected: virtual void __thiscall eCIlluminated_PS::OnCacheOut(void) */
+
+void __thiscall eCIlluminated_PS::OnCacheOut(eCIlluminated_PS *this)
+
+{
+                    /* 0x2ce08  10930  ?OnCacheOut@eCIlluminated_PS@@MAEXXZ */
+  SetDirectionalShadowMap(this,(eCShadowMapDirectionalLight *)0x0);
+  SetLightSet(this,(eCLightSet *)0x0);
+  return;
+}
+
+

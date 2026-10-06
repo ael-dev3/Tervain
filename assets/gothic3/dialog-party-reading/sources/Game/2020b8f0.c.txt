@@ -1,0 +1,14 @@
+/* ENTRY 2020b8f0 | FUN_2020b8f0 | STATUS decompiled | 5 ms */
+
+void __thiscall FUN_2020b8f0(int param_1,eCEntity *param_2)
+
+{
+  eCEntityProxy local_1c;
+  
+  eCEntityProxy::eCEntityProxy(&local_1c,param_2);
+  eCEntityProxy::operator=((eCEntityProxy *)(param_1 + 0x30),(eCEntityProxy *)&local_1c);
+  eCEntityProxy::~eCEntityProxy(&local_1c);
+  return;
+}
+
+

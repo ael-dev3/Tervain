@@ -1,0 +1,2 @@
+; 20002dc4 bTPOPureSmartPtr<gCNPC_PS>::vfunction11
+20002dc4 | e967bd3000 | JMP 0x2030eb30

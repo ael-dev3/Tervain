@@ -1,0 +1,44 @@
+/* ENTRY 300cdbe0 | bTPropertyContainer<eECollisionShapeType>::bTPropertyContainer<eECollisionShapeType>_Constructor_or_Destructor | STATUS decompiled | 13 ms */
+
+undefined4 __fastcall
+bTPropertyContainer<eECollisionShapeType>::
+bTPropertyContainer<eECollisionShapeType>_Constructor_or_Destructor(eCCollisionShape *param_1)
+
+{
+  bCCapsule *pbVar1;
+  bCObjectBase bStack_1c;
+  bCCapsule *pbStack_18;
+  char *pcStack_14;
+  undefined4 uStack_10;
+  bCObjectBase local_8;
+  undefined4 local_4;
+  
+  uStack_10 = 0x300cdbf0;
+  bCObjectBase::bCObjectBase(&local_8);
+  uStack_10 = 0;
+  pcStack_14 = "ShapeType";
+  local_8 = (bCObjectBase)&vftable;
+  local_4 = 4;
+  pbStack_18 = (bCCapsule *)0x300cdc10;
+  (**(code **)(*(int *)param_1 + 0x58))();
+  pbStack_18 = (bCCapsule *)&uStack_10;
+  bStack_1c = (bCObjectBase)0x300cdc20;
+  (**(code **)(*(int *)(param_1 + 0xc) + 0x1c))();
+  bStack_1c = (bCObjectBase)0x0;
+  (**(code **)(*(int *)param_1 + 0x5c))("ShapeType");
+  bStack_1c = (bCObjectBase)&vftable;
+  bCObjectBase::~bCObjectBase(&bStack_1c);
+  pbVar1 = (bCCapsule *)new(0x38,0x2eb);
+  if (pbVar1 == (bCCapsule *)0x0) {
+    pbVar1 = (bCCapsule *)0x0;
+  }
+  else {
+    pbVar1 = (bCCapsule *)bCCapsule::bCCapsule(pbVar1);
+  }
+  *(bCCapsule **)(param_1 + 0x74) = pbVar1;
+  bCCapsule::SetCapsule(pbVar1,pbStack_18);
+  eCCollisionShape::CalcShapeAABBLocal((eCCollisionShape *)param_1);
+  return 1;
+}
+
+

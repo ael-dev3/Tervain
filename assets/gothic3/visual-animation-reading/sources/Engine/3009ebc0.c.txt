@@ -1,0 +1,21 @@
+/* ENTRY 3009ebc0 | FUN_3009ebc0 | STATUS decompiled | 3 ms */
+
+void __thiscall FUN_3009ebc0(int param_1,undefined4 param_2)
+
+{
+  int iVar1;
+  
+  if (*(int *)(param_1 + 0x11c) != 0) {
+    thunk_FUN_300c3560(param_2);
+  }
+  iVar1 = 0;
+  if (0 < *(int *)(param_1 + 0x124)) {
+    do {
+      thunk_FUN_300c3560(param_2);
+      iVar1 = iVar1 + 1;
+    } while (iVar1 < *(int *)(param_1 + 0x124));
+  }
+  return;
+}
+
+

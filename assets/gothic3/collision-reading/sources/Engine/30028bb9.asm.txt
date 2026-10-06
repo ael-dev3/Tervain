@@ -1,0 +1,2 @@
+; 30028bb9 ?Invalidate@eCCollisionShapeBase_PS@@IAEXXZ
+30028bb9 | e9f2863100 | JMP 0x303412b0

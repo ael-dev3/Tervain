@@ -1,0 +1,17 @@
+/* ENTRY 30038a0a | bTPropertyType<eCCollisionShape,unsigned_short>::vfunction6 | STATUS decompiled | 7 ms */
+
+void __thiscall
+bTPropertyType<eCCollisionShape,unsigned_short>::vfunction6
+          (bTPropertyType<eCCollisionShape,unsigned_short> *this,int param_1)
+
+{
+  bTPropertyType<eCEventFilter_PS,unsigned_short>_vftable *pbVar1;
+  
+  if (param_1 != 0) {
+    pbVar1 = (*this->vftablePtr->vfunction26)(this,(undefined4 *)param_1);
+    *(undefined2 *)&pbVar1->vfunction1 = 0;
+  }
+  return;
+}
+
+

@@ -1,0 +1,22 @@
+/* ENTRY 2016b2d0 | gCHUDViewSpells2::~gCHUDViewSpells2 | STATUS decompiled | 18 ms */
+
+void __thiscall gCHUDViewSpells2::~gCHUDViewSpells2(gCHUDViewSpells2 *this)
+
+{
+  this->vftablePtr = &vftable;
+  gCHUDViewSpell2::~gCHUDViewSpell2((gCHUDViewSpell2 *)&(this->gCHUDViewSpells2_data).field_0xf8);
+  gCHUDView::~gCHUDView((gCHUDView *)&(this->gCHUDViewSpells2_data).field_0xe4);
+  gCHUDListCtrlInvSpells::gCHUDListCtrlInvSpells
+            ((gCHUDListCtrlInvSpells *)&(this->gCHUDViewSpells2_data).field_0xac);
+  gCHUDListCtrlInvSpells::gCHUDListCtrlInvSpells
+            ((gCHUDListCtrlInvSpells *)&(this->gCHUDViewSpells2_data).field_0x74);
+  gCHUDListCtrlInvSpells::gCHUDListCtrlInvSpells
+            ((gCHUDListCtrlInvSpells *)&(this->gCHUDViewSpells2_data).field_0x3c);
+  CFFGFCStatic::~CFFGFCStatic((CFFGFCStatic *)&(this->gCHUDViewSpells2_data).field_0x2c);
+  CFFGFCStatic::~CFFGFCStatic((CFFGFCStatic *)&(this->gCHUDViewSpells2_data).field_0x1c);
+  CFFGFCStatic::~CFFGFCStatic((CFFGFCStatic *)&(this->gCHUDViewSpells2_data).field_0xc);
+  FUN_200156a9();
+  return;
+}
+
+

@@ -1,0 +1,4 @@
+; 3003a2bf bTPropertyObject<eCCollisionShape_PS,eCCollisionShapeBase_PS>::vfunction16
+3003a2bf | e9fc553000 | JMP 0x3033f8c0
+; 3003a2ce eCShadowMapBase::GetVersion
+; 3003a2ce Ordinal_9476

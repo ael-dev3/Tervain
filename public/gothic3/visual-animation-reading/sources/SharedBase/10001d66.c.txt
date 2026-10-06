@@ -1,0 +1,46 @@
+/* ENTRY 10001d66 | bCUnicodeString::SetAnsiText | STATUS decompiled | 9 ms */
+
+/* public: void __thiscall bCUnicodeString::SetAnsiText(class bCString const &) */
+
+void __thiscall bCUnicodeString::SetAnsiText(bCUnicodeString *this,bCString *param_1)
+
+{
+  bool bVar1;
+  void *pvVar2;
+  bCMemoryAdmin *this_00;
+  char *_Source;
+  int iVar3;
+  
+                    /* 0x1d66  4058  ?SetAnsiText@bCUnicodeString@@QAEXABVbCString@@@Z */
+  bVar1 = bCString::IsEmpty(param_1);
+  if (!bVar1) {
+    if (*(int *)param_1 == 0) {
+      iVar3 = 0;
+    }
+    else {
+      iVar3 = *(int *)(*(int *)param_1 + -8);
+    }
+    _Source = bCString::operator_char_const_(param_1);
+    Realloc(this,iVar3);
+    _mbstowcs(*(wchar_t **)this,_Source,iVar3 + 1);
+    return;
+  }
+  iVar3 = *(int *)this;
+  if (iVar3 != 0) {
+    if ((*(int *)(iVar3 + -0xc) < 2) && (-1 < *(int *)(iVar3 + -8))) {
+      *(undefined4 *)(iVar3 + -8) = 0;
+      **(undefined2 **)this = 0;
+      return;
+    }
+    *(int *)(iVar3 + -0xc) = *(int *)(iVar3 + -0xc) + -1;
+    if (*(int *)(iVar3 + -0xc) < 1) {
+      pvVar2 = (void *)(*(int *)this + -0xc);
+      this_00 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(this_00,pvVar2);
+    }
+  }
+  *(undefined4 *)this = 0;
+  return;
+}
+
+

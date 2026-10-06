@@ -1,0 +1,2 @@
+; 30032ab5 eCVisualAnimationLoD::GetMeshBoundary
+30032ab5 | e956c20800 | JMP 0x300bed10

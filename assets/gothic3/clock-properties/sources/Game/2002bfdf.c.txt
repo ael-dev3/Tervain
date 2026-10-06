@@ -1,0 +1,18 @@
+/* ENTRY 2002bfdf | gCClock_PS::SetFactor | STATUS decompiled | 10 ms */
+
+/* public: void __thiscall gCClock_PS::SetFactor(float const &) */
+
+void __thiscall gCClock_PS::SetFactor(gCClock_PS *this,float *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x2bfdf  6481  ?SetFactor@gCClock_PS@@QAEXABM@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"Factor",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  *(float *)&(this->gCClock_PS_data).field_0x24 = *param_1;
+  (*pNVar1)(this,"Factor",false);
+  return;
+}
+
+

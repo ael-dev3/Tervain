@@ -1,0 +1,4 @@
+; 20032efc bTPropertyContainer<gEBearing>::vfunction7
+20032efc | e9dfc22c00 | JMP 0x202ff1e0
+; 20032f06 gCMagic_PS::GetEffectCasterCast
+; 20032f06 Ordinal_3314

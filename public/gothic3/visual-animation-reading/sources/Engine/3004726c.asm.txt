@@ -1,0 +1,2 @@
+; 3004726c eCVisualAnimation_PS::OnExitProcessingRange
+3004726c | e9dff20500 | JMP 0x300a6550

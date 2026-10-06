@@ -1,0 +1,14 @@
+; 305dd480 FUN_305dd480
+305dd480 | 56 | PUSH ESI
+305dd481 | 8b742408 | MOV ESI,dword ptr [ESP + 0x8]
+305dd485 | 57 | PUSH EDI
+305dd486 | 8bf9 | MOV EDI,ECX
+305dd488 | 8bce | MOV ECX,ESI
+305dd48a | ff15ecdbaf30 | CALL dword ptr [0x30afdbec]
+305dd490 | 56 | PUSH ESI
+305dd491 | 8bcf | MOV ECX,EDI
+305dd493 | e875e7a2ff | CALL 0x3000bc0d
+305dd498 | 5f | POP EDI
+305dd499 | 8bc6 | MOV EAX,ESI
+305dd49b | 5e | POP ESI
+305dd49c | c20400 | RET 0x4

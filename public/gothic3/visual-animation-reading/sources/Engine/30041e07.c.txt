@@ -1,0 +1,18 @@
+/* ENTRY 30041e07 | eCVisualAnimation_PS::SetBonesAreBreakable | STATUS decompiled | 13 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::SetBonesAreBreakable(bool const &) */
+
+void __thiscall eCVisualAnimation_PS::SetBonesAreBreakable(eCVisualAnimation_PS *this,bool *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x41e07  12980  ?SetBonesAreBreakable@eCVisualAnimation_PS@@QAEXAB_N@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"BonesAreBreakable",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  *(bool *)((int)&this[1].eCEntityPropertySet_data.offset_0x8 + 1) = *param_1;
+  (*pNVar1)(this,"BonesAreBreakable",false);
+  return;
+}
+
+

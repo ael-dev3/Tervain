@@ -1,0 +1,14 @@
+/* ENTRY 20024776 | SHAREDBASE.DLL::bCPropertyTypeBase::Read | STATUS decompiled | 2 ms */
+
+ushort __thiscall bCPropertyTypeBase::Read(bCPropertyTypeBase *this,bCIStream *param_1)
+
+{
+  ushort uVar1;
+  
+                    /* WARNING: Could not recover jumptable at 0x202356c0. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  uVar1 = Read(this,param_1);
+  return uVar1;
+}
+
+

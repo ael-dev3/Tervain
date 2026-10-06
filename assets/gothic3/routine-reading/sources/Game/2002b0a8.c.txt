@@ -1,0 +1,14 @@
+/* ENTRY 2002b0a8 | gCScriptRoutine_PS::GetPropertySetType | STATUS decompiled | 6 ms */
+
+/* public: virtual enum eEPropertySetType __thiscall
+   gCScriptRoutine_PS::GetPropertySetType(void)const  */
+
+eEPropertySetType __thiscall gCScriptRoutine_PS::GetPropertySetType(gCScriptRoutine_PS *this)
+
+{
+                    /* 0x2b0a8  4092
+                       ?GetPropertySetType@gCScriptRoutine_PS@@UBE?AW4eEPropertySetType@@XZ */
+  return 0x2d;
+}
+
+

@@ -1,0 +1,12 @@
+/* ENTRY 30385080 | SHAREDBASE.DLL::bCObjectRefBase::Destroy | STATUS decompiled | 2 ms */
+
+void __thiscall bCObjectRefBase::Destroy(bCObjectRefBase *this)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x30385080. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  Destroy(this);
+  return;
+}
+
+

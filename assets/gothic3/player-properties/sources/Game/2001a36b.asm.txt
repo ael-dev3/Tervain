@@ -1,0 +1,4 @@
+; 2001a36b ?AccessBaseMaximum@gCStat@@QAEAAHXZ
+2001a36b | e910ff0800 | JMP 0x200aa280
+; 2001a370 gCSessionInfo::Read
+; 2001a370 Ordinal_5965

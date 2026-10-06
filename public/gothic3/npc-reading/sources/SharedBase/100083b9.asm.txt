@@ -1,0 +1,4 @@
+; 100083b9 ?IsValid@bCAccessorProperty@@QBE_NXZ
+100083b9 | e932b70800 | JMP 0x10093af0
+; 100083be bCUnicodeString::SetText
+; 100083be Ordinal_4354

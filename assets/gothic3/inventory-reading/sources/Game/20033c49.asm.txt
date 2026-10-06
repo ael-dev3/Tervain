@@ -1,0 +1,4 @@
+; 20033c49 bTPropertyObjectType<gCCameraModeParams,bCObjectRefBase>::vfunction2
+20033c49 | e9a2ea1800 | JMP 0x201c26f0
+; 20033c4e gCCameraAI_PS::RegisterConsoleCommands
+; 20033c4e Ordinal_6023

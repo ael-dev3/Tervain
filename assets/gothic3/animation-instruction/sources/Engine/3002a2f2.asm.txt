@@ -1,0 +1,2 @@
+; 3002a2f2 ?GetActor@eCVisualAnimation_PS@@QAEPAVeCWrapper_emfx2Actor@@XZ
+3002a2f2 | e9e93a0700 | JMP 0x3009dde0

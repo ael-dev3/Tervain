@@ -1,0 +1,10 @@
+/* ENTRY 10030420 | FUN_10030420 | STATUS decompiled | 2 ms */
+
+void __thiscall FUN_10030420(void *this,gECharMovementMode param_1)
+
+{
+  PSCharacterMovement::SetMovementMode((PSCharacterMovement *)((int)this + 0x44),param_1);
+  return;
+}
+
+

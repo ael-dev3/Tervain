@@ -1,0 +1,26 @@
+/* ENTRY 1000335f | bCInfCylinder::Cull | STATUS decompiled | 10 ms */
+
+/* public: bool __thiscall bCInfCylinder::Cull(class bCVector const &,bool)const  */
+
+bool __thiscall bCInfCylinder::Cull(bCInfCylinder *this,bCVector *param_1,bool param_2)
+
+{
+  float fVar1;
+  
+                    /* 0x335f  1870  ?Cull@bCInfCylinder@@QBE_NABVbCVector@@_N@Z */
+  fVar1 = *(float *)this;
+  if (param_2) {
+    fVar1 = fVar1 * fVar1 * 0.93 * 0.93;
+  }
+  else {
+    fVar1 = fVar1 * fVar1;
+  }
+  if ((*(float *)param_1 - *(float *)(this + 4)) * (*(float *)param_1 - *(float *)(this + 4)) + 0.0
+      + (*(float *)(param_1 + 8) - *(float *)(this + 0xc)) *
+        (*(float *)(param_1 + 8) - *(float *)(this + 0xc)) < fVar1) {
+    return true;
+  }
+  return false;
+}
+
+

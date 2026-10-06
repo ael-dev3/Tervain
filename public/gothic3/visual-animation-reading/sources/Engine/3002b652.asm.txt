@@ -1,0 +1,2 @@
+; 3002b652 eCVisualAnimation_PS::GetBoneProjectionDistance
+3002b652 | e9496b0300 | JMP 0x300621a0

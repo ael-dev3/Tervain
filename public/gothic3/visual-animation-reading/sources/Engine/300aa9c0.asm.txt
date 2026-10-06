@@ -1,0 +1,8 @@
+; 300aa9c0 bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector>::vfunction8
+300aa9c0 | 68f8cf8130 | PUSH 0x3081cff8
+300aa9c5 | 68bccf8130 | PUSH 0x3081cfbc
+300aa9ca | 687ccf8130 | PUSH 0x3081cf7c
+300aa9cf | ff1530dbaf30 | CALL dword ptr [0x30afdb30]
+300aa9d5 | 83c40c | ADD ESP,0xc
+300aa9d8 | 33c0 | XOR EAX,EAX
+300aa9da | c3 | RET

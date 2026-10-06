@@ -1,0 +1,13 @@
+/* ENTRY 30027106 | eCEntityProxyInternal::SetEntity | STATUS decompiled | 2 ms */
+
+/* protected: void __thiscall eCEntityProxyInternal::SetEntity(class eCEntity const *) */
+
+void __thiscall eCEntityProxyInternal::SetEntity(eCEntityProxyInternal *this,eCEntity *param_1)
+
+{
+                    /* 0x27106  13345  ?SetEntity@eCEntityProxyInternal@@IAEXPBVeCEntity@@@Z */
+  *(eCEntity **)this = param_1;
+  return;
+}
+
+

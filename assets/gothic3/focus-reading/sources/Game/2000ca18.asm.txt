@@ -1,0 +1,2 @@
+; 2000ca18 gCFocus_PS::gCFocus_PS
+2000ca18 | e9030b1300 | JMP 0x2013d520

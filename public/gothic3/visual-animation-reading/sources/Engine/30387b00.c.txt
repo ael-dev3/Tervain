@@ -1,0 +1,23 @@
+/* ENTRY 30387b00 | bTPropertyObject<eCEffector,bCObjectRefBase>::~bTPropertyObject<eCEffector,bCObjectRefBase> | STATUS decompiled | 7 ms */
+
+bTPropertyObject<eCEffector,bCObjectRefBase> * __thiscall
+bTPropertyObject<eCEffector,bCObjectRefBase>::~bTPropertyObject<eCEffector,bCObjectRefBase>
+          (bTPropertyObject<eCEffector,bCObjectRefBase> *this)
+
+{
+  undefined *puVar1;
+  
+  bCPropertyObjectBase::bCPropertyObjectBase((bCPropertyObjectBase *)this);
+  (this->bTPOPureSmartPtr<eCEffector>_data).offset_0x4 = (bCObjectRefBase *)0x0;
+  this->vftablePtr = &vftable;
+  puVar1 = bTPropertyObjectType<eCEffector,bCObjectRefBase>::
+           ~bTPropertyObjectType<eCEffector,bCObjectRefBase>();
+  *(uint *)&this->bTPOPureSmartPtr<eCEffector>_data =
+       *(uint *)&this->bTPOPureSmartPtr<eCEffector>_data & 0xfffffffb;
+  (this->bTPropertyObject<eCEffector,bCObjectRefBase>_data).offset_0x0 = puVar1;
+  (this->bTPOPureSmartPtr<eCEffector>_data).offset_0x4 = (bCObjectRefBase *)0x0;
+  thunk_FUN_30385f20(0);
+  return this;
+}
+
+

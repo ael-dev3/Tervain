@@ -1,0 +1,4 @@
+; 30015a73 ?GetVersion@eCEntityPropertySet@@UBEGXZ
+30015a73 | e9b8bb4600 | JMP 0x30481630
+; 30015a78 eCParticleSystemBase_PS::OnRenderAlpha
+; 30015a78 Ordinal_11452

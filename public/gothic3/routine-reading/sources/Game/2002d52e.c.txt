@@ -1,0 +1,10 @@
+/* ENTRY 2002d52e | bTPropertyObject<gCScriptRoutine_PS,eCEntityPropertySet>::vfunction11 | STATUS decompiled | 2 ms */
+
+void __thiscall bTPropertyObject<gCScriptRoutine_PS,eCEntityPropertySet>::vfunction11(void)
+
+{
+  thunk_FUN_20361e10(0);
+  return;
+}
+
+

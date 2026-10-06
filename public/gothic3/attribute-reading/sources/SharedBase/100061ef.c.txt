@@ -1,0 +1,40 @@
+/* ENTRY 100061ef | bCGothic3EngineDialogs::LoadGE3DialogLib | STATUS decompiled | 7 ms */
+
+/* public: bool __thiscall bCGothic3EngineDialogs::LoadGE3DialogLib(bool) */
+
+bool __thiscall bCGothic3EngineDialogs::LoadGE3DialogLib(bCGothic3EngineDialogs *this,bool param_1)
+
+{
+  byte bVar1;
+  byte bVar2;
+  byte bVar3;
+  bCDialogHandle *pbVar4;
+  undefined3 in_stack_00000005;
+  
+                    /* 0x61ef  3696  ?LoadGE3DialogLib@bCGothic3EngineDialogs@@QAE_N_N@Z */
+  pbVar4 = GetDialogHandle(this);
+  bCDialogHandle::AddReference(pbVar4);
+  *this = (bCGothic3EngineDialogs)0x1;
+  pbVar4 = GetDialogHandle(this);
+  if (*(code **)(pbVar4 + 8) == (code *)0x0) {
+    bVar1 = 0;
+  }
+  else {
+    bVar1 = (**(code **)(pbVar4 + 8))(_param_1);
+  }
+  pbVar4 = GetDialogHandle(this);
+  if (*(code **)(pbVar4 + 0x1c) == (code *)0x0) {
+    bVar2 = 0;
+  }
+  else {
+    bVar2 = (**(code **)(pbVar4 + 0x1c))();
+  }
+  pbVar4 = GetDialogHandle(this);
+  if (*(code **)(pbVar4 + 0x2c) != (code *)0x0) {
+    bVar3 = (**(code **)(pbVar4 + 0x2c))();
+    return (bool)(bVar3 & bVar1 & bVar2);
+  }
+  return false;
+}
+
+

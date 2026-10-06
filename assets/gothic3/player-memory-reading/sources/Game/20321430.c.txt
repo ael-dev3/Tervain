@@ -1,0 +1,36 @@
+/* ENTRY 20321430 | FUN_20321430 | STATUS decompiled | 11 ms */
+
+bCIStream * __thiscall FUN_20321430(undefined4 *param_1,bCIStream *param_2)
+
+{
+  int iVar1;
+  bCIStream *this;
+  ulong uVar2;
+  bCMemoryAdmin *this_00;
+  void *pvVar3;
+  ulong uVar4;
+  ulong local_8 [2];
+  
+  this = param_2;
+  bCIStream::operator>>(param_2,(uchar *)&param_2);
+  local_8[0] = 0;
+  bCIStream::operator>>(this,local_8);
+  uVar2 = local_8[0];
+  iVar1 = param_1[2];
+  if (iVar1 < (int)local_8[0]) {
+    pvVar3 = (void *)*param_1;
+    uVar4 = local_8[0];
+    this_00 = bCMemoryAdmin::GetInstance();
+    pvVar3 = bCMemoryAdmin::Realloc(this_00,pvVar3,uVar4);
+    *param_1 = pvVar3;
+    _memset((void *)(param_1[1] + (int)pvVar3),0,uVar2 - iVar1);
+    param_1[2] = uVar2;
+  }
+  param_1[1] = uVar2;
+  if (uVar2 != 0) {
+    (**(code **)((int)*this + 4))(*param_1,local_8[0]);
+  }
+  return this;
+}
+
+

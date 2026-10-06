@@ -1,0 +1,26 @@
+/* ENTRY 200203e2 | gCInventory_PS::LearnStack | STATUS decompiled | 9 ms */
+
+/* public: bool __thiscall gCInventory_PS::LearnStack(int) */
+
+bool __thiscall gCInventory_PS::LearnStack(gCInventory_PS *this,int param_1)
+
+{
+  code *pcVar1;
+  gCInventoryStack *pgVar2;
+  
+                    /* 0x203e2  5297  ?LearnStack@gCInventory_PS@@QAE_NH@Z */
+  pgVar2 = (gCInventoryStack *)FUN_2002d506(param_1);
+  if (pgVar2 != (gCInventoryStack *)0x0) {
+    if (pgVar2[0x54] == (gCInventoryStack)0x0) {
+      (**(code **)(*(int *)pgVar2 + 0x58))("Learned",0);
+      pcVar1 = *(code **)(*(int *)pgVar2 + 0x5c);
+      pgVar2[0x54] = (gCInventoryStack)0x1;
+      (*pcVar1)("Learned",0);
+      NotifyListeners(this,1,param_1,pgVar2);
+    }
+    return true;
+  }
+  return false;
+}
+
+

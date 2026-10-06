@@ -1,0 +1,4 @@
+; 100012d5 ?GetStrength@PSPlayerMemory@@QBEHXZ
+100012d5 | e926880200 | JMP 0x10029b00
+; 100012df PSParticle::PropertyUseSizeScale::operator=
+; 100012df Ordinal_774

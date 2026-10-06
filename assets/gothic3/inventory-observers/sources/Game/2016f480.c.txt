@@ -1,0 +1,10 @@
+/* ENTRY 2016f480 | gCHUDPageTransform2::vfunction71 | STATUS decompiled | 1 ms */
+
+void __thiscall gCHUDPageTransform2::vfunction71(void)
+
+{
+  thunk_FUN_2016c120();
+  return;
+}
+
+

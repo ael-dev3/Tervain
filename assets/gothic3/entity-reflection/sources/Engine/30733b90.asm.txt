@@ -1,0 +1,26 @@
+; 30733b90 bTPropertyType<eCVisualAnimation_PS,bool>::~bTPropertyType<eCVisualAnimation_PS,bool>
+30733b90 | 51 | PUSH ECX
+30733b91 | 68a48b8130 | PUSH 0x30818ba4
+30733b96 | 8d4c2404 | LEA ECX,[ESP + 0x4]
+30733b9a | ff155cdbaf30 | CALL dword ptr [0x30afdb5c]
+30733ba0 | 6a01 | PUSH 0x1
+30733ba2 | 8d442404 | LEA EAX,[ESP + 0x4]
+30733ba6 | 50 | PUSH EAX
+30733ba7 | b900a6ad30 | MOV ECX,0x30ada600
+30733bac | ff1598caaf30 | CALL dword ptr [0x30afca98]
+30733bb2 | c70500a6ad30ccfd8130 | MOV dword ptr [0x30ada600],0x3081fdcc
+30733bbc | e8d8588dff | CALL 0x30009499
+30733bc1 | b900a6ad30 | MOV ECX,0x30ada600
+30733bc6 | a318a6ad30 | MOV [0x30ada618],EAX
+30733bcb | c7051ca6ad301f000000 | MOV dword ptr [0x30ada61c],0x1f
+30733bd5 | c70520a6ad3000000000 | MOV dword ptr [0x30ada620],0x0
+30733bdf | ff1570caaf30 | CALL dword ptr [0x30afca70]
+30733be5 | 8b0d18a6ad30 | MOV ECX,dword ptr [0x30ada618]
+30733beb | 6800a6ad30 | PUSH 0x30ada600
+30733bf0 | ff157ccaaf30 | CALL dword ptr [0x30afca7c]
+30733bf6 | 8d0c24 | LEA ECX,[ESP]
+30733bf9 | ff15dcdbaf30 | CALL dword ptr [0x30afdbdc]
+30733bff | 68c0887930 | PUSH 0x307988c0
+30733c04 | e88dd9f3ff | CALL 0x30671596
+30733c09 | 83c408 | ADD ESP,0x8
+30733c0c | c3 | RET

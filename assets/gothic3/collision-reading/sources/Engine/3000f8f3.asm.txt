@@ -1,0 +1,4 @@
+; 3000f8f3 bTPropertyType<eCCollisionShape_PS,bCObsoleteClass>::vfunction13
+3000f8f3 | e958d63200 | JMP 0x3033cf50
+; 3000f8fd eCVegetationBrush_PS::SetAlignRotation
+; 3000f8fd Ordinal_12863

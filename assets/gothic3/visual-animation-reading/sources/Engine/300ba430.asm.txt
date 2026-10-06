@@ -1,0 +1,70 @@
+; 300ba430 bTPropertyObject<eCVisualAnimation_PS,eCEntityPropertySet>::vfunction16
+300ba430 | 83ec0c | SUB ESP,0xc
+300ba433 | 53 | PUSH EBX
+300ba434 | 8b5c2414 | MOV EBX,dword ptr [ESP + 0x14]
+300ba438 | 55 | PUSH EBP
+300ba439 | 56 | PUSH ESI
+300ba43a | 57 | PUSH EDI
+300ba43b | 53 | PUSH EBX
+300ba43c | 8bf1 | MOV ESI,ECX
+300ba43e | ff150ccbaf30 | CALL dword ptr [0x30afcb0c]
+300ba444 | 56 | PUSH ESI
+300ba445 | 8d4c2424 | LEA ECX,[ESP + 0x24]
+300ba449 | ff15dccaaf30 | CALL dword ptr [0x30afcadc]
+300ba44f | 8d442420 | LEA EAX,[ESP + 0x20]
+300ba453 | 50 | PUSH EAX
+300ba454 | 8d4c2414 | LEA ECX,[ESP + 0x14]
+300ba458 | ff15d8caaf30 | CALL dword ptr [0x30afcad8]
+300ba45e | 8b2dd0caaf30 | MOV EBP,dword ptr [0x30afcad0]
+300ba464 | 8b3dcccaaf30 | MOV EDI,dword ptr [0x30afcacc]
+300ba46a | 8d9b00000000 | LEA EBX,[EBX]
+300ba470 | 8d4c2410 | LEA ECX,[ESP + 0x10]
+300ba474 | ffd5 | CALL EBP
+300ba476 | 3c01 | CMP AL,0x1
+300ba478 | 7511 | JNZ 0x300ba48b
+300ba47a | 8d4c2410 | LEA ECX,[ESP + 0x10]
+300ba47e | ffd7 | CALL EDI
+300ba480 | 8b10 | MOV EDX,dword ptr [EAX]
+300ba482 | 53 | PUSH EBX
+300ba483 | 8bc8 | MOV ECX,EAX
+300ba485 | 8b4230 | MOV EAX,dword ptr [EDX + 0x30]
+300ba488 | 56 | PUSH ESI
+300ba489 | ffd0 | CALL EAX
+300ba48b | 8d4c2410 | LEA ECX,[ESP + 0x10]
+300ba48f | ffd5 | CALL EBP
+300ba491 | 84c0 | TEST AL,AL
+300ba493 | 7516 | JNZ 0x300ba4ab
+300ba495 | 8d4c2410 | LEA ECX,[ESP + 0x10]
+300ba499 | ff15c8caaf30 | CALL dword ptr [0x30afcac8]
+300ba49f | 8bc8 | MOV ECX,EAX
+300ba4a1 | ff15c4caaf30 | CALL dword ptr [0x30afcac4]
+300ba4a7 | 84c0 | TEST AL,AL
+300ba4a9 | 740c | JZ 0x300ba4b7
+300ba4ab | 8d4c2410 | LEA ECX,[ESP + 0x10]
+300ba4af | ff15c0caaf30 | CALL dword ptr [0x30afcac0]
+300ba4b5 | ebb9 | JMP 0x300ba470
+300ba4b7 | 837e0800 | CMP dword ptr [ESI + 0x8],0x0
+300ba4bb | 7507 | JNZ 0x300ba4c4
+300ba4bd | 8bce | MOV ECX,ESI
+300ba4bf | e8f055f6ff | CALL 0x3001fab4
+300ba4c4 | 8b4e08 | MOV ECX,dword ptr [ESI + 0x8]
+300ba4c7 | 8b39 | MOV EDI,dword ptr [ECX]
+300ba4c9 | 8b13 | MOV EDX,dword ptr [EBX]
+300ba4cb | 8b02 | MOV EAX,dword ptr [EDX]
+300ba4cd | 8bcb | MOV ECX,EBX
+300ba4cf | 83c71c | ADD EDI,0x1c
+300ba4d2 | ffd0 | CALL EAX
+300ba4d4 | 8b4e08 | MOV ECX,dword ptr [ESI + 0x8]
+300ba4d7 | 8b17 | MOV EDX,dword ptr [EDI]
+300ba4d9 | 50 | PUSH EAX
+300ba4da | ffd2 | CALL EDX
+300ba4dc | 8d4c2410 | LEA ECX,[ESP + 0x10]
+300ba4e0 | ff15ecc9af30 | CALL dword ptr [0x30afc9ec]
+300ba4e6 | 8d4c2420 | LEA ECX,[ESP + 0x20]
+300ba4ea | ff1510dbaf30 | CALL dword ptr [0x30afdb10]
+300ba4f0 | 5f | POP EDI
+300ba4f1 | 5e | POP ESI
+300ba4f2 | 5d | POP EBP
+300ba4f3 | 5b | POP EBX
+300ba4f4 | 83c40c | ADD ESP,0xc
+300ba4f7 | c20400 | RET 0x4

@@ -1,0 +1,24 @@
+/* ENTRY 2001dddb | gCPlayerMemory_PS::ApplyMod | STATUS decompiled | 11 ms */
+
+/* public: bool __thiscall gCPlayerMemory_PS::ApplyMod(class bCString const &,int,enum
+   EAttribModOperation) */
+
+bool __thiscall
+gCPlayerMemory_PS::ApplyMod
+          (gCPlayerMemory_PS *this,bCString *param_1,int param_2,EAttribModOperation param_3)
+
+{
+  undefined1 uVar1;
+  int iVar2;
+  
+                    /* 0x1dddb  1961
+                       ?ApplyMod@gCPlayerMemory_PS@@QAE_NABVbCString@@HW4EAttribModOperation@@@Z */
+  iVar2 = thunk_FUN_203214f0(param_1,&param_1);
+  if ((iVar2 != 0) && (*(int **)(iVar2 + 4) != (int *)0x0)) {
+    uVar1 = (**(code **)(**(int **)(iVar2 + 4) + 0x74))(param_3,param_2);
+    return (bool)uVar1;
+  }
+  return false;
+}
+
+

@@ -1,0 +1,5 @@
+; 303301b0 bTPropertyContainer<eERigidbody_Flag>::vfunction7
+303301b0 | a138bfae30 | MOV EAX,[0x30aebf38]
+303301b5 | 894104 | MOV dword ptr [ECX + 0x4],EAX
+303301b8 | b801000000 | MOV EAX,0x1
+303301bd | c3 | RET

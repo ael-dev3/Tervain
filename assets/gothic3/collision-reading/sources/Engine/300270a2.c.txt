@@ -1,0 +1,15 @@
+/* ENTRY 300270a2 | eCCollisionShapeBase_PS::GetShapeAtIndex | STATUS decompiled | 8 ms */
+
+/* public: virtual class eCCollisionShape * __thiscall
+   eCCollisionShapeBase_PS::GetShapeAtIndex(unsigned long)const  */
+
+eCCollisionShape * __thiscall
+eCCollisionShapeBase_PS::GetShapeAtIndex(eCCollisionShapeBase_PS *this,ulong param_1)
+
+{
+                    /* 0x270a2  8786
+                       ?GetShapeAtIndex@eCCollisionShapeBase_PS@@UBEPAVeCCollisionShape@@K@Z */
+  return (eCCollisionShape *)0x0;
+}
+
+

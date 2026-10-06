@@ -1,0 +1,12 @@
+/* ENTRY 3000c0ae | eCVisualAnimation_PS::GetBoneLinearDamping | STATUS decompiled | 5 ms */
+
+/* public: float const & __thiscall eCVisualAnimation_PS::GetBoneLinearDamping(void)const  */
+
+float * __thiscall eCVisualAnimation_PS::GetBoneLinearDamping(eCVisualAnimation_PS *this)
+
+{
+                    /* 0xc0ae  6285  ?GetBoneLinearDamping@eCVisualAnimation_PS@@QBEABMXZ */
+  return (float *)&this[2].eCEntityPropertySet_data;
+}
+
+

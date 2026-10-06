@@ -1,0 +1,16 @@
+/* ENTRY 20397b20 | FUN_20397b20 | STATUS decompiled | 5 ms */
+
+eCLocString * FUN_20397b20(void)
+
+{
+  bCString *pbVar1;
+  eCLocString *unaff_retaddr;
+  char local_4 [4];
+  
+  pbVar1 = (bCString *)operator+(local_4,(bCString *)"ATTRIBDESC_");
+  eCLocString::eCLocString(unaff_retaddr,pbVar1);
+  bCString::~bCString((bCString *)&stack0xfffffff8);
+  return unaff_retaddr;
+}
+
+

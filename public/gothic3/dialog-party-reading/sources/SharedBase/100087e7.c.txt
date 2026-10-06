@@ -1,0 +1,17 @@
+/* ENTRY 100087e7 | bCPropertyObjectBase::operator= | STATUS decompiled | 4 ms */
+
+/* public: class bCPropertyObjectBase const & __thiscall bCPropertyObjectBase::operator=(class
+   bCPropertyObjectBase const &) */
+
+bCPropertyObjectBase * __thiscall
+bCPropertyObjectBase::operator=(bCPropertyObjectBase *this,bCPropertyObjectBase *param_1)
+
+{
+                    /* 0x87e7  522  ??4bCPropertyObjectBase@@QAEABV0@ABV0@@Z */
+  if (this != (bCPropertyObjectBase *)param_1) {
+    (*this->vftablePtr->CopyFrom)(this,param_1);
+  }
+  return (bCPropertyObjectBase *)this;
+}
+
+

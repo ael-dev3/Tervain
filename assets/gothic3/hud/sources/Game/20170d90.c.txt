@@ -1,0 +1,61 @@
+/* ENTRY 20170d90 | FUN_20170d90 | STATUS decompiled | 19 ms */
+
+void __thiscall FUN_20170d90(int param_1,int param_2)
+
+{
+  CFFGFCWnd *this;
+  int *piVar1;
+  IFFGUIMsgProc *this_00;
+  int iVar2;
+  char cVar3;
+  eCLocString *this_01;
+  bCUnicodeString abStack_8 [4];
+  eCLocString aeStack_4 [4];
+  
+  iVar2 = param_2;
+  if (param_2 == *(int *)(param_1 + 0x84)) {
+    return;
+  }
+  if (param_2 == 0xf) {
+    CFFGFCWnd::EnableWindow(*(CFFGFCWnd **)(param_1 + 0x7c),false);
+    if ((*(int *)(param_1 + 0x84) != -1) &&
+       (this = *(CFFGFCWnd **)(param_1 + 0x38 + *(int *)(param_1 + 0x84) * 4),
+       this != (CFFGFCWnd *)0x0)) {
+      CFFGFCWnd::EnableWindow(this,false);
+    }
+    *(undefined4 *)(param_1 + 0x88) = *(undefined4 *)(param_1 + 0x84);
+  }
+  else {
+    CFFGFCWnd::EnableWindow(*(CFFGFCWnd **)(param_1 + 0x7c),true);
+    if ((*(int *)(param_1 + 0x84) != -1) &&
+       (piVar1 = *(int **)(param_1 + 0x38 + *(int *)(param_1 + 0x84) * 4), piVar1 != (int *)0x0)) {
+      (**(code **)(*piVar1 + 0x114))();
+      thunk_FUN_20170320(piVar1);
+    }
+    if (iVar2 == -1) goto LAB_20170e34;
+  }
+  this_00 = *(IFFGUIMsgProc **)(param_1 + 0x38 + iVar2 * 4);
+  if (this_00 != (IFFGUIMsgProc *)0x0) {
+    thunk_FUN_201702e0(this_00);
+    CFFGFCWnd::EnableWindow((CFFGFCWnd *)this_00,true);
+    (**(code **)((int)*this_00 + 0x110))();
+  }
+LAB_20170e34:
+  thunk_FUN_20170d00(iVar2,*(undefined4 *)(param_1 + 0x84));
+  *(int *)(param_1 + 0x84) = iVar2;
+  CFFGFCWnd::BringWindowToTop(*(CFFGFCWnd **)(param_1 + 0x7c));
+  cVar3 = thunk_FUN_20170b20(iVar2);
+  if (cVar3 != '\0') {
+    this_01 = (eCLocString *)
+              eCLocString::eCLocString(aeStack_4,(bCString *)(&DAT_207ba0f0 + iVar2 * 4));
+    eCLocString::GetString(this_01);
+    bCUnicodeString::bCUnicodeString(abStack_8,(bCUnicodeString *)&param_2);
+    bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&param_2);
+    eCLocString::~eCLocString(aeStack_4);
+    FUN_20034edc(abStack_8);
+    bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffff4);
+  }
+  return;
+}
+
+

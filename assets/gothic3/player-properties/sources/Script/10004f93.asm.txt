@@ -1,0 +1,2 @@
+; 10004f93 ?GetStaminaPoints@PSPlayerMemory@@QBEHXZ
+10004f93 | e948450200 | JMP 0x100294e0

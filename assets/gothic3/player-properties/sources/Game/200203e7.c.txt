@@ -1,0 +1,22 @@
+/* ENTRY 200203e7 | gCPlayerMemory_PS::AddValue | STATUS decompiled | 7 ms */
+
+/* public: bool __thiscall gCPlayerMemory_PS::AddValue(class bCString const &,int) */
+
+bool __thiscall gCPlayerMemory_PS::AddValue(gCPlayerMemory_PS *this,bCString *param_1,int param_2)
+
+{
+  int iVar1;
+  int iVar2;
+  
+                    /* 0x203e7  1919  ?AddValue@gCPlayerMemory_PS@@QAE_NABVbCString@@H@Z */
+  iVar1 = thunk_FUN_203214f0(param_1,&param_1);
+  if ((iVar1 != 0) && (*(int **)(iVar1 + 4) != (int *)0x0)) {
+    iVar1 = **(int **)(iVar1 + 4);
+    iVar2 = (**(code **)(iVar1 + 0x60))();
+    (**(code **)(iVar1 + 0x68))(iVar2 + param_2);
+    return true;
+  }
+  return false;
+}
+
+

@@ -1,0 +1,2 @@
+; 3003d6ea eCVisualAnimation_PS::HasRenderAlphaComponent
+3003d6ea | e991010600 | JMP 0x3009d880

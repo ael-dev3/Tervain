@@ -1,0 +1,19 @@
+/* ENTRY 3001ff73 | eCVisualAnimation_PS::SetBoneRaycastsEnabled | STATUS decompiled | 8 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::SetBoneRaycastsEnabled(bool const &) */
+
+void __thiscall
+eCVisualAnimation_PS::SetBoneRaycastsEnabled(eCVisualAnimation_PS *this,bool *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x1ff73  12971  ?SetBoneRaycastsEnabled@eCVisualAnimation_PS@@QAEXAB_N@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"BoneRaycastsEnabled",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  *(bool *)&this[1].eCEntityPropertySet_data.offset_0x8 = *param_1;
+  (*pNVar1)(this,"BoneRaycastsEnabled",false);
+  return;
+}
+
+

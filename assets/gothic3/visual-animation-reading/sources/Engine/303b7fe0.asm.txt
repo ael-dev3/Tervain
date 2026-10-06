@@ -1,0 +1,31 @@
+; 303b7fe0 FUN_303b7fe0
+303b7fe0 | 53 | PUSH EBX
+303b7fe1 | 57 | PUSH EDI
+303b7fe2 | 8b7c2410 | MOV EDI,dword ptr [ESP + 0x10]
+303b7fe6 | 33db | XOR EBX,EBX
+303b7fe8 | 3bfb | CMP EDI,EBX
+303b7fea | 7438 | JZ 0x303b8024
+303b7fec | 55 | PUSH EBP
+303b7fed | 8b2dacdbaf30 | MOV EBP,dword ptr [0x30afdbac]
+303b7ff3 | 56 | PUSH ESI
+303b7ff4 | 8b742414 | MOV ESI,dword ptr [ESP + 0x14]
+303b7ff8 | 8b4604 | MOV EAX,dword ptr [ESI + 0x4]
+303b7ffb | 83ef01 | SUB EDI,0x1
+303b7ffe | 3bc3 | CMP EAX,EBX
+303b8000 | 66895e02 | MOV word ptr [ESI + 0x2],BX
+303b8004 | 740b | JZ 0x303b8011
+303b8006 | 50 | PUSH EAX
+303b8007 | ffd5 | CALL EBP
+303b8009 | 8bc8 | MOV ECX,EAX
+303b800b | ff150cdbaf30 | CALL dword ptr [0x30afdb0c]
+303b8011 | 895e04 | MOV dword ptr [ESI + 0x4],EBX
+303b8014 | 66891e | MOV word ptr [ESI],BX
+303b8017 | 66895e02 | MOV word ptr [ESI + 0x2],BX
+303b801b | 83c610 | ADD ESI,0x10
+303b801e | 3bfb | CMP EDI,EBX
+303b8020 | 75d6 | JNZ 0x303b7ff8
+303b8022 | 5e | POP ESI
+303b8023 | 5d | POP EBP
+303b8024 | 5f | POP EDI
+303b8025 | 5b | POP EBX
+303b8026 | c20800 | RET 0x8

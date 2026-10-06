@@ -1,0 +1,33 @@
+/* ENTRY 100033f5 | bCMatrix::GetIdentity | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+/* public: static class bCMatrix const & __stdcall bCMatrix::GetIdentity(void) */
+
+bCMatrix * bCMatrix::GetIdentity(void)
+
+{
+                    /* 0x33f5  2404  ?GetIdentity@bCMatrix@@SGABV1@XZ */
+  if ((_DAT_101ab314 & 1) == 0) {
+    _DAT_101ab314 = _DAT_101ab314 | 1;
+    _DAT_101ab2c8 = 0x3f800000;
+    _DAT_101ab2cc = 0;
+    _DAT_101ab2d0 = 0;
+    _DAT_101ab2d4 = 0;
+    _DAT_101ab2d8 = 0;
+    _DAT_101ab2dc = 0x3f800000;
+    _DAT_101ab2e0 = 0;
+    _DAT_101ab2e4 = 0;
+    _DAT_101ab2e8 = 0;
+    _DAT_101ab2ec = 0;
+    _DAT_101ab2f0 = 0x3f800000;
+    _DAT_101ab2f4 = 0;
+    _DAT_101ab2f8 = 0;
+    _DAT_101ab2fc = 0;
+    _DAT_101ab300 = 0;
+    _DAT_101ab304 = 0x3f800000;
+    _atexit((_func_4879 *)&DAT_100e2910);
+  }
+  return (bCMatrix *)&DAT_101ab2c8;
+}
+
+

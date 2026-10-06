@@ -1,0 +1,13 @@
+/* ENTRY 3032f4e0 | bTPropertyContainer<eERigidbody_Flag>::vfunction3 | STATUS decompiled | 5 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<eERigidbody_Flag>::vfunction3
+          (bTPropertyContainer<eERigidbody_Flag> *this,bCOStream *param_1)
+
+{
+  bCOStream::operator<<(param_1,1);
+  (**(code **)((int)*param_1 + 4))(&this->bTPropertyContainer<eERigidbody_Flag>_data,4);
+  return 1;
+}
+
+

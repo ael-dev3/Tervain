@@ -1,0 +1,4 @@
+; 10006c1c ?GetInstance@bCErrorAdmin@@SGAAV1@XZ
+10006c1c | e93fad0100 | JMP 0x10021960
+; 10006c21 bCBox::SetBox
+; 10006c21 Ordinal_4085

@@ -1,0 +1,10 @@
+/* ENTRY 1004a1a0 | FUN_1004a1a0 | STATUS decompiled | 2 ms */
+
+undefined4 FUN_1004a1a0(undefined4 param_1,int *param_2)
+
+{
+  (**(code **)(*param_2 + 8))(param_1);
+  return param_1;
+}
+
+

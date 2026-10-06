@@ -1,0 +1,70 @@
+; 305de480 FUN_305de480
+305de480 | 83ec10 | SUB ESP,0x10
+305de483 | 56 | PUSH ESI
+305de484 | 8b35ecdbaf30 | MOV ESI,dword ptr [0x30afdbec]
+305de48a | 57 | PUSH EDI
+305de48b | 8d4c2414 | LEA ECX,[ESP + 0x14]
+305de48f | ffd6 | CALL ESI
+305de491 | 8d4c2410 | LEA ECX,[ESP + 0x10]
+305de495 | ffd6 | CALL ESI
+305de497 | 8d4c240c | LEA ECX,[ESP + 0xc]
+305de49b | ffd6 | CALL ESI
+305de49d | 8d4c2408 | LEA ECX,[ESP + 0x8]
+305de4a1 | ffd6 | CALL ESI
+305de4a3 | e82a26a3ff | CALL 0x30010ad2
+305de4a8 | 8b10 | MOV EDX,dword ptr [EAX]
+305de4aa | 8b5228 | MOV EDX,dword ptr [EDX + 0x28]
+305de4ad | 8d4c2408 | LEA ECX,[ESP + 0x8]
+305de4b1 | 51 | PUSH ECX
+305de4b2 | 8d4c2410 | LEA ECX,[ESP + 0x10]
+305de4b6 | 51 | PUSH ECX
+305de4b7 | 8d4c2418 | LEA ECX,[ESP + 0x18]
+305de4bb | 51 | PUSH ECX
+305de4bc | 8d4c2420 | LEA ECX,[ESP + 0x20]
+305de4c0 | 51 | PUSH ECX
+305de4c1 | 8b4c242c | MOV ECX,dword ptr [ESP + 0x2c]
+305de4c5 | 51 | PUSH ECX
+305de4c6 | 8bc8 | MOV ECX,EAX
+305de4c8 | ffd2 | CALL EDX
+305de4ca | 8b742420 | MOV ESI,dword ptr [ESP + 0x20]
+305de4ce | 85f6 | TEST ESI,ESI
+305de4d0 | 8b3d60dbaf30 | MOV EDI,dword ptr [0x30afdb60]
+305de4d6 | 7423 | JZ 0x305de4fb
+305de4d8 | 8d442410 | LEA EAX,[ESP + 0x10]
+305de4dc | 50 | PUSH EAX
+305de4dd | 8d4c2420 | LEA ECX,[ESP + 0x20]
+305de4e1 | 51 | PUSH ECX
+305de4e2 | 8d4c241c | LEA ECX,[ESP + 0x1c]
+305de4e6 | ff1538dbaf30 | CALL dword ptr [0x30afdb38]
+305de4ec | 50 | PUSH EAX
+305de4ed | 8bce | MOV ECX,ESI
+305de4ef | ffd7 | CALL EDI
+305de4f1 | 8d4c241c | LEA ECX,[ESP + 0x1c]
+305de4f5 | ff15dcdbaf30 | CALL dword ptr [0x30afdbdc]
+; 305de4fb LAB_305de4fb
+305de4fb | 8b4c2424 | MOV ECX,dword ptr [ESP + 0x24]
+305de4ff | 85c9 | TEST ECX,ECX
+305de501 | 7407 | JZ 0x305de50a
+305de503 | 8d54240c | LEA EDX,[ESP + 0xc]
+305de507 | 52 | PUSH EDX
+305de508 | ffd7 | CALL EDI
+; 305de50a LAB_305de50a
+305de50a | 8b4c2428 | MOV ECX,dword ptr [ESP + 0x28]
+305de50e | 85c9 | TEST ECX,ECX
+305de510 | 7407 | JZ 0x305de519
+305de512 | 8d442408 | LEA EAX,[ESP + 0x8]
+305de516 | 50 | PUSH EAX
+305de517 | ffd7 | CALL EDI
+; 305de519 LAB_305de519
+305de519 | 8d4c2408 | LEA ECX,[ESP + 0x8]
+305de51d | ff15dcdbaf30 | CALL dword ptr [0x30afdbdc]
+305de523 | 8d4c240c | LEA ECX,[ESP + 0xc]
+305de527 | ff15dcdbaf30 | CALL dword ptr [0x30afdbdc]
+305de52d | 8d4c2410 | LEA ECX,[ESP + 0x10]
+305de531 | ff15dcdbaf30 | CALL dword ptr [0x30afdbdc]
+305de537 | 8d4c2414 | LEA ECX,[ESP + 0x14]
+305de53b | ff15dcdbaf30 | CALL dword ptr [0x30afdbdc]
+305de541 | 5f | POP EDI
+305de542 | 5e | POP ESI
+305de543 | 83c410 | ADD ESP,0x10
+305de546 | c21000 | RET 0x10

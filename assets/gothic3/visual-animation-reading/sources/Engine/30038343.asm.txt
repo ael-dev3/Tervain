@@ -1,0 +1,2 @@
+; 30038343 eCWrapper_emfx2Actor::GetActorName
+30038343 | e9e8220a00 | JMP 0x300da630

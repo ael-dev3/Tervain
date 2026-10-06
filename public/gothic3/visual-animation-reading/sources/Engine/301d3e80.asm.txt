@@ -1,0 +1,30 @@
+; 301d3e80 FUN_301d3e80
+301d3e80 | 56 | PUSH ESI
+301d3e81 | 8b742408 | MOV ESI,dword ptr [ESP + 0x8]
+301d3e85 | 57 | PUSH EDI
+301d3e86 | 8b7c2410 | MOV EDI,dword ptr [ESP + 0x10]
+301d3e8a | 8bc7 | MOV EAX,EDI
+301d3e8c | c1e005 | SHL EAX,0x5
+301d3e8f | 50 | PUSH EAX
+301d3e90 | 6a00 | PUSH 0x0
+301d3e92 | 56 | PUSH ESI
+301d3e93 | e8f8d74900 | CALL 0x30671690
+301d3e98 | 83c40c | ADD ESP,0xc
+301d3e9b | 85ff | TEST EDI,EDI
+301d3e9d | 7424 | JZ 0x301d3ec3
+301d3e9f | 53 | PUSH EBX
+301d3ea0 | 8b1decdaaf30 | MOV EBX,dword ptr [0x30afdaec]
+301d3ea6 | 83ef01 | SUB EDI,0x1
+301d3ea9 | 85f6 | TEST ESI,ESI
+301d3eab | 740e | JZ 0x301d3ebb
+301d3ead | 8d4e08 | LEA ECX,[ESI + 0x8]
+301d3eb0 | ffd3 | CALL EBX
+301d3eb2 | 8d4e0c | LEA ECX,[ESI + 0xc]
+301d3eb5 | ff15e4daaf30 | CALL dword ptr [0x30afdae4]
+301d3ebb | 83c620 | ADD ESI,0x20
+301d3ebe | 85ff | TEST EDI,EDI
+301d3ec0 | 75e4 | JNZ 0x301d3ea6
+301d3ec2 | 5b | POP EBX
+301d3ec3 | 5f | POP EDI
+301d3ec4 | 5e | POP ESI
+301d3ec5 | c20800 | RET 0x8

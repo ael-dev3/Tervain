@@ -1,0 +1,4 @@
+; 30012733 ?PatchWithTemplate@eCEntity@@QAE_NABVeCTemplateEntity@@_N@Z
+30012733 | e958014a00 | JMP 0x304b2890
+; 30012738 eCGfxPixelProgram::Create
+; 30012738 Ordinal_4508

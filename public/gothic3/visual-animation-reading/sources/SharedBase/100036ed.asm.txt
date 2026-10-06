@@ -1,0 +1,2 @@
+; 100036ed bCBox::operator>>
+100036ed | e91e810200 | JMP 0x1002b810

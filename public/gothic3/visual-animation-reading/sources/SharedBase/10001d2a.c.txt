@@ -1,0 +1,12 @@
+/* ENTRY 10001d2a | bCVector::AccessY | STATUS decompiled | 1 ms */
+
+/* public: float & __thiscall bCVector::AccessY(void) */
+
+float * __thiscall bCVector::AccessY(bCVector *this)
+
+{
+                    /* 0x1d2a  1521  ?AccessY@bCVector@@QAEAAMXZ */
+  return (float *)(this + 4);
+}
+
+

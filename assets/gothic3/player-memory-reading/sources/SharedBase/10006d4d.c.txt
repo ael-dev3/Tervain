@@ -1,0 +1,24 @@
+/* ENTRY 10006d4d | operator<< | STATUS decompiled | 6 ms */
+
+/* class bCOStream & __stdcall operator<<(class bCOStream &,class bCAccessorPropertyObject &) */
+
+bCOStream * operator<<(bCOStream *param_1,bCAccessorPropertyObject *param_2)
+
+{
+  bCPropertyObjectSingleton *this;
+  bCOStream *pbVar1;
+  bCPropertyObjectBase *pbVar2;
+  
+                    /* 0x6d4d  700  ??6@YGAAVbCOStream@@AAV0@AAVbCAccessorPropertyObject@@@Z */
+  bCOStream::operator<<((bCOStream *)param_1,1);
+  bCOStream::operator<<((bCOStream *)param_1,*(int *)(param_2 + 4) != 0);
+  pbVar2 = *(bCPropertyObjectBase **)(param_2 + 4);
+  if (pbVar2 != (bCPropertyObjectBase *)0x0) {
+    pbVar1 = param_1;
+    this = (bCPropertyObjectSingleton *)bCPropertyObjectSingleton::GetInstance();
+    bCPropertyObjectSingleton::WriteObject(this,pbVar1,pbVar2);
+  }
+  return param_1;
+}
+
+

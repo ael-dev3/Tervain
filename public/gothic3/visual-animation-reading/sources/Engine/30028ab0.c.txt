@@ -1,0 +1,32 @@
+/* ENTRY 30028ab0 | eCVisualAnimation_PS::eCLookAtConstraint::ForceRelinkNode | STATUS decompiled | 8 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::eCLookAtConstraint::ForceRelinkNode(void) */
+
+void __thiscall eCVisualAnimation_PS::eCLookAtConstraint::ForceRelinkNode(eCLookAtConstraint *this)
+
+{
+  eCWrapper_emfx2Actor *peVar1;
+  eCLookAtConstraint *peStack_4;
+  
+                    /* 0x28ab0  6052
+                       ?ForceRelinkNode@eCLookAtConstraint@eCVisualAnimation_PS@@QAEXXZ */
+  if (*(int *)this != 0) {
+    peStack_4 = this;
+    peVar1 = eCVisualAnimationFactory::GetAssembledActor
+                       ((eCVisualAnimationFactory *)(*(int *)(this + 4) + 0x94));
+    if (peVar1 != (eCWrapper_emfx2Actor *)0x0) {
+      eCVisualAnimationFactory::GetAssembledActor
+                ((eCVisualAnimationFactory *)(*(int *)(this + 4) + 0x94));
+      peStack_4 = *(eCLookAtConstraint **)this;
+      thunk_FUN_300ac4f0(&peStack_4);
+      if (*(undefined4 **)this != (undefined4 *)0x0) {
+        (**(code **)**(undefined4 **)this)(1);
+      }
+      *(undefined4 *)this = 0;
+    }
+  }
+  *(undefined4 *)(this + 0xc) = 0;
+  return;
+}
+
+

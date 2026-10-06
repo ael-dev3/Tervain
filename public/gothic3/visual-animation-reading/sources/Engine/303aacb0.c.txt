@@ -1,0 +1,13 @@
+/* ENTRY 303aacb0 | eCRenderContext::eCRenderContext | STATUS decompiled | 5 ms */
+
+eCRenderContext * __thiscall eCRenderContext::eCRenderContext(eCRenderContext *this)
+
+{
+  bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)this);
+  (this->eCRenderContext_data).offset_0x8 = 0;
+  (this->eCRenderContext_data).offset_0xc = 0;
+  this->vftablePtr = &vftable;
+  return this;
+}
+
+

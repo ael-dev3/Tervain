@@ -1,0 +1,14 @@
+/* ENTRY 202864e0 | ENGINE.DLL::eCEntityPropertySet::OnIntersect | STATUS decompiled | 1 ms */
+
+void __thiscall
+eCEntityPropertySet::OnIntersect
+          (eCEntityPropertySet *this,eCEntity *param_1,eCContactIterator *param_2)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x202864e0. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  OnIntersect(this,param_1,param_2);
+  return;
+}
+
+

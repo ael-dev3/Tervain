@@ -1,0 +1,2 @@
+; 20028b50 bTPropertyContainer<gEPartyMemberType>::vfunction5
+20028b50 | e91bf42e00 | JMP 0x20317f70

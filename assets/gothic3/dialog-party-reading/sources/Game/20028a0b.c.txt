@@ -1,0 +1,12 @@
+/* ENTRY 20028a0b | gCDialog_PS::GetPickedPocket | STATUS decompiled | 6 ms */
+
+/* public: bool const & __thiscall gCDialog_PS::GetPickedPocket(void)const  */
+
+bool * __thiscall gCDialog_PS::GetPickedPocket(gCDialog_PS *this)
+
+{
+                    /* 0x28a0b  3966  ?GetPickedPocket@gCDialog_PS@@QBEAB_NXZ */
+  return (bool *)&(this->gCDialog_PS_data).field_0x28;
+}
+
+

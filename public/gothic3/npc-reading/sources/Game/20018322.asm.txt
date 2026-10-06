@@ -1,0 +1,2 @@
+; 20018322 bTPropertyType<gCNPC_PS,bTPropertyContainer<gEGender>_>::vfunction6
+20018322 | e9e9ad2e00 | JMP 0x20303110

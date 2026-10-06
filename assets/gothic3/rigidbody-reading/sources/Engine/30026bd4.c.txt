@@ -1,0 +1,14 @@
+/* ENTRY 30026bd4 | eCRigidBodyBase_PS::PostInitializeProperties | STATUS decompiled | 12 ms */
+
+/* public: virtual enum bEResult __thiscall eCRigidBodyBase_PS::PostInitializeProperties(void) */
+
+bEResult __thiscall eCRigidBodyBase_PS::PostInitializeProperties(eCRigidBodyBase_PS *this)
+
+{
+                    /* 0x26bd4  11755
+                       ?PostInitializeProperties@eCRigidBodyBase_PS@@UAE?AW4bEResult@@XZ */
+  *(undefined1 *)&this[1].vftablePtr = 1;
+  return 1;
+}
+
+

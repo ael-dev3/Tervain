@@ -1,0 +1,17 @@
+/* ENTRY 101215e0 | FUN_101215e0 | STATUS decompiled | 7 ms */
+
+void FUN_101215e0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Perception\\AssessHit.cpp");
+  bCString::bCString(local_8,"GetProtection");
+  thunk_FUN_10017a50(local_8,thunk_FUN_1003c980,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

@@ -1,0 +1,49 @@
+/* ENTRY 3002e11d | eCCollisionShape_PS::SetShapeGroup | STATUS decompiled | 57 ms */
+
+/* public: void __thiscall eCCollisionShape_PS::SetShapeGroup(enum eEShapeGroup,enum eEShapeGroup)
+    */
+
+void __thiscall
+eCCollisionShape_PS::SetShapeGroup
+          (eCCollisionShape_PS *this,eEShapeGroup param_1,eEShapeGroup param_2)
+
+{
+  int iVar1;
+  int *piVar2;
+  eCEntity *peVar3;
+  eCPhysicObjectStateBuffer *this_00;
+  int iVar4;
+  bCObjectBase bStack_10;
+  eEShapeGroup eStack_c;
+  
+                    /* 0x2e11d  14171  ?SetShapeGroup@eCCollisionShape_PS@@QAEXW4eEShapeGroup@@0@Z
+                        */
+  iVar1 = (this->eCCollisionShape_PS_data).offset_0x18;
+  if (iVar1 != 0) {
+    iVar4 = 0;
+    if (0 < iVar1) {
+      do {
+        if (param_1 ==
+            *(eEShapeGroup *)
+             (*(int *)((this->eCCollisionShape_PS_data).offset_0x14 + iVar4 * 4) + 0x18)) {
+          bCObjectBase::bCObjectBase(&bStack_10);
+          bStack_10 = (bCObjectBase)&bTPropertyContainer<eEShapeGroup>::vftable;
+          eStack_c = param_2;
+          piVar2 = *(int **)((this->eCCollisionShape_PS_data).offset_0x14 + iVar4 * 4);
+          (**(code **)(*piVar2 + 0x58))("Group",0);
+          (**(code **)(piVar2[5] + 0x1c))(&stack0xffffffe8);
+          (**(code **)(*piVar2 + 0x5c))("Group",0);
+          bStack_10 = (bCObjectBase)&bTPropertyContainer<eEShapeGroup>::vftable;
+          bCObjectBase::~bCObjectBase(&bStack_10);
+        }
+        iVar4 = iVar4 + 1;
+      } while (iVar4 < iVar1);
+    }
+    peVar3 = (*this->vftablePtr->GetEntity)(this);
+    this_00 = eCPhysicObjectStateBuffer::GetBuffer(peVar3);
+    eCPhysicObjectStateBuffer::SetShapeGroup(this_00,param_1,param_2);
+  }
+  return;
+}
+
+

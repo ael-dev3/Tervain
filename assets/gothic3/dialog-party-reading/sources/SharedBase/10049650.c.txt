@@ -1,0 +1,47 @@
+/* ENTRY 10049650 | FUN_10049650 | STATUS decompiled | 14 ms */
+
+uint __thiscall FUN_10049650(int *param_1,int param_2,int param_3,int param_4)
+
+{
+  uint uVar1;
+  int iVar2;
+  int *piVar3;
+  int iVar4;
+  
+  param_1 = (int *)*param_1;
+  if ((param_1 != (int *)0x0) && (uVar1 = param_1[1], 0 < (int)uVar1)) {
+    piVar3 = (int *)(*param_1 + uVar1 * 0xc);
+    do {
+      piVar3 = piVar3 + -3;
+      uVar1 = uVar1 - 1;
+      if (*piVar3 == param_2) {
+        if (uVar1 != 0xffffffff) goto LAB_100496f4;
+        break;
+      }
+    } while (uVar1 != 0);
+  }
+  iVar4 = param_1[1];
+  iVar2 = 0;
+  if (0 < iVar4) {
+    piVar3 = (int *)(*param_1 + 8);
+    do {
+      if (*piVar3 == 0) {
+        uVar1 = MessageBoxA((HWND)0x0,&DAT_100e7d70,"bCMessageAdmin::RegisterCallback",0x30);
+LAB_100496f4:
+        return uVar1 & 0xffffff00;
+      }
+      iVar2 = iVar2 + 1;
+      piVar3 = piVar3 + 3;
+    } while (iVar2 < iVar4);
+  }
+  iVar4 = iVar4 + 1;
+  thunk_FUN_10049d80(iVar4,(iVar4 != 0) - 1);
+  param_1[1] = iVar4;
+  piVar3 = (int *)(*param_1 + -0xc + iVar4 * 0xc);
+  *piVar3 = param_2;
+  piVar3[1] = param_4;
+  piVar3[2] = param_3;
+  return CONCAT31((int3)((uint)piVar3 >> 8),1);
+}
+
+

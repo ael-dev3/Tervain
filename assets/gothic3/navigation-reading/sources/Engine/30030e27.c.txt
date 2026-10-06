@@ -1,0 +1,16 @@
+/* ENTRY 30030e27 | eCEntityProxy::Invalidate | STATUS decompiled | 4 ms */
+
+/* protected: void __thiscall eCEntityProxy::Invalidate(void) */
+
+void __thiscall eCEntityProxy::Invalidate(eCEntityProxy *this)
+
+{
+                    /* 0x30e27  9972  ?Invalidate@eCEntityProxy@@IAEXXZ */
+  (this->eCEntityProxy_data).offset_0x0 = (eCEntityProxyInternal *)0x0;
+                    /* WARNING: Could not recover jumptable at 0x304c42ea. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCPropertyID::Destroy((bCPropertyID *)&(this->eCEntityProxy_data).field_0x4);
+  return;
+}
+
+

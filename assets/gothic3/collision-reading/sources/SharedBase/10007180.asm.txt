@@ -1,0 +1,4 @@
+; 10007180 ?GetWidened@bCBox@@QBE?AV1@ABVbCVector@@@Z
+10007180 | e9cbf30200 | JMP 0x10036550
+; 10007185 bCByteColor::bCByteColor
+; 10007185 Ordinal_57

@@ -1,0 +1,2 @@
+; 30038181 bTPOPureSmartPtr<eCCollisionShape_PS>::vfunction12
+30038181 | e9ea393000 | JMP 0x3033bb70

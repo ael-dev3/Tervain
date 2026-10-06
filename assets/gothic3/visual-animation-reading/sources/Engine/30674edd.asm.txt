@@ -1,0 +1,10 @@
+; 30674edd std::bad_cast::bad_cast
+30674edd | 56 | PUSH ESI
+30674ede | 8d442408 | LEA EAX,[ESP + 0x8]
+30674ee2 | 50 | PUSH EAX
+30674ee3 | 8bf1 | MOV ESI,ECX
+30674ee5 | e8bcfeffff | CALL 0x30674da6
+30674eea | c7064c2c8930 | MOV dword ptr [ESI],0x30892c4c
+30674ef0 | 8bc6 | MOV EAX,ESI
+30674ef2 | 5e | POP ESI
+30674ef3 | c20400 | RET 0x4

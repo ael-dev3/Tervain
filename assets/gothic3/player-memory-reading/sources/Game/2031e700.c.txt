@@ -1,0 +1,105 @@
+/* ENTRY 2031e700 | FUN_2031e700 | STATUS decompiled | 60 ms */
+
+undefined4 __thiscall FUN_2031e700(gCPlayerMemory_PS *param_1,bCIStream *param_2)
+
+{
+  undefined4 *puVar1;
+  bool bVar2;
+  ulong uVar3;
+  bCObjectRefBase *pbVar4;
+  int *piVar5;
+  bCString *pbVar6;
+  int iVar7;
+  uint uVar8;
+  undefined4 uVar9;
+  TypeDescriptor *pTVar10;
+  TypeDescriptor *pTVar11;
+  undefined4 uVar12;
+  undefined4 local_14;
+  long local_10;
+  int local_c;
+  bCAccessorPropertyObject local_8 [8];
+  
+  gCPlayerMemory_PS::DestroyAttributes(param_1);
+  local_10 = 0;
+  operator<<(&local_10,param_2);
+  local_c = 0;
+  if (0 < local_10) {
+    do {
+      bCString::bCString((bCString *)&local_14);
+      operator<<((bCString *)&local_14,param_2);
+      uVar8 = param_1[1].gCPlayerMemory_PS_data.offset_0x3c;
+      uVar3 = g_GetHashValue<bCString>((bCString *)&local_14);
+      uVar8 = uVar3 % uVar8;
+      if (uVar8 < (uint)param_1[1].gCPlayerMemory_PS_data.offset_0x3c) {
+        for (pbVar6 = *(bCString **)(param_1[1].gCPlayerMemory_PS_data.offset_0x38 + uVar8 * 4);
+            pbVar6 != (bCString *)0x0; pbVar6 = *(bCString **)(pbVar6 + 8)) {
+          bVar2 = bCString::operator==((bCString *)&local_14,pbVar6);
+          if (bVar2) {
+            if (pbVar6 != (bCString *)0x0) {
+              GE_MESSAGEF_WARN("gCPlayerMemory_PS::ReadAttributes -> Detected multiple entries for attrib: %s."
+                               ,local_14);
+            }
+            break;
+          }
+        }
+      }
+      bCAccessorPropertyObject::bCAccessorPropertyObject(local_8);
+      operator>>(param_2,local_8);
+      uVar12 = 0;
+      pTVar11 = &gCAttribute::RTTI_Type_Descriptor;
+      pTVar10 = &bCObjectRefBase::RTTI_Type_Descriptor;
+      uVar9 = 0;
+      pbVar4 = bCAccessorPropertyObject::GetNativeObject(local_8);
+      piVar5 = (int *)___RTDynamicCast(pbVar4,uVar9,pTVar10,pTVar11,uVar12);
+      if (piVar5 == (int *)0x0) {
+        GE_MESSAGEF_WARN("gCPlayerMemory_PS::ReadAttributes -> Detected invalid attrib: %s.",
+                         local_14);
+      }
+      uVar8 = param_1[1].gCPlayerMemory_PS_data.offset_0x3c;
+      uVar3 = g_GetHashValue<bCString>((bCString *)&local_14);
+      uVar8 = uVar3 % uVar8;
+      if (uVar8 < (uint)param_1[1].gCPlayerMemory_PS_data.offset_0x3c) {
+        for (pbVar6 = *(bCString **)(param_1[1].gCPlayerMemory_PS_data.offset_0x38 + uVar8 * 4);
+            pbVar6 != (bCString *)0x0; pbVar6 = *(bCString **)(pbVar6 + 8)) {
+          bVar2 = bCString::operator==((bCString *)&local_14,pbVar6);
+          if (bVar2) {
+            if (pbVar6 != (bCString *)0x0) goto LAB_2031e8a4;
+            break;
+          }
+        }
+      }
+      pbVar6 = (bCString *)new(0xc,0x199);
+      if (pbVar6 == (bCString *)0x0) {
+        pbVar6 = (bCString *)0x0;
+      }
+      else {
+        bCString::bCString(pbVar6);
+      }
+      bCString::operator=(pbVar6,(bCString *)&local_14);
+      *(undefined4 *)(pbVar6 + 8) =
+           *(undefined4 *)(param_1[1].gCPlayerMemory_PS_data.offset_0x38 + uVar8 * 4);
+      *(bCString **)(param_1[1].gCPlayerMemory_PS_data.offset_0x38 + uVar8 * 4) = pbVar6;
+      puVar1 = &param_1[1].gCPlayerMemory_PS_data.offset_0x44;
+      *puVar1 = *puVar1 + 1;
+LAB_2031e8a4:
+      *(int **)(pbVar6 + 4) = piVar5;
+      if (piVar5 != (int *)0x0) {
+        (**(code **)(*piVar5 + 0x20))();
+      }
+      GE_MESSAGEF_INFO(5,"gCPlayerMemory_PS::ReadAttributes -> Read attribute: %s [%s].",local_14,
+                       piVar5[3]);
+      bCAccessorPropertyObject::~bCAccessorPropertyObject(local_8);
+      bCString::~bCString((bCString *)&local_14);
+      local_c = local_c + 1;
+    } while (local_c < local_10);
+  }
+  iVar7 = gCPlayerMemory_PS::CreateAttributes(param_1);
+  if (0 < iVar7) {
+    GE_MESSAGEF_WARN("gCPlayerMemory_PS::ReadAttributes -> Created %d missing/broken attributes.",
+                     iVar7);
+  }
+  return 1;
+}
+
+

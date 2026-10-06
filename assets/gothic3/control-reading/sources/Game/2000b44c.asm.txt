@@ -1,0 +1,4 @@
+; 2000b44c bTPropertyType<gCCharacterControl_PS,bool>::vfunction26
+2000b44c | e94f262100 | JMP 0x2021daa0
+; 2000b451 gCBoidsAdmin::Initialize
+; 2000b451 Ordinal_4885

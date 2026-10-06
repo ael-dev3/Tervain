@@ -1,0 +1,19 @@
+/* ENTRY 100633e0 | FUN_100633e0 | STATUS decompiled | 6 ms */
+
+bool __thiscall FUN_100633e0(bCVector *param_1,bCVector *param_2)
+
+{
+  bool bVar1;
+  
+  bVar1 = bCVector::operator!=(param_1,param_2);
+  if (!bVar1) {
+    bVar1 = bCVector::operator!=(param_1 + 0xc,param_2 + 0xc);
+    if (!bVar1) {
+      bVar1 = bCMatrix3::IsEqual((bCMatrix3 *)(param_1 + 0x18),(bCMatrix3 *)(param_2 + 0x18));
+      return bVar1;
+    }
+  }
+  return false;
+}
+
+

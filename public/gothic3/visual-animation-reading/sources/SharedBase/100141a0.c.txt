@@ -1,0 +1,38 @@
+/* ENTRY 100141a0 | FUN_100141a0 | STATUS decompiled | 7 ms */
+
+bCString * __thiscall FUN_100141a0(undefined4 *param_1,bCString *param_2,size_t param_3)
+
+{
+  void *_Src;
+  int iVar1;
+  
+  if ((int)param_3 < 0) {
+    bCString::bCString(param_2,(char *)*param_1);
+    return param_2;
+  }
+  _Src = (void *)*param_1;
+  if (_Src == (void *)0x0) {
+    iVar1 = 0;
+  }
+  else {
+    iVar1 = *(int *)((int)_Src + -8);
+  }
+  if ((int)param_3 < iVar1) {
+    if ((0 < (int)param_3) && (param_3 != 0)) {
+      bCString::Alloc(param_2,param_3);
+      _memcpy(*(void **)param_2,_Src,param_3);
+      return param_2;
+    }
+    *(undefined4 *)param_2 = 0;
+  }
+  else {
+    *(void **)param_2 = _Src;
+    if (_Src != (void *)0x0) {
+      *(short *)((int)_Src + -4) = *(short *)((int)_Src + -4) + 1;
+      return param_2;
+    }
+  }
+  return param_2;
+}
+
+

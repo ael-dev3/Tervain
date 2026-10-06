@@ -1,0 +1,16 @@
+; 3035d1e0 bTPropertyType<eCCollisionShape,bCObsoleteClass>::vfunction8
+3035d1e0 | 56 | PUSH ESI
+3035d1e1 | 8bf1 | MOV ESI,ECX
+3035d1e3 | 8b06 | MOV EAX,dword ptr [ESI]
+3035d1e5 | 8b5018 | MOV EDX,dword ptr [EAX + 0x18]
+3035d1e8 | ffd2 | CALL EDX
+3035d1ea | 84c0 | TEST AL,AL
+3035d1ec | 7505 | JNZ 0x3035d1f3
+3035d1ee | 83c8ff | OR EAX,0xffffffff
+3035d1f1 | 5e | POP ESI
+3035d1f2 | c3 | RET
+; 3035d1f3 LAB_3035d1f3
+3035d1f3 | 8b4620 | MOV EAX,dword ptr [ESI + 0x20]
+3035d1f6 | 8b4004 | MOV EAX,dword ptr [EAX + 0x4]
+3035d1f9 | 5e | POP ESI
+3035d1fa | c3 | RET

@@ -1,0 +1,4 @@
+; 100010e6 ??4PropertyAttitudeToPlayer2@PSNpc@@QAEAAV01@ABV01@@Z
+100010e6 | e9b5a10000 | JMP 0x1000b2a0
+; 100010eb Entity::Entity
+; 100010eb Ordinal_7

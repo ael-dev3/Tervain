@@ -1,0 +1,15 @@
+; 2020ca00 bTPropertyObject<gCDialog_PS,eCEntityPropertySet>::scalar_deleting_destructor
+2020ca00 | 56 | PUSH ESI
+2020ca01 | 8bf1 | MOV ESI,ECX
+2020ca03 | c706545f6820 | MOV dword ptr [ESI],0x20685f54
+2020ca09 | e8b1f4dfff | CALL 0x2000bebf
+2020ca0e | 8bce | MOV ECX,ESI
+2020ca10 | e81e2ae1ff | CALL 0x2001f433
+2020ca15 | f644240801 | TEST byte ptr [ESP + 0x8],0x1
+2020ca1a | 7409 | JZ 0x2020ca25
+2020ca1c | 56 | PUSH ESI
+2020ca1d | e8136f2500 | CALL 0x20463935
+2020ca22 | 83c404 | ADD ESP,0x4
+2020ca25 | 8bc6 | MOV EAX,ESI
+2020ca27 | 5e | POP ESI
+2020ca28 | c20400 | RET 0x4

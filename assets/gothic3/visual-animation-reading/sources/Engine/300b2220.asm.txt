@@ -1,0 +1,16 @@
+; 300b2220 bTPropertyObject<eCSpringAndDamperEffector,eCEffector>::~bTPropertyObject<eCSpringAndDamperEffector,eCEffector>
+300b2220 | 56 | PUSH ESI
+300b2221 | 8bf1 | MOV ESI,ECX
+300b2223 | ff1520caaf30 | CALL dword ptr [0x30afca20]
+300b2229 | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+300b2230 | c7062cfa8130 | MOV dword ptr [ESI],0x3081fa2c
+300b2236 | e8e561f7ff | CALL 0x30028420
+300b223b | 834e0404 | OR dword ptr [ESI + 0x4],0x4
+300b223f | 6a00 | PUSH 0x0
+300b2241 | 8bce | MOV ECX,ESI
+300b2243 | 89460c | MOV dword ptr [ESI + 0xc],EAX
+300b2246 | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+300b224d | e8febaf5ff | CALL 0x3000dd50
+300b2252 | 8bc6 | MOV EAX,ESI
+300b2254 | 5e | POP ESI
+300b2255 | c3 | RET

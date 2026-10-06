@@ -1,0 +1,96 @@
+/* ENTRY 30045ebc | eCVisualAnimationFactory::CopyFrom | STATUS decompiled | 52 ms */
+
+/* public: enum bEResult __thiscall eCVisualAnimationFactory::CopyFrom(class
+   eCVisualAnimationFactory const &) */
+
+bEResult __thiscall
+eCVisualAnimationFactory::CopyFrom(eCVisualAnimationFactory *this,eCVisualAnimationFactory *param_1)
+
+{
+  eCVisualAnimationLoD *peVar1;
+  int *piVar2;
+  int iVar3;
+  eCVisualAnimationFactory *peVar4;
+  int iVar5;
+  bCString *pbVar6;
+  int iVar7;
+  int iVar8;
+  int iStack_8;
+  int iStack_4;
+  
+                    /* 0x45ebc  4289  ?CopyFrom@eCVisualAnimationFactory@@QAE?AW4bEResult@@ABV1@@Z
+                        */
+  Destroy(this);
+  peVar1 = (eCVisualAnimationLoD *)new(0x2c);
+  if (peVar1 == (eCVisualAnimationLoD *)0x0) {
+    piVar2 = (int *)0x0;
+  }
+  else {
+    piVar2 = (int *)eCVisualAnimationLoD::eCVisualAnimationLoD(peVar1,this);
+  }
+  *(int **)(this + 8) = piVar2;
+  (**(code **)(*piVar2 + 0x1c))(*(undefined4 *)(iStack_4 + 8));
+  if (*(int **)(this + 0xc) != (int *)0x0) {
+    (**(code **)(**(int **)(this + 0xc) + 0x24))();
+    *(undefined4 *)(this + 0xc) = 0;
+  }
+  if (*(int *)(iStack_4 + 0xc) != 0) {
+    peVar1 = (eCVisualAnimationLoD *)new(0x2c,0x14c);
+    if (peVar1 == (eCVisualAnimationLoD *)0x0) {
+      piVar2 = (int *)0x0;
+    }
+    else {
+      piVar2 = (int *)eCVisualAnimationLoD::eCVisualAnimationLoD(peVar1,this);
+    }
+    *(int **)(this + 0xc) = piVar2;
+    (**(code **)(*piVar2 + 0x1c))(*(undefined4 *)(iStack_4 + 0xc));
+  }
+  iVar7 = 0;
+  if (0 < *(int *)(iStack_4 + 0x14)) {
+    peVar4 = this + 0x10;
+    iVar8 = 0;
+    do {
+      iVar5 = *(int *)(this + 0x14) + 1;
+      thunk_FUN_300be190(iVar5,(iVar5 != 0) - 1);
+      if (iVar5 < *(int *)(this + 0x14)) {
+        pbVar6 = (bCString *)(*(int *)peVar4 + iVar5 * 0x10);
+        for (iVar3 = *(int *)(this + 0x14) - iVar5; iVar3 != 0; iVar3 = iVar3 + -1) {
+          bCString::~bCString(pbVar6);
+          pbVar6 = pbVar6 + 0x10;
+        }
+        thunk_FUN_300bdf60(*(int *)peVar4 + iVar5 * 0x10,*(int *)(this + 0x14) - iVar5);
+        iStack_4 = iStack_8;
+      }
+      *(int *)(this + 0x14) = iVar5;
+      pbVar6 = (bCString *)(iVar5 * 0x10 + -0x10 + *(int *)peVar4);
+      bCString::operator=(pbVar6,(bCString *)(*(int *)(iStack_4 + 0x10) + iVar8));
+      peVar1 = (eCVisualAnimationLoD *)new(0x2c,0x157);
+      if (peVar1 == (eCVisualAnimationLoD *)0x0) {
+        piVar2 = (int *)0x0;
+      }
+      else {
+        piVar2 = (int *)eCVisualAnimationLoD::eCVisualAnimationLoD
+                                  (peVar1,(eCVisualAnimationFactory *)0x146);
+      }
+      *(int **)(pbVar6 + 4) = piVar2;
+      (**(code **)(*piVar2 + 0x1c))(*(undefined4 *)(*(int *)(iStack_4 + 0x10) + 4 + iVar8));
+      if (*(int *)(*(int *)(iStack_4 + 0x10) + 8 + iVar8) != 0) {
+        peVar1 = (eCVisualAnimationLoD *)new(0x2c,0x15b);
+        if (peVar1 == (eCVisualAnimationLoD *)0x0) {
+          piVar2 = (int *)0x0;
+        }
+        else {
+          piVar2 = (int *)eCVisualAnimationLoD::eCVisualAnimationLoD
+                                    (peVar1,(eCVisualAnimationFactory *)0x146);
+        }
+        *(int **)(pbVar6 + 8) = piVar2;
+        (**(code **)(*piVar2 + 0x1c))(*(undefined4 *)(*(int *)(iStack_4 + 0x10) + 8 + iVar8));
+      }
+      iVar7 = iVar7 + 1;
+      iVar8 = iVar8 + 0x10;
+    } while (iVar7 < *(int *)(iStack_4 + 0x14));
+  }
+  return 1;
+}
+
+

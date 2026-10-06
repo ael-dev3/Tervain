@@ -1,0 +1,4 @@
+; 10004ef3 ?InvTranslate@bCBox@@QAEXM@Z
+10004ef3 | e9385f0200 | JMP 0x1002ae30
+; 10004ef8 bCGuid::operator=
+; 10004ef8 Ordinal_486

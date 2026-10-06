@@ -1,0 +1,4 @@
+; 1000694c ?Generate@bCGuid@@QAEXXZ
+1000694c | e91fbc0000 | JMP 0x10012570
+; 10006951 bCBox::GetCoordinate
+; 10006951 Ordinal_2198

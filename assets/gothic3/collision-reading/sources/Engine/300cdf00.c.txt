@@ -1,0 +1,86 @@
+/* ENTRY 300cdf00 | bTPropertyContainer<eECollisionShapeType>::bTPropertyContainer<eECollisionShapeType>_Constructor_or_Destructor | STATUS decompiled | 24 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<eECollisionShapeType>::
+bTPropertyContainer<eECollisionShapeType>_Constructor_or_Destructor
+          (bTPropertyContainer<eECollisionShapeType> *this,undefined4 param_1,undefined4 param_2,
+          char param_3)
+
+{
+  bCString *pbVar1;
+  undefined **ppuVar2;
+  eCArchiveManager *this_00;
+  bCString *unaff_EDI;
+  bCString *pbVar3;
+  bCString *pbVar4;
+  bCString *pbVar5;
+  undefined4 uStack_28;
+  char *pcStack_24;
+  undefined4 uStack_20;
+  bCObjectBase bStack_18;
+  bCString abStack_c [4];
+  bCObjectBase local_8;
+  undefined4 local_4;
+  
+  if (param_3 == '\0') {
+    bStack_18 = (bCObjectBase)0x300cdf18;
+    bCObjectBase::bCObjectBase(&local_8);
+    bStack_18 = (bCObjectBase)0x0;
+    local_8 = (bCObjectBase)&vftable;
+    local_4 = 1;
+    uStack_20 = 0x300cdf39;
+    (*this->vftablePtr[1].vfunction8)(this,0x308212b4);
+    uStack_20 = 0x300cdf49;
+    (**(code **)((this->bTPropertyContainer<eECollisionShapeType>_data).offset_0x8 + 0x1c))();
+    uStack_20 = 0;
+    pcStack_24 = "ShapeType";
+    uStack_28 = 0x300cdf59;
+    (*this->vftablePtr[1].AddReference)(this);
+  }
+  else {
+    bStack_18 = (bCObjectBase)0x300cdf61;
+    bCObjectBase::bCObjectBase(&local_8);
+    bStack_18 = (bCObjectBase)0x0;
+    local_8 = (bCObjectBase)&vftable;
+    local_4 = 6;
+    uStack_20 = 0x300cdf82;
+    (*this->vftablePtr[1].vfunction8)(this,0x308212b4);
+    uStack_20 = 0x300cdf92;
+    (**(code **)((this->bTPropertyContainer<eECollisionShapeType>_data).offset_0x8 + 0x1c))();
+    uStack_20 = 0;
+    pcStack_24 = "ShapeType";
+    uStack_28 = 0x300cdfa2;
+    (*this->vftablePtr[1].AddReference)(this);
+  }
+  bStack_18 = (bCObjectBase)&vftable;
+  uStack_28 = 0x300cdfb0;
+  bCObjectBase::~bCObjectBase(&bStack_18);
+  uStack_28 = 0x36f;
+  pbVar1 = (bCString *)new(4);
+  if (pbVar1 == (bCString *)0x0) {
+    ppuVar2 = (undefined **)0x0;
+  }
+  else {
+    ppuVar2 = (undefined **)bCString::bCString(pbVar1);
+  }
+  this[7].bTPropertyContainer<eECollisionShapeType>_data.offset_0x0 = ppuVar2;
+  bCString::bCString((bCString *)&pcStack_24);
+  bCString::bCString(abStack_c);
+  pbVar1 = abStack_c;
+  pbVar5 = (bCString *)&pcStack_24;
+  pbVar4 = (bCString *)0x0;
+  pbVar3 = unaff_EDI;
+  this_00 = eCArchiveManager::GetInstance();
+  eCArchiveManager::SplitPath((eCArchiveManager *)this_00,pbVar3,pbVar4,pbVar5,pbVar1);
+  pbVar1 = (bCString *)bCString::operator+((bCString *)&pcStack_24,(bCString *)&stack0xffffffec);
+  bCString::operator=((bCString *)this[7].bTPropertyContainer<eECollisionShapeType>_data.offset_0x0,
+                      pbVar1);
+  bCString::~bCString((bCString *)&bStack_18);
+  *(short *)((int)&this[4].bTPropertyContainer<eECollisionShapeType>_data.offset_0x0 + 2) =
+       (short)unaff_EDI;
+  bCString::~bCString((bCString *)&stack0xfffffff0);
+  bCString::~bCString((bCString *)&uStack_28);
+  return 1;
+}
+
+

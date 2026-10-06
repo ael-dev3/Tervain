@@ -1,0 +1,11 @@
+/* ENTRY 3035c1c0 | bTPropertyObject<eCCollisionShape,bCObjectRefBase>::vfunction5 | STATUS decompiled | 2 ms */
+
+undefined4 __thiscall
+bTPropertyObject<eCCollisionShape,bCObjectRefBase>::vfunction5
+          (bTPropertyObject<eCCollisionShape,bCObjectRefBase> *this)
+
+{
+  return (this->bTPropertyObject<eCCollisionShape,bCObjectRefBase>_data).offset_0x0;
+}
+
+

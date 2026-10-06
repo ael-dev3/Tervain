@@ -1,0 +1,32 @@
+/* ENTRY 20500140 | bTPropertyType<gCCharacterMovement_PS,float>::~bTPropertyType<gCCharacterMovement_PS,float> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCCharacterMovement_PS,float>::~bTPropertyType<gCCharacterMovement_PS,float>
+          (bTPropertyType<gCCharacterMovement_PS,float> *this)
+
+{
+  bTPropertyType<gCCharacterMovement_PS,float> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"MoveAcceleration");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCCharacterMovement_PS::ms_PropertyMember_m_fMoveAcceleration,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_fMoveAcceleration = &vftable;
+  DAT_207bdc5c = bTPropertyObjectType<gCCharacterMovement_PS,gCMovementBase_PS>::
+                 ~bTPropertyObjectType<gCCharacterMovement_PS,gCMovementBase_PS>();
+  _DAT_207bdc60 = 0x34;
+  _DAT_207bdc64 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCCharacterMovement_PS::ms_PropertyMember_m_fMoveAcceleration);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bdc5c,
+             (bCPropertyTypeBase *)&gCCharacterMovement_PS::ms_PropertyMember_m_fMoveAcceleration);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}
+
+

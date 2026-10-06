@@ -1,0 +1,64 @@
+/* ENTRY 20467ba7 | _malloc | STATUS decompiled | 10 ms */
+
+/* Library Function - Single Match
+    _malloc
+   
+   Library: Visual Studio 2005 Release */
+
+void * __cdecl _malloc(size_t _Size)
+
+{
+  LPVOID pvVar1;
+  int iVar2;
+  undefined4 *puVar3;
+  size_t sVar4;
+  uint dwBytes;
+  
+  if (0xffffffe0 < _Size) {
+    __callnewh(_Size);
+    puVar3 = (undefined4 *)FUN_2046a282();
+    *puVar3 = 0xc;
+    return (void *)0x0;
+  }
+  do {
+    if (DAT_207d11b4 == (HANDLE)0x0) {
+      __FF_MSGBANNER();
+      FUN_20469830(0x1e);
+      ___crtExitProcess(0xff);
+    }
+    if (DAT_207d1658 == 1) {
+      dwBytes = _Size;
+      if (_Size == 0) {
+        dwBytes = 1;
+      }
+LAB_20467c18:
+      pvVar1 = HeapAlloc(DAT_207d11b4,0,dwBytes);
+    }
+    else if ((DAT_207d1658 != 3) || (pvVar1 = (LPVOID)_V6_HeapAlloc(_Size), pvVar1 == (LPVOID)0x0))
+    {
+      sVar4 = _Size;
+      if (_Size == 0) {
+        sVar4 = 1;
+      }
+      dwBytes = sVar4 + 0xf & 0xfffffff0;
+      goto LAB_20467c18;
+    }
+    if (pvVar1 != (LPVOID)0x0) {
+      return pvVar1;
+    }
+    if (DAT_207d14e0 == 0) {
+      puVar3 = (undefined4 *)FUN_2046a282();
+      *puVar3 = 0xc;
+      goto LAB_20467c46;
+    }
+    iVar2 = __callnewh(_Size);
+    if (iVar2 == 0) {
+LAB_20467c46:
+      puVar3 = (undefined4 *)FUN_2046a282();
+      *puVar3 = 0xc;
+      return (void *)0x0;
+    }
+  } while( true );
+}
+
+

@@ -1,0 +1,2 @@
+; 30030fb2 ?PatchWithTemplate@eCEntity@@QAE_NABVbCPropertyID@@_N@Z
+30030fb2 | e9394e4800 | JMP 0x304b5df0

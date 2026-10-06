@@ -1,0 +1,4 @@
+; 30025365 ?AccessGroup@eCCollisionShape@@QAEAAV?$bTPropertyContainer@W4eEShapeGroup@@@@XZ
+30025365 | e936d10900 | JMP 0x300c24a0
+; 3002536a eCAudioSound::SetDefaults
+; 3002536a Ordinal_13197

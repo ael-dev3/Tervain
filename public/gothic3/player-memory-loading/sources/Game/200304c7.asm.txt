@@ -1,0 +1,2 @@
+; 200304c7 gCPlayerMemory_PS::Write
+200304c7 | e9a4da2e00 | JMP 0x2031df70

@@ -1,0 +1,2 @@
+; 200152f8 ?ApplyPerm@gCStat@@UAE_NW4EAttribModOperation@@H@Z
+200152f8 | e9235c3800 | JMP 0x2039af20

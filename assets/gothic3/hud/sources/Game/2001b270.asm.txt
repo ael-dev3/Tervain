@@ -1,0 +1,4 @@
+; 2001b270 gCHUDPageLoot2::vfunction71
+2001b270 | e99b1b1500 | JMP 0x2016ce10
+; 2001b289 gCDatabase::GetTemplateLayers
+; 2001b289 Ordinal_4568

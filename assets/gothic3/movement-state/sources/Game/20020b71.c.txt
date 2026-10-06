@@ -1,0 +1,92 @@
+/* ENTRY 20020b71 | thunk_FUN_202113a0 | STATUS decompiled | 56 ms */
+
+void __thiscall thunk_FUN_202113a0(undefined4 param_1,eCVisualAnimation_PS *param_2,char param_3)
+
+{
+  code *pcVar1;
+  bool bVar2;
+  eCWrapper_emfx2Actor *this;
+  int *piVar3;
+  int iVar4;
+  bCObjectBase bStack_8;
+  undefined4 uStack_4;
+  
+  if (((param_2 != (eCVisualAnimation_PS *)0x0) &&
+      (bVar2 = eCVisualAnimation_PS::HasActor(param_2), bVar2)) &&
+     (this = eCVisualAnimation_PS::GetActor(param_2), this != (eCWrapper_emfx2Actor *)0x0)) {
+    if (param_3 == '\x01') {
+      eCWrapper_emfx2Actor::StopMotion(this,0,0.0);
+      eCWrapper_emfx2Actor::StopMotion(this,1,0.0);
+      eCWrapper_emfx2Actor::StopMotion(this,2,0.0);
+      eCWrapper_emfx2Actor::StopMotion(this,3,0.0);
+      eCWrapper_emfx2Actor::SetTargetWeight(this,0,0.0);
+      eCWrapper_emfx2Actor::SetTargetWeight(this,1,0.0);
+      eCWrapper_emfx2Actor::SetTargetWeight(this,2,0.0);
+      eCWrapper_emfx2Actor::SetTargetWeight(this,3,0.0);
+      eCVisualAnimation_PS::SetMotionOwner(param_2,0,2);
+      eCVisualAnimation_PS::SetMotionOwner(param_2,1,2);
+      eCVisualAnimation_PS::SetMotionOwner(param_2,2,2);
+      eCVisualAnimation_PS::SetMotionOwner(param_2,3,2);
+    }
+    bVar2 = eCVisualAnimation_PS::HasActor(param_2);
+    if (bVar2) {
+      bVar2 = eCVisualAnimation_PS::GetRagDollEnabled(param_2);
+    }
+    else {
+      bVar2 = false;
+    }
+    if ((bool)param_3 != bVar2) {
+      param_2[0x20] = (eCVisualAnimation_PS)0x0;
+      param_2[0x1e] = (eCVisualAnimation_PS)0x0;
+      param_2[0x1d] = (eCVisualAnimation_PS)0x0;
+      bCObjectBase::bCObjectBase(&bStack_8);
+      bStack_8 = (bCObjectBase)&bTPropertyContainer<eEShapeGroup>::vftable;
+      uStack_4 = 0xf;
+      (**(code **)(*(int *)(param_2 + 0x5c) + 0x1c))(&bStack_8);
+      bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xfffffff4);
+      param_2[0x1f] = (eCVisualAnimation_PS)0x1;
+      bCObjectBase::bCObjectBase((bCObjectBase *)&stack0xfffffff4);
+      bStack_8 = (bCObjectBase)0x12;
+      (**(code **)(*(int *)(param_2 + 0x6c) + 0x1c))(&stack0xfffffff4);
+      bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xfffffff0);
+      bCObjectBase::bCObjectBase((bCObjectBase *)&stack0xfffffff0);
+      (**(code **)(*(int *)(param_2 + 100) + 0x1c))(&stack0xfffffff0);
+      bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xffffffec);
+      pcVar1 = *(code **)(*(int *)param_2 + 0x68);
+      *(undefined4 *)(param_2 + 0x30) = 0x3f800000;
+      *(undefined4 *)(param_2 + 0x2c) = 0x3f800000;
+      *(undefined4 *)(param_2 + 0x58) = 0x3e19999a;
+      *(undefined4 *)(param_2 + 0x48) = 0x3f800000;
+      *(undefined4 *)(param_2 + 0x3c) = 0x3f800000;
+      *(undefined4 *)(param_2 + 0x44) = 0x3f000000;
+      param_2[0x40] = (eCVisualAnimation_PS)0x1;
+      *(undefined4 *)(param_2 + 0x38) = 0x3f000000;
+      param_2[0x34] = (eCVisualAnimation_PS)0x1;
+      *(undefined4 *)(param_2 + 0x50) = 0;
+      *(undefined4 *)(param_2 + 0x54) = 0;
+      param_2[0x4c] = (eCVisualAnimation_PS)0x0;
+      piVar3 = (int *)(*pcVar1)();
+      iVar4 = (**(code **)(*piVar3 + 0xec))(0x1e);
+      iVar4 = *(int *)(iVar4 + 0x34);
+      if (((iVar4 == 1) || (iVar4 == 3)) || ((iVar4 == 0x30 || (iVar4 == 0x31)))) {
+        bCObjectBase::bCObjectBase((bCObjectBase *)&stack0xffffffe8);
+        (**(code **)(*(int *)(param_2 + 100) + 0x1c))(&stack0xffffffe8);
+        bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xffffffe8);
+        param_2[0x21] = (eCVisualAnimation_PS)0x1;
+        *(undefined4 *)(param_2 + 0x24) = 0x41700000;
+        *(undefined4 *)(param_2 + 0x28) = 0x41700000;
+      }
+      bVar2 = bStack_8._0_1_;
+      if (bVar2 == false) {
+        bStack_8 = (bCObjectBase)0x3f19999a;
+      }
+      else {
+        bStack_8 = (bCObjectBase)0x0;
+      }
+      eCVisualAnimation_PS::SetRagDollEnabled(param_2,bVar2,(float)bStack_8,true);
+    }
+  }
+  return;
+}
+
+

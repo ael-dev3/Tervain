@@ -1,0 +1,2 @@
+; 20018714 bTPOPureSmartPtr<gCAttribute>::vfunction11
+20018714 | e9d7f93700 | JMP 0x203980f0

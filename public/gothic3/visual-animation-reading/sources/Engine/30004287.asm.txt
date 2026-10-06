@@ -1,0 +1,2 @@
+; 30004287 eCVisualAnimation_PS::RemoveAttachment
+30004287 | e9b4bc0900 | JMP 0x3009ff40

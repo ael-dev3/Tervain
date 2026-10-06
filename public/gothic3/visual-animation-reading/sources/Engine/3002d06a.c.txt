@@ -1,0 +1,13 @@
+/* ENTRY 3002d06a | eCVisualAnimation_PS::SetShowSkeleton | STATUS decompiled | 165 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::SetShowSkeleton(bool) */
+
+void __thiscall eCVisualAnimation_PS::SetShowSkeleton(eCVisualAnimation_PS *this,bool param_1)
+
+{
+                    /* 0x2d06a  14182  ?SetShowSkeleton@eCVisualAnimation_PS@@QAEX_N@Z */
+  *(bool *)((int)&this[0xe].vftablePtr + 1) = param_1;
+  return;
+}
+
+

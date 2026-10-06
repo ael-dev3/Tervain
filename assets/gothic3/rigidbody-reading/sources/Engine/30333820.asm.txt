@@ -1,0 +1,3 @@
+; 30333820 bTPropertyObjectType<eCRigidBodyBase_PS,eCEntityPropertySet>::vfunction3
+30333820 | 8d4118 | LEA EAX,[ECX + 0x18]
+30333823 | c3 | RET

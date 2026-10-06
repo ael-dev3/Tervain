@@ -1,0 +1,10 @@
+/* ENTRY 20016db5 | bTPropertyType<gCInteraction_PS,bool>::vfunction5 | STATUS decompiled | 3 ms */
+
+bTPropertyType<gCInteraction_PS,bool>_vftable * __thiscall
+bTPropertyType<gCInteraction_PS,bool>::vfunction5(bTPropertyType<gCInteraction_PS,bool> *this)
+
+{
+  return this[6].vftablePtr;
+}
+
+

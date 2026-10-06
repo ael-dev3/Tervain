@@ -1,0 +1,2 @@
+; 30008166 ?GetCapsule@eCCollisionShape@@QBEABVbCCapsule@@XZ
+30008166 | e9f5a90b00 | JMP 0x300c2b60

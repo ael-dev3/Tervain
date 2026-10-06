@@ -1,0 +1,262 @@
+/* ENTRY 3035a530 | FUN_3035a530 | STATUS decompiled | 167 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall FUN_3035a530(eCCollisionShape *param_1,int *param_2)
+
+{
+  char cVar1;
+  bool bVar2;
+  eCApplication *peVar3;
+  int iVar4;
+  eCEntity *peVar5;
+  eCPhysicsScene *peVar6;
+  int *piVar7;
+  float *pfVar8;
+  eCEntity *this;
+  bCBox *this_00;
+  bCVector *this_01;
+  NxVec3 *pNVar9;
+  undefined4 *puVar10;
+  bCString *pbVar11;
+  bCCriticalSectionWin32 *pbVar12;
+  NxPhysicsSDK *pNVar13;
+  undefined4 *puVar14;
+  float fStack_1c8;
+  float fStack_1c4;
+  float fStack_1c0;
+  float fStack_1bc;
+  float fStack_1b8;
+  float fStack_1b4;
+  float fStack_1b0;
+  float fStack_1ac;
+  float fStack_1a8;
+  float fStack_1a4;
+  float fStack_1a0;
+  float fStack_19c;
+  undefined4 uStack_198;
+  undefined4 uStack_194;
+  undefined4 uStack_190;
+  undefined4 uStack_18c;
+  float fStack_188;
+  float fStack_184;
+  float fStack_180;
+  undefined4 auStack_17c [5];
+  int iStack_168;
+  undefined1 auStack_15c [8];
+  undefined4 uStack_154;
+  undefined4 uStack_150;
+  eCCollisionShape *local_14c;
+  undefined4 *puStack_148;
+  undefined1 *puStack_144;
+  undefined1 *puStack_140;
+  undefined4 uStack_13c;
+  undefined1 auStack_138 [8];
+  undefined1 auStack_130 [4];
+  float fStack_12c;
+  float fStack_128;
+  float fStack_124;
+  undefined1 auStack_fc [96];
+  undefined1 auStack_9c [156];
+  
+  (param_1->eCCollisionShape_data).offset_0x5c = param_2;
+  local_14c = param_1;
+  peVar3 = eCApplication::GetInstance();
+  cVar1 = (**(code **)(*(int *)peVar3 + 0x26c))();
+  if (cVar1 != '\0') {
+    piVar7 = (int *)(param_1->eCCollisionShape_data).offset_0x5c;
+    if (piVar7 == (int *)0x0) {
+      return;
+    }
+    iVar4 = (**(code **)(*piVar7 + 4))();
+    if (*(int *)(iVar4 + 4) == 0) {
+      return;
+    }
+    piVar7 = (int *)(param_1->eCCollisionShape_data).offset_0x5c;
+    if (piVar7 == (int *)0x0) {
+      peVar5 = (eCEntity *)0x0;
+    }
+    else {
+      iVar4 = (**(code **)(*piVar7 + 4))();
+      peVar5 = *(eCEntity **)(iVar4 + 4);
+    }
+    peVar6 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+    bVar2 = eCPhysicsScene::IsEntityFrozen(peVar6,peVar5);
+    if (bVar2) {
+      return;
+    }
+  }
+  if (param_2 != (int *)0x0) {
+    if ((param_1->eCCollisionShape_data).offset_0x29 == '\x01') {
+      piVar7 = (int *)(**(code **)(*param_2 + 4))();
+      cVar1 = (**(code **)(*piVar7 + 0x68))();
+      if (cVar1 == '\x01') {
+        iVar4 = (**(code **)(*param_2 + 0x5c))();
+        if (((uint)param_2 & ~-(uint)(iVar4 != 3)) == 0) {
+          iVar4 = (**(code **)(*param_2 + 0x5c))();
+          if (((uint)param_2 & ~-(uint)(iVar4 != 2)) == 0) {
+            iVar4 = (**(code **)(*param_2 + 0x5c))();
+            if (((uint)param_2 & ~-(uint)(iVar4 != 1)) == 0) {
+              iVar4 = (**(code **)(*param_2 + 0x5c))();
+              if (((uint)param_2 & ~-(uint)(iVar4 != 5)) != 0) {
+                pfVar8 = &fStack_1b4;
+                this = (eCEntity *)eCCollisionShape::GetEntity(param_1);
+                this_00 = eCEntity::GetLocalNodeBoundary(this);
+                this_01 = (bCVector *)bCBox::GetCenter(this_00);
+                bCVector::operator*(this_01,(float)pfVar8);
+                bCVector::~bCVector((bCVector *)&fStack_1bc);
+                pNVar9 = bCVector::operator_class_NxVec3_((bCVector *)&fStack_1c8);
+                uStack_194 = *(undefined4 *)pNVar9;
+                uStack_190 = *(undefined4 *)(pNVar9 + 4);
+                uStack_18c = *(undefined4 *)(pNVar9 + 8);
+                fStack_188 = 0.02;
+                fStack_184 = 0.02;
+                fStack_180 = 0.02;
+                puVar10 = (undefined4 *)&stack0xfffffe14;
+                puVar14 = auStack_17c;
+                for (iVar4 = 9; iVar4 != 0; iVar4 = iVar4 + -1) {
+                  *puVar14 = *puVar10;
+                  puVar10 = puVar10 + 1;
+                  puVar14 = puVar14 + 1;
+                }
+                thunk_FUN_3035b670(&uStack_194);
+                bCVector::~bCVector((bCVector *)&fStack_1c8);
+                goto LAB_3035aa20;
+              }
+              fStack_1a8 = 3.4028235e+38;
+              fStack_1a4 = 3.4028235e+38;
+              fStack_19c = -3.4028235e+38;
+              uStack_198 = 0xff7fffff;
+              uStack_194 = 0xff7fffff;
+              fStack_1a0 = 3.4028235e+38;
+              (**(code **)(*param_2 + 0x10))(&fStack_1a8);
+              fStack_1c8 = fStack_1a4 - fStack_1b0;
+              fStack_1c4 = fStack_1a0 - fStack_1ac;
+              fStack_1c0 = fStack_19c - fStack_1a8;
+              fStack_1bc = (fStack_1a4 - fStack_1b0) * 0.35;
+              fStack_1b8 = (fStack_1a0 - fStack_1ac) * 0.35;
+              fStack_180 = (fStack_19c - fStack_1a8) * 0.35;
+              fStack_1b4 = fStack_180;
+              fStack_188 = fStack_1bc;
+              fStack_184 = fStack_1b8;
+            }
+            else {
+              fStack_1a4 = 3.4028235e+38;
+              fStack_1a0 = 3.4028235e+38;
+              uStack_198 = 0xff7fffff;
+              fStack_19c = 3.4028235e+38;
+              uStack_194 = 0xff7fffff;
+              uStack_190 = 0xff7fffff;
+              (**(code **)(*param_2 + 0x10))(&fStack_1a4);
+              fStack_1bc = fStack_1a4 - fStack_1b0;
+              fStack_1b8 = fStack_1a0 - fStack_1ac;
+              fStack_1b4 = fStack_19c - fStack_1a8;
+              fStack_1c8 = (fStack_1a4 - fStack_1b0) * 0.5;
+              fStack_1c4 = (fStack_1a0 - fStack_1ac) * 0.5;
+              fStack_180 = (fStack_19c - fStack_1a8) * 0.5;
+              fStack_1c0 = fStack_180;
+              fStack_188 = fStack_1c8;
+              fStack_184 = fStack_1c4;
+            }
+            uStack_18c = 0;
+            uStack_190 = 0;
+            uStack_194 = 0;
+          }
+          else {
+            iVar4 = (**(code **)(*param_2 + 0x5c))();
+            fStack_1c8 = 0.0;
+            fStack_1c4 = 0.0;
+            fStack_1c0 = 1.0;
+            pfVar8 = (float *)(**(code **)(*(int *)(~-(uint)(iVar4 != 2) & (uint)param_2) + 0x8c))
+                                        (&fStack_1bc);
+            uStack_194 = 0;
+            uStack_190 = 0;
+            uStack_18c = 0;
+            fStack_188 = *pfVar8;
+            fStack_184 = pfVar8[1];
+            fStack_180 = pfVar8[2];
+          }
+        }
+        else {
+          iVar4 = (**(code **)(*param_2 + 0x5c))();
+          (**(code **)(*(int *)(~-(uint)(iVar4 != 3) & (uint)param_2) + 0x9c))(&fStack_1a4);
+          piVar7 = (int *)_NxGetUtilLib_0();
+          (**(code **)(*piVar7 + 0x38))(&fStack_1a8,auStack_130);
+          uStack_194 = 0;
+          uStack_190 = 0;
+          uStack_18c = 0;
+          fStack_188 = fStack_12c;
+          fStack_184 = fStack_128;
+          fStack_180 = fStack_124;
+        }
+        uStack_18c = 0;
+        uStack_190 = 0;
+        uStack_194 = 0;
+        puVar10 = (undefined4 *)&stack0xfffffe14;
+        puVar14 = auStack_17c;
+        for (iVar4 = 9; iVar4 != 0; iVar4 = iVar4 + -1) {
+          *puVar14 = *puVar10;
+          puVar10 = puVar10 + 1;
+          puVar14 = puVar14 + 1;
+        }
+        thunk_FUN_3035b670(&uStack_194);
+LAB_3035aa20:
+        puStack_144 = auStack_fc;
+        fStack_12c = fStack_12c * 0.7;
+        puStack_140 = auStack_9c;
+        uStack_154 = 8;
+        local_14c = (eCCollisionShape *)0xc;
+        uStack_150 = 0xc;
+        fStack_128 = fStack_128 * 0.7;
+        puStack_148 = (undefined4 *)0xc;
+        uStack_13c = 0;
+        fStack_124 = fStack_124 * 0.7;
+        piVar7 = (int *)_NxGetUtilLib_0();
+        (**(code **)(*piVar7 + 0xc))(auStack_138,auStack_fc);
+        piVar7 = (int *)_NxGetUtilLib_0();
+        puVar10 = (undefined4 *)(**(code **)(*piVar7 + 0x1c))();
+        puVar14 = puStack_148;
+        for (iVar4 = 0x24; iVar4 != 0; iVar4 = iVar4 + -1) {
+          *puVar14 = *puVar10;
+          puVar10 = puVar10 + 1;
+          puVar14 = puVar14 + 1;
+        }
+        iVar4 = (**(code **)(*param_2 + 4))();
+        pbVar11 = eCEntity::GetName(*(eCEntity **)(iVar4 + 4));
+        GE_MESSAGEF_INFO(5,"creating ccd skeleton for entity: %s",*(undefined4 *)pbVar11);
+        peVar6 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+        pbVar12 = eCPhysicsScene::GetCriticalSection(peVar6);
+        bCCriticalSectionWin32::Acquire(pbVar12);
+        bCCriticalSectionWin32::Release(pbVar12);
+        peVar6 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+        pNVar13 = eCPhysicsScene::GetSDK(peVar6);
+        iVar4 = (**(code **)(*(int *)pNVar13 + 0x34))(auStack_15c);
+        if (iVar4 == 0) {
+          return;
+        }
+        (**(code **)(*param_2 + 0x60))(iVar4);
+        *(int *)(iStack_168 + 100) = iVar4;
+        return;
+      }
+    }
+    if ((param_1->eCCollisionShape_data).offset_0x29 != '\0') {
+      return;
+    }
+  }
+  if ((param_1->eCCollisionShape_data).offset_0x60 != 0) {
+    peVar6 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+    pbVar12 = eCPhysicsScene::GetCriticalSection(peVar6);
+    bCCriticalSectionWin32::Acquire(pbVar12);
+    bCCriticalSectionWin32::Release(pbVar12);
+    if (param_2 != (int *)0x0) {
+      (**(code **)(*param_2 + 0x60))(0);
+    }
+    peVar6 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+    pNVar13 = eCPhysicsScene::GetSDK(peVar6);
+    (**(code **)(*(int *)pNVar13 + 0x38))((param_1->eCCollisionShape_data).offset_0x60);
+    (param_1->eCCollisionShape_data).offset_0x60 = 0;
+  }
+  return;
+}
+
+

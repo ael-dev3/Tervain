@@ -1,0 +1,2 @@
+; 200113ab bTPropertyType<gCParty_PS,bool>::vfunction6
+200113ab | e9609f3000 | JMP 0x2031b310

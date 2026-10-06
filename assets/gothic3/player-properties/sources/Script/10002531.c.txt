@@ -1,0 +1,23 @@
+/* ENTRY 10002531 | PSPlayerMemory::GetSmithing | STATUS decompiled | 12 ms */
+
+/* public: int __thiscall PSPlayerMemory::GetSmithing(void)const  */
+
+int __thiscall PSPlayerMemory::GetSmithing(PSPlayerMemory *this)
+
+{
+  int iVar1;
+  PSPlayerMemory *pPStack_4;
+  
+                    /* 0x2531  1661  ?GetSmithing@PSPlayerMemory@@QBEHXZ */
+  pPStack_4 = this;
+  bCString::bCString((bCString *)&pPStack_4,"SMT");
+  if (*(gCPlayerMemory_PS **)this != (gCPlayerMemory_PS *)0x0) {
+    iVar1 = gCPlayerMemory_PS::GetValue(*(gCPlayerMemory_PS **)this,(bCString *)&pPStack_4);
+    bCString::~bCString((bCString *)&pPStack_4);
+    return iVar1;
+  }
+  bCString::~bCString((bCString *)&pPStack_4);
+  return 0;
+}
+
+

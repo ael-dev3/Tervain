@@ -1,0 +1,13 @@
+/* ENTRY 2000a6b9 | bTPropertyType<gCNavigation_PS,bCVector>::vfunction21 | STATUS decompiled | 2 ms */
+
+undefined4 __thiscall bTPropertyType<gCNavigation_PS,bCVector>::vfunction21(void)
+
+{
+  GE_MESSAGEF_WARN("The method %s detected an improper usage! \nHint:%s ",
+                   "bTPropertyType<CLASS, TYPE>::DoClone",
+                   "It is not allowed to make a clone of propertytype.\nDo not call it from derived class or change access !"
+                  );
+  return 0;
+}
+
+

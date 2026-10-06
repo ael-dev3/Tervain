@@ -1,0 +1,5 @@
+; 30331ed0 bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_>::vfunction3
+30331ed0 | 8b4918 | MOV ECX,dword ptr [ECX + 0x18]
+30331ed3 | 8b01 | MOV EAX,dword ptr [ECX]
+30331ed5 | 8b10 | MOV EDX,dword ptr [EAX]
+30331ed7 | ffe2 | JMP EDX

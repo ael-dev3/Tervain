@@ -1,0 +1,16 @@
+/* ENTRY 20317f70 | bTPropertyContainer<gEPartyMemberType>::vfunction5 | STATUS decompiled | 4 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<gEPartyMemberType>::vfunction5
+          (bTPropertyContainer<gEPartyMemberType> *this,bCIStream *param_1)
+
+{
+  bCIStream *pbVar1;
+  
+  pbVar1 = param_1;
+  bCIStream::operator>>(param_1,(ushort *)&param_1);
+  (**(code **)((int)*pbVar1 + 4))(&this->bTPropertyContainer<gEPartyMemberType>_data,4);
+  return 1;
+}
+
+

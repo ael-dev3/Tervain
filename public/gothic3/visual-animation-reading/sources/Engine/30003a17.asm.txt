@@ -1,0 +1,2 @@
+; 30003a17 eCVisualAnimation_PS::StopFacialMotion
+30003a17 | e9f40d0a00 | JMP 0x300a4810

@@ -1,0 +1,4 @@
+; 30026693 ?Read@eCDynamicEntity@@UAE?AW4bEResult@@AAVbCIStream@@@Z
+30026693 | e9d86f4900 | JMP 0x304bd670
+; 30026698 eCStaticLightPreprocessor::ShadowFrustumFilterEntities
+; 30026698 Ordinal_14646

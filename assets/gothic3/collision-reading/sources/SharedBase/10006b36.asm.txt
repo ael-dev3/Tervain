@@ -1,0 +1,4 @@
+; 10006b36 ??YbCOrientedBox@@QAEAAV0@ABVbCVector@@@Z
+10006b36 | e985c90500 | JMP 0x100634c0
+; 10006b3b bCInfDoubleCylinder::Cull
+; 10006b3b Ordinal_1882

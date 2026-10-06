@@ -1,0 +1,2 @@
+; 20009ceb ?SetBaseMaximum@gCStat@@QAEXABH@Z
+20009ceb | e9a0050a00 | JMP 0x200aa290

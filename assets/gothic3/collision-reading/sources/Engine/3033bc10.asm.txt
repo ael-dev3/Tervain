@@ -1,0 +1,30 @@
+; 3033bc10 bTPOPureSmartPtr<eCCollisionShape_PS>::~bTPOPureSmartPtr<eCCollisionShape_PS>
+3033bc10 | 56 | PUSH ESI
+3033bc11 | 8bf1 | MOV ESI,ECX
+3033bc13 | 8b4e08 | MOV ECX,dword ptr [ESI + 0x8]
+3033bc16 | 85c9 | TEST ECX,ECX
+3033bc18 | 57 | PUSH EDI
+3033bc19 | c706640b8630 | MOV dword ptr [ESI],0x30860b64
+3033bc1f | 7415 | JZ 0x3033bc36
+3033bc21 | ff1518caaf30 | CALL dword ptr [0x30afca18]
+3033bc27 | 83f801 | CMP EAX,0x1
+3033bc2a | 750a | JNZ 0x3033bc36
+3033bc2c | 8b4e08 | MOV ECX,dword ptr [ESI + 0x8]
+3033bc2f | 8b01 | MOV EAX,dword ptr [ECX]
+3033bc31 | 8b5014 | MOV EDX,dword ptr [EAX + 0x14]
+3033bc34 | ffd2 | CALL EDX
+; 3033bc36 LAB_3033bc36
+3033bc36 | 8b7e08 | MOV EDI,dword ptr [ESI + 0x8]
+3033bc39 | 85ff | TEST EDI,EDI
+3033bc3b | 7412 | JZ 0x3033bc4f
+3033bc3d | 6a00 | PUSH 0x0
+3033bc3f | 8bcf | MOV ECX,EDI
+3033bc41 | ff1514caaf30 | CALL dword ptr [0x30afca14]
+3033bc47 | 8bcf | MOV ECX,EDI
+3033bc49 | ff1510caaf30 | CALL dword ptr [0x30afca10]
+; 3033bc4f LAB_3033bc4f
+3033bc4f | 5f | POP EDI
+3033bc50 | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+3033bc57 | 8bce | MOV ECX,ESI
+3033bc59 | 5e | POP ESI
+3033bc5a | ff254ccaaf30 | JMP dword ptr [0x30afca4c]

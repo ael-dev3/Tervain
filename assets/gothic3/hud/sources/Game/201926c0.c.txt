@@ -1,0 +1,14 @@
+/* ENTRY 201926c0 | gCHUDTabCtrlPages::~gCHUDTabCtrlPages | STATUS decompiled | 33 ms */
+
+void __thiscall gCHUDTabCtrlPages::~gCHUDTabCtrlPages(gCHUDTabCtrlPages *this)
+
+{
+  this->vftablePtr = &vftable;
+  CFFGFCImageList::~CFFGFCImageList((CFFGFCImageList *)&(this->gCHUDTabCtrlPages_data).field_0xc);
+                    /* WARNING: Could not recover jumptable at 0x201926d5. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  CFFGFCTabCtrl::~CFFGFCTabCtrl((CFFGFCTabCtrl *)this);
+  return;
+}
+
+

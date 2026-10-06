@@ -1,0 +1,58 @@
+; 2021b180 bTPropertyObject<gCCharacterControl_PS,eCEntityPropertySet>::vfunction6
+2021b180 | 53 | PUSH EBX
+2021b181 | 56 | PUSH ESI
+2021b182 | 8b74240c | MOV ESI,dword ptr [ESP + 0xc]
+2021b186 | 57 | PUSH EDI
+2021b187 | 56 | PUSH ESI
+2021b188 | 8bd9 | MOV EBX,ECX
+2021b18a | ff1504877d20 | CALL dword ptr [0x207d8704]
+2021b190 | 0fb7f8 | MOVZX EDI,AX
+2021b193 | 8d442410 | LEA EAX,[ESP + 0x10]
+2021b197 | 50 | PUSH EAX
+2021b198 | 8bce | MOV ECX,ESI
+2021b19a | c744241400000000 | MOV dword ptr [ESP + 0x14],0x0
+2021b1a2 | ff1560877d20 | CALL dword ptr [0x207d8760]
+2021b1a8 | e86f05dfff | CALL 0x2000b71c
+2021b1ad | 50 | PUSH EAX
+2021b1ae | e8d40ce0ff | CALL 0x2001be87
+2021b1b3 | 8bc8 | MOV ECX,EAX
+2021b1b5 | ff1508877d20 | CALL dword ptr [0x207d8708]
+2021b1bb | 84c0 | TEST AL,AL
+2021b1bd | 743c | JZ 0x2021b1fb
+2021b1bf | 8b4c2410 | MOV ECX,dword ptr [ESP + 0x10]
+2021b1c3 | 55 | PUSH EBP
+2021b1c4 | 8b2de0887d20 | MOV EBP,dword ptr [0x207d88e0]
+2021b1ca | 51 | PUSH ECX
+2021b1cb | ffd5 | CALL EBP
+2021b1cd | 8bc8 | MOV ECX,EAX
+2021b1cf | ff1564877d20 | CALL dword ptr [0x207d8764]
+2021b1d5 | 8b16 | MOV EDX,dword ptr [ESI]
+2021b1d7 | 8b5204 | MOV EDX,dword ptr [EDX + 0x4]
+2021b1da | 8bd8 | MOV EBX,EAX
+2021b1dc | 8b442414 | MOV EAX,dword ptr [ESP + 0x14]
+2021b1e0 | 50 | PUSH EAX
+2021b1e1 | 53 | PUSH EBX
+2021b1e2 | 8bce | MOV ECX,ESI
+2021b1e4 | ffd2 | CALL EDX
+2021b1e6 | 53 | PUSH EBX
+2021b1e7 | ffd5 | CALL EBP
+2021b1e9 | 8bc8 | MOV ECX,EAX
+2021b1eb | ff15dc887d20 | CALL dword ptr [0x207d88dc]
+2021b1f1 | 5d | POP EBP
+2021b1f2 | 668bc7 | MOV AX,DI
+2021b1f5 | 5f | POP EDI
+2021b1f6 | 5e | POP ESI
+2021b1f7 | 5b | POP EBX
+2021b1f8 | c20400 | RET 0x4
+; 2021b1fb LAB_2021b1fb
+2021b1fb | 8b03 | MOV EAX,dword ptr [EBX]
+2021b1fd | 8b501c | MOV EDX,dword ptr [EAX + 0x1c]
+2021b200 | 57 | PUSH EDI
+2021b201 | 56 | PUSH ESI
+2021b202 | 8bcb | MOV ECX,EBX
+2021b204 | ffd2 | CALL EDX
+2021b206 | 668bc7 | MOV AX,DI
+2021b209 | 5f | POP EDI
+2021b20a | 5e | POP ESI
+2021b20b | 5b | POP EBX
+2021b20c | c20400 | RET 0x4

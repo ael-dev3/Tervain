@@ -1,0 +1,4 @@
+; 200289a7 bTPropertyType<gCNavigation_PS,bCVector>::vfunction22
+200289a7 | e9444f2600 | JMP 0x2028d8f0
+; 200289ac gCFocus_PS::SetNormalModeCharacterScanAzi
+; 200289ac Ordinal_6825

@@ -1,0 +1,51 @@
+; 300cdcb0 bTPropertyContainer<eECollisionShapeType>::bTPropertyContainer<eECollisionShapeType>_Constructor_or_Destructor
+300cdcb0 | 83ec08 | SUB ESP,0x8
+300cdcb3 | 56 | PUSH ESI
+300cdcb4 | 8bf1 | MOV ESI,ECX
+300cdcb6 | 8d4c2404 | LEA ECX,[ESP + 0x4]
+300cdcba | ff1508ccaf30 | CALL dword ptr [0x30afcc08]
+300cdcc0 | 8b06 | MOV EAX,dword ptr [ESI]
+300cdcc2 | 8b5058 | MOV EDX,dword ptr [EAX + 0x58]
+300cdcc5 | 6a00 | PUSH 0x0
+300cdcc7 | 68b4128230 | PUSH 0x308212b4
+300cdccc | 8bce | MOV ECX,ESI
+300cdcce | c744240cb4118230 | MOV dword ptr [ESP + 0xc],0x308211b4
+300cdcd6 | c744241007000000 | MOV dword ptr [ESP + 0x10],0x7
+300cdcde | ffd2 | CALL EDX
+300cdce0 | 8b460c | MOV EAX,dword ptr [ESI + 0xc]
+300cdce3 | 8b401c | MOV EAX,dword ptr [EAX + 0x1c]
+300cdce6 | 8d4e0c | LEA ECX,[ESI + 0xc]
+300cdce9 | 8d542404 | LEA EDX,[ESP + 0x4]
+300cdced | 52 | PUSH EDX
+300cdcee | ffd0 | CALL EAX
+300cdcf0 | 8b16 | MOV EDX,dword ptr [ESI]
+300cdcf2 | 8b425c | MOV EAX,dword ptr [EDX + 0x5c]
+300cdcf5 | 6a00 | PUSH 0x0
+300cdcf7 | 68b4128230 | PUSH 0x308212b4
+300cdcfc | 8bce | MOV ECX,ESI
+300cdcfe | ffd0 | CALL EAX
+300cdd00 | 8d4c2404 | LEA ECX,[ESP + 0x4]
+300cdd04 | c7442404b4118230 | MOV dword ptr [ESP + 0x4],0x308211b4
+300cdd0c | ff1520ccaf30 | CALL dword ptr [0x30afcc20]
+300cdd12 | 6801030000 | PUSH 0x301
+300cdd17 | 6a0c | PUSH 0xc
+300cdd19 | ff15a8dbaf30 | CALL dword ptr [0x30afdba8]
+300cdd1f | 85c0 | TEST EAX,EAX
+300cdd21 | 740a | JZ 0x300cdd2d
+300cdd23 | 8bc8 | MOV ECX,EAX
+300cdd25 | ff1584cbaf30 | CALL dword ptr [0x30afcb84]
+300cdd2b | eb02 | JMP 0x300cdd2f
+; 300cdd2d LAB_300cdd2d
+300cdd2d | 33c0 | XOR EAX,EAX
+; 300cdd2f LAB_300cdd2f
+300cdd2f | 8b4c2410 | MOV ECX,dword ptr [ESP + 0x10]
+300cdd33 | 51 | PUSH ECX
+300cdd34 | 8bc8 | MOV ECX,EAX
+300cdd36 | 894674 | MOV dword ptr [ESI + 0x74],EAX
+300cdd39 | ff1528cdaf30 | CALL dword ptr [0x30afcd28]
+300cdd3f | 8bce | MOV ECX,ESI
+300cdd41 | e8bc9bf6ff | CALL 0x30037902
+300cdd46 | b801000000 | MOV EAX,0x1
+300cdd4b | 5e | POP ESI
+300cdd4c | 83c408 | ADD ESP,0x8
+300cdd4f | c20400 | RET 0x4

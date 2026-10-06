@@ -1,0 +1,74 @@
+; 305cce30 FUN_305cce30
+305cce30 | 83ec14 | SUB ESP,0x14
+305cce33 | 56 | PUSH ESI
+305cce34 | 8b35ecdbaf30 | MOV ESI,dword ptr [0x30afdbec]
+305cce3a | 57 | PUSH EDI
+305cce3b | 8bf9 | MOV EDI,ECX
+305cce3d | 8d4c2418 | LEA ECX,[ESP + 0x18]
+305cce41 | ffd6 | CALL ESI
+305cce43 | 8d4c2414 | LEA ECX,[ESP + 0x14]
+305cce47 | ffd6 | CALL ESI
+305cce49 | 8d4c2408 | LEA ECX,[ESP + 0x8]
+305cce4d | ffd6 | CALL ESI
+305cce4f | 8d4c2410 | LEA ECX,[ESP + 0x10]
+305cce53 | ffd6 | CALL ESI
+305cce55 | 8b07 | MOV EAX,dword ptr [EDI]
+305cce57 | 8d4c2410 | LEA ECX,[ESP + 0x10]
+305cce5b | 51 | PUSH ECX
+305cce5c | 8d54240c | LEA EDX,[ESP + 0xc]
+305cce60 | 52 | PUSH EDX
+305cce61 | 8d4c241c | LEA ECX,[ESP + 0x1c]
+305cce65 | 51 | PUSH ECX
+305cce66 | 8b4c242c | MOV ECX,dword ptr [ESP + 0x2c]
+305cce6a | 8d542424 | LEA EDX,[ESP + 0x24]
+305cce6e | 52 | PUSH EDX
+305cce6f | 8b5028 | MOV EDX,dword ptr [EAX + 0x28]
+305cce72 | 51 | PUSH ECX
+305cce73 | 8bcf | MOV ECX,EDI
+305cce75 | ffd2 | CALL EDX
+305cce77 | 8d442410 | LEA EAX,[ESP + 0x10]
+305cce7b | 50 | PUSH EAX
+305cce7c | 8d4c240c | LEA ECX,[ESP + 0xc]
+305cce80 | ff1598dbaf30 | CALL dword ptr [0x30afdb98]
+305cce86 | 8d4c240c | LEA ECX,[ESP + 0xc]
+305cce8a | ffd6 | CALL ESI
+305cce8c | 8d4c240c | LEA ECX,[ESP + 0xc]
+305cce90 | 51 | PUSH ECX
+305cce91 | 8d54240c | LEA EDX,[ESP + 0xc]
+305cce95 | 52 | PUSH EDX
+305cce96 | 8d4f10 | LEA ECX,[EDI + 0x10]
+305cce99 | e841c9a5ff | CALL 0x300297df
+305cce9e | 3c01 | CMP AL,0x1
+305ccea0 | 5f | POP EDI
+305ccea1 | 5e | POP ESI
+305ccea2 | 7548 | JNZ 0x305cceec
+305ccea4 | 8b4c241c | MOV ECX,dword ptr [ESP + 0x1c]
+305ccea8 | 8d442404 | LEA EAX,[ESP + 0x4]
+305cceac | 50 | PUSH EAX
+305ccead | ff1560dbaf30 | CALL dword ptr [0x30afdb60]
+305cceb3 | 8d4c2404 | LEA ECX,[ESP + 0x4]
+305cceb7 | ff15dcdbaf30 | CALL dword ptr [0x30afdbdc]
+305ccebd | 8d4c2408 | LEA ECX,[ESP + 0x8]
+305ccec1 | ff15dcdbaf30 | CALL dword ptr [0x30afdbdc]
+305ccec7 | 8d0c24 | LEA ECX,[ESP]
+305cceca | ff15dcdbaf30 | CALL dword ptr [0x30afdbdc]
+305cced0 | 8d4c240c | LEA ECX,[ESP + 0xc]
+305cced4 | ff15dcdbaf30 | CALL dword ptr [0x30afdbdc]
+305cceda | 8d4c2410 | LEA ECX,[ESP + 0x10]
+305ccede | ff15dcdbaf30 | CALL dword ptr [0x30afdbdc]
+305ccee4 | b001 | MOV AL,0x1
+305ccee6 | 83c414 | ADD ESP,0x14
+305ccee9 | c20800 | RET 0x8
+305cceec | 8d4c2404 | LEA ECX,[ESP + 0x4]
+305ccef0 | ff15dcdbaf30 | CALL dword ptr [0x30afdbdc]
+305ccef6 | 8d4c2408 | LEA ECX,[ESP + 0x8]
+305ccefa | ff15dcdbaf30 | CALL dword ptr [0x30afdbdc]
+305ccf00 | 8d0c24 | LEA ECX,[ESP]
+305ccf03 | ff15dcdbaf30 | CALL dword ptr [0x30afdbdc]
+305ccf09 | 8d4c240c | LEA ECX,[ESP + 0xc]
+305ccf0d | ff15dcdbaf30 | CALL dword ptr [0x30afdbdc]
+305ccf13 | 8d4c2410 | LEA ECX,[ESP + 0x10]
+305ccf17 | ff15dcdbaf30 | CALL dword ptr [0x30afdbdc]
+305ccf1d | 32c0 | XOR AL,AL
+305ccf1f | 83c414 | ADD ESP,0x14
+305ccf22 | c20800 | RET 0x8

@@ -1,0 +1,23 @@
+/* ENTRY 100010d7 | PSPlayerMemory::GetTheft | STATUS decompiled | 12 ms */
+
+/* public: int __thiscall PSPlayerMemory::GetTheft(void)const  */
+
+int __thiscall PSPlayerMemory::GetTheft(PSPlayerMemory *this)
+
+{
+  int iVar1;
+  PSPlayerMemory *pPStack_4;
+  
+                    /* 0x10d7  1682  ?GetTheft@PSPlayerMemory@@QBEHXZ */
+  pPStack_4 = this;
+  bCString::bCString((bCString *)&pPStack_4,"THF");
+  if (*(gCPlayerMemory_PS **)this != (gCPlayerMemory_PS *)0x0) {
+    iVar1 = gCPlayerMemory_PS::GetValue(*(gCPlayerMemory_PS **)this,(bCString *)&pPStack_4);
+    bCString::~bCString((bCString *)&pPStack_4);
+    return iVar1;
+  }
+  bCString::~bCString((bCString *)&pPStack_4);
+  return 0;
+}
+
+

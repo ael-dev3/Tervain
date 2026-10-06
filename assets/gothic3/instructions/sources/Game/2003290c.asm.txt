@@ -1,0 +1,2 @@
+; 2003290c ?AISetTask@gCScriptProcessingUnit@@QAEXVbCString@@_N@Z
+2003290c | e9ffbf3300 | JMP 0x2036e910

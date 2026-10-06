@@ -1,0 +1,37 @@
+/* ENTRY 2028a8b0 | FUN_2028a8b0 | STATUS decompiled | 41 ms */
+
+void __fastcall FUN_2028a8b0(gCNavigation_PS *param_1)
+
+{
+  gCNavigation_PS *pgStack_4;
+  
+  pgStack_4 = param_1;
+  gCNavigation_PS::GameReset(param_1);
+  if (((((param_1->gCNavigation_PS_data).offset_0x60 == 0) &&
+       ((param_1->gCNavigation_PS_data).offset_0x78 == 0)) &&
+      ((param_1->gCNavigation_PS_data).offset_0x6c == 0)) &&
+     ((param_1->gCNavigation_PS_data).offset_0x84 == 0)) {
+    thunk_FUN_20282b30(&(param_1->gCNavigation_PS_data).field_0x1c);
+    thunk_FUN_20282b30(&(param_1->gCNavigation_PS_data).field_0x44);
+    thunk_FUN_20282b30(&(param_1->gCNavigation_PS_data).field_0x30);
+    bCString::bCString((bCString *)&pgStack_4,"Start");
+    thunk_FUN_200af7d0(&pgStack_4);
+    bCString::~bCString((bCString *)&pgStack_4);
+    bCString::operator=((bCString *)&(param_1->gCNavigation_PS_data).field_0x58,"Start");
+  }
+  eCEntityProxy::SetEntity
+            ((eCEntityProxy *)&(param_1->gCNavigation_PS_data).field_0x28c,
+             (bCPropertyID *)&(param_1->gCNavigation_PS_data).field_0x44);
+  eCEntityProxy::SetEntity
+            ((eCEntityProxy *)&(param_1->gCNavigation_PS_data).field_0x254,
+             (bCPropertyID *)&(param_1->gCNavigation_PS_data).field_0x1c);
+  eCEntityProxy::SetEntity
+            ((eCEntityProxy *)&(param_1->gCNavigation_PS_data).field_0x270,
+             (bCPropertyID *)&(param_1->gCNavigation_PS_data).field_0x30);
+                    /* WARNING: Could not recover jumptable at 0x2028a961. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eCEntityPropertySet::OnPostRead((eCEntityPropertySet *)param_1);
+  return;
+}
+
+

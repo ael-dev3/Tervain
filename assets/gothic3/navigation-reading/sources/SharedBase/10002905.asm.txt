@@ -1,0 +1,4 @@
+; 10002905 ??0bCString@@QAE@DH@Z
+10002905 | e9e60b0100 | JMP 0x100134f0
+; 1000290a bCDateTime::~bCDateTime
+; 1000290a Ordinal_364

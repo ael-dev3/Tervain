@@ -1,0 +1,4 @@
+; 10001bdb ?GetUseType@PSInventory@@QBE?AW4gEUseType@@H@Z
+10001bdb | e9907c0100 | JMP 0x10019870
+; 10001be0 PSNpc::PropertyLastDistToGuardPoint::operator=
+; 10001be0 Ordinal_471

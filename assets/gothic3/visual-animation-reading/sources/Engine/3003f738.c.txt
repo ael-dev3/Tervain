@@ -1,0 +1,55 @@
+/* ENTRY 3003f738 | eCVisualAnimation_PS::Destroy | STATUS decompiled | 25 ms */
+
+/* public: virtual void __thiscall eCVisualAnimation_PS::Destroy(void) */
+
+void __thiscall eCVisualAnimation_PS::Destroy(eCVisualAnimation_PS *this)
+
+{
+  int *piVar1;
+  bCMemoryAdmin *pbVar2;
+  int iVar3;
+  void *pvVar4;
+  
+                    /* 0x3f738  5381  ?Destroy@eCVisualAnimation_PS@@UAEXXZ */
+  ClearAttachments(this);
+  ClearLookAtConstraints(this);
+  eCVisualAnimationFactory::Destroy
+            ((eCVisualAnimationFactory *)&this[7].eCEntityPropertySet_data.field_0x4);
+  piVar1 = *(int **)&this[0x14].eCEntityPropertySet_data.field_0x4;
+  iVar3 = 0;
+  if (piVar1 != (int *)0x0) {
+    (**(code **)(*piVar1 + 0x38))(0);
+    pvVar4 = *(void **)&this[0x14].eCEntityPropertySet_data.field_0x4;
+    pbVar2 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::DeleteObject(pbVar2,pvVar4);
+    *(undefined4 *)&this[0x14].eCEntityPropertySet_data.field_0x4 = 0;
+  }
+  if (0 < (int)this[0x14].vftablePtr) {
+    do {
+      piVar1 = (int *)(*(int *)&this[0x13].eCEntityPropertySet_data.offset_0xc + iVar3 * 4);
+      if ((int *)*piVar1 != (int *)0x0) {
+        (**(code **)(*(int *)*piVar1 + 0x38))(0);
+        pvVar4 = (void *)*piVar1;
+        pbVar2 = bCMemoryAdmin::GetInstance();
+        bCMemoryAdmin::DeleteObject(pbVar2,pvVar4);
+        *piVar1 = 0;
+      }
+      iVar3 = iVar3 + 1;
+    } while (iVar3 < (int)this[0x14].vftablePtr);
+  }
+  iVar3 = this[0xb].eCEntityPropertySet_data.offset_0x8;
+  if (iVar3 != 0) {
+    thunk_FUN_300ae3f0(iVar3,this[0xc].vftablePtr);
+    pvVar4 = (void *)this[0xb].eCEntityPropertySet_data.offset_0x8;
+    pbVar2 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar2,pvVar4);
+    this[0xb].eCEntityPropertySet_data.offset_0x8 = 0;
+    *(undefined4 *)&this[0xb].eCEntityPropertySet_data.offset_0xc = 0;
+    this[0xc].vftablePtr = (eCVisualAnimation_PS_vftable *)0x0;
+  }
+  Invalidate(this);
+  eCEntityPropertySet::Destroy((eCEntityPropertySet *)this);
+  return;
+}
+
+

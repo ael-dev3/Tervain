@@ -1,0 +1,17 @@
+/* ENTRY 20032781 | bTPropertyType<gCNavigation_PS,bool>::vfunction6 | STATUS decompiled | 4 ms */
+
+void __thiscall
+bTPropertyType<gCNavigation_PS,bool>::vfunction6
+          (bTPropertyType<gCNavigation_PS,bool> *this,int param_1)
+
+{
+  bTPropertyType<gCCameraModeParams,bool>_vftable *pbVar1;
+  
+  if (param_1 != 0) {
+    pbVar1 = (*this->vftablePtr->vfunction26)(this,(undefined4 *)param_1);
+    *(undefined1 *)&pbVar1->vfunction1 = 0;
+  }
+  return;
+}
+
+

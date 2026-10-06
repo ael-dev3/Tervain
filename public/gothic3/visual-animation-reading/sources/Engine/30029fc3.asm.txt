@@ -1,0 +1,2 @@
+; 30029fc3 eCEffector::PostInitializeProperties
+30029fc3 | e9a8b03500 | JMP 0x30385070

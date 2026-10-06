@@ -1,0 +1,2 @@
+; 10001b40 bCClock::Pause
+10001b40 | e94ba20400 | JMP 0x1004bd90

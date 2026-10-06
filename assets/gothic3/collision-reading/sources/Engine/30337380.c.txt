@@ -1,0 +1,25 @@
+/* ENTRY 30337380 | FUN_30337380 | STATUS decompiled | 7 ms */
+
+void __thiscall FUN_30337380(int param_1,eCEntity *param_2,eCContactIterator *param_3)
+
+{
+  eEPropertySetType eVar1;
+  eCEntity *peVar2;
+  int iVar3;
+  
+  eVar1 = eCContactIterator::GetCollisionType(param_3);
+  if ((eVar1 == 0xe) && (iVar3 = *(int *)(param_1 + 0x38) + -1, -1 < iVar3)) {
+    do {
+      if ((*(int *)(*(int *)(param_1 + 0x34) + iVar3 * 4) != 0) &&
+         (peVar2 = eCCollisionShape::GetEntity
+                             (*(eCCollisionShape **)(*(int *)(param_1 + 0x34) + iVar3 * 4)),
+         peVar2 == param_2)) {
+        thunk_FUN_3033c960(iVar3);
+      }
+      iVar3 = iVar3 + -1;
+    } while (-1 < iVar3);
+  }
+  return;
+}
+
+

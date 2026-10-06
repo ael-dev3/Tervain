@@ -1,0 +1,15 @@
+{
+  "schema": "gothic3-rigidbody-reading-manifest-v1",
+  "outputs": [
+    {
+      "path": "hero-rigidbody.json",
+      "bytes": 3669,
+      "sha256": "b703148111e91c69a29804e59fe49398406ad554db44b1b1fce7417b4f085993"
+    },
+    {
+      "path": "runtime-rules.json",
+      "bytes": 46152,
+      "sha256": "ada435c25a86d2f1b614318a9a7fb24691c49374d9e1d927acbaa296da9a107e"
+    }
+  ]
+}

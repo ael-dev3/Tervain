@@ -1,0 +1,27 @@
+/* ENTRY 300321be | eCDynamicEntity::Invalidate | STATUS decompiled | 14 ms */
+
+/* protected: void __thiscall eCDynamicEntity::Invalidate(void) */
+
+void __thiscall eCDynamicEntity::Invalidate(eCDynamicEntity *this)
+
+{
+  uint *puVar1;
+  ushort *puVar2;
+  uint uVar3;
+  
+                    /* 0x321be  9959  ?Invalidate@eCDynamicEntity@@IAEXXZ */
+  uVar3 = (this->eCEntity_data).offset_0xc;
+  puVar2 = &(this->eCDynamicEntity_data).offset_0x18;
+  *puVar2 = *puVar2 & 0xff0f;
+  (this->eCEntity_data).offset_0xc = uVar3 & 0xffffffef | 0x2c;
+  *(undefined1 *)((int)&(this->eCDynamicEntity_data).offset_0x18 + 1) = 0;
+  puVar2 = &(this->eCDynamicEntity_data).offset_0x18;
+  *puVar2 = *puVar2 & 0xfff0;
+  (this->eCDynamicEntity_data).offset_0x0 = 0;
+  bCPropertyID::Destroy((bCPropertyID *)&(this->eCDynamicEntity_data).field_0x4);
+  puVar1 = &(this->eCEntity_data).offset_0xc;
+  *puVar1 = *puVar1 | 0x800000;
+  return;
+}
+
+

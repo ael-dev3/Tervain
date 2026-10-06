@@ -1,0 +1,19 @@
+; 2016c5a0 gCHUDPageDocuments2::vfunction71
+2016c5a0 | 53 | PUSH EBX
+2016c5a1 | 8b5c2408 | MOV EBX,dword ptr [ESP + 0x8]
+2016c5a5 | 56 | PUSH ESI
+2016c5a6 | 57 | PUSH EDI
+2016c5a7 | 8b7c2414 | MOV EDI,dword ptr [ESP + 0x14]
+2016c5ab | 8bf1 | MOV ESI,ECX
+2016c5ad | 57 | PUSH EDI
+2016c5ae | 53 | PUSH EBX
+2016c5af | 8d4e3c | LEA ECX,[ESI + 0x3c]
+2016c5b2 | e8ff97eaff | CALL 0x20015db6
+2016c5b7 | 57 | PUSH EDI
+2016c5b8 | 53 | PUSH EBX
+2016c5b9 | 8d8eac000000 | LEA ECX,[ESI + 0xac]
+2016c5bf | e8ec20eaff | CALL 0x2000e6b0
+2016c5c4 | 5f | POP EDI
+2016c5c5 | 5e | POP ESI
+2016c5c6 | 5b | POP EBX
+2016c5c7 | c20800 | RET 0x8

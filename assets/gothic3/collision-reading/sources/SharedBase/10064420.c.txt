@@ -1,0 +1,40 @@
+/* ENTRY 10064420 | FUN_10064420 | STATUS decompiled | 14 ms */
+
+void __thiscall FUN_10064420(float *param_1,uint param_2,float *param_3)
+
+{
+  float fVar1;
+  float fVar2;
+  float fVar3;
+  float fVar4;
+  float fVar5;
+  float fVar6;
+  float fVar7;
+  float *pfVar8;
+  float local_c;
+  float local_8;
+  float local_4;
+  
+  pfVar8 = param_1 + ((int)param_2 / 2) * 3 + 6;
+  if ((param_2 & 1) != 0) {
+    local_c = -0.0 - *pfVar8;
+    local_8 = -0.0 - pfVar8[1];
+    local_4 = -0.0 - pfVar8[2];
+    pfVar8 = &local_c;
+  }
+  fVar1 = *pfVar8;
+  fVar2 = pfVar8[1];
+  fVar3 = pfVar8[2];
+  fVar4 = param_1[(int)param_2 / 2 + 3];
+  fVar5 = *param_1;
+  fVar6 = param_1[1];
+  fVar7 = param_1[2];
+  *param_3 = fVar1;
+  param_3[1] = fVar2;
+  param_3[2] = fVar3;
+  param_3[3] = -(fVar3 * (fVar7 + fVar3 * fVar4) +
+                fVar2 * (fVar6 + fVar2 * fVar4) + (fVar5 + fVar4 * fVar1) * fVar1);
+  return;
+}
+
+

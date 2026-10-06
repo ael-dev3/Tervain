@@ -1,0 +1,11 @@
+/* ENTRY 202ff110 | bTPropertyContainer<gEAttackReason>::vfunction7 | STATUS decompiled | 2 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<gEAttackReason>::vfunction7(bTPropertyContainer<gEAttackReason> *this)
+
+{
+  (this->bTPropertyContainer<gEAttackReason>_data).offset_0x0 = DAT_207c093c;
+  return 1;
+}
+
+

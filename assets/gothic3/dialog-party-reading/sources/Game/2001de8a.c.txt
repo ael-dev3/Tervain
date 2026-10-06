@@ -1,0 +1,12 @@
+/* ENTRY 2001de8a | gCDialog_PS::GetTalkedToByCount | STATUS decompiled | 6 ms */
+
+/* public: int __thiscall gCDialog_PS::GetTalkedToByCount(void)const  */
+
+int __thiscall gCDialog_PS::GetTalkedToByCount(gCDialog_PS *this)
+
+{
+                    /* 0x1de8a  4533  ?GetTalkedToByCount@gCDialog_PS@@QBEHXZ */
+  return (this->gCDialog_PS_data).offset_0x4c;
+}
+
+

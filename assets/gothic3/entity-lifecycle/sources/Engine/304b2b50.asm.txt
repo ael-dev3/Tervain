@@ -1,0 +1,3 @@
+; 304b2b50 FUN_304b2b50
+304b2b50 | a0e4deab30 | MOV AL,[0x30abdee4]
+304b2b55 | c3 | RET

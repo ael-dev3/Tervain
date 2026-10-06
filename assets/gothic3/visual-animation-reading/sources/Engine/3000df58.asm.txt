@@ -1,0 +1,2 @@
+; 3000df58 thunk_FUN_301d3e80
+3000df58 | e9235f1c00 | JMP 0x301d3e80

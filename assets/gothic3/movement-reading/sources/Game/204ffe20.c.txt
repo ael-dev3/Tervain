@@ -1,0 +1,32 @@
+/* ENTRY 204ffe20 | bTPropertyType<gCCharacterMovement_PS,float>::~bTPropertyType<gCCharacterMovement_PS,float> | STATUS decompiled | 10 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCCharacterMovement_PS,float>::~bTPropertyType<gCCharacterMovement_PS,float>
+          (bTPropertyType<gCCharacterMovement_PS,float> *this)
+
+{
+  bTPropertyType<gCCharacterMovement_PS,float> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"ForwardSpeedMax");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCCharacterMovement_PS::ms_PropertyMember_m_fSpeedForwardMax,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_fSpeedForwardMax = &vftable;
+  DAT_207bdba8 = bTPropertyObjectType<gCCharacterMovement_PS,gCMovementBase_PS>::
+                 ~bTPropertyObjectType<gCCharacterMovement_PS,gCMovementBase_PS>();
+  _DAT_207bdbac = 0x20;
+  _DAT_207bdbb0 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCCharacterMovement_PS::ms_PropertyMember_m_fSpeedForwardMax);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bdba8,
+             (bCPropertyTypeBase *)&gCCharacterMovement_PS::ms_PropertyMember_m_fSpeedForwardMax);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}
+
+

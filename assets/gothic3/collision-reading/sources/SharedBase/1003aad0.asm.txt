@@ -1,0 +1,22 @@
+; 1003aad0 FUN_1003aad0
+1003aad0 | d901 | FLD float ptr [ECX]
+1003aad2 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+1003aad6 | 56 | PUSH ESI
+1003aad7 | 8b742408 | MOV ESI,dword ptr [ESP + 0x8]
+1003aadb | d91e | FSTP float ptr [ESI]
+1003aadd | 50 | PUSH EAX
+1003aade | d94104 | FLD float ptr [ECX + 0x4]
+1003aae1 | d95e04 | FSTP float ptr [ESI + 0x4]
+1003aae4 | d94108 | FLD float ptr [ECX + 0x8]
+1003aae7 | d95e08 | FSTP float ptr [ESI + 0x8]
+1003aaea | d9410c | FLD float ptr [ECX + 0xc]
+1003aaed | d95e0c | FSTP float ptr [ESI + 0xc]
+1003aaf0 | d94110 | FLD float ptr [ECX + 0x10]
+1003aaf3 | d95e10 | FSTP float ptr [ESI + 0x10]
+1003aaf6 | d94114 | FLD float ptr [ECX + 0x14]
+1003aaf9 | 8bce | MOV ECX,ESI
+1003aafb | d95e14 | FSTP float ptr [ESI + 0x14]
+1003aafe | e80175fcff | CALL 0x10002004
+1003ab03 | 8bc6 | MOV EAX,ESI
+1003ab05 | 5e | POP ESI
+1003ab06 | c20800 | RET 0x8

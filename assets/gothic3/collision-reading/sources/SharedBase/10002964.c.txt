@@ -1,0 +1,18 @@
+/* ENTRY 10002964 | bCBox::InvTranslate | STATUS decompiled | 5 ms */
+
+/* public: void __thiscall bCBox::InvTranslate(class bCVector const &) */
+
+void __thiscall bCBox::InvTranslate(bCBox *this,bCVector *param_1)
+
+{
+                    /* 0x2964  3507  ?InvTranslate@bCBox@@QAEXABVbCVector@@@Z */
+  *(float *)this = *(float *)this - *(float *)param_1;
+  *(float *)(this + 4) = *(float *)(this + 4) - *(float *)(param_1 + 4);
+  *(float *)(this + 8) = *(float *)(this + 8) - *(float *)(param_1 + 8);
+  *(float *)(this + 0xc) = *(float *)(this + 0xc) - *(float *)param_1;
+  *(float *)(this + 0x10) = *(float *)(this + 0x10) - *(float *)(param_1 + 4);
+  *(float *)(this + 0x14) = *(float *)(this + 0x14) - *(float *)(param_1 + 8);
+  return;
+}
+
+

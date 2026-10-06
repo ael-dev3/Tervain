@@ -1,0 +1,12 @@
+/* ENTRY 305e9410 | FUN_305e9410 | STATUS decompiled | 3 ms */
+
+bool FUN_305e9410(undefined4 param_1)
+
+{
+  int iVar1;
+  
+  iVar1 = thunk_FUN_305e9fc0(param_1,&param_1);
+  return iVar1 != 0;
+}
+
+

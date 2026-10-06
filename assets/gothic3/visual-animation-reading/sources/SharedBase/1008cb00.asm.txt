@@ -1,0 +1,32 @@
+; 1008cb00 FUN_1008cb00
+1008cb00 | 83ec08 | SUB ESP,0x8
+1008cb03 | 56 | PUSH ESI
+1008cb04 | 8b742414 | MOV ESI,dword ptr [ESP + 0x14]
+1008cb08 | 57 | PUSH EDI
+1008cb09 | 8bce | MOV ECX,ESI
+1008cb0b | e8938df7ff | CALL 0x100058a3
+1008cb10 | 8bce | MOV ECX,ESI
+1008cb12 | 8844240a | MOV byte ptr [ESP + 0xa],AL
+1008cb16 | e85890f7ff | CALL 0x10005b73
+1008cb1b | 8b7c2414 | MOV EDI,dword ptr [ESP + 0x14]
+1008cb1f | 6a01 | PUSH 0x1
+1008cb21 | 8bcf | MOV ECX,EDI
+1008cb23 | 668944240c | MOV word ptr [ESP + 0xc],AX
+1008cb28 | e8a261f7ff | CALL 0x10002ccf
+1008cb2d | 8b44240a | MOV EAX,dword ptr [ESP + 0xa]
+1008cb31 | 50 | PUSH EAX
+1008cb32 | 8bcf | MOV ECX,EDI
+1008cb34 | e8c76cf7ff | CALL 0x10003800
+1008cb39 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+1008cb3d | 51 | PUSH ECX
+1008cb3e | 8bcf | MOV ECX,EDI
+1008cb40 | e88a61f7ff | CALL 0x10002ccf
+1008cb45 | 8b16 | MOV EDX,dword ptr [ESI]
+1008cb47 | 8b4218 | MOV EAX,dword ptr [EDX + 0x18]
+1008cb4a | 57 | PUSH EDI
+1008cb4b | 8bce | MOV ECX,ESI
+1008cb4d | ffd0 | CALL EAX
+1008cb4f | 5f | POP EDI
+1008cb50 | 5e | POP ESI
+1008cb51 | 83c408 | ADD ESP,0x8
+1008cb54 | c20800 | RET 0x8

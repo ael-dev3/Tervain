@@ -1,0 +1,36 @@
+/* ENTRY 30674e0c | std::exception::exception | STATUS decompiled | 8 ms */
+
+/* Library Function - Single Match
+    public: __thiscall std::exception::exception(class std::exception const &)
+   
+   Library: Visual Studio 2005 Release */
+
+exception * __thiscall std::exception::exception(exception *this,exception *param_1)
+
+{
+  int iVar1;
+  size_t sVar2;
+  char *pcVar3;
+  
+  this->vftablePtr = &vftable;
+  iVar1 = *(int *)(param_1 + 8);
+  (this->exception_data).offset_0x4 = iVar1;
+  pcVar3 = *(char **)(param_1 + 4);
+  if (iVar1 == 0) {
+    (this->exception_data).offset_0x0 = pcVar3;
+  }
+  else if (pcVar3 == (char *)0x0) {
+    (this->exception_data).offset_0x0 = (char *)0x0;
+  }
+  else {
+    sVar2 = _strlen(pcVar3);
+    pcVar3 = _malloc(sVar2 + 1);
+    (this->exception_data).offset_0x0 = pcVar3;
+    if (pcVar3 != (char *)0x0) {
+      _strcpy_s(pcVar3,sVar2 + 1,*(char **)(param_1 + 4));
+    }
+  }
+  return this;
+}
+
+

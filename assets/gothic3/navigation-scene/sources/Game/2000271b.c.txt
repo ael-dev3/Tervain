@@ -1,0 +1,127 @@
+/* ENTRY 2000271b | gCNavZone_PS::Test3DPointInZone | STATUS decompiled | 107 ms */
+
+/* public: bool __thiscall gCNavZone_PS::Test3DPointInZone(class bCVector const &,bool) */
+
+bool __thiscall gCNavZone_PS::Test3DPointInZone(gCNavZone_PS *this,bCVector *param_1,bool param_2)
+
+{
+  bool bVar1;
+  bCVector *pbVar2;
+  int iVar3;
+  int iVar4;
+  float fVar5;
+  bCVector *pbStack_4c;
+  bCVector abStack_44 [4];
+  bCVector abStack_40 [4];
+  bCVector abStack_3c [8];
+  bCVector abStack_34 [4];
+  bCVector abStack_30 [8];
+  bCVector abStack_28 [4];
+  bCVector abStack_24 [8];
+  bCVector abStack_1c [4];
+  bCVector abStack_18 [12];
+  float fStack_c;
+  float fStack_8;
+  float fStack_4;
+  
+                    /* 0x271b  7340  ?Test3DPointInZone@gCNavZone_PS@@QAE_NABVbCVector@@_N@Z */
+  pbStack_4c = param_1;
+  bCMatrix::operator*((bCMatrix *)&(this->gCNavZone_PS_data).field_0x100,abStack_18);
+  bCVector::operator-((bCVector *)
+                      ((int)(this->gCNavZone_PS_data).offset_0x10 +
+                      (this->gCNavZone_PS_data).offset_0x14 * 0xc + -0xc),abStack_34);
+  bCVector::operator-((this->gCNavZone_PS_data).offset_0x10,abStack_44);
+  fStack_8 = 0.0;
+  bCVector::SetY(abStack_3c,&fStack_8);
+  fStack_8 = 0.0;
+  bCVector::SetY((bCVector *)&stack0xffffffb8,&fStack_8);
+  fVar5 = bCVector::GetMagnitude2D(abStack_3c,1);
+  fStack_8 = bCVector::GetMagnitude2D((bCVector *)&stack0xffffffb8,1);
+  if ((fVar5 != 0.0) && (fStack_8 != 0.0)) {
+    bCVector::operator/=(abStack_3c,fVar5);
+    bCVector::operator/=((bCVector *)&stack0xffffffb8,fStack_8);
+    fStack_8 = bCVector::GetAngleUnitRad(abStack_3c,(bCVector *)&stack0xffffffb8);
+    if (ABS(fStack_8) <= *(float *)g_fPI_exref - 0.001) {
+      bCVector::bCVector(abStack_30);
+      bCVector::SetCrossProduct(abStack_30,abStack_3c,(bCVector *)&stack0xffffffb8);
+      bVar1 = bCVector::HasZeroMagnitude(abStack_30);
+      if (!bVar1) {
+        if (*(float *)g_fPI_exref < fStack_8) {
+          fStack_8 = fStack_8 - *(float *)g_f2PI_exref;
+        }
+        if (fStack_8 < -*(float *)g_fPI_exref) {
+          fStack_8 = fStack_8 + *(float *)g_f2PI_exref;
+        }
+        fStack_8 = ABS(fStack_8);
+        fStack_4 = fStack_8;
+        fVar5 = bCVector::GetY(abStack_30);
+        if (0.0 < fVar5) {
+          fStack_8 = fStack_8 * -1.0;
+        }
+      }
+      iVar4 = 1;
+      fStack_4 = fStack_8;
+      if (1 < (int)(this->gCNavZone_PS_data).offset_0x14) {
+        iVar3 = 0xc;
+        do {
+          bCVector::operator=(abStack_3c,(bCVector *)&stack0xffffffb8);
+          pbVar2 = (bCVector *)
+                   bCVector::operator-((bCVector *)
+                                       ((int)(this->gCNavZone_PS_data).offset_0x10 + iVar3),
+                                       abStack_18);
+          bCVector::operator=((bCVector *)&pbStack_4c,pbVar2);
+          bCVector::~bCVector(abStack_1c);
+          bCVector::SetY((bCVector *)&pbStack_4c,(float *)&stack0xffffffb0);
+          fStack_c = bCVector::GetMagnitude((bCVector *)&pbStack_4c);
+          if (fStack_c == 0.0) {
+            fStack_8 = *(float *)g_f2PI_exref;
+            break;
+          }
+          bCVector::operator/=((bCVector *)&pbStack_4c,fStack_c);
+          fStack_c = bCVector::GetAngleUnitRad(abStack_40,(bCVector *)&pbStack_4c);
+          if (*(float *)g_fPI_exref - 0.001 < ABS(fStack_c)) {
+            fStack_8 = *(float *)g_f2PI_exref;
+            break;
+          }
+          bCVector::SetCrossProduct(abStack_34,abStack_40,(bCVector *)&pbStack_4c);
+          bVar1 = bCVector::HasZeroMagnitude(abStack_34);
+          if (!bVar1) {
+            if (*(float *)g_fPI_exref < fStack_c) {
+              fStack_c = fStack_c - *(float *)g_f2PI_exref;
+            }
+            if (fStack_c < -*(float *)g_fPI_exref) {
+              fStack_c = fStack_c + *(float *)g_f2PI_exref;
+            }
+            fStack_c = ABS(fStack_c);
+            fVar5 = bCVector::GetY(abStack_34);
+            if (0.0 < fVar5) {
+              fStack_c = fStack_c * -1.0;
+            }
+          }
+          iVar4 = iVar4 + 1;
+          fStack_8 = fStack_c + fStack_8;
+          iVar3 = iVar3 + 0xc;
+        } while (iVar4 < (int)(this->gCNavZone_PS_data).offset_0x14);
+      }
+      fStack_8 = ABS(fStack_8);
+      if (fStack_8 <= *(float *)g_fPI_exref) {
+        bCVector::~bCVector(abStack_34);
+        bCVector::~bCVector((bCVector *)&pbStack_4c);
+        bCVector::~bCVector(abStack_40);
+        bCVector::~bCVector(abStack_28);
+        return false;
+      }
+      bCVector::~bCVector(abStack_34);
+      bCVector::~bCVector((bCVector *)&pbStack_4c);
+      bCVector::~bCVector(abStack_40);
+      bCVector::~bCVector(abStack_28);
+      return true;
+    }
+  }
+  bCVector::~bCVector((bCVector *)&stack0xffffffb8);
+  bCVector::~bCVector(abStack_3c);
+  bCVector::~bCVector(abStack_24);
+  return (bool)fStack_4._0_1_;
+}
+
+

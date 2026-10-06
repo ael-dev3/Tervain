@@ -1,0 +1,4 @@
+; 20009651 ?IsDisposable@gCInventoryStack@@QBE_NXZ
+20009651 | e93ade1b00 | JMP 0x201c7490
+; 20009656 gCQuest_PS::AccessRunningTimeHours
+; 20009656 Ordinal_1647

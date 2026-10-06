@@ -1,0 +1,2 @@
+; 300178fa eCVisualAnimation_PS::GetSkeletonCollisionEnabled
+300178fa | e9a1a20400 | JMP 0x30061ba0

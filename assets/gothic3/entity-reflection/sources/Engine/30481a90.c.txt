@@ -1,0 +1,14 @@
+/* ENTRY 30481a90 | eCEntityPropertySet::eCEntityPropertySet | STATUS decompiled | 9 ms */
+
+eCEntityPropertySet * __thiscall eCEntityPropertySet::eCEntityPropertySet(eCEntityPropertySet *this)
+
+{
+  bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)this);
+  (this->eCEntityPropertySet_data).offset_0xc =
+       (this->eCEntityPropertySet_data).offset_0xc & 0xf1 | 1;
+  this->vftablePtr = &vftable;
+  (this->eCEntityPropertySet_data).offset_0x8 = 0;
+  return this;
+}
+
+

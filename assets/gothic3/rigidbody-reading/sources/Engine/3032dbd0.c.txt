@@ -1,0 +1,15 @@
+/* ENTRY 3032dbd0 | FUN_3032dbd0 | STATUS decompiled | 5 ms */
+
+void __fastcall FUN_3032dbd0(int *param_1)
+
+{
+  eCDynamicEntity *peVar1;
+  eCPhysicsScene *this;
+  
+  peVar1 = (eCDynamicEntity *)(**(code **)(*param_1 + 0x68))();
+  this = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+  eCPhysicsScene::RemoveDynamicEntity(this,peVar1);
+  return;
+}
+
+

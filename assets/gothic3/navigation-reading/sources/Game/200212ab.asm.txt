@@ -1,0 +1,4 @@
+; 200212ab bTPropertyObjectType<gCArena_PS,eCEntityPropertySet>::vfunction2
+200212ab | e9f0b22600 | JMP 0x2028c5a0
+; 200212b0 gCMagicBarrier_PS::AccessShape
+; 200212b0 Ordinal_1671

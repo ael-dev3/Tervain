@@ -1,0 +1,4 @@
+; 10007ca7 Ordinal_4775
+10007ca7 | e9e41c0400 | JMP 0x10049990
+; 10007cac bCMessageAdmin::RegisterCallback
+; 10007cac Ordinal_3907

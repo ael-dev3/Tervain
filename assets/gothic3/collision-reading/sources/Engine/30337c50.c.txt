@@ -1,0 +1,42 @@
+/* ENTRY 30337c50 | bTPropertyContainer<eEPhysicRangeType>::bTPropertyContainer<eEPhysicRangeType> | STATUS decompiled | 18 ms */
+
+bTPropertyContainer<eEPhysicRangeType> * __thiscall
+bTPropertyContainer<eEPhysicRangeType>::bTPropertyContainer<eEPhysicRangeType>
+          (bTPropertyContainer<eEPhysicRangeType> *this)
+
+{
+  bCObjectBase **this_00;
+  undefined4 *this_01;
+  
+  eCCollisionShapeBase_PS::eCCollisionShapeBase_PS((eCCollisionShapeBase_PS *)this);
+                    /* inlined constructor: eCCollisionShape_PS::eCCollisionShape_PS */
+  this->vftablePtr = (bTPropertyContainer<eEPhysicRangeType>_vftable *)&eCCollisionShape_PS::vftable
+  ;
+  bCObjectBase::bCObjectBase((bCObjectBase *)&this[1].bTPropertyContainer<eEPhysicRangeType>_data);
+                    /* inlined constructor:
+                       bTPropertyContainer<eECollisionGroup>::bTPropertyContainer<eECollisionGroup>
+                        */
+  this[1].bTPropertyContainer<eEPhysicRangeType>_data.offset_0x0 =
+       &bTPropertyContainer<eECollisionGroup>::vftable.GetVersion;
+  this[1].bTPropertyContainer<eEPhysicRangeType>_data.offset_0x4 = DAT_30ada2c0;
+  this_00 = &this[1].bTPropertyContainer<eEPhysicRangeType>_data.offset_0x8;
+  bCObjectBase::bCObjectBase((bCObjectBase *)this_00);
+  *this_00 = (bCObjectBase *)&vftable;
+  this[2].vftablePtr = DAT_30aec2e8;
+  this[2].bTPropertyContainer<eEPhysicRangeType>_data.offset_0x4 = 0;
+  this[2].bTPropertyContainer<eEPhysicRangeType>_data.offset_0x8 = (bCObjectBase *)0x0;
+  this[3].vftablePtr = (bTPropertyContainer<eEPhysicRangeType>_vftable *)0x0;
+  this_01 = &this[4].bTPropertyContainer<eEPhysicRangeType>_data.offset_0x4;
+  this[3].bTPropertyContainer<eEPhysicRangeType>_data.offset_0x0 = (undefined **)0x0;
+  this[3].bTPropertyContainer<eEPhysicRangeType>_data.offset_0x4 = 0;
+  this[3].bTPropertyContainer<eEPhysicRangeType>_data.offset_0x8 = (bCObjectBase *)0x0;
+  bCString::bCString((bCString *)this_01);
+  thunk_FUN_3033c8e0();
+  thunk_FUN_3033c8e0();
+  *(undefined1 *)&this[4].vftablePtr = 0;
+  this[4].bTPropertyContainer<eEPhysicRangeType>_data.offset_0x0 = (undefined **)0x0;
+  bCString::Clear((bCString *)this_01);
+  return this;
+}
+
+

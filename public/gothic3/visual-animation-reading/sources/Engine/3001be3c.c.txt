@@ -1,0 +1,12 @@
+/* ENTRY 3001be3c | eCSpringAndDamperEffector::GetSpringDistRelaxed | STATUS decompiled | 3 ms */
+
+/* public: float const & __thiscall eCSpringAndDamperEffector::GetSpringDistRelaxed(void)const  */
+
+float * __thiscall eCSpringAndDamperEffector::GetSpringDistRelaxed(eCSpringAndDamperEffector *this)
+
+{
+                    /* 0x1be3c  8920  ?GetSpringDistRelaxed@eCSpringAndDamperEffector@@QBEABMXZ */
+  return (float *)&(this->eCEffector_data).offset_0x5c;
+}
+
+

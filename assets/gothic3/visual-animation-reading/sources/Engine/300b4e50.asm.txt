@@ -1,0 +1,13 @@
+; 300b4e50 bTPropertyType<eCVisualAnimation_PS,bTPropertyContainer<eEShapeMaterial>_>::vfunction6
+300b4e50 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+300b4e54 | 85c0 | TEST EAX,EAX
+300b4e56 | 7411 | JZ 0x300b4e69
+300b4e58 | 8b11 | MOV EDX,dword ptr [ECX]
+300b4e5a | 50 | PUSH EAX
+300b4e5b | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+300b4e5e | ffd0 | CALL EAX
+300b4e60 | 8b10 | MOV EDX,dword ptr [EAX]
+300b4e62 | 8bc8 | MOV ECX,EAX
+300b4e64 | 8b4218 | MOV EAX,dword ptr [EDX + 0x18]
+300b4e67 | ffd0 | CALL EAX
+300b4e69 | c20400 | RET 0x4

@@ -1,0 +1,37 @@
+/* ENTRY 10044490 | FUN_10044490 | STATUS decompiled | 18 ms */
+
+undefined4 FUN_10044490(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3,int param_4)
+
+{
+  bool bVar1;
+  eCEntity *peVar2;
+  Entity local_150 [56];
+  PSPlayerMemory local_118 [112];
+  Entity local_a8 [168];
+  
+  Entity::Entity(local_150);
+  if (param_2 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    Entity::AttachTo(local_150,peVar2);
+  }
+  else {
+    Entity::operator=(local_150,param_2);
+  }
+  Entity::Entity(local_a8);
+  if (param_3 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    Entity::AttachTo(local_a8,peVar2);
+  }
+  else {
+    Entity::operator=(local_a8,param_3);
+  }
+  bVar1 = PSPlayerMemory::IsValid(local_118);
+  if (bVar1) {
+    PSPlayerMemory::SetDexterity(local_118,param_4);
+  }
+  Entity::~Entity(local_a8);
+  Entity::~Entity(local_150);
+  return 1;
+}
+
+

@@ -1,0 +1,3 @@
+; 3035fbc0 bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeAABBAdapt>_>::vfunction5
+3035fbc0 | 8b4118 | MOV EAX,dword ptr [ECX + 0x18]
+3035fbc3 | c3 | RET

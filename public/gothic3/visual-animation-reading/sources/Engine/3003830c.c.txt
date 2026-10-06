@@ -1,0 +1,16 @@
+/* ENTRY 3003830c | eCVisualAnimation_PS::eCActorAttachment::~eCActorAttachment | STATUS decompiled | 6 ms */
+
+/* public: __thiscall eCVisualAnimation_PS::eCActorAttachment::~eCActorAttachment(void) */
+
+void __thiscall eCVisualAnimation_PS::eCActorAttachment::~eCActorAttachment(eCActorAttachment *this)
+
+{
+                    /* 0x3830c  984  ??1eCActorAttachment@eCVisualAnimation_PS@@QAE@XZ */
+  Destroy(this);
+  bCString::~bCString((bCString *)(this + 0x68));
+  bCMatrix::~bCMatrix((bCMatrix *)(this + 0x20));
+  eCEntityProxy::~eCEntityProxy((eCEntityProxy *)(this + 4));
+  return;
+}
+
+

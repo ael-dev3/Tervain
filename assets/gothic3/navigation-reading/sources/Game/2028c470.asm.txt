@@ -1,0 +1,3 @@
+; 2028c470 bTPropertyObject<gCNavigation_PS,eCEntityPropertySet>::vfunction4
+2028c470 | 8b490c | MOV ECX,dword ptr [ECX + 0xc]
+2028c473 | ff2578877d20 | JMP dword ptr [0x207d8778]

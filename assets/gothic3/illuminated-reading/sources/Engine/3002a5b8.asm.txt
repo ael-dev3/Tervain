@@ -1,0 +1,2 @@
+; 3002a5b8 bTPropertyContainer<eEDirectionalShadowType>::vfunction5
+3002a5b8 | e993931f00 | JMP 0x30223950

@@ -1,0 +1,2 @@
+; 10004fc0 bCMemoryStream::AccessBuffer
+10004fc0 | e94baa0100 | JMP 0x1001fa10

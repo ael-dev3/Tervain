@@ -1,0 +1,4 @@
+; 10006db6 ?RegisterPropertyObject@bCPropertyObjectFactory@@QAE_NPBVbCPropertyObjectBase@@@Z
+10006db6 | e9d5630800 | JMP 0x1008d190
+; 10006dbb bCFrustum::CopyTo
+; 10006dbb Ordinal_1775

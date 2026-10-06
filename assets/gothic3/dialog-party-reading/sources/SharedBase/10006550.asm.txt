@@ -1,0 +1,2 @@
+; 10006550 bCString::SetText
+10006550 | e9ebe00000 | JMP 0x10014640

@@ -1,0 +1,19 @@
+/* ENTRY 2020b960 | FUN_2020b960 | STATUS decompiled | 20 ms */
+
+undefined4 FUN_2020b960(eCEntity *param_1)
+
+{
+  int iVar1;
+  eCEntityProxy local_1c;
+  
+  eCEntityProxy::eCEntityProxy(&local_1c,param_1);
+  iVar1 = thunk_FUN_200ae850(&local_1c);
+  eCEntityProxy::~eCEntityProxy(&local_1c);
+  if (-1 < iVar1) {
+    thunk_FUN_20079710(iVar1);
+    return 1;
+  }
+  return 0;
+}
+
+

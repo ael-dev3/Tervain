@@ -1,0 +1,14 @@
+/* ENTRY 3000f61e | eCEntity::OnProcess | STATUS decompiled | 7 ms */
+
+/* protected: virtual void __thiscall eCEntity::OnProcess(void)
+   eCEntity member function inherited by eCSpatialEntity
+   eCEntity member function inherited by eCTemplateEntity */
+
+void __thiscall eCEntity::OnProcess(eCEntity *this)
+
+{
+                    /* 0xf61e  11385  ?OnProcess@eCEntity@@MAEXXZ */
+  return;
+}
+
+

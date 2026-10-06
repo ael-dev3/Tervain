@@ -1,0 +1,30 @@
+/* ENTRY 202191c0 | bTPropertyContainer<gESessionKey>::bTPropertyContainer<gESessionKey> | STATUS decompiled | 12 ms */
+
+bTPropertyContainer<gESessionKey> * __thiscall
+bTPropertyContainer<gESessionKey>::bTPropertyContainer<gESessionKey>
+          (bTPropertyContainer<gESessionKey> *this)
+
+{
+  bCObjectBase **this_00;
+  
+  eCEntityPropertySet::eCEntityPropertySet((eCEntityPropertySet *)this);
+                    /* inlined constructor: gCCharacterControl_PS::gCCharacterControl_PS */
+  this->vftablePtr = (bTPropertyContainer<gESessionKey>_vftable *)&gCCharacterControl_PS::vftable;
+  bCObjectBase::bCObjectBase((bCObjectBase *)&this[1].bTPropertyContainer<gESessionKey>_data);
+                    /* inlined constructor:
+                       bTPropertyContainer<gECharacterControlFOR>::bTPropertyContainer<gECharacterControlFOR>
+                        */
+  this[1].bTPropertyContainer<gESessionKey>_data.offset_0x0 =
+       &bTPropertyContainer<gECharacterControlFOR>::vftable.GetVersion;
+  this[1].bTPropertyContainer<gESessionKey>_data.offset_0x4 = DAT_207bd774;
+  this_00 = &this[1].bTPropertyContainer<gESessionKey>_data.offset_0x8;
+  bCObjectBase::bCObjectBase((bCObjectBase *)this_00);
+  *this_00 = (bCObjectBase *)&vftable;
+  this[2].vftablePtr = DAT_207bd778;
+  bCVector::bCVector((bCVector *)(this + 6));
+  bCMatrix::bCMatrix((bCMatrix *)&this[6].bTPropertyContainer<gESessionKey>_data.offset_0x8);
+  gCCharacterControl_PS::Invalidate((gCCharacterControl_PS *)this);
+  return this;
+}
+
+

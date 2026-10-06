@@ -1,0 +1,15 @@
+/* ENTRY 30039216 | eCCollisionShape::GetGroup | STATUS decompiled | 4 ms */
+
+/* public: class bTPropertyContainer<enum eEShapeGroup> const & __thiscall
+   eCCollisionShape::GetGroup(void)const  */
+
+bTPropertyContainer<eEShapeGroup> * __thiscall eCCollisionShape::GetGroup(eCCollisionShape *this)
+
+{
+                    /* 0x39216  7240
+                       ?GetGroup@eCCollisionShape@@QBEABV?$bTPropertyContainer@W4eEShapeGroup@@@@XZ
+                        */
+  return (bTPropertyContainer<eEShapeGroup> *)&(this->eCCollisionShape_data).offset_0x10;
+}
+
+

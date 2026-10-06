@@ -1,0 +1,14 @@
+/* ENTRY 300321af | eCSpringAndDamperEffector::AccessSpringDistCompressSaturate | STATUS decompiled | 4 ms */
+
+/* public: float & __thiscall eCSpringAndDamperEffector::AccessSpringDistCompressSaturate(void) */
+
+float * __thiscall
+eCSpringAndDamperEffector::AccessSpringDistCompressSaturate(eCSpringAndDamperEffector *this)
+
+{
+                    /* 0x321af  3161
+                       ?AccessSpringDistCompressSaturate@eCSpringAndDamperEffector@@QAEAAMXZ */
+  return (float *)&(this->eCEffector_data).offset_0x58;
+}
+
+

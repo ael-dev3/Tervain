@@ -1,0 +1,8 @@
+; 1003aea0 FUN_1003aea0
+1003aea0 | 56 | PUSH ESI
+1003aea1 | 8b742408 | MOV ESI,dword ptr [ESP + 0x8]
+1003aea5 | 56 | PUSH ESI
+1003aea6 | e8adb8fcff | CALL 0x10006758
+1003aeab | 8bc6 | MOV EAX,ESI
+1003aead | 5e | POP ESI
+1003aeae | c20400 | RET 0x4

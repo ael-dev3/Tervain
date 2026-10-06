@@ -1,0 +1,4 @@
+; 10005a9c ??0bCCapsule@@QAE@XZ
+10005a9c | e9bf1f0500 | JMP 0x10057a60
+; 10005aa6 bCVector::GetUp
+; 10005aa6 Ordinal_3196

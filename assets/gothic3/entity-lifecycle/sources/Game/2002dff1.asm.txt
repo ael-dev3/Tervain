@@ -1,0 +1,4 @@
+; 2002dff1 ?OnCreateContext@gCDynamicLayer@@MAEPAVbCPropertyObjectBase@@XZ
+2002dff1 | e9ba6e1a00 | JMP 0x201d4eb0
+; 2002dff6 gCScriptRoutine_PS::SetTaskPosition
+; 2002dff6 Ordinal_7118

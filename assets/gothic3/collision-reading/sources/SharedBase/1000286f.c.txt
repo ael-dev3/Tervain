@@ -1,0 +1,12 @@
+/* ENTRY 1000286f | bCCapsule::Create | STATUS decompiled | 2 ms */
+
+/* public: enum bEResult __thiscall bCCapsule::Create(void) */
+
+bEResult __thiscall bCCapsule::Create(bCCapsule *this)
+
+{
+                    /* 0x286f  1798  ?Create@bCCapsule@@QAE?AW4bEResult@@XZ */
+  return 1;
+}
+
+

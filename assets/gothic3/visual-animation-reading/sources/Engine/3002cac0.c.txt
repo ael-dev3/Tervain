@@ -1,0 +1,16 @@
+/* ENTRY 3002cac0 | bTPropertyObject<eCVisualAnimation_PS,eCEntityPropertySet>::vfunction4 | STATUS decompiled | 25 ms */
+
+void __thiscall
+bTPropertyObject<eCVisualAnimation_PS,eCEntityPropertySet>::vfunction4
+          (bTPropertyObject<eCVisualAnimation_PS,eCEntityPropertySet> *this)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x300ad173. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCPropertyObjectTypeBase::GetDescription
+            ((bCPropertyObjectTypeBase *)
+             (this->bTPropertyObject<eCVisualAnimation_PS,eCEntityPropertySet>_data).offset_0x0);
+  return;
+}
+
+

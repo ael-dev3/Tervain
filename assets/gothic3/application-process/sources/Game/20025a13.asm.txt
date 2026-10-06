@@ -1,0 +1,2 @@
+; 20025a13 ?OnProcess@gCClock_PS@@UAEXXZ
+20025a13 | e9e8271e00 | JMP 0x20208200

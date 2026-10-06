@@ -1,0 +1,32 @@
+/* ENTRY 1000c160 | FUN_1000c160 | STATUS decompiled | 9 ms */
+
+undefined4 FUN_1000c160(void)
+
+{
+  int iVar1;
+  Entity aEStack_ac [164];
+  undefined4 uStack_8;
+  
+  Entity::Entity(aEStack_ac,(Entity *)&stack0x00000004);
+  iVar1 = thunk_FUN_1000c010();
+  if (iVar1 == 4) {
+    uStack_8 = 0x1000c1c3;
+    Entity::~Entity((Entity *)&stack0x00000004);
+    return 1;
+  }
+  if (iVar1 != 5) {
+    if (iVar1 != 6) {
+      uStack_8 = 0x1000c199;
+      Entity::~Entity((Entity *)&stack0x00000004);
+      return 0;
+    }
+    uStack_8 = 0x1000c1a5;
+    Entity::~Entity((Entity *)&stack0x00000004);
+    return 3;
+  }
+  uStack_8 = 0x1000c1b4;
+  Entity::~Entity((Entity *)&stack0x00000004);
+  return 2;
+}
+
+

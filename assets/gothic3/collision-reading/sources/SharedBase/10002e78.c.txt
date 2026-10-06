@@ -1,0 +1,13 @@
+/* ENTRY 10002e78 | bCOrientedBox::GetVolume | STATUS decompiled | 4 ms */
+
+/* public: float __thiscall bCOrientedBox::GetVolume(void)const  */
+
+float __thiscall bCOrientedBox::GetVolume(bCOrientedBox *this)
+
+{
+                    /* 0x2e78  3227  ?GetVolume@bCOrientedBox@@QBEMXZ */
+  return *(float *)(this + 0x10) * 2.0 * *(float *)(this + 0xc) * 2.0 *
+         *(float *)(this + 0x14) * 2.0;
+}
+
+

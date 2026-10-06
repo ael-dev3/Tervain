@@ -1,0 +1,45 @@
+/* ENTRY 2020a700 | bTPropertyType<gCClock_PS,unsigned_long>::vfunction15 | STATUS decompiled | 16 ms */
+
+void __thiscall
+bTPropertyType<gCClock_PS,unsigned_long>::vfunction15
+          (bTPropertyType<gCClock_PS,unsigned_long> *this,bCIStream *param_1)
+
+{
+  int iVar1;
+  int *piVar2;
+  bCString *pbVar3;
+  char *pcVar4;
+  bTPropertyType<gCAnchor_PS,unsigned_long>_vftable *pbVar5;
+  code *pcVar6;
+  undefined4 *in_stack_00000008;
+  undefined4 uVar7;
+  ulong uStack_4;
+  
+  (*this->vftablePtr->Read)(this,(bCIStream *)param_1);
+  pcVar6 = operator>>_exref;
+  bCIStream::operator>>(param_1,&uStack_4);
+  iVar1 = (**(code **)*in_stack_00000008)();
+  if (iVar1 != 0) {
+    piVar2 = (int *)(**(code **)*in_stack_00000008)();
+    iVar1 = *piVar2;
+    uVar7 = 1;
+    pbVar3 = bCPropertyTypeBase::GetPropertyName((bCPropertyTypeBase *)this);
+    pcVar4 = bCString::operator_char_const_(pbVar3);
+    (**(code **)(iVar1 + 0x58))(pcVar4,uVar7);
+    pcVar6 = operator>>_exref;
+  }
+  pbVar5 = (*this->vftablePtr->vfunction26)(this,in_stack_00000008);
+  (*pcVar6)(pbVar5);
+  iVar1 = (**(code **)*in_stack_00000008)();
+  if (iVar1 != 0) {
+    piVar2 = (int *)(**(code **)*in_stack_00000008)();
+    iVar1 = *piVar2;
+    uVar7 = 1;
+    pbVar3 = bCPropertyTypeBase::GetPropertyName((bCPropertyTypeBase *)this);
+    pcVar4 = bCString::operator_char_const_(pbVar3);
+    (**(code **)(iVar1 + 0x5c))(pcVar4,uVar7);
+  }
+  return;
+}
+
+

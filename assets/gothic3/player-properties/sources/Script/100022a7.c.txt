@@ -1,0 +1,21 @@
+/* ENTRY 100022a7 | PSPlayerMemory::SetGameEvent | STATUS decompiled | 7 ms */
+
+/* public: bool __thiscall PSPlayerMemory::SetGameEvent(class bCString const &) */
+
+bool __thiscall PSPlayerMemory::SetGameEvent(PSPlayerMemory *this,bCString *param_1)
+
+{
+  int iVar1;
+  
+                    /* 0x22a7  1946  ?SetGameEvent@PSPlayerMemory@@QAE_NABVbCString@@@Z */
+  if (*(int *)this == 0) {
+    return false;
+  }
+  iVar1 = thunk_FUN_1001f480((void *)(*(int *)this + 0x18),param_1);
+  if (iVar1 == -1) {
+    thunk_FUN_100292e0((void *)(*(int *)this + 0x18),param_1);
+  }
+  return true;
+}
+
+

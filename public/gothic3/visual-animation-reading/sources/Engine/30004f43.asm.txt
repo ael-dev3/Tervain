@@ -1,0 +1,2 @@
+; 30004f43 eCResourceDataEntity::SearchResourcePropertySet
+30004f43 | e958aa4b00 | JMP 0x304bf9a0

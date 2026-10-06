@@ -1,0 +1,2 @@
+; 2002b2ec gCInteraction_PS::Read
+2002b2ec | e9bf8c3d00 | JMP 0x20403fb0

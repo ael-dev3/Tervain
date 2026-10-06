@@ -1,0 +1,11 @@
+/* ENTRY 20404ca0 | bTPropertyContainer<gEUseType>::vfunction8 | STATUS decompiled | 2 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<gEUseType>::vfunction8(bTPropertyContainer<gEUseType> *this,int param_1)
+
+{
+  (this->bTPropertyContainer<gEUseType>_data).offset_0x0 = *(undefined ***)(param_1 + 4);
+  return 1;
+}
+
+

@@ -1,0 +1,11 @@
+/* ENTRY 201c5250 | bTPropertyType<gCInventorySlot,bTPropertyContainer<gESlot>_>::vfunction5 | STATUS decompiled | 2 ms */
+
+bTPropertyType<gCInventorySlot,bTPropertyContainer<gESlot>_>_vftable * __thiscall
+bTPropertyType<gCInventorySlot,bTPropertyContainer<gESlot>_>::vfunction5
+          (bTPropertyType<gCInventorySlot,bTPropertyContainer<gESlot>_> *this)
+
+{
+  return this[6].vftablePtr;
+}
+
+

@@ -1,0 +1,2 @@
+; 3001b3e7 ?SetAdaptToAABB@eCCollisionShape@@QAEXAB_N@Z
+3001b3e7 | e944750a00 | JMP 0x300c2930

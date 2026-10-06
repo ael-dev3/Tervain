@@ -1,0 +1,17 @@
+/* ENTRY 10129760 | FUN_10129760 | STATUS decompiled | 6 ms */
+
+void FUN_10129760(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Memory\\GetAttribute.cpp");
+  bCString::bCString(local_8,"AddManaPoints");
+  thunk_FUN_10017a50(local_8,thunk_FUN_10046370,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

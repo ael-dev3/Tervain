@@ -1,0 +1,2 @@
+; 2002f6d0 bTPropertyType<gCEffect_PS,bCVector>::vfunction15
+2002f6d0 | e91bc40e00 | JMP 0x2011baf0

@@ -1,0 +1,2 @@
+; 3002a784 eCVirtualFileSystem::GetFilePath
+3002a784 | e9a7265a00 | JMP 0x305cce30

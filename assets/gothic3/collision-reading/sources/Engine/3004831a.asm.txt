@@ -1,0 +1,2 @@
+; 3004831a ?AccessDisableCollision@eCCollisionShape_PS@@QAEAA_NXZ
+3004831a | e961a90700 | JMP 0x300c2c80

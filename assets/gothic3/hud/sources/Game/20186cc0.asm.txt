@@ -1,0 +1,10 @@
+; 20186cc0 gCHUDListCtrlInvDocuments::gCHUDListCtrlInvDocuments
+20186cc0 | 56 | PUSH ESI
+20186cc1 | 8bf1 | MOV ESI,ECX
+20186cc3 | e8b3deeaff | CALL 0x20034b7b
+20186cc8 | c706b46d6720 | MOV dword ptr [ESI],0x20676db4
+20186cce | c74610986d6720 | MOV dword ptr [ESI + 0x10],0x20676d98
+20186cd5 | c74634ffffffff | MOV dword ptr [ESI + 0x34],0xffffffff
+20186cdc | 8bc6 | MOV EAX,ESI
+20186cde | 5e | POP ESI
+20186cdf | c3 | RET

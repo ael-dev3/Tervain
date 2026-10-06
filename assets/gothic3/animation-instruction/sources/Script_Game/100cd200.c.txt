@@ -1,0 +1,109 @@
+/* ENTRY 100cd200 | FUN_100cd200 | STATUS decompiled | 54 ms */
+
+gEAniState
+FUN_100cd200(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3,undefined4 param_4)
+
+{
+  eCEntity *peVar1;
+  gEAniState gVar2;
+  gEAniState gVar3;
+  Entity local_150 [4];
+  PropertyAniState local_14c [164];
+  Entity local_a8 [168];
+  
+  Entity::Entity(local_150);
+  if (param_2 == (Entity *)0x0) {
+    peVar1 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    Entity::AttachTo(local_150,peVar1);
+  }
+  else {
+    Entity::operator=(local_150,param_2);
+  }
+  Entity::Entity(local_a8);
+  if (param_3 == (Entity *)0x0) {
+    peVar1 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    Entity::AttachTo(local_a8,peVar1);
+  }
+  else {
+    Entity::operator=(local_a8,param_3);
+  }
+  gVar2 = PSRoutine::PropertyAniState::operator_enum_gEAniState(local_14c);
+  switch(param_4) {
+  case 0xd:
+    gVar2 = 4;
+    break;
+  case 0x1a:
+    gVar2 = 0xf;
+    break;
+  case 0x1d:
+    gVar2 = 0x10;
+    break;
+  case 0x1e:
+    gVar2 = 0x11;
+    break;
+  case 0x20:
+    gVar3 = PSRoutine::PropertyAniState::operator_enum_gEAniState(local_14c);
+    switch(gVar3) {
+    case 0xf:
+    case 0x10:
+      gVar2 = 0x12;
+      break;
+    case 0x11:
+      goto switchD_100cd2a6_caseD_21;
+    case 0x14:
+      goto switchD_100cd2a6_caseD_23;
+    }
+    break;
+  case 0x21:
+switchD_100cd2a6_caseD_21:
+    gVar2 = 0x13;
+    break;
+  case 0x22:
+    gVar2 = 0x14;
+    break;
+  case 0x23:
+switchD_100cd2a6_caseD_23:
+    gVar2 = 0x15;
+    break;
+  case 0x49:
+    gVar2 = 2;
+    break;
+  case 0x4a:
+    gVar2 = 3;
+    break;
+  case 0x4b:
+    gVar2 = 5;
+    break;
+  case 0x4c:
+    gVar2 = 6;
+    break;
+  case 0x4d:
+    gVar2 = 7;
+    break;
+  case 0x4e:
+    gVar2 = 8;
+    break;
+  case 0x4f:
+    gVar2 = 9;
+    break;
+  case 0x50:
+    gVar2 = 10;
+    break;
+  case 0x51:
+    gVar2 = 0xb;
+    break;
+  case 0x6b:
+    gVar2 = 0xc;
+    break;
+  case 0x6c:
+    gVar2 = 0xd;
+    break;
+  case 0x6d:
+    gVar2 = 0xe;
+  }
+  Entity::~Entity(local_a8);
+  Entity::~Entity(local_150);
+  return gVar2;
+}
+
+

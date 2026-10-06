@@ -1,0 +1,2 @@
+; 20030a30 ?Read@gCNavigation_PS@@UAE?AW4bEResult@@AAVbCIStream@@@Z
+20030a30 | e9fb852500 | JMP 0x20289030

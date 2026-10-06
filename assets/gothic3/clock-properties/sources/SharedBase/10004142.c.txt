@@ -1,0 +1,13 @@
+/* ENTRY 10004142 | bCFPUAdmin::SetLowPrecision | STATUS decompiled | 3 ms */
+
+/* public: void __thiscall bCFPUAdmin::SetLowPrecision(void) */
+
+void __thiscall bCFPUAdmin::SetLowPrecision(bCFPUAdmin *this)
+
+{
+                    /* 0x4142  4238  ?SetLowPrecision@bCFPUAdmin@@QAEXXZ */
+  __controlfp(*(uint *)(this + 4) & 0xfffeffff | 0x20000,0x30000);
+  return;
+}
+
+

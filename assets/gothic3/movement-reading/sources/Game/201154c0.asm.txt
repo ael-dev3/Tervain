@@ -1,0 +1,15 @@
+; 201154c0 gCEffectModule::gCEffectModule
+201154c0 | 56 | PUSH ESI
+201154c1 | 8bf1 | MOV ESI,ECX
+201154c3 | ff15c86a7d20 | CALL dword ptr [0x207d6ac8]
+201154c9 | c706a4676620 | MOV dword ptr [ESI],0x206667a4
+201154cf | c7461400000000 | MOV dword ptr [ESI + 0x14],0x0
+201154d6 | ff1558717d20 | CALL dword ptr [0x207d7158]
+201154dc | 8b10 | MOV EDX,dword ptr [EAX]
+201154de | 8bc8 | MOV ECX,EAX
+201154e0 | 8b4274 | MOV EAX,dword ptr [EDX + 0x74]
+201154e3 | 56 | PUSH ESI
+201154e4 | ffd0 | CALL EAX
+201154e6 | 8bc6 | MOV EAX,ESI
+201154e8 | 5e | POP ESI
+201154e9 | c3 | RET

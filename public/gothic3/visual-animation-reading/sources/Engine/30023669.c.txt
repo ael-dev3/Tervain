@@ -1,0 +1,17 @@
+/* ENTRY 30023669 | thunk_FUN_30072270 | STATUS decompiled | 6 ms */
+
+void thunk_FUN_30072270(bCString *param_1,int param_2)
+
+{
+  _memset(param_1,0,param_2 * 4);
+  while (param_2 != 0) {
+    param_2 = param_2 + -1;
+    if (param_1 != (bCString *)0x0) {
+      bCString::bCString(param_1);
+    }
+    param_1 = param_1 + 4;
+  }
+  return;
+}
+
+

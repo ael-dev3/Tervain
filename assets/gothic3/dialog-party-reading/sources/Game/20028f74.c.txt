@@ -1,0 +1,12 @@
+/* ENTRY 20028f74 | gCParty_PS::GetVersion | STATUS decompiled | 6 ms */
+
+/* public: virtual unsigned short __thiscall gCParty_PS::GetVersion(void)const  */
+
+ushort __thiscall gCParty_PS::GetVersion(gCParty_PS *this)
+
+{
+                    /* 0x28f74  4719  ?GetVersion@gCParty_PS@@UBEGXZ */
+  return 1;
+}
+
+

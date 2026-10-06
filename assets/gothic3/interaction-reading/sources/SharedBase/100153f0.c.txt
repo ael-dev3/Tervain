@@ -1,0 +1,23 @@
+/* ENTRY 100153f0 | FUN_100153f0 | STATUS decompiled | 5 ms */
+
+bCString * __thiscall FUN_100153f0(bCString *param_1,char *param_2)
+
+{
+  char cVar1;
+  char *pcVar2;
+  size_t _Size;
+  
+  pcVar2 = param_2;
+  do {
+    cVar1 = *pcVar2;
+    pcVar2 = pcVar2 + 1;
+  } while (cVar1 != '\0');
+  _Size = (int)pcVar2 - (int)(param_2 + 1);
+  bCString::Realloc(param_1,_Size);
+  if (0 < (int)_Size) {
+    _memcpy(*(void **)param_1,param_2,_Size);
+  }
+  return param_1;
+}
+
+

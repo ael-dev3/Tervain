@@ -1,0 +1,18 @@
+/* ENTRY 300332b2 | eCCollisionShape::SetOverrideEntityAABB | STATUS decompiled | 308 ms */
+
+/* public: void __thiscall eCCollisionShape::SetOverrideEntityAABB(bool const &) */
+
+void __thiscall eCCollisionShape::SetOverrideEntityAABB(eCCollisionShape *this,bool *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x332b2  13885  ?SetOverrideEntityAABB@eCCollisionShape@@QAEXAB_N@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"OverrideEntityAABB",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  (this->eCCollisionShape_data).offset_0x2a = (bCObjectRefBase)*param_1;
+  (*pNVar1)(this,"OverrideEntityAABB",false);
+  return;
+}
+
+

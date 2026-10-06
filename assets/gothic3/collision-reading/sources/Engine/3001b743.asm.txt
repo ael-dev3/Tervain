@@ -1,0 +1,4 @@
+; 3001b743 ?SetTriggersOnUntouch@eCCollisionShape@@QAEXAB_N@Z
+3001b743 | e908700a00 | JMP 0x300c2750
+; 3001b752 eCPropertySetCtrl::OnClickListData
+; 3001b752 Ordinal_10971

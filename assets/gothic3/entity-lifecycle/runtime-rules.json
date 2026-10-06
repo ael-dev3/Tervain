@@ -1,0 +1,85 @@
+{
+  "schema": "gothic3-entity-lifecycle-rules-v1",
+  "inputs": {
+    "Engine": "d49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3",
+    "Game": "b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f",
+    "SharedBase": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214"
+  },
+  "propertyOwnerOffset": 12,
+  "propertyAddedBeforeAppend": true,
+  "propertyIDEqualityBytes": 16,
+  "propertyTypes": {
+    "gCNavigation_PS": 5,
+    "gCNavPath_PS": 10,
+    "gCNPC_PS": 30,
+    "gCInventory_PS": 31,
+    "gCScriptRoutine_PS": 45,
+    "gCInteraction_PS": 49,
+    "gCDamage_PS": 51,
+    "gCDamageReceiver_PS": 52,
+    "gCFocus_PS": 59,
+    "gCPlayerMemory_PS": 60,
+    "gCDialog_PS": 68,
+    "eCIlluminated_PS": 74,
+    "gCParty_PS": 77,
+    "gCEffect_PS": 96,
+    "eCVisualAnimation_PS": 100,
+    "gCCharacterMovement_PS": 21
+  },
+  "entity": {
+    "constructorReferenceWord": 1,
+    "validity": "eCNode::IsValid checks first16 PropertyID bytes, independently of referenceWord high bit",
+    "baseEntityCreate": "reference high bit, frustum backpointer, property-type comparator; spatial Create override excluded",
+    "registration": "SceneAdmin first table overwrite by first16 ID; erase by key regardless of stored pointer",
+    "storedIdentityRead": "unregister old ID -> stream consume20/copy16/clear trailingDWORD -> register new ID",
+    "onReadContent": "all four audited entity classes inherit empty eCNode::OnReadContent"
+  },
+  "propertyBase": {
+    "constructorReferenceWord": 1,
+    "constructorFlagBit0": true,
+    "virtualValidity": "base reference high bit, NOT serialized flag bit0",
+    "read": "version>1 reads flagbit0 bool; otherwise sets true; derived reads are separate"
+  },
+  "navPath": {
+    "vtable": "2068f414",
+    "inheritedNotifications": true,
+    "currentReadVersion": 39,
+    "constructor": "Game20017b34->20298600, Game20005358 transient Invalidate; source arrays/margins are separate",
+    "constructorObjectOffsets": {
+      "mean0": "0xbc",
+      "maximumMinus1": "0xc0",
+      "minimumMinus1": "0xc4",
+      "dirtyByte1": "0xb8",
+      "zeroFields": [
+        "0x10c",
+        "0x110",
+        "0xc8"
+      ]
+    },
+    "read": "version39 consumes only derived u16; legacy migration excluded",
+    "added": "non-template map pointer registration, then inverse current owner world matrix, then empty Engine base",
+    "worldMatrixAdapter": "path.worldMatrix aliases the exact stable mutable embedded live-owner matrix, never a serialized snapshot; CalcPathHeights2003014d rereads it on a cache miss",
+    "postRead": "GameReset202983f0 clears DCC pointers and owner proxy, sets byteb8=1, leaves height cachesbc/c0/c4 unchanged; version39 skips legacy migration",
+    "heightCacheIdentity": "rawbc/c0/c4 readers alias navigation path.heights; null represents constructor0/-1/-1"
+  },
+  "dynamicGraph": {
+    "attachFreshChild": "assign parent, recursive SetContext, AddReference, append",
+    "setGraph": "AddReference argument, ReleaseReference old/clear, SetContext argument, assign",
+    "contextIsResidency": false
+  },
+  "sourceCandidatesAreLiveEntities": false,
+  "remaining": [
+    "Full context construction: selected candidate exports omit other original nodes and cannot instantiate a complete context graph.",
+    "Reflective object/accessor factory, complete class constructors/Create/Read and each class-specific OnPostRead override.",
+    "Entity ReadV83 field setters and full template patching after dynamic Read; no bulk source-value copying substitutes for callbacks.",
+    "PVS/cache-in, sector activation, ChildrenAvailable, physical collision/movement and processing-range traversal.",
+    "SceneAdmin spatial/template tables and exact proxy lifetime/destruction hosts.",
+    "Native GE_MESSAGEF_WARN missing-property-object branch and fatal already-owned-PS error observers.",
+    "Existing-parent MoveToNode, spatial graph override, equal-type native qsort order, sorted AddPropertySet(true), PS type0/4 reflective-name lookup.",
+    "Native multithread critical-section scheduling and x87 bit equivalence."
+  ],
+  "evidence": {
+    "path": "native-evidence.json",
+    "sha256": "106d25de9d13ba60ebba845eb272341c0407d608584468508e0e6306c684b93e"
+  }
+}

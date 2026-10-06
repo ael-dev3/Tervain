@@ -1,0 +1,4 @@
+; 100029a0 ?Intersects@bCBox@@QBE_NABVbCVector@@@Z
+100029a0 | e9ab360500 | JMP 0x10056050
+; 100029a5 bCMatrix::GetRotatedByLocalAxisY
+; 100029a5 Ordinal_2939

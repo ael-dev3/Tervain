@@ -1,0 +1,4 @@
+; 304c42e0 FUN_304c42e0
+304c42e0 | c7410400000000 | MOV dword ptr [ECX + 0x4],0x0
+304c42e7 | 83c108 | ADD ECX,0x8
+304c42ea | ff2534d8af30 | JMP dword ptr [0x30afd834]

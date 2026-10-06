@@ -1,0 +1,57 @@
+/* ENTRY 300bd6b0 | FUN_300bd6b0 | STATUS decompiled | 18 ms */
+
+undefined4 __thiscall FUN_300bd6b0(eCVisualAnimationFactory *param_1,bCString *param_2)
+
+{
+  int iVar1;
+  uint uVar2;
+  int iVar3;
+  bCString *pbVar4;
+  void *_Dst;
+  
+  uVar2 = 0;
+  if (0 < *(int *)(param_1 + 0x14)) {
+    iVar3 = 0;
+    do {
+      pbVar4 = (bCString *)(*(int *)(param_1 + 0x10) + iVar3);
+      iVar1 = bCString::CompareNoCase(pbVar4,param_2);
+      if (iVar1 == 0) {
+        if (*(int **)(pbVar4 + 4) != (int *)0x0) {
+          (**(code **)(**(int **)(pbVar4 + 4) + 0x24))();
+          *(undefined4 *)(pbVar4 + 4) = 0;
+        }
+        if (*(int **)(pbVar4 + 8) != (int *)0x0) {
+          (**(code **)(**(int **)(pbVar4 + 8) + 0x24))();
+          *(undefined4 *)(pbVar4 + 8) = 0;
+        }
+        if (uVar2 < *(uint *)(param_1 + 0x14)) {
+          bCString::~bCString((bCString *)(*(int *)(param_1 + 0x10) + uVar2 * 0x10));
+          iVar3 = (*(int *)(param_1 + 0x14) - uVar2) + -1;
+          if (0 < iVar3) {
+            _Dst = (void *)(uVar2 * 0x10 + *(int *)(param_1 + 0x10));
+            _memmove(_Dst,(void *)((int)_Dst + 0x10),iVar3 * 0x10);
+          }
+          pbVar4 = (bCString *)(*(int *)(param_1 + 0x14) * 0x10 + -0x10 + *(int *)(param_1 + 0x10));
+          *(undefined4 *)pbVar4 = 0;
+          *(undefined4 *)(pbVar4 + 4) = 0;
+          *(undefined4 *)(pbVar4 + 8) = 0;
+          *(undefined4 *)(pbVar4 + 0xc) = 0;
+          if (pbVar4 != (bCString *)0x0) {
+            bCString::bCString(pbVar4);
+            *(undefined4 *)(pbVar4 + 4) = 0;
+            *(undefined4 *)(pbVar4 + 8) = 0;
+            pbVar4[0xc] = (bCString)0x1;
+          }
+          *(int *)(param_1 + 0x14) = *(int *)(param_1 + 0x14) + -1;
+        }
+        eCVisualAnimationFactory::RemoveNotUsedBones(param_1);
+        return 1;
+      }
+      uVar2 = uVar2 + 1;
+      iVar3 = iVar3 + 0x10;
+    } while ((int)uVar2 < *(int *)(param_1 + 0x14));
+  }
+  return 0;
+}
+
+

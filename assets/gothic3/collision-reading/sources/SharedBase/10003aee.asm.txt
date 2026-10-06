@@ -1,0 +1,4 @@
+; 10003aee ?SetCenter@bCOrientedBox@@QAEXABVbCVector@@@Z
+10003aee | e93df30500 | JMP 0x10062e30
+; 10003af3 bCCapsule::GetHeight
+; 10003af3 Ordinal_2388

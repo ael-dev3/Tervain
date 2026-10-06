@@ -1,0 +1,38 @@
+/* ENTRY 20029749 | gCCharacterSensor_PS::gCCharacterSensor_PS | STATUS decompiled | 13 ms */
+
+/* public: __thiscall gCCharacterSensor_PS::gCCharacterSensor_PS(class gCCharacterSensor_PS const &)
+    */
+
+gCCharacterSensor_PS * __thiscall
+gCCharacterSensor_PS::gCCharacterSensor_PS(gCCharacterSensor_PS *this,gCCharacterSensor_PS *param_1)
+
+{
+  undefined1 *this_00;
+  undefined1 *this_01;
+  undefined1 *this_02;
+  
+                    /* 0x29749  48  ??0gCCharacterSensor_PS@@QAE@ABV0@@Z */
+  eCEntityPropertySet::eCEntityPropertySet((eCEntityPropertySet *)this);
+  this_00 = &(this->gCCharacterSensor_PS_data).field_0x10;
+  this->vftablePtr = &vftable;
+  bCVector::bCVector((bCVector *)this_00);
+  this_01 = &(this->gCCharacterSensor_PS_data).field_0x1c;
+  bCVector::bCVector((bCVector *)this_01);
+  bCVector::bCVector((bCVector *)&(this->gCCharacterSensor_PS_data).field_0x28);
+  this_02 = &(this->gCCharacterSensor_PS_data).field_0x40;
+  bCVector::bCVector((bCVector *)this_02);
+  bCQuaternion::bCQuaternion((bCQuaternion *)&(this->gCCharacterSensor_PS_data).field_0x4c);
+  (this->gCCharacterSensor_PS_data).offset_0x38 = 0;
+  (this->gCCharacterSensor_PS_data).offset_0x3d = 1;
+  (this->gCCharacterSensor_PS_data).offset_0x34 = 1;
+  (this->gCCharacterSensor_PS_data).offset_0x35 = 1;
+  bCVector::Clear((bCVector *)this_00);
+  bCVector::Clear((bCVector *)this_01);
+  bCVector::Clear((bCVector *)&(this->gCCharacterSensor_PS_data).field_0x28);
+  bCVector::Clear((bCVector *)this_02);
+  bCQuaternion::Clear((bCQuaternion *)&(this->gCCharacterSensor_PS_data).field_0x4c);
+  (this->gCCharacterSensor_PS_data).offset_0x3c = 0;
+  return this;
+}
+
+

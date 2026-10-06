@@ -1,0 +1,14 @@
+/* ENTRY 30013d40 | eCEntityAdmin::FourceFullROIUpdate | STATUS decompiled | 2 ms */
+
+/* public: void __thiscall eCEntityAdmin::FourceFullROIUpdate(void) */
+
+void __thiscall eCEntityAdmin::FourceFullROIUpdate(eCEntityAdmin *this)
+
+{
+                    /* 0x13d40  6054  ?FourceFullROIUpdate@eCEntityAdmin@@QAEXXZ */
+  ClearProcessingRangeList(this);
+  (this->eCEntityAdmin_data).offset_0xc1 = (eCEntityAdmin)0x1;
+  return;
+}
+
+

@@ -1,0 +1,16 @@
+/* ENTRY 201733b0 | gCHUDMenuDifficulty2::gCHUDMenuDifficulty2 | STATUS decompiled | 8 ms */
+
+gCHUDMenuDifficulty2 * __thiscall
+gCHUDMenuDifficulty2::gCHUDMenuDifficulty2(gCHUDMenuDifficulty2 *this)
+
+{
+  gCHUDMenu::gCHUDMenu((gCHUDMenu *)this);
+  this->vftablePtr = &vftable;
+  CFFGFCButton::CFFGFCButton((CFFGFCButton *)&(this->gCHUDMenuDifficulty2_data).field_0xc);
+  CFFGFCCheckBox::CFFGFCCheckBox((CFFGFCCheckBox *)&(this->gCHUDMenuDifficulty2_data).field_0x1c);
+  CFFGFCCheckBox::CFFGFCCheckBox((CFFGFCCheckBox *)&(this->gCHUDMenuDifficulty2_data).field_0x2c);
+  CFFGFCCheckBox::CFFGFCCheckBox((CFFGFCCheckBox *)&(this->gCHUDMenuDifficulty2_data).field_0x3c);
+  return this;
+}
+
+

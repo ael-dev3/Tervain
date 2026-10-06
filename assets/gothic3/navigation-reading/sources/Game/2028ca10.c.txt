@@ -1,0 +1,21 @@
+/* ENTRY 2028ca10 | bTPropertyObject<gCNavigation_PS,eCEntityPropertySet>::scalar_deleting_destructor | STATUS decompiled | 4 ms */
+
+bTPropertyObject<gCNavigation_PS,eCEntityPropertySet> * __thiscall
+bTPropertyObject<gCNavigation_PS,eCEntityPropertySet>::scalar_deleting_destructor
+          (bTPropertyObject<gCNavigation_PS,eCEntityPropertySet> *this,byte param_1)
+
+{
+                    /* inlined destructor:
+                       bTPropertyObject<gCNavigation_PS,eCEntityPropertySet>::~bTPropertyObject<gCNavigation_PS,eCEntityPropertySet>
+                        */
+  this->vftablePtr = &vftable;
+  vfunction10(this);
+  bTPOPureSmartPtr<gCNavigation_PS>::~bTPOPureSmartPtr<gCNavigation_PS>
+            ((bTPOPureSmartPtr<gCNavigation_PS> *)this);
+  if ((param_1 & 1) != 0) {
+    _free(this);
+  }
+  return this;
+}
+
+

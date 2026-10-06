@@ -1,0 +1,2 @@
+; 2000271b ?Test3DPointInZone@gCNavZone_PS@@QAE_NABVbCVector@@_N@Z
+2000271b | e950d12900 | JMP 0x2029f870

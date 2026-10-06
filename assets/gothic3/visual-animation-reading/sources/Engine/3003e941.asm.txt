@@ -1,0 +1,2 @@
+; 3003e941 eCArchiveManager::GetInstance
+3003e941 | e97afe5900 | JMP 0x305de7c0

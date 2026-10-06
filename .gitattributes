@@ -5,5 +5,239 @@ public/gothic3/** -text -eol whitespace=cr-at-eol,-blank-at-eof
 assets/gothic3/combat/** -text -eol whitespace=cr-at-eol,-blank-at-eof
 assets/gothic3/dialogue/** -text -eol whitespace=cr-at-eol,-blank-at-eof
 assets/gothic3/terrain/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/inventory/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/startup/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/info-state/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/enclave/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/clock/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/navigation/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/inventory-observers/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/routines/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/properties/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/hud/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/instructions/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/navigation-scene/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/entity-lifecycle/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/player-properties/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/routine-scripts/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/session-runtime/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/entity-reading/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/clock-properties/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/player-state/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/application-process/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/startup-controller/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/entity-reflection/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/movement-state/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/animation-state/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/animation-spu/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/animation-instruction/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/navigation-reading/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/movement-reading/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/session-checkpoint.json -text -eol
+assets/gothic3/dispatch-checkpoint.json -text -eol
+assets/gothic3/lifecycle-checkpoint.json -text -eol
+assets/gothic3/processing-checkpoint.json -text -eol
+assets/gothic3/activation-checkpoint.json -text -eol
+assets/gothic3/actor-reading-checkpoint.json -text -eol
+assets/gothic3/entity-loading/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/rigidbody-reading/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/collision-reading/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/physics-reading-checkpoint.json -text -eol
+assets/gothic3/entity-construction/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/control-reading/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/sensor-reading/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/construction-reading-checkpoint.json -text -eol
+# These implementations/producers are individually byte-pinned by native receipts.
+src/gothic3/inventory.ts -text -eol
+src/gothic3/startup.ts -text -eol
+src/gothic3/info-state.ts -text -eol
+src/gothic3/enclave.ts -text -eol
+tools/gothic3/research_native_inventory.py -text -eol
+tools/gothic3/research_native_startup.py -text -eol
+tools/gothic3/research_info_runtime.py -text -eol
+tools/gothic3/research_native_enclave.py -text -eol
+tools/gothic3/freeze_info_state.py -text -eol
+src/gothic3/world-clock.ts -text -eol
+src/gothic3/navigation-runtime.ts -text -eol
+src/gothic3/inventory-observers.ts -text -eol
+src/gothic3/script-routine.ts -text -eol
+src/gothic3/native-properties.ts -text -eol
+src/gothic3/hud-runtime.ts -text -eol
+src/gothic3/script-instructions.ts -text -eol
+src/gothic3/navigation-scene.ts -text -eol
+src/gothic3/resource.ts -text -eol
+src/gothic3/entity-lifecycle.ts -text -eol
+src/gothic3/player-properties.ts -text -eol
+src/gothic3/routine-scripts.ts -text -eol
+src/gothic3/session-runtime.ts -text -eol
+src/gothic3/entity-reading.ts -text -eol
+src/gothic3/entity-setters.ts -text -eol
+src/gothic3/clock-properties.ts -text -eol
+src/gothic3/player-state.ts -text -eol
+src/gothic3/application-process.ts -text -eol
+src/gothic3/startup-controller.ts -text -eol
+src/gothic3/entity-reflection.ts -text -eol
+src/gothic3/movement-state.ts -text -eol
+src/gothic3/animation-state.ts -text -eol
+src/gothic3/native-motion.ts -text -eol
+src/gothic3/animation-spu.ts -text -eol
+src/gothic3/animation-instruction.ts -text -eol
+src/gothic3/navigation-reading.ts -text -eol
+src/gothic3/movement-reading.ts -text -eol
+src/gothic3/entity-loading.ts -text -eol
+src/gothic3/rigidbody-reading.ts -text -eol
+src/gothic3/collision-reading.ts -text -eol whitespace=cr-at-eol
+src/gothic3/entity-construction.ts -text -eol
+src/gothic3/control-reading.ts -text -eol whitespace=cr-at-eol
+src/gothic3/sensor-reading.ts -text -eol whitespace=cr-at-eol
+tools/gothic3/research_native_clock.py -text -eol
+tools/gothic3/research_native_navigation.py -text -eol
+tools/gothic3/research_inventory_observers.py -text -eol
+tools/gothic3/research_native_routines.py -text -eol
+tools/gothic3/freeze_session_checkpoint.py -text -eol
+tools/gothic3/research_native_properties.py -text -eol
+tools/gothic3/research_native_hud.py -text -eol
+tools/gothic3/research_spu_instructions.py -text -eol
+tools/gothic3/research_navigation_scene.py -text -eol
+tools/gothic3/freeze_dispatch_checkpoint.py -text -eol
+tools/gothic3/research_entity_lifecycle.py -text -eol
+tools/gothic3/research_player_properties.py -text -eol
+tools/gothic3/research_routine_scripts.py -text -eol
+tools/gothic3/research_session_runtime.py -text -eol
+tools/gothic3/freeze_lifecycle_checkpoint.py -text -eol
+tools/gothic3/research_entity_reading.py -text -eol
+tools/gothic3/research_clock_properties.py -text -eol
+tools/gothic3/research_player_state.py -text -eol
+tools/gothic3/research_application_process.py -text -eol
+tools/gothic3/freeze_processing_checkpoint.py -text -eol
+tools/gothic3/research_startup_controller.py -text -eol
+tools/gothic3/research_entity_reflection.py -text -eol whitespace=cr-at-eol
+tools/gothic3/research_movement_state.py -text -eol
+tools/gothic3/research_animation_state.py -text -eol
+tools/gothic3/freeze_activation_checkpoint.py -text -eol
+tools/gothic3/research_animation_spu.py -text -eol whitespace=cr-at-eol
+tools/gothic3/research_animation_instruction.py -text -eol whitespace=cr-at-eol
+tools/gothic3/research_navigation_reading.py -text -eol whitespace=cr-at-eol
+tools/gothic3/research_movement_reading.py -text -eol whitespace=cr-at-eol
+tools/gothic3/freeze_actor_checkpoint.py -text -eol
+tools/gothic3/research_entity_loading.py -text -eol
+tools/gothic3/research_rigidbody_reading.py -text -eol whitespace=cr-at-eol
+tools/gothic3/research_collision_reading.py -text -eol whitespace=cr-at-eol
+tools/gothic3/freeze_physics_checkpoint.py -text -eol
+tools/gothic3/research_entity_construction.py -text -eol
+tools/gothic3/research_control_reading.py -text -eol whitespace=cr-at-eol
+tools/gothic3/research_sensor_reading.py -text -eol whitespace=cr-at-eol
+tools/gothic3/freeze_construction_checkpoint.py -text -eol
+src/gothic3/npc-reading.ts -text -eol whitespace=cr-at-eol
+src/gothic3/inventory-reading.ts -text -eol whitespace=cr-at-eol
+src/gothic3/routine-reading.ts -text -eol
+tools/gothic3/research_npc_reading.py -text -eol whitespace=cr-at-eol
+tools/gothic3/research_inventory_reading.py -text -eol whitespace=cr-at-eol
+tools/gothic3/research_routine_reading.py -text -eol
+tools/gothic3/freeze_character_checkpoint.py -text -eol
+assets/gothic3/npc-reading/** -text -eol
+assets/gothic3/inventory-reading/** -text -eol
+assets/gothic3/routine-reading/** -text -eol
+public/gothic3/npc-reading/** -text -eol
+public/gothic3/inventory-reading/** -text -eol
+public/gothic3/routine-reading/** -text -eol
+assets/gothic3/character-reading-checkpoint.json -text -eol
+src/gothic3/world-clock-view.ts -text -eol
+src/gothic3/main.ts -text -eol
+docs/engineering/gothic3-rebuilding-process.md -text -eol
 # Hash-preserved native study excerpts include original blank-line spacing.
 assets/gothic3/combat/sources/** -whitespace
+assets/gothic3/inventory/sources/** -whitespace
+assets/gothic3/startup/sources/** -whitespace
+assets/gothic3/enclave/sources/** -whitespace
+assets/gothic3/clock/sources/** -whitespace
+assets/gothic3/navigation/sources/** -whitespace
+assets/gothic3/inventory-observers/sources/** -whitespace
+assets/gothic3/routines/sources/** -whitespace
+assets/gothic3/properties/sources/** -whitespace
+assets/gothic3/hud/sources/** -whitespace
+assets/gothic3/instructions/sources/** -whitespace
+assets/gothic3/navigation-scene/sources/** -whitespace
+assets/gothic3/entity-lifecycle/sources/** -whitespace
+assets/gothic3/player-properties/sources/** -whitespace
+assets/gothic3/routine-scripts/sources/** -whitespace
+assets/gothic3/session-runtime/sources/** -whitespace
+assets/gothic3/entity-reading/sources/** -whitespace
+assets/gothic3/clock-properties/sources/** -whitespace
+assets/gothic3/player-state/sources/** -whitespace
+assets/gothic3/application-process/sources/** -whitespace
+assets/gothic3/startup-controller/sources/** -whitespace
+assets/gothic3/entity-reflection/sources/** -whitespace
+assets/gothic3/movement-state/sources/** -whitespace
+assets/gothic3/animation-state/sources/** -whitespace
+assets/gothic3/animation-spu/sources/** -whitespace
+assets/gothic3/animation-instruction/sources/** -whitespace
+assets/gothic3/navigation-reading/sources/** -whitespace
+assets/gothic3/movement-reading/sources/** -whitespace
+assets/gothic3/entity-loading/sources/** -whitespace
+assets/gothic3/rigidbody-reading/sources/** -whitespace
+assets/gothic3/collision-reading/sources/** -whitespace
+assets/gothic3/entity-construction/sources/** -whitespace
+assets/gothic3/control-reading/sources/** -whitespace
+assets/gothic3/sensor-reading/sources/** -whitespace
+public/gothic3/sensor-reading/sources/** -whitespace
+assets/gothic3/npc-reading/sources/** -whitespace
+assets/gothic3/inventory-reading/sources/** -whitespace
+assets/gothic3/routine-reading/sources/** -whitespace
+public/gothic3/npc-reading/sources/** -whitespace
+public/gothic3/inventory-reading/sources/** -whitespace
+public/gothic3/routine-reading/sources/** -whitespace
+
+tools/gothic3/freeze_hero_properties_checkpoint.py -text -eol
+tools/gothic3/bounded_native_capture.py -text -eol
+assets/gothic3/hero-properties-checkpoint.json -text -eol
+src/gothic3/interaction-reading.ts -text -eol whitespace=cr-at-eol
+tools/gothic3/research_interaction_reading.py -text -eol whitespace=cr-at-eol
+assets/gothic3/interaction-reading/** -text -eol
+assets/gothic3/interaction-reading/sources/** -whitespace
+public/gothic3/interaction-reading/** -text -eol
+public/gothic3/interaction-reading/sources/** -whitespace
+src/gothic3/damage-reading.ts -text -eol whitespace=cr-at-eol
+tools/gothic3/research_damage_reading.py -text -eol whitespace=cr-at-eol
+assets/gothic3/damage-reading/** -text -eol
+assets/gothic3/damage-reading/sources/** -whitespace
+public/gothic3/damage-reading/** -text -eol
+public/gothic3/damage-reading/sources/** -whitespace
+src/gothic3/focus-reading.ts -text -eol whitespace=cr-at-eol
+tools/gothic3/research_focus_reading.py -text -eol whitespace=cr-at-eol
+assets/gothic3/focus-reading/** -text -eol
+assets/gothic3/focus-reading/sources/** -whitespace
+public/gothic3/focus-reading/** -text -eol
+public/gothic3/focus-reading/sources/** -whitespace
+src/gothic3/dialog-party-reading.ts -text -eol whitespace=cr-at-eol
+tools/gothic3/research_dialog_party_reading.py -text -eol whitespace=cr-at-eol
+assets/gothic3/dialog-party-reading/** -text -eol
+assets/gothic3/dialog-party-reading/sources/** -whitespace
+public/gothic3/dialog-party-reading/** -text -eol
+public/gothic3/dialog-party-reading/sources/** -whitespace
+
+tools/gothic3/freeze_visual_properties_checkpoint.py -text -eol
+assets/gothic3/visual-properties-checkpoint.json -text -eol
+src/gothic3/illuminated-reading.ts -text -eol whitespace=cr-at-eol
+tools/gothic3/research_illuminated_reading.py -text -eol whitespace=cr-at-eol
+assets/gothic3/illuminated-reading/** -text -eol
+assets/gothic3/illuminated-reading/sources/** -whitespace
+public/gothic3/illuminated-reading/** -text -eol
+public/gothic3/illuminated-reading/sources/** -whitespace
+src/gothic3/effect-reading.ts -text -eol whitespace=cr-at-eol
+tools/gothic3/research_effect_reading.py -text -eol whitespace=cr-at-eol
+assets/gothic3/effect-reading/** -text -eol
+assets/gothic3/effect-reading/sources/** -whitespace
+public/gothic3/effect-reading/** -text -eol
+public/gothic3/effect-reading/sources/** -whitespace
+src/gothic3/visual-animation-reading.ts -text -eol whitespace=cr-at-eol
+tools/gothic3/research_visual_animation_reading.py -text -eol whitespace=cr-at-eol
+assets/gothic3/visual-animation-reading/** -text -eol
+assets/gothic3/visual-animation-reading/sources/** -whitespace
+public/gothic3/visual-animation-reading/** -text -eol
+public/gothic3/visual-animation-reading/sources/** -whitespace
+tools/gothic3/research_player_memory_loading.py -text -eol
+assets/gothic3/player-memory-loading/** -text -eol
+assets/gothic3/player-memory-loading/sources/** -whitespace
+public/gothic3/player-memory-loading/** -text -eol
+public/gothic3/player-memory-loading/sources/** -whitespace

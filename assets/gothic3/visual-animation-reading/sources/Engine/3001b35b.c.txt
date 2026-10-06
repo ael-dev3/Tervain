@@ -1,0 +1,17 @@
+/* ENTRY 3001b35b | eCVisualAnimation_PS::GetSubSkeletons | STATUS decompiled | 5 ms */
+
+/* public: class bTObjArray<struct eCVisualAnimation_PS::eSSubSkeleton> * __thiscall
+   eCVisualAnimation_PS::GetSubSkeletons(void) */
+
+bTObjArray<eCVisualAnimation_PS::eSSubSkeleton> * __thiscall
+eCVisualAnimation_PS::GetSubSkeletons(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x1b35b  9020
+                       ?GetSubSkeletons@eCVisualAnimation_PS@@QAEPAV?$bTObjArray@UeSSubSkeleton@eCVisualAnimation_PS@@@@XZ
+                        */
+  return (bTObjArray<eCVisualAnimation_PS::eSSubSkeleton> *)
+         &this[0xf].eCEntityPropertySet_data.offset_0x8;
+}
+
+

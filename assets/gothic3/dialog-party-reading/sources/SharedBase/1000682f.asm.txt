@@ -1,0 +1,2 @@
+; 1000682f bCPOStream::IsForcedLegacyMode
+1000682f | e98c3d0800 | JMP 0x1008a5c0

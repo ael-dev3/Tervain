@@ -1,0 +1,13 @@
+/* ENTRY 2002f74d | gCNavigation_PS::GetBoundary | STATUS decompiled | 6 ms */
+
+/* public: virtual void __thiscall gCNavigation_PS::GetBoundary(class bCBox &,bool) */
+
+void __thiscall gCNavigation_PS::GetBoundary(gCNavigation_PS *this,bCBox *param_1,bool param_2)
+
+{
+                    /* 0x2f74d  2992  ?GetBoundary@gCNavigation_PS@@UAEXAAVbCBox@@_N@Z */
+  bCBox::Invalidate(param_1);
+  return;
+}
+
+

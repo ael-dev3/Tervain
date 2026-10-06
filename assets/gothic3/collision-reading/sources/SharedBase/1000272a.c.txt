@@ -1,0 +1,12 @@
+/* ENTRY 1000272a | bCOrientedBox::GetDepth | STATUS decompiled | 2 ms */
+
+/* public: float __thiscall bCOrientedBox::GetDepth(void)const  */
+
+float __thiscall bCOrientedBox::GetDepth(bCOrientedBox *this)
+
+{
+                    /* 0x272a  2262  ?GetDepth@bCOrientedBox@@QBEMXZ */
+  return *(float *)(this + 0x14) + *(float *)(this + 0x14);
+}
+
+

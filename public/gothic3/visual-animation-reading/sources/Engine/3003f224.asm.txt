@@ -1,0 +1,2 @@
+; 3003f224 eCVisualAnimation_PS::AccessSkeletonShapeGroup
+3003f224 | e927300200 | JMP 0x30062250

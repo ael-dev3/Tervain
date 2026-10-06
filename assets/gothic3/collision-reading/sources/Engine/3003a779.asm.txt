@@ -1,0 +1,4 @@
+; 3003a779 ?GetNumShapes@eCCollisionShapeBase_PS@@UBEKXZ
+3003a779 | e9f26a3000 | JMP 0x30341270
+; 3003a77e eCGUIManager::AccessDesktopWindow
+; 3003a77e Ordinal_2640

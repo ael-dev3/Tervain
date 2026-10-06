@@ -1,0 +1,2 @@
+; 20021a12 bTPropertyType<gCNPC_PS,bTPropertyContainer<gEAttackReason>_>::vfunction6
+20021a12 | e9895f2e00 | JMP 0x203079a0

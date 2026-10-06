@@ -1,0 +1,2 @@
+; 300254d7 bTPOPureSmartPtr<eCEffector>::vfunction11
+300254d7 | e934003600 | JMP 0x30385510

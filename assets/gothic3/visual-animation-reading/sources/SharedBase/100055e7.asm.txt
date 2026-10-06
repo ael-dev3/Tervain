@@ -1,0 +1,2 @@
+; 100055e7 bCString::CopyBeforeWrite
+100055e7 | e914e90000 | JMP 0x10013f00

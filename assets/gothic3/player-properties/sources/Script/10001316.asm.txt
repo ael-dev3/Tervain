@@ -1,0 +1,4 @@
+; 10001316 ?GetDexterity@PSPlayerMemory@@QBEHXZ
+10001316 | e935880200 | JMP 0x10029b50
+; 1000131b PSRoutine::SetTimeScale
+; 1000131b Ordinal_2009

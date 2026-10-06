@@ -1,0 +1,17 @@
+/* ENTRY 10115e90 | FUN_10115e90 | STATUS decompiled | 7 ms */
+
+void FUN_10115e90(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Tasks\\Reaction_Tasks\\ZS_Dead.cpp");
+  bCString::bCString(local_8,"ZS_RagDollDead");
+  thunk_FUN_1001db60(local_8,&LAB_10003292,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

@@ -1,0 +1,2 @@
+; 10003ed6 bCPropertyObjectBase::Read
+10003ed6 | e905530800 | JMP 0x100891e0

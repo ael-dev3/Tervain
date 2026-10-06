@@ -1,0 +1,12 @@
+/* ENTRY 2000cfae | gCNavigation_PS::GetEnabled | STATUS decompiled | 8 ms */
+
+/* public: bool __thiscall gCNavigation_PS::GetEnabled(void)const  */
+
+bool __thiscall gCNavigation_PS::GetEnabled(gCNavigation_PS *this)
+
+{
+                    /* 0xcfae  3333  ?GetEnabled@gCNavigation_PS@@QBE_NXZ */
+  return (bool)(this->gCNavigation_PS_data).offset_0x250;
+}
+
+

@@ -1,0 +1,4 @@
+; 10007f9a ??HbCOrientedBox@@QBE?AV0@ABVbCVector@@@Z
+10007f9a | e9c10f0600 | JMP 0x10068f60
+; 10007f9f bCVector::RemoveDimensionKeepMagnitude
+; 10007f9f Ordinal_3931

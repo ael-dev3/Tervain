@@ -1,0 +1,14 @@
+/* ENTRY 30031f70 | bTPropertyObjectType<eCCollisionShapeBase_PS,eCEntityPropertySet>::vfunction8 | STATUS decompiled | 3 ms */
+
+undefined4 __thiscall
+bTPropertyObjectType<eCCollisionShapeBase_PS,eCEntityPropertySet>::vfunction8(void)
+
+{
+  GE_MESSAGEF_WARN("The method %s detected an improper usage! \nHint:%s ",
+                   "bTPropertyObjectType<CLASS, BASECLASS>::DoClone",
+                   "It is not allowed to make a clone of propertytype.\nDo not call it from derived class or change access !"
+                  );
+  return 0;
+}
+
+

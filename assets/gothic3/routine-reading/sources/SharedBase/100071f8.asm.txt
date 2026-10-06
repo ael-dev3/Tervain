@@ -1,0 +1,4 @@
+; 100071f8 ?CopyFrom@bCPropertyObjectBase@@UAEXABV1@@Z
+100071f8 | e9e31e0800 | JMP 0x100890e0
+; 10007202 bCMatrix2::operator<<
+; 10007202 Ordinal_723

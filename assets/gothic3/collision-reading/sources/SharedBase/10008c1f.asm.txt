@@ -1,0 +1,4 @@
+; 10008c1f ?SetHeight@bCCapsule@@QAEXM@Z
+10008c1f | e9fceb0400 | JMP 0x10057820
+; 10008c24 bCStretch::bCStretch
+; 10008c24 Ordinal_271

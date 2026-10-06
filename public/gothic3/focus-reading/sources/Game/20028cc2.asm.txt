@@ -1,0 +1,2 @@
+; 20028cc2 gCFocus_PS::Create
+20028cc2 | e939241100 | JMP 0x2013b100

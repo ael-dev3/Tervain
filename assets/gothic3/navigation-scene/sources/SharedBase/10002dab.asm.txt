@@ -1,0 +1,2 @@
+; 10002dab ?Normalize@bCVector@@QAEABV1@XZ
+10002dab | e9e0540300 | JMP 0x10038290

@@ -1,0 +1,15 @@
+/* ENTRY 20025b44 | gCMovementBase_PS::OnMouse | STATUS decompiled | 10 ms */
+
+/* public: virtual int __thiscall gCMovementBase_PS::OnMouse(struct eCInpShared::eSInputMessage
+   const &)
+   gCMovementBase_PS member function inherited by gCCharacterMovement_PS */
+
+int __thiscall gCMovementBase_PS::OnMouse(gCMovementBase_PS *this,eSInputMessage *param_1)
+
+{
+                    /* 0x25b44  5467
+                       ?OnMouse@gCMovementBase_PS@@UAEHABUeSInputMessage@eCInpShared@@@Z */
+  return -1;
+}
+
+

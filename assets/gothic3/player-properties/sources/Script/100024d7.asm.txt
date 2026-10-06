@@ -1,0 +1,4 @@
+; 100024d7 ?SetTheft@PSPlayerMemory@@QAEXH@Z
+100024d7 | e944790200 | JMP 0x10029e20
+; 100024dc PSPlayerMemory::AddStaminaPoints
+; 100024dc Ordinal_1276

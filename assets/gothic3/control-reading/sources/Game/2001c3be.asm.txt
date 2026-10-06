@@ -1,0 +1,4 @@
+; 2001c3be bTPropertyObject<gCCharacterControl_PS,eCEntityPropertySet>::vfunction1
+2001c3be | e97ddf1f00 | JMP 0x2021a340
+; 2001c3c3 gCDistanceTrigger_PS::CopyFrom
+; 2001c3c3 Ordinal_2239

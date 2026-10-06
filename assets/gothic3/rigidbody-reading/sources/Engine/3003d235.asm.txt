@@ -1,0 +1,4 @@
+; 3003d235 ?GetRootObject@eCRigidBodyBase_PS@@SGPBVbCPropertyObjectBase@@XZ
+3003d235 | e9565e2f00 | JMP 0x30333090
+; 3003d23f eCResourceSound_PS::AccessUseStream
+; 3003d23f Ordinal_3280

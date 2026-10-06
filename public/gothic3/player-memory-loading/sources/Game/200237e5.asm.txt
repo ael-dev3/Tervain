@@ -1,0 +1,2 @@
+; 200237e5 SHAREDBASE.DLL::bCPropertyTypeBase::Write
+200237e5 | e936fd2f00 | JMP 0x20323520

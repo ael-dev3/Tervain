@@ -1,0 +1,16 @@
+/* ENTRY 100076f8 | bCObjectRefBase::PostInitializeProperties | STATUS decompiled | 4 ms */
+
+/* public: virtual enum bEResult __thiscall bCObjectRefBase::PostInitializeProperties(void)
+   bCObjectRefBase member function inherited by bCThreadObjectRefBase
+   bCObjectRefBase member function inherited by bCObsoleteClass
+   bCObjectRefBase member function inherited by bCEvent */
+
+bEResult __thiscall bCObjectRefBase::PostInitializeProperties(bCObjectRefBase *this)
+
+{
+                    /* 0x76f8  3830  ?PostInitializeProperties@bCObjectRefBase@@UAE?AW4bEResult@@XZ
+                        */
+  return 1;
+}
+
+

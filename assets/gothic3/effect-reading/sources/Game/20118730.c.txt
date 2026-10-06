@@ -1,0 +1,20 @@
+/* ENTRY 20118730 | FUN_20118730 | STATUS decompiled | 6 ms */
+
+void __fastcall FUN_20118730(int param_1)
+
+{
+  gCEffectModule *this;
+  gCEffectSystem *pgVar1;
+  
+  if (*(int *)(param_1 + 0x2c) != 0) {
+    this = (gCEffectModule *)gCEffectModule::GetInstance();
+    pgVar1 = gCEffectModule::GetSystem(this);
+    if (pgVar1 != (gCEffectSystem *)0x0) {
+      (**(code **)(*(int *)pgVar1 + 4))(*(undefined4 *)(param_1 + 0x2c),0);
+      *(undefined4 *)(param_1 + 0x2c) = 0;
+    }
+  }
+  return;
+}
+
+

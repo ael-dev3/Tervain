@@ -1,0 +1,14 @@
+/* ENTRY 20356bf0 | FUN_20356bf0 | STATUS decompiled | 3 ms */
+
+void __thiscall FUN_20356bf0(int param_1,bCString *param_2)
+
+{
+  int iStack_8;
+  
+  iStack_8 = param_1;
+  bCString::bCString((bCString *)&iStack_8,param_2);
+  gCScriptProcessingUnit::AISetState((gCScriptProcessingUnit *)(param_1 + 100));
+  return;
+}
+
+

@@ -1,0 +1,2 @@
+; 10004a02 ?GetIntersectionDistance@bCBox@@QBEMABVbCLine@@@Z
+10004a02 | e9a9680200 | JMP 0x1002b2b0

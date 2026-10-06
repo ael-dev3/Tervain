@@ -1,0 +1,18 @@
+/* ENTRY 2028dfc0 | bTPropertyType<gCNavigation_PS,bCPropertyID>::vfunction12 | STATUS decompiled | 3 ms */
+
+bTPropertyType<gCNavigation_PS,bCPropertyID>_vftable * __thiscall
+bTPropertyType<gCNavigation_PS,bCPropertyID>::vfunction12
+          (bTPropertyType<gCNavigation_PS,bCPropertyID> *this,undefined4 *param_1)
+
+{
+  int iVar1;
+  
+  if (param_1 == (undefined4 *)0x0) {
+    return (bTPropertyType<gCNavigation_PS,bCPropertyID>_vftable *)0x0;
+  }
+  iVar1 = (**(code **)*param_1)();
+  return (bTPropertyType<gCNavigation_PS,bCPropertyID>_vftable *)
+         ((int)&(this[7].vftablePtr)->vfunction1 + iVar1);
+}
+
+

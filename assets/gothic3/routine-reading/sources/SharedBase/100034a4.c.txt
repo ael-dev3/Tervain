@@ -1,0 +1,19 @@
+/* ENTRY 100034a4 | bCString::bCString | STATUS decompiled | 2 ms */
+
+/* public: __thiscall bCString::bCString(class bCString const &) */
+
+void __thiscall bCString::bCString(bCString *this,bCString *param_1)
+
+{
+  int iVar1;
+  
+                    /* 0x34a4  272  ??0bCString@@QAE@ABV0@@Z */
+  iVar1 = *(int *)param_1;
+  *(int *)this = iVar1;
+  if (iVar1 != 0) {
+    *(short *)(iVar1 + -4) = *(short *)(iVar1 + -4) + 1;
+  }
+  return;
+}
+
+

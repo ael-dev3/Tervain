@@ -1,0 +1,42 @@
+/* ENTRY 20001988 | gCCharacterMovement_PS::SetSpeedByMode | STATUS decompiled | 13 ms */
+
+/* protected: bool __thiscall gCCharacterMovement_PS::SetSpeedByMode(enum gECharMovementMode) */
+
+bool __thiscall
+gCCharacterMovement_PS::SetSpeedByMode(gCCharacterMovement_PS *this,gECharMovementMode param_1)
+
+{
+                    /* 0x1988  7067
+                       ?SetSpeedByMode@gCCharacterMovement_PS@@IAE_NW4gECharMovementMode@@@Z */
+  switch(param_1) {
+  default:
+    (this->gCCharacterMovement_PS_data).offset_0x15c = 0x3f800000;
+    return true;
+  case 2:
+    (this->gCCharacterMovement_PS_data).offset_0x15c =
+         *(undefined4 *)&(this->gCCharacterMovement_PS_data).field_0x48;
+    return true;
+  case 3:
+  case 10:
+    (this->gCCharacterMovement_PS_data).offset_0x15c =
+         *(undefined4 *)&(this->gCCharacterMovement_PS_data).field_0x40;
+    return true;
+  case 5:
+    (this->gCCharacterMovement_PS_data).offset_0x15c =
+         *(undefined4 *)&(this->gCCharacterMovement_PS_data).field_0x44;
+    return true;
+  case 6:
+    (this->gCCharacterMovement_PS_data).offset_0x15c =
+         *(undefined4 *)&(this->gCCharacterMovement_PS_data).field_0x80;
+    return true;
+  case 0xd:
+    (this->gCCharacterMovement_PS_data).offset_0x15c =
+         *(undefined4 *)&(this->gCCharacterMovement_PS_data).field_0x84;
+    return true;
+  case 0xe:
+    (this->gCCharacterMovement_PS_data).offset_0x15c = 0;
+    return true;
+  }
+}
+
+

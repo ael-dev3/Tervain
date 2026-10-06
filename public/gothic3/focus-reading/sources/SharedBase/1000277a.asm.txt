@@ -1,0 +1,2 @@
+; 1000277a bCPropertyID::bCPropertyID
+1000277a | e921030900 | JMP 0x10092aa0

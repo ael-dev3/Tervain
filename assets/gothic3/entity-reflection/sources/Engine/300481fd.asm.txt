@@ -1,0 +1,2 @@
+; 300481fd ?GetVersion@eCVisualAnimation_PS@@UBEGXZ
+300481fd | e96e560500 | JMP 0x3009d870

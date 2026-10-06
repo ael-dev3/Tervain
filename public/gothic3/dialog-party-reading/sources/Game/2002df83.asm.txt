@@ -1,0 +1,2 @@
+; 2002df83 gCParty_PS::SetWaiting
+2002df83 | e9f8d00700 | JMP 0x200ab080

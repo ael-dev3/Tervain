@@ -1,0 +1,31 @@
+/* ENTRY 2023bed0 | bTPropertyObjectType<gCMovementBase_PS,eCEntityPropertySet>::~bTPropertyObjectType<gCMovementBase_PS,eCEntityPropertySet> | STATUS decompiled | 10 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined * __thiscall
+bTPropertyObjectType<gCMovementBase_PS,eCEntityPropertySet>::
+~bTPropertyObjectType<gCMovementBase_PS,eCEntityPropertySet>(void)
+
+{
+  bCString *pbVar1;
+  bCPropertyObjectSingleton *this;
+  bCPropertyObjectTypeBase *pbVar2;
+  
+  if ((_DAT_207be23c & 1) == 0) {
+    _DAT_207be23c = _DAT_207be23c | 1;
+    bCPropertyObjectTypeBase::bCPropertyObjectTypeBase
+              ((bCPropertyObjectTypeBase *)&DAT_207be200,true);
+    _DAT_207be200 = &vftable;
+    pbVar1 = (bCString *)
+             bTPropertyObjectType<gCCharacterMovement_PS,gCMovementBase_PS>::vfunction2();
+    bCPropertyObjectFactory::bCPropertyObjectFactory
+              ((bCPropertyObjectFactory *)&DAT_207be218,pbVar1);
+    pbVar2 = (bCPropertyObjectTypeBase *)&DAT_207be200;
+    this = bCPropertyObjectSingleton::GetInstance();
+    bCPropertyObjectSingleton::RegisterTemplate(this,pbVar2);
+    _atexit(~bTPropertyObjectType<gCMovementBase_PS,eCEntityPropertySet>);
+  }
+  return &DAT_207be200;
+}
+
+

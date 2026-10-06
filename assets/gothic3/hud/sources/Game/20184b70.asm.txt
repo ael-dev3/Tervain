@@ -1,0 +1,3 @@
+; 20184b70 gCHUDStaticTalk::~gCHUDStaticTalk
+20184b70 | c7010c646720 | MOV dword ptr [ECX],0x2067640c
+20184b76 | ff2510797d20 | JMP dword ptr [0x207d7910]

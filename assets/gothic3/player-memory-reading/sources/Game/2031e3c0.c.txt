@@ -1,0 +1,31 @@
+/* ENTRY 2031e3c0 | FUN_2031e3c0 | STATUS decompiled | 13 ms */
+
+bEResult __fastcall FUN_2031e3c0(gCPlayerMemory_PS *param_1)
+
+{
+  bEResult bVar1;
+  
+  bVar1 = bCObjectRefBase::PostInitializeProperties((bCObjectRefBase *)param_1);
+  if (bVar1 == 1) {
+    (param_1->gCPlayerMemory_PS_data).field_0x10 = 0;
+    *(undefined4 *)&param_1[1].gCPlayerMemory_PS_data.field_0xc = 0;
+    *(undefined4 *)&param_1[1].gCPlayerMemory_PS_data.field_0x10 = 0;
+    param_1[1].gCPlayerMemory_PS_data.offset_0x14 = 0;
+    param_1[1].gCPlayerMemory_PS_data.offset_0x18 = 0;
+    param_1[1].gCPlayerMemory_PS_data.offset_0x1c = 0;
+    param_1[1].gCPlayerMemory_PS_data.offset_0x20 = 0;
+    param_1[1].gCPlayerMemory_PS_data.offset_0x24 = 0;
+    param_1[1].gCPlayerMemory_PS_data.offset_0x28 = 0;
+    *(undefined1 *)&param_1[1].gCPlayerMemory_PS_data.offset_0x2c = 0;
+    *(undefined1 *)((int)&param_1[1].gCPlayerMemory_PS_data.offset_0x2c + 1) = 0;
+    *(undefined1 *)((int)&param_1[1].gCPlayerMemory_PS_data.offset_0x2c + 2) = 0;
+    *(undefined1 *)((int)&param_1[1].gCPlayerMemory_PS_data.offset_0x2c + 3) = 0;
+    param_1[1].gCPlayerMemory_PS_data.offset_0x30 = 0;
+    *(undefined1 *)&param_1[1].gCPlayerMemory_PS_data.offset_0x34 = 0;
+    gCPlayerMemory_PS::CreateAttributes(param_1);
+    bVar1 = 1;
+  }
+  return bVar1;
+}
+
+

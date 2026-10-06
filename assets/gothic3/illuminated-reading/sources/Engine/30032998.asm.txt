@@ -1,0 +1,2 @@
+; 30032998 eCIlluminated_PS::GetVersion
+30032998 | e9f3001f00 | JMP 0x30222a90

@@ -1,0 +1,10 @@
+; 30222a70 FUN_30222a70
+30222a70 | b801000000 | MOV EAX,0x1
+30222a75 | 884114 | MOV byte ptr [ECX + 0x14],AL
+30222a78 | 884115 | MOV byte ptr [ECX + 0x15],AL
+30222a7b | 884120 | MOV byte ptr [ECX + 0x20],AL
+30222a7e | 884121 | MOV byte ptr [ECX + 0x21],AL
+30222a81 | c6412c00 | MOV byte ptr [ECX + 0x2c],0x0
+30222a85 | 88412d | MOV byte ptr [ECX + 0x2d],AL
+30222a88 | 88412e | MOV byte ptr [ECX + 0x2e],AL
+30222a8b | c3 | RET

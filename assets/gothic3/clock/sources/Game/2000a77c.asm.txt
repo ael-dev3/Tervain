@@ -1,0 +1,2 @@
+; 2000a77c ?PauseClock@gCClock_PS@@QAEXXZ
+2000a77c | e98fd61f00 | JMP 0x20207e10

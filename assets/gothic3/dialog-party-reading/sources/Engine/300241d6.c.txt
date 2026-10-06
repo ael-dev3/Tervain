@@ -1,0 +1,20 @@
+/* ENTRY 300241d6 | eCEntityProxy::eCEntityProxy | STATUS decompiled | 9 ms */
+
+/* public: __thiscall eCEntityProxy::eCEntityProxy(class eCEntity *) */
+
+eCEntityProxy * __thiscall eCEntityProxy::eCEntityProxy(eCEntityProxy *this,eCEntity *param_1)
+
+{
+  undefined1 *this_00;
+  
+                    /* 0x241d6  287  ??0eCEntityProxy@@QAE@PAVeCEntity@@@Z */
+  this_00 = &(this->eCEntityProxy_data).field_0x4;
+  this->vftablePtr = &vftable;
+  bCPropertyID::bCPropertyID((bCPropertyID *)this_00);
+  (this->eCEntityProxy_data).offset_0x0 = (eCEntityProxyInternal *)0x0;
+  bCPropertyID::Destroy((bCPropertyID *)this_00);
+  SetEntity(this,param_1);
+  return this;
+}
+
+

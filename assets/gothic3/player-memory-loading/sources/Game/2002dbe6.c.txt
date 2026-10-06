@@ -1,0 +1,15 @@
+/* ENTRY 2002dbe6 | gCStat::Invalidate | STATUS decompiled | 6 ms */
+
+/* protected: void __thiscall gCStat::Invalidate(void) */
+
+void __thiscall gCStat::Invalidate(gCStat *this)
+
+{
+                    /* 0x2dbe6  5067  ?Invalidate@gCStat@@IAEXXZ */
+                    /* WARNING: Could not recover jumptable at 0x2039aec8. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  (*this->vftablePtr[1].GetVersion)(this);
+  return;
+}
+
+

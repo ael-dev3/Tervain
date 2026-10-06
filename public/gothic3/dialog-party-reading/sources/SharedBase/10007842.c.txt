@@ -1,0 +1,25 @@
+/* ENTRY 10007842 | bCGothic3EngineDialogs::bCDialogHandle::AddText | STATUS decompiled | 3 ms */
+
+/* public: bool __thiscall bCGothic3EngineDialogs::bCDialogHandle::AddText(enum
+   bCGothic3EngineDialogs::bEGE3DialogsLogMessageType,char const *) */
+
+bool __thiscall
+bCGothic3EngineDialogs::bCDialogHandle::AddText
+          (bCDialogHandle *this,bEGE3DialogsLogMessageType param_1,char *param_2)
+
+{
+  undefined1 uVar1;
+  
+                    /* 0x7842  1561
+                       ?AddText@bCDialogHandle@bCGothic3EngineDialogs@@QAE_NW4bEGE3DialogsLogMessageType@2@PBD@Z
+                        */
+  if (*(code **)(this + 0x14) != (code *)0x0) {
+                    /* WARNING: Could not recover jumptable at 0x10021017. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+    uVar1 = (**(code **)(this + 0x14))();
+    return (bool)uVar1;
+  }
+  return true;
+}
+
+

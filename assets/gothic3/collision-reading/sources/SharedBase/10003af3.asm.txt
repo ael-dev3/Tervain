@@ -1,0 +1,4 @@
+; 10003af3 ?GetHeight@bCCapsule@@QAEMXZ
+10003af3 | e9b83c0500 | JMP 0x100577b0
+; 10003af8 bCOctTree::AddEntry
+; 10003af8 Ordinal_1554

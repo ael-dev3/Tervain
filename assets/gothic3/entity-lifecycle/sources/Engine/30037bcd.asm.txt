@@ -1,0 +1,4 @@
+; 30037bcd ?RemoveAllPropertySets@eCEntity@@QAEXXZ
+30037bcd | e9ae0e4800 | JMP 0x304b8a80
+; 30037bd2 eCRigidBodyBase_PS::CopyFrom
+; 30037bd2 Ordinal_4224

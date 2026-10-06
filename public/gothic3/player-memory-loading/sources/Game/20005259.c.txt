@@ -1,0 +1,23 @@
+/* ENTRY 20005259 | gCPlayerMemory_PS::OnSaveGameEntityPostRead | STATUS decompiled | 14 ms */
+
+/* public: virtual void __thiscall gCPlayerMemory_PS::OnSaveGameEntityPostRead(void) */
+
+void __thiscall gCPlayerMemory_PS::OnSaveGameEntityPostRead(gCPlayerMemory_PS *this)
+
+{
+                    /* 0x5259  5616  ?OnSaveGameEntityPostRead@gCPlayerMemory_PS@@UAEXXZ */
+  thunk_FUN_20064480(9,0);
+  (this->gCPlayerMemory_PS_data).offset_0x24 = 9;
+  thunk_FUN_20064480(9,0);
+  (this->gCPlayerMemory_PS_data).offset_0x30 = 9;
+  thunk_FUN_200ae420(9,0);
+  (this->gCPlayerMemory_PS_data).offset_0x48 = 9;
+  thunk_FUN_20064480(9,0);
+  (this->gCPlayerMemory_PS_data).offset_0x3c = 9;
+                    /* WARNING: Could not recover jumptable at 0x2031d5bf. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eCEntityPropertySet::OnSaveGameEntityPostRead((eCEntityPropertySet *)this);
+  return;
+}
+
+

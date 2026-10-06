@@ -1,0 +1,4 @@
+; 20035efe ?SetMaximumModifier@gCStat@@QAEXABH@Z
+20035efe | e9ed430700 | JMP 0x200aa2f0
+; 20035f03 gCCharacterSensor_PS::GetPosition
+; 20035f03 Ordinal_3994

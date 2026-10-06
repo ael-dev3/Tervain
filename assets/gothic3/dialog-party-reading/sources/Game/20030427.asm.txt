@@ -1,0 +1,2 @@
+; 20030427 gCParty_PS::SetPartyMemberType
+20030427 | e9c4e30700 | JMP 0x200ae7f0

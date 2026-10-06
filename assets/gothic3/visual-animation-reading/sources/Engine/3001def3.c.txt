@@ -1,0 +1,42 @@
+/* ENTRY 3001def3 | eCVisualAnimationFactory::Write | STATUS decompiled | 21 ms */
+
+/* public: enum bEResult __thiscall eCVisualAnimationFactory::Write(class bCOStream &) */
+
+bEResult __thiscall
+eCVisualAnimationFactory::Write(eCVisualAnimationFactory *this,bCOStream *param_1)
+
+{
+  int iVar1;
+  bool bVar2;
+  int iVar3;
+  
+                    /* 0x1def3  15294
+                       ?Write@eCVisualAnimationFactory@@QAE?AW4bEResult@@AAVbCOStream@@@Z */
+  bCOStream::operator<<((bCOStream *)param_1,5);
+  (**(code **)(**(int **)(this + 8) + 8))(param_1);
+  iVar1 = 0;
+  iVar3 = *(int *)(this + 0xc);
+  bCOStream::operator<<((bCOStream *)param_1,iVar3 != 0);
+  if (iVar3 != 0) {
+    (**(code **)(**(int **)(this + 0xc) + 8))(param_1);
+  }
+  bCOStream::operator<<((bCOStream *)param_1,*(ulong *)(this + 0x14));
+  iVar3 = 0;
+  if (0 < *(int *)(this + 0x14)) {
+    do {
+      bCOStream::operator<<((bCOStream *)param_1,(bCString *)(*(int *)(this + 0x10) + iVar1));
+      (**(code **)(**(int **)(*(int *)(this + 0x10) + 4 + iVar1) + 8))(param_1);
+      bVar2 = *(int *)(*(int *)(this + 0x10) + 8 + iVar1) != 0;
+      bCOStream::operator<<((bCOStream *)param_1,bVar2);
+      if (bVar2) {
+        (**(code **)(**(int **)(*(int *)(this + 0x10) + 8 + iVar1) + 8))(param_1);
+      }
+      bCOStream::operator<<((bCOStream *)param_1,*(bool *)(*(int *)(this + 0x10) + 0xc + iVar1));
+      iVar3 = iVar3 + 1;
+      iVar1 = iVar1 + 0x10;
+    } while (iVar3 < *(int *)(this + 0x14));
+  }
+  return 1;
+}
+
+

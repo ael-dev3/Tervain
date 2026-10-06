@@ -1,0 +1,2 @@
+; 3001a1e5 eCWrapper_emfx2Motion::CreateLipSyncMotion
+3001a1e5 | e946460d00 | JMP 0x300ee830

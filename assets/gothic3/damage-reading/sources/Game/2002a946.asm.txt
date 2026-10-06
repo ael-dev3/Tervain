@@ -1,0 +1,2 @@
+; 2002a946 gCDamageReceiver_PS::OnProcess
+2002a946 | e9b5f40800 | JMP 0x200b9e00

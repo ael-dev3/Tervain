@@ -1,0 +1,43 @@
+/* ENTRY 3003eac7 | eCEntityDynamicContext::CreateSpecificEntity | STATUS decompiled | 16 ms */
+
+/* public: virtual class eCDynamicEntity * __thiscall
+   eCEntityDynamicContext::CreateSpecificEntity(void) */
+
+eCDynamicEntity * __thiscall
+eCEntityDynamicContext::CreateSpecificEntity(eCEntityDynamicContext *this)
+
+{
+  code *UNRECOVERED_JUMPTABLE;
+  eCDynamicEntity *this_00;
+  eCDynamicEntity *peVar1;
+  int iVar2;
+  eCSceneAdmin *this_01;
+  eCDynamicEntity *peVar3;
+  
+                    /* 0x3eac7  4921
+                       ?CreateSpecificEntity@eCEntityDynamicContext@@UAEPAVeCDynamicEntity@@XZ */
+  UNRECOVERED_JUMPTABLE = (code *)(this->eCEntityDynamicContext_data).offset_0x0;
+  if (UNRECOVERED_JUMPTABLE == (code *)0x0) {
+    this_00 = (eCDynamicEntity *)new(0x1c0,0xd5);
+    if (this_00 == (eCDynamicEntity *)0x0) {
+      peVar1 = (eCDynamicEntity *)0x0;
+    }
+    else {
+      peVar1 = (eCDynamicEntity *)eCDynamicEntity::eCDynamicEntity(this_00);
+    }
+    (**(code **)(*(int *)peVar1 + 0x18))();
+    iVar2 = thunk_FUN_3007bf20();
+    if (iVar2 != 0) {
+      peVar3 = peVar1;
+      this_01 = (eCSceneAdmin *)thunk_FUN_3007bf20();
+      eCSceneAdmin::RegisterEntity(this_01,(eCEntity *)peVar3);
+    }
+    return peVar1;
+  }
+                    /* WARNING: Could not recover jumptable at 0x304ab86c. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  peVar1 = (eCDynamicEntity *)(*UNRECOVERED_JUMPTABLE)();
+  return peVar1;
+}
+
+

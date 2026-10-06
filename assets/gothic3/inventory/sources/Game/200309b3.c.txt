@@ -1,0 +1,31 @@
+/* ENTRY 200309b3 | gCInventory_PS::NotifyQuestManager | STATUS decompiled | 24 ms */
+
+/* protected: void __thiscall gCInventory_PS::NotifyQuestManager(class eCEntity const *,class
+   eCEntity const *,class bCPropertyID const &,int) */
+
+void __thiscall
+gCInventory_PS::NotifyQuestManager
+          (gCInventory_PS *this,eCEntity *param_1,eCEntity *param_2,bCPropertyID *param_3,
+          int param_4)
+
+{
+  bool bVar1;
+  gCWorld *this_00;
+  eCEntity *peVar2;
+  gCQuestManager_PS *this_01;
+  
+                    /* 0x309b3  5337
+                       ?NotifyQuestManager@gCInventory_PS@@IAEXPBVeCEntity@@0ABVbCPropertyID@@H@Z */
+  if (((0 < param_4) &&
+      (((param_1 != (eCEntity *)0x0 || (param_2 != (eCEntity *)0x0)) &&
+       (this_00 = (gCWorld *)gCWorld::GetCurrentWorld(), this_00 != (gCWorld *)0x0)))) &&
+     (((bVar1 = eCProcessibleElement::IsActive((eCProcessibleElement *)this_00), bVar1 &&
+       (peVar2 = gCWorld::GetWorldEntity(this_00), peVar2 != (eCEntity *)0x0)) &&
+      (this_01 = (gCQuestManager_PS *)(**(code **)(*(int *)peVar2 + 0xec))(0x35),
+      this_01 != (gCQuestManager_PS *)0x0)))) {
+    gCQuestManager_PS::OnReceiveItem(this_01,param_1,param_2,(bCPropertyID *)param_2,param_4);
+  }
+  return;
+}
+
+

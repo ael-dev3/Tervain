@@ -1,0 +1,2 @@
+; 200014ba gCDamageReceiver_PS::SetDamageAmount
+200014ba | e9d1870b00 | JMP 0x200b9c90

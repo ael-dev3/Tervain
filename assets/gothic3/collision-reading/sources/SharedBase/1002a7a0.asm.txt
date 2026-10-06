@@ -1,0 +1,15 @@
+; 1002a7a0 FUN_1002a7a0
+1002a7a0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+1002a7a4 | d900 | FLD float ptr [EAX]
+1002a7a6 | d919 | FSTP float ptr [ECX]
+1002a7a8 | d94004 | FLD float ptr [EAX + 0x4]
+1002a7ab | d95904 | FSTP float ptr [ECX + 0x4]
+1002a7ae | d94008 | FLD float ptr [EAX + 0x8]
+1002a7b1 | d95908 | FSTP float ptr [ECX + 0x8]
+1002a7b4 | d9400c | FLD float ptr [EAX + 0xc]
+1002a7b7 | d9590c | FSTP float ptr [ECX + 0xc]
+1002a7ba | d94010 | FLD float ptr [EAX + 0x10]
+1002a7bd | d95910 | FSTP float ptr [ECX + 0x10]
+1002a7c0 | d94014 | FLD float ptr [EAX + 0x14]
+1002a7c3 | d95914 | FSTP float ptr [ECX + 0x14]
+1002a7c6 | c20400 | RET 0x4

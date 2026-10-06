@@ -1,0 +1,40 @@
+/* ENTRY 30027043 | eCCollisionShape::PostInitializeProperties | STATUS decompiled | 25 ms */
+
+/* public: virtual enum bEResult __thiscall eCCollisionShape::PostInitializeProperties(void) */
+
+bEResult __thiscall eCCollisionShape::PostInitializeProperties(eCCollisionShape *this)
+
+{
+  bCObjectBase bStack_8;
+  undefined4 uStack_4;
+  
+                    /* 0x27043  11723
+                       ?PostInitializeProperties@eCCollisionShape@@UAE?AW4bEResult@@XZ */
+  bCObjectBase::bCObjectBase(&bStack_8);
+  bStack_8 = (bCObjectBase)&bTPropertyContainer<eECollisionShapeType>::vftable;
+  uStack_4 = 0;
+  (*(code *)(this->eCCollisionShape_data).offset_0x8[7])(&bStack_8);
+  bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xfffffff4);
+  bCObjectBase::bCObjectBase((bCObjectBase *)&stack0xfffffff4);
+  bStack_8 = (bCObjectBase)0x1;
+  (*(code *)(this->eCCollisionShape_data).offset_0x10[7])(&stack0xfffffff4);
+  bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xfffffff0);
+  (this->eCCollisionShape_data).offset_0x28 = (bCObjectRefBase)0x0;
+  (this->eCCollisionShape_data).offset_0x34 = (bCObjectRefBase)0x0;
+  (this->eCCollisionShape_data).offset_0x36 = 0;
+  (this->eCCollisionShape_data).offset_0x2b = (bCObjectRefBase)0x0;
+  (this->eCCollisionShape_data).offset_0x2c = (bCObjectRefBase)0x0;
+  (this->eCCollisionShape_data).offset_0x30 = 0xbf800000;
+  bCObjectBase::bCObjectBase((bCObjectBase *)&stack0xfffffff0);
+  (*(code *)(this->eCCollisionShape_data).offset_0x18[7])(&stack0xfffffff0);
+  bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xffffffec);
+  bCObjectBase::bCObjectBase((bCObjectBase *)&stack0xffffffec);
+  (*(code *)(this->eCCollisionShape_data).offset_0x20[7])(&stack0xffffffec);
+  bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xffffffe8);
+  (this->eCCollisionShape_data).offset_0x29 = 0;
+  (this->eCCollisionShape_data).offset_0x2a = (bCObjectRefBase)0x0;
+  (this->eCCollisionShape_data).offset_0x3c = 0x3f800000;
+  return 1;
+}
+
+

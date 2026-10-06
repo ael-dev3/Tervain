@@ -1,0 +1,4 @@
+; 1002b8c0 FUN_1002b8c0
+1002b8c0 | f30f10442404 | MOVSS XMM0,dword ptr [ESP + 0x4]
+1002b8c6 | f30f1101 | MOVSS dword ptr [ECX],XMM0
+1002b8ca | c20400 | RET 0x4

@@ -1,0 +1,18 @@
+/* ENTRY 3003ba8e | eCCollisionShape_PS::GetTouchingShapeAtIndex | STATUS decompiled | 10 ms */
+
+/* public: class eCCollisionShape * __thiscall eCCollisionShape_PS::GetTouchingShapeAtIndex(unsigned
+   long)const  */
+
+eCCollisionShape * __thiscall
+eCCollisionShape_PS::GetTouchingShapeAtIndex(eCCollisionShape_PS *this,ulong param_1)
+
+{
+                    /* 0x3ba8e  9159
+                       ?GetTouchingShapeAtIndex@eCCollisionShape_PS@@QBEPAVeCCollisionShape@@K@Z */
+  if ((uint)(this->eCCollisionShape_PS_data).offset_0x24 <= param_1) {
+    return (eCCollisionShape *)0x0;
+  }
+  return *(eCCollisionShape **)((this->eCCollisionShape_PS_data).offset_0x20 + param_1 * 4);
+}
+
+

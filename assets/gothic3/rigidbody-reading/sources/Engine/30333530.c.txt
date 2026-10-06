@@ -1,0 +1,10 @@
+/* ENTRY 30333530 | FUN_30333530 | STATUS decompiled | 2 ms */
+
+undefined4 FUN_30333530(bCIStream *param_1)
+
+{
+  bCIStream::operator>>(param_1,(ushort *)&param_1);
+  return 1;
+}
+
+

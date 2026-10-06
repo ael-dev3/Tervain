@@ -1,0 +1,18 @@
+/* ENTRY 3002959b | eCLocAdmin::GetInstance | STATUS decompiled | 5 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+/* public: static class eCLocAdmin & __stdcall eCLocAdmin::GetInstance(void) */
+
+eCLocAdmin * eCLocAdmin::GetInstance(void)
+
+{
+                    /* 0x2959b  7428  ?GetInstance@eCLocAdmin@@SGAAV1@XZ */
+  if ((_DAT_30af69f0 & 1) == 0) {
+    _DAT_30af69f0 = _DAT_30af69f0 | 1;
+    eCLocAdmin((eCLocAdmin *)&DAT_30af6990);
+    _atexit((_func_4879 *)&LAB_307b7dd0);
+  }
+  return (eCLocAdmin *)&DAT_30af6990;
+}
+
+

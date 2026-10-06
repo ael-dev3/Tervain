@@ -1,0 +1,8 @@
+; 303318f0 bTPropertyType<eCRigidBody_PS,bCVector>::vfunction21
+303318f0 | 68f8cf8130 | PUSH 0x3081cff8
+303318f5 | 683cd58130 | PUSH 0x3081d53c
+303318fa | 687ccf8130 | PUSH 0x3081cf7c
+303318ff | ff1530dbaf30 | CALL dword ptr [0x30afdb30]
+30331905 | 83c40c | ADD ESP,0xc
+30331908 | 33c0 | XOR EAX,EAX
+3033190a | c3 | RET

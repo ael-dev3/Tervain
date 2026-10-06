@@ -1,0 +1,21 @@
+/* ENTRY 30012733 | eCEntity::PatchWithTemplate | STATUS decompiled | 21 ms */
+
+/* public: bool __thiscall eCEntity::PatchWithTemplate(class eCTemplateEntity const &,bool) */
+
+bool __thiscall eCEntity::PatchWithTemplate(eCEntity *this,eCTemplateEntity *param_1,bool param_2)
+
+{
+  eCApplication *this_00;
+  eSSetupEngine *peVar1;
+  
+                    /* 0x12733  11672  ?PatchWithTemplate@eCEntity@@QAE_NABVeCTemplateEntity@@_N@Z
+                        */
+  this_00 = (eCApplication *)eCApplication::GetInstance();
+  peVar1 = eCApplication::GetEngineSetup(this_00);
+  if (*(int *)(peVar1 + 0xf0) != 0) {
+    (*this->vftablePtr->OnPatchWithTemplate)(this,param_1,false,param_2);
+  }
+  return true;
+}
+
+

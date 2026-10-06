@@ -1,0 +1,2 @@
+; 2000e561 ?IsReferencedByTemplate@gCNavigation_PS@@UBE_NXZ
+2000e561 | e95a7a2700 | JMP 0x20285fc0

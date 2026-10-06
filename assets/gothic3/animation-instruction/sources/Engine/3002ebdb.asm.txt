@@ -1,0 +1,4 @@
+; 3002ebdb ?GetIntroBlending@eCWrapper_emfx2Actor@@QBEMW4eEMotionType@1@@Z
+3002ebdb | e9e0b60a00 | JMP 0x300da2c0
+; 3002ebe0 eCPhysicObject::GetNumBones
+; 3002ebe0 Ordinal_7946

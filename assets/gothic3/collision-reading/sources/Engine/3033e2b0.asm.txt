@@ -1,0 +1,14 @@
+; 3033e2b0 bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eEPhysicRangeType>_>::vfunction22
+3033e2b0 | 56 | PUSH ESI
+3033e2b1 | 68b0d08130 | PUSH 0x3081d0b0
+3033e2b6 | 6868d58130 | PUSH 0x3081d568
+3033e2bb | 687ccf8130 | PUSH 0x3081cf7c
+3033e2c0 | 8bf1 | MOV ESI,ECX
+3033e2c2 | ff1530dbaf30 | CALL dword ptr [0x30afdb30]
+3033e2c8 | 8b442414 | MOV EAX,dword ptr [ESP + 0x14]
+3033e2cc | 83c40c | ADD ESP,0xc
+3033e2cf | 50 | PUSH EAX
+3033e2d0 | 8bce | MOV ECX,ESI
+3033e2d2 | ff1578caaf30 | CALL dword ptr [0x30afca78]
+3033e2d8 | 5e | POP ESI
+3033e2d9 | c20400 | RET 0x4

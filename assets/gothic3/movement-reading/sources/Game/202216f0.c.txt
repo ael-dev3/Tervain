@@ -1,0 +1,12 @@
+/* ENTRY 202216f0 | ENGINE.DLL::eCEntityPropertySet::OnPostUpdateInternals | STATUS decompiled | 1 ms */
+
+void __thiscall eCEntityPropertySet::OnPostUpdateInternals(eCEntityPropertySet *this)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x202216f0. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  OnPostUpdateInternals(this);
+  return;
+}
+
+

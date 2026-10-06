@@ -1,0 +1,18 @@
+; 20118bc0 gCEffect_PS::gCEffect_PS
+20118bc0 | 56 | PUSH ESI
+20118bc1 | 8bf1 | MOV ESI,ECX
+20118bc3 | ff15f86d7d20 | CALL dword ptr [0x207d6df8]
+20118bc9 | 8d4e14 | LEA ECX,[ESI + 0x14]
+20118bcc | c7068c6f6620 | MOV dword ptr [ESI],0x20666f8c
+20118bd2 | ff1528897d20 | CALL dword ptr [0x207d8928]
+20118bd8 | 8d4e18 | LEA ECX,[ESI + 0x18]
+20118bdb | ff1534897d20 | CALL dword ptr [0x207d8934]
+20118be1 | 8d4e30 | LEA ECX,[ESI + 0x30]
+20118be4 | e8a0c5f1ff | CALL 0x20035189
+20118be9 | 6a00 | PUSH 0x0
+20118beb | 8bce | MOV ECX,ESI
+20118bed | c7462c00000000 | MOV dword ptr [ESI + 0x2c],0x0
+20118bf4 | e802c8f0ff | CALL 0x200253fb
+20118bf9 | 8bc6 | MOV EAX,ESI
+20118bfb | 5e | POP ESI
+20118bfc | c20400 | RET 0x4

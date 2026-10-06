@@ -1,0 +1,2 @@
+; 30040264 eCVisualAnimation_PS::RemoveBodyPart
+30040264 | e9f74e0600 | JMP 0x300a5160

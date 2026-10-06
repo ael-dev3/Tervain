@@ -1,0 +1,20 @@
+/* ENTRY 3000e18d | bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeMaterial>_>::vfunction9 | STATUS decompiled | 6 ms */
+
+undefined4 __thiscall
+bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeMaterial>_>::vfunction9
+          (bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeMaterial>_> *this,uint param_1
+          )
+
+{
+  char cVar1;
+  
+  cVar1 = (*this->vftablePtr->vfunction7)();
+  if (cVar1 != '\0') {
+    if (param_1 < (this[8].vftablePtr)->vfunction2) {
+      return *(undefined4 *)((this[8].vftablePtr)->vfunction1 + param_1 * 4);
+    }
+  }
+  return 0;
+}
+
+

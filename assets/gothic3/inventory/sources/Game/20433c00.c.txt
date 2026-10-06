@@ -1,0 +1,46 @@
+/* ENTRY 20433c00 | FUN_20433c00 | STATUS decompiled | 20 ms */
+
+bool FUN_20433c00(eCEntity *param_1,eCEntity *param_2,eCTemplateEntity *param_3,ulong param_4)
+
+{
+  bool bVar1;
+  gCInventory_PS *this;
+  int iVar2;
+  bCMessageAdmin *pbVar3;
+  bEMessageTypes bVar4;
+  char *pcVar5;
+  char *pcVar6;
+  char *pcVar7;
+  int iVar8;
+  
+  if (param_3 == (eCTemplateEntity *)0x0) {
+    iVar2 = *(int *)g_iDefaultMessagePriority_exref;
+    iVar8 = -1;
+    pcVar7 = (char *)0x0;
+    pcVar6 = (char *)0x0;
+    pcVar5 = "gCInfo_PS::Give: Can\'t transfer items, item template is invalid.";
+    bVar4 = 3;
+    pbVar3 = bCMessageAdmin::GetInstance();
+    bCMessageAdmin::OnMessage(pbVar3,bVar4,pcVar5,pcVar6,pcVar7,iVar8,iVar2);
+    return false;
+  }
+  if (param_1 != (eCEntity *)0x0) {
+    this = (gCInventory_PS *)(**(code **)(*(int *)param_1 + 0xec))(0x1f);
+    if (this != (gCInventory_PS *)0x0) {
+      iVar2 = gCInventory_PS::FindStackIndex(this,param_3,0,0,-1);
+      bVar1 = gCInfo_PS::Give(param_1,param_2,iVar2,param_4);
+      return bVar1;
+    }
+  }
+  iVar2 = *(int *)g_iDefaultMessagePriority_exref;
+  iVar8 = -1;
+  pcVar7 = (char *)0x0;
+  pcVar6 = (char *)0x0;
+  pcVar5 = "gCInfo_PS::Give: Can\'t transfer items, source entity without inventory.";
+  bVar4 = 3;
+  pbVar3 = bCMessageAdmin::GetInstance();
+  bCMessageAdmin::OnMessage(pbVar3,bVar4,pcVar5,pcVar6,pcVar7,iVar8,iVar2);
+  return false;
+}
+
+

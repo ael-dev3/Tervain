@@ -1,0 +1,17 @@
+/* ENTRY 10004a0c | PSPlayerMemory::PropertyXP::operator_long | STATUS decompiled | 5 ms */
+
+/* public: __thiscall PSPlayerMemory::PropertyXP::operator long(void)const  */
+
+long __thiscall PSPlayerMemory::PropertyXP::operator_long(PropertyXP *this)
+
+{
+                    /* 0x4a0c  1167  ??BPropertyXP@PSPlayerMemory@@QBEJXZ */
+  if (*(int *)this == 0) {
+    GE_MESSAGEF_WARN("Cannot get property \'%s\' in propertyset \'%s\'!",&DAT_10082384,
+                     "gCPlayerMemory_PS");
+    return 0;
+  }
+  return *(long *)(*(int *)this + 0x54);
+}
+
+

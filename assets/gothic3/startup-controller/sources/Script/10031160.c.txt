@@ -1,0 +1,19 @@
+/* ENTRY 10031160 | FUN_10031160 | STATUS decompiled | 8 ms */
+
+Entity * FUN_10031160(Entity *param_1)
+
+{
+  gCWorld *this;
+  eCEntity *peVar1;
+  
+  this = gCWorld::GetCurrentWorld();
+  if (this == (gCWorld *)0x0) {
+    Entity::Entity(param_1,(Entity *)&None);
+    return param_1;
+  }
+  peVar1 = gCWorld::GetWorldEntity(this);
+  Entity::Entity(param_1,peVar1);
+  return param_1;
+}
+
+

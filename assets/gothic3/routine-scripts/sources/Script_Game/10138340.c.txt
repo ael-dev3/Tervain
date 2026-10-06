@@ -1,0 +1,17 @@
+/* ENTRY 10138340 | FUN_10138340 | STATUS decompiled | 8 ms */
+
+void FUN_10138340(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Commands\\AI_PowerAttack.cpp");
+  bCString::bCString(local_8,"OnAI_PowerAttack");
+  thunk_FUN_1001da70(local_8,&LAB_10002b53,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

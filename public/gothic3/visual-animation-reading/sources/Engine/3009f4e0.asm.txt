@@ -1,0 +1,21 @@
+; 3009f4e0 FUN_3009f4e0
+3009f4e0 | 56 | PUSH ESI
+3009f4e1 | 8bf1 | MOV ESI,ECX
+3009f4e3 | e88d70f9ff | CALL 0x30036575
+3009f4e8 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+3009f4ec | 50 | PUSH EAX
+3009f4ed | 8d4e10 | LEA ECX,[ESI + 0x10]
+3009f4f0 | ff1560dbaf30 | CALL dword ptr [0x30afdb60]
+3009f4f6 | 8b4c240c | MOV ECX,dword ptr [ESP + 0xc]
+3009f4fa | 51 | PUSH ECX
+3009f4fb | 8d4e18 | LEA ECX,[ESI + 0x18]
+3009f4fe | c7460c00000000 | MOV dword ptr [ESI + 0xc],0x0
+3009f505 | ff1580dbaf30 | CALL dword ptr [0x30afdb80]
+3009f50b | 8b542410 | MOV EDX,dword ptr [ESP + 0x10]
+3009f50f | 52 | PUSH EDX
+3009f510 | 8d4e24 | LEA ECX,[ESI + 0x24]
+3009f513 | ff1580dbaf30 | CALL dword ptr [0x30afdb80]
+3009f519 | f30f10442414 | MOVSS XMM0,dword ptr [ESP + 0x14]
+3009f51f | f30f114614 | MOVSS dword ptr [ESI + 0x14],XMM0
+3009f524 | 5e | POP ESI
+3009f525 | c21000 | RET 0x10

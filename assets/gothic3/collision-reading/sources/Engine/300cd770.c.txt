@@ -1,0 +1,24 @@
+/* ENTRY 300cd770 | FUN_300cd770 | STATUS decompiled | 5 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+bCMatrix3 * __fastcall FUN_300cd770(int param_1)
+
+{
+  if ((__local_static_guard__3__ & 1) == 0) {
+    __local_static_guard__3__ = __local_static_guard__3__ | 1;
+    bCMatrix3::GetIdentity();
+    _atexit((_func_4879 *)&LAB_300049df);
+  }
+  switch(*(undefined4 *)(param_1 + 0x10)) {
+  default:
+    return &`public:_class_bCMatrix3&___thiscall_eCCollisionShape::GetOrientation(void)'::__l3::
+            s_matIdentity;
+  case 3:
+    return (bCMatrix3 *)(*(int *)(param_1 + 0x74) + 0x18);
+  case 4:
+    return (bCMatrix3 *)(*(int *)(param_1 + 0x74) + 8);
+  }
+}
+
+

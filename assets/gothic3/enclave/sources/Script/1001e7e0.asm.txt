@@ -1,0 +1,8 @@
+; 1001e7e0 FUN_1001e7e0
+1001e7e0 | 8b09 | MOV ECX,dword ptr [ECX]
+1001e7e2 | 85c9 | TEST ECX,ECX
+1001e7e4 | 7503 | JNZ 0x1001e7e9
+1001e7e6 | b001 | MOV AL,0x1
+1001e7e8 | c3 | RET
+; 1001e7e9 LAB_1001e7e9
+1001e7e9 | ff250c7a0b10 | JMP dword ptr [0x100b7a0c]

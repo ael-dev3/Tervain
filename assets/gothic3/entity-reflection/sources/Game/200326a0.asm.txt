@@ -1,0 +1,4 @@
+; 200326a0 bTPropertyType<gCClock_PS,unsigned_long>::vfunction9
+200326a0 | e9bb7d1d00 | JMP 0x2020a460
+; 200326aa gCDummyCollectorTreasureSet::AddIndexInPropertySet
+; 200326aa Ordinal_1877

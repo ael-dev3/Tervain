@@ -1,0 +1,4 @@
+; 300061b8 ?Initialize@eCAnimationAdmin@@UAE?AW4bEResult@@XZ
+300061b8 | e9339f0800 | JMP 0x300900f0
+; 300061c2 eCVisualAnimation_PS::UpdateFrameEffects
+; 300061c2 Ordinal_14882

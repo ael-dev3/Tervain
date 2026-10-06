@@ -1,0 +1,127 @@
+/* ENTRY 30030003 | bTPropertyObject<eCIlluminated_PS,eCEntityPropertySet>::vfunction8 | STATUS decompiled | 90 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+uint __thiscall
+bTPropertyObject<eCIlluminated_PS,eCEntityPropertySet>::vfunction8
+          (bTPropertyObject<eCIlluminated_PS,eCEntityPropertySet> *this,bCIStream *param_1,
+          uint param_2)
+
+{
+  bCIStream *this_00;
+  ushort uVar1;
+  bool bVar2;
+  bCErrorAdmin *this_01;
+  bCString *pbVar3;
+  undefined2 extraout_var;
+  bCPropertyTypeBase *pbVar4;
+  char *pcVar5;
+  char *pcVar6;
+  int iVar7;
+  bCString *pbVar8;
+  ushort auStack_30 [2];
+  bCString abStack_2c [4];
+  ulong uStack_28;
+  bCAccessorCreator abStack_24 [4];
+  bCString abStack_20 [4];
+  int iStack_1c;
+  bCAccessorProperty abStack_18 [12];
+  bCAccessorProperty abStack_c [12];
+  
+  this_00 = param_1;
+  bCPropertyObjectBase::ReadData((bCPropertyObjectBase *)this,(bCIStream *)param_1,(ushort)param_2);
+  auStack_30[0] = 0;
+  auStack_30[1] = 0;
+  bCIStream::operator>>(this_00,auStack_30);
+  if (auStack_30[0] == 0) {
+    iVar7 = 0x229;
+    pcVar6 = "e:\\!g3 src\\temp\\source\\sharedbase\\propertysystem\\objects\\ge_propertyobject.inl"
+    ;
+    pcVar5 = &DAT_3081d9b8;
+    this_01 = bCErrorAdmin::GetInstance();
+    bCErrorAdmin::CallFatalError(this_01,pcVar5,pcVar6,iVar7);
+  }
+  bCAccessorCreator::bCAccessorCreator(abStack_24,(bCPropertyObjectBase *)this);
+  param_2 = CONCAT31(param_2._1_3_,1);
+  bCAccessorProperty::bCAccessorProperty(abStack_18,abStack_24);
+  uStack_28 = 0;
+  bCIStream::operator>>(this_00,&uStack_28);
+  iStack_1c = 0;
+  if (0 < (int)uStack_28) {
+    do {
+      bCString::bCString((bCString *)&param_1);
+      bCIStream::operator>>(this_00,(bCString *)&param_1);
+      bCString::bCString(abStack_2c);
+      if (0x1d < auStack_30[0]) {
+        bCIStream::operator>>(this_00,abStack_2c);
+      }
+      pbVar4 = (bCPropertyTypeBase *)0x0;
+      if ((char)param_2 == '\x01') {
+        pbVar4 = bCAccessorProperty::GetPropertyTypeObject(abStack_18);
+        pbVar8 = (bCString *)&param_1;
+        pbVar3 = bCAccessorProperty::GetPropertyName(abStack_18);
+        bVar2 = bCString::operator!=(pbVar3,pbVar8);
+        if (bVar2) {
+          param_2 = param_2 & 0xffffff00;
+        }
+        bCAccessorProperty::operator++(abStack_18);
+      }
+      if ((char)param_2 == '\0') {
+        bCAccessorProperty::bCAccessorProperty(abStack_c,abStack_24,(bCString *)&param_1);
+        pbVar4 = bCAccessorProperty::GetPropertyTypeObject(abStack_c);
+        bCAccessorPropertyObject::~bCAccessorPropertyObject((bCAccessorPropertyObject *)abStack_c);
+      }
+      if (pbVar4 == (bCPropertyTypeBase *)0x0) {
+LAB_30229430:
+        if ((_DAT_30ae1cf4 & 1) == 0) {
+          _DAT_30ae1cf4 = _DAT_30ae1cf4 | 1;
+          bCCriticalSectionWin32::bCCriticalSectionWin32((bCCriticalSectionWin32 *)&DAT_30ae1cd8);
+          _atexit((_func_4879 *)&LAB_3079eef0);
+        }
+        bCCriticalSectionWin32::Acquire((bCCriticalSectionWin32 *)&DAT_30ae1cd8);
+        if ((_DAT_30ae1cf4 & 2) == 0) {
+          _DAT_30ae1cf4 = _DAT_30ae1cf4 | 2;
+          bCString::bCString(abStack_20,"");
+          bCPropertyTypeBase::bCPropertyTypeBase((bCPropertyTypeBase *)&DAT_30ae1cac,abStack_20,2);
+          _DAT_30ae1cac = &bTPropertyType<eCIlluminated_PS,bCObsoleteClass>::vftable;
+          DAT_30ae1cc4 = bTPropertyObjectType<eCIlluminated_PS,eCEntityPropertySet>::
+                         ~bTPropertyObjectType<eCIlluminated_PS,eCEntityPropertySet>();
+          _DAT_30ae1cc8 = 0;
+          _DAT_30ae1ccc = 0;
+          bCPropertyTypeBase::Create((bCPropertyTypeBase *)&DAT_30ae1cac);
+          bCPropertyObjectTypeBase::RegisterPropertyTemplate
+                    ((bCPropertyObjectTypeBase *)DAT_30ae1cc4,(bCPropertyTypeBase *)&DAT_30ae1cac);
+          bCString::~bCString(abStack_20);
+          _atexit(bTPropertyTypeOnly<bCObsoleteClass>::~bTPropertyTypeOnly<bCObsoleteClass>);
+        }
+        bTPropertyType<eCIlluminated_PS,bCObsoleteClass>::vfunction16
+                  ((bTPropertyType<eCIlluminated_PS,bCObsoleteClass> *)&DAT_30ae1cac,this_00,
+                   (char)this);
+        bCCriticalSectionWin32::Release((bCCriticalSectionWin32 *)&DAT_30ae1cd8);
+      }
+      else {
+        if (0x1d < auStack_30[0]) {
+          pbVar8 = abStack_2c;
+          pbVar3 = (bCString *)(**(code **)(*(int *)pbVar4 + 0xc))();
+          bVar2 = bCString::operator==(pbVar3,pbVar8);
+          if (!bVar2) goto LAB_30229430;
+        }
+        (**(code **)(*(int *)pbVar4 + 0x38))(this_00,this);
+      }
+      bCString::~bCString(abStack_2c);
+      bCString::~bCString((bCString *)&param_1);
+      iStack_1c = iStack_1c + 1;
+    } while (iStack_1c < (int)uStack_28);
+  }
+  if ((this->bTPOPureSmartPtr<eCIlluminated_PS>_data).offset_0x4 == (bCObjectRefBase *)0x0) {
+    (*this->vftablePtr->vfunction11)(this);
+  }
+  ::operator>>((bCIStream *)this_00,
+               (bCObjectBase *)(this->bTPOPureSmartPtr<eCIlluminated_PS>_data).offset_0x4);
+  uVar1 = auStack_30[0];
+  bCAccessorPropertyObject::~bCAccessorPropertyObject((bCAccessorPropertyObject *)abStack_18);
+  bCAccessorCreator::~bCAccessorCreator(abStack_24);
+  return CONCAT22(extraout_var,uVar1);
+}
+
+

@@ -1,0 +1,2 @@
+; 10005e48 bCAccessorProperty::bCAccessorProperty
+10005e48 | e953db0800 | JMP 0x100939a0

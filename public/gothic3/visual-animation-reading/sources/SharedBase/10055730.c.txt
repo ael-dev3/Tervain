@@ -1,0 +1,18 @@
+/* ENTRY 10055730 | FUN_10055730 | STATUS decompiled | 4 ms */
+
+undefined4 * __thiscall FUN_10055730(bCVector *param_1,bCMatrix *param_2)
+
+{
+  undefined4 *extraout_EDX;
+  undefined4 local_c;
+  undefined4 local_8;
+  undefined4 local_4;
+  
+  bCVector::SetTransformed((bCVector *)&local_c,param_1,param_2);
+  *extraout_EDX = local_c;
+  extraout_EDX[1] = local_8;
+  extraout_EDX[2] = local_4;
+  return extraout_EDX;
+}
+
+

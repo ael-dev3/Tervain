@@ -1,0 +1,37 @@
+/* ENTRY 10006a23 | bCPropertyTypeBase::bCPropertyTypeBase | STATUS decompiled | 6 ms */
+
+/* protected: __thiscall bCPropertyTypeBase::bCPropertyTypeBase(class bCString const &,class
+   bCString const &,class bCString const &,enum bEPropertyType,bool) */
+
+void __thiscall
+bCPropertyTypeBase::bCPropertyTypeBase
+          (bCPropertyTypeBase *this,bCString *param_1,bCString *param_2,bCString *param_3,
+          bEPropertyType param_4,bool param_5)
+
+{
+  int iVar1;
+  
+                    /* 0x6a23  232  ??0bCPropertyTypeBase@@IAE@ABVbCString@@00W4bEPropertyType@@_N@Z
+                        */
+  this->vftablePtr = &vftable;
+  iVar1 = *(int *)param_1;
+  (this->bCPropertyTypeBase_data).offset_0x0 = iVar1;
+  if (iVar1 != 0) {
+    *(short *)(iVar1 + -4) = *(short *)(iVar1 + -4) + 1;
+  }
+  iVar1 = *(int *)param_3;
+  (this->bCPropertyTypeBase_data).offset_0x4 = iVar1;
+  if (iVar1 != 0) {
+    *(short *)(iVar1 + -4) = *(short *)(iVar1 + -4) + 1;
+  }
+  iVar1 = *(int *)param_2;
+  (this->bCPropertyTypeBase_data).offset_0x8 = iVar1;
+  if (iVar1 != 0) {
+    *(short *)(iVar1 + -4) = *(short *)(iVar1 + -4) + 1;
+  }
+  (this->bCPropertyTypeBase_data).offset_0xc = param_4;
+  (this->bCPropertyTypeBase_data).offset_0x10 = param_5;
+  return;
+}
+
+

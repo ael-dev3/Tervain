@@ -1,0 +1,2 @@
+; 2000bedd bTPropertyType<gCCharacterMovement_PS,bool>::vfunction9
+2000bedd | e97e8f2200 | JMP 0x20234e60

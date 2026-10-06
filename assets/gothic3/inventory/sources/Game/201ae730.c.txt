@@ -1,0 +1,23 @@
+/* ENTRY 201ae730 | FUN_201ae730 | STATUS decompiled | 10 ms */
+
+undefined4 __thiscall FUN_201ae730(gCInventory_PS *param_1,int param_2)
+
+{
+  code *pcVar1;
+  gCInventoryStack *pgVar2;
+  
+  pgVar2 = (gCInventoryStack *)FUN_2002d506(param_2);
+  if (pgVar2 != (gCInventoryStack *)0x0) {
+    if (pgVar2[0x54] == (gCInventoryStack)0x0) {
+      (**(code **)(*(int *)pgVar2 + 0x58))("Learned",0);
+      pcVar1 = *(code **)(*(int *)pgVar2 + 0x5c);
+      pgVar2[0x54] = (gCInventoryStack)0x1;
+      (*pcVar1)("Learned",0);
+      gCInventory_PS::NotifyListeners(param_1,1,param_2,pgVar2);
+    }
+    return 1;
+  }
+  return 0;
+}
+
+

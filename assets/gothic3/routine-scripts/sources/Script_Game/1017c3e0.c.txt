@@ -1,0 +1,17 @@
+/* ENTRY 1017c3e0 | FUN_1017c3e0 | STATUS decompiled | 6 ms */
+
+void FUN_1017c3e0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Engine\\Engine_States\\IS_Running_SelectInfo.cpp");
+  bCString::bCString(local_8,"IS_Running_SelectInfo");
+  thunk_FUN_1001db60(local_8,&LAB_10002a54,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

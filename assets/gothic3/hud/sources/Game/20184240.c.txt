@@ -1,0 +1,14 @@
+/* ENTRY 20184240 | FUN_20184240 | STATUS decompiled | 5 ms */
+
+void __fastcall FUN_20184240(IFFGUIMsgProc *param_1)
+
+{
+  (**(code **)((int)*param_1 + 300))();
+  CFFGFCWnd::AnimateWindow((CFFGFCWnd *)param_1,200,0xa0000);
+                    /* WARNING: Could not recover jumptable at 0x20184262. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  CFFGFCWnd::BringWindowToTop((CFFGFCWnd *)param_1);
+  return;
+}
+
+

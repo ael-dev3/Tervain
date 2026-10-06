@@ -1,0 +1,2 @@
+; 10003cd8 bCMemoryAdmin::Malloc
+10003cd8 | e923ce0100 | JMP 0x10020b00

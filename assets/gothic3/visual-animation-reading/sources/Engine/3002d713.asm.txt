@@ -1,0 +1,2 @@
+; 3002d713 eCEntityPropertySet::OnPropertySetAdded
+3002d713 | e918414500 | JMP 0x30481830

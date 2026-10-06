@@ -1,0 +1,13 @@
+/* ENTRY 2002daa1 | gCEffect_PS::Read | STATUS decompiled | 9 ms */
+
+/* public: virtual enum bEResult __thiscall gCEffect_PS::Read(class bCIStream &) */
+
+bEResult __thiscall gCEffect_PS::Read(gCEffect_PS *this,bCIStream *param_1)
+
+{
+                    /* 0x2daa1  5906  ?Read@gCEffect_PS@@UAE?AW4bEResult@@AAVbCIStream@@@Z */
+  bCIStream::operator>>((bCIStream *)param_1,(ushort *)&param_1);
+  return 1;
+}
+
+

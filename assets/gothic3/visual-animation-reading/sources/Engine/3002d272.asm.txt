@@ -1,0 +1,2 @@
+; 3002d272 eCVisualAnimationLoD::RequestResources
+3002d272 | e9a91d0900 | JMP 0x300bf020

@@ -1,0 +1,14 @@
+; 2020aba0 bTPropertyType<gCClock_PS,float>::vfunction22
+2020aba0 | 56 | PUSH ESI
+2020aba1 | 68c0926520 | PUSH 0x206592c0
+2020aba6 | 6810996520 | PUSH 0x20659910
+2020abab | 688c916520 | PUSH 0x2065918c
+2020abb0 | 8bf1 | MOV ESI,ECX
+2020abb2 | ff1510897d20 | CALL dword ptr [0x207d8910]
+2020abb8 | 8b442414 | MOV EAX,dword ptr [ESP + 0x14]
+2020abbc | 83c40c | ADD ESP,0xc
+2020abbf | 50 | PUSH EAX
+2020abc0 | 8bce | MOV ECX,ESI
+2020abc2 | ff15d0877d20 | CALL dword ptr [0x207d87d0]
+2020abc8 | 5e | POP ESI
+2020abc9 | c20400 | RET 0x4

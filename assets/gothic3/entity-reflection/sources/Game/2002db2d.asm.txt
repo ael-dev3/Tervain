@@ -1,0 +1,4 @@
+; 2002db2d bTPropertyType<gCClock_PS,unsigned_long>::vfunction13
+2002db2d | e99ec91d00 | JMP 0x2020a4d0
+; 2002db32 LAB_2002db32
+2002db32 | e949b85100 | JMP 0x20549380

@@ -1,0 +1,2 @@
+; 20014461 gCPlayerMemory_PS::WriteAttributes
+20014461 | e92a963000 | JMP 0x2031da90

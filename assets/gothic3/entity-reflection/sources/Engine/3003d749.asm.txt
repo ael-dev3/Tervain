@@ -1,0 +1,2 @@
+; 3003d749 ?GetBoundary@eCEntityPropertySet@@UAEXAAVbCBox@@_N@Z
+3003d749 | e922414400 | JMP 0x30481870

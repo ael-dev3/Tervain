@@ -1,0 +1,2 @@
+; 2001cfda bTPropertyType<gCPlayerMemory_PS,bTValArray<bool>_>::vfunction7
+2001cfda | e9215c3000 | JMP 0x20322c00

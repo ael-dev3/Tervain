@@ -1,0 +1,11 @@
+/* ENTRY 3004318f | bTPropertyObject<eCCollisionShape_PS,eCCollisionShapeBase_PS>::vfunction5 | STATUS decompiled | 3 ms */
+
+undefined4 __thiscall
+bTPropertyObject<eCCollisionShape_PS,eCCollisionShapeBase_PS>::vfunction5
+          (bTPropertyObject<eCCollisionShape_PS,eCCollisionShapeBase_PS> *this)
+
+{
+  return (this->bTPropertyObject<eCCollisionShape_PS,eCCollisionShapeBase_PS>_data).offset_0x0;
+}
+
+

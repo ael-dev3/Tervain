@@ -1,0 +1,26 @@
+/* ENTRY 20170be0 | FUN_20170be0 | STATUS decompiled | 5 ms */
+
+undefined4 __fastcall FUN_20170be0(int param_1)
+
+{
+  int iVar1;
+  char cVar2;
+  
+  iVar1 = *(int *)(param_1 + 0x84);
+  if (iVar1 != -1) {
+    if (((iVar1 != 0xf) && (iVar1 != 0x10)) &&
+       (cVar2 = (**(code **)(**(int **)(param_1 + 0x38 + iVar1 * 4) + 0x120))(), cVar2 == '\0')) {
+      if (*(int *)(param_1 + 0x7c) != 0) {
+        thunk_FUN_2016d390(0xffffffff);
+      }
+      thunk_FUN_20170d90(0xffffffff);
+    }
+    return 1;
+  }
+  if ((*(int *)(param_1 + 0x7c) != 0) && (cVar2 = thunk_FUN_2016d4a0(), cVar2 != '\0')) {
+    return 1;
+  }
+  return 0;
+}
+
+

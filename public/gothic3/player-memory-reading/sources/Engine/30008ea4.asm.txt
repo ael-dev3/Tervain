@@ -1,0 +1,2 @@
+; 30008ea4 thunk_FUN_305e68e0
+30008ea4 | e937da5d00 | JMP 0x305e68e0

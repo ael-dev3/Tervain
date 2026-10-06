@@ -1,0 +1,2 @@
+; 10006758 bCMatrix::GetInverted
+10006758 | e933330300 | JMP 0x10039a90

@@ -1,0 +1,18 @@
+/* ENTRY 2002c5a2 | gCClock_PS::SetMinute | STATUS decompiled | 9 ms */
+
+/* public: void __thiscall gCClock_PS::SetMinute(unsigned long const &) */
+
+void __thiscall gCClock_PS::SetMinute(gCClock_PS *this,ulong *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x2c5a2  6747  ?SetMinute@gCClock_PS@@QAEXABK@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"Minute",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  *(ulong *)&(this->gCClock_PS_data).field_0x1c = *param_1;
+  (*pNVar1)(this,"Minute",false);
+  return;
+}
+
+

@@ -1,0 +1,53 @@
+/* ENTRY 2002b8eb | gCInventory_PS::NotifyListeners | STATUS decompiled | 16 ms */
+
+/* protected: void __thiscall gCInventory_PS::NotifyListeners(enum gCInventory_PS::EEvent,int,class
+   gCInventoryStack const *) */
+
+void __thiscall
+gCInventory_PS::NotifyListeners
+          (gCInventory_PS *this,EEvent param_1,int param_2,gCInventoryStack *param_3)
+
+{
+  int iVar1;
+  void *pvVar2;
+  int *piVar3;
+  code *pcVar4;
+  int iVar5;
+  
+                    /* 0x2b8eb  5336
+                       ?NotifyListeners@gCInventory_PS@@IAEXW4EEvent@1@HPBVgCInventoryStack@@@Z */
+  iVar1 = (this->gCInventory_PS_data).offset_0x38;
+  iVar5 = 0;
+  if (0 < iVar1) {
+    do {
+      pvVar2 = (this->gCInventory_PS_data).offset_0x34;
+      piVar3 = *(int **)((int)pvVar2 + iVar5 * 8);
+      if ((piVar3 == (int *)0x0) || (*(char *)((int)pvVar2 + iVar5 * 8 + 4) == '\0'))
+      goto switchD_201acdfc_default;
+      switch(param_1) {
+      case 0:
+        (**(code **)*piVar3)(param_2,param_3);
+        break;
+      case 1:
+        (**(code **)(*piVar3 + 4))(param_2,param_3);
+        break;
+      case 2:
+        (**(code **)(*piVar3 + 8))(param_2,param_3);
+        break;
+      case 3:
+        pcVar4 = *(code **)(*piVar3 + 0xc);
+        goto LAB_201ace2f;
+      case 4:
+        pcVar4 = *(code **)(*piVar3 + 0x10);
+LAB_201ace2f:
+        (*pcVar4)();
+      }
+switchD_201acdfc_default:
+      iVar5 = iVar5 + 1;
+    } while (iVar5 < iVar1);
+  }
+  PurgeListeners(this);
+  return;
+}
+
+

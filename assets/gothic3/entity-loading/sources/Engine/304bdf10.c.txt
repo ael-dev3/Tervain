@@ -1,0 +1,23 @@
+/* ENTRY 304bdf10 | FUN_304bdf10 | STATUS decompiled | 9 ms */
+
+void __fastcall FUN_304bdf10(eCEntity *param_1)
+
+{
+  int iVar1;
+  eCEntityPropertySet *peVar2;
+  int iVar3;
+  
+  iVar3 = 0;
+  iVar1 = eCEntity::GetPropertySetCount(param_1);
+  if (0 < iVar1) {
+    do {
+      peVar2 = eCEntity::GetPropertySetAt(param_1,iVar3);
+      (**(code **)(*(int *)peVar2 + 300))();
+      iVar3 = iVar3 + 1;
+      iVar1 = eCEntity::GetPropertySetCount(param_1);
+    } while (iVar3 < iVar1);
+  }
+  return;
+}
+
+

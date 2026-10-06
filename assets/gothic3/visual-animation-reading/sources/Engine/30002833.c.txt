@@ -1,0 +1,38 @@
+/* ENTRY 30002833 | eCVisualAnimation_PS::AddForceAtPos | STATUS decompiled | 15 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::AddForceAtPos(class bCVector,class bCVector) */
+
+void __thiscall eCVisualAnimation_PS::AddForceAtPos(eCVisualAnimation_PS *this)
+
+{
+  int iVar1;
+  bCVector abStack_24 [4];
+  undefined4 uStack_20;
+  bCVector abStack_18 [8];
+  undefined4 uStack_10;
+  
+                    /* 0x2833  3403  ?AddForceAtPos@eCVisualAnimation_PS@@QAEXVbCVector@@0@Z */
+  if (*(int *)&this[0xe].eCEntityPropertySet_data != 0) {
+    uStack_20 = 0x3009ec8f;
+    bCVector::bCVector(abStack_18,(bCVector *)&stack0x00000010);
+    bCVector::bCVector(abStack_24,(bCVector *)&stack0x00000004);
+    thunk_FUN_300c38f0();
+  }
+  iVar1 = 0;
+  if (0 < (int)this[0xe].eCEntityPropertySet_data.offset_0x8) {
+    do {
+      uStack_20 = 0x3009ecc9;
+      bCVector::bCVector(abStack_18,(bCVector *)&stack0x00000010);
+      bCVector::bCVector(abStack_24,(bCVector *)&stack0x00000004);
+      thunk_FUN_300c38f0();
+      iVar1 = iVar1 + 1;
+    } while (iVar1 < (int)this[0xe].eCEntityPropertySet_data.offset_0x8);
+  }
+  uStack_10 = 0x3009ecf5;
+  bCVector::~bCVector((bCVector *)&stack0x00000004);
+  uStack_10 = 0x3009ecff;
+  bCVector::~bCVector((bCVector *)&stack0x00000010);
+  return;
+}
+
+

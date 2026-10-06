@@ -1,0 +1,12 @@
+/* ENTRY 200287ae | gCParty_PS::GetPartyLeaderEntity | STATUS decompiled | 6 ms */
+
+/* public: class eCEntityProxy const & __thiscall gCParty_PS::GetPartyLeaderEntity(void)const  */
+
+eCEntityProxy * __thiscall gCParty_PS::GetPartyLeaderEntity(gCParty_PS *this)
+
+{
+                    /* 0x287ae  3953  ?GetPartyLeaderEntity@gCParty_PS@@QBEABVeCEntityProxy@@XZ */
+  return (eCEntityProxy *)&(this->gCParty_PS_data).field_0x10;
+}
+
+

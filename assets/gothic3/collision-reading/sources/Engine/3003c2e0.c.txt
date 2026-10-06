@@ -1,0 +1,10 @@
+/* ENTRY 3003c2e0 | bTPropertyObject<eCCollisionShapeBase_PS,eCEntityPropertySet>::vfunction11 | STATUS decompiled | 17 ms */
+
+void __thiscall bTPropertyObject<eCCollisionShapeBase_PS,eCEntityPropertySet>::vfunction11(void)
+
+{
+  thunk_FUN_30342140(0);
+  return;
+}
+
+

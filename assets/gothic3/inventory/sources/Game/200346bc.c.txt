@@ -1,0 +1,34 @@
+/* ENTRY 200346bc | gCInventorySlot::IsLinked | STATUS decompiled | 10 ms */
+
+/* public: bool __thiscall gCInventorySlot::IsLinked(void)const  */
+
+bool __thiscall gCInventorySlot::IsLinked(gCInventorySlot *this)
+
+{
+  eCEntity *peVar1;
+  bCMessageAdmin *this_00;
+  bool bVar2;
+  bEMessageTypes bVar3;
+  char *pcVar4;
+  char *pcVar5;
+  char *pcVar6;
+  int iVar7;
+  int iVar8;
+  
+                    /* 0x346bc  5177  ?IsLinked@gCInventorySlot@@QBE_NXZ */
+  bVar2 = (this->gCInventorySlot_data).offset_0x34 != 0;
+  peVar1 = eCEntityProxy::GetEntity((eCEntityProxy *)&(this->gCInventorySlot_data).field_0x14);
+  if ((peVar1 != (eCEntity *)0x0) != bVar2) {
+    iVar8 = *(int *)g_iDefaultMessagePriority_exref;
+    iVar7 = -1;
+    pcVar6 = (char *)0x0;
+    pcVar5 = (char *)0x0;
+    pcVar4 = &DAT_2067ed48;
+    bVar3 = 3;
+    this_00 = bCMessageAdmin::GetInstance();
+    bCMessageAdmin::OnMessage(this_00,bVar3,pcVar4,pcVar5,pcVar6,iVar7,iVar8);
+  }
+  return bVar2;
+}
+
+

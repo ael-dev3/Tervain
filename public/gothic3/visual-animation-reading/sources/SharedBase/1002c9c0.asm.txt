@@ -1,0 +1,4 @@
+; 1002c9c0 FUN_1002c9c0
+1002c9c0 | 8b410c | MOV EAX,dword ptr [ECX + 0xc]
+1002c9c3 | 2b4104 | SUB EAX,dword ptr [ECX + 0x4]
+1002c9c6 | c3 | RET

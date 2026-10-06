@@ -1,0 +1,10 @@
+/* ENTRY 1003ab20 | FUN_1003ab20 | STATUS decompiled | 2 ms */
+
+bCBox * __thiscall FUN_1003ab20(bCBox *param_1,bCMatrix3 *param_2)
+
+{
+  bCBox::Transform(param_1,param_2);
+  return param_1;
+}
+
+

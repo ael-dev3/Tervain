@@ -1,0 +1,15 @@
+/* ENTRY 100064dd | bCVector::SetVector | STATUS decompiled | 2 ms */
+
+/* public: void __thiscall bCVector::SetVector(float) */
+
+void __thiscall bCVector::SetVector(bCVector *this,float param_1)
+
+{
+                    /* 0x64dd  4425  ?SetVector@bCVector@@QAEXM@Z */
+  *(float *)this = param_1;
+  *(float *)(this + 4) = param_1;
+  *(float *)(this + 8) = param_1;
+  return;
+}
+
+

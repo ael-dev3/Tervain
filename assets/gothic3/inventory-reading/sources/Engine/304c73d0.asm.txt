@@ -1,0 +1,31 @@
+; 304c73d0 FUN_304c73d0
+304c73d0 | 56 | PUSH ESI
+304c73d1 | 8bf1 | MOV ESI,ECX
+304c73d3 | 8b4e08 | MOV ECX,dword ptr [ESI + 0x8]
+304c73d6 | 85c9 | TEST ECX,ECX
+304c73d8 | 741f | JZ 0x304c73f9
+304c73da | ff15f8daaf30 | CALL dword ptr [0x30afdaf8]
+304c73e0 | 8b4608 | MOV EAX,dword ptr [ESI + 0x8]
+304c73e3 | 50 | PUSH EAX
+304c73e4 | ff15acdbaf30 | CALL dword ptr [0x30afdbac]
+304c73ea | 8bc8 | MOV ECX,EAX
+304c73ec | ff15b0dbaf30 | CALL dword ptr [0x30afdbb0]
+304c73f2 | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+; 304c73f9 LAB_304c73f9
+304c73f9 | 6847010000 | PUSH 0x147
+304c73fe | 6a14 | PUSH 0x14
+304c7400 | c7460400000000 | MOV dword ptr [ESI + 0x4],0x0
+304c7407 | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+304c740e | ff15a8dbaf30 | CALL dword ptr [0x30afdba8]
+304c7414 | 85c0 | TEST EAX,EAX
+304c7416 | 740a | JZ 0x304c7422
+304c7418 | 8bc8 | MOV ECX,EAX
+304c741a | ff1500dbaf30 | CALL dword ptr [0x30afdb00]
+304c7420 | eb02 | JMP 0x304c7424
+; 304c7422 LAB_304c7422
+304c7422 | 33c0 | XOR EAX,EAX
+; 304c7424 LAB_304c7424
+304c7424 | 894608 | MOV dword ptr [ESI + 0x8],EAX
+304c7427 | 5e | POP ESI
+304c7428 | 8bc8 | MOV ECX,EAX
+304c742a | ff2578daaf30 | JMP dword ptr [0x30afda78]

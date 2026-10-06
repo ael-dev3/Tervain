@@ -1,0 +1,2 @@
+; 20020185 gCEffect_PS::Create
+20020185 | e956820f00 | JMP 0x201183e0

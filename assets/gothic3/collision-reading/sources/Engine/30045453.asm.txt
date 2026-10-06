@@ -1,0 +1,4 @@
+; 30045453 bTPropertyType<eCCollisionShape,bCObsoleteClass>::vfunction6
+30045453 | e9f87f3100 | JMP 0x3035d450
+; 30045462 eLoDMesh::eCSplitMeshQuadTree::Create
+; 30045462 Ordinal_4687

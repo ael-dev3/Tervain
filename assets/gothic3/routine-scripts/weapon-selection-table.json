@@ -1,0 +1,1906 @@
+{
+  "schema": "gothic3-original-weapon-selection-v1",
+  "source": "Script_Game:1000e380",
+  "constructor": "10108250",
+  "global": "102203e4",
+  "lookup": "1000bf60",
+  "ordered": [
+    {
+      "ordinal": 0,
+      "triple": [
+        0,
+        0,
+        2
+      ],
+      "call": {
+        "address": "1000e3cc",
+        "bytes": "e8962effff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e3c0",
+          "bytes": "897c2414",
+          "assembly": "MOV dword ptr [ESP + 0x14],EDI"
+        },
+        {
+          "address": "1000e3c4",
+          "bytes": "897c2418",
+          "assembly": "MOV dword ptr [ESP + 0x18],EDI"
+        },
+        {
+          "address": "1000e3c8",
+          "bytes": "895c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBX"
+        }
+      ]
+    },
+    {
+      "ordinal": 1,
+      "triple": [
+        2,
+        37,
+        3
+      ],
+      "call": {
+        "address": "1000e3ed",
+        "bytes": "e8752effff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e3dd",
+          "bytes": "895c2414",
+          "assembly": "MOV dword ptr [ESP + 0x14],EBX"
+        },
+        {
+          "address": "1000e3e1",
+          "bytes": "c744241825000000",
+          "assembly": "MOV dword ptr [ESP + 0x18],0x25"
+        },
+        {
+          "address": "1000e3e9",
+          "bytes": "896c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBP"
+        }
+      ]
+    },
+    {
+      "ordinal": 2,
+      "triple": [
+        47,
+        0,
+        3
+      ],
+      "call": {
+        "address": "1000e409",
+        "bytes": "e8592effff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e3f9",
+          "bytes": "c74424142f000000",
+          "assembly": "MOV dword ptr [ESP + 0x14],0x2f"
+        },
+        {
+          "address": "1000e401",
+          "bytes": "897c2418",
+          "assembly": "MOV dword ptr [ESP + 0x18],EDI"
+        },
+        {
+          "address": "1000e405",
+          "bytes": "896c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBP"
+        }
+      ]
+    },
+    {
+      "ordinal": 3,
+      "triple": [
+        48,
+        0,
+        3
+      ],
+      "call": {
+        "address": "1000e425",
+        "bytes": "e83d2effff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e415",
+          "bytes": "c744241430000000",
+          "assembly": "MOV dword ptr [ESP + 0x14],0x30"
+        },
+        {
+          "address": "1000e41d",
+          "bytes": "897c2418",
+          "assembly": "MOV dword ptr [ESP + 0x18],EDI"
+        },
+        {
+          "address": "1000e421",
+          "bytes": "896c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBP"
+        }
+      ]
+    },
+    {
+      "ordinal": 4,
+      "triple": [
+        26,
+        0,
+        2
+      ],
+      "call": {
+        "address": "1000e442",
+        "bytes": "e8202effff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e436",
+          "bytes": "896c2414",
+          "assembly": "MOV dword ptr [ESP + 0x14],EBP"
+        },
+        {
+          "address": "1000e43a",
+          "bytes": "897c2418",
+          "assembly": "MOV dword ptr [ESP + 0x18],EDI"
+        },
+        {
+          "address": "1000e43e",
+          "bytes": "895c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBX"
+        }
+      ]
+    },
+    {
+      "ordinal": 5,
+      "triple": [
+        0,
+        26,
+        4
+      ],
+      "call": {
+        "address": "1000e45f",
+        "bytes": "e8032effff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e457",
+          "bytes": "897c2414",
+          "assembly": "MOV dword ptr [ESP + 0x14],EDI"
+        },
+        {
+          "address": "1000e447",
+          "bytes": "896c2414",
+          "assembly": "MOV dword ptr [ESP + 0x14],EBP"
+        },
+        {
+          "address": "1000e45b",
+          "bytes": "896c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBP"
+        }
+      ]
+    },
+    {
+      "ordinal": 6,
+      "triple": [
+        29,
+        0,
+        2
+      ],
+      "call": {
+        "address": "1000e47b",
+        "bytes": "e8e72dffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e46b",
+          "bytes": "c74424141d000000",
+          "assembly": "MOV dword ptr [ESP + 0x14],0x1d"
+        },
+        {
+          "address": "1000e473",
+          "bytes": "897c2418",
+          "assembly": "MOV dword ptr [ESP + 0x18],EDI"
+        },
+        {
+          "address": "1000e477",
+          "bytes": "895c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBX"
+        }
+      ]
+    },
+    {
+      "ordinal": 7,
+      "triple": [
+        0,
+        29,
+        4
+      ],
+      "call": {
+        "address": "1000e497",
+        "bytes": "e8cb2dffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e487",
+          "bytes": "897c2414",
+          "assembly": "MOV dword ptr [ESP + 0x14],EDI"
+        },
+        {
+          "address": "1000e48b",
+          "bytes": "c74424181d000000",
+          "assembly": "MOV dword ptr [ESP + 0x18],0x1d"
+        },
+        {
+          "address": "1000e493",
+          "bytes": "896c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBP"
+        }
+      ]
+    },
+    {
+      "ordinal": 8,
+      "triple": [
+        36,
+        0,
+        2
+      ],
+      "call": {
+        "address": "1000e4b3",
+        "bytes": "e8af2dffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e4a3",
+          "bytes": "c744241424000000",
+          "assembly": "MOV dword ptr [ESP + 0x14],0x24"
+        },
+        {
+          "address": "1000e4ab",
+          "bytes": "897c2418",
+          "assembly": "MOV dword ptr [ESP + 0x18],EDI"
+        },
+        {
+          "address": "1000e4af",
+          "bytes": "895c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBX"
+        }
+      ]
+    },
+    {
+      "ordinal": 9,
+      "triple": [
+        0,
+        36,
+        4
+      ],
+      "call": {
+        "address": "1000e4cf",
+        "bytes": "e8932dffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e4bf",
+          "bytes": "897c2414",
+          "assembly": "MOV dword ptr [ESP + 0x14],EDI"
+        },
+        {
+          "address": "1000e4c3",
+          "bytes": "c744241824000000",
+          "assembly": "MOV dword ptr [ESP + 0x18],0x24"
+        },
+        {
+          "address": "1000e4cb",
+          "bytes": "896c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBP"
+        }
+      ]
+    },
+    {
+      "ordinal": 10,
+      "triple": [
+        49,
+        0,
+        2
+      ],
+      "call": {
+        "address": "1000e4eb",
+        "bytes": "e8772dffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e4db",
+          "bytes": "c744241431000000",
+          "assembly": "MOV dword ptr [ESP + 0x14],0x31"
+        },
+        {
+          "address": "1000e4e3",
+          "bytes": "897c2418",
+          "assembly": "MOV dword ptr [ESP + 0x18],EDI"
+        },
+        {
+          "address": "1000e4e7",
+          "bytes": "895c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBX"
+        }
+      ]
+    },
+    {
+      "ordinal": 11,
+      "triple": [
+        0,
+        49,
+        4
+      ],
+      "call": {
+        "address": "1000e507",
+        "bytes": "e85b2dffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e4f7",
+          "bytes": "897c2414",
+          "assembly": "MOV dword ptr [ESP + 0x14],EDI"
+        },
+        {
+          "address": "1000e4fb",
+          "bytes": "c744241831000000",
+          "assembly": "MOV dword ptr [ESP + 0x18],0x31"
+        },
+        {
+          "address": "1000e503",
+          "bytes": "896c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBP"
+        }
+      ]
+    },
+    {
+      "ordinal": 12,
+      "triple": [
+        0,
+        8,
+        4
+      ],
+      "call": {
+        "address": "1000e523",
+        "bytes": "e83f2dffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e513",
+          "bytes": "897c2414",
+          "assembly": "MOV dword ptr [ESP + 0x14],EDI"
+        },
+        {
+          "address": "1000e517",
+          "bytes": "c744241808000000",
+          "assembly": "MOV dword ptr [ESP + 0x18],0x8"
+        },
+        {
+          "address": "1000e51f",
+          "bytes": "896c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBP"
+        }
+      ]
+    },
+    {
+      "ordinal": 13,
+      "triple": [
+        55,
+        55,
+        4
+      ],
+      "call": {
+        "address": "1000e540",
+        "bytes": "e8222dffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e534",
+          "bytes": "89442414",
+          "assembly": "MOV dword ptr [ESP + 0x14],EAX"
+        },
+        {
+          "address": "1000e538",
+          "bytes": "89442418",
+          "assembly": "MOV dword ptr [ESP + 0x18],EAX"
+        },
+        {
+          "address": "1000e53c",
+          "bytes": "896c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBP"
+        }
+      ]
+    },
+    {
+      "ordinal": 14,
+      "triple": [
+        0,
+        2,
+        4
+      ],
+      "call": {
+        "address": "1000e558",
+        "bytes": "e80a2dffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e54c",
+          "bytes": "897c2414",
+          "assembly": "MOV dword ptr [ESP + 0x14],EDI"
+        },
+        {
+          "address": "1000e550",
+          "bytes": "895c2418",
+          "assembly": "MOV dword ptr [ESP + 0x18],EBX"
+        },
+        {
+          "address": "1000e554",
+          "bytes": "896c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBP"
+        }
+      ]
+    },
+    {
+      "ordinal": 15,
+      "triple": [
+        2,
+        2,
+        4
+      ],
+      "call": {
+        "address": "1000e570",
+        "bytes": "e8f22cffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e564",
+          "bytes": "895c2414",
+          "assembly": "MOV dword ptr [ESP + 0x14],EBX"
+        },
+        {
+          "address": "1000e568",
+          "bytes": "895c2418",
+          "assembly": "MOV dword ptr [ESP + 0x18],EBX"
+        },
+        {
+          "address": "1000e56c",
+          "bytes": "896c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBP"
+        }
+      ]
+    },
+    {
+      "ordinal": 16,
+      "triple": [
+        9,
+        2,
+        4
+      ],
+      "call": {
+        "address": "1000e58c",
+        "bytes": "e8d62cffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e57c",
+          "bytes": "c744241409000000",
+          "assembly": "MOV dword ptr [ESP + 0x14],0x9"
+        },
+        {
+          "address": "1000e584",
+          "bytes": "895c2418",
+          "assembly": "MOV dword ptr [ESP + 0x18],EBX"
+        },
+        {
+          "address": "1000e588",
+          "bytes": "896c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBP"
+        }
+      ]
+    },
+    {
+      "ordinal": 17,
+      "triple": [
+        9,
+        0,
+        0
+      ],
+      "call": {
+        "address": "1000e5a8",
+        "bytes": "e8ba2cffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e598",
+          "bytes": "c744241409000000",
+          "assembly": "MOV dword ptr [ESP + 0x14],0x9"
+        },
+        {
+          "address": "1000e5a0",
+          "bytes": "897c2418",
+          "assembly": "MOV dword ptr [ESP + 0x18],EDI"
+        },
+        {
+          "address": "1000e5a4",
+          "bytes": "897c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EDI"
+        }
+      ]
+    },
+    {
+      "ordinal": 18,
+      "triple": [
+        24,
+        2,
+        4
+      ],
+      "call": {
+        "address": "1000e5c4",
+        "bytes": "e89e2cffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e5b4",
+          "bytes": "c744241418000000",
+          "assembly": "MOV dword ptr [ESP + 0x14],0x18"
+        },
+        {
+          "address": "1000e5bc",
+          "bytes": "895c2418",
+          "assembly": "MOV dword ptr [ESP + 0x18],EBX"
+        },
+        {
+          "address": "1000e5c0",
+          "bytes": "896c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBP"
+        }
+      ]
+    },
+    {
+      "ordinal": 19,
+      "triple": [
+        24,
+        0,
+        2
+      ],
+      "call": {
+        "address": "1000e5e0",
+        "bytes": "e8822cffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e5d0",
+          "bytes": "c744241418000000",
+          "assembly": "MOV dword ptr [ESP + 0x14],0x18"
+        },
+        {
+          "address": "1000e5d8",
+          "bytes": "897c2418",
+          "assembly": "MOV dword ptr [ESP + 0x18],EDI"
+        },
+        {
+          "address": "1000e5dc",
+          "bytes": "895c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBX"
+        }
+      ]
+    },
+    {
+      "ordinal": 20,
+      "triple": [
+        0,
+        3,
+        4
+      ],
+      "call": {
+        "address": "1000e5fc",
+        "bytes": "e8662cffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e5ec",
+          "bytes": "897c2414",
+          "assembly": "MOV dword ptr [ESP + 0x14],EDI"
+        },
+        {
+          "address": "1000e5f0",
+          "bytes": "c744241803000000",
+          "assembly": "MOV dword ptr [ESP + 0x18],0x3"
+        },
+        {
+          "address": "1000e5f8",
+          "bytes": "896c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBP"
+        }
+      ]
+    },
+    {
+      "ordinal": 21,
+      "triple": [
+        3,
+        0,
+        2
+      ],
+      "call": {
+        "address": "1000e618",
+        "bytes": "e84a2cffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e608",
+          "bytes": "c744241403000000",
+          "assembly": "MOV dword ptr [ESP + 0x14],0x3"
+        },
+        {
+          "address": "1000e610",
+          "bytes": "897c2418",
+          "assembly": "MOV dword ptr [ESP + 0x18],EDI"
+        },
+        {
+          "address": "1000e614",
+          "bytes": "895c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBX"
+        }
+      ]
+    },
+    {
+      "ordinal": 22,
+      "triple": [
+        0,
+        52,
+        4
+      ],
+      "call": {
+        "address": "1000e634",
+        "bytes": "e82e2cffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e61d",
+          "bytes": "897c2410",
+          "assembly": "MOV dword ptr [ESP + 0x10],EDI"
+        },
+        {
+          "address": "1000e621",
+          "bytes": "c744241434000000",
+          "assembly": "MOV dword ptr [ESP + 0x14],0x34"
+        },
+        {
+          "address": "1000e629",
+          "bytes": "896c2418",
+          "assembly": "MOV dword ptr [ESP + 0x18],EBP"
+        }
+      ]
+    },
+    {
+      "ordinal": 23,
+      "triple": [
+        52,
+        0,
+        2
+      ],
+      "call": {
+        "address": "1000e650",
+        "bytes": "e8122cffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e640",
+          "bytes": "c744241434000000",
+          "assembly": "MOV dword ptr [ESP + 0x14],0x34"
+        },
+        {
+          "address": "1000e648",
+          "bytes": "897c2418",
+          "assembly": "MOV dword ptr [ESP + 0x18],EDI"
+        },
+        {
+          "address": "1000e64c",
+          "bytes": "895c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBX"
+        }
+      ]
+    },
+    {
+      "ordinal": 24,
+      "triple": [
+        0,
+        12,
+        4
+      ],
+      "call": {
+        "address": "1000e66c",
+        "bytes": "e8f62bffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e65c",
+          "bytes": "897c2414",
+          "assembly": "MOV dword ptr [ESP + 0x14],EDI"
+        },
+        {
+          "address": "1000e660",
+          "bytes": "c74424180c000000",
+          "assembly": "MOV dword ptr [ESP + 0x18],0xc"
+        },
+        {
+          "address": "1000e668",
+          "bytes": "896c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBP"
+        }
+      ]
+    },
+    {
+      "ordinal": 25,
+      "triple": [
+        12,
+        0,
+        2
+      ],
+      "call": {
+        "address": "1000e688",
+        "bytes": "e8da2bffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e678",
+          "bytes": "c74424140c000000",
+          "assembly": "MOV dword ptr [ESP + 0x14],0xc"
+        },
+        {
+          "address": "1000e680",
+          "bytes": "897c2418",
+          "assembly": "MOV dword ptr [ESP + 0x18],EDI"
+        },
+        {
+          "address": "1000e684",
+          "bytes": "895c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBX"
+        }
+      ]
+    },
+    {
+      "ordinal": 26,
+      "triple": [
+        0,
+        51,
+        4
+      ],
+      "call": {
+        "address": "1000e6a4",
+        "bytes": "e8be2bffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e694",
+          "bytes": "897c2414",
+          "assembly": "MOV dword ptr [ESP + 0x14],EDI"
+        },
+        {
+          "address": "1000e698",
+          "bytes": "c744241833000000",
+          "assembly": "MOV dword ptr [ESP + 0x18],0x33"
+        },
+        {
+          "address": "1000e6a0",
+          "bytes": "896c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBP"
+        }
+      ]
+    },
+    {
+      "ordinal": 27,
+      "triple": [
+        51,
+        0,
+        2
+      ],
+      "call": {
+        "address": "1000e6c0",
+        "bytes": "e8a22bffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e6b0",
+          "bytes": "c744241433000000",
+          "assembly": "MOV dword ptr [ESP + 0x14],0x33"
+        },
+        {
+          "address": "1000e6b8",
+          "bytes": "897c2418",
+          "assembly": "MOV dword ptr [ESP + 0x18],EDI"
+        },
+        {
+          "address": "1000e6bc",
+          "bytes": "895c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBX"
+        }
+      ]
+    },
+    {
+      "ordinal": 28,
+      "triple": [
+        5,
+        0,
+        5
+      ],
+      "call": {
+        "address": "1000e6dd",
+        "bytes": "e8852bffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e6d1",
+          "bytes": "89442414",
+          "assembly": "MOV dword ptr [ESP + 0x14],EAX"
+        },
+        {
+          "address": "1000e6d5",
+          "bytes": "897c2418",
+          "assembly": "MOV dword ptr [ESP + 0x18],EDI"
+        },
+        {
+          "address": "1000e6d9",
+          "bytes": "8944241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EAX"
+        }
+      ]
+    },
+    {
+      "ordinal": 29,
+      "triple": [
+        5,
+        4,
+        5
+      ],
+      "call": {
+        "address": "1000e6fa",
+        "bytes": "e8682bffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e6ee",
+          "bytes": "89442414",
+          "assembly": "MOV dword ptr [ESP + 0x14],EAX"
+        },
+        {
+          "address": "1000e6f2",
+          "bytes": "896c2418",
+          "assembly": "MOV dword ptr [ESP + 0x18],EBP"
+        },
+        {
+          "address": "1000e6f6",
+          "bytes": "8944241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EAX"
+        }
+      ]
+    },
+    {
+      "ordinal": 30,
+      "triple": [
+        0,
+        4,
+        7
+      ],
+      "call": {
+        "address": "1000e716",
+        "bytes": "e84c2bffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e706",
+          "bytes": "897c2414",
+          "assembly": "MOV dword ptr [ESP + 0x14],EDI"
+        },
+        {
+          "address": "1000e70a",
+          "bytes": "896c2418",
+          "assembly": "MOV dword ptr [ESP + 0x18],EBP"
+        },
+        {
+          "address": "1000e70e",
+          "bytes": "c744241c07000000",
+          "assembly": "MOV dword ptr [ESP + 0x1c],0x7"
+        }
+      ]
+    },
+    {
+      "ordinal": 31,
+      "triple": [
+        6,
+        0,
+        5
+      ],
+      "call": {
+        "address": "1000e737",
+        "bytes": "e82b2bffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e727",
+          "bytes": "896c2414",
+          "assembly": "MOV dword ptr [ESP + 0x14],EBP"
+        },
+        {
+          "address": "1000e72b",
+          "bytes": "897c2418",
+          "assembly": "MOV dword ptr [ESP + 0x18],EDI"
+        },
+        {
+          "address": "1000e72f",
+          "bytes": "c744241c05000000",
+          "assembly": "MOV dword ptr [ESP + 0x1c],0x5"
+        }
+      ]
+    },
+    {
+      "ordinal": 32,
+      "triple": [
+        6,
+        7,
+        5
+      ],
+      "call": {
+        "address": "1000e757",
+        "bytes": "e80b2bffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e743",
+          "bytes": "896c2414",
+          "assembly": "MOV dword ptr [ESP + 0x14],EBP"
+        },
+        {
+          "address": "1000e747",
+          "bytes": "c744241807000000",
+          "assembly": "MOV dword ptr [ESP + 0x18],0x7"
+        },
+        {
+          "address": "1000e74f",
+          "bytes": "c744241c05000000",
+          "assembly": "MOV dword ptr [ESP + 0x1c],0x5"
+        }
+      ]
+    },
+    {
+      "ordinal": 33,
+      "triple": [
+        0,
+        7,
+        7
+      ],
+      "call": {
+        "address": "1000e774",
+        "bytes": "e8ee2affff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e761",
+          "bytes": "897c2410",
+          "assembly": "MOV dword ptr [ESP + 0x10],EDI"
+        },
+        {
+          "address": "1000e765",
+          "bytes": "89442414",
+          "assembly": "MOV dword ptr [ESP + 0x14],EAX"
+        },
+        {
+          "address": "1000e769",
+          "bytes": "89442418",
+          "assembly": "MOV dword ptr [ESP + 0x18],EAX"
+        }
+      ]
+    },
+    {
+      "ordinal": 34,
+      "triple": [
+        0,
+        15,
+        6
+      ],
+      "call": {
+        "address": "1000e790",
+        "bytes": "e8d22affff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e780",
+          "bytes": "897c2414",
+          "assembly": "MOV dword ptr [ESP + 0x14],EDI"
+        },
+        {
+          "address": "1000e784",
+          "bytes": "c74424180f000000",
+          "assembly": "MOV dword ptr [ESP + 0x18],0xf"
+        },
+        {
+          "address": "1000e78c",
+          "bytes": "896c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBP"
+        }
+      ]
+    },
+    {
+      "ordinal": 35,
+      "triple": [
+        12,
+        15,
+        6
+      ],
+      "call": {
+        "address": "1000e7b0",
+        "bytes": "e8b22affff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e79c",
+          "bytes": "c74424140c000000",
+          "assembly": "MOV dword ptr [ESP + 0x14],0xc"
+        },
+        {
+          "address": "1000e7a4",
+          "bytes": "c74424180f000000",
+          "assembly": "MOV dword ptr [ESP + 0x18],0xf"
+        },
+        {
+          "address": "1000e7ac",
+          "bytes": "896c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBP"
+        }
+      ]
+    },
+    {
+      "ordinal": 36,
+      "triple": [
+        2,
+        0,
+        1
+      ],
+      "call": {
+        "address": "1000e7cd",
+        "bytes": "e8952affff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e7b5",
+          "bytes": "895c2410",
+          "assembly": "MOV dword ptr [ESP + 0x10],EBX"
+        },
+        {
+          "address": "1000e7c5",
+          "bytes": "897c2418",
+          "assembly": "MOV dword ptr [ESP + 0x18],EDI"
+        },
+        {
+          "address": "1000e7c9",
+          "bytes": "895c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBX"
+        }
+      ]
+    },
+    {
+      "ordinal": 37,
+      "triple": [
+        0,
+        37,
+        1
+      ],
+      "call": {
+        "address": "1000e7e9",
+        "bytes": "e8792affff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e7d9",
+          "bytes": "897c2414",
+          "assembly": "MOV dword ptr [ESP + 0x14],EDI"
+        },
+        {
+          "address": "1000e7dd",
+          "bytes": "c744241825000000",
+          "assembly": "MOV dword ptr [ESP + 0x18],0x25"
+        },
+        {
+          "address": "1000e7e5",
+          "bytes": "895c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBX"
+        }
+      ]
+    },
+    {
+      "ordinal": 38,
+      "triple": [
+        0,
+        16,
+        1
+      ],
+      "call": {
+        "address": "1000e805",
+        "bytes": "e85d2affff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e7f5",
+          "bytes": "897c2414",
+          "assembly": "MOV dword ptr [ESP + 0x14],EDI"
+        },
+        {
+          "address": "1000e7f9",
+          "bytes": "c744241810000000",
+          "assembly": "MOV dword ptr [ESP + 0x18],0x10"
+        },
+        {
+          "address": "1000e801",
+          "bytes": "895c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBX"
+        }
+      ]
+    },
+    {
+      "ordinal": 39,
+      "triple": [
+        24,
+        16,
+        1
+      ],
+      "call": {
+        "address": "1000e826",
+        "bytes": "e83c2affff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e816",
+          "bytes": "896c2414",
+          "assembly": "MOV dword ptr [ESP + 0x14],EBP"
+        },
+        {
+          "address": "1000e81a",
+          "bytes": "c744241810000000",
+          "assembly": "MOV dword ptr [ESP + 0x18],0x10"
+        },
+        {
+          "address": "1000e822",
+          "bytes": "895c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBX"
+        }
+      ]
+    },
+    {
+      "ordinal": 40,
+      "triple": [
+        24,
+        17,
+        1
+      ],
+      "call": {
+        "address": "1000e843",
+        "bytes": "e81f2affff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e82f",
+          "bytes": "896c2410",
+          "assembly": "MOV dword ptr [ESP + 0x10],EBP"
+        },
+        {
+          "address": "1000e83b",
+          "bytes": "896c2418",
+          "assembly": "MOV dword ptr [ESP + 0x18],EBP"
+        },
+        {
+          "address": "1000e83f",
+          "bytes": "895c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBX"
+        }
+      ]
+    },
+    {
+      "ordinal": 41,
+      "triple": [
+        12,
+        16,
+        1
+      ],
+      "call": {
+        "address": "1000e863",
+        "bytes": "e8ff29ffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e84f",
+          "bytes": "c74424140c000000",
+          "assembly": "MOV dword ptr [ESP + 0x14],0xc"
+        },
+        {
+          "address": "1000e857",
+          "bytes": "c744241810000000",
+          "assembly": "MOV dword ptr [ESP + 0x18],0x10"
+        },
+        {
+          "address": "1000e85f",
+          "bytes": "895c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBX"
+        }
+      ]
+    },
+    {
+      "ordinal": 42,
+      "triple": [
+        12,
+        17,
+        1
+      ],
+      "call": {
+        "address": "1000e87f",
+        "bytes": "e8e329ffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e86f",
+          "bytes": "c74424140c000000",
+          "assembly": "MOV dword ptr [ESP + 0x14],0xc"
+        },
+        {
+          "address": "1000e877",
+          "bytes": "896c2418",
+          "assembly": "MOV dword ptr [ESP + 0x18],EBP"
+        },
+        {
+          "address": "1000e87b",
+          "bytes": "895c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBX"
+        }
+      ]
+    },
+    {
+      "ordinal": 43,
+      "triple": [
+        0,
+        17,
+        1
+      ],
+      "call": {
+        "address": "1000e897",
+        "bytes": "e8cb29ffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e88b",
+          "bytes": "897c2414",
+          "assembly": "MOV dword ptr [ESP + 0x14],EDI"
+        },
+        {
+          "address": "1000e88f",
+          "bytes": "896c2418",
+          "assembly": "MOV dword ptr [ESP + 0x18],EBP"
+        },
+        {
+          "address": "1000e893",
+          "bytes": "895c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBX"
+        }
+      ]
+    },
+    {
+      "ordinal": 44,
+      "triple": [
+        0,
+        18,
+        1
+      ],
+      "call": {
+        "address": "1000e8b4",
+        "bytes": "e8ae29ffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e8a1",
+          "bytes": "897c2410",
+          "assembly": "MOV dword ptr [ESP + 0x10],EDI"
+        },
+        {
+          "address": "1000e8a5",
+          "bytes": "896c2414",
+          "assembly": "MOV dword ptr [ESP + 0x14],EBP"
+        },
+        {
+          "address": "1000e8a9",
+          "bytes": "895c2418",
+          "assembly": "MOV dword ptr [ESP + 0x18],EBX"
+        }
+      ]
+    },
+    {
+      "ordinal": 45,
+      "triple": [
+        0,
+        19,
+        1
+      ],
+      "call": {
+        "address": "1000e8d0",
+        "bytes": "e89229ffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e8c0",
+          "bytes": "897c2414",
+          "assembly": "MOV dword ptr [ESP + 0x14],EDI"
+        },
+        {
+          "address": "1000e8c4",
+          "bytes": "c744241813000000",
+          "assembly": "MOV dword ptr [ESP + 0x18],0x13"
+        },
+        {
+          "address": "1000e8cc",
+          "bytes": "895c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBX"
+        }
+      ]
+    },
+    {
+      "ordinal": 46,
+      "triple": [
+        0,
+        20,
+        1
+      ],
+      "call": {
+        "address": "1000e8ec",
+        "bytes": "e87629ffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e8dc",
+          "bytes": "897c2414",
+          "assembly": "MOV dword ptr [ESP + 0x14],EDI"
+        },
+        {
+          "address": "1000e8e0",
+          "bytes": "c744241814000000",
+          "assembly": "MOV dword ptr [ESP + 0x18],0x14"
+        },
+        {
+          "address": "1000e8e8",
+          "bytes": "895c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBX"
+        }
+      ]
+    },
+    {
+      "ordinal": 47,
+      "triple": [
+        0,
+        21,
+        1
+      ],
+      "call": {
+        "address": "1000e908",
+        "bytes": "e85a29ffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e8f8",
+          "bytes": "897c2414",
+          "assembly": "MOV dword ptr [ESP + 0x14],EDI"
+        },
+        {
+          "address": "1000e8fc",
+          "bytes": "c744241815000000",
+          "assembly": "MOV dword ptr [ESP + 0x18],0x15"
+        },
+        {
+          "address": "1000e904",
+          "bytes": "895c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBX"
+        }
+      ]
+    },
+    {
+      "ordinal": 48,
+      "triple": [
+        0,
+        22,
+        1
+      ],
+      "call": {
+        "address": "1000e924",
+        "bytes": "e83e29ffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e914",
+          "bytes": "897c2414",
+          "assembly": "MOV dword ptr [ESP + 0x14],EDI"
+        },
+        {
+          "address": "1000e918",
+          "bytes": "c744241816000000",
+          "assembly": "MOV dword ptr [ESP + 0x18],0x16"
+        },
+        {
+          "address": "1000e920",
+          "bytes": "895c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBX"
+        }
+      ]
+    },
+    {
+      "ordinal": 49,
+      "triple": [
+        0,
+        23,
+        1
+      ],
+      "call": {
+        "address": "1000e940",
+        "bytes": "e82229ffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e930",
+          "bytes": "897c2414",
+          "assembly": "MOV dword ptr [ESP + 0x14],EDI"
+        },
+        {
+          "address": "1000e934",
+          "bytes": "c744241817000000",
+          "assembly": "MOV dword ptr [ESP + 0x18],0x17"
+        },
+        {
+          "address": "1000e93c",
+          "bytes": "895c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBX"
+        }
+      ]
+    },
+    {
+      "ordinal": 50,
+      "triple": [
+        0,
+        27,
+        1
+      ],
+      "call": {
+        "address": "1000e95c",
+        "bytes": "e80629ffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e94c",
+          "bytes": "897c2414",
+          "assembly": "MOV dword ptr [ESP + 0x14],EDI"
+        },
+        {
+          "address": "1000e950",
+          "bytes": "c74424181b000000",
+          "assembly": "MOV dword ptr [ESP + 0x18],0x1b"
+        },
+        {
+          "address": "1000e958",
+          "bytes": "895c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBX"
+        }
+      ]
+    },
+    {
+      "ordinal": 51,
+      "triple": [
+        28,
+        0,
+        1
+      ],
+      "call": {
+        "address": "1000e978",
+        "bytes": "e8ea28ffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e968",
+          "bytes": "c74424141c000000",
+          "assembly": "MOV dword ptr [ESP + 0x14],0x1c"
+        },
+        {
+          "address": "1000e970",
+          "bytes": "897c2418",
+          "assembly": "MOV dword ptr [ESP + 0x18],EDI"
+        },
+        {
+          "address": "1000e974",
+          "bytes": "895c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBX"
+        }
+      ]
+    },
+    {
+      "ordinal": 52,
+      "triple": [
+        0,
+        32,
+        1
+      ],
+      "call": {
+        "address": "1000e994",
+        "bytes": "e8ce28ffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e984",
+          "bytes": "897c2414",
+          "assembly": "MOV dword ptr [ESP + 0x14],EDI"
+        },
+        {
+          "address": "1000e988",
+          "bytes": "c744241820000000",
+          "assembly": "MOV dword ptr [ESP + 0x18],0x20"
+        },
+        {
+          "address": "1000e990",
+          "bytes": "895c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBX"
+        }
+      ]
+    },
+    {
+      "ordinal": 53,
+      "triple": [
+        0,
+        33,
+        1
+      ],
+      "call": {
+        "address": "1000e9b0",
+        "bytes": "e8b228ffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e9a0",
+          "bytes": "897c2414",
+          "assembly": "MOV dword ptr [ESP + 0x14],EDI"
+        },
+        {
+          "address": "1000e9a4",
+          "bytes": "c744241821000000",
+          "assembly": "MOV dword ptr [ESP + 0x18],0x21"
+        },
+        {
+          "address": "1000e9ac",
+          "bytes": "895c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBX"
+        }
+      ]
+    },
+    {
+      "ordinal": 54,
+      "triple": [
+        0,
+        34,
+        1
+      ],
+      "call": {
+        "address": "1000e9cc",
+        "bytes": "e89628ffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e9bc",
+          "bytes": "897c2414",
+          "assembly": "MOV dword ptr [ESP + 0x14],EDI"
+        },
+        {
+          "address": "1000e9c0",
+          "bytes": "c744241822000000",
+          "assembly": "MOV dword ptr [ESP + 0x18],0x22"
+        },
+        {
+          "address": "1000e9c8",
+          "bytes": "895c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBX"
+        }
+      ]
+    },
+    {
+      "ordinal": 55,
+      "triple": [
+        18,
+        35,
+        1
+      ],
+      "call": {
+        "address": "1000e9e9",
+        "bytes": "e87928ffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e9d5",
+          "bytes": "896c2410",
+          "assembly": "MOV dword ptr [ESP + 0x10],EBP"
+        },
+        {
+          "address": "1000e9df",
+          "bytes": "896c2418",
+          "assembly": "MOV dword ptr [ESP + 0x18],EBP"
+        },
+        {
+          "address": "1000e9e3",
+          "bytes": "895c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBX"
+        }
+      ]
+    },
+    {
+      "ordinal": 56,
+      "triple": [
+        35,
+        35,
+        1
+      ],
+      "call": {
+        "address": "1000ea01",
+        "bytes": "e86128ffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000e9f5",
+          "bytes": "896c2414",
+          "assembly": "MOV dword ptr [ESP + 0x14],EBP"
+        },
+        {
+          "address": "1000e9f9",
+          "bytes": "896c2418",
+          "assembly": "MOV dword ptr [ESP + 0x18],EBP"
+        },
+        {
+          "address": "1000e9fd",
+          "bytes": "895c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBX"
+        }
+      ]
+    },
+    {
+      "ordinal": 57,
+      "triple": [
+        0,
+        38,
+        1
+      ],
+      "call": {
+        "address": "1000ea1d",
+        "bytes": "e84528ffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000ea0d",
+          "bytes": "897c2414",
+          "assembly": "MOV dword ptr [ESP + 0x14],EDI"
+        },
+        {
+          "address": "1000ea11",
+          "bytes": "c744241826000000",
+          "assembly": "MOV dword ptr [ESP + 0x18],0x26"
+        },
+        {
+          "address": "1000ea19",
+          "bytes": "895c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBX"
+        }
+      ]
+    },
+    {
+      "ordinal": 58,
+      "triple": [
+        0,
+        40,
+        1
+      ],
+      "call": {
+        "address": "1000ea39",
+        "bytes": "e82928ffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000ea29",
+          "bytes": "897c2414",
+          "assembly": "MOV dword ptr [ESP + 0x14],EDI"
+        },
+        {
+          "address": "1000ea2d",
+          "bytes": "c744241828000000",
+          "assembly": "MOV dword ptr [ESP + 0x18],0x28"
+        },
+        {
+          "address": "1000ea35",
+          "bytes": "895c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBX"
+        }
+      ]
+    },
+    {
+      "ordinal": 59,
+      "triple": [
+        0,
+        42,
+        1
+      ],
+      "call": {
+        "address": "1000ea55",
+        "bytes": "e80d28ffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000ea45",
+          "bytes": "897c2414",
+          "assembly": "MOV dword ptr [ESP + 0x14],EDI"
+        },
+        {
+          "address": "1000ea49",
+          "bytes": "c74424182a000000",
+          "assembly": "MOV dword ptr [ESP + 0x18],0x2a"
+        },
+        {
+          "address": "1000ea51",
+          "bytes": "895c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBX"
+        }
+      ]
+    },
+    {
+      "ordinal": 60,
+      "triple": [
+        0,
+        43,
+        1
+      ],
+      "call": {
+        "address": "1000ea71",
+        "bytes": "e8f127ffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000ea61",
+          "bytes": "897c2414",
+          "assembly": "MOV dword ptr [ESP + 0x14],EDI"
+        },
+        {
+          "address": "1000ea65",
+          "bytes": "c74424182b000000",
+          "assembly": "MOV dword ptr [ESP + 0x18],0x2b"
+        },
+        {
+          "address": "1000ea6d",
+          "bytes": "895c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBX"
+        }
+      ]
+    },
+    {
+      "ordinal": 61,
+      "triple": [
+        0,
+        44,
+        1
+      ],
+      "call": {
+        "address": "1000ea8d",
+        "bytes": "e8d527ffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000ea7d",
+          "bytes": "897c2414",
+          "assembly": "MOV dword ptr [ESP + 0x14],EDI"
+        },
+        {
+          "address": "1000ea81",
+          "bytes": "c74424182c000000",
+          "assembly": "MOV dword ptr [ESP + 0x18],0x2c"
+        },
+        {
+          "address": "1000ea89",
+          "bytes": "895c241c",
+          "assembly": "MOV dword ptr [ESP + 0x1c],EBX"
+        }
+      ]
+    },
+    {
+      "ordinal": 62,
+      "triple": [
+        0,
+        0,
+        8
+      ],
+      "call": {
+        "address": "1000eaa9",
+        "bytes": "e8b927ffff",
+        "assembly": "CALL 0x10001267"
+      },
+      "literalStores": [
+        {
+          "address": "1000ea99",
+          "bytes": "897c2414",
+          "assembly": "MOV dword ptr [ESP + 0x14],EDI"
+        },
+        {
+          "address": "1000ea9d",
+          "bytes": "897c2418",
+          "assembly": "MOV dword ptr [ESP + 0x18],EDI"
+        },
+        {
+          "address": "1000eaa1",
+          "bytes": "c744241c08000000",
+          "assembly": "MOV dword ptr [ESP + 0x1c],0x8"
+        }
+      ]
+    }
+  ],
+  "firstMatchWins": true,
+  "initialSelection": [
+    -1,
+    -1,
+    -1
+  ],
+  "scope": "Source constructor state, not a captured native session"
+}

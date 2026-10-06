@@ -1,0 +1,30 @@
+/* ENTRY 201ce7d0 | FUN_201ce7d0 | STATUS decompiled | 6 ms */
+
+void __fastcall FUN_201ce7d0(int *param_1)
+
+{
+  void *_Dst;
+  int iVar1;
+  uint uVar2;
+  
+  iVar1 = param_1[1];
+  while (iVar1 != 0) {
+    uVar2 = param_1[1] - 1;
+    if (*(int *)(*param_1 + uVar2 * 4) != 0) {
+      (**(code **)(**(int **)(*param_1 + uVar2 * 4) + 0x24))();
+      *(undefined4 *)(*param_1 + uVar2 * 4) = 0;
+    }
+    if (uVar2 < (uint)param_1[1]) {
+      iVar1 = (param_1[1] - uVar2) + -1;
+      if (0 < iVar1) {
+        _Dst = (void *)(*param_1 + uVar2 * 4);
+        _memmove(_Dst,(void *)((int)_Dst + 4),iVar1 * 4);
+      }
+      param_1[1] = param_1[1] + -1;
+    }
+    iVar1 = param_1[1];
+  }
+  return;
+}
+
+

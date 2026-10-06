@@ -1,0 +1,98 @@
+/* ENTRY 20018714 | bTPOPureSmartPtr<gCAttribute>::vfunction11 | STATUS decompiled | 37 ms */
+
+void __thiscall bTPOPureSmartPtr<gCAttribute>::vfunction11(bTPOPureSmartPtr<gCAttribute> *this)
+
+{
+  bCObjectRefBase *pbVar1;
+  bool bVar2;
+  ulong uVar3;
+  bCPropertyObjectSingleton *pbVar4;
+  bCErrorAdmin *this_00;
+  bCPropertyObjectBase *pbVar5;
+  bCObjectBase *this_01;
+  char *pcVar6;
+  char *pcVar7;
+  bTPOPureSmartPtr<gCAttribute> *pbVar8;
+  char *pcVar9;
+  int iVar10;
+  
+  pbVar1 = (this->bTPOPureSmartPtr<gCAttribute>_data).offset_0x4;
+  if (pbVar1 != (bCObjectRefBase *)0x0) {
+    uVar3 = bCObjectRefBase::GetReferenceCount((bCObjectRefBase *)pbVar1);
+    if (uVar3 == 1) {
+      (**(code **)(*(int *)(this->bTPOPureSmartPtr<gCAttribute>_data).offset_0x4 + 0x14))();
+    }
+  }
+  pbVar1 = (this->bTPOPureSmartPtr<gCAttribute>_data).offset_0x4;
+  if (pbVar1 != (bCObjectRefBase *)0x0) {
+    bCObjectRefBase::SetPropertyObject((bCObjectRefBase *)pbVar1,(bCPropertyObjectBase *)0x0);
+    bCObjectRefBase::ReleaseVirtualReference((bCObjectRefBase *)pbVar1);
+  }
+  (this->bTPOPureSmartPtr<gCAttribute>_data).offset_0x4 = (bCObjectRefBase *)0x0;
+  bVar2 = bCPropertyObjectBase::IsRoot((bCPropertyObjectBase *)this);
+  if (bVar2) {
+    bVar2 = false;
+    pbVar8 = this;
+    pbVar4 = bCPropertyObjectSingleton::GetInstance();
+    bCPropertyObjectSingleton::EnableRegistration(pbVar4,pbVar8,bVar2);
+  }
+  this_01 = (bCObjectBase *)0x0;
+  bVar2 = bCPropertyObjectBase::IsRoot((bCPropertyObjectBase *)this);
+  if (!bVar2) {
+    this_01 = (bCObjectBase *)new(0x18,0xc4);
+    if (this_01 == (bCObjectBase *)0x0) {
+      this_01 = (bCObjectBase *)0x0;
+    }
+    else {
+      bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)this_01);
+      *this_01 = (bCObjectBase)&gCAttribute::vftable;
+      bCString::bCString((bCString *)(this_01 + 3));
+      (**(code **)((int)*this_01 + 0x84))();
+    }
+  }
+  bVar2 = bCPropertyObjectBase::IsRoot((bCPropertyObjectBase *)this);
+  if (bVar2) {
+    bVar2 = true;
+    pbVar8 = this;
+    pbVar4 = bCPropertyObjectSingleton::GetInstance();
+    bCPropertyObjectSingleton::EnableRegistration(pbVar4,pbVar8,bVar2);
+  }
+  bVar2 = bCPropertyObjectBase::IsRoot((bCPropertyObjectBase *)this);
+  if (!bVar2) {
+    if (this_01 == (bCObjectBase *)0x0) {
+      iVar10 = 0xd0;
+      pcVar9 = "e:\\!g3 src\\temp\\source\\sharedbase\\propertysystem\\base\\ge_po_puresmartptr.inl"
+      ;
+      pcVar7 = "GEFalse == (NULL != pObjRefBase)";
+      pcVar6 = &DAT_206a2cf8;
+      this_00 = bCErrorAdmin::GetInstance();
+      bCErrorAdmin::CallFatalError(this_00,pcVar6,pcVar7,pcVar9,iVar10);
+      pbVar1 = (this->bTPOPureSmartPtr<gCAttribute>_data).offset_0x4;
+      if (pbVar1 != (bCObjectRefBase *)0x0) {
+        uVar3 = bCObjectRefBase::GetReferenceCount((bCObjectRefBase *)pbVar1);
+        if (uVar3 == 1) {
+          (**(code **)(*(int *)(this->bTPOPureSmartPtr<gCAttribute>_data).offset_0x4 + 0x14))();
+        }
+      }
+      pbVar1 = (this->bTPOPureSmartPtr<gCAttribute>_data).offset_0x4;
+      if (pbVar1 != (bCObjectRefBase *)0x0) {
+        bCObjectRefBase::SetPropertyObject((bCObjectRefBase *)pbVar1,(bCPropertyObjectBase *)0x0);
+        bCObjectRefBase::ReleaseVirtualReference((bCObjectRefBase *)pbVar1);
+      }
+      (this->bTPOPureSmartPtr<gCAttribute>_data).offset_0x4 = (bCObjectRefBase *)0x0;
+      return;
+    }
+    (**(code **)((int)*this_01 + 0x18))();
+    thunk_FUN_20397e60(this_01);
+    bVar2 = bCPropertyObjectBase::IsRoot((bCPropertyObjectBase *)this);
+    if (!bVar2) {
+      pbVar5 = bCObjectRefBase::GetPropertyObject((bCObjectRefBase *)this_01);
+      bCObjectRefBase::SetPropertyObject((bCObjectRefBase *)this_01,(bCPropertyObjectBase *)0x0);
+      bCObjectRefBase::ReleaseVirtualReference((bCObjectRefBase *)this_01);
+      bCObjectRefBase::SetPropertyObject((bCObjectRefBase *)this_01,pbVar5);
+    }
+  }
+  return;
+}
+
+

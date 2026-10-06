@@ -1,0 +1,26 @@
+; 204fd2e0 bTPropertyType<gCDialog_PS,bool>::~bTPropertyType<gCDialog_PS,bool>
+204fd2e0 | 51 | PUSH ECX
+204fd2e1 | 68c0d76720 | PUSH 0x2067d7c0
+204fd2e6 | 8d4c2404 | LEA ECX,[ESP + 0x4]
+204fd2ea | ff150c897d20 | CALL dword ptr [0x207d890c]
+204fd2f0 | 6a01 | PUSH 0x1
+204fd2f2 | 8d442404 | LEA EAX,[ESP + 0x4]
+204fd2f6 | 50 | PUSH EAX
+204fd2f7 | b9b4d67b20 | MOV ECX,0x207bd6b4
+204fd2fc | ff1594877d20 | CALL dword ptr [0x207d8794]
+204fd302 | c705b4d67b2034606820 | MOV dword ptr [0x207bd6b4],0x20686034
+204fd30c | e86c67b3ff | CALL 0x20033a7d
+204fd311 | b9b4d67b20 | MOV ECX,0x207bd6b4
+204fd316 | a3ccd67b20 | MOV [0x207bd6cc],EAX
+204fd31b | c705d0d67b202c000000 | MOV dword ptr [0x207bd6d0],0x2c
+204fd325 | c705d4d67b2000000000 | MOV dword ptr [0x207bd6d4],0x0
+204fd32f | ff15d8877d20 | CALL dword ptr [0x207d87d8]
+204fd335 | 8b0dccd67b20 | MOV ECX,dword ptr [0x207bd6cc]
+204fd33b | 68b4d67b20 | PUSH 0x207bd6b4
+204fd340 | ff15cc877d20 | CALL dword ptr [0x207d87cc]
+204fd346 | 8d0c24 | LEA ECX,[ESP]
+204fd349 | ff1534887d20 | CALL dword ptr [0x207d8834]
+204fd34f | 68f07e5520 | PUSH 0x20557ef0
+204fd354 | e87564f6ff | CALL 0x204637ce
+204fd359 | 83c408 | ADD ESP,0x8
+204fd35c | c3 | RET

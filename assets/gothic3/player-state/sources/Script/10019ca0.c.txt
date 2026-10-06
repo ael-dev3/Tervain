@@ -1,0 +1,17 @@
+/* ENTRY 10019ca0 | FUN_10019ca0 | STATUS decompiled | 2 ms */
+
+int __fastcall FUN_10019ca0(undefined4 *param_1)
+
+{
+  int iVar1;
+  
+  if ((gCInventory_PS *)*param_1 == (gCInventory_PS *)0x0) {
+    return 0;
+  }
+                    /* WARNING: Could not recover jumptable at 0x10019ca9. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  iVar1 = gCInventory_PS::GetStackCount((gCInventory_PS *)*param_1);
+  return iVar1;
+}
+
+

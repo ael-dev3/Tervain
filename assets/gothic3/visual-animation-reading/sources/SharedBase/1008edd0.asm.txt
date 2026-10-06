@@ -1,0 +1,25 @@
+; 1008edd0 bCPropertyObjectFactory::bCPropertyObjectFactory
+1008edd0 | 56 | PUSH ESI
+1008edd1 | 6a01 | PUSH 0x1
+1008edd3 | 8bf1 | MOV ESI,ECX
+1008edd5 | e8bd7bf7ff | CALL 0x10006997
+1008edda | c70624aa0e10 | MOV dword ptr [ESI],0x100eaa24
+1008ede0 | e8ba73f7ff | CALL 0x1000619f
+1008ede5 | c74618c4a90e10 | MOV dword ptr [ESI + 0x18],0x100ea9c4
+1008edec | 33c9 | XOR ECX,ECX
+1008edee | 894e1c | MOV dword ptr [ESI + 0x1c],ECX
+1008edf1 | 894e20 | MOV dword ptr [ESI + 0x20],ECX
+1008edf4 | 894e24 | MOV dword ptr [ESI + 0x24],ECX
+1008edf7 | 66c746280100 | MOV word ptr [ESI + 0x28],0x1
+1008edfd | 8b00 | MOV EAX,dword ptr [EAX]
+1008edff | 3bc1 | CMP EAX,ECX
+1008ee01 | 89462c | MOV dword ptr [ESI + 0x2c],EAX
+1008ee04 | 7405 | JZ 0x1008ee0b
+1008ee06 | 668340fc01 | ADD word ptr [EAX + -0x4],0x1
+1008ee0b | 56 | PUSH ESI
+1008ee0c | e8c361f7ff | CALL 0x10004fd4
+1008ee11 | 8bc8 | MOV ECX,EAX
+1008ee13 | e8072bf7ff | CALL 0x1000191f
+1008ee18 | 8bc6 | MOV EAX,ESI
+1008ee1a | 5e | POP ESI
+1008ee1b | c3 | RET

@@ -1,0 +1,4 @@
+; 30007f9a ?AddMissingAnimation@eCAnimationAdmin@@QAEXABVbCString@@@Z
+30007f9a | e9c1840800 | JMP 0x30090460
+; 30007f9f eCSpeedTreeAdmin::SetLeafBillboardTable
+; 30007f9f Ordinal_13607

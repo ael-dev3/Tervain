@@ -1,0 +1,17 @@
+/* ENTRY 10005402 | bCBitField::bCBitField | STATUS decompiled | 3 ms */
+
+/* public: __thiscall bCBitField::bCBitField(int) */
+
+bCBitField * __thiscall bCBitField::bCBitField(bCBitField *this,int param_1)
+
+{
+                    /* 0x5402  37  ??0bCBitField@@QAE@H@Z */
+  *(undefined4 *)this = 0;
+  *(undefined4 *)(this + 4) = 0;
+  *(undefined4 *)(this + 8) = 0;
+  SetCount(this,param_1);
+  *(undefined4 *)(this + 0x10) = 0;
+  return this;
+}
+
+

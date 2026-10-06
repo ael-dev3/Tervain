@@ -1,0 +1,56 @@
+{
+  "schema": "gothic3-entity-reading-rules-v1",
+  "inputs": {
+    "Engine": "d49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3",
+    "SharedBase": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214",
+    "Game": "b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f"
+  },
+  "entityVersion": 83,
+  "sentinel": 3735929054,
+  "sourceOrder": [
+    "Node.Read",
+    "Enable",
+    "EnableRendering",
+    "DisableProcessing",
+    "flag bit5",
+    "flag bit10 and Modified",
+    "EnablePicking(false)",
+    "EnableCollision",
+    "SetRenderAlphaValue(recursive=true)",
+    "insertType bits14..17 and Modified",
+    "lastRenderPriority and Modified",
+    "Lock",
+    "flags bit25/bit13",
+    "SetName",
+    "world/local matrices; tree/local/world boxes; two spheres",
+    "LOD factor; flagbit22; cull factor; timestamp scratch; scaling; flags27/28",
+    "RemoveAllPropertySets",
+    "signed-count accessor loop with DEADC0DE sentinel",
+    "local/world/tree box validity bits19/20/21",
+    "virtual OnPostRead",
+    "restore source timestamp DWORD130",
+    "overwrite scaling DWORD134 from world matrix"
+  ],
+  "rawOffsets": {
+    "flags": 60,
+    "worldMatrix": 64,
+    "localMatrix": 128,
+    "treeBox": 192,
+    "localBox": 272,
+    "worldBox": 232,
+    "worldSphere": 216,
+    "localSphere": 256,
+    "visualLodFactor": 296,
+    "objectCullFactor": 300,
+    "modifiedWord": 304,
+    "uniformScaling": 308,
+    "name": 312
+  },
+  "scope": "Exact ReadV83 controller over one live entity and ordered native accessor host",
+  "remaining": [
+    "reflective class factory/constructor/Create/Read implementations",
+    "dynamic/spatial read wrapper and template patching",
+    "native rendering/cache/collision effects of entity setters",
+    "class-specific PostRead and active world-context residency"
+  ]
+}

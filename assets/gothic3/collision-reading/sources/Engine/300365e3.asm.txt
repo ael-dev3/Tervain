@@ -1,0 +1,4 @@
+; 300365e3 bTPropertyType<eCCollisionShape,bTPropertyContainer<eECollisionShapeType>_>::vfunction7
+300365e3 | e9887b3200 | JMP 0x3035e170
+; 300365ed eCUnicodeConfigFile::AddEmptyLine
+; 300365ed Ordinal_3390

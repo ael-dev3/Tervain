@@ -1,0 +1,31 @@
+/* ENTRY 10066080 | FUN_10066080 | STATUS decompiled | 6 ms */
+
+void __thiscall FUN_10066080(bCOrientedBox *param_1,bCBox *param_2)
+
+{
+  undefined4 local_60;
+  undefined4 local_5c;
+  undefined4 local_58;
+  undefined4 local_54;
+  undefined4 local_50;
+  undefined4 local_4c;
+  undefined4 local_48;
+  undefined4 local_44;
+  undefined4 local_40;
+  bCOrientedBox local_3c [60];
+  
+  local_5c = 0;
+  local_58 = 0;
+  local_54 = 0;
+  local_4c = 0;
+  local_48 = 0;
+  local_44 = 0;
+  local_60 = 0x3f800000;
+  local_50 = 0x3f800000;
+  local_40 = 0x3f800000;
+  bCOrientedBox::Create(local_3c,param_2,(bCMatrix3 *)&local_60);
+  bCOrientedBox::Intersects(param_1,local_3c);
+  return;
+}
+
+

@@ -1,0 +1,4 @@
+; 3003bbf6 ?OnPreProcess@eCEntity@@MAEXXZ
+3003bbf6 | e9d5694700 | JMP 0x304b25d0
+; 3003bbfb eCEngineCaps_PS::AccessZPass
+; 3003bbfb Ordinal_3324

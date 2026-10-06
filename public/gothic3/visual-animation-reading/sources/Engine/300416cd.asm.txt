@@ -1,0 +1,2 @@
+; 300416cd eCEntity::EnableRendering
+300416cd | e9fe184700 | JMP 0x304b2fd0

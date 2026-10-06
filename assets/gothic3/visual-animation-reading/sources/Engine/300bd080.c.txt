@@ -1,0 +1,123 @@
+/* ENTRY 300bd080 | FUN_300bd080 | STATUS decompiled | 21 ms */
+
+void __fastcall FUN_300bd080(int param_1)
+
+{
+  undefined4 *puVar1;
+  int iVar2;
+  int iVar3;
+  int iVar4;
+  eCWrapper_emfx2Actor *peVar5;
+  int iVar6;
+  int iVar7;
+  int iVar8;
+  int iVar9;
+  undefined4 uVar10;
+  int *piVar11;
+  int iVar12;
+  int iVar13;
+  int iVar14;
+  int local_c;
+  
+  if (*(int *)(param_1 + 4) != 0) {
+    iVar2 = *(int *)(*(int *)(param_1 + 4) + 0xc);
+    peVar5 = eCVisualAnimationLoD::GetActorWrapper(*(eCVisualAnimationLoD **)(param_1 + 8));
+    iVar3 = *(int *)(peVar5 + 0xc);
+    iVar13 = *(int *)(iVar2 + 0x1b4) + -1;
+    if (-1 < iVar13) {
+      iVar6 = iVar13 * 400;
+      do {
+        iVar14 = *(int *)(iVar3 + 0x1b4);
+        iVar9 = *(int *)(*(int *)(iVar2 + 0x1bc) + 0x188 + iVar6);
+        iVar12 = *(int *)(iVar2 + 0x1bc) + iVar6;
+        iVar7 = 0;
+        if (0 < iVar14) {
+          iVar8 = *(int *)(iVar3 + 0x1bc);
+          piVar11 = (int *)(iVar8 + 0x188);
+          do {
+            if (*piVar11 == iVar9) {
+              iVar8 = iVar7 * 400 + iVar8;
+              goto LAB_300bd113;
+            }
+            iVar7 = iVar7 + 1;
+            piVar11 = piVar11 + 100;
+          } while (iVar7 < iVar14);
+        }
+        iVar8 = 0;
+LAB_300bd113:
+        if (iVar8 == 0) {
+          local_c = 0;
+          if (0 < *(int *)(param_1 + 0x14)) {
+            iVar14 = 0;
+            do {
+              peVar5 = eCVisualAnimationLoD::GetActorWrapper
+                                 (*(eCVisualAnimationLoD **)(*(int *)(param_1 + 0x10) + 4 + iVar14))
+              ;
+              iVar7 = *(int *)(*(int *)(peVar5 + 0xc) + 0x1b4);
+              iVar8 = 0;
+              if (0 < iVar7) {
+                iVar4 = *(int *)(*(int *)(peVar5 + 0xc) + 0x1bc);
+                piVar11 = (int *)(iVar4 + 0x188);
+                do {
+                  if (*piVar11 == iVar9) {
+                    if (iVar8 * 400 + iVar4 != 0) goto LAB_300bd2b9;
+                    break;
+                  }
+                  iVar8 = iVar8 + 1;
+                  piVar11 = piVar11 + 100;
+                } while (iVar8 < iVar7);
+              }
+              local_c = local_c + 1;
+              iVar14 = iVar14 + 0x10;
+            } while (local_c < *(int *)(param_1 + 0x14));
+          }
+          iVar9 = FUN_306423e0();
+          iVar14 = iVar2;
+          if (iVar9 != 0) {
+            iVar14 = FUN_306423e0();
+          }
+          local_c = 0;
+          if (0 < *(int *)(iVar12 + 0x150)) {
+            do {
+              iVar9 = FUN_30642420(local_c);
+              if (iVar14 == 0) {
+                *(undefined4 *)(iVar9 + 0x17c) = 0xffffffff;
+              }
+              else {
+                *(int *)(iVar9 + 0x17c) = *(int *)(iVar14 + 0x178) + 1;
+              }
+              iVar7 = *(int *)(iVar14 + 0x150);
+              iVar8 = iVar7 + 1;
+              *(int *)(iVar14 + 0x150) = iVar8;
+              if (*(int *)(iVar14 + 0x154) < iVar8) {
+                iVar7 = iVar7 + 2;
+                thunk_FUN_300ad900();
+                uVar10 = FUN_3066b020(*(undefined4 *)(iVar14 + 0x158),iVar7 * 4,2,0x10,2);
+                *(int *)(iVar14 + 0x154) = iVar7;
+                *(undefined4 *)(iVar14 + 0x158) = uVar10;
+              }
+              puVar1 = (undefined4 *)(*(int *)(iVar14 + 0x158) + -4 + *(int *)(iVar14 + 0x150) * 4);
+              if (puVar1 != (undefined4 *)0x0) {
+                *puVar1 = *(undefined4 *)(iVar9 + 0x178);
+              }
+              local_c = local_c + 1;
+            } while (local_c < *(int *)(iVar12 + 0x150));
+          }
+          *(undefined4 *)(iVar12 + 0x150) = 0;
+          *(undefined4 *)(iVar12 + 0x154) = 0;
+          thunk_FUN_300ad900();
+          FUN_3066b040(*(undefined4 *)(iVar12 + 0x158));
+          *(undefined4 *)(iVar12 + 0x158) = 0;
+          thunk_FUN_300be4a0(iVar12);
+          thunk_FUN_300be530(iVar13,1);
+        }
+LAB_300bd2b9:
+        iVar13 = iVar13 + -1;
+        iVar6 = iVar6 + -400;
+      } while (-1 < iVar13);
+    }
+  }
+  return;
+}
+
+

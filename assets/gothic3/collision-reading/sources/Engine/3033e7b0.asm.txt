@@ -1,0 +1,80 @@
+; 3033e7b0 bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eEPhysicRangeType>_>::vfunction15
+3033e7b0 | 83ec08 | SUB ESP,0x8
+3033e7b3 | 53 | PUSH EBX
+3033e7b4 | 8b5c2410 | MOV EBX,dword ptr [ESP + 0x10]
+3033e7b8 | 56 | PUSH ESI
+3033e7b9 | 57 | PUSH EDI
+3033e7ba | 8bf9 | MOV EDI,ECX
+3033e7bc | 8b07 | MOV EAX,dword ptr [EDI]
+3033e7be | 8b5040 | MOV EDX,dword ptr [EAX + 0x40]
+3033e7c1 | 53 | PUSH EBX
+3033e7c2 | ffd2 | CALL EDX
+3033e7c4 | 0fb7c0 | MOVZX EAX,AX
+3033e7c7 | 8d4c2410 | LEA ECX,[ESP + 0x10]
+3033e7cb | 51 | PUSH ECX
+3033e7cc | 8bcb | MOV ECX,EBX
+3033e7ce | 89442410 | MOV dword ptr [ESP + 0x10],EAX
+3033e7d2 | ff1594caaf30 | CALL dword ptr [0x30afca94]
+3033e7d8 | 8b74241c | MOV ESI,dword ptr [ESP + 0x1c]
+3033e7dc | 8b16 | MOV EDX,dword ptr [ESI]
+3033e7de | 8b02 | MOV EAX,dword ptr [EDX]
+3033e7e0 | 8bce | MOV ECX,ESI
+3033e7e2 | ffd0 | CALL EAX
+3033e7e4 | 85c0 | TEST EAX,EAX
+3033e7e6 | 742f | JZ 0x3033e817
+3033e7e8 | 8b16 | MOV EDX,dword ptr [ESI]
+3033e7ea | 8b02 | MOV EAX,dword ptr [EDX]
+3033e7ec | 55 | PUSH EBP
+3033e7ed | 8bce | MOV ECX,ESI
+3033e7ef | ffd0 | CALL EAX
+3033e7f1 | 8be8 | MOV EBP,EAX
+3033e7f3 | 8b5d00 | MOV EBX,dword ptr [EBP]
+3033e7f6 | 6a01 | PUSH 0x1
+3033e7f8 | 8bcf | MOV ECX,EDI
+3033e7fa | 83c358 | ADD EBX,0x58
+3033e7fd | ff15b8caaf30 | CALL dword ptr [0x30afcab8]
+3033e803 | 8bc8 | MOV ECX,EAX
+3033e805 | ff159cdbaf30 | CALL dword ptr [0x30afdb9c]
+3033e80b | 8b13 | MOV EDX,dword ptr [EBX]
+3033e80d | 50 | PUSH EAX
+3033e80e | 8bcd | MOV ECX,EBP
+3033e810 | ffd2 | CALL EDX
+3033e812 | 8b5c241c | MOV EBX,dword ptr [ESP + 0x1c]
+3033e816 | 5d | POP EBP
+; 3033e817 LAB_3033e817
+3033e817 | 8b07 | MOV EAX,dword ptr [EDI]
+3033e819 | 8b5064 | MOV EDX,dword ptr [EAX + 0x64]
+3033e81c | 56 | PUSH ESI
+3033e81d | 8bcf | MOV ECX,EDI
+3033e81f | ffd2 | CALL EDX
+3033e821 | 50 | PUSH EAX
+3033e822 | 53 | PUSH EBX
+3033e823 | ff1544caaf30 | CALL dword ptr [0x30afca44]
+3033e829 | 8b06 | MOV EAX,dword ptr [ESI]
+3033e82b | 8b10 | MOV EDX,dword ptr [EAX]
+3033e82d | 8bce | MOV ECX,ESI
+3033e82f | ffd2 | CALL EDX
+3033e831 | 85c0 | TEST EAX,EAX
+3033e833 | 7428 | JZ 0x3033e85d
+3033e835 | 8b06 | MOV EAX,dword ptr [ESI]
+3033e837 | 8b10 | MOV EDX,dword ptr [EAX]
+3033e839 | 8bce | MOV ECX,ESI
+3033e83b | ffd2 | CALL EDX
+3033e83d | 8bd8 | MOV EBX,EAX
+3033e83f | 8b33 | MOV ESI,dword ptr [EBX]
+3033e841 | 6a01 | PUSH 0x1
+3033e843 | 8bcf | MOV ECX,EDI
+3033e845 | 83c65c | ADD ESI,0x5c
+3033e848 | ff15b8caaf30 | CALL dword ptr [0x30afcab8]
+3033e84e | 8bc8 | MOV ECX,EAX
+3033e850 | ff159cdbaf30 | CALL dword ptr [0x30afdb9c]
+3033e856 | 50 | PUSH EAX
+3033e857 | 8b06 | MOV EAX,dword ptr [ESI]
+3033e859 | 8bcb | MOV ECX,EBX
+3033e85b | ffd0 | CALL EAX
+; 3033e85d LAB_3033e85d
+3033e85d | 5f | POP EDI
+3033e85e | 5e | POP ESI
+3033e85f | 5b | POP EBX
+3033e860 | 83c408 | ADD ESP,0x8
+3033e863 | c20800 | RET 0x8

@@ -1,0 +1,2 @@
+; 3001ca2b ??0eCEntity@@IAE@XZ
+3001ca2b | e9909d4900 | JMP 0x304b67c0

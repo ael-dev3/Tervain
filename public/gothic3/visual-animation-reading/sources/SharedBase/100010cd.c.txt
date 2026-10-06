@@ -1,0 +1,13 @@
+/* ENTRY 100010cd | thunk_FUN_10023840 | STATUS decompiled | 5 ms */
+
+float10 thunk_FUN_10023840(float param_1)
+
+{
+  float fVar1;
+  
+  fVar1 = (float)(0x5f3759df - ((uint)param_1 >> 1));
+  return (float10)1.5 * (float10)fVar1 -
+         (float10)param_1 * (float10)0.5 * (float10)fVar1 * (float10)fVar1 * (float10)fVar1;
+}
+
+

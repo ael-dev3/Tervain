@@ -1,0 +1,19 @@
+; 300c2990 FUN_300c2990
+300c2990 | 56 | PUSH ESI
+300c2991 | 8bf1 | MOV ESI,ECX
+300c2993 | 8b06 | MOV EAX,dword ptr [ESI]
+300c2995 | 8b5058 | MOV EDX,dword ptr [EAX + 0x58]
+300c2998 | 6a00 | PUSH 0x0
+300c299a | 68a8108230 | PUSH 0x308210a8
+300c299f | ffd2 | CALL EDX
+300c29a1 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+300c29a5 | d900 | FLD float ptr [EAX]
+300c29a7 | 8b16 | MOV EDX,dword ptr [ESI]
+300c29a9 | 8b425c | MOV EAX,dword ptr [EDX + 0x5c]
+300c29ac | d95e40 | FSTP float ptr [ESI + 0x40]
+300c29af | 6a00 | PUSH 0x0
+300c29b1 | 68a8108230 | PUSH 0x308210a8
+300c29b6 | 8bce | MOV ECX,ESI
+300c29b8 | ffd0 | CALL EAX
+300c29ba | 5e | POP ESI
+300c29bb | c20400 | RET 0x4

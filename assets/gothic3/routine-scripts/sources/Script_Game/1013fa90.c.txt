@@ -1,0 +1,17 @@
+/* ENTRY 1013fa90 | FUN_1013fa90 | STATUS decompiled | 6 ms */
+
+void FUN_1013fa90(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Commands\\GiveDefeatXP.cpp");
+  bCString::bCString(local_8,"GiveDefeatXP");
+  thunk_FUN_10017a50(local_8,&LAB_10002374,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

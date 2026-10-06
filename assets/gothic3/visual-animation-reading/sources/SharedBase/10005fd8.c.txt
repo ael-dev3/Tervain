@@ -1,0 +1,25 @@
+/* ENTRY 10005fd8 | bCPropertyID::GetText | STATUS decompiled | 9 ms */
+
+/* public: class bCString __thiscall bCPropertyID::GetText(void)const  */
+
+bCString * __thiscall bCPropertyID::GetText(bCPropertyID *this)
+
+{
+  bCGuid *this_00;
+  bCString *in_stack_00000004;
+  _GUID _Stack_24;
+  bCGuid abStack_14 [20];
+  
+                    /* 0x5fd8  3066  ?GetText@bCPropertyID@@QBE?AVbCString@@XZ */
+  _Stack_24.Data1 = *(ulong *)this;
+  _Stack_24._4_4_ = *(undefined4 *)(this + 4);
+  _Stack_24.Data4._0_4_ = *(undefined4 *)(this + 8);
+  _Stack_24.Data4._4_4_ = *(undefined4 *)(this + 0xc);
+  this_00 = (bCGuid *)bCGuid::bCGuid(abStack_14,&_Stack_24);
+  bCGuid::GetText(this_00);
+  bCGuid::~bCGuid((bCGuid *)(_Stack_24.Data4 + 4));
+  bCString::ToLower(in_stack_00000004);
+  return in_stack_00000004;
+}
+
+

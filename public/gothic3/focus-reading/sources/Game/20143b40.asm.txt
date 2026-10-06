@@ -1,0 +1,78 @@
+; 20143b40 bTPropertyType<gCFocus_PS,float>::vfunction15
+20143b40 | 83ec08 | SUB ESP,0x8
+20143b43 | 53 | PUSH EBX
+20143b44 | 8b5c2410 | MOV EBX,dword ptr [ESP + 0x10]
+20143b48 | 56 | PUSH ESI
+20143b49 | 57 | PUSH EDI
+20143b4a | 8bf9 | MOV EDI,ECX
+20143b4c | 8b07 | MOV EAX,dword ptr [EDI]
+20143b4e | 8b5040 | MOV EDX,dword ptr [EAX + 0x40]
+20143b51 | 53 | PUSH EBX
+20143b52 | ffd2 | CALL EDX
+20143b54 | 0fb7c0 | MOVZX EAX,AX
+20143b57 | 8d4c2410 | LEA ECX,[ESP + 0x10]
+20143b5b | 51 | PUSH ECX
+20143b5c | 8bcb | MOV ECX,EBX
+20143b5e | 89442410 | MOV dword ptr [ESP + 0x10],EAX
+20143b62 | ff1560877d20 | CALL dword ptr [0x207d8760]
+20143b68 | 8b74241c | MOV ESI,dword ptr [ESP + 0x1c]
+20143b6c | 8b16 | MOV EDX,dword ptr [ESI]
+20143b6e | 8b02 | MOV EAX,dword ptr [EDX]
+20143b70 | 8bce | MOV ECX,ESI
+20143b72 | ffd0 | CALL EAX
+20143b74 | 85c0 | TEST EAX,EAX
+20143b76 | 742f | JZ 0x20143ba7
+20143b78 | 8b16 | MOV EDX,dword ptr [ESI]
+20143b7a | 8b02 | MOV EAX,dword ptr [EDX]
+20143b7c | 55 | PUSH EBP
+20143b7d | 8bce | MOV ECX,ESI
+20143b7f | ffd0 | CALL EAX
+20143b81 | 8be8 | MOV EBP,EAX
+20143b83 | 8b5d00 | MOV EBX,dword ptr [EBP]
+20143b86 | 6a01 | PUSH 0x1
+20143b88 | 8bcf | MOV ECX,EDI
+20143b8a | 83c358 | ADD EBX,0x58
+20143b8d | ff153c877d20 | CALL dword ptr [0x207d873c]
+20143b93 | 8bc8 | MOV ECX,EAX
+20143b95 | ff15f8867d20 | CALL dword ptr [0x207d86f8]
+20143b9b | 8b13 | MOV EDX,dword ptr [EBX]
+20143b9d | 50 | PUSH EAX
+20143b9e | 8bcd | MOV ECX,EBP
+20143ba0 | ffd2 | CALL EDX
+20143ba2 | 8b5c241c | MOV EBX,dword ptr [ESP + 0x1c]
+20143ba6 | 5d | POP EBP
+20143ba7 | 8b07 | MOV EAX,dword ptr [EDI]
+20143ba9 | 8b5064 | MOV EDX,dword ptr [EAX + 0x64]
+20143bac | 56 | PUSH ESI
+20143bad | 8bcf | MOV ECX,EDI
+20143baf | ffd2 | CALL EDX
+20143bb1 | 50 | PUSH EAX
+20143bb2 | 8bcb | MOV ECX,EBX
+20143bb4 | ff15e8857d20 | CALL dword ptr [0x207d85e8]
+20143bba | 8b06 | MOV EAX,dword ptr [ESI]
+20143bbc | 8b10 | MOV EDX,dword ptr [EAX]
+20143bbe | 8bce | MOV ECX,ESI
+20143bc0 | ffd2 | CALL EDX
+20143bc2 | 85c0 | TEST EAX,EAX
+20143bc4 | 7428 | JZ 0x20143bee
+20143bc6 | 8b06 | MOV EAX,dword ptr [ESI]
+20143bc8 | 8b10 | MOV EDX,dword ptr [EAX]
+20143bca | 8bce | MOV ECX,ESI
+20143bcc | ffd2 | CALL EDX
+20143bce | 8bd8 | MOV EBX,EAX
+20143bd0 | 8b33 | MOV ESI,dword ptr [EBX]
+20143bd2 | 6a01 | PUSH 0x1
+20143bd4 | 8bcf | MOV ECX,EDI
+20143bd6 | 83c65c | ADD ESI,0x5c
+20143bd9 | ff153c877d20 | CALL dword ptr [0x207d873c]
+20143bdf | 8bc8 | MOV ECX,EAX
+20143be1 | ff15f8867d20 | CALL dword ptr [0x207d86f8]
+20143be7 | 50 | PUSH EAX
+20143be8 | 8b06 | MOV EAX,dword ptr [ESI]
+20143bea | 8bcb | MOV ECX,EBX
+20143bec | ffd0 | CALL EAX
+20143bee | 5f | POP EDI
+20143bef | 5e | POP ESI
+20143bf0 | 5b | POP EBX
+20143bf1 | 83c408 | ADD ESP,0x8
+20143bf4 | c20800 | RET 0x8

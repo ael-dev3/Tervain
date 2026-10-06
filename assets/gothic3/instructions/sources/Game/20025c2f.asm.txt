@@ -1,0 +1,2 @@
+; 20025c2f ?GetOtherEntity@gCScriptProcessingUnit@@QAEPAVeCEntity@@XZ
+20025c2f | e95c223400 | JMP 0x20367e90

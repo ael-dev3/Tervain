@@ -1,0 +1,4 @@
+; 2002dee3 bTPropertyType<gCClock_PS,float>::vfunction7
+2002dee3 | e9a8c91d00 | JMP 0x2020a890
+; 2002deed gCInfoManager_PS::gCInfoManager_PS
+; 2002deed Ordinal_180

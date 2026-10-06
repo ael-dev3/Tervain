@@ -1,0 +1,2 @@
+; 10002f5e bCString::IsEmpty
+10002f5e | e98d020100 | JMP 0x100131f0

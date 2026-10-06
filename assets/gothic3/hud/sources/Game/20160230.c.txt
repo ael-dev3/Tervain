@@ -1,0 +1,16 @@
+/* ENTRY 20160230 | gCHUDViewAmount2::~gCHUDViewAmount2 | STATUS decompiled | 11 ms */
+
+void __thiscall gCHUDViewAmount2::~gCHUDViewAmount2(gCHUDViewAmount2 *this)
+
+{
+  this->vftablePtr = &vftable;
+  FUN_20036877();
+  FUN_20036877();
+  gCHUDButton::~gCHUDButton((gCHUDButton *)&(this->gCHUDViewAmount2_data).field_0x2c);
+  gCHUDButton::~gCHUDButton((gCHUDButton *)&(this->gCHUDViewAmount2_data).field_0x1c);
+  CFFGFCSlider::~CFFGFCSlider((CFFGFCSlider *)&(this->gCHUDViewAmount2_data).field_0xc);
+  FUN_200156a9();
+  return;
+}
+
+

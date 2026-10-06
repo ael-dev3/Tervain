@@ -1,0 +1,4 @@
+; 3004755a ?OnUpdatedWorldTreeBoundary@eCCollisionShape_PS@@MAEXXZ
+3004755a | e9e1032f00 | JMP 0x30337940
+; 3004755f eCColorScheme::Invalidate
+; 3004755f Ordinal_9927

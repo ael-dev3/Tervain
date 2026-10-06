@@ -1,0 +1,2 @@
+; 300368db ?SetTargetWeight@eCWrapper_emfx2Actor@@QAEXW4eEMotionType@1@M@Z
+300368db | e9104a0a00 | JMP 0x300db2f0

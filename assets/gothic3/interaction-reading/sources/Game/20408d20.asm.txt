@@ -1,0 +1,9 @@
+; 20408d20 bTPropertyType<gCInteraction_PS,eCEntityProxy>::vfunction6
+20408d20 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+20408d24 | 85c0 | TEST EAX,EAX
+20408d26 | 740b | JZ 0x20408d33
+20408d28 | 8b11 | MOV EDX,dword ptr [ECX]
+20408d2a | 89442404 | MOV dword ptr [ESP + 0x4],EAX
+20408d2e | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+20408d31 | ffe0 | JMP EAX
+20408d33 | c20400 | RET 0x4

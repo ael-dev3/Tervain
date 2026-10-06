@@ -1,0 +1,68 @@
+/* ENTRY 10064b90 | FUN_10064b90 | STATUS decompiled | 30 ms */
+
+undefined1 __thiscall FUN_10064b90(float *param_1,float *param_2)
+
+{
+  float fVar1;
+  float fVar2;
+  float fVar3;
+  float fVar4;
+  float fVar5;
+  float fVar6;
+  float fVar7;
+  float fVar8;
+  
+  fVar1 = param_2[1] - *param_1;
+  fVar2 = param_2[2] - param_1[1];
+  fVar3 = param_2[3] - param_1[2];
+  fVar4 = ABS(fVar2 * param_1[7] + fVar1 * param_1[6] + fVar3 * param_1[8]);
+  fVar5 = ABS(param_1[0xb] * fVar3 + param_1[9] * fVar1 + param_1[10] * fVar2);
+  fVar3 = ABS(fVar3 * param_1[0xe] + param_1[0xd] * fVar2 + param_1[0xc] * fVar1);
+  fVar6 = fVar4 - param_1[3];
+  fVar1 = param_1[4];
+  fVar7 = fVar5 - fVar1;
+  fVar2 = param_1[5];
+  fVar8 = fVar3 - fVar2;
+  if (param_1[3] < fVar4) {
+    if (fVar1 < fVar5) {
+      if (fVar2 < fVar3) {
+        fVar6 = fVar8 * fVar8 + fVar7 * fVar7 + fVar6 * fVar6;
+        fVar1 = *param_2 * *param_2;
+      }
+      else {
+        fVar6 = fVar7 * fVar7 + fVar6 * fVar6;
+        fVar1 = *param_2 * *param_2;
+      }
+    }
+    else if (fVar2 < fVar3) {
+      fVar6 = fVar8 * fVar8 + fVar6 * fVar6;
+      fVar1 = *param_2 * *param_2;
+    }
+    else {
+      fVar1 = *param_2;
+    }
+  }
+  else if (fVar1 < fVar5) {
+    if (fVar2 < fVar3) {
+      fVar6 = fVar7 * fVar7 + fVar8 * fVar8;
+      fVar1 = *param_2 * *param_2;
+    }
+    else {
+      fVar1 = *param_2;
+      fVar6 = fVar7;
+    }
+  }
+  else {
+    if (fVar3 <= fVar2) {
+      return 1;
+    }
+    fVar1 = *param_2;
+    fVar6 = fVar8;
+  }
+  if (fVar6 <= fVar1) {
+    return 1;
+  }
+  return 0;
+}
+
+

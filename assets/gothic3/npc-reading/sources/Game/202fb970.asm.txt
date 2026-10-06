@@ -1,0 +1,46 @@
+; 202fb970 FUN_202fb970
+202fb970 | 53 | PUSH EBX
+202fb971 | 8b5c2408 | MOV EBX,dword ptr [ESP + 0x8]
+202fb975 | 85db | TEST EBX,EBX
+202fb977 | 55 | PUSH EBP
+202fb978 | 56 | PUSH ESI
+202fb979 | 8bf1 | MOV ESI,ECX
+202fb97b | 7408 | JZ 0x202fb985
+202fb97d | 8bcb | MOV ECX,EBX
+202fb97f | ff15bc877d20 | CALL dword ptr [0x207d87bc]
+; 202fb985 LAB_202fb985
+202fb985 | 8b4e08 | MOV ECX,dword ptr [ESI + 0x8]
+202fb988 | 85c9 | TEST ECX,ECX
+202fb98a | 7415 | JZ 0x202fb9a1
+202fb98c | ff15c0877d20 | CALL dword ptr [0x207d87c0]
+202fb992 | 83f801 | CMP EAX,0x1
+202fb995 | 750a | JNZ 0x202fb9a1
+202fb997 | 8b4e08 | MOV ECX,dword ptr [ESI + 0x8]
+202fb99a | 8b01 | MOV EAX,dword ptr [ECX]
+202fb99c | 8b5014 | MOV EDX,dword ptr [EAX + 0x14]
+202fb99f | ffd2 | CALL EDX
+; 202fb9a1 LAB_202fb9a1
+202fb9a1 | 8b2dc4877d20 | MOV EBP,dword ptr [0x207d87c4]
+202fb9a7 | 57 | PUSH EDI
+202fb9a8 | 8b7e08 | MOV EDI,dword ptr [ESI + 0x8]
+202fb9ab | 85ff | TEST EDI,EDI
+202fb9ad | 740e | JZ 0x202fb9bd
+202fb9af | 6a00 | PUSH 0x0
+202fb9b1 | 8bcf | MOV ECX,EDI
+202fb9b3 | ffd5 | CALL EBP
+202fb9b5 | 8bcf | MOV ECX,EDI
+202fb9b7 | ff15c8877d20 | CALL dword ptr [0x207d87c8]
+; 202fb9bd LAB_202fb9bd
+202fb9bd | 85db | TEST EBX,EBX
+202fb9bf | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+202fb9c6 | 5f | POP EDI
+202fb9c7 | 7405 | JZ 0x202fb9ce
+202fb9c9 | 56 | PUSH ESI
+202fb9ca | 8bcb | MOV ECX,EBX
+202fb9cc | ffd5 | CALL EBP
+; 202fb9ce LAB_202fb9ce
+202fb9ce | 895e08 | MOV dword ptr [ESI + 0x8],EBX
+202fb9d1 | 5e | POP ESI
+202fb9d2 | 5d | POP EBP
+202fb9d3 | 5b | POP EBX
+202fb9d4 | c20400 | RET 0x4

@@ -1,0 +1,20 @@
+; 303881b0 FUN_303881b0
+303881b0 | 51 | PUSH ECX
+303881b1 | b801000000 | MOV EAX,0x1
+303881b6 | 840504deae30 | TEST byte ptr [0x30aede04],AL
+303881bc | 7535 | JNZ 0x303881f3
+303881be | 090504deae30 | OR dword ptr [0x30aede04],EAX
+303881c4 | 6884608630 | PUSH 0x30866084
+303881c9 | 8d4c2404 | LEA ECX,[ESP + 0x4]
+303881cd | ff155cdbaf30 | CALL dword ptr [0x30afdb5c]
+303881d3 | 8d0424 | LEA EAX,[ESP]
+303881d6 | 50 | PUSH EAX
+303881d7 | ff15a4daaf30 | CALL dword ptr [0x30afdaa4]
+303881dd | 8bc8 | MOV ECX,EAX
+303881df | ff15fcc9af30 | CALL dword ptr [0x30afc9fc]
+303881e5 | 8d0c24 | LEA ECX,[ESP]
+303881e8 | a300deae30 | MOV [0x30aede00],EAX
+303881ed | ff15dcdbaf30 | CALL dword ptr [0x30afdbdc]
+303881f3 | a100deae30 | MOV EAX,[0x30aede00]
+303881f8 | 59 | POP ECX
+303881f9 | c3 | RET

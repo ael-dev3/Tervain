@@ -1,0 +1,21 @@
+/* ENTRY 20209f20 | bTPropertyObject<gCClock_PS,eCEntityPropertySet>::~bTPropertyObject<gCClock_PS,eCEntityPropertySet> | STATUS decompiled | 5 ms */
+
+bTPropertyObject<gCClock_PS,eCEntityPropertySet> * __thiscall
+bTPropertyObject<gCClock_PS,eCEntityPropertySet>::~bTPropertyObject<gCClock_PS,eCEntityPropertySet>
+          (bTPropertyObject<gCClock_PS,eCEntityPropertySet> *this)
+
+{
+  undefined *puVar1;
+  
+  bCPropertyObjectBase::bCPropertyObjectBase((bCPropertyObjectBase *)this);
+  (this->bTPOPureSmartPtr<gCClock_PS>_data).offset_0x4 = (bCObjectRefBase *)0x0;
+  this->vftablePtr = &vftable;
+  puVar1 = bTPropertyObjectType<gCClock_PS,eCEntityPropertySet>::
+           ~bTPropertyObjectType<gCClock_PS,eCEntityPropertySet>();
+  (this->bTPropertyObject<gCClock_PS,eCEntityPropertySet>_data).offset_0x0 = puVar1;
+  (this->bTPOPureSmartPtr<gCClock_PS>_data).offset_0x4 = (bCObjectRefBase *)0x0;
+  thunk_FUN_20209360(1);
+  return this;
+}
+
+

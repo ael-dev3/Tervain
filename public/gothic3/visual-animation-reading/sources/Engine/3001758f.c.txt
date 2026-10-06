@@ -1,0 +1,13 @@
+/* ENTRY 3001758f | eCVisualAnimation_PS::AccessSpringParentNodesScale | STATUS decompiled | 5 ms */
+
+/* public: float & __thiscall eCVisualAnimation_PS::AccessSpringParentNodesScale(void) */
+
+float * __thiscall eCVisualAnimation_PS::AccessSpringParentNodesScale(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x1758f  3167  ?AccessSpringParentNodesScale@eCVisualAnimation_PS@@QAEAAMXZ
+                        */
+  return (float *)(this + 6);
+}
+
+

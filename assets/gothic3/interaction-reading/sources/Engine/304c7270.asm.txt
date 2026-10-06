@@ -1,0 +1,7 @@
+; 304c7270 eCTemplateEntityProxy::eCTemplateEntityProxy
+304c7270 | 8bc1 | MOV EAX,ECX
+304c7272 | 33c9 | XOR ECX,ECX
+304c7274 | c70024c18730 | MOV dword ptr [EAX],0x3087c124
+304c727a | 894804 | MOV dword ptr [EAX + 0x4],ECX
+304c727d | 894808 | MOV dword ptr [EAX + 0x8],ECX
+304c7280 | c3 | RET

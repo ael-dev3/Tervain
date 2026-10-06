@@ -1,0 +1,14 @@
+/* ENTRY 1000785b | bCCriticalSectionWin32::bCCriticalSectionWin32 | STATUS decompiled | 2 ms */
+
+/* public: __thiscall bCCriticalSectionWin32::bCCriticalSectionWin32(void) */
+
+bCCriticalSectionWin32 * __thiscall
+bCCriticalSectionWin32::bCCriticalSectionWin32(bCCriticalSectionWin32 *this)
+
+{
+                    /* 0x785b  69  ??0bCCriticalSectionWin32@@QAE@XZ */
+  InitializeCriticalSection((LPCRITICAL_SECTION)this);
+  return this;
+}
+
+

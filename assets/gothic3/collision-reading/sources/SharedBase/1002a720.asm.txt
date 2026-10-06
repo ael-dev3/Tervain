@@ -1,0 +1,6 @@
+; 1002a720 FUN_1002a720
+1002a720 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+1002a724 | d90481 | FLD float ptr [ECX + EAX*0x4]
+1002a727 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+1002a72b | d919 | FSTP float ptr [ECX]
+1002a72d | c20800 | RET 0x8

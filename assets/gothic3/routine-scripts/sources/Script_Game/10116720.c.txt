@@ -1,0 +1,17 @@
+/* ENTRY 10116720 | FUN_10116720 | STATUS decompiled | 8 ms */
+
+void FUN_10116720(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Tasks\\Reaction_Tasks\\ZS_EatBody.cpp");
+  bCString::bCString(local_8,"ZS_EatBody_Loop");
+  thunk_FUN_1001db60(local_8,&LAB_10002e9b,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

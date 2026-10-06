@@ -1,0 +1,62 @@
+/* ENTRY 30014425 | eCCollisionShape_PS::Read | STATUS decompiled | 32 ms */
+
+/* public: virtual enum bEResult __thiscall eCCollisionShape_PS::Read(class bCIStream &) */
+
+bEResult __thiscall eCCollisionShape_PS::Read(eCCollisionShape_PS *this,bCIStream *param_1)
+
+{
+  int iVar1;
+  bool bVar2;
+  bCObjectRefBase *pbVar3;
+  uint uVar4;
+  bool bStack_1d;
+  ushort auStack_1c [2];
+  uint uStack_18;
+  uint uStack_14;
+  bCAccessorPropertyObject abStack_10 [12];
+  
+                    /* 0x14425  12056  ?Read@eCCollisionShape_PS@@UAE?AW4bEResult@@AAVbCIStream@@@Z
+                        */
+  bCIStream::operator>>((bCIStream *)param_1,auStack_1c);
+  bCIStream::operator>>((bCIStream *)param_1,&uStack_18);
+  uStack_14 = 0;
+  if (uStack_18 != 0) {
+    do {
+      bCAccessorPropertyObject::bCAccessorPropertyObject(abStack_10);
+      ::operator>>(param_1,abStack_10);
+      pbVar3 = bCAccessorPropertyObject::GetNativeObject(abStack_10);
+      bVar2 = false;
+      if (((*(ushort *)(pbVar3 + 0x3a) < 0x1e) && (*(int *)(pbVar3 + 0x10) != 1)) ||
+         (pbVar3[0x38] == (bCObjectRefBase)0x1)) {
+        bVar2 = true;
+      }
+      iVar1 = (this->eCCollisionShape_PS_data).offset_0x4;
+      pbVar3[0x44] = (bCObjectRefBase)0x0;
+      if (!bVar2 && iVar1 != 0xc) {
+        thunk_FUN_3033f140(pbVar3);
+      }
+      bCAccessorPropertyObject::~bCAccessorPropertyObject(abStack_10);
+      uStack_14 = uStack_14 + 1;
+    } while (uStack_14 < uStack_18);
+  }
+  if (auStack_1c[0] < 0x3f) {
+    if (0x28 < auStack_1c[0]) {
+      bCIStream::operator>>((bCIStream *)param_1,&uStack_18);
+      uVar4 = 0;
+      if (uStack_18 != 0) {
+        do {
+          bCAccessorPropertyObject::bCAccessorPropertyObject(abStack_10);
+          ::operator>>(param_1,abStack_10);
+          bCAccessorPropertyObject::~bCAccessorPropertyObject(abStack_10);
+          uVar4 = uVar4 + 1;
+        } while (uVar4 < uStack_18);
+      }
+    }
+    if (0x3d < auStack_1c[0]) {
+      bCIStream::operator>>((bCIStream *)param_1,&bStack_1d);
+    }
+  }
+  return 1;
+}
+
+

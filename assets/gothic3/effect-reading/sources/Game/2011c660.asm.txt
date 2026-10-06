@@ -1,0 +1,15 @@
+; 2011c660 bTPropertyType<gCEffect_PS,bool>::vfunction12
+2011c660 | 56 | PUSH ESI
+2011c661 | 8bf1 | MOV ESI,ECX
+2011c663 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+2011c667 | 85c9 | TEST ECX,ECX
+2011c669 | 7506 | JNZ 0x2011c671
+2011c66b | 33c0 | XOR EAX,EAX
+2011c66d | 5e | POP ESI
+2011c66e | c20400 | RET 0x4
+2011c671 | 8b01 | MOV EAX,dword ptr [ECX]
+2011c673 | 8b10 | MOV EDX,dword ptr [EAX]
+2011c675 | ffd2 | CALL EDX
+2011c677 | 03461c | ADD EAX,dword ptr [ESI + 0x1c]
+2011c67a | 5e | POP ESI
+2011c67b | c20400 | RET 0x4

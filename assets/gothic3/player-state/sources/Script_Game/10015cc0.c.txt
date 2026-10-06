@@ -1,0 +1,22 @@
+/* ENTRY 10015cc0 | FUN_10015cc0 | STATUS decompiled | 12 ms */
+
+void __thiscall FUN_10015cc0(int *param_1,uint param_2)
+
+{
+  int iVar1;
+  void *_Dst;
+  
+  if (param_2 < (uint)param_1[1]) {
+    Entity::~Entity((Entity *)(*param_1 + param_2 * 0xb0 + 8));
+    iVar1 = (param_1[1] - param_2) + -1;
+    if (0 < iVar1) {
+      _Dst = (void *)(*param_1 + param_2 * 0xb0);
+      _memmove(_Dst,(void *)((int)_Dst + 0xb0),iVar1 * 0xb0);
+    }
+    thunk_FUN_100150d0(param_1[1] * 0xb0 + -0xb0 + *param_1,1);
+    param_1[1] = param_1[1] + -1;
+  }
+  return;
+}
+
+

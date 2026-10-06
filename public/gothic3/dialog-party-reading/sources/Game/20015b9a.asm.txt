@@ -1,0 +1,2 @@
+; 20015b9a gCDialog_PS::AccessTalkedToPlayer
+20015b9a | e9f19c1900 | JMP 0x201af890

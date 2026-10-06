@@ -1,0 +1,2 @@
+; 300470a5 eCVisualAnimation_PS::eCActorAttachment::GetEntity
+300470a5 | e9b6b30100 | JMP 0x30062460

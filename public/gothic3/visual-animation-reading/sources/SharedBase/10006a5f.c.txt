@@ -1,0 +1,15 @@
+/* ENTRY 10006a5f | bCMatrix::operator* | STATUS decompiled | 2 ms */
+
+/* public: class bCMatrix __thiscall bCMatrix::operator*(class bCMatrix const &)const  */
+
+bCMatrix * __thiscall bCMatrix::operator*(bCMatrix *this,bCMatrix *param_1)
+
+{
+  bCMatrix *in_stack_00000008;
+  
+                    /* 0x6a5f  936  ??DbCMatrix@@QBE?AV0@ABV0@@Z */
+  SetToProduct(param_1,this,in_stack_00000008);
+  return param_1;
+}
+
+

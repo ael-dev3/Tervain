@@ -1,0 +1,12 @@
+/* ENTRY 2011e900 | FUN_2011e900 | STATUS decompiled | 61 ms */
+
+undefined4 * __fastcall FUN_2011e900(gCEnclave_PS *param_1)
+
+{
+  if ((int)(param_1->gCEnclave_PS_data).offset_0x4c < 1) {
+    gCEnclave_PS::BuildMemberList(param_1,false);
+  }
+  return &(param_1->gCEnclave_PS_data).offset_0x48;
+}
+
+

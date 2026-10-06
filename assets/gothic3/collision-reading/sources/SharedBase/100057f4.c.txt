@@ -1,0 +1,25 @@
+/* ENTRY 100057f4 | bCBox::Intersects | STATUS decompiled | 8 ms */
+
+/* public: bool __thiscall bCBox::Intersects(class bCSphere const &)const  */
+
+bool __thiscall bCBox::Intersects(bCBox *this,bCSphere *param_1)
+
+{
+  int iVar1;
+  bCSphere *pbVar2;
+  
+                    /* 0x57f4  3354  ?Intersects@bCBox@@QBE_NABVbCSphere@@@Z */
+  iVar1 = 2;
+  pbVar2 = param_1 + 0xc;
+  while ((*(float *)(this + iVar1 * 4) <= *(float *)pbVar2 + *(float *)param_1 &&
+         (*(float *)pbVar2 - *(float *)param_1 <= *(float *)(this + iVar1 * 4 + 0xc)))) {
+    iVar1 = iVar1 + -1;
+    pbVar2 = pbVar2 + -4;
+    if (iVar1 < 0) {
+      return true;
+    }
+  }
+  return false;
+}
+
+

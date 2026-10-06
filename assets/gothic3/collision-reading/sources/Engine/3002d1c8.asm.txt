@@ -1,0 +1,2 @@
+; 3002d1c8 ?GetNumTouchingShapes@eCCollisionShape_PS@@QBEKXZ
+3002d1c8 | e903aa3000 | JMP 0x30337bd0

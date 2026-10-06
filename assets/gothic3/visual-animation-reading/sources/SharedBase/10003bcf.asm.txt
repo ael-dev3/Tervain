@@ -1,0 +1,2 @@
+; 10003bcf bCAccessorCreator::operator->
+10003bcf | e91cf50800 | JMP 0x100930f0

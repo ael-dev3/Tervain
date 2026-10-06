@@ -1,0 +1,2 @@
+; 30009494 ?SetMotionOwner@eCVisualAnimation_PS@@QAEXW4eEMotionType@eCWrapper_emfx2Actor@@W4eEMotionOwner@eSMotionDesc@1@@Z
+30009494 | e947540900 | JMP 0x3009e8e0

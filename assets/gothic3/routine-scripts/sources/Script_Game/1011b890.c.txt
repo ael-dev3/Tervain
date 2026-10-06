@@ -1,0 +1,17 @@
+/* ENTRY 1011b890 | FUN_1011b890 | STATUS decompiled | 7 ms */
+
+void FUN_1011b890(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Tasks\\Reaction_Tasks\\ZS_Stumble.cpp");
+  bCString::bCString(local_8,"AssessAgressor");
+  thunk_FUN_10017a50(local_8,thunk_FUN_10030f00,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

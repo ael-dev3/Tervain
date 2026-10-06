@@ -1,0 +1,2 @@
+; 30025a4a eCEntityPropertySet::OnIntersect
+30025a4a | e991bf4500 | JMP 0x304819e0

@@ -1,0 +1,2 @@
+; 2001002d bTPropertyObject<gCEffect_PS,eCEntityPropertySet>::vfunction8
+2001002d | e97eda1000 | JMP 0x2011dab0

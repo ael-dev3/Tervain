@@ -1,0 +1,2 @@
+; 200287c2 ?AccessLPAttribs@gCPlayerMemory_PS@@QAEAAJXZ
+200287c2 | e9691d0800 | JMP 0x200aa530

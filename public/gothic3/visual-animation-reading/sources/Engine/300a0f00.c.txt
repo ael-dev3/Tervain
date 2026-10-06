@@ -1,0 +1,228 @@
+/* ENTRY 300a0f00 | FUN_300a0f00 | STATUS decompiled | 122 ms */
+
+void __thiscall
+FUN_300a0f00(eCVisualAnimation_PS *param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4)
+
+{
+  undefined1 *this;
+  bool bVar1;
+  eCWrapper_emfx2Actor *peVar2;
+  eCWrapper_emfx2Actor *peVar3;
+  eCAnimationAdmin *this_00;
+  eCResourceDataEntity *peVar4;
+  eEMotionType eVar5;
+  float fVar6;
+  undefined4 uStack_1c;
+  undefined4 uStack_18;
+  undefined4 uStack_14;
+  undefined4 uStack_10;
+  undefined4 uStack_c;
+  undefined4 uStack_8;
+  undefined4 uStack_4;
+  
+  this = &param_1[7].eCEntityPropertySet_data.field_0x4;
+  peVar2 = eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this);
+  if (peVar2 != (eCWrapper_emfx2Actor *)0x0) {
+    if ((*(int *)&param_1[0xb].eCEntityPropertySet_data.offset_0xc != 0) &&
+       (bVar1 = bCString::IsEmpty((bCString *)(param_1[0xb].eCEntityPropertySet_data.offset_0x8 + 4)
+                                 ), !bVar1)) {
+      peVar2 = eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this);
+      if ((peVar2 != (eCWrapper_emfx2Actor *)0x0) &&
+         ((*(int *)&param_1[0xb].eCEntityPropertySet_data.offset_0xc != 0 &&
+          (bVar1 = bCString::IsEmpty((bCString *)
+                                     (param_1[0xb].eCEntityPropertySet_data.offset_0x8 + 4)), !bVar1
+          )))) {
+        fVar6 = 0.0;
+        eVar5 = 0;
+        peVar3 = (eCWrapper_emfx2Actor *)
+                 eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this);
+        eCWrapper_emfx2Actor::StopMotion(peVar3,eVar5,fVar6);
+      }
+      fVar6 = 0.0;
+      eVar5 = 0;
+      peVar3 = (eCWrapper_emfx2Actor *)
+               eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this);
+      eCWrapper_emfx2Actor::SetTargetWeight(peVar3,eVar5,fVar6);
+      if (*(int *)&param_1[0xb].eCEntityPropertySet_data.offset_0xc != 0) {
+        *(undefined4 *)(param_1[0xb].eCEntityPropertySet_data.offset_0x8 + 8) = 1;
+      }
+    }
+    if ((1 < *(uint *)&param_1[0xb].eCEntityPropertySet_data.offset_0xc) &&
+       (bVar1 = bCString::IsEmpty((bCString *)
+                                  (param_1[0xb].eCEntityPropertySet_data.offset_0x8 + 0x10)), !bVar1
+       )) {
+      peVar2 = eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this);
+      if ((peVar2 != (eCWrapper_emfx2Actor *)0x0) &&
+         ((1 < *(uint *)&param_1[0xb].eCEntityPropertySet_data.offset_0xc &&
+          (bVar1 = bCString::IsEmpty((bCString *)
+                                     (param_1[0xb].eCEntityPropertySet_data.offset_0x8 + 0x10)),
+          !bVar1)))) {
+        fVar6 = 0.0;
+        eVar5 = 1;
+        peVar3 = (eCWrapper_emfx2Actor *)
+                 eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this);
+        eCWrapper_emfx2Actor::StopMotion(peVar3,eVar5,fVar6);
+      }
+      fVar6 = 0.0;
+      eVar5 = 1;
+      peVar3 = (eCWrapper_emfx2Actor *)
+               eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this);
+      eCWrapper_emfx2Actor::SetTargetWeight(peVar3,eVar5,fVar6);
+      if (1 < *(uint *)&param_1[0xb].eCEntityPropertySet_data.offset_0xc) {
+        *(undefined4 *)(param_1[0xb].eCEntityPropertySet_data.offset_0x8 + 0x14) = 1;
+      }
+    }
+    if ((2 < *(uint *)&param_1[0xb].eCEntityPropertySet_data.offset_0xc) &&
+       (bVar1 = bCString::IsEmpty((bCString *)
+                                  (param_1[0xb].eCEntityPropertySet_data.offset_0x8 + 0x1c)), !bVar1
+       )) {
+      peVar2 = eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this);
+      if ((peVar2 != (eCWrapper_emfx2Actor *)0x0) &&
+         ((2 < *(uint *)&param_1[0xb].eCEntityPropertySet_data.offset_0xc &&
+          (bVar1 = bCString::IsEmpty((bCString *)
+                                     (param_1[0xb].eCEntityPropertySet_data.offset_0x8 + 0x1c)),
+          !bVar1)))) {
+        fVar6 = 0.0;
+        eVar5 = 2;
+        peVar3 = (eCWrapper_emfx2Actor *)
+                 eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this);
+        eCWrapper_emfx2Actor::StopMotion(peVar3,eVar5,fVar6);
+      }
+      fVar6 = 0.0;
+      eVar5 = 2;
+      peVar3 = (eCWrapper_emfx2Actor *)
+               eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this);
+      eCWrapper_emfx2Actor::SetTargetWeight(peVar3,eVar5,fVar6);
+      if (2 < *(uint *)&param_1[0xb].eCEntityPropertySet_data.offset_0xc) {
+        *(undefined4 *)(param_1[0xb].eCEntityPropertySet_data.offset_0x8 + 0x20) = 1;
+      }
+    }
+    if ((3 < *(uint *)&param_1[0xb].eCEntityPropertySet_data.offset_0xc) &&
+       (bVar1 = bCString::IsEmpty((bCString *)
+                                  (param_1[0xb].eCEntityPropertySet_data.offset_0x8 + 0x28)), !bVar1
+       )) {
+      peVar2 = eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this);
+      if ((peVar2 != (eCWrapper_emfx2Actor *)0x0) &&
+         ((3 < *(uint *)&param_1[0xb].eCEntityPropertySet_data.offset_0xc &&
+          (bVar1 = bCString::IsEmpty((bCString *)
+                                     (param_1[0xb].eCEntityPropertySet_data.offset_0x8 + 0x28)),
+          !bVar1)))) {
+        fVar6 = 0.0;
+        eVar5 = 3;
+        peVar3 = (eCWrapper_emfx2Actor *)
+                 eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this);
+        eCWrapper_emfx2Actor::StopMotion(peVar3,eVar5,fVar6);
+      }
+      fVar6 = 0.0;
+      eVar5 = 3;
+      peVar3 = (eCWrapper_emfx2Actor *)
+               eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this);
+      eCWrapper_emfx2Actor::SetTargetWeight(peVar3,eVar5,fVar6);
+      if (3 < *(uint *)&param_1[0xb].eCEntityPropertySet_data.offset_0xc) {
+        *(undefined4 *)(param_1[0xb].eCEntityPropertySet_data.offset_0x8 + 0x2c) = 1;
+      }
+    }
+    if ((6 < *(uint *)&param_1[0xb].eCEntityPropertySet_data.offset_0xc) &&
+       (bVar1 = bCString::IsEmpty((bCString *)
+                                  (param_1[0xb].eCEntityPropertySet_data.offset_0x8 + 0x4c)), !bVar1
+       )) {
+      peVar2 = eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this);
+      if ((peVar2 != (eCWrapper_emfx2Actor *)0x0) &&
+         ((6 < *(uint *)&param_1[0xb].eCEntityPropertySet_data.offset_0xc &&
+          (bVar1 = bCString::IsEmpty((bCString *)
+                                     (param_1[0xb].eCEntityPropertySet_data.offset_0x8 + 0x4c)),
+          !bVar1)))) {
+        fVar6 = 0.0;
+        eVar5 = 6;
+        peVar3 = (eCWrapper_emfx2Actor *)
+                 eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this);
+        eCWrapper_emfx2Actor::StopMotion(peVar3,eVar5,fVar6);
+      }
+      fVar6 = 0.0;
+      eVar5 = 6;
+      peVar3 = (eCWrapper_emfx2Actor *)
+               eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this);
+      eCWrapper_emfx2Actor::SetTargetWeight(peVar3,eVar5,fVar6);
+      if (6 < *(uint *)&param_1[0xb].eCEntityPropertySet_data.offset_0xc) {
+        *(undefined4 *)(param_1[0xb].eCEntityPropertySet_data.offset_0x8 + 0x50) = 1;
+      }
+    }
+    if ((4 < *(uint *)&param_1[0xb].eCEntityPropertySet_data.offset_0xc) &&
+       (bVar1 = bCString::IsEmpty((bCString *)
+                                  (param_1[0xb].eCEntityPropertySet_data.offset_0x8 + 0x34)), !bVar1
+       )) {
+      peVar2 = eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this);
+      if ((peVar2 != (eCWrapper_emfx2Actor *)0x0) &&
+         ((4 < *(uint *)&param_1[0xb].eCEntityPropertySet_data.offset_0xc &&
+          (bVar1 = bCString::IsEmpty((bCString *)
+                                     (param_1[0xb].eCEntityPropertySet_data.offset_0x8 + 0x34)),
+          !bVar1)))) {
+        fVar6 = 0.0;
+        eVar5 = 4;
+        peVar3 = (eCWrapper_emfx2Actor *)
+                 eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this);
+        eCWrapper_emfx2Actor::StopMotion(peVar3,eVar5,fVar6);
+      }
+      fVar6 = 0.0;
+      eVar5 = 4;
+      peVar3 = (eCWrapper_emfx2Actor *)
+               eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this);
+      eCWrapper_emfx2Actor::SetTargetWeight(peVar3,eVar5,fVar6);
+      if (4 < *(uint *)&param_1[0xb].eCEntityPropertySet_data.offset_0xc) {
+        *(undefined4 *)(param_1[0xb].eCEntityPropertySet_data.offset_0x8 + 0x38) = 1;
+      }
+    }
+    if ((5 < *(uint *)&param_1[0xb].eCEntityPropertySet_data.offset_0xc) &&
+       (bVar1 = bCString::IsEmpty((bCString *)
+                                  (param_1[0xb].eCEntityPropertySet_data.offset_0x8 + 0x40)), !bVar1
+       )) {
+      peVar2 = eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this);
+      if ((peVar2 != (eCWrapper_emfx2Actor *)0x0) &&
+         ((5 < *(uint *)&param_1[0xb].eCEntityPropertySet_data.offset_0xc &&
+          (bVar1 = bCString::IsEmpty((bCString *)
+                                     (param_1[0xb].eCEntityPropertySet_data.offset_0x8 + 0x40)),
+          !bVar1)))) {
+        fVar6 = 0.0;
+        eVar5 = 5;
+        peVar3 = (eCWrapper_emfx2Actor *)
+                 eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this);
+        eCWrapper_emfx2Actor::StopMotion(peVar3,eVar5,fVar6);
+      }
+      fVar6 = 0.0;
+      eVar5 = 5;
+      peVar3 = (eCWrapper_emfx2Actor *)
+               eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this);
+      eCWrapper_emfx2Actor::SetTargetWeight(peVar3,eVar5,fVar6);
+      if (5 < *(uint *)&param_1[0xb].eCEntityPropertySet_data.offset_0xc) {
+        *(undefined4 *)(param_1[0xb].eCEntityPropertySet_data.offset_0x8 + 0x44) = 1;
+      }
+    }
+    param_1[0x10].eCEntityPropertySet_data.offset_0x8 = 0xbf800000;
+    this_00 = (eCAnimationAdmin *)thunk_FUN_3007c1e0();
+    if (((this_00 != (eCAnimationAdmin *)0x0) &&
+        (bVar1 = bCString::IsEmpty((bCString *)&param_2), !bVar1)) &&
+       (peVar4 = eCAnimationAdmin::QueryMotionDataEntity(this_00,(bCString *)&param_2,1),
+       peVar4 != (eCResourceDataEntity *)0x0)) {
+      eCVisualAnimation_PS::SetMotion(param_1,0,peVar4);
+      (**(code **)(*(int *)peVar4 + 0x24))();
+      uStack_c = 0x3f800000;
+      uStack_4 = 1;
+      uStack_1c = 0;
+      uStack_8 = 0;
+      uStack_18 = 0;
+      uStack_14 = 0x3f800000;
+      uStack_10 = 1;
+      eCVisualAnimation_PS::PlayMotion(param_1,0,(eSMotionDesc *)&uStack_1c);
+      bCString::operator=((bCString *)&param_1[0x10].eCEntityPropertySet_data,(bCString *)&param_2);
+      bCString::operator=((bCString *)&param_1[0x10].eCEntityPropertySet_data.field_0x4,
+                          (bCString *)&param_3);
+      param_1[0x10].eCEntityPropertySet_data.offset_0xc = 1;
+      param_1[0x10].eCEntityPropertySet_data.offset_0x8 = param_4;
+    }
+  }
+  bCString::~bCString((bCString *)&param_2);
+  bCString::~bCString((bCString *)&param_3);
+  return;
+}
+
+

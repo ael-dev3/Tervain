@@ -1,0 +1,4 @@
+; 3000c0b8 bTPropertyType<eCVisualAnimation_PS,bool>::vfunction4
+3000c0b8 | e923a90600 | JMP 0x300769e0
+; 3000c0bd eCEntityPropertySet::OnExitProcessingRange
+; 3000c0bd Ordinal_11071

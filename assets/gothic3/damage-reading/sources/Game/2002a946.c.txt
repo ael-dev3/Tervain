@@ -1,0 +1,12 @@
+/* ENTRY 2002a946 | gCDamageReceiver_PS::OnProcess | STATUS decompiled | 7 ms */
+
+/* public: virtual void __thiscall gCDamageReceiver_PS::OnProcess(void) */
+
+void __thiscall gCDamageReceiver_PS::OnProcess(gCDamageReceiver_PS *this)
+
+{
+                    /* 0x2a946  5553  ?OnProcess@gCDamageReceiver_PS@@UAEXXZ */
+  return;
+}
+
+

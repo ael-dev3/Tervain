@@ -1,0 +1,18 @@
+/* ENTRY 10006064 | bCOrientedBox::GetInvScaled | STATUS decompiled | 5 ms */
+
+/* public: void __thiscall bCOrientedBox::GetInvScaled(class bCOrientedBox &,class bCVector const
+   &)const  */
+
+void __thiscall
+bCOrientedBox::GetInvScaled(bCOrientedBox *this,bCOrientedBox *param_1,bCVector *param_2)
+
+{
+                    /* 0x6064  2462  ?GetInvScaled@bCOrientedBox@@QBEXAAV1@ABVbCVector@@@Z */
+  Create(param_1,this);
+  *(float *)(param_1 + 0xc) = *(float *)(param_1 + 0xc) * *(float *)param_2;
+  *(float *)(param_1 + 0x10) = *(float *)(param_2 + 4) * *(float *)(param_1 + 0x10);
+  *(float *)(param_1 + 0x14) = *(float *)(param_2 + 8) * *(float *)(param_1 + 0x14);
+  return;
+}
+
+

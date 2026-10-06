@@ -1,0 +1,2 @@
+; 100041ce bCObjectBase::AddReference
+100041ce | e93d5e0400 | JMP 0x1004a010

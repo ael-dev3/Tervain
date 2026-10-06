@@ -1,0 +1,17 @@
+/* ENTRY 10115cd0 | FUN_10115cd0 | STATUS decompiled | 7 ms */
+
+void FUN_10115cd0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Tasks\\Reaction_Tasks\\ZS_Dead.cpp");
+  bCString::bCString(local_8,"ZS_Dead");
+  thunk_FUN_1001db60(local_8,&LAB_10002536,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

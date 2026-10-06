@@ -1,0 +1,9 @@
+; 201a9520 bTPOPureSmartPtr<gCInventory_PS>::bTPOPureSmartPtr<gCInventory_PS>
+201a9520 | 56 | PUSH ESI
+201a9521 | 8bf1 | MOV ESI,ECX
+201a9523 | ff15b8877d20 | CALL dword ptr [0x207d87b8]
+201a9529 | c70614cd6720 | MOV dword ptr [ESI],0x2067cd14
+201a952f | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+201a9536 | 8bc6 | MOV EAX,ESI
+201a9538 | 5e | POP ESI
+201a9539 | c3 | RET

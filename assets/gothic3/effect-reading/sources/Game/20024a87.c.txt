@@ -1,0 +1,12 @@
+/* ENTRY 20024a87 | gCEffectModule::GetSystem | STATUS decompiled | 4 ms */
+
+/* public: class gCEffectSystem * __thiscall gCEffectModule::GetSystem(void)const  */
+
+gCEffectSystem * __thiscall gCEffectModule::GetSystem(gCEffectModule *this)
+
+{
+                    /* 0x24a87  4522  ?GetSystem@gCEffectModule@@QBEPAVgCEffectSystem@@XZ */
+  return (this->gCEffectModule_data).offset_0x10;
+}
+
+

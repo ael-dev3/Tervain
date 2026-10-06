@@ -1,0 +1,4 @@
+; 2020fd40 bTPropertyObject<gCDialog_PS,eCEntityPropertySet>::vfunction11
+2020fd40 | 6a00 | PUSH 0x0
+2020fd42 | e8b3b6e1ff | CALL 0x2002b3fa
+2020fd47 | c3 | RET

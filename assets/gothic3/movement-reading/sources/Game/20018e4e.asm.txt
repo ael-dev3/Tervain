@@ -1,0 +1,4 @@
+; 20018e4e bTPropertyObject<gCCharacterMovement_PS,gCMovementBase_PS>::vfunction7
+20018e4e | e98da82100 | JMP 0x202336e0
+; 20018e58 gCEffectCommandEarthquake::GetDuration
+; 20018e58 Ordinal_3301

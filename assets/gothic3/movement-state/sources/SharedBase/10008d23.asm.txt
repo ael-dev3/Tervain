@@ -1,0 +1,4 @@
+; 10008d23 ?HasZeroMagnitude@bCVector@@QBE_NXZ
+10008d23 | e918cb0100 | JMP 0x10025840
+; 10008d28 bCBitField::AccessBitField
+; 10008d28 Ordinal_1404

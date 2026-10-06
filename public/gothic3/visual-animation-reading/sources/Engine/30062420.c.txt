@@ -1,0 +1,16 @@
+/* ENTRY 30062420 | FUN_30062420 | STATUS decompiled | 4 ms */
+
+void __fastcall FUN_30062420(int *param_1)
+
+{
+  code *pcVar1;
+  int *unaff_ESI;
+  
+  (**(code **)(*param_1 + 0x58))("MaterialSwitch",0);
+  pcVar1 = *(code **)(*param_1 + 0x5c);
+  param_1[0x24] = *unaff_ESI;
+  (*pcVar1)("MaterialSwitch",0);
+  return;
+}
+
+

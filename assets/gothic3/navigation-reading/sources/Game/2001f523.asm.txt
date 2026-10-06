@@ -1,0 +1,4 @@
+; 2001f523 bTPropertyType<gCNavigation_PS,bTObjArray<bCString>_>::vfunction20
+2001f523 | e9a8c82600 | JMP 0x2028bdd0
+; 2001f528 gCMusicLinkSequence::Write
+; 2001f528 Ordinal_7534

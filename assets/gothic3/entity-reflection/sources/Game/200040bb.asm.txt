@@ -1,0 +1,2 @@
+; 200040bb ?GetVersion@gCPlayerMemory_PS@@UBEGXZ
+200040bb | e940933100 | JMP 0x2031d400

@@ -1,0 +1,4 @@
+; 3000e804 ?GetTouchingBone@eCCollisionShape_PS@@QBEABVbCString@@XZ
+3000e804 | e9d77a3200 | JMP 0x303362e0
+; 3000e818 eCResourceMaterialImpostor_PS::IsProprietaryFileType
+; 3000e818 Ordinal_10542

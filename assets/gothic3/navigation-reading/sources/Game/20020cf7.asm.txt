@@ -1,0 +1,4 @@
+; 20020cf7 bTPropertyType<gCNavigation_PS,bCString>::vfunction1
+20020cf7 | e9e4d92600 | JMP 0x2028e6e0
+; 20020d01 gCStatsAdmin::WriteHeaderFile
+; 20020d01 Ordinal_7585

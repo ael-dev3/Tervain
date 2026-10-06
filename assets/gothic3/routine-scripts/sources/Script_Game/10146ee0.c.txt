@@ -1,0 +1,17 @@
+/* ENTRY 10146ee0 | FUN_10146ee0 | STATUS decompiled | 68 ms */
+
+void FUN_10146ee0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Magic\\Magic_States\\ZS_Freeze.cpp");
+  bCString::bCString(local_8,"ZS_Freeze_Loop");
+  thunk_FUN_1001db60(local_8,&LAB_100011c7,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

@@ -1,0 +1,26 @@
+/* ENTRY 1002cf70 | FUN_1002cf70 | STATUS decompiled | 15 ms */
+
+int * __thiscall FUN_1002cf70(void *this,undefined4 *param_1)
+
+{
+  bCObjectBase local_8;
+  undefined4 local_4;
+  
+  if (*(int *)this == 0) {
+    GE_MESSAGEF_WARN("Cannot set property \'%s\' in propertyset \'%s\'!","AIMode",
+                     "gCScriptRoutine_PS");
+    return this;
+  }
+  bCObjectBase::bCObjectBase(&local_8);
+  local_4 = *param_1;
+                    /* inlined constructor:
+                       bTPropertyContainer<gEAIMode>::bTPropertyContainer<gEAIMode> */
+  local_8 = (bCObjectBase)&bTPropertyContainer<gEAIMode>::vftable;
+  gCScriptRoutine_PS::SetAIMode
+            (*(gCScriptRoutine_PS **)this,(bTPropertyContainer<gEAIMode> *)&local_8);
+  local_8 = (bCObjectBase)&bTPropertyContainer<gEAIMode>::vftable;
+  bCObjectBase::~bCObjectBase(&local_8);
+  return this;
+}
+
+

@@ -1,0 +1,29 @@
+/* ENTRY 3009e930 | FUN_3009e930 | STATUS decompiled | 13 ms */
+
+void __thiscall FUN_3009e930(eCEntityPropertySet *param_1,bCOStream *param_2)
+
+{
+  int iVar1;
+  
+  bCOStream::operator<<(param_2,0x40);
+  eCVisualAnimationFactory::Write
+            ((eCVisualAnimationFactory *)&param_1[7].eCEntityPropertySet_data.field_0x4,
+             (bCOStream *)param_2);
+  thunk_FUN_300ab070(param_2);
+  bCOStream::operator<<(param_2,(ulong)param_1[10].vftablePtr);
+  iVar1 = 0;
+  if (0 < (int)param_1[10].vftablePtr) {
+    do {
+      eCVisualAnimation_PS::eCActorAttachment::Write
+                (*(eCActorAttachment **)
+                  (*(int *)&param_1[9].eCEntityPropertySet_data.offset_0xc + iVar1 * 4),
+                 (bCOStream *)param_2);
+      iVar1 = iVar1 + 1;
+    } while (iVar1 < (int)param_1[10].vftablePtr);
+  }
+  bCBox::operator>>((bCBox *)&param_1[0xc].eCEntityPropertySet_data,(bCOStream *)param_2);
+  eCEntityPropertySet::Write(param_1,(bCOStream *)param_2);
+  return;
+}
+
+

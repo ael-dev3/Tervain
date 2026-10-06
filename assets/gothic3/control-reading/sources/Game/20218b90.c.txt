@@ -1,0 +1,30 @@
+/* ENTRY 20218b90 | bTPropertyContainer<gECharacterControlFOR>::bTPropertyContainer<gECharacterControlFOR> | STATUS decompiled | 49 ms */
+
+void __thiscall
+bTPropertyContainer<gECharacterControlFOR>::bTPropertyContainer<gECharacterControlFOR>
+          (bTPropertyContainer<gECharacterControlFOR> *this)
+
+{
+  bCObjectBase **this_00;
+  
+                    /* inlined constructor: gCCharacterControl_PS::gCCharacterControl_PS */
+  this->vftablePtr =
+       (bTPropertyContainer<gECharacterControlFOR>_vftable *)&gCCharacterControl_PS::vftable;
+  bCMatrix::~bCMatrix((bCMatrix *)
+                      &this[6].bTPropertyContainer<gECharacterControlFOR>_data.offset_0x8);
+  bCVector::~bCVector((bCVector *)(this + 6));
+  this_00 = &this[1].bTPropertyContainer<gECharacterControlFOR>_data.offset_0x8;
+                    /* inlined constructor:
+                       bTPropertyContainer<gESessionKey>::bTPropertyContainer<gESessionKey> */
+  *this_00 = (bCObjectBase *)&bTPropertyContainer<gESessionKey>::vftable;
+  bCObjectBase::~bCObjectBase((bCObjectBase *)this_00);
+  this[1].bTPropertyContainer<gECharacterControlFOR>_data.offset_0x0 = &vftable.GetVersion;
+  bCObjectBase::~bCObjectBase
+            ((bCObjectBase *)&this[1].bTPropertyContainer<gECharacterControlFOR>_data);
+                    /* WARNING: Could not recover jumptable at 0x20218bcc. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eCEntityPropertySet::~eCEntityPropertySet((eCEntityPropertySet *)this);
+  return;
+}
+
+

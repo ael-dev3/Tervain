@@ -1,0 +1,25 @@
+/* ENTRY 30762fc0 | bTPropertyObject<eCSpringAndDamperEffector,eCEffector>::~bTPropertyObject<eCSpringAndDamperEffector,eCEffector> | STATUS decompiled | 12 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyObject<eCSpringAndDamperEffector,eCEffector>::
+~bTPropertyObject<eCSpringAndDamperEffector,eCEffector>
+          (bTPropertyObject<eCSpringAndDamperEffector,eCEffector> *this)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)
+             &eCSpringAndDamperEffector::ms_PropertyObjectInstance_eCSpringAndDamperEffector);
+  _DAT_30aede9c = 0;
+  _ms_PropertyObjectInstance_eCSpringAndDamperEffector = &vftable;
+  _DAT_30aedea0 =
+       bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector>::
+       ~bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector>();
+  _DAT_30aede9c = 0;
+  thunk_FUN_300ae170(1);
+  _atexit(~bTPropertyObject<eCSpringAndDamperEffector,eCEffector>);
+  return;
+}
+
+

@@ -1,0 +1,18 @@
+; 200b9fc0 bTPropertyContainer<gEDamageType>::bTPropertyContainer<gEDamageType>
+200b9fc0 | 56 | PUSH ESI
+200b9fc1 | 57 | PUSH EDI
+200b9fc2 | 8bf1 | MOV ESI,ECX
+200b9fc4 | ff15f86d7d20 | CALL dword ptr [0x207d6df8]
+200b9fca | 8d7e2c | LEA EDI,[ESI + 0x2c]
+200b9fcd | 8bcf | MOV ECX,EDI
+200b9fcf | c706e4f36520 | MOV dword ptr [ESI],0x2065f3e4
+200b9fd5 | ff1500877d20 | CALL dword ptr [0x207d8700]
+200b9fdb | c70734ea6520 | MOV dword ptr [EDI],0x2065ea34
+200b9fe1 | a1a4627b20 | MOV EAX,[0x207b62a4]
+200b9fe6 | 8d4e38 | LEA ECX,[ESI + 0x38]
+200b9fe9 | 894704 | MOV dword ptr [EDI + 0x4],EAX
+200b9fec | ff15d86d7d20 | CALL dword ptr [0x207d6dd8]
+200b9ff2 | 5f | POP EDI
+200b9ff3 | 8bc6 | MOV EAX,ESI
+200b9ff5 | 5e | POP ESI
+200b9ff6 | c3 | RET

@@ -1,0 +1,4 @@
+; 3000cb58 ??0eCTemplateEntityProxy@@QAE@XZ
+3000cb58 | e913a74b00 | JMP 0x304c7270
+; 3000cb62 eCResourceImage_PS::DoSave
+; 3000cb62 Ordinal_5633

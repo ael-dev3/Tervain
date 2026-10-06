@@ -1,0 +1,21 @@
+/* ENTRY 1000292d | bCMemoryStream::Destroy | STATUS decompiled | 7 ms */
+
+/* public: void __thiscall bCMemoryStream::Destroy(void) */
+
+void __thiscall bCMemoryStream::Destroy(bCMemoryStream *this)
+
+{
+  bCMemoryAdmin *this_00;
+  void *pvVar1;
+  
+                    /* 0x292d  1936  ?Destroy@bCMemoryStream@@QAEXXZ */
+  pvVar1 = (this->bCMemoryStream_data).offset_0x0;
+  this_00 = bCMemoryAdmin::GetInstance();
+  bCMemoryAdmin::Free(this_00,pvVar1);
+  (this->bCMemoryStream_data).offset_0x0 = (void *)0x0;
+  (this->bCMemoryStream_data).offset_0x8 = 0;
+  (this->bCMemoryStream_data).offset_0x4 = 0;
+  return;
+}
+
+

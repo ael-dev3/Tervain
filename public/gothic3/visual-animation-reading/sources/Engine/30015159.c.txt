@@ -1,0 +1,15 @@
+/* ENTRY 30015159 | eCArchiveFile::IsValid | STATUS decompiled | 3 ms */
+
+/* public: bool __thiscall eCArchiveFile::IsValid(void)const  */
+
+bool __thiscall eCArchiveFile::IsValid(eCArchiveFile *this)
+
+{
+  bool bVar1;
+  
+                    /* 0x15159  10627  ?IsValid@eCArchiveFile@@QBE_NXZ */
+  bVar1 = bCString::IsEmpty((bCString *)&this->eCArchiveFile_data);
+  return (bool)('\x01' - bVar1);
+}
+
+

@@ -1,0 +1,4 @@
+; 30027c0a bTPropertyType<eCCollisionShape_PS,bCObsoleteClass>::vfunction11
+30027c0a | e9d14f3100 | JMP 0x3033cbe0
+; 30027c14 eCResourceMaterialObject_PS::SetIsUniDetailed
+; 30027c14 Ordinal_13581

@@ -1,0 +1,2 @@
+; 3002b3d7 eCSpringAndDamperEffector::GetType
+3002b3d7 | e984ce3500 | JMP 0x30388260

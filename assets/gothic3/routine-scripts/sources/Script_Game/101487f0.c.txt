@@ -1,0 +1,17 @@
+/* ENTRY 101487f0 | FUN_101487f0 | STATUS decompiled | 7 ms */
+
+void FUN_101487f0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Magic\\Magic_States\\ZS_Summoned.cpp");
+  bCString::bCString(local_8,"ZS_Hailstorm_FadeOut_Loop");
+  thunk_FUN_1001db60(local_8,&LAB_10003305,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

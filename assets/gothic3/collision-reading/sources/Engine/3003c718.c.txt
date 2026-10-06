@@ -1,0 +1,16 @@
+/* ENTRY 3003c718 | eCCollisionShape_PS::GetShapes | STATUS decompiled | 9 ms */
+
+/* public: class bTRefPtrArray<class eCCollisionShape *> & __thiscall
+   eCCollisionShape_PS::GetShapes(void) */
+
+bTRefPtrArray<eCCollisionShape*> * __thiscall
+eCCollisionShape_PS::GetShapes(eCCollisionShape_PS *this)
+
+{
+                    /* 0x3c718  8803
+                       ?GetShapes@eCCollisionShape_PS@@QAEAAV?$bTRefPtrArray@PAVeCCollisionShape@@@@XZ
+                        */
+  return (bTRefPtrArray<eCCollisionShape*> *)&(this->eCCollisionShape_PS_data).offset_0x14;
+}
+
+

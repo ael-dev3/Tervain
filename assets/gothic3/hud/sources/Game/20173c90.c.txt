@@ -1,0 +1,19 @@
+/* ENTRY 20173c90 | gCHUDMenuFiles2::~gCHUDMenuFiles2 | STATUS decompiled | 18 ms */
+
+void __thiscall gCHUDMenuFiles2::~gCHUDMenuFiles2(gCHUDMenuFiles2 *this)
+
+{
+  this->vftablePtr = &vftable;
+  gCHUDButton::~gCHUDButton((gCHUDButton *)&(this->gCHUDMenuFiles2_data).field_0xac);
+  gCHUDButton::~gCHUDButton((gCHUDButton *)&(this->gCHUDMenuFiles2_data).field_0x9c);
+  gCHUDButton::~gCHUDButton((gCHUDButton *)&(this->gCHUDMenuFiles2_data).field_0x8c);
+  CFFGFCListCtrl::~CFFGFCListCtrl((CFFGFCListCtrl *)&(this->gCHUDMenuFiles2_data).field_0x7c);
+  CFFGFCImageList::~CFFGFCImageList((CFFGFCImageList *)&(this->gCHUDMenuFiles2_data).field_0x74);
+  gCHUDMenuConfirm2::~gCHUDMenuConfirm2
+            ((gCHUDMenuConfirm2 *)&(this->gCHUDMenuFiles2_data).field_0x20);
+  gCHUDView::~gCHUDView((gCHUDView *)&(this->gCHUDMenuFiles2_data).field_0xc);
+  gCHUDMenu::~gCHUDMenu((gCHUDMenu *)this);
+  return;
+}
+
+

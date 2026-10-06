@@ -1,0 +1,12 @@
+/* ENTRY 300221dd | eCCollisionShape::GetIsCachedIn | STATUS decompiled | 5 ms */
+
+/* public: bool __thiscall eCCollisionShape::GetIsCachedIn(void)const  */
+
+bool __thiscall eCCollisionShape::GetIsCachedIn(eCCollisionShape *this)
+
+{
+                    /* 0x221dd  7479  ?GetIsCachedIn@eCCollisionShape@@QBE_NXZ */
+  return (bool)(this->eCCollisionShape_data).offset_0x40;
+}
+
+

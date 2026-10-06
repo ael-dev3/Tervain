@@ -1,0 +1,4 @@
+; 10003cf1 ??BPropertyChapter@PSPlayerMemory@@QBEJXZ
+10003cf1 | e90a450200 | JMP 0x10028200
+; 10003cf6 PSParticle::PropertyCollisionSoundIndex::operator_class_bCRange1
+; 10003cf6 Ordinal_929

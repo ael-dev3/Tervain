@@ -1,0 +1,16 @@
+/* ENTRY 304caa60 | FUN_304caa60 | STATUS decompiled | 3 ms */
+
+undefined4 FUN_304caa60(undefined4 param_1)
+
+{
+  int iVar1;
+  
+  iVar1 = thunk_FUN_304ce450(param_1,&param_1);
+  if (((iVar1 != 0) && ((undefined4 *)(iVar1 + 4) != (undefined4 *)0x0)) &&
+     (*(int *)(iVar1 + 8) != 0)) {
+    return **(undefined4 **)(iVar1 + 4);
+  }
+  return 0;
+}
+
+

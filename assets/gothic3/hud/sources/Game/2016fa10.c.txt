@@ -1,0 +1,10 @@
+/* ENTRY 2016fa10 | gCHUDPageTutorial2::vfunction71 | STATUS decompiled | 1 ms */
+
+void __thiscall gCHUDPageTutorial2::vfunction71(void)
+
+{
+  thunk_FUN_201621b0();
+  return;
+}
+
+

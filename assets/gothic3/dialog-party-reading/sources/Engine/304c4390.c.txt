@@ -1,0 +1,9 @@
+/* ENTRY 304c4390 | FUN_304c4390 | STATUS decompiled | 1 ms */
+
+undefined2 FUN_304c4390(void)
+
+{
+  return 1;
+}
+
+

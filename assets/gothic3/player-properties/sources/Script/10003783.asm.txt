@@ -1,0 +1,4 @@
+; 10003783 ?SetAlchemy@PSPlayerMemory@@QAEXH@Z
+10003783 | e918660200 | JMP 0x10029da0
+; 10003788 PSRoutine::StopAIOutput
+; 10003788 Ordinal_2057

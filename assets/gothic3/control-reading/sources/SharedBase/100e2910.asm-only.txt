@@ -1,0 +1,2 @@
+; Original PE manual literal RET; no study C/ASM entry
+100e2910 | c3 | RET

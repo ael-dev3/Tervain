@@ -1,0 +1,24 @@
+/* ENTRY 300bad80 | bTPropertyObject<eCVisualAnimation_PS,eCEntityPropertySet>::~bTPropertyObject<eCVisualAnimation_PS,eCEntityPropertySet> | STATUS decompiled | 7 ms */
+
+bTPropertyObject<eCVisualAnimation_PS,eCEntityPropertySet> * __thiscall
+bTPropertyObject<eCVisualAnimation_PS,eCEntityPropertySet>::
+~bTPropertyObject<eCVisualAnimation_PS,eCEntityPropertySet>
+          (bTPropertyObject<eCVisualAnimation_PS,eCEntityPropertySet> *this)
+
+{
+  undefined *puVar1;
+  
+  bCPropertyObjectBase::bCPropertyObjectBase((bCPropertyObjectBase *)this);
+  (this->bTPOPureSmartPtr<eCVisualAnimation_PS>_data).offset_0x4 = (bCObjectRefBase *)0x0;
+  this->vftablePtr = &vftable;
+  puVar1 = bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet>::
+           ~bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet>();
+  *(uint *)&this->bTPOPureSmartPtr<eCVisualAnimation_PS>_data =
+       *(uint *)&this->bTPOPureSmartPtr<eCVisualAnimation_PS>_data & 0xfffffffb;
+  (this->bTPropertyObject<eCVisualAnimation_PS,eCEntityPropertySet>_data).offset_0x0 = puVar1;
+  (this->bTPOPureSmartPtr<eCVisualAnimation_PS>_data).offset_0x4 = (bCObjectRefBase *)0x0;
+  thunk_FUN_300ba8b0(0);
+  return this;
+}
+
+

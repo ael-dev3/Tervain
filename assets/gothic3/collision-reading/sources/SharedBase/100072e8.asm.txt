@@ -1,0 +1,4 @@
+; 100072e8 ??6@YGAAVbCIStream@@AAMAAV0@@Z
+100072e8 | e9e37d0100 | JMP 0x1001f0d0
+; 100072f2 bCTrackBitField::GetCapacity
+; 100072f2 Ordinal_2132

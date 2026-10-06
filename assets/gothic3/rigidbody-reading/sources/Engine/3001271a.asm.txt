@@ -1,0 +1,4 @@
+; 3001271a bTPropertyType<eCRigidBodyBase_PS,bool>::vfunction9
+3001271a | e9f12c3200 | JMP 0x30335410
+; 30012724 eCGfxAssistantAdmin::CreateOcclusionQuery
+; 30012724 Ordinal_4879

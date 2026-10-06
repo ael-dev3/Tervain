@@ -1,0 +1,4 @@
+; 2000ba2d SHAREDBASE.DLL::bCPropertyTypeBase::Write
+2000ba2d | e98e282800 | JMP 0x2028e2c0
+; 2000ba32 gCAIZone_PS::AccessType
+; 2000ba32 Ordinal_1784

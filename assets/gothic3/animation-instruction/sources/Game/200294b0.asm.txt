@@ -1,0 +1,4 @@
+; 200294b0 ?EnableMovementFromSPU@gCCharacterMovement_PS@@QAEX_N@Z
+200294b0 | e9fb8c1f00 | JMP 0x202221b0
+; 200294b5 gCCameraAI_PS::AccessCamModeSwim
+; 200294b5 Ordinal_1070

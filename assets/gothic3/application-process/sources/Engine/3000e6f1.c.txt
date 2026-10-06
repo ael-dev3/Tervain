@@ -1,0 +1,12 @@
+/* ENTRY 3000e6f1 | eCEntity::GetPhysicObject | STATUS decompiled | 7 ms */
+
+/* public: class eCPhysicObject * __thiscall eCEntity::GetPhysicObject(void) */
+
+eCPhysicObject * __thiscall eCEntity::GetPhysicObject(eCEntity *this)
+
+{
+                    /* 0xe6f1  8089  ?GetPhysicObject@eCEntity@@QAEPAVeCPhysicObject@@XZ */
+  return (this->eCEntity_data).offset_0x0;
+}
+
+

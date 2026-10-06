@@ -1,0 +1,4 @@
+; 3000e543 ?StopAtLoopEnd@eCWrapper_emfx2Actor@@QAEXW4eEMotionType@1@@Z
+3000e543 | e938cd0c00 | JMP 0x300db280
+; 3000e548 eCSkyObject::Invalidate
+; 3000e548 Ordinal_10164

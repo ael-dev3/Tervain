@@ -1,0 +1,4 @@
+; 10002716 ?GetStaminaPointsMax@PSPlayerMemory@@QBEHXZ
+10002716 | e9b56e0200 | JMP 0x100295d0
+; 1000271b PSPlayerMemory::AddModifier
+; 1000271b Ordinal_1268

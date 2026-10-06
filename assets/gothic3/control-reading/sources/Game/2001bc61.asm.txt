@@ -1,0 +1,2 @@
+; 2001bc61 bTPropertyObject<gCCharacterControl_PS,eCEntityPropertySet>::vfunction15
+2001bc61 | e9ca342000 | JMP 0x2021f130

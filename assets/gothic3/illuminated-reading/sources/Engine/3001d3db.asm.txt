@@ -1,0 +1,2 @@
+; 3001d3db eCIlluminated_PS::eCIlluminated_PS
+3001d3db | e9d05a2000 | JMP 0x30222eb0

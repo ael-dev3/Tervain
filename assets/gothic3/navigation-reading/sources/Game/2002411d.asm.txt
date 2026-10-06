@@ -1,0 +1,2 @@
+; 2002411d ?OnPostCopy@gCNavigation_PS@@UAEXABVeCEntityPropertySet@@@Z
+2002411d | e90e692600 | JMP 0x2028aa30

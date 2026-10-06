@@ -1,0 +1,15 @@
+; 2039a060 bTPropertyType<gCAttribute,int>::vfunction12
+2039a060 | 56 | PUSH ESI
+2039a061 | 8bf1 | MOV ESI,ECX
+2039a063 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+2039a067 | 85c9 | TEST ECX,ECX
+2039a069 | 7506 | JNZ 0x2039a071
+2039a06b | 33c0 | XOR EAX,EAX
+2039a06d | 5e | POP ESI
+2039a06e | c20400 | RET 0x4
+2039a071 | 8b01 | MOV EAX,dword ptr [ECX]
+2039a073 | 8b10 | MOV EDX,dword ptr [EAX]
+2039a075 | ffd2 | CALL EDX
+2039a077 | 03461c | ADD EAX,dword ptr [ESI + 0x1c]
+2039a07a | 5e | POP ESI
+2039a07b | c20400 | RET 0x4

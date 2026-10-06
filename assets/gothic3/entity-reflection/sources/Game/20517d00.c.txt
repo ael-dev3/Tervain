@@ -1,0 +1,34 @@
+/* ENTRY 20517d00 | bTPropertyType<gCParty_PS,bTPropertyContainer<gEPartyMemberType>_>::~bTPropertyType<gCParty_PS,bTPropertyContainer<gEPartyMemberType>_> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCParty_PS,bTPropertyContainer<gEPartyMemberType>_>::
+~bTPropertyType<gCParty_PS,bTPropertyContainer<gEPartyMemberType>_>
+          (bTPropertyType<gCParty_PS,bTPropertyContainer<gEPartyMemberType>_> *this)
+
+{
+  bTPropertyType<gCParty_PS,bTPropertyContainer<gEPartyMemberType>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"PartyMemberType");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCParty_PS::ms_PropertyMember_m_enuPartyMemberType,
+             (bCString *)&local_4,2);
+  _ms_PropertyMember_m_enuPartyMemberType = &vftable;
+  DAT_207c1520 = bTPropertyObjectType<gCParty_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCParty_PS,eCEntityPropertySet>();
+  _DAT_207c1524 = 0x30;
+  _DAT_207c1528 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCParty_PS::ms_PropertyMember_m_enuPartyMemberType);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207c1520,
+             (bCPropertyTypeBase *)&gCParty_PS::ms_PropertyMember_m_enuPartyMemberType);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gEPartyMemberType>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gEPartyMemberType>_>);
+  return;
+}
+
+

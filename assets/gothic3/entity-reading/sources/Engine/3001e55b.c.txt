@@ -1,0 +1,12 @@
+/* ENTRY 3001e55b | eCEntity::GetWorldNodeBoundary | STATUS decompiled | 6 ms */
+
+/* public: class bCBox const & __thiscall eCEntity::GetWorldNodeBoundary(void)const  */
+
+bCBox * __thiscall eCEntity::GetWorldNodeBoundary(eCEntity *this)
+
+{
+                    /* 0x1e55b  9666  ?GetWorldNodeBoundary@eCEntity@@QBEABVbCBox@@XZ */
+  return (bCBox *)&(this->eCEntity_data).field_0xb8;
+}
+
+

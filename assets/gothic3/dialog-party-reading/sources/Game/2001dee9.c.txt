@@ -1,0 +1,40 @@
+/* ENTRY 2001dee9 | gCDialog_PS::AddTalkedToBy | STATUS decompiled | 27 ms */
+
+/* WARNING: Exceeded maximum restarts with more pending */
+/* public: int __thiscall gCDialog_PS::AddTalkedToBy(class eCEntity *) */
+
+int __thiscall gCDialog_PS::AddTalkedToBy(gCDialog_PS *this,eCEntity *param_1)
+
+{
+  eCEntityProxy *this_00;
+  int iVar1;
+  eCEntityProxy eStack_1c;
+  
+                    /* 0x1dee9  1911  ?AddTalkedToBy@gCDialog_PS@@QAEHPAVeCEntity@@@Z */
+  eCEntityProxy::eCEntityProxy(&eStack_1c,param_1);
+  iVar1 = thunk_FUN_200ae850(&eStack_1c);
+  eCEntityProxy::~eCEntityProxy(&eStack_1c);
+  if (iVar1 < 0) {
+    eCEntityProxy::eCEntityProxy(&eStack_1c,param_1);
+    thunk_FUN_2007bf40((this->gCDialog_PS_data).offset_0x4c + 1);
+    this_00 = (eCEntityProxy *)
+              ((this->gCDialog_PS_data).offset_0x48 + -0x1c +
+              (this->gCDialog_PS_data).offset_0x4c * 0x1c);
+    (*this_00->vftablePtr->deleting_destructor)(0);
+    this_00->vftablePtr = (eCEntityProxy_vftable *)0x0;
+    (this_00->eCEntityProxy_data).offset_0x0 = 0;
+    (this_00->eCEntityProxy_data).offset_0x4 = 0;
+    (this_00->eCEntityProxy_data).offset_0x8 = 0;
+    (this_00->eCEntityProxy_data).offset_0xc = 0;
+    (this_00->eCEntityProxy_data).offset_0x10 = 0;
+    (this_00->eCEntityProxy_data).offset_0x14 = 0;
+    eCEntityProxy::eCEntityProxy(this_00);
+    this_00->vftablePtr = &eCEntityProxy::vftable;
+    eCEntityProxy::operator=(this_00,(eCEntityProxy *)&stack0xffffffe0);
+    eCEntityProxy::~eCEntityProxy((eCEntityProxy *)&stack0xffffffe0);
+    iVar1 = (this->gCDialog_PS_data).offset_0x4c + -1;
+  }
+  return iVar1;
+}
+
+

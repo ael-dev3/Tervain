@@ -1,0 +1,2 @@
+; 2001afbe thunk_FUN_200a4bb0
+2001afbe | e9ed9b0800 | JMP 0x200a4bb0

@@ -1,0 +1,81 @@
+/* ENTRY 3001d796 | eCVisualAnimationLoD::SetActorFileName | STATUS decompiled | 35 ms */
+
+/* public: bool __thiscall eCVisualAnimationLoD::SetActorFileName(class bCString const &) */
+
+bool __thiscall eCVisualAnimationLoD::SetActorFileName(eCVisualAnimationLoD *this,bCString *param_1)
+
+{
+  bool bVar1;
+  eCArchiveManager *peVar2;
+  eCArchiveFile *peVar3;
+  bCString *pbVar4;
+  int iVar5;
+  bCString *pbVar6;
+  bCString *pbVar7;
+  bCString *pbVar8;
+  undefined1 *puVar9;
+  bCString abStack_54 [4];
+  undefined1 auStack_50 [28];
+  undefined1 auStack_34 [32];
+  bCString abStack_14 [4];
+  bCString abStack_10 [4];
+  bCString abStack_c [8];
+  bCString abStack_4 [4];
+  
+                    /* 0x1d796  12855  ?SetActorFileName@eCVisualAnimationLoD@@QAE_NABVbCString@@@Z
+                        */
+  bCString::bCString((bCString *)(auStack_50 + 4));
+  eCResourceAnimationActor_PS::GetProprietaryFileExt((bCString *)(auStack_50 + 4));
+  bCString::bCString((bCString *)auStack_50);
+  eCResourceAnimationActor_PS::GetNativeFileExt((bCString *)auStack_50);
+  bCString::bCString(abStack_54);
+  pbVar8 = (bCString *)0x0;
+  pbVar4 = abStack_54;
+  pbVar7 = (bCString *)0x0;
+  pbVar6 = param_1;
+  peVar2 = eCArchiveManager::GetInstance();
+  eCArchiveManager::SplitPath((eCArchiveManager *)peVar2,pbVar6,pbVar7,pbVar4,pbVar8);
+  puVar9 = auStack_50 + 4;
+  bCString::operator+(abStack_54,(bCString *)&param_1);
+  pbVar4 = (bCString *)(auStack_50 + 4);
+  peVar2 = eCArchiveManager::GetInstance();
+  eCArchiveManager::GetFile((eCArchiveManager *)peVar2,pbVar4);
+  bCString::~bCString(abStack_4);
+  bVar1 = eCArchiveFile::IsValid((eCArchiveFile *)auStack_50);
+  if (!bVar1) {
+    bCString::operator+((bCString *)&stack0xffffffa4,abStack_4);
+    pbVar4 = (bCString *)(auStack_34 + 4);
+    peVar2 = eCArchiveManager::GetInstance();
+    peVar3 = (eCArchiveFile *)eCArchiveManager::GetFile((eCArchiveManager *)peVar2,pbVar4);
+    eCArchiveFile::operator=((eCArchiveFile *)&stack0xffffffa8,peVar3);
+    eCArchiveFile::~eCArchiveFile((eCArchiveFile *)auStack_34);
+    bCString::~bCString(abStack_c);
+    bVar1 = eCArchiveFile::IsValid((eCArchiveFile *)&stack0xffffffa8);
+    if (!bVar1) {
+      GE_MESSAGEF_WARN(&DAT_30820e60,"eCVisualAnimationLoD::SetActorFileName",puVar9);
+      goto LAB_300bf1c5;
+    }
+  }
+  pbVar4 = (bCString *)eCArchiveFile::GetFileName((eCArchiveFile *)&stack0xffffffa8);
+  iVar5 = bCString::CompareNoCase((bCString *)&this->eCVisualAnimationLoD_data,pbVar4);
+  bCString::~bCString(abStack_10);
+  if (iVar5 != 0) {
+    SetActor(this,(eCResourceDataEntity *)0x0);
+    pbVar4 = (bCString *)bCString::operator+((bCString *)&stack0xffffff98,abStack_10);
+    bCString::operator=((bCString *)&this->eCVisualAnimationLoD_data,pbVar4);
+    bCString::~bCString(abStack_14);
+    eCArchiveFile::~eCArchiveFile((eCArchiveFile *)&stack0xffffffa0);
+    bCString::~bCString((bCString *)&stack0xffffff94);
+    bCString::~bCString((bCString *)&stack0xffffff98);
+    bCString::~bCString((bCString *)&stack0xffffff9c);
+    return true;
+  }
+LAB_300bf1c5:
+  eCArchiveFile::~eCArchiveFile((eCArchiveFile *)&stack0xffffffa4);
+  bCString::~bCString((bCString *)&stack0xffffff98);
+  bCString::~bCString((bCString *)&stack0xffffff9c);
+  bCString::~bCString((bCString *)&stack0xffffffa0);
+  return false;
+}
+
+

@@ -1,0 +1,4 @@
+; 100057f9 ?Resume@bCClock@@QAEXXZ
+100057f9 | e9b2650400 | JMP 0x1004bdb0
+; 100057fe bCFPUAdmin::RestoreDefaultControlWord
+; 100057fe Ordinal_3945

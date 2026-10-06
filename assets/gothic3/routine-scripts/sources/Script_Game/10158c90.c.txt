@@ -1,0 +1,17 @@
+/* ENTRY 10158c90 | FUN_10158c90 | STATUS decompiled | 8 ms */
+
+void FUN_10158c90(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Routine\\Routine_Tasks\\ZS_Ambient.cpp");
+  bCString::bCString(local_8,"GetAmbientAction");
+  thunk_FUN_10017a50(local_8,thunk_FUN_100a47c0,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

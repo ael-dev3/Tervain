@@ -1,0 +1,17 @@
+/* ENTRY 10119bd0 | FUN_10119bd0 | STATUS decompiled | 7 ms */
+
+void FUN_10119bd0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Tasks\\Reaction_Tasks\\ZS_ReactToDamage.cpp");
+  bCString::bCString(local_8,"ZS_ReactToDamage_End");
+  thunk_FUN_1001db60(local_8,&LAB_10001992,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

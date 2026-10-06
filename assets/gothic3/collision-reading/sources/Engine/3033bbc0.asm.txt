@@ -1,0 +1,17 @@
+; 3033bbc0 bTPOPureSmartPtr<eCCollisionShape_PS>::vfunction6
+3033bbc0 | 56 | PUSH ESI
+3033bbc1 | 8bf1 | MOV ESI,ECX
+3033bbc3 | 837e0800 | CMP dword ptr [ESI + 0x8],0x0
+3033bbc7 | 7507 | JNZ 0x3033bbd0
+3033bbc9 | 8b06 | MOV EAX,dword ptr [ESI]
+3033bbcb | 8b5028 | MOV EDX,dword ptr [EAX + 0x28]
+3033bbce | ffd2 | CALL EDX
+; 3033bbd0 LAB_3033bbd0
+3033bbd0 | 8b4608 | MOV EAX,dword ptr [ESI + 0x8]
+3033bbd3 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+3033bbd7 | 50 | PUSH EAX
+3033bbd8 | 51 | PUSH ECX
+3033bbd9 | ff1544caaf30 | CALL dword ptr [0x30afca44]
+3033bbdf | 66b85300 | MOV AX,0x53
+3033bbe3 | 5e | POP ESI
+3033bbe4 | c20400 | RET 0x4

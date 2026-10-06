@@ -1,0 +1,269 @@
+/* ENTRY 100cc390 | FUN_100cc390 | STATUS decompiled | 218 ms */
+
+undefined4 FUN_100cc390(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3)
+
+{
+  bool bVar1;
+  eCEntity *peVar2;
+  gEArenaStatus gVar3;
+  int iVar4;
+  Entity *pEVar5;
+  gESpecies gVar6;
+  bCString *this;
+  code *pcVar7;
+  gEUseType gVar8;
+  Entity aEStack_4ac [128];
+  undefined4 uStack_42c;
+  undefined4 uStack_428;
+  undefined1 *puStack_424;
+  char *pcVar9;
+  char *in_stack_fffffbe4;
+  Entity *pEVar10;
+  Entity local_3f0 [4];
+  PSRoutine local_3ec [28];
+  PSNavigation local_3d0 [20];
+  PSNpc local_3bc [20];
+  PropertyWaiting local_3a8 [4];
+  PSParty local_3a4 [92];
+  Entity local_348 [168];
+  Entity local_2a0 [136];
+  PropertyStatus local_218 [12];
+  Entity local_20c [16];
+  Entity aEStack_1fc [12];
+  PSInteraction local_1f0 [144];
+  Entity local_160 [8];
+  Entity local_158 [160];
+  Entity local_b8 [4];
+  Entity local_b4 [4];
+  Entity local_b0 [8];
+  Entity local_a8 [152];
+  undefined4 local_10;
+  
+  Entity::Entity(local_3f0);
+  if (param_2 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    Entity::AttachTo(local_3f0,peVar2);
+  }
+  else {
+    Entity::operator=(local_3f0,param_2);
+  }
+  Entity::Entity(local_348);
+  if (param_3 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    Entity::AttachTo(local_348,peVar2);
+  }
+  else {
+    Entity::operator=(local_348,param_3);
+  }
+  PSNpc::SetCurrentTarget(local_3bc,(Entity *)None_exref);
+  Entity::Entity(aEStack_4ac,local_3f0);
+  thunk_FUN_1000a840(local_2a0);
+  bVar1 = Entity::operator!=((Entity *)None_exref,local_2a0);
+  if ((bVar1) &&
+     (gVar3 = PSArena::PropertyStatus::operator_enum_gEArenaStatus(local_218), gVar3 == 1)) {
+    bCString::bCString((bCString *)&stack0xfffffbf8,"ZS_Arena");
+    PSRoutine::SetTask(local_3ec);
+    pcVar7 = ~Entity_exref;
+    goto LAB_100cc76f;
+  }
+  pEVar10 = local_a8;
+  iVar4 = Entity::GetPlayer();
+  pEVar5 = (Entity *)PSParty::GetPartyLeader((PSParty *)(iVar4 + 0x58));
+  bVar1 = Entity::operator==(pEVar5,pEVar10);
+  pcVar7 = ~Entity_exref;
+  Entity::~Entity(local_158);
+  Entity::~Entity(local_b0);
+  if (bVar1) {
+    this = (bCString *)&stack0xfffffbf0;
+  }
+  else {
+    Entity::GetPlayer();
+    pEVar10 = local_b4;
+    pEVar5 = (Entity *)PSParty::GetPartyLeader(local_3a4);
+    bVar1 = Entity::operator==(pEVar5,pEVar10);
+    Entity::~Entity(local_b8);
+    Entity::~Entity(local_160);
+    if (!bVar1) {
+      PSNavigation::GetCurrentDestinationPoint(local_3d0);
+      uStack_428 = local_10;
+      uStack_42c = 0x100cc58b;
+      puStack_424 = &stack0xfffffbfc;
+      thunk_FUN_100cc9d0();
+      gVar8 = 0;
+      bVar1 = Entity::operator!=((Entity *)None_exref,local_20c);
+      if (bVar1) {
+        gVar8 = PSInteraction::GetUseType(local_1f0);
+      }
+      gVar6 = PSNpc::PropertySpecies::operator_enum_gESpecies((PropertySpecies *)local_3d0);
+      if (gVar6 == 0) {
+        switch(gVar8) {
+        case 0x39:
+        case 0x3a:
+switchD_100cc5dd_caseD_39:
+          pcVar9 = "ZS_Smith";
+          break;
+        case 0x3b:
+switchD_100cc5dd_caseD_3b:
+          pcVar9 = "ZS_Grind";
+          break;
+        case 0x3c:
+switchD_100cc5dd_caseD_3c:
+          pcVar9 = "ZS_Cook";
+          break;
+        case 0x3d:
+switchD_100cc5dd_caseD_3d:
+          pcVar9 = "ZS_Barbecue";
+          break;
+        case 0x3e:
+          pcVar9 = "ZS_Alchemy";
+          break;
+        case 0x3f:
+        case 0x40:
+switchD_100cc5dd_caseD_3f:
+          pcVar9 = "ZS_Study";
+          break;
+        case 0x41:
+        case 0x42:
+          pcVar9 = "ZS_CarryStones";
+          break;
+        case 0x43:
+        case 0x44:
+        case 0x45:
+          pcVar9 = "ZS_Digger";
+          break;
+        case 0x46:
+          pcVar9 = "ZS_Farmer";
+          break;
+        case 0x47:
+        case 0x48:
+          pcVar9 = "ZS_Woodwork";
+          break;
+        case 0x49:
+          pcVar9 = "ZS_Lumberjack";
+          break;
+        case 0x4a:
+        case 0x4b:
+switchD_100cc5dd_caseD_4a:
+          pcVar9 = "ZS_Sleep";
+          break;
+        case 0x4c:
+        case 0x4d:
+        case 0x4e:
+          pcVar9 = "ZS_SlaveBabe";
+          break;
+        case 0x4f:
+        case 0x50:
+        case 0x51:
+switchD_100cc5dd_caseD_4f:
+          pcVar9 = "ZS_Boss";
+          break;
+        case 0x52:
+          pcVar9 = "ZS_Bard";
+          break;
+        default:
+switchD_100cc5dd_caseD_53:
+          pcVar9 = "ZS_HangAround";
+          break;
+        case 0x5c:
+switchD_100cc5dd_caseD_5c:
+          pcVar9 = "ZS_Preach";
+          break;
+        case 0x5f:
+switchD_100cc5dd_caseD_5f:
+          pcVar9 = "ZS_Guard";
+          break;
+        case 0x60:
+switchD_100cc5dd_caseD_60:
+          pcVar9 = "ZS_Trader";
+          break;
+        case 0x6b:
+switchD_100cc5dd_caseD_6b:
+          pcVar9 = "ZS_Pray";
+          break;
+        case 0x6c:
+          pcVar9 = "ZS_RunToAttackPoint";
+        }
+      }
+      else {
+        gVar6 = PSNpc::PropertySpecies::operator_enum_gESpecies((PropertySpecies *)local_3d0);
+        if (gVar6 == 5) {
+          switch(gVar8) {
+          case 0x39:
+          case 0x3a:
+            goto switchD_100cc5dd_caseD_39;
+          case 0x3b:
+            goto switchD_100cc5dd_caseD_3b;
+          case 0x3c:
+            goto switchD_100cc5dd_caseD_3c;
+          case 0x3d:
+            goto switchD_100cc5dd_caseD_3d;
+          default:
+            goto switchD_100cc5dd_caseD_53;
+          case 0x3f:
+          case 0x40:
+            goto switchD_100cc5dd_caseD_3f;
+          case 0x4a:
+          case 0x4b:
+            goto switchD_100cc5dd_caseD_4a;
+          case 0x4f:
+          case 0x50:
+          case 0x51:
+            goto switchD_100cc5dd_caseD_4f;
+          case 0x5c:
+            goto switchD_100cc5dd_caseD_5c;
+          case 0x5f:
+            goto switchD_100cc5dd_caseD_5f;
+          case 0x60:
+            goto switchD_100cc5dd_caseD_60;
+          case 0x62:
+          case 100:
+          case 0x66:
+            pcVar9 = "ZS_OrcParty";
+            break;
+          case 0x6b:
+            goto switchD_100cc5dd_caseD_6b;
+          }
+        }
+        else {
+          bVar1 = Entity::operator!=((Entity *)None_exref,local_20c);
+          if (bVar1) {
+            if (gVar8 == 0x4b) {
+              pcVar9 = "ZS_AnimalSleep";
+            }
+            else {
+              if ((gVar8 != 0x67) && (gVar8 != 0x6d)) goto LAB_100cc74e;
+              pcVar9 = "ZS_Monster";
+            }
+          }
+          else {
+LAB_100cc74e:
+            pcVar9 = "ZS_Ambient";
+          }
+        }
+      }
+      puStack_424 = (undefined1 *)0x100cc75c;
+      bCString::bCString((bCString *)&stack0xfffffbe4,pcVar9);
+      PSRoutine::SetTask((PSRoutine *)&stack0xfffffc00);
+      Entity::~Entity(aEStack_1fc);
+      goto LAB_100cc76f;
+    }
+    bVar1 = PSParty::PropertyWaiting::operator_bool(local_3a8);
+    this = (bCString *)&stack0xfffffbe8;
+    if (bVar1) {
+      in_stack_fffffbe4 = "ZS_WaitForPlayer";
+    }
+    else {
+      in_stack_fffffbe4 = "ZS_FollowPlayer";
+      this = (bCString *)&stack0xfffffbe8;
+    }
+  }
+  bCString::bCString(this,in_stack_fffffbe4);
+  PSRoutine::SetTask((PSRoutine *)&stack0xfffffc04);
+LAB_100cc76f:
+  (*pcVar7)();
+  (*pcVar7)();
+  (*pcVar7)();
+  return 1;
+}
+
+

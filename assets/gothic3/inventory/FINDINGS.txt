@@ -1,0 +1,41 @@
+Native inventory scope and reproduction
+=======================================
+Run from the repository root:
+  python -B tools/gothic3/research_native_inventory.py --study <completed-study-directory>
+
+Reads only pinned original PE bytes and completed C/assembly exports. No DLL or
+game execution. Every selected assembly instruction is matched to original PE
+bytes; exact export E9 aliases and their real bodies have separate receipts.
+The reader dependency research_native_combat.py is SHA-bound in the evidence.
+
+ApplyDefaults: Amount1, Quality0, QuickSlot-1, Slot0, Type0, Learned false,
+ActivationCount0, TransactionAmount0. SortIndex is not written there; unknown.
+CreateItems does not instantiate ItemWorld/Skill/Spell template objects.
+Actual Slot/Stack vtables use SharedBase no-effect-true property hooks.
+Inventory observers remain separate; the constructor's empty registry does
+not establish the loaded game's registration state. TS mutation requires an
+explicit complete ordered observer registry and reports callback failures as
+partial effects, blocking later mutations. Host effects cannot be rolled back.
+
+Starting source:121 assurances;116 preserve intrinsic false,5 explicitly true.
+Two original equipped slot records preserve Head_Player and Body_Player IDs.
+AssureItemsEx assigns quickslots and has no EquipStack call. Later startup
+callbacks are outside this document's scope. No weapon auto-equip is inferred.
+
+Inventory primitive API: NativeInventory + createNativeStartingInventory in
+src/gothic3/inventory.ts. Assure creates only exact-quality shortfall. Create
+adds quantities and can merge linked stacks only if native MustSplit permits.
+Quickslot assignment clears only the first prior holder, even if it is itself.
+LearnStack notifies inventory event1; AssureItemsEx SetLearned does not.
+
+Give foundation: planNativeInventoryGiveTransfer selects first ANY-quality
+donor stack and clamps only a player donor. transferItemsTo executes ordinary
+unlinked transfer, target creation then source subtraction/deletion, with a
+resolved OnReceiveItem notification boundary. Missing donor is not item spawn.
+Localized Given/Taken messages remain dialogue-host effects. Linked physical
+effects and mission-item nonplayer fallthrough remain explicitly unsupported.
+Equipment planning does not apply physical links, render attachments or stats.
+
+Source data is mutable game-specific state, not a claim that the complete game
+is playable. Native allocator/pointer lifetimes are represented by TS objects;
+unsafe source-identity changes through callbacks block further interpretation.

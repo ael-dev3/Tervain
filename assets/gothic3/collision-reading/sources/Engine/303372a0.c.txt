@@ -1,0 +1,27 @@
+/* ENTRY 303372a0 | bTPropertyContainer<eECollisionGroup>::bTPropertyContainer<eECollisionGroup> | STATUS decompiled | 205 ms */
+
+void __thiscall
+bTPropertyContainer<eECollisionGroup>::bTPropertyContainer<eECollisionGroup>
+          (bTPropertyContainer<eECollisionGroup> *this)
+
+{
+  bCObjectBase **this_00;
+  
+                    /* inlined constructor: eCCollisionShape_PS::eCCollisionShape_PS */
+  this->vftablePtr = (bTPropertyContainer<eECollisionGroup>_vftable *)&eCCollisionShape_PS::vftable;
+  bCString::~bCString((bCString *)&this[4].bTPropertyContainer<eECollisionGroup>_data.offset_0x4);
+  thunk_FUN_3033c8e0();
+  thunk_FUN_3033c8e0();
+  this_00 = &this[1].bTPropertyContainer<eECollisionGroup>_data.offset_0x8;
+                    /* inlined constructor:
+                       bTPropertyContainer<eEPhysicRangeType>::bTPropertyContainer<eEPhysicRangeType>
+                        */
+  *this_00 = (bCObjectBase *)&bTPropertyContainer<eEPhysicRangeType>::vftable;
+  bCObjectBase::~bCObjectBase((bCObjectBase *)this_00);
+  this[1].bTPropertyContainer<eECollisionGroup>_data.offset_0x0 = &vftable.GetVersion;
+  bCObjectBase::~bCObjectBase((bCObjectBase *)&this[1].bTPropertyContainer<eECollisionGroup>_data);
+  eCCollisionShapeBase_PS::~eCCollisionShapeBase_PS((eCCollisionShapeBase_PS *)this);
+  return;
+}
+
+

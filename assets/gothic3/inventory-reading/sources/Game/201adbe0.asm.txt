@@ -1,0 +1,5 @@
+; 201adbe0 FUN_201adbe0
+201adbe0 | 83c140 | ADD ECX,0x40
+201adbe3 | e87babe7ff | CALL 0x20028763
+201adbe8 | b001 | MOV AL,0x1
+201adbea | c3 | RET

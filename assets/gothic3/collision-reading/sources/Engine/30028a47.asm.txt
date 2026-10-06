@@ -1,0 +1,4 @@
+; 30028a47 bTPropertyType<eCCollisionShape,float>::vfunction16
+30028a47 | e914873300 | JMP 0x30361160
+; 30028a51 eCGUIManager::ReSize
+; 30028a51 Ordinal_12029

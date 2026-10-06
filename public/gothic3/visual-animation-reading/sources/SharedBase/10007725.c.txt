@@ -1,0 +1,31 @@
+/* ENTRY 10007725 | bCString::operator+ | STATUS decompiled | 6 ms */
+
+/* public: class bCString __thiscall bCString::operator+(class bCString const &)const  */
+
+bCString * __thiscall bCString::operator+(bCString *this,bCString *param_1)
+
+{
+  char *pcVar1;
+  char *pcVar2;
+  int iVar3;
+  undefined4 *in_stack_00000008;
+  
+                    /* 0x7725  1054  ??HbCString@@QBE?AV0@ABV0@@Z */
+  *(undefined4 *)param_1 = 0;
+  pcVar1 = (char *)*in_stack_00000008;
+  if (pcVar1 == (char *)0x0) {
+    iVar3 = 0;
+  }
+  else {
+    iVar3 = *(int *)(pcVar1 + -8);
+  }
+  pcVar2 = *(char **)this;
+  if (pcVar2 == (char *)0x0) {
+    ConcatCopy(param_1,(char *)0x0,0,pcVar1,iVar3);
+    return param_1;
+  }
+  ConcatCopy(param_1,pcVar2,*(int *)(pcVar2 + -8),pcVar1,iVar3);
+  return param_1;
+}
+
+

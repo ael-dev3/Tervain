@@ -1,0 +1,9 @@
+/* ENTRY 3032deb0 | FUN_3032deb0 | STATUS decompiled | 1 ms */
+
+undefined4 FUN_3032deb0(void)
+
+{
+  return 1;
+}
+
+

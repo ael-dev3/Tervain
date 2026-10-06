@@ -1,0 +1,12 @@
+/* ENTRY 10005a5b | bCCapsule::GetRadius | STATUS decompiled | 3 ms */
+
+/* public: float const __thiscall bCCapsule::GetRadius(void)const  */
+
+float __thiscall bCCapsule::GetRadius(bCCapsule *this)
+
+{
+                    /* 0x5a5b  2853  ?GetRadius@bCCapsule@@QBE?BMXZ */
+  return *(float *)(this + 4);
+}
+
+

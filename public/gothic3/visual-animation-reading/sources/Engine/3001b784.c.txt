@@ -1,0 +1,15 @@
+/* ENTRY 3001b784 | eCResourceAnimationActor_PS::GetEMFX2Actor | STATUS decompiled | 4 ms */
+
+/* public: class eCWrapper_emfx2Actor const & __thiscall
+   eCResourceAnimationActor_PS::GetEMFX2Actor(void)const  */
+
+eCWrapper_emfx2Actor * __thiscall
+eCResourceAnimationActor_PS::GetEMFX2Actor(eCResourceAnimationActor_PS *this)
+
+{
+                    /* 0x1b784  6918
+                       ?GetEMFX2Actor@eCResourceAnimationActor_PS@@QBEABVeCWrapper_emfx2Actor@@XZ */
+  return (eCWrapper_emfx2Actor *)(this->eCResourceAnimationActor_PS_data).offset_0x0;
+}
+
+

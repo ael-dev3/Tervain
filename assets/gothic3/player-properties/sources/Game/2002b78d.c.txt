@@ -1,0 +1,12 @@
+/* ENTRY 2002b78d | gCPlayerMemory_PS::Invalidate | STATUS decompiled | 6 ms */
+
+/* protected: void __thiscall gCPlayerMemory_PS::Invalidate(void) */
+
+void __thiscall gCPlayerMemory_PS::Invalidate(gCPlayerMemory_PS *this)
+
+{
+                    /* 0x2b78d  5045  ?Invalidate@gCPlayerMemory_PS@@IAEXXZ */
+  return;
+}
+
+

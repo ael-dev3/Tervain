@@ -1,0 +1,4 @@
+; 2003639a bTPropertyType<gCNavigation_PS,bTObjArray<bCString>_>::vfunction24
+2003639a | e9d1af2500 | JMP 0x20291370
+; 2003639f gCScriptRoutine_PS::SetAction
+; 2003639f Ordinal_6196

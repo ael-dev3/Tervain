@@ -1,0 +1,19 @@
+/* ENTRY 201b0470 | FUN_201b0470 | STATUS decompiled | 10 ms */
+
+bool __thiscall
+FUN_201b0470(gCInventory_PS *param_1,gCInventory_PS *param_2,int param_3,gEStackType param_4)
+
+{
+  bool bVar1;
+  gCInventoryStack *pgVar2;
+  
+  pgVar2 = gCInventory_PS::GetStack(param_1,param_3);
+  if (pgVar2 != (gCInventoryStack *)0x0) {
+    bVar1 = gCInventory_PS::TransferItemsTo(param_1,param_2,param_3,*(int *)(pgVar2 + 0x3c),param_4)
+    ;
+    return bVar1;
+  }
+  return false;
+}
+
+

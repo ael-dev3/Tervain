@@ -1,0 +1,11 @@
+/* ENTRY 20022da4 | bTPropertyType<gCNavigation_PS,eCEntityProxy>::vfunction5 | STATUS decompiled | 3 ms */
+
+bTPropertyType<gCNavigation_PS,eCEntityProxy>_vftable * __thiscall
+bTPropertyType<gCNavigation_PS,eCEntityProxy>::vfunction5
+          (bTPropertyType<gCNavigation_PS,eCEntityProxy> *this)
+
+{
+  return this[6].vftablePtr;
+}
+
+

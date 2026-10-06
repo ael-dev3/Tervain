@@ -1,0 +1,2 @@
+; 2000d134 ?CreateCameraEntity@gCSession@@IAEXXZ
+2000d134 | e967713600 | JMP 0x203742a0

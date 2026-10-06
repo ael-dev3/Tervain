@@ -1,0 +1,24 @@
+/* ENTRY 10004421 | bCPropertyID::CreateRandom | STATUS decompiled | 7 ms */
+
+/* public: bool __thiscall bCPropertyID::CreateRandom(void) */
+
+bool __thiscall bCPropertyID::CreateRandom(bCPropertyID *this)
+
+{
+  _GUID *p_Var1;
+  bCGuid abStack_14 [20];
+  
+                    /* 0x4421  1830  ?CreateRandom@bCPropertyID@@QAE_NXZ */
+  bCGuid::bCGuid(abStack_14);
+  bCGuid::Generate(abStack_14);
+  p_Var1 = bCGuid::GetGuid(abStack_14);
+  *(ulong *)this = p_Var1->Data1;
+  *(undefined4 *)(this + 4) = *(undefined4 *)&p_Var1->Data2;
+  *(undefined4 *)(this + 8) = *(undefined4 *)p_Var1->Data4;
+  *(undefined4 *)(this + 0xc) = *(undefined4 *)(p_Var1->Data4 + 4);
+  *(undefined4 *)(this + 0x10) = 0;
+  bCGuid::~bCGuid(abStack_14);
+  return true;
+}
+
+

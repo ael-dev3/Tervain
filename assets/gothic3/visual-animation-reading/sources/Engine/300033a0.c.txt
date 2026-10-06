@@ -1,0 +1,16 @@
+/* ENTRY 300033a0 | eCVisualAnimation_PS::eCActorAttachment::IsEntityValid | STATUS decompiled | 2 ms */
+
+/* public: bool __thiscall eCVisualAnimation_PS::eCActorAttachment::IsEntityValid(void) */
+
+bool __thiscall eCVisualAnimation_PS::eCActorAttachment::IsEntityValid(eCActorAttachment *this)
+
+{
+  bool bVar1;
+  
+                    /* 0x33a0  10379  ?IsEntityValid@eCActorAttachment@eCVisualAnimation_PS@@QAE_NXZ
+                        */
+  bVar1 = eCEntityProxy::IsEntityIDValid((eCEntityProxy *)(this + 4));
+  return bVar1;
+}
+
+

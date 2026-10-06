@@ -1,0 +1,2 @@
+; 30009633 ?CreateEngine@eCApplication@@IAE?AW4bEResult@@XZ
+30009633 | e918320600 | JMP 0x3006c850

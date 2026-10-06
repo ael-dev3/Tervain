@@ -1,0 +1,24 @@
+/* ENTRY 304a4c40 | FUN_304a4c40 | STATUS decompiled | 14 ms */
+
+void __thiscall FUN_304a4c40(int param_1,bool param_2)
+
+{
+  eCEntity *this;
+  eCRenderSystemAdmin *this_00;
+  eCPVSPrefetcher3 *this_01;
+  
+  this = *(eCEntity **)(param_1 + 0x40);
+  *(bool *)(param_1 + 0x45) = param_2;
+  if (this != (eCEntity *)0x0) {
+    if (param_2 == false) {
+      eCEntity::CacheOut(this,true,false);
+    }
+    eCEntity::Enable(this,param_2);
+  }
+  this_00 = (eCRenderSystemAdmin *)thunk_FUN_3007beb0();
+  this_01 = (eCPVSPrefetcher3 *)eCRenderSystemAdmin::GetPVSPrefetcher3(this_00);
+  eCPVSPrefetcher3::ForcePrefetch(this_01);
+  return;
+}
+
+

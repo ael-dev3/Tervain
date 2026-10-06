@@ -1,0 +1,31 @@
+; 30075dc0 FUN_30075dc0
+30075dc0 | 56 | PUSH ESI
+30075dc1 | 8bf1 | MOV ESI,ECX
+30075dc3 | 57 | PUSH EDI
+30075dc4 | 8b7c240c | MOV EDI,dword ptr [ESP + 0xc]
+30075dc8 | 8b07 | MOV EAX,dword ptr [EDI]
+30075dca | 8906 | MOV dword ptr [ESI],EAX
+30075dcc | 8b4f04 | MOV ECX,dword ptr [EDI + 0x4]
+30075dcf | 894e04 | MOV dword ptr [ESI + 0x4],ECX
+30075dd2 | 8b5708 | MOV EDX,dword ptr [EDI + 0x8]
+30075dd5 | 8d4f10 | LEA ECX,[EDI + 0x10]
+30075dd8 | 895608 | MOV dword ptr [ESI + 0x8],EDX
+30075ddb | 8b470c | MOV EAX,dword ptr [EDI + 0xc]
+30075dde | 51 | PUSH ECX
+30075ddf | 8d4e10 | LEA ECX,[ESI + 0x10]
+30075de2 | 89460c | MOV dword ptr [ESI + 0xc],EAX
+30075de5 | ff1560dbaf30 | CALL dword ptr [0x30afdb60]
+30075deb | d94714 | FLD float ptr [EDI + 0x14]
+30075dee | 8d5718 | LEA EDX,[EDI + 0x18]
+30075df1 | d95e14 | FSTP float ptr [ESI + 0x14]
+30075df4 | 52 | PUSH EDX
+30075df5 | 8d4e18 | LEA ECX,[ESI + 0x18]
+30075df8 | ff1580dbaf30 | CALL dword ptr [0x30afdb80]
+30075dfe | 83c724 | ADD EDI,0x24
+30075e01 | 57 | PUSH EDI
+30075e02 | 8d4e24 | LEA ECX,[ESI + 0x24]
+30075e05 | ff1580dbaf30 | CALL dword ptr [0x30afdb80]
+30075e0b | 5f | POP EDI
+30075e0c | 8bc6 | MOV EAX,ESI
+30075e0e | 5e | POP ESI
+30075e0f | c20400 | RET 0x4

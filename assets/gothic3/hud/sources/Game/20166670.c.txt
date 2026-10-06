@@ -1,0 +1,14 @@
+/* ENTRY 20166670 | gCHUDViewBarPages2::gCHUDViewBarPages2 | STATUS decompiled | 10 ms */
+
+gCHUDViewBarPages2 * __thiscall gCHUDViewBarPages2::gCHUDViewBarPages2(gCHUDViewBarPages2 *this)
+
+{
+  CFFGFCView::CFFGFCView((CFFGFCView *)this);
+  this->vftablePtr = &vftable;
+  gCHUDTabCtrlPages::gCHUDTabCtrlPages
+            ((gCHUDTabCtrlPages *)&(this->gCHUDViewBarPages2_data).field_0xc);
+  CFFGFCButton::CFFGFCButton((CFFGFCButton *)&(this->gCHUDViewBarPages2_data).field_0x24);
+  return this;
+}
+
+

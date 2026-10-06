@@ -1,0 +1,31 @@
+/* ENTRY 20026e4a | gCDialog_PS::PostInitializeProperties | STATUS decompiled | 18 ms */
+
+/* public: virtual enum bEResult __thiscall gCDialog_PS::PostInitializeProperties(void) */
+
+bEResult __thiscall gCDialog_PS::PostInitializeProperties(gCDialog_PS *this)
+
+{
+  undefined4 *puVar1;
+  int iVar2;
+  eCEntityProxy *this_00;
+  eCEntityProxy eStack_1c;
+  
+                    /* 0x26e4a  5749  ?PostInitializeProperties@gCDialog_PS@@UAE?AW4bEResult@@XZ */
+  bCObjectRefBase::PostInitializeProperties((bCObjectRefBase *)this);
+  puVar1 = &(this->gCDialog_PS_data).offset_0x48;
+  thunk_FUN_200799b0(0,0xffffffff);
+  iVar2 = (this->gCDialog_PS_data).offset_0x4c;
+  if (0 < iVar2) {
+    thunk_FUN_20078cc0(*puVar1,iVar2);
+    this_00 = (eCEntityProxy *)(this->gCDialog_PS_data).offset_0x4c;
+    eCEntityProxy::~eCEntityProxy(this_00,(eCEntityProxy *)*puVar1,(int)this_00);
+  }
+  (this->gCDialog_PS_data).offset_0x4c = 0;
+  eCEntityProxy::eCEntityProxy(&eStack_1c,(eCEntity *)0x0);
+  eCEntityProxy::operator=
+            ((eCEntityProxy *)&(this->gCDialog_PS_data).field_0x2c,(eCEntityProxy *)&eStack_1c);
+  eCEntityProxy::~eCEntityProxy(&eStack_1c);
+  return 1;
+}
+
+

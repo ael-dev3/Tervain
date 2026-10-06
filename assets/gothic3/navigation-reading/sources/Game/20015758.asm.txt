@@ -1,0 +1,4 @@
+; 20015758 bTPropertyObject<gCNavigation_PS,eCEntityPropertySet>::vfunction10
+20015758 | e9536c2700 | JMP 0x2028c3b0
+; 2001575d gCMovementBase_PS::RotateLocalY
+; 2001575d Ordinal_6147

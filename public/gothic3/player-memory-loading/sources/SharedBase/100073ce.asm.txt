@@ -1,0 +1,2 @@
+; 100073ce bCObjectRefBase::Read
+100073ce | e98d310400 | JMP 0x1004a560

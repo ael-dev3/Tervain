@@ -1,0 +1,4 @@
+; 30016ce8 bTPropertyType<eCCollisionShape,unsigned_short>::vfunction25
+30016ce8 | e903ac3400 | JMP 0x303618f0
+; 30016ced eCStaticSpotLight_PS::CalculateStaticSHLighting
+; 30016ced Ordinal_3738

@@ -1,0 +1,4 @@
+; 20022e8a bTPropertyType<gCNavigation_PS,eCEntityProxy>::vfunction1
+20022e8a | e951cd2600 | JMP 0x2028fbe0
+; 20022e94 gCChatConsole::AccessConsole
+; 20022e94 Ordinal_1107

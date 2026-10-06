@@ -1,0 +1,18 @@
+/* ENTRY 300059ac | eCCollisionShape::SetEnableCCD | STATUS decompiled | 6 ms */
+
+/* public: void __thiscall eCCollisionShape::SetEnableCCD(bool const &) */
+
+void __thiscall eCCollisionShape::SetEnableCCD(eCCollisionShape *this,bool *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x59ac  13311  ?SetEnableCCD@eCCollisionShape@@QAEXAB_N@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"EnableCCD",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  (this->eCCollisionShape_data).offset_0x29 = *param_1;
+  (*pNVar1)(this,"EnableCCD",false);
+  return;
+}
+
+

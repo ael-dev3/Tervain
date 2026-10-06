@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-export type ExplorerAction = 'interact' | 'inspect' | 'journal' | 'save' | 'reset' | 'map' | 'fly';
+export type ExplorerAction = 'interact' | 'inspect' | 'journal' | 'inventory' | 'save' | 'reset' | 'map' | 'fly' | 'attack' | 'powerAttack';
 
 export interface ExplorerState {
   /** Camera eye coordinates, in metres. */
@@ -47,6 +47,9 @@ const ACTION_KEYS: Readonly<Record<string, ExplorerAction>> = {
   KeyE: 'interact',
   Tab: 'inspect',
   KeyJ: 'journal',
+  KeyI: 'inventory',
+  KeyC: 'attack',
+  KeyV: 'powerAttack',
   KeyP: 'save',
   KeyR: 'reset',
   KeyM: 'map',
@@ -66,6 +69,7 @@ export class ExplorerController {
   private supported = false;
   private fallbackFloor: number | null = null;
   private verticalSpeed = 0;
+  private readonly location = new THREE.Vector3();
   private yaw = 0;
   private pitch = 0;
   private spawn: [number, number, number];
@@ -105,6 +109,7 @@ export class ExplorerController {
   ) {
     this.originalTabIndex = this.canvas.getAttribute('tabindex');
     if (this.originalTabIndex === null) this.canvas.tabIndex = 0;
+    this.location.copy(this.camera.position);
     this.camera.rotation.order = 'YXZ';
     this.yaw = this.camera.rotation.y;
     this.pitch = THREE.MathUtils.clamp(this.camera.rotation.x, -PITCH_LIMIT, PITCH_LIMIT);
@@ -150,10 +155,13 @@ export class ExplorerController {
     this.supported = false;
   }
 
-  /** Live camera eye position. Changing it directly bypasses placement checks. */
+  /** Controller eye position, independent of a follow camera. Direct changes bypass placement checks. */
   get position(): THREE.Vector3 {
-    return this.camera.position;
+    return this.location;
   }
+
+  get heading(): number { return this.yaw; }
+  get viewPitch(): number { return this.pitch; }
 
   get grounded(): boolean {
     return !this.flying && this.supported;
@@ -290,6 +298,7 @@ export class ExplorerController {
         this.settleOnGround(step);
       }
     }
+    this.camera.position.copy(this.position);
     this.camera.updateMatrixWorld();
   }
 
@@ -464,12 +473,13 @@ export class ExplorerController {
   }
 
   private applyLook(): void {
+    this.camera.position.copy(this.position);
     this.camera.rotation.set(this.pitch, this.yaw, 0, 'YXZ');
     this.camera.updateMatrixWorld();
   }
 
-  private isFormTarget(target: EventTarget | null): boolean {
-    return target instanceof Element && !!target.closest('input, textarea, select, button, [contenteditable]:not([contenteditable="false"]), [role="textbox"]');
+  private isTextEntryTarget(target: EventTarget | null): boolean {
+    return target instanceof Element && !!target.closest('input, textarea, select, [contenteditable]:not([contenteditable="false"]), [role="textbox"]');
   }
 
   private clearInput(): void {
@@ -491,7 +501,11 @@ export class ExplorerController {
       this.unlockPointer();
       return;
     }
-    if (!this.enabled || this.disposed || this.isFormTarget(event.target) || event.ctrlKey || event.metaKey || event.altKey) return;
+    if (!this.enabled || this.disposed || this.isTextEntryTarget(event.target) || event.ctrlKey || event.metaKey || event.altKey) return;
+    // Preserve native button activation and keyboard traversal while allowing
+    // gameplay shortcuts after a toolbar button has retained focus.
+    if (event.target instanceof Element && event.target.closest('button, a') &&
+        ['Enter', 'Space', 'Tab'].includes(event.code)) return;
     if (MOVEMENT_KEYS.has(event.code)) {
       this.keys.add(event.code);
       event.preventDefault();
@@ -530,7 +544,9 @@ export class ExplorerController {
   };
 
   private readonly onPointerUp = (event: PointerEvent): void => {
-    if (event.pointerId === this.pointerId) this.clearInputPointer();
+    if (event.pointerId !== this.pointerId) return;
+    if (this.enabled && !this.disposed && !this.dragged && event.button === 2) this.onAction('powerAttack');
+    this.clearInputPointer();
   };
 
   private clearInputPointer(): void {
@@ -567,7 +583,9 @@ export class ExplorerController {
   }
 
   private readonly onCanvasClick = (event: MouseEvent): void => {
-    if (!this.enabled || this.disposed || this.dragged || event.button !== 0 || document.pointerLockElement === this.canvas) return;
+    if (!this.enabled || this.disposed || this.dragged || event.button !== 0) return;
+    this.onAction('attack');
+    if (document.pointerLockElement === this.canvas) return;
     // Pointer lock is optional: denial/unsupported browsers retain drag look.
     try {
       if (typeof this.canvas.requestPointerLock === 'function') {
@@ -597,6 +615,6 @@ export class ExplorerController {
   };
 
   private readonly onFocusIn = (event: FocusEvent): void => {
-    if (this.isFormTarget(event.target)) this.onBlur();
+    if (this.isTextEntryTarget(event.target)) this.onBlur();
   };
 }

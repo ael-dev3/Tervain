@@ -1,0 +1,18 @@
+; 30481b50 FUN_30481b50
+30481b50 | 56 | PUSH ESI
+30481b51 | 8bf1 | MOV ESI,ECX
+30481b53 | 837e0c00 | CMP dword ptr [ESI + 0xc],0x0
+30481b57 | 740d | JZ 0x30481b66
+30481b59 | 8b4e0c | MOV ECX,dword ptr [ESI + 0xc]
+30481b5c | 8b01 | MOV EAX,dword ptr [ECX]
+30481b5e | 8b9018010000 | MOV EDX,dword ptr [EAX + 0x118]
+30481b64 | ffd2 | CALL EDX
+; 30481b66 LAB_30481b66
+30481b66 | 8b44240c | MOV EAX,dword ptr [ESP + 0xc]
+30481b6a | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+30481b6e | 50 | PUSH EAX
+30481b6f | 51 | PUSH ECX
+30481b70 | 8bce | MOV ECX,ESI
+30481b72 | ff1510dcaf30 | CALL dword ptr [0x30afdc10]
+30481b78 | 5e | POP ESI
+30481b79 | c20800 | RET 0x8

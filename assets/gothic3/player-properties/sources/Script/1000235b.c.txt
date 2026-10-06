@@ -1,0 +1,20 @@
+/* ENTRY 1000235b | PSPlayerMemory::GetMaximum | STATUS decompiled | 4 ms */
+
+/* public: int __thiscall PSPlayerMemory::GetMaximum(class bCString const &)const  */
+
+int __thiscall PSPlayerMemory::GetMaximum(PSPlayerMemory *this,bCString *param_1)
+
+{
+  int iVar1;
+  
+                    /* 0x235b  1597  ?GetMaximum@PSPlayerMemory@@QBEHABVbCString@@@Z */
+  if (*(gCPlayerMemory_PS **)this != (gCPlayerMemory_PS *)0x0) {
+                    /* WARNING: Could not recover jumptable at 0x10029366. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+    iVar1 = gCPlayerMemory_PS::GetMaximum(*(gCPlayerMemory_PS **)this,param_1);
+    return iVar1;
+  }
+  return 0;
+}
+
+

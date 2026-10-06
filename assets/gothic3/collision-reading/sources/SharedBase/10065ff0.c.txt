@@ -1,0 +1,12 @@
+/* ENTRY 10065ff0 | FUN_10065ff0 | STATUS decompiled | 2 ms */
+
+undefined4 __thiscall FUN_10065ff0(bCOrientedBox *param_1,bCSphere *param_2)
+
+{
+  undefined4 extraout_EDX;
+  
+  bCOrientedBox::GetInSphere(param_1,param_2);
+  return extraout_EDX;
+}
+
+

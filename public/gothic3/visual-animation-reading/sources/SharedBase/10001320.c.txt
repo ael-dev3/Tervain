@@ -1,0 +1,39 @@
+/* ENTRY 10001320 | bCMatrix::IsIdentity | STATUS decompiled | 7 ms */
+
+/* public: bool __thiscall bCMatrix::IsIdentity(void)const  */
+
+bool __thiscall bCMatrix::IsIdentity(bCMatrix *this)
+
+{
+  int iVar1;
+  bCMatrix *pbVar2;
+  int iVar3;
+  float fStack_4;
+  
+                    /* 0x1320  3641  ?IsIdentity@bCMatrix@@QBE_NXZ */
+  iVar3 = 0;
+  do {
+    iVar1 = 0;
+    pbVar2 = this;
+    do {
+      if (iVar3 == iVar1) {
+        fStack_4 = 1.0;
+      }
+      else {
+        fStack_4 = 0.0;
+      }
+      if (*(float *)pbVar2 != fStack_4) {
+        return false;
+      }
+      iVar1 = iVar1 + 1;
+      pbVar2 = pbVar2 + 4;
+    } while (iVar1 < 4);
+    iVar3 = iVar3 + 1;
+    this = this + 0x10;
+    if (3 < iVar3) {
+      return true;
+    }
+  } while( true );
+}
+
+

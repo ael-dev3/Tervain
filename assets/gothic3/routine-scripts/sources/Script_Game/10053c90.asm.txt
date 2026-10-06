@@ -1,0 +1,16 @@
+; 10053c90 gSArgsFor__AI_TransferItem::vector_deleting_destructor
+10053c90 | 56 | PUSH ESI
+10053c91 | 8bf1 | MOV ESI,ECX
+10053c93 | 8d4e04 | LEA ECX,[ESI + 0x4]
+10053c96 | ff15906f2210 | CALL dword ptr [0x10226f90]
+10053c9c | f644240801 | TEST byte ptr [ESP + 0x8],0x1
+10053ca1 | c706d8992010 | MOV dword ptr [ESI],0x102099d8
+10053ca7 | 7409 | JZ 0x10053cb2
+10053ca9 | 56 | PUSH ESI
+10053caa | e805f70800 | CALL 0x100e33b4
+10053caf | 83c404 | ADD ESP,0x4
+; 10053cb2 LAB_10053cb2
+10053cb2 | 8bc6 | MOV EAX,ESI
+10053cb4 | 5e | POP ESI
+10053cb5 | c20400 | RET 0x4
+; 10053cd0 gSArgsFor__AI_HoldLeftInventoryItem_Base::scalar_deleting_destructor

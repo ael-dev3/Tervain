@@ -1,0 +1,19 @@
+/* ENTRY 10002f81 | Entity::SortEntityListByDistanceTo | STATUS decompiled | 7 ms */
+
+/* public: static void __stdcall Entity::SortEntityListByDistanceTo(class bTObjArray<class Entity>
+   &,class Entity const &) */
+
+void Entity::SortEntityListByDistanceTo(bTObjArray<Entity> *param_1,Entity *param_2)
+
+{
+                    /* 0x2f81  2021
+                       ?SortEntityListByDistanceTo@Entity@@SGXAAV?$bTObjArray@VEntity@@@@ABV1@@Z */
+  if (*(int *)param_2 != 0) {
+    DAT_100b3914 = 1;
+    DAT_100b3910 = *(int *)param_2;
+    _qsort(*(void **)param_1,*(size_t *)(param_1 + 4),0xa8,SortEntites);
+  }
+  return;
+}
+
+

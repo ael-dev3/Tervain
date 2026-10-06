@@ -1,0 +1,14 @@
+/* ENTRY 20022bf6 | gCParty_PS::Write | STATUS decompiled | 8 ms */
+
+/* public: virtual enum bEResult __thiscall gCParty_PS::Write(class bCOStream &) */
+
+bEResult __thiscall gCParty_PS::Write(gCParty_PS *this,bCOStream *param_1)
+
+{
+                    /* 0x22bf6  7548  ?Write@gCParty_PS@@UAE?AW4bEResult@@AAVbCOStream@@@Z */
+  bCOStream::operator<<((bCOStream *)param_1,1);
+  thunk_FUN_20079900(param_1);
+  return 1;
+}
+
+

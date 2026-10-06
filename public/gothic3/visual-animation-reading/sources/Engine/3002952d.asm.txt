@@ -1,0 +1,2 @@
+; 3002952d eCSpringAndDamperEffector::GetSpringDistStretchSaturate
+3002952d | e9ee800300 | JMP 0x30061620

@@ -1,0 +1,2 @@
+; 2000750e bTPropertyType<gCInventory_PS,bool>::vfunction12
+2000750e | e9fd351a00 | JMP 0x201aab10

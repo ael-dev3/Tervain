@@ -1,0 +1,2 @@
+; 1000166d ?GetNativeObject@bCAccessorPropertyObject@@QAEPAVbCObjectRefBase@@XZ
+1000166d | e98e950900 | JMP 0x1009ac00

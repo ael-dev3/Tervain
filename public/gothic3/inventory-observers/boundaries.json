@@ -1,0 +1,120 @@
+{
+  "schema": "gothic3-native-inventory-observer-boundaries-v1",
+  "originalGameSha256": "b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f",
+  "originalScriptSha256": "9375605676faaae44a50d48539a7b3995bed471e099ef573666221a044cd4e08",
+  "originalScriptGameSha256": "2f10fbb6307c4800bc44c90cb60dac0b32182c1f2416e11ac82b4ba0c35803c1",
+  "runtimeRegistryCompleteness": "unresolved",
+  "listenerStorage": {
+    "entrySize": 8,
+    "pointerOffset": 0,
+    "activeOffset": 4,
+    "inventoryArrayOffset": 76,
+    "inventoryCountOffset": 80,
+    "dispatchSource": "Game:201acdc0",
+    "snapshotCountAtEntry": true,
+    "readActiveAndPointerAtEachIteration": true,
+    "purgeAfterDispatch": true
+  },
+  "constructor": {
+    "source": "Game:201a9110",
+    "listenerArrayPointer": 0,
+    "listenerCount": 0,
+    "listenerCapacity": 0,
+    "scope": "newly-constructed-inventory-before-HUD-or-other-runtime-registration"
+  },
+  "nativeEvents": {
+    "create": 0,
+    "change": 1,
+    "delete": 2,
+    "clear": 3,
+    "destroy": 4
+  },
+  "registrations": {
+    "add": "Game:201acf90",
+    "remove": "Game:201acd10",
+    "purge": "Game:201acd50",
+    "reactivateExistingIdentityInPlace": true,
+    "firstListenerInstallsStackListBridge": "Game:201cefb0"
+  },
+  "onPlayerChanged": {
+    "source": "Script_Game:10077540",
+    "registeredName": "OnPlayerChanged",
+    "invalidateScriptEntityPlayerCache": true,
+    "updateGuiPlayerBinding": true,
+    "returnValue": 1,
+    "directPlayerMemoryOrStatWrites": [],
+    "lazyPlayerCacheSource": "Script:100011ea",
+    "guiSource": "Script:10001820",
+    "guiManagerSource": "Game:200337c6"
+  },
+  "guiBinding": {
+    "source": "Game:20170a70",
+    "entitySlots": 7,
+    "mainPageBeforeActivePage": true,
+    "mainPagePointerOffset": 124,
+    "activePageIndexOffset": 132,
+    "activePageArrayOffset": 56,
+    "virtualSetEntityOffset": 280,
+    "unresolved": [
+      "Original HUD root construction and current active page.",
+      "Instantiated control identities and their ordered listener bindings."
+    ]
+  },
+  "mainPagePlayerBinding": {
+    "source": "Game:2016d4d0",
+    "playerSlot": 0,
+    "quickSlotControlOffset": 432,
+    "quickSlotControlReceiverSource": "Game:201668d0",
+    "inventoryBindingSource": "Game:2018a7f0"
+  },
+  "supportedHudCallbackFamilies": {
+    "list": {
+      "create": "Game:2018a740",
+      "change": "Game:2018a750",
+      "delete": "Game:2018a760",
+      "clear": "Game:2018a770",
+      "destroy": "Game:2018a8a0",
+      "bind": "Game:2018a7f0"
+    },
+    "recipe-stats": {
+      "create": "Game:2018ce20",
+      "change": "Game:2018ce30",
+      "delete": "Game:2018ce40",
+      "clear": "Game:2018ce50",
+      "destroy": "Game:2018ce60",
+      "bind": "Game:2018cd90"
+    },
+    "stack-stats": {
+      "create": "Game:2018e4b0",
+      "change": "Game:2018e4d0",
+      "delete": "Game:2018e4e0",
+      "clear": "Game:2018e530",
+      "destroy": "Game:2018e560",
+      "bind": "Game:2018e460"
+    }
+  },
+  "remaining": [
+    "Runtime listener registry completeness.",
+    "Native HUD page/control instance lifecycle and paint consumers.",
+    "Physical equipment ItemWorld, owner proxies, skeleton attachments, and stat effects."
+  ],
+  "nextSourceBodies": [
+    "Game:20160c20",
+    "Game:20169a90",
+    "Game:20165720",
+    "Game:20165ca0",
+    "Game:20164900",
+    "Game:20164210",
+    "Game:20162910",
+    "Game:20163670",
+    "Game:20162e50",
+    "Game:2016ba60",
+    "Game:2016bd70",
+    "Game:2016b650",
+    "Game:2016c120",
+    "Game:201cf590",
+    "Game:201ce740",
+    "Game:201ce6f0"
+  ],
+  "limitation": "Supported callback bodies are not evidence that the original complete registry is empty or reconstructed."
+}

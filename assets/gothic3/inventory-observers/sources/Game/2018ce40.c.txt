@@ -1,0 +1,11 @@
+/* ENTRY 2018ce40 | gCHUDTableRecipeStats::vfunction3_for_gCInventoryListener | STATUS decompiled | 5 ms */
+
+void __thiscall
+gCHUDTableRecipeStats::vfunction3_for_gCInventoryListener(gCHUDTableRecipeStats *this)
+
+{
+  *(undefined1 *)&(this->gCHUDTable_data).offset_0xc = 1;
+  return;
+}
+
+

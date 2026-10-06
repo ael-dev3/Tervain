@@ -1,0 +1,9 @@
+/* ENTRY 304b25d0 | FUN_304b25d0 | STATUS decompiled | 2 ms */
+
+void FUN_304b25d0(void)
+
+{
+  return;
+}
+
+

@@ -1,0 +1,8 @@
+; 10011bb0 FUN_10011bb0
+10011bb0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+10011bb4 | 8901 | MOV dword ptr [ECX],EAX
+10011bb6 | 33c9 | XOR ECX,ECX
+10011bb8 | 85c0 | TEST EAX,EAX
+10011bba | 0f95c1 | SETNZ CL
+10011bbd | 8ac1 | MOV AL,CL
+10011bbf | c20400 | RET 0x4

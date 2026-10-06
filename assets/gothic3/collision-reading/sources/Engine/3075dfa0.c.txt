@@ -1,0 +1,32 @@
+/* ENTRY 3075dfa0 | bTPropertyType<eCCollisionShape_PS,bool>::~bTPropertyType<eCCollisionShape_PS,bool> | STATUS decompiled | 16 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<eCCollisionShape_PS,bool>::~bTPropertyType<eCCollisionShape_PS,bool>
+          (bTPropertyType<eCCollisionShape_PS,bool> *this)
+
+{
+  bTPropertyType<eCCollisionShape_PS,bool> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"IgnoredByTraceRay");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&eCCollisionShape_PS::ms_PropertyMember_m_bIgnoredByTraceRay,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_bIgnoredByTraceRay = &vftable;
+  DAT_30aec4b0 = bTPropertyObjectType<eCCollisionShape_PS,eCCollisionShapeBase_PS>::
+                 ~bTPropertyObjectType<eCCollisionShape_PS,eCCollisionShapeBase_PS>();
+  _DAT_30aec4b4 = 0x26;
+  _DAT_30aec4b8 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&eCCollisionShape_PS::ms_PropertyMember_m_bIgnoredByTraceRay);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_30aec4b0,
+             (bCPropertyTypeBase *)&eCCollisionShape_PS::ms_PropertyMember_m_bIgnoredByTraceRay);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}
+
+

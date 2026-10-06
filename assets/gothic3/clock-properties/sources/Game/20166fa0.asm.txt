@@ -1,0 +1,19 @@
+; 20166fa0 FUN_20166fa0
+20166fa0 | 56 | PUSH ESI
+20166fa1 | 8bf1 | MOV ESI,ECX
+20166fa3 | 8b06 | MOV EAX,dword ptr [ESI]
+20166fa5 | 8b5058 | MOV EDX,dword ptr [EAX + 0x58]
+20166fa8 | 6a00 | PUSH 0x0
+20166faa | 687c0c6720 | PUSH 0x20670c7c
+20166faf | ffd2 | CALL EDX
+20166fb1 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+20166fb5 | 8b08 | MOV ECX,dword ptr [EAX]
+20166fb7 | 8b16 | MOV EDX,dword ptr [ESI]
+20166fb9 | 8b425c | MOV EAX,dword ptr [EDX + 0x5c]
+20166fbc | 6a00 | PUSH 0x0
+20166fbe | 894e20 | MOV dword ptr [ESI + 0x20],ECX
+20166fc1 | 687c0c6720 | PUSH 0x20670c7c
+20166fc6 | 8bce | MOV ECX,ESI
+20166fc8 | ffd0 | CALL EAX
+20166fca | 5e | POP ESI
+20166fcb | c20400 | RET 0x4

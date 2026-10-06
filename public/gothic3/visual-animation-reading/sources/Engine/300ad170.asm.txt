@@ -1,0 +1,3 @@
+; 300ad170 bTPropertyObject<eCVisualAnimation_PS,eCEntityPropertySet>::vfunction4
+300ad170 | 8b490c | MOV ECX,dword ptr [ECX + 0xc]
+300ad173 | ff255ccaaf30 | JMP dword ptr [0x30afca5c]

@@ -1,0 +1,12 @@
+/* ENTRY 300315cf | eCCollisionShape::GetEnableCCD | STATUS decompiled | 3 ms */
+
+/* public: bool const & __thiscall eCCollisionShape::GetEnableCCD(void)const  */
+
+bool * __thiscall eCCollisionShape::GetEnableCCD(eCCollisionShape *this)
+
+{
+                    /* 0x315cf  6978  ?GetEnableCCD@eCCollisionShape@@QBEAB_NXZ */
+  return (bool *)&(this->eCCollisionShape_data).offset_0x29;
+}
+
+

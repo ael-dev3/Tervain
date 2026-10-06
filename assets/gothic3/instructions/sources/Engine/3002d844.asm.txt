@@ -1,0 +1,4 @@
+; 3002d844 ?QueryEntityProxyInternal@eCEntity@@IAEPAVeCEntityProxyInternal@@XZ
+3002d844 | e987564800 | JMP 0x304b2ed0
+; 3002d849 eCLinkContainer_PS::GetNumEffectors
+; 3002d849 Ordinal_7950

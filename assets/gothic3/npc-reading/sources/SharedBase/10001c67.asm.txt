@@ -1,0 +1,6 @@
+; 10001c67 ??5@YGAAVbCIStream@@AAV0@AAVbCObjectBase@@@Z
+10001c67 | e914850400 | JMP 0x1004a180
+; 10001c6c LAB_10001c6c
+10001c6c | e99f220400 | JMP 0x10043f10
+; 10001c76 bCFlexibleVertexPtr::GetWeight
+; 10001c76 Ordinal_3234

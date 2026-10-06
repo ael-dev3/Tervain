@@ -1,0 +1,19 @@
+; 2007eff0 FUN_2007eff0
+2007eff0 | 56 | PUSH ESI
+2007eff1 | 8bf1 | MOV ESI,ECX
+2007eff3 | 8b06 | MOV EAX,dword ptr [ESI]
+2007eff5 | 8b5058 | MOV EDX,dword ptr [EAX + 0x58]
+2007eff8 | 6a00 | PUSH 0x0
+2007effa | 68dcb16520 | PUSH 0x2065b1dc
+2007efff | ffd2 | CALL EDX
+2007f001 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+2007f005 | 8b08 | MOV ECX,dword ptr [EAX]
+2007f007 | 8b16 | MOV EDX,dword ptr [ESI]
+2007f009 | 8b425c | MOV EAX,dword ptr [EDX + 0x5c]
+2007f00c | 6a00 | PUSH 0x0
+2007f00e | 894e3c | MOV dword ptr [ESI + 0x3c],ECX
+2007f011 | 68dcb16520 | PUSH 0x2065b1dc
+2007f016 | 8bce | MOV ECX,ESI
+2007f018 | ffd0 | CALL EAX
+2007f01a | 5e | POP ESI
+2007f01b | c20400 | RET 0x4

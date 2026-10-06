@@ -1,0 +1,25 @@
+/* ENTRY 20020b9e | bTPropertyType<gCNPC_PS,float>::vfunction26 | STATUS decompiled | 8 ms */
+
+void __thiscall
+bTPropertyType<gCNPC_PS,float>::vfunction26(bTPropertyType<gCNPC_PS,float> *this,int param_1)
+
+{
+  bCErrorAdmin *this_00;
+  char *pcVar1;
+  char *pcVar2;
+  char *pcVar3;
+  int iVar4;
+  
+  if (param_1 == 0) {
+    iVar4 = 0x30d;
+    pcVar3 = "e:\\!g3 src\\temp\\source\\sharedbase\\propertysystem\\types\\ge_propertytype.inl";
+    pcVar2 = "GEFalse == (NULL != a_pPropertyObject)";
+    pcVar1 = &DAT_20659858;
+    this_00 = bCErrorAdmin::GetInstance();
+    bCErrorAdmin::CallFatalError(this_00,pcVar1,pcVar2,pcVar3,iVar4);
+  }
+  (*this->vftablePtr->vfunction12)(this,param_1);
+  return;
+}
+
+

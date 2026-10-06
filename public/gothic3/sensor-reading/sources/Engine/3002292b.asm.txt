@@ -1,0 +1,2 @@
+; 3002292b ?GetEntity@eCEntityPropertySet@@UAEPAVeCEntity@@XZ
+3002292b | e9f0ec4500 | JMP 0x30481620

@@ -1,0 +1,4 @@
+; 20022f61 ??0gCInventory_PS@@QAE@XZ
+20022f61 | e9aa611800 | JMP 0x201a9110
+; 20022f6b gCCharacterMovement_PS::AccessSwimDepth
+; 20022f6b Ordinal_1721

@@ -1,0 +1,16 @@
+/* ENTRY 3001f7d0 | eCIlluminated_PS::GetDirectionalShadowType | STATUS decompiled | 6 ms */
+
+/* public: class bTPropertyContainer<enum eEDirectionalShadowType> const & __thiscall
+   eCIlluminated_PS::GetDirectionalShadowType(void)const  */
+
+bTPropertyContainer<eEDirectionalShadowType> * __thiscall
+eCIlluminated_PS::GetDirectionalShadowType(eCIlluminated_PS *this)
+
+{
+                    /* 0x1f7d0  6870
+                       ?GetDirectionalShadowType@eCIlluminated_PS@@QBEABV?$bTPropertyContainer@W4eEDirectionalShadowType@@@@XZ
+                        */
+  return (bTPropertyContainer<eEDirectionalShadowType> *)&(this->eCIlluminated_PS_data).offset_0x10;
+}
+
+

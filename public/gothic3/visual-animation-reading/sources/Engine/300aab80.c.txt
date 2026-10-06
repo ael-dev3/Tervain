@@ -1,0 +1,20 @@
+/* ENTRY 300aab80 | bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet>::~bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet> | STATUS decompiled | 3 ms */
+
+void __thiscall
+bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet>::
+~bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet>
+          (bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet> *this)
+
+{
+  this->vftablePtr = &vftable;
+  bCPropertyObjectFactory::~bCPropertyObjectFactory
+            ((bCPropertyObjectFactory *)
+             &(this->bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet>_data).field_0x14
+            );
+                    /* WARNING: Could not recover jumptable at 0x300aab95. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCPropertyObjectTypeBase::~bCPropertyObjectTypeBase((bCPropertyObjectTypeBase *)this);
+  return;
+}
+
+

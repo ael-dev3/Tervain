@@ -1,0 +1,22 @@
+; 1002aaf0 FUN_1002aaf0
+1002aaf0 | d901 | FLD float ptr [ECX]
+1002aaf2 | d9442404 | FLD float ptr [ESP + 0x4]
+1002aaf6 | d9c0 | FLD ST0
+1002aaf8 | deea | FSUBP ST2,ST0
+1002aafa | d9c9 | FXCH
+1002aafc | d919 | FSTP float ptr [ECX]
+1002aafe | d94104 | FLD float ptr [ECX + 0x4]
+1002ab01 | d8e1 | FSUB ST0,ST1
+1002ab03 | d95904 | FSTP float ptr [ECX + 0x4]
+1002ab06 | d94108 | FLD float ptr [ECX + 0x8]
+1002ab09 | d8e1 | FSUB ST0,ST1
+1002ab0b | d95908 | FSTP float ptr [ECX + 0x8]
+1002ab0e | d9410c | FLD float ptr [ECX + 0xc]
+1002ab11 | d8c1 | FADD ST0,ST1
+1002ab13 | d9590c | FSTP float ptr [ECX + 0xc]
+1002ab16 | d9c0 | FLD ST0
+1002ab18 | d84110 | FADD float ptr [ECX + 0x10]
+1002ab1b | d95910 | FSTP float ptr [ECX + 0x10]
+1002ab1e | d84114 | FADD float ptr [ECX + 0x14]
+1002ab21 | d95914 | FSTP float ptr [ECX + 0x14]
+1002ab24 | c20400 | RET 0x4

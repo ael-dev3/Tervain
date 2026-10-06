@@ -1,0 +1,54 @@
+{
+  "schema": "gothic3-navigation-scene-manifest-v1",
+  "mapSourceSha256": "1b163f4f1be7115aeef37835e798772a3437db3429a32b4d36d866437b9a41c3",
+  "inputs": {
+    "Game": "b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f",
+    "SharedBase": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214"
+  },
+  "queryMap": {
+    "path": "query-map.json.gz",
+    "sha256": "e566a0bea381f3614260878e735bee093429b0785c1c818831b67887e0d67e48",
+    "bytes": 784638,
+    "uncompressedSha256": "a50d444132fd111d0eca0bb890dd6f953376002b1b48e3a34e324db8bfd55f43",
+    "uncompressedBytes": 2614450,
+    "encoding": "gzip"
+  },
+  "definitions": {
+    "path": "entity-definitions.json.gz",
+    "sha256": "ca2f884b10c38a619a751a6d70ba0a95b4fa247c374819e1659d5be40e394ff0",
+    "bytes": 1554732,
+    "uncompressedSha256": "f6ae0d56e6444c0756b347003c70d90081fd5c9451ccabb0ae445b8adef08b92",
+    "uncompressedBytes": 7635825,
+    "encoding": "gzip"
+  },
+  "storedLists": {
+    "path": "map-lists.json.gz",
+    "sha256": "8ad7e6609f1c48913cb9abcabdcde7a9cdf9ad910191cdd993824ad5429526b1",
+    "bytes": 9519794,
+    "uncompressedSha256": "0605d8867ef6e4779165cf58277d0708bc2604c909dbf0406572a8c71744d304",
+    "uncompressedBytes": 60800718,
+    "encoding": "gzip"
+  },
+  "counts": {
+    "grid": 49,
+    "negativeZones": 694,
+    "collisionCircles": 73898,
+    "preferredPaths": 195,
+    "zoneObjects": 2226,
+    "collisionCircleOverlaps": 73898,
+    "pathIntersections": 3159,
+    "interactionAssignments": 35994,
+    "networkObjects": 5385,
+    "networkLinks": 6317,
+    "waypoints": 6317,
+    "sourceEntities": 5385,
+    "unresolvedMapPropertyIds16": 0,
+    "duplicateGuidCandidates": 0
+  },
+  "limitations": [
+    "Source candidates do not prove live entity registration, sector residency or runtime activation.",
+    "Stored original map loading is supported; forced recompilation, AIZone inheritance and door bindings remain separate dependencies.",
+    "Network/obstacle lists are preserved, but this does not implement path search, collision avoidance or character physics.",
+    "JS arithmetic models native float stores, not bit-identical x87 extended arithmetic at boundaries."
+  ]
+}

@@ -1,0 +1,13 @@
+/* ENTRY 202215e0 | FUN_202215e0 | STATUS decompiled | 4 ms */
+
+void __thiscall FUN_202215e0(int param_1,bCVector *param_2)
+
+{
+  if (*(int *)(param_1 + 0x170) != 0) {
+    (**(code **)(**(int **)(param_1 + 0x170) + 0x16c))(param_2);
+  }
+  bCVector::operator=((bCVector *)(param_1 + 0x134),param_2);
+  return;
+}
+
+

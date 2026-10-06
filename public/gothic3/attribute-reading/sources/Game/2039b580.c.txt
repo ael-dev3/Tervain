@@ -1,0 +1,11 @@
+/* ENTRY 2039b580 | bTPropertyObjectType<gCStat,gCAttribute>::vfunction5 | STATUS decompiled | 2 ms */
+
+undefined2 __thiscall bTPropertyObjectType<gCStat,gCAttribute>::vfunction5(void)
+
+{
+  GE_MESSAGEF_WARN("The method  %s was called, but has not yet been implemented!",
+                   "bTPropertyObjectType<CLASS, BASECLASS>::Read");
+  return 1;
+}
+
+

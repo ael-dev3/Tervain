@@ -1,0 +1,4 @@
+; 100014f6 ?GetManaPointsPercent@PSPlayerMemory@@QBEMXZ
+100014f6 | e9c5810200 | JMP 0x100296c0
+; 100014fb PSInventory::HasLearnedSpell
+; 100014fb Ordinal_1724

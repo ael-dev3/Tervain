@@ -1,0 +1,19 @@
+/* ENTRY 2001563b | gCInventory_PS::CreateItems | STATUS decompiled | 42 ms */
+
+/* public: int __thiscall gCInventory_PS::CreateItems(class bCPropertyID const &,unsigned
+   long,unsigned long) */
+
+int __thiscall
+gCInventory_PS::CreateItems(gCInventory_PS *this,bCPropertyID *param_1,ulong param_2,ulong param_3)
+
+{
+  undefined4 uVar1;
+  int iVar2;
+  
+                    /* 0x1563b  2447  ?CreateItems@gCInventory_PS@@QAEHABVbCPropertyID@@KK@Z */
+  uVar1 = thunk_FUN_201d2240(param_1);
+  iVar2 = thunk_FUN_201d0210(uVar1,param_3,param_2);
+  return iVar2;
+}
+
+

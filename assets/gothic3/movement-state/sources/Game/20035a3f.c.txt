@@ -1,0 +1,267 @@
+/* ENTRY 20035a3f | gCCharacterMovement_PS::FindFloorWaterCeiling | STATUS decompiled | 400 ms */
+
+/* public: bool __thiscall gCCharacterMovement_PS::FindFloorWaterCeiling(class bCVector const
+   &,struct gSSpatialState &,bool,bool)const  */
+
+bool __thiscall
+gCCharacterMovement_PS::FindFloorWaterCeiling
+          (gCCharacterMovement_PS *this,bCVector *param_1,gSSpatialState *param_2,bool param_3,
+          bool param_4)
+
+{
+  bool bVar1;
+  undefined1 uVar2;
+  char cVar3;
+  eCEntity *peVar4;
+  uint uVar5;
+  eCEntity *peVar6;
+  bCVector *pbVar7;
+  eCPhysicsScene *peVar8;
+  bCBox *pbVar9;
+  eCEntity *peVar10;
+  bCString *pbVar11;
+  bCVector *pbVar12;
+  eCPhysicQueryReport *peVar13;
+  eCPhysicQueryReport *peVar14;
+  eCEntityPropertySet *peVar15;
+  int iVar16;
+  undefined4 unaff_EBX;
+  uint uVar17;
+  code *pcVar18;
+  undefined4 unaff_EBP;
+  float fVar19;
+  bCVector *unaff_retaddr;
+  uint uVar20;
+  ulong uVar21;
+  eEPropertySetType eVar22;
+  eEShapeGroup eVar23;
+  float fVar24;
+  uint uStack_88;
+  float fStack_84;
+  bCVector abStack_80 [4];
+  eCEntity *peStack_7c;
+  bCVector abStack_78 [4];
+  eCEntity *peStack_74;
+  undefined1 auStack_70 [4];
+  bCVector abStack_6c [4];
+  bCVector abStack_68 [8];
+  bCVector abStack_60 [4];
+  bCVector abStack_5c [4];
+  bCVector abStack_58 [4];
+  bCVector abStack_54 [8];
+  bCVector abStack_4c [4];
+  bCVector abStack_48 [8];
+  bCVector abStack_40 [4];
+  undefined1 auStack_3c [8];
+  undefined1 auStack_34 [12];
+  bCVector abStack_28 [4];
+  bCVector abStack_24 [8];
+  bCVector abStack_1c [24];
+  bCVector *pbStack_4;
+  
+                    /* 0x35a3f  2804
+                       ?FindFloorWaterCeiling@gCCharacterMovement_PS@@QBE_NABVbCVector@@AAUgSSpatialState@@_N2@Z
+                        */
+  uVar2 = (undefined1)((uint)unaff_EBP >> 0x10);
+  param_2[0x60] = (gSSpatialState)((byte)param_2[0x60] & 0xf8);
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)auStack_34,(eCEntity *)0x0);
+  eCEntityProxy::operator=((eCEntityProxy *)(param_2 + 0x40),(eCEntityProxy *)auStack_34);
+  eCEntityProxy::~eCEntityProxy((eCEntityProxy *)auStack_34);
+  bCVector::bCVector(abStack_4c,0.0,0.0,20.0);
+  bCVector::bCVector(abStack_40,20.0,0.0,0.0);
+  peVar4 = (*this->vftablePtr->GetEntity)(this);
+  fStack_84 = *(float *)&(this->gCCharacterMovement_PS_data).field_0x18 + 0.01;
+  peStack_74 = peVar4;
+  uVar5 = bCVector::bCVector(abStack_80,0.0,fStack_84,0.0);
+  bCVector::operator+(param_1,abStack_58);
+  bCVector::~bCVector((bCVector *)&fStack_84);
+  uStack_88 = (-(uint)param_3 & 10) + 0x2011;
+  if ((this->gCCharacterMovement_PS_data).offset_0x94 == (gCCharacterMovement_PS)0x1) {
+    uStack_88 = uStack_88 | 0x8000;
+  }
+  eVar23 = 0;
+  eVar22 = 0;
+  uVar17 = uStack_88 | 0x2a0;
+  peVar6 = (*this->vftablePtr->GetEntity)(this);
+  uVar20 = uVar17;
+  pbVar7 = (bCVector *)bCVector::bCVector((bCVector *)&fStack_84,0.0,-100000.0,0.0);
+  pbVar12 = abStack_5c;
+  peVar8 = eCPhysicsScene::GetInstance();
+  bVar1 = eCPhysicsScene::TraceRayNearestHit
+                    (peVar8,pbVar12,pbVar7,peVar4,uVar20,peVar6,eVar22,eVar23);
+  peVar4 = (eCEntity *)CONCAT13((char)((uint)unaff_EBX >> 0x18),CONCAT12(bVar1,(short)unaff_EBX));
+  bCVector::~bCVector((bCVector *)&fStack_84);
+  if (!bVar1) {
+    peVar6 = (*this->vftablePtr->GetEntity)(this);
+    pbVar9 = eCEntity::GetLocalNodeBoundary((eCEntity *)peVar6);
+    fVar19 = bCBox::GetHeight(pbVar9);
+    if (*(float *)&(this->gCCharacterMovement_PS_data).field_0x18 < fVar19) {
+      fVar24 = 0.0;
+      peVar6 = (*this->vftablePtr->GetEntity)(this);
+      pbVar9 = eCEntity::GetLocalNodeBoundary((eCEntity *)peVar6);
+      fVar19 = bCBox::GetHeight(pbVar9);
+      bCVector::bCVector((bCVector *)&fStack_84,0.0,fVar19,fVar24);
+      bCVector::operator+(unaff_retaddr,(bCVector *)&peStack_74);
+      bCVector::~bCVector((bCVector *)&uStack_88);
+      eVar23 = 0;
+      eVar22 = 0;
+      peVar10 = (*this->vftablePtr->GetEntity)(this);
+      peVar6 = peStack_7c;
+      uVar20 = uVar17;
+      pbVar7 = (bCVector *)bCVector::bCVector((bCVector *)&uStack_88,0.0,-100000.0,0.0);
+      pbVar12 = abStack_78;
+      peVar8 = eCPhysicsScene::GetInstance();
+      bVar1 = eCPhysicsScene::TraceRayNearestHit
+                        (peVar8,pbVar12,pbVar7,peVar6,uVar20,peVar10,eVar22,eVar23);
+      bCVector::~bCVector((bCVector *)&uStack_88);
+      bCVector::~bCVector(abStack_78);
+      uVar2 = 1;
+      if (bVar1) goto LAB_20222836;
+    }
+    peVar6 = (*this->vftablePtr->GetEntity)(this);
+    pbVar11 = eCEntity::GetName((eCEntity *)peVar6);
+    GE_MESSAGEF_WARN("C: emergency: nsc %s did not find a ground-entity, trying to cast a ray from 4m above"
+                     ,*(undefined4 *)pbVar11);
+    bCVector::bCVector((bCVector *)&fStack_84,0.0,400.0,0.0);
+    bCVector::operator+(unaff_retaddr,(bCVector *)&peStack_74);
+    bCVector::~bCVector((bCVector *)&uStack_88);
+    eVar23 = 0;
+    eVar22 = 0;
+    peVar10 = (*this->vftablePtr->GetEntity)(this);
+    peVar6 = peStack_7c;
+    pbVar7 = (bCVector *)bCVector::bCVector((bCVector *)&uStack_88,0.0,-100000.0,0.0);
+    pbVar12 = abStack_78;
+    peVar8 = eCPhysicsScene::GetInstance();
+    uVar2 = eCPhysicsScene::TraceRayNearestHit
+                      (peVar8,pbVar12,pbVar7,peVar6,uVar17,peVar10,eVar22,eVar23);
+    bCVector::~bCVector((bCVector *)&uStack_88);
+    bCVector::~bCVector(abStack_78);
+    if (!(bool)uVar2) {
+      fVar19 = bCVector::GetY(pbStack_4);
+      *(float *)param_2 = fVar19;
+      pbVar12 = (bCVector *)bCVector::bCVector((bCVector *)&uStack_88,0.0,1.0,0.0);
+      bCVector::operator=((bCVector *)(param_2 + 0x1c),pbVar12);
+      bCVector::~bCVector((bCVector *)&uStack_88);
+      *(undefined4 *)(param_2 + 8) = 0x7f7fffff;
+      *(undefined4 *)(param_2 + 0x5c) = 0;
+      pcVar18 = GetQueryReport_exref;
+      goto LAB_20222a97;
+    }
+  }
+LAB_20222836:
+  peVar8 = eCPhysicsScene::GetInstance();
+  peVar13 = eCPhysicsScene::GetQueryReport(peVar8);
+  fVar19 = bCVector::GetY((bCVector *)(peVar13 + 0x68));
+  *(float *)param_2 = fVar19 + 0.005;
+  peVar8 = eCPhysicsScene::GetInstance();
+  peVar14 = eCPhysicsScene::GetQueryReport(peVar8);
+  bCVector::operator=((bCVector *)(param_2 + 0x1c),(bCVector *)(peVar14 + 0x74));
+  bCVector::operator=((bCVector *)(param_2 + 0x34),(bCVector *)(peVar13 + 0x68));
+  *(undefined4 *)(param_2 + 4) = *(undefined4 *)param_2;
+  peVar8 = eCPhysicsScene::GetInstance();
+  pcVar18 = GetQueryReport_exref;
+  peVar13 = eCPhysicsScene::GetQueryReport(peVar8);
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)auStack_3c,*(eCEntity **)(peVar13 + 4));
+  eCEntityProxy::operator=((eCEntityProxy *)(param_2 + 0x40),(eCEntityProxy *)auStack_3c);
+  eCEntityProxy::~eCEntityProxy((eCEntityProxy *)auStack_3c);
+  peVar8 = eCPhysicsScene::GetInstance();
+  peVar13 = eCPhysicsScene::GetQueryReport(peVar8);
+  *(undefined4 *)(param_2 + 0x5c) = *(undefined4 *)(peVar13 + 100);
+  peVar8 = eCPhysicsScene::GetInstance();
+  peVar13 = eCPhysicsScene::GetQueryReport(peVar8);
+  param_2[0x60] =
+       (gSSpatialState)
+       ((byte)param_2[0x60] ^ (*(int *)(peVar13 + 4) != 0 ^ (byte)param_2[0x60]) & 1);
+  iVar16 = *(int *)(param_2 + 0x5c);
+  if (((((iVar16 != 1) && (iVar16 != 0x13)) && (iVar16 != 3)) && ((iVar16 != 4 && (iVar16 != 5))))
+     && ((iVar16 != 0xb && ((iVar16 != 0xf && (iVar16 != 0x14)))))) {
+    *(undefined4 *)(param_2 + 0x5c) = 5;
+  }
+  if (((byte)param_2[0x60] & 1) == 0) {
+    param_2[0x60] = (gSSpatialState)((byte)param_2[0x60] | 2);
+  }
+  eVar22 = 0x16;
+  peVar6 = (*this->vftablePtr->GetEntity)(this);
+  bVar1 = eCEntity::HasPropertySet((eCEntity *)peVar6,eVar22);
+  if (bVar1) {
+    GetLocalVelocity(this);
+    bCVector::operator*((bCVector *)&stack0xffffff74,(float)auStack_70);
+    pbVar12 = (bCVector *)
+              bCVector::bCVector(abStack_28,0.0,
+                                 *(float *)&(this->gCCharacterMovement_PS_data).field_0x18,0.0);
+    pbVar7 = (bCVector *)bCVector::operator+(abStack_68,abStack_1c);
+    bCVector::operator+(pbVar7,pbVar12);
+    bCVector::~bCVector(abStack_24);
+    bCVector::~bCVector((bCVector *)(auStack_34 + 4));
+    bCVector::~bCVector((bCVector *)&peStack_7c);
+    eVar23 = 0;
+    eVar22 = 0;
+    peVar6 = (*this->vftablePtr->GetEntity)(this);
+    uVar5 = uVar5 | 0x20;
+    pbVar7 = (bCVector *)bCVector::bCVector((bCVector *)&peStack_7c,0.0,-100000.0,0.0);
+    pbVar12 = (bCVector *)&uStack_88;
+    peVar8 = eCPhysicsScene::GetInstance();
+    bVar1 = eCPhysicsScene::TraceRayNearestHit
+                      (peVar8,pbVar12,pbVar7,peVar4,uVar5,peVar6,eVar22,eVar23);
+    bCVector::~bCVector((bCVector *)&peStack_7c);
+    if (bVar1) {
+      pbVar12 = (bCVector *)(param_2 + 0x1c);
+      cVar3 = CanWalkOnFloor(this,pbVar12);
+      peVar8 = eCPhysicsScene::GetInstance();
+      peVar13 = eCPhysicsScene::GetQueryReport(peVar8);
+      bVar1 = CanWalkOnFloor(this,(bCVector *)(peVar13 + 0x74));
+      if ((bool)cVar3 == bVar1) {
+        peVar8 = eCPhysicsScene::GetInstance();
+        peVar13 = eCPhysicsScene::GetQueryReport(peVar8);
+        bCVector::operator+=(pbVar12,(bCVector *)(peVar13 + 0x74));
+        bCVector::operator*=(pbVar12,0.5);
+      }
+      else if (bVar1) {
+        peVar8 = eCPhysicsScene::GetInstance();
+        peVar13 = eCPhysicsScene::GetQueryReport(peVar8);
+        bCVector::operator=(pbVar12,(bCVector *)(peVar13 + 0x74));
+      }
+    }
+    bCVector::~bCVector((bCVector *)&uStack_88);
+    bCVector::~bCVector((bCVector *)&stack0xffffff68);
+    pcVar18 = GetQueryReport_exref;
+  }
+LAB_20222a97:
+  eVar22 = 5;
+  peVar4 = (*this->vftablePtr->GetEntity)(this);
+  peVar15 = eCEntity::GetPropertySet((eCEntity *)peVar4,eVar22);
+  if (peVar15 != (eCEntityPropertySet *)0x0) {
+    fVar19 = *(float *)(peVar15 + 0x18c);
+    peVar4 = (*this->vftablePtr->GetEntity)(this);
+    pbVar12 = eCEntity::GetWorldPosition((eCEntity *)peVar4);
+    fVar24 = bCVector::GetY(pbVar12);
+    *(float *)(param_2 + 4) = fVar24 - fVar19;
+  }
+  if ((char)param_1 != '\x01') {
+    eVar23 = 0;
+    eVar22 = 0;
+    peVar4 = (*this->vftablePtr->GetEntity)(this);
+    uVar21 = 0x81;
+    pbVar7 = (bCVector *)bCVector::bCVector(abStack_6c,0.0,100000.0,0.0);
+    pbVar12 = abStack_60;
+    peVar8 = eCPhysicsScene::GetInstance();
+    bVar1 = eCPhysicsScene::TraceRayNearestHit
+                      (peVar8,pbVar12,pbVar7,peStack_7c,uVar21,peVar4,eVar22,eVar23);
+    bCVector::~bCVector(abStack_6c);
+    if (bVar1) {
+      eCPhysicsScene::GetInstance();
+      iVar16 = (*pcVar18)();
+      fVar19 = bCVector::GetY((bCVector *)(iVar16 + 0x68));
+      *(float *)(param_2 + 8) = fVar19 - 0.005;
+    }
+    else {
+      *(undefined4 *)(param_2 + 8) = 0x49742400;
+    }
+  }
+  bCVector::~bCVector(abStack_60);
+  bCVector::~bCVector(abStack_48);
+  bCVector::~bCVector(abStack_54);
+  return (bool)uVar2;
+}
+
+

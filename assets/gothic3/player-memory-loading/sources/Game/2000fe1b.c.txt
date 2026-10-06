@@ -1,0 +1,20 @@
+/* ENTRY 2000fe1b | gCStat::gCStat | STATUS decompiled | 7 ms */
+
+/* public: __thiscall gCStat::gCStat(class gCStat const &) */
+
+gCStat * __thiscall gCStat::gCStat(gCStat *this,gCStat *param_1)
+
+{
+                    /* 0xfe1b  338  ??0gCStat@@QAE@ABV0@@Z */
+  bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)this,(bCObjectRefBase *)param_1);
+  this->vftablePtr = (gCStat_vftable *)&gCAttribute::vftable;
+  bCString::bCString((bCString *)&(this->gCAttribute_data).field_0x8,(bCString *)(param_1 + 0xc));
+  (this->gCAttribute_data).offset_0xc = *(undefined4 *)(param_1 + 0x10);
+  (this->gCAttribute_data).offset_0x10 = *(undefined4 *)(param_1 + 0x14);
+  this->vftablePtr = &vftable;
+  (this->gCAttribute_data).offset_0x14 = *(undefined4 *)(param_1 + 0x18);
+  (this->gCAttribute_data).offset_0x18 = *(undefined4 *)(param_1 + 0x1c);
+  return this;
+}
+
+

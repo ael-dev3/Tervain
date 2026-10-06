@@ -1,0 +1,17 @@
+/* ENTRY 10119260 | FUN_10119260 | STATUS decompiled | 8 ms */
+
+void FUN_10119260(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Tasks\\Reaction_Tasks\\ZS_RansackBody.cpp");
+  bCString::bCString(local_8,"ZS_FetchWeapon");
+  thunk_FUN_1001db60(local_8,&LAB_1000273e,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

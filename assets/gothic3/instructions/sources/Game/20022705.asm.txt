@@ -1,0 +1,2 @@
+; 20022705 ?GetTargetEntity@gCScriptProcessingUnit@@QAEPAVeCEntity@@XZ
+20022705 | e936573400 | JMP 0x20367e40

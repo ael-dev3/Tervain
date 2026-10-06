@@ -1,0 +1,2 @@
+; 300108e3 ?AccessTriggersOnIntersect@eCCollisionShape@@QAEAA_NXZ
+300108e3 | e9b81e0b00 | JMP 0x300c27a0

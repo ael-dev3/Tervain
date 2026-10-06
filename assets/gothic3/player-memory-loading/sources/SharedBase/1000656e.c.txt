@@ -1,0 +1,13 @@
+/* ENTRY 1000656e | bCUnicodeString::bCUnicodeString | STATUS decompiled | 1 ms */
+
+/* public: __thiscall bCUnicodeString::bCUnicodeString(void) */
+
+void __thiscall bCUnicodeString::bCUnicodeString(bCUnicodeString *this)
+
+{
+                    /* 0x656e  303  ??0bCUnicodeString@@QAE@XZ */
+  *(undefined4 *)this = 0;
+  return;
+}
+
+

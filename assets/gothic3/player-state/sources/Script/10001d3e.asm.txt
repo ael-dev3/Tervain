@@ -1,0 +1,4 @@
+; 10001d3e ?GetCategory@PSInventory@@QBE?AW4gEItemCategory@@H@Z
+10001d3e | e94d7b0100 | JMP 0x10019890
+; 10001d43 PSInfoManager::operator=
+; 10001d43 Ordinal_222

@@ -1,0 +1,6 @@
+; 2022a4b0 FUN_2022a4b0
+2022a4b0 | 8b4c2404 | MOV ECX,dword ptr [ESP + 0x4]
+2022a4b4 | 6a4d | PUSH 0x4d
+2022a4b6 | ff1504887d20 | CALL dword ptr [0x207d8804]
+2022a4bc | b801000000 | MOV EAX,0x1
+2022a4c1 | c20400 | RET 0x4

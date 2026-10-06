@@ -1,0 +1,2 @@
+; 200174ef gCEffect_PS::GetPropertySetType
+200174ef | e95c0f1000 | JMP 0x20118450

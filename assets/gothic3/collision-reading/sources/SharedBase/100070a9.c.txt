@@ -1,0 +1,18 @@
+/* ENTRY 100070a9 | bCOrientedBox::InvScale | STATUS decompiled | 3 ms */
+
+/* public: void __thiscall bCOrientedBox::InvScale(float) */
+
+void __thiscall bCOrientedBox::InvScale(bCOrientedBox *this,float param_1)
+
+{
+  float fVar1;
+  
+                    /* 0x70a9  3475  ?InvScale@bCOrientedBox@@QAEXM@Z */
+  fVar1 = 1.0 / param_1;
+  *(float *)(this + 0xc) = fVar1 * *(float *)(this + 0xc);
+  *(float *)(this + 0x10) = *(float *)(this + 0x10) * fVar1;
+  *(float *)(this + 0x14) = fVar1 * *(float *)(this + 0x14);
+  return;
+}
+
+

@@ -1,0 +1,2 @@
+; 3001b784 eCResourceAnimationActor_PS::GetEMFX2Actor
+3001b784 | e9c77d0700 | JMP 0x30093550

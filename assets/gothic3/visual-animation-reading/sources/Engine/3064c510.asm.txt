@@ -1,0 +1,17 @@
+; 3064c510 FUN_3064c510
+3064c510 | f30f10052cd88130 | MOVSS XMM0,dword ptr [0x3081d82c]
+3064c518 | 8bc1 | MOV EAX,ECX
+3064c51a | 33c9 | XOR ECX,ECX
+3064c51c | f30f1100 | MOVSS dword ptr [EAX],XMM0
+3064c520 | f30f114004 | MOVSS dword ptr [EAX + 0x4],XMM0
+3064c525 | f30f100534848130 | MOVSS XMM0,dword ptr [0x30818434]
+3064c52d | f30f114008 | MOVSS dword ptr [EAX + 0x8],XMM0
+3064c532 | f30f11400c | MOVSS dword ptr [EAX + 0xc],XMM0
+3064c537 | c74010ffffffff | MOV dword ptr [EAX + 0x10],0xffffffff
+3064c53e | 894818 | MOV dword ptr [EAX + 0x18],ECX
+3064c541 | c7401c06000000 | MOV dword ptr [EAX + 0x1c],0x6
+3064c548 | c6402101 | MOV byte ptr [EAX + 0x21],0x1
+3064c54c | 884820 | MOV byte ptr [EAX + 0x20],CL
+3064c54f | 884822 | MOV byte ptr [EAX + 0x22],CL
+3064c552 | 894814 | MOV dword ptr [EAX + 0x14],ECX
+3064c555 | c3 | RET

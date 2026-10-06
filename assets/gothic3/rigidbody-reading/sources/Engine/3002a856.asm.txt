@@ -1,0 +1,4 @@
+; 3002a856 ?OnExitProcessingRange@eCRigidBody_PS@@MAEXXZ
+3002a856 | e975333000 | JMP 0x3032dbd0
+; 3002a85b eCEventLogic_PS::GetPropertySetType
+; 3002a85b Ordinal_8213

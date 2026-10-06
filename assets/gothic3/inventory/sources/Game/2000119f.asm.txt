@@ -1,0 +1,2 @@
+; 2000119f ?SetQuality@gCInventoryStack@@QAEXABH@Z
+2000119f | e9acde0700 | JMP 0x2007f050

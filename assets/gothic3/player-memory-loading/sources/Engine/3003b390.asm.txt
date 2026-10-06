@@ -1,0 +1,2 @@
+; 3003b390 eCEntityPropertySet::~eCEntityPropertySet
+3003b390 | e9db604400 | JMP 0x30481470

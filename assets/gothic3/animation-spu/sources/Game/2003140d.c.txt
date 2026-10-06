@@ -1,0 +1,13 @@
+/* ENTRY 2003140d | gCScriptProcessingUnit::AIContinueRoutine | STATUS decompiled | 1 ms */
+
+/* public: void __thiscall gCScriptProcessingUnit::AIContinueRoutine(void) */
+
+void __thiscall gCScriptProcessingUnit::AIContinueRoutine(gCScriptProcessingUnit *this)
+
+{
+                    /* 0x3140d  964  ?AIContinueRoutine@gCScriptProcessingUnit@@QAEXXZ */
+  DetectDailyRoutineTask(this,false);
+  return;
+}
+
+

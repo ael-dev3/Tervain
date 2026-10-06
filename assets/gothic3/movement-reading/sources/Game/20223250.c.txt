@@ -1,0 +1,84 @@
+/* ENTRY 20223250 | FUN_20223250 | STATUS decompiled | 46 ms */
+
+void __thiscall FUN_20223250(int param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4)
+
+{
+  undefined4 uVar1;
+  undefined4 uVar2;
+  undefined4 uVar3;
+  char cVar4;
+  eCModuleAdmin *this;
+  int *piVar5;
+  char *pcVar6;
+  bCString *pbVar7;
+  int iVar8;
+  int local_8;
+  bCString abStack_4 [4];
+  
+  bCString::bCString((bCString *)&local_8,"gCEffectModule");
+  pbVar7 = (bCString *)&local_8;
+  this = eCModuleAdmin::GetInstance();
+  eCModuleAdmin::FindModule(this,pbVar7);
+  piVar5 = (int *)___RTDynamicCast();
+  bCString::~bCString((bCString *)&local_8);
+  piVar5 = (int *)(**(code **)(*piVar5 + 0xbc))();
+  uVar3 = param_4;
+  uVar2 = param_3;
+  iVar8 = 0;
+  local_8 = param_1 + 0x2ac;
+  do {
+    pcVar6 = (char *)eCCollisionShape::GetMaterialName((eEShapeMaterial)abStack_4);
+    pbVar7 = (bCString *)operator+((char *)&param_3,(bCString *)"eff_ani_slide_");
+    bCString::operator+(pbVar7,pcVar6);
+    bCString::~bCString((bCString *)&stack0x00000000);
+    bCString::~bCString((bCString *)&stack0xfffffff4);
+    (**(code **)(*piVar5 + 0x10))(&param_2);
+    cVar4 = thunk_FUN_20217480();
+    if (cVar4 == '\x01') {
+      (**(code **)(*piVar5 + 0x10))();
+    }
+    cVar4 = thunk_FUN_20217480();
+    if (cVar4 == '\x01') {
+      (**(code **)(*piVar5 + 0x10))();
+    }
+    cVar4 = thunk_FUN_202175c0();
+    if (cVar4 == '\x01') {
+      (**(code **)(*piVar5 + 0x10))();
+    }
+    cVar4 = thunk_FUN_202175c0();
+    if (cVar4 == '\x01') {
+      (**(code **)(*piVar5 + 0x10))();
+    }
+    cVar4 = thunk_FUN_20217700();
+    if (cVar4 == '\x01') {
+      (**(code **)(*piVar5 + 0x10))();
+    }
+    cVar4 = thunk_FUN_20217700();
+    if (cVar4 == '\x01') {
+      (**(code **)(*piVar5 + 0x10))();
+    }
+    cVar4 = thunk_FUN_20217840();
+    if (cVar4 == '\x01') {
+      (**(code **)(*piVar5 + 0x10))();
+    }
+    cVar4 = thunk_FUN_20217970();
+    if (cVar4 == '\x01') {
+      (**(code **)(*piVar5 + 0x10))();
+    }
+    bCString::~bCString((bCString *)&param_4);
+    iVar8 = iVar8 + 1;
+  } while (iVar8 < 0x16);
+  bCString::bCString((bCString *)&param_4,"eff_ani_slide_earth_01");
+  uVar1 = param_2;
+  (**(code **)(*piVar5 + 0x10))();
+  bCString::~bCString(abStack_4);
+  bCString::bCString((bCString *)&stack0xfffffff4,"eff_ani_swim_waves_01");
+  (**(code **)(*piVar5 + 0x10))(&stack0xfffffff4,uVar1,uVar2);
+  bCString::~bCString((bCString *)&stack0xffffffe4);
+  bCString::bCString((bCString *)&stack0xffffffe4,"eff_ani_wade_waves_01");
+  (**(code **)(*piVar5 + 0x10))(&stack0xffffffe4,uVar1,uVar2,uVar3);
+  bCString::~bCString((bCString *)&stack0xffffffd4);
+  return;
+}
+
+

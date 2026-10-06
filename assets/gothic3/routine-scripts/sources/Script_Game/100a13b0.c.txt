@@ -1,0 +1,62 @@
+/* ENTRY 100a13b0 | FUN_100a13b0 | STATUS decompiled | 26 ms */
+
+undefined4 FUN_100a13b0(gCScriptProcessingUnit *param_1)
+
+{
+  bool bVar1;
+  eCEntity *peVar2;
+  int iVar3;
+  Entity aEStack_208 [148];
+  undefined4 uStack_174;
+  gCScriptProcessingUnit *pgStack_170;
+  Entity *pEStack_16c;
+  char *pcVar4;
+  bool local_155;
+  gEAIMode local_154;
+  Entity local_150 [4];
+  PropertyAIMode local_14c [48];
+  PropertyRansacked local_11c [112];
+  Entity aEStack_ac [4];
+  Entity local_a8 [168];
+  
+  peVar2 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+  Entity::Entity(local_150,peVar2);
+  peVar2 = gCScriptProcessingUnit::GetTargetEntity(param_1);
+  Entity::Entity(local_a8,peVar2);
+  local_154 = 0;
+  PSRoutine::PropertyAIMode::operator=(local_14c,&local_154);
+  local_155 = false;
+  PSNpc::PropertyRansacked::operator=(local_11c,&local_155);
+  bVar1 = PSNpc::HasStatusEffects((PSNpc *)local_11c,0x80);
+  if (bVar1) {
+    pcVar4 = "PS_Ghost";
+  }
+  else {
+    pEStack_16c = local_150;
+    pgStack_170 = param_1;
+    uStack_174 = 0x100a1442;
+    thunk_FUN_10031280();
+    Entity::Entity(aEStack_208,local_150);
+    iVar3 = thunk_FUN_1000c160();
+    if (iVar3 == 1) {
+      pcVar4 = "PS_Melee";
+    }
+    else if (iVar3 == 2) {
+      pcVar4 = "PS_Ranged";
+    }
+    else if (iVar3 == 3) {
+      pcVar4 = "PS_Magic";
+    }
+    else {
+      pcVar4 = "PS_Normal";
+    }
+  }
+  pEStack_16c = (Entity *)0x100a1494;
+  bCString::bCString((bCString *)&stack0xfffffe9c,pcVar4);
+  PSRoutine::SetTask((PSRoutine *)local_14c);
+  Entity::~Entity(aEStack_ac);
+  Entity::~Entity((Entity *)&local_154);
+  return 1;
+}
+
+

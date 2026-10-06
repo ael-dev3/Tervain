@@ -1,0 +1,78 @@
+/* ENTRY 20027980 | gCPlayerMemory_PS::~gCPlayerMemory_PS | STATUS decompiled | 41 ms */
+
+/* public: virtual __thiscall gCPlayerMemory_PS::~gCPlayerMemory_PS(void) */
+
+void __thiscall gCPlayerMemory_PS::~gCPlayerMemory_PS(gCPlayerMemory_PS *this)
+
+{
+  undefined ***this_00;
+  bCMemoryAdmin *pbVar1;
+  undefined4 *puVar2;
+  void *pvVar3;
+  
+                    /* 0x27980  515  ??1gCPlayerMemory_PS@@UAE@XZ */
+  puVar2 = &this[1].gCPlayerMemory_PS_data.offset_0x38;
+  this->vftablePtr = &vftable;
+  FUN_20011a63();
+  if (puVar2 != (undefined4 *)0x0) {
+    pvVar3 = (void *)*puVar2;
+    if (pvVar3 != (void *)0x0) {
+      pbVar1 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar1,pvVar3);
+      *puVar2 = 0;
+      this[1].gCPlayerMemory_PS_data.offset_0x3c = 0;
+      this[1].gCPlayerMemory_PS_data.offset_0x40 = 0;
+    }
+    pvVar3 = (void *)*puVar2;
+    if (pvVar3 != (void *)0x0) {
+      pbVar1 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar1,pvVar3);
+      *puVar2 = 0;
+      this[1].gCPlayerMemory_PS_data.offset_0x3c = 0;
+      this[1].gCPlayerMemory_PS_data.offset_0x40 = 0;
+    }
+  }
+  bCPropertyID::~bCPropertyID((bCPropertyID *)&(this->gCPlayerMemory_PS_data).field_0x64);
+  this_00 = &(this->gCPlayerMemory_PS_data).offset_0x5c;
+  *this_00 = &bTPropertyContainer<gEWeaponConfig>::vftable.GetVersion;
+  bCObjectBase::~bCObjectBase((bCObjectBase *)this_00);
+  puVar2 = &(this->gCPlayerMemory_PS_data).offset_0x44;
+  if ((puVar2 != (undefined4 *)0x0) && (pvVar3 = (void *)*puVar2, pvVar3 != (void *)0x0)) {
+    pbVar1 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar1,pvVar3);
+    *puVar2 = 0;
+    (this->gCPlayerMemory_PS_data).offset_0x48 = 0;
+    (this->gCPlayerMemory_PS_data).offset_0x4c = 0;
+  }
+  puVar2 = &(this->gCPlayerMemory_PS_data).offset_0x38;
+  if ((puVar2 != (undefined4 *)0x0) && (pvVar3 = (void *)*puVar2, pvVar3 != (void *)0x0)) {
+    pbVar1 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar1,pvVar3);
+    *puVar2 = 0;
+    (this->gCPlayerMemory_PS_data).offset_0x3c = 0;
+    (this->gCPlayerMemory_PS_data).offset_0x40 = 0;
+  }
+  puVar2 = &(this->gCPlayerMemory_PS_data).offset_0x2c;
+  if ((puVar2 != (undefined4 *)0x0) && (pvVar3 = (void *)*puVar2, pvVar3 != (void *)0x0)) {
+    pbVar1 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar1,pvVar3);
+    *puVar2 = 0;
+    (this->gCPlayerMemory_PS_data).offset_0x30 = 0;
+    (this->gCPlayerMemory_PS_data).offset_0x34 = 0;
+  }
+  puVar2 = &(this->gCPlayerMemory_PS_data).offset_0x20;
+  if ((puVar2 != (undefined4 *)0x0) && (pvVar3 = (void *)*puVar2, pvVar3 != (void *)0x0)) {
+    pbVar1 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar1,pvVar3);
+    *puVar2 = 0;
+    (this->gCPlayerMemory_PS_data).offset_0x24 = 0;
+    (this->gCPlayerMemory_PS_data).offset_0x28 = 0;
+  }
+  thunk_FUN_20064e80();
+                    /* WARNING: Could not recover jumptable at 0x2031e5c7. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eCEntityPropertySet::~eCEntityPropertySet((eCEntityPropertySet *)this);
+  return;
+}
+
+

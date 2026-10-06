@@ -1,0 +1,393 @@
+/* ENTRY 10001bf9 | bCOrientedBox::SetInnerBoxFromPoints | STATUS decompiled | 187 ms */
+
+/* public: void __thiscall bCOrientedBox::SetInnerBoxFromPoints(class bCVector const *,int) */
+
+void __thiscall
+bCOrientedBox::SetInnerBoxFromPoints(bCOrientedBox *this,bCVector *param_1,int param_2)
+
+{
+  float fVar1;
+  undefined4 uVar2;
+  double *pdVar3;
+  double *pdVar4;
+  double *pdVar5;
+  float fVar6;
+  float fVar7;
+  float fVar8;
+  float fVar9;
+  float fVar10;
+  float fVar11;
+  float fVar12;
+  float fVar13;
+  float fVar14;
+  float fVar15;
+  float fVar16;
+  int iVar17;
+  bCVector *pbVar18;
+  int iVar19;
+  float10 fVar20;
+  float fVar21;
+  float fVar22;
+  float fVar23;
+  float fVar24;
+  float fVar25;
+  float fVar26;
+  float fVar27;
+  undefined8 uStack_b0;
+  float fStack_a8;
+  undefined8 uStack_a0;
+  float fStack_98;
+  undefined8 uStack_90;
+  float fStack_88;
+  float fStack_7c;
+  undefined8 uStack_78;
+  float fStack_70;
+  float fStack_64;
+  float fStack_60;
+  float fStack_5c;
+  undefined8 uStack_58;
+  float fStack_50;
+  bCEigenVector abStack_48 [4];
+  int *piStack_44;
+  float fStack_38;
+  float fStack_34;
+  float fStack_30;
+  float fStack_2c;
+  float fStack_28;
+  float fStack_24;
+  float fStack_20;
+  float fStack_1c;
+  float fStack_18;
+  float fStack_14;
+  float fStack_10;
+  float fStack_c;
+  
+                    /* 0x1bf9  4226  ?SetInnerBoxFromPoints@bCOrientedBox@@QAEXPBVbCVector@@H@Z */
+  if (param_2 == 0) {
+    *(undefined4 *)(this + 0xc) = 0xff7fffff;
+    *(undefined4 *)(this + 0x10) = 0xff7fffff;
+    *(undefined4 *)(this + 0x14) = 0xff7fffff;
+    return;
+  }
+  iVar19 = 0;
+  *(undefined4 *)this = 0;
+  *(undefined4 *)(this + 4) = 0;
+  *(undefined4 *)(this + 8) = 0;
+  if (3 < param_2) {
+    iVar17 = (param_2 - 4U >> 2) + 1;
+    iVar19 = iVar17 * 4;
+    pbVar18 = param_1 + 0x14;
+    do {
+      iVar17 = iVar17 + -1;
+      *(float *)this = *(float *)(pbVar18 + -0x14) + *(float *)this;
+      *(float *)(this + 4) = *(float *)(pbVar18 + -0x10) + *(float *)(this + 4);
+      *(float *)(this + 8) = *(float *)(pbVar18 + -0xc) + *(float *)(this + 8);
+      *(float *)this = *(float *)(pbVar18 + -8) + *(float *)this;
+      *(float *)(this + 4) = *(float *)(pbVar18 + -4) + *(float *)(this + 4);
+      *(float *)(this + 8) = *(float *)(this + 8) + *(float *)pbVar18;
+      *(float *)this = *(float *)(pbVar18 + 4) + *(float *)this;
+      *(float *)(this + 4) = *(float *)(pbVar18 + 8) + *(float *)(this + 4);
+      *(float *)(this + 8) = *(float *)(pbVar18 + 0xc) + *(float *)(this + 8);
+      *(float *)this = *(float *)(pbVar18 + 0x10) + *(float *)this;
+      *(float *)(this + 4) = *(float *)(pbVar18 + 0x14) + *(float *)(this + 4);
+      *(float *)(this + 8) = *(float *)(pbVar18 + 0x18) + *(float *)(this + 8);
+      pbVar18 = pbVar18 + 0x30;
+    } while (iVar17 != 0);
+  }
+  if (iVar19 < param_2) {
+    iVar17 = param_2 - iVar19;
+    pbVar18 = param_1 + iVar19 * 0xc + 8;
+    do {
+      iVar17 = iVar17 + -1;
+      *(float *)this = *(float *)(pbVar18 + -8) + *(float *)this;
+      *(float *)(this + 4) = *(float *)(pbVar18 + -4) + *(float *)(this + 4);
+      *(float *)(this + 8) = *(float *)(this + 8) + *(float *)pbVar18;
+      pbVar18 = pbVar18 + 0xc;
+    } while (iVar17 != 0);
+  }
+  iVar19 = 0;
+  fStack_7c = 1.0 / (float)param_2;
+  fVar1 = fStack_7c * *(float *)this;
+  *(float *)this = fVar1;
+  fStack_64 = fStack_7c * *(float *)(this + 4);
+  *(float *)(this + 4) = fStack_64;
+  fStack_7c = *(float *)(this + 8) * fStack_7c;
+  *(float *)(this + 8) = fStack_7c;
+  fVar21 = 0.0;
+  fVar25 = 0.0;
+  fVar22 = 0.0;
+  fVar26 = 0.0;
+  fVar24 = 0.0;
+  fVar23 = 0.0;
+  if (param_2 < 4) {
+    fVar25 = 0.0;
+    fVar24 = fVar21;
+  }
+  else {
+    fVar21 = 0.0;
+    iVar17 = (param_2 - 4U >> 2) + 1;
+    iVar19 = iVar17 * 4;
+    pbVar18 = param_1 + 8;
+    fVar23 = 0.0;
+    do {
+      fVar27 = *(float *)(pbVar18 + -8) - fVar1;
+      fVar9 = *(float *)(pbVar18 + -4) - fStack_64;
+      fVar13 = *(float *)pbVar18 - fStack_7c;
+      fVar6 = *(float *)(pbVar18 + 4) - fVar1;
+      fVar10 = *(float *)(pbVar18 + 8) - fStack_64;
+      fVar11 = *(float *)(pbVar18 + 0xc) - fStack_7c;
+      fVar7 = *(float *)(pbVar18 + 0x10) - fVar1;
+      fVar8 = *(float *)(pbVar18 + 0x14) - fStack_64;
+      fVar12 = *(float *)(pbVar18 + 0x18) - fStack_7c;
+      iVar17 = iVar17 + -1;
+      fVar16 = *(float *)(pbVar18 + 0x1c) - fVar1;
+      fVar14 = *(float *)(pbVar18 + 0x20) - fStack_64;
+      fVar15 = *(float *)(pbVar18 + 0x24) - fStack_7c;
+      fVar21 = fVar16 * fVar16 + fVar7 * fVar7 + fVar6 * fVar6 + fVar27 * fVar27 + fVar21;
+      fVar25 = fVar14 * fVar16 + fVar8 * fVar7 + fVar10 * fVar6 + fVar9 * fVar27 + fVar25;
+      fVar22 = fVar15 * fVar16 + fVar12 * fVar7 + fVar11 * fVar6 + fVar13 * fVar27 + fVar22;
+      fVar26 = fVar14 * fVar14 + fVar8 * fVar8 + fVar10 * fVar10 + fVar9 * fVar9 + fVar26;
+      fVar24 = fVar15 * fVar14 + fVar8 * fVar12 + fVar10 * fVar11 + fVar9 * fVar13 + fVar24;
+      fVar23 = fVar15 * fVar15 + fVar12 * fVar12 + fVar11 * fVar11 + fVar13 * fVar13 + fVar23;
+      pbVar18 = pbVar18 + 0x30;
+      fStack_60 = fVar1;
+      fStack_5c = fStack_64;
+    } while (iVar17 != 0);
+  }
+  if (iVar19 < param_2) {
+    fStack_60 = *(float *)this;
+    fStack_5c = *(float *)(this + 4);
+    iVar17 = param_2 - iVar19;
+    pbVar18 = param_1 + iVar19 * 0xc + 8;
+    do {
+      iVar17 = iVar17 + -1;
+      fVar6 = *(float *)(pbVar18 + -8) - fStack_60;
+      fVar1 = *(float *)(pbVar18 + -4) - fStack_5c;
+      fVar27 = *(float *)pbVar18 - *(float *)(this + 8);
+      fVar21 = fVar6 * fVar6 + fVar21;
+      fVar25 = fVar1 * fVar6 + fVar25;
+      fVar22 = fVar27 * fVar6 + fVar22;
+      fVar26 = fVar1 * fVar1 + fVar26;
+      fVar24 = fVar1 * fVar27 + fVar24;
+      fVar23 = fVar27 * fVar27 + fVar23;
+      pbVar18 = pbVar18 + 0xc;
+    } while (iVar17 != 0);
+  }
+  fVar1 = (float)param_2;
+  uStack_58 = (double)(fVar21 / fVar1);
+  uStack_a0 = (double)(fVar25 / fVar1);
+  uStack_90 = (double)(fVar22 / fVar1);
+  uStack_78 = (double)(fVar26 / fVar1);
+  uStack_b0 = (double)(fVar24 / fVar1);
+  bCEigenVector::bCEigenVector(abStack_48,3);
+  *(double *)*piStack_44 = uStack_58;
+  *(double *)(*piStack_44 + 8) = uStack_a0;
+  *(double *)(*piStack_44 + 0x10) = uStack_90;
+  *(double *)piStack_44[1] = uStack_a0;
+  *(double *)(piStack_44[1] + 8) = uStack_78;
+  *(double *)(piStack_44[1] + 0x10) = uStack_b0;
+  *(double *)piStack_44[2] = uStack_90;
+  *(double *)(piStack_44[2] + 8) = uStack_b0;
+  *(double *)(piStack_44[2] + 0x10) = (double)(fVar23 / fVar1);
+  bCEigenVector::EigenStuff3(abStack_48);
+  pdVar3 = (double *)piStack_44[2];
+  pdVar4 = (double *)piStack_44[1];
+  fStack_88 = (float)*pdVar3;
+  pdVar5 = (double *)*piStack_44;
+  uStack_90._4_4_ = (float)*pdVar4;
+  uStack_90._0_4_ = (float)*pdVar5;
+  fStack_a8 = (float)pdVar3[1];
+  uStack_b0._4_4_ = (float)pdVar4[1];
+  uStack_b0._0_4_ = (float)pdVar5[1];
+  fStack_98 = (float)pdVar3[2];
+  uStack_a0._4_4_ = (float)pdVar4[2];
+  uStack_a0._0_4_ = (float)pdVar5[2];
+  bCVector::Normalize((bCVector *)&uStack_90);
+  bCVector::Normalize((bCVector *)&uStack_b0);
+  bCVector::Normalize((bCVector *)&uStack_a0);
+  fStack_70 = 0.0;
+  iVar19 = 0;
+  fStack_30 = 0.0;
+  fStack_c = fStack_70;
+  if (3 < param_2) {
+    fStack_7c = *(float *)this;
+    fStack_64 = *(float *)(this + 4);
+    pbVar18 = param_1 + 8;
+    fVar1 = *(float *)(this + 8);
+    iVar17 = (param_2 - 4U >> 2) + 1;
+    iVar19 = iVar17 * 4;
+    do {
+      fVar21 = *(float *)(pbVar18 + -8) - fStack_7c;
+      fVar23 = *(float *)(pbVar18 + -4) - fStack_64;
+      fVar22 = *(float *)pbVar18 - fVar1;
+      fVar24 = ABS(fStack_88 * fVar22 + (float)uStack_90 * fVar21 + uStack_90._4_4_ * fVar23);
+      if (fStack_70 < fVar24) {
+        fStack_70 = fVar24;
+      }
+      fVar24 = ABS(fStack_a8 * fVar22 + (float)uStack_b0 * fVar21 + uStack_b0._4_4_ * fVar23);
+      if (fStack_30 < fVar24) {
+        fStack_30 = fVar24;
+      }
+      fVar21 = ABS(fVar22 * fStack_98 + uStack_a0._4_4_ * fVar23 + (float)uStack_a0 * fVar21);
+      if (fStack_c < fVar21) {
+        fStack_c = fVar21;
+      }
+      fVar21 = *(float *)(pbVar18 + 4) - fStack_7c;
+      fVar23 = *(float *)(pbVar18 + 8) - fStack_64;
+      fVar22 = *(float *)(pbVar18 + 0xc) - fVar1;
+      fVar24 = ABS(fStack_88 * fVar22 + (float)uStack_90 * fVar21 + uStack_90._4_4_ * fVar23);
+      if (fStack_70 < fVar24) {
+        fStack_70 = fVar24;
+      }
+      fVar24 = ABS(fStack_a8 * fVar22 + (float)uStack_b0 * fVar21 + uStack_b0._4_4_ * fVar23);
+      if (fStack_30 < fVar24) {
+        fStack_30 = fVar24;
+      }
+      fVar21 = ABS(fVar22 * fStack_98 + uStack_a0._4_4_ * fVar23 + (float)uStack_a0 * fVar21);
+      if (fStack_c < fVar21) {
+        fStack_c = fVar21;
+      }
+      fVar21 = *(float *)(pbVar18 + 0x10) - fStack_7c;
+      fVar23 = *(float *)(pbVar18 + 0x14) - fStack_64;
+      fVar22 = *(float *)(pbVar18 + 0x18) - fVar1;
+      fVar24 = ABS(fStack_88 * fVar22 + (float)uStack_90 * fVar21 + uStack_90._4_4_ * fVar23);
+      if (fStack_70 < fVar24) {
+        fStack_70 = fVar24;
+      }
+      fVar24 = ABS(fStack_a8 * fVar22 + (float)uStack_b0 * fVar21 + uStack_b0._4_4_ * fVar23);
+      if (fStack_30 < fVar24) {
+        fStack_30 = fVar24;
+      }
+      fVar21 = ABS(fVar22 * fStack_98 + uStack_a0._4_4_ * fVar23 + (float)uStack_a0 * fVar21);
+      if (fStack_c < fVar21) {
+        fStack_c = fVar21;
+      }
+      fVar21 = *(float *)(pbVar18 + 0x1c) - fStack_7c;
+      fVar23 = *(float *)(pbVar18 + 0x20) - fStack_64;
+      fVar22 = *(float *)(pbVar18 + 0x24) - fVar1;
+      fVar24 = ABS(fStack_88 * fVar22 + (float)uStack_90 * fVar21 + uStack_90._4_4_ * fVar23);
+      if (fStack_70 < fVar24) {
+        fStack_70 = fVar24;
+      }
+      fVar24 = ABS(fStack_a8 * fVar22 + (float)uStack_b0 * fVar21 + uStack_b0._4_4_ * fVar23);
+      if (fStack_30 < fVar24) {
+        fStack_30 = fVar24;
+      }
+      fVar21 = ABS(fVar22 * fStack_98 + uStack_a0._4_4_ * fVar23 + (float)uStack_a0 * fVar21);
+      if (fStack_c < fVar21) {
+        fStack_c = fVar21;
+      }
+      pbVar18 = pbVar18 + 0x30;
+      iVar17 = iVar17 + -1;
+      fStack_60 = fStack_64;
+      fStack_5c = fStack_7c;
+    } while (iVar17 != 0);
+  }
+  if (iVar19 < param_2) {
+    fStack_7c = *(float *)this;
+    fStack_64 = *(float *)(this + 4);
+    pbVar18 = param_1 + iVar19 * 0xc + 8;
+    iVar19 = param_2 - iVar19;
+    do {
+      fVar1 = *(float *)(pbVar18 + -8) - fStack_7c;
+      fVar22 = *(float *)(pbVar18 + -4) - fStack_64;
+      fVar21 = *(float *)pbVar18 - *(float *)(this + 8);
+      fVar23 = ABS(fStack_88 * fVar21 + (float)uStack_90 * fVar1 + uStack_90._4_4_ * fVar22);
+      if (fStack_70 < fVar23) {
+        fStack_70 = fVar23;
+      }
+      fVar23 = ABS(fStack_a8 * fVar21 + (float)uStack_b0 * fVar1 + uStack_b0._4_4_ * fVar22);
+      if (fStack_30 < fVar23) {
+        fStack_30 = fVar23;
+      }
+      fVar1 = ABS(fVar21 * fStack_98 + uStack_a0._4_4_ * fVar22 + (float)uStack_a0 * fVar1);
+      if (fStack_c < fVar1) {
+        fStack_c = fVar1;
+      }
+      pbVar18 = pbVar18 + 0xc;
+      iVar19 = iVar19 + -1;
+    } while (iVar19 != 0);
+  }
+  fStack_2c = (float)uStack_90;
+  fStack_28 = uStack_90._4_4_;
+  fStack_24 = fStack_88;
+  fStack_20 = (float)uStack_b0;
+  fStack_1c = uStack_b0._4_4_;
+  fStack_18 = fStack_a8;
+  uStack_78 = (double)CONCAT44(uStack_90._4_4_ * fStack_70,fStack_70 * (float)uStack_90);
+  fStack_70 = fStack_70 * fStack_88;
+  uStack_58._0_4_ = (float)uStack_a0;
+  uStack_58._4_4_ = uStack_a0._4_4_;
+  fStack_50 = fStack_98;
+  fStack_38 = fStack_30 * (float)uStack_b0;
+  fStack_34 = uStack_b0._4_4_ * fStack_30;
+  fStack_30 = fStack_30 * fStack_a8;
+  fStack_14 = fStack_c * (float)uStack_a0;
+  fStack_10 = uStack_a0._4_4_ * fStack_c;
+  fStack_c = fStack_c * fStack_98;
+  fVar20 = (float10)FUN_100ab010();
+  fStack_64 = (float)fVar20;
+  *(float *)(this + 0xc) = fStack_64;
+  fVar20 = (float10)FUN_100ab010();
+  fVar1 = (float)fVar20;
+  *(float *)(this + 0x10) = fVar1;
+  fStack_7c = fStack_c * fStack_c + fStack_10 * fStack_10 + fStack_14 * fStack_14;
+  fVar20 = (float10)FUN_100ab010();
+  fStack_7c = (float)fVar20;
+  *(float *)(this + 0x14) = fStack_7c;
+  if (fVar1 <= fStack_64) {
+    fVar21 = fStack_2c;
+    fVar22 = fStack_28;
+    fVar23 = fStack_24;
+    fVar24 = fStack_20;
+    fVar25 = fStack_1c;
+    fVar26 = fStack_18;
+    fVar27 = (float)uStack_58;
+    if (fStack_7c <= fVar1) goto LAB_10065f2a;
+LAB_10065e97:
+    uVar2 = *(undefined4 *)(this + 0xc);
+    *(undefined4 *)(this + 0xc) = *(undefined4 *)(this + 0x14);
+    *(undefined4 *)(this + 0x14) = uVar2;
+    fStack_50 = fStack_a8;
+    fVar21 = (float)uStack_a0;
+    fVar22 = uStack_a0._4_4_;
+    fVar23 = fStack_98;
+    fVar24 = (float)uStack_90;
+    fVar25 = uStack_90._4_4_;
+    fVar26 = fStack_88;
+    fVar27 = (float)uStack_b0;
+    uStack_58._4_4_ = uStack_b0._4_4_;
+  }
+  else {
+    if (fVar1 < fStack_7c) goto LAB_10065e97;
+    uVar2 = *(undefined4 *)(this + 0xc);
+    *(undefined4 *)(this + 0xc) = *(undefined4 *)(this + 0x10);
+    *(undefined4 *)(this + 0x10) = uVar2;
+    fStack_50 = fStack_88;
+    fVar21 = (float)uStack_b0;
+    fVar22 = uStack_b0._4_4_;
+    fVar23 = fStack_a8;
+    fVar24 = (float)uStack_a0;
+    fVar25 = uStack_a0._4_4_;
+    fVar26 = fStack_98;
+    fVar27 = (float)uStack_90;
+    uStack_58._4_4_ = uStack_90._4_4_;
+  }
+  uVar2 = *(undefined4 *)(this + 0x10);
+  *(undefined4 *)(this + 0x10) = *(undefined4 *)(this + 0x14);
+  *(undefined4 *)(this + 0x14) = uVar2;
+LAB_10065f2a:
+  *(float *)(this + 0x18) = fVar21;
+  *(float *)(this + 0x1c) = fVar22;
+  *(float *)(this + 0x20) = fVar23;
+  *(float *)(this + 0x24) = fVar24;
+  *(float *)(this + 0x28) = fVar25;
+  *(float *)(this + 0x2c) = fVar26;
+  *(float *)(this + 0x34) = uStack_58._4_4_;
+  *(float *)(this + 0x30) = fVar27;
+  *(float *)(this + 0x38) = fStack_50;
+  bCEigenVector::~bCEigenVector(abStack_48);
+  return;
+}
+
+

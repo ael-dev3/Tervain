@@ -1,0 +1,14 @@
+; 10025940 FUN_10025940
+10025940 | 8bc1 | MOV EAX,ECX
+10025942 | d900 | FLD float ptr [EAX]
+10025944 | d9442404 | FLD float ptr [ESP + 0x4]
+10025948 | d9c0 | FLD ST0
+1002594a | deca | FMULP ST2
+1002594c | d9c9 | FXCH
+1002594e | d918 | FSTP float ptr [EAX]
+10025950 | d94004 | FLD float ptr [EAX + 0x4]
+10025953 | d8c9 | FMUL ST1
+10025955 | d95804 | FSTP float ptr [EAX + 0x4]
+10025958 | d84808 | FMUL float ptr [EAX + 0x8]
+1002595b | d95808 | FSTP float ptr [EAX + 0x8]
+1002595e | c20400 | RET 0x4

@@ -1,0 +1,11 @@
+/* ENTRY 3064c710 | EMotionFX::PlayModeBackward::PlayModeBackward | STATUS decompiled | 4 ms */
+
+PlayModeBackward * __thiscall EMotionFX::PlayModeBackward::PlayModeBackward(PlayModeBackward *this)
+
+{
+  PlayMode::PlayMode((PlayMode *)this);
+  this->vftablePtr = &vftable;
+  return this;
+}
+
+

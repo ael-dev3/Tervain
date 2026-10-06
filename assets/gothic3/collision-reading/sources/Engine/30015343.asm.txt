@@ -1,0 +1,4 @@
+; 30015343 bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeGroup>_>::vfunction7
+30015343 | e988973400 | JMP 0x3035ead0
+; 30015348 eCGfxGaugeAdmin::Read
+; 30015348 Ordinal_12117

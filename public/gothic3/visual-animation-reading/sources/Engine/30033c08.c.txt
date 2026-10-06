@@ -1,0 +1,20 @@
+/* ENTRY 30033c08 | eCVisualAnimation_PS::SetBoneShapeMaterial | STATUS decompiled | 75 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::SetBoneShapeMaterial(class bTPropertyContainer<enum
+   eEShapeMaterial> const &) */
+
+void __thiscall
+eCVisualAnimation_PS::SetBoneShapeMaterial
+          (eCVisualAnimation_PS *this,bTPropertyContainer<eEShapeMaterial> *param_1)
+
+{
+                    /* 0x33c08  12973
+                       ?SetBoneShapeMaterial@eCVisualAnimation_PS@@QAEXABV?$bTPropertyContainer@W4eEShapeMaterial@@@@@Z
+                        */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"BoneShapeMaterial",false);
+  (*(this[5].vftablePtr)->CopyFrom)(this + 5,(bCObjectBase *)param_1);
+  (*this->vftablePtr->NotifyPropertyValueChangedExitEx)(this,"BoneShapeMaterial",false);
+  return;
+}
+
+

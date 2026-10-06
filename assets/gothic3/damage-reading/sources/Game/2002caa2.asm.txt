@@ -1,0 +1,2 @@
+; 2002caa2 gCDamageReceiver_PS::Invalidate
+2002caa2 | e979d30800 | JMP 0x200b9e20

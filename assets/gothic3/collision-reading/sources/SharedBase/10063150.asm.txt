@@ -1,0 +1,12 @@
+; 10063150 FUN_10063150
+10063150 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+10063154 | d9410c | FLD float ptr [ECX + 0xc]
+10063157 | d830 | FDIV float ptr [EAX]
+10063159 | d9590c | FSTP float ptr [ECX + 0xc]
+1006315c | d94110 | FLD float ptr [ECX + 0x10]
+1006315f | d87004 | FDIV float ptr [EAX + 0x4]
+10063162 | d95910 | FSTP float ptr [ECX + 0x10]
+10063165 | d94114 | FLD float ptr [ECX + 0x14]
+10063168 | d87008 | FDIV float ptr [EAX + 0x8]
+1006316b | d95914 | FSTP float ptr [ECX + 0x14]
+1006316e | c20400 | RET 0x4

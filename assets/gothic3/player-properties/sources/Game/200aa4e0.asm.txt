@@ -1,0 +1,19 @@
+; 200aa4e0 FUN_200aa4e0
+200aa4e0 | 56 | PUSH ESI
+200aa4e1 | 8bf1 | MOV ESI,ECX
+200aa4e3 | 8b06 | MOV EAX,dword ptr [ESI]
+200aa4e5 | 8b5058 | MOV EDX,dword ptr [EAX + 0x58]
+200aa4e8 | 6a00 | PUSH 0x0
+200aa4ea | 68fcdb6520 | PUSH 0x2065dbfc
+200aa4ef | ffd2 | CALL EDX
+200aa4f1 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+200aa4f5 | 8b08 | MOV ECX,dword ptr [EAX]
+200aa4f7 | 8b16 | MOV EDX,dword ptr [ESI]
+200aa4f9 | 8b425c | MOV EAX,dword ptr [EDX + 0x5c]
+200aa4fc | 6a00 | PUSH 0x0
+200aa4fe | 894e54 | MOV dword ptr [ESI + 0x54],ECX
+200aa501 | 68fcdb6520 | PUSH 0x2065dbfc
+200aa506 | 8bce | MOV ECX,ESI
+200aa508 | ffd0 | CALL EAX
+200aa50a | 5e | POP ESI
+200aa50b | c20400 | RET 0x4

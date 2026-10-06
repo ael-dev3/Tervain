@@ -1,0 +1,2 @@
+; 3000b39d bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_>::vfunction24
+3000b39d | e97e6c3200 | JMP 0x30332020

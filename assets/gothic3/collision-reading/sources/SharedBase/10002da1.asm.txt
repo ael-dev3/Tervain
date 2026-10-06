@@ -1,0 +1,4 @@
+; 10002da1 ?GetInvScaled@bCBox@@QBE?AV1@M@Z
+10002da1 | e92a3b0300 | JMP 0x100368d0
+; 10002da6 bCPoint::operator<<
+; 10002da6 Ordinal_751

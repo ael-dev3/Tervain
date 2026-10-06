@@ -1,0 +1,4 @@
+; 10002ff9 ?GetHeight@bCCapsule@@QBE?BMXZ
+10002ff9 | e9a2470500 | JMP 0x100577a0
+; 10002ffe bCEigenVector::operator=
+; 10002ffe Ordinal_470

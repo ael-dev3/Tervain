@@ -1,0 +1,25 @@
+; 300ce750 bTPropertyObjectType<eCCollisionShape,bCObjectRefBase>::vfunction1
+300ce750 | a1a8abad30 | MOV EAX,[0x30adaba8]
+300ce755 | a801 | TEST AL,0x1
+300ce757 | 7514 | JNZ 0x300ce76d
+300ce759 | 8b0d44acad30 | MOV ECX,dword ptr [0x30adac44]
+300ce75f | 83c801 | OR EAX,0x1
+300ce762 | a3a8abad30 | MOV [0x30adaba8],EAX
+300ce767 | 890da4abad30 | MOV dword ptr [0x30adaba4],ECX
+; 300ce76d LAB_300ce76d
+300ce76d | a802 | TEST AL,0x2
+300ce76f | 7530 | JNZ 0x300ce7a1
+300ce771 | 83c802 | OR EAX,0x2
+300ce774 | 68ac70af30 | PUSH 0x30af70ac
+300ce779 | b90c6baa30 | MOV ECX,0x30aa6b0c
+300ce77e | a3a8abad30 | MOV [0x30adaba8],EAX
+300ce783 | e8262c5a00 | CALL 0x306713ae
+300ce788 | 50 | PUSH EAX
+300ce789 | 68a0abad30 | PUSH 0x30adaba0
+300ce78e | ff15b0daaf30 | CALL dword ptr [0x30afdab0]
+300ce794 | 6814f90230 | PUSH 0x3002f914
+300ce799 | e8f82d5a00 | CALL 0x30671596
+300ce79e | 83c404 | ADD ESP,0x4
+; 300ce7a1 LAB_300ce7a1
+300ce7a1 | b8a0abad30 | MOV EAX,0x30adaba0
+300ce7a6 | c3 | RET

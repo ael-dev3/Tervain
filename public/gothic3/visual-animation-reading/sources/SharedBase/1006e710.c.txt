@@ -1,0 +1,21 @@
+/* ENTRY 1006e710 | FUN_1006e710 | STATUS decompiled | 11 ms */
+
+void __fastcall FUN_1006e710(int param_1)
+
+{
+  undefined4 *puVar1;
+  bCMatrix local_c [12];
+  
+  puVar1 = (undefined4 *)bCVector::GetTransformedDirection((bCVector *)(param_1 + 0x10),local_c);
+  *(undefined4 *)(param_1 + 0x10) = *puVar1;
+  *(undefined4 *)(param_1 + 0x14) = puVar1[1];
+  *(undefined4 *)(param_1 + 0x18) = puVar1[2];
+  puVar1 = (undefined4 *)
+           bCVector::GetTransformed((bCVector *)(param_1 + 4),(bCMatrix *)&stack0xfffffff0);
+  *(undefined4 *)(param_1 + 4) = *puVar1;
+  *(undefined4 *)(param_1 + 8) = puVar1[1];
+  *(undefined4 *)(param_1 + 0xc) = puVar1[2];
+  return;
+}
+
+

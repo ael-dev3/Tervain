@@ -1,0 +1,22 @@
+/* ENTRY 20188e10 | gCHUDListCtrlInvTradeStacks::gCHUDListCtrlInvTradeStacks | STATUS decompiled | 26 ms */
+
+gCHUDListCtrlInvTradeStacks * __thiscall
+gCHUDListCtrlInvTradeStacks::gCHUDListCtrlInvTradeStacks(gCHUDListCtrlInvTradeStacks *this)
+
+{
+  gCHUDListCtrlInvStacks::gCHUDListCtrlInvStacks((gCHUDListCtrlInvStacks *)this);
+  (this->gCHUDListCtrlInvTradeStacks_data).offset_0xc = 0x3ea8f5c3;
+  (this->gCHUDListCtrlInvTradeStacks_data).offset_0x10 = 0x3d4ccccd;
+  (this->gCHUDListCtrlInvTradeStacks_data).offset_0x0 = 0;
+  (this->gCHUDListCtrlInvTradeStacks_data).offset_0x4 = 0;
+  (this->gCHUDListCtrlInvTradeStacks_data).offset_0x8 = 0;
+  (this->gCHUDListCtrlInvTradeStacks_data).offset_0x1c = 0;
+  this->vftablePtr = &vftable;
+  this->vftablePtr = &vftable;
+  (this->gCHUDListCtrlInvTradeStacks_data).offset_0x14 = 0;
+  (this->gCHUDListCtrlInvTradeStacks_data).offset_0x18 = 0xffffffff;
+  (this->gCHUDListCtrlInvTradeStacks_data).offset_0x20 = 1;
+  return this;
+}
+
+

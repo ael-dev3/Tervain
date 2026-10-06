@@ -1,0 +1,12 @@
+; 1002b7f0 FUN_1002b7f0
+1002b7f0 | 56 | PUSH ESI
+1002b7f1 | 8b742408 | MOV ESI,dword ptr [ESP + 0x8]
+1002b7f5 | 8b06 | MOV EAX,dword ptr [ESI]
+1002b7f7 | 8b5004 | MOV EDX,dword ptr [EAX + 0x4]
+1002b7fa | 6a18 | PUSH 0x18
+1002b7fc | 51 | PUSH ECX
+1002b7fd | 8bce | MOV ECX,ESI
+1002b7ff | ffd2 | CALL EDX
+1002b801 | 8bc6 | MOV EAX,ESI
+1002b803 | 5e | POP ESI
+1002b804 | c20400 | RET 0x4

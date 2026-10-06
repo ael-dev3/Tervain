@@ -1,0 +1,58 @@
+; 3033c790 bTPropertyObject<eCCollisionShape_PS,eCCollisionShapeBase_PS>::vfunction6
+3033c790 | 53 | PUSH EBX
+3033c791 | 56 | PUSH ESI
+3033c792 | 8b74240c | MOV ESI,dword ptr [ESP + 0xc]
+3033c796 | 57 | PUSH EDI
+3033c797 | 56 | PUSH ESI
+3033c798 | 8bd9 | MOV EBX,ECX
+3033c79a | ff15eccaaf30 | CALL dword ptr [0x30afcaec]
+3033c7a0 | 0fb7f8 | MOVZX EDI,AX
+3033c7a3 | 8d442410 | LEA EAX,[ESP + 0x10]
+3033c7a7 | 50 | PUSH EAX
+3033c7a8 | 8bce | MOV ECX,ESI
+3033c7aa | c744241400000000 | MOV dword ptr [ESP + 0x14],0x0
+3033c7b2 | ff1594caaf30 | CALL dword ptr [0x30afca94]
+3033c7b8 | e85d5dcfff | CALL 0x3003251a
+3033c7bd | 50 | PUSH EAX
+3033c7be | e80ab2ccff | CALL 0x300079cd
+3033c7c3 | 8bc8 | MOV ECX,EAX
+3033c7c5 | ff159cdaaf30 | CALL dword ptr [0x30afda9c]
+3033c7cb | 84c0 | TEST AL,AL
+3033c7cd | 743c | JZ 0x3033c80b
+3033c7cf | 8b4c2410 | MOV ECX,dword ptr [ESP + 0x10]
+3033c7d3 | 55 | PUSH EBP
+3033c7d4 | 8b2dacdbaf30 | MOV EBP,dword ptr [0x30afdbac]
+3033c7da | 51 | PUSH ECX
+3033c7db | ffd5 | CALL EBP
+3033c7dd | 8bc8 | MOV ECX,EAX
+3033c7df | ff1590caaf30 | CALL dword ptr [0x30afca90]
+3033c7e5 | 8b16 | MOV EDX,dword ptr [ESI]
+3033c7e7 | 8b5204 | MOV EDX,dword ptr [EDX + 0x4]
+3033c7ea | 8bd8 | MOV EBX,EAX
+3033c7ec | 8b442414 | MOV EAX,dword ptr [ESP + 0x14]
+3033c7f0 | 50 | PUSH EAX
+3033c7f1 | 53 | PUSH EBX
+3033c7f2 | 8bce | MOV ECX,ESI
+3033c7f4 | ffd2 | CALL EDX
+3033c7f6 | 53 | PUSH EBX
+3033c7f7 | ffd5 | CALL EBP
+3033c7f9 | 8bc8 | MOV ECX,EAX
+3033c7fb | ff150cdbaf30 | CALL dword ptr [0x30afdb0c]
+3033c801 | 5d | POP EBP
+3033c802 | 668bc7 | MOV AX,DI
+3033c805 | 5f | POP EDI
+3033c806 | 5e | POP ESI
+3033c807 | 5b | POP EBX
+3033c808 | c20400 | RET 0x4
+; 3033c80b LAB_3033c80b
+3033c80b | 8b03 | MOV EAX,dword ptr [EBX]
+3033c80d | 8b501c | MOV EDX,dword ptr [EAX + 0x1c]
+3033c810 | 57 | PUSH EDI
+3033c811 | 56 | PUSH ESI
+3033c812 | 8bcb | MOV ECX,EBX
+3033c814 | ffd2 | CALL EDX
+3033c816 | 668bc7 | MOV AX,DI
+3033c819 | 5f | POP EDI
+3033c81a | 5e | POP ESI
+3033c81b | 5b | POP EBX
+3033c81c | c20400 | RET 0x4

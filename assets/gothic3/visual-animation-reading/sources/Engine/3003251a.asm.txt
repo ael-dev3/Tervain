@@ -1,0 +1,2 @@
+; 3003251a bTPropertyType<eCPerformanceAdmin,bCObsoleteClass>::vfunction4
+3003251a | e991420400 | JMP 0x300767b0

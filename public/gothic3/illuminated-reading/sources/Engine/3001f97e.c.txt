@@ -1,0 +1,17 @@
+/* ENTRY 3001f97e | eCIlluminated_PS::OnPropertySetAdded | STATUS decompiled | 12 ms */
+
+/* protected: virtual void __thiscall eCIlluminated_PS::OnPropertySetAdded(void) */
+
+void __thiscall eCIlluminated_PS::OnPropertySetAdded(eCIlluminated_PS *this)
+
+{
+  eCFrustumElementItem *this_00;
+  
+                    /* 0x1f97e  11411  ?OnPropertySetAdded@eCIlluminated_PS@@MAEXXZ */
+  this_00 = eCEntity::GetFrustumElementItem((eCEntity *)(this->eCEntityPropertySet_data).offset_0x8)
+  ;
+  eCFrustumElementItem::SetIlluminationPS(this_00,(eCIlluminated_PS *)this);
+  return;
+}
+
+

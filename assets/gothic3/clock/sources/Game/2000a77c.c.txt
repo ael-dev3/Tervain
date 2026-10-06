@@ -1,0 +1,15 @@
+/* ENTRY 2000a77c | gCClock_PS::PauseClock | STATUS decompiled | 7 ms */
+
+/* public: void __thiscall gCClock_PS::PauseClock(void) */
+
+void __thiscall gCClock_PS::PauseClock(gCClock_PS *this)
+
+{
+                    /* 0xa77c  5712  ?PauseClock@gCClock_PS@@QAEXXZ */
+                    /* WARNING: Could not recover jumptable at 0x20207e13. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCClock::Pause((bCClock *)&(this->gCClock_PS_data).field_0x28);
+  return;
+}
+
+

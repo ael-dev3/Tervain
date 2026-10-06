@@ -1,0 +1,2 @@
+; 100064b5 bCString::Left
+100064b5 | e9e6dc0000 | JMP 0x100141a0

@@ -1,0 +1,12 @@
+; 20397bb0 FUN_20397bb0
+20397bb0 | 837c240400 | CMP dword ptr [ESP + 0x4],0x0
+20397bb5 | 7405 | JZ 0x20397bbc
+20397bb7 | 32c0 | XOR AL,AL
+20397bb9 | c20800 | RET 0x8
+20397bbc | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+20397bc0 | 8b11 | MOV EDX,dword ptr [ECX]
+20397bc2 | 014110 | ADD dword ptr [ECX + 0x10],EAX
+20397bc5 | 8b427c | MOV EAX,dword ptr [EDX + 0x7c]
+20397bc8 | ffd0 | CALL EAX
+20397bca | b001 | MOV AL,0x1
+20397bcc | c20800 | RET 0x8

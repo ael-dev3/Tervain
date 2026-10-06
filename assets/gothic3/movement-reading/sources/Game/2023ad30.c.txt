@@ -1,0 +1,9 @@
+/* ENTRY 2023ad30 | FUN_2023ad30 | STATUS decompiled | 0 ms */
+
+void FUN_2023ad30(void)
+
+{
+  return;
+}
+
+

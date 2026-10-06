@@ -1,0 +1,2 @@
+; 3000100f eCVisualAnimationLoD::Write
+3000100f | e9ccdd0b00 | JMP 0x300bede0

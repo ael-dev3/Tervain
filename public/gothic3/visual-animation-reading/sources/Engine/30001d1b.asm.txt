@@ -1,0 +1,2 @@
+; 30001d1b bTPropertyContainer<eEShapeGroup>::vfunction8
+30001d1b | e990810a00 | JMP 0x300a9eb0

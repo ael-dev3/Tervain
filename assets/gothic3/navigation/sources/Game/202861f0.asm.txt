@@ -1,0 +1,4 @@
+; 202861f0 FUN_202861f0
+202861f0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+202861f4 | 8981dc010000 | MOV dword ptr [ECX + 0x1dc],EAX
+202861fa | c20400 | RET 0x4

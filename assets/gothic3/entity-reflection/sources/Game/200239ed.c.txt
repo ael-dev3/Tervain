@@ -1,0 +1,18 @@
+/* ENTRY 200239ed | gCParty_PS::Create | STATUS decompiled | 10 ms */
+
+/* public: virtual enum bEResult __thiscall gCParty_PS::Create(void) */
+
+bEResult __thiscall gCParty_PS::Create(gCParty_PS *this)
+
+{
+  bool bVar1;
+  
+                    /* 0x239ed  2385  ?Create@gCParty_PS@@UAE?AW4bEResult@@XZ */
+  bVar1 = (*this->vftablePtr->IsValid)(this);
+  if (!bVar1) {
+    eCEntityPropertySet::Create((eCEntityPropertySet *)this);
+  }
+  return 1;
+}
+
+

@@ -1,0 +1,3 @@
+; 3035ba00 bTPropertyObjectType<eCCollisionShape,bCObjectRefBase>::vfunction3
+3035ba00 | 8d4118 | LEA EAX,[ECX + 0x18]
+3035ba03 | c3 | RET

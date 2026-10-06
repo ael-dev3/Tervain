@@ -1,0 +1,12 @@
+/* ENTRY 30010537 | eCVisualAnimation_PS::IsProcessable | STATUS decompiled | 6 ms */
+
+/* public: virtual bool __thiscall eCVisualAnimation_PS::IsProcessable(void)const  */
+
+bool __thiscall eCVisualAnimation_PS::IsProcessable(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x10537  10519  ?IsProcessable@eCVisualAnimation_PS@@UBE_NXZ */
+  return true;
+}
+
+

@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "scope": "actual-artifact-source-byte-and-hash-audit; no fixtures or target execution",
+  "targetCodeExecuted": false,
+  "testsExecuted": false,
+  "typecheck": "npm run typecheck passed",
+  "independentStaticReview": "remake_character_identity compared native creation/assurance/hotkey/Give/transfer bodies; no blocker in the bounded profile",
+  "inputs": [
+    {
+      "module": "Game",
+      "sha256": "b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f",
+      "unchanged": true
+    },
+    {
+      "module": "Script",
+      "sha256": "9375605676faaae44a50d48539a7b3995bed471e099ef573666221a044cd4e08",
+      "unchanged": true
+    },
+    {
+      "module": "SharedBase",
+      "sha256": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214",
+      "unchanged": true
+    }
+  ],
+  "allFreshOutputAndExcerptHashesMatch": true,
+  "selectedEntries": 136,
+  "instructionRecords": 2772,
+  "matchedInstructionBytes": 7666,
+  "manifestSha256": "0647df2626cb44220eea645b0de2b1e8d67c129aa7427521232e941f59f30463",
+  "runtimeSha256": "fa24712532084a77df6a95cabcf3210f1d365973972c42bee631f661a2818cd9",
+  "producerSha256": "ba6f6cdd93d450624a30d4cbd84f3c1ad7daa1b079e852630b72969e90a8a32d",
+  "startingCounts": {
+    "stacks": 121,
+    "intrinsicLearnedTrue": 5,
+    "intrinsicLearnedFalse": 116,
+    "serializedEquipment": 2
+  }
+}

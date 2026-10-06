@@ -1,0 +1,284 @@
+{
+  "schema": "gothic3-original-player-property-seed-v1",
+  "phase": "serialized-before-OnGameStartUp",
+  "entity": {
+    "key": "world-2419:371",
+    "name": "PC_Hero",
+    "guid20": "054d6e4a5f059340bc5c2ca0cca6674500000000"
+  },
+  "source": {
+    "archive": "Projects_compiled.p00",
+    "path": "G3_World_01/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}.lrentdat",
+    "sha256": "28f7273b3d54415b84445651a3dfa962c1ff158e9183deba81ba47e4d5d57938",
+    "propertySetSourceOffset": 1189475
+  },
+  "memory": {
+    "HideTips": false,
+    "PlayerKnows": {
+      "prefix": 1,
+      "elementType": "class bCString",
+      "count": 0,
+      "items": []
+    },
+    "PoliticalFame": {
+      "prefix": 1,
+      "elementType": "long",
+      "count": 9,
+      "items": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "PoliticalSuspectComment": {
+      "prefix": 1,
+      "elementType": "long",
+      "count": 9,
+      "items": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "PoliticalCrimeCount": {
+      "prefix": 1,
+      "elementType": "long",
+      "count": 9,
+      "items": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "PoliticalPlayerCrime": {
+      "prefix": 1,
+      "elementType": "bool",
+      "count": 9,
+      "items": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ]
+    },
+    "XP": 0,
+    "LPAttribs": 0,
+    "LPPerks": 0,
+    "SecondsTransformRemain": 0.0,
+    "SecondsMistRemain": 0.0,
+    "LastWeaponConfig": {
+      "enum": "gEWeaponConfig",
+      "version": 1,
+      "value": 0,
+      "symbol": "gEWeaponConfig_Melee",
+      "symbols": [
+        "gEWeaponConfig_Melee"
+      ]
+    },
+    "LastSpell": {
+      "rawGuid20": "e3f3194ca998c64faeaf3e865599e60c00000000",
+      "referenceKind": "unspecified"
+    },
+    "BookOfFlood": 0,
+    "BookOfRhobar": 0,
+    "BookOfZuben": 0,
+    "DuskToDawnStartHour": 0,
+    "Chapter": 0,
+    "TutorialFlags": 0,
+    "TalkedToDiego": false,
+    "TalkedToGorn": false,
+    "TalkedToMilten": false,
+    "TalkedToLester": false,
+    "TimeStampStart": 0.0
+  },
+  "attributes": [
+    {
+      "key": "ALC",
+      "kind": "gCAttribute",
+      "sourceOffset": 1189971,
+      "values": {
+        "Tag": "ALC",
+        "Modifier": 0,
+        "Value": 100
+      }
+    },
+    {
+      "key": "PROT_MISSILE",
+      "kind": "gCAttribute",
+      "sourceOffset": 1190040,
+      "values": {
+        "Tag": "PROT_MISSILE",
+        "Modifier": 0,
+        "Value": 100
+      }
+    },
+    {
+      "key": "SMT",
+      "kind": "gCAttribute",
+      "sourceOffset": 1190109,
+      "values": {
+        "Tag": "SMT",
+        "Modifier": 0,
+        "Value": 100
+      }
+    },
+    {
+      "key": "HP",
+      "kind": "gCStat",
+      "sourceOffset": 1190178,
+      "values": {
+        "BaseMaximum": 100,
+        "MaximumModifier": 0,
+        "Tag": "HP",
+        "Modifier": 0,
+        "Value": 100
+      }
+    },
+    {
+      "key": "DEX",
+      "kind": "gCAttribute",
+      "sourceOffset": 1190275,
+      "values": {
+        "Tag": "DEX",
+        "Modifier": 0,
+        "Value": 100
+      }
+    },
+    {
+      "key": "THF",
+      "kind": "gCAttribute",
+      "sourceOffset": 1190344,
+      "values": {
+        "Tag": "THF",
+        "Modifier": 0,
+        "Value": 100
+      }
+    },
+    {
+      "key": "PROT_ICE",
+      "kind": "gCAttribute",
+      "sourceOffset": 1190413,
+      "values": {
+        "Tag": "PROT_ICE",
+        "Modifier": 0,
+        "Value": 100
+      }
+    },
+    {
+      "key": "STR",
+      "kind": "gCAttribute",
+      "sourceOffset": 1190482,
+      "values": {
+        "Tag": "STR",
+        "Modifier": 0,
+        "Value": 100
+      }
+    },
+    {
+      "key": "SP",
+      "kind": "gCStat",
+      "sourceOffset": 1190551,
+      "values": {
+        "BaseMaximum": 100,
+        "MaximumModifier": 0,
+        "Tag": "SP",
+        "Modifier": 0,
+        "Value": 100
+      }
+    },
+    {
+      "key": "INT",
+      "kind": "gCAttribute",
+      "sourceOffset": 1190648,
+      "values": {
+        "Tag": "INT",
+        "Modifier": 0,
+        "Value": 100
+      }
+    },
+    {
+      "key": "PROT_IMPACT",
+      "kind": "gCAttribute",
+      "sourceOffset": 1190717,
+      "values": {
+        "Tag": "PROT_IMPACT",
+        "Modifier": 0,
+        "Value": 100
+      }
+    },
+    {
+      "key": "PROT_BLADE",
+      "kind": "gCAttribute",
+      "sourceOffset": 1190786,
+      "values": {
+        "Tag": "PROT_BLADE",
+        "Modifier": 0,
+        "Value": 100
+      }
+    },
+    {
+      "key": "PROT_FIRE",
+      "kind": "gCAttribute",
+      "sourceOffset": 1190855,
+      "values": {
+        "Tag": "PROT_FIRE",
+        "Modifier": 0,
+        "Value": 100
+      }
+    },
+    {
+      "key": "MP",
+      "kind": "gCStat",
+      "sourceOffset": 1190924,
+      "values": {
+        "BaseMaximum": 100,
+        "MaximumModifier": 0,
+        "Tag": "MP",
+        "Modifier": 0,
+        "Value": 100
+      }
+    },
+    {
+      "key": "PROT_LIGHTNING",
+      "kind": "gCAttribute",
+      "sourceOffset": 1191021,
+      "values": {
+        "Tag": "PROT_LIGHTNING",
+        "Modifier": 0,
+        "Value": 100
+      }
+    }
+  ],
+  "audit": {
+    "originalRecordBytesMatch": true,
+    "attributes": 15,
+    "propertySetVersion": 5,
+    "sourceByteChecks": 197,
+    "propertyValues": 75,
+    "nativeReadExecuted": false,
+    "startupExecuted": false
+  }
+}

@@ -1,0 +1,2 @@
+; 200323cb bTPropertyObject<gCCharacterMovement_PS,gCMovementBase_PS>::vfunction10
+200323cb | e920112000 | JMP 0x202334f0

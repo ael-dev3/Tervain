@@ -1,0 +1,2 @@
+; 20015b2c bTPOPureSmartPtr<gCNavigation_PS>::scalar_deleting_destructor
+20015b2c | e9af6e2700 | JMP 0x2028c9e0

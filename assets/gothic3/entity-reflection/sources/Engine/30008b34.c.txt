@@ -1,0 +1,92 @@
+/* ENTRY 30008b34 | eCIlluminated_PS::Read | STATUS decompiled | 40 ms */
+
+/* protected: virtual enum bEResult __thiscall eCIlluminated_PS::Read(class bCIStream &) */
+
+bEResult __thiscall eCIlluminated_PS::Read(eCIlluminated_PS *this,bCIStream *param_1)
+
+{
+  undefined1 *puVar1;
+  ushort uVar2;
+  float *pfVar3;
+  int iVar4;
+  bCFloatAlphaColor *this_00;
+  ushort auStack_fc [2];
+  float fStack_f8;
+  bCVector4 abStack_f4 [16];
+  bCVector4 abStack_e4 [16];
+  bCVector4 abStack_d4 [16];
+  bCVector4 abStack_c4 [16];
+  bCVector4 abStack_b4 [16];
+  bCVector4 abStack_a4 [16];
+  bCVector4 abStack_94 [16];
+  bCVector4 abStack_84 [132];
+  
+                    /* 0x8b34  12150  ?Read@eCIlluminated_PS@@MAE?AW4bEResult@@AAVbCIStream@@@Z */
+  bCIStream::operator>>((bCIStream *)param_1,auStack_fc);
+  uVar2 = auStack_fc[0];
+  if (uVar2 < 2) {
+    _vector_constructor_iterator_(abStack_b4,0x14,9,bCFloatAlphaColor_exref);
+    (**(code **)(*(int *)param_1 + 4))(abStack_b4,0xb4);
+    iVar4 = 8;
+    this_00 = (bCFloatAlphaColor *)register0x00000010;
+    do {
+      this_00 = this_00 + -0x14;
+      bCFloatAlphaColor::~bCFloatAlphaColor(this_00);
+      iVar4 = iVar4 + -1;
+    } while (-1 < iVar4);
+  }
+  else {
+    if (uVar2 < 4) {
+      thunk_FUN_30223790();
+      thunk_FUN_302123d0();
+      (**(code **)(*(int *)param_1 + 4))(abStack_b4,0x90);
+      bCVector4::operator=(abStack_f4,abStack_b4);
+      bCVector4::operator=(abStack_e4,abStack_a4);
+      bCVector4::operator=(abStack_d4,abStack_94);
+      bCVector4::operator=(abStack_c4,abStack_84);
+      thunk_FUN_30071060();
+      thunk_FUN_302237e0();
+    }
+    else if (uVar2 < 5) {
+      thunk_FUN_302123d0();
+      (**(code **)(*(int *)param_1 + 4))(abStack_f4,0x40);
+      thunk_FUN_30071060();
+    }
+    if (2 < auStack_fc[0]) {
+      if (auStack_fc[0] < 8) {
+        bCIStream::operator>>((bCIStream *)param_1,&fStack_f8);
+      }
+      else {
+        bCIStream::operator>>((bCIStream *)param_1,&(this->eCIlluminated_PS_data).offset_0x25);
+      }
+    }
+  }
+  if (auStack_fc[0] == 5) {
+    _vector_constructor_iterator_(abStack_b4,0x10,9,bCVector4_exref);
+    (**(code **)(*(int *)param_1 + 4))(abStack_b4,0x90);
+    thunk_FUN_300598f0(abStack_b4,0x10,9,~bCVector4_exref);
+  }
+  else if (5 < auStack_fc[0]) {
+    (**(code **)(*(int *)param_1 + 4))(&(this->eCIlluminated_PS_data).field_0x28,0x70);
+    if (auStack_fc[0] < 8) {
+      (this->eCIlluminated_PS_data).offset_0x25 = 0;
+      iVar4 = 0;
+      do {
+        pfVar3 = bCVector4::operator[]((bCVector4 *)&(this->eCIlluminated_PS_data).field_0x88,iVar4)
+        ;
+        if (*pfVar3 != 0.0) {
+          puVar1 = &(this->eCIlluminated_PS_data).offset_0x25;
+          *puVar1 = *puVar1 + '\x01';
+        }
+        iVar4 = iVar4 + 1;
+      } while (iVar4 < 4);
+    }
+  }
+  if (6 < auStack_fc[0]) {
+    (this->eCIlluminated_PS_data).field_0x1a = (this->eCIlluminated_PS_data).field_0xd;
+    (this->eCIlluminated_PS_data).field_0x19 = (this->eCIlluminated_PS_data).field_0xc;
+  }
+  return 1;
+}
+
+

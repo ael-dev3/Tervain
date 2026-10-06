@@ -1,0 +1,26 @@
+; 30762c90 bTPropertyType<eCEffector,eCEntityProxy>::~bTPropertyType<eCEffector,eCEntityProxy>
+30762c90 | 51 | PUSH ECX
+30762c91 | 6830898130 | PUSH 0x30818930
+30762c96 | 8d4c2404 | LEA ECX,[ESP + 0x4]
+30762c9a | ff155cdbaf30 | CALL dword ptr [0x30afdb5c]
+30762ca0 | 6a01 | PUSH 0x1
+30762ca2 | 8d442404 | LEA EAX,[ESP + 0x4]
+30762ca6 | 50 | PUSH EAX
+30762ca7 | b950ddae30 | MOV ECX,0x30aedd50
+30762cac | ff1598caaf30 | CALL dword ptr [0x30afca98]
+30762cb2 | c70550ddae306c5f8630 | MOV dword ptr [0x30aedd50],0x30865f6c
+30762cbc | e8976f8cff | CALL 0x30029c58
+30762cc1 | b950ddae30 | MOV ECX,0x30aedd50
+30762cc6 | a368ddae30 | MOV [0x30aedd68],EAX
+30762ccb | c7056cddae300c000000 | MOV dword ptr [0x30aedd6c],0xc
+30762cd5 | c70570ddae3000000000 | MOV dword ptr [0x30aedd70],0x0
+30762cdf | ff1570caaf30 | CALL dword ptr [0x30afca70]
+30762ce5 | 8b0d68ddae30 | MOV ECX,dword ptr [0x30aedd68]
+30762ceb | 6850ddae30 | PUSH 0x30aedd50
+30762cf0 | ff157ccaaf30 | CALL dword ptr [0x30afca7c]
+30762cf6 | 8d0c24 | LEA ECX,[ESP]
+30762cf9 | ff15dcdbaf30 | CALL dword ptr [0x30afdbdc]
+30762cff | 6860907a30 | PUSH 0x307a9060
+30762d04 | e88de8f0ff | CALL 0x30671596
+30762d09 | 83c408 | ADD ESP,0x8
+30762d0c | c3 | RET

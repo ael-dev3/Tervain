@@ -1,0 +1,18 @@
+/* ENTRY 10017940 | FUN_10017940 | STATUS decompiled | 7 ms */
+
+Entity * __thiscall
+FUN_10017940(void *this,Entity *param_1,gECombatMode param_2,gEDirection param_3)
+
+{
+  eCEntity *peVar1;
+  
+  if (*(gCFocus_PS **)this == (gCFocus_PS *)0x0) {
+    Entity::Entity(param_1,(Entity *)&None);
+    return param_1;
+  }
+  peVar1 = gCFocus_PS::GetFocusEntity(*(gCFocus_PS **)this,param_2,param_3);
+  Entity::Entity(param_1,peVar1);
+  return param_1;
+}
+
+

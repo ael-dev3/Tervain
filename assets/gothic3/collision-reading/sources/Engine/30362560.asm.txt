@@ -1,0 +1,4 @@
+; 30362560 bTPropertyObject<eCCollisionShape,bCObjectRefBase>::vfunction11
+30362560 | 6a00 | PUSH 0x0
+30362562 | e8fbbbcdff | CALL 0x3003e162
+30362567 | c3 | RET

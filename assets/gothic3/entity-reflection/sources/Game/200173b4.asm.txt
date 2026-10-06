@@ -1,0 +1,4 @@
+; 200173b4 ?Read@gCDamage_PS@@UAE?AW4bEResult@@AAVbCIStream@@@Z
+200173b4 | e9c7c10900 | JMP 0x200b3580
+; 200173c8 gCTemplateLayer::GetTemplateEntity
+; 200173c8 Ordinal_4557

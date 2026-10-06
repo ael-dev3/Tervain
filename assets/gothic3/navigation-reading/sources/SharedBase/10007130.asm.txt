@@ -1,0 +1,4 @@
+; 10007130 ??0bCPropertyObjectBase@@IAE@XZ
+10007130 | e95b210800 | JMP 0x10089290
+; 10007135 bCQuaternion::GetInverted
+; 10007135 Ordinal_2565

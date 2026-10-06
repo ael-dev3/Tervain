@@ -1,0 +1,18 @@
+/* ENTRY 100059c0 | bCAccessorProperty::operator++ | STATUS decompiled | 5 ms */
+
+/* public: class bCAccessorProperty __thiscall bCAccessorProperty::operator++(int) */
+
+int __thiscall bCAccessorProperty::operator++(bCAccessorProperty *this,int param_1)
+
+{
+                    /* 0x59c0  968  ??EbCAccessorProperty@@QAE?AV0@H@Z */
+  bCAccessorPropertyObject::bCAccessorPropertyObject((bCAccessorPropertyObject *)param_1);
+  *(undefined4 *)(param_1 + 8) = 0;
+  bCAccessorPropertyObject::operator=
+            ((bCAccessorPropertyObject *)param_1,(bCAccessorPropertyObject *)this);
+  *(undefined4 *)(param_1 + 8) = *(undefined4 *)(this + 8);
+  Iterate(this);
+  return param_1;
+}
+
+

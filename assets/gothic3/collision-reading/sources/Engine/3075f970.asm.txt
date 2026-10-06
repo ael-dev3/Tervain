@@ -1,0 +1,15 @@
+; 3075f970 bTPropertyObject<eCCollisionShape,bCObjectRefBase>::~bTPropertyObject<eCCollisionShape,bCObjectRefBase>
+3075f970 | b940cdae30 | MOV ECX,0x30aecd40
+3075f975 | ff1520caaf30 | CALL dword ptr [0x30afca20]
+3075f97b | c70548cdae3000000000 | MOV dword ptr [0x30aecd48],0x0
+3075f985 | c70540cdae30c4318630 | MOV dword ptr [0x30aecd40],0x308631c4
+3075f98f | e8268e8aff | CALL 0x300087ba
+3075f994 | 6a01 | PUSH 0x1
+3075f996 | b940cdae30 | MOV ECX,0x30aecd40
+3075f99b | a34ccdae30 | MOV [0x30aecd4c],EAX
+3075f9a0 | c70548cdae3000000000 | MOV dword ptr [0x30aecd48],0x0
+3075f9aa | e8b3e78dff | CALL 0x3003e162
+3075f9af | 68f0727a30 | PUSH 0x307a72f0
+3075f9b4 | e8dd1bf1ff | CALL 0x30671596
+3075f9b9 | 59 | POP ECX
+3075f9ba | c3 | RET

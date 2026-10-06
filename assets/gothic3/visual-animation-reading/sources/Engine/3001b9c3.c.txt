@@ -1,0 +1,32 @@
+/* ENTRY 3001b9c3 | thunk_FUN_30385840 | STATUS decompiled | 11 ms */
+
+void __fastcall thunk_FUN_30385840(bCPropertyObjectBase *param_1)
+
+{
+  bCPropertyObjectBase this;
+  bCPropertyObjectFactory *this_00;
+  ulong uVar1;
+  bCPropertyObjectBase *pbVar2;
+  
+  pbVar2 = param_1;
+  this_00 = (bCPropertyObjectFactory *)(**(code **)(*(int *)param_1[3] + 0xc))();
+  bCPropertyObjectFactory::UnregisterPropertyObject(this_00,(bCPropertyObjectBase *)pbVar2);
+  if (param_1[2] != (bCPropertyObjectBase)0x0) {
+    uVar1 = bCObjectRefBase::GetReferenceCount((bCObjectRefBase *)param_1[2]);
+    if (uVar1 == 1) {
+      (**(code **)(*(int *)param_1[2] + 0x14))();
+    }
+  }
+  this = param_1[2];
+  if (this != (bCPropertyObjectBase)0x0) {
+    bCObjectRefBase::SetPropertyObject((bCObjectRefBase *)this,(bCPropertyObjectBase *)0x0);
+    bCObjectRefBase::ReleaseVirtualReference((bCObjectRefBase *)this);
+  }
+  param_1[2] = (bCPropertyObjectBase)0x0;
+                    /* WARNING: Could not recover jumptable at 0x30385897. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCPropertyObjectBase::Destroy(param_1);
+  return;
+}
+
+

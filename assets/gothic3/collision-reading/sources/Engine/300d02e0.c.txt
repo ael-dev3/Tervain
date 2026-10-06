@@ -1,0 +1,12 @@
+/* ENTRY 300d02e0 | bTPropertyContainer<eECollisionShapeType>::vfunction7 | STATUS decompiled | 2 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<eECollisionShapeType>::vfunction7
+          (bTPropertyContainer<eECollisionShapeType> *this)
+
+{
+  (this->bTPropertyContainer<eECollisionShapeType>_data).offset_0x0 = DAT_30adab04;
+  return 1;
+}
+
+

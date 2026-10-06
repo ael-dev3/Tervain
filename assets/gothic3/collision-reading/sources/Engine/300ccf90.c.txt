@@ -1,0 +1,14 @@
+/* ENTRY 300ccf90 | FUN_300ccf90 | STATUS decompiled | 3 ms */
+
+void __fastcall FUN_300ccf90(int *param_1)
+
+{
+  undefined4 unaff_ESI;
+  
+  (**(code **)(*param_1 + 0x58))("ShapeType",0);
+  (**(code **)(param_1[3] + 0x1c))(unaff_ESI);
+  (**(code **)(*param_1 + 0x5c))("ShapeType",0);
+  return;
+}
+
+

@@ -1,0 +1,17 @@
+/* ENTRY 10093120 | FUN_10093120 | STATUS decompiled | 5 ms */
+
+void __thiscall FUN_10093120(int *param_1,int *param_2)
+
+{
+  if (param_2 != (int *)0x0) {
+    (**(code **)(*param_2 + 0x30))();
+  }
+  if ((int *)*param_1 != (int *)0x0) {
+    (**(code **)(*(int *)*param_1 + 0x34))();
+    *param_1 = 0;
+  }
+  *param_1 = (int)param_2;
+  return;
+}
+
+

@@ -1,0 +1,2 @@
+; 1000785b bCCriticalSectionWin32::bCCriticalSectionWin32
+1000785b | e940960000 | JMP 0x10010ea0

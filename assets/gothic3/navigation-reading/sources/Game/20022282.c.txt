@@ -1,0 +1,9 @@
+/* ENTRY 20022282 | bTPropertyType<gCNavigation_PS,bool>::vfunction2 | STATUS decompiled | 1 ms */
+
+undefined4 __thiscall bTPropertyType<gCNavigation_PS,bool>::vfunction2(void)
+
+{
+  return 1;
+}
+
+

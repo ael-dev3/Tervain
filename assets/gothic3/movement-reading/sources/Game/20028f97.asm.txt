@@ -1,0 +1,4 @@
+; 20028f97 bTPropertyObject<gCCharacterMovement_PS,gCMovementBase_PS>::vfunction1
+20028f97 | e9f4a52000 | JMP 0x20233590
+; 20028f9c gCSkill_PS::GetReqAttrib2Tag
+; 20028f9c Ordinal_4176

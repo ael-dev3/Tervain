@@ -1,0 +1,4 @@
+; 3003fac6 ??0eSMotionDesc@eCVisualAnimation_PS@@QAE@PAVeCResourceAnimationMotion_PS@@@Z
+3003fac6 | e925e10500 | JMP 0x3009dbf0
+; 3003fad0 eCVisualAnimation_PS::eSMotionDesc::GetMotionOwner
+; 3003fad0 Ordinal_7882

@@ -1,0 +1,2 @@
+; 10005aec bCPropertyObjectBase::IsPersistable
+10005aec | e9af360800 | JMP 0x100891a0

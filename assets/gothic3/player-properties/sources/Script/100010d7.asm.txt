@@ -1,0 +1,4 @@
+; 100010d7 ?GetTheft@PSPlayerMemory@@QBEHXZ
+100010d7 | e9b48b0200 | JMP 0x10029c90
+; 100010dc PSQuestManager::AttachTo
+; 100010dc Ordinal_1353

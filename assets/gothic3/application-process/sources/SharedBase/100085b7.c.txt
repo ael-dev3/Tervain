@@ -1,0 +1,17 @@
+/* ENTRY 100085b7 | bCTimer::bCTimer | STATUS decompiled | 2 ms */
+
+/* public: __thiscall bCTimer::bCTimer(void) */
+
+void __thiscall bCTimer::bCTimer(bCTimer *this)
+
+{
+                    /* 0x85b7  286  ??0bCTimer@@QAE@XZ */
+  *(undefined4 *)this = 0x3f800000;
+  *(undefined4 *)(this + 4) = 0;
+  *(undefined4 *)(this + 8) = 0;
+  *(undefined4 *)(this + 0xc) = 0;
+  this[0x10] = (bCTimer)0x1;
+  return;
+}
+
+

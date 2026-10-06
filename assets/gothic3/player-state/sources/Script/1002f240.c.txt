@@ -1,0 +1,14 @@
+/* ENTRY 1002f240 | FUN_1002f240 | STATUS decompiled | 4 ms */
+
+gCSessionCheats FUN_1002f240(void)
+
+{
+  gCSession *this;
+  gCSessionCheats *pgVar1;
+  
+  this = gCSession::GetInstance();
+  pgVar1 = gCSession::GetCheats(this);
+  return pgVar1[0xc];
+}
+
+

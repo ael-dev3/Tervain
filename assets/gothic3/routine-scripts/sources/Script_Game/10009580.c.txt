@@ -1,0 +1,35 @@
+/* ENTRY 10009580 | FUN_10009580 | STATUS decompiled | 14 ms */
+
+undefined4 FUN_10009580(void)
+
+{
+  gESpecies gVar1;
+  
+  gVar1 = PSNpc::PropertySpecies::operator_enum_gESpecies((PropertySpecies *)&stack0x00000038);
+  switch(gVar1) {
+  case 0:
+  case 1:
+  case 2:
+  case 3:
+  case 4:
+  case 5:
+  case 6:
+  case 7:
+  case 8:
+  case 0x12:
+  case 0x16:
+  case 0x17:
+  case 0x29:
+  case 0x30:
+  case 0x31:
+  case 0x32:
+  case 0x33:
+    Entity::~Entity((Entity *)&stack0x00000004);
+    return 1;
+  default:
+    Entity::~Entity((Entity *)&stack0x00000004);
+    return 0;
+  }
+}
+
+

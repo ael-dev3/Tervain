@@ -1,0 +1,17 @@
+/* ENTRY 10142410 | FUN_10142410 | STATUS decompiled | 8 ms */
+
+void FUN_10142410(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Commands\\StartSayRefuseTalk.cpp");
+  bCString::bCString(local_8,"StartSayRefuseTalk");
+  thunk_FUN_10017a50(local_8,thunk_FUN_10066c90,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

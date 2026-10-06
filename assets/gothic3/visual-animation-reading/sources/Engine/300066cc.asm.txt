@@ -1,0 +1,2 @@
+; 300066cc eCVisualAnimationFactory::StartFacialAnimation
+300066cc | e90f640b00 | JMP 0x300bcae0

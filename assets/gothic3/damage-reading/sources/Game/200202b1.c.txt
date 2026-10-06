@@ -1,0 +1,17 @@
+/* ENTRY 200202b1 | bTPropertyType<gCDamageReceiver_PS,bTPropertyContainer<gEDamageType>_>::vfunction6 | STATUS decompiled | 5 ms */
+
+void __thiscall
+bTPropertyType<gCDamageReceiver_PS,bTPropertyContainer<gEDamageType>_>::vfunction6
+          (bTPropertyType<gCDamageReceiver_PS,bTPropertyContainer<gEDamageType>_> *this,int param_1)
+
+{
+  bTPropertyType<gCDamage_PS,bTPropertyContainer<gEDamageType>_>_vftable *pbVar1;
+  
+  if (param_1 != 0) {
+    pbVar1 = (*this->vftablePtr->vfunction26)(this,(undefined4 *)param_1);
+    (**(code **)(pbVar1->vfunction1 + 0x18))();
+  }
+  return;
+}
+
+

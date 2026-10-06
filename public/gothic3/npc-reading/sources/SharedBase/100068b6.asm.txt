@@ -1,0 +1,4 @@
+; 100068b6 ??0bCAccessorCreator@@QAE@PAVbCPropertyObjectBase@@@Z
+100068b6 | e905c90800 | JMP 0x100931c0
+; 100068bb bCMemoryStream::GetPosition
+; 100068bb Ordinal_2761

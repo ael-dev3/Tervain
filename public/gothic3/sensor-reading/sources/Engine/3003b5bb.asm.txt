@@ -1,0 +1,2 @@
+; 3003b5bb ?NotifyPropertyValueChangedEnterEx@eCEntityPropertySet@@MAE_NPBD_N@Z
+3003b5bb | e960654400 | JMP 0x30481b20

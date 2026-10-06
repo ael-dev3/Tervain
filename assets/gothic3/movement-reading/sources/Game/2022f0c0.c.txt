@@ -1,0 +1,108 @@
+/* ENTRY 2022f0c0 | FUN_2022f0c0 | STATUS decompiled | 61 ms */
+
+void __fastcall FUN_2022f0c0(gCCharacterMovement_PS *param_1)
+
+{
+  bool bVar1;
+  char cVar2;
+  eCEntity *peVar3;
+  bCMatrix *pbVar4;
+  bCVector *pbVar5;
+  bCString *pbVar6;
+  eCApplication *this;
+  eCPhysicsScene *peVar7;
+  gCSession *this_00;
+  gCCameraAI_PS *pgVar8;
+  float fVar9;
+  eEPropertySetType eVar10;
+  bCVector abStack_c [12];
+  
+  peVar3 = (*param_1->vftablePtr->GetEntity)(param_1);
+  bVar1 = gCEntity::IsDead(peVar3);
+  if (bVar1) {
+    if ((param_1->gCCharacterMovement_PS_data).offset_0xfc == 0) {
+      gCCharacterMovement_PS::SetMovementMode(param_1,4);
+    }
+    cVar2 = (**(code **)(*(int *)(param_1->gCCharacterMovement_PS_data).offset_0x16c + 0x1f8))(0xe);
+    if (cVar2 != '\0') {
+      return;
+    }
+    (**(code **)(*(int *)(param_1->gCCharacterMovement_PS_data).offset_0x16c + 0x1f0))(0xe);
+    return;
+  }
+  if ((param_1->gCCharacterMovement_PS_data).field_0x12 == '\0') {
+    peVar3 = (*param_1->vftablePtr->GetEntity)(param_1);
+    pbVar4 = eCEntity::GetWorldMatrix((eCEntity *)peVar3);
+    pbVar5 = bCMatrix::GetXAxis(pbVar4);
+    fVar9 = bCVector::GetY(pbVar5);
+    if (ABS(fVar9) <= 0.5) {
+      peVar3 = (*param_1->vftablePtr->GetEntity)(param_1);
+      pbVar4 = eCEntity::GetWorldMatrix((eCEntity *)peVar3);
+      pbVar5 = bCMatrix::GetZAxis(pbVar4);
+      fVar9 = bCVector::GetY(pbVar5);
+      if (ABS(fVar9) <= 0.5) goto LAB_2022f1b3;
+    }
+    peVar3 = (*param_1->vftablePtr->GetEntity)(param_1);
+    pbVar6 = eCEntity::GetName((eCEntity *)peVar3);
+    GE_MESSAGEF_WARN(" entity %s has wrong orientation, what the heck has happened ? call 555-32351 !"
+                     ,*(undefined4 *)pbVar6);
+  }
+LAB_2022f1b3:
+  eCEntityPropertySet::OnProcess((eCEntityPropertySet *)param_1);
+  bVar1 = false;
+  this = eCApplication::GetInstance();
+  bVar1 = eCApplication::IsPaused((eCApplication *)this,bVar1);
+  if (bVar1) {
+    return;
+  }
+  (param_1->gCCharacterMovement_PS_data).offset_0x2b8 = (gCCharacterMovement_PS)0x1;
+  peVar7 = eCPhysicsScene::GetInstance();
+  if (peVar7[0x14] == (eCPhysicsScene)0x0) {
+    return;
+  }
+  gCCharacterMovement_PS::CreateDependantPSets(param_1);
+  if ((param_1->gCCharacterMovement_PS_data).offset_0x16c == 0) {
+    return;
+  }
+  if ((param_1->gCCharacterMovement_PS_data).offset_0x2b9 == (gCCharacterMovement_PS)0x1) {
+    gCCharacterMovement_PS::InitFirstPose(param_1);
+  }
+  eVar10 = 0x16;
+  peVar3 = (*param_1->vftablePtr->GetEntity)(param_1);
+  bVar1 = eCEntity::HasPropertySet((eCEntity *)peVar3,eVar10);
+  if (bVar1) {
+    this_00 = (gCSession *)gCSession::GetInstance();
+    pgVar8 = gCSession::GetCamera_PS(this_00);
+    if ((pgVar8 != (gCCameraAI_PS *)0x0) &&
+       (cVar2 = (**(code **)(*(int *)pgVar8 + 0x168))(), cVar2 == '\x01')) goto LAB_2022f273;
+  }
+  pbVar5 = (bCVector *)
+           (**(code **)(*(int *)(param_1->gCCharacterMovement_PS_data).offset_0x16c + 0x18c))
+                     (abStack_c);
+  bCVector::operator=((bCVector *)&(param_1->gCCharacterMovement_PS_data).field_0x13c,pbVar5);
+  bCVector::~bCVector(abStack_c);
+LAB_2022f273:
+  gCCharacterMovement_PS::CheckCharacterGotStuck(param_1);
+  gCCharacterMovement_PS::CheckChangedMovementStates(param_1);
+  gCCharacterMovement_PS::CorrectWeaponTrigger(param_1);
+  gCCharacterMovement_PS::ProcessSensorMovements(param_1);
+  gCCharacterMovement_PS::CalcNextSteps(param_1);
+  gCCharacterMovement_PS::ProcessMovements(param_1);
+  gCCharacterMovement_PS::ShowDebug(param_1);
+  gCCharacterMovement_PS::SaveFrameStates(param_1);
+  (param_1->gCCharacterMovement_PS_data).offset_0x179 = (gCCharacterMovement_PS)0x0;
+  (param_1->gCCharacterMovement_PS_data).offset_0x219 = (gCCharacterMovement_PS)0x0;
+  bCVector::Clear((bCVector *)&(param_1->gCCharacterMovement_PS_data).field_0x130);
+  eVar10 = 0x16;
+  peVar3 = (*param_1->vftablePtr->GetEntity)(param_1);
+  bVar1 = eCEntity::HasPropertySet((eCEntity *)peVar3,eVar10);
+  if ((bVar1) && ((param_1->gCCharacterMovement_PS_data).offset_0x174 != 0)) {
+    gCCharacterMovement_PS::CreateDependantPSets(param_1);
+    gCCharacterSensor_PS::PostProcessMovements
+              ((gCCharacterSensor_PS *)(param_1->gCCharacterMovement_PS_data).offset_0x174);
+    return;
+  }
+  return;
+}
+
+

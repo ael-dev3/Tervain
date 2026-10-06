@@ -1,0 +1,2 @@
+; 3003bf43 eCEffector::Read
+3003bf43 | e908923400 | JMP 0x30385150

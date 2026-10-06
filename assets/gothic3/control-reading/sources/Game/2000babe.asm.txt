@@ -1,0 +1,2 @@
+; 2000babe bTPropertyObject<gCCharacterControl_PS,eCEntityPropertySet>::vfunction6
+2000babe | e9bdf62000 | JMP 0x2021b180

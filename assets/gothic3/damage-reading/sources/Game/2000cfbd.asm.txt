@@ -1,0 +1,2 @@
+; 2000cfbd bTPropertyType<gCDamageReceiver_PS,eCEntityProxy>::vfunction6
+2000cfbd | e96e040b00 | JMP 0x200bd430

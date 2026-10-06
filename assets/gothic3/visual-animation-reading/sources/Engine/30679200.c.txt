@@ -1,0 +1,126 @@
+/* ENTRY 30679200 | FUN_30679200 | STATUS decompiled | 42 ms */
+
+/* WARNING: Function: __SEH_prolog4 replaced with injection: SEH_prolog4 */
+/* WARNING: Function: __SEH_epilog4 replaced with injection: EH_epilog3 */
+
+LPVOID FUN_30679200(void *param_1,size_t param_2)
+
+{
+  void *pvVar1;
+  int iVar2;
+  uint uVar3;
+  undefined4 *puVar4;
+  DWORD DVar5;
+  undefined4 uVar6;
+  LPVOID pvVar7;
+  int local_24;
+  void *local_20;
+  
+  if (param_1 == (void *)0x0) {
+    pvVar1 = _malloc(param_2);
+    return pvVar1;
+  }
+  if (param_2 == 0) {
+                    /* WARNING: Subroutine does not return */
+    _free(param_1);
+  }
+  if (DAT_30af7e20 == 3) {
+    do {
+      local_20 = (void *)0x0;
+      if (0xffffffe0 < param_2) goto LAB_306793d9;
+      __lock(4);
+      local_24 = thunk_FUN_306834e6(param_1);
+      if (local_24 != 0) {
+        if (param_2 <= DAT_30af7e48) {
+          iVar2 = ___sbh_resize_block(local_24,param_1,param_2);
+          if (iVar2 == 0) {
+            local_20 = (void *)___sbh_alloc_block(param_2);
+            if (local_20 != (void *)0x0) {
+              uVar3 = *(int *)((int)param_1 + -4) - 1;
+              if (param_2 <= uVar3) {
+                uVar3 = param_2;
+              }
+              _memcpy(local_20,param_1,uVar3);
+              local_24 = thunk_FUN_306834e6(param_1);
+              ___sbh_free_block(local_24,param_1);
+            }
+          }
+          else {
+            local_20 = param_1;
+          }
+        }
+        if (local_20 == (void *)0x0) {
+          if (param_2 == 0) {
+            param_2 = 1;
+          }
+          param_2 = param_2 + 0xf & 0xfffffff0;
+          local_20 = HeapAlloc(DAT_30af76f4,0,param_2);
+          if (local_20 != (LPVOID)0x0) {
+            uVar3 = *(int *)((int)param_1 + -4) - 1;
+            if (param_2 <= uVar3) {
+              uVar3 = param_2;
+            }
+            _memcpy(local_20,param_1,uVar3);
+            ___sbh_free_block(local_24,param_1);
+          }
+        }
+      }
+      FUN_30679344();
+      if (local_24 == 0) {
+        if (param_2 == 0) {
+          param_2 = 1;
+        }
+        param_2 = param_2 + 0xf & 0xfffffff0;
+        local_20 = HeapReAlloc(DAT_30af76f4,0,param_1,param_2);
+      }
+      if (local_20 != (void *)0x0) {
+        return local_20;
+      }
+      if (DAT_30af76f8 == 0) {
+        puVar4 = (undefined4 *)FUN_306783df();
+        if (local_24 != 0) {
+          *puVar4 = 0xc;
+          return (LPVOID)0x0;
+        }
+        goto LAB_30679406;
+      }
+      iVar2 = __callnewh(param_2);
+    } while (iVar2 != 0);
+    puVar4 = (undefined4 *)FUN_306783df();
+    if (local_24 != 0) goto LAB_306793e5;
+  }
+  else {
+    do {
+      if (0xffffffe0 < param_2) goto LAB_306793d9;
+      if (param_2 == 0) {
+        param_2 = 1;
+      }
+      pvVar7 = HeapReAlloc(DAT_30af76f4,0,param_1,param_2);
+      if (pvVar7 != (LPVOID)0x0) {
+        return pvVar7;
+      }
+      if (DAT_30af76f8 == 0) {
+        puVar4 = (undefined4 *)FUN_306783df();
+LAB_30679406:
+        DVar5 = GetLastError();
+        uVar6 = FUN_306783a4(DVar5);
+        *puVar4 = uVar6;
+        return (LPVOID)0x0;
+      }
+      iVar2 = __callnewh(param_2);
+    } while (iVar2 != 0);
+    puVar4 = (undefined4 *)FUN_306783df();
+  }
+  DVar5 = GetLastError();
+  uVar6 = FUN_306783a4(DVar5);
+  *puVar4 = uVar6;
+  return (LPVOID)0x0;
+LAB_306793d9:
+  __callnewh(param_2);
+  puVar4 = (undefined4 *)FUN_306783df();
+LAB_306793e5:
+  *puVar4 = 0xc;
+  return (LPVOID)0x0;
+}
+
+

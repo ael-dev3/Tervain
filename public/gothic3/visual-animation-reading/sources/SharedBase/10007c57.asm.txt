@@ -1,0 +1,2 @@
+; 10007c57 bCVector::GetY
+10007c57 | e994cf0100 | JMP 0x10024bf0

@@ -1,0 +1,2 @@
+; 20020c7f gCPlayerMemory_PS::GetSaveGameRelevance
+20020c7f | e9acc72f00 | JMP 0x2031d430

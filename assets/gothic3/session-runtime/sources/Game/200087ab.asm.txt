@@ -1,0 +1,2 @@
+; 200087ab ?Start@gCSession@@QAEXW4gESession_StartMode@@@Z
+200087ab | e9e0de3600 | JMP 0x20376690

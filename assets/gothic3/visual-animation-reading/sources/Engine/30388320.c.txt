@@ -1,0 +1,13 @@
+/* ENTRY 30388320 | eCSpringAndDamperEffector::~eCSpringAndDamperEffector | STATUS decompiled | 4 ms */
+
+void __thiscall
+eCSpringAndDamperEffector::~eCSpringAndDamperEffector(eCSpringAndDamperEffector *this)
+
+{
+  this->vftablePtr = &vftable;
+  eCEffector::Destroy((eCEffector *)this);
+  eCEffector::~eCEffector((eCEffector *)this);
+  return;
+}
+
+

@@ -1,0 +1,2 @@
+; 10001a28 bCAccessorPropertyObject::IsValid
+10001a28 | e9a38e0900 | JMP 0x1009a8d0

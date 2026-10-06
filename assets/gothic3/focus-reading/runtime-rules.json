@@ -1,0 +1,2527 @@
+{
+  "schema": "gothic3-focus-reading-rules-v1",
+  "inputs": {
+    "SharedBase": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214",
+    "Engine": "d49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3",
+    "Game": "b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f"
+  },
+  "propertyType": 59,
+  "getVersion": 44,
+  "nativeBytes": 408,
+  "nativeVtable": "2066a1a4",
+  "wrapperVtable": "20669d84",
+  "fields": [
+    {
+      "name": "FocusLookAtMode",
+      "typeName": "bTPropertyContainer<enum gEFocusLookAt>",
+      "nativeOffset": 20,
+      "reader": "Game:2000394f",
+      "defaultInitializer": "Game:20033299",
+      "registrar": "Game:204c7530"
+    },
+    {
+      "name": "FocusLookAtKeysFOR",
+      "typeName": "bTPropertyContainer<enum gEFocusLookAtKeysFOR>",
+      "nativeOffset": 28,
+      "reader": "Game:2000592f",
+      "defaultInitializer": "Game:20008279",
+      "registrar": "Game:204c7620"
+    },
+    {
+      "name": "NormalModeItemScanRange",
+      "typeName": "float",
+      "nativeOffset": 36,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204c7710"
+    },
+    {
+      "name": "NormalModeItemScanAzi",
+      "typeName": "float",
+      "nativeOffset": 40,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204c7800"
+    },
+    {
+      "name": "NormalModeItemScanElevUp",
+      "typeName": "float",
+      "nativeOffset": 44,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204c78f0"
+    },
+    {
+      "name": "NormalModeItemScanElevDown",
+      "typeName": "float",
+      "nativeOffset": 48,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204c79e0"
+    },
+    {
+      "name": "NormalModeItemPriority",
+      "typeName": "float",
+      "nativeOffset": 52,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204c7ad0"
+    },
+    {
+      "name": "NormalModeCharacterScanRange",
+      "typeName": "float",
+      "nativeOffset": 56,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204c7bc0"
+    },
+    {
+      "name": "NormalModeCharacterScanAzi",
+      "typeName": "float",
+      "nativeOffset": 60,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204c7cb0"
+    },
+    {
+      "name": "NormalModeCharacterScanElevUp",
+      "typeName": "float",
+      "nativeOffset": 64,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204c7da0"
+    },
+    {
+      "name": "NormalModeCharacterScanElevDown",
+      "typeName": "float",
+      "nativeOffset": 68,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204c7e90"
+    },
+    {
+      "name": "NormalModeCharacterPriority",
+      "typeName": "float",
+      "nativeOffset": 72,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204c7f80"
+    },
+    {
+      "name": "NormalModeInteractScanRange",
+      "typeName": "float",
+      "nativeOffset": 76,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204c8070"
+    },
+    {
+      "name": "NormalModeInteractScanAzi",
+      "typeName": "float",
+      "nativeOffset": 80,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204c8160"
+    },
+    {
+      "name": "NormalModeInteractScanElevUp",
+      "typeName": "float",
+      "nativeOffset": 84,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204c8250"
+    },
+    {
+      "name": "NormalModeInteractScanElevDown",
+      "typeName": "float",
+      "nativeOffset": 88,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204c8340"
+    },
+    {
+      "name": "NormalModeInteractPriority",
+      "typeName": "float",
+      "nativeOffset": 92,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204c8430"
+    },
+    {
+      "name": "MeleeModeItemScanRange",
+      "typeName": "float",
+      "nativeOffset": 96,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204c8520"
+    },
+    {
+      "name": "MeleeModeItemScanAzi",
+      "typeName": "float",
+      "nativeOffset": 100,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204c8610"
+    },
+    {
+      "name": "MeleeModeItemScanElevUp",
+      "typeName": "float",
+      "nativeOffset": 104,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204c8700"
+    },
+    {
+      "name": "MeleeModeItemScanElevDown",
+      "typeName": "float",
+      "nativeOffset": 108,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204c87f0"
+    },
+    {
+      "name": "MeleeModeItemPriority",
+      "typeName": "float",
+      "nativeOffset": 112,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204c88e0"
+    },
+    {
+      "name": "MeleeModeCharacterScanRange",
+      "typeName": "float",
+      "nativeOffset": 116,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204c89d0"
+    },
+    {
+      "name": "MeleeModeCharacterScanAzi",
+      "typeName": "float",
+      "nativeOffset": 120,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204c8ac0"
+    },
+    {
+      "name": "MeleeModeCharacterScanElevUp",
+      "typeName": "float",
+      "nativeOffset": 124,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204c8bb0"
+    },
+    {
+      "name": "MeleeModeCharacterScanElevDown",
+      "typeName": "float",
+      "nativeOffset": 128,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204c8ca0"
+    },
+    {
+      "name": "MeleeModeCharacterPriority",
+      "typeName": "float",
+      "nativeOffset": 132,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204c8d90"
+    },
+    {
+      "name": "MeleeModeInteractScanRange",
+      "typeName": "float",
+      "nativeOffset": 136,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204c8e80"
+    },
+    {
+      "name": "MeleeModeInteractScanAzi",
+      "typeName": "float",
+      "nativeOffset": 140,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204c8f70"
+    },
+    {
+      "name": "MeleeModeInteractScanElevUp",
+      "typeName": "float",
+      "nativeOffset": 144,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204c9060"
+    },
+    {
+      "name": "MeleeModeInteractScanElevDown",
+      "typeName": "float",
+      "nativeOffset": 148,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204c9150"
+    },
+    {
+      "name": "MeleeModeInteractPriority",
+      "typeName": "float",
+      "nativeOffset": 152,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204c9240"
+    },
+    {
+      "name": "RangedModeItemScanRange",
+      "typeName": "float",
+      "nativeOffset": 156,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204c9330"
+    },
+    {
+      "name": "RangedModeItemScanAzi",
+      "typeName": "float",
+      "nativeOffset": 160,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204c9420"
+    },
+    {
+      "name": "RangedModeItemScanElevUp",
+      "typeName": "float",
+      "nativeOffset": 164,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204c9510"
+    },
+    {
+      "name": "RangedModeItemScanElevDown",
+      "typeName": "float",
+      "nativeOffset": 168,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204c9600"
+    },
+    {
+      "name": "RangedModeItemPriority",
+      "typeName": "float",
+      "nativeOffset": 172,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204c96f0"
+    },
+    {
+      "name": "RangedModeCharacterScanRange",
+      "typeName": "float",
+      "nativeOffset": 176,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204c97e0"
+    },
+    {
+      "name": "RangedModeCharacterScanAzi",
+      "typeName": "float",
+      "nativeOffset": 180,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204c98d0"
+    },
+    {
+      "name": "RangedModeCharacterScanElevUp",
+      "typeName": "float",
+      "nativeOffset": 184,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204c99c0"
+    },
+    {
+      "name": "RangedModeCharacterScanElevDown",
+      "typeName": "float",
+      "nativeOffset": 188,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204c9ab0"
+    },
+    {
+      "name": "RangedModeCharacterPriority",
+      "typeName": "float",
+      "nativeOffset": 192,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204c9ba0"
+    },
+    {
+      "name": "RangedModeInteractScanRange",
+      "typeName": "float",
+      "nativeOffset": 196,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204c9c90"
+    },
+    {
+      "name": "RangedModeInteractScanAzi",
+      "typeName": "float",
+      "nativeOffset": 200,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204c9d80"
+    },
+    {
+      "name": "RangedModeInteractScanElevUp",
+      "typeName": "float",
+      "nativeOffset": 204,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204c9e70"
+    },
+    {
+      "name": "RangedModeInteractScanElevDown",
+      "typeName": "float",
+      "nativeOffset": 208,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204c9f60"
+    },
+    {
+      "name": "RangedModeInteractPriority",
+      "typeName": "float",
+      "nativeOffset": 212,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204ca050"
+    },
+    {
+      "name": "MagicModeItemScanRange",
+      "typeName": "float",
+      "nativeOffset": 216,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204ca140"
+    },
+    {
+      "name": "MagicModeItemScanAzi",
+      "typeName": "float",
+      "nativeOffset": 220,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204ca230"
+    },
+    {
+      "name": "MagicModeItemScanElevUp",
+      "typeName": "float",
+      "nativeOffset": 224,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204ca320"
+    },
+    {
+      "name": "MagicModeItemScanElevDown",
+      "typeName": "float",
+      "nativeOffset": 228,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204ca410"
+    },
+    {
+      "name": "MagicModeItemPriority",
+      "typeName": "float",
+      "nativeOffset": 232,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204ca500"
+    },
+    {
+      "name": "MagicModeCharacterScanRange",
+      "typeName": "float",
+      "nativeOffset": 236,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204ca5f0"
+    },
+    {
+      "name": "MagicModeCharacterScanAzi",
+      "typeName": "float",
+      "nativeOffset": 240,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204ca6e0"
+    },
+    {
+      "name": "MagicModeCharacterScanElevUp",
+      "typeName": "float",
+      "nativeOffset": 244,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204ca7d0"
+    },
+    {
+      "name": "MagicModeCharacterScanElevDown",
+      "typeName": "float",
+      "nativeOffset": 248,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204ca8c0"
+    },
+    {
+      "name": "MagicModeCharacterPriority",
+      "typeName": "float",
+      "nativeOffset": 252,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204ca9b0"
+    },
+    {
+      "name": "MagicModeInteractScanRange",
+      "typeName": "float",
+      "nativeOffset": 256,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204caaa0"
+    },
+    {
+      "name": "MagicModeInteractScanAzi",
+      "typeName": "float",
+      "nativeOffset": 260,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204cab90"
+    },
+    {
+      "name": "MagicModeInteractScanElevUp",
+      "typeName": "float",
+      "nativeOffset": 264,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204cac80"
+    },
+    {
+      "name": "MagicModeInteractScanElevDown",
+      "typeName": "float",
+      "nativeOffset": 268,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204cad70"
+    },
+    {
+      "name": "MagicModeInteractPriority",
+      "typeName": "float",
+      "nativeOffset": 272,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204cae60"
+    },
+    {
+      "name": "AutoCollectFocus",
+      "typeName": "bool",
+      "nativeOffset": 276,
+      "reader": "Game:20033398",
+      "defaultInitializer": "Game:200248f2",
+      "registrar": "Game:204caf50"
+    },
+    {
+      "name": "FocusLockMaxDistance",
+      "typeName": "float",
+      "nativeOffset": 280,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204cb040"
+    },
+    {
+      "name": "NormalModePreferedRange",
+      "typeName": "float",
+      "nativeOffset": 284,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204cb130"
+    },
+    {
+      "name": "InteractHighPriorityBonus",
+      "typeName": "float",
+      "nativeOffset": 288,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204cb220"
+    },
+    {
+      "name": "DrawFocusName",
+      "typeName": "bool",
+      "nativeOffset": 292,
+      "reader": "Game:20033398",
+      "defaultInitializer": "Game:200248f2",
+      "registrar": "Game:204cb310"
+    },
+    {
+      "name": "HighlightFocus",
+      "typeName": "bool",
+      "nativeOffset": 294,
+      "reader": "Game:20033398",
+      "defaultInitializer": "Game:200248f2",
+      "registrar": "Game:204cb400"
+    },
+    {
+      "name": "HighlightFocusInFight",
+      "typeName": "bool",
+      "nativeOffset": 295,
+      "reader": "Game:20033398",
+      "defaultInitializer": "Game:200248f2",
+      "registrar": "Game:204cb4f0"
+    },
+    {
+      "name": "HardFocusMaxAzi",
+      "typeName": "float",
+      "nativeOffset": 364,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204cb5e0"
+    },
+    {
+      "name": "HardFocusMaxElev",
+      "typeName": "float",
+      "nativeOffset": 368,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204cb6d0"
+    },
+    {
+      "name": "HardFocusMaxRange",
+      "typeName": "float",
+      "nativeOffset": 372,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204cb7c0"
+    },
+    {
+      "name": "CurrentMode",
+      "typeName": "bTPropertyContainer<enum gEFocus>",
+      "nativeOffset": 296,
+      "reader": "Game:20023c9a",
+      "defaultInitializer": "Game:20016c98",
+      "registrar": "Game:204cb8b0"
+    },
+    {
+      "name": "CurrentEntity",
+      "typeName": "eCEntityProxy",
+      "nativeOffset": 304,
+      "reader": "Game:20017954",
+      "defaultInitializer": "Game:2002075c",
+      "registrar": "Game:204cb9a0"
+    },
+    {
+      "name": "FocusLocked",
+      "typeName": "bool",
+      "nativeOffset": 344,
+      "reader": "Game:20033398",
+      "defaultInitializer": "Game:200248f2",
+      "registrar": "Game:204cba90"
+    },
+    {
+      "name": "EnableRangeRating",
+      "typeName": "bool",
+      "nativeOffset": 345,
+      "reader": "Game:20033398",
+      "defaultInitializer": "Game:200248f2",
+      "registrar": "Game:204cbb80"
+    },
+    {
+      "name": "OverrideItemPriority",
+      "typeName": "float",
+      "nativeOffset": 348,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204cbc70"
+    },
+    {
+      "name": "OverrideCharacterPriority",
+      "typeName": "float",
+      "nativeOffset": 352,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204cbd60"
+    },
+    {
+      "name": "OverrideInteractPriority",
+      "typeName": "float",
+      "nativeOffset": 356,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204cbe50"
+    },
+    {
+      "name": "OverrideRange",
+      "typeName": "float",
+      "nativeOffset": 360,
+      "reader": "Game:2001c59e",
+      "defaultInitializer": "Game:2002c836",
+      "registrar": "Game:204cbf40"
+    }
+  ],
+  "heroSerialized": {
+    "className": "gCFocus_PS",
+    "outerVersion": 44,
+    "nativeReadVersion": 44,
+    "objectVersion": 83,
+    "propertyVersion": 30,
+    "sourceOffset": 1188335,
+    "endSourceOffset": 1189471,
+    "serializedRaw": "2c000100010100012e0c010000530053005b0400001e00500000002f0c300c1e0006000000010001000000310c320c1e0006000000010000000000330c0c001e000400000000009643340c0c001e000400000000003442350c0c001e00040000000000b442360c0c001e00040000000000b4c2370c0c001e00040000000000803f380c0c001e00040000000000fa43390c0c001e0004000000000034423a0c0c001e00040000000000b4423b0c0c001e00040000000000b4c23c0c0c001e00040000000000803f3d0c0c001e00040000000000af433e0c0c001e0004000000000034423f0c0c001e00040000000000b442400c0c001e00040000000000b4c2410c0c001e000400000000000000420c0c001e000400000000009643430c0c001e000400000000003442440c0c001e00040000000000b442450c0c001e00040000000000b4c2460c0c001e0004000000000080bf470c0c001e00040000000000fa43480c0c001e00040000000000b442490c0c001e00040000000000b4424a0c0c001e00040000000000b4c24b0c0c001e00040000000000803f4c0c0c001e00040000000000af434d0c0c001e0004000000000034424e0c0c001e00040000000000b4424f0c0c001e00040000000000b4c2500c0c001e0004000000000080bf510c0c001e000400000000c05a45520c0c001e000400000000003442530c0c001e00040000000000b442540c0c001e00040000000000b4c2550c0c001e0004000000000080bf560c0c001e000400000000c05a45570c0c001e000400000000003442580c0c001e00040000000000b442590c0c001e00040000000000b4c25a0c0c001e00040000000000803f5b0c0c001e000400000000c05a455c0c0c001e0004000000000034425d0c0c001e00040000000000b4425e0c0c001e00040000000000b4c25f0c0c001e0004000000000080bf600c0c001e000400000000c05a45610c0c001e000400000000003442620c0c001e00040000000000b442630c0c001e00040000000000b4c2640c0c001e0004000000000080bf650c0c001e000400000000c05a45660c0c001e000400000000003442670c0c001e00040000000000b442680c0c001e00040000000000b4c2690c0c001e00040000000000803f6a0c0c001e000400000000c05a456b0c0c001e0004000000000034426c0c0c001e00040000000000b4426d0c0c001e00040000000000b4c26e0c0c001e0004000000000080bf6f0c10001e000100000000700c0c001e00040000000000fa44710c0c001e000400000000001643720c0c001e000400000000002041730c10001e000100000001740c10001e000100000000750c10001e000100000000760c0c001e000400000000002041770c0c001e00040000000000a041780c0c001e0004000000000080bf790c7a0c1e00060000000100020000007b0cdd091e00030000000100007c0c10001e0001000000007d0c10001e0001000000017e0c0c001e0004000000000000007f0c0c001e000400000000000000800c0c001e000400000000000000810c0c001e0004000000000000002c00dec0adde",
+    "serializedSha256": "f3a882e304496dd4b1b7e4770a606ff3effe9d21bbe4eb6fd42163176da75465",
+    "properties": [
+      {
+        "name": "FocusLookAtMode",
+        "type": "bTPropertyContainer<enum gEFocusLookAt>",
+        "raw": "010001000000",
+        "value": null,
+        "offset": 1188372,
+        "sourceOffset": 1188372,
+        "recordOffset": 1188362,
+        "recordSourceOffset": 1188362,
+        "nameStringIndex": 3119,
+        "typeStringIndex": 3120,
+        "magic": 30,
+        "byteLength": 6,
+        "inlineStrings": false,
+        "recordHeaderRaw": "2f0c300c1e0006000000"
+      },
+      {
+        "name": "FocusLookAtKeysFOR",
+        "type": "bTPropertyContainer<enum gEFocusLookAtKeysFOR>",
+        "raw": "010000000000",
+        "value": null,
+        "offset": 1188388,
+        "sourceOffset": 1188388,
+        "recordOffset": 1188378,
+        "recordSourceOffset": 1188378,
+        "nameStringIndex": 3121,
+        "typeStringIndex": 3122,
+        "magic": 30,
+        "byteLength": 6,
+        "inlineStrings": false,
+        "recordHeaderRaw": "310c320c1e0006000000"
+      },
+      {
+        "name": "NormalModeItemScanRange",
+        "type": "float",
+        "raw": "00009643",
+        "value": null,
+        "offset": 1188404,
+        "sourceOffset": 1188404,
+        "recordOffset": 1188394,
+        "recordSourceOffset": 1188394,
+        "nameStringIndex": 3123,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "330c0c001e0004000000"
+      },
+      {
+        "name": "NormalModeItemScanAzi",
+        "type": "float",
+        "raw": "00003442",
+        "value": null,
+        "offset": 1188418,
+        "sourceOffset": 1188418,
+        "recordOffset": 1188408,
+        "recordSourceOffset": 1188408,
+        "nameStringIndex": 3124,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "340c0c001e0004000000"
+      },
+      {
+        "name": "NormalModeItemScanElevUp",
+        "type": "float",
+        "raw": "0000b442",
+        "value": null,
+        "offset": 1188432,
+        "sourceOffset": 1188432,
+        "recordOffset": 1188422,
+        "recordSourceOffset": 1188422,
+        "nameStringIndex": 3125,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "350c0c001e0004000000"
+      },
+      {
+        "name": "NormalModeItemScanElevDown",
+        "type": "float",
+        "raw": "0000b4c2",
+        "value": null,
+        "offset": 1188446,
+        "sourceOffset": 1188446,
+        "recordOffset": 1188436,
+        "recordSourceOffset": 1188436,
+        "nameStringIndex": 3126,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "360c0c001e0004000000"
+      },
+      {
+        "name": "NormalModeItemPriority",
+        "type": "float",
+        "raw": "0000803f",
+        "value": null,
+        "offset": 1188460,
+        "sourceOffset": 1188460,
+        "recordOffset": 1188450,
+        "recordSourceOffset": 1188450,
+        "nameStringIndex": 3127,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "370c0c001e0004000000"
+      },
+      {
+        "name": "NormalModeCharacterScanRange",
+        "type": "float",
+        "raw": "0000fa43",
+        "value": null,
+        "offset": 1188474,
+        "sourceOffset": 1188474,
+        "recordOffset": 1188464,
+        "recordSourceOffset": 1188464,
+        "nameStringIndex": 3128,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "380c0c001e0004000000"
+      },
+      {
+        "name": "NormalModeCharacterScanAzi",
+        "type": "float",
+        "raw": "00003442",
+        "value": null,
+        "offset": 1188488,
+        "sourceOffset": 1188488,
+        "recordOffset": 1188478,
+        "recordSourceOffset": 1188478,
+        "nameStringIndex": 3129,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "390c0c001e0004000000"
+      },
+      {
+        "name": "NormalModeCharacterScanElevUp",
+        "type": "float",
+        "raw": "0000b442",
+        "value": null,
+        "offset": 1188502,
+        "sourceOffset": 1188502,
+        "recordOffset": 1188492,
+        "recordSourceOffset": 1188492,
+        "nameStringIndex": 3130,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "3a0c0c001e0004000000"
+      },
+      {
+        "name": "NormalModeCharacterScanElevDown",
+        "type": "float",
+        "raw": "0000b4c2",
+        "value": null,
+        "offset": 1188516,
+        "sourceOffset": 1188516,
+        "recordOffset": 1188506,
+        "recordSourceOffset": 1188506,
+        "nameStringIndex": 3131,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "3b0c0c001e0004000000"
+      },
+      {
+        "name": "NormalModeCharacterPriority",
+        "type": "float",
+        "raw": "0000803f",
+        "value": null,
+        "offset": 1188530,
+        "sourceOffset": 1188530,
+        "recordOffset": 1188520,
+        "recordSourceOffset": 1188520,
+        "nameStringIndex": 3132,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "3c0c0c001e0004000000"
+      },
+      {
+        "name": "NormalModeInteractScanRange",
+        "type": "float",
+        "raw": "0000af43",
+        "value": null,
+        "offset": 1188544,
+        "sourceOffset": 1188544,
+        "recordOffset": 1188534,
+        "recordSourceOffset": 1188534,
+        "nameStringIndex": 3133,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "3d0c0c001e0004000000"
+      },
+      {
+        "name": "NormalModeInteractScanAzi",
+        "type": "float",
+        "raw": "00003442",
+        "value": null,
+        "offset": 1188558,
+        "sourceOffset": 1188558,
+        "recordOffset": 1188548,
+        "recordSourceOffset": 1188548,
+        "nameStringIndex": 3134,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "3e0c0c001e0004000000"
+      },
+      {
+        "name": "NormalModeInteractScanElevUp",
+        "type": "float",
+        "raw": "0000b442",
+        "value": null,
+        "offset": 1188572,
+        "sourceOffset": 1188572,
+        "recordOffset": 1188562,
+        "recordSourceOffset": 1188562,
+        "nameStringIndex": 3135,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "3f0c0c001e0004000000"
+      },
+      {
+        "name": "NormalModeInteractScanElevDown",
+        "type": "float",
+        "raw": "0000b4c2",
+        "value": null,
+        "offset": 1188586,
+        "sourceOffset": 1188586,
+        "recordOffset": 1188576,
+        "recordSourceOffset": 1188576,
+        "nameStringIndex": 3136,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "400c0c001e0004000000"
+      },
+      {
+        "name": "NormalModeInteractPriority",
+        "type": "float",
+        "raw": "00000000",
+        "value": null,
+        "offset": 1188600,
+        "sourceOffset": 1188600,
+        "recordOffset": 1188590,
+        "recordSourceOffset": 1188590,
+        "nameStringIndex": 3137,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "410c0c001e0004000000"
+      },
+      {
+        "name": "MeleeModeItemScanRange",
+        "type": "float",
+        "raw": "00009643",
+        "value": null,
+        "offset": 1188614,
+        "sourceOffset": 1188614,
+        "recordOffset": 1188604,
+        "recordSourceOffset": 1188604,
+        "nameStringIndex": 3138,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "420c0c001e0004000000"
+      },
+      {
+        "name": "MeleeModeItemScanAzi",
+        "type": "float",
+        "raw": "00003442",
+        "value": null,
+        "offset": 1188628,
+        "sourceOffset": 1188628,
+        "recordOffset": 1188618,
+        "recordSourceOffset": 1188618,
+        "nameStringIndex": 3139,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "430c0c001e0004000000"
+      },
+      {
+        "name": "MeleeModeItemScanElevUp",
+        "type": "float",
+        "raw": "0000b442",
+        "value": null,
+        "offset": 1188642,
+        "sourceOffset": 1188642,
+        "recordOffset": 1188632,
+        "recordSourceOffset": 1188632,
+        "nameStringIndex": 3140,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "440c0c001e0004000000"
+      },
+      {
+        "name": "MeleeModeItemScanElevDown",
+        "type": "float",
+        "raw": "0000b4c2",
+        "value": null,
+        "offset": 1188656,
+        "sourceOffset": 1188656,
+        "recordOffset": 1188646,
+        "recordSourceOffset": 1188646,
+        "nameStringIndex": 3141,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "450c0c001e0004000000"
+      },
+      {
+        "name": "MeleeModeItemPriority",
+        "type": "float",
+        "raw": "000080bf",
+        "value": null,
+        "offset": 1188670,
+        "sourceOffset": 1188670,
+        "recordOffset": 1188660,
+        "recordSourceOffset": 1188660,
+        "nameStringIndex": 3142,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "460c0c001e0004000000"
+      },
+      {
+        "name": "MeleeModeCharacterScanRange",
+        "type": "float",
+        "raw": "0000fa43",
+        "value": null,
+        "offset": 1188684,
+        "sourceOffset": 1188684,
+        "recordOffset": 1188674,
+        "recordSourceOffset": 1188674,
+        "nameStringIndex": 3143,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "470c0c001e0004000000"
+      },
+      {
+        "name": "MeleeModeCharacterScanAzi",
+        "type": "float",
+        "raw": "0000b442",
+        "value": null,
+        "offset": 1188698,
+        "sourceOffset": 1188698,
+        "recordOffset": 1188688,
+        "recordSourceOffset": 1188688,
+        "nameStringIndex": 3144,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "480c0c001e0004000000"
+      },
+      {
+        "name": "MeleeModeCharacterScanElevUp",
+        "type": "float",
+        "raw": "0000b442",
+        "value": null,
+        "offset": 1188712,
+        "sourceOffset": 1188712,
+        "recordOffset": 1188702,
+        "recordSourceOffset": 1188702,
+        "nameStringIndex": 3145,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "490c0c001e0004000000"
+      },
+      {
+        "name": "MeleeModeCharacterScanElevDown",
+        "type": "float",
+        "raw": "0000b4c2",
+        "value": null,
+        "offset": 1188726,
+        "sourceOffset": 1188726,
+        "recordOffset": 1188716,
+        "recordSourceOffset": 1188716,
+        "nameStringIndex": 3146,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "4a0c0c001e0004000000"
+      },
+      {
+        "name": "MeleeModeCharacterPriority",
+        "type": "float",
+        "raw": "0000803f",
+        "value": null,
+        "offset": 1188740,
+        "sourceOffset": 1188740,
+        "recordOffset": 1188730,
+        "recordSourceOffset": 1188730,
+        "nameStringIndex": 3147,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "4b0c0c001e0004000000"
+      },
+      {
+        "name": "MeleeModeInteractScanRange",
+        "type": "float",
+        "raw": "0000af43",
+        "value": null,
+        "offset": 1188754,
+        "sourceOffset": 1188754,
+        "recordOffset": 1188744,
+        "recordSourceOffset": 1188744,
+        "nameStringIndex": 3148,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "4c0c0c001e0004000000"
+      },
+      {
+        "name": "MeleeModeInteractScanAzi",
+        "type": "float",
+        "raw": "00003442",
+        "value": null,
+        "offset": 1188768,
+        "sourceOffset": 1188768,
+        "recordOffset": 1188758,
+        "recordSourceOffset": 1188758,
+        "nameStringIndex": 3149,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "4d0c0c001e0004000000"
+      },
+      {
+        "name": "MeleeModeInteractScanElevUp",
+        "type": "float",
+        "raw": "0000b442",
+        "value": null,
+        "offset": 1188782,
+        "sourceOffset": 1188782,
+        "recordOffset": 1188772,
+        "recordSourceOffset": 1188772,
+        "nameStringIndex": 3150,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "4e0c0c001e0004000000"
+      },
+      {
+        "name": "MeleeModeInteractScanElevDown",
+        "type": "float",
+        "raw": "0000b4c2",
+        "value": null,
+        "offset": 1188796,
+        "sourceOffset": 1188796,
+        "recordOffset": 1188786,
+        "recordSourceOffset": 1188786,
+        "nameStringIndex": 3151,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "4f0c0c001e0004000000"
+      },
+      {
+        "name": "MeleeModeInteractPriority",
+        "type": "float",
+        "raw": "000080bf",
+        "value": null,
+        "offset": 1188810,
+        "sourceOffset": 1188810,
+        "recordOffset": 1188800,
+        "recordSourceOffset": 1188800,
+        "nameStringIndex": 3152,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "500c0c001e0004000000"
+      },
+      {
+        "name": "RangedModeItemScanRange",
+        "type": "float",
+        "raw": "00c05a45",
+        "value": null,
+        "offset": 1188824,
+        "sourceOffset": 1188824,
+        "recordOffset": 1188814,
+        "recordSourceOffset": 1188814,
+        "nameStringIndex": 3153,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "510c0c001e0004000000"
+      },
+      {
+        "name": "RangedModeItemScanAzi",
+        "type": "float",
+        "raw": "00003442",
+        "value": null,
+        "offset": 1188838,
+        "sourceOffset": 1188838,
+        "recordOffset": 1188828,
+        "recordSourceOffset": 1188828,
+        "nameStringIndex": 3154,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "520c0c001e0004000000"
+      },
+      {
+        "name": "RangedModeItemScanElevUp",
+        "type": "float",
+        "raw": "0000b442",
+        "value": null,
+        "offset": 1188852,
+        "sourceOffset": 1188852,
+        "recordOffset": 1188842,
+        "recordSourceOffset": 1188842,
+        "nameStringIndex": 3155,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "530c0c001e0004000000"
+      },
+      {
+        "name": "RangedModeItemScanElevDown",
+        "type": "float",
+        "raw": "0000b4c2",
+        "value": null,
+        "offset": 1188866,
+        "sourceOffset": 1188866,
+        "recordOffset": 1188856,
+        "recordSourceOffset": 1188856,
+        "nameStringIndex": 3156,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "540c0c001e0004000000"
+      },
+      {
+        "name": "RangedModeItemPriority",
+        "type": "float",
+        "raw": "000080bf",
+        "value": null,
+        "offset": 1188880,
+        "sourceOffset": 1188880,
+        "recordOffset": 1188870,
+        "recordSourceOffset": 1188870,
+        "nameStringIndex": 3157,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "550c0c001e0004000000"
+      },
+      {
+        "name": "RangedModeCharacterScanRange",
+        "type": "float",
+        "raw": "00c05a45",
+        "value": null,
+        "offset": 1188894,
+        "sourceOffset": 1188894,
+        "recordOffset": 1188884,
+        "recordSourceOffset": 1188884,
+        "nameStringIndex": 3158,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "560c0c001e0004000000"
+      },
+      {
+        "name": "RangedModeCharacterScanAzi",
+        "type": "float",
+        "raw": "00003442",
+        "value": null,
+        "offset": 1188908,
+        "sourceOffset": 1188908,
+        "recordOffset": 1188898,
+        "recordSourceOffset": 1188898,
+        "nameStringIndex": 3159,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "570c0c001e0004000000"
+      },
+      {
+        "name": "RangedModeCharacterScanElevUp",
+        "type": "float",
+        "raw": "0000b442",
+        "value": null,
+        "offset": 1188922,
+        "sourceOffset": 1188922,
+        "recordOffset": 1188912,
+        "recordSourceOffset": 1188912,
+        "nameStringIndex": 3160,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "580c0c001e0004000000"
+      },
+      {
+        "name": "RangedModeCharacterScanElevDown",
+        "type": "float",
+        "raw": "0000b4c2",
+        "value": null,
+        "offset": 1188936,
+        "sourceOffset": 1188936,
+        "recordOffset": 1188926,
+        "recordSourceOffset": 1188926,
+        "nameStringIndex": 3161,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "590c0c001e0004000000"
+      },
+      {
+        "name": "RangedModeCharacterPriority",
+        "type": "float",
+        "raw": "0000803f",
+        "value": null,
+        "offset": 1188950,
+        "sourceOffset": 1188950,
+        "recordOffset": 1188940,
+        "recordSourceOffset": 1188940,
+        "nameStringIndex": 3162,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "5a0c0c001e0004000000"
+      },
+      {
+        "name": "RangedModeInteractScanRange",
+        "type": "float",
+        "raw": "00c05a45",
+        "value": null,
+        "offset": 1188964,
+        "sourceOffset": 1188964,
+        "recordOffset": 1188954,
+        "recordSourceOffset": 1188954,
+        "nameStringIndex": 3163,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "5b0c0c001e0004000000"
+      },
+      {
+        "name": "RangedModeInteractScanAzi",
+        "type": "float",
+        "raw": "00003442",
+        "value": null,
+        "offset": 1188978,
+        "sourceOffset": 1188978,
+        "recordOffset": 1188968,
+        "recordSourceOffset": 1188968,
+        "nameStringIndex": 3164,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "5c0c0c001e0004000000"
+      },
+      {
+        "name": "RangedModeInteractScanElevUp",
+        "type": "float",
+        "raw": "0000b442",
+        "value": null,
+        "offset": 1188992,
+        "sourceOffset": 1188992,
+        "recordOffset": 1188982,
+        "recordSourceOffset": 1188982,
+        "nameStringIndex": 3165,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "5d0c0c001e0004000000"
+      },
+      {
+        "name": "RangedModeInteractScanElevDown",
+        "type": "float",
+        "raw": "0000b4c2",
+        "value": null,
+        "offset": 1189006,
+        "sourceOffset": 1189006,
+        "recordOffset": 1188996,
+        "recordSourceOffset": 1188996,
+        "nameStringIndex": 3166,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "5e0c0c001e0004000000"
+      },
+      {
+        "name": "RangedModeInteractPriority",
+        "type": "float",
+        "raw": "000080bf",
+        "value": null,
+        "offset": 1189020,
+        "sourceOffset": 1189020,
+        "recordOffset": 1189010,
+        "recordSourceOffset": 1189010,
+        "nameStringIndex": 3167,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "5f0c0c001e0004000000"
+      },
+      {
+        "name": "MagicModeItemScanRange",
+        "type": "float",
+        "raw": "00c05a45",
+        "value": null,
+        "offset": 1189034,
+        "sourceOffset": 1189034,
+        "recordOffset": 1189024,
+        "recordSourceOffset": 1189024,
+        "nameStringIndex": 3168,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "600c0c001e0004000000"
+      },
+      {
+        "name": "MagicModeItemScanAzi",
+        "type": "float",
+        "raw": "00003442",
+        "value": null,
+        "offset": 1189048,
+        "sourceOffset": 1189048,
+        "recordOffset": 1189038,
+        "recordSourceOffset": 1189038,
+        "nameStringIndex": 3169,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "610c0c001e0004000000"
+      },
+      {
+        "name": "MagicModeItemScanElevUp",
+        "type": "float",
+        "raw": "0000b442",
+        "value": null,
+        "offset": 1189062,
+        "sourceOffset": 1189062,
+        "recordOffset": 1189052,
+        "recordSourceOffset": 1189052,
+        "nameStringIndex": 3170,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "620c0c001e0004000000"
+      },
+      {
+        "name": "MagicModeItemScanElevDown",
+        "type": "float",
+        "raw": "0000b4c2",
+        "value": null,
+        "offset": 1189076,
+        "sourceOffset": 1189076,
+        "recordOffset": 1189066,
+        "recordSourceOffset": 1189066,
+        "nameStringIndex": 3171,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "630c0c001e0004000000"
+      },
+      {
+        "name": "MagicModeItemPriority",
+        "type": "float",
+        "raw": "000080bf",
+        "value": null,
+        "offset": 1189090,
+        "sourceOffset": 1189090,
+        "recordOffset": 1189080,
+        "recordSourceOffset": 1189080,
+        "nameStringIndex": 3172,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "640c0c001e0004000000"
+      },
+      {
+        "name": "MagicModeCharacterScanRange",
+        "type": "float",
+        "raw": "00c05a45",
+        "value": null,
+        "offset": 1189104,
+        "sourceOffset": 1189104,
+        "recordOffset": 1189094,
+        "recordSourceOffset": 1189094,
+        "nameStringIndex": 3173,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "650c0c001e0004000000"
+      },
+      {
+        "name": "MagicModeCharacterScanAzi",
+        "type": "float",
+        "raw": "00003442",
+        "value": null,
+        "offset": 1189118,
+        "sourceOffset": 1189118,
+        "recordOffset": 1189108,
+        "recordSourceOffset": 1189108,
+        "nameStringIndex": 3174,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "660c0c001e0004000000"
+      },
+      {
+        "name": "MagicModeCharacterScanElevUp",
+        "type": "float",
+        "raw": "0000b442",
+        "value": null,
+        "offset": 1189132,
+        "sourceOffset": 1189132,
+        "recordOffset": 1189122,
+        "recordSourceOffset": 1189122,
+        "nameStringIndex": 3175,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "670c0c001e0004000000"
+      },
+      {
+        "name": "MagicModeCharacterScanElevDown",
+        "type": "float",
+        "raw": "0000b4c2",
+        "value": null,
+        "offset": 1189146,
+        "sourceOffset": 1189146,
+        "recordOffset": 1189136,
+        "recordSourceOffset": 1189136,
+        "nameStringIndex": 3176,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "680c0c001e0004000000"
+      },
+      {
+        "name": "MagicModeCharacterPriority",
+        "type": "float",
+        "raw": "0000803f",
+        "value": null,
+        "offset": 1189160,
+        "sourceOffset": 1189160,
+        "recordOffset": 1189150,
+        "recordSourceOffset": 1189150,
+        "nameStringIndex": 3177,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "690c0c001e0004000000"
+      },
+      {
+        "name": "MagicModeInteractScanRange",
+        "type": "float",
+        "raw": "00c05a45",
+        "value": null,
+        "offset": 1189174,
+        "sourceOffset": 1189174,
+        "recordOffset": 1189164,
+        "recordSourceOffset": 1189164,
+        "nameStringIndex": 3178,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "6a0c0c001e0004000000"
+      },
+      {
+        "name": "MagicModeInteractScanAzi",
+        "type": "float",
+        "raw": "00003442",
+        "value": null,
+        "offset": 1189188,
+        "sourceOffset": 1189188,
+        "recordOffset": 1189178,
+        "recordSourceOffset": 1189178,
+        "nameStringIndex": 3179,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "6b0c0c001e0004000000"
+      },
+      {
+        "name": "MagicModeInteractScanElevUp",
+        "type": "float",
+        "raw": "0000b442",
+        "value": null,
+        "offset": 1189202,
+        "sourceOffset": 1189202,
+        "recordOffset": 1189192,
+        "recordSourceOffset": 1189192,
+        "nameStringIndex": 3180,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "6c0c0c001e0004000000"
+      },
+      {
+        "name": "MagicModeInteractScanElevDown",
+        "type": "float",
+        "raw": "0000b4c2",
+        "value": null,
+        "offset": 1189216,
+        "sourceOffset": 1189216,
+        "recordOffset": 1189206,
+        "recordSourceOffset": 1189206,
+        "nameStringIndex": 3181,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "6d0c0c001e0004000000"
+      },
+      {
+        "name": "MagicModeInteractPriority",
+        "type": "float",
+        "raw": "000080bf",
+        "value": null,
+        "offset": 1189230,
+        "sourceOffset": 1189230,
+        "recordOffset": 1189220,
+        "recordSourceOffset": 1189220,
+        "nameStringIndex": 3182,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "6e0c0c001e0004000000"
+      },
+      {
+        "name": "AutoCollectFocus",
+        "type": "bool",
+        "raw": "00",
+        "value": null,
+        "offset": 1189244,
+        "sourceOffset": 1189244,
+        "recordOffset": 1189234,
+        "recordSourceOffset": 1189234,
+        "nameStringIndex": 3183,
+        "typeStringIndex": 16,
+        "magic": 30,
+        "byteLength": 1,
+        "inlineStrings": false,
+        "recordHeaderRaw": "6f0c10001e0001000000"
+      },
+      {
+        "name": "FocusLockMaxDistance",
+        "type": "float",
+        "raw": "0000fa44",
+        "value": null,
+        "offset": 1189255,
+        "sourceOffset": 1189255,
+        "recordOffset": 1189245,
+        "recordSourceOffset": 1189245,
+        "nameStringIndex": 3184,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "700c0c001e0004000000"
+      },
+      {
+        "name": "NormalModePreferedRange",
+        "type": "float",
+        "raw": "00001643",
+        "value": null,
+        "offset": 1189269,
+        "sourceOffset": 1189269,
+        "recordOffset": 1189259,
+        "recordSourceOffset": 1189259,
+        "nameStringIndex": 3185,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "710c0c001e0004000000"
+      },
+      {
+        "name": "InteractHighPriorityBonus",
+        "type": "float",
+        "raw": "00002041",
+        "value": null,
+        "offset": 1189283,
+        "sourceOffset": 1189283,
+        "recordOffset": 1189273,
+        "recordSourceOffset": 1189273,
+        "nameStringIndex": 3186,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "720c0c001e0004000000"
+      },
+      {
+        "name": "DrawFocusName",
+        "type": "bool",
+        "raw": "01",
+        "value": null,
+        "offset": 1189297,
+        "sourceOffset": 1189297,
+        "recordOffset": 1189287,
+        "recordSourceOffset": 1189287,
+        "nameStringIndex": 3187,
+        "typeStringIndex": 16,
+        "magic": 30,
+        "byteLength": 1,
+        "inlineStrings": false,
+        "recordHeaderRaw": "730c10001e0001000000"
+      },
+      {
+        "name": "HighlightFocus",
+        "type": "bool",
+        "raw": "00",
+        "value": null,
+        "offset": 1189308,
+        "sourceOffset": 1189308,
+        "recordOffset": 1189298,
+        "recordSourceOffset": 1189298,
+        "nameStringIndex": 3188,
+        "typeStringIndex": 16,
+        "magic": 30,
+        "byteLength": 1,
+        "inlineStrings": false,
+        "recordHeaderRaw": "740c10001e0001000000"
+      },
+      {
+        "name": "HighlightFocusInFight",
+        "type": "bool",
+        "raw": "00",
+        "value": null,
+        "offset": 1189319,
+        "sourceOffset": 1189319,
+        "recordOffset": 1189309,
+        "recordSourceOffset": 1189309,
+        "nameStringIndex": 3189,
+        "typeStringIndex": 16,
+        "magic": 30,
+        "byteLength": 1,
+        "inlineStrings": false,
+        "recordHeaderRaw": "750c10001e0001000000"
+      },
+      {
+        "name": "HardFocusMaxAzi",
+        "type": "float",
+        "raw": "00002041",
+        "value": null,
+        "offset": 1189330,
+        "sourceOffset": 1189330,
+        "recordOffset": 1189320,
+        "recordSourceOffset": 1189320,
+        "nameStringIndex": 3190,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "760c0c001e0004000000"
+      },
+      {
+        "name": "HardFocusMaxElev",
+        "type": "float",
+        "raw": "0000a041",
+        "value": null,
+        "offset": 1189344,
+        "sourceOffset": 1189344,
+        "recordOffset": 1189334,
+        "recordSourceOffset": 1189334,
+        "nameStringIndex": 3191,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "770c0c001e0004000000"
+      },
+      {
+        "name": "HardFocusMaxRange",
+        "type": "float",
+        "raw": "000080bf",
+        "value": null,
+        "offset": 1189358,
+        "sourceOffset": 1189358,
+        "recordOffset": 1189348,
+        "recordSourceOffset": 1189348,
+        "nameStringIndex": 3192,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "780c0c001e0004000000"
+      },
+      {
+        "name": "CurrentMode",
+        "type": "bTPropertyContainer<enum gEFocus>",
+        "raw": "010002000000",
+        "value": null,
+        "offset": 1189372,
+        "sourceOffset": 1189372,
+        "recordOffset": 1189362,
+        "recordSourceOffset": 1189362,
+        "nameStringIndex": 3193,
+        "typeStringIndex": 3194,
+        "magic": 30,
+        "byteLength": 6,
+        "inlineStrings": false,
+        "recordHeaderRaw": "790c7a0c1e0006000000"
+      },
+      {
+        "name": "CurrentEntity",
+        "type": "eCEntityProxy",
+        "raw": "010000",
+        "value": null,
+        "offset": 1189388,
+        "sourceOffset": 1189388,
+        "recordOffset": 1189378,
+        "recordSourceOffset": 1189378,
+        "nameStringIndex": 3195,
+        "typeStringIndex": 2525,
+        "magic": 30,
+        "byteLength": 3,
+        "inlineStrings": false,
+        "recordHeaderRaw": "7b0cdd091e0003000000"
+      },
+      {
+        "name": "FocusLocked",
+        "type": "bool",
+        "raw": "00",
+        "value": null,
+        "offset": 1189401,
+        "sourceOffset": 1189401,
+        "recordOffset": 1189391,
+        "recordSourceOffset": 1189391,
+        "nameStringIndex": 3196,
+        "typeStringIndex": 16,
+        "magic": 30,
+        "byteLength": 1,
+        "inlineStrings": false,
+        "recordHeaderRaw": "7c0c10001e0001000000"
+      },
+      {
+        "name": "EnableRangeRating",
+        "type": "bool",
+        "raw": "01",
+        "value": null,
+        "offset": 1189412,
+        "sourceOffset": 1189412,
+        "recordOffset": 1189402,
+        "recordSourceOffset": 1189402,
+        "nameStringIndex": 3197,
+        "typeStringIndex": 16,
+        "magic": 30,
+        "byteLength": 1,
+        "inlineStrings": false,
+        "recordHeaderRaw": "7d0c10001e0001000000"
+      },
+      {
+        "name": "OverrideItemPriority",
+        "type": "float",
+        "raw": "00000000",
+        "value": null,
+        "offset": 1189423,
+        "sourceOffset": 1189423,
+        "recordOffset": 1189413,
+        "recordSourceOffset": 1189413,
+        "nameStringIndex": 3198,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "7e0c0c001e0004000000"
+      },
+      {
+        "name": "OverrideCharacterPriority",
+        "type": "float",
+        "raw": "00000000",
+        "value": null,
+        "offset": 1189437,
+        "sourceOffset": 1189437,
+        "recordOffset": 1189427,
+        "recordSourceOffset": 1189427,
+        "nameStringIndex": 3199,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "7f0c0c001e0004000000"
+      },
+      {
+        "name": "OverrideInteractPriority",
+        "type": "float",
+        "raw": "00000000",
+        "value": null,
+        "offset": 1189451,
+        "sourceOffset": 1189451,
+        "recordOffset": 1189441,
+        "recordSourceOffset": 1189441,
+        "nameStringIndex": 3200,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "800c0c001e0004000000"
+      },
+      {
+        "name": "OverrideRange",
+        "type": "float",
+        "raw": "00000000",
+        "value": null,
+        "offset": 1189465,
+        "sourceOffset": 1189465,
+        "recordOffset": 1189455,
+        "recordSourceOffset": 1189455,
+        "nameStringIndex": 3201,
+        "typeStringIndex": 12,
+        "magic": 30,
+        "byteLength": 4,
+        "inlineStrings": false,
+        "recordHeaderRaw": "810c0c001e0004000000"
+      }
+    ],
+    "tailRaw": "",
+    "nativeReadOffset": 1189469,
+    "worldResident": false
+  },
+  "enumGlobals": {
+    "FocusLookAtMode": "207b8850",
+    "FocusLookAtKeysFOR": "207b8854",
+    "CurrentMode": "207b5f34"
+  },
+  "containerVtables": {
+    "FocusLookAtMode": "20669a5c",
+    "FocusLookAtKeysFOR": "20669b34",
+    "CurrentMode": "2065c2a4"
+  },
+  "invalidatePlan": [
+    {
+      "source": "Game:2013c87b",
+      "offset": 348,
+      "raw": "00000000",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c883",
+      "offset": 356,
+      "raw": "00000000",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c88b",
+      "offset": 352,
+      "raw": "00000000",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c893",
+      "offset": 360,
+      "raw": "00000000",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c8a3",
+      "offset": 372,
+      "raw": "000080bf",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c8b8",
+      "offset": 364,
+      "raw": "00002041",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c8cc",
+      "offset": 345,
+      "raw": "01",
+      "kind": "byte"
+    },
+    {
+      "source": "Game:2013c8d2",
+      "offset": 368,
+      "raw": "00007041",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c8da",
+      "offset": 392,
+      "raw": "00",
+      "kind": "byte"
+    },
+    {
+      "source": "Game:2013c8e1",
+      "kind": "word",
+      "offset": 388,
+      "raw": "01000000"
+    },
+    {
+      "source": "Game:2013c904",
+      "kind": "enum-temporary",
+      "name": "FocusLookAtMode",
+      "value": 1
+    },
+    {
+      "source": "Game:2013c93b",
+      "kind": "enum-temporary",
+      "name": "FocusLookAtKeysFOR",
+      "value": 0
+    }
+  ],
+  "postInitializePlan": [
+    {
+      "source": "Game:2013c528",
+      "offset": 56,
+      "raw": "0000fa43",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c52d",
+      "offset": 116,
+      "raw": "0000fa43",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c53a",
+      "offset": 36,
+      "raw": "00009643",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c53f",
+      "offset": 40,
+      "raw": "0000b442",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c544",
+      "offset": 44,
+      "raw": "0000b442",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c549",
+      "offset": 60,
+      "raw": "0000b442",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c54e",
+      "offset": 64,
+      "raw": "0000b442",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c553",
+      "offset": 76,
+      "raw": "0000af43",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c558",
+      "offset": 80,
+      "raw": "0000b442",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c55d",
+      "offset": 84,
+      "raw": "0000b442",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c562",
+      "offset": 96,
+      "raw": "00009643",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c56f",
+      "offset": 100,
+      "raw": "0000b442",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c574",
+      "offset": 104,
+      "raw": "0000b442",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c579",
+      "offset": 120,
+      "raw": "00003443",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c586",
+      "offset": 124,
+      "raw": "0000b442",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c58b",
+      "offset": 136,
+      "raw": "0000af43",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c59b",
+      "offset": 140,
+      "raw": "0000b442",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c5a3",
+      "offset": 144,
+      "raw": "0000b442",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c5ab",
+      "offset": 164,
+      "raw": "0000b442",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c5b3",
+      "offset": 184,
+      "raw": "0000b442",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c5bb",
+      "offset": 204,
+      "raw": "0000b442",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c5c3",
+      "offset": 224,
+      "raw": "0000b442",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c5cb",
+      "offset": 244,
+      "raw": "0000b442",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c5d3",
+      "offset": 264,
+      "raw": "0000b442",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c5e3",
+      "offset": 48,
+      "raw": "0000b4c2",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c5e8",
+      "offset": 52,
+      "raw": "0000803f",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c5ed",
+      "offset": 68,
+      "raw": "0000b4c2",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c5f2",
+      "offset": 72,
+      "raw": "0000803f",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c5f7",
+      "offset": 88,
+      "raw": "0000b4c2",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c5fc",
+      "offset": 92,
+      "raw": "00000000",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c601",
+      "offset": 108,
+      "raw": "0000b4c2",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c606",
+      "offset": 112,
+      "raw": "000080bf",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c60b",
+      "offset": 128,
+      "raw": "0000b4c2",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c613",
+      "offset": 132,
+      "raw": "0000803f",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c61b",
+      "offset": 148,
+      "raw": "0000b4c2",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c623",
+      "offset": 152,
+      "raw": "000080bf",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c62b",
+      "offset": 156,
+      "raw": "00c05a45",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c633",
+      "offset": 160,
+      "raw": "00003442",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c63b",
+      "offset": 168,
+      "raw": "0000b4c2",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c643",
+      "offset": 172,
+      "raw": "000080bf",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c64b",
+      "offset": 176,
+      "raw": "00c05a45",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c653",
+      "offset": 180,
+      "raw": "00003442",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c65b",
+      "offset": 188,
+      "raw": "0000b4c2",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c663",
+      "offset": 192,
+      "raw": "0000803f",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c66b",
+      "offset": 196,
+      "raw": "00c05a45",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c673",
+      "offset": 200,
+      "raw": "00003442",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c67b",
+      "offset": 208,
+      "raw": "0000b4c2",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c683",
+      "offset": 212,
+      "raw": "000080bf",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c68b",
+      "offset": 216,
+      "raw": "00c05a45",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c693",
+      "offset": 220,
+      "raw": "00003442",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c69b",
+      "offset": 228,
+      "raw": "0000b4c2",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c6a3",
+      "offset": 232,
+      "raw": "000080bf",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c6ab",
+      "offset": 236,
+      "raw": "00c05a45",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c6b3",
+      "offset": 240,
+      "raw": "00003442",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c6bb",
+      "offset": 248,
+      "raw": "0000b4c2",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c6c3",
+      "offset": 252,
+      "raw": "0000803f",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c6cb",
+      "offset": 256,
+      "raw": "00c05a45",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c6d3",
+      "offset": 260,
+      "raw": "00003442",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c6db",
+      "offset": 268,
+      "raw": "0000b4c2",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c6e3",
+      "offset": 272,
+      "raw": "000080bf",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c6eb",
+      "offset": 284,
+      "raw": "00001643",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c71e",
+      "kind": "enum-temporary",
+      "name": "CurrentMode",
+      "value": 2
+    },
+    {
+      "source": "Game:2013c73a",
+      "offset": 280,
+      "raw": "0000fa44",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c74e",
+      "offset": 293,
+      "raw": "00",
+      "kind": "byte"
+    },
+    {
+      "source": "Game:2013c754",
+      "offset": 276,
+      "raw": "00",
+      "kind": "byte"
+    },
+    {
+      "source": "Game:2013c75a",
+      "offset": 288,
+      "raw": "00002041",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c762",
+      "offset": 292,
+      "raw": "01",
+      "kind": "byte"
+    },
+    {
+      "source": "Game:2013c769",
+      "offset": 294,
+      "raw": "00",
+      "kind": "byte"
+    },
+    {
+      "source": "Game:2013c76f",
+      "offset": 295,
+      "raw": "00",
+      "kind": "byte"
+    },
+    {
+      "source": "Game:2013c775",
+      "offset": 344,
+      "raw": "00",
+      "kind": "byte"
+    },
+    {
+      "source": "Game:2013c79b",
+      "kind": "enum-temporary",
+      "name": "FocusLookAtMode",
+      "value": 1
+    },
+    {
+      "source": "Game:2013c7cc",
+      "kind": "enum-temporary",
+      "name": "FocusLookAtKeysFOR",
+      "value": 0
+    },
+    {
+      "source": "Game:2013c7db",
+      "offset": 348,
+      "raw": "00000000",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c7e3",
+      "offset": 356,
+      "raw": "00000000",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c7eb",
+      "offset": 352,
+      "raw": "00000000",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c7f3",
+      "offset": 360,
+      "raw": "00000000",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c803",
+      "offset": 372,
+      "raw": "000080bf",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c813",
+      "offset": 364,
+      "raw": "00002041",
+      "kind": "word"
+    },
+    {
+      "source": "Game:2013c824",
+      "offset": 345,
+      "raw": "01",
+      "kind": "byte"
+    },
+    {
+      "source": "Game:2013c82b",
+      "offset": 368,
+      "raw": "00007041",
+      "kind": "word"
+    }
+  ],
+  "profile": {
+    "freshSuccessfulAllocation": true,
+    "worldResident": false,
+    "allHeapAddressBitsMasked": true,
+    "unresolved": [
+      "nonempty candidate allocation Free unless actual host supplied",
+      "real FindFocusEntity scene/picking/interaction services",
+      "terminal destruction and full world activation"
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+; 2028fc30 bTPropertyType<gCNavigation_PS,eCEntityProxy>::vfunction8
+2028fc30 | 56 | PUSH ESI
+2028fc31 | 8bf1 | MOV ESI,ECX
+2028fc33 | 8b06 | MOV EAX,dword ptr [ESI]
+2028fc35 | 8b5018 | MOV EDX,dword ptr [EAX + 0x18]
+2028fc38 | ffd2 | CALL EDX
+2028fc3a | 84c0 | TEST AL,AL
+2028fc3c | 7505 | JNZ 0x2028fc43
+2028fc3e | 83c8ff | OR EAX,0xffffffff
+2028fc41 | 5e | POP ESI
+2028fc42 | c3 | RET
+; 2028fc43 LAB_2028fc43
+2028fc43 | 8b4620 | MOV EAX,dword ptr [ESI + 0x20]
+2028fc46 | 8b4004 | MOV EAX,dword ptr [EAX + 0x4]
+2028fc49 | 5e | POP ESI
+2028fc4a | c3 | RET

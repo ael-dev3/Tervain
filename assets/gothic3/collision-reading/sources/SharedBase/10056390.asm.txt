@@ -1,0 +1,32 @@
+; 10056390 FUN_10056390
+10056390 | 83ec1c | SUB ESP,0x1c
+10056393 | 8b442420 | MOV EAX,dword ptr [ESP + 0x20]
+10056397 | d900 | FLD float ptr [EAX]
+10056399 | f30f104008 | MOVSS XMM0,dword ptr [EAX + 0x8]
+1005639e | d95c2404 | FSTP float ptr [ESP + 0x4]
+100563a2 | f30f1144240c | MOVSS dword ptr [ESP + 0xc],XMM0
+100563a8 | d94004 | FLD float ptr [EAX + 0x4]
+100563ab | c7042400000000 | MOV dword ptr [ESP],0x0
+100563b2 | d95c2408 | FSTP float ptr [ESP + 0x8]
+100563b6 | d9400c | FLD float ptr [EAX + 0xc]
+100563b9 | d95c2410 | FSTP float ptr [ESP + 0x10]
+100563bd | d94010 | FLD float ptr [EAX + 0x10]
+100563c0 | d95c2414 | FSTP float ptr [ESP + 0x14]
+100563c4 | d94014 | FLD float ptr [EAX + 0x14]
+100563c7 | 8b442424 | MOV EAX,dword ptr [ESP + 0x24]
+100563cb | d95c2418 | FSTP float ptr [ESP + 0x18]
+100563cf | 50 | PUSH EAX
+100563d0 | d9442414 | FLD float ptr [ESP + 0x14]
+100563d4 | 51 | PUSH ECX
+100563d5 | d864240c | FSUB float ptr [ESP + 0xc]
+100563d9 | 8d4c2408 | LEA ECX,[ESP + 0x8]
+100563dd | d95c2418 | FSTP float ptr [ESP + 0x18]
+100563e1 | d944241c | FLD float ptr [ESP + 0x1c]
+100563e5 | d8642410 | FSUB float ptr [ESP + 0x10]
+100563e9 | d95c241c | FSTP float ptr [ESP + 0x1c]
+100563ed | d9442420 | FLD float ptr [ESP + 0x20]
+100563f1 | d8642414 | FSUB float ptr [ESP + 0x14]
+100563f5 | d95c2420 | FSTP float ptr [ESP + 0x20]
+100563f9 | e8a4fffaff | CALL 0x100063a2
+100563fe | 83c41c | ADD ESP,0x1c
+10056401 | c20800 | RET 0x8

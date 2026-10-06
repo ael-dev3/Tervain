@@ -1,0 +1,2 @@
+; 2001ae0b gCNavigationAdmin::DeregisterInteractionPS
+2001ae0b | e9f0112a00 | JMP 0x202bc000

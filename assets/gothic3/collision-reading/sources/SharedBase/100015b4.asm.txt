@@ -1,0 +1,4 @@
+; 100015b4 ?SetOrientation@bCCapsule@@QAEXABVbCMatrix3@@@Z
+100015b4 | e997620500 | JMP 0x10057850
+; 100015b9 bCRect::operator()
+; 100015b9 Ordinal_1148

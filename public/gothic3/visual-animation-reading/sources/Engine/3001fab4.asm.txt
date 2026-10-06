@@ -1,0 +1,2 @@
+; 3001fab4 bTPOPureSmartPtr<eCVisualAnimation_PS>::vfunction11
+3001fab4 | e987a70900 | JMP 0x300ba240

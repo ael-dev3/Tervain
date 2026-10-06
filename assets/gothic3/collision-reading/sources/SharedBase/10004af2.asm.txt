@@ -1,0 +1,4 @@
+; 10004af2 ?Contains@bCOrientedBox@@QBE_NABVbCFrustum@@@Z
+10004af2 | e919ff0500 | JMP 0x10064a10
+; 10004af7 bCSphere::GetIntersected
+; 10004af7 Ordinal_2423

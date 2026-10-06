@@ -1,0 +1,13 @@
+/* ENTRY 10002c39 | bCVector::SetY | STATUS decompiled | 2 ms */
+
+/* public: void __thiscall bCVector::SetY(float const &) */
+
+void __thiscall bCVector::SetY(bCVector *this,float *param_1)
+
+{
+                    /* 0x2c39  4445  ?SetY@bCVector@@QAEXABM@Z */
+  *(float *)(this + 4) = *param_1;
+  return;
+}
+
+

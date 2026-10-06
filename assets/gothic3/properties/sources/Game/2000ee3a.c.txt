@@ -1,0 +1,15 @@
+/* ENTRY 2000ee3a | gCEntity::gCEntity | STATUS decompiled | 46 ms */
+
+/* protected: __thiscall gCEntity::gCEntity(class gCEntity const &) */
+
+gCEntity * __thiscall gCEntity::gCEntity(gCEntity *this,gCEntity *param_1)
+
+{
+                    /* 0xee3a  152  ??0gCEntity@@IAE@ABV0@@Z */
+  eCDynamicEntity::eCDynamicEntity((eCDynamicEntity *)this);
+  this->vftablePtr = &vftable;
+  eCDynamicEntity::CopyFrom((eCDynamicEntity *)this,(bCObjectBase *)param_1);
+  return this;
+}
+
+

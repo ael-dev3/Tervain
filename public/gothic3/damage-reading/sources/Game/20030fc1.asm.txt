@@ -1,0 +1,2 @@
+; 20030fc1 gCDamageReceiver_PS::gCDamageReceiver_PS
+20030fc1 | e9fa8f0800 | JMP 0x200b9fc0

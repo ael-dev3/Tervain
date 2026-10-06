@@ -1,0 +1,4 @@
+; 200198f3 ?AccessMaximumModifier@gCStat@@QAEAAHXZ
+200198f3 | e9e8090900 | JMP 0x200aa2e0
+; 200198fd gCMap_PS::SetWorldBottomRight
+; 200198fd Ordinal_7224

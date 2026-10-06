@@ -1,0 +1,19 @@
+/* ENTRY 30007d47 | eCRenderContext::Create | STATUS decompiled | 6 ms */
+
+/* public: enum bEResult __thiscall eCRenderContext::Create(class eCEntity *,class
+   eCEntityPropertySet *) */
+
+bEResult __thiscall
+eCRenderContext::Create(eCRenderContext *this,eCEntity *param_1,eCEntityPropertySet *param_2)
+
+{
+                    /* 0x7d47  4618
+                       ?Create@eCRenderContext@@QAE?AW4bEResult@@PAVeCEntity@@PAVeCEntityPropertySet@@@Z
+                        */
+  (*this->vftablePtr->Create)(this);
+  (this->eCRenderContext_data).offset_0x8 = param_1;
+  (this->eCRenderContext_data).offset_0xc = param_2;
+  return 1;
+}
+
+

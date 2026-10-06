@@ -1,0 +1,2 @@
+; 2020b810 ENGINE.DLL::eCEntityPropertySet::Destroy
+2020b810 | ff2530727d20 | JMP dword ptr [0x207d7230]

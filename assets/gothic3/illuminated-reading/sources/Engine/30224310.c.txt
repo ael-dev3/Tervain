@@ -1,0 +1,11 @@
+/* ENTRY 30224310 | bTPropertyObject<eCIlluminated_PS,eCEntityPropertySet>::vfunction1 | STATUS decompiled | 3 ms */
+
+bCObjectRefBase * __thiscall
+bTPropertyObject<eCIlluminated_PS,eCEntityPropertySet>::vfunction1
+          (bTPropertyObject<eCIlluminated_PS,eCEntityPropertySet> *this)
+
+{
+  return (this->bTPOPureSmartPtr<eCIlluminated_PS>_data).offset_0x4;
+}
+
+

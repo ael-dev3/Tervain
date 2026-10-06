@@ -1,0 +1,16 @@
+/* ENTRY 20460374 | SHAREDBASE.DLL::bCObjectRefBase::OnNotifyPropertyValueChangedEnterEx | STATUS decompiled | 1 ms */
+
+bool __thiscall
+bCObjectRefBase::OnNotifyPropertyValueChangedEnterEx
+          (bCObjectRefBase *this,char *param_1,bool param_2)
+
+{
+  bool bVar1;
+  
+                    /* WARNING: Could not recover jumptable at 0x20460374. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bVar1 = OnNotifyPropertyValueChangedEnterEx(this,param_1,param_2);
+  return bVar1;
+}
+
+

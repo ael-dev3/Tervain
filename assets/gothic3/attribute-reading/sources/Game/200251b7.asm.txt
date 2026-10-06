@@ -1,0 +1,2 @@
+; 200251b7 bTPOPureSmartPtr<gCStat>::vfunction12
+200251b7 | e984663700 | JMP 0x2039b840

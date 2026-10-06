@@ -1,0 +1,17 @@
+/* ENTRY 2016deb0 | gCHUDPageSkills2::gCHUDPageSkills2 | STATUS decompiled | 17 ms */
+
+gCHUDPageSkills2 * __thiscall gCHUDPageSkills2::gCHUDPageSkills2(gCHUDPageSkills2 *this)
+
+{
+  gCHUDPage::gCHUDPage((gCHUDPage *)this);
+  this->vftablePtr = &vftable;
+  gCHUDView::gCHUDView((gCHUDView *)&this->gCHUDPageSkills2_data);
+  gCHUDView::gCHUDView((gCHUDView *)&(this->gCHUDPageSkills2_data).field_0x14);
+  gCHUDViewCharacter2::gCHUDViewCharacter2
+            ((gCHUDViewCharacter2 *)&(this->gCHUDPageSkills2_data).field_0x28);
+  gCHUDViewSkills2::gCHUDViewSkills2((gCHUDViewSkills2 *)&(this->gCHUDPageSkills2_data).field_0x820)
+  ;
+  return this;
+}
+
+

@@ -1,0 +1,27 @@
+; 10092bd0 FUN_10092bd0
+10092bd0 | 83ec24 | SUB ESP,0x24
+10092bd3 | 8b01 | MOV EAX,dword ptr [ECX]
+10092bd5 | 8b5104 | MOV EDX,dword ptr [ECX + 0x4]
+10092bd8 | 56 | PUSH ESI
+10092bd9 | 8b74242c | MOV ESI,dword ptr [ESP + 0x2c]
+10092bdd | 89442404 | MOV dword ptr [ESP + 0x4],EAX
+10092be1 | 8b4108 | MOV EAX,dword ptr [ECX + 0x8]
+10092be4 | 8b490c | MOV ECX,dword ptr [ECX + 0xc]
+10092be7 | 89542408 | MOV dword ptr [ESP + 0x8],EDX
+10092beb | 56 | PUSH ESI
+10092bec | 8d542408 | LEA EDX,[ESP + 0x8]
+10092bf0 | 894c2414 | MOV dword ptr [ESP + 0x14],ECX
+10092bf4 | 52 | PUSH EDX
+10092bf5 | 8d4c241c | LEA ECX,[ESP + 0x1c]
+10092bf9 | 89442414 | MOV dword ptr [ESP + 0x14],EAX
+10092bfd | e8df4df7ff | CALL 0x100079e1
+10092c02 | 8bc8 | MOV ECX,EAX
+10092c04 | e8fe59f7ff | CALL 0x10008607
+10092c09 | 8d4c2414 | LEA ECX,[ESP + 0x14]
+10092c0d | e8bbe9f6ff | CALL 0x100015cd
+10092c12 | 8bce | MOV ECX,ESI
+10092c14 | e8a51bf7ff | CALL 0x100047be
+10092c19 | 8bc6 | MOV EAX,ESI
+10092c1b | 5e | POP ESI
+10092c1c | 83c424 | ADD ESP,0x24
+10092c1f | c20400 | RET 0x4

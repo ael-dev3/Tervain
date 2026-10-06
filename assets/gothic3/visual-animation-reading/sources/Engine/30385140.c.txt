@@ -1,0 +1,9 @@
+/* ENTRY 30385140 | FUN_30385140 | STATUS decompiled | 1 ms */
+
+undefined2 FUN_30385140(void)
+
+{
+  return 0x27;
+}
+
+

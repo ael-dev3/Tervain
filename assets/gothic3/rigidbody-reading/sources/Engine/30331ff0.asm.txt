@@ -1,0 +1,16 @@
+; 30331ff0 bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_>::vfunction12
+30331ff0 | 56 | PUSH ESI
+30331ff1 | 8bf1 | MOV ESI,ECX
+30331ff3 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+30331ff7 | 85c9 | TEST ECX,ECX
+30331ff9 | 7506 | JNZ 0x30332001
+30331ffb | 33c0 | XOR EAX,EAX
+30331ffd | 5e | POP ESI
+30331ffe | c20400 | RET 0x4
+; 30332001 LAB_30332001
+30332001 | 8b01 | MOV EAX,dword ptr [ECX]
+30332003 | 8b10 | MOV EDX,dword ptr [EAX]
+30332005 | ffd2 | CALL EDX
+30332007 | 03461c | ADD EAX,dword ptr [ESI + 0x1c]
+3033200a | 5e | POP ESI
+3033200b | c20400 | RET 0x4

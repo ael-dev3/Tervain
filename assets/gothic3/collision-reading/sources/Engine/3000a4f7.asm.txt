@@ -1,0 +1,4 @@
+; 3000a4f7 bTPropertyContainer<eEShapeAABBAdapt>::vfunction3
+3000a4f7 | e9c4f10b00 | JMP 0x300c96c0
+; 3000a4fc eCAnimation_HardRenderActor::Create
+; 3000a4fc Ordinal_4381

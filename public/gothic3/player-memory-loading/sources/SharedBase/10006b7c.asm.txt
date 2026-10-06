@@ -1,0 +1,2 @@
+; 10006b7c bCMessageAdmin::Create
+10006b7c | e96f2a0400 | JMP 0x100495f0

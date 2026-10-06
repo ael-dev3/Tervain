@@ -1,0 +1,4 @@
+; 10002e91 ??ZbCBox@@QAEAAV0@ABVbCVector@@@Z
+10002e91 | e9da870200 | JMP 0x1002b670
+; 10002e9b bCFlexibleVertexPtr::IsBufferValid
+; 10002e9b Ordinal_3597

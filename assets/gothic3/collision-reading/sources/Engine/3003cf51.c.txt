@@ -1,0 +1,26 @@
+/* ENTRY 3003cf51 | bTPOPureSmartPtr<eCCollisionShape>::vfunction10 | STATUS decompiled | 13 ms */
+
+void __thiscall
+bTPOPureSmartPtr<eCCollisionShape>::vfunction10(bTPOPureSmartPtr<eCCollisionShape> *this)
+
+{
+  bCObjectRefBase *pbVar1;
+  ulong uVar2;
+  
+  pbVar1 = (this->bTPOPureSmartPtr<eCCollisionShape>_data).offset_0x4;
+  if (pbVar1 != (bCObjectRefBase *)0x0) {
+    uVar2 = bCObjectRefBase::GetReferenceCount((bCObjectRefBase *)pbVar1);
+    if (uVar2 == 1) {
+      (**(code **)(*(int *)(this->bTPOPureSmartPtr<eCCollisionShape>_data).offset_0x4 + 0x14))();
+    }
+  }
+  pbVar1 = (this->bTPOPureSmartPtr<eCCollisionShape>_data).offset_0x4;
+  if (pbVar1 != (bCObjectRefBase *)0x0) {
+    bCObjectRefBase::SetPropertyObject((bCObjectRefBase *)pbVar1,(bCPropertyObjectBase *)0x0);
+    bCObjectRefBase::ReleaseVirtualReference((bCObjectRefBase *)pbVar1);
+  }
+  (this->bTPOPureSmartPtr<eCCollisionShape>_data).offset_0x4 = (bCObjectRefBase *)0x0;
+  return;
+}
+
+

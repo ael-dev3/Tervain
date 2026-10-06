@@ -1,0 +1,4 @@
+; 10004d72 ?GetProtectionBlades@PSPlayerMemory@@QBEHXZ
+10004d72 | e969520200 | JMP 0x10029fe0
+; 10004d77 PSCharacterControl::PropertyIsPressed::operator_bool
+; 10004d77 Ordinal_1002

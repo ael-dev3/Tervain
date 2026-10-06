@@ -1,0 +1,2 @@
+; 30034351 eCVisualAnimation_PS::QueryRenderContext
+30034351 | e92a960600 | JMP 0x3009d980

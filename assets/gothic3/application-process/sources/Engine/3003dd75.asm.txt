@@ -1,0 +1,4 @@
+; 3003dd75 ?OnProcess@eCDynamicEntity@@MAEXXZ
+3003dd75 | e9d6ff4700 | JMP 0x304bdd50
+; 3003dd84 eCWnd::OnRButtonDblClk
+; 3003dd84 Ordinal_11423

@@ -1,0 +1,12 @@
+/* ENTRY 30015a73 | eCEntityPropertySet::GetVersion | STATUS decompiled | 6 ms */
+
+/* public: virtual unsigned short __thiscall eCEntityPropertySet::GetVersion(void)const  */
+
+ushort __thiscall eCEntityPropertySet::GetVersion(eCEntityPropertySet *this)
+
+{
+                    /* 0x15a73  9381  ?GetVersion@eCEntityPropertySet@@UBEGXZ */
+  return 2;
+}
+
+

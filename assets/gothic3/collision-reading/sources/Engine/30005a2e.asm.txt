@@ -1,0 +1,4 @@
+; 30005a2e ?GetBox@eCCollisionShape@@QBEABVbCOrientedBox@@XZ
+30005a2e | e91dd10b00 | JMP 0x300c2b50
+; 30005a33 eCParticleSoundArray::SItem::SItem
+; 30005a33 Ordinal_18

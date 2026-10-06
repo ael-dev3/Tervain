@@ -1,0 +1,2 @@
+; 30041240 eCVisualAnimation_PS::OnChildrenAvailable
+30041240 | e94bc60500 | JMP 0x3009d890

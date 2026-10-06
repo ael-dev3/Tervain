@@ -1,0 +1,4 @@
+; 10004b10 ?SetAt@bCString@@QAEXHD@Z
+10004b10 | e9fbf90000 | JMP 0x10014510
+; 10004b15 bCPropertyTypeBase::operator>>
+; 10004b15 Ordinal_661

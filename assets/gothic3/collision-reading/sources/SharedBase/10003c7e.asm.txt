@@ -1,0 +1,4 @@
+; 10003c7e ??4bCOrientedBox@@QAEAAV0@ABV0@@Z
+10003c7e | e91df80500 | JMP 0x100634a0
+; 10003c83 bCByteAlphaColor::operator>>
+; 10003c83 Ordinal_612

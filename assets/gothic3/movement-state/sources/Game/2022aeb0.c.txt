@@ -1,0 +1,407 @@
+/* ENTRY 2022aeb0 | FUN_2022aeb0 | STATUS decompiled | 415 ms */
+
+void __thiscall FUN_2022aeb0(void *this)
+
+{
+  bCCapsule *pbVar1;
+  bCSphere *this_00;
+  bCOrientedBox *this_01;
+  bCObjectBase bVar2;
+  bool bVar3;
+  bool bVar4;
+  eCEntity *peVar5;
+  bCBox *pbVar6;
+  bCVector *pbVar7;
+  int *piVar8;
+  bTRefPtrArray<eCCollisionShape*> *pbVar9;
+  bCString *pbVar10;
+  eCCollisionShape *peVar11;
+  bCAccessorPropertyObject *pbVar12;
+  bCObjectRefBase *pbVar13;
+  bCMatrix *this_02;
+  bCMatrix3 *pbVar14;
+  float *pfVar15;
+  int iVar16;
+  code *pcVar17;
+  eCCollisionShape_PS *this_03;
+  code *pcVar18;
+  float fVar19;
+  undefined1 *puVar20;
+  undefined4 *puVar21;
+  float fVar22;
+  bCObjectBase bStack_e4;
+  bCObjectBase bStack_e0;
+  undefined4 uStack_dc;
+  undefined1 auStack_d8 [8];
+  undefined4 uStack_d0;
+  bCBox abStack_cc [20];
+  bCAccessorPropertyObject abStack_b8 [4];
+  bCVector abStack_b4 [4];
+  undefined1 local_b0 [4];
+  bCOrientedBox abStack_ac [4];
+  bCCapsule abStack_a8 [52];
+  bCVector abStack_74 [4];
+  undefined1 auStack_70 [4];
+  bCBox abStack_6c [16];
+  bCMatrix3 abStack_5c [4];
+  bCMatrix3 abStack_58 [4];
+  undefined1 auStack_54 [28];
+  bCMatrix3 abStack_38 [52];
+  
+  if (*(int *)((int)this + 0x308) != 0) {
+    return;
+  }
+  peVar5 = (eCEntity *)(**(code **)(*(int *)this + 0x68))(local_b0);
+  pcVar18 = GetWorldNodeBoundary_exref;
+  pbVar6 = eCEntity::GetWorldNodeBoundary(peVar5);
+  pbVar7 = (bCVector *)bCBox::GetCenter(pbVar6);
+  fVar19 = bCVector::GetY(pbVar7);
+  unique0x0000aa00 = (double)fVar19;
+  peVar5 = (eCEntity *)(**(code **)(*(int *)this + 0x68))();
+  pbVar7 = eCEntity::GetWorldPosition(peVar5);
+  fVar19 = bCVector::GetY(pbVar7);
+  *(float *)((int)this + 0x164) = (float)stack0xffffff2c - fVar19;
+  bCVector::~bCVector(abStack_b4);
+  peVar5 = (eCEntity *)(**(code **)(*(int *)this + 0x68))();
+  pbVar6 = eCEntity::GetWorldNodeBoundary(peVar5);
+  fVar19 = bCBox::GetHeight(pbVar6);
+  *(float *)((int)this + 0x39c) = fVar19;
+  auStack_d8._0_4_ = auStack_d8._0_4_ & 0xffffff;
+  bVar3 = false;
+  bVar4 = false;
+  piVar8 = (int *)(**(code **)(*(int *)this + 0x68))();
+  if (piVar8 == (int *)0x0) {
+    this_03 = (eCCollisionShape_PS *)0x0;
+  }
+  else {
+    this_03 = (eCCollisionShape_PS *)(**(code **)(*piVar8 + 0xec))(0xe);
+    if (this_03 != (eCCollisionShape_PS *)0x0) {
+      iVar16 = 0;
+      pbVar9 = eCCollisionShape_PS::GetShapes(this_03);
+      if (0 < *(int *)(pbVar9 + 4)) {
+        do {
+          pbVar9 = eCCollisionShape_PS::GetShapes(this_03);
+          peVar11 = *(eCCollisionShape **)(*(int *)pbVar9 + iVar16 * 4);
+          if (*(int *)(peVar11 + 0x18) == 6) {
+            auStack_d8[3] = 1;
+            bCObjectBase::bCObjectBase(&bStack_e0);
+                    /* inlined constructor or destructor (approx location) for
+                       bTPropertyContainer<eEShapeMaterial> */
+            bStack_e0 = (bCObjectBase)&bTPropertyContainer<eEShapeMaterial>::vftable;
+            uStack_dc = 6;
+            eCCollisionShape::SetMaterial
+                      (peVar11,(bTPropertyContainer<eEShapeMaterial> *)&bStack_e0);
+            bStack_e0 = (bCObjectBase)&bTPropertyContainer<eEShapeMaterial>::vftable;
+            bCObjectBase::~bCObjectBase(&bStack_e0);
+            thunk_FUN_20235ca0(peVar11);
+          }
+          else if (*(int *)(peVar11 + 0x18) == 7) {
+            bVar3 = true;
+          }
+          iVar16 = iVar16 + 1;
+          pbVar9 = eCCollisionShape_PS::GetShapes(this_03);
+        } while (iVar16 < *(int *)(pbVar9 + 4));
+        pcVar17 = bCObjectBase_exref;
+        pcVar18 = GetWorldNodeBoundary_exref;
+        bVar4 = bVar3;
+        if (auStack_d8[3] != '\0') goto LAB_2022b460;
+      }
+    }
+  }
+  bVar3 = bVar4;
+  peVar5 = (eCEntity *)(**(code **)(*(int *)this + 0x68))();
+  pbVar10 = eCEntity::GetName(peVar5);
+  GE_MESSAGEF_WARN("C: Entity %s has no movement shape(s)! creating default shape",
+                   *(undefined4 *)pbVar10);
+  peVar5 = (eCEntity *)(**(code **)(*(int *)this + 0x68))();
+  pbVar6 = eCEntity::GetLocalNodeBoundary(peVar5);
+  bCBox::bCBox(abStack_cc,pbVar6);
+  (**(code **)(*(int *)this + 0x68))();
+  pbVar6 = (bCBox *)(*pcVar18)();
+  bCBox::bCBox(abStack_6c,pbVar6);
+  fVar19 = bCBox::GetVolume(abStack_cc);
+  if (fVar19 != 0.0) {
+    bVar4 = bCBox::IsValid(abStack_cc);
+    if (bVar4) {
+      peVar11 = (eCCollisionShape *)thunk_FUN_20233f70();
+      bCCapsule::bCCapsule(abStack_a8);
+      if (*(char *)((int)this + 0x16) == '\0') {
+        fVar19 = bCBox::GetWidth(abStack_cc);
+        unique0x0000aa00 = (double)fVar19;
+        fVar19 = bCBox::GetDepth(abStack_cc);
+        if ((float)stack0xffffff2c <= fVar19) {
+          fVar19 = bCBox::GetDepth(abStack_cc);
+        }
+        else {
+          fVar19 = bCBox::GetWidth(abStack_cc);
+        }
+        bStack_e4 = (bCObjectBase)(fVar19 * 0.25);
+        bCCapsule::SetRadius(abStack_a8,(float)bStack_e4);
+        fVar19 = bCBox::GetHeight(abStack_cc);
+        unique0x0000aa00 = (double)fVar19;
+        fVar19 = bCCapsule::GetRadius(abStack_a8);
+        bVar2 = (bCObjectBase)0x3a83126f;
+        if (0.001 <= (float)stack0xffffff2c - (fVar19 + fVar19)) {
+          fVar19 = bCBox::GetHeight(abStack_cc);
+          unique0x0000aa00 = (double)fVar19;
+          fVar19 = bCCapsule::GetRadius(abStack_a8);
+          bVar2 = (bCObjectBase)((float)stack0xffffff2c - (fVar19 + fVar19));
+        }
+        bStack_e4 = bVar2;
+        bCCapsule::SetHeight(abStack_a8,(float)bVar2);
+        fVar19 = bCCapsule::GetHeight(abStack_a8);
+        unique0x0000aa00 = (double)(fVar19 * 0.5);
+        fVar19 = bCCapsule::GetRadius(abStack_a8);
+        bStack_e4 = (bCObjectBase)(fVar19 + (float)stack0xffffff2c);
+        pbVar7 = (bCVector *)bCVector::bCVector(abStack_b4,0.0,(float)bStack_e4,0.0);
+        bCCapsule::SetCenter(abStack_a8,pbVar7);
+        bCVector::~bCVector(abStack_b4);
+        eCCollisionShape::SetShape(peVar11,abStack_a8);
+      }
+      else {
+        fVar19 = bCBox::GetHeight(abStack_cc);
+        bStack_e4 = (bCObjectBase)(fVar19 * 0.5 - 5.0);
+        bCCapsule::SetRadius(abStack_a8,(float)bStack_e4);
+        fVar19 = bCCapsule::GetRadius(abStack_a8);
+        if (fVar19 < 0.001) {
+          bCCapsule::SetRadius(abStack_a8,0.001);
+        }
+        fVar19 = bCBox::GetWidth(abStack_cc);
+        unique0x0000aa00 = (double)fVar19;
+        fVar19 = bCBox::GetDepth(abStack_cc);
+        if ((float)stack0xffffff2c <= fVar19) {
+          fVar19 = bCBox::GetDepth(abStack_cc);
+        }
+        else {
+          fVar19 = bCBox::GetWidth(abStack_cc);
+        }
+        bStack_e4 = (bCObjectBase)(fVar19 * 0.5);
+        bCCapsule::SetHeight(abStack_a8,(float)bStack_e4);
+        fVar22 = 0.0;
+        fVar19 = bCBox::GetHeight(abStack_cc);
+        bStack_e4 = (bCObjectBase)(fVar19 * 0.5 + 10.0);
+        pbVar7 = (bCVector *)bCVector::bCVector(abStack_b4,0.0,(float)bStack_e4,fVar22);
+        bCCapsule::SetCenter(abStack_a8,pbVar7);
+        bCVector::~bCVector(abStack_b4);
+        fVar19 = bCCapsule::GetHeight(abStack_a8);
+        if (fVar19 < 0.001) {
+          bCCapsule::SetHeight(abStack_a8,0.001);
+        }
+        eCCollisionShape::SetShape(peVar11,abStack_a8);
+        bStack_e4 = (bCObjectBase)(*(float *)g_fDegToRad_exref * 90.0);
+        puVar20 = auStack_54;
+        pbVar14 = (bCMatrix3 *)bCMatrix3::GetIdentity();
+        pbVar14 = (bCMatrix3 *)bCMatrix3::GetRotatedAxisX(pbVar14,(float)puVar20);
+        eCCollisionShape::SetOrientation(peVar11,pbVar14);
+        bCMatrix3::~bCMatrix3(abStack_38);
+        bCMatrix3::~bCMatrix3(abStack_5c);
+      }
+      pcVar17 = bCObjectBase_exref;
+      bCObjectBase::bCObjectBase(&bStack_e0);
+                    /* inlined constructor or destructor (approx location) for
+                       bTPropertyContainer<eEShapeGroup> */
+      bStack_e0 = (bCObjectBase)&bTPropertyContainer<eEShapeGroup>::vftable;
+      uStack_dc = 6;
+      eCCollisionShape::SetGroup(peVar11,(bTPropertyContainer<eEShapeGroup> *)&bStack_e0);
+      bStack_e0 = (bCObjectBase)&bTPropertyContainer<eEShapeGroup>::vftable;
+      bCObjectBase::~bCObjectBase(&bStack_e0);
+      bCObjectBase::bCObjectBase(&bStack_e0);
+      bStack_e0 = (bCObjectBase)&bTPropertyContainer<eEShapeMaterial>::vftable;
+      uStack_dc = 6;
+      eCCollisionShape::SetMaterial(peVar11,(bTPropertyContainer<eEShapeMaterial> *)&bStack_e0);
+      bStack_e0 = (bCObjectBase)&bTPropertyContainer<eEShapeMaterial>::vftable;
+      bCObjectBase::~bCObjectBase(&bStack_e0);
+      auStack_d8[3] = 1;
+      eCCollisionShape::SetIsLazyGenerated(peVar11,(bool *)(auStack_d8 + 3));
+      thunk_FUN_20235ca0(peVar11);
+      (**(code **)(*(int *)this_03 + 0x15c))(peVar11);
+      if (peVar11 != (eCCollisionShape *)0x0) {
+        (**(code **)(*(int *)peVar11 + 0x24))();
+      }
+      bCCapsule::~bCCapsule(abStack_a8);
+      bCBox::~bCBox(abStack_6c);
+      bCBox::~bCBox(abStack_cc);
+LAB_2022b460:
+      if ((!bVar3) && (0 < *(int *)((int)this + 0x308))) {
+        peVar5 = (eCEntity *)(**(code **)(*(int *)this + 0x68))();
+        pbVar10 = eCEntity::GetName(peVar5);
+        GE_MESSAGEF_WARN("C: Entity %s has no weapontrigger shape(s)! creating default shape",
+                         *(undefined4 *)pbVar10);
+        peVar5 = (eCEntity *)(**(code **)(*(int *)this + 0x68))();
+        pbVar6 = eCEntity::GetLocalNodeBoundary(peVar5);
+        bCBox::bCBox(abStack_cc,pbVar6);
+        peVar5 = (eCEntity *)(**(code **)(*(int *)this + 0x68))();
+        pbVar6 = eCEntity::GetWorldNodeBoundary(peVar5);
+        bCBox::bCBox(abStack_6c,pbVar6);
+        if (*(char *)((int)this + 0x16) == '\0') {
+          pbVar12 = (bCAccessorPropertyObject *)
+                    bCAccessorPropertyObject::bCAccessorPropertyObject
+                              ((bCAccessorPropertyObject *)&bStack_e0,
+                               (bCObjectRefBase *)**(undefined4 **)((int)this + 0x304));
+          bCAccessorPropertyObject::Clone(pbVar12);
+          bCAccessorPropertyObject::~bCAccessorPropertyObject
+                    ((bCAccessorPropertyObject *)&bStack_e4);
+          pbVar13 = bCAccessorPropertyObject::GetNativeObject
+                              ((bCAccessorPropertyObject *)auStack_d8);
+          pbVar1 = *(bCCapsule **)(pbVar13 + 0x74);
+          fVar19 = bCCapsule::GetHeight(pbVar1);
+          bCCapsule::SetHeight(pbVar1,fVar19 + 100.0);
+          pbVar1 = *(bCCapsule **)(pbVar13 + 0x74);
+          fVar19 = bCCapsule::GetRadius(pbVar1);
+          bCCapsule::SetRadius(pbVar1,fVar19 + 100.0);
+          bCObjectBase::bCObjectBase(&bStack_e4);
+          bStack_e4 = (bCObjectBase)&bTPropertyContainer<eEShapeGroup>::vftable;
+          bStack_e0 = (bCObjectBase)0x7;
+          eCCollisionShape::SetGroup
+                    ((eCCollisionShape *)pbVar13,(bTPropertyContainer<eEShapeGroup> *)&bStack_e4);
+          bStack_e4 = (bCObjectBase)&bTPropertyContainer<eEShapeGroup>::vftable;
+          bCObjectBase::~bCObjectBase(&bStack_e4);
+          eCCollisionShape::SetDisableResponse((eCCollisionShape *)pbVar13,(bool *)&stack0xffffff17)
+          ;
+          eCCollisionShape::SetIsLazyGenerated((eCCollisionShape *)pbVar13,(bool *)&stack0xffffff17)
+          ;
+          (**(code **)(*(int *)this_03 + 0x15c))(pbVar13);
+          (**(code **)(*(int *)pbVar13 + 0x24))();
+          bCAccessorPropertyObject::~bCAccessorPropertyObject
+                    ((bCAccessorPropertyObject *)(auStack_d8 + 4));
+        }
+        else {
+          peVar5 = (eCEntity *)(**(code **)(*(int *)this + 0x68))(auStack_54);
+          this_02 = eCEntity::GetWorldMatrix(peVar5);
+          pbVar14 = (bCMatrix3 *)bCMatrix::GetRotation3(this_02);
+          bCOrientedBox::bCOrientedBox(abStack_ac,(bCBox *)&uStack_d0,pbVar14);
+          bCMatrix3::~bCMatrix3(abStack_58);
+          fVar19 = 0.5;
+          pbVar7 = bCOrientedBox::AccessExtent(abStack_ac);
+          bCVector::Scale(pbVar7,fVar19);
+          peVar11 = (eCCollisionShape *)thunk_FUN_20233f70();
+          pbVar7 = bCOrientedBox::AccessExtent(abStack_ac);
+          pfVar15 = bCVector::AccessX(pbVar7);
+          auStack_d8 = (undefined1  [8])(double)*pfVar15;
+          pbVar7 = bCOrientedBox::AccessExtent(abStack_ac);
+          pfVar15 = bCVector::AccessZ(pbVar7);
+          if ((float)(double)auStack_d8 <= *pfVar15) {
+            pbVar7 = bCOrientedBox::AccessExtent(abStack_ac);
+            pfVar15 = bCVector::AccessX(pbVar7);
+            *pfVar15 = *pfVar15 + 50.0;
+            pbVar7 = bCOrientedBox::AccessExtent(abStack_ac);
+            pfVar15 = bCVector::AccessZ(pbVar7);
+          }
+          else {
+            pbVar7 = bCOrientedBox::AccessExtent(abStack_ac);
+            pfVar15 = bCVector::AccessZ(pbVar7);
+            *pfVar15 = *pfVar15 + 50.0;
+            pbVar7 = bCOrientedBox::AccessExtent(abStack_ac);
+            pfVar15 = bCVector::AccessX(pbVar7);
+          }
+          *pfVar15 = *pfVar15 + 25.0;
+          pbVar7 = bCOrientedBox::AccessExtent(abStack_ac);
+          pfVar15 = bCVector::AccessY(pbVar7);
+          *pfVar15 = *pfVar15 + 25.0;
+          pbVar7 = bCOrientedBox::AccessExtent(abStack_ac);
+          pfVar15 = bCVector::AccessY(pbVar7);
+          if (*pfVar15 <= 150.0 && *pfVar15 != 150.0) {
+            pbVar7 = bCOrientedBox::AccessExtent(abStack_ac);
+            pfVar15 = bCVector::AccessY(pbVar7);
+            *pfVar15 = 150.0;
+          }
+          eCCollisionShape::SetShape(peVar11,abStack_ac);
+          (*pcVar17)();
+          bStack_e4 = (bCObjectBase)&bTPropertyContainer<eEShapeGroup>::vftable;
+          bStack_e0 = (bCObjectBase)0x7;
+          eCCollisionShape::SetGroup(peVar11,(bTPropertyContainer<eEShapeGroup> *)&bStack_e4);
+          bStack_e4 = (bCObjectBase)&bTPropertyContainer<eEShapeGroup>::vftable;
+          bCObjectBase::~bCObjectBase(&bStack_e4);
+          eCCollisionShape::SetDisableResponse(peVar11,(bool *)&stack0xffffff17);
+          eCCollisionShape::SetIsLazyGenerated(peVar11,(bool *)&stack0xffffff17);
+          (**(code **)(*(int *)this_03 + 0x15c))(peVar11);
+          bCOrientedBox::~bCOrientedBox((bCOrientedBox *)abStack_a8);
+        }
+        bCBox::~bCBox(abStack_6c);
+        bCBox::~bCBox(abStack_cc);
+      }
+      bStack_e4 = (bCObjectBase)0x0;
+      if (0 < *(int *)((int)this + 0x308)) {
+        piVar8 = (int *)((int)this + 0x310);
+        do {
+          pbVar12 = (bCAccessorPropertyObject *)
+                    bCAccessorPropertyObject::bCAccessorPropertyObject
+                              ((bCAccessorPropertyObject *)abStack_b4,
+                               *(bCObjectRefBase **)
+                                (*(int *)((int)this + 0x304) + (int)bStack_e4 * 4));
+          bCAccessorPropertyObject::Clone(pbVar12);
+          bCAccessorPropertyObject::~bCAccessorPropertyObject(abStack_b8);
+          pbVar13 = bCAccessorPropertyObject::GetNativeObject
+                              ((bCAccessorPropertyObject *)auStack_d8);
+          iVar16 = *(int *)(pbVar13 + 0x10);
+          if (iVar16 == 4) {
+            pbVar1 = *(bCCapsule **)(pbVar13 + 0x74);
+            if (*(char *)((int)this + 0x16) == '\x01') {
+              fVar19 = bCCapsule::GetHeight(pbVar1);
+              bStack_e4 = (bCObjectBase)(fVar19 * 0.6);
+              bCCapsule::SetHeight(pbVar1,(float)bStack_e4);
+            }
+            else {
+              fVar19 = bCCapsule::GetRadius(pbVar1);
+              bStack_e4 = (bCObjectBase)(fVar19 * 0.8);
+              bCCapsule::SetRadius(pbVar1,(float)bStack_e4);
+            }
+          }
+          else if (iVar16 == 5) {
+            this_00 = *(bCSphere **)(pbVar13 + 0x74);
+            if (*(char *)((int)this + 0x16) == '\x01') {
+              fVar19 = bCSphere::GetRadius(this_00);
+              bStack_e4 = (bCObjectBase)(fVar19 * 0.8);
+              bCSphere::SetRadius(this_00,(float)bStack_e4);
+            }
+            else {
+              fVar19 = bCSphere::GetRadius(this_00);
+              bStack_e4 = (bCObjectBase)(fVar19 * 0.9);
+              bCSphere::SetRadius(this_00,(float)bStack_e4);
+            }
+          }
+          else if (iVar16 == 3) {
+            this_01 = *(bCOrientedBox **)(pbVar13 + 0x74);
+            if (*(char *)((int)this + 0x16) == '\x01') {
+              puVar20 = auStack_70;
+              pbVar7 = bCOrientedBox::GetExtent(this_01);
+              pbVar7 = (bCVector *)bCVector::operator*(pbVar7,(float)puVar20);
+              bCOrientedBox::SetExtent(this_01,pbVar7);
+              pbVar7 = abStack_74;
+            }
+            else {
+              puVar21 = &uStack_d0;
+              pbVar7 = bCOrientedBox::GetExtent(this_01);
+              pbVar7 = (bCVector *)bCVector::operator*(pbVar7,(float)puVar21);
+              bCOrientedBox::SetExtent(this_01,pbVar7);
+              pbVar7 = (bCVector *)(auStack_d8 + 4);
+            }
+            bCVector::~bCVector(pbVar7);
+          }
+          iVar16 = *(int *)((int)this + 0x314) + 1;
+          thunk_FUN_202348f0(iVar16,(iVar16 != 0) - 1);
+          iVar16 = *(int *)((int)this + 0x314) + -1;
+          (**(code **)(*(int *)pbVar13 + 0x20))();
+          if (*(int *)(*piVar8 + iVar16 * 4) != 0) {
+            (**(code **)(**(int **)(*piVar8 + iVar16 * 4) + 0x24))();
+            *(undefined4 *)(*piVar8 + iVar16 * 4) = 0;
+          }
+          *(bCObjectRefBase **)(*piVar8 + iVar16 * 4) = pbVar13;
+          bCAccessorPropertyObject::~bCAccessorPropertyObject
+                    ((bCAccessorPropertyObject *)(auStack_d8 + 4));
+          bStack_e4 = (bCObjectBase)((int)bStack_e4 + 1);
+        } while ((int)bStack_e4 < *(int *)((int)this + 0x308));
+      }
+      return;
+    }
+  }
+  peVar5 = (eCEntity *)(**(code **)(*(int *)this + 0x68))();
+  pbVar10 = eCEntity::GetName(peVar5);
+  GE_MESSAGEF_WARN("C: Entity %s has no corrent bounding volume, skipping shape creation",
+                   *(undefined4 *)pbVar10);
+  bCBox::~bCBox(abStack_6c);
+  bCBox::~bCBox(abStack_cc);
+  return;
+}
+
+

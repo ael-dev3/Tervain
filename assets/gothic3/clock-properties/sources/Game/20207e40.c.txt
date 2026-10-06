@@ -1,0 +1,36 @@
+/* ENTRY 20207e40 | FUN_20207e40 | STATUS decompiled | 15 ms */
+
+void __thiscall FUN_20207e40(eCEntityPropertySet *param_1,char *param_2,bool param_3)
+
+{
+  int iVar1;
+  bCObjectBase bVar2;
+  bCObjectBase bVar3;
+  bCObjectBase local_c;
+  undefined4 local_8;
+  undefined4 local_4;
+  
+  if (param_3 == false) {
+    iVar1 = (int)param_1[9].bCObjectRefBase.bCObjectBase +
+            ((int)param_1[8].bCObjectRefBase.bCObjectBase +
+            (int)param_1[7].bCObjectRefBase.bCObjectBase * 0x3c) * 0x3c;
+    bVar3 = (bCObjectBase)(float)iVar1;
+    if (iVar1 < 0) {
+      bVar3 = (bCObjectBase)((float)bVar3 + 4.2949673e+09);
+    }
+    bVar2 = param_1[6].bCObjectRefBase.bCObjectBase;
+    param_1[0x16].bCObjectRefBase.bCObjectBase = bVar3;
+    bVar3 = param_1[5].bCObjectRefBase.bCObjectBase;
+    param_1[0x15].bCObjectRefBase.bCObjectBase = bVar2;
+    *(bCObjectBase *)(param_1 + 0x14) = bVar3;
+    bCClock::Set((bCClock *)(param_1 + 0xb),(bSTimeAndDate *)(param_1 + 0x14));
+    local_c = param_1[10].bCObjectRefBase.bCObjectBase;
+    local_8 = 0x15180;
+    local_4 = 0x16d;
+    bCClock::Adjust((bCClock *)(param_1 + 0xb),(bSClockAdjustment *)&local_c);
+  }
+  eCEntityPropertySet::OnNotifyPropertyValueChangedExitEx(param_1,param_2,param_3);
+  return;
+}
+
+

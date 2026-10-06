@@ -1,0 +1,22 @@
+; 30226e20 bTPropertyType<eCIlluminated_PS,bTPropertyContainer<eEStaticIlluminated>_>::vfunction26
+30226e20 | 56 | PUSH ESI
+30226e21 | 57 | PUSH EDI
+30226e22 | 8b7c240c | MOV EDI,dword ptr [ESP + 0xc]
+30226e26 | 85ff | TEST EDI,EDI
+30226e28 | 8bf1 | MOV ESI,ECX
+30226e2a | 7522 | JNZ 0x30226e4e
+30226e2c | 680d030000 | PUSH 0x30d
+30226e31 | 6850d48130 | PUSH 0x3081d450
+30226e36 | 6820d48130 | PUSH 0x3081d420
+30226e3b | 68b0d48130 | PUSH 0x3081d4b0
+30226e40 | ff15c0daaf30 | CALL dword ptr [0x30afdac0]
+30226e46 | 8bc8 | MOV ECX,EAX
+30226e48 | ff15f4caaf30 | CALL dword ptr [0x30afcaf4]
+30226e4e | 8b06 | MOV EAX,dword ptr [ESI]
+30226e50 | 8b502c | MOV EDX,dword ptr [EAX + 0x2c]
+30226e53 | 57 | PUSH EDI
+30226e54 | 8bce | MOV ECX,ESI
+30226e56 | ffd2 | CALL EDX
+30226e58 | 5f | POP EDI
+30226e59 | 5e | POP ESI
+30226e5a | c20400 | RET 0x4

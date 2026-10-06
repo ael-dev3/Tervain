@@ -1,0 +1,4 @@
+; 30037673 bTPropertyType<eCCollisionShape,bTPropertyContainer<eECollisionShapeType>_>::vfunction6
+30037673 | e968703200 | JMP 0x3035e6e0
+; 30037687 eCVegetation_Grid::GetGridWidth
+; 30037687 Ordinal_7238

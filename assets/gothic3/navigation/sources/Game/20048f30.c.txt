@@ -1,0 +1,14 @@
+/* ENTRY 20048f30 | FUN_20048f30 | STATUS decompiled | 5 ms */
+
+void __fastcall FUN_20048f30(int *param_1)
+
+{
+  bCVector *unaff_ESI;
+  
+  (**(code **)(*param_1 + 0x58))("StartPosition",0);
+  bCVector::operator=((bCVector *)(param_1 + 5),unaff_ESI);
+  (**(code **)(*param_1 + 0x5c))("StartPosition",0);
+  return;
+}
+
+

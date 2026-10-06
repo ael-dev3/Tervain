@@ -1,0 +1,17 @@
+/* ENTRY 10145f10 | FUN_10145f10 | STATUS decompiled | 8 ms */
+
+void FUN_10145f10(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Magic\\Magic_Spells\\MagicMisc.cpp");
+  bCString::bCString(local_8,"GetTransformDuration");
+  thunk_FUN_10017a50(local_8,thunk_FUN_1006d650,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

@@ -1,0 +1,29 @@
+/* ENTRY 30037bcd | eCEntity::RemoveAllPropertySets | STATUS decompiled | 18 ms */
+
+/* public: void __thiscall eCEntity::RemoveAllPropertySets(void) */
+
+void __thiscall eCEntity::RemoveAllPropertySets(eCEntity *this)
+
+{
+  uint *puVar1;
+  uint uVar2;
+  
+                    /* 0x37bcd  12449  ?RemoveAllPropertySets@eCEntity@@QAEXXZ */
+  (*this->vftablePtr->OnReadContent)(this);
+  uVar2 = (uint)(this->eCEntity_data).offset_0x10e;
+  while (uVar2 != 0) {
+    do {
+      uVar2 = uVar2 - 1;
+      (*this->vftablePtr->OnReadContent)(this);
+    } while (uVar2 == 0xffffffff);
+    if ((ushort)uVar2 < (this->eCEntity_data).offset_0x10e) {
+      RemovePropertySetAt(this,uVar2);
+    }
+  }
+  puVar1 = &(this->eCEntity_data).offset_0xc;
+  *puVar1 = *puVar1 & 0xfbffffff;
+  (this->eCEntity_data).offset_0x10e = 0;
+  return;
+}
+
+

@@ -1,0 +1,2596 @@
+{
+  "schema": "gothic3-control-construction-program-v1",
+  "sourceReceipt": {
+    "origin": "independent offline source audit (scratch evidence not a reproduction input)",
+    "bytes": 463649,
+    "sha256": "4e1903d75a3e93ddde7f4c4857aac353af10221c4ab4d0b883e2700295b12841"
+  },
+  "nativeBytes": 176,
+  "nativeBytesAllocationVA": "2021c212",
+  "nativeVtable": "20686abc",
+  "wrapperVtable": "20686c5c",
+  "getVersion": 2,
+  "getPropertySetType": 22,
+  "programs": [
+    {
+      "stage": "constructor",
+      "module": "Game",
+      "body": "202191c0",
+      "operations": [
+        {
+          "kind": "call",
+          "sourceVA": "202191c5",
+          "module": "Game",
+          "role": "baseConstructor",
+          "source": {
+            "method": "Game:0x202191c0",
+            "bytes": "ff15f86d7d20",
+            "assembly": "CALL dword ptr [0x207d6df8]"
+          },
+          "interpretedOriginalKind": "call",
+          "sourceInstruction": {
+            "address": "202191c5",
+            "bytes": "ff15f86d7d20",
+            "assembly": "CALL dword ptr [0x207d6df8]"
+          }
+        },
+        {
+          "kind": "integerStore",
+          "sourceVA": "202191d6",
+          "module": "Game",
+          "offset": 0,
+          "bytes": 4,
+          "value": 543713980,
+          "role": "CharacterControl vtable",
+          "source": {
+            "method": "Game:0x202191c0",
+            "bytes": "c706bc6a6820",
+            "assembly": "MOV dword ptr [ESI],0x20686abc"
+          },
+          "interpretedOriginalKind": "integerStore",
+          "sourceInstruction": {
+            "address": "202191d6",
+            "bytes": "c706bc6a6820",
+            "assembly": "MOV dword ptr [ESI],0x20686abc"
+          }
+        },
+        {
+          "kind": "integerStore",
+          "sourceVA": "202191dc",
+          "module": "Game",
+          "receiverOffset": 20,
+          "helper": "SharedBase:1004a1c0",
+          "writtenVtable": 269385244,
+          "source": {
+            "method": "Game:0x202191c0",
+            "bytes": "ffd3",
+            "assembly": "CALL EBX"
+          },
+          "interpretedOriginalKind": "objectBaseConstructor",
+          "offset": 20,
+          "bytes": 4,
+          "value": 269385244,
+          "sourceInstruction": {
+            "address": "202191dc",
+            "bytes": "ffd3",
+            "assembly": "CALL EBX"
+          }
+        },
+        {
+          "kind": "integerStore",
+          "sourceVA": "202191de",
+          "module": "Game",
+          "offset": 20,
+          "bytes": 4,
+          "value": 543713228,
+          "role": "FOR value-container vtable",
+          "source": {
+            "method": "Game:0x202191c0",
+            "bytes": "c707cc676820",
+            "assembly": "MOV dword ptr [EDI],0x206867cc"
+          },
+          "interpretedOriginalKind": "integerStore",
+          "sourceInstruction": {
+            "address": "202191de",
+            "bytes": "c707cc676820",
+            "assembly": "MOV dword ptr [EDI],0x206867cc"
+          }
+        },
+        {
+          "kind": "enumDefaultRead",
+          "sourceVA": "202191e9",
+          "module": "Game",
+          "offset": 24,
+          "globalVA": "207bd774",
+          "readVA": "202191e4",
+          "input": "currentFORDefaultDWORD",
+          "source": {
+            "method": "Game:0x202191c0",
+            "bytes": "894704",
+            "assembly": "MOV dword ptr [EDI + 0x4],EAX"
+          },
+          "interpretedOriginalKind": "enumDefaultRead",
+          "global": "ControlFrameOfReference",
+          "sourceInstruction": {
+            "address": "202191e9",
+            "bytes": "894704",
+            "assembly": "MOV dword ptr [EDI + 0x4],EAX"
+          }
+        },
+        {
+          "kind": "integerStore",
+          "sourceVA": "202191f1",
+          "module": "Game",
+          "receiverOffset": 28,
+          "helper": "SharedBase:1004a1c0",
+          "writtenVtable": 269385244,
+          "source": {
+            "method": "Game:0x202191c0",
+            "bytes": "ffd3",
+            "assembly": "CALL EBX"
+          },
+          "interpretedOriginalKind": "objectBaseConstructor",
+          "offset": 28,
+          "bytes": 4,
+          "value": 269385244,
+          "sourceInstruction": {
+            "address": "202191f1",
+            "bytes": "ffd3",
+            "assembly": "CALL EBX"
+          }
+        },
+        {
+          "kind": "integerStore",
+          "sourceVA": "202191f3",
+          "module": "Game",
+          "offset": 28,
+          "bytes": 4,
+          "value": 543713444,
+          "role": "SessionKey value-container vtable",
+          "source": {
+            "method": "Game:0x202191c0",
+            "bytes": "c707a4686820",
+            "assembly": "MOV dword ptr [EDI],0x206868a4"
+          },
+          "interpretedOriginalKind": "integerStore",
+          "sourceInstruction": {
+            "address": "202191f3",
+            "bytes": "c707a4686820",
+            "assembly": "MOV dword ptr [EDI],0x206868a4"
+          }
+        },
+        {
+          "kind": "enumDefaultRead",
+          "sourceVA": "202191ff",
+          "module": "Game",
+          "offset": 32,
+          "globalVA": "207bd778",
+          "readVA": "202191f9",
+          "input": "currentSessionKeyDefaultDWORD",
+          "source": {
+            "method": "Game:0x202191c0",
+            "bytes": "894f04",
+            "assembly": "MOV dword ptr [EDI + 0x4],ECX"
+          },
+          "interpretedOriginalKind": "enumDefaultRead",
+          "global": "PressedKey",
+          "sourceInstruction": {
+            "address": "202191ff",
+            "bytes": "894f04",
+            "assembly": "MOV dword ptr [EDI + 0x4],ECX"
+          }
+        },
+        {
+          "kind": "mathDefaultConstructor",
+          "sourceVA": "20219205",
+          "module": "Game",
+          "receiverOffset": 96,
+          "nativeType": "bCVector",
+          "helper": "SharedBase:10024b70",
+          "effect": "no writes",
+          "source": {
+            "method": "Game:0x202191c0",
+            "bytes": "ff1534897d20",
+            "assembly": "CALL dword ptr [0x207d8934]"
+          },
+          "interpretedOriginalKind": "mathDefaultConstructor",
+          "sourceInstruction": {
+            "address": "20219205",
+            "bytes": "ff1534897d20",
+            "assembly": "CALL dword ptr [0x207d8934]"
+          }
+        },
+        {
+          "kind": "mathDefaultConstructor",
+          "sourceVA": "2021920e",
+          "module": "Game",
+          "receiverOffset": 108,
+          "nativeType": "bCMatrix",
+          "helper": "SharedBase:10027e70",
+          "effect": "no writes",
+          "source": {
+            "method": "Game:0x202191c0",
+            "bytes": "ff1568857d20",
+            "assembly": "CALL dword ptr [0x207d8568]"
+          },
+          "interpretedOriginalKind": "mathDefaultConstructor",
+          "sourceInstruction": {
+            "address": "2021920e",
+            "bytes": "ff1568857d20",
+            "assembly": "CALL dword ptr [0x207d8568]"
+          }
+        },
+        {
+          "kind": "call",
+          "sourceVA": "20219216",
+          "module": "Game",
+          "role": "invalidate",
+          "source": {
+            "method": "Game:0x202191c0",
+            "bytes": "e846dadfff",
+            "assembly": "CALL 0x20016c61"
+          },
+          "interpretedOriginalKind": "call",
+          "sourceInstruction": {
+            "address": "20219216",
+            "bytes": "e846dadfff",
+            "assembly": "CALL 0x20016c61"
+          }
+        }
+      ]
+    },
+    {
+      "stage": "baseConstructor",
+      "module": "Engine",
+      "body": "30481a60",
+      "operations": [
+        {
+          "kind": "integerStore",
+          "sourceVA": "1004a1c2",
+          "module": "SharedBase",
+          "offset": 0,
+          "bytes": 4,
+          "value": 269385244,
+          "role": "ObjectBase vtable",
+          "source": {
+            "method": "SharedBase:0x1004a1c0",
+            "bytes": "c7001c7e0e10",
+            "assembly": "MOV dword ptr [EAX],0x100e7e1c"
+          },
+          "interpretedOriginalKind": "integerStore",
+          "sourceInstruction": {
+            "address": "1004a1c2",
+            "bytes": "c7001c7e0e10",
+            "assembly": "MOV dword ptr [EAX],0x100e7e1c"
+          }
+        },
+        {
+          "kind": "integerStore",
+          "sourceVA": "1004a5b7",
+          "module": "SharedBase",
+          "offset": 4,
+          "bytes": 4,
+          "value": 0,
+          "role": "property-object pointer",
+          "source": {
+            "method": "SharedBase:0x1004a5a0",
+            "bytes": "894604",
+            "assembly": "MOV dword ptr [ESI + 0x4],EAX"
+          },
+          "interpretedOriginalKind": "integerStore",
+          "sourceInstruction": {
+            "address": "1004a5b7",
+            "bytes": "894604",
+            "assembly": "MOV dword ptr [ESI + 0x4],EAX"
+          }
+        },
+        {
+          "kind": "integerStore",
+          "sourceVA": "1004a5ba",
+          "module": "SharedBase",
+          "offset": 0,
+          "bytes": 4,
+          "value": 269385388,
+          "role": "ObjectRefBase vtable",
+          "source": {
+            "method": "SharedBase:0x1004a5a0",
+            "bytes": "c706ac7e0e10",
+            "assembly": "MOV dword ptr [ESI],0x100e7eac"
+          },
+          "interpretedOriginalKind": "integerStore",
+          "sourceInstruction": {
+            "address": "1004a5ba",
+            "bytes": "c706ac7e0e10",
+            "assembly": "MOV dword ptr [ESI],0x100e7eac"
+          }
+        },
+        {
+          "kind": "integerStore",
+          "sourceVA": "1004a5c0",
+          "module": "SharedBase",
+          "offset": 8,
+          "bytes": 4,
+          "value": 1,
+          "role": "reference-count word",
+          "source": {
+            "method": "SharedBase:0x1004a5a0",
+            "bytes": "894e08",
+            "assembly": "MOV dword ptr [ESI + 0x8],ECX"
+          },
+          "interpretedOriginalKind": "integerStore",
+          "sourceInstruction": {
+            "address": "1004a5c0",
+            "bytes": "894e08",
+            "assembly": "MOV dword ptr [ESI + 0x8],ECX"
+          }
+        },
+        {
+          "kind": "maskedAssign",
+          "sourceVA": "30481a70",
+          "module": "Engine",
+          "offset": 16,
+          "preserveMask": 241,
+          "orValue": 1,
+          "knownMask": 15,
+          "value": 1,
+          "source": {
+            "method": "Engine:0x30481a60",
+            "bytes": "884610",
+            "assembly": "MOV byte ptr [ESI + 0x10],AL"
+          },
+          "interpretedOriginalKind": "maskedAssign",
+          "sourceInstruction": {
+            "address": "30481a70",
+            "bytes": "884610",
+            "assembly": "MOV byte ptr [ESI + 0x10],AL"
+          }
+        },
+        {
+          "kind": "integerStore",
+          "sourceVA": "30481a73",
+          "module": "Engine",
+          "offset": 0,
+          "bytes": 4,
+          "value": 814177676,
+          "role": "EntityPropertySet vtable",
+          "source": {
+            "method": "Engine:0x30481a60",
+            "bytes": "c7068c5d8730",
+            "assembly": "MOV dword ptr [ESI],0x30875d8c"
+          },
+          "interpretedOriginalKind": "integerStore",
+          "sourceInstruction": {
+            "address": "30481a73",
+            "bytes": "c7068c5d8730",
+            "assembly": "MOV dword ptr [ESI],0x30875d8c"
+          }
+        },
+        {
+          "kind": "integerStore",
+          "sourceVA": "30481a79",
+          "module": "Engine",
+          "offset": 12,
+          "bytes": 4,
+          "value": 0,
+          "role": "owner pointer",
+          "source": {
+            "method": "Engine:0x30481a60",
+            "bytes": "c7460c00000000",
+            "assembly": "MOV dword ptr [ESI + 0xc],0x0"
+          },
+          "interpretedOriginalKind": "integerStore",
+          "sourceInstruction": {
+            "address": "30481a79",
+            "bytes": "c7460c00000000",
+            "assembly": "MOV dword ptr [ESI + 0xc],0x0"
+          }
+        }
+      ]
+    },
+    {
+      "stage": "invalidate",
+      "module": "Game",
+      "body": "20218be0",
+      "operations": [
+        {
+          "kind": "float32Store",
+          "sourceVA": "20218bf1",
+          "module": "Game",
+          "offset": 52,
+          "value": 0,
+          "raw": "00000000",
+          "source": {
+            "method": "Game:0x20218be0",
+            "bytes": "f30f114634",
+            "assembly": "MOVSS dword ptr [ESI + 0x34],XMM0"
+          },
+          "interpretedOriginalKind": "float32Store",
+          "sourceInstruction": {
+            "address": "20218bf1",
+            "bytes": "f30f114634",
+            "assembly": "MOVSS dword ptr [ESI + 0x34],XMM0"
+          }
+        },
+        {
+          "kind": "float32Store",
+          "sourceVA": "20218bf6",
+          "module": "Game",
+          "offset": 56,
+          "value": 0.05000000074505806,
+          "raw": "cdcc4c3d",
+          "source": {
+            "method": "Game:0x20218be0",
+            "bytes": "f30f114e38",
+            "assembly": "MOVSS dword ptr [ESI + 0x38],XMM1"
+          },
+          "interpretedOriginalKind": "float32Store",
+          "sourceInstruction": {
+            "address": "20218bf6",
+            "bytes": "f30f114e38",
+            "assembly": "MOVSS dword ptr [ESI + 0x38],XMM1"
+          }
+        },
+        {
+          "kind": "float32Store",
+          "sourceVA": "20218c03",
+          "module": "Game",
+          "offset": 48,
+          "value": 0,
+          "raw": "00000000",
+          "source": {
+            "method": "Game:0x20218be0",
+            "bytes": "f30f114630",
+            "assembly": "MOVSS dword ptr [ESI + 0x30],XMM0"
+          },
+          "interpretedOriginalKind": "float32Store",
+          "sourceInstruction": {
+            "address": "20218c03",
+            "bytes": "f30f114630",
+            "assembly": "MOVSS dword ptr [ESI + 0x30],XMM0"
+          }
+        },
+        {
+          "kind": "float32Store",
+          "sourceVA": "20218c10",
+          "module": "Game",
+          "offset": 44,
+          "value": 1,
+          "raw": "0000803f",
+          "source": {
+            "method": "Game:0x20218be0",
+            "bytes": "f30f114e2c",
+            "assembly": "MOVSS dword ptr [ESI + 0x2c],XMM1"
+          },
+          "interpretedOriginalKind": "float32Store",
+          "sourceInstruction": {
+            "address": "20218c10",
+            "bytes": "f30f114e2c",
+            "assembly": "MOVSS dword ptr [ESI + 0x2c],XMM1"
+          }
+        },
+        {
+          "kind": "integerStore",
+          "sourceVA": "20218c15",
+          "module": "Game",
+          "offset": 60,
+          "bytes": 4,
+          "value": 4294967295,
+          "role": "scalar",
+          "source": {
+            "method": "Game:0x20218be0",
+            "bytes": "89463c",
+            "assembly": "MOV dword ptr [ESI + 0x3c],EAX"
+          },
+          "interpretedOriginalKind": "integerStore",
+          "sourceInstruction": {
+            "address": "20218c15",
+            "bytes": "89463c",
+            "assembly": "MOV dword ptr [ESI + 0x3c],EAX"
+          }
+        },
+        {
+          "kind": "integerStore",
+          "sourceVA": "20218c18",
+          "module": "Game",
+          "offset": 64,
+          "bytes": 4,
+          "value": 4294967295,
+          "role": "scalar",
+          "source": {
+            "method": "Game:0x20218be0",
+            "bytes": "894640",
+            "assembly": "MOV dword ptr [ESI + 0x40],EAX"
+          },
+          "interpretedOriginalKind": "integerStore",
+          "sourceInstruction": {
+            "address": "20218c18",
+            "bytes": "894640",
+            "assembly": "MOV dword ptr [ESI + 0x40],EAX"
+          }
+        },
+        {
+          "kind": "integerStore",
+          "sourceVA": "20218c1b",
+          "module": "Game",
+          "offset": 68,
+          "bytes": 4,
+          "value": 4294967295,
+          "role": "scalar",
+          "source": {
+            "method": "Game:0x20218be0",
+            "bytes": "894644",
+            "assembly": "MOV dword ptr [ESI + 0x44],EAX"
+          },
+          "interpretedOriginalKind": "integerStore",
+          "sourceInstruction": {
+            "address": "20218c1b",
+            "bytes": "894644",
+            "assembly": "MOV dword ptr [ESI + 0x44],EAX"
+          }
+        },
+        {
+          "kind": "integerStore",
+          "sourceVA": "20218c1e",
+          "module": "Game",
+          "offset": 72,
+          "bytes": 4,
+          "value": 4294967295,
+          "role": "scalar",
+          "source": {
+            "method": "Game:0x20218be0",
+            "bytes": "894648",
+            "assembly": "MOV dword ptr [ESI + 0x48],EAX"
+          },
+          "interpretedOriginalKind": "integerStore",
+          "sourceInstruction": {
+            "address": "20218c1e",
+            "bytes": "894648",
+            "assembly": "MOV dword ptr [ESI + 0x48],EAX"
+          }
+        },
+        {
+          "kind": "integerStore",
+          "sourceVA": "20218c21",
+          "module": "Game",
+          "offset": 76,
+          "bytes": 4,
+          "value": 4294967295,
+          "role": "scalar",
+          "source": {
+            "method": "Game:0x20218be0",
+            "bytes": "89464c",
+            "assembly": "MOV dword ptr [ESI + 0x4c],EAX"
+          },
+          "interpretedOriginalKind": "integerStore",
+          "sourceInstruction": {
+            "address": "20218c21",
+            "bytes": "89464c",
+            "assembly": "MOV dword ptr [ESI + 0x4c],EAX"
+          }
+        },
+        {
+          "kind": "integerStore",
+          "sourceVA": "20218c24",
+          "module": "Game",
+          "offset": 80,
+          "bytes": 4,
+          "value": 4294967295,
+          "role": "scalar",
+          "source": {
+            "method": "Game:0x20218be0",
+            "bytes": "894650",
+            "assembly": "MOV dword ptr [ESI + 0x50],EAX"
+          },
+          "interpretedOriginalKind": "integerStore",
+          "sourceInstruction": {
+            "address": "20218c24",
+            "bytes": "894650",
+            "assembly": "MOV dword ptr [ESI + 0x50],EAX"
+          }
+        },
+        {
+          "kind": "float32Store",
+          "sourceVA": "20218c27",
+          "module": "Game",
+          "offset": 92,
+          "value": 360,
+          "raw": "0000b443",
+          "source": {
+            "method": "Game:0x20218be0",
+            "bytes": "f30f11465c",
+            "assembly": "MOVSS dword ptr [ESI + 0x5c],XMM0"
+          },
+          "interpretedOriginalKind": "float32Store",
+          "sourceInstruction": {
+            "address": "20218c27",
+            "bytes": "f30f11465c",
+            "assembly": "MOVSS dword ptr [ESI + 0x5c],XMM0"
+          }
+        },
+        {
+          "kind": "integerStore",
+          "sourceVA": "20218c2c",
+          "module": "Game",
+          "offset": 84,
+          "bytes": 1,
+          "value": 0,
+          "role": "scalar",
+          "source": {
+            "method": "Game:0x20218be0",
+            "bytes": "c6465400",
+            "assembly": "MOV byte ptr [ESI + 0x54],0x0"
+          },
+          "interpretedOriginalKind": "integerStore",
+          "sourceInstruction": {
+            "address": "20218c2c",
+            "bytes": "c6465400",
+            "assembly": "MOV byte ptr [ESI + 0x54],0x0"
+          }
+        },
+        {
+          "kind": "captureMatrixIdentity",
+          "sourceVA": "20218c30",
+          "module": "Game",
+          "helper": "SharedBase:1004f420",
+          "result": "currentSharedIdentityReference",
+          "source": {
+            "method": "Game:0x20218be0",
+            "bytes": "ff15bc857d20",
+            "assembly": "CALL dword ptr [0x207d85bc]"
+          },
+          "interpretedOriginalKind": "captureMatrixIdentity",
+          "sourceInstruction": {
+            "address": "20218c30",
+            "bytes": "ff15bc857d20",
+            "assembly": "CALL dword ptr [0x207d85bc]"
+          }
+        },
+        {
+          "kind": "assignMatrixRawDWORDs",
+          "sourceVA": "20218c3a",
+          "module": "Game",
+          "receiverOffset": 108,
+          "bytes": 64,
+          "result": "currentSharedIdentityReference",
+          "helper": "SharedBase:10029030",
+          "order": "ascending 16 DWORD read/store pairs; copy masks with values",
+          "source": {
+            "method": "Game:0x20218be0",
+            "bytes": "ff15ac857d20",
+            "assembly": "CALL dword ptr [0x207d85ac]"
+          },
+          "interpretedOriginalKind": "assignMatrixRawDWORDs",
+          "sourceInstruction": {
+            "address": "20218c3a",
+            "bytes": "ff15ac857d20",
+            "assembly": "CALL dword ptr [0x207d85ac]"
+          }
+        },
+        {
+          "kind": "integerStore",
+          "sourceVA": "20218c43",
+          "module": "Game",
+          "offset": 172,
+          "bytes": 4,
+          "value": 3,
+          "role": "wished movement mode",
+          "source": {
+            "method": "Game:0x20218be0",
+            "bytes": "c786ac00000003000000",
+            "assembly": "MOV dword ptr [ESI + 0xac],0x3"
+          },
+          "interpretedOriginalKind": "integerStore",
+          "sourceInstruction": {
+            "address": "20218c43",
+            "bytes": "c786ac00000003000000",
+            "assembly": "MOV dword ptr [ESI + 0xac],0x3"
+          }
+        },
+        {
+          "kind": "integerStore",
+          "sourceVA": "20218c4d",
+          "module": "Game",
+          "offset": 85,
+          "bytes": 1,
+          "value": 1,
+          "role": "scalar",
+          "source": {
+            "method": "Game:0x20218be0",
+            "bytes": "c6465501",
+            "assembly": "MOV byte ptr [ESI + 0x55],0x1"
+          },
+          "interpretedOriginalKind": "integerStore",
+          "sourceInstruction": {
+            "address": "20218c4d",
+            "bytes": "c6465501",
+            "assembly": "MOV byte ptr [ESI + 0x55],0x1"
+          }
+        },
+        {
+          "kind": "vectorClear",
+          "sourceVA": "20218c51",
+          "module": "Game",
+          "receiverOffset": 96,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "helper": "SharedBase:10024e00",
+          "source": {
+            "method": "Game:0x20218be0",
+            "bytes": "ff1540867d20",
+            "assembly": "CALL dword ptr [0x207d8640]"
+          },
+          "interpretedOriginalKind": "vectorClear",
+          "sourceInstruction": {
+            "address": "20218c51",
+            "bytes": "ff1540867d20",
+            "assembly": "CALL dword ptr [0x207d8640]"
+          }
+        },
+        {
+          "kind": "integerStore",
+          "sourceVA": "20218c57",
+          "module": "Game",
+          "offset": 88,
+          "bytes": 4,
+          "value": 0,
+          "role": "cached CharacterMovement property-set pointer",
+          "source": {
+            "method": "Game:0x20218be0",
+            "bytes": "c7465800000000",
+            "assembly": "MOV dword ptr [ESI + 0x58],0x0"
+          },
+          "interpretedOriginalKind": "integerStore",
+          "sourceInstruction": {
+            "address": "20218c57",
+            "bytes": "c7465800000000",
+            "assembly": "MOV dword ptr [ESI + 0x58],0x0"
+          }
+        }
+      ]
+    },
+    {
+      "stage": "postInitialize",
+      "module": "Game",
+      "body": "20218c80",
+      "operations": [
+        {
+          "kind": "call",
+          "sourceVA": "20218c89",
+          "module": "Game",
+          "role": "sourceNoOp",
+          "helper": "SharedBase:1004a4d0",
+          "returnLiteral": 1,
+          "source": {
+            "method": "Game:0x20218c80",
+            "bytes": "ff1598887d20",
+            "assembly": "CALL dword ptr [0x207d8898]"
+          },
+          "interpretedOriginalKind": "call",
+          "sourceInstruction": {
+            "address": "20218c89",
+            "bytes": "ff1598887d20",
+            "assembly": "CALL dword ptr [0x207d8898]"
+          }
+        },
+        {
+          "kind": "sourceStackTemporary",
+          "sourceVA": "20218c99",
+          "module": "Game",
+          "temporary": "PressedKey",
+          "helper": "SharedBase:1004a1c0",
+          "source": {
+            "method": "Game:0x20218c80",
+            "bytes": "ffd7",
+            "assembly": "CALL EDI"
+          },
+          "interpretedOriginalKind": "constructTemporaryObjectBase",
+          "sourceInstruction": {
+            "address": "20218c99",
+            "bytes": "ffd7",
+            "assembly": "CALL EDI"
+          }
+        },
+        {
+          "kind": "captureContainerAssignment",
+          "sourceVA": "20218c9e",
+          "module": "Game",
+          "receiverOffset": 28,
+          "slot": 28,
+          "actualTarget": "Game:20219880",
+          "source": {
+            "method": "Game:0x20218c80",
+            "bytes": "8b401c",
+            "assembly": "MOV EAX,dword ptr [EAX + 0x1c]"
+          },
+          "interpretedOriginalKind": "captureContainerAssignment",
+          "originalPayloadOffset": null,
+          "offset": 28,
+          "sourceInstruction": {
+            "address": "20218c9e",
+            "bytes": "8b401c",
+            "assembly": "MOV EAX,dword ptr [EAX + 0x1c]"
+          }
+        },
+        {
+          "kind": "sourceStackTemporary",
+          "sourceVA": "20218cb0",
+          "module": "Game",
+          "temporary": "PressedKey",
+          "value": 543713444,
+          "source": {
+            "method": "Game:0x20218c80",
+            "bytes": "896c2414",
+            "assembly": "MOV dword ptr [ESP + 0x14],EBP"
+          },
+          "interpretedOriginalKind": "writeTemporaryVtable",
+          "sourceInstruction": {
+            "address": "20218cb0",
+            "bytes": "896c2414",
+            "assembly": "MOV dword ptr [ESP + 0x14],EBP"
+          }
+        },
+        {
+          "kind": "sourceStackTemporary",
+          "sourceVA": "20218cb4",
+          "module": "Game",
+          "temporary": "PressedKey",
+          "offset": 4,
+          "value": 0,
+          "source": {
+            "method": "Game:0x20218c80",
+            "bytes": "895c2418",
+            "assembly": "MOV dword ptr [ESP + 0x18],EBX"
+          },
+          "interpretedOriginalKind": "writeTemporaryDWORD",
+          "sourceInstruction": {
+            "address": "20218cb4",
+            "bytes": "895c2418",
+            "assembly": "MOV dword ptr [ESP + 0x18],EBX"
+          }
+        },
+        {
+          "kind": "containerZeroAssignment",
+          "sourceVA": "20218cb8",
+          "module": "Game",
+          "offset": 28,
+          "receiverOffset": 28,
+          "actualTarget": "Game:20219880",
+          "returnLiteral": 1,
+          "source": {
+            "method": "Game:0x20218c80",
+            "bytes": "ffd0",
+            "assembly": "CALL EAX"
+          },
+          "interpretedOriginalKind": "containerZeroAssignment",
+          "originalPayloadOffset": 32,
+          "sourceInstruction": {
+            "address": "20218cb8",
+            "bytes": "ffd0",
+            "assembly": "CALL EAX"
+          }
+        },
+        {
+          "kind": "sourceStackTemporary",
+          "sourceVA": "20218cba",
+          "module": "Game",
+          "temporary": "PressedKey",
+          "value": 543713444,
+          "source": {
+            "method": "Game:0x20218c80",
+            "bytes": "896c2410",
+            "assembly": "MOV dword ptr [ESP + 0x10],EBP"
+          },
+          "interpretedOriginalKind": "writeTemporaryVtable",
+          "sourceInstruction": {
+            "address": "20218cba",
+            "bytes": "896c2410",
+            "assembly": "MOV dword ptr [ESP + 0x10],EBP"
+          }
+        },
+        {
+          "kind": "sourceStackTemporary",
+          "sourceVA": "20218cc8",
+          "module": "Game",
+          "temporary": "PressedKey",
+          "helper": "SharedBase:10049fe0",
+          "source": {
+            "method": "Game:0x20218c80",
+            "bytes": "ffd5",
+            "assembly": "CALL EBP"
+          },
+          "interpretedOriginalKind": "destroyTemporaryObjectBase",
+          "sourceInstruction": {
+            "address": "20218cc8",
+            "bytes": "ffd5",
+            "assembly": "CALL EBP"
+          }
+        },
+        {
+          "kind": "integerStore",
+          "sourceVA": "20218cce",
+          "module": "Game",
+          "offset": 36,
+          "bytes": 1,
+          "value": 0,
+          "role": "scalar",
+          "source": {
+            "method": "Game:0x20218c80",
+            "bytes": "885e24",
+            "assembly": "MOV byte ptr [ESI + 0x24],BL"
+          },
+          "interpretedOriginalKind": "integerStore",
+          "sourceInstruction": {
+            "address": "20218cce",
+            "bytes": "885e24",
+            "assembly": "MOV byte ptr [ESI + 0x24],BL"
+          }
+        },
+        {
+          "kind": "integerStore",
+          "sourceVA": "20218cd1",
+          "module": "Game",
+          "offset": 37,
+          "bytes": 1,
+          "value": 0,
+          "role": "scalar",
+          "source": {
+            "method": "Game:0x20218c80",
+            "bytes": "885e25",
+            "assembly": "MOV byte ptr [ESI + 0x25],BL"
+          },
+          "interpretedOriginalKind": "integerStore",
+          "sourceInstruction": {
+            "address": "20218cd1",
+            "bytes": "885e25",
+            "assembly": "MOV byte ptr [ESI + 0x25],BL"
+          }
+        },
+        {
+          "kind": "sourceStackTemporary",
+          "sourceVA": "20218cd4",
+          "module": "Game",
+          "temporary": "FOR",
+          "helper": "SharedBase:1004a1c0",
+          "source": {
+            "method": "Game:0x20218c80",
+            "bytes": "ffd7",
+            "assembly": "CALL EDI"
+          },
+          "interpretedOriginalKind": "constructTemporaryObjectBase",
+          "sourceInstruction": {
+            "address": "20218cd4",
+            "bytes": "ffd7",
+            "assembly": "CALL EDI"
+          }
+        },
+        {
+          "kind": "captureContainerAssignment",
+          "sourceVA": "20218cd9",
+          "module": "Game",
+          "receiverOffset": 20,
+          "slot": 28,
+          "actualTarget": "Game:20219750",
+          "source": {
+            "method": "Game:0x20218c80",
+            "bytes": "8b521c",
+            "assembly": "MOV EDX,dword ptr [EDX + 0x1c]"
+          },
+          "interpretedOriginalKind": "captureContainerAssignment",
+          "originalPayloadOffset": null,
+          "offset": 20,
+          "sourceInstruction": {
+            "address": "20218cd9",
+            "bytes": "8b521c",
+            "assembly": "MOV EDX,dword ptr [EDX + 0x1c]"
+          }
+        },
+        {
+          "kind": "sourceStackTemporary",
+          "sourceVA": "20218ce9",
+          "module": "Game",
+          "temporary": "FOR",
+          "value": 543713228,
+          "source": {
+            "method": "Game:0x20218c80",
+            "bytes": "897c2414",
+            "assembly": "MOV dword ptr [ESP + 0x14],EDI"
+          },
+          "interpretedOriginalKind": "writeTemporaryVtable",
+          "sourceInstruction": {
+            "address": "20218ce9",
+            "bytes": "897c2414",
+            "assembly": "MOV dword ptr [ESP + 0x14],EDI"
+          }
+        },
+        {
+          "kind": "sourceStackTemporary",
+          "sourceVA": "20218ced",
+          "module": "Game",
+          "temporary": "FOR",
+          "offset": 4,
+          "value": 0,
+          "source": {
+            "method": "Game:0x20218c80",
+            "bytes": "895c2418",
+            "assembly": "MOV dword ptr [ESP + 0x18],EBX"
+          },
+          "interpretedOriginalKind": "writeTemporaryDWORD",
+          "sourceInstruction": {
+            "address": "20218ced",
+            "bytes": "895c2418",
+            "assembly": "MOV dword ptr [ESP + 0x18],EBX"
+          }
+        },
+        {
+          "kind": "containerZeroAssignment",
+          "sourceVA": "20218cf1",
+          "module": "Game",
+          "offset": 20,
+          "receiverOffset": 20,
+          "actualTarget": "Game:20219750",
+          "returnLiteral": 1,
+          "source": {
+            "method": "Game:0x20218c80",
+            "bytes": "ffd2",
+            "assembly": "CALL EDX"
+          },
+          "interpretedOriginalKind": "containerZeroAssignment",
+          "originalPayloadOffset": 24,
+          "sourceInstruction": {
+            "address": "20218cf1",
+            "bytes": "ffd2",
+            "assembly": "CALL EDX"
+          }
+        },
+        {
+          "kind": "sourceStackTemporary",
+          "sourceVA": "20218cf7",
+          "module": "Game",
+          "temporary": "FOR",
+          "value": 543713228,
+          "source": {
+            "method": "Game:0x20218c80",
+            "bytes": "897c2410",
+            "assembly": "MOV dword ptr [ESP + 0x10],EDI"
+          },
+          "interpretedOriginalKind": "writeTemporaryVtable",
+          "sourceInstruction": {
+            "address": "20218cf7",
+            "bytes": "897c2410",
+            "assembly": "MOV dword ptr [ESP + 0x10],EDI"
+          }
+        },
+        {
+          "kind": "sourceStackTemporary",
+          "sourceVA": "20218cfb",
+          "module": "Game",
+          "temporary": "FOR",
+          "helper": "SharedBase:10049fe0",
+          "source": {
+            "method": "Game:0x20218c80",
+            "bytes": "ffd5",
+            "assembly": "CALL EBP"
+          },
+          "interpretedOriginalKind": "destroyTemporaryObjectBase",
+          "sourceInstruction": {
+            "address": "20218cfb",
+            "bytes": "ffd5",
+            "assembly": "CALL EBP"
+          }
+        },
+        {
+          "kind": "sourceStackTemporary",
+          "sourceVA": "20218d00",
+          "module": "Game",
+          "value": 1,
+          "source": {
+            "method": "Game:0x20218c80",
+            "bytes": "8d4301",
+            "assembly": "LEA EAX,[EBX + 0x1]"
+          },
+          "interpretedOriginalKind": "returnLiteral",
+          "sourceInstruction": {
+            "address": "20218d00",
+            "bytes": "8d4301",
+            "assembly": "LEA EAX,[EBX + 0x1]"
+          }
+        }
+      ]
+    },
+    {
+      "stage": "create",
+      "module": "Game",
+      "body": "20218290",
+      "operations": [
+        {
+          "kind": "call",
+          "sourceVA": "20218290",
+          "module": "Game",
+          "role": "entityPropertySetCreate",
+          "helper": "Engine:304814e0",
+          "source": {
+            "method": "Game:0x20218290",
+            "bytes": "ff1534727d20",
+            "assembly": "CALL dword ptr [0x207d7234]"
+          },
+          "interpretedOriginalKind": "call",
+          "sourceInstruction": {
+            "address": "20218290",
+            "bytes": "ff1534727d20",
+            "assembly": "CALL dword ptr [0x207d7234]"
+          }
+        },
+        {
+          "kind": "sourceStackTemporary",
+          "sourceVA": "20218296",
+          "module": "Game",
+          "value": 1,
+          "source": {
+            "method": "Game:0x20218290",
+            "bytes": "b801000000",
+            "assembly": "MOV EAX,0x1"
+          },
+          "interpretedOriginalKind": "returnLiteral",
+          "sourceInstruction": {
+            "address": "20218296",
+            "bytes": "b801000000",
+            "assembly": "MOV EAX,0x1"
+          }
+        }
+      ]
+    },
+    {
+      "stage": "nativeRead",
+      "module": "Game",
+      "body": "20218d10",
+      "operations": [
+        {
+          "kind": "readU16Local",
+          "sourceVA": "20218d28",
+          "module": "Game",
+          "local": "version",
+          "source": {
+            "method": "Game:0x20218d10",
+            "bytes": "ff1508887d20",
+            "assembly": "CALL dword ptr [0x207d8808]"
+          },
+          "interpretedOriginalKind": "readU16Local",
+          "sourceInstruction": {
+            "address": "20218d28",
+            "bytes": "ff1508887d20",
+            "assembly": "CALL dword ptr [0x207d8808]"
+          }
+        },
+        {
+          "kind": "ifUnsignedVersionBelow2SkipTail",
+          "sourceVA": "20218d34",
+          "module": "Game",
+          "source": {
+            "method": "Game:0x20218d10",
+            "bytes": "0f8292000000",
+            "assembly": "JC 0x20218dcc"
+          },
+          "interpretedOriginalKind": "ifUnsignedVersionBelow2SkipTail",
+          "sourceInstruction": {
+            "address": "20218d34",
+            "bytes": "0f8292000000",
+            "assembly": "JC 0x20218dcc"
+          }
+        },
+        {
+          "kind": "readF32ToPhysical",
+          "sourceVA": "20218d48",
+          "module": "Game",
+          "offset": 44,
+          "source": {
+            "method": "Game:0x20218d10",
+            "bytes": "ffd5",
+            "assembly": "CALL EBP"
+          },
+          "interpretedOriginalKind": "readF32ToPhysical",
+          "sourceInstruction": {
+            "address": "20218d48",
+            "bytes": "ffd5",
+            "assembly": "CALL EBP"
+          }
+        },
+        {
+          "kind": "readF32ToPhysical",
+          "sourceVA": "20218d50",
+          "module": "Game",
+          "offset": 48,
+          "source": {
+            "method": "Game:0x20218d10",
+            "bytes": "ffd5",
+            "assembly": "CALL EBP"
+          },
+          "interpretedOriginalKind": "readF32ToPhysical",
+          "sourceInstruction": {
+            "address": "20218d50",
+            "bytes": "ffd5",
+            "assembly": "CALL EBP"
+          }
+        },
+        {
+          "kind": "readF32ToPhysical",
+          "sourceVA": "20218d58",
+          "module": "Game",
+          "offset": 52,
+          "source": {
+            "method": "Game:0x20218d10",
+            "bytes": "ffd5",
+            "assembly": "CALL EBP"
+          },
+          "interpretedOriginalKind": "readF32ToPhysical",
+          "sourceInstruction": {
+            "address": "20218d58",
+            "bytes": "ffd5",
+            "assembly": "CALL EBP"
+          }
+        },
+        {
+          "kind": "readF32ToPhysical",
+          "sourceVA": "20218d60",
+          "module": "Game",
+          "offset": 56,
+          "source": {
+            "method": "Game:0x20218d10",
+            "bytes": "ffd5",
+            "assembly": "CALL EBP"
+          },
+          "interpretedOriginalKind": "readF32ToPhysical",
+          "sourceInstruction": {
+            "address": "20218d60",
+            "bytes": "ffd5",
+            "assembly": "CALL EBP"
+          }
+        },
+        {
+          "kind": "readU32ToPhysical",
+          "sourceVA": "20218d6e",
+          "module": "Game",
+          "offset": 60,
+          "source": {
+            "method": "Game:0x20218d10",
+            "bytes": "ffd3",
+            "assembly": "CALL EBX"
+          },
+          "interpretedOriginalKind": "readU32ToPhysical",
+          "sourceInstruction": {
+            "address": "20218d6e",
+            "bytes": "ffd3",
+            "assembly": "CALL EBX"
+          }
+        },
+        {
+          "kind": "readU32ToPhysical",
+          "sourceVA": "20218d76",
+          "module": "Game",
+          "offset": 64,
+          "source": {
+            "method": "Game:0x20218d10",
+            "bytes": "ffd3",
+            "assembly": "CALL EBX"
+          },
+          "interpretedOriginalKind": "readU32ToPhysical",
+          "sourceInstruction": {
+            "address": "20218d76",
+            "bytes": "ffd3",
+            "assembly": "CALL EBX"
+          }
+        },
+        {
+          "kind": "readU32ToPhysical",
+          "sourceVA": "20218d7e",
+          "module": "Game",
+          "offset": 68,
+          "source": {
+            "method": "Game:0x20218d10",
+            "bytes": "ffd3",
+            "assembly": "CALL EBX"
+          },
+          "interpretedOriginalKind": "readU32ToPhysical",
+          "sourceInstruction": {
+            "address": "20218d7e",
+            "bytes": "ffd3",
+            "assembly": "CALL EBX"
+          }
+        },
+        {
+          "kind": "readU32ToPhysical",
+          "sourceVA": "20218d86",
+          "module": "Game",
+          "offset": 72,
+          "source": {
+            "method": "Game:0x20218d10",
+            "bytes": "ffd3",
+            "assembly": "CALL EBX"
+          },
+          "interpretedOriginalKind": "readU32ToPhysical",
+          "sourceInstruction": {
+            "address": "20218d86",
+            "bytes": "ffd3",
+            "assembly": "CALL EBX"
+          }
+        },
+        {
+          "kind": "readU32ToPhysical",
+          "sourceVA": "20218d8e",
+          "module": "Game",
+          "offset": 76,
+          "source": {
+            "method": "Game:0x20218d10",
+            "bytes": "ffd3",
+            "assembly": "CALL EBX"
+          },
+          "interpretedOriginalKind": "readU32ToPhysical",
+          "sourceInstruction": {
+            "address": "20218d8e",
+            "bytes": "ffd3",
+            "assembly": "CALL EBX"
+          }
+        },
+        {
+          "kind": "readU32ToPhysical",
+          "sourceVA": "20218d96",
+          "module": "Game",
+          "offset": 80,
+          "source": {
+            "method": "Game:0x20218d10",
+            "bytes": "ffd3",
+            "assembly": "CALL EBX"
+          },
+          "interpretedOriginalKind": "readU32ToPhysical",
+          "sourceInstruction": {
+            "address": "20218d96",
+            "bytes": "ffd3",
+            "assembly": "CALL EBX"
+          }
+        },
+        {
+          "kind": "readBoolByteToPhysical",
+          "sourceVA": "20218da4",
+          "module": "Game",
+          "offset": 84,
+          "source": {
+            "method": "Game:0x20218d10",
+            "bytes": "ffd3",
+            "assembly": "CALL EBX"
+          },
+          "interpretedOriginalKind": "readBoolByteToPhysical",
+          "sourceInstruction": {
+            "address": "20218da4",
+            "bytes": "ffd3",
+            "assembly": "CALL EBX"
+          }
+        },
+        {
+          "kind": "readBoolByteToPhysical",
+          "sourceVA": "20218dac",
+          "module": "Game",
+          "offset": 85,
+          "source": {
+            "method": "Game:0x20218d10",
+            "bytes": "ffd3",
+            "assembly": "CALL EBX"
+          },
+          "interpretedOriginalKind": "readBoolByteToPhysical",
+          "sourceInstruction": {
+            "address": "20218dac",
+            "bytes": "ffd3",
+            "assembly": "CALL EBX"
+          }
+        },
+        {
+          "kind": "readF32ToPhysical",
+          "sourceVA": "20218db4",
+          "module": "Game",
+          "offset": 92,
+          "source": {
+            "method": "Game:0x20218d10",
+            "bytes": "ffd5",
+            "assembly": "CALL EBP"
+          },
+          "interpretedOriginalKind": "readF32ToPhysical",
+          "sourceInstruction": {
+            "address": "20218db4",
+            "bytes": "ffd5",
+            "assembly": "CALL EBP"
+          }
+        },
+        {
+          "kind": "readRaw12Bytes",
+          "sourceVA": "20218dba",
+          "module": "Game",
+          "offset": 96,
+          "helperIAT": "207d8674",
+          "order": "ONE stream virtual+4 Read12 directly to vector; preserve raw IEEE bits",
+          "source": {
+            "method": "Game:0x20218d10",
+            "bytes": "ff1574867d20",
+            "assembly": "CALL dword ptr [0x207d8674]"
+          },
+          "interpretedOriginalKind": "readVectorComponents",
+          "sourceInstruction": {
+            "address": "20218dba",
+            "bytes": "ff1574867d20",
+            "assembly": "CALL dword ptr [0x207d8674]"
+          },
+          "helper": "SharedBase:10025af0"
+        },
+        {
+          "kind": "readRaw64Bytes",
+          "sourceVA": "20218dc4",
+          "module": "Game",
+          "offset": 108,
+          "helper": "SharedBase:10029170",
+          "source": {
+            "method": "Game:0x20218d10",
+            "bytes": "ff156c867d20",
+            "assembly": "CALL dword ptr [0x207d866c]"
+          },
+          "interpretedOriginalKind": "readRaw64Bytes",
+          "sourceInstruction": {
+            "address": "20218dc4",
+            "bytes": "ff156c867d20",
+            "assembly": "CALL dword ptr [0x207d866c]"
+          }
+        },
+        {
+          "kind": "sourceStackTemporary",
+          "sourceVA": "20218dcd",
+          "module": "Game",
+          "value": 1,
+          "source": {
+            "method": "Game:0x20218d10",
+            "bytes": "b801000000",
+            "assembly": "MOV EAX,0x1"
+          },
+          "interpretedOriginalKind": "returnLiteral",
+          "sourceInstruction": {
+            "address": "20218dcd",
+            "bytes": "b801000000",
+            "assembly": "MOV EAX,0x1"
+          }
+        }
+      ]
+    },
+    {
+      "stage": "matrixIdentityGet",
+      "module": "SharedBase",
+      "body": "1004f420",
+      "operations": [
+        {
+          "kind": "testGuardBit",
+          "sourceVA": "1004f425",
+          "module": "SharedBase",
+          "globalVA": "101ab314",
+          "mask": 1,
+          "source": {
+            "method": "SharedBase:0x1004f420",
+            "bytes": "840514b31a10",
+            "assembly": "TEST byte ptr [0x101ab314],AL"
+          },
+          "interpretedOriginalKind": "testGuardBit",
+          "sourceInstruction": {
+            "address": "1004f425",
+            "bytes": "840514b31a10",
+            "assembly": "TEST byte ptr [0x101ab314],AL"
+          }
+        },
+        {
+          "kind": "ifGuardBitSetReturnCache",
+          "sourceVA": "1004f42b",
+          "module": "SharedBase",
+          "cacheVA": "101ab2c8",
+          "source": {
+            "method": "SharedBase:0x1004f420",
+            "bytes": "0f85c7000000",
+            "assembly": "JNZ 0x1004f4f8"
+          },
+          "interpretedOriginalKind": "ifGuardBitSetReturnCache",
+          "sourceInstruction": {
+            "address": "1004f42b",
+            "bytes": "0f85c7000000",
+            "assembly": "JNZ 0x1004f4f8"
+          }
+        },
+        {
+          "kind": "orGlobalDWORD",
+          "sourceVA": "1004f431",
+          "module": "SharedBase",
+          "globalVA": "101ab314",
+          "mask": 1,
+          "source": {
+            "method": "SharedBase:0x1004f420",
+            "bytes": "090514b31a10",
+            "assembly": "OR dword ptr [0x101ab314],EAX"
+          },
+          "interpretedOriginalKind": "orGlobalDWORD",
+          "sourceInstruction": {
+            "address": "1004f431",
+            "bytes": "090514b31a10",
+            "assembly": "OR dword ptr [0x101ab314],EAX"
+          }
+        },
+        {
+          "kind": "copyOriginalConstantDWORDToCache",
+          "sourceVA": "1004f448",
+          "module": "SharedBase",
+          "cacheVA": "101ab2c8",
+          "constantVA": "100e8350",
+          "raw": "0000803f",
+          "source": {
+            "method": "SharedBase:0x1004f420",
+            "bytes": "a3c8b21a10",
+            "assembly": "MOV [0x101ab2c8],EAX"
+          },
+          "interpretedOriginalKind": "copyOriginalConstantDWORDToCache",
+          "sourceInstruction": {
+            "address": "1004f448",
+            "bytes": "a3c8b21a10",
+            "assembly": "MOV [0x101ab2c8],EAX"
+          }
+        },
+        {
+          "kind": "copyOriginalConstantDWORDToCache",
+          "sourceVA": "1004f452",
+          "module": "SharedBase",
+          "cacheVA": "101ab2cc",
+          "constantVA": "100e8354",
+          "raw": "00000000",
+          "source": {
+            "method": "SharedBase:0x1004f420",
+            "bytes": "890dccb21a10",
+            "assembly": "MOV dword ptr [0x101ab2cc],ECX"
+          },
+          "interpretedOriginalKind": "copyOriginalConstantDWORDToCache",
+          "sourceInstruction": {
+            "address": "1004f452",
+            "bytes": "890dccb21a10",
+            "assembly": "MOV dword ptr [0x101ab2cc],ECX"
+          }
+        },
+        {
+          "kind": "copyOriginalConstantDWORDToCache",
+          "sourceVA": "1004f45e",
+          "module": "SharedBase",
+          "cacheVA": "101ab2d0",
+          "constantVA": "100e8358",
+          "raw": "00000000",
+          "source": {
+            "method": "SharedBase:0x1004f420",
+            "bytes": "8915d0b21a10",
+            "assembly": "MOV dword ptr [0x101ab2d0],EDX"
+          },
+          "interpretedOriginalKind": "copyOriginalConstantDWORDToCache",
+          "sourceInstruction": {
+            "address": "1004f45e",
+            "bytes": "8915d0b21a10",
+            "assembly": "MOV dword ptr [0x101ab2d0],EDX"
+          }
+        },
+        {
+          "kind": "copyOriginalConstantDWORDToCache",
+          "sourceVA": "1004f46a",
+          "module": "SharedBase",
+          "cacheVA": "101ab2d4",
+          "constantVA": "100e835c",
+          "raw": "00000000",
+          "source": {
+            "method": "SharedBase:0x1004f420",
+            "bytes": "a3d4b21a10",
+            "assembly": "MOV [0x101ab2d4],EAX"
+          },
+          "interpretedOriginalKind": "copyOriginalConstantDWORDToCache",
+          "sourceInstruction": {
+            "address": "1004f46a",
+            "bytes": "a3d4b21a10",
+            "assembly": "MOV [0x101ab2d4],EAX"
+          }
+        },
+        {
+          "kind": "copyOriginalConstantDWORDToCache",
+          "sourceVA": "1004f474",
+          "module": "SharedBase",
+          "cacheVA": "101ab2d8",
+          "constantVA": "100e8360",
+          "raw": "00000000",
+          "source": {
+            "method": "SharedBase:0x1004f420",
+            "bytes": "890dd8b21a10",
+            "assembly": "MOV dword ptr [0x101ab2d8],ECX"
+          },
+          "interpretedOriginalKind": "copyOriginalConstantDWORDToCache",
+          "sourceInstruction": {
+            "address": "1004f474",
+            "bytes": "890dd8b21a10",
+            "assembly": "MOV dword ptr [0x101ab2d8],ECX"
+          }
+        },
+        {
+          "kind": "copyOriginalConstantDWORDToCache",
+          "sourceVA": "1004f480",
+          "module": "SharedBase",
+          "cacheVA": "101ab2dc",
+          "constantVA": "100e8364",
+          "raw": "0000803f",
+          "source": {
+            "method": "SharedBase:0x1004f420",
+            "bytes": "8915dcb21a10",
+            "assembly": "MOV dword ptr [0x101ab2dc],EDX"
+          },
+          "interpretedOriginalKind": "copyOriginalConstantDWORDToCache",
+          "sourceInstruction": {
+            "address": "1004f480",
+            "bytes": "8915dcb21a10",
+            "assembly": "MOV dword ptr [0x101ab2dc],EDX"
+          }
+        },
+        {
+          "kind": "copyOriginalConstantDWORDToCache",
+          "sourceVA": "1004f48c",
+          "module": "SharedBase",
+          "cacheVA": "101ab2e0",
+          "constantVA": "100e8368",
+          "raw": "00000000",
+          "source": {
+            "method": "SharedBase:0x1004f420",
+            "bytes": "a3e0b21a10",
+            "assembly": "MOV [0x101ab2e0],EAX"
+          },
+          "interpretedOriginalKind": "copyOriginalConstantDWORDToCache",
+          "sourceInstruction": {
+            "address": "1004f48c",
+            "bytes": "a3e0b21a10",
+            "assembly": "MOV [0x101ab2e0],EAX"
+          }
+        },
+        {
+          "kind": "copyOriginalConstantDWORDToCache",
+          "sourceVA": "1004f496",
+          "module": "SharedBase",
+          "cacheVA": "101ab2e4",
+          "constantVA": "100e836c",
+          "raw": "00000000",
+          "source": {
+            "method": "SharedBase:0x1004f420",
+            "bytes": "890de4b21a10",
+            "assembly": "MOV dword ptr [0x101ab2e4],ECX"
+          },
+          "interpretedOriginalKind": "copyOriginalConstantDWORDToCache",
+          "sourceInstruction": {
+            "address": "1004f496",
+            "bytes": "890de4b21a10",
+            "assembly": "MOV dword ptr [0x101ab2e4],ECX"
+          }
+        },
+        {
+          "kind": "copyOriginalConstantDWORDToCache",
+          "sourceVA": "1004f4a2",
+          "module": "SharedBase",
+          "cacheVA": "101ab2e8",
+          "constantVA": "100e8370",
+          "raw": "00000000",
+          "source": {
+            "method": "SharedBase:0x1004f420",
+            "bytes": "8915e8b21a10",
+            "assembly": "MOV dword ptr [0x101ab2e8],EDX"
+          },
+          "interpretedOriginalKind": "copyOriginalConstantDWORDToCache",
+          "sourceInstruction": {
+            "address": "1004f4a2",
+            "bytes": "8915e8b21a10",
+            "assembly": "MOV dword ptr [0x101ab2e8],EDX"
+          }
+        },
+        {
+          "kind": "copyOriginalConstantDWORDToCache",
+          "sourceVA": "1004f4ae",
+          "module": "SharedBase",
+          "cacheVA": "101ab2ec",
+          "constantVA": "100e8374",
+          "raw": "00000000",
+          "source": {
+            "method": "SharedBase:0x1004f420",
+            "bytes": "a3ecb21a10",
+            "assembly": "MOV [0x101ab2ec],EAX"
+          },
+          "interpretedOriginalKind": "copyOriginalConstantDWORDToCache",
+          "sourceInstruction": {
+            "address": "1004f4ae",
+            "bytes": "a3ecb21a10",
+            "assembly": "MOV [0x101ab2ec],EAX"
+          }
+        },
+        {
+          "kind": "copyOriginalConstantDWORDToCache",
+          "sourceVA": "1004f4b8",
+          "module": "SharedBase",
+          "cacheVA": "101ab2f0",
+          "constantVA": "100e8378",
+          "raw": "0000803f",
+          "source": {
+            "method": "SharedBase:0x1004f420",
+            "bytes": "890df0b21a10",
+            "assembly": "MOV dword ptr [0x101ab2f0],ECX"
+          },
+          "interpretedOriginalKind": "copyOriginalConstantDWORDToCache",
+          "sourceInstruction": {
+            "address": "1004f4b8",
+            "bytes": "890df0b21a10",
+            "assembly": "MOV dword ptr [0x101ab2f0],ECX"
+          }
+        },
+        {
+          "kind": "copyOriginalConstantDWORDToCache",
+          "sourceVA": "1004f4c4",
+          "module": "SharedBase",
+          "cacheVA": "101ab2f4",
+          "constantVA": "100e837c",
+          "raw": "00000000",
+          "source": {
+            "method": "SharedBase:0x1004f420",
+            "bytes": "8915f4b21a10",
+            "assembly": "MOV dword ptr [0x101ab2f4],EDX"
+          },
+          "interpretedOriginalKind": "copyOriginalConstantDWORDToCache",
+          "sourceInstruction": {
+            "address": "1004f4c4",
+            "bytes": "8915f4b21a10",
+            "assembly": "MOV dword ptr [0x101ab2f4],EDX"
+          }
+        },
+        {
+          "kind": "copyOriginalConstantDWORDToCache",
+          "sourceVA": "1004f4d0",
+          "module": "SharedBase",
+          "cacheVA": "101ab2f8",
+          "constantVA": "100e8380",
+          "raw": "00000000",
+          "source": {
+            "method": "SharedBase:0x1004f420",
+            "bytes": "a3f8b21a10",
+            "assembly": "MOV [0x101ab2f8],EAX"
+          },
+          "interpretedOriginalKind": "copyOriginalConstantDWORDToCache",
+          "sourceInstruction": {
+            "address": "1004f4d0",
+            "bytes": "a3f8b21a10",
+            "assembly": "MOV [0x101ab2f8],EAX"
+          }
+        },
+        {
+          "kind": "copyOriginalConstantDWORDToCache",
+          "sourceVA": "1004f4df",
+          "module": "SharedBase",
+          "cacheVA": "101ab2fc",
+          "constantVA": "100e8384",
+          "raw": "00000000",
+          "source": {
+            "method": "SharedBase:0x1004f420",
+            "bytes": "890dfcb21a10",
+            "assembly": "MOV dword ptr [0x101ab2fc],ECX"
+          },
+          "interpretedOriginalKind": "copyOriginalConstantDWORDToCache",
+          "sourceInstruction": {
+            "address": "1004f4df",
+            "bytes": "890dfcb21a10",
+            "assembly": "MOV dword ptr [0x101ab2fc],ECX"
+          }
+        },
+        {
+          "kind": "copyOriginalConstantDWORDToCache",
+          "sourceVA": "1004f4e5",
+          "module": "SharedBase",
+          "cacheVA": "101ab300",
+          "constantVA": "100e8388",
+          "raw": "00000000",
+          "source": {
+            "method": "SharedBase:0x1004f420",
+            "bytes": "891500b31a10",
+            "assembly": "MOV dword ptr [0x101ab300],EDX"
+          },
+          "interpretedOriginalKind": "copyOriginalConstantDWORDToCache",
+          "sourceInstruction": {
+            "address": "1004f4e5",
+            "bytes": "891500b31a10",
+            "assembly": "MOV dword ptr [0x101ab300],EDX"
+          }
+        },
+        {
+          "kind": "copyOriginalConstantDWORDToCache",
+          "sourceVA": "1004f4eb",
+          "module": "SharedBase",
+          "cacheVA": "101ab304",
+          "constantVA": "100e838c",
+          "raw": "0000803f",
+          "source": {
+            "method": "SharedBase:0x1004f420",
+            "bytes": "a304b31a10",
+            "assembly": "MOV [0x101ab304],EAX"
+          },
+          "interpretedOriginalKind": "copyOriginalConstantDWORDToCache",
+          "sourceInstruction": {
+            "address": "1004f4eb",
+            "bytes": "a304b31a10",
+            "assembly": "MOV [0x101ab304],EAX"
+          }
+        },
+        {
+          "kind": "registerCRTCleanup",
+          "sourceVA": "1004f4f0",
+          "module": "SharedBase",
+          "helper": "SharedBase:100a72d0",
+          "cleanupVA": "100e2910",
+          "returnIgnored": true,
+          "source": {
+            "method": "SharedBase:0x1004f420",
+            "bytes": "e8db7d0500",
+            "assembly": "CALL 0x100a72d0"
+          },
+          "interpretedOriginalKind": "registerCRTCleanup",
+          "sourceInstruction": {
+            "address": "1004f4f0",
+            "bytes": "e8db7d0500",
+            "assembly": "CALL 0x100a72d0"
+          }
+        },
+        {
+          "kind": "returnCacheReference",
+          "sourceVA": "1004f4f8",
+          "module": "SharedBase",
+          "cacheVA": "101ab2c8",
+          "source": {
+            "method": "SharedBase:0x1004f420",
+            "bytes": "b8c8b21a10",
+            "assembly": "MOV EAX,0x101ab2c8"
+          },
+          "interpretedOriginalKind": "returnCacheReference",
+          "sourceInstruction": {
+            "address": "1004f4f8",
+            "bytes": "b8c8b21a10",
+            "assembly": "MOV EAX,0x101ab2c8"
+          }
+        }
+      ]
+    }
+  ],
+  "coverage": {
+    "constructorWithKnownIdentityCache": {
+      "fullyKnownByteCount": 162,
+      "fullyUnknownByteCount": 13,
+      "partiallyKnownBytes": [
+        {
+          "offset": 16,
+          "mask": 15
+        }
+      ],
+      "knownByteMasksHex": "ffffffffffffffffffffffffffffffff0f000000ffffffffffffffffffffffffffffffff0000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    },
+    "constructorWithUnknownIdentityCache": {
+      "fullyKnownByteCount": 98,
+      "fullyUnknownByteCount": 77,
+      "partiallyKnownBytes": [
+        {
+          "offset": 16,
+          "mask": 15
+        }
+      ],
+      "knownByteMasksHex": "ffffffffffffffffffffffffffffffff0f000000ffffffffffffffffffffffffffffffff0000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0000ffffffffffffffffffffffffffffffffffffffff00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000ffffffff"
+    },
+    "constructorPostInitialize": {
+      "fullyKnownByteCount": 164,
+      "fullyUnknownByteCount": 11,
+      "partiallyKnownBytes": [
+        {
+          "offset": 16,
+          "mask": 15
+        }
+      ],
+      "knownByteMasksHex": "ffffffffffffffffffffffffffffffff0f000000ffffffffffffffffffffffffffffffffffff000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    },
+    "fullFreshDescriptorDefaultsAndPostInitialize": {
+      "fullyKnownByteCount": 168,
+      "fullyUnknownByteCount": 7,
+      "partiallyKnownBytes": [
+        {
+          "offset": 16,
+          "mask": 15
+        }
+      ],
+      "knownByteMasksHex": "ffffffffffffffffffffffffffffffff0f000000ffffffffffffffffffffffffffffffffffff0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    }
+  },
+  "heroTail": {
+    "byteCount": 122,
+    "fields": [
+      {
+        "physicalOffset": 44,
+        "raw": "0000803f",
+        "value": 1.0,
+        "sourceOffset": 1186300,
+        "readSourceVA": "20218d48"
+      },
+      {
+        "physicalOffset": 48,
+        "raw": "00000000",
+        "value": 0.0,
+        "sourceOffset": 1186304,
+        "readSourceVA": "20218d50"
+      },
+      {
+        "physicalOffset": 52,
+        "raw": "00000000",
+        "value": 0.0,
+        "sourceOffset": 1186308,
+        "readSourceVA": "20218d58"
+      },
+      {
+        "physicalOffset": 56,
+        "raw": "cdcc4c3d",
+        "value": 0.05000000074505806,
+        "sourceOffset": 1186312,
+        "readSourceVA": "20218d60"
+      },
+      {
+        "physicalOffset": 60,
+        "raw": "ffffffff",
+        "value": 4294967295,
+        "sourceOffset": 1186316,
+        "readSourceVA": "20218d6e"
+      },
+      {
+        "physicalOffset": 64,
+        "raw": "ffffffff",
+        "value": 4294967295,
+        "sourceOffset": 1186320,
+        "readSourceVA": "20218d76"
+      },
+      {
+        "physicalOffset": 68,
+        "raw": "ffffffff",
+        "value": 4294967295,
+        "sourceOffset": 1186324,
+        "readSourceVA": "20218d7e"
+      },
+      {
+        "physicalOffset": 72,
+        "raw": "ffffffff",
+        "value": 4294967295,
+        "sourceOffset": 1186328,
+        "readSourceVA": "20218d86"
+      },
+      {
+        "physicalOffset": 76,
+        "raw": "ffffffff",
+        "value": 4294967295,
+        "sourceOffset": 1186332,
+        "readSourceVA": "20218d8e"
+      },
+      {
+        "physicalOffset": 80,
+        "raw": "ffffffff",
+        "value": 4294967295,
+        "sourceOffset": 1186336,
+        "readSourceVA": "20218d96"
+      },
+      {
+        "physicalOffset": 84,
+        "raw": "00",
+        "value": 0,
+        "sourceOffset": 1186340,
+        "readSourceVA": "20218da4"
+      },
+      {
+        "physicalOffset": 85,
+        "raw": "01",
+        "value": 1,
+        "sourceOffset": 1186341,
+        "readSourceVA": "20218dac"
+      },
+      {
+        "physicalOffset": 92,
+        "raw": "0000b443",
+        "value": 360.0,
+        "sourceOffset": 1186342,
+        "readSourceVA": "20218db4"
+      },
+      {
+        "physicalOffset": 96,
+        "raw": "000000000000000000000000",
+        "value": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "sourceOffset": 1186346,
+        "readSourceVA": "20218dba"
+      },
+      {
+        "physicalOffset": 108,
+        "raw": "0000803f000000000000000000000000000000000000803f000000000000000000000000000000000000803f000000000000000000000000000000000000803f",
+        "value": [
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "sourceOffset": 1186358,
+        "readSourceVA": "20218dc4"
+      }
+    ],
+    "notSerialized": [
+      "cached CharacterMovement pointer+58",
+      "wished movement mode+ac"
+    ]
+  },
+  "lifecycle": {
+    "processable": false,
+    "added": "inherited Engine30481830 literalRET",
+    "removed": "inherited Engine30481840 literalRET",
+    "postRead": "inherited Engine304818a0 literalRET",
+    "clearVolatileFrameStates": {
+      "body": "20218280",
+      "effect": "DWORD+58=0"
+    },
+    "setEntity": "inherited Engine.SetEntity then nonnull input.DisableProcessing(false)",
+    "onPreProcess": "capture owner; query type21; store+58; null warning/return else +54=1 then captured virtual+150 ProcessMovements then inherited OnPre",
+    "onPostProcess": "byte+54=0, pointer+58=null, Vector.Clear+60, inherited OnPost"
+  },
+  "limitations": [
+    "Live enum default DWORDs and live SharedBase identity guard/cache are caller inputs; cold PE zero-fill is a separate proven image profile.",
+    "GetIdentity constant copies and Matrix operator= preserve DWORD bits; no identity is fabricated when live guard bit is set and cache masks unknown.",
+    "DurationPressedMSecs+28 is initialized by the fresh descriptor-default phase, not native PostInitialize.",
+    "Only source packet version2 is audited here; native Read admits all u16 versions>=2 with same body.",
+    "OnPre ProcessMovements and engine entity DisableProcessing retain their actual source dependencies; no complete ordinary translation/physics claim.",
+    "No target execution/tests/browser/remotes."
+  ],
+  "additionalSelectors": {
+    "Game": [
+      "200020a4",
+      "200024f0",
+      "20004764",
+      "20007ed7",
+      "20009363",
+      "2000babe",
+      "2000e48f",
+      "200107a8",
+      "200113e7",
+      "20011e41",
+      "20012eb3",
+      "20013665",
+      "200136ab",
+      "200144a7",
+      "20014678",
+      "2001698c",
+      "20016c61",
+      "2001898a",
+      "2001ab0e",
+      "2001b6b7",
+      "2001bc61",
+      "2001c3be",
+      "20021071",
+      "20023060",
+      "20024276",
+      "20029951",
+      "2002aee6",
+      "2002c291",
+      "2002da92",
+      "2002dc2c",
+      "20030cb0",
+      "20032867",
+      "20035bb6",
+      "20218120",
+      "202181d0",
+      "202181f0",
+      "20218250",
+      "20218270",
+      "20218280",
+      "20218290",
+      "202182a0",
+      "202182b0",
+      "20218b90",
+      "20218be0",
+      "20218c60",
+      "20218c80",
+      "20218d10",
+      "20218de0",
+      "202191c0",
+      "20219230",
+      "20219750",
+      "20219770",
+      "20219880",
+      "202198a0",
+      "20219a70",
+      "2021a340",
+      "2021a350",
+      "2021a4a0",
+      "2021b180",
+      "2021b240",
+      "2021b290",
+      "2021b2e0",
+      "2021c1a0",
+      "2021c390",
+      "2021e890",
+      "2021f130",
+      "2021fe40",
+      "2046031a",
+      "20460326",
+      "20461e80",
+      "20461e86",
+      "20461e8c",
+      "20461e92",
+      "20461e9e",
+      "20461ec8",
+      "20461fb8",
+      "20461fca",
+      "20461fd0",
+      "204fe370"
+    ],
+    "Engine": [
+      "300025bd",
+      "30004318",
+      "30008783",
+      "3000c0c7",
+      "3001a091",
+      "3001d9bc",
+      "3002292b",
+      "3002ad10",
+      "3002d713",
+      "30037ca4",
+      "3003a7ab",
+      "3003b5bb",
+      "3003b863",
+      "3003d10e",
+      "3003f98b",
+      "304814b0",
+      "304814e0",
+      "30481520",
+      "30481620",
+      "304817d0",
+      "30481830",
+      "30481840",
+      "304818a0",
+      "304818f0",
+      "30481900",
+      "30481a60",
+      "30481ac0",
+      "30481af0",
+      "30481b20",
+      "30481b50"
+    ],
+    "SharedBase": [
+      "10001d07",
+      "100020a9",
+      "10002833",
+      "10002946",
+      "10002c25",
+      "100033f5",
+      "10003eb3",
+      "10004cc8",
+      "10005ae7",
+      "100065cd",
+      "10006726",
+      "10006776",
+      "10006d1b",
+      "100076f8",
+      "100079fa",
+      "10007c11",
+      "10007f81",
+      "10008143",
+      "100086b6",
+      "10008986",
+      "1001ed10",
+      "1001ed50",
+      "1001edd0",
+      "1001ee50",
+      "10024b70",
+      "10024e00",
+      "10025af0",
+      "10027e70",
+      "10027e80",
+      "10029030",
+      "10029170",
+      "10049fe0",
+      "1004a0b0",
+      "1004a100",
+      "1004a1c0",
+      "1004a4b0",
+      "1004a4d0",
+      "1004a530",
+      "1004a5a0",
+      "1004f420",
+      "100a72d0"
+    ]
+  },
+  "coldGlobals": [
+    {
+      "module": "Game",
+      "va": "0x207bd774",
+      "bytes": 4,
+      "liveValueCaptured": false,
+      "section": {
+        "virtualAddress": 7954432,
+        "virtualSize": 248716,
+        "rawSize": 126976,
+        "rawOffset": 7954432
+      },
+      "PEInitialImageZeroFill": true,
+      "initialImageValue": 0,
+      "sectionHeaderBytes": "2e646174610000008ccb03000060790000f0010000607900000000000000000000000000400000c0"
+    },
+    {
+      "module": "Game",
+      "va": "0x207bd778",
+      "bytes": 4,
+      "liveValueCaptured": false,
+      "section": {
+        "virtualAddress": 7954432,
+        "virtualSize": 248716,
+        "rawSize": 126976,
+        "rawOffset": 7954432
+      },
+      "PEInitialImageZeroFill": true,
+      "initialImageValue": 0,
+      "sectionHeaderBytes": "2e646174610000008ccb03000060790000f0010000607900000000000000000000000000400000c0"
+    },
+    {
+      "module": "SharedBase",
+      "va": "0x101ab314",
+      "bytes": 4,
+      "liveValueCaptured": false,
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624
+      },
+      "PEInitialImageZeroFill": true,
+      "initialImageValue": 0,
+      "sectionHeaderBytes": "2e6461746100000090951b0000f013000040000000f01300000000000000000000000000400000c0"
+    },
+    {
+      "module": "SharedBase",
+      "va": "0x101ab2c8",
+      "bytes": 64,
+      "liveValueCaptured": false,
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624
+      },
+      "PEInitialImageZeroFill": true,
+      "initialImageValue": 0,
+      "sectionHeaderBytes": "2e6461746100000090951b0000f013000040000000f01300000000000000000000000000400000c0"
+    }
+  ],
+  "matrixIdentity": {
+    "getterEntry": "0x100033f5",
+    "getterBody": "0x1004f420",
+    "guardVA": "0x101ab314",
+    "cacheVA": "0x101ab2c8",
+    "constantVA": "0x100e8350",
+    "constantSourcePEBytes": "0000803f000000000000000000000000000000000000803f000000000000000000000000000000000000803f000000000000000000000000000000000000803f",
+    "constantValues": [
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "cleanupVA": "0x100e2910",
+    "atexitCallVA": "0x1004f4f0",
+    "atexitBodyVA": "0x100a72d0",
+    "atexitReturnUsed": false,
+    "currentCacheCaptured": false,
+    "scope": "Owned cold/lazy cache profile must be separate from live captured guard/cache state"
+  },
+  "manualCleanup": {
+    "module": "SharedBase",
+    "va": "0x100e2910",
+    "byteCount": 1,
+    "sourcePEBytes": "c3",
+    "sourcePEBytesSha256": "ae3f4619b0413d70d3004b9131c3752153074e45725be13b9a148978895e359e",
+    "sourceASMGap": true,
+    "sourceCGap": true,
+    "sourceCatalogGap": true,
+    "instructions": [
+      {
+        "va": "0x100e2910",
+        "bytes": "c3",
+        "assembly": "RET",
+        "sourcePEMatch": true,
+        "decodeOrigin": "manual single RET from original PE"
+      }
+    ],
+    "followingBytes": "cccccccccccccccccccccccccccccc",
+    "meaning": "MatrixIdentity registered cleanup literal no-op"
+  },
+  "peerNativeVtable": {
+    "va": "0x20686abc",
+    "slots": [
+      {
+        "offset": 0,
+        "entry": "0x2001ab0e",
+        "body": "0x202182a0",
+        "sourcePEPointerBytes": "0eab0120"
+      },
+      {
+        "offset": 4,
+        "entry": "0x2046031a",
+        "body": "0x2046031a",
+        "sourcePEPointerBytes": "1a034620",
+        "import": {
+          "library": "SharedBase.dll",
+          "decoratedSymbol": "?IsValid@bCObjectRefBase@@UBE_NXZ"
+        },
+        "thunkBytes": "ff25c8887d20",
+        "terminalEntry": "0x10007f81"
+      },
+      {
+        "offset": 8,
+        "entry": "0x2001698c",
+        "body": "0x20218de0",
+        "sourcePEPointerBytes": "8c690120"
+      },
+      {
+        "offset": 12,
+        "entry": "0x20460326",
+        "body": "0x20460326",
+        "sourcePEPointerBytes": "26034620",
+        "import": {
+          "library": "SharedBase.dll",
+          "decoratedSymbol": "?Write@bCObjectBase@@EBE_NAAVbCOStream@@@Z"
+        },
+        "thunkBytes": "ff25c0887d20",
+        "terminalEntry": "0x100086b6"
+      },
+      {
+        "offset": 16,
+        "entry": "0x200024f0",
+        "body": "0x20218d10",
+        "sourcePEPointerBytes": "f0240020"
+      },
+      {
+        "offset": 20,
+        "entry": "0x20035bb6",
+        "body": "0x20218c60",
+        "sourcePEPointerBytes": "b65b0320"
+      },
+      {
+        "offset": 24,
+        "entry": "0x200144a7",
+        "body": "0x20218290",
+        "sourcePEPointerBytes": "a7440120"
+      },
+      {
+        "offset": 28,
+        "entry": "0x20014678",
+        "body": "0x20218270",
+        "sourcePEPointerBytes": "78460120"
+      },
+      {
+        "offset": 64,
+        "entry": "0x200136ab",
+        "body": "0x20218c80",
+        "sourcePEPointerBytes": "ab360120"
+      },
+      {
+        "offset": 76,
+        "entry": "0x20461e80",
+        "body": "0x20461e80",
+        "sourcePEPointerBytes": "801e4620",
+        "import": {
+          "library": "Engine.dll",
+          "decoratedSymbol": "?OnNotifyPropertyValueChangedEnterEx@eCEntityPropertySet@@MAE_NPBD_N@Z"
+        },
+        "thunkBytes": "ff2544727d20",
+        "terminalEntry": "0x3002ad10"
+      },
+      {
+        "offset": 80,
+        "entry": "0x20461e86",
+        "body": "0x20461e86",
+        "sourcePEPointerBytes": "861e4620",
+        "import": {
+          "library": "Engine.dll",
+          "decoratedSymbol": "?OnNotifyPropertyValueChangedExitEx@eCEntityPropertySet@@MAE_NPBD_N@Z"
+        },
+        "thunkBytes": "ff2548727d20",
+        "terminalEntry": "0x30037ca4"
+      },
+      {
+        "offset": 88,
+        "entry": "0x20461e8c",
+        "body": "0x20461e8c",
+        "sourcePEPointerBytes": "8c1e4620",
+        "import": {
+          "library": "Engine.dll",
+          "decoratedSymbol": "?NotifyPropertyValueChangedEnterEx@eCEntityPropertySet@@MAE_NPBD_N@Z"
+        },
+        "thunkBytes": "ff254c727d20",
+        "terminalEntry": "0x3003b5bb"
+      },
+      {
+        "offset": 92,
+        "entry": "0x20461e92",
+        "body": "0x20461e92",
+        "sourcePEPointerBytes": "921e4620",
+        "import": {
+          "library": "Engine.dll",
+          "decoratedSymbol": "?NotifyPropertyValueChangedExitEx@eCEntityPropertySet@@MAE_NPBD_N@Z"
+        },
+        "thunkBytes": "ff2550727d20",
+        "terminalEntry": "0x3001a091"
+      },
+      {
+        "offset": 96,
+        "entry": "0x2002da92",
+        "body": "0x202182b0",
+        "sourcePEPointerBytes": "92da0220"
+      },
+      {
+        "offset": 104,
+        "entry": "0x20461e9e",
+        "body": "0x20461e9e",
+        "sourcePEPointerBytes": "9e1e4620",
+        "import": {
+          "library": "Engine.dll",
+          "decoratedSymbol": "?GetEntity@eCEntityPropertySet@@UAEPAVeCEntity@@XZ"
+        },
+        "thunkBytes": "ff2558727d20",
+        "terminalEntry": "0x3002292b"
+      },
+      {
+        "offset": 132,
+        "entry": "0x20461ec8",
+        "body": "0x20461ec8",
+        "sourcePEPointerBytes": "c81e4620",
+        "import": {
+          "library": "Engine.dll",
+          "decoratedSymbol": "?IsProcessable@eCEntityPropertySet@@UBE_NXZ"
+        },
+        "thunkBytes": "ff2574727d20",
+        "terminalEntry": "0x30008783"
+      },
+      {
+        "offset": 300,
+        "entry": "0x20461fb8",
+        "body": "0x20461fb8",
+        "sourcePEPointerBytes": "b81f4620",
+        "import": {
+          "library": "Engine.dll",
+          "decoratedSymbol": "?OnPostRead@eCEntityPropertySet@@UAEXXZ"
+        },
+        "thunkBytes": "ff251c6e7d20",
+        "terminalEntry": "0x3003d10e"
+      },
+      {
+        "offset": 312,
+        "entry": "0x20461fca",
+        "body": "0x20461fca",
+        "sourcePEPointerBytes": "ca1f4620",
+        "import": {
+          "library": "Engine.dll",
+          "decoratedSymbol": "?OnPropertySetAdded@eCEntityPropertySet@@UAEXXZ"
+        },
+        "thunkBytes": "ff25106e7d20",
+        "terminalEntry": "0x3002d713"
+      },
+      {
+        "offset": 316,
+        "entry": "0x20461fd0",
+        "body": "0x20461fd0",
+        "sourcePEPointerBytes": "d01f4620",
+        "import": {
+          "library": "Engine.dll",
+          "decoratedSymbol": "?OnPropertySetRemoved@eCEntityPropertySet@@UAEXXZ"
+        },
+        "thunkBytes": "ff250c6e7d20",
+        "terminalEntry": "0x3000c0c7"
+      }
+    ]
+  },
+  "peerWrapperVtable": {
+    "va": "0x20686c5c",
+    "slots": [
+      {
+        "offset": 0,
+        "entry": "0x2001c3be",
+        "body": "0x2021a340",
+        "sourcePEPointerBytes": "bec30120"
+      },
+      {
+        "offset": 16,
+        "entry": "0x20023060",
+        "body": "0x2021a350",
+        "sourcePEPointerBytes": "60300220"
+      },
+      {
+        "offset": 20,
+        "entry": "0x2000babe",
+        "body": "0x2021b180",
+        "sourcePEPointerBytes": "beba0020"
+      },
+      {
+        "offset": 24,
+        "entry": "0x20030cb0",
+        "body": "0x2021a4a0",
+        "sourcePEPointerBytes": "b00c0320"
+      },
+      {
+        "offset": 28,
+        "entry": "0x20012eb3",
+        "body": "0x2021fe40",
+        "sourcePEPointerBytes": "b32e0120"
+      },
+      {
+        "offset": 56,
+        "entry": "0x2001bc61",
+        "body": "0x2021f130",
+        "sourcePEPointerBytes": "61bc0120"
+      },
+      {
+        "offset": 60,
+        "entry": "0x20007ed7",
+        "body": "0x2021c390",
+        "sourcePEPointerBytes": "d77e0020"
+      }
+    ]
+  },
+  "staticFloats": [
+    {
+      "module": "Game",
+      "va": "0x2065cea4",
+      "raw": "cdcc4c3d",
+      "float32": 0.05000000074505806
+    },
+    {
+      "module": "Game",
+      "va": "0x2065b1c4",
+      "raw": "0000803f",
+      "float32": 1.0
+    },
+    {
+      "module": "Game",
+      "va": "0x20686a30",
+      "raw": "0000b443",
+      "float32": 360.0
+    }
+  ],
+  "peerInterpretationCorrection": {
+    "nativeVectorRead": "Game20218dba→SharedBase10004cc8→10025af0 is one raw12-byte virtual read, not three float reads",
+    "sourceVAs": [
+      "10025afa",
+      "10025aff"
+    ]
+  }
+}

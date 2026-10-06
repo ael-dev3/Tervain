@@ -1,0 +1,4 @@
+; 20022976 bTPropertyType<gCCharacterMovement_PS,bool>::vfunction13
+20022976 | e945252100 | JMP 0x20234ec0
+; 20022980 gCBoid::RemoveFlock
+; 20022980 Ordinal_6080

@@ -1,0 +1,13 @@
+/* ENTRY 10006fbe | bCOStream::~bCOStream | STATUS decompiled | 2 ms */
+
+/* public: virtual __thiscall bCOStream::~bCOStream(void) */
+
+void __thiscall bCOStream::~bCOStream(bCOStream *this)
+
+{
+                    /* 0x6fbe  400  ??1bCOStream@@UAE@XZ */
+  this->vftablePtr = &vftable;
+  return;
+}
+
+

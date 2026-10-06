@@ -1,0 +1,4 @@
+; 100048a9 ?GetInvTranslated@bCBox@@QBE?AV1@M@Z
+100048a9 | e922210300 | JMP 0x100369d0
+; 100048ae bCAccessorProperty::bCAccessorProperty
+; 100048ae Ordinal_16

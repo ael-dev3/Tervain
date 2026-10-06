@@ -1,0 +1,2 @@
+; 10005b73 ?GetVersion@bCPropertyObjectBase@@QBEGXZ
+10005b73 | e948360800 | JMP 0x100891c0

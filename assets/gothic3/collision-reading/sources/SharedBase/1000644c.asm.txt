@@ -1,0 +1,4 @@
+; 1000644c ??8bCCapsule@@QBE_NABV0@@Z
+1000644c | e99f240500 | JMP 0x100588f0
+; 10006451 bCRay::operator-
+; 10006451 Ordinal_1009

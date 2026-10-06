@@ -1,0 +1,64 @@
+/* ENTRY 1005f140 | FUN_1005f140 | STATUS decompiled | 40 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+bool FUN_1005f140(bTObjStack<gScriptRunTimeSingleState> *param_1,gCScriptProcessingUnit *param_2)
+
+{
+  int iVar1;
+  int iVar2;
+  bool bVar3;
+  gEAIMode gVar4;
+  gEAniState gVar5;
+  undefined4 *puVar6;
+  bCString *pbVar7;
+  gCScriptAdmin *this;
+  
+  iVar2 = *(int *)(*(int *)param_1 + -0xc + *(int *)(param_1 + 4) * 0x18);
+  if ((_DAT_10221ebc & 1) == 0) {
+    _DAT_10221ebc = _DAT_10221ebc | 1;
+    DAT_10221eb4 = DAT_10221eb8;
+    DAT_10221eb8 = DAT_10221eb8 + 1;
+  }
+  if (*(int *)(*(int *)param_1 + -0x18 + *(int *)(param_1 + 4) * 0x18) <= DAT_10221eb4) {
+    *(int *)(*(int *)param_1 + -0x18 + *(int *)(param_1 + 4) * 0x18) = DAT_10221eb4 + 1;
+    gVar4 = PSRoutine::PropertyAIMode::operator_enum_gEAIMode((PropertyAIMode *)(iVar2 + 8));
+    if (gVar4 != 0) {
+      thunk_FUN_10031680(param_2,iVar2 + 4,None_exref,0);
+      thunk_FUN_10031970(param_2,iVar2 + 4,None_exref,0);
+    }
+    gVar5 = PSRoutine::PropertyAniState::operator_enum_gEAniState((PropertyAniState *)(iVar2 + 8));
+    if (gVar5 != 2) {
+      thunk_FUN_1001d8b0(*(int *)(param_1 + 4) + 1);
+      bCString::operator=((bCString *)(*(int *)param_1 + -0x14 + *(int *)(param_1 + 4) * 0x18),
+                          "_AI_AniStateAction");
+      *(undefined1 *)(*(int *)param_1 + -0x10 + *(int *)(param_1 + 4) * 0x18) = 0;
+      puVar6 = (undefined4 *)new(0xb0,0x23);
+      if (puVar6 == (undefined4 *)0x0) {
+        puVar6 = (undefined4 *)0x0;
+      }
+      else {
+                    /* inlined constructor:
+                       gSArgsFor__AI_AniStateAction::gSArgsFor__AI_AniStateAction */
+        *puVar6 = &gSArgsFor__AI_AniStateAction::vftable;
+        Entity::Entity((Entity *)(puVar6 + 1));
+      }
+      *(undefined4 **)(*(int *)param_1 + -0xc + *(int *)(param_1 + 4) * 0x18) = puVar6;
+      iVar1 = *(int *)param_1 + *(int *)(param_1 + 4) * 0x18;
+      bCString::operator=((bCString *)(iVar1 + -8),(bCString *)(iVar1 + -0x20));
+      Entity::Entity((Entity *)&stack0xffffff50,(Entity *)(iVar2 + 4));
+      Entity::operator=((Entity *)(puVar6 + 1),(Entity *)&stack0xffffff50);
+      puVar6[0x2b] = 0x49;
+      Entity::~Entity((Entity *)&stack0xffffff50);
+      pbVar7 = (bCString *)(*(int *)param_1 + *(int *)(param_1 + 4) * 0x18 + -0x14);
+      this = (gCScriptAdmin *)thunk_FUN_10015630();
+      bVar3 = gCScriptAdmin::RunScriptFunction(this,pbVar7,param_1,param_2);
+      if (!bVar3) {
+        return bVar3;
+      }
+    }
+  }
+  return true;
+}
+
+

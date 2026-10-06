@@ -1,0 +1,19 @@
+/* ENTRY 20004408 | eCEntityProxy::~eCEntityProxy | STATUS decompiled | 9 ms */
+
+void __thiscall
+eCEntityProxy::~eCEntityProxy(eCEntityProxy *this,eCEntityProxy *param_1,int param_2)
+
+{
+  _memset(param_1,0,param_2 * 0x1c);
+  while (param_2 != 0) {
+    param_2 = param_2 + -1;
+    if (param_1 != (eCEntityProxy *)0x0) {
+      eCEntityProxy::eCEntityProxy(param_1);
+      param_1->vftablePtr = &vftable;
+    }
+    param_1 = param_1 + 1;
+  }
+  return;
+}
+
+

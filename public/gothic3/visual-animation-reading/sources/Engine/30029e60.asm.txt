@@ -1,0 +1,2 @@
+; 30029e60 eCVisualAnimation_PS::GetRootObject
+30029e60 | e9db310700 | JMP 0x3009d040

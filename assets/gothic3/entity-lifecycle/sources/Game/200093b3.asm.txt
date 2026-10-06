@@ -1,0 +1,2 @@
+; 200093b3 ?Create@gCNavPath_PS@@UAE?AW4bEResult@@XZ
+200093b3 | e918d92800 | JMP 0x20296cd0

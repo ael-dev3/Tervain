@@ -1,0 +1,17 @@
+/* ENTRY 10147dd0 | FUN_10147dd0 | STATUS decompiled | 9 ms */
+
+void FUN_10147dd0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Magic\\Magic_States\\ZS_Misc.cpp");
+  bCString::bCString(local_8,"ZS_WaitForMeteor");
+  thunk_FUN_1001db60(local_8,&LAB_1000268a,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

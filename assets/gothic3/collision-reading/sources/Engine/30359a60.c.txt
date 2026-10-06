@@ -1,0 +1,9 @@
+/* ENTRY 30359a60 | FUN_30359a60 | STATUS decompiled | 0 ms */
+
+undefined2 FUN_30359a60(void)
+
+{
+  return 0x4a;
+}
+
+

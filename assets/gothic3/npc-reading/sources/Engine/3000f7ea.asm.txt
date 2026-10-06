@@ -1,0 +1,4 @@
+; 3000f7ea ??5@YGAAVbCIStream@@AAV0@AAVeCEntityProxy@@@Z
+3000f7ea | e9714d4b00 | JMP 0x304c4560
+; 3000f7f4 eCResourceMeshComplex_PS::QueryDefaultLightmap
+; 3000f7f4 Ordinal_12005

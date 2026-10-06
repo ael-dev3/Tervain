@@ -1,0 +1,14 @@
+/* ENTRY 20235270 | bTPropertyType<gCCharacterMovement_PS,float>::vfunction3 | STATUS decompiled | 3 ms */
+
+void __thiscall
+bTPropertyType<gCCharacterMovement_PS,float>::vfunction3
+          (bTPropertyType<gCCharacterMovement_PS,float> *this)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x20235277. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  (**(code **)(this[6].vftablePtr)->vfunction1)();
+  return;
+}
+
+

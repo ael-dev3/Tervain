@@ -1,0 +1,10 @@
+/* ENTRY 3032c580 | eCEntityPropertySet::SetEntity | STATUS decompiled | 7 ms */
+
+void __thiscall eCEntityPropertySet::SetEntity(eCEntityPropertySet *this,eCEntity *param_1)
+
+{
+  (this->eCEntityPropertySet_data).offset_0x8 = param_1;
+  return;
+}
+
+

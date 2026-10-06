@@ -1,0 +1,31 @@
+/* ENTRY 2000675d | gCScriptProcessingUnit::RunLocalCallback | STATUS decompiled | 11 ms */
+
+/* protected: void __thiscall gCScriptProcessingUnit::RunLocalCallback(class gCScriptAdmin *,class
+   gCScriptRoutine_PS *) */
+
+void __thiscall
+gCScriptProcessingUnit::RunLocalCallback
+          (gCScriptProcessingUnit *this,gCScriptAdmin *param_1,gCScriptRoutine_PS *param_2)
+
+{
+  bool bVar1;
+  
+                    /* 0x675d  6156
+                       ?RunLocalCallback@gCScriptProcessingUnit@@IAEXPAVgCScriptAdmin@@PAVgCScriptRoutine_PS@@@Z
+                        */
+  bVar1 = bCString::IsEmpty((bCString *)
+                            ((int)(this->gCScriptProcessingUnit_data).offset_0x0 +
+                            (this->gCScriptProcessingUnit_data).offset_0x4 * 0x18 + -8));
+  if (!bVar1) {
+    gCScriptAdmin::RunScriptCallback
+              ((gCScriptAdmin *)param_1,
+               (bCString *)
+               ((int)(this->gCScriptProcessingUnit_data).offset_0x0 +
+               (this->gCScriptProcessingUnit_data).offset_0x4 * 0x18 + -8),
+               (gCScriptProcessingUnit *)this);
+    s_u32CurrentStateCallbacks = s_u32CurrentStateCallbacks + 1;
+  }
+  return;
+}
+
+

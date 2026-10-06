@@ -1,0 +1,4323 @@
+{
+  "schema": "gothic3-entity-lifecycle-resources-v1",
+  "effectiveLayersIndex": {
+    "studyPath": "02_Unpacked_Data/_metadata/effective_layers.json",
+    "bytes": 89704319,
+    "sha256": "6b780b236fdd1468946e0194bffd4681ad5481d7fcf1965b1043fae58d0462a2"
+  },
+  "registry": {
+    "source": {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/G3_World_01.wrldatasc",
+      "sha256": "83867c238a399282c721a715e7241c32c93231265ce4eabea1db5df693ddd8b5",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ]
+    },
+    "parsedSections": {
+      "encoding": "windows-1252",
+      "sections": {
+        "Common": {
+          "SaveGameName": ""
+        },
+        "Sector.List": {
+          "Alchemists": "true",
+          "BjoernTest_01": "true",
+          "G3_Myrtana_01_Ardea_Dynamic_Objects_01": "true",
+          "G3_Myrtana_01_Ardea_Levelmesh_01": "true",
+          "G3_Myrtana_01_Ardea_NPC_01": "true",
+          "G3_Myrtana_01_Ardea_NPC_02": "true",
+          "G3_Myrtana_01_Ardea_NPC_perm": "true",
+          "G3_Myrtana_01_Ardea_NavZones_01": "true",
+          "G3_Myrtana_01_Faring_Dynamic_Objects_01": "true",
+          "G3_Myrtana_01_Faring_Levelmesh_01": "true",
+          "G3_Myrtana_01_Faring_Lights_01": "true",
+          "G3_Myrtana_01_Faring_NPC_01": "true",
+          "G3_Myrtana_01_Faring_NPC_02": "true",
+          "G3_Myrtana_01_Faring_NPC_perm": "true",
+          "G3_Myrtana_01_Faring_NavZones_01": "true",
+          "G3_Myrtana_01_Faring_VFX_Temp": "true",
+          "G3_Myrtana_01_Faring_Vegetation_01": "true",
+          "G3_Myrtana_01_Geldern_Dynamic_Objects_01": "true",
+          "G3_Myrtana_01_Geldern_Items_01": "true",
+          "G3_Myrtana_01_Geldern_Levelmesh_01": "true",
+          "G3_Myrtana_01_Geldern_Lights_01": "true",
+          "G3_Myrtana_01_Geldern_NPC_01": "true",
+          "G3_Myrtana_01_Geldern_NPC_02": "true",
+          "G3_Myrtana_01_Geldern_NPC_perm": "true",
+          "G3_Myrtana_01_Geldern_NavZones_01": "true",
+          "G3_Myrtana_01_Geldern_VFX": "true",
+          "G3_Myrtana_01_Gotha_Dynamic_Objects_01": "true",
+          "G3_Myrtana_01_Gotha_Dynamic_Objects_GhostTown": "true",
+          "G3_Myrtana_01_Gotha_Items_01": "true",
+          "G3_Myrtana_01_Gotha_Levelmesh_01": "true",
+          "G3_Myrtana_01_Gotha_NPC_01": "true",
+          "G3_Myrtana_01_Gotha_NPC_02": "true",
+          "G3_Myrtana_01_Gotha_NPC_perm": "true",
+          "G3_Myrtana_01_Gotha_NavZones_01": "true",
+          "G3_Myrtana_01_Kap_Dun_Dynamic_Objects_01": "true",
+          "G3_Myrtana_01_Kap_Dun_Item_01": "true",
+          "G3_Myrtana_01_Kap_Dun_Levelmesh_01": "true",
+          "G3_Myrtana_01_Kap_Dun_Lights_01": "true",
+          "G3_Myrtana_01_Kap_Dun_NPC_01": "true",
+          "G3_Myrtana_01_Kap_Dun_NPC_02": "true",
+          "G3_Myrtana_01_Kap_Dun_NPC_perm": "true",
+          "G3_Myrtana_01_Kap_Dun_NavZones_01": "true",
+          "G3_Myrtana_01_Kap_Dun_VFX": "true",
+          "G3_Myrtana_01_Landscape_Beaches_Vegetation_01": "true",
+          "G3_Myrtana_01_Landscape_CaveMonsters_01": "",
+          "G3_Myrtana_01_Landscape_Cave_Dynamic_Objects_01": "true",
+          "G3_Myrtana_01_Landscape_Cave_Dynamic_Objects_02": "true",
+          "G3_Myrtana_01_Landscape_Cave_NPC_01": "true",
+          "G3_Myrtana_01_Landscape_Cave_Valuables_01": "true",
+          "G3_Myrtana_01_Landscape_Dynamic_Objects_01": "true",
+          "G3_Myrtana_01_Landscape_Dynamic_Objects_Beaches_01": "true",
+          "G3_Myrtana_01_Landscape_Dynamic_Objects_Rivers_01": "true",
+          "G3_Myrtana_01_Landscape_Items_01": "true",
+          "G3_Myrtana_01_Landscape_Musiczones_01": "true",
+          "G3_Myrtana_01_Landscape_NPC_01": "true",
+          "G3_Myrtana_01_Landscape_NavZones_01": "true",
+          "G3_Myrtana_01_Landscape_Pass_Dynamic_Objects_01": "true",
+          "G3_Myrtana_01_Landscape_Pass_Vegetation_01": "true",
+          "G3_Myrtana_01_Landscape_VFX_01": "true",
+          "G3_Myrtana_01_Levelmesh_01": "true",
+          "G3_Myrtana_01_Levelmesh_02": "true",
+          "G3_Myrtana_01_Montera_Dynamic_Objects_01": "true",
+          "G3_Myrtana_01_Montera_Dynamic_Objects_02": "true",
+          "G3_Myrtana_01_Montera_Items_01": "true",
+          "G3_Myrtana_01_Montera_Levelmesh_01": "true",
+          "G3_Myrtana_01_Montera_Lights_01": "true",
+          "G3_Myrtana_01_Montera_NPC_01": "true",
+          "G3_Myrtana_01_Montera_NPC_02": "true",
+          "G3_Myrtana_01_Montera_NPC_perm": "true",
+          "G3_Myrtana_01_Montera_NavZone_01": "true",
+          "G3_Myrtana_01_Montera_Vegetation_01": "true",
+          "G3_Myrtana_01_Nemora_Dynamic_Objects_01": "true",
+          "G3_Myrtana_01_Nemora_Levelmesh_01": "true",
+          "G3_Myrtana_01_Nemora_NPC_01": "true",
+          "G3_Myrtana_01_Nemora_NavZones_01": "true",
+          "G3_Myrtana_01_Okara_Dynamic_Objects_01": "true",
+          "G3_Myrtana_01_Okara_Items_01": "true",
+          "G3_Myrtana_01_Okara_Levelmesh_01": "true",
+          "G3_Myrtana_01_Okara_NPC_01": "true",
+          "G3_Myrtana_01_Okara_NavZones_01": "true",
+          "G3_Myrtana_01_Okara_Story_01": "true",
+          "G3_Myrtana_01_Outdoor_Adanos_Gate_01": "true",
+          "G3_Myrtana_01_Outdoor_Ardea_Dynamic_Objects_01": "true",
+          "G3_Myrtana_01_Outdoor_Ardea_Fishercamp_02": "true",
+          "G3_Myrtana_01_Outdoor_Ardea_Items_01": "true",
+          "G3_Myrtana_01_Outdoor_Ardea_NPC_01": "true",
+          "G3_Myrtana_01_Outdoor_Ardea_NavZones_01": "true",
+          "G3_Myrtana_01_Outdoor_Ardea_Vegetation_01": "true",
+          "G3_Myrtana_01_Outdoor_Faring_Dynamic_Objects_01": "true",
+          "G3_Myrtana_01_Outdoor_Faring_NPC_01": "true",
+          "G3_Myrtana_01_Outdoor_Faring_NavZones_01": "true",
+          "G3_Myrtana_01_Outdoor_Faring_SFX": "true",
+          "G3_Myrtana_01_Outdoor_Faring_StoryGoblin": "true",
+          "G3_Myrtana_01_Outdoor_Faring_Tower_Dynamic_Objects_01": "true",
+          "G3_Myrtana_01_Outdoor_Faring_VFX": "true",
+          "G3_Myrtana_01_Outdoor_Faring_Vegetation_01": "true",
+          "G3_Myrtana_01_Outdoor_Geldern_Dynamic_Objects_01": "true",
+          "G3_Myrtana_01_Outdoor_Geldern_Dynamic_Objects_02": "true",
+          "G3_Myrtana_01_Outdoor_Geldern_Item_01": "true",
+          "G3_Myrtana_01_Outdoor_Geldern_NPC_01": "true",
+          "G3_Myrtana_01_Outdoor_Geldern_NavZones_01": "true",
+          "G3_Myrtana_01_Outdoor_Geldern_Story_Mine_01": "false",
+          "G3_Myrtana_01_Outdoor_Geldern_Story_Mine_02": "false",
+          "G3_Myrtana_01_Outdoor_Geldern_Story_Mine_03": "false",
+          "G3_Myrtana_01_Outdoor_Geldern_Vegetation_01": "true",
+          "G3_Myrtana_01_Outdoor_Gotha_Dynamic_Objects_01": "true",
+          "G3_Myrtana_01_Outdoor_Gotha_NPC_01": "true",
+          "G3_Myrtana_01_Outdoor_Gotha_NavZones_01": "true",
+          "G3_Myrtana_01_Outdoor_Gotha_Vegetation_01": "true",
+          "G3_Myrtana_01_Outdoor_Kap_Dun_Dynamic_Objects_01": "true",
+          "G3_Myrtana_01_Outdoor_Kap_Dun_Items_01": "true",
+          "G3_Myrtana_01_Outdoor_Kap_Dun_NPC_01": "true",
+          "G3_Myrtana_01_Outdoor_Kap_Dun_NavZones_01": "true",
+          "G3_Myrtana_01_Outdoor_Kap_Dun_Vegetation_01": "true",
+          "G3_Myrtana_01_Outdoor_Montera_Dynamic_Objects_01": "true",
+          "G3_Myrtana_01_Outdoor_Montera_Dynamic_Objects_02": "true",
+          "G3_Myrtana_01_Outdoor_Montera_Dynamic_Objects_03": "true",
+          "G3_Myrtana_01_Outdoor_Montera_Item_01": "true",
+          "G3_Myrtana_01_Outdoor_Montera_NPC_01": "true",
+          "G3_Myrtana_01_Outdoor_Montera_NavZones_01": "true",
+          "G3_Myrtana_01_Outdoor_Montera_Vegetation_01": "true",
+          "G3_Myrtana_01_Outdoor_Nemora_Dynamic_Objects_01": "true",
+          "G3_Myrtana_01_Outdoor_Nemora_Dynamic_Objects_02": "true",
+          "G3_Myrtana_01_Outdoor_Nemora_Item_01": "true",
+          "G3_Myrtana_01_Outdoor_Nemora_NPC_01": "true",
+          "G3_Myrtana_01_Outdoor_Nemora_NavZones_01": "true",
+          "G3_Myrtana_01_Outdoor_Okara_BigCave_01": "true",
+          "G3_Myrtana_01_Outdoor_Okara_Dynamic_Objects_01": "true",
+          "G3_Myrtana_01_Outdoor_Okara_Dynamic_Objects_02": "true",
+          "G3_Myrtana_01_Outdoor_Okara_Items_01": "true",
+          "G3_Myrtana_01_Outdoor_Okara_NPC_01": "true",
+          "G3_Myrtana_01_Outdoor_Okara_NavZones_01": "true",
+          "G3_Myrtana_01_Outdoor_Okara_Vegetation_01": "true",
+          "G3_Myrtana_01_Outdoor_Reddock_Dynamic_Objects_01": "true",
+          "G3_Myrtana_01_Outdoor_Reddock_Items_01": "true",
+          "G3_Myrtana_01_Outdoor_Reddock_Levelmesh_01": "true",
+          "G3_Myrtana_01_Outdoor_Reddock_NPC_01": "true",
+          "G3_Myrtana_01_Outdoor_Reddock_NavZones_01": "true",
+          "G3_Myrtana_01_Outdoor_Reddock_Vegetation_01": "true",
+          "G3_Myrtana_01_Outdoor_Silden_Dynamic_Objects_01": "true",
+          "G3_Myrtana_01_Outdoor_Silden_Dynamic_Objects_02": "true",
+          "G3_Myrtana_01_Outdoor_Silden_Dynamic_Objects_03": "true",
+          "G3_Myrtana_01_Outdoor_Silden_Dynamic_Objects_04": "true",
+          "G3_Myrtana_01_Outdoor_Silden_Dynamic_Objects_05": "true",
+          "G3_Myrtana_01_Outdoor_Silden_Items_01": "true",
+          "G3_Myrtana_01_Outdoor_Silden_NPC_01": "true",
+          "G3_Myrtana_01_Outdoor_Silden_NavZones_01": "true",
+          "G3_Myrtana_01_Outdoor_Silden_Vegetation_01": "true",
+          "G3_Myrtana_01_Outdoor_Silden_Vegetation_02": "true",
+          "G3_Myrtana_01_Outdoor_StoryLurker": "true",
+          "G3_Myrtana_01_Outdoor_Trelis_Dynamic_Objects_01": "true",
+          "G3_Myrtana_01_Outdoor_Trelis_Dynamic_Objects_02": "true",
+          "G3_Myrtana_01_Outdoor_Trelis_Item_01": "true",
+          "G3_Myrtana_01_Outdoor_Trelis_NPC_01": "true",
+          "G3_Myrtana_01_Outdoor_Trelis_NavZones_01": "true",
+          "G3_Myrtana_01_Outdoor_Trelis_Story_01": "true",
+          "G3_Myrtana_01_Outdoor_Trelis_Vegetation_01": "true",
+          "G3_Myrtana_01_Outdoor_Vangard_Dynamic_Objects_01": "true",
+          "G3_Myrtana_01_Outdoor_Vangard_Dynamic_Objects_02": "true",
+          "G3_Myrtana_01_Outdoor_Vangard_NPC_01": "true",
+          "G3_Myrtana_01_Outdoor_Vangard_NPC_Perm": "true",
+          "G3_Myrtana_01_Outdoor_Vangard_NavZones_01": "true",
+          "G3_Myrtana_01_Outdoor_Vangard_Vegetation_01": "true",
+          "G3_Myrtana_01_Reddock_Dynamic_Objects_01": "true",
+          "G3_Myrtana_01_Reddock_Levelmesh_01": "true",
+          "G3_Myrtana_01_Reddock_NPC_01": "true",
+          "G3_Myrtana_01_Reddock_NavZones_01": "true",
+          "G3_Myrtana_01_Silden_Dynamic_Objects_01": "true",
+          "G3_Myrtana_01_Silden_Items_01": "true",
+          "G3_Myrtana_01_Silden_Levelmesh_01": "true",
+          "G3_Myrtana_01_Silden_NPC_01": "true",
+          "G3_Myrtana_01_Silden_NPC_02": "true",
+          "G3_Myrtana_01_Silden_NPC_perm": "true",
+          "G3_Myrtana_01_Silden_NavZones_01": "true",
+          "G3_Myrtana_01_Trelis_Dynamic_Objects_01": "true",
+          "G3_Myrtana_01_Trelis_Dynamic_Objects_02": "true",
+          "G3_Myrtana_01_Trelis_Item_01": "true",
+          "G3_Myrtana_01_Trelis_Levelmesh_01": "true",
+          "G3_Myrtana_01_Trelis_NPC_01": "true",
+          "G3_Myrtana_01_Trelis_NPC_02": "true",
+          "G3_Myrtana_01_Trelis_NPC_Perm": "true",
+          "G3_Myrtana_01_Trelis_NavZones_01": "true",
+          "G3_Myrtana_01_Vangard_DemoSpecial_01": "true",
+          "G3_Myrtana_01_Vangard_Dynamic_Objects_01": "true",
+          "G3_Myrtana_01_Vangard_Items_01": "true",
+          "G3_Myrtana_01_Vangard_Levelmesh_01": "true",
+          "G3_Myrtana_01_Vangard_Levelmesh_02": "true",
+          "G3_Myrtana_01_Vangard_NPC_01": "true",
+          "G3_Myrtana_01_Vangard_NPC_Orcs_01": "true",
+          "G3_Myrtana_01_Vangard_NPC_perm": "true",
+          "G3_Myrtana_01_Vangard_NavZones_01": "true",
+          "G3_Myrtana_01_WeatherZones_01": "true",
+          "G3_Myrtana_01_outdoor_Montera_Dynamic_Objects_04": "true",
+          "G3_Myrtana_Outdoor_Ardea_Fishercamp_01": "true",
+          "G3_Nordmar_01_Ancestor_Lights_01": "false",
+          "G3_Nordmar_01_Ancestor_Lights_02": "false",
+          "G3_Nordmar_01_Ancestor_Lights_03": "false",
+          "G3_Nordmar_01_Ancestor_Lights_04": "false",
+          "G3_Nordmar_01_Ancestor_Lights_05": "false",
+          "G3_Nordmar_01_Ancestor_Lights_06": "false",
+          "G3_Nordmar_01_FireClan_Dynamic_Objects_01": "true",
+          "G3_Nordmar_01_FireClan_Levelmesh_01": "true",
+          "G3_Nordmar_01_FireClan_NPC_01": "true",
+          "G3_Nordmar_01_FireClan_NavZones_01": "true",
+          "G3_Nordmar_01_Fireclan_NPC_Perm": "true",
+          "G3_Nordmar_01_HammerClan_Dynamic_Objects_01": "true",
+          "G3_Nordmar_01_HammerClan_Items_01": "true",
+          "G3_Nordmar_01_HammerClan_Levelmesh_01": "true",
+          "G3_Nordmar_01_HammerClan_Mine_Vegetation_01": "true",
+          "G3_Nordmar_01_HammerClan_NPC_01": "true",
+          "G3_Nordmar_01_HammerClan_NPC_perm": "true",
+          "G3_Nordmar_01_HammerClan_NavZones_01": "true",
+          "G3_Nordmar_01_Hammer_Orks": "true",
+          "G3_Nordmar_01_Hammerclan_Mine_Dynamic_Objects_01": "true",
+          "G3_Nordmar_01_Hammerclan_Mine_NPC_01": "true",
+          "G3_Nordmar_01_Hammerclan_Mine_NPC_02": "false",
+          "G3_Nordmar_01_Hammerclan_Mine_NavZones_01": "true",
+          "G3_Nordmar_01_Hammerclan_Mine_NvZones_01": "",
+          "G3_Nordmar_01_HuntingCamp_Dynamic_Objects_01": "true",
+          "G3_Nordmar_01_HutingCamp_NPC_01": "true",
+          "G3_Nordmar_01_Kaelin_Orks": "true",
+          "G3_Nordmar_01_Landscape_Dynamic_Objects_01": "true",
+          "G3_Nordmar_01_Landscape_Dynamic_Objects_02": "true",
+          "G3_Nordmar_01_Landscape_Dynamic_Objects_03": "true",
+          "G3_Nordmar_01_Landscape_Dynamic_Objects_04": "true",
+          "G3_Nordmar_01_Landscape_NavZones_01": "true",
+          "G3_Nordmar_01_Landscape_OrcCamp_1_Dynamic_Objects_01": "true",
+          "G3_Nordmar_01_Landscape_OrcCamp_1_NPC_01": "true",
+          "G3_Nordmar_01_Landscape_OrcCamp_2_Dynamic_Objects_01": "true",
+          "G3_Nordmar_01_Landscape_OrcCamp_2_NPC_01": "true",
+          "G3_Nordmar_01_Landscape_OrcCamp_2_NPC_02": "true",
+          "G3_Nordmar_01_Landscape_OrcCamp_3_Dynamic_Objects_01": "true",
+          "G3_Nordmar_01_Landscape_OrcCamp_3_NPC_01": "true",
+          "G3_Nordmar_01_Landscape_OrcCamp_4_Dynamic_Objects_01": "true",
+          "G3_Nordmar_01_Landscape_OrcCamp_4_NPC_01": "true",
+          "G3_Nordmar_01_Landscape_OrcCamp_5_Dynamic_Objects_01": "true",
+          "G3_Nordmar_01_Landscape_OrcCamp_5_NPC_01": "true",
+          "G3_Nordmar_01_Levelmesh_01": "true",
+          "G3_Nordmar_01_Levelmesh_02": "true",
+          "G3_Nordmar_01_Monastery_Chronicles_Story_01": "false",
+          "G3_Nordmar_01_Monastery_Dynamic_Objects_01": "true",
+          "G3_Nordmar_01_Monastery_FiremageCups_Blessed": "false",
+          "G3_Nordmar_01_Monastery_Levelmesh_01": "true",
+          "G3_Nordmar_01_Monastery_NPC_01": "true",
+          "G3_Nordmar_01_Monastery_NPC_perm": "true",
+          "G3_Nordmar_01_Monastery_NavZones_01": "true",
+          "G3_Nordmar_01_Outdoor_Dynamic_Objects_01": "true",
+          "G3_Nordmar_01_Outdoor_Dynamic_Objects_02": "true",
+          "G3_Nordmar_01_Outdoor_FireClan_Dynamic_Objects_01": "true",
+          "G3_Nordmar_01_Outdoor_FireClan_NPC_01": "true",
+          "G3_Nordmar_01_Outdoor_FireClan_NavZones_01": "true",
+          "G3_Nordmar_01_Outdoor_HammerClan_Dynamic_Objects_01": "true",
+          "G3_Nordmar_01_Outdoor_HammerClan_NPC_01": "true",
+          "G3_Nordmar_01_Outdoor_HammerClan_NavZones_01": "true",
+          "G3_Nordmar_01_Outdoor_HogarOrks": "true",
+          "G3_Nordmar_01_Outdoor_Items_01": "true",
+          "G3_Nordmar_01_Outdoor_Monster_02": "true",
+          "G3_Nordmar_01_Outdoor_NPC_01": "true",
+          "G3_Nordmar_01_Outdoor_Vegetation_01": "true",
+          "G3_Nordmar_01_Outdoor_Vegetation_02": "true",
+          "G3_Nordmar_01_Outdoor_WolfClan_Dynamic_Objects_01": "true",
+          "G3_Nordmar_01_Outdoor_WolfClan_NPC_01": "true",
+          "G3_Nordmar_01_Outdoor_WolfClan_NavZones_01": "true",
+          "G3_Nordmar_01_Story_Bogir_RIP": "false",
+          "G3_Nordmar_01_Story_Innos_01": "false",
+          "G3_Nordmar_01_Story_Kalan_Orks": "false",
+          "G3_Nordmar_01_Story_LarsonCamp": "false",
+          "G3_Nordmar_01_Story_LarsonQuest": "false",
+          "G3_Nordmar_01_WhiteShadowbeast": "false",
+          "G3_Nordmar_01_WolfClan_Dynamic_Objects_01": "true",
+          "G3_Nordmar_01_WolfClan_Levelmesh_01": "true",
+          "G3_Nordmar_01_WolfClan_NPC_01": "true",
+          "G3_Nordmar_01_WolfClan_NavZones_01": "true",
+          "G3_Nordmar_01_Wolfclan_Items_01": "true",
+          "G3_Nordmar_01_Wolfclan_NPC_Perm": "true",
+          "G3_Nordmar_01_Xardas_Tower_Dynamic_Objects_01": "true",
+          "G3_Nordmar_01_Xardas_Tower_NPC_01": "true",
+          "G3_Nordmar_Grave_Map": "true",
+          "G3_Nordmr_01_Xardas_Tower_NavZones_01": "true",
+          "G3_Varant_01_AlShedim_02": "",
+          "G3_Varant_01_AlShedim_Dynamic_Objects_01": "true",
+          "G3_Varant_01_AlShedim_NPC_01": "true",
+          "G3_Varant_01_AlShedim_NPC_02": "true",
+          "G3_Varant_01_AlShedim_NavZones_01": "true",
+          "G3_Varant_01_AlShedim_Temple_Dynamic_Objects_01": "true",
+          "G3_Varant_01_AlShedim_Temple_Items_01": "true",
+          "G3_Varant_01_AlShedim_Temple_NPC_01": "true",
+          "G3_Varant_01_AlShedim_Temple_NavZones_01": "true",
+          "G3_Varant_01_Bakaresh_Dynamic_Objects_01": "true",
+          "G3_Varant_01_Bakaresh_Items_01": "true",
+          "G3_Varant_01_Bakaresh_Levelmesh_01": "true",
+          "G3_Varant_01_Bakaresh_NPC_01": "true",
+          "G3_Varant_01_Bakaresh_NPC_02": "true",
+          "G3_Varant_01_Bakaresh_NPC_perm": "true",
+          "G3_Varant_01_Bakaresh_NavZones_01": "true",
+          "G3_Varant_01_Bakaresh_Vegetation_01": "true",
+          "G3_Varant_01_BenErai_Dynamic_Objects_01": "true",
+          "G3_Varant_01_BenErai_Items_01": "true",
+          "G3_Varant_01_BenErai_Levelmesh_01": "true",
+          "G3_Varant_01_BenErai_NPC_01": "true",
+          "G3_Varant_01_BenErai_NPC_02": "true",
+          "G3_Varant_01_BenErai_NPC_perm": "true",
+          "G3_Varant_01_BenErai_NavZones_01": "true",
+          "G3_Varant_01_BenErai_Vegetation_01": "true",
+          "G3_Varant_01_BenSala_Dynamic_Objects_01": "true",
+          "G3_Varant_01_BenSala_Levelmesh_01": "true",
+          "G3_Varant_01_BenSala_NPC_01": "true",
+          "G3_Varant_01_BenSala_NPC_02": "true",
+          "G3_Varant_01_BenSala_NavZones_01": "true",
+          "G3_Varant_01_BenSala_Vegetation_01": "true",
+          "G3_Varant_01_Braga_Dynamic_Objects_01": "true",
+          "G3_Varant_01_Braga_Levelmesh_01": "true",
+          "G3_Varant_01_Braga_NPC_01": "true",
+          "G3_Varant_01_Braga_NPC_02": "true",
+          "G3_Varant_01_Braga_NavZones_01": "true",
+          "G3_Varant_01_Braga_Vegetation_01": "true",
+          "G3_Varant_01_Ishtar_Dynamic_Objects_01": "true",
+          "G3_Varant_01_Ishtar_Levelmesh_01": "true",
+          "G3_Varant_01_Ishtar_NPC_01": "true",
+          "G3_Varant_01_Ishtar_NPC_02": "true",
+          "G3_Varant_01_Ishtar_NPC_perm": "true",
+          "G3_Varant_01_Ishtar_NavZones_01": "true",
+          "G3_Varant_01_Ishtar_Vegetation_01": "true",
+          "G3_Varant_01_KDW_Camp_Dynamic_Objects_01": "true",
+          "G3_Varant_01_KDW_Camp_NPC_01": "true",
+          "G3_Varant_01_KDW_Camp_NavZones_01": "true",
+          "G3_Varant_01_Lago_Dynamic_Objects_01": "true",
+          "G3_Varant_01_Lago_Items_01": "true",
+          "G3_Varant_01_Lago_Levelmesh_01": "true",
+          "G3_Varant_01_Lago_NPC_01": "true",
+          "G3_Varant_01_Lago_NPC_02": "true",
+          "G3_Varant_01_Lago_NPC_perm": "true",
+          "G3_Varant_01_Lago_NavZones_01": "true",
+          "G3_Varant_01_Lago_Vegetation_01": "true",
+          "G3_Varant_01_Landscape_Dynamic_Objects_01": "true",
+          "G3_Varant_01_Landscape_NPC_01": "true",
+          "G3_Varant_01_Landscape_NavZones_01": "true",
+          "G3_Varant_01_Levelmesh_01": "true",
+          "G3_Varant_01_Levelmesh_02": "true",
+          "G3_Varant_01_Monster_Herden_01": "true",
+          "G3_Varant_01_MoraSul_Dynamic_Objects_01": "true",
+          "G3_Varant_01_MoraSul_Item_01": "true",
+          "G3_Varant_01_MoraSul_Levelmesh_01": "true",
+          "G3_Varant_01_MoraSul_NPC_01": "true",
+          "G3_Varant_01_MoraSul_NPC_02": "true",
+          "G3_Varant_01_MoraSul_NPC_perm": "true",
+          "G3_Varant_01_MoraSul_NavZones_01": "true",
+          "G3_Varant_01_MoraSul_Temple_Dynamic_Objects_01": "true",
+          "G3_Varant_01_MoraSul_Temple_Ghostattack_01": "true",
+          "G3_Varant_01_MoraSul_Temple_NSCs_01": "true",
+          "G3_Varant_01_MoraSul_Temple_NSCs_02": "true",
+          "G3_Varant_01_MoraSul_Temple_NavZones_01": "true",
+          "G3_Varant_01_MoraSul_Vegetation_01": "true",
+          "G3_Varant_01_Musiczones_01": "true",
+          "G3_Varant_01_Outdoor_AlShedim_Dynamic_Objects_01": "true",
+          "G3_Varant_01_Outdoor_AlShedim_NPC_01": "true",
+          "G3_Varant_01_Outdoor_AlShedim_NavZones_01": "true",
+          "G3_Varant_01_Outdoor_Anchor_Monster_01": "true",
+          "G3_Varant_01_Outdoor_Bakaresh_Dynamic_Objects_01": "true",
+          "G3_Varant_01_Outdoor_Bakaresh_NPC_01": "true",
+          "G3_Varant_01_Outdoor_Bakaresh_NavZones_01": "true",
+          "G3_Varant_01_Outdoor_BenErai_Dynamic_Objects_01": "true",
+          "G3_Varant_01_Outdoor_BenErai_Items_01": "true",
+          "G3_Varant_01_Outdoor_BenErai_NPC_01": "true",
+          "G3_Varant_01_Outdoor_BenErai_NavZones_01": "true",
+          "G3_Varant_01_Outdoor_BenErai_Vegetation_01": "true",
+          "G3_Varant_01_Outdoor_BenSala_Dynamic_Objects_01": "true",
+          "G3_Varant_01_Outdoor_BenSala_NPC_01": "true",
+          "G3_Varant_01_Outdoor_BenSala_NavZones_01": "true",
+          "G3_Varant_01_Outdoor_Braga_Dynamic_Objects_01": "true",
+          "G3_Varant_01_Outdoor_Braga_Items_01": "true",
+          "G3_Varant_01_Outdoor_Braga_NPC_01": "true",
+          "G3_Varant_01_Outdoor_Braga_NavZones_01": "true",
+          "G3_Varant_01_Outdoor_Braga_Vegeation_01": "",
+          "G3_Varant_01_Outdoor_Braga_Vegetation_01": "true",
+          "G3_Varant_01_Outdoor_Cave_Items_01": "true",
+          "G3_Varant_01_Outdoor_Cave_NPC_01": "true",
+          "G3_Varant_01_Outdoor_Dynamic_Objects_01": "true",
+          "G3_Varant_01_Outdoor_Dynamic_Objects_02": "true",
+          "G3_Varant_01_Outdoor_Dynamic_Objects_03": "true",
+          "G3_Varant_01_Outdoor_Dynamic_Objects_04": "true",
+          "G3_Varant_01_Outdoor_Ishtar_Dynamiy_Objects_01": "true",
+          "G3_Varant_01_Outdoor_Ishtar_NPC_01": "true",
+          "G3_Varant_01_Outdoor_Ishtar_NavZones_01": "true",
+          "G3_Varant_01_Outdoor_Ishtar_Schakal_01": "true",
+          "G3_Varant_01_Outdoor_Ishtar_Schakal_02": "true",
+          "G3_Varant_01_Outdoor_Island_Monster_01": "true",
+          "G3_Varant_01_Outdoor_Island_NavZones_01": "true",
+          "G3_Varant_01_Outdoor_Item_01": "true",
+          "G3_Varant_01_Outdoor_Items_01": "true",
+          "G3_Varant_01_Outdoor_Lago_Dynamic_Objects_01": "true",
+          "G3_Varant_01_Outdoor_Lago_NPC_01": "true",
+          "G3_Varant_01_Outdoor_Lago_NavZones_01": "true",
+          "G3_Varant_01_Outdoor_Monster_01": "true",
+          "G3_Varant_01_Outdoor_Monster_02": "true",
+          "G3_Varant_01_Outdoor_MoraSul_Dynamic_Objects_01": "true",
+          "G3_Varant_01_Outdoor_MoraSul_NPC_01": "true",
+          "G3_Varant_01_Outdoor_MoraSul_NavZones_01": "true",
+          "G3_Varant_01_Outdoor_MoraSul_Temple_Dynamic_Objects_01": "true",
+          "G3_Varant_01_Outdoor_MoraSul_Temple_NavZones_01": "true",
+          "G3_Varant_01_Outdoor_MoraSul_Temple_Vegetation_01": "true",
+          "G3_Varant_01_Outdoor_Morasul_Vegetation_01": "true",
+          "G3_Varant_01_Outdoor_PermItems_01": "true",
+          "G3_Varant_01_Outdoor_Ruinfield_Items_01": "true",
+          "G3_Varant_01_Outdoor_Vegetation_01": "true",
+          "G3_Varant_01_Outdoor_Vegetation_02": "true",
+          "G3_Varant_01_Outdoor_Vegetation_03": "true",
+          "G3_Varant_01_Ruins_Dynamic_Objects_01": "true",
+          "G3_Varant_01_Ruins_Dynamic_Objects_02": "true",
+          "G3_Varant_01_Story_Bakaresh_Lurker_01": "true",
+          "G3_Varant_01_Story_Beliar_01": "false",
+          "G3_Varant_01_Waynet_01": "true",
+          "G3_Varant_01_WeatherZones_01": "true",
+          "G3_World_4_Map": "true",
+          "G3_World_Excavation_Map": "true",
+          "G3_World_Intern": "true",
+          "G3_World_Lowpoly_01_Levelmesh_01": "false",
+          "G3_World_Oceanmeshes_01": "true",
+          "G3_World_Teleport_Points_01": "true",
+          "G3_World_TreasureSets": "true",
+          "Hoshi_NPC_Test": "true",
+          "Hoshi_Quest_Test": "true",
+          "KapDun_Präasentation": "true",
+          "Mario_Ghost_Test": "true",
+          "Mattes_NPC_Test": "true",
+          "Minhs_Testzone": "true",
+          "Myrtana_Enclavces": "true",
+          "Nefarius_Camp": "true",
+          "Nordmar_Enclaves": "true",
+          "Nordmar_Story_Test_Sektor_01": "true",
+          "PC_Hero": "true",
+          "Start_Points": "true",
+          "Story_Jesper": "true",
+          "Story_Test_Final": "true",
+          "Story_Xardas": "true",
+          "Story_Yussuf": "true",
+          "Surus_Killer": "true",
+          "SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}": "true",
+          "Trader_Gotha": "true",
+          "Varant_Enclaves": "true",
+          "Varant_Pass_Dynamic_Objects_01": "true",
+          "Varant_Pass_Item_01": "true",
+          "Varant_Pass_NPC_01": "true",
+          "Varant_Pass_NavZones": "true",
+          "Vier_Freunde": "true",
+          "Zarkos_Camp": "true",
+          "G3_Nordmar_01_WeatherZones_01": "true",
+          "G3_Varant_01_Unique_Chests_01": "true",
+          "G3_Nordmar_01_Outdoor_MusicZones_01": "true",
+          "G3_Nordmar_Hammerclan_Mine_VFX": "true",
+          "G3_Nordmar_Hammerclan_Lights_01": "true",
+          "G3_Nordmar_01_UniquesAndPerm_Items": "true",
+          "G3_Saturas_Maps": "true",
+          "G3_World_MapCaves": "true",
+          "G3_Nordmar_01_Outdoor_Signs_01": "true",
+          "G3_Myrtana_01_Outdoor_Signs_01": "true",
+          "G3_Varant_01_BenSala_Items_01": "true",
+          "G3_Myrtana_Landscape_Birds_01": "true",
+          "G3_Myrtana_Landscape_Birds_02": "true"
+        }
+      },
+      "records": [
+        {
+          "line": 2,
+          "section": "Common",
+          "key": "SaveGameName",
+          "value": "",
+          "hasEquals": false,
+          "raw": "SaveGameName"
+        },
+        {
+          "line": 4,
+          "section": "Sector.List",
+          "key": "Alchemists",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "Alchemists=true"
+        },
+        {
+          "line": 5,
+          "section": "Sector.List",
+          "key": "BjoernTest_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "BjoernTest_01=true"
+        },
+        {
+          "line": 6,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Ardea_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Ardea_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 7,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Ardea_Levelmesh_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Ardea_Levelmesh_01=true"
+        },
+        {
+          "line": 8,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Ardea_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Ardea_NPC_01=true"
+        },
+        {
+          "line": 9,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Ardea_NPC_02",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Ardea_NPC_02=true"
+        },
+        {
+          "line": 10,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Ardea_NPC_perm",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Ardea_NPC_perm=true"
+        },
+        {
+          "line": 11,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Ardea_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Ardea_NavZones_01=true"
+        },
+        {
+          "line": 12,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Faring_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Faring_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 13,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Faring_Levelmesh_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Faring_Levelmesh_01=true"
+        },
+        {
+          "line": 14,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Faring_Lights_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Faring_Lights_01=true"
+        },
+        {
+          "line": 15,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Faring_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Faring_NPC_01=true"
+        },
+        {
+          "line": 16,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Faring_NPC_02",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Faring_NPC_02=true"
+        },
+        {
+          "line": 17,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Faring_NPC_perm",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Faring_NPC_perm=true"
+        },
+        {
+          "line": 18,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Faring_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Faring_NavZones_01=true"
+        },
+        {
+          "line": 19,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Faring_VFX_Temp",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Faring_VFX_Temp=true"
+        },
+        {
+          "line": 20,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Faring_Vegetation_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Faring_Vegetation_01=true"
+        },
+        {
+          "line": 21,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Geldern_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Geldern_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 22,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Geldern_Items_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Geldern_Items_01=true"
+        },
+        {
+          "line": 23,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Geldern_Levelmesh_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Geldern_Levelmesh_01=true"
+        },
+        {
+          "line": 24,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Geldern_Lights_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Geldern_Lights_01=true"
+        },
+        {
+          "line": 25,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Geldern_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Geldern_NPC_01=true"
+        },
+        {
+          "line": 26,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Geldern_NPC_02",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Geldern_NPC_02=true"
+        },
+        {
+          "line": 27,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Geldern_NPC_perm",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Geldern_NPC_perm=true"
+        },
+        {
+          "line": 28,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Geldern_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Geldern_NavZones_01=true"
+        },
+        {
+          "line": 29,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Geldern_VFX",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Geldern_VFX=true"
+        },
+        {
+          "line": 30,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Gotha_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Gotha_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 31,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Gotha_Dynamic_Objects_GhostTown",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Gotha_Dynamic_Objects_GhostTown=true"
+        },
+        {
+          "line": 32,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Gotha_Items_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Gotha_Items_01=true"
+        },
+        {
+          "line": 33,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Gotha_Levelmesh_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Gotha_Levelmesh_01=true"
+        },
+        {
+          "line": 34,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Gotha_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Gotha_NPC_01=true"
+        },
+        {
+          "line": 35,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Gotha_NPC_02",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Gotha_NPC_02=true"
+        },
+        {
+          "line": 36,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Gotha_NPC_perm",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Gotha_NPC_perm=true"
+        },
+        {
+          "line": 37,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Gotha_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Gotha_NavZones_01=true"
+        },
+        {
+          "line": 38,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Kap_Dun_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Kap_Dun_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 39,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Kap_Dun_Item_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Kap_Dun_Item_01=true"
+        },
+        {
+          "line": 40,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Kap_Dun_Levelmesh_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Kap_Dun_Levelmesh_01=true"
+        },
+        {
+          "line": 41,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Kap_Dun_Lights_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Kap_Dun_Lights_01=true"
+        },
+        {
+          "line": 42,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Kap_Dun_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Kap_Dun_NPC_01=true"
+        },
+        {
+          "line": 43,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Kap_Dun_NPC_02",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Kap_Dun_NPC_02=true"
+        },
+        {
+          "line": 44,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Kap_Dun_NPC_perm",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Kap_Dun_NPC_perm=true"
+        },
+        {
+          "line": 45,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Kap_Dun_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Kap_Dun_NavZones_01=true"
+        },
+        {
+          "line": 46,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Kap_Dun_VFX",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Kap_Dun_VFX=true"
+        },
+        {
+          "line": 47,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Landscape_Beaches_Vegetation_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Landscape_Beaches_Vegetation_01=true"
+        },
+        {
+          "line": 48,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Landscape_CaveMonsters_01",
+          "value": "",
+          "hasEquals": false,
+          "raw": "G3_Myrtana_01_Landscape_CaveMonsters_01"
+        },
+        {
+          "line": 49,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Landscape_Cave_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Landscape_Cave_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 50,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Landscape_Cave_Dynamic_Objects_02",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Landscape_Cave_Dynamic_Objects_02=true"
+        },
+        {
+          "line": 51,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Landscape_Cave_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Landscape_Cave_NPC_01=true"
+        },
+        {
+          "line": 52,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Landscape_Cave_Valuables_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Landscape_Cave_Valuables_01=true"
+        },
+        {
+          "line": 53,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Landscape_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Landscape_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 54,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Landscape_Dynamic_Objects_Beaches_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Landscape_Dynamic_Objects_Beaches_01=true"
+        },
+        {
+          "line": 55,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Landscape_Dynamic_Objects_Rivers_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Landscape_Dynamic_Objects_Rivers_01=true"
+        },
+        {
+          "line": 56,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Landscape_Items_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Landscape_Items_01=true"
+        },
+        {
+          "line": 57,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Landscape_Musiczones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Landscape_Musiczones_01=true"
+        },
+        {
+          "line": 58,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Landscape_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Landscape_NPC_01=true"
+        },
+        {
+          "line": 59,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Landscape_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Landscape_NavZones_01=true"
+        },
+        {
+          "line": 60,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Landscape_Pass_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Landscape_Pass_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 61,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Landscape_Pass_Vegetation_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Landscape_Pass_Vegetation_01=true"
+        },
+        {
+          "line": 62,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Landscape_VFX_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Landscape_VFX_01=true"
+        },
+        {
+          "line": 63,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Levelmesh_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Levelmesh_01=true"
+        },
+        {
+          "line": 64,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Levelmesh_02",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Levelmesh_02=true"
+        },
+        {
+          "line": 65,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Montera_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Montera_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 66,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Montera_Dynamic_Objects_02",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Montera_Dynamic_Objects_02=true"
+        },
+        {
+          "line": 67,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Montera_Items_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Montera_Items_01=true"
+        },
+        {
+          "line": 68,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Montera_Levelmesh_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Montera_Levelmesh_01=true"
+        },
+        {
+          "line": 69,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Montera_Lights_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Montera_Lights_01=true"
+        },
+        {
+          "line": 70,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Montera_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Montera_NPC_01=true"
+        },
+        {
+          "line": 71,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Montera_NPC_02",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Montera_NPC_02=true"
+        },
+        {
+          "line": 72,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Montera_NPC_perm",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Montera_NPC_perm=true"
+        },
+        {
+          "line": 73,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Montera_NavZone_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Montera_NavZone_01=true"
+        },
+        {
+          "line": 74,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Montera_Vegetation_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Montera_Vegetation_01=true"
+        },
+        {
+          "line": 75,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Nemora_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Nemora_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 76,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Nemora_Levelmesh_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Nemora_Levelmesh_01=true"
+        },
+        {
+          "line": 77,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Nemora_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Nemora_NPC_01=true"
+        },
+        {
+          "line": 78,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Nemora_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Nemora_NavZones_01=true"
+        },
+        {
+          "line": 79,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Okara_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Okara_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 80,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Okara_Items_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Okara_Items_01=true"
+        },
+        {
+          "line": 81,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Okara_Levelmesh_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Okara_Levelmesh_01=true"
+        },
+        {
+          "line": 82,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Okara_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Okara_NPC_01=true"
+        },
+        {
+          "line": 83,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Okara_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Okara_NavZones_01=true"
+        },
+        {
+          "line": 84,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Okara_Story_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Okara_Story_01=true"
+        },
+        {
+          "line": 85,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Adanos_Gate_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Adanos_Gate_01=true"
+        },
+        {
+          "line": 86,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Ardea_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Ardea_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 87,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Ardea_Fishercamp_02",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Ardea_Fishercamp_02=true"
+        },
+        {
+          "line": 88,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Ardea_Items_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Ardea_Items_01=true"
+        },
+        {
+          "line": 89,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Ardea_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Ardea_NPC_01=true"
+        },
+        {
+          "line": 90,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Ardea_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Ardea_NavZones_01=true"
+        },
+        {
+          "line": 91,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Ardea_Vegetation_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Ardea_Vegetation_01=true"
+        },
+        {
+          "line": 92,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Faring_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Faring_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 93,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Faring_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Faring_NPC_01=true"
+        },
+        {
+          "line": 94,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Faring_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Faring_NavZones_01=true"
+        },
+        {
+          "line": 95,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Faring_SFX",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Faring_SFX=true"
+        },
+        {
+          "line": 96,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Faring_StoryGoblin",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Faring_StoryGoblin=true"
+        },
+        {
+          "line": 97,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Faring_Tower_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Faring_Tower_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 98,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Faring_VFX",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Faring_VFX=true"
+        },
+        {
+          "line": 99,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Faring_Vegetation_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Faring_Vegetation_01=true"
+        },
+        {
+          "line": 100,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Geldern_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Geldern_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 101,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Geldern_Dynamic_Objects_02",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Geldern_Dynamic_Objects_02=true"
+        },
+        {
+          "line": 102,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Geldern_Item_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Geldern_Item_01=true"
+        },
+        {
+          "line": 103,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Geldern_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Geldern_NPC_01=true"
+        },
+        {
+          "line": 104,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Geldern_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Geldern_NavZones_01=true"
+        },
+        {
+          "line": 105,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Geldern_Story_Mine_01",
+          "value": "false",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Geldern_Story_Mine_01=false"
+        },
+        {
+          "line": 106,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Geldern_Story_Mine_02",
+          "value": "false",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Geldern_Story_Mine_02=false"
+        },
+        {
+          "line": 107,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Geldern_Story_Mine_03",
+          "value": "false",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Geldern_Story_Mine_03=false"
+        },
+        {
+          "line": 108,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Geldern_Vegetation_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Geldern_Vegetation_01=true"
+        },
+        {
+          "line": 109,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Gotha_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Gotha_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 110,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Gotha_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Gotha_NPC_01=true"
+        },
+        {
+          "line": 111,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Gotha_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Gotha_NavZones_01=true"
+        },
+        {
+          "line": 112,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Gotha_Vegetation_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Gotha_Vegetation_01=true"
+        },
+        {
+          "line": 113,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Kap_Dun_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Kap_Dun_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 114,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Kap_Dun_Items_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Kap_Dun_Items_01=true"
+        },
+        {
+          "line": 115,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Kap_Dun_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Kap_Dun_NPC_01=true"
+        },
+        {
+          "line": 116,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Kap_Dun_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Kap_Dun_NavZones_01=true"
+        },
+        {
+          "line": 117,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Kap_Dun_Vegetation_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Kap_Dun_Vegetation_01=true"
+        },
+        {
+          "line": 118,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Montera_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Montera_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 119,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Montera_Dynamic_Objects_02",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Montera_Dynamic_Objects_02=true"
+        },
+        {
+          "line": 120,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Montera_Dynamic_Objects_03",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Montera_Dynamic_Objects_03=true"
+        },
+        {
+          "line": 121,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Montera_Item_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Montera_Item_01=true"
+        },
+        {
+          "line": 122,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Montera_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Montera_NPC_01=true"
+        },
+        {
+          "line": 123,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Montera_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Montera_NavZones_01=true"
+        },
+        {
+          "line": 124,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Montera_Vegetation_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Montera_Vegetation_01=true"
+        },
+        {
+          "line": 125,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Nemora_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Nemora_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 126,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Nemora_Dynamic_Objects_02",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Nemora_Dynamic_Objects_02=true"
+        },
+        {
+          "line": 127,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Nemora_Item_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Nemora_Item_01=true"
+        },
+        {
+          "line": 128,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Nemora_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Nemora_NPC_01=true"
+        },
+        {
+          "line": 129,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Nemora_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Nemora_NavZones_01=true"
+        },
+        {
+          "line": 130,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Okara_BigCave_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Okara_BigCave_01=true"
+        },
+        {
+          "line": 131,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Okara_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Okara_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 132,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Okara_Dynamic_Objects_02",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Okara_Dynamic_Objects_02=true"
+        },
+        {
+          "line": 133,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Okara_Items_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Okara_Items_01=true"
+        },
+        {
+          "line": 134,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Okara_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Okara_NPC_01=true"
+        },
+        {
+          "line": 135,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Okara_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Okara_NavZones_01=true"
+        },
+        {
+          "line": 136,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Okara_Vegetation_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Okara_Vegetation_01=true"
+        },
+        {
+          "line": 137,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Reddock_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Reddock_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 138,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Reddock_Items_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Reddock_Items_01=true"
+        },
+        {
+          "line": 139,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Reddock_Levelmesh_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Reddock_Levelmesh_01=true"
+        },
+        {
+          "line": 140,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Reddock_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Reddock_NPC_01=true"
+        },
+        {
+          "line": 141,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Reddock_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Reddock_NavZones_01=true"
+        },
+        {
+          "line": 142,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Reddock_Vegetation_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Reddock_Vegetation_01=true"
+        },
+        {
+          "line": 143,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Silden_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Silden_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 144,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Silden_Dynamic_Objects_02",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Silden_Dynamic_Objects_02=true"
+        },
+        {
+          "line": 145,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Silden_Dynamic_Objects_03",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Silden_Dynamic_Objects_03=true"
+        },
+        {
+          "line": 146,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Silden_Dynamic_Objects_04",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Silden_Dynamic_Objects_04=true"
+        },
+        {
+          "line": 147,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Silden_Dynamic_Objects_05",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Silden_Dynamic_Objects_05=true"
+        },
+        {
+          "line": 148,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Silden_Items_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Silden_Items_01=true"
+        },
+        {
+          "line": 149,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Silden_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Silden_NPC_01=true"
+        },
+        {
+          "line": 150,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Silden_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Silden_NavZones_01=true"
+        },
+        {
+          "line": 151,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Silden_Vegetation_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Silden_Vegetation_01=true"
+        },
+        {
+          "line": 152,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Silden_Vegetation_02",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Silden_Vegetation_02=true"
+        },
+        {
+          "line": 153,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_StoryLurker",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_StoryLurker=true"
+        },
+        {
+          "line": 154,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Trelis_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Trelis_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 155,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Trelis_Dynamic_Objects_02",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Trelis_Dynamic_Objects_02=true"
+        },
+        {
+          "line": 156,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Trelis_Item_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Trelis_Item_01=true"
+        },
+        {
+          "line": 157,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Trelis_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Trelis_NPC_01=true"
+        },
+        {
+          "line": 158,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Trelis_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Trelis_NavZones_01=true"
+        },
+        {
+          "line": 159,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Trelis_Story_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Trelis_Story_01=true"
+        },
+        {
+          "line": 160,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Trelis_Vegetation_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Trelis_Vegetation_01=true"
+        },
+        {
+          "line": 161,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Vangard_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Vangard_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 162,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Vangard_Dynamic_Objects_02",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Vangard_Dynamic_Objects_02=true"
+        },
+        {
+          "line": 163,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Vangard_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Vangard_NPC_01=true"
+        },
+        {
+          "line": 164,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Vangard_NPC_Perm",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Vangard_NPC_Perm=true"
+        },
+        {
+          "line": 165,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Vangard_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Vangard_NavZones_01=true"
+        },
+        {
+          "line": 166,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Vangard_Vegetation_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Vangard_Vegetation_01=true"
+        },
+        {
+          "line": 167,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Reddock_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Reddock_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 168,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Reddock_Levelmesh_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Reddock_Levelmesh_01=true"
+        },
+        {
+          "line": 169,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Reddock_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Reddock_NPC_01=true"
+        },
+        {
+          "line": 170,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Reddock_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Reddock_NavZones_01=true"
+        },
+        {
+          "line": 171,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Silden_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Silden_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 172,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Silden_Items_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Silden_Items_01=true"
+        },
+        {
+          "line": 173,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Silden_Levelmesh_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Silden_Levelmesh_01=true"
+        },
+        {
+          "line": 174,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Silden_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Silden_NPC_01=true"
+        },
+        {
+          "line": 175,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Silden_NPC_02",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Silden_NPC_02=true"
+        },
+        {
+          "line": 176,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Silden_NPC_perm",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Silden_NPC_perm=true"
+        },
+        {
+          "line": 177,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Silden_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Silden_NavZones_01=true"
+        },
+        {
+          "line": 178,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Trelis_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Trelis_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 179,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Trelis_Dynamic_Objects_02",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Trelis_Dynamic_Objects_02=true"
+        },
+        {
+          "line": 180,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Trelis_Item_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Trelis_Item_01=true"
+        },
+        {
+          "line": 181,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Trelis_Levelmesh_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Trelis_Levelmesh_01=true"
+        },
+        {
+          "line": 182,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Trelis_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Trelis_NPC_01=true"
+        },
+        {
+          "line": 183,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Trelis_NPC_02",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Trelis_NPC_02=true"
+        },
+        {
+          "line": 184,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Trelis_NPC_Perm",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Trelis_NPC_Perm=true"
+        },
+        {
+          "line": 185,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Trelis_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Trelis_NavZones_01=true"
+        },
+        {
+          "line": 186,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Vangard_DemoSpecial_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Vangard_DemoSpecial_01=true"
+        },
+        {
+          "line": 187,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Vangard_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Vangard_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 188,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Vangard_Items_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Vangard_Items_01=true"
+        },
+        {
+          "line": 189,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Vangard_Levelmesh_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Vangard_Levelmesh_01=true"
+        },
+        {
+          "line": 190,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Vangard_Levelmesh_02",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Vangard_Levelmesh_02=true"
+        },
+        {
+          "line": 191,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Vangard_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Vangard_NPC_01=true"
+        },
+        {
+          "line": 192,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Vangard_NPC_Orcs_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Vangard_NPC_Orcs_01=true"
+        },
+        {
+          "line": 193,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Vangard_NPC_perm",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Vangard_NPC_perm=true"
+        },
+        {
+          "line": 194,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Vangard_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Vangard_NavZones_01=true"
+        },
+        {
+          "line": 195,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_WeatherZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_WeatherZones_01=true"
+        },
+        {
+          "line": 196,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_outdoor_Montera_Dynamic_Objects_04",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_outdoor_Montera_Dynamic_Objects_04=true"
+        },
+        {
+          "line": 197,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_Outdoor_Ardea_Fishercamp_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_Outdoor_Ardea_Fishercamp_01=true"
+        },
+        {
+          "line": 198,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Ancestor_Lights_01",
+          "value": "false",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Ancestor_Lights_01=false"
+        },
+        {
+          "line": 199,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Ancestor_Lights_02",
+          "value": "false",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Ancestor_Lights_02=false"
+        },
+        {
+          "line": 200,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Ancestor_Lights_03",
+          "value": "false",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Ancestor_Lights_03=false"
+        },
+        {
+          "line": 201,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Ancestor_Lights_04",
+          "value": "false",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Ancestor_Lights_04=false"
+        },
+        {
+          "line": 202,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Ancestor_Lights_05",
+          "value": "false",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Ancestor_Lights_05=false"
+        },
+        {
+          "line": 203,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Ancestor_Lights_06",
+          "value": "false",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Ancestor_Lights_06=false"
+        },
+        {
+          "line": 204,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_FireClan_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_FireClan_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 205,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_FireClan_Levelmesh_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_FireClan_Levelmesh_01=true"
+        },
+        {
+          "line": 206,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_FireClan_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_FireClan_NPC_01=true"
+        },
+        {
+          "line": 207,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_FireClan_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_FireClan_NavZones_01=true"
+        },
+        {
+          "line": 208,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Fireclan_NPC_Perm",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Fireclan_NPC_Perm=true"
+        },
+        {
+          "line": 209,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_HammerClan_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_HammerClan_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 210,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_HammerClan_Items_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_HammerClan_Items_01=true"
+        },
+        {
+          "line": 211,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_HammerClan_Levelmesh_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_HammerClan_Levelmesh_01=true"
+        },
+        {
+          "line": 212,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_HammerClan_Mine_Vegetation_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_HammerClan_Mine_Vegetation_01=true"
+        },
+        {
+          "line": 213,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_HammerClan_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_HammerClan_NPC_01=true"
+        },
+        {
+          "line": 214,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_HammerClan_NPC_perm",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_HammerClan_NPC_perm=true"
+        },
+        {
+          "line": 215,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_HammerClan_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_HammerClan_NavZones_01=true"
+        },
+        {
+          "line": 216,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Hammer_Orks",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Hammer_Orks=true"
+        },
+        {
+          "line": 217,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Hammerclan_Mine_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Hammerclan_Mine_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 218,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Hammerclan_Mine_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Hammerclan_Mine_NPC_01=true"
+        },
+        {
+          "line": 219,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Hammerclan_Mine_NPC_02",
+          "value": "false",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Hammerclan_Mine_NPC_02=false"
+        },
+        {
+          "line": 220,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Hammerclan_Mine_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Hammerclan_Mine_NavZones_01=true"
+        },
+        {
+          "line": 221,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Hammerclan_Mine_NvZones_01",
+          "value": "",
+          "hasEquals": false,
+          "raw": "G3_Nordmar_01_Hammerclan_Mine_NvZones_01"
+        },
+        {
+          "line": 222,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_HuntingCamp_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_HuntingCamp_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 223,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_HutingCamp_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_HutingCamp_NPC_01=true"
+        },
+        {
+          "line": 224,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Kaelin_Orks",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Kaelin_Orks=true"
+        },
+        {
+          "line": 225,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Landscape_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Landscape_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 226,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Landscape_Dynamic_Objects_02",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Landscape_Dynamic_Objects_02=true"
+        },
+        {
+          "line": 227,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Landscape_Dynamic_Objects_03",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Landscape_Dynamic_Objects_03=true"
+        },
+        {
+          "line": 228,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Landscape_Dynamic_Objects_04",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Landscape_Dynamic_Objects_04=true"
+        },
+        {
+          "line": 229,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Landscape_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Landscape_NavZones_01=true"
+        },
+        {
+          "line": 230,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Landscape_OrcCamp_1_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Landscape_OrcCamp_1_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 231,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Landscape_OrcCamp_1_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Landscape_OrcCamp_1_NPC_01=true"
+        },
+        {
+          "line": 232,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Landscape_OrcCamp_2_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Landscape_OrcCamp_2_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 233,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Landscape_OrcCamp_2_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Landscape_OrcCamp_2_NPC_01=true"
+        },
+        {
+          "line": 234,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Landscape_OrcCamp_2_NPC_02",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Landscape_OrcCamp_2_NPC_02=true"
+        },
+        {
+          "line": 235,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Landscape_OrcCamp_3_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Landscape_OrcCamp_3_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 236,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Landscape_OrcCamp_3_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Landscape_OrcCamp_3_NPC_01=true"
+        },
+        {
+          "line": 237,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Landscape_OrcCamp_4_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Landscape_OrcCamp_4_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 238,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Landscape_OrcCamp_4_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Landscape_OrcCamp_4_NPC_01=true"
+        },
+        {
+          "line": 239,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Landscape_OrcCamp_5_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Landscape_OrcCamp_5_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 240,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Landscape_OrcCamp_5_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Landscape_OrcCamp_5_NPC_01=true"
+        },
+        {
+          "line": 241,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Levelmesh_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Levelmesh_01=true"
+        },
+        {
+          "line": 242,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Levelmesh_02",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Levelmesh_02=true"
+        },
+        {
+          "line": 243,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Monastery_Chronicles_Story_01",
+          "value": "false",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Monastery_Chronicles_Story_01=false"
+        },
+        {
+          "line": 244,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Monastery_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Monastery_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 245,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Monastery_FiremageCups_Blessed",
+          "value": "false",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Monastery_FiremageCups_Blessed=false"
+        },
+        {
+          "line": 246,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Monastery_Levelmesh_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Monastery_Levelmesh_01=true"
+        },
+        {
+          "line": 247,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Monastery_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Monastery_NPC_01=true"
+        },
+        {
+          "line": 248,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Monastery_NPC_perm",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Monastery_NPC_perm=true"
+        },
+        {
+          "line": 249,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Monastery_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Monastery_NavZones_01=true"
+        },
+        {
+          "line": 250,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Outdoor_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Outdoor_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 251,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Outdoor_Dynamic_Objects_02",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Outdoor_Dynamic_Objects_02=true"
+        },
+        {
+          "line": 252,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Outdoor_FireClan_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Outdoor_FireClan_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 253,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Outdoor_FireClan_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Outdoor_FireClan_NPC_01=true"
+        },
+        {
+          "line": 254,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Outdoor_FireClan_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Outdoor_FireClan_NavZones_01=true"
+        },
+        {
+          "line": 255,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Outdoor_HammerClan_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Outdoor_HammerClan_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 256,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Outdoor_HammerClan_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Outdoor_HammerClan_NPC_01=true"
+        },
+        {
+          "line": 257,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Outdoor_HammerClan_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Outdoor_HammerClan_NavZones_01=true"
+        },
+        {
+          "line": 258,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Outdoor_HogarOrks",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Outdoor_HogarOrks=true"
+        },
+        {
+          "line": 259,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Outdoor_Items_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Outdoor_Items_01=true"
+        },
+        {
+          "line": 260,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Outdoor_Monster_02",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Outdoor_Monster_02=true"
+        },
+        {
+          "line": 261,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Outdoor_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Outdoor_NPC_01=true"
+        },
+        {
+          "line": 262,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Outdoor_Vegetation_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Outdoor_Vegetation_01=true"
+        },
+        {
+          "line": 263,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Outdoor_Vegetation_02",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Outdoor_Vegetation_02=true"
+        },
+        {
+          "line": 264,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Outdoor_WolfClan_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Outdoor_WolfClan_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 265,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Outdoor_WolfClan_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Outdoor_WolfClan_NPC_01=true"
+        },
+        {
+          "line": 266,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Outdoor_WolfClan_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Outdoor_WolfClan_NavZones_01=true"
+        },
+        {
+          "line": 267,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Story_Bogir_RIP",
+          "value": "false",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Story_Bogir_RIP=false"
+        },
+        {
+          "line": 268,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Story_Innos_01",
+          "value": "false",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Story_Innos_01=false"
+        },
+        {
+          "line": 269,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Story_Kalan_Orks",
+          "value": "false",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Story_Kalan_Orks=false"
+        },
+        {
+          "line": 270,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Story_LarsonCamp",
+          "value": "false",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Story_LarsonCamp=false"
+        },
+        {
+          "line": 271,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Story_LarsonQuest",
+          "value": "false",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Story_LarsonQuest=false"
+        },
+        {
+          "line": 272,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_WhiteShadowbeast",
+          "value": "false",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_WhiteShadowbeast=false"
+        },
+        {
+          "line": 273,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_WolfClan_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_WolfClan_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 274,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_WolfClan_Levelmesh_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_WolfClan_Levelmesh_01=true"
+        },
+        {
+          "line": 275,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_WolfClan_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_WolfClan_NPC_01=true"
+        },
+        {
+          "line": 276,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_WolfClan_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_WolfClan_NavZones_01=true"
+        },
+        {
+          "line": 277,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Wolfclan_Items_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Wolfclan_Items_01=true"
+        },
+        {
+          "line": 278,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Wolfclan_NPC_Perm",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Wolfclan_NPC_Perm=true"
+        },
+        {
+          "line": 279,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Xardas_Tower_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Xardas_Tower_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 280,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Xardas_Tower_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Xardas_Tower_NPC_01=true"
+        },
+        {
+          "line": 281,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_Grave_Map",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_Grave_Map=true"
+        },
+        {
+          "line": 282,
+          "section": "Sector.List",
+          "key": "G3_Nordmr_01_Xardas_Tower_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmr_01_Xardas_Tower_NavZones_01=true"
+        },
+        {
+          "line": 283,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_AlShedim_02",
+          "value": "",
+          "hasEquals": false,
+          "raw": "G3_Varant_01_AlShedim_02"
+        },
+        {
+          "line": 284,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_AlShedim_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_AlShedim_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 285,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_AlShedim_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_AlShedim_NPC_01=true"
+        },
+        {
+          "line": 286,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_AlShedim_NPC_02",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_AlShedim_NPC_02=true"
+        },
+        {
+          "line": 287,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_AlShedim_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_AlShedim_NavZones_01=true"
+        },
+        {
+          "line": 288,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_AlShedim_Temple_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_AlShedim_Temple_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 289,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_AlShedim_Temple_Items_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_AlShedim_Temple_Items_01=true"
+        },
+        {
+          "line": 290,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_AlShedim_Temple_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_AlShedim_Temple_NPC_01=true"
+        },
+        {
+          "line": 291,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_AlShedim_Temple_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_AlShedim_Temple_NavZones_01=true"
+        },
+        {
+          "line": 292,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Bakaresh_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Bakaresh_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 293,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Bakaresh_Items_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Bakaresh_Items_01=true"
+        },
+        {
+          "line": 294,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Bakaresh_Levelmesh_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Bakaresh_Levelmesh_01=true"
+        },
+        {
+          "line": 295,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Bakaresh_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Bakaresh_NPC_01=true"
+        },
+        {
+          "line": 296,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Bakaresh_NPC_02",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Bakaresh_NPC_02=true"
+        },
+        {
+          "line": 297,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Bakaresh_NPC_perm",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Bakaresh_NPC_perm=true"
+        },
+        {
+          "line": 298,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Bakaresh_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Bakaresh_NavZones_01=true"
+        },
+        {
+          "line": 299,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Bakaresh_Vegetation_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Bakaresh_Vegetation_01=true"
+        },
+        {
+          "line": 300,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_BenErai_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_BenErai_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 301,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_BenErai_Items_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_BenErai_Items_01=true"
+        },
+        {
+          "line": 302,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_BenErai_Levelmesh_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_BenErai_Levelmesh_01=true"
+        },
+        {
+          "line": 303,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_BenErai_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_BenErai_NPC_01=true"
+        },
+        {
+          "line": 304,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_BenErai_NPC_02",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_BenErai_NPC_02=true"
+        },
+        {
+          "line": 305,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_BenErai_NPC_perm",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_BenErai_NPC_perm=true"
+        },
+        {
+          "line": 306,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_BenErai_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_BenErai_NavZones_01=true"
+        },
+        {
+          "line": 307,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_BenErai_Vegetation_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_BenErai_Vegetation_01=true"
+        },
+        {
+          "line": 308,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_BenSala_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_BenSala_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 309,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_BenSala_Levelmesh_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_BenSala_Levelmesh_01=true"
+        },
+        {
+          "line": 310,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_BenSala_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_BenSala_NPC_01=true"
+        },
+        {
+          "line": 311,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_BenSala_NPC_02",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_BenSala_NPC_02=true"
+        },
+        {
+          "line": 312,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_BenSala_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_BenSala_NavZones_01=true"
+        },
+        {
+          "line": 313,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_BenSala_Vegetation_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_BenSala_Vegetation_01=true"
+        },
+        {
+          "line": 314,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Braga_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Braga_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 315,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Braga_Levelmesh_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Braga_Levelmesh_01=true"
+        },
+        {
+          "line": 316,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Braga_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Braga_NPC_01=true"
+        },
+        {
+          "line": 317,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Braga_NPC_02",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Braga_NPC_02=true"
+        },
+        {
+          "line": 318,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Braga_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Braga_NavZones_01=true"
+        },
+        {
+          "line": 319,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Braga_Vegetation_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Braga_Vegetation_01=true"
+        },
+        {
+          "line": 320,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Ishtar_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Ishtar_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 321,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Ishtar_Levelmesh_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Ishtar_Levelmesh_01=true"
+        },
+        {
+          "line": 322,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Ishtar_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Ishtar_NPC_01=true"
+        },
+        {
+          "line": 323,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Ishtar_NPC_02",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Ishtar_NPC_02=true"
+        },
+        {
+          "line": 324,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Ishtar_NPC_perm",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Ishtar_NPC_perm=true"
+        },
+        {
+          "line": 325,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Ishtar_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Ishtar_NavZones_01=true"
+        },
+        {
+          "line": 326,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Ishtar_Vegetation_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Ishtar_Vegetation_01=true"
+        },
+        {
+          "line": 327,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_KDW_Camp_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_KDW_Camp_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 328,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_KDW_Camp_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_KDW_Camp_NPC_01=true"
+        },
+        {
+          "line": 329,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_KDW_Camp_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_KDW_Camp_NavZones_01=true"
+        },
+        {
+          "line": 330,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Lago_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Lago_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 331,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Lago_Items_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Lago_Items_01=true"
+        },
+        {
+          "line": 332,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Lago_Levelmesh_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Lago_Levelmesh_01=true"
+        },
+        {
+          "line": 333,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Lago_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Lago_NPC_01=true"
+        },
+        {
+          "line": 334,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Lago_NPC_02",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Lago_NPC_02=true"
+        },
+        {
+          "line": 335,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Lago_NPC_perm",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Lago_NPC_perm=true"
+        },
+        {
+          "line": 336,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Lago_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Lago_NavZones_01=true"
+        },
+        {
+          "line": 337,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Lago_Vegetation_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Lago_Vegetation_01=true"
+        },
+        {
+          "line": 338,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Landscape_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Landscape_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 339,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Landscape_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Landscape_NPC_01=true"
+        },
+        {
+          "line": 340,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Landscape_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Landscape_NavZones_01=true"
+        },
+        {
+          "line": 341,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Levelmesh_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Levelmesh_01=true"
+        },
+        {
+          "line": 342,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Levelmesh_02",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Levelmesh_02=true"
+        },
+        {
+          "line": 343,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Monster_Herden_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Monster_Herden_01=true"
+        },
+        {
+          "line": 344,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_MoraSul_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_MoraSul_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 345,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_MoraSul_Item_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_MoraSul_Item_01=true"
+        },
+        {
+          "line": 346,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_MoraSul_Levelmesh_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_MoraSul_Levelmesh_01=true"
+        },
+        {
+          "line": 347,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_MoraSul_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_MoraSul_NPC_01=true"
+        },
+        {
+          "line": 348,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_MoraSul_NPC_02",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_MoraSul_NPC_02=true"
+        },
+        {
+          "line": 349,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_MoraSul_NPC_perm",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_MoraSul_NPC_perm=true"
+        },
+        {
+          "line": 350,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_MoraSul_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_MoraSul_NavZones_01=true"
+        },
+        {
+          "line": 351,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_MoraSul_Temple_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_MoraSul_Temple_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 352,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_MoraSul_Temple_Ghostattack_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_MoraSul_Temple_Ghostattack_01=true"
+        },
+        {
+          "line": 353,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_MoraSul_Temple_NSCs_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_MoraSul_Temple_NSCs_01=true"
+        },
+        {
+          "line": 354,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_MoraSul_Temple_NSCs_02",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_MoraSul_Temple_NSCs_02=true"
+        },
+        {
+          "line": 355,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_MoraSul_Temple_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_MoraSul_Temple_NavZones_01=true"
+        },
+        {
+          "line": 356,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_MoraSul_Vegetation_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_MoraSul_Vegetation_01=true"
+        },
+        {
+          "line": 357,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Musiczones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Musiczones_01=true"
+        },
+        {
+          "line": 358,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_AlShedim_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_AlShedim_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 359,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_AlShedim_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_AlShedim_NPC_01=true"
+        },
+        {
+          "line": 360,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_AlShedim_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_AlShedim_NavZones_01=true"
+        },
+        {
+          "line": 361,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_Anchor_Monster_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_Anchor_Monster_01=true"
+        },
+        {
+          "line": 362,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_Bakaresh_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_Bakaresh_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 363,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_Bakaresh_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_Bakaresh_NPC_01=true"
+        },
+        {
+          "line": 364,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_Bakaresh_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_Bakaresh_NavZones_01=true"
+        },
+        {
+          "line": 365,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_BenErai_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_BenErai_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 366,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_BenErai_Items_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_BenErai_Items_01=true"
+        },
+        {
+          "line": 367,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_BenErai_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_BenErai_NPC_01=true"
+        },
+        {
+          "line": 368,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_BenErai_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_BenErai_NavZones_01=true"
+        },
+        {
+          "line": 369,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_BenErai_Vegetation_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_BenErai_Vegetation_01=true"
+        },
+        {
+          "line": 370,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_BenSala_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_BenSala_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 371,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_BenSala_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_BenSala_NPC_01=true"
+        },
+        {
+          "line": 372,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_BenSala_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_BenSala_NavZones_01=true"
+        },
+        {
+          "line": 373,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_Braga_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_Braga_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 374,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_Braga_Items_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_Braga_Items_01=true"
+        },
+        {
+          "line": 375,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_Braga_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_Braga_NPC_01=true"
+        },
+        {
+          "line": 376,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_Braga_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_Braga_NavZones_01=true"
+        },
+        {
+          "line": 377,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_Braga_Vegeation_01",
+          "value": "",
+          "hasEquals": false,
+          "raw": "G3_Varant_01_Outdoor_Braga_Vegeation_01"
+        },
+        {
+          "line": 378,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_Braga_Vegetation_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_Braga_Vegetation_01=true"
+        },
+        {
+          "line": 379,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_Cave_Items_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_Cave_Items_01=true"
+        },
+        {
+          "line": 380,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_Cave_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_Cave_NPC_01=true"
+        },
+        {
+          "line": 381,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 382,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_Dynamic_Objects_02",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_Dynamic_Objects_02=true"
+        },
+        {
+          "line": 383,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_Dynamic_Objects_03",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_Dynamic_Objects_03=true"
+        },
+        {
+          "line": 384,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_Dynamic_Objects_04",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_Dynamic_Objects_04=true"
+        },
+        {
+          "line": 385,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_Ishtar_Dynamiy_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_Ishtar_Dynamiy_Objects_01=true"
+        },
+        {
+          "line": 386,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_Ishtar_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_Ishtar_NPC_01=true"
+        },
+        {
+          "line": 387,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_Ishtar_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_Ishtar_NavZones_01=true"
+        },
+        {
+          "line": 388,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_Ishtar_Schakal_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_Ishtar_Schakal_01=true"
+        },
+        {
+          "line": 389,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_Ishtar_Schakal_02",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_Ishtar_Schakal_02=true"
+        },
+        {
+          "line": 390,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_Island_Monster_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_Island_Monster_01=true"
+        },
+        {
+          "line": 391,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_Island_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_Island_NavZones_01=true"
+        },
+        {
+          "line": 392,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_Item_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_Item_01=true"
+        },
+        {
+          "line": 393,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_Items_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_Items_01=true"
+        },
+        {
+          "line": 394,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_Lago_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_Lago_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 395,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_Lago_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_Lago_NPC_01=true"
+        },
+        {
+          "line": 396,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_Lago_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_Lago_NavZones_01=true"
+        },
+        {
+          "line": 397,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_Monster_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_Monster_01=true"
+        },
+        {
+          "line": 398,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_Monster_02",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_Monster_02=true"
+        },
+        {
+          "line": 399,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_MoraSul_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_MoraSul_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 400,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_MoraSul_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_MoraSul_NPC_01=true"
+        },
+        {
+          "line": 401,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_MoraSul_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_MoraSul_NavZones_01=true"
+        },
+        {
+          "line": 402,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_MoraSul_Temple_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_MoraSul_Temple_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 403,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_MoraSul_Temple_NavZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_MoraSul_Temple_NavZones_01=true"
+        },
+        {
+          "line": 404,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_MoraSul_Temple_Vegetation_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_MoraSul_Temple_Vegetation_01=true"
+        },
+        {
+          "line": 405,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_Morasul_Vegetation_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_Morasul_Vegetation_01=true"
+        },
+        {
+          "line": 406,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_PermItems_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_PermItems_01=true"
+        },
+        {
+          "line": 407,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_Ruinfield_Items_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_Ruinfield_Items_01=true"
+        },
+        {
+          "line": 408,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_Vegetation_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_Vegetation_01=true"
+        },
+        {
+          "line": 409,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_Vegetation_02",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_Vegetation_02=true"
+        },
+        {
+          "line": 410,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Outdoor_Vegetation_03",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Outdoor_Vegetation_03=true"
+        },
+        {
+          "line": 411,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Ruins_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Ruins_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 412,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Ruins_Dynamic_Objects_02",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Ruins_Dynamic_Objects_02=true"
+        },
+        {
+          "line": 413,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Story_Bakaresh_Lurker_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Story_Bakaresh_Lurker_01=true"
+        },
+        {
+          "line": 414,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Story_Beliar_01",
+          "value": "false",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Story_Beliar_01=false"
+        },
+        {
+          "line": 415,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Waynet_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Waynet_01=true"
+        },
+        {
+          "line": 416,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_WeatherZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_WeatherZones_01=true"
+        },
+        {
+          "line": 417,
+          "section": "Sector.List",
+          "key": "G3_World_4_Map",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_World_4_Map=true"
+        },
+        {
+          "line": 418,
+          "section": "Sector.List",
+          "key": "G3_World_Excavation_Map",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_World_Excavation_Map=true"
+        },
+        {
+          "line": 419,
+          "section": "Sector.List",
+          "key": "G3_World_Intern",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_World_Intern=true"
+        },
+        {
+          "line": 420,
+          "section": "Sector.List",
+          "key": "G3_World_Lowpoly_01_Levelmesh_01",
+          "value": "false",
+          "hasEquals": true,
+          "raw": "G3_World_Lowpoly_01_Levelmesh_01=false"
+        },
+        {
+          "line": 421,
+          "section": "Sector.List",
+          "key": "G3_World_Oceanmeshes_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_World_Oceanmeshes_01=true"
+        },
+        {
+          "line": 422,
+          "section": "Sector.List",
+          "key": "G3_World_Teleport_Points_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_World_Teleport_Points_01=true"
+        },
+        {
+          "line": 423,
+          "section": "Sector.List",
+          "key": "G3_World_TreasureSets",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_World_TreasureSets=true"
+        },
+        {
+          "line": 424,
+          "section": "Sector.List",
+          "key": "Hoshi_NPC_Test",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "Hoshi_NPC_Test=true"
+        },
+        {
+          "line": 425,
+          "section": "Sector.List",
+          "key": "Hoshi_Quest_Test",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "Hoshi_Quest_Test=true"
+        },
+        {
+          "line": 426,
+          "section": "Sector.List",
+          "key": "KapDun_Präasentation",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "KapDun_Präasentation=true"
+        },
+        {
+          "line": 427,
+          "section": "Sector.List",
+          "key": "Mario_Ghost_Test",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "Mario_Ghost_Test=true"
+        },
+        {
+          "line": 428,
+          "section": "Sector.List",
+          "key": "Mattes_NPC_Test",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "Mattes_NPC_Test=true"
+        },
+        {
+          "line": 429,
+          "section": "Sector.List",
+          "key": "Minhs_Testzone",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "Minhs_Testzone=true"
+        },
+        {
+          "line": 430,
+          "section": "Sector.List",
+          "key": "Myrtana_Enclavces",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "Myrtana_Enclavces=true"
+        },
+        {
+          "line": 431,
+          "section": "Sector.List",
+          "key": "Nefarius_Camp",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "Nefarius_Camp=true"
+        },
+        {
+          "line": 432,
+          "section": "Sector.List",
+          "key": "Nordmar_Enclaves",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "Nordmar_Enclaves=true"
+        },
+        {
+          "line": 433,
+          "section": "Sector.List",
+          "key": "Nordmar_Story_Test_Sektor_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "Nordmar_Story_Test_Sektor_01=true"
+        },
+        {
+          "line": 434,
+          "section": "Sector.List",
+          "key": "PC_Hero",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "PC_Hero=true"
+        },
+        {
+          "line": 435,
+          "section": "Sector.List",
+          "key": "Start_Points",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "Start_Points=true"
+        },
+        {
+          "line": 436,
+          "section": "Sector.List",
+          "key": "Story_Jesper",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "Story_Jesper=true"
+        },
+        {
+          "line": 437,
+          "section": "Sector.List",
+          "key": "Story_Test_Final",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "Story_Test_Final=true"
+        },
+        {
+          "line": 438,
+          "section": "Sector.List",
+          "key": "Story_Xardas",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "Story_Xardas=true"
+        },
+        {
+          "line": 439,
+          "section": "Sector.List",
+          "key": "Story_Yussuf",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "Story_Yussuf=true"
+        },
+        {
+          "line": 440,
+          "section": "Sector.List",
+          "key": "Surus_Killer",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "Surus_Killer=true"
+        },
+        {
+          "line": 441,
+          "section": "Sector.List",
+          "key": "SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}=true"
+        },
+        {
+          "line": 442,
+          "section": "Sector.List",
+          "key": "Trader_Gotha",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "Trader_Gotha=true"
+        },
+        {
+          "line": 443,
+          "section": "Sector.List",
+          "key": "Varant_Enclaves",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "Varant_Enclaves=true"
+        },
+        {
+          "line": 444,
+          "section": "Sector.List",
+          "key": "Varant_Pass_Dynamic_Objects_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "Varant_Pass_Dynamic_Objects_01=true"
+        },
+        {
+          "line": 445,
+          "section": "Sector.List",
+          "key": "Varant_Pass_Item_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "Varant_Pass_Item_01=true"
+        },
+        {
+          "line": 446,
+          "section": "Sector.List",
+          "key": "Varant_Pass_NPC_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "Varant_Pass_NPC_01=true"
+        },
+        {
+          "line": 447,
+          "section": "Sector.List",
+          "key": "Varant_Pass_NavZones",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "Varant_Pass_NavZones=true"
+        },
+        {
+          "line": 448,
+          "section": "Sector.List",
+          "key": "Vier_Freunde",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "Vier_Freunde=true"
+        },
+        {
+          "line": 449,
+          "section": "Sector.List",
+          "key": "Zarkos_Camp",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "Zarkos_Camp=true"
+        },
+        {
+          "line": 450,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_WeatherZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_WeatherZones_01=true"
+        },
+        {
+          "line": 451,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_Unique_Chests_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_Unique_Chests_01=true"
+        },
+        {
+          "line": 452,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Outdoor_MusicZones_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Outdoor_MusicZones_01=true"
+        },
+        {
+          "line": 453,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_Hammerclan_Mine_VFX",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_Hammerclan_Mine_VFX=true"
+        },
+        {
+          "line": 454,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_Hammerclan_Lights_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_Hammerclan_Lights_01=true"
+        },
+        {
+          "line": 455,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_UniquesAndPerm_Items",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_UniquesAndPerm_Items=true"
+        },
+        {
+          "line": 456,
+          "section": "Sector.List",
+          "key": "G3_Saturas_Maps",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Saturas_Maps=true"
+        },
+        {
+          "line": 457,
+          "section": "Sector.List",
+          "key": "G3_World_MapCaves",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_World_MapCaves=true"
+        },
+        {
+          "line": 458,
+          "section": "Sector.List",
+          "key": "G3_Nordmar_01_Outdoor_Signs_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Nordmar_01_Outdoor_Signs_01=true"
+        },
+        {
+          "line": 459,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_01_Outdoor_Signs_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_01_Outdoor_Signs_01=true"
+        },
+        {
+          "line": 460,
+          "section": "Sector.List",
+          "key": "G3_Varant_01_BenSala_Items_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Varant_01_BenSala_Items_01=true"
+        },
+        {
+          "line": 461,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_Landscape_Birds_01",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_Landscape_Birds_01=true"
+        },
+        {
+          "line": 462,
+          "section": "Sector.List",
+          "key": "G3_Myrtana_Landscape_Birds_02",
+          "value": "true",
+          "hasEquals": true,
+          "raw": "G3_Myrtana_Landscape_Birds_02=true"
+        }
+      ],
+      "issues": []
+    }
+  },
+  "files": [
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/G3_World_01.wrldatasc",
+      "sha256": "83867c238a399282c721a715e7241c32c93231265ce4eabea1db5df693ddd8b5",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 19010,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/G3_World_01.wrldatasc"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Myrtana/Ardea_City/G3_Myrtana_01_Ardea_NPC_01/G3_Myrtana_01_Ardea_NPC_01.lrentdat",
+      "sha256": "46b70fff7a3844e8c16e6e71d69d8f7c57b5f1e8429d73e814b2ce9ffe9f2ac0",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 276861,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Myrtana/Ardea_City/G3_Myrtana_01_Ardea_NPC_01/G3_Myrtana_01_Ardea_NPC_01.lrentdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Myrtana/Ardea_City/G3_Myrtana_01_Ardea_NPC_01/G3_Myrtana_01_Ardea_NPC_01.lrent",
+      "sha256": "13ec45027adb2ca6cc3076a24ca128d502fc7b513db22492d2f36ec3f5e378a8",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 217,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Myrtana/Ardea_City/G3_Myrtana_01_Ardea_NPC_01/G3_Myrtana_01_Ardea_NPC_01.lrent"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Myrtana/Ardea_City/G3_Myrtana_01_Ardea_NPC_01/G3_Myrtana_01_Ardea_NPC_01.secdat",
+      "sha256": "4dd2a32f132f8ffec77596122332f128dcca12479d1e45622acc287019ae1e26",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 98,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Myrtana/Ardea_City/G3_Myrtana_01_Ardea_NPC_01/G3_Myrtana_01_Ardea_NPC_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Myrtana/Ardea_City/G3_Myrtana_01_Ardea_NPC_02/G3_Myrtana_01_Ardea_NPC_02.lrentdat",
+      "sha256": "a3ee99297d0cbc18cac87953484792e52e215c581ec7c3450bf1bffebabf22a7",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 446462,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Myrtana/Ardea_City/G3_Myrtana_01_Ardea_NPC_02/G3_Myrtana_01_Ardea_NPC_02.lrentdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Myrtana/Ardea_City/G3_Myrtana_01_Ardea_NPC_02/G3_Myrtana_01_Ardea_NPC_02.lrent",
+      "sha256": "13ec45027adb2ca6cc3076a24ca128d502fc7b513db22492d2f36ec3f5e378a8",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 217,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Myrtana/Ardea_City/G3_Myrtana_01_Ardea_NPC_02/G3_Myrtana_01_Ardea_NPC_02.lrent"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Myrtana/Ardea_City/G3_Myrtana_01_Ardea_NPC_02/G3_Myrtana_01_Ardea_NPC_02.secdat",
+      "sha256": "782375f52cef46cf65c35e28e8542b0857c8231c67f9290b531ff33d3845ad8c",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 63,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Myrtana/Ardea_City/G3_Myrtana_01_Ardea_NPC_02/G3_Myrtana_01_Ardea_NPC_02.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}.lrentdat",
+      "sha256": "28f7273b3d54415b84445651a3dfa962c1ff158e9183deba81ba47e4d5d57938",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 80176690,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}.lrentdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}.lrent",
+      "sha256": "13ec45027adb2ca6cc3076a24ca128d502fc7b513db22492d2f36ec3f5e378a8",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 217,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}.lrent"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}.secdat",
+      "sha256": "e460310cdb9742b0793e0c5dcb8624729c0d7354b39e292b2ab119c71ec22f8a",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 83608,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}.secdat"
+    }
+  ],
+  "output": {
+    "path": "source-candidates.json.gz",
+    "bytes": 1906531,
+    "sha256": "b840e64d234351fcda5311cc58a018e86890c3a5c07ecec8b0834a724cfc3f2c",
+    "encoding": "gzip",
+    "uncompressedBytes": 17749501,
+    "uncompressedSha256": "314e53da18bd7fa3266954c2f7c573b028c42b6caa6cb9157693c4091fcc950b"
+  },
+  "counts": {
+    "sourceFiles": 3,
+    "selectedCandidates": 68,
+    "sourceEntityCounts": [
+      78,
+      133,
+      26927
+    ],
+    "contextEnabled": [
+      true,
+      false,
+      true
+    ]
+  },
+  "runtimeActivationAsserted": false
+}

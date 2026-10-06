@@ -1,0 +1,71 @@
+/* ENTRY 302230f0 | FUN_302230f0 | STATUS decompiled | 35 ms */
+
+void __fastcall FUN_302230f0(eCIlluminated_PS *param_1)
+
+{
+  bool bVar1;
+  eCEntity *this;
+  bCBox *pbVar2;
+  eCIlluminationAdmin *peVar3;
+  int iVar4;
+  eCRenderSystemAdmin *this_00;
+  eCOcclusionProcessor *this_01;
+  ulong uVar5;
+  eCGfxImageData *peVar6;
+  eCEntity *peVar7;
+  eCDepthMap *this_02;
+  void *pvVar8;
+  undefined1 uVar9;
+  bCVector4 *pbVar10;
+  eCIlluminated_PS *peVar11;
+  
+  if ((param_1->eCIlluminated_PS_data).offset_0xa4 == '\x01') {
+    if ((param_1->eCIlluminated_PS_data).offset_0x8 == 1) {
+      pbVar10 = (bCVector4 *)&(param_1->eCIlluminated_PS_data).field_0x28;
+      this = (eCEntity *)(*param_1->vftablePtr->GetEntity)(param_1);
+      pbVar2 = eCEntity::GetWorldNodeBoundary(this);
+      peVar3 = (eCIlluminationAdmin *)thunk_FUN_3007c490();
+      iVar4 = eCIlluminationAdmin::GetDynamicStaticLightData(peVar3,pbVar2,pbVar10);
+      (param_1->eCIlluminated_PS_data).offset_0x25 = (char)iVar4;
+    }
+    peVar11 = param_1;
+    peVar3 = (eCIlluminationAdmin *)thunk_FUN_3007c490();
+    eCIlluminationAdmin::GetEffectedDynamicLights(peVar3,(eCIlluminated_PS *)peVar11);
+    (param_1->eCIlluminated_PS_data).offset_0xa4 = 0;
+    eCIlluminated_PS::SetDSMOcclusionQuery(param_1,(void *)0x0);
+    return;
+  }
+  pvVar8 = (void *)(param_1->eCIlluminated_PS_data).offset_0xa0;
+  if (pvVar8 == (void *)0x0) {
+    if (((param_1->eCIlluminated_PS_data).offset_0x9c == 0) &&
+       (this_02 = (eCDepthMap *)(param_1->eCIlluminated_PS_data).offset_0x20,
+       this_02 != (eCDepthMap *)0x0)) {
+      peVar6 = eCDepthMap::GetImage(this_02);
+      if (peVar6 == (eCGfxImageData *)0x0) {
+        this_02 = (eCDepthMap *)this_02[6].eCDepthMap_data.offset_0xc;
+      }
+      if ((this_02 != (eCDepthMap *)0x0) && (this_02[6].eCDepthMap_data.offset_0x11 == '\x01')) {
+        peVar7 = (*param_1->vftablePtr->GetEntity)(param_1);
+        bVar1 = eCShadowMapDirectionalLight::AddOcclusionTestItem
+                          ((eCShadowMapDirectionalLight *)
+                           (param_1->eCIlluminated_PS_data).offset_0x20,peVar7);
+        (param_1->eCIlluminated_PS_data).offset_0x9c = (-(uint)!bVar1 & 2) + 1;
+      }
+    }
+  }
+  else {
+    uVar9 = 0;
+    this_00 = (eCRenderSystemAdmin *)thunk_FUN_3007beb0();
+    this_01 = (eCOcclusionProcessor *)eCRenderSystemAdmin::GetOcclusionProcessor(this_00);
+    uVar5 = eCOcclusionProcessor::ResolveOCQuery(this_01,pvVar8,(bool)uVar9);
+    if (uVar5 != 0xffffffff) {
+      (param_1->eCIlluminated_PS_data).offset_0x24 = uVar5 == 0;
+      (param_1->eCIlluminated_PS_data).offset_0xa0 = 0;
+      (param_1->eCIlluminated_PS_data).offset_0x9c = 3;
+      return;
+    }
+  }
+  return;
+}
+
+

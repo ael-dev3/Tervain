@@ -1,0 +1,4 @@
+; 10002121 ?SetMovementMode@Entity@@QAEXW4gECharMovementMode@@@Z
+10002121 | e9fae20200 | JMP 0x10030420
+; 1000212b PSPlayerMemory::SetPoliticalFame
+; 1000212b Ordinal_1977

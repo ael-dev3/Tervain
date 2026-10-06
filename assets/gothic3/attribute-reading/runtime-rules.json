@@ -1,0 +1,442 @@
+{
+  "schema": "gothic3-attribute-reading-rules-v1",
+  "nativeCodeExecuted": false,
+  "inputs": {
+    "SharedBase": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214",
+    "Engine": "d49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3",
+    "Game": "b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f"
+  },
+  "classes": {
+    "gCAttribute": {
+      "baseClass": "bCObjectRefBase",
+      "nativeBytes": 24,
+      "allocationTag": 196,
+      "nativeVtable": "2065da7c",
+      "wrapperVtable": "206a2d94",
+      "rootRegistrar": "Game:205263a0",
+      "rootPointer": "20613eec",
+      "rootObject": "207ccfb4",
+      "typeInitialize": "Game:20398d50",
+      "constructor": "Game:20397cd0",
+      "constructorExport": "Game:20008387",
+      "allocator": "Game:203980f0",
+      "wrapperClone": "Game:2039a790",
+      "initialize": "Game:20398b00",
+      "attach": "Game:20397e60",
+      "wrapperRead": "Game:20398c90",
+      "dataRead": "Game:2039aa80",
+      "postInitialize": "Game:20397ca0",
+      "rootPointerProof": {
+        "address": "20613eec",
+        "bytes": "a0635220"
+      },
+      "fields": [
+        {
+          "className": "gCAttribute",
+          "name": "Tag",
+          "nativeOffset": 12,
+          "typeName": "bCString",
+          "registrar": "Game:20526400",
+          "reader": "Game:20399d80",
+          "defaultInitializer": "Game:20399b20",
+          "addressGetter": "Game:20399900",
+          "descriptor": "207ccfc4",
+          "vtable": "206a2e74",
+          "descriptorStore": {
+            "address": "20526450",
+            "bytes": "c705c4cf7c20742e6a20",
+            "assembly": "MOV dword ptr [0x207ccfc4],0x206a2e74"
+          },
+          "offsetStore": {
+            "address": "20526469",
+            "bytes": "c705e4cf7c200c000000",
+            "assembly": "MOV dword ptr [0x207ccfe4],0xc"
+          },
+          "defaultStore": {
+            "address": "20526473",
+            "bytes": "8935e8cf7c20",
+            "assembly": "MOV dword ptr [0x207ccfe8],ESI"
+          },
+          "nameLiteral": {
+            "address": "2065da5c",
+            "bytes": "54616700",
+            "instruction": {
+              "address": "20526420",
+              "bytes": "685cda6520",
+              "assembly": "PUSH 0x2065da5c"
+            }
+          },
+          "nameLiteralUses": [
+            {
+              "address": "2065da5c",
+              "bytes": "54616700",
+              "instruction": {
+                "address": "20526420",
+                "bytes": "685cda6520",
+                "assembly": "PUSH 0x2065da5c"
+              }
+            }
+          ]
+        },
+        {
+          "className": "gCAttribute",
+          "name": "Modifier",
+          "nativeOffset": 16,
+          "typeName": "int",
+          "registrar": "Game:205264f0",
+          "reader": "Game:2039a610",
+          "defaultInitializer": "Game:2039a3c0",
+          "addressGetter": "Game:2039a1a0",
+          "descriptor": "207ccfec",
+          "vtable": "206a2efc",
+          "descriptorStore": {
+            "address": "20526539",
+            "bytes": "c705eccf7c20fc2e6a20",
+            "assembly": "MOV dword ptr [0x207ccfec],0x206a2efc"
+          },
+          "offsetStore": {
+            "address": "20526552",
+            "bytes": "c70508d07c2010000000",
+            "assembly": "MOV dword ptr [0x207cd008],0x10"
+          },
+          "defaultStore": {
+            "address": "2052655c",
+            "bytes": "c7050cd07c2000000000",
+            "assembly": "MOV dword ptr [0x207cd00c],0x0"
+          },
+          "nameLiteral": {
+            "address": "2065da60",
+            "bytes": "4d6f64696669657200",
+            "instruction": {
+              "address": "20526510",
+              "bytes": "6860da6520",
+              "assembly": "PUSH 0x2065da60"
+            }
+          },
+          "nameLiteralUses": [
+            {
+              "address": "2065da60",
+              "bytes": "4d6f64696669657200",
+              "instruction": {
+                "address": "20526510",
+                "bytes": "6860da6520",
+                "assembly": "PUSH 0x2065da60"
+              }
+            }
+          ]
+        },
+        {
+          "className": "gCAttribute",
+          "name": "Value",
+          "nativeOffset": 20,
+          "typeName": "int",
+          "registrar": "Game:205265e0",
+          "reader": "Game:2039a610",
+          "defaultInitializer": "Game:2039a3c0",
+          "addressGetter": "Game:2039a1a0",
+          "descriptor": "207cd010",
+          "vtable": "206a2efc",
+          "descriptorStore": {
+            "address": "20526629",
+            "bytes": "c70510d07c20fc2e6a20",
+            "assembly": "MOV dword ptr [0x207cd010],0x206a2efc"
+          },
+          "offsetStore": {
+            "address": "20526642",
+            "bytes": "c7052cd07c2014000000",
+            "assembly": "MOV dword ptr [0x207cd02c],0x14"
+          },
+          "defaultStore": {
+            "address": "2052664c",
+            "bytes": "c70530d07c2000000000",
+            "assembly": "MOV dword ptr [0x207cd030],0x0"
+          },
+          "nameLiteral": {
+            "address": "20662288",
+            "bytes": "56616c756500",
+            "instruction": {
+              "address": "205265f5",
+              "bytes": "6888226620",
+              "assembly": "PUSH 0x20662288"
+            }
+          },
+          "nameLiteralUses": [
+            {
+              "address": "20662288",
+              "bytes": "56616c756500",
+              "instruction": {
+                "address": "205265f5",
+                "bytes": "6888226620",
+                "assembly": "PUSH 0x20662288"
+              }
+            },
+            {
+              "address": "20662288",
+              "bytes": "56616c756500",
+              "instruction": {
+                "address": "20526600",
+                "bytes": "6888226620",
+                "assembly": "PUSH 0x20662288"
+              }
+            }
+          ]
+        }
+      ],
+      "nativeApplyDefaults": "Game:20397a00",
+      "wrapperBytes": 16,
+      "wrapperAllocationTag": 400,
+      "baseClassName": null
+    },
+    "gCStat": {
+      "baseClass": "gCAttribute",
+      "nativeBytes": 32,
+      "allocationTag": 196,
+      "nativeVtable": "2065db4c",
+      "wrapperVtable": "206a3164",
+      "rootRegistrar": "Game:20526910",
+      "rootPointer": "206141d0",
+      "rootObject": "207cd0e4",
+      "typeInitialize": "Game:2039c2d0",
+      "constructor": "Game:2039b270",
+      "allocator": "Game:2039b680",
+      "wrapperClone": "Game:2039d460",
+      "initialize": "Game:2039c070",
+      "attach": "Game:2039b400",
+      "wrapperRead": "Game:2039c210",
+      "dataRead": "Game:2039d680",
+      "postInitialize": "Game:20397ca0",
+      "rootPointerProof": {
+        "address": "206141d0",
+        "bytes": "10695220"
+      },
+      "fields": [
+        {
+          "className": "gCStat",
+          "name": "BaseMaximum",
+          "nativeOffset": 24,
+          "typeName": "int",
+          "registrar": "Game:20526970",
+          "reader": "Game:2039d2e0",
+          "defaultInitializer": "Game:2039d090",
+          "addressGetter": "Game:2039ce70",
+          "descriptor": "207cd0f4",
+          "vtable": "206a3244",
+          "descriptorStore": {
+            "address": "205269b9",
+            "bytes": "c705f4d07c2044326a20",
+            "assembly": "MOV dword ptr [0x207cd0f4],0x206a3244"
+          },
+          "offsetStore": {
+            "address": "205269d2",
+            "bytes": "c70510d17c2018000000",
+            "assembly": "MOV dword ptr [0x207cd110],0x18"
+          },
+          "defaultStore": {
+            "address": "205269dc",
+            "bytes": "c70514d17c2000000000",
+            "assembly": "MOV dword ptr [0x207cd114],0x0"
+          },
+          "nameLiteral": {
+            "address": "2065db20",
+            "bytes": "426173654d6178696d756d00",
+            "instruction": {
+              "address": "20526990",
+              "bytes": "6820db6520",
+              "assembly": "PUSH 0x2065db20"
+            }
+          },
+          "nameLiteralUses": [
+            {
+              "address": "2065db20",
+              "bytes": "426173654d6178696d756d00",
+              "instruction": {
+                "address": "20526990",
+                "bytes": "6820db6520",
+                "assembly": "PUSH 0x2065db20"
+              }
+            }
+          ]
+        },
+        {
+          "className": "gCStat",
+          "name": "MaximumModifier",
+          "nativeOffset": 28,
+          "typeName": "int",
+          "registrar": "Game:20526a60",
+          "reader": "Game:2039d2e0",
+          "defaultInitializer": "Game:2039d090",
+          "addressGetter": "Game:2039ce70",
+          "descriptor": "207cd118",
+          "vtable": "206a3244",
+          "descriptorStore": {
+            "address": "20526aa9",
+            "bytes": "c70518d17c2044326a20",
+            "assembly": "MOV dword ptr [0x207cd118],0x206a3244"
+          },
+          "offsetStore": {
+            "address": "20526ac2",
+            "bytes": "c70534d17c201c000000",
+            "assembly": "MOV dword ptr [0x207cd134],0x1c"
+          },
+          "defaultStore": {
+            "address": "20526acc",
+            "bytes": "c70538d17c2000000000",
+            "assembly": "MOV dword ptr [0x207cd138],0x0"
+          },
+          "nameLiteral": {
+            "address": "2065db30",
+            "bytes": "4d6178696d756d4d6f64696669657200",
+            "instruction": {
+              "address": "20526a80",
+              "bytes": "6830db6520",
+              "assembly": "PUSH 0x2065db30"
+            }
+          },
+          "nameLiteralUses": [
+            {
+              "address": "2065db30",
+              "bytes": "4d6178696d756d4d6f64696669657200",
+              "instruction": {
+                "address": "20526a80",
+                "bytes": "6830db6520",
+                "assembly": "PUSH 0x2065db30"
+              }
+            }
+          ]
+        }
+      ],
+      "nativeApplyDefaults": "Game:2039aea0",
+      "wrapperBytes": 16,
+      "wrapperAllocationTag": 400,
+      "baseClassName": "gCAttribute"
+    }
+  },
+  "reflectionBaseRootRelation": {
+    "accessorGetBase": "SharedBase:10006f41",
+    "implementation": "SharedBase:1009ae00",
+    "sentinelName": "SharedBase:10005e5c",
+    "compareSource": "SharedBase:10002eb9",
+    "rootLookup": "SharedBase:100085e9",
+    "gCAttribute": {
+      "wrapperBaseNameSlot": 8,
+      "target": "Game:200043b3",
+      "returnedName": "bCObjectRefBase",
+      "result": null,
+      "nullBranchInstruction": "1009ae55"
+    },
+    "gCStat": {
+      "wrapperBaseNameSlot": 8,
+      "target": "Game:2000b3d9",
+      "returnedName": "gCAttribute",
+      "result": "actual gCAttribute registered root"
+    }
+  },
+  "statBootstrapOriginalPEOnly": {
+    "module": "Game",
+    "entry": "20526910",
+    "endVAInclusive": "2052695a",
+    "bytes": 75,
+    "raw": "b9e4d07c20ff15b8877d20c705ecd07c2000000000c705e4d07c2064316a20e87dcdadff6a01b9e4d07c20a3f0d07c20c705ecd07c2000000000e8926faeff6830305620e875cef3ff59c3",
+    "sha256": "d2ac58943f13166d44cc6b699a067e12e2882460c357d74ba622feb061ad1d8b",
+    "proofKind": "original-PE-only; absent functions.csv and full_disassembly.asm",
+    "catalogBody": false,
+    "decompiledBody": false,
+    "sourceBodyInvented": false,
+    "rootObject": "207cd0e4",
+    "wrapperVtable": "206a3164",
+    "typeStore": "207cd0f0",
+    "typeCallExport": "Game:200036b1",
+    "typeCallImplementation": "Game:2039c2d0",
+    "initializeExport": "Game:2000d8e1",
+    "initializeImplementation": "Game:2039c070",
+    "initializeArgument": true,
+    "atexitCallback": "Game:20563030",
+    "byteSlices": [
+      {
+        "address": "20526910",
+        "bytes": "b9e4d07c20",
+        "meaning": "root receiver"
+      },
+      {
+        "address": "20526915",
+        "bytes": "ff15b8877d20",
+        "meaning": "imported base constructor"
+      },
+      {
+        "address": "2052691b",
+        "bytes": "c705ecd07c2000000000",
+        "meaning": "native pointer clear"
+      },
+      {
+        "address": "20526925",
+        "bytes": "c705e4d07c2064316a20",
+        "meaning": "wrapper vtable store"
+      },
+      {
+        "address": "2052692f",
+        "bytes": "e87dcdadff",
+        "meaning": "type initializer call"
+      },
+      {
+        "address": "20526934",
+        "bytes": "6a01",
+        "meaning": "true initialization argument"
+      },
+      {
+        "address": "20526936",
+        "bytes": "b9e4d07c20",
+        "meaning": "root receiver"
+      },
+      {
+        "address": "2052693b",
+        "bytes": "a3f0d07c20",
+        "meaning": "type pointer store"
+      },
+      {
+        "address": "20526940",
+        "bytes": "c705ecd07c2000000000",
+        "meaning": "native pointer clear"
+      },
+      {
+        "address": "2052694a",
+        "bytes": "e8926faeff",
+        "meaning": "root initialize call"
+      },
+      {
+        "address": "2052694f",
+        "bytes": "6830305620",
+        "meaning": "atexit callback argument"
+      },
+      {
+        "address": "20526954",
+        "bytes": "e875cef3ff",
+        "meaning": "atexit call"
+      },
+      {
+        "address": "20526959",
+        "bytes": "59",
+        "meaning": "stack adjustment"
+      },
+      {
+        "address": "2052695a",
+        "bytes": "c3",
+        "meaning": "return"
+      }
+    ]
+  },
+  "profile": {
+    "worldResident": false,
+    "detached": true,
+    "frontendRequiredServices": [
+      "actual allocation/reference handoff",
+      "actual CString ownership and read",
+      "captured accessor/descriptor enter and exit",
+      "source terminal native/wrapper lifetime"
+    ],
+    "freshSuccessfulAllocation": true,
+    "numericNativePointersMasked": true,
+    "inheritedFields": "gCStat owns BaseMaximum and MaximumModifier and inherits gCAttribute Tag, Modifier, Value; actual accessor stops at bCObjectRefBase sentinel",
+    "defaults": "Tag actual CString clear; signed integer descriptor defaults 0xffffffff",
+    "nativeCodeExecuted": false
+  }
+}

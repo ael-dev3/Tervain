@@ -1,0 +1,12 @@
+/* ENTRY 3002b652 | eCVisualAnimation_PS::GetBoneProjectionDistance | STATUS decompiled | 9 ms */
+
+/* public: float const & __thiscall eCVisualAnimation_PS::GetBoneProjectionDistance(void)const  */
+
+float * __thiscall eCVisualAnimation_PS::GetBoneProjectionDistance(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x2b652  6290  ?GetBoneProjectionDistance@eCVisualAnimation_PS@@QBEABMXZ */
+  return (float *)&this[4].eCEntityPropertySet_data.field_0x4;
+}
+
+

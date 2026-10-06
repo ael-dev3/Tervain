@@ -1,0 +1,3 @@
+; 204090e0 bTPropertyType<gCInteraction_PS,bTPropertyContainer<gEUseType>_>::vfunction5
+204090e0 | 8b4118 | MOV EAX,dword ptr [ECX + 0x18]
+204090e3 | c3 | RET

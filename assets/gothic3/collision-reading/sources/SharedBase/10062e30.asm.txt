@@ -1,0 +1,9 @@
+; 10062e30 FUN_10062e30
+10062e30 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+10062e34 | d900 | FLD float ptr [EAX]
+10062e36 | d919 | FSTP float ptr [ECX]
+10062e38 | d94004 | FLD float ptr [EAX + 0x4]
+10062e3b | d95904 | FSTP float ptr [ECX + 0x4]
+10062e3e | d94008 | FLD float ptr [EAX + 0x8]
+10062e41 | d95908 | FSTP float ptr [ECX + 0x8]
+10062e44 | c20400 | RET 0x4

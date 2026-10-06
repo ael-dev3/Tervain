@@ -1,0 +1,12 @@
+/* ENTRY 30012e22 | eCCameraBase::GetViewMatrix | STATUS decompiled | 2 ms */
+
+/* public: class bCMatrix const & __thiscall eCCameraBase::GetViewMatrix(void)const  */
+
+bCMatrix * __thiscall eCCameraBase::GetViewMatrix(eCCameraBase *this)
+
+{
+                    /* 0x12e22  9581  ?GetViewMatrix@eCCameraBase@@QBEABVbCMatrix@@XZ */
+  return (bCMatrix *)&(this->eCCameraBase_data).field_0x8;
+}
+
+

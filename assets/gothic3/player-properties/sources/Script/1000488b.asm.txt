@@ -1,0 +1,4 @@
+; 1000488b ?GetPoliticalFame@PSPlayerMemory@@QAEJW4gEPoliticalAlignment@@@Z
+1000488b | e9d03d0200 | JMP 0x10028660
+; 10004890 PSInventory::AssureItemsEx
+; 10004890 Ordinal_1286

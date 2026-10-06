@@ -1,0 +1,31 @@
+/* ENTRY 3032dec0 | FUN_3032dec0 | STATUS decompiled | 14 ms */
+
+undefined4 __thiscall FUN_3032dec0(int param_1,bCIStream *param_2)
+
+{
+  bCIStream *this;
+  
+  this = param_2;
+  bCIStream::operator>>(param_2,(ushort *)&param_2);
+  if (0x27 < (ushort)param_2) {
+    bCIStream::operator>>(this,(bool *)(param_1 + 0x80));
+    bCIStream::operator>>(this,(bool *)(param_1 + 0x82));
+  }
+  if (0x28 < (ushort)param_2) {
+    bCIStream::operator>>(this,(bool *)(param_1 + 0x83));
+  }
+  if (0x32 < (ushort)param_2) {
+    bCVector::operator<<((bCVector *)(param_1 + 0x84),(bCIStream *)this);
+    bCVector::operator<<((bCVector *)(param_1 + 0x90),(bCIStream *)this);
+  }
+  if (0x36 < (ushort)param_2) {
+    (**(code **)((int)*this + 4))(param_1 + 0xb8,0x1c);
+    (**(code **)((int)*this + 4))(param_1 + 0x9c,0x1c);
+  }
+  if (0x40 < (ushort)param_2) {
+    bCIStream::operator>>(this,(bool *)(param_1 + 0x81));
+  }
+  return 1;
+}
+
+

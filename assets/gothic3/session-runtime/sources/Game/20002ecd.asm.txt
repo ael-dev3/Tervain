@@ -1,0 +1,2 @@
+; 20002ecd ?IsGameRunning@gCGameApp@@UBE_NXZ
+20002ecd | e93ee80400 | JMP 0x20051710

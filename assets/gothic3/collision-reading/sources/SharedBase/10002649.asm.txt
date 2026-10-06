@@ -1,0 +1,4 @@
+; 10002649 ??0bCPropertyObjectFactory@@QAE@ABVbCString@@@Z
+10002649 | e952aa0800 | JMP 0x1008d0a0
+; 1000264e bCVector::operator[]
+; 1000264e Ordinal_877

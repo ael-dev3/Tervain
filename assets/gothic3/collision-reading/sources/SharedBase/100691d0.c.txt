@@ -1,0 +1,14 @@
+/* ENTRY 100691d0 | FUN_100691d0 | STATUS decompiled | 4 ms */
+
+void __fastcall FUN_100691d0(bCOrientedBox *param_1)
+
+{
+  bCOrientedBox *pbVar1;
+  bCOrientedBox local_3c [60];
+  
+  pbVar1 = (bCOrientedBox *)bCOrientedBox::GetMerged(param_1,local_3c);
+  bCOrientedBox::Create(param_1,pbVar1);
+  return;
+}
+
+

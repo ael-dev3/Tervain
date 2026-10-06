@@ -1,0 +1,4 @@
+; 1000682f ?IsForcedLegacyMode@bCPOStream@@QBE_NXZ
+1000682f | e98c3d0800 | JMP 0x1008a5c0
+; 10006839 bCFlexibleVertexFormat::HasWeight
+; 10006839 Ordinal_3309

@@ -1,0 +1,17 @@
+/* ENTRY 10112760 | FUN_10112760 | STATUS decompiled | 30 ms */
+
+void FUN_10112760(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Tasks\\Party_Tasks\\ZS_Arena.cpp");
+  bCString::bCString(local_8,"ZS_Arena_Loop");
+  thunk_FUN_1001db60(local_8,&LAB_10001ae1,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

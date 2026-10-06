@@ -1,0 +1,41 @@
+/* ENTRY 2000e48f | gCCharacterControl_PS::OnPreProcess | STATUS decompiled | 39 ms */
+
+/* protected: virtual void __thiscall gCCharacterControl_PS::OnPreProcess(void) */
+
+void __thiscall gCCharacterControl_PS::OnPreProcess(gCCharacterControl_PS *this)
+
+{
+  ProcessMovements *pPVar1;
+  eCEntity *peVar2;
+  char *pcVar3;
+  bCMessageAdmin *this_00;
+  bEMessageTypes bVar4;
+  char *pcVar5;
+  char *pcVar6;
+  int iVar7;
+  int iVar8;
+  
+                    /* 0xe48f  5538  ?OnPreProcess@gCCharacterControl_PS@@MAEXXZ */
+  peVar2 = (*this->vftablePtr->GetEntity)(this);
+  pcVar3 = (char *)(**(code **)(*(int *)peVar2 + 0xec))(0x15);
+  (this->gCCharacterControl_PS_data).offset_0x54 = pcVar3;
+  if (pcVar3 == (char *)0x0) {
+    iVar8 = *(int *)g_iDefaultMessagePriority_exref;
+    iVar7 = -1;
+    pcVar5 = "C: gCCharacterControl_PS::Process(): PropertySet gCCharacterMovement_PS is missing!";
+    bVar4 = 3;
+    pcVar6 = pcVar3;
+    this_00 = bCMessageAdmin::GetInstance();
+    bCMessageAdmin::OnMessage(this_00,bVar4,pcVar5,pcVar3,pcVar6,iVar7,iVar8);
+    return;
+  }
+  pPVar1 = this->vftablePtr->ProcessMovements;
+  (this->gCCharacterControl_PS_data).offset_0x50 = (gCCharacterControl_PS)0x1;
+  (*pPVar1)(this);
+                    /* WARNING: Could not recover jumptable at 0x20218246. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eCEntityPropertySet::OnPreProcess((eCEntityPropertySet *)this);
+  return;
+}
+
+

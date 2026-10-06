@@ -1,0 +1,2 @@
+; 2001edc6 ?GetValue@gCPlayerMemory_PS@@QBEHABVbCString@@@Z
+2001edc6 | e935e82f00 | JMP 0x2031d600

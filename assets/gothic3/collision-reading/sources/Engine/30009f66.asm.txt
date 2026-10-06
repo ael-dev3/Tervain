@@ -1,0 +1,4 @@
+; 30009f66 bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeMaterial>_>::vfunction11
+30009f66 | e9d5543500 | JMP 0x3035f440
+; 30009f6b eCResourceMaterialObject_PS::AccessSecondSpecularMapFilePath
+; 30009f6b Ordinal_3080

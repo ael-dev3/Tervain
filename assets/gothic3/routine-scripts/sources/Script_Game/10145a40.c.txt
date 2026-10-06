@@ -1,0 +1,17 @@
+/* ENTRY 10145a40 | FUN_10145a40 | STATUS decompiled | 8 ms */
+
+void FUN_10145a40(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Magic\\Magic_Spells\\MagicMisc.cpp");
+  bCString::bCString(local_8,"MagicDisease");
+  thunk_FUN_10017a50(local_8,&LAB_100034ae,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

@@ -1,0 +1,2 @@
+; 30006334 ?Create@eCVisualAnimation_PS@@UAE?AW4bEResult@@XZ
+30006334 | e9e7940900 | JMP 0x3009f820

@@ -1,0 +1,4 @@
+; 20023f4c ?GetMembers@gCEnclave_PS@@QBEABV?$bTObjArray@VeCEntityProxy@@@@XZ
+20023f4c | e9afa90f00 | JMP 0x2011e900
+; 20023f51 gCDummyCollectorPSet_Base::GetReferencedEntitiesCount
+; 20023f51 Ordinal_4154

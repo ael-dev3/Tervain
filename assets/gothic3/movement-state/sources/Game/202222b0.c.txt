@@ -1,0 +1,10 @@
+/* ENTRY 202222b0 | FUN_202222b0 | STATUS decompiled | 0 ms */
+
+void __fastcall FUN_202222b0(int param_1)
+
+{
+  *(undefined1 *)(param_1 + 700) = 0;
+  return;
+}
+
+

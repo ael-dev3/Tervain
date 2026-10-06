@@ -1,0 +1,34 @@
+/* ENTRY 30034351 | eCVisualAnimation_PS::QueryRenderContext | STATUS decompiled | 238 ms */
+
+/* public: virtual class eCRenderContext * __thiscall eCVisualAnimation_PS::QueryRenderContext(void)
+    */
+
+eCRenderContext * __thiscall eCVisualAnimation_PS::QueryRenderContext(eCVisualAnimation_PS *this)
+
+{
+  eCRenderContextAnimation *this_00;
+  eCRenderContext *this_01;
+  eCEntity *peVar1;
+  bEResult bVar2;
+  
+                    /* 0x34351  12019
+                       ?QueryRenderContext@eCVisualAnimation_PS@@UAEPAVeCRenderContext@@XZ */
+  this_00 = (eCRenderContextAnimation *)new(0x24,0x8af);
+  if (this_00 == (eCRenderContextAnimation *)0x0) {
+    this_01 = (eCRenderContext *)0x0;
+  }
+  else {
+    this_01 = (eCRenderContext *)eCRenderContextAnimation::eCRenderContextAnimation(this_00);
+  }
+  peVar1 = (*this->vftablePtr->GetEntity)(this);
+  bVar2 = eCRenderContext::Create(this_01,peVar1,(eCEntityPropertySet *)this);
+  if (bVar2 == 1) {
+    return (eCRenderContext *)this_01;
+  }
+  if (this_01 != (eCRenderContext *)0x0) {
+    (*this_01->vftablePtr->ReleaseReference)(this_01);
+  }
+  return (eCRenderContext *)0x0;
+}
+
+

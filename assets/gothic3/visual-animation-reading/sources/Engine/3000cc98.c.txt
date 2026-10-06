@@ -1,0 +1,12 @@
+/* ENTRY 3000cc98 | eCVisualAnimation_PS::AccessBonesBreakMaxForce | STATUS decompiled | 5 ms */
+
+/* public: float & __thiscall eCVisualAnimation_PS::AccessBonesBreakMaxForce(void) */
+
+float * __thiscall eCVisualAnimation_PS::AccessBonesBreakMaxForce(eCVisualAnimation_PS *this)
+
+{
+                    /* 0xcc98  2530  ?AccessBonesBreakMaxForce@eCVisualAnimation_PS@@QAEAAMXZ */
+  return (float *)&this[1].eCEntityPropertySet_data.offset_0xc;
+}
+
+

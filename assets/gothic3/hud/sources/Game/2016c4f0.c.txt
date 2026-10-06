@@ -1,0 +1,17 @@
+/* ENTRY 2016c4f0 | gCHUDPageDocuments2::gCHUDPageDocuments2 | STATUS decompiled | 15 ms */
+
+gCHUDPageDocuments2 * __thiscall gCHUDPageDocuments2::gCHUDPageDocuments2(gCHUDPageDocuments2 *this)
+
+{
+  gCHUDPage::gCHUDPage((gCHUDPage *)this);
+  this->vftablePtr = &vftable;
+  gCHUDView::gCHUDView((gCHUDView *)&this->gCHUDPageDocuments2_data);
+  gCHUDView::gCHUDView((gCHUDView *)&(this->gCHUDPageDocuments2_data).field_0x14);
+  gCHUDViewDocuments2::gCHUDViewDocuments2
+            ((gCHUDViewDocuments2 *)&(this->gCHUDPageDocuments2_data).field_0x28);
+  gCHUDViewDocument2::gCHUDViewDocument2
+            ((gCHUDViewDocument2 *)&(this->gCHUDPageDocuments2_data).field_0x98);
+  return this;
+}
+
+

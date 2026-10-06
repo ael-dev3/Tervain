@@ -1,0 +1,21 @@
+/* ENTRY 20189f50 | gCHUDListCtrlInventory::gCHUDListCtrlInventory | STATUS decompiled | 51 ms */
+
+gCHUDListCtrlInventory * __thiscall
+gCHUDListCtrlInventory::gCHUDListCtrlInventory(gCHUDListCtrlInventory *this)
+
+{
+  CFFGFCListCtrl::CFFGFCListCtrl((CFFGFCListCtrl *)this);
+                    /* inlined constructor: gCInventoryListener::gCInventoryListener */
+  this->vftablePtr = (gCHUDListCtrlInventory_vftable1 *)&gCInventoryListener::vftable;
+  this->vftablePtr = &vftable;
+  this->vftablePtr = &vftable;
+  *(undefined4 *)&this->gCHUDListCtrlInventory_data = 0;
+  CFFGFCImageList::CFFGFCImageList
+            ((CFFGFCImageList *)&(this->gCHUDListCtrlInventory_data).field_0x4);
+  CFFGFCImageList::CFFGFCImageList
+            ((CFFGFCImageList *)&(this->gCHUDListCtrlInventory_data).field_0xc);
+  this[1].field_0x4 = 0;
+  return this;
+}
+
+

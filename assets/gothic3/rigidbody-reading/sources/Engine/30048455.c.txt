@@ -1,0 +1,34 @@
+/* ENTRY 30048455 | eCRigidBody_PS::Read | STATUS decompiled | 26 ms */
+
+/* public: virtual enum bEResult __thiscall eCRigidBody_PS::Read(class bCIStream &) */
+
+bEResult __thiscall eCRigidBody_PS::Read(eCRigidBody_PS *this,bCIStream *param_1)
+
+{
+  bCIStream *this_00;
+  
+                    /* 0x48455  12233  ?Read@eCRigidBody_PS@@UAE?AW4bEResult@@AAVbCIStream@@@Z */
+  this_00 = param_1;
+  bCIStream::operator>>((bCIStream *)param_1,(ushort *)&param_1);
+  if (0x27 < (ushort)param_1) {
+    bCIStream::operator>>((bCIStream *)this_00,(bool *)&(this->eCRigidBody_PS_data).offset_0x6c);
+    bCIStream::operator>>((bCIStream *)this_00,(bool *)&(this->eCRigidBody_PS_data).offset_0x6e);
+  }
+  if (0x28 < (ushort)param_1) {
+    bCIStream::operator>>((bCIStream *)this_00,(bool *)&(this->eCRigidBody_PS_data).offset_0x6f);
+  }
+  if (0x32 < (ushort)param_1) {
+    bCVector::operator<<((bCVector *)&(this->eCRigidBody_PS_data).field_0x70,this_00);
+    bCVector::operator<<((bCVector *)&(this->eCRigidBody_PS_data).field_0x7c,this_00);
+  }
+  if (0x36 < (ushort)param_1) {
+    (**(code **)(*(int *)this_00 + 4))(&(this->eCRigidBody_PS_data).field_0xa4,0x1c);
+    (**(code **)(*(int *)this_00 + 4))(&(this->eCRigidBody_PS_data).field_0x88,0x1c);
+  }
+  if (0x40 < (ushort)param_1) {
+    bCIStream::operator>>((bCIStream *)this_00,(bool *)&(this->eCRigidBody_PS_data).offset_0x6d);
+  }
+  return 1;
+}
+
+

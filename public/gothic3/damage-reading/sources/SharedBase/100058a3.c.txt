@@ -1,0 +1,12 @@
+/* ENTRY 100058a3 | bCPropertyObjectBase::IsRoot | STATUS decompiled | 3 ms */
+
+/* public: bool __thiscall bCPropertyObjectBase::IsRoot(void)const  */
+
+bool __thiscall bCPropertyObjectBase::IsRoot(bCPropertyObjectBase *this)
+
+{
+                    /* 0x58a3  3664  ?IsRoot@bCPropertyObjectBase@@QBE_NXZ */
+  return (bool)((byte)(this->bCPropertyObjectBase_data).offset_0x0 & 1);
+}
+
+

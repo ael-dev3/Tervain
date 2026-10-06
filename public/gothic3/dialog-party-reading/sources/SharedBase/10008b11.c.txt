@@ -1,0 +1,21 @@
+/* ENTRY 10008b11 | bCSpyAdmin::GetInstance | STATUS decompiled | 7 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+/* public: static class bCSpyAdmin & __stdcall bCSpyAdmin::GetInstance(void) */
+
+bCSpyAdmin * bCSpyAdmin::GetInstance(void)
+
+{
+                    /* 0x8b11  2414  ?GetInstance@bCSpyAdmin@@SGAAV1@XZ */
+  if ((_DAT_101ab144 & 1) == 0) {
+    _DAT_101ab144 = _DAT_101ab144 | 1;
+    InitializeCriticalSection((LPCRITICAL_SECTION)&DAT_101ab11c);
+    DAT_101ab138 = 0;
+    DAT_101ab134 = 0;
+    Create((bCSpyAdmin *)&DAT_101ab11c);
+    _atexit((_func_4879 *)&LAB_100e2890);
+  }
+  return (bCSpyAdmin *)&DAT_101ab11c;
+}
+
+

@@ -1,0 +1,4 @@
+; 3002e1ef ?GetLastPosition@eCCollisionShape@@QBEABVbCVector@@XZ
+3002e1ef | e91c4a0900 | JMP 0x300c2c10
+; 3002e1f4 eCAPIEffect::operator=
+; 3002e1f4 Ordinal_1427

@@ -1,0 +1,4 @@
+; 10008986 ??4bCMatrix@@QAEAAV0@ABV0@@Z
+10008986 | e9a5060200 | JMP 0x10029030
+; 1000898b bCPoint::operator>>
+; 1000898b Ordinal_655

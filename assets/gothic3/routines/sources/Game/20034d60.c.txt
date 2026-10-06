@@ -1,0 +1,19 @@
+/* ENTRY 20034d60 | gCScriptRoutine_PS::AIContinueRoutine | STATUS decompiled | 8 ms */
+
+/* public: void __thiscall gCScriptRoutine_PS::AIContinueRoutine(void) */
+
+void __thiscall gCScriptRoutine_PS::AIContinueRoutine(gCScriptRoutine_PS *this)
+
+{
+  undefined1 *this_00;
+  eCEntity *peVar1;
+  
+                    /* 0x34d60  965  ?AIContinueRoutine@gCScriptRoutine_PS@@QAEXXZ */
+  this_00 = &(this->gCScriptRoutine_PS_data).field_0x60;
+  peVar1 = (*this->vftablePtr->GetEntity)(this);
+  gCScriptProcessingUnit::SetSelfEntity((gCScriptProcessingUnit *)this_00,peVar1);
+  gCScriptProcessingUnit::AIContinueRoutine((gCScriptProcessingUnit *)this_00);
+  return;
+}
+
+

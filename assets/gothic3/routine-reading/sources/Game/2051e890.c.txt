@@ -1,0 +1,34 @@
+/* ENTRY 2051e890 | bTPropertyType<gCScriptRoutine_PS,bTPropertyContainer<gEAniState>_>::~bTPropertyType<gCScriptRoutine_PS,bTPropertyContainer<gEAniState>_> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCScriptRoutine_PS,bTPropertyContainer<gEAniState>_>::
+~bTPropertyType<gCScriptRoutine_PS,bTPropertyContainer<gEAniState>_>
+          (bTPropertyType<gCScriptRoutine_PS,bTPropertyContainer<gEAniState>_> *this)
+
+{
+  bTPropertyType<gCScriptRoutine_PS,bTPropertyContainer<gEAniState>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"AniState");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCScriptRoutine_PS::ms_PropertyMember_m_enuAniState,
+             (bCString *)&local_4,2);
+  _ms_PropertyMember_m_enuAniState = &vftable;
+  DAT_207cc270 = bTPropertyObjectType<gCScriptRoutine_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCScriptRoutine_PS,eCEntityPropertySet>();
+  _DAT_207cc274 = 0x3c;
+  _DAT_207cc278 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCScriptRoutine_PS::ms_PropertyMember_m_enuAniState);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cc270,
+             (bCPropertyTypeBase *)&gCScriptRoutine_PS::ms_PropertyMember_m_enuAniState);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gEAniState>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gEAniState>_>);
+  return;
+}
+
+

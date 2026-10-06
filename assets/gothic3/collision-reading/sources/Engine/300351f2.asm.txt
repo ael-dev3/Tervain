@@ -1,0 +1,4 @@
+; 300351f2 bTPropertyObjectType<eCCollisionShape_PS,eCCollisionShapeBase_PS>::~bTPropertyObjectType<eCCollisionShape_PS,eCCollisionShapeBase_PS>
+300351f2 | e989783000 | JMP 0x3033ca80
+; 300351f7 eCDirectionalLight_PS::SetDirectionOffset
+; 300351f7 Ordinal_13257

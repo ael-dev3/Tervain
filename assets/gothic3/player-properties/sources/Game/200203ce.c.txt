@@ -1,0 +1,18 @@
+/* ENTRY 200203ce | gCPlayerMemory_PS::GetBaseValue | STATUS decompiled | 6 ms */
+
+/* public: int __thiscall gCPlayerMemory_PS::GetBaseValue(class bCString const &)const  */
+
+int __thiscall gCPlayerMemory_PS::GetBaseValue(gCPlayerMemory_PS *this,bCString *param_1)
+
+{
+  int iVar1;
+  
+                    /* 0x203ce  2962  ?GetBaseValue@gCPlayerMemory_PS@@QBEHABVbCString@@@Z */
+  iVar1 = thunk_FUN_203214f0(param_1,&param_1);
+  if ((iVar1 != 0) && (*(int *)(iVar1 + 4) != 0)) {
+    return *(int *)(*(int *)(iVar1 + 4) + 0x14);
+  }
+  return 0;
+}
+
+

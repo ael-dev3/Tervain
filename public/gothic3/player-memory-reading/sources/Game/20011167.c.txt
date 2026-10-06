@@ -1,0 +1,38 @@
+/* ENTRY 20011167 | gCPlayerMemory_PS::ReadSaveGame | STATUS decompiled | 25 ms */
+
+/* public: virtual enum bEResult __thiscall gCPlayerMemory_PS::ReadSaveGame(class bCIStream &) */
+
+bEResult __thiscall gCPlayerMemory_PS::ReadSaveGame(gCPlayerMemory_PS *this,bCIStream *param_1)
+
+{
+                    /* 0x11167  5996
+                       ?ReadSaveGame@gCPlayerMemory_PS@@UAE?AW4bEResult@@AAVbCIStream@@@Z */
+  bCIStream::operator>>((bCIStream *)param_1,(bool *)&(this->gCPlayerMemory_PS_data).field_0x10);
+  thunk_FUN_2028f890(param_1);
+  thunk_FUN_201237e0(param_1);
+  thunk_FUN_201237e0(param_1);
+  thunk_FUN_201237e0(param_1);
+  thunk_FUN_20321430(param_1);
+  bCIStream::operator>>((bCIStream *)param_1,(long *)&(this->gCPlayerMemory_PS_data).field_0x50);
+  bCIStream::operator>>((bCIStream *)param_1,(long *)&(this->gCPlayerMemory_PS_data).field_0x54);
+  bCIStream::operator>>((bCIStream *)param_1,(long *)&(this->gCPlayerMemory_PS_data).field_0x58);
+  ::operator>>(param_1,(bCObjectBase *)&(this->gCPlayerMemory_PS_data).offset_0x5c);
+  ::operator>>(param_1,(bCPropertyID *)&(this->gCPlayerMemory_PS_data).field_0x64);
+  bCIStream::operator>>((bCIStream *)param_1,&this[1].gCPlayerMemory_PS_data.offset_0x14);
+  bCIStream::operator>>((bCIStream *)param_1,&this[1].gCPlayerMemory_PS_data.offset_0x18);
+  bCIStream::operator>>((bCIStream *)param_1,&this[1].gCPlayerMemory_PS_data.offset_0x1c);
+  bCIStream::operator>>((bCIStream *)param_1,&this[1].gCPlayerMemory_PS_data.offset_0x24);
+  bCIStream::operator>>((bCIStream *)param_1,&this[1].gCPlayerMemory_PS_data.offset_0x28);
+  bCIStream::operator>>((bCIStream *)param_1,(bool *)&this[1].gCPlayerMemory_PS_data.offset_0x2c);
+  bCIStream::operator>>
+            ((bCIStream *)param_1,(bool *)((int)&this[1].gCPlayerMemory_PS_data.offset_0x2c + 1));
+  bCIStream::operator>>
+            ((bCIStream *)param_1,(bool *)((int)&this[1].gCPlayerMemory_PS_data.offset_0x2c + 2));
+  bCIStream::operator>>
+            ((bCIStream *)param_1,(bool *)((int)&this[1].gCPlayerMemory_PS_data.offset_0x2c + 3));
+  bCIStream::operator>>((bCIStream *)param_1,(float *)&this[1].gCPlayerMemory_PS_data.offset_0x30);
+  ReadAttributes(this,param_1);
+  return 1;
+}
+
+

@@ -1,0 +1,16 @@
+/* ENTRY 30011298 | eCWrapper_emfx2Actor::GetBoundary | STATUS decompiled | 6 ms */
+
+/* public: class bCBox __thiscall eCWrapper_emfx2Actor::GetBoundary(void) */
+
+bCBox * __thiscall eCWrapper_emfx2Actor::GetBoundary(eCWrapper_emfx2Actor *this)
+
+{
+  bCBox *in_stack_00000004;
+  
+                    /* 0x11298  6350  ?GetBoundary@eCWrapper_emfx2Actor@@QAE?AVbCBox@@XZ */
+  bCBox::bCBox(in_stack_00000004);
+  bCBox::operator=(in_stack_00000004,(bCBox *)&(this->eCWrapper_emfx2Actor_data).field_0x2c);
+  return in_stack_00000004;
+}
+
+

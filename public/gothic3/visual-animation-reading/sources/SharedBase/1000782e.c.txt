@@ -1,0 +1,12 @@
+/* ENTRY 1000782e | bCBox::bCBox | STATUS decompiled | 1 ms */
+
+/* public: __thiscall bCBox::bCBox(void) */
+
+bCBox * __thiscall bCBox::bCBox(bCBox *this)
+
+{
+                    /* 0x782e  41  ??0bCBox@@QAE@XZ */
+  return this;
+}
+
+

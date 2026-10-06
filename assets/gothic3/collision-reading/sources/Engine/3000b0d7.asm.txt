@@ -1,0 +1,4 @@
+; 3000b0d7 ?GetDependencies@eCCollisionShape_PS@@UAEXAAV?$bTValArray@VbCString@@@@0AAV?$bTObjArray@VeCTemplateEntityProxy@@@@@Z
+3000b0d7 | e914ca3200 | JMP 0x30337af0
+; 3000b0dc eCWeatherZone_PS::GetCircleBlendFactor
+; 3000b0dc Ordinal_6481

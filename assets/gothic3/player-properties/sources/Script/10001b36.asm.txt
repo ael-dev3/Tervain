@@ -1,0 +1,4 @@
+; 10001b36 ?SetProtectionFire@PSPlayerMemory@@QAEXH@Z
+10001b36 | e945870200 | JMP 0x1002a280
+; 10001b40 PSDoor::AttachTo
+; 10001b40 Ordinal_1315

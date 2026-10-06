@@ -1,0 +1,2 @@
+; 20003fe4 gCInteraction_PS::OnPropertySetAdded
+20003fe4 | e917094000 | JMP 0x20404900

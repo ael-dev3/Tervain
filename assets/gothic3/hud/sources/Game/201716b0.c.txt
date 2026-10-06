@@ -1,0 +1,11 @@
+/* ENTRY 201716b0 | gCHUDMenu::gCHUDMenu | STATUS decompiled | 7 ms */
+
+gCHUDMenu * __thiscall gCHUDMenu::gCHUDMenu(gCHUDMenu *this,CFFGFCView *param_1)
+
+{
+  CFFGFCView::CFFGFCView((CFFGFCView *)this,param_1);
+  this->vftablePtr = &vftable;
+  return this;
+}
+
+

@@ -1,0 +1,23 @@
+/* ENTRY 100564a0 | bCBox::Contains | STATUS decompiled | 5 ms */
+
+bool __thiscall bCBox::Contains(bCBox *this,bCVector *param_1)
+
+{
+  bool bVar1;
+  int iVar2;
+  bCVector *pbVar3;
+  
+  iVar2 = 2;
+  pbVar3 = param_1 + 0x18;
+  do {
+    bVar1 = Contains(this,pbVar3);
+    if (!bVar1) {
+      return false;
+    }
+    iVar2 = iVar2 + -1;
+    pbVar3 = pbVar3 + -0xc;
+  } while (-1 < iVar2);
+  return true;
+}
+
+

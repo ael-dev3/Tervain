@@ -1,0 +1,26 @@
+/* ENTRY 10004af2 | bCOrientedBox::Contains | STATUS decompiled | 6 ms */
+
+/* public: bool __thiscall bCOrientedBox::Contains(class bCFrustum const &)const  */
+
+bool __thiscall bCOrientedBox::Contains(bCOrientedBox *this,bCFrustum *param_1)
+
+{
+  bool bVar1;
+  bCVector *pbVar2;
+  int iVar3;
+  undefined1 auStack_c [12];
+  
+                    /* 0x4af2  1701  ?Contains@bCOrientedBox@@QBE_NABVbCFrustum@@@Z */
+  iVar3 = 0;
+  do {
+    pbVar2 = (bCVector *)bCFrustum::GetVertex(param_1,(int)auStack_c);
+    bVar1 = Contains(this,pbVar2);
+    if (!bVar1) {
+      return false;
+    }
+    iVar3 = iVar3 + 1;
+  } while (iVar3 < 8);
+  return true;
+}
+
+

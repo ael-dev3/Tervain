@@ -1,0 +1,13 @@
+/* ENTRY 100040c5 | Entity::SetAlignmentTarget | STATUS decompiled | 2 ms */
+
+/* public: void __thiscall Entity::SetAlignmentTarget(class Entity const &) */
+
+void __thiscall Entity::SetAlignmentTarget(Entity *this,Entity *param_1)
+
+{
+                    /* 0x40c5  1920  ?SetAlignmentTarget@Entity@@QAEXABV1@@Z */
+  PSCharacterMovement::SetAlignmentTarget((PSCharacterMovement *)(this + 0x44),param_1);
+  return;
+}
+
+

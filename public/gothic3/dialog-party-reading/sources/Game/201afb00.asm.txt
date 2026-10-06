@@ -1,0 +1,19 @@
+; 201afb00 FUN_201afb00
+201afb00 | 56 | PUSH ESI
+201afb01 | 8bf1 | MOV ESI,ECX
+201afb03 | 8b06 | MOV EAX,dword ptr [ESI]
+201afb05 | 8b5058 | MOV EDX,dword ptr [EAX + 0x58]
+201afb08 | 6a00 | PUSH 0x0
+201afb0a | 68acd76720 | PUSH 0x2067d7ac
+201afb0f | ffd2 | CALL EDX
+201afb11 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+201afb15 | 8a08 | MOV CL,byte ptr [EAX]
+201afb17 | 8b16 | MOV EDX,dword ptr [ESI]
+201afb19 | 8b425c | MOV EAX,dword ptr [EDX + 0x5c]
+201afb1c | 6a00 | PUSH 0x0
+201afb1e | 884e2b | MOV byte ptr [ESI + 0x2b],CL
+201afb21 | 68acd76720 | PUSH 0x2067d7ac
+201afb26 | 8bce | MOV ECX,ESI
+201afb28 | ffd0 | CALL EAX
+201afb2a | 5e | POP ESI
+201afb2b | c20400 | RET 0x4

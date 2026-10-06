@@ -1,0 +1,2 @@
+; 1000286f ?Create@bCCapsule@@QAE?AW4bEResult@@XZ
+1000286f | e93c510500 | JMP 0x100579b0

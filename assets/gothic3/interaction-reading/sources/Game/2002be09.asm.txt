@@ -1,0 +1,2 @@
+; 2002be09 bTPropertyType<gCInteraction_PS,eCTemplateEntityProxy>::vfunction6
+2002be09 | e962043e00 | JMP 0x2040c270

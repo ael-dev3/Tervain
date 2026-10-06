@@ -1,0 +1,17 @@
+/* ENTRY 1017eb60 | FUN_1017eb60 | STATUS decompiled | 7 ms */
+
+void FUN_1017eb60(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Test\\ZS_NavOffset.cpp");
+  bCString::bCString(local_8,"ZS_NavOffset");
+  thunk_FUN_1001db60(local_8,&LAB_10001e83,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

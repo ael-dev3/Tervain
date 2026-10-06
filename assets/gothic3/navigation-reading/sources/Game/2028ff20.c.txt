@@ -1,0 +1,16 @@
+/* ENTRY 2028ff20 | bTPropertyType<gCNavigation_PS,eCEntityProxy>::vfunction22 | STATUS decompiled | 6 ms */
+
+void __thiscall
+bTPropertyType<gCNavigation_PS,eCEntityProxy>::vfunction22
+          (bTPropertyType<gCNavigation_PS,eCEntityProxy> *this,bCPropertyTypeBase *param_1)
+
+{
+  GE_MESSAGEF_WARN("The method %s detected an improper usage! \nHint:%s ",
+                   "bTPropertyType<CLASS, TYPE>::CopyFrom",
+                   "It is not allowed to make a copy of propertytype.\nDo not call it from derived class or change access !"
+                  );
+  bCPropertyTypeBase::CopyFrom((bCPropertyTypeBase *)this,param_1);
+  return;
+}
+
+

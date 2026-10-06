@@ -1,0 +1,11 @@
+/* ENTRY 200323a8 | bTPropertyType<gCCharacterMovement_PS,bool>::vfunction7 | STATUS decompiled | 4 ms */
+
+bool __thiscall
+bTPropertyType<gCCharacterMovement_PS,bool>::vfunction7
+          (bTPropertyType<gCCharacterMovement_PS,bool> *this)
+
+{
+  return this[8].vftablePtr != (bTPropertyType<gCCharacterMovement_PS,bool>_vftable *)0x0;
+}
+
+

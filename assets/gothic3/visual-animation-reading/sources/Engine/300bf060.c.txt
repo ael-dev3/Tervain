@@ -1,0 +1,10 @@
+/* ENTRY 300bf060 | FUN_300bf060 | STATUS decompiled | 3 ms */
+
+undefined1 __fastcall FUN_300bf060(eCVisualAnimationLoD *param_1)
+
+{
+  eCVisualAnimationLoD::SetActor(param_1,(eCResourceDataEntity *)0x0);
+  return 1;
+}
+
+

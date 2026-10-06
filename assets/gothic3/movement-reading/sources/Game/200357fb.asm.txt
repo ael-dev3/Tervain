@@ -1,0 +1,4 @@
+; 200357fb bTPropertyType<gCCharacterMovement_PS,float>::vfunction2
+200357fb | e960fa1f00 | JMP 0x20235260
+; 20035805 gCNpcInfoCtrl::CopyFrom
+; 20035805 Ordinal_2276

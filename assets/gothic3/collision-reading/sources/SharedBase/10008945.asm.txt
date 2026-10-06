@@ -1,0 +1,4 @@
+; 10008945 ??XbCOrientedBox@@QAEAAV0@M@Z
+10008945 | e9d6ab0500 | JMP 0x10063520
+; 1000894a bCRange2::GetCenter
+; 1000894a Ordinal_2143

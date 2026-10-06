@@ -1,0 +1,4 @@
+; 10003cd8 ?Malloc@bCMemoryAdmin@@QAEPAXK@Z
+10003cd8 | e923ce0100 | JMP 0x10020b00
+; 10003cdd bCUnitedRay::GetTranslated
+; 10003cdd Ordinal_3164

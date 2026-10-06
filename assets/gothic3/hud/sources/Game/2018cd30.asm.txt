@@ -1,0 +1,15 @@
+; 2018cd30 gCHUDTableRecipeStats::gCHUDTableRecipeStats
+2018cd30 | 56 | PUSH ESI
+2018cd31 | 8bf1 | MOV ESI,ECX
+2018cd33 | e8031ae9ff | CALL 0x2001e73b
+2018cd38 | c74628e8666520 | MOV dword ptr [ESI + 0x28],0x206566e8
+2018cd3f | 33c0 | XOR EAX,EAX
+2018cd41 | 89462c | MOV dword ptr [ESI + 0x2c],EAX
+2018cd44 | 894630 | MOV dword ptr [ESI + 0x30],EAX
+2018cd47 | 894634 | MOV dword ptr [ESI + 0x34],EAX
+2018cd4a | 884638 | MOV byte ptr [ESI + 0x38],AL
+2018cd4d | c70644886720 | MOV dword ptr [ESI],0x20678844
+2018cd53 | c7462824886720 | MOV dword ptr [ESI + 0x28],0x20678824
+2018cd5a | 8bc6 | MOV EAX,ESI
+2018cd5c | 5e | POP ESI
+2018cd5d | c3 | RET

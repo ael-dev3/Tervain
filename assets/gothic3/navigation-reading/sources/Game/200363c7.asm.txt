@@ -1,0 +1,4 @@
+; 200363c7 bTPropertyType<gCNavigation_PS,bCPropertyID>::vfunction24
+200363c7 | e9247c2500 | JMP 0x2028dff0
+; 200363d1 gCArena_PS::GetVersion
+; 200363d1 Ordinal_4675

@@ -1,0 +1,8 @@
+; 3033e280 bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eEPhysicRangeType>_>::vfunction21
+3033e280 | 68f8cf8130 | PUSH 0x3081cff8
+3033e285 | 683cd58130 | PUSH 0x3081d53c
+3033e28a | 687ccf8130 | PUSH 0x3081cf7c
+3033e28f | ff1530dbaf30 | CALL dword ptr [0x30afdb30]
+3033e295 | 83c40c | ADD ESP,0xc
+3033e298 | 33c0 | XOR EAX,EAX
+3033e29a | c3 | RET

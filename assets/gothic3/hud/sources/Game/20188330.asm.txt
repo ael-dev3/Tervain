@@ -1,0 +1,4 @@
+; 20188330 gCHUDListCtrlInvSkills::gCHUDListCtrlInvSkills
+20188330 | c7012c746720 | MOV dword ptr [ECX],0x2067742c
+20188336 | c741100c746720 | MOV dword ptr [ECX + 0x10],0x2067740c
+2018833d | e9dbb8e9ff | JMP 0x20023c1d

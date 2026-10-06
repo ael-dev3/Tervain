@@ -1,0 +1,42 @@
+/* ENTRY 2018a780 | gCHUDListCtrlInventory::vfunction45 | STATUS decompiled | 16 ms */
+
+/* gCHUDListCtrlInventory member function inherited by gCHUDListCtrlInvQuickSlots
+   gCHUDListCtrlInventory member function inherited by gCHUDListCtrlInvStacks
+   gCHUDListCtrlInventory member function inherited by gCHUDListCtrlInvUseStacks
+   gCHUDListCtrlInventory member function inherited by gCHUDListCtrlInvSpells
+   gCHUDListCtrlInventory member function inherited by gCHUDListCtrlInvTransforms
+   gCHUDListCtrlInventory member function inherited by gCHUDListCtrlInvDocuments
+   gCHUDListCtrlInventory member function inherited by gCHUDListCtrlInvSkills */
+
+void __thiscall gCHUDListCtrlInventory::vfunction45(gCHUDListCtrlInventory *this)
+
+{
+  int iVar1;
+  eCEntity *this_00;
+  bCString *pbVar2;
+  
+  if (this[1].field_0x4 != '\0') {
+    if (*(int **)&this->gCHUDListCtrlInventory_data != (int *)0x0) {
+      this_00 = (eCEntity *)(**(code **)(**(int **)&this->gCHUDListCtrlInventory_data + 0x68))();
+      pbVar2 = eCEntity::GetName(this_00);
+      GE_MESSAGEF_INFO(3,"gCHUDListCtrlInventory::OnPaint -> Rebuilding modified inventory: %s.",
+                       *(undefined4 *)pbVar2);
+    }
+    iVar1 = *(int *)&this->gCHUDListCtrlInventory_data;
+    this[1].field_0x4 = 0;
+    if (iVar1 == 0) {
+      CFFGFCImageList::SetImageCount
+                ((CFFGFCImageList *)&(this->gCHUDListCtrlInventory_data).field_0x4,0);
+      CFFGFCListCtrl::DeleteAllItems((CFFGFCListCtrl *)this);
+    }
+    else {
+      (*this->vftablePtr->vfunction67)(this);
+    }
+  }
+                    /* WARNING: Could not recover jumptable at 0x2018a7e0. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  CFFGFCWnd::OnPaint((CFFGFCWnd *)this);
+  return;
+}
+
+

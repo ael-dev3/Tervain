@@ -1,0 +1,4 @@
+; 30041768 ?OnPostUpdateInternals@eCEntityPropertySet@@MAEXXZ
+30041768 | e923014400 | JMP 0x30481890
+; 3004176d eCAnimationAdmin::CopyFrom
+; 3004176d Ordinal_4028

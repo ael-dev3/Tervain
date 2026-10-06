@@ -1,0 +1,20 @@
+/* ENTRY 10001a73 | PSPlayerMemory::SetProtectionImpact | STATUS decompiled | 12 ms */
+
+/* public: void __thiscall PSPlayerMemory::SetProtectionImpact(int) */
+
+void __thiscall PSPlayerMemory::SetProtectionImpact(PSPlayerMemory *this,int param_1)
+
+{
+  PSPlayerMemory *pPStack_4;
+  
+                    /* 0x1a73  1983  ?SetProtectionImpact@PSPlayerMemory@@QAEXH@Z */
+  pPStack_4 = this;
+  bCString::bCString((bCString *)&pPStack_4,"PROT_IMPACT");
+  if (*(gCPlayerMemory_PS **)this != (gCPlayerMemory_PS *)0x0) {
+    gCPlayerMemory_PS::SetBaseValue(*(gCPlayerMemory_PS **)this,(bCString *)&pPStack_4,param_1);
+  }
+  bCString::~bCString((bCString *)&pPStack_4);
+  return;
+}
+
+

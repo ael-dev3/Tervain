@@ -1,0 +1,18 @@
+; 300aa580 FUN_300aa580
+300aa580 | 56 | PUSH ESI
+300aa581 | 8b742408 | MOV ESI,dword ptr [ESP + 0x8]
+300aa585 | 8b0e | MOV ECX,dword ptr [ESI]
+300aa587 | 85c9 | TEST ECX,ECX
+300aa589 | 7420 | JZ 0x300aa5ab
+300aa58b | 8b01 | MOV EAX,dword ptr [ECX]
+300aa58d | 8b5038 | MOV EDX,dword ptr [EAX + 0x38]
+300aa590 | 6a00 | PUSH 0x0
+300aa592 | ffd2 | CALL EDX
+300aa594 | 8b06 | MOV EAX,dword ptr [ESI]
+300aa596 | 50 | PUSH EAX
+300aa597 | ff15acdbaf30 | CALL dword ptr [0x30afdbac]
+300aa59d | 8bc8 | MOV ECX,EAX
+300aa59f | ff15b0dbaf30 | CALL dword ptr [0x30afdbb0]
+300aa5a5 | c70600000000 | MOV dword ptr [ESI],0x0
+300aa5ab | 5e | POP ESI
+300aa5ac | c20400 | RET 0x4

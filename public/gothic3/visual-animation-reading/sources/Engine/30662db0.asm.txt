@@ -1,0 +1,5 @@
+; 30662db0 EMotionFX::PlayMode::PlayMode
+30662db0 | 8bc1 | MOV EAX,ECX
+30662db2 | c700801f8930 | MOV dword ptr [EAX],0x30891f80
+30662db8 | c7400400000000 | MOV dword ptr [EAX + 0x4],0x0
+30662dbf | c3 | RET

@@ -1,0 +1,9 @@
+/* ENTRY 2028e700 | bTPropertyType<gCNavigation_PS,bCString>::vfunction2 | STATUS decompiled | 0 ms */
+
+undefined4 __thiscall bTPropertyType<gCNavigation_PS,bCString>::vfunction2(void)
+
+{
+  return 4;
+}
+
+

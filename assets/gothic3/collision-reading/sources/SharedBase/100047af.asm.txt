@@ -1,0 +1,4 @@
+; 100047af ?GetRadius@bCCapsule@@QAEMXZ
+100047af | e9cc2f0500 | JMP 0x10057780
+; 100047b4 bCInfCylinder::operator+=
+; 100047b4 Ordinal_1229

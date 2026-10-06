@@ -1,0 +1,97 @@
+/* ENTRY 300647b0 | FUN_300647b0 | STATUS decompiled | 87 ms */
+
+void __fastcall FUN_300647b0(eCApplication *param_1)
+
+{
+  undefined1 *this;
+  float fVar1;
+  bool bVar2;
+  ulong uVar3;
+  float fVar4;
+  undefined4 uVar5;
+  float fStack_c;
+  DWORD DStack_8;
+  float fStack_4;
+  
+  uVar3 = bCTimer::GetTimeStamp();
+  (param_1->eCApplication_data).offset_0x4dc = uVar3;
+  bVar2 = (*param_1->vftablePtr->IsGameRunning)(param_1);
+  if ((bVar2) &&
+     ((param_1->eCApplication_data).offset_0x4e8 == (param_1->eCApplication_data).offset_0x4e4)) {
+    GE_MESSAGEF_WARN(
+                    "C: eCApplication::UpdateTick (): more than one timer update in a frame detected!"
+                    );
+    return;
+  }
+  (param_1->eCApplication_data).offset_0x4c8 = (param_1->eCApplication_data).offset_0x4a4;
+  this = &(param_1->eCApplication_data).field_0x464;
+  (param_1->eCApplication_data).offset_0x4cc = (param_1->eCApplication_data).offset_0x4ac;
+  (param_1->eCApplication_data).offset_0x4d0 = (param_1->eCApplication_data).offset_0x4b0;
+  (param_1->eCApplication_data).offset_0x4d4 = (param_1->eCApplication_data).offset_0x4b4;
+  bCTimer::GetTime((bCTimer *)this,&fStack_c);
+  bCTimer::Reset((bCTimer *)this);
+  fVar4 = 0.0;
+  uVar5 = 0x3727c5ac;
+  if (fStack_c <= 0.0) {
+    fStack_c = 1e-05;
+  }
+  (param_1->eCApplication_data).offset_0x4a0 = 1000.0 / fStack_c;
+  eCApplication::RelaxTick(param_1,fStack_c);
+  if ((float)(param_1->eCApplication_data).offset_0x4a4 == 0.0) {
+    (param_1->eCApplication_data).offset_0x4a4 = uVar5;
+  }
+  fStack_4 = (float)(param_1->eCApplication_data).offset_0x4ec;
+  if ((fVar4 < fStack_4) || (fVar4 < (float)(param_1->eCApplication_data).offset_0x4f0)) {
+    if (fStack_4 <= fVar4) {
+      (param_1->eCApplication_data).offset_0x4a4 = (param_1->eCApplication_data).offset_0x4f0;
+      (param_1->eCApplication_data).offset_0x4f0 = 0xbf800000;
+    }
+    else {
+      fVar4 = (float)(param_1->eCApplication_data).offset_0x4a4;
+      if (fStack_4 <= fVar4) {
+        (param_1->eCApplication_data).offset_0x4a4 = (param_1->eCApplication_data).offset_0x4ec;
+      }
+      else {
+        fStack_4 = fStack_4 - fVar4;
+        DStack_8 = (DWORD)ROUND(fStack_4);
+        Sleep(DStack_8);
+        (param_1->eCApplication_data).offset_0x4a4 = (param_1->eCApplication_data).offset_0x4ec;
+      }
+    }
+  }
+  else {
+    fVar1 = (float)(param_1->eCApplication_data).offset_0x4f8;
+    (param_1->eCApplication_data).offset_0x4fe = (eCApplication)0x0;
+    if ((fVar4 < fVar1) && (fVar1 < (float)(param_1->eCApplication_data).offset_0x4a4)) {
+      (param_1->eCApplication_data).offset_0x4a4 = fVar1;
+    }
+    fStack_4 = (float)(param_1->eCApplication_data).offset_0x4f4;
+    if ((fVar4 < fStack_4) &&
+       (fVar4 = (float)(param_1->eCApplication_data).offset_0x4a4, fVar4 < fStack_4)) {
+      fStack_4 = fStack_4 - fVar4;
+      DStack_8 = (DWORD)ROUND(fStack_4);
+      Sleep(DStack_8);
+      (param_1->eCApplication_data).offset_0x4a4 = (param_1->eCApplication_data).offset_0x4f4;
+    }
+  }
+  fVar4 = (float)(int)(param_1->eCApplication_data).offset_0x4dc;
+  if ((int)(param_1->eCApplication_data).offset_0x4dc < 0) {
+    fVar4 = fVar4 + 4.2949673e+09;
+  }
+  (param_1->eCApplication_data).offset_0x4e0 = fVar4;
+  fVar4 = (float)(param_1->eCApplication_data).offset_0x4a4;
+  (param_1->eCApplication_data).offset_0x4e8 = (param_1->eCApplication_data).offset_0x4e4;
+  (param_1->eCApplication_data).offset_0x4ac = fVar4 / 1000.0;
+  fVar1 = (float)(param_1->eCApplication_data).offset_0x49c * fVar4;
+  (param_1->eCApplication_data).offset_0x4b0 = fVar1;
+  fVar1 = fVar1 / 1000.0;
+  (param_1->eCApplication_data).offset_0x4b4 = fVar1;
+  (param_1->eCApplication_data).offset_0x4b8 = 1.0 / fVar4;
+  fVar4 = 1.0 / (fVar4 / 1000.0);
+  (param_1->eCApplication_data).offset_0x4bc = fVar4;
+  (param_1->eCApplication_data).offset_0x4c0 = fVar4;
+  (param_1->eCApplication_data).offset_0x4c4 = 1.0 / fVar1;
+  return;
+}
+
+

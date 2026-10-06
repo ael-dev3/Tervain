@@ -1,0 +1,6 @@
+; 307a9280 bTPropertyObject<eCSpringAndDamperEffector,eCEffector>::~bTPropertyObject<eCSpringAndDamperEffector,eCEffector>
+307a9280 | b994deae30 | MOV ECX,0x30aede94
+307a9285 | c70594deae302cfa8130 | MOV dword ptr [0x30aede94],0x3081fa2c
+307a928f | e81b7f89ff | CALL 0x300411af
+307a9294 | b994deae30 | MOV ECX,0x30aede94
+307a9299 | e9236e88ff | JMP 0x300300c1

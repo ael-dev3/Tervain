@@ -1,0 +1,2 @@
+; 2001534d gCPlayerMemory_PS::ReadAttributesV4
+2001534d | e9fe923000 | JMP 0x2031e650

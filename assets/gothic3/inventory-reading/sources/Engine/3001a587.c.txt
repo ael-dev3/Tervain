@@ -1,0 +1,37 @@
+/* ENTRY 3001a587 | eCTemplateEntityProxy::SetEntity | STATUS decompiled | 12 ms */
+
+/* public: void __thiscall eCTemplateEntityProxy::SetEntity(class bCPropertyID const &) */
+
+void __thiscall eCTemplateEntityProxy::SetEntity(eCTemplateEntityProxy *this,bCPropertyID *param_1)
+
+{
+  bCMemoryAdmin *this_00;
+  bCPropertyID *pbVar1;
+  bCPropertyID *unaff_ESI;
+  
+                    /* 0x1a587  13349  ?SetEntity@eCTemplateEntityProxy@@QAEXABVbCPropertyID@@@Z */
+  pbVar1 = (this->eCTemplateEntityProxy_data).offset_0x4;
+  if (pbVar1 != (bCPropertyID *)0x0) {
+    bCPropertyID::~bCPropertyID(pbVar1);
+    pbVar1 = (this->eCTemplateEntityProxy_data).offset_0x4;
+    this_00 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::DeleteObject(this_00,pbVar1);
+    (this->eCTemplateEntityProxy_data).offset_0x4 = (bCPropertyID *)0x0;
+  }
+  (this->eCTemplateEntityProxy_data).offset_0x0 = 0;
+  (this->eCTemplateEntityProxy_data).offset_0x4 = (bCPropertyID *)0x0;
+  pbVar1 = (bCPropertyID *)new(0x14,0x147);
+  if (pbVar1 == (bCPropertyID *)0x0) {
+    pbVar1 = (bCPropertyID *)0x0;
+  }
+  else {
+    pbVar1 = (bCPropertyID *)bCPropertyID::bCPropertyID(pbVar1);
+  }
+  (this->eCTemplateEntityProxy_data).offset_0x4 = pbVar1;
+                    /* WARNING: Could not recover jumptable at 0x304c742a. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCPropertyID::operator=(pbVar1,unaff_ESI);
+  return;
+}
+
+

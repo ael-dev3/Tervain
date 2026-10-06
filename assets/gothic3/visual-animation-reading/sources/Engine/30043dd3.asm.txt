@@ -1,0 +1,2 @@
+; 30043dd3 eCWrapper_emfx2Actor::HasMesh
+30043dd3 | e9f86b0900 | JMP 0x300da9d0

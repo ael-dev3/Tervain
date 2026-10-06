@@ -1,0 +1,46 @@
+/* ENTRY 1000422d | bCPOStream::bCPOStream | STATUS decompiled | 16 ms */
+
+/* public: __thiscall bCPOStream::bCPOStream(void) */
+
+bCPOStream * __thiscall bCPOStream::bCPOStream(bCPOStream *this)
+
+{
+  bTStringValMap<long> *pbVar1;
+  bCPOStream bVar2;
+  
+                    /* 0x422d  196  ??0bCPOStream@@QAE@XZ */
+  bCMemoryStream::bCMemoryStream((bCMemoryStream *)this);
+  this->vftablePtr = &vftable_for_bCIStream_;
+  this->vftablePtr = &vftable_for_bCOStream_;
+  (this->bCPOStream_data).offset_0x1 = (bCPOStream)0x0;
+  bVar2 = (bCPOStream)(ms_pMainPOStream == (bCPOStream *)0x0);
+  (this->bCPOStream_data).offset_0x0 = bVar2;
+  if (!(bool)bVar2) {
+    (this->bCPOStream_data).offset_0x0 = (bCPOStream)0x0;
+    Create(this);
+    return this;
+  }
+  ms_bLegacyMode = (bool)bVar2;
+  ms_pMainPOStream = (bCPOStream *)this;
+  ms_parrStringList = (bTObjArray<bCString> *)new(0xc,0x42);
+  if (ms_parrStringList == (bTObjArray<bCString> *)0x0) {
+    ms_parrStringList = (bTObjArray<bCString> *)0x0;
+  }
+  else {
+    *(undefined4 *)ms_parrStringList = 0;
+    *(undefined4 *)(ms_parrStringList + 4) = 0;
+    *(undefined4 *)(ms_parrStringList + 8) = 0;
+  }
+  pbVar1 = (bTStringValMap<long> *)new(0x10,0x43);
+  if (pbVar1 != (bTStringValMap<long> *)0x0) {
+    thunk_FUN_1008b1d0();
+    ms_pmapStringSaveHashmap = pbVar1;
+    Create(this);
+    return this;
+  }
+  ms_pmapStringSaveHashmap = (bTStringValMap<long> *)0x0;
+  Create(this);
+  return this;
+}
+
+

@@ -1,0 +1,12 @@
+/* ENTRY 10002c5c | bCMatrix::GetYAxis | STATUS decompiled | 1 ms */
+
+/* public: class bCVector const & __thiscall bCMatrix::GetYAxis(void)const  */
+
+bCVector * __thiscall bCMatrix::GetYAxis(bCMatrix *this)
+
+{
+                    /* 0x2c5c  3281  ?GetYAxis@bCMatrix@@QBEABVbCVector@@XZ */
+  return (bCVector *)(this + 0x10);
+}
+
+

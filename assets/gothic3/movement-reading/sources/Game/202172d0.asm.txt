@@ -1,0 +1,8 @@
+; 202172d0 gCCharacterEffect::gCCharacterEffect
+202172d0 | 56 | PUSH ESI
+202172d1 | 8bf1 | MOV ESI,ECX
+202172d3 | c7061c666820 | MOV dword ptr [ESI],0x2068661c
+202172d9 | e888e1deff | CALL 0x20005466
+202172de | 8bc6 | MOV EAX,ESI
+202172e0 | 5e | POP ESI
+202172e1 | c3 | RET

@@ -1,0 +1,4 @@
+; 2001f94c ?AddMaximum@gCPlayerMemory_PS@@QAE_NABVbCString@@H@Z
+2001f94c | e97fdf2f00 | JMP 0x2031d8d0
+; 2001f956 gCFocus_PS::AccessHardFocusMaxRange
+; 2001f956 Ordinal_1269

@@ -1,0 +1,2 @@
+; 2000fab0 bTPropertyContainer<gEWeaponConfig>::scalar_deleting_destructor
+2000fab0 | e9dbf93000 | JMP 0x2031f490

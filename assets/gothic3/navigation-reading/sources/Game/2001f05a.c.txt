@@ -1,0 +1,12 @@
+/* ENTRY 2001f05a | gCNavigation_PS::SupportsRenderDebugOutput | STATUS decompiled | 8 ms */
+
+/* public: virtual bool __thiscall gCNavigation_PS::SupportsRenderDebugOutput(void)const  */
+
+bool __thiscall gCNavigation_PS::SupportsRenderDebugOutput(gCNavigation_PS *this)
+
+{
+                    /* 0x1f05a  7330  ?SupportsRenderDebugOutput@gCNavigation_PS@@UBE_NXZ */
+  return true;
+}
+
+

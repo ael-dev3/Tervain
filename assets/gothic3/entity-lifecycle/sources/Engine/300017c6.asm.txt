@@ -1,0 +1,2 @@
+; 300017c6 thunk_FUN_304bc3f0
+300017c6 | e925ac4b00 | JMP 0x304bc3f0

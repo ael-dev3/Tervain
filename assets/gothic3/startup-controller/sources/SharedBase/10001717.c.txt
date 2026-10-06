@@ -1,0 +1,12 @@
+/* ENTRY 10001717 | bCMatrix::AccessTranslation | STATUS decompiled | 2 ms */
+
+/* public: class bCVector & __thiscall bCMatrix::AccessTranslation(void) */
+
+bCVector * __thiscall bCMatrix::AccessTranslation(bCMatrix *this)
+
+{
+                    /* 0x1717  1497  ?AccessTranslation@bCMatrix@@QAEAAVbCVector@@XZ */
+  return (bCVector *)(this + 0x30);
+}
+
+

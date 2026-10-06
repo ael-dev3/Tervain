@@ -1,0 +1,22 @@
+/* ENTRY 304c7390 | eCTemplateEntityProxy::eCTemplateEntityProxy_Constructor_or_Destructor | STATUS decompiled | 6 ms */
+
+void __fastcall
+eCTemplateEntityProxy::eCTemplateEntityProxy_Constructor_or_Destructor(undefined4 *param_1)
+
+{
+  bCMemoryAdmin *this;
+  void *pvVar1;
+  
+  *param_1 = &vftable;
+  if ((bCPropertyID *)param_1[2] != (bCPropertyID *)0x0) {
+    bCPropertyID::~bCPropertyID((bCPropertyID *)param_1[2]);
+    pvVar1 = (void *)param_1[2];
+    this = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::DeleteObject(this,pvVar1);
+  }
+  param_1[2] = 0;
+  param_1[1] = 0;
+  return;
+}
+
+

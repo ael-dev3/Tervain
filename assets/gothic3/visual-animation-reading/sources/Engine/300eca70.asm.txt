@@ -1,0 +1,7 @@
+; 300eca70 FUN_300eca70
+300eca70 | 8b4104 | MOV EAX,dword ptr [ECX + 0x4]
+300eca73 | 33c9 | XOR ECX,ECX
+300eca75 | 394818 | CMP dword ptr [EAX + 0x18],ECX
+300eca78 | 0f95c1 | SETNZ CL
+300eca7b | 8ac1 | MOV AL,CL
+300eca7d | c3 | RET

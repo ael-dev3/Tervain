@@ -1,0 +1,34 @@
+/* ENTRY 100086fc | bCMemoryStream::SetPosition | STATUS decompiled | 6 ms */
+
+/* public: virtual bool __thiscall bCMemoryStream::SetPosition(__int64,enum bEStreamSeekMode)
+   bCMemoryStream member function inherited by bCPOStream */
+
+bool __thiscall
+bCMemoryStream::SetPosition(bCMemoryStream *this,__int64 param_1,bEStreamSeekMode param_2)
+
+{
+  int iVar1;
+  int iVar2;
+  
+                    /* 0x86fc  4288  ?SetPosition@bCMemoryStream@@UAE_N_JW4bEStreamSeekMode@@@Z */
+  iVar1 = (this->bCMemoryStream_data).offset_0x4;
+  iVar2 = (int)param_1;
+  if (param_2 != 0) {
+    if (param_2 == 1) {
+      iVar2 = iVar1 + (int)param_1;
+    }
+    else {
+      iVar2 = iVar1;
+      if (param_2 == 2) {
+        iVar2 = (this->bCMemoryStream_data).offset_0x8 - (int)param_1;
+      }
+    }
+  }
+  if ((-1 < iVar2) && (iVar2 <= (int)(this->bCMemoryStream_data).offset_0x8)) {
+    (this->bCMemoryStream_data).offset_0x4 = iVar2;
+    return true;
+  }
+  return false;
+}
+
+

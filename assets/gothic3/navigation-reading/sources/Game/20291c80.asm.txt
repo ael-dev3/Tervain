@@ -1,0 +1,12 @@
+; 20291c80 bTPropertyType<gCNavigation_PS,bTValArray<bCPropertyID>_>::vfunction19
+20291c80 | 56 | PUSH ESI
+20291c81 | 8bf1 | MOV ESI,ECX
+20291c83 | ff15dc877d20 | CALL dword ptr [0x207d87dc]
+20291c89 | 8d4620 | LEA EAX,[ESI + 0x20]
+20291c8c | 50 | PUSH EAX
+20291c8d | e8449ed8ff | CALL 0x2001bad6
+20291c92 | 8b4e18 | MOV ECX,dword ptr [ESI + 0x18]
+20291c95 | 56 | PUSH ESI
+20291c96 | ff15dc867d20 | CALL dword ptr [0x207d86dc]
+20291c9c | 5e | POP ESI
+20291c9d | c3 | RET

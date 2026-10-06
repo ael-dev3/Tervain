@@ -1,0 +1,25 @@
+/* ENTRY 300182f0 | eCCollisionShape::SetOrientation | STATUS decompiled | 8 ms */
+
+/* public: void __thiscall eCCollisionShape::SetOrientation(class bCMatrix3 const &) */
+
+void __thiscall eCCollisionShape::SetOrientation(eCCollisionShape *this,bCMatrix3 *param_1)
+
+{
+  int iVar1;
+  
+                    /* 0x182f0  13873  ?SetOrientation@eCCollisionShape@@QAEXABVbCMatrix3@@@Z */
+  iVar1 = (this->eCCollisionShape_data).offset_0xc;
+  if (iVar1 == 3) {
+    bCOrientedBox::SetOrientation
+              ((bCOrientedBox *)(this->eCCollisionShape_data).offset_0x70,param_1);
+  }
+  else if (iVar1 == 4) {
+    bCCapsule::SetOrientation((bCCapsule *)(this->eCCollisionShape_data).offset_0x70,param_1);
+    CalcShapeAABBLocal(this);
+    return;
+  }
+  CalcShapeAABBLocal(this);
+  return;
+}
+
+

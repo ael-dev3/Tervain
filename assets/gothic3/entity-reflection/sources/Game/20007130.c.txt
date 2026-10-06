@@ -1,0 +1,19 @@
+/* ENTRY 20007130 | gCClock_PS::Create | STATUS decompiled | 9 ms */
+
+/* public: virtual enum bEResult __thiscall gCClock_PS::Create(void) */
+
+bEResult __thiscall gCClock_PS::Create(gCClock_PS *this)
+
+{
+  bool bVar1;
+  
+                    /* 0x7130  2329  ?Create@gCClock_PS@@UAE?AW4bEResult@@XZ */
+  bVar1 = (*this->vftablePtr->IsValid)(this);
+  if (!bVar1) {
+    bCClock::Pause((bCClock *)&(this->gCClock_PS_data).field_0x28);
+    eCEntityPropertySet::Create((eCEntityPropertySet *)this);
+  }
+  return 1;
+}
+
+

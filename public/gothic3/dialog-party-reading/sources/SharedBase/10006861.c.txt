@@ -1,0 +1,33 @@
+/* ENTRY 10006861 | bCAccessorPropertyObject::operator++ | STATUS decompiled | 7 ms */
+
+/* public: class bCAccessorPropertyObject & __thiscall bCAccessorPropertyObject::operator++(void) */
+
+bCAccessorPropertyObject * __thiscall
+bCAccessorPropertyObject::operator++(bCAccessorPropertyObject *this)
+
+{
+  bCPropertyObjectBase *pbVar1;
+  undefined4 *puVar2;
+  int *piStack_8;
+  
+                    /* 0x6861  971  ??EbCAccessorPropertyObject@@QAEAAV0@XZ */
+  pbVar1 = *(bCPropertyObjectBase **)(this + 4);
+  if (pbVar1 != (bCPropertyObjectBase *)0x0) {
+    (**(code **)(*(int *)pbVar1 + 0x30))();
+  }
+  puVar2 = (undefined4 *)GetBaseClass(this);
+  SetInstance(this,(bCPropertyObjectBase *)puVar2[1]);
+  *(undefined4 *)this = *puVar2;
+  if (piStack_8 != (int *)0x0) {
+    (**(code **)(*piStack_8 + 0x34))();
+  }
+  if (*(int *)this != 0) {
+    SetInstance(this,pbVar1);
+  }
+  if (pbVar1 != (bCPropertyObjectBase *)0x0) {
+    (**(code **)(*(int *)pbVar1 + 0x34))();
+  }
+  return this;
+}
+
+

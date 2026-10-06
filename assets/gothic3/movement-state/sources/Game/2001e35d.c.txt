@@ -1,0 +1,13 @@
+/* ENTRY 2001e35d | gCCharacterMovement_PS::ResetIsProcessing | STATUS decompiled | 7 ms */
+
+/* public: void __thiscall gCCharacterMovement_PS::ResetIsProcessing(void) */
+
+void __thiscall gCCharacterMovement_PS::ResetIsProcessing(gCCharacterMovement_PS *this)
+
+{
+                    /* 0x1e35d  6130  ?ResetIsProcessing@gCCharacterMovement_PS@@QAEXXZ */
+  (this->gCCharacterMovement_PS_data).offset_0x2b8 = (gCCharacterMovement_PS)0x0;
+  return;
+}
+
+

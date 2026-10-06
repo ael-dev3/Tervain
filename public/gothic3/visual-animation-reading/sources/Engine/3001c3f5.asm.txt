@@ -1,0 +1,2 @@
+; 3001c3f5 thunk_FUN_300bdf60
+3001c3f5 | e9661b0a00 | JMP 0x300bdf60

@@ -1,0 +1,19 @@
+; 200b9bb0 FUN_200b9bb0
+200b9bb0 | 56 | PUSH ESI
+200b9bb1 | 8bf1 | MOV ESI,ECX
+200b9bb3 | 8b06 | MOV EAX,dword ptr [ESI]
+200b9bb5 | 8b5058 | MOV EDX,dword ptr [EAX + 0x58]
+200b9bb8 | 6a00 | PUSH 0x0
+200b9bba | 6880f26520 | PUSH 0x2065f280
+200b9bbf | ffd2 | CALL EDX
+200b9bc1 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+200b9bc5 | 8b08 | MOV ECX,dword ptr [EAX]
+200b9bc7 | 8b16 | MOV EDX,dword ptr [ESI]
+200b9bc9 | 8b425c | MOV EAX,dword ptr [EDX + 0x5c]
+200b9bcc | 6a00 | PUSH 0x0
+200b9bce | 894e24 | MOV dword ptr [ESI + 0x24],ECX
+200b9bd1 | 6880f26520 | PUSH 0x2065f280
+200b9bd6 | 8bce | MOV ECX,ESI
+200b9bd8 | ffd0 | CALL EAX
+200b9bda | 5e | POP ESI
+200b9bdb | c20400 | RET 0x4

@@ -1,0 +1,4 @@
+; 10006b13 ??XbCOrientedBox@@QAEAAV0@ABVbCMatrix3@@@Z
+10006b13 | e928240600 | JMP 0x10068f40
+; 10006b18 bCInfDoubleCylinder::Cull
+; 10006b18 Ordinal_1876

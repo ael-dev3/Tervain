@@ -1,0 +1,2 @@
+; 300ae280 bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector>::vfunction1
+300ae280 | e988b3f8ff | JMP 0x3003960d

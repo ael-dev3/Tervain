@@ -1,0 +1,2 @@
+; 30026c15 eCVisualAnimation_PS::GetDebugMode
+30026c15 | e9a66b0700 | JMP 0x3009d7c0

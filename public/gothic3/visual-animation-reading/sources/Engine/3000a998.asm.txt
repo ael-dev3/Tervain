@@ -1,0 +1,2 @@
+; 3000a998 bTPOPureSmartPtr<eCSpringAndDamperEffector>::vfunction12
+3000a998 | e9e31d0a00 | JMP 0x300ac780

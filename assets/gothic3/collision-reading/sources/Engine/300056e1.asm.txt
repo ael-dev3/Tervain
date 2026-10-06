@@ -1,0 +1,4 @@
+; 300056e1 ?SetAdaptScale@eCCollisionShape@@QAEXABM@Z
+300056e1 | e9aad20b00 | JMP 0x300c2990
+; 300056e6 eCTexCoordSrcScale::Create
+; 300056e6 Ordinal_4708

@@ -1,0 +1,2 @@
+; 3002bad0 ?GetScaledFrameTime@eCApplication@@QBEMXZ
+3002bad0 | e97b780300 | JMP 0x30063350

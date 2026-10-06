@@ -1,0 +1,3 @@
+; 2018d4e0 gCHUDTableSkillStats::~gCHUDTableSkillStats
+2018d4e0 | c701d4896720 | MOV dword ptr [ECX],0x206789d4
+2018d4e6 | e99320e8ff | JMP 0x2000f57e

@@ -1,0 +1,4 @@
+; 30015302 ?SetIgnoredByTraceRay@eCCollisionShape@@QAEXAB_N@Z
+30015302 | e909d20a00 | JMP 0x300c2510
+; 30015307 eCParticleSystemBase_PS::AccessTrailTextureName
+; 30015307 Ordinal_3232

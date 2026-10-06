@@ -1,0 +1,4 @@
+; 10001bf9 ?SetInnerBoxFromPoints@bCOrientedBox@@QAEXPBVbCVector@@H@Z
+10001bf9 | e942370600 | JMP 0x10065340
+; 10001bfe bCEigenVector::Eigenvector
+; 10001bfe Ordinal_1983

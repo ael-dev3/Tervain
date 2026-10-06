@@ -1,0 +1,2 @@
+; 3001c99a eCSpringAndDamperEffector::Create
+3001c99a | e951b93600 | JMP 0x303882f0

@@ -1,0 +1,4 @@
+; 10006da2 ?GetScaled@bCOrientedBox@@QBEXAAV1@ABVbCVector@@@Z
+10006da2 | e979c40500 | JMP 0x10063220
+; 10006da7 bCMatrix3::LookAt
+; 10006da7 Ordinal_3700

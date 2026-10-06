@@ -1,0 +1,30 @@
+/* ENTRY 10029760 | FUN_10029760 | STATUS decompiled | 13 ms */
+
+float10 __fastcall FUN_10029760(undefined4 *param_1)
+
+{
+  bCString local_10 [4];
+  bCString local_c [4];
+  int local_8;
+  int local_4;
+  
+  bCString::bCString(local_10,"SP");
+  if ((gCPlayerMemory_PS *)*param_1 == (gCPlayerMemory_PS *)0x0) {
+    local_8 = 0;
+  }
+  else {
+    local_8 = gCPlayerMemory_PS::GetValue((gCPlayerMemory_PS *)*param_1,local_10);
+  }
+  bCString::~bCString(local_10);
+  bCString::bCString(local_c,"SP");
+  if ((gCPlayerMemory_PS *)*param_1 == (gCPlayerMemory_PS *)0x0) {
+    local_4 = 0;
+  }
+  else {
+    local_4 = gCPlayerMemory_PS::GetMaximum((gCPlayerMemory_PS *)*param_1,local_c);
+  }
+  bCString::~bCString(local_c);
+  return (float10)(((float)local_8 / (float)local_4) * 100.0);
+}
+
+

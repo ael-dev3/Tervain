@@ -1,0 +1,114 @@
+{
+  "schema": "gothic3-native-instructions-v1",
+  "schemaVersion": 1,
+  "inputs": {
+    "Game": {
+      "studyPath": "00_Original_Runtime/Game.dll",
+      "sha256": "b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f",
+      "bytes": 8228864
+    },
+    "SharedBase": {
+      "studyPath": "00_Original_Runtime/SharedBase.dll",
+      "sha256": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214",
+      "bytes": 1409024
+    },
+    "Engine": {
+      "studyPath": "00_Original_Runtime/Engine.dll",
+      "sha256": "d49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3",
+      "bytes": 11472896
+    }
+  },
+  "rules": {
+    "schema": "gothic3-native-instructions-rules-v1",
+    "schemaVersion": 1,
+    "gameSha256": "b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f",
+    "waitPointer": "2002d3b2",
+    "epsilon": 9.999999747378752e-06,
+    "millisecondsPerSecond": 1000,
+    "callbackForceMilliseconds": 2000,
+    "dailyRoutineFallback": {
+      "propertySetSelector": 30,
+      "propertySet": "gCNPC_PS",
+      "branch": "2036b75e-2036b764",
+      "selectorMethod": "20010a1e",
+      "requiresExplicitNpcPresent": true,
+      "navigationPresenceIsNotDispatchInput": true
+    },
+    "arithmeticProfiles": {
+      "precisionBits": [
+        24,
+        53,
+        64
+      ],
+      "rounding": "nearest-even",
+      "capturedNativeEnvironment": false,
+      "selectionRequired": true
+    },
+    "factory": {
+      "frameCapacity": 5,
+      "frameCount": 1,
+      "frameTimeMilliseconds": 1000,
+      "taskMilliseconds": 0,
+      "stateMilliseconds": 0,
+      "waitElapsedMilliseconds": 0,
+      "waitDurationMilliseconds": null,
+      "taskCallbackMilliseconds": null,
+      "localCallbackMilliseconds": null,
+      "localTimeScale": 1,
+      "lastFrameTimestamp": 0,
+      "audioChannel": null,
+      "self": null,
+      "instructionEntity": null,
+      "instructionTarget": null
+    },
+    "entrypoints": {
+      "process": "200047e1",
+      "wait": "2002d3b2",
+      "newFrame": "200190ce",
+      "fullStop": "2003140d",
+      "stopWait": "20003ec2",
+      "routineProcess": "2000a745"
+    },
+    "unsupported": [
+      "Compiled state/function/callback bodies not yet ported and identified by original source.",
+      "Goto/output/animation/combat/aim/HUD-wait instruction bodies.",
+      "Nonnull audio-channel dependencies and engine audio effects.",
+      "Native entity destruction, allocator callback effects, unknown proxy references and reference overflow.",
+      "Nonfinite x87 values/exceptions, non-nearest rounding and a captured live FPU environment.",
+      "Invalid/dangling native frame addresses, freed stack allocations and reentrant ProcessScript.",
+      "Complete browser application/EntityAdmin gates and actor dispatch ordering are selected host inputs."
+    ]
+  },
+  "coverage": {
+    "entries": 117,
+    "instructions": 2055,
+    "instructionBytes": 6207
+  },
+  "behavior": [
+    "ProcessScript application gate false returns1 before timer writes.",
+    "Stored scaled application seconds multiply local max(epsilon,scale), first store float32, then multiply1000 in selected x87 precision.",
+    "Task/state/WAIT elapsed float32 stores precede task synchronization and active instruction poll.",
+    "WAIT consumes entity/u32 milliseconds only on nonnull input; pending is target>elapsed; descriptor is not retained.",
+    "Completion/abort clears descriptor proxy+78, proxy+108, then active callback. Duration/elapsed remain.",
+    "Active pointer reread determines pending; instruction AL is ignored by ProcessScript.",
+    "Pending instruction path runs local callback, task callback, task/state publication, then returns without audio update.",
+    "Completed state with prior positive position runs a second state call after intermediate time publication.",
+    "Registered AI function AL==1 removes live top frame; unknown registration is unsupported instead of emulating native error-dialog success.",
+    "Empty/exhausted frame stack calls DetectDailyRoutineTask(false), which requires valid Self before its missing-PS guard.",
+    "Frame callback has no scheduler budget guard; task callback is budgeted globally with1000/2000millisecond thresholds.",
+    "Task/state publication divides captured milliseconds by1000 and stores float32 before each EnterEx callback.",
+    "Callback setter uses native null-storage CString sentinel, distinct from an allocated zero-length CString."
+  ],
+  "baselineChange": {
+    "path": "src/gothic3/script-routine.ts",
+    "changes": [
+      "Add scoped shared-state scheduler fields/dispatch with existing revision/trace/failure handling.",
+      "Require distinct native frame-slot identities and reject freed/replaced captured frame allocations.",
+      "Correct ContinueRoutine fallback to explicit NPC_PS selector0x1e presence and preserve live Self rereads."
+    ],
+    "historicalSessionCheckpoint": "864422d",
+    "historicalSourceAndReceiptsPreserved": true,
+    "historicalCheckpointDoesNotAttestUpdatedRuntime": true
+  },
+  "scope": "Source-supported scheduler/WAIT transitions, not complete native scripts, all instruction implementations, actor AI or full game execution."
+}

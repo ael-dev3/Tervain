@@ -1,0 +1,43 @@
+/* ENTRY 1000d3f0 | FUN_1000d3f0 | STATUS decompiled | 20 ms */
+
+void __thiscall FUN_1000d3f0(int param_1)
+
+{
+  bool bVar1;
+  Entity *this;
+  gESpecies gVar2;
+  char in_stack_000000a8;
+  Entity aEStack_168 [160];
+  undefined4 uStack_c8;
+  Entity *pEVar3;
+  Entity local_ac [4];
+  Entity local_a8 [168];
+  
+  pEVar3 = local_a8;
+  uStack_c8 = 0x1000d40f;
+  this = (Entity *)Entity::GetPlayer();
+  uStack_c8 = 0x1000d417;
+  bVar1 = Entity::operator==(this,pEVar3);
+  Entity::~Entity(local_ac);
+  if (bVar1) {
+    *(char *)(param_1 + 5) = in_stack_000000a8;
+  }
+  if (in_stack_000000a8 == '\x01') {
+    Entity::Entity((Entity *)&stack0xfffffe94,(Entity *)&stack0x00000000);
+    thunk_FUN_1000dde0();
+    gVar2 = PSNpc::PropertySpecies::operator_enum_gESpecies((PropertySpecies *)&stack0x00000034);
+    if (gVar2 == 0) {
+      Entity::Entity(aEStack_168,(Entity *)&stack0x00000000);
+      thunk_FUN_1000c160();
+      uStack_c8 = 0x1000d4b7;
+      PSRoutine::PropertyAniState::operator=
+                ((PropertyAniState *)&stack0x00000004,(gEAniState *)&stack0xffffff50);
+    }
+    uStack_c8 = 0x1000d4c6;
+    Entity::SetMovementMode((Entity *)&stack0x00000000,3);
+  }
+  Entity::~Entity((Entity *)&stack0x00000000);
+  return;
+}
+
+

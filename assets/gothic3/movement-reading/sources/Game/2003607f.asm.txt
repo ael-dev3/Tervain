@@ -1,0 +1,4 @@
+; 2003607f bTPropertyType<gCCharacterMovement_PS,float>::vfunction12
+2003607f | e94cf31f00 | JMP 0x202353d0
+; 20036089 LAB_20036089
+20036089 | e932675100 | JMP 0x2054c7c0

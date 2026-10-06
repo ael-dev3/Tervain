@@ -1,0 +1,48 @@
+/* ENTRY 10020e30 | FUN_10020e30 | STATUS decompiled | 14 ms */
+
+undefined2 __fastcall FUN_10020e30(undefined4 *param_1)
+
+{
+  HMODULE hModule;
+  FARPROC pFVar1;
+  
+  if (*(short *)(param_1 + 1) == 0) {
+    hModule = LoadLibraryA(PTR_s_ge3Dialogs_dll_1013f104);
+    *param_1 = hModule;
+    if (hModule != (HMODULE)0x0) {
+      pFVar1 = GetProcAddress(hModule,"_CreateErrorDialog@4");
+      param_1[2] = pFVar1;
+      pFVar1 = GetProcAddress((HMODULE)*param_1,"_DestroyErrorDialog@0");
+      param_1[3] = pFVar1;
+      pFVar1 = GetProcAddress((HMODULE)*param_1,"_ShowModalErrorDialog@0");
+      param_1[4] = pFVar1;
+      pFVar1 = GetProcAddress((HMODULE)*param_1,"_AddText@8");
+      param_1[5] = pFVar1;
+      pFVar1 = GetProcAddress((HMODULE)*param_1,"_GetErrorDialogState@8");
+      param_1[6] = pFVar1;
+      pFVar1 = GetProcAddress((HMODULE)*param_1,"_CreateMemoryDialog@0");
+      param_1[7] = pFVar1;
+      pFVar1 = GetProcAddress((HMODULE)*param_1,"_DestroyMemoryDialog@0");
+      param_1[8] = pFVar1;
+      pFVar1 = GetProcAddress((HMODULE)*param_1,"_ShowModalMemoryDialog@0");
+      param_1[9] = pFVar1;
+      pFVar1 = GetProcAddress((HMODULE)*param_1,"_AddItemToMemoryOverview@8");
+      param_1[10] = pFVar1;
+      pFVar1 = GetProcAddress((HMODULE)*param_1,"_CreateFileNotUniqueDialog@0");
+      param_1[0xb] = pFVar1;
+      pFVar1 = GetProcAddress((HMODULE)*param_1,"_DestroyFileNotUniqueDialog@0");
+      param_1[0xc] = pFVar1;
+      pFVar1 = GetProcAddress((HMODULE)*param_1,"_ShowModalFileNotUniqueDialog@0");
+      *(short *)(param_1 + 1) = *(short *)(param_1 + 1) + 1;
+      param_1[0xd] = pFVar1;
+      return *(undefined2 *)(param_1 + 1);
+    }
+    MessageBoxA((HWND)0x0,&DAT_100e6ba0,"Fatal error",0);
+    GE_MESSAGEF_WARN(&DAT_100e6ac8,"bCGothic3EngineDialogs::bCDialogHandle::AddReference",
+                     PTR_s_ge3Dialogs_dll_1013f104);
+  }
+  *(short *)(param_1 + 1) = *(short *)(param_1 + 1) + 1;
+  return *(undefined2 *)(param_1 + 1);
+}
+
+

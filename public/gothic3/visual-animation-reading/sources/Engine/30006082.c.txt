@@ -1,0 +1,16 @@
+/* ENTRY 30006082 | eCVisualAnimation_PS::eSMotionDesc::eSMotionDesc | STATUS decompiled | 3 ms */
+
+/* public: __thiscall eCVisualAnimation_PS::eSMotionDesc::eSMotionDesc(void) */
+
+eSMotionDesc * __thiscall eCVisualAnimation_PS::eSMotionDesc::eSMotionDesc(eSMotionDesc *this)
+
+{
+                    /* 0x6082  939  ??0eSMotionDesc@eCVisualAnimation_PS@@QAE@XZ */
+  bCString::bCString((bCString *)(this + 4));
+  *(undefined4 *)this = 0;
+  bCString::Clear((bCString *)(this + 4));
+  *(undefined4 *)(this + 8) = 2;
+  return this;
+}
+
+

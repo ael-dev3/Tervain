@@ -1,0 +1,4 @@
+; 10006334 ?Invalidate@bCPropertyID@@AAEXXZ
+10006334 | e9d7c30800 | JMP 0x10092710
+; 10006339 bCPropertyLayout::Create
+; 10006339 Ordinal_1814

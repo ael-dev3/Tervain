@@ -1,0 +1,2 @@
+; 3002d434 ?Invalidate@eCApplication@@IAEXXZ
+3002d434 | e947580300 | JMP 0x30062c80

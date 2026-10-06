@@ -1,0 +1,87 @@
+/* ENTRY 30008639 | eCPhysicObject::Process | STATUS decompiled | 54 ms */
+
+/* public: void __thiscall eCPhysicObject::Process(void) */
+
+void __thiscall eCPhysicObject::Process(eCPhysicObject *this)
+
+{
+  NxActor *pNVar1;
+  int *piVar2;
+  bool bVar3;
+  char cVar4;
+  eCPhysicsScene *peVar5;
+  eCPhysicsScene *peVar6;
+  bCCriticalSectionWin32 *pbVar7;
+  int iVar8;
+  int iVar9;
+  eCEntity *peVar10;
+  
+                    /* 0x8639  11959  ?Process@eCPhysicObject@@QAEXXZ */
+  peVar5 = eCPhysicsScene::GetInstance();
+  if (peVar5[0x14] != (eCPhysicsScene)0x0) {
+    if ((this->eCPhysicObject_data).offset_0x9 == '\0') {
+      (this->eCPhysicObject_data).offset_0x9 = 1;
+      peVar6 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+      pbVar7 = eCPhysicsScene::GetCriticalSection(peVar6);
+      bCCriticalSectionWin32::Acquire(pbVar7);
+      peVar10 = (this->eCPhysicObject_data).offset_0x0;
+      peVar6 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+      bVar3 = eCPhysicsScene::IsEntityFrozen(peVar6,peVar10);
+      if (!bVar3) {
+        peVar10 = (this->eCPhysicObject_data).offset_0x0;
+        if (peVar10 == (eCEntity *)0x0) {
+          iVar9 = 0;
+        }
+        else {
+          iVar9 = (**(code **)(*(int *)peVar10 + 0xec))(0xe);
+        }
+        pNVar1 = (this->eCPhysicObject_data).offset_0x4;
+        if ((pNVar1 != (NxActor *)0x0) &&
+           (cVar4 = (**(code **)(*(int *)pNVar1 + 0x68))(), cVar4 == '\x01')) {
+          iVar8 = thunk_FUN_3030e530((this->eCPhysicObject_data).offset_0x0);
+          if (iVar8 != 0) {
+            (**(code **)(*(int *)(this->eCPhysicObject_data).offset_0x4 + 0x154))
+                      (~*(uint *)(iVar8 + 0x7c) & 0x7e);
+          }
+          if ((iVar9 != 0) && (*(char *)(iVar9 + 0x24) == '\0')) {
+            (**(code **)(*(int *)(this->eCPhysicObject_data).offset_0x4 + 0x60))(1);
+          }
+          (**(code **)(*(int *)(this->eCPhysicObject_data).offset_0x4 + 0x148))(0x3ecccccc);
+        }
+        iVar8 = 0;
+        if (0 < (this->eCPhysicObject_data).offset_0x10) {
+          do {
+            piVar2 = *(int **)((this->eCPhysicObject_data).offset_0xc + iVar8 * 4);
+            if ((iVar9 == 0) || (*(char *)(iVar9 + 0x24) == '\0')) {
+              (**(code **)(*piVar2 + 0x60))(1);
+            }
+            (**(code **)(*piVar2 + 0x148))(0x3ecccccc);
+            (**(code **)(*piVar2 + 0x154))(0x7e);
+            iVar8 = iVar8 + 1;
+          } while (iVar8 < (this->eCPhysicObject_data).offset_0x10);
+        }
+      }
+      bCCriticalSectionWin32::Release(pbVar7);
+    }
+    if (0 < (this->eCPhysicObject_data).offset_0x10) {
+      peVar6 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+      pbVar7 = eCPhysicsScene::GetCriticalSection(peVar6);
+      bCCriticalSectionWin32::Acquire(pbVar7);
+      iVar9 = 0;
+      if (0 < (this->eCPhysicObject_data).offset_0x10) {
+        do {
+          (**(code **)(**(int **)((this->eCPhysicObject_data).offset_0xc + iVar9 * 4) + 0x148))
+                    (0x3ecccccc);
+          iVar9 = iVar9 + 1;
+        } while (iVar9 < (this->eCPhysicObject_data).offset_0x10);
+      }
+                    /* WARNING: Could not recover jumptable at 0x3030a2ba. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+      bCCriticalSectionWin32::Release(pbVar7);
+      return;
+    }
+  }
+  return;
+}
+
+

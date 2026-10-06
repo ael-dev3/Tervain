@@ -1,0 +1,3 @@
+; 20208660 bTPropertyObjectType<gCClock_PS,eCEntityPropertySet>::vfunction3
+20208660 | 8d4118 | LEA EAX,[ECX + 0x18]
+20208663 | c3 | RET

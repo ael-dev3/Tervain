@@ -1,0 +1,15 @@
+; 20398ac0 bTPropertyObject<gCAttribute,bCObjectRefBase>::scalar_deleting_destructor
+20398ac0 | 56 | PUSH ESI
+20398ac1 | 8bf1 | MOV ESI,ECX
+20398ac3 | c706942d6a20 | MOV dword ptr [ESI],0x206a2d94
+20398ac9 | e880adc8ff | CALL 0x2002384e
+20398ace | 8bce | MOV ECX,ESI
+20398ad0 | e8e581c9ff | CALL 0x20030cba
+20398ad5 | f644240801 | TEST byte ptr [ESP + 0x8],0x1
+20398ada | 7409 | JZ 0x20398ae5
+20398adc | 56 | PUSH ESI
+20398add | e853ae0c00 | CALL 0x20463935
+20398ae2 | 83c404 | ADD ESP,0x4
+20398ae5 | 8bc6 | MOV EAX,ESI
+20398ae7 | 5e | POP ESI
+20398ae8 | c20400 | RET 0x4

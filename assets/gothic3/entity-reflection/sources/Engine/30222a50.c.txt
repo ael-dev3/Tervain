@@ -1,0 +1,15 @@
+/* ENTRY 30222a50 | FUN_30222a50 | STATUS decompiled | 9 ms */
+
+undefined4 __fastcall FUN_30222a50(eCEntityPropertySet *param_1)
+
+{
+  bool bVar1;
+  
+  bVar1 = (*param_1->vftablePtr->IsValid)(param_1);
+  if (!bVar1) {
+    eCEntityPropertySet::Create(param_1);
+  }
+  return 1;
+}
+
+

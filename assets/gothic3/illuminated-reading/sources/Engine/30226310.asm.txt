@@ -1,0 +1,3 @@
+; 30226310 bTPropertyType<eCIlluminated_PS,bool>::vfunction1
+30226310 | 8b411c | MOV EAX,dword ptr [ECX + 0x1c]
+30226313 | c3 | RET

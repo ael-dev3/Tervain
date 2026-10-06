@@ -1,0 +1,4 @@
+; 20035bb6 ?Destroy@gCCharacterControl_PS@@UAEXXZ
+20035bb6 | e9a5301e00 | JMP 0x20218c60
+; 20035bc5 gCCameraAI_PS::AccessCamModeDive
+; 20035bc5 Ordinal_1059

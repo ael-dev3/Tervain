@@ -1,0 +1,39 @@
+; 2023a480 bTPropertyObject<gCCharacterSensor_PS,eCEntityPropertySet>::vfunction15
+2023a480 | 56 | PUSH ESI
+2023a481 | 57 | PUSH EDI
+2023a482 | 6890010000 | PUSH 0x190
+2023a487 | 6a10 | PUSH 0x10
+2023a489 | 8bf9 | MOV EDI,ECX
+2023a48b | ff15f8887d20 | CALL dword ptr [0x207d88f8]
+2023a491 | 8bf0 | MOV ESI,EAX
+2023a493 | 85f6 | TEST ESI,ESI
+2023a495 | 7433 | JZ 0x2023a4ca
+2023a497 | 8bce | MOV ECX,ESI
+2023a499 | ff15b8877d20 | CALL dword ptr [0x207d87b8]
+2023a49f | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+2023a4a6 | c7062c876820 | MOV dword ptr [ESI],0x2068872c
+2023a4ac | e8ff85dfff | CALL 0x20032ab0
+2023a4b1 | 836604fb | AND dword ptr [ESI + 0x4],0xfffffffb
+2023a4b5 | 6a00 | PUSH 0x0
+2023a4b7 | 8bce | MOV ECX,ESI
+2023a4b9 | 89460c | MOV dword ptr [ESI + 0xc],EAX
+2023a4bc | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+2023a4c3 | e860a6ddff | CALL 0x20014b28
+2023a4c8 | eb02 | JMP 0x2023a4cc
+; 2023a4ca LAB_2023a4ca
+2023a4ca | 33f6 | XOR ESI,ESI
+; 2023a4cc LAB_2023a4cc
+2023a4cc | 8bcf | MOV ECX,EDI
+2023a4ce | ff15e8867d20 | CALL dword ptr [0x207d86e8]
+2023a4d4 | 84c0 | TEST AL,AL
+2023a4d6 | 750a | JNZ 0x2023a4e2
+2023a4d8 | 8b06 | MOV EAX,dword ptr [ESI]
+2023a4da | 8b503c | MOV EDX,dword ptr [EAX + 0x3c]
+2023a4dd | 57 | PUSH EDI
+2023a4de | 8bce | MOV ECX,ESI
+2023a4e0 | ffd2 | CALL EDX
+; 2023a4e2 LAB_2023a4e2
+2023a4e2 | 5f | POP EDI
+2023a4e3 | 8bc6 | MOV EAX,ESI
+2023a4e5 | 5e | POP ESI
+2023a4e6 | c3 | RET

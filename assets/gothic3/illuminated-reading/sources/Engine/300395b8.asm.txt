@@ -1,0 +1,2 @@
+; 300395b8 eCIlluminated_PS::GetRootObject
+300395b8 | e983931e00 | JMP 0x30222940

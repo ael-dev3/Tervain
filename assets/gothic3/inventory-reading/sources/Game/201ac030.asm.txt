@@ -1,0 +1,39 @@
+; 201ac030 bTPropertyObject<gCInventory_PS,eCEntityPropertySet>::vfunction15
+201ac030 | 56 | PUSH ESI
+201ac031 | 57 | PUSH EDI
+201ac032 | 6890010000 | PUSH 0x190
+201ac037 | 6a10 | PUSH 0x10
+201ac039 | 8bf9 | MOV EDI,ECX
+201ac03b | ff15f8887d20 | CALL dword ptr [0x207d88f8]
+201ac041 | 8bf0 | MOV ESI,EAX
+201ac043 | 85f6 | TEST ESI,ESI
+201ac045 | 7433 | JZ 0x201ac07a
+201ac047 | 8bce | MOV ECX,ESI
+201ac049 | ff15b8877d20 | CALL dword ptr [0x207d87b8]
+201ac04f | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+201ac056 | c706a4cd6720 | MOV dword ptr [ESI],0x2067cda4
+201ac05c | e8ccd1e5ff | CALL 0x2000922d
+201ac061 | 836604fb | AND dword ptr [ESI + 0x4],0xfffffffb
+201ac065 | 6a00 | PUSH 0x0
+201ac067 | 8bce | MOV ECX,ESI
+201ac069 | 89460c | MOV dword ptr [ESI + 0xc],EAX
+201ac06c | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+201ac073 | e8b3b4e6ff | CALL 0x2001752b
+201ac078 | eb02 | JMP 0x201ac07c
+; 201ac07a LAB_201ac07a
+201ac07a | 33f6 | XOR ESI,ESI
+; 201ac07c LAB_201ac07c
+201ac07c | 8bcf | MOV ECX,EDI
+201ac07e | ff15e8867d20 | CALL dword ptr [0x207d86e8]
+201ac084 | 84c0 | TEST AL,AL
+201ac086 | 750a | JNZ 0x201ac092
+201ac088 | 8b06 | MOV EAX,dword ptr [ESI]
+201ac08a | 8b503c | MOV EDX,dword ptr [EAX + 0x3c]
+201ac08d | 57 | PUSH EDI
+201ac08e | 8bce | MOV ECX,ESI
+201ac090 | ffd2 | CALL EDX
+; 201ac092 LAB_201ac092
+201ac092 | 5f | POP EDI
+201ac093 | 8bc6 | MOV EAX,ESI
+201ac095 | 5e | POP ESI
+201ac096 | c3 | RET

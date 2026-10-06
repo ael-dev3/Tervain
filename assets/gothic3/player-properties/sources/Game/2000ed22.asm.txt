@@ -1,0 +1,2 @@
+; 2000ed22 ?ReadAttributes@gCPlayerMemory_PS@@IAE_NAAVbCIStream@@@Z
+2000ed22 | e9d9f93000 | JMP 0x2031e700

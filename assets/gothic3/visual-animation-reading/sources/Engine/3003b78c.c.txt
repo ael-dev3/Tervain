@@ -1,0 +1,17 @@
+/* ENTRY 3003b78c | eCVisualAnimation_PS::eSMotionDesc::SetMotionOwner | STATUS decompiled | 2 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::eSMotionDesc::SetMotionOwner(enum
+   eCVisualAnimation_PS::eSMotionDesc::eEMotionOwner) */
+
+void __thiscall
+eCVisualAnimation_PS::eSMotionDesc::SetMotionOwner(eSMotionDesc *this,eEMotionOwner param_1)
+
+{
+                    /* 0x3b78c  13835
+                       ?SetMotionOwner@eSMotionDesc@eCVisualAnimation_PS@@QAEXW4eEMotionOwner@12@@Z
+                        */
+  *(eEMotionOwner *)(this + 8) = param_1;
+  return;
+}
+
+

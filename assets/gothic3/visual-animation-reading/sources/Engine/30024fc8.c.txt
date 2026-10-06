@@ -1,0 +1,16 @@
+/* ENTRY 30024fc8 | eCArchiveFile::GetFileName | STATUS decompiled | 6 ms */
+
+/* public: class bCString __thiscall eCArchiveFile::GetFileName(void)const  */
+
+bCString * __thiscall eCArchiveFile::GetFileName(eCArchiveFile *this)
+
+{
+  bCString *in_stack_00000004;
+  
+                    /* 0x24fc8  7098  ?GetFileName@eCArchiveFile@@QBE?AVbCString@@XZ */
+  bCString::bCString(in_stack_00000004);
+  GetFileName(this,in_stack_00000004);
+  return in_stack_00000004;
+}
+
+

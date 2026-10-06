@@ -1,0 +1,2 @@
+; 300351ca bTPropertyType<eCCollisionShape,float>::vfunction8
+300351ca | e9a1c03200 | JMP 0x30361270

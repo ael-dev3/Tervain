@@ -1,0 +1,2 @@
+; 3000b460 eCSpringAndDamperEffector::eCSpringAndDamperEffector
+3000b460 | e95b640500 | JMP 0x300618c0

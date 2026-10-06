@@ -1,0 +1,16 @@
+/* ENTRY 300ac990 | bTPropertyObject<eCSpringAndDamperEffector,eCEffector>::vfunction4 | STATUS decompiled | 3 ms */
+
+void __thiscall
+bTPropertyObject<eCSpringAndDamperEffector,eCEffector>::vfunction4
+          (bTPropertyObject<eCSpringAndDamperEffector,eCEffector> *this)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x300ac993. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCPropertyObjectTypeBase::GetDescription
+            ((bCPropertyObjectTypeBase *)
+             (this->bTPropertyObject<eCSpringAndDamperEffector,eCEffector>_data).offset_0x0);
+  return;
+}
+
+

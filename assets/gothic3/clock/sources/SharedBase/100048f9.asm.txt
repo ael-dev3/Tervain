@@ -1,0 +1,4 @@
+; 100048f9 ?IsPaused@bCClock@@QBE_NXZ
+100048f9 | e9c2740400 | JMP 0x1004bdc0
+; 10004903 bCRect::operator==
+; 10004903 Ordinal_803

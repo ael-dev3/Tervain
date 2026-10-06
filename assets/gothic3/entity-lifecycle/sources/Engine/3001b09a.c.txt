@@ -1,0 +1,37 @@
+/* ENTRY 3001b09a | eCDynamicEntity::eCDynamicEntity | STATUS decompiled | 10 ms */
+
+/* protected: __thiscall eCDynamicEntity::eCDynamicEntity(class eCDynamicEntity const &) */
+
+eCDynamicEntity * __thiscall
+eCDynamicEntity::eCDynamicEntity(eCDynamicEntity *this,eCDynamicEntity *param_1)
+
+{
+  uint *puVar1;
+  undefined1 *this_00;
+  ushort *puVar2;
+  uint uVar3;
+  int iVar4;
+  
+                    /* 0x1b09a  256  ??0eCDynamicEntity@@IAE@ABV0@@Z */
+  eCEntity::eCEntity((eCEntity *)this);
+  this_00 = &(this->eCDynamicEntity_data).field_0x4;
+  this->vftablePtr = &vftable;
+  bCPropertyID::bCPropertyID((bCPropertyID *)this_00);
+  uVar3 = (this->eCEntity_data).offset_0xc;
+  puVar2 = &(this->eCDynamicEntity_data).offset_0x18;
+  *puVar2 = *puVar2 & 0xff0f;
+  (this->eCEntity_data).offset_0xc = uVar3 & 0xffffffef | 0x2c;
+  *(undefined1 *)((int)&(this->eCDynamicEntity_data).offset_0x18 + 1) = 0;
+  puVar2 = &(this->eCDynamicEntity_data).offset_0x18;
+  *puVar2 = *puVar2 & 0xfff0;
+  (this->eCDynamicEntity_data).offset_0x0 = 0;
+  bCPropertyID::Destroy((bCPropertyID *)this_00);
+  puVar1 = &(this->eCEntity_data).offset_0xc;
+  *puVar1 = *puVar1 | 0x800000;
+  CopyFrom(this,(bCObjectBase *)param_1);
+  iVar4 = thunk_FUN_3007bf20();
+  *(int *)(iVar4 + 0x134) = *(int *)(iVar4 + 0x134) + 1;
+  return this;
+}
+
+

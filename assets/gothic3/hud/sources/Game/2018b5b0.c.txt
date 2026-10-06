@@ -1,0 +1,11 @@
+/* ENTRY 2018b5b0 | gCHUDStaticInvIcon::gCHUDStaticInvIcon | STATUS decompiled | 6 ms */
+
+gCHUDStaticInvIcon * __thiscall gCHUDStaticInvIcon::gCHUDStaticInvIcon(gCHUDStaticInvIcon *this)
+
+{
+  CFFGFCStatic::CFFGFCStatic((CFFGFCStatic *)this);
+  this->vftablePtr = &vftable;
+  return this;
+}
+
+

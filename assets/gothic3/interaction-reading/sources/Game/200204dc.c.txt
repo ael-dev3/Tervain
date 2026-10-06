@@ -1,0 +1,11 @@
+/* ENTRY 200204dc | bTPropertyType<gCInteraction_PS,bTPropertyContainer<gEFocusNameType>_>::vfunction5 | STATUS decompiled | 2 ms */
+
+bTPropertyType<gCInteraction_PS,bTPropertyContainer<gEFocusNameType>_>_vftable * __thiscall
+bTPropertyType<gCInteraction_PS,bTPropertyContainer<gEFocusNameType>_>::vfunction5
+          (bTPropertyType<gCInteraction_PS,bTPropertyContainer<gEFocusNameType>_> *this)
+
+{
+  return this[6].vftablePtr;
+}
+
+

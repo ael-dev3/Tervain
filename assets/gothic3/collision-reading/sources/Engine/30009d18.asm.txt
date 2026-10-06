@@ -1,0 +1,4 @@
+; 30009d18 bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eEPhysicRangeType>_>::vfunction5
+30009d18 | e993423300 | JMP 0x3033dfb0
+; 30009d1d eCLightSet::GetEffectedDynamicLights
+; 30009d1d Ordinal_6936

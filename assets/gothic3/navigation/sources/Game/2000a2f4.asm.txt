@@ -1,0 +1,2 @@
+; 2000a2f4 ?GetDCC@gCNavigation_PS@@QBEPAVgCDynamicCollisionCircle_PS@@XZ
+2000a2f4 | e9e7be2700 | JMP 0x202861e0

@@ -1,0 +1,47 @@
+/* ENTRY 2002fa31 | gCScriptProcessingUnit::RunTaskCallback | STATUS decompiled | 22 ms */
+
+/* protected: void __thiscall gCScriptProcessingUnit::RunTaskCallback(class gCScriptAdmin *,class
+   gCScriptRoutine_PS *) */
+
+void __thiscall
+gCScriptProcessingUnit::RunTaskCallback
+          (gCScriptProcessingUnit *this,gCScriptAdmin *param_1,gCScriptRoutine_PS *param_2)
+
+{
+  undefined1 *this_00;
+  float fVar1;
+  bool bVar2;
+  
+                    /* 0x2fa31  6171
+                       ?RunTaskCallback@gCScriptProcessingUnit@@IAEXPAVgCScriptAdmin@@PAVgCScriptRoutine_PS@@@Z
+                        */
+  this_00 = &(this->gCScriptProcessingUnit_data).field_0x10;
+  bVar2 = bCString::IsEmpty((bCString *)this_00);
+  if (!bVar2) {
+    fVar1 = *(float *)&(this->gCScriptProcessingUnit_data).field_0x14;
+    if (1000.0 <= fVar1) {
+      thunk_FUN_200a4bb0();
+      if ((s_u32MaxTaskCallbacks <= s_u32CalledTaskCallbacks) &&
+         (fVar1 = *(float *)&(this->gCScriptProcessingUnit_data).field_0x14, fVar1 < 2000.0)) {
+        *(float *)&(this->gCScriptProcessingUnit_data).field_0x14 =
+             ((float)(this->gCScriptProcessingUnit_data).offset_0x58 -
+             *(float *)(param_2 + 0x1c) * 1000.0) + fVar1;
+        s_u32CurrentTaskCallbacks = s_u32CurrentTaskCallbacks + 1;
+        return;
+      }
+      gCScriptAdmin::RunScriptCallback
+                ((gCScriptAdmin *)param_1,(bCString *)this_00,(gCScriptProcessingUnit *)this);
+      *(undefined4 *)&(this->gCScriptProcessingUnit_data).field_0x14 = 0;
+      s_u32CalledTaskCallbacks = s_u32CalledTaskCallbacks + 1;
+      s_u32CurrentTaskCallbacks = s_u32CurrentTaskCallbacks + 1;
+      return;
+    }
+    *(float *)&(this->gCScriptProcessingUnit_data).field_0x14 =
+         fVar1 + ((float)(this->gCScriptProcessingUnit_data).offset_0x58 -
+                 *(float *)(param_2 + 0x1c) * 1000.0);
+    s_u32CurrentTaskCallbacks = s_u32CurrentTaskCallbacks + 1;
+  }
+  return;
+}
+
+

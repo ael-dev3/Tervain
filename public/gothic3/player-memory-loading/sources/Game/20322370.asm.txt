@@ -1,0 +1,15 @@
+; 20322370 bTPropertyType<gCPlayerMemory_PS,bTObjArray<bCString>_>::vfunction8
+20322370 | 56 | PUSH ESI
+20322371 | 8bf1 | MOV ESI,ECX
+20322373 | 8b06 | MOV EAX,dword ptr [ESI]
+20322375 | 8b5018 | MOV EDX,dword ptr [EAX + 0x18]
+20322378 | ffd2 | CALL EDX
+2032237a | 84c0 | TEST AL,AL
+2032237c | 7505 | JNZ 0x20322383
+2032237e | 83c8ff | OR EAX,0xffffffff
+20322381 | 5e | POP ESI
+20322382 | c3 | RET
+20322383 | 8b4620 | MOV EAX,dword ptr [ESI + 0x20]
+20322386 | 8b4004 | MOV EAX,dword ptr [EAX + 0x4]
+20322389 | 5e | POP ESI
+2032238a | c3 | RET

@@ -1,0 +1,13 @@
+/* ENTRY 20184cc0 | gCHUDListBoxQuests::gCHUDListBoxQuests | STATUS decompiled | 8 ms */
+
+gCHUDListBoxQuests * __thiscall gCHUDListBoxQuests::gCHUDListBoxQuests(gCHUDListBoxQuests *this)
+
+{
+  CFFGFCListBox::CFFGFCListBox((CFFGFCListBox *)this);
+  this->vftablePtr = &vftable;
+  (this->gCHUDListBoxQuests_data).offset_0xc = 1;
+  bCString::bCString((bCString *)&(this->gCHUDListBoxQuests_data).field_0x10,"");
+  return this;
+}
+
+

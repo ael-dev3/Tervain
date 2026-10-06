@@ -1,0 +1,14 @@
+/* ENTRY 2028de70 | bTPropertyType<gCNavigation_PS,bCPropertyID>::vfunction3 | STATUS decompiled | 3 ms */
+
+void __thiscall
+bTPropertyType<gCNavigation_PS,bCPropertyID>::vfunction3
+          (bTPropertyType<gCNavigation_PS,bCPropertyID> *this)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x2028de77. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  (**(code **)(this[6].vftablePtr)->vfunction1)();
+  return;
+}
+
+

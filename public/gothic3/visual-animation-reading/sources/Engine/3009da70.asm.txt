@@ -1,0 +1,3 @@
+; 3009da70 FUN_3009da70
+3009da70 | d98180010000 | FLD float ptr [ECX + 0x180]
+3009da76 | c3 | RET

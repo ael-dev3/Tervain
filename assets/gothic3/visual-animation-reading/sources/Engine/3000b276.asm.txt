@@ -1,0 +1,2 @@
+; 3000b276 eCEffector::GetRootObject
+3000b276 | e9159d3700 | JMP 0x30384f90

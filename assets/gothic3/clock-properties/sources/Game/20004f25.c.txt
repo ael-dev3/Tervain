@@ -1,0 +1,12 @@
+/* ENTRY 20004f25 | gCClock_PS::AccessYear | STATUS decompiled | 9 ms */
+
+/* public: unsigned long & __thiscall gCClock_PS::AccessYear(void) */
+
+ulong * __thiscall gCClock_PS::AccessYear(gCClock_PS *this)
+
+{
+                    /* 0x4f25  1829  ?AccessYear@gCClock_PS@@QAEAAKXZ */
+  return (ulong *)&(this->gCClock_PS_data).field_0x10;
+}
+
+

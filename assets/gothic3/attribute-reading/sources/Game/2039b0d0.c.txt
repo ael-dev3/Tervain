@@ -1,0 +1,30 @@
+/* ENTRY 2039b0d0 | FUN_2039b0d0 | STATUS decompiled | 16 ms */
+
+void __thiscall FUN_2039b0d0(gCAttribute *param_1,EAttribModOperation param_2,int param_3)
+
+{
+  undefined4 *puVar1;
+  int iVar2;
+  
+  if (param_2 == 1) {
+    puVar1 = &(param_1->gCAttribute_data).offset_0x18;
+    *puVar1 = *puVar1 + param_3;
+  }
+  else {
+    if (param_2 == 2) {
+      GE_MESSAGEF_WARN("gCStat::ApplyTemp -> EOp_AddPercentageToVal cannot be used as a modifier.");
+      gCAttribute::ApplyTemp(param_1,2,param_3);
+      return;
+    }
+    if (param_2 != 3) goto LAB_2039b13d;
+    iVar2 = FUN_20465320();
+    puVar1 = &(param_1->gCAttribute_data).offset_0x18;
+    *puVar1 = *puVar1 + iVar2;
+  }
+  (*param_1->vftablePtr->Cap)(param_1);
+LAB_2039b13d:
+  gCAttribute::ApplyTemp(param_1,param_2,param_3);
+  return;
+}
+
+

@@ -1,0 +1,26 @@
+; 204ffec0 bTPropertyType<gCCharacterMovement_PS,float>::~bTPropertyType<gCCharacterMovement_PS,float>
+204ffec0 | 51 | PUSH ECX
+204ffec1 | 681c636520 | PUSH 0x2065631c
+204ffec6 | 8d4c2404 | LEA ECX,[ESP + 0x4]
+204ffeca | ff150c897d20 | CALL dword ptr [0x207d890c]
+204ffed0 | 6a01 | PUSH 0x1
+204ffed2 | 8d442404 | LEA EAX,[ESP + 0x4]
+204ffed6 | 50 | PUSH EAX
+204ffed7 | b9b4db7b20 | MOV ECX,0x207bdbb4
+204ffedc | ff1594877d20 | CALL dword ptr [0x207d8794]
+204ffee2 | c705b4db7b207c7b6820 | MOV dword ptr [0x207bdbb4],0x20687b7c
+204ffeec | e82157b2ff | CALL 0x20025612
+204ffef1 | b9b4db7b20 | MOV ECX,0x207bdbb4
+204ffef6 | a3ccdb7b20 | MOV [0x207bdbcc],EAX
+204ffefb | c705d0db7b2024000000 | MOV dword ptr [0x207bdbd0],0x24
+204fff05 | c705d4db7b2000000000 | MOV dword ptr [0x207bdbd4],0x0
+204fff0f | ff15d8877d20 | CALL dword ptr [0x207d87d8]
+204fff15 | 8b0dccdb7b20 | MOV ECX,dword ptr [0x207bdbcc]
+204fff1b | 68b4db7b20 | PUSH 0x207bdbb4
+204fff20 | ff15cc877d20 | CALL dword ptr [0x207d87cc]
+204fff26 | 8d0c24 | LEA ECX,[ESP]
+204fff29 | ff1534887d20 | CALL dword ptr [0x207d8834]
+204fff2f | 6840885520 | PUSH 0x20558840
+204fff34 | e89538f6ff | CALL 0x204637ce
+204fff39 | 83c408 | ADD ESP,0x8
+204fff3c | c3 | RET

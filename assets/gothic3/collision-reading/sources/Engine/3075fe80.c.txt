@@ -1,0 +1,32 @@
+/* ENTRY 3075fe80 | bTPropertyType<eCCollisionShape,bool>::~bTPropertyType<eCCollisionShape,bool> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<eCCollisionShape,bool>::~bTPropertyType<eCCollisionShape,bool>
+          (bTPropertyType<eCCollisionShape,bool> *this)
+
+{
+  bTPropertyType<eCCollisionShape,bool> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"DisableCollision");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&eCCollisionShape::ms_PropertyMember_m_bDisableCollision,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_bDisableCollision = &vftable;
+  DAT_30aece64 = bTPropertyObjectType<eCCollisionShape,bCObjectRefBase>::
+                 ~bTPropertyObjectType<eCCollisionShape,bCObjectRefBase>();
+  _DAT_30aece68 = 0x2f;
+  _DAT_30aece6c = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&eCCollisionShape::ms_PropertyMember_m_bDisableCollision);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_30aece64,
+             (bCPropertyTypeBase *)&eCCollisionShape::ms_PropertyMember_m_bDisableCollision);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}
+
+

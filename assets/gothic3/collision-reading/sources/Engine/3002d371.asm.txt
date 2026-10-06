@@ -1,0 +1,2 @@
+; 3002d371 bTPropertyType<eCCollisionShapeBase_PS,bCObsoleteClass>::deleting_destructor
+3002d371 | e9da593100 | JMP 0x30342d50

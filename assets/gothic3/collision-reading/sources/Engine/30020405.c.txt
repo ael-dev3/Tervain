@@ -1,0 +1,24 @@
+/* ENTRY 30020405 | eCCollisionShape_PS::RemoveShapeAt | STATUS decompiled | 13 ms */
+
+/* public: virtual void __thiscall eCCollisionShape_PS::RemoveShapeAt(int) */
+
+void __thiscall eCCollisionShape_PS::RemoveShapeAt(eCCollisionShape_PS *this,int param_1)
+
+{
+  eCEntity *peVar1;
+  eCPhysicObjectStateBuffer *this_00;
+  NxShape *pNVar2;
+  
+                    /* 0x20405  12550  ?RemoveShapeAt@eCCollisionShape_PS@@UAEXH@Z */
+  if ((uint)param_1 < (uint)(this->eCCollisionShape_PS_data).offset_0x18) {
+    pNVar2 = *(NxShape **)
+              (*(int *)((this->eCCollisionShape_PS_data).offset_0x14 + param_1 * 4) + 0x60);
+    thunk_FUN_3033c960(param_1);
+    peVar1 = (*this->vftablePtr->GetEntity)(this);
+    this_00 = eCPhysicObjectStateBuffer::GetBuffer(peVar1);
+    eCPhysicObjectStateBuffer::RemoveShape(this_00,pNVar2);
+  }
+  return;
+}
+
+

@@ -1,0 +1,2 @@
+; 20028cc2 ?Create@gCFocus_PS@@UAE?AW4bEResult@@XZ
+20028cc2 | e939241100 | JMP 0x2013b100

@@ -1,0 +1,4 @@
+; 2002ee33 ?SetMaximum@gCStat@@UAEXH@Z
+2002ee33 | e9b8c03600 | JMP 0x2039aef0
+; 2002ee38 gCNavigationMap::CorrectDCCPositions
+; 2002ee38 Ordinal_2306

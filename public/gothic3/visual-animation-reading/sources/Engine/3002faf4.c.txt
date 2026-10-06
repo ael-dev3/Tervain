@@ -1,0 +1,47 @@
+/* ENTRY 3002faf4 | eCVisualAnimation_PS::ClearLookAtConstraints | STATUS decompiled | 53 ms */
+
+/* public: bool __thiscall eCVisualAnimation_PS::ClearLookAtConstraints(void) */
+
+bool __thiscall eCVisualAnimation_PS::ClearLookAtConstraints(eCVisualAnimation_PS *this)
+
+{
+  eCVisualAnimation_PS *peVar1;
+  GetVersion **ppGVar2;
+  eCLookAtConstraint *this_00;
+  bCMemoryAdmin *pbVar3;
+  int iVar4;
+  GetVersion *pGVar5;
+  eCVisualAnimation_PS_vftable *peVar6;
+  
+                    /* 0x2faf4  3803  ?ClearLookAtConstraints@eCVisualAnimation_PS@@QAE_NXZ */
+  iVar4 = 0;
+  if (0 < *(int *)&this[0xb].eCEntityPropertySet_data) {
+    do {
+      this_00 = (eCLookAtConstraint *)(&(this[0xb].vftablePtr)->GetVersion)[iVar4];
+      ppGVar2 = &(this[0xb].vftablePtr)->GetVersion + iVar4;
+      if (this_00 != (eCLookAtConstraint *)0x0) {
+        eCLookAtConstraint::Destroy(this_00);
+        bCVector::~bCVector((bCVector *)(this_00 + 0x24));
+        bCVector::~bCVector((bCVector *)(this_00 + 0x18));
+        bCString::~bCString((bCString *)(this_00 + 0x10));
+        pGVar5 = *ppGVar2;
+        pbVar3 = bCMemoryAdmin::GetInstance();
+        bCMemoryAdmin::DeleteObject(pbVar3,pGVar5);
+        *ppGVar2 = (GetVersion *)0x0;
+      }
+      iVar4 = iVar4 + 1;
+    } while (iVar4 < *(int *)&this[0xb].eCEntityPropertySet_data);
+  }
+  peVar1 = this + 0xb;
+  if ((peVar1 != (eCVisualAnimation_PS *)0x0) &&
+     (peVar6 = peVar1->vftablePtr, peVar6 != (eCVisualAnimation_PS_vftable *)0x0)) {
+    pbVar3 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar3,peVar6);
+    peVar1->vftablePtr = (eCVisualAnimation_PS_vftable *)0x0;
+    *(undefined4 *)&this[0xb].eCEntityPropertySet_data = 0;
+    *(undefined4 *)&this[0xb].eCEntityPropertySet_data.field_0x4 = 0;
+  }
+  return true;
+}
+
+

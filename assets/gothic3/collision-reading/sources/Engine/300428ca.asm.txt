@@ -1,0 +1,4 @@
+; 300428ca bTPropertyType<eCCollisionShape,unsigned_short>::vfunction2
+300428ca | e901ee3100 | JMP 0x303616d0
+; 300428d9 eCShadowMapDirectionalLightLsPSM::GetShadowMapMatrix
+; 300428d9 Ordinal_8775

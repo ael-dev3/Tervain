@@ -1,0 +1,14 @@
+/* ENTRY 3068213c | FUN_3068213c | STATUS decompiled | 4 ms */
+
+undefined4 FUN_3068213c(void)
+
+{
+  uint in_EAX;
+  
+  if ((in_EAX & 0x80000) != 0) {
+    return 7;
+  }
+  return 1;
+}
+
+

@@ -1,0 +1,2 @@
+; 2002b95e bTPropertyObjectType<gCMovementBase_PS,eCEntityPropertySet>::vfunction3
+2002b95e | e9edf62000 | JMP 0x2023b050

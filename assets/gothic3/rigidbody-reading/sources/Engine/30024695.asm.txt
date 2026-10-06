@@ -1,0 +1,2 @@
+; 30024695 bTPropertyObjectType<eCRigidBody_PS,eCRigidBodyBase_PS>::vfunction1
+30024695 | e936ba3000 | JMP 0x303300d0

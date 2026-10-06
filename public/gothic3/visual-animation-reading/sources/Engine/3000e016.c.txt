@@ -1,0 +1,34 @@
+/* ENTRY 3000e016 | eCVisualAnimationLoD::~eCVisualAnimationLoD | STATUS decompiled | 13 ms */
+
+/* public: virtual __thiscall eCVisualAnimationLoD::~eCVisualAnimationLoD(void) */
+
+void __thiscall eCVisualAnimationLoD::~eCVisualAnimationLoD(eCVisualAnimationLoD *this)
+
+{
+  void **ppvVar1;
+  bCMemoryAdmin *this_00;
+  void *pvVar2;
+  
+                    /* 0xe016  1386  ??1eCVisualAnimationLoD@@UAE@XZ */
+  this->vftablePtr = &vftable;
+  SetActor(this,(eCResourceDataEntity *)0x0);
+  bCString::Clear((bCString *)&this->eCVisualAnimationLoD_data);
+  ppvVar1 = &(this->eCVisualAnimationLoD_data).offset_0x10;
+  (this->eCVisualAnimationLoD_data).offset_0x8 = 0;
+  (this->eCVisualAnimationLoD_data).offset_0x4 = (eCResourceAnimationActor_PS *)0x0;
+  (this->eCVisualAnimationLoD_data).offset_0xc = 0;
+  if ((ppvVar1 != (void **)0x0) && (pvVar2 = *ppvVar1, pvVar2 != (void *)0x0)) {
+    this_00 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(this_00,pvVar2);
+    *ppvVar1 = (void *)0x0;
+    (this->eCVisualAnimationLoD_data).offset_0x14 = 0;
+    (this->eCVisualAnimationLoD_data).offset_0x18 = 0;
+  }
+  bCString::~bCString((bCString *)&this->eCVisualAnimationLoD_data);
+                    /* WARNING: Could not recover jumptable at 0x300bf41a. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCObjectBase::~bCObjectBase((bCObjectBase *)this);
+  return;
+}
+
+

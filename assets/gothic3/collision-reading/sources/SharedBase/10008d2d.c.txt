@@ -1,0 +1,16 @@
+/* ENTRY 10008d2d | bCOrientedBox::GetInSphere | STATUS decompiled | 2 ms */
+
+/* public: class bCSphere __thiscall bCOrientedBox::GetInSphere(void)const  */
+
+undefined4 __thiscall bCOrientedBox::GetInSphere(bCOrientedBox *this)
+
+{
+  undefined4 extraout_EDX;
+  bCSphere *in_stack_00000004;
+  
+                    /* 0x8d2d  2406  ?GetInSphere@bCOrientedBox@@QBE?AVbCSphere@@XZ */
+  GetInSphere(this,in_stack_00000004);
+  return extraout_EDX;
+}
+
+

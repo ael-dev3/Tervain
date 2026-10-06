@@ -1,0 +1,4 @@
+; 30048496 bTPropertyObjectType<eCCollisionShapeBase_PS,eCEntityPropertySet>::vfunction5
+30048496 | e915912f00 | JMP 0x303415b0
+; 3004849b eCCursor::eCCursor
+; 3004849b Ordinal_200

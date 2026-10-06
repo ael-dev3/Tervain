@@ -1,0 +1,21 @@
+/* ENTRY 20162860 | gCHUDViewTradeInventory2::~gCHUDViewTradeInventory2 | STATUS decompiled | 24 ms */
+
+void __thiscall gCHUDViewTradeInventory2::~gCHUDViewTradeInventory2(gCHUDViewTradeInventory2 *this)
+
+{
+  this->vftablePtr = &vftable;
+  gCHUDStaticInvCategory::~gCHUDStaticInvCategory
+            ((gCHUDStaticInvCategory *)&(this->gCHUDViewTradeInventory2_data).field_0xdc);
+  gCHUDStaticInvCash::~gCHUDStaticInvCash
+            ((gCHUDStaticInvCash *)&(this->gCHUDViewTradeInventory2_data).field_0xac);
+  gCHUDStaticInvCash::~gCHUDStaticInvCash
+            ((gCHUDStaticInvCash *)&(this->gCHUDViewTradeInventory2_data).field_0x7c);
+  gCHUDTabCtrlInventory::~gCHUDTabCtrlInventory
+            ((gCHUDTabCtrlInventory *)&(this->gCHUDViewTradeInventory2_data).field_0x64);
+  gCHUDListCtrlInvTradeStacks::~gCHUDListCtrlInvTradeStacks
+            ((gCHUDListCtrlInvTradeStacks *)&(this->gCHUDViewTradeInventory2_data).field_0xc);
+  FUN_200156a9();
+  return;
+}
+
+

@@ -1,0 +1,2 @@
+; 30016a9f ?WriteSaveGame@eCEntityPropertySet@@UAE?AW4bEResult@@AAVbCOStream@@@Z
+30016a9f | e9dcab4600 | JMP 0x30481680

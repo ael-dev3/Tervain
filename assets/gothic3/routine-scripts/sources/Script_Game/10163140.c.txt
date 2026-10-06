@@ -1,0 +1,17 @@
+/* ENTRY 10163140 | FUN_10163140 | STATUS decompiled | 7 ms */
+
+void FUN_10163140(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Routine\\Routine_Tasks\\ZS_Preach.cpp");
+  bCString::bCString(local_8,"ZS_Preach");
+  thunk_FUN_1001db60(local_8,&LAB_10002432,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

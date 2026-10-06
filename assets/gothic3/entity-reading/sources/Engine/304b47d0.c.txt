@@ -1,0 +1,50 @@
+/* ENTRY 304b47d0 | FUN_304b47d0 | STATUS decompiled | 28 ms */
+
+void __thiscall FUN_304b47d0(eCNode *param_1,uint param_2,undefined4 param_3,char param_4)
+
+{
+  undefined4 *puVar1;
+  eCNode_vftable *peVar2;
+  code *pcVar3;
+  bool bVar4;
+  undefined3 extraout_var;
+  int iVar6;
+  eCEntity *this;
+  bool unaff_DI;
+  int iVar7;
+  char cVar8;
+  int *piVar5;
+  
+  peVar2 = param_1->vftablePtr;
+  puVar1 = &param_1[1].eCNode_data.offset_0x8;
+  *puVar1 = *puVar1 ^ ((param_2 & 0xff) << 0xb ^ param_1[1].eCNode_data.offset_0x8) & 0x800;
+  bVar4 = (*peVar2[1].NotifyPropertyValueChangedExitEx)(param_1,(char *)0xe,unaff_DI);
+  piVar5 = (int *)CONCAT31(extraout_var,bVar4);
+  if (piVar5 != (int *)0x0) {
+    (**(code **)(*piVar5 + 0x58))("IgnoredByTraceRay",0);
+    pcVar3 = *(code **)(*piVar5 + 0x5c);
+    *(bool *)((int)piVar5 + 0x26) = (char)param_2 == '\0';
+    (*pcVar3)("IgnoredByTraceRay",0);
+  }
+  if (param_1[1].vftablePtr != (eCNode_vftable *)0x0) {
+    eCPhysicObject::SetIgnoredByTraceRay
+              ((eCPhysicObject *)param_1[1].vftablePtr,(char)param_2 == '\0');
+  }
+  if (param_4 == '\x01') {
+    iVar7 = 0;
+    iVar6 = eCNode::GetChildrenCount(param_1);
+    if (0 < iVar6) {
+      do {
+        bVar4 = true;
+        cVar8 = (char)param_2;
+        this = (eCEntity *)(*param_1->vftablePtr->GetChildAt)(param_1,iVar7);
+        eCEntity::EnablePicking(this,(bool)cVar8,bVar4);
+        iVar7 = iVar7 + 1;
+        iVar6 = eCNode::GetChildrenCount(param_1);
+      } while (iVar7 < iVar6);
+    }
+  }
+  return;
+}
+
+

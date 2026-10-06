@@ -1,0 +1,4 @@
+; 2001311f ?GetModifier@gCPlayerMemory_PS@@QBEHABVbCString@@@Z
+2001311f | e91ca53000 | JMP 0x2031d640
+; 20013124 gCNPC_PS::Write
+; 20013124 Ordinal_7539

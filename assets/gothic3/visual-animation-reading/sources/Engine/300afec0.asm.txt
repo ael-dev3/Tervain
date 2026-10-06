@@ -1,0 +1,5 @@
+; 300afec0 bTPropertyContainer<eEShapeGroup>::vfunction7
+300afec0 | a1b8a2ad30 | MOV EAX,[0x30ada2b8]
+300afec5 | 894104 | MOV dword ptr [ECX + 0x4],EAX
+300afec8 | b801000000 | MOV EAX,0x1
+300afecd | c3 | RET

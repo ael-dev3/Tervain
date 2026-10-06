@@ -1,0 +1,43 @@
+/* ENTRY 200170f8 | gCInventory_PS::PurgeListeners | STATUS decompiled | 15 ms */
+
+/* protected: void __thiscall gCInventory_PS::PurgeListeners(void) */
+
+void __thiscall gCInventory_PS::PurgeListeners(gCInventory_PS *this)
+
+{
+  undefined4 *puVar1;
+  void *_Dst;
+  uint uVar2;
+  int iVar3;
+  int iVar4;
+  uint uVar5;
+  
+                    /* 0x170f8  5862  ?PurgeListeners@gCInventory_PS@@IAEXXZ */
+  iVar4 = (this->gCInventory_PS_data).offset_0x38;
+  uVar5 = 0;
+  if (0 < iVar4) {
+    do {
+      if (*(char *)((int)(this->gCInventory_PS_data).offset_0x34 + uVar5 * 8 + 4) == '\0') {
+        uVar2 = (this->gCInventory_PS_data).offset_0x38;
+        if (uVar5 < uVar2) {
+          iVar3 = (uVar2 - uVar5) + -1;
+          if (0 < iVar3) {
+            _Dst = (void *)((int)(this->gCInventory_PS_data).offset_0x34 + uVar5 * 8);
+            _memmove(_Dst,(void *)((int)_Dst + 8),iVar3 * 8);
+          }
+          puVar1 = &(this->gCInventory_PS_data).offset_0x38;
+          *puVar1 = *puVar1 + -1;
+        }
+        iVar4 = iVar4 + -1;
+        uVar5 = uVar5 - 1;
+      }
+      uVar5 = uVar5 + 1;
+    } while ((int)uVar5 < iVar4);
+  }
+  if ((this->gCInventory_PS_data).offset_0x38 == 0) {
+    thunk_FUN_201cefb0(0);
+  }
+  return;
+}
+
+

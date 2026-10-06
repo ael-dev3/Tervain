@@ -1,0 +1,11 @@
+; 3008fb50 FUN_3008fb50
+3008fb50 | f30f1005d0988130 | MOVSS XMM0,dword ptr [0x308198d0]
+3008fb58 | 33c0 | XOR EAX,EAX
+3008fb5a | f30f114158 | MOVSS dword ptr [ECX + 0x58],XMM0
+3008fb5f | f30f1005cc988130 | MOVSS XMM0,dword ptr [0x308198cc]
+3008fb67 | 894114 | MOV dword ptr [ECX + 0x14],EAX
+3008fb6a | 894164 | MOV dword ptr [ECX + 0x64],EAX
+3008fb6d | 894160 | MOV dword ptr [ECX + 0x60],EAX
+3008fb70 | f30f11415c | MOVSS dword ptr [ECX + 0x5c],XMM0
+3008fb75 | 83c148 | ADD ECX,0x48
+3008fb78 | e9538cfaff | JMP 0x300387d0

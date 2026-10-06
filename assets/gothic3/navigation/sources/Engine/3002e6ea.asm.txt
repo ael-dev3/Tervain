@@ -1,0 +1,2 @@
+; 3002e6ea ?SetROISphere@eCEntityAdmin@@QAEXABVbCSphere@@@Z
+3002e6ea | e9e1934900 | JMP 0x304c7ad0

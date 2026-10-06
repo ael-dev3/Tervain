@@ -1,0 +1,7 @@
+; 303415d0 bTPropertyObjectType<eCCollisionShapeBase_PS,eCEntityPropertySet>::vfunction6
+303415d0 | 689cd18130 | PUSH 0x3081d19c
+303415d5 | 6864d18130 | PUSH 0x3081d164
+303415da | 687ccf8130 | PUSH 0x3081cf7c
+303415df | ff1530dbaf30 | CALL dword ptr [0x30afdb30]
+303415e5 | 83c40c | ADD ESP,0xc
+303415e8 | c20400 | RET 0x4

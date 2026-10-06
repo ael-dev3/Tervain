@@ -1,0 +1,13 @@
+/* ENTRY 304b4780 | FUN_304b4780 | STATUS decompiled | 7 ms */
+
+undefined4 __fastcall FUN_304b4780(eCNode *param_1)
+
+{
+  eCNode::Create(param_1);
+  eCFrustumElementItem::SetEntity
+            ((eCFrustumElementItem *)&param_1[6].eCNode_data.offset_0x28,(eCEntity *)param_1);
+  *(undefined1 **)&param_1[6].eCNode_data.field_0x20 = &LAB_30017323;
+  return 1;
+}
+
+

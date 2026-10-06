@@ -1,0 +1,4 @@
+; 10003ed6 ?Read@bCPropertyObjectBase@@UAEGAAVbCIStream@@@Z
+10003ed6 | e905530800 | JMP 0x100891e0
+; 10003ee0 bCValidateMemory::SetFatalErrorOnError
+; 10003ee0 Ordinal_4196

@@ -1,0 +1,2 @@
+; 1000287e ??4PropertyAction@PSRoutine@@QAEAAV01@ABV01@@Z
+1000287e | e96d870000 | JMP 0x1000aff0

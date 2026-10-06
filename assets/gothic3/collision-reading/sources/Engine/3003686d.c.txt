@@ -1,0 +1,11 @@
+/* ENTRY 3003686d | bTPropertyObject<eCCollisionShape,bCObjectRefBase>::vfunction1 | STATUS decompiled | 4 ms */
+
+bCObjectRefBase * __thiscall
+bTPropertyObject<eCCollisionShape,bCObjectRefBase>::vfunction1
+          (bTPropertyObject<eCCollisionShape,bCObjectRefBase> *this)
+
+{
+  return (this->bTPOPureSmartPtr<eCCollisionShape>_data).offset_0x4;
+}
+
+

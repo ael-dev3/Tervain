@@ -1,0 +1,17 @@
+/* ENTRY 20023f4c | gCEnclave_PS::GetMembers | STATUS decompiled | 6 ms */
+
+/* public: class bTObjArray<class eCEntityProxy> const & __thiscall
+   gCEnclave_PS::GetMembers(void)const  */
+
+bTObjArray<eCEntityProxy> * __thiscall gCEnclave_PS::GetMembers(gCEnclave_PS *this)
+
+{
+                    /* 0x23f4c  3776
+                       ?GetMembers@gCEnclave_PS@@QBEABV?$bTObjArray@VeCEntityProxy@@@@XZ */
+  if ((int)(this->gCEnclave_PS_data).offset_0x4c < 1) {
+    BuildMemberList(this,false);
+  }
+  return (bTObjArray<eCEntityProxy> *)&(this->gCEnclave_PS_data).offset_0x48;
+}
+
+

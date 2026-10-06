@@ -1,0 +1,2 @@
+; 20021247 gCParty_PS::IsReferencedByTemplate
+20021247 | e924692f00 | JMP 0x20317b70

@@ -1,0 +1,64 @@
+/* ENTRY 20374e90 | FUN_20374e90 | STATUS decompiled | 24 ms */
+
+void __fastcall FUN_20374e90(int param_1)
+
+{
+  char cVar1;
+  eCApplication *peVar2;
+  eCSceneAdmin *peVar3;
+  int iVar4;
+  bCErrorAdmin *this;
+  eCEntity *peVar5;
+  undefined4 uVar6;
+  int *piVar7;
+  bCMessageAdmin *this_00;
+  bEMessageTypes bVar8;
+  char *pcVar9;
+  int iVar10;
+  char *pcVar11;
+  char *pcVar12;
+  bCString *pbVar13;
+  int iStack_4;
+  
+  iStack_4 = param_1;
+  peVar2 = eCApplication::GetInstance();
+  cVar1 = (**(code **)(*(int *)peVar2 + 0x26c))();
+  if (cVar1 == '\0') {
+    pbVar13 = (bCString *)&g_strPlayerName;
+    peVar3 = (eCSceneAdmin *)thunk_FUN_200ae8e0();
+    iVar4 = eCSceneAdmin::GetNumEntitiesByName(peVar3,pbVar13);
+    if (1 < iVar4) {
+      iVar4 = 0x104b;
+      pcVar12 = ".\\session\\ge_session.cpp";
+      pcVar11 = " current world has more than one hero! ";
+      this = bCErrorAdmin::GetInstance();
+      bCErrorAdmin::CallFatalError(this,pcVar11,pcVar12,iVar4);
+    }
+  }
+  pbVar13 = (bCString *)&g_strPlayerName;
+  peVar3 = (eCSceneAdmin *)thunk_FUN_200ae8e0(&g_strPlayerName,0);
+  peVar5 = eCSceneAdmin::GetEntityByName(peVar3,pbVar13);
+  uVar6 = ___RTDynamicCast(peVar5);
+  *(undefined4 *)(param_1 + 0x1c) = uVar6;
+  bCString::bCString((bCString *)&iStack_4,"OnPlayerChanged");
+  piVar7 = (int *)thunk_FUN_200a4bb0();
+  (**(code **)(*piVar7 + 0xbc))(&iStack_4);
+  bCString::~bCString((bCString *)&stack0xffffffec);
+  if (*(eCEntity **)(param_1 + 0x1c) == (eCEntity *)0x0) {
+    iVar4 = *(int *)g_iDefaultMessagePriority_exref;
+    iVar10 = -1;
+    pcVar9 = (char *)0x0;
+    pcVar12 = (char *)0x0;
+    pcVar11 = "C: can\'t start game, missing player entity!";
+    bVar8 = 3;
+    this_00 = bCMessageAdmin::GetInstance();
+    bCMessageAdmin::OnMessage(this_00,bVar8,pcVar11,pcVar12,pcVar9,iVar10,iVar4);
+    return;
+  }
+  eCEntity::PrintDebug(*(eCEntity **)(param_1 + 0x1c));
+  eCEntity::EnableDeactivation(*(eCEntity **)(param_1 + 0x1c),false);
+  eCEntity::SetRenderAlphaValue(*(eCEntity **)(param_1 + 0x1c),1.0,true);
+  return;
+}
+
+

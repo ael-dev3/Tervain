@@ -1,0 +1,2 @@
+; 2001a5cd ?UnlinkStackFromSlot@gCInventory_PS@@QAEHW4gESlot@@@Z
+2001a5cd | e91e371900 | JMP 0x201adcf0

@@ -1,0 +1,2 @@
+; 3000a9a2 ?PostRead@eCEntity@@QAEX_N@Z
+3000a9a2 | e9797c4a00 | JMP 0x304b2620

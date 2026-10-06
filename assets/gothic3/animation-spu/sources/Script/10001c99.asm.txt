@@ -1,0 +1,4 @@
+; 10001c99 ?GetAniEx@Entity@@QBE?AVbCString@@W4gEAction@@W4gEPhase@@ABV2@_N@Z
+10001c99 | e9c2ef0200 | JMP 0x10030c60
+; 10001c9e PSMagic::PropertyEffectTargetPower::operator=
+; 10001c9e Ordinal_393

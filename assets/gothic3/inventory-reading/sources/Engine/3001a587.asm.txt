@@ -1,0 +1,2 @@
+; 3001a587 ?SetEntity@eCTemplateEntityProxy@@QAEXABVbCPropertyID@@@Z
+3001a587 | e944ce4a00 | JMP 0x304c73d0

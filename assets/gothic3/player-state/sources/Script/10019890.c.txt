@@ -1,0 +1,17 @@
+/* ENTRY 10019890 | FUN_10019890 | STATUS decompiled | 3 ms */
+
+gEItemCategory __thiscall FUN_10019890(void *this,int param_1)
+
+{
+  gEItemCategory gVar1;
+  
+  if (*(gCInventory_PS **)this == (gCInventory_PS *)0x0) {
+    return 0;
+  }
+                    /* WARNING: Could not recover jumptable at 0x1001989b. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  gVar1 = gCInventory_PS::GetStackCategory(*(gCInventory_PS **)this,param_1);
+  return gVar1;
+}
+
+

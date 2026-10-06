@@ -1,0 +1,2 @@
+; 20022061 gCCharacterEffect::gCCharacterEffect
+20022061 | e96a521f00 | JMP 0x202172d0

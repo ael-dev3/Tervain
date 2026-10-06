@@ -1,0 +1,12 @@
+/* ENTRY 2001e5e7 | gCClock_PS::IsProcessable | STATUS decompiled | 5 ms */
+
+/* public: virtual bool __thiscall gCClock_PS::IsProcessable(void)const  */
+
+bool __thiscall gCClock_PS::IsProcessable(gCClock_PS *this)
+
+{
+                    /* 0x1e5e7  5204  ?IsProcessable@gCClock_PS@@UBE_NXZ */
+  return true;
+}
+
+

@@ -1,0 +1,4 @@
+; 300037d8 bTPropertyObject<eCCollisionShape_PS,eCCollisionShapeBase_PS>::vfunction4
+300037d8 | e963853300 | JMP 0x3033bd40
+; 300037dd eCDX9Device::sGetAdapterDesc
+; 300037dd Ordinal_16591

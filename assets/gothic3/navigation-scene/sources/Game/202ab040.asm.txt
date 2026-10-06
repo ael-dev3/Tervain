@@ -1,0 +1,335 @@
+; 202ab040 FUN_202ab040
+202ab040 | 81ec8c000000 | SUB ESP,0x8c
+202ab046 | 55 | PUSH EBP
+202ab047 | 56 | PUSH ESI
+202ab048 | 8bf1 | MOV ESI,ECX
+202ab04a | 8b06 | MOV EAX,dword ptr [ESI]
+202ab04c | 8b5068 | MOV EDX,dword ptr [EAX + 0x68]
+202ab04f | ffd2 | CALL EDX
+202ab051 | 8bc8 | MOV ECX,EAX
+202ab053 | ff156c6d7d20 | CALL dword ptr [0x207d6d6c]
+202ab059 | 50 | PUSH EAX
+202ab05a | 8d4c2458 | LEA ECX,[ESP + 0x58]
+202ab05e | ff15f0857d20 | CALL dword ptr [0x207d85f0]
+202ab064 | 8b4618 | MOV EAX,dword ptr [ESI + 0x18]
+202ab067 | 8b4e14 | MOV ECX,dword ptr [ESI + 0x14]
+202ab06a | 8bac2498000000 | MOV EBP,dword ptr [ESP + 0x98]
+202ab071 | 55 | PUSH EBP
+202ab072 | 8d0440 | LEA EAX,[EAX + EAX*0x2]
+202ab075 | 8d4481f4 | LEA EAX,[ECX + EAX*0x4 + -0xc]
+202ab079 | 8d542424 | LEA EDX,[ESP + 0x24]
+202ab07d | 52 | PUSH EDX
+202ab07e | 50 | PUSH EAX
+202ab07f | 8d442448 | LEA EAX,[ESP + 0x48]
+202ab083 | 50 | PUSH EAX
+202ab084 | 8d4c2464 | LEA ECX,[ESP + 0x64]
+202ab088 | ff1514847d20 | CALL dword ptr [0x207d8414]
+202ab08e | 8bc8 | MOV ECX,EAX
+202ab090 | ff1584867d20 | CALL dword ptr [0x207d8684]
+202ab096 | 8d4c243c | LEA ECX,[ESP + 0x3c]
+202ab09a | ff1530897d20 | CALL dword ptr [0x207d8930]
+202ab0a0 | 8b4614 | MOV EAX,dword ptr [ESI + 0x14]
+202ab0a3 | 55 | PUSH EBP
+202ab0a4 | 8d4c2418 | LEA ECX,[ESP + 0x18]
+202ab0a8 | 51 | PUSH ECX
+202ab0a9 | 50 | PUSH EAX
+202ab0aa | 8d542448 | LEA EDX,[ESP + 0x48]
+202ab0ae | 52 | PUSH EDX
+202ab0af | 8d4c2464 | LEA ECX,[ESP + 0x64]
+202ab0b3 | ff1514847d20 | CALL dword ptr [0x207d8414]
+202ab0b9 | 8bc8 | MOV ECX,EAX
+202ab0bb | ff1584867d20 | CALL dword ptr [0x207d8684]
+202ab0c1 | 8d4c243c | LEA ECX,[ESP + 0x3c]
+202ab0c5 | ff1530897d20 | CALL dword ptr [0x207d8930]
+202ab0cb | 0f57c0 | XORPS XMM0,XMM0
+202ab0ce | 8d44240c | LEA EAX,[ESP + 0xc]
+202ab0d2 | 50 | PUSH EAX
+202ab0d3 | 8d4c2424 | LEA ECX,[ESP + 0x24]
+202ab0d7 | f30f11442410 | MOVSS dword ptr [ESP + 0x10],XMM0
+202ab0dd | ff1568817d20 | CALL dword ptr [0x207d8168]
+202ab0e3 | 0f57c0 | XORPS XMM0,XMM0
+202ab0e6 | 8d4c240c | LEA ECX,[ESP + 0xc]
+202ab0ea | 51 | PUSH ECX
+202ab0eb | 8d4c2418 | LEA ECX,[ESP + 0x18]
+202ab0ef | f30f11442410 | MOVSS dword ptr [ESP + 0x10],XMM0
+202ab0f5 | ff1568817d20 | CALL dword ptr [0x207d8168]
+202ab0fb | 8d4c2420 | LEA ECX,[ESP + 0x20]
+202ab0ff | ff15fc857d20 | CALL dword ptr [0x207d85fc]
+202ab105 | d95c240c | FSTP float ptr [ESP + 0xc]
+202ab109 | 8d4c2414 | LEA ECX,[ESP + 0x14]
+202ab10d | ff15fc857d20 | CALL dword ptr [0x207d85fc]
+202ab113 | d95c2408 | FSTP float ptr [ESP + 0x8]
+202ab117 | d944240c | FLD float ptr [ESP + 0xc]
+202ab11b | d9c0 | FLD ST0
+202ab11d | d9ee | FLDZ
+202ab11f | d9c0 | FLD ST0
+202ab121 | dfea | FUCOMIP ST0,ST2
+202ab123 | ddd9 | FSTP ST1
+202ab125 | 9f | LAHF
+202ab126 | f6c444 | TEST AH,0x44
+202ab129 | 0f8b3d030000 | JNP 0x202ab46c
+202ab12f | d9442408 | FLD float ptr [ESP + 0x8]
+202ab133 | d9c9 | FXCH
+202ab135 | dfe9 | FUCOMIP ST0,ST1
+202ab137 | ddd8 | FSTP ST0
+202ab139 | 9f | LAHF
+202ab13a | f6c444 | TEST AH,0x44
+202ab13d | 0f8b2b030000 | JNP 0x202ab46e
+202ab143 | 51 | PUSH ECX
+202ab144 | 8d4c2424 | LEA ECX,[ESP + 0x24]
+202ab148 | d91c24 | FSTP float ptr [ESP]
+202ab14b | ff152c867d20 | CALL dword ptr [0x207d862c]
+202ab151 | d9442408 | FLD float ptr [ESP + 0x8]
+202ab155 | 51 | PUSH ECX
+202ab156 | 8d4c2418 | LEA ECX,[ESP + 0x18]
+202ab15a | d91c24 | FSTP float ptr [ESP]
+202ab15d | ff152c867d20 | CALL dword ptr [0x207d862c]
+202ab163 | 8d542414 | LEA EDX,[ESP + 0x14]
+202ab167 | 52 | PUSH EDX
+202ab168 | 8d4c2424 | LEA ECX,[ESP + 0x24]
+202ab16c | ff1524807d20 | CALL dword ptr [0x207d8024]
+202ab172 | d95c2408 | FSTP float ptr [ESP + 0x8]
+202ab176 | a178867d20 | MOV EAX,[0x207d8678]
+202ab17b | d900 | FLD float ptr [EAX]
+202ab17d | dc25e0ba6720 | FSUB double ptr [0x2067bae0]
+202ab183 | d9442408 | FLD float ptr [ESP + 0x8]
+202ab187 | d9e1 | FABS
+202ab189 | d95c240c | FSTP float ptr [ESP + 0xc]
+202ab18d | d944240c | FLD float ptr [ESP + 0xc]
+202ab191 | dff1 | FCOMIP ST0,ST1
+202ab193 | ddd8 | FSTP ST0
+202ab195 | 0f87d5020000 | JA 0x202ab470
+202ab19b | 8d4c2430 | LEA ECX,[ESP + 0x30]
+202ab19f | ff1534897d20 | CALL dword ptr [0x207d8934]
+202ab1a5 | 8d4c2414 | LEA ECX,[ESP + 0x14]
+202ab1a9 | 51 | PUSH ECX
+202ab1aa | 8d542424 | LEA EDX,[ESP + 0x24]
+202ab1ae | 52 | PUSH EDX
+202ab1af | 8d4c2438 | LEA ECX,[ESP + 0x38]
+202ab1b3 | ff1560847d20 | CALL dword ptr [0x207d8460]
+202ab1b9 | 8d4c2430 | LEA ECX,[ESP + 0x30]
+202ab1bd | ff1574857d20 | CALL dword ptr [0x207d8574]
+202ab1c3 | 84c0 | TEST AL,AL
+202ab1c5 | 7569 | JNZ 0x202ab230
+202ab1c7 | a178867d20 | MOV EAX,[0x207d8678]
+202ab1cc | d900 | FLD float ptr [EAX]
+202ab1ce | 8b0d8c867d20 | MOV ECX,dword ptr [0x207d868c]
+202ab1d4 | d95c240c | FSTP float ptr [ESP + 0xc]
+202ab1d8 | d944240c | FLD float ptr [ESP + 0xc]
+202ab1dc | d9442408 | FLD float ptr [ESP + 0x8]
+202ab1e0 | dbf1 | FCOMI ST0,ST1
+202ab1e2 | 760a | JBE 0x202ab1ee
+202ab1e4 | d821 | FSUB float ptr [ECX]
+202ab1e6 | d95c2408 | FSTP float ptr [ESP + 0x8]
+202ab1ea | d9442408 | FLD float ptr [ESP + 0x8]
+; 202ab1ee LAB_202ab1ee
+202ab1ee | d9c9 | FXCH
+202ab1f0 | d9e0 | FCHS
+202ab1f2 | dff1 | FCOMIP ST0,ST1
+202ab1f4 | 760a | JBE 0x202ab200
+202ab1f6 | d801 | FADD float ptr [ECX]
+202ab1f8 | d95c2408 | FSTP float ptr [ESP + 0x8]
+202ab1fc | d9442408 | FLD float ptr [ESP + 0x8]
+; 202ab200 LAB_202ab200
+202ab200 | d9e1 | FABS
+202ab202 | 8d4c2430 | LEA ECX,[ESP + 0x30]
+202ab206 | d95c240c | FSTP float ptr [ESP + 0xc]
+202ab20a | d944240c | FLD float ptr [ESP + 0xc]
+202ab20e | d95c2408 | FSTP float ptr [ESP + 0x8]
+202ab212 | ff1594867d20 | CALL dword ptr [0x207d8694]
+202ab218 | d9ee | FLDZ
+202ab21a | d9c9 | FXCH
+202ab21c | dff1 | FCOMIP ST0,ST1
+202ab21e | ddd8 | FSTP ST0
+202ab220 | 760e | JBE 0x202ab230
+202ab222 | d9442408 | FLD float ptr [ESP + 0x8]
+202ab226 | dc0dc0cd6520 | FMUL double ptr [0x2065cdc0]
+202ab22c | d95c2408 | FSTP float ptr [ESP + 0x8]
+; 202ab230 LAB_202ab230
+202ab230 | f30f10442408 | MOVSS XMM0,dword ptr [ESP + 0x8]
+202ab236 | 53 | PUSH EBX
+202ab237 | bb01000000 | MOV EBX,0x1
+202ab23c | 395e18 | CMP dword ptr [ESI + 0x18],EBX
+202ab23f | f30f11442414 | MOVSS dword ptr [ESP + 0x14],XMM0
+202ab245 | 0f8e9f010000 | JLE 0x202ab3ea
+202ab24b | 57 | PUSH EDI
+202ab24c | 8d7b0b | LEA EDI,[EBX + 0xb]
+202ab24f | 90 | NOP
+; 202ab250 LAB_202ab250
+202ab250 | 8d4c241c | LEA ECX,[ESP + 0x1c]
+202ab254 | 51 | PUSH ECX
+202ab255 | 8d4c242c | LEA ECX,[ESP + 0x2c]
+202ab259 | ff153c887d20 | CALL dword ptr [0x207d883c]
+202ab25f | 8b4614 | MOV EAX,dword ptr [ESI + 0x14]
+202ab262 | 55 | PUSH EBP
+202ab263 | 8d542448 | LEA EDX,[ESP + 0x48]
+202ab267 | 03c7 | ADD EAX,EDI
+202ab269 | 52 | PUSH EDX
+202ab26a | 50 | PUSH EAX
+202ab26b | 8d44245c | LEA EAX,[ESP + 0x5c]
+202ab26f | 50 | PUSH EAX
+202ab270 | 8d4c246c | LEA ECX,[ESP + 0x6c]
+202ab274 | ff1514847d20 | CALL dword ptr [0x207d8414]
+202ab27a | 8bc8 | MOV ECX,EAX
+202ab27c | ff1584867d20 | CALL dword ptr [0x207d8684]
+202ab282 | 50 | PUSH EAX
+202ab283 | 8d4c2420 | LEA ECX,[ESP + 0x20]
+202ab287 | ff153c887d20 | CALL dword ptr [0x207d883c]
+202ab28d | 8d4c2444 | LEA ECX,[ESP + 0x44]
+202ab291 | ff1530897d20 | CALL dword ptr [0x207d8930]
+202ab297 | 8d4c2450 | LEA ECX,[ESP + 0x50]
+202ab29b | ff1530897d20 | CALL dword ptr [0x207d8930]
+202ab2a1 | 0f57c0 | XORPS XMM0,XMM0
+202ab2a4 | 8d4c2434 | LEA ECX,[ESP + 0x34]
+202ab2a8 | 51 | PUSH ECX
+202ab2a9 | 8d4c2420 | LEA ECX,[ESP + 0x20]
+202ab2ad | f30f11442438 | MOVSS dword ptr [ESP + 0x38],XMM0
+202ab2b3 | ff1568817d20 | CALL dword ptr [0x207d8168]
+202ab2b9 | 8d4c241c | LEA ECX,[ESP + 0x1c]
+202ab2bd | ff15fc857d20 | CALL dword ptr [0x207d85fc]
+202ab2c3 | d95c2410 | FSTP float ptr [ESP + 0x10]
+202ab2c7 | d9442410 | FLD float ptr [ESP + 0x10]
+202ab2cb | d9c0 | FLD ST0
+202ab2cd | d9ee | FLDZ
+202ab2cf | dfe9 | FUCOMIP ST0,ST1
+202ab2d1 | ddd8 | FSTP ST0
+202ab2d3 | 9f | LAHF
+202ab2d4 | f6c444 | TEST AH,0x44
+202ab2d7 | 0f8bee000000 | JNP 0x202ab3cb
+202ab2dd | 51 | PUSH ECX
+202ab2de | 8d4c2420 | LEA ECX,[ESP + 0x20]
+202ab2e2 | d91c24 | FSTP float ptr [ESP]
+202ab2e5 | ff152c867d20 | CALL dword ptr [0x207d862c]
+202ab2eb | 8d54241c | LEA EDX,[ESP + 0x1c]
+202ab2ef | 52 | PUSH EDX
+202ab2f0 | 8d4c242c | LEA ECX,[ESP + 0x2c]
+202ab2f4 | ff1524807d20 | CALL dword ptr [0x207d8024]
+202ab2fa | d95c2410 | FSTP float ptr [ESP + 0x10]
+202ab2fe | a178867d20 | MOV EAX,[0x207d8678]
+202ab303 | d900 | FLD float ptr [EAX]
+202ab305 | dc25e0ba6720 | FSUB double ptr [0x2067bae0]
+202ab30b | d9442410 | FLD float ptr [ESP + 0x10]
+202ab30f | d9e1 | FABS
+202ab311 | d95c2414 | FSTP float ptr [ESP + 0x14]
+202ab315 | d9442414 | FLD float ptr [ESP + 0x14]
+202ab319 | dff1 | FCOMIP ST0,ST1
+202ab31b | ddd8 | FSTP ST0
+202ab31d | 0f87b6000000 | JA 0x202ab3d9
+202ab323 | 8d4c241c | LEA ECX,[ESP + 0x1c]
+202ab327 | 51 | PUSH ECX
+202ab328 | 8d54242c | LEA EDX,[ESP + 0x2c]
+202ab32c | 52 | PUSH EDX
+202ab32d | 8d4c2440 | LEA ECX,[ESP + 0x40]
+202ab331 | ff1560847d20 | CALL dword ptr [0x207d8460]
+202ab337 | 8d4c2438 | LEA ECX,[ESP + 0x38]
+202ab33b | ff1574857d20 | CALL dword ptr [0x207d8574]
+202ab341 | 84c0 | TEST AL,AL
+202ab343 | 7569 | JNZ 0x202ab3ae
+202ab345 | a178867d20 | MOV EAX,[0x207d8678]
+202ab34a | d900 | FLD float ptr [EAX]
+202ab34c | 8b0d8c867d20 | MOV ECX,dword ptr [0x207d868c]
+202ab352 | d95c2414 | FSTP float ptr [ESP + 0x14]
+202ab356 | d9442414 | FLD float ptr [ESP + 0x14]
+202ab35a | d9442410 | FLD float ptr [ESP + 0x10]
+202ab35e | dbf1 | FCOMI ST0,ST1
+202ab360 | 760a | JBE 0x202ab36c
+202ab362 | d821 | FSUB float ptr [ECX]
+202ab364 | d95c2410 | FSTP float ptr [ESP + 0x10]
+202ab368 | d9442410 | FLD float ptr [ESP + 0x10]
+; 202ab36c LAB_202ab36c
+202ab36c | d9c9 | FXCH
+202ab36e | d9e0 | FCHS
+202ab370 | dff1 | FCOMIP ST0,ST1
+202ab372 | 760a | JBE 0x202ab37e
+202ab374 | d801 | FADD float ptr [ECX]
+202ab376 | d95c2410 | FSTP float ptr [ESP + 0x10]
+202ab37a | d9442410 | FLD float ptr [ESP + 0x10]
+; 202ab37e LAB_202ab37e
+202ab37e | d9e1 | FABS
+202ab380 | 8d4c2438 | LEA ECX,[ESP + 0x38]
+202ab384 | d95c2414 | FSTP float ptr [ESP + 0x14]
+202ab388 | d9442414 | FLD float ptr [ESP + 0x14]
+202ab38c | d95c2410 | FSTP float ptr [ESP + 0x10]
+202ab390 | ff1594867d20 | CALL dword ptr [0x207d8694]
+202ab396 | d9ee | FLDZ
+202ab398 | d9c9 | FXCH
+202ab39a | dff1 | FCOMIP ST0,ST1
+202ab39c | ddd8 | FSTP ST0
+202ab39e | 760e | JBE 0x202ab3ae
+202ab3a0 | d9442410 | FLD float ptr [ESP + 0x10]
+202ab3a4 | dc0dc0cd6520 | FMUL double ptr [0x2065cdc0]
+202ab3aa | d95c2410 | FSTP float ptr [ESP + 0x10]
+; 202ab3ae LAB_202ab3ae
+202ab3ae | d9442410 | FLD float ptr [ESP + 0x10]
+202ab3b2 | 83c301 | ADD EBX,0x1
+202ab3b5 | d8442418 | FADD float ptr [ESP + 0x18]
+202ab3b9 | 83c70c | ADD EDI,0xc
+202ab3bc | 3b5e18 | CMP EBX,dword ptr [ESI + 0x18]
+202ab3bf | d95c2418 | FSTP float ptr [ESP + 0x18]
+202ab3c3 | 0f8c87feffff | JL 0x202ab250
+202ab3c9 | eb1e | JMP 0x202ab3e9
+; 202ab3cb LAB_202ab3cb
+202ab3cb | 8b0d8c867d20 | MOV ECX,dword ptr [0x207d868c]
+202ab3d1 | ddd8 | FSTP ST0
+202ab3d3 | f30f1001 | MOVSS XMM0,dword ptr [ECX]
+202ab3d7 | eb0a | JMP 0x202ab3e3
+; 202ab3d9 LAB_202ab3d9
+202ab3d9 | 8b158c867d20 | MOV EDX,dword ptr [0x207d868c]
+202ab3df | f30f1002 | MOVSS XMM0,dword ptr [EDX]
+; 202ab3e3 LAB_202ab3e3
+202ab3e3 | f30f11442418 | MOVSS dword ptr [ESP + 0x18],XMM0
+; 202ab3e9 LAB_202ab3e9
+202ab3e9 | 5f | POP EDI
+; 202ab3ea LAB_202ab3ea
+202ab3ea | a178867d20 | MOV EAX,[0x207d8678]
+202ab3ef | d900 | FLD float ptr [EAX]
+202ab3f1 | 5b | POP EBX
+202ab3f2 | d9442410 | FLD float ptr [ESP + 0x10]
+202ab3f6 | 8d4c2430 | LEA ECX,[ESP + 0x30]
+202ab3fa | d9e1 | FABS
+202ab3fc | d95c242c | FSTP float ptr [ESP + 0x2c]
+202ab400 | d944242c | FLD float ptr [ESP + 0x2c]
+202ab404 | dff1 | FCOMIP ST0,ST1
+202ab406 | ddd8 | FSTP ST0
+202ab408 | 7631 | JBE 0x202ab43b
+202ab40a | ff1530897d20 | CALL dword ptr [0x207d8930]
+202ab410 | 8d4c2414 | LEA ECX,[ESP + 0x14]
+202ab414 | ff1530897d20 | CALL dword ptr [0x207d8930]
+202ab41a | 8d4c2420 | LEA ECX,[ESP + 0x20]
+202ab41e | ff1530897d20 | CALL dword ptr [0x207d8930]
+202ab424 | 8d4c2454 | LEA ECX,[ESP + 0x54]
+202ab428 | ff15f8857d20 | CALL dword ptr [0x207d85f8]
+202ab42e | 5e | POP ESI
+202ab42f | b001 | MOV AL,0x1
+202ab431 | 5d | POP EBP
+202ab432 | 81c48c000000 | ADD ESP,0x8c
+202ab438 | c20800 | RET 0x8
+; 202ab43b LAB_202ab43b
+202ab43b | ff1530897d20 | CALL dword ptr [0x207d8930]
+202ab441 | 8d4c2414 | LEA ECX,[ESP + 0x14]
+202ab445 | ff1530897d20 | CALL dword ptr [0x207d8930]
+202ab44b | 8d4c2420 | LEA ECX,[ESP + 0x20]
+202ab44f | ff1530897d20 | CALL dword ptr [0x207d8930]
+202ab455 | 8d4c2454 | LEA ECX,[ESP + 0x54]
+202ab459 | ff15f8857d20 | CALL dword ptr [0x207d85f8]
+202ab45f | 5e | POP ESI
+202ab460 | 32c0 | XOR AL,AL
+202ab462 | 5d | POP EBP
+202ab463 | 81c48c000000 | ADD ESP,0x8c
+202ab469 | c20800 | RET 0x8
+; 202ab46c LAB_202ab46c
+202ab46c | ddd9 | FSTP ST1
+; 202ab46e LAB_202ab46e
+202ab46e | ddd8 | FSTP ST0
+; 202ab470 LAB_202ab470
+202ab470 | 8d4c2414 | LEA ECX,[ESP + 0x14]
+202ab474 | ff1530897d20 | CALL dword ptr [0x207d8930]
+202ab47a | 8d4c2420 | LEA ECX,[ESP + 0x20]
+202ab47e | ff1530897d20 | CALL dword ptr [0x207d8930]
+202ab484 | 8d4c2454 | LEA ECX,[ESP + 0x54]
+202ab488 | ff15f8857d20 | CALL dword ptr [0x207d85f8]
+202ab48e | 8a84249c000000 | MOV AL,byte ptr [ESP + 0x9c]
+202ab495 | 5e | POP ESI
+202ab496 | 5d | POP EBP
+202ab497 | 81c48c000000 | ADD ESP,0x8c
+202ab49d | c20800 | RET 0x8

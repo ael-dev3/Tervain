@@ -1,0 +1,4 @@
+; 10002946 ??1bCObjectBase@@UAE@XZ
+10002946 | e995760400 | JMP 0x10049fe0
+; 1000294b bCVector4::operator+
+; 1000294b Ordinal_1063

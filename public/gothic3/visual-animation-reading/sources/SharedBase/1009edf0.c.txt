@@ -1,0 +1,18 @@
+/* ENTRY 1009edf0 | bCByteAlphaColor::bCByteAlphaColor | STATUS decompiled | 5 ms */
+
+bCByteAlphaColor * __thiscall
+bCByteAlphaColor::bCByteAlphaColor(bCByteAlphaColor *this,bEColor param_1)
+
+{
+  bCByteColor local_8;
+  
+  this->vftablePtr = &vftable;
+  ::bCByteColor::bCByteColor(&local_8,param_1);
+  (this->bCByteColor_data).offset_0x2 = local_8.bCByteColor_data.offset_0x2;
+  (this->bCByteColor_data).offset_0x0 = local_8.bCByteColor_data.offset_0x0;
+  (this->bCByteColor_data).offset_0x1 = local_8.bCByteColor_data.offset_0x1;
+  (this->bCByteAlphaColor_data).offset_0x0 = 0xff;
+  return this;
+}
+
+

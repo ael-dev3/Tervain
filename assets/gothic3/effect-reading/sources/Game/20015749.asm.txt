@@ -1,0 +1,2 @@
+; 20015749 bTPropertyType<gCEffect_PS,bool>::vfunction26
+20015749 | e952701000 | JMP 0x2011c7a0

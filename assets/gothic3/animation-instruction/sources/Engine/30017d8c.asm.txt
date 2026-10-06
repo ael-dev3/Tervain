@@ -1,0 +1,2 @@
+; 30017d8c ?GetExtroBlending@eCWrapper_emfx2Actor@@QBEMW4eEMotionType@1@@Z
+30017d8c | e93f250c00 | JMP 0x300da2d0

@@ -1,0 +1,2 @@
+; 20014669 ?GetTransactionAmount@gCInventoryStack@@QBEHXZ
+20014669 | e9e22e1b00 | JMP 0x201c7550

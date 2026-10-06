@@ -1,0 +1,11 @@
+/* ENTRY 2031df70 | FUN_2031df70 | STATUS decompiled | 6 ms */
+
+undefined4 __thiscall FUN_2031df70(gCPlayerMemory_PS *param_1,bCOStream *param_2)
+
+{
+  bCOStream::operator<<(param_2,6);
+  gCPlayerMemory_PS::WriteAttributes(param_1,(bCOStream *)param_2);
+  return 1;
+}
+
+

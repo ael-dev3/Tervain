@@ -1,0 +1,11 @@
+/* ENTRY 2016eff0 | gCHUDPageTrade2::vfunction70 | STATUS decompiled | 6 ms */
+
+void __thiscall gCHUDPageTrade2::vfunction70(gCHUDPageTrade2 *this)
+
+{
+  thunk_FUN_20163290();
+  gCHUDPage::Close((gCHUDPage *)this);
+  return;
+}
+
+

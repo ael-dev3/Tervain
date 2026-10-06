@@ -1,0 +1,2 @@
+; 300044ee thunk_FUN_300e2ca0
+300044ee | e9ade70d00 | JMP 0x300e2ca0

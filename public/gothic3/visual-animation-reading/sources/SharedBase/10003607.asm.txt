@@ -1,0 +1,2 @@
+; 10003607 bCString::GetAllocLength
+10003607 | e914fc0000 | JMP 0x10013220

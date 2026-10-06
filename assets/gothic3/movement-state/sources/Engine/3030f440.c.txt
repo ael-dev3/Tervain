@@ -1,0 +1,83 @@
+/* ENTRY 3030f440 | FUN_3030f440 | STATUS decompiled | 23 ms */
+
+bCVector * __fastcall FUN_3030f440(bCVector *param_1)
+
+{
+  bCVector::bCVector(param_1);
+  bCQuaternion::bCQuaternion((bCQuaternion *)(param_1 + 0xc));
+  bCMatrix3::bCMatrix3((bCMatrix3 *)(param_1 + 0x1c));
+  bCMatrix::bCMatrix((bCMatrix *)(param_1 + 0x40));
+  bCVector::bCVector(param_1 + 0x80);
+  bCVector::bCVector(param_1 + 0x8c);
+  bCVector::bCVector(param_1 + 0x98);
+  bCVector::bCVector(param_1 + 0xa4);
+  bCVector::bCVector(param_1 + 0xb0);
+  bCVector::bCVector(param_1 + 0xbc);
+  *(undefined4 *)(param_1 + 0xd0) = 0;
+  *(undefined4 *)(param_1 + 0xd4) = 0;
+  *(undefined4 *)(param_1 + 0xd8) = 0;
+  *(undefined4 *)(param_1 + 0xdc) = 0;
+  *(undefined4 *)(param_1 + 0xe0) = 0;
+  *(undefined4 *)(param_1 + 0xe4) = 0;
+  *(undefined4 *)(param_1 + 0xe8) = 0;
+  *(undefined4 *)(param_1 + 0xec) = 0;
+  *(undefined4 *)(param_1 + 0xf0) = 0;
+  *(undefined4 *)(param_1 + 0xf4) = 0;
+  *(undefined4 *)(param_1 + 0xf8) = 0;
+  *(undefined4 *)(param_1 + 0xfc) = 0;
+  *(undefined4 *)(param_1 + 0x100) = 0;
+  *(undefined4 *)(param_1 + 0x104) = 0;
+  *(undefined4 *)(param_1 + 0x108) = 0;
+  *(undefined4 *)(param_1 + 0x10c) = 0;
+  *(undefined4 *)(param_1 + 0x110) = 0;
+  *(undefined4 *)(param_1 + 0x114) = 0;
+  *(undefined4 *)(param_1 + 0x118) = 0;
+  *(undefined4 *)(param_1 + 0x11c) = 0;
+  *(undefined4 *)(param_1 + 0x120) = 0;
+  *(undefined4 *)(param_1 + 0x124) = 0;
+  *(undefined4 *)(param_1 + 0x128) = 0;
+  *(undefined4 *)(param_1 + 300) = 0;
+  *(undefined4 *)(param_1 + 0x130) = 0;
+  *(undefined4 *)(param_1 + 0x134) = 0;
+  *(undefined4 *)(param_1 + 0x138) = 0;
+  *(undefined4 *)(param_1 + 0x13c) = 0;
+  *(undefined4 *)(param_1 + 0x140) = 0;
+  *(undefined4 *)(param_1 + 0x144) = 0;
+  *(undefined4 *)(param_1 + 0x148) = 0;
+  *(undefined4 *)(param_1 + 0x14c) = 0;
+  *(undefined4 *)(param_1 + 0x150) = 0;
+  *(undefined4 *)(param_1 + 0x154) = 0;
+  *(undefined4 *)(param_1 + 0x158) = 0;
+  *(undefined4 *)(param_1 + 0x15c) = 0;
+  *(undefined4 *)(param_1 + 0x160) = 0;
+  *(undefined4 *)(param_1 + 0x164) = 0;
+  *(undefined4 *)(param_1 + 0x168) = 0;
+  *(undefined4 *)(param_1 + 0x16c) = 0;
+  *(undefined4 *)(param_1 + 0x170) = 0;
+  *(undefined4 *)(param_1 + 0x174) = 0;
+  *(undefined4 *)(param_1 + 0x178) = 0;
+  *(undefined4 *)(param_1 + 0x17c) = 0;
+  *(undefined4 *)(param_1 + 0x180) = 0;
+  *(undefined4 *)(param_1 + 0x184) = 0;
+  *(undefined4 *)(param_1 + 0x188) = 0;
+  *(undefined4 *)(param_1 + 0x18c) = 0;
+  *(undefined4 *)(param_1 + 400) = 0;
+  *(undefined4 *)(param_1 + 0x194) = 0;
+  *(undefined4 *)(param_1 + 0x198) = 0;
+  *(undefined4 *)(param_1 + 0x19c) = 0;
+  *(undefined4 *)(param_1 + 0x1a0) = 0;
+  *(undefined4 *)(param_1 + 0x1a4) = 0;
+  *(undefined4 *)(param_1 + 0x1a8) = 0;
+  *(undefined4 *)(param_1 + 0x1ac) = 0;
+  *(undefined4 *)(param_1 + 0x1b0) = 0;
+  *(undefined4 *)(param_1 + 0x1cc) = 0;
+  *(undefined2 *)(param_1 + 0x1c8) = 0;
+  *(undefined2 *)(param_1 + 0x1ca) = 0;
+  bCBitField::bCBitField((bCBitField *)(param_1 + 0x1d0),0x40);
+  bCBitField::SetCount((bCBitField *)(param_1 + 0x1d0),0x40);
+  *(undefined4 *)(param_1 + 0x1b8) = 0;
+  *(undefined4 *)(param_1 + 0x1b4) = 0;
+  return param_1;
+}
+
+

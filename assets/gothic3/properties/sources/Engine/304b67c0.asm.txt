@@ -1,0 +1,35 @@
+; 304b67c0 eCEntity::eCEntity
+304b67c0 | 56 | PUSH ESI
+304b67c1 | 8bf1 | MOV ESI,ECX
+304b67c3 | e8fd70b8ff | CALL 0x3003d8c5
+304b67c8 | 8d4e40 | LEA ECX,[ESI + 0x40]
+304b67cb | c7069caa8730 | MOV dword ptr [ESI],0x3087aa9c
+304b67d1 | ff15a8cdaf30 | CALL dword ptr [0x30afcda8]
+304b67d7 | 8d8e80000000 | LEA ECX,[ESI + 0x80]
+304b67dd | ff15a8cdaf30 | CALL dword ptr [0x30afcda8]
+304b67e3 | 8d8ec0000000 | LEA ECX,[ESI + 0xc0]
+304b67e9 | ff15a4cbaf30 | CALL dword ptr [0x30afcba4]
+304b67ef | 8d8ed8000000 | LEA ECX,[ESI + 0xd8]
+304b67f5 | ff155cccaf30 | CALL dword ptr [0x30afcc5c]
+304b67fb | 8d8ee8000000 | LEA ECX,[ESI + 0xe8]
+304b6801 | ff15a4cbaf30 | CALL dword ptr [0x30afcba4]
+304b6807 | 8d8e00010000 | LEA ECX,[ESI + 0x100]
+304b680d | ff155cccaf30 | CALL dword ptr [0x30afcc5c]
+304b6813 | 8d8e10010000 | LEA ECX,[ESI + 0x110]
+304b6819 | ff15a4cbaf30 | CALL dword ptr [0x30afcba4]
+304b681f | 8d8e38010000 | LEA ECX,[ESI + 0x138]
+304b6825 | ff15ecdbaf30 | CALL dword ptr [0x30afdbec]
+304b682b | 33c0 | XOR EAX,EAX
+304b682d | 898640010000 | MOV dword ptr [ESI + 0x140],EAX
+304b6833 | 6689863c010000 | MOV word ptr [ESI + 0x13c],AX
+304b683a | 6689863e010000 | MOV word ptr [ESI + 0x13e],AX
+304b6841 | a15ccdaf30 | MOV EAX,[0x30afcd5c]
+304b6846 | 8d8e4c010000 | LEA ECX,[ESI + 0x14c]
+304b684c | c6864801000001 | MOV byte ptr [ESI + 0x148],0x1
+304b6853 | 898644010000 | MOV dword ptr [ESI + 0x144],EAX
+304b6859 | e81bffb6ff | CALL 0x30026779
+304b685e | 8bce | MOV ECX,ESI
+304b6860 | e87debb6ff | CALL 0x300253e2
+304b6865 | 8bc6 | MOV EAX,ESI
+304b6867 | 5e | POP ESI
+304b6868 | c3 | RET

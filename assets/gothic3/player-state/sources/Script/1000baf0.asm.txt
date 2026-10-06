@@ -1,0 +1,5 @@
+; 1000baf0 FUN_1000baf0
+1000baf0 | 33c0 | XOR EAX,EAX
+1000baf2 | 3901 | CMP dword ptr [ECX],EAX
+1000baf4 | 0f95c0 | SETNZ AL
+1000baf7 | c3 | RET

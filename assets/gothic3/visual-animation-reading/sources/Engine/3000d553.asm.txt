@@ -1,0 +1,2 @@
+; 3000d553 eCVisualAnimation_PS::GetBoundary
+3000d553 | e9b80e0900 | JMP 0x3009e410

@@ -1,0 +1,2 @@
+; 10001fdc bCVector::GetMagnitude
+10001fdc | e91fc70200 | JMP 0x1002e700

@@ -1,0 +1,4 @@
+; 20187440 gCHUDListCtrlInvLootStacks::~gCHUDListCtrlInvLootStacks
+20187440 | c7017c706720 | MOV dword ptr [ECX],0x2067707c
+20187446 | c7411060706720 | MOV dword ptr [ECX + 0x10],0x20677060
+2018744d | e99ffae7ff | JMP 0x20006ef1

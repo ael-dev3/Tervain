@@ -1,0 +1,4 @@
+; 30045a25 bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeMaterial>_>::vfunction26
+30045a25 | e9869b3100 | JMP 0x3035f5b0
+; 30045a2f eCDX9Effect::GetParameter
+; 30045a2f Ordinal_8057

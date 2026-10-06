@@ -1,0 +1,2 @@
+; 1000187a ?SetLookAtTarget@Entity@@QAEXABV1@@Z
+1000187a | e9710b0300 | JMP 0x100323f0

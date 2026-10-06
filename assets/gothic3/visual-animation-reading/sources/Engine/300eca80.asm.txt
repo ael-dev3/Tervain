@@ -1,0 +1,11 @@
+; 300eca80 eCWrapper_emfx2Motion::eCWrapper_emfx2Motion
+300eca80 | 56 | PUSH ESI
+300eca81 | 8bf1 | MOV ESI,ECX
+300eca83 | ff1508ccaf30 | CALL dword ptr [0x30afcc08]
+300eca89 | 8bce | MOV ECX,ESI
+300eca8b | c706942a8230 | MOV dword ptr [ESI],0x30822a94
+300eca91 | c7460400000000 | MOV dword ptr [ESI + 0x4],0x0
+300eca98 | ff15a82a8230 | CALL dword ptr [0x30822aa8]
+300eca9e | 8bc6 | MOV EAX,ESI
+300ecaa0 | 5e | POP ESI
+300ecaa1 | c3 | RET

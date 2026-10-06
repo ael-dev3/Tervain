@@ -1,0 +1,2 @@
+; 10003aa8 ?GetCircumSphere@bCOrientedBox@@QBEXAAVbCSphere@@@Z
+10003aa8 | e9f3060600 | JMP 0x100641a0

@@ -1,0 +1,40 @@
+/* ENTRY 10015270 | FUN_10015270 | STATUS decompiled | 11 ms */
+
+void __thiscall FUN_10015270(bCString *param_1,char *param_2,size_t param_3)
+
+{
+  char *pcVar1;
+  int iVar2;
+  bCMemoryAdmin *this;
+  char *pcVar3;
+  
+  if (0 < (int)param_3) {
+    pcVar1 = *(char **)param_1;
+    if (pcVar1 == (char *)0x0) {
+      bCString::SetText(param_1,param_2,param_3);
+      return;
+    }
+    if ((*(ushort *)(pcVar1 + -4) < 2) &&
+       (iVar2 = *(int *)(pcVar1 + -8), (int)(iVar2 + param_3) <= iVar2)) {
+      _memcpy(pcVar1 + iVar2,param_2,param_3);
+      *(int *)(*(int *)param_1 + -8) = *(int *)(*(int *)param_1 + -8) + param_3;
+      iVar2 = *(int *)param_1;
+      if (iVar2 != 0) {
+        *(undefined1 *)(iVar2 + *(int *)(iVar2 + -8)) = 0;
+        return;
+      }
+      uRam00000000 = 0;
+      return;
+    }
+    pcVar3 = pcVar1 + -8;
+    bCString::ConcatCopy(param_1,pcVar1,*(int *)(pcVar1 + -8),param_2,param_3);
+    if ((pcVar3 != (char *)0x0) &&
+       (*(short *)(pcVar1 + -4) = *(short *)(pcVar1 + -4) + -1, *(short *)(pcVar1 + -4) == 0)) {
+      this = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(this,pcVar3);
+    }
+  }
+  return;
+}
+
+

@@ -1,0 +1,34 @@
+/* ENTRY 10004ea3 | bCObjectRefBase::AddVirtualReference | STATUS decompiled | 14 ms */
+
+/* protected: unsigned long __thiscall bCObjectRefBase::AddVirtualReference(void) */
+
+ulong __thiscall bCObjectRefBase::AddVirtualReference(bCObjectRefBase *this)
+
+{
+  int *piVar1;
+  bool bVar2;
+  ulong uVar3;
+  uint uVar4;
+  
+                    /* 0x4ea3  1562  ?AddVirtualReference@bCObjectRefBase@@IAEKXZ */
+  bVar2 = (*this->vftablePtr->IsVirtualReferencingEnabled)(this);
+  if (bVar2) {
+                    /* WARNING: Could not recover jumptable at 0x1004a636. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+    uVar3 = (*this->vftablePtr->AddReference)(this);
+    return uVar3;
+  }
+  piVar1 = (int *)(this->bCObjectRefBase_data).offset_0x0;
+  if (piVar1 != (int *)0x0) {
+                    /* WARNING: Could not recover jumptable at 0x1004a645. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+    uVar3 = (**(code **)(*piVar1 + 0x30))();
+    return uVar3;
+  }
+  uVar4 = (this->bCObjectRefBase_data).offset_0x4;
+  uVar4 = (uVar4 + 1 ^ uVar4) & 0x7fffffff ^ uVar4;
+  (this->bCObjectRefBase_data).offset_0x4 = uVar4;
+  return uVar4 & 0x7fffffff;
+}
+
+

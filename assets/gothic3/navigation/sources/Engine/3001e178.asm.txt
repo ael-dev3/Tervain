@@ -1,0 +1,4 @@
+; 3001e178 ?GetROISphere@eCEntityAdmin@@QAEABVbCSphere@@XZ
+3001e178 | e963994a00 | JMP 0x304c7ae0
+; 3001e17d eCDX9Font::GetTextIndices
+; 3001e17d Ordinal_9085

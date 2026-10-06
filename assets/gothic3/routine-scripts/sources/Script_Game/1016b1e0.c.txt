@@ -1,0 +1,17 @@
+/* ENTRY 1016b1e0 | FUN_1016b1e0 | STATUS decompiled | 34 ms */
+
+void FUN_1016b1e0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Engine\\Engine_Callback\\GetAniStateByAction.cpp");
+  bCString::bCString(local_8,"GetAniStateByAction");
+  thunk_FUN_10017a50(local_8,thunk_FUN_100cd200,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

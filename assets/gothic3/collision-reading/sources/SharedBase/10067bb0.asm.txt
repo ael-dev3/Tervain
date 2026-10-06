@@ -1,0 +1,394 @@
+; 10067bb0 FUN_10067bb0
+10067bb0 | 81ec54010000 | SUB ESP,0x154
+10067bb6 | 53 | PUSH EBX
+10067bb7 | 56 | PUSH ESI
+10067bb8 | 57 | PUSH EDI
+10067bb9 | 8bd9 | MOV EBX,ECX
+10067bbb | 8bb42464010000 | MOV ESI,dword ptr [ESP + 0x164]
+10067bc2 | d9460c | FLD float ptr [ESI + 0xc]
+10067bc5 | f30f104618 | MOVSS XMM0,dword ptr [ESI + 0x18]
+10067bca | d95c243c | FSTP float ptr [ESP + 0x3c]
+10067bce | f30f11442418 | MOVSS dword ptr [ESP + 0x18],XMM0
+10067bd4 | d944243c | FLD float ptr [ESP + 0x3c]
+10067bd8 | f30f10461c | MOVSS XMM0,dword ptr [ESI + 0x1c]
+10067bdd | d9c0 | FLD ST0
+10067bdf | f30f1144241c | MOVSS dword ptr [ESP + 0x1c],XMM0
+10067be5 | d84c2418 | FMUL float ptr [ESP + 0x18]
+10067be9 | f30f104620 | MOVSS XMM0,dword ptr [ESI + 0x20]
+10067bee | f30f11442420 | MOVSS dword ptr [ESP + 0x20],XMM0
+10067bf4 | f30f104624 | MOVSS XMM0,dword ptr [ESI + 0x24]
+10067bf9 | d95c2418 | FSTP float ptr [ESP + 0x18]
+10067bfd | f30f11442424 | MOVSS dword ptr [ESP + 0x24],XMM0
+10067c03 | d944241c | FLD float ptr [ESP + 0x1c]
+10067c07 | f30f104628 | MOVSS XMM0,dword ptr [ESI + 0x28]
+10067c0c | d8c9 | FMUL ST1
+10067c0e | f30f11442428 | MOVSS dword ptr [ESP + 0x28],XMM0
+10067c14 | f30f10462c | MOVSS XMM0,dword ptr [ESI + 0x2c]
+10067c19 | f30f1144242c | MOVSS dword ptr [ESP + 0x2c],XMM0
+10067c1f | d95c241c | FSTP float ptr [ESP + 0x1c]
+10067c23 | f30f104630 | MOVSS XMM0,dword ptr [ESI + 0x30]
+10067c28 | f30f11442430 | MOVSS dword ptr [ESP + 0x30],XMM0
+10067c2e | d84c2420 | FMUL float ptr [ESP + 0x20]
+10067c32 | f30f104634 | MOVSS XMM0,dword ptr [ESI + 0x34]
+10067c37 | f30f11442434 | MOVSS dword ptr [ESP + 0x34],XMM0
+10067c3d | f30f104638 | MOVSS XMM0,dword ptr [ESI + 0x38]
+10067c42 | d95c2420 | FSTP float ptr [ESP + 0x20]
+10067c46 | f30f11442438 | MOVSS dword ptr [ESP + 0x38],XMM0
+10067c4c | d94610 | FLD float ptr [ESI + 0x10]
+10067c4f | d95c243c | FSTP float ptr [ESP + 0x3c]
+10067c53 | d9442424 | FLD float ptr [ESP + 0x24]
+10067c57 | 33ff | XOR EDI,EDI
+10067c59 | d944243c | FLD float ptr [ESP + 0x3c]
+10067c5d | d9c0 | FLD ST0
+10067c5f | deca | FMULP ST2
+10067c61 | d9c9 | FXCH
+10067c63 | d95c2424 | FSTP float ptr [ESP + 0x24]
+10067c67 | d9442428 | FLD float ptr [ESP + 0x28]
+10067c6b | d8c9 | FMUL ST1
+10067c6d | d95c2428 | FSTP float ptr [ESP + 0x28]
+10067c71 | d84c242c | FMUL float ptr [ESP + 0x2c]
+10067c75 | d95c242c | FSTP float ptr [ESP + 0x2c]
+10067c79 | d94614 | FLD float ptr [ESI + 0x14]
+10067c7c | d95c243c | FSTP float ptr [ESP + 0x3c]
+10067c80 | d9442430 | FLD float ptr [ESP + 0x30]
+10067c84 | d944243c | FLD float ptr [ESP + 0x3c]
+10067c88 | d9c0 | FLD ST0
+10067c8a | deca | FMULP ST2
+10067c8c | d9c9 | FXCH
+10067c8e | d95c2430 | FSTP float ptr [ESP + 0x30]
+10067c92 | d9442434 | FLD float ptr [ESP + 0x34]
+10067c96 | d8c9 | FMUL ST1
+10067c98 | d95c2434 | FSTP float ptr [ESP + 0x34]
+10067c9c | d84c2438 | FMUL float ptr [ESP + 0x38]
+10067ca0 | d95c2438 | FSTP float ptr [ESP + 0x38]
+10067ca4 | d9442438 | FLD float ptr [ESP + 0x38]
+10067ca8 | d9442434 | FLD float ptr [ESP + 0x34]
+10067cac | d9442430 | FLD float ptr [ESP + 0x30]
+10067cb0 | d944242c | FLD float ptr [ESP + 0x2c]
+10067cb4 | d9442428 | FLD float ptr [ESP + 0x28]
+10067cb8 | d9442424 | FLD float ptr [ESP + 0x24]
+10067cbc | d9442418 | FLD float ptr [ESP + 0x18]
+10067cc0 | eb2a | JMP 0x10067cec
+; 10067cc2 LAB_10067cc2
+10067cc2 | d9442418 | FLD float ptr [ESP + 0x18]
+10067cc6 | d9442424 | FLD float ptr [ESP + 0x24]
+10067cca | d9442428 | FLD float ptr [ESP + 0x28]
+10067cce | d944242c | FLD float ptr [ESP + 0x2c]
+10067cd2 | d9442430 | FLD float ptr [ESP + 0x30]
+10067cd6 | d9442434 | FLD float ptr [ESP + 0x34]
+10067cda | d9442438 | FLD float ptr [ESP + 0x38]
+10067cde | d9ce | FXCH ST6
+10067ce0 | d9c9 | FXCH
+10067ce2 | d9cd | FXCH ST5
+10067ce4 | d9ca | FXCH ST2
+10067ce6 | d9cc | FXCH ST4
+10067ce8 | d9ca | FXCH ST2
+10067cea | d9c9 | FXCH
+; 10067cec LAB_10067cec
+10067cec | 83ff07 | CMP EDI,0x7
+10067cef | 0f878c050000 | JA 0x10068281
+; 10067cf5 switchD_10067cf5::switchD
+10067cf5 | ff24bdc8820610 | JMP dword ptr [EDI*0x4 + 0x100682c8]
+; 10067cfc switchD_10067cf5::caseD_6
+10067cfc | d906 | FLD float ptr [ESI]
+10067cfe | d99c2488000000 | FSTP float ptr [ESP + 0x88]
+10067d05 | d94604 | FLD float ptr [ESI + 0x4]
+10067d08 | d99c248c000000 | FSTP float ptr [ESP + 0x8c]
+10067d0f | d94608 | FLD float ptr [ESI + 0x8]
+10067d12 | d99c2490000000 | FSTP float ptr [ESP + 0x90]
+10067d19 | d8ac2488000000 | FSUBR float ptr [ESP + 0x88]
+10067d20 | d99c2488000000 | FSTP float ptr [ESP + 0x88]
+10067d27 | d984248c000000 | FLD float ptr [ESP + 0x8c]
+10067d2e | d864241c | FSUB float ptr [ESP + 0x1c]
+10067d32 | d99c248c000000 | FSTP float ptr [ESP + 0x8c]
+10067d39 | d9842490000000 | FLD float ptr [ESP + 0x90]
+10067d40 | d8642420 | FSUB float ptr [ESP + 0x20]
+10067d44 | d99c2490000000 | FSTP float ptr [ESP + 0x90]
+10067d4b | d8ac2488000000 | FSUBR float ptr [ESP + 0x88]
+10067d52 | d99c2430010000 | FSTP float ptr [ESP + 0x130]
+10067d59 | d8ac248c000000 | FSUBR float ptr [ESP + 0x8c]
+10067d60 | d99c2434010000 | FSTP float ptr [ESP + 0x134]
+10067d67 | d8ac2490000000 | FSUBR float ptr [ESP + 0x90]
+10067d6e | d99c2438010000 | FSTP float ptr [ESP + 0x138]
+10067d75 | d8ac2430010000 | FSUBR float ptr [ESP + 0x130]
+10067d7c | d99c2454010000 | FSTP float ptr [ESP + 0x154]
+10067d83 | d8ac2434010000 | FSUBR float ptr [ESP + 0x134]
+10067d8a | d99c2458010000 | FSTP float ptr [ESP + 0x158]
+10067d91 | d8ac2438010000 | FSUBR float ptr [ESP + 0x138]
+10067d98 | d99c245c010000 | FSTP float ptr [ESP + 0x15c]
+10067d9f | d9842454010000 | FLD float ptr [ESP + 0x154]
+10067da6 | d95c240c | FSTP float ptr [ESP + 0xc]
+10067daa | d9842458010000 | FLD float ptr [ESP + 0x158]
+10067db1 | d95c2410 | FSTP float ptr [ESP + 0x10]
+10067db5 | d984245c010000 | FLD float ptr [ESP + 0x15c]
+10067dbc | d95c2414 | FSTP float ptr [ESP + 0x14]
+10067dc0 | e9ca040000 | JMP 0x1006828f
+; 10067dc5 switchD_10067cf5::caseD_5
+10067dc5 | d906 | FLD float ptr [ESI]
+10067dc7 | d99c2494000000 | FSTP float ptr [ESP + 0x94]
+10067dce | d94604 | FLD float ptr [ESI + 0x4]
+10067dd1 | d99c2498000000 | FSTP float ptr [ESP + 0x98]
+10067dd8 | d94608 | FLD float ptr [ESI + 0x8]
+10067ddb | d99c249c000000 | FSTP float ptr [ESP + 0x9c]
+10067de2 | d8842494000000 | FADD float ptr [ESP + 0x94]
+10067de9 | d99c2494000000 | FSTP float ptr [ESP + 0x94]
+10067df0 | d9842498000000 | FLD float ptr [ESP + 0x98]
+10067df7 | d844241c | FADD float ptr [ESP + 0x1c]
+10067dfb | d99c2498000000 | FSTP float ptr [ESP + 0x98]
+10067e02 | d984249c000000 | FLD float ptr [ESP + 0x9c]
+10067e09 | d8442420 | FADD float ptr [ESP + 0x20]
+10067e0d | d99c249c000000 | FSTP float ptr [ESP + 0x9c]
+10067e14 | d8ac2494000000 | FSUBR float ptr [ESP + 0x94]
+10067e1b | d99c24b8000000 | FSTP float ptr [ESP + 0xb8]
+10067e22 | d8ac2498000000 | FSUBR float ptr [ESP + 0x98]
+10067e29 | d99c24bc000000 | FSTP float ptr [ESP + 0xbc]
+10067e30 | d8ac249c000000 | FSUBR float ptr [ESP + 0x9c]
+10067e37 | d99c24c0000000 | FSTP float ptr [ESP + 0xc0]
+10067e3e | d8ac24b8000000 | FSUBR float ptr [ESP + 0xb8]
+10067e45 | d99c24a0000000 | FSTP float ptr [ESP + 0xa0]
+10067e4c | d8ac24bc000000 | FSUBR float ptr [ESP + 0xbc]
+10067e53 | d99c24a4000000 | FSTP float ptr [ESP + 0xa4]
+10067e5a | d8ac24c0000000 | FSUBR float ptr [ESP + 0xc0]
+10067e61 | d99c24a8000000 | FSTP float ptr [ESP + 0xa8]
+10067e68 | d98424a0000000 | FLD float ptr [ESP + 0xa0]
+10067e6f | d95c240c | FSTP float ptr [ESP + 0xc]
+10067e73 | d98424a4000000 | FLD float ptr [ESP + 0xa4]
+10067e7a | d95c2410 | FSTP float ptr [ESP + 0x10]
+10067e7e | d98424a8000000 | FLD float ptr [ESP + 0xa8]
+10067e85 | d95c2414 | FSTP float ptr [ESP + 0x14]
+10067e89 | e901040000 | JMP 0x1006828f
+; 10067e8e switchD_10067cf5::caseD_4
+10067e8e | d906 | FLD float ptr [ESI]
+10067e90 | d95c2458 | FSTP float ptr [ESP + 0x58]
+10067e94 | d94604 | FLD float ptr [ESI + 0x4]
+10067e97 | d95c245c | FSTP float ptr [ESP + 0x5c]
+10067e9b | d94608 | FLD float ptr [ESI + 0x8]
+10067e9e | d95c2460 | FSTP float ptr [ESP + 0x60]
+10067ea2 | d8442458 | FADD float ptr [ESP + 0x58]
+10067ea6 | d95c2458 | FSTP float ptr [ESP + 0x58]
+10067eaa | d944245c | FLD float ptr [ESP + 0x5c]
+10067eae | d844241c | FADD float ptr [ESP + 0x1c]
+10067eb2 | d95c245c | FSTP float ptr [ESP + 0x5c]
+10067eb6 | d9442460 | FLD float ptr [ESP + 0x60]
+10067eba | d8442420 | FADD float ptr [ESP + 0x20]
+10067ebe | d95c2460 | FSTP float ptr [ESP + 0x60]
+10067ec2 | d8442458 | FADD float ptr [ESP + 0x58]
+10067ec6 | d99c24d0000000 | FSTP float ptr [ESP + 0xd0]
+10067ecd | d844245c | FADD float ptr [ESP + 0x5c]
+10067ed1 | d99c24d4000000 | FSTP float ptr [ESP + 0xd4]
+10067ed8 | d8442460 | FADD float ptr [ESP + 0x60]
+10067edc | d99c24d8000000 | FSTP float ptr [ESP + 0xd8]
+10067ee3 | d8ac24d0000000 | FSUBR float ptr [ESP + 0xd0]
+10067eea | d99c2418010000 | FSTP float ptr [ESP + 0x118]
+10067ef1 | d8ac24d4000000 | FSUBR float ptr [ESP + 0xd4]
+10067ef8 | d99c241c010000 | FSTP float ptr [ESP + 0x11c]
+10067eff | d8ac24d8000000 | FSUBR float ptr [ESP + 0xd8]
+10067f06 | d99c2420010000 | FSTP float ptr [ESP + 0x120]
+10067f0d | d9842418010000 | FLD float ptr [ESP + 0x118]
+10067f14 | d95c240c | FSTP float ptr [ESP + 0xc]
+10067f18 | d984241c010000 | FLD float ptr [ESP + 0x11c]
+10067f1f | d95c2410 | FSTP float ptr [ESP + 0x10]
+10067f23 | d9842420010000 | FLD float ptr [ESP + 0x120]
+10067f2a | d95c2414 | FSTP float ptr [ESP + 0x14]
+10067f2e | e95c030000 | JMP 0x1006828f
+; 10067f33 switchD_10067cf5::caseD_7
+10067f33 | d906 | FLD float ptr [ESI]
+10067f35 | d95c2440 | FSTP float ptr [ESP + 0x40]
+10067f39 | d94604 | FLD float ptr [ESI + 0x4]
+10067f3c | d95c2444 | FSTP float ptr [ESP + 0x44]
+10067f40 | d94608 | FLD float ptr [ESI + 0x8]
+10067f43 | d95c2448 | FSTP float ptr [ESP + 0x48]
+10067f47 | d86c2440 | FSUBR float ptr [ESP + 0x40]
+10067f4b | d95c2440 | FSTP float ptr [ESP + 0x40]
+10067f4f | d9442444 | FLD float ptr [ESP + 0x44]
+10067f53 | d864241c | FSUB float ptr [ESP + 0x1c]
+10067f57 | d95c2444 | FSTP float ptr [ESP + 0x44]
+10067f5b | d9442448 | FLD float ptr [ESP + 0x48]
+10067f5f | d8642420 | FSUB float ptr [ESP + 0x20]
+10067f63 | d95c2448 | FSTP float ptr [ESP + 0x48]
+10067f67 | d8442440 | FADD float ptr [ESP + 0x40]
+10067f6b | d99c24e8000000 | FSTP float ptr [ESP + 0xe8]
+10067f72 | d8442444 | FADD float ptr [ESP + 0x44]
+10067f76 | d99c24ec000000 | FSTP float ptr [ESP + 0xec]
+10067f7d | d8442448 | FADD float ptr [ESP + 0x48]
+10067f81 | d99c24f0000000 | FSTP float ptr [ESP + 0xf0]
+10067f88 | d8ac24e8000000 | FSUBR float ptr [ESP + 0xe8]
+10067f8f | d99c2448010000 | FSTP float ptr [ESP + 0x148]
+10067f96 | d8ac24ec000000 | FSUBR float ptr [ESP + 0xec]
+10067f9d | d99c244c010000 | FSTP float ptr [ESP + 0x14c]
+10067fa4 | d8ac24f0000000 | FSUBR float ptr [ESP + 0xf0]
+10067fab | d99c2450010000 | FSTP float ptr [ESP + 0x150]
+10067fb2 | d9842448010000 | FLD float ptr [ESP + 0x148]
+10067fb9 | d95c240c | FSTP float ptr [ESP + 0xc]
+10067fbd | d984244c010000 | FLD float ptr [ESP + 0x14c]
+10067fc4 | d95c2410 | FSTP float ptr [ESP + 0x10]
+10067fc8 | d9842450010000 | FLD float ptr [ESP + 0x150]
+10067fcf | d95c2414 | FSTP float ptr [ESP + 0x14]
+10067fd3 | e9b7020000 | JMP 0x1006828f
+; 10067fd8 switchD_10067cf5::caseD_2
+10067fd8 | d906 | FLD float ptr [ESI]
+10067fda | d95c2470 | FSTP float ptr [ESP + 0x70]
+10067fde | d94604 | FLD float ptr [ESI + 0x4]
+10067fe1 | d95c2474 | FSTP float ptr [ESP + 0x74]
+10067fe5 | d94608 | FLD float ptr [ESI + 0x8]
+10067fe8 | d95c2478 | FSTP float ptr [ESP + 0x78]
+10067fec | d86c2470 | FSUBR float ptr [ESP + 0x70]
+10067ff0 | d95c2470 | FSTP float ptr [ESP + 0x70]
+10067ff4 | d9442474 | FLD float ptr [ESP + 0x74]
+10067ff8 | d864241c | FSUB float ptr [ESP + 0x1c]
+10067ffc | d95c2474 | FSTP float ptr [ESP + 0x74]
+10068000 | d9442478 | FLD float ptr [ESP + 0x78]
+10068004 | d8642420 | FSUB float ptr [ESP + 0x20]
+10068008 | d95c2478 | FSTP float ptr [ESP + 0x78]
+1006800c | d86c2470 | FSUBR float ptr [ESP + 0x70]
+10068010 | d99c2400010000 | FSTP float ptr [ESP + 0x100]
+10068017 | d86c2474 | FSUBR float ptr [ESP + 0x74]
+1006801b | d99c2404010000 | FSTP float ptr [ESP + 0x104]
+10068022 | d86c2478 | FSUBR float ptr [ESP + 0x78]
+10068026 | d99c2408010000 | FSTP float ptr [ESP + 0x108]
+1006802d | d8842400010000 | FADD float ptr [ESP + 0x100]
+10068034 | d99c24ac000000 | FSTP float ptr [ESP + 0xac]
+1006803b | d8842404010000 | FADD float ptr [ESP + 0x104]
+10068042 | d99c24b0000000 | FSTP float ptr [ESP + 0xb0]
+10068049 | d8842408010000 | FADD float ptr [ESP + 0x108]
+10068050 | d99c24b4000000 | FSTP float ptr [ESP + 0xb4]
+10068057 | d98424ac000000 | FLD float ptr [ESP + 0xac]
+1006805e | d95c240c | FSTP float ptr [ESP + 0xc]
+10068062 | d98424b0000000 | FLD float ptr [ESP + 0xb0]
+10068069 | d95c2410 | FSTP float ptr [ESP + 0x10]
+1006806d | d98424b4000000 | FLD float ptr [ESP + 0xb4]
+10068074 | d95c2414 | FSTP float ptr [ESP + 0x14]
+10068078 | e912020000 | JMP 0x1006828f
+; 1006807d switchD_10067cf5::caseD_1
+1006807d | d906 | FLD float ptr [ESI]
+1006807f | d95c244c | FSTP float ptr [ESP + 0x4c]
+10068083 | d94604 | FLD float ptr [ESI + 0x4]
+10068086 | d95c2450 | FSTP float ptr [ESP + 0x50]
+1006808a | d94608 | FLD float ptr [ESI + 0x8]
+1006808d | d95c2454 | FSTP float ptr [ESP + 0x54]
+10068091 | d844244c | FADD float ptr [ESP + 0x4c]
+10068095 | d95c244c | FSTP float ptr [ESP + 0x4c]
+10068099 | d9442450 | FLD float ptr [ESP + 0x50]
+1006809d | d844241c | FADD float ptr [ESP + 0x1c]
+100680a1 | d95c2450 | FSTP float ptr [ESP + 0x50]
+100680a5 | d9442454 | FLD float ptr [ESP + 0x54]
+100680a9 | d8442420 | FADD float ptr [ESP + 0x20]
+100680ad | d95c2454 | FSTP float ptr [ESP + 0x54]
+100680b1 | d86c244c | FSUBR float ptr [ESP + 0x4c]
+100680b5 | d99c24c4000000 | FSTP float ptr [ESP + 0xc4]
+100680bc | d86c2450 | FSUBR float ptr [ESP + 0x50]
+100680c0 | d99c24c8000000 | FSTP float ptr [ESP + 0xc8]
+100680c7 | d86c2454 | FSUBR float ptr [ESP + 0x54]
+100680cb | d99c24cc000000 | FSTP float ptr [ESP + 0xcc]
+100680d2 | d88424c4000000 | FADD float ptr [ESP + 0xc4]
+100680d9 | d99c24dc000000 | FSTP float ptr [ESP + 0xdc]
+100680e0 | d88424c8000000 | FADD float ptr [ESP + 0xc8]
+100680e7 | d99c24e0000000 | FSTP float ptr [ESP + 0xe0]
+100680ee | d88424cc000000 | FADD float ptr [ESP + 0xcc]
+100680f5 | d99c24e4000000 | FSTP float ptr [ESP + 0xe4]
+100680fc | d98424dc000000 | FLD float ptr [ESP + 0xdc]
+10068103 | d95c240c | FSTP float ptr [ESP + 0xc]
+10068107 | d98424e0000000 | FLD float ptr [ESP + 0xe0]
+1006810e | d95c2410 | FSTP float ptr [ESP + 0x10]
+10068112 | d98424e4000000 | FLD float ptr [ESP + 0xe4]
+10068119 | d95c2414 | FSTP float ptr [ESP + 0x14]
+1006811d | e96d010000 | JMP 0x1006828f
+; 10068122 switchD_10067cf5::caseD_0
+10068122 | d906 | FLD float ptr [ESI]
+10068124 | d95c2464 | FSTP float ptr [ESP + 0x64]
+10068128 | d94604 | FLD float ptr [ESI + 0x4]
+1006812b | d95c2468 | FSTP float ptr [ESP + 0x68]
+1006812f | d94608 | FLD float ptr [ESI + 0x8]
+10068132 | d95c246c | FSTP float ptr [ESP + 0x6c]
+10068136 | d8442464 | FADD float ptr [ESP + 0x64]
+1006813a | d95c2464 | FSTP float ptr [ESP + 0x64]
+1006813e | d9442468 | FLD float ptr [ESP + 0x68]
+10068142 | d844241c | FADD float ptr [ESP + 0x1c]
+10068146 | d95c2468 | FSTP float ptr [ESP + 0x68]
+1006814a | d944246c | FLD float ptr [ESP + 0x6c]
+1006814e | d8442420 | FADD float ptr [ESP + 0x20]
+10068152 | d95c246c | FSTP float ptr [ESP + 0x6c]
+10068156 | d8442464 | FADD float ptr [ESP + 0x64]
+1006815a | d99c24f4000000 | FSTP float ptr [ESP + 0xf4]
+10068161 | d8442468 | FADD float ptr [ESP + 0x68]
+10068165 | d99c24f8000000 | FSTP float ptr [ESP + 0xf8]
+1006816c | d844246c | FADD float ptr [ESP + 0x6c]
+10068170 | d99c24fc000000 | FSTP float ptr [ESP + 0xfc]
+10068177 | d88424f4000000 | FADD float ptr [ESP + 0xf4]
+1006817e | d99c240c010000 | FSTP float ptr [ESP + 0x10c]
+10068185 | d88424f8000000 | FADD float ptr [ESP + 0xf8]
+1006818c | d99c2410010000 | FSTP float ptr [ESP + 0x110]
+10068193 | d88424fc000000 | FADD float ptr [ESP + 0xfc]
+1006819a | d99c2414010000 | FSTP float ptr [ESP + 0x114]
+100681a1 | d984240c010000 | FLD float ptr [ESP + 0x10c]
+100681a8 | d95c240c | FSTP float ptr [ESP + 0xc]
+100681ac | d9842410010000 | FLD float ptr [ESP + 0x110]
+100681b3 | d95c2410 | FSTP float ptr [ESP + 0x10]
+100681b7 | d9842414010000 | FLD float ptr [ESP + 0x114]
+100681be | d95c2414 | FSTP float ptr [ESP + 0x14]
+100681c2 | e9c8000000 | JMP 0x1006828f
+; 100681c7 switchD_10067cf5::caseD_3
+100681c7 | d906 | FLD float ptr [ESI]
+100681c9 | d95c247c | FSTP float ptr [ESP + 0x7c]
+100681cd | d94604 | FLD float ptr [ESI + 0x4]
+100681d0 | d99c2480000000 | FSTP float ptr [ESP + 0x80]
+100681d7 | d94608 | FLD float ptr [ESI + 0x8]
+100681da | d99c2484000000 | FSTP float ptr [ESP + 0x84]
+100681e1 | d86c247c | FSUBR float ptr [ESP + 0x7c]
+100681e5 | d95c247c | FSTP float ptr [ESP + 0x7c]
+100681e9 | d9842480000000 | FLD float ptr [ESP + 0x80]
+100681f0 | d864241c | FSUB float ptr [ESP + 0x1c]
+100681f4 | d99c2480000000 | FSTP float ptr [ESP + 0x80]
+100681fb | d9842484000000 | FLD float ptr [ESP + 0x84]
+10068202 | d8642420 | FSUB float ptr [ESP + 0x20]
+10068206 | d99c2484000000 | FSTP float ptr [ESP + 0x84]
+1006820d | d844247c | FADD float ptr [ESP + 0x7c]
+10068211 | d99c2424010000 | FSTP float ptr [ESP + 0x124]
+10068218 | d8842480000000 | FADD float ptr [ESP + 0x80]
+1006821f | d99c2428010000 | FSTP float ptr [ESP + 0x128]
+10068226 | d8842484000000 | FADD float ptr [ESP + 0x84]
+1006822d | d99c242c010000 | FSTP float ptr [ESP + 0x12c]
+10068234 | d8842424010000 | FADD float ptr [ESP + 0x124]
+1006823b | d99c243c010000 | FSTP float ptr [ESP + 0x13c]
+10068242 | d8842428010000 | FADD float ptr [ESP + 0x128]
+10068249 | d99c2440010000 | FSTP float ptr [ESP + 0x140]
+10068250 | d884242c010000 | FADD float ptr [ESP + 0x12c]
+10068257 | d99c2444010000 | FSTP float ptr [ESP + 0x144]
+1006825e | d984243c010000 | FLD float ptr [ESP + 0x13c]
+10068265 | d95c240c | FSTP float ptr [ESP + 0xc]
+10068269 | d9842440010000 | FLD float ptr [ESP + 0x140]
+10068270 | d95c2410 | FSTP float ptr [ESP + 0x10]
+10068274 | d9842444010000 | FLD float ptr [ESP + 0x144]
+1006827b | d95c2414 | FSTP float ptr [ESP + 0x14]
+1006827f | eb0e | JMP 0x1006828f
+; 10068281 LAB_10068281
+10068281 | ddde | FSTP ST6
+10068283 | dddc | FSTP ST4
+10068285 | ddda | FSTP ST2
+10068287 | ddd8 | FSTP ST0
+10068289 | ddd8 | FSTP ST0
+1006828b | ddd8 | FSTP ST0
+1006828d | ddd8 | FSTP ST0
+; 1006828f switchD_10067cf5::default
+1006828f | 8d44240c | LEA EAX,[ESP + 0xc]
+10068293 | 50 | PUSH EAX
+10068294 | 8bcb | MOV ECX,EBX
+10068296 | e82ef1f9ff | CALL 0x100073c9
+1006829b | 84c0 | TEST AL,AL
+1006829d | 741a | JZ 0x100682b9
+1006829f | 83c701 | ADD EDI,0x1
+100682a2 | 83ff08 | CMP EDI,0x8
+100682a5 | 0f8c17faffff | JL 0x10067cc2
+100682ab | 5f | POP EDI
+100682ac | 5e | POP ESI
+100682ad | b001 | MOV AL,0x1
+100682af | 5b | POP EBX
+100682b0 | 81c454010000 | ADD ESP,0x154
+100682b6 | c20400 | RET 0x4
+; 100682b9 LAB_100682b9
+100682b9 | 5f | POP EDI
+100682ba | 5e | POP ESI
+100682bb | 32c0 | XOR AL,AL
+100682bd | 5b | POP EBX
+100682be | 81c454010000 | ADD ESP,0x154
+100682c4 | c20400 | RET 0x4

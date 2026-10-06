@@ -1,0 +1,2 @@
+; 2000c0c7 gCParty_PS::GetOnScreenDebugLines
+2000c0c7 | e944bc3000 | JMP 0x20317d10

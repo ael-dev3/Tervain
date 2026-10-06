@@ -1,0 +1,26 @@
+; 305cf560 eCVirtualFileSystem::eCVirtualFileSystem
+305cf560 | 56 | PUSH ESI
+305cf561 | 57 | PUSH EDI
+305cf562 | 8bf1 | MOV ESI,ECX
+305cf564 | ff15a8d9af30 | CALL dword ptr [0x30afd9a8]
+305cf56a | 8b3decdbaf30 | MOV EDI,dword ptr [0x30afdbec]
+305cf570 | 8d4e08 | LEA ECX,[ESI + 0x8]
+305cf573 | c7061cca8130 | MOV dword ptr [ESI],0x3081ca1c
+305cf579 | ffd7 | CALL EDI
+305cf57b | 8d4e0c | LEA ECX,[ESI + 0xc]
+305cf57e | ffd7 | CALL EDI
+305cf580 | 8d4e10 | LEA ECX,[ESI + 0x10]
+305cf583 | e87f3ea5ff | CALL 0x30023407
+305cf588 | 33c0 | XOR EAX,EAX
+305cf58a | 894630 | MOV dword ptr [ESI + 0x30],EAX
+305cf58d | 894634 | MOV dword ptr [ESI + 0x34],EAX
+305cf590 | 894638 | MOV dword ptr [ESI + 0x38],EAX
+305cf593 | 8bce | MOV ECX,ESI
+305cf595 | 894604 | MOV dword ptr [ESI + 0x4],EAX
+305cf598 | 88463c | MOV byte ptr [ESI + 0x3c],AL
+305cf59b | 88463d | MOV byte ptr [ESI + 0x3d],AL
+305cf59e | e8b27ea3ff | CALL 0x30007455
+305cf5a3 | 5f | POP EDI
+305cf5a4 | 8bc6 | MOV EAX,ESI
+305cf5a6 | 5e | POP ESI
+305cf5a7 | c3 | RET

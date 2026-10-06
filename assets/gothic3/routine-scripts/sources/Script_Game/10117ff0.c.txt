@@ -1,0 +1,17 @@
+/* ENTRY 10117ff0 | FUN_10117ff0 | STATUS decompiled | 7 ms */
+
+void FUN_10117ff0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Tasks\\Reaction_Tasks\\ZS_InspectBody.cpp");
+  bCString::bCString(local_8,"ZS_InspectBody");
+  thunk_FUN_1001db60(local_8,&LAB_10002cd4,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

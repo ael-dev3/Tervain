@@ -1,0 +1,15 @@
+/* ENTRY 20162000 | gCHUDViewTutorial2::~gCHUDViewTutorial2 | STATUS decompiled | 10 ms */
+
+void __thiscall gCHUDViewTutorial2::~gCHUDViewTutorial2(gCHUDViewTutorial2 *this)
+
+{
+  this->vftablePtr = &vftable;
+  gCHUDButton::~gCHUDButton((gCHUDButton *)&(this->gCHUDViewTutorial2_data).field_0x3c);
+  CFFGFCCheckBox::~CFFGFCCheckBox((CFFGFCCheckBox *)&(this->gCHUDViewTutorial2_data).field_0x2c);
+  FUN_20036877();
+  FUN_20036877();
+  FUN_200156a9();
+  return;
+}
+
+

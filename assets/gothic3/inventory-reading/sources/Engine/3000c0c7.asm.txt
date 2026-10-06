@@ -1,0 +1,4 @@
+; 3000c0c7 ?OnPropertySetRemoved@eCEntityPropertySet@@UAEXXZ
+3000c0c7 | e974574700 | JMP 0x30481840
+; 3000c0cc eCImageProcessingAdmin::~eCImageProcessingAdmin
+; 3000c0cc Ordinal_1165

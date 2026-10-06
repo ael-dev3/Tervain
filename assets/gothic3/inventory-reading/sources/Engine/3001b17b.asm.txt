@@ -1,0 +1,4 @@
+; 3001b17b ??1eCTemplateEntityProxy@@UAE@XZ
+3001b17b | e910c24a00 | JMP 0x304c7390
+; 3001b180 eCAmbientOcclusionPreprocessor::AddMesh
+; 3001b180 Ordinal_3430

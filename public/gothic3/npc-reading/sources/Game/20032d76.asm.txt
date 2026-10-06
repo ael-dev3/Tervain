@@ -1,0 +1,2 @@
+; 20032d76 bTPropertyType<gCNPC_PS,bCPropertyID>::vfunction26
+20032d76 | e9b52e2d00 | JMP 0x20305c30

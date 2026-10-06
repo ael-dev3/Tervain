@@ -1,0 +1,4 @@
+; 2000bf19 ?Reset@gCNavigation_PS@@QAEX_N00@Z
+2000bf19 | e902e22700 | JMP 0x2028a120
+; 2000bf1e gCDynamicLayer::CreateDynamicEntity
+; 2000bf1e Ordinal_2437

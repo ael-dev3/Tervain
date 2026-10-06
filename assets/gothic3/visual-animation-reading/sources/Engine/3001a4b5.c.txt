@@ -1,0 +1,12 @@
+/* ENTRY 3001a4b5 | eCVisualAnimation_PS::AccessBoneAngularDamping | STATUS decompiled | 7 ms */
+
+/* public: float & __thiscall eCVisualAnimation_PS::AccessBoneAngularDamping(void) */
+
+float * __thiscall eCVisualAnimation_PS::AccessBoneAngularDamping(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x1a4b5  2514  ?AccessBoneAngularDamping@eCVisualAnimation_PS@@QAEAAMXZ */
+  return (float *)&this[2].eCEntityPropertySet_data.field_0x4;
+}
+
+

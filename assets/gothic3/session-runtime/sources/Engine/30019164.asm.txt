@@ -1,0 +1,4 @@
+; 30019164 ?SetPaused@eCApplication@@QAEX_N@Z
+30019164 | e907a40400 | JMP 0x30063570
+; 30019169 eCImageProcessingAdmin::CopyFrom
+; 30019169 Ordinal_4147

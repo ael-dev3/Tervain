@@ -1,0 +1,18 @@
+/* ENTRY 10020250 | FUN_10020250 | STATUS decompiled | 11 ms */
+
+void __thiscall FUN_10020250(void *this,Entity *param_1)
+
+{
+  eCEntity *peVar1;
+  eCEntityProxy local_1c;
+  
+  if (*(int *)this != 0) {
+    peVar1 = Entity::GetInstance(param_1);
+    eCEntityProxy::eCEntityProxy(&local_1c,peVar1);
+    gCNPC_PS::SetCurrentTargetEntity(*(gCNPC_PS **)this,(eCEntityProxy *)&local_1c);
+    eCEntityProxy::~eCEntityProxy(&local_1c);
+  }
+  return;
+}
+
+

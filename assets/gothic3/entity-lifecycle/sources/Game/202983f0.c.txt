@@ -1,0 +1,23 @@
+/* ENTRY 202983f0 | FUN_202983f0 | STATUS decompiled | 7 ms */
+
+void __fastcall FUN_202983f0(int param_1)
+
+{
+  int *piVar1;
+  bCMemoryAdmin *this;
+  void *pvVar2;
+  
+  piVar1 = (int *)(param_1 + 0xac);
+  if ((piVar1 != (int *)0x0) && (pvVar2 = (void *)*piVar1, pvVar2 != (void *)0x0)) {
+    this = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(this,pvVar2);
+    *piVar1 = 0;
+    *(undefined4 *)(param_1 + 0xb0) = 0;
+    *(undefined4 *)(param_1 + 0xb4) = 0;
+  }
+  *(undefined1 *)(param_1 + 0xb8) = 1;
+  eCEntityProxy::SetEntity((eCEntityProxy *)(param_1 + 0x114),(eCEntity *)0x0);
+  return;
+}
+
+

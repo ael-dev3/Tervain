@@ -1,0 +1,35 @@
+/* ENTRY 20224410 | FUN_20224410 | STATUS decompiled | 12 ms */
+
+void __fastcall FUN_20224410(gCCharacterMovement_PS *param_1)
+
+{
+  bool bVar1;
+  gCCharacterMovement_PS gVar2;
+  eCEntity *peVar3;
+  int iVar4;
+  eEPropertySetType eVar5;
+  
+  eCEntityPropertySet::OnEnterProcessingRange((eCEntityPropertySet *)param_1);
+  eVar5 = 0x16;
+  peVar3 = (*param_1->vftablePtr->GetEntity)(param_1);
+  bVar1 = eCEntity::HasPropertySet((eCEntity *)peVar3,eVar5);
+  if (!bVar1) {
+    peVar3 = (*param_1->vftablePtr->GetEntity)(param_1);
+    if (peVar3 != (eCEntity *)0x0) {
+      iVar4 = (**(code **)(*(int *)peVar3 + 0xec))(5);
+      if (iVar4 != 0) {
+        gVar2 = (gCCharacterMovement_PS)
+                eCEntityProxy::IsEntityIDValid((eCEntityProxy *)(iVar4 + 0xac));
+        (param_1->gCCharacterMovement_PS_data).offset_0x259 = gVar2;
+      }
+    }
+    (param_1->gCCharacterMovement_PS_data).offset_0x22a = (gCCharacterMovement_PS)0x0;
+    (param_1->gCCharacterMovement_PS_data).offset_0x25f = (gCCharacterMovement_PS)0x0;
+    (param_1->gCCharacterMovement_PS_data).offset_0x25a = (gCCharacterMovement_PS)0x0;
+    bVar1 = gCCharacterMovement_PS::NeedsComplexStaticCollisionTests(param_1);
+    (param_1->gCCharacterMovement_PS_data).offset_0x25f = (gCCharacterMovement_PS)!bVar1;
+  }
+  return;
+}
+
+

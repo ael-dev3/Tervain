@@ -1,0 +1,16 @@
+; 10036030 FUN_10036030
+10036030 | 8bc1 | MOV EAX,ECX
+10036032 | 8b4c2404 | MOV ECX,dword ptr [ESP + 0x4]
+10036036 | d901 | FLD float ptr [ECX]
+10036038 | d918 | FSTP float ptr [EAX]
+1003603a | d94104 | FLD float ptr [ECX + 0x4]
+1003603d | d95804 | FSTP float ptr [EAX + 0x4]
+10036040 | d94108 | FLD float ptr [ECX + 0x8]
+10036043 | d95808 | FSTP float ptr [EAX + 0x8]
+10036046 | d9410c | FLD float ptr [ECX + 0xc]
+10036049 | d9580c | FSTP float ptr [EAX + 0xc]
+1003604c | d94110 | FLD float ptr [ECX + 0x10]
+1003604f | d95810 | FSTP float ptr [EAX + 0x10]
+10036052 | d94114 | FLD float ptr [ECX + 0x14]
+10036055 | d95814 | FSTP float ptr [EAX + 0x14]
+10036058 | c20400 | RET 0x4

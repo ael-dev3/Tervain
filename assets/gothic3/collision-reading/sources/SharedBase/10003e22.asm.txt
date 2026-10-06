@@ -1,0 +1,4 @@
+; 10003e22 ?Intersects@bCBox@@QBE_NQBVbCVector@@@Z
+10003e22 | e9292e0500 | JMP 0x10056c50
+; 10003e27 bCBitField::GetCount
+; 10003e27 Ordinal_2217

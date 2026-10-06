@@ -1,0 +1,12 @@
+/* ENTRY 300141aa | eCVisualAnimation_PS::OnPostUpdateInternals | STATUS decompiled | 8 ms */
+
+/* protected: virtual void __thiscall eCVisualAnimation_PS::OnPostUpdateInternals(void) */
+
+void __thiscall eCVisualAnimation_PS::OnPostUpdateInternals(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x141aa  11364  ?OnPostUpdateInternals@eCVisualAnimation_PS@@MAEXXZ */
+  return;
+}
+
+

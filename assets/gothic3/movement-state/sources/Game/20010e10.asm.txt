@@ -1,0 +1,2 @@
+; 20010e10 ?CallScript@gCScriptAdmin@@UAEHABVbCString@@PAVeCEntity@@1H@Z
+20010e10 | e9cbcd3300 | JMP 0x2034dbe0

@@ -1,0 +1,12 @@
+/* ENTRY 3002da65 | eCVisualAnimation_PS::GetLastAutoAimAngle | STATUS decompiled | 6 ms */
+
+/* public: float __thiscall eCVisualAnimation_PS::GetLastAutoAimAngle(void) */
+
+float __thiscall eCVisualAnimation_PS::GetLastAutoAimAngle(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x2da65  7540  ?GetLastAutoAimAngle@eCVisualAnimation_PS@@QAEMXZ */
+  return *(float *)&this[0x13].eCEntityPropertySet_data;
+}
+
+

@@ -1,0 +1,2 @@
+; 200309b3 ?NotifyQuestManager@gCInventory_PS@@IAEXPBVeCEntity@@0ABVbCPropertyID@@H@Z
+200309b3 | e9b8c21700 | JMP 0x201acc70

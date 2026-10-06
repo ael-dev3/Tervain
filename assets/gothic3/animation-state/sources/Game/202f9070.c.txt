@@ -1,0 +1,22 @@
+/* ENTRY 202f9070 | FUN_202f9070 | STATUS decompiled | 9 ms */
+
+gEPose __thiscall FUN_202f9070(gCNPC_PS *param_1,gEAction param_2)
+
+{
+  bool bVar1;
+  gEPose gVar2;
+  gEPhase gVar3;
+  
+  bVar1 = operator==("Recover",(bCString *)&stack0x00000008);
+  if (bVar1) {
+    gVar3 = 3;
+  }
+  else {
+    gVar3 = 8;
+  }
+  gVar2 = gCNPC_PS::GetPrimaryPoseExt(param_1,param_2,gVar3);
+  bCString::~bCString((bCString *)&stack0x00000008);
+  return gVar2;
+}
+
+

@@ -1,0 +1,2 @@
+; 20003071 gCDamage_PS::SetDamageHitMultiplier
+20003071 | e94a030b00 | JMP 0x200b33c0

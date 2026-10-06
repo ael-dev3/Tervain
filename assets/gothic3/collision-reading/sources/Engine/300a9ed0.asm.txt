@@ -1,0 +1,20 @@
+; 300a9ed0 bTPropertyContainer<eEShapeGroup>::vfunction5
+300a9ed0 | 56 | PUSH ESI
+300a9ed1 | 8b742408 | MOV ESI,dword ptr [ESP + 0x8]
+300a9ed5 | 57 | PUSH EDI
+300a9ed6 | 8d44240c | LEA EAX,[ESP + 0xc]
+300a9eda | 8bf9 | MOV EDI,ECX
+300a9edc | 50 | PUSH EAX
+300a9edd | 8bce | MOV ECX,ESI
+300a9edf | ff1508caaf30 | CALL dword ptr [0x30afca08]
+300a9ee5 | 8b16 | MOV EDX,dword ptr [ESI]
+300a9ee7 | 8b4204 | MOV EAX,dword ptr [EDX + 0x4]
+300a9eea | 6a04 | PUSH 0x4
+300a9eec | 83c704 | ADD EDI,0x4
+300a9eef | 57 | PUSH EDI
+300a9ef0 | 8bce | MOV ECX,ESI
+300a9ef2 | ffd0 | CALL EAX
+300a9ef4 | 5f | POP EDI
+300a9ef5 | b801000000 | MOV EAX,0x1
+300a9efa | 5e | POP ESI
+300a9efb | c20400 | RET 0x4

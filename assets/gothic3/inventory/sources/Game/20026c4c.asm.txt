@@ -1,0 +1,2 @@
+; 20026c4c ?PostInitializeProperties@gCInventoryStack@@UAE?AW4bEResult@@XZ
+20026c4c | e9ef101a00 | JMP 0x201c7d40

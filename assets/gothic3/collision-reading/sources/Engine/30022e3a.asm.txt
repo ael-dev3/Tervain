@@ -1,0 +1,4 @@
+; 30022e3a ?ReadSaveGame@eCCollisionShape_PS@@UAE?AW4bEResult@@AAVbCIStream@@@Z
+30022e3a | e901383100 | JMP 0x30336640
+; 30022e3f eCSpringAndDamperEffector::CopyFrom
+; 30022e3f Ordinal_4248

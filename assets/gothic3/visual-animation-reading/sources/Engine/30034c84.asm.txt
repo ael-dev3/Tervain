@@ -1,0 +1,2 @@
+; 30034c84 eCVisualAnimation_PS::GetMotion
+30034c84 | e9f7ab0600 | JMP 0x3009f880

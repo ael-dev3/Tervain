@@ -1,0 +1,17 @@
+/* ENTRY 10147690 | FUN_10147690 | STATUS decompiled | 68 ms */
+
+void FUN_10147690(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Magic\\Magic_States\\ZS_MagicSleep.cpp");
+  bCString::bCString(local_8,"ZS_MagicSleep_Loop");
+  thunk_FUN_1001db60(local_8,&LAB_10002a4a,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

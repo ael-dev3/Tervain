@@ -1,0 +1,2 @@
+; 30015159 eCArchiveFile::IsValid
+30015159 | e9827e5c00 | JMP 0x305dcfe0

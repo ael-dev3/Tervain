@@ -1,0 +1,6 @@
+; 10005d35 ?Read@bCPropertyTypeBase@@UAEGAAVbCIStream@@@Z
+10005d35 | e9f62d0800 | JMP 0x10088b30
+; 10005d3a LAB_10005d3a
+10005d3a | e9c1e80300 | JMP 0x10044600
+; 10005d3f bCGothic3EngineDialogs::bCDialogHandle::ReleaseReference
+; 10005d3f Ordinal_3920

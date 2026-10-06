@@ -1,0 +1,2 @@
+; 3002c485 eCVisualAnimation_PS::GetLocalTimeScale
+3002c485 | e9d6150700 | JMP 0x3009da60

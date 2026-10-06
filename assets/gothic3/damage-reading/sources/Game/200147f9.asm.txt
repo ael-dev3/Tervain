@@ -1,0 +1,2 @@
+; 200147f9 gCDamage_PS::GetVersion
+200147f9 | e962ed0900 | JMP 0x200b3560

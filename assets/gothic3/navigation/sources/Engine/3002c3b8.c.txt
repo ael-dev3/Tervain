@@ -1,0 +1,1633 @@
+/* ENTRY 3002c3b8 | eCApplication::OnInitializeEngine | STATUS decompiled | 11647 ms */
+
+/* protected: virtual enum bEResult __thiscall eCApplication::OnInitializeEngine(struct
+   eSSetupEngine &) */
+
+bEResult __thiscall eCApplication::OnInitializeEngine(eCApplication *this,eSSetupEngine *param_1)
+
+{
+  eSSetupEngine *peVar1;
+  eSSetupEngine *peVar2;
+  bool bVar3;
+  bCString *pbVar4;
+  eELoDQualityStage eVar5;
+  bCErrorAdmin *this_00;
+  eCConfigFile *peVar6;
+  undefined1 *puVar7;
+  char *pcVar8;
+  char *pcVar9;
+  int iVar10;
+  bCString abStack_20 [4];
+  bCString abStack_1c [4];
+  bCString abStack_18 [4];
+  bCString abStack_14 [4];
+  bCString abStack_10 [4];
+  bCString abStack_c [4];
+  eCApplication *peStack_8;
+  bCString abStack_4 [4];
+  
+                    /* 0x2c3b8  11103
+                       ?OnInitializeEngine@eCApplication@@MAE?AW4bEResult@@AAUeSSetupEngine@@@Z */
+  peVar2 = param_1;
+  puVar7 = &(this->eCApplication_data).field_0x20;
+  *(undefined4 *)(param_1 + 0x20) = 1;
+  peStack_8 = this;
+  bVar3 = eCConfigFile::Contains((eCConfigFile *)puVar7,(bCString *)&DAT_30ad98a0);
+  if (bVar3) {
+    bCString::bCString(abStack_1c,"normal");
+    bCString::bCString((bCString *)&param_1,"Debug.Filter");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Debug.Filter");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue(peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,abStack_1c);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::ToLower(abStack_1c);
+    bVar3 = bCString::operator==(abStack_1c,"low");
+    if (bVar3) {
+      *(undefined4 *)(peVar2 + 0x20) = 0;
+    }
+    else {
+      bVar3 = bCString::operator==(abStack_1c,"high");
+      if (bVar3) {
+        *(undefined4 *)(peVar2 + 0x20) = 3;
+      }
+      else {
+        bVar3 = bCString::operator==(abStack_1c,"ignore");
+        *(uint *)(peVar2 + 0x20) = (-(uint)bVar3 & 3) + 1;
+      }
+    }
+    bCString::bCString(abStack_4,"RefreshRate");
+    bCString::bCString((bCString *)&param_1,"Window");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&param_1,abStack_4);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::~bCString(abStack_4);
+    bCString::bCString(abStack_4,"RefreshRate");
+    bCString::bCString((bCString *)&param_1,"Window");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue(peVar6,(bCString *)&param_1,abStack_4,(ulong *)(peVar2 + 0x30));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::~bCString(abStack_4);
+    bCString::bCString(abStack_4,"AdapterNumber");
+    bCString::bCString((bCString *)&param_1,"Window");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&param_1,abStack_4);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::~bCString(abStack_4);
+    bCString::bCString(abStack_4,"AdapterNumber");
+    bCString::bCString((bCString *)&param_1,"Window");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue(peVar6,(bCString *)&param_1,abStack_4,(ulong *)(peVar2 + 0x34));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::~bCString(abStack_4);
+    CalculateHardwareEnvironment(peStack_8);
+    bCString::bCString((bCString *)&param_1,"Debug.MemoryCorruptionMonitor");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Debug.MemoryCorruptionMonitor");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(bool *)(peVar2 + 0xc0));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Debug.ExceptionHandlerEnable");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Debug.ExceptionHandlerEnable");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(bool *)(peVar2 + 199));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Debug.ShowMemStat");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Debug.ShowMemStat");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(bool *)(peVar2 + 0x179));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Debug.SaveMemStat");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Debug.SaveMemStat");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(bool *)(peVar2 + 0x17a));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Debug.HeapProfiler");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Debug.HeapProfiler");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(bool *)(peVar2 + 0xc1));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Debug.DumpHeapProfiling");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Debug.DumpHeapProfiling");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(bool *)(peVar2 + 0xc2));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Debug.ShowWindowForHeap");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Debug.ShowWindowForHeap");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(bool *)(peVar2 + 0xc3));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"File.SaveMountlistFile");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"File.SaveMountlistFile");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(bool *)(peVar2 + 0x121));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Threads.ImageCount");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Threads.ImageCount");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(ulong *)(peVar2 + 0x6c));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Threads.MaterialCount");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Threads.MaterialCount");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(ulong *)(peVar2 + 0x70));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Threads.MeshCount");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Threads.MeshCount");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(ulong *)(peVar2 + 0x74));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Threads.SoundCount");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Threads.SoundCount");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(ulong *)(peVar2 + 0x78));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Threads.CollisionMeshCount");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Threads.CollisionMeshCount");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(ulong *)(peVar2 + 0x80));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Threads.AnimationCount");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Threads.AnimationCount");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(ulong *)(peVar2 + 0x84));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Threads.VertexpoolCount");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Threads.VertexpoolCount");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(ulong *)(peVar2 + 0x68));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Threads.PVSPrefetcherCount");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Threads.PVSPrefetcherCount");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(ulong *)(peVar2 + 0x7c));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString(abStack_4,"Threads.Enable");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,abStack_4)
+    ;
+    param_1 = (eSSetupEngine *)CONCAT31(param_1._1_3_,bVar3);
+    bCString::~bCString(abStack_4);
+    if ((char)param_1 == '\0') {
+      bCString::bCString((bCString *)&param_1,"Threads.Enable");
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    else {
+      bCString::bCString((bCString *)&param_1,"Threads.Enable");
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(bool *)(peVar2 + 0x88));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString(abStack_4,"Threads.PriorityBoost");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,abStack_4)
+    ;
+    param_1 = (eSSetupEngine *)CONCAT31(param_1._1_3_,bVar3);
+    bCString::~bCString(abStack_4);
+    if ((char)param_1 == '\0') {
+      bCString::bCString((bCString *)&param_1,"Threads.PriorityBoost");
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    else {
+      bCString::bCString((bCString *)&param_1,"Threads.PriorityBoost");
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(bool *)(peVar2 + 0x89));
+    bCString::~bCString((bCString *)&param_1);
+    if ((peVar2[0x88] == (eSSetupEngine)0x1) &&
+       (*(short *)&(peStack_8->eCApplication_data).field_0xaac == 1)) {
+      peVar2[0x88] = (eSSetupEngine)0x0;
+    }
+    *(undefined4 *)(peVar2 + 0x6c) = 0;
+    *(undefined4 *)(peVar2 + 0x70) = 0;
+    *(undefined4 *)(peVar2 + 0x74) = 0;
+    *(undefined4 *)(peVar2 + 0x78) = 0;
+    *(undefined4 *)(peVar2 + 0x80) = 0;
+    *(undefined4 *)(peVar2 + 0x84) = 0;
+    *(ulong *)(peVar2 + 0x68) = 0;
+    *(ulong *)(peVar2 + 0x7c) = 0;
+    bCString::bCString((bCString *)&param_1,"Gfx.ThreadSave");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Gfx.ThreadSave");
+    peVar1 = peVar2 + 0x122;
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue(peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(bool *)peVar1);
+    bCString::~bCString((bCString *)&param_1);
+    if ((peVar2[0x88] == (eSSetupEngine)0x1) &&
+       (1 < *(ushort *)&(peStack_8->eCApplication_data).field_0xaac)) {
+      *peVar1 = (eSSetupEngine)0x1;
+    }
+    else {
+      *peVar1 = (eSSetupEngine)0x0;
+    }
+    bCString::bCString((bCString *)&param_1,"Render.ProcessingRangeFadeOutRange");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Render.ProcessingRangeFadeOutRange");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(float *)(peVar2 + 0x124));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Render.RangedBaseLoDOffset");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Render.RangedBaseLoDOffset");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(float *)(peVar2 + 0x128));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Render.DisableFocusNames");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Render.DisableFocusNames");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(bool *)(peVar2 + 300));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString(abStack_c,"DX9");
+    bCString::bCString((bCString *)&param_1,"Gfx.Lib");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Gfx.Lib");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue(peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,abStack_c);
+    bCString::~bCString((bCString *)&param_1);
+    bVar3 = bCString::operator==(abStack_c,"DX9");
+    peVar2[0x3a] = (eSSetupEngine)0x0;
+    *(uint *)(peVar2 + 0x24) = (uint)bVar3;
+    bCString::bCString((bCString *)&param_1,"Gfx.HWVertexprocessing");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Gfx.HWVertexprocessing");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(bool *)(peVar2 + 0x3a));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Camera.FOV");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Camera.FOV");
+    peVar1 = peVar2 + 0x3c;
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue(peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(float *)peVar1);
+    bCString::~bCString((bCString *)&param_1);
+    *(float *)peVar1 = *(float *)g_fDegToRad_exref * *(float *)peVar1;
+    bCString::bCString((bCString *)&param_1,"Camera.ZNear");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Camera.ZNear");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(float *)(peVar2 + 0x40));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Camera.ZFar");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Camera.ZFar");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(float *)(peVar2 + 0x44));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Camera.ZFarLowPoly");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Camera.ZFarLowPoly");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(float *)(peVar2 + 0xf8));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Camera.ZBias");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Camera.ZBias");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(float *)(peVar2 + 0x48));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Cache.SizeImage");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Cache.SizeImage");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(ulong *)(peVar2 + 0x4c));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Cache.SizeMesh");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Cache.SizeMesh");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(ulong *)(peVar2 + 0x50));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Cache.SizeSound");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Cache.SizeSound");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(ulong *)(peVar2 + 0x54));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Cache.SizeMaterial");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Cache.SizeMaterial");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(ulong *)(peVar2 + 0x58));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Cache.SizeCollisionMesh");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Cache.SizeCollisionMesh");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(ulong *)(peVar2 + 0x5c));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Cache.SizeAnimation");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Cache.SizeAnimation");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(ulong *)(peVar2 + 0x60));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Cache.SizeSpeedTree");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Cache.SizeSpeedTree");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(ulong *)(peVar2 + 100));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Entity.ROI");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Entity.ROI");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(float *)(peVar2 + 0x98));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString(abStack_4,"Color");
+    bCString::bCString((bCString *)&param_1,"Viewport");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&param_1,abStack_4);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::~bCString(abStack_4);
+    bCString::bCString(abStack_4,"Color");
+    bCString::bCString((bCString *)&param_1,"Viewport");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue(peVar6,(bCString *)&param_1,abStack_4,(ulong *)(peVar2 + 0xa8));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::~bCString(abStack_4);
+    bCString::bCString((bCString *)&param_1,"Render.ScreenObjectDistanceCulling");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Render.ScreenObjectDistanceCulling");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(float *)(peVar2 + 0x9c));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Render.LowPolyObjectDistanceCulling");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Render.LowPolyObjectDistanceCulling");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(float *)(peVar2 + 0xa0));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Render.EnablePVSPrefetcherThread");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Render.EnablePVSPrefetcherThread");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(bool *)(peVar2 + 0xb9));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Render.EnableObjectVPTHCCulling");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Render.EnableObjectVPTHCCulling");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(bool *)(peVar2 + 0xba));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Render.GlobalVisualLoDFactor");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Render.GlobalVisualLoDFactor");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(float *)(peVar2 + 0xbc));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Render.OcclusionPixelThreshold");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Render.OcclusionPixelThreshold");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(ulong *)(peVar2 + 0xdc));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Render.OcclusionZPassCheckIntervall");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Render.OcclusionZPassCheckIntervall");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(ulong *)(peVar2 + 0xe0));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString(abStack_10,"Software");
+    bCString::bCString((bCString *)&param_1,"Render.AnimationSkinner");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Render.AnimationSkinner");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue(peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,abStack_10);
+    bCString::~bCString((bCString *)&param_1);
+    bVar3 = bCString::operator==(abStack_10,"Software");
+    if (bVar3) {
+      peVar2[0xc4] = (eSSetupEngine)0x0;
+    }
+    bVar3 = bCString::operator==(abStack_10,"Hardware");
+    if (bVar3) {
+      peVar2[0xc4] = (eSSetupEngine)0x1;
+    }
+    bCString::bCString((bCString *)&param_1,"Render.PrefetchGridCellSize");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Render.PrefetchGridCellSize");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(ulong *)(peVar2 + 0xec));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Render.EnableVegetationRendering");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Render.EnableVegetationRendering");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(bool *)(peVar2 + 0x114));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Render.ProcessingRangeFadeOutRange");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Render.ProcessingRangeFadeOutRange");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(float *)(peVar2 + 0x124));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Render.EnablePostProcessing");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Render.EnablePostProcessing");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(bool *)(peVar2 + 0x12f));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Render.EnableDOF");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Render.EnableDOF");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(bool *)(peVar2 + 0x117));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Render.DOFStart");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Render.DOFStart");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(float *)(peVar2 + 0x118));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Render.DOFEnd");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Render.DOFEnd");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(float *)(peVar2 + 0x11c));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Render.EnableLowpolyRendering");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Render.EnableLowpolyRendering");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(bool *)(peVar2 + 0x130));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString(abStack_20);
+    bCString::bCString((bCString *)&param_1,"Render.MeshLoDQuality");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Render.MeshLoDQuality");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue(peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,abStack_20);
+    bCString::~bCString((bCString *)&param_1);
+    eVar5 = eCResourceAdmin::GetEnumLoDQualityValue(abStack_20);
+    *(eELoDQualityStage *)(peVar2 + 0xfc) = eVar5;
+    bCString::bCString((bCString *)&param_1,"Render.AnimationLoDQuality");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Render.AnimationLoDQuality");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue(peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,abStack_20);
+    bCString::~bCString((bCString *)&param_1);
+    eVar5 = eCResourceAdmin::GetEnumLoDQualityValue(abStack_20);
+    *(eELoDQualityStage *)(peVar2 + 0x100) = eVar5;
+    bCString::bCString((bCString *)&param_1,"Render.ImageLoDQuality");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Render.ImageLoDQuality");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue(peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,abStack_20);
+    bCString::~bCString((bCString *)&param_1);
+    eVar5 = eCResourceAdmin::GetEnumLoDQualityValue(abStack_20);
+    *(eELoDQualityStage *)(peVar2 + 0x104) = eVar5;
+    bCString::bCString((bCString *)&param_1,"Render.DisableMeshLoDQualityFragmentString");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Render.DisableMeshLoDQualityFragmentString");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(bCString *)(peVar2 + 0x108));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::ToLower((bCString *)(peVar2 + 0x108));
+    bCString::bCString((bCString *)&param_1,"FpS.Average");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"FpS.Average");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(float *)(peVar2 + 0xa4));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"FpS.Min");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"FpS.Min");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(float *)(peVar2 + 0x8c));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"FpS.Max");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"FpS.Max");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(float *)(peVar2 + 0x90));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"FpS.Fixed");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"FpS.Fixed");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(float *)(peVar2 + 0x94));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Timer.bIsSmooth");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Timer.bIsSmooth");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(bool *)(peVar2 + 0xc5));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"FPU.bEnableDivByZeroExceptions");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"FPU.bEnableDivByZeroExceptions");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(bool *)(peVar2 + 0xac));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"FPU.bEnableDenormalExceptions");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"FPU.bEnableDenormalExceptions");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(bool *)(peVar2 + 0xad));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"FPU.bEnableInvalidExceptions");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"FPU.bEnableInvalidExceptions");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(bool *)(peVar2 + 0xae));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"FPU.bEnableOverflowExceptions");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"FPU.bEnableOverflowExceptions");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(bool *)(peVar2 + 0xaf));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"FPU.bEnableUnderflowExceptions");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"FPU.bEnableUnderflowExceptions");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(bool *)(peVar2 + 0xb0));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString(abStack_4,"CaptureCursor");
+    bCString::bCString((bCString *)&param_1,"Window");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&param_1,abStack_4);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::~bCString(abStack_4);
+    bCString::bCString(abStack_4,"CaptureCursor");
+    bCString::bCString((bCString *)&param_1,"Window");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue(peVar6,(bCString *)&param_1,abStack_4,(bool *)(peVar2 + 0x131));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::~bCString(abStack_4);
+    bCString::bCString((bCString *)&param_1,"Physics.Disable");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Physics.Disable");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(bool *)(peVar2 + 0xb1));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Shader.CurrentShaderVersion");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Shader.CurrentShaderVersion");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(bCString *)(peVar2 + 0x10c));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Shader.EnableTreeShadows");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Shader.EnableTreeShadows");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(bool *)(peVar2 + 0x110));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Shader.EnableStaticShadows");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Shader.EnableStaticShadows");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(bool *)(peVar2 + 0x111));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Shader.EnableDetailShadows");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Shader.EnableDetailShadows");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(bool *)(peVar2 + 0x112));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Shader.SkipShaderPoolValidation");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Shader.SkipShaderPoolValidation");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(bool *)(peVar2 + 0x113));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Shader.EnableMaterialFallbacks");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Shader.EnableMaterialFallbacks");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(bool *)(peVar2 + 0x12d));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Shader.EnableErrorMaterial");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Shader.EnableErrorMaterial");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(bool *)(peVar2 + 0x12e));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Sound.MasterVolume");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Sound.MasterVolume");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(int *)(peVar2 + 4));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Sound.SpeechVolume");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Sound.SpeechVolume");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(int *)(peVar2 + 0xc));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Sound.MusicVolume");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Sound.MusicVolume");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(int *)(peVar2 + 8));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Sound.EffectVolume");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Sound.EffectVolume");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(int *)(peVar2 + 0x10));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Sound.AmbientVolume");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Sound.AmbientVolume");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(int *)(peVar2 + 0x14));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Sound.MusicFile");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Sound.MusicFile");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue(peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(bCString *)peVar2)
+    ;
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Sound.Disabled");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Sound.Disabled");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(bool *)(peVar2 + 0x1c));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"AnimationBlending.DefaultFadeTime");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"AnimationBlending.DefaultFadeTime");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(float *)(peVar2 + 0xe4));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"AnimationBlending.PhysicControllerDistance");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"AnimationBlending.PhysicControllerDistance");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(float *)(peVar2 + 0xe8));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"EntityAdmin.EnableProcessing");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"EntityAdmin.EnableProcessing");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(bool *)(peVar2 + 0xc6));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString(abStack_14,"All");
+    bCString::bCString((bCString *)&param_1,"TemplateAdmin.LoadTemplates");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"TemplateAdmin.LoadTemplates");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue(peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,abStack_14);
+    bCString::~bCString((bCString *)&param_1);
+    bVar3 = bCString::operator==(abStack_14,"None");
+    if (bVar3) {
+      *(undefined4 *)(peVar2 + 0xf0) = 0;
+    }
+    bVar3 = bCString::operator==(abStack_14,"All");
+    if (bVar3) {
+      *(undefined4 *)(peVar2 + 0xf0) = 1;
+    }
+    bCString::bCString((bCString *)&param_1,"VegetationAdmin.ViewRange");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"VegetationAdmin.ViewRange");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(float *)(peVar2 + 200));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"VegetationAdmin.Quality");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"VegetationAdmin.Quality");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(bCString *)(peVar2 + 0xcc));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"PostprocessingAdmin.BloomHighlightThreshold");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"PostprocessingAdmin.BloomHighlightThreshold");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(float *)(peVar2 + 0xd0));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"PostprocessingAdmin.ActiveEffect");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"PostprocessingAdmin.ActiveEffect");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(int *)(peVar2 + 0xd4));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Landscape.LowPolySector");
+    bVar3 = eCConfigFile::Contains
+                      ((eCConfigFile *)(ms_pApplication + 0x6c),(bCString *)&DAT_30ad98a0,
+                       (bCString *)&param_1);
+    bCString::~bCString((bCString *)&param_1);
+    bCString::bCString((bCString *)&param_1,"Landscape.LowPolySector");
+    if (bVar3) {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x6c);
+    }
+    else {
+      peVar6 = (eCConfigFile *)(ms_pApplication + 0x54);
+    }
+    eCConfigFile::GetValue
+              (peVar6,(bCString *)&DAT_30ad98a0,(bCString *)&param_1,(bCString *)(peVar2 + 0xd8));
+    bCString::~bCString((bCString *)&param_1);
+    bCString::ToLower((bCString *)(peVar2 + 0xd8));
+    bCString::~bCString(abStack_14);
+    bCString::~bCString(abStack_20);
+    bCString::~bCString(abStack_10);
+    bCString::~bCString(abStack_c);
+    bCString::~bCString(abStack_1c);
+  }
+  else {
+    pbVar4 = eCConfigFile::GetFilePath((eCConfigFile *)puVar7);
+    GE_MESSAGEF_WARN("eCApplication::OnInitializeEngine -> Could not find section \"[%s]\" in configfile: %s. Using default values."
+                     ,DAT_30ad98a0,*(undefined4 *)pbVar4);
+  }
+  if (*(float *)(peVar2 + 0x44) <= *(float *)(peVar2 + 0x98)) {
+    iVar10 = 0x47f;
+    pcVar9 = ".\\admin\\ge_application.cpp";
+    pcVar8 = 
+    "eCApplication::OnInitializeEngine(): Farclippingplane must be greater than ROI-Region !";
+    this_00 = bCErrorAdmin::GetInstance();
+    bCErrorAdmin::CallFatalError(this_00,pcVar8,pcVar9,iVar10);
+  }
+  bCString::bCString(abStack_18,"");
+  bCString::bCString(abStack_4,"dbglvl");
+  puVar7 = &(peStack_8->eCApplication_data).field_0x4;
+  bCCommandLine::GetOptions((bCCommandLine *)puVar7);
+  iVar10 = thunk_FUN_3007c570(abStack_4,&param_1);
+  param_1 = (eSSetupEngine *)CONCAT31(param_1._1_3_,iVar10 != 0);
+  bCString::~bCString(abStack_4);
+  if ((char)param_1 == '\x01') {
+    bCString::bCString((bCString *)&param_1,"dbglvl");
+    bCCommandLine::GetOptions((bCCommandLine *)puVar7);
+    iVar10 = thunk_FUN_3007c570(&param_1,abStack_4);
+    bCString::operator=(abStack_18,(bCString *)(iVar10 + 4));
+    bCString::~bCString((bCString *)&param_1);
+    bVar3 = bCString::operator==(abStack_18,"low");
+    if (bVar3) {
+      *(undefined4 *)(peVar2 + 0x20) = 0;
+    }
+    else {
+      bVar3 = bCString::operator==(abStack_18,"normal");
+      if (bVar3) {
+        *(undefined4 *)(peVar2 + 0x20) = 1;
+      }
+      else {
+        bVar3 = bCString::operator==(abStack_18,"high");
+        if (bVar3) {
+          *(undefined4 *)(peVar2 + 0x20) = 3;
+        }
+        else {
+          bVar3 = bCString::operator==(abStack_18,"ignore");
+          if (bVar3) {
+            *(undefined4 *)(peVar2 + 0x20) = 4;
+          }
+        }
+      }
+    }
+  }
+  bCString::bCString(abStack_4,"renderdebug");
+  bCCommandLine::GetOptions((bCCommandLine *)puVar7);
+  iVar10 = thunk_FUN_3007c570(abStack_4,&param_1);
+  param_1 = (eSSetupEngine *)CONCAT31(param_1._1_3_,iVar10 != 0);
+  bCString::~bCString(abStack_4);
+  if ((char)param_1 == '\x01') {
+    bCString::bCString((bCString *)&param_1,"renderdebug");
+    bCCommandLine::GetOptions((bCCommandLine *)puVar7);
+    iVar10 = thunk_FUN_3007c570(&param_1,&peStack_8);
+    bCString::bCString(abStack_4,(bCString *)(iVar10 + 4));
+    bCString::~bCString((bCString *)&param_1);
+    bVar3 = bCString::operator==(abStack_4,"true");
+    if (bVar3) {
+      peVar2[0xf4] = (eSSetupEngine)0x1;
+    }
+    bCString::~bCString(abStack_4);
+  }
+  bCString::bCString((bCString *)&param_1,"noaudio");
+  bCCommandLine::GetOptions((bCCommandLine *)puVar7);
+  iVar10 = thunk_FUN_3007c570(&param_1,abStack_4);
+  bCString::~bCString((bCString *)&param_1);
+  if (iVar10 != 0) {
+    peVar2[0x1c] = (eSSetupEngine)0x1;
+  }
+  bCString::~bCString(abStack_18);
+  return 1;
+}
+
+

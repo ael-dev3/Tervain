@@ -1,0 +1,27 @@
+/* ENTRY 30021b5c | eCRigidBody_PS::GetBoundary | STATUS decompiled | 27 ms */
+
+/* public: virtual void __thiscall eCRigidBody_PS::GetBoundary(class bCBox &,bool) */
+
+void __thiscall eCRigidBody_PS::GetBoundary(eCRigidBody_PS *this,bCBox *param_1,bool param_2)
+
+{
+  bool bVar1;
+  eCEntity *this_00;
+  eCEntity *peVar2;
+  int iVar3;
+  
+                    /* 0x21b5c  6332  ?GetBoundary@eCRigidBody_PS@@UAEXAAVbCBox@@_N@Z */
+  this_00 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+  bVar1 = eCEntity::HasVisual(this_00);
+  if (!bVar1) {
+    peVar2 = (*this->vftablePtr->GetEntity)(this);
+    if ((peVar2 != (eCEntity *)0x0) &&
+       (iVar3 = (**(code **)(*(int *)peVar2 + 0xec))(0xe), iVar3 != 0)) {
+      return;
+    }
+    bCBox::Clear(param_1);
+  }
+  return;
+}
+
+

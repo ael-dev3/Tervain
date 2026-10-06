@@ -1,0 +1,13 @@
+/* ENTRY 20013e8a | bTPropertyType<gCClock_PS,unsigned_long>::vfunction3 | STATUS decompiled | 3 ms */
+
+void __thiscall
+bTPropertyType<gCClock_PS,unsigned_long>::vfunction3(bTPropertyType<gCClock_PS,unsigned_long> *this)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x2020a007. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  (**(code **)(this[6].vftablePtr)->vfunction1)();
+  return;
+}
+
+

@@ -1,0 +1,12 @@
+/* ENTRY 2003579c | gCCharacterMovement_PS::IsProcessable | STATUS decompiled | 8 ms */
+
+/* protected: virtual bool __thiscall gCCharacterMovement_PS::IsProcessable(void)const  */
+
+bool __thiscall gCCharacterMovement_PS::IsProcessable(gCCharacterMovement_PS *this)
+
+{
+                    /* 0x3579c  5203  ?IsProcessable@gCCharacterMovement_PS@@MBE_NXZ */
+  return true;
+}
+
+

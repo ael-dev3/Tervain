@@ -1,0 +1,2 @@
+; 10006825 bCBox::GetMaxExtend
+10006825 | e9e63d0200 | JMP 0x1002a610

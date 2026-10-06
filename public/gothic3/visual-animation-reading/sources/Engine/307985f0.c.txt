@@ -1,0 +1,19 @@
+/* ENTRY 307985f0 | bTPropertyObject<eCVisualAnimation_PS,eCEntityPropertySet>::~bTPropertyObject<eCVisualAnimation_PS,eCEntityPropertySet> | STATUS decompiled | 6 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyObject<eCVisualAnimation_PS,eCEntityPropertySet>::
+~bTPropertyObject<eCVisualAnimation_PS,eCEntityPropertySet>(void)
+
+{
+  _ms_PropertyObjectInstance_eCVisualAnimation_PS = &vftable;
+  vfunction10((bTPropertyObject<eCVisualAnimation_PS,eCEntityPropertySet> *)
+              &eCVisualAnimation_PS::ms_PropertyObjectInstance_eCVisualAnimation_PS);
+  bTPOPureSmartPtr<eCVisualAnimation_PS>::~bTPOPureSmartPtr<eCVisualAnimation_PS>
+            ((bTPOPureSmartPtr<eCVisualAnimation_PS> *)
+             &eCVisualAnimation_PS::ms_PropertyObjectInstance_eCVisualAnimation_PS);
+  return;
+}
+
+

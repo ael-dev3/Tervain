@@ -1,0 +1,2 @@
+; 30037c18 eCVisualAnimation_PS::PostInitializeProperties
+30037c18 | e933600600 | JMP 0x3009dc50

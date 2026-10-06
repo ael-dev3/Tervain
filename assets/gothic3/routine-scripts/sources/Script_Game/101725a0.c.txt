@@ -1,0 +1,17 @@
+/* ENTRY 101725a0 | FUN_101725a0 | STATUS decompiled | 7 ms */
+
+void FUN_101725a0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Engine\\Engine_Callback\\OnMovementModeChanged.cpp");
+  bCString::bCString(local_8,"PS_Swim_Loop");
+  thunk_FUN_1001db60(local_8,&LAB_10002270,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

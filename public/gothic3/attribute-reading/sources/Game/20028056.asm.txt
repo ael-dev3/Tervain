@@ -1,0 +1,2 @@
+; 20028056 bTPropertyType<gCStat,int>::vfunction12
+20028056 | e9d54c3700 | JMP 0x2039cd30

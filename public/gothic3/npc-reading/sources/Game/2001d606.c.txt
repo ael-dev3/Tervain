@@ -1,0 +1,17 @@
+/* ENTRY 2001d606 | bTPropertyType<gCNPC_PS,bTPropertyContainer<gESpecies>_>::vfunction6 | STATUS decompiled | 5 ms */
+
+void __thiscall
+bTPropertyType<gCNPC_PS,bTPropertyContainer<gESpecies>_>::vfunction6
+          (bTPropertyType<gCNPC_PS,bTPropertyContainer<gESpecies>_> *this,int param_1)
+
+{
+  bTPropertyType<gCNPC_PS,bTPropertyContainer<gESpecies>_>_vftable *pbVar1;
+  
+  if (param_1 != 0) {
+    pbVar1 = (*this->vftablePtr->vfunction26)(this,(undefined4 *)param_1);
+    (**(code **)(pbVar1->vfunction1 + 0x18))();
+  }
+  return;
+}
+
+

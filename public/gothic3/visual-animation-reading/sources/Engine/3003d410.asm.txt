@@ -1,0 +1,2 @@
+; 3003d410 eCVirtualFile::eCVirtualFile
+3003d410 | e92bed5800 | JMP 0x305cc140

@@ -1,0 +1,42 @@
+/* ENTRY 3064d260 | EMotionFX::KeyTrack<MCore::TQuaternion<float>,MCore::TCompressedQuaternion<float,short>_>::KeyTrack<MCore::TQuaternion<float>,MCore::TCompressedQuaternion<float,short>_> | STATUS decompiled | 9 ms */
+
+KeyTrack<MCore::TQuaternion<float>,MCore::TCompressedQuaternion<float,short>_> * __thiscall
+EMotionFX::KeyTrack<MCore::TQuaternion<float>,MCore::TCompressedQuaternion<float,short>_>::
+KeyTrack<MCore::TQuaternion<float>,MCore::TCompressedQuaternion<float,short>_>
+          (KeyTrack<MCore::TQuaternion<float>,MCore::TCompressedQuaternion<float,short>_> *this,
+          undefined4 param_1)
+
+{
+  void *local_c;
+  undefined1 *puStack_8;
+  undefined4 local_4;
+  
+  puStack_8 = &LAB_3072d1db;
+  local_c = ExceptionList;
+  ExceptionList = &local_c;
+  this->vftablePtr = &vftable;
+  (this->KeyTrack<MCore::TQuaternion<float>,MCore::TCompressedQuaternion<float,short>_>_data).
+  offset_0x0 = 0;
+  (this->KeyTrack<MCore::TQuaternion<float>,MCore::TCompressedQuaternion<float,short>_>_data).
+  offset_0x4 = 0;
+  (this->KeyTrack<MCore::TQuaternion<float>,MCore::TCompressedQuaternion<float,short>_>_data).
+  offset_0x8 = 0;
+  local_4 = 0;
+  (this->KeyTrack<MCore::TQuaternion<float>,MCore::TCompressedQuaternion<float,short>_>_data).
+  offset_0x1a = 0;
+  (this->KeyTrack<MCore::TQuaternion<float>,MCore::TCompressedQuaternion<float,short>_>_data).
+  offset_0x19 = 0;
+  (this->KeyTrack<MCore::TQuaternion<float>,MCore::TCompressedQuaternion<float,short>_>_data).
+  offset_0x10 = 0;
+  (this->KeyTrack<MCore::TQuaternion<float>,MCore::TCompressedQuaternion<float,short>_>_data).
+  offset_0xc = 1;
+  (this->KeyTrack<MCore::TQuaternion<float>,MCore::TCompressedQuaternion<float,short>_>_data).
+  offset_0x14 = 0x3f800000;
+  (this->KeyTrack<MCore::TQuaternion<float>,MCore::TCompressedQuaternion<float,short>_>_data).
+  offset_0x18 = 1;
+  FUN_3064ce60(param_1);
+  ExceptionList = local_c;
+  return this;
+}
+
+

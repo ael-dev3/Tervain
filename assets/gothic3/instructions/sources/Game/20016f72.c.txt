@@ -1,0 +1,13 @@
+/* ENTRY 20016f72 | gCScriptProcessingUnit::SetIntParameter | STATUS decompiled | 1 ms */
+
+/* public: void __thiscall gCScriptProcessingUnit::SetIntParameter(int) */
+
+void __thiscall gCScriptProcessingUnit::SetIntParameter(gCScriptProcessingUnit *this,int param_1)
+
+{
+                    /* 0x16f72  6596  ?SetIntParameter@gCScriptProcessingUnit@@QAEXH@Z */
+  (this->gCScriptProcessingUnit_data).offset_0x54 = param_1;
+  return;
+}
+
+

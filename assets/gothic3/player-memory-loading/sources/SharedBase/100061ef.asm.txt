@@ -1,0 +1,2 @@
+; 100061ef bCGothic3EngineDialogs::LoadGE3DialogLib
+100061ef | e94caf0100 | JMP 0x10021140

@@ -1,0 +1,11 @@
+; 3009f4b0 FUN_3009f4b0
+3009f4b0 | 56 | PUSH ESI
+3009f4b1 | 8bf1 | MOV ESI,ECX
+3009f4b3 | e8bd70f9ff | CALL 0x30036575
+3009f4b8 | 8d4e24 | LEA ECX,[ESI + 0x24]
+3009f4bb | ff156cdbaf30 | CALL dword ptr [0x30afdb6c]
+3009f4c1 | 8d4e18 | LEA ECX,[ESI + 0x18]
+3009f4c4 | ff156cdbaf30 | CALL dword ptr [0x30afdb6c]
+3009f4ca | 8d4e10 | LEA ECX,[ESI + 0x10]
+3009f4cd | 5e | POP ESI
+3009f4ce | ff25dcdbaf30 | JMP dword ptr [0x30afdbdc]

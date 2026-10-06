@@ -1,0 +1,4 @@
+; 10004d90 ?IsTransformed@PSNpc@@QBE_NXZ
+10004d90 | e9abb70100 | JMP 0x10020540
+; 10004d95 PSParticle::PropertyColorScaleRepeats::operator=
+; 10004d95 Ordinal_319

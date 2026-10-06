@@ -1,0 +1,2 @@
+; 30047997 eCVisualAnimation_PS::SetPhysicsControled
+30047997 | e904a10100 | JMP 0x30061aa0

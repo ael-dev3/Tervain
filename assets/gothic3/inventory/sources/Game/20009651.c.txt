@@ -1,0 +1,15 @@
+/* ENTRY 20009651 | gCInventoryStack::IsDisposable | STATUS decompiled | 4 ms */
+
+/* public: bool __thiscall gCInventoryStack::IsDisposable(void)const  */
+
+bool __thiscall gCInventoryStack::IsDisposable(gCInventoryStack *this)
+
+{
+  bool bVar1;
+  
+                    /* 0x9651  5112  ?IsDisposable@gCInventoryStack@@QBE_NXZ */
+  bVar1 = gCInventorySlot::IsLinked((gCInventorySlot *)this);
+  return (bool)('\x01' - bVar1);
+}
+
+

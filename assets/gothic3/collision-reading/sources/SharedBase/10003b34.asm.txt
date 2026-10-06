@@ -1,0 +1,4 @@
+; 10003b34 ??5bCCapsule@@QBEAAVbCOStream@@AAV1@@Z
+10003b34 | e9573e0500 | JMP 0x10057990
+; 10003b39 bCVector4::Invert
+; 10003b39 Ordinal_3589

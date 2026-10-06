@@ -1,0 +1,2 @@
+; 30033c08 eCVisualAnimation_PS::SetBoneShapeMaterial
+30033c08 | e9731f0400 | JMP 0x30075b80

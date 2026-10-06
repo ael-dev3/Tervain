@@ -1,0 +1,13 @@
+/* ENTRY 300c96c0 | bTPropertyContainer<eEShapeAABBAdapt>::vfunction3 | STATUS decompiled | 7 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<eEShapeAABBAdapt>::vfunction3
+          (bTPropertyContainer<eEShapeAABBAdapt> *this,bCOStream *param_1)
+
+{
+  bCOStream::operator<<(param_1,1);
+  (**(code **)((int)*param_1 + 4))(&this->bTPropertyContainer<eEShapeAABBAdapt>_data,4);
+  return 1;
+}
+
+

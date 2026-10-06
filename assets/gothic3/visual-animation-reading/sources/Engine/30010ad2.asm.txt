@@ -1,0 +1,2 @@
+; 30010ad2 eCVirtualFileSystem::GetInstance
+30010ad2 | e9d9ea5b00 | JMP 0x305cf5b0

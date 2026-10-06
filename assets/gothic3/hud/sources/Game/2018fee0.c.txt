@@ -1,0 +1,11 @@
+/* ENTRY 2018fee0 | gCHUDButton::gCHUDButton | STATUS decompiled | 6 ms */
+
+gCHUDButton * __thiscall gCHUDButton::gCHUDButton(gCHUDButton *this)
+
+{
+  CFFGFCButton::CFFGFCButton((CFFGFCButton *)this);
+  this->vftablePtr = &vftable;
+  return this;
+}
+
+

@@ -1,0 +1,28 @@
+/* ENTRY 201ce6f0 | FUN_201ce6f0 | STATUS decompiled | 10 ms */
+
+undefined4 __thiscall FUN_201ce6f0(int *param_1,gESlot param_2,eCEntity *param_3)
+
+{
+  gCInventorySlot *this;
+  bool bVar1;
+  eCTemplateEntity *peVar2;
+  
+  if ((uint)param_1[1] <= param_2) {
+    return 0;
+  }
+  this = *(gCInventorySlot **)(*param_1 + param_2 * 4);
+  if (this != (gCInventorySlot *)0x0) {
+    bVar1 = gCInventorySlot::IsLinked(this);
+    if (bVar1) {
+      return 1;
+    }
+    peVar2 = eCTemplateEntityProxy::GetEntity
+                       ((eCTemplateEntityProxy *)&(this->gCInventorySlot_data).field_0x8);
+    if (peVar2 != (eCTemplateEntity *)0x0) {
+      gCInventorySlot::LinkToSlot(this,param_3,param_2);
+    }
+  }
+  return 0;
+}
+
+

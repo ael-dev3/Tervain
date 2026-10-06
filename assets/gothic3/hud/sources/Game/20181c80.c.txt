@@ -1,0 +1,44 @@
+/* ENTRY 20181c80 | gCHUDMenuOptionsPerformanceCustom2::~gCHUDMenuOptionsPerformanceCustom2 | STATUS decompiled | 19 ms */
+
+void __thiscall
+gCHUDMenuOptionsPerformanceCustom2::~gCHUDMenuOptionsPerformanceCustom2
+          (gCHUDMenuOptionsPerformanceCustom2 *this)
+
+{
+  bCMemoryAdmin *this_00;
+  int iVar1;
+  void **ppvVar2;
+  undefined1 *puVar3;
+  void *pvVar4;
+  
+  this->vftablePtr = &vftable;
+  ppvVar2 = &(this->gCHUDMenuOptionsPerformanceCustom2_data).offset_0x3c;
+  iVar1 = 10;
+  do {
+    if (*ppvVar2 != (int *)0x0) {
+      (**(code **)(*(int *)*ppvVar2 + 0x2c))(0);
+      pvVar4 = *ppvVar2;
+      this_00 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::DeleteObject(this_00,pvVar4);
+      *ppvVar2 = (void *)0x0;
+    }
+    ppvVar2 = ppvVar2 + 0xd;
+    iVar1 = iVar1 + -1;
+  } while (iVar1 != 0);
+  FUN_20036877();
+  gCHUDButton::~gCHUDButton
+            ((gCHUDButton *)&(this->gCHUDMenuOptionsPerformanceCustom2_data).field_0x214);
+  iVar1 = 9;
+  puVar3 = &(this->gCHUDMenuOptionsPerformanceCustom2_data).field_0x214;
+  do {
+    CFFGFCSlider::~CFFGFCSlider((CFFGFCSlider *)(puVar3 + -0x14));
+    FUN_20036877();
+    FUN_20036877();
+    iVar1 = iVar1 + -1;
+    puVar3 = puVar3 + -0x34;
+  } while (-1 < iVar1);
+  gCHUDMenu::~gCHUDMenu((gCHUDMenu *)this);
+  return;
+}
+
+

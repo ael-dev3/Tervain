@@ -1,0 +1,3 @@
+; 20405920 bTPropertyObject<gCInteraction_PS,eCEntityPropertySet>::vfunction1
+20405920 | 8b4108 | MOV EAX,dword ptr [ECX + 0x8]
+20405923 | c3 | RET

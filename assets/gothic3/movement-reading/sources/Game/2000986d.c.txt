@@ -1,0 +1,12 @@
+/* ENTRY 2000986d | gCCharacterMovement_PS::IsEditorRelevant | STATUS decompiled | 7 ms */
+
+/* public: virtual bool __thiscall gCCharacterMovement_PS::IsEditorRelevant(void)const  */
+
+bool __thiscall gCCharacterMovement_PS::IsEditorRelevant(gCCharacterMovement_PS *this)
+
+{
+                    /* 0x986d  5117  ?IsEditorRelevant@gCCharacterMovement_PS@@UBE_NXZ */
+  return true;
+}
+
+

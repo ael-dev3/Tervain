@@ -1,0 +1,15 @@
+/* ENTRY 30036a8e | eCCollisionShapeBase_PS::eCCollisionShapeBase_PS | STATUS decompiled | 113 ms */
+
+/* public: __thiscall eCCollisionShapeBase_PS::eCCollisionShapeBase_PS(void) */
+
+eCCollisionShapeBase_PS * __thiscall
+eCCollisionShapeBase_PS::eCCollisionShapeBase_PS(eCCollisionShapeBase_PS *this)
+
+{
+                    /* 0x36a8e  139  ??0eCCollisionShapeBase_PS@@QAE@XZ */
+  eCEntityPropertySet::eCEntityPropertySet((eCEntityPropertySet *)this);
+  this->vftablePtr = &vftable;
+  return this;
+}
+
+

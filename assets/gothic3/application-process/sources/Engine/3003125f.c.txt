@@ -1,0 +1,13 @@
+/* ENTRY 3003125f | eCEntityAdmin::EnableProcessing | STATUS decompiled | 3 ms */
+
+/* public: void __thiscall eCEntityAdmin::EnableProcessing(bool) */
+
+void __thiscall eCEntityAdmin::EnableProcessing(eCEntityAdmin *this,bool param_1)
+
+{
+                    /* 0x3125f  5807  ?EnableProcessing@eCEntityAdmin@@QAEX_N@Z */
+  (this->eCEntityAdmin_data).offset_0x84 = (eCEntityAdmin)param_1;
+  return;
+}
+
+

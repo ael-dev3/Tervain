@@ -1,0 +1,102 @@
+/* ENTRY 10007abd | bCMatrix3::Orthonormalize | STATUS decompiled | 47 ms */
+
+/* public: void __thiscall bCMatrix3::Orthonormalize(void) */
+
+void __thiscall bCMatrix3::Orthonormalize(bCMatrix3 *this)
+
+{
+  float fVar1;
+  float10 fVar2;
+  
+                    /* 0x7abd  3824  ?Orthonormalize@bCMatrix3@@QAEXXZ */
+  if (1e-05 <= *(float *)(this + 0x20) * *(float *)(this + 0x20) +
+               *(float *)(this + 0x18) * *(float *)(this + 0x18) +
+               *(float *)(this + 0x1c) * *(float *)(this + 0x1c)) {
+    fVar2 = (float10)FUN_100ab010();
+    fVar1 = 1.0 / (float)fVar2;
+    *(float *)(this + 0x18) = fVar1 * *(float *)(this + 0x18);
+    *(float *)(this + 0x1c) = *(float *)(this + 0x1c) * fVar1;
+    *(float *)(this + 0x20) = fVar1 * *(float *)(this + 0x20);
+  }
+  else {
+    *(undefined4 *)(this + 0x18) = 0;
+    *(undefined4 *)(this + 0x1c) = 0;
+    *(undefined4 *)(this + 0x20) = 0x3f800000;
+  }
+  if (1e-05 <= *(float *)(this + 0x14) * *(float *)(this + 0x14) +
+               *(float *)(this + 0xc) * *(float *)(this + 0xc) +
+               *(float *)(this + 0x10) * *(float *)(this + 0x10)) {
+    fVar2 = (float10)FUN_100ab010();
+    fVar1 = 1.0 / (float)fVar2;
+    *(float *)(this + 0xc) = fVar1 * *(float *)(this + 0xc);
+    *(float *)(this + 0x10) = *(float *)(this + 0x10) * fVar1;
+    *(float *)(this + 0x14) = fVar1 * *(float *)(this + 0x14);
+  }
+  else {
+    *(undefined4 *)(this + 0xc) = 0;
+    *(undefined4 *)(this + 0x10) = 0x3f800000;
+    *(undefined4 *)(this + 0x14) = 0;
+  }
+  if (1e-05 <= *(float *)(this + 8) * *(float *)(this + 8) +
+               *(float *)this * *(float *)this + *(float *)(this + 4) * *(float *)(this + 4)) {
+    fVar2 = (float10)FUN_100ab010();
+    fVar1 = 1.0 / (float)fVar2;
+    *(float *)this = fVar1 * *(float *)this;
+    *(float *)(this + 4) = *(float *)(this + 4) * fVar1;
+    *(float *)(this + 8) = fVar1 * *(float *)(this + 8);
+  }
+  else {
+    *(undefined4 *)this = 0x3f800000;
+    *(undefined4 *)(this + 4) = 0;
+    *(undefined4 *)(this + 8) = 0;
+  }
+  fVar1 = *(float *)(this + 0x20) * *(float *)(this + 0x14) +
+          *(float *)(this + 0x18) * *(float *)(this + 0xc) +
+          *(float *)(this + 0x1c) * *(float *)(this + 0x10);
+  *(float *)(this + 0xc) = *(float *)(this + 0xc) - fVar1 * *(float *)(this + 0x18);
+  *(float *)(this + 0x10) = *(float *)(this + 0x10) - *(float *)(this + 0x1c) * fVar1;
+  *(float *)(this + 0x14) = *(float *)(this + 0x14) - fVar1 * *(float *)(this + 0x20);
+  if (*(float *)(this + 0x14) * *(float *)(this + 0x14) +
+      *(float *)(this + 0xc) * *(float *)(this + 0xc) +
+      *(float *)(this + 0x10) * *(float *)(this + 0x10) < 1e-05) {
+    *(undefined4 *)(this + 0xc) = 0;
+    *(undefined4 *)(this + 0x10) = 0;
+    *(undefined4 *)(this + 0x14) = 0x3f800000;
+    fVar1 = *(float *)(this + 0x14) * *(float *)(this + 0x20) +
+            *(float *)(this + 0xc) * *(float *)(this + 0x18) +
+            *(float *)(this + 0x10) * *(float *)(this + 0x1c);
+    *(float *)(this + 0xc) = *(float *)(this + 0xc) - fVar1 * *(float *)(this + 0x18);
+    *(float *)(this + 0x10) = *(float *)(this + 0x10) - *(float *)(this + 0x1c) * fVar1;
+    *(float *)(this + 0x14) = *(float *)(this + 0x14) - fVar1 * *(float *)(this + 0x20);
+    if (*(float *)(this + 0x14) * *(float *)(this + 0x14) +
+        *(float *)(this + 0xc) * *(float *)(this + 0xc) +
+        *(float *)(this + 0x10) * *(float *)(this + 0x10) < 1e-05) {
+      *(undefined4 *)(this + 0xc) = 0;
+      *(undefined4 *)(this + 0x10) = 0x3f800000;
+      *(undefined4 *)(this + 0x14) = 0;
+      fVar1 = *(float *)(this + 0x14) * *(float *)(this + 0x20) +
+              *(float *)(this + 0xc) * *(float *)(this + 0x18) +
+              *(float *)(this + 0x10) * *(float *)(this + 0x1c);
+      *(float *)(this + 0xc) = *(float *)(this + 0xc) - fVar1 * *(float *)(this + 0x18);
+      *(float *)(this + 0x10) = *(float *)(this + 0x10) - *(float *)(this + 0x1c) * fVar1;
+      *(float *)(this + 0x14) = *(float *)(this + 0x14) - fVar1 * *(float *)(this + 0x20);
+    }
+  }
+  fVar2 = (float10)FUN_100ab010();
+  fVar1 = 1.0 / (float)fVar2;
+  *(float *)(this + 0xc) = fVar1 * *(float *)(this + 0xc);
+  *(float *)(this + 0x10) = *(float *)(this + 0x10) * fVar1;
+  *(float *)(this + 0x14) = fVar1 * *(float *)(this + 0x14);
+  *(float *)this =
+       *(float *)(this + 0x20) * *(float *)(this + 0x10) -
+       *(float *)(this + 0x1c) * *(float *)(this + 0x14);
+  *(float *)(this + 4) =
+       *(float *)(this + 0x18) * *(float *)(this + 0x14) -
+       *(float *)(this + 0x20) * *(float *)(this + 0xc);
+  *(float *)(this + 8) =
+       *(float *)(this + 0xc) * *(float *)(this + 0x1c) -
+       *(float *)(this + 0x10) * *(float *)(this + 0x18);
+  return;
+}
+
+

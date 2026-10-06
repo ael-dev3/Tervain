@@ -1,0 +1,2 @@
+; 20035468 bTPropertyType<gCPlayerMemory_PS,bCPropertyID>::vfunction13
+20035468 | e943f32e00 | JMP 0x203247b0

@@ -1,0 +1,46 @@
+/* ENTRY 30024db1 | eCCollisionShape_PS::deleting_destructor | STATUS decompiled | 38 ms */
+
+eCCollisionShape_PS * __thiscall
+eCCollisionShape_PS::deleting_destructor(eCCollisionShape_PS *this,byte param_1)
+
+{
+  undefined1 *_Memory;
+  undefined ***this_00;
+  int iVar1;
+  eCCollisionShape_PS *peVar2;
+  eCCollisionShape_PS *this_01;
+  
+  if ((param_1 & 2) == 0) {
+    ~eCCollisionShape_PS(this);
+    if ((param_1 & 1) != 0) {
+                    /* WARNING: Subroutine does not return */
+      _free(this);
+    }
+    return this;
+  }
+  iVar1 = *(int *)&this[-1].eCCollisionShape_PS_data.field_0x34;
+  _Memory = &this[-1].eCCollisionShape_PS_data.field_0x34;
+  peVar2 = this + iVar1;
+  while (iVar1 = iVar1 + -1, -1 < iVar1) {
+    this_01 = peVar2 + -1;
+    this_01->vftablePtr = &vftable;
+    bCString::~bCString((bCString *)&peVar2[-1].eCCollisionShape_PS_data.field_0x34);
+    thunk_FUN_3033c8e0();
+    thunk_FUN_3033c8e0();
+    this_00 = &peVar2[-1].eCCollisionShape_PS_data.offset_0x8;
+    *this_00 = &bTPropertyContainer<eEPhysicRangeType>::vftable.GetVersion;
+    bCObjectBase::~bCObjectBase((bCObjectBase *)this_00);
+    peVar2[-1].eCCollisionShape_PS_data.offset_0x0 =
+         &bTPropertyContainer<eECollisionGroup>::vftable.GetVersion;
+    bCObjectBase::~bCObjectBase((bCObjectBase *)&peVar2[-1].eCCollisionShape_PS_data);
+    eCCollisionShapeBase_PS::~eCCollisionShapeBase_PS((eCCollisionShapeBase_PS *)this_01);
+    peVar2 = this_01;
+  }
+  if ((param_1 & 1) != 0) {
+                    /* WARNING: Subroutine does not return */
+    _free(_Memory);
+  }
+  return (eCCollisionShape_PS *)_Memory;
+}
+
+

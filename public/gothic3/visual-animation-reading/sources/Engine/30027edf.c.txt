@@ -1,0 +1,12 @@
+/* ENTRY 30027edf | eCVisualAnimation_PS::GetCreateSpringMassCloth | STATUS decompiled | 9 ms */
+
+/* public: bool const & __thiscall eCVisualAnimation_PS::GetCreateSpringMassCloth(void)const  */
+
+bool * __thiscall eCVisualAnimation_PS::GetCreateSpringMassCloth(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x27edf  6641  ?GetCreateSpringMassCloth@eCVisualAnimation_PS@@QBEAB_NXZ */
+  return (bool *)&this[6].eCEntityPropertySet_data;
+}
+
+

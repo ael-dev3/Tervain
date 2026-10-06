@@ -1,0 +1,18 @@
+/* ENTRY 2018b1e0 | FUN_2018b1e0 | STATUS decompiled | 5 ms */
+
+void __thiscall FUN_2018b1e0(int param_1,eCEntity *param_2)
+
+{
+  eCEntityProxy *this;
+  eCEntity *peVar1;
+  
+  this = (eCEntityProxy *)(param_1 + 0x10);
+  peVar1 = eCEntityProxy::GetEntity(this);
+  if (peVar1 != param_2) {
+    eCEntityProxy::GetEntity(this);
+    eCEntityProxy::SetEntity(this,param_2);
+  }
+  return;
+}
+
+

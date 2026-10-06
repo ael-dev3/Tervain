@@ -1,0 +1,9 @@
+/* ENTRY 2031d430 | FUN_2031d430 | STATUS decompiled | 0 ms */
+
+undefined4 FUN_2031d430(void)
+
+{
+  return 1;
+}
+
+

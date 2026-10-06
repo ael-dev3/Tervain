@@ -1,0 +1,2 @@
+; 10008bf7 ?Clear@bCBox@@QAEXXZ
+10008bf7 | e9e41c0200 | JMP 0x1002a8e0

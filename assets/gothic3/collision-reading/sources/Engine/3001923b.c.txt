@@ -1,0 +1,15 @@
+/* ENTRY 3001923b | eCCollisionShapeBase_PS::PostInitializeProperties | STATUS decompiled | 6 ms */
+
+/* public: virtual enum bEResult __thiscall eCCollisionShapeBase_PS::PostInitializeProperties(void)
+    */
+
+bEResult __thiscall eCCollisionShapeBase_PS::PostInitializeProperties(eCCollisionShapeBase_PS *this)
+
+{
+                    /* 0x1923b  11724
+                       ?PostInitializeProperties@eCCollisionShapeBase_PS@@UAE?AW4bEResult@@XZ */
+  bCObjectRefBase::PostInitializeProperties((bCObjectRefBase *)this);
+  return 1;
+}
+
+

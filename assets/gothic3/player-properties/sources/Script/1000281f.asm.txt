@@ -1,0 +1,4 @@
+; 1000281f ??4PropertyLPPerks@PSPlayerMemory@@QAEAAV01@ABJ@Z
+1000281f | e96c560200 | JMP 0x10027e90
+; 10002824 PSParticle::PropertyUseRevolutionScale::operator_bool
+; 10002824 Ordinal_1151

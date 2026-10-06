@@ -1,0 +1,12 @@
+/* ENTRY 10001659 | PSItem::IsValid | STATUS decompiled | 3 ms */
+
+/* public: bool __thiscall PSItem::IsValid(void)const  */
+
+bool __thiscall PSItem::IsValid(PSItem *this)
+
+{
+                    /* 0x1659  1836  ?IsValid@PSItem@@QBE_NXZ */
+  return *(int *)this != 0;
+}
+
+

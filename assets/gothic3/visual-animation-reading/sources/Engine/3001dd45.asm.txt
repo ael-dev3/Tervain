@@ -1,0 +1,2 @@
+; 3001dd45 eCVisualAnimationFactory::IntersectsRay
+3001dd45 | e976eb0900 | JMP 0x300bc8c0

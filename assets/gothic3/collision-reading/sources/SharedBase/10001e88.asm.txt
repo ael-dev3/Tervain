@@ -1,0 +1,4 @@
+; 10001e88 ?GetMagnitude@bCOrientedBox@@QBEXAAVbCVector@@@Z
+10001e88 | e973110600 | JMP 0x10063000
+; 10001e8d bCInfCylinder::~bCInfCylinder
+; 10001e8d Ordinal_385

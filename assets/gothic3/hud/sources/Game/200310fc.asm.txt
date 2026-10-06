@@ -1,0 +1,2 @@
+; 200310fc gCHUDPageDocuments2::vfunction71
+200310fc | e99fb41300 | JMP 0x2016c5a0

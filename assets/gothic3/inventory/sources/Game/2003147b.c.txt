@@ -1,0 +1,23 @@
+/* ENTRY 2003147b | gCInventoryStack::gCInventoryStack | STATUS decompiled | 12 ms */
+
+/* public: __thiscall gCInventoryStack::gCInventoryStack(void) */
+
+gCInventoryStack * __thiscall gCInventoryStack::gCInventoryStack(gCInventoryStack *this)
+
+{
+  undefined ***this_00;
+  
+                    /* 0x3147b  197  ??0gCInventoryStack@@QAE@XZ */
+  gCInventorySlot::gCInventorySlot((gCInventorySlot *)this);
+  this_00 = &(this->gCInventoryStack_data).offset_0x10;
+  this->vftablePtr = &vftable;
+  bCObjectBase::bCObjectBase((bCObjectBase *)this_00);
+  *this_00 = &bTPropertyContainer<gEStackType>::vftable.GetVersion;
+  (this->gCInventoryStack_data).offset_0x14 = DAT_207b5f30;
+  CFFGFCBitmap::CFFGFCBitmap((CFFGFCBitmap *)&(this->gCInventoryStack_data).offset_0x24);
+  CFFGFCBitmap::CFFGFCBitmap((CFFGFCBitmap *)&(this->gCInventoryStack_data).offset_0x2c);
+  ApplyDefaults(this);
+  return this;
+}
+
+

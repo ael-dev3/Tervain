@@ -1,0 +1,84 @@
+/* ENTRY 2001705d | gCInventory_PS::EquipStack | STATUS decompiled | 59 ms */
+
+/* public: bool __thiscall gCInventory_PS::EquipStack(int) */
+
+bool __thiscall gCInventory_PS::EquipStack(gCInventory_PS *this,int param_1)
+
+{
+  bool bVar1;
+  bool bVar2;
+  gCInventoryStack *this_00;
+  gEUseType gVar3;
+  eCEntity *peVar4;
+  gCInventoryStack *pgVar5;
+  gCInventoryStack *pgVar6;
+  gCInventorySlot *this_01;
+  gESlot gVar7;
+  gESlot gVar8;
+  gESlot gStack_8;
+  gESlot gStack_4;
+  
+                    /* 0x1705d  2763  ?EquipStack@gCInventory_PS@@QAE_NH@Z */
+  bVar2 = IsValidIndex(this,param_1);
+  if (!bVar2) {
+    return false;
+  }
+  this_00 = (gCInventoryStack *)GetStack(this,param_1);
+  gVar3 = gCInventorySlot::GetUseType((gCInventorySlot *)this_00);
+  if (gVar3 == 0) {
+    return false;
+  }
+  peVar4 = (*this->vftablePtr->GetEntity)(this);
+  bVar2 = gCInventoryStack::IsEquipped(this_00,peVar4);
+  if (bVar2) {
+    return true;
+  }
+  gCInventorySlot::IsLinked((gCInventorySlot *)this_00);
+  gStack_8 = 0;
+  gStack_4 = 0;
+  peVar4 = (*this->vftablePtr->GetEntity)(this);
+  gCInventorySlot::GetEquipSlots((gCInventorySlot *)this_00,&gStack_8,&gStack_4,peVar4);
+  if (gStack_8 == 0) {
+    return true;
+  }
+  bVar2 = false;
+  pgVar5 = FindStack(this,gStack_4);
+  pgVar6 = FindStack(this,gStack_8);
+  this_01 = (gCInventorySlot *)FindStack(this,1);
+  if (((this_01 == (gCInventorySlot *)0x0) ||
+      (gVar3 = gCInventorySlot::GetUseType(this_01), gVar3 != 2)) ||
+     (gVar3 = gCInventorySlot::GetUseType((gCInventorySlot *)this_00), gVar3 != 2)) {
+    bVar1 = false;
+  }
+  else {
+    bVar1 = true;
+  }
+  if ((pgVar6 != (gCInventoryStack *)0x0) || (bVar1)) {
+    bVar2 = true;
+  }
+  gVar7 = gStack_8;
+  if (((bVar2) && (gStack_4 != 0)) && (pgVar5 == (gCInventoryStack *)0x0)) {
+    gVar7 = gStack_4;
+  }
+  if ((gVar7 == 2) || (gVar8 = gVar7, gVar7 == 5)) {
+    UnlinkStackFromSlot(this,2);
+    UnlinkStackFromSlot(this,5);
+    gVar3 = GetStackUseType(this,1);
+    switch(gVar3) {
+    case 3:
+    case 0xc:
+    case 0x33:
+    case 0x34:
+      gVar8 = 1;
+      break;
+    default:
+      goto switchD_201b0c4e_caseD_4;
+    }
+  }
+  UnlinkStackFromSlot(this,gVar8);
+switchD_201b0c4e_caseD_4:
+  LinkStackToSlot(this,param_1,gVar7,true);
+  return true;
+}
+
+

@@ -1,0 +1,4 @@
+; 2000a317 bTPropertyType<gCNavigation_PS,bCPropertyID>::vfunction3
+2000a317 | e9543b2800 | JMP 0x2028de70
+; 2000a31c gCFocus_PS::GetNormalModeItemPriority
+; 2000a31c Ordinal_3898

@@ -1,0 +1,4 @@
+; 200066f4 bTPropertyObject<gCCharacterSensor_PS,eCEntityPropertySet>::vfunction4
+200066f4 | e9572a2300 | JMP 0x20239150
+; 200066fe gCEffectCommandSequence::InsertItem
+; 200066fe Ordinal_4904

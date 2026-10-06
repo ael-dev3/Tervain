@@ -1,0 +1,42 @@
+; 2036eec0 FUN_2036eec0
+2036eec0 | 8b4174 | MOV EAX,dword ptr [ECX + 0x74]
+2036eec3 | 85c0 | TEST EAX,EAX
+2036eec5 | 7452 | JZ 0x2036ef19
+2036eec7 | 8b542404 | MOV EDX,dword ptr [ESP + 0x4]
+2036eecb | 83c2ff | ADD EDX,-0x1
+2036eece | 83fa07 | CMP EDX,0x7
+2036eed1 | 773f | JA 0x2036ef12
+; 2036eed3 switchD_2036eed3::switchD
+2036eed3 | ff24951cef3620 | JMP dword ptr [EDX*0x4 + 0x2036ef1c]
+; 2036eeda switchD_2036eed3::caseD_1
+2036eeda | 3db2d30220 | CMP EAX,0x2002d3b2
+2036eedf | eb2f | JMP 0x2036ef10
+; 2036eee1 switchD_2036eed3::caseD_2
+2036eee1 | 3d40b90220 | CMP EAX,0x2002b940
+2036eee6 | eb28 | JMP 0x2036ef10
+; 2036eee8 switchD_2036eed3::caseD_3
+2036eee8 | 3d51fe0120 | CMP EAX,0x2001fe51
+2036eeed | eb21 | JMP 0x2036ef10
+; 2036eeef switchD_2036eed3::caseD_4
+2036eeef | 3d6fc70120 | CMP EAX,0x2001c76f
+2036eef4 | eb1a | JMP 0x2036ef10
+; 2036eef6 switchD_2036eed3::caseD_5
+2036eef6 | 3d9aba0120 | CMP EAX,0x2001ba9a
+2036eefb | eb13 | JMP 0x2036ef10
+; 2036eefd switchD_2036eed3::caseD_6
+2036eefd | 3d3e7f0220 | CMP EAX,0x20027f3e
+2036ef02 | eb0c | JMP 0x2036ef10
+; 2036ef04 switchD_2036eed3::caseD_7
+2036ef04 | 3dbdfb0120 | CMP EAX,0x2001fbbd
+2036ef09 | eb05 | JMP 0x2036ef10
+; 2036ef0b switchD_2036eed3::caseD_8
+2036ef0b | 3dec4d0320 | CMP EAX,0x20034dec
+; 2036ef10 LAB_2036ef10
+2036ef10 | 7507 | JNZ 0x2036ef19
+; 2036ef12 switchD_2036eed3::default
+2036ef12 | 6a01 | PUSH 0x1
+2036ef14 | 51 | PUSH ECX
+2036ef15 | 6a00 | PUSH 0x0
+2036ef17 | ffd0 | CALL EAX
+; 2036ef19 LAB_2036ef19
+2036ef19 | c20400 | RET 0x4

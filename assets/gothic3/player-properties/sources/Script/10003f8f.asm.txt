@@ -1,0 +1,4 @@
+; 10003f8f ?SetProtectionIce@PSPlayerMemory@@QAEXH@Z
+10003f8f | e92c630200 | JMP 0x1002a2c0
+; 10003f94 PSPlayerMemory::operator->
+; 10003f94 Ordinal_1230

@@ -1,0 +1,4 @@
+; 10003332 ??0bCPropertyObjectTypeBase@@AAE@XZ
+10003332 | e9b94c0800 | JMP 0x10087ff0
+; 10003337 bCPoint::InvTranslate
+; 10003337 Ordinal_3519

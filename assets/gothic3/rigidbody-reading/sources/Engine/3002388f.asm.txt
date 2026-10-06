@@ -1,0 +1,2 @@
+; 3002388f bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_>::vfunction1
+3002388f | e90ce63000 | JMP 0x30331ea0

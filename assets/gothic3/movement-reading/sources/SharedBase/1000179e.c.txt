@@ -1,0 +1,12 @@
+/* ENTRY 1000179e | bCPropertyObjectTypeBase::GetPropertyTypeCount | STATUS decompiled | 3 ms */
+
+/* public: int __thiscall bCPropertyObjectTypeBase::GetPropertyTypeCount(void)const  */
+
+int __thiscall bCPropertyObjectTypeBase::GetPropertyTypeCount(bCPropertyObjectTypeBase *this)
+
+{
+                    /* 0x179e  2837  ?GetPropertyTypeCount@bCPropertyObjectTypeBase@@QBEHXZ */
+  return (this->bCPropertyObjectTypeBase_data).offset_0x8;
+}
+
+

@@ -1,0 +1,15 @@
+/* ENTRY 30040c1e | eCSpringAndDamperEffector::GetSpringMaxCompressForce | STATUS decompiled | 4 ms */
+
+/* public: float const & __thiscall eCSpringAndDamperEffector::GetSpringMaxCompressForce(void)const
+    */
+
+float * __thiscall
+eCSpringAndDamperEffector::GetSpringMaxCompressForce(eCSpringAndDamperEffector *this)
+
+{
+                    /* 0x40c1e  8922  ?GetSpringMaxCompressForce@eCSpringAndDamperEffector@@QBEABMXZ
+                        */
+  return (float *)&(this->eCEffector_data).offset_0x64;
+}
+
+

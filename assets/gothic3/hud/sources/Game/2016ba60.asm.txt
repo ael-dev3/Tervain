@@ -1,0 +1,9 @@
+; 2016ba60 FUN_2016ba60
+2016ba60 | 837c240800 | CMP dword ptr [ESP + 0x8],0x0
+2016ba65 | 750d | JNZ 0x2016ba74
+2016ba67 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+2016ba6b | 50 | PUSH EAX
+2016ba6c | 83c120 | ADD ECX,0x20
+2016ba6f | e85b2beaff | CALL 0x2000e5cf
+; 2016ba74 LAB_2016ba74
+2016ba74 | c20800 | RET 0x8

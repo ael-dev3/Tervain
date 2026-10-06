@@ -1,0 +1,4 @@
+; 10004d86 ?GetTransformed@bCBox@@QBE?AV1@ABVbCMatrix@@@Z
+10004d86 | e9455d0300 | JMP 0x1003aad0
+; 10004d8b bCUnicodeString::GetText
+; 10004d8b Ordinal_3069

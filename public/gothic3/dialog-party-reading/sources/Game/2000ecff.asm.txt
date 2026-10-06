@@ -1,0 +1,2 @@
+; 2000ecff gCDialog_PS::AccessPartyEnabled
+2000ecff | e92c0d1a00 | JMP 0x201afa30

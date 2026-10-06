@@ -1,0 +1,4 @@
+; 30024ee7 ?OnExitProcessingRange@eCEntity@@MAEXXZ
+30024ee7 | e9340b4900 | JMP 0x304b5a20
+; 30024ef1 eCLocAdmin::GetStageDirection
+; 30024ef1 Ordinal_8930

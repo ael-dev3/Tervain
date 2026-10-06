@@ -1,0 +1,13 @@
+/* ENTRY 20015307 | gCClock_PS::Write | STATUS decompiled | 7 ms */
+
+/* public: virtual enum bEResult __thiscall gCClock_PS::Write(class bCOStream &) */
+
+bEResult __thiscall gCClock_PS::Write(gCClock_PS *this,bCOStream *param_1)
+
+{
+                    /* 0x15307  7493  ?Write@gCClock_PS@@UAE?AW4bEResult@@AAVbCOStream@@@Z */
+  bCOStream::operator<<((bCOStream *)param_1,1);
+  return 1;
+}
+
+

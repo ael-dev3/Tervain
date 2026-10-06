@@ -1,0 +1,17 @@
+/* ENTRY 10110980 | FUN_10110980 | STATUS decompiled | 29 ms */
+
+void FUN_10110980(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Decision\\WantToFlee.cpp");
+  bCString::bCString(local_8,"WantToFlee");
+  thunk_FUN_10017a50(local_8,&LAB_100024c3,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

@@ -1,0 +1,39 @@
+/* ENTRY 2002fc57 | gCNavigationAdmin::RegisterNavigationPSInROI | STATUS decompiled | 11 ms */
+
+/* public: enum bEResult __thiscall gCNavigationAdmin::RegisterNavigationPSInROI(class
+   gCNavigation_PS *) */
+
+bEResult __thiscall
+gCNavigationAdmin::RegisterNavigationPSInROI(gCNavigationAdmin *this,gCNavigation_PS *param_1)
+
+{
+  void **ppvVar1;
+  int iVar2;
+  int *piVar3;
+  
+                    /* 0x2fc57  6037
+                       ?RegisterNavigationPSInROI@gCNavigationAdmin@@QAE?AW4bEResult@@PAVgCNavigation_PS@@@Z
+                        */
+  iVar2 = (this->gCNavigationAdmin_data).offset_0x44;
+  ppvVar1 = &(this->gCNavigationAdmin_data).offset_0x40;
+  if (iVar2 != 0) {
+    piVar3 = (int *)((int)*ppvVar1 + iVar2 * 4);
+    do {
+      piVar3 = piVar3 + -1;
+      iVar2 = iVar2 + -1;
+      if (param_1 == (gCNavigation_PS *)*piVar3) {
+        if (iVar2 != -1) {
+          return 0;
+        }
+        break;
+      }
+    } while (iVar2 != 0);
+  }
+  iVar2 = (this->gCNavigationAdmin_data).offset_0x44 + 1;
+  thunk_FUN_2005eaa0(iVar2,(iVar2 != 0) - 1);
+  (this->gCNavigationAdmin_data).offset_0x44 = iVar2;
+  *(gCNavigation_PS **)((int)*ppvVar1 + iVar2 * 4 + -4) = param_1;
+  return 1;
+}
+
+

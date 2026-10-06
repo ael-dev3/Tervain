@@ -1,0 +1,4 @@
+; 30038050 ?GetCriticalSection@eCPhysicsScene@@QAEAAVbCCriticalSectionWin32@@XZ
+30038050 | e97bf72d00 | JMP 0x303177d0
+; 30038055 eCSpeedTreeRenderBuffer::CreateGemoetry
+; 30038055 Ordinal_4839

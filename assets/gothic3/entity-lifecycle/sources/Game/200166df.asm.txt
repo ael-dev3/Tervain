@@ -1,0 +1,4 @@
+; 200166df ?DeregisterNavPathPS@gCNavigationMap@@QAE?AW4bEResult@@PAVgCNavPath_PS@@@Z
+200166df | e9bcd42a00 | JMP 0x202c3ba0
+; 200166e4 gCCharacterMovement_PS::SetSlowModifier
+; 200166e4 Ordinal_7059

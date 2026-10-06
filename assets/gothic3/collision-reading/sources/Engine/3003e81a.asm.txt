@@ -1,0 +1,4 @@
+; 3003e81a SHAREDBASE.DLL::bCPropertyTypeBase::Read
+3003e81a | e9410f3200 | JMP 0x3035f760
+; 3003e824 eCListBoxCtrl::operator<<
+; 3003e824 Ordinal_1948

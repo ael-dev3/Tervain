@@ -1,0 +1,16 @@
+/* ENTRY 10003701 | bCAccessorPropertyObject::GetPropertyObject | STATUS decompiled | 1 ms */
+
+/* public: class bCPropertyObjectBase * __thiscall bCAccessorPropertyObject::GetPropertyObject(void)
+    */
+
+bCPropertyObjectBase * __thiscall
+bCAccessorPropertyObject::GetPropertyObject(bCAccessorPropertyObject *this)
+
+{
+                    /* 0x3701  2826
+                       ?GetPropertyObject@bCAccessorPropertyObject@@QAEPAVbCPropertyObjectBase@@XZ
+                        */
+  return *(bCPropertyObjectBase **)(this + 4);
+}
+
+

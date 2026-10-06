@@ -1,0 +1,2 @@
+; 30385080 SHAREDBASE.DLL::bCObjectRefBase::Destroy
+30385080 | ff2554dcaf30 | JMP dword ptr [0x30afdc54]

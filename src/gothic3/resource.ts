@@ -9,6 +9,12 @@ export interface ResourceReceipt {
   uncompressedSha256?: string;
 }
 
+export interface NativeResourceReadOptions {
+  /** Explicit budget for a larger, hash-pinned native resource. The decoder
+   * still stops at the exact receipt length and verifies its decoded SHA256. */
+  maximumDecodedBytes?: number;
+}
+
 async function verify(bytes: ArrayBuffer, length: number, sha256: string, label: string): Promise<void> {
   if (bytes.byteLength !== length) throw new Error('Resource size differs: ' + label);
   const digest = await crypto.subtle.digest('SHA-256', bytes);
@@ -37,14 +43,20 @@ async function boundedBody(response: Response, limit: number, label: string): Pr
 }
 
 /** Native resources are verified before use and, for gzip, after decoding. */
-export async function readNativeBytes(path: string, receipt: ResourceReceipt, signal?: AbortSignal): Promise<ArrayBuffer> {
+export async function readNativeBytes(path: string, receipt: ResourceReceipt, signal?: AbortSignal,
+    options: NativeResourceReadOptions = {}): Promise<ArrayBuffer> {
   if (!Number.isSafeInteger(receipt.bytes) || receipt.bytes < 0 || !/^[a-f0-9]{64}$/.test(receipt.sha256)) {
     throw new Error('Invalid resource receipt: ' + path);
+  }
+  const maximumDecodedBytes = options.maximumDecodedBytes ?? 4 * 1024 * 1024;
+  if (!Number.isSafeInteger(maximumDecodedBytes) || maximumDecodedBytes < 1 ||
+      maximumDecodedBytes > 64 * 1024 * 1024) {
+    throw new Error('Invalid native resource decode budget: ' + path);
   }
   const compressed = receipt.contentEncoding === 'gzip' || receipt.encoding === 'gzip';
   if (compressed && (receipt.uncompressedBytes === undefined ||
       !Number.isSafeInteger(receipt.uncompressedBytes) || receipt.uncompressedBytes < 0 ||
-      receipt.uncompressedBytes > 4 * 1024 * 1024 || !/^[a-f0-9]{64}$/.test(receipt.uncompressedSha256 ?? ''))) {
+      receipt.uncompressedBytes > maximumDecodedBytes || !/^[a-f0-9]{64}$/.test(receipt.uncompressedSha256 ?? ''))) {
     throw new Error('Invalid bounded decoded receipt: ' + path);
   }
   const response = await fetch(assetUrl(path), { signal });
@@ -83,6 +95,7 @@ export async function readNativeBytes(path: string, receipt: ResourceReceipt, si
 }
 
 /** Lazy native-data chunks are verified before and after decompression. */
-export async function readNativeResource<T>(path: string, receipt: ResourceReceipt): Promise<T> {
-  return JSON.parse(new TextDecoder().decode(await readNativeBytes(path, receipt))) as T;
+export async function readNativeResource<T>(path: string, receipt: ResourceReceipt,
+    options: NativeResourceReadOptions = {}): Promise<T> {
+  return JSON.parse(new TextDecoder().decode(await readNativeBytes(path, receipt, undefined, options))) as T;
 }

@@ -1,0 +1,15 @@
+/* ENTRY 20024a32 | gCNavigation_PS::GetSaveGameRelevance | STATUS decompiled | 5 ms */
+
+/* public: virtual enum eCEntityPropertySet::eEPSSaveGameRelevance __thiscall
+   gCNavigation_PS::GetSaveGameRelevance(void)const  */
+
+eEPSSaveGameRelevance __thiscall gCNavigation_PS::GetSaveGameRelevance(gCNavigation_PS *this)
+
+{
+                    /* 0x24a32  4370
+                       ?GetSaveGameRelevance@gCNavigation_PS@@UBE?AW4eEPSSaveGameRelevance@eCEntityPropertySet@@XZ
+                        */
+  return 1;
+}
+
+

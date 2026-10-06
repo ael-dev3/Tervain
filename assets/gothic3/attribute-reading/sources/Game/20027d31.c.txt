@@ -1,0 +1,13 @@
+/* ENTRY 20027d31 | gCStat::ApplyDefaults | STATUS decompiled | 4 ms */
+
+/* protected: virtual void __thiscall gCStat::ApplyDefaults(void) */
+
+void __thiscall gCStat::ApplyDefaults(gCStat *this)
+
+{
+                    /* 0x27d31  1958  ?ApplyDefaults@gCStat@@MAEXXZ */
+  FUN_2039aea0();
+  return;
+}
+
+

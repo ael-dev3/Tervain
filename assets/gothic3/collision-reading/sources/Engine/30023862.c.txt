@@ -1,0 +1,86 @@
+/* ENTRY 30023862 | eCCollisionShape::CopyFrom | STATUS decompiled | 44 ms */
+
+/* public: virtual enum bEResult __thiscall eCCollisionShape::CopyFrom(class bCObjectBase const &)
+    */
+
+bEResult __thiscall eCCollisionShape::CopyFrom(eCCollisionShape *this,bCObjectBase *param_1)
+
+{
+  int iVar1;
+  bCOrientedBox *this_00;
+  undefined4 uVar2;
+  bCSphere *this_01;
+  bCCapsule *pbVar3;
+  bCVector *pbVar4;
+  bCString *pbVar5;
+  
+                    /* 0x23862  4048
+                       ?CopyFrom@eCCollisionShape@@UAE?AW4bEResult@@ABVbCObjectBase@@@Z */
+  bCObjectBase::CopyFrom((bCObjectBase *)this,param_1);
+  (*this->vftablePtr->Destroy)(this);
+  (*this->vftablePtr->Create)(this);
+  iVar1 = *(int *)(param_1 + 0x10);
+  if ((iVar1 == 1) || (iVar1 == 6)) {
+    pbVar5 = (bCString *)new(4,0x245);
+    if (pbVar5 == (bCString *)0x0) {
+      pbVar5 = (bCString *)0x0;
+    }
+    else {
+      pbVar5 = (bCString *)bCString::bCString(pbVar5);
+    }
+    (this->eCCollisionShape_data).offset_0x70 = pbVar5;
+    bCString::operator=(pbVar5,*(bCString **)(param_1 + 0x74));
+    (this->eCCollisionShape_data).offset_0x42 = *(undefined2 *)(param_1 + 0x46);
+    goto LAB_30359e6f;
+  }
+  if (iVar1 == 3) {
+    this_00 = (bCOrientedBox *)new(0x3c,0x24b);
+    if (this_00 != (bCOrientedBox *)0x0) {
+      uVar2 = bCOrientedBox::bCOrientedBox(this_00,*(bCOrientedBox **)(param_1 + 0x74));
+      (this->eCCollisionShape_data).offset_0x70 = uVar2;
+      goto LAB_30359e6f;
+    }
+  }
+  else {
+    if (iVar1 != 5) {
+      if (iVar1 == 4) {
+        pbVar3 = (bCCapsule *)new(0x38,0x253);
+        if (pbVar3 == (bCCapsule *)0x0) {
+          (this->eCCollisionShape_data).offset_0x70 = 0;
+          bCCapsule::SetCapsule((bCCapsule *)0x0,*(bCCapsule **)(param_1 + 0x74));
+        }
+        else {
+          pbVar3 = (bCCapsule *)bCCapsule::bCCapsule(pbVar3);
+          (this->eCCollisionShape_data).offset_0x70 = pbVar3;
+          bCCapsule::SetCapsule(pbVar3,*(bCCapsule **)(param_1 + 0x74));
+        }
+      }
+      else if (iVar1 == 7) {
+        pbVar4 = (bCVector *)new(0xc,600);
+        if (pbVar4 == (bCVector *)0x0) {
+          (this->eCCollisionShape_data).offset_0x70 = 0;
+          bCVector::SetVector((bCVector *)0x0,*(bCVector **)(param_1 + 0x74));
+        }
+        else {
+          pbVar4 = (bCVector *)bCVector::bCVector(pbVar4);
+          (this->eCCollisionShape_data).offset_0x70 = pbVar4;
+          bCVector::SetVector(pbVar4,*(bCVector **)(param_1 + 0x74));
+        }
+      }
+      goto LAB_30359e6f;
+    }
+    this_01 = (bCSphere *)new(0x10,0x24f);
+    if (this_01 != (bCSphere *)0x0) {
+      uVar2 = bCSphere::bCSphere(this_01,*(bCSphere **)(param_1 + 0x74));
+      (this->eCCollisionShape_data).offset_0x70 = uVar2;
+      goto LAB_30359e6f;
+    }
+  }
+  (this->eCCollisionShape_data).offset_0x70 = 0;
+LAB_30359e6f:
+  bCBox::operator=((bCBox *)&(this->eCCollisionShape_data).field_0x44,(bCBox *)(param_1 + 0x48));
+  (this->eCCollisionShape_data).offset_0x40 = 0;
+  return 1;
+}
+
+

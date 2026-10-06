@@ -1,0 +1,12 @@
+/* ENTRY 3003efa4 | eCVisualAnimation_PS::GetCurrentLoDLevel | STATUS decompiled | 6 ms */
+
+/* public: unsigned short __thiscall eCVisualAnimation_PS::GetCurrentLoDLevel(void)const  */
+
+ushort __thiscall eCVisualAnimation_PS::GetCurrentLoDLevel(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x3efa4  6669  ?GetCurrentLoDLevel@eCVisualAnimation_PS@@QBEGXZ */
+  return *(ushort *)&this[0x14].eCEntityPropertySet_data.offset_0x8;
+}
+
+

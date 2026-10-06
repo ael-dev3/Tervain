@@ -1,0 +1,59 @@
+; 1004bae0 FUN_1004bae0
+1004bae0 | 83ec08 | SUB ESP,0x8
+1004bae3 | 56 | PUSH ESI
+1004bae4 | 6868b11a10 | PUSH 0x101ab168
+1004bae9 | ff15a8962f10 | CALL dword ptr [0x102f96a8]
+1004baef | 8b0d68b11a10 | MOV ECX,dword ptr [0x101ab168]
+1004baf5 | b8d34d6210 | MOV EAX,0x10624dd3
+1004bafa | f7e1 | MUL ECX
+1004bafc | 8bf2 | MOV ESI,EDX
+1004bafe | b8d5411dd4 | MOV EAX,0xd41d41d5
+1004bb03 | f7e1 | MUL ECX
+1004bb05 | 2bca | SUB ECX,EDX
+1004bb07 | d1e9 | SHR ECX,0x1
+1004bb09 | 03ca | ADD ECX,EDX
+1004bb0b | c1ee06 | SHR ESI,0x6
+1004bb0e | c1e906 | SHR ECX,0x6
+1004bb11 | 85f6 | TEST ESI,ESI
+1004bb13 | 893580b11a10 | MOV dword ptr [0x101ab180],ESI
+1004bb19 | 890d84b11a10 | MOV dword ptr [0x101ab184],ECX
+1004bb1f | 7505 | JNZ 0x1004bb26
+1004bb21 | e84792fbff | CALL 0x10004d6d
+; 1004bb26 LAB_1004bb26
+1004bb26 | 8b35a4962f10 | MOV ESI,dword ptr [0x102f96a4]
+1004bb2c | 8d442404 | LEA EAX,[ESP + 0x4]
+1004bb30 | 50 | PUSH EAX
+1004bb31 | ffd6 | CALL ESI
+1004bb33 | 8b542408 | MOV EDX,dword ptr [ESP + 0x8]
+1004bb37 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+1004bb3b | f73580b11a10 | DIV dword ptr [0x101ab180]
+1004bb41 | 89442404 | MOV dword ptr [ESP + 0x4],EAX
+1004bb45 | 833d80b11a1000 | CMP dword ptr [0x101ab180],0x0
+1004bb4c | 8b4c2404 | MOV ECX,dword ptr [ESP + 0x4]
+1004bb50 | 890d70b11a10 | MOV dword ptr [0x101ab170],ECX
+1004bb56 | 7505 | JNZ 0x1004bb5d
+1004bb58 | e81092fbff | CALL 0x10004d6d
+; 1004bb5d LAB_1004bb5d
+1004bb5d | 8d542404 | LEA EDX,[ESP + 0x4]
+1004bb61 | 52 | PUSH EDX
+1004bb62 | ffd6 | CALL ESI
+1004bb64 | 833d80b11a1000 | CMP dword ptr [0x101ab180],0x0
+1004bb6b | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+1004bb6f | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+1004bb73 | a378b11a10 | MOV [0x101ab178],EAX
+1004bb78 | 890d7cb11a10 | MOV dword ptr [0x101ab17c],ECX
+1004bb7e | 7505 | JNZ 0x1004bb85
+1004bb80 | e8e891fbff | CALL 0x10004d6d
+; 1004bb85 LAB_1004bb85
+1004bb85 | 8d542404 | LEA EDX,[ESP + 0x4]
+1004bb89 | 52 | PUSH EDX
+1004bb8a | ffd6 | CALL ESI
+1004bb8c | 8b542408 | MOV EDX,dword ptr [ESP + 0x8]
+1004bb90 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+1004bb94 | f73584b11a10 | DIV dword ptr [0x101ab184]
+1004bb9a | 89442404 | MOV dword ptr [ESP + 0x4],EAX
+1004bb9e | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+1004bba2 | a374b11a10 | MOV [0x101ab174],EAX
+1004bba7 | 5e | POP ESI
+1004bba8 | 83c408 | ADD ESP,0x8
+1004bbab | c3 | RET

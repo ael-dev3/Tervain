@@ -1,0 +1,13 @@
+/* ENTRY 3000d1ca | eCRigidBodyBase_PS::Read | STATUS decompiled | 10 ms */
+
+/* public: virtual enum bEResult __thiscall eCRigidBodyBase_PS::Read(class bCIStream &) */
+
+bEResult __thiscall eCRigidBodyBase_PS::Read(eCRigidBodyBase_PS *this,bCIStream *param_1)
+
+{
+                    /* 0xd1ca  12232  ?Read@eCRigidBodyBase_PS@@UAE?AW4bEResult@@AAVbCIStream@@@Z */
+  bCIStream::operator>>((bCIStream *)param_1,(ushort *)&param_1);
+  return 1;
+}
+
+

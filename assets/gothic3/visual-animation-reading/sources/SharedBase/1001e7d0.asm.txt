@@ -1,0 +1,10 @@
+; 1001e7d0 bCIOStream::bCIOStream
+1001e7d0 | 56 | PUSH ESI
+1001e7d1 | 8bf1 | MOV ESI,ECX
+1001e7d3 | 8d4e04 | LEA ECX,[ESI + 0x4]
+1001e7d6 | c706285f0e10 | MOV dword ptr [ESI],0x100e5f28
+1001e7dc | c701145f0e10 | MOV dword ptr [ECX],0x100e5f14
+1001e7e2 | e8d787feff | CALL 0x10006fbe
+1001e7e7 | 8bce | MOV ECX,ESI
+1001e7e9 | 5e | POP ESI
+1001e7ea | e98b80feff | JMP 0x1000687a

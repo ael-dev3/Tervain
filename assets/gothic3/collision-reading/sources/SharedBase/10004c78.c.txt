@@ -1,0 +1,23 @@
+/* ENTRY 10004c78 | bCMatrix3::GetIdentity | STATUS decompiled | 3 ms */
+
+/* public: static class bCMatrix3 __stdcall bCMatrix3::GetIdentity(void) */
+
+void bCMatrix3::GetIdentity(void)
+
+{
+  undefined4 *in_stack_00000004;
+  
+                    /* 0x4c78  2402  ?GetIdentity@bCMatrix3@@SG?AV1@XZ */
+  in_stack_00000004[1] = 0;
+  in_stack_00000004[2] = 0;
+  in_stack_00000004[3] = 0;
+  in_stack_00000004[5] = 0;
+  in_stack_00000004[6] = 0;
+  in_stack_00000004[7] = 0;
+  *in_stack_00000004 = 0x3f800000;
+  in_stack_00000004[4] = 0x3f800000;
+  in_stack_00000004[8] = 0x3f800000;
+  return;
+}
+
+

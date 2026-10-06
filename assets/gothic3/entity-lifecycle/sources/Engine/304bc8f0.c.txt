@@ -1,0 +1,39 @@
+/* ENTRY 304bc8f0 | FUN_304bc8f0 | STATUS decompiled | 18 ms */
+
+undefined4 __thiscall FUN_304bc8f0(eCEntity *param_1,bCIStream *param_2)
+
+{
+  bCIStream *this;
+  ushort local_18 [2];
+  bCPropertyID local_14 [20];
+  
+  this = param_2;
+  bCIStream::operator>>(param_2,local_18);
+  if (local_18[0] == 0x1e) {
+    eCEntity::Read(param_1,(bCIStream *)this);
+  }
+  else {
+    bCIStream::operator>>(this,(bool *)&param_2);
+    bCPropertyID::bCPropertyID(local_14);
+    if (param_2._0_1_ == true) {
+      operator>>((bCIStream *)this,local_14);
+    }
+    if (0x22 < local_18[0]) {
+      bCBox::operator<<((bCBox *)&param_1[1].eCNode_data,(bCIStream *)this);
+      bCOrientedBox::operator<<
+                ((bCOrientedBox *)&param_1[1].eCNode_data.field_0x18,(bCIStream *)this);
+    }
+    eCEntity::Read(param_1,(bCIStream *)this);
+    if (param_2._0_1_ == true) {
+      eCEntity::PatchWithTemplate(param_1,local_14,true);
+    }
+    bCPropertyID::~bCPropertyID(local_14);
+    if (0x22 < local_18[0]) {
+      return 1;
+    }
+  }
+  (*param_1->vftablePtr->UpdateLocalBoundary)(param_1);
+  return 1;
+}
+
+

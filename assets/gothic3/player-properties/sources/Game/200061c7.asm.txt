@@ -1,0 +1,2 @@
+; 200061c7 ?EnableTutorial@gCPlayerMemory_PS@@QAEXW4gETutorialFlag@@_N@Z
+200061c7 | e9a4723100 | JMP 0x2031d470

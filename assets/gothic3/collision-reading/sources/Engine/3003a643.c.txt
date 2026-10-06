@@ -1,0 +1,9 @@
+/* ENTRY 3003a643 | bTPropertyType<eCCollisionShape,bCObsoleteClass>::vfunction2 | STATUS decompiled | 1 ms */
+
+undefined4 __thiscall bTPropertyType<eCCollisionShape,bCObsoleteClass>::vfunction2(void)
+
+{
+  return 0xc;
+}
+
+

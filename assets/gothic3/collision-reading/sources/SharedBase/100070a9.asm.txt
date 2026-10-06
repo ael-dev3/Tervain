@@ -1,0 +1,4 @@
+; 100070a9 ?InvScale@bCOrientedBox@@QAEXM@Z
+100070a9 | e962c00500 | JMP 0x10063110
+; 100070ae bCInfCylinder::operator!=
+; 100070ae Ordinal_831

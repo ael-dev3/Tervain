@@ -1,0 +1,2 @@
+; 10005b69 MemHeap::Free
+10005b69 | e9e26f0300 | JMP 0x1003cb50

@@ -1,0 +1,2 @@
+; 3003abed eCEntity::RemovePropertySet
+3003abed | e91ede4700 | JMP 0x304b8a10

@@ -1,0 +1,2 @@
+; 200026cb gCDamageReceiver_PS::SetHitPointsMax
+200026cb | e9c0730b00 | JMP 0x200b9a90

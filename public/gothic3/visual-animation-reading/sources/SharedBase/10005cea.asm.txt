@@ -1,0 +1,2 @@
+; 10005cea bCBox::~bCBox
+10005cea | e9a1480200 | JMP 0x1002a590

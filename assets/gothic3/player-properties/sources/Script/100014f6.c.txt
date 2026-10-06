@@ -1,0 +1,33 @@
+/* ENTRY 100014f6 | PSPlayerMemory::GetManaPointsPercent | STATUS decompiled | 24 ms */
+
+/* public: float __thiscall PSPlayerMemory::GetManaPointsPercent(void)const  */
+
+float __thiscall PSPlayerMemory::GetManaPointsPercent(PSPlayerMemory *this)
+
+{
+  bCString abStack_10 [4];
+  bCString abStack_c [4];
+  int iStack_8;
+  int iStack_4;
+  
+                    /* 0x14f6  1595  ?GetManaPointsPercent@PSPlayerMemory@@QBEMXZ */
+  bCString::bCString(abStack_10,"MP");
+  if (*(gCPlayerMemory_PS **)this == (gCPlayerMemory_PS *)0x0) {
+    iStack_8 = 0;
+  }
+  else {
+    iStack_8 = gCPlayerMemory_PS::GetValue(*(gCPlayerMemory_PS **)this,abStack_10);
+  }
+  bCString::~bCString(abStack_10);
+  bCString::bCString(abStack_c,"MP");
+  if (*(gCPlayerMemory_PS **)this == (gCPlayerMemory_PS *)0x0) {
+    iStack_4 = 0;
+  }
+  else {
+    iStack_4 = gCPlayerMemory_PS::GetMaximum(*(gCPlayerMemory_PS **)this,abStack_c);
+  }
+  bCString::~bCString(abStack_c);
+  return ((float)iStack_8 / (float)iStack_4) * 100.0;
+}
+
+

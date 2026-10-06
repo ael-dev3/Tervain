@@ -1,0 +1,4 @@
+; 1000409d ?GetProtectionImpact@PSPlayerMemory@@QBEHXZ
+1000409d | e98e5f0200 | JMP 0x1002a030
+; 100040a2 PSMap::operator->
+; 100040a2 Ordinal_1219

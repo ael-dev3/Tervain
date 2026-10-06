@@ -1,0 +1,2 @@
+; 2039c1e0 bTPropertyObjectType<gCStat,gCAttribute>::vfunction1
+2039c1e0 | e92377c7ff | JMP 0x20013908

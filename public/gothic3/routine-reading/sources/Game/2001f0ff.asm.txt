@@ -1,0 +1,2 @@
+; 2001f0ff bTPropertyType<gCScriptRoutine_PS,bCString>::vfunction6
+2001f0ff | e9bce93300 | JMP 0x2035dac0

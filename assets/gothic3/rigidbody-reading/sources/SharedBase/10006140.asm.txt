@@ -1,0 +1,2 @@
+; 10006140 ?IsValid@bCObjectBase@@UBE_NXZ
+10006140 | e97b3f0400 | JMP 0x1004a0c0

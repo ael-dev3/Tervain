@@ -1,0 +1,4 @@
+; 2000dd73 bTPropertyObject<gCNavigation_PS,eCEntityPropertySet>::vfunction8
+2000dd73 | e908462800 | JMP 0x20292380
+; 2000dd78 gCMap_PS::GetRootObject
+; 2000dd78 Ordinal_4283

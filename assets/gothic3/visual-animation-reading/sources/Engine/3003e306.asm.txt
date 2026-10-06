@@ -1,0 +1,2 @@
+; 3003e306 eCVisualAnimation_PS::vfunction15
+3003e306 | e985c90700 | JMP 0x300bac90

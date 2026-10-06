@@ -1,0 +1,10 @@
+/* ENTRY 3067456a | FUN_3067456a | STATUS decompiled | 2 ms */
+
+void FUN_3067456a(void)
+
+{
+  __cintrindisp2();
+  return;
+}
+
+

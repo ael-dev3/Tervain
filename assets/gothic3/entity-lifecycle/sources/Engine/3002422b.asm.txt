@@ -1,0 +1,2 @@
+; 3002422b ?SetContext@eCNode@@MAEXPAVeCContextBase@@@Z
+3002422b | e9d0c44500 | JMP 0x30480700

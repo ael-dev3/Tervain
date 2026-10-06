@@ -1,0 +1,2 @@
+; 2000ba41 gCEffect_PS::OnProcess
+2000ba41 | e98acc1000 | JMP 0x201186d0

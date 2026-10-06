@@ -1,0 +1,14 @@
+/* ENTRY 20188730 | FUN_20188730 | STATUS decompiled | 2 ms */
+
+void __thiscall FUN_20188730(int param_1,int param_2)
+
+{
+  if (*(int *)(param_1 + 0x2c) != param_2) {
+    thunk_FUN_2018a730(0xffffffff);
+    *(int *)(param_1 + 0x2c) = param_2;
+    *(undefined1 *)(param_1 + 0x28) = 1;
+  }
+  return;
+}
+
+

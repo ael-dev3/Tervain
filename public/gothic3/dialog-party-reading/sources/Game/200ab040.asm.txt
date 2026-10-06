@@ -1,0 +1,3 @@
+; 200ab040 FUN_200ab040
+200ab040 | 8d4130 | LEA EAX,[ECX + 0x30]
+200ab043 | c3 | RET

@@ -1,0 +1,37 @@
+/* ENTRY 2002941a | gCInventory_PS::EquipStackToSlot | STATUS decompiled | 18 ms */
+
+/* public: bool __thiscall gCInventory_PS::EquipStackToSlot(int,enum gESlot) */
+
+bool __thiscall gCInventory_PS::EquipStackToSlot(gCInventory_PS *this,int param_1,gESlot param_2)
+
+{
+  bool bVar1;
+  gCInventoryStack *this_00;
+  gEItemCategory gVar2;
+  gEUseType gVar3;
+  
+                    /* 0x2941a  2764  ?EquipStackToSlot@gCInventory_PS@@QAE_NHW4gESlot@@@Z */
+  bVar1 = IsValidIndex(this,param_1);
+  if (!bVar1) {
+    GE_MESSAGEF_WARN("gCInventory_PS::EquipStackToSlot -> Invalid stack index: %d.",param_1);
+    return false;
+  }
+  this_00 = (gCInventoryStack *)GetStack(this,param_1);
+  gVar2 = gCInventorySlot::GetCategory((gCInventorySlot *)this_00);
+  if (gVar2 != 0) {
+    gVar3 = gCInventorySlot::GetUseType((gCInventorySlot *)this_00);
+    if (gVar3 != 0) {
+      bVar1 = gCInventoryStack::IsEquippedToSlot(this_00,param_2);
+      if (!bVar1) {
+        gCInventorySlot::IsLinked((gCInventorySlot *)this_00);
+        UnlinkStackFromSlot(this,param_2);
+        UnlinkStackFromSlot(this,(this_00->gCInventorySlot_data).offset_0x34);
+        LinkStackToSlot(this,param_1,param_2,true);
+      }
+      return true;
+    }
+  }
+  return false;
+}
+
+

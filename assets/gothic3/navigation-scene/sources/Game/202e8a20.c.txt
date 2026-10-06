@@ -1,0 +1,42 @@
+/* ENTRY 202e8a20 | FUN_202e8a20 | STATUS decompiled | 14 ms */
+
+bCIStream * __thiscall FUN_202e8a20(int *param_1,bCIStream *param_2)
+
+{
+  ulong uVar1;
+  bCMemoryAdmin *this;
+  void *pvVar2;
+  int iVar3;
+  ulong uVar4;
+  uchar local_5;
+  ulong local_4;
+  
+  bCIStream::operator>>(param_2,&local_5);
+  local_4 = 0;
+  bCIStream::operator>>(param_2,&local_4);
+  uVar1 = local_4;
+  if ((local_4 != 0) && (iVar3 = param_1[2], iVar3 < (int)local_4)) {
+    uVar4 = local_4 * 0xc;
+    pvVar2 = (void *)*param_1;
+    this = bCMemoryAdmin::GetInstance();
+    pvVar2 = bCMemoryAdmin::Realloc(this,pvVar2,uVar4);
+    *param_1 = (int)pvVar2;
+    thunk_FUN_200697a0((void *)((int)pvVar2 + param_1[2] * 0xc),uVar1 - iVar3);
+    param_1[2] = uVar1;
+  }
+  if ((int)uVar1 < param_1[1]) {
+    thunk_FUN_2006c800(*param_1 + uVar1 * 0xc,param_1[1] - uVar1);
+    thunk_FUN_200697a0(*param_1 + uVar1 * 0xc,param_1[1] - uVar1);
+  }
+  iVar3 = 0;
+  param_1[1] = uVar1;
+  if (0 < (int)uVar1) {
+    do {
+      thunk_FUN_202e7d90(param_2);
+      iVar3 = iVar3 + 1;
+    } while (iVar3 < param_1[1]);
+  }
+  return param_2;
+}
+
+

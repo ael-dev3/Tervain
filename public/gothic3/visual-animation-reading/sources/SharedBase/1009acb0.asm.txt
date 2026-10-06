@@ -1,0 +1,16 @@
+; 1009acb0 FUN_1009acb0
+1009acb0 | 56 | PUSH ESI
+1009acb1 | 8bf1 | MOV ESI,ECX
+1009acb3 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+1009acb7 | 33c0 | XOR EAX,EAX
+1009acb9 | 3bc8 | CMP ECX,EAX
+1009acbb | 8906 | MOV dword ptr [ESI],EAX
+1009acbd | 894604 | MOV dword ptr [ESI + 0x4],EAX
+1009acc0 | 7405 | JZ 0x1009acc7
+1009acc2 | e8a0ddf6ff | CALL 0x10008a67
+1009acc7 | 50 | PUSH EAX
+1009acc8 | 8bce | MOV ECX,ESI
+1009acca | e88677f6ff | CALL 0x10002455
+1009accf | 8bc6 | MOV EAX,ESI
+1009acd1 | 5e | POP ESI
+1009acd2 | c20400 | RET 0x4

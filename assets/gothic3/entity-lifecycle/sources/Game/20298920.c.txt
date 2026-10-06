@@ -1,0 +1,43 @@
+/* ENTRY 20298920 | FUN_20298920 | STATUS decompiled | 47 ms */
+
+/* WARNING: Removing unreachable block (ram,0x2029897d) */
+
+undefined4 __thiscall FUN_20298920(int *param_1,bCIStream *param_2)
+
+{
+  ushort *puVar1;
+  code *pcVar2;
+  
+  puVar1 = (ushort *)(param_1 + 0x4c);
+  bCIStream::operator>>(param_2,puVar1);
+  if (*puVar1 < 0x25) {
+    thunk_FUN_20276a10();
+    thunk_FUN_20276af0();
+    thunk_FUN_20276af0();
+  }
+  if (*puVar1 < 0x26) {
+    (**(code **)(*param_1 + 0x58))("TopToleranz");
+    pcVar2 = *(code **)(*param_1 + 0x5c);
+    param_1[0x28] = 0x43160000;
+    (*pcVar2)("TopToleranz",0);
+    (**(code **)(*param_1 + 0x58))("BottomToleranz",0);
+    pcVar2 = *(code **)(*param_1 + 0x5c);
+    param_1[0x29] = 0x42c80000;
+    (*pcVar2)("BottomToleranz",0);
+    (**(code **)(*param_1 + 0x58))("LinkInnerArea",0);
+    pcVar2 = *(code **)(*param_1 + 0x5c);
+    *(undefined1 *)(param_1 + 0x2a) = 0;
+    (*pcVar2)("LinkInnerArea",0);
+    (**(code **)(*param_1 + 0x58))("LinkInnerTopArea",0);
+    pcVar2 = *(code **)(*param_1 + 0x5c);
+    *(undefined1 *)((int)param_1 + 0xa9) = 0;
+    (*pcVar2)("LinkInnerTopArea",0);
+    (**(code **)(*param_1 + 0x58))("LinkInnerBottomArea",0);
+    pcVar2 = *(code **)(*param_1 + 0x5c);
+    *(undefined1 *)((int)param_1 + 0xaa) = 0;
+    (*pcVar2)("LinkInnerBottomArea",0);
+  }
+  return 1;
+}
+
+

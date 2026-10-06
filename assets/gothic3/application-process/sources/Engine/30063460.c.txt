@@ -1,0 +1,10 @@
+/* ENTRY 30063460 | FUN_30063460 | STATUS decompiled | 3 ms */
+
+void __thiscall FUN_30063460(int param_1,float param_2)
+
+{
+  *(float *)(param_1 + 0x520) = 1000.0 / param_2;
+  return;
+}
+
+

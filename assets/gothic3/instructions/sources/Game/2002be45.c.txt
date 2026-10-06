@@ -1,0 +1,12 @@
+/* ENTRY 2002be45 | gCScriptProcessingUnit::GetLocalTimeScale | STATUS decompiled | 2 ms */
+
+/* public: float __thiscall gCScriptProcessingUnit::GetLocalTimeScale(void)const  */
+
+float __thiscall gCScriptProcessingUnit::GetLocalTimeScale(gCScriptProcessingUnit *this)
+
+{
+                    /* 0x2be45  3701  ?GetLocalTimeScale@gCScriptProcessingUnit@@QBEMXZ */
+  return (float)(this->gCScriptProcessingUnit_data).offset_0x164;
+}
+
+

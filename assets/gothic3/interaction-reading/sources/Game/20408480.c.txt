@@ -1,0 +1,17 @@
+/* ENTRY 20408480 | bTPropertyType<gCInteraction_PS,bTPropertyContainer<gEFocusPriority>_>::vfunction6 | STATUS decompiled | 5 ms */
+
+void __thiscall
+bTPropertyType<gCInteraction_PS,bTPropertyContainer<gEFocusPriority>_>::vfunction6
+          (bTPropertyType<gCInteraction_PS,bTPropertyContainer<gEFocusPriority>_> *this,int param_1)
+
+{
+  bTPropertyType<gCInteraction_PS,bTPropertyContainer<gEFocusPriority>_>_vftable *pbVar1;
+  
+  if (param_1 != 0) {
+    pbVar1 = (*this->vftablePtr->vfunction26)(this,(undefined4 *)param_1);
+    (**(code **)(pbVar1->vfunction1 + 0x18))();
+  }
+  return;
+}
+
+

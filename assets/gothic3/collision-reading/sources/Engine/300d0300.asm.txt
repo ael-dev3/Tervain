@@ -1,0 +1,5 @@
+; 300d0300 bTPropertyContainer<eEShapeAABBAdapt>::vfunction7
+300d0300 | a108abad30 | MOV EAX,[0x30adab08]
+300d0305 | 894104 | MOV dword ptr [ECX + 0x4],EAX
+300d0308 | b801000000 | MOV EAX,0x1
+300d030d | c3 | RET

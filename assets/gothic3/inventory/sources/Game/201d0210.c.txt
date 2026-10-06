@@ -1,0 +1,13 @@
+/* ENTRY 201d0210 | FUN_201d0210 | STATUS decompiled | 3 ms */
+
+void __thiscall
+FUN_201d0210(bTPropertyContainer<gEStackType> *param_1,eCTemplateEntity *param_2,int param_3,
+            int param_4)
+
+{
+  bTPropertyContainer<gEStackType>::bTPropertyContainer<gEStackType>_Constructor_or_Destructor
+            (param_1,param_2,param_3,param_4,0);
+  return;
+}
+
+

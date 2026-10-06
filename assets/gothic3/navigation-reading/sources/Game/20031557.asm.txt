@@ -1,0 +1,4 @@
+; 20031557 bTPropertyType<gCNavigation_PS,bCPropertyID>::vfunction7
+20031557 | e924c92500 | JMP 0x2028de80
+; 2003155c gCProjectile_PS::GetTargetEntity
+; 2003155c Ordinal_4543

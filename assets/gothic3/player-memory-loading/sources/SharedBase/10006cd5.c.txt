@@ -1,0 +1,25 @@
+/* ENTRY 10006cd5 | bCAccessorPropertyObject::bCAccessorPropertyObject | STATUS decompiled | 5 ms */
+
+/* public: __thiscall bCAccessorPropertyObject::bCAccessorPropertyObject(class bCAccessorCreator
+   const &) */
+
+bCAccessorPropertyObject * __thiscall
+bCAccessorPropertyObject::bCAccessorPropertyObject
+          (bCAccessorPropertyObject *this,bCAccessorCreator *param_1)
+
+{
+  bool bVar1;
+  bCPropertyObjectBase *pbVar2;
+  
+                    /* 0x6cd5  24  ??0bCAccessorPropertyObject@@QAE@ABVbCAccessorCreator@@@Z */
+  *(undefined4 *)this = 0;
+  *(undefined4 *)(this + 4) = 0;
+  bVar1 = bCAccessorCreator::IsValid(param_1);
+  if (bVar1) {
+    pbVar2 = bCAccessorCreator::operator_class_bCPropertyObjectBase_(param_1);
+    SetInstance(this,pbVar2);
+  }
+  return this;
+}
+
+

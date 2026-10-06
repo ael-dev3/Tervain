@@ -1,0 +1,4 @@
+; 10005ae7 ?Clear@bCVector@@QAEXXZ
+10005ae7 | e914f30100 | JMP 0x10024e00
+; 10005aec bCPropertyObjectBase::IsPersistable
+; 10005aec Ordinal_3657

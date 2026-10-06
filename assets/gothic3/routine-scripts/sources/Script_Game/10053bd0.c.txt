@@ -1,0 +1,12 @@
+/* ENTRY 10053bd0 | gSArgsFor__AI_TransferItem::gSArgsFor__AI_TransferItem | STATUS decompiled | 4 ms */
+
+gSArgsFor__AI_TransferItem * __thiscall
+gSArgsFor__AI_TransferItem::gSArgsFor__AI_TransferItem(gSArgsFor__AI_TransferItem *this)
+
+{
+  this->vftablePtr = &vftable;
+  Entity::Entity((Entity *)&this->gScrArgument_data);
+  return this;
+}
+
+

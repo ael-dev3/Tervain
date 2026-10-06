@@ -1,0 +1,4 @@
+; 2000aae7 bTPropertyType<gCInventorySlot,eCTemplateEntityProxy>::vfunction15
+2000aae7 | e9649d1b00 | JMP 0x201c4850
+; 2000aaec gCFlock_PS::AccessRoam2Ani
+; 2000aaec Ordinal_1637

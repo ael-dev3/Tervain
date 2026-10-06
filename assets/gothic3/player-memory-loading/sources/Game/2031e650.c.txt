@@ -1,0 +1,36 @@
+/* ENTRY 2031e650 | FUN_2031e650 | STATUS decompiled | 17 ms */
+
+undefined4 __thiscall FUN_2031e650(gCPlayerMemory_PS *param_1,bCIStream *param_2)
+
+{
+  int iVar1;
+  long local_1c;
+  bCString local_18 [4];
+  gCPlayerMemory_PS *local_14;
+  bCAccessorPropertyObject local_10 [12];
+  
+  iVar1 = 0;
+  local_1c = 0;
+  local_14 = param_1;
+  operator<<(&local_1c,param_2);
+  if (0 < local_1c) {
+    do {
+      bCString::bCString(local_18);
+      operator<<(local_18,param_2);
+      bCAccessorPropertyObject::bCAccessorPropertyObject(local_10);
+      operator>>(param_2,local_10);
+      bCAccessorPropertyObject::~bCAccessorPropertyObject(local_10);
+      bCString::~bCString(local_18);
+      iVar1 = iVar1 + 1;
+      param_1 = local_14;
+    } while (iVar1 < local_1c);
+  }
+  GE_MESSAGEF_WARN(
+                  "gCPlayerMemory_PS::ReadAttributesV4 -> Detected broken version. Recreating all attributes."
+                  );
+  gCPlayerMemory_PS::DestroyAttributes(param_1);
+  gCPlayerMemory_PS::CreateAttributes(param_1);
+  return 1;
+}
+
+

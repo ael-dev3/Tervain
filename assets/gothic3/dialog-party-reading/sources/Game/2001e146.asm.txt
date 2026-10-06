@@ -1,0 +1,2 @@
+; 2001e146 gCDialog_PS::SetTradeEnabled
+2001e146 | e915181900 | JMP 0x201af960

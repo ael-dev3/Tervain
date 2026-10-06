@@ -1,0 +1,2 @@
+; 30019e93 ?AddShape@eCCollisionShape_PS@@UAE?AW4bEResult@@ABVbCString@@_N@Z
+30019e93 | e988e13100 | JMP 0x30338020

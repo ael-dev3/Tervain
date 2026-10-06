@@ -1,0 +1,20 @@
+; 20218b90 bTPropertyContainer<gECharacterControlFOR>::bTPropertyContainer<gECharacterControlFOR>
+20218b90 | 56 | PUSH ESI
+20218b91 | 8bf1 | MOV ESI,ECX
+20218b93 | 57 | PUSH EDI
+20218b94 | 8d4e6c | LEA ECX,[ESI + 0x6c]
+20218b97 | c706bc6a6820 | MOV dword ptr [ESI],0x20686abc
+20218b9d | ff15f8857d20 | CALL dword ptr [0x207d85f8]
+20218ba3 | 8d4e60 | LEA ECX,[ESI + 0x60]
+20218ba6 | ff1530897d20 | CALL dword ptr [0x207d8930]
+20218bac | 8b3d00887d20 | MOV EDI,dword ptr [0x207d8800]
+20218bb2 | 8d4e1c | LEA ECX,[ESI + 0x1c]
+20218bb5 | c701a4686820 | MOV dword ptr [ECX],0x206868a4
+20218bbb | ffd7 | CALL EDI
+20218bbd | 8d4e14 | LEA ECX,[ESI + 0x14]
+20218bc0 | c701cc676820 | MOV dword ptr [ECX],0x206867cc
+20218bc6 | ffd7 | CALL EDI
+20218bc8 | 5f | POP EDI
+20218bc9 | 8bce | MOV ECX,ESI
+20218bcb | 5e | POP ESI
+20218bcc | ff2538727d20 | JMP dword ptr [0x207d7238]

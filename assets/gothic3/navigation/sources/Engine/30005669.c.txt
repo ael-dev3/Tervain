@@ -1,0 +1,12 @@
+/* ENTRY 30005669 | eCEntity::CanBeDeactivated | STATUS decompiled | 8 ms */
+
+/* public: bool __thiscall eCEntity::CanBeDeactivated(void)const  */
+
+bool __thiscall eCEntity::CanBeDeactivated(eCEntity *this)
+
+{
+                    /* 0x5669  3741  ?CanBeDeactivated@eCEntity@@QBE_NXZ */
+  return ((byte)(this->eCEntity_data).offset_0xc & 0x20) == 0x20;
+}
+
+

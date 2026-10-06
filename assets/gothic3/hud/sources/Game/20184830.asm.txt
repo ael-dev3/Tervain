@@ -1,0 +1,3 @@
+; 20184830 gCHUDListCtrlDialog::~gCHUDListCtrlDialog
+20184830 | c70194626720 | MOV dword ptr [ECX],0x20676294
+20184836 | ff2558787d20 | JMP dword ptr [0x207d7858]

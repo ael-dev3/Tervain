@@ -1,0 +1,12 @@
+/* ENTRY 2020b8e0 | FUN_2020b8e0 | STATUS decompiled | 3 ms */
+
+void __fastcall FUN_2020b8e0(int param_1)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x2020b8e3. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eCEntityProxy::operator_class_eCEntity_((eCEntityProxy *)(param_1 + 0x30));
+  return;
+}
+
+

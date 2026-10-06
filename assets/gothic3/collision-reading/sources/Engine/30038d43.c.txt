@@ -1,0 +1,58 @@
+/* ENTRY 30038d43 | eCCollisionShape::eCCollisionShape | STATUS decompiled | 124 ms */
+
+/* public: __thiscall eCCollisionShape::eCCollisionShape(class eCCollisionShape const &) */
+
+eCCollisionShape * __thiscall
+eCCollisionShape::eCCollisionShape(eCCollisionShape *this,eCCollisionShape *param_1)
+
+{
+  undefined ***pppuVar1;
+  
+                    /* 0x38d43  136  ??0eCCollisionShape@@QAE@ABV0@@Z */
+  bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)this,(bCObjectRefBase *)param_1);
+  pppuVar1 = &(this->eCCollisionShape_data).offset_0x8;
+  this->vftablePtr = &vftable;
+  bCObjectBase::bCObjectBase((bCObjectBase *)pppuVar1);
+  *pppuVar1 = &bTPropertyContainer<eECollisionShapeType>::vftable.GetVersion;
+  (this->eCCollisionShape_data).offset_0xc = *(undefined4 *)(param_1 + 0x10);
+  pppuVar1 = &(this->eCCollisionShape_data).offset_0x10;
+  bCObjectBase::bCObjectBase((bCObjectBase *)pppuVar1);
+  *pppuVar1 = &bTPropertyContainer<eEShapeGroup>::vftable.GetVersion;
+  (this->eCCollisionShape_data).offset_0x14 = *(undefined4 *)(param_1 + 0x18);
+  pppuVar1 = &(this->eCCollisionShape_data).offset_0x18;
+  bCObjectBase::bCObjectBase((bCObjectBase *)pppuVar1);
+  *pppuVar1 = &bTPropertyContainer<eEShapeMaterial>::vftable.GetVersion;
+  (this->eCCollisionShape_data).offset_0x1c = *(undefined4 *)(param_1 + 0x20);
+  pppuVar1 = &(this->eCCollisionShape_data).offset_0x20;
+  bCObjectBase::bCObjectBase((bCObjectBase *)pppuVar1);
+  *pppuVar1 = &bTPropertyContainer<eEShapeAABBAdapt>::vftable.GetVersion;
+  (this->eCCollisionShape_data).offset_0x24 = *(undefined4 *)(param_1 + 0x28);
+  (this->eCCollisionShape_data).offset_0x28 = *(bCObjectRefBase *)(param_1 + 0x2c);
+  (this->eCCollisionShape_data).offset_0x29 = param_1[0x2d];
+  (this->eCCollisionShape_data).offset_0x2a = *(bCObjectRefBase *)(param_1 + 0x2e);
+  (this->eCCollisionShape_data).offset_0x2b = *(bCObjectRefBase *)(param_1 + 0x2f);
+  (this->eCCollisionShape_data).offset_0x2c = *(bCObjectRefBase *)(param_1 + 0x30);
+  (this->eCCollisionShape_data).offset_0x2d = *(bCObjectRefBase *)(param_1 + 0x31);
+  (this->eCCollisionShape_data).offset_0x2e = *(bCObjectRefBase *)(param_1 + 0x32);
+  (this->eCCollisionShape_data).offset_0x2f = *(bCObjectRefBase *)(param_1 + 0x33);
+  (this->eCCollisionShape_data).offset_0x30 = *(undefined4 *)(param_1 + 0x34);
+  (this->eCCollisionShape_data).offset_0x34 = *(bCObjectRefBase *)(param_1 + 0x38);
+  (this->eCCollisionShape_data).offset_0x36 = *(undefined2 *)(param_1 + 0x3a);
+  (this->eCCollisionShape_data).offset_0x38 = *(bCObjectRefBase *)(param_1 + 0x3c);
+  (this->eCCollisionShape_data).offset_0x3c = *(undefined4 *)(param_1 + 0x40);
+  (this->eCCollisionShape_data).offset_0x40 = param_1[0x44];
+  (this->eCCollisionShape_data).offset_0x42 = *(undefined2 *)(param_1 + 0x46);
+  bCBox::bCBox((bCBox *)&(this->eCCollisionShape_data).field_0x44,(bCBox *)(param_1 + 0x48));
+  (this->eCCollisionShape_data).offset_0x5c = *(undefined4 *)(param_1 + 0x60);
+  (this->eCCollisionShape_data).offset_0x60 = *(undefined4 *)(param_1 + 100);
+  bCVector::bCVector((bCVector *)&(this->eCCollisionShape_data).field_0x64,
+                     (bCVector *)(param_1 + 0x68));
+  (this->eCCollisionShape_data).offset_0x70 = *(undefined4 *)(param_1 + 0x74);
+  (this->eCCollisionShape_data).offset_0x70 = *(undefined4 *)(param_1 + 0x74);
+  (this->eCCollisionShape_data).offset_0x70 = *(undefined4 *)(param_1 + 0x74);
+  (this->eCCollisionShape_data).offset_0x70 = *(undefined4 *)(param_1 + 0x74);
+  (this->eCCollisionShape_data).offset_0x70 = *(undefined4 *)(param_1 + 0x74);
+  return this;
+}
+
+

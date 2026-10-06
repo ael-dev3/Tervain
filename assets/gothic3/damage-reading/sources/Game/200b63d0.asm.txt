@@ -1,0 +1,78 @@
+; 200b63d0 bTPropertyType<gCDamage_PS,bTPropertyContainer<gEDamageType>_>::vfunction15
+200b63d0 | 83ec08 | SUB ESP,0x8
+200b63d3 | 53 | PUSH EBX
+200b63d4 | 8b5c2410 | MOV EBX,dword ptr [ESP + 0x10]
+200b63d8 | 56 | PUSH ESI
+200b63d9 | 57 | PUSH EDI
+200b63da | 8bf9 | MOV EDI,ECX
+200b63dc | 8b07 | MOV EAX,dword ptr [EDI]
+200b63de | 8b5040 | MOV EDX,dword ptr [EAX + 0x40]
+200b63e1 | 53 | PUSH EBX
+200b63e2 | ffd2 | CALL EDX
+200b63e4 | 0fb7c0 | MOVZX EAX,AX
+200b63e7 | 8d4c2410 | LEA ECX,[ESP + 0x10]
+200b63eb | 51 | PUSH ECX
+200b63ec | 8bcb | MOV ECX,EBX
+200b63ee | 89442410 | MOV dword ptr [ESP + 0x10],EAX
+200b63f2 | ff1560877d20 | CALL dword ptr [0x207d8760]
+200b63f8 | 8b74241c | MOV ESI,dword ptr [ESP + 0x1c]
+200b63fc | 8b16 | MOV EDX,dword ptr [ESI]
+200b63fe | 8b02 | MOV EAX,dword ptr [EDX]
+200b6400 | 8bce | MOV ECX,ESI
+200b6402 | ffd0 | CALL EAX
+200b6404 | 85c0 | TEST EAX,EAX
+200b6406 | 742f | JZ 0x200b6437
+200b6408 | 8b16 | MOV EDX,dword ptr [ESI]
+200b640a | 8b02 | MOV EAX,dword ptr [EDX]
+200b640c | 55 | PUSH EBP
+200b640d | 8bce | MOV ECX,ESI
+200b640f | ffd0 | CALL EAX
+200b6411 | 8be8 | MOV EBP,EAX
+200b6413 | 8b5d00 | MOV EBX,dword ptr [EBP]
+200b6416 | 6a01 | PUSH 0x1
+200b6418 | 8bcf | MOV ECX,EDI
+200b641a | 83c358 | ADD EBX,0x58
+200b641d | ff153c877d20 | CALL dword ptr [0x207d873c]
+200b6423 | 8bc8 | MOV ECX,EAX
+200b6425 | ff15f8867d20 | CALL dword ptr [0x207d86f8]
+200b642b | 8b13 | MOV EDX,dword ptr [EBX]
+200b642d | 50 | PUSH EAX
+200b642e | 8bcd | MOV ECX,EBP
+200b6430 | ffd2 | CALL EDX
+200b6432 | 8b5c241c | MOV EBX,dword ptr [ESP + 0x1c]
+200b6436 | 5d | POP EBP
+200b6437 | 8b07 | MOV EAX,dword ptr [EDI]
+200b6439 | 8b5064 | MOV EDX,dword ptr [EAX + 0x64]
+200b643c | 56 | PUSH ESI
+200b643d | 8bcf | MOV ECX,EDI
+200b643f | ffd2 | CALL EDX
+200b6441 | 50 | PUSH EAX
+200b6442 | 53 | PUSH EBX
+200b6443 | ff1590877d20 | CALL dword ptr [0x207d8790]
+200b6449 | 8b06 | MOV EAX,dword ptr [ESI]
+200b644b | 8b10 | MOV EDX,dword ptr [EAX]
+200b644d | 8bce | MOV ECX,ESI
+200b644f | ffd2 | CALL EDX
+200b6451 | 85c0 | TEST EAX,EAX
+200b6453 | 7428 | JZ 0x200b647d
+200b6455 | 8b06 | MOV EAX,dword ptr [ESI]
+200b6457 | 8b10 | MOV EDX,dword ptr [EAX]
+200b6459 | 8bce | MOV ECX,ESI
+200b645b | ffd2 | CALL EDX
+200b645d | 8bd8 | MOV EBX,EAX
+200b645f | 8b33 | MOV ESI,dword ptr [EBX]
+200b6461 | 6a01 | PUSH 0x1
+200b6463 | 8bcf | MOV ECX,EDI
+200b6465 | 83c65c | ADD ESI,0x5c
+200b6468 | ff153c877d20 | CALL dword ptr [0x207d873c]
+200b646e | 8bc8 | MOV ECX,EAX
+200b6470 | ff15f8867d20 | CALL dword ptr [0x207d86f8]
+200b6476 | 50 | PUSH EAX
+200b6477 | 8b06 | MOV EAX,dword ptr [ESI]
+200b6479 | 8bcb | MOV ECX,EBX
+200b647b | ffd0 | CALL EAX
+200b647d | 5f | POP EDI
+200b647e | 5e | POP ESI
+200b647f | 5b | POP EBX
+200b6480 | 83c408 | ADD ESP,0x8
+200b6483 | c20800 | RET 0x8

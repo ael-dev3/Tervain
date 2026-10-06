@@ -1,0 +1,18 @@
+/* ENTRY 20222320 | FUN_20222320 | STATUS decompiled | 6 ms */
+
+bool __thiscall FUN_20222320(int param_1,bCVector *param_2)
+
+{
+  float fVar1;
+  bCVector *pbVar2;
+  float fVar3;
+  bCVector local_c [12];
+  
+  pbVar2 = (bCVector *)bCVector::bCVector(local_c,0.0,1.0,0.0);
+  fVar3 = bCVector::GetAngleUnitDeg(param_2,pbVar2);
+  fVar1 = *(float *)(param_1 + 0x54);
+  bCVector::~bCVector(local_c);
+  return fVar3 <= fVar1;
+}
+
+

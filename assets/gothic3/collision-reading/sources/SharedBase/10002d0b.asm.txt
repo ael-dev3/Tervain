@@ -1,0 +1,4 @@
+; 10002d0b ?GetTranslated@bCOrientedBox@@QBE?AV1@ABVbCVector@@@Z
+10002d0b | e9104c0600 | JMP 0x10067920
+; 10002d10 bCInfDoubleCylinder::Shrink
+; 10002d10 Ordinal_4465

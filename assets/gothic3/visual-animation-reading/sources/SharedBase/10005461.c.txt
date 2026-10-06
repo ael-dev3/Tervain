@@ -1,0 +1,12 @@
+/* ENTRY 10005461 | bCVector::~bCVector | STATUS decompiled | 1 ms */
+
+/* public: __thiscall bCVector::~bCVector(void) */
+
+void __thiscall bCVector::~bCVector(bCVector *this)
+
+{
+                    /* 0x5461  444  ??1bCVector@@QAE@XZ */
+  return;
+}
+
+

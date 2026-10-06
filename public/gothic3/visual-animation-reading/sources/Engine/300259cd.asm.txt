@@ -1,0 +1,2 @@
+; 300259cd eCVisualAnimation_PS::SetBonesBreakMaxForce
+300259cd | e90ec30300 | JMP 0x30061ce0

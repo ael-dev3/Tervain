@@ -1,0 +1,10 @@
+/* ENTRY 1009aa40 | FUN_1009aa40 | STATUS decompiled | 2 ms */
+
+bCIStream * FUN_1009aa40(bCIStream *param_1,bCAccessorPropertyObject *param_2)
+
+{
+  bCAccessorPropertyObject::Read(param_2,param_1);
+  return param_1;
+}
+
+

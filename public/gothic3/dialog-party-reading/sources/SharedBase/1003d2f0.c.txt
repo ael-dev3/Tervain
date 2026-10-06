@@ -1,0 +1,56 @@
+/* ENTRY 1003d2f0 | FUN_1003d2f0 | STATUS decompiled | 19 ms */
+
+void FUN_1003d2f0(uint param_1)
+
+{
+  BOOL BVar1;
+  LPVOID pvVar2;
+  uint uVar3;
+  
+  uVar3 = param_1;
+  if (param_1 < 0x1001) {
+    (*(code *)(&MemHeap::s_arrSimpleAllocs)[param_1])();
+    return;
+  }
+  if (param_1 < 0x3fff1) {
+    thunk_FUN_1003d1f0(param_1);
+    return;
+  }
+  if (MemHeap::s_hHeap == (void *)0x0) {
+    MemHeap::s_hHeap = GetProcessHeap();
+    if (MemHeap::s_hHeap == (HANDLE)0x0) {
+      return;
+    }
+    param_1 = 2;
+    BVar1 = HeapSetInformation(MemHeap::s_hHeap,HeapCompatibilityInformation,&param_1,4);
+    MemHeap::s_bHeapLowFragment = BVar1 == 1;
+  }
+  MemHeap::s_uiActCount = MemHeap::s_uiActCount + 1;
+  uVar3 = uVar3 + 0xfff & 0xfffff000;
+  if (MemHeap::s_uiMaxCount < MemHeap::s_uiActCount) {
+    MemHeap::s_uiMaxCount = MemHeap::s_uiActCount;
+  }
+  if (uVar3 < MemHeap::s_uiMinSize) {
+    MemHeap::s_uiMinSize = uVar3;
+  }
+  if (MemHeap::s_uiMaxSize < uVar3) {
+    MemHeap::s_uiMaxSize = uVar3;
+  }
+  pvVar2 = HeapAlloc(MemHeap::s_hHeap,0,uVar3);
+  if (pvVar2 == (LPVOID)0x0) {
+    MemHeap::s_uiCountHeapAllocFails = MemHeap::s_uiCountHeapAllocFails + 1;
+    MemHeap::s_uiLastCompactSize = HeapCompact(MemHeap::s_hHeap,0);
+    pvVar2 = HeapAlloc(MemHeap::s_hHeap,0,uVar3);
+    if (pvVar2 == (LPVOID)0x0) {
+      MemHeap::s_uiCountHeapCompactFails = MemHeap::s_uiCountHeapCompactFails + 1;
+      return;
+    }
+  }
+  MemHeap::s_uiActMemory = MemHeap::s_uiActMemory + uVar3;
+  if (MemHeap::s_uiMaxMemory < MemHeap::s_uiActMemory) {
+    MemHeap::s_uiMaxMemory = MemHeap::s_uiActMemory;
+  }
+  return;
+}
+
+

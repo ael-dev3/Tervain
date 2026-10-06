@@ -1,0 +1,18 @@
+/* ENTRY 20035026 | gCAttribute::SetValue | STATUS decompiled | 4 ms */
+
+/* public: virtual void __thiscall gCAttribute::SetValue(int)
+   gCAttribute member function inherited by gCStat */
+
+void __thiscall gCAttribute::SetValue(gCAttribute *this,int param_1)
+
+{
+  gCAttribute_vftable *pgVar1;
+  
+                    /* 0x35026  7189  ?SetValue@gCAttribute@@UAEXH@Z */
+  pgVar1 = this->vftablePtr;
+  (this->gCAttribute_data).offset_0x10 = param_1 - (this->gCAttribute_data).offset_0xc;
+  (*pgVar1->Cap)(this);
+  return;
+}
+
+

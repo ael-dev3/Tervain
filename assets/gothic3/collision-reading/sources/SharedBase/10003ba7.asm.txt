@@ -1,0 +1,4 @@
+; 10003ba7 ??0bCString@@QAE@PBD@Z
+10003ba7 | e944fa0000 | JMP 0x100135f0
+; 10003bac bCFloatColorHSV::SetColor
+; 10003bac Ordinal_4124

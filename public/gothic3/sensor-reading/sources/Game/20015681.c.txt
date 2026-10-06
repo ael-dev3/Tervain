@@ -1,0 +1,12 @@
+/* ENTRY 20015681 | gCCharacterSensor_PS::GetVersion | STATUS decompiled | 7 ms */
+
+/* public: virtual unsigned short __thiscall gCCharacterSensor_PS::GetVersion(void)const  */
+
+ushort __thiscall gCCharacterSensor_PS::GetVersion(gCCharacterSensor_PS *this)
+
+{
+                    /* 0x15681  4681  ?GetVersion@gCCharacterSensor_PS@@UBEGXZ */
+  return 2;
+}
+
+

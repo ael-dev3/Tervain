@@ -1,0 +1,9 @@
+/* ENTRY 20317b90 | FUN_20317b90 | STATUS decompiled | 0 ms */
+
+undefined1 FUN_20317b90(void)
+
+{
+  return 1;
+}
+
+

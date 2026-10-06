@@ -1,0 +1,37 @@
+/* ENTRY 100893a0 | FUN_100893a0 | STATUS decompiled | 11 ms */
+
+undefined4 FUN_100893a0(bCIStream *param_1,int param_2)
+
+{
+  ushort uVar1;
+  undefined4 in_EAX;
+  undefined2 uVar3;
+  void *pvVar2;
+  bCMemoryAdmin *this;
+  undefined2 extraout_var;
+  bCPropertyID local_14 [20];
+  
+  uVar3 = (undefined2)((uint)in_EAX >> 0x10);
+  uVar1 = (ushort)param_2;
+  if ((ushort)param_2 == 1) {
+    bCString::bCString((bCString *)&param_2);
+    bCIStream::operator>>((bCIStream *)param_1,(bCString *)&param_2);
+    if ((&stack0x00000000 != (undefined1 *)0xfffffff8) && (param_2 != 0)) {
+      *(short *)(param_2 + -4) = *(short *)(param_2 + -4) + -1;
+      pvVar2 = (void *)(param_2 + -8);
+      if (*(short *)(param_2 + -4) == 0) {
+        this = bCMemoryAdmin::GetInstance();
+        bCMemoryAdmin::Free(this,pvVar2);
+      }
+    }
+  }
+  else if (0x51 < (ushort)param_2) goto LAB_1008941d;
+  bCPropertyID::bCPropertyID(local_14);
+  operator>>(param_1,local_14);
+  bCPropertyID::~bCPropertyID(local_14);
+  uVar3 = extraout_var;
+LAB_1008941d:
+  return CONCAT22(uVar3,uVar1);
+}
+
+

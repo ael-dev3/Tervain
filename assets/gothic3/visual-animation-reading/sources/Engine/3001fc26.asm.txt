@@ -1,0 +1,2 @@
+; 3001fc26 eCArchiveFile::Clear
+3001fc26 | e945db5b00 | JMP 0x305dd770

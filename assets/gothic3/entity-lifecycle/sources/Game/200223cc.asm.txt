@@ -1,0 +1,2 @@
+; 200223cc ?OnPropertySetRemoved@gCNavigation_PS@@UAEXXZ
+200223cc | e97f582600 | JMP 0x20287c50

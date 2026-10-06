@@ -1,0 +1,28 @@
+/* ENTRY 30001c21 | eCCollisionShape_PS::OnExitProcessingRange | STATUS decompiled | 18 ms */
+
+/* protected: virtual void __thiscall eCCollisionShape_PS::OnExitProcessingRange(void) */
+
+void __thiscall eCCollisionShape_PS::OnExitProcessingRange(eCCollisionShape_PS *this)
+
+{
+  eCEntity *this_00;
+  bCString *pbVar1;
+  eCPhysicsScene *peVar2;
+  eCCollisionShape_PS *peStack_4;
+  
+  peStack_4 = this;
+                    /* 0x1c21  11067  ?OnExitProcessingRange@eCCollisionShape_PS@@MAEXXZ */
+  eCEntityPropertySet::OnExitProcessingRange((eCEntityPropertySet *)this);
+  this_00 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+  pbVar1 = eCEntity::GetName(this_00);
+  bCString::bCString((bCString *)&peStack_4,pbVar1);
+  peVar2 = eCPhysicsScene::GetInstance();
+  if (peVar2[0x14] != (eCPhysicsScene)0x0) {
+    (this->eCCollisionShape_PS_data).offset_0x2c = 0;
+    thunk_FUN_3033d2a0(0,0xffffffff);
+  }
+  bCString::~bCString((bCString *)&peStack_4);
+  return;
+}
+
+

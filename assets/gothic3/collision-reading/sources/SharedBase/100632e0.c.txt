@@ -1,0 +1,13 @@
+/* ENTRY 100632e0 | FUN_100632e0 | STATUS decompiled | 4 ms */
+
+void __thiscall FUN_100632e0(bCOrientedBox *param_1,bCOrientedBox *param_2,float param_3)
+
+{
+  bCOrientedBox::Create(param_2,param_1);
+  *(float *)(param_2 + 0xc) = param_3 * *(float *)(param_2 + 0xc);
+  *(float *)(param_2 + 0x10) = *(float *)(param_2 + 0x10) * param_3;
+  *(float *)(param_2 + 0x14) = param_3 * *(float *)(param_2 + 0x14);
+  return;
+}
+
+

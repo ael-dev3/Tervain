@@ -1,0 +1,17 @@
+/* ENTRY 10165cf0 | FUN_10165cf0 | STATUS decompiled | 6 ms */
+
+void FUN_10165cf0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Routine\\Routine_Tasks\\ZS_Smith.cpp");
+  bCString::bCString(local_8,"ZS_Smith_GrindStone");
+  thunk_FUN_1001db60(local_8,&LAB_1000174e,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

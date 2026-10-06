@@ -1,0 +1,6 @@
+; 20397ca0 FUN_20397ca0
+20397ca0 | 8b01 | MOV EAX,dword ptr [ECX]
+20397ca2 | 8b9084000000 | MOV EDX,dword ptr [EAX + 0x84]
+20397ca8 | ffd2 | CALL EDX
+20397caa | b801000000 | MOV EAX,0x1
+20397caf | c3 | RET

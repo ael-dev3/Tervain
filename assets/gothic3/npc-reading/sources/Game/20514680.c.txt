@@ -1,0 +1,33 @@
+/* ENTRY 20514680 | bTPropertyType<gCNPC_PS,bTPropertyContainer<gEGuardStatus>_>::~bTPropertyType<gCNPC_PS,bTPropertyContainer<gEGuardStatus>_> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCNPC_PS,bTPropertyContainer<gEGuardStatus>_>::
+~bTPropertyType<gCNPC_PS,bTPropertyContainer<gEGuardStatus>_>
+          (bTPropertyType<gCNPC_PS,bTPropertyContainer<gEGuardStatus>_> *this)
+
+{
+  bTPropertyType<gCNPC_PS,bTPropertyContainer<gEGuardStatus>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"GuardStatus");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_enuGuardStatus,
+             (bCString *)&local_4,2);
+  _ms_PropertyMember_m_enuGuardStatus = &vftable;
+  DAT_207c103c = bTPropertyObjectType<gCNPC_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCNPC_PS,eCEntityPropertySet>();
+  _DAT_207c1040 = 300;
+  _DAT_207c1044 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_enuGuardStatus);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207c103c,
+             (bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_enuGuardStatus);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gEGuardStatus>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gEGuardStatus>_>);
+  return;
+}
+
+

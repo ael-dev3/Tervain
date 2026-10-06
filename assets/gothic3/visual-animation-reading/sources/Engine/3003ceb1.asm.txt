@@ -1,0 +1,2 @@
+; 3003ceb1 eCVisualAnimation_PS::eCActorAttachment::eCActorAttachment
+3003ceb1 | e97a050600 | JMP 0x3009d430

@@ -1,0 +1,48 @@
+/* ENTRY 2036eec0 | FUN_2036eec0 | STATUS decompiled | 6 ms */
+
+void __thiscall FUN_2036eec0(int param_1,undefined4 param_2)
+
+{
+  code *pcVar1;
+  bool bVar2;
+  
+  pcVar1 = *(code **)(param_1 + 0x74);
+  if (pcVar1 == (code *)0x0) {
+    return;
+  }
+  switch(param_2) {
+  case 1:
+    bVar2 = pcVar1 == gCScriptProcessingUnit::sAIWaitInstr;
+    break;
+  case 2:
+    bVar2 = pcVar1 == gCScriptProcessingUnit::sAIGotoInstr;
+    break;
+  case 3:
+    bVar2 = pcVar1 == gCScriptProcessingUnit::sAIOutputInstr;
+    break;
+  case 4:
+    bVar2 = pcVar1 == gCScriptProcessingUnit::sAIPlayAniInstr;
+    break;
+  case 5:
+    bVar2 = pcVar1 == gCScriptProcessingUnit::sAICombatMoveInstr;
+    break;
+  case 6:
+    bVar2 = pcVar1 == gCScriptProcessingUnit::sAIPrepareAimInstr;
+    break;
+  case 7:
+    bVar2 = pcVar1 == gCScriptProcessingUnit::sAIPlayAimInstr;
+    break;
+  case 8:
+    bVar2 = pcVar1 == gCScriptProcessingUnit::sAIHUDWaitInstr;
+    break;
+  default:
+    goto switchD_2036eed3_default;
+  }
+  if (bVar2) {
+switchD_2036eed3_default:
+    (*pcVar1)(0,param_1,1);
+  }
+  return;
+}
+
+

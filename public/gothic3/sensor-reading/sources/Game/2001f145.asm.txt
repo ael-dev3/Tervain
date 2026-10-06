@@ -1,0 +1,4 @@
+; 2001f145 bTPropertyObject<gCCharacterSensor_PS,eCEntityPropertySet>::vfunction9
+2001f145 | e9c6a22100 | JMP 0x20239410
+; 2001f14f gCMagicBarrier_PS::SetOnInScript
+; 2001f14f Ordinal_6851

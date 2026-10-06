@@ -1,0 +1,4 @@
+; 10001f50 ?SetManaPoints@PSPlayerMemory@@QAEXH@Z
+10001f50 | e9eb780200 | JMP 0x10029840
+; 10001f55 PSParticle::PropertyCollideWithCharacters::operator=
+; 10001f55 Ordinal_305

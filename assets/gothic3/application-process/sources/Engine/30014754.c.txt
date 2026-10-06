@@ -1,0 +1,12 @@
+/* ENTRY 30014754 | eCNode::GetCurrentContext | STATUS decompiled | 4 ms */
+
+/* public: class eCContextBase * __thiscall eCNode::GetCurrentContext(void) */
+
+eCContextBase * __thiscall eCNode::GetCurrentContext(eCNode *this)
+
+{
+                    /* 0x14754  6662  ?GetCurrentContext@eCNode@@QAEPAVeCContextBase@@XZ */
+  return (eCContextBase *)(this->eCNode_data).offset_0x28;
+}
+
+

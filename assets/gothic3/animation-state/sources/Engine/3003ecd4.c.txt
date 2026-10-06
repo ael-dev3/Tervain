@@ -1,0 +1,18 @@
+/* ENTRY 3003ecd4 | eCAnimationAdmin::Invalidate | STATUS decompiled | 7 ms */
+
+/* protected: void __thiscall eCAnimationAdmin::Invalidate(void) */
+
+void __thiscall eCAnimationAdmin::Invalidate(eCAnimationAdmin *this)
+
+{
+                    /* 0x3ecd4  9896  ?Invalidate@eCAnimationAdmin@@IAEXXZ */
+  (this->eCAnimationAdmin_data).offset_0x44 = 0x3e4ccccd;
+  (this->eCAnimationAdmin_data).offset_0x0 = 0;
+  (this->eCAnimationAdmin_data).offset_0x50 = 0;
+  (this->eCAnimationAdmin_data).offset_0x4c = 0;
+  (this->eCAnimationAdmin_data).offset_0x48 = 0x44fa0000;
+  thunk_FUN_3007cd40();
+  return;
+}
+
+

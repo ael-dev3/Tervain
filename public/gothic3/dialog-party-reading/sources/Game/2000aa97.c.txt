@@ -1,0 +1,13 @@
+/* ENTRY 2000aa97 | gCParty_PS::GetMembers | STATUS decompiled | 5 ms */
+
+/* public: class bTObjArray<class eCEntityProxy> & __thiscall gCParty_PS::GetMembers(void) */
+
+bTObjArray<eCEntityProxy> * __thiscall gCParty_PS::GetMembers(gCParty_PS *this)
+
+{
+                    /* 0xaa97  3777  ?GetMembers@gCParty_PS@@QAEAAV?$bTObjArray@VeCEntityProxy@@@@XZ
+                        */
+  return (bTObjArray<eCEntityProxy> *)&(this->gCParty_PS_data).offset_0x38;
+}
+
+

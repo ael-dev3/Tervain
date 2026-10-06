@@ -1,0 +1,1124 @@
+/* ENTRY 300042a5 | eCCollisionShape_PS::SetProprietaryShapes | STATUS decompiled | 2309 ms */
+
+/* WARNING (jumptable): Unable to track spacebase fully for stack */
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+/* protected: void __thiscall eCCollisionShape_PS::SetProprietaryShapes(void) */
+
+void __thiscall eCCollisionShape_PS::SetProprietaryShapes(eCCollisionShape_PS *this)
+
+{
+  eCCollisionShape *this_00;
+  bool bVar1;
+  eCPhysicsScene *peVar2;
+  eCEntity *peVar3;
+  eCPhysicObject *peVar4;
+  bCMessageAdmin *pbVar5;
+  bCMatrix *pbVar6;
+  eCEntity *peVar7;
+  int iVar8;
+  bCVector *pbVar9;
+  float *pfVar10;
+  bCString *pbVar11;
+  eCResourceDataEntity *this_01;
+  eCResourceCollisionMesh_PS *peVar12;
+  NxTriangleMesh *pNVar13;
+  eCResourceAdmin *peVar14;
+  eCResourceCollisionMesh_PS *peVar15;
+  bCString *pbVar16;
+  eCResourceBase_PS *peVar17;
+  eCResourceCollisionMesh_PS *peVar18;
+  eCArchiveManager *peVar19;
+  eCApplication *peVar20;
+  eEResourceState eVar21;
+  NxConvexMesh *pNVar22;
+  uint uVar23;
+  bCMatrix3 *pbVar24;
+  NxVec3 *pNVar25;
+  eCPhysicObject *peVar26;
+  NxActor *pNVar27;
+  NxShape *pNVar28;
+  bCMemoryAdmin *this_02;
+  bCString *this_03;
+  bCString *this_04;
+  bCString *this_05;
+  bCString *this_06;
+  float fVar29;
+  undefined1 *puVar30;
+  bEMessageTypes bVar31;
+  char *pcVar32;
+  int *piVar33;
+  char *pcVar34;
+  undefined4 uVar35;
+  bCString *pbVar36;
+  char *pcVar37;
+  TypeDescriptor *pTVar38;
+  int iVar39;
+  TypeDescriptor *pTVar40;
+  eEResourceCacheBehavior eVar41;
+  bCString *pbVar42;
+  void *pvVar43;
+  undefined4 uVar44;
+  undefined4 uStack_2c4;
+  float fStack_2c0;
+  char cStack_2b9;
+  undefined4 uStack_2b8;
+  undefined4 uStack_2b4;
+  eCResourceCollisionMesh_PS *peStack_2ac;
+  eCResourceCollisionMesh_PS *peStack_2a8;
+  eCResourceCollisionMesh_PS *peStack_2a4;
+  bCString abStack_2a0 [4];
+  bCString abStack_29c [4];
+  int iStack_298;
+  float fStack_294;
+  float fStack_290;
+  bCString abStack_28c [4];
+  bCString abStack_288 [4];
+  float fStack_284;
+  float fStack_280;
+  bCString abStack_27c [4];
+  bCString abStack_278 [4];
+  bCString abStack_274 [4];
+  bCString abStack_270 [4];
+  bCString abStack_26c [4];
+  bCString abStack_268 [4];
+  bCString abStack_264 [4];
+  void *pvStack_260;
+  undefined4 uStack_25c;
+  undefined4 uStack_258;
+  bCString abStack_254 [4];
+  bCString abStack_250 [4];
+  bCString abStack_24c [4];
+  bCString abStack_248 [4];
+  char acStack_244 [4];
+  bCString abStack_240 [8];
+  float fStack_238;
+  float fStack_234;
+  float afStack_230 [2];
+  float fStack_228;
+  float fStack_224;
+  float afStack_220 [2];
+  void *pvStack_218;
+  float fStack_214;
+  float afStack_210 [3];
+  bCMatrix abStack_204 [4];
+  bCMatrix abStack_200 [48];
+  bCVector abStack_1d0 [4];
+  undefined1 auStack_1cc [8];
+  bCVector abStack_1c4 [4];
+  undefined1 auStack_1c0 [4];
+  bCVector abStack_1bc [16];
+  bCVector abStack_1ac [4];
+  undefined1 auStack_1a8 [4];
+  bCVector abStack_1a4 [8];
+  undefined1 auStack_19c [4];
+  bCVector abStack_198 [16];
+  bCVector abStack_188 [4];
+  undefined1 auStack_184 [8];
+  bCVector abStack_17c [4];
+  undefined1 auStack_178 [4];
+  bCVector abStack_174 [12];
+  bCVector abStack_168 [8];
+  undefined1 auStack_160 [4];
+  bCVector abStack_15c [8];
+  undefined1 auStack_154 [8];
+  bCVector abStack_14c [4];
+  undefined1 auStack_148 [4];
+  bCVector abStack_144 [12];
+  bCVector abStack_138 [12];
+  bCVector abStack_12c [8];
+  undefined1 auStack_124 [4];
+  bCVector abStack_120 [8];
+  undefined1 auStack_118 [20];
+  bCMatrix abStack_104 [4];
+  bCMatrix abStack_100 [60];
+  bCMatrix abStack_c4 [4];
+  bCMatrix abStack_c0 [60];
+  bCMatrix abStack_84 [4];
+  bCMatrix abStack_80 [124];
+  
+                    /* 0x42a5  13989  ?SetProprietaryShapes@eCCollisionShape_PS@@IAEXXZ */
+  peVar2 = eCPhysicsScene::GetInstance();
+  if (peVar2[0x14] == (eCPhysicsScene)0x0) {
+    return;
+  }
+  peVar3 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+  peVar4 = eCEntity::GetPhysicObject(peVar3);
+  if ((peVar4 == (eCPhysicObject *)0x0) &&
+     (bVar1 = (*this->vftablePtr->IsPhysicRelevant)(this), bVar1)) {
+    peVar3 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+    eCEntity::CreatePhysicObject(peVar3);
+    peVar3 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+    peVar4 = eCEntity::GetPhysicObject(peVar3);
+    if (peVar4 != (eCPhysicObject *)0x0) {
+      return;
+    }
+    iVar8 = *(int *)g_iDefaultMessagePriority_exref;
+    iVar39 = -1;
+    pcVar37 = (char *)0x0;
+    pcVar34 = (char *)0x0;
+    pcVar32 = "C: eCCollisionShape_PS::SetProprietaryShapes(): could not create physic object!";
+    bVar31 = 3;
+    pbVar5 = bCMessageAdmin::GetInstance();
+    bCMessageAdmin::OnMessage(pbVar5,bVar31,pcVar32,pcVar34,pcVar37,iVar39,iVar8);
+    return;
+  }
+  peVar3 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+  pbVar6 = eCEntity::GetWorldMatrix(peVar3);
+  bCMatrix::bCMatrix(abStack_c0,pbVar6);
+  bCMatrix::bCMatrix(abStack_100);
+  uVar44 = 0;
+  pTVar40 = &eCSpatialEntity::RTTI_Type_Descriptor;
+  pTVar38 = &eCEntity::RTTI_Type_Descriptor;
+  uVar35 = 0;
+  peVar7 = (*this->vftablePtr->GetEntity)(this);
+  iVar8 = FUN_30671ae7(peVar7,uVar35,pTVar38,pTVar40,uVar44);
+  if ((iVar8 == 0) || (bVar1 = HasTriangleMesh(this), !bVar1)) {
+    bVar1 = true;
+    peVar3 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+    uStack_2b4 = eCEntity::GetUniformScaling(peVar3);
+    peStack_2a8 = (eCResourceCollisionMesh_PS *)ABS(uStack_2b4 - 1.0);
+    if ((float)peStack_2a8 <= 0.0001) {
+      uStack_2b8 = (float)(uint)(uint3)uStack_2b8;
+      goto LAB_30338c63;
+    }
+  }
+  else {
+    bVar1 = false;
+    pbVar9 = bCMatrix::GetXAxis(abStack_c0);
+    uStack_2b4 = bCVector::GetMagnitude(pbVar9);
+    pbVar9 = bCMatrix::GetYAxis(abStack_c0);
+    fStack_280 = bCVector::GetMagnitude(pbVar9);
+    pbVar9 = bCMatrix::GetZAxis(abStack_c0);
+    fStack_284 = bCVector::GetMagnitude(pbVar9);
+    peStack_2a8 = (eCResourceCollisionMesh_PS *)ABS(uStack_2b4 - 1.0);
+    if ((((float)peStack_2a8 <= 0.0001) &&
+        (peStack_2a8 = (eCResourceCollisionMesh_PS *)ABS(fStack_280 - 1.0),
+        (float)peStack_2a8 <= 0.0001)) &&
+       (peStack_2a8 = (eCResourceCollisionMesh_PS *)ABS(fStack_284 - 1.0),
+       (float)peStack_2a8 <= 0.0001)) {
+      uStack_2b8 = (float)(uint)(uint3)uStack_2b8;
+      goto LAB_30338c63;
+    }
+  }
+  uStack_2b8 = (float)CONCAT13(1,(uint3)uStack_2b8);
+  pbVar6 = bCMatrix::GetIdentity();
+  bCMatrix::operator=(abStack_100,pbVar6);
+  pbVar6 = bCMatrix::GetIdentity();
+  bCMatrix::bCMatrix(abStack_200,pbVar6);
+  pfVar10 = bCMatrix::AccessElement(abStack_100,0,0);
+  *pfVar10 = uStack_2b4;
+  pfVar10 = bCMatrix::AccessElement(abStack_100,1,1);
+  if (bVar1) {
+    *pfVar10 = uStack_2b4;
+    pfVar10 = bCMatrix::AccessElement(abStack_100,2,2);
+    fStack_294 = 1.0 / uStack_2b4;
+    *pfVar10 = uStack_2b4;
+    pfVar10 = bCMatrix::AccessElement(abStack_200,0,0);
+    *pfVar10 = fStack_294;
+    pfVar10 = bCMatrix::AccessElement(abStack_200,1,1);
+    *pfVar10 = fStack_294;
+    pfVar10 = bCMatrix::AccessElement(abStack_200,2,2);
+    fVar29 = fStack_294;
+  }
+  else {
+    *pfVar10 = fStack_280;
+    pfVar10 = bCMatrix::AccessElement(abStack_100,2,2);
+    *pfVar10 = fStack_284;
+    pfVar10 = bCMatrix::AccessElement(abStack_200,0,0);
+    *pfVar10 = 1.0 / uStack_2b4;
+    pfVar10 = bCMatrix::AccessElement(abStack_200,1,1);
+    *pfVar10 = 1.0 / fStack_280;
+    pfVar10 = bCMatrix::AccessElement(abStack_200,2,2);
+    fVar29 = 1.0 / fStack_284;
+  }
+  *pfVar10 = fVar29;
+  pbVar6 = (bCMatrix *)bCMatrix::operator*(abStack_c0,abStack_80);
+  bCMatrix::operator=(abStack_c4,pbVar6);
+  bCMatrix::~bCMatrix(abStack_84);
+  bCMatrix::~bCMatrix(abStack_204);
+LAB_30338c63:
+  pvStack_260 = (void *)0x0;
+  uStack_25c = 0;
+  uStack_258 = 0;
+  fStack_290 = 0.0;
+  if (0 < (this->eCCollisionShape_PS_data).offset_0x18) {
+    do {
+      this_00 = *(eCCollisionShape **)
+                 ((int)fStack_290 * 4 + (this->eCCollisionShape_PS_data).offset_0x14);
+      if (((this_00->eCCollisionShape_data).offset_0x40 == '\x01') ||
+         ((this_00->eCCollisionShape_data).offset_0x2a == (bCObjectRefBase)0x1))
+      goto switchD_30338cb6_caseD_2;
+      switch((this_00->eCCollisionShape_data).offset_0xc) {
+      case 1:
+        bCString::bCString(abStack_2a0,
+                           *(bCString **)
+                            (*(int *)((int)fStack_290 * 4 +
+                                     (this->eCCollisionShape_PS_data).offset_0x14) + 0x74));
+        bCString::bCString(abStack_278);
+        if (cStack_2b9 == '\0') {
+          eVar41 = 3;
+          pbVar16 = abStack_2a0;
+          peVar14 = (eCResourceAdmin *)thunk_FUN_3007c090();
+          peVar15 = (eCResourceCollisionMesh_PS *)
+                    eCResourceAdmin::QueryResourceDataEntity(peVar14,pbVar16,eVar41);
+LAB_30339122:
+          peStack_2a8 = (eCResourceCollisionMesh_PS *)thunk_FUN_3030e560(peVar15);
+          if (peStack_2a8 == (eCResourceCollisionMesh_PS *)0x0) {
+            if (peVar15 != (eCResourceCollisionMesh_PS *)0x0) {
+              (*peVar15->vftablePtr->ReleaseReference)(peVar15);
+            }
+          }
+          else {
+            eVar21 = eCResourceBase_PS::GetCurrentResourceState((eCResourceBase_PS *)peStack_2a8);
+            if (eVar21 != 6) {
+              eCResourceDataEntity::Load((eCResourceDataEntity *)peVar15,1);
+            }
+            peVar12 = (eCResourceCollisionMesh_PS *)new(0x70,0x74f);
+            if (peVar12 == (eCResourceCollisionMesh_PS *)0x0) {
+              peVar12 = (eCResourceCollisionMesh_PS *)0x0;
+            }
+            else {
+              *(undefined4 *)&peVar12->eCResourceBase_PS_data = 6;
+              peVar12->vftablePtr =
+                   (eCResourceCollisionMesh_PS_vftable *)&NxTriangleMeshShapeDesc::vftable;
+              *(undefined4 *)&(peVar12->eCResourceBase_PS_data).field_0x8 = 0;
+              (peVar12->eCResourceBase_PS_data).offset_0xc = 0;
+              *(undefined4 *)&(peVar12->eCResourceBase_PS_data).offset_0x10 = 0;
+              (peVar12->eCResourceBase_PS_data).offset_0x18 = 0;
+              *(undefined4 *)&(peVar12->eCResourceBase_PS_data).offset_0x1c = 0;
+              (peVar12->eCResourceBase_PS_data).offset_0x20 = (eCResourceDataEntity *)0x0;
+              *(undefined4 *)&(peVar12->eCResourceBase_PS_data).field_0x4 = 0x3f800000;
+              (peVar12->eCResourceBase_PS_data).offset_0x14 = 0x3f800000;
+              *(undefined4 *)&(peVar12->eCResourceBase_PS_data).field_0x24 = 0x3f800000;
+              (peVar12->eCResourceCollisionMesh_PS_data).offset_0x8 = 0;
+              (peVar12->eCResourceCollisionMesh_PS_data).offset_0x4 = 0;
+              (peVar12->eCResourceCollisionMesh_PS_data).offset_0x0 = (void *)0x0;
+              (peVar12->eCResourceCollisionMesh_PS_data).offset_0xc = &DAT_00000008;
+              *(undefined2 *)&(peVar12->eCResourceCollisionMesh_PS_data).offset_0x10 = 0;
+              *(undefined2 *)((int)&(peVar12->eCResourceCollisionMesh_PS_data).offset_0x10 + 2) = 0;
+              (peVar12->eCResourceCollisionMesh_PS_data).offset_0x14 = 0;
+              (peVar12->eCResourceCollisionMesh_PS_data).offset_0x20 = 0xbf800000;
+              (peVar12->eCResourceCollisionMesh_PS_data).offset_0x18 = (void *)0x3f800000;
+              (peVar12->eCResourceCollisionMesh_PS_data).offset_0x1c = 0xbf800000;
+              (peVar12->eCResourceCollisionMesh_PS_data).offset_0x24 = (void *)0x0;
+              (peVar12->eCResourceCollisionMesh_PS_data).offset_0x28 = 0;
+              (peVar12->eCResourceCollisionMesh_PS_data).offset_0x2c = 0;
+              (peVar12->eCResourceCollisionMesh_PS_data).offset_0x30 = (void *)0x0;
+              (peVar12->eCResourceCollisionMesh_PS_data).offset_0x34 = 0;
+              (peVar12->eCResourceCollisionMesh_PS_data).offset_0x38 = 0;
+              (peVar12->eCResourceCollisionMesh_PS_data).offset_0x3c = (void *)0x0;
+              (peVar12->eCResourceCollisionMesh_PS_data).offset_0x40 = 0;
+            }
+            *(undefined2 *)&(peVar12->eCResourceCollisionMesh_PS_data).offset_0x10 =
+                 *(undefined2 *)
+                  (*(int *)(iStack_298 * 4 + (this->eCCollisionShape_PS_data).offset_0x14) + 0x18);
+            pNVar13 = eCResourceCollisionMesh_PS::GetProprietaryMesh
+                                (peVar15,(uint)*(ushort *)
+                                                (*(int *)(iStack_298 * 4 +
+                                                         (this->eCCollisionShape_PS_data).
+                                                         offset_0x14) + 0x46));
+            (peVar12->eCResourceCollisionMesh_PS_data).offset_0x3c = pNVar13;
+            (peVar12->eCResourceCollisionMesh_PS_data).offset_0x40 = 0;
+            uVar23 = -(uint)((this_00->eCCollisionShape_data).offset_0x2c != (bCObjectRefBase)0x0) &
+                     0x1000 | -(uint)((this_00->eCCollisionShape_data).offset_0x28 !=
+                                     (bCObjectRefBase)0x0) & 0x40 |
+                     -(uint)((this_00->eCCollisionShape_data).offset_0x2b != (bCObjectRefBase)0x0) &
+                     0x10 | -(uint)((this_00->eCCollisionShape_data).offset_0x2f !=
+                                   (bCObjectRefBase)0x0) & 4 |
+                     -(uint)((this_00->eCCollisionShape_data).offset_0x2e != (bCObjectRefBase)0x0) &
+                     2 | (uint)((this_00->eCCollisionShape_data).offset_0x2d != (bCObjectRefBase)0x0
+                               );
+            (peVar12->eCResourceCollisionMesh_PS_data).offset_0xc = (void *)(uVar23 | 8);
+            if ((this->eCCollisionShape_PS_data).field_0x12 == '\x01') {
+              (peVar12->eCResourceCollisionMesh_PS_data).offset_0xc = (void *)(uVar23 | 0x48);
+            }
+            *(short *)((int)&(peVar12->eCResourceCollisionMesh_PS_data).offset_0x10 + 2) =
+                 *(short *)&(this_00->eCCollisionShape_data).offset_0x1c + 1;
+            iVar8 = 0;
+            (peVar12->eCResourceCollisionMesh_PS_data).offset_0x20 =
+                 (this_00->eCCollisionShape_data).offset_0x30;
+            pbVar24 = eCCollisionShape::GetOrientation(this_00);
+            pfVar10 = bCMatrix3::AccessElement(pbVar24,iVar8);
+            *(float *)&(peVar12->eCResourceBase_PS_data).field_0x4 = *pfVar10;
+            *(float *)&(peVar12->eCResourceBase_PS_data).field_0x8 = pfVar10[3];
+            (peVar12->eCResourceBase_PS_data).offset_0xc = (int)pfVar10[6];
+            *(float *)&(peVar12->eCResourceBase_PS_data).offset_0x10 = pfVar10[1];
+            (peVar12->eCResourceBase_PS_data).offset_0x14 = (eEResourceCacheBehavior)pfVar10[4];
+            (peVar12->eCResourceBase_PS_data).offset_0x18 = pfVar10[7];
+            *(float *)&(peVar12->eCResourceBase_PS_data).offset_0x1c = pfVar10[2];
+            (peVar12->eCResourceBase_PS_data).offset_0x20 = (eCResourceDataEntity *)pfVar10[5];
+            *(float *)&(peVar12->eCResourceBase_PS_data).field_0x24 = pfVar10[8];
+            if (uStack_2c4._3_1_ == '\0') {
+              puVar30 = auStack_1a8;
+              pbVar9 = eCCollisionShape::GetCenter(this_00);
+              pbVar9 = (bCVector *)bCVector::operator*(pbVar9,(float)puVar30);
+              pNVar25 = bCVector::operator_class_NxVec3_(pbVar9);
+              (peVar12->eCResourceCollisionMesh_PS_data).offset_0x0 = *(void **)pNVar25;
+              (peVar12->eCResourceCollisionMesh_PS_data).offset_0x4 = *(undefined4 *)(pNVar25 + 4);
+              (peVar12->eCResourceCollisionMesh_PS_data).offset_0x8 = *(undefined4 *)(pNVar25 + 8);
+              bCVector::~bCVector(abStack_1ac);
+            }
+            else if (cStack_2b9 == '\0') {
+              puVar30 = auStack_1cc;
+              pbVar9 = eCCollisionShape::GetCenter(this_00);
+              pbVar9 = (bCVector *)bCVector::operator*(pbVar9,(float)puVar30);
+              pNVar25 = bCVector::operator_class_NxVec3_(pbVar9);
+              (peVar12->eCResourceCollisionMesh_PS_data).offset_0x0 = *(void **)pNVar25;
+              (peVar12->eCResourceCollisionMesh_PS_data).offset_0x4 = *(undefined4 *)(pNVar25 + 4);
+              (peVar12->eCResourceCollisionMesh_PS_data).offset_0x8 = *(undefined4 *)(pNVar25 + 8);
+              bCVector::~bCVector(abStack_1d0);
+              (peVar12->eCResourceCollisionMesh_PS_data).offset_0x0 =
+                   (void *)(uStack_2c4 *
+                           (float)(peVar12->eCResourceCollisionMesh_PS_data).offset_0x0);
+              (peVar12->eCResourceCollisionMesh_PS_data).offset_0x4 =
+                   (float)(peVar12->eCResourceCollisionMesh_PS_data).offset_0x4 * fStack_290;
+              (peVar12->eCResourceCollisionMesh_PS_data).offset_0x8 =
+                   (float)(peVar12->eCResourceCollisionMesh_PS_data).offset_0x8 * fStack_294;
+            }
+            else {
+              puVar30 = auStack_118;
+              fVar29 = fStack_2c0;
+              pbVar9 = eCCollisionShape::GetCenter(this_00);
+              pbVar9 = (bCVector *)bCVector::operator*(pbVar9,(float)puVar30);
+              pbVar9 = (bCVector *)bCVector::operator*(pbVar9,fVar29);
+              pNVar25 = bCVector::operator_class_NxVec3_(pbVar9);
+              (peVar12->eCResourceCollisionMesh_PS_data).offset_0x0 = *(void **)pNVar25;
+              (peVar12->eCResourceCollisionMesh_PS_data).offset_0x4 = *(undefined4 *)(pNVar25 + 4);
+              (peVar12->eCResourceCollisionMesh_PS_data).offset_0x8 = *(undefined4 *)(pNVar25 + 8);
+              bCVector::~bCVector(abStack_144);
+              bCVector::~bCVector(abStack_120);
+            }
+            (peVar12->eCResourceCollisionMesh_PS_data).offset_0x24 = this_00;
+            peVar3 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+            peVar26 = (eCPhysicObject *)eCEntity::GetPhysicObject(peVar3);
+            pNVar27 = eCPhysicObject::GetActor(peVar26);
+            peStack_2a8 = (eCResourceCollisionMesh_PS *)
+                          (**(code **)(*(int *)pNVar27 + 0x44))(peVar12);
+            peStack_2a4 = peVar12;
+            thunk_FUN_300d2590(&peStack_2a4);
+            if (peStack_2a8 != (eCResourceCollisionMesh_PS *)0x0) {
+              (this_00->eCCollisionShape_data).offset_0x40 = 1;
+              eCCollisionShape::SetProprietaryShape(this_00,(NxShape *)peStack_2a8);
+              if (peVar15 != (eCResourceCollisionMesh_PS *)0x0) {
+                (*peVar15->vftablePtr->ReleaseReference)(peVar15);
+              }
+            }
+          }
+        }
+        else {
+          bCString::bCString((bCString *)&fStack_294);
+          if (uStack_2b4._3_1_ == '\0') {
+            bCString::bCString(abStack_274);
+            bCString::bCString((bCString *)&fStack_280);
+            bCString::bCString(abStack_27c);
+            bCString::Format(this_04,(char *)abStack_274);
+            bCString::SetAt(abStack_270,6,'_');
+            bCString::Format(this_05,(char *)abStack_27c);
+            bCString::SetAt(abStack_278,6,'_');
+            bCString::Format(abStack_274,(char *)abStack_274);
+            bCString::SetAt(abStack_270,6,'_');
+            pbVar16 = abStack_274;
+            pbVar11 = (bCString *)bCString::operator+(abStack_268,(bCString *)afStack_230);
+            pbVar16 = (bCString *)bCString::operator+(pbVar11,pbVar16);
+            bCString::operator=((bCString *)&fStack_290,pbVar16);
+            bCString::~bCString((bCString *)afStack_210);
+            bCString::~bCString((bCString *)&fStack_238);
+            pbVar16 = (bCString *)&fStack_290;
+            iVar8 = bCString::GetLength((bCString *)&g_strResourceMeshCollisionFileExt);
+            iVar39 = bCString::GetLength(abStack_29c);
+            bCString::Insert(abStack_29c,iVar39 - iVar8,pbVar16);
+            bCString::~bCString(abStack_278);
+            bCString::~bCString(abStack_27c);
+            bCString::~bCString(abStack_270);
+          }
+          else {
+            bCString::Format(this_03,(char *)&fStack_294);
+            bCString::SetAt((bCString *)&fStack_290,5,'_');
+            pbVar16 = (bCString *)&fStack_290;
+            iVar8 = bCString::GetLength((bCString *)&g_strResourceMeshCollisionFileExt);
+            iVar39 = bCString::GetLength(abStack_29c);
+            bCString::Insert(abStack_29c,iVar39 - iVar8,pbVar16);
+          }
+          eVar41 = 3;
+          pbVar16 = abStack_29c;
+          peVar14 = (eCResourceAdmin *)thunk_FUN_3007c090();
+          peVar15 = (eCResourceCollisionMesh_PS *)
+                    eCResourceAdmin::QueryResourceDataEntity(peVar14,pbVar16,eVar41);
+          if (peVar15 != (eCResourceCollisionMesh_PS *)0x0) {
+LAB_30339112:
+            bCString::~bCString((bCString *)&fStack_294);
+            goto LAB_30339122;
+          }
+          iVar39 = -1;
+          iVar8 = 0;
+          pcVar34 = (char *)0x0;
+          pbVar16 = abStack_29c;
+          pbVar11 = (bCString *)
+                    ::operator+((char *)&fStack_234,
+                                (bCString *)
+                                "C: eCPhysicObject::Create(): could not cache-in scaled collision-resource, lazy create: "
+                               );
+          pcVar32 = bCString::operator_char_const_(pbVar11);
+          bVar31 = 3;
+          pbVar5 = bCMessageAdmin::GetInstance();
+          bCMessageAdmin::OnMessage(pbVar5,bVar31,pcVar32,(char *)pbVar16,pcVar34,iVar8,iVar39);
+          bCString::~bCString((bCString *)&fStack_238);
+          iVar8 = (int)fStack_290 * 4;
+          pbVar16 = *(bCString **)
+                     (*(int *)((this->eCCollisionShape_PS_data).offset_0x14 + iVar8) + 0x74);
+          eVar41 = 3;
+          peVar14 = (eCResourceAdmin *)thunk_FUN_3007c090();
+          this_01 = (eCResourceDataEntity *)
+                    eCResourceAdmin::QueryResourceDataEntity(peVar14,pbVar16,eVar41);
+          if (this_01 != (eCResourceDataEntity *)0x0) {
+            peVar17 = (eCResourceBase_PS *)thunk_FUN_3030e560(this_01);
+            eVar21 = eCResourceBase_PS::GetCurrentResourceState(peVar17);
+            if (eVar21 != 6) {
+              eCResourceDataEntity::Load(this_01,1);
+            }
+            peVar14 = (eCResourceAdmin *)thunk_FUN_3007c090();
+            peStack_2a8 = (eCResourceCollisionMesh_PS *)
+                          eCResourceAdmin::QueryNewResourceDataEntity(peVar14);
+            pbVar16 = (bCString *)
+                      bTPropertyObjectType<eCResourceCollisionMesh_PS,eCResourceBase_PS>::vfunction1
+                                ();
+            eCResourceDataEntity::CreateResourceFromType
+                      ((eCResourceDataEntity *)peStack_2a8,pbVar16);
+            peVar15 = (eCResourceCollisionMesh_PS *)thunk_FUN_3030e560(peStack_2a8);
+            fVar29 = uStack_2b8;
+            peVar18 = (eCResourceCollisionMesh_PS *)thunk_FUN_3030e560(this_01);
+            eCResourceCollisionMesh_PS::CopyWithScaling(peVar15,peVar18,fVar29);
+            bCString::bCString(abStack_268);
+            eCResourceCollisionMesh_PS::GetProprietaryFileExt(abStack_268);
+            bCString::bCString(abStack_26c);
+            pbVar42 = (bCString *)0x0;
+            pbVar11 = abStack_26c;
+            pbVar36 = (bCString *)0x0;
+            pbVar16 = abStack_2a0;
+            peVar19 = eCArchiveManager::GetInstance();
+            eCArchiveManager::SplitPath((eCArchiveManager *)peVar19,pbVar16,pbVar36,pbVar11,pbVar42)
+            ;
+            peVar20 = eCApplication::GetInstance();
+            pbVar16 = abStack_268;
+            pbVar11 = abStack_254;
+            pbVar36 = (bCString *)
+                      (**(code **)(*(int *)peVar20 + 0x284))(abStack_250,abStack_248,abStack_26c);
+            pbVar11 = (bCString *)bCString::operator+(pbVar36,pbVar11);
+            bCString::operator+(pbVar11,pbVar16);
+            bCString::~bCString(abStack_248);
+            bCString::~bCString(abStack_250);
+            eCResourceDataEntity::Save((eCResourceDataEntity *)peStack_2a8,abStack_254,1);
+            (*this_01->vftablePtr->ReleaseReference)(this_01);
+            bCString::~bCString(abStack_254);
+            bCString::~bCString(abStack_26c);
+            bCString::~bCString(abStack_268);
+            peVar15 = peStack_2a8;
+            goto LAB_30339112;
+          }
+          pcVar32 = *(char **)(*(int *)((this->eCCollisionShape_PS_data).offset_0x14 + iVar8) + 0x74
+                              );
+          iVar39 = -1;
+          iVar8 = 0;
+          pcVar37 = (char *)0x0;
+          pbVar16 = (bCString *)
+                    ::operator+(acStack_244,
+                                (bCString *)
+                                "C: eCPhysicObject::Create(): could not create scaled collision-resource, original resource is missing:  "
+                               );
+          pcVar34 = bCString::operator_char_const_(pbVar16);
+          bVar31 = 3;
+          pbVar5 = bCMessageAdmin::GetInstance();
+          bCMessageAdmin::OnMessage(pbVar5,bVar31,pcVar34,pcVar32,pcVar37,iVar8,iVar39);
+          bCString::~bCString(abStack_248);
+          bCString::~bCString((bCString *)&iStack_298);
+        }
+        bCString::~bCString(abStack_278);
+        bCString::~bCString(abStack_2a0);
+        break;
+      case 3:
+        peVar15 = (eCResourceCollisionMesh_PS *)new(0x74,0x867);
+        if (peVar15 == (eCResourceCollisionMesh_PS *)0x0) {
+          peVar15 = (eCResourceCollisionMesh_PS *)0x0;
+        }
+        else {
+          *(undefined4 *)&peVar15->eCResourceBase_PS_data = 2;
+          peVar15->vftablePtr = (eCResourceCollisionMesh_PS_vftable *)&NxBoxShapeDesc::vftable;
+          *(undefined4 *)&(peVar15->eCResourceBase_PS_data).field_0x4 = 0x3f800000;
+          *(undefined4 *)&(peVar15->eCResourceBase_PS_data).field_0x8 = 0;
+          (peVar15->eCResourceBase_PS_data).offset_0xc = 0;
+          *(undefined4 *)&(peVar15->eCResourceBase_PS_data).offset_0x10 = 0;
+          (peVar15->eCResourceBase_PS_data).offset_0x14 = 0x3f800000;
+          (peVar15->eCResourceBase_PS_data).offset_0x18 = 0;
+          *(undefined4 *)&(peVar15->eCResourceBase_PS_data).offset_0x1c = 0;
+          (peVar15->eCResourceBase_PS_data).offset_0x20 = (eCResourceDataEntity *)0x0;
+          *(undefined4 *)&(peVar15->eCResourceBase_PS_data).field_0x24 = 0x3f800000;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x8 = 0;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x4 = 0;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x0 = (void *)0x0;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0xc = &DAT_00000008;
+          *(undefined2 *)&(peVar15->eCResourceCollisionMesh_PS_data).offset_0x10 = 0;
+          *(undefined2 *)((int)&(peVar15->eCResourceCollisionMesh_PS_data).offset_0x10 + 2) = 0;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x14 = 0;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x20 = 0xbf800000;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x18 = (void *)0x3f800000;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x1c = 0xbf800000;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x24 = (void *)0x0;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x28 = 0;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x2c = 0;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x30 = (void *)0x0;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x34 = 0;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x38 = 0;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x44 = 0;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x40 = 0;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x3c = (void *)0x0;
+        }
+        pNVar25 = bCVector::operator_class_NxVec3_const_
+                            ((bCVector *)((this_00->eCCollisionShape_data).offset_0x70 + 0xc));
+        fStack_238 = *(float *)pNVar25;
+        fStack_234 = *(float *)(pNVar25 + 4);
+        afStack_230[0] = *(float *)(pNVar25 + 8);
+        fStack_228 = _DAT_30ab492c * fStack_238;
+        fStack_224 = fStack_234 * _DAT_30ab492c;
+        afStack_220[0] = _DAT_30ab492c * afStack_230[0];
+        pvStack_218 = (void *)(fStack_2c0 * fStack_228);
+        fStack_214 = fStack_224 * fStack_2c0;
+        afStack_210[0] = fStack_2c0 * afStack_220[0];
+        (peVar15->eCResourceCollisionMesh_PS_data).offset_0x3c = pvStack_218;
+        (peVar15->eCResourceCollisionMesh_PS_data).offset_0x40 = fStack_214;
+        (peVar15->eCResourceCollisionMesh_PS_data).offset_0x44 = afStack_210[0];
+        *(undefined2 *)&(peVar15->eCResourceCollisionMesh_PS_data).offset_0x10 =
+             *(undefined2 *)&(this_00->eCCollisionShape_data).offset_0x14;
+        uVar23 = -(uint)((this_00->eCCollisionShape_data).offset_0x2c != (bCObjectRefBase)0x0) &
+                 0x1000 | -(uint)((this_00->eCCollisionShape_data).offset_0x28 !=
+                                 (bCObjectRefBase)0x0) & 0x40 |
+                 -(uint)((this_00->eCCollisionShape_data).offset_0x2b != (bCObjectRefBase)0x0) &
+                 0x10 | -(uint)((this_00->eCCollisionShape_data).offset_0x2f != (bCObjectRefBase)0x0
+                               ) & 4 |
+                 -(uint)((this_00->eCCollisionShape_data).offset_0x2e != (bCObjectRefBase)0x0) & 2 |
+                 (uint)((this_00->eCCollisionShape_data).offset_0x2d != (bCObjectRefBase)0x0);
+        (peVar15->eCResourceCollisionMesh_PS_data).offset_0xc = (void *)(uVar23 | 8);
+        if ((this->eCCollisionShape_PS_data).field_0x12 == '\x01') {
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0xc = (void *)(uVar23 | 0x48);
+        }
+        *(short *)((int)&(peVar15->eCResourceCollisionMesh_PS_data).offset_0x10 + 2) =
+             *(short *)&(this_00->eCCollisionShape_data).offset_0x1c + 1;
+        iVar8 = 0;
+        (peVar15->eCResourceCollisionMesh_PS_data).offset_0x20 =
+             (this_00->eCCollisionShape_data).offset_0x30;
+        (peVar15->eCResourceCollisionMesh_PS_data).offset_0x24 = this_00;
+        pbVar24 = eCCollisionShape::GetOrientation(this_00);
+        pfVar10 = bCMatrix3::AccessElement(pbVar24,iVar8);
+        *(float *)&(peVar15->eCResourceBase_PS_data).field_0x4 = *pfVar10;
+        *(float *)&(peVar15->eCResourceBase_PS_data).field_0x8 = pfVar10[3];
+        (peVar15->eCResourceBase_PS_data).offset_0xc = (int)pfVar10[6];
+        *(float *)&(peVar15->eCResourceBase_PS_data).offset_0x10 = pfVar10[1];
+        (peVar15->eCResourceBase_PS_data).offset_0x14 = (eEResourceCacheBehavior)pfVar10[4];
+        (peVar15->eCResourceBase_PS_data).offset_0x18 = pfVar10[7];
+        *(float *)&(peVar15->eCResourceBase_PS_data).offset_0x1c = pfVar10[2];
+        (peVar15->eCResourceBase_PS_data).offset_0x20 = (eCResourceDataEntity *)pfVar10[5];
+        *(float *)&(peVar15->eCResourceBase_PS_data).field_0x24 = pfVar10[8];
+        if (uStack_2c4._3_1_ == '\0') {
+          puVar30 = auStack_184;
+          pbVar9 = eCCollisionShape::GetCenter(this_00);
+          pbVar9 = (bCVector *)bCVector::operator*(pbVar9,(float)puVar30);
+          pNVar25 = bCVector::operator_class_NxVec3_(pbVar9);
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x0 = *(void **)pNVar25;
+          pbVar9 = abStack_188;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x4 = *(undefined4 *)(pNVar25 + 4);
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x8 = *(undefined4 *)(pNVar25 + 8);
+        }
+        else {
+          puVar30 = auStack_154;
+          fVar29 = fStack_2c0;
+          pbVar9 = eCCollisionShape::GetCenter(this_00);
+          pbVar9 = (bCVector *)bCVector::operator*(pbVar9,(float)puVar30);
+          pbVar9 = (bCVector *)bCVector::operator*(pbVar9,fVar29);
+          pNVar25 = bCVector::operator_class_NxVec3_(pbVar9);
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x0 = *(void **)pNVar25;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x4 = *(undefined4 *)(pNVar25 + 4);
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x8 = *(undefined4 *)(pNVar25 + 8);
+          bCVector::~bCVector(abStack_174);
+          pbVar9 = abStack_15c;
+        }
+        goto LAB_3033a266;
+      case 4:
+        peVar15 = (eCResourceCollisionMesh_PS *)new(0x74,0x815);
+        if (peVar15 == (eCResourceCollisionMesh_PS *)0x0) {
+          peVar15 = (eCResourceCollisionMesh_PS *)0x0;
+        }
+        else {
+          *(undefined4 *)&peVar15->eCResourceBase_PS_data = 3;
+          peVar15->vftablePtr = (eCResourceCollisionMesh_PS_vftable *)&NxCapsuleShapeDesc::vftable;
+          *(undefined4 *)&(peVar15->eCResourceBase_PS_data).field_0x8 = 0;
+          (peVar15->eCResourceBase_PS_data).offset_0xc = 0;
+          *(undefined4 *)&(peVar15->eCResourceBase_PS_data).offset_0x10 = 0;
+          (peVar15->eCResourceBase_PS_data).offset_0x18 = 0;
+          *(undefined4 *)&(peVar15->eCResourceBase_PS_data).offset_0x1c = 0;
+          (peVar15->eCResourceBase_PS_data).offset_0x20 = (eCResourceDataEntity *)0x0;
+          *(undefined4 *)&(peVar15->eCResourceBase_PS_data).field_0x4 = 0x3f800000;
+          (peVar15->eCResourceBase_PS_data).offset_0x14 = 0x3f800000;
+          *(undefined4 *)&(peVar15->eCResourceBase_PS_data).field_0x24 = 0x3f800000;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x8 = 0;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x4 = 0;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x0 = (void *)0x0;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0xc = &DAT_00000008;
+          *(undefined2 *)&(peVar15->eCResourceCollisionMesh_PS_data).offset_0x10 = 0;
+          *(undefined2 *)((int)&(peVar15->eCResourceCollisionMesh_PS_data).offset_0x10 + 2) = 0;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x14 = 0;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x20 = 0xbf800000;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x18 = (void *)0x3f800000;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x1c = 0xbf800000;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x24 = (void *)0x0;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x28 = 0;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x2c = 0;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x30 = (void *)0x0;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x34 = 0;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x38 = 0;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x3c = (void *)0x3f800000;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x40 = 0x3f800000;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x44 = 0;
+        }
+        fVar29 = _DAT_30ab492c;
+        iVar8 = 0;
+        (peVar15->eCResourceCollisionMesh_PS_data).offset_0x40 =
+             fStack_2c0 * _DAT_30ab492c * *(float *)(this_00->eCCollisionShape_data).offset_0x70;
+        (peVar15->eCResourceCollisionMesh_PS_data).offset_0x3c =
+             (void *)(fVar29 * *(float *)((this_00->eCCollisionShape_data).offset_0x70 + 4) *
+                     fStack_2c0);
+        pbVar24 = eCCollisionShape::GetOrientation(this_00);
+        pfVar10 = bCMatrix3::AccessElement(pbVar24,iVar8);
+        *(float *)&(peVar15->eCResourceBase_PS_data).field_0x4 = *pfVar10;
+        *(float *)&(peVar15->eCResourceBase_PS_data).field_0x8 = pfVar10[3];
+        (peVar15->eCResourceBase_PS_data).offset_0xc = (int)pfVar10[6];
+        *(float *)&(peVar15->eCResourceBase_PS_data).offset_0x10 = pfVar10[1];
+        (peVar15->eCResourceBase_PS_data).offset_0x14 = (eEResourceCacheBehavior)pfVar10[4];
+        (peVar15->eCResourceBase_PS_data).offset_0x18 = pfVar10[7];
+        *(float *)&(peVar15->eCResourceBase_PS_data).offset_0x1c = pfVar10[2];
+        (peVar15->eCResourceBase_PS_data).offset_0x20 = (eCResourceDataEntity *)pfVar10[5];
+        *(float *)&(peVar15->eCResourceBase_PS_data).field_0x24 = pfVar10[8];
+        if (uStack_2c4._3_1_ == '\0') {
+          puVar30 = auStack_178;
+          pbVar9 = eCCollisionShape::GetCenter(this_00);
+          pbVar9 = (bCVector *)bCVector::operator*(pbVar9,(float)puVar30);
+          pNVar25 = bCVector::operator_class_NxVec3_(pbVar9);
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x0 = *(void **)pNVar25;
+          pbVar9 = abStack_17c;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x4 = *(undefined4 *)(pNVar25 + 4);
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x8 = *(undefined4 *)(pNVar25 + 8);
+        }
+        else {
+          puVar30 = auStack_160;
+          fVar29 = fStack_2c0;
+          pbVar9 = eCCollisionShape::GetCenter(this_00);
+          pbVar9 = (bCVector *)bCVector::operator*(pbVar9,(float)puVar30);
+          pbVar9 = (bCVector *)bCVector::operator*(pbVar9,fVar29);
+          pNVar25 = bCVector::operator_class_NxVec3_(pbVar9);
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x0 = *(void **)pNVar25;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x4 = *(undefined4 *)(pNVar25 + 4);
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x8 = *(undefined4 *)(pNVar25 + 8);
+          bCVector::~bCVector(abStack_138);
+          pbVar9 = abStack_168;
+        }
+        bCVector::~bCVector(pbVar9);
+        *(undefined2 *)&(peVar15->eCResourceCollisionMesh_PS_data).offset_0x10 =
+             *(undefined2 *)&(this_00->eCCollisionShape_data).offset_0x14;
+        uVar23 = -(uint)((this_00->eCCollisionShape_data).offset_0x2c != (bCObjectRefBase)0x0) &
+                 0x1000 | -(uint)((this_00->eCCollisionShape_data).offset_0x28 !=
+                                 (bCObjectRefBase)0x0) & 0x40 |
+                 -(uint)((this_00->eCCollisionShape_data).offset_0x2b != (bCObjectRefBase)0x0) &
+                 0x10 | -(uint)((this_00->eCCollisionShape_data).offset_0x2f != (bCObjectRefBase)0x0
+                               ) & 4 |
+                 -(uint)((this_00->eCCollisionShape_data).offset_0x2e != (bCObjectRefBase)0x0) & 2 |
+                 (uint)((this_00->eCCollisionShape_data).offset_0x2d != (bCObjectRefBase)0x0);
+        (peVar15->eCResourceCollisionMesh_PS_data).offset_0xc = (void *)(uVar23 | 8);
+        if ((this->eCCollisionShape_PS_data).field_0x12 == '\x01') {
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0xc = (void *)(uVar23 | 0x48);
+        }
+        *(short *)((int)&(peVar15->eCResourceCollisionMesh_PS_data).offset_0x10 + 2) =
+             *(short *)&(this_00->eCCollisionShape_data).offset_0x1c + 1;
+        if (0xf < (int)(this_00->eCCollisionShape_data).offset_0x1c) {
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x44 = 1;
+          bCMatrix3::GetIdentity();
+          uStack_2b8 = *(float *)g_fDegToRad_exref * 180.0;
+          bCMatrix3::RotateLocalAxisZ((bCMatrix3 *)&pvStack_218,uStack_2b8);
+          pfVar10 = bCMatrix3::AccessElement((bCMatrix3 *)&pvStack_218,0);
+          *(float *)&(peVar15->eCResourceBase_PS_data).field_0x4 = *pfVar10;
+          *(float *)&(peVar15->eCResourceBase_PS_data).field_0x8 = pfVar10[3];
+          (peVar15->eCResourceBase_PS_data).offset_0xc = (int)pfVar10[6];
+          *(float *)&(peVar15->eCResourceBase_PS_data).offset_0x10 = pfVar10[1];
+          (peVar15->eCResourceBase_PS_data).offset_0x14 = (eEResourceCacheBehavior)pfVar10[4];
+          (peVar15->eCResourceBase_PS_data).offset_0x18 = pfVar10[7];
+          *(float *)&(peVar15->eCResourceBase_PS_data).offset_0x1c = pfVar10[2];
+          (peVar15->eCResourceBase_PS_data).offset_0x20 = (eCResourceDataEntity *)pfVar10[5];
+          *(float *)&(peVar15->eCResourceBase_PS_data).field_0x24 = pfVar10[8];
+          bCMatrix3::~bCMatrix3((bCMatrix3 *)&pvStack_218);
+        }
+        uVar35 = (this_00->eCCollisionShape_data).offset_0x30;
+        (peVar15->eCResourceCollisionMesh_PS_data).offset_0x24 = this_00;
+        (peVar15->eCResourceCollisionMesh_PS_data).offset_0x20 = uVar35;
+        peVar3 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+        goto LAB_3033a276;
+      case 5:
+        peVar15 = (eCResourceCollisionMesh_PS *)new(0x6c,0x845);
+        if (peVar15 == (eCResourceCollisionMesh_PS *)0x0) {
+          peVar15 = (eCResourceCollisionMesh_PS *)0x0;
+        }
+        else {
+          *(undefined4 *)&peVar15->eCResourceBase_PS_data = 1;
+          peVar15->vftablePtr = (eCResourceCollisionMesh_PS_vftable *)&NxSphereShapeDesc::vftable;
+          *(undefined4 *)&(peVar15->eCResourceBase_PS_data).field_0x8 = 0;
+          (peVar15->eCResourceBase_PS_data).offset_0xc = 0;
+          *(undefined4 *)&(peVar15->eCResourceBase_PS_data).offset_0x10 = 0;
+          (peVar15->eCResourceBase_PS_data).offset_0x18 = 0;
+          *(undefined4 *)&(peVar15->eCResourceBase_PS_data).offset_0x1c = 0;
+          (peVar15->eCResourceBase_PS_data).offset_0x20 = (eCResourceDataEntity *)0x0;
+          *(undefined4 *)&(peVar15->eCResourceBase_PS_data).field_0x4 = 0x3f800000;
+          (peVar15->eCResourceBase_PS_data).offset_0x14 = 0x3f800000;
+          *(undefined4 *)&(peVar15->eCResourceBase_PS_data).field_0x24 = 0x3f800000;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x8 = 0;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x4 = 0;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x0 = (void *)0x0;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0xc = &DAT_00000008;
+          *(undefined2 *)&(peVar15->eCResourceCollisionMesh_PS_data).offset_0x10 = 0;
+          *(undefined2 *)((int)&(peVar15->eCResourceCollisionMesh_PS_data).offset_0x10 + 2) = 0;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x14 = 0;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x20 = 0xbf800000;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x18 = (void *)0x3f800000;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x1c = 0xbf800000;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x24 = (void *)0x0;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x28 = 0;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x2c = 0;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x30 = (void *)0x0;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x34 = 0;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x38 = 0;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x3c = (void *)0x3f800000;
+        }
+        fVar29 = bCSphere::GetRadius((bCSphere *)(this_00->eCCollisionShape_data).offset_0x70);
+        (peVar15->eCResourceCollisionMesh_PS_data).offset_0x3c =
+             (void *)(fVar29 * _DAT_30ab492c * fStack_2c0);
+        *(undefined2 *)&(peVar15->eCResourceCollisionMesh_PS_data).offset_0x10 =
+             *(undefined2 *)&(this_00->eCCollisionShape_data).offset_0x14;
+        uVar23 = -(uint)((this_00->eCCollisionShape_data).offset_0x2c != (bCObjectRefBase)0x0) &
+                 0x1000 | -(uint)((this_00->eCCollisionShape_data).offset_0x28 !=
+                                 (bCObjectRefBase)0x0) & 0x40 |
+                 -(uint)((this_00->eCCollisionShape_data).offset_0x2b != (bCObjectRefBase)0x0) &
+                 0x10 | -(uint)((this_00->eCCollisionShape_data).offset_0x2f != (bCObjectRefBase)0x0
+                               ) & 4 |
+                 -(uint)((this_00->eCCollisionShape_data).offset_0x2e != (bCObjectRefBase)0x0) & 2 |
+                 (uint)((this_00->eCCollisionShape_data).offset_0x2d != (bCObjectRefBase)0x0);
+        (peVar15->eCResourceCollisionMesh_PS_data).offset_0xc = (void *)(uVar23 | 8);
+        if ((this->eCCollisionShape_PS_data).field_0x12 == '\x01') {
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0xc = (void *)(uVar23 | 0x48);
+        }
+        *(short *)((int)&(peVar15->eCResourceCollisionMesh_PS_data).offset_0x10 + 2) =
+             *(short *)&(this_00->eCCollisionShape_data).offset_0x1c + 1;
+        iVar8 = 0;
+        (peVar15->eCResourceCollisionMesh_PS_data).offset_0x20 =
+             (this_00->eCCollisionShape_data).offset_0x30;
+        (peVar15->eCResourceCollisionMesh_PS_data).offset_0x24 = this_00;
+        pbVar24 = eCCollisionShape::GetOrientation(this_00);
+        pfVar10 = bCMatrix3::AccessElement(pbVar24,iVar8);
+        *(float *)&(peVar15->eCResourceBase_PS_data).field_0x4 = *pfVar10;
+        *(float *)&(peVar15->eCResourceBase_PS_data).field_0x8 = pfVar10[3];
+        (peVar15->eCResourceBase_PS_data).offset_0xc = (int)pfVar10[6];
+        *(float *)&(peVar15->eCResourceBase_PS_data).offset_0x10 = pfVar10[1];
+        (peVar15->eCResourceBase_PS_data).offset_0x14 = (eEResourceCacheBehavior)pfVar10[4];
+        (peVar15->eCResourceBase_PS_data).offset_0x18 = pfVar10[7];
+        *(float *)&(peVar15->eCResourceBase_PS_data).offset_0x1c = pfVar10[2];
+        (peVar15->eCResourceBase_PS_data).offset_0x20 = (eCResourceDataEntity *)pfVar10[5];
+        *(float *)&(peVar15->eCResourceBase_PS_data).field_0x24 = pfVar10[8];
+        if (uStack_2c4._3_1_ == '\0') {
+          puVar30 = auStack_1c0;
+          pbVar9 = eCCollisionShape::GetCenter(this_00);
+          pbVar9 = (bCVector *)bCVector::operator*(pbVar9,(float)puVar30);
+          pNVar25 = bCVector::operator_class_NxVec3_(pbVar9);
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x0 = *(void **)pNVar25;
+          pbVar9 = abStack_1c4;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x4 = *(undefined4 *)(pNVar25 + 4);
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x8 = *(undefined4 *)(pNVar25 + 8);
+        }
+        else {
+          puVar30 = auStack_19c;
+          fVar29 = fStack_2c0;
+          pbVar9 = eCCollisionShape::GetCenter(this_00);
+          pbVar9 = (bCVector *)bCVector::operator*(pbVar9,(float)puVar30);
+          pbVar9 = (bCVector *)bCVector::operator*(pbVar9,fVar29);
+          pNVar25 = bCVector::operator_class_NxVec3_(pbVar9);
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x0 = *(void **)pNVar25;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x4 = *(undefined4 *)(pNVar25 + 4);
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x8 = *(undefined4 *)(pNVar25 + 8);
+          bCVector::~bCVector(abStack_1bc);
+          pbVar9 = abStack_1a4;
+        }
+LAB_3033a266:
+        bCVector::~bCVector(pbVar9);
+        peVar3 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+LAB_3033a276:
+        peVar26 = (eCPhysicObject *)eCEntity::GetPhysicObject(peVar3);
+        pNVar27 = eCPhysicObject::GetActor(peVar26);
+        pNVar28 = (NxShape *)(**(code **)(*(int *)pNVar27 + 0x44))(peVar15);
+        peStack_2a4 = peVar15;
+        thunk_FUN_300d2590(&peStack_2a4);
+        if (pNVar28 != (NxShape *)0x0) {
+          (this_00->eCCollisionShape_data).offset_0x40 = 1;
+          eCCollisionShape::SetProprietaryShape(this_00,pNVar28);
+        }
+        break;
+      case 6:
+        bCString::bCString(abStack_29c,(bCString *)(this_00->eCCollisionShape_data).offset_0x70);
+        bCString::bCString((bCString *)&iStack_298);
+        if (cStack_2b9 == '\0') {
+          eVar41 = 3;
+          pbVar16 = abStack_29c;
+          peVar14 = (eCResourceAdmin *)thunk_FUN_3007c090();
+          peVar15 = (eCResourceCollisionMesh_PS *)
+                    eCResourceAdmin::QueryResourceDataEntity(peVar14,pbVar16,eVar41);
+          peStack_2a8 = peVar15;
+        }
+        else {
+          bCString::bCString(abStack_28c);
+          bCString::Format(this_06,(char *)abStack_28c);
+          bCString::SetAt(abStack_288,5,'_');
+          pbVar16 = abStack_288;
+          iVar8 = bCString::GetLength((bCString *)&iStack_298);
+          iVar39 = bCString::GetLength((bCString *)&g_strResourceMeshCollisionFileExt);
+          bCString::Insert((bCString *)&iStack_298,iVar8 - iVar39,pbVar16);
+          eVar41 = 3;
+          pbVar16 = (bCString *)&iStack_298;
+          peVar14 = (eCResourceAdmin *)thunk_FUN_3007c090();
+          peVar15 = (eCResourceCollisionMesh_PS *)
+                    eCResourceAdmin::QueryResourceDataEntity(peVar14,pbVar16,eVar41);
+          if (peVar15 == (eCResourceCollisionMesh_PS *)0x0) {
+            iVar39 = -1;
+            iVar8 = 0;
+            pcVar34 = (char *)0x0;
+            piVar33 = &iStack_298;
+            pbVar16 = (bCString *)
+                      ::operator+((char *)afStack_220,
+                                  (bCString *)
+                                  "C: eCPhysicObject::Create(): could not cache-in scaled collision-resource, lazy create: "
+                                 );
+            pcVar32 = bCString::operator_char_const_(pbVar16);
+            bVar31 = 3;
+            pbVar5 = bCMessageAdmin::GetInstance();
+            bCMessageAdmin::OnMessage(pbVar5,bVar31,pcVar32,(char *)piVar33,pcVar34,iVar8,iVar39);
+            bCString::~bCString((bCString *)&fStack_224);
+            iVar8 = (int)fStack_290 * 4;
+            pbVar16 = *(bCString **)
+                       (*(int *)((this->eCCollisionShape_PS_data).offset_0x14 + iVar8) + 0x74);
+            eVar41 = 3;
+            peVar14 = (eCResourceAdmin *)thunk_FUN_3007c090();
+            peVar15 = (eCResourceCollisionMesh_PS *)
+                      eCResourceAdmin::QueryResourceDataEntity(peVar14,pbVar16,eVar41);
+            peStack_2a8 = peVar15;
+            if (peVar15 == (eCResourceCollisionMesh_PS *)0x0) {
+              iVar39 = -1;
+              pcVar32 = *(char **)(*(int *)((this->eCCollisionShape_PS_data).offset_0x14 + iVar8) +
+                                  0x74);
+              iVar8 = 0;
+              pcVar37 = (char *)0x0;
+              pbVar16 = (bCString *)
+                        ::operator+((char *)&fStack_234,
+                                    (bCString *)
+                                    "C: eCPhysicObject::Create(): could not create scaled collision-resource, original resource is missing:  "
+                                   );
+              pcVar34 = bCString::operator_char_const_(pbVar16);
+              bVar31 = 3;
+              pbVar5 = bCMessageAdmin::GetInstance();
+              bCMessageAdmin::OnMessage(pbVar5,bVar31,pcVar34,pcVar32,pcVar37,iVar8,iVar39);
+              bCString::~bCString((bCString *)&fStack_238);
+              bCString::~bCString((bCString *)&fStack_290);
+              bCString::~bCString(abStack_29c);
+              bCString::~bCString(abStack_2a0);
+              break;
+            }
+            peVar17 = (eCResourceBase_PS *)thunk_FUN_3030e560(peVar15);
+            eVar21 = eCResourceBase_PS::GetCurrentResourceState(peVar17);
+            if (eVar21 != 6) {
+              eCResourceDataEntity::Load((eCResourceDataEntity *)peVar15,1);
+            }
+            peVar14 = (eCResourceAdmin *)thunk_FUN_3007c090();
+            peVar15 = (eCResourceCollisionMesh_PS *)
+                      eCResourceAdmin::QueryNewResourceDataEntity(peVar14);
+            pbVar16 = (bCString *)
+                      bTPropertyObjectType<eCResourceCollisionMesh_PS,eCResourceBase_PS>::vfunction1
+                                ();
+            eCResourceDataEntity::CreateResourceFromType((eCResourceDataEntity *)peVar15,pbVar16);
+            peStack_2a4 = (eCResourceCollisionMesh_PS *)thunk_FUN_3030e560(peVar15);
+            fVar29 = uStack_2b8;
+            peVar18 = (eCResourceCollisionMesh_PS *)thunk_FUN_3030e560(peStack_2a8);
+            eCResourceCollisionMesh_PS::CopyWithScaling(peStack_2a4,peVar18,fVar29);
+            bCString::bCString(abStack_270);
+            eCResourceCollisionMesh_PS::GetProprietaryFileExt(abStack_270);
+            bCString::bCString(abStack_264);
+            pbVar42 = (bCString *)0x0;
+            pbVar11 = abStack_264;
+            pbVar36 = (bCString *)0x0;
+            pbVar16 = abStack_29c;
+            peVar19 = eCArchiveManager::GetInstance();
+            eCArchiveManager::SplitPath((eCArchiveManager *)peVar19,pbVar16,pbVar36,pbVar11,pbVar42)
+            ;
+            peVar20 = eCApplication::GetInstance();
+            pbVar11 = abStack_270;
+            pbVar16 = (bCString *)&peStack_2ac;
+            pbVar36 = (bCString *)
+                      (**(code **)(*(int *)peVar20 + 0x284))(abStack_240,abStack_24c,abStack_264);
+            pbVar16 = (bCString *)bCString::operator+(pbVar36,pbVar16);
+            bCString::operator+(pbVar16,pbVar11);
+            bCString::~bCString(abStack_24c);
+            bCString::~bCString(abStack_240);
+            eCResourceDataEntity::Save((eCResourceDataEntity *)peVar15,(bCString *)&peStack_2ac,1);
+            (*peStack_2a8->vftablePtr->ReleaseReference)(peStack_2a8);
+            bCString::~bCString((bCString *)&peStack_2ac);
+            bCString::~bCString(abStack_264);
+            bCString::~bCString(abStack_270);
+          }
+          peStack_2a8 = peVar15;
+          bCString::~bCString(abStack_28c);
+        }
+        peStack_2a4 = (eCResourceCollisionMesh_PS *)thunk_FUN_3030e560(peVar15);
+        if (peStack_2a4 == (eCResourceCollisionMesh_PS *)0x0) {
+          if (peVar15 != (eCResourceCollisionMesh_PS *)0x0) {
+            (*peVar15->vftablePtr->ReleaseReference)(peVar15);
+          }
+          bCString::~bCString((bCString *)&iStack_298);
+          bCString::~bCString(abStack_29c);
+        }
+        else {
+          eVar21 = eCResourceBase_PS::GetCurrentResourceState((eCResourceBase_PS *)peStack_2a4);
+          if (eVar21 != 6) {
+            eCResourceDataEntity::Load((eCResourceDataEntity *)peVar15,1);
+          }
+          peVar15 = (eCResourceCollisionMesh_PS *)new(0x70,0x7e6);
+          if (peVar15 == (eCResourceCollisionMesh_PS *)0x0) {
+            peVar15 = (eCResourceCollisionMesh_PS *)0x0;
+          }
+          else {
+            *(undefined4 *)&peVar15->eCResourceBase_PS_data = 5;
+            peVar15->vftablePtr = (eCResourceCollisionMesh_PS_vftable *)&NxConvexShapeDesc::vftable;
+            *(undefined4 *)&(peVar15->eCResourceBase_PS_data).field_0x8 = 0;
+            (peVar15->eCResourceBase_PS_data).offset_0xc = 0;
+            *(undefined4 *)&(peVar15->eCResourceBase_PS_data).offset_0x10 = 0;
+            (peVar15->eCResourceBase_PS_data).offset_0x18 = 0;
+            *(undefined4 *)&(peVar15->eCResourceBase_PS_data).offset_0x1c = 0;
+            (peVar15->eCResourceBase_PS_data).offset_0x20 = (eCResourceDataEntity *)0x0;
+            *(undefined4 *)&(peVar15->eCResourceBase_PS_data).field_0x4 = 0x3f800000;
+            (peVar15->eCResourceBase_PS_data).offset_0x14 = 0x3f800000;
+            *(undefined4 *)&(peVar15->eCResourceBase_PS_data).field_0x24 = 0x3f800000;
+            (peVar15->eCResourceCollisionMesh_PS_data).offset_0x8 = 0;
+            (peVar15->eCResourceCollisionMesh_PS_data).offset_0x4 = 0;
+            (peVar15->eCResourceCollisionMesh_PS_data).offset_0x0 = (void *)0x0;
+            (peVar15->eCResourceCollisionMesh_PS_data).offset_0xc = &DAT_00000008;
+            *(undefined2 *)&(peVar15->eCResourceCollisionMesh_PS_data).offset_0x10 = 0;
+            *(undefined2 *)((int)&(peVar15->eCResourceCollisionMesh_PS_data).offset_0x10 + 2) = 0;
+            (peVar15->eCResourceCollisionMesh_PS_data).offset_0x14 = 0;
+            (peVar15->eCResourceCollisionMesh_PS_data).offset_0x20 = 0xbf800000;
+            (peVar15->eCResourceCollisionMesh_PS_data).offset_0x18 = (void *)0x3f800000;
+            (peVar15->eCResourceCollisionMesh_PS_data).offset_0x1c = 0xbf800000;
+            (peVar15->eCResourceCollisionMesh_PS_data).offset_0x24 = (void *)0x0;
+            (peVar15->eCResourceCollisionMesh_PS_data).offset_0x28 = 0;
+            (peVar15->eCResourceCollisionMesh_PS_data).offset_0x2c = 0;
+            (peVar15->eCResourceCollisionMesh_PS_data).offset_0x30 = (void *)0x0;
+            (peVar15->eCResourceCollisionMesh_PS_data).offset_0x34 = 0;
+            (peVar15->eCResourceCollisionMesh_PS_data).offset_0x38 = 0;
+            (peVar15->eCResourceCollisionMesh_PS_data).offset_0x3c = (void *)0x0;
+            (peVar15->eCResourceCollisionMesh_PS_data).offset_0x40 = 0;
+          }
+          *(undefined2 *)&(peVar15->eCResourceCollisionMesh_PS_data).offset_0x10 =
+               *(undefined2 *)&(this_00->eCCollisionShape_data).offset_0x14;
+          pNVar22 = eCResourceCollisionMesh_PS::GetProprietaryConvexMesh
+                              (peStack_2ac,
+                               (uint)(ushort)(this_00->eCCollisionShape_data).offset_0x42);
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x3c = pNVar22;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x40 = 0;
+          uVar23 = -(uint)((this_00->eCCollisionShape_data).offset_0x2c != (bCObjectRefBase)0x0) &
+                   0x1000 | -(uint)((this_00->eCCollisionShape_data).offset_0x28 !=
+                                   (bCObjectRefBase)0x0) & 0x40 |
+                   -(uint)((this_00->eCCollisionShape_data).offset_0x2b != (bCObjectRefBase)0x0) &
+                   0x10 | -(uint)((this_00->eCCollisionShape_data).offset_0x2f !=
+                                 (bCObjectRefBase)0x0) & 4 |
+                   -(uint)((this_00->eCCollisionShape_data).offset_0x2e != (bCObjectRefBase)0x0) & 2
+                   | (uint)((this_00->eCCollisionShape_data).offset_0x2d != (bCObjectRefBase)0x0);
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0xc = (void *)(uVar23 | 8);
+          if ((this->eCCollisionShape_PS_data).field_0x12 == '\x01') {
+            (peVar15->eCResourceCollisionMesh_PS_data).offset_0xc = (void *)(uVar23 | 0x48);
+          }
+          *(short *)((int)&(peVar15->eCResourceCollisionMesh_PS_data).offset_0x10 + 2) =
+               *(short *)&(this_00->eCCollisionShape_data).offset_0x1c + 1;
+          iVar8 = 0;
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x20 =
+               (this_00->eCCollisionShape_data).offset_0x30;
+          pbVar24 = eCCollisionShape::GetOrientation(this_00);
+          pfVar10 = bCMatrix3::AccessElement(pbVar24,iVar8);
+          *(float *)&(peVar15->eCResourceBase_PS_data).field_0x4 = *pfVar10;
+          *(float *)&(peVar15->eCResourceBase_PS_data).field_0x8 = pfVar10[3];
+          (peVar15->eCResourceBase_PS_data).offset_0xc = (int)pfVar10[6];
+          *(float *)&(peVar15->eCResourceBase_PS_data).offset_0x10 = pfVar10[1];
+          (peVar15->eCResourceBase_PS_data).offset_0x14 = (eEResourceCacheBehavior)pfVar10[4];
+          (peVar15->eCResourceBase_PS_data).offset_0x18 = pfVar10[7];
+          *(float *)&(peVar15->eCResourceBase_PS_data).offset_0x1c = pfVar10[2];
+          (peVar15->eCResourceBase_PS_data).offset_0x20 = (eCResourceDataEntity *)pfVar10[5];
+          *(float *)&(peVar15->eCResourceBase_PS_data).field_0x24 = pfVar10[8];
+          if (uStack_2c4._3_1_ == '\0') {
+            puVar30 = auStack_148;
+            pbVar9 = eCCollisionShape::GetCenter(this_00);
+            pbVar9 = (bCVector *)bCVector::operator*(pbVar9,(float)puVar30);
+            pNVar25 = bCVector::operator_class_NxVec3_(pbVar9);
+            (peVar15->eCResourceCollisionMesh_PS_data).offset_0x0 = *(void **)pNVar25;
+            pbVar9 = abStack_14c;
+            (peVar15->eCResourceCollisionMesh_PS_data).offset_0x4 = *(undefined4 *)(pNVar25 + 4);
+            (peVar15->eCResourceCollisionMesh_PS_data).offset_0x8 = *(undefined4 *)(pNVar25 + 8);
+          }
+          else {
+            puVar30 = auStack_124;
+            fVar29 = fStack_2c0;
+            pbVar9 = eCCollisionShape::GetCenter(this_00);
+            pbVar9 = (bCVector *)bCVector::operator*(pbVar9,(float)puVar30);
+            pbVar9 = (bCVector *)bCVector::operator*(pbVar9,fVar29);
+            pNVar25 = bCVector::operator_class_NxVec3_(pbVar9);
+            (peVar15->eCResourceCollisionMesh_PS_data).offset_0x0 = *(void **)pNVar25;
+            (peVar15->eCResourceCollisionMesh_PS_data).offset_0x4 = *(undefined4 *)(pNVar25 + 4);
+            (peVar15->eCResourceCollisionMesh_PS_data).offset_0x8 = *(undefined4 *)(pNVar25 + 8);
+            bCVector::~bCVector(abStack_198);
+            pbVar9 = abStack_12c;
+          }
+          bCVector::~bCVector(pbVar9);
+          (peVar15->eCResourceCollisionMesh_PS_data).offset_0x24 = this_00;
+          peVar3 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+          peVar26 = (eCPhysicObject *)eCEntity::GetPhysicObject(peVar3);
+          pNVar27 = eCPhysicObject::GetActor(peVar26);
+          pNVar28 = (NxShape *)(**(code **)(*(int *)pNVar27 + 0x44))(peVar15);
+          peStack_2a4 = peVar15;
+          thunk_FUN_300d2590(&peStack_2a4);
+          if (pNVar28 == (NxShape *)0x0) {
+            bCString::~bCString((bCString *)&iStack_298);
+            bCString::~bCString(abStack_29c);
+          }
+          else {
+            (this_00->eCCollisionShape_data).offset_0x40 = 1;
+            eCCollisionShape::SetProprietaryShape(this_00,pNVar28);
+            if (peStack_2a8 != (eCResourceCollisionMesh_PS *)0x0) {
+              (*((eCResourceBase_PS_vftable *)peStack_2a8->vftablePtr)->ReleaseReference)
+                        (peStack_2a8);
+            }
+            bCString::~bCString((bCString *)&iStack_298);
+            bCString::~bCString(abStack_29c);
+          }
+        }
+      }
+switchD_30338cb6_caseD_2:
+      fStack_290 = (float)((int)fStack_290 + 1);
+    } while ((int)fStack_290 < (this->eCCollisionShape_PS_data).offset_0x18);
+  }
+  thunk_FUN_300d18c0();
+  if ((&stack0x00000000 != (undefined1 *)0x260) && (pvStack_260 != (void *)0x0)) {
+    pvVar43 = pvStack_260;
+    this_02 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(this_02,pvVar43);
+  }
+  bCMatrix::~bCMatrix(abStack_104);
+  bCMatrix::~bCMatrix(abStack_c4);
+  return;
+}
+
+

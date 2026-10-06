@@ -1,0 +1,35 @@
+/* ENTRY 204cbb80 | bTPropertyType<gCFocus_PS,bool>::~bTPropertyType<gCFocus_PS,bool> | STATUS decompiled | 14 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall bTPropertyType<gCFocus_PS,bool>::~bTPropertyType<gCFocus_PS,bool>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Status");
+  bCString::bCString(local_c,"EnableRangeRating");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCFocus_PS::ms_PropertyMember_m_bEnableRangeRating,local_c,
+             local_8,local_4,1,false);
+  _ms_PropertyMember_m_bEnableRangeRating = &vftable;
+  DAT_207b9450 = bTPropertyObjectType<gCFocus_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCFocus_PS,eCEntityPropertySet>();
+  _DAT_207b9454 = 0x159;
+  _DAT_207b9458 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCFocus_PS::ms_PropertyMember_m_bEnableRangeRating);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b9450,
+             (bCPropertyTypeBase *)&gCFocus_PS::ms_PropertyMember_m_bEnableRangeRating);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}
+
+

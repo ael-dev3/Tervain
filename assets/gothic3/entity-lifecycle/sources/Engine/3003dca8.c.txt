@@ -1,0 +1,16 @@
+/* ENTRY 3003dca8 | eCNode::OnReadContent | STATUS decompiled | 5 ms */
+
+/* public: virtual void __thiscall eCNode::OnReadContent(void)
+   eCNode member function inherited by eCEntity
+   eCNode member function inherited by eCSpatialEntity
+   eCNode member function inherited by eCDynamicEntity
+   eCNode member function inherited by eCResourceDataEntity */
+
+void __thiscall eCNode::OnReadContent(eCNode *this)
+
+{
+                    /* 0x3dca8  11426  ?OnReadContent@eCNode@@UAEXXZ */
+  return;
+}
+
+

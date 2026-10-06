@@ -1,0 +1,2 @@
+; 20026fa3 ??0gCCharacterMovement_PS@@QAE@XZ
+20026fa3 | e928352000 | JMP 0x2022a4d0

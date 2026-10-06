@@ -1,0 +1,17 @@
+/* ENTRY 10006000 | bCBox::IsNormalized | STATUS decompiled | 5 ms */
+
+/* public: bool __thiscall bCBox::IsNormalized(void)const  */
+
+bool __thiscall bCBox::IsNormalized(bCBox *this)
+
+{
+                    /* 0x6000  3649  ?IsNormalized@bCBox@@QBE_NXZ */
+  if (((*(float *)this <= *(float *)(this + 0xc)) &&
+      (*(float *)(this + 4) <= *(float *)(this + 0x10))) &&
+     (*(float *)(this + 8) <= *(float *)(this + 0x14))) {
+    return true;
+  }
+  return false;
+}
+
+

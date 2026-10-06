@@ -1,0 +1,4 @@
+; 2002504a ?Give@gCInfo_PS@@SG_NPAVeCEntity@@0ABVbCPropertyID@@K@Z
+2002504a | e921154100 | JMP 0x20436570
+; 20025059 gCMusicTransition::GetConnectIn
+; 20025059 Ordinal_3100

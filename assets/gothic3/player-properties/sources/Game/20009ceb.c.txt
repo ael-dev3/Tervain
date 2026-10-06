@@ -1,0 +1,18 @@
+/* ENTRY 20009ceb | gCStat::SetBaseMaximum | STATUS decompiled | 7 ms */
+
+/* public: void __thiscall gCStat::SetBaseMaximum(int const &) */
+
+void __thiscall gCStat::SetBaseMaximum(gCStat *this,int *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x9ceb  6244  ?SetBaseMaximum@gCStat@@QAEXABH@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"BaseMaximum",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  (this->gCAttribute_data).offset_0x14 = *param_1;
+  (*pNVar1)(this,"BaseMaximum",false);
+  return;
+}
+
+

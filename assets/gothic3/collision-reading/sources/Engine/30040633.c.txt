@@ -1,0 +1,35 @@
+/* ENTRY 30040633 | bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eECollisionGroup>_>::vfunction13 | STATUS decompiled | 13 ms */
+
+undefined4 __thiscall
+bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eECollisionGroup>_>::vfunction13
+          (bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eECollisionGroup>_> *this,
+          int param_1,int param_2)
+
+{
+  bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eECollisionGroup>_>_vftable *pbVar1;
+  bool bVar2;
+  uint in_EAX;
+  bCString *pbVar3;
+  bCString *this_00;
+  undefined3 extraout_var;
+  undefined4 uVar4;
+  int unaff_EDI;
+  
+  if ((param_1 != 0) && (param_2 != 0)) {
+    pbVar3 = (bCString *)
+             bTPropertyType<eCVisualAnimation_PS,bTPropertyContainer<eECollisionGroup>_>::vfunction4
+                       ();
+    this_00 = (bCString *)bTPropertyType<eCPerformanceAdmin,bCObsoleteClass>::vfunction4();
+    bVar2 = bCString::operator==(this_00,pbVar3);
+    in_EAX = CONCAT31(extraout_var,bVar2);
+    if (!bVar2) {
+      pbVar1 = this->vftablePtr;
+      (*pbVar1->vfunction25)(this,(undefined4 *)param_2,unaff_EDI);
+      uVar4 = (*pbVar1->vfunction24)(this,param_1);
+      return CONCAT31((int3)((uint)uVar4 >> 8),1);
+    }
+  }
+  return in_EAX & 0xffffff00;
+}
+
+

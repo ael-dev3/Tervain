@@ -1,0 +1,12 @@
+/* ENTRY 2000e561 | gCNavigation_PS::IsReferencedByTemplate | STATUS decompiled | 90 ms */
+
+/* public: virtual bool __thiscall gCNavigation_PS::IsReferencedByTemplate(void)const  */
+
+bool __thiscall gCNavigation_PS::IsReferencedByTemplate(gCNavigation_PS *this)
+
+{
+                    /* 0xe561  5231  ?IsReferencedByTemplate@gCNavigation_PS@@UBE_NXZ */
+  return false;
+}
+
+

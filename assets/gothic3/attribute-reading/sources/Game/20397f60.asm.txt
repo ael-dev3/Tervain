@@ -1,0 +1,3 @@
+; 20397f60 bTPropertyObjectType<gCAttribute,bCObjectRefBase>::vfunction3
+20397f60 | 8d4118 | LEA EAX,[ECX + 0x18]
+20397f63 | c3 | RET

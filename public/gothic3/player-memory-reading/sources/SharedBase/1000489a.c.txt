@@ -1,0 +1,16 @@
+/* ENTRY 1000489a | bCObjectBase::GetReferenceCount | STATUS decompiled | 3 ms */
+
+/* public: virtual unsigned long __thiscall bCObjectBase::GetReferenceCount(void)
+   bCObjectBase member function inherited by bCObjectRefBase
+   bCObjectBase member function inherited by bCThreadObjectRefBase
+   bCObjectBase member function inherited by bCObsoleteClass
+   bCObjectBase member function inherited by bCEvent */
+
+ulong __thiscall bCObjectBase::GetReferenceCount(bCObjectBase *this)
+
+{
+                    /* 0x489a  2880  ?GetReferenceCount@bCObjectBase@@UAEKXZ */
+  return 1;
+}
+
+

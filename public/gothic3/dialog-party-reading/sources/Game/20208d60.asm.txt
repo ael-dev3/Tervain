@@ -1,0 +1,69 @@
+; 20208d60 bTPropertyType<gCClock_PS,bCObsoleteClass>::vfunction16
+20208d60 | 83ec14 | SUB ESP,0x14
+20208d63 | 8b01 | MOV EAX,dword ptr [ECX]
+20208d65 | 8b5040 | MOV EDX,dword ptr [EAX + 0x40]
+20208d68 | 53 | PUSH EBX
+20208d69 | 56 | PUSH ESI
+20208d6a | 8b742420 | MOV ESI,dword ptr [ESP + 0x20]
+20208d6e | 57 | PUSH EDI
+20208d6f | 56 | PUSH ESI
+20208d70 | ffd2 | CALL EDX
+20208d72 | 8d442424 | LEA EAX,[ESP + 0x24]
+20208d76 | 50 | PUSH EAX
+20208d77 | 8bce | MOV ECX,ESI
+20208d79 | c744242800000000 | MOV dword ptr [ESP + 0x28],0x0
+20208d81 | ff1560877d20 | CALL dword ptr [0x207d8760]
+20208d87 | 8b4c2424 | MOV ECX,dword ptr [ESP + 0x24]
+20208d8b | 8b1de0887d20 | MOV EBX,dword ptr [0x207d88e0]
+20208d91 | 51 | PUSH ECX
+20208d92 | ffd3 | CALL EBX
+20208d94 | 8bc8 | MOV ECX,EAX
+20208d96 | ff1564877d20 | CALL dword ptr [0x207d8764]
+20208d9c | 8b16 | MOV EDX,dword ptr [ESI]
+20208d9e | 8b5204 | MOV EDX,dword ptr [EDX + 0x4]
+20208da1 | 8bf8 | MOV EDI,EAX
+20208da3 | 8b442424 | MOV EAX,dword ptr [ESP + 0x24]
+20208da7 | 50 | PUSH EAX
+20208da8 | 57 | PUSH EDI
+20208da9 | 8bce | MOV ECX,ESI
+20208dab | ffd2 | CALL EDX
+20208dad | 807c243401 | CMP byte ptr [ESP + 0x34],0x1
+20208db2 | 7558 | JNZ 0x20208e0c
+20208db4 | 8d4c240c | LEA ECX,[ESP + 0xc]
+20208db8 | ff1568877d20 | CALL dword ptr [0x207d8768]
+20208dbe | 8b442424 | MOV EAX,dword ptr [ESP + 0x24]
+20208dc2 | 50 | PUSH EAX
+20208dc3 | 57 | PUSH EDI
+20208dc4 | 8d4c2418 | LEA ECX,[ESP + 0x18]
+20208dc8 | ff156c877d20 | CALL dword ptr [0x207d876c]
+20208dce | 6a00 | PUSH 0x0
+20208dd0 | 6a00 | PUSH 0x0
+20208dd2 | 6a00 | PUSH 0x0
+20208dd4 | 8d4c2418 | LEA ECX,[ESP + 0x18]
+20208dd8 | ff1570877d20 | CALL dword ptr [0x207d8770]
+20208dde | 8b4c2428 | MOV ECX,dword ptr [ESP + 0x28]
+20208de2 | 8b11 | MOV EDX,dword ptr [ECX]
+20208de4 | 8b02 | MOV EAX,dword ptr [EDX]
+20208de6 | ffd0 | CALL EAX
+20208de8 | 8b10 | MOV EDX,dword ptr [EAX]
+20208dea | 8b5254 | MOV EDX,dword ptr [EDX + 0x54]
+20208ded | 6a00 | PUSH 0x0
+20208def | 8d4c2410 | LEA ECX,[ESP + 0x10]
+20208df3 | 51 | PUSH ECX
+20208df4 | 8b4c2438 | MOV ECX,dword ptr [ESP + 0x38]
+20208df8 | 51 | PUSH ECX
+20208df9 | 8b4c2438 | MOV ECX,dword ptr [ESP + 0x38]
+20208dfd | 51 | PUSH ECX
+20208dfe | 8bc8 | MOV ECX,EAX
+20208e00 | ffd2 | CALL EDX
+20208e02 | 8d4c240c | LEA ECX,[ESP + 0xc]
+20208e06 | ff1574877d20 | CALL dword ptr [0x207d8774]
+20208e0c | 57 | PUSH EDI
+20208e0d | ffd3 | CALL EBX
+20208e0f | 8bc8 | MOV ECX,EAX
+20208e11 | ff15dc887d20 | CALL dword ptr [0x207d88dc]
+20208e17 | 5f | POP EDI
+20208e18 | 5e | POP ESI
+20208e19 | 5b | POP EBX
+20208e1a | 83c414 | ADD ESP,0x14
+20208e1d | c21400 | RET 0x14

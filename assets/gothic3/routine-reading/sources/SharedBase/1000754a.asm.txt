@@ -1,0 +1,4 @@
+; 1000754a ?GetSize@bCMemoryStream@@UBE_JXZ
+1000754a | e921820100 | JMP 0x1001f770
+; 1000754f bCStretch::Intersects
+; 1000754f Ordinal_3436

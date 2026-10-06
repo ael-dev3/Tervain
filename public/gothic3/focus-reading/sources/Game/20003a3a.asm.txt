@@ -1,0 +1,2 @@
+; 20003a3a gCFocus_PS::FindFocusEntity
+20003a3a | e9e19f1300 | JMP 0x2013da20

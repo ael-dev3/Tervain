@@ -1,0 +1,40 @@
+/* ENTRY 100010e1 | new | STATUS decompiled | 13 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+/* __stdcall new,8 */
+
+void * new(uint param_1)
+
+{
+  void *pvVar1;
+  bCErrorAdmin *this;
+  char *pcVar2;
+  char *pcVar3;
+  char *pcVar4;
+  int iVar5;
+  
+                    /* 0x10e1  4805  _new@8 */
+  if ((_DAT_101427a4 & 1) == 0) {
+    _DAT_101427a4 = _DAT_101427a4 | 1;
+    if (DAT_1014279d == '\0') {
+      DAT_1014279d = '\x01';
+      bCMemoryAdmin::ms_bInitialized = true;
+    }
+    DAT_101427a1 = 1;
+    DAT_101427a0 = 0;
+    _atexit((_func_4879 *)&LAB_100e2710);
+  }
+  pvVar1 = MemHeap::Alloc(param_1);
+  if (pvVar1 == (void *)0x0) {
+    _sprintf(&DAT_101427a8,&DAT_100e69d8);
+    iVar5 = 0x14e;
+    pcVar4 = ".\\kernel\\ge_basemem.cpp";
+    pcVar3 = "Critical memory error";
+    pcVar2 = &DAT_101427a8;
+    this = bCErrorAdmin::GetInstance();
+    bCErrorAdmin::CallFatalError(this,pcVar2,pcVar3,pcVar4,iVar5);
+  }
+  return pvVar1;
+}
+
+

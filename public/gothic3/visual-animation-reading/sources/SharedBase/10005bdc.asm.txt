@@ -1,0 +1,2 @@
+; 10005bdc bCString::Replace
+10005bdc | e9dff30000 | JMP 0x10014fc0

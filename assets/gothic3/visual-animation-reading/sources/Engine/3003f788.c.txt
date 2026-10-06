@@ -1,0 +1,40 @@
+/* ENTRY 3003f788 | eCVisualAnimation_PS::RelinkLookAtConstraints | STATUS decompiled | 14 ms */
+
+/* public: bool __thiscall eCVisualAnimation_PS::RelinkLookAtConstraints(void) */
+
+bool __thiscall eCVisualAnimation_PS::RelinkLookAtConstraints(eCVisualAnimation_PS *this)
+
+{
+  int iVar1;
+  GetVersion *pGVar2;
+  eCWrapper_emfx2Actor *peVar3;
+  int iVar4;
+  int iStack_4;
+  
+                    /* 0x3f788  12424  ?RelinkLookAtConstraints@eCVisualAnimation_PS@@QAE_NXZ */
+  iVar1 = *(int *)&this[0xb].eCEntityPropertySet_data;
+  iVar4 = 0;
+  if (0 < iVar1) {
+    do {
+      pGVar2 = (&(this[0xb].vftablePtr)->GetVersion)[iVar4];
+      if ((*(int *)pGVar2 != 0) &&
+         (peVar3 = eCVisualAnimationFactory::GetAssembledActor
+                             ((eCVisualAnimationFactory *)(*(int *)(pGVar2 + 4) + 0x94)),
+         peVar3 != (eCWrapper_emfx2Actor *)0x0)) {
+        eCVisualAnimationFactory::GetAssembledActor
+                  ((eCVisualAnimationFactory *)(*(int *)(pGVar2 + 4) + 0x94));
+        iStack_4 = *(int *)pGVar2;
+        thunk_FUN_300ac4f0(&iStack_4);
+        if (*(undefined4 **)pGVar2 != (undefined4 *)0x0) {
+          (**(code **)**(undefined4 **)pGVar2)(1);
+        }
+        *(int *)pGVar2 = 0;
+      }
+      iVar4 = iVar4 + 1;
+      *(int *)(pGVar2 + 0xc) = 0;
+    } while (iVar4 < iVar1);
+  }
+  return true;
+}
+
+

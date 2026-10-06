@@ -1,0 +1,4 @@
+; 10004007 ?SetDexterity@PSPlayerMemory@@QAEXH@Z
+10004007 | e9145d0200 | JMP 0x10029d20
+; 1000400c PSEnclave::PropertySwitched::operator=
+; 1000400c Ordinal_698

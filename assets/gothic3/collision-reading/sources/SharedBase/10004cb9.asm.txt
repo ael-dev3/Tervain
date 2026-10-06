@@ -1,0 +1,4 @@
+; 10004cb9 ?Merge@bCOrientedBox@@QAEXABV1@@Z
+10004cb9 | e912450600 | JMP 0x100691d0
+; 10004cbe bCOrientedBox::operator/=
+; 10004cbe Ordinal_1297

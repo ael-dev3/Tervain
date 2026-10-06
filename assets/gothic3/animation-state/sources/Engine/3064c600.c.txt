@@ -1,0 +1,62 @@
+/* ENTRY 3064c600 | EMotionFX::PlayModeForward::vfunction4 | STATUS decompiled | 20 ms */
+
+void __thiscall EMotionFX::PlayModeForward::vfunction4(PlayModeForward *this,double param_1)
+
+{
+  float fVar1;
+  int *piVar2;
+  int iVar3;
+  int iVar4;
+  float10 fVar5;
+  int iVar6;
+  float10 fVar7;
+  float10 fVar8;
+  float10 fVar9;
+  
+  piVar2 = (int *)(this->PlayMode_data).offset_0x0;
+  if (piVar2 == (int *)0x0) {
+    return;
+  }
+  iVar6 = (**(code **)(*piVar2 + 0x18))();
+  fVar1 = *(float *)(iVar6 + 0x14);
+  fVar7 = (float10)fVar1;
+  iVar6 = (this->PlayMode_data).offset_0x0;
+  iVar3 = *(int *)(iVar6 + 0x34);
+  if ((float10)0 == fVar7) {
+    fVar7 = (float10)9.999999747378752e-06;
+    fVar1 = (float)fVar7;
+  }
+  iVar4 = (this->PlayMode_data).offset_0x0;
+  fVar8 = (float10)*(float *)(iVar4 + 0x20) * (float10)param_1;
+  fVar9 = fVar8 + (float10)*(double *)(iVar6 + 8);
+  iVar6 = iVar3;
+  if (*(int *)(iVar4 + 0x38) == -1) {
+    if (fVar7 < fVar9) {
+      iVar6 = iVar3 + 1;
+      fVar9 = (float10)FUN_3067456a();
+      fVar7 = (float10)fVar1;
+    }
+    for (; fVar5 = fVar9, fVar9 < (float10)0; fVar9 = fVar9 + fVar7) {
+    }
+  }
+  else {
+    if (fVar7 < fVar9) {
+      iVar6 = *(int *)(iVar4 + 0x38);
+      fVar9 = fVar7;
+      if (iVar3 + 1 < iVar6) {
+        fVar9 = (float10)FUN_3067456a();
+        iVar6 = iVar3 + 1;
+      }
+    }
+    fVar5 = (float10)0;
+    if ((float10)0 <= fVar9) goto LAB_3064c6b8;
+  }
+  fVar9 = fVar5;
+LAB_3064c6b8:
+  *(double *)((this->PlayMode_data).offset_0x0 + 8) = (double)fVar9;
+  *(double *)((this->PlayMode_data).offset_0x0 + 0x10) = (double)fVar8;
+  *(int *)((this->PlayMode_data).offset_0x0 + 0x34) = iVar6;
+  return;
+}
+
+

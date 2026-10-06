@@ -1,0 +1,12 @@
+/* ENTRY 2001ab0e | gCCharacterControl_PS::GetVersion | STATUS decompiled | 7 ms */
+
+/* public: virtual unsigned short __thiscall gCCharacterControl_PS::GetVersion(void)const  */
+
+ushort __thiscall gCCharacterControl_PS::GetVersion(gCCharacterControl_PS *this)
+
+{
+                    /* 0x1ab0e  4679  ?GetVersion@gCCharacterControl_PS@@UBEGXZ */
+  return 2;
+}
+
+

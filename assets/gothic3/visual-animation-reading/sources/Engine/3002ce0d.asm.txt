@@ -1,0 +1,2 @@
+; 3002ce0d eCVisualAnimation_PS::ClearOnceAttachments
+3002ce0d | e98e300700 | JMP 0x3009fea0

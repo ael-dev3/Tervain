@@ -1,0 +1,11 @@
+/* ENTRY 2016c170 | FUN_2016c170 | STATUS decompiled | 23 ms */
+
+void FUN_2016c170(int param_1)
+
+{
+  thunk_FUN_20190720(&DAT_207ba144 + param_1 * 4);
+  thunk_FUN_20189ad0(param_1);
+  return;
+}
+
+

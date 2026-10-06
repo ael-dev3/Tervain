@@ -1,0 +1,11 @@
+/* ENTRY 30385180 | FUN_30385180 | STATUS decompiled | 4 ms */
+
+undefined4 __thiscall FUN_30385180(bCObjectRefBase *param_1,bCOStream *param_2)
+
+{
+  bCOStream::operator<<(param_2,0x27);
+  bCObjectRefBase::Write(param_1,(bCOStream *)param_2);
+  return 1;
+}
+
+

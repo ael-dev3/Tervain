@@ -1,0 +1,11 @@
+/* ENTRY 30674edd | std::bad_cast::bad_cast | STATUS decompiled | 5 ms */
+
+bad_cast * __thiscall std::bad_cast::bad_cast(bad_cast *this)
+
+{
+  exception::exception((exception *)this,(char **)&stack0x00000004);
+  this->vftablePtr = &vftable;
+  return this;
+}
+
+

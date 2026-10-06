@@ -1,0 +1,17 @@
+/* ENTRY 20160f10 | gCHUDViewItem2::gCHUDViewItem2 | STATUS decompiled | 20 ms */
+
+gCHUDViewItem2 * __thiscall gCHUDViewItem2::gCHUDViewItem2(gCHUDViewItem2 *this)
+
+{
+  gCHUDPageView::gCHUDPageView((gCHUDPageView *)this);
+  this->vftablePtr = &vftable;
+  gCHUDStaticInvIcon::gCHUDStaticInvIcon
+            ((gCHUDStaticInvIcon *)&(this->gCHUDViewItem2_data).field_0xc);
+  gCHUDLabel::gCHUDLabel((gCHUDLabel *)&(this->gCHUDViewItem2_data).field_0x1c);
+  gCHUDLabel::gCHUDLabel((gCHUDLabel *)&(this->gCHUDViewItem2_data).field_0x2c);
+  gCHUDTableStackStats::gCHUDTableStackStats
+            ((gCHUDTableStackStats *)&(this->gCHUDViewItem2_data).field_0x3c);
+  return this;
+}
+
+

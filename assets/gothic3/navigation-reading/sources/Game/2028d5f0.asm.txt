@@ -1,0 +1,5 @@
+; 2028d5f0 bTPropertyType<gCNavigation_PS,bCVector>::vfunction7
+2028d5f0 | 33c0 | XOR EAX,EAX
+2028d5f2 | 394120 | CMP dword ptr [ECX + 0x20],EAX
+2028d5f5 | 0f95c0 | SETNZ AL
+2028d5f8 | c3 | RET

@@ -1,0 +1,25 @@
+/* ENTRY 100011ea | Entity::GetPlayer | STATUS decompiled | 12 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+/* public: static class Entity __stdcall Entity::GetPlayer(void) */
+
+Entity * Entity::GetPlayer(void)
+
+{
+  gCSession *this;
+  eCDynamicEntity *peVar1;
+  Entity *in_stack_00000004;
+  Entity aEStack_a8 [168];
+  
+                    /* 0x11ea  1622  ?GetPlayer@Entity@@SG?AV1@XZ */
+  if (_ms_Player == 0) {
+    this = (gCSession *)thunk_FUN_10039100();
+    peVar1 = gCSession::GetPlayer(this);
+    Entity(aEStack_a8,(eCEntity *)peVar1);
+    CopyFrom(&ms_Player,aEStack_a8);
+  }
+  Entity(in_stack_00000004,&ms_Player);
+  return in_stack_00000004;
+}
+
+

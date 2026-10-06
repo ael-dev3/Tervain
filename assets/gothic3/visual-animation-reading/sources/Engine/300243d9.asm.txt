@@ -1,0 +1,2 @@
+; 300243d9 eCSpringAndDamperEffector::SetSpringMaxCompressForce
+300243d9 | e9c2d20300 | JMP 0x300616a0

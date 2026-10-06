@@ -1,0 +1,22 @@
+/* ENTRY 201618a0 | gCHUDViewRecipe2::gCHUDViewRecipe2 | STATUS decompiled | 54 ms */
+
+gCHUDViewRecipe2 * __thiscall gCHUDViewRecipe2::gCHUDViewRecipe2(gCHUDViewRecipe2 *this)
+
+{
+  gCHUDPageView::gCHUDPageView((gCHUDPageView *)this);
+  this->vftablePtr = &vftable;
+  gCHUDLabel::gCHUDLabel((gCHUDLabel *)&(this->gCHUDViewRecipe2_data).field_0xc);
+  gCHUDLabel::gCHUDLabel((gCHUDLabel *)&(this->gCHUDViewRecipe2_data).field_0x1c);
+  gCHUDStaticInvIcon::gCHUDStaticInvIcon
+            ((gCHUDStaticInvIcon *)&(this->gCHUDViewRecipe2_data).field_0x2c);
+  gCHUDTableItemStats::gCHUDTableItemStats
+            ((gCHUDTableItemStats *)&(this->gCHUDViewRecipe2_data).field_0x3c);
+  gCHUDLabel::gCHUDLabel((gCHUDLabel *)&(this->gCHUDViewRecipe2_data).field_0x70);
+  gCHUDTableRecipeStats::gCHUDTableRecipeStats
+            ((gCHUDTableRecipeStats *)&(this->gCHUDViewRecipe2_data).field_0x80);
+  gCHUDLabel::gCHUDLabel((gCHUDLabel *)&(this->gCHUDViewRecipe2_data).field_0xbc);
+  CFFGFCStatic::CFFGFCStatic((CFFGFCStatic *)&(this->gCHUDViewRecipe2_data).field_0xcc);
+  return this;
+}
+
+

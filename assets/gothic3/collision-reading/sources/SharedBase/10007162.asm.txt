@@ -1,0 +1,2 @@
+; 10007162 ?Intersects@bCBox@@QBE_NABVbCTriangle@@@Z
+10007162 | e9f9fa0400 | JMP 0x10056c60

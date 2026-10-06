@@ -1,0 +1,2 @@
+; 2002f446 ?GetXP@gCPlayerMemory_PS@@QBEABJXZ
+2002f446 | e975b00700 | JMP 0x200aa4c0

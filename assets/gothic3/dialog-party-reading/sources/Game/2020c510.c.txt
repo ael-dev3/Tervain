@@ -1,0 +1,16 @@
+/* ENTRY 2020c510 | bTPropertyObject<gCDialog_PS,eCEntityPropertySet>::vfunction4 | STATUS decompiled | 3 ms */
+
+void __thiscall
+bTPropertyObject<gCDialog_PS,eCEntityPropertySet>::vfunction4
+          (bTPropertyObject<gCDialog_PS,eCEntityPropertySet> *this)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x2020c513. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCPropertyObjectTypeBase::GetDescription
+            ((bCPropertyObjectTypeBase *)
+             (this->bTPropertyObject<gCDialog_PS,eCEntityPropertySet>_data).offset_0x0);
+  return;
+}
+
+

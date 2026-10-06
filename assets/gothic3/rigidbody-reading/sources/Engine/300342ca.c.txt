@@ -1,0 +1,12 @@
+/* ENTRY 300342ca | eCRigidBody_PS::IsEditorRelevant | STATUS decompiled | 56 ms */
+
+/* public: virtual bool __thiscall eCRigidBody_PS::IsEditorRelevant(void)const  */
+
+bool __thiscall eCRigidBody_PS::IsEditorRelevant(eCRigidBody_PS *this)
+
+{
+                    /* 0x342ca  10344  ?IsEditorRelevant@eCRigidBody_PS@@UBE_NXZ */
+  return true;
+}
+
+

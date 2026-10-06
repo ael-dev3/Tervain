@@ -1,0 +1,25 @@
+/* ENTRY 3002d13c | eCCollisionShape_PS::~eCCollisionShape_PS | STATUS decompiled | 934 ms */
+
+/* public: virtual __thiscall eCCollisionShape_PS::~eCCollisionShape_PS(void) */
+
+void __thiscall eCCollisionShape_PS::~eCCollisionShape_PS(eCCollisionShape_PS *this)
+
+{
+  undefined ***this_00;
+  
+                    /* 0x2d13c  1020  ??1eCCollisionShape_PS@@UAE@XZ */
+  this->vftablePtr = &vftable;
+  bCString::~bCString((bCString *)&(this->eCCollisionShape_PS_data).field_0x34);
+  thunk_FUN_3033c8e0();
+  thunk_FUN_3033c8e0();
+  this_00 = &(this->eCCollisionShape_PS_data).offset_0x8;
+  *this_00 = &bTPropertyContainer<eEPhysicRangeType>::vftable.GetVersion;
+  bCObjectBase::~bCObjectBase((bCObjectBase *)this_00);
+  (this->eCCollisionShape_PS_data).offset_0x0 =
+       &bTPropertyContainer<eECollisionGroup>::vftable.GetVersion;
+  bCObjectBase::~bCObjectBase((bCObjectBase *)&this->eCCollisionShape_PS_data);
+  eCCollisionShapeBase_PS::~eCCollisionShapeBase_PS((eCCollisionShapeBase_PS *)this);
+  return;
+}
+
+

@@ -1,0 +1,11 @@
+; 2018ffd0 gCHUDStaticCompass::gCHUDStaticCompass
+2018ffd0 | 56 | PUSH ESI
+2018ffd1 | 8bf1 | MOV ESI,ECX
+2018ffd3 | ff1514797d20 | CALL dword ptr [0x207d7914]
+2018ffd9 | 8d4e10 | LEA ECX,[ESI + 0x10]
+2018ffdc | c7060c956720 | MOV dword ptr [ESI],0x2067950c
+2018ffe2 | ff15b0787d20 | CALL dword ptr [0x207d78b0]
+2018ffe8 | c7461800000000 | MOV dword ptr [ESI + 0x18],0x0
+2018ffef | 8bc6 | MOV EAX,ESI
+2018fff1 | 5e | POP ESI
+2018fff2 | c3 | RET

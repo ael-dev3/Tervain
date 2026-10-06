@@ -1,0 +1,2 @@
+; 20004f0c ??0gCEntity@@IAE@XZ
+20004f0c | e9af6e1200 | JMP 0x2012bdc0

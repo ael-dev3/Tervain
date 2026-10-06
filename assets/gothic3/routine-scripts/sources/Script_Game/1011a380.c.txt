@@ -1,0 +1,17 @@
+/* ENTRY 1011a380 | FUN_1011a380 | STATUS decompiled | 6 ms */
+
+void FUN_1011a380(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Tasks\\Reaction_Tasks\\ZS_ReactToWeapon.cpp");
+  bCString::bCString(local_8,"OnReactToWeapon");
+  thunk_FUN_1001da70(local_8,&LAB_10001bef,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

@@ -1,0 +1,2 @@
+; 3004403a eCVisualAnimation_PS::eSMotionDesc::operator>>
+3004403a | e941930500 | JMP 0x3009d380

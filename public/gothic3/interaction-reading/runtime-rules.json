@@ -1,0 +1,173 @@
+{
+  "schema": "gothic3-interaction-reading-rules-v1",
+  "inputs": {
+    "SharedBase": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214",
+    "Engine": "d49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3",
+    "Game": "b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f"
+  },
+  "nativeBytes": 224,
+  "getVersion": 84,
+  "propertyType": 49,
+  "nativeVtable": "206ab484",
+  "wrapperVtable": "206ab62c",
+  "fields": [
+    {
+      "name": "FocusPriority",
+      "typeName": "bTPropertyContainer<enum gEFocusPriority>",
+      "nativeOffset": 20,
+      "registrar": "Game:20532fe0",
+      "reader": "Game:2002969f",
+      "defaultInitializer": "Game:20029582"
+    },
+    {
+      "name": "Owner",
+      "typeName": "eCEntityProxy",
+      "nativeOffset": 28,
+      "registrar": "Game:20533190",
+      "reader": "Game:2002137d",
+      "defaultInitializer": "Game:2002d53d"
+    },
+    {
+      "name": "User",
+      "typeName": "eCEntityProxy",
+      "nativeOffset": 56,
+      "registrar": "Game:20533280",
+      "reader": "Game:2002137d",
+      "defaultInitializer": "Game:2002d53d"
+    },
+    {
+      "name": "UseType",
+      "typeName": "bTPropertyContainer<enum gEUseType>",
+      "nativeOffset": 84,
+      "registrar": "Game:20533370",
+      "reader": "Game:20035481",
+      "defaultInitializer": "Game:2001862e"
+    },
+    {
+      "name": "ScriptUseFunc",
+      "typeName": "bCString",
+      "nativeOffset": 92,
+      "registrar": "Game:20533460",
+      "reader": "Game:200350e9",
+      "defaultInitializer": "Game:2002364b"
+    },
+    {
+      "name": "AnchorPoint",
+      "typeName": "eCEntityProxy",
+      "nativeOffset": 96,
+      "registrar": "Game:20533550",
+      "reader": "Game:2002137d",
+      "defaultInitializer": "Game:2002d53d"
+    },
+    {
+      "name": "FocusNameType",
+      "typeName": "bTPropertyContainer<enum gEFocusNameType>",
+      "nativeOffset": 124,
+      "registrar": "Game:20533640",
+      "reader": "Game:20032538",
+      "defaultInitializer": "Game:20020563"
+    },
+    {
+      "name": "FocusNameBone",
+      "typeName": "bCString",
+      "nativeOffset": 132,
+      "registrar": "Game:20533730",
+      "reader": "Game:200350e9",
+      "defaultInitializer": "Game:2002364b"
+    },
+    {
+      "name": "FocusViewOffset",
+      "typeName": "bCVector",
+      "nativeOffset": 136,
+      "registrar": "Game:20533820",
+      "reader": "Game:2003419e",
+      "defaultInitializer": "Game:20018cff"
+    },
+    {
+      "name": "FocusWorldOffset",
+      "typeName": "bCVector",
+      "nativeOffset": 148,
+      "registrar": "Game:20533910",
+      "reader": "Game:2003419e",
+      "defaultInitializer": "Game:20018cff"
+    },
+    {
+      "name": "UsedByPlayer",
+      "typeName": "bool",
+      "nativeOffset": 160,
+      "registrar": "Game:20533a00",
+      "reader": "Game:2001523f",
+      "defaultInitializer": "Game:20022c96"
+    },
+    {
+      "name": "EnterROIScript",
+      "typeName": "bCString",
+      "nativeOffset": 164,
+      "registrar": "Game:20533af0",
+      "reader": "Game:200350e9",
+      "defaultInitializer": "Game:2002364b"
+    },
+    {
+      "name": "ExitROIScript",
+      "typeName": "bCString",
+      "nativeOffset": 168,
+      "registrar": "Game:20533be0",
+      "reader": "Game:200350e9",
+      "defaultInitializer": "Game:2002364b"
+    },
+    {
+      "name": "Spell",
+      "typeName": "eCTemplateEntityProxy",
+      "nativeOffset": 172,
+      "registrar": "Game:20533cd0",
+      "reader": "Game:2002ee56",
+      "defaultInitializer": "Game:2002be09"
+    }
+  ],
+  "enumGlobals": {
+    "FocusPriority": "207b61a8",
+    "UseType": "207cef3c",
+    "FocusNameType": "207b61ac"
+  },
+  "containerVtables": {
+    "FocusPriority": "2065e1a4",
+    "UseType": "206ab294",
+    "FocusNameType": "2065e1f4"
+  },
+  "sourceHero": {
+    "index": 9,
+    "archive": "Projects_compiled.p00",
+    "path": "G3_World_01/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}.lrentdat",
+    "sha256": "28f7273b3d54415b84445651a3dfa962c1ff158e9183deba81ba47e4d5d57938",
+    "packetOffset": 1187834,
+    "packetBytes": 236,
+    "packetSha256": "0551364e20ce1d23f4f52a8ec4eff3de788bc7dcbe3724bc89dd6fa72ce9de44",
+    "stringTableBoundary": 80040256,
+    "stringTableIndependentlyDecoded": true,
+    "genome": {
+      "version": 1,
+      "stringTableMarker": 1
+    }
+  },
+  "sources": {
+    "allocate": "Game:20407b70",
+    "attach": "Game:20404f00",
+    "wrapperRead": "Game:204067f0",
+    "dataRead": "Game:2040e680"
+  },
+  "profile": {
+    "freshWrapper": true,
+    "successfulAllocations": true,
+    "indexedArchiveStream": true,
+    "nativeRead": "ushort version ignored, return1",
+    "proxyReaders": "source current version1; native canonical bool; current absent proxies do not resolve entities",
+    "CString": "actual NULL/allocated buffer ownership via indexed/literal assignment capabilities",
+    "callbacks": "inherited empty PostRead/Process; Added/Removed require real NavigationAdmin on non-template cast; ROI script/admin operations stay explicit boundaries"
+  },
+  "unresolved": [
+    "last-reference destruction/delete and repeat Read/CopyFrom",
+    "actual CString indexed/literal buffer ownership and freeing supplied by host",
+    "navigation registry and runtime ROI/script/application services; no implicit world residency",
+    "savegame/legacy/custom-patch and complete interaction/focus behavior"
+  ]
+}

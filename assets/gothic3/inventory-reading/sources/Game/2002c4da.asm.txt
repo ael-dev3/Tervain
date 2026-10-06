@@ -1,0 +1,2 @@
+; 2002c4da bTPOPureSmartPtr<gCInventorySlot>::vfunction11
+2002c4da | e9b1781900 | JMP 0x201c3d90

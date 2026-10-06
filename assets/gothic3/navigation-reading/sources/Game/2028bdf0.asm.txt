@@ -1,0 +1,9 @@
+; 2028bdf0 bTPropertyType<gCNavigation_PS,eCEntityProxy>::vfunction20
+2028bdf0 | 56 | PUSH ESI
+2028bdf1 | 8bf1 | MOV ESI,ECX
+2028bdf3 | ff15d8877d20 | CALL dword ptr [0x207d87d8]
+2028bdf9 | 8b4e18 | MOV ECX,dword ptr [ESI + 0x18]
+2028bdfc | 56 | PUSH ESI
+2028bdfd | ff15cc877d20 | CALL dword ptr [0x207d87cc]
+2028be03 | 5e | POP ESI
+2028be04 | c3 | RET

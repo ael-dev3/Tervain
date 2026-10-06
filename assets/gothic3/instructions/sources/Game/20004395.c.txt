@@ -1,0 +1,49 @@
+/* ENTRY 20004395 | gCScriptProcessingUnit::GetWorldTime | STATUS decompiled | 24 ms */
+
+/* public: float __thiscall gCScriptProcessingUnit::GetWorldTime(void) */
+
+float __thiscall gCScriptProcessingUnit::GetWorldTime(gCScriptProcessingUnit *this)
+
+{
+  undefined1 *this_00;
+  float fVar1;
+  float fVar2;
+  eCEntity *peVar3;
+  eCSceneAdmin *this_01;
+  int iVar4;
+  bCString *pbVar5;
+  float fStack_8;
+  bCString abStack_4 [4];
+  
+                    /* 0x4395  4785  ?GetWorldTime@gCScriptProcessingUnit@@QAEMXZ */
+  this_00 = &(this->gCScriptProcessingUnit_data).field_0x168;
+  fStack_8 = 0.0;
+  peVar3 = eCEntityProxy::GetEntity((eCEntityProxy *)this_00);
+  if (peVar3 == (eCEntity *)0x0) {
+    bCString::bCString(abStack_4,"World_MCP");
+    pbVar5 = abStack_4;
+    this_01 = (eCSceneAdmin *)thunk_FUN_200ae8e0();
+    peVar3 = eCSceneAdmin::GetEntityByName(this_01,pbVar5);
+    eCEntityProxy::SetEntity((eCEntityProxy *)this_00,peVar3);
+    bCString::~bCString(abStack_4);
+  }
+  peVar3 = eCEntityProxy::GetEntity((eCEntityProxy *)this_00);
+  if (peVar3 != (eCEntity *)0x0) {
+    peVar3 = eCEntityProxy::GetEntity((eCEntityProxy *)this_00);
+    iVar4 = (**(code **)(*(int *)peVar3 + 0xec))(0x20);
+    if (iVar4 != 0) {
+      fVar1 = (float)*(int *)(iVar4 + 0x20);
+      if (*(int *)(iVar4 + 0x20) < 0) {
+        fVar1 = fVar1 + 4.2949673e+09;
+      }
+      fVar2 = (float)*(int *)(iVar4 + 0x1c);
+      if (*(int *)(iVar4 + 0x1c) < 0) {
+        fVar2 = fVar2 + 4.2949673e+09;
+      }
+      fStack_8 = fVar2 + fVar1 * 0.01 + 0.0001;
+    }
+  }
+  return fStack_8;
+}
+
+

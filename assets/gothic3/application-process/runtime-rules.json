@@ -1,0 +1,69 @@
+{
+  "schema": "gothic3-native-application-process-rules-v1",
+  "inputs": {
+    "Engine": "d49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3",
+    "Game": "b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f",
+    "SharedBase": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214"
+  },
+  "timingPublication": "UpdateTick at successful DoRender tail; Process consumes previous stored values",
+  "onProcess": "Concrete gCGameApp inherits empty eCApplication::OnProcess",
+  "applicationOffsets": {
+    "frameMilliseconds": 1240,
+    "smoothMilliseconds": 1244,
+    "frameSeconds": 1248,
+    "scaledMilliseconds": 1252,
+    "scaledSeconds": 1256,
+    "timestamp": 1296,
+    "frameCounter": 1304,
+    "lastUpdatedCounter": 1308,
+    "smooth": 1328,
+    "paused": 1329,
+    "pauseOverride": 1330,
+    "warmup": 4161
+  },
+  "constants": {
+    "smoothVarianceDivisor": 100000.0,
+    "smoothNumeratorMultiplier": 4.0,
+    "smoothFrameWeightDivisor": 0.12500000186264515,
+    "millisecondsPerSecond": 1000.0,
+    "elapsedEpsilon": 9.999999747378752e-06,
+    "singleStepResetSentinel": -1.0,
+    "uint32Bias": 4294967296.0
+  },
+  "arithmetic": {
+    "precisionBits": [
+      24,
+      53,
+      64
+    ],
+    "rounding": "nearest-even",
+    "capturedNativeEnvironment": false,
+    "sleepConversion": "current-CW signed32 FISTP"
+  },
+  "entityAdmin": {
+    "processingEnabledOffset": 136,
+    "processingEnabledConstructor": 0,
+    "rangeCountOffset": 170,
+    "rangePointerOffset": 172,
+    "rangeUpdatesWhileDisabled": true,
+    "snapshotOrder": "copy ordered native range array; AddReference all; dispatch all; ReleaseReference all"
+  },
+  "propertyVirtualSlots": {
+    "CanBePaused": 112,
+    "GetDecayState": 236,
+    "OnProcess": 288,
+    "OnPreProcess": 292,
+    "OnPostProcess": 296
+  },
+  "remainingDependencies": [
+    "Actual live sector residency/context/cache-in/PVS and native ordered processing-range membership.",
+    "The original EntityAdmin ROI/hysteresis/dirty update and exit/enter queues before the supported dispatch tail.",
+    "Render tail reachability and native renderer early-return state; browser graphics are a separate implementation.",
+    "Original Win32 timer source and Sleep scheduling/FPU control word; host/profile selection is explicit.",
+    "Physics object processing, actual subclass/PS virtual overrides, refcount destruction and native SEH.",
+    "Clock weather/music/ambient consumer implementations and actual ScriptAdmin/SPU owner registries.",
+    "CreateEngine uses actual concrete OnInitializeEngine eSSetupEngine byte+0xc6 for EnableProcessing; setup construction remains a host boundary."
+  ],
+  "nativeCodeExecuted": false,
+  "testsExecuted": false
+}

@@ -1,0 +1,35 @@
+/* ENTRY 2001ae97 | gCSession::Resume | STATUS decompiled | 31 ms */
+
+/* public: void __thiscall gCSession::Resume(void) */
+
+void __thiscall gCSession::Resume(gCSession *this)
+
+{
+  gCSession *pgVar1;
+  gCWorld *this_00;
+  eCEntity *peVar2;
+  gCClock_PS *this_01;
+  eCApplication *this_02;
+  bool bVar3;
+  
+                    /* 0x1ae97  6142  ?Resume@gCSession@@QAEXXZ */
+  if (((byte)(this->gCSession_data).offset_0xcc & 1) != 0) {
+    this_00 = (gCWorld *)(this->gCSession_data).offset_0xc4;
+    if (this_00 != (gCWorld *)0x0) {
+      peVar2 = gCWorld::GetWorldEntity(this_00);
+      if (peVar2 != (eCEntity *)0x0) {
+        peVar2 = gCWorld::GetWorldEntity((gCWorld *)(this->gCSession_data).offset_0xc4);
+        this_01 = (gCClock_PS *)(**(code **)(*(int *)peVar2 + 0xec))(0x20);
+        gCClock_PS::ResumeClock(this_01);
+      }
+    }
+    pgVar1 = &(this->gCSession_data).offset_0xcc;
+    *pgVar1 = (gCSession)((byte)*pgVar1 & 0xfe);
+    bVar3 = false;
+    this_02 = eCApplication::GetInstance();
+    eCApplication::SetPaused((eCApplication *)this_02,bVar3);
+  }
+  return;
+}
+
+

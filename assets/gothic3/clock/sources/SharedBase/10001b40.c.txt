@@ -1,0 +1,14 @@
+/* ENTRY 10001b40 | bCClock::Pause | STATUS decompiled | 2 ms */
+
+/* public: void __thiscall bCClock::Pause(void) */
+
+void __thiscall bCClock::Pause(bCClock *this)
+
+{
+                    /* 0x1b40  3828  ?Pause@bCClock@@QAEXXZ */
+  this[0x20] = (bCClock)0x1;
+  *(undefined4 *)(this + 0x1c) = 0xbf800000;
+  return;
+}
+
+

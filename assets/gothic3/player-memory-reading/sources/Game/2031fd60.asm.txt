@@ -1,0 +1,34 @@
+; 2031fd60 bTPropertyObject<gCPlayerMemory_PS,eCEntityPropertySet>::vfunction10
+2031fd60 | 56 | PUSH ESI
+2031fd61 | 8bf1 | MOV ESI,ECX
+2031fd63 | 8b4e0c | MOV ECX,dword ptr [ESI + 0xc]
+2031fd66 | 8b01 | MOV EAX,dword ptr [ECX]
+2031fd68 | 8b500c | MOV EDX,dword ptr [EAX + 0xc]
+2031fd6b | 57 | PUSH EDI
+2031fd6c | 56 | PUSH ESI
+2031fd6d | ffd2 | CALL EDX
+2031fd6f | 8bc8 | MOV ECX,EAX
+2031fd71 | ff1580877d20 | CALL dword ptr [0x207d8780]
+2031fd77 | 8b4e08 | MOV ECX,dword ptr [ESI + 0x8]
+2031fd7a | 85c9 | TEST ECX,ECX
+2031fd7c | 7415 | JZ 0x2031fd93
+2031fd7e | ff15c0877d20 | CALL dword ptr [0x207d87c0]
+2031fd84 | 83f801 | CMP EAX,0x1
+2031fd87 | 750a | JNZ 0x2031fd93
+2031fd89 | 8b4e08 | MOV ECX,dword ptr [ESI + 0x8]
+2031fd8c | 8b01 | MOV EAX,dword ptr [ECX]
+2031fd8e | 8b5014 | MOV EDX,dword ptr [EAX + 0x14]
+2031fd91 | ffd2 | CALL EDX
+2031fd93 | 8b7e08 | MOV EDI,dword ptr [ESI + 0x8]
+2031fd96 | 85ff | TEST EDI,EDI
+2031fd98 | 7412 | JZ 0x2031fdac
+2031fd9a | 6a00 | PUSH 0x0
+2031fd9c | 8bcf | MOV ECX,EDI
+2031fd9e | ff15c4877d20 | CALL dword ptr [0x207d87c4]
+2031fda4 | 8bcf | MOV ECX,EDI
+2031fda6 | ff15c8877d20 | CALL dword ptr [0x207d87c8]
+2031fdac | 5f | POP EDI
+2031fdad | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+2031fdb4 | 8bce | MOV ECX,ESI
+2031fdb6 | 5e | POP ESI
+2031fdb7 | ff2584877d20 | JMP dword ptr [0x207d8784]

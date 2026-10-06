@@ -1,0 +1,13 @@
+; 20207fb0 FUN_20207fb0
+20207fb0 | 8b411c | MOV EAX,dword ptr [ECX + 0x1c]
+20207fb3 | 8bd0 | MOV EDX,EAX
+20207fb5 | c1e204 | SHL EDX,0x4
+20207fb8 | 2bd0 | SUB EDX,EAX
+20207fba | 8b4120 | MOV EAX,dword ptr [ECX + 0x20]
+20207fbd | 8d0490 | LEA EAX,[EAX + EDX*0x4]
+20207fc0 | 8bd0 | MOV EDX,EAX
+20207fc2 | c1e204 | SHL EDX,0x4
+20207fc5 | 2bd0 | SUB EDX,EAX
+20207fc7 | 8b4124 | MOV EAX,dword ptr [ECX + 0x24]
+20207fca | 8d0490 | LEA EAX,[EAX + EDX*0x4]
+20207fcd | c3 | RET

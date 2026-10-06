@@ -1,0 +1,4 @@
+; 30009426 bTPropertyType<eCCollisionShape,unsigned_short>::vfunction5
+30009426 | e995823500 | JMP 0x303616c0
+; 30009430 eCGfxGaugeAdmin::sAddPolys
+; 30009430 Ordinal_16525

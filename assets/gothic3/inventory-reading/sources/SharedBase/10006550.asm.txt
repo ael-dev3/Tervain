@@ -1,0 +1,4 @@
+; 10006550 ?SetText@bCString@@QAEXABV1@@Z
+10006550 | e9ebe00000 | JMP 0x10014640
+; 1000655a bCFlexibleVertexFormat::EnableRHW
+; 1000655a Ordinal_2000

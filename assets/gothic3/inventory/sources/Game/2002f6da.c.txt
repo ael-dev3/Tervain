@@ -1,0 +1,14 @@
+/* ENTRY 2002f6da | gCInventoryStack::GetType | STATUS decompiled | 2 ms */
+
+/* public: class bTPropertyContainer<enum gEStackType> const & __thiscall
+   gCInventoryStack::GetType(void)const  */
+
+bTPropertyContainer<gEStackType> * __thiscall gCInventoryStack::GetType(gCInventoryStack *this)
+
+{
+                    /* 0x2f6da  4642
+                       ?GetType@gCInventoryStack@@QBEABV?$bTPropertyContainer@W4gEStackType@@@@XZ */
+  return (bTPropertyContainer<gEStackType> *)&(this->gCInventoryStack_data).offset_0x10;
+}
+
+

@@ -1,0 +1,12 @@
+/* ENTRY 2000c2e8 | gCParty_PS::SupportsRenderDebugOutput | STATUS decompiled | 11 ms */
+
+/* public: virtual bool __thiscall gCParty_PS::SupportsRenderDebugOutput(void)const  */
+
+bool __thiscall gCParty_PS::SupportsRenderDebugOutput(gCParty_PS *this)
+
+{
+                    /* 0xc2e8  7331  ?SupportsRenderDebugOutput@gCParty_PS@@UBE_NXZ */
+  return true;
+}
+
+

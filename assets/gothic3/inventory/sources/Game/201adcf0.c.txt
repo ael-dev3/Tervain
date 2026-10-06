@@ -1,0 +1,29 @@
+/* ENTRY 201adcf0 | FUN_201adcf0 | STATUS decompiled | 15 ms */
+
+int __thiscall FUN_201adcf0(gCInventory_PS *param_1,gESlot param_2)
+
+{
+  bool bVar1;
+  char cVar2;
+  int iVar3;
+  eCEntity *peVar4;
+  gCInventoryStack *pgVar5;
+  
+  iVar3 = FUN_2002f013(param_2);
+  bVar1 = gCInventory_PS::IsValidIndex(param_1,iVar3);
+  if (bVar1) {
+    peVar4 = (*param_1->vftablePtr->GetEntity)(param_1);
+    cVar2 = thunk_FUN_201cf6a0(iVar3,peVar4);
+    if (cVar2 != '\0') {
+      pgVar5 = gCInventory_PS::FindStack(param_1,param_2);
+      if (pgVar5 == (gCInventoryStack *)0x0) {
+        peVar4 = (*param_1->vftablePtr->GetEntity)(param_1);
+        thunk_FUN_201ce6f0(param_2,peVar4);
+      }
+      return iVar3;
+    }
+  }
+  return -1;
+}
+
+

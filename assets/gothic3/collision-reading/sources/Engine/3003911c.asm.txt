@@ -1,0 +1,4 @@
+; 3003911c bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eECollisionGroup>_>::vfunction21
+3003911c | e9cf483000 | JMP 0x3033d9f0
+; 30039121 eCIlluminated_PS::AccessCastShadows
+; 30039121 Ordinal_2542

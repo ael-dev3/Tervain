@@ -1,0 +1,2 @@
+; 3002fe78 ?GetBox@eCCollisionShape@@QAEAAVbCOrientedBox@@XZ
+3002fe78 | e9232d0900 | JMP 0x300c2ba0

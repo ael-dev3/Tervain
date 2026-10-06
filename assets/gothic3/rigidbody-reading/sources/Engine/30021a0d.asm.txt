@@ -1,0 +1,4 @@
+; 30021a0d ?IsCopyable@eCEntityPropertySet@@UBE_NXZ
+30021a0d | e94efb4500 | JMP 0x30481560
+; 30021a1c eCCollisionShape::GetDepth
+; 30021a1c Ordinal_6795

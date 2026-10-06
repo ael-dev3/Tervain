@@ -1,0 +1,4 @@
+; 3000caa4 bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeAABBAdapt>_>::vfunction20
+3000caa4 | e9a7ec3400 | JMP 0x3035b750
+; 3000caa9 eCDynamicLight_PS::OnCacheIn
+; 3000caa9 Ordinal_10908

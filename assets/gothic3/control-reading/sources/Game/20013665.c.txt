@@ -1,0 +1,18 @@
+/* ENTRY 20013665 | gCCharacterControl_PS::OnPostProcess | STATUS decompiled | 9 ms */
+
+/* protected: virtual void __thiscall gCCharacterControl_PS::OnPostProcess(void) */
+
+void __thiscall gCCharacterControl_PS::OnPostProcess(gCCharacterControl_PS *this)
+
+{
+                    /* 0x13665  5515  ?OnPostProcess@gCCharacterControl_PS@@MAEXXZ */
+  (this->gCCharacterControl_PS_data).offset_0x50 = (gCCharacterControl_PS)0x0;
+  (this->gCCharacterControl_PS_data).offset_0x54 = 0;
+  bCVector::Clear((bCVector *)&(this->gCCharacterControl_PS_data).field_0x5c);
+                    /* WARNING: Could not recover jumptable at 0x20218267. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eCEntityPropertySet::OnPostProcess((eCEntityPropertySet *)this);
+  return;
+}
+
+

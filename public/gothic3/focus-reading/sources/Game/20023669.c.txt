@@ -1,0 +1,11 @@
+/* ENTRY 20023669 | bTPropertyObject<gCFocus_PS,eCEntityPropertySet>::vfunction1 | STATUS decompiled | 3 ms */
+
+bCObjectRefBase * __thiscall
+bTPropertyObject<gCFocus_PS,eCEntityPropertySet>::vfunction1
+          (bTPropertyObject<gCFocus_PS,eCEntityPropertySet> *this)
+
+{
+  return (this->bTPOPureSmartPtr<gCFocus_PS>_data).offset_0x4;
+}
+
+

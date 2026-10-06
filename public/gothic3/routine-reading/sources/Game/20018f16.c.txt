@@ -1,0 +1,16 @@
+/* ENTRY 20018f16 | bTPropertyContainer<gEHitDirection>::vfunction5 | STATUS decompiled | 6 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<gEHitDirection>::vfunction5
+          (bTPropertyContainer<gEHitDirection> *this,bCIStream *param_1)
+
+{
+  bCIStream *pbVar1;
+  
+  pbVar1 = param_1;
+  bCIStream::operator>>(param_1,(ushort *)&param_1);
+  (**(code **)((int)*pbVar1 + 4))(&this->bTPropertyContainer<gEHitDirection>_data,4);
+  return 1;
+}
+
+

@@ -1,0 +1,20 @@
+/* ENTRY 2001ab90 | gCInventory_PS::GetStackUseType | STATUS decompiled | 11 ms */
+
+/* public: enum gEUseType __thiscall gCInventory_PS::GetStackUseType(int)const  */
+
+gEUseType __thiscall gCInventory_PS::GetStackUseType(gCInventory_PS *this,int param_1)
+
+{
+  gCInventorySlot *this_00;
+  gEUseType gVar1;
+  
+                    /* 0x1ab90  4488  ?GetStackUseType@gCInventory_PS@@QBE?AW4gEUseType@@H@Z */
+  this_00 = (gCInventorySlot *)FUN_20029be0(param_1);
+  if (this_00 != (gCInventorySlot *)0x0) {
+    gVar1 = gCInventorySlot::GetUseType(this_00);
+    return gVar1;
+  }
+  return 0;
+}
+
+

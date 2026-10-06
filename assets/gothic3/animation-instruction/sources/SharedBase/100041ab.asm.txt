@@ -1,0 +1,2 @@
+; 100041ab ?Insert@bCString@@QAEHHPBD@Z
+100041ab | e900160100 | JMP 0x100157b0

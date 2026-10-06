@@ -1,0 +1,4 @@
+; 100017fd ?GetIntelligence@PSPlayerMemory@@QBEHXZ
+100017fd | e99e830200 | JMP 0x10029ba0
+; 10001802 PSParticle::PropertyCollisionSoundProbability::operator_class_bCRange1
+; 10001802 Ordinal_930

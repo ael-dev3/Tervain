@@ -1,0 +1,51 @@
+/* ENTRY 20317d10 | FUN_20317d10 | STATUS decompiled | 19 ms */
+
+void __thiscall FUN_20317d10(int param_1,undefined4 param_2,int *param_3)
+
+{
+  bCString *pbVar1;
+  eCEntity *this;
+  bCString *pbVar2;
+  int iVar3;
+  int iVar4;
+  int unaff_retaddr;
+  int local_10;
+  int local_8;
+  int local_4;
+  
+  local_4 = *(int *)(param_1 + 0x40);
+  iVar3 = 0;
+  local_10 = 0;
+  if (0 < local_4) {
+    do {
+      this = eCEntityProxy::operator_class_eCEntity_const_(*(eCEntityProxy **)(param_1 + 0x3c));
+      iVar4 = param_3[1] + 1;
+      thunk_FUN_2011a950(iVar4,(iVar4 != 0) - 1);
+      if (iVar4 < param_3[1]) {
+        thunk_FUN_2011a9f0(*param_3 + iVar4 * 8,param_3[1] - iVar4);
+        thunk_FUN_20119d10(*param_3 + iVar4 * 8,param_3[1] - iVar4);
+        iVar3 = local_10;
+      }
+      param_3[1] = iVar4;
+      pbVar1 = (bCString *)*param_3 + iVar4 * 8 + -8;
+      bCString::Format((bCString *)*param_3,(char *)pbVar1);
+      if (this == (eCEntity *)0x0) {
+        local_10 = 1;
+        pbVar2 = (bCString *)bCString::bCString((bCString *)&local_4,"<invalid>");
+      }
+      else {
+        pbVar2 = eCEntity::GetName((eCEntity *)this);
+      }
+      bCString::operator=(pbVar1 + 4,pbVar2);
+      if (local_10 != 0) {
+        local_10 = 0;
+        bCString::~bCString((bCString *)&local_4);
+      }
+      iVar3 = iVar3 + 1;
+      param_1 = local_8;
+    } while (iVar3 < unaff_retaddr);
+  }
+  return;
+}
+
+

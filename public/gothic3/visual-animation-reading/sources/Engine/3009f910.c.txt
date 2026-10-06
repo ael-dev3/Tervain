@@ -1,0 +1,31 @@
+/* ENTRY 3009f910 | FUN_3009f910 | STATUS decompiled | 6 ms */
+
+void __thiscall FUN_3009f910(int param_1,eEMotionType param_2,eCResourceAnimationMotion_PS *param_3)
+
+{
+  int iVar1;
+  eCWrapper_emfx2Actor *peVar2;
+  eCResourceAnimationMotion_PS *peVar3;
+  eCWrapper_emfx2Actor *this;
+  float fVar4;
+  
+  peVar2 = eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)(param_1 + 0x94))
+  ;
+  if ((peVar2 != (eCWrapper_emfx2Actor *)0x0) && (param_2 < *(eEMotionType *)(param_1 + 0xec))) {
+    iVar1 = param_2 * 0xc;
+    peVar3 = eCVisualAnimation_PS::eSMotionDesc::GetMotion
+                       ((eSMotionDesc *)(*(int *)(param_1 + 0xe8) + iVar1));
+    if (peVar3 != (eCResourceAnimationMotion_PS *)0x0) {
+      fVar4 = 0.0;
+      this = (eCWrapper_emfx2Actor *)
+             eCVisualAnimationFactory::GetAssembledActor
+                       ((eCVisualAnimationFactory *)(param_1 + 0x94));
+      eCWrapper_emfx2Actor::StopMotion(this,param_2,fVar4);
+    }
+    eCVisualAnimation_PS::eSMotionDesc::SetMotion
+              ((eSMotionDesc *)(*(int *)(param_1 + 0xe8) + iVar1),param_3);
+  }
+  return;
+}
+
+

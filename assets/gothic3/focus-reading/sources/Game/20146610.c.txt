@@ -1,0 +1,10 @@
+/* ENTRY 20146610 | bTPropertyObject<gCFocus_PS,eCEntityPropertySet>::vfunction11 | STATUS decompiled | 1 ms */
+
+void __thiscall bTPropertyObject<gCFocus_PS,eCEntityPropertySet>::vfunction11(void)
+
+{
+  thunk_FUN_201461f0(0);
+  return;
+}
+
+

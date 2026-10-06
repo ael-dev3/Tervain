@@ -1,0 +1,4 @@
+; 3002a1cb ?AccessFileVersion@eCCollisionShape@@QAEAAGXZ
+3002a1cb | e9f0860900 | JMP 0x300c28c0
+; 3002a1d5 eCParticleSystemBase_PS::AccessLifeSpanAverage
+; 3002a1d5 Ordinal_2862

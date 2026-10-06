@@ -1,0 +1,4 @@
+; 10006019 ?NotifyPropertyValueChangedEnter@bCObjectRefBase@@EAEKPBD@Z
+10006019 | e952430400 | JMP 0x1004a370
+; 1000601e bCRay::GetPoint
+; 1000601e Ordinal_2747

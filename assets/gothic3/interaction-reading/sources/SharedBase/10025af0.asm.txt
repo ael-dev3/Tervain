@@ -1,0 +1,12 @@
+; 10025af0 FUN_10025af0
+10025af0 | 56 | PUSH ESI
+10025af1 | 8b742408 | MOV ESI,dword ptr [ESP + 0x8]
+10025af5 | 8b06 | MOV EAX,dword ptr [ESI]
+10025af7 | 8b5004 | MOV EDX,dword ptr [EAX + 0x4]
+10025afa | 6a0c | PUSH 0xc
+10025afc | 51 | PUSH ECX
+10025afd | 8bce | MOV ECX,ESI
+10025aff | ffd2 | CALL EDX
+10025b01 | 8bc6 | MOV EAX,ESI
+10025b03 | 5e | POP ESI
+10025b04 | c20400 | RET 0x4

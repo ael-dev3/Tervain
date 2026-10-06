@@ -1,0 +1,24 @@
+/* ENTRY 2001c0a3 | gCPlayerMemory_PS::SetBaseValue | STATUS decompiled | 11 ms */
+
+/* public: bool __thiscall gCPlayerMemory_PS::SetBaseValue(class bCString const &,int) */
+
+bool __thiscall
+gCPlayerMemory_PS::SetBaseValue(gCPlayerMemory_PS *this,bCString *param_1,int param_2)
+
+{
+  int *piVar1;
+  int iVar2;
+  int unaff_retaddr;
+  
+                    /* 0x1c0a3  6248  ?SetBaseValue@gCPlayerMemory_PS@@QAE_NABVbCString@@H@Z */
+  iVar2 = thunk_FUN_203214f0(param_1,&param_1);
+  if ((iVar2 != 0) && (piVar1 = *(int **)(iVar2 + 4), piVar1 != (int *)0x0)) {
+    (**(code **)(*piVar1 + 0x58))("BaseValue",0);
+    piVar1[5] = unaff_retaddr;
+    (**(code **)(*piVar1 + 0x5c))("BaseValue",0);
+    return true;
+  }
+  return false;
+}
+
+

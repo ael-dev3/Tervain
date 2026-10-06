@@ -1,0 +1,12 @@
+/* ENTRY 2018b1b0 | gCHUDStaticInvCash::~gCHUDStaticInvCash | STATUS decompiled | 9 ms */
+
+void __thiscall gCHUDStaticInvCash::~gCHUDStaticInvCash(gCHUDStaticInvCash *this)
+
+{
+  this->vftablePtr = &vftable;
+  eCEntityProxy::~eCEntityProxy((eCEntityProxy *)&(this->gCHUDStaticInvCash_data).field_0xc);
+  FUN_20036877();
+  return;
+}
+
+

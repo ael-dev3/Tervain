@@ -1,0 +1,32 @@
+/* ENTRY 2051e370 | bTPropertyType<gCScriptRoutine_PS,float>::~bTPropertyType<gCScriptRoutine_PS,float> | STATUS decompiled | 10 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCScriptRoutine_PS,float>::~bTPropertyType<gCScriptRoutine_PS,float>
+          (bTPropertyType<gCScriptRoutine_PS,float> *this)
+
+{
+  bTPropertyType<gCScriptRoutine_PS,float> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"TaskTime");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCScriptRoutine_PS::ms_PropertyMember_m_fTaskTime,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_fTaskTime = &vftable;
+  DAT_207cc148 = bTPropertyObjectType<gCScriptRoutine_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCScriptRoutine_PS,eCEntityPropertySet>();
+  _DAT_207cc14c = 0x1c;
+  _DAT_207cc150 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCScriptRoutine_PS::ms_PropertyMember_m_fTaskTime);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cc148,
+             (bCPropertyTypeBase *)&gCScriptRoutine_PS::ms_PropertyMember_m_fTaskTime);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}
+
+

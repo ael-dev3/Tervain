@@ -1,0 +1,10 @@
+/* ENTRY 20018d1d | bTPropertyObject<gCDamageReceiver_PS,eCEntityPropertySet>::vfunction11 | STATUS decompiled | 1 ms */
+
+void __thiscall bTPropertyObject<gCDamageReceiver_PS,eCEntityPropertySet>::vfunction11(void)
+
+{
+  thunk_FUN_200bd7b0(0);
+  return;
+}
+
+

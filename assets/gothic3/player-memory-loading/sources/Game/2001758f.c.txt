@@ -1,0 +1,14 @@
+/* ENTRY 2001758f | gCPlayerMemory_PS::CopyFrom | STATUS decompiled | 5 ms */
+
+/* public: virtual enum bEResult __thiscall gCPlayerMemory_PS::CopyFrom(class bCObjectBase const &)
+    */
+
+bEResult __thiscall gCPlayerMemory_PS::CopyFrom(gCPlayerMemory_PS *this,bCObjectBase *param_1)
+
+{
+                    /* 0x1758f  2278
+                       ?CopyFrom@gCPlayerMemory_PS@@UAE?AW4bEResult@@ABVbCObjectBase@@@Z */
+  return 1;
+}
+
+

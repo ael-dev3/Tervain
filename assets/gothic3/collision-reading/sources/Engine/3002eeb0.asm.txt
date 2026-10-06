@@ -1,0 +1,2 @@
+; 3002eeb0 ?IsEditorRelevant@eCCollisionShapeBase_PS@@UBE_NXZ
+3002eeb0 | e94b243100 | JMP 0x30341300

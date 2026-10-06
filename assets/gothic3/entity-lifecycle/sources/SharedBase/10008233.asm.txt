@@ -1,0 +1,4 @@
+; 10008233 ?Read@bCPropertyID@@QAE_NAAVbCIStream@@@Z
+10008233 | e9d8a60800 | JMP 0x10092910
+; 10008238 bTKeyFramerData<bCMotion>::GetFrameMax
+; 10008238 Ordinal_2377

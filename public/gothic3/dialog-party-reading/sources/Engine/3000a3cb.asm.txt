@@ -1,0 +1,2 @@
+; 3000a3cb eCEntityProxy::Compare
+3000a3cb | e9f0a24b00 | JMP 0x304c46c0

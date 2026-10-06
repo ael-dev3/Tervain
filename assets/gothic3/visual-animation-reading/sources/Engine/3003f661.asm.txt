@@ -1,0 +1,2 @@
+; 3003f661 eCVisualAnimation_PS::AccessConstrainRootToWorld
+3003f661 | e98a240200 | JMP 0x30061af0

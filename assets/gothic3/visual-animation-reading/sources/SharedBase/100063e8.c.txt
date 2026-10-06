@@ -1,0 +1,13 @@
+/* ENTRY 100063e8 | bCMatrix::operator*= | STATUS decompiled | 2 ms */
+
+/* public: class bCMatrix & __thiscall bCMatrix::operator*=(class bCMatrix const &) */
+
+bCMatrix * __thiscall bCMatrix::operator*=(bCMatrix *this,bCMatrix *param_1)
+
+{
+                    /* 0x63e8  1194  ??XbCMatrix@@QAEAAV0@ABV0@@Z */
+  SetToProduct(this,this,param_1);
+  return this;
+}
+
+

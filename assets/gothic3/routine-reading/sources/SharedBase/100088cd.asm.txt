@@ -1,0 +1,4 @@
+; 100088cd ?UnMangle@bCClassNameBase@@SG?AVbCString@@PBD@Z
+100088cd | e97e8c0800 | JMP 0x10091550
+; 100088d2 bCQuaternion::SetQuaternion
+; 100088d2 Ordinal_4299

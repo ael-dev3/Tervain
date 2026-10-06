@@ -1,0 +1,15 @@
+/* ENTRY 1002b270 | FUN_1002b270 | STATUS decompiled | 5 ms */
+
+float10 __thiscall FUN_1002b270(bCBox *param_1,bCRay *param_2)
+
+{
+  bool bVar1;
+  
+  bVar1 = bCBox::Intersects(param_1,param_2,(float *)&param_2);
+  if (!bVar1) {
+    param_2 = (bCRay *)0xbf800000;
+  }
+  return (float10)(float)param_2;
+}
+
+

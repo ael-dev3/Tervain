@@ -1,0 +1,13 @@
+/* ENTRY 20020469 | gCScriptRoutine_PS::GetSPU | STATUS decompiled | 5 ms */
+
+/* public: class gCScriptProcessingUnit & __thiscall gCScriptRoutine_PS::GetSPU(void) */
+
+gCScriptProcessingUnit * __thiscall gCScriptRoutine_PS::GetSPU(gCScriptRoutine_PS *this)
+
+{
+                    /* 0x20469  4344  ?GetSPU@gCScriptRoutine_PS@@QAEAAVgCScriptProcessingUnit@@XZ
+                        */
+  return (gCScriptProcessingUnit *)&(this->gCScriptRoutine_PS_data).field_0x60;
+}
+
+

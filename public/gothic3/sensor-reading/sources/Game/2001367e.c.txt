@@ -1,0 +1,14 @@
+/* ENTRY 2001367e | gCCharacterSensor_PS::PostInitializeProperties | STATUS decompiled | 4 ms */
+
+/* public: virtual enum bEResult __thiscall gCCharacterSensor_PS::PostInitializeProperties(void) */
+
+bEResult __thiscall gCCharacterSensor_PS::PostInitializeProperties(gCCharacterSensor_PS *this)
+
+{
+                    /* 0x1367e  5743
+                       ?PostInitializeProperties@gCCharacterSensor_PS@@UAE?AW4bEResult@@XZ */
+  bCObjectRefBase::PostInitializeProperties((bCObjectRefBase *)this);
+  return 1;
+}
+
+

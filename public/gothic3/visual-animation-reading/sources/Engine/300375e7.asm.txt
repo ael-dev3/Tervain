@@ -1,0 +1,2 @@
+; 300375e7 eCEntity::UpdateGeometry
+300375e7 | e954c84700 | JMP 0x304b3e40

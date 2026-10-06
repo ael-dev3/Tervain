@@ -1,0 +1,119 @@
+/* ENTRY 20027aa2 | gCNegZone_PSObj::Test3DPointInZone | STATUS decompiled | 82 ms */
+
+/* public: bool __thiscall gCNegZone_PSObj::Test3DPointInZone(class bCVector const &,bool) */
+
+bool __thiscall
+gCNegZone_PSObj::Test3DPointInZone(gCNegZone_PSObj *this,bCVector *param_1,bool param_2)
+
+{
+  bool bVar1;
+  bCVector *pbVar2;
+  int iVar3;
+  int iVar4;
+  float fVar5;
+  undefined1 unaff_retaddr;
+  bCVector abStack_38 [4];
+  bCVector abStack_34 [4];
+  bCVector abStack_30 [4];
+  bCVector abStack_2c [8];
+  bCVector abStack_24 [4];
+  bCVector abStack_20 [8];
+  bCVector abStack_18 [4];
+  bCVector abStack_14 [12];
+  float fStack_8;
+  float fStack_4;
+  
+                    /* 0x27aa2  7342  ?Test3DPointInZone@gCNegZone_PSObj@@QAE_NABVbCVector@@_N@Z */
+  bCVector::operator-((bCVector *)
+                      ((int)(this->gCNegZone_PSObj_data).offset_0x18 +
+                      (this->gCNegZone_PSObj_data).offset_0x1c * 0xc + -0xc),abStack_24);
+  bCVector::operator-((this->gCNegZone_PSObj_data).offset_0x18,abStack_34);
+  fStack_4 = 0.0;
+  bCVector::SetY(abStack_2c,&fStack_4);
+  fStack_4 = 0.0;
+  bCVector::SetY(abStack_38,&fStack_4);
+  fVar5 = bCVector::GetMagnitude(abStack_2c);
+  fStack_4 = bCVector::GetMagnitude(abStack_38);
+  if ((fVar5 != 0.0) && (fStack_4 != 0.0)) {
+    bCVector::operator/=(abStack_2c,fVar5);
+    bCVector::operator/=(abStack_38,fStack_4);
+    fStack_4 = bCVector::GetAngleUnitRad(abStack_2c,abStack_38);
+    if (ABS(fStack_4) <= *(float *)g_fPI_exref - 0.001) {
+      bCVector::bCVector(abStack_20);
+      bCVector::SetCrossProduct(abStack_20,abStack_2c,abStack_38);
+      bVar1 = bCVector::HasZeroMagnitude(abStack_20);
+      if (!bVar1) {
+        if (*(float *)g_fPI_exref < fStack_4) {
+          fStack_4 = fStack_4 - *(float *)g_f2PI_exref;
+        }
+        if (fStack_4 < -*(float *)g_fPI_exref) {
+          fStack_4 = fStack_4 + *(float *)g_f2PI_exref;
+        }
+        fStack_4 = ABS(fStack_4);
+        fVar5 = bCVector::GetY(abStack_20);
+        if (0.0 < fVar5) {
+          fStack_4 = fStack_4 * -1.0;
+        }
+      }
+      iVar3 = 1;
+      if (1 < (int)(this->gCNegZone_PSObj_data).offset_0x1c) {
+        iVar4 = 0xc;
+        do {
+          bCVector::operator=(abStack_2c,abStack_38);
+          pbVar2 = (bCVector *)
+                   bCVector::operator-((bCVector *)
+                                       ((int)(this->gCNegZone_PSObj_data).offset_0x18 + iVar4),
+                                       abStack_14);
+          bCVector::operator=((bCVector *)&stack0xffffffc4,pbVar2);
+          bCVector::~bCVector(abStack_18);
+          bCVector::SetY((bCVector *)&stack0xffffffc4,(float *)&stack0xffffffc0);
+          fStack_8 = bCVector::GetMagnitude((bCVector *)&stack0xffffffc4);
+          if (fStack_8 == 0.0) {
+            fStack_4 = *(float *)g_f2PI_exref;
+            break;
+          }
+          bCVector::operator/=((bCVector *)&stack0xffffffc4,fStack_8);
+          fStack_8 = bCVector::GetAngleUnitRad(abStack_30,(bCVector *)&stack0xffffffc4);
+          if (*(float *)g_fPI_exref - 0.001 < ABS(fStack_8)) {
+            fStack_4 = *(float *)g_f2PI_exref;
+            break;
+          }
+          bCVector::SetCrossProduct(abStack_24,abStack_30,(bCVector *)&stack0xffffffc4);
+          bVar1 = bCVector::HasZeroMagnitude(abStack_24);
+          if (!bVar1) {
+            if (*(float *)g_fPI_exref < fStack_8) {
+              fStack_8 = fStack_8 - *(float *)g_f2PI_exref;
+            }
+            if (fStack_8 < -*(float *)g_fPI_exref) {
+              fStack_8 = fStack_8 + *(float *)g_f2PI_exref;
+            }
+            fStack_8 = ABS(fStack_8);
+            fVar5 = bCVector::GetY(abStack_24);
+            if (0.0 < fVar5) {
+              fStack_8 = fStack_8 * -1.0;
+            }
+          }
+          iVar3 = iVar3 + 1;
+          fStack_4 = fStack_8 + fStack_4;
+          iVar4 = iVar4 + 0xc;
+        } while (iVar3 < (int)(this->gCNegZone_PSObj_data).offset_0x1c);
+      }
+      fStack_4 = ABS(fStack_4);
+      if (fStack_4 <= *(float *)g_fPI_exref) {
+        bCVector::~bCVector(abStack_24);
+        bCVector::~bCVector((bCVector *)&stack0xffffffc4);
+        bCVector::~bCVector(abStack_30);
+        return false;
+      }
+      bCVector::~bCVector(abStack_24);
+      bCVector::~bCVector((bCVector *)&stack0xffffffc4);
+      bCVector::~bCVector(abStack_30);
+      return true;
+    }
+  }
+  bCVector::~bCVector(abStack_38);
+  bCVector::~bCVector(abStack_2c);
+  return (bool)unaff_retaddr;
+}
+
+

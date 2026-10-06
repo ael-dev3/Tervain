@@ -1,0 +1,17 @@
+/* ENTRY 10151110 | FUN_10151110 | STATUS decompiled | 6 ms */
+
+void FUN_10151110(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Player\\Player_States\\PS_Interact.cpp");
+  bCString::bCString(local_8,"OnInteract_HUD_Loop");
+  thunk_FUN_1001da70(local_8,&LAB_1000209a,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

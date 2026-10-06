@@ -1,0 +1,12 @@
+/* ENTRY 305dcfe0 | FUN_305dcfe0 | STATUS decompiled | 5 ms */
+
+bool __fastcall FUN_305dcfe0(int param_1)
+
+{
+  bool bVar1;
+  
+  bVar1 = bCString::IsEmpty((bCString *)(param_1 + 8));
+  return !bVar1;
+}
+
+

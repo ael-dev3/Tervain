@@ -1,0 +1,12 @@
+/* ENTRY 2002f446 | gCPlayerMemory_PS::GetXP | STATUS decompiled | 4 ms */
+
+/* public: long const & __thiscall gCPlayerMemory_PS::GetXP(void)const  */
+
+long * __thiscall gCPlayerMemory_PS::GetXP(gCPlayerMemory_PS *this)
+
+{
+                    /* 0x2f446  4789  ?GetXP@gCPlayerMemory_PS@@QBEABJXZ */
+  return (long *)&(this->gCPlayerMemory_PS_data).field_0x50;
+}
+
+

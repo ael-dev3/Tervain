@@ -1,0 +1,2 @@
+; 2001b21b SHAREDBASE.DLL::bCPropertyTypeBase::Write
+2001b21b | e930f21e00 | JMP 0x2020a450

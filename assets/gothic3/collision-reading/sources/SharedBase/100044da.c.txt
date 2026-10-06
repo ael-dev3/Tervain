@@ -1,0 +1,18 @@
+/* ENTRY 100044da | bCOrientedBox::operator* | STATUS decompiled | 4 ms */
+
+/* public: class bCOrientedBox __thiscall bCOrientedBox::operator*(class bCMatrix3 const &)const  */
+
+bCMatrix3 * __thiscall bCOrientedBox::operator*(bCOrientedBox *this,bCMatrix3 *param_1)
+
+{
+  bCMatrix3 *in_stack_00000008;
+  bCOrientedBox abStack_3c [60];
+  
+                    /* 0x44da  942  ??DbCOrientedBox@@QBE?AV0@ABVbCMatrix3@@@Z */
+  Create(abStack_3c,this);
+  Transform(abStack_3c,in_stack_00000008);
+  Create((bCOrientedBox *)param_1,abStack_3c);
+  return param_1;
+}
+
+

@@ -1,0 +1,13 @@
+/* ENTRY 2013e130 | FUN_2013e130 | STATUS decompiled | 8 ms */
+
+void __fastcall FUN_2013e130(gCFocus_PS *param_1)
+
+{
+  eCEntityPropertySet::OnProcess((eCEntityPropertySet *)param_1);
+  if ((param_1->gCFocus_PS_data).field_0x110 == '\x01') {
+    gCFocus_PS::FindFocusEntity(param_1,false);
+  }
+  return;
+}
+
+

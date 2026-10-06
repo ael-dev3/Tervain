@@ -1,0 +1,20 @@
+/* ENTRY 301d4470 | FUN_301d4470 | STATUS decompiled | 5 ms */
+
+void FUN_301d4470(int param_1,int param_2)
+
+{
+  bCUnicodeString *this;
+  
+  if (param_2 != 0) {
+    this = (bCUnicodeString *)(param_1 + 8);
+    do {
+      param_2 = param_2 + -1;
+      bCByteAlphaColor::~bCByteAlphaColor((bCByteAlphaColor *)(this + 4));
+      bCUnicodeString::~bCUnicodeString(this);
+      this = this + 0x20;
+    } while (param_2 != 0);
+  }
+  return;
+}
+
+

@@ -1,0 +1,13 @@
+/* ENTRY 3000659b | thunk_FUN_300b7020 | STATUS decompiled | 4 ms */
+
+int __thiscall thunk_FUN_300b7020(int param_1,bCVector *param_2)
+
+{
+  thunk_FUN_300b1530();
+  bCVector::operator=((bCVector *)(*(int *)(param_1 + 4) + (uint)*(ushort *)(param_1 + 2) * 0xc),
+                      param_2);
+  *(short *)(param_1 + 2) = *(short *)(param_1 + 2) + 1;
+  return *(ushort *)(param_1 + 2) - 1;
+}
+
+

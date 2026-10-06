@@ -1,0 +1,36 @@
+/* ENTRY 10003b52 | bCMemoryStream::Write | STATUS decompiled | 13 ms */
+
+/* public: virtual unsigned long __thiscall bCMemoryStream::Write(void const *,unsigned long) */
+
+ulong __thiscall bCMemoryStream::Write(bCMemoryStream *this,void *param_1,ulong param_2)
+
+{
+  bCMemoryAdmin *this_00;
+  bCMemoryStream_vftable_for_bCOStream *pbVar1;
+  void *pvVar2;
+  void *pvVar3;
+  
+                    /* 0x3b52  4640  ?Write@bCMemoryStream@@UAEKPBXK@Z */
+  pvVar2 = (void *)((int)(this->bCMemoryStream_data).offset_0x0 + param_2);
+  if ((int)(this->bCMemoryStream_data).offset_0x4 < (int)pvVar2) {
+    pbVar1 = this->vftablePtr;
+    pvVar3 = pvVar2;
+    this_00 = bCMemoryAdmin::GetInstance();
+    pbVar1 = bCMemoryAdmin::Realloc(this_00,pbVar1,(ulong)pvVar3);
+    pvVar3 = (this->bCMemoryStream_data).offset_0x0;
+    this->vftablePtr = pbVar1;
+    (this->bCMemoryStream_data).offset_0x4 = pvVar2;
+    if ((int)pvVar2 < (int)pvVar3) {
+      (this->bCMemoryStream_data).offset_0x0 = pvVar2;
+    }
+  }
+  pvVar3 = (void *)((int)&this->vftablePtr->Write + (int)(this->bCMemoryStream_data).offset_0x0);
+  (this->bCMemoryStream_data).offset_0x0 = pvVar2;
+  if (pvVar3 == (void *)0x0) {
+    return 0;
+  }
+  _memcpy(pvVar3,param_1,param_2);
+  return param_2;
+}
+
+

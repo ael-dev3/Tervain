@@ -1,0 +1,26 @@
+/* ENTRY 2002090f | gCAttribute::operator= | STATUS decompiled | 9 ms */
+
+/* public: class gCAttribute const & __thiscall gCAttribute::operator=(class gCAttribute const &) */
+
+gCAttribute * __thiscall gCAttribute::operator=(gCAttribute *this,gCAttribute *param_1)
+
+{
+  bCPropertyObjectBase *pbVar1;
+  bCPropertyObjectBase *this_00;
+  
+                    /* 0x2090f  573  ??4gCAttribute@@QAEABV0@ABV0@@Z */
+  pbVar1 = bCObjectRefBase::GetPropertyObject((bCObjectRefBase *)this);
+  if (pbVar1 != (bCPropertyObjectBase *)0x0) {
+    pbVar1 = bCObjectRefBase::GetPropertyObject((bCObjectRefBase *)param_1);
+    if (pbVar1 != (bCPropertyObjectBase *)0x0) {
+      pbVar1 = bCObjectRefBase::GetPropertyObject((bCObjectRefBase *)param_1);
+      this_00 = (bCPropertyObjectBase *)bCObjectRefBase::GetPropertyObject((bCObjectRefBase *)this);
+      bCPropertyObjectBase::operator=(this_00,pbVar1);
+      return (gCAttribute *)this;
+    }
+  }
+  (*this->vftablePtr->CopyFrom)(this,(bCObjectBase *)param_1);
+  return (gCAttribute *)this;
+}
+
+

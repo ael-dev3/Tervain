@@ -1,0 +1,12 @@
+/* ENTRY 1007d000 | gSArgsFor__AI_Jump::gSArgsFor__AI_Jump | STATUS decompiled | 5 ms */
+
+gSArgsFor__AI_Jump * __thiscall gSArgsFor__AI_Jump::gSArgsFor__AI_Jump(gSArgsFor__AI_Jump *this)
+
+{
+  this->vftablePtr = &vftable;
+  Entity::Entity((Entity *)&this->gScrArgument_data);
+  Entity::Entity((Entity *)&(this->gScrArgument_data).field_0xa8);
+  return this;
+}
+
+

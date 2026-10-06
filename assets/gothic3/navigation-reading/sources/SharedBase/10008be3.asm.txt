@@ -1,0 +1,4 @@
+; 10008be3 ?GetGuid@bCGuid@@QBEPBU_GUID@@XZ
+10008be3 | e978980000 | JMP 0x10012460
+; 10008be8 bCByteAlphaColor::SetColor
+; 10008be8 Ordinal_4099

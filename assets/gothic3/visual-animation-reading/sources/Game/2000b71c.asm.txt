@@ -1,0 +1,2 @@
+; 2000b71c bTPropertyType<gCArena_PS,bCObsoleteClass>::vfunction4
+2000b71c | e9bfb90300 | JMP 0x200470e0

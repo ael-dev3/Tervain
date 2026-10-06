@@ -1,0 +1,12 @@
+/* ENTRY 20015b09 | gCPlayerMemory_PS::IsReferencedByTemplate | STATUS decompiled | 7 ms */
+
+/* public: virtual bool __thiscall gCPlayerMemory_PS::IsReferencedByTemplate(void)const  */
+
+bool __thiscall gCPlayerMemory_PS::IsReferencedByTemplate(gCPlayerMemory_PS *this)
+
+{
+                    /* 0x15b09  5234  ?IsReferencedByTemplate@gCPlayerMemory_PS@@UBE_NXZ */
+  return false;
+}
+
+

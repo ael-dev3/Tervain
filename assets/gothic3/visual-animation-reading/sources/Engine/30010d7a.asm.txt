@@ -1,0 +1,2 @@
+; 30010d7a eCVisualAnimation_PS::PlayAni_Debug
+30010d7a | e981010900 | JMP 0x300a0f00

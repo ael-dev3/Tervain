@@ -1,0 +1,13 @@
+/* ENTRY 20187da0 | gCHUDListCtrlInvQuickSlots::gCHUDListCtrlInvQuickSlots | STATUS decompiled | 11 ms */
+
+gCHUDListCtrlInvQuickSlots * __thiscall
+gCHUDListCtrlInvQuickSlots::gCHUDListCtrlInvQuickSlots(gCHUDListCtrlInvQuickSlots *this)
+
+{
+  gCHUDListCtrlInventory::gCHUDListCtrlInventory((gCHUDListCtrlInventory *)this);
+  this->vftablePtr = &vftable;
+  this->vftablePtr = &vftable;
+  return this;
+}
+
+

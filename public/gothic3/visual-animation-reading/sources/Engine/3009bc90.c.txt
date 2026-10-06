@@ -1,0 +1,12 @@
+/* ENTRY 3009bc90 | FUN_3009bc90 | STATUS decompiled | 4 ms */
+
+float10 FUN_3009bc90(void)
+
+{
+  float10 fVar1;
+  
+  fVar1 = (float10)FUN_30672720(*(undefined4 *)g_fPI_exref);
+  return (float10)(((float)fVar1 + 1.0) * 0.5);
+}
+
+

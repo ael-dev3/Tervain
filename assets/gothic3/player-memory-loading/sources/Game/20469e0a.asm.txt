@@ -1,0 +1,30 @@
+; 20469e0a __CxxThrowException@8
+20469e0a | 55 | PUSH EBP
+20469e0b | 8bec | MOV EBP,ESP
+20469e0d | 83ec20 | SUB ESP,0x20
+20469e10 | 8b4508 | MOV EAX,dword ptr [EBP + 0x8]
+20469e13 | 56 | PUSH ESI
+20469e14 | 57 | PUSH EDI
+20469e15 | 6a08 | PUSH 0x8
+20469e17 | 59 | POP ECX
+20469e18 | be306b6b20 | MOV ESI,0x206b6b30
+20469e1d | 8d7de0 | LEA EDI,[EBP + -0x20]
+20469e20 | f3a5 | MOVSD.REP ES:EDI,ESI
+20469e22 | 8945f8 | MOV dword ptr [EBP + -0x8],EAX
+20469e25 | 8b450c | MOV EAX,dword ptr [EBP + 0xc]
+20469e28 | 85c0 | TEST EAX,EAX
+20469e2a | 5f | POP EDI
+20469e2b | 8945fc | MOV dword ptr [EBP + -0x4],EAX
+20469e2e | 5e | POP ESI
+20469e2f | 740c | JZ 0x20469e3d
+20469e31 | f60008 | TEST byte ptr [EAX],0x8
+20469e34 | 7407 | JZ 0x20469e3d
+20469e36 | c745f400409901 | MOV dword ptr [EBP + -0xc],0x1994000
+20469e3d | 8d45f4 | LEA EAX,[EBP + -0xc]
+20469e40 | 50 | PUSH EAX
+20469e41 | ff75f0 | PUSH dword ptr [EBP + -0x10]
+20469e44 | ff75e4 | PUSH dword ptr [EBP + -0x1c]
+20469e47 | ff75e0 | PUSH dword ptr [EBP + -0x20]
+20469e4a | ff15c47b7d20 | CALL dword ptr [0x207d7bc4]
+20469e50 | c9 | LEAVE
+20469e51 | c20800 | RET 0x8

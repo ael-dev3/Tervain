@@ -1,0 +1,2 @@
+; 30020784 eCVisualAnimation_PS::StopRagDoll
+30020784 | e9d7240800 | JMP 0x300a2c60

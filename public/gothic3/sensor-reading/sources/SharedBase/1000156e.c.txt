@@ -1,0 +1,29 @@
+/* ENTRY 1000156e | bCAccessorPropertyObject::GetClassNameA | STATUS decompiled | 8 ms */
+
+/* public: class bCString const & __thiscall bCAccessorPropertyObject::GetClassNameA(void)const  */
+
+bCString * __thiscall bCAccessorPropertyObject::GetClassNameA(bCAccessorPropertyObject *this)
+
+{
+  int *piVar1;
+  bool bVar2;
+  bCString *pbVar3;
+  bCString *this_00;
+  
+                    /* 0x156e  2169  ?GetClassNameA@bCAccessorPropertyObject@@QBEABVbCString@@XZ */
+  if (*(int *)this != 0) {
+    piVar1 = *(int **)this;
+    pbVar3 = (bCString *)bTPropertyObject<bCObsoleteClass,bCObjectRefBase>::vfunction3();
+    this_00 = (bCString *)(**(code **)(*piVar1 + 8))();
+    bVar2 = bCString::operator==(this_00,pbVar3);
+    if (!bVar2) goto LAB_1009ae9b;
+  }
+  bTPropertyObject<bCObsoleteClass,bCObjectRefBase>::vfunction3();
+LAB_1009ae9b:
+                    /* WARNING: Could not recover jumptable at 0x1009aea3. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  pbVar3 = (bCString *)(**(code **)(**(int **)this + 4))();
+  return pbVar3;
+}
+
+

@@ -1,0 +1,4 @@
+; 3003b363 ?AddShape@eCCollisionShapeBase_PS@@UAE?AW4bEResult@@ABVbCString@@@Z
+3003b363 | e9f85e3000 | JMP 0x30341260
+; 3003b36d eCEffector::GetVersion
+; 3003b36d Ordinal_9375

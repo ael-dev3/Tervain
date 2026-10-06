@@ -1,0 +1,181 @@
+/* ENTRY 100011b3 | bCOrientedBox::GetMerged | STATUS decompiled | 107 ms */
+
+/* public: class bCOrientedBox __thiscall bCOrientedBox::GetMerged(class bCOrientedBox const &)const
+    */
+
+bCOrientedBox * __thiscall bCOrientedBox::GetMerged(bCOrientedBox *this,bCOrientedBox *param_1)
+
+{
+  bCMatrix3 *pbVar1;
+  float fVar2;
+  float fVar3;
+  float fVar4;
+  float fVar5;
+  float fVar6;
+  bCVector *pbVar7;
+  bCOrientedBox *pbVar8;
+  float *pfVar9;
+  int iVar10;
+  int iVar11;
+  bCOrientedBox *pbVar12;
+  float10 fVar13;
+  bCOrientedBox *in_stack_00000008;
+  float afStack_ac [6];
+  float fStack_94;
+  float fStack_90;
+  float fStack_8c;
+  float fStack_88;
+  float fStack_84;
+  float fStack_80;
+  float fStack_7c;
+  float fStack_78;
+  float fStack_74;
+  float fStack_70;
+  float fStack_6c;
+  float fStack_68;
+  float fStack_64;
+  bCVector abStack_60 [8];
+  float afStack_58 [22];
+  
+                    /* 0x11b3  2635  ?GetMerged@bCOrientedBox@@QBE?AV1@ABV1@@Z */
+  *(undefined4 *)param_1 = *(undefined4 *)this;
+  *(undefined4 *)(param_1 + 4) = *(undefined4 *)(this + 4);
+  *(undefined4 *)(param_1 + 8) = *(undefined4 *)(this + 8);
+  *(float *)param_1 = *(float *)param_1 + *(float *)in_stack_00000008;
+  *(float *)(param_1 + 4) = *(float *)(in_stack_00000008 + 4) + *(float *)(param_1 + 4);
+  *(float *)(param_1 + 8) = *(float *)(in_stack_00000008 + 8) + *(float *)(param_1 + 8);
+  *(float *)param_1 = *(float *)param_1 * 0.5;
+  *(float *)(param_1 + 4) = *(float *)(param_1 + 4) * 0.5;
+  *(float *)(param_1 + 8) = *(float *)(param_1 + 8) * 0.5;
+  bCQuaternion::SetQuaternion((bCQuaternion *)&fStack_70,(bCMatrix3 *)(this + 0x18));
+  bCQuaternion::SetQuaternion((bCQuaternion *)&fStack_94,(bCMatrix3 *)(in_stack_00000008 + 0x18));
+  if (fStack_64 * fStack_88 + fStack_68 * fStack_8c + fStack_70 * fStack_94 + fStack_6c * fStack_90
+      < 0.0) {
+    fStack_94 = -0.0 - fStack_94;
+    fStack_90 = -0.0 - fStack_90;
+    fStack_8c = -0.0 - fStack_8c;
+    fStack_88 = -0.0 - fStack_88;
+  }
+  fStack_84 = fStack_94 + fStack_70;
+  fStack_80 = fStack_90 + fStack_6c;
+  fStack_7c = fStack_8c + fStack_68;
+  fStack_78 = fStack_64 + fStack_88;
+  fVar13 = (float10)FUN_100ab010();
+  pbVar1 = (bCMatrix3 *)(param_1 + 0x18);
+  fVar2 = 1.0 / (float)fVar13;
+  fStack_84 = fVar2 * fStack_84;
+  fStack_80 = fStack_80 * fVar2;
+  fStack_7c = fStack_7c * fVar2;
+  fStack_78 = fVar2 * fStack_78;
+  bCQuaternion::GetMatrix3((bCQuaternion *)&fStack_84,pbVar1);
+  pbVar7 = bCVector::GetZero();
+  afStack_ac[3] = *(float *)pbVar7;
+  afStack_ac[4] = *(float *)(pbVar7 + 4);
+  afStack_ac[5] = *(float *)(pbVar7 + 8);
+  pbVar7 = bCVector::GetZero();
+  afStack_ac[0] = *(float *)pbVar7;
+  afStack_ac[1] = *(float *)(pbVar7 + 4);
+  afStack_ac[2] = *(float *)(pbVar7 + 8);
+  GetVertices(this,abStack_60);
+  fStack_74 = *(float *)param_1;
+  pfVar9 = afStack_58;
+  iVar11 = 8;
+  do {
+    fVar2 = pfVar9[-2] - fStack_74;
+    fVar3 = pfVar9[-1] - *(float *)(param_1 + 4);
+    fVar4 = *pfVar9 - *(float *)(param_1 + 8);
+    fVar5 = fVar2 * *(float *)pbVar1 + fVar3 * *(float *)(param_1 + 0x1c) +
+            fVar4 * *(float *)(param_1 + 0x20);
+    if (fVar5 <= afStack_ac[0]) {
+      if (fVar5 < afStack_ac[3]) {
+        afStack_ac[3] = fVar5;
+      }
+    }
+    else {
+      afStack_ac[0] = fVar5;
+    }
+    fVar5 = *(float *)(param_1 + 0x2c) * fVar4 +
+            fVar2 * *(float *)(param_1 + 0x24) + *(float *)(param_1 + 0x28) * fVar3;
+    if (fVar5 <= afStack_ac[1]) {
+      if (fVar5 < afStack_ac[4]) {
+        afStack_ac[4] = fVar5;
+      }
+    }
+    else {
+      afStack_ac[1] = fVar5;
+    }
+    fVar2 = fVar2 * *(float *)(param_1 + 0x30) + *(float *)(param_1 + 0x34) * fVar3 +
+            *(float *)(param_1 + 0x38) * fVar4;
+    if (fVar2 <= afStack_ac[2]) {
+      if (fVar2 < afStack_ac[5]) {
+        afStack_ac[5] = fVar2;
+      }
+    }
+    else {
+      afStack_ac[2] = fVar2;
+    }
+    pfVar9 = pfVar9 + 3;
+    iVar11 = iVar11 + -1;
+  } while (iVar11 != 0);
+  GetVertices(in_stack_00000008,abStack_60);
+  pfVar9 = afStack_58;
+  iVar11 = 8;
+  do {
+    fVar2 = pfVar9[-2] - *(float *)param_1;
+    fVar3 = pfVar9[-1] - *(float *)(param_1 + 4);
+    fVar4 = *pfVar9 - *(float *)(param_1 + 8);
+    fVar5 = fVar3 * *(float *)(param_1 + 0x1c) + fVar2 * *(float *)pbVar1 +
+            fVar4 * *(float *)(param_1 + 0x20);
+    if (fVar5 <= afStack_ac[0]) {
+      if (fVar5 < afStack_ac[3]) {
+        afStack_ac[3] = fVar5;
+      }
+    }
+    else {
+      afStack_ac[0] = fVar5;
+    }
+    fVar5 = *(float *)(param_1 + 0x2c) * fVar4 +
+            *(float *)(param_1 + 0x24) * fVar2 + *(float *)(param_1 + 0x28) * fVar3;
+    if (fVar5 <= afStack_ac[1]) {
+      if (fVar5 < afStack_ac[4]) {
+        afStack_ac[4] = fVar5;
+      }
+    }
+    else {
+      afStack_ac[1] = fVar5;
+    }
+    fVar2 = fVar4 * *(float *)(param_1 + 0x38) +
+            *(float *)(param_1 + 0x34) * fVar3 + *(float *)(param_1 + 0x30) * fVar2;
+    if (fVar2 <= afStack_ac[2]) {
+      if (fVar2 < afStack_ac[5]) {
+        afStack_ac[5] = fVar2;
+      }
+    }
+    else {
+      afStack_ac[2] = fVar2;
+    }
+    pfVar9 = pfVar9 + 3;
+    iVar11 = iVar11 + -1;
+  } while (iVar11 != 0);
+  pbVar8 = param_1 + 0x20;
+  iVar11 = 0;
+  pbVar12 = param_1 + 0xc;
+  do {
+    fVar2 = *(float *)((int)afStack_ac + iVar11);
+    iVar10 = iVar11 + 4;
+    fVar3 = *(float *)((int)afStack_ac + iVar11 + 0xc);
+    fVar6 = (fVar2 + fVar3) * 0.5;
+    fVar4 = *(float *)(pbVar8 + -4);
+    fVar5 = *(float *)pbVar8;
+    *(float *)param_1 = *(float *)param_1 + fVar6 * *(float *)(pbVar8 + -8);
+    *(float *)(param_1 + 4) = *(float *)(param_1 + 4) + fVar4 * fVar6;
+    *(float *)(param_1 + 8) = *(float *)(param_1 + 8) + fVar6 * fVar5;
+    *(float *)pbVar12 = (fVar2 - fVar3) * 0.5;
+    pbVar8 = pbVar8 + 0xc;
+    iVar11 = iVar10;
+    pbVar12 = pbVar12 + 4;
+  } while (iVar10 < 0xc);
+  return param_1;
+}
+
+

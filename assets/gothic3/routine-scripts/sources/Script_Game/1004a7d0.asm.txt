@@ -1,0 +1,21 @@
+; 1004a7d0 gSArgsFor__AI_ChangeAction::vector_deleting_destructor
+1004a7d0 | 56 | PUSH ESI
+1004a7d1 | 8bf1 | MOV ESI,ECX
+1004a7d3 | 57 | PUSH EDI
+1004a7d4 | 8b3d906f2210 | MOV EDI,dword ptr [0x10226f90]
+1004a7da | 8d8eac000000 | LEA ECX,[ESI + 0xac]
+1004a7e0 | ffd7 | CALL EDI
+1004a7e2 | 8d4e04 | LEA ECX,[ESI + 0x4]
+1004a7e5 | ffd7 | CALL EDI
+1004a7e7 | f644240c01 | TEST byte ptr [ESP + 0xc],0x1
+1004a7ec | c706d8992010 | MOV dword ptr [ESI],0x102099d8
+1004a7f2 | 7409 | JZ 0x1004a7fd
+1004a7f4 | 56 | PUSH ESI
+1004a7f5 | e8ba8b0900 | CALL 0x100e33b4
+1004a7fa | 83c404 | ADD ESP,0x4
+; 1004a7fd LAB_1004a7fd
+1004a7fd | 5f | POP EDI
+1004a7fe | 8bc6 | MOV EAX,ESI
+1004a800 | 5e | POP ESI
+1004a801 | c20400 | RET 0x4
+; 1004a820 gSArgsFor__AI_LoopAction::scalar_deleting_destructor

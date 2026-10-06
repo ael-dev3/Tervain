@@ -1,0 +1,15 @@
+/* ENTRY 3000cb58 | eCTemplateEntityProxy::eCTemplateEntityProxy | STATUS decompiled | 2 ms */
+
+/* public: __thiscall eCTemplateEntityProxy::eCTemplateEntityProxy(void) */
+
+void __thiscall eCTemplateEntityProxy::eCTemplateEntityProxy(eCTemplateEntityProxy *this)
+
+{
+                    /* 0xcb58  802  ??0eCTemplateEntityProxy@@QAE@XZ */
+  this->vftablePtr = &vftable;
+  (this->eCTemplateEntityProxy_data).offset_0x0 = 0;
+  (this->eCTemplateEntityProxy_data).offset_0x4 = (bCPropertyID *)0x0;
+  return;
+}
+
+

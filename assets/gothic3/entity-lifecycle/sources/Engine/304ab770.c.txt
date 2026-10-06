@@ -1,0 +1,10 @@
+/* ENTRY 304ab770 | FUN_304ab770 | STATUS decompiled | 4 ms */
+
+undefined4 __fastcall FUN_304ab770(eCContextBase *param_1)
+
+{
+  eCContextBase::Create(param_1);
+  return 1;
+}
+
+

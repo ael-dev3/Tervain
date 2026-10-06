@@ -1,0 +1,12 @@
+/* ENTRY 2013ef40 | bTPropertyContainer<gEFocusLookAtKeysFOR>::vfunction8 | STATUS decompiled | 1 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<gEFocusLookAtKeysFOR>::vfunction8
+          (bTPropertyContainer<gEFocusLookAtKeysFOR> *this,int param_1)
+
+{
+  (this->bTPropertyContainer<gEFocusLookAtKeysFOR>_data).offset_0x0 = *(undefined ***)(param_1 + 4);
+  return 1;
+}
+
+

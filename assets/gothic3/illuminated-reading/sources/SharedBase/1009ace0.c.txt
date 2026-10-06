@@ -1,0 +1,12 @@
+/* ENTRY 1009ace0 | FUN_1009ace0 | STATUS decompiled | 2 ms */
+
+bCAccessorPropertyObject * __thiscall
+FUN_1009ace0(bCAccessorPropertyObject *param_1,undefined4 *param_2)
+
+{
+  bCAccessorPropertyObject::SetInstance(param_1,(bCPropertyObjectBase *)param_2[1]);
+  *(undefined4 *)param_1 = *param_2;
+  return param_1;
+}
+
+

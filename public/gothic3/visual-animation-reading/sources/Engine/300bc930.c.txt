@@ -1,0 +1,37 @@
+/* ENTRY 300bc930 | FUN_300bc930 | STATUS decompiled | 17 ms */
+
+undefined4 __thiscall FUN_300bc930(int param_1,bCOStream *param_2)
+
+{
+  int iVar1;
+  bool bVar2;
+  int iVar3;
+  
+  bCOStream::operator<<(param_2,5);
+  (**(code **)(**(int **)(param_1 + 8) + 8))(param_2);
+  iVar1 = 0;
+  bVar2 = *(int *)(param_1 + 0xc) != 0;
+  bCOStream::operator<<(param_2,bVar2);
+  if (bVar2) {
+    (**(code **)(**(int **)(param_1 + 0xc) + 8))(param_2);
+  }
+  bCOStream::operator<<(param_2,*(ulong *)(param_1 + 0x14));
+  iVar3 = 0;
+  if (0 < *(int *)(param_1 + 0x14)) {
+    do {
+      bCOStream::operator<<(param_2,(bCString *)(*(int *)(param_1 + 0x10) + iVar1));
+      (**(code **)(**(int **)(*(int *)(param_1 + 0x10) + 4 + iVar1) + 8))(param_2);
+      bVar2 = *(int *)(*(int *)(param_1 + 0x10) + 8 + iVar1) != 0;
+      bCOStream::operator<<(param_2,bVar2);
+      if (bVar2) {
+        (**(code **)(**(int **)(*(int *)(param_1 + 0x10) + 8 + iVar1) + 8))(param_2);
+      }
+      bCOStream::operator<<(param_2,*(bool *)(*(int *)(param_1 + 0x10) + 0xc + iVar1));
+      iVar3 = iVar3 + 1;
+      iVar1 = iVar1 + 0x10;
+    } while (iVar3 < *(int *)(param_1 + 0x14));
+  }
+  return 1;
+}
+
+

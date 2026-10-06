@@ -1,0 +1,25 @@
+/* ENTRY 305e3e60 | FUN_305e3e60 | STATUS decompiled | 12 ms */
+
+eCLocAdmin * __fastcall FUN_305e3e60(eCLocAdmin *param_1)
+
+{
+  bCString *this;
+  
+  thunk_FUN_305e7a20();
+  this = (bCString *)(param_1 + 0x10);
+  bCString::bCString(this);
+  bCString::bCString((bCString *)(param_1 + 0x14));
+  thunk_FUN_305e7a80();
+  thunk_FUN_304e7a70();
+  thunk_FUN_305e7ae0();
+  thunk_FUN_305e7ce0();
+  *(undefined4 *)(param_1 + 0x4c) = 0;
+  bCString::operator=(this,"German");
+  bCString::operator=((bCString *)(param_1 + 0x14),"German");
+  eCLocAdmin::AddLanguage(param_1,this);
+  param_1[0x38] = (eCLocAdmin)0x1;
+  eCLocAdmin::Read(param_1);
+  return param_1;
+}
+
+

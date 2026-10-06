@@ -1,0 +1,31 @@
+/* ENTRY 20404180 | FUN_20404180 | STATUS decompiled | 59 ms */
+
+undefined4 __thiscall FUN_20404180(void *this)
+
+{
+  bCObjectBase local_8;
+  undefined4 local_4;
+  
+  bCObjectRefBase::PostInitializeProperties(this);
+  bCObjectBase::bCObjectBase(&local_8);
+                    /* inlined constructor or destructor (approx location) for
+                       bTPropertyContainer<gEFocusNameType> */
+  local_8 = (bCObjectBase)&bTPropertyContainer<gEFocusNameType>::vftable;
+  local_4 = 0;
+  (**(code **)(*(int *)((int)this + 0x7c) + 0x1c))(&local_8);
+  bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xfffffff4);
+  bCString::operator=((bCString *)((int)this + 0x84),"Head_Head_End");
+  bCVector::SetVector((bCVector *)((int)this + 0x88),0.0);
+  bCVector::SetVector((bCVector *)((int)this + 0x94),0.0);
+  bCObjectBase::bCObjectBase((bCObjectBase *)&stack0xfffffff4);
+                    /* inlined constructor or destructor (approx location) for
+                       bTPropertyContainer<gEUseType> */
+  local_8 = (bCObjectBase)0x0;
+  (**(code **)(*(int *)((int)this + 0x54) + 0x1c))(&stack0xfffffff4);
+  bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xfffffff0);
+  eCEntityProxy::SetEntity((eCEntityProxy *)((int)this + 0x1c),(eCEntity *)0x0);
+  eCEntityProxy::SetEntity((eCEntityProxy *)((int)this + 0x38),(eCEntity *)0x0);
+  return 1;
+}
+
+

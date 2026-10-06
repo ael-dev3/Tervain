@@ -1,0 +1,36 @@
+; 1006e710 FUN_1006e710
+1006e710 | 83ec0c | SUB ESP,0xc
+1006e713 | 53 | PUSH EBX
+1006e714 | 8b5c2414 | MOV EBX,dword ptr [ESP + 0x14]
+1006e718 | 56 | PUSH ESI
+1006e719 | 57 | PUSH EDI
+1006e71a | 8bf9 | MOV EDI,ECX
+1006e71c | 53 | PUSH EBX
+1006e71d | 8d442410 | LEA EAX,[ESP + 0x10]
+1006e721 | 8d7710 | LEA ESI,[EDI + 0x10]
+1006e724 | 50 | PUSH EAX
+1006e725 | 8bce | MOV ECX,ESI
+1006e727 | e85e94f9ff | CALL 0x10007b8a
+1006e72c | d900 | FLD float ptr [EAX]
+1006e72e | d91e | FSTP float ptr [ESI]
+1006e730 | 53 | PUSH EBX
+1006e731 | d94004 | FLD float ptr [EAX + 0x4]
+1006e734 | 8d4c2410 | LEA ECX,[ESP + 0x10]
+1006e738 | d95e04 | FSTP float ptr [ESI + 0x4]
+1006e73b | 51 | PUSH ECX
+1006e73c | d94008 | FLD float ptr [EAX + 0x8]
+1006e73f | d95e08 | FSTP float ptr [ESI + 0x8]
+1006e742 | 8d7704 | LEA ESI,[EDI + 0x4]
+1006e745 | 8bce | MOV ECX,ESI
+1006e747 | e84a6af9ff | CALL 0x10005196
+1006e74c | d900 | FLD float ptr [EAX]
+1006e74e | d91e | FSTP float ptr [ESI]
+1006e750 | 5f | POP EDI
+1006e751 | d94004 | FLD float ptr [EAX + 0x4]
+1006e754 | d95e04 | FSTP float ptr [ESI + 0x4]
+1006e757 | d94008 | FLD float ptr [EAX + 0x8]
+1006e75a | d95e08 | FSTP float ptr [ESI + 0x8]
+1006e75d | 5e | POP ESI
+1006e75e | 5b | POP EBX
+1006e75f | 83c40c | ADD ESP,0xc
+1006e762 | c20400 | RET 0x4

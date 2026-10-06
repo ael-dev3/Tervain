@@ -1,0 +1,4 @@
+; 20004025 bTPropertyType<gCNavigation_PS,bCPropertyID>::vfunction6
+20004025 | e9f6a22800 | JMP 0x2028e320
+; 2000402a gCScriptProcessingUnit::GetCaughtTask
+; 2000402a Ordinal_3034

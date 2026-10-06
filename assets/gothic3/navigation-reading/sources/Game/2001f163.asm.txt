@@ -1,0 +1,2 @@
+; 2001f163 bTPropertyType<gCNavigation_PS,bCPropertyID>::scalar_deleting_destructor
+2001f163 | e9382e2700 | JMP 0x20291fa0

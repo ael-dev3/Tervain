@@ -1,0 +1,2 @@
+; 1000873d bCPropertyID::operator==
+1000873d | e90eb20100 | JMP 0x10023950

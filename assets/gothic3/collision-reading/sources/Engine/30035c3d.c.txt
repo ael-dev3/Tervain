@@ -1,0 +1,12 @@
+/* ENTRY 30035c3d | eCCollisionShape::GetOuterAABBLocal | STATUS decompiled | 43 ms */
+
+/* public: class bCBox const & __thiscall eCCollisionShape::GetOuterAABBLocal(void)const  */
+
+bCBox * __thiscall eCCollisionShape::GetOuterAABBLocal(eCCollisionShape *this)
+
+{
+                    /* 0x35c3d  8020  ?GetOuterAABBLocal@eCCollisionShape@@QBEABVbCBox@@XZ */
+  return (bCBox *)&(this->eCCollisionShape_data).field_0x44;
+}
+
+

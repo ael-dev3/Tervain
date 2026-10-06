@@ -1,0 +1,39 @@
+/* ENTRY 1009ac30 | FUN_1009ac30 | STATUS decompiled | 22 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined4 FUN_1009ac30(int *param_1,gCScriptProcessingUnit *param_2)
+
+{
+  eCEntity *peVar1;
+  Entity aEStack_200 [156];
+  undefined4 uStack_164;
+  Entity local_150 [4];
+  PSRoutine local_14c [164];
+  Entity local_a8 [168];
+  
+  peVar1 = gCScriptProcessingUnit::GetSelfEntity(param_2);
+  Entity::Entity(local_150,peVar1);
+  peVar1 = gCScriptProcessingUnit::GetTargetEntity(param_2);
+  Entity::Entity(local_a8,peVar1);
+  if ((_DAT_10222abc & 1) == 0) {
+    _DAT_10222abc = _DAT_10222abc | 1;
+    DAT_10222ab4 = DAT_10222ab8;
+    DAT_10222ab8 = DAT_10222ab8 + 1;
+  }
+  if (*(int *)(*param_1 + -0x18 + param_1[1] * 0x18) <= DAT_10222ab4) {
+    *(int *)(*param_1 + -0x18 + param_1[1] * 0x18) = DAT_10222ab4 + 1;
+    Entity::Entity(aEStack_200,local_150);
+    thunk_FUN_1000d6f0();
+    Entity::Entity((Entity *)&stack0xfffffdfc,local_150);
+    thunk_FUN_1000d3f0();
+    uStack_164 = 0x1009acff;
+    bCString::bCString((bCString *)&stack0xfffffea4,"PS_Normal_Loop");
+    PSRoutine::SetState(local_14c);
+  }
+  Entity::~Entity(local_a8);
+  Entity::~Entity(local_150);
+  return 1;
+}
+
+

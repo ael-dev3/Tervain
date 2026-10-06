@@ -1,0 +1,2 @@
+; 2001a979 gCHUDPageTrade2::vfunction69
+2001a979 | e942461500 | JMP 0x2016efc0

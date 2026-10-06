@@ -1,0 +1,20 @@
+; 10067990 FUN_10067990
+10067990 | 56 | PUSH ESI
+10067991 | 8b742408 | MOV ESI,dword ptr [ESP + 0x8]
+10067995 | 51 | PUSH ECX
+10067996 | 8bce | MOV ECX,ESI
+10067998 | e81e0dfaff | CALL 0x100086bb
+1006799d | d9460c | FLD float ptr [ESI + 0xc]
+100679a0 | d944240c | FLD float ptr [ESP + 0xc]
+100679a4 | 8bc6 | MOV EAX,ESI
+100679a6 | d9c0 | FLD ST0
+100679a8 | deca | FMULP ST2
+100679aa | d9c9 | FXCH
+100679ac | d95e0c | FSTP float ptr [ESI + 0xc]
+100679af | d94610 | FLD float ptr [ESI + 0x10]
+100679b2 | d8c9 | FMUL ST1
+100679b4 | d95e10 | FSTP float ptr [ESI + 0x10]
+100679b7 | d84e14 | FMUL float ptr [ESI + 0x14]
+100679ba | d95e14 | FSTP float ptr [ESI + 0x14]
+100679bd | 5e | POP ESI
+100679be | c20800 | RET 0x8

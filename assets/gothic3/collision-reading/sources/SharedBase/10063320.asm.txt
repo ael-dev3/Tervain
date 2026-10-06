@@ -1,0 +1,18 @@
+; 10063320 FUN_10063320
+10063320 | 56 | PUSH ESI
+10063321 | 8b742408 | MOV ESI,dword ptr [ESP + 0x8]
+10063325 | 51 | PUSH ECX
+10063326 | 8bce | MOV ECX,ESI
+10063328 | e88e53faff | CALL 0x100086bb
+1006332d | d9460c | FLD float ptr [ESI + 0xc]
+10063330 | 8b44240c | MOV EAX,dword ptr [ESP + 0xc]
+10063334 | d808 | FMUL float ptr [EAX]
+10063336 | d95e0c | FSTP float ptr [ESI + 0xc]
+10063339 | d94004 | FLD float ptr [EAX + 0x4]
+1006333c | d84e10 | FMUL float ptr [ESI + 0x10]
+1006333f | d95e10 | FSTP float ptr [ESI + 0x10]
+10063342 | d94008 | FLD float ptr [EAX + 0x8]
+10063345 | d84e14 | FMUL float ptr [ESI + 0x14]
+10063348 | d95e14 | FSTP float ptr [ESI + 0x14]
+1006334b | 5e | POP ESI
+1006334c | c20800 | RET 0x8

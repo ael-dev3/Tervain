@@ -1,0 +1,10 @@
+/* ENTRY 2028e6f0 | bTPropertyType<gCNavigation_PS,bCString>::vfunction5 | STATUS decompiled | 3 ms */
+
+bTPropertyType<gCNavigation_PS,bCString>_vftable * __thiscall
+bTPropertyType<gCNavigation_PS,bCString>::vfunction5(bTPropertyType<gCNavigation_PS,bCString> *this)
+
+{
+  return this[7].vftablePtr;
+}
+
+

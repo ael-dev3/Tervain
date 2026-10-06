@@ -1,0 +1,4 @@
+; 10008d2d ?GetInSphere@bCOrientedBox@@QBE?AVbCSphere@@XZ
+10008d2d | e9bed20500 | JMP 0x10065ff0
+; 10008d32 MemHeap::MemHeap
+; 10008d32 Ordinal_7

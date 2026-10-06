@@ -1,0 +1,2 @@
+; 30010b68 ??0eCDynamicEntity@@IAE@XZ
+30010b68 | e983dc4a00 | JMP 0x304be7f0

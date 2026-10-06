@@ -1,0 +1,51 @@
+/* ENTRY 300345f9 | eCEntityPropertySet::OnUntouch | STATUS decompiled | 94 ms */
+
+/* protected: virtual void __thiscall eCEntityPropertySet::OnUntouch(class eCEntity *,class
+   eCContactIterator &)
+   eCEntityPropertySet member function inherited by eCAudioEmitter_PS
+   eCEntityPropertySet member function inherited by eCDecal_PS
+   eCEntityPropertySet member function inherited by eCDynamicLight_PS
+   eCEntityPropertySet member function inherited by eCHemisphere_PS
+   eCEntityPropertySet member function inherited by eCIlluminated_PS
+   eCEntityPropertySet member function inherited by eCPointLight_PS
+   eCEntityPropertySet member function inherited by eCStaticLight_PS
+   eCEntityPropertySet member function inherited by eCStaticPointLight_PS
+   eCEntityPropertySet member function inherited by eCStaticSpotLight_PS
+   eCEntityPropertySet member function inherited by eCLightStreaks_PS
+   eCEntityPropertySet member function inherited by eCEffectBase_PS
+   eCEntityPropertySet member function inherited by eCParticle_PS
+   eCEntityPropertySet member function inherited by eCRigidBodyBase_PS
+   eCEntityPropertySet member function inherited by eCCollisionShapeBase_PS
+   eCEntityPropertySet member function inherited by eCPhysicsScene_PS
+   eCEntityPropertySet member function inherited by eCLinkContainer_PS
+   eCEntityPropertySet member function inherited by eCEngineCaps_PS
+   eCEntityPropertySet member function inherited by eCVisualMeshBase_PS
+   eCEntityPropertySet member function inherited by eCVisualMeshDynamic_PS
+   eCEntityPropertySet member function inherited by eCVisualMeshStatic_PS
+   eCEntityPropertySet member function inherited by eCEditorEntityPropertySet
+   eCEntityPropertySet member function inherited by eCSpeedTree_PS
+   eCEntityPropertySet member function inherited by eCSpeedTreeWind_PS
+   eCEntityPropertySet member function inherited by eCSkydome_PS
+   eCEntityPropertySet member function inherited by eCStrip_PS
+   eCEntityPropertySet member function inherited by eCVegetation_PS
+   eCEntityPropertySet member function inherited by eCVegetationBrush_PS
+   eCEntityPropertySet member function inherited by eCVegetationRubber_PS
+   eCEntityPropertySet member function inherited by eCPrecipitation_PS
+   eCEntityPropertySet member function inherited by eCWeatherZone_PS
+   eCEntityPropertySet member function inherited by eCVisualAnimation_PS
+   eCEntityPropertySet member function inherited by eCDirectionalLight_PS
+   eCEntityPropertySet member function inherited by eCParticleSystemBase_PS
+   eCEntityPropertySet member function inherited by eCRigidBody_PS
+   eCEntityPropertySet member function inherited by eCCollisionShape_PS */
+
+void __thiscall
+eCEntityPropertySet::OnUntouch
+          (eCEntityPropertySet *this,eCEntity *param_1,eCContactIterator *param_2)
+
+{
+                    /* 0x345f9  11579
+                       ?OnUntouch@eCEntityPropertySet@@MAEXPAVeCEntity@@AAVeCContactIterator@@@Z */
+  return;
+}
+
+

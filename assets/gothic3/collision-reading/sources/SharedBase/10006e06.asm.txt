@@ -1,0 +1,4 @@
+; 10006e06 ?AccessMax@bCBox@@QAEAAVbCVector@@XZ
+10006e06 | e985380200 | JMP 0x1002a690
+; 10006e0b bCMatrix::RotateLocalAxisX
+; 10006e0b Ordinal_3997

@@ -1,0 +1,24 @@
+; 201c45d0 bTPropertyType<gCInventorySlot,eCTemplateEntityProxy>::vfunction6
+201c45d0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+201c45d4 | 83ec0c | SUB ESP,0xc
+201c45d7 | 85c0 | TEST EAX,EAX
+201c45d9 | 742f | JZ 0x201c460a
+201c45db | 8b11 | MOV EDX,dword ptr [ECX]
+201c45dd | 56 | PUSH ESI
+201c45de | 50 | PUSH EAX
+201c45df | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+201c45e2 | ffd0 | CALL EAX
+201c45e4 | 6a00 | PUSH 0x0
+201c45e6 | 8d4c2408 | LEA ECX,[ESP + 0x8]
+201c45ea | 8bf0 | MOV ESI,EAX
+201c45ec | ff15d05e7d20 | CALL dword ptr [0x207d5ed0]
+201c45f2 | 8d4c2404 | LEA ECX,[ESP + 0x4]
+201c45f6 | 51 | PUSH ECX
+201c45f7 | 8bce | MOV ECX,ESI
+201c45f9 | ff152c6e7d20 | CALL dword ptr [0x207d6e2c]
+201c45ff | 8d4c2404 | LEA ECX,[ESP + 0x4]
+201c4603 | ff15c46e7d20 | CALL dword ptr [0x207d6ec4]
+201c4609 | 5e | POP ESI
+; 201c460a LAB_201c460a
+201c460a | 83c40c | ADD ESP,0xc
+201c460d | c20400 | RET 0x4

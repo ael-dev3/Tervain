@@ -1,0 +1,26 @@
+/* ENTRY 20022133 | gCHUDTableStackStats::vfunction3_for_gCInventoryListener | STATUS decompiled | 8 ms */
+
+void __thiscall
+gCHUDTableStackStats::vfunction3_for_gCInventoryListener(gCHUDTableStackStats *this,int param_1)
+
+{
+  int iVar1;
+  
+  iVar1 = *(int *)&(this->gCHUDTable_data).field_0x4;
+  if (param_1 == iVar1) {
+    if (*(int **)&this->gCHUDTable_data != (int *)0x0) {
+      (**(code **)(**(int **)&this->gCHUDTable_data + 0x154))(this);
+    }
+    *(undefined4 *)&this->gCHUDTable_data = 0;
+    *(undefined4 *)&(this->gCHUDTable_data).field_0x4 = 0xffffffff;
+    *(undefined1 *)&this[-1].vftablePtr = 1;
+    return;
+  }
+  if (param_1 < iVar1) {
+    *(int *)&(this->gCHUDTable_data).field_0x4 = iVar1 + -1;
+    *(undefined1 *)&this[-1].vftablePtr = 1;
+  }
+  return;
+}
+
+

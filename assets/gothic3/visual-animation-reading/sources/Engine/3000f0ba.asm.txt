@@ -1,0 +1,2 @@
+; 3000f0ba thunk_FUN_300aee60
+3000f0ba | e9a1fd0900 | JMP 0x300aee60

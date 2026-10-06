@@ -1,0 +1,2 @@
+; 30045f93 eCVisualAnimation_PS::GetStatus
+30045f93 | e9888e0500 | JMP 0x3009ee20

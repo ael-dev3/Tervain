@@ -1,0 +1,2 @@
+; 200058df ?GetGoalRotation@gCCharacterSensor_PS@@QBE?AVbCQuaternion@@XZ
+200058df | e95c142300 | JMP 0x20236d40

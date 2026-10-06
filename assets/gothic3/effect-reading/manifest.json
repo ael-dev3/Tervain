@@ -1,0 +1,15 @@
+{
+  "schema": "gothic3-effect-reading-manifest-v1",
+  "outputs": [
+    {
+      "path": "hero-effect.json",
+      "bytes": 1487,
+      "sha256": "08760f5022fbbe969a29572d1b3c156025778525592f4e37d0ddcf88df1adaf1"
+    },
+    {
+      "path": "runtime-rules.json",
+      "bytes": 4004,
+      "sha256": "90b80109a3f2f991779e7b7819724d115229a1087a5cc094964a5626b95e5c0b"
+    }
+  ]
+}

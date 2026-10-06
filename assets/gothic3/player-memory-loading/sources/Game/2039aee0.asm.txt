@@ -1,0 +1,4 @@
+; 2039aee0 FUN_2039aee0
+2039aee0 | 8b411c | MOV EAX,dword ptr [ECX + 0x1c]
+2039aee3 | 034118 | ADD EAX,dword ptr [ECX + 0x18]
+2039aee6 | c3 | RET

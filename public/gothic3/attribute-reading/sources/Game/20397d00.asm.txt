@@ -1,0 +1,9 @@
+; 20397d00 gCAttribute::~gCAttribute
+20397d00 | 56 | PUSH ESI
+20397d01 | 8bf1 | MOV ESI,ECX
+20397d03 | 8d4e0c | LEA ECX,[ESI + 0xc]
+20397d06 | c7067cda6520 | MOV dword ptr [ESI],0x2065da7c
+20397d0c | ff1534887d20 | CALL dword ptr [0x207d8834]
+20397d12 | 8bce | MOV ECX,ESI
+20397d14 | 5e | POP ESI
+20397d15 | ff2558867d20 | JMP dword ptr [0x207d8658]

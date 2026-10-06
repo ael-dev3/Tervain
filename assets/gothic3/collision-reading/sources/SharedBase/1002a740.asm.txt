@@ -1,0 +1,9 @@
+; 1002a740 FUN_1002a740
+1002a740 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+1002a744 | d900 | FLD float ptr [EAX]
+1002a746 | d919 | FSTP float ptr [ECX]
+1002a748 | d94004 | FLD float ptr [EAX + 0x4]
+1002a74b | d95904 | FSTP float ptr [ECX + 0x4]
+1002a74e | d94008 | FLD float ptr [EAX + 0x8]
+1002a751 | d95908 | FSTP float ptr [ECX + 0x8]
+1002a754 | c20400 | RET 0x4

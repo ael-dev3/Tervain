@@ -1,0 +1,57 @@
+/* ENTRY 20298460 | FUN_20298460 | STATUS decompiled | 45 ms */
+
+void __fastcall FUN_20298460(gCNavPath_PS *param_1)
+
+{
+  eCEntity *this;
+  bCMatrix *pbVar1;
+  bCVector *this_00;
+  float fVar2;
+  float fVar3;
+  bCVector *pbVar4;
+  bCVector abStack_64 [4];
+  bCVector abStack_60 [4];
+  bCVector abStack_5c [4];
+  bCVector abStack_58 [4];
+  bCVector abStack_54 [8];
+  bCVector abStack_4c [8];
+  bCMatrix abStack_44 [4];
+  bCMatrix abStack_40 [64];
+  
+  gCNavPath_PS::GameReset(param_1);
+  if (((*(ushort *)&param_1[1].gCNavPath_PS_data.offset_0x14 < 0x27) &&
+      ((param_1->gCNavPath_PS_data).field_0x28 == '\0')) &&
+     ((param_1->gCNavPath_PS_data).offset_0x20 == 2)) {
+    this = (*param_1->vftablePtr->GetEntity)(param_1);
+    pbVar1 = eCEntity::GetWorldMatrix((eCEntity *)this);
+    bCMatrix::bCMatrix(abStack_40,pbVar1);
+    bCMatrix::operator*(abStack_40,abStack_4c);
+    bCMatrix::operator*(abStack_44,abStack_5c);
+    fVar2 = bCVector::GetY(abStack_54);
+    fVar3 = bCVector::GetY(abStack_60);
+    if (ABS(fVar2 - fVar3) <= 200.0) {
+      pbVar4 = abStack_60;
+      this_00 = (bCVector *)bCVector::operator-(abStack_54,(bCVector *)&stack0xffffff94);
+      fVar2 = bCVector::GetMagnitude2D(this_00,(bECoordinate)pbVar4);
+      bCVector::~bCVector((bCVector *)&stack0xffffff90);
+      if (fVar2 <= 800.0) {
+        *(undefined4 *)(param_1->gCNavPath_PS_data).offset_0x1c = 0x41a00000;
+        *(undefined4 *)((int)(param_1->gCNavPath_PS_data).offset_0x1c + 4) = 0x41a00000;
+      }
+    }
+    gCNavPath_PS::SetTopToleranz(param_1,(float *)&stack0xffffff90);
+    gCNavPath_PS::SetBottomToleranz(param_1,(float *)&stack0xffffff90);
+    gCNavPath_PS::SetLinkInnerArea(param_1,(bool *)&stack0xffffff8f);
+    gCNavPath_PS::SetLinkInnerTopArea(param_1,(bool *)&stack0xffffff8f);
+    gCNavPath_PS::SetLinkInnerBottomArea(param_1,(bool *)&stack0xffffff8f);
+    bCVector::~bCVector(abStack_64);
+    bCVector::~bCVector(abStack_58);
+    bCMatrix::~bCMatrix((bCMatrix *)abStack_4c);
+  }
+                    /* WARNING: Could not recover jumptable at 0x202985f0. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eCEntityPropertySet::OnPostRead((eCEntityPropertySet *)param_1);
+  return;
+}
+
+
