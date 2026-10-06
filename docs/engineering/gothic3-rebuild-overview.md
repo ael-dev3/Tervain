@@ -274,8 +274,14 @@ checkpoint 73 is `main` commit
 `0a439f819cfe51b20180765df8c58d278df4fa6b`, published by the successful
 [workflow run 37520227542](https://github.com/ael-dev3/Tervain/actions/runs/37520227542).
 The public route serves its `gothic3-siaPiAJn.js` bundle. The standalone runtime
-admins in checkpoint 74 are the next component under review; their source
-admission and local tests do not establish NPC integration or publication.
+admins in checkpoint 74 were merged as `main` commit
+`eec169d0002c2f9ec8c46585f9df18b69be1c4f1` in
+[PR 41](https://github.com/ael-dev3/Tervain/pull/41). The separate publication
+receipt is [workflow run 37522723425](https://github.com/ael-dev3/Tervain/actions/runs/37522723425).
+They are not connected to the browser NPC reader. The isolated shared heap
+owners in [checkpoint 75](gothic3-rebuilding-process.md#75-alias-selected-npc-fields-to-the-shared-heap)
+still require full native startup and browser integration; their tests do not
+establish an activated NPC or campaign progress.
 Subsequent build and deployment receipts are recorded in the
 [Pages workflow](https://github.com/ael-dev3/Tervain/actions/workflows/pages.yml).
 This is an incomplete reconstruction; hosting and a successful build do not

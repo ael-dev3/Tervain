@@ -1,0 +1,10 @@
+/* ENTRY 10087b60 | FUN_10087b60 | STATUS decompiled | 2 ms */
+
+uint FUN_10087b60(uint *param_1,uint *param_2)
+
+{
+  if (*param_1 < *param_2) {
+    return 0xffffffff;
+  }
+  return (uint)(*param_2 < *param_1);
+}

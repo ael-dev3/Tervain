@@ -12,6 +12,8 @@ import type { NativeEntitySetters } from './entity-setters';
 import type { OriginalControlReader } from './control-reading';
 import { OriginalPropertyOwner } from './native-properties';
 import type { NativeClockTimestampSource } from './world-clock';
+import type { NativeMemoryAdmin, NativeMemoryAllocation } from './native-memory-admin';
+import { NativeEntityHeapFields } from './native-entity-heap';
 
 const rules = JSON.parse(rulesText) as { schema: string; inputs: Record<string, string>;
   allocation: { bytes: number; secondArgument: number }; worldResident: false };
@@ -73,10 +75,18 @@ export interface NativeEntityConstructionHost {
    * two separate reads if the first result is non-NULL. */
   sceneAdmin(): NativeValue<NativeEntityConstructionSceneAdmin | null>;
 }
+/** Explicit isolated physical profile. Its SceneAdmin/identity services still
+ * have to be supplied; connecting a heap does not own their lazy startup. */
+export interface NativeEntityConstructionMemoryProfile {
+  readonly memory: Pick<NativeMemoryAdmin, 'newObject'>;
+  defaultPropertyComparator(): NativeValue<object>;
+}
 export interface NativeEntityConstructionTrace {
   operation: string; source: string; state: 'attempted' | 'applied'; value?: number | string | null;
 }
 export interface NativeEntityConstructionAllocation extends NativeDynamicEntityReadStorage {
+  readonly nativeAllocation: NativeMemoryAllocation | null;
+  readonly heapFields: NativeEntityHeapFields | null;
   readonly guidTemporary: NativeEntityGuidTemporary;
   /** Current contents of uninitialized holders are not source facts. Only
    * named initialized fields/flag masks may be consumed before completion. */
@@ -90,6 +100,9 @@ export type NativeEntityConstructionResult =
   | { supported: false; reason: string; partial: NativeEntityConstructionDiagnostic | null;
       trace: readonly NativeEntityConstructionTrace[]; worldResident: false };
 export interface NativeEntityConstructionDiagnostic {
+  readonly allocationProfile: 'selected-logical-allocation' | 'shared-native-heap';
+  readonly backingBytes?: readonly number[];
+  readonly backingKnownMask?: readonly number[];
   readonly identity: string; readonly phase: NativeEntityConstructionAllocation['phase'];
   readonly vtableClass: NativeEntityConstructionAllocation['vtableClass'];
   readonly initializedFields: readonly string[];
@@ -102,7 +115,10 @@ export interface NativeEntityConstructionDiagnostic {
 /** Diagnostic copies expose known writes without leaking a partially
  * constructed entity capability or an uninitialized owner's Modified call. */
 function diagnostic(target: NativeEntityConstructionAllocation): NativeEntityConstructionDiagnostic {
-  return Object.freeze({ identity: target.data.entity.identity, phase: target.phase, vtableClass: target.vtableClass,
+  return Object.freeze({ allocationProfile: target.nativeAllocation ? 'shared-native-heap' : 'selected-logical-allocation',
+    ...(target.nativeAllocation ? { backingBytes: Object.freeze([...target.nativeAllocation.bytes.subarray(0, 0x1c0)]),
+      backingKnownMask: Object.freeze([...target.nativeAllocation.knownMask.subarray(0, 0x1c0)]) } : {}),
+    identity: target.data.entity.identity, phase: target.phase, vtableClass: target.vtableClass,
     initializedFields: Object.freeze([...target.initializedFields]),
     flags: Object.freeze({ ...target.data.entity.flags }), dynamicFlags: Object.freeze({ ...target.flags1bc }),
     guidBytes: Object.freeze([...target.guidTemporary.bytes].map((value, i) => target.guidTemporary.knownMask[i] === 0xff ? value : null)),
@@ -119,7 +135,8 @@ export class NativeOriginalEntityFactory {
   private nextIdentity = 0;
   private readonly allocations: NativeEntityConstructionAllocation[] = [];
   private readonly rows: NativeEntityConstructionTrace[] = [];
-  constructor(readonly identity: string, readonly host: NativeEntityConstructionHost) {
+  constructor(readonly identity: string, readonly host: NativeEntityConstructionHost,
+    readonly memoryProfile?: NativeEntityConstructionMemoryProfile) {
     if (!identity || host.guid.profile !== 'selected-platform-GUID16-service' ||
         host.timestamps.profile !== 'selected-host-monotonic-u32-milliseconds') {
       throw new Error('Explicit GUID and timer platform services required');
@@ -158,24 +175,31 @@ export class NativeOriginalEntityFactory {
     };
     this.active = true;
     try {
+      const nativeAllocation = this.memoryProfile ? call('shared MemoryAdmin tagged-new(448,0x170)', 'Game:201d4cb0',
+        () => this.memoryProfile!.memory.newObject(0x1c0, 0x170)) : null;
+      if (this.memoryProfile && nativeAllocation === null) throw new Error('Original gCEntity allocation returnedNULL before constructor');
       const entityIdentity = this.identity + ':entity:' + ++this.nextIdentity;
       const owner = OriginalPropertyOwner.fromConstructor(entityIdentity, 'gCEntity');
       const entity = new NativeLiveEntity(entityIdentity, owner, ZERO_ID, 'deferred-source-construction');
-      const data = new NativeEntityReadData(entity, { worldMatrix: new Array(16), localMatrix: new Array(16),
+      const heapFields = nativeAllocation ? new NativeEntityHeapFields(nativeAllocation, entity, owner) : null;
+      const data = heapFields?.data ?? new NativeEntityReadData(entity, { worldMatrix: new Array(16), localMatrix: new Array(16),
         treeBox: new Array(6), localBox: new Array(6), worldBox: new Array(6),
         worldSphere: new Array(4), localSphere: new Array(4) }, '');
-      target = { data, creator: { propertyId20: ZERO_ID }, flags1bc: { value: 0, knownMask: 0 },
+      target = { data, nativeAllocation, heapFields, creator: heapFields?.creator ?? { propertyId20: ZERO_ID },
+        flags1bc: heapFields?.flags1bc ?? { value: 0, knownMask: 0 },
         guidTemporary: { bytes: new Uint8Array(16), knownMask: new Uint8Array(16), valid: false, destroyed: false },
         initializedFields: new Set(), phase: 'node', vtableClass: 'bCObjectRefBase' };
       this.allocations.push(target);
       const current = target, temporary = target.guidTemporary;
       record('successful native allocation: new(1c0,170)', 'Game:201d4cb0', 'applied', 0x1c0);
+      if (heapFields) write('ObjectBase vtable', 'SharedBase:1004a1c2', () => { heapFields.setVtable(0x100e7e1c); });
       write('propertyObjectReference', 'SharedBase:10001d07', () => { entity.propertyObjectReference = null; }, null);
+      heapFields?.setVtable(0x100e7eac);
       record('RefBase vtable', 'SharedBase:1004a5ba', 'applied');
       write('referenceWord', 'SharedBase:10001d07', () => { entity.referenceWord = 1; }, 1);
-      target.vtableClass = 'eCNode'; record('Node vtable', 'Engine:304808d0', 'applied');
-      write('child array capacity/count/backing', 'Engine:304808d0', () => { entity.children.length = 0; }, 0);
-      write('propertyId20', 'SharedBase:10092aa0', () => { entity.propertyId20 = ZERO_ID; }, ZERO_ID);
+      target.vtableClass = 'eCNode'; heapFields?.setVtable(0x30875cd4); record('Node vtable', 'Engine:304808d0', 'applied');
+      write('child array capacity/count/backing', 'Engine:304808d0', () => { heapFields?.initializeChildren(); entity.children.length = 0; }, 0);
+      write('propertyId20', 'SharedBase:10092aa0', () => { if (heapFields) heapFields.clearPropertyId(0x18); else entity.propertyId20 = ZERO_ID; }, ZERO_ID);
       write('temporary GUID validity', 'SharedBase:10012980', () => { temporary.valid = false; }, 0);
       call('CoCreateGuid into actual temporary16 (HRESULT ignored)', 'SharedBase:10012570', () => this.host.guid.coCreateGuid(temporary));
       write('temporary GUID validity', 'SharedBase:10012570', () => { temporary.valid = true; }, 1);
@@ -184,14 +208,17 @@ export class NativeOriginalEntityFactory {
       }
       record('bCGuid.GetGuid returns same temporary pointer', 'SharedBase:10012470', 'applied');
       const generatedId = [...temporary.bytes].map(byte => byte.toString(16).padStart(2, '0')).join('') + '00000000';
-      write('propertyId20', 'SharedBase:10092760', () => { entity.propertyId20 = generatedId; }, generatedId);
+      write('propertyId20', 'SharedBase:10092760', () => { if (heapFields) heapFields.assignGeneratedPropertyId(generatedId); else entity.propertyId20 = generatedId; }, generatedId);
       write('temporary GUID destructor RET', 'SharedBase:10012440', () => { temporary.destroyed = true; });
       write('parent', 'Engine:30480902', () => { entity.parent = null; }, null);
       write('DWORD2c', 'Engine:30480905', () => { data.numeric.set(0x2c, 0); }, 0);
       target.phase = 'entity'; target.vtableClass = 'eCEntity';
+      heapFields?.setVtable(0x3087aa9c);
       record('embedded math constructors have no stores', 'Engine:304b67c0', 'applied');
-      write('name CString constructor', 'Engine:304b67c0', () => { data.name = ''; }, '');
-      write('property array capacity/count/backing', 'Engine:304b67c0', () => { entity.propertySets.length = 0; }, 0);
+      write('name CString constructor', 'Engine:304b67c0', () => { if (heapFields) heapFields.initializeName(); else data.name = ''; }, '');
+      write('property array capacity/count/backing', 'Engine:304b67c0', () => { heapFields?.initializeProperties(); entity.propertySets.length = 0; }, 0);
+      if (heapFields) heapFields.setDefaultComparator(call('imported g_ArraySortDefaultCompare capability', 'Engine:304b6841',
+        () => this.memoryProfile!.defaultPropertyComparator()));
       write('property array default comparator/sorted', 'Engine:304b67c0', () => {
         entity.propertyArraySorted = true; entity.propertySortProfile = 'default';
       });
@@ -218,10 +245,18 @@ export class NativeOriginalEntityFactory {
         }
       }
       for (const field of ['localBox', 'worldBox', 'treeBox'] as const) {
-        write(field, 'SharedBase:1002a8a0', () => { data.arrays[field].splice(0, 6, F32_MAX, F32_MAX, F32_MAX, -F32_MAX, -F32_MAX, -F32_MAX); });
+        write(field, 'SharedBase:1002a8a0', () => {
+          const values = [F32_MAX, F32_MAX, F32_MAX, -F32_MAX, -F32_MAX, -F32_MAX];
+          if (heapFields) for (let i = 0; i < 6; i++) data.arrays[field][i] = values[i]!;
+          else data.arrays[field].splice(0, 6, ...values);
+        });
       }
       for (const field of ['worldSphere', 'localSphere'] as const) {
-        write(field, 'SharedBase:10036c70', () => { data.arrays[field].splice(0, 4, -F32_MAX, 0, 0, 0); });
+        write(field, 'SharedBase:10036c70', () => {
+          const values = [-F32_MAX, 0, 0, 0];
+          if (heapFields) for (let i = 0; i < 4; i++) data.arrays[field][i] = values[i]!;
+          else data.arrays[field].splice(0, 4, ...values);
+        });
       }
       write('name CString clear', 'SharedBase:100149b0', () => { data.name = ''; }, '');
       write('entity render-priority mask', 'Engine:304b2a30', () => { entity.completeEntityConstructorFlags(); });
@@ -232,8 +267,10 @@ export class NativeOriginalEntityFactory {
       write('owner modifiedWord DWORD130', 'Engine:304b2a30', () => { owner.modifiedWord = 0xffffffff; }, 0xffffffff);
       write('entity field0x134', 'Engine:304b2a30', () => { data.numeric.set(0x134, 1); }, 1);
       target.phase = 'dynamic'; target.vtableClass = 'eCDynamicEntity';
-      write('creator', 'SharedBase:10092aa0', () => { current.creator.propertyId20 = ZERO_ID; }, ZERO_ID);
+      heapFields?.setVtable(0x3087b3ec);
+      write('creator', 'SharedBase:10092aa0', () => { if (heapFields) heapFields.clearPropertyId(0x1a8); else current.creator.propertyId20 = ZERO_ID; }, ZERO_ID);
       const dynamicWord = (mask: number): void => write('dynamic flags1bc mask' + mask.toString(16), 'Engine:304be7f0', () => {
+        if (heapFields && mask === 0xff00) { heapFields.views.writeUnsigned(0x1bd, 0, 1); return; }
         const flags: NativeMaskedWord = current.flags1bc;
         flags.value &= ~mask; flags.knownMask = (flags.knownMask | mask) & 0xffff;
       });
@@ -241,7 +278,7 @@ export class NativeOriginalEntityFactory {
       write('dynamic enable flag mask', 'Engine:304be7f0', () => { entity.initializeDynamicConstructorFlags(); });
       dynamicWord(0xff00); dynamicWord(0x0f);
       write('context', 'Engine:304be7f0', () => { entity.context = null; }, null);
-      write('creator Destroy', 'SharedBase:10092880', () => { current.creator.propertyId20 = ZERO_ID; }, ZERO_ID);
+      write('creator Destroy', 'SharedBase:10092880', () => { if (heapFields) heapFields.clearPropertyId(0x1a8); else current.creator.propertyId20 = ZERO_ID; }, ZERO_ID);
       write('dynamic kind flag mask', 'Engine:304be7f0', () => { entity.completeDynamicConstructorFlags(); });
       const constructorAdmin = call('constructor SceneAdmin getter', 'Engine:30009a2a', () => this.host.sceneAdmin());
       if (constructorAdmin === null) throw new Error('Original dynamic constructor dereferences its SceneAdmin; NULL has no supported success path');
@@ -250,6 +287,7 @@ export class NativeOriginalEntityFactory {
         constructorAdmin.constructionCounter134.value = (counter + 1) >>> 0;
       }, (counter + 1) >>> 0);
       target.vtableClass = 'gCEntity'; target.phase = 'constructed';
+      heapFields?.setVtable(0x2066813c);
       record('Game final vtable', 'Game:2012bdc0', 'applied');
       write('virtual gCEntity.Create', 'Game:201d4cd9', () => { entity.create(); target!.phase = 'created'; }, 1);
       const firstAdmin = call('factory SceneAdmin getter for NULL check', 'Game:201d4cdb', () => this.host.sceneAdmin());

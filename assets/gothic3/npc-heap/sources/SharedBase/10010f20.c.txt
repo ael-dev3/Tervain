@@ -1,0 +1,8 @@
+/* ENTRY 10010f20 | FUN_10010f20 | STATUS decompiled | 2 ms */
+
+void __fastcall FUN_10010f20(LPCRITICAL_SECTION param_1)
+
+{
+  LeaveCriticalSection(param_1);
+  return;
+}

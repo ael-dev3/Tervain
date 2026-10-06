@@ -1,0 +1,5 @@
+10092a60 | 8b4c2404 | MOV ECX,dword ptr [ESP + 0x4]
+10092a64 | 8b01 | MOV EAX,dword ptr [ECX]
+10092a66 | c1e803 | SHR EAX,0x3
+10092a69 | 034110 | ADD EAX,dword ptr [ECX + 0x10]
+10092a6c | c20400 | RET 0x4

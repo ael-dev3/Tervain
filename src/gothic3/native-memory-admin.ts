@@ -1,4 +1,5 @@
 import runtimeRules from '../../assets/gothic3/runtime-admin/runtime-rules.json';
+import npcHeapRules from '../../assets/gothic3/npc-heap/runtime-rules.json';
 import type { NativeValue } from './dialogue';
 
 /** Physical bytes and pointer capabilities are separate: a browser identity is
@@ -31,7 +32,7 @@ export interface NativeMemoryPlatform {
   registerShutdown(address: '100e2710', owner: object, execute: () => NativeValue<void>): NativeValue<number>;
   clearDefaultCString(owner: object): NativeValue<void>;
 }
-type ColdRange = { address: string; raw: string; knownMask: string; bytes: number };
+type ColdRange = { address: string; raw: string; knownMask: string; bytes: number; module?: string };
 type BucketRule = {
   stride: number; minimumRequest: number; maximumRequest: number;
   regionBytes: number; capacity: number; bitmapOffset: number; bitmapBytes: number;
@@ -40,6 +41,26 @@ type BucketRule = {
   callbacks: string[];
 };
 type Rules = { schema: string; inputs: { SharedBase: string }; coldGlobals: Record<string, ColdRange>; buckets: Record<string, BucketRule> };
+/** An exported source-admitted identity, not caller-provided pool constants. */
+export interface NativeMemoryRulesExtension {
+  readonly schema: 'gothic3-npc-heap-rules-v1';
+  readonly baseRulesSha256: string;
+  readonly inputs: { readonly SharedBase: string; readonly Engine: string };
+}
+const BASE_RULES_SHA = '64f3cabc691a51639fc3d5b320e986bf8372ab50a61a6faa21bb9c58b70375a6';
+const extensionSource = npcHeapRules as unknown as Rules & { baseRulesSha256: string; inputs: { SharedBase: string; Engine: string } };
+const freezeSource = (value: unknown): void => {
+  if (value !== null && typeof value === 'object' && !Object.isFrozen(value)) {
+    for (const child of Object.values(value)) freezeSource(child);
+    Object.freeze(value);
+  }
+};
+freezeSource(extensionSource);
+export const nativeNpcHeapExtension: NativeMemoryRulesExtension = Object.freeze({
+  schema: 'gothic3-npc-heap-rules-v1', baseRulesSha256: extensionSource.baseRulesSha256,
+  inputs: Object.freeze({ SharedBase: extensionSource.inputs.SharedBase, Engine: extensionSource.inputs.Engine }),
+});
+const admittedExtensions = new WeakMap<object, typeof extensionSource>([[nativeNpcHeapExtension, extensionSource]]);
 type Pool = { region: NativeMemoryRegion; bucket: Bucket; next: Pool | null };
 type Bucket = { rule: BucketRule; head: Pool | null; descriptor: NativeMemoryBacking | null };
 type Area = { region: NativeMemoryRegion; lower: number; upper: number; pool: Pool; descriptor: NativeMemoryBacking | null };
@@ -86,13 +107,25 @@ export class NativeMemoryAdmin {
   private halted: string | null = null;
   private readonly trace: string[] = [];
 
-  constructor(private readonly platform: NativeMemoryPlatform) {
+  constructor(private readonly platform: NativeMemoryPlatform, options: { extensions?: readonly NativeMemoryRulesExtension[] } = {}) {
     const rules = runtimeRules as unknown as Rules;
     if (rules.schema !== 'gothic3-runtime-admin-rules-v1' || rules.inputs.SharedBase !== SHARED_BASE) throw new Error('MemoryAdmin source receipt does not match the original SharedBase input');
-    for (const [name, group] of Object.entries(rules.coldGlobals)) {
+    const sources = [rules];
+    const seen = new Set<object>();
+    for (const extension of options.extensions ?? []) {
+      const source = admittedExtensions.get(extension);
+      if (!source || seen.has(extension) || source.schema !== 'gothic3-npc-heap-rules-v1' || source.baseRulesSha256 !== BASE_RULES_SHA || source.inputs.SharedBase !== SHARED_BASE || source.inputs.Engine !== 'd49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3') throw new Error('MemoryAdmin extension is not the original statically admitted source identity');
+      seen.add(extension); sources.push(source);
+    }
+    // Prefer a larger exact source prefix before its contained base receipt;
+    // every overlapping byte/mask still has to agree with the frozen input.
+    const coldRanges = sources.flatMap(source => Object.entries(source.coldGlobals))
+      .sort((a, b) => Number.parseInt(a[1].address, 16) - Number.parseInt(b[1].address, 16) || b[1].bytes - a[1].bytes);
+    for (const [name, group] of coldRanges) {
       // Error/Message/Spy storage belongs to their owners. Overlapping Memory
       // receipts refer to one physical range, rather than disconnected copies.
       if (!/^(?:memoryAdmin|memHeap|heap)/.test(name)) continue;
+      if (group.module !== undefined && group.module !== 'SharedBase') throw new Error('MemoryAdmin cannot own another module cold range');
       const bytes = hex(group.raw), knownMask = hex(group.knownMask);
       if (bytes.length !== group.bytes || knownMask.length !== group.bytes) throw new Error(`Invalid cold global ${group.address}`);
       const address = Number.parseInt(group.address, 16);
@@ -102,10 +135,12 @@ export class NativeMemoryAdmin {
         if (bytes.some((byte, index) => byte !== overlap.backing.bytes[offset + index]) || knownMask.some((byte, index) => byte !== overlap.backing.knownMask[offset + index])) throw new Error('Overlapping original MemoryAdmin receipts disagree');
         continue;
       }
+      if (this.globals.some(value => address < value.address + value.backing.bytes.length && address + bytes.length > value.address)) throw new Error('Partial original MemoryAdmin range overlap is not admitted');
       this.globals.push({ address, backing: { identity: {}, bytes, knownMask, freed: false } });
     }
-    for (const rule of Object.values(rules.buckets)) {
+    for (const rule of sources.flatMap(source => Object.values(source.buckets))) {
       if (!uint32(rule.stride) || rule.stride === 0 || rule.maximumRequest !== rule.stride || rule.capacity * rule.stride !== rule.payloadBytes || rule.bitmapBytes % 4 !== 0 || rule.bitmapOffset + rule.bitmapBytes > rule.regionBytes || rule.callbacks.length !== 4) throw new Error('Invalid audited native pool geometry');
+      if (this.buckets.some(bucket => rule.minimumRequest <= bucket.rule.maximumRequest && rule.maximumRequest >= bucket.rule.minimumRequest)) throw new Error('Original native pool request ranges conflict');
       this.buckets.push({ rule, head: null, descriptor: null });
     }
     this.buckets.sort((a, b) => a.rule.stride - b.rule.stride);
@@ -200,6 +235,11 @@ export class NativeMemoryAdmin {
     const result = this.synchronized(() => this.allocate(bytes));
     if (!result.known || result.value !== null) return result;
     return this.stop('Native tagged-new NULL result requires ErrorAdmin critical/fatal error callbacks');
+  }
+  /** bCMemoryAdmin::Malloc 10003cd8->1003d410 has no tagged-new fatal wrapper. */
+  malloc(bytes: number): NativeValue<NativeMemoryAllocation | null> {
+    if (!uint32(bytes)) return unknown('Native malloc size must be uint32');
+    return this.synchronized(() => this.allocate(bytes));
   }
   realloc(old: NativeMemoryAllocation | null, bytes: number): NativeValue<NativeMemoryAllocation | null> {
     if (!uint32(bytes)) return unknown('Native realloc size must be uint32');

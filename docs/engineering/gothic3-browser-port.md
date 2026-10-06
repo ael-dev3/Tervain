@@ -11,8 +11,13 @@ live. The verified deployed checkpoint 73 is `main` commit
 `0a439f819cfe51b20180765df8c58d278df4fa6b`, published by the successful
 [workflow run 37520227542](https://github.com/ael-dev3/Tervain/actions/runs/37520227542).
 The public route serves `gothic3-siaPiAJn.js`. The standalone admin modules in
-checkpoint 74 are a separate component under review; they are not connected to
-the retained browser NPC read.
+checkpoint 74 were merged as `main` commit
+`eec169d0002c2f9ec8c46585f9df18b69be1c4f1` in
+[PR 41](https://github.com/ael-dev3/Tervain/pull/41). Its separate publication
+receipt is [workflow run 37522723425](https://github.com/ael-dev3/Tervain/actions/runs/37522723425).
+Those modules are not connected to the retained browser NPC read.
+Checkpoint 75 adds isolated shared heap field/table/CString owners and keeps
+full startup and browser integration as explicit prerequisites.
 The [Pages workflow](https://github.com/ael-dev3/Tervain/actions/workflows/pages.yml)
 records subsequent publication receipts.
 It remains an incomplete exploration and gameplay prototype, not a finished

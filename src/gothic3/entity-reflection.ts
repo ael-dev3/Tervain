@@ -6,6 +6,8 @@
 import rulesText from '../../assets/gothic3/entity-reflection/runtime-rules.json?raw';
 import manifestText from '../../assets/gothic3/entity-reflection/manifest.json?raw';
 import type { NativeValue } from './dialogue';
+import type { NativeMemoryAdmin, NativeMemoryAllocation } from './native-memory-admin';
+import { NativeHeapObjectViews } from './native-heap-views';
 import { NativeEntityByteInput } from './entity-reading';
 import type { NativeEntityReadAccessor } from './entity-reading';
 import { NativeLivePropertySet } from './entity-lifecycle';
@@ -89,6 +91,17 @@ export interface NativeReflectionAllocation {
   phase: 'wrapper' | 'native-constructor' | 'created' | 'attached' | 'initialized' | 'read';
   readonly initializedFields: Set<string>;
   readonly worldResident: false;
+  wrapperBacking?: NativeMemoryAllocation | null;
+  nativeBacking?: NativeMemoryAllocation | null;
+}
+export interface NativeReflectionHeapHost {
+  readonly memory: Pick<NativeMemoryAdmin, 'newObject'>;
+  /** Original lazy PropertyObjectType service, including its actual singleton
+   * construction/registration. A registered JS metadata root is insufficient. */
+  getPropertyObjectType?(factory: NativeReflectionFactory): NativeValue<object>;
+}
+export interface NativeReflectionWrapperHeapRequest {
+  readonly bytes: 16; readonly tag: 0x190; readonly vtable: '2068e3ec';
 }
 export interface NativeReflectionReadHandlers {
   wrapperSource: string; dataSource: string;
@@ -111,14 +124,26 @@ export interface NativeReflectionEmbeddedPlacement {
 /** Physical wrapper capability; NativeLivePropertySet.wrapper holds this object.
  * Reference mask0x07fffff8 is a separate24bit count from native PS's31bit count. */
 export class NativeReflectionWrapper implements NativePropertyObjectReference {
-  readonly flags: NativeMaskedWord = { value: 10, knownMask: 0x07ffffff };
+  readonly flags: NativeMaskedWord;
+  readonly heapViews: NativeHeapObjectViews | null;
   native: NativeReflectionNativeObject | null = null;
   clockProperties: OriginalClockProperties | null = null;
   deleted = false;
   constructor(readonly identity: string, readonly factory: NativeReflectionFactory,
     readonly controller: NativeReflectionController,
-    readonly embeddedIn: NativeReflectionEmbeddedPlacement | null = null) {
+    readonly embeddedIn: NativeReflectionEmbeddedPlacement | null = null,
+    readonly backing: NativeMemoryAllocation | null = null) {
     if (!identity) throw new TypeError('Actual reflection allocation identity required.');
+    this.heapViews = backing ? new NativeHeapObjectViews(backing) : null;
+    this.flags = this.heapViews ? this.heapViews.maskedWord(4) : { value: 10, knownMask: 0x07ffffff };
+    if (this.heapViews) {
+      // SharedBase10089290: clear count, base vtable, then count1/nonroot.
+      this.flags.value = (this.flags.value & 0xf8000007) >>> 0;
+      this.flags.knownMask = (this.flags.knownMask | 0x07fffff8) >>> 0;
+      this.heapViews.writeUnsigned(0, 0x100ea224);
+      this.flags.value = ((this.flags.value & 0xf8000000) | 10) >>> 0;
+      this.flags.knownMask = (this.flags.knownMask | 0x07ffffff) >>> 0;
+    }
   }
   getReferenceCount(): NativeValue<number> { return this.deleted ? unknown('Deleted native wrapper') : known((word(this.flags.value) >>> 3) & 0xffffff); }
   addReference(): NativeValue<number> {
@@ -229,7 +254,9 @@ export class NativeReflectionController {
   private readonly heap: NativeReflectionAllocation[] = [];
   private blocked: string | null = null;
   private allocation = 0;
-  constructor(readonly identity: string, readonly clockHost: NativeReflectionClockHost) {
+  private readonly ownedWrapperTypes = new WeakSet<NativeReflectionWrapper>();
+  constructor(readonly identity: string, readonly clockHost: NativeReflectionClockHost,
+    readonly heapHost: NativeReflectionHeapHost | null = null) {
     if (!identity) throw new TypeError('Reflection controller identity required.');
     const inherited: NativeReflectionRoot = Object.freeze({ className: 'eCEntityPropertySet', baseClassName: 'bCObjectRefBase', fields: Object.freeze([]) });
     this.roots.set(inherited.className, inherited);
@@ -289,12 +316,50 @@ export class NativeReflectionController {
     const result = this.roots.get(ascii(name));
     if (!result) throw new Error('SharedBase:100085e9 actual inherited root lookup unresolved for ' + name); return result;
   }
-  allocateWrapper(factory: NativeReflectionFactory, source: string): NativeReflectionWrapper {
+  allocateWrapper(factory: NativeReflectionFactory, source: string,
+    request?: NativeReflectionWrapperHeapRequest): NativeReflectionWrapper {
     if (this.factories.get(factory.root.className) !== factory) throw new Error('Actual registered factory capability required');
-    const wrapper = new NativeReflectionWrapper(this.identity + ':wrapper:' + ++this.allocation, factory, this);
-    this.heap.push({ wrapper, nativeObject: null, propertySet: null, lowerClock: null, phase: 'wrapper', initializedFields: new Set(), worldResident: false });
-    this.write('wrapper successful allocation/base constructor/nonroot flag/type', source);
+    let backing: NativeMemoryAllocation | null = null;
+    if (this.heapHost) {
+      if (!request || factory.root.className !== 'gCNavigation_PS' || request.bytes !== 16 || request.tag !== 0x190 || request.vtable !== '2068e3ec') {
+        throw new Error('Actual audited wrapper heap request required for ' + factory.root.className);
+      }
+      backing = this.effect('MemoryAdmin wrapper new(16,0x190)', source, () => this.heapHost!.memory.newObject(request.bytes, request.tag));
+      if (!backing) throw new Error('Original NULL Navigation wrapper Clone branch is not implemented');
+    }
+    const wrapper = new NativeReflectionWrapper(this.identity + ':wrapper:' + ++this.allocation, factory, this, null, backing);
+    this.heap.push({ wrapper, nativeObject: null, propertySet: null, lowerClock: null, phase: 'wrapper', initializedFields: new Set(), worldResident: false,
+      ...(backing ? { wrapperBacking: backing, nativeBacking: null } : {}) });
+    if (wrapper.heapViews) {
+      const native = wrapper.heapViews.pointer<NativeReflectionNativeObject>(8); native.set(null);
+      Object.defineProperty(wrapper, 'native', { enumerable: true, get: () => native.get(), set: value => native.set(value) });
+      wrapper.heapViews.writeUnsigned(0, parseInt(request!.vtable, 16));
+      this.write('owned wrapper base constructor/native NULL/concrete vtable prefix', source);
+    } else this.write('wrapper successful allocation/base constructor/nonroot flag/type', source);
     return wrapper;
+  }
+  initializeOwnedWrapperType(wrapper: NativeReflectionWrapper, source: string): void {
+    if (!this.heapHost) return;
+    this.allocationFor(wrapper);
+    const type = this.effect('Navigation.PropertyObjectType.GetInstance guard/constructor/factory registration', 'Game:2028cbd0',
+      () => this.heapHost!.getPropertyObjectType?.(wrapper.factory));
+    if (!type || !wrapper.heapViews) throw new Error('Actual original Navigation PropertyObjectType capability required');
+    wrapper.flags.value = (wrapper.flags.value & 0xfffffffb) >>> 0;
+    wrapper.flags.knownMask = (wrapper.flags.knownMask | 4) >>> 0;
+    wrapper.heapViews.pointer<object>(12).set(type); wrapper.heapViews.pointer<NativeReflectionNativeObject>(8).set(null);
+    this.ownedWrapperTypes.add(wrapper);
+    this.write('owned wrapper original type pointer/nonroot/native NULL', source);
+  }
+  allocateNativeBacking(wrapper: NativeReflectionWrapper, bytes: 688, tag: 0xc4, source: string): NativeMemoryAllocation | null {
+    if (!this.heapHost) return null;
+    const allocation = this.allocationFor(wrapper);
+    if (!wrapper.heapViews || !this.ownedWrapperTypes.has(wrapper) || wrapper.factory.root.className !== 'gCNavigation_PS' || bytes !== 688 || tag !== 0xc4 || allocation.nativeBacking) {
+      throw new Error('Fresh audited Navigation native heap request required');
+    }
+    const backing = this.effect('MemoryAdmin Navigation new(688,0xc4)', source, () => this.heapHost!.memory.newObject(bytes, tag));
+    allocation.nativeBacking = backing;
+    if (!backing) throw new Error('Original NULL Navigation native allocation requires actual fatal-error handler');
+    return backing;
   }
   /** Selected embedded constructor: SharedBase10089290 initializes the masked
    * flag word; the concrete Engine300a5330 constructor ORs bit2 before native

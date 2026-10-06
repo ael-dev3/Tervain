@@ -1,0 +1,3 @@
+10010f20 | 51 | PUSH ECX
+10010f21 | ff1508962f10 | CALL dword ptr [0x102f9608]
+10010f27 | c3 | RET

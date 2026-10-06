@@ -4744,3 +4744,89 @@ and the staged diff are checked. The new source excerpt directory follows the
 repository's byte-preserving Git attributes so its receipt hashes survive
 checkout. No additional gameplay or native encounter is claimed from these
 isolated admin checks.
+
+## 75. Alias selected NPC fields to the shared heap
+
+Date: 6 October 2026. Scope: isolated allocation and field ownership. The
+browser NPC reader still uses its earlier selected allocation profile and
+stops at cursor 338 of 6,544. This checkpoint does not attach a property set,
+activate an NPC, or add a playable campaign step.
+
+The [NPC heap producer](../../tools/gothic3/prepare_npc_heap_source.py) adds a
+new package while preserving the runtime admin receipts from checkpoint 74.
+Its [manifest](../../assets/gothic3/npc-heap/manifest.json),
+[rules](../../assets/gothic3/npc-heap/runtime-rules.json) and
+[evidence](../../assets/gothic3/npc-heap/native-evidence.json) pin 38 fresh
+SharedBase methods, 945 unique instructions and zero PE byte mismatches. It
+also references 18 previously audited Engine map/name methods. Regeneration
+reproduced all 73 output files byte-for-byte without executing native code.
+
+| Output | Bytes | SHA-256 |
+| --- | ---: | --- |
+| NPC heap rules | 57,822 | `f9fa050a26ec7ec8f476b74ab5ddacbe8fb89fbf55b1397040d2e3c27509e877` |
+| NPC heap evidence | 159,948 | `145d1e38e160aee4737f95e2eca3fb8152282993b180049860cea2f6659a3ee6` |
+
+### Physical owners implemented
+
+| Component | Owned behavior and boundary |
+| --- | --- |
+| [MemoryAdmin extension](../../src/gothic3/native-memory-admin.ts) | A fresh owner can admit the exact source package for the 20/40-byte buckets. Cold ranges, pointer-area storage and all ten admitted buckets use the same heap and critical section. Copies or repeated extension identities are rejected before bootstrap. The base eight-bucket profile remains available. |
+| [Heap field views](../../src/gothic3/native-heap-views.ts) | Scalar, bit-mask, PropertyID, float-array and DWORD-array views read/write actual retained bytes and masks. Allocation and region aliases share one canonical pointer slot. Non-NULL browser capabilities keep opaque numerical pointer bits; NULL has known DWORD0. Supported field/iterator accesses check current backing lifetime. |
+| [Entity fields](../../src/gothic3/native-entity-heap.ts) and [factory](../../src/gothic3/entity-construction.ts) | An optional isolated host routes tagged-new(448,0x170) through MemoryAdmin before any constructor store. Vtables, IDs, flags, reference count, owner DWORD130, matrices, boxes, spheres, frustum fields and pointer slots alias the same object. Narrow byte/WORD stores preserve adjacent bytes. Empty child/property arrays cannot grow until their physical container operations are owned. SceneAdmin, identity matrix, GUID, timer and imported comparator capabilities remain explicit external hosts. |
+| [Selected registered table](../../src/gothic3/native-scene-heap.ts) | A selected 16-byte embedded/static holder owns actual Realloc(204) backing, 43 buckets and capacity 51. Tagged-new(28,0x199) nodes hold physical IDs/entity/next slots. Lookup traverses bucket chains using the source hash and equality of the first 16 bytes. Node.Read unregisters/frees the old node before reading the new ID. The supplied initialized scene section is required; this subservice does not bootstrap the complete SceneAdmin singleton or its other tables. |
+| [CString owner](../../src/gothic3/native-heap-cstring.ts) | Source ASCII bytes allocate length+9 through audited Malloc. The selected 18-byte names request 27 bytes and use the 28-byte pool. Holder length, ushort reference count, character bytes and NUL remain physical. Assignment shares a same-heap holder; mutation, Clear, Release, destructor, free and hash preserve their separate source branches. The byte bridge does not own the native indexed-string table or name-map registration. |
+| [Reflection](../../src/gothic3/entity-reflection.ts) and [Navigation fields](../../src/gothic3/navigation-reading.ts) | An optional heap host allocates the actual 16-byte wrapper and retains its base constructor/native-NULL/concrete-vtable prefix. Native 688-byte field bindings are implemented as a separately exercised lower-level route. Reference count, base flags, owner/wrapper slots, vectors, caches and embedded proxies share actual backing. Nonempty CString and non-NULL array content remain explicit dependencies. |
+
+The allocator's known zero-filled VirtualAlloc bytes remain known. Applying
+the source masked constructor stores does not turn those facts into unknown
+bytes just to match the earlier logical profile's masks. Reused or opaque
+storage retains its actual masks instead. Tests mutate backing bytes and
+confirm that field consumers see the changes through the same object.
+
+### Earlier Navigation type-registry gate
+
+Following the actual owned wrapper call order revealed a prerequisite before
+the native 688-byte request. `Clone20292300` calls the lazy
+`PropertyObjectType.GetInstance2028cbd0` after constructing its 16-byte wrapper.
+That getter constructs type/factory objects, uses CString and a global
+PropertyObjectSingleton registration, and registers a nonempty shutdown.
+Registering a JavaScript reflection metadata root does not perform this native
+startup. The isolated owned route therefore stops after its real wrapper
+prefix when that service is absent; it does not allocate the native property
+set or ask ErrorAdmin on that path. Lower-level Navigation field tests do not
+claim to traverse this getter.
+
+The selected table and CString owners are further building blocks. Connecting
+the browser requires the full SceneAdmin/module startup, source string-table
+and name-map lifetimes, reflection/type registry, and preceding allocation/free
+history to be compatible. Later application/session, property readers,
+notifications, graph membership, processing and activation remain separate
+gates. The browser's existing ErrorAdmin boundary describes its earlier
+logical profile; the newly isolated shared-heap route has its own earlier
+type-registry boundary. Neither establishes an original live encounter.
+
+### Validation
+
+Independent source review checked constructor offsets, store widths/order,
+pointer aliasing, allocation masks, physical lookup and retained partial
+failures. Review fixes include canonical allocation/region pointer slots,
+per-read iterator lifetime checks, latched table reentry, and owned Navigation
+container gates. The five new focused files cover the heap fields, entity
+factory, allocator/CString extension, scene table and Navigation wrapper.
+Final local validation passes `npm run typecheck` and all 1,969 tests in 195
+files (142.36 seconds), including 48 new focused cases. The production build
+succeeds with 364 modules in 38.83 seconds. Its local Gothic entry is
+`gothic3-BKEJVbVp.js`, 1,157.24 kB (261.29 kB gzip); the retained NPC entity
+chunk is 79.98 kB and its services chunk is 77.64 kB. The separate Tervain entry
+remains 5,701.33 kB with its existing 1,200 kB chunk warning.
+
+Local browser regression loads 202 scene objects and 70 character models,
+enters Ardea with Hero HP 100, and inspects Ardea_OutNovice_01 (11,280 triangles,
+two meshes). Its source study still reports zero attached property sets, no
+graph context and the same cursor 338 ErrorAdmin boundary. No captured browser
+warnings/errors were observed. All 73 staged package blobs match disk bytes;
+106 referenced source excerpts and 256 documentation file links were checked.
+The source directory uses byte-preserving Git attributes. Build, tests and
+the browser regression establish this isolated checkpoint's implementation
+and compatibility; they do not establish complete native startup or a game
+that can be played through its endings.

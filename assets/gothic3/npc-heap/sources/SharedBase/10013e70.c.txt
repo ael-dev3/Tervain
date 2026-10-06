@@ -1,0 +1,39 @@
+/* ENTRY 10013e70 | FUN_10013e70 | STATUS decompiled | 8 ms */
+
+void __thiscall FUN_10013e70(int *param_1,int param_2)
+
+{
+  int iVar1;
+  void *pvVar2;
+  bCMemoryAdmin *pbVar3;
+  int *piVar4;
+  ulong uVar5;
+  
+  iVar1 = *param_1;
+  if (iVar1 != 0) {
+    if ((*(ushort *)(iVar1 + -4) < 2) && (param_2 <= *(int *)(iVar1 + -8))) {
+      *(int *)(iVar1 + -8) = param_2;
+      *(undefined1 *)(param_2 + *param_1) = 0;
+      return;
+    }
+    *(short *)(iVar1 + -4) = *(short *)(iVar1 + -4) + -1;
+    pvVar2 = (void *)(iVar1 + -8);
+    if (*(short *)(iVar1 + -4) == 0) {
+      pbVar3 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar3,pvVar2);
+    }
+    *param_1 = 0;
+  }
+  if (param_2 == 0) {
+    *param_1 = 0;
+    return;
+  }
+  uVar5 = param_2 + 9;
+  pbVar3 = bCMemoryAdmin::GetInstance();
+  piVar4 = bCMemoryAdmin::Malloc(pbVar3,uVar5);
+  *piVar4 = param_2;
+  *(undefined2 *)(piVar4 + 1) = 1;
+  *param_1 = (int)(piVar4 + 2);
+  *(undefined1 *)((int)(piVar4 + 2) + param_2) = 0;
+  return;
+}

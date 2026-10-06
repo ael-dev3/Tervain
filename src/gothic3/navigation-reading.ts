@@ -5,6 +5,8 @@
  */
 import rulesText from '../../assets/gothic3/navigation-reading/runtime-rules.json?raw';
 import type { NativeValue } from './dialogue';
+import type { NativeMemoryAllocation } from './native-memory-admin';
+import { NativeHeapObjectViews } from './native-heap-views';
 import { NativeLivePropertySet } from './entity-lifecycle';
 import type { NativeLiveEntity, NativePropertyCallbacks } from './entity-lifecycle';
 import { NativeReflectionWrapper } from './entity-reflection';
@@ -63,21 +65,65 @@ type ArrayStore = NativeNavigationValueArray | NativeNavigationStringArray;
  * proxies retain actual object capabilities separately from native addresses.
  * No uninitialized byte is inferred from JavaScript's zero-filled allocation. */
 export class OriginalNavigationProperties {
-  readonly numericBytes = new Uint8Array(0x2b0);
-  readonly knownMask = new Uint8Array(0x2b0);
-  private readonly view = new DataView(this.numericBytes.buffer);
+  readonly numericBytes: Uint8Array;
+  readonly knownMask: Uint8Array;
+  readonly heapViews: NativeHeapObjectViews | null;
+  private readonly view: DataView;
   readonly values: Record<string, unknown> = {};
   readonly arrays = new Map<string, ArrayStore>();
   readonly proxies = new Map<string, OriginalEnclaveProxy>();
   readonly guidScratch: NativeNavigationGuidScratch[] = [];
   owner: NativeLiveEntity | null = null;
   base!: NativeLivePropertySet<Record<string, unknown>>;
-  private readonly vectors = new Map<number, Float32Array>();
+  private readonly vectors = new Map<number, Float32Array | number[]>();
   private readonly pointers = new Map<number, object | null>();
   constructor(readonly wrapper: NativeReflectionWrapper, readonly host: NativeNavigationReadingHost,
-    readonly state: NativeNavigationState, readonly wishes: NativePlayerWishedMovement) {
+    readonly state: NativeNavigationState, readonly wishes: NativePlayerWishedMovement,
+    readonly backing: NativeMemoryAllocation | null = null) {
     if (state.entity !== null || state.characterMovement !== null || state.dynamicCollisionCircle !== null ||
         !state.id || typeof wishes !== 'object') throw new Error('Fresh detached Navigation allocation required');
+    if (backing && (backing.freed || backing.region.freed || backing.requestedBytes !== 0x2b0 ||
+        backing.bytes.length < 0x2b0 || backing.knownMask.length !== backing.bytes.length || backing.bytes.byteOffset % 4 !== 0)) {
+      throw new Error('Actual aligned live native Navigation allocation required');
+    }
+    this.numericBytes = backing ? backing.bytes.subarray(0, 0x2b0) : new Uint8Array(0x2b0);
+    this.knownMask = backing ? backing.knownMask.subarray(0, 0x2b0) : new Uint8Array(0x2b0);
+    this.heapViews = backing ? new NativeHeapObjectViews(backing) : null;
+    this.view = new DataView(this.numericBytes.buffer, this.numericBytes.byteOffset, this.numericBytes.byteLength);
+  }
+  /** Same heap object owns the inherited refcount, wrapper/owner pointer slots
+   * and base flag byte. The source constructor writes precede derived members. */
+  bindPhysicalBase(set: NativeLivePropertySet<Record<string, unknown>>): void {
+    if (!this.heapViews) return;
+    const heap = this.heapViews;
+    // bCObjectBase -> bCObjectRefBase1004a5a0 -> EntityPropertySet30481a60.
+    heap.writeUnsigned(0, 0x100e7e1c); // SharedBase10007c11->1004a1c0 literal store.
+    const wrapper = heap.pointer<NativeLivePropertySet<object>['wrapper'] & object>(4); wrapper.set(null);
+    heap.writeUnsigned(0, 0x100e7eac); heap.writeUnsigned(8, 1);
+    const flags = heap.maskedWord(0x10, 1);
+    flags.value = (flags.value & 0xf1) | 1; flags.knownMask = flags.knownMask | 0x0f;
+    heap.writeUnsigned(0, 0x30875d8c);
+    const owner = heap.pointer<NativeLiveEntity>(0x0c); owner.set(null);
+    heap.writeUnsigned(0, 0x2068e8b4);
+    Object.defineProperty(set, 'referenceWord', { enumerable: true, get: () => heap.readUnsigned(8),
+      set: value => heap.writeUnsigned(8, value) });
+    Object.defineProperty(set, 'wrapper', { enumerable: true, get: () => wrapper.get(), set: value => wrapper.set(value) });
+    Object.defineProperty(set, 'baseFlags', { enumerable: true, value: flags });
+    Object.defineProperty(this, 'owner', { enumerable: true, get: () => owner.get(), set: value => owner.set(value) });
+  }
+  private constructorProxy(offset: number): OriginalEnclaveProxy {
+    const proxy = OriginalEnclaveProxy.fromConstructor();
+    if (this.heapViews) {
+      // Engine304c45a0 stores vtable, constructs ID, clears internal, destroys
+      // the ID. The final20 bytes are source-known zero, with no extra heap.
+      this.u32(offset, 0x3087bff4);
+      const id = this.heapViews.propertyId(offset + 8);
+      const internal = this.heapViews.pointer<NonNullable<OriginalEnclaveProxy['internal']>>(offset + 4);
+      internal.set(null); id.set('0'.repeat(40));
+      Object.defineProperty(proxy, 'id', { get: () => id.get(), set: value => id.set(value) });
+      Object.defineProperty(proxy, 'internal', { enumerable: true, get: () => internal.get(), set: value => internal.set(value) });
+    }
+    return proxy;
   }
   /** The caller already constructed/retained the actual base PS. Native base
    * constructor therefore precedes every derived member constructor/write. */
@@ -85,13 +131,13 @@ export class OriginalNavigationProperties {
     for (const field of rules.fields) {
       const offset = field.nativeOffset;
       if (field.typeName === 'bCVector') {
-        this.vectors.set(offset, new Float32Array(this.numericBytes.buffer, offset, 3)); // Mask remains unknown.
+        this.vectors.set(offset, this.vectorView(offset));
         Object.defineProperty(this.values, field.name, { enumerable: true, get: () => this.vector(offset) });
       } else if (field.typeName === 'bCPropertyID') {
         this.store(offset, new Uint8Array(20));
         Object.defineProperty(this.values, field.name, { enumerable: true, get: () => this.id(offset), set: value => this.store(offset, bytes(value)) });
       } else if (field.typeName === 'eCEntityProxy') {
-        const proxy = OriginalEnclaveProxy.fromConstructor(); this.proxies.set(field.name, proxy); this.values[field.name] = proxy;
+        const proxy = this.constructorProxy(offset); this.proxies.set(field.name, proxy); this.values[field.name] = proxy;
       } else if (field.typeName.startsWith('bTValArray<')) {
         const array: NativeNavigationValueArray = { allocation: null, count: 0, capacity: 0 };
         this.arrays.set(field.name, array); this.values[field.name] = array; this.bindArray(array, offset);
@@ -99,10 +145,24 @@ export class OriginalNavigationProperties {
         const array: NativeNavigationStringArray = { allocation: null, count: 0, capacity: 0 };
         this.arrays.set(field.name, array); this.values[field.name] = array; this.bindArray(array, offset);
       } else if (field.typeName === 'bCString') {
-        let value = ''; this.u32(offset, 0);
-        Object.defineProperty(this.values, field.name, { enumerable: true, get: () => value, set: incoming => {
-          value = ascii(incoming); if (value === '') this.u32(offset, 0); else this.knownMask.fill(0, offset, offset + 4);
-        } });
+        this.u32(offset, 0);
+        if (this.heapViews) {
+          const slot = this.heapViews.pointer<object>(offset);
+          Object.defineProperty(this.values, field.name, { enumerable: true,
+            get: () => {
+              if (slot.get() !== null) throw new Error('Owned Navigation CString contents service required');
+              return '';
+            },
+            set: incoming => {
+              if (ascii(incoming) !== '' || slot.get() !== null) throw new Error('Owned Navigation CString assignment/clear service required');
+              slot.set(null);
+            } });
+        } else {
+          let value = '';
+          Object.defineProperty(this.values, field.name, { enumerable: true, get: () => value, set: incoming => {
+            value = ascii(incoming); if (value === '') this.u32(offset, 0); else this.knownMask.fill(0, offset, offset + 4);
+          } });
+        }
       }
       else if (field.typeName === 'bool') Object.defineProperty(this.values, field.name, { enumerable: true,
         get: () => this.byte(offset) !== 0, set: value => { if (typeof value !== 'boolean') throw new Error('Canonical bool required'); this.u8(offset, Number(value)); } });
@@ -116,10 +176,10 @@ export class OriginalNavigationProperties {
     for (const offset of [0x124, 0x224, 0x23c]) this.store(offset, new Uint8Array(20));
     for (const [name, offset] of [['raw150', 0x150], ['raw16c', 0x16c], ['workingCache258', 0x258],
       ['relaxingCache274', 0x274], ['sleepingCache290', 0x290]] as const) {
-      this.proxies.set(name, OriginalEnclaveProxy.fromConstructor()); this.pointers.set(offset, this.proxies.get(name)!);
+      this.proxies.set(name, this.constructorProxy(offset)); this.pointers.set(offset, this.proxies.get(name)!);
     }
-    this.vectors.set(0x1b4, new Float32Array(this.numericBytes.buffer, 0x1b4, 3));
-    this.vectors.set(0x1ec, new Float32Array(this.numericBytes.buffer, 0x1ec, 3));
+    this.vectors.set(0x1b4, this.vectorView(0x1b4));
+    this.vectors.set(0x1ec, this.vectorView(0x1ec));
     this.wrapper.controller.write('Navigation member constructors; known NULL arrays/empty IDs/strings/proxies; vectors remain masked', 'Game:20289960');
     // Original Invalidate sees constructor's NULL owner; sets movement/start
     // vectors to zero and scalar/pointer defaults, but not LastUseablePosition.
@@ -135,10 +195,22 @@ export class OriginalNavigationProperties {
   private bindArray(array: ArrayStore, offset: number): void {
     let allocation: ArrayStore['allocation'] = null;
     this.u32(offset, 0); this.u32(offset + 4, 0); this.u32(offset + 8, 0);
+    const slot = this.heapViews?.pointer<NonNullable<ArrayStore['allocation']>>(offset);
     Object.defineProperties(array, {
-      allocation: { enumerable: true, get: () => allocation, set: value => {
-        allocation = value;
-        if (value === null) this.u32(offset, 0); else this.knownMask.fill(0, offset, offset + 4);
+      allocation: { enumerable: true, get: () => {
+        if (slot) {
+          if (slot.get() !== null) throw new Error('Owned Navigation array contents service required');
+          return null;
+        }
+        return allocation;
+      }, set: value => {
+        if (slot) {
+          if (value !== null || slot.get() !== null) throw new Error('Owned Navigation array allocation/cleanup service required');
+          slot.set(null);
+        } else {
+          allocation = value;
+          if (value === null) this.u32(offset, 0); else this.knownMask.fill(0, offset, offset + 4);
+        }
       } },
       count: { enumerable: true, get: () => this.dword(offset + 4), set: value => this.u32(offset + 4, value) },
       capacity: { enumerable: true, get: () => this.dword(offset + 8), set: value => this.u32(offset + 8, value) },
@@ -153,18 +225,25 @@ export class OriginalNavigationProperties {
     scalar(this.state, 'inProcessingRange', 0x1e5, true); scalar(this.state, 'floorDetectionFailed', 0x1e6, true); scalar(this.state, 'enabled', 0x1e4, true);
     scalar(this.wishes, 'wishedMovementMode', 0x218);
     for (const [name, offset] of [['dynamicCollisionCircle', 0x1dc], ['characterMovement', 0x1e0]] as const) {
-      this.pointers.set(offset, null);
-      Object.defineProperty(this.state, name, { enumerable: true, get: () => this.pointers.get(offset), set: value => {
-        this.pointers.set(offset, value); if (value === null) this.u32(offset, 0); else this.knownMask.fill(0, offset, offset + 4);
-      } });
+      if (this.heapViews) {
+        const slot = this.heapViews.pointer<NonNullable<NativeNavigationState[typeof name]>>(offset);
+        Object.defineProperty(this.state, name, { enumerable: true, get: slot.get, set: slot.set });
+      } else {
+        this.pointers.set(offset, null);
+        Object.defineProperty(this.state, name, { enumerable: true, get: () => this.pointers.get(offset), set: value => {
+          this.pointers.set(offset, value); if (value === null) this.u32(offset, 0); else this.knownMask.fill(0, offset, offset + 4);
+        } });
+      }
     }
     // MOVSS at Game20287018 stores a float here, even though the shared
     // navigation facade names the slot by its base-relative byte offset.
     Object.defineProperty(this.state.fields, '0x188', { enumerable: true,
       get: () => { this.dword(0x18c); return this.view.getFloat32(0x18c, true); },
       set: value => {
+        this.live();
         if (!Number.isFinite(value) || !Object.is(value, Math.fround(value))) throw new Error('Finite float32 Navigation field required');
-        this.view.setFloat32(0x18c, value, true); this.knownMask.fill(0xff, 0x18c, 0x190);
+        if (this.heapViews) this.heapViews.writeFloat(0x18c, value);
+        else { this.view.setFloat32(0x18c, value, true); this.knownMask.fill(0xff, 0x18c, 0x190); }
       } });
     scalar(this.state.fields, '0x204', 0x208, true); scalar(this.state.fields, '0x205', 0x209, true); scalar(this.state.fields, '0x24c', 0x250, true);
     Object.defineProperty(this.state.fields, '0x238', { enumerable: true, get: () => this.emptyAsNull(this.id(0x23c)),
@@ -185,24 +264,39 @@ export class OriginalNavigationProperties {
       set: value => { this.store(0xf0, bytes(value ?? '0'.repeat(40)).subarray(0, 16)); this.u32(0x100, 0); } });
   }
   private emptyAsNull(value: string): string | null { return /^0{32}/.test(value) ? null : value; }
+  private live(): void {
+    if (this.backing?.freed || this.backing?.region.freed) throw new Error('Native Navigation backing was freed');
+  }
+  private vectorView(offset: number): Float32Array | number[] {
+    return this.heapViews ? this.heapViews.floatArray(offset, 3) : new Float32Array(this.numericBytes.buffer, this.numericBytes.byteOffset + offset, 3);
+  }
   private store(offset: number, value: Uint8Array, mask?: Uint8Array): void {
+    this.live();
     this.numericBytes.set(value, offset); this.knownMask.set(mask ?? new Uint8Array(value.length).fill(0xff), offset);
   }
-  private u8(offset: number, value: number): void { this.view.setUint8(offset, value); this.knownMask[offset] = 0xff; }
-  private u32(offset: number, value: number): void {
-    if (!Number.isInteger(value) || value < 0 || value > 0xffffffff) throw new Error('Native uint32 required');
-    this.view.setUint32(offset, value, true); this.knownMask.fill(0xff, offset, offset + 4);
+  private u8(offset: number, value: number): void {
+    this.live(); if (this.heapViews) this.heapViews.writeUnsigned(offset, value, 1);
+    else { this.view.setUint8(offset, value); this.knownMask[offset] = 0xff; }
   }
-  private byte(offset: number): number { if (this.knownMask[offset] !== 0xff) throw new Error('Uninitialized native byte'); return this.view.getUint8(offset); }
-  private dword(offset: number): number { if (!this.knownMask.subarray(offset, offset + 4).every(v => v === 0xff)) throw new Error('Uninitialized native DWORD'); return this.view.getUint32(offset, true); }
+  private u32(offset: number, value: number): void {
+    this.live();
+    if (!Number.isInteger(value) || value < 0 || value > 0xffffffff) throw new Error('Native uint32 required');
+    if (this.heapViews) this.heapViews.writeUnsigned(offset, value);
+    else { this.view.setUint32(offset, value, true); this.knownMask.fill(0xff, offset, offset + 4); }
+  }
+  private byte(offset: number): number { this.live(); if (this.knownMask[offset] !== 0xff) throw new Error('Uninitialized native byte'); return this.view.getUint8(offset); }
+  private dword(offset: number): number { this.live(); if (!this.knownMask.subarray(offset, offset + 4).every(v => v === 0xff)) throw new Error('Uninitialized native DWORD'); return this.view.getUint32(offset, true); }
   private id(offset: number): string {
+    this.live();
     if (!this.knownMask.subarray(offset, offset + 20).every(v => v === 0xff)) throw new Error('Uninitialized PropertyID bits'); return hex(this.numericBytes.subarray(offset, offset + 20));
   }
   private vector(offset: number): NativePositionCm {
+    this.live();
     if (!this.knownMask.subarray(offset, offset + 12).every(v => v === 0xff)) throw new Error('Uninitialized native vector');
     const vector = this.vectors.get(offset); if (!vector) throw new Error('Actual embedded vector missing'); return vector as unknown as NativePositionCm;
   }
   private writeVector(offset: number, value: readonly number[]): void {
+    this.live();
     if (value.length !== 3 || value.some(v => !Number.isFinite(v) || !Object.is(v, Math.fround(v)))) throw new Error('Finite float32 vector required');
     const vector = this.vectors.get(offset); if (!vector) throw new Error('Actual embedded vector missing');
     for (let i = 0; i < 3; i++) { vector[i] = value[i]!; this.view.setFloat32(offset + i * 4, value[i]!, true); }
@@ -352,9 +446,11 @@ export function createNativeNavigationFactory(host: NativeNavigationReadingHost)
     properties: wrapper => instances.has(wrapper) ? known(physical(wrapper)) : missing('Actual constructed Navigation capability missing'),
     getVersion: wrapper => wrapper.controller.value(() => { physical(wrapper).exact(); return 1; }),
     cloneRoot: controller => controller.value(() => {
-      const wrapper = controller.allocateWrapper(factory, 'Game:20292300');
+      const wrapper = controller.allocateWrapper(factory, 'Game:20292300', { bytes: 16, tag: 0x190, vtable: '2068e3ec' });
+      controller.initializeOwnedWrapperType(wrapper, 'Game:20292300');
+      const backing = controller.allocateNativeBacking(wrapper, 688, 0xc4, 'Game:20291510');
       const storage = controller.effect('fresh native Navigation allocation', 'Game:20291510', () => host.allocateNavigation(wrapper.identity + ':native'));
-      const properties = new OriginalNavigationProperties(wrapper, host, storage.state, storage.wishes); instances.set(wrapper, properties);
+      const properties = new OriginalNavigationProperties(wrapper, host, storage.state, storage.wishes, backing); instances.set(wrapper, properties);
       const callbacks: NativePropertyCallbacks = {
         added: candidate => controller.value(() => { properties.exact(); if (candidate !== properties.base) throw new Error('Actual Navigation callback receiver required');
           controller.effect('Navigation.OnPropertySetAdded', 'Game:2000ab32', () => host.lifecycle ? lifecycle(host.lifecycle.onPropertySetAdded(properties.state)) : undefined); }),
@@ -368,7 +464,7 @@ export function createNativeNavigationFactory(host: NativeNavigationReadingHost)
         // Native slot+84: Game20461ec8 -> Engine30008783 ->30481520.
         // The body clears AL before RET; IsProcessable is false.
         () => known(false));
-      properties.base = set; controller.retainNative(wrapper, set);
+      properties.base = set; properties.bindPhysicalBase(set); controller.retainNative(wrapper, set);
       controller.write('Native base eCEntityPropertySet constructor before Navigation members', 'Game:20289960');
       properties.initializeMembers();
       if (!set.isValid()) set.createBase(); controller.write('Navigation.Create inherited base.Create (return1)', 'Game:20004593');
