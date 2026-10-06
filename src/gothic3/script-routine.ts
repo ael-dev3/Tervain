@@ -6,6 +6,7 @@
  * its already-applied prefix and blocks further use of this instance.
  */
 import rulesText from '../../assets/gothic3/routines/runtime-rules.json?raw';
+import scriptSetTaskEvidenceText from '../../assets/gothic3/routines/script-set-task-evidence.json?raw';
 
 const rules = JSON.parse(rulesText) as {
   schema: string; inputSha256: string; instructionPointers: string[]; timeMultiplier: number;
@@ -16,6 +17,28 @@ if (rules.schema !== 'gothic3-native-routines-rules-v1' ||
     '2002d3b2,2002b940,2001fe51,2001c76f,2001ba9a,20027f3e,2001fbbd,20034dec') {
   throw new Error('Original SPU rule receipt differs');
 }
+
+const scriptSetTaskEvidence = JSON.parse(scriptSetTaskEvidenceText) as {
+  schema: string; input: { sha256: string }; entry: string; body: string;
+  bodyBytes: number; bodySha256: string; instructionCount: number; allInstructionBytesMatch: boolean;
+  nativeBoundary: { currentTaskFreeze: string; currentStateException: string;
+    exactTaskExceptions: string[]; taskSubstringExceptions: string[]; substringStartIndex: number };
+};
+if (scriptSetTaskEvidence.schema !== 'gothic3-native-script-set-task-wrapper-v1' ||
+    scriptSetTaskEvidence.input.sha256 !== '9375605676faaae44a50d48539a7b3995bed471e099ef573666221a044cd4e08' ||
+    scriptSetTaskEvidence.entry !== '10004273' || scriptSetTaskEvidence.body !== '1002cb50' ||
+    scriptSetTaskEvidence.bodyBytes !== 214 || scriptSetTaskEvidence.instructionCount !== 72 ||
+    scriptSetTaskEvidence.bodySha256 !== 'fe30089855cbd7f124af62d422dd0f60b27fbfb53c94db7e2db1ac272b493ba7' ||
+    scriptSetTaskEvidence.allInstructionBytesMatch !== true ||
+    scriptSetTaskEvidence.nativeBoundary.currentTaskFreeze !== 'ZS_Freeze' ||
+    scriptSetTaskEvidence.nativeBoundary.currentStateException !== 'ZS_Smalltalk_Partner_Loop' ||
+    scriptSetTaskEvidence.nativeBoundary.exactTaskExceptions.join(',') !==
+      'ZS_Unconscious,ZS_LieKnockDown,ZS_LieKnockOut,ZS_SitKnockDown,ZS_PiercedKO' ||
+    scriptSetTaskEvidence.nativeBoundary.taskSubstringExceptions.join(',') !== 'Dead,Stumble' ||
+    scriptSetTaskEvidence.nativeBoundary.substringStartIndex !== 0) {
+  throw new Error('Original Script PSRoutine::SetTask wrapper receipt differs');
+}
+const scriptSetTaskBoundary = scriptSetTaskEvidence.nativeBoundary;
 
 export interface NativeRoutineProperties {
   Routine: string;
@@ -536,6 +559,32 @@ export class NativeScriptProcessingUnit {
       this.requireHooks(timeEntity);
       if (timeEntity?.properties) this.write(timeEntity, 'TaskTime', 0);
       this.setStateInternal(name);
+      return null;
+    });
+  }
+  /** Script.dll PSRoutine::SetTask wrapper, separate from the lower Game SPU
+   * setter above. The host binds this wrapper's routine PS to the SPU owner.
+   * Missing PS and frozen-task rejection are native void no-ops. Accepting the
+   * gate delegates; it does not promise that the lower task setter will mutate.
+   * Source: export10004273 -> body1002cb50, exact original-byte receipt. */
+  setTaskFromScriptRoutine(name: string): NativeRoutineResult {
+    return this.run(() => {
+      if (typeof name !== 'string') throw new Error('Script routine task name is unresolved');
+      if (name.includes('\0')) throw new Error('Embedded NUL is outside the browser Script CString profile');
+      const properties = this.entity()?.properties;
+      if (!properties) return null;
+      if (typeof properties.CurrentTask !== 'string') throw new Error('Script routine CurrentTask is unresolved');
+      if (properties.CurrentTask.includes('\0')) throw new Error('Embedded NUL is outside the browser Script CString profile');
+      if (properties.CurrentTask === scriptSetTaskBoundary.currentTaskFreeze) {
+        if (typeof properties.CurrentState !== 'string') throw new Error('Frozen script routine CurrentState is unresolved');
+        if (properties.CurrentState.includes('\0')) throw new Error('Embedded NUL is outside the browser Script CString profile');
+        const allowed = properties.CurrentState === scriptSetTaskBoundary.currentStateException ||
+          scriptSetTaskBoundary.exactTaskExceptions.includes(name) ||
+          scriptSetTaskBoundary.taskSubstringExceptions.some((substring) => name.indexOf(substring, 0) >= 0);
+        if (!allowed) return null;
+      }
+      const delegated = this.setTask(name, false);
+      if (!delegated.supported) throw new Error(delegated.reason);
       return null;
     });
   }

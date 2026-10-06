@@ -55,7 +55,7 @@ export const ARDEA_PEOPLE: ArdeaPerson[] = [
   },
   {
     id: 'Jack', name: 'Jack', role: 'Old sailor at the tower',
-    summary: 'His original Ardea dialogue describes three coastal bandits and gold entrusted to him by the rebels. The bounded browser dialogue can enable trade, set the bandit-report events and start Jack_KillBandits; lethal hits also update its exact kill counters. Kill-task acceptance, quest success, defeat XP and the return-reward route remain incomplete.',
+    summary: 'His original Ardea dialogue describes three coastal bandits and gold entrusted to him by the rebels. The bounded browser dialogue can enable trade, set the bandit-report events and start Jack_KillBandits. Source-directed lethal bandit hits schedule the recovered death state, whose connected Kill prefix updates quest counters and awards defeat XP before stopping at the enclave callback. Quest success unlocks the original return reward. NPC AI and the full death lifecycle remain incomplete.',
     questIds: ['Jack_KillBandits', 'Ardea_Pocket'],
     source: 'Infos.pak/G3_World_01/BPANKRATZ31459–31466 (.info)',
   },
@@ -85,10 +85,10 @@ export const ARDEA_QUESTS: ArdeaQuest[] = [
   },
   {
     id: 'Jack_KillBandits', title: 'Jack and the bilge rats.',
-    summary: 'Original Kill quest names Ardea_OutNovice_01, _02 and _03, one each, and ExperiencePoints=100. The browser supports Jack’s source event/condition-5 report and condition-6 quest start, and lethal hits update exact target counters. Native Kill/Defeat task acceptance, quest completion and defeat XP remain disconnected; the condition-10 return reward dialogue is therefore not yet reachable.',
+    summary: 'Original Kill quest names Ardea_OutNovice_01, _02 and _03, one each, and ExperiencePoints=100. The browser supports Jack’s source report and quest start, then scheduled bandit death states update the exact targets. Completion awards 500 quest XP; each bandit also awards 50 defeat XP. The original return dialogue transfers 50 gold and awards another 250 XP. Each connected death prefix currently stops at NotifyEnclave; AI, incoming attacks, ragdoll and corpse loot remain incomplete.',
     source: 'Quests.pak/G3_World_01/Jack_KillBandits_quest_G3_World_01.quest; Infos.pak/G3_World_01/BPANKRATZ31461–31463 (.info)',
     implemented: false,
-    unsupportedCommands: ['native:Kill/Defeat task acceptance', 'native:kill-objective quest success', 'native:defeat XP and credit', 'condition-10 return reward lifecycle'],
+    unsupportedCommands: ['native:NotifyEnclave death callback', 'native:ragdoll and corpse loot', 'native:NPC AI and incoming attacks'],
   },
   {
     id: 'Ardea_Pocket', title: "Jack's rebel gold.",
@@ -114,6 +114,6 @@ export const PORT_SCOPE: string[] = [
   'The retained Hero PlayerMemory seeds the browser game-event list, and the journal uses source quest state. Selected Ardea dialogue records and callbacks run through bounded runtime services; most original conditions, commands, startup callbacks, combat and progression are still unsupported.',
   'The six character summaries describe original Ardea records. The browser executes only a bounded set of dialogue predicates, commands and callbacks; unsupported branches remain locked.',
   'The six listed quests are incomplete. The audited Xardas_FindXardas startup transition, selected quest callbacks/rewards and the bounded Jack PickPocket inventory path are connected; Ardea_Pocket still starts Open because the native property-listener/quest-start chain is unresolved. Inspection alone grants no rewards or quest completion.',
-  'A bounded browser fist calculation updates saved HP for the 15 source-identified starting Ardea Raiders; zero-HP visuals hide after restore, and lethal hits update exact-name type-2 kill-objective counters. Native contact eligibility, NPC AI and attacks, Kill/Defeat task execution, death animation, XP, full quest completion/reward callbacks, loot, faction simulation, trading, original save compatibility and full streamed-world behavior still require implementation.',
+  'A bounded browser fist calculation updates saved HP for 15 exact starting Ardea Raiders and Jack’s three coastal bandits. Only the bandits have a resolved lethal disposition: a later scheduled death-state frame runs the connected Kill prefix, quest rewards and 50 defeat XP per bandit, then stops explicitly at NotifyEnclave. Saves retain that applied prefix without replaying rewards. Raider zero HP grants no kill credit. Native contact eligibility, NPC AI and incoming attacks, full death/knockout handling, ragdoll, loot, faction simulation, trading, original save compatibility and campaign progression remain incomplete.',
   'Recovered Ghidra C-like code is a behavior reference. It is not buildable original source or an automatically converted TypeScript engine.',
 ];

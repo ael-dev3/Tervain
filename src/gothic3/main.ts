@@ -24,8 +24,8 @@ import { BrowserPickpocketActions } from './browser-pickpocket';
 import { loadNativeFistCarrier } from './native-fist-carrier';
 import type { NativeFistCarrier } from './native-fist-carrier';
 import { BrowserArdeaNpcCombatRuntime } from './npc-combat-runtime';
+import { BrowserNpcDeathRuntime } from './browser-npc-death';
 import { NativeQuestRuntime, nativeQuestStatusName } from './quest-runtime';
-import { QuestStatus } from './quest-state';
 import type { ArdeaScene, ScenePerson } from './types';
 import './style.css';
 
@@ -45,7 +45,7 @@ ui.innerHTML = '<header class="masthead"><div class="eyebrow">Gothic 3 · browse
   '<section class="inspector panel hidden" id="inspector"><div class="eyebrow">Original geometry</div><h2>Character inspection</h2><select id="model-select" aria-label="Character model"></select><div class="row"><button id="wire-button">Wireframe</button><button id="spin-button">Rotate</button><button id="frame-button">Frame</button></div><div id="animation-controls" class="hidden"><label for="clip-select">Native motion</label><select id="clip-select" aria-label="Native motion"><option value="">Bind pose</option></select><button id="clip-play" disabled>Play motion</button></div><p>Drag to rotate · wheel to zoom · right-drag to pan.</p><p id="model-info">Native body and head; exported bind pose.</p><div class="source" id="model-source"></div></section>' +
   '<section class="modal panel hidden" id="modal" aria-label="Information"><button class="close" id="modal-close" aria-label="Close panel">×</button><div id="modal-content"></div></section>' +
   '<div class="map hidden" id="map"><span class="map-label">ARDEA · LOCAL POSITIONS</span><canvas id="map-view" width="488" height="488" aria-label="Local positions map"></canvas></div>' +
-  '<div class="loading" id="loading"><section class="intro"><div class="eyebrow">Gothic 3 · TypeScript reconstruction</div><h1>Ardea</h1><h2>The shore of Myrtana</h2><p>Walk through the recovered scene. Inspect original character models, Hero motion and the landscapes of Myrtana, Nordmar and Varant.</p><div class="rule"></div><p>Terrain loads as you move. A source-backed fresh quest state starts Xardas’s first quest. Selected Ardea dialogue, quest transitions and XP, skill and PoliticalFame rewards run from original records. The starting Raiders and Jack’s three coastal bandits retain their browser HP through saves. Source-directed lethal bandit hits advance Jack’s quest and its rewards. NPC AI, incoming attacks, native Kill/Defeat tasks, death animation, defeat XP and loot remain incomplete, as do most campaign progression paths.</p><div class="progress"><span id="progress"></span></div><div class="load-status" id="load-status">Reading scene manifest…</div><button class="primary" id="start-button" disabled>Enter Ardea</button><small>Independent from Tervain’s original game.<br>Keyboard and mouse · WebGL · local browser saves</small></section></div>';
+  '<div class="loading" id="loading"><section class="intro"><div class="eyebrow">Gothic 3 · TypeScript reconstruction</div><h1>Ardea</h1><h2>The shore of Myrtana</h2><p>Walk through the recovered scene. Inspect original character models, Hero motion and the landscapes of Myrtana, Nordmar and Varant.</p><div class="rule"></div><p>Terrain loads as you move. A source-backed fresh quest state starts Xardas’s first quest. Selected Ardea dialogue, quest transitions and XP, skill and PoliticalFame rewards run from original records. The starting Raiders and Jack’s three coastal bandits retain their browser HP through saves. Source-directed lethal bandit hits schedule a recovered death-state prefix, advance Jack’s quest and award 50 defeat XP each. The prefix stops at the remaining enclave callback. NPC AI, incoming attacks, full death handling, ragdoll and loot remain incomplete, as do most campaign progression paths.</p><div class="progress"><span id="progress"></span></div><div class="load-status" id="load-status">Reading scene manifest…</div><button class="primary" id="start-button" disabled>Enter Ardea</button><small>Independent from Tervain’s original game.<br>Keyboard and mouse · WebGL · local browser saves</small></section></div>';
 
 const element = <T extends HTMLElement = HTMLElement>(id: string): T => document.getElementById(id) as T;
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
@@ -115,6 +115,7 @@ let nativeHeroMemory: Promise<NativeHeroPlayerMemory> | null = null;
 let nativeFistCarrier: Promise<NativeFistCarrier> | null = null;
 let questRuntime: NativeQuestRuntime | null = null;
 let npcCombatRuntime: BrowserArdeaNpcCombatRuntime | null = null;
+let npcDeathRuntime: BrowserNpcDeathRuntime | null = null;
 const pickpocketActions = new BrowserPickpocketActions();
 let questRuntimeError: string | null = null;
 let enteringWorld = false;
@@ -676,32 +677,28 @@ function initializeContactNpc(contact: HeroFistContactCandidate, style: HeroAtta
     }
     const nativeKill = hit.zeroHitPointsDisposition.status === 'known' && hit.zeroHitPointsDisposition.value === 'kill';
     if (hit.hitPointsAfter === 0 && nativeKill) {
-      const questCapability = questRuntime.canRecordNpcKilled(actor.name);
-      if (!questCapability.known) {
-        notify('The hit needs an unavailable quest callback: ' + questCapability.reason);
+      const capability = npcDeathRuntime?.canScheduleFatalHit(actor);
+      if (!capability || capability.status !== 'known') {
+        notify('The fatal hit needs an unavailable death task: ' + (capability?.status === 'unknown' ? capability.reason : 'NPC death host unavailable.'));
         return;
       }
     }
-    actor.hitPoints = hit.hitPointsAfter;
+    if (nativeKill && npcDeathRuntime) {
+      const applied = npcDeathRuntime.applyHit(actor, hit);
+      if (applied.status !== 'known') { notify('Fist hit stopped: ' + applied.reason); return; }
+    } else actor.hitPoints = hit.hitPointsAfter;
     let killObjectiveNotice = '';
     if (actor.hitPoints === 0) {
       const object = peopleObjects.get(actor.personId);
       if (object) object.visible = false;
       if (nativeKill) {
-        const killResult = questRuntime.recordNpcKilled(actor.name);
-        if (killResult.kind === 'unsupported') {
-          killObjectiveNotice = ' Kill objective progress was not applied: ' + killResult.reason;
-        } else if (killResult.progress.length) {
-          killObjectiveNotice = ' Kill objectives: ' + killResult.progress.map((progress) =>
-            progress.questId + ' ' + progress.counter + '/' + progress.amount +
-            (questRuntime!.quests.state(progress.questId)?.status === QuestStatus.Success ? ' · complete' : '')).join(', ') + '.';
-        }
+        killObjectiveNotice = ' ZS_RagDollDead is scheduled; its next application frame runs the native quest/XP task path.';
       } else {
         killObjectiveNotice = ' Native death versus knockout is unresolved; no kill objective was credited.';
       }
     }
     const hpText = actor.hitPoints === 0
-      ? 'NPC at 0 HP. The browser save retains this state; native death animation, defeat XP and loot remain unavailable.'
+      ? 'NPC at 0 HP. Browser saves retain its combat and lifecycle state; native death animation and loot remain unavailable.'
       : actor.hitPoints + ' / ' + maximum + ' HP remain.';
     notify('Browser fist hit · ' + actor.name + ' · ' + hit.calculation.finalDamage + ' damage · ' + hpText +
       ' Damage uses the source-derived formula; NPC AI and attack responses are not running.' + killObjectiveNotice +
@@ -1091,9 +1088,26 @@ async function enterWorld(): Promise<void> {
       if (restored.skipped.length) failures.push('NPC combat save: ' + restored.skipped.map((entry) => entry.reason).join('; '));
       hideDefeatedNpcVisuals();
     }
+    npcDeathRuntime = new BrowserNpcDeathRuntime(npcCombatRuntime, questRuntime, {
+      hasStaticOwner: id => peopleObjects.has(id),
+      nativeVisualAnimationPresent: id => personActors.has(id),
+      // These static Group owners have browser bounds for contact detection;
+      // no native control, DCC, collision-shape or Physics body is attached.
+      // This says nothing about presence of those classes in source records.
+      nativeResetAllCapabilities: () => ({ characterControl: false,
+        dynamicCollisionCircle: false, collisionShape: false, physicalObject: false }),
+      applyResetAll: (id, state) => {
+        const object = peopleObjects.get(id); if (!object) throw new Error('NPC presentation owner disappeared.');
+        object.userData.nativeMovementState = { ...state };
+      },
+      defeated: id => { const object = peopleObjects.get(id); if (object) object.visible = false; },
+      notify,
+    });
+    npcDeathRuntime.restoreScheduled();
   } catch (error) {
     questRuntime = null;
     npcCombatRuntime = null;
+    npcDeathRuntime = null;
     questRuntimeError = error instanceof Error ? error.message : String(error);
   }
   started = true;
@@ -1173,6 +1187,7 @@ function frame(now: number): void {
     const clock = questRuntime.advance();
     if (!clock.applied) element('world-clock').textContent = 'World clock stopped: ' + clock.reason;
   }
+  if (started && !modalOpen) npcDeathRuntime?.processFrame(dt);
   if (inspectMode) {
     const viewport = updateInspectorViewport();
     renderer.setViewport(viewport.x, viewport.y, viewport.w, viewport.h);

@@ -263,3 +263,23 @@ enabled flags, exact missing references and source geometry bounds. It records
 are absolute reflected metres; apply a chosen floating origin once. This command
 does not export every visual resource, activate sectors, or implement streaming.
 The rendered Ardea scene continues to use six selected landscape LOD cells.
+
+## Scheduled bandit death evidence and SVM data
+
+```powershell
+python tools/gothic3/read_npc_death_native_evidence.py --study "C:\path\to\Gothic3_Decompiled_Study_2026-10-04"
+python tools/gothic3/prepare_bandit_death_source.py --study "C:\path\to\Gothic3_Decompiled_Study_2026-10-04"
+python tools/gothic3/prepare_svm_data.py --study "C:\path\to\Gothic3_Decompiled_Study_2026-10-04" --ini "C:\Program Files (x86)\Steam\steamapps\common\Gothic 3\Ini\ge3.ini"
+```
+
+The first command compares the examined death-state, cleanup and speech
+instructions against the installed PE bytes without executing native code.
+The second audits the selected bandits against their full serialized entity
+class lists, preserving Party and movement fields and collision-shape source
+facts. The third decodes the effective `Strings.p00/SVMAdmin.dat` and records the
+selected local audio language. It preserves the declared voice/category maps
+and isolates trailing bytes from indexed strings. Its prepared data supplies
+the bounded browser death speech prerequisite; it does not implement native
+audio playback, manager heap layout or shutdown lifetime. The connected
+bandit death prefix and its explicit stopping point are described in
+[checkpoint 72](../../docs/engineering/gothic3-rebuilding-process.md#72-schedule-the-bandit-death-state-and-preserve-its-applied-prefix).

@@ -4,8 +4,8 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
-Updated: 6 October 2026. Deployed baseline preceding checkpoints 55–71:
-`main` commit `59854ed6e4daca03d6d0d6265a97fa1099c0c724`. This checkpoint adds
+Updated: 6 October 2026. Deployed baseline preceding checkpoint 72:
+`main` commit `610619f43a809e14118ee8edb186fed67aa2052b`. Checkpoints 55–71 add
 browser NPC Plunder inventory in checkpoint 55, resolves NPC armor class in
 checkpoint 56, materializes deterministic Weaponry stacks with unapplied
 equip plans in checkpoint 57, reads tracked pose fields from selected native
@@ -33,21 +33,23 @@ source-backed foundations for selected dialogue, quests, player progression
 and browser saves. Diego now uses his original skinned body and head with
 mapped Hero clips; other NPCs remain static. Bounded browser fist hits update
 saved Raider and bandit HP; source-directed lethal bandit hits can advance
-Jack's quest. Native NPC
-activation, AI, responses, defeat rewards and most campaign progression remain
+Jack's quest. Checkpoint 72 schedules a recovered death-state prefix for those
+bandits and connects its quest event and defeat XP, stopping at the remaining
+enclave callback. Native NPC
+activation, AI, responses, full death handling and most campaign progression remain
 unavailable.
 
 The [Gothic 3 / Ardea route](https://ael-dev3.github.io/Tervain/gothic3/) serves
 this incomplete build. The preceding baseline was deployed by [workflow run
-37502708509](https://github.com/ael-dev3/Tervain/actions/runs/37502708509);
+37504891018](https://github.com/ael-dev3/Tervain/actions/runs/37504891018);
 later publication receipts are available in the repository's
 [Pages workflow](https://github.com/ael-dev3/Tervain/actions/workflows/pages.yml).
 The [scope record](gothic3-browser-port.md) describes the current controls,
 limitations and source terms.
 
 This guide records the preceding hosted baseline and the changes prepared on
-`codex/gothic3-ardea-quest-progression`, with dated checkpoints that preserve
-the evidence for each stage. Sections 10–71 cover the later runtime work.
+`codex/gothic3-native-death-lifecycle`, with dated checkpoints that preserve
+the evidence for each stage. Sections 10–72 cover the later runtime work.
 
 Each checkpoint's reproduction commands describe its recorded source revision.
 To reproduce an older receipt, use a checkout at that commit and its producers.
@@ -94,7 +96,9 @@ to 15 exact starting Raider profiles and three coastal bandit profiles, and
 saves their resulting HP. Each profile
 uses browser contact detection and a standing target state; it does not
 construct the native actor, run attack eligibility or execute native combat
-callbacks, NPC responses, defeat, XP or loot.
+callbacks or NPC responses. Its bandit death integration now schedules the
+recovered state and runs the evidenced Kill prefix through the quest event and
+defeat XP; enclave notification, ragdoll and loot remain unavailable.
 The captured Hero PlayerMemory and Attribute/Stat data also feed an on-demand
 character panel. These are bounded integrations: most dialogue, live NPC
 activation, combat, schedule changes, world interactions and campaign
@@ -4364,3 +4368,108 @@ chunk warning. All 206 checked relative documentation links resolve, and
 and world clock restore, with Hero HP 100/100. Publication uses the existing
 Pages workflow; these local checks do not establish original-game equivalence
 or a completed campaign.
+
+## 72. Schedule the bandit death state and preserve its applied prefix
+
+This checkpoint replaces the hit handler's immediate kill-objective update
+with the recovered state path for Jack's three exact source bandits. A fatal
+hit updates live attacker fields and HP, performs `FullStop`, and calls the
+Script `PSRoutine::SetTask` wrapper with `ZS_RagDollDead`. Scheduling emits no
+quest event. A later application frame runs the original script-processor
+dispatch and the registered death-state body. The frame position advances
+before the one-time operations, independently of the routine property's
+state-position and time fields.
+
+The new [`npc-death-lifecycle.ts`](../../src/gothic3/npc-death-lifecycle.ts)
+ports ordered Kill/Defeat and death-state operations behind explicit host
+boundaries. [`browser-npc-death.ts`](../../src/gothic3/browser-npc-death.ts)
+connects only the selected empty-hand humanoid bandit profile. Its retained
+live properties are separate from immutable source records. Empty effect,
+interaction, hand-item, party and combat branches require their actual source
+and live state; missing rendered weapons or a global actor scan cannot prove
+those branches. Nonempty branches remain unavailable.
+
+The source bandits contain native VisualAnimation, collision-shape and
+rigid-body classes. This bounded browser host has not attached those native
+services to its static Three.js owners. ResetAll therefore selects explicit
+absent attached VisualAnimation/control/DCC/collision and null physical-object
+branches; it does not assert those source classes are absent. The owned
+movement set still receives alignment and ground-target writes, including the
+float32 null-ground offset calculated from the source StepHeight 65.
+
+Before Kill, the humanoid state attempts the original `DEAD` speech category.
+[`prepare_svm_data.py`](../../tools/gothic3/prepare_svm_data.py) reads the
+effective `Strings.p00/SVMAdmin.dat`: 28,188 bytes, SHA-256
+`018295b8a7ae06e45dcb8ce9816b1fe65f672aeecbc93de5308a3af3aa884943`.
+It retains 54 voices, 15 categories and 581 label/text pairs, plus the 31
+trailing bytes separately from the 648 declared indexed strings. The checked
+local `ge3.ini` selects English audio. Prepared arrays represent successfully
+read native manager contents; native hash-bucket allocation and shutdown
+lifetime are not implemented.
+
+[`native-speech-output.ts`](../../src/gothic3/native-speech-output.ts) owns
+the actual browser storage for the native 20-byte channel and 16-byte sound
+wrappers. Their constructor writes and retained SPU identities execute before
+the explicitly absent native AudioModule branch returns false. Playback does
+not occur. The void Script wrappers ignore that result, and the admitted
+SaySVM category returns true. Absence of native VisualAnimation does not skip
+this speech prefix. The wrapper allocations and shared speech timestamp are
+saved with the scheduled actor.
+
+Kill's connected prefix runs cleanup, writes AIMode 9, dispatches the quest
+event, then reads the Hero's current progression for defeat credit and XP.
+It awards 50 defeat XP per bandit and sets `DefeatedByPlayer`. On the third
+kill, the quest's 500 XP reward therefore precedes the final 50 defeat XP.
+The prefix then stops explicitly at the unconnected `NotifyEnclave` callback.
+Destination reset, plunder cleanup, ragdoll and the complete death lifecycle
+are not represented as successful no-ops. Raiders still have an unresolved
+kill-versus-knockout disposition and receive no kill credit at zero HP.
+
+NPC save schema v3 retains source-separated live fields, pending SPU/frame
+state, speech objects, shared loader globals and the selected browser playing
+time. A scheduled save can reattach its not-yet-executed state. A blocked prefix
+restores inertly, retaining its applied quest/XP changes without replay. Legacy
+v1/v2 zero-HP actors and current unscheduled zero-HP actors have distinct inert
+markers. The browser's outer save key remains `gothic3:ardea:game:v2`.
+Hero XP history also retains an ordered scalar-prefix receipt if execution
+stops between XP, Level and learning-point writes. Restore validates that exact
+prefix against the recovered progression plan and applies only recorded
+writes; it does not invent the remainder of a level-up. Complete awards retain
+the existing numeric replay representation. This covers observer or browser
+presentation failures during an award as well as the later enclave boundary.
+
+The source receipt
+[`npc-death-native-evidence.json`](../../assets/gothic3/combat/npc-death-native-evidence.json)
+audits 108 method entries with 8,235 body-instruction references against the
+installed PE bytes, with zero byte mismatches. Aliases repeat some bodies;
+the receipt identifies 7,638 unique physical instructions. Its SHA-256 is
+`b6001504b3f50d62a88888fd418d2309d1e49c79c7276b5eee55147541bff001`. The
+separate [bandit source receipt](../../assets/gothic3/combat/bandit-death-source-evidence.json)
+audits full source class boundaries, exact empty Party member tails, movement
+fields and the two serialized collision shapes for each selected bandit. The
+separate [Script SetTask receipt](../../assets/gothic3/routines/script-set-task-evidence.json)
+records its forwarding entry, 72 instructions, 214 body bytes and freeze-name
+gates. Reproduction uses the read-only local study:
+
+```powershell
+python tools/gothic3/read_npc_death_native_evidence.py --study "C:\path\to\Gothic3_Decompiled_Study_2026-10-04"
+python tools/gothic3/prepare_bandit_death_source.py --study "C:\path\to\Gothic3_Decompiled_Study_2026-10-04"
+python tools/gothic3/prepare_svm_data.py --study "C:\path\to\Gothic3_Decompiled_Study_2026-10-04" --ini "C:\Program Files (x86)\Steam\steamapps\common\Gothic 3\Ini\ge3.ini"
+```
+
+Automated browser-host scenarios use actual source bandits and fist hits to
+exercise later-frame scheduling, quest-before-defeat-XP ordering, retained
+speech allocation, pending restore and blocked-prefix restore. They establish
+these bounded operations, not a manual full encounter or campaign playthrough.
+Native NPC activation, AI, incoming attacks, knockout behavior, enclave and
+corpse services, most quests and the endings remain incomplete.
+
+Combined validation on 6 October 2026: `npm run typecheck` passes;
+`npm test` passes 1,854 tests across 182 files; `npm run build` succeeds with
+346 modules. The Gothic bundle is 1,129.03 kB; the existing Tervain bundle is
+5,701.33 kB and retains its 1,200 kB chunk warning. All 218 checked relative
+documentation links resolve, and `git diff --check` passes. Production browser
+review verifies startup, source bandit model selection/rotation/wheel zoom and
+restoration of position, clock and journal, with HP 100/100 and no captured
+console warnings or errors. The complete three-kill encounter remains an
+automated browser-host scenario rather than a manual browser playthrough.

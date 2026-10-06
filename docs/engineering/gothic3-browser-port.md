@@ -119,12 +119,16 @@ the 15 exact starting Ardea Raider identities and Jack's three coastal bandits
 use that browser hit window and the audited damage formula to update NPC HP in
 browser saves. Zero-HP visuals hide immediately and remain hidden after restore.
 This does not implement native NPC activation/contact eligibility, AI, attacks
-or responses, Kill/Defeat task execution, death animation, defeat XP, loot or
+or responses, full Kill/Defeat handling, death animation, loot or
 all quest reward services, so the campaign combat loop remains incomplete.
-Source-directed lethal bandit hits dispatch exact-name counters for matching
-numeric-type-2/3/4 objectives and their supported success rewards. Raider
+Source-directed lethal bandit hits schedule `ZS_RagDollDead`; a later original
+script-processor frame runs its connected Kill prefix, dispatching exact-name
+counters for numeric-type-2/3/4 objectives and supported success rewards, then
+50 defeat XP per bandit. The prefix stops at `NotifyEnclave`, preserving its
+applied state in the save. Raider
 kill-versus-defeat disposition remains unknown and does not grant kill credit.
-This does not port the native event source/cache. Only the audited first startup
+The audited native quest-manager callback iterates the registered quest array;
+the browser retains its bounded supported callback/reward host. Only the audited first startup
 quest run is connected; remaining startup callbacks and entity mutations are
 pending. See [checkpoint
 67](gothic3-rebuilding-process.md#67-persist-defeat-for-the-starting-ardea-raiders)
@@ -156,21 +160,26 @@ This checkpoint applies the bounded browser fist calculation to
 bandits, and stores their HP in browser saves.
 The contact detector and standing-target state remain browser-owned; defeated
 visuals hide on zero HP and after restoring the NPC combat save. Source-resolved
-lethal bandit hits dispatch exact-name counters for matching type-2/3/4
+lethal bandit hits schedule the recovered death state, whose connected prefix
+dispatches exact-name counters for matching type-2/3/4
 objectives. Eligible completion applies supported quest rewards; the quest save
 retains the counters and terminal status. Jack's three targets can complete his
 quest for 500 XP and unlock its condition-10 return Info for 50 gold and 250 XP.
-Native event/cache and task acceptance, defeat XP and several reward services
-remain unconnected. See [checkpoint
+The connected prefix awards another 50 defeat XP per bandit after the quest
+event, then stops at the remaining enclave callback. Native activation,
+ragdoll, speech playback, destination/plunder cleanup and several reward
+services remain unconnected. See [checkpoint
 67](gothic3-rebuilding-process.md#67-persist-defeat-for-the-starting-ardea-raiders)
 and [checkpoint
 70](gothic3-rebuilding-process.md#70-connect-jacks-bandits-and-correct-native-quest-callbacks).
+The scheduled prefix and save boundary are described in [checkpoint
+72](gothic3-rebuilding-process.md#72-schedule-the-bandit-death-state-and-preserve-its-applied-prefix).
 This checkpoint also passes each resolved distribution-3 Weaponry
 recipe through `NativeInventory.assureItems`, retaining the native `0x100`
 quality bit and configured minimum stack amount. The Raider's source-bound axe
 appears in its browser inventory at quality 256, amount 1; a primary-slot-6
 `EquipStack` plan is saved only as a decision (`applied: false`). NPC save
-schema v2 retains this source-bounded inventory and migrates v1 Plunder-only
+schema v3 retains this source-bounded inventory and migrates v1 Plunder-only
 saves. This does not attach the weapon to an actor or skeleton, create an
 ItemWorld instance, or apply equipment statistics. See [checkpoint
 57](gothic3-rebuilding-process.md#57-materialize-deterministic-weaponry-in-the-browser-npc-inventory).
@@ -266,7 +275,12 @@ The prepared derivatives and newly written renderer have separate provenance.
 Current save key: `gothic3:ardea:game:v2`. It holds browser exploration state,
 landscape selection, the 641 quest states, world-clock date, PlayerKnows game
 events, accepted dialogue `Given` flags, supported Hero XP and the mutable Hero
-inventory snapshot. The NPC combat save holds initialized Ardea actor inventories.
+inventory snapshot. The NPC combat save holds initialized Ardea actor
+inventories, source-separated live lifecycle fields, pending script-processor
+state and retained speech-wrapper allocations. Blocked death prefixes restore
+as inert checkpoints; loading does not replay quest or XP operations. Older
+v1/v2 zero-HP actors remain explicitly unresolved and receive no inferred kill
+credit. The outer browser save key is unchanged.
 Restore checks the Hero
 PlayerMemory and InfoManager provider identities as well as the quest/clock
 hashes and the starting-inventory evidence hash; saved inventories are
