@@ -265,6 +265,45 @@ describe('menu vigil scene', () => {
     for (const spy of spies) expect(spy).toHaveBeenCalledTimes(1);
   });
 
+  it.each([60, 120])('submits the whole pointer stroke when %i Hz menu frames share a 30 Hz GPU step', (hz) => {
+    const menu = fixture('low').menu;
+    const heath = menu as unknown as { movers: GrassMover[] };
+    const submitted: GrassMover[][] = [];
+    const expected: GrassMover[] = [];
+    const renderer = {
+      getRenderTarget: () => null,
+      setRenderTarget: vi.fn(),
+      clear: vi.fn(),
+      autoClear: true,
+      render: vi.fn((scene: THREE.Scene) => {
+        const material = (scene.children[0] as THREE.Mesh).material as THREE.ShaderMaterial;
+        const u = material.uniforms;
+        if (!u.uMoverCount) return;
+        submitted.push((u.uMovers!.value as THREE.Vector4[]).slice(0, u.uMoverCount.value as number)
+          .map((p) => ({ x: p.x, z: p.y, radius: p.z, weight: p.w })));
+      }),
+    } as unknown as THREE.WebGLRenderer;
+    const frames = hz / 30;
+    for (let frame = 0; frame < frames; frame++) {
+      menu.brush(-0.3 + (0.6 * frame) / (frames - 1), -0.7);
+      menu.update(1 / hz, false);
+      expected.push(...heath.movers.map((m) => ({ ...m })));
+      menu.prepareFrame(renderer, 1 / hz, false);
+      if (frame < frames - 1) expect(submitted).toHaveLength(0);
+    }
+    expect(expected.length).toBeGreaterThan(frames);
+    expect(submitted).toHaveLength(1);
+    const drawn = submitted.flat();
+    for (const stamp of expected) {
+      expect(drawn.some((p) => p.x === stamp.x && p.z === stamp.z && p.radius === stamp.radius), `${stamp.x}, ${stamp.z}`).toBe(true);
+    }
+    // Once stamped, interpolation samples are not replayed; only the hand's current contact stays active.
+    menu.update(1 / 30, false);
+    menu.prepareFrame(renderer, 1 / 30, false);
+    expect(submitted[1]).toHaveLength(1);
+    expect(submitted[1]![0]!.x).toBeCloseTo(expected.at(-1)!.x, 10);
+  });
+
   it('retains the ship routes and exact phase when the graphics scene is rebuilt', () => {
     const a = fixture('medium', 28491).menu;
     for (let i = 0; i < 130; i++) a.update(0.05, false);

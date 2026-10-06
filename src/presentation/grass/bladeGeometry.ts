@@ -14,9 +14,13 @@ export interface ClumpSpec {
   segments: number;
 }
 
-/** Rows bunch toward the tip, where a bending blade curves most. */
+/** Rows bunch toward the tip, with the last edge pair sampling both the seed head and flower petals. */
 export function bladeRow(row: number, segments: number): number {
-  return Math.pow(row / segments, 0.85);
+  if (row === segments) return 1;
+  if (segments === 1) return 0;
+  // Both shader head profiles peak at 0.88. Keep that row at every LOD without adding vertices or triangles,
+  // and spread the remaining rows below it so leaves still follow the blade's curve.
+  return 0.88 * Math.pow(row / (segments - 1), 0.85);
 }
 
 export function createGrassClump({ blades, segments }: ClumpSpec): THREE.BufferGeometry {

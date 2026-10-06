@@ -43,8 +43,11 @@ varying vec2 vUv;
 void main() {
   vec2 src = vUv + uShift;
   vec4 prev = (src.x < 0.0 || src.y < 0.0 || src.x > 1.0 || src.y > 1.0) ? vec4(0.0) : texture2D(tPrev, src);
-  vec2 push = prev.xy * uKeep.x;
-  float lying = prev.z * uKeep.y;
+  // Recovery fades the field's edge once per fixed step. Extra stamp batches keep the previous field unchanged.
+  float edge = smoothstep(0.0, 0.04, min(min(vUv.x, vUv.y), min(1.0 - vUv.x, 1.0 - vUv.y)));
+  float oldEdge = uKeep.x < 1.0 ? edge : 1.0;
+  vec2 push = prev.xy * uKeep.x * oldEdge;
+  float lying = prev.z * uKeep.y * oldEdge;
   vec2 world = uField.xy + vUv * uField.z;
   for (int i = 0; i < ${TRAMPLE_MAX_MOVERS}; i++) {
     if (i >= uMoverCount) break;
@@ -57,13 +60,11 @@ void main() {
     vec2 away = d / max(dist, 1e-3);
     vec2 dir = away + uMoverVel[i] * 0.3;
     float len = length(dir);
-    vec2 p = len > 1e-4 ? dir / len * k : vec2(0.0);
+    vec2 p = len > 1e-4 ? dir / len * k * edge : vec2(0.0);
     if (dot(p, p) > dot(push, push)) push = p;
-    lying = max(lying, k * m.w);
+    lying = max(lying, k * m.w * edge);
   }
-  // The field's square edge fades, so a trail leaving it never ends in a hard line.
-  float edge = smoothstep(0.0, 0.04, min(min(vUv.x, vUv.y), min(1.0 - vUv.x, 1.0 - vUv.y)));
-  gl_FragColor = vec4(push * edge, lying * edge, 1.0);
+  gl_FragColor = vec4(push, lying, 1.0);
 }`;
 
 const SHIFT_FRAG = /* glsl */ `
@@ -91,6 +92,7 @@ export class GrassTrample {
   private readonly shiftMaterial: THREE.ShaderMaterial;
   private readonly texel: number;
   private movers: GrassMover[] = [];
+  private readonly pendingStamps: GrassMover[] = [];
   private originX = Number.NaN;
   private originZ = Number.NaN;
   private accumulated = 0;
@@ -140,6 +142,14 @@ export class GrassTrample {
     this.movers = valid.slice(0, TRAMPLE_MAX_MOVERS);
   }
 
+  /** One-off brush footprints. Keep every sample until a GPU step consumes it, even when render frames run faster. */
+  queueStamps(stamps: readonly GrassMover[]) {
+    if (this.disposed) return;
+    for (const stamp of stamps) {
+      if ([stamp.x, stamp.z, stamp.radius].every(Number.isFinite) && stamp.radius > 0) this.pendingStamps.push({ ...stamp });
+    }
+  }
+
   /** Movers inside the field now (for tests and the debug panel). */
   get activeMovers(): number {
     if (!Number.isFinite(this.originX)) return 0;
@@ -151,6 +161,21 @@ export class GrassTrample {
     this.quad.material = material;
     renderer.setRenderTarget(target);
     renderer.render(this.scene, this.camera);
+  }
+
+  private stampPass(renderer: THREE.WebGLRenderer, stamps: readonly GrassMover[], keepPush: number, keepFlat: number) {
+    const u = this.stepMaterial.uniforms;
+    const movers = u.uMovers!.value as THREE.Vector4[], vel = u.uMoverVel!.value as THREE.Vector2[];
+    stamps.forEach((m, i) => {
+      movers[i]!.set(m.x, m.z, m.radius, Math.min(1, Math.max(0, m.weight ?? 0.7)));
+      vel[i]!.set(Number.isFinite(m.vx) ? m.vx! : 0, Number.isFinite(m.vz) ? m.vz! : 0);
+    });
+    u.uMoverCount!.value = stamps.length;
+    (u.uKeep!.value as THREE.Vector2).set(keepPush, keepFlat);
+    u.tPrev!.value = this.targets[0].texture;
+    (u.uShift!.value as THREE.Vector2).set(0, 0);
+    this.pass(renderer, this.stepMaterial, this.targets[1]);
+    this.targets = [this.targets[1], this.targets[0]];
   }
 
   /** Follow the focus (unless fixed), then advance the field at its own rate. */
@@ -183,19 +208,18 @@ export class GrassTrample {
       this.accumulated = Math.min(STEP * 4, this.accumulated + (Number.isFinite(dt) && dt > 0 ? dt : 0));
       const u = this.stepMaterial.uniforms;
       (u.uField!.value as THREE.Vector3).set(this.originX, this.originZ, this.extent);
-      const movers = u.uMovers!.value as THREE.Vector4[], vel = u.uMoverVel!.value as THREE.Vector2[];
-      this.movers.forEach((m, i) => {
-        movers[i]!.set(m.x, m.z, m.radius, Math.min(1, Math.max(0, m.weight ?? 0.7)));
-        vel[i]!.set(Number.isFinite(m.vx) ? m.vx! : 0, Number.isFinite(m.vz) ? m.vz! : 0);
-      });
-      u.uMoverCount!.value = this.movers.length;
-      (u.uKeep!.value as THREE.Vector2).set(Math.exp(-STEP / TRAMPLE_RECOVERY.push), Math.exp(-STEP / TRAMPLE_RECOVERY.flat));
       while (this.accumulated >= STEP) {
         this.accumulated -= STEP;
-        u.tPrev!.value = this.targets[0].texture;
-        (u.uShift!.value as THREE.Vector2).set(0, 0);
-        this.pass(renderer, this.stepMaterial, this.targets[1]);
-        this.targets = [this.targets[1], this.targets[0]];
+        const n = Math.min(TRAMPLE_MAX_MOVERS - this.movers.length, this.pendingStamps.length);
+        this.stampPass(renderer, [...this.movers, ...this.pendingStamps.slice(0, n)],
+          Math.exp(-STEP / TRAMPLE_RECOVERY.push), Math.exp(-STEP / TRAMPLE_RECOVERY.flat));
+        this.pendingStamps.splice(0, n);
+        // More than one frame of a quick stroke can exceed a shader batch. Stamp the rest without extra recovery.
+        while (this.pendingStamps.length > 0) {
+          const count = Math.min(TRAMPLE_MAX_MOVERS, this.pendingStamps.length);
+          this.stampPass(renderer, this.pendingStamps.slice(0, count), 1, 1);
+          this.pendingStamps.splice(0, count);
+        }
       }
       this.uniforms.tTrample.value = this.targets[0].texture;
       this.uniforms.uTrample.value.set(this.originX, this.originZ, this.extent, 1);
@@ -208,6 +232,7 @@ export class GrassTrample {
   dispose() {
     if (this.disposed) return;
     this.disposed = true;
+    this.pendingStamps.length = 0;
     this.uniforms.tTrample.value = null;
     this.uniforms.uTrample.value.w = 0;
     for (const t of this.targets) t.dispose();

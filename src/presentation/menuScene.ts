@@ -122,6 +122,7 @@ export class MenuScene {
   private readonly meadowWind: GrassWind;
   private readonly meadowTrample: GrassTrample;
   private readonly movers: GrassMover[] = [];
+  private readonly brushStamps: GrassMover[] = [];
   /** Tree-local to world, for the spirits skimming the heath. */
   private readonly treeMatrix = new THREE.Matrix4();
   /** The viewer's hand in the grass: the last pointer position on screen, and where it last touched the ground. */
@@ -579,6 +580,10 @@ export class MenuScene {
     }
     // The hand: brushed along the path the pointer took since the last frame, so a quick sweep leaves no gaps.
     const hand = this.hand;
+    const current = movers.slice();
+    const stamps = this.brushStamps;
+    stamps.length = 0;
+    const moved = hand.moved;
     if (hand.moved) {
       hand.moved = false;
       const hit = this.groundHit(hand.ndcX, hand.ndcY);
@@ -593,11 +598,13 @@ export class MenuScene {
         hand.reach = THREE.MathUtils.clamp(hit.y * 0.1, 0.6, 2.6);
         const fromX = hand.x, fromZ = hand.z;
         hand.x = hit.x; hand.z = hit.z; hand.life = 1;
-        const stamps = fresh ? 0 : Math.min(8, Math.floor(Math.hypot(dx, dz) / (hand.reach * 0.7)));
+        const stampCount = fresh ? 0 : Math.min(8, Math.floor(Math.hypot(dx, dz) / (hand.reach * 0.7)));
         const weight = 0.15 + 0.35 * Math.min(1, speed / 6);
-        for (let k = 1; k <= stamps; k++) {
-          const f = k / (stamps + 1);
-          movers.push({ x: fromX + dx * f, z: fromZ + dz * f, radius: hand.reach, weight, vx: hand.vx, vz: hand.vz });
+        for (let k = 1; k <= stampCount; k++) {
+          const f = k / (stampCount + 1);
+          const footprint = { x: fromX + dx * f, z: fromZ + dz * f, radius: hand.reach, weight, vx: hand.vx, vz: hand.vz };
+          movers.push(footprint);
+          stamps.push(footprint);
         }
       } else hand.life = 0;
     } else {
@@ -606,12 +613,16 @@ export class MenuScene {
     }
     if (hand.life > 0 && Number.isFinite(hand.x)) {
       const speed = Math.hypot(hand.vx, hand.vz);
-      movers.push({ x: hand.x, z: hand.z, radius: hand.reach * THREE.MathUtils.smoothstep(hand.life, 0, 1),
-        weight: 0.15 + 0.35 * Math.min(1, speed / 6), vx: hand.vx, vz: hand.vz });
+      const footprint = { x: hand.x, z: hand.z, radius: hand.reach * THREE.MathUtils.smoothstep(hand.life, 0, 1),
+        weight: 0.15 + 0.35 * Math.min(1, speed / 6), vx: hand.vx, vz: hand.vz };
+      movers.push(footprint);
+      current.push(footprint);
+      if (moved) stamps.push(footprint);
     } else {
       hand.x = Number.NaN; hand.z = Number.NaN;
     }
-    this.meadowTrample.setMovers(movers);
+    this.meadowTrample.setMovers(current);
+    this.meadowTrample.queueStamps(stamps);
   }
 
   /** A fixed camera. Narrow screens widen the vertical field (up to a limit) so the tree and the fire stay in frame. */
