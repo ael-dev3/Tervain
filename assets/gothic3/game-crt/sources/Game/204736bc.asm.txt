@@ -1,0 +1,7 @@
+204736bc | 55 | PUSH EBP
+204736bd | 8bec | MOV EBP,ESP
+204736bf | 8b4508 | MOV EAX,dword ptr [EBP + 0x8]
+204736c2 | ff34c5702c7b20 | PUSH dword ptr [EAX*0x8 + 0x207b2c70]
+204736c9 | ff15fc7b7d20 | CALL dword ptr [0x207d7bfc]
+204736cf | 5d | POP EBP
+204736d0 | c3 | RET

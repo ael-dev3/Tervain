@@ -1,0 +1,5 @@
+204741b7 | ff742404 | PUSH dword ptr [ESP + 0x4]
+204741bb | ff15107c7d20 | CALL dword ptr [0x207d7c10]
+204741c1 | 33c0 | XOR EAX,EAX
+204741c3 | 40 | INC EAX
+204741c4 | c20800 | RET 0x8

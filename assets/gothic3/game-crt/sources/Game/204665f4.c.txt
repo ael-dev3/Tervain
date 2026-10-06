@@ -1,0 +1,37 @@
+/* ENTRY 204665f4 | __cinit | STATUS decompiled | 12 ms */
+
+/* Library Function - Single Match
+    __cinit
+
+   Library: Visual Studio 2005 Release */
+
+int __cdecl __cinit(int param_1)
+
+{
+  BOOL BVar1;
+  int iVar2;
+  undefined4 *puVar3;
+
+  BVar1 = __IsNonwritableInCurrentImage((PBYTE)&PTR___fpmath_206b638c);
+  if (BVar1 != 0) {
+    __fpmath(param_1);
+  }
+  __initp_misc_cfltcvt_tab();
+  iVar2 = __initterm_e(&DAT_20655514,&DAT_20655730);
+  if (iVar2 == 0) {
+    _atexit((_func_4879 *)&LAB_20473801);
+    puVar3 = &DAT_2056c000;
+    do {
+      if ((code *)*puVar3 != (code *)0x0) {
+        (*(code *)*puVar3)();
+      }
+      puVar3 = puVar3 + 1;
+    } while (puVar3 < &DAT_20655410);
+    if ((DAT_207d2b88 != (code *)0x0) &&
+       (BVar1 = __IsNonwritableInCurrentImage((PBYTE)&DAT_207d2b88), BVar1 != 0)) {
+      (*DAT_207d2b88)(0,2,0);
+    }
+    iVar2 = 0;
+  }
+  return iVar2;
+}

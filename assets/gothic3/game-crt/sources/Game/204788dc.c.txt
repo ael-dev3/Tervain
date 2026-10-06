@@ -1,0 +1,7 @@
+/* ENTRY 204788dc | charNode::vfunction2 | STATUS decompiled | 1 ms */
+
+DNameNode __thiscall charNode::vfunction2(charNode *this)
+
+{
+  return (this->charNode_data).offset_0x4;
+}

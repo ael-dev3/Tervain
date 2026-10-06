@@ -1,0 +1,40 @@
+/* ENTRY 20467c6a | _free | STATUS decompiled | 7 ms */
+
+/* WARNING: Function: __SEH_prolog4 replaced with injection: SEH_prolog4 */
+/* WARNING: Function: __SEH_epilog4 replaced with injection: EH_epilog3 */
+/* Library Function - Single Match
+    _free
+
+   Library: Visual Studio 2005 Release */
+
+void __cdecl _free(void *_Memory)
+
+{
+  int iVar1;
+  BOOL BVar2;
+  undefined4 *puVar3;
+  DWORD DVar4;
+  undefined4 uVar5;
+
+  if (_Memory != (void *)0x0) {
+    if (DAT_207d1658 == 3) {
+      __lock(4);
+      iVar1 = thunk_FUN_20476d40(_Memory);
+      if (iVar1 != 0) {
+        ___sbh_free_block(iVar1,_Memory);
+      }
+      FUN_20467cc0();
+      if (iVar1 != 0) {
+        return;
+      }
+    }
+    BVar2 = HeapFree(DAT_207d11b4,0,_Memory);
+    if (BVar2 == 0) {
+      puVar3 = (undefined4 *)FUN_2046a282();
+      DVar4 = GetLastError();
+      uVar5 = FUN_2046a247(DVar4);
+      *puVar3 = uVar5;
+    }
+  }
+  return;
+}

@@ -1,0 +1,9 @@
+20467ab3 | 837c240801 | CMP dword ptr [ESP + 0x8],0x1
+20467ab8 | 7505 | JNZ 0x20467abf
+20467aba | e8daef0000 | CALL 0x20476a99
+20467abf | ff742404 | PUSH dword ptr [ESP + 0x4]
+20467ac3 | 8b4c2410 | MOV ECX,dword ptr [ESP + 0x10]
+20467ac7 | 8b54240c | MOV EDX,dword ptr [ESP + 0xc]
+20467acb | e8edfeffff | CALL 0x204679bd
+20467ad0 | 59 | POP ECX
+20467ad1 | c20c00 | RET 0xc

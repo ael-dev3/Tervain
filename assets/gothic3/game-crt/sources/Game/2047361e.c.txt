@@ -1,0 +1,30 @@
+/* ENTRY 2047361e | __mtinitlocks | STATUS decompiled | 6 ms */
+
+/* Library Function - Single Match
+    __mtinitlocks
+
+   Library: Visual Studio 2005 Release */
+
+int __cdecl __mtinitlocks(void)
+
+{
+  int iVar1;
+  int iVar2;
+  undefined *puVar3;
+
+  iVar2 = 0;
+  puVar3 = &DAT_207d0f30;
+  do {
+    if ((&DAT_207b2c74)[iVar2 * 2] == 1) {
+      (&DAT_207b2c70)[iVar2 * 2] = puVar3;
+      puVar3 = puVar3 + 0x18;
+      iVar1 = ___crtInitCritSecAndSpinCount((&DAT_207b2c70)[iVar2 * 2],4000);
+      if (iVar1 == 0) {
+        (&DAT_207b2c70)[iVar2 * 2] = 0;
+        return 0;
+      }
+    }
+    iVar2 = iVar2 + 1;
+  } while (iVar2 < 0x24);
+  return 1;
+}

@@ -1,0 +1,13 @@
+/* ENTRY 20466779 | __exit | STATUS decompiled | 1 ms */
+
+/* Library Function - Single Match
+    __exit
+
+   Library: Visual Studio 2005 Release */
+
+void __cdecl __exit(int _Code)
+
+{
+  FUN_20466686(_Code,1,0);
+  return;
+}

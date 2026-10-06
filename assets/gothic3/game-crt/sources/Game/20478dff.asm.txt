@@ -1,0 +1,8 @@
+20478dff | 8b410c | MOV EAX,dword ptr [ECX + 0xc]
+20478e02 | 85c0 | TEST EAX,EAX
+20478e04 | 7408 | JZ 0x20478e0e
+20478e06 | 8b4908 | MOV ECX,dword ptr [ECX + 0x8]
+20478e09 | 8a4401ff | MOV AL,byte ptr [ECX + EAX*0x1 + -0x1]
+20478e0d | c3 | RET
+20478e0e | 32c0 | XOR AL,AL
+20478e10 | c3 | RET

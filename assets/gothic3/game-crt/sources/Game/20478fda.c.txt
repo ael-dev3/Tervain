@@ -1,0 +1,37 @@
+/* ENTRY 20478fda | DName::operator= | STATUS decompiled | 6 ms */
+
+/* Library Function - Single Match
+    public: class DName & __thiscall DName::operator=(class DName *)
+
+   Library: Visual Studio 2005 Release */
+
+DName * __thiscall DName::operator=(DName *this,DName *param_1)
+
+{
+  pDNameNode *this_00;
+  int extraout_EAX;
+  int iVar1;
+
+  iVar1 = (int)(*(uint *)(this + 4) << 0x1c) >> 0x1c;
+  if ((iVar1 == 0) || (iVar1 == 2)) {
+    if (param_1 == (DName *)0x0) {
+      operator=(this,3);
+    }
+    else {
+      *(uint *)(this + 4) = *(uint *)(this + 4) & 0xfffff70f;
+      this_00 = HeapManager::getMemory((HeapManager *)&DAT_207d14e4,0xc,0);
+      if (this_00 == (pDNameNode *)0x0) {
+        iVar1 = 0;
+      }
+      else {
+        pDNameNode::pDNameNode(this_00,param_1);
+        iVar1 = extraout_EAX;
+      }
+      *(int *)this = iVar1;
+      if (iVar1 == 0) {
+        *(uint *)(this + 4) = *(uint *)(this + 4) & 0xfffffff3 | 3;
+      }
+    }
+  }
+  return this;
+}

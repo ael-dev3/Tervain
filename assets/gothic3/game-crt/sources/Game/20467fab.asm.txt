@@ -1,0 +1,4 @@
+20467fab | 6a0c | PUSH 0xc
+20467fad | e80ab70000 | CALL 0x204736bc
+20467fb2 | 59 | POP ECX
+20467fb3 | c3 | RET

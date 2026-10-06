@@ -1,0 +1,21 @@
+/* ENTRY 204737dd | __RTC_Initialize | STATUS decompiled | 2 ms */
+
+/* Library Function - Single Match
+    __RTC_Initialize
+
+   Library: Visual Studio 2005 Release */
+
+void __RTC_Initialize(void)
+
+{
+  undefined4 *puVar1;
+
+  puVar1 = &DAT_206e84d8;
+  do {
+    if ((code *)*puVar1 != (code *)0x0) {
+      (*(code *)*puVar1)();
+    }
+    puVar1 = puVar1 + 1;
+  } while (puVar1 < &DAT_206e85d8);
+  return;
+}

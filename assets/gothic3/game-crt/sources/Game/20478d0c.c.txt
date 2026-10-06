@@ -1,0 +1,31 @@
+/* ENTRY 20478d0c | Replicator::operator+= | STATUS decompiled | 4 ms */
+
+/* Library Function - Single Match
+    public: class Replicator & __thiscall Replicator::operator+=(class DName const &)
+
+   Library: Visual Studio 2005 Release */
+
+Replicator * __thiscall Replicator::operator+=(Replicator *this,DName *param_1)
+
+{
+  int iVar1;
+  DName *this_00;
+
+  if (*(int *)this != 9) {
+    iVar1 = DName::isEmpty(param_1);
+    if (iVar1 == 0) {
+      this_00 = HeapManager::getMemory((HeapManager *)&DAT_207d14e4,8,0);
+      if (this_00 == (DName *)0x0) {
+        iVar1 = 0;
+      }
+      else {
+        iVar1 = DName::DName(this_00,param_1);
+      }
+      if (iVar1 != 0) {
+        *(int *)this = *(int *)this + 1;
+        *(int *)(this + *(int *)this * 4 + 4) = iVar1;
+      }
+    }
+  }
+  return this;
+}

@@ -1,9 +1,10 @@
-/** Selected ordinary Engine DLL attach prefix. Original PE receipts own cold
+/** Selected ordinary Engine/Game DLL attach prefix. Original PE receipts own cold
  * globals; explicit platform calls own process outputs. Completing this prefix
  * does not complete DLL initialization or activate the browser NPC reader. */
 import sourceText from '../../assets/gothic3/crt-bootstrap/runtime-rules.json?raw';
 import type { NativeValue } from './dialogue';
-import { NativeEngineCrtOwner } from './native-engine-crt-locks';
+import type { NativeModuleCrtOwner } from './native-engine-crt-locks';
+import { admitGameCrtStartupSource, gameStartupInstructionPoints } from './native-game-crt-startup-source';
 import type { NativeEngineCrtPlatform } from './native-engine-crt-locks';
 import { NativeCrtThreadStartup } from './native-crt-thread-startup';
 import { NativeHeapObjectViews } from './native-heap-views';
@@ -14,11 +15,11 @@ const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = (reason: string): { known: false; reason: string } => ({ known: false, reason });
 interface Receipt { module: string; address: string; bytes: number; raw: string; knownMask: string; }
 interface SourceRules {
-  schema: string; inputs: { Engine: string };
+  schema: string; inputs: { Engine?: string; Game?: string };
   methods: Record<string, { entry: string; body: string; bodyInstructionBytesSha256: string }>;
   coldGlobals: Record<string, Receipt>; constBytes: Record<string, Receipt>;
 }
-const source = JSON.parse(sourceText) as SourceRules;
+const engineSource = JSON.parse(sourceText) as SourceRules;
 const methodAddresses = {
   entry: '3067744b', securityInitCookie: '3068e9a5', dllMainCrtStartup: '30677355',
   crtAttach: '3067717c', initPointers: '3067d37b', encodedNull: '3067ded2',
@@ -46,7 +47,12 @@ const methodHashes = {
   exitPointerTarget: '56833d9b869d4a324b0aadced821b799bcf7f4b4cbc7324de29c74e4a8660b00',
   terminatePointerTarget: 'a6abaeaf8044e2844109750670956af176dbca658c1f6412fc107e6de09ff385',
 } satisfies Record<keyof typeof methodAddresses, string>;
-function admitSource(): void {
+function admitSource(crt: NativeModuleCrtOwner): SourceRules {
+  const source = crt.module === 'Engine' ? engineSource : crt.sourceProfile.bootstrapRules as SourceRules;
+  if (crt.module === 'Game') {
+    admitGameCrtStartupSource(source, [...Object.keys(methodAddresses), 'heapInit', 'heapTerm', 'mtInit']);
+    return source;
+  }
   if (source.schema !== 'gothic3-crt-bootstrap-rules-v1' ||
       source.inputs.Engine !== 'd49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3' ||
       Object.entries(methodAddresses).some(([label, address]) => source.methods[label]?.entry !== address ||
@@ -54,10 +60,11 @@ function admitSource(): void {
           methodHashes[label as keyof typeof methodAddresses])) {
     throw new Error('Selected Engine CRT bootstrap source receipt differs');
   }
+  return source;
 }
 function originalStorage(table: 'coldGlobals' | 'constBytes', label: string, address: string, bytes: number,
   expected: string): NativeHeapObjectViews {
-  const receipt = source[table][label];
+  const receipt = engineSource[table][label];
   if (!receipt || receipt.module !== 'Engine' || receipt.address !== address || receipt.bytes !== bytes ||
       receipt.raw !== expected || receipt.knownMask !== 'ff'.repeat(bytes)) {
     throw new Error('Selected Engine CRT bootstrap original storage differs: ' + label);
@@ -77,12 +84,17 @@ interface PhysicalBootstrap {
   securityCookie: NativeHeapObjectViews; securityCookieComplement: NativeHeapObjectViews;
   attachCount: NativeHeapObjectViews; attachCallback: NativeHeapObjectViews; preCInitializerTable: NativeHeapObjectViews;
 }
-const physicalByCrt = new WeakMap<NativeEngineCrtOwner, PhysicalBootstrap>();
-const bootstrapByCrt = new WeakMap<NativeEngineCrtOwner, NativeCrtBootstrap>();
-function physicalFor(crt: NativeEngineCrtOwner): PhysicalBootstrap {
+const physicalByCrt = new WeakMap<NativeModuleCrtOwner, PhysicalBootstrap>();
+const bootstrapByCrt = new WeakMap<NativeModuleCrtOwner, NativeCrtBootstrap>();
+function physicalFor(crt: NativeModuleCrtOwner): PhysicalBootstrap {
   let physical = physicalByCrt.get(crt);
   if (!physical) {
-    physical = Object.freeze({
+    physical = Object.freeze(crt.module === 'Game' ? {
+      securityCookie: crt.imageStorage('securityCookie'),
+      securityCookieComplement: crt.imageStorage('securityCookieComplement'),
+      attachCount: crt.imageStorage('attachCount'), attachCallback: crt.imageStorage('attachCallback'),
+      preCInitializerTable: crt.imageStorage('preCInitializerTable'),
+    } : {
       securityCookie: originalStorage('coldGlobals', 'securityCookie', '30ad43ec', 4, '4ee640bb'),
       securityCookieComplement: originalStorage('coldGlobals', 'securityCookieComplement', '30ad43f0', 4, 'b119bf44'),
       attachCount: originalStorage('coldGlobals', 'attachCount', '30af70d0', 4, '00000000'),
@@ -106,6 +118,7 @@ type Phase = 'cold' | 'running' | 'returned' | 'blocked';
 /** The same CRT owner supplies canonical OS fields, heap, TLS indexes and
  * pointer initialization slots. Runtime callbacks receive retained views. */
 export class NativeCrtBootstrap {
+  private readonly source: SourceRules;
   readonly physical: PhysicalBootstrap;
   readonly thread: NativeCrtThreadStartup;
   private boundary: string | null = null;
@@ -121,20 +134,25 @@ export class NativeCrtBootstrap {
   private versionRecord: NativeHeapObjectViews | null = null;
   private readonly terminateTarget: NativeSourceProcedure;
   private readonly exitTarget: NativeSourceProcedure;
-  static forCrt(crt: NativeEngineCrtOwner): NativeCrtBootstrap {
+  static forCrt(crt: NativeModuleCrtOwner): NativeCrtBootstrap {
     let bootstrap = bootstrapByCrt.get(crt);
     if (!bootstrap) { bootstrap = new NativeCrtBootstrap(crt); bootstrapByCrt.set(crt, bootstrap); }
     return bootstrap;
   }
-  private constructor(readonly crt: NativeEngineCrtOwner) {
-    admitSource(); this.physical = physicalFor(crt);
-    this.terminateTarget = Object.freeze({ identity: Object.freeze({}), owner: crt.identity, address: '3068a8af',
-      invoke: () => unknown('Unowned source terminate3068a8af invocation') });
-    this.exitTarget = Object.freeze({ identity: Object.freeze({}), owner: crt.identity, address: '3067d34c',
-      invoke: () => unknown('Unowned source __exit3067d34c invocation') });
+  private constructor(readonly crt: NativeModuleCrtOwner) {
+    this.source = admitSource(crt); this.physical = physicalFor(crt);
+    this.terminateTarget = Object.freeze({ identity: Object.freeze({}), owner: crt.identity, address: this.address('terminatePointerTarget'),
+      invoke: () => unknown('Unowned source terminate' + this.address('terminatePointerTarget') + ' invocation') });
+    this.exitTarget = Object.freeze({ identity: Object.freeze({}), owner: crt.identity, address: this.address('exitPointerTarget'),
+      invoke: () => unknown('Unowned source __exit' + this.address('exitPointerTarget') + ' invocation') });
     this.thread = new NativeCrtThreadStartup({ crt, initPointers: () => this.initializePointers() });
   }
   private get platform(): NativeCrtBootstrapPlatform { return this.crt.host.platform; }
+  private address(label: string): string { return this.source.methods[label]!.entry; }
+  private name(label: string): string { return label + this.address(label); }
+  private instruction(engine: string, label: keyof typeof gameStartupInstructionPoints): string {
+    return this.crt.module === 'Engine' ? engine : gameStartupInstructionPoints[label];
+  }
   private run<T>(name: string, execute: () => T): NativeValue<T> {
     if (this.boundary) return unknown(this.boundary);
     try { const value = execute(); return this.boundary ? unknown(this.boundary) : known(value); }
@@ -157,12 +175,12 @@ export class NativeCrtBootstrap {
     return value;
   }
   initializeSecurityCookie(): NativeValue<void> {
-    return this.run('securityInitCookie3068e9a5', () => {
+    return this.run(this.name('securityInitCookie'), () => {
       if (this.cookiePhase === 'returned') return;
       if (this.cookiePhase !== 'cold') throw new Error('Suspended security cookie frame cannot replay');
       this.cookiePhase = 'running';
       const frame = this.cookieFrame = stackFrame(16);
-      let cookie = this.physical.securityCookie.readUnsigned(0); this.trace.push('cookie.read3068e9ab');
+      let cookie = this.physical.securityCookie.readUnsigned(0); this.trace.push('cookie.read' + this.instruction('3068e9ab', 'cookieRead'));
       // EBP-8/EBP-4 FILETIME stores occur even for the existing-cookie branch.
       frame.writeUnsigned(8, 0); this.trace.push('cookie.FILETIME.low.zero');
       frame.writeUnsigned(12, 0); this.trace.push('cookie.FILETIME.high.zero');
@@ -184,7 +202,7 @@ export class NativeCrtBootstrap {
         cookie = (cookie ^ counter.readUnsigned(4) ^ counter.readUnsigned(0)) >>> 0;
         if (cookie === 0xbb40e64e) cookie = 0xbb40e64f;
         else if ((cookie & 0xffff0000) === 0) cookie = (cookie | (cookie << 16)) >>> 0;
-        this.physical.securityCookie.writeUnsigned(0, cookie); this.trace.push('cookie.store3068ea26');
+        this.physical.securityCookie.writeUnsigned(0, cookie); this.trace.push('cookie.store' + this.instruction('3068ea26', 'cookieStore'));
       }
       this.physical.securityCookieComplement.writeUnsigned(0, (~cookie) >>> 0);
       this.trace.push('cookieComplement.store');
@@ -192,26 +210,26 @@ export class NativeCrtBootstrap {
     });
   }
   initializePointers(): NativeValue<void> {
-    return this.run('initPointers3067d37b', () => {
+    return this.run(this.name('initPointers'), () => {
       if (this.pointerPhase === 'returned') return;
       if (this.pointerPhase !== 'cold') throw new Error('Suspended pointer initialization cannot replay');
       this.pointerPhase = 'running';
-      const encodedNull = this.call('encodedNull3067ded2', () => this.crt.encodePointer(null));
+      const encodedNull = this.call(this.name('encodedNull'), () => this.crt.encodePointer(null));
       const slots = this.crt.physical.pointerInitialization;
       const store = (label: string, fields: NativeHeapObjectViews, offset = 0) => {
         fields.pointer<object>(offset).set(encodedNull); this.trace.push(label);
       };
-      store('initNewHandler30682468.store', slots.newHandler);
-      store('initSectionInitializer3069646a.store', slots.sectionInitializer);
-      store('initInvalidParameter30674c1a.store', slots.invalidParameter);
-      store('initCrtReportHook3067ea79.store', slots.exceptionFilter);
-      store('initUnhandledException3069635c.store', slots.mathError);
-      for (let offset = 0; offset < 16; offset += 4) store('initWinSignalPointers30695e68.store' + offset, slots.winSignalPointers, offset);
-      this.trace.push('initDebugReportNoop3068aadb');
-      const terminate = this.call('initEhHooks3068a932.encodeTerminate', () => this.crt.encodePointer(this.terminateTarget));
-      slots.terminateHandler.pointer<object>(0).set(terminate); this.trace.push('terminateHandler.store3068a93d');
-      const exit = this.call('initPointers3067d37b.encodeExit', () => this.crt.encodePointer(this.exitTarget));
-      slots.exitFunction.pointer<object>(0).set(exit); this.trace.push('exitFunction.store3067d3c0');
+      store(this.name('initNewHandler') + '.store', slots.newHandler);
+      store(this.name('initSectionInitializer') + '.store', slots.sectionInitializer);
+      store(this.name('initInvalidParameter') + '.store', slots.invalidParameter);
+      store(this.name('initCrtReportHook') + '.store', slots.exceptionFilter);
+      store(this.name('initUnhandledException') + '.store', slots.mathError);
+      for (let offset = 0; offset < 16; offset += 4) store(this.name('initWinSignalPointers') + '.store' + offset, slots.winSignalPointers, offset);
+      this.trace.push(this.name('initDebugReportNoop'));
+      const terminate = this.call(this.name('initEhHooks') + '.encodeTerminate', () => this.crt.encodePointer(this.terminateTarget));
+      slots.terminateHandler.pointer<object>(0).set(terminate); this.trace.push('terminateHandler.store' + this.instruction('3068a93d', 'terminateStore'));
+      const exit = this.call(this.name('initPointers') + '.encodeExit', () => this.crt.encodePointer(this.exitTarget));
+      slots.exitFunction.pointer<object>(0).set(exit); this.trace.push('exitFunction.store' + this.instruction('3067d3c0', 'exitStore'));
       this.pointerPhase = 'returned';
     });
   }
@@ -219,10 +237,10 @@ export class NativeCrtBootstrap {
     // The source advances by four through the actual 64-pointer table.
     for (let offset = 0; offset < 256; offset += 4) {
       const procedure = this.physical.preCInitializerTable.pointer<NativeSourceProcedure>(offset).get();
-      this.trace.push('preCInit3068e95d.read' + offset);
-      if (procedure) this.gate('preCInit3068e95d callback at3094c89c+' + offset);
+      this.trace.push(this.name('preCInit') + '.read' + offset);
+      if (procedure) this.gate(this.name('preCInit') + ' callback at' + this.source.constBytes.preCInitializerTable!.address + '+' + offset);
     }
-    this.trace.push('preCInit3068e95d.return');
+    this.trace.push(this.name('preCInit') + '.return');
   }
   private attach(): number {
     if (this.attachPhase === 'returned') return this.attachResult!;
@@ -245,17 +263,17 @@ export class NativeCrtBootstrap {
     if (osPlatform !== 2) build |= 0x8000;
     const os = this.crt.physical.crtOsFields;
     // Actual original operand/store order, after the HeapFree call.
-    os.writeUnsigned(0, osPlatform); this.trace.push('os.platform.store30677203');
-    os.writeUnsigned(8, ((major << 8) + minor) >>> 0); this.trace.push('os.version.store30677214');
-    os.writeUnsigned(12, major); this.trace.push('os.major.store3067721a');
-    os.writeUnsigned(16, minor); this.trace.push('os.minor.store3067721f');
-    os.writeUnsigned(4, build); this.trace.push('os.build.store30677225');
-    if (this.call('heapInit3068442b', () => this.crt.initHeap(1)) === 0) return this.finishAttach(0);
-    if (this.call('mtInit3067e2d9', () => this.thread.initialize()) === 0) {
-      this.call('heapTerm30684485', () => this.crt.terminateHeap()); return this.finishAttach(0);
+    os.writeUnsigned(0, osPlatform); this.trace.push('os.platform.store' + this.instruction('30677203', 'osPlatformStore'));
+    os.writeUnsigned(8, ((major << 8) + minor) >>> 0); this.trace.push('os.version.store' + this.instruction('30677214', 'osVersionStore'));
+    os.writeUnsigned(12, major); this.trace.push('os.major.store' + this.instruction('3067721a', 'osMajorStore'));
+    os.writeUnsigned(16, minor); this.trace.push('os.minor.store' + this.instruction('3067721f', 'osMinorStore'));
+    os.writeUnsigned(4, build); this.trace.push('os.build.store' + this.instruction('30677225', 'osBuildStore'));
+    if (this.call(this.name('heapInit'), () => this.crt.initHeap(1)) === 0) return this.finishAttach(0);
+    if (this.call(this.name('mtInit'), () => this.thread.initialize()) === 0) {
+      this.call(this.name('heapTerm'), () => this.crt.terminateHeap()); return this.finishAttach(0);
     }
     this.preCInitialize();
-    this.gate('GetCommandLineA IAT30afc69c at30677251');
+    this.gate('GetCommandLineA IAT' + this.instruction('30afc69c', 'commandLineIat') + ' at' + this.instruction('30677251', 'commandLineCall'));
   }
   private releaseVersion(backing: NativeMemoryBacking): void {
     const heap = this.call('GetProcessHeap.free', () => this.platform.getProcessHeap?.() ?? unknown('Actual process heap call required'));
@@ -267,28 +285,28 @@ export class NativeCrtBootstrap {
     this.attachPhase = 'returned'; this.attachResult = value; this.trace.push('crtAttach.return' + value); return value;
   }
   processAttach(): NativeValue<number> {
-    return this.run('crtAttach3067717c', () => this.attach());
+    return this.run(this.name('crtAttach'), () => this.attach());
   }
   entry(module: object | null, reason: 0 | 1 | 2 | 3, reserved: object | null): NativeValue<number> {
     if (![0, 1, 2, 3].includes(reason) || (module !== null && typeof module !== 'object') ||
         (reserved !== null && typeof reserved !== 'object')) return unknown('Actual DLL entry module/reason/reserved arguments required');
     if (this.entryArguments && (this.entryArguments.module !== module || this.entryArguments.reason !== reason ||
         this.entryArguments.reserved !== reserved)) return unknown('Different DLL entry invocation requires a separate owned frame');
-    return this.run('entry3067744b', () => {
+    return this.run(this.name('entry'), () => {
       if (this.entryPhase === 'returned') return this.entryResult!;
       if (this.entryPhase !== 'cold') throw new Error('Suspended DLL entry cannot replay');
       this.entryArguments = { module, reason, reserved };
-      this.entryPhase = 'running'; this.trace.push('entry3067744b.reason' + reason);
-      if (reason === 1) this.call('securityInitCookie3068e9a5', () => this.initializeSecurityCookie());
-      this.trace.push('dllMainCrtStartup30677355');
+      this.entryPhase = 'running'; this.trace.push(this.name('entry') + '.reason' + reason);
+      if (reason === 1) this.call(this.name('securityInitCookie'), () => this.initializeSecurityCookie());
+      this.trace.push(this.name('dllMainCrtStartup'));
       if (reason === 0 && this.physical.attachCount.readUnsigned(0) === 0) return this.finishEntry(0);
       if (reason === 1 || reason === 2) {
-        if (this.physical.attachCallback.pointer<object>(0).get() !== null) this.gate('DllStartup attach callback30892dc0');
+        if (this.physical.attachCallback.pointer<object>(0).get() !== null) this.gate('DllStartup attach callback' + this.source.constBytes.attachCallback!.address);
         this.trace.push('attachCallback.NULL');
-        if (reason === 2) this.gate('crtAttach3067717c thread-attach branch306772e1');
+        if (reason === 2) this.gate(this.name('crtAttach') + ' thread-attach branch' + this.instruction('306772e1', 'threadAttachBranch'));
         if (this.attach() === 0) return this.finishEntry(0);
       }
-      this.gate('Engine DllMain thunk300350da / body305eacb0');
+      this.gate(this.crt.module + ' DllMain thunk' + this.instruction('300350da', 'dllMainThunk') + ' / body' + this.instruction('305eacb0', 'dllMainBody'));
     });
   }
   private finishEntry(value: number): number {

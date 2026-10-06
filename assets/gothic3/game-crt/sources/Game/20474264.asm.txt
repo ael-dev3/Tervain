@@ -1,0 +1,6 @@
+20474264 | 8b65e8 | MOV ESP,dword ptr [EBP + -0x18]
+20474267 | 817ddc170000c0 | CMP dword ptr [EBP + -0x24],0xc0000017
+2047426e | 7508 | JNZ 0x20474278
+20474270 | 6a08 | PUSH 0x8
+20474272 | ff15a07b7d20 | CALL dword ptr [0x207d7ba0]
+20474278 | 8365e000 | AND dword ptr [EBP + -0x20],0x0

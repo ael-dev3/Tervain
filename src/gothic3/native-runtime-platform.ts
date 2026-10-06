@@ -37,8 +37,8 @@ export interface NativeCrtSectionProcedure {
   readonly identity: object; readonly owner: object; readonly name: 'InitializeCriticalSectionAndSpinCount';
   invoke(fields: NativeHeapObjectViews, owner: object, spinCount: 4000): NativeValue<boolean>;
 }
-export interface NativeCrtThreadDestructor { readonly address: '3067e143'; invoke(value: object | null): NativeValue<void>; }
-export interface NativeCrtLocalAllocProcedure { readonly kind: 'alloc'; readonly name: 'FlsAlloc' | 'TlsAllocFallback3067df49'; invoke(callback: NativeCrtThreadDestructor): NativeValue<number>; }
+export interface NativeCrtThreadDestructor { readonly address: '3067e143' | '20468043'; invoke(value: object | null): NativeValue<void>; }
+export interface NativeCrtLocalAllocProcedure { readonly kind: 'alloc'; readonly name: 'FlsAlloc' | 'TlsAlloc' | 'TlsAllocFallback3067df49' | 'TlsAllocFallback20467e49'; invoke(callback: NativeCrtThreadDestructor): NativeValue<number>; }
 export interface NativeCrtLocalGetProcedure { readonly kind: 'get'; readonly name: 'FlsGetValue' | 'TlsGetValue'; invoke(index: number): NativeValue<object | null>; }
 export interface NativeCrtLocalSetProcedure { readonly kind: 'set'; readonly name: 'FlsSetValue' | 'TlsSetValue'; invoke(index: number, value: object | null): NativeValue<boolean>; }
 export interface NativeCrtLocalFreeProcedure { readonly kind: 'free'; readonly name: 'FlsFree' | 'TlsFree'; invoke(index: number): NativeValue<boolean>; }
@@ -182,7 +182,7 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     this.sectionProcedure = Object.freeze({ identity: Object.freeze({}), owner, name: 'InitializeCriticalSectionAndSpinCount',
       invoke: (fields: NativeHeapObjectViews, sectionOwner: object, spinCount: 4000) => this.initializePhysicalCriticalSection(fields, sectionOwner, spinCount) });
     this.tlsProcedures = Object.freeze({
-      alloc: Object.freeze({ kind: 'alloc', name: 'TlsAllocFallback3067df49', invoke: (_callback: NativeCrtThreadDestructor) => this.tlsAlloc() }),
+      alloc: Object.freeze({ kind: 'alloc', name: 'TlsAlloc', invoke: (_callback: NativeCrtThreadDestructor) => this.tlsAlloc() }),
       get: Object.freeze({ kind: 'get', name: 'TlsGetValue', invoke: (index: number) => this.tlsGetValue(index) }),
       set: Object.freeze({ kind: 'set', name: 'TlsSetValue', invoke: (index: number, value: object | null) => this.tlsSetValue(index, value) }),
       free: Object.freeze({ kind: 'free', name: 'TlsFree', invoke: (index: number) => this.tlsFree(index) }),
@@ -345,7 +345,9 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     if (!this.tlsIndexes.delete(index)) return known(false); this.crtTlsValues.delete(index); return known(true);
   }
   private flsAlloc(callback: NativeCrtThreadDestructor): NativeValue<number> {
-    if (!this.crtServices?.fiberLocalStorage || callback.address !== '3067e143') return unknown('Actual selected FLS allocator/destructor required');
+    // Selected Engine/Game free-PTD callbacks are admitted by their module's
+    // startup owner before publication. Retain the callback capability itself.
+    if (!this.crtServices?.fiberLocalStorage || !['3067e143', '20468043'].includes(callback.address)) return unknown('Actual selected FLS allocator/destructor required');
     if (this.nextFlsIndex >= 0xffffffff) return known(0xffffffff);
     const index = this.nextFlsIndex++; this.flsIndexes.set(index, { callback, value: null }); return known(index);
   }

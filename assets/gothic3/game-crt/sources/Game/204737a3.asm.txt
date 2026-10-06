@@ -1,0 +1,4 @@
+204737a3 | 6a0a | PUSH 0xa
+204737a5 | e812ffffff | CALL 0x204736bc
+204737aa | 59 | POP ECX
+204737ab | c3 | RET

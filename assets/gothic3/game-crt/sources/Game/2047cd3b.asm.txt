@@ -1,0 +1,4 @@
+2047cd3b | 6a05 | PUSH 0x5
+2047cd3d | e87a69ffff | CALL 0x204736bc
+2047cd42 | 59 | POP ECX
+2047cd43 | c3 | RET

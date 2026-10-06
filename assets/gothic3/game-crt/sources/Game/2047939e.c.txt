@@ -1,0 +1,55 @@
+/* ENTRY 2047939e | DName::operator+= | STATUS decompiled | 9 ms */
+
+/* Library Function - Single Match
+    public: class DName & __thiscall DName::operator+=(class DName *)
+
+   Library: Visual Studio 2005 Release */
+
+DName * __thiscall DName::operator+=(DName *this,DName *param_1)
+
+{
+  int iVar1;
+  DNameStatus DVar2;
+  pDNameNode *this_00;
+  DNameNode *extraout_EAX;
+  DNameNode *this_01;
+  DName *this_02;
+  DNameNode *pDVar3;
+
+  if (param_1 == (DName *)0x0) {
+    return this;
+  }
+  iVar1 = isEmpty(this);
+  if (iVar1 != 0) {
+    operator=(this_02,param_1);
+    return this;
+  }
+  DVar2 = (*(int *)(param_1 + 4) << 0x1c) >> 0x1c;
+  if ((DVar2 != 0) && (DVar2 != 2)) {
+    operator+=(this_02,DVar2);
+    return this;
+  }
+  this_00 = HeapManager::getMemory((HeapManager *)&DAT_207d14e4,0xc,0);
+  if (this_00 == (pDNameNode *)0x0) {
+    pDVar3 = (DNameNode *)0x0;
+  }
+  else {
+    pDNameNode::pDNameNode(this_00,param_1);
+    pDVar3 = extraout_EAX;
+  }
+  if (pDVar3 == (DNameNode *)0x0) {
+    *(undefined4 *)this = 0;
+  }
+  else {
+    this_01 = DNameNode::clone(*(DNameNode **)this);
+    *(DNameNode **)this = this_01;
+    if (this_01 == (DNameNode *)0x0) goto LAB_20479416;
+    DNameNode::operator+=((DNameNode *)this_01,pDVar3);
+  }
+  if (*(int *)this != 0) {
+    return this;
+  }
+LAB_20479416:
+  *(uint *)(this + 4) = *(uint *)(this + 4) & 0xfffffff3 | 3;
+  return this;
+}

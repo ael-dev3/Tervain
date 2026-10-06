@@ -468,3 +468,23 @@ overlap copies use the original scalar branch. These are component
 prerequisites for Game Navigation type construction and do not establish live
 NPC activation. See
 [checkpoint 80](../../docs/engineering/gothic3-rebuilding-process.md#80-reproduce-fresh-cstring-text-construction-and-owned-byte-operations).
+
+## Canonical Game CRT source and startup prerequisites
+
+```powershell
+python -B tools/gothic3/prepare_game_crt_source.py --study '<LOCAL_DESKTOP_STUDY>'
+```
+
+The additive [`game-crt` package](../../assets/gothic3/game-crt/README.md)
+pins the actual Game.dll CRT methods, imports, literals, module globals and
+complete ordered initializer tables. Verified original PE instructions fill
+explicit decompiler/assembly gaps; source listings and complete body hashes
+remain separate. Earlier packages stay frozen.
+
+The runtime gives Game its own canonical module owner, physical heap/locks,
+pointer state and 532-byte thread record. Its ordinary process-attach prefix
+scans the independently verified empty RTC table and stops at the actual
+GetCommandLineA dependency. The later C/C++ tables, physical onexit state,
+Navigation class-name/type registration and live NPC attachment are still
+required. See
+[checkpoint 81](../../docs/engineering/gothic3-rebuilding-process.md#81-preserve-canonical-game-crt-ownership-before-navigation-type-construction).

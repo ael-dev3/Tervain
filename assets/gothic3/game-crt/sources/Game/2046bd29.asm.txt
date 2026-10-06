@@ -1,0 +1,111 @@
+2046bd29 | 53 | PUSH EBX
+2046bd2a | 55 | PUSH EBP
+2046bd2b | 56 | PUSH ESI
+2046bd2c | 8b742410 | MOV ESI,dword ptr [ESP + 0x10]
+2046bd30 | 8b86bc000000 | MOV EAX,dword ptr [ESI + 0xbc]
+2046bd36 | 33ed | XOR EBP,EBP
+2046bd38 | 3bc5 | CMP EAX,EBP
+2046bd3a | 57 | PUSH EDI
+2046bd3b | 746f | JZ 0x2046bdac
+2046bd3d | 3d88347b20 | CMP EAX,0x207b3488
+2046bd42 | 7468 | JZ 0x2046bdac
+2046bd44 | 8b86b0000000 | MOV EAX,dword ptr [ESI + 0xb0]
+2046bd4a | 3bc5 | CMP EAX,EBP
+2046bd4c | 745e | JZ 0x2046bdac
+2046bd4e | 3928 | CMP dword ptr [EAX],EBP
+2046bd50 | 755a | JNZ 0x2046bdac
+2046bd52 | 8b86b8000000 | MOV EAX,dword ptr [ESI + 0xb8]
+2046bd58 | 3bc5 | CMP EAX,EBP
+2046bd5a | 7417 | JZ 0x2046bd73
+2046bd5c | 3928 | CMP dword ptr [EAX],EBP
+2046bd5e | 7513 | JNZ 0x2046bd73
+2046bd60 | 50 | PUSH EAX
+2046bd61 | e804bfffff | CALL 0x20467c6a
+2046bd66 | ffb6bc000000 | PUSH dword ptr [ESI + 0xbc]
+2046bd6c | e867420100 | CALL 0x2047ffd8
+2046bd71 | 59 | POP ECX
+2046bd72 | 59 | POP ECX
+2046bd73 | 8b86b4000000 | MOV EAX,dword ptr [ESI + 0xb4]
+2046bd79 | 3bc5 | CMP EAX,EBP
+2046bd7b | 7417 | JZ 0x2046bd94
+2046bd7d | 3928 | CMP dword ptr [EAX],EBP
+2046bd7f | 7513 | JNZ 0x2046bd94
+2046bd81 | 50 | PUSH EAX
+2046bd82 | e8e3beffff | CALL 0x20467c6a
+2046bd87 | ffb6bc000000 | PUSH dword ptr [ESI + 0xbc]
+2046bd8d | e80b400100 | CALL 0x2047fd9d
+2046bd92 | 59 | POP ECX
+2046bd93 | 59 | POP ECX
+2046bd94 | ffb6b0000000 | PUSH dword ptr [ESI + 0xb0]
+2046bd9a | e8cbbeffff | CALL 0x20467c6a
+2046bd9f | ffb6bc000000 | PUSH dword ptr [ESI + 0xbc]
+2046bda5 | e8c0beffff | CALL 0x20467c6a
+2046bdaa | 59 | POP ECX
+2046bdab | 59 | POP ECX
+2046bdac | 8b86c0000000 | MOV EAX,dword ptr [ESI + 0xc0]
+2046bdb2 | 3bc5 | CMP EAX,EBP
+2046bdb4 | 7444 | JZ 0x2046bdfa
+2046bdb6 | 3928 | CMP dword ptr [EAX],EBP
+2046bdb8 | 7540 | JNZ 0x2046bdfa
+2046bdba | 8b86c4000000 | MOV EAX,dword ptr [ESI + 0xc4]
+2046bdc0 | 2dfe000000 | SUB EAX,0xfe
+2046bdc5 | 50 | PUSH EAX
+2046bdc6 | e89fbeffff | CALL 0x20467c6a
+2046bdcb | 8b86cc000000 | MOV EAX,dword ptr [ESI + 0xcc]
+2046bdd1 | bf80000000 | MOV EDI,0x80
+2046bdd6 | 2bc7 | SUB EAX,EDI
+2046bdd8 | 50 | PUSH EAX
+2046bdd9 | e88cbeffff | CALL 0x20467c6a
+2046bdde | 8b86d0000000 | MOV EAX,dword ptr [ESI + 0xd0]
+2046bde4 | 2bc7 | SUB EAX,EDI
+2046bde6 | 50 | PUSH EAX
+2046bde7 | e87ebeffff | CALL 0x20467c6a
+2046bdec | ffb6c0000000 | PUSH dword ptr [ESI + 0xc0]
+2046bdf2 | e873beffff | CALL 0x20467c6a
+2046bdf7 | 83c410 | ADD ESP,0x10
+2046bdfa | 8dbed4000000 | LEA EDI,[ESI + 0xd4]
+2046be00 | 8b07 | MOV EAX,dword ptr [EDI]
+2046be02 | 3dc8337b20 | CMP EAX,0x207b33c8
+2046be07 | 7417 | JZ 0x2046be20
+2046be09 | 39a8b4000000 | CMP dword ptr [EAX + 0xb4],EBP
+2046be0f | 750f | JNZ 0x2046be20
+2046be11 | 50 | PUSH EAX
+2046be12 | e8503d0100 | CALL 0x2047fb67
+2046be17 | ff37 | PUSH dword ptr [EDI]
+2046be19 | e84cbeffff | CALL 0x20467c6a
+2046be1e | 59 | POP ECX
+2046be1f | 59 | POP ECX
+2046be20 | 6a06 | PUSH 0x6
+2046be22 | 8d7e50 | LEA EDI,[ESI + 0x50]
+2046be25 | 5b | POP EBX
+2046be26 | 817ff8482b7b20 | CMP dword ptr [EDI + -0x8],0x207b2b48
+2046be2d | 7411 | JZ 0x2046be40
+2046be2f | 8b07 | MOV EAX,dword ptr [EDI]
+2046be31 | 3bc5 | CMP EAX,EBP
+2046be33 | 740b | JZ 0x2046be40
+2046be35 | 3928 | CMP dword ptr [EAX],EBP
+2046be37 | 7507 | JNZ 0x2046be40
+2046be39 | 50 | PUSH EAX
+2046be3a | e82bbeffff | CALL 0x20467c6a
+2046be3f | 59 | POP ECX
+2046be40 | 396ffc | CMP dword ptr [EDI + -0x4],EBP
+2046be43 | 7412 | JZ 0x2046be57
+2046be45 | 8b4704 | MOV EAX,dword ptr [EDI + 0x4]
+2046be48 | 3bc5 | CMP EAX,EBP
+2046be4a | 740b | JZ 0x2046be57
+2046be4c | 3928 | CMP dword ptr [EAX],EBP
+2046be4e | 7507 | JNZ 0x2046be57
+2046be50 | 50 | PUSH EAX
+2046be51 | e814beffff | CALL 0x20467c6a
+2046be56 | 59 | POP ECX
+2046be57 | 83c710 | ADD EDI,0x10
+2046be5a | 4b | DEC EBX
+2046be5b | 75c9 | JNZ 0x2046be26
+2046be5d | 56 | PUSH ESI
+2046be5e | e807beffff | CALL 0x20467c6a
+2046be63 | 59 | POP ECX
+2046be64 | 5f | POP EDI
+2046be65 | 5e | POP ESI
+2046be66 | 5d | POP EBP
+2046be67 | 5b | POP EBX
+2046be68 | c3 | RET

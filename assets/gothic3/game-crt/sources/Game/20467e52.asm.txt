@@ -1,0 +1,5 @@
+20467e52 | ff742404 | PUSH dword ptr [ESP + 0x4]
+20467e56 | ff3520237b20 | PUSH dword ptr [0x207b2320]
+20467e5c | ff158c7b7d20 | CALL dword ptr [0x207d7b8c]
+20467e62 | ffd0 | CALL EAX
+20467e64 | c20400 | RET 0x4

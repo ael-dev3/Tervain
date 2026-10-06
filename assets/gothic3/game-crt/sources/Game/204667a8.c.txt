@@ -1,0 +1,24 @@
+/* ENTRY 204667a8 | __init_pointers | STATUS decompiled | 6 ms */
+
+/* Library Function - Single Match
+    __init_pointers
+
+   Library: Visual Studio 2005 Release */
+
+void __cdecl __init_pointers(void)
+
+{
+  undefined4 uVar1;
+
+  uVar1 = __encoded_null();
+  FUN_2047428c(uVar1);
+  FUN_204741ad(uVar1);
+  FUN_2046a0cc(uVar1);
+  FUN_20469b83(uVar1);
+  FUN_2047409f(uVar1);
+  __initp_misc_winsig(uVar1);
+  FUN_204739ff(uVar1);
+  __initp_eh_hooks(uVar1);
+  PTR___exit_207b2310 = (undefined *)FUN_20467d64(__exit);
+  return;
+}

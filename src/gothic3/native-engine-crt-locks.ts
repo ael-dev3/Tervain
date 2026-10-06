@@ -6,20 +6,25 @@ import bootstrapText from '../../assets/gothic3/crt-bootstrap/runtime-rules.json
 import type { NativeValue } from './dialogue';
 import { NativeHeapObjectViews } from './native-heap-views';
 import type { NativeMemoryBacking } from './native-memory-admin';
+import type { NativeByteGeometryHost, NativeBytePointer, NativePointerGeometry } from './native-pointer-geometry';
+import { admitNativeGameCrtSource, nativeGameCrtSourceProfile, nativeGameImagePins, nativeGameImageReceipt } from './native-game-crt-profile';
+import type { NativeCrtModule, NativeCrtSourceProfile, NativeCrtSourceRules } from './native-game-crt-profile';
 import { NativeWin32PlatformException } from './native-runtime-platform';
 import type { NativeWin32HeapCapability, NativeWin32ModuleCapability, NativeCrtPointerProcedure, NativeCrtSectionProcedure, NativeCrtLocalProcedure, NativeCrtLocalGetProcedure, NativeCrtPlatformProcedure } from './native-runtime-platform';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = (reason: string): { known: false; reason: string } => ({ known: false, reason });
-interface SourceRules {
-  schema: string; inputs: { Engine: string };
-  methods: Record<string, { entry: string; body: string; bodyInstructionBytesSha256: string }>;
-  coldGlobals: Record<string, { module: string; address: string; bytes: number; raw: string; knownMask: string;
-    scope: string; liveValueCaptured: boolean }>;
-  constBytes: Record<string, { address: string; raw: string }>;
-}
+type SourceRules = NativeCrtSourceRules;
 const source = JSON.parse(sourceText) as SourceRules;
 const bootstrap = JSON.parse(bootstrapText) as SourceRules;
+function freezeSource(value: unknown): void {
+  if (value !== null && typeof value === 'object' && !Object.isFrozen(value)) {
+    for (const child of Object.values(value)) freezeSource(child);
+    Object.freeze(value);
+  }
+}
+freezeSource(source); freezeSource(bootstrap);
+const engineProfile: NativeCrtSourceProfile = Object.freeze({ module: 'Engine', heapRules: source, bootstrapRules: bootstrap });
 const methods = [
   ['heapInit', '3068442b', '46963b42dec8462674df243412038b449670d890a22369ae04ec8c9211217874'],
   ['heapSelect', '306843d0', '0946c4bd9670236ac2df9bc668cdfe905a2a7073179bced80072102db9f78d28'],
@@ -113,6 +118,8 @@ export interface NativeEngineCrtPlatform {
   enterPhysicalCriticalSection(fields: NativeHeapObjectViews, owner: object): NativeValue<void>;
   leavePhysicalCriticalSection(fields: NativeHeapObjectViews, owner: object): NativeValue<void>;
   deletePhysicalCriticalSection(fields: NativeHeapObjectViews, owner: object): NativeValue<void>;
+  resolveNativePointer?(pointer: NativeBytePointer): NativeValue<NativePointerGeometry>;
+  proveNativeCopyDirection?(destination: NativeBytePointer, source: NativeBytePointer, bytes: number): NativeValue<'forward' | 'backward'>;
 }
 export interface NativeEngineCrtHost {
   readonly platform: NativeEngineCrtPlatform;
@@ -124,31 +131,28 @@ export interface NativeEngineCrtHost {
   mapOsError?(error: number): NativeValue<number>;
 }
 type InitPhase = 'cold' | 'initializing' | 'ready' | 'null' | 'blocked';
+const engineConstructionToken = Object.freeze({});
+const gameConstructionToken = Object.freeze({});
+const gameOwners = new WeakMap<NativeEngineCrtPlatform, NativeGameCrtOwner>();
+const hostCallbacks = ['errnoSlot', 'callNewHandler', 'sleep', 'getLastError', 'mapOsError'] as const;
 
-export class NativeEngineCrtOwner {
+/** Algorithms shared only after each module's independent source admission.
+ * A Game owner never constructs an Engine facade or copies its live state. */
+export class NativeModuleCrtOwner {
+  readonly module: NativeCrtModule;
+  readonly sourceProfile: NativeCrtSourceProfile;
   readonly identity = Object.freeze({});
-  readonly physical = (() => { const sectionInitializer = storage('crtSectionInitializer', '30af7c50', 4); return Object.freeze({
-    heapHandle: storage('crtHeapHandle', '30af76f4', 4),
-    heapSelector: storage('crtHeapMode', '30af7e20', 4),
-    lockTable: storage('crtLockTable', '30ad4aa0', 288),
-    staticSections: storage('crtStaticSections', '30af75a0', 336),
-    crtOsFields: storage('crtOsFields', '30af70f8', 20),
-    mallocWait: storage('crtMallocRetry', '30af70f0', 4),
-    newMode: storage('newMode', '30af76f8', 4),
-    crtTypeInfoList: storage('crtTypeInfoList', '30af70ac', 8),
-    sectionInitializer,
-    crtTlsIndexes: storage('crtTlsIndexes', '30ad4840', 8),
-    pointerInitialization: Object.freeze({
-      newHandler: bootstrapStorage('newHandler', '30af759c', 4),
-      sectionInitializer,
-      invalidParameter: bootstrapStorage('invalidParameter', '30af70c8', 4),
-      exceptionFilter: bootstrapStorage('exceptionFilter', '30af7474', 4),
-      mathError: bootstrapStorage('mathError', '30af7c4c', 4),
-      winSignalPointers: bootstrapStorage('winSignalPointers', '30af7c38', 16),
-      terminateHandler: bootstrapStorage('terminateHandler', '30af7744', 4),
-      exitFunction: bootstrapStorage('exitHandler', '30ad4830', 4, '4cd36730'),
-    }),
-  }); })();
+  readonly physical: Readonly<{
+    heapHandle: NativeHeapObjectViews; heapSelector: NativeHeapObjectViews; lockTable: NativeHeapObjectViews;
+    staticSections: NativeHeapObjectViews; crtOsFields: NativeHeapObjectViews; mallocWait: NativeHeapObjectViews;
+    newMode: NativeHeapObjectViews; crtTypeInfoList: NativeHeapObjectViews; sectionInitializer: NativeHeapObjectViews;
+    crtTlsIndexes: NativeHeapObjectViews; pointerInitialization: Readonly<{
+      newHandler: NativeHeapObjectViews; sectionInitializer: NativeHeapObjectViews; invalidParameter: NativeHeapObjectViews;
+      exceptionFilter: NativeHeapObjectViews; mathError: NativeHeapObjectViews; winSignalPointers: NativeHeapObjectViews;
+      terminateHandler: NativeHeapObjectViews; exitFunction: NativeHeapObjectViews;
+    }>;
+  }>;
+  private readonly imageViews = new Map<string, NativeHeapObjectViews>();
   private heapPhase: InitPhase = 'cold';
   private locksPhase: InitPhase = 'cold';
   private locksTerminated = false;
@@ -168,25 +172,107 @@ export class NativeEngineCrtOwner {
         unknown('Actual owned lower InitializeCriticalSection capability required'));
       return known(true);
     } });
-  constructor(readonly host: NativeEngineCrtHost) { admitSource(); }
+  protected constructor(readonly host: NativeEngineCrtHost, module: NativeCrtModule, token: object) {
+    const facade: Function = new.target;
+    if ((module === 'Engine' && (token !== engineConstructionToken || facade !== NativeEngineCrtOwner)) ||
+        (module === 'Game' && (token !== gameConstructionToken || facade !== NativeGameCrtOwner)) ||
+        (module !== 'Engine' && module !== 'Game')) throw new Error('Actual admitted CRT module facade construction required');
+    this.module = module;
+    if (module === 'Engine') { admitSource(); this.sourceProfile = engineProfile; }
+    else { admitNativeGameCrtSource(); this.sourceProfile = nativeGameCrtSourceProfile; this.initializeGameImage(); }
+    Object.defineProperties(this, {
+      module: { value: this.module, writable: false, configurable: false },
+      sourceProfile: { value: this.sourceProfile, writable: false, configurable: false },
+    });
+    const select = (label: string, address: string, bytes: number) => module === 'Engine' ? storage(label, address, bytes) : this.imageStorage(label);
+    const selectBootstrap = (label: string, address: string, bytes: number, raw?: string) =>
+      module === 'Engine' ? bootstrapStorage(label, address, bytes, raw) : this.imageStorage(label);
+    const sectionInitializer = select('crtSectionInitializer', '30af7c50', 4);
+    this.physical = Object.freeze({
+      heapHandle: select('crtHeapHandle', '30af76f4', 4), heapSelector: select('crtHeapMode', '30af7e20', 4),
+      lockTable: select('crtLockTable', '30ad4aa0', 288), staticSections: select('crtStaticSections', '30af75a0', 336),
+      crtOsFields: select('crtOsFields', '30af70f8', 20), mallocWait: select('crtMallocRetry', '30af70f0', 4),
+      newMode: select('newMode', '30af76f8', 4), crtTypeInfoList: select('crtTypeInfoList', '30af70ac', 8),
+      sectionInitializer, crtTlsIndexes: select('crtTlsIndexes', '30ad4840', 8),
+      pointerInitialization: Object.freeze({ newHandler: selectBootstrap('newHandler', '30af759c', 4), sectionInitializer,
+        invalidParameter: selectBootstrap('invalidParameter', '30af70c8', 4), exceptionFilter: selectBootstrap('exceptionFilter', '30af7474', 4),
+        mathError: selectBootstrap('mathError', '30af7c4c', 4), winSignalPointers: selectBootstrap('winSignalPointers', '30af7c38', 16),
+        terminateHandler: selectBootstrap('terminateHandler', '30af7744', 4), exitFunction: selectBootstrap('exitHandler', '30ad4830', 4, '4cd36730'),
+      }),
+    });
+  }
+  private initializeGameImage(): void {
+    const ranges: { address: number; fields: NativeHeapObjectViews }[] = [];
+    const labels = Object.keys(nativeGameImagePins).sort((a, b) => {
+      const ra = nativeGameImageReceipt(a), rb = nativeGameImageReceipt(b);
+      return parseInt(ra.address, 16) - parseInt(rb.address, 16) || rb.bytes - ra.bytes;
+    });
+    for (const label of labels) {
+      const receipt = nativeGameImageReceipt(label), address = parseInt(receipt.address, 16);
+      const raw = Uint8Array.from(receipt.raw.match(/../g)!, byte => parseInt(byte, 16));
+      const previous = ranges.find(range => address >= range.address && address + receipt.bytes <= range.address + range.fields.bytes.length);
+      let fields: NativeHeapObjectViews;
+      if (previous) {
+        const offset = address - previous.address;
+        if (raw.some((byte, index) => byte !== previous.fields.bytes[offset + index])) throw new Error('Original Game CRT image aliases disagree: ' + label);
+        fields = offset === 0 && receipt.bytes === previous.fields.bytes.length ? previous.fields : new NativeHeapObjectViews(previous.fields.backing, offset, receipt.bytes);
+      } else {
+        if (ranges.some(range => address < range.address + range.fields.bytes.length && address + receipt.bytes > range.address)) throw new Error('Partially overlapping Game CRT receipt is not admitted: ' + label);
+        fields = new NativeHeapObjectViews({ identity: Object.freeze({}), bytes: raw, knownMask: new Uint8Array(receipt.bytes).fill(255), freed: false });
+        ranges.push({ address, fields });
+      }
+      this.imageViews.set(label, fields);
+    }
+  }
+  /** Canonical admitted Game module-image objects. Constructing views supplies
+   * cold bytes, never a live section, heap or initialized CRT status. */
+  imageStorage(label: string): NativeHeapObjectViews {
+    if (this.module !== 'Game') throw new Error('Engine image aliases remain owned by their existing source services');
+    nativeGameImageReceipt(label);
+    const fields = this.imageViews.get(label);
+    if (!fields) throw new Error('Actual canonical Game CRT image view required: ' + label);
+    return fields;
+  }
+  byteGeometry(): NativeByteGeometryHost {
+    return { resolveNativePointer: pointer => this.host.platform.resolveNativePointer?.(pointer) ?? unknown('Actual owned CRT pointer geometry capability required'),
+      proveNativeCopyDirection: (destination, input, bytes) => this.host.platform.proveNativeCopyDirection?.(destination, input, bytes) ?? unknown('Actual owned CRT copy-direction capability required') };
+  }
+  private sourceName(name: string): string {
+    if (this.module === 'Engine') return name;
+    const labels = new Map<string, string>(methods.map(([label, address]) => [address, this.sourceProfile.heapRules.methods[label]!.entry]));
+    for (const [address, label] of [['3067ca01', 'callocCrt'], ['30695a7f', 'callocImpl'], ['30695b7b', 'callocCleanup'], ['3067df52', 'tlsGetterDispatcher']] as const) labels.set(address, this.sourceProfile.heapRules.methods[label]!.entry);
+    // Explicit unimplemented Game branches retain their actual source labels.
+    for (const [engine, game] of [['30674d58', '2046a20a'], ['3067e8e6', '204699f0'], ['3068347a', '20476cd4'],
+      ['30672e03', '20467ae3'], ['306834e6', '20476d40'], ['3067cf89', '204663b6'], ['30684491', '20476a2b']] as const) labels.set(engine, game);
+    return name.replace(/[0-9a-f]{8}/g, address => labels.get(address) ?? address).replace(/Engine CRT/g, 'Game CRT');
+  }
+  private note(name: string): void { this.trace.push(this.sourceName(name)); }
+  private literal(label: string, address: string, expected: string): string {
+    if (this.module === 'Engine') return literal(label, address, expected);
+    const receipt = nativeGameImageReceipt(label), raw = [...expected].map(char => char.charCodeAt(0).toString(16).padStart(2, '0')).join('') + '00';
+    if (receipt.raw !== raw) throw new Error('Original Game CRT literal differs: ' + label);
+    return expected;
+  }
   private run<T>(name: string, execute: () => T, cleanup = false, failureKey: string | object = name): NativeValue<T> {
+    name = this.sourceName(name);
     if (this.boundary && (!cleanup || this.failedOperations.has(failureKey))) return unknown(this.boundary);
     try { return known(execute()); }
     catch (error) {
-      const reason = name + ': ' + (error instanceof Error ? error.message : String(error));
+      const reason = name + ': ' + this.sourceName(error instanceof Error ? error.message : String(error));
       this.boundary ??= reason; this.failedOperations.add(failureKey); return unknown(reason);
     }
   }
   private call<T>(name: string, execute: () => NativeValue<T>, retain?: (value: T) => void): T {
+    name = this.sourceName(name);
     const before = this.boundary;
-    this.trace.push(name + '.attempt');
+    this.note(name + '.attempt');
     const result = execute();
     if (result.known) retain?.(result.value);
     if (this.boundary !== before) throw new Error(this.boundary!);
     if (!result.known) throw new Error(name + ': ' + result.reason);
-    this.trace.push(name); return result.value;
+    this.note(name); return result.value;
   }
-  private gate(name: string): never { this.trace.push(name + '.boundary'); throw new Error('Unowned ' + name); }
+  private gate(name: string): never { this.note(name + '.boundary'); throw new Error('Unowned ' + name); }
   private id(id: number): void {
     if (!Number.isInteger(id) || id < 0 || id >= 36) throw new Error('Original selected CRT lock id0..35 required');
   }
@@ -201,13 +287,13 @@ export class NativeEngineCrtOwner {
   private heap(): NativeWin32HeapCapability {
     const heap = this.physical.heapHandle.pointer<NativeWin32HeapCapability>(0).get();
     if (!heap) this.gate('__FF_MSGBANNER3067e8e6 before CRT error30 / ExitProcess255');
-    if (!this.heaps.has(heap) || heap.owner !== this.identity) throw new Error('Actual same-owner Engine CRT heap handle required');
+    if (!this.heaps.has(heap) || heap.owner !== this.identity) throw new Error('Actual same-owner ' + this.module + ' CRT heap handle required');
     return heap;
   }
   private retainedHeap(operation: 'HeapFree' | 'HeapDestroy'): NativeWin32HeapCapability {
     const heap = this.physical.heapHandle.pointer<NativeWin32HeapCapability>(0).get();
     if (!heap) this.gate(operation + '(NULL) platform call');
-    if (!this.heaps.has(heap) || heap.owner !== this.identity) throw new Error('Actual same-owner Engine CRT heap handle required');
+    if (!this.heaps.has(heap) || heap.owner !== this.identity) throw new Error('Actual same-owner ' + this.module + ' CRT heap handle required');
     return heap;
   }
   private errnoFields(): NativeHeapObjectViews {
@@ -224,16 +310,16 @@ export class NativeEngineCrtOwner {
   }
   private errno(value: number): void {
     const fields = this.errnoFields();
-    fields.writeUnsigned(0, value); this.trace.push('errno.store' + value);
+    fields.writeUnsigned(0, value); this.note('errno.store' + value);
   }
   private selectHeap(): number {
-    this.trace.push('getOsPlatform3067d032');
+    this.note('getOsPlatform3067d032');
     const platform = this.physical.crtOsFields.readUnsigned(0);
     if (platform === 0) {
       this.errno(22);
       this.gate('invalidParameter30674d58 after getOsPlatform failure');
     }
-    this.trace.push('getWinMajor3067d0e1');
+    this.note('getWinMajor3067d0e1');
     // The source accessor tests the SAME OS platform field before reading major.
     if (this.physical.crtOsFields.readUnsigned(0) === 0) {
       this.errno(22); this.gate('invalidParameter30674d58 after getWinMajor failure');
@@ -242,7 +328,7 @@ export class NativeEngineCrtOwner {
     return platform === 2 && major >= 5 ? 1 : 3;
   }
   private osField(method: 'getOsPlatform3067d032' | 'getWinMajor3067d0e1', offset: 0 | 12): number {
-    this.trace.push(method);
+    this.note(method);
     if (this.physical.crtOsFields.readUnsigned(0) === 0) {
       this.errno(22); this.gate('invalidParameter30674d58 after ' + method + ' failure');
     }
@@ -250,7 +336,7 @@ export class NativeEngineCrtOwner {
   }
   private codec(value: object | null, direction: 'EncodePointer' | 'DecodePointer'): object | null {
     const method = direction === 'EncodePointer' ? 'encodePointer3067de64' : 'decodePointer3067dedb';
-    this.trace.push(method);
+    this.note(method);
     const tlsIndex = this.physical.crtTlsIndexes.readUnsigned(4);
     const tls = this.call('TlsGetValue(' + tlsIndex + ')', () => this.host.platform.tlsGetValue?.(tlsIndex) ?? unknown('Actual owned CRT pointer-wrapper TLS capability required'));
     if (tls !== null && this.physical.crtTlsIndexes.readUnsigned(0) !== 0xffffffff) {
@@ -269,20 +355,20 @@ export class NativeEngineCrtOwner {
         return this.call(direction, () => procedure.invoke(value));
       }
     }
-    const moduleName = literal('pointerKernel32Module', '3089377c', 'KERNEL32.DLL') as 'KERNEL32.DLL';
+    const moduleName = this.literal('pointerKernel32Module', '3089377c', 'KERNEL32.DLL') as 'KERNEL32.DLL';
     const module = this.call('GetModuleHandleA(' + moduleName + ')', () => this.host.platform.getWin32ModuleHandle?.(moduleName) ?? unknown('Actual owned CRT Win32 module lookup required'));
     if (module === null) return value;
     this.pointerAvailable();
     const label = direction === 'EncodePointer' ? 'encodePointerName' : 'decodePointerName';
     const address = direction === 'EncodePointer' ? '3089376c' : '3089378c';
-    const name = literal(label, address, direction) as 'EncodePointer' | 'DecodePointer';
+    const name = this.literal(label, address, direction) as 'EncodePointer' | 'DecodePointer';
     const procedure = this.call('GetProcAddress(' + name + ')', () => this.host.platform.getWin32Procedure?.(module, name) ?? unknown('Actual owned CRT Win32 procedure lookup required'));
     if (procedure === null) return value;
     if (procedure.name !== direction) throw new Error('Actual matching owned CRT pointer procedure required');
     return this.call(direction, () => procedure.invoke(value));
   }
   private pointerAvailable(): boolean {
-    this.trace.push('pointerEncodingAvailability3067ddf8');
+    this.note('pointerEncodingAvailability3067ddf8');
     const major = this.osField('getWinMajor3067d0e1', 12);
     if ((major | 0) < 6) this.gate('GetModuleHandleA(NULL) / physical process PE .mixcrt scan3067ddf8');
     return true;
@@ -297,10 +383,10 @@ export class NativeEngineCrtOwner {
       const platform = this.osField('getOsPlatform3067d032', 0);
       let procedure: NativeCrtSectionProcedure | null = null;
       if (platform !== 1) {
-        const moduleName = literal('kernel32Module', '3089eb80', 'kernel32.dll') as 'kernel32.dll';
+        const moduleName = this.literal('kernel32Module', '3089eb80', 'kernel32.dll') as 'kernel32.dll';
         const module = this.call('GetModuleHandleA(' + moduleName + ')', () => this.host.platform.getWin32ModuleHandle?.(moduleName) ?? unknown('Actual owned section initializer module lookup required'));
         if (module !== null) {
-          const name = literal('initializeCriticalSectionAndSpinCountName', '3089eb58', 'InitializeCriticalSectionAndSpinCount') as 'InitializeCriticalSectionAndSpinCount';
+          const name = this.literal('initializeCriticalSectionAndSpinCountName', '3089eb58', 'InitializeCriticalSectionAndSpinCount') as 'InitializeCriticalSectionAndSpinCount';
           const resolved = this.call('GetProcAddress(' + name + ')', () => this.host.platform.getWin32Procedure?.(module, name) ?? unknown('Actual owned section initializer procedure lookup required'));
           if (resolved !== null) {
             if (resolved.name !== name) throw new Error('Actual matching owned section procedure required'); procedure = resolved;
@@ -309,7 +395,7 @@ export class NativeEngineCrtOwner {
       }
       selected = procedure ?? this.fallbackSectionProcedure;
       const cached = this.codec(selected, 'EncodePointer');
-      this.physical.sectionInitializer.pointer<object>(0).set(cached); this.trace.push('sectionInitializer.cache');
+      this.physical.sectionInitializer.pointer<object>(0).set(cached); this.note('sectionInitializer.cache');
     }
     const procedure = selected as NativeCrtSectionProcedure;
     if (procedure.name !== 'InitializeCriticalSectionAndSpinCount' || typeof procedure.invoke !== 'function') {
@@ -319,47 +405,47 @@ export class NativeEngineCrtOwner {
       try { return procedure.invoke(fields, this.identity, 4000); }
       catch (error) {
         if (!(error instanceof NativeWin32PlatformException) || error.code !== 0xc0000017) throw error;
-        this.trace.push('initCritSecExceptionFilter3069650a(0xc0000017)');
+        this.note('initCritSecExceptionFilter3069650a(0xc0000017)');
         this.call('SetLastError(8)', () => this.host.platform.setWin32LastError?.(8) ?? unknown('Actual owned Win32 SetLastError capability required'));
-        this.trace.push('initCritSecExceptionHandler30696521.return0'); return known(false);
+        this.note('initCritSecExceptionHandler30696521.return0'); return known(false);
       }
     });
   }
   initHeap(argument = 1): NativeValue<number> {
-    if (this.heapTerminated) return unknown('Engine CRT heap lifetime has ended');
+    if (this.heapTerminated) return unknown(this.module + ' CRT heap lifetime has ended');
     if (this.heapPhase === 'ready') return known(1);
     if (this.heapPhase === 'null') return known(0);
-    if (this.heapPhase === 'initializing') { this.boundary ??= 'Reentrant Engine CRT heap initialization'; return unknown(this.boundary); }
+    if (this.heapPhase === 'initializing') { this.boundary ??= 'Reentrant ' + this.module + ' CRT heap initialization'; return unknown(this.boundary); }
     return this.run('heapInit3068442b', () => {
       if (!Number.isInteger(argument) || argument < 0 || argument > 0xffffffff) throw new Error('Original uint32 heap-init argument required');
-      if (this.heapTerminated) throw new Error('Engine CRT heap lifetime has ended');
+      if (this.heapTerminated) throw new Error(this.module + ' CRT heap lifetime has ended');
       this.heapPhase = 'initializing';
       const heap = this.call('HeapCreate', () => this.host.platform.createWin32Heap(this.identity, argument === 0 ? 1 : 0, 4096, 0),
         value => { if (value) this.heaps.add(value); });
-      this.physical.heapHandle.pointer<NativeWin32HeapCapability>(0).set(heap); this.trace.push('heapHandle.publish');
+      this.physical.heapHandle.pointer<NativeWin32HeapCapability>(0).set(heap); this.note('heapHandle.publish');
       if (heap === null) { this.heapPhase = 'null'; return 0; }
       if (heap.owner !== this.identity) throw new Error('HeapCreate returned a different physical heap owner');
       const mode = this.selectHeap();
-      this.physical.heapSelector.writeUnsigned(0, mode); this.trace.push('heapSelector.store' + mode);
+      this.physical.heapSelector.writeUnsigned(0, mode); this.note('heapSelector.store' + mode);
       if (mode === 3) this.gate('smallBlockHeapInit3068347a(1016)');
       this.heapPhase = 'ready'; return 1;
     });
   }
   initLocks(): NativeValue<number> {
-    if (this.locksTerminated) return unknown('Engine CRT lock-table lifetime has ended');
+    if (this.locksTerminated) return unknown(this.module + ' CRT lock-table lifetime has ended');
     if (this.locksPhase === 'ready') return known(1);
     if (this.locksPhase === 'null') return known(0);
-    if (this.locksPhase === 'initializing') { this.boundary ??= 'Reentrant Engine CRT static-lock initialization'; return unknown(this.boundary); }
+    if (this.locksPhase === 'initializing') { this.boundary ??= 'Reentrant ' + this.module + ' CRT static-lock initialization'; return unknown(this.boundary); }
     return this.run('mtInitLocks30683218', () => {
-      if (this.locksTerminated) throw new Error('Engine CRT lock-table lifetime has ended');
+      if (this.locksTerminated) throw new Error(this.module + ' CRT lock-table lifetime has ended');
       this.locksPhase = 'initializing'; let index = 0;
       for (let id = 0; id < 36; id++) if (this.physical.lockTable.readUnsigned(id * 8 + 4) === 1) {
         if (index >= 14) throw new Error('Source static-section storage exhausted');
         const fields = new NativeHeapObjectViews(this.physical.staticSections.backing, index++ * 24, 24);
-        this.physical.lockTable.pointer<NativeHeapObjectViews>(id * 8).set(fields); this.trace.push('lock' + id + '.static.publish');
-        this.trace.push('lock' + id + '.initialize4000'); const initialized = this.initializeSection(fields);
+        this.physical.lockTable.pointer<NativeHeapObjectViews>(id * 8).set(fields); this.note('lock' + id + '.static.publish');
+        this.note('lock' + id + '.initialize4000'); const initialized = this.initializeSection(fields);
         if (!initialized) {
-          this.physical.lockTable.pointer<NativeHeapObjectViews>(id * 8).set(null); this.trace.push('lock' + id + '.static.clear');
+          this.physical.lockTable.pointer<NativeHeapObjectViews>(id * 8).set(null); this.note('lock' + id + '.static.clear');
           this.locksPhase = 'null'; return 0;
         }
       }
@@ -450,7 +536,7 @@ export class NativeEngineCrtOwner {
       const fields = this.errnoFields();
       const error = this.call('GetLastError', () => this.host.getLastError?.() ?? unknown('Actual Win32 last-error capability required'));
       const mapped = this.call('osErrorToErrno306783a4', () => this.host.mapOsError?.(error) ?? unknown('Original OS-error mapping capability required'));
-      fields.writeUnsigned(0, mapped); this.trace.push('errno.store' + mapped);
+      fields.writeUnsigned(0, mapped); this.note('errno.store' + mapped);
     }
   }
   free(backing: NativeMemoryBacking | null): NativeValue<void> { return this.run('free30672f8a', () => this.release(backing), true, backing ?? 'freeNULL'); }
@@ -464,18 +550,18 @@ export class NativeEngineCrtOwner {
     this.enter(10);
     let result = 1;
     if (this.slot(id) === null) {
-      this.trace.push('lock' + id + '.initialize4000'); const initialized = this.initializeSection(fields);
+      this.note('lock' + id + '.initialize4000'); const initialized = this.initializeSection(fields);
       if (!initialized) {
         this.release(backing); this.errno(12); result = 0;
       } else {
-        this.physical.lockTable.pointer<NativeHeapObjectViews>(id * 8).set(fields); this.trace.push('lock' + id + '.dynamic.publish');
+        this.physical.lockTable.pointer<NativeHeapObjectViews>(id * 8).set(fields); this.note('lock' + id + '.dynamic.publish');
       }
-    } else { this.trace.push('lock' + id + '.race.free'); this.release(backing); }
+    } else { this.note('lock' + id + '.race.free'); this.release(backing); }
     this.leave(10); return result;
   }
   ensureLock(id: number): NativeValue<number> {
     return this.run('ensureLock306832e3', () => {
-      if (this.locksTerminated) throw new Error('Engine CRT lock-table lifetime has ended');
+      if (this.locksTerminated) throw new Error(this.module + ' CRT lock-table lifetime has ended');
       return this.ensure(id);
     });
   }
@@ -491,7 +577,7 @@ export class NativeEngineCrtOwner {
   }
   lock(id: number): NativeValue<void> {
     return this.run('lock306833a6', () => {
-      if (this.locksTerminated) throw new Error('Engine CRT lock-table lifetime has ended'); this.enter(id);
+      if (this.locksTerminated) throw new Error(this.module + ' CRT lock-table lifetime has ended'); this.enter(id);
     });
   }
   unlock(id: number): NativeValue<void> { return this.run('unlock306832b6', () => this.leave(id), true); }
@@ -507,7 +593,7 @@ export class NativeEngineCrtOwner {
             owned.bytes.buffer === fields.bytes.buffer && owned.bytes.byteOffset === fields.bytes.byteOffset &&
             owned.knownMask.buffer === fields.knownMask.buffer && owned.knownMask.byteOffset === fields.knownMask.byteOffset)?.[1];
           if (!backing) throw new Error('Actual retained dynamic CRT section allocation required'); this.release(backing);
-          this.physical.lockTable.pointer<NativeHeapObjectViews>(id * 8).set(null); this.trace.push('lock' + id + '.dynamic.clear');
+          this.physical.lockTable.pointer<NativeHeapObjectViews>(id * 8).set(null); this.note('lock' + id + '.dynamic.clear');
         }
         // The recovered post-free instruction clears dynamic slots only.
       }
@@ -520,7 +606,7 @@ export class NativeEngineCrtOwner {
       if (this.physical.heapSelector.readUnsigned(0) === 3) this.gate('small-block heap termination30684491');
       const heap = this.retainedHeap('HeapDestroy');
       this.call('HeapDestroy', () => this.host.platform.win32HeapDestroy(heap));
-      this.physical.heapHandle.pointer<NativeWin32HeapCapability>(0).set(null); this.trace.push('heapHandle.clear');
+      this.physical.heapHandle.pointer<NativeWin32HeapCapability>(0).set(null); this.note('heapHandle.clear');
       this.heapTerminated = true;
     }, true);
   }
@@ -533,3 +619,33 @@ export class NativeEngineCrtOwner {
       trace: Object.freeze(this.trace.slice()) });
   }
 }
+
+/** Original public Engine facade. Its source profile, storage and trace strings
+ * retain the earlier Engine behavior independently of Game admission. */
+export class NativeEngineCrtOwner extends NativeModuleCrtOwner {
+  constructor(host: NativeEngineCrtHost) { super(host, 'Engine', engineConstructionToken); }
+}
+/** One Game image/CRT owner for each selected lower platform. Callbacks are
+ * retained once; later callers cannot replace an existing module's services. */
+export class NativeGameCrtOwner extends NativeModuleCrtOwner {
+  private constructor(host: NativeEngineCrtHost, token: object) {
+    super(host, 'Game', token);
+    Object.defineProperty(this, 'host', { value: host, writable: false, configurable: false });
+  }
+  static forPlatform(host: NativeEngineCrtHost): NativeGameCrtOwner {
+    const existing = gameOwners.get(host.platform);
+    if (existing) {
+      if (hostCallbacks.some(label => host[label] !== existing.host[label])) throw new Error('Conflicting services for the canonical Game CRT platform owner');
+      return existing;
+    }
+    const retained: NativeEngineCrtHost = Object.freeze({ platform: host.platform,
+      errnoSlot: host.errnoSlot, callNewHandler: host.callNewHandler, sleep: host.sleep,
+      getLastError: host.getLastError, mapOsError: host.mapOsError });
+    const owner = new NativeGameCrtOwner(retained, gameConstructionToken);
+    gameOwners.set(host.platform, owner); return owner;
+  }
+}
+export function createNativeGameCrtOwner(host: NativeEngineCrtHost): NativeGameCrtOwner { return NativeGameCrtOwner.forPlatform(host); }
+export type NativeModuleCrtHost = NativeEngineCrtHost;
+export type NativeModuleCrtPlatform = NativeEngineCrtPlatform;
+export type { NativeCrtModule, NativeCrtSourceProfile, NativeCrtSourceRules } from './native-game-crt-profile';

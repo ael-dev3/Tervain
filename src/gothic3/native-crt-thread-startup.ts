@@ -1,22 +1,23 @@
-/** Source-owned Engine __mtinit / PTD prefix. Platform indices and procedures
+/** Source-owned Engine/Game __mtinit / PTD prefix. Platform indices and procedures
  * are retained capabilities; original image pointers resolve only to the same
  * physical cold objects. This does not claim a completed CRT process attach. */
 import sourceText from '../../assets/gothic3/crt-bootstrap/runtime-rules.json?raw';
 import type { NativeValue } from './dialogue';
-import { NativeEngineCrtOwner } from './native-engine-crt-locks';
+import type { NativeModuleCrtOwner } from './native-engine-crt-locks';
+import { admitGameCrtStartupSource } from './native-game-crt-startup-source';
 import { NativeHeapObjectViews } from './native-heap-views';
 import type { NativeMemoryBacking } from './native-memory-admin';
-import type { NativeCrtLocalProcedure, NativeCrtLocalGetProcedure, NativeCrtThreadDestructor } from './native-runtime-platform';
+import type { NativeCrtLocalProcedure, NativeCrtLocalAllocProcedure, NativeCrtLocalGetProcedure, NativeCrtThreadDestructor } from './native-runtime-platform';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = (reason: string): { known: false; reason: string } => ({ known: false, reason });
 interface Rules {
-  schema: string; inputs: { Engine: string };
+  schema: string; inputs: { Engine?: string; Game?: string };
   methods: Record<string, { entry: string; body: string; bodyInstructionBytesSha256: string }>;
   coldGlobals: Record<string, { module: string; address: string; bytes: number; raw: string; knownMask: string; scope: string; liveValueCaptured: boolean }>;
   constBytes: Rules['coldGlobals'];
 }
-const source = JSON.parse(sourceText) as Rules;
+const engineSource = JSON.parse(sourceText) as Rules;
 const methods = [
   ['mtInit', '3067e2d9', '7aacad9fbf61f8d4f1d6061667043166d1dcf737aa46af55341660df2a17a7d1'],
   ['tlsAllocFallback', '3067df49', 'd9b998919205eca626e9eddae72543afff8b2a41e54ed3246f84ef8bb0ab0468'],
@@ -45,7 +46,7 @@ const coldBytes: Record<string, string> = {
   "exceptionData": "050000c00b000000000000001d0000c00400000000000000960000c004000000000000008d0000c008000000000000008e0000c008000000000000008f0000c00800000000000000900000c00800000000000000910000c00800000000000000920000c00800000000000000930000c00800000000000000"
 };
 function storage(label: string, address: string, bytes: number, constant = false): NativeHeapObjectViews {
-  const receipt = (constant ? source.constBytes : source.coldGlobals)[label];
+  const receipt = (constant ? engineSource.constBytes : engineSource.coldGlobals)[label];
   const expected = label === 'localeSentinel' ? '43000000' : coldBytes[label];
   if (!receipt || receipt.module !== 'Engine' || receipt.address !== address || receipt.bytes !== bytes ||
       receipt.raw.length !== bytes * 2 || receipt.raw !== expected || receipt.knownMask !== 'ff'.repeat(bytes) || receipt.scope !== 'cold-original-image' || receipt.liveValueCaptured !== false) throw new Error('Selected physical CRT thread storage differs: ' + label);
@@ -67,38 +68,68 @@ function samePointer(a: NativeHeapObjectViews | null, b: NativeHeapObjectViews |
   return ca === cb && a.bytes.buffer === b.bytes.buffer && a.bytes.byteOffset === b.bytes.byteOffset &&
     a.knownMask.buffer === b.knownMask.buffer && a.knownMask.byteOffset === b.knownMask.byteOffset;
 }
+interface SourceTlsAllocator extends NativeCrtLocalAllocProcedure {
+  readonly identity: object; readonly owner: object; readonly address: string;
+}
+interface SourceThreadDestructor extends NativeCrtThreadDestructor {
+  readonly identity: object; readonly owner: object;
+}
 interface State {
+  tlsFallbackAllocator: SourceTlsAllocator;
+  destructor: SourceThreadDestructor;
   physical: Readonly<{ procedureSlots: NativeHeapObjectViews; defaultLocale: NativeHeapObjectViews; currentLocale: NativeHeapObjectViews;
     timeLocale: NativeHeapObjectViews; mbcObject: NativeHeapObjectViews; mbcRefCounter: NativeHeapObjectViews;
     fallbackErrors: NativeHeapObjectViews; exceptionData: NativeHeapObjectViews; localeSentinel: NativeHeapObjectViews }>;
   phase: 'cold' | 'initializing' | 'ready' | 'null' | 'terminated'; boundary: string | null;
   active: Set<string | object>; failed: Set<string | object>; trace: string[]; records: Set<NativeHeapObjectViews>;
 }
-const shared = new WeakMap<NativeEngineCrtOwner, State>();
-export interface NativeCrtThreadStartupHost { readonly crt: NativeEngineCrtOwner; initPointers(): NativeValue<void>; }
+const shared = new WeakMap<NativeModuleCrtOwner, State>();
+export interface NativeCrtThreadStartupHost { readonly crt: NativeModuleCrtOwner; initPointers(): NativeValue<void>; }
 export class NativeCrtThreadStartup {
+  private readonly source: Rules;
   private readonly s: State;
   readonly physical: State['physical'];
   private readonly destructor: NativeCrtThreadDestructor;
   constructor(readonly host: NativeCrtThreadStartupHost) {
-    if (source.schema !== 'gothic3-crt-bootstrap-rules-v1' || source.inputs.Engine !== 'd49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3' ||
+    const source = this.source = host.crt.module === 'Engine' ? engineSource : host.crt.sourceProfile.bootstrapRules as Rules;
+    if (host.crt.module === 'Game') admitGameCrtStartupSource(source,
+      [...methods.map(([label]) => label), 'initPointers', 'mtInitLocks', 'localeFree', 'free']);
+    else if (source.schema !== 'gothic3-crt-bootstrap-rules-v1' || source.inputs.Engine !== 'd49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3' ||
         methods.some(([label, address, hash]) => source.methods[label]?.entry !== address || source.methods[label]?.body !== address || source.methods[label]?.bodyInstructionBytesSha256 !== hash)) throw new Error('Selected Engine CRT thread methods differ');
     let state = shared.get(host.crt);
     if (!state) {
-      const mbcObject = storage('mbcObject', '30ad4bd0', 544);
+      const game = host.crt.module === 'Game';
+      const physical = (label: string, address: string, bytes: number, constant = false) => game ? host.crt.imageStorage(label) : storage(label, address, bytes, constant);
+      const mbcObject = physical('mbcObject', '30ad4bd0', 544);
       const alias = source.coldGlobals.mbcRefCounter;
-      if (!alias || alias.address !== '30ad4bd0' || alias.bytes !== 4 || alias.raw !== source.coldGlobals.mbcObject!.raw.slice(0, 8)) throw new Error('Source MBC refcounter alias differs');
-      state = { physical: Object.freeze({ procedureSlots: storage('procedureSlots', '30af7144', 16),
-        defaultLocale: storage('defaultLocale', '30ad5100', 216), currentLocale: storage('currentLocale', '30ad51d8', 4),
-        timeLocale: storage('timeLocale', '30ad4330', 188), mbcObject, mbcRefCounter: sub(mbcObject, 0, 4),
-        fallbackErrors: storage('fallbackErrors', '30ad4560', 8), exceptionData: storage('exceptionData', '30ad5410', 120), localeSentinel: storage('localeSentinel', '30ad50f8', 4, true) }),
+      if (!alias || alias.address !== (game ? '207b2620' : '30ad4bd0') || alias.bytes !== 4 || alias.raw !== source.coldGlobals.mbcObject!.raw.slice(0, 8)) throw new Error('Source MBC refcounter alias differs');
+      const tlsFallbackAllocator: SourceTlsAllocator = Object.freeze({ kind: 'alloc',
+        name: game ? 'TlsAllocFallback20467e49' : 'TlsAllocFallback3067df49',
+        address: source.methods.tlsAllocFallback!.entry, identity: Object.freeze({}), owner: host.crt.identity,
+        // Both original compiler wrappers ignore the destructor argument and
+        // invoke the lower TlsAlloc IAT. Their source pointer identities differ.
+        invoke: (_callback: NativeCrtThreadDestructor) => host.crt.host.platform.tlsAlloc?.() ?? unknown('Actual TlsAlloc capability required'),
+      });
+      const destructor: SourceThreadDestructor = Object.freeze({
+        address: source.methods.freePtdCallback!.entry as NativeCrtThreadDestructor['address'],
+        identity: Object.freeze({}), owner: host.crt.identity,
+        invoke: (value: object | null) => this.freePtdCallback(value as NativeHeapObjectViews | null),
+      });
+      state = { tlsFallbackAllocator, destructor, physical: Object.freeze({ procedureSlots: physical('procedureSlots', '30af7144', 16),
+        defaultLocale: physical('defaultLocale', '30ad5100', 216), currentLocale: physical('currentLocale', '30ad51d8', 4),
+        timeLocale: physical('timeLocale', '30ad4330', 188), mbcObject, mbcRefCounter: sub(mbcObject, 0, 4),
+        fallbackErrors: physical('fallbackErrors', '30ad4560', 8), exceptionData: physical('exceptionData', '30ad5410', 120), localeSentinel: physical('localeSentinel', '30ad50f8', 4, true) }),
         phase: 'cold', boundary: null, active: new Set(), failed: new Set(), trace: [], records: new Set() };
       shared.set(host.crt, state);
     }
     this.s = state; this.physical = state.physical;
-    this.destructor = Object.freeze({ address: '3067e143', invoke: (value: object | null) => this.freePtdCallback(value as NativeHeapObjectViews | null) });
+    this.destructor = state.destructor;
   }
   private get crt() { return this.host.crt; }
+  private name(label: string): string { return label + this.source.methods[label]!.entry; }
+  private imageAddress(label: string): number {
+    return parseInt((this.source.coldGlobals[label] ?? this.source.constBytes[label])!.address, 16);
+  }
   private get platform() { return this.crt.host.platform; }
   private gate(reason: string): never { this.s.trace.push(reason + '.boundary'); throw new Error('Unowned ' + reason); }
   private run<T>(name: string, execute: () => T, cleanup = false, key: string | object = name): NativeValue<T> {
@@ -116,7 +147,8 @@ export class NativeCrtThreadStartup {
   }
   private local<K extends NativeCrtLocalProcedure['kind']>(value: object | null, kind: K): Extract<NativeCrtLocalProcedure, {kind:K}> {
     const procedure = value as NativeCrtLocalProcedure | null;
-    if (!procedure || procedure.kind !== kind || !this.platform.ownsLocalStorageProcedure?.(procedure)) this.gate('Actual same-platform retained CRT local-storage ' + kind + ' procedure');
+    const ownedSourceAllocator = kind === 'alloc' && value === this.s.tlsFallbackAllocator;
+    if (!procedure || procedure.kind !== kind || (!ownedSourceAllocator && !this.platform.ownsLocalStorageProcedure?.(procedure))) this.gate('Actual same-module source or same-platform retained CRT local-storage ' + kind + ' procedure');
     return procedure as Extract<NativeCrtLocalProcedure, {kind:K}>;
   }
   private decoded<K extends NativeCrtLocalProcedure['kind']>(offset: number, kind: K): Extract<NativeCrtLocalProcedure, {kind:K}> {
@@ -135,7 +167,7 @@ export class NativeCrtThreadStartup {
     try { const pointer = fields.pointer<NativeHeapObjectViews>(offset).get(); if (pointer !== null) canonical(pointer, pointer.bytes.length); return pointer; }
     catch (error) { if (fields.readUnsigned(offset) === address) return target; throw error; }
   }
-  private currentLocale(): NativeHeapObjectViews | null { return this.originalPointer(this.physical.currentLocale, 0, 0x30ad5100, this.physical.defaultLocale); }
+  private currentLocale(): NativeHeapObjectViews | null { return this.originalPointer(this.physical.currentLocale, 0, this.imageAddress('defaultLocale'), this.physical.defaultLocale); }
   private counter(fields: NativeHeapObjectViews, offset: number, delta: 1 | -1): number {
     return this.call('Interlocked' + (delta === 1 ? 'Increment' : 'Decrement') + '(+' + offset.toString(16) + ')', () => this.platform.interlockedCounter?.(sub(fields, offset, 4), delta) ?? unknown('Actual physical Interlocked endpoint required'));
   }
@@ -145,12 +177,12 @@ export class NativeCrtThreadStartup {
     for (let cursor = 0x50; cursor <= 0xa0; cursor += 16) {
       // Source static locale sentinel is a physical pointer comparison; it has
       // no fabricated callable browser address.
-      const narrowIsSentinel = locale.knownMask.subarray(cursor - 8, cursor - 4).every(mask => mask === 255) ? locale.readUnsigned(cursor - 8) === 0x30ad50f8 : samePointer(locale.pointer<NativeHeapObjectViews>(cursor - 8).get(), this.physical.localeSentinel);
+      const narrowIsSentinel = locale.knownMask.subarray(cursor - 8, cursor - 4).every(mask => mask === 255) ? locale.readUnsigned(cursor - 8) === this.imageAddress('localeSentinel') : samePointer(locale.pointer<NativeHeapObjectViews>(cursor - 8).get(), this.physical.localeSentinel);
       if (!narrowIsSentinel) { const pointer = locale.pointer<NativeHeapObjectViews>(cursor).get(); if (pointer) this.counter(pointer, 0, delta); }
       const wideIsNonNull = locale.knownMask.subarray(cursor - 4, cursor).every(mask => mask === 255) ? locale.readUnsigned(cursor - 4) !== 0 : locale.pointer<object>(cursor - 4).get() !== null;
       if (wideIsNonNull) { const pointer = locale.pointer<NativeHeapObjectViews>(cursor + 4).get(); if (pointer) this.counter(pointer, 0, delta); }
     }
-    const time = this.originalPointer(locale, 0xd4, 0x30ad4330, this.physical.timeLocale);
+    const time = this.originalPointer(locale, 0xd4, this.imageAddress('timeLocale'), this.physical.timeLocale);
     if (!time) throw new Error('Source locale time pointer required'); this.counter(time, 0xb4, delta);
   }
   private initializePtd(record: NativeHeapObjectViews): void {
@@ -169,7 +201,7 @@ export class NativeCrtThreadStartup {
     record.pointer<NativeHeapObjectViews>(0x6c).set(null); const locale = this.currentLocale(); record.pointer<NativeHeapObjectViews>(0x6c).set(locale); if (!locale) throw new Error('Actual current locale pointer required'); this.localeRefs(locale, 1);
     // An ownership boundary does not represent a native SEH unwind. Preserve
     // the physical held lock if the protected callee cannot return.
-    this.call('unlockInitPtd3067e0ab', () => this.crt.unlock(12));
+    this.call(this.name('unlockInitPtd'), () => this.crt.unlock(12));
   }
   private finishPtd(record: NativeHeapObjectViews): void {
     this.initializePtd(record); const id = this.call('GetCurrentThreadId', () => this.platform.getCurrentThreadId?.() ?? unknown('Actual thread ID service required'));
@@ -178,8 +210,8 @@ export class NativeCrtThreadStartup {
   initialize(): NativeValue<number> {
     if (this.s.phase === 'ready') return known(1); if (this.s.phase === 'null') return known(0);
     if (this.s.phase === 'terminated') return unknown('CRT thread storage lifetime has ended');
-    if (this.s.phase === 'initializing') { this.s.boundary ??= 'Reentrant Engine __mtinit3067e2d9'; return unknown(this.s.boundary); }
-    return this.run('mtInit3067e2d9', () => {
+    if (this.s.phase === 'initializing') { this.s.boundary ??= 'Reentrant ' + this.crt.module + ' __' + this.name('mtInit'); return unknown(this.s.boundary); }
+    return this.run(this.name('mtInit'), () => {
       this.s.phase = 'initializing';
       const fail = () => { this.call('mtTerm.failure', () => this.terminate()); this.s.phase = 'null'; return 0; };
       const module = this.call('GetModuleHandleA(KERNEL32.DLL)', () => this.platform.getWin32ModuleHandle?.('KERNEL32.DLL') ?? unknown('Actual MT module registry required'));
@@ -192,17 +224,17 @@ export class NativeCrtThreadStartup {
       }
       if ([0, 4, 8].some(offset => this.physical.procedureSlots.pointer<object>(offset).get() === null) || selected[3] === null) {
         const fallback = this.platform.tlsProcedures; if (!fallback) this.gate('actual IAT TLS procedure capabilities');
-        for (const [offset, value] of [[4, fallback.get], [0, fallback.alloc], [8, fallback.set], [12, fallback.free]] as const) { this.physical.procedureSlots.pointer<object>(offset).set(value); this.s.trace.push('procedure.slot' + offset + '.fallback'); }
+        for (const [offset, value] of [[4, fallback.get], [0, this.s.tlsFallbackAllocator], [8, fallback.set], [12, fallback.free]] as const) { this.physical.procedureSlots.pointer<object>(offset).set(value); this.s.trace.push('procedure.slot' + offset + '.fallback'); }
       }
       const index = this.call('TlsAlloc.getter', () => this.platform.tlsAlloc?.() ?? unknown('Actual TlsAlloc capability required'), value => this.crt.physical.crtTlsIndexes.writeUnsigned(4, value));
       this.s.trace.push('tlsGetterIndex.publish'); if (index === 0xffffffff) { this.s.phase = 'null'; return 0; }
       const getter = this.local(this.physical.procedureSlots.pointer<object>(4).get(), 'get');
       if (!this.call('TlsSetValue.unencodedGetter', () => this.platform.tlsSetValue?.(index, getter) ?? unknown('Actual TlsSetValue getter publication required'))) { this.s.phase = 'null'; return 0; }
-      this.call('initPointers3067d37b', () => this.host.initPointers());
+      this.call(this.name('initPointers'), () => this.host.initPointers());
       for (const offset of [0, 4, 8, 12]) { const encoded = this.call('encodePointer.slot' + offset, () => this.crt.encodePointer(this.physical.procedureSlots.pointer<object>(offset).get())); this.physical.procedureSlots.pointer<object>(offset).set(encoded); this.s.trace.push('procedure.slot' + offset + '.encode'); }
-      if (this.call('mtInitLocks30683218', () => this.crt.initLocks()) === 0) return fail();
+      if (this.call(this.name('mtInitLocks'), () => this.crt.initLocks()) === 0) return fail();
       const allocator = this.decoded(0, 'alloc');
-      const ptdIndex = this.call('localStorageAlloc(destructor3067e143)', () => allocator.invoke(this.destructor), value => this.crt.physical.crtTlsIndexes.writeUnsigned(0, value));
+      const ptdIndex = this.call('localStorageAlloc(destructor' + this.source.methods.freePtdCallback!.entry + ')', () => allocator.invoke(this.destructor), value => this.crt.physical.crtTlsIndexes.writeUnsigned(0, value));
       this.s.trace.push('ptdIndex.publish'); if (ptdIndex === 0xffffffff) return fail();
       const record = this.calloc(); if (record === null) return fail();
       const publicationIndex = this.crt.physical.crtTlsIndexes.readUnsigned(0);
@@ -217,7 +249,7 @@ export class NativeCrtThreadStartup {
     return this.local(getter, 'get');
   }
   getPtdNoExit(): NativeValue<NativeHeapObjectViews | null> {
-    return this.run('getPtdNoExit3067e0b4', () => {
+    return this.run(this.name('getPtdNoExit'), () => {
       const saved = this.call('GetLastError.getPtd', () => this.platform.getWin32LastError?.() ?? unknown('Actual Win32 GetLastError required'));
       const index = this.crt.physical.crtTlsIndexes.readUnsigned(0);
       const existing = this.call('cachedGetter.getPtd', () => this.cachedGetter().invoke(index));
@@ -231,7 +263,7 @@ export class NativeCrtThreadStartup {
     });
   }
   errnoSlot(): NativeValue<NativeHeapObjectViews> {
-    return this.run('errno306783df', () => { const record = this.call('getPtdNoExit.errno', () => this.getPtdNoExit()); return record ? sub(record, 8, 4) : sub(this.physical.fallbackErrors, 0, 4); });
+    return this.run(this.name('errno'), () => { const record = this.call('getPtdNoExit.errno', () => this.getPtdNoExit()); return record ? sub(record, 8, 4) : sub(this.physical.fallbackErrors, 0, 4); });
   }
   private releasePtd(record: NativeHeapObjectViews | null): void {
     if (!record) return; this.ptd(record);
@@ -239,23 +271,23 @@ export class NativeCrtThreadStartup {
     const exception = record.pointer<NativeHeapObjectViews>(0x5c).get(); if (!samePointer(exception, this.physical.exceptionData)) this.call('free.ptdException', () => this.crt.free(exception ? this.baseAllocation(exception) : null));
     this.call('lock13.freePtd', () => this.crt.lock(13));
     const mbc = record.pointer<NativeHeapObjectViews>(0x68).get(); if (mbc && this.counter(mbc, 0, -1) === 0 && !samePointer(mbc, this.physical.mbcObject)) this.call('free.ptdMbc', () => this.crt.free(this.baseAllocation(mbc)));
-    this.call('unlockFreePtdMbc3067e24f', () => this.crt.unlock(13));
+    this.call(this.name('unlockFreePtdMbc'), () => this.crt.unlock(13));
     this.call('lock12.freePtd', () => this.crt.lock(12));
-    const locale = record.pointer<NativeHeapObjectViews>(0x6c).get(); if (locale) { this.localeRefs(locale, -1); if (!samePointer(locale, this.currentLocale()) && !samePointer(locale, this.physical.defaultLocale) && locale.readUnsigned(0) === 0) this.gate('localeFree3067a0b7 nondefault locale'); }
-    this.call('unlockFreePtdLocale3067e25b', () => this.crt.unlock(12));
+    const locale = record.pointer<NativeHeapObjectViews>(0x6c).get(); if (locale) { this.localeRefs(locale, -1); if (!samePointer(locale, this.currentLocale()) && !samePointer(locale, this.physical.defaultLocale) && locale.readUnsigned(0) === 0) this.gate(this.name('localeFree') + ' nondefault locale'); }
+    this.call(this.name('unlockFreePtdLocale'), () => this.crt.unlock(12));
     this.call('free.ptd', () => this.crt.free(record.backing as NativeMemoryBacking));
   }
   freePtdCallback(record: NativeHeapObjectViews | null): NativeValue<void> {
     const key = record === null ? 'freePtdCallbackNULL' : [...this.s.records].find(owned => owned.backing === record.backing && owned.bytes.byteOffset === record.bytes.byteOffset) ?? record;
-    return this.run('freePtdCallback3067e143', () => this.releasePtd(record), true, key);
+    return this.run(this.name('freePtdCallback'), () => this.releasePtd(record), true, key);
   }
   private baseAllocation(fields: NativeHeapObjectViews): NativeMemoryBacking {
     canonical(fields, fields.bytes.length);
-    if ('region' in fields.backing || fields.bytes.byteOffset !== fields.backing.bytes.byteOffset) this.gate('free30672f8a unowned interior-pointer allocation');
+    if ('region' in fields.backing || fields.bytes.byteOffset !== fields.backing.bytes.byteOffset) this.gate(this.name('free') + ' unowned interior-pointer allocation');
     return fields.backing;
   }
   freePtd(record: NativeHeapObjectViews | null = null): NativeValue<void> {
-    return this.run('freePtd3067e264', () => {
+    return this.run(this.name('freePtd'), () => {
       const index = this.crt.physical.crtTlsIndexes.readUnsigned(0);
       if (index !== 0xffffffff) {
         if (record === null) { const getterIndex = this.crt.physical.crtTlsIndexes.readUnsigned(4); const first = this.call('TlsGetValue.freePtd', () => this.platform.tlsGetValue?.(getterIndex) ?? unknown('Actual TLS getter required')); if (first !== null) { const dispatchIndex = this.crt.physical.crtTlsIndexes.readUnsigned(0); const dispatchGetterIndex = this.crt.physical.crtTlsIndexes.readUnsigned(4); const getter = this.call('TlsGetValue.freePtd.dispatch', () => this.platform.tlsGetValue?.(dispatchGetterIndex) ?? unknown('Actual TLS getter required')); const value = this.call('tlsGetterDispatcher.freePtd', () => this.local(getter, 'get').invoke(dispatchIndex)); record = value === null ? null : this.ptd(value); } }
@@ -268,12 +300,14 @@ export class NativeCrtThreadStartup {
   }
   terminate(): NativeValue<void> {
     if (this.s.phase === 'terminated') return known(undefined);
-    return this.run('mtTerm3067dfb8', () => {
+    return this.run(this.name('mtTerm'), () => {
       const indexes = this.crt.physical.crtTlsIndexes, index = indexes.readUnsigned(0);
       if (index !== 0xffffffff) { this.call('localStorageFree', () => this.decoded(12, 'free').invoke(index)); indexes.writeUnsigned(0, 0xffffffff); this.s.trace.push('ptdIndex.clear'); }
       const getter = indexes.readUnsigned(4); if (getter !== 0xffffffff) { this.call('TlsFree.getter', () => this.platform.tlsFree?.(getter) ?? unknown('Actual TlsFree required')); indexes.writeUnsigned(4, 0xffffffff); this.s.trace.push('tlsGetterIndex.clear'); }
       this.call('mtDeleteLocks', () => this.crt.terminateLocks()); this.s.phase = 'terminated';
     }, true);
   }
-  snapshot() { return Object.freeze({ phase: this.s.boundary && this.s.phase === 'initializing' ? 'blocked' : this.s.phase, boundary: this.s.boundary, physical: this.physical, records: Object.freeze([...this.s.records]), trace: Object.freeze(this.s.trace.slice()) }); }
+  snapshot() { return Object.freeze({ phase: this.s.boundary && this.s.phase === 'initializing' ? 'blocked' : this.s.phase, boundary: this.s.boundary, physical: this.physical,
+    destructor: this.s.destructor, tlsFallbackAllocator: this.s.tlsFallbackAllocator,
+    records: Object.freeze([...this.s.records]), trace: Object.freeze(this.s.trace.slice()) }); }
 }

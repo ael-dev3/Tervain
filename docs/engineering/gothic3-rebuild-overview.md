@@ -270,16 +270,18 @@ route when the reviewed changes reach `main`.
 
 The separate TypeScript route is live at
 [Gothic 3 / Ardea](https://ael-dev3.github.io/Tervain/gothic3/). The deployed
-integration through checkpoint 79 is `main` commit
-`b408a48a68c222c20f64766ccf63f7e3c2007b0d`, merged in
-[PR 48](https://github.com/ael-dev3/Tervain/pull/48) and published by successful
-[workflow run 37541106669](https://github.com/ael-dev3/Tervain/actions/runs/37541106669), attempt 1.
+integration through checkpoint 80 is `main` commit
+`60c38ff6c2f1516015fc29ffe9c4d66c3295be94`, merged in
+[PR 49](https://github.com/ael-dev3/Tervain/pull/49) and published by successful
+[workflow run 37543656027](https://github.com/ael-dev3/Tervain/actions/runs/37543656027), attempt 1.
 
 The public browser check loads 202 scene objects and 70 character models,
 enters Ardea with Hero HP 100 and inspects the Hero model (10,692 triangles,
 three meshes) and a coastal bandit (11,280 triangles, two meshes).
-The route serves `gothic3-C3iMc5TP.js`; no captured warnings or
-errors were observed. The checkpoint's standalone runtime admins are not
+The route serves `gothic3-C3iMc5TP.js`; the final captured check contained no
+warnings or errors. An initial material request returned HTTP 503; one browser
+reload recovered it. The complete observation is retained in PR 49. The
+checkpoint's standalone runtime admins are not
 connected to the browser NPC reader. The isolated shared heap
 owners in [checkpoint 75](gothic3-rebuilding-process.md#75-alias-selected-npc-fields-to-the-shared-heap)
 still require full native startup and browser integration; their tests do not
@@ -307,6 +309,11 @@ corrects fresh CString text construction and the class-name adapter's original
 space search and scalar copy. Pointer alignment and capacity come from actual
 owned allocation records. These component changes are prerequisites for the
 Game Navigation class-name/type owners; they do not advance the live NPC reader.
+[Checkpoint 81](gothic3-rebuilding-process.md#81-preserve-canonical-game-crt-ownership-before-navigation-type-construction)
+supplies the selected Game CRT heap, locks, original module storage and ordinary
+DLL attach prefix with its own verified addresses. It preserves the unresolved
+command-line call and later C/C++ initializer dependencies. These components
+still need the Game class-name/type owners and integration with the live NPC.
 Subsequent build and deployment receipts are recorded in the
 [Pages workflow](https://github.com/ael-dev3/Tervain/actions/workflows/pages.yml).
 This is an incomplete reconstruction; hosting and a successful build do not
