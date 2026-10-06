@@ -4473,3 +4473,112 @@ review verifies startup, source bandit model selection/rotation/wheel zoom and
 restoration of position, clock and journal, with HP 100/100 and no captured
 console warnings or errors. The complete three-kill encounter remains an
 automated browser-host scenario rather than a manual browser playthrough.
+
+## 73. Construct retained NPC owners and reach the first property factory
+
+This checkpoint begins replacing detached source-seeded NPC facades with
+retained entity storage. It does not bypass native prerequisites to make a
+death callback appear complete. The browser loads the exact three bandit
+records, allocates each through the existing source-backed entity factory,
+and follows the original Dynamic/Entity/Node read sequence on that same owner.
+The constructor first obtains a platform GUID; Node.Read then unregisters it,
+reads the original identity, clears its cache DWORD and registers the same
+object under the source identity. Source IDs are not constructor GUIDs, and
+rendered groups are not registry entries.
+
+[`prepare_npc_entity_source.py`](../../tools/gothic3/prepare_npc_entity_source.py)
+keeps three complete 6,544-byte records, all 48 property packets in source
+order, 6,069 indexed strings, and the original SysDyn context's 26,927
+identities and 26,926 parent edges. The original 80,176,690-byte source has
+SHA-256 `28f7273b3d54415b84445651a3dfa962c1ff158e9183deba81ba47e4d5d57938`.
+The browser package is 1,176,387 compressed bytes and 5,492,461 decoded bytes;
+both receipts are recorded. Available wire bytes and all decoded bytes are
+verified before admission; HTTP gzip decoding can hide the compressed bytes
+from Fetch, in which case the exact decoded receipt is checked. Context
+metadata establishes source relationships, including the unique parentless
+index-zero record. It does not
+attach a graph or supply the other entities' complete contents.
+
+The new [`browser-npc-entity.ts`](../../src/gothic3/browser-npc-entity.ts)
+retains constructor/reflection allocations, original read traces and registry
+state. Fresh SceneAdmin counter and table seeds have their own byte-checked
+constructor evidence. GUID and monotonic timer services use explicit browser platform
+adapters. Matrix.GetIdentity uses the shared control module's actual lazy
+cache. The [platform service](../../src/gothic3/browser-npc-entity-services.ts)
+retains the original Matrix shutdown callback and its module before reporting
+registration success. Explicit disposal invokes callbacks in reverse order
+once. The source callback is a literal `RET`, so cache and guard remain intact.
+This adapter does not reconstruct native CRT encoding, allocation, locks or
+process termination, and does not promise page-unload delivery.
+
+Navigation is property packet zero, before NPC and Routine. Its concrete
+factory constructs, creates and initializes the Navigation property defaults.
+The default creator then calls the native ErrorAdmin singleton. The browser
+does not own that singleton's initialization, MemoryAdmin allocations,
+MessageAdmin callback registration and nonempty shutdown callback, so the
+read stops at byte cursor 338 of 6,544. Returning a guessed nonpanic flag would
+skip those required effects.
+
+The serialized Navigation packet has not been read and neither SetEntity nor
+OnAdded has run. Each partial Navigation wrapper retains reference count 2;
+the entity's property array and NavigationAdmin lists remain empty. Each bandit
+has an independent guarded read, and a retained partial preparation is not
+replayed. NPC and Routine cannot be attached ahead of Navigation.
+
+After ErrorAdmin is connected, later prerequisites still include the original
+application-mode getter: the native path checks the shared application
+initialized flag, obtains the first registered `gCSession` module through
+ModuleAdmin/RTTI and reads its game-running byte. A menu flag cannot replace
+it. Setting the initialized flag false while supplying a nonnull original
+SceneAdmin would combine incompatible startup states.
+
+Source template admission now has a separate `templateByPropertyId` helper.
+It uses the first 16 bytes of a native 20-byte PropertyID, preserving duplicate
+headers as ambiguous; it never manufactures or registers a live template.
+The original entity-read adapter also binds the setter receiver correctly,
+so serialized flags and recursive alpha changes reach the retained storage.
+
+The [native evidence](../../assets/gothic3/npc-entity/native-evidence.json)
+revalidates 44 methods from existing receipts and adds 14 method bodies plus
+the one-instruction Matrix callback: 1,679 instruction references, zero PE
+byte mismatches. The source manifest and receipt record all input hashes and
+packet boundaries. Reproduction uses the read-only local study:
+
+```powershell
+python tools/gothic3/prepare_npc_entity_source.py --study "C:\path\to\Gothic3_Decompiled_Study_2026-10-04"
+```
+
+The existing browser combat/death bridge remains a separate bounded runtime.
+These owners do not yet provide attached NPC/Routine properties, graph context,
+cache residency, processing-range registration, physics, AI or native death
+resolution. Their partial source read is not serialized as a completed actor
+or substituted for the existing NPC save state. The next gate is owning the
+actual ErrorAdmin singleton and its initialization and shutdown services,
+then the application/module/session service and source-ordered property
+factories, callbacks, PostRead and activation path before routing gameplay
+through these owners.
+
+The Models inspector exposes these facts under the collapsed **Original entity
+study · developer details** section when one of Jack's coastal bandits is
+selected. It reports the real source ID, read cursor, attached property count,
+Navigation ownership, graph context and current boundary. Loading this study
+does not gate exploration, browser combat, quests or saving. The visible model
+and existing browser combat/death state still have separate owners.
+
+Focused validation passes 22 cases for actual source owner reads,
+partial-state retention, GUID remapping, Navigation default initialization,
+template PropertyID equality, setter receiver binding and shutdown storage.
+Combined local validation on 6 October 2026: `npm run typecheck` passes;
+`npm test` passes 1,876 tests across 186 files; `npm run build` succeeds with
+361 modules. The entity study and platform services use separate dynamic
+chunks; the Gothic entry is 1,148.99 kB (258.69 kB gzip). The existing Tervain
+bundle remains 5,701.33 kB and retains its 1,200 kB chunk warning. All 231
+checked relative documentation file links resolve, and `git diff --check`
+passes. Production-preview browser review confirms all three registered source
+owners at the exact 338-byte boundary, zero attached property sets and null
+graph context. It also checks wide/narrow Inspector scrolling, model rotation,
+wheel zoom, exploration and save/reload. The applied constructor/read prefix
+is separate from saved browser combat state. No captured browser warnings or
+errors are reported. These are bounded observations; native NPC activation
+and a full original encounter remain incomplete. Deployment requires its own
+successful main-branch receipt and public-route verification.

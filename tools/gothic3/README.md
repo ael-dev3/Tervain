@@ -4,6 +4,9 @@ These standalone Python tools prepare the separate `/gothic3/` browser study.
 They do not run Gothic 3 or alter its installation or the completed desktop study.
 They are not part of the Tervain game runtime.
 
+For the complete data-to-TypeScript-to-browser workflow, see the
+[rebuilding overview](../../docs/engineering/gothic3-rebuild-overview.md).
+
 ```powershell
 python tools/gothic3/prepare_ardea.py --study "C:\path\to\Gothic3_Decompiled_Study_2026-10-04" --rimy "C:\path\to\Rimy3D.exe" --scratch "C:\outside-the-study\ardea-preparation"
 ```
@@ -283,3 +286,30 @@ the bounded browser death speech prerequisite; it does not implement native
 audio playback, manager heap layout or shutdown lifetime. The connected
 bandit death prefix and its explicit stopping point are described in
 [checkpoint 72](../../docs/engineering/gothic3-rebuilding-process.md#72-schedule-the-bandit-death-state-and-preserve-its-applied-prefix).
+
+## Selected original NPC entity records
+
+```powershell
+python tools/gothic3/prepare_npc_entity_source.py --study "C:\path\to\Gothic3_Decompiled_Study_2026-10-04"
+```
+
+This standard-library Python producer reads the verified original SysDyn
+resource and native evidence without executing or modifying the game. It
+exports Jack's three coastal bandits as complete 6,544-byte records, including
+their 48 property packets, indexed strings and source graph relationships.
+The study must contain `00_Original_Runtime/`, `01_Decompiled_Code/` and
+`02_Unpacked_Data/Archives/`. The producer also checks the pinned native
+receipts already committed to this repository. Outputs are
+`assets/gothic3/npc-entity/bandit-records.json`, `manifest.json`,
+`native-evidence.json` and
+`public/gothic3/gameplay/npc-entity/bandit-records.json.gz`.
+The manifest pins input and output hashes. The browser verifies available
+compressed bytes and every decoded byte before admission; when Fetch removes
+HTTP gzip encoding, the exact decoded receipt is checked.
+
+The package supplies source records and graph metadata. It does not create
+the other graph entities or activate the selected NPCs. The current original
+entity read stops at the Navigation default creator's unowned ErrorAdmin
+singleton, before serialized property reading or attachment. See
+[checkpoint 73](../../docs/engineering/gothic3-rebuilding-process.md#73-construct-retained-npc-owners-and-reach-the-first-property-factory)
+for the exact applied prefix and remaining prerequisites.

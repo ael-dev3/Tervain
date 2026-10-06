@@ -159,7 +159,8 @@ export interface NativeEntityReadServices {
  * capabilities stay explicit; no generic success callback substitutes for them. */
 export function connectOriginalEntityRead(services: NativeEntityReadServices): NativeEntityReadHost {
   return {
-    setter: services.setters.readHostSetter,
+    setter: (target, operation, value, recursive) =>
+      services.setters.readHostSetter(target, operation, value, recursive),
     modified: target => services.setters.host.modified(target),
     setName(target, name) {
       const result = services.setters.setName(target, name);

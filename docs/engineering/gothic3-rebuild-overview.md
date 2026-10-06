@@ -181,6 +181,74 @@ alone proves that the original game has been rebuilt. Each playable slice should
 carry its source evidence through conversion, TypeScript behavior, browser use
 and saving before the next campaign feature is treated as integrated.
 
+## Reproduce a rebuilding checkpoint
+
+### Run the committed browser build
+
+Use Node.js 24, matching the [Pages workflow](../../.github/workflows/pages.yml).
+From the repository root:
+
+```powershell
+npm ci
+npm run dev
+# Open the printed local URL with /gothic3/ appended.
+```
+
+The committed portable assets are sufficient for this route. For a production
+preview, run `npm run build`, then `npm run preview` and open the same route.
+See the [controls and scope](gothic3-browser-port.md#controls) for exploration,
+the model inspector, dialogue and local browser saves.
+
+### Regenerate source data when needed
+
+Asset preparation is a separate offline step. Its input is the owner's
+read-only installation, normally
+`C:\Program Files (x86)\Steam\steamapps\common\Gothic 3`, and a verified
+offline study containing extracted archives, the effective patch-layer index
+and native binary evidence. The full installation and study are not committed.
+The [preparation guide](../../tools/gothic3/README.md) lists each tool's inputs,
+dependencies and output folders; use the converter for the feature being
+rebuilt rather than regenerating unrelated assets.
+
+For example, the selected NPC record package can be reproduced with:
+
+```powershell
+python tools/gothic3/prepare_npc_entity_source.py --study "C:\path\to\Gothic3_Decompiled_Study_2026-10-04"
+```
+
+Its [source manifest](../../assets/gothic3/npc-entity/manifest.json) pins the
+original input, record boundaries and compressed/decoded output hashes. The
+[runtime reader](../../src/gothic3/browser-npc-entity.ts) verifies the available
+wire bytes and all decoded bytes before admitting the three selected records.
+When HTTP gzip decoding hides wire bytes, only the exact decoded receipt can
+be checked in the browser. Source graph metadata remains
+separate from live world registration and activation; this reader currently
+stops at the first unowned ErrorAdmin prerequisite. See
+[checkpoint 73](gothic3-rebuilding-process.md#73-construct-retained-npc-owners-and-reach-the-first-property-factory).
+
+### Record a reviewable result
+
+For each implementation checkpoint, retain:
+
+| Record | What it establishes |
+| --- | --- |
+| Input path, archive/patch winner and SHA-256 | The exact original resource studied. |
+| Conversion manifest and native evidence receipt | The selected bytes, transforms, call order and known omissions. |
+| TypeScript module and focused scenario cases | The implemented operations and their supported boundaries. |
+| Browser exercise and save/reload result | Whether that operation is connected to the visible session and persisted state. |
+| Exact commit and successful workflow/deployment URL | Which reviewed version was checked and published. |
+
+Run `npm run typecheck`, `npm test` and `npm run build`, review the diff, and
+exercise the changed browser interaction. For documentation edits, check
+relative links and `git diff --check`. Record partial execution as partial:
+an unknown prerequisite must preserve the effects already applied and must
+not replay them after restore.
+
+Before publishing, inspect repository-wide Actions runs and workflow triggers.
+Reuse relevant results and allow an existing applicable run to finish. A pull
+request runs the checks; a merge to `main` runs checks and the Pages deployment.
+Use the resulting deployment receipt to verify the public `/gothic3/` route.
+
 ## Current implementation status
 
 The steps above can be followed in the checked-out repository. The committed
@@ -202,9 +270,11 @@ route when the reviewed changes reach `main`.
 
 The separate TypeScript route is live at
 [Gothic 3 / Ardea](https://ael-dev3.github.io/Tervain/gothic3/). The deployed
-baseline preceding checkpoint 72 was `main` commit
-`610619f43a809e14118ee8edb186fed67aa2052b`, published by
-[workflow run 37504891018](https://github.com/ael-dev3/Tervain/actions/runs/37504891018).
+checkpoint 72 is `main` commit
+`a021b8ae66e6f66ef5a5a2de3b392fb48c6a0bac`, published by the successful
+[workflow run 37515257094](https://github.com/ael-dev3/Tervain/actions/runs/37515257094).
+The public route serves its `gothic3-D3iOheue.js` bundle. Checkpoint 73's
+implementation is described below; its publication requires a separate receipt.
 Subsequent build and deployment receipts are recorded in the
 [Pages workflow](https://github.com/ael-dev3/Tervain/actions/workflows/pages.yml).
 This is an incomplete reconstruction; hosting and a successful build do not
@@ -273,6 +343,13 @@ post-event progress. The third kill's 500 quest XP therefore precedes its
 callback; its applied state is retained in saves. Native speech playback,
 ragdoll, plunder cleanup and the full NPC lifecycle remain incomplete. See
 [checkpoint 72](gothic3-rebuilding-process.md#72-schedule-the-bandit-death-state-and-preserve-its-applied-prefix).
+The next checkpoint constructs retained original owners for those three
+bandits and remaps their constructor GUIDs through the original Node read.
+The first Navigation factory stops at an unowned ErrorAdmin service, before
+serialized property reading or attachment. The Models inspector's collapsed
+developer details show that partial read and its current boundary. These
+owners do not yet supply native activation or replace browser combat state.
+See [checkpoint 73](gothic3-rebuilding-process.md#73-construct-retained-npc-owners-and-reach-the-first-property-factory).
 The current branch also resolves the native body-template `Robe` flag from
 inventory slot17 and labels routine `Action`/`AniState` fields separately from
 live combat animation state. A new reader maps the selected Hero motion into
