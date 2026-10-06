@@ -595,6 +595,14 @@ class FakeContext {
   nodes: FakeNode[] = [];
   sources: FakeSource[] = [];
   destination = new FakeNode('destination');
+  listeners = new Map<string, EventListener[]>();
+  addEventListener = vi.fn((type: string, listener: EventListener) => {
+    this.listeners.set(type, [...this.listeners.get(type) ?? [], listener]);
+  });
+  removeEventListener = vi.fn((type: string, listener: EventListener) => {
+    this.listeners.set(type, (this.listeners.get(type) ?? []).filter((held) => held !== listener));
+  });
+  emit(type: string) { for (const listener of this.listeners.get(type) ?? []) listener(new Event(type)); }
   listener = {
     positionX: new Param(0), positionY: new Param(0), positionZ: new Param(0),
     forwardX: new Param(0), forwardY: new Param(0), forwardZ: new Param(-1),
@@ -1207,6 +1215,8 @@ describe('audio engine and the recorded world', () => {
     audio.updateWorld(0.05, frame(PLACES.rillford));
     expect(audio.diagnostics.world).toBeNull();
     audio.resume();
+    expect(ctx.addEventListener).toHaveBeenCalledWith('statechange', expect.any(Function));
+    expect(ctx.listeners.get('statechange')).toHaveLength(1);
     const nodes = ctx.nodes.length;
     audio.updateWorld(0.05, null);
     expect(ctx.nodes).toHaveLength(nodes);
@@ -1219,6 +1229,8 @@ describe('audio engine and the recorded world', () => {
     audio.worldEvent('lever');
     expect(ctx.sources.filter((s) => s.buffer?.file?.startsWith('bank-')).length).toBe(4);
     audio.dispose();
+    expect(ctx.removeEventListener).toHaveBeenCalledWith('statechange', ctx.addEventListener.mock.calls[0]![1]);
+    expect(ctx.listeners.get('statechange')).toEqual([]);
     expect(ctx.sources.every((s) => !s.started || s.stopped)).toBe(true);
   });
 
