@@ -171,7 +171,11 @@ void main() {
   vec2 slope;
   float squeeze;
   vec3 o = seaOffset(p.xz, uTime, bed.y, height, steep, dir, depth, spacing, slope, squeeze);
-  vec3 world = vec3(p.x + o.x, SEA_LEVEL + o.y, p.z + o.z);
+  // The grid is a footprint in physical x/z, not Gerstner material coordinates. Moving its edge horizontally can
+  // expose the foreground when the lens is only centimetres above a wave. Invert the displacement once, exactly
+  // as WaterWorld.sea does, to sample the sharpened surface while retaining the projected footprint.
+  o = seaOffset(p.xz - o.xz, uTime, bed.y, height, steep, dir, depth, spacing, slope, squeeze);
+  vec3 world = vec3(p.x, SEA_LEVEL + o.y, p.z);
   // Swash: broken water runs up the beach as a thin sheet and drains back before the next wave.
   if (depth < 0.2 && bed.w > 0.0) {
     float rise = swashRise(bed.z + crestWobble(p.xz), bed.w, uTime);

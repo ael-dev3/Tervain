@@ -183,10 +183,14 @@ the ripples and the fish.
   - underwater lens adjustments preserve the boom's bed and rock clearance, falling back above water at shallow banks;
   - the sea grid projects against the wave surface at the lens, keeping foreground coverage above troughs and overhead
     coverage below crests even when the eye crosses mean sea level;
+  - inverse Gerstner sampling keeps that grid's physical footprint intact as waves pass, using the same surface as
+    the swimmer and buoyant cargo instead of displacing the foreground border into view;
   - Reduced Motion freezes underwater refraction and caustics while preserving unrelated presentation timing.
 - **Browser review:** headless captures were checked on the strand at noon, low and at sunset, on Lantern Rocks, in
   the bay, at the ford, on the main stream, the village race, the spring and its fall, swimming (still and moving) and
   under water.
+  Merge review also checked the production dry-bridge, near-waterline swim and submerged views in a native browser;
+  the foreground coverage defect was reproduced and corrected, with no graphics warnings in the final views.
 
 Not established: a listening review, frame rates on reference hardware, or physical-controller play.
 

@@ -1,11 +1,13 @@
 import * as THREE from 'three';
 import { beforeAll, describe, expect, it, vi } from 'vitest';
+import { CameraRig } from '../../src/presentation/cameraRig';
 import { HuntingArrows, type ArrowWater } from '../../src/presentation/huntingArrow';
 import { makeBathymetryTextures, oceanVisibilityBounds } from '../../src/presentation/water/ocean';
 import { RippleField } from '../../src/presentation/water/ripples';
 import { Splashes } from '../../src/presentation/water/splashes';
 import { WaterSystem } from '../../src/presentation/water/waterSystem';
 import { SEA_LEVEL } from '../../src/world/layout';
+import { Colliders } from '../../src/world/colliders';
 import { Terrain } from '../../src/world/terrain';
 import { BATHY_NX, BATHY_NZ } from '../../src/world/water/bathymetry';
 import { FILM } from '../../src/world/water/waterWorld';
@@ -86,6 +88,60 @@ describe('the sea as drawn', () => {
     camera.position.set(-200, 4, 30); camera.lookAt(-340, 0, 30);
     water.ocean.update(camera, 0, 1);
     expect(water.ocean.mesh.material.uniforms.uGridPlaneY!.value).toBe(SEA_LEVEL);
+  });
+
+  it('retains triangle coverage across the foreground as displaced waves pass the swimming camera', () => {
+    // The shader samples the same physical surface as WaterWorld.sea. Moving its projected x/z by the Gerstner
+    // offset instead pulls the near grid boundary into view; the t=4 pose exposed most of the lower-right corner.
+    const shader = water.ocean.mesh.material.vertexShader;
+    expect(shader).toContain('o = seaOffset(p.xz - o.xz,');
+    expect(shader).toContain('vec3 world = vec3(p.x, SEA_LEVEL + o.y, p.z);');
+    const geometry = water.ocean.mesh.geometry.clone();
+    const material = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide });
+    const mesh = new THREE.Mesh(geometry, material);
+    const grid = geometry.getAttribute('aGrid'), positions = geometry.getAttribute('position');
+    const raycaster = new THREE.Raycaster();
+    const near = new THREE.Vector3(), far = new THREE.Vector3(), direction = new THREE.Vector3();
+    try {
+      for (const [time, above] of [[0, true], [2, true], [4, true], [6, true], [2, false], [4, false]] as const) {
+        const rig = new CameraRig();
+        rig.setAspect(1422 / 800); rig.pitch = -0.05; rig.wantDist = 4.5;
+        const player = water.world.sea(-340, 30, time)!;
+        rig.follow(1 / 60, -340, player.surface - 1.25, 30, terrain, new Colliders(), true, 0);
+        rig.clearWater((x, z) => water.world.sea(x, z, time)?.surface ?? null, true);
+        const camera = rig.camera;
+        const surface = water.world.sea(camera.position.x, camera.position.z, time)!.surface;
+        if (!above) {
+          camera.position.y = surface - 0.3;
+          camera.lookAt(-340, camera.position.y + 0.2, 30);
+        }
+        water.ocean.update(camera, time, 1, surface);
+        const u = water.ocean.mesh.material.uniforms;
+        const inverse = u.uGridInverse!.value as THREE.Matrix4, range = u.uGridRange!.value as THREE.Vector4;
+        const eye = u.uGridCamera!.value as THREE.Vector3, planeY = u.uGridPlaneY!.value as number;
+        const distanceLimit = u.uGridFar!.value as number;
+        // Evaluate the physical wave surface over the production grid, then raycast its actual triangles. This
+        // checks raster coverage after vertical wave displacement, rather than only intersecting the flat plane.
+        for (let i = 0; i < grid.count; i++) {
+          const x = THREE.MathUtils.lerp(-range.z, range.z, grid.getX(i));
+          const y = THREE.MathUtils.lerp(range.x, range.y, grid.getY(i));
+          near.set(x, y, -1).applyMatrix4(inverse); far.set(x, y, 1).applyMatrix4(inverse);
+          direction.subVectors(far, near).normalize();
+          const distance = (planeY - eye.y) / (Math.abs(direction.y) > 1e-5 ? direction.y : -1e-5);
+          if (distance > 0 && distance <= distanceLimit) near.copy(eye).addScaledVector(direction, distance);
+          else {
+            direction.set(direction.x + 1e-5, 0, direction.z).normalize();
+            near.copy(eye).addScaledVector(direction, distanceLimit);
+          }
+          positions.setXYZ(i, near.x, water.world.sea(near.x, near.z, time)?.surface ?? SEA_LEVEL, near.z);
+        }
+        geometry.computeBoundingSphere(); mesh.updateMatrixWorld();
+        for (const x of [-0.95, -0.5, 0, 0.5, 0.95]) for (const y of [0.5, 0.75, 0.95]) {
+          raycaster.setFromCamera(new THREE.Vector2(x, above ? -y : y), camera);
+          expect(raycaster.intersectObject(mesh).length, `t=${time}, above=${above}, ray=(${x},${above ? -y : y})`).toBeGreaterThan(0);
+        }
+      }
+    } finally { geometry.dispose(); material.dispose(); }
   });
 });
 
