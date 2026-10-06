@@ -54,15 +54,15 @@ rates or a cross-device benchmark. Model bytes count observed GLB payloads.
 
 | Observation | Baseline | Candidate |
 | --- | ---: | ---: |
-| First loading surface observed after navigation | 2.395 s | Pending |
-| First contentful paint | 2.488 s | Pending |
-| Title controls enabled | 22.211 s | Pending |
-| GLB requests completed by title readiness | 80 | Pending |
-| GLB payload bytes by title readiness | 476,482,952 B | Pending |
-| New Game pointer-down to game mode reporting ready | 1.530 s | Pending |
-| New Game pointer-down to two recorded play frames | 19.840 s | Pending |
-| Longest observed main-thread task across the sample | 18.284 s | Pending |
-| Longest observed animation-frame gap across the sample | 18.316 s | Pending |
+| First contentful paint | 2.488 s | 2.188 s |
+| Title controls enabled | 22.211 s | 2.084 s |
+| GLB requests completed by title readiness | 80 | 0 |
+| GLB payload bytes by title readiness | 476,482,952 B | 0 B |
+| New Game pointer-down to game mode reporting ready | 1.530 s | 45.139 s |
+| Reported ready to two recorded play frames | 18.310 s | 0.013 s |
+| Navigation to two recorded play frames | 58.450 s | 53.982 s |
+| Longest observed main-thread task across the sample | 18.284 s | 11.028 s |
+| Longest observed animation-frame gap across the sample | 18.316 s | 15.866 s |
 
 The baseline built the world before enabling the title and loaded the complete
 resident catalog and woodland. Resource progress also interleaved different
@@ -71,10 +71,24 @@ After starting New Game, the game mode reported ready before the expensive
 first presentation had completed. These observations motivate distinct phase
 labels, counts tied to their actual task and a first-view readiness gate.
 
-Candidate timing, visual/recovery evidence and final validation remain pending.
-Repeat the same fresh-profile setup and separate deterministic request counts
-from timing variation when adding the candidate column. This document does not
-claim an improvement from an unmeasured implementation.
+The candidate was measured at `c9bd05ac` with the same fresh-profile setup.
+Both runs completed the same 80 GLBs and 476,482,952 payload bytes before play,
+with the same native beach, 341 trees and 12 named residents, and no runtime
+errors. The menu shell is now available while its imported backdrop prepares.
+The longer Start-to-ready interval reflects moving world preparation from
+before the title to after Start; it is not a claim that world acquisition became
+free. Screenshot capture and backdrop preparation also affect when the scripted
+Start press arrives (38.611 s in the baseline, 8.831 s in the candidate), so
+navigation-to-play totals are observations of this flow rather than a general
+speedup guarantee.
+
+Entry-view sampler preparation produced 76 visible status updates over 8.964 s.
+The final graphics count reached 173/173 only after the submitted first view
+was complete. Synchronous compilation/submission still produced a 15.866 s
+frame gap on this software renderer, and subsequent software-rendered gameplay
+frames remained slow. This work reduces measured startup/task costs and removes
+the premature readiness signal; it does not establish smooth loading or a
+hardware frame-rate improvement.
 
 ## Development file watching
 
@@ -122,10 +136,13 @@ Individual foliage, settlement and physics builders still run synchronously
 between checkpoints, so this work does not eliminate every long task.
 
 Preparing a world restores physical state and navigation before activation.
-The first camera view is updated with zero simulation time, shaders are
-compiled asynchronously, the real presentation is rendered, and a WebGL2
-fence waits for its submitted graphics work. Only then does the loading screen
-release gameplay input. First entry, failed entry and quality replacement keep
+The first camera view is updated with zero simulation time, entry-camera
+sampler uploads are prepared in bounded batches, shaders are compiled
+asynchronously, the real presentation is rendered, and a WebGL2 fence waits for its
+submitted graphics work. Hidden LODs and off-camera objects are excluded from
+sampler preparation; material factories can explicitly expose shader samplers
+without changing their pixels, filtering or ownership. Only then does the
+loading screen release gameplay input. First entry, failed entry and quality replacement keep
 simulation, wildlife sound and autosaving paused. Retry retains the chosen
 save; Back disposes a failed first view and restores the prior title state.
 
@@ -134,3 +151,35 @@ work counts when available and remain indeterminate for work without a known
 total; there is no guessed global percentage or minimum waiting time. Recovery
 supports Tab, keyboard activation and controller selection, with held input
 cleared before new controls become active.
+
+## Native loading and recovery screens
+
+These screenshots show the actual application during a held landscape model
+download and an injected required-model failure. The phase count remains tied
+to decoded models; recovery retains the selected saved game.
+
+![Landscape preparation with actual model progress](loading-images/landscape-progress.png)
+
+![Failed entry with keyboard-focused Retry and Back controls](loading-images/recovery.png)
+
+## Validation
+
+The final implementation passed all 1,987 tests across 198 files, TypeScript
+checking and the production build locally. The pull request's GitHub CI also
+passed typechecking, the complete scenario suite and the build at `c9bd05ac`.
+
+Native Chromium checks restored a populated save through a held asset download,
+tab hiding, a deliberately failed required animal model and Retry. World time,
+play time and both save envelopes stayed frozen during preparation. The restored
+character, equipment, injured animal and named residents remained intact through
+Low-to-High-to-Low graphics replacement, including a hidden-tab rebuild. Retry
+refetched the failed model once; recovery Tab navigation reached both buttons.
+The injected HTTP 503 is an expected failure, separate from the error-free
+baseline and candidate performance samples.
+
+A real module-worker check compared generated albedo and normal bytes at two
+small resolutions with the synchronous implementation. At High resolution it
+produced two 33,554,432-byte arrays in 5.676 s while 341 animation frames painted,
+with a 16.8 ms maximum frame gap in that isolated texture-generation check.
+This establishes worker output parity and responsiveness during that operation;
+the complete game still has the rendering and synchronous-work limits above.
