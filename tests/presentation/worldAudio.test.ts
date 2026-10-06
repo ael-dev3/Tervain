@@ -876,7 +876,7 @@ describe('world sound runtime', () => {
       pending.push(async () => resolve(await decode(data)));
     }));
     await flush();
-    expect(pending).toHaveLength(Object.keys(WORLD_AUDIO.banks).length);
+    expect(pending).toHaveLength(Object.keys(WORLD_AUDIO.banks).length + 1); // Includes the hero's opening voice bank.
     world.dispose();
     await Promise.all(pending.map((finish) => finish()));
     await flush();
@@ -1022,6 +1022,7 @@ describe('world sound runtime', () => {
   it('speaks a line from its speaker\'s sprite on the dialogue bus, one line per speaker, with the score stepped back', async () => {
     const { ctx, world, fetched, buses } = runtime();
     await flush();
+    world.update(0.05, frame(PLACES.rillford));
     // The hero's first lines are already loaded; a resident's load when wanted (or when the player comes near).
     const [maraBank, offset, length] = VOICE_AUDIO.lines['mara.intro'];
     expect(world.speak('mara.intro')).toBe(false);
@@ -1049,6 +1050,108 @@ describe('world sound runtime', () => {
     expect(talk).toBeDefined();
     world.dispose();
     expect(world.speakers).toEqual([]);
+  });
+
+  it('shares the six-dialogue-voice cap between spoken lines and nonverbal sounds', async () => {
+    const { ctx, world } = runtime();
+    await flush();
+    const first = new Map<string, keyof typeof VOICE_AUDIO.lines>();
+    for (const [id, [, , , speaker]] of Object.entries(VOICE_AUDIO.lines)) {
+      if (!first.has(speaker)) first.set(speaker, id as keyof typeof VOICE_AUDIO.lines);
+    }
+    const lines = [...first.values()];
+    expect(lines.length).toBeGreaterThan(6);
+    world.update(0.05, frame(PLACES.rillford, { speech: lines }));
+    await flush();
+    for (const id of lines) expect(world.speak(id)).toBe(true);
+    const live = () => ctx.sources.filter((s) => s.started && !s.stopped && (s.buffer?.file?.startsWith('voice-') || s.buffer?.file === 'bank-people'));
+    expect(live()).toHaveLength(6);
+    expect(world.speakers).toHaveLength(6);
+    // Coughs use the same dialogue bus and can retire old speech too; no separate unbounded voice set.
+    for (let i = 0; i < 6; i++) expect(world.play({ clip: 'voice.cough', gain: 0.2 }, { bus: 'dialogue' })).toBe(true);
+    expect(live()).toHaveLength(6);
+    expect(world.speakers).toEqual([]);
+    world.dispose();
+    expect(ctx.sources.every((s) => !s.started || s.stopped)).toBe(true);
+  });
+
+  it.each(['menu', 'panel', 'hidden', 'dispose'] as const)('hushes speech immediately on %s and permits only a fresh line after recovery', async (transition) => {
+    const { ctx, world } = runtime();
+    await flush();
+    world.update(0.05, frame(PLACES.rillford, { speech: ['mara.intro'] }));
+    await flush();
+    expect(world.speak('mara.intro')).toBe(true);
+    const line = ctx.sources.at(-1)!;
+    if (transition === 'menu') world.update(0.001, null);
+    else if (transition === 'panel') world.update(0.001, frame(PLACES.rillford, { mode: 'paused' }));
+    else if (transition === 'hidden') world.setHidden(true);
+    else world.dispose();
+    expect(line.stopped).toBe(true);
+    expect(line.disconnect).toHaveBeenCalled();
+    expect(world.speakers).toEqual([]);
+    expect(world.speak('mara.intro')).toBe(false);
+    if (transition !== 'dispose') {
+      world.setHidden(false);
+      world.update(0.05, frame(PLACES.rillford));
+      // Ready banks are reused, but speech resumes only from a fresh request.
+      expect(world.speakers).toEqual([]);
+      expect(world.speak('mara.intro')).toBe(true);
+    }
+    world.dispose();
+  });
+
+  it.each(['menu', 'panel', 'hidden', 'dispose'] as const)('discards a voice bank whose decode settles after %s, including a quick recovery', async (transition) => {
+    const { ctx, world } = runtime();
+    await flush();
+    world.update(0.05, frame(PLACES.rillford));
+    const decode = ctx.decodeAudioData.getMockImplementation()!;
+    const pending: (() => Promise<void>)[] = [];
+    ctx.decodeAudioData.mockImplementation((data: { file: string }) => {
+      if (!data.file.includes('/audio/voice/')) return decode(data);
+      return new Promise((resolve) => pending.push(async () => resolve(await decode(data))));
+    });
+    expect(world.speak('mara.intro')).toBe(false);
+    await flush();
+    expect(pending).toHaveLength(1);
+    if (transition === 'menu') world.update(0.001, null);
+    else if (transition === 'panel') world.update(0.001, frame(PLACES.rillford, { mode: 'paused' }));
+    else if (transition === 'hidden') world.setHidden(true);
+    else world.dispose();
+    if (transition !== 'dispose') {
+      world.setHidden(false);
+      world.update(0.05, frame(PLACES.rillford));
+    }
+    await Promise.all(pending.map((finish) => finish()));
+    await flush();
+    expect(world.voiceBanksHeld).not.toContain(VOICE_AUDIO.lines['mara.intro'][0]);
+    expect(world.speakers).toEqual([]);
+    expect(ctx.sources.some((s) => s.started && s.buffer?.file?.startsWith('voice-'))).toBe(false);
+    world.dispose();
+    const held = world as unknown as { voiceBuffers: Map<string, unknown>; voiceLoads: Map<string, unknown>; voiceUsed: Map<string, unknown> };
+    expect([held.voiceBuffers.size, held.voiceLoads.size, held.voiceUsed.size]).toEqual([0, 0, 0]);
+    const requests = ctx.decodeAudioData.mock.calls.length;
+    await world.prepareVoice('hero');
+    expect(world.voiceReady('hero.arrival')).toBe(false);
+    expect(ctx.decodeAudioData).toHaveBeenCalledTimes(requests);
+  });
+
+  it.each(['allocation', 'connect'] as const)('releases partially constructed speech nodes on a panner %s failure', async (failure) => {
+    const { ctx, world } = runtime();
+    await flush();
+    world.update(0.05, frame(PLACES.rillford, { speech: ['mara.intro'] }));
+    await flush();
+    const before = ctx.nodes.length;
+    const createPanner = ctx.createPanner;
+    vi.spyOn(ctx, 'createPanner').mockImplementation(() => {
+      if (failure === 'allocation') throw new Error('panner allocation');
+      const panner = createPanner();
+      panner.connect.mockImplementation(() => { throw new Error('panner connect'); });
+      return panner;
+    });
+    expect(world.speak('mara.intro', { at: { x: 0, y: 1.7, z: 0 } })).toBe(false);
+    expect(ctx.nodes.slice(before).every((n) => n.disconnect.mock.calls.length > 0)).toBe(true);
+    expect(world.speakers).toEqual([]);
+    world.dispose();
   });
 
   it('decodes the voices of lines wanted soon, keeps them while wanted, and lets the rest go after a minute', async () => {

@@ -310,6 +310,32 @@ describe('actual application world transitions', () => {
     expect(app.player.group.position.y).toBe(0);
   });
 
+  it('cancels a pending speech chain when any world-pausing panel opens', () => {
+    const { app, call } = fixture();
+    Object.assign(app, { uiRoot: new ElementFixture('DIV'), mapView: {} });
+    Object.assign(app.player, { vx: 3, vz: 4, lastMoveSpeed: 5 });
+    call('buildShell');
+    const opened = Reflect.get(app.panels, 'onOpen') as () => void;
+    opened();
+    expect(app.speech.clear).toHaveBeenCalledOnce();
+    expect(app.player).toMatchObject({ vx: 0, vz: 0, lastMoveSpeed: 0 });
+    expect(app.input.uiOpen).toBe(true);
+  });
+
+  it('cancels a pending speech chain before the title or death transition', () => {
+    const { app, call } = fixture();
+    const death = vi.fn();
+    Object.assign(app, { audio: { death }, buildTitle: vi.fn(), focusTitle: vi.fn() });
+    call('enterTitle');
+    expect(app.speech.clear).toHaveBeenCalledOnce();
+    expect(app.mode).toBe('title');
+    app.mode = 'play';
+    call('onPlayerDeath');
+    expect(app.speech.clear).toHaveBeenCalledTimes(2);
+    expect(death).toHaveBeenCalledOnce();
+    expect(app.mode).toBe('dead');
+  });
+
   it('does not request pointer lock from the title, a modal, or a world rebuild', () => {
     const { app, canvas, call } = fixture();
     app.mode = 'title'; call('wantLock');
@@ -334,6 +360,7 @@ describe('actual application world transitions', () => {
     input.captureNext = vi.fn(); input.captureCancel = vi.fn();
     call('applySettings', true);
     expect(Reflect.get(app, 'audio').pauseWorld).toHaveBeenCalledOnce();
+    expect(app.speech.clear).toHaveBeenCalledOnce();
     expect(oldWorld.dispose).toHaveBeenCalledOnce();
     expect(input.captureNext).toBeNull(); expect(input.captureCancel).toBeNull();
     expect(app.panels.el.inert).toBe(true);
@@ -361,6 +388,7 @@ describe('actual application world transitions', () => {
 
     button.click(); button.click();
     expect(Reflect.get(app, 'audio').pauseWorld).toHaveBeenCalledTimes(2);
+    expect(app.speech.clear).toHaveBeenCalledTimes(2);
     expect(create).toHaveBeenCalledTimes(2);
     expect(oldWorld.dispose).toHaveBeenCalledOnce();
     const recovered = nextWorld();
@@ -444,6 +472,17 @@ describe('actual application world transitions', () => {
     expect(requestAnimationFrame).toHaveBeenCalledOnce();
     expect(app.mode).toBe('title');
     expect(app.loadingEl.classList.contains('off')).toBe(true);
+    const visibility = document.addEventListener.mock.calls.find(([name]) => name === 'visibilitychange')?.[1] as (() => void) | undefined;
+    expect(visibility).toBeTypeOf('function');
+    app.speech.clear.mockClear();
+    Reflect.set(app, 'autosaveQuiet', vi.fn());
+    document.visibilityState = 'hidden';
+    visibility!();
+    expect(app.speech.clear).toHaveBeenCalledOnce();
+    expect(audio.setPageHidden).toHaveBeenLastCalledWith(true);
+    document.visibilityState = 'visible';
+    visibility!();
+    expect(app.speech.clear).toHaveBeenCalledOnce();
   });
 
   it.each([['26.2', 26.2], ['Infinity', undefined], ['bad', undefined]] as const)('passes only a finite shot feet hint (%s) to height-aware placement', (hint, expected) => {

@@ -226,6 +226,7 @@ export class App {
       this.audio.setPageHidden(hidden);
       this.input.reset();
       if (hidden) {
+        this.speech.clear();
         this.autosaveQuiet();
         if (this.mode === 'play' && this.overlay === 'none' && !this.bench.active) this.openPause();
       }
@@ -323,6 +324,7 @@ export class App {
       this.syncMenuHudVisibility();
     };
     this.panels.onOpen = () => {
+      this.speech.clear();
       this.titleEl.inert = true;
       this.input.uiOpen = true;
       this.player.vx = this.player.vz = this.player.lastMoveSpeed = 0;
@@ -431,6 +433,7 @@ export class App {
   }
 
   private pauseForWorldBuild() {
+    this.speech.clear();
     if (!this.worldPaused) this.rebuildFocus = document.activeElement as HTMLElement | null;
     this.audio.pauseWorld();
     this.worldBuildFailed = false;
@@ -571,6 +574,7 @@ export class App {
   private enterTitle() {
     // Returning from pause to the title is a fresh launch even though both screens use the menu scene.
     this.menuVisitActive = false;
+    this.speech.clear();
     this.world.physics.release();
     this.mode = 'title';
     this.hud.show(false);
@@ -1710,6 +1714,7 @@ export class App {
   }
 
   private onPlayerDeath() {
+    this.speech.clear();
     this.world.physics.release();
     this.audio.death();
     this.mode = 'dead';

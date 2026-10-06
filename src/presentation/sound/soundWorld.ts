@@ -100,6 +100,7 @@ interface Voice {
   nodes: AudioNode[];
   bus: Bus;
   started: number;
+  speaker?: string;
 }
 
 interface Bed {
@@ -235,7 +236,9 @@ export class SoundWorld {
   private readonly voiceUsed = new Map<VoiceBank, number>();
   private voiceSweep = 0;
   /** Each speaker says one thing at a time. */
-  private readonly speaking = new Map<string, { source: AudioBufferSourceNode; nodes: AudioNode[] }>();
+  private readonly speaking = new Map<string, Voice>();
+  private speechEpoch = 0;
+  private speechActive = false;
   private readonly people = new Map<string, PersonClock>();
   private readonly foes = new Map<string, { state: string; x: number; z: number; walked: number }>();
   private readonly objects = new Map<string, { speed: number; cooldown: number }>();
@@ -399,12 +402,16 @@ export class SoundWorld {
   }
 
   private loadVoiceBank(bank: VoiceBank): Promise<void> {
+    if (this.disposed || this.hidden) return Promise.resolve();
     this.voiceUsed.set(bank, this.clock);
+    if (this.voiceBuffers.has(bank)) return Promise.resolve();
     let p = this.voiceLoads.get(bank);
     if (!p) {
+      const epoch = this.speechEpoch;
       p = this.decode(VOICE_AUDIO.banks[bank].file, VOICE_AUDIO.base).then((buffer) => {
-        if (buffer && this.voiceLoads.get(bank) === p) this.voiceBuffers.set(bank, buffer);
-        else if (!buffer) this.voiceLoads.delete(bank);
+        if (this.voiceLoads.get(bank) !== p) return;
+        this.voiceLoads.delete(bank);
+        if (buffer && !this.disposed && !this.hidden && epoch === this.speechEpoch) this.voiceBuffers.set(bank, buffer);
       });
       this.voiceLoads.set(bank, p);
     }
@@ -419,6 +426,7 @@ export class SoundWorld {
 
   /** True when a line can start now; false while its bank is still on its way (it is requested). */
   voiceReady(id: VoiceLineId): boolean {
+    if (this.disposed || !this.speechActive || this.hidden) return false;
     const bank = VOICE_AUDIO.lines[id][0];
     if (this.voiceBuffers.has(bank)) return true;
     void this.loadVoiceBank(bank);
@@ -431,7 +439,7 @@ export class SoundWorld {
    * the line's bank has not loaded yet.
    */
   speak(id: VoiceLineId, opt: { at?: Vec3 } = {}): boolean {
-    if (this.disposed || this.ctx.state === 'closed') return false;
+    if (this.disposed || !this.speechActive || this.hidden || this.ctx.state === 'closed') return false;
     const [bank, offset, length, speaker] = VOICE_AUDIO.lines[id];
     const buffer = this.voiceBuffers.get(bank);
     if (!buffer) {
@@ -439,18 +447,23 @@ export class SoundWorld {
       return false;
     }
     this.voiceUsed.set(bank, this.clock);
+    const nodes: AudioNode[] = [];
+    let voice: Voice | null = null;
     try {
       this.hush(speaker);
+      this.makeRoom('dialogue');
       const ctx = this.ctx;
       const source = ctx.createBufferSource();
+      nodes.push(source);
       source.buffer = buffer;
       const gain = ctx.createGain();
+      nodes.push(gain);
       gain.gain.value = 1;
       source.connect(gain);
-      const nodes: AudioNode[] = [source, gain];
       let tail: AudioNode = gain;
       if (opt.at) {
         const panner = ctx.createPanner();
+        nodes.push(panner);
         panner.panningModel = 'equalpower';
         panner.distanceModel = 'inverse';
         // Speech carries a little further than a footfall before it begins to fall away.
@@ -460,28 +473,29 @@ export class SoundWorld {
         placeAt(panner, opt.at);
         tail.connect(panner);
         tail = panner;
-        nodes.push(panner);
       }
       tail.connect(this.buses.dialogue);
       if (opt.at) {
         // A little of the place's air on a voice out in the world.
         const send = ctx.createGain();
+        nodes.push(send);
         send.gain.value = 0.1;
         tail.connect(send);
         for (const r of this.reverbs) send.connect(r.send);
-        nodes.push(send);
       }
-      const v = { source, nodes };
-      this.speaking.set(speaker, v);
-      source.onended = () => {
-        if (this.speaking.get(speaker) === v) this.speaking.delete(speaker);
-        for (const n of nodes) quietly(() => n.disconnect());
-        this.duckForSpeech();
-      };
+      voice = { source, nodes, speaker, bus: 'dialogue', started: ctx.currentTime };
+      this.speaking.set(speaker, voice);
+      this.voices.add(voice);
+      const held = voice;
+      source.onended = () => this.release(held);
       source.start(ctx.currentTime, offset, length);
       this.duckForSpeech();
       return true;
     } catch {
+      if (voice) {
+        quietly(() => voice!.source.stop());
+        this.release(voice);
+      } else for (const n of nodes) quietly(() => n.disconnect());
       return false;
     }
   }
@@ -508,10 +522,16 @@ export class SoundWorld {
   hush(speaker: string) {
     const v = this.speaking.get(speaker);
     if (!v) return;
-    this.speaking.delete(speaker);
     quietly(() => v.source.stop());
-    for (const n of v.nodes) quietly(() => n.disconnect());
-    this.duckForSpeech();
+    this.release(v);
+  }
+
+  private cancelSpeech() {
+    this.speechEpoch++;
+    // Decoding cannot be aborted, but an old result must neither play nor retain a stale bank.
+    for (const bank of this.voiceLoads.keys()) if (!this.voiceBuffers.has(bank)) this.voiceUsed.delete(bank);
+    this.voiceLoads.clear();
+    for (const speaker of [...this.speaking.keys()]) this.hush(speaker);
   }
 
   /** Who is speaking now (for the developer panel and the browser review). */
@@ -620,7 +640,9 @@ export class SoundWorld {
   private release(v: Voice) {
     this.stings.delete(v);
     if (!this.voices.delete(v)) return;
+    if (v.speaker && this.speaking.get(v.speaker) === v) this.speaking.delete(v.speaker);
     for (const n of v.nodes) quietly(() => n.disconnect());
+    if (v.speaker) this.duckForSpeech();
   }
 
   /** Keep each bus within its voice budget by ending its oldest voice. */
@@ -647,6 +669,9 @@ export class SoundWorld {
     // Invalidate pending decodes immediately, including menu frames below the 20 Hz cadence.
     if (!frame && this.worldActive) this.cancelStings();
     this.worldActive = !!frame;
+    const speechActive = frame?.mode === 'play' && !this.hidden;
+    if (!speechActive && (this.speechActive || this.voiceLoads.size > 0)) this.cancelSpeech();
+    this.speechActive = speechActive;
     try {
       this.clock += dt;
       if (frame) {
@@ -659,7 +684,7 @@ export class SoundWorld {
         // Fights and knocks are timed to the frame; the rest of the world is checked twenty times a second.
         if (frame.mode === 'play') this.updateEnemies(frame);
         if (frame.mode !== 'paused') this.updateProps(dt, frame);
-        for (const id of frame.speech ?? []) {
+        for (const id of this.speechActive ? frame.speech ?? [] : []) {
           const line = VOICE_AUDIO.lines[id as VoiceLineId];
           if (line) void this.loadVoiceBank(line[0]);
         }
@@ -1225,7 +1250,7 @@ export class SoundWorld {
         const gain = this.ctx.createGain();
         nodes.push(gain);
         gain.gain.value = 0.8;
-        source.connect(gain).connect(this.buses.music);
+        source.connect(gain).connect(this.talk);
         voice = { source, nodes, bus: 'music', started: this.ctx.currentTime };
         this.voices.add(voice);
         this.stings.add(voice);
@@ -1263,7 +1288,10 @@ export class SoundWorld {
     if (hidden && !this.hidden) this.stingEpoch++;
     this.hidden = hidden;
     if (hidden) for (const media of this.retiringMedia) media.pause();
-    if (hidden) for (const speaker of [...this.speaking.keys()]) this.hush(speaker);
+    if (hidden) {
+      this.cancelSpeech();
+      this.speechActive = false;
+    } else this.speechActive = this.worldActive && this.lastFrame?.mode === 'play';
     for (const media of [this.piece?.media, this.song?.media]) {
       if (!media) continue;
       if (hidden) {
@@ -1283,6 +1311,8 @@ export class SoundWorld {
     if (this.disposed) return;
     this.disposed = true;
     this.cancelStings();
+    this.cancelSpeech();
+    this.speechActive = false;
     // A fading stream/loop has left its current handle but still belongs to this world.
     for (const finish of [...this.retirements.values()]) quietly(finish);
     this.retirements.clear();
@@ -1326,5 +1356,7 @@ export class SoundWorld {
     this.musicLoads.clear();
     this.pendingMedia.clear();
     this.voiceBuffers.clear();
+    this.voiceLoads.clear();
+    this.voiceUsed.clear();
   }
 }
