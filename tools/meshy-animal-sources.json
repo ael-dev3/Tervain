@@ -1,0 +1,157 @@
+{
+  "schemaVersion": 1,
+  "triangleBudget": 50000,
+  "targetTriangles": 46000,
+  "coordinateContract": {
+    "up": "+Y",
+    "forward": "+Z",
+    "units": "meters",
+    "origin": "ground-centered",
+    "rootMotion": false
+  },
+  "animals": [
+    {
+      "id": "1005232739",
+      "species": "tiger",
+      "sourceFilename": "Meshy_AI_tiger_1005232739_texture.glb",
+      "height": 1.2,
+      "sourceContactCleanup": "closed separation of touching fore/hind toes; source paws retained",
+      "sourceContactRepair": {
+        "min": [
+          -0.23,
+          -0.02,
+          -0.137
+        ],
+        "max": [
+          0.035,
+          0.26,
+          -0.123
+        ],
+        "bevel": 0.003,
+        "componentHeight": 0.3,
+        "componentOrder": [
+          "hindL",
+          "hindR",
+          "frontR",
+          "frontL"
+        ]
+      }
+    },
+    {
+      "id": "1005232726",
+      "species": "lion",
+      "sourceFilename": "Meshy_AI_Lion_1005232726_texture.glb",
+      "height": 1.3
+    },
+    {
+      "id": "1005170943",
+      "species": "bear",
+      "sourceFilename": "Meshy_AI__bear_1005170943_texture.glb",
+      "height": 1.5
+    },
+    {
+      "id": "1005232657",
+      "species": "bear",
+      "sourceFilename": "Meshy_AI_Bear__1005232657_texture.glb",
+      "height": 1.5
+    },
+    {
+      "id": "1005232644",
+      "species": "wolf",
+      "sourceFilename": "Meshy_AI_Wolf_1005232644_texture.glb",
+      "height": 0.95
+    },
+    {
+      "id": "1005232637",
+      "species": "wolf",
+      "sourceFilename": "Meshy_AI_Wolf_1005232637_texture.glb",
+      "height": 0.95
+    },
+    {
+      "id": "1005232631",
+      "species": "wolf",
+      "sourceFilename": "Meshy_AI_wolf_1005232631_texture.glb",
+      "height": 0.95
+    },
+    {
+      "id": "1005232619",
+      "species": "cat",
+      "sourceFilename": "Meshy_AI_cat_1005232619_texture.glb",
+      "height": 0.4
+    },
+    {
+      "id": "1005232608",
+      "species": "cat",
+      "sourceFilename": "Meshy_AI_cat_1005232608_texture.glb",
+      "height": 0.47,
+      "restPose": "seated"
+    },
+    {
+      "id": "1005232556",
+      "species": "cat",
+      "sourceFilename": "Meshy_AI_cat_1005232556_texture.glb",
+      "height": 0.4
+    },
+    {
+      "id": "1005232529",
+      "species": "dog",
+      "sourceFilename": "Meshy_AI_dog_1005232529_texture.glb",
+      "height": 0.8
+    },
+    {
+      "id": "1005232511",
+      "species": "dog",
+      "sourceFilename": "Meshy_AI_dog_1005232511_texture.glb",
+      "height": 0.8
+    },
+    {
+      "id": "1005232450",
+      "species": "boar",
+      "sourceFilename": "Meshy_AI_Wild_Boar_1005232450_texture.glb",
+      "height": 1.0
+    },
+    {
+      "id": "1005232442",
+      "species": "boar",
+      "sourceFilename": "Meshy_AI_boar_1005232442_texture.glb",
+      "height": 1.0
+    },
+    {
+      "id": "1005174818",
+      "species": "boar",
+      "sourceFilename": "Meshy_AI_BOAR_1005174818_texture.glb",
+      "height": 1.0
+    },
+    {
+      "id": "1005232424",
+      "species": "deer",
+      "sourceFilename": "Meshy_AI_Red_Deer_Stag_1005232424_texture.glb",
+      "height": 2.25
+    },
+    {
+      "id": "1005232412",
+      "species": "deer",
+      "sourceFilename": "Meshy_AI_Deer_Mount_1005232412_texture.glb",
+      "height": 2.25,
+      "details": "source saddle and tack preserved"
+    },
+    {
+      "id": "1005232351",
+      "species": "deer",
+      "sourceFilename": "Meshy_AI_Deer_1005232351_texture.glb",
+      "height": 2.25,
+      "upperThighPelvisBlend": {
+        "startHeight": 0.19,
+        "endHeight": 0.27,
+        "pelvisShare": 0.85
+      },
+      "runStyle": "brisk-trot"
+    },
+    {
+      "id": "1005232341",
+      "species": "deer",
+      "sourceFilename": "Meshy_AI_Deer_1005232341_texture.glb",
+      "height": 2.25
+    }
+  ]
+}
