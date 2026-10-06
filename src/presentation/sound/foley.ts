@@ -164,6 +164,7 @@ export interface WorkSound {
 const WORK: Record<WorkGesture, WorkSound | null> = {
   general: { clip: 'work.sweep', every: [0.9, 1.4], burst: [3, 6], rest: [5, 12], gain: 0.3 },
   mending: { clip: 'work.hammer', every: [0.55, 0.9], burst: [3, 7], rest: [3, 9], gain: 0.38 },
+  provisioning: { clip: 'item.cloth', every: [2.5, 4], burst: [2, 4], rest: [4, 9], gain: 0.18 },
   measuring: { clip: 'item.page', every: [7, 14], gain: 0.22 },
   ledger: { clip: 'item.page', every: [8, 16], gain: 0.22 },
   writing: { clip: 'work.quill', every: [6, 11], gain: 0.28 },

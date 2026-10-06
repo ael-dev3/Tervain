@@ -161,9 +161,24 @@ export const FOREST_WAYMARKERS: (V2 & { yaw: number })[] = [
 /** Low, roofless roadside remains, with a south entrance and a missing north wall. */
 export const FOREST_RUIN = { x: -180, z: -22, hx: 5.5, hz: 4, yaw: 0.15, r: 8.5 } as const;
 
+/** A working game camp supplies Rillford from a dry pocket south of the woodland track. */
+export const HUNTER_CAMP = {
+  x: -216, z: 31, yaw: Math.PI,
+  shelter: { x: -4.3, z: -2.5, width: 3.6, depth: 3.2, frontHeight: 2.45, backHeight: 1.65 },
+  dryingRack: { x: 3.7, z: -3.8, width: 2.8, height: 2.08 },
+  worker: { x: 1.75, z: 0 },
+} as const;
+
+export function hunterCampPoint(localX: number, localZ: number): V2 {
+  const c = Math.cos(HUNTER_CAMP.yaw), s = Math.sin(HUNTER_CAMP.yaw);
+  return { x: HUNTER_CAMP.x + localX * c + localZ * s, z: HUNTER_CAMP.z - localX * s + localZ * c };
+}
+
 export const ROADS: RoadSpec[] = [
   { width: ARRIVAL_TRAIL_WIDTH, points: ARRIVAL_ROUTE.slice(0, 7) },
   { width: ARRIVAL_TRAIL_WIDTH, points: ARRIVAL_ROUTE.slice(6) },
+  // A narrow work path branches into the camp; the main arrival route stays unobstructed.
+  { width: 1.6, points: [{ x: -218, z: 18 }, { x: -218, z: 24 }, { x: -216, z: 28 }] },
   // A continuous worn-earth keeper's trail with a graded climb and level doorway forecourt.
   { width: LANTERN_TRAIL_WIDTH, points: LANTERN_ROUTE },
   // Inland waystation lanes join the main trail instead of ending at empty coastal props.
@@ -261,6 +276,12 @@ export interface Anchor extends V2 {
 const a = (p: V2, yaw = 0): Anchor => ({ x: p.x, z: p.z, yaw });
 
 export const ANCHORS: Record<string, Anchor> = {
+  // The supplier stands beside the counter, leaving its front and the woodland track open.
+  hunter_station: a(hunterCampPoint(HUNTER_CAMP.worker.x, HUNTER_CAMP.worker.z), Math.PI / 2),
+  hunter_shelter: a({ x: -211, z: 30 }, HUNTER_CAMP.yaw),
+  hunter_shelter_structure: a(hunterCampPoint(HUNTER_CAMP.shelter.x, HUNTER_CAMP.shelter.z), HUNTER_CAMP.yaw),
+  hunter_drying_rack: a(hunterCampPoint(HUNTER_CAMP.dryingRack.x, HUNTER_CAMP.dryingRack.z), HUNTER_CAMP.yaw),
+  hunter_camp_counter: a(hunterCampPoint(0, 0), HUNTER_CAMP.yaw),
   arrival_sign: a(ARRIVAL_SIGN),
   overlook_wagon: a({ x: -93, z: 22 }, 1.2),
   village_square: a({ x: 3, z: 9 }, 0),
@@ -330,12 +351,25 @@ export const INSPECT_LOCATIONS: WorldPoint[] = [
 ];
 
 /** Hunting gear is found just off the early woodland trail; hides buy replacement arrows here. */
-export const HUNTER_SUPPLY = { x: -229, z: 29, r: 3 } as const;
+export const HUNTER_SUPPLY = { x: HUNTER_CAMP.x, z: HUNTER_CAMP.z, r: 3 } as const;
 
-export const PICKUP_LOCATIONS: (WorldPoint & { item: ItemId; qty: number; nameKey: string; yaw?: number })[] = [
-  { id: 'hunter_bow', x: HUNTER_SUPPLY.x - .5, z: HUNTER_SUPPLY.z, r: 2.4, item: 'hunting_bow', qty: 1, nameKey: 'pickup.hunter_bow', yaw: .7 },
-  { id: 'hunter_knife', x: HUNTER_SUPPLY.x + .5, z: HUNTER_SUPPLY.z, r: 2.4, item: 'skinning_knife', qty: 1, nameKey: 'pickup.hunter_knife', yaw: -.4 },
-  { id: 'hunter_arrows', x: HUNTER_SUPPLY.x, z: HUNTER_SUPPLY.z + 1, r: 2.4, item: 'arrow', qty: 24, nameKey: 'pickup.hunter_arrows', yaw: .3 },
+/** A level worktop with terrain-fitted legs; pickups share this exact support plane. */
+export const HUNTER_TABLE = {
+  yaw: HUNTER_CAMP.yaw, width: 2.4, depth: 1.55, topAboveFooting: 1.02, topThickness: 0.09,
+  legX: 0.99, legZ: 0.57, legWidth: 0.12,
+  signX: 0, signZ: -1.13, signCentreAboveTop: 0.72,
+  signWidth: 1.38, signHeight: 0.60, signDepth: 0.07,
+} as const;
+
+/** Hunter station local coordinates use the same transform as its solid table and board. */
+export function hunterStationPoint(localX: number, localZ: number): V2 {
+  return hunterCampPoint(localX, localZ);
+}
+
+export const PICKUP_LOCATIONS: (WorldPoint & { item: ItemId; qty: number; nameKey: string; yaw?: number; support?: 'hunter_table' })[] = [
+  { id: 'hunter_bow', ...hunterStationPoint(-.64, 0), r: 2.4, item: 'hunting_bow', qty: 1, nameKey: 'pickup.hunter_bow', yaw: HUNTER_TABLE.yaw, support: 'hunter_table' },
+  { id: 'hunter_knife', ...hunterStationPoint(.58, -.36), r: 2.4, item: 'skinning_knife', qty: 1, nameKey: 'pickup.hunter_knife', yaw: HUNTER_TABLE.yaw + .22, support: 'hunter_table' },
+  { id: 'hunter_arrows', ...hunterStationPoint(.55, .30), r: 2.4, item: 'arrow', qty: 24, nameKey: 'pickup.hunter_arrows', yaw: HUNTER_TABLE.yaw - .13, support: 'hunter_table' },
   { id: 'quarry_brace', x: 90, z: -12, r: 2.6, item: 'sluice_brace', qty: 1, nameKey: 'pickup.brace' },
   { id: 'quarry_wrench', x: 91.6, z: -13, r: 2.6, item: 'gate_wrench', qty: 1, nameKey: 'pickup.wrench' },
   { id: 'side_path_cache', x: 112, z: 62, r: 3, item: 'coin', qty: 8, nameKey: 'pickup.cache' },

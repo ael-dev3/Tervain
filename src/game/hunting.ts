@@ -24,9 +24,11 @@ export const ANIMAL_SPECIES: Record<AnimalId, AnimalSpecies> = {
   'boar-a': 'boar', 'boar-b': 'boar', stag: 'stag', 'deer-mount': 'deer',
   'cat-c': 'cat', 'boar-c': 'boar', 'deer-a': 'deer', 'deer-b': 'deer',
 };
-/** Settlement companions remain peaceful and never become hunt objectives or harvests. */
+/** Pets and the saddled caravan companion are never targets, objectives or harvests.
+ * Individual protection is explicit: the other three deer remain wild game. */
+export const PROTECTED_ANIMAL_IDS = ['cat-a', 'dog-a', 'dog-b', 'cat-b', 'deer-mount', 'cat-c'] as const satisfies readonly AnimalId[];
 export const HUNTABLE_ANIMAL_IDS: readonly AnimalId[] = ANIMAL_IDS.filter(id =>
-  ANIMAL_SPECIES[id] !== 'cat' && ANIMAL_SPECIES[id] !== 'dog');
+  !(PROTECTED_ANIMAL_IDS as readonly AnimalId[]).includes(id));
 
 export interface AnimalPosition { x: number; y: number; z: number }
 export interface AnimalHit {
@@ -52,7 +54,14 @@ export const SKINNING_REACH = 2.8;
 export const SKINNING_SECONDS = 3.2;
 export const ARROW_RESTOCK_AMOUNT = 6;
 export const ARROW_QUIVER_CAPACITY = 40;
+export const HUNTER_MEAT_PRICE = 2;
 export const HUNTER_SUPPLY_POSITION = HUNTER_SUPPLY;
+
+/** Rowan's trade is a working service, available while he is awake at camp. */
+export function hunterTradingOpen(s: WorldState): boolean {
+  const hour = ((s.clock % 1440) + 1440) % 1440 / 60;
+  return hour >= 6 && hour < 22 && s.npcs.trail_hunter.available;
+}
 
 const object = (value: unknown): value is Record<string, unknown> => typeof value === 'object' && value !== null && !Array.isArray(value);
 const finite = (value: unknown): value is number => typeof value === 'number' && Number.isFinite(value);
@@ -77,7 +86,8 @@ export function normalizeAnimalYaw(yaw: number): number {
   return ((yaw + Math.PI) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI) - Math.PI;
 }
 
-/** Missing older-save records mean living wildlife; malformed entries cannot enter the renderer. */
+/** Missing older-save records mean living wildlife. Records for protected companions are
+ * discarded, reviving mounts accidentally wounded or harvested in the original 0.0.13 build. */
 export function normalizeHunting(raw: unknown): HuntingState {
   if (!object(raw)) return {};
   const hunting: HuntingState = {};
@@ -101,6 +111,7 @@ export function normalizeHunting(raw: unknown): HuntingState {
 
 const MEAT_YIELD: Record<AnimalSpecies, number> = { bear: 4, lion: 3, tiger: 3, wolf: 2, cat: 1, dog: 2, boar: 4, stag: 4, deer: 3 };
 export function animalLoot(id: AnimalId): { animal_hide: number; raw_meat: number } {
+  if (!isHuntableAnimalId(id)) return { animal_hide: 0, raw_meat: 0 };
   return { animal_hide: 1, raw_meat: MEAT_YIELD[ANIMAL_SPECIES[id]] };
 }
 

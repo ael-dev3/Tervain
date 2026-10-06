@@ -9,7 +9,7 @@ import { createFloraPopulation, registerFloraColliders } from '../../src/present
 import { createScatterPopulation, registerScatterColliders } from '../../src/presentation/scatterPopulation';
 import { Exclusions } from '../../src/presentation/vegetation';
 import { buildStaticColliders } from '../../src/world/colliders';
-import { ANCHORS, ARRIVAL_ROUTE, ARRIVAL_SIGN, ARRIVAL_TRAIL_WIDTH, ARRIVAL_WRECK, BUILDINGS, DECKS, FOREST_HILLS, FOREST_REGION, FOREST_RUIN, FOREST_SWALE, FOREST_WAYMARKERS, HAMLET_PROPS, INLAND_HAMLET, INSPECT_LOCATIONS, PALISADE, PLACES, ROADS, SPAWN, WAGON, type V2 } from '../../src/world/layout';
+import { ANCHORS, ARRIVAL_ROUTE, ARRIVAL_SIGN, ARRIVAL_TRAIL_WIDTH, ARRIVAL_WRECK, BUILDINGS, DECKS, FOREST_HILLS, FOREST_REGION, FOREST_RUIN, FOREST_SWALE, FOREST_WAYMARKERS, HAMLET_PROPS, INLAND_HAMLET, INSPECT_LOCATIONS, LANTERN_ROUTE, PALISADE, PLACES, ROADS, SPAWN, WAGON, type V2 } from '../../src/world/layout';
 import { shoreDistance } from '../../src/world/coast';
 import { deepwoodCover } from '../../src/world/forest';
 import { NavGrid } from '../../src/world/nav';
@@ -133,11 +133,17 @@ describe('quiet landing and deepwood arrival', () => {
     }
   });
 
-  it('keeps every occupied building and scheduled NPC beyond a real woodland walk', () => {
+  it('keeps settlements beyond the woodland walk, with one requested roadside hunter', () => {
     const distance = (p: V2) => Math.hypot(p.x - SPAWN.x, p.z - SPAWN.z);
     expect(BUILDINGS.every((building) => distance(building) > 145)).toBe(true);
-    const scheduled = NPC_LIST.flatMap((npc) => [npc.home, ...npc.schedule.map((entry) => entry.anchor), ...(npc.overrides ?? []).map((entry) => entry.anchor)]);
+    const scheduled = NPC_LIST.filter((npc) => npc.id !== 'trail_hunter').flatMap((npc) => [npc.home, ...npc.schedule.map((entry) => entry.anchor), ...(npc.overrides ?? []).map((entry) => entry.anchor)]);
     expect(scheduled.every((id) => distance(ANCHORS[id]!) > 150)).toBe(true);
+    const hunter = NPC_LIST.find((npc) => npc.id === 'trail_hunter')!;
+    expect(hunter.home).toBe('hunter_shelter');
+    expect(hunter.schedule.every((entry) => ['hunter_station', 'hunter_shelter'].includes(entry.anchor))).toBe(true);
+    expect(distance(ANCHORS[hunter.home]!)).toBeGreaterThan(35);
+    expect(distance(ANCHORS[hunter.home]!)).toBeLessThan(150);
+    expect(deepwoodCover(ANCHORS[hunter.home]!.x, ANCHORS[hunter.home]!.z)).toBeGreaterThan(.3);
     expect(distance(WAGON)).toBeGreaterThan(150);
     const residents = colliders.all.filter((collider) => collider.id.startsWith('ambient:'));
     expect(residents).toHaveLength(3);
@@ -172,7 +178,10 @@ describe('quiet landing and deepwood arrival', () => {
 
   it('marks the actual coast/woodland fork with a grounded sign outside the clear arrival lane', () => {
     const junction = ARRIVAL_ROUTE[0]!;
-    expect(ROADS[2]!.points[0]).toEqual(junction);
+    const lanternRoad = ROADS.find((road) => road.points.length === LANTERN_ROUTE.length
+      && road.points.every((point, index) => point.x === LANTERN_ROUTE[index]!.x && point.z === LANTERN_ROUTE[index]!.z));
+    expect(lanternRoad).toBeDefined();
+    expect(lanternRoad!.points[0]).toEqual(junction);
     expect(nav.findPath(SPAWN, { x: ARRIVAL_SIGN.x, z: ARRIVAL_SIGN.z - 1.8 })).not.toBeNull();
     expect(colliders.blocked(ARRIVAL_SIGN.x, ARRIVAL_SIGN.z, 0.55)).toBe(true);
     expect(distToPolyline(ARRIVAL_SIGN.x, ARRIVAL_SIGN.z, ARRIVAL_ROUTE).d).toBeGreaterThan(ARRIVAL_TRAIL_WIDTH / 2 + 1);

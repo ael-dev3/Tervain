@@ -1246,6 +1246,14 @@ export class App {
     else this.audio.pickup();
   }
 
+  sellGameMeat() {
+    if (this.mode !== 'play' || this.overlay !== 'none' || this.worldPaused || !this.noThreatNear()) return;
+    this.game.setPlayerTransform(this.player.x, this.player.y, this.player.z, this.player.yaw);
+    const result = this.game.dispatch({ t: 'sellGameMeat' });
+    if (!result.ok) this.hud.toast(S(`hunting.${result.reason}`), 'bad');
+    else this.audio.pickup();
+  }
+
   /* ========================= silent observation ========================= */
 
   /**
@@ -1695,12 +1703,15 @@ export class App {
   }
 
   /** A remark (a line in voice.ts), voiced from where the person stands, with its words above their head. */
-  bark(a: NpcActor, line: string) {
+  bark(a: NpcActor, line: string): boolean {
+    if (a.def.approachGreeting && this.audio.speechPlaybackPending) return false;
     const text = VOICE_LINES[line]?.text;
-    if (!text || this.speech.busyFor(a.id) > 0) return;
+    if (!text || this.speech.busyFor(a.id) > 0) return false;
     const p = a.headPosition;
     const seconds = this.speech.remark(a.id, line, { x: p.x, y: p.y, z: p.z });
-    if (seconds > 0) this.bubbleState.set(a.id, { text: shown(text), until: performance.now() + Math.max(3600, seconds * 1000 + 800) });
+    if (seconds <= 0) return false;
+    this.bubbleState.set(a.id, { text: shown(text), until: performance.now() + Math.max(3600, seconds * 1000 + 800) });
+    return true;
   }
 
   private playerContext(controllable: boolean) {

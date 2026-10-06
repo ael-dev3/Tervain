@@ -61,6 +61,7 @@ const quarryWorking: Cond = { t: 'any', c: [alloc('quarry'), alloc('rotation')] 
 const L = (speaker: Speaker, text: string): VoiceLine => ({ speaker, text });
 
 export const VOICE_LINES: Record<string, VoiceLine> = {
+  'rowan.bark.supplies': L('trail_hunter', "Rillford's pots are running thin. Take a bow from the bench if you need one. Bring back meat and I'll pay a fair price. Keep your hunt clear of the road."),
   /* ---- the hero ---- */
   'hero.arrival': L('hero', 'Salt in my mouth. Sand in everything. And no name to go with any of it.'),
   'hero.arrival.bell': L('hero', 'A bell, inland. Somebody is in trouble. Might as well be me who answers.'),
@@ -431,6 +432,7 @@ export const TALKS: Talk[] = [
   { npc: 'village_baker', ask: 'hero.ask.village', reply: 'hesper.village', when: [unsettled], again: true },
   { npc: 'village_baker', reply: 'hesper.after.rillford', when: [settled, alloc('rillford')], again: true },
   { npc: 'village_baker', reply: 'hesper.after', when: [settled, { t: 'not', c: alloc('rillford') }], again: true },
+  { npc: 'trail_hunter', reply: 'rowan.bark.supplies', again: true },
 ];
 
 /** Overheard: people near each other at work or at rest, talking between themselves. */
@@ -492,6 +494,7 @@ for (const id of Object.keys(VOICE_LINES)) {
 
 /** Display names for spoken captions. */
 export const SPEAKER_NAMES: Record<Speaker, string> = {
+  trail_hunter: 'Rowan Vale',
   hero: 'You',
   caravan_master: 'Joss Merrin',
   rillford_reeve: 'Mara Venn',

@@ -333,7 +333,7 @@ export function buildAnimals(ctx: Pick<BuildContext, 'terrain' | 'colliders' | '
   for (const [index, { definition, template, home }] of fitted.entries()) {
     const body = cloneAnimal(template, definition), root = new THREE.Group(); root.name = `${definition.species} / ${definition.id}`; root.add(body.scene);
     body.scene.traverse(object => { if ((object as THREE.Mesh).isMesh) (object as THREE.Mesh).castShadow = ctx.quality !== 'low'; });
-    const rng = mulberry32(Number(definition.id.slice(-7)) + index * 271), yaw = rng() * Math.PI * 2;
+    const rng = mulberry32(Number(definition.id.slice(-7)) + index * 271), randomYaw = rng() * Math.PI * 2, yaw = definition.homeYaw ?? randomYaw;
     root.position.set(home.x, terrain.heightAt(home.x, home.z), home.z); root.rotation.y = yaw; group.add(root);
     const state: AnimalClip = body.animation.has('Graze') ? 'Graze' : 'Idle'; body.animation.transition(state);
     const animal: AnimalInstance = { ...body, definition, root, home, yaw, state, stateTime: 0, rest: 3 + rng() * 7,
@@ -452,7 +452,7 @@ export function buildAnimals(ctx: Pick<BuildContext, 'terrain' | 'colliders' | '
         const speeds = ANIMAL_SPEEDS[animal.definition.species];
         if (animal.definition.seated) {
           if (distance < speeds.notice && animal.alertIn <= 0 && animal.state !== 'Alert') { enter(animal, 'Alert'); animal.alertIn = 14; }
-        } else if (distance < speeds.flee || animal.alarm) {
+        } else if (!animal.definition.tame && (distance < speeds.flee || animal.alarm)) {
           if (animal.planIn <= 0 && (animal.state !== 'Run' || !animal.path.length || animal.blockedFor > 0.4)) {
             if (!goal(animal, fleeingFrom, true)) { animal.path = []; enter(animal, 'Alert'); }
           }

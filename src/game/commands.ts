@@ -3,7 +3,7 @@ import { hotbarEligible, isItemId, itemAction, ITEMS } from '../content/items';
 import { APPLY_DELAY_MIN, REPORT_DELAY_MIN, REWARD_COIN, RITE_CALM_MIN, TRAINING_COST } from './constants';
 import { validQuantity, validQuickSlot } from './inventory';
 import {
-  animalLoot, ARROW_QUIVER_CAPACITY, ARROW_RESTOCK_AMOUNT, HUNTER_SUPPLY_POSITION,
+  animalLoot, ARROW_QUIVER_CAPACITY, ARROW_RESTOCK_AMOUNT, HUNTER_SUPPLY_POSITION, HUNTER_MEAT_PRICE, hunterTradingOpen,
   isAnimalId, isHuntableAnimalId, normalizeAnimalYaw, SKINNING_REACH, validAnimalHit,
   type AnimalHit,
 } from './hunting';
@@ -330,14 +330,35 @@ export function execute(s: WorldState, cmd: Command): CommandResult {
     case 'restockArrows': {
       if (s.player.health <= 0) return fail('player_dead');
       if (Math.hypot(s.player.x - HUNTER_SUPPLY_POSITION.x, s.player.z - HUNTER_SUPPLY_POSITION.z) > HUNTER_SUPPLY_POSITION.r) return fail('too_far');
+      if (!hunterTradingOpen(s)) return fail('hunter_resting');
       if (itemCount(s, 'animal_hide') < 1) return fail('need_hide');
       if (itemCount(s, 'arrow') + ARROW_RESTOCK_AMOUNT > ARROW_QUIVER_CAPACITY) return fail('arrow_quiver_full');
       s.inventory.animal_hide = itemCount(s, 'animal_hide') - 1;
       s.inventory.arrow = itemCount(s, 'arrow') + ARROW_RESTOCK_AMOUNT;
+      s.npcs.trail_hunter.met = true;
       events.push(
         { t: 'item', id: 'animal_hide', delta: -1 }, { t: 'item', id: 'arrow', delta: ARROW_RESTOCK_AMOUNT },
         { t: 'toast', key: 'hunting.restocked', params: { count: ARROW_RESTOCK_AMOUNT } },
         { t: 'autosave', reason: 'arrows_restocked' },
+      );
+      return ok();
+    }
+
+    case 'sellGameMeat': {
+      if (s.player.health <= 0) return fail('player_dead');
+      if (Math.hypot(s.player.x - HUNTER_SUPPLY_POSITION.x, s.player.z - HUNTER_SUPPLY_POSITION.z) > HUNTER_SUPPLY_POSITION.r) return fail('too_far');
+      if (!hunterTradingOpen(s)) return fail('hunter_resting');
+      const meat = itemCount(s, 'raw_meat'), coin = itemCount(s, 'coin');
+      if (meat < 1) return fail('need_meat');
+      if (!validQuantity(meat) || !validQuantity(coin + HUNTER_MEAT_PRICE)) return fail('invalid_quantity');
+      s.inventory.raw_meat = meat - 1;
+      s.inventory.coin = coin + HUNTER_MEAT_PRICE;
+      s.facts.hunter_game_delivered = true;
+      s.npcs.trail_hunter.met = true;
+      events.push(
+        { t: 'item', id: 'raw_meat', delta: -1 }, { t: 'item', id: 'coin', delta: HUNTER_MEAT_PRICE },
+        { t: 'toast', key: 'hunting.meat_sold', params: { coin: HUNTER_MEAT_PRICE } },
+        { t: 'autosave', reason: 'game_meat_delivered' },
       );
       return ok();
     }

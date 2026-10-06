@@ -65,3 +65,9 @@ This product uses the official @dimforge/rapier3d-compat 0.21.0 physics engine
 (https://github.com/dimforge/rapier), licensed under Apache-2.0. Its complete
 unmodified licence is retained in public/third-party-notices.txt above the Three.js
 MIT notice. Tervain's integration does not include Valve game code or assets.
+
+Rowan Vale’s hunter greeting was generated offline with ElevenLabs eleven_v4 on
+6 October 2026 under a generation-time verified paid Creator plan, using an
+existing original text-designed voice. Its source, processing and packaged
+hashes are recorded in docs/engineering/voice-assets.json. The recording
+remains outside the eligible software-code license and is not offered as CC.

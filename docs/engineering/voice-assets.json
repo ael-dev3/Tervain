@@ -85,6 +85,14 @@
       "description": "A warm, chatty village baker in her fifties. Round, motherly voice, quick and kind, slightly out of breath from work. Cornish English accent.",
       "designSample": "No water, no dough, my love. I have been baking with the last of the rain barrel and praying over every loaf. Take one. You look like you need it.",
       "voiceId": "EMyu53sp8CUkgojdBwWs"
+    },
+    "trail_hunter": {
+      "name": "Tervain \u00b7 Rowan Vale",
+      "description": "A caravan master around sixty. Warm, gravelly baritone; unhurried, kindly but tired. Rural northern English accent. A man who has driven wagons all his life.",
+      "designSample": "Rillford is as far as the wagon goes. The ford road washed out in the thaw, and that bell has been ringing since dawn. Walk inland, friend.",
+      "voiceId": "ckBJf856iROfdJMSmIRb",
+      "sharedDesignedVoice": "caravan_master",
+      "role": "A calm woodland hunter; shares the original text-designed rural northern English baritone used for Joss Merrin."
     }
   },
   "lines": [
@@ -12046,6 +12054,41 @@
           "path": "public/assets/audio/voice/voice-story-village_baker-5.m4a",
           "bytes": 62949,
           "sha256": "49b9c830cc747c645a27a745526469524d08671cdd7f7d82575aa7cb99b6df93"
+        }
+      ]
+    },
+    {
+      "id": "rowan.bark.supplies",
+      "set": "spoken",
+      "speaker": "trail_hunter",
+      "text": "Rillford's pots are running thin. Take a bow from the bench if you need one. Bring back meat and I'll pay a fair price. Keep your hunt clear of the road.",
+      "model": "eleven_v4",
+      "generated": "2026-10-06",
+      "transcript": "Rilford's pots are running thin. Take a bow from the bench if you need one. Bring back meat, and I'll pay a fair price. Keep your hunt clear of the road",
+      "generationEvidence": {
+        "verifiedAt": "2026-10-06T12:49:47.076008+00:00",
+        "tier": "creator",
+        "status": "active",
+        "modelListedForTextToSpeech": true,
+        "source": "Generation-time authenticated /v1/user/subscription and /v1/models check; no account identifiers or credentials retained."
+      },
+      "preparedWith": "ffmpeg version 8.1.2 Copyright (c) 2000-2026 the FFmpeg developers",
+      "source": {
+        "path": "assets/audio/source/voice/rowan.bark.supplies.mp3",
+        "bytes": 253327,
+        "sha256": "c66ebd52bbe76224a58b98e3098152dad242334be64ac35de8b5097b926a165e"
+      },
+      "levelDb": -14.8,
+      "derivatives": [
+        {
+          "path": "public/assets/audio/voice/voice-trail_hunter-1.ogg",
+          "bytes": 53837,
+          "sha256": "be5c54980c4aa9173bd6776518105ace6435c81fa5597af03f9b4a40dde432d5"
+        },
+        {
+          "path": "public/assets/audio/voice/voice-trail_hunter-1.m4a",
+          "bytes": 69139,
+          "sha256": "4942382b5a6e93dfd63a94999fa23b7c6f873291a0baa1d5dd8dc2be33094957"
         }
       ]
     }

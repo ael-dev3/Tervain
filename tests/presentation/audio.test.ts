@@ -4,6 +4,30 @@ import { AudioEngine, MENU_MUSIC_SOURCES, ambienceMix, ambienceNoise, type Ambie
 
 afterEach(() => { vi.unstubAllGlobals(); vi.useRealTimers(); });
 
+describe('approach speech readiness', () => {
+  it('waits for gesture resume and world creation, retaining silent captions for mute or device failure', () => {
+    const settings = defaultSettings();
+    const audio = new AudioEngine(() => settings);
+    expect(audio.speechPlaybackPending).toBe(true);
+    const state = audio as unknown as { ctx: { state: string }; soundWorld: unknown; worldFailed: boolean };
+    state.ctx = { state: 'suspended' };
+    expect(audio.speechPlaybackPending).toBe(true);
+    state.ctx.state = 'running';
+    expect(audio.speechPlaybackPending).toBe(true);
+    state.soundWorld = {};
+    expect(audio.speechPlaybackPending).toBe(false);
+    state.ctx.state = 'suspended';
+    settings.volumes.master = 0;
+    expect(audio.speechPlaybackPending).toBe(false);
+    settings.volumes.master = 1; settings.volumes.dialogue = 0;
+    expect(audio.speechPlaybackPending).toBe(false);
+    settings.volumes.dialogue = 1; audio.enabled = false;
+    expect(audio.speechPlaybackPending).toBe(false);
+    audio.enabled = true; state.worldFailed = true;
+    expect(audio.speechPlaybackPending).toBe(false);
+  });
+});
+
 describe('semantic audio captions', () => {
   it('delivers event captions with no audio device and all volumes muted', () => {
     vi.stubGlobal('window', {});

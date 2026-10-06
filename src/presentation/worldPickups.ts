@@ -4,6 +4,7 @@ import { WORLD, type PICKUP_LOCATIONS } from '../world/layout';
 import type { Terrain } from '../world/terrain';
 import { Ctx } from './buildKit';
 import { Region, type MatKey } from './regions';
+import { hunterTableSurfaceY } from './hunterSupplies';
 
 type PickupPoint = typeof PICKUP_LOCATIONS[number];
 type MeshLink = { mesh: THREE.InstancedMesh; index: number; matrix: THREE.Matrix4 };
@@ -140,7 +141,13 @@ function minimumGroundGap(geometry: THREE.BufferGeometry, matrix: THREE.Matrix4,
 }
 
 /** Align with the ground normal and rest the solid on the exact rendered terrain, including cuts through a face. */
-export function pickupPlacement(geometry: THREE.BufferGeometry, terrain: Pick<Terrain, 'heightAt' | 'normalAt'>, point: Pick<PickupPoint, 'x' | 'z' | 'yaw'>): THREE.Matrix4 {
+export function pickupPlacement(geometry: THREE.BufferGeometry, terrain: Pick<Terrain, 'heightAt' | 'normalAt'>, point: Pick<PickupPoint, 'x' | 'z' | 'yaw' | 'support'>): THREE.Matrix4 {
+  if (point.support === 'hunter_table') {
+    geometry.computeBoundingBox();
+    const orientation = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), point.yaw ?? 0);
+    const position = new THREE.Vector3(point.x, hunterTableSurfaceY(terrain) - geometry.boundingBox!.min.y + .0005, point.z);
+    return new THREE.Matrix4().compose(position, orientation, new THREE.Vector3(1, 1, 1));
+  }
   const normal = new THREE.Vector3(...terrain.normalAt(point.x, point.z));
   const orientation = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), normal);
   orientation.multiply(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), point.yaw ?? 0));

@@ -2,10 +2,12 @@ import { S } from '../content/strings';
 import { NPCS } from '../content/npcs';
 import type { App } from '../app';
 import { hasFact, phaseIndex } from '../game/state';
-import { ARCHIVE_SHUTTER, BELL, HUNTER_SUPPLY, INSPECT_LOCATIONS, LEDGER, MILL_WHEEL, PICKUP_LOCATIONS, RESULT_CHECKS, RITE_ALTAR, SHORTCUT, SLUICE, bySpec, frontOf } from '../world/layout';
+import { ARCHIVE_SHUTTER, BELL, HUNTER_SUPPLY, HUNTER_TABLE, hunterStationPoint, INSPECT_LOCATIONS, LEDGER, MILL_WHEEL, PICKUP_LOCATIONS, RESULT_CHECKS, RITE_ALTAR, SHORTCUT, SLUICE, bySpec, frontOf } from '../world/layout';
 import type { NpcId } from '../game/types';
 import { isWorldPickupItem, WORLD_PICKUP_MODELS } from '../content/pickups';
 import { worldPickupTargetY } from './worldPickups';
+import { hunterTableSurfaceY } from './hunterSupplies';
+import { hunterTradingOpen } from '../game/hunting';
 
 export interface Interactable {
   id: string;
@@ -28,15 +30,20 @@ export function buildInteractables(app: App): Interactable[] {
   const game = app.game;
   const st = () => game.state;
   list.push({
-    id: 'hunter_notes', pos: () => ({ x: HUNTER_SUPPLY.x + .8, z: HUNTER_SUPPLY.z + .65 }),
+    id: 'hunter_notes', pos: () => ({ ...hunterStationPoint(HUNTER_TABLE.signX, HUNTER_TABLE.signZ), y: hunterTableSurfaceY(app.world.terrain) + HUNTER_TABLE.signCentreAboveTop }),
     r: HUNTER_SUPPLY.r, prompt: () => S('prompt.hunter_supplies'), enabled: () => true,
     ignoreColliders: ['hunter_board', 'hunter_board_post'],
     act: () => app.openHuntingNotes(), priority: 1,
   });
   list.push({
-    id: 'hunter_restock', pos: () => HUNTER_SUPPLY, r: HUNTER_SUPPLY.r,
-    prompt: () => S('prompt.restock_arrows'), enabled: () => (st().inventory.animal_hide ?? 0) > 0,
+    id: 'hunter_restock', pos: () => ({ ...HUNTER_SUPPLY, y: hunterTableSurfaceY(app.world.terrain) + .12 }), r: HUNTER_SUPPLY.r,
+    prompt: () => S('prompt.restock_arrows'), enabled: () => hunterTradingOpen(st()) && (st().inventory.animal_hide ?? 0) > 0,
     act: () => app.restockArrows(), priority: -.6,
+  });
+  list.push({
+    id: 'hunter_sell_meat', pos: () => ({ ...hunterStationPoint(.7, .25), y: hunterTableSurfaceY(app.world.terrain) + .12 }), r: 2.2,
+    prompt: () => S('prompt.sell_game_meat'), enabled: () => hunterTradingOpen(st()) && (st().inventory.raw_meat ?? 0) > 0,
+    act: () => app.sellGameMeat(), priority: -.6,
   });
 
   // People.

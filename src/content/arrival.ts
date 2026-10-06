@@ -2,6 +2,7 @@ import type { NpcId } from '../game/types';
 
 /** Working original observations for the silent exploration patch, with no spoken replies. */
 export const NPC_OBSERVATIONS: Record<NpcId, string> = {
+  trail_hunter: 'observe.trail_hunter',
   caravan_master: 'observe.caravan_master',
   rillford_reeve: 'observe.rillford_reeve',
   spring_steward: 'observe.spring_steward',

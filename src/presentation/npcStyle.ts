@@ -3,7 +3,7 @@ import type { HairCut } from './human/head';
 import type { BeardStyle, Build } from './human/headShape';
 
 export type HairStyle = HairCut;
-export type WorkGesture = 'general' | 'mending' | 'measuring' | 'ledger' | 'writing' | 'stonework' | 'baking' | 'guard';
+export type WorkGesture = 'general' | 'mending' | 'provisioning' | 'measuring' | 'ledger' | 'writing' | 'stonework' | 'baking' | 'guard';
 
 export interface NpcStyle {
   /** Stable face seed, deliberately independent of clothing colours and accessories. */
@@ -21,6 +21,7 @@ export interface NpcStyle {
 
 /** Small authored details stop a wardrobe change from silently changing who a character is. */
 export const NPC_STYLES: Readonly<Record<NpcId, NpcStyle>> = {
+  trail_hunter: { faceSeed: 11213, build: 'man', hair: 'tied', beard: 'short', age: 0.58, work: 'provisioning' },
   caravan_master: { faceSeed: 1103, build: 'man', hair: 'tied', beard: 'full', age: 0.54, work: 'ledger' },
   rillford_reeve: { faceSeed: 2207, build: 'woman', hair: 'long', beard: 'none', age: 0.38, work: 'measuring' },
   spring_steward: { faceSeed: 3301, build: 'woman', hair: 'bun', beard: 'none', age: 0.82, work: 'measuring' },

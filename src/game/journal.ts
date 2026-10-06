@@ -73,6 +73,7 @@ export function buildJournal(s: WorldState): JournalView {
   if (hasFact(s, 'saw_inspection_gap')) observed.push({ id: 'obs:log', key: 'journal.obs.saw_inspection_gap' });
   if (hasFact(s, 'saw_fish_nests')) observed.push({ id: 'obs:fish', key: 'journal.obs.saw_fish_nests' });
   if (hasFact(s, 'saw_saltward_kit')) observed.push({ id: 'obs:kit', key: 'journal.obs.saw_saltward_kit' });
+  if (hasFact(s, 'hunter_game_delivered')) observed.push({ id: 'obs:game_provisions', key: 'journal.obs.game_provisions' });
 
   if (hasFact(s, 'saw_arrival_wreckage')) observed.push({ id: 'obs:arrival_wreckage', key: 'journal.obs.arrival_wreckage' });
   if (hasFact(s, 'saw_templar_waymarker')) observed.push({ id: 'obs:templar_waymarker', key: 'journal.obs.templar_waymarker' });

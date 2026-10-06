@@ -128,6 +128,16 @@ export function npcOutfit(id: NpcId, look: LookLike, seed: number): Outfit {
         belt: { color: LEATHER_DARK, metal: BRASS, pouch: LEATHER_DARK },
         ledger: worn(0x4a3222, 0.7),
       };
+    case 'trail_hunter':
+      return {
+        skin, seed, dirt: 0.48,
+        shirt: { color: LINEN_GREY, cloth: 'linen', sleeve: 'long', neck: 'laced' },
+        legs: { color: sec, cloth: 'wool', baggy: 0.32 },
+        feet: { kind: 'boots', color: LEATHER_DARK, cuff: true },
+        outer: { kind: 'jerkin', color: pri, cloth: 'leather', hem: 0.22, sleeve: 'none', neck: 'open' },
+        belt: { color: LEATHER_DARK, metal: IRON, pouch: LEATHER, knife: true },
+        bracers: LEATHER,
+      };
     case 'ash_recorder':
       return {
         skin,

@@ -91,7 +91,7 @@ describe('source-proportion pine collision and routes', () => {
     expect(approaches.filter((point) => trunks.blocked(point.x, point.z, 0.55))).toEqual([]);
   });
 
-  it('preserves all 32 core, scheduled NPC and override routes with the delivered source wood colliders', () => {
+  it('preserves all 32 existing routes and both hunter camp commutes with the delivered source wood colliders', () => {
     const colliders = buildStaticColliders();
     registerFloraColliders(population, colliders, radiusFor);
     const nav = new NavGrid(terrain, colliders, 0.55);
@@ -115,7 +115,12 @@ describe('source-proportion pine collision and routes', () => {
         routes.push([`${npc.id}: override ${override.anchor}`, ANCHORS[anchors[0]!]!, ANCHORS[override.anchor]!]);
       }
     }
-    expect(routes).toHaveLength(32);
+    expect(routes.filter(([name]) => !name.startsWith('trail_hunter:'))).toHaveLength(32);
+    expect(routes.filter(([name]) => name.startsWith('trail_hunter:'))).toEqual([
+      ['trail_hunter: hunter_station to hunter_shelter', ANCHORS.hunter_station!, ANCHORS.hunter_shelter!],
+      ['trail_hunter: hunter_shelter to hunter_station', ANCHORS.hunter_shelter!, ANCHORS.hunter_station!],
+    ]);
+    expect(routes).toHaveLength(34);
     expect(routes.filter(([, start, end]) => !nav.findPath(start, end)).map(([name]) => name)).toEqual([]);
   });
 });
