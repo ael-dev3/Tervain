@@ -1,0 +1,482 @@
+{
+  "schema": "gothic3-native-script-set-task-wrapper-v1",
+  "input": {
+    "path": "00_Original_Runtime/Script.dll",
+    "sha256": "9375605676faaae44a50d48539a7b3995bed471e099ef573666221a044cd4e08"
+  },
+  "entry": "10004273",
+  "body": "1002cb50",
+  "signature": "void PSRoutine::SetTask(bCString task)",
+  "aliasBytes": "e9d8880200",
+  "bodyBytes": 214,
+  "bodySha256": "fe30089855cbd7f124af62d422dd0f60b27fbfb53c94db7e2db1ac272b493ba7",
+  "instructionCount": 72,
+  "allInstructionBytesMatch": true,
+  "instructions": [
+    {
+      "address": "1002cb50",
+      "bytes": "57",
+      "assembly": "PUSH EDI"
+    },
+    {
+      "address": "1002cb51",
+      "bytes": "8bf9",
+      "assembly": "MOV EDI,ECX"
+    },
+    {
+      "address": "1002cb53",
+      "bytes": "8b07",
+      "assembly": "MOV EAX,dword ptr [EDI]"
+    },
+    {
+      "address": "1002cb55",
+      "bytes": "85c0",
+      "assembly": "TEST EAX,EAX"
+    },
+    {
+      "address": "1002cb57",
+      "bytes": "750e",
+      "assembly": "JNZ 0x1002cb67"
+    },
+    {
+      "address": "1002cb59",
+      "bytes": "8d4c2408",
+      "assembly": "LEA ECX,[ESP + 0x8]"
+    },
+    {
+      "address": "1002cb5d",
+      "bytes": "ff1558850b10",
+      "assembly": "CALL dword ptr [0x100b8558]"
+    },
+    {
+      "address": "1002cb63",
+      "bytes": "5f",
+      "assembly": "POP EDI"
+    },
+    {
+      "address": "1002cb64",
+      "bytes": "c20400",
+      "assembly": "RET 0x4"
+    },
+    {
+      "address": "1002cb67",
+      "bytes": "56",
+      "assembly": "PUSH ESI"
+    },
+    {
+      "address": "1002cb68",
+      "bytes": "8b352c840b10",
+      "assembly": "MOV ESI,dword ptr [0x100b842c]"
+    },
+    {
+      "address": "1002cb6e",
+      "bytes": "8d4818",
+      "assembly": "LEA ECX,[EAX + 0x18]"
+    },
+    {
+      "address": "1002cb71",
+      "bytes": "68ec280810",
+      "assembly": "PUSH 0x100828ec"
+    },
+    {
+      "address": "1002cb76",
+      "bytes": "ffd6",
+      "assembly": "CALL ESI"
+    },
+    {
+      "address": "1002cb78",
+      "bytes": "84c0",
+      "assembly": "TEST AL,AL"
+    },
+    {
+      "address": "1002cb7a",
+      "bytes": "0f848a000000",
+      "assembly": "JZ 0x1002cc0a"
+    },
+    {
+      "address": "1002cb80",
+      "bytes": "8b0f",
+      "assembly": "MOV ECX,dword ptr [EDI]"
+    },
+    {
+      "address": "1002cb82",
+      "bytes": "83c134",
+      "assembly": "ADD ECX,0x34"
+    },
+    {
+      "address": "1002cb85",
+      "bytes": "68cc280810",
+      "assembly": "PUSH 0x100828cc"
+    },
+    {
+      "address": "1002cb8a",
+      "bytes": "ffd6",
+      "assembly": "CALL ESI"
+    },
+    {
+      "address": "1002cb8c",
+      "bytes": "84c0",
+      "assembly": "TEST AL,AL"
+    },
+    {
+      "address": "1002cb8e",
+      "bytes": "7573",
+      "assembly": "JNZ 0x1002cc03"
+    },
+    {
+      "address": "1002cb90",
+      "bytes": "68b8280810",
+      "assembly": "PUSH 0x100828b8"
+    },
+    {
+      "address": "1002cb95",
+      "bytes": "8d4c2410",
+      "assembly": "LEA ECX,[ESP + 0x10]"
+    },
+    {
+      "address": "1002cb99",
+      "bytes": "ffd6",
+      "assembly": "CALL ESI"
+    },
+    {
+      "address": "1002cb9b",
+      "bytes": "84c0",
+      "assembly": "TEST AL,AL"
+    },
+    {
+      "address": "1002cb9d",
+      "bytes": "7564",
+      "assembly": "JNZ 0x1002cc03"
+    },
+    {
+      "address": "1002cb9f",
+      "bytes": "68a4280810",
+      "assembly": "PUSH 0x100828a4"
+    },
+    {
+      "address": "1002cba4",
+      "bytes": "8d4c2410",
+      "assembly": "LEA ECX,[ESP + 0x10]"
+    },
+    {
+      "address": "1002cba8",
+      "bytes": "ffd6",
+      "assembly": "CALL ESI"
+    },
+    {
+      "address": "1002cbaa",
+      "bytes": "84c0",
+      "assembly": "TEST AL,AL"
+    },
+    {
+      "address": "1002cbac",
+      "bytes": "7555",
+      "assembly": "JNZ 0x1002cc03"
+    },
+    {
+      "address": "1002cbae",
+      "bytes": "6890280810",
+      "assembly": "PUSH 0x10082890"
+    },
+    {
+      "address": "1002cbb3",
+      "bytes": "8d4c2410",
+      "assembly": "LEA ECX,[ESP + 0x10]"
+    },
+    {
+      "address": "1002cbb7",
+      "bytes": "ffd6",
+      "assembly": "CALL ESI"
+    },
+    {
+      "address": "1002cbb9",
+      "bytes": "84c0",
+      "assembly": "TEST AL,AL"
+    },
+    {
+      "address": "1002cbbb",
+      "bytes": "7546",
+      "assembly": "JNZ 0x1002cc03"
+    },
+    {
+      "address": "1002cbbd",
+      "bytes": "687c280810",
+      "assembly": "PUSH 0x1008287c"
+    },
+    {
+      "address": "1002cbc2",
+      "bytes": "8d4c2410",
+      "assembly": "LEA ECX,[ESP + 0x10]"
+    },
+    {
+      "address": "1002cbc6",
+      "bytes": "ffd6",
+      "assembly": "CALL ESI"
+    },
+    {
+      "address": "1002cbc8",
+      "bytes": "84c0",
+      "assembly": "TEST AL,AL"
+    },
+    {
+      "address": "1002cbca",
+      "bytes": "7537",
+      "assembly": "JNZ 0x1002cc03"
+    },
+    {
+      "address": "1002cbcc",
+      "bytes": "686c280810",
+      "assembly": "PUSH 0x1008286c"
+    },
+    {
+      "address": "1002cbd1",
+      "bytes": "8d4c2410",
+      "assembly": "LEA ECX,[ESP + 0x10]"
+    },
+    {
+      "address": "1002cbd5",
+      "bytes": "ffd6",
+      "assembly": "CALL ESI"
+    },
+    {
+      "address": "1002cbd7",
+      "bytes": "84c0",
+      "assembly": "TEST AL,AL"
+    },
+    {
+      "address": "1002cbd9",
+      "bytes": "7528",
+      "assembly": "JNZ 0x1002cc03"
+    },
+    {
+      "address": "1002cbdb",
+      "bytes": "8b3530840b10",
+      "assembly": "MOV ESI,dword ptr [0x100b8430]"
+    },
+    {
+      "address": "1002cbe1",
+      "bytes": "6a00",
+      "assembly": "PUSH 0x0"
+    },
+    {
+      "address": "1002cbe3",
+      "bytes": "6864280810",
+      "assembly": "PUSH 0x10082864"
+    },
+    {
+      "address": "1002cbe8",
+      "bytes": "8d4c2414",
+      "assembly": "LEA ECX,[ESP + 0x14]"
+    },
+    {
+      "address": "1002cbec",
+      "bytes": "ffd6",
+      "assembly": "CALL ESI"
+    },
+    {
+      "address": "1002cbee",
+      "bytes": "84c0",
+      "assembly": "TEST AL,AL"
+    },
+    {
+      "address": "1002cbf0",
+      "bytes": "7511",
+      "assembly": "JNZ 0x1002cc03"
+    },
+    {
+      "address": "1002cbf2",
+      "bytes": "6a00",
+      "assembly": "PUSH 0x0"
+    },
+    {
+      "address": "1002cbf4",
+      "bytes": "6858280810",
+      "assembly": "PUSH 0x10082858"
+    },
+    {
+      "address": "1002cbf9",
+      "bytes": "8d4c2414",
+      "assembly": "LEA ECX,[ESP + 0x14]"
+    },
+    {
+      "address": "1002cbfd",
+      "bytes": "ffd6",
+      "assembly": "CALL ESI"
+    },
+    {
+      "address": "1002cbff",
+      "bytes": "84c0",
+      "assembly": "TEST AL,AL"
+    },
+    {
+      "address": "1002cc01",
+      "bytes": "7414",
+      "assembly": "JZ 0x1002cc17"
+    },
+    {
+      "address": "1002cc03",
+      "bytes": "8d44240c",
+      "assembly": "LEA EAX,[ESP + 0xc]"
+    },
+    {
+      "address": "1002cc07",
+      "bytes": "50",
+      "assembly": "PUSH EAX"
+    },
+    {
+      "address": "1002cc08",
+      "bytes": "eb05",
+      "assembly": "JMP 0x1002cc0f"
+    },
+    {
+      "address": "1002cc0a",
+      "bytes": "8d4c240c",
+      "assembly": "LEA ECX,[ESP + 0xc]"
+    },
+    {
+      "address": "1002cc0e",
+      "bytes": "51",
+      "assembly": "PUSH ECX"
+    },
+    {
+      "address": "1002cc0f",
+      "bytes": "8b0f",
+      "assembly": "MOV ECX,dword ptr [EDI]"
+    },
+    {
+      "address": "1002cc11",
+      "bytes": "ff15187c0b10",
+      "assembly": "CALL dword ptr [0x100b7c18]"
+    },
+    {
+      "address": "1002cc17",
+      "bytes": "8d4c240c",
+      "assembly": "LEA ECX,[ESP + 0xc]"
+    },
+    {
+      "address": "1002cc1b",
+      "bytes": "ff1558850b10",
+      "assembly": "CALL dword ptr [0x100b8558]"
+    },
+    {
+      "address": "1002cc21",
+      "bytes": "5e",
+      "assembly": "POP ESI"
+    },
+    {
+      "address": "1002cc22",
+      "bytes": "5f",
+      "assembly": "POP EDI"
+    },
+    {
+      "address": "1002cc23",
+      "bytes": "c20400",
+      "assembly": "RET 0x4"
+    }
+  ],
+  "constants": [
+    {
+      "address": "100828ec",
+      "value": "ZS_Freeze",
+      "bytes": "5a535f467265657a6500"
+    },
+    {
+      "address": "100828cc",
+      "value": "ZS_Smalltalk_Partner_Loop",
+      "bytes": "5a535f536d616c6c74616c6b5f506172746e65725f4c6f6f7000"
+    },
+    {
+      "address": "100828b8",
+      "value": "ZS_Unconscious",
+      "bytes": "5a535f556e636f6e7363696f757300"
+    },
+    {
+      "address": "100828a4",
+      "value": "ZS_LieKnockDown",
+      "bytes": "5a535f4c69654b6e6f636b446f776e00"
+    },
+    {
+      "address": "10082890",
+      "value": "ZS_LieKnockOut",
+      "bytes": "5a535f4c69654b6e6f636b4f757400"
+    },
+    {
+      "address": "1008287c",
+      "value": "ZS_SitKnockDown",
+      "bytes": "5a535f5369744b6e6f636b446f776e00"
+    },
+    {
+      "address": "1008286c",
+      "value": "ZS_PiercedKO",
+      "bytes": "5a535f506965726365644b4f00"
+    },
+    {
+      "address": "10082864",
+      "value": "Dead",
+      "bytes": "4465616400"
+    },
+    {
+      "address": "10082858",
+      "value": "Stumble",
+      "bytes": "5374756d626c6500"
+    }
+  ],
+  "nativeBoundary": {
+    "required": "non-null underlying gCScriptRoutine_PS",
+    "currentTaskOffset": "18",
+    "currentStateOffset": "34",
+    "currentTaskFreeze": "ZS_Freeze",
+    "currentStateException": "ZS_Smalltalk_Partner_Loop",
+    "exactTaskExceptions": [
+      "ZS_Unconscious",
+      "ZS_LieKnockDown",
+      "ZS_LieKnockOut",
+      "ZS_SitKnockDown",
+      "ZS_PiercedKO"
+    ],
+    "taskSubstringExceptions": [
+      "Dead",
+      "Stumble"
+    ],
+    "substringStartIndex": 0,
+    "delegate": {
+      "iat": "100b7c18",
+      "native": "Game.dll::gCScriptRoutine_PS::AISetTask"
+    },
+    "argumentDestructorIat": "100b8558",
+    "nativeReturn": "void on delegation, freeze rejection and absent routine"
+  },
+  "study": {
+    "assembly": "01_Decompiled_Code/Script_dll/full_disassembly.asm",
+    "assemblyLine": 44942,
+    "assemblySha256": "b4eaec87a4cc9684a8c811b7c366fc3a7fcd26c1fda591492a90074c087645f3",
+    "pseudocode": "01_Decompiled_Code/Script_dll/pseudocode/functions_00005.c",
+    "pseudocodeLine": 2780,
+    "pseudocodeSha256": "ef627ae4480acc3fc74d1c15598c4ddf2f48edaaf0cbb8354097df8e70a31182"
+  },
+  "reader": {
+    "path": "tools/gothic3/research_native_combat.py",
+    "sha256": "9edf5e3475dfb2f4b7505b306b2d29f640a31f9c5893231db87579d2ab3084da"
+  },
+  "excerpts": [
+    {
+      "path": "sources/Script/10004273.asm.txt",
+      "sha256": "43eb3839e7b7f74346d2575aa296b81798639f132dc15abcc1c65959d70aced8"
+    },
+    {
+      "path": "sources/Script/10004273.c.txt",
+      "sha256": "da7b04cd2c96209186fe27e2aa67536ae5a2181f16fda09fa219212c63c6f7e5"
+    },
+    {
+      "path": "sources/Script/1002cb50.asm.txt",
+      "sha256": "8a1fdd48614761dae747ae74d727d0e9996b68a800671167e935c764588d88ab"
+    }
+  ],
+  "limitations": [
+    "Only the wrapper gate and delegation boundary are ported here.",
+    "The existing SPU setter remains a separate lower API.",
+    "Native CString storage/destruction and pointer allocation are not emulated.",
+    "The browser CString profile rejects embedded NUL; exact comparisons and case-sensitive substring searches apply to decoded task/state names.",
+    "No native task scheduler, Kill task or death lifecycle is established by this wrapper."
+  ]
+}

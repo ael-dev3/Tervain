@@ -202,9 +202,9 @@ route when the reviewed changes reach `main`.
 
 The separate TypeScript route is live at
 [Gothic 3 / Ardea](https://ael-dev3.github.io/Tervain/gothic3/). The deployed
-baseline preceding checkpoints 55–71 was `main` commit
-`59854ed6e4daca03d6d0d6265a97fa1099c0c724`, published by
-[workflow run 37502708509](https://github.com/ael-dev3/Tervain/actions/runs/37502708509).
+baseline preceding checkpoint 72 was `main` commit
+`610619f43a809e14118ee8edb186fed67aa2052b`, published by
+[workflow run 37504891018](https://github.com/ael-dev3/Tervain/actions/runs/37504891018).
 Subsequent build and deployment receipts are recorded in the
 [Pages workflow](https://github.com/ael-dev3/Tervain/actions/workflows/pages.yml).
 This is an incomplete reconstruction; hosting and a successful build do not
@@ -225,8 +225,9 @@ including Jack's three coastal bandits.
 Three residents can be placed at matching native Start routine points when
 their work, rest and sleep assignments agree. Diego's bounded dialogue was
 exercised after placement and across save/restore.
-These actors still do not run the original scheduler, AI or native entity
-lifecycle. Combat research resolves damage rules, the unarmed Fist carrier,
+Their daily routines, AI and native entity lifecycle are not connected. The
+selected bandits now run the scheduled death prefix described below. Combat
+research resolves damage rules, the unarmed Fist carrier,
 serialized equipment references and deterministic Weaponry recipes. On the
 current checkpoint, the Plunder bridge resolves distribution-0 draws
 with a browser-owned MSVCRT-compatible random stream and creates NPC inventory
@@ -234,7 +235,7 @@ stacks through `NativeInventory`. Distribution-3 Weaponry now adds the
 hash-checked Raider axe through `AssureItems` at quality 256 and amount 1; its
 primary-slot-6 `EquipStack` plan is retained with `applied: false`. UseType 2
 two-hand weapons are marked as requiring a split-stack/slots-6-and-5 path that
-is not yet implemented. Browser NPC save schema v2 persists the source-bounded
+is not yet implemented. Browser NPC save schema v3 persists the source-bounded
 inventory, and v1 saves rebuild the new Weaponry stack from their stored Plunder
 draws. Creation still occurs on browser first contact, not native NPC cache-in;
 the browser seed and global
@@ -249,8 +250,8 @@ disposition; Raider zero HP does not establish a kill. The kill callback
 updates exact-name targets for types 2/3/4 and can complete eligible quests,
 with their supported rewards saved once. The hit detector and standing target
 state remain browser-owned; native NPC activation, AI, attacks and responses,
-Kill/Defeat task execution, death animation, defeat XP, loot and several reward
-services remain absent. The
+full Kill/Defeat handling, death animation, loot and several reward
+services remain absent. The connected bandit death prefix is described below. The
 retained initialized Hero seed supplies verified enum fields because the sparse
 runtime NPC reader does not decode them. Details are in [checkpoint
 55](gothic3-rebuilding-process.md#55-create-browser-npc-inventory-from-plunder)
@@ -262,9 +263,16 @@ save/restore ([checkpoint
 69](gothic3-rebuilding-process.md#69-start-jacks-source-backed-bandit-quest)).
 The three source-directed bandit kill callbacks can now complete the quest,
 award its 500 XP and unlock the condition-10 return dialogue for 50 gold and
-250 further XP. This is a bounded browser path; native Kill/Defeat task
-acceptance and defeat XP remain unimplemented. See [checkpoint
+250 further XP. This is a bounded browser path. See [checkpoint
 70](gothic3-rebuilding-process.md#70-connect-jacks-bandits-and-correct-native-quest-callbacks).
+Source-directed lethal hits now schedule `ZS_RagDollDead` through the recovered
+Script wrapper. A later script-processor frame executes its one-time prefix,
+dispatches the Kill quest event and calculates 50 defeat XP from the Hero's
+post-event progress. The third kill's 500 quest XP therefore precedes its
+50 defeat XP. Each prefix stops explicitly at the unconnected `NotifyEnclave`
+callback; its applied state is retained in saves. Native speech playback,
+ragdoll, plunder cleanup and the full NPC lifecycle remain incomplete. See
+[checkpoint 72](gothic3-rebuilding-process.md#72-schedule-the-bandit-death-state-and-preserve-its-applied-prefix).
 The current branch also resolves the native body-template `Robe` flag from
 inventory slot17 and labels routine `Action`/`AniState` fields separately from
 live combat animation state. A new reader maps the selected Hero motion into
@@ -317,9 +325,10 @@ Their native behavior is not connected:
    equipment host, including the source-serialized body/head attachments.
 4. Construct and activate that NPC through property attachment, world context
    and processing registration.
-5. Replace browser-owned hit and kill-counter dispatch with native contact
-   eligibility, animation/action state, NPC response, Kill/Defeat task
-   acceptance, full quest callbacks, XP and rewards in the recovered order.
+5. Connect native contact eligibility, animation/action state and NPC responses,
+   then finish the scheduled death prefix through enclave notification,
+   destination and plunder cleanup, ragdoll and knockout handling. The bandit
+   prefix already dispatches its connected quest and XP operations in order.
 6. Save, reload and verify the encounter's resulting state.
 
 Then expand the connected loop across Ardea, the other regions, faction

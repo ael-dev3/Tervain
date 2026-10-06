@@ -1,0 +1,31 @@
+/* ENTRY 10004273 | PSRoutine::SetTask | STATUS decompiled | 27 ms */
+
+/* public: void __thiscall PSRoutine::SetTask(class bCString) */
+
+void __thiscall PSRoutine::SetTask(PSRoutine *this)
+
+{
+  bool bVar1;
+  
+                    /* 0x4273  2001  ?SetTask@PSRoutine@@QAEXVbCString@@@Z */
+  if (*(int *)this != 0) {
+    bVar1 = bCString::operator==((bCString *)(*(int *)this + 0x18),"ZS_Freeze");
+    if ((((((!bVar1) ||
+           (bVar1 = bCString::operator==
+                              ((bCString *)(*(int *)this + 0x34),"ZS_Smalltalk_Partner_Loop"), bVar1
+           )) || (bVar1 = bCString::operator==((bCString *)&stack0x00000004,"ZS_Unconscious"), bVar1
+                 )) ||
+         ((bVar1 = bCString::operator==((bCString *)&stack0x00000004,"ZS_LieKnockDown"), bVar1 ||
+          (bVar1 = bCString::operator==((bCString *)&stack0x00000004,"ZS_LieKnockOut"), bVar1)))) ||
+        ((bVar1 = bCString::operator==((bCString *)&stack0x00000004,"ZS_SitKnockDown"), bVar1 ||
+         ((bVar1 = bCString::operator==((bCString *)&stack0x00000004,"ZS_PiercedKO"), bVar1 ||
+          (bVar1 = bCString::Contains((bCString *)&stack0x00000004,"Dead",0), bVar1)))))) ||
+       (bVar1 = bCString::Contains((bCString *)&stack0x00000004,"Stumble",0), bVar1)) {
+      gCScriptRoutine_PS::AISetTask(*(gCScriptRoutine_PS **)this,(bCString *)&stack0x00000004);
+    }
+    bCString::~bCString((bCString *)&stack0x00000004);
+    return;
+  }
+  bCString::~bCString((bCString *)&stack0x00000004);
+  return;
+}

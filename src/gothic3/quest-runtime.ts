@@ -10,7 +10,7 @@ import { readNativeResource } from './resource';
 import { loadOriginalWorldClock, monotonicClockMilliseconds } from './world-clock';
 import type { NativeCalendar, NativeClockProcess, NativeWorldClock } from './world-clock';
 import { planNativeGiveXp, planNativeGiveXpSequence } from './combat';
-import type { NativeCombatSkills, NativeGiveXpPlan, NativePlayerProgress } from './combat';
+import type { NativeCombatSkills, NativeDefeatEffect, NativeGiveXpPlan, NativePlayerProgress } from './combat';
 import { loadOriginalPlayerProgressSeed } from './initial-state';
 import type { OriginalPlayerProgressSeed } from './initial-state';
 import { NativeGameEvents } from './game-events';
@@ -58,6 +58,17 @@ interface InitialQuestReceipt {
   questCount: number;
 }
 
+export type NativeNpcXpScalar =
+  | { readonly type: 'setPlayerXp'; readonly value: number; readonly delta: number }
+  | { readonly type: 'setPlayerLevel'; readonly value: number }
+  | { readonly type: 'setPlayerLp'; readonly value: number; readonly delta: 10 | 1 };
+export interface NativeNpcXpScalarPrefix {
+  readonly schema: 'gothic3-native-npc-xp-scalar-prefix-v1';
+  readonly requestedAmount: number;
+  readonly scalars: readonly NativeNpcXpScalar[];
+}
+export type NativeHeroProgressAward = number | NativeNpcXpScalarPrefix;
+
 export interface NativeQuestSessionSave {
   readonly schema: 'gothic3-quest-session-save-v1';
   readonly sources: NativeQuestSessionSources;
@@ -78,7 +89,7 @@ export interface NativeQuestSessionSave {
   readonly teachEnabledArdeaActors?: readonly string[];
   /** Source-backed GiveXP calls replayed into Hero PlayerMemory and gCNPC_PS. */
   readonly heroProgress?: { readonly xp: number; readonly level: number; readonly lpAttribs: number;
-    readonly awards: readonly number[] };
+    readonly awards: readonly NativeHeroProgressAward[] };
   /** Quest success rewards retained in Hero PoliticalFame and attribute storage. */
   readonly heroQuestRewards?: NativeHeroQuestRewardState;
   /** Current Hero HP state, restored through the original PlayerMemory setters. */
@@ -270,6 +281,64 @@ function validSavedQuestState(value: unknown): value is QuestState {
   return true;
 }
 
+function npcXpScalars(before: NativePlayerProgress, plan: NativeGiveXpPlan): NativeNpcXpScalar[] {
+  const scalars: NativeNpcXpScalar[] = [{ type: 'setPlayerXp', value: plan.progress.xp, delta: plan.awardedAmount }];
+  if (plan.progress.levelUp) {
+    scalars.push({ type: 'setPlayerLevel', value: plan.progress.level },
+      { type: 'setPlayerLp', value: before.lp + 10, delta: 10 });
+    if (plan.progress.lp - before.lp === 11) scalars.push({ type: 'setPlayerLp', value: plan.progress.lp, delta: 1 });
+  }
+  return scalars;
+}
+
+function applyNpcXpScalar(progress: NativePlayerProgress, scalar: NativeNpcXpScalar): NativePlayerProgress {
+  return { ...progress, ...(scalar.type === 'setPlayerXp' ? { xp: scalar.value }
+    : scalar.type === 'setPlayerLevel' ? { level: scalar.value } : { lp: scalar.value }) };
+}
+
+function sameNpcXpScalar(value: unknown, expected: NativeNpcXpScalar): value is NativeNpcXpScalar {
+  return record(value) && Object.keys(value).sort().join(',') === Object.keys(expected).sort().join(',') &&
+    Object.entries(expected).every(([key, operand]) => value[key] === operand);
+}
+
+/** A prefix retains exactly the ordered property writes that happened. It does
+ * not resume GiveXP, invoke observers, or replay the corresponding NPC event. */
+function replayHeroAwardHistory(initial: NativePlayerProgress, awards: unknown): {
+  progress: NativePlayerProgress; history: NativeHeroProgressAward[];
+} {
+  if (!Array.isArray(awards) || awards.length > 327_680) throw new Error('Browser save has invalid native GiveXP award history.');
+  let progress = initial;
+  const history: NativeHeroProgressAward[] = [];
+  for (const award of awards) {
+    if (nonnegativeInt32(award)) {
+      const plan = planNativeGiveXp(progress, award);
+      if (plan.status === 'unsupported') throw new Error('Saved Hero progression cannot be replayed: ' + plan.reason);
+      progress = { ...progress, ...plan.value.progress };
+      history.push(award);
+      continue;
+    }
+    if (!record(award) || Object.keys(award).sort().join(',') !== 'requestedAmount,scalars,schema' ||
+        award.schema !== 'gothic3-native-npc-xp-scalar-prefix-v1' || !nonnegativeInt32(award.requestedAmount) ||
+        award.requestedAmount === 0 || !Array.isArray(award.scalars)) {
+      throw new Error('Browser save has invalid NPC XP scalar prefix.');
+    }
+    const plan = planNativeGiveXp(progress, award.requestedAmount);
+    if (plan.status === 'unsupported') throw new Error('Saved NPC XP prefix cannot be replayed: ' + plan.reason);
+    const expected = npcXpScalars(progress, plan.value);
+    // Completed writes use the existing numeric receipt. Objects identify a
+    // genuinely incomplete scalar prefix, including an XP-only level-up.
+    if (award.scalars.length < 1 || award.scalars.length >= expected.length ||
+        !award.scalars.every((scalar, index) => sameNpcXpScalar(scalar, expected[index]!))) {
+      throw new Error('Saved NPC XP scalars are not an exact incomplete native prefix.');
+    }
+    const scalars = award.scalars as NativeNpcXpScalar[];
+    for (const scalar of scalars) progress = applyNpcXpScalar(progress, scalar);
+    history.push({ schema: 'gothic3-native-npc-xp-scalar-prefix-v1', requestedAmount: award.requestedAmount,
+      scalars: structuredClone(scalars) });
+  }
+  return { progress, history };
+}
+
 async function loadQuestSourceBundle(): Promise<QuestSourceBundle> {
   const receipt = sourceQuestReceipt();
   const manifest = await gameplayResources.manifest();
@@ -333,16 +402,18 @@ export class NativeQuestRuntime {
   readonly actorDialogs: NativeArdeaActorDialogState;
   private readonly listeners = new Set<() => void>();
   private tickFailure: string | null = null;
-  private heroAwardHistory: number[] = [];
+  private heroAwardHistory: NativeHeroProgressAward[] = [];
+  private pendingNpcXp: { readonly historyIndex: number; readonly expected: readonly NativeNpcXpScalar[];
+    progress: NativePlayerProgress } | null = null;
   private readonly world: NativeWorldData;
   readonly heroInventory: NativeInventory;
 
   private constructor(readonly definitions: readonly NativeQuest[], readonly clock: NativeWorldClock,
     private readonly sources: NativeQuestSessionSources, initialGameEvents: readonly string[], infoState: NativeInfoState,
     actorDialogs: NativeArdeaActorDialogState, private readonly player: NativeHeroPlayerMemory,
-    private readonly heroProgressSeed: OriginalPlayerProgressSeed, heroInventory: NativeInventory, awardHistory: readonly number[] = [],
+    private readonly heroProgressSeed: OriginalPlayerProgressSeed, heroInventory: NativeInventory, awardHistory: readonly NativeHeroProgressAward[] = [],
     consumedItems: ReadonlyMap<string, number> = new Map(), world: NativeWorldData = new NativeWorldData()) {
-    this.heroAwardHistory = [...awardHistory];
+    this.heroAwardHistory = structuredClone([...awardHistory]);
     this.heroInventory = heroInventory;
     // Older saves retained the full inventory and subtracted this overlay only
     // for display. Migrate it once so later transfers and item use see the same
@@ -492,7 +563,7 @@ export class NativeQuestRuntime {
       restoredHeroVitals = Object.freeze({ hitPoints: raw.heroVitals.hitPoints,
         hitPointsMax: raw.heroVitals.hitPointsMax });
     }
-    let restoredAwardHistory: number[] = [];
+    let restoredAwardHistory: NativeHeroProgressAward[] = [];
     if (raw.heroProgress !== undefined) {
       if (!record(raw.heroProgress) || !nonnegativeInt32(raw.heroProgress.xp) ||
           !nonnegativeInt32(raw.heroProgress.level) || !nonnegativeInt32(raw.heroProgress.lpAttribs))
@@ -500,17 +571,13 @@ export class NativeQuestRuntime {
       const initialProgress: NativePlayerProgress = { xp: heroProgress.xp, level: heroProgress.level,
         lp: heroProgress.lpAttribs, learnPerkActive: heroProgress.learnPerkActive };
       if (raw.heroProgress.awards !== undefined) {
-        if (!Array.isArray(raw.heroProgress.awards) || !raw.heroProgress.awards.every(nonnegativeInt32)) {
-          throw new Error('Browser save has invalid native GiveXP award history.');
-        }
-        const replay = planNativeGiveXpSequence(initialProgress, raw.heroProgress.awards as number[]);
-        if (replay.status === 'unsupported') throw new Error('Saved Hero progression cannot be replayed: ' + replay.reason);
-        const final = replay.value.progress;
+        const replay = replayHeroAwardHistory(initialProgress, raw.heroProgress.awards);
+        const final = replay.progress;
         if (final.xp !== raw.heroProgress.xp || final.level !== raw.heroProgress.level || final.lp !== raw.heroProgress.lpAttribs) {
           throw new Error('Saved Hero progress differs from its source-backed GiveXP history.');
         }
         restoredHeroProgress = { xp: final.xp, level: final.level, lpAttribs: final.lp };
-        restoredAwardHistory = [...raw.heroProgress.awards as number[]];
+        restoredAwardHistory = replay.history;
       } else {
         // Earlier sessions only accepted below-threshold awards, so their
         // aggregate XP delta can be replayed as one equivalent call.
@@ -848,8 +915,89 @@ export class NativeQuestRuntime {
       if (!lp.supported) return { known: false, reason: 'GiveXP stopped after XP/Level while writing Hero LPAttribs: ' + lp.reason };
     }
     this.heroAwardHistory.push(requestedAmount);
+    this.pendingNpcXp = null;
     for (const listener of this.listeners) listener();
     return { known: true, value: plan.value };
+  }
+
+  /** Read after the death task's quest event. A quest reward may already have
+   * changed XP, level or skill bases during that synchronous callback. */
+  nativePlayerProgress(): NativePlayerProgress { return this.playerProgress(); }
+
+  /** Scalar portion of NPC GiveXP (Self=victim, Other=Hero). Its amount is
+   * already calculated by the native defeat planner, unlike world GiveXP's
+   * requested amount. Presentation and victim flags belong to the task host.
+   * Every default NPC award is a multiple of five, so the existing save replay
+   * stores the equivalent arithmetic operand or its ordered scalar prefix;
+   * loading does not repeat a quest or death event. */
+  applyNpcDefeatProgressEffect(effect: NativeDefeatEffect): NativeValue<void> {
+    try {
+      if (!['setPlayerXp', 'setPlayerLevel', 'setPlayerLp'].includes(effect.type)) {
+        return { known: false, reason: 'NPC progress host received a non-scalar defeat effect.' };
+      }
+      if (!('playerId' in effect) || effect.playerId !== this.heroProgressSeed.npcCombatProfile.id) {
+        return { known: false, reason: 'NPC defeat progress does not target the retained Hero.' };
+      }
+      if (effect.type === 'setPlayerXp') {
+        if (!nonnegativeInt32(effect.delta) || effect.delta === 0 || effect.delta % 5 !== 0 ||
+            effect.value !== this.player.memory.getXP() + effect.delta) {
+          return { known: false, reason: 'NPC defeat XP is stale or outside the replayable native default-XP profile.' };
+        }
+        const before = this.playerProgress(), replay = planNativeGiveXp(before, effect.delta / 5);
+        if (replay.status === 'unsupported') return { known: false, reason: replay.reason };
+        if (replay.value.progress.xp !== effect.value) return { known: false, reason: 'NPC defeat XP replay differs.' };
+        const result = this.player.memory.setXP(effect.value);
+        if (this.player.memory.getXP() === effect.value) {
+          const prefix: NativeNpcXpScalarPrefix = { schema: 'gothic3-native-npc-xp-scalar-prefix-v1',
+            requestedAmount: effect.delta / 5, scalars: [] };
+          this.heroAwardHistory.push(prefix);
+          this.pendingNpcXp = { historyIndex: this.heroAwardHistory.length - 1,
+            expected: npcXpScalars(before, replay.value), progress: before };
+          this.recordNpcXpScalar({ type: 'setPlayerXp', value: effect.value, delta: effect.delta });
+        }
+        if (!result.supported) return { known: false, reason: result.reason };
+      } else if (effect.type === 'setPlayerLevel') {
+        const scalar: NativeNpcXpScalar = { type: 'setPlayerLevel', value: effect.value };
+        this.requireNpcXpScalar(scalar);
+        const result = this.player.npc.setLevel(effect.value);
+        if (this.player.npc.values.Level === effect.value) this.recordNpcXpScalar(scalar);
+        if (!result.known) return result;
+      } else if (effect.type === 'setPlayerLp') {
+        if (effect.delta !== 10 && effect.delta !== 1) return { known: false, reason: 'NPC defeat LP transition is stale.' };
+        const scalar: NativeNpcXpScalar = { type: 'setPlayerLp', value: effect.value, delta: effect.delta };
+        this.requireNpcXpScalar(scalar);
+        const result = this.player.memory.setLPAttribs(effect.value);
+        if (this.player.memory.getLPAttribs() === effect.value) this.recordNpcXpScalar(scalar);
+        if (!result.supported) return { known: false, reason: result.reason };
+      }
+      for (const listener of this.listeners) listener();
+      return { known: true, value: undefined };
+    } catch (error) { return { known: false, reason: error instanceof Error ? error.message : String(error) }; }
+  }
+
+  private requireNpcXpScalar(scalar: NativeNpcXpScalar): void {
+    const pending = this.pendingNpcXp, live = this.playerProgress();
+    const prefix = pending ? this.heroAwardHistory[pending.historyIndex] : undefined;
+    if (!pending || typeof prefix !== 'object' || live.xp !== pending.progress.xp ||
+        live.level !== pending.progress.level || live.lp !== pending.progress.lp ||
+        !sameNpcXpScalar(scalar, pending.expected[prefix.scalars.length]!)) {
+      throw new Error('NPC XP scalar is missing its active ordered prefix, out of order or stale.');
+    }
+  }
+
+  private recordNpcXpScalar(scalar: NativeNpcXpScalar): void {
+    const pending = this.pendingNpcXp;
+    if (!pending) throw new Error('NPC XP scalar has no owned prefix.');
+    const prefix = this.heroAwardHistory[pending.historyIndex];
+    if (typeof prefix !== 'object' || !sameNpcXpScalar(scalar, pending.expected[prefix.scalars.length]!)) {
+      throw new Error('NPC XP scalar is outside its expected ordered prefix.');
+    }
+    const scalars = [...prefix.scalars, scalar];
+    pending.progress = applyNpcXpScalar(pending.progress, scalar);
+    if (scalars.length === pending.expected.length) {
+      this.heroAwardHistory[pending.historyIndex] = prefix.requestedAmount;
+      this.pendingNpcXp = null;
+    } else this.heroAwardHistory[pending.historyIndex] = { ...prefix, scalars };
   }
 
   canApplyQuestEffects(effects: readonly QuestEffect[]): NativeValue<true> {
@@ -982,7 +1130,7 @@ export class NativeQuestRuntime {
       partyEnabledArdeaActors: this.actorDialogs.currentEnabledDialogActorIds('PartyEnabled'),
       teachEnabledArdeaActors: this.actorDialogs.currentEnabledDialogActorIds('TeachEnabled'),
       heroProgress: { xp: this.player.memory.getXP(), level: this.player.npc.values.Level as number,
-        lpAttribs: this.player.memory.getLPAttribs(), awards: [...this.heroAwardHistory] },
+        lpAttribs: this.player.memory.getLPAttribs(), awards: structuredClone(this.heroAwardHistory) },
       heroQuestRewards: this.heroQuestRewardState(),
       heroVitals: readHeroVitals(this.player),
       consumedItems: [],
