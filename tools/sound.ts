@@ -1,13 +1,16 @@
 /**
  * Developer audition page for Tervain's world sound: every take in the sprites, every game cue as the game layers it,
- * every place bed, piece of score and inn tune (generated and composed), and a live soundscape for any place, hour and
- * threat, run by the game's own SoundWorld with no world around it.
+ * every place bed, piece of score and inn tune (generated and composed), every spoken line and overheard scene, the
+ * voiced story dialogue, and a live soundscape for any place, hour and threat, run by the game's own SoundWorld with
+ * no world around it.
  *
  *   npm run dev, then open http://127.0.0.1:5173/tools/sound.html   (?mute=1 keeps scripted checks silent)
  *
  * Levels follow the game's default volume settings. Not part of the build.
  */
+import { DIALOGUE_STRINGS } from '../src/content/dialogue';
 import { ITEMS, itemAction } from '../src/content/items';
+import { SCENES, SPEAKER_NAMES, VOICE_LINES, type Speaker } from '../src/content/voice';
 import type { ItemId, NpcId } from '../src/game/types';
 import { defaultSettings } from '../src/platform/settings';
 import { NPC_STYLES } from '../src/presentation/npcStyle';
@@ -19,6 +22,7 @@ import {
 } from '../src/presentation/sound/foley';
 import type { Threat } from '../src/presentation/sound/musicDirector';
 import { SoundWorld, type SoundFrame } from '../src/presentation/sound/soundWorld';
+import { VOICE_AUDIO, type VoiceBank } from '../src/presentation/sound/voiceManifest';
 import { WORLD_AUDIO, type LoopId, type MusicId, type SongId } from '../src/presentation/sound/worldAudioManifest';
 import { PLACES, RITE_ALTAR } from '../src/world/layout';
 
@@ -53,10 +57,10 @@ function audio() {
 }
 
 const decoded = new Map<string, Promise<AudioBuffer>>();
-function load(file: string): Promise<AudioBuffer> {
+function load(file: string, base: string = WORLD_AUDIO.base): Promise<AudioBuffer> {
   let p = decoded.get(file);
   if (!p) {
-    p = fetch(`${BASE}${WORLD_AUDIO.base}${file}.${ext}`).then((r) => r.arrayBuffer()).then((data) => audio().ctx.decodeAudioData(data));
+    p = fetch(`${BASE}${base}${file}.${ext}`).then((r) => r.arrayBuffer()).then((data) => audio().ctx.decodeAudioData(data));
     decoded.set(file, p);
   }
   return p;
@@ -175,8 +179,8 @@ function cueSection() {
     button('heartbeat', () => cue([0, 1, 2, 3].map((k) => ({ clip: 'heart' as ClipId, gain: 0.6, delay: k * 0.6 })))),
     button('the rite', () => cue(worldCues('rite')))));
   part.append(el('h3', { textContent: 'Fighting' }));
-  part.append(row('player', button('swing', () => cue(swingCue(false))), button('heavy swing', () => cue(swingCue(true))), button('hit', () => cue(hitCue('flesh', true))), button('punch', () => cue(hitCue('flesh', false))), button('block', () => cue(hitCue('block', true))), button('parry', () => cue(hitCue('perfect', true))), button('hurt', () => cue({ clip: 'voice.hurt', gain: 0.55 }, 'dialogue')), button('fall', () => cue({ clip: 'voice.death', gain: 0.6 }, 'dialogue'))));
-  part.append(row('enemies', button('growl', () => cue({ clip: 'beast.growl', gain: 0.75 })), button('lunge', () => cue({ clip: 'beast.attack', gain: 0.7 })), button('beast hurt', () => cue({ clip: 'beast.hurt', gain: 0.6 })), button('bandit shout', () => cue({ clip: 'bandit.shout', gain: 0.6 }, 'dialogue'))));
+  part.append(row('player', button('swing', () => cue(swingCue(false))), button('heavy swing', () => cue(swingCue(true))), button('hit', () => cue(hitCue('flesh', true))), button('punch', () => cue(hitCue('flesh', false))), button('block', () => cue(hitCue('block', true))), button('parry', () => cue(hitCue('perfect', true))), button('hurt', () => cue({ clip: 'hero.hurt', gain: 0.55 }, 'dialogue')), button('fall', () => cue({ clip: 'hero.death', gain: 0.6 }, 'dialogue')), button('exhausted', () => cue({ clip: 'hero.breath', gain: 0.5 }, 'dialogue'))));
+  part.append(row('enemies', button('growl', () => cue({ clip: 'beast.growl', gain: 0.75 })), button('lunge', () => cue({ clip: 'beast.attack', gain: 0.7 })), button('beast hurt', () => cue({ clip: 'beast.hurt', gain: 0.6 })), button('bandit shout', () => cue({ clip: 'bandit.shout', gain: 0.6 }, 'dialogue')), button('bandit hurt', () => cue({ clip: 'voice.hurt', gain: 0.6 }, 'dialogue')), button('bandit fall', () => cue({ clip: 'voice.death', gain: 0.65 }, 'dialogue'))));
   part.append(el('h3', { textContent: 'Residents at work (one stroke)' }));
   for (const [id, style] of Object.entries(NPC_STYLES) as [NpcId, (typeof NPC_STYLES)[NpcId]][]) {
     const w = workSound(id, style.work);
@@ -287,6 +291,52 @@ function songSection() {
   return part;
 }
 
-app.append(placeSection(), cueSection(), bedSection(), scoreSection(), songSection(), takeSection());
+/* ------------------------------------------------------------------ voices */
+
+let speaking: AudioBufferSourceNode[] = [];
+/** Plays lines one after another, a breath apart, as the game paces an exchange; a new press stops the last. */
+async function speak(lines: readonly (readonly [VoiceBank, number, number, string])[]) {
+  for (const s of speaking) s.stop();
+  speaking = [];
+  const { ctx: c, buses: b } = audio();
+  const buffers = await Promise.all(lines.map(([bank]) => load(VOICE_AUDIO.banks[bank].file, VOICE_AUDIO.base)));
+  let at = c.currentTime + 0.05;
+  lines.forEach(([, offset, length], i) => {
+    const s = c.createBufferSource();
+    s.buffer = buffers[i]!;
+    s.connect(b.dialogue);
+    s.start(at, offset, length);
+    speaking.push(s);
+    at += length + 0.35;
+  });
+}
+
+const who = (speaker: Speaker) => (speaker === 'hero' ? 'The hero' : SPEAKER_NAMES[speaker]);
+
+/** Every spoken line by speaker, the scenes people play out between themselves, and the voiced story dialogue. */
+function voiceSection() {
+  const part = el('section', {}, el('h2', { textContent: 'Voices' }),
+    el('p', { textContent: 'Every line as recorded, centred and dry (in the game residents speak from where they stand). Words in brackets are delivery directions; the game does not show them.' }));
+  const line = (id: string, text: string, entry: readonly [VoiceBank, number, number, string]) =>
+    el('div', { className: 'row' }, el('span', { className: 'name', textContent: id }), button(`${entry[2].toFixed(1)} s`, () => void speak([entry])), el('span', { className: 'words', textContent: text }));
+  const bySpeaker = new Map<Speaker, string[]>();
+  for (const [id, l] of Object.entries(VOICE_LINES)) bySpeaker.set(l.speaker, [...(bySpeaker.get(l.speaker) ?? []), id]);
+  for (const [speaker, ids] of bySpeaker) {
+    part.append(el('h3', { textContent: `${who(speaker)}: ${ids.length} lines` }));
+    for (const id of ids) part.append(line(id, VOICE_LINES[id]!.text, VOICE_AUDIO.lines[id as keyof typeof VOICE_AUDIO.lines]));
+  }
+  part.append(el('h3', { textContent: 'Overheard scenes, played through' }));
+  for (const scene of SCENES) {
+    const lines = scene.lines.map((id) => VOICE_AUDIO.lines[id as keyof typeof VOICE_AUDIO.lines]);
+    const seconds = lines.reduce((n, l) => n + l[2] + 0.35, 0);
+    part.append(row(scene.id, button(`${scene.cast.map((n) => who(n)).join(' and ')}, ${seconds.toFixed(0)} s`, () => void speak(lines))));
+  }
+  const story = el('details', {}, el('summary', { textContent: `Story dialogue: ${Object.keys(VOICE_AUDIO.story).length} keys, voiced for a future conversation window` }));
+  for (const [key, entry] of Object.entries(VOICE_AUDIO.story)) story.append(line(key, `${who(entry[3] as Speaker)}: ${DIALOGUE_STRINGS[key] ?? ''}`, entry));
+  part.append(story);
+  return part;
+}
+
+app.append(placeSection(), cueSection(), voiceSection(), bedSection(), scoreSection(), songSection(), takeSection());
 const clips = Object.values(WORLD_AUDIO.banks).reduce((n, b) => n + Object.values(b.clips).reduce((m, v) => m + v.length, 0), 0);
-status.textContent = `${Object.keys(WORLD_AUDIO.banks).length} sprite banks with ${clips} takes, ${Object.keys(WORLD_AUDIO.loops).length} beds, ${Object.keys(WORLD_AUDIO.music).length} pieces of score, ${Object.keys(WORLD_AUDIO.songs).length} inn tunes · ${ext === 'ogg' ? 'Ogg Opus' : 'AAC'} · default levels (master ${volumes.master}, music ${volumes.music}, effects ${volumes.effects}, ambience ${volumes.ambience})`;
+status.textContent = `${Object.keys(WORLD_AUDIO.banks).length} sprite banks with ${clips} takes, ${Object.keys(WORLD_AUDIO.loops).length} beds, ${Object.keys(WORLD_AUDIO.music).length} pieces of score, ${Object.keys(WORLD_AUDIO.songs).length} inn tunes, ${Object.keys(VOICE_AUDIO.lines).length} spoken lines, ${Object.keys(VOICE_AUDIO.story).length} story keys · ${ext === 'ogg' ? 'Ogg Opus' : 'AAC'} · default levels (master ${volumes.master}, music ${volumes.music}, effects ${volumes.effects}, ambience ${volumes.ambience})`;

@@ -342,6 +342,8 @@ const TRIM = {
   'wood.impact': 1.6, 'wood.lift': 1.3, swing: 1.4, 'swing.heavy': 1.4, 'hit.flesh': 1.7, 'voice.hurt': 1.4,
   'beast.growl': 1.4, 'beast.attack': 1.3, 'beast.hurt': 1.4,
 };
+/** The player's own cries, as the game plays them now. */
+const HERO_VOICE = { 'voice.hurt': 'hero.hurt', 'voice.death': 'hero.death', 'voice.breath': 'hero.breath' };
 /** Sounds just before a cut are kept (a growl that leads into its shot); earlier ones belong to the setup. */
 const LEAD_IN = 0.15;
 /**
@@ -366,7 +368,9 @@ function effects() {
         if (!c.played) continue;
         const t = s.start + r.frame / FPS + c.delay;
         if (t < s.start - LEAD_IN) continue;
-        let buf = clip(c.clip, c.variant, c.from, c.to);
+        // The hero's own cries are now his designed voice (A53); the film logged the generic take's name.
+        const name = !c.at && HERO_VOICE[c.clip] ? HERO_VOICE[c.clip] : c.clip;
+        let buf = clip(name, c.variant, c.from, c.to);
         buf = resample(buf, c.rate * (1 + (random() * 2 - 1) * c.pitch));
         let gain = c.gain * c.scale * (0.92 + 0.16 * random()) * BUS[c.bus] * (TRIM[c.clip] ?? 1);
         let pan = 0, distance = 0;

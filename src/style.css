@@ -1578,6 +1578,8 @@ pre.debug {
 .toasts { top: 84px; width: min(470px, 80vw); }
 .toast { font-size: .84rem; line-height: 1.35; border-left-width: 3px; }
 .captions { bottom: max(110px, 12%); width: min(620px, 85vw); }
+.caption.speech { font-style: normal; }
+.caption.speech b { color: var(--gold); font-weight: 600; margin-right: 0.15em; }
 .caption { text-align: center; line-height: 1.4; }
 .threat { max-width: 90vw; text-align: center; font-size: .9rem; }
 

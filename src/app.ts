@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { NPCS } from './content/npcs';
+import { SCENES, SPEAKER_NAMES, VOICE_LINES, inHours, shown, type HeroCue } from './content/voice';
 import { S } from './content/strings';
 import { CLOCK_RATE } from './game/constants';
 import { Game } from './game/game';
@@ -18,6 +19,7 @@ import { coastX } from './world/coast';
 import { canPlayerStandAt, supportedPlayerHeight } from './world/playerPlacement';
 import { EnemyActor, NpcActor, type ActorContext, type EnemyContext } from './presentation/actors';
 import { AudioEngine } from './presentation/audio';
+import { SpeechDirector } from './presentation/speech';
 import { threatFrom } from './presentation/sound/musicDirector';
 import { windTone } from './presentation/sound/soundscape';
 import { CameraRig } from './presentation/cameraRig';
@@ -108,6 +110,21 @@ export class App {
   private archiveWasOccupied = false;
   private autosaveTimer = 90;
   private bubbleState = new Map<string, { text: string; until: number }>();
+  /** Spoken lines: exchanges with people and the hero's own remarks (A53). */
+  private readonly speech = new SpeechDirector({
+    say: (line, at) => this.audio.say(line, at),
+    hush: (speaker) => this.audio.hush(speaker),
+    caption: (speaker, text, seconds) => {
+      if (this.settings.captions) this.hud.speech(SPEAKER_NAMES[speaker], text, seconds);
+    },
+  });
+  /** Screenshot and film tools start a game without the hero's opening words. */
+  private quietStart = false;
+  private healthFrac = 1;
+  private sceneClock = 0;
+  /** Lines the people near the hero may say soon; the sound world keeps their voices ready. */
+  private speechSoon: string[] = [];
+  private wasNight: boolean | null = null;
   private threatUntil = 0;
   private vignetteLevel = 0;
   private wantPlayLock = false;
@@ -230,6 +247,7 @@ export class App {
     const q = new URLSearchParams(location.search);
     if (!q.has('shot')) return;
     const num = (k: string, d: number) => (q.has(k) ? Number(q.get(k)) : d);
+    this.quietStart = true;
     this.startNew();
     const place = q.get('place') as PlaceId | null;
     const feet = q.has('feet') ? Number(q.get('feet')) : NaN;
@@ -601,6 +619,10 @@ export class App {
     if (this.worldPaused) return;
     this.game.replaceState(createInitialState('slot-1'));
     this.beginPlay(null);
+    if (!this.quietStart) {
+      this.speech.hero('arrival', { delay: 3 });
+      this.speech.hero('arrival.bell', { delay: 11 });
+    }
     // A brief notice leaves movement, look and the world clock running. The journal keeps the premise.
     this.hud.toast(S('arrival.wake'));
     this.hud.caption(S('arrival.controls', {
@@ -612,6 +634,7 @@ export class App {
 
   private beginPlay(fromLoad: { recovered: null | 'previous' | 'temporary' } | null) {
     if (this.worldPaused) return;
+    this.speech.clear();
     this.inventoryNotesChanged = false;
     this.titleEl.classList.remove('on');
     this.panels.closeAll();
@@ -799,7 +822,32 @@ export class App {
       if (this.deathRemaining === 0) this.respawn();
     }
     // Reading freezes controller/action timers and patrol routes as well as the world clock.
-    if (playing) this.updateActors(dt, hour);
+    if (playing) {
+      this.speech.update(dt);
+      // Someone speaking stops, turns to whom they are talking to and talks with their hands.
+      for (const n of this.npcs) {
+        n.talking = this.speech.busyFor(n.id) > 0;
+        if (!n.talking) n.faceTo = null;
+      }
+      this.sceneClock += dt;
+      if (this.sceneClock > 0.5) {
+        this.sceneClock = 0;
+        this.overhear(hour);
+        const state = this.game.state;
+        this.speechSoon = this.npcs
+          .filter((n) => !n.hidden && Math.hypot(n.x - this.player.x, n.z - this.player.z) < 30)
+          .flatMap((n) => this.speech.soon(n.id, state, hour));
+      }
+      // Nightfall and dawn, once each, in the hero's words.
+      const night = hour >= 20 || hour < 5;
+      if (this.wasNight !== null && night !== this.wasNight) this.speech.hero(night ? 'night' : 'dawn', { delay: 1 });
+      this.wasNight = night;
+      this.updateActors(dt, hour);
+      // The hero's breath gives out before he does.
+      const health = this.game.state.player.health / Math.max(1, this.game.state.player.maxHealth);
+      if (health < 0.3 && this.healthFrac >= 0.3 && this.player.alive) this.speech.hero('wounded', { again: 40 });
+      this.healthFrac = health;
+    }
     if (playing && this.mode === 'play' && !hitStopped) {
       this.world.physics.syncActors([
         ...this.npcs.map(n => ({ id: `person:${n.id}`, x: n.x, y: n.y, z: n.z, radius: .35, height: 2.1,
@@ -1129,10 +1177,19 @@ export class App {
 
   /* ========================= silent observation ========================= */
 
-  /** 0.0.5 is an exploration opening: looking at a person never picks a conversation reply. */
+  /**
+   * Interacting with a person: they speak their next exchange with the player (A53), still without a dialogue window
+   * or a reply to pick (A27). The observation is recorded either way, and shown when they have nothing to say.
+   */
   observeNpc(npc: NpcActor) {
     const observation = this.game.observeNpc(npc.id);
-    if (observation.ok) this.hud.toast(S(observation.key));
+    const where = () => {
+      const p = npc.headPosition;
+      return { x: p.x, y: p.y, z: p.z };
+    };
+    // While they speak they stop, turn to the player and talk with their hands (NpcActor.talking).
+    npc.faceTo = null;
+    if (!this.speech.talk(npc.id, where, this.game.state) && observation.ok) this.hud.toast(S(observation.key));
   }
 
   /** Inspection text is nonblocking; its evidence and personal observations remain in the journal. */
@@ -1187,6 +1244,7 @@ export class App {
       return;
     }
     this.showObservation(S(pt.noticeKey));
+    this.speech.hero(`inspect.${pointId}` as HeroCue, { delay: 0.8 });
   }
 
   pickup(id: string, item: ItemId, qty: number) {
@@ -1256,7 +1314,8 @@ export class App {
     this.world.syncStatic(this.game.state, false);
     // A witness cue the player can act on: the observer calls out.
     const w = this.npcs.find((n) => seenBy.includes(n.id));
-    if (w) this.bark(w, S('toast.warden.hey'));
+    if (w?.id === 'shrine_warden') this.bark(w, 'tolan.bark.hey');
+    else if (w) this.bubbleState.set(w.id, { text: S('toast.warden.hey'), until: performance.now() + 3600 });
   }
 
   readLedger() {
@@ -1406,6 +1465,7 @@ export class App {
           if (e.phase === 'settled') {
             this.hud.toast(S('toast.settled'), 'good');
             this.ringBell(true);
+            this.speech.hero('settled', { delay: 2 });
           } else this.audio.quest();
           break;
         case 'grant':
@@ -1414,6 +1474,7 @@ export class App {
           break;
         case 'item':
           if (e.delta > 0) this.hud.toast(S('toast.item.gain', { qty: e.delta, name: S(ITEMS[e.id].nameKey) }), 'good');
+          if (e.delta > 0) this.speech.hero(e.id === 'rusted_sword' ? 'blade' : (`item.${e.id}` as HeroCue), { delay: 0.6 });
           else if (e.id !== 'sluice_brace' && e.id !== 'votive_reed') this.hud.toast(S('toast.item.lose', { qty: -e.delta, name: S(ITEMS[e.id].nameKey) }));
           break;
         case 'skill':
@@ -1423,10 +1484,21 @@ export class App {
         case 'place':
           this.hud.toast(S('toast.place', { name: S(`place.${e.id}`) }), 'evidence');
           this.audio.discover(e.id);
+          this.speech.hero(`place.${e.id}` as HeroCue, { delay: 1.2 });
           // Discovering somewhere new moves the respawn point there.
           this.checkpoint = { x: this.player.x, y: this.player.y, z: this.player.z, yaw: this.player.yaw };
           break;
+        case 'shortcut':
+          this.speech.hero('shortcut', { delay: 1 });
+          break;
+        case 'rite':
+          this.speech.hero('rite', { delay: 2 });
+          break;
+        case 'gate':
+          if (e.gate === 'stabilized' || e.gate === 'jammed') this.speech.hero(`gate.${e.gate}`, { delay: 1 });
+          break;
         case 'worker_rescued':
+          this.speech.hero('rescued', { delay: 2.5 });
           this.hud.toast(S(e.method === 'shortcut' ? 'toast.shortcut.rescued' : 'toast.rescued'), 'good');
           this.audio.quest();
           break;
@@ -1521,8 +1593,35 @@ export class App {
     for (const n of this.npcs) n.update(dt, ctx);
   }
 
-  bark(a: NpcActor, text: string) {
-    this.bubbleState.set(a.id, { text, until: performance.now() + 3600 });
+  /** Two people near each other may talk between themselves when the player comes close enough to overhear. */
+  private overhear(hour: number) {
+    const state = this.game.state;
+    const day = clockDay(state.clock);
+    for (const scene of SCENES) {
+      if (!inHours(hour, scene.hours) || !evalAll(state, scene.when)) continue;
+      const [a, b] = scene.cast.map((id) => this.npcs.find((n) => n.id === id));
+      if (!a || !b || a.hidden || b.hidden || !state.npcs[a.id].available || !state.npcs[b.id].available) continue;
+      if (Math.hypot(a.x - b.x, a.z - b.z) > 22) continue;
+      if (Math.hypot(this.player.x - (a.x + b.x) / 2, this.player.z - (a.z + b.z) / 2) > 16) continue;
+      const where = (id: NpcId) => {
+        const p = (id === a.id ? a : b).headPosition;
+        return { x: p.x, y: p.y, z: p.z };
+      };
+      if (this.speech.scene(scene, day, where)) {
+        a.faceTo = b;
+        b.faceTo = a;
+        return;
+      }
+    }
+  }
+
+  /** A remark (a line in voice.ts), voiced from where the person stands, with its words above their head. */
+  bark(a: NpcActor, line: string) {
+    const text = VOICE_LINES[line]?.text;
+    if (!text || this.speech.busyFor(a.id) > 0) return;
+    const p = a.headPosition;
+    const seconds = this.speech.remark(a.id, line, { x: p.x, y: p.y, z: p.z });
+    if (seconds > 0) this.bubbleState.set(a.id, { text: shown(text), until: performance.now() + Math.max(3600, seconds * 1000 + 800) });
   }
 
   private playerContext(controllable: boolean) {
@@ -1560,7 +1659,10 @@ export class App {
       strikePlayer: (e, dmg, heavy) => p.receiveHit(dmg, heavy, e, this.playerContext(true)),
       onGrowl: (e) => {
         const at = { x: e.x, y: e.y + 1.2, z: e.z };
-        if (e.spawn.kind === 'thornback') this.audio.growl(at);
+        if (e.spawn.kind === 'thornback') {
+          this.audio.growl(at);
+          this.speech.hero('beast', { delay: 0.7 });
+        }
         else this.audio.shout(at);
       },
       time: this.world.time,
@@ -1572,7 +1674,10 @@ export class App {
     this.game.dispatch({ t: 'defeat', id: e.id });
     // The fight is won when nobody else is still on the player.
     if (!this.enemies.some((o) => o !== e && o.alive && o.engaged)) this.audio.victory();
-    if (e.id === 'cut_creature') this.hud.toast(S('toast.cleared'), 'good');
+    if (e.id === 'cut_creature') {
+      this.hud.toast(S('toast.cleared'), 'good');
+      this.speech.hero('victory', { delay: 0.8 });
+    }
   }
 
   private onPlayerDeath() {
@@ -1597,6 +1702,7 @@ export class App {
     this.cam.reset();
     this.hitStop = 0;
     this.input.reset();
+    this.speech.hero('respawn', { delay: 1, again: 1 });
   }
 
   private checkDiscoveries() {
@@ -1669,6 +1775,7 @@ export class App {
       enemies: this.enemies,
       props: this.world.physics.motions(),
       terrain: this.world.terrain,
+      speech: this.speechSoon,
     });
   }
 

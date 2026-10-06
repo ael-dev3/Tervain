@@ -12,7 +12,12 @@
  *   - public/assets/audio/world/music-*.{ogg,m4a}  score pieces, loops and stings;
  *   - public/assets/audio/world/song-*.{ogg,m4a}   the inn's evening tunes;
  *   - src/presentation/sound/worldAudioManifest.ts the offsets and durations the game plays from;
- *   - docs/engineering/world-audio-assets.json     provenance: prompts, source hashes and derivative hashes.
+ *   - docs/engineering/world-audio-assets.json     provenance: prompts, source hashes and derivative hashes;
+ *   - public/assets/audio/voice/voice-*.{ogg,m4a}  each speaker's lines end to end (src/content/voice.ts), from the
+ *                                                  generated takes in assets/audio/source/voice/ and their record in
+ *                                                  tools/world-audio/voices.json;
+ *   - src/presentation/sound/voiceManifest.ts      where each line sits in its speaker's sprite;
+ *   - docs/engineering/voice-assets.json           the voices' designs, every line's text and hashes.
  * It also renders the crafted half (tools/world-audio/compose/): music composed and instruments synthesized in code,
  * and the sounds crafted for the world (the town bell, chimes, crickets, bubbles, a heartbeat, the rite).
  * Ogg Opus is the primary format; AAC in MP4 is the fallback for browsers without Opus, as for the menu score.
@@ -31,6 +36,11 @@ const SOURCE = path.join(ROOT, 'assets/audio/source/world');
 const OUT = path.join(ROOT, 'public/assets/audio/world');
 const MANIFEST = path.join(ROOT, 'src/presentation/sound/worldAudioManifest.ts');
 const PROVENANCE = path.join(ROOT, 'docs/engineering/world-audio-assets.json');
+const VOICE_SOURCE = path.join(ROOT, 'assets/audio/source/voice');
+const VOICE_OUT = path.join(ROOT, 'public/assets/audio/voice');
+const VOICE_MANIFEST = path.join(ROOT, 'src/presentation/sound/voiceManifest.ts');
+const VOICE_PROVENANCE = path.join(ROOT, 'docs/engineering/voice-assets.json');
+const voicePlan = JSON.parse(fs.readFileSync(path.join(ROOT, 'tools/world-audio/voices.json'), 'utf8'));
 const plan = JSON.parse(fs.readFileSync(path.join(ROOT, 'tools/world-audio/plan.json'), 'utf8'));
 const RATE = 48000;
 const TMP = fs.mkdtempSync(path.join(os.tmpdir(), 'tervain-world-audio-'));
@@ -71,15 +81,15 @@ function writeWav(file, chans) {
 }
 
 /** Encode Opus (primary) and AAC (fallback); returns the two derivative records. */
-function encode(chans, stem, kbps) {
+function encode(chans, stem, kbps, dir = OUT, application = 'audio') {
   const wav = path.join(TMP, `${stem}.wav`);
   writeWav(wav, chans);
-  const ogg = path.join(OUT, `${stem}.ogg`);
-  const m4a = path.join(OUT, `${stem}.m4a`);
+  const ogg = path.join(dir, `${stem}.ogg`);
+  const m4a = path.join(dir, `${stem}.m4a`);
   const ch = chans.length;
   // Bit-exact muxing keeps Ogg serial numbers and MP4 timestamps fixed, so a rerun reproduces the same files.
   const exact = ['-fflags', '+bitexact', '-flags:a', '+bitexact', '-map_metadata', '-1'];
-  execFileSync('ffmpeg', ['-v', 'error', '-y', '-i', wav, '-c:a', 'libopus', '-b:a', `${kbps * ch}k`, '-vbr', 'on', '-application', 'audio', ...exact, ogg]);
+  execFileSync('ffmpeg', ['-v', 'error', '-y', '-i', wav, '-c:a', 'libopus', '-b:a', `${kbps * ch}k`, '-vbr', 'on', '-application', application, ...exact, ogg]);
   execFileSync('ffmpeg', ['-v', 'error', '-y', '-i', wav, '-c:a', 'aac', '-b:a', `${Math.round(kbps * 1.25) * ch}k`, '-movflags', '+faststart', ...exact, m4a]);
   return [ogg, m4a].map((f) => ({ path: path.relative(ROOT, f).replace(/\\/g, '/'), bytes: fs.statSync(f).size, sha256: sha256(f) }));
 }
@@ -238,6 +248,7 @@ fs.mkdirSync(OUT, { recursive: true });
 const banks = {};
 const loops = {};
 const music = {};
+const songs = {};
 const provenance = [];
 
 for (const item of plan.sources) {
@@ -245,9 +256,11 @@ for (const item of plan.sources) {
   if (!fs.existsSync(file)) throw new Error(`missing source ${item.id}`);
   const use = item.use;
   const channels = use.channels ?? (use.type === 'slices' || use.type === 'whole' ? 1 : 2);
-  const chans = decode(file, channels);
+  // A generated loop or piece can be cut to its steady part first (a take that fades out at its end, say).
+  let chans = decode(file, channels);
+  if (use.trim) chans = slice(chans, Math.round(use.trim[0] * RATE), Math.round(use.trim[1] * RATE));
   dcRemove(chans);
-  const record = { id: item.id, prompt: item.prompt, seconds: item.seconds, loop: item.loop, promptInfluence: item.promptInfluence, model: item.model, generated: item.generated, source: { path: path.relative(ROOT, file).replace(/\\/g, '/'), bytes: fs.statSync(file).size, sha256: sha256(file) }, use: { ...use } };
+  const record = { id: item.id, prompt: item.prompt, seconds: item.seconds, loop: item.loop, promptInfluence: item.promptInfluence, model: item.model, from: item.from, voice: item.voice, generated: item.generated, source: { path: path.relative(ROOT, file).replace(/\\/g, '/'), bytes: fs.statSync(file).size, sha256: sha256(file) }, use: { ...use } };
 
   if (use.type === 'slices' || use.type === 'whole') {
     const m = mono(chans);
@@ -291,6 +304,15 @@ for (const item of plan.sources) {
     const stem = `music-${use.name}`;
     record.derivatives = encode(c, stem, use.kbps ?? 48);
     music[use.name] = { file: stem, duration: +(c[0].length / RATE).toFixed(4), channels: c.length, kind: use.type, mood: use.mood, sourceLevelDb: lv.levelDb, origin: 'generated' };
+  } else if (use.type === 'song') {
+    // A sung song for the inn, heard through its walls like the lute tunes.
+    const span = activeSpan(mono(chans), use.marginDb ?? 50);
+    const c = slice(chans, span.start, span.end);
+    const lv = normalize(c, use.targetDb ?? -22);
+    fade(c, 0.02, 1.5);
+    const stem = `song-${use.name}`;
+    record.derivatives = encode(c, stem, use.kbps ?? 56);
+    songs[use.name] = { file: stem, duration: +(c[0].length / RATE).toFixed(4), channels: c.length, title: use.title, sourceLevelDb: lv.levelDb };
   } else throw new Error(`${item.id}: unknown use ${use.type}`);
   provenance.push(record);
 }
@@ -317,7 +339,6 @@ const pcmHash = (chans) => {
 };
 
 // The crafted half: composed and synthesized in code; the render is the source.
-const songs = {};
 const composed = [];
 for (const item of COMPOSED) {
   const use = item.use;
@@ -420,6 +441,83 @@ export type SongId = keyof typeof WORLD_AUDIO.songs;
 `);
 const preparedWith = execFileSync('ffmpeg', ['-version']).toString().split('\n')[0].trim();
 fs.writeFileSync(PROVENANCE, `${pretty({ schemaVersion: 1, generator: plan.generator, terms: plan.terms, preparedWith, assets: provenance, composed })}\n`);
+/* ------------------------------------------------------------------ voices */
+
+// Spoken lines are cut into short sprites per speaker (about half a minute each): a bank is fetched when its speaker
+// comes near or first speaks, and dropped when they are far and quiet, so decoded speech stays small in memory. The
+// story's text-first dialogue (dialogue.ts) is voiced too, in its own banks, ready for a conversation interface; the
+// game does not load those yet.
+fs.mkdirSync(VOICE_OUT, { recursive: true });
+const BANK_SECONDS = voicePlan.bankSeconds ?? 30;
+const voiceBanks = {};
+const spokenLines = {};
+const storyLines = {};
+const voiceRecords = [];
+
+function voiceClip(file) {
+  if (!fs.existsSync(file)) throw new Error(`missing voice source ${path.relative(ROOT, file)}`);
+  const chans = decode(file, 1);
+  dcRemove(chans);
+  // Silence trimmed to a breath either side; every voice at one spoken level.
+  const span = activeSpan(chans[0], 45);
+  const c = slice(chans, Math.max(0, span.start - Math.round(0.03 * RATE)), Math.min(chans[0].length, span.end + Math.round(0.08 * RATE)));
+  const lv = normalize(c, voicePlan.targetDb ?? -19);
+  fade(c, 0.005, 0.04);
+  return { c, lv };
+}
+
+/** Lays one set's lines into banks of about BANK_SECONDS per speaker; returns where each line sits. */
+function bankVoices(set, entries, sourceOf, prefix) {
+  const out = {};
+  const bySpeaker = {};
+  for (const [id, line] of entries) (bySpeaker[line.speaker] ??= []).push([id, line]);
+  for (const [speaker, lines] of Object.entries(bySpeaker)) {
+    const gap = Math.round(0.08 * RATE);
+    let bank = null;
+    let n = 0;
+    const flush = () => {
+      if (!bank) return;
+      const data = new Float32Array(bank.total);
+      for (const [c, at] of bank.parts) data.set(c[0], at);
+      const derivatives = encode([data], `voice-${bank.id}`, voicePlan.kbps ?? 40, VOICE_OUT, 'voip');
+      voiceBanks[bank.id] = { file: `voice-${bank.id}`, speaker, set, duration: +(bank.total / RATE).toFixed(4), lines: bank.parts.length };
+      for (const r of bank.records) voiceRecords.push({ ...r, derivatives });
+      bank = null;
+    };
+    for (const [id, line] of lines) {
+      const file = sourceOf(id);
+      const { c, lv } = voiceClip(file);
+      if (bank && (bank.total + c[0].length) / RATE > BANK_SECONDS) flush();
+      bank ??= { id: `${prefix}${speaker}-${++n}`, parts: [], records: [], total: gap };
+      bank.parts.push([c, bank.total]);
+      out[id] = [bank.id, +(bank.total / RATE).toFixed(5), +(c[0].length / RATE).toFixed(5), speaker];
+      bank.records.push({ id, set, speaker, text: line.text, model: line.model, generated: line.generated, transcript: line.transcript, source: { path: path.relative(ROOT, file).replace(/\\/g, '/'), bytes: fs.statSync(file).size, sha256: sha256(file) }, levelDb: lv.levelDb });
+      bank.total += c[0].length + gap;
+    }
+    flush();
+  }
+  return out;
+}
+
+const voiceFile = (id) => path.join(VOICE_SOURCE, `${id.replace(/#/g, '~')}.mp3`);
+Object.assign(spokenLines, bankVoices('spoken', Object.entries(voicePlan.lines), voiceFile, ''));
+// Story lines that repeat another's words (the same reply offered in several places) share its recording.
+const storyEntries = Object.entries(voicePlan.story ?? {}).filter(([, l]) => !l.same);
+Object.assign(storyLines, bankVoices('story', storyEntries, (id) => path.join(VOICE_SOURCE, 'story', `${id.replace(/#/g, '~')}.mp3`), 'story-'));
+for (const [id, l] of Object.entries(voicePlan.story ?? {})) if (l.same) storyLines[id] = storyLines[l.same];
+
+fs.writeFileSync(VOICE_MANIFEST, `// Generated by tools/world-audio/prepare.mjs from tools/world-audio/voices.json. Do not edit by hand.
+// Each line: [bank, offset, duration, speaker]; offsets and durations are seconds within the bank's sprite under
+// public/assets/audio/voice/. \`lines\` are the spoken lines the game plays (src/content/voice.ts); \`story\` voices the
+// text-first dialogue (src/content/dialogue.ts) by its string keys, for a future conversation interface.
+
+export const VOICE_AUDIO = ${pretty({ version: 2, base: 'assets/audio/voice/', banks: voiceBanks, lines: spokenLines, story: storyLines })} as const;
+
+export type VoiceBank = keyof typeof VOICE_AUDIO.banks;
+export type VoiceLineId = keyof typeof VOICE_AUDIO.lines;
+export type StoryLineId = keyof typeof VOICE_AUDIO.story;
+`);
+fs.writeFileSync(VOICE_PROVENANCE, `${pretty({ schemaVersion: 2, generator: voicePlan.generator, terms: voicePlan.terms, preparedWith, voices: voicePlan.voices, lines: voiceRecords })}\n`);
 fs.rmSync(TMP, { recursive: true, force: true });
 const count = (o) => Object.keys(o).length;
-console.log(`banks ${count(bankEntries)} (${Object.values(bankEntries).reduce((s, b) => s + Object.values(b.clips).reduce((t, v) => t + v.length, 0), 0)} variants), loops ${count(loops)}, music ${count(music)}, songs ${count(songs)}; composed ${composed.length} renders`);
+console.log(`banks ${count(bankEntries)} (${Object.values(bankEntries).reduce((s, b) => s + Object.values(b.clips).reduce((t, v) => t + v.length, 0), 0)} variants), loops ${count(loops)}, music ${count(music)}, songs ${count(songs)}; composed ${composed.length} renders; voice banks ${count(voiceBanks)} (${count(spokenLines)} spoken lines, ${count(storyLines)} story lines)`);
