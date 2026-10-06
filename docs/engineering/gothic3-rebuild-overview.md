@@ -270,15 +270,15 @@ route when the reviewed changes reach `main`.
 
 The separate TypeScript route is live at
 [Gothic 3 / Ardea](https://ael-dev3.github.io/Tervain/gothic3/). The deployed
-integration through checkpoint 78 is `main` commit
-`351bd200277a1214e94ccdca1552d5ef2c2a473b`, merged in
-[PR 47](https://github.com/ael-dev3/Tervain/pull/47) and published by successful
-[workflow run 37535953025](https://github.com/ael-dev3/Tervain/actions/runs/37535953025), attempt 1.
+integration through checkpoint 79 is `main` commit
+`b408a48a68c222c20f64766ccf63f7e3c2007b0d`, merged in
+[PR 48](https://github.com/ael-dev3/Tervain/pull/48) and published by successful
+[workflow run 37541106669](https://github.com/ael-dev3/Tervain/actions/runs/37541106669), attempt 1.
 
 The public browser check loads 202 scene objects and 70 character models,
 enters Ardea with Hero HP 100 and inspects the Hero model (10,692 triangles,
 three meshes) and a coastal bandit (11,280 triangles, two meshes).
-The route serves `gothic3-CAj9xpg6.js`; no captured warnings or
+The route serves `gothic3-C3iMc5TP.js`; no captured warnings or
 errors were observed. The checkpoint's standalone runtime admins are not
 connected to the browser NPC reader. The isolated shared heap
 owners in [checkpoint 75](gothic3-rebuilding-process.md#75-alias-selected-npc-fields-to-the-shared-heap)
@@ -302,6 +302,11 @@ adds the original nonpropagated Navigation notification sequence and a browser
 owner for the application session cache and area query services. Actual area
 construction, reflected type ownership and lower notification services remain
 required before this can activate the selected NPCs.
+[Checkpoint 80](gothic3-rebuilding-process.md#80-reproduce-fresh-cstring-text-construction-and-owned-byte-operations)
+corrects fresh CString text construction and the class-name adapter's original
+space search and scalar copy. Pointer alignment and capacity come from actual
+owned allocation records. These component changes are prerequisites for the
+Game Navigation class-name/type owners; they do not advance the live NPC reader.
 Subsequent build and deployment receipts are recorded in the
 [Pages workflow](https://github.com/ael-dev3/Tervain/actions/workflows/pages.yml).
 This is an incomplete reconstruction; hosting and a successful build do not

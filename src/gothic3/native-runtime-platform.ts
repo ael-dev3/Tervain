@@ -10,6 +10,7 @@ import { NativeMessageAdminModule } from './native-message-admin';
 import type { NativeMessageDiagnosticPlatform } from './native-message-admin';
 import { NativeErrorAdminModule } from './native-error-admin';
 import { NativeHeapObjectViews } from './native-heap-views';
+import type { NativeByteGeometryHost, NativeBytePointer, NativePointerGeometry } from './native-pointer-geometry';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = (reason: string): { known: false; reason: string } => ({ known: false, reason });
@@ -22,6 +23,8 @@ interface ShutdownEntry {
 }
 interface BackingEntry {
   readonly backing: NativeMemoryBacking; readonly kind: 'virtual' | 'crt-new' | 'crt-malloc' | 'win32-heap'; readonly ordinal: number;
+  nativeGeometry?: Readonly<{ alignment: 'virtual-page' | 'win32-heap-eight';
+    bytes: Uint8Array; masks: Uint8Array; capacity: number }>;
 }
 /** A retained platform handle, with no invented numerical x86 address. */
 export interface NativeWin32HeapCapability { readonly identity: object; readonly owner: object; }
@@ -122,7 +125,7 @@ export class NativeRuntimeDiagnostics implements NativeMessageDiagnosticPlatform
     handles: Object.freeze([...this.handles.values()].map(file => Object.freeze({ path: file.path, closed: file.closed }))) }); }
 }
 
-export class NativeRuntimePlatform implements NativeMemoryPlatform {
+export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGeometryHost {
   readonly diagnostics: NativeRuntimeDiagnostics;
   private readonly backing = new Map<object, BackingEntry>();
   private readonly sections = new Map<string, Section>();
@@ -216,7 +219,12 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform {
   }
   virtualAlloc(bytes: number, type: 0x103000, protect: 4): NativeValue<NativeMemoryRegion | null> {
     if (type !== 0x103000 || protect !== 4) return unknown('Original VirtualAlloc flags differ from admitted pool profile');
-    return this.allocate(bytes, 'virtual');
+    const result = this.allocate(bytes, 'virtual');
+    // Successful reservation/commit owns a page-aligned base. This record is
+    // allocator provenance; an arbitrary byte buffer gets no such geometry.
+    if (result.known && result.value) this.backing.get(result.value.identity)!.nativeGeometry = Object.freeze({
+      alignment: 'virtual-page', bytes: result.value.bytes, masks: result.value.knownMask, capacity: result.value.bytes.length });
+    return result;
   }
   crtNew(bytes: number): NativeValue<NativeMemoryBacking | null> { return this.allocate(bytes, 'crt-new'); }
   crtMalloc(bytes: number): NativeValue<NativeMemoryBacking | null> { return this.allocate(bytes, 'crt-malloc'); }
@@ -242,8 +250,63 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform {
       return unknown('Actual live selected HeapAlloc handle and flags required');
     }
     const allocated = this.allocate(bytes, 'win32-heap');
-    if (allocated.known && allocated.value) { retained.allocations.add(allocated.value); if (flags === 8) { allocated.value.bytes.fill(0); allocated.value.knownMask.fill(255); } }
+    if (allocated.known && allocated.value) {
+      retained.allocations.add(allocated.value);
+      // The admitted x86 HeapAlloc contract returns an eight-byte-aligned
+      // block. Its retained capacity stays exact; no padding is invented.
+      this.backing.get(allocated.value.identity)!.nativeGeometry = Object.freeze({ alignment: 'win32-heap-eight',
+        bytes: allocated.value.bytes, masks: allocated.value.knownMask, capacity: allocated.value.bytes.length });
+      if (flags === 8) { allocated.value.bytes.fill(0); allocated.value.knownMask.fill(255); }
+    }
     return allocated;
+  }
+  resolveNativePointer(pointer: NativeBytePointer): NativeValue<NativePointerGeometry> {
+    try {
+      if (!(pointer.fields instanceof NativeHeapObjectViews) || !Number.isSafeInteger(pointer.offset)) throw new Error('Actual retained native byte pointer required');
+      const fields = pointer.fields, backing = fields.backing;
+      const canonical = 'region' in backing ? backing.region : backing;
+      const entry = this.backing.get(canonical.identity);
+      if (!entry || entry.backing !== canonical || !entry.nativeGeometry) throw new Error('Native pointer alignment has no successful owned VirtualAlloc/HeapAlloc record');
+      const proof = entry.nativeGeometry;
+      if (canonical.bytes !== proof.bytes || canonical.knownMask !== proof.masks || canonical.bytes.length !== proof.capacity) {
+        throw new Error('Native pointer canonical storage differs from its retained allocator proof');
+      }
+      const allocationBegin = 'region' in backing ? backing.offset : 0;
+      const capacity = backing.bytes.length, begin = fields.bytes.byteOffset - backing.bytes.byteOffset;
+      const allocationEnd = allocationBegin + capacity;
+      if (!Number.isSafeInteger(allocationBegin) || allocationBegin < 0 ||
+          ('region' in backing && (!Number.isSafeInteger(backing.capacity) || backing.capacity !== capacity)) ||
+          canonical.bytes.length !== canonical.knownMask.length || backing.knownMask.length !== capacity ||
+          allocationEnd > canonical.bytes.length || begin < 0 || begin + fields.bytes.length > capacity ||
+          fields.bytes.length !== fields.knownMask.length || pointer.offset < 0 || pointer.offset > fields.bytes.length ||
+          backing.bytes.buffer !== canonical.bytes.buffer || backing.bytes.byteOffset !== canonical.bytes.byteOffset + allocationBegin ||
+          backing.knownMask.buffer !== canonical.knownMask.buffer || backing.knownMask.byteOffset !== canonical.knownMask.byteOffset + allocationBegin ||
+          fields.bytes.buffer !== canonical.bytes.buffer || fields.bytes.byteOffset !== canonical.bytes.byteOffset + allocationBegin + begin ||
+          fields.knownMask.buffer !== canonical.knownMask.buffer || fields.knownMask.byteOffset !== canonical.knownMask.byteOffset + allocationBegin + begin) {
+        throw new Error('Native pointer canonical allocation/view aliases differ');
+      }
+      const offset = allocationBegin + begin + pointer.offset;
+      return known(Object.freeze({ canonicalBacking: canonical, allocationIdentity: canonical.identity,
+        offset, allocationBegin, allocationEnd, canonicalCapacity: canonical.bytes.length,
+        modulo4: (offset & 3) as 0 | 1 | 2 | 3 }));
+    } catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
+  }
+  proveNativeCopyDirection(destination: NativeBytePointer, input: NativeBytePointer, bytes: number): NativeValue<'forward' | 'backward'> {
+    if (!Number.isInteger(bytes) || bytes < 0 || bytes > 0xffffffff) return unknown('Original memcpy uint32 size required');
+    const source = this.resolveNativePointer(input); if (!source.known) return source;
+    const target = this.resolveNativePointer(destination); if (!target.known) return target;
+    if (source.value.canonicalBacking === target.value.canonicalBacking) {
+      // Retained canonical region bounds prove this addition without assigning
+      // an address. Individual access bounds/lifetimes remain at load/store.
+      if (source.value.offset + bytes > source.value.canonicalCapacity) return unknown('Same-root memcpy pointer addition exceeds its retained canonical address span');
+      return known(source.value.offset < target.value.offset && target.value.offset < source.value.offset + bytes ? 'backward' : 'forward');
+    }
+    if (source.value.offset + bytes > source.value.allocationEnd || target.value.offset + bytes > target.value.allocationEnd) {
+      return unknown('Distinct-root memcpy spans lack owned native nonoverlap/ordering proof');
+    }
+    // Fresh successful allocations own distinct storage. No ordinal or guessed
+    // address ordering is used to compare these disjoint byte intervals.
+    return known('forward');
   }
   win32HeapFree(heap: NativeWin32HeapCapability, flags: 0, backing: NativeMemoryBacking): NativeValue<boolean> {
     const retained = this.winHeaps.get(heap.identity), entry = this.backing.get(backing.identity);

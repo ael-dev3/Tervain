@@ -4,6 +4,7 @@ import sourceText from '../../assets/gothic3/scene-startup/runtime-rules.json?ra
 import type { NativeValue } from './dialogue';
 import { NativeHeapObjectViews } from './native-heap-views';
 import { NativeHeapCString } from './native-heap-cstring';
+import { findNativeSpace } from './native-byte-string';
 import type { NativeMemoryAdmin, NativeMemoryBacking } from './native-memory-admin';
 import type { NativeCrtBytePointer } from './native-crt-dname';
 
@@ -184,13 +185,13 @@ export class NativeSceneClassName {
         const name = fact(this.host.typeInfo.getName(), 'CRT.type_info.name');
         if (this.reentrant) throw new Error('Unsupported reentrant class-name initialization');
         if (!name) throw new Error('UnMangle._strstr dereferences NULL CRT type-name result');
-        const bytes = terminated(new NativeHeapObjectViews(name));
-        const firstSpace = bytes.indexOf(0x20);
-        const selected = firstSpace < 0 ? bytes : bytes.subarray(firstSpace + 1);
-        // The text constructor stores NULL then performs SetText. Retain the
-        // actual object even when its subsequent allocation/copy is partial.
-        this.name = new NativeHeapCString(this.host.memory, new NativeHeapObjectViews(this.fields.backing, 0, 4));
-        fact(this.name.setTextBytes(selected), 'ClassName.UnMangle.CString');
+        const input = { fields: new NativeHeapObjectViews(name), offset: 0 };
+        const firstSpace = fact(findNativeSpace(this.host.memory.byteGeometry(), input), 'ClassName.UnMangle._strstr');
+        const selected = firstSpace ? { fields: firstSpace.fields, offset: firstSpace.offset + 1 } : input;
+        // UnMangle calls the text constructor directly. Retain its fresh owner
+        // before strlen/Alloc/copy; the constructor has no earlier NULL store.
+        this.name = NativeHeapCString.beginTextConstruction(this.host.memory, new NativeHeapObjectViews(this.fields.backing, 0, 4));
+        fact(this.name.constructText(selected), 'ClassName.UnMangle.CString');
         if (this.reentrant) throw new Error('Unsupported reentrant class-name initialization');
         const registered = this.host.registerShutdown('300184df', this, () => this.destroyName());
         if (this.reentrant) throw new Error('Unsupported reentrant class-name initialization');
