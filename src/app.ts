@@ -15,6 +15,7 @@ import { worldView } from './game/worldView';
 import { Input } from './platform/input';
 import { FrameClock } from './platform/frameTiming';
 import { waitForGraphicsReady } from './platform/graphicsReady';
+import { prepareSceneTextures } from './platform/prepareSceneTextures';
 import { codeLabel, loadSettings } from './platform/settings';
 import { BrowserStore, SaveStore, SLOT_IDS, type SlotId } from './platform/storage';
 import { ENEMY_SPAWNS, PLACES, SPAWN, SLUICE, RITE_ALTAR, type V2 } from './world/layout';
@@ -465,11 +466,21 @@ export class App {
     this.cam.follow(1, this.player.x, this.player.y, this.player.z, this.world.terrain, this.world.colliders, true, 0);
     this.world.update(0, this.game.state, new THREE.Vector3(this.player.x, this.player.y, this.player.z),
       this.settings, hourOfDay(this.game.state.clock), this.cam.camera, false);
+    let textureCount = 0;
+    await prepareSceneTextures(this.renderer, this.world.scene, { camera: this.cam.camera,
+      onProgress: (completed, total) => {
+        textureCount = total;
+        this.loadingScreen?.update({ phase: 'graphics', completed, total: total + 3, detail: 'Preparing surface textures…' });
+      },
+    });
     await this.renderer.compileAsync?.(this.world.scene, this.cam.camera);
+    this.loadingScreen?.update({ phase: 'graphics', completed: textureCount + 1, total: textureCount + 3, detail: 'Preparing the first view…' });
     this.renderWorld();
+    this.loadingScreen?.update({ phase: 'graphics', completed: textureCount + 2, total: textureCount + 3, detail: 'Finishing the first view…' });
     // Shader completion precedes uploads and draws. Wait for the submitted view before enabling input.
     const context = this.renderer.getContext?.();
     await waitForGraphicsReady(context && 'fenceSync' in context ? context : undefined);
+    this.loadingScreen?.update({ phase: 'graphics', completed: textureCount + 3, total: textureCount + 3 });
   }
 
   private requestInitialJourney(state: WorldState, fromLoad: { recovered: null | 'previous' | 'temporary' } | null, enter: () => void) {
