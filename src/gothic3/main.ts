@@ -25,6 +25,8 @@ import { loadNativeFistCarrier } from './native-fist-carrier';
 import type { NativeFistCarrier } from './native-fist-carrier';
 import { BrowserArdeaNpcCombatRuntime } from './npc-combat-runtime';
 import { BrowserNpcDeathRuntime } from './browser-npc-death';
+import type { BrowserNpcEntityRuntime, BrowserNpcEntityPreparation } from './browser-npc-entity';
+import type { BrowserNpcEntityServiceOwner } from './browser-npc-entity-services';
 import { NativeQuestRuntime, nativeQuestStatusName } from './quest-runtime';
 import type { ArdeaScene, ScenePerson } from './types';
 import './style.css';
@@ -42,7 +44,7 @@ ui.innerHTML = '<header class="masthead"><div class="eyebrow">Gothic 3 · browse
   '<nav class="toolbar"><button id="explore-button">Explore</button><button id="view-button">Third person</button><button id="character-button">Character</button><button id="inventory-button">Inventory <kbd>I</kbd></button><button id="landscape-button">Landscape</button><button id="inspect-button">Models <kbd>Tab</kbd></button><button id="journal-button">Journal <kbd>J</kbd></button><button id="map-button">Map <kbd>M</kbd></button><button id="save-button">Save <kbd>P</kbd></button><button id="help-button">Help</button><a href="../">Tervain ↗</a></nav>' +
   '<div class="crosshair" id="crosshair"></div><div class="prompt hidden" id="prompt"></div><div class="toast hidden" id="toast" role="status"></div>' +
   '<footer class="bottom"><div class="keys" id="keys"><kbd>W A S D</kbd> move &nbsp; <kbd>Shift</kbd> run &nbsp; click / <kbd>C</kbd> attack &nbsp; right-click / <kbd>V</kbd> power attack<br><kbd>E</kbd> talk &nbsp; drag mouse for look &nbsp; <kbd>F</kbd> fly &nbsp; <kbd>R</kbd> return to arrival</div><div class="coordinate"><span id="coordinates">Loading native scene</span><div id="hero-vitals"></div><div id="world-clock"></div><div id="terrain-status"></div><div class="scope-tag">Ardea and coastal bandits · saved quest progression · NPC AI incomplete</div></div></footer>' +
-  '<section class="inspector panel hidden" id="inspector"><div class="eyebrow">Original geometry</div><h2>Character inspection</h2><select id="model-select" aria-label="Character model"></select><div class="row"><button id="wire-button">Wireframe</button><button id="spin-button">Rotate</button><button id="frame-button">Frame</button></div><div id="animation-controls" class="hidden"><label for="clip-select">Native motion</label><select id="clip-select" aria-label="Native motion"><option value="">Bind pose</option></select><button id="clip-play" disabled>Play motion</button></div><p>Drag to rotate · wheel to zoom · right-drag to pan.</p><p id="model-info">Native body and head; exported bind pose.</p><div class="source" id="model-source"></div></section>' +
+  '<section class="inspector panel hidden" id="inspector"><div class="eyebrow">Original geometry</div><h2>Character inspection</h2><select id="model-select" aria-label="Character model"></select><div class="row"><button id="wire-button">Wireframe</button><button id="spin-button">Rotate</button><button id="frame-button">Frame</button></div><div id="animation-controls" class="hidden"><label for="clip-select">Native motion</label><select id="clip-select" aria-label="Native motion"><option value="">Bind pose</option></select><button id="clip-play" disabled>Play motion</button></div><p>Drag to rotate · wheel to zoom · right-drag to pan.</p><p id="model-info">Native body and head; exported bind pose.</p><div class="source" id="model-source"></div><details class="source" id="entity-study"><summary>Original entity study · developer details</summary><p id="entity-study-status">Select a coastal bandit to inspect its retained original construction and read stage.</p></details></section>' +
   '<section class="modal panel hidden" id="modal" aria-label="Information"><button class="close" id="modal-close" aria-label="Close panel">×</button><div id="modal-content"></div></section>' +
   '<div class="map hidden" id="map"><span class="map-label">ARDEA · LOCAL POSITIONS</span><canvas id="map-view" width="488" height="488" aria-label="Local positions map"></canvas></div>' +
   '<div class="loading" id="loading"><section class="intro"><div class="eyebrow">Gothic 3 · TypeScript reconstruction</div><h1>Ardea</h1><h2>The shore of Myrtana</h2><p>Walk through the recovered scene. Inspect original character models, Hero motion and the landscapes of Myrtana, Nordmar and Varant.</p><div class="rule"></div><p>Terrain loads as you move. A source-backed fresh quest state starts Xardas’s first quest. Selected Ardea dialogue, quest transitions and XP, skill and PoliticalFame rewards run from original records. The starting Raiders and Jack’s three coastal bandits retain their browser HP through saves. Source-directed lethal bandit hits schedule a recovered death-state prefix, advance Jack’s quest and award 50 defeat XP each. The prefix stops at the remaining enclave callback. NPC AI, incoming attacks, full death handling, ragdoll and loot remain incomplete, as do most campaign progression paths.</p><div class="progress"><span id="progress"></span></div><div class="load-status" id="load-status">Reading scene manifest…</div><button class="primary" id="start-button" disabled>Enter Ardea</button><small>Independent from Tervain’s original game.<br>Keyboard and mouse · WebGL · local browser saves</small></section></div>';
@@ -116,9 +118,83 @@ let nativeFistCarrier: Promise<NativeFistCarrier> | null = null;
 let questRuntime: NativeQuestRuntime | null = null;
 let npcCombatRuntime: BrowserArdeaNpcCombatRuntime | null = null;
 let npcDeathRuntime: BrowserNpcDeathRuntime | null = null;
+// Retained original-construction study for this page lifetime. These owners
+// have not completed NPC/Routine attachment or native world activation.
+let npcEntityServices: BrowserNpcEntityServiceOwner | null = null;
+let npcEntityRuntime: BrowserNpcEntityRuntime | null = null;
+let npcEntityPreparations: readonly BrowserNpcEntityPreparation[] = [];
+let npcEntityLoading: Promise<void> | null = null;
+let npcEntityStudyError: string | null = null;
+let npcEntityStudyDisposed = false;
 const pickpocketActions = new BrowserPickpocketActions();
 let questRuntimeError: string | null = null;
 let enteringWorld = false;
+
+function updateNpcEntityStudy(person: ScenePerson | null): void {
+  const target = element('entity-study-status');
+  target.style.whiteSpace = 'pre-line';
+  if (npcEntityStudyError) {
+    target.textContent = 'The entity study is unavailable: ' + npcEntityStudyError;
+    return;
+  }
+  const row = person ? npcEntityPreparations.find(value => value.source.guid === person.id.toLowerCase()) : null;
+  if (!row) {
+    target.textContent = npcEntityLoading && !npcEntityRuntime
+      ? 'Reading verified original coastal bandit records…'
+      : "This construction study covers Jack’s three coastal bandits. Select one of their models.";
+    return;
+  }
+  const entity = row.allocation?.data.entity;
+  const navigation = row.navigation;
+  const registered = entity !== undefined && npcEntityRuntime?.getOwner(row.source.guid) === entity;
+  const navigationRegistered = navigation !== null &&
+    npcEntityRuntime?.navigationRegistry.navigationPS.includes(navigation.state) === true;
+  target.textContent = [
+    'TypeScript study of the recovered original constructor and read sequence.',
+    'Constructor: ' + (row.construction.supported ? 'complete' : 'stopped'),
+    'Read stage: ' + (entity?.sourceReadStage ?? 'not started') +
+      ' · ' + row.consumedBytes + ' / ' + row.source.byteLength + ' original bytes',
+    'Registered owner: ' + (registered ? entity!.propertyId20 : 'none for this source ID'),
+    'Attached property sets: ' + (entity?.propertySets.length ?? 0) + ' / ' + row.source.propertySets.length,
+    'Navigation owner assigned: ' + (entity && navigation?.owner === entity ? 'yes' : 'no') +
+      ' · NavigationAdmin membership: ' + (navigationRegistered ? 'yes' : 'no'),
+    'Graph context: ' + (entity?.context?.identity ?? 'none; graph attachment has not run'),
+    'Original NPC activation: incomplete.',
+    'Current boundary: ' + row.boundary,
+    'The visible model and browser combat/death state use separate presentation and gameplay objects.',
+  ].join('\n');
+}
+
+/** Prepare each original record once. A study failure does not prevent the
+ * existing exploration, quest, browser combat or save session from starting. */
+function loadNpcEntityStudy(): Promise<void> {
+  if (!npcEntityLoading) {
+    npcEntityLoading = (async () => {
+      try {
+        const [entityModule, serviceModule] = await Promise.all([
+          import('./browser-npc-entity'),
+          import('./browser-npc-entity-services'),
+        ]);
+        if (npcEntityStudyDisposed) return;
+        const source = await entityModule.loadBrowserNpcEntitySources();
+        if (npcEntityStudyDisposed) return;
+        npcEntityServices = serviceModule.createBrowserNpcEntityServices({ crypto, now: () => performance.now() });
+        npcEntityRuntime = new entityModule.BrowserNpcEntityRuntime(npcEntityServices.services);
+        npcEntityPreparations = Object.freeze(source.entities.map(record => npcEntityRuntime!.prepare(record)));
+      } catch (error) {
+        npcEntityStudyError = error instanceof Error ? error.message : String(error);
+      } finally { if (!npcEntityStudyDisposed) updateNpcEntityStudy(selectedPerson); }
+    })();
+  }
+  return npcEntityLoading;
+}
+
+// Explicit module teardown invokes the selected platform shutdown owner. Page
+// unload delivery and the original Windows CRT shutdown are not asserted.
+import.meta.hot?.dispose(() => {
+  npcEntityStudyDisposed = true;
+  npcEntityServices?.dispose();
+});
 
 const inspection = new THREE.Scene();
 inspection.background = new THREE.Color(0x303d36);
@@ -851,6 +927,7 @@ async function selectModel(id: string): Promise<void> {
     inspection.add(group);
     inspectorModel = group;
     selectedPerson = person;
+    updateNpcEntityStudy(person);
     updateWireframe();
     frameInspector();
     let triangles = 0;
@@ -977,6 +1054,7 @@ async function boot(): Promise<void> {
   } catch (error) {
     failures.push('Source NPC routines: ' + String(error));
   }
+  void loadNpcEntityStudy();
   await Promise.all([
     animations.loadManifest().catch((error: unknown) => { failures.push('Native animation: ' + String(error)); }),
     terrain.initialize().catch((error: unknown) => { failures.push('Native terrain: ' + String(error)); }),

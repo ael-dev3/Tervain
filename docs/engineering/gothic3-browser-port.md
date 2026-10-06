@@ -7,9 +7,11 @@ Date: 6 October 2026. Status: exploration, a moving Hero presentation and native
 The owner asked to rebuild the installed Gothic 3 in TypeScript and host it as
 a second URL in Tervain. The repository is public and GitHub Pages is enabled.
 The [Gothic 3 / Ardea route](https://ael-dev3.github.io/Tervain/gothic3/) is
-live. The deployed baseline preceding checkpoints 55–71 was `main` commit
-`59854ed6e4daca03d6d0d6265a97fa1099c0c724`, published by
-[workflow run 37502708509](https://github.com/ael-dev3/Tervain/actions/runs/37502708509).
+live. The verified deployed checkpoint 72 is `main` commit
+`a021b8ae66e6f66ef5a5a2de3b392fb48c6a0bac`, published by the successful
+[workflow run 37515257094](https://github.com/ael-dev3/Tervain/actions/runs/37515257094).
+The original NPC construction study in checkpoint 73 has its own publication
+gate; its implementation alone does not establish deployment.
 The [Pages workflow](https://github.com/ael-dev3/Tervain/actions/workflows/pages.yml)
 records subsequent publication receipts.
 It remains an incomplete exploration and gameplay prototype, not a finished
@@ -225,6 +227,19 @@ browser feet [-40.150625, -0.544360, -18.025225] metres relative to the
 recorded origin. The camera looks toward Ardea as an explicit browser choice,
 not a claim that the original camera controller was recovered.
 
+### Original NPC construction study
+
+The Models inspector has a collapsed **Original entity study · developer
+details** section for Jack's three coastal bandits. It loads hash-checked full
+source records, constructs retained original entity storage and performs the
+Node source-ID registration on that same owner. The current read stops at
+338 of 6,544 bytes, during the first Navigation factory's unowned ErrorAdmin
+prerequisite. Its serialized property packet and attachment callbacks have
+not run: there are zero attached property sets, no NavigationAdmin membership
+and no live graph context. The visible models and existing browser combat and
+death state remain separate. See
+[checkpoint 73](gothic3-rebuilding-process.md#73-construct-retained-npc-owners-and-reach-the-first-property-factory).
+
 ## Why decompilation does not produce a finished port
 
 The local study contains 36 runtime/script/updater modules, 224,676 native
@@ -293,7 +308,9 @@ Tervain saves.
 
 ## Reproduction and publication
 
-See the [step-by-step rebuilding process](gothic3-rebuilding-process.md) for
+Start with the [rebuilding overview](gothic3-rebuild-overview.md) for the
+workflow and reproducible commands. See the
+[step-by-step rebuilding process](gothic3-rebuilding-process.md) for
 source study, native formats, conversion decisions and runtime responsibilities.
 
 `npm ci` installs the pinned repository dependencies. `npm run build` builds

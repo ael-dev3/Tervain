@@ -343,6 +343,24 @@ export class NativeWorldData {
     return chooseUnique((await this.templateIndex()).filter((header) => header.guid === guid), guid);
   }
 
+  /** Source candidates for a native PropertyID lookup. SceneAdmin compares
+   * the four GUID DWORDs; the final cache DWORD does not identify the object.
+   * This only admits source headers, never creates or registers live owners.
+   * Distinct headers with the same native key remain ambiguous. */
+  async templateByPropertyId(propertyId20: string): Promise<SourceLookup<NativeTemplateIndex>> {
+    if (typeof propertyId20 !== 'string' || !/^[a-f0-9]{40}$/i.test(propertyId20)) {
+      throw new Error('Native template lookup requires a 20-byte PropertyID.');
+    }
+    const prefix = propertyId20.slice(0, 32).toLowerCase();
+    const headers = await this.templateIndex();
+    if (headers.some((header) => header.guid !== null &&
+        (typeof header.guid !== 'string' || !/^[a-f0-9]{40}$/i.test(header.guid)))) {
+      throw new Error('Native template index contains an invalid PropertyID.');
+    }
+    return chooseUnique(headers.filter((header) =>
+      header.guid?.slice(0, 32).toLowerCase() === prefix), propertyId20);
+  }
+
   async templateByGuidWithSource(guid: string): Promise<SourceLookup<NativeTemplateIndex>> {
     return this.attachTemplateSource(await this.templateByGuid(guid));
   }
