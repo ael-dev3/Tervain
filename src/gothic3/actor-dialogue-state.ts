@@ -4,7 +4,12 @@ export interface NativeActorDialogState {
   readonly hasNpc: boolean;
   readonly hasDialog: boolean;
   readonly talkedToPlayer: boolean;
+  readonly tradeEnabled: boolean | null;
+  readonly partyEnabled: boolean | null;
+  readonly teachEnabled: boolean | null;
 }
+
+export type NativeActorDialogFlag = 'TradeEnabled' | 'PartyEnabled' | 'TeachEnabled';
 
 interface SourceProperty { name: string; status?: string; value?: unknown }
 interface SourcePropertySet { name: string; properties: SourceProperty[] }
@@ -17,6 +22,9 @@ interface ActorRow {
   readonly hasDialog: boolean;
   readonly sourceTalkedToPlayer: boolean;
   talkedToPlayer: boolean;
+  tradeEnabled: boolean;
+  partyEnabled: boolean;
+  teachEnabled: boolean;
 }
 
 function actorId(id: string): string {
@@ -50,8 +58,11 @@ export class NativeArdeaActorDialogState {
       if (npcSets.length > 1 || dialogSets.length > 1) throw new Error('Duplicate native Ardea actor property set: ' + entity.name);
       const hasDialog = dialogSets.length === 1;
       const sourceTalkedToPlayer = hasDialog ? flag(dialogSets[0]!.properties, 'TalkedToPlayer') : false;
+      const tradeEnabled = hasDialog ? flag(dialogSets[0]!.properties, 'TradeEnabled') : false;
+      const partyEnabled = hasDialog ? flag(dialogSets[0]!.properties, 'PartyEnabled') : false;
+      const teachEnabled = hasDialog ? flag(dialogSets[0]!.properties, 'TeachEnabled') : false;
       const row: ActorRow = { id, name: entity.name, hasNpc: npcSets.length === 1, hasDialog,
-        sourceTalkedToPlayer, talkedToPlayer: sourceTalkedToPlayer };
+        sourceTalkedToPlayer, talkedToPlayer: sourceTalkedToPlayer, tradeEnabled, partyEnabled, teachEnabled };
       if (this.rows.has(id) || [...this.rows.values()].some((existing) => existing.name === row.name)) {
         throw new Error('Duplicate native Ardea actor identity: ' + entity.name);
       }
@@ -63,7 +74,32 @@ export class NativeArdeaActorDialogState {
     const row = this.rows.get(actorId(entity.id));
     if (!row) return { known: false, reason: 'Native NPC/Dialog property state is not loaded for ' + entity.name + '.' };
     if (row.name !== entity.name) return { known: false, reason: 'Native entity ID/name identity differs for ' + entity.name + '.' };
-    return { known: true, value: { hasNpc: row.hasNpc, hasDialog: row.hasDialog, talkedToPlayer: row.talkedToPlayer } };
+    return { known: true, value: { hasNpc: row.hasNpc, hasDialog: row.hasDialog,
+      talkedToPlayer: row.talkedToPlayer, tradeEnabled: row.hasDialog ? row.tradeEnabled : null,
+      partyEnabled: row.hasDialog ? row.partyEnabled : null, teachEnabled: row.hasDialog ? row.teachEnabled : null } };
+  }
+
+  dialogFlag(entity: DialogueEntity, field: NativeActorDialogFlag): NativeValue<boolean | null> {
+    const state = this.dialog(entity);
+    const key = field === 'TradeEnabled' ? 'tradeEnabled' : field === 'PartyEnabled' ? 'partyEnabled' : 'teachEnabled';
+    return state.known ? { known: true, value: state.value[key] }
+      : state;
+  }
+
+  setDialogFlag(entity: DialogueEntity, field: NativeActorDialogFlag, value: boolean): NativeValue<true> {
+    if (typeof value !== 'boolean') return { known: false, reason: 'Native Dialog.' + field + ' requires a bool.' };
+    const state = this.dialog(entity);
+    if (!state.known) return state;
+    if (!state.value.hasDialog) return { known: false, reason: 'Native Dialog.' + field + ' target has no Dialog property set.' };
+    const row = this.rows.get(actorId(entity.id))!;
+    if (field === 'TradeEnabled') row.tradeEnabled = value;
+    else if (field === 'PartyEnabled') row.partyEnabled = value;
+    else row.teachEnabled = value;
+    return { known: true, value: true };
+  }
+
+  setTradeEnabled(entity: DialogueEntity, value: boolean): NativeValue<true> {
+    return this.setDialogFlag(entity, 'TradeEnabled', value);
   }
 
   beginInfoManager(entity: DialogueEntity): NativeValue<true> {
@@ -89,6 +125,15 @@ export class NativeArdeaActorDialogState {
     return [...this.rows.values()].filter((row) => row.talkedToPlayer).map((row) => row.id).sort();
   }
 
+  currentTradeEnabledIds(): string[] {
+    return this.currentEnabledDialogActorIds('TradeEnabled');
+  }
+
+  currentEnabledDialogActorIds(field: NativeActorDialogFlag): string[] {
+    const key = field === 'TradeEnabled' ? 'tradeEnabled' : field === 'PartyEnabled' ? 'partyEnabled' : 'teachEnabled';
+    return [...this.rows.values()].filter((row) => row.hasDialog && row[key]).map((row) => row.id).sort();
+  }
+
   restoreTalkedToPlayerIds(ids: readonly string[]): void {
     const restored = new Set<string>();
     for (const value of ids) {
@@ -99,5 +144,21 @@ export class NativeArdeaActorDialogState {
     }
     for (const row of this.rows.values()) row.talkedToPlayer = row.sourceTalkedToPlayer || restored.has(row.id);
     this.active.clear();
+  }
+
+  restoreTradeEnabledIds(ids: readonly string[]): void {
+    this.restoreEnabledDialogActorIds('TradeEnabled', ids);
+  }
+
+  restoreEnabledDialogActorIds(field: NativeActorDialogFlag, ids: readonly string[]): void {
+    const restored = new Set<string>();
+    for (const value of ids) {
+      const id = actorId(value);
+      const row = this.rows.get(id);
+      if (!row || !row.hasDialog || restored.has(id)) throw new Error('Browser save has an invalid or duplicate Ardea Dialog.' + field + ' actor: ' + id);
+      restored.add(id);
+    }
+    const key = field === 'TradeEnabled' ? 'tradeEnabled' : field === 'PartyEnabled' ? 'partyEnabled' : 'teachEnabled';
+    for (const row of this.rows.values()) row[key] = row.hasDialog && restored.has(row.id);
   }
 }

@@ -44,7 +44,7 @@ export interface DialogueFacts {
   itemStackAmount(entity: DialogueEntity, templateName: string): NativeValue<number | null>;
   actor(entity: DialogueEntity): NativeValue<NativeActorCondition>;
   actorDialog(entity: DialogueEntity): NativeValue<NativeActorDialogCondition>;
-  dialogFlag(entity: DialogueEntity, field: 'TradeEnabled'): NativeValue<boolean | null>;
+  dialogFlag(entity: DialogueEntity, field: 'TradeEnabled' | 'PartyEnabled' | 'TeachEnabled'): NativeValue<boolean | null>;
   /** Handles each unported native condition explicitly. No default true. */
   condition(info: NativeInfo, roles: DialogueRoles): InfoAvailability;
 }
@@ -53,6 +53,18 @@ const available = (): { kind: 'available' } => ({ kind: 'available' });
 const unavailable = (reason: string): { kind: 'unavailable'; reason: string } => ({ kind: 'unavailable', reason });
 const unknown = (reason: string): { kind: 'unknown'; reason: string } => ({ kind: 'unknown', reason });
 const sameEntity = (a: DialogueEntity, b: DialogueEntity): boolean => a.id === b.id;
+
+/** Game.dll scales NPC-target distances by 0.25 and other world distances by 1.
+ * Positions are in browser metres; the native condition compares centimetres. */
+export function nativeAdjustedOwnerDistance(ownerPosition: readonly number[], targetPosition: readonly number[],
+  targetIsNpc: boolean): NativeValue<number> {
+  if (ownerPosition.length !== 3 || targetPosition.length !== 3 ||
+      !ownerPosition.every(Number.isFinite) || !targetPosition.every(Number.isFinite)) {
+    return { known: false, reason: 'Native distance position is malformed.' };
+  }
+  return { known: true, value: Math.hypot(ownerPosition[0]! - targetPosition[0]!,
+    ownerPosition[1]! - targetPosition[1]!, ownerPosition[2]! - targetPosition[2]!) * (targetIsNpc ? 25 : 100) };
+}
 
 export function nativeDialogueRoles(info: NativeInfo, input: DialogueParticipants): DialogueRoles {
   const participants = sameEntity(input.b, input.player) ? { ...input, a: input.b, b: input.a } : input;
@@ -119,11 +131,14 @@ export function nativeInfoAvailability(info: NativeInfo, participants: DialogueP
   if (info.conditions.ownerNearEntity) {
     const distance = facts.ownerDistance(info, info.conditions.ownerNearEntity);
     if (!distance.known) return unknown(distance.reason);
-    if (distance.value > 500) return unavailable('Native adjusted owner-to-entity distance exceeds 500.');
+    if (distance.value > 500) return unavailable('Native adjusted owner-to-entity distance exceeds 500 (' +
+      distance.value.toFixed(1) + ' / 500).');
   }
   switch (info.conditionType) {
     case 2: {
-      const actor = facts.actor(owner.value);
+      // Hello only consumes the owner's Dialog property and TalkedToPlayer
+      // flag. Death/wound state belongs to the separate secondary-NPC tests.
+      const actor = facts.actorDialog(owner.value);
       if (!actor.known) return unknown(actor.reason);
       if (!actor.value.hasDialog || actor.value.talkedToPlayer) return unavailable('Hello requires an untalked-to owner with Dialog property set.');
       break;
@@ -237,7 +252,7 @@ export type DialogueOperation =
   | { kind: 'quest'; operation: 'run' | 'close' | 'succeed'; quest: string; sourceIndex: number }
   | { kind: 'experienceScript'; self: null; other: DialogueEntity; requestedAmount: number; sourceIndex: number }
   | { kind: 'give'; donor: DialogueEntity | null; recipient: DialogueEntity | null; template: string; quality: 0; amount: number; sourceIndex: number }
-  | { kind: 'dialogFlag'; entity: DialogueEntity | null; field: 'TradeEnabled'; value: boolean; sourceIndex: number }
+  | { kind: 'dialogFlag'; entity: DialogueEntity | null; field: 'TradeEnabled' | 'PartyEnabled' | 'TeachEnabled'; value: boolean; sourceIndex: number }
   | { kind: 'end'; sourceIndex: number }
   | { kind: 'back'; sourceIndex: number }
   | { kind: 'unknownNativeCommand'; command: string; sourceIndex: number };
@@ -289,7 +304,7 @@ export function planNativeDialogue(info: NativeInfo, participants: DialogueParti
     const sourceIndex = command.index;
     let operation: DialogueOperation;
     switch (command.command.toLowerCase()) {
-      case 'say': case 'give': case 'settradeenabled': {
+      case 'say': case 'give': case 'settradeenabled': case 'setpartyenabled': case 'setteachenabled': {
         const entities = resolveCommandEntities(command, roles, facts);
         if (!entities.known) return unknown(entities.reason);
         const { entity1, entity2 } = entities.value;
@@ -301,7 +316,9 @@ export function planNativeDialogue(info: NativeInfo, participants: DialogueParti
         } else {
           const flag = host.booleanOperand(command.id1);
           if (!flag.known) return unknown(flag.reason);
-          operation = { kind: 'dialogFlag', entity: entity1, field: 'TradeEnabled', value: flag.value, sourceIndex };
+          const field = command.command.toLowerCase() === 'settradeenabled' ? 'TradeEnabled'
+            : command.command.toLowerCase() === 'setpartyenabled' ? 'PartyEnabled' : 'TeachEnabled';
+          operation = { kind: 'dialogFlag', entity: entity1, field, value: flag.value, sourceIndex };
         }
         break;
       }

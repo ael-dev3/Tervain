@@ -153,6 +153,23 @@ export class NativePlayerMemoryArray {
     const offset = index * this.stride; if (!this.allocation.knownMask.subarray(offset, offset + this.stride).every(byte => byte === 255)) throw new Error('Unknown PlayerMemory array element bytes');
     return this.kind === 'bool' ? this.allocation.bytes[offset] !== 0 : new DataView(this.allocation.bytes.buffer, this.allocation.bytes.byteOffset).getInt32(offset, true);
   }
+  /** gCQuest_PS::SetStatus writes PoliticalFame[index] += amount directly to
+   * the retained bTValArray<long> backing. It does not Notify the property set. */
+  addPoliticalFame(index: number, amount: number): number {
+    this.properties.reader.runtimeGuard();
+    if (this.kind !== 'long' || !Number.isInteger(index) || index < 0 || index >= this.count ||
+        this.count !== 9 || !Number.isInteger(amount) || amount < -0x80000000 || amount > 0x7fffffff) {
+      throw new Error('Original nine-entry PoliticalFame array and signed32 operands are required.');
+    }
+    const current = this.get(index);
+    if (typeof current !== 'number' || !this.allocation || this.allocation.freed) throw new Error('Known live PoliticalFame long element is required.');
+    const next = (current + amount) | 0;
+    const offset = index * 4;
+    this.properties.reader.note('gCQuest_PS::SetStatus PoliticalFame[' + index + '] += ' + amount, 'Game:20336ff0');
+    new DataView(this.allocation.bytes.buffer, this.allocation.bytes.byteOffset).setInt32(offset, next, true);
+    this.allocation.knownMask.fill(255, offset, offset + 4);
+    return next;
+  }
 }
 export interface NativePlayerMemoryNode { readonly allocation: NativeAttributeAllocation; readonly key: NativePlayerMemoryCStringSlot;
   value: OriginalNativeAttribute | null; next: NativePlayerMemoryNode | null }

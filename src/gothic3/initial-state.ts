@@ -105,7 +105,9 @@ interface NativeStartingInventoryDocument {
   schemaVersion: 1;
   sourceSeed: { url: string; sha256: string; bytes: number };
   scope: 'intrinsic-stack-state-before-external-inventory-observers-and-later-startup-equipping';
-  stacks: readonly { index: number; templateName: string; activationCount: number; intrinsicLearned: boolean;
+  stacks: readonly { index: number; templateName: string; templateGuid20: string; amount: number;
+    quality: number; quickSlot: number | null; hotKeyUnsigned: number; activationCount: number; intrinsicLearned: boolean;
+    stackType: number; linkedSlot: number; externalObserverEffects: string;
     learnedOperation: 'preserve' | 'setTrue'; startupOperation: { finalBoolean: boolean } }[];
 }
 interface NativeInventoryManifest {
@@ -183,6 +185,9 @@ function validatePlayer(player: InitializedPlayerSeed): void {
 
 export interface OriginalPlayerProgressSeed {
   readonly source: { readonly path: string; readonly sha256: string };
+  readonly inventorySource: { readonly path: string; readonly sha256: string };
+  readonly inventory: readonly { readonly index: number; readonly templateName: string; readonly templateGuid20: string;
+    readonly amount: number; readonly quality: number; readonly quickSlot: number | null; readonly learned: boolean }[];
   readonly xp: number;
   readonly lpAttribs: number;
   readonly level: number;
@@ -232,10 +237,29 @@ export async function loadOriginalPlayerProgressSeed(): Promise<OriginalPlayerPr
       initializedLearnStack.learned !== null || initializedLearnStack.learnedOperation !== 'preserve' || startup?.finalBoolean !== false) {
     throw new Error('Original Perk_Learn stack state cannot be proven from the empty-list startup and inventory receipts.');
   }
+  const inventory = startingInventory.stacks.map((stack, index) => {
+    const initialized = player.inventory.stacks[index];
+    if (!initialized || stack.index !== index || initialized.index !== index ||
+        stack.templateName !== initialized.templateName || stack.templateGuid20 !== initialized.templateGuid20 ||
+        stack.amount !== initialized.amount || stack.quality !== initialized.quality ||
+        stack.quickSlot !== initialized.quickSlot || stack.hotKeyUnsigned !== initialized.hotKeyUnsigned ||
+        stack.intrinsicLearned !== (initialized.learnedOperation === 'setTrue') ||
+        stack.activationCount !== 0 || stack.stackType !== 0 || stack.linkedSlot !== 0 ||
+        stack.externalObserverEffects !== 'requires-complete-runtime-observer-registry') {
+      throw new Error('Original starting inventory facts differ from initialized player stack ' + index + '.');
+    }
+    return Object.freeze({ index, templateName: stack.templateName, templateGuid20: stack.templateGuid20,
+      amount: stack.amount, quality: stack.quality, quickSlot: stack.quickSlot, learned: stack.intrinsicLearned });
+  });
+  if (inventory.length !== 121 || new Set(inventory.map((stack) => stack.templateName)).size !== inventory.length) {
+    throw new Error('Original starting inventory does not have 121 uniquely named source stacks.');
+  }
   const learnPerkActive = Object.freeze({ status: 'known' as const,
     value: learnStack.intrinsicLearned || learnStack.activationCount > 0,
     source: 'inventory/starting-inventory.json#stacks[75]+Game:201ae890+Script_Game:100628c0' });
-  return Object.freeze({ source: Object.freeze({ path, sha256: receipt.sha256 }), xp: player.memory.XP,
+  return Object.freeze({ source: Object.freeze({ path, sha256: receipt.sha256 }),
+    inventorySource: Object.freeze({ path: 'inventory/' + inventoryManifest.startingInventory, sha256: startingReceipt.sha256 }),
+    inventory: Object.freeze(inventory), xp: player.memory.XP,
     lpAttribs: player.memory.LPAttribs, level: player.serialized.npc.Level as number, learnPerkActive: Object.freeze(learnPerkActive) });
 }
 

@@ -447,6 +447,7 @@ def main() -> None:
             'JS arithmetic models native float stores, not bit-identical x87 extended arithmetic at boundaries.',
         ]}
     save_json(hosted / 'manifest.json', manifest)
+    save_json(out / 'manifest.json', manifest)
     save_json(out / 'original-inputs.json', {'effectiveLayersIndexSha256': sha(index_path),
                                            'files': list(sources.verified.values())})
     save_json(out / 'runtime-contract.json', {

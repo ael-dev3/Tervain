@@ -13,6 +13,13 @@ import type { AnimatedActor } from './animation';
 import { ARDEA_PEOPLE, ARDEA_QUESTS, PORT_SCOPE } from './content';
 import { catalog as gothicCatalog, showOriginalDialogue, showQuestCatalog } from './catalog-view';
 import { showLiveDialogue } from './live-dialogue';
+import { liveScenePersonPosition } from './scene-person-position';
+import { loadNativeRoutineScenePlacements } from './scene-routine-position';
+import { HeroAttackSequence } from './hero-attack-sequence';
+import type { HeroAttackStyle } from './hero-attack-sequence';
+import { detectHeroFistContactCandidate } from './combat-contact';
+import type { HeroFistContactCandidate } from './combat-contact';
+import { BrowserArdeaNpcCombatRuntime } from './npc-combat-runtime';
 import { NativeQuestRuntime, nativeQuestStatusName } from './quest-runtime';
 import type { ArdeaScene, ScenePerson } from './types';
 import './style.css';
@@ -21,16 +28,19 @@ import './style.css';
 // menus, lore, saves, proprietary native libraries, or the reconstructed engine.
 const SAVE_KEY = 'gothic3:ardea:game:v2';
 const LEGACY_SAVE_KEY = 'gothic3:ardea:exploration:v1';
+// This browser route has no original difficulty-selection screen yet; Normal
+// is an explicit browser-session choice until that menu is reconstructed.
+const BROWSER_DIFFICULTY = 1 as const;
 const canvas = document.querySelector<HTMLCanvasElement>('#world')!;
 const ui = document.querySelector<HTMLDivElement>('#interface')!;
 ui.innerHTML = '<header class="masthead"><div class="eyebrow">Gothic 3 · browser port</div><h1 id="world-title">Ardea</h1><p id="world-caption">Recovered scene · native landscape</p></header>' +
-  '<nav class="toolbar"><button id="explore-button">Explore</button><button id="view-button">Third person</button><button id="character-button">Character</button><button id="landscape-button">Landscape</button><button id="inspect-button">Models <kbd>Tab</kbd></button><button id="journal-button">Journal <kbd>J</kbd></button><button id="map-button">Map <kbd>M</kbd></button><button id="save-button">Save <kbd>P</kbd></button><button id="help-button">Help</button><a href="../">Tervain ↗</a></nav>' +
+  '<nav class="toolbar"><button id="explore-button">Explore</button><button id="view-button">Third person</button><button id="character-button">Character</button><button id="inventory-button">Inventory <kbd>I</kbd></button><button id="landscape-button">Landscape</button><button id="inspect-button">Models <kbd>Tab</kbd></button><button id="journal-button">Journal <kbd>J</kbd></button><button id="map-button">Map <kbd>M</kbd></button><button id="save-button">Save <kbd>P</kbd></button><button id="help-button">Help</button><a href="../">Tervain ↗</a></nav>' +
   '<div class="crosshair" id="crosshair"></div><div class="prompt hidden" id="prompt"></div><div class="toast hidden" id="toast" role="status"></div>' +
-  '<footer class="bottom"><div class="keys" id="keys"><kbd>W A S D</kbd> move &nbsp; <kbd>Shift</kbd> run &nbsp; drag mouse / click for mouse look<br><kbd>E</kbd> inspect person &nbsp; <kbd>F</kbd> fly &nbsp; <kbd>R</kbd> return to arrival &nbsp; <kbd>Esc</kbd> release mouse</div><div class="coordinate"><span id="coordinates">Loading native scene</span><div id="world-clock"></div><div id="terrain-status"></div><div class="scope-tag">Work in progress · native gameplay still being rewritten</div></div></footer>' +
+  '<footer class="bottom"><div class="keys" id="keys"><kbd>W A S D</kbd> move &nbsp; <kbd>Shift</kbd> run &nbsp; click / <kbd>C</kbd> attack &nbsp; right-click / <kbd>V</kbd> power attack<br><kbd>E</kbd> talk &nbsp; drag mouse for look &nbsp; <kbd>F</kbd> fly &nbsp; <kbd>R</kbd> return to arrival</div><div class="coordinate"><span id="coordinates">Loading native scene</span><div id="hero-vitals"></div><div id="world-clock"></div><div id="terrain-status"></div><div class="scope-tag">Work in progress · damage and NPC responses are still being rebuilt</div></div></footer>' +
   '<section class="inspector panel hidden" id="inspector"><div class="eyebrow">Original geometry</div><h2>Character inspection</h2><select id="model-select" aria-label="Character model"></select><div class="row"><button id="wire-button">Wireframe</button><button id="spin-button">Rotate</button><button id="frame-button">Frame</button></div><div id="animation-controls" class="hidden"><label for="clip-select">Native motion</label><select id="clip-select" aria-label="Native motion"><option value="">Bind pose</option></select><button id="clip-play" disabled>Play motion</button></div><p>Drag to rotate · wheel to zoom · right-drag to pan.</p><p id="model-info">Native body and head; exported bind pose.</p><div class="source" id="model-source"></div></section>' +
   '<section class="modal panel hidden" id="modal" aria-label="Information"><button class="close" id="modal-close" aria-label="Close panel">×</button><div id="modal-content"></div></section>' +
   '<div class="map hidden" id="map"><span class="map-label">ARDEA · LOCAL POSITIONS</span><canvas id="map-view" width="488" height="488" aria-label="Local positions map"></canvas></div>' +
-  '<div class="loading" id="loading"><section class="intro"><div class="eyebrow">Gothic 3 · TypeScript reconstruction</div><h1>Ardea</h1><h2>The shore of Myrtana</h2><p>Walk through the recovered scene. Inspect original character models, Hero motion and the landscapes of Myrtana, Nordmar and Varant.</p><div class="rule"></div><p>Terrain loads as you move. A source-backed fresh quest state starts Xardas’s first quest. Supported Ardea dialogue and game-event changes now run from original records; voice, NPC simulation, combat and most progression are still being rebuilt.</p><div class="progress"><span id="progress"></span></div><div class="load-status" id="load-status">Reading scene manifest…</div><button class="primary" id="start-button" disabled>Enter Ardea</button><small>Independent from Tervain’s original game.<br>Keyboard and mouse · WebGL · local browser saves</small></section></div>';
+  '<div class="loading" id="loading"><section class="intro"><div class="eyebrow">Gothic 3 · TypeScript reconstruction</div><h1>Ardea</h1><h2>The shore of Myrtana</h2><p>Walk through the recovered scene. Inspect original character models, Hero motion and the landscapes of Myrtana, Nordmar and Varant.</p><div class="rule"></div><p>Terrain loads as you move. A source-backed fresh quest state starts Xardas’s first quest. Selected Ardea dialogue, quest transitions and XP, skill and PoliticalFame rewards run from original records; NPC simulation, combat, inventory changes and most campaign progression are still being rebuilt.</p><div class="progress"><span id="progress"></span></div><div class="load-status" id="load-status">Reading scene manifest…</div><button class="primary" id="start-button" disabled>Enter Ardea</button><small>Independent from Tervain’s original game.<br>Keyboard and mouse · WebGL · local browser saves</small></section></div>';
 
 const element = <T extends HTMLElement = HTMLElement>(id: string): T => document.getElementById(id) as T;
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
@@ -58,8 +68,12 @@ const legacyTerrain: THREE.Object3D[] = [];
 let nativeTerrainActive = false;
 let landscapeName: string | null = 'Ardea';
 const peopleObjects = new Map<string, THREE.Group>();
+function livePersonPosition(person: ScenePerson): readonly [number, number, number] {
+  return liveScenePersonPosition(person, peopleObjects);
+}
 const failures: string[] = [];
 let manifest: ArdeaScene;
+let routinePlacements = new Map<string, { position: readonly number[]; rotationY: number }>();
 let started = false;
 let inspectMode = false;
 let selectedPerson: ScenePerson | null = null;
@@ -74,6 +88,7 @@ let inspectRequest = 0;
 let inspectorModel: THREE.Group | null = null;
 let inspectorActor: AnimatedActor | null = null;
 let heroActor: AnimatedActor | null = null;
+let heroAttackSequence: HeroAttackSequence | null = null;
 let playerClipName: string | null = null;
 let thirdPerson = false;
 let lastHeroX = 0;
@@ -86,6 +101,7 @@ let lastFrame = performance.now();
 let lastHud = 0;
 let nativeHeroMemory: Promise<NativeHeroPlayerMemory> | null = null;
 let questRuntime: NativeQuestRuntime | null = null;
+let npcCombatRuntime: BrowserArdeaNpcCombatRuntime | null = null;
 let questRuntimeError: string | null = null;
 let enteringWorld = false;
 
@@ -113,10 +129,13 @@ const explorer = new ExplorerController(camera, canvas, (action) => {
   if (action === 'interact') inspectNearby();
   if (action === 'inspect') void setInspection(!inspectMode);
   if (action === 'journal') showJournal();
+  if (action === 'inventory') showInventory();
   if (action === 'save') save();
   if (action === 'reset') { landscapeName = 'Ardea'; explorer.reset(); notify('Returned to the original scene arrival point.'); }
   if (action === 'map') toggleMap();
   if (action === 'fly') notify(explorer.fly ? 'Free flight · Space up · Q down' : 'Grounded exploration');
+  if (action === 'attack') beginHeroAttack('attack');
+  if (action === 'powerAttack') beginHeroAttack('powerAttack');
 });
 explorer.active = false;
 explorer.walkSurfaceReady = (position) => !nativeTerrainActive || terrain.hasGroundAt(position);
@@ -132,6 +151,25 @@ function notify(message: string): void {
   element('toast').textContent = message;
   element('toast').classList.remove('hidden');
   toastUntil = performance.now() + 5000;
+}
+
+function beginHeroAttack(style: HeroAttackStyle): void {
+  if (!started || inspectMode || modalOpen || !heroActor || !heroAttackSequence) return;
+  if (!heroAttackSequence.begin(style)) return;
+  const clipName = heroAttackSequence.currentClipName;
+  if (!clipName) return;
+  heroActor.select(clipName);
+  playerClipName = clipName;
+}
+
+function detectCurrentHeroFistContact(): HeroFistContactCandidate | null {
+  if (!heroActor) return null;
+  const hand = heroActor.object.getObjectByName('Hero_Right_Hand_Hand_1') ?? null;
+  const targets = manifest.people.flatMap((person) => {
+    const object = peopleObjects.get(person.id);
+    return object ? [{ id: person.id, name: person.name, object, active: true }] : [];
+  });
+  return detectHeroFistContactCandidate(hand, targets);
 }
 
 function releaseMouse(): void {
@@ -204,8 +242,10 @@ function inspectNearby(): void {
   dialogue.className = 'gothic-live-dialogue';
   content.append(dialogue);
   if (questRuntime) {
-    void showLiveDialogue(dialogue, person, manifest.people,
-      [explorer.position.x, explorer.position.y, explorer.position.z], questRuntime, gothicCatalog,
+    void showLiveDialogue(dialogue, person, manifest.people, {
+      person: livePersonPosition,
+      player: () => [explorer.position.x, explorer.position.y, explorer.position.z],
+    }, questRuntime, gothicCatalog,
       manifest.spawnSource, manifest.origin, panelLifetime.signal);
   } else paragraph(dialogue, questRuntimeError
     ? 'Dialogue is unavailable because the source-backed game session failed to load: ' + questRuntimeError
@@ -224,7 +264,7 @@ function showJournal(): void {
   }
   const lifetime = panelLifetime.signal;
   const intro = document.createElement('p');
-  intro.textContent = 'Fresh-world state from the original quest manager and compiled runtime records. The audited OnGameStartUp RunQuest starts Xardas_FindXardas at the source clock time. Supported Ardea dialogue predicates and game events now use the live journal; other startup callbacks, quest rewards and most native dialogue services remain unimplemented.';
+  intro.textContent = 'Fresh-world state from the original quest manager and compiled runtime records. The audited OnGameStartUp RunQuest starts Xardas_FindXardas at the source clock time. Selected Ardea quest successes apply Hero skill, PoliticalFame and XP rewards to the retained PlayerMemory; enclave and arena rewards, the Ardea tutorial popup, other startup callbacks and most native dialogue services remain unimplemented.';
   content.append(intro);
   const controls = document.createElement('div'); controls.className = 'catalog-controls';
   const search = document.createElement('input'); search.type = 'search'; search.placeholder = 'Search quest id, folder or destination'; search.setAttribute('aria-label', 'Search active quest journal');
@@ -277,6 +317,33 @@ function showJournal(): void {
   const unsubscribe = questRuntime.subscribe(render);
   lifetime.addEventListener('abort', unsubscribe, { once: true });
   render();
+}
+
+function showInventory(): void {
+  const content = openPanel('PC_Hero · Inventory');
+  if (!questRuntime) {
+    paragraph(content, questRuntimeError
+      ? 'The source-backed inventory could not be loaded: ' + questRuntimeError
+      : 'Enter Ardea to load the original Hero inventory.');
+    return;
+  }
+  const stacks = questRuntime.heroInventoryStacks();
+  paragraph(content, stacks.length + ' source-seeded stacks · original AssureItemsEx order.');
+  paragraph(content, stacks.filter((stack) => stack.learned).length + ' stack records have the original Learned flag set.');
+  paragraph(content, 'This is the verified starting inventory snapshot. Item use, equipment changes, transfers, loot and inventory saves are not connected yet.');
+  const list = document.createElement('ol');
+  list.className = 'inventory-list';
+  for (const stack of stacks) {
+    const row = document.createElement('li');
+    const name = document.createElement('span');
+    name.textContent = stack.templateName;
+    const amount = document.createElement('span');
+    amount.className = 'inventory-count';
+    amount.textContent = '× ' + stack.amount + (stack.learned ? ' · learned' : '');
+    row.append(name, amount);
+    list.append(row);
+  }
+  content.append(list);
 }
 
 function formatQuestClock(clock: { years: number; days: number; hours: number }): string {
@@ -335,7 +402,7 @@ function showCharacterSheet(): void {
     table.append(head, body); content.append(table);
     paragraph(content, 'Loaded ' + result.cursor.consumed + ' of ' + result.cursor.total +
       ' packet bytes from source record ' + result.source.sha256.slice(0, 16) + '…');
-    paragraph(content, 'The browser retains the source PlayerMemory, all 15 Attribute/Stat objects and the hash-checked serialized Hero NPC property set. The packet’s legacy Level record is preserved as opaque obsolete-property bytes; its current scalar is shown above and updates with supported GiveXP level-ups. That NPC property set is not attached to a live world entity, and the level-up visual effect is absent. One audited startup quest transition is connected to the journal, while other startup callbacks, most progression and combat remain unconnected. Unknown native enum bits remain masked.');
+    paragraph(content, 'The browser retains the source PlayerMemory, all 15 Attribute/Stat objects and the hash-checked serialized Hero NPC property set. The packet’s legacy Level record is preserved as opaque obsolete-property bytes; its current scalar is shown above and updates with supported GiveXP level-ups. Source quest success can also change captured skill bases and PoliticalFame, which browser saves retain. That NPC property set is not attached to a live world entity, and the level-up visual effect is absent. One audited startup quest transition is connected to the journal, while other startup callbacks, most progression and combat remain unconnected. Unknown native enum bits remain masked.');
     if (result.summary.logs.length) {
       paragraph(content, result.summary.logs.length + ' source warning/info records were retained by the browser host.', 'source');
     }
@@ -350,9 +417,9 @@ function showCharacterSheet(): void {
 
 function showHelp(): void {
   const content = openPanel('Controls & current scope');
-  paragraph(content, 'WASD / arrows: move. Shift: run. Drag to look, or click the scene for captured mouse look. Escape releases the pointer. E inspects a nearby person.');
+  paragraph(content, 'WASD / arrows: move. Shift: run. Drag to look, or click the scene for captured mouse look. Escape releases the pointer. E inspects a nearby person. I opens the source-seeded Hero inventory.');
   paragraph(content, 'F toggles free flight; Space moves up and Q moves down. Third person follows the Hero model and recovered idle, walk and run clips. R returns to the arrival point. P saves this browser session locally. Tab switches to character models; drag to rotate, wheel to zoom, right-drag to pan. M opens the local position map.');
-  paragraph(content, 'Character loads PC_Hero’s serialized PlayerMemory, Attribute/Stat data and NPC Level into the browser’s TypeScript runtime. Supported Ardea dialogue can change source-backed game events, Given flags and bounded XP/level progression. The quest journal runs one source-audited startup transition; most startup operations and campaign progression remain unimplemented.');
+  paragraph(content, 'Character loads PC_Hero’s serialized PlayerMemory, Attribute/Stat data and NPC Level into the browser’s TypeScript runtime. Supported Ardea dialogue can change source-backed game events, Given and Dialog flags, and bounded quest success can apply PoliticalFame, skill-base and XP rewards. The quest journal runs one source-audited startup transition; most startup operations and campaign progression remain unimplemented.');
   const brightnessLabel = document.createElement('label');
   brightnessLabel.textContent = 'Preview brightness ';
   const brightness = document.createElement('input');
@@ -439,7 +506,8 @@ function save(): void {
   if (!started) return;
   try {
     localStorage.setItem(SAVE_KEY, JSON.stringify({ version: 2, ...explorer.getState(), landscapeName,
-      nativeSession: questRuntime?.saveData() ?? null }));
+      nativeSession: questRuntime?.saveData() ?? null,
+      nativeNpcCombatSession: npcCombatRuntime?.saveData() ?? null }));
     notify(questRuntime
       ? 'Position, world clock and quest journal saved in this browser. Original Gothic 3 saves are separate.'
       : 'Exploration position saved; quest state was unavailable. Original Gothic 3 saves are separate.');
@@ -483,6 +551,35 @@ function savedNativeSession(): { readonly kind: 'none' } | { readonly kind: 'emp
   if (value.version === 1) return { kind: 'none' };
   if (value.version !== 2) throw new Error('Unsupported browser save version.');
   return value.nativeSession ? { kind: 'saved', value: value.nativeSession } : { kind: 'empty' };
+}
+
+function savedNativeNpcCombatSession(): unknown {
+  try {
+    const raw = localStorage.getItem(SAVE_KEY);
+    if (!raw) return null;
+    const value = JSON.parse(raw) as { version?: number; nativeNpcCombatSession?: unknown };
+    return value.version === 2 ? value.nativeNpcCombatSession ?? null : null;
+  } catch { return null; }
+}
+
+function initializeContactNpc(contact: HeroFistContactCandidate): void {
+  if (!npcCombatRuntime || !questRuntime) {
+    notify('Fist contact: ' + contact.name + '. The source NPC runtime is unavailable; no damage was applied.');
+    return;
+  }
+  const playerLevel = questRuntime.saveData().heroProgress?.level ?? 0;
+  void npcCombatRuntime.initializeOnContact(contact.id, playerLevel, BROWSER_DIFFICULTY).then((actor) => {
+    const maximum = actor.processingRange.hitPointsMax;
+    const sourceWeapon = actor.treasureSetResolutions.flatMap((set) =>
+      set.status === 'weaponry-recipe-resolved' ? set.weaponry : []).find((weapon) => weapon.carrier);
+    const weaponSummary = sourceWeapon
+      ? ` Source weapon definition: ${sourceWeapon.itemName} · ${sourceWeapon.carrier!.damageAmount} damage.`
+      : '';
+    notify('Source actor resolved: ' + actor.name + ' · ' + actor.hitPoints + ' / ' + maximum +
+      ' HP.' + weaponSummary + ' Contact is still a browser bounds candidate; hit effects are not connected.');
+  }).catch((error: unknown) => {
+    notify('Fist contact: ' + contact.name + '. Source combat state failed: ' + String(error));
+  });
 }
 
 async function character(person: ScenePerson): Promise<THREE.Group> {
@@ -530,13 +627,30 @@ function updateHeroPresentation(dt: number): void {
   lastHeroZ = eye.z;
   hasLastHeroPosition = true;
   const speed = moved > 0 && moved < 1 ? moved / Math.max(dt, 1 / 240) : 0;
-  const role = explorer.fly || speed < 0.15 ? 'idle' : speed < 5.9 ? 'walk' : 'run';
-  const motion = heroActor.asset.clips.find((clip) => clip.role === role);
-  if (motion && motion.name !== playerClipName) {
-    heroActor.select(motion.name);
-    playerClipName = motion.name;
+  const attackWasActive = heroAttackSequence?.active ?? false;
+  if (attackWasActive) {
+    heroActor.update(dt);
+    for (const event of heroAttackSequence!.advance(dt)) {
+      if (event.type === 'phase') {
+        heroActor.select(event.clipName);
+        playerClipName = event.clipName;
+      } else if (event.type === 'hit-window') {
+        heroActor.object.updateMatrixWorld(true);
+        const contact = detectCurrentHeroFistContact();
+        if (contact) initializeContactNpc(contact);
+        else notify('The fist attack missed.');
+      }
+    }
   }
-  heroActor.update(dt);
+  if (!heroAttackSequence?.active) {
+    const role = explorer.fly || speed < 0.15 ? 'idle' : speed < 5.9 ? 'walk' : 'run';
+    const motion = heroActor.asset.clips.find((clip) => clip.role === role);
+    if (motion && motion.name !== playerClipName) {
+      heroActor.select(motion.name);
+      playerClipName = motion.name;
+    }
+    if (!attackWasActive) heroActor.update(dt);
+  }
 
   if (!thirdPerson) {
     camera.position.copy(eye);
@@ -643,7 +757,7 @@ async function setInspection(enabled: boolean, id?: string): Promise<void> {
   element('crosshair').classList.toggle('hidden', enabled);
   element('prompt').classList.add('hidden');
   element('world-caption').textContent = enabled ? 'Original character geometry' : 'Recovered scene · native landscape';
-  element('keys').textContent = enabled ? 'Drag to rotate · wheel to zoom · right-drag to pan · Tab returns to Ardea' : 'WASD move · Shift run · drag / click for mouse look · E inspect · F fly · R reset · Esc release';
+  element('keys').textContent = enabled ? 'Drag to rotate · wheel to zoom · right-drag to pan · Tab returns to Ardea' : 'WASD move · Shift run · click / C attack · right-click / V power attack · drag for mouse look · E talk · F fly · R reset';
   if (enabled) {
     const selected = id ?? selectedPerson?.id ?? manifest.inspectionPeople?.[0]?.id ?? manifest.people.find((entry) => entry.body && entry.head)?.id;
     if (selected) {
@@ -689,7 +803,8 @@ function drawMap(): void {
   }
   context.fillStyle = '#d7bd86';
   for (const person of manifest.people) {
-    const point = mapPoint(person.position[0], person.position[2]);
+    const position = livePersonPosition(person);
+    const point = mapPoint(position[0], position[2]);
     context.beginPath(); context.arc(point[0], point[1], 3, 0, Math.PI * 2); context.fill();
   }
   const state = explorer.getState();
@@ -705,6 +820,13 @@ async function boot(): Promise<void> {
   const response = await fetch(assetUrl('scene.json'));
   if (!response.ok) throw new Error('Scene manifest HTTP ' + response.status);
   manifest = await response.json() as ArdeaScene;
+  try {
+    element('load-status').textContent = 'Resolving source Ardea routines…';
+    const resolved = await loadNativeRoutineScenePlacements(manifest);
+    routinePlacements = new Map([...resolved.placements].map(([id, placement]) => [id, placement]));
+  } catch (error) {
+    failures.push('Source NPC routines: ' + String(error));
+  }
   await Promise.all([
     animations.loadManifest().catch((error: unknown) => { failures.push('Native animation: ' + String(error)); }),
     terrain.initialize().catch((error: unknown) => { failures.push('Native terrain: ' + String(error)); }),
@@ -736,8 +858,9 @@ async function boot(): Promise<void> {
     ...manifest.people.map((person) => async () => {
       try {
         const group = await character(person);
-        group.position.fromArray(person.position);
-        group.rotation.y = person.rotationY ?? 0;
+        const routine = routinePlacements.get(person.id);
+        group.position.fromArray(routine?.position ?? person.position);
+        group.rotation.y = routine?.rotationY ?? person.rotationY ?? 0;
         world.add(group);
         peopleObjects.set(person.id, group);
       } catch (error) { failures.push(person.name + ': ' + String(error)); }
@@ -747,6 +870,7 @@ async function boot(): Promise<void> {
       try {
         heroActor = await animations.actor('hero');
         if (!heroActor) throw new Error('Recovered Hero animation asset is not in the manifest');
+        heroAttackSequence = new HeroAttackSequence(heroActor.asset.clips);
         heroActor.object.name = 'PC_Hero';
         heroActor.object.userData.source = 'PC_Hero · original native rig and motion tracks';
         heroActor.object.visible = false;
@@ -777,7 +901,9 @@ async function boot(): Promise<void> {
     option.textContent = person.name;
     options.appendChild(option);
   }
-  element('load-status').textContent = sceneObjects.length + ' scene objects · ' + peopleObjects.size + ' characters ready' + (failures.length ? ' · ' + failures.length + ' load warnings' : '');
+  element('load-status').textContent = sceneObjects.length + ' scene objects · ' + peopleObjects.size + ' characters ready' +
+    (routinePlacements.size ? ' · ' + routinePlacements.size + ' source routine positions' : '') +
+    (failures.length ? ' · ' + failures.length + ' load warnings' : '');
   element<HTMLButtonElement>('start-button').disabled = false;
 }
 
@@ -796,8 +922,16 @@ async function enterWorld(): Promise<void> {
       restoredSession = true;
     } else questRuntime = await NativeQuestRuntime.newGame(player);
     questRuntimeError = null;
+    npcCombatRuntime = new BrowserArdeaNpcCombatRuntime(manifest.people);
+    const savedNpcCombat = savedNativeNpcCombatSession();
+    if (savedNpcCombat) {
+      const playerLevel = questRuntime.saveData().heroProgress?.level ?? 0;
+      const restored = await npcCombatRuntime.restore(savedNpcCombat, playerLevel, BROWSER_DIFFICULTY);
+      if (restored.skipped.length) failures.push('NPC combat save: ' + restored.skipped.map((entry) => entry.reason).join('; '));
+    }
   } catch (error) {
     questRuntime = null;
+    npcCombatRuntime = null;
     questRuntimeError = error instanceof Error ? error.message : String(error);
   }
   started = true;
@@ -821,6 +955,7 @@ element('view-button').onclick = () => {
   element('world-caption').textContent = thirdPerson ? 'PC_Hero · recovered native motion preview' : 'Recovered scene · native landscape';
 };
 element('character-button').onclick = showCharacterSheet;
+element('inventory-button').onclick = showInventory;
 element('landscape-button').onclick = () => { void showLandscape(); };
 element('inspect-button').onclick = () => { void setInspection(!inspectMode); };
 element('journal-button').onclick = showJournal;
@@ -906,8 +1041,15 @@ function frame(now: number): void {
       element('world-clock').textContent = questRuntime.clockError()
         ? 'World clock stopped: ' + questRuntime.clockError()
         : formatWorldClock(questRuntime.currentWorldCalendar()) + ' · source-seeded';
+      try {
+        const vitals = questRuntime.heroVitals();
+        element('hero-vitals').textContent = 'HP ' + vitals.hitPoints + ' / ' + vitals.hitPointsMax;
+      } catch (error) {
+        element('hero-vitals').textContent = 'HP unavailable · ' + String(error);
+      }
     } else if (questRuntimeError) {
       element('world-clock').textContent = 'Quest session unavailable';
+      element('hero-vitals').textContent = '';
     }
     const streaming = terrain.status();
     if (!inspectMode) element('world-title').textContent = landscapeName ?? streaming.region ?? 'Gothic 3';
@@ -919,8 +1061,9 @@ function frame(now: number): void {
     nearest = null;
     let distance = 4;
     if (!inspectMode) for (const person of manifest.people) {
-      const delta = Math.hypot(person.position[0] - position.x, person.position[2] - position.z);
-      if (delta < distance && Math.abs(person.position[1] - (position.y - 1.65)) < 4) { nearest = person; distance = delta; }
+      const personPosition = livePersonPosition(person);
+      const delta = Math.hypot(personPosition[0] - position.x, personPosition[2] - position.z);
+      if (delta < distance && Math.abs(personPosition[1] - (position.y - 1.65)) < 4) { nearest = person; distance = delta; }
     }
     element('prompt').classList.toggle('hidden', !nearest || inspectMode || modalOpen);
     if (nearest) element('prompt').textContent = 'E · talk to ' + nearest.name;

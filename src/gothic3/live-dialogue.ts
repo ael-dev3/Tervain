@@ -1,5 +1,5 @@
 import type { NativeCatalog, NativeInfo } from './catalog';
-import { executeNativeDialogue, nativeInfoAvailability, planNativeDialogue } from './dialogue';
+import { executeNativeDialogue, nativeAdjustedOwnerDistance, nativeInfoAvailability, planNativeDialogue } from './dialogue';
 import type { DialogueCommandHost, DialogueExecutionPlan, DialogueFacts, DialogueOperation,
   DialogueParticipants, InfoAvailability, NativeActorCondition, NativeActorDialogCondition, NativeValue } from './dialogue';
 import type { NativeQuestRuntime } from './quest-runtime';
@@ -9,6 +9,11 @@ import type { ArdeaScene, ScenePerson } from './types';
 import { NativeWorldData } from './native-data';
 import type { NativeEntityIndex } from './native-data';
 
+export interface LiveDialoguePositions {
+  person(person: ScenePerson): readonly number[];
+  player(): readonly number[];
+}
+
 const PLAYER: Readonly<{ id: string; name: string }> = Object.freeze({ id: 'PC_Hero', name: 'PC_Hero' });
 const available = (): InfoAvailability => ({ kind: 'available' });
 const unknown = (reason: string): InfoAvailability => ({ kind: 'unknown', reason });
@@ -16,7 +21,7 @@ const nativeWorld = new NativeWorldData();
 
 class ArdeaDialogueFacts implements DialogueFacts {
   constructor(private readonly owner: ScenePerson, private readonly people: readonly ScenePerson[],
-    private readonly playerPosition: readonly number[], private readonly runtime: NativeQuestRuntime,
+    private readonly positions: LiveDialoguePositions, private readonly runtime: NativeQuestRuntime,
     private readonly locations: ReadonlyMap<string, readonly NativeEntityIndex[]>,
     private readonly origin: readonly [number, number, number], private readonly locationFailure: string | null) {}
 
@@ -50,13 +55,13 @@ class ArdeaDialogueFacts implements DialogueFacts {
     let target: readonly number[];
     let targetIsNpc = false;
     if (targetName === PLAYER.name) {
-      target = this.playerPosition;
+      target = this.positions.player();
       targetIsNpc = true;
     } else {
       const people = this.people.filter((person) => person.name === targetName);
       if (people.length > 1) return { known: false, reason: 'Distance target is ambiguous in Ardea: ' + targetName };
       if (people.length === 1) {
-        target = people[0]!.position;
+        target = this.positions.person(people[0]!);
         targetIsNpc = true;
       } else {
         const locations = this.locations.get(targetName);
@@ -74,12 +79,7 @@ class ArdeaDialogueFacts implements DialogueFacts {
         targetIsNpc = locations[0]!.propertySets.includes('gCNPC_PS');
       }
     }
-    if (target.length !== 3 || this.owner.position.length !== 3 || !target.every(Number.isFinite) ||
-        !this.owner.position.every(Number.isFinite)) return { known: false, reason: 'Native distance position is malformed.' };
-    const ownerDelta = this.owner.position;
-    const distanceMetres = Math.hypot(ownerDelta[0]! - target[0]!, ownerDelta[1]! - target[1]!, ownerDelta[2]! - target[2]!);
-    // Game.dll multiplies NPC targets by .25 and other entities by 1.
-    return { known: true, value: distanceMetres * (targetIsNpc ? 25 : 100) };
+    return nativeAdjustedOwnerDistance(this.positions.person(this.owner), target, targetIsNpc);
   }
 
   playerKnows(event: string): NativeValue<boolean> {
@@ -87,8 +87,8 @@ class ArdeaDialogueFacts implements DialogueFacts {
     catch (error) { return { known: false, reason: error instanceof Error ? error.message : String(error) }; }
   }
 
-  itemStackAmount(_entity: { id: string; name: string }, _templateName: string): NativeValue<number | null> {
-    return { known: false, reason: 'Live player inventory stacks are not connected to dialogue predicates.' };
+  itemStackAmount(entity: { id: string; name: string }, templateName: string): NativeValue<number | null> {
+    return this.runtime.heroItemStackAmount(entity, templateName);
   }
 
   actor(_entity: { id: string; name: string }): NativeValue<NativeActorCondition> {
@@ -99,15 +99,15 @@ class ArdeaDialogueFacts implements DialogueFacts {
     return this.runtime.actorDialogs.dialog(entity);
   }
 
-  dialogFlag(_entity: { id: string; name: string }, field: 'TradeEnabled'): NativeValue<boolean | null> {
-    return { known: false, reason: 'Live NPC Dialog.' + field + ' state is not connected.' };
+  dialogFlag(entity: { id: string; name: string }, field: 'TradeEnabled' | 'PartyEnabled' | 'TeachEnabled'): NativeValue<boolean | null> {
+    return this.runtime.actorDialogs.dialogFlag(entity, field);
   }
 
   condition(info: NativeInfo): InfoAvailability {
     return unknown('Native condition ' + info.conditionType + ' still needs its runtime facts.');
   }
 
-  currentPlayerPosition(): readonly number[] { return this.playerPosition; }
+  currentPlayerPosition(): readonly number[] { return this.positions.player(); }
 }
 
 class BrowserDialogueHost implements DialogueCommandHost {
@@ -147,6 +147,13 @@ class BrowserDialogueHost implements DialogueCommandHost {
         return operation.other.id === PLAYER.id
           ? this.runtime.canAwardExperienceScripts([...this.priorExperienceAwards(preceding), operation.requestedAmount])
           : { known: false, reason: 'Only source-backed GiveXP awards to PC_Hero are connected.' };
+      case 'dialogFlag': {
+        if (!operation.entity) return { known: false, reason: 'Native Dialog.' + operation.field + ' target is unresolved.' };
+        const state = this.runtime.actorDialogs.dialog(operation.entity);
+        return state.known && state.value.hasDialog ? { known: true, value: true }
+          : state.known ? { known: false, reason: 'Native Dialog.' + operation.field + ' target has no Dialog property set.' }
+          : state;
+      }
       case 'quest': return this.questCapability(operation.quest, operation.operation, preceding);
       case 'end': return { known: true, value: true };
       case 'unknownNativeCommand': return { known: true, value: true };
@@ -157,12 +164,30 @@ class BrowserDialogueHost implements DialogueCommandHost {
   lifecycleCapability(plan: DialogueExecutionPlan): NativeValue<true> {
     if (plan.deliveryCallback) return { known: false, reason: 'Original delivery callbacks are not connected.' };
     const condition = plan.info.conditionType;
-    const supportsQuestLog = condition === 3 || condition === 19;
-    if (!supportsQuestLog || (condition === 19 && plan.info.quest === '') || (plan.info.quest !== '' && !supportsQuestLog)) {
-      return { known: false, reason: 'Only source-backed condition 3/19 completion paths without delivery callbacks are connected.' };
+    if (plan.endCallback.native !== 'Game.dll::0x20007d1f' || plan.endCallback.conditionType !== condition ||
+        plan.endCallback.quest !== plan.info.quest) {
+      return { known: false, reason: 'Native OnEndInfo callback identity does not match the selected Info record.' };
     }
-    if (plan.info.quest && !this.runtime.definitions.some((quest) => quest.id === plan.info.quest)) {
-      return { known: false, reason: 'Native OnEndInfo quest is not in the loaded source: ' + plan.info.quest };
+    const questTransition = condition === 6 || condition === 11 || condition === 21;
+    if (![2, 3, 6, 11, 19, 21].includes(condition ?? -1) ||
+        ((condition === 6 || condition === 11 || condition === 19 || condition === 21) && !plan.info.quest)) {
+      return { known: false, reason: 'Only source-backed no-delivery OnEndInfo conditions 2/3/6/11/19/21 are connected.' };
+    }
+    if (plan.info.quest) {
+      const definition = this.runtime.definitions.find((quest) => quest.id === plan.info.quest);
+      if (!definition) return { known: false, reason: 'Native OnEndInfo quest is not in the loaded source: ' + plan.info.quest };
+      if (questTransition) {
+        const expectedStatus = condition === 6 ? QuestStatus.Open : condition === 11 ? QuestStatus.Running : QuestStatus.Lost;
+        const state = this.runtime.quests.state(plan.info.quest);
+        if (!state || state.status !== expectedStatus) {
+          return { known: false, reason: 'Native OnEndInfo quest state no longer matches condition ' + condition + '.' };
+        }
+        if (plan.operations.some((operation) => operation.kind === 'quest' && operation.quest === plan.info.quest)) {
+          return { known: false, reason: 'A script command also changes the OnEndInfo quest; its callback ordering is not connected.' };
+        }
+        const capability = this.questCapability(plan.info.quest, condition === 11 ? 'close' : 'run', plan.operations);
+        if (!capability.known) return capability;
+      }
     }
     return { known: true, value: true };
   }
@@ -205,6 +230,11 @@ class BrowserDialogueHost implements DialogueCommandHost {
         this.output.scrollTop = this.output.scrollHeight;
         return { kind: 'completed' };
       }
+      case 'dialogFlag': {
+        if (!operation.entity) return { kind: 'unknown', reason: 'Native Dialog.' + operation.field + ' target is unresolved.' };
+        const result = this.runtime.actorDialogs.setDialogFlag(operation.entity, operation.field, operation.value);
+        return result.known ? { kind: 'completed' } : { kind: 'unknown', reason: result.reason };
+      }
       case 'quest': {
         const result = operation.operation === 'run' ? this.runtime.quests.run(operation.quest)
           : operation.operation === 'close' ? this.runtime.quests.close(operation.quest)
@@ -233,13 +263,12 @@ class BrowserDialogueHost implements DialogueCommandHost {
   async finish(plan: DialogueExecutionPlan): Promise<NativeValue<true>> {
     const lifecycle = this.lifecycleCapability(plan);
     if (!lifecycle.known) return lifecycle;
-    if (plan.info.quest) {
-      const pairs: QuestLogPair[] = plan.operations.flatMap((operation) => operation.kind === 'say'
+    const condition = plan.endCallback.conditionType;
+    const pairs: QuestLogPair[] = [3, 6, 11, 19].includes(condition) ? plan.operations.flatMap((operation) => operation.kind === 'say'
         ? [{ version: 1, speakerKey: operation.speaker ? 'FO_It_' + operation.speaker.name : '', textKey: operation.textKey }]
-        : []);
-      const result = this.runtime.quests.appendDialogueLogPairs(plan.info.quest, pairs);
-      if (result.kind !== 'applied') return { known: false, reason: result.reason };
-    }
+        : []) : [];
+    const result = this.runtime.quests.onEndInfo(plan.endCallback.quest, condition, pairs);
+    if (result.kind !== 'applied') return { known: false, reason: result.reason };
     return { known: true, value: true };
   }
 
@@ -251,17 +280,7 @@ class BrowserDialogueHost implements DialogueCommandHost {
       return { known: false, reason: 'Arena quest status notifications are not connected: ' + id };
     }
     if (operation === 'succeed') {
-      const rewards = quest.rewards;
-      if (rewards.experience === null || rewards.political?.amount === null ||
-          rewards.enclave?.amount === null || rewards.attribute?.amount === null) {
-        return { known: false, reason: 'Native quest reward fields are unresolved: ' + id };
-      }
-      if ((rewards.political?.amount ?? 0) !== 0 || (rewards.enclave?.amount ?? 0) !== 0 ||
-          Boolean(rewards.attribute?.id && rewards.attribute.amount !== 0) || id.toLowerCase() === 'ardea_revolution') {
-        return { known: false, reason: 'Native quest reward services are not connected: ' + id };
-      }
-      if (rewards.experience !== 0) return this.runtime.canAwardExperienceScripts(
-        [...this.priorExperienceAwards(preceding), rewards.experience]);
+      return this.runtime.canSucceedQuest(id, this.priorExperienceAwards(preceding));
     }
     return { known: true, value: true };
   }
@@ -328,11 +347,11 @@ function infoLabel(info: NativeInfo, catalog: NativeCatalog, owner: ScenePerson)
 
 /** Execute only source records whose current predicates, commands and completion callback are all supported. */
 export async function showLiveDialogue(parent: HTMLElement, owner: ScenePerson, people: readonly ScenePerson[],
-  playerPosition: readonly number[], runtime: NativeQuestRuntime, catalog: NativeCatalog,
+  positions: LiveDialoguePositions, runtime: NativeQuestRuntime, catalog: NativeCatalog,
   spawnSource: Pick<NonNullable<ArdeaScene['spawnSource']>, 'path' | 'sha256'>,
   origin: readonly [number, number, number], signal: AbortSignal): Promise<void> {
   const intro = document.createElement('p');
-  intro.textContent = 'Original English dialogue. Source predicates and supported game-event changes are live; voice, camera direction, NPC behavior and other native services are still being rebuilt.';
+  intro.textContent = 'Original English dialogue. Bounded source predicates, quest transitions and rewards, game events, trade flags and Hero XP are live; enclave rewards, arena updates, tutorial popups, voice, camera direction, NPC behavior, commerce and other native services are still being rebuilt.';
   parent.append(intro);
   const log = document.createElement('div');
   log.className = 'gothic-dialogue-log';
@@ -372,7 +391,7 @@ export async function showLiveDialogue(parent: HTMLElement, owner: ScenePerson, 
     const player = PLAYER;
     const npc = { id: owner.id, name: owner.name };
     const participants: DialogueParticipants = { player, a: npc, b: player };
-    const facts = new ArdeaDialogueFacts(owner, people, playerPosition, runtime, locations, origin, locationFailure);
+    const facts = new ArdeaDialogueFacts(owner, people, positions, runtime, locations, origin, locationFailure);
     const host = new BrowserDialogueHost(runtime, catalog, facts, catalog.infos, signal, log);
     let notice: string | null = null;
 
@@ -381,6 +400,7 @@ export async function showLiveDialogue(parent: HTMLElement, owner: ScenePerson, 
       options.replaceChildren();
       let readyCount = 0;
       const pending: { info: NativeInfo; reason: string }[] = [];
+      const unmet: { info: NativeInfo; reason: string }[] = [];
       for (const info of candidates) {
         const result = planNativeDialogue(info, participants, facts, catalog.infos, host, knownCommands);
         if (result.kind === 'ready') {
@@ -408,6 +428,7 @@ export async function showLiveDialogue(parent: HTMLElement, owner: ScenePerson, 
           };
           options.append(button);
         } else if (result.kind === 'unknown') pending.push({ info, reason: result.reason });
+        else unmet.push({ info, reason: result.reason });
       }
       if (busy) status.textContent = 'Running a source dialogue…';
       else if (notice) status.textContent = notice;
@@ -421,6 +442,18 @@ export async function showLiveDialogue(parent: HTMLElement, owner: ScenePerson, 
         for (const entry of pending) {
           const row = document.createElement('p');
           row.textContent = entry.info.id + ' · ' + entry.reason;
+          details.append(row);
+        }
+        options.append(details);
+      }
+      if (unmet.length) {
+        const details = document.createElement('details');
+        const summary = document.createElement('summary');
+        summary.textContent = unmet.length + ' source responses have unmet conditions';
+        details.append(summary);
+        for (const entry of unmet) {
+          const row = document.createElement('p');
+          row.textContent = infoLabel(entry.info, catalog, owner) + ' · ' + entry.info.id + ' · ' + entry.reason;
           details.append(row);
         }
         options.append(details);

@@ -4,7 +4,7 @@
  * AIZone inheritance, door binding, path search and movement are separate.
  * Float stores are modelled; JS is not bit-identical to extended x87 arithmetic.
  */
-import manifestText from '../../public/gothic3/navigation-scene/manifest.json?raw';
+import manifestText from '../../assets/gothic3/navigation-scene/manifest.json?raw';
 import type { NativeValue } from './dialogue';
 import type { NativePositionCm } from './navigation-runtime';
 import { readNativeResource } from './resource';

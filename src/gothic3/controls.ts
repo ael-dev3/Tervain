@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-export type ExplorerAction = 'interact' | 'inspect' | 'journal' | 'save' | 'reset' | 'map' | 'fly';
+export type ExplorerAction = 'interact' | 'inspect' | 'journal' | 'inventory' | 'save' | 'reset' | 'map' | 'fly' | 'attack' | 'powerAttack';
 
 export interface ExplorerState {
   /** Camera eye coordinates, in metres. */
@@ -47,6 +47,9 @@ const ACTION_KEYS: Readonly<Record<string, ExplorerAction>> = {
   KeyE: 'interact',
   Tab: 'inspect',
   KeyJ: 'journal',
+  KeyI: 'inventory',
+  KeyC: 'attack',
+  KeyV: 'powerAttack',
   KeyP: 'save',
   KeyR: 'reset',
   KeyM: 'map',
@@ -537,7 +540,9 @@ export class ExplorerController {
   };
 
   private readonly onPointerUp = (event: PointerEvent): void => {
-    if (event.pointerId === this.pointerId) this.clearInputPointer();
+    if (event.pointerId !== this.pointerId) return;
+    if (this.enabled && !this.disposed && !this.dragged && event.button === 2) this.onAction('powerAttack');
+    this.clearInputPointer();
   };
 
   private clearInputPointer(): void {
@@ -574,7 +579,9 @@ export class ExplorerController {
   }
 
   private readonly onCanvasClick = (event: MouseEvent): void => {
-    if (!this.enabled || this.disposed || this.dragged || event.button !== 0 || document.pointerLockElement === this.canvas) return;
+    if (!this.enabled || this.disposed || this.dragged || event.button !== 0) return;
+    this.onAction('attack');
+    if (document.pointerLockElement === this.canvas) return;
     // Pointer lock is optional: denial/unsupported browsers retain drag look.
     try {
       if (typeof this.canvas.requestPointerLock === 'function') {

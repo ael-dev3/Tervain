@@ -30,6 +30,20 @@ describe('source-backed Hero level progression', () => {
     expect([...player.npc.obsoleteProperties.keys()]).toContain('Level');
     expect(player.npc.obsoleteProperties.get('Level')?.payload.byteLength).toBeGreaterThan(0);
     const runtime = await NativeQuestRuntime.newGame(player);
+    const jack = { id: '1517cf4bc02a0a429a8d560cc826ceee00000000', name: 'Jack' };
+    expect(runtime.heroInventoryStacks()).toHaveLength(121);
+    expect(runtime.heroInventoryStacks().filter((stack) => stack.learned)).toHaveLength(5);
+    expect(runtime.heroItemStackAmount({ id: 'PC_Hero', name: 'PC_Hero' }, 'It_Gold'))
+      .toEqual({ known: true, value: 123 });
+    expect(runtime.heroItemStackAmount({ id: 'PC_Hero', name: 'PC_Hero' }, 'It_FiremageCup'))
+      .toEqual({ known: true, value: null });
+    expect(runtime.heroItemStackAmount(jack, 'It_Gold').known).toBe(false);
+    expect(runtime.actorDialogs.dialogFlag(jack, 'TradeEnabled')).toEqual({ known: true, value: false });
+    expect(runtime.actorDialogs.dialogFlag(jack, 'PartyEnabled')).toEqual({ known: true, value: false });
+    expect(runtime.actorDialogs.dialogFlag(jack, 'TeachEnabled')).toEqual({ known: true, value: false });
+    expect(runtime.actorDialogs.setTradeEnabled(jack, true)).toEqual({ known: true, value: true });
+    expect(runtime.actorDialogs.setDialogFlag(jack, 'PartyEnabled', true)).toEqual({ known: true, value: true });
+    expect(runtime.actorDialogs.setDialogFlag(jack, 'TeachEnabled', true)).toEqual({ known: true, value: true });
     const award = runtime.awardExperienceScript(250);
     expect(award).toMatchObject({ known: true, value: {
       awardedAmount: 1250,
@@ -40,11 +54,38 @@ describe('source-backed Hero level progression', () => {
     expect(player.npc.values.Level).toBe(1);
 
     const save = runtime.saveData();
+    expect(save.sources.initialInventory).toMatch(/^[a-f0-9]{64}$/);
+    expect(save.tradeEnabledArdeaActors).toEqual([jack.id]);
+    expect(save.partyEnabledArdeaActors).toEqual([jack.id]);
+    expect(save.teachEnabledArdeaActors).toEqual([jack.id]);
     const restoredPlayer = await loadNativeHeroPlayerMemory();
     const restored = await NativeQuestRuntime.restore(save, restoredPlayer);
     expect(restoredPlayer.memory.getXP()).toBe(1250);
     expect(restoredPlayer.memory.getLPAttribs()).toBe(10);
     expect(restoredPlayer.npc.values.Level).toBe(1);
+    expect(restored.actorDialogs.dialogFlag(jack, 'TradeEnabled')).toEqual({ known: true, value: true });
+    expect(restored.actorDialogs.dialogFlag(jack, 'PartyEnabled')).toEqual({ known: true, value: true });
+    expect(restored.actorDialogs.dialogFlag(jack, 'TeachEnabled')).toEqual({ known: true, value: true });
+    expect(restored.heroItemStackAmount({ id: 'PC_Hero', name: 'PC_Hero' }, 'It_Gold'))
+      .toEqual({ known: true, value: 123 });
     expect(restored.saveData().heroProgress).toEqual({ xp: 1250, level: 1, lpAttribs: 10, awards: [250] });
+  }, 30_000);
+
+  it('clamps Hero HP through the native PlayerMemory setter and saves/restores the live value', async () => {
+    vi.stubGlobal('location', { href: 'https://ael-dev3.github.io/Tervain/gothic3/index.html' });
+    vi.stubGlobal('fetch', readLocalAsset);
+
+    const player = await loadNativeHeroPlayerMemory();
+    const runtime = await NativeQuestRuntime.newGame(player);
+    expect(runtime.heroVitals()).toEqual({ hitPoints: 100, hitPointsMax: 100 });
+    expect(runtime.setHeroHitPoints(150)).toEqual({ known: true, value: 100 });
+    expect(runtime.setHeroHitPoints(-1)).toEqual({ known: true, value: 0 });
+    expect(runtime.setHeroHitPoints(37)).toEqual({ known: true, value: 37 });
+    expect(runtime.setHeroHitPoints(0x80000000).known).toBe(false);
+
+    const save = runtime.saveData();
+    expect(save.heroVitals).toEqual({ hitPoints: 37, hitPointsMax: 100 });
+    const restored = await NativeQuestRuntime.restore(save, await loadNativeHeroPlayerMemory());
+    expect(restored.heroVitals()).toEqual({ hitPoints: 37, hitPointsMax: 100 });
   }, 30_000);
 });

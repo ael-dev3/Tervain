@@ -8,18 +8,23 @@ An original order currently called the **Templars** anchors the setting. **The T
 
 ## Play in your browser
 
-**[Launch Tervain](https://ael-dev3.github.io/Tervain/)**
+**[Launch Tervain](https://ael-dev3.github.io/Tervain/)** · **[Open Gothic 3 / Ardea](https://ael-dev3.github.io/Tervain/gothic3/)**
 
-The hosted browser prototype is published from `main` through GitHub Pages; the title screen shows its version. Use a desktop WebGL browser with keyboard/mouse or a controller. Progress is saved in your browser.
+Both routes are hosted on GitHub Pages. The Gothic 3 route is an incomplete
+reconstruction from `main` commit `72e2a399`; newer local gameplay work is not
+in that published build. See [how to run Tervain locally](#run-the-prototype-locally)
+and the [Gothic 3 port notes](docs/engineering/gothic3-browser-port.md).
 
 ## Repository status
 
 ### Separate Gothic 3 reconstruction
 
 The owner also requested a TypeScript Gothic 3 browser port as a second URL.
-[Ardea — first exploration milestone](https://ael-dev3.github.io/Tervain/gothic3/)
-has its own entry, assets and saves. It is an incomplete reconstruction using
-selected local game data; it does not replace Tervain's original world.
+The Ardea build has its own entry, assets and saves. It is an incomplete
+reconstruction using selected local game data; it does not replace Tervain's
+original world. [Gothic 3 / Ardea](https://ael-dev3.github.io/Tervain/gothic3/)
+is hosted from `main` commit `72e2a399`; the newer local gameplay changes have
+not been published yet.
 See [current scope, controls and port plan](docs/engineering/gothic3-browser-port.md).
 The [rebuilding overview](docs/engineering/gothic3-rebuild-overview.md) explains
 the process and what counts as a complete reconstruction. The [detailed
@@ -91,7 +96,7 @@ The [woodland air follow-up](docs/production/releases/0.0.9-falling-leaves.md) r
 
 ## Run the prototype locally
 
-Use the local commands below for development. To play without installing anything, open the [hosted preview](https://ael-dev3.github.io/Tervain/). The earlier hosting outage is preserved in the dated [0.0.5 publication record](docs/production/releases/0.0.5.md#publication).
+Use the local commands below for development. The hosted [Tervain preview](https://ael-dev3.github.io/Tervain/) is available; see the dated [0.0.5 publication record](docs/production/releases/0.0.5.md#publication) for earlier hosting history.
 
 The `0.0.5` opening leaves you on the grey strand with no remembered name. Follow an old trail under overlapping crowns, past moss, ferns, carved waystones, and roofless roadside remains, before reaching an inland waystation and Rillford. Inspect environmental clues, observe people without opening conversations, and read your journal. The forest takes strong visual inspiration from [Boring Forest](https://boring-forest.vercel.app/), with original code-authored broadleaf/floor geometry and the owner-supplied Solitary Pine conifers. Saves stay in your browser; format-1 `0.0.4` saves remain compatible. The source is published in the repository, and the browser build is served at the hosted link above. The [prototype notes](docs/engineering/prototype.md) distinguish current controls from retained simulation systems and record the remaining checks. The [combined handoff](docs/production/releases/0.0.5.md) records local browser validation and its dated benchmark; reference-device acceptance remains unverified.
 

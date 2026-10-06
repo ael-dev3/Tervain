@@ -12,6 +12,8 @@ import type { NativeReflectionFactory, NativeReflectionField } from './entity-re
 import type { NativeEntityByteInput } from './entity-reading';
 import type { NativeNavigationState, NativeNavigationEntity, NativeNavigationLifecycle, NativeNavigationOperation, NativePositionCm } from './navigation-runtime';
 import type { NativePlayerWishedMovement } from './player-state';
+import { nativeNavigationRoutinePointAssignments } from './navigation-routine';
+import type { NativeNavigationRoutinePoint } from './navigation-routine';
 import { OriginalEnclaveProxy } from './native-properties';
 
 const rules = JSON.parse(rulesText) as { schema: string; inputs: Record<string, string>; version: number; getVersion: number;
@@ -221,6 +223,39 @@ export class OriginalNavigationProperties {
         phase === 'enter' ? 'Game:200328bc' : 'Game:2002bb11');
     }
     controller.write('SharedBase inherited OnNotify true', phase === 'enter' ? 'Engine:3002ad10' : 'Engine:30037ca4');
+  }
+  /** Apply the source Routine string and its three indexed point properties.
+   * This preserves the native setter order but does not resolve a point into a
+   * world position, construct a resident, or start navigation movement. */
+  setRoutine(routine: string): NativeValue<void> {
+    return this.wrapper.controller.value(() => {
+      this.exact();
+      const names = this.arrays.get('RoutineNames') as NativeNavigationStringArray | undefined;
+      const namesValue = names?.allocation;
+      if (!names || !namesValue || names.count !== namesValue.length) {
+        throw new Error('Actual loaded RoutineNames array is required before changing an NPC routine.');
+      }
+      const pointRows = (name: NativeNavigationRoutinePoint): readonly string[] => {
+        const array = this.arrays.get(name === 'WorkingPoint' ? 'WorkingPoints' : name === 'RelaxingPoint' ? 'RelaxingPoints' : 'SleepingPoints') as NativeNavigationValueArray | undefined;
+        const storage = array?.allocation;
+        if (!array || !(storage instanceof Uint8Array) || storage.length !== array.count * 20) {
+          throw new Error('Actual loaded ' + name + ' array is required before changing an NPC routine.');
+        }
+        return Array.from({ length: array.count }, (_, index) => hex(storage.subarray(index * 20, (index + 1) * 20)));
+      };
+      const routineName = ascii(routine);
+      const hasRoutine = namesValue.includes(routineName);
+      const selected = nativeNavigationRoutinePointAssignments(routineName, namesValue, hasRoutine ? {
+        SleepingPoint: pointRows('SleepingPoint'), WorkingPoint: pointRows('WorkingPoint'), RelaxingPoint: pointRows('RelaxingPoint'),
+      } : { SleepingPoint: [], WorkingPoint: [], RelaxingPoint: [] });
+      if (!selected.known) throw new Error(selected.reason);
+      this.values.Routine = routineName;
+      this.wrapper.controller.write('Navigation.Routine=bCString', 'Game:202873e0');
+      for (const assignment of selected.value) {
+        this.values[assignment.property] = assignment.propertyId;
+        this.wrapper.controller.write('Navigation.Set' + assignment.property + '(Routine)', 'Game:202873e0');
+      }
+    });
   }
   assignDefault(field: NativeReflectionField): NativeValue<void> {
     return this.wrapper.controller.value(() => {

@@ -41,6 +41,12 @@ export interface OriginalPlayerPropertyTrace {
   propertyTrace?: readonly OriginalPropertyTrace[];
   source: string;
 }
+interface OriginalPoliticalFameArray {
+  readonly kind: 'long';
+  readonly count: number;
+  get(index: number): number | boolean | string;
+  addPoliticalFame(index: number, amount: number): number;
+}
 export type OriginalPlayerPropertyResult<T> =
   | { supported: true; nativeReturnValue: T; trace: readonly OriginalPlayerPropertyTrace[];
       applied: readonly OriginalPlayerPropertyTrace[]; attempted: readonly OriginalPlayerPropertyTrace[] }
@@ -335,6 +341,45 @@ export class OriginalPlayerMemory {
     uint32(properties.values.TutorialFlags, 'TutorialFlags');
   }
   getAttribute(tag: string): OriginalNativeAttribute | null { return this.attributes.get(tag) ?? null; }
+  private politicalFameArray(): OriginalPoliticalFameArray {
+    const array = this.properties.values.PoliticalFame as OriginalPoliticalFameArray | undefined;
+    if (!array || array.kind !== 'long' || array.count !== 9) throw new Error('Retained nine-entry native PoliticalFame array is unavailable.');
+    return array;
+  }
+  politicalFameValues(): readonly number[] {
+    const array = this.politicalFameArray(), values: number[] = [];
+    for (let index = 0; index < 9; index++) {
+      const value = array.get(index);
+      if (typeof value !== 'number') throw new Error('Known native PoliticalFame value is required.');
+      values.push(int32(value, 'PoliticalFame'));
+    }
+    return values;
+  }
+  addPoliticalFame(alignment: number, amount: number): OriginalPlayerPropertyResult<number> {
+    const journal = new Journal();
+    return journal.finish(() => {
+      if (!Number.isInteger(alignment) || alignment < 0 || alignment >= 9) throw new RangeError('Political alignment must select one of the nine native fame entries.');
+      int32(amount, 'PoliticalFame reward');
+      const array = this.politicalFameArray();
+      const current = array.get(alignment);
+      if (typeof current !== 'number') throw new Error('Known native PoliticalFame element is required.');
+      const next = array.addPoliticalFame(alignment, amount);
+      journal.write({ object: this.properties.identity, operation: 'write', field: 'PoliticalFame[' + alignment + ']', value: next, source: 'Game:20336ff0' });
+      return next;
+    });
+  }
+  setPoliticalFame(alignment: number, value: number): OriginalPlayerPropertyResult<number> {
+    const journal = new Journal();
+    return journal.finish(() => {
+      int32(value, 'PoliticalFame save value');
+      const current = this.politicalFameArray().get(alignment);
+      if (typeof current !== 'number') throw new Error('Known native PoliticalFame element is required.');
+      const result = this.addPoliticalFame(alignment, difference(value, current));
+      if (!result.supported) throw new Error(result.reason);
+      journal.write({ object: this.properties.identity, operation: 'write', field: 'PoliticalFame[' + alignment + ']', value: result.nativeReturnValue, source: 'browser save restore via Game:20336ff0' });
+      return result.nativeReturnValue;
+    });
+  }
   getValue(tag: string): number { return this.getAttribute(tag)?.getValue() ?? 0; }
   getMaximum(tag: string): number { return this.getAttribute(tag)?.getMaximum() ?? 0; }
   getBaseValue(tag: string): number { return this.getAttribute(tag)?.getBaseValue() ?? 0; }

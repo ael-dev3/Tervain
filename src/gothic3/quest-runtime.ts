@@ -4,7 +4,7 @@
 import questReceiptText from '../../assets/gothic3/dialogue/initial-quests-output.json?raw';
 import { gameplayResources } from './native-data';
 import type { NativeQuest } from './catalog';
-import { QuestStatus, NativeQuests } from './quest-state';
+import { QuestStatus, NativeQuests, nativeQuestSuccessEffects } from './quest-state';
 import type { NativeClock, QuestEffect, QuestState } from './quest-state';
 import { readNativeResource } from './resource';
 import { loadOriginalWorldClock, monotonicClockMilliseconds } from './world-clock';
@@ -31,6 +31,8 @@ interface NativeQuestSessionSources {
   readonly infoProvider?: InfoProviderId;
   /** Source initialized-player record used to seed retained Hero progression state. */
   readonly initializedPlayer?: string;
+  /** Hash-checked intrinsic stack facts used while inventory writes remain disconnected. */
+  readonly initialInventory?: string;
 }
 
 interface InitialQuestRow extends QuestState { id: string }
@@ -59,9 +61,28 @@ export interface NativeQuestSessionSave {
   readonly givenInfoIds?: readonly string[];
   /** Positive TalkedToPlayer flags from ended browser InfoManager sessions. */
   readonly talkedToArdeaActors?: readonly string[];
+  /** Current source-backed Dialog.TradeEnabled flags in the Ardea session. */
+  readonly tradeEnabledArdeaActors?: readonly string[];
+  /** Current source-backed Dialog.PartyEnabled and TeachEnabled flags. */
+  readonly partyEnabledArdeaActors?: readonly string[];
+  readonly teachEnabledArdeaActors?: readonly string[];
   /** Source-backed GiveXP calls replayed into Hero PlayerMemory and gCNPC_PS. */
   readonly heroProgress?: { readonly xp: number; readonly level: number; readonly lpAttribs: number;
     readonly awards: readonly number[] };
+  /** Quest success rewards retained in Hero PoliticalFame and attribute storage. */
+  readonly heroQuestRewards?: NativeHeroQuestRewardState;
+  /** Current Hero HP state, restored through the original PlayerMemory setters. */
+  readonly heroVitals?: NativeHeroVitals;
+}
+
+export interface NativeHeroQuestRewardState {
+  readonly politicalFame: readonly number[];
+  readonly attributeBaseValues: Readonly<Record<string, number>>;
+}
+
+export interface NativeHeroVitals {
+  readonly hitPoints: number;
+  readonly hitPointsMax: number;
 }
 
 interface QuestSourceBundle {
@@ -93,6 +114,23 @@ function uint32(value: unknown): value is number {
 
 function nonnegativeInt32(value: unknown): value is number {
   return Number.isInteger(value) && (value as number) >= 0 && (value as number) <= 0x7fffffff;
+}
+
+function signedInt32(value: unknown): value is number {
+  return Number.isInteger(value) && (value as number) >= -0x80000000 && (value as number) <= 0x7fffffff;
+}
+
+function questRewardAttributeTags(definitions: readonly NativeQuest[]): string[] {
+  return [...new Set(definitions.map((quest) => quest.rewards.attribute?.id ?? '').filter(Boolean))].sort();
+}
+
+function readHeroVitals(player: NativeHeroPlayerMemory): NativeHeroVitals {
+  const hitPoints = player.memory.getValue('HP');
+  const hitPointsMax = player.memory.getMaximum('HP');
+  if (!nonnegativeInt32(hitPoints) || !nonnegativeInt32(hitPointsMax) || hitPointsMax < 1 || hitPoints > hitPointsMax) {
+    throw new Error('Retained Hero HP attribute is outside the initialized native range.');
+  }
+  return Object.freeze({ hitPoints, hitPointsMax });
 }
 
 function validSavedQuestState(value: unknown): value is QuestState {
@@ -139,7 +177,8 @@ async function loadQuestSourceBundle(): Promise<QuestSourceBundle> {
   }
   return { definitions, initial, clock, ardeaActors: new NativeArdeaActorDialogState(ardeaPeople), heroProgress,
     sources: { initialQuestStates: receipt.output.sha256, questDefinitions: questReceipt.sha256,
-      worldClock: clockReceipt.sha256, ardeaPeople: ardeaPeopleReceipt.sha256, initializedPlayer: heroProgress.source.sha256 } };
+      worldClock: clockReceipt.sha256, ardeaPeople: ardeaPeopleReceipt.sha256, initializedPlayer: heroProgress.source.sha256,
+      initialInventory: heroProgress.inventorySource.sha256 } };
 }
 
 function seedQuestStates(runtime: NativeQuestRuntime, rows: readonly InitialQuestRow[] | Readonly<Record<string, QuestState>>): void {
@@ -228,6 +267,9 @@ export class NativeQuestRuntime {
         raw.sources.questDefinitions !== source.sources.questDefinitions || raw.sources.worldClock !== source.sources.worldClock) {
       throw new Error('Browser save belongs to different Gothic 3 source data.');
     }
+    if (raw.sources.initialInventory !== undefined && raw.sources.initialInventory !== source.sources.initialInventory) {
+      throw new Error('Browser save belongs to different Gothic 3 starting inventory data.');
+    }
     if (raw.sources.heroPlayerMemory !== undefined && raw.sources.heroPlayerMemory !== player.source.sha256) {
       throw new Error('Browser save belongs to different Gothic 3 Hero PlayerMemory data.');
     }
@@ -259,12 +301,34 @@ export class NativeQuestRuntime {
         (!Array.isArray(raw.talkedToArdeaActors) || !raw.talkedToArdeaActors.every((id) => typeof id === 'string'))) {
       throw new Error('Browser save has invalid Ardea NPC dialogue flags.');
     }
+    if (raw.tradeEnabledArdeaActors !== undefined &&
+        (!Array.isArray(raw.tradeEnabledArdeaActors) || !raw.tradeEnabledArdeaActors.every((id) => typeof id === 'string'))) {
+      throw new Error('Browser save has invalid Ardea NPC trade flags.');
+    }
+    if (raw.partyEnabledArdeaActors !== undefined &&
+        (!Array.isArray(raw.partyEnabledArdeaActors) || !raw.partyEnabledArdeaActors.every((id) => typeof id === 'string'))) {
+      throw new Error('Browser save has invalid Ardea NPC party flags.');
+    }
+    if (raw.teachEnabledArdeaActors !== undefined &&
+        (!Array.isArray(raw.teachEnabledArdeaActors) || !raw.teachEnabledArdeaActors.every((id) => typeof id === 'string'))) {
+      throw new Error('Browser save has invalid Ardea NPC teaching flags.');
+    }
     const { heroProgress } = source;
     if (player.memory.getXP() !== heroProgress.xp || player.memory.getLPAttribs() !== heroProgress.lpAttribs ||
         player.npc.values.Level !== heroProgress.level) {
       throw new Error('Live Hero PlayerMemory/NPC properties do not match the verified restore seed.');
     }
     let restoredHeroProgress = { xp: heroProgress.xp, level: heroProgress.level, lpAttribs: heroProgress.lpAttribs };
+    let restoredHeroVitals: NativeHeroVitals | null = null;
+    if (raw.heroVitals !== undefined) {
+      if (!record(raw.heroVitals) || !nonnegativeInt32(raw.heroVitals.hitPoints) ||
+          !nonnegativeInt32(raw.heroVitals.hitPointsMax) || raw.heroVitals.hitPointsMax < 1 ||
+          raw.heroVitals.hitPoints > raw.heroVitals.hitPointsMax) {
+        throw new Error('Browser save has invalid Hero hit point state.');
+      }
+      restoredHeroVitals = Object.freeze({ hitPoints: raw.heroVitals.hitPoints,
+        hitPointsMax: raw.heroVitals.hitPointsMax });
+    }
     let restoredAwardHistory: number[] = [];
     if (raw.heroProgress !== undefined) {
       if (!record(raw.heroProgress) || !nonnegativeInt32(raw.heroProgress.xp) ||
@@ -300,11 +364,31 @@ export class NativeQuestRuntime {
         if (delta > 0) restoredAwardHistory = [delta / 5];
       }
     }
+    let restoredHeroQuestRewards: NativeHeroQuestRewardState | null = null;
+    if (raw.heroQuestRewards !== undefined) {
+      const expectedTags = questRewardAttributeTags(source.definitions);
+      if (!record(raw.heroQuestRewards)) throw new Error('Browser save has invalid Hero quest reward state.');
+      const rewards = raw.heroQuestRewards;
+      const attributeBaseValues = rewards.attributeBaseValues;
+      if (!Array.isArray(rewards.politicalFame) || rewards.politicalFame.length !== 9 ||
+          !rewards.politicalFame.every(signedInt32) || !record(attributeBaseValues) ||
+          Object.keys(attributeBaseValues).sort().join('\0') !== expectedTags.join('\0') ||
+          !expectedTags.every((tag) => signedInt32(attributeBaseValues[tag]))) {
+        throw new Error('Browser save has invalid Hero quest reward state.');
+      }
+      restoredHeroQuestRewards = {
+        politicalFame: [...rewards.politicalFame],
+        attributeBaseValues: Object.fromEntries(expectedTags.map((tag) => [tag, attributeBaseValues[tag] as number])),
+      };
+    }
     const runtimeSources: NativeQuestSessionSources = { ...source.sources, heroPlayerMemory: player.source.sha256,
       heroNpcProperties: player.npcSource.sha256, infoProvider: infoState.providerId };
     const runtime = new NativeQuestRuntime(source.definitions, source.clock, runtimeSources, savedEvents, infoState,
       source.ardeaActors, player, heroProgress, restoredAwardHistory);
     if (raw.talkedToArdeaActors !== undefined) runtime.actorDialogs.restoreTalkedToPlayerIds(raw.talkedToArdeaActors as string[]);
+    if (raw.tradeEnabledArdeaActors !== undefined) runtime.actorDialogs.restoreTradeEnabledIds(raw.tradeEnabledArdeaActors as string[]);
+    if (raw.partyEnabledArdeaActors !== undefined) runtime.actorDialogs.restoreEnabledDialogActorIds('PartyEnabled', raw.partyEnabledArdeaActors as string[]);
+    if (raw.teachEnabledArdeaActors !== undefined) runtime.actorDialogs.restoreEnabledDialogActorIds('TeachEnabled', raw.teachEnabledArdeaActors as string[]);
     seedQuestStates(runtime, raw.quests as Record<string, QuestState>);
     const set = runtime.clock.set({ years: raw.clock.years, days: raw.clock.days, seconds: raw.clock.seconds });
     if (set.kind !== 'applied') throw new Error('Saved world time cannot be restored: ' + set.reason);
@@ -325,6 +409,25 @@ export class NativeQuestRuntime {
     if (restoredHeroProgress.lpAttribs !== heroProgress.lpAttribs) {
       const restored = player.memory.setLPAttribs(restoredHeroProgress.lpAttribs);
       if (!restored.supported) throw new Error('Saved Hero learning points could not be restored through PlayerMemory: ' + restored.reason);
+    }
+    if (restoredHeroVitals) {
+      const maximum = player.memory.applyStartupStat('SetHitPointsMax', restoredHeroVitals.hitPointsMax);
+      if (!maximum.supported) throw new Error('Saved Hero HP maximum could not be restored through PlayerMemory: ' + maximum.reason);
+      const current = player.memory.applyStartupStat('SetHitPoints', restoredHeroVitals.hitPoints);
+      if (!current.supported) throw new Error('Saved Hero HP could not be restored through PlayerMemory: ' + current.reason);
+    }
+    if (restoredHeroQuestRewards) {
+      for (const [tag, value] of Object.entries(restoredHeroQuestRewards.attributeBaseValues)) {
+        const restored = player.memory.setBaseValue(tag, value);
+        if (!restored.supported || restored.nativeReturnValue !== true) {
+          throw new Error('Saved Hero quest attribute could not be restored through PlayerMemory: ' + tag +
+            (restored.supported ? '' : ' (' + restored.reason + ')'));
+        }
+      }
+      for (const [alignment, value] of restoredHeroQuestRewards.politicalFame.entries()) {
+        const restored = player.memory.setPoliticalFame(alignment, value);
+        if (!restored.supported) throw new Error('Saved PoliticalFame could not be restored through PlayerMemory: ' + restored.reason);
+      }
     }
     return runtime;
   }
@@ -347,6 +450,40 @@ export class NativeQuestRuntime {
 
   canAwardExperienceScript(requestedAmount: number): NativeValue<true> {
     return this.canAwardExperienceScripts([requestedAmount]);
+  }
+
+  /** Script_Game::SetHitPoints for the retained, valid Hero PlayerMemory path. */
+  setHeroHitPoints(requested: number): NativeValue<number> {
+    if (!Number.isInteger(requested) || requested < -0x80000000 || requested > 0x7fffffff) {
+      return { known: false, reason: 'Native SetHitPoints requires a signed32-bit operand.' };
+    }
+    const result = this.player.memory.applyStartupStat('SetHitPoints', requested);
+    if (!result.supported) return { known: false, reason: result.reason };
+    try {
+      const vitals = readHeroVitals(this.player);
+      for (const listener of this.listeners) listener();
+      return { known: true, value: vitals.hitPoints };
+    } catch (error) {
+      return { known: false, reason: error instanceof Error ? error.message : String(error) };
+    }
+  }
+
+  heroVitals(): NativeHeroVitals { return readHeroVitals(this.player); }
+
+  /** Original source-seeded stack amount for current dialogue predicates.
+   * This is an immutable startup snapshot until inventory mutation is connected. */
+  heroItemStackAmount(entity: { readonly id: string; readonly name: string }, templateName: string): NativeValue<number | null> {
+    if (entity.id !== 'PC_Hero' || entity.name !== 'PC_Hero') {
+      return { known: false, reason: 'Only the hash-checked PC_Hero starting inventory is connected to dialogue predicates.' };
+    }
+    if (!templateName) return { known: false, reason: 'Native conditional item template name is empty.' };
+    const matching = this.heroProgressSeed.inventory.filter((stack) => stack.templateName === templateName);
+    if (matching.length > 1) return { known: false, reason: 'Native starting inventory contains an ambiguous template name: ' + templateName };
+    return { known: true, value: matching[0]?.amount ?? null };
+  }
+
+  heroInventoryStacks(): readonly OriginalPlayerProgressSeed['inventory'][number][] {
+    return this.heroProgressSeed.inventory.map((stack) => ({ ...stack }));
   }
 
   canAwardExperienceScripts(requestedAmounts: readonly number[]): NativeValue<true> {
@@ -376,6 +513,69 @@ export class NativeQuestRuntime {
     return { known: true, value: plan.value };
   }
 
+  canApplyQuestEffects(effects: readonly QuestEffect[]): NativeValue<true> {
+    const experience: number[] = [];
+    try {
+      for (const effect of effects) {
+        switch (effect.type) {
+          case 'politicalFame': {
+            if (!Number.isInteger(effect.alignment) || effect.alignment < 0 || effect.alignment >= 9 ||
+                !Number.isInteger(effect.amount) || effect.amount <= 0 || effect.amount > 0x7fffffff) {
+              return { known: false, reason: 'Native PoliticalFame reward alignment/amount is outside its supported range.' };
+            }
+            if (this.player.memory.politicalFameValues()[effect.alignment] === undefined) {
+              return { known: false, reason: 'Native PoliticalFame array entry is unavailable.' };
+            }
+            break;
+          }
+          case 'attributeBase': {
+            if (!effect.id || !Number.isInteger(effect.amount) || effect.amount < -0x80000000 || effect.amount > 0x7fffffff ||
+                !this.player.memory.getAttribute(effect.id)) {
+              return { known: false, reason: 'Native quest attribute reward does not resolve to a Hero PlayerMemory attribute.' };
+            }
+            if (!Number.isInteger(this.player.memory.getBaseValue(effect.id))) {
+              return { known: false, reason: 'Native quest attribute base value is unavailable: ' + effect.id };
+            }
+            break;
+          }
+          case 'experienceScript': experience.push(effect.requestedAmount); break;
+          default:
+            return { known: false, reason: 'Native quest reward service is not connected: ' + effect.type };
+        }
+      }
+      return experience.length === 0 ? { known: true, value: true } : this.canAwardExperienceScripts(experience);
+    } catch (error) {
+      return { known: false, reason: error instanceof Error ? error.message : String(error) };
+    }
+  }
+
+  canSucceedQuest(id: string, precedingExperienceAwards: readonly number[] = []): NativeValue<true> {
+    const quest = this.definitions.find((definition) => definition.id === id);
+    if (!quest) return { known: false, reason: 'Native quest definition is not in the loaded source: ' + id };
+    if (quest.numericType === 5 || quest.numericType === 12) {
+      return { known: false, reason: 'Arena quest status notifications are not connected: ' + id };
+    }
+    const planned = nativeQuestSuccessEffects(quest);
+    if (!planned.supported) return { known: false, reason: planned.reason };
+    const experience = planned.effects.filter((effect) => effect.type === 'experienceScript')
+      .map((effect) => effect.requestedAmount);
+    const otherEffects = planned.effects.filter((effect) => effect.type !== 'experienceScript');
+    const preflight = this.canApplyQuestEffects(otherEffects);
+    if (!preflight.known) return preflight;
+    return experience.length === 0 && precedingExperienceAwards.length === 0
+      ? { known: true, value: true }
+      : this.canAwardExperienceScripts([...precedingExperienceAwards, ...experience]);
+  }
+
+  private heroQuestRewardState(): NativeHeroQuestRewardState {
+    const attributeBaseValues: Record<string, number> = {};
+    for (const tag of questRewardAttributeTags(this.definitions)) {
+      if (!this.player.memory.getAttribute(tag)) throw new Error('Original quest reward attribute is unavailable: ' + tag);
+      attributeBaseValues[tag] = this.player.memory.getBaseValue(tag);
+    }
+    return { politicalFame: [...this.player.memory.politicalFameValues()], attributeBaseValues };
+  }
+
   saveData(): NativeQuestSessionSave {
     const time = this.clock.snapshot().timeAndDate;
     const quests: Record<string, QuestState> = {};
@@ -388,8 +588,13 @@ export class NativeQuestRuntime {
       clock: { years: time.years, days: time.days, seconds: time.seconds }, quests,
       gameEvents: this.gameEvents.snapshot(), givenInfoIds: this.infoState.currentGivenIds(),
       talkedToArdeaActors: this.actorDialogs.currentTalkedToPlayerIds(),
+      tradeEnabledArdeaActors: this.actorDialogs.currentTradeEnabledIds(),
+      partyEnabledArdeaActors: this.actorDialogs.currentEnabledDialogActorIds('PartyEnabled'),
+      teachEnabledArdeaActors: this.actorDialogs.currentEnabledDialogActorIds('TeachEnabled'),
       heroProgress: { xp: this.player.memory.getXP(), level: this.player.npc.values.Level as number,
-        lpAttribs: this.player.memory.getLPAttribs(), awards: [...this.heroAwardHistory] } };
+        lpAttribs: this.player.memory.getLPAttribs(), awards: [...this.heroAwardHistory] },
+      heroQuestRewards: this.heroQuestRewardState(),
+      heroVitals: readHeroVitals(this.player) };
   }
 
   private playerProgress(): NativePlayerProgress {
@@ -399,11 +604,27 @@ export class NativeQuestRuntime {
 
   private applyQuestEffects(effects: readonly QuestEffect[]): { applied: true } | { applied: false; reason: string } {
     if (effects.length === 0) return { applied: true };
-    if (effects.length !== 1 || effects[0]?.type !== 'experienceScript') {
-      return { applied: false, reason: 'Only a single source-backed Hero GiveXP quest reward is connected; other native reward services remain unavailable.' };
+    const preflight = this.canApplyQuestEffects(effects);
+    if (!preflight.known) return { applied: false, reason: preflight.reason };
+    for (const effect of effects) {
+      if (effect.type === 'politicalFame') {
+        const result = this.player.memory.addPoliticalFame(effect.alignment, effect.amount);
+        if (!result.supported) return { applied: false, reason: 'PoliticalFame reward stopped: ' + result.reason };
+      } else if (effect.type === 'attributeBase') {
+        const base = this.player.memory.getBaseValue(effect.id);
+        const result = this.player.memory.setBaseValue(effect.id, (base + effect.amount) | 0);
+        if (!result.supported || result.nativeReturnValue !== true) {
+          return { applied: false, reason: 'Attribute reward stopped for ' + effect.id +
+            (result.supported ? '' : ': ' + result.reason) };
+        }
+      } else if (effect.type === 'experienceScript') {
+        const result = this.awardExperienceScript(effect.requestedAmount);
+        if (!result.known) return { applied: false, reason: result.reason };
+      } else {
+        return { applied: false, reason: 'Native quest reward service is not connected: ' + effect.type };
+      }
     }
-    const result = this.awardExperienceScript(effects[0].requestedAmount);
-    return result.known ? { applied: true } : { applied: false, reason: result.reason };
+    return { applied: true };
   }
 
   rows(): QuestSessionRow[] {
