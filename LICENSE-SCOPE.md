@@ -39,6 +39,8 @@ The following existing terms and notices remain unchanged and are not replaced b
 
 No other third-party work, dependency, archived asset, or externally governed material is relicensed by this notice. Existing file headers, manifests, per-asset provenance and notices continue to govern.
 
+Creative Commons assets retain their own grants, including any permitted commercial use, independently of the noncommercial license on eligible Tervain code. The code license does not add restrictions to those assets or revoke an earlier CC grant. Preserve supplied attribution, source and license links, modification notices, and any ShareAlike obligations when adapting or redistributing a CC asset. The [3D asset ledger](docs/engineering/model-licenses.md) and shipped [model credits](public/model-licenses.html) distinguish confirmed terms from unresolved provenance; they do not turn an unknown asset into CC content.
+
 ### Original media and identity
 
 Tervain's original art, music, models, story and setting text, visual identity, marks, and other non-code content are separately governed and are not included in this software license. Owner-supplied or externally produced content keeps the permission and provenance stated in its existing record. This notice does not resolve any open authorship or service-term questions recorded for Suno, Meshy, or Mixamo-related material.

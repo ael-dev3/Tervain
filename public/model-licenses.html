@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="Tervain 3D model credits, source records, modifications and unresolved license classifications.">
+  <title>Tervain — 3D model credits and licenses</title>
+  <style>
+    :root { color-scheme: light dark; --paper:#f3efe6; --ink:#292821; --muted:#656254; --line:#c9c1ae; --link:#514326; --panel:#e9e4d8; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--paper); color:var(--ink); font:17px/1.65 Georgia,"Times New Roman",serif; }
+    main { max-width:980px; padding:52px 42px 64px; margin:auto; }
+    nav, .eyebrow, th, .status, .meta { font-family:system-ui,sans-serif; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 24px; font-size:14px; }
+    a { color:var(--link); text-underline-offset:.2em; }
+    a:hover { text-decoration-thickness:2px; }
+    a:focus-visible, summary:focus-visible { outline:3px solid var(--link); outline-offset:5px; }
+    header { margin:42px 0 32px; border-bottom:1px solid var(--line); padding-bottom:30px; }
+    .eyebrow { font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); }
+    h1 { font-size:clamp(32px,4vw,48px); line-height:1.15; font-weight:normal; letter-spacing:-.025em; margin:14px 0 18px; }
+    h2 { font-size:26px; line-height:1.3; font-weight:normal; margin:38px 0 14px; }
+    p { margin:12px 0; }
+    .lead { max-width:760px; font-size:20px; }
+    .notice { padding:20px 24px; border:1px solid var(--line); background:var(--panel); margin:24px 0; }
+    .status { display:block; font-size:13px; font-weight:650; letter-spacing:.04em; margin-bottom:8px; }
+    .meta { font-size:13px; color:var(--muted); }
+    .table-wrap { overflow-x:auto; border:1px solid var(--line); margin:22px 0; }
+    table { width:100%; border-collapse:collapse; font-size:15px; }
+    caption { text-align:left; padding:14px 16px; font-weight:bold; background:var(--panel); }
+    th, td { padding:14px 16px; text-align:left; vertical-align:top; border-top:1px solid var(--line); }
+    th { font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); }
+    td:first-child { min-width:150px; }
+    td:nth-child(2) { white-space:nowrap; }
+    ul { padding-left:24px; }
+    li { margin:8px 0; }
+    details { margin:22px 0; padding:16px 20px; border:1px solid var(--line); }
+    summary { cursor:pointer; font-weight:bold; }
+    code { font:13px/1.4 ui-monospace,SFMono-Regular,Consolas,monospace; overflow-wrap:anywhere; }
+    footer { border-top:1px solid var(--line); margin-top:42px; padding-top:18px; }
+    @media (prefers-color-scheme:dark) { :root { --paper:#1d1d1a; --ink:#ece8dc; --muted:#b5b09f; --line:#535043; --link:#ded0a9; --panel:#272722; } }
+    @media (max-width:620px) { main { padding:28px 22px 42px; } header { margin-top:28px; } .lead { font-size:18px; } .notice { padding:16px 18px; } }
+    @media print { :root { --paper:white; --ink:black; --muted:#444; --line:#aaa; --link:black; --panel:white; } main { max-width:none; padding:0; } nav { display:none; } details { break-inside:avoid; } }
+  </style>
+</head>
+<body>
+  <main>
+    <nav aria-label="Related pages">
+      <a href="./">Tervain</a>
+      <a href="model-licenses.json">Full model ledger (JSON)</a>
+      <a href="https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/model-licenses.md">Source and verification notes</a>
+    </nav>
+    <header>
+      <span class="eyebrow">Tervain · source credits</span>
+      <h1>3D models and their licenses</h1>
+      <p class="lead">Original-game imported models were created with <a href="https://www.meshy.ai/">Meshy</a>, supplied for Tervain and adapted for its world. The historical Warpkeep archive has its own source records.</p>
+      <p class="meta">Inventory reviewed 6 October 2026 · 69 public GLBs · 209 archived Warpkeep GLBs</p>
+    </header>
+
+    <div class="notice">
+      <span class="status">Source license classification pending</span>
+      <p>The 69 public model files derive from 35 recorded Meshy source files. Their generation-time or Community/listing licenses and source creator credits are not yet established by the available records. This page preserves credits and changes; it does not certify private ownership, a blanket CC license or commercial clearance.</p>
+    </div>
+
+    <h2>Original Tervain model catalog</h2>
+    <p>Credit: Meshy source models, supplied by Ael; source-derived geometry, materials, rigging and original additions prepared for Tervain. Individual source hashes, filenames and transformations are in the linked records and the <a href="model-licenses.json">complete ledger</a>.</p>
+    <div class="table-wrap">
+      <table>
+        <caption>Recorded GLB catalog — Meshy license branch unresolved</caption>
+        <thead><tr><th scope="col">Family</th><th scope="col">Files</th><th scope="col">Changes and source record</th></tr></thead>
+        <tbody>
+          <tr><td>Animated Wanderer</td><td>1</td><td>Reduced geometry and consistent unit conversion, preserving supplied textures, UVs and clips. Mixamo-named skeleton/animation content has a separate unresolved source-rights record. <a href="https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/main-hero-animations-assets.json">Animated hero provenance</a>.</td></tr>
+          <tr><td>Earlier Wanderer</td><td>1</td><td>Historical model retained for audit: reduction, original rig/clips, material refinement and runtime texture preparation. <a href="https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/main-hero-assets.json">Historical hero provenance</a>.</td></tr>
+          <tr><td>Resident and enemy cast</td><td>17</td><td>15 supplied sources, adapted by role: reductions, repaired geometry, UV baking, material changes and an original Tervain biped rig. <a href="https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/meshy-npc-assets.json">NPC source and modification record</a>.</td></tr>
+          <tr><td>Supplied tree families</td><td>45</td><td>15 sources with three prepared variants each: source-derived wood and crowns, material changes, connected custom foliage and LOD preparation. Catalog presence does not mean every source is currently placed. <a href="https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/meshy-tree-assets.json">Tree source and modification record</a>.</td></tr>
+          <tr><td>Protected Solitary Pine</td><td>3</td><td>Optimized source wood, original needle-card artwork and derivative LODs. The protected current binaries retain their recorded hashes. <a href="https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/solitary-pine-assets.json">Pine provenance</a>.</td></tr>
+          <tr><td>Broadleaf and rock pile</td><td>2</td><td>Source-derived crown/wood preparation and leaf additions; rock geometry retained with revised source textures. <a href="https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/broadleaf-assets.json">Broadleaf record</a> · <a href="https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/rock-pile-assets.json">Rock record</a>.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>How the actual source license applies</h2>
+    <p><a href="https://www.meshy.ai/terms-of-use">Meshy’s terms</a>, updated 19 September 2026, distinguish Free output under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>, paid-output terms and Community 3D output under <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>. Other Community content, including uploaded images, uses BY-NC 4.0. The source branch must be established for the specific asset; its filename does not prove that branch.</p>
+    <ul>
+      <li><strong>Confirmed CC BY 4.0:</strong> preserve supplied creator, copyright, license, disclaimer and practicable source notices; credit Meshy where designated; identify modifications and link the license. Existing CC freedoms remain, without added restrictions or implied endorsement.</li>
+      <li><strong>Confirmed CC0:</strong> this ledger adds no attribution or noncommercial restriction to CC0-covered rights. Source credit remains useful provenance.</li>
+      <li><strong>Unresolved or special permission:</strong> retain the recorded project-use scope while obtaining actual source evidence. Do not relabel it CC or claim private ownership.</li>
+    </ul>
+    <p>Actual CC rights take precedence over general repository media wording for the rights they grant. The <a href="https://github.com/ael-dev3/Tervain/blob/main/LICENSE-SCOPE.md">source-code license</a> does not license these model files or reduce a recipient’s existing CC rights. Trademark, publicity/privacy and third-party input or animation rights need their own applicable permission.</p>
+
+    <details>
+      <summary>Historical Warpkeep archive — 209 GLBs</summary>
+      <p>These are byte-exact copies from <a href="https://github.com/ael-dev3/Warpkeep/tree/786c0b2be6f2d2e7eb2de02ef3b6826c8907fc32">Warpkeep revision 786c0b2</a>, representing 76 catalog assets. They are archive-only, outside the current original-game model catalog.</p>
+      <p>The <a href="https://github.com/ael-dev3/Tervain/blob/main/assets/warpkeep/manifest.json">archive manifest</a> records <code>LicenseRef-Warpkeep-Provenance-Required</code> and specific project-use authority, rather than an open-content grant. Thirty-one files retain embedded Ael/Warpkeep copyright text; that metadata is a recorded notice, not independent ownership proof. Per-set terms remain in <a href="https://github.com/ael-dev3/Warpkeep-Assets">Warpkeep-Assets</a>. All archive file hashes and immutable source links are included in the JSON ledger.</p>
+    </details>
+
+    <h2>Separate geometry and study material</h2>
+    <p>Native terrain, buildings, props, grass, custom foliage and menu geometry also originate from Tervain code. Software ports keep their own notices; generated geometry and approved emblem artwork are not assigned a new media license by this ledger.</p>
+    <p>The separate Gothic 3 study/reconstruction routes contain proprietary game derivatives and are outside the original Tervain asset library. They are not classified CC. This ledger records no general rights-holder redistribution or commercial-release clearance for them; see the <a href="https://github.com/ael-dev3/Tervain/blob/main/assets/gothic3/NOTICE.md">separate source notice</a>.</p>
+    <footer>
+      <p class="meta">All 278 inventoried files matched their existing source-record hashes. No embedded CC declaration or external texture/model dependency was found in these GLBs. Metadata and credit alone do not establish the applicable license.</p>
+      <p><a href="model-licenses.json">Download the complete model ledger</a> · <a href="https://github.com/ael-dev3/Tervain/blob/main/NOTICE">Project notices</a></p>
+    </footer>
+  </main>
+</body>
+</html>

@@ -7,6 +7,12 @@ source repository. There is no blanket license for repository content. The
 licenses below apply only to their identified third-party software; they do not
 license Tervain's music, models, logos, faction identity or other media.
 
+3D model credits and per-asset permission records: model-licenses.html and
+model-licenses.json, included beside this notice in the production build.
+Any confirmed Creative Commons asset keeps its separate grant; this project's
+code license does not impose extra restrictions on that asset. An unresolved
+provenance entry is not an open-content grant or a certification of clearance.
+
 Warpkeep software adaptations (Apache-2.0)
 Source: https://github.com/ael-dev3/Warpkeep
 Revision: 786c0b2be6f2d2e7eb2de02ef3b6826c8907fc32

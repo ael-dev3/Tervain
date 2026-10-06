@@ -27,8 +27,16 @@ This product includes material from the Warpkeep project (https://github.com/ael
    GLB files from Warpkeep at revision 786c0b2be6f2d2e7eb2de02ef3b6826c8907fc32, with their
    provenance in Warpkeep-Assets (https://github.com/ael-dev3/Warpkeep-Assets). They are used
    with the project owner's authorisation and are NOT offered under an open-content licence.
-   They are archived and are not built into the published 0.0.5 site.
+   They are archived and are not built into the published 0.0.12 site.
    See docs/engineering/asset-inventory.md and assets/warpkeep/manifest.json.
+
+3. Model-specific permissions. The 3D asset inventory and source records are
+   indexed in docs/engineering/model-licenses.md and public/model-licenses.json.
+   The production build includes public/model-licenses.html, linked from About.
+   These records distinguish Creative Commons grants, owner-specific project
+   use, service terms and unresolved provenance. Existing CC permissions are
+   not restricted by the PolyForm license on eligible original software code.
+   This notice does not establish missing Meshy plan or reference-component rights.
 
 Warpkeep names, logos and the Hegemony identity are not licensed by this notice.
 
