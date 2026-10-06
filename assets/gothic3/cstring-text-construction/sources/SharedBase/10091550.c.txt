@@ -1,0 +1,15 @@
+/* ENTRY 10091550 | FUN_10091550 | STATUS decompiled | 5 ms */
+
+bCString * FUN_10091550(bCString *param_1,char *param_2)
+
+{
+  char *pcVar1;
+
+  pcVar1 = _strstr(param_2," ");
+  if (pcVar1 != (char *)0x0) {
+    bCString::bCString(param_1,pcVar1 + 1);
+    return param_1;
+  }
+  bCString::bCString(param_1,param_2);
+  return param_1;
+}

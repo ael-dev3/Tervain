@@ -1,10 +1,14 @@
 import rules from '../../assets/gothic3/npc-heap/runtime-rules.json';
+import textRules from '../../assets/gothic3/cstring-text-construction/runtime-rules.json';
 import type { NativeValue } from './dialogue';
 import { NativeHeapObjectViews } from './native-heap-views';
 import type { NativeMemoryAdmin, NativeMemoryAllocation } from './native-memory-admin';
+import type { NativeBytePointer } from './native-pointer-geometry';
+import { copyNativeBytesScalar } from './native-byte-string';
 
 type CStringData = { readonly allocation: NativeMemoryAllocation; readonly characterOffset: 8 };
 const dataOwners = new WeakMap<object, NativeMemoryAdmin>();
+const pendingTextConstruction = Symbol('Original CString text constructor destination');
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = (reason: string): { known: false; reason: string } => ({ known: false, reason });
 const source = rules as unknown as { schema: string; inputs: { SharedBase: string };
@@ -17,6 +21,14 @@ const assertSource = () => {
   if (source.schema !== 'gothic3-npc-heap-rules-v1' || source.inputs.SharedBase !== '5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214' ||
       Object.entries(methods).some(([name, body]) => source.methods[name]?.body !== body) ||
       source.constBytes.emptyCStringText.address !== '100e5e3c' || source.constBytes.emptyCStringText.raw !== '00') throw new Error('Original CString source receipt differs');
+  if (textRules.schema !== 'gothic3-cstring-text-construction-rules-v1' ||
+      textRules.inputs.SharedBase !== source.inputs.SharedBase ||
+      textRules.methods.textConstructor.entry !== '10003ba7' || textRules.methods.textConstructor.body !== '100135f0' ||
+      textRules.methods.textConstructor.bodyInstructionBytesSha256 !== '1bb0b6450709549da4589f055cb6f9780becea05ea8cefcd75e37701a22d0be5' ||
+      textRules.methods.alloc.entry !== '10007d65' || textRules.methods.alloc.body !== '10013240' ||
+      textRules.methods.alloc.bodyInstructionBytesSha256 !== 'dc8a43b75e1dccffc84e53f09fff8d1d25e6ce0e0485cfa4722de0f09887fd04') {
+    throw new Error('Original CString text-construction source receipt differs');
+  }
 };
 
 /** Original bCString state over an actual four-byte object slot. Character
@@ -26,17 +38,30 @@ export class NativeHeapCString {
   readonly slot: NativeHeapObjectViews;
   private destroyed = false;
   private blocked: string | null = null;
+  private construction: 'pending' | 'complete' | 'failed';
+  private constructingText = false;
+  private constructionAllocation: NativeMemoryAllocation | null = null;
   private readonly trace: string[] = [];
-  constructor(private readonly memory: NativeMemoryAdmin, slot?: NativeHeapObjectViews) {
+  constructor(private readonly memory: NativeMemoryAdmin, slot?: NativeHeapObjectViews, token?: typeof pendingTextConstruction) {
     assertSource();
+    if (token !== undefined && token !== pendingTextConstruction) throw new Error('Actual CString text-construction entry required');
     this.slot = slot ?? new NativeHeapObjectViews({ identity: {}, bytes: new Uint8Array(4), knownMask: new Uint8Array(4), freed: false });
     if (this.slot.bytes.length !== 4) throw new Error('Actual four-byte bCString object slot required');
-    this.slot.pointer<CStringData>(0).set(null);
-    this.trace.push('cstring-default-constructor:10012d20');
+    this.construction = token === pendingTextConstruction ? 'pending' : 'complete';
+    if (this.construction === 'complete') {
+      this.slot.pointer<CStringData>(0).set(null);
+      this.trace.push('cstring-default-constructor:10012d20');
+    }
   }
-  private execute<T>(body: () => NativeValue<T>): NativeValue<T> {
+  /** Own the destination before the original text constructor begins. Creating
+   * this view/owner performs no native slot read, NULL store or constructor. */
+  static beginTextConstruction(memory: NativeMemoryAdmin, slot: NativeHeapObjectViews): NativeHeapCString {
+    return new NativeHeapCString(memory, slot, pendingTextConstruction);
+  }
+  private execute<T>(body: () => NativeValue<T>, textConstructor = false): NativeValue<T> {
     if (this.blocked) return unknown(this.blocked);
     if (this.destroyed) return unknown('CString object lifetime has ended');
+    if (!textConstructor && this.construction !== 'complete') return unknown('CString text construction has not completed');
     try {
       const result = body();
       if (!result.known) { this.blocked = result.reason; this.trace.push('blocked:' + result.reason); }
@@ -81,13 +106,56 @@ export class NativeHeapCString {
   private alloc(length: number): NativeValue<void> {
     if (length === 0) { this.slot.pointer<CStringData>(0).set(null); return known(undefined); }
     const instance = this.memory.getInstance(); if (!instance.known) return instance;
+    if (this.constructingText && this.blocked) return unknown(this.blocked);
     const allocated = this.memory.malloc(length + 9); if (!allocated.known) return allocated;
+    if (this.constructingText && this.blocked) return unknown(this.blocked);
     if (!allocated.value) return unknown('Native CString Malloc NULL reaches unowned holder dereference/failure behavior');
+    if (this.constructingText) this.constructionAllocation = allocated.value;
     const fields = new NativeHeapObjectViews(allocated.value);
     fields.writeUnsigned(0, length); fields.writeUnsigned(4, 1, 2);
     const data: CStringData = Object.freeze({ allocation: allocated.value, characterOffset: 8 });
     dataOwners.set(data, this.memory); this.slot.pointer<CStringData>(0).set(data); this.terminator(data, length);
     this.trace.push(`cstring-alloc:${length + 9}`); return known(undefined);
+  }
+  /** Text constructor10003ba7->100135f0. It scans the live source, calls Alloc
+   * directly, reloads the character pointer and copies using the OLD length.
+   * Allocation callbacks can change/free the source before that native copy. */
+  constructText(input: NativeBytePointer | null): NativeValue<void> {
+    if (this.constructingText) {
+      this.blocked = 'CString text constructor is already executing';
+      this.trace.push('blocked:' + this.blocked); return unknown(this.blocked);
+    }
+    if (this.blocked) return unknown(this.blocked);
+    if (this.construction !== 'pending') return unknown('Fresh unconstructed CString destination required');
+    this.constructingText = true;
+    const result = this.execute(() => {
+      if (input === null) {
+        this.slot.pointer<CStringData>(0).set(null);
+        this.trace.push('cstring-text-constructor-null:100135f0'); return known(undefined);
+      }
+      let length = 0;
+      while (input.fields.readUnsigned(input.offset + length, 1) !== 0) length++;
+      this.trace.push('cstring-text-constructor-strlen:' + length);
+      if (length === 0) {
+        this.slot.pointer<CStringData>(0).set(null);
+        this.trace.push('cstring-text-constructor-empty:100135f0'); return known(undefined);
+      }
+      const allocated = this.alloc(length); if (!allocated.known) return allocated;
+      // This is the source's receiver pointer reload. Holder access/lifetime
+      // belongs to memcpy's later actual load/store, not an earlier precheck.
+      const data = this.slot.pointer<CStringData>(0).get();
+      if (!data || data.characterOffset !== 8 || dataOwners.get(data) !== this.memory) {
+        return unknown('Actual freshly allocated CString character pointer required');
+      }
+      const copied = copyNativeBytesScalar(this.memory.byteGeometry(),
+        { fields: new NativeHeapObjectViews(data.allocation), offset: data.characterOffset }, input, length);
+      if (!copied.known) return copied;
+      if (this.blocked) return unknown(this.blocked);
+      this.trace.push('cstring-text-constructor-copy:100135f0'); return known(undefined);
+    }, true);
+    this.constructingText = false;
+    this.construction = result.known ? 'complete' : 'failed';
+    return result;
   }
   private realloc(length: number): NativeValue<void> {
     const old = this.data();
@@ -138,7 +206,8 @@ export class NativeHeapCString {
   /** operator= -> SetText(bCString const&), source ushort sharing semantics. */
   assign(sourceString: NativeHeapCString): NativeValue<void> {
     return this.execute(() => {
-      if (!(sourceString instanceof NativeHeapCString) || sourceString.memory !== this.memory || sourceString.destroyed || sourceString.blocked) return unknown('CString assignment requires a live same-heap source owner');
+      if (!(sourceString instanceof NativeHeapCString) || sourceString.memory !== this.memory || sourceString.destroyed ||
+          sourceString.blocked || sourceString.construction !== 'complete') return unknown('CString assignment requires a completed live same-heap source owner');
       let sourceData = sourceString.data();
       if (sourceData && this.length(sourceData) !== 0) {
         const old = this.data();
@@ -204,8 +273,11 @@ export class NativeHeapCString {
   snapshot() {
     // Diagnostics deliberately preserve the destructor's stale pointer bits;
     // no field read follows an ended CString lifetime.
-    const data = this.slot.pointer<CStringData>(0).get();
-    return { destroyed: this.destroyed, blockedReason: this.blocked, data,
+    let data: CStringData | null = null, pointerReadable = true, pointerError: string | null = null;
+    try { data = this.slot.pointer<CStringData>(0).get(); }
+    catch (error) { pointerReadable = false; pointerError = error instanceof Error ? error.message : String(error); }
+    return { destroyed: this.destroyed, blockedReason: this.blocked, construction: this.construction,
+      constructionAllocation: this.constructionAllocation, pointerReadable, pointerError, data,
       allocation: data?.allocation ?? null, pointerBytes: [...this.slot.bytes], pointerMask: [...this.slot.knownMask], trace: [...this.trace] };
   }
 }

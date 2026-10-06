@@ -22,19 +22,27 @@ function text(backing: NativeMemoryBacking): string {
 function fixture(overrides: Partial<NativeSceneTypeInfoHost> = {}) {
   const platform = new NativeRuntimePlatform();
   const memory = new NativeMemoryAdmin(platform, { extensions: [nativeNpcHeapExtension, nativeSceneStartupHeapExtension] });
+  // These orchestration fixtures supply an actual owned HeapAlloc endpoint;
+  // this does not stand in for Engine CRT bootstrap or demangling.
+  const heap = value(platform.createWin32Heap({}, 0, 4096, 0))!;
+  const allocateSource = (bytes: number) => platform.win32HeapAlloc(heap, 0, bytes);
+  const freeSource = (backing: NativeMemoryBacking): NativeValue<void> => {
+    const freed = platform.win32HeapFree(heap, 0, backing);
+    return freed.known ? (freed.value ? known(undefined) : unknown('Selected HeapFree returned FALSE')) : freed;
+  };
   const calls: string[] = []; let depth = 0;
   const host: NativeSceneTypeInfoHost = {
     undname: (input, flags) => {
       calls.push('undname'); expect(flags).toBe(0x2800);
       expect(input.offset).toBe(9);
       expect(String.fromCharCode(...input.fields.bytes.subarray(input.offset))).toBe('?AVeCSceneAdmin@@\0');
-      const backing = value(platform.crtMalloc(22))!;
+      const backing = value(allocateSource(22))!;
       const bytes = new TextEncoder().encode('class eCSceneAdmin   \0');
       backing.bytes.set(bytes); backing.knownMask.fill(255, 0, bytes.length);
       return known(backing);
     },
-    crtMalloc: bytes => { calls.push('malloc:' + bytes); return platform.crtMalloc(bytes); },
-    crtFree: backing => { calls.push('free:' + backing.bytes.length); return platform.crtFree(backing); },
+    crtMalloc: bytes => { calls.push('malloc:' + bytes); return allocateSource(bytes); },
+    crtFree: backing => { calls.push('free:' + backing.bytes.length); return freeSource(backing); },
     lock: id => { expect(id).toBe(14); calls.push('lock'); depth++; return known(undefined); },
     unlock: id => { expect(id).toBe(14); calls.push('unlock'); depth--; return known(undefined); },
     ...overrides,
@@ -42,7 +50,7 @@ function fixture(overrides: Partial<NativeSceneTypeInfoHost> = {}) {
   const typeInfo = new NativeSceneTypeInfoName(host);
   const name = new NativeSceneClassName({ memory, typeInfo,
     registerShutdown: (address, owner, execute) => { calls.push('atexit:' + address); return platform.registerShutdown(address, owner, execute); } });
-  return { platform, memory, typeInfo, name, calls, depth: () => depth };
+  return { platform, memory, typeInfo, name, calls, allocateSource, freeSource, depth: () => depth };
 }
 
 describe('original SceneAdmin class-name startup', () => {
@@ -95,6 +103,97 @@ describe('original SceneAdmin class-name startup', () => {
     expect(f.name.fields.readUnsigned(4)).toBe(0); expect(f.name.fields.readUnsigned(0)).toBe(0);
     expect(f.calls).toEqual([]); expect(f.memory.snapshot().trace).toEqual([]);
     expect(f.name.get()).toEqual(result);
+  });
+
+  it('retains a poisoned receiver slot until the direct text constructor stores its character pointer', () => {
+    const f = fixture(), malloc = f.memory.malloc.bind(f.memory);
+    f.name.fields.bytes.set([0xa1, 0xb2, 0xc3, 0xd4]); f.name.fields.knownMask.fill(0, 0, 4);
+    const observed: { bytes: number[]; masks: number[] }[] = [];
+    f.memory.malloc = bytes => {
+      expect(bytes).toBe(21); expect(f.name.snapshot().name).not.toBeNull();
+      observed.push({ bytes: [...f.name.fields.bytes.subarray(0, 4)], masks: [...f.name.fields.knownMask.subarray(0, 4)] });
+      return malloc(bytes);
+    };
+    const name = value(f.name.get());
+    expect(observed).toEqual([{ bytes: [0xa1, 0xb2, 0xc3, 0xd4], masks: [0, 0, 0, 0] }]);
+    expect(value(name.text())).toBe('eCSceneAdmin');
+    expect(name.snapshot().trace).not.toContain('cstring-default-constructor:10012d20');
+    expect(name.snapshot().trace).not.toContain('cstring-set-text:10014560');
+  });
+
+  it('copies the retained CRT source after allocation rather than an earlier text snapshot', () => {
+    const f = fixture(), malloc = f.memory.malloc.bind(f.memory);
+    f.memory.malloc = bytes => {
+      const result = malloc(bytes);
+      const source = f.typeInfo.descriptor.pointer<NativeMemoryBacking>(4).get()!;
+      source.bytes[6] = 0x71; // strlen already measured the source spelling.
+      return result;
+    };
+    const name = value(f.name.get());
+    expect(value(name.text())).toBe('qCSceneAdmin');
+    expect(name.snapshot().allocation!.requestedBytes).toBe(21);
+    expect(f.calls.filter(call => call === 'atexit:300184df')).toHaveLength(1);
+  });
+
+  it('retains the completed holder prefix when allocation frees the original CRT source before copying', () => {
+    const f = fixture(), malloc = f.memory.malloc.bind(f.memory); let allocations = 0;
+    f.memory.malloc = bytes => {
+      allocations++;
+      const result = malloc(bytes);
+      value(f.freeSource(f.typeInfo.descriptor.pointer<NativeMemoryBacking>(4).get()!));
+      return result;
+    };
+    const result = f.name.get(); expect(result.known).toBe(false);
+    const name = f.name.snapshot().name!, holder = name.snapshot().allocation!, fields = new NativeHeapObjectViews(holder);
+    expect(fields.readUnsigned(0)).toBe(12); expect(fields.readUnsigned(4, 2)).toBe(1);
+    expect(fields.readUnsigned(20, 1)).toBe(0); expect(holder.freed).toBe(false);
+    expect(f.name.fields.pointer(0).get()).toBe(name.snapshot().data);
+    expect(f.name.fields.readUnsigned(8)).toBe(3);
+    expect(f.calls).not.toContain('atexit:300184df');
+    expect(f.name.get()).toEqual(result); expect(allocations).toBe(1);
+    expect(name.text().known).toBe(false);
+  });
+
+  it.each(['unknown', 'NULL'] as const)('keeps the original receiver after a %s CString Malloc outcome and never replays startup', outcome => {
+    const f = fixture(); let allocations = 0;
+    f.name.fields.bytes.set([0x12, 0x34, 0x56, 0x78]); f.name.fields.knownMask.fill(0, 0, 4);
+    f.memory.malloc = () => {
+      allocations++;
+      return outcome === 'unknown' ? unknown('Selected class-name Malloc outcome unavailable') : known(null);
+    };
+    const result = f.name.get(); expect(result.known).toBe(false);
+    expect(f.name.snapshot().name).not.toBeNull();
+    expect([...f.name.fields.bytes.subarray(0, 4)]).toEqual([0x12, 0x34, 0x56, 0x78]);
+    expect([...f.name.fields.knownMask.subarray(0, 4)]).toEqual([0, 0, 0, 0]);
+    expect(f.name.fields.readUnsigned(8)).toBe(3);
+    expect(f.memory.snapshot().virtualRegions).toHaveLength(0); expect(f.memory.snapshot().pointerAreaCount).toBe(0);
+    expect(f.calls).not.toContain('atexit:300184df');
+    expect(f.name.get()).toEqual(result); expect(allocations).toBe(1);
+  });
+
+  it('uses the original pointer when UnMangle finds no space and constructs empty text after a final space', () => {
+    for (const spelling of ['eCSceneAdmin', 'class ']) {
+      const f = fixture(), source = value(f.allocateSource(16))!;
+      source.bytes.set(new TextEncoder().encode(spelling + '\0')); source.knownMask.fill(255);
+      f.typeInfo.descriptor.pointer<NativeMemoryBacking>(4).set(source);
+      const name = value(f.name.get());
+      expect(value(name.text())).toBe(spelling === 'class ' ? '' : 'eCSceneAdmin');
+      expect(f.calls).toEqual(['atexit:300184df']);
+      if (spelling === 'class ') {
+        expect(f.name.fields.readUnsigned(0)).toBe(0);
+        expect(f.memory.snapshot().trace).toEqual([]);
+      }
+    }
+  });
+
+  it('stops before CString construction when a cached CRT name has no admitted native pointer geometry', () => {
+    const f = fixture(), source = value(f.platform.crtMalloc(19))!;
+    source.bytes.set(new TextEncoder().encode('class eCSceneAdmin\0')); source.knownMask.fill(255);
+    f.typeInfo.descriptor.pointer<NativeMemoryBacking>(4).set(source);
+    const result = f.name.get(); expect(result.known).toBe(false);
+    expect(f.name.snapshot().name).toBeNull(); expect(f.name.fields.readUnsigned(0)).toBe(0);
+    expect(f.name.fields.readUnsigned(8)).toBe(3); expect(f.memory.snapshot().trace).toEqual([]);
+    expect(f.calls).toEqual([]); expect(f.name.get()).toEqual(result);
   });
 
   it('latches reentry from CString heap services before registering the class-name shutdown callback', () => {

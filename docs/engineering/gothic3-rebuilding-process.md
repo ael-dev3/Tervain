@@ -39,9 +39,12 @@ enclave callback. Native NPC
 activation, AI, responses, full death handling and most campaign progression remain
 unavailable.
 
-Checkpoints 73–78 add retained source NPC readers, shared runtime admins,
+Checkpoints 73–80 add retained source NPC readers, shared runtime admins,
 heap-backed field owners, physical SceneAdmin startup components and the
-selected Engine CRT class-name decoder and an ordinary DLL attach prefix. The new
+selected Engine CRT class-name decoder and an ordinary DLL attach prefix.
+Checkpoint 79 preserves Navigation notifications and application/area ownership;
+checkpoint 80 corrects the fresh CString text constructor and its owned byte
+operations before the Game Navigation class-name/type integration. The new
 admin, heap and SceneAdmin owners remain separate from the live NPC reader,
 which still stops at its first property-factory dependency. The [overview](gothic3-rebuild-overview.md)
 records the latest confirmed publication; the individual receipts below
@@ -56,7 +59,7 @@ The [scope record](gothic3-browser-port.md) describes the current controls,
 limitations and source terms.
 
 This guide records the preceding hosted baseline and subsequent dated
-checkpoints that preserve the evidence for each stage. Sections 10–78 cover
+checkpoints that preserve the evidence for each stage. Sections 10–80 cover
 the later runtime work; each receipt identifies its source revision and scope.
 
 Each checkpoint's reproduction commands describe its recorded source revision.
@@ -5380,15 +5383,167 @@ source nonempty construction allocates and copies without a prior NULL-slot
 store. Copying its current default-constructor/SetText path into Navigation
 would preserve that discrepancy.
 
-### Latest confirmed publication
+### Publication
 
-Checkpoint 78 and the reviewed grass integration reached `main` commit
-`351bd200277a1214e94ccdca1552d5ef2c2a473b` through
-[PR 47](https://github.com/ael-dev3/Tervain/pull/47). Successful
-[Pages run 37535953025](https://github.com/ael-dev3/Tervain/actions/runs/37535953025),
-attempt one, finished at 21:52:45 UTC on 6 October 2026. The public Gothic
-route served `gothic3-CAj9xpg6.js`, loaded 202 scene objects and 70 character
-models, entered Ardea and inspected the Hero and a coastal bandit without
-captured warnings or errors. The separate Tervain route served its v0.0.13
-grass build and completed movement and pause/resume review. These functional
-observations do not establish a completed Gothic campaign.
+Checkpoint 79 reached `main` commit
+`b408a48a68c222c20f64766ccf63f7e3c2007b0d` through
+[PR 48](https://github.com/ael-dev3/Tervain/pull/48). The reviewed head
+`a0df657e003ff0df253001e1b01bdcce91ad539e` and merged main share tree
+`cf09e73d8434fefac37d525e18faedef5bf2a735`. The PR check
+[37540566047](https://github.com/ael-dev3/Tervain/actions/runs/37540566047)
+passed on attempt one. Successful
+[Pages run 37541106669](https://github.com/ael-dev3/Tervain/actions/runs/37541106669),
+also attempt one, finished at 22:34:55 UTC on 6 October 2026. It passed all
+2,266 tests across 217 files and built 375 modules before deploying.
+The public Gothic route served `gothic3-C3iMc5TP.js`, loaded 202 scene objects
+and 70 character models, entered Ardea and inspected the Hero and
+`Ardea_OutNovice_01` without captured warnings or errors. The bandit's selected
+reader still stopped at 338/6,544 bytes with 0/16 property sets attached.
+The updated rebuilding overview was also inspected on GitHub `main`.
+These observations do not establish a completed Gothic campaign.
+
+## 80. Reproduce fresh CString text construction and owned byte operations
+
+The next Navigation integration needs the original Game class name, reflected
+type and descriptor table on the shared heap. Before reusing the SceneAdmin
+class-name adapter, this checkpoint corrects its CString construction path.
+The native text constructor is different from default construction followed
+by `SetText`: a nonempty input allocates without reading or clearing the old
+destination slot first. That distinction affects callbacks, failed allocations
+and the physical heap history.
+
+### Preserve fresh constructor order
+
+[`native-heap-cstring.ts`](../../src/gothic3/native-heap-cstring.ts) now retains
+a pending text-construction owner without accessing its destination slot.
+`constructText()` follows SharedBase entry `10003ba7`, body `100135f0`:
+
+1. NULL input writes a NULL destination. Otherwise, scan the original source
+   pointer byte by byte to determine its NUL-terminated length.
+2. Empty input writes NULL without allocating. Nonempty input calls the
+   original `Alloc` body `10013240` with the measured length.
+3. Retain the actual MemoryAdmin result for `length + 9` bytes. Write the
+   holder's length DWORD, reference WORD of one, receiver pointer to holder
+   byte eight and final NUL in their original order. Header bytes six and
+   seven retain their previous values and masks.
+4. Reload the receiver's current pointer, then copy exactly the measured
+   number of bytes from the retained original source. The copy excludes the
+   NUL already written by `Alloc`.
+
+The source may change or end its lifetime during allocation callbacks. The
+copy therefore rereads its actual bytes after allocation; it does not copy a
+pre-allocation text snapshot. Each real load/store checks its lifetime at the
+point of access. A failed construction retains its allocation, destination
+bytes, pointer masks and completed writes, then blocks replay. Pending or
+failed owners cannot be assigned as completed CString sources. Diagnostics
+distinguish an unreadable destination pointer from a known NULL pointer.
+
+The existing default constructor, reference-counted assignment, destruction
+and retained stale-slot diagnostics keep their separate source behavior.
+
+### Obtain pointer geometry from actual allocation owners
+
+[`native-pointer-geometry.ts`](../../src/gothic3/native-pointer-geometry.ts)
+defines retained byte pointers and their allocation geometry.
+[`native-runtime-platform.ts`](../../src/gothic3/native-runtime-platform.ts)
+supplies geometry only for actual successful owned Win32 HeapAlloc or
+VirtualAlloc records and aliases of their original storage. Replacing the
+byte or mask arrays while retaining an outer identity invalidates that proof.
+Generic CRT allocation results and arbitrary JavaScript buffers do not acquire
+native address facts through their labels.
+
+The platform models the documented PE32 HeapAlloc alignment of eight bytes
+and VirtualAlloc page/allocation alignment. These are selected browser
+platform contracts, not captured addresses from a running Windows game.
+The supporting primary contracts are
+[HeapAlloc](https://learn.microsoft.com/en-us/windows/win32/api/heapapi/nf-heapapi-heapalloc)
+and [VirtualAlloc](https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualalloc).
+Pool offsets locate the actual returned holder within that allocation.
+Two pointers into the same allocation establish overlap and copy direction;
+contained spans in distinct owned allocations establish disjointness.
+Allocation sequence does not invent unsigned native pointer ordering.
+Geometry resolution checks provenance without advancing a native memory
+access or rejecting a lifetime before the source's actual load/store.
+
+### Reproduce the selected search and scalar copy
+
+[`native-byte-string.ts`](../../src/gothic3/native-byte-string.ts) implements
+the exact space search used by class-name `UnMangle`: `strstr` sees the original
+one-character space literal and enters the audited `strchr` tail at
+`100a7306`. Its byte alignment peel, DWORD zero/match checks, candidate DWORD
+reread and byte-order checks are preserved. Whole DWORD reads can include
+bytes after the string's NUL; those bytes must have actual capacity and known
+masks. Padding is not inferred from a string terminator.
+
+The `memcpy` helper preserves ascending forward or descending backward byte
+and DWORD units, retaining each source value and mask before its destination
+store. Unknown source bits remain unknown after copying. A later failed load
+or store keeps the completed prefix. Forward copies of at least 256 bytes
+stop before alignment peels at the original live CPU-global dependency
+`102f854c`; its cold-image zero is not a live value. The backward overlap
+branch bypasses that dispatch and follows the scalar path for all uint32
+sizes. The separate vector routine remains unowned.
+
+[`native-scene-startup.ts`](../../src/gothic3/native-scene-startup.ts) now
+passes the actual selected substring pointer into fresh text construction.
+It retains the owner before invoking the constructor and registers shutdown
+only after success. Its focused fixtures supply actual isolated heap-backed
+CRT results; they do not establish complete Engine or Game CRT startup.
+
+### Reproduce and validate
+
+```powershell
+python -B tools/gothic3/prepare_cstring_text_construction_source.py --study '<LOCAL_DESKTOP_STUDY>'
+npm run typecheck
+npm test -- tests/gothic3-dialogue/cstring-text-construction.test.ts tests/gothic3-dialogue/native-byte-string.test.ts tests/gothic3-dialogue/native-pointer-geometry.test.ts tests/gothic3-dialogue/scene-startup.test.ts tests/gothic3-dialogue/scene-startup-memory.test.ts
+npm test
+npm run build
+```
+
+The additive [source package](../../assets/gothic3/cstring-text-construction/README.md)
+captures six selected methods and 490 instructions, all checked against the
+original SharedBase PE. Its derived 87-instruction `strchr` tail is a subset
+of the parent receipt. Six reachable memcpy jump-table ranges and 30 targets
+are checked separately. Two final regenerations produce identical contents
+across 25 package files; all 28 manifest references, including the producer
+and its local dependencies, match their sizes and hashes. C excerpts record
+trailing-whitespace removal and LF normalization while retaining each original
+complete source-chunk hash. Older packages remain unchanged. Preparation runs
+no native game code and captures no live process globals.
+
+| Frozen output | SHA-256 |
+| --- | --- |
+| CString text rules | `1ac1e1e3a824b9db0df0086d0c7bdb7e10102b1993dd526b66fa91f4c5c6d396` |
+| CString text evidence | `5bfa3426b990028ba43108810231633c0dc69665807129df673f7ed74d35a453` |
+| Source manifest | `7c873e582293b759012b2cfbf03581f8eedb0fb0c428f1214ee9730c263024f3` |
+
+The focused five-file run passes **72 tests**. Cases cover poisoned fresh
+slots, source mutation or free during Malloc, unknown/NULL lower results,
+partial DWORD copies, reentry, pending-source assignment, original storage
+provenance, high-bit search bytes, candidate rereads and the forward CPU gate
+versus backward scalar path. The final full run passes **2,312 tests across
+220 files** in 123.86 seconds.
+
+Typecheck and the production build also pass: 375 modules in 30.65 seconds.
+The Gothic entry remains `gothic3-C3iMc5TP.js`, with NPC reader
+`browser-npc-entity-BF2Tojqt.js` and services
+`browser-npc-entity-services-Cw75FwNg.js`. These unchanged production chunks
+reflect that the new physical constructor components are not yet connected
+to the live reader. The existing large-chunk warning remains. All 264 relative
+file links across both rebuilding guides, the tool guide and new package
+README resolve; the reviewed diff has no whitespace errors.
+
+The final production preview loaded 202 scene objects, 70 character models
+and three source routine positions, entered Ardea with Hero HP 100, and
+inspected the Hero (10,692 triangles, three meshes) and `Ardea_OutNovice_01`
+(11,280 triangles, two meshes). The bandit's developer details retained the
+same read boundary, no Navigation owner or membership, and no processing
+graph. The captured browser console contained no warnings or errors.
+
+The remaining integration must construct the actual Game Navigation class-name
+owner, reflected type and fifteen descriptors, preserving initializer order,
+physical allocations and registration logging on the same heap as the entity,
+wrapper and ErrorAdmin. These CString components do not supply those owners,
+the complete module/application startup or NPC processing services. The live
+browser NPC reader remains at 338/6,544 bytes and 0/16 attached property sets;
+full NPC activation, AI and campaign completion remain unavailable.

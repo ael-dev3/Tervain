@@ -97,8 +97,14 @@ describe('source-admitted pools for class-name and reflected SceneAdmin allocati
   });
 
   it('constructs the actual twelve-character class-name CString with a 21-byte holder and releases it through the same heap', () => {
-    const f = fixture(), name = new NativeHeapCString(f.memory);
-    value(name.setTextBytes(text('eCSceneAdmin')));
+    const f = fixture(), heap = value(f.platform.createWin32Heap({}, 0, 4096, 0))!;
+    const source = value(f.platform.win32HeapAlloc(heap, 0, 13))!;
+    source.bytes.set(text('eCSceneAdmin')); source.knownMask.fill(255);
+    const slot = new NativeHeapObjectViews({ identity: {}, bytes: Uint8Array.of(0xa1, 0xb2, 0xc3, 0xd4),
+      knownMask: new Uint8Array(4), freed: false });
+    const name = NativeHeapCString.beginTextConstruction(f.memory, slot);
+    expect([...slot.bytes]).toEqual([0xa1, 0xb2, 0xc3, 0xd4]); expect([...slot.knownMask]).toEqual([0, 0, 0, 0]);
+    value(name.constructText({ fields: new NativeHeapObjectViews(source), offset: 0 }));
     const allocation = name.snapshot().allocation!, fields = new NativeHeapObjectViews(allocation);
     expect(allocation.requestedBytes).toBe(21); expect(allocation.capacity).toBe(24);
     expect(fields.readUnsigned(0)).toBe(12); expect(fields.readUnsigned(4, 2)).toBe(1);
@@ -113,6 +119,7 @@ describe('source-admitted pools for class-name and reflected SceneAdmin allocati
     expect(name.text().known).toBe(false);
     expect(f.memory.snapshot().trace).toContain('pool-free:24:0');
     expect(f.memory.snapshot().pools.find(pool => pool.stride === 24)!.count).toBe(0);
+    expect(value(f.platform.win32HeapFree(heap, 0, source))).toBe(true);
   });
 
   it('dispatches actual realloc/free callbacks with full 24-byte and 384-byte copies, bitmap reuse, and ended allocation lifetimes', () => {

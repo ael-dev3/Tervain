@@ -2,6 +2,7 @@ import runtimeRules from '../../assets/gothic3/runtime-admin/runtime-rules.json'
 import npcHeapRules from '../../assets/gothic3/npc-heap/runtime-rules.json';
 import sceneStartupRules from '../../assets/gothic3/scene-startup/runtime-rules.json';
 import type { NativeValue } from './dialogue';
+import type { NativeByteGeometryHost } from './native-pointer-geometry';
 
 /** Physical bytes and pointer capabilities are separate: a browser identity is
  * never encoded as a guessed x86 address. Views alias the retained allocation. */
@@ -23,6 +24,8 @@ export interface NativeMemoryAllocation {
   freed: boolean;
 }
 export interface NativeMemoryPlatform {
+  resolveNativePointer?: NativeByteGeometryHost['resolveNativePointer'];
+  proveNativeCopyDirection?: NativeByteGeometryHost['proveNativeCopyDirection'];
   virtualAlloc(bytes: number, type: 0x103000, protect: 4): NativeValue<NativeMemoryRegion | null>;
   crtNew(bytes: number): NativeValue<NativeMemoryBacking | null>;
   crtFree(backing: NativeMemoryBacking): NativeValue<void>;
@@ -118,6 +121,18 @@ export class NativeMemoryAdmin {
   private entered = false;
   private halted: string | null = null;
   private readonly trace: string[] = [];
+
+  /** Geometry comes from the actual lower allocation owner. Neither a heap
+   * view nor a pool constant supplies a native pointer address/alignment. */
+  byteGeometry(): NativeByteGeometryHost {
+    return {
+      resolveNativePointer: pointer => this.platform.resolveNativePointer?.(pointer) ??
+        unknown('Owned native allocator pointer geometry is unavailable'),
+      proveNativeCopyDirection: (destination, source, bytes) =>
+        this.platform.proveNativeCopyDirection?.(destination, source, bytes) ??
+        unknown('Owned native pointer overlap/direction proof is unavailable'),
+    };
+  }
 
   constructor(private readonly platform: NativeMemoryPlatform, options: { extensions?: readonly NativeMemoryRulesExtension[] } = {}) {
     const rules = runtimeRules as unknown as Rules;

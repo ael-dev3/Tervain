@@ -444,3 +444,27 @@ lookup are required for registration and resolution. The false Navigation
 notification implementation also requires lower CString/proxy/contact/script
 services. These components do not establish original NPC activation. See
 [checkpoint 79](../../docs/engineering/gothic3-rebuilding-process.md#79-preserve-navigation-attachment-notifications-and-live-area-ownership).
+
+## Fresh CString construction and scalar byte operations
+
+```powershell
+python -B tools/gothic3/prepare_cstring_text_construction_source.py --study '<LOCAL_DESKTOP_STUDY>'
+```
+
+This additive producer reads the pinned original SharedBase DLL, function
+catalog, assembly and available reconstructed C. The separate
+[`cstring-text-construction` package](../../assets/gothic3/cstring-text-construction/README.md)
+captures six methods and 490 byte-checked instructions, the derived strchr
+tail used by the one-character space search, six reachable memcpy jump-table
+ranges, the exact space literal and a cold-only CPU flag receipt. Its manifest
+pins generated files, the producer and local dependencies. C normalization is
+explicit; earlier source packages remain frozen.
+
+The runtime preserves fresh nonempty construction without a prior slot clear,
+actual source rereads, scalar copy units and partial writes. Pointer geometry
+requires actual owned lower allocation records. Forward copies of at least
+256 bytes still require the live CPU flag and vector capability; backward
+overlap copies use the original scalar branch. These are component
+prerequisites for Game Navigation type construction and do not establish live
+NPC activation. See
+[checkpoint 80](../../docs/engineering/gothic3-rebuilding-process.md#80-reproduce-fresh-cstring-text-construction-and-owned-byte-operations).
