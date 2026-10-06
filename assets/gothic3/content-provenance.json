@@ -3460,7 +3460,7 @@
       "pseudocodeLine": 6484,
       "sourceSha256": "14de14199866079a5ec0b674923a5c53a6bc25ec6da53e300b4186b75a7b7a0f",
       "assemblyEntryLine": 33802,
-      "interpretation": "SetStatus controls rewards; Success requires previous Open/Running. It applies quest XP, political and attribute rewards; Ardea_Revolution also activates TUT_AfterFight.",
+      "interpretation": "SetStatus shares Success/Won reward behavior and requires previous Open/Running. Effect order is political fame, attribute BaseValue, enclave fame, then GiveXP with world Self/player Other; Ardea_Revolution also activates TUT_AfterFight. Common status assignment and manager notification follow.",
       "runtimeImplemented": false
     },
     {
@@ -3473,7 +3473,7 @@
       "pseudocodeLine": 1530,
       "sourceSha256": "16ef8ba23903cc464851be99ab76c01b6760527acedff50474e55041aa419f7b",
       "assemblyEntryLine": 19344,
-      "interpretation": "OnNPCKilled handles Open/Running/Lost quests and ignores PC_Hero. Kill objectives increment exact matching NPC-name counters. The original event source and cache are not ported.",
+      "interpretation": "OnNPCKilled entry0x2000f90c/body0x203384f0 handles Open/Running/Lost quests and ignores PC_Hero. For quest types2/3/4 it increments every exact matching target-name counter with wrapping32-bit ADD, then calls CheckDeliveryEntitiesStatus when any counter changed. That checker can complete Open/Running quests; Lost completion is rejected by SetStatus. Native task acceptance, original event source and cache remain separate.",
       "runtimeImplemented": false
     },
     {
@@ -3499,7 +3499,7 @@
       "pseudocodeLine": 7634,
       "sourceSha256": "3c662ceba9afa70e20c47a054c061862c72be1c3e85b6a08e49d66a5ae63dd70",
       "assemblyEntryLine": 49098,
-      "interpretation": "Completion checks require each delivery counter to reach its matching amount. The downstream Success transition only accepts Open/Running.",
+      "interpretation": "CheckDeliveryEntitiesStatus entry0x20025bc6/body0x20338000 handles statuses Open/Running/Lost and types0..8/10/11/12, excluding9. Unsigned32-bit comparisons require every counter to reach its matching amount; an empty target array is satisfied. It requests Won for type12 and Success otherwise; SetStatus accepts both only from Open/Running.",
       "runtimeImplemented": false
     },
     {

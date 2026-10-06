@@ -1,0 +1,4 @@
+; 20003558 ?GeneratePlunderInvFromTreasureSets@gCInventory_PS@@QAE_NXZ
+20003558 | e9a3cb1a00 | JMP 0x201b0100
+; 2000355d gCNavZone_PS::AccessLinkInnerBottomArea
+; 2000355d Ordinal_1356

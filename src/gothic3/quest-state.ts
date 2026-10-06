@@ -33,9 +33,57 @@ export interface QuestHost {
 }
 
 export type QuestResult = { kind: 'applied' } | { kind: 'rejected' | 'unsupported'; reason: string };
+export interface NativeNpcKillObjectiveProgress {
+  readonly questId: string;
+  readonly entity: string;
+  readonly counter: number;
+  readonly amount: number;
+}
+export type NativeNpcKilledResult =
+  | { readonly kind: 'applied'; readonly progress: readonly NativeNpcKillObjectiveProgress[] }
+  | { readonly kind: 'unsupported'; readonly reason: string };
+export interface NativeNpcKilledPlanUpdate {
+  readonly questId: string;
+  readonly counters: readonly number[];
+  /** The native checker can request Success from Lost, but SetStatus rejects it. */
+  readonly complete: boolean;
+  readonly effects: readonly QuestEffect[];
+}
+export type NativeNpcKilledPlan =
+  | { readonly kind: 'planned'; readonly progress: readonly NativeNpcKillObjectiveProgress[];
+      readonly updates: readonly NativeNpcKilledPlanUpdate[] }
+  | { readonly kind: 'unsupported'; readonly reason: string };
 export type NativeQuestSuccessEffects =
   | { supported: true; effects: readonly QuestEffect[] }
   | { supported: false; reason: string };
+
+/** Original OnEndInfo common-tail guards at Game:20439125..20439150. */
+export function nativeInfoAppendsQuestSayPairs(conditionType: number): boolean {
+  return [3, 4, 5, 6, 7, 8, 10, 11, 19].includes(conditionType);
+}
+
+const isUint32 = (value: number | null | undefined): value is number =>
+  value !== null && value !== undefined && Number.isInteger(value) && value >= 0 && value <= 0xffffffff;
+const completionQuestTypes = new Set([0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12]);
+
+/** Store the native counter's 32 bits as a canonical unsigned JavaScript value.
+ * Its native declaration is long; CheckDeliveryEntitiesStatus reads it unsigned. */
+function completionTarget(quest: NativeQuest, state: Readonly<QuestState>):
+  { supported: true; target: QuestStatus.Success | QuestStatus.Won | null } |
+  { supported: false; reason: string } {
+  if ((state.status !== QuestStatus.Open && state.status !== QuestStatus.Running && state.status !== QuestStatus.Lost) ||
+      quest.numericType === null || !completionQuestTypes.has(quest.numericType)) return { supported: true, target: null };
+  if (quest.deliveryTargets.some((target) => !isUint32(target.amount))) {
+    return { supported: false, reason: 'Native quest delivery amount is unresolved or outside unsigned32 range: ' + quest.id };
+  }
+  if (state.counters.length !== quest.deliveryTargets.length || state.counters.some((counter) => !isUint32(counter))) {
+    return { supported: false, reason: 'Native quest delivery counters are not initialized32-bit values: ' + quest.id };
+  }
+  if (quest.deliveryTargets.some((target, index) => state.counters[index]! < target.amount!)) {
+    return { supported: true, target: null };
+  }
+  return { supported: true, target: quest.numericType === 12 ? QuestStatus.Won : QuestStatus.Success };
+}
 
 /** Resolve the exact effect order used by gCQuest_PS::SetStatus on Success/Won. */
 export function nativeQuestSuccessEffects(quest: NativeQuest): NativeQuestSuccessEffects {
@@ -83,7 +131,7 @@ export class NativeQuests {
     const quest = this.definitions.get(id);
     if (!quest || !Number.isInteger(state.status) || state.status < 0 || state.status > 7 ||
         state.counters.length !== quest.deliveryTargets.length ||
-        !state.counters.every((counter) => Number.isInteger(counter) && counter >= 0)) {
+        !state.counters.every(isUint32)) {
       throw new Error('Invalid source quest state: ' + id);
     }
     this.states.set(id, structuredClone(state));
@@ -114,22 +162,23 @@ export class NativeQuests {
 
   /** Native gCInfo_PS::OnEndInfo callback for the bounded dialogue conditions.
    * Condition 6 runs an Open quest, 11 closes a Running quest, and 21 restarts
-   * a Lost quest. Condition 2 has no quest/log effect. Say localization pairs
-   * are appended for 3/6/11/19; the native callback does not append them for
-   * 21. Callers preflight the original condition before dialogue starts. */
+   * a Lost quest. Conditions 5/7/8/10 leave quest status unchanged. Say pairs
+   * are appended by the common tail for 3/4/5/6/7/8/10/11/19. Condition 4's
+   * separate overtime availability predicate belongs to the dialogue host. */
   onEndInfo(id: string, conditionType: number, pairs: readonly QuestLogPair[]): QuestResult {
     if (conditionType === 19 && !id) {
       return { kind: 'unsupported', reason: 'Native condition 19 requires an associated quest.' };
     }
     if (conditionType === 6 || conditionType === 11 || conditionType === 21) {
       if (!id) return { kind: 'unsupported', reason: 'Native quest callback requires an associated quest.' };
-      const transition = conditionType === 6 ? this.run(id) : conditionType === 11 ? this.close(id)
-        : this.setStatus(id, QuestStatus.Running);
-      if (transition.kind !== 'applied') return transition;
-    } else if (conditionType !== 2 && conditionType !== 3 && conditionType !== 19) {
+      const transition = this.setStatus(id, conditionType === 11 ? QuestStatus.Cancelled : QuestStatus.Running);
+      // Native OnEndInfo ignores SetStatus's bool return and continues to its
+      // common Say-log tail. Unsupported host effects still prevent execution.
+      if (transition.kind === 'unsupported') return transition;
+    } else if (conditionType !== 2 && !nativeInfoAppendsQuestSayPairs(conditionType)) {
       return { kind: 'unsupported', reason: 'Native OnEndInfo condition is not in the connected profile: ' + conditionType };
     }
-    if ((conditionType === 3 || conditionType === 6 || conditionType === 11 || conditionType === 19) && id) {
+    if (nativeInfoAppendsQuestSayPairs(conditionType) && id) {
       return this.appendDialogueLogPairs(id, pairs);
     }
     return { kind: 'applied' };
@@ -148,6 +197,111 @@ export class NativeQuests {
 
   close(id: string): QuestResult {
     return this.setStatus(id, this.states.get(id)?.status === QuestStatus.Open ? QuestStatus.Obsolete : QuestStatus.Cancelled);
+  }
+
+  /** gCInfo_PS::OnDelivery increments the first matching target for native
+   * delivery quest types 1/4, then checks whether every target is satisfied. */
+  deliverToEntity(id: string, entity: string): QuestResult {
+    const quest = this.definitions.get(id);
+    const state = this.states.get(id);
+    if (!quest || !state) return { kind: 'unsupported', reason: 'Original quest state has not been seeded: ' + id };
+    if (quest.numericType !== 1 && quest.numericType !== 4) {
+      return { kind: 'unsupported', reason: 'Native Info delivery is connected only for quest types 1/4: ' + id };
+    }
+    if (quest.deliveryTargets.some((target) => !isUint32(target.amount))) {
+      return { kind: 'unsupported', reason: 'Native quest delivery amount is unresolved: ' + id };
+    }
+    if (state.status !== QuestStatus.Running) {
+      return { kind: 'rejected', reason: 'Native Info delivery requires a Running quest.' };
+    }
+    const index = quest.deliveryTargets.findIndex((target) => target.entity === entity);
+    if (index < 0) return { kind: 'applied' };
+    state.counters[index] = (state.counters[index]! + 1) >>> 0;
+    const completion = completionTarget(quest, state);
+    if (!completion.supported) return { kind: 'unsupported', reason: completion.reason };
+    if (completion.target !== null) return this.setStatus(id, completion.target);
+    this.host.changed(quest, state.status, structuredClone(state));
+    return { kind: 'applied' };
+  }
+
+  /** Original checker type/status guards, unsigned comparisons and SetStatus call.
+   * Lost may satisfy its counters, while SetStatus rejects Success/Won from Lost. */
+  checkDeliveryEntitiesStatus(id: string): QuestResult {
+    const quest = this.definitions.get(id);
+    const state = this.states.get(id);
+    if (!quest || !state) return { kind: 'unsupported', reason: 'Original quest state has not been seeded: ' + id };
+    const completion = completionTarget(quest, state);
+    if (!completion.supported) return { kind: 'unsupported', reason: completion.reason };
+    return completion.target === null ? { kind: 'applied' } : this.setStatus(id, completion.target);
+  }
+
+  /** Project OnNPCKilled without changing counters, status or host rewards.
+   * Game:203384f0 updates types2/3/4 and then invokes the shared checker.
+   * The native event dispatcher and Kill/Defeat task acceptance are separate. */
+  planNpcKilled(entity: string): NativeNpcKilledPlan {
+    if (!entity || entity.includes('\0')) {
+      return { kind: 'unsupported', reason: 'Native killed-entity name is empty or malformed.' };
+    }
+    if (entity === 'PC_Hero') return { kind: 'planned', progress: [], updates: [] };
+
+    const updates: NativeNpcKilledPlanUpdate[] = [];
+    const progress: NativeNpcKillObjectiveProgress[] = [];
+    for (const quest of this.definitions.values()) {
+      if (quest.numericType !== 2 && quest.numericType !== 3 && quest.numericType !== 4) continue;
+      const state = this.states.get(quest.id);
+      if (!state || (state.status !== QuestStatus.Open && state.status !== QuestStatus.Running &&
+          state.status !== QuestStatus.Lost)) continue;
+      const counters = [...state.counters];
+      let changed = false;
+      for (let index = 0; index < quest.deliveryTargets.length; index++) {
+        const target = quest.deliveryTargets[index]!;
+        if (target.entity !== entity) continue;
+        if (!isUint32(target.amount)) {
+          return { kind: 'unsupported', reason: 'Native kill objective amount is unresolved or outside unsigned32 range: ' + quest.id };
+        }
+        const before = counters[index];
+        if (!isUint32(before)) {
+          return { kind: 'unsupported', reason: 'Native kill objective counter is outside unsigned32 range: ' + quest.id };
+        }
+        counters[index] = (before + 1) >>> 0;
+        changed = true;
+        progress.push({ questId: quest.id, entity: target.entity, counter: counters[index]!, amount: target.amount });
+      }
+      if (!changed) continue;
+      const completion = completionTarget(quest, { ...state, counters });
+      if (!completion.supported) return { kind: 'unsupported', reason: completion.reason };
+      const complete = completion.target !== null && state.status !== QuestStatus.Lost;
+      let effects: readonly QuestEffect[] = [];
+      if (complete) {
+        const rewards = nativeQuestSuccessEffects(quest);
+        if (!rewards.supported) return { kind: 'unsupported', reason: rewards.reason };
+        effects = rewards.effects;
+      }
+      updates.push({ questId: quest.id, counters, complete, effects });
+    }
+
+    return { kind: 'planned', progress, updates };
+  }
+
+  /** Browser host preflights the complete reward batch before committing quest
+   * state. This preserves supported final states and reward order; native
+   * per-quest observer notifications interleave with effects and are unported. */
+  recordNpcKilled(entity: string): NativeNpcKilledResult {
+    const plan = this.planNpcKilled(entity);
+    if (plan.kind === 'unsupported') return plan;
+    const effects = plan.updates.flatMap((update) => update.effects);
+    if (effects.length) {
+      const applied = this.host.apply(effects);
+      if (!applied.applied) return { kind: 'unsupported', reason: applied.reason };
+    }
+    for (const update of plan.updates) {
+      const state = this.states.get(update.questId)!;
+      const previous = state.status;
+      state.counters = [...update.counters];
+      if (update.complete) state.status = QuestStatus.Success;
+      this.host.changed(this.definitions.get(update.questId)!, previous, structuredClone(state));
+    }
+    return { kind: 'applied', progress: plan.progress };
   }
 
   prerequisitesFinished(id: string): boolean | null {

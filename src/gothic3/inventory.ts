@@ -42,6 +42,8 @@ export interface NativeInventoryStack {
 export interface NativeInventorySnapshot {
   readonly stacks: readonly Readonly<NativeInventoryStack>[];
   readonly equipment: readonly InitializedEquipment[];
+  /** Complete source-resolved definitions needed to restore transferred items. */
+  readonly templates?: readonly InventoryTemplate[];
   readonly observerRegistry: 'complete' | 'unresolved';
   readonly unresolvedEffects: readonly string[];
 }
@@ -74,6 +76,24 @@ export interface InventoryOptions {
   /** null/omission means the original runtime registration state is unresolved. */
   readonly observers?: readonly InventoryObserver[] | null;
   readonly equipment?: readonly InitializedEquipment[];
+}
+
+function inventoryStackRecord(value: unknown): value is NativeInventoryStack {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
+  const stack = value as Record<string, unknown>;
+  return Number.isInteger(stack.index) && (stack.index as number) >= 0 &&
+    typeof stack.templateName === 'string' && stack.templateName.length > 0 &&
+    typeof stack.templateGuid20 === 'string' && GUID20.test(stack.templateGuid20) &&
+    Number.isInteger(stack.amount) && (stack.amount as number) > 0 && (stack.amount as number) <= 0x7fffffff &&
+    Number.isInteger(stack.quality) && (stack.quality as number) >= -0x80000000 && (stack.quality as number) <= 0x7fffffff &&
+    Number.isInteger(stack.stackType) && (stack.stackType as number) >= -0x80000000 && (stack.stackType as number) <= 0x7fffffff &&
+    Number.isInteger(stack.quickSlot) && (stack.quickSlot as number) >= -0x80000000 && (stack.quickSlot as number) <= 0x7fffffff &&
+    typeof stack.learned === 'boolean' &&
+    Number.isInteger(stack.activationCount) && (stack.activationCount as number) >= -0x80000000 && (stack.activationCount as number) <= 0x7fffffff &&
+    Number.isInteger(stack.transactionAmount) && (stack.transactionAmount as number) >= -0x80000000 && (stack.transactionAmount as number) <= 0x7fffffff &&
+    (stack.sortIndex === null || (Number.isInteger(stack.sortIndex) && (stack.sortIndex as number) >= -0x80000000 && (stack.sortIndex as number) <= 0x7fffffff)) &&
+    Number.isInteger(stack.linkedSlot) && (stack.linkedSlot as number) >= -0x80000000 && (stack.linkedSlot as number) <= 0x7fffffff &&
+    (stack.physicalItemGuid20 === null || (typeof stack.physicalItemGuid20 === 'string' && GUID20.test(stack.physicalItemGuid20)));
 }
 export interface NativeInventoryTransfer {
   readonly donorEntityGuid20: string;
@@ -112,6 +132,34 @@ function uint32(value: number, name: string): number {
 function guid20(value: string): string {
   if (!GUID20.test(value)) throw new TypeError('Expected an original lowercase20byte template GUID.');
   return value;
+}
+function validInventoryTemplate(value: unknown): value is InventoryTemplate {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
+  const template = value as Record<string, unknown>;
+  return typeof template.name === 'string' && template.name.length > 0 && typeof template.guid20 === 'string' && GUID20.test(template.guid20) &&
+    Number.isInteger(template.useType) && Number.isInteger(template.category) &&
+    (template.permanent === null || typeof template.permanent === 'boolean') &&
+    (template.missionItem === null || typeof template.missionItem === 'boolean') &&
+    (template.skillGuid20 === null || (typeof template.skillGuid20 === 'string' && GUID20.test(template.skillGuid20))) &&
+    (template.spellGuid20 === null || (typeof template.spellGuid20 === 'string' && GUID20.test(template.spellGuid20))) &&
+    typeof template.itemPropertySetPresent === 'boolean' && template.source !== undefined;
+}
+
+function sameInventoryTemplateSource(left: unknown, right: unknown): boolean {
+  const source = (value: unknown): { path: string; sha256: string; archive?: unknown } | null => {
+    if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
+    const record = value as Record<string, unknown>;
+    return typeof record.path === 'string' && record.path.length > 0 &&
+      typeof record.sha256 === 'string' && /^[a-f0-9]{64}$/i.test(record.sha256)
+      ? { path: record.path, sha256: record.sha256.toLowerCase(), archive: record.archive } : null;
+  };
+  const a = source(left), b = source(right);
+  if (!a || !b) return JSON.stringify(left) === JSON.stringify(right);
+  // The Hero seed retains full catalog metadata; NPC templates retain a
+  // compact receipt. Identical path/hash identifies the same source bytes.
+  // Archive identity must also agree whenever both receipts declare it.
+  return a.path === b.path && a.sha256 === b.sha256 &&
+    (a.archive === undefined || b.archive === undefined || a.archive === b.archive);
 }
 function enumValue(value: unknown, fallback: number): number {
   if (value && typeof value === 'object' && 'value' in value && typeof value.value === 'number') return int32(value.value, 'native enum');
@@ -170,13 +218,39 @@ export class NativeInventory {
     for (const observer of options.observers ?? []) this.addObserver(observer);
   }
 
+  /** Rehydrate a saved intrinsic inventory against freshly source-resolved
+   * templates. This restores stack values only; it does not replay callbacks,
+   * create ItemWorld entities or claim native listener registration. */
+  static fromSnapshot(templates: readonly InventoryTemplate[], snapshot: NativeInventorySnapshot,
+    options: InventoryOptions): NativeInventory {
+    if (!snapshot || snapshot.observerRegistry !== 'complete' || !Array.isArray(snapshot.stacks) ||
+        !Array.isArray(snapshot.equipment) || !Array.isArray(snapshot.unresolvedEffects) ||
+        snapshot.unresolvedEffects.length !== 0 || options.observers == null) {
+      throw new TypeError('Restoring inventory needs intrinsic state without unresolved effects and an explicit observer registry.');
+    }
+    const inventory = new NativeInventory(templates, { ...options, equipment: snapshot.equipment });
+    if (snapshot.templates !== undefined) {
+      if (!Array.isArray(snapshot.templates) || !snapshot.templates.every(validInventoryTemplate)) {
+        throw new TypeError('Saved inventory template registry is invalid.');
+      }
+      for (const template of snapshot.templates) inventory.registerTemplate(template);
+    }
+    for (const [index, value] of snapshot.stacks.entries()) {
+      if (!inventoryStackRecord(value) || value.index !== index) throw new TypeError('Saved inventory stack record is invalid or out of order.');
+      const template = inventory.definitions.get(value.templateGuid20);
+      if (!template || template.name !== value.templateName) throw new Error('Saved inventory stack does not match a source-resolved item template.');
+      inventory.stacks.push(structuredClone(value));
+    }
+    return inventory;
+  }
+
   capability(): InventoryCapability {
     if (!this.registryComplete) return { status: 'unsupported', reason: 'Native inventory observer registration is unresolved. Supply a complete ordered registry.' };
     if (this.unresolvedEffects.length) return { status: 'unsupported', reason: 'Earlier inventory callback has unresolved effects: ' + this.unresolvedEffects.join('; ') };
     return { status: 'supported' };
   }
   snapshot(): NativeInventorySnapshot {
-    return { stacks: structuredClone(this.stacks), equipment: structuredClone(this.equipment),
+    return { stacks: structuredClone(this.stacks), equipment: structuredClone(this.equipment), templates: [...this.definitions.values()].map((template) => structuredClone(template)),
       observerRegistry: this.registryComplete ? 'complete' : 'unresolved', unresolvedEffects: [...this.unresolvedEffects] };
   }
   getStack(index: number): Readonly<NativeInventoryStack> | null {
@@ -184,6 +258,57 @@ export class NativeInventory {
     return Number.isInteger(index) && index >= 0 && stack ? structuredClone(stack) : null;
   }
   template(guid: string): InventoryTemplate | null { return this.definitions.get(guid) ? structuredClone(this.definitions.get(guid)!) : null; }
+  templateByName(name: string): InventoryTemplate | null {
+    const matches = [...this.definitions.values()].filter((template) => template.name === name);
+    return matches.length === 1 ? structuredClone(matches[0]!) : null;
+  }
+  /** Capability for the browser potion adapter, separate from native item-use
+   * and inventory listener execution. Equipped or physical stacks need those
+   * original effects, so this adapter handles only an unlinked intrinsic stack
+   * with the explicitly empty browser observer registry. Equipment identities
+   * are template/item GUIDs, not stack indices, and remain untouched. */
+  canConsumeBrowserStack(index: number, amount: number): InventoryCapability {
+    const capability = this.capability();
+    if (capability.status !== 'supported') return capability;
+    const stack = this.stacks[index];
+    if (!Number.isInteger(index) || index < 0 || !stack || !Number.isInteger(amount) || amount < 1 || amount > stack.amount) {
+      return { status: 'unsupported', reason: 'Browser item use needs a present stack with the requested amount.' };
+    }
+    if (this.observers.length || stack.linkedSlot !== 0 || stack.physicalItemGuid20 !== null ||
+        this.equipment.some((slot) => slot.templateGuid20 === stack.templateGuid20)) {
+      return { status: 'unsupported', reason: 'Browser item consumption cannot execute native observers or equipped/physical item effects.' };
+    }
+    return { status: 'supported' };
+  }
+  /** Browser-owned reduction after a source-defined potion modifier. This
+   * does not claim PS_QuickUse, native deletion hooks or ItemWorld disposal. */
+  consumeBrowserStack(index: number, amount: number): InventoryResult<number> {
+    const capability = this.canConsumeBrowserStack(index, amount);
+    if (capability.status !== 'supported') return { ...capability, partial: false, events: [] };
+    const stack = this.stacks[index]!;
+    stack.amount -= amount;
+    const remaining = stack.amount;
+    if (remaining === 0) {
+      this.stacks.splice(index, 1);
+      for (let cursor = index; cursor < this.stacks.length; cursor++) this.stacks[cursor]!.index = cursor;
+    }
+    return { status: 'applied', value: remaining, events: [] };
+  }
+  hasTemplate(guid: string): boolean { return this.definitions.has(guid); }
+  /** Add an already source-resolved template identity to this inventory's
+   * browser registry, as TransferItemsTo carries the donor stack's template. */
+  registerTemplate(template: InventoryTemplate): void {
+    if (!validInventoryTemplate(template)) throw new TypeError('Inventory template is not a complete source-resolved record.');
+    guid20(template.guid20); int32(template.useType, 'UseType'); int32(template.category, 'Category');
+    const existing = this.definitions.get(template.guid20);
+    if (existing && (existing.name !== template.name || existing.useType !== template.useType || existing.category !== template.category ||
+        existing.permanent !== template.permanent || existing.missionItem !== template.missionItem ||
+        existing.skillGuid20 !== template.skillGuid20 || existing.spellGuid20 !== template.spellGuid20 ||
+        existing.itemPropertySetPresent !== template.itemPropertySetPresent || !sameInventoryTemplateSource(existing.source, template.source))) {
+      throw new Error('Inventory template GUID resolves to conflicting source properties.');
+    }
+    if (!existing) this.definitions.set(template.guid20, structuredClone(template));
+  }
   /** Native AddListener reactivates an existing identity, preserving order. */
   addObserver(observer: InventoryObserver): void {
     if (!observer.id || !observer.source) throw new TypeError('Observer identity and source are required.');
@@ -425,7 +550,7 @@ export class NativeInventory {
     const definition = this.definitions.get(source.templateGuid20)!;
     if ((definition.missionItem !== false) && !context.recipientIsPlayer)
       return unsupported('Native mission/absent-item-property transfer to a nonplayer requires its special-name and stack0 branch.');
-    if (!target.definitions.has(source.templateGuid20)) return unsupported('Recipient registry must resolve the same original item template.');
+    target.registerTemplate(definition);
     if (context.questNotification.status === 'unresolved') return unsupported(context.questNotification.reason);
     if (!context.questNotification.source) return unsupported('Quest notification/no-op source is required.');
     const sourceStart = this.journal.length, targetStart = target.journal.length;
@@ -522,9 +647,10 @@ export interface NativeGiveTransferPlan {
   /** Info Give's localized Given/Taken GUI messages still require its host. */
   readonly gameMessages: 'host-required-after-successful-transfer';
 }
-/** Source-faithful Info Give selection: first ANY-quality matching item stack;
- * no item creation for a missing donor. Only a PLAYER donor is clamped to its
- * first stack's unsigned amount. Does not consume multiple donor stacks. */
+/** Source-faithful template overload of gCInfo_PS::Give: first ANY-quality
+ * matching stack, with no assurance or item creation. Only a PLAYER donor is
+ * clamped to that stack's unsigned amount. The Script_Game Give command uses a
+ * separate AssureItems-then-index overload below. */
 export function planNativeInventoryGiveTransfer(donor: NativeInventory | null, recipient: NativeInventory | null,
   templateGuid20: string, unsignedAmount: number, donorIsPlayer: boolean): InventoryResult<NativeGiveTransferPlan | null> {
   guid20(templateGuid20); uint32(unsignedAmount, 'Give amount');
@@ -538,6 +664,56 @@ export function planNativeInventoryGiveTransfer(donor: NativeInventory | null, r
   return { status: 'applied', value: { donor, recipient, sourceStackIndex, transferAmount, templateGuid20,
     evidence: ['Game:200060b4', 'Game:20033e01'], gameMessages: 'host-required-after-successful-transfer' }, events: [] };
 }
+
+export interface NativeScriptGiveTransfer {
+  readonly sourceStackIndex: number;
+  readonly transferAmount: number;
+  readonly templateGuid20: string;
+  readonly assuredQuality: 0;
+  readonly evidence: readonly ['Script_Game:100dbb80', 'Script:10003c65', 'Game:20033e01', 'Game:201afe30'];
+  readonly gameMessages: 'host-required-after-successful-transfer';
+}
+
+/** Executes the bounded Script_Game opcode-13 path. The dispatcher parses ID2
+ * as a signed integer, assures at least that many exact-quality-0 items in the
+ * donor, then passes AssureItems' returned stack index to the indexed
+ * gCInfo_PS::Give overload. That overload clamps only when the donor is the
+ * player. It does not search other qualities or consume multiple stacks. */
+export function executeNativeScriptGiveTransfer(donor: NativeInventory | null, recipient: NativeInventory | null,
+  templateGuid20: string, amount: number, donorIsPlayer: boolean,
+  context: InventoryTransferContext): InventoryResult<NativeScriptGiveTransfer | null> {
+  guid20(templateGuid20);
+  int32(amount, 'Script_Game Give amount');
+  if (!donor || !recipient) return { status: 'rejected', value: null,
+    reason: 'Script_Game Give requires source and destination inventories.', events: [] };
+  // Negative and zero script amounts have native unsigned-conversion behavior
+  // outside this positive, safely reproducible browser slice.
+  if (amount < 1) return { status: 'unsupported', reason:
+    'Script_Game Give with a nonpositive parsed amount reaches native unsigned conversion and is outside the supported profile.',
+    partial: false, events: [] };
+
+  const assurance = donor.assureItems(templateGuid20, 0, amount);
+  if (assurance.status === 'unsupported') return assurance;
+  if (assurance.status === 'rejected') return { ...assurance, value: null };
+  const sourceStackIndex = assurance.value;
+  const stack = donor.getStack(sourceStackIndex);
+  if (!stack) return { status: 'rejected', value: null,
+    reason: 'Native AssureItems returned a stack index that is not present in the donor inventory.',
+    events: assurance.events };
+
+  const transferAmount = donorIsPlayer ? Math.min(amount >>> 0, stack.amount >>> 0) : amount;
+  if (transferAmount < 1) return { status: 'rejected', value: null,
+    reason: 'Indexed native Give resolves to a nonpositive transfer amount.', events: assurance.events };
+  const transfer = donor.transferItemsTo(recipient, sourceStackIndex, transferAmount, context, 0);
+  const events = [...assurance.events, ...transfer.events];
+  if (transfer.status === 'unsupported') return { ...transfer, events,
+    partial: transfer.partial || assurance.events.length > 0 };
+  if (transfer.status === 'rejected') return { ...transfer, value: null, events };
+  return { status: 'applied', value: { sourceStackIndex, transferAmount, templateGuid20,
+    assuredQuality: 0, evidence: ['Script_Game:100dbb80', 'Script:10003c65', 'Game:20033e01', 'Game:201afe30'],
+    gameMessages: 'host-required-after-successful-transfer' }, events };
+}
+
 export function nativeInventoryEquipSlots(useType: number): { primary: number; alternative: number } {
   int32(useType, 'UseType');
   switch (useType) {

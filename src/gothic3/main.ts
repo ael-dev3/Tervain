@@ -19,8 +19,13 @@ import { HeroAttackSequence } from './hero-attack-sequence';
 import type { HeroAttackStyle } from './hero-attack-sequence';
 import { detectHeroFistContactCandidate } from './combat-contact';
 import type { HeroFistContactCandidate } from './combat-contact';
+import { calculateBrowserArdeaFistHit, HERO_SOURCE_ID } from './browser-melee';
+import { BrowserPickpocketActions } from './browser-pickpocket';
+import { loadNativeFistCarrier } from './native-fist-carrier';
+import type { NativeFistCarrier } from './native-fist-carrier';
 import { BrowserArdeaNpcCombatRuntime } from './npc-combat-runtime';
 import { NativeQuestRuntime, nativeQuestStatusName } from './quest-runtime';
+import { QuestStatus } from './quest-state';
 import type { ArdeaScene, ScenePerson } from './types';
 import './style.css';
 
@@ -36,11 +41,11 @@ const ui = document.querySelector<HTMLDivElement>('#interface')!;
 ui.innerHTML = '<header class="masthead"><div class="eyebrow">Gothic 3 · browser port</div><h1 id="world-title">Ardea</h1><p id="world-caption">Recovered scene · native landscape</p></header>' +
   '<nav class="toolbar"><button id="explore-button">Explore</button><button id="view-button">Third person</button><button id="character-button">Character</button><button id="inventory-button">Inventory <kbd>I</kbd></button><button id="landscape-button">Landscape</button><button id="inspect-button">Models <kbd>Tab</kbd></button><button id="journal-button">Journal <kbd>J</kbd></button><button id="map-button">Map <kbd>M</kbd></button><button id="save-button">Save <kbd>P</kbd></button><button id="help-button">Help</button><a href="../">Tervain ↗</a></nav>' +
   '<div class="crosshair" id="crosshair"></div><div class="prompt hidden" id="prompt"></div><div class="toast hidden" id="toast" role="status"></div>' +
-  '<footer class="bottom"><div class="keys" id="keys"><kbd>W A S D</kbd> move &nbsp; <kbd>Shift</kbd> run &nbsp; click / <kbd>C</kbd> attack &nbsp; right-click / <kbd>V</kbd> power attack<br><kbd>E</kbd> talk &nbsp; drag mouse for look &nbsp; <kbd>F</kbd> fly &nbsp; <kbd>R</kbd> return to arrival</div><div class="coordinate"><span id="coordinates">Loading native scene</span><div id="hero-vitals"></div><div id="world-clock"></div><div id="terrain-status"></div><div class="scope-tag">Work in progress · damage and NPC responses are still being rebuilt</div></div></footer>' +
+  '<footer class="bottom"><div class="keys" id="keys"><kbd>W A S D</kbd> move &nbsp; <kbd>Shift</kbd> run &nbsp; click / <kbd>C</kbd> attack &nbsp; right-click / <kbd>V</kbd> power attack<br><kbd>E</kbd> talk &nbsp; drag mouse for look &nbsp; <kbd>F</kbd> fly &nbsp; <kbd>R</kbd> return to arrival</div><div class="coordinate"><span id="coordinates">Loading native scene</span><div id="hero-vitals"></div><div id="world-clock"></div><div id="terrain-status"></div><div class="scope-tag">Ardea and coastal bandits · saved quest progression · NPC AI incomplete</div></div></footer>' +
   '<section class="inspector panel hidden" id="inspector"><div class="eyebrow">Original geometry</div><h2>Character inspection</h2><select id="model-select" aria-label="Character model"></select><div class="row"><button id="wire-button">Wireframe</button><button id="spin-button">Rotate</button><button id="frame-button">Frame</button></div><div id="animation-controls" class="hidden"><label for="clip-select">Native motion</label><select id="clip-select" aria-label="Native motion"><option value="">Bind pose</option></select><button id="clip-play" disabled>Play motion</button></div><p>Drag to rotate · wheel to zoom · right-drag to pan.</p><p id="model-info">Native body and head; exported bind pose.</p><div class="source" id="model-source"></div></section>' +
   '<section class="modal panel hidden" id="modal" aria-label="Information"><button class="close" id="modal-close" aria-label="Close panel">×</button><div id="modal-content"></div></section>' +
   '<div class="map hidden" id="map"><span class="map-label">ARDEA · LOCAL POSITIONS</span><canvas id="map-view" width="488" height="488" aria-label="Local positions map"></canvas></div>' +
-  '<div class="loading" id="loading"><section class="intro"><div class="eyebrow">Gothic 3 · TypeScript reconstruction</div><h1>Ardea</h1><h2>The shore of Myrtana</h2><p>Walk through the recovered scene. Inspect original character models, Hero motion and the landscapes of Myrtana, Nordmar and Varant.</p><div class="rule"></div><p>Terrain loads as you move. A source-backed fresh quest state starts Xardas’s first quest. Selected Ardea dialogue, quest transitions and XP, skill and PoliticalFame rewards run from original records; NPC simulation, combat, inventory changes and most campaign progression are still being rebuilt.</p><div class="progress"><span id="progress"></span></div><div class="load-status" id="load-status">Reading scene manifest…</div><button class="primary" id="start-button" disabled>Enter Ardea</button><small>Independent from Tervain’s original game.<br>Keyboard and mouse · WebGL · local browser saves</small></section></div>';
+  '<div class="loading" id="loading"><section class="intro"><div class="eyebrow">Gothic 3 · TypeScript reconstruction</div><h1>Ardea</h1><h2>The shore of Myrtana</h2><p>Walk through the recovered scene. Inspect original character models, Hero motion and the landscapes of Myrtana, Nordmar and Varant.</p><div class="rule"></div><p>Terrain loads as you move. A source-backed fresh quest state starts Xardas’s first quest. Selected Ardea dialogue, quest transitions and XP, skill and PoliticalFame rewards run from original records. The starting Raiders and Jack’s three coastal bandits retain their browser HP through saves. Source-directed lethal bandit hits advance Jack’s quest and its rewards. NPC AI, incoming attacks, native Kill/Defeat tasks, death animation, defeat XP and loot remain incomplete, as do most campaign progression paths.</p><div class="progress"><span id="progress"></span></div><div class="load-status" id="load-status">Reading scene manifest…</div><button class="primary" id="start-button" disabled>Enter Ardea</button><small>Independent from Tervain’s original game.<br>Keyboard and mouse · WebGL · local browser saves</small></section></div>';
 
 const element = <T extends HTMLElement = HTMLElement>(id: string): T => document.getElementById(id) as T;
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
@@ -68,8 +73,15 @@ const legacyTerrain: THREE.Object3D[] = [];
 let nativeTerrainActive = false;
 let landscapeName: string | null = 'Ardea';
 const peopleObjects = new Map<string, THREE.Group>();
+const personActors = new Map<string, AnimatedActor>();
 function livePersonPosition(person: ScenePerson): readonly [number, number, number] {
   return liveScenePersonPosition(person, peopleObjects);
+}
+function canInteractWithPerson(person: ScenePerson): boolean {
+  const object = peopleObjects.get(person.id);
+  if (!object?.visible) return false;
+  const actor = npcCombatRuntime?.get(person.id);
+  return !actor || actor.hitPoints > 0;
 }
 const failures: string[] = [];
 let manifest: ArdeaScene;
@@ -100,8 +112,10 @@ let mapShown = false;
 let lastFrame = performance.now();
 let lastHud = 0;
 let nativeHeroMemory: Promise<NativeHeroPlayerMemory> | null = null;
+let nativeFistCarrier: Promise<NativeFistCarrier> | null = null;
 let questRuntime: NativeQuestRuntime | null = null;
 let npcCombatRuntime: BrowserArdeaNpcCombatRuntime | null = null;
+const pickpocketActions = new BrowserPickpocketActions();
 let questRuntimeError: string | null = null;
 let enteringWorld = false;
 
@@ -210,7 +224,7 @@ function closePanel(): void {
 }
 
 function inspectNearby(): void {
-  if (!nearest || inspectMode) return;
+  if (!nearest || inspectMode || !canInteractWithPerson(nearest)) return;
   const person = nearest;
   const content = openPanel(person.name);
   activeConversationOwner = person;
@@ -227,6 +241,30 @@ function inspectNearby(): void {
       paragraph(content, quest ? quest.title + ' — ' + quest.summary : id);
     }
   }
+  const dialogState = questRuntime?.actorDialogs.dialog({ id: person.id, name: person.name });
+  if (dialogState?.known && dialogState.value.hasDialog) {
+    const pickpocket = document.createElement('button');
+    pickpocket.type = 'button';
+    pickpocket.textContent = 'Pickpocket ' + person.name;
+    pickpocket.disabled = dialogState.value.pickedPocket;
+    pickpocket.title = dialogState.value.pickedPocket ? 'This NPC is already marked PickedPocket in the browser save.' :
+      'Try the source-defined Gothic 3 PickPocket action.';
+    content.append(pickpocket);
+    const pickpocketStatus = document.createElement('p');
+    pickpocketStatus.className = 'record-meta';
+    content.append(pickpocketStatus);
+    pickpocket.onclick = () => {
+      if (pickpocket.disabled || panelLifetime.signal.aborted) return;
+      pickpocket.disabled = true;
+      pickpocketStatus.textContent = 'Resolving source NPC inventory and PickPocket state…';
+      void attemptNativePickpocket(person).then((message) => {
+        if (!panelLifetime.signal.aborted) pickpocketStatus.textContent = message;
+      }).catch((error: unknown) => {
+        if (!panelLifetime.signal.aborted) pickpocketStatus.textContent = 'PickPocket stopped: ' +
+          (error instanceof Error ? error.message : String(error));
+      });
+    };
+  }
   const button = document.createElement('button');
   button.textContent = 'Inspect 3D model';
   button.onclick = () => { closePanel(); void setInspection(true, person.id); };
@@ -242,11 +280,18 @@ function inspectNearby(): void {
   dialogue.className = 'gothic-live-dialogue';
   content.append(dialogue);
   if (questRuntime) {
+    const activeRuntime = questRuntime;
+    const activeNpcCombatRuntime = npcCombatRuntime;
     void showLiveDialogue(dialogue, person, manifest.people, {
       person: livePersonPosition,
       player: () => [explorer.position.x, explorer.position.y, explorer.position.z],
-    }, questRuntime, gothicCatalog,
-      manifest.spawnSource, manifest.origin, panelLifetime.signal);
+    }, activeRuntime, gothicCatalog,
+      manifest.spawnSource, manifest.origin, panelLifetime.signal, async () => {
+        if (!activeNpcCombatRuntime) return null;
+        const playerLevel = activeRuntime.saveData().heroProgress?.level ?? 0;
+        const actor = await activeNpcCombatRuntime.initializeOnContact(person.id, playerLevel, BROWSER_DIFFICULTY);
+        return actor.inventory;
+      });
   } else paragraph(dialogue, questRuntimeError
     ? 'Dialogue is unavailable because the source-backed game session failed to load: ' + questRuntimeError
     : 'Enter Ardea to initialize source-backed dialogue state.');
@@ -328,9 +373,9 @@ function showInventory(): void {
     return;
   }
   const stacks = questRuntime.heroInventoryStacks();
-  paragraph(content, stacks.length + ' source-seeded stacks · original AssureItemsEx order.');
+  paragraph(content, stacks.length + ' inventory stacks · source-seeded stacks retain original AssureItemsEx order; new loot is appended.');
   paragraph(content, stacks.filter((stack) => stack.learned).length + ' stack records have the original Learned flag set.');
-  paragraph(content, 'Health potions now apply their hash-checked source HP modifier and save their remaining count. Native use animation, equipment changes, transfers and loot are still being rebuilt.');
+  paragraph(content, 'Health potions apply their hash-checked source HP modifier and save their remaining count. Successful PickPocket actions add source-resolved loot to this saved inventory. Other transfers and loot, use animations and equipment changes are still being rebuilt.');
   const vitals = questRuntime.heroVitals();
   paragraph(content, 'Hero HP ' + vitals.hitPoints + ' / ' + vitals.hitPointsMax + ' · health potion restores 50% of maximum HP.');
   const list = document.createElement('ol');
@@ -387,6 +432,16 @@ function loadHeroMemoryRuntime(): Promise<NativeHeroPlayerMemory> {
     });
   }
   return nativeHeroMemory;
+}
+
+function loadHeroFistCarrier(): Promise<NativeFistCarrier> {
+  if (!nativeFistCarrier) {
+    nativeFistCarrier = loadNativeFistCarrier(HERO_SOURCE_ID).catch((error: unknown) => {
+      nativeFistCarrier = null;
+      throw error;
+    });
+  }
+  return nativeFistCarrier;
 }
 
 function showCharacterSheet(): void {
@@ -586,28 +641,81 @@ function savedNativeNpcCombatSession(): unknown {
   } catch { return null; }
 }
 
-function initializeContactNpc(contact: HeroFistContactCandidate): void {
+function hideDefeatedNpcVisuals(): void {
+  for (const actor of npcCombatRuntime?.saveData().actors ?? []) {
+    if (actor.hitPoints <= 0) {
+      const object = peopleObjects.get(actor.personId);
+      if (object) object.visible = false;
+    }
+  }
+}
+
+function initializeContactNpc(contact: HeroFistContactCandidate, style: HeroAttackStyle): void {
   if (!npcCombatRuntime || !questRuntime) {
     notify('Fist contact: ' + contact.name + '. The source NPC runtime is unavailable; no damage was applied.');
     return;
   }
   const playerLevel = questRuntime.saveData().heroProgress?.level ?? 0;
-  void npcCombatRuntime.initializeOnContact(contact.id, playerLevel, BROWSER_DIFFICULTY).then((actor) => {
+  void Promise.all([npcCombatRuntime.initializeOnContact(contact.id, playerLevel, BROWSER_DIFFICULTY),
+    loadHeroMemoryRuntime(), loadHeroFistCarrier()]).then(([actor, player, fist]) => {
     const maximum = actor.processingRange.hitPointsMax;
-    const sourceWeapon = actor.treasureSetResolutions.flatMap((set) =>
-      set.status === 'weaponry-recipe-resolved' ? set.weaponry : []).find((weapon) => weapon.carrier);
-    const weaponSummary = sourceWeapon
-      ? ` Source weapon definition: ${sourceWeapon.itemName} · ${sourceWeapon.carrier!.damageAmount} damage.`
-      : '';
-    const slotSummary = actor.serializedEquipmentSlots.status === 'resolved'
-      ? ` Serialized inventory slots: ${actor.serializedEquipmentSlots.slots.map((slot) =>
-        `${slot.index} ${slot.templateName}`).join(', ') || 'none'}.`
-      : ` Serialized inventory slots unresolved: ${actor.serializedEquipmentSlots.reason}`;
-    notify('Source actor resolved: ' + actor.name + ' · ' + actor.hitPoints + ' / ' + maximum +
-      ' HP.' + slotSummary + weaponSummary + ' Contact is still a browser bounds candidate; hit effects are not connected.');
+    if (!questRuntime) {
+      notify('Source actor resolved: ' + actor.name + '. The browser quest session is unavailable; no damage was applied.');
+      return;
+    }
+    const hit = calculateBrowserArdeaFistHit({ actor, player, runtime: questRuntime, fist, style,
+      difficulty: BROWSER_DIFFICULTY });
+    if (hit.status !== 'resolved') {
+      notify('Source actor resolved: ' + actor.name + ' · ' + actor.hitPoints + ' / ' + maximum +
+        ' HP. No damage applied: ' + hit.reason);
+      return;
+    }
+    if (actor.hitPoints !== hit.hitPointsBefore) {
+      notify('The NPC state changed during the hit calculation; no damage was applied.');
+      return;
+    }
+    const nativeKill = hit.zeroHitPointsDisposition.status === 'known' && hit.zeroHitPointsDisposition.value === 'kill';
+    if (hit.hitPointsAfter === 0 && nativeKill) {
+      const questCapability = questRuntime.canRecordNpcKilled(actor.name);
+      if (!questCapability.known) {
+        notify('The hit needs an unavailable quest callback: ' + questCapability.reason);
+        return;
+      }
+    }
+    actor.hitPoints = hit.hitPointsAfter;
+    let killObjectiveNotice = '';
+    if (actor.hitPoints === 0) {
+      const object = peopleObjects.get(actor.personId);
+      if (object) object.visible = false;
+      if (nativeKill) {
+        const killResult = questRuntime.recordNpcKilled(actor.name);
+        if (killResult.kind === 'unsupported') {
+          killObjectiveNotice = ' Kill objective progress was not applied: ' + killResult.reason;
+        } else if (killResult.progress.length) {
+          killObjectiveNotice = ' Kill objectives: ' + killResult.progress.map((progress) =>
+            progress.questId + ' ' + progress.counter + '/' + progress.amount +
+            (questRuntime!.quests.state(progress.questId)?.status === QuestStatus.Success ? ' · complete' : '')).join(', ') + '.';
+        }
+      } else {
+        killObjectiveNotice = ' Native death versus knockout is unresolved; no kill objective was credited.';
+      }
+    }
+    const hpText = actor.hitPoints === 0
+      ? 'NPC at 0 HP. The browser save retains this state; native death animation, defeat XP and loot remain unavailable.'
+      : actor.hitPoints + ' / ' + maximum + ' HP remain.';
+    notify('Browser fist hit · ' + actor.name + ' · ' + hit.calculation.finalDamage + ' damage · ' + hpText +
+      ' Damage uses the source-derived formula; NPC AI and attack responses are not running.' + killObjectiveNotice +
+      ' Press P to save this browser state.');
   }).catch((error: unknown) => {
     notify('Fist contact: ' + contact.name + '. Source combat state failed: ' + String(error));
   });
+}
+
+async function attemptNativePickpocket(person: ScenePerson): Promise<string> {
+  const runtime = questRuntime;
+  const npcs = npcCombatRuntime;
+  if (!runtime || !npcs) return 'PickPocket is unavailable because the source-backed game session failed to load.';
+  return pickpocketActions.attempt(person, runtime, npcs, BROWSER_DIFFICULTY);
 }
 
 async function character(person: ScenePerson): Promise<THREE.Group> {
@@ -665,7 +773,7 @@ function updateHeroPresentation(dt: number): void {
       } else if (event.type === 'hit-window') {
         heroActor.object.updateMatrixWorld(true);
         const contact = detectCurrentHeroFistContact();
-        if (contact) initializeContactNpc(contact);
+        if (contact) initializeContactNpc(contact, event.style);
         else notify('The fist attack missed.');
       }
     }
@@ -710,7 +818,11 @@ async function selectModel(id: string): Promise<void> {
   const token = ++inspectRequest;
   element('model-info').textContent = 'Loading ' + person.name + '…';
   try {
-    const actor = person.id === 'nameless-hero-exhibit' ? await animations.actor('hero') : null;
+    const personAsset = animations.manifest?.assets.find((entry) =>
+      entry.personId?.toLowerCase() === person.id.toLowerCase());
+    const actor = personAsset
+      ? await animations.actor(personAsset.id)
+      : person.id === 'nameless-hero-exhibit' ? await animations.actor('hero') : null;
     const group = actor?.object ?? await character(person);
     if (token !== inspectRequest) { actor?.destroy(); return; }
     const previousActor = inspectorActor;
@@ -752,9 +864,17 @@ async function selectModel(id: string): Promise<void> {
         triangles += (object.geometry.index?.count ?? object.geometry.getAttribute('position').count) / 3;
       }
     });
-    element('model-info').textContent = person.name + ' · ' + Math.round(triangles).toLocaleString() + ' triangles · ' + meshes + ' material meshes. ' + (actor ? 'All original skin weights and native motion sampling. Clip blending, combat and attachments are still being rebuilt.' : 'Original body + head in exported bind pose; native skinning and clips are not included for this model.');
+    const motionSource = actor?.asset.motionSourceAsset;
+    const animationDescription = actor
+      ? motionSource
+        ? `Original skin weights with audited ${motionSource.id} motions mapped by shared bones. NPC scheduling, combat and attachments are still being rebuilt.`
+        : 'Original skin weights and native motion sampling. Clip blending, combat and attachments are still being rebuilt.'
+      : 'Original body + head in exported bind pose; native skinning and clips are not included for this model.';
+    element('model-info').textContent = person.name + ' · ' + Math.round(triangles).toLocaleString() + ' triangles · ' + meshes + ' material meshes. ' + animationDescription;
     element('model-source').textContent = person.source + ' · ' + (person.body ?? '') + ' · ' + (person.head ?? '');
-    element('world-caption').textContent = actor ? 'Original character geometry · native Hero motion' : 'Original character geometry · exported bind pose';
+    element('world-caption').textContent = actor
+      ? motionSource ? 'Original character geometry · mapped native motion' : 'Original character geometry · native Hero motion'
+      : 'Original character geometry · exported bind pose';
     const selector = element<HTMLSelectElement>('clip-select');
     selector.replaceChildren(new Option('Bind pose', ''));
     for (const clip of actor?.asset.clips ?? []) {
@@ -763,8 +883,13 @@ async function selectModel(id: string): Promise<void> {
       selector.add(option);
     }
     element('animation-controls').classList.toggle('hidden', !actor);
-    element<HTMLButtonElement>('clip-play').disabled = true;
-    element('clip-play').textContent = 'Play motion';
+    const idle = actor?.asset.clips.find((clip) => clip.role === 'idle');
+    if (actor && idle) {
+      actor.select(idle.name);
+      selector.value = idle.name;
+    }
+    element<HTMLButtonElement>('clip-play').disabled = !actor || !idle;
+    element('clip-play').textContent = idle ? 'Pause motion' : 'Play motion';
     updateInspectorViewport();
     frameInspector();
   } catch (error) {
@@ -885,12 +1010,20 @@ async function boot(): Promise<void> {
     }),
     ...manifest.people.map((person) => async () => {
       try {
-        const group = await character(person);
+        const personAsset = animations.manifest?.assets.find((entry) =>
+          entry.personId?.toLowerCase() === person.id.toLowerCase());
+        const actor = personAsset ? await animations.actor(personAsset.id) : null;
+        const group = actor?.object ?? await character(person);
         const routine = routinePlacements.get(person.id);
         group.position.fromArray(routine?.position ?? person.position);
         group.rotation.y = routine?.rotationY ?? person.rotationY ?? 0;
         world.add(group);
         peopleObjects.set(person.id, group);
+        if (actor) {
+          const idle = actor.asset.clips.find((clip) => clip.role === 'idle');
+          if (idle) actor.select(idle.name);
+          personActors.set(person.id, actor);
+        }
       } catch (error) { failures.push(person.name + ': ' + String(error)); }
       done++; progress('Placing original characters');
     }),
@@ -956,6 +1089,7 @@ async function enterWorld(): Promise<void> {
       const playerLevel = questRuntime.saveData().heroProgress?.level ?? 0;
       const restored = await npcCombatRuntime.restore(savedNpcCombat, playerLevel, BROWSER_DIFFICULTY);
       if (restored.skipped.length) failures.push('NPC combat save: ' + restored.skipped.map((entry) => entry.reason).join('; '));
+      hideDefeatedNpcVisuals();
     }
   } catch (error) {
     questRuntime = null;
@@ -1058,6 +1192,7 @@ function frame(now: number): void {
       explorer.setGeometry([...sceneObjects.filter((object) => !nativeTerrainActive || object.userData.kind !== 'terrain'), ...terrain.objects]);
     }
     if (started && !modalOpen) explorer.update(dt);
+    if (started && !modalOpen) for (const actor of personActors.values()) actor.update(dt);
     updateHeroPresentation(dt);
     renderer.render(world, camera);
   }
@@ -1089,6 +1224,7 @@ function frame(now: number): void {
     nearest = null;
     let distance = 4;
     if (!inspectMode) for (const person of manifest.people) {
+      if (!canInteractWithPerson(person)) continue;
       const personPosition = livePersonPosition(person);
       const delta = Math.hypot(personPosition[0] - position.x, personPosition[2] - position.z);
       if (delta < distance && Math.abs(personPosition[1] - (position.y - 1.65)) < 4) { nearest = person; distance = delta; }

@@ -1959,6 +1959,12 @@
     },
     {
       "archive": "_compiledImage.pak",
+      "path": "animation/G3_Human_RebBanditLow_Body_Diffuse_S2.ximg",
+      "sha256": "5000e535a936538fa8d5ab8b19a3c368804c2442ec977f5b7368c248cdcdb261",
+      "bytes": 699160
+    },
+    {
+      "archive": "_compiledImage.pak",
       "path": "animation/G3_Human_Smith_Body_Diffuse_S2.ximg",
       "sha256": "2403263572cfb54f4dd46a8dccb10a537da98d3cdbc9ebd13ae51466f05395e4",
       "bytes": 699160
@@ -3557,6 +3563,42 @@
       "sha256": "2cd4357467cd891fae615a63ea50bf4aa3922a98df00879bfc80b2fd3eeb163b",
       "bytes": 282
     },
+    "textures/G3_Human_RebBanditLow_Body_Diffuse_S2.jpg": {
+      "sha256": "24880b82403787387a83aa09fa0912e8d337ba9dc8a8e2a176a375669e2b63af",
+      "bytes": 293760
+    },
+    "models/G3_Hero_Body_RebBandit_S01.obj": {
+      "sha256": "5bb7e25c1fd794f961a7f75b4ac671ec5bc737b4593dceb9a64c821e2f70e4df",
+      "bytes": 945791
+    },
+    "models/G3_Hero_Body_RebBandit_S01.mtl": {
+      "sha256": "83849c3b1abd6a3cfffe3bbe447133aa7909f0f2497ef640b021ced163eec106",
+      "bytes": 124
+    },
+    "models/G3_Head_Hero_Myrtana_Animated_05_S01.obj": {
+      "sha256": "404eeda5d797c4cd2343b06d0c5a63a63a9daa85ef526e42fa1549374e39812b",
+      "bytes": 286240
+    },
+    "models/G3_Head_Hero_Myrtana_Animated_05_S01.mtl": {
+      "sha256": "7e543ffabcac90554d193d362819382741a13a013b900df60cebc998261054c7",
+      "bytes": 281
+    },
+    "models/G3_Head_Hero_Myrtana_Animated_06_S01.obj": {
+      "sha256": "34c247e862d3ba323decdae24c48d2fd11d675d438cf42eb6c246260f2e35766",
+      "bytes": 283608
+    },
+    "models/G3_Head_Hero_Myrtana_Animated_06_S01.mtl": {
+      "sha256": "7e543ffabcac90554d193d362819382741a13a013b900df60cebc998261054c7",
+      "bytes": 281
+    },
+    "models/G3_Head_Hero_Myrtana_Animated_09_S04.obj": {
+      "sha256": "4d36eba01d05b38959bb75b59a1213c5219aaca67513067ce9b89faf921e0ac5",
+      "bytes": 282551
+    },
+    "models/G3_Head_Hero_Myrtana_Animated_09_S04.mtl": {
+      "sha256": "829886520314bfc7a44a5ebb36933333e5fb716ddf77d5af2876ffbf44f151cc",
+      "bytes": 281
+    },
     "textures/G3_Human_Smith_Body_Diffuse_S2.jpg": {
       "sha256": "60ff8e70a48759a23ba53600ce7180b3701645b6eca94d44622b8a620ee3c2c4",
       "bytes": 266026
@@ -3598,8 +3640,8 @@
       "bytes": 207
     },
     "scene.json": {
-      "sha256": "440408cff2fcb36004fb754f5732bd5f439107eb838b60333e0ada49feacbfe0",
-      "bytes": 355743
+      "sha256": "129bc9d5549cfc779b5de2b3fda6d7de236a2039a56e56019feb2d5f8fe5763e",
+      "bytes": 362453
     }
   },
   "sourceWorldLayers": [
@@ -7583,6 +7625,27 @@
       }
     },
     {
+      "material": "G3_Animation_Body_RebBandit_01_A",
+      "nativeMaterial": "G3_Animation_Body_RebBandit_01_A",
+      "materialSwitch": 1,
+      "source": "_compiledMaterial.pak :: G3_Animation_Body_RebBandit_01_A.xshmat",
+      "nativeSampler": "G3_Human_RebBanditLow_Body_Diffuse_S1.tga",
+      "samplerSourceOffset": 938,
+      "switchRepeat": 0,
+      "switchRepeatName": "Repeat",
+      "selectedImage": "G3_Human_RebBanditLow_Body_Diffuse_S2.tga",
+      "range": {
+        "textureCount": 3,
+        "textureIndex": 1
+      },
+      "shader": {
+        "class": "eCShaderDefault",
+        "sourceOffset": 313,
+        "blendMode": 0,
+        "maskReference": 0
+      }
+    },
+    {
       "material": "G3_Animation_Body_FatSmith_01_A",
       "nativeMaterial": "G3_Animation_Body_FatSmith_01_A",
       "materialSwitch": 1,
@@ -9188,6 +9251,17 @@
       "imagePayloadEnd": 174863
     },
     {
+      "source": "_compiledImage.pak :: animation/G3_Human_RebBanditLow_Body_Diffuse_S2.ximg",
+      "width": 1024,
+      "height": 1024,
+      "mipCount": 11,
+      "format": "DXT1",
+      "mipOrder": "smallest-to-largest",
+      "fullMipSourceOffset": 174863,
+      "fullMipBytes": 524288,
+      "imagePayloadEnd": 699151
+    },
+    {
       "source": "_compiledImage.pak :: animation/G3_Human_Smith_Body_Diffuse_S2.ximg",
       "width": 1024,
       "height": 1024,
@@ -9215,7 +9289,7 @@
     "Structures use full-detail family resources at their corresponding recorded low-detail family transforms. sourceResource and selectedResource record this choice.",
     "Terrain is six original Myrtana landscape LOD cells. The original high-detail terrain mesh resources referenced by legacy .node data are not available as independent installed archive files.",
     "Humans and orcs use their actual Ardea/SysDyn NPC body/head slots and material switch values, exported as static bind-pose geometry. Hair/beard/equipment attachments, skeletal motion and original facial animation are not ported.",
-    "Both local Ardea NPC layers and six named nearby SysDyn story NPCs are listed as source exhibits. Original quest-controlled activation and NPC combat/AI are not implemented.",
+    "Both local Ardea NPC layers, six named nearby SysDyn story NPCs and the three exact Jack_KillBandits target actors are listed at their source placements. Original quest-controlled activation and NPC combat/AI are not implemented.",
     "The arrival position is the recorded PC_Hero entity in the winning SysDyn world layer. Camera yaw is explicitly derived from its reflected orientation; this does not recover the original game camera controller.",
     "Diffuse samplers are converted from native DXT texture pixels. Opaque images use JPEG quality92; alpha images use PNG. Original shader graphs, terrain layer blending, normal/specular maps, native lighting and SpeedTree wind are not ported."
   ],
@@ -9600,11 +9674,11 @@
   ],
   "metrics": {
     "worldInstances": 202,
-    "people": 67,
-    "uniqueModels": 130,
-    "textures": 139,
-    "uniqueModelTriangles": 634836,
-    "textureBytes": 54477726,
-    "assetBytes": 130869971
+    "people": 70,
+    "uniqueModels": 134,
+    "textures": 140,
+    "uniqueModelTriangles": 652328,
+    "textureBytes": 54771486,
+    "assetBytes": 132962888
   }
 }

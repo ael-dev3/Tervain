@@ -41,26 +41,28 @@ describe('Ardea NPC browser combat state source bridge', () => {
     expect(actor).toMatchObject({ personId: warrior!.id, name: warrior!.name,
       sourcePath: 'G3_World_01/Myrtana/Ardea_City/G3_Myrtana_01_Ardea_NPC_01/G3_Myrtana_01_Ardea_NPC_01.lrentdat',
       sourceSha256: '46b70fff7a3844e8c16e6e71d69d8f7c57b5f1e8429d73e814b2ce9ffe9f2ac0',
-      rawLevel: 10, rawLevelMax: 30, species: 5, npcType: 0, action: 24, aniState: 2,
-      currentAttackerId: null, treasureSets: ['TS_Plunder_Orc_Warrior', 'TS_Weaponry_Orc_Halberd', '', '', ''],
+      rawLevel: 10, rawLevelMax: 30, species: 5, npcType: 0,
+      routineAction: 24, routineAniState: 2, routineStatePosition: 0,
+      armorIsRobe: { status: 'known', value: false }, currentAttackerId: null,
+      treasureSets: ['TS_Plunder_Orc_Warrior', 'TS_Weaponry_Orc_Halberd', '', '', ''],
       serializedEquipmentSlots: { status: 'resolved', slots: [
         { index: 16, templateGuid20: 'cabc7f17d0934e4887fa7b143b35064400000000',
           templateName: 'Orc_Head_S12',
           templateSourcePath: 'NPC/__Master_Orcs/OrcBodyParts_Orc_Head_S12.tple',
           templateSourceSha256: 'd8973d2d3f4e8b19d73041be8443064abafd205a408387c973b7796d03fb502c',
-          itemGuid20: '79220ebbac147840a428aa71eb33512800000000' },
+          itemGuid20: '79220ebbac147840a428aa71eb33512800000000', robe: null },
         { index: 17, templateGuid20: '7655489e313e004ab73a2108b537461800000000',
           templateName: 'Orc_Body_Warrior_Outlaw',
           templateSourcePath: 'NPC/__Master_Orcs/OrcBodyParts_Orc_Body_Warrior_Outlaw.tple',
           templateSourceSha256: '0c8cc6735162e4a816cecbe39828e40d29314a11b13acde7c5d23f2de37ef522',
-          itemGuid20: '1ce894592b52a042b9975d84611a4c8800000000' },
+          itemGuid20: '1ce894592b52a042b9975d84611a4c8800000000', robe: false },
       ] },
       initialization: 'browser-source-processing-range-state',
       hitPoints: 600, stamina: 300,
       processingRange: { hitPointsMax: 600, staminaMax: 300 } });
     expect(actor.treasureSetResolutions).toHaveLength(2);
     expect(actor.treasureSetResolutions[0]).toMatchObject({
-      name: 'TS_Plunder_Orc_Warrior', distribution: 0, status: 'generation-not-implemented',
+      name: 'TS_Plunder_Orc_Warrior', distribution: 0, status: 'plunder-source-resolved',
       sourcePath: 'Treasure/NPC/Plunder_NPC_TS_Plunder_Orc_Warrior.tple',
       sourceSha256: 'ee1ca5684ffa3685e8ae1c8083341412d62c2c4e664daba29855f961c86f11e2',
     });
@@ -74,6 +76,29 @@ describe('Ardea NPC browser combat state source bridge', () => {
           itemQualityBits: 256, spellPresent: { status: 'known', value: false },
           projectilePresent: { status: 'known', value: false } } }],
     });
+    const expectedInventory = new Map<string, number>();
+    for (const stack of actor.generatedPlunder.stacks) {
+      expectedInventory.set(stack.itemGuid20, (expectedInventory.get(stack.itemGuid20) ?? 0) + stack.amount);
+    }
+    expectedInventory.set('a4f100d0f5b6a347b3acfaa532a6976500000000', 1);
+    const inventory = actor.inventory.snapshot();
+    expect(inventory.observerRegistry).toBe('complete');
+    expect(inventory.stacks.map((stack) => [stack.templateGuid20, stack.amount])).toEqual([...expectedInventory]);
+    expect(inventory.stacks.find((stack) => stack.templateGuid20 === 'a4f100d0f5b6a347b3acfaa532a6976500000000'))
+      .toMatchObject({ templateName: 'It_Axe_OrcSword_01', amount: 1, quality: 256, stackType: 0,
+        linkedSlot: 0, physicalItemGuid20: null });
+    expect(actor.weaponryEquipPlans).toMatchObject([{
+      status: 'single-stack-plan',
+      treasureSetSlot: 2, treasureSetName: 'TS_Weaponry_Orc_Halberd',
+      itemName: 'It_Axe_OrcSword_01', itemGuid20: 'a4f100d0f5b6a347b3acfaa532a6976500000000',
+      plan: { link: { slot: 6, applyStats: true }, applied: false, evidence: 'Game:2001705d' },
+    }]);
+    for (const stack of inventory.stacks) {
+      expect(stack).toMatchObject({ stackType: 0, learned: false, physicalItemGuid20: null });
+      const source = actor.inventory.template(stack.templateGuid20)?.source as { path?: string; sha256?: string } | undefined;
+      expect(source?.path).toMatch(/\.tple$/);
+      expect(source?.sha256).toMatch(/^[a-f0-9]{64}$/);
+    }
   }, 30_000);
 
   it('restores mutable NPC points only when source identity and derived maxima match', async () => {
@@ -92,6 +117,20 @@ describe('Ardea NPC browser combat state source bridge', () => {
     expect(restored).toEqual({ restored: 1, skipped: [] });
     expect(restoredRuntime.get(warrior.id)).toMatchObject({ hitPoints: 451, stamina: 212,
       processingRange: { hitPointsMax: 600, staminaMax: 300 } });
+    expect(restoredRuntime.get(warrior.id)?.inventory.snapshot()).toEqual(actor.inventory.snapshot());
+
+    const legacyInventory = actor.inventory.snapshot();
+    const legacySave = {
+      ...save,
+      schema: 'gothic3-browser-npc-combat-session-v1',
+      actors: save.actors.map((entry) => ({ ...entry, inventory: {
+        ...legacyInventory,
+        stacks: legacyInventory.stacks.filter((stack) => stack.quality === 0),
+      } })),
+    };
+    const migratedRuntime = runtime(people);
+    expect(await migratedRuntime.restore(legacySave, 0, 1)).toEqual({ restored: 1, skipped: [] });
+    expect(migratedRuntime.get(warrior.id)?.inventory.snapshot()).toEqual(actor.inventory.snapshot());
 
     const tampered = { ...save, actors: save.actors.map((entry) => ({ ...entry,
       sourceSha256: '0'.repeat(64), hitPoints: 601 })) } satisfies BrowserArdeaNpcCombatSessionSave;
@@ -100,6 +139,16 @@ describe('Ardea NPC browser combat state source bridge', () => {
     expect(rejected.restored).toBe(0);
     expect(rejected.skipped).toHaveLength(1);
     expect(rejectedRuntime.get(warrior.id)).toBeNull();
+
+    const existingStack = actor.inventory.snapshot().stacks[0]!;
+    const invalidInventorySave = { ...save, actors: save.actors.map((entry) => ({ ...entry,
+      inventory: { ...entry.inventory!, stacks: [...entry.inventory!.stacks,
+        { ...existingStack, index: entry.inventory!.stacks.length, templateGuid20: '0'.repeat(40), templateName: 'Unknown' }] },
+    })) };
+    const inventoryRejectedRuntime = runtime(people);
+    const inventoryRejected = await inventoryRejectedRuntime.restore(invalidInventorySave, 0, 1);
+    expect(inventoryRejected.restored).toBe(0);
+    expect(inventoryRejected.skipped[0]?.reason).toContain('outside the source-derived Plunder and Weaponry state');
   }, 30_000);
 
   it('rejects contact identities that are not placed source characters', async () => {

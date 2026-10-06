@@ -28,6 +28,7 @@ SELECTION = {
 20022f61 2001eb87 2001b199 2002a51d 2002b8eb 20017f53 20030ac1 200346bc
 2001705d 2002941a 20029c67 2002eb54 200230c4 200060b4 2002504a
 20033e01 20032a5b 20004fac 20009651 2000e3c7 2000c545 200290d2
+20003558 2000c626 20175290 20464aea 20464af7
 200170f8 2001a5cd 200309b3 201cf350 2000727f 20018089 20018aed
 200307f1 20003850 2001efec 20028a83 200021fd'''.split(),
     'Script_dll': ['100014d3', '10003c65', '10004890'],
@@ -276,7 +277,7 @@ def main():
                     'learn': 'LearnStack returns false for missing index; already learned returns true without notifications. Otherwise enter/write true/exit then event1 inventory listener notification. AssureItemsEx SetLearned has property notifications but no explicit inventory event1.',
                     'observerBoundary': 'OnStackCreate/Change and NotifyListeners only forward ordered active registered listeners and purge inactive entries; external observer implementations are separately required. Constructor initializes empty listener vector; this does not prove the loaded runtime keeps it empty.',
                     'equipment': 'Original Head and Body slots are separate serialized records, not newly assured stacks. Link/Unlink requires physical entity creation, skeleton/stat/skill callbacks and is not silently simulated.',
-                    'give': 'Info Give requires donor and recipient inventories and an existing first ANY-quality template stack. Player donor amount is min(requested unsigned amount, first-stack unsigned quantity); nonplayer is not clamped. TransferItemsTo creates target quantities before subtracting source, deletes empty source before notifying quest manager, and emits localized game messages in Give afterward.',
+                    'give': 'Overloads differ. The gCInfo_PS template overload selects the first ANY-quality stack without assurance. Script_Game opcode13 parses ID2, calls Script PSInventory::AssureItems for the donor at exact quality0 with requested amount as minimum, passes its returned index to indexed gCInfo_PS::Give, and that overload clamps only a player donor. Both use TransferItemsTo, which creates target quantities before subtracting source and notifies the quest manager after source deletion; localized messages follow transfer.',
                     'boundedTransfer': 'TS ordinary unlinked-stack transfer requires complete observer registries and a resolved native quest notification or proven no-op. Linked physical item effects and mission/absent-item-property transfers to nonplayers remain unsupported, including native special-name and target-stack0 fallthrough.',
                     'skillLookup': 'FindSkillStackIndex/FindSpellStackIndex scan permanent gCItem_PS items and compare the Skill/Spell proxy template pointer, not the inventory item template name. ActivateSkill increments ActivationCount with property notifications and no explicit inventory event.',
                 },
@@ -316,6 +317,14 @@ not establish the loaded game's registration state. TS mutation requires an
 explicit complete ordered observer registry and reports callback failures as
 partial effects, blocking later mutations. Host effects cannot be rolled back.
 
+Treasure Plunder distribution0 is traced through Game:2000c626 to its real
+body at 204123c0; its 15-bit MSVCRT rand transition and loading-menu seed call
+are separately byte-checked. The current NPC bridge resolves each generated
+item template by GUID and source hash, calls the TypeScript NativeInventory
+CreateItems kernel and saves/restores its resulting stack list. It does not
+reproduce native cache-in timing or the installed process-wide random
+seed/call sequence, and it does not instantiate physical ItemWorld objects.
+
 Starting source:121 assurances;116 preserve intrinsic false,5 explicitly true.
 Two original equipped slot records preserve Head_Player and Body_Player IDs.
 AssureItemsEx assigns quickslots and has no EquipStack call. Later startup
@@ -327,12 +336,19 @@ adds quantities and can merge linked stacks only if native MustSplit permits.
 Quickslot assignment clears only the first prior holder, even if it is itself.
 LearnStack notifies inventory event1; AssureItemsEx SetLearned does not.
 
-Give foundation: planNativeInventoryGiveTransfer selects first ANY-quality
-donor stack and clamps only a player donor. transferItemsTo executes ordinary
-unlinked transfer, target creation then source subtraction/deletion, with a
+Give paths are overload-specific. planNativeInventoryGiveTransfer models the
+gCInfo_PS template overload: first ANY-quality donor stack, no assurance or
+item creation, and player-donor clamp to that stack. Script_Game opcode 13 is
+different: it parses ID2, calls PSInventory::AssureItems at exact quality 0
+with that amount as the minimum, then passes AssureItems' returned stack index
+to the indexed gCInfo_PS::Give overload. executeNativeScriptGiveTransfer now
+models that positive-amount path, including assurance before transfer and the
+player-donor clamp. Both paths use ordinary unlinked TransferItemsTo, which
+creates the target stack before source subtraction/deletion and needs a
 resolved OnReceiveItem notification boundary. Missing donor is not item spawn.
 Localized Given/Taken messages remain dialogue-host effects. Linked physical
-effects and mission-item nonplayer fallthrough remain explicitly unsupported.
+effects and special mission-item transfer branches remain explicitly
+unsupported.
 Equipment planning does not apply physical links, render attachments or stats.
 
 Source data is mutable game-specific state, not a claim that the complete game

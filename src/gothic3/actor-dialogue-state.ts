@@ -8,6 +8,7 @@ export interface NativeActorDialogState {
   readonly hasNpc: boolean;
   readonly hasDialog: boolean;
   readonly talkedToPlayer: boolean;
+  readonly pickedPocket: boolean;
   readonly tradeEnabled: boolean | null;
   readonly partyEnabled: boolean | null;
   readonly teachEnabled: boolean | null;
@@ -103,7 +104,9 @@ interface ActorRow {
   readonly sourceTradeEnabled: boolean;
   readonly sourcePartyEnabled: boolean;
   readonly sourceTeachEnabled: boolean;
+  readonly sourcePickedPocket: boolean;
   talkedToPlayer: boolean;
+  pickedPocket: boolean;
   tradeEnabled: boolean;
   partyEnabled: boolean;
   teachEnabled: boolean;
@@ -143,9 +146,11 @@ export class NativeArdeaActorDialogState {
       const tradeEnabled = hasDialog ? flag(dialogSets[0]!.properties, 'TradeEnabled') : false;
       const partyEnabled = hasDialog ? flag(dialogSets[0]!.properties, 'PartyEnabled') : false;
       const teachEnabled = hasDialog ? flag(dialogSets[0]!.properties, 'TeachEnabled') : false;
+      const pickedPocket = hasDialog ? flag(dialogSets[0]!.properties, 'PickedPocket') : false;
       const row: ActorRow = { id, name: entity.name, hasNpc: npcSets.length === 1, hasDialog,
         sourceTalkedToPlayer, sourceTradeEnabled: tradeEnabled, sourcePartyEnabled: partyEnabled,
-        sourceTeachEnabled: teachEnabled, talkedToPlayer: sourceTalkedToPlayer, tradeEnabled, partyEnabled, teachEnabled };
+        sourceTeachEnabled: teachEnabled, sourcePickedPocket: pickedPocket,
+        talkedToPlayer: sourceTalkedToPlayer, pickedPocket, tradeEnabled, partyEnabled, teachEnabled };
       if (this.rows.has(id)) {
         throw new Error('Duplicate native Ardea actor identity: ' + entity.name);
       }
@@ -158,8 +163,39 @@ export class NativeArdeaActorDialogState {
     if (!row) return { known: false, reason: 'Native NPC/Dialog property state is not loaded for ' + entity.name + '.' };
     if (row.name !== entity.name) return { known: false, reason: 'Native entity ID/name identity differs for ' + entity.name + '.' };
     return { known: true, value: { hasNpc: row.hasNpc, hasDialog: row.hasDialog,
-      talkedToPlayer: row.talkedToPlayer, tradeEnabled: row.hasDialog ? row.tradeEnabled : null,
+      talkedToPlayer: row.talkedToPlayer, pickedPocket: row.pickedPocket,
+      tradeEnabled: row.hasDialog ? row.tradeEnabled : null,
       partyEnabled: row.hasDialog ? row.partyEnabled : null, teachEnabled: row.hasDialog ? row.teachEnabled : null } };
+  }
+
+  /** Retain the serialized flag. Native PropertyValueChanged listeners are not dispatched here yet. */
+  setPickedPocket(entity: DialogueEntity, value: boolean): NativeValue<true> {
+    if (typeof value !== 'boolean') return { known: false, reason: 'Native Dialog.PickedPocket requires a bool.' };
+    const state = this.dialog(entity);
+    if (!state.known) return state;
+    if (!state.value.hasDialog) return { known: false, reason: 'Native Dialog.PickedPocket target has no Dialog property set.' };
+    this.rows.get(actorId(entity.id))!.pickedPocket = value;
+    return { known: true, value: true };
+  }
+
+  currentPickedPocketIds(): string[] {
+    return [...this.rows.values()].filter((row) => row.hasDialog && row.pickedPocket).map((row) => row.id).sort();
+  }
+
+  restorePickedPocketIds(ids: readonly string[], sourceOnlyIds?: ReadonlySet<string>): void {
+    const restored = new Set<string>();
+    for (const value of ids) {
+      const id = actorId(value);
+      const row = this.rows.get(id);
+      if (!row || !row.hasDialog || restored.has(id)) {
+        throw new Error('Browser save has an invalid or duplicate Ardea Dialog.PickedPocket actor: ' + id);
+      }
+      restored.add(id);
+    }
+    for (const row of this.rows.values()) {
+      row.pickedPocket = row.hasDialog && (sourceOnlyIds && !sourceOnlyIds.has(row.id)
+        ? row.sourcePickedPocket : restored.has(row.id));
+    }
   }
 
   dialogFlag(entity: DialogueEntity, field: NativeActorDialogFlag): NativeValue<boolean | null> {

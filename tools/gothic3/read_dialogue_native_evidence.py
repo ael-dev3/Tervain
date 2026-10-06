@@ -14,23 +14,30 @@ TARGETS = {
         0x10003c29:'GetEntity1',0x1000510f:'GetEntity2',0x10002199:'GiveStackWrapper',
         0x10004557:'GiveTemplateWrapper',0x10003d96:'EndWrapper',0x100022a7:'SetGameEvent',
         0x100022de:'ClearGameEvent',0x10003c65:'AssureItems',
-        0x10003517:'PartyMemberTypeWrapper',0x100019bf:'PartyLeaderWrapper'}),
+        0x10003517:'PartyMemberTypeWrapper',0x100019bf:'PartyLeaderWrapper',
+        0x100010d7:'PlayerMemoryGetTheft'}),
     'Game_dll': ('Game.dll', {
         0x2000cec8:'FindEntityFromString',0x2000893b:'GetCurrentSelf',0x200335a5:'GetCurrentOther',
         0x20004615:'IsAvailable',0x20020fc7:'AreConditionsFulfilled',0x2002218d:'Execute',
         0x20007306:'RunQuest',0x2001e72c:'SucceedQuest',0x20028358:'CloseQuest',0x2001a519:'QuestSetStatus',
-        0x20035175:'OnDelivery',0x20007d1f:'OnEndInfo',0x20033e01:'GiveStack',0x2002504a:'GiveTemplate',
+        0x20035175:'OnDelivery',0x20025bc6:'CheckDeliveryEntitiesStatus',0x20007d1f:'OnEndInfo',
+        0x2000f90c:'OnNPCKilled',0x200095b6:'OnNPCDefeated',
+        0x20033e01:'GiveStack',0x2002504a:'GiveTemplate',
         0x200203a6:'QuestIsInFinalState',0x20008008:'AreFinishedQuestsFinished',
         0x200175d0:'AreChildInfosAvailable',0x200016c2:'InfoScriptExecute',0x200344e1:'OnCommandCompleted',
         0x2001e6a5:'StartInfoManager',0x2000b0c8:'SortInfos',0x2002f95f:'SortInfosCbk',
         0x200014f1:'GetAvailableInfo',0x20011bcb:'GetAvailableInfoCount',0x200179b3:'GetInfoList',
         0x2000f80d:'GetChildInfos',0x20035512:'OnInfoScriptFinished',0x2002a1cb:'GetDistOwnerToNamedEntity',
         0x20008a99:'IsOwnerPlayer',0x2001b748:'RemoveDuplicatedInfos',0x20027ec1:'GetChildInfoList',
+        0x20003d7d:'SetPickedPocket',
         0x2044f300:'OwnerLookup',0x20451740:'OwnerCollection',0x20022688:'EntityIsPlayer',
         0x200336a4:'BuildMapInfosByOwners',0x200282b3:'OnEndInfoManager'}),
     'scripts__Script_Game_dll': ('scripts/Script_Game.dll', {
         0x100dbb80:'CommandDispatcher',0x100628c0:'GiveXP',0x100627e0:'XPThreshold',
-        0x100e3ec0:'CRT_X87FloatToInt64',0x100db360:'CommandNameToOpcode'})}
+        0x100e3ec0:'CRT_X87FloatToInt64',0x100db360:'CommandNameToOpcode',
+        0x1004db60:'PickPocket',0x1004d8f0:'GeneratePickpocketInventory',
+        0x10041af0:'PickpocketFailureResponse',0x100481d0:'PickpocketTheftValue',
+        0x10047a20:'PickpocketFallbackDifficultyValue'})}
 
 EXPECTED_INPUTS = {
     'Game.dll': 'b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f',
@@ -163,9 +170,21 @@ def audit_module(study,directory,binary,targets):
     for method in methods:
         for row in method['instructions']:
             iat_used.update('0x'+value for value in re.findall(r'\[0x([0-9a-f]{8})\]',row['instruction']))
+    tables=[]
+    if directory=='Game_dll':
+        for va,size,label,element_size in [
+            (0x20338088,8,'deliveryCompletionTargets',4),
+            (0x20338090,13,'deliveryCompletionTypeMap',1),
+            (0x20439354,52,'infoEndCallbackTargets',4),
+            (0x20439388,29,'infoEndCondition6Through34Map',1)]:
+            raw=pe.bytes(va,size)
+            values=list(raw) if element_size==1 else [f'0x{value:08x}' for value in struct.unpack('<'+'I'*(size//4),raw)]
+            tables.append({'label':label,'va':f'0x{va:08x}','fileOffset':pe.offset(va,size),
+                'bytes':raw.hex(),'elementBytes':element_size,'values':values})
     return {'module':binary,'inputSha256':sha(data),'functionsCsvSha256':sha(csv_bytes),
         'assemblySha256':assembly_hash.hexdigest(),'methods':methods,'constants':constants,
-        'imports':[row for row in pe.imports() if row['iatVA'] in iat_used],'verifiedAgainstOriginalPE':True}
+        'imports':[row for row in pe.imports() if row['iatVA'] in iat_used],
+        'tables':tables,'verifiedAgainstOriginalPE':True}
 
 
 def main():

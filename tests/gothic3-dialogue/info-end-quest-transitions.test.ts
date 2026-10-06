@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { NativeQuest, NativeSource } from '../../src/gothic3/catalog';
-import { NativeQuests, QuestStatus } from '../../src/gothic3/quest-state';
+import { NativeQuests, QuestStatus, nativeInfoAppendsQuestSayPairs } from '../../src/gothic3/quest-state';
 
 const source: NativeSource = { archive: 'test', path: 'test.quest', sha256: 'a'.repeat(64), selection: 'test', layers: [] };
 const definition: NativeQuest = { id: 'Ardea_InfoEnd', numericType: 1, prereqs: [], deliveryTargets: [], destination: '',
@@ -30,6 +30,22 @@ describe('native OnEndInfo quest callbacks', () => {
     ]);
   });
 
+  it.each([
+    [4, QuestStatus.Running], [5, QuestStatus.Open], [7, QuestStatus.Running],
+    [8, QuestStatus.Running], [10, QuestStatus.Success],
+  ])('appends Say pairs without changing quest status for condition %i', (condition, status) => {
+    const { quests, changed } = makeQuests(status);
+
+    expect(quests.onEndInfo(definition.id, condition, [pair])).toEqual({ kind: 'applied' });
+    expect(quests.state(definition.id)).toMatchObject({ status, logKeys: ['INFO_DIEGO'], logPairs: [pair] });
+    expect(changed).toEqual([{ previous: status, status, logKeys: ['INFO_DIEGO'] }]);
+  });
+
+  it('matches every native common-tail Say-log condition guard', () => {
+    const guarded = Array.from({ length: 53 }, (_, condition) => condition).filter(nativeInfoAppendsQuestSayPairs);
+    expect(guarded).toEqual([3, 4, 5, 6, 7, 8, 10, 11, 19]);
+  });
+
   it('cancels a Running quest and appends its Say pair for condition 11', () => {
     const { quests } = makeQuests(QuestStatus.Running);
 
@@ -45,11 +61,12 @@ describe('native OnEndInfo quest callbacks', () => {
       logKeys: [], logPairs: [] });
   });
 
-  it('does not append a log when the condition transition is rejected', () => {
+  it('still appends a log when native SetStatus rejects a stale condition-6 transition', () => {
     const { quests } = makeQuests(QuestStatus.Running);
 
-    expect(quests.onEndInfo(definition.id, 6, [pair])).toMatchObject({ kind: 'rejected' });
-    expect(quests.state(definition.id)).toMatchObject({ status: QuestStatus.Running, logKeys: [], logPairs: [] });
+    expect(quests.onEndInfo(definition.id, 6, [pair])).toEqual({ kind: 'applied' });
+    expect(quests.state(definition.id)).toMatchObject({ status: QuestStatus.Running,
+      logKeys: ['INFO_DIEGO'], logPairs: [pair] });
   });
 
   it('does not require a quest for condition 3, but does for condition 19', () => {

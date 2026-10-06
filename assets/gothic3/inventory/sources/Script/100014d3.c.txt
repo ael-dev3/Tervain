@@ -1,4 +1,4 @@
-/* ENTRY 100014d3 | PSInventory::CreateItems | STATUS decompiled | 15 ms */
+/* ENTRY 100014d3 | PSInventory::CreateItems | STATUS decompiled | 8 ms */
 
 /* public: int __thiscall PSInventory::CreateItems(class Template const &,unsigned long,int) */
 

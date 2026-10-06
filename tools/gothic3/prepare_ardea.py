@@ -325,8 +325,12 @@ def main():
         'entityGuid':source_hero['guid'],'sourceOffset':source_hero['sourceOffset'],
         'worldMatrixCentimetres':m,'cameraOrientation':'browser arrival view along reflected source entity local -Z; original game camera not recovered'}
     story_names={'hamlar','gorn','diego','milten','lester','jack'}
+    # Jack_KillBandits names these placed SysDyn actors, one of each. Their
+    # body/head slots and transforms are read from the same winning source
+    # layer as the story NPCs; template-only exhibits cannot fulfill the quest.
+    quest_target_names={'Ardea_OutNovice_01','Ardea_OutNovice_02','Ardea_OutNovice_03'}
     for ent in world['entities']:
-        if ent['name'].lower().split('_')[-1] not in story_names: continue
+        if ent['name'].lower().split('_')[-1] not in story_names and ent['name'] not in quest_target_names: continue
         x,y,z=ent['worldMatrix'][12:15]
         if (x-ORIGIN[0])**2+(z-ORIGIN[2])**2<=22000**2: add_person(ent,e)
     hero={}
@@ -345,7 +349,7 @@ def main():
         'Structures use full-detail family resources at their corresponding recorded low-detail family transforms. sourceResource and selectedResource record this choice.',
         'Terrain is six original Myrtana landscape LOD cells. The original high-detail terrain mesh resources referenced by legacy .node data are not available as independent installed archive files.',
         'Humans and orcs use their actual Ardea/SysDyn NPC body/head slots and material switch values, exported as static bind-pose geometry. Hair/beard/equipment attachments, skeletal motion and original facial animation are not ported.',
-        'Both local Ardea NPC layers and six named nearby SysDyn story NPCs are listed as source exhibits. Original quest-controlled activation and NPC combat/AI are not implemented.',
+        'Both local Ardea NPC layers, six named nearby SysDyn story NPCs and the three exact Jack_KillBandits target actors are listed at their source placements. Original quest-controlled activation and NPC combat/AI are not implemented.',
         'The arrival position is the recorded PC_Hero entity in the winning SysDyn world layer. Camera yaw is explicitly derived from its reflected orientation; this does not recover the original game camera controller.',
         'Diffuse samplers are converted from native DXT texture pixels. Opaque images use JPEG quality92; alpha images use PNG. Original shader graphs, terrain layer blending, normal/specular maps, native lighting and SpeedTree wind are not ported.'
     ]

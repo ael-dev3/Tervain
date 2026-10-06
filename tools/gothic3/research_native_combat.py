@@ -24,7 +24,7 @@ SELECTION = {
 1001b0c0 1001aca0 100194c0 100d7ac0 10047530 100477c0 100458c0 10045b20
 10016b00 10016f90 100170a0 1003a9c0 1001ab10 100cf140 100cf340 1000a390
 100d01b0 10042c30 10042a70 10042d90 1001b640 100ced90 100467f0 10046af0
-1000c160 10046590'''.split(),
+1000c160 10046590 10018070'''.split(),
     'Game_dll': '''
 200014ba 20024127 20522a10 20015ed8 20026a03 2002a946 20027a89 201325b0
 2000aa51 2036a6e0 2000779d 2001e7d6 201ae890 20029be0 20006f50 200012c1
@@ -274,6 +274,9 @@ RULES = [
      'scope': 'caller resolves early AssessHit state and helper1000c160 result0 plus absent special effects; surviving victim receives Stumble23'},
     {'id': 'deadly', 'sources': ['Script_Game:1003c550', 'Script_Game:1003c6b0', 'Script_Game:1001aca0', 'Script_Game:1001b0c0'],
      'note': 'IsHumanoid includes Orc species5. Directional native GetAttitude results are required; serialized AttitudeToPlayer is insufficient.'},
+    {'id': 'outlaw-attitude', 'sources': ['Script_Game:10018070', 'Script_Game:100194c0', 'Script_Game:1001b0c0'],
+     'predicate': 'Self alignment7 with Other alignment!=7 and Other species0/5, or Other alignment7 with Self alignment!=7 and Self species0/5 ->4; otherwise0 means continue GetAttitude.',
+     'browserScope': 'Three pinned Jack bandits: Self is nonplayer Type0 with source navigation and AIMode0, Hero alignment0/species0. GetAttitude returns4 from this branch before other faction/party/crime branches. The static standing/contact host remains browser-owned; no Kill/Defeat task or XP is inferred.'},
     {'id': 'xp', 'sources': ['Script_Game:10027e70', 'Script_Game:100362f0', 'Script_Game:100628c0', 'Script_Game:100627e0'],
      'correction': '10062b1d LEA EDI,[EAX+EAX*4] is level*5; expanded C says *10 incorrectly.',
      'order': 'native accepted task sets AIMode, quest callback, XP once unless DefeatedByPlayer; flag still set on GiveXP PartyMemberType5 no-op; one level increment per GiveXP, no loop/refill'},
@@ -328,9 +331,10 @@ def main():
     if next(x for x in instructions['Script_Game:100628c0'] if x['address'] == '10062b1d')['bytes'] != '8d3c80':
         raise ValueError('The audited installed-build XP instruction changed')
     evidence = {'version': 1,
-                'scope': 'verified bounded combat kernel; Hero GiveXP XP/level/LP bridge integrated; combat actions remain unavailable',
+                'scope': 'verified bounded combat kernel; Hero XP bridge and Ardea browser fist arithmetic; source Outlaw death disposition for three Jack bandits',
                 'ordinaryPlayIntegration': {'giveXP': 'XP and one threshold-crossing level/LP update; no live NPC activation',
-                                           'combatActions': 'not integrated'},
+                                           'combatActions': 'browser contact/static standing fist arithmetic for 15 source-pinned Raiders and three Jack bandits; native tasks, AI and defeat XP remain unintegrated',
+                                           'zeroHitPointsDisposition': 'Jack bandits resolve kill through GetAttitude Outlaw4; Raider directed attitudes remain unresolved'},
                 'nativeCodeExecuted': False, 'installedBuildHashesPinned': True,
                 'originalInputs': inputs, 'entries': receipts,
                 'constants': constants, 'registrations': regs, 'rules': RULES,
@@ -338,7 +342,7 @@ def main():
                 'audit': {'allInstructionBytesMatch': True, 'entryCount': len(receipts),
                           'instructionRecords': sum(x['instructionRecords'] for x in receipts),
                           'instructionBytes': sum(x['instructionBytes'] for x in receipts)},
-                'limitations': ['The Hero GiveXP bridge handles XP and one level/LP update per crossing using the retained serialized NPC property set; the NPC property set is not attached to the live entity, and the level-up visual effect and combat actions are not integrated.',
+                'limitations': ['The Hero GiveXP bridge handles XP and one level/LP update per crossing using the retained NPC property set; the NPC property set is not attached to the live entity, and the level-up visual effect and native combat tasks are not integrated.',
                                 'External contact, eligibility, skills, initialization and directional attitudes must be resolved with provenance.',
                                 'Only selected standing humanoid Hero Impact/Blade/fist/single1H math and ordered state plans are implemented.',
                                 'AI/contact/native task execution/impact effects/ragdolls/statuses/spells/projectiles/full inventory/equipment are not implemented.',

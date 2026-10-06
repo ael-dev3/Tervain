@@ -69,6 +69,68 @@ Command host contract
   failures or interrupted asynchronous operations need actual lifecycle
   handling; no rollback or fabricated completion is claimed.
 
+Condition-8 NPC delivery
+  AreConditionsFulfilled entry0x20020fc7 requires a Running quest for numeric
+  condition8. OnDelivery entry0x20035175 handles condition8 for quest types1/4
+  by comparing Info.Npc with delivery target names, incrementing the first
+  exact match once, and calling CheckDeliveryEntitiesStatus entry0x20025bc6.
+  That callback checks every counter and sets Success when all target amounts
+  are met. These three functions and OnEndInfo are in the byte-audited
+  native-evidence receipt; their C listings are reconstructed references.
+  Condition9 and other condition8 quest branches are not connected.
+
+  The browser preflights the exact active Ardea owner and success rewards, then
+  applies the counter update and native quest transition for Running type1/4
+  definitions. Condition7's OnEndInfo path has no quest-status transition;
+  its associated quest receives Say log pairs. Ardea_Pocket is seeded Open and its pickpocket operation that
+  starts it is absent, so this does not expose Jack's report during a fresh
+  game. No browser encounter or report dialogue was verified.
+
+Condition-5 Info completion and source Say-log guards
+  gCInfo_PS::OnEndInfo leaves quest status unchanged for condition5. Jack's
+  source Info BPANKRATZ31461 uses that condition to record
+  Jack_BanditsThrere; its following BPANKRATZ31462 condition6 Info runs the
+  Open Jack_KillBandits quest. The common callback tail appends Say localization
+  pairs for conditions3/4/5/6/7/8/10/11/19 whenever an associated quest resolves.
+  Original instructions at0x20439125..0x20439150 establish these guards. The
+  earlier condition5/7/8 no-log interpretation was wrong. Condition10 has no
+  special quest-status transition; its Say commands still enter this tail.
+  The switch map at0x20439388 maps condition10 to0x20439113, the common tail.
+  Condition4 availability requires a Running quest and IsOvertime=true; its
+  missing overtime predicate must not be replaced with an unconditional pass.
+
+NPC kill objectives and automatic quest success
+  gCQuest_PS::OnNPCKilled entry0x2000f90c/body0x203384f0 accepts statuses0/1/6
+  (Open/Running/Lost), ignores PC_Hero, and increments every exact matching
+  delivery-target name for types2/3/4. ADD dword ptr[EAX],1 at0x20338578 wraps
+  the32-bit counter; no maximum, clamping or overflow rejection occurs. If any
+  matching counter changes, CALL0x20025bc6 at0x20338591 checks completion.
+
+  CheckDeliveryEntitiesStatus entry0x20025bc6/body0x20338000 accepts statuses
+  0/1/6 and types0..8/10/11/12; type9 is skipped by the original type map at
+  0x20338090. CMP/JC at0x20338043/0x20338045 compares counters and amounts as
+  unsigned32-bit values. Every target must be satisfied; zero targets are
+  vacuously satisfied. Type12 requests Won7, other supported types Success2.
+  SetStatus accepts Success/Won only from Open/Running, so Lost counters can
+  advance while its completion transition is rejected. Completion happens
+  through this shared callback and is not inferred from a task name.
+
+  OnNPCDefeated entry0x200095b6/body0x203387c0 first checks target/counter array
+  lengths. Its type3 branch increments exact targets and calls the same
+  checker without an outer quest-status guard. Arena types5/12 have separate
+  Running/player-loss behavior. Native Kill/Defeat task acceptance, credit,
+  social/party cleanup and defeat XP are distinct from these quest callbacks.
+
+  Jack_KillBandits source targets Ardea_OutNovice_01/02/03 once each. Its
+  third qualifying kill can therefore request Success and its100 quest XP.
+  Native SetStatus effect order is PoliticalFame, attribute BaseValue,
+  enclave fame, then GiveXP, followed by the Ardea-specific tutorial when
+  applicable; status assignment/arena updates/InfoManager notification follow.
+  Jack's condition10 BPANKRATZ31463 requires Success and Jack_NiceTower, then
+  executes Say4, Give It_Gold50 and GiveXP50. The world GiveXP branch multiplies
+  requested amounts by5, yielding500 quest XP and250 return Info XP. NPC
+  defeat XP remains a separate task-credit path.
+
 XP C-versus-assembly recovery
   Script_Game body0x100628c0 uses the None/world Self branch to multiply
   requested XP by5. Hamlar's original GiveXP100 therefore requests500
@@ -98,6 +160,7 @@ Remaining behavior
   crime/enclave/party/routine predicates and callbacks. Catalog sort order
   is not proof of the native menu order. This checkpoint does not select
   opening conversations automatically or complete original game startup.
-  Delivery/teaching/arena/party/skill and other conditional consumers,
-  voice/audio/camera, save restoration, rewards and UI notifications need
-  further native-backed implementation. Full original play remains work.
+  Teaching/arena/party/skill and other conditional consumers, most delivery
+  quest types, item-receive quest notifications, voice/audio/camera, save
+  restoration, rewards and UI notifications need further native-backed
+  implementation. Full original play remains work.

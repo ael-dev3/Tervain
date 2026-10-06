@@ -1,0 +1,13 @@
+/* ENTRY 20464aea | FUN_20464aea | STATUS decompiled | 2 ms */
+
+void FUN_20464aea(ulong param_1)
+
+{
+  _ptiddata p_Var1;
+  
+  p_Var1 = __getptd();
+  p_Var1->_holdrand = param_1;
+  return;
+}
+
+

@@ -1,6 +1,11 @@
 {
   "version": 1,
-  "scope": "verified bounded combat kernel; Hero GiveXP XP/level/LP bridge integrated; combat actions remain unavailable",
+  "scope": "verified bounded combat kernel; Hero XP bridge and Ardea browser fist arithmetic; source Outlaw death disposition for three Jack bandits",
+  "ordinaryPlayIntegration": {
+    "giveXP": "XP and one threshold-crossing level/LP update; no live NPC activation",
+    "combatActions": "browser contact/static standing fist arithmetic for 15 source-pinned Raiders and three Jack bandits; native tasks, AI and defeat XP remain unintegrated",
+    "zeroHitPointsDisposition": "Jack bandits resolve kill through GetAttitude Outlaw4; Raider directed attitudes remain unresolved"
+  },
   "nativeCodeExecuted": false,
   "installedBuildHashesPinned": true,
   "originalInputs": [
@@ -340,6 +345,30 @@
       "assemblyExcerptSha256": "1af77852ef9e1ede139077208655681a937a74772afde9bf08aa67873b9cf4b3",
       "instructionRecords": 106,
       "instructionBytes": 369,
+      "allInstructionBytesMatch": true
+    },
+    {
+      "id": "Script_Game:10018070",
+      "module": "Script_Game",
+      "entry": "10018070",
+      "name": "FUN_10018070",
+      "signature": "undefined4 FUN_10018070(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3);",
+      "bodyBytes": 307,
+      "bodyRanges": "10018070-100181a2",
+      "forwardingTarget": null,
+      "studyCsvSha256": "b029315df0e439042f56ccfe0fe86f76b750da944fe1bf236845581e3795a576",
+      "studyCSource": "pseudocode/functions_00002.c",
+      "studyCLine": 19587,
+      "studyCSha256": "3e134890f11ab3b0b7bb269d267ee916fa48c7800080b5ddc0c6ca6bb2d7d681",
+      "studyAssembly": "full_disassembly.asm",
+      "studyAssemblyLine": 16999,
+      "studyAssemblySha256": "899fc87a9bde3b2aea93e004c8c98cd91f728acc51a241660294599de0778ae7",
+      "cExcerpt": "sources/Script_Game/10018070.c.txt",
+      "cExcerptSha256": "0504ce0193b0cb19ec80ada26b773956f06d4f5f70274d999bc8102363a4c23b",
+      "assemblyExcerpt": "sources/Script_Game/10018070.asm.txt",
+      "assemblyExcerptSha256": "515c440649da280d36aefc544896e1d9c67e9225eca503658d3d9612f7637e2f",
+      "instructionRecords": 96,
+      "instructionBytes": 307,
       "allInstructionBytesMatch": true
     },
     {
@@ -1778,6 +1807,30 @@
       "cExcerptSha256": "22c5310886ab33f9ea87193aaec2274029a71bc5213321a415028516f6468d4e",
       "assemblyExcerpt": "sources/Script_Game/10109d70.asm.txt",
       "assemblyExcerptSha256": "2123c7fd93f90c8af98e7fff0593889b53526cffa736b3249ddd0d9350710940",
+      "instructionRecords": 23,
+      "instructionBytes": 82,
+      "allInstructionBytesMatch": true
+    },
+    {
+      "id": "Script_Game:10109de0",
+      "module": "Script_Game",
+      "entry": "10109de0",
+      "name": "FUN_10109de0",
+      "signature": "void FUN_10109de0(void);",
+      "bodyBytes": 82,
+      "bodyRanges": "10109de0-10109e31",
+      "forwardingTarget": null,
+      "studyCsvSha256": "b029315df0e439042f56ccfe0fe86f76b750da944fe1bf236845581e3795a576",
+      "studyCSource": "pseudocode/functions_00006.c",
+      "studyCLine": 2463,
+      "studyCSha256": "d4707f0f7be0cf262c21ea972ed7a8d09a223aa721ed74a7d388e9ca9d033e24",
+      "studyAssembly": "full_disassembly.asm",
+      "studyAssemblyLine": 249828,
+      "studyAssemblySha256": "899fc87a9bde3b2aea93e004c8c98cd91f728acc51a241660294599de0778ae7",
+      "cExcerpt": "sources/Script_Game/10109de0.c.txt",
+      "cExcerptSha256": "8bd39740005364d6fba10f843f22f4e473fd37f2e4057ed3a75365e3b730337f",
+      "assemblyExcerpt": "sources/Script_Game/10109de0.asm.txt",
+      "assemblyExcerptSha256": "6afb7ad701e68dca4596fb77f880e650c63614d888cdc8193aa01b4b9355ff6f",
       "instructionRecords": 23,
       "instructionBytes": 82,
       "allInstructionBytesMatch": true
@@ -3838,6 +3891,17 @@
       "sourceSha256": "d4707f0f7be0cf262c21ea972ed7a8d09a223aa721ed74a7d388e9ca9d033e24"
     },
     {
+      "registrationEntry": "10109de0",
+      "sourceCppLiteral": ".\\\\Script\\\\AI\\\\AI_Decision\\\\GetAttitude.cpp",
+      "name": "GetOutlawAttitude",
+      "callback": "10018070",
+      "body": "10018070",
+      "callbackJumpBytes": null,
+      "source": "pseudocode/functions_00006.c",
+      "sourceLine": 2463,
+      "sourceSha256": "d4707f0f7be0cf262c21ea972ed7a8d09a223aa721ed74a7d388e9ca9d033e24"
+    },
+    {
       "registrationEntry": "1010a0f0",
       "sourceCppLiteral": ".\\\\Script\\\\AI\\\\AI_Decision\\\\GetAttitude.cpp",
       "name": "IsAmbientCreature",
@@ -4349,6 +4413,16 @@
       "note": "IsHumanoid includes Orc species5. Directional native GetAttitude results are required; serialized AttitudeToPlayer is insufficient."
     },
     {
+      "id": "outlaw-attitude",
+      "sources": [
+        "Script_Game:10018070",
+        "Script_Game:100194c0",
+        "Script_Game:1001b0c0"
+      ],
+      "predicate": "Self alignment7 with Other alignment!=7 and Other species0/5, or Other alignment7 with Self alignment!=7 and Self species0/5 ->4; otherwise0 means continue GetAttitude.",
+      "browserScope": "Three pinned Jack bandits: Self is nonplayer Type0 with source navigation and AIMode0, Hero alignment0/species0. GetAttitude returns4 from this branch before other faction/party/crime branches. The static standing/contact host remains browser-owned; no Kill/Defeat task or XP is inferred."
+    },
+    {
       "id": "xp",
       "sources": [
         "Script_Game:10027e70",
@@ -4506,12 +4580,12 @@
   "excerptLineEndings": "LF",
   "audit": {
     "allInstructionBytesMatch": true,
-    "entryCount": 152,
-    "instructionRecords": 12465,
-    "instructionBytes": 43699
+    "entryCount": 154,
+    "instructionRecords": 12584,
+    "instructionBytes": 44088
   },
   "limitations": [
-    "The Hero GiveXP bridge handles XP and one level/LP update per crossing using the retained serialized NPC property set; the NPC property set is not attached to the live entity, and the level-up visual effect and combat actions are not integrated.",
+    "The Hero GiveXP bridge handles XP and one level/LP update per crossing using the retained NPC property set; the NPC property set is not attached to the live entity, and the level-up visual effect and native combat tasks are not integrated.",
     "External contact, eligibility, skills, initialization and directional attitudes must be resolved with provenance.",
     "Only selected standing humanoid Hero Impact/Blade/fist/single1H math and ordered state plans are implemented.",
     "AI/contact/native task execution/impact effects/ragdolls/statuses/spells/projectiles/full inventory/equipment are not implemented.",
@@ -4519,9 +4593,5 @@
     "Signed32 protection multiplication deliberately retains native wrap; this is not a generic percent reduction.",
     "No arithmetic hit chance is invented."
   ],
-  "excerptRoot": "assets/gothic3/combat",
-  "ordinaryPlayIntegration": {
-    "giveXP": "XP and one threshold-crossing level/LP update; no live NPC activation",
-    "combatActions": "not integrated"
-  }
+  "excerptRoot": "assets/gothic3/combat"
 }

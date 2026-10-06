@@ -1,0 +1,264 @@
+/* ENTRY 2000c626 | gCTreasureSet_PS::GeneratePlunderInventory | STATUS decompiled | 2099 ms */
+
+/* public: bool __thiscall gCTreasureSet_PS::GeneratePlunderInventory(class gCInventory_PS *) */
+
+bool __thiscall
+gCTreasureSet_PS::GeneratePlunderInventory(gCTreasureSet_PS *this,gCInventory_PS *param_1)
+
+{
+  gCInventorySlot_vftable *pgVar1;
+  bool bVar2;
+  eCEntity *peVar3;
+  bCMessageAdmin *pbVar4;
+  gCInventory_PS *pgVar5;
+  int iVar6;
+  int iVar7;
+  gCInventorySlot *this_00;
+  gEUseType gVar8;
+  gCInventory_PS *this_01;
+  gCInventoryStack *pgVar9;
+  gCSession *pgVar10;
+  eCDynamicEntity *peVar11;
+  eCTemplateEntity *peVar12;
+  ulong uVar13;
+  gCTreasureSet_PS_vftable *pgVar14;
+  ulong uVar15;
+  gCTreasureSet_PS_vftable *pgVar16;
+  gCTreasureSet_PS_vftable *pgVar17;
+  bEMessageTypes bVar18;
+  char *pcVar19;
+  char *pcVar20;
+  char *pcVar21;
+  int iVar22;
+  int iStack_10;
+  gCInventory_PS *pgStack_c;
+  int iStack_8;
+  bCString abStack_4 [4];
+  
+                    /* 0xc626  2872
+                       ?GeneratePlunderInventory@gCTreasureSet_PS@@QAE_NPAVgCInventory_PS@@@Z */
+  peVar3 = (*this->vftablePtr->GetEntity)(this);
+  if (peVar3 == (eCEntity *)0x0) {
+    iVar6 = *(int *)g_iDefaultMessagePriority_exref;
+    iVar22 = -1;
+    pcVar21 = (char *)0x0;
+    pcVar20 = (char *)0x0;
+    pcVar19 = 
+    "gCTreasureSet_PS::GeneratePlunderInventory: no entity attached, can\'t generate inventory.";
+    bVar18 = 3;
+    pbVar4 = bCMessageAdmin::GetInstance();
+    bCMessageAdmin::OnMessage(pbVar4,bVar18,pcVar19,pcVar20,pcVar21,iVar22,iVar6);
+    return false;
+  }
+  peVar3 = (*this->vftablePtr->GetEntity)(this);
+  if ((peVar3 == (eCEntity *)0x0) ||
+     (pgVar5 = (gCInventory_PS *)(**(code **)(*(int *)peVar3 + 0xec))(0x1f), pgStack_c = pgVar5,
+     pgVar5 == (gCInventory_PS *)0x0)) {
+    iVar6 = *(int *)g_iDefaultMessagePriority_exref;
+    pcVar19 = 
+    "gCTreasureSet_PS::GeneratePlunderInventory: no inventory ps found for our enity, can\'t fill other inventory."
+    ;
+LAB_20412457:
+    iVar22 = -1;
+    pcVar21 = (char *)0x0;
+    pcVar20 = (char *)0x0;
+    bVar18 = 3;
+    pbVar4 = bCMessageAdmin::GetInstance();
+    bCMessageAdmin::OnMessage(pbVar4,bVar18,pcVar19,pcVar20,pcVar21,iVar22,iVar6);
+    return false;
+  }
+  iVar6 = gCInventory_PS::GetStackCount(pgVar5);
+  if (iVar6 == 0) {
+    iVar6 = *(int *)g_iDefaultMessagePriority_exref;
+    pcVar19 = "gCTreasureSet_PS::GeneratePlunderInventory: inventory is empty.";
+    goto LAB_20412457;
+  }
+  switch((this->gCTreasureSet_PS_data).offset_0x14) {
+  case 0:
+    pgVar17 = this[1].vftablePtr;
+    pgVar14 = *(gCTreasureSet_PS_vftable **)&this[1].gCTreasureSet_PS_data;
+    if (pgVar17 == pgVar14) {
+      if ((int)pgVar14 < 1) {
+        pgVar14 = (gCTreasureSet_PS_vftable *)0x1;
+        goto LAB_204124c1;
+      }
+    }
+    else {
+      pgVar16 = pgVar14;
+      if ((int)pgVar14 < (int)pgVar17) {
+        pgVar16 = pgVar17;
+        pgVar17 = pgVar14;
+      }
+      iVar6 = _rand();
+      pgVar14 = (gCTreasureSet_PS_vftable *)
+                ((int)&pgVar17->GetVersion + iVar6 % ((int)pgVar16 + (1 - (int)pgVar17)));
+    }
+    if (0 < (int)pgVar14) {
+LAB_204124c1:
+      do {
+        pgVar5 = pgStack_c;
+        iVar6 = gCInventory_PS::GetStackCount(pgStack_c);
+        iVar22 = 0;
+        if (1 < iVar6) {
+          iVar22 = _rand();
+          iVar22 = iVar22 % iVar6;
+        }
+        pgVar9 = gCInventory_PS::GetStack(pgVar5,iVar22);
+        if (pgVar9 == (gCInventoryStack *)0x0) {
+          DAT_207b0388 = DAT_207b0388 + -1;
+          if (DAT_207b0388 < 1) {
+            return false;
+          }
+        }
+        else {
+          uVar13 = *(ulong *)(pgVar9 + 0x3c);
+          if (1 < (int)uVar13) {
+            iVar6 = _rand();
+            uVar13 = iVar6 % (int)((uVar13 - (int)uVar13 / 2) + 1) + (int)uVar13 / 2;
+          }
+          peVar12 = eCTemplateEntityProxy::GetEntity((eCTemplateEntityProxy *)(pgVar9 + 0xc));
+          gCInventory_PS::CreateItems((gCInventory_PS *)param_1,peVar12,0,uVar13,1);
+          pgVar14 = (gCTreasureSet_PS_vftable *)((int)&pgVar14[-1].IntersectsVolume + 3);
+        }
+      } while (0 < (int)pgVar14);
+      return true;
+    }
+    break;
+  case 1:
+    iVar6 = -1;
+    iStack_10 = -1;
+    iStack_8 = gCInventory_PS::GetStackCount(pgVar5);
+    iVar22 = 0;
+    if (iStack_8 < 1) {
+LAB_204125cc:
+      iVar22 = iStack_8;
+      if (iStack_8 < 2) {
+        iVar6 = 0;
+      }
+      else {
+        iVar6 = _rand();
+        iVar6 = iVar6 % iVar22;
+      }
+    }
+    else {
+      do {
+        pgVar9 = gCInventory_PS::GetStack(pgVar5,iVar22);
+        iVar7 = gCInventory_PS::GetTransactionAmount(pgVar5,iVar22);
+        if ((((iVar7 == 0) && (pgVar9 != (gCInventoryStack *)0x0)) &&
+            ((peVar12 = eCTemplateEntityProxy::GetEntity((eCTemplateEntityProxy *)(pgVar9 + 0xc)),
+             peVar12 != (eCTemplateEntity *)0x0 && (iVar7 = thunk_FUN_20188450(peVar12), iVar7 != 0)
+             ))) && ((iVar6 == -1 || (*(int *)(iVar7 + 0x1c) < iStack_10)))) {
+          iStack_10 = *(int *)(iVar7 + 0x1c);
+          iVar6 = iVar22;
+        }
+        iVar22 = iVar22 + 1;
+      } while (iVar22 < iStack_8);
+      if (iVar6 < 0) goto LAB_204125cc;
+    }
+    pgVar9 = gCInventory_PS::GetStack(pgVar5,iVar6);
+    if (pgVar9 != (gCInventoryStack *)0x0) {
+      uVar13 = *(ulong *)(pgVar9 + 0x3c);
+      uVar15 = uVar13;
+      if ((1 < (int)uVar13) && (uVar15 = (int)uVar13 >> 1, (int)uVar15 < (int)uVar13)) {
+        iVar22 = _rand();
+        uVar15 = iVar22 % (int)((uVar13 - uVar15) + 1) + uVar15;
+      }
+      uVar13 = *(ulong *)(pgVar9 + 0x40);
+      peVar12 = eCTemplateEntityProxy::GetEntity((eCTemplateEntityProxy *)(pgVar9 + 0xc));
+      gCInventory_PS::CreateItems((gCInventory_PS *)param_1,peVar12,uVar13,uVar15,1);
+      gCInventory_PS::SetTransactionAmount(pgStack_c,iVar6,uVar15);
+      return true;
+    }
+    break;
+  case 2:
+    iVar22 = 0;
+    iStack_8 = 0;
+    iVar6 = gCInventory_PS::GetStackCount(pgVar5);
+    if (0 < iVar6) {
+      do {
+        this_00 = (gCInventorySlot *)gCInventory_PS::GetStack(pgVar5,iVar22);
+        if (this_00 != (gCInventorySlot *)0x0) {
+          gVar8 = gCInventorySlot::GetUseType(this_00);
+          if (((gVar8 == 0x1e) || (gVar8 == 0x29)) || (gVar8 == 0x32)) {
+            pgVar10 = (gCSession *)gCSession::GetInstance();
+            peVar11 = gCSession::GetPlayer(pgVar10);
+            this_01 = (gCInventory_PS *)thunk_FUN_200a1010(peVar11);
+            if (this_01 == (gCInventory_PS *)0x0) goto LAB_2041272e;
+            bCString::bCString((bCString *)&iStack_10,"");
+            if (gVar8 == 0x1e) {
+              pcVar19 = "Perk_TrophyTeeth";
+LAB_204126db:
+              bCString::operator=((bCString *)&iStack_10,pcVar19);
+            }
+            else {
+              if (gVar8 == 0x29) {
+                pcVar19 = "Perk_TrophySkin";
+                goto LAB_204126db;
+              }
+              if (gVar8 == 0x32) {
+                pcVar19 = "Perk_TrophyFur";
+                goto LAB_204126db;
+              }
+            }
+            peVar12 = (eCTemplateEntity *)thunk_FUN_201d2c60(&iStack_10);
+            bVar2 = gCInventory_PS::IsSkillActive(this_01,peVar12);
+            if (!bVar2) {
+              bCString::~bCString((bCString *)&iStack_10);
+              goto LAB_2041272e;
+            }
+            bCString::~bCString((bCString *)&iStack_10);
+          }
+          pgVar1 = this_00[1].vftablePtr;
+          uVar13 = *(ulong *)&this_00[1].gCInventorySlot_data;
+          peVar12 = eCTemplateEntityProxy::GetEntity
+                              ((eCTemplateEntityProxy *)&(this_00->gCInventorySlot_data).field_0x8);
+          gCInventory_PS::CreateItems((gCInventory_PS *)param_1,peVar12,uVar13,(ulong)pgVar1,1);
+          pgVar5 = pgStack_c;
+        }
+LAB_2041272e:
+        iVar22 = iStack_8 + 1;
+        iStack_8 = iVar22;
+        iVar6 = gCInventory_PS::GetStackCount(pgVar5);
+        if (iVar6 <= iVar22) {
+          return true;
+        }
+      } while( true );
+    }
+    break;
+  default:
+    return false;
+  case 6:
+    iVar6 = 0;
+    iStack_8 = 0;
+    iVar22 = gCInventory_PS::GetStackCount(pgVar5);
+    if (0 < iVar22) {
+      do {
+        pgVar9 = gCInventory_PS::GetStack(pgVar5,iVar6);
+        if (pgVar9 != (gCInventoryStack *)0x0) {
+          pgVar10 = (gCSession *)gCSession::GetInstance();
+          peVar11 = gCSession::GetPlayer(pgVar10);
+          pgVar5 = (gCInventory_PS *)thunk_FUN_200a1010(peVar11);
+          bCString::bCString(abStack_4,"Perk_Mining");
+          peVar12 = (eCTemplateEntity *)thunk_FUN_201d2c60(abStack_4);
+          bCString::~bCString(abStack_4);
+          uVar13 = *(ulong *)(pgVar9 + 0x3c);
+          if ((pgVar5 != (gCInventory_PS *)0x0) &&
+             (bVar2 = gCInventory_PS::IsSkillActive(pgVar5,peVar12), bVar2)) {
+            uVar13 = uVar13 * 2;
+          }
+          uVar15 = *(ulong *)(pgVar9 + 0x40);
+          peVar12 = eCTemplateEntityProxy::GetEntity((eCTemplateEntityProxy *)(pgVar9 + 0xc));
+          gCInventory_PS::CreateItems((gCInventory_PS *)param_1,peVar12,uVar15,uVar13,1);
+          pgVar5 = pgStack_c;
+          iVar6 = iStack_8;
+        }
+        iVar6 = iVar6 + 1;
+        iStack_8 = iVar6;
+        iVar22 = gCInventory_PS::GetStackCount(pgVar5);
+      } while (iVar6 < iVar22);
+    }
+  }
+  return true;
+}
+
+

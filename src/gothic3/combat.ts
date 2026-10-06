@@ -1,8 +1,10 @@
 /** Verified arithmetic/state subset of the installed Gothic3 build.
  *
- * This module is not a contact detector, AI evaluator, native ZS task runner or
- * playable combat integration. Its hit planner requires independently resolved
- * native eligibility. Unknown dependencies produce no state effects.
+ * This module supplies source-derived calculations and plans. It is not a
+ * contact detector, AI evaluator, native ZS task runner or general combat host.
+ * The bounded browser integration lives in browser-melee.ts and supplies its
+ * own explicitly browser-owned target profile. Unknown dependencies in native
+ * plans produce no state effects.
  * Receipts: public/gothic3/combat/manifest.json and native-combat-evidence.json.
  */
 
@@ -290,6 +292,19 @@ function initialized(actor: NativeActorCombatState): CombatResult<true> {
 }
 
 export function isNativeHumanoid(species: number): boolean { return species === 0 || species === 5; }
+/** Script_Game GetOutlawAttitude only: numeric political alignment7 is hostile
+ * to a humanoid of any other alignment in either direction. Zero means this
+ * helper did not decide; GetAttitude has further branches. Valid source actor
+ * wrappers and the enclosing GetAttitude early gates remain caller duties. */
+export function nativeOutlawAttitude(self: { readonly politicalAlignment: number; readonly species: number },
+  other: { readonly politicalAlignment: number; readonly species: number }): CombatResult<0 | 4> {
+  if (![self.politicalAlignment, self.species, other.politicalAlignment, other.species].every(i32)) {
+    return unsupported('Outlaw attitude needs resolved signed32 political and species values.', 'outlaw-attitude-inputs');
+  }
+  const hostile = (self.politicalAlignment === 7 && other.politicalAlignment !== 7 && isNativeHumanoid(other.species)) ||
+    (other.politicalAlignment === 7 && self.politicalAlignment !== 7 && isNativeHumanoid(self.species));
+  return resolved(hostile ? 4 : 0, ['Script_Game:10018070', 'Script_Game:1001b0c0']);
+}
 export function isNativeEvil(species: number): boolean { return [1, 2, 3, 4, 38, 48, 49, 50].includes(species); }
 export function isNativeAmbientCreature(species: number): boolean {
   return [24, 25, 26, 27, 28, 30, 31, 32, 35, 36, 37, 42, 43, 44, 45, 46, 47].includes(species);

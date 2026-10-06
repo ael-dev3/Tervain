@@ -1,14 +1,19 @@
 {
   "version": 1,
-  "scope": "verified bounded combat kernel; Hero GiveXP XP/level/LP bridge integrated; combat actions remain unavailable",
+  "scope": "verified bounded combat kernel; Hero XP bridge and Ardea browser fist arithmetic; source Outlaw death disposition for three Jack bandits",
   "ordinaryPlayIntegrated": false,
+  "ordinaryPlayIntegration": {
+    "giveXP": "XP and one threshold-crossing level/LP update; no live NPC activation",
+    "combatActions": "browser contact/static standing fist arithmetic for 15 source-pinned Raiders and three Jack bandits; native tasks, AI and defeat XP remain unintegrated",
+    "zeroHitPointsDisposition": "Jack bandits resolve kill through GetAttitude Outlaw4; Raider directed attitudes remain unresolved"
+  },
   "kernel": {
     "path": "src/gothic3/combat.ts",
-    "sha256": "93eb0211ae325823370ca3718cc22ba51a40c052d4f2f05790d8877e4009eb65"
+    "sha256": "8896f75e671512155aa5e8748fc6df455d213f3c8c58b1892b6d84d4241d99bf"
   },
   "generator": {
     "path": "tools/gothic3/research_native_combat.py",
-    "sha256": "1cd36346ed1d02eba7d000c8b68b95e4869606df3dfa1605f9544c18abbbe8cc"
+    "sha256": "9edf5e3475dfb2f4b7505b306b2d29f640a31f9c5893231db87579d2ab3084da"
   },
   "originalInputs": [
     {
@@ -38,17 +43,17 @@
   ],
   "audit": {
     "allInstructionBytesMatch": true,
-    "entryCount": 152,
-    "instructionRecords": 12465,
-    "instructionBytes": 43699
+    "entryCount": 154,
+    "instructionRecords": 12584,
+    "instructionBytes": 44088
   },
   "evidence": "native-combat-evidence.json",
   "actionLabels": "native-action-labels.json",
   "outputs": [
     {
       "path": "assets/gothic3/combat/native-source-evidence.json",
-      "bytes": 208447,
-      "sha256": "9963de37307ee4d717be4e3ca5df930524ac6b4a2bf7c65cc108f483b438a430"
+      "bytes": 212166,
+      "sha256": "951f4ad0f1dff7fe0525fe76c776268886cbce63ea3e6541a2f32eb16a0b734e"
     },
     {
       "path": "assets/gothic3/combat/README.txt",
@@ -554,6 +559,16 @@
       "path": "assets/gothic3/combat/sources/Script_Game/100171c0.c.txt",
       "bytes": 1499,
       "sha256": "d965cc30552813e2aff0ace1d8c49603a47b48ccfc387fdac75bc4518f9fa483"
+    },
+    {
+      "path": "assets/gothic3/combat/sources/Script_Game/10018070.asm.txt",
+      "bytes": 3597,
+      "sha256": "515c440649da280d36aefc544896e1d9c67e9225eca503658d3d9612f7637e2f"
+    },
+    {
+      "path": "assets/gothic3/combat/sources/Script_Game/10018070.c.txt",
+      "bytes": 1663,
+      "sha256": "0504ce0193b0cb19ec80ada26b773956f06d4f5f70274d999bc8102363a4c23b"
     },
     {
       "path": "assets/gothic3/combat/sources/Script_Game/100187b0.asm.txt",
@@ -1156,6 +1171,16 @@
       "sha256": "22c5310886ab33f9ea87193aaec2274029a71bc5213321a415028516f6468d4e"
     },
     {
+      "path": "assets/gothic3/combat/sources/Script_Game/10109de0.asm.txt",
+      "bytes": 881,
+      "sha256": "6afb7ad701e68dca4596fb77f880e650c63614d888cdc8193aa01b4b9355ff6f"
+    },
+    {
+      "path": "assets/gothic3/combat/sources/Script_Game/10109de0.c.txt",
+      "bytes": 406,
+      "sha256": "8bd39740005364d6fba10f843f22f4e473fd37f2e4057ed3a75365e3b730337f"
+    },
+    {
       "path": "assets/gothic3/combat/sources/Script_Game/1010a0f0.asm.txt",
       "bytes": 881,
       "sha256": "cae6f44938933ee55eabcfe1ef377d7bed21c7931475bab064d5581e094011ec"
@@ -1582,12 +1607,8 @@
     },
     {
       "path": "public/gothic3/combat/native-combat-evidence.json",
-      "bytes": 208489,
-      "sha256": "ebc26c570f55bcb5f8e2403bebe4c4d6f2d88b9ff238580e789cb1898e28e87f"
+      "bytes": 212208,
+      "sha256": "046b07a559f0dfacd13d06ea28f31df421f7c15dfb84362c6af1ce87b92e3ce4"
     }
-  ],
-  "ordinaryPlayIntegration": {
-    "giveXP": "XP and one threshold-crossing level/LP update; no live NPC activation",
-    "combatActions": "not integrated"
-  }
+  ]
 }

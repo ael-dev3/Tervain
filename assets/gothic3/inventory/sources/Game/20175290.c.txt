@@ -1,0 +1,51 @@
+/* ENTRY 20175290 | FUN_20175290 | STATUS decompiled | 14 ms */
+
+uint __fastcall FUN_20175290(int param_1)
+
+{
+  uint uVar1;
+  undefined4 uVar2;
+  ulong uVar3;
+  bCMemoryAdmin *this;
+  void *pvVar4;
+  uint uVar5;
+  int iVar6;
+  uint uVar7;
+  undefined4 local_18;
+  
+  uVar3 = bCTimer::GetTimeStamp();
+  FUN_20464aea(uVar3);
+  uVar1 = *(uint *)(param_1 + 0x44);
+  pvVar4 = *(void **)(param_1 + 0x4c);
+  uVar3 = uVar1 * 4;
+  this = bCMemoryAdmin::GetInstance();
+  pvVar4 = bCMemoryAdmin::Realloc(this,pvVar4,uVar3);
+  *(void **)(param_1 + 0x4c) = pvVar4;
+  uVar5 = 0;
+  if (uVar1 != 0) {
+    do {
+      *(uint *)(*(int *)(param_1 + 0x4c) + uVar5 * 4) = uVar5;
+      uVar5 = uVar5 + 1;
+    } while (uVar5 < uVar1);
+  }
+  uVar7 = 0;
+  if (uVar1 != 0) {
+    do {
+      iVar6 = _rand();
+      local_18 = (uint)(longlong)ROUND(((float)iVar6 / 32767.0) * 16384.0 + 0.0);
+      uVar5 = local_18 / uVar1;
+      local_18 = local_18 % uVar1;
+      if (uVar7 != local_18) {
+        iVar6 = *(int *)(param_1 + 0x4c);
+        uVar2 = *(undefined4 *)(iVar6 + local_18 * 4);
+        *(undefined4 *)(iVar6 + local_18 * 4) = *(undefined4 *)(iVar6 + uVar7 * 4);
+        uVar5 = *(uint *)(param_1 + 0x4c);
+        *(undefined4 *)(uVar5 + uVar7 * 4) = uVar2;
+      }
+      uVar7 = uVar7 + 1;
+    } while (uVar7 < uVar1);
+  }
+  return uVar5;
+}
+
+

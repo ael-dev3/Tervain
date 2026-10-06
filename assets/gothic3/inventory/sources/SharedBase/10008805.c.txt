@@ -1,10 +1,7 @@
-/* ENTRY 10008805 | bCObjectRefBase::OnNotifyPropertyValueChangedEnterEx | STATUS decompiled | 3 ms */
+/* ENTRY 10008805 | bCObjectRefBase::OnNotifyPropertyValueChangedEnterEx | STATUS decompiled | 1 ms */
 
 /* public: virtual bool __thiscall bCObjectRefBase::OnNotifyPropertyValueChangedEnterEx(char const
-   *,bool)
-   bCObjectRefBase member function inherited by bCThreadObjectRefBase
-   bCObjectRefBase member function inherited by bCObsoleteClass
-   bCObjectRefBase member function inherited by bCEvent */
+   *,bool) */
 
 bool __thiscall
 bCObjectRefBase::OnNotifyPropertyValueChangedEnterEx

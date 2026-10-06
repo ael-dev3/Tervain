@@ -17,6 +17,14 @@ not establish the loaded game's registration state. TS mutation requires an
 explicit complete ordered observer registry and reports callback failures as
 partial effects, blocking later mutations. Host effects cannot be rolled back.
 
+Treasure Plunder distribution0 is traced through Game:2000c626 to its real
+body at 204123c0; its 15-bit MSVCRT rand transition and loading-menu seed call
+are separately byte-checked. The current NPC bridge resolves each generated
+item template by GUID and source hash, calls the TypeScript NativeInventory
+CreateItems kernel and saves/restores its resulting stack list. It does not
+reproduce native cache-in timing or the installed process-wide random
+seed/call sequence, and it does not instantiate physical ItemWorld objects.
+
 Starting source:121 assurances;116 preserve intrinsic false,5 explicitly true.
 Two original equipped slot records preserve Head_Player and Body_Player IDs.
 AssureItemsEx assigns quickslots and has no EquipStack call. Later startup
@@ -28,12 +36,19 @@ adds quantities and can merge linked stacks only if native MustSplit permits.
 Quickslot assignment clears only the first prior holder, even if it is itself.
 LearnStack notifies inventory event1; AssureItemsEx SetLearned does not.
 
-Give foundation: planNativeInventoryGiveTransfer selects first ANY-quality
-donor stack and clamps only a player donor. transferItemsTo executes ordinary
-unlinked transfer, target creation then source subtraction/deletion, with a
+Give paths are overload-specific. planNativeInventoryGiveTransfer models the
+gCInfo_PS template overload: first ANY-quality donor stack, no assurance or
+item creation, and player-donor clamp to that stack. Script_Game opcode 13 is
+different: it parses ID2, calls PSInventory::AssureItems at exact quality 0
+with that amount as the minimum, then passes AssureItems' returned stack index
+to the indexed gCInfo_PS::Give overload. executeNativeScriptGiveTransfer now
+models that positive-amount path, including assurance before transfer and the
+player-donor clamp. Both paths use ordinary unlinked TransferItemsTo, which
+creates the target stack before source subtraction/deletion and needs a
 resolved OnReceiveItem notification boundary. Missing donor is not item spawn.
 Localized Given/Taken messages remain dialogue-host effects. Linked physical
-effects and mission-item nonplayer fallthrough remain explicitly unsupported.
+effects and special mission-item transfer branches remain explicitly
+unsupported.
 Equipment planning does not apply physical links, render attachments or stats.
 
 Source data is mutable game-specific state, not a claim that the complete game

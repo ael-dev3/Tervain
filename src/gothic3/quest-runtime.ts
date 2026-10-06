@@ -3,14 +3,14 @@
  * replace the other Script_Game startup callbacks or native quest services. */
 import questReceiptText from '../../assets/gothic3/dialogue/initial-quests-output.json?raw';
 import { gameplayResources } from './native-data';
-import type { NativeQuest } from './catalog';
+import type { NativeInfo, NativeQuest } from './catalog';
 import { QuestStatus, NativeQuests, nativeQuestSuccessEffects } from './quest-state';
-import type { NativeClock, QuestEffect, QuestState } from './quest-state';
+import type { NativeClock, NativeNpcKilledResult, QuestEffect, QuestState } from './quest-state';
 import { readNativeResource } from './resource';
 import { loadOriginalWorldClock, monotonicClockMilliseconds } from './world-clock';
 import type { NativeCalendar, NativeClockProcess, NativeWorldClock } from './world-clock';
 import { planNativeGiveXp, planNativeGiveXpSequence } from './combat';
-import type { NativeGiveXpPlan, NativePlayerProgress } from './combat';
+import type { NativeCombatSkills, NativeGiveXpPlan, NativePlayerProgress } from './combat';
 import { loadOriginalPlayerProgressSeed } from './initial-state';
 import type { OriginalPlayerProgressSeed } from './initial-state';
 import { NativeGameEvents } from './game-events';
@@ -22,6 +22,10 @@ import type { NativeHeroPlayerMemory } from './hero-property-runtime';
 import { loadBrowserInfoState } from './info-state';
 import type { InfoProviderId, NativeInfoState } from './info-state';
 import { NativeWorldData, sourceProperty } from './native-data';
+import { createNativeStartingInventory, inventoryTemplatesFromSeed, NativeInventory } from './inventory';
+import type { InventoryTemplate, NativeInventorySnapshot } from './inventory';
+import { loadNativeInventoryTemplate } from './npc-combat-runtime';
+import type { NativeGeneratedPickpocketStack } from './native-treasure-sets';
 
 interface NativeQuestSessionSources {
   readonly initialQuestStates: string;
@@ -65,6 +69,8 @@ export interface NativeQuestSessionSave {
   readonly givenInfoIds?: readonly string[];
   /** Positive TalkedToPlayer flags from ended browser InfoManager sessions. */
   readonly talkedToArdeaActors?: readonly string[];
+  /** Current source-backed Dialog.PickedPocket flags in the Ardea session. */
+  readonly pickedPocketArdeaActors?: readonly string[];
   /** Current source-backed Dialog.TradeEnabled flags in the Ardea session. */
   readonly tradeEnabledArdeaActors?: readonly string[];
   /** Current source-backed Dialog.PartyEnabled and TeachEnabled flags. */
@@ -77,8 +83,10 @@ export interface NativeQuestSessionSave {
   readonly heroQuestRewards?: NativeHeroQuestRewardState;
   /** Current Hero HP state, restored through the original PlayerMemory setters. */
   readonly heroVitals?: NativeHeroVitals;
-  /** Browser-owned consumable counts applied over the hash-checked source inventory. */
+  /** Legacy browser consumable overlay; restored into intrinsic inventory once. New saves use an empty list. */
   readonly consumedItems?: readonly { readonly templateGuid20: string; readonly amount: number }[];
+  /** Mutable Hero stack state, including source-resolved items received from NPCs. */
+  readonly heroInventory?: NativeInventorySnapshot;
 }
 
 export interface NativeHeroQuestRewardState {
@@ -104,6 +112,28 @@ interface LoadedActorDialogState {
   readonly state: NativeArdeaActorDialogState;
   readonly sceneActors: string | null;
   readonly legacyActorIds: ReadonlySet<string>;
+  readonly preBanditScene: { readonly identity: string; readonly actorIds: ReadonlySet<string> } | null;
+}
+
+/** The sole audited scene expansion: the three original Jack_KillBandits targets
+ * added to the existing 67 actors. Their source file was already in that scene. */
+const JACK_BANDIT_SCENE_SOURCE = Object.freeze({
+  archive: 'Projects_compiled.p00',
+  path: 'G3_World_01/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}.lrentdat',
+  sha256: '28f7273b3d54415b84445651a3dfa962c1ff158e9183deba81ba47e4d5d57938',
+});
+const JACK_BANDIT_SCENE_ACTORS = Object.freeze([
+  { id: '0c3ad5c499a37e479901ef8b1a19877900000000', name: 'Ardea_OutNovice_01', entityIndex: 22138 },
+  { id: 'ef1adbed209ec647b20ebc9fc989642500000000', name: 'Ardea_OutNovice_02', entityIndex: 22141 },
+  { id: '81630a69bab9c44b9df46b76df0ac7b100000000', name: 'Ardea_OutNovice_03', entityIndex: 22144 },
+]);
+
+function sceneActorIdentity(source: SceneActorDialogSources, actors = source.actors): string {
+  return JSON.stringify({
+    files: source.sourceFiles,
+    actors: actors.map((actor) => [actor.guid.toLowerCase(), actor.name]).sort(([a], [b]) =>
+      String(a).localeCompare(String(b))),
+  });
 }
 
 async function loadActorDialogState(source: QuestSourceBundle, people?: readonly ScenePerson[]): Promise<LoadedActorDialogState> {
@@ -119,12 +149,21 @@ async function loadActorDialogState(source: QuestSourceBundle, people?: readonly
       merged.set(id, actor);
     }
   }
-  const identity = sceneActors ? JSON.stringify({
-    files: sceneActors.sourceFiles,
-    actors: sceneActors.actors.map((actor) => [actor.guid.toLowerCase(), actor.name]).sort(([a], [b]) =>
-      String(a).localeCompare(String(b))),
-  }) : null;
-  return { state: new NativeArdeaActorDialogState([...merged.values()]), sceneActors: identity, legacyActorIds };
+  const identity = sceneActors ? sceneActorIdentity(sceneActors) : null;
+  let preBanditScene: LoadedActorDialogState['preBanditScene'] = null;
+  if (people && sceneActors?.actors.length === 70 && sceneActors.sourceFiles.some((file) =>
+    file.archive === JACK_BANDIT_SCENE_SOURCE.archive && file.path === JACK_BANDIT_SCENE_SOURCE.path &&
+    file.sha256 === JACK_BANDIT_SCENE_SOURCE.sha256) && JACK_BANDIT_SCENE_ACTORS.every((target) =>
+    people.some((person) => person.id.toLowerCase() === target.id && person.name === target.name &&
+      person.source === `${JACK_BANDIT_SCENE_SOURCE.archive} :: ${JACK_BANDIT_SCENE_SOURCE.path} # entity ${target.entityIndex}`))) {
+    const addedIds = new Set(JACK_BANDIT_SCENE_ACTORS.map((actor) => actor.id));
+    const previousActors = sceneActors.actors.filter((actor) => !addedIds.has(actor.guid.toLowerCase()));
+    // Retain the complete old file receipts and exact ID/name list. No general
+    // subset migration is allowed for renamed, removed or unrelated new actors.
+    preBanditScene = { identity: sceneActorIdentity(sceneActors, previousActors),
+      actorIds: new Set([...legacyActorIds, ...previousActors.map((actor) => actor.guid.toLowerCase())]) };
+  }
+  return { state: new NativeArdeaActorDialogState([...merged.values()]), sceneActors: identity, legacyActorIds, preBanditScene };
 }
 
 function sourceQuestReceipt(): InitialQuestReceipt {
@@ -186,6 +225,25 @@ function restoreConsumedItems(value: unknown, seed: OriginalPlayerProgressSeed):
   return amounts;
 }
 
+function newHeroInventory(seed: OriginalPlayerProgressSeed): NativeInventory {
+  const starting = createNativeStartingInventory(seed.initializedPlayer, { observers: [] });
+  if (starting.status !== 'applied' || starting.completedAssurances !== seed.inventory.length) {
+    throw new Error('Original Hero starting inventory could not be replayed: ' + (starting.reason ?? starting.status));
+  }
+  return starting.inventory;
+}
+
+function restoreHeroInventory(value: unknown, seed: OriginalPlayerProgressSeed): NativeInventory {
+  if (value === undefined) return newHeroInventory(seed);
+  if (!record(value)) throw new Error('Browser save has invalid Hero inventory state.');
+  try {
+    return NativeInventory.fromSnapshot(inventoryTemplatesFromSeed(seed.initializedPlayer),
+      value as unknown as NativeInventorySnapshot, { observers: [] });
+  } catch (error) {
+    throw new Error('Browser save Hero inventory could not be restored: ' + (error instanceof Error ? error.message : String(error)));
+  }
+}
+
 function questRewardAttributeTags(definitions: readonly NativeQuest[]): string[] {
   return [...new Set(definitions.map((quest) => quest.rewards.attribute?.id ?? '').filter(Boolean))].sort();
 }
@@ -202,7 +260,7 @@ function readHeroVitals(player: NativeHeroPlayerMemory): NativeHeroVitals {
 function validSavedQuestState(value: unknown): value is QuestState {
   if (!record(value) || !Number.isInteger(value.status) || (value.status as number) < 0 ||
       (value.status as number) > 7 || !Array.isArray(value.counters) ||
-      !value.counters.every((counter) => Number.isInteger(counter) && counter >= 0 && counter <= 0x7fffffff) ||
+      !value.counters.every((counter) => Number.isInteger(counter) && counter >= 0 && counter <= 0xffffffff) ||
       !Array.isArray(value.logKeys) || !value.logKeys.every((key) => typeof key === 'string')) return false;
   if (value.startedAt !== null && (!record(value.startedAt) || !uint32(value.startedAt.years) ||
       !uint32(value.startedAt.days) || !uint32(value.startedAt.hours))) return false;
@@ -276,16 +334,26 @@ export class NativeQuestRuntime {
   private readonly listeners = new Set<() => void>();
   private tickFailure: string | null = null;
   private heroAwardHistory: number[] = [];
-  private readonly consumedItems: Map<string, number>;
   private readonly world: NativeWorldData;
+  readonly heroInventory: NativeInventory;
 
   private constructor(readonly definitions: readonly NativeQuest[], readonly clock: NativeWorldClock,
     private readonly sources: NativeQuestSessionSources, initialGameEvents: readonly string[], infoState: NativeInfoState,
     actorDialogs: NativeArdeaActorDialogState, private readonly player: NativeHeroPlayerMemory,
-    private readonly heroProgressSeed: OriginalPlayerProgressSeed, awardHistory: readonly number[] = [],
+    private readonly heroProgressSeed: OriginalPlayerProgressSeed, heroInventory: NativeInventory, awardHistory: readonly number[] = [],
     consumedItems: ReadonlyMap<string, number> = new Map(), world: NativeWorldData = new NativeWorldData()) {
     this.heroAwardHistory = [...awardHistory];
-    this.consumedItems = new Map(consumedItems);
+    this.heroInventory = heroInventory;
+    // Older saves retained the full inventory and subtracted this overlay only
+    // for display. Migrate it once so later transfers and item use see the same
+    // amount as the UI. New saves contain the reduced stacks and no overlay.
+    for (const [guid, amount] of consumedItems) {
+      const source = heroProgressSeed.inventory.find((stack) => stack.templateGuid20 === guid);
+      if (!source) throw new Error('Legacy consumed item has no source starting stack.');
+      const index = heroInventory.findStackIndex(guid, 1, source.quality >>> 0);
+      const consumed = heroInventory.consumeBrowserStack(index, amount);
+      if (consumed.status !== 'applied') throw new Error('Legacy consumed-item overlay could not be migrated: ' + consumed.reason);
+    }
     this.world = world;
     this.quests = new NativeQuests(definitions, {
       clock: () => clock.questClock(),
@@ -316,7 +384,7 @@ export class NativeQuestRuntime {
       ...(actorDialogs.sceneActors ? { sceneActors: actorDialogs.sceneActors } : {}), heroPlayerMemory: player.source.sha256,
       heroNpcProperties: player.npcSource.sha256, infoProvider: infoState.providerId };
     const runtime = new NativeQuestRuntime(definitions, clock, runtimeSources, player.gameEvents, infoState,
-      actorDialogs.state, player, heroProgress);
+      actorDialogs.state, player, heroProgress, newHeroInventory(heroProgress));
     seedQuestStates(runtime, initial.quests);
 
     const firstQuest = runtime.quests.run('Xardas_FindXardas');
@@ -354,8 +422,11 @@ export class NativeQuestRuntime {
     if (raw.sources.ardeaPeople !== undefined && raw.sources.ardeaPeople !== source.sources.ardeaPeople) {
       throw new Error('Browser save belongs to different Ardea NPC source properties.');
     }
+    const migratedPreBanditScene = typeof raw.sources.sceneActors === 'string' &&
+      raw.sources.sceneActors === actorDialogs.preBanditScene?.identity;
     if (raw.sources.sceneActors !== undefined &&
-        (typeof raw.sources.sceneActors !== 'string' || raw.sources.sceneActors !== actorDialogs.sceneActors)) {
+        (typeof raw.sources.sceneActors !== 'string' ||
+          (raw.sources.sceneActors !== actorDialogs.sceneActors && !migratedPreBanditScene))) {
       throw new Error('Browser save belongs to different Ardea scene actor records.');
     }
     if (raw.sources.initializedPlayer !== undefined && raw.sources.initializedPlayer !== source.sources.initializedPlayer) {
@@ -380,6 +451,10 @@ export class NativeQuestRuntime {
         (!Array.isArray(raw.talkedToArdeaActors) || !raw.talkedToArdeaActors.every((id) => typeof id === 'string'))) {
       throw new Error('Browser save has invalid Ardea NPC dialogue flags.');
     }
+    if (raw.pickedPocketArdeaActors !== undefined &&
+        (!Array.isArray(raw.pickedPocketArdeaActors) || !raw.pickedPocketArdeaActors.every((id) => typeof id === 'string'))) {
+      throw new Error('Browser save has invalid Ardea NPC PickedPocket flags.');
+    }
     if (raw.tradeEnabledArdeaActors !== undefined &&
         (!Array.isArray(raw.tradeEnabledArdeaActors) || !raw.tradeEnabledArdeaActors.every((id) => typeof id === 'string'))) {
       throw new Error('Browser save has invalid Ardea NPC trade flags.');
@@ -391,6 +466,15 @@ export class NativeQuestRuntime {
     if (raw.teachEnabledArdeaActors !== undefined &&
         (!Array.isArray(raw.teachEnabledArdeaActors) || !raw.teachEnabledArdeaActors.every((id) => typeof id === 'string'))) {
       throw new Error('Browser save has invalid Ardea NPC teaching flags.');
+    }
+    if (migratedPreBanditScene) {
+      for (const field of ['talkedToArdeaActors', 'pickedPocketArdeaActors', 'tradeEnabledArdeaActors',
+        'partyEnabledArdeaActors', 'teachEnabledArdeaActors'] as const) {
+        const ids = raw[field] as string[] | undefined;
+        if (ids?.some((id) => !actorDialogs.preBanditScene!.actorIds.has(id.toLowerCase()))) {
+          throw new Error('Browser save contains dialogue flags outside its original Ardea scene actor records.');
+        }
+      }
     }
     const { heroProgress } = source;
     if (player.memory.getXP() !== heroProgress.xp || player.memory.getLPAttribs() !== heroProgress.lpAttribs ||
@@ -464,10 +548,14 @@ export class NativeQuestRuntime {
       ...(actorDialogs.sceneActors ? { sceneActors: actorDialogs.sceneActors } : {}), heroPlayerMemory: player.source.sha256,
       heroNpcProperties: player.npcSource.sha256, infoProvider: infoState.providerId };
     const consumedItems = restoreConsumedItems(raw.consumedItems, heroProgress);
+    const heroInventory = restoreHeroInventory(raw.heroInventory, heroProgress);
     const runtime = new NativeQuestRuntime(source.definitions, source.clock, runtimeSources, savedEvents, infoState,
-      actorDialogs.state, player, heroProgress, restoredAwardHistory, consumedItems);
+      actorDialogs.state, player, heroProgress, heroInventory, restoredAwardHistory, consumedItems);
     if (raw.talkedToArdeaActors !== undefined) runtime.actorDialogs.restoreTalkedToPlayerIds(raw.talkedToArdeaActors as string[]);
-    const legacyActorScope = actorDialogs.sceneActors ? actorDialogs.legacyActorIds : undefined;
+    const legacyActorScope = migratedPreBanditScene ? actorDialogs.preBanditScene!.actorIds
+      : raw.sources.sceneActors === undefined && actorDialogs.sceneActors ? actorDialogs.legacyActorIds : undefined;
+    if (raw.pickedPocketArdeaActors !== undefined) runtime.actorDialogs.restorePickedPocketIds(
+      raw.pickedPocketArdeaActors as string[], legacyActorScope);
     if (raw.tradeEnabledArdeaActors !== undefined) runtime.actorDialogs.restoreEnabledDialogActorIds('TradeEnabled',
       raw.tradeEnabledArdeaActors as string[], legacyActorScope);
     if (raw.partyEnabledArdeaActors !== undefined) runtime.actorDialogs.restoreEnabledDialogActorIds('PartyEnabled',
@@ -555,8 +643,7 @@ export class NativeQuestRuntime {
 
   heroVitals(): NativeHeroVitals { return readHeroVitals(this.player); }
 
-  /** Original source-seeded stack amount for current dialogue predicates.
-   * This is an immutable startup snapshot until inventory mutation is connected. */
+  /** Current source-seeded Hero stack amount for dialogue predicates. */
   heroItemStackAmount(entity: { readonly id: string; readonly name: string }, templateName: string): NativeValue<number | null> {
     if (entity.id !== 'PC_Hero' || entity.name !== 'PC_Hero') {
       return { known: false, reason: 'Only the hash-checked PC_Hero starting inventory is connected to dialogue predicates.' };
@@ -564,13 +651,121 @@ export class NativeQuestRuntime {
     if (!templateName) return { known: false, reason: 'Native conditional item template name is empty.' };
     const matching = this.heroProgressSeed.inventory.filter((stack) => stack.templateName === templateName);
     if (matching.length > 1) return { known: false, reason: 'Native starting inventory contains an ambiguous template name: ' + templateName };
-    const stack = matching[0];
-    return { known: true, value: stack ? stack.amount - (this.consumedItems.get(stack.templateGuid20) ?? 0) : null };
+    const sourceStack = matching[0];
+    const template = sourceStack ? this.heroInventory.template(sourceStack.templateGuid20) : this.heroInventory.templateByName(templateName);
+    if (!template) return { known: true, value: null };
+    const index = this.heroInventory.findStackIndex(template.guid20, 0, 0, -1);
+    const stack = this.heroInventory.getStack(index);
+    return { known: true, value: stack ? stack.amount : null };
   }
 
   heroInventoryStacks(): readonly OriginalPlayerProgressSeed['inventory'][number][] {
-    return this.heroProgressSeed.inventory.map((stack) => ({ ...stack,
-      amount: stack.amount - (this.consumedItems.get(stack.templateGuid20) ?? 0) }));
+    const sourceStacks = new Map(this.heroProgressSeed.inventory.map((stack) => [stack.templateGuid20, stack]));
+    return this.heroInventory.snapshot().stacks.map((stack) => {
+      const template = this.heroInventory.template(stack.templateGuid20);
+      const sourceSeed = sourceStacks.get(stack.templateGuid20);
+      const source = sourceSeed?.templateSource ?? (template?.source && typeof template.source === 'object'
+        ? template.source as { readonly path: string; readonly sha256: string } : null);
+      if (!template || !source || typeof source.path !== 'string' || typeof source.sha256 !== 'string') {
+        throw new Error('Hero inventory display needs a source-resolved template for ' + stack.templateName + '.');
+      }
+      return { index: stack.index, templateName: stack.templateName, templateGuid20: stack.templateGuid20,
+        amount: stack.amount, quality: stack.quality,
+        quickSlot: stack.quickSlot < 0 ? null : stack.quickSlot, hotKeyUnsigned: sourceSeed?.hotKeyUnsigned ?? 0,
+        learned: stack.learned, activationCount: stack.activationCount,
+        templateSource: { path: source.path, sha256: source.sha256 } };
+    });
+  }
+
+  /** PlayerMemory::GetTheft reads the live THF attribute value. */
+  heroTheft(): NativeValue<number> {
+    const theft = this.player.memory.getAttribute('THF');
+    if (!theft) return { known: false, reason: 'Hero PlayerMemory has no source-backed THF attribute.' };
+    try { return { known: true, value: theft.getValue() }; }
+    catch (error) { return { known: false, reason: error instanceof Error ? error.message : String(error) }; }
+  }
+
+  /** Apply the source-generated distribution-7 CreateItems arguments to the
+   * retained Hero inventory after every selected template has been verified. */
+  async receiveNativePickpocketLoot(stacks: readonly NativeGeneratedPickpocketStack[]): Promise<NativeValue<
+    readonly { readonly templateName: string; readonly amount: number; readonly quality: number }[]>> {
+    if (!stacks.length) return { known: true, value: Object.freeze([]) };
+    const capability = this.heroInventory.capability();
+    if (capability.status !== 'supported') return { known: false, reason: capability.reason };
+    const requested = new Map<string, NativeGeneratedPickpocketStack>();
+    for (const stack of stacks) {
+      if (!/^[a-f0-9]{40}$/.test(stack.itemGuid20) || !stack.itemName ||
+          !/^[a-f0-9]{64}$/.test(stack.itemSourceSha256) || !stack.itemSourcePath ||
+          !Number.isInteger(stack.amount) || stack.amount < 1 || stack.amount > 0x7fffffff ||
+          !Number.isInteger(stack.creationQuality) || stack.creationQuality < -0x80000000 ||
+          stack.creationQuality > 0x7fffffff) {
+        return { known: false, reason: 'Generated PickPocket stack arguments are outside the native domains.' };
+      }
+      const previous = requested.get(stack.itemGuid20);
+      if (previous && (previous.itemName !== stack.itemName || previous.itemSourcePath !== stack.itemSourcePath ||
+          previous.itemSourceSha256 !== stack.itemSourceSha256)) {
+        return { known: false, reason: 'PickPocket loot gives one template GUID conflicting source identities.' };
+      }
+      requested.set(stack.itemGuid20, stack);
+    }
+    try {
+      const templates = await Promise.all([...requested.values()].map((stack) => loadNativeInventoryTemplate(this.world,
+        stack.itemGuid20, { name: stack.itemName, sourcePath: stack.itemSourcePath,
+          sourceSha256: stack.itemSourceSha256 })));
+      for (const template of templates) this.heroInventory.registerTemplate(template);
+      const receipts: { templateName: string; amount: number; quality: number }[] = [];
+      for (const stack of stacks) {
+        const quality = stack.creationQuality >>> 0;
+        const created = this.heroInventory.createItems(stack.itemGuid20, quality, stack.amount);
+        if (created.status !== 'applied') {
+          return { known: false, reason: 'PickPocket CreateItems stopped after ' + receipts.length + ' stack(s): ' + created.reason };
+        }
+        receipts.push({ templateName: stack.itemName, amount: stack.amount, quality });
+      }
+      this.inventoryChanged();
+      return { known: true, value: Object.freeze(receipts.map((entry) => Object.freeze(entry))) };
+    } catch (error) {
+      return { known: false, reason: error instanceof Error ? error.message : String(error) };
+    }
+  }
+
+  /** Prove that the exact transfer participants and template cannot reach a
+   * source quest delivery counter before allowing the native notification to
+   * be represented as absent. Potential matches stay unavailable. */
+  canNotifyItemTransferWithoutQuestEffect(donorName: string, recipientName: string,
+    template: InventoryTemplate): NativeValue<true> {
+    if (!donorName || !recipientName || !template.name) {
+      return { known: false, reason: 'Native item quest callback participants or template are unresolved.' };
+    }
+    const participants = new Set([donorName, recipientName]);
+    const matches = this.definitions.filter((quest) => (quest.numericType === 0 || quest.numericType === 11) &&
+      participants.has(quest.destination) && quest.deliveryTargets.some((target) => target.entity === template.name));
+    if (matches.length) return { known: false, reason: 'Native item transfer may update quest delivery counters: ' +
+      matches.map((quest) => quest.id).join(', ') };
+    return { known: true, value: true };
+  }
+
+  sourceQuestDefinitionsSha256(): string { return this.sources.questDefinitions; }
+
+  inventoryChanged(): void { for (const listener of this.listeners) listener(); }
+
+  /** New-game skill flags from the same source inventory seed as Hero progress.
+   * A learned skill has no browser training writer yet, so unresolved or later
+   * mutable skill states are not inferred from item presence. */
+  heroCombatSkills(): NativeCombatSkills { return this.heroProgressSeed.combatSkills; }
+
+  /** Exact serialized PC_Hero profile plus its current retained NPC level. */
+  heroNpcCombatProfile(): NativeValue<OriginalPlayerProgressSeed['npcCombatProfile']> {
+    try {
+      const currentLevel = this.player.npc.values.Level;
+      if (!Number.isInteger(currentLevel) || (currentLevel as number) < 0 || (currentLevel as number) > 0xffffffff) {
+        return { known: false, reason: 'The retained Hero NPC level is outside its native unsigned range.' };
+      }
+      return { known: true, value: Object.freeze({ ...this.heroProgressSeed.npcCombatProfile,
+        rawLevel: currentLevel as number }) };
+    } catch (error) {
+      return { known: false, reason: error instanceof Error ? error.message : String(error) };
+    }
   }
 
   /** Browser item-use slice backed by the original potion template and
@@ -581,8 +776,9 @@ export class NativeQuestRuntime {
     const stacks = this.heroProgressSeed.inventory.filter((stack) => stack.templateName === 'It_Potion_Health');
     if (stacks.length !== 1) return { known: false, reason: 'The hash-checked Hero seed does not resolve one health-potion stack.' };
     const stack = stacks[0]!;
-    const remaining = stack.amount - (this.consumedItems.get(stack.templateGuid20) ?? 0);
-    if (remaining < 1) return { known: false, reason: 'No source-seeded health potions remain.' };
+    if (this.heroInventory.findStackIndex(stack.templateGuid20) < 0) {
+      return { known: false, reason: 'No health potions remain in the current Hero inventory.' };
+    }
     try {
       const template = await this.world.templateByNameInSource('It_Potion_Health',
         'Items/Items/Items_Story/Potions_Story_It_Potion_Health.tple');
@@ -605,15 +801,25 @@ export class NativeQuestRuntime {
       if (useType !== 16 || tag !== 'HP' || operation !== 2 || amount !== 50 || scriptUse !== '') {
         return { known: false, reason: 'Health-potion use properties differ from the audited HP +50% source record.' };
       }
+      // Source reads above can yield while another use/transfer changes this
+      // inventory. Resolve the current stack after the last await and preflight
+      // its browser-owned reduction before applying the native HP modifier.
+      const currentIndex = this.heroInventory.findStackIndex(stack.templateGuid20);
+      const consumption = this.heroInventory.canConsumeBrowserStack(currentIndex, 1);
+      if (consumption.status !== 'supported') return { known: false, reason: consumption.reason };
       const before = this.player.memory.getValue('HP');
       const maximum = this.player.memory.getMaximum('HP');
       const applied = this.player.memory.applyMod(tag, amount, operation);
       if (!applied.supported) return { known: false, reason: applied.reason };
       const after = this.player.memory.getValue('HP');
       if (after < before || after > maximum) return { known: false, reason: 'Native ApplyMod produced an unexpected Hero HP value.' };
-      this.consumedItems.set(stack.templateGuid20, (this.consumedItems.get(stack.templateGuid20) ?? 0) + 1);
+      const consumed = this.heroInventory.consumeBrowserStack(currentIndex, 1);
+      if (consumed.status !== 'applied') return { known: false,
+        reason: 'The potion HP modifier applied, but browser inventory consumption stopped: ' + consumed.reason };
+      const remaining = this.heroInventory.snapshot().stacks.filter((entry) => entry.templateGuid20 === stack.templateGuid20)
+        .reduce((total, entry) => total + entry.amount, 0);
       for (const listener of this.listeners) listener();
-      return { known: true, value: { hitPointsBefore: before, hitPointsAfter: after, amountRemaining: remaining - 1 } };
+      return { known: true, value: { hitPointsBefore: before, hitPointsAfter: after, amountRemaining: remaining } };
     } catch (error) {
       return { known: false, reason: error instanceof Error ? error.message : String(error) };
     }
@@ -700,6 +906,56 @@ export class NativeQuestRuntime {
       : this.canAwardExperienceScripts([...precedingExperienceAwards, ...experience]);
   }
 
+  /** Preflight the bounded condition-8 OnDelivery callback before its first
+   * Say line advances the native script index to one. */
+  canDeliverFromInfo(info: NativeInfo, precedingExperienceAwards: readonly number[] = []): NativeValue<true> {
+    if (info.conditionType !== 8 || !info.quest || !info.owner || !info.npc || info.npc !== info.owner) {
+      return { known: false, reason: 'Native Info delivery identity is incomplete or inconsistent.' };
+    }
+    const definition = this.definitions.find((quest) => quest.id === info.quest);
+    if (!definition) return { known: false, reason: 'Native delivery quest is not in the loaded source: ' + info.quest };
+    if (definition.numericType !== 1 && definition.numericType !== 4) {
+      return { known: false, reason: 'Native Info delivery supports only quest types 1/4.' };
+    }
+    if (definition.deliveryTargets.some((target) => target.amount === null || !Number.isInteger(target.amount) ||
+        target.amount < 0 || target.amount > 0xffffffff)) {
+      return { known: false, reason: 'Native quest delivery amount is unresolved: ' + info.quest };
+    }
+    const state = this.quests.state(info.quest);
+    if (!state) return { known: false, reason: 'Native delivery quest state is not seeded: ' + info.quest };
+    if (state.status !== QuestStatus.Running) {
+      return { known: false, reason: 'Native Info delivery requires a Running quest.' };
+    }
+    const targetIndex = definition.deliveryTargets.findIndex((target) => target.entity === info.npc);
+    if (targetIndex < 0) return { known: true, value: true };
+    const completes = definition.deliveryTargets.every((target, index) => target.amount !== null &&
+      (index === targetIndex ? (state.counters[index]! + 1) >>> 0 : state.counters[index]!) >= target.amount);
+    return completes ? this.canSucceedQuest(info.quest, precedingExperienceAwards) : { known: true, value: true };
+  }
+
+  deliverFromInfo(info: NativeInfo, precedingExperienceAwards: readonly number[] = []): NativeValue<true> {
+    const capability = this.canDeliverFromInfo(info, precedingExperienceAwards);
+    if (!capability.known) return capability;
+    const result = this.quests.deliverToEntity(info.quest, info.npc!);
+    return result.kind === 'applied' ? { known: true, value: true }
+      : { known: false, reason: result.reason };
+  }
+
+  /** Resolve all rewards before a browser lethal hit changes its actor. Native
+   * OnNPCKilled checks completion after exact-name type-2/3/4 counter updates. */
+  canRecordNpcKilled(entityName: string): NativeValue<true> {
+    const plan = this.quests.planNpcKilled(entityName);
+    if (plan.kind === 'unsupported') return { known: false, reason: plan.reason };
+    return this.canApplyQuestEffects(plan.updates.flatMap((update) => update.effects));
+  }
+
+  /** Dispatches source counter updates and their native completion rewards. */
+  recordNpcKilled(entityName: string): NativeNpcKilledResult {
+    const capability = this.canRecordNpcKilled(entityName);
+    if (!capability.known) return { kind: 'unsupported', reason: capability.reason };
+    return this.quests.recordNpcKilled(entityName);
+  }
+
   private heroQuestRewardState(): NativeHeroQuestRewardState {
     const attributeBaseValues: Record<string, number> = {};
     for (const tag of questRewardAttributeTags(this.definitions)) {
@@ -721,6 +977,7 @@ export class NativeQuestRuntime {
       clock: { years: time.years, days: time.days, seconds: time.seconds }, quests,
       gameEvents: this.gameEvents.snapshot(), givenInfoIds: this.infoState.currentGivenIds(),
       talkedToArdeaActors: this.actorDialogs.currentTalkedToPlayerIds(),
+      pickedPocketArdeaActors: this.actorDialogs.currentPickedPocketIds(),
       tradeEnabledArdeaActors: this.actorDialogs.currentTradeEnabledIds(),
       partyEnabledArdeaActors: this.actorDialogs.currentEnabledDialogActorIds('PartyEnabled'),
       teachEnabledArdeaActors: this.actorDialogs.currentEnabledDialogActorIds('TeachEnabled'),
@@ -728,7 +985,8 @@ export class NativeQuestRuntime {
         lpAttribs: this.player.memory.getLPAttribs(), awards: [...this.heroAwardHistory] },
       heroQuestRewards: this.heroQuestRewardState(),
       heroVitals: readHeroVitals(this.player),
-      consumedItems: [...this.consumedItems.entries()].map(([templateGuid20, amount]) => ({ templateGuid20, amount })) };
+      consumedItems: [],
+      heroInventory: this.heroInventory.snapshot() };
   }
 
   private playerProgress(): NativePlayerProgress {

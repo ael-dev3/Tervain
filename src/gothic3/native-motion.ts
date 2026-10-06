@@ -275,6 +275,9 @@ export class NativeMotionPlayer {
 
   get clipName(): string | null { return this.selected?.name ?? null; }
 
+  /** Current looped time used by the selected native motion track. */
+  get playTime(): number { return this.time; }
+
   /** Native clip extent. Gameplay owns time, loop-count and stopping policy. */
   get duration(): number | null { return this.selected?.duration ?? null; }
 

@@ -1,0 +1,38 @@
+/* ENTRY 201b0100 | FUN_201b0100 | STATUS decompiled | 23 ms */
+
+undefined4 __fastcall FUN_201b0100(gCInventory_PS *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  gCTreasureSet_PS *pgVar2;
+  
+  if (*(char *)&param_1->gCInventory_PS_data == '\0') {
+    pgVar2 = (gCTreasureSet_PS *)gCInventory_PS::GetTreasureSetPS1(param_1);
+    if (pgVar2 != (gCTreasureSet_PS *)0x0) {
+      gCTreasureSet_PS::GeneratePlunderInventory(pgVar2,(gCInventory_PS *)param_1);
+    }
+    pgVar2 = (gCTreasureSet_PS *)gCInventory_PS::GetTreasureSetPS2(param_1);
+    if (pgVar2 != (gCTreasureSet_PS *)0x0) {
+      gCTreasureSet_PS::GeneratePlunderInventory(pgVar2,(gCInventory_PS *)param_1);
+    }
+    pgVar2 = (gCTreasureSet_PS *)gCInventory_PS::GetTreasureSetPS3(param_1);
+    if (pgVar2 != (gCTreasureSet_PS *)0x0) {
+      gCTreasureSet_PS::GeneratePlunderInventory(pgVar2,(gCInventory_PS *)param_1);
+    }
+    pgVar2 = (gCTreasureSet_PS *)gCInventory_PS::GetTreasureSetPS4(param_1);
+    if (pgVar2 != (gCTreasureSet_PS *)0x0) {
+      gCTreasureSet_PS::GeneratePlunderInventory(pgVar2,(gCInventory_PS *)param_1);
+    }
+    pgVar2 = (gCTreasureSet_PS *)gCInventory_PS::GetTreasureSetPS5(param_1);
+    if (pgVar2 != (gCTreasureSet_PS *)0x0) {
+      gCTreasureSet_PS::GeneratePlunderInventory(pgVar2,(gCInventory_PS *)param_1);
+    }
+    (*param_1->vftablePtr->NotifyPropertyValueChangedEnterEx)(param_1,"GeneratedPlunder",false);
+    pNVar1 = param_1->vftablePtr->NotifyPropertyValueChangedExitEx;
+    *(undefined1 *)&param_1->gCInventory_PS_data = 1;
+    (*pNVar1)(param_1,"GeneratedPlunder",false);
+  }
+  return 1;
+}
+
+
