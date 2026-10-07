@@ -55,7 +55,13 @@ export class NativeGameExitTable {
     const old = this.callbacks.get(label);
     if (old) return known(old);
     const method = this.crt.sourceProfile.heapRules.methods[label];
-    if (!method || method.module !== 'Game' || method.entry !== method.body ||
+    const entryChain = (method as typeof method & { readonly entryChain?: readonly {
+      readonly va: string; readonly bytes: string; readonly targetVA: string;
+    }[] } | undefined)?.entryChain;
+    const exactNavigationDestructorThunk = label === 'navigationClassNameDestructor' && method?.entry === '20003904' &&
+      method.body === '205496d0' && method.bodyInstructionBytesSha256 === '76ac978a7b1e8b7f104b23644088c9058ab16e59cf363bfbb9b04f1ab3d63d9d' &&
+      entryChain?.length === 1 && entryChain[0]?.va === '20003904' && entryChain[0]?.bytes === 'e9c75d5400' && entryChain[0]?.targetVA === '205496d0';
+    if (!method || method.module !== 'Game' || (method.entry !== method.body && !exactNavigationDestructorThunk) ||
         !/^[0-9a-f]{8}$/.test(method.entry) || !/^[0-9a-f]{64}$/.test(method.bodyInstructionBytesSha256)) {
       return unknown('Complete pinned Game method receipt required for an onexit callback');
     }
@@ -192,8 +198,8 @@ export class NativeGameExitTable {
     if (callback !== null) {
       const receipt = callbackOwners.get(callback);
       const method = receipt && this.crt.sourceProfile.heapRules.methods[receipt.label];
-      if (!receipt || receipt.crt !== this.crt || receipt.entry !== callback.entry || receipt.body !== callback.entry ||
-          receipt.hash !== method?.bodyInstructionBytesSha256 || callback.module !== 'Game') {
+      if (!receipt || receipt.crt !== this.crt || receipt.entry !== callback.entry || receipt.entry !== method?.entry ||
+          receipt.body !== method?.body || receipt.hash !== method?.bodyInstructionBytesSha256 || callback.module !== 'Game') {
         return unknown('Callback must be this Game CRT owner’s admitted pinned function capability');
       }
     }

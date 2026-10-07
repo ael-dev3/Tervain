@@ -4,8 +4,10 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
-Updated: 7 October 2026. Historical deployed baseline preceding checkpoint 72:
-`main` commit `610619f43a809e14118ee8edb186fed67aa2052b`. Checkpoints 55–71 add
+Updated: 7 October 2026. The latest published baseline before checkpoint 84 is
+`main` commit `c52d16da73fe1c9be5d240b0111cfe1074d1e8cc`; the preceding historical
+baseline before checkpoint 72 was `610619f43a809e14118ee8edb186fed67aa2052b`.
+Checkpoints 55–71 add
 browser NPC Plunder inventory in checkpoint 55, resolves NPC armor class in
 checkpoint 56, materializes deterministic Weaponry stacks with unapplied
 equip plans in checkpoint 57, reads tracked pose fields from selected native
@@ -39,7 +41,7 @@ enclave callback. Native NPC
 activation, AI, responses, full death handling and most campaign progression remain
 unavailable.
 
-Checkpoints 73–83 add retained source NPC readers, shared runtime admins,
+Checkpoints 73–84 add retained source NPC readers, shared runtime admins,
 heap-backed field owners, physical SceneAdmin startup components and selected
 Engine and Game CRT RTTI/type-name components and ordinary DLL attach prefixes.
 Checkpoint 79 preserves Navigation notifications and application/area ownership;
@@ -47,22 +49,27 @@ checkpoint 80 corrects the fresh CString text constructor and its owned byte
 operations, checkpoint 81 adds the separate Game CRT ownership and startup
 prefix, and checkpoint 82 reconstructs its encoded onexit table initialization
 and within-capacity callback registration before Game Navigation
-class-name/type integration. The new
+class-name/type integration. Checkpoint 84 corrects Game `_strlen` to follow its
+aligned DWORD predicate with unknown-bit proofs and adds the separately owned
+Game Navigation class-name cache, shared CString construction, Game exit-table
+registration and selected initializer. The new
 admin, heap and SceneAdmin owners remain separate from the live NPC reader,
 which still stops at its first property-factory dependency. The [overview](gothic3-rebuild-overview.md)
 records the latest confirmed publication; the individual receipts below
 distinguish locally validated components from published browser behavior.
 
 The [Gothic 3 / Ardea route](https://ael-dev3.github.io/Tervain/gothic3/) serves
-this incomplete build. The preceding baseline was deployed by [workflow run
-37504891018](https://github.com/ael-dev3/Tervain/actions/runs/37504891018);
-later publication receipts are available in the repository's
-[Pages workflow](https://github.com/ael-dev3/Tervain/actions/workflows/pages.yml).
+the published incomplete build. The latest browser-runtime baseline is
+checkpoint 83, deployed by [workflow run
+37551902308](https://github.com/ael-dev3/Tervain/actions/runs/37551902308).
+Checkpoint 84 adds native source behavior outside the browser integration, so
+the visible game bundle remains unchanged. Earlier publication receipts are
+available in the repository's [Pages workflow](https://github.com/ael-dev3/Tervain/actions/workflows/pages.yml).
 The [scope record](gothic3-browser-port.md) describes the current controls,
 limitations and source terms.
 
 This guide records the preceding hosted baseline and subsequent dated
-checkpoints that preserve the evidence for each stage. Sections 10–81 cover
+checkpoints that preserve the evidence for each stage. Sections 10–84 cover
 the later runtime work; each receipt identifies its source revision and scope.
 
 Each checkpoint's reproduction commands describe its recorded source revision.
@@ -5875,3 +5882,69 @@ class-name CString, register Navigation's reflected factory/type, create the
 fifteen Navigation descriptors, or connect them to live NPC activation. The
 browser world, NPC reader and hosted gameplay behavior are unchanged by this
 CRT checkpoint.
+
+## 84. Construct the Game Navigation class name through SharedBase
+
+Date: 7 October 2026. This code checkpoint continues from the pinned Game
+`type_info::Name` result and implements the original `gCNavigation_PS` class
+name object at `207b4964`. It does not construct or register the reflected
+Navigation property type.
+
+### Follow Game `_strlen` while preserving unknown padding
+
+[`NativeGameTypeInfoName`](../../src/gothic3/native-crt-undname.ts) now uses the
+Game `_strlen` instructions at `2046dbd0`: pointer geometry establishes the
+alignment residue, unaligned DWORD loads peel to a boundary, and the aligned
+loop evaluates the original `0x7efefeff` / `0x81010100` zero-byte predicate.
+Candidate DWORDs are reread and checked in source byte order. When a loaded
+word contains masked bytes, the implementation enumerates a bounded set of
+possible completions and proceeds only when every completion selects the same
+branch. The Navigation scratch result reaches its NUL at byte 21 even though
+the final DWORD also contains unknown allocation padding. Ambiguous masks stop
+at that exact load; padding is not treated as zero.
+
+### Preserve the Game/SharedBase ownership boundary
+
+[`NativeGameNavigationClassName`](../../src/gothic3/native-game-navigation-class-name.ts)
+aliases the Game image cache at `207b4964`, previous initializer result at
+`207b4ea8`, and selected C++ callback slot at `2056c220`. It checks the exact
+Game class-name, initializer and destructor method receipts, plus the imports
+for SharedBase `UnMangle` and `bCString::~bCString`. It preserves the original
+guard order: copy the prior pointer after guard bit 1, then set guard bit 2
+before asking Game `type_info::Name` for `class gCNavigation_PS`.
+
+The Game name is passed to the existing SharedBase first-space search. A fresh
+text-construction `NativeHeapCString` copies `gCNavigation_PS` into the shared
+24-byte allocation pool under the caller's existing `NativeMemoryAdmin`; Game
+CRT and SharedBase allocations stay separate but use the same selected lower
+platform. After successful construction, the Game `_atexit` entry registers
+the exact `20003904` callback capability. Its forwarding thunk targets
+`205496d0`, which delegates the cleanup to the pinned SharedBase CString
+destructor IAT. The Game exit-table component retains callback data and still
+does not traverse or invoke callbacks; the class owner exposes the destructor
+body only when given its registered callback capability.
+
+The selected ASM-only initializer at `204b1840` publishes the actual class
+object pointer at `207b4ea8`. Its slot is the 72nd non-null C++ initializer,
+with 71 earlier callbacks still unresolved, so this checkpoint does not claim
+whole-program startup. The Game property-type singleton, its factory and
+registry imports, Navigation's fifteen property descriptors, NPC activation
+and browser integration remain later work.
+
+Reproduce the focused component checks with:
+
+```powershell
+npm run typecheck
+npx vitest run tests/gothic3-dialogue/game-crt-typeinfo-name.test.ts tests/gothic3-dialogue/game-crt-exit-table.test.ts tests/gothic3-dialogue/game-navigation-class-name.test.ts
+```
+
+Local verification passes TypeScript typechecking, all **2,368 tests across
+225 files**, the production build, and `git diff --check`. The build transforms
+375 modules and retains the existing large-chunk warning; the Gothic bundle
+remains `gothic3-C3iMc5TP.js`. The focused class-name cases verify the retained
+mask state for the final Game `_strlen` DWORD, the 24-byte SharedBase CString,
+physical Game callback registration, initializer publication and the cold
+exit-table boundary.
+
+This is a native-behavior component checkpoint, not a playable browser change.
+The existing Ardea route and NPC reader remain unchanged.

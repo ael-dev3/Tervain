@@ -269,13 +269,18 @@ checkpoint. The production workflow checks the build and deploys the separate
 route when the reviewed changes reach `main`.
 
 The separate TypeScript route is live at
-[Gothic 3 / Ardea](https://ael-dev3.github.io/Tervain/gothic3/). The last host
-check recorded here followed checkpoint 82 at `main` commit
-`13b6739fb2f0d2447aac3adedfec6f249f904b7f`, merged in
-[PR 51](https://github.com/ael-dev3/Tervain/pull/51) and published by successful
-[workflow run 37549465349](https://github.com/ael-dev3/Tervain/actions/runs/37549465349), attempt 1.
-Checkpoints 81–82 added Game CRT source owners without changing the browser
-gameplay integration; its live NPC path remains the checkpoint 80 boundary.
+[Gothic 3 / Ardea](https://ael-dev3.github.io/Tervain/gothic3/). The latest
+confirmed browser-runtime check follows checkpoint 83 at `main` commit
+`c52d16da73fe1c9be5d240b0111cfe1074d1e8cc`, merged in
+[PR 52](https://github.com/ael-dev3/Tervain/pull/52) and published by successful
+[workflow run 37551902308](https://github.com/ael-dev3/Tervain/actions/runs/37551902308), attempt 1.
+Checkpoints 81–83 added separate Game CRT ownership, its bounded startup prefix,
+physical exit table and Navigation RTTI name without changing browser gameplay.
+Checkpoint 84 corrects the Game `_strlen` DWORD path and constructs the Game
+Navigation class name through the shared CString allocator. It does not run
+the 71 earlier C++ initializers or connect Navigation's reflected type to live
+NPC activation; see the
+[detailed rebuilding record](gothic3-rebuilding-process.md#84-construct-the-game-navigation-class-name-through-sharedbase).
 
 The public browser check loads 202 scene objects and 70 character models,
 enters Ardea with Hero HP 100 and inspects the Hero model (10,692 triangles,
