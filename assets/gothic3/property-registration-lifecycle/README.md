@@ -36,3 +36,10 @@ body: 43 logical buckets and capacity 51, with the original zero stores. Its
 returned table can insert and find retained nodes. Constructor replay is rejected.
 The captured singleton constructor still needs its clear/recreate/grow sequence
 and the SharedBase getter's guard bit, canonical image fields and atexit call.
+
+The table clear implementation walks retained nodes, deletes owned value
+allocations, releases each key, deletes the node, frees bucket storage, and
+recreates the original 43-bucket table. Unknown ownership stops the operation
+without replay. Its tests use an admitted 12-byte value allocation to exercise
+deletion; they do not prove allocation of RegisterTemplate's original 4-byte
+wrapper. The missing 4-byte allocator bucket remains an explicit dependency.

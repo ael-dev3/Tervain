@@ -106,6 +106,56 @@ export class NativePropertyTypeTable {
     const begin = node.fields.bytes.byteOffset - node.fields.backing.bytes.byteOffset;
     return new NativeHeapObjectViews(node.fields.backing, begin + 4, 4);
   }
+  /** Original clear deletes value wrappers, releases keys and nodes, frees
+   * bucket storage, then allocates a fresh 43-bucket table. */
+  clear(): NativeValue<void> {
+    return this.run(() => {
+      if (source.methods.clearTypeTable.bodyVA !== '0x100910d0' ||
+          source.methods.clearTypeTable.bodyInstructionBytesSha256 !== 'b2c843805ce1a75ce128c96d83bf533737663f3561cc5d6172bae5a7e604e06a') throw new Error('Original table clear source differs');
+      const selectedMemory = () => {
+        if (fact(NativeMemoryAdmin.prototype.getInstance.call(this.memory)) !== this.memory || this.boundary) {
+          throw new Error(this.boundary ?? 'Original same-heap singleton required');
+        }
+      };
+      for (let bucket = 0; bucket < (this.fields.readUnsigned(4) | 0); bucket++) {
+        let node = this.buckets().pointer<Node>(bucket * 4).get();
+        const seen = new Set<Node>();
+        while (node) {
+          if (!(node instanceof Node) || node.memory !== this.memory || seen.has(node)) {
+            throw new Error('Original clear reaches an unowned or cyclic node');
+          }
+          seen.add(node);
+          const wrapper = node.fields.pointer<NativeMemoryAllocation>(4).get();
+          const next = node.fields.pointer<Node>(8).get();
+          if (wrapper) {
+            selectedMemory(); fact(NativeMemoryAdmin.prototype.deleteObject.call(this.memory, wrapper));
+            if (this.boundary) throw new Error(this.boundary);
+            node.fields.pointer(4).set(null);
+          }
+          fact(NativeHeapCString.prototype.destroy.call(node.name));
+          if (this.boundary) throw new Error(this.boundary);
+          const allocation = node.fields.backing;
+          if (!('region' in allocation)) throw new Error('Original node DeleteObject requires its retained allocation');
+          selectedMemory(); fact(NativeMemoryAdmin.prototype.deleteObject.call(this.memory, allocation));
+          if (this.boundary) throw new Error(this.boundary);
+          node = next;
+        }
+      }
+      const storage = this.fields.pointer<NativeMemoryAllocation>(0).get();
+      if (storage) {
+        selectedMemory(); fact(NativeMemoryAdmin.prototype.free.call(this.memory, storage));
+        if (this.boundary) throw new Error(this.boundary);
+        this.fields.pointer(0).set(null); this.fields.writeUnsigned(4, 0); this.fields.writeUnsigned(8, 0);
+      }
+      this.fields.writeUnsigned(12, 0);
+      const begin = this.fields.bytes.byteOffset - this.fields.backing.bytes.byteOffset;
+      const array = new NativePropertyTemplateArray(new NativeHeapObjectViews(this.fields.backing, begin, 12), this.memory, 'typeTable');
+      fact(array.reserve(43, 0));
+      if (this.boundary) throw new Error(this.boundary);
+      this.fields.writeUnsigned(4, 43);
+      for (let offset = 0; offset < 172; offset += 4) this.buckets().writeUnsigned(offset, 0);
+    });
+  }
   getOrInsertSlot(name: NativeHeapCString, index: NativeHeapObjectViews): NativeValue<NativeHeapObjectViews> {
     return this.run(() => {
       const found = this.find(name, index);
