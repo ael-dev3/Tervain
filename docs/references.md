@@ -43,6 +43,14 @@ The approved September 27 emblem is recorded on Assets' [inspected branch revisi
 
 ## Technical sources
 
+### Illustrated Gothic 3 recording / Tervain visual audit, 5 October 2026
+
+The owner supplied a 97-page PDF and its illustrated study folder for repository documentation on 7 October. The [study index](art/studies/gothic3-video-2026-10-05/README.md) connects both distinct PDF revisions, the annotated HTML, searchable report, 44 proposal tickets, timestamped observation ledger, source metadata and selected motion inspector. Local paths are removed; private application/account timeline screens, authoring scripts and raw browser traces stay in the original local archive. The repository edition retains all four 120-frame gameplay passages and their contact sheets.
+
+The original study reports 69,871 decoded recording frames, low-resolution numerical metrics and chronological one-second visual sampling; it does not claim manual full-resolution inspection of every frame, native game FPS or renderer instrumentation. Its Tervain comparisons use historical `0.0.12` revisions `9e7c6fbd`, `67788fa1` and `88cf6678`. The index points to later grass, water and character records so these proposals do not overwrite current decisions or imply current release acceptance.
+
+Study connected human-scale spaces, purposeful prop groups, short ground-cover layers, crown/branch coherence, large weathered construction masses and warm/cool distance relationships. Gameplay, menus, cinematics and negative camera-intersection examples remain distinct evidence. Original Tervain work should interpret those relationships, rather than copy Gothic geography or pixels. The reference imagery remains third-party study content outside the project's software license; no CC grant, rights-holder clearance or commercial asset permission is established. Source/publication provenance and the selected archive boundary are recorded in the study index and manifest.
+
 ### Boring Forest study, 30 September 2026
 
 The native reference page and its initial WebGL-rendered composition were inspected, along with its publicly delivered client bundle. The visible frame showed tall trunk columns and root flare, overlapping crowns, moss/fern detail, a creek, cool depth haze, and warm sun. Public-source inspection showed WebGPU selection with a WebGL fallback, bounded quality-dependent density/DPR/shadows, three-LOD instanced conifers, alpha foliage/backlighting, fern-specific vertex attributes, and ground haze/postprocessing. These are observations of that source, not confirmation of all paths on tested hardware.

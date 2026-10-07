@@ -1,0 +1,141 @@
+{
+  "version": "0.0.12",
+  "runtime_revision": "88cf667899ee3473c8db8151ffb24ec0ca7c4f43",
+  "implementation_revision": "03f73a9f0e562ee329e03f1af0af17a5ac4cbbdb",
+  "review_sha256": "d85139ca277b0195e7b4f26e02ae2bd2e30fde23c18b49c451083cadeaf8873b",
+  "validation": {
+    "typecheck": "pass",
+    "tests": 1131,
+    "test_files": 115,
+    "test_duration_seconds": 101.99,
+    "production_build": "pass",
+    "build_duration_seconds": 7.27,
+    "native_console": [],
+    "publication": "blocked; no remote mutation",
+    "performance": "uncontrolled F3 review samples only; no comparative gain or hardware qualification"
+  },
+  "views": [
+    {
+      "file": "final-eastern-oaks-high.jpg",
+      "native_pixel_size": [
+        1422,
+        800
+      ],
+      "css_viewport": [
+        1422,
+        800
+      ],
+      "quality": "high",
+      "dpr": 1.8,
+      "fov_degrees": 60,
+      "reduced_motion": true,
+      "sha256": "3e0c2d1ceb21e1044120a651af0a0771a2ed855345acad32891b1b8a5e247474"
+    },
+    {
+      "file": "final-trail-high.jpg",
+      "native_pixel_size": [
+        1422,
+        800
+      ],
+      "css_viewport": [
+        1422,
+        800
+      ],
+      "quality": "high",
+      "dpr": 1.8,
+      "fov_degrees": 60,
+      "reduced_motion": true,
+      "sha256": "3a06910258e3b1713db4ac1aea003fdcafdecf5f9b891a277cf541bf89423e61"
+    },
+    {
+      "file": "final-trail-night.jpg",
+      "native_pixel_size": [
+        1422,
+        800
+      ],
+      "css_viewport": [
+        1422,
+        800
+      ],
+      "quality": "high",
+      "dpr": 1.8,
+      "fov_degrees": 60,
+      "reduced_motion": true,
+      "sha256": "3526587582bcfe8095379ddd31c24b4470a1cf7455c0f68e927a6761ae603e42"
+    },
+    {
+      "file": "final-trail-medium.jpg",
+      "native_pixel_size": [
+        1422,
+        800
+      ],
+      "css_viewport": [
+        1422,
+        800
+      ],
+      "quality": "medium",
+      "dpr": 1.5,
+      "fov_degrees": 60,
+      "reduced_motion": true,
+      "sha256": "c7f9cbf95d3c1f46b2edfc8ae7ddd11bccc1e2c29bdbfe1089ac8cef32caa161"
+    },
+    {
+      "file": "final-trail-low.jpg",
+      "native_pixel_size": [
+        1422,
+        800
+      ],
+      "css_viewport": [
+        1422,
+        800
+      ],
+      "quality": "low",
+      "dpr": 1,
+      "fov_degrees": 60,
+      "reduced_motion": true,
+      "sha256": "1a8c0cdad0abbe8d401540802d58aae9645c21361a95d328a56778c34afa2773"
+    },
+    {
+      "file": "final-bay-high.jpg",
+      "native_pixel_size": [
+        1422,
+        800
+      ],
+      "css_viewport": [
+        1422,
+        800
+      ],
+      "quality": "high",
+      "dpr": 1.8,
+      "fov_degrees": 70,
+      "reduced_motion": true,
+      "sha256": "96ed0de722bce67017314d9eb2f130efb4337fb948bd0877f1679fabc62fe623"
+    },
+    {
+      "file": "final-road-gameplay.jpg",
+      "native_pixel_size": [
+        1422,
+        800
+      ],
+      "css_viewport": [
+        1422,
+        800
+      ],
+      "quality": "high",
+      "dpr": 1.8,
+      "fov_degrees": 60,
+      "reduced_motion": false,
+      "sha256": "0e9d6e3c2f83422aef31ad1371b3a37cf9ae6f4d517e370257cd16ef34f7fa5b"
+    }
+  ],
+  "scoped_input": "Space visibly jumped and consumed 6 stamina; later grounded recovery, M map and I empty inventory verified. Brief W/Shift+W pulses did not show sustained travel; no native gait claim.",
+  "repositoryEdition": {
+    "status": "Historical source receipt; not acceptance of the current game.",
+    "fileNameAndHashScope": "The views below identify captures in the original review, including files not supplied in this audit. Retained report JPEG names and their hashes are recorded separately in study-manifest.json.",
+    "retainedReportImages": [
+      "bay.jpg",
+      "trail.jpg",
+      "eastern-oaks.jpg"
+    ]
+  }
+}

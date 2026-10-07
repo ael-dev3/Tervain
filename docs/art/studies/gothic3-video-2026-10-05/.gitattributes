@@ -1,0 +1,3 @@
+# Preserve supplied evidence bytes and their recorded fingerprints.
+*.pdf binary
+every-frame-metrics.csv -text whitespace=cr-at-eol

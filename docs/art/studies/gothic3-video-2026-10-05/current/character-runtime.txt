@@ -1,0 +1,11 @@
+Historical character evidence — 5 October 2026
+Version: 0.0.12; runtime revision: 67788fa1.
+Saved comparison image: characters.jpg (1422 x 800).
+Preset: High; DPR approximately 1.8.
+Original sample: 900 frame callbacks, median 33.3 ms, p95 50.1 ms,
+p99 66.3 ms, 250 draw calls, 4,293,440 reported triangles.
+These are uncontrolled runtime samples, not qualified hardware performance,
+new measurements or proof of native gait quality.
+The raw accessibility tree, browser tab/visit IDs and local preview URL are
+omitted from this repository edition. Historical image/hash details are in
+study-manifest.json; no claim is made that a saved JPEG has the original PNG hash.

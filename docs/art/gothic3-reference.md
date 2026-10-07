@@ -4,6 +4,8 @@
 
 ## What the owner asked for
 
+For the later recording-based comparison, read the [5 October illustrated video / Tervain audit](studies/gothic3-video-2026-10-05/README.md), imported as study material on 7 October. It adds timestamped gameplay composition, selected consecutive motion frames and a historical proposal ledger. It complements the installed-asset measurements below: bright, airy lit gameplay does not contradict dark average base textures, and cinematic imagery does not establish gameplay technology. The study index identifies later implementation changes and preserves the reference/licensing boundary.
+
 The first place the player sees should be as close to Ardea in Gothic 3 as possible: a coast with a lighthouse, a beach, a great deal of empty terrain, some trees and forests in the distance. The whole game should look like old-school Gothic 3: not cartoonish, rugged, rough around the edges, not perfect, not smooth, human.
 
 On 30 September the owner clarified the intended reading: **similarly exaggerated fantasy**, rather than clinical realism. Heavy expressive shapes, oversized ornament, broad painted value/color groups, rich earthy reds/golds, warm/cool contrast, and selective large wear belong to the direction. “Not cartoonish” retains a serious rugged tone; it does not require photorealism, plain framing, or universal desaturation. Control and body text remain accessible, motion remains calm, and all assets remain original. This art clarification does not introduce lore or gameplay systems, and the version remains `0.0.4`.

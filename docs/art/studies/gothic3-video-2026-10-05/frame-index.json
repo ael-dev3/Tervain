@@ -1,0 +1,2681 @@
+{
+  "scope": "Repository edition: selected reference pictures and all four gameplay motion passages. No complete one-second timeline.",
+  "sourceRecording": {
+    "fileName": "2026-10-05 16-00-07.mov",
+    "sha256": "bc4221ac17de325a83d78644f64669cb2bb0329ab5fd34cdfd25916938821e0b",
+    "decodedFrames": 69871,
+    "recordingFps": 60,
+    "durationSeconds": 1164.516667
+  },
+  "originalPrivateSampling": {
+    "oneSecondStills": 1165,
+    "chronologicalSheets": 59,
+    "burstFrames": 480
+  },
+  "retainedStills": [
+    {
+      "file": "plates/reference-0015.jpg",
+      "recordingSeconds": 15
+    },
+    {
+      "file": "plates/reference-0045.jpg",
+      "recordingSeconds": 45
+    },
+    {
+      "file": "plates/reference-0091.jpg",
+      "recordingSeconds": 91
+    },
+    {
+      "file": "plates/reference-0123.jpg",
+      "recordingSeconds": 123
+    },
+    {
+      "file": "plates/reference-0179.jpg",
+      "recordingSeconds": 179
+    },
+    {
+      "file": "plates/reference-0240.jpg",
+      "recordingSeconds": 240
+    },
+    {
+      "file": "plates/reference-0248.jpg",
+      "recordingSeconds": 248
+    },
+    {
+      "file": "plates/reference-0264.jpg",
+      "recordingSeconds": 264
+    },
+    {
+      "file": "plates/reference-0315.jpg",
+      "recordingSeconds": 315
+    },
+    {
+      "file": "plates/reference-0327.jpg",
+      "recordingSeconds": 327
+    },
+    {
+      "file": "plates/reference-0410.jpg",
+      "recordingSeconds": 410
+    },
+    {
+      "file": "plates/reference-0545.jpg",
+      "recordingSeconds": 545
+    },
+    {
+      "file": "plates/reference-0625.jpg",
+      "recordingSeconds": 625
+    },
+    {
+      "file": "plates/reference-0665.jpg",
+      "recordingSeconds": 665
+    },
+    {
+      "file": "plates/reference-0688.jpg",
+      "recordingSeconds": 688
+    },
+    {
+      "file": "plates/reference-0708.jpg",
+      "recordingSeconds": 708
+    },
+    {
+      "file": "plates/reference-0728.jpg",
+      "recordingSeconds": 728
+    },
+    {
+      "file": "plates/reference-0736.jpg",
+      "recordingSeconds": 736
+    },
+    {
+      "file": "plates/reference-0738.jpg",
+      "recordingSeconds": 738
+    },
+    {
+      "file": "plates/reference-0750.jpg",
+      "recordingSeconds": 750
+    },
+    {
+      "file": "plates/reference-0783.jpg",
+      "recordingSeconds": 783
+    },
+    {
+      "file": "plates/reference-0815.jpg",
+      "recordingSeconds": 815
+    },
+    {
+      "file": "plates/reference-0836.jpg",
+      "recordingSeconds": 836
+    },
+    {
+      "file": "plates/reference-0846.jpg",
+      "recordingSeconds": 846
+    },
+    {
+      "file": "plates/reference-0869.jpg",
+      "recordingSeconds": 869
+    },
+    {
+      "file": "plates/reference-0894.jpg",
+      "recordingSeconds": 894
+    },
+    {
+      "file": "plates/reference-0923.jpg",
+      "recordingSeconds": 923
+    },
+    {
+      "file": "plates/reference-0931.jpg",
+      "recordingSeconds": 931
+    },
+    {
+      "file": "plates/reference-0952.jpg",
+      "recordingSeconds": 952
+    },
+    {
+      "file": "plates/reference-0963.jpg",
+      "recordingSeconds": 963
+    },
+    {
+      "file": "plates/reference-0982.jpg",
+      "recordingSeconds": 982
+    },
+    {
+      "file": "plates/reference-1017.jpg",
+      "recordingSeconds": 1017
+    },
+    {
+      "file": "plates/reference-1071.jpg",
+      "recordingSeconds": 1071
+    },
+    {
+      "file": "plates/reference-1080.jpg",
+      "recordingSeconds": 1080
+    },
+    {
+      "file": "plates/reference-1087.jpg",
+      "recordingSeconds": 1087
+    },
+    {
+      "file": "plates/reference-1095.jpg",
+      "recordingSeconds": 1095
+    },
+    {
+      "file": "plates/reference-1116.jpg",
+      "recordingSeconds": 1116
+    },
+    {
+      "file": "plates/reference-1120.jpg",
+      "recordingSeconds": 1120
+    },
+    {
+      "file": "plates/reference-1150.jpg",
+      "recordingSeconds": 1150
+    },
+    {
+      "file": "second-half-native/10-06.jpg",
+      "recordingSeconds": 606
+    },
+    {
+      "file": "second-half-native/10-38.jpg",
+      "recordingSeconds": 638
+    },
+    {
+      "file": "second-half-native/11-05.jpg",
+      "recordingSeconds": 665
+    },
+    {
+      "file": "second-half-native/11-16.jpg",
+      "recordingSeconds": 676
+    },
+    {
+      "file": "second-half-native/11-24.jpg",
+      "recordingSeconds": 684
+    },
+    {
+      "file": "second-half-native/11-48.jpg",
+      "recordingSeconds": 708
+    },
+    {
+      "file": "second-half-native/12-18.jpg",
+      "recordingSeconds": 738
+    },
+    {
+      "file": "second-half-native/12-33.jpg",
+      "recordingSeconds": 753
+    },
+    {
+      "file": "second-half-native/12-49.jpg",
+      "recordingSeconds": 769
+    },
+    {
+      "file": "second-half-native/14-25.jpg",
+      "recordingSeconds": 865
+    },
+    {
+      "file": "second-half-native/15-23.jpg",
+      "recordingSeconds": 923
+    },
+    {
+      "file": "second-half-native/15-31.jpg",
+      "recordingSeconds": 931
+    },
+    {
+      "file": "second-half-native/15-53.jpg",
+      "recordingSeconds": 953
+    },
+    {
+      "file": "second-half-native/16-06.jpg",
+      "recordingSeconds": 966
+    },
+    {
+      "file": "second-half-native/16-16.jpg",
+      "recordingSeconds": 976
+    },
+    {
+      "file": "second-half-native/16-31.jpg",
+      "recordingSeconds": 991
+    },
+    {
+      "file": "second-half-native/18-14.jpg",
+      "recordingSeconds": 1094
+    },
+    {
+      "file": "second-half-native/18-30.jpg",
+      "recordingSeconds": 1110
+    },
+    {
+      "file": "second-half-native/18-40.jpg",
+      "recordingSeconds": 1120
+    }
+  ],
+  "bursts": [
+    {
+      "name": "combat",
+      "startSeconds": 323,
+      "frames": [
+        {
+          "file": "bursts/combat/001.jpg",
+          "zeroBasedSourceFrame": 19380,
+          "recordingSeconds": 323.0
+        },
+        {
+          "file": "bursts/combat/002.jpg",
+          "zeroBasedSourceFrame": 19381,
+          "recordingSeconds": 323.01666666666665
+        },
+        {
+          "file": "bursts/combat/003.jpg",
+          "zeroBasedSourceFrame": 19382,
+          "recordingSeconds": 323.03333333333336
+        },
+        {
+          "file": "bursts/combat/004.jpg",
+          "zeroBasedSourceFrame": 19383,
+          "recordingSeconds": 323.05
+        },
+        {
+          "file": "bursts/combat/005.jpg",
+          "zeroBasedSourceFrame": 19384,
+          "recordingSeconds": 323.06666666666666
+        },
+        {
+          "file": "bursts/combat/006.jpg",
+          "zeroBasedSourceFrame": 19385,
+          "recordingSeconds": 323.0833333333333
+        },
+        {
+          "file": "bursts/combat/007.jpg",
+          "zeroBasedSourceFrame": 19386,
+          "recordingSeconds": 323.1
+        },
+        {
+          "file": "bursts/combat/008.jpg",
+          "zeroBasedSourceFrame": 19387,
+          "recordingSeconds": 323.1166666666667
+        },
+        {
+          "file": "bursts/combat/009.jpg",
+          "zeroBasedSourceFrame": 19388,
+          "recordingSeconds": 323.1333333333333
+        },
+        {
+          "file": "bursts/combat/010.jpg",
+          "zeroBasedSourceFrame": 19389,
+          "recordingSeconds": 323.15
+        },
+        {
+          "file": "bursts/combat/011.jpg",
+          "zeroBasedSourceFrame": 19390,
+          "recordingSeconds": 323.1666666666667
+        },
+        {
+          "file": "bursts/combat/012.jpg",
+          "zeroBasedSourceFrame": 19391,
+          "recordingSeconds": 323.18333333333334
+        },
+        {
+          "file": "bursts/combat/013.jpg",
+          "zeroBasedSourceFrame": 19392,
+          "recordingSeconds": 323.2
+        },
+        {
+          "file": "bursts/combat/014.jpg",
+          "zeroBasedSourceFrame": 19393,
+          "recordingSeconds": 323.21666666666664
+        },
+        {
+          "file": "bursts/combat/015.jpg",
+          "zeroBasedSourceFrame": 19394,
+          "recordingSeconds": 323.23333333333335
+        },
+        {
+          "file": "bursts/combat/016.jpg",
+          "zeroBasedSourceFrame": 19395,
+          "recordingSeconds": 323.25
+        },
+        {
+          "file": "bursts/combat/017.jpg",
+          "zeroBasedSourceFrame": 19396,
+          "recordingSeconds": 323.26666666666665
+        },
+        {
+          "file": "bursts/combat/018.jpg",
+          "zeroBasedSourceFrame": 19397,
+          "recordingSeconds": 323.28333333333336
+        },
+        {
+          "file": "bursts/combat/019.jpg",
+          "zeroBasedSourceFrame": 19398,
+          "recordingSeconds": 323.3
+        },
+        {
+          "file": "bursts/combat/020.jpg",
+          "zeroBasedSourceFrame": 19399,
+          "recordingSeconds": 323.31666666666666
+        },
+        {
+          "file": "bursts/combat/021.jpg",
+          "zeroBasedSourceFrame": 19400,
+          "recordingSeconds": 323.3333333333333
+        },
+        {
+          "file": "bursts/combat/022.jpg",
+          "zeroBasedSourceFrame": 19401,
+          "recordingSeconds": 323.35
+        },
+        {
+          "file": "bursts/combat/023.jpg",
+          "zeroBasedSourceFrame": 19402,
+          "recordingSeconds": 323.3666666666667
+        },
+        {
+          "file": "bursts/combat/024.jpg",
+          "zeroBasedSourceFrame": 19403,
+          "recordingSeconds": 323.3833333333333
+        },
+        {
+          "file": "bursts/combat/025.jpg",
+          "zeroBasedSourceFrame": 19404,
+          "recordingSeconds": 323.4
+        },
+        {
+          "file": "bursts/combat/026.jpg",
+          "zeroBasedSourceFrame": 19405,
+          "recordingSeconds": 323.4166666666667
+        },
+        {
+          "file": "bursts/combat/027.jpg",
+          "zeroBasedSourceFrame": 19406,
+          "recordingSeconds": 323.43333333333334
+        },
+        {
+          "file": "bursts/combat/028.jpg",
+          "zeroBasedSourceFrame": 19407,
+          "recordingSeconds": 323.45
+        },
+        {
+          "file": "bursts/combat/029.jpg",
+          "zeroBasedSourceFrame": 19408,
+          "recordingSeconds": 323.46666666666664
+        },
+        {
+          "file": "bursts/combat/030.jpg",
+          "zeroBasedSourceFrame": 19409,
+          "recordingSeconds": 323.48333333333335
+        },
+        {
+          "file": "bursts/combat/031.jpg",
+          "zeroBasedSourceFrame": 19410,
+          "recordingSeconds": 323.5
+        },
+        {
+          "file": "bursts/combat/032.jpg",
+          "zeroBasedSourceFrame": 19411,
+          "recordingSeconds": 323.51666666666665
+        },
+        {
+          "file": "bursts/combat/033.jpg",
+          "zeroBasedSourceFrame": 19412,
+          "recordingSeconds": 323.53333333333336
+        },
+        {
+          "file": "bursts/combat/034.jpg",
+          "zeroBasedSourceFrame": 19413,
+          "recordingSeconds": 323.55
+        },
+        {
+          "file": "bursts/combat/035.jpg",
+          "zeroBasedSourceFrame": 19414,
+          "recordingSeconds": 323.56666666666666
+        },
+        {
+          "file": "bursts/combat/036.jpg",
+          "zeroBasedSourceFrame": 19415,
+          "recordingSeconds": 323.5833333333333
+        },
+        {
+          "file": "bursts/combat/037.jpg",
+          "zeroBasedSourceFrame": 19416,
+          "recordingSeconds": 323.6
+        },
+        {
+          "file": "bursts/combat/038.jpg",
+          "zeroBasedSourceFrame": 19417,
+          "recordingSeconds": 323.6166666666667
+        },
+        {
+          "file": "bursts/combat/039.jpg",
+          "zeroBasedSourceFrame": 19418,
+          "recordingSeconds": 323.6333333333333
+        },
+        {
+          "file": "bursts/combat/040.jpg",
+          "zeroBasedSourceFrame": 19419,
+          "recordingSeconds": 323.65
+        },
+        {
+          "file": "bursts/combat/041.jpg",
+          "zeroBasedSourceFrame": 19420,
+          "recordingSeconds": 323.6666666666667
+        },
+        {
+          "file": "bursts/combat/042.jpg",
+          "zeroBasedSourceFrame": 19421,
+          "recordingSeconds": 323.68333333333334
+        },
+        {
+          "file": "bursts/combat/043.jpg",
+          "zeroBasedSourceFrame": 19422,
+          "recordingSeconds": 323.7
+        },
+        {
+          "file": "bursts/combat/044.jpg",
+          "zeroBasedSourceFrame": 19423,
+          "recordingSeconds": 323.71666666666664
+        },
+        {
+          "file": "bursts/combat/045.jpg",
+          "zeroBasedSourceFrame": 19424,
+          "recordingSeconds": 323.73333333333335
+        },
+        {
+          "file": "bursts/combat/046.jpg",
+          "zeroBasedSourceFrame": 19425,
+          "recordingSeconds": 323.75
+        },
+        {
+          "file": "bursts/combat/047.jpg",
+          "zeroBasedSourceFrame": 19426,
+          "recordingSeconds": 323.76666666666665
+        },
+        {
+          "file": "bursts/combat/048.jpg",
+          "zeroBasedSourceFrame": 19427,
+          "recordingSeconds": 323.78333333333336
+        },
+        {
+          "file": "bursts/combat/049.jpg",
+          "zeroBasedSourceFrame": 19428,
+          "recordingSeconds": 323.8
+        },
+        {
+          "file": "bursts/combat/050.jpg",
+          "zeroBasedSourceFrame": 19429,
+          "recordingSeconds": 323.81666666666666
+        },
+        {
+          "file": "bursts/combat/051.jpg",
+          "zeroBasedSourceFrame": 19430,
+          "recordingSeconds": 323.8333333333333
+        },
+        {
+          "file": "bursts/combat/052.jpg",
+          "zeroBasedSourceFrame": 19431,
+          "recordingSeconds": 323.85
+        },
+        {
+          "file": "bursts/combat/053.jpg",
+          "zeroBasedSourceFrame": 19432,
+          "recordingSeconds": 323.8666666666667
+        },
+        {
+          "file": "bursts/combat/054.jpg",
+          "zeroBasedSourceFrame": 19433,
+          "recordingSeconds": 323.8833333333333
+        },
+        {
+          "file": "bursts/combat/055.jpg",
+          "zeroBasedSourceFrame": 19434,
+          "recordingSeconds": 323.9
+        },
+        {
+          "file": "bursts/combat/056.jpg",
+          "zeroBasedSourceFrame": 19435,
+          "recordingSeconds": 323.9166666666667
+        },
+        {
+          "file": "bursts/combat/057.jpg",
+          "zeroBasedSourceFrame": 19436,
+          "recordingSeconds": 323.93333333333334
+        },
+        {
+          "file": "bursts/combat/058.jpg",
+          "zeroBasedSourceFrame": 19437,
+          "recordingSeconds": 323.95
+        },
+        {
+          "file": "bursts/combat/059.jpg",
+          "zeroBasedSourceFrame": 19438,
+          "recordingSeconds": 323.96666666666664
+        },
+        {
+          "file": "bursts/combat/060.jpg",
+          "zeroBasedSourceFrame": 19439,
+          "recordingSeconds": 323.98333333333335
+        },
+        {
+          "file": "bursts/combat/061.jpg",
+          "zeroBasedSourceFrame": 19440,
+          "recordingSeconds": 324.0
+        },
+        {
+          "file": "bursts/combat/062.jpg",
+          "zeroBasedSourceFrame": 19441,
+          "recordingSeconds": 324.01666666666665
+        },
+        {
+          "file": "bursts/combat/063.jpg",
+          "zeroBasedSourceFrame": 19442,
+          "recordingSeconds": 324.03333333333336
+        },
+        {
+          "file": "bursts/combat/064.jpg",
+          "zeroBasedSourceFrame": 19443,
+          "recordingSeconds": 324.05
+        },
+        {
+          "file": "bursts/combat/065.jpg",
+          "zeroBasedSourceFrame": 19444,
+          "recordingSeconds": 324.06666666666666
+        },
+        {
+          "file": "bursts/combat/066.jpg",
+          "zeroBasedSourceFrame": 19445,
+          "recordingSeconds": 324.0833333333333
+        },
+        {
+          "file": "bursts/combat/067.jpg",
+          "zeroBasedSourceFrame": 19446,
+          "recordingSeconds": 324.1
+        },
+        {
+          "file": "bursts/combat/068.jpg",
+          "zeroBasedSourceFrame": 19447,
+          "recordingSeconds": 324.1166666666667
+        },
+        {
+          "file": "bursts/combat/069.jpg",
+          "zeroBasedSourceFrame": 19448,
+          "recordingSeconds": 324.1333333333333
+        },
+        {
+          "file": "bursts/combat/070.jpg",
+          "zeroBasedSourceFrame": 19449,
+          "recordingSeconds": 324.15
+        },
+        {
+          "file": "bursts/combat/071.jpg",
+          "zeroBasedSourceFrame": 19450,
+          "recordingSeconds": 324.1666666666667
+        },
+        {
+          "file": "bursts/combat/072.jpg",
+          "zeroBasedSourceFrame": 19451,
+          "recordingSeconds": 324.18333333333334
+        },
+        {
+          "file": "bursts/combat/073.jpg",
+          "zeroBasedSourceFrame": 19452,
+          "recordingSeconds": 324.2
+        },
+        {
+          "file": "bursts/combat/074.jpg",
+          "zeroBasedSourceFrame": 19453,
+          "recordingSeconds": 324.21666666666664
+        },
+        {
+          "file": "bursts/combat/075.jpg",
+          "zeroBasedSourceFrame": 19454,
+          "recordingSeconds": 324.23333333333335
+        },
+        {
+          "file": "bursts/combat/076.jpg",
+          "zeroBasedSourceFrame": 19455,
+          "recordingSeconds": 324.25
+        },
+        {
+          "file": "bursts/combat/077.jpg",
+          "zeroBasedSourceFrame": 19456,
+          "recordingSeconds": 324.26666666666665
+        },
+        {
+          "file": "bursts/combat/078.jpg",
+          "zeroBasedSourceFrame": 19457,
+          "recordingSeconds": 324.28333333333336
+        },
+        {
+          "file": "bursts/combat/079.jpg",
+          "zeroBasedSourceFrame": 19458,
+          "recordingSeconds": 324.3
+        },
+        {
+          "file": "bursts/combat/080.jpg",
+          "zeroBasedSourceFrame": 19459,
+          "recordingSeconds": 324.31666666666666
+        },
+        {
+          "file": "bursts/combat/081.jpg",
+          "zeroBasedSourceFrame": 19460,
+          "recordingSeconds": 324.3333333333333
+        },
+        {
+          "file": "bursts/combat/082.jpg",
+          "zeroBasedSourceFrame": 19461,
+          "recordingSeconds": 324.35
+        },
+        {
+          "file": "bursts/combat/083.jpg",
+          "zeroBasedSourceFrame": 19462,
+          "recordingSeconds": 324.3666666666667
+        },
+        {
+          "file": "bursts/combat/084.jpg",
+          "zeroBasedSourceFrame": 19463,
+          "recordingSeconds": 324.3833333333333
+        },
+        {
+          "file": "bursts/combat/085.jpg",
+          "zeroBasedSourceFrame": 19464,
+          "recordingSeconds": 324.4
+        },
+        {
+          "file": "bursts/combat/086.jpg",
+          "zeroBasedSourceFrame": 19465,
+          "recordingSeconds": 324.4166666666667
+        },
+        {
+          "file": "bursts/combat/087.jpg",
+          "zeroBasedSourceFrame": 19466,
+          "recordingSeconds": 324.43333333333334
+        },
+        {
+          "file": "bursts/combat/088.jpg",
+          "zeroBasedSourceFrame": 19467,
+          "recordingSeconds": 324.45
+        },
+        {
+          "file": "bursts/combat/089.jpg",
+          "zeroBasedSourceFrame": 19468,
+          "recordingSeconds": 324.46666666666664
+        },
+        {
+          "file": "bursts/combat/090.jpg",
+          "zeroBasedSourceFrame": 19469,
+          "recordingSeconds": 324.48333333333335
+        },
+        {
+          "file": "bursts/combat/091.jpg",
+          "zeroBasedSourceFrame": 19470,
+          "recordingSeconds": 324.5
+        },
+        {
+          "file": "bursts/combat/092.jpg",
+          "zeroBasedSourceFrame": 19471,
+          "recordingSeconds": 324.51666666666665
+        },
+        {
+          "file": "bursts/combat/093.jpg",
+          "zeroBasedSourceFrame": 19472,
+          "recordingSeconds": 324.53333333333336
+        },
+        {
+          "file": "bursts/combat/094.jpg",
+          "zeroBasedSourceFrame": 19473,
+          "recordingSeconds": 324.55
+        },
+        {
+          "file": "bursts/combat/095.jpg",
+          "zeroBasedSourceFrame": 19474,
+          "recordingSeconds": 324.56666666666666
+        },
+        {
+          "file": "bursts/combat/096.jpg",
+          "zeroBasedSourceFrame": 19475,
+          "recordingSeconds": 324.5833333333333
+        },
+        {
+          "file": "bursts/combat/097.jpg",
+          "zeroBasedSourceFrame": 19476,
+          "recordingSeconds": 324.6
+        },
+        {
+          "file": "bursts/combat/098.jpg",
+          "zeroBasedSourceFrame": 19477,
+          "recordingSeconds": 324.6166666666667
+        },
+        {
+          "file": "bursts/combat/099.jpg",
+          "zeroBasedSourceFrame": 19478,
+          "recordingSeconds": 324.6333333333333
+        },
+        {
+          "file": "bursts/combat/100.jpg",
+          "zeroBasedSourceFrame": 19479,
+          "recordingSeconds": 324.65
+        },
+        {
+          "file": "bursts/combat/101.jpg",
+          "zeroBasedSourceFrame": 19480,
+          "recordingSeconds": 324.6666666666667
+        },
+        {
+          "file": "bursts/combat/102.jpg",
+          "zeroBasedSourceFrame": 19481,
+          "recordingSeconds": 324.68333333333334
+        },
+        {
+          "file": "bursts/combat/103.jpg",
+          "zeroBasedSourceFrame": 19482,
+          "recordingSeconds": 324.7
+        },
+        {
+          "file": "bursts/combat/104.jpg",
+          "zeroBasedSourceFrame": 19483,
+          "recordingSeconds": 324.71666666666664
+        },
+        {
+          "file": "bursts/combat/105.jpg",
+          "zeroBasedSourceFrame": 19484,
+          "recordingSeconds": 324.73333333333335
+        },
+        {
+          "file": "bursts/combat/106.jpg",
+          "zeroBasedSourceFrame": 19485,
+          "recordingSeconds": 324.75
+        },
+        {
+          "file": "bursts/combat/107.jpg",
+          "zeroBasedSourceFrame": 19486,
+          "recordingSeconds": 324.76666666666665
+        },
+        {
+          "file": "bursts/combat/108.jpg",
+          "zeroBasedSourceFrame": 19487,
+          "recordingSeconds": 324.78333333333336
+        },
+        {
+          "file": "bursts/combat/109.jpg",
+          "zeroBasedSourceFrame": 19488,
+          "recordingSeconds": 324.8
+        },
+        {
+          "file": "bursts/combat/110.jpg",
+          "zeroBasedSourceFrame": 19489,
+          "recordingSeconds": 324.81666666666666
+        },
+        {
+          "file": "bursts/combat/111.jpg",
+          "zeroBasedSourceFrame": 19490,
+          "recordingSeconds": 324.8333333333333
+        },
+        {
+          "file": "bursts/combat/112.jpg",
+          "zeroBasedSourceFrame": 19491,
+          "recordingSeconds": 324.85
+        },
+        {
+          "file": "bursts/combat/113.jpg",
+          "zeroBasedSourceFrame": 19492,
+          "recordingSeconds": 324.8666666666667
+        },
+        {
+          "file": "bursts/combat/114.jpg",
+          "zeroBasedSourceFrame": 19493,
+          "recordingSeconds": 324.8833333333333
+        },
+        {
+          "file": "bursts/combat/115.jpg",
+          "zeroBasedSourceFrame": 19494,
+          "recordingSeconds": 324.9
+        },
+        {
+          "file": "bursts/combat/116.jpg",
+          "zeroBasedSourceFrame": 19495,
+          "recordingSeconds": 324.9166666666667
+        },
+        {
+          "file": "bursts/combat/117.jpg",
+          "zeroBasedSourceFrame": 19496,
+          "recordingSeconds": 324.93333333333334
+        },
+        {
+          "file": "bursts/combat/118.jpg",
+          "zeroBasedSourceFrame": 19497,
+          "recordingSeconds": 324.95
+        },
+        {
+          "file": "bursts/combat/119.jpg",
+          "zeroBasedSourceFrame": 19498,
+          "recordingSeconds": 324.96666666666664
+        },
+        {
+          "file": "bursts/combat/120.jpg",
+          "zeroBasedSourceFrame": 19499,
+          "recordingSeconds": 324.98333333333335
+        }
+      ]
+    },
+    {
+      "name": "walk",
+      "startSeconds": 663,
+      "frames": [
+        {
+          "file": "bursts/walk/001.jpg",
+          "zeroBasedSourceFrame": 39780,
+          "recordingSeconds": 663.0
+        },
+        {
+          "file": "bursts/walk/002.jpg",
+          "zeroBasedSourceFrame": 39781,
+          "recordingSeconds": 663.0166666666667
+        },
+        {
+          "file": "bursts/walk/003.jpg",
+          "zeroBasedSourceFrame": 39782,
+          "recordingSeconds": 663.0333333333333
+        },
+        {
+          "file": "bursts/walk/004.jpg",
+          "zeroBasedSourceFrame": 39783,
+          "recordingSeconds": 663.05
+        },
+        {
+          "file": "bursts/walk/005.jpg",
+          "zeroBasedSourceFrame": 39784,
+          "recordingSeconds": 663.0666666666667
+        },
+        {
+          "file": "bursts/walk/006.jpg",
+          "zeroBasedSourceFrame": 39785,
+          "recordingSeconds": 663.0833333333334
+        },
+        {
+          "file": "bursts/walk/007.jpg",
+          "zeroBasedSourceFrame": 39786,
+          "recordingSeconds": 663.1
+        },
+        {
+          "file": "bursts/walk/008.jpg",
+          "zeroBasedSourceFrame": 39787,
+          "recordingSeconds": 663.1166666666667
+        },
+        {
+          "file": "bursts/walk/009.jpg",
+          "zeroBasedSourceFrame": 39788,
+          "recordingSeconds": 663.1333333333333
+        },
+        {
+          "file": "bursts/walk/010.jpg",
+          "zeroBasedSourceFrame": 39789,
+          "recordingSeconds": 663.15
+        },
+        {
+          "file": "bursts/walk/011.jpg",
+          "zeroBasedSourceFrame": 39790,
+          "recordingSeconds": 663.1666666666666
+        },
+        {
+          "file": "bursts/walk/012.jpg",
+          "zeroBasedSourceFrame": 39791,
+          "recordingSeconds": 663.1833333333333
+        },
+        {
+          "file": "bursts/walk/013.jpg",
+          "zeroBasedSourceFrame": 39792,
+          "recordingSeconds": 663.2
+        },
+        {
+          "file": "bursts/walk/014.jpg",
+          "zeroBasedSourceFrame": 39793,
+          "recordingSeconds": 663.2166666666667
+        },
+        {
+          "file": "bursts/walk/015.jpg",
+          "zeroBasedSourceFrame": 39794,
+          "recordingSeconds": 663.2333333333333
+        },
+        {
+          "file": "bursts/walk/016.jpg",
+          "zeroBasedSourceFrame": 39795,
+          "recordingSeconds": 663.25
+        },
+        {
+          "file": "bursts/walk/017.jpg",
+          "zeroBasedSourceFrame": 39796,
+          "recordingSeconds": 663.2666666666667
+        },
+        {
+          "file": "bursts/walk/018.jpg",
+          "zeroBasedSourceFrame": 39797,
+          "recordingSeconds": 663.2833333333333
+        },
+        {
+          "file": "bursts/walk/019.jpg",
+          "zeroBasedSourceFrame": 39798,
+          "recordingSeconds": 663.3
+        },
+        {
+          "file": "bursts/walk/020.jpg",
+          "zeroBasedSourceFrame": 39799,
+          "recordingSeconds": 663.3166666666667
+        },
+        {
+          "file": "bursts/walk/021.jpg",
+          "zeroBasedSourceFrame": 39800,
+          "recordingSeconds": 663.3333333333334
+        },
+        {
+          "file": "bursts/walk/022.jpg",
+          "zeroBasedSourceFrame": 39801,
+          "recordingSeconds": 663.35
+        },
+        {
+          "file": "bursts/walk/023.jpg",
+          "zeroBasedSourceFrame": 39802,
+          "recordingSeconds": 663.3666666666667
+        },
+        {
+          "file": "bursts/walk/024.jpg",
+          "zeroBasedSourceFrame": 39803,
+          "recordingSeconds": 663.3833333333333
+        },
+        {
+          "file": "bursts/walk/025.jpg",
+          "zeroBasedSourceFrame": 39804,
+          "recordingSeconds": 663.4
+        },
+        {
+          "file": "bursts/walk/026.jpg",
+          "zeroBasedSourceFrame": 39805,
+          "recordingSeconds": 663.4166666666666
+        },
+        {
+          "file": "bursts/walk/027.jpg",
+          "zeroBasedSourceFrame": 39806,
+          "recordingSeconds": 663.4333333333333
+        },
+        {
+          "file": "bursts/walk/028.jpg",
+          "zeroBasedSourceFrame": 39807,
+          "recordingSeconds": 663.45
+        },
+        {
+          "file": "bursts/walk/029.jpg",
+          "zeroBasedSourceFrame": 39808,
+          "recordingSeconds": 663.4666666666667
+        },
+        {
+          "file": "bursts/walk/030.jpg",
+          "zeroBasedSourceFrame": 39809,
+          "recordingSeconds": 663.4833333333333
+        },
+        {
+          "file": "bursts/walk/031.jpg",
+          "zeroBasedSourceFrame": 39810,
+          "recordingSeconds": 663.5
+        },
+        {
+          "file": "bursts/walk/032.jpg",
+          "zeroBasedSourceFrame": 39811,
+          "recordingSeconds": 663.5166666666667
+        },
+        {
+          "file": "bursts/walk/033.jpg",
+          "zeroBasedSourceFrame": 39812,
+          "recordingSeconds": 663.5333333333333
+        },
+        {
+          "file": "bursts/walk/034.jpg",
+          "zeroBasedSourceFrame": 39813,
+          "recordingSeconds": 663.55
+        },
+        {
+          "file": "bursts/walk/035.jpg",
+          "zeroBasedSourceFrame": 39814,
+          "recordingSeconds": 663.5666666666667
+        },
+        {
+          "file": "bursts/walk/036.jpg",
+          "zeroBasedSourceFrame": 39815,
+          "recordingSeconds": 663.5833333333334
+        },
+        {
+          "file": "bursts/walk/037.jpg",
+          "zeroBasedSourceFrame": 39816,
+          "recordingSeconds": 663.6
+        },
+        {
+          "file": "bursts/walk/038.jpg",
+          "zeroBasedSourceFrame": 39817,
+          "recordingSeconds": 663.6166666666667
+        },
+        {
+          "file": "bursts/walk/039.jpg",
+          "zeroBasedSourceFrame": 39818,
+          "recordingSeconds": 663.6333333333333
+        },
+        {
+          "file": "bursts/walk/040.jpg",
+          "zeroBasedSourceFrame": 39819,
+          "recordingSeconds": 663.65
+        },
+        {
+          "file": "bursts/walk/041.jpg",
+          "zeroBasedSourceFrame": 39820,
+          "recordingSeconds": 663.6666666666666
+        },
+        {
+          "file": "bursts/walk/042.jpg",
+          "zeroBasedSourceFrame": 39821,
+          "recordingSeconds": 663.6833333333333
+        },
+        {
+          "file": "bursts/walk/043.jpg",
+          "zeroBasedSourceFrame": 39822,
+          "recordingSeconds": 663.7
+        },
+        {
+          "file": "bursts/walk/044.jpg",
+          "zeroBasedSourceFrame": 39823,
+          "recordingSeconds": 663.7166666666667
+        },
+        {
+          "file": "bursts/walk/045.jpg",
+          "zeroBasedSourceFrame": 39824,
+          "recordingSeconds": 663.7333333333333
+        },
+        {
+          "file": "bursts/walk/046.jpg",
+          "zeroBasedSourceFrame": 39825,
+          "recordingSeconds": 663.75
+        },
+        {
+          "file": "bursts/walk/047.jpg",
+          "zeroBasedSourceFrame": 39826,
+          "recordingSeconds": 663.7666666666667
+        },
+        {
+          "file": "bursts/walk/048.jpg",
+          "zeroBasedSourceFrame": 39827,
+          "recordingSeconds": 663.7833333333333
+        },
+        {
+          "file": "bursts/walk/049.jpg",
+          "zeroBasedSourceFrame": 39828,
+          "recordingSeconds": 663.8
+        },
+        {
+          "file": "bursts/walk/050.jpg",
+          "zeroBasedSourceFrame": 39829,
+          "recordingSeconds": 663.8166666666667
+        },
+        {
+          "file": "bursts/walk/051.jpg",
+          "zeroBasedSourceFrame": 39830,
+          "recordingSeconds": 663.8333333333334
+        },
+        {
+          "file": "bursts/walk/052.jpg",
+          "zeroBasedSourceFrame": 39831,
+          "recordingSeconds": 663.85
+        },
+        {
+          "file": "bursts/walk/053.jpg",
+          "zeroBasedSourceFrame": 39832,
+          "recordingSeconds": 663.8666666666667
+        },
+        {
+          "file": "bursts/walk/054.jpg",
+          "zeroBasedSourceFrame": 39833,
+          "recordingSeconds": 663.8833333333333
+        },
+        {
+          "file": "bursts/walk/055.jpg",
+          "zeroBasedSourceFrame": 39834,
+          "recordingSeconds": 663.9
+        },
+        {
+          "file": "bursts/walk/056.jpg",
+          "zeroBasedSourceFrame": 39835,
+          "recordingSeconds": 663.9166666666666
+        },
+        {
+          "file": "bursts/walk/057.jpg",
+          "zeroBasedSourceFrame": 39836,
+          "recordingSeconds": 663.9333333333333
+        },
+        {
+          "file": "bursts/walk/058.jpg",
+          "zeroBasedSourceFrame": 39837,
+          "recordingSeconds": 663.95
+        },
+        {
+          "file": "bursts/walk/059.jpg",
+          "zeroBasedSourceFrame": 39838,
+          "recordingSeconds": 663.9666666666667
+        },
+        {
+          "file": "bursts/walk/060.jpg",
+          "zeroBasedSourceFrame": 39839,
+          "recordingSeconds": 663.9833333333333
+        },
+        {
+          "file": "bursts/walk/061.jpg",
+          "zeroBasedSourceFrame": 39840,
+          "recordingSeconds": 664.0
+        },
+        {
+          "file": "bursts/walk/062.jpg",
+          "zeroBasedSourceFrame": 39841,
+          "recordingSeconds": 664.0166666666667
+        },
+        {
+          "file": "bursts/walk/063.jpg",
+          "zeroBasedSourceFrame": 39842,
+          "recordingSeconds": 664.0333333333333
+        },
+        {
+          "file": "bursts/walk/064.jpg",
+          "zeroBasedSourceFrame": 39843,
+          "recordingSeconds": 664.05
+        },
+        {
+          "file": "bursts/walk/065.jpg",
+          "zeroBasedSourceFrame": 39844,
+          "recordingSeconds": 664.0666666666667
+        },
+        {
+          "file": "bursts/walk/066.jpg",
+          "zeroBasedSourceFrame": 39845,
+          "recordingSeconds": 664.0833333333334
+        },
+        {
+          "file": "bursts/walk/067.jpg",
+          "zeroBasedSourceFrame": 39846,
+          "recordingSeconds": 664.1
+        },
+        {
+          "file": "bursts/walk/068.jpg",
+          "zeroBasedSourceFrame": 39847,
+          "recordingSeconds": 664.1166666666667
+        },
+        {
+          "file": "bursts/walk/069.jpg",
+          "zeroBasedSourceFrame": 39848,
+          "recordingSeconds": 664.1333333333333
+        },
+        {
+          "file": "bursts/walk/070.jpg",
+          "zeroBasedSourceFrame": 39849,
+          "recordingSeconds": 664.15
+        },
+        {
+          "file": "bursts/walk/071.jpg",
+          "zeroBasedSourceFrame": 39850,
+          "recordingSeconds": 664.1666666666666
+        },
+        {
+          "file": "bursts/walk/072.jpg",
+          "zeroBasedSourceFrame": 39851,
+          "recordingSeconds": 664.1833333333333
+        },
+        {
+          "file": "bursts/walk/073.jpg",
+          "zeroBasedSourceFrame": 39852,
+          "recordingSeconds": 664.2
+        },
+        {
+          "file": "bursts/walk/074.jpg",
+          "zeroBasedSourceFrame": 39853,
+          "recordingSeconds": 664.2166666666667
+        },
+        {
+          "file": "bursts/walk/075.jpg",
+          "zeroBasedSourceFrame": 39854,
+          "recordingSeconds": 664.2333333333333
+        },
+        {
+          "file": "bursts/walk/076.jpg",
+          "zeroBasedSourceFrame": 39855,
+          "recordingSeconds": 664.25
+        },
+        {
+          "file": "bursts/walk/077.jpg",
+          "zeroBasedSourceFrame": 39856,
+          "recordingSeconds": 664.2666666666667
+        },
+        {
+          "file": "bursts/walk/078.jpg",
+          "zeroBasedSourceFrame": 39857,
+          "recordingSeconds": 664.2833333333333
+        },
+        {
+          "file": "bursts/walk/079.jpg",
+          "zeroBasedSourceFrame": 39858,
+          "recordingSeconds": 664.3
+        },
+        {
+          "file": "bursts/walk/080.jpg",
+          "zeroBasedSourceFrame": 39859,
+          "recordingSeconds": 664.3166666666667
+        },
+        {
+          "file": "bursts/walk/081.jpg",
+          "zeroBasedSourceFrame": 39860,
+          "recordingSeconds": 664.3333333333334
+        },
+        {
+          "file": "bursts/walk/082.jpg",
+          "zeroBasedSourceFrame": 39861,
+          "recordingSeconds": 664.35
+        },
+        {
+          "file": "bursts/walk/083.jpg",
+          "zeroBasedSourceFrame": 39862,
+          "recordingSeconds": 664.3666666666667
+        },
+        {
+          "file": "bursts/walk/084.jpg",
+          "zeroBasedSourceFrame": 39863,
+          "recordingSeconds": 664.3833333333333
+        },
+        {
+          "file": "bursts/walk/085.jpg",
+          "zeroBasedSourceFrame": 39864,
+          "recordingSeconds": 664.4
+        },
+        {
+          "file": "bursts/walk/086.jpg",
+          "zeroBasedSourceFrame": 39865,
+          "recordingSeconds": 664.4166666666666
+        },
+        {
+          "file": "bursts/walk/087.jpg",
+          "zeroBasedSourceFrame": 39866,
+          "recordingSeconds": 664.4333333333333
+        },
+        {
+          "file": "bursts/walk/088.jpg",
+          "zeroBasedSourceFrame": 39867,
+          "recordingSeconds": 664.45
+        },
+        {
+          "file": "bursts/walk/089.jpg",
+          "zeroBasedSourceFrame": 39868,
+          "recordingSeconds": 664.4666666666667
+        },
+        {
+          "file": "bursts/walk/090.jpg",
+          "zeroBasedSourceFrame": 39869,
+          "recordingSeconds": 664.4833333333333
+        },
+        {
+          "file": "bursts/walk/091.jpg",
+          "zeroBasedSourceFrame": 39870,
+          "recordingSeconds": 664.5
+        },
+        {
+          "file": "bursts/walk/092.jpg",
+          "zeroBasedSourceFrame": 39871,
+          "recordingSeconds": 664.5166666666667
+        },
+        {
+          "file": "bursts/walk/093.jpg",
+          "zeroBasedSourceFrame": 39872,
+          "recordingSeconds": 664.5333333333333
+        },
+        {
+          "file": "bursts/walk/094.jpg",
+          "zeroBasedSourceFrame": 39873,
+          "recordingSeconds": 664.55
+        },
+        {
+          "file": "bursts/walk/095.jpg",
+          "zeroBasedSourceFrame": 39874,
+          "recordingSeconds": 664.5666666666667
+        },
+        {
+          "file": "bursts/walk/096.jpg",
+          "zeroBasedSourceFrame": 39875,
+          "recordingSeconds": 664.5833333333334
+        },
+        {
+          "file": "bursts/walk/097.jpg",
+          "zeroBasedSourceFrame": 39876,
+          "recordingSeconds": 664.6
+        },
+        {
+          "file": "bursts/walk/098.jpg",
+          "zeroBasedSourceFrame": 39877,
+          "recordingSeconds": 664.6166666666667
+        },
+        {
+          "file": "bursts/walk/099.jpg",
+          "zeroBasedSourceFrame": 39878,
+          "recordingSeconds": 664.6333333333333
+        },
+        {
+          "file": "bursts/walk/100.jpg",
+          "zeroBasedSourceFrame": 39879,
+          "recordingSeconds": 664.65
+        },
+        {
+          "file": "bursts/walk/101.jpg",
+          "zeroBasedSourceFrame": 39880,
+          "recordingSeconds": 664.6666666666666
+        },
+        {
+          "file": "bursts/walk/102.jpg",
+          "zeroBasedSourceFrame": 39881,
+          "recordingSeconds": 664.6833333333333
+        },
+        {
+          "file": "bursts/walk/103.jpg",
+          "zeroBasedSourceFrame": 39882,
+          "recordingSeconds": 664.7
+        },
+        {
+          "file": "bursts/walk/104.jpg",
+          "zeroBasedSourceFrame": 39883,
+          "recordingSeconds": 664.7166666666667
+        },
+        {
+          "file": "bursts/walk/105.jpg",
+          "zeroBasedSourceFrame": 39884,
+          "recordingSeconds": 664.7333333333333
+        },
+        {
+          "file": "bursts/walk/106.jpg",
+          "zeroBasedSourceFrame": 39885,
+          "recordingSeconds": 664.75
+        },
+        {
+          "file": "bursts/walk/107.jpg",
+          "zeroBasedSourceFrame": 39886,
+          "recordingSeconds": 664.7666666666667
+        },
+        {
+          "file": "bursts/walk/108.jpg",
+          "zeroBasedSourceFrame": 39887,
+          "recordingSeconds": 664.7833333333333
+        },
+        {
+          "file": "bursts/walk/109.jpg",
+          "zeroBasedSourceFrame": 39888,
+          "recordingSeconds": 664.8
+        },
+        {
+          "file": "bursts/walk/110.jpg",
+          "zeroBasedSourceFrame": 39889,
+          "recordingSeconds": 664.8166666666667
+        },
+        {
+          "file": "bursts/walk/111.jpg",
+          "zeroBasedSourceFrame": 39890,
+          "recordingSeconds": 664.8333333333334
+        },
+        {
+          "file": "bursts/walk/112.jpg",
+          "zeroBasedSourceFrame": 39891,
+          "recordingSeconds": 664.85
+        },
+        {
+          "file": "bursts/walk/113.jpg",
+          "zeroBasedSourceFrame": 39892,
+          "recordingSeconds": 664.8666666666667
+        },
+        {
+          "file": "bursts/walk/114.jpg",
+          "zeroBasedSourceFrame": 39893,
+          "recordingSeconds": 664.8833333333333
+        },
+        {
+          "file": "bursts/walk/115.jpg",
+          "zeroBasedSourceFrame": 39894,
+          "recordingSeconds": 664.9
+        },
+        {
+          "file": "bursts/walk/116.jpg",
+          "zeroBasedSourceFrame": 39895,
+          "recordingSeconds": 664.9166666666666
+        },
+        {
+          "file": "bursts/walk/117.jpg",
+          "zeroBasedSourceFrame": 39896,
+          "recordingSeconds": 664.9333333333333
+        },
+        {
+          "file": "bursts/walk/118.jpg",
+          "zeroBasedSourceFrame": 39897,
+          "recordingSeconds": 664.95
+        },
+        {
+          "file": "bursts/walk/119.jpg",
+          "zeroBasedSourceFrame": 39898,
+          "recordingSeconds": 664.9666666666667
+        },
+        {
+          "file": "bursts/walk/120.jpg",
+          "zeroBasedSourceFrame": 39899,
+          "recordingSeconds": 664.9833333333333
+        }
+      ]
+    },
+    {
+      "name": "stairs",
+      "startSeconds": 1077,
+      "frames": [
+        {
+          "file": "bursts/stairs/001.jpg",
+          "zeroBasedSourceFrame": 64620,
+          "recordingSeconds": 1077.0
+        },
+        {
+          "file": "bursts/stairs/002.jpg",
+          "zeroBasedSourceFrame": 64621,
+          "recordingSeconds": 1077.0166666666667
+        },
+        {
+          "file": "bursts/stairs/003.jpg",
+          "zeroBasedSourceFrame": 64622,
+          "recordingSeconds": 1077.0333333333333
+        },
+        {
+          "file": "bursts/stairs/004.jpg",
+          "zeroBasedSourceFrame": 64623,
+          "recordingSeconds": 1077.05
+        },
+        {
+          "file": "bursts/stairs/005.jpg",
+          "zeroBasedSourceFrame": 64624,
+          "recordingSeconds": 1077.0666666666666
+        },
+        {
+          "file": "bursts/stairs/006.jpg",
+          "zeroBasedSourceFrame": 64625,
+          "recordingSeconds": 1077.0833333333333
+        },
+        {
+          "file": "bursts/stairs/007.jpg",
+          "zeroBasedSourceFrame": 64626,
+          "recordingSeconds": 1077.1
+        },
+        {
+          "file": "bursts/stairs/008.jpg",
+          "zeroBasedSourceFrame": 64627,
+          "recordingSeconds": 1077.1166666666666
+        },
+        {
+          "file": "bursts/stairs/009.jpg",
+          "zeroBasedSourceFrame": 64628,
+          "recordingSeconds": 1077.1333333333334
+        },
+        {
+          "file": "bursts/stairs/010.jpg",
+          "zeroBasedSourceFrame": 64629,
+          "recordingSeconds": 1077.15
+        },
+        {
+          "file": "bursts/stairs/011.jpg",
+          "zeroBasedSourceFrame": 64630,
+          "recordingSeconds": 1077.1666666666667
+        },
+        {
+          "file": "bursts/stairs/012.jpg",
+          "zeroBasedSourceFrame": 64631,
+          "recordingSeconds": 1077.1833333333334
+        },
+        {
+          "file": "bursts/stairs/013.jpg",
+          "zeroBasedSourceFrame": 64632,
+          "recordingSeconds": 1077.2
+        },
+        {
+          "file": "bursts/stairs/014.jpg",
+          "zeroBasedSourceFrame": 64633,
+          "recordingSeconds": 1077.2166666666667
+        },
+        {
+          "file": "bursts/stairs/015.jpg",
+          "zeroBasedSourceFrame": 64634,
+          "recordingSeconds": 1077.2333333333333
+        },
+        {
+          "file": "bursts/stairs/016.jpg",
+          "zeroBasedSourceFrame": 64635,
+          "recordingSeconds": 1077.25
+        },
+        {
+          "file": "bursts/stairs/017.jpg",
+          "zeroBasedSourceFrame": 64636,
+          "recordingSeconds": 1077.2666666666667
+        },
+        {
+          "file": "bursts/stairs/018.jpg",
+          "zeroBasedSourceFrame": 64637,
+          "recordingSeconds": 1077.2833333333333
+        },
+        {
+          "file": "bursts/stairs/019.jpg",
+          "zeroBasedSourceFrame": 64638,
+          "recordingSeconds": 1077.3
+        },
+        {
+          "file": "bursts/stairs/020.jpg",
+          "zeroBasedSourceFrame": 64639,
+          "recordingSeconds": 1077.3166666666666
+        },
+        {
+          "file": "bursts/stairs/021.jpg",
+          "zeroBasedSourceFrame": 64640,
+          "recordingSeconds": 1077.3333333333333
+        },
+        {
+          "file": "bursts/stairs/022.jpg",
+          "zeroBasedSourceFrame": 64641,
+          "recordingSeconds": 1077.35
+        },
+        {
+          "file": "bursts/stairs/023.jpg",
+          "zeroBasedSourceFrame": 64642,
+          "recordingSeconds": 1077.3666666666666
+        },
+        {
+          "file": "bursts/stairs/024.jpg",
+          "zeroBasedSourceFrame": 64643,
+          "recordingSeconds": 1077.3833333333334
+        },
+        {
+          "file": "bursts/stairs/025.jpg",
+          "zeroBasedSourceFrame": 64644,
+          "recordingSeconds": 1077.4
+        },
+        {
+          "file": "bursts/stairs/026.jpg",
+          "zeroBasedSourceFrame": 64645,
+          "recordingSeconds": 1077.4166666666667
+        },
+        {
+          "file": "bursts/stairs/027.jpg",
+          "zeroBasedSourceFrame": 64646,
+          "recordingSeconds": 1077.4333333333334
+        },
+        {
+          "file": "bursts/stairs/028.jpg",
+          "zeroBasedSourceFrame": 64647,
+          "recordingSeconds": 1077.45
+        },
+        {
+          "file": "bursts/stairs/029.jpg",
+          "zeroBasedSourceFrame": 64648,
+          "recordingSeconds": 1077.4666666666667
+        },
+        {
+          "file": "bursts/stairs/030.jpg",
+          "zeroBasedSourceFrame": 64649,
+          "recordingSeconds": 1077.4833333333333
+        },
+        {
+          "file": "bursts/stairs/031.jpg",
+          "zeroBasedSourceFrame": 64650,
+          "recordingSeconds": 1077.5
+        },
+        {
+          "file": "bursts/stairs/032.jpg",
+          "zeroBasedSourceFrame": 64651,
+          "recordingSeconds": 1077.5166666666667
+        },
+        {
+          "file": "bursts/stairs/033.jpg",
+          "zeroBasedSourceFrame": 64652,
+          "recordingSeconds": 1077.5333333333333
+        },
+        {
+          "file": "bursts/stairs/034.jpg",
+          "zeroBasedSourceFrame": 64653,
+          "recordingSeconds": 1077.55
+        },
+        {
+          "file": "bursts/stairs/035.jpg",
+          "zeroBasedSourceFrame": 64654,
+          "recordingSeconds": 1077.5666666666666
+        },
+        {
+          "file": "bursts/stairs/036.jpg",
+          "zeroBasedSourceFrame": 64655,
+          "recordingSeconds": 1077.5833333333333
+        },
+        {
+          "file": "bursts/stairs/037.jpg",
+          "zeroBasedSourceFrame": 64656,
+          "recordingSeconds": 1077.6
+        },
+        {
+          "file": "bursts/stairs/038.jpg",
+          "zeroBasedSourceFrame": 64657,
+          "recordingSeconds": 1077.6166666666666
+        },
+        {
+          "file": "bursts/stairs/039.jpg",
+          "zeroBasedSourceFrame": 64658,
+          "recordingSeconds": 1077.6333333333334
+        },
+        {
+          "file": "bursts/stairs/040.jpg",
+          "zeroBasedSourceFrame": 64659,
+          "recordingSeconds": 1077.65
+        },
+        {
+          "file": "bursts/stairs/041.jpg",
+          "zeroBasedSourceFrame": 64660,
+          "recordingSeconds": 1077.6666666666667
+        },
+        {
+          "file": "bursts/stairs/042.jpg",
+          "zeroBasedSourceFrame": 64661,
+          "recordingSeconds": 1077.6833333333334
+        },
+        {
+          "file": "bursts/stairs/043.jpg",
+          "zeroBasedSourceFrame": 64662,
+          "recordingSeconds": 1077.7
+        },
+        {
+          "file": "bursts/stairs/044.jpg",
+          "zeroBasedSourceFrame": 64663,
+          "recordingSeconds": 1077.7166666666667
+        },
+        {
+          "file": "bursts/stairs/045.jpg",
+          "zeroBasedSourceFrame": 64664,
+          "recordingSeconds": 1077.7333333333333
+        },
+        {
+          "file": "bursts/stairs/046.jpg",
+          "zeroBasedSourceFrame": 64665,
+          "recordingSeconds": 1077.75
+        },
+        {
+          "file": "bursts/stairs/047.jpg",
+          "zeroBasedSourceFrame": 64666,
+          "recordingSeconds": 1077.7666666666667
+        },
+        {
+          "file": "bursts/stairs/048.jpg",
+          "zeroBasedSourceFrame": 64667,
+          "recordingSeconds": 1077.7833333333333
+        },
+        {
+          "file": "bursts/stairs/049.jpg",
+          "zeroBasedSourceFrame": 64668,
+          "recordingSeconds": 1077.8
+        },
+        {
+          "file": "bursts/stairs/050.jpg",
+          "zeroBasedSourceFrame": 64669,
+          "recordingSeconds": 1077.8166666666666
+        },
+        {
+          "file": "bursts/stairs/051.jpg",
+          "zeroBasedSourceFrame": 64670,
+          "recordingSeconds": 1077.8333333333333
+        },
+        {
+          "file": "bursts/stairs/052.jpg",
+          "zeroBasedSourceFrame": 64671,
+          "recordingSeconds": 1077.85
+        },
+        {
+          "file": "bursts/stairs/053.jpg",
+          "zeroBasedSourceFrame": 64672,
+          "recordingSeconds": 1077.8666666666666
+        },
+        {
+          "file": "bursts/stairs/054.jpg",
+          "zeroBasedSourceFrame": 64673,
+          "recordingSeconds": 1077.8833333333334
+        },
+        {
+          "file": "bursts/stairs/055.jpg",
+          "zeroBasedSourceFrame": 64674,
+          "recordingSeconds": 1077.9
+        },
+        {
+          "file": "bursts/stairs/056.jpg",
+          "zeroBasedSourceFrame": 64675,
+          "recordingSeconds": 1077.9166666666667
+        },
+        {
+          "file": "bursts/stairs/057.jpg",
+          "zeroBasedSourceFrame": 64676,
+          "recordingSeconds": 1077.9333333333334
+        },
+        {
+          "file": "bursts/stairs/058.jpg",
+          "zeroBasedSourceFrame": 64677,
+          "recordingSeconds": 1077.95
+        },
+        {
+          "file": "bursts/stairs/059.jpg",
+          "zeroBasedSourceFrame": 64678,
+          "recordingSeconds": 1077.9666666666667
+        },
+        {
+          "file": "bursts/stairs/060.jpg",
+          "zeroBasedSourceFrame": 64679,
+          "recordingSeconds": 1077.9833333333333
+        },
+        {
+          "file": "bursts/stairs/061.jpg",
+          "zeroBasedSourceFrame": 64680,
+          "recordingSeconds": 1078.0
+        },
+        {
+          "file": "bursts/stairs/062.jpg",
+          "zeroBasedSourceFrame": 64681,
+          "recordingSeconds": 1078.0166666666667
+        },
+        {
+          "file": "bursts/stairs/063.jpg",
+          "zeroBasedSourceFrame": 64682,
+          "recordingSeconds": 1078.0333333333333
+        },
+        {
+          "file": "bursts/stairs/064.jpg",
+          "zeroBasedSourceFrame": 64683,
+          "recordingSeconds": 1078.05
+        },
+        {
+          "file": "bursts/stairs/065.jpg",
+          "zeroBasedSourceFrame": 64684,
+          "recordingSeconds": 1078.0666666666666
+        },
+        {
+          "file": "bursts/stairs/066.jpg",
+          "zeroBasedSourceFrame": 64685,
+          "recordingSeconds": 1078.0833333333333
+        },
+        {
+          "file": "bursts/stairs/067.jpg",
+          "zeroBasedSourceFrame": 64686,
+          "recordingSeconds": 1078.1
+        },
+        {
+          "file": "bursts/stairs/068.jpg",
+          "zeroBasedSourceFrame": 64687,
+          "recordingSeconds": 1078.1166666666666
+        },
+        {
+          "file": "bursts/stairs/069.jpg",
+          "zeroBasedSourceFrame": 64688,
+          "recordingSeconds": 1078.1333333333334
+        },
+        {
+          "file": "bursts/stairs/070.jpg",
+          "zeroBasedSourceFrame": 64689,
+          "recordingSeconds": 1078.15
+        },
+        {
+          "file": "bursts/stairs/071.jpg",
+          "zeroBasedSourceFrame": 64690,
+          "recordingSeconds": 1078.1666666666667
+        },
+        {
+          "file": "bursts/stairs/072.jpg",
+          "zeroBasedSourceFrame": 64691,
+          "recordingSeconds": 1078.1833333333334
+        },
+        {
+          "file": "bursts/stairs/073.jpg",
+          "zeroBasedSourceFrame": 64692,
+          "recordingSeconds": 1078.2
+        },
+        {
+          "file": "bursts/stairs/074.jpg",
+          "zeroBasedSourceFrame": 64693,
+          "recordingSeconds": 1078.2166666666667
+        },
+        {
+          "file": "bursts/stairs/075.jpg",
+          "zeroBasedSourceFrame": 64694,
+          "recordingSeconds": 1078.2333333333333
+        },
+        {
+          "file": "bursts/stairs/076.jpg",
+          "zeroBasedSourceFrame": 64695,
+          "recordingSeconds": 1078.25
+        },
+        {
+          "file": "bursts/stairs/077.jpg",
+          "zeroBasedSourceFrame": 64696,
+          "recordingSeconds": 1078.2666666666667
+        },
+        {
+          "file": "bursts/stairs/078.jpg",
+          "zeroBasedSourceFrame": 64697,
+          "recordingSeconds": 1078.2833333333333
+        },
+        {
+          "file": "bursts/stairs/079.jpg",
+          "zeroBasedSourceFrame": 64698,
+          "recordingSeconds": 1078.3
+        },
+        {
+          "file": "bursts/stairs/080.jpg",
+          "zeroBasedSourceFrame": 64699,
+          "recordingSeconds": 1078.3166666666666
+        },
+        {
+          "file": "bursts/stairs/081.jpg",
+          "zeroBasedSourceFrame": 64700,
+          "recordingSeconds": 1078.3333333333333
+        },
+        {
+          "file": "bursts/stairs/082.jpg",
+          "zeroBasedSourceFrame": 64701,
+          "recordingSeconds": 1078.35
+        },
+        {
+          "file": "bursts/stairs/083.jpg",
+          "zeroBasedSourceFrame": 64702,
+          "recordingSeconds": 1078.3666666666666
+        },
+        {
+          "file": "bursts/stairs/084.jpg",
+          "zeroBasedSourceFrame": 64703,
+          "recordingSeconds": 1078.3833333333334
+        },
+        {
+          "file": "bursts/stairs/085.jpg",
+          "zeroBasedSourceFrame": 64704,
+          "recordingSeconds": 1078.4
+        },
+        {
+          "file": "bursts/stairs/086.jpg",
+          "zeroBasedSourceFrame": 64705,
+          "recordingSeconds": 1078.4166666666667
+        },
+        {
+          "file": "bursts/stairs/087.jpg",
+          "zeroBasedSourceFrame": 64706,
+          "recordingSeconds": 1078.4333333333334
+        },
+        {
+          "file": "bursts/stairs/088.jpg",
+          "zeroBasedSourceFrame": 64707,
+          "recordingSeconds": 1078.45
+        },
+        {
+          "file": "bursts/stairs/089.jpg",
+          "zeroBasedSourceFrame": 64708,
+          "recordingSeconds": 1078.4666666666667
+        },
+        {
+          "file": "bursts/stairs/090.jpg",
+          "zeroBasedSourceFrame": 64709,
+          "recordingSeconds": 1078.4833333333333
+        },
+        {
+          "file": "bursts/stairs/091.jpg",
+          "zeroBasedSourceFrame": 64710,
+          "recordingSeconds": 1078.5
+        },
+        {
+          "file": "bursts/stairs/092.jpg",
+          "zeroBasedSourceFrame": 64711,
+          "recordingSeconds": 1078.5166666666667
+        },
+        {
+          "file": "bursts/stairs/093.jpg",
+          "zeroBasedSourceFrame": 64712,
+          "recordingSeconds": 1078.5333333333333
+        },
+        {
+          "file": "bursts/stairs/094.jpg",
+          "zeroBasedSourceFrame": 64713,
+          "recordingSeconds": 1078.55
+        },
+        {
+          "file": "bursts/stairs/095.jpg",
+          "zeroBasedSourceFrame": 64714,
+          "recordingSeconds": 1078.5666666666666
+        },
+        {
+          "file": "bursts/stairs/096.jpg",
+          "zeroBasedSourceFrame": 64715,
+          "recordingSeconds": 1078.5833333333333
+        },
+        {
+          "file": "bursts/stairs/097.jpg",
+          "zeroBasedSourceFrame": 64716,
+          "recordingSeconds": 1078.6
+        },
+        {
+          "file": "bursts/stairs/098.jpg",
+          "zeroBasedSourceFrame": 64717,
+          "recordingSeconds": 1078.6166666666666
+        },
+        {
+          "file": "bursts/stairs/099.jpg",
+          "zeroBasedSourceFrame": 64718,
+          "recordingSeconds": 1078.6333333333334
+        },
+        {
+          "file": "bursts/stairs/100.jpg",
+          "zeroBasedSourceFrame": 64719,
+          "recordingSeconds": 1078.65
+        },
+        {
+          "file": "bursts/stairs/101.jpg",
+          "zeroBasedSourceFrame": 64720,
+          "recordingSeconds": 1078.6666666666667
+        },
+        {
+          "file": "bursts/stairs/102.jpg",
+          "zeroBasedSourceFrame": 64721,
+          "recordingSeconds": 1078.6833333333334
+        },
+        {
+          "file": "bursts/stairs/103.jpg",
+          "zeroBasedSourceFrame": 64722,
+          "recordingSeconds": 1078.7
+        },
+        {
+          "file": "bursts/stairs/104.jpg",
+          "zeroBasedSourceFrame": 64723,
+          "recordingSeconds": 1078.7166666666667
+        },
+        {
+          "file": "bursts/stairs/105.jpg",
+          "zeroBasedSourceFrame": 64724,
+          "recordingSeconds": 1078.7333333333333
+        },
+        {
+          "file": "bursts/stairs/106.jpg",
+          "zeroBasedSourceFrame": 64725,
+          "recordingSeconds": 1078.75
+        },
+        {
+          "file": "bursts/stairs/107.jpg",
+          "zeroBasedSourceFrame": 64726,
+          "recordingSeconds": 1078.7666666666667
+        },
+        {
+          "file": "bursts/stairs/108.jpg",
+          "zeroBasedSourceFrame": 64727,
+          "recordingSeconds": 1078.7833333333333
+        },
+        {
+          "file": "bursts/stairs/109.jpg",
+          "zeroBasedSourceFrame": 64728,
+          "recordingSeconds": 1078.8
+        },
+        {
+          "file": "bursts/stairs/110.jpg",
+          "zeroBasedSourceFrame": 64729,
+          "recordingSeconds": 1078.8166666666666
+        },
+        {
+          "file": "bursts/stairs/111.jpg",
+          "zeroBasedSourceFrame": 64730,
+          "recordingSeconds": 1078.8333333333333
+        },
+        {
+          "file": "bursts/stairs/112.jpg",
+          "zeroBasedSourceFrame": 64731,
+          "recordingSeconds": 1078.85
+        },
+        {
+          "file": "bursts/stairs/113.jpg",
+          "zeroBasedSourceFrame": 64732,
+          "recordingSeconds": 1078.8666666666666
+        },
+        {
+          "file": "bursts/stairs/114.jpg",
+          "zeroBasedSourceFrame": 64733,
+          "recordingSeconds": 1078.8833333333334
+        },
+        {
+          "file": "bursts/stairs/115.jpg",
+          "zeroBasedSourceFrame": 64734,
+          "recordingSeconds": 1078.9
+        },
+        {
+          "file": "bursts/stairs/116.jpg",
+          "zeroBasedSourceFrame": 64735,
+          "recordingSeconds": 1078.9166666666667
+        },
+        {
+          "file": "bursts/stairs/117.jpg",
+          "zeroBasedSourceFrame": 64736,
+          "recordingSeconds": 1078.9333333333334
+        },
+        {
+          "file": "bursts/stairs/118.jpg",
+          "zeroBasedSourceFrame": 64737,
+          "recordingSeconds": 1078.95
+        },
+        {
+          "file": "bursts/stairs/119.jpg",
+          "zeroBasedSourceFrame": 64738,
+          "recordingSeconds": 1078.9666666666667
+        },
+        {
+          "file": "bursts/stairs/120.jpg",
+          "zeroBasedSourceFrame": 64739,
+          "recordingSeconds": 1078.9833333333333
+        }
+      ]
+    },
+    {
+      "name": "camera-clip",
+      "startSeconds": 1116,
+      "frames": [
+        {
+          "file": "bursts/camera-clip/001.jpg",
+          "zeroBasedSourceFrame": 66960,
+          "recordingSeconds": 1116.0
+        },
+        {
+          "file": "bursts/camera-clip/002.jpg",
+          "zeroBasedSourceFrame": 66961,
+          "recordingSeconds": 1116.0166666666667
+        },
+        {
+          "file": "bursts/camera-clip/003.jpg",
+          "zeroBasedSourceFrame": 66962,
+          "recordingSeconds": 1116.0333333333333
+        },
+        {
+          "file": "bursts/camera-clip/004.jpg",
+          "zeroBasedSourceFrame": 66963,
+          "recordingSeconds": 1116.05
+        },
+        {
+          "file": "bursts/camera-clip/005.jpg",
+          "zeroBasedSourceFrame": 66964,
+          "recordingSeconds": 1116.0666666666666
+        },
+        {
+          "file": "bursts/camera-clip/006.jpg",
+          "zeroBasedSourceFrame": 66965,
+          "recordingSeconds": 1116.0833333333333
+        },
+        {
+          "file": "bursts/camera-clip/007.jpg",
+          "zeroBasedSourceFrame": 66966,
+          "recordingSeconds": 1116.1
+        },
+        {
+          "file": "bursts/camera-clip/008.jpg",
+          "zeroBasedSourceFrame": 66967,
+          "recordingSeconds": 1116.1166666666666
+        },
+        {
+          "file": "bursts/camera-clip/009.jpg",
+          "zeroBasedSourceFrame": 66968,
+          "recordingSeconds": 1116.1333333333334
+        },
+        {
+          "file": "bursts/camera-clip/010.jpg",
+          "zeroBasedSourceFrame": 66969,
+          "recordingSeconds": 1116.15
+        },
+        {
+          "file": "bursts/camera-clip/011.jpg",
+          "zeroBasedSourceFrame": 66970,
+          "recordingSeconds": 1116.1666666666667
+        },
+        {
+          "file": "bursts/camera-clip/012.jpg",
+          "zeroBasedSourceFrame": 66971,
+          "recordingSeconds": 1116.1833333333334
+        },
+        {
+          "file": "bursts/camera-clip/013.jpg",
+          "zeroBasedSourceFrame": 66972,
+          "recordingSeconds": 1116.2
+        },
+        {
+          "file": "bursts/camera-clip/014.jpg",
+          "zeroBasedSourceFrame": 66973,
+          "recordingSeconds": 1116.2166666666667
+        },
+        {
+          "file": "bursts/camera-clip/015.jpg",
+          "zeroBasedSourceFrame": 66974,
+          "recordingSeconds": 1116.2333333333333
+        },
+        {
+          "file": "bursts/camera-clip/016.jpg",
+          "zeroBasedSourceFrame": 66975,
+          "recordingSeconds": 1116.25
+        },
+        {
+          "file": "bursts/camera-clip/017.jpg",
+          "zeroBasedSourceFrame": 66976,
+          "recordingSeconds": 1116.2666666666667
+        },
+        {
+          "file": "bursts/camera-clip/018.jpg",
+          "zeroBasedSourceFrame": 66977,
+          "recordingSeconds": 1116.2833333333333
+        },
+        {
+          "file": "bursts/camera-clip/019.jpg",
+          "zeroBasedSourceFrame": 66978,
+          "recordingSeconds": 1116.3
+        },
+        {
+          "file": "bursts/camera-clip/020.jpg",
+          "zeroBasedSourceFrame": 66979,
+          "recordingSeconds": 1116.3166666666666
+        },
+        {
+          "file": "bursts/camera-clip/021.jpg",
+          "zeroBasedSourceFrame": 66980,
+          "recordingSeconds": 1116.3333333333333
+        },
+        {
+          "file": "bursts/camera-clip/022.jpg",
+          "zeroBasedSourceFrame": 66981,
+          "recordingSeconds": 1116.35
+        },
+        {
+          "file": "bursts/camera-clip/023.jpg",
+          "zeroBasedSourceFrame": 66982,
+          "recordingSeconds": 1116.3666666666666
+        },
+        {
+          "file": "bursts/camera-clip/024.jpg",
+          "zeroBasedSourceFrame": 66983,
+          "recordingSeconds": 1116.3833333333334
+        },
+        {
+          "file": "bursts/camera-clip/025.jpg",
+          "zeroBasedSourceFrame": 66984,
+          "recordingSeconds": 1116.4
+        },
+        {
+          "file": "bursts/camera-clip/026.jpg",
+          "zeroBasedSourceFrame": 66985,
+          "recordingSeconds": 1116.4166666666667
+        },
+        {
+          "file": "bursts/camera-clip/027.jpg",
+          "zeroBasedSourceFrame": 66986,
+          "recordingSeconds": 1116.4333333333334
+        },
+        {
+          "file": "bursts/camera-clip/028.jpg",
+          "zeroBasedSourceFrame": 66987,
+          "recordingSeconds": 1116.45
+        },
+        {
+          "file": "bursts/camera-clip/029.jpg",
+          "zeroBasedSourceFrame": 66988,
+          "recordingSeconds": 1116.4666666666667
+        },
+        {
+          "file": "bursts/camera-clip/030.jpg",
+          "zeroBasedSourceFrame": 66989,
+          "recordingSeconds": 1116.4833333333333
+        },
+        {
+          "file": "bursts/camera-clip/031.jpg",
+          "zeroBasedSourceFrame": 66990,
+          "recordingSeconds": 1116.5
+        },
+        {
+          "file": "bursts/camera-clip/032.jpg",
+          "zeroBasedSourceFrame": 66991,
+          "recordingSeconds": 1116.5166666666667
+        },
+        {
+          "file": "bursts/camera-clip/033.jpg",
+          "zeroBasedSourceFrame": 66992,
+          "recordingSeconds": 1116.5333333333333
+        },
+        {
+          "file": "bursts/camera-clip/034.jpg",
+          "zeroBasedSourceFrame": 66993,
+          "recordingSeconds": 1116.55
+        },
+        {
+          "file": "bursts/camera-clip/035.jpg",
+          "zeroBasedSourceFrame": 66994,
+          "recordingSeconds": 1116.5666666666666
+        },
+        {
+          "file": "bursts/camera-clip/036.jpg",
+          "zeroBasedSourceFrame": 66995,
+          "recordingSeconds": 1116.5833333333333
+        },
+        {
+          "file": "bursts/camera-clip/037.jpg",
+          "zeroBasedSourceFrame": 66996,
+          "recordingSeconds": 1116.6
+        },
+        {
+          "file": "bursts/camera-clip/038.jpg",
+          "zeroBasedSourceFrame": 66997,
+          "recordingSeconds": 1116.6166666666666
+        },
+        {
+          "file": "bursts/camera-clip/039.jpg",
+          "zeroBasedSourceFrame": 66998,
+          "recordingSeconds": 1116.6333333333334
+        },
+        {
+          "file": "bursts/camera-clip/040.jpg",
+          "zeroBasedSourceFrame": 66999,
+          "recordingSeconds": 1116.65
+        },
+        {
+          "file": "bursts/camera-clip/041.jpg",
+          "zeroBasedSourceFrame": 67000,
+          "recordingSeconds": 1116.6666666666667
+        },
+        {
+          "file": "bursts/camera-clip/042.jpg",
+          "zeroBasedSourceFrame": 67001,
+          "recordingSeconds": 1116.6833333333334
+        },
+        {
+          "file": "bursts/camera-clip/043.jpg",
+          "zeroBasedSourceFrame": 67002,
+          "recordingSeconds": 1116.7
+        },
+        {
+          "file": "bursts/camera-clip/044.jpg",
+          "zeroBasedSourceFrame": 67003,
+          "recordingSeconds": 1116.7166666666667
+        },
+        {
+          "file": "bursts/camera-clip/045.jpg",
+          "zeroBasedSourceFrame": 67004,
+          "recordingSeconds": 1116.7333333333333
+        },
+        {
+          "file": "bursts/camera-clip/046.jpg",
+          "zeroBasedSourceFrame": 67005,
+          "recordingSeconds": 1116.75
+        },
+        {
+          "file": "bursts/camera-clip/047.jpg",
+          "zeroBasedSourceFrame": 67006,
+          "recordingSeconds": 1116.7666666666667
+        },
+        {
+          "file": "bursts/camera-clip/048.jpg",
+          "zeroBasedSourceFrame": 67007,
+          "recordingSeconds": 1116.7833333333333
+        },
+        {
+          "file": "bursts/camera-clip/049.jpg",
+          "zeroBasedSourceFrame": 67008,
+          "recordingSeconds": 1116.8
+        },
+        {
+          "file": "bursts/camera-clip/050.jpg",
+          "zeroBasedSourceFrame": 67009,
+          "recordingSeconds": 1116.8166666666666
+        },
+        {
+          "file": "bursts/camera-clip/051.jpg",
+          "zeroBasedSourceFrame": 67010,
+          "recordingSeconds": 1116.8333333333333
+        },
+        {
+          "file": "bursts/camera-clip/052.jpg",
+          "zeroBasedSourceFrame": 67011,
+          "recordingSeconds": 1116.85
+        },
+        {
+          "file": "bursts/camera-clip/053.jpg",
+          "zeroBasedSourceFrame": 67012,
+          "recordingSeconds": 1116.8666666666666
+        },
+        {
+          "file": "bursts/camera-clip/054.jpg",
+          "zeroBasedSourceFrame": 67013,
+          "recordingSeconds": 1116.8833333333334
+        },
+        {
+          "file": "bursts/camera-clip/055.jpg",
+          "zeroBasedSourceFrame": 67014,
+          "recordingSeconds": 1116.9
+        },
+        {
+          "file": "bursts/camera-clip/056.jpg",
+          "zeroBasedSourceFrame": 67015,
+          "recordingSeconds": 1116.9166666666667
+        },
+        {
+          "file": "bursts/camera-clip/057.jpg",
+          "zeroBasedSourceFrame": 67016,
+          "recordingSeconds": 1116.9333333333334
+        },
+        {
+          "file": "bursts/camera-clip/058.jpg",
+          "zeroBasedSourceFrame": 67017,
+          "recordingSeconds": 1116.95
+        },
+        {
+          "file": "bursts/camera-clip/059.jpg",
+          "zeroBasedSourceFrame": 67018,
+          "recordingSeconds": 1116.9666666666667
+        },
+        {
+          "file": "bursts/camera-clip/060.jpg",
+          "zeroBasedSourceFrame": 67019,
+          "recordingSeconds": 1116.9833333333333
+        },
+        {
+          "file": "bursts/camera-clip/061.jpg",
+          "zeroBasedSourceFrame": 67020,
+          "recordingSeconds": 1117.0
+        },
+        {
+          "file": "bursts/camera-clip/062.jpg",
+          "zeroBasedSourceFrame": 67021,
+          "recordingSeconds": 1117.0166666666667
+        },
+        {
+          "file": "bursts/camera-clip/063.jpg",
+          "zeroBasedSourceFrame": 67022,
+          "recordingSeconds": 1117.0333333333333
+        },
+        {
+          "file": "bursts/camera-clip/064.jpg",
+          "zeroBasedSourceFrame": 67023,
+          "recordingSeconds": 1117.05
+        },
+        {
+          "file": "bursts/camera-clip/065.jpg",
+          "zeroBasedSourceFrame": 67024,
+          "recordingSeconds": 1117.0666666666666
+        },
+        {
+          "file": "bursts/camera-clip/066.jpg",
+          "zeroBasedSourceFrame": 67025,
+          "recordingSeconds": 1117.0833333333333
+        },
+        {
+          "file": "bursts/camera-clip/067.jpg",
+          "zeroBasedSourceFrame": 67026,
+          "recordingSeconds": 1117.1
+        },
+        {
+          "file": "bursts/camera-clip/068.jpg",
+          "zeroBasedSourceFrame": 67027,
+          "recordingSeconds": 1117.1166666666666
+        },
+        {
+          "file": "bursts/camera-clip/069.jpg",
+          "zeroBasedSourceFrame": 67028,
+          "recordingSeconds": 1117.1333333333334
+        },
+        {
+          "file": "bursts/camera-clip/070.jpg",
+          "zeroBasedSourceFrame": 67029,
+          "recordingSeconds": 1117.15
+        },
+        {
+          "file": "bursts/camera-clip/071.jpg",
+          "zeroBasedSourceFrame": 67030,
+          "recordingSeconds": 1117.1666666666667
+        },
+        {
+          "file": "bursts/camera-clip/072.jpg",
+          "zeroBasedSourceFrame": 67031,
+          "recordingSeconds": 1117.1833333333334
+        },
+        {
+          "file": "bursts/camera-clip/073.jpg",
+          "zeroBasedSourceFrame": 67032,
+          "recordingSeconds": 1117.2
+        },
+        {
+          "file": "bursts/camera-clip/074.jpg",
+          "zeroBasedSourceFrame": 67033,
+          "recordingSeconds": 1117.2166666666667
+        },
+        {
+          "file": "bursts/camera-clip/075.jpg",
+          "zeroBasedSourceFrame": 67034,
+          "recordingSeconds": 1117.2333333333333
+        },
+        {
+          "file": "bursts/camera-clip/076.jpg",
+          "zeroBasedSourceFrame": 67035,
+          "recordingSeconds": 1117.25
+        },
+        {
+          "file": "bursts/camera-clip/077.jpg",
+          "zeroBasedSourceFrame": 67036,
+          "recordingSeconds": 1117.2666666666667
+        },
+        {
+          "file": "bursts/camera-clip/078.jpg",
+          "zeroBasedSourceFrame": 67037,
+          "recordingSeconds": 1117.2833333333333
+        },
+        {
+          "file": "bursts/camera-clip/079.jpg",
+          "zeroBasedSourceFrame": 67038,
+          "recordingSeconds": 1117.3
+        },
+        {
+          "file": "bursts/camera-clip/080.jpg",
+          "zeroBasedSourceFrame": 67039,
+          "recordingSeconds": 1117.3166666666666
+        },
+        {
+          "file": "bursts/camera-clip/081.jpg",
+          "zeroBasedSourceFrame": 67040,
+          "recordingSeconds": 1117.3333333333333
+        },
+        {
+          "file": "bursts/camera-clip/082.jpg",
+          "zeroBasedSourceFrame": 67041,
+          "recordingSeconds": 1117.35
+        },
+        {
+          "file": "bursts/camera-clip/083.jpg",
+          "zeroBasedSourceFrame": 67042,
+          "recordingSeconds": 1117.3666666666666
+        },
+        {
+          "file": "bursts/camera-clip/084.jpg",
+          "zeroBasedSourceFrame": 67043,
+          "recordingSeconds": 1117.3833333333334
+        },
+        {
+          "file": "bursts/camera-clip/085.jpg",
+          "zeroBasedSourceFrame": 67044,
+          "recordingSeconds": 1117.4
+        },
+        {
+          "file": "bursts/camera-clip/086.jpg",
+          "zeroBasedSourceFrame": 67045,
+          "recordingSeconds": 1117.4166666666667
+        },
+        {
+          "file": "bursts/camera-clip/087.jpg",
+          "zeroBasedSourceFrame": 67046,
+          "recordingSeconds": 1117.4333333333334
+        },
+        {
+          "file": "bursts/camera-clip/088.jpg",
+          "zeroBasedSourceFrame": 67047,
+          "recordingSeconds": 1117.45
+        },
+        {
+          "file": "bursts/camera-clip/089.jpg",
+          "zeroBasedSourceFrame": 67048,
+          "recordingSeconds": 1117.4666666666667
+        },
+        {
+          "file": "bursts/camera-clip/090.jpg",
+          "zeroBasedSourceFrame": 67049,
+          "recordingSeconds": 1117.4833333333333
+        },
+        {
+          "file": "bursts/camera-clip/091.jpg",
+          "zeroBasedSourceFrame": 67050,
+          "recordingSeconds": 1117.5
+        },
+        {
+          "file": "bursts/camera-clip/092.jpg",
+          "zeroBasedSourceFrame": 67051,
+          "recordingSeconds": 1117.5166666666667
+        },
+        {
+          "file": "bursts/camera-clip/093.jpg",
+          "zeroBasedSourceFrame": 67052,
+          "recordingSeconds": 1117.5333333333333
+        },
+        {
+          "file": "bursts/camera-clip/094.jpg",
+          "zeroBasedSourceFrame": 67053,
+          "recordingSeconds": 1117.55
+        },
+        {
+          "file": "bursts/camera-clip/095.jpg",
+          "zeroBasedSourceFrame": 67054,
+          "recordingSeconds": 1117.5666666666666
+        },
+        {
+          "file": "bursts/camera-clip/096.jpg",
+          "zeroBasedSourceFrame": 67055,
+          "recordingSeconds": 1117.5833333333333
+        },
+        {
+          "file": "bursts/camera-clip/097.jpg",
+          "zeroBasedSourceFrame": 67056,
+          "recordingSeconds": 1117.6
+        },
+        {
+          "file": "bursts/camera-clip/098.jpg",
+          "zeroBasedSourceFrame": 67057,
+          "recordingSeconds": 1117.6166666666666
+        },
+        {
+          "file": "bursts/camera-clip/099.jpg",
+          "zeroBasedSourceFrame": 67058,
+          "recordingSeconds": 1117.6333333333334
+        },
+        {
+          "file": "bursts/camera-clip/100.jpg",
+          "zeroBasedSourceFrame": 67059,
+          "recordingSeconds": 1117.65
+        },
+        {
+          "file": "bursts/camera-clip/101.jpg",
+          "zeroBasedSourceFrame": 67060,
+          "recordingSeconds": 1117.6666666666667
+        },
+        {
+          "file": "bursts/camera-clip/102.jpg",
+          "zeroBasedSourceFrame": 67061,
+          "recordingSeconds": 1117.6833333333334
+        },
+        {
+          "file": "bursts/camera-clip/103.jpg",
+          "zeroBasedSourceFrame": 67062,
+          "recordingSeconds": 1117.7
+        },
+        {
+          "file": "bursts/camera-clip/104.jpg",
+          "zeroBasedSourceFrame": 67063,
+          "recordingSeconds": 1117.7166666666667
+        },
+        {
+          "file": "bursts/camera-clip/105.jpg",
+          "zeroBasedSourceFrame": 67064,
+          "recordingSeconds": 1117.7333333333333
+        },
+        {
+          "file": "bursts/camera-clip/106.jpg",
+          "zeroBasedSourceFrame": 67065,
+          "recordingSeconds": 1117.75
+        },
+        {
+          "file": "bursts/camera-clip/107.jpg",
+          "zeroBasedSourceFrame": 67066,
+          "recordingSeconds": 1117.7666666666667
+        },
+        {
+          "file": "bursts/camera-clip/108.jpg",
+          "zeroBasedSourceFrame": 67067,
+          "recordingSeconds": 1117.7833333333333
+        },
+        {
+          "file": "bursts/camera-clip/109.jpg",
+          "zeroBasedSourceFrame": 67068,
+          "recordingSeconds": 1117.8
+        },
+        {
+          "file": "bursts/camera-clip/110.jpg",
+          "zeroBasedSourceFrame": 67069,
+          "recordingSeconds": 1117.8166666666666
+        },
+        {
+          "file": "bursts/camera-clip/111.jpg",
+          "zeroBasedSourceFrame": 67070,
+          "recordingSeconds": 1117.8333333333333
+        },
+        {
+          "file": "bursts/camera-clip/112.jpg",
+          "zeroBasedSourceFrame": 67071,
+          "recordingSeconds": 1117.85
+        },
+        {
+          "file": "bursts/camera-clip/113.jpg",
+          "zeroBasedSourceFrame": 67072,
+          "recordingSeconds": 1117.8666666666666
+        },
+        {
+          "file": "bursts/camera-clip/114.jpg",
+          "zeroBasedSourceFrame": 67073,
+          "recordingSeconds": 1117.8833333333334
+        },
+        {
+          "file": "bursts/camera-clip/115.jpg",
+          "zeroBasedSourceFrame": 67074,
+          "recordingSeconds": 1117.9
+        },
+        {
+          "file": "bursts/camera-clip/116.jpg",
+          "zeroBasedSourceFrame": 67075,
+          "recordingSeconds": 1117.9166666666667
+        },
+        {
+          "file": "bursts/camera-clip/117.jpg",
+          "zeroBasedSourceFrame": 67076,
+          "recordingSeconds": 1117.9333333333334
+        },
+        {
+          "file": "bursts/camera-clip/118.jpg",
+          "zeroBasedSourceFrame": 67077,
+          "recordingSeconds": 1117.95
+        },
+        {
+          "file": "bursts/camera-clip/119.jpg",
+          "zeroBasedSourceFrame": 67078,
+          "recordingSeconds": 1117.9666666666667
+        },
+        {
+          "file": "bursts/camera-clip/120.jpg",
+          "zeroBasedSourceFrame": 67079,
+          "recordingSeconds": 1117.9833333333333
+        }
+      ]
+    }
+  ],
+  "omissions": [
+    "Whole one-second timeline and 59 chronological sheets (contain private application/account screens)",
+    "Original MOV",
+    "Authoring/extraction scripts and layout proof logs",
+    "Raw browser accessibility-tree capture and local machine paths"
+  ]
+}

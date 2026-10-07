@@ -1,0 +1,36 @@
+{
+  "date": "2026-10-07",
+  "scope": "Repository edition import checks, not a fresh video decode, gameplay test or performance acceptance. Original report methodology remains historical.",
+  "result": "PASS",
+  "html": {
+    "Frame-Atlas.html": {
+      "localReferences": 35,
+      "uniqueIds": 7,
+      "scriptBlocks": 1
+    },
+    "Audit.html": {
+      "localReferences": 194,
+      "uniqueIds": 89,
+      "scriptBlocks": 1
+    }
+  },
+  "manifestFilesVerified": 572,
+  "metricRows": 69871,
+  "selectedStills": 58,
+  "gameplayBurstFrames": 480,
+  "motionContactSheets": 16,
+  "pdfs": {
+    "pagesEach": 97,
+    "copies": 2,
+    "textChanges": "Private path text on pages64/86 and account-specific publication details on pages63/95 replaced. Page-by-page extracted-text comparison against each source passed during export."
+  },
+  "privacy": "Whole timeline/application/account screens, raw browser traces, source MOV, authoring scripts and proof logs omitted. Private paths and account-specific billing/spending details removed from retained text/PDF objects. Creator-application metadata omitted.",
+  "visualReview": "Original corrected PDF reviewed on all97-page contact sheets. Published path and publication-detail replacements reviewed on pages63/64/86/95; original images preserved.",
+  "errors": [],
+  "nativeBrowserChecks": [
+    "Report annotation toggle and image enlargement/close",
+    "44-ticket report filter selects T44 and resets",
+    "Selected motion inspector camera-clip passage finalframe120/120, timestamp18:37.983, sourceframe67079, image loaded",
+    "No captured console warnings/errors during scoped report/frame interactions"
+  ]
+}
