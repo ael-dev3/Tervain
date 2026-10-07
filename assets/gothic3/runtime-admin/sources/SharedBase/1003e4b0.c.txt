@@ -1,0 +1,66 @@
+/* ENTRY 1003e4b0 | FUN_1003e4b0 | STATUS decompiled | 21 ms */
+
+/* WARNING: Restarted to delay deadcode elimination for space: stack */
+
+undefined8 __fastcall FUN_1003e4b0(int param_1,undefined4 param_2)
+
+{
+  uint uVar1;
+  byte *pbVar2;
+  byte bVar3;
+  int iVar4;
+  uint *puVar5;
+  uint *puVar6;
+  bool bVar7;
+  int local_8;
+  
+  local_8 = 0;
+  LOCK();
+  *(int *)(param_1 + 8) = *(int *)(param_1 + 8) + 1;
+  UNLOCK();
+  puVar5 = (uint *)(param_1 + 0x2fe000 + *(int *)(param_1 + 0xc) * 4);
+  iVar4 = 0x7fb - *(int *)(param_1 + 0xc);
+  bVar7 = iVar4 == 0;
+code_r0x1003e4e8:
+  puVar6 = puVar5;
+  if (iVar4 != 0) goto code_r0x1003e4e8;
+  goto code_r0x1003e4ea;
+code_r0x1003e4e8:
+  iVar4 = iVar4 + -1;
+  puVar6 = puVar5 + 1;
+  bVar7 = *puVar5 == 0;
+  puVar5 = puVar6;
+  if (!bVar7) {
+code_r0x1003e4ea:
+    if (bVar7) {
+      LOCK();
+      *(int *)(param_1 + 8) = *(int *)(param_1 + 8) + -1;
+      UNLOCK();
+      *(int *)(param_1 + 0xc) = iVar4;
+LAB_1003e52c:
+      return CONCAT44(param_2,local_8);
+    }
+    iVar4 = iVar4 + 1;
+    puVar5 = puVar6 + -1;
+    while (bVar7 = *puVar5 == 0, !bVar7) {
+      uVar1 = 0;
+      if (*puVar5 != 0) {
+        for (; (*puVar5 >> uVar1 & 1) == 0; uVar1 = uVar1 + 1) {
+        }
+      }
+      if (*puVar5 != 0) {
+        LOCK();
+        pbVar2 = (byte *)((int)puVar5 + ((int)uVar1 >> 3));
+        bVar3 = *pbVar2;
+        *pbVar2 = *pbVar2 & ~('\x01' << (uVar1 & 7));
+        UNLOCK();
+        if ((bVar3 >> (uVar1 & 7) & 1) != 0) {
+          *(int *)(param_1 + 0xc) = 0x7fb - iVar4;
+          local_8 = ((0x7fb - iVar4) * 0x20 + uVar1) * 0x30 + 0x10 + param_1;
+          goto LAB_1003e52c;
+        }
+      }
+    }
+  }
+  goto code_r0x1003e4e8;
+}

@@ -42,15 +42,15 @@ describe('source-admitted pools for class-name and reflected SceneAdmin allocati
     expect(platform.snapshot().sections).toHaveLength(0);
   });
 
-  it('preserves the twelve-bucket default, fifteen-bucket NPC profile and separate fourteen-bucket scene profile', () => {
+  it('preserves the thirteen-bucket default, sixteen-bucket NPC profile and separate fifteen-bucket scene profile', () => {
     const base = new NativeMemoryAdmin(new NativeRuntimePlatform());
-    expect(base.snapshot().pools.map(pool => pool.stride)).toEqual([12, 16, 28, 80, 112, 128, 192, 224, 448, 640, 768, 1536]);
+    expect(base.snapshot().pools.map(pool => pool.stride)).toEqual([12, 16, 28, 48, 80, 112, 128, 192, 224, 448, 640, 768, 1536]);
     expect(base.newObject(21).known).toBe(false);
     const npc = fixture([nativeNpcHeapExtension]);
-    expect(npc.memory.snapshot().pools.map(pool => pool.stride)).toEqual([12, 16, 20, 28, 32, 40, 80, 112, 128, 192, 224, 448, 640, 768, 1536]);
+    expect(npc.memory.snapshot().pools.map(pool => pool.stride)).toEqual([12, 16, 20, 28, 32, 40, 48, 80, 112, 128, 192, 224, 448, 640, 768, 1536]);
     expect(npc.memory.newObject(348, 0xc4).known).toBe(false);
     const scene = fixture([nativeSceneStartupHeapExtension]);
-    expect(scene.memory.snapshot().pools.map(pool => pool.stride)).toEqual([12, 16, 24, 28, 80, 112, 128, 192, 224, 384, 448, 640, 768, 1536]);
+    expect(scene.memory.snapshot().pools.map(pool => pool.stride)).toEqual([12, 16, 24, 28, 48, 80, 112, 128, 192, 224, 384, 448, 640, 768, 1536]);
     expect(block(scene.memory.malloc(21)).capacity).toBe(24);
     expect(block(scene.memory.newObject(348, 0xc4)).capacity).toBe(384);
   });
@@ -60,7 +60,7 @@ describe('source-admitted pools for class-name and reflected SceneAdmin allocati
     expect([21, 24, 321, 348, 384].map(request => block(f.memory.newObject(request)).capacity)).toEqual([24, 24, 384, 384, 384]);
     expect(block(f.memory.newObject(25)).capacity).toBe(28);
     expect(block(f.memory.newObject(385)).capacity).toBe(448);
-    for (const request of [20, 29, 32, 41, 320, 449, 512]) {
+    for (const request of [20, 29, 32, 49, 320, 449, 512]) {
       const selected = fixture([nativeSceneStartupHeapExtension]);
       const result = selected.memory.newObject(request);
       expect(result.known).toBe(false);

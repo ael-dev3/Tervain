@@ -7042,3 +7042,112 @@ initializer owner is not instantiated by the
 production NPC services. Connecting those owners, completing CRT startup,
 and progressing through ordinary gameplay and saves remain required before
 this work can establish a finishable game.
+
+## 101. Own GUID text construction and canonical literal storage
+
+Date: 7 October 2026. This checkpoint reconstructs the actual GUID text body
+needed by the selected ScriptAdmin PropertyID initializer. It replaces the
+whole-routine `guidSetText` service with a
+[source-owned implementation](../../src/gothic3/native-guid-text.ts), composed
+by [ScriptAdmin startup](../../src/gothic3/native-game-script-admin-startup.ts).
+Full CRT traversal and live NPC startup remain unfinished.
+
+### Preserve the native caller and storage
+
+SharedBase entry `10008175` reaches `10012790`: 57 instructions and 142 bytes,
+SHA-256 `08a0405a66687fafb6e5696ab41a3bf12a56ed6059aade4787798e25375bf34e`.
+The implementation compares the current CString with the original `{}`
+literal, queries the UTF16 length, doubles the raw count with DWORD wrapping,
+and calls the original MemoryAdmin GetInstance/Malloc path. It reloads the
+CString pointer after allocation, calls conversion again, ignores that call's
+known return value, and passes the actual wide buffer and aliased 16-byte GUID
+prefix to IIDFromString. Only HRESULT exactly zero sets the validity byte.
+GetInstance/Free follows that store; the final result reloads the validity
+byte after Free callbacks.
+
+The `{}` branch writes only validity byte `+16` to zero and returns one.
+No path adds a prior payload clear, padding write, conversion-success guard or
+unconditional cleanup. Unknown lower operations retain their applied prefix
+and stop replay. Parent startup interruption is propagated into the CString
+constructor and GUID operations after lower calls.
+
+The [CString owner](../../src/gothic3/native-heap-cstring.ts) now owns exact
+Compare `100137c0`, Equals `10013b70` and const GetText `100134e0`, including
+the source's unusual NULL/empty outcomes and byte-load order. Non-NULL GetText
+returns the retained character pointer without reading holder contents or
+checking a terminated holder's lifetime before the later actual access.
+GUID payload equality follows `10012290` with DWORD comparisons and the
+original byte fallback; partially unknown bits remain explicit unless their
+known differing bits establish the reached comparison branch.
+
+The [runtime platform](../../src/gothic3/native-runtime-platform.ts) registers
+Game `2069c090` using the existing canonical Game CRT image view. The private
+owner registry and retained backing, buffers, masks and DataView prove that
+this is the same 39-byte range. No copied literal, heap allocation or invented
+x86 pointer is introduced. The Shared literals at `100e5e10` and `100e5e3c`
+are retained once per selected platform. CRT Free accepts only its actual
+CRT blocks; module image ranges remain mapped until platform disposal.
+
+### Admit the remaining holder pool and call linkage
+
+The 38-character literal needs a 47-byte CString holder. The new original
+pool48 capture includes eight bodies, 297 instructions and 936 instruction
+bytes, covering dispatch, allocation, initialization, free, reallocation,
+inline free, shutdown and statistics. Requests 41–48 reach this pool; its
+VirtualAlloc failure continuation reaches the still unowned 56-byte pool.
+The base/NPC/combined Scene profiles now admit 13/16/18 classes and selected
+pointer-area prefixes of 208/256/288 bytes. These prefixes establish neither
+a native maximum nor completion of earlier startup allocations.
+
+The focused package retains 98 bodies, 2,552 instruction rows and 7,146 bytes.
+Three reused allocator bodies add 101 reviewed rows and 365 bytes separately.
+Four GUID CALL sites and seven forwarding JMP hops establish the actual
+GetInstance, Malloc and Free linkage, including the intermediate aliases that
+the original GUID caller uses. Dependency receipts pin the reused packages.
+
+### Supply explicit external writers
+
+[`selectAsciiGuidTextPlatform()`](../../src/gothic3/native-guid-platform.ts)
+selects a bounded browser provider for CodePage 0, flags 0, NUL-terminated
+ASCII conversion and canonical braced GUID text. Query includes the NUL;
+fill rereads the current source and writes UTF16 words to the supplied actual
+allocation. IID parsing writes the 16-byte output prefix in the required
+field order. Unsupported encodings, forms and unowned failure behavior stop
+with their retained prefix. The provider is separate from the source caller
+and executes no native Windows/OLE functions. Its external contracts are
+documented by Microsoft for
+[MultiByteToWideChar](https://learn.microsoft.com/en-us/windows/win32/api/stringapiset/nf-stringapiset-multibytetowidechar),
+[IIDFromString](https://learn.microsoft.com/en-us/windows/win32/api/combaseapi/nf-combaseapi-iidfromstring)
+and [GUID fields](https://learn.microsoft.com/en-us/windows/win32/api/guiddef/ns-guiddef-guid).
+
+### Reproduce and review
+
+```powershell
+python -B tools/gothic3/prepare_runtime_admin_source.py --study '<LOCAL_DESKTOP_STUDY>'
+python -B tools/gothic3/prepare_npc_heap_source.py --study '<LOCAL_DESKTOP_STUDY>'
+python -B tools/gothic3/prepare_scene_startup_source.py --study '<LOCAL_DESKTOP_STUDY>'
+python -B tools/gothic3/prepare_game_crt_source.py --study '<LOCAL_DESKTOP_STUDY>'
+python -B tools/gothic3/prepare_script_admin_startup_source.py --study '<LOCAL_DESKTOP_STUDY>'
+npm run typecheck
+npm run build
+```
+
+Independent reviews compared the GUID, CString, PropertyID and allocator
+instructions, forwarding chains, import slices and captured listings with
+original PE bytes. The focused package's 2,653 selected plus reused instruction
+rows, 201 excerpts, seven allocator JMPs and four caller sites had zero
+mismatches. Separate review checked canonical image aliases and the selected
+external provider. Typechecking and production build passed; the build
+transformed 401 modules and retained the existing large-chunk warning. Existing
+allocator scenario data was extended; no test cases were added or tests run
+locally. No browser execution of the new startup owner is recorded.
+
+After successful selected conversion, the original path clears PropertyID and
+reaches its next prerequisite: the actual mutable Shared NullPayload at
+`101ab150`. Original initializer `100e1470` copies four DWORDs from `100ebb28`
+to this range. That initializer, its canonical shared storage and preceding
+writes remain unowned; cold zero-fill cannot prove its current value. Until
+that dependency is supplied, payload copying, CString destruction, exit
+registration and temporary stack expiration are unreached in this path.
+Property factories, native ScriptAdmin construction, full startup, live NPC
+activation and the finishable campaign remain required.

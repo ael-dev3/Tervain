@@ -96,6 +96,11 @@ CANONICAL_GAME = {
     'scriptAdminPropertyIdInitializerSlot': ('constBytes', '205faf58', 4),
     'scriptAdminAccessorInitializerSlot': ('constBytes', '205faf5c', 4),
 }
+GUID_MEMORY_ALIASES = {
+    'memoryGetInstance': ('runtime-admin', 'runtimeAdmin', 0x10002aae, [0x100127d3, 0x10012808]),
+    'memoryMalloc': ('npc-heap', 'npcHeap', 0x10003cd8, [0x100127da]),
+    'memoryFree': ('runtime-admin', 'runtimeAdmin', 0x10002112, [0x1001280f]),
+}
 
 
 def sha(data: bytes) -> str:
@@ -199,6 +204,110 @@ def storage(pe: native.PE, module: str, address: int, size: int, constant: bool 
     return dict(module=module, address=f'{address:08x}', bytes=size, raw=raw.hex(), knownMask='ff' * size,
         sha256=sha(raw), section=section, allZero=not any(raw), liveValueCaptured=False,
         scope='original-file-backed-constant' if constant else 'cold-original-image')
+
+
+def guid_memory_aliases(study: Path, pe: native.PE, guid: dict) -> tuple[dict, dict, list[dict], list[Path]]:
+    """Link the actual GUID calls to existing audited lower bodies and all JMPs.
+
+    The bodies remain owned by NPC/RuntimeAdmin; this package captures no new
+    body or reconstructed source gap merely because a native alias calls them.
+    """
+    audit = native.audit_module(study, 'SharedBase_dll', 'SharedBase.dll',
+        {spec[2]: label for label, spec in GUID_MEMORY_ALIASES.items()})
+    original = {method['label']: method for method in audit['methods']}
+    packages, dependencies, files = {}, {}, []
+    for package, dependency, _, _ in GUID_MEMORY_ALIASES.values():
+        if package in packages:
+            continue
+        paths = {name: ROOT / 'assets/gothic3' / package / name
+                 for name in ['native-evidence.json', 'runtime-rules.json']}
+        raw = {name: path.read_bytes() for name, path in paths.items()}
+        documents = {name: json.loads(value) for name, value in raw.items()}
+        for document in documents.values():
+            require(document['inputs']['SharedBase'] == INPUTS['SharedBase'],
+                    'Reused GUID lower input differs: ' + package)
+        packages[package] = documents
+        dependencies[dependency] = dict(path='../' + package + '/native-evidence.json',
+            bytes=len(raw['native-evidence.json']), sha256=sha(raw['native-evidence.json']),
+            methods=[label for label, spec in GUID_MEMORY_ALIASES.items() if spec[0] == package],
+            runtimeRules=dict(path='../' + package + '/runtime-rules.json',
+                bytes=len(raw['runtime-rules.json']), sha256=sha(raw['runtime-rules.json'])))
+        files.extend(paths.values())
+        files.append(ROOT / 'tools/gothic3' / ('prepare_' + package.replace('-', '_') + '_source.py'))
+
+    chain_addresses = {int(hop['va'], 16) for method in original.values() for hop in method['entryChain']}
+    assembly = {}
+    pattern = re.compile(rb'([0-9a-f]{8}) \| ([0-9a-f]+) \| (.+)')
+    with (study / '01_Decompiled_Code/SharedBase_dll/full_disassembly.asm').open('rb') as stream:
+        for number, line in enumerate(stream, 1):
+            match = pattern.fullmatch(line.rstrip(b'\r\n'))
+            if match and int(match[1], 16) in chain_addresses:
+                address = int(match[1], 16)
+                require(address not in assembly, 'Reused GUID alias ASM address repeated')
+                assembly[address] = dict(bytes=match[2].decode(), instruction=match[3].decode('utf8'),
+                                         assemblyLine=number)
+    guid_rows = {int(row['va'], 16): row for row in guid['instructions']}
+    aliases, reused = {}, []
+    for label, (package, dependency, entry, call_addresses) in GUID_MEMORY_ALIASES.items():
+        method = original[label]
+        verify_extents(pe, method)
+        documents = packages[package]
+        lower_methods = documents['native-evidence.json']['methods']
+        lower = next(item for item in lower_methods if item['label'] == label)
+        rule = documents['runtime-rules.json']['methods'][label]
+        require(method['instructions'] == lower['instructions'] and
+                method['entryChain'] == lower['entryChain'] and
+                method['reconstructedC'] == lower['reconstructedC'],
+                'Original reused GUID body/alias provenance differs: ' + label)
+        body = b''.join(bytes.fromhex(row['bytes']) for row in method['instructions'])
+        require(rule['entry'] == f'{entry:08x}' and rule['body'] == method['bodyVA'][2:] and
+                rule['bodyRanges'] == method['bodyRanges'] and
+                rule['instructionCount'] == len(method['instructions']) and rule['bodyBytes'] == len(body) and
+                rule['bodyInstructionBytesSha256'] == sha(body),
+                'Reused GUID runtime body receipt differs: ' + label)
+        chain = []
+        for hop in method['entryChain']:
+            address = int(hop['va'], 16)
+            source = assembly[address]
+            require(source['bytes'] == hop['bytes'] and
+                    source['instruction'] == 'JMP 0x' + hop['targetVA'] and
+                    pe.bytes(address, 5).hex() == hop['bytes'],
+                    'Reused GUID JMP provenance differs: ' + label)
+            chain.append(dict(hop, **source))
+        require(follow(pe, entry) == (int(method['bodyVA'], 16), method['entryChain']),
+                'Original reused GUID full entry chain differs')
+        refs = dict(lower['sourceRefs'])
+        for key in ['assemblyExcerpt', 'cExcerpt']:
+            if key in refs:
+                path = ROOT / 'assets/gothic3' / package / refs[key]
+                require(sha(path.read_bytes()) == refs[key + 'Sha256'], 'Reused GUID excerpt hash differs')
+                files.append(path)
+                refs[key] = '../' + package + '/' + refs[key]
+        calls = []
+        for address in call_addresses:
+            row = guid_rows[address]
+            raw = bytes.fromhex(row['bytes'])
+            require(len(raw) == 5 and raw[0] == 0xe8 and
+                    address + 5 + struct.unpack_from('<i', raw, 1)[0] == entry and
+                    row['instruction'] == f'CALL 0x{entry:08x}' and pe.bytes(address, 5) == raw,
+                    'GUID source CALL linkage differs: ' + label)
+            calls.append(dict(callerModule='SharedBase', callerMethod='guidSetText', va=row['va'],
+                bytes=row['bytes'], instruction=row['instruction'], targetEntry=f'{entry:08x}',
+                assemblyLine=row['assemblyLine']))
+        aliases[label] = dict(module='SharedBase', entry=f'{entry:08x}', body=method['bodyVA'][2:],
+            entryChain=chain, bodyRanges=method['bodyRanges'], instructionCount=len(method['instructions']),
+            bodyBytes=len(body), bodyInstructionBytesSha256=sha(body), sourceRefs=refs,
+            sourceOwner=dict(package=package, method=label), sourceDependency=dependency,
+            reusedReceipt='../' + package + '/native-evidence.json', callSites=calls)
+        reused.append(dict(method, module='SharedBase', sourceRefs=refs,
+            sourceOwner=aliases[label]['sourceOwner'], sourceDependency=dependency,
+            instructionCount=len(method['instructions']), bodyByteCount=len(body),
+            bodyInstructionBytesSha256=sha(body), callSites=calls))
+    require(len(reused) == 3 and sum(len(method['instructions']) for method in reused) == 101 and
+            sum(method['bodyByteCount'] for method in reused) == 365 and
+            sum(len(alias['entryChain']) for alias in aliases.values()) == 7,
+            'Bounded reused GUID lower selection differs')
+    return aliases, dependencies, reused, files
 
 
 def prepare(study: Path) -> dict:
@@ -310,6 +419,9 @@ def prepare(study: Path) -> dict:
         aliases[label] = dict(module='Game', entry=f'{entry:08x}', body=f'{body:08x}', entryChain=chain,
             sourceOwner=dict(package='game-crt', method='scriptAdminClassName'),
             bodyInstructionBytesSha256=crt['methods']['scriptAdminClassName']['bodyInstructionBytesSha256'])
+    memory_aliases, memory_dependencies, reused_memory, reused_files = guid_memory_aliases(study, pes['SharedBase'],
+        next(method for method in methods if method['label'] == 'guidSetText'))
+    aliases.update(memory_aliases)
     layouts = dict(
         wrapper=dict(bytes=16, offsets=dict(vtable=0, flags=4, nativePointer=8, typePointer=12),
                      rootMask=1, allocationTag=400, cloneSlot=56, copySlot=60),
@@ -350,17 +462,20 @@ def prepare(study: Path) -> dict:
         recoveredPEInstructions=0, asmOnlyMethods=1, vtableSlices=len(VTABLES),
         vtableWords=sum(len(slots) for slots in vtable_slots.values()), exactImportBindings=len(import_bindings),
         sourceExcerptNormalization=NORMALIZATION, nativeCodeExecuted=False, liveProcessStateCaptured=False,
+        reusedMethods=len(reused_memory), reusedInstructions=101, reusedBodyBytes=365,
+        reusedEntryChainInstructions=7, reusedEntryChainBytes=35, reusedGuidCallSites=4,
         fullStartupClosureImplemented=False)
     rules = dict(schema='gothic3-script-admin-startup-rules-v1', inputs=INPUTS,
         methods=rules_methods, coldGlobals=cold, constBytes=constants, vtableSlots=vtable_slots,
         vtableBindings=vtable_bindings, imports=imports, importBindings=import_bindings,
-        entryAliases=aliases, dependencies=dict(gameCrt=dependency), layouts=layouts,
+        entryAliases=aliases, dependencies=dict(gameCrt=dependency, **memory_dependencies), layouts=layouts,
         callInventory=calls, startup=dict(callbacks=crt['initializerTables']['cppInitializers']['selectedScriptAdminInitializers'],
             callbacksExecuted=False, propertyFactoryInstantiated=False, nativeModuleInstantiated=False),
         scope='Bounded source receipts; original earlier callbacks and reached source/platform owners remain required')
     evidence = dict(schema='gothic3-script-admin-startup-evidence-v1', inputs=INPUTS,
         modules={module: {key: value for key, value in audit.items() if key != 'methods'}
-                 for module, audit in audits.items()}, methods=methods, coldGlobals=cold, constBytes=constants,
+                 for module, audit in audits.items()}, methods=methods, reusedMethods=reused_memory,
+        coldGlobals=cold, constBytes=constants,
         vtableSlots=vtable_slots, vtableBindings=vtable_bindings, imports=imports, importBindings=import_bindings,
         entryAliases=aliases, dependencies=rules['dependencies'], layouts=layouts, audit=summary)
     (OUT / 'runtime-rules.json').write_bytes(encode(rules))
@@ -377,6 +492,11 @@ def prepare(study: Path) -> dict:
         'The selected factory constructor/destructor access a 24-byte prefix. The factory start '
         'is 36 bytes before its guard; the remaining 12 bytes are unclassified. Neither extent '
         'establishes the complete factory sizeof. The canonical type/factory/guard capture remains 64 bytes.\n\n'
+        'GUID SetData calls reuse three existing NPC/RuntimeAdmin bodies (101 instructions, 365 bytes). '
+        'Their actual CALL sites and seven JMP alias hops are captured separately: Malloc '
+        '10003cd8 -> 10020b00 -> 10007441 -> 1003d410; GetInstance 10002aae -> 10020bf0; '
+        'Free 10002112 -> 10020af0 -> 10005b69 -> 1003cb50. The reused bodies do not increase '
+        'the 98 focused-body or 2552 instruction totals.\n\n'
         'These receipts do not execute or implement DLL startup. Earlier callbacks, actual allocations, '
         'string storage, descriptor/base-type owners, cleanup paths and platform services remain required. '
         'GUID text conversion has exact source receipts and import identities; no Win32/OLE call is executed.\n',
@@ -390,9 +510,11 @@ def prepare(study: Path) -> dict:
             if candidate.parent == ROOT / 'tools/gothic3' and candidate.suffix == '.py':
                 files.append(candidate)
     files.append(crt_path)
+    files.extend(reused_files)
     manifest = dict(schema='gothic3-script-admin-startup-source-manifest-v1', inputs=INPUTS, audit=summary,
         checksActuallyPerformed=['Original PE/CSV/C/ASM input hash and selected instruction/extent audit',
             'Original ASM-only cleanup provenance and exact byte audit',
+            'Original GUID CALL sites/full alias JMP chains and pinned reused lower bodies audit',
             'Physical image/vtable/import-export/entry-alias and canonical Game CRT dependency audit'],
         noTestsOrBuildRunByProducer=True, manifestSelfReferenceExcluded=True,
         files=[dict(path=file.relative_to(ROOT).as_posix(), bytes=file.stat().st_size,
