@@ -67,6 +67,31 @@ export class NativeHeapObjectViews {
   writeUnsigned(offset: number, value: number, width: Width = 4): void {
     this.rawWriteUnsigned(offset, value, width); this.knownMask.fill(255, offset, offset + width);
   }
+  /** Allocation moves copy opaque pointer words as well as their physical bits.
+   * Only complete, unchanged source slots carry capabilities. Partial words
+   * remain raw masked bytes. This is not a pointer lookup from numerical bits. */
+  copyAllocationBytesFrom(source: NativeHeapObjectViews, bytes: number): void {
+    this.range(0, bytes); source.range(0, bytes);
+    if (this.pointerIdentity === source.pointerIdentity && this.pointerBegin !== source.pointerBegin &&
+        this.pointerBegin < source.pointerBegin + bytes && source.pointerBegin < this.pointerBegin + bytes) {
+      throw new Error('Allocation copy requires nonoverlapping retained source and destination');
+    }
+    const carried = [...(pointers.get(source.pointerIdentity)?.entries() ?? [])]
+      .filter(([position, slot]) => position >= source.pointerBegin && position + 4 <= source.pointerBegin + bytes &&
+        slot.bytes.every((byte, i) => byte === source.bytes[position - source.pointerBegin + i]) &&
+        slot.masks.every((mask, i) => mask === source.knownMask[position - source.pointerBegin + i]))
+      .map(([position, slot]) => ({ offset: position - source.pointerBegin,
+        value: slot.value, bytes: [...slot.bytes], masks: [...slot.masks] }));
+    const data = source.bytes.slice(0, bytes), masks = source.knownMask.slice(0, bytes);
+    this.invalidatePointers(0, bytes);
+    this.bytes.set(data); this.knownMask.set(masks);
+    if (carried.length) {
+      let slots = pointers.get(this.pointerIdentity);
+      if (!slots) { slots = new Map(); pointers.set(this.pointerIdentity, slots); }
+      for (const slot of carried) slots.set(this.pointerBegin + slot.offset,
+        { value: slot.value, bytes: slot.bytes, masks: slot.masks });
+    }
+  }
   readFloat(offset: number): number {
     this.requireKnown(offset, 4); return this.view.getFloat32(offset, true);
   }

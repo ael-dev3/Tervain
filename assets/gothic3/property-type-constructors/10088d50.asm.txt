@@ -1,0 +1,26 @@
+10088d50 | 8bc1 | MOV EAX,ECX
+10088d52 | 8b4c2404 | MOV ECX,dword ptr [ESP + 0x4]
+10088d56 | c70064a10e10 | MOV dword ptr [EAX],0x100ea164
+10088d5c | 8b09 | MOV ECX,dword ptr [ECX]
+10088d5e | 85c9 | TEST ECX,ECX
+10088d60 | 894804 | MOV dword ptr [EAX + 0x4],ECX
+10088d63 | ba01000000 | MOV EDX,0x1
+10088d68 | 7404 | JZ 0x10088d6e
+10088d6a | 660151fc | ADD word ptr [ECX + -0x4],DX
+10088d6e | 8b4c240c | MOV ECX,dword ptr [ESP + 0xc]
+10088d72 | 8b09 | MOV ECX,dword ptr [ECX]
+10088d74 | 85c9 | TEST ECX,ECX
+10088d76 | 894808 | MOV dword ptr [EAX + 0x8],ECX
+10088d79 | 7404 | JZ 0x10088d7f
+10088d7b | 660151fc | ADD word ptr [ECX + -0x4],DX
+10088d7f | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+10088d83 | 8b09 | MOV ECX,dword ptr [ECX]
+10088d85 | 85c9 | TEST ECX,ECX
+10088d87 | 89480c | MOV dword ptr [EAX + 0xc],ECX
+10088d8a | 7404 | JZ 0x10088d90
+10088d8c | 660151fc | ADD word ptr [ECX + -0x4],DX
+10088d90 | 8b542410 | MOV EDX,dword ptr [ESP + 0x10]
+10088d94 | 8a4c2414 | MOV CL,byte ptr [ESP + 0x14]
+10088d98 | 895010 | MOV dword ptr [EAX + 0x10],EDX
+10088d9b | 884814 | MOV byte ptr [EAX + 0x14],CL
+10088d9e | c21400 | RET 0x14
