@@ -129,6 +129,18 @@ than the development machine.
 Not established: frame rates on reference or low-end hardware, a listening review of the gust-driven wind sound, or
 physical-controller play.
 
+### Integration review corrections
+
+The repository review isolated each tree profile's material uniforms, added the vertex weight to shader program
+keys, disposed the leaf pool's instance buffers, and suppressed new leaf releases in Reduced Motion. Arrow responses
+now carry the closest finite wood collider's tree identity through physics and hunting; nearby ground, cargo and
+actor contacts do not trigger a tree response. Source-space wood bounds reject stale or misassociated contact points.
+
+Independent source reviews, TypeScript and the combined production build passed (406 modules). Existing assertion
+data was adapted to the program keys and explicit wood identity; no test cases were added or tests run locally for
+these corrections. The captures and GPU timings above precede these fixes; no new browser or performance measurement
+is recorded for the corrected integration. Its normal PR check and deployment remain separate receipts.
+
 ## Limits
 
 - The supplied models carry no branch skeleton: motion is a smooth field computed from position, not a simulation of
