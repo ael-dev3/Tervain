@@ -697,6 +697,12 @@ body.high-contrast .choice .req {
   color: var(--ink-secondary);
 }
 
+.save-result { margin: 14px 0 0; padding: 9px 12px; border-left: 3px solid currentColor; font-size: .9rem; line-height: 1.4; overflow-wrap: anywhere; }
+.save-result:empty { margin: 0; padding: 0; border: 0; }
+.save-result.good { color: #31552c; background: #567b3910; }
+.save-result.bad { color: #792f24; background: #8b322110; }
+body.high-contrast .save-result { color: #000; border-color: #000; background: #fff; }
+
 .setting {
   display: grid;
   grid-template-columns: minmax(150px, 1fr) minmax(160px, 1.2fr);

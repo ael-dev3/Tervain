@@ -22,9 +22,11 @@ import { bindQuickDrag } from './quickDrag';
 
 let panelLabelId = 0;
 
+export type PanelSaveResult = ReturnType<SaveStore['save']>;
+
 export interface PanelActions {
   resume(): void;
-  save(slot: SlotId): void;
+  save(slot: SlotId): PanelSaveResult;
   load(slot: SlotId): void;
   newGame(): void;
   quitToTitle(): void;
@@ -596,26 +598,64 @@ export function pauseMenu(ctx: PanelCtx): HTMLElement {
 }
 
 export function slotsPanel(ctx: PanelCtx, mode: 'save' | 'load'): HTMLElement {
+  // Keep this live region and the selected button mounted through writes: storage
+  // errors must be visible here, even while the gameplay HUD is inert behind us.
+  const status = h('p', { class: 'save-result', role: 'status', 'aria-live': 'polite', 'aria-atomic': 'true' });
+  const details = (element: HTMLElement, res: LoadResult, slot: SlotId) => {
+    const label = slotLabel(res, slot);
+    clear(element);
+    element.append(h('div', {}, label.title), h('div', { class: 'meta' }, label.meta));
+    if (res.ok && res.summary.savedAt > 0) {
+      const date = new Date(res.summary.savedAt);
+      if (Number.isFinite(date.getTime())) {
+        const when = date.toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
+        element.append(h('div', { class: 'meta' }, h('time', { datetime: date.toISOString() }, S('menu.savedAt', { when }))));
+      }
+    }
+  };
   const rows = SLOT_IDS.filter((s) => mode === 'load' || (s !== 'auto' && s !== 'quick')).map((slot) => {
     const res = ctx.saves.load(slot);
     const l = slotLabel(res, slot);
+    const summary = h('div', {});
+    let deleteButton: HTMLButtonElement | null = null;
+    details(summary, res, slot);
+    const action = h('button', {
+      class: 'btn', type: 'button', disabled: mode === 'load' && !l.ok, 'data-nav': true,
+      'data-focus-key': `${mode}-${slot}`, 'aria-label': S(`menu.${mode}.slot`, { slot: l.title }),
+      onClick: () => {
+        if (mode === 'load') {
+          if (l.ok) ctx.actions.load(slot);
+          return;
+        }
+        const result = ctx.actions.save(slot);
+        status.classList.toggle('good', result.ok);
+        status.classList.toggle('bad', !result.ok);
+        status.textContent = result.ok ? S('menu.saved', { slot: l.title }) : S('menu.savefailed', { reason: result.message });
+        if (result.ok) {
+          details(summary, ctx.saves.load(slot), slot);
+          deleteButton?.remove();
+        }
+      },
+    }, mode === 'save' ? S('menu.save') : S('menu.load'));
     return h(
       'div',
       { class: 'slot' },
-      h('div', {}, h('div', {}, l.title), h('div', { class: 'meta' }, l.meta)),
+      summary,
       h(
         'div',
         { class: 'row' },
-        h('button', { class: 'btn', disabled: mode === 'load' && !l.ok, 'data-nav': true, 'data-focus-key': `${mode}-${slot}`, onClick: () => (mode === 'save' ? ctx.actions.save(slot) : l.ok ? ctx.actions.load(slot) : null) }, mode === 'save' ? S('menu.save') : S('menu.load')),
+        action,
         // Deleting is only offered for a damaged slot, and asks first (a healthy save is overwritten from Save instead).
         !res.ok && res.kind === 'corrupt'
           ? (() => {
-              const b = h('button', { class: 'btn danger', 'data-nav': true, 'data-focus-key': `delete-${slot}` }, S('menu.delete'));
+              const b = h('button', { class: 'btn danger', type: 'button', 'data-nav': true, 'data-focus-key': `delete-${slot}`, 'aria-label': S('menu.delete.slot', { slot: l.title }) }, S('menu.delete'));
+              deleteButton = b;
               let armed = false;
               b.addEventListener('click', () => {
                 if (!armed) {
                   armed = true;
                   b.textContent = S('menu.deleteconfirm');
+                  b.setAttribute('aria-label', S('menu.deleteconfirm.slot', { slot: l.title }));
                   return;
                 }
                 ctx.saves.delete(slot);
@@ -627,7 +667,7 @@ export function slotsPanel(ctx: PanelCtx, mode: 'save' | 'load'): HTMLElement {
       ),
     );
   });
-  return h('div', {}, h('h1', {}, mode === 'save' ? S('menu.save') : S('menu.load')), h('div', { class: 'list' }, rows), h('div', { class: 'row', style: { marginTop: '14px' } }, closeBtn(ctx, S('menu.back'))));
+  return h('div', { class: 'save-panel' }, h('h1', {}, mode === 'save' ? S('menu.save') : S('menu.load')), h('div', { class: 'list' }, rows), mode === 'save' ? status : null, h('div', { class: 'row', style: { marginTop: '14px' } }, closeBtn(ctx, S('menu.back'))));
 }
 
 export function aboutPanel(ctx: PanelCtx): HTMLElement {

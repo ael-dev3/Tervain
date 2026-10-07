@@ -5,6 +5,41 @@ import { resourceFraction } from './uiModel';
 import type { ItemId } from '../../game/types';
 import { QuickSlotBar } from './hotbar';
 
+function setText(el: HTMLElement, text: string) {
+  if (el.textContent !== text) el.textContent = text;
+}
+
+function setAttribute(el: HTMLElement, name: string, value: string) {
+  if (el.getAttribute(name) !== value) el.setAttribute(name, value);
+}
+
+function setClass(el: HTMLElement, name: string, on: boolean) {
+  if (el.classList.contains(name) !== on) el.classList.toggle(name, on);
+}
+
+function setHidden(el: HTMLElement, hidden: boolean) {
+  if (el.hidden !== hidden) el.hidden = hidden;
+}
+
+function setDisabled(el: HTMLButtonElement, disabled: boolean) {
+  if (el.disabled !== disabled) el.disabled = disabled;
+}
+
+type HudStyle = 'width' | 'display' | 'transform' | 'opacity' | 'left' | 'top';
+// CSS serialization rounds fractional values. Remember the requested value so an unchanged
+// precise meter width or screen position does not keep rewriting its normalized CSS value.
+const requestedStyles = new WeakMap<HTMLElement, Partial<Record<HudStyle, string>>>();
+function setStyle(el: HTMLElement, property: HudStyle, value: string) {
+  let previous = requestedStyles.get(el);
+  if (!previous) {
+    previous = {};
+    requestedStyles.set(el, previous);
+  }
+  if (previous[property] === value) return;
+  previous[property] = value;
+  if (el.style[property] !== value) el.style[property] = value;
+}
+
 export interface HudData {
   health: number;
   maxHealth: number;
@@ -62,6 +97,7 @@ export class Hud {
   private staminaBar: HTMLElement;
   private staminaFill: HTMLElement;
   private staminaValue: HTMLElement;
+  private staminaLabel: HTMLElement;
   private compassNeedle: HTMLElement;
   private guard: HTMLElement;
   private hotbar: QuickSlotBar;
@@ -97,7 +133,7 @@ export class Hud {
   private vignette: HTMLElement;
   readonly fade: HTMLElement;
   private bubbleEls = new Map<string, HTMLElement>();
-  private tagEls = new Map<string, HTMLElement>();
+  private tagEls = new Map<string, { el: HTMLElement; name: HTMLElement; bar: HTMLElement; fill: HTMLElement }>();
   private lastPrompt = '';
   private lastToast = '';
   private lastToastAt = 0;
@@ -107,8 +143,9 @@ export class Hud {
     this.staminaFill = h('i');
     this.healthValue = h('span', { class: 'meter-value' });
     this.staminaValue = h('span', { class: 'meter-value' });
+    this.staminaLabel = h('span', { class: 'meter-label' }, S('hud.stamina'));
     this.healthBar = h('div', { class: 'bar health', role: 'progressbar', 'aria-label': S('hud.health'), 'aria-valuemin': 0 }, this.healthFill, h('span', { class: 'meter-label' }, S('hud.health')), this.healthValue);
-    this.staminaBar = h('div', { class: 'bar stamina', role: 'progressbar', 'aria-label': S('hud.stamina'), 'aria-valuemin': 0, 'aria-valuemax': 100 }, this.staminaFill, h('span', { class: 'meter-label' }, S('hud.stamina')), this.staminaValue);
+    this.staminaBar = h('div', { class: 'bar stamina', role: 'progressbar', 'aria-label': S('hud.stamina'), 'aria-valuemin': 0, 'aria-valuemax': 100 }, this.staminaFill, this.staminaLabel, this.staminaValue);
     this.guard = h('div', { class: 'guard-state', 'aria-live': 'polite' }, S('action.block'));
     const bars = h('div', { class: 'hud-bars' }, this.guard, this.healthBar, this.staminaBar);
     this.objText = h('div', { class: 'obj-text' });
@@ -156,44 +193,44 @@ export class Hud {
   }
 
   show(on: boolean) {
-    this.el.style.display = on ? '' : 'none';
+    setStyle(this.el, 'display', on ? '' : 'none');
   }
 
   update(d: HudData) {
     const health = resourceFraction(d.health, d.maxHealth);
     const stamina = resourceFraction(d.stamina, 100);
     const maximum = Number.isFinite(d.maxHealth) ? Math.max(0, d.maxHealth) : 0;
-    this.healthFill.style.width = `${health * 100}%`;
-    this.staminaFill.style.width = `${stamina * 100}%`;
-    this.healthValue.textContent = `${Math.round(health * maximum)} / ${Math.round(maximum)}`;
-    this.staminaValue.textContent = String(Math.round(stamina * 100));
-    this.healthBar.setAttribute('aria-valuemax', String(maximum));
-    this.healthBar.setAttribute('aria-valuenow', String(Math.round(health * maximum)));
-    this.staminaBar.setAttribute('aria-valuenow', String(Math.round(stamina * 100)));
-    this.healthBar.classList.toggle('low', health <= 0.25);
-    this.staminaBar.classList.toggle('exhausted', d.exhausted);
-    (this.staminaBar.querySelector('.meter-label') as HTMLElement).textContent = d.exhausted ? S('hud.exhausted') : S('hud.stamina');
-    this.coinEl.textContent = `${S('hud.coin')}: ${d.coin}`;
-    this.guard.classList.toggle('on', d.blocking);
-    if (d.heading !== undefined && Number.isFinite(d.heading)) this.compassNeedle.style.transform = `rotate(${(Math.PI - d.heading) * 180 / Math.PI}deg)`;
+    setStyle(this.healthFill, 'width', `${health * 100}%`);
+    setStyle(this.staminaFill, 'width', `${stamina * 100}%`);
+    setText(this.healthValue, `${Math.round(health * maximum)} / ${Math.round(maximum)}`);
+    setText(this.staminaValue, String(Math.round(stamina * 100)));
+    setAttribute(this.healthBar, 'aria-valuemax', String(maximum));
+    setAttribute(this.healthBar, 'aria-valuenow', String(Math.round(health * maximum)));
+    setAttribute(this.staminaBar, 'aria-valuenow', String(Math.round(stamina * 100)));
+    setClass(this.healthBar, 'low', health <= 0.25);
+    setClass(this.staminaBar, 'exhausted', d.exhausted);
+    setText(this.staminaLabel, d.exhausted ? S('hud.exhausted') : S('hud.stamina'));
+    setText(this.coinEl, `${S('hud.coin')}: ${d.coin}`);
+    setClass(this.guard, 'on', d.blocking);
+    if (d.heading !== undefined && Number.isFinite(d.heading)) setStyle(this.compassNeedle, 'transform', `rotate(${(Math.PI - d.heading) * 180 / Math.PI}deg)`);
     this.hotbar.update(d);
     const access = `${d.accessKeys?.inventory ?? 'I'} Inventory · ${d.accessKeys?.journal ?? 'Tab'} Journal · ${d.accessKeys?.map ?? 'M'} Map`;
-    if (this.accessHints.textContent !== access) this.accessHints.textContent = access;
-    this.timeEl.textContent = d.timeText;
+    setText(this.accessHints, access);
+    setText(this.timeEl, d.timeText);
     if (d.objective) {
-      this.objWrap.style.display = '';
-      if (this.objText.textContent !== d.objective) this.objText.textContent = d.objective;
-    } else this.objWrap.style.display = 'none';
+      setStyle(this.objWrap, 'display', '');
+      setText(this.objText, d.objective);
+    } else setStyle(this.objWrap, 'display', 'none');
     if (d.fps) {
-      this.fpsEl.style.display = '';
-      this.fpsEl.textContent = d.fps;
-    } else this.fpsEl.style.display = 'none';
+      setStyle(this.fpsEl, 'display', '');
+      setText(this.fpsEl, d.fps);
+    } else setStyle(this.fpsEl, 'display', 'none');
   }
 
   setPrompt(keyLabel: string | null, text?: string) {
     if (!keyLabel || !text) {
       if (this.lastPrompt) {
-        this.promptEl.classList.remove('on');
+        setClass(this.promptEl, 'on', false);
         this.lastPrompt = '';
       }
       return;
@@ -203,52 +240,54 @@ export class Hud {
     this.lastPrompt = sig;
     clear(this.promptEl);
     this.promptEl.append(h('kbd', {}, keyLabel), text);
-    this.promptEl.classList.add('on');
+    setClass(this.promptEl, 'on', true);
   }
 
   setChannel(label: string | null, frac = 0) {
     if (label === null) {
-      this.channelEl.classList.remove('on');
+      setClass(this.channelEl, 'on', false);
       return;
     }
-    this.channelEl.classList.add('on');
-    this.channelLabel.textContent = label;
-    this.channelFill.style.width = `${resourceFraction(frac, 1) * 100}%`;
+    setClass(this.channelEl, 'on', true);
+    setText(this.channelLabel, label);
+    setStyle(this.channelFill, 'width', `${resourceFraction(frac, 1) * 100}%`);
   }
 
   /** Render hunting state without rebuilding the focused Skin button each frame. */
   setHunting(data: HuntingHudData | null) {
     if (!data) {
-      this.bowReticle.hidden = this.bowHint.hidden = this.skinPanel.hidden = true;
-      this.skinButton.disabled = true;
+      setHidden(this.bowReticle, true);
+      setHidden(this.bowHint, true);
+      setHidden(this.skinPanel, true);
+      setDisabled(this.skinButton, true);
       return;
     }
     const arrows = Number.isFinite(data.arrows) ? Math.max(0, Math.floor(data.arrows)) : 0;
     const draw = resourceFraction(data.drawFraction, 1);
     const skinning = data.skinProgress !== undefined && data.skinProgress !== null;
-    this.bowReticle.hidden = !data.bowEquipped || (!data.aiming && !data.drawing) || skinning;
-    this.bowReticle.classList.toggle('drawing', data.drawing);
-    this.bowReticle.classList.toggle('drawn', data.drawing && draw >= 1 && arrows > 0);
-    this.bowReticle.classList.toggle('empty', arrows === 0);
-    this.bowDrawBar.hidden = !data.drawing;
-    this.bowDrawBar.setAttribute('aria-valuenow', String(Math.round(draw * 100)));
-    this.bowDrawFill.style.width = `${draw * 100}%`;
-    this.bowReadout.textContent = arrows > 0 ? S(data.drawing && draw >= 1 ? 'hunting.release' : 'hunting.ammo', { arrows }) : S('hunting.no_arrows');
-    this.bowHint.hidden = !data.bowEquipped || skinning || !!data.carcassName;
-    this.bowHint.textContent = S('hunting.bow_hint', { aim: data.aimKey ?? 'Right click', draw: data.drawKey ?? 'Left click', arrows });
-    this.skinPanel.hidden = !data.carcassName && !skinning;
-    this.skinName.textContent = skinning ? S('hunting.skinning_name', { name: data.carcassName ?? S('hunting.animal') }) : data.carcassName ?? '';
-    this.skinButton.disabled = !skinning && !data.canSkin;
+    setHidden(this.bowReticle, !data.bowEquipped || (!data.aiming && !data.drawing) || skinning);
+    setClass(this.bowReticle, 'drawing', data.drawing);
+    setClass(this.bowReticle, 'drawn', data.drawing && draw >= 1 && arrows > 0);
+    setClass(this.bowReticle, 'empty', arrows === 0);
+    setHidden(this.bowDrawBar, !data.drawing);
+    setAttribute(this.bowDrawBar, 'aria-valuenow', String(Math.round(draw * 100)));
+    setStyle(this.bowDrawFill, 'width', `${draw * 100}%`);
+    setText(this.bowReadout, arrows > 0 ? S(data.drawing && draw >= 1 ? 'hunting.release' : 'hunting.ammo', { arrows }) : S('hunting.no_arrows'));
+    setHidden(this.bowHint, !data.bowEquipped || skinning || !!data.carcassName);
+    setText(this.bowHint, S('hunting.bow_hint', { aim: data.aimKey ?? 'Right click', draw: data.drawKey ?? 'Left click', arrows }));
+    setHidden(this.skinPanel, !data.carcassName && !skinning);
+    setText(this.skinName, skinning ? S('hunting.skinning_name', { name: data.carcassName ?? S('hunting.animal') }) : data.carcassName ?? '');
+    setDisabled(this.skinButton, !skinning && !data.canSkin);
     const buttonLabel = S(skinning ? 'hunting.cancel_skin' : 'action.skin');
     const key = data.skinKey ?? 'V';
     const buttonText = `${key} · ${buttonLabel}`;
-    if (this.skinButton.textContent !== buttonText) this.skinButton.textContent = buttonText;
-    this.skinButton.setAttribute('aria-label', `${buttonLabel}${data.carcassName ? ` ${data.carcassName}` : ''} · ${key}`);
-    this.skinHint.textContent = skinning ? S('hunting.skin_cancel_hint') : data.skinUnavailable ?? S('hunting.skin_hint');
-    this.skinBar.hidden = !skinning;
+    setText(this.skinButton, buttonText);
+    setAttribute(this.skinButton, 'aria-label', `${buttonLabel}${data.carcassName ? ` ${data.carcassName}` : ''} · ${key}`);
+    setText(this.skinHint, skinning ? S('hunting.skin_cancel_hint') : data.skinUnavailable ?? S('hunting.skin_hint'));
+    setHidden(this.skinBar, !skinning);
     const progress = resourceFraction(data.skinProgress ?? 0, 1);
-    this.skinBar.setAttribute('aria-valuenow', String(Math.round(progress * 100)));
-    this.skinFill.style.width = `${progress * 100}%`;
+    setAttribute(this.skinBar, 'aria-valuenow', String(Math.round(progress * 100)));
+    setStyle(this.skinFill, 'width', `${progress * 100}%`);
   }
 
   toast(text: string, kind: '' | 'evidence' | 'good' | 'bad' = '') {
@@ -278,12 +317,12 @@ export class Hud {
   }
 
   setThreat(text: string | null) {
-    this.threat.classList.toggle('on', !!text);
-    if (text) this.threat.textContent = text;
+    setClass(this.threat, 'on', !!text);
+    if (text) setText(this.threat, text);
   }
 
   setVignette(a: number) {
-    this.vignette.style.opacity = String(Math.max(0, Math.min(1, a)));
+    setStyle(this.vignette, 'opacity', String(Math.max(0, Math.min(1, a))));
   }
 
   /** Screen-space speech bubbles for ambient remarks. */
@@ -297,9 +336,9 @@ export class Hud {
         this.bubbles.append(el);
         this.bubbleEls.set(b.id, el);
       }
-      if (el.textContent !== b.text) el.textContent = b.text;
-      el.style.left = `${b.x}px`;
-      el.style.top = `${b.y}px`;
+      setText(el, b.text);
+      setStyle(el, 'left', `${b.x}px`);
+      setStyle(el, 'top', `${b.y}px`);
     }
     for (const [id, el] of this.bubbleEls) {
       if (!seen.has(id)) {
@@ -313,21 +352,23 @@ export class Hud {
     const seen = new Set<string>();
     for (const t of items) {
       seen.add(t.id);
-      let el = this.tagEls.get(t.id);
-      if (!el) {
-        el = h('div', { class: 'tag' }, h('span', { class: 'tname' }, t.text), h('span', { class: 'ebar', style: { display: t.frac === undefined ? 'none' : '' } }, h('i')));
+      let tag = this.tagEls.get(t.id);
+      if (!tag) {
+        const name = h('span', { class: 'tname' }, t.text);
+        const fill = h('i');
+        const bar = h('span', { class: 'ebar', style: { display: t.frac === undefined ? 'none' : '' } }, fill);
+        const el = h('div', { class: 'tag' }, name, bar);
+        tag = { el, name, bar, fill };
         this.bubbles.append(el);
-        this.tagEls.set(t.id, el);
+        this.tagEls.set(t.id, tag);
       }
-      (el.querySelector('.tname') as HTMLElement).textContent = t.text;
-      const bar = el.querySelector('.ebar i') as HTMLElement | null;
-      const barWrap = el.querySelector<HTMLElement>('.ebar');
-      if (barWrap) barWrap.style.display = t.frac === undefined ? 'none' : '';
-      if (bar && t.frac !== undefined) bar.style.width = `${resourceFraction(t.frac, 1) * 100}%`;
-      el.style.left = `${t.x}px`;
-      el.style.top = `${t.y}px`;
+      setText(tag.name, t.text);
+      setStyle(tag.bar, 'display', t.frac === undefined ? 'none' : '');
+      if (t.frac !== undefined) setStyle(tag.fill, 'width', `${resourceFraction(t.frac, 1) * 100}%`);
+      setStyle(tag.el, 'left', `${t.x}px`);
+      setStyle(tag.el, 'top', `${t.y}px`);
     }
-    for (const [id, el] of this.tagEls) {
+    for (const [id, { el }] of this.tagEls) {
       if (!seen.has(id)) {
         el.remove();
         this.tagEls.delete(id);
@@ -338,6 +379,6 @@ export class Hud {
   showFade(on: boolean, title?: string, body?: string) {
     clear(this.fade);
     if (title) this.fade.append(h('div', {}, h('h2', {}, title), body ? h('div', { class: 'muted' }, body) : null));
-    this.fade.classList.toggle('on', on);
+    setClass(this.fade, 'on', on);
   }
 }
