@@ -159,6 +159,10 @@ export interface InstalledFoliage {
 }
 
 const installed = new WeakMap<THREE.Material, InstalledFoliage>();
+// A tuple distinguishes absent weights from every valid attribute name, and
+// keeps an arbitrary caller key from impersonating another weight suffix.
+const foliageOptionsKey = (weight: string | undefined, key?: string): string =>
+  `|foliage-options:${JSON.stringify([key ?? null, weight ?? null])}`;
 
 /**
  * Give a tree material wind (and, for leaves, the foliage look). Idempotent per material. Depth and distance materials
@@ -203,7 +207,7 @@ export function installFoliage(material: THREE.Material, opts: FoliageInstall): 
         ${LEAF_SKY_GLSL}`);
   };
   material.customProgramCacheKey = function() {
-    return `${programKey.call(this)}|tervain-foliage-v1-${opts.leaf ? 'leaf' : 'wood'}${opts.key ? `-${opts.key}` : ''}`;
+    return `${programKey.call(this)}|tervain-foliage-v1-${opts.leaf ? 'leaf' : 'wood'}${foliageOptionsKey(opts.weight, opts.key)}`;
   };
   material.needsUpdate = true;
   const result: InstalledFoliage = { uniforms: own, ok: () => !failed };
@@ -223,7 +227,7 @@ export function installFoliageShadow(material: THREE.Material, opts: Pick<Foliag
     compile.call(this, shader, renderer);
     if (!patchFoliageVertex(shader, wind, opts.leaf, opts.weight)) failed = true;
   };
-  material.customProgramCacheKey = function() { return `${programKey.call(this)}|tervain-foliage-v1-shadow-${opts.leaf ? 'leaf' : 'wood'}`; };
+  material.customProgramCacheKey = function() { return `${programKey.call(this)}|tervain-foliage-v1-shadow-${opts.leaf ? 'leaf' : 'wood'}${foliageOptionsKey(opts.weight)}`; };
   material.needsUpdate = true;
   installed.set(material, { uniforms: { uFoliage: wind.uFoliage }, ok: () => !failed });
 }

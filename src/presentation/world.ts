@@ -479,10 +479,10 @@ export class WorldScene {
     return this.foliage.wind;
   }
 
-  /** Something struck the scenery at (x, y, z): if it was a tree, the tree shakes and drops a few leaves. */
-  strikeTree(x: number, y: number, z: number, strength = 1): boolean {
-    const forest = this.modules.find((m) => m.name === 'forest')?.module as { strike?(x: number, y: number, z: number, s?: number): boolean } | undefined;
-    return forest?.strike?.(x, y, z, strength) ?? false;
+  /** Respond to the canonical tree ID retained by a finite wood contact at (x, y, z). */
+  strikeTree(x: number, y: number, z: number, strength = 1, treeId?: string): boolean {
+    const forest = this.modules.find((m) => m.name === 'forest')?.module as { strike?(x: number, y: number, z: number, s?: number, treeId?: string): boolean } | undefined;
+    return forest?.strike?.(x, y, z, strength, treeId) ?? false;
   }
 
   /** The hero and the nearest bodies moving through low foliage, as spheres the leaves are pushed out of. */

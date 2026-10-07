@@ -9,6 +9,12 @@ import type { PhysicalWoodGeometry } from './physicsGeometry';
 import type { WaterSample } from './water/waterWorld';
 
 export interface Vec3 { x: number; y: number; z: number }
+export interface ProjectileContact {
+  point: Vec3;
+  distance: number;
+  /** Present only when the closest contact is a canonical tree's finite wood collider. */
+  treeId?: string;
+}
 export interface PropSpec {
   id: string; name: string; kind: 'barrel' | 'crate'; x: number; z: number;
   width: number; height: number; depth: number; yaw: number; mass: number;
@@ -60,6 +66,7 @@ export class RealmPhysics {
   readonly props: Prop[] = [];
   private propHandles = new Set<number>();
   private rockHandles = new Set<number>();
+  private woodHandles = new Map<number, string>();
   private rockSurfaces = new RockSurfaces();
   private rocks: { collider: RAPIER.Collider; source: WorldCollider }[] = [];
   private fixed: { source: WorldCollider; collider: RAPIER.Collider }[] = [];
@@ -128,9 +135,10 @@ export class RealmPhysics {
     this.rockSurfaces.register(this.rocks.flatMap(rock => rock.source.rockMesh ? [rock.source.rockMesh] : []));
     for (const tree of wood) {
       const positions = Float32Array.from(tree.positions, value => value * tree.scale);
-      this.world.createCollider(RAPIER.ColliderDesc.trimesh(positions, tree.indices)
+      const collider = this.world.createCollider(RAPIER.ColliderDesc.trimesh(positions, tree.indices)
         .setTranslation(tree.translation.x, tree.translation.y, tree.translation.z)
         .setRotation(yawRotation(tree.yaw)).setFriction(.8));
+      this.woodHandles.set(collider.handle, tree.id);
     }
     // These standing planes already exist in Terrain and in the rendered mesh; rigid cargo needs the same support.
     const slab = (x: number, z: number, halfX: number, halfZ: number, bottom: number, top: number, yaw = 0) =>
@@ -305,7 +313,7 @@ export class RealmPhysics {
   }
 
   /** Exact finite 3D contacts for an arrow segment, including visible wood, terrain and loose cargo. */
-  traceProjectile(from: Vec3, to: Vec3): { point: Vec3; distance: number } | null {
+  traceProjectile(from: Vec3, to: Vec3): ProjectileContact | null {
     if (!this.alive || ![from.x, from.y, from.z, to.x, to.y, to.z].every(Number.isFinite)) return null;
     const delta = { x: to.x - from.x, y: to.y - from.y, z: to.z - from.z };
     const length = Math.hypot(delta.x, delta.y, delta.z);
@@ -325,16 +333,21 @@ export class RealmPhysics {
     const hit = this.world.castRay(ray, length, true, undefined, undefined, undefined, this.character,
       collider => collider.isEnabled() && !this.propHandles.has(collider.handle) && !actorHandles.has(collider.handle) && !animalHandles.has(collider.handle));
     let distance = hit?.timeOfImpact ?? Infinity;
+    let treeId = hit ? this.woodHandles.get(hit.collider.handle) : undefined;
     // Direct casts see restored/moved cargo and freshly enabled doors before the broad phase's next step.
     const direct = (collider: RAPIER.Collider) => {
       if (!collider.isEnabled() || animalHandles.has(collider.handle)) return;
       const value = collider.castRay(ray, length, true);
-      if (value >= 0 && value <= length) distance = Math.min(distance, value);
+      if (value >= 0 && value <= length && value <= distance) {
+        distance = value;
+        // A closer (or coincident) cargo/actor/changed-scenery contact replaces the wood attribution too.
+        treeId = this.woodHandles.get(collider.handle);
+      }
     };
     for (const prop of this.props) direct(prop.collider);
     for (const actor of this.actors.values()) if (actor.active) direct(actor.collider);
     for (const collider of this.projectileQueryDirty) direct(collider);
-    return Number.isFinite(distance) ? { distance, point: {
+    return Number.isFinite(distance) ? { distance, ...(treeId === undefined ? {} : { treeId }), point: {
       x: from.x + direction.x * distance, y: from.y + direction.y * distance, z: from.z + direction.z * distance,
     } } : null;
   }
@@ -552,5 +565,5 @@ export class RealmPhysics {
   stats() { return { engine: 'Rapier', hz: 60, bodies: this.props.length, actors: [...this.actors.values()].filter(p => p.active).length,
     awake: this.props.filter(p => !p.body.isSleeping()).length, held: this.held?.spec.id ?? null, steps: this.steps,
     rockMeshes: this.rocks.length }; }
-  dispose() { if (!this.alive) return; this.alive = false; this.release(); this.world.free(); }
+  dispose() { if (!this.alive) return; this.alive = false; this.release(); this.woodHandles.clear(); this.world.free(); }
 }

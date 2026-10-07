@@ -27,6 +27,8 @@ export interface LeafBurst {
   readonly mesh: THREE.InstancedMesh;
   /** Release `count` leaves from a crown centred at (x, y, z) with the given radius. */
   release(x: number, y: number, z: number, radius: number, count: number): number;
+  /** Apply the current motion preference before a release, independently of wind strength. */
+  setReducedMotion(reducedMotion: boolean): void;
   update(dt: number, reducedMotion: boolean): void;
   readonly active: number;
   dispose(): void;
@@ -42,7 +44,7 @@ function leafGeometry(): THREE.BufferGeometry {
   return g;
 }
 
-export function createLeafBurst(terrain: { heightAt(x: number, z: number): number }, wind: GrassWind | null, seed = 7177): LeafBurst {
+export function createLeafBurst(terrain: { heightAt(x: number, z: number): number }, wind: GrassWind | null, seed = 7177, initialReducedMotion = false): LeafBurst {
   const rng = mulberry32(seed);
   const leaves: Leaf[] = Array.from({ length: LEAF_BURST_POOL }, () => ({ alive: false, x: 0, y: 0, z: 0, vx: 0, vz: 0, fall: 0, spin: 0, phase: 0, age: 0, landed: 0, size: 1 }));
   const geometry = leafGeometry();
@@ -58,11 +60,15 @@ export function createLeafBurst(terrain: { heightAt(x: number, z: number): numbe
   const matrix = new THREE.Matrix4(), quat = new THREE.Quaternion(), euler = new THREE.Euler(), pos = new THREE.Vector3(), scl = new THREE.Vector3();
   let active = 0;
   let disposed = false;
+  let reducedMotion = initialReducedMotion;
   return {
     mesh,
     get active() { return active; },
+    setReducedMotion(enabled) {
+      if (!disposed) reducedMotion = enabled;
+    },
     release(x, y, z, radius, count) {
-      if (disposed || ![x, y, z, radius, count].every(Number.isFinite)) return 0;
+      if (disposed || reducedMotion || ![x, y, z, radius, count].every(Number.isFinite)) return 0;
       let released = 0;
       for (const leaf of leaves) {
         if (released >= count) break;
@@ -81,8 +87,9 @@ export function createLeafBurst(terrain: { heightAt(x: number, z: number): numbe
       }
       return released;
     },
-    update(dt, reducedMotion) {
+    update(dt, enabled) {
       if (disposed) return;
+      reducedMotion = enabled;
       const step = reducedMotion || !Number.isFinite(dt) ? 0 : Math.min(Math.max(dt, 0), 0.1);
       const dir = wind?.direction ?? [1, 0];
       let n = 0;
@@ -124,6 +131,7 @@ export function createLeafBurst(terrain: { heightAt(x: number, z: number): numbe
     dispose() {
       if (disposed) return;
       disposed = true;
+      mesh.dispose();
       geometry.dispose();
       material.dispose();
       mesh.removeFromParent();

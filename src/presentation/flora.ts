@@ -62,13 +62,13 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
   counts: { trees: number; triangles: number }; physicalWood: readonly PhysicalWoodGeometry[]; initializeFloor(extraTrees?: readonly FloraTree[]): void;
   /** Meshes drawn only into the sun's shadow map; the world shows them for the shadow pass alone. */
   shadowCasters: THREE.Group;
-  /** The tree rooted nearest (x, z) within `reach` metres of its trunk, for things that strike a tree. */
+  /** A nearby rooted tree for inspections; proximity does not prove a wood contact. */
   treeAt(x: number, z: number, reach?: number): { x: number; z: number; height: number; scale: number; leafy: boolean } | null;
   /**
-   * Something struck a tree at (x, y, z): it shakes and settles (a sapling visibly, a giant hardly at all) and a few
-   * leaves fall from its crown. False when no trunk is there.
+   * Respond to the canonical tree ID from an actual finite wood contact at (x, y, z). A nearby point alone is not
+   * a contact. Reduced Motion still reports the hit, while suppressing shakes and falling leaves.
    */
-  strike(x: number, y: number, z: number, strength?: number): boolean;
+  strike(x: number, y: number, z: number, strength?: number, treeId?: string): boolean;
 } {
   const { terrain, colliders, quality, sway, excl } = ctx;
   const group = new THREE.Group();
@@ -98,6 +98,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
   // Pack only once per variant; hundreds of instances share these source buffers.
   const woodBuffers = new Map<TreeVariant, Pick<PhysicalWoodGeometry, 'positions' | 'indices'>>();
   const physicalWood: PhysicalWoodGeometry[] = [];
+  const woodTrees = new Map<string, { tree: FloraTree; variant: TreeVariant }>();
   for (const tree of population) {
     if (!tree.collisionId || tree.radius <= 0) continue;
     const variant = variantFor(tree), wood = variant.lods[0].wood;
@@ -121,6 +122,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       woodBuffers.set(variant, buffers);
     }
     physicalWood.push({ id: tree.collisionId, ...buffers, translation: { x: tree.x, y: tree.y, z: tree.z }, yaw: tree.yaw, scale: tree.s });
+    woodTrees.set(tree.collisionId, { tree, variant });
   }
   const { trees, obstacles } = selectFloraPopulation(population, quality);
   const plantedCrowns = new PlantedCrownIndex();
@@ -178,6 +180,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
   let triangles = 0;
   // Wind and the foliage look come from the world's shared field (absent only in standalone tools and fixtures).
   const foliage = ctx.foliage ?? null;
+  let reducedMotion = ctx.settings.reducedMotion;
   const castsShadows = quality !== 'low';
   const shadowCasters = new THREE.Group();
   shadowCasters.name = 'flora-shadow-casters';
@@ -185,16 +188,31 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
   group.add(shadowCasters);
   const casterMaterials: THREE.Material[] = [];
   const casterGeometries: THREE.BufferGeometry[] = [];
+  const profileMaterials = new Set<THREE.Material>();
   for (const b of batches) {
     const v = b.variant;
     const response = foliageResponse(v);
     const crown = v.lods[0].leaf ? crownOf(v.lods[0].leaf) : undefined;
+    // Pine LODs/seeded variants and procedural caches share source materials. Each profile needs its own
+    // height/crown uniforms; maps stay with their existing owner. A profile can still share a near/mid palette.
+    const palette = new Map<THREE.Material, THREE.Material>();
+    const profileMaterial = (source: THREE.Material): THREE.Material => {
+      const existing = palette.get(source);
+      if (existing) return existing;
+      const material = source.clone();
+      // Material.clone() does not copy these hooks; preserve bark detail and other source patches explicitly.
+      material.onBeforeCompile = source.onBeforeCompile;
+      material.customProgramCacheKey = source.customProgramCacheKey;
+      palette.set(source, material);
+      profileMaterials.add(material);
+      return material;
+    };
     for (let l = 0; l < 3; l++) {
       const lod = v.lods[l]!;
       const importedMaterials = usesPine(v.species) ? pine.materials[l]! : meshy ? meshy.materialsFor(v)[l]! : null;
-      const wood = lod.wood ? new THREE.InstancedMesh(lod.wood, importedMaterials ? importedMaterials.wood! : woodMaterial(v.bark, sway), b.trees.length) : null;
+      const wood = lod.wood ? new THREE.InstancedMesh(lod.wood, profileMaterial(importedMaterials ? importedMaterials.wood! : woodMaterial(v.bark, sway)), b.trees.length) : null;
       const leafTex = l === 2 ? v.crownTexture : v.leafTexture;
-      const leaf = lod.leaf ? new THREE.InstancedMesh(lod.leaf, importedMaterials ? importedMaterials.leaf! : leafMaterial(leafTex, sway), b.trees.length) : null;
+      const leaf = lod.leaf ? new THREE.InstancedMesh(lod.leaf, profileMaterial(importedMaterials ? importedMaterials.leaf! : leafMaterial(leafTex, sway)), b.trees.length) : null;
       for (const m of [wood, leaf]) {
         if (!m) continue;
         m.count = 0;
@@ -242,13 +260,15 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
   const windDirection = ctx.foliage?.wind.direction;
   const fallingLeaves = buildFallingLeaves(terrain, quality, trees, variantFor, windDirection ? Math.atan2(windDirection[1], windDirection[0]) : 0);
   group.add(fallingLeaves.group);
-  const burst = ctx.foliage ? createLeafBurst(terrain, ctx.foliage.wind) : null;
+  const burst = ctx.foliage ? createLeafBurst(terrain, ctx.foliage.wind, undefined, reducedMotion) : null;
   if (burst) group.add(burst.mesh);
 
   /* ---- Per-frame selection ---- */
   const frustum = new THREE.Frustum();
   const pv = new THREE.Matrix4();
   const sphere = new THREE.Sphere();
+  const strikePoint = new THREE.Vector3();
+  const strikeBounds = new THREE.Box3();
   const mtx = new THREE.Matrix4();
   const quat = new THREE.Quaternion();
   const scl = new THREE.Vector3();
@@ -366,6 +386,8 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
     counts: { trees: trees.length, triangles: Math.round(triangles) },
     update(dt: number, f: FrameContext) {
       if (disposed) return;
+      reducedMotion = f.reducedMotion;
+      burst?.setReducedMotion(reducedMotion);
       forestFloor?.update(dt, f);
       fallingLeaves.update(dt, f);
       burst?.update(dt, f.reducedMotion);
@@ -397,19 +419,30 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
     },
     initializeFloor,
     shadowCasters,
-    strike(x, y, z, strength = 1) {
+    strike(x, y, z, strength = 1, treeId) {
       const field = ctx.foliage;
-      if (disposed || !field || ![x, y, z, strength].every(Number.isFinite)) return false;
-      const tree = this.treeAt(x, z, 0.5);
-      if (!tree) return false;
-      const ground = terrain.heightAt(tree.x, tree.z);
-      if (y < ground - 0.3 || y > ground + tree.height) return false;
-      const amp = THREE.MathUtils.clamp(strength * 6 / Math.max(tree.height, 1), 0.12, 1.2);
+      if (disposed || !field || !treeId || ![x, y, z, strength].every(Number.isFinite)) return false;
+      const hit = woodTrees.get(treeId);
+      if (!hit) return false;
+      const { tree, variant } = hit;
+      const wood = variant.lods[0].wood;
+      if (!wood || !(tree.s > 0)) return false;
+      // Collider ownership proves the contact. This source-space bound only rejects stale/misassociated points,
+      // retaining the full wood envelope (including off-axis branches), with three centimetres of contact tolerance.
+      const dx = x - tree.x, dz = z - tree.z, cos = Math.cos(tree.yaw), sin = Math.sin(tree.yaw);
+      strikePoint.set((cos * dx - sin * dz) / tree.s, (y - tree.y) / tree.s, (sin * dx + cos * dz) / tree.s);
+      if (!wood.boundingBox) wood.computeBoundingBox();
+      strikeBounds.copy(wood.boundingBox!).expandByScalar(0.03 / tree.s);
+      if (!strikeBounds.containsPoint(strikePoint)) return false;
+      burst?.setReducedMotion(reducedMotion);
+      if (reducedMotion) return true;
+      const height = variant.height * tree.s;
+      const amp = THREE.MathUtils.clamp(strength * 6 / Math.max(height, 1), 0.12, 1.2);
       const slots = field.shakes.value;
       let oldest = 0;
       for (let i = 1; i < slots.length; i++) if (slots[i]!.z < slots[oldest]!.z) oldest = i;
       slots[oldest]!.set(tree.x, tree.z, field.wind.uniforms.uGrassTime.value, amp);
-      if (tree.leafy && burst) burst.release(tree.x, ground + tree.height * 0.62, tree.z, Math.max(0.5, tree.height * 0.28), Math.round(3 + amp * 7));
+      if (variant.lods[0].leaf && burst) burst.release(tree.x, tree.y + height * 0.62, tree.z, Math.max(0.5, height * 0.28), Math.round(3 + amp * 7));
       return true;
     },
     treeAt(x, z, reach = 0.6) {
@@ -447,6 +480,9 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       }
       for (const material of casterMaterials) material.dispose();
       for (const geometry of casterGeometries) geometry.dispose();
+      for (const material of profileMaterials) material.dispose();
+      profileMaterials.clear();
+      woodTrees.clear();
       // Grounding also examines rejected candidates; all procedural variants belong to this world.
       for (const variant of variants.values()) {
         for (const lod of usesPine(variant.species) || meshy ? [] : variant.lods) {
