@@ -68,23 +68,34 @@ Browser checks do not establish packaged desktop compatibility or performance on
 
 The [Gothic 3 / Ardea reconstruction](https://ael-dev3.github.io/Tervain/gothic3/)
 is a separate, incomplete TypeScript browser port. The rebuild proceeds in
-connected stages:
+connected stages. It is a new browser implementation guided by the installed
+game; the Windows executable is not compiled into the site, and decompiled
+listings are not treated as original source code.
 
 ### Rebuilding process
 
-1. Inventory the local installation, hash the files and identify which archive
-   or patch layer supplies each resource. The installed game remains a read-only
-   reference.
-2. Decode selected world, model, texture, animation and gameplay data into
-   portable browser assets, keeping the source path, hash and known conversion
-   limits with the result.
-3. Study one native behavior at a time. Decompiled listings help trace the
-   operation, while original binary bytes and resource records check the facts;
-   the listings are not original source code to compile for the browser.
-4. Implement the supported behavior in TypeScript and connect it with the
-   recovered assets, live world and actor state, input and save/load.
-5. Exercise that connected gameplay slice in the browser, record gaps, and
-   continue until a new game can progress through the campaign to an ending.
+1. **Inventory the source.** Read the local installation and offline study as
+   references. Hash the inputs and identify the archive or patch layer that
+   supplies each resource, so an older duplicate is not selected by accident.
+2. **Decode selected data.** Use format-specific tools for world placements,
+   geometry, actors, textures, materials, animation and gameplay records. Keep
+   source paths, hashes, coordinate conversions and known omissions with the
+   portable browser assets.
+3. **Recover behavior.** Trace one native operation at a time through functions,
+   callbacks, layouts and state changes. Decompiled listings help navigate the
+   code, but compare important claims with original binary bytes and game data.
+   Leave unresolved engine calls explicit instead of guessing.
+4. **Implement a bounded slice.** Recreate the supported operation in
+   TypeScript, using the source-derived identities and values. An isolated
+   reader or formula is still a component, not a playable feature.
+5. **Connect the slice to gameplay.** Make its assets and behavior use the same
+   live world and saved state as ordinary play: input, actors, interactions,
+   quests, time and save/load as needed for that feature.
+6. **Review and expand.** Run the relevant checks, exercise the exact scenario
+   in the browser, and verify save/restore when it applies. Record what worked
+   and what remains missing, then connect the next part of the campaign.
+   Completion means starting a new game and reaching an available ending with
+   the surrounding NPC, quest, combat, travel and save systems working together.
 
 An extracted file, converted model, passing unit test or successful build only
 proves its own part of this chain. The [rebuilding overview](docs/engineering/gothic3-rebuild-overview.md)

@@ -111,6 +111,11 @@ export interface BrowserNpcEntityServices {
   /** Actual selected browser entropy and monotonic timer services. */
   readonly crypto: Pick<Crypto, 'randomUUID'>;
   readonly now: () => number;
+  /** One shared native runtime owner backs constructor, ErrorAdmin and their
+   * process callback stack. Isolated fixtures may omit it explicitly. */
+  readonly runtimeAdmins?: ReturnType<typeof import('./native-runtime-platform').createNativeRuntimeAdminOwner>;
+  /** Exact imported function identity used by the constructor pointer store. */
+  readonly defaultPropertyComparator?: () => NativeValue<object>;
   /** OriginalControlReader's actual lazy SharedBase cache and CRT registration. */
   readonly control: Pick<OriginalControlReader, 'matrixIdentity'>;
   readonly registry?: NativeSceneEntityRegistry;
@@ -162,7 +167,11 @@ export class BrowserNpcEntityRuntime {
     this.factory = new NativeOriginalEntityFactory('browser-ardea-native-entities', {
       guid: browserEntityGuidService(services.crypto), timestamps: this.timestamps,
       matrixIdentity: connectConstructorMatrixIdentity(services.control), sceneAdmin: () => known(sceneAdmin),
-    });
+    }, services.runtimeAdmins ? {
+      memory: services.runtimeAdmins.memory,
+      defaultPropertyComparator: () => services.defaultPropertyComparator?.() ??
+        missing('Source-verified Engine comparator import identity is not connected'),
+    } : undefined);
   }
 
   /** First16-byte native equality, followed by the actual lookup host. */
@@ -222,7 +231,8 @@ export class BrowserNpcEntityRuntime {
       }, this.names);
       const reflection = new NativeReflectionController(allocation.data.entity.identity + ':reflection', {
         timestamps: this.timestamps, precision: 53,
-        isInPanicState: () => missing('Original ErrorAdmin.GetInstance/Create and IsInPanicState require the owned singleton, MemoryAdmin/MessageAdmin callbacks and nonempty shutdown service'),
+        isInPanicState: () => this.services.runtimeAdmins?.error.isInPanicState() ??
+          missing('Original ErrorAdmin.GetInstance/Create and IsInPanicState require the shared runtime owner'),
       });
       const owners = new WeakMap<NativeLiveEntity, NativeNavigationEntity>();
       const reverseOwners = new WeakMap<NativeNavigationEntity, NativeLiveEntity>();

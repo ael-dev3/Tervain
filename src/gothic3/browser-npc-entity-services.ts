@@ -6,6 +6,8 @@ import manifestText from '../../assets/gothic3/npc-entity/manifest.json?raw';
 import { OriginalControlModuleState, OriginalControlReader } from './control-reading';
 import { NativeReflectionController } from './entity-reflection';
 import { monotonicClockMilliseconds } from './world-clock';
+import { createNativeRuntimeAdminOwner } from './native-runtime-platform';
+import { nativeEntityDefaultComparatorImportIdentity } from './native-entity-heap';
 import type { BrowserNpcEntityServices } from './browser-npc-entity';
 import type { NativeValue } from './dialogue';
 
@@ -43,14 +45,27 @@ export class BrowserMatrixShutdownRegistry {
   private readonly pending: MatrixDestructorEntry[] = [];
   private readonly executed: MatrixDestructorEntry[] = [];
   private disposed = false;
-  constructor() { verifyMatrixDestructor(); }
+  constructor(private readonly registerNativeShutdown?: (entry: MatrixDestructorEntry,
+    callback: () => NativeValue<void>) => NativeValue<number>) { verifyMatrixDestructor(); }
+
+  private execute(entry: MatrixDestructorEntry): NativeValue<void> {
+    const index = this.pending.indexOf(entry);
+    if (index < 0) return known(undefined); // A separately requested drain already ran this literal RET.
+    this.pending.splice(index, 1);
+    entry.callback();
+    this.executed.push(entry);
+    return known(undefined);
+  }
 
   register(module: OriginalControlModuleState, address: MatrixDestructorAddress): NativeValue<number> {
     if (this.disposed) return { known: false, reason: 'Selected browser shutdown owner is disposed' };
     if (!(module instanceof OriginalControlModuleState) || address !== '100e2910') {
       return { known: false, reason: 'Actual shared module and admitted Matrix destructor required' };
     }
-    this.pending.push(Object.freeze({ module, address, callback: originalMatrixDestructorRet }));
+    const entry = Object.freeze({ module, address, callback: originalMatrixDestructorRet });
+    const registered = this.registerNativeShutdown?.(entry, () => this.execute(entry));
+    if (registered && !registered.known) return registered;
+    this.pending.push(entry);
     return known(0); // Success follows an actual retained registration.
   }
 
@@ -59,10 +74,12 @@ export class BrowserMatrixShutdownRegistry {
   dispose(): void {
     if (this.disposed) return;
     this.disposed = true;
+    // In production the platform owns this callback in the combined native
+    // stack. Do not drain it out of order if an earlier shutdown callback fails.
+    if (this.registerNativeShutdown) return;
     while (this.pending.length) {
-      const entry = this.pending.pop()!;
-      entry.callback();
-      this.executed.push(entry);
+      const entry = this.pending.at(-1)!;
+      this.execute(entry);
     }
   }
 }
@@ -80,20 +97,25 @@ export interface BrowserNpcEntityServiceOwner {
 }
 
 export function createBrowserNpcEntityServices(platform: BrowserNpcEntityPlatform): BrowserNpcEntityServiceOwner {
-  const shutdown = new BrowserMatrixShutdownRegistry();
+  const runtimeAdmins = createNativeRuntimeAdminOwner();
+  const shutdown = new BrowserMatrixShutdownRegistry((entry, callback) =>
+    runtimeAdmins.platform.registerShutdown(entry.address, entry.module, callback));
   const matrixModule = OriginalControlModuleState.fromColdOriginalImage();
   const reflection = new NativeReflectionController('browser-npc-shared-matrix', {
     timestamps: monotonicClockMilliseconds(platform.now), precision: 53,
     // Matrix.GetIdentity never reads this Clock-only service. An attempted
     // Clock creator destruction must still request its actual ErrorAdmin.
-    isInPanicState: () => ({ known: false, reason: 'Native Clock ErrorAdmin is not attached to the Matrix service' }),
+    isInPanicState: () => runtimeAdmins.error.isInPanicState(),
   });
   const control = new OriginalControlReader(reflection, {
     module: matrixModule,
     registerMatrixDestructor: address => shutdown.register(matrixModule, address),
   });
   return Object.freeze({ matrixModule, control, shutdown,
-    services: Object.freeze({ crypto: platform.crypto, now: platform.now, control }),
-    dispose: () => shutdown.dispose(),
+    services: Object.freeze({ crypto: platform.crypto, now: platform.now, control, runtimeAdmins,
+      defaultPropertyComparator: () => known(nativeEntityDefaultComparatorImportIdentity) }),
+    // One native callback stack preserves registration order across MemoryAdmin,
+    // Matrix, MessageAdmin and ErrorAdmin. The platform drains it in reverse.
+    dispose: () => { runtimeAdmins.dispose(); shutdown.dispose(); },
   });
 }

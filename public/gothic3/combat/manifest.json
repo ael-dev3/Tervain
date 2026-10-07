@@ -13,7 +13,7 @@
   },
   "generator": {
     "path": "tools/gothic3/research_native_combat.py",
-    "sha256": "9edf5e3475dfb2f4b7505b306b2d29f640a31f9c5893231db87579d2ab3084da"
+    "sha256": "c582d6c79051090e7e53bc43d05aaee176f41ff4bb69aca36d4870d5f6d314cf"
   },
   "originalInputs": [
     {
@@ -43,17 +43,27 @@
   ],
   "audit": {
     "allInstructionBytesMatch": true,
-    "entryCount": 154,
-    "instructionRecords": 12584,
-    "instructionBytes": 44088
+    "entryCount": 160,
+    "instructionRecords": 13335,
+    "instructionBytes": 46765
   },
   "evidence": "native-combat-evidence.json",
   "actionLabels": "native-action-labels.json",
   "outputs": [
     {
+      "path": "assets/gothic3/combat/bandit-death-source-evidence.json",
+      "bytes": 11071,
+      "sha256": "e5b3cb34f587890354f93ba4c5087f65eb168ef537e51668dcb72f7d34a151ee"
+    },
+    {
       "path": "assets/gothic3/combat/native-source-evidence.json",
-      "bytes": 212166,
-      "sha256": "951f4ad0f1dff7fe0525fe76c776268886cbce63ea3e6541a2f32eb16a0b734e"
+      "bytes": 220442,
+      "sha256": "f3cb78820d6bf8439cfac639fced33cf03e95e121c8d37d40e2d097d6b91955f"
+    },
+    {
+      "path": "assets/gothic3/combat/npc-death-native-evidence.json",
+      "bytes": 1123637,
+      "sha256": "b6001504b3f50d62a88888fd418d2309d1e49c79c7276b5eee55147541bff001"
     },
     {
       "path": "assets/gothic3/combat/README.txt",
@@ -571,6 +581,16 @@
       "sha256": "0504ce0193b0cb19ec80ada26b773956f06d4f5f70274d999bc8102363a4c23b"
     },
     {
+      "path": "assets/gothic3/combat/sources/Script_Game/100183e0.asm.txt",
+      "bytes": 10775,
+      "sha256": "0cde246a4f29ec0569d889b66261575de0e26b271be857497e30ac5932def026"
+    },
+    {
+      "path": "assets/gothic3/combat/sources/Script_Game/100183e0.c.txt",
+      "bytes": 4829,
+      "sha256": "79cbfaf2c9a2eb9428ede485309e1f49e73f7b90f628a06fc82a45f1e65d54f4"
+    },
+    {
       "path": "assets/gothic3/combat/sources/Script_Game/100187b0.asm.txt",
       "bytes": 3589,
       "sha256": "69009b48fb7c8c03627be98ba4ba6ff1397768b5a7b5d8efa3fc1287a67c4ce6"
@@ -579,6 +599,26 @@
       "path": "assets/gothic3/combat/sources/Script_Game/100187b0.c.txt",
       "bytes": 1210,
       "sha256": "014cc63db8b44a55be00c20a7a33d4dbd2973d530c664190c47b6560d931cb19"
+    },
+    {
+      "path": "assets/gothic3/combat/sources/Script_Game/100188c0.asm.txt",
+      "bytes": 9030,
+      "sha256": "0fb8fe8202d9878513729b0a2fc4a386f97b8fffae6dfd96a2fdf55050432f8b"
+    },
+    {
+      "path": "assets/gothic3/combat/sources/Script_Game/100188c0.c.txt",
+      "bytes": 4781,
+      "sha256": "f78c4d0e2cca9be2d9b4420f0702b4c59cc5e9388692522dddd908cf25b47e6b"
+    },
+    {
+      "path": "assets/gothic3/combat/sources/Script_Game/10019050.asm.txt",
+      "bytes": 16057,
+      "sha256": "bbb78da51489dfd3056043edc90e00f33a4d260c877170a5a016e24f73950a4e"
+    },
+    {
+      "path": "assets/gothic3/combat/sources/Script_Game/10019050.c.txt",
+      "bytes": 5092,
+      "sha256": "80715ca5d44aa650a111a46766ceb8029ffdc6b370662e1bc1eec2ff211cf0a7"
     },
     {
       "path": "assets/gothic3/combat/sources/Script_Game/100194c0.asm.txt",
@@ -1181,6 +1221,36 @@
       "sha256": "8bd39740005364d6fba10f843f22f4e473fd37f2e4057ed3a75365e3b730337f"
     },
     {
+      "path": "assets/gothic3/combat/sources/Script_Game/10109e50.asm.txt",
+      "bytes": 881,
+      "sha256": "163557623bc6d413ce5d6e56f70f4b6c41a3b6e2b5ab82c197aaeac900841c5a"
+    },
+    {
+      "path": "assets/gothic3/combat/sources/Script_Game/10109e50.c.txt",
+      "bytes": 410,
+      "sha256": "905ffcc5ec30b2302fb4bd620b520f82236dd1fe8587805b33c1a0ae9285676b"
+    },
+    {
+      "path": "assets/gothic3/combat/sources/Script_Game/1010a010.asm.txt",
+      "bytes": 881,
+      "sha256": "d744cfb0ee2c0c1fd225353161c8d0481805f1af625f7b79a2214b41d714d95d"
+    },
+    {
+      "path": "assets/gothic3/combat/sources/Script_Game/1010a010.c.txt",
+      "bytes": 409,
+      "sha256": "f29f0379a76a675565c4c8db09ae3e6d3e36e668a13734b7666ba956d64d4e6f"
+    },
+    {
+      "path": "assets/gothic3/combat/sources/Script_Game/1010a080.asm.txt",
+      "bytes": 881,
+      "sha256": "781a20d93744862a65ea62d05967e488c031017c3870781f409b208ce9de3ecb"
+    },
+    {
+      "path": "assets/gothic3/combat/sources/Script_Game/1010a080.c.txt",
+      "bytes": 407,
+      "sha256": "4d27000104fc8239868b71bb12623e12acd4bc9f520ef0584dfc72dfaea58ee8"
+    },
+    {
       "path": "assets/gothic3/combat/sources/Script_Game/1010a0f0.asm.txt",
       "bytes": 881,
       "sha256": "cae6f44938933ee55eabcfe1ef377d7bed21c7931475bab064d5581e094011ec"
@@ -1607,8 +1677,8 @@
     },
     {
       "path": "public/gothic3/combat/native-combat-evidence.json",
-      "bytes": 212208,
-      "sha256": "046b07a559f0dfacd13d06ea28f31df421f7c15dfb84362c6af1ce87b92e3ce4"
+      "bytes": 220484,
+      "sha256": "c1ad2dfc8abdcf2a3ddd426f014312472d2a97846c7ae342895410ba31da721f"
     }
   ]
 }

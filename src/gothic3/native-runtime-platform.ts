@@ -3,6 +3,7 @@
  * does not report observations of the host's Windows allocator, zSpy or files. */
 import rulesText from '../../assets/gothic3/runtime-admin/runtime-rules.json?raw';
 import sceneRulesText from '../../assets/gothic3/scene-startup/runtime-rules.json?raw';
+import npcEntityManifestText from '../../assets/gothic3/npc-entity/manifest.json?raw';
 import type { NativeValue } from './dialogue';
 import { NativeMemoryAdmin } from './native-memory-admin';
 import type { NativeMemoryBacking, NativeMemoryPlatform, NativeMemoryRegion } from './native-memory-admin';
@@ -14,6 +15,16 @@ import type { NativeByteGeometryHost, NativeBytePointer, NativePointerGeometry }
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = (reason: string): { known: false; reason: string } => ({ known: false, reason });
+const npcEntityManifest = JSON.parse(npcEntityManifestText) as { matrixDestructor?: {
+  module: string; inputSha256: string; address: string; instructionBytesHex: string; instructionBytesSha256: string;
+} };
+const matrixDestructor = npcEntityManifest.matrixDestructor;
+function admittedMatrixDestructor(address: string): boolean {
+  return address === '100e2910' && matrixDestructor?.module === 'SharedBase' &&
+    matrixDestructor.inputSha256 === '5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214' &&
+    matrixDestructor.address === address && matrixDestructor.instructionBytesHex === 'c3' &&
+    matrixDestructor.instructionBytesSha256 === 'ae3f4619b0413d70d3004b9131c3752153074e45725be13b9a148978895e359e';
+}
 interface Section {
   readonly address: string; readonly owner: object; readonly identity: object;
   readonly spinCount: number | null; depth: number; deleted: boolean;
@@ -545,7 +556,7 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
       method?.module === 'Engine' && method.entry === address && method.body === '30797c90' &&
       method.bodyInstructionBytesSha256 === 'b1a2e2bb4cbdd84ecc08a969c18b636ac5e27f20ba3f1a6cf054d183329b51bc';
     const admittedShared = admitted?.address === address && /^(?:[0-9a-f]{2})+$/.test(admitted.raw) && /^[0-9a-f]{64}$/.test(admitted.sha256);
-    if (this.shutdownPhase !== 'active' || (!admittedShared && !admittedSceneName) || typeof execute !== 'function') {
+    if (this.shutdownPhase !== 'active' || (!admittedShared && !admittedSceneName && !admittedMatrixDestructor(address)) || typeof execute !== 'function') {
       return unknown('Actual admitted active runtime shutdown registration required');
     }
     this.pending.push(Object.freeze({ address, owner, execute })); return known(0);

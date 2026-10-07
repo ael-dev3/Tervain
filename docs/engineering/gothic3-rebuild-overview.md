@@ -269,18 +269,31 @@ checkpoint. The production workflow checks the build and deploys the separate
 route when the reviewed changes reach `main`.
 
 The separate TypeScript route is live at
-[Gothic 3 / Ardea](https://ael-dev3.github.io/Tervain/gothic3/). The latest
-confirmed browser-runtime check follows checkpoint 83 at `main` commit
-`c52d16da73fe1c9be5d240b0111cfe1074d1e8cc`, merged in
-[PR 52](https://github.com/ael-dev3/Tervain/pull/52) and published by successful
+[Gothic 3 / Ardea](https://ael-dev3.github.io/Tervain/gothic3/) and currently
+responds with HTTP 200. Its latest published revision is
+`main` commit `28d85b7b72f19352a0abc9abff13f4a2c0c440f3`, merged in
+[PR 53](https://github.com/ael-dev3/Tervain/pull/53) and published by successful
+[workflow run 37554766730](https://github.com/ael-dev3/Tervain/actions/runs/37554766730), attempt 1.
+That change adds checkpoint 84's offline Game CRT and Navigation class-name
+research; it does not change the browser runtime. The latest captured browser
+exercise is checkpoint 83 at commit
+`c52d16da73fe1c9be5d240b0111cfe1074d1e8cc`, published by
 [workflow run 37551902308](https://github.com/ael-dev3/Tervain/actions/runs/37551902308), attempt 1.
-Checkpoints 81–83 added separate Game CRT ownership, its bounded startup prefix,
-physical exit table and Navigation RTTI name without changing browser gameplay.
 Checkpoint 84 corrects the Game `_strlen` DWORD path and constructs the Game
-Navigation class name through the shared CString allocator. It does not run
-the 71 earlier C++ initializers or connect Navigation's reflected type to live
-NPC activation; see the
+Navigation class name through the shared CString allocator. It does not run the
+71 earlier C++ initializers or connect Navigation's reflected type to live NPC
+activation; see the
 [detailed rebuilding record](gothic3-rebuilding-process.md#84-construct-the-game-navigation-class-name-through-sharedbase).
+
+The local working tree also has checkpoints 85–86 that are not part of this
+published build. Checkpoint 85 extends the byte-verified combat source receipts
+with three Script_Game attitude helpers. Checkpoint 86 connects the NPC
+constructor's first 448-byte allocation and reflection panic checks to one
+shared runtime-admin owner. The local production build passes and its preview
+boots the Ardea scene; the NPC inspector has not yet been reviewed after this
+hookup, so no new read boundary or gameplay behavior is claimed. The Navigation
+PropertyObjectType owner, physical Navigation allocations, world attachment and
+NPC activation remain open.
 
 The public browser check loads 202 scene objects and 70 character models,
 enters Ardea with Hero HP 100 and inspects the Hero model (10,692 triangles,
@@ -288,8 +301,8 @@ three meshes) and a coastal bandit (11,280 triangles, two meshes).
 The route serves `gothic3-C3iMc5TP.js`; the final captured check contained no
 warnings or errors. An initial material request returned HTTP 503; one browser
 reload recovered it. The complete observation is retained in PR 49. The
-checkpoint's standalone runtime admins are not
-connected to the browser NPC reader. The isolated shared heap
+checkpoint 74 standalone runtime-admin checks did not connect those owners to
+the browser NPC reader. The isolated shared heap
 owners in [checkpoint 75](gothic3-rebuilding-process.md#75-alias-selected-npc-fields-to-the-shared-heap)
 still require full native startup and browser integration; their tests do not
 establish an activated NPC or campaign progress.
@@ -400,18 +413,23 @@ ragdoll, plunder cleanup and the full NPC lifecycle remain incomplete. See
 [checkpoint 72](gothic3-rebuilding-process.md#72-schedule-the-bandit-death-state-and-preserve-its-applied-prefix).
 Checkpoint 73 constructs retained original owners for those three
 bandits and remaps their constructor GUIDs through the original Node read.
-The first Navigation factory stops at an unowned ErrorAdmin service, before
-serialized property reading or attachment. The Models inspector's collapsed
-developer details show that partial read and its current boundary. These
-owners do not yet supply native activation or replace browser combat state.
+Before the local checkpoint 86 work below, the first Navigation factory
+stopped at an unowned ErrorAdmin service, before serialized property reading
+or attachment. These owners do not yet supply native activation or replace
+browser combat state.
 See [checkpoint 73](gothic3-rebuilding-process.md#73-construct-retained-npc-owners-and-reach-the-first-property-factory).
-The next local runtime component owns the shared ErrorAdmin, MessageAdmin and
-MemoryAdmin chain under an explicit cold platform profile. Its isolated checks
-exercise real heap backing, callback records, history and shutdown. It is not
-connected to those NPC owners: their earlier entity, reflection and scene-map
-allocations must first use the same heap. See
-[checkpoint 74](gothic3-rebuilding-process.md#74-own-the-shared-runtime-admin-chain-before-connecting-it-to-npcs)
-for the source audit, reproduction command and remaining allocation gate.
+Checkpoint 74 owns the shared ErrorAdmin, MessageAdmin and MemoryAdmin chain
+under an explicit cold platform profile. Checkpoint 86 now connects the same
+MemoryAdmin to the NPC constructor's 448-byte entity allocation and connects
+ErrorAdmin to the reflection creator checks. It also schedules the admitted
+Matrix destructor on the runtime platform's reverse-order callback stack.
+Navigation's PropertyObjectType singleton and physical wrapper/native
+allocations, registered scene-map backing, world attachment and activation
+remain missing. See [checkpoint
+74](gothic3-rebuilding-process.md#74-own-the-shared-runtime-admin-chain-before-connecting-it-to-npcs)
+for the original admin source audit and [checkpoint
+86](gothic3-rebuilding-process.md#86-connect-the-shared-runtime-admins-to-retained-npc-construction)
+for the local hookup and its remaining gate.
 The current branch also resolves the native body-template `Robe` flag from
 inventory slot17 and labels routine `Action`/`AniState` fields separately from
 live combat animation state. A new reader maps the selected Hero motion into
@@ -463,9 +481,10 @@ Their native behavior is not connected:
 3. Apply the Weaponry stack through the live actor's entity/skeleton/stat
    equipment host, including the source-serialized body/head attachments.
 4. Construct and activate that NPC through property attachment, world context
-   and processing registration. Route its earlier tagged allocations and
-   registered scene-map backing through the same MemoryAdmin before consuming
-   the new shared ErrorAdmin's panic result. Then supply the original
+   and processing registration. Checkpoint 86 routes the initial 448-byte
+   entity allocation through MemoryAdmin and connects its ErrorAdmin panic
+   check; reflected wrapper/native allocations and registered scene-map backing
+   still need the same shared heap. Then supply the original
    application/module/session path and attach properties in source order.
 5. Connect native contact eligibility, animation/action state and NPC responses,
    then finish the scheduled death prefix through enclave notification,
