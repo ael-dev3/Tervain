@@ -18,6 +18,12 @@ import type { NativeStandardIoCallSite, NativeStandardIoCallKind, NativeStandard
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = (reason: string): { known: false; reason: string } => ({ known: false, reason });
+// Retain the actual intrinsic brand getters once. Every physical check still
+// reads current view storage through them; later prototype rebinding cannot
+// substitute caller functions for the native DataView brand proof.
+const dataViewBuffer = Object.getOwnPropertyDescriptor(DataView.prototype, 'buffer')!.get!;
+const dataViewByteOffset = Object.getOwnPropertyDescriptor(DataView.prototype, 'byteOffset')!.get!;
+const dataViewByteLength = Object.getOwnPropertyDescriptor(DataView.prototype, 'byteLength')!.get!;
 const token = Object.freeze({});
 export type NativeX86Register = 'EAX' | 'EBX' | 'ECX' | 'EDX' | 'ESI' | 'EDI' | 'EBP' | 'ESP';
 const registers: readonly NativeX86Register[] = ['EAX', 'EBX', 'ECX', 'EDX', 'ESI', 'EDI', 'EBP', 'ESP'];
@@ -560,9 +566,9 @@ export class NativeX86ThreadStack {
           fields.knownMask.length !== proof.length || proof.rootBytes.length !== proof.length || proof.rootMasks.length !== proof.length ||
           fields.bytes.buffer !== proof.rootBytes.buffer || fields.bytes.byteOffset !== proof.rootBytes.byteOffset ||
           fields.knownMask.buffer !== proof.rootMasks.buffer || fields.knownMask.byteOffset !== proof.rootMasks.byteOffset ||
-          Object.getOwnPropertyDescriptor(DataView.prototype, 'buffer')!.get!.call(fields.view) !== fields.bytes.buffer ||
-          Object.getOwnPropertyDescriptor(DataView.prototype, 'byteOffset')!.get!.call(fields.view) !== fields.bytes.byteOffset ||
-          Object.getOwnPropertyDescriptor(DataView.prototype, 'byteLength')!.get!.call(fields.view) !== proof.length) {
+          dataViewBuffer.call(fields.view) !== fields.bytes.buffer ||
+          dataViewByteOffset.call(fields.view) !== fields.bytes.byteOffset ||
+          dataViewByteLength.call(fields.view) !== proof.length) {
         throw new Error('Actual live retained x86 physical stack/register storage required');
       }
     } catch (error) { this.#phase = 'blocked'; this.#boundary ??= reason(error); throw error; }

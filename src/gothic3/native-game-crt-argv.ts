@@ -31,12 +31,21 @@ interface Image { readonly label: string; readonly address: number; readonly byt
 type Operand = Readonly<{ kind: 'register'; register: NativeX86Register; lane?: Lane }> |
   Readonly<{ kind: 'immediate'; value: number }> |
   Readonly<{ kind: 'memory'; expression: string; width?: Width; fs: boolean }>;
+interface InstructionSyntax {
+  readonly opcode: string; readonly next: string; readonly args: readonly Operand[]; readonly binary: boolean;
+}
+type AddressTermSyntax = Readonly<{ kind: 'register'; register: NativeX86Register; scale: number; negative: boolean }> |
+  Readonly<{ kind: 'literal'; value: number; negative: boolean }>;
 export type NativeGameCrtArgvNextBoundary = Readonly<{ pc: string; operation: string; target: string }> |
   Readonly<{ pc: string; operation: string; iat: string }> |
   Readonly<{ pc: string; operation: string; instruction: string }>;
 
 const owners = new WeakMap<NativeModuleCrtOwner, Construction>();
 const constructionToken = Object.freeze({});
+// Only immutable admitted syntax is shared. Current words, addresses, image
+// aliases, flags and successful controller/physical proofs are never cached.
+const instructionSyntaxCache = new WeakMap<NativeGameIoInstruction, InstructionSyntax>();
+const addressSyntaxCache = new Map<string, readonly AddressTermSyntax[]>();
 // These are the complete original body extents, not a general x86 entry API.
 // The separate getter proves every actual row's original bytes and ASM line.
 const bodies = Object.freeze([
@@ -112,6 +121,22 @@ function operand(text: string): Operand {
   if (!memory || !memory[3]) throw new Error('Original argv operand syntax is not owned: ' + value);
   return { kind: 'memory', expression: memory[3], fs: !!memory[2],
     width: memory[1] === 'byte' ? 1 : memory[1] === 'word' ? 2 : memory[1] === 'dword' ? 4 : undefined };
+}
+function instructionSyntax(point: NativeGameIoInstruction): InstructionSyntax {
+  const retained = instructionSyntaxCache.get(point); if (retained) return retained;
+  const [opcode, ...rest] = point.instruction.split(' '), text = rest.join(' ');
+  if (!opcode) throw new Error('Original argv opcode is absent at' + point.va);
+  const next = hex(Number.parseInt(point.va, 16) + point.bytes.length / 2);
+  const stringOperation = opcode === 'MOVSD.REP' || opcode === 'STOSD.REP' || opcode === 'STOSD';
+  if (stringOperation && text !== (opcode === 'MOVSD.REP' ? 'ES:EDI,ESI' : 'ES:EDI')) {
+    throw new Error('Original string-operation operands differ');
+  }
+  // Preserve the original string-operation bypass and parse only this reached
+  // row. Operand-presence and opcode-specific checks still run in #lower.
+  const args = Object.freeze(stringOperation ? [] : text.split(',').filter(Boolean).map(value => Object.freeze(operand(value))));
+  const parsed = Object.freeze({ opcode, next, args,
+    binary: ['MOV', 'MOVZX', 'MOVSX', 'LEA', 'CMP', 'TEST', 'XOR', 'ADD', 'SUB', 'SBB', 'OR', 'AND', 'IMUL', 'SHL', 'SHR', 'XCHG'].includes(opcode) });
+  instructionSyntaxCache.set(point, parsed); return parsed;
 }
 function width(value: Operand): Width {
   return value.kind === 'register' && value.lane ? value.lane === 'low16' ? 2 : 1 : value.kind === 'memory' ? value.width ?? 4 : 4;
@@ -285,17 +310,36 @@ export class NativeGameCrtArgv {
     return this.#immediate(value);
   }
   #address(expression: string): NativeX86Word32 {
-    const text = expression.replace(/\s+/g, '').replace(/\+\-/g, '-');
-    const tokens = text.match(/[+-]?(?:E(?:AX|BX|CX|DX|SI|DI|BP|SP)(?:\*0x[0-9a-f]+)?|0x[0-9a-f]+)/g);
-    if (!tokens || tokens.join('') !== text) throw new Error('Original effective-address syntax is unowned: ' + expression);
     const terms: { word: NativeX86Word32; scale?: number; negative?: boolean }[] = []; let displacement = 0;
-    for (const token of tokens) {
-      const negative = token[0] === '-', unsigned = token.replace(/^[+-]/, ''), register = /^(E(?:AX|BX|CX|DX|SI|DI|BP|SP))(?:\*(0x[0-9a-f]+))?$/.exec(unsigned);
-      if (register) terms.push({ word: this.#register(register[1] as NativeX86Register), scale: register[2] ? integer(register[2]) : 1, negative });
-      else {
-        const value = integer(unsigned), image = !negative && this.#imageAt(value);
-        if (image) terms.push({ word: this.#literal(value) }); else displacement += (negative ? -1 : 1) * (value | 0);
+    const retained = addressSyntaxCache.get(expression);
+    if (retained) {
+      for (const term of retained) {
+        if (term.kind === 'register') terms.push({ word: this.#register(term.register), scale: term.scale, negative: term.negative });
+        else {
+          const image = !term.negative && this.#imageAt(term.value);
+          if (image) terms.push({ word: this.#literal(term.value) }); else displacement += (term.negative ? -1 : 1) * (term.value | 0);
+        }
       }
+    } else {
+      // Build descriptors lazily while preserving the first visit's original
+      // live-register/scale/literal check order. FS and procedure loads bypass
+      // this method as before; no unreached memory expression is parsed.
+      const text = expression.replace(/\s+/g, '').replace(/\+\-/g, '-');
+      const tokens = text.match(/[+-]?(?:E(?:AX|BX|CX|DX|SI|DI|BP|SP)(?:\*0x[0-9a-f]+)?|0x[0-9a-f]+)/g);
+      if (!tokens || tokens.join('') !== text) throw new Error('Original effective-address syntax is unowned: ' + expression);
+      const parsed: AddressTermSyntax[] = [];
+      for (const token of tokens) {
+        const negative = token[0] === '-', unsigned = token.replace(/^[+-]/, ''), register = /^(E(?:AX|BX|CX|DX|SI|DI|BP|SP))(?:\*(0x[0-9a-f]+))?$/.exec(unsigned);
+        if (register) {
+          const name = register[1] as NativeX86Register, word = this.#register(name), scale = register[2] ? integer(register[2]) : 1;
+          terms.push({ word, scale, negative }); parsed.push(Object.freeze({ kind: 'register', register: name, scale, negative }));
+        } else {
+          const value = integer(unsigned), image = !negative && this.#imageAt(value);
+          if (image) terms.push({ word: this.#literal(value) }); else displacement += (negative ? -1 : 1) * (value | 0);
+          parsed.push(Object.freeze({ kind: 'literal', value, negative }));
+        }
+      }
+      addressSyntaxCache.set(expression, Object.freeze(parsed));
     }
     return fact(NativeX86ThreadStack.prototype.effectiveAddress.call(this.#stack, this.#controller, terms, displacement));
   }
@@ -357,17 +401,13 @@ export class NativeGameCrtArgv {
     this.#frames.pop(); this.#currentEntry = frame.previousEntry; return frame.returnPc;
   }
   #lower(point: NativeGameIoInstruction): string {
-    const [opcode, ...rest] = point.instruction.split(' '), text = rest.join(' ');
-    if (!opcode) throw new Error('Original argv opcode is absent at' + point.va);
-    const next = hex(Number.parseInt(point.va, 16) + point.bytes.length / 2);
+    const { opcode, next, args, binary } = instructionSyntax(point);
     if (opcode === 'MOVSD.REP' || opcode === 'STOSD.REP' || opcode === 'STOSD') {
-      if (text !== (opcode === 'MOVSD.REP' ? 'ES:EDI,ESI' : 'ES:EDI')) throw new Error('Original string-operation operands differ');
       fact(opcode === 'MOVSD.REP' ? NativeX86ThreadStack.prototype.repeatMoveDwords.call(this.#stack, this.#controller)
         : opcode === 'STOSD.REP' ? NativeX86ThreadStack.prototype.repeatStoreDwords.call(this.#stack, this.#controller)
           : NativeX86ThreadStack.prototype.storeDwordString.call(this.#stack, this.#controller));
       return next;
     }
-    const args = text.split(',').filter(Boolean).map(operand);
     const argument = (index: number): Operand => {
       const value = args[index]; if (!value) throw new Error('Original argv operand is absent at' + point.va); return value;
     };
@@ -381,7 +421,6 @@ export class NativeGameCrtArgv {
       fact(NativeX86ThreadStack.prototype.leave.call(this.#stack, this.#controller)); return next;
     }
     const destination = argument(0);
-    const binary = ['MOV', 'MOVZX', 'MOVSX', 'LEA', 'CMP', 'TEST', 'XOR', 'ADD', 'SUB', 'SBB', 'OR', 'AND', 'IMUL', 'SHL', 'SHR', 'XCHG'].includes(opcode);
     // The unary branches never consume source; binary branches establish its
     // presence before any physical operation or partial register store.
     const source = binary ? argument(1) : destination;

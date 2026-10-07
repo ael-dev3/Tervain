@@ -8245,7 +8245,8 @@ from the canonical key. Independent review verified all 31 active image
 references; the source package, original bytes and current storage are unchanged.
 The earlier check and observation evidence remains preserved outside the checkout.
 
-The corrected final build passed TypeScript checking and transformed 473
+The alias-corrected local build, before the first PR run, passed TypeScript
+checking and transformed 473
 modules. Binary hashes of all 75,731 tracked and new nonignored repository
 inputs matched before and after the build, with no capture errors. These are
 interval snapshots; ignored dependencies, build outputs and the separate
@@ -8279,10 +8280,52 @@ Captured browser error logs were empty. The observed entry
 the inspected local service bundle `browser-npc-entity-services-CBxLp3T-.js`
 has SHA-256
 `7d726334bee4e68f22a799609c49efdc0f08fb5fd23120047c7fac3c687b82bc`.
-Their served bytes match the corrected final local build. The development
+Their served bytes match that alias-corrected local build. The development
 preview independently showed the same 14,777-operation normal path before
 this production observation. Matching later published artifact bytes would
 establish publication identity, not another execution observation.
+
+### Diagnose the first PR timeout
+
+The first normal [PR 77 run](https://github.com/ael-dev3/Tervain/actions/runs/37677642994)
+at head `d7f4ce35b08d20dac123c68370b3a6d65a8170b3` passed typechecking.
+One existing scenario case, the application-owned runtime-admin NPC read,
+exceeded its five-second timeout; the other 2,463 cases passed. The build and
+deployment were skipped. The preserved failed log has SHA-256
+`e57c1907333dd479eb7342ad117e11b7e105e4bfe297c0e943173395ce447b88`.
+This was a timeout, with no reported normal-path assertion failure.
+
+Static inspection found repeated immutable work in the 14,777-operation
+argument path: instruction and address-expression parsing, image source
+receipt validation and native DataView getter lookup. The correction caches
+only admitted syntax, constructor-owned image admission records and native
+getter functions. Every visit still resolves current registers, memory and
+canonical images. The current controller, backing, alias, geometry, bounds,
+lifetime and return proofs remain active. No live read result or successful
+execution result is cached. The original source package remains unchanged.
+
+The timeout, workflow and existing cases remain unchanged. The failed run
+is preserved; no rerun of its unchanged head was requested. These static
+findings do not establish a measured speed improvement or successful CI.
+
+### Observe the corrected production build
+
+The subsequent captured production build passed typechecking and transformed
+473 modules. All 75,731 repository input hashes matched before and after;
+there were no input changes or capture errors. A new production tab entered
+Ardea, selected `Ardea_OutNovice_01` and displayed the same actual I/O return,
+encoding publication, both parser returns, argument count 1, 14,777 completed
+argument operations and return zero shown above. Its next unexecuted operation
+remained `__setenvp` at `204678e7`; captured browser error logs were empty.
+
+The actual DOM entry was `gothic3-BsdzFG1t.js`, SHA-256
+`aa7a6eb7e98cbae9d2f165e7c28d3aa2b31ea4b6874f2e0b516442df560fe34b`.
+The inspected service bundle was `browser-npc-entity-services-DCHzTsqA.js`,
+SHA-256 `f34612a1d82c690c5bb8040aefedd00d76f4ee021d3ea27930b3224aa6509fc5`.
+Both served files matched this exact local build. The earlier build and local
+observation remain preserved separately. This confirms the selected normal
+execution path after the correction; it does not measure a speed improvement,
+replace the pending corrected-head CI result or establish completed startup.
 
 Environment initialization and remaining CRT and module startup still require
 implementation. Native NPC activation and the finishable campaign remain

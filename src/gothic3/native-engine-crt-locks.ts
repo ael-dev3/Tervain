@@ -286,6 +286,9 @@ export class NativeModuleCrtOwner {
     }>;
   }>;
   readonly #imageViews = new Map<string, NativeHeapObjectViews>();
+  readonly #imageAdmissions = new Map<string, Readonly<{
+    fields: NativeHeapObjectViews; address: string; bytes: number;
+  }>>();
   readonly #imageProofs = new WeakMap<NativeHeapObjectViews, Readonly<{
     backing: NativeMemoryBacking; bytes: Uint8Array; masks: Uint8Array; view: DataView;
     rootBytes: Uint8Array; rootMasks: Uint8Array; begin: number; length: number;
@@ -370,6 +373,10 @@ export class NativeModuleCrtOwner {
         rootBytes: fields.backing.bytes, rootMasks: fields.backing.knownMask,
         begin: fields.bytes.byteOffset - fields.backing.bytes.byteOffset, length: fields.bytes.length,
       }));
+      // Source admission and cold seeding happen only above. Retain their
+      // immutable label/view relation privately; later access still proves
+      // every current storage identity, alias geometry and lifetime below.
+      this.#imageAdmissions.set(label, Object.freeze({ fields, address: receipt.address, bytes: receipt.bytes }));
     }
   }
   /** Canonical admitted Game module-image objects. Constructing views supplies
@@ -380,10 +387,11 @@ export class NativeModuleCrtOwner {
   /** Check retained identities and aliases without performing a native load. */
   #retainedImageStorage(label: string): NativeHeapObjectViews {
     if (this.module !== 'Game') throw new Error('Engine image aliases remain owned by their existing source services');
-    nativeGameImageReceipt(label);
+    const admission = this.#imageAdmissions.get(label);
     const fields = this.#imageViews.get(label);
-    if (!fields) throw new Error('Actual canonical Game CRT image view required: ' + label);
+    if (!admission || !fields || admission.fields !== fields) throw new Error('Actual canonical Game CRT image view required: ' + label);
     const proof = this.#imageProofs.get(fields);
+    if (!proof || proof.length !== admission.bytes) throw new Error('Actual retained Game image source admission required: ' + label);
     if (!proof || fields.backing.freed || fields.backing !== proof.backing || fields.bytes !== proof.bytes ||
         fields.knownMask !== proof.masks || fields.view !== proof.view || fields.backing.bytes !== proof.rootBytes ||
         fields.backing.knownMask !== proof.rootMasks || fields.bytes.length !== proof.length ||

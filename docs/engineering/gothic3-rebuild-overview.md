@@ -28,11 +28,15 @@ unfinished.
 
 The next documented implementation increment is
 [checkpoint 109](gothic3-rebuilding-process.md#109-own-cold-encoding-initialization-and-the-normal-argument-return).
-Its corrected local production preview extends that same returned I/O graph
+Its fresh local production preview after the immutable-work correction
+extends that same returned I/O graph
 through cold encoding-table initialization and both argument parser passes:
 14,777 completed source operations, argument count 1 and actual return zero.
 It stops before environment initialization at `204678e7`. This local execution
 receipt is separate from the confirmed publication record above.
+Its first PR run passed typechecking and hit one existing startup timeout;
+the [checkpoint record](gothic3-rebuilding-process.md#diagnose-the-first-pr-timeout)
+preserves that failure and the correction to repeated immutable work.
 
 The browser supports exploration and selected gameplay paths. Whole-module
 startup, native NPC activation and most campaign progression remain unfinished. See
