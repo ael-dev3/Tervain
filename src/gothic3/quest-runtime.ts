@@ -5,7 +5,7 @@ import questReceiptText from '../../assets/gothic3/dialogue/initial-quests-outpu
 import { gameplayResources } from './native-data';
 import type { NativeInfo, NativeQuest } from './catalog';
 import { QuestStatus, NativeQuests, nativeQuestSuccessEffects } from './quest-state';
-import type { NativeClock, NativeNpcKilledResult, QuestEffect, QuestState } from './quest-state';
+import type { NativeClock, NativeNpcKilledResult, NativeQuestAreaEnteredResult, QuestEffect, QuestState } from './quest-state';
 import { readNativeResource } from './resource';
 import { loadOriginalWorldClock, monotonicClockMilliseconds } from './world-clock';
 import type { NativeCalendar, NativeClockProcess, NativeWorldClock } from './world-clock';
@@ -1102,6 +1102,11 @@ export class NativeQuestRuntime {
     const capability = this.canRecordNpcKilled(entityName);
     if (!capability.known) return { kind: 'unsupported', reason: capability.reason };
     return this.quests.recordNpcKilled(entityName);
+  }
+
+  /** Route a source-resolved Hero area entry into the native quest manager. */
+  enterArea(entityName: string, areaName: string): NativeQuestAreaEnteredResult {
+    return this.quests.enterArea(entityName, areaName);
   }
 
   private heroQuestRewardState(): NativeHeroQuestRewardState {

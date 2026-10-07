@@ -6,8 +6,18 @@ is the detailed technical record and dated checkpoint history.
 
 Updated: 7 October 2026. The captured browser-runtime exercise remains
 checkpoint 83 at `c52d16da73fe1c9be5d240b0111cfe1074d1e8cc`; the latest
-published baseline is `main` commit `5f6af5a397e25224decb68d481c28fb8b3883a7e`.
-The latest local, unpublished NPC reconstruction is checkpoint 91 below.
+published baseline is `main` commit `3b968ba51c1924a1c6b2daded2803d7782fabb39`,
+merged in [PR 55](https://github.com/ael-dev3/Tervain/pull/55) and published by
+successful [workflow run 37571447817](https://github.com/ael-dev3/Tervain/actions/runs/37571447817),
+attempt 1.
+Checkpoint 91 is the published NPC reconstruction in PR 55. Checkpoint 92
+connects Hero movement to source-registered Navigation zones and the native
+type-8 quest-entry callback, adding a destination-quest slice while leaving the
+broader campaign and NPC activation unfinished. Local checkpoint 93 exports the
+source-placed full-detail Xardas Tower and adds its streamed triangles to browser
+rendering and static collision. Local browser review confirms rendering and a
+grounded Hero after the landscape-preview teleport; ordinary overland travel is
+not yet verified.
 The preceding historical baseline before checkpoint 72 was
 `610619f43a809e14118ee8edb186fed67aa2052b`.
 Checkpoints 55–71 add
@@ -78,21 +88,25 @@ recorded.
 
 The [Gothic 3 / Ardea route](https://ael-dev3.github.io/Tervain/gothic3/) serves
 the published incomplete build and currently responds with HTTP 200. The latest
-published revision is `main` commit `5f6af5a397e25224decb68d481c28fb8b3883a7e`,
-merged in [PR 54](https://github.com/ael-dev3/Tervain/pull/54) by successful
-[workflow run 37559119442](https://github.com/ael-dev3/Tervain/actions/runs/37559119442), attempt 1.
-Checkpoint 86 connects the shared NPC runtime admins, while checkpoint 85 adds
-combat attitude-helper evidence. Neither activates NPCs or completes a quest.
-The latest captured browser-runtime exercise remains checkpoint 83 at commit
+published revision is `main` commit `3b968ba51c1924a1c6b2daded2803d7782fabb39`,
+merged in [PR 55](https://github.com/ael-dev3/Tervain/pull/55) by successful
+[workflow run 37571447817](https://github.com/ael-dev3/Tervain/actions/runs/37571447817),
+attempt 1.
+PR 55 publishes checkpoints 87–91, extending the selected NPC construction
+read through Navigation contact callbacks. The read stops at ScriptAdmin; it
+does not activate NPCs or complete a quest.
+The latest captured browser-runtime exercise remains checkpoint 83 at
+commit
 `c52d16da73fe1c9be5d240b0111cfe1074d1e8cc`, published by [workflow run
 37551902308](https://github.com/ael-dev3/Tervain/actions/runs/37551902308),
-attempt 1. No post-PR-54 exercise of the NPC inspector is recorded here. Earlier publication receipts are available in the repository's
+attempt 1. No post-PR-55 exercise of the NPC inspector is recorded here.
+Earlier publication receipts are available in the repository's
 [Pages workflow](https://github.com/ael-dev3/Tervain/actions/workflows/pages.yml).
 The [scope record](gothic3-browser-port.md) describes the current controls,
 limitations and source terms.
 
 This guide records the hosted baseline and subsequent dated checkpoints that
-preserve the evidence for each stage. Sections 10–91 cover
+preserve the evidence for each stage. Sections 10–93 cover
 the later runtime work; each receipt identifies its source revision and scope.
 
 Each checkpoint's reproduction commands describe its recorded source revision.
@@ -119,10 +133,20 @@ reproduce the historical source hashes.
 7. Establish completion by playing the original progression through its endings,
    including quests, factions, combat, travel and saving/loading.
 
-The current scene covers part of step 2 and the rendering side of step 5.
+The current scene covers part of step 2 and the rendering side of step 5. The
+local Xardas Tower addition also connects a source-verified world mesh to the
+browser's static render-mesh collision path; this is not a recovered native
+physics shape. A preview-teleport browser check confirmed the Hero can become
+grounded on the loaded mesh; ordinary overland arrival remains unverified.
 Source-backed quest state, selected Ardea dialogue, game events, ended actor
 flags and bounded Hero XP/level/LP progression now connect to browser sessions
-and saves. The Ardea scene also seeds three residents from unambiguous native
+and saves. Checkpoint 92 adds a source-backed Hero zone transition that
+can complete destination quests such as `Xardas_FindXardas` in the verified
+callback and save/restore path. Checkpoint 93 adds a source-placed Tower mesh to
+rendering and browser triangle collision. A local preview-teleport check
+rendered the tower and left the Hero grounded; ordinary travel through the
+world to Nordmar remains unverified. The
+Ardea scene also seeds three residents from unambiguous native
 `Start` routine points; it does not execute routines or activate native NPC
 entities. A collision candidate can resolve and save source-bound NPC point
 state, including serialized inventory-slot templates. Its Plunder runtime now
@@ -6281,15 +6305,15 @@ records**, **45 NPC heap methods / 1,229 records**, and **61 SceneAdmin methods 
 The focused NPC read and Navigation notification suites pass (**25 tests across
 two files**) and confirm the next boundary: `Navigation area ScriptAdmin getter`.
 The complete local suite also passes (**2,370 tests across 225 files**). The
-production build succeeds with the existing large-chunk warning. No manual
-browser exercise was run for this checkpoint. The getter first checks
+production build succeeds with the existing large-chunk warning. This
+checkpoint was published in PR 55; no manual browser exercise was run for it.
+The getter first checks
 `eCApplication::IsInitialised`; on the initialized path it lazily resolves the
 `gCScriptAdmin` property-object type, looks up the module through ModuleAdmin,
 and RTTI-casts the cached component. The browser route has not constructed
 those original application, property-type or module owners, so this step leaves
-that call unresolved. The change remains unpublished and does not establish
-NPC activation, combat progression, save/reload behavior, or campaign
-completion.
+that call unresolved. Publication does not establish NPC activation, combat
+progression, save/reload behavior, or campaign completion.
 
 Reproduce the source receipt and local typecheck with:
 
@@ -6302,3 +6326,131 @@ npm test -- tests/gothic3-dialogue/browser-npc-entity.test.ts tests/gothic3-dial
 npm test -- tests/gothic3-dialogue/native-npc-heap.test.ts tests/gothic3-dialogue/native-entity-heap.test.ts tests/gothic3-dialogue/scene-startup-memory.test.ts
 npm run build
 ```
+
+## 92. Connect Hero movement to native destination quests
+
+Date: 7 October 2026. This local checkpoint joins three previously separate
+pieces: the browser Hero position, the 5,385 source-registered Navigation area
+owners, and the native type-8 quest-entry callback. It makes destination
+quest entry respond to Hero movement while preserving the boundary between
+the native behavior being modeled and the browser movement/dispatch policy.
+Physical travel to Xardas Tower remains blocked by a gap in the streamed
+terrain and the unconnected tower geometry/collision.
+
+### Resolve a moved Hero to an exact source zone
+
+The explorer stores a camera-eye position in browser-relative metres. Before a
+Navigation query, `native-world-coordinates.ts` adds the legacy Ardea scene
+origin, subtracts the Hero eye height to find the feet, converts metres to
+centimetres, reflects Z, and rounds each coordinate to native float32. The
+zone-only query uses the stored Gothic Navigation map. Its selected PropertyID
+must resolve to the same live, registered `gCNavZone_PS` source record before
+the runtime uses that record's exact destination name.
+
+The browser samples movement every 250 ms and dispatches only when the
+registered zone ID changes. The initial zone observation establishes a
+baseline; inspector, modal and free-flight states do not dispatch. This is a
+browser bridge into the recovered callback, not a port of Gothic's native
+movement, collision or Navigation event dispatcher.
+
+### Reproduce the native type-8 transition
+
+The recovered `Script_Game.dll` OnEnterArea handler dispatches
+`PSQuestManager::OnEnter`. The manager visits its quests, and
+`gCQuest_PS::OnEnter` filters type 8, compares the destination and first
+delivery entity by exact name, increments counter 0 with unsigned 32-bit wrap,
+and runs the shared delivery-status checker. The original handler does not
+guard on quest status. `NativeQuests.enterArea` preserves those conditions and
+the existing reward/status transition path. The quest-runtime integration
+test dispatches exact source name `Xardas_Tower` to complete
+`Xardas_FindXardas`, apply its reward and retain the counter through
+save/restore; a separate map test resolves the zone center to that exact name.
+
+### Current boundary and local review
+
+The source lookup and callback are covered by the exact `Xardas_Tower` map
+center and quest save/restore checks. Typechecking and the three focused files
+(30 tests) pass; the full suite passes **2,376 tests across 226 files**, and
+the production build succeeds with the existing large-chunk warning. A local
+browser exercise started Ardea and moved the Hero about 0.6 m. A separate
+attempt to land at Xardas Tower fell through the terrain gap, so the callback
+has not been completed by ordinary travel in the browser. Its quest completion
+is verified by the integration test. The browser console reported no errors.
+This checkpoint does not construct the
+original movement/physics stack,
+load the full world outside the registered Navigation data, activate NPCs, or
+complete the broader campaign. The published site remains at checkpoint 91.
+
+Run the focused checks with:
+
+```powershell
+npm run typecheck
+npx vitest run tests/gothic3-dialogue/npc-kill-quests.test.ts tests/gothic3-dialogue/native-world-coordinates.test.ts tests/gothic3-dialogue/browser-npc-entity.test.ts
+npm run build
+```
+
+## 93. Export and stream a source-placed Xardas Tower
+
+Date: 7 October 2026. This local checkpoint carries one distant static landmark
+through the evidence-to-browser path used by the Ardea scene: verify the winning
+world and mesh resources, convert their geometry and diffuse images, preserve
+the native placement in a manifest, then load and collide with the streamed
+result. Browser review rendered the tower and left the Hero grounded after a
+landscape-preview teleport. Ordinary overland travel to Nordmar has not yet
+been manually verified.
+
+### Verify the placement and mesh family
+
+The exporter reads the Ardea world indexes and requires exact source hashes for
+the world node, its referenced low-poly mesh, and the matching full-detail
+family mesh. It also checks the entity GUID, record index, visual resource name,
+and identity transform. The placement comes from entity 2691 in
+`G3_World_Lowpoly_01_Levelmesh_01_Spat.node`; the source node's matrix places it
+at native coordinates `(95749.75, 23412.244140625, 137449.9375)` centimetres.
+The node references `G3_Nordmar_Xardas_Tower_01_LOWPOLY.xcmsh`; the export uses
+its exact family counterpart
+`G3_Nordmar_Landscape_Locations_01/G3_Nordmar_Xardas_Tower_01.xcmsh`. That
+selected mesh contains 7,695 triangles across six material sections.
+
+### Convert and stream the asset
+
+`tools/gothic3/export_xardas_tower.py` uses the existing `.node`, `.xcmsh`,
+`.xshmat` and `.ximg` readers. It decodes each selected XIMG diffuse image to
+RGBA PNG and embeds the images with the geometry in a GLB. The manifest records
+all source hashes, native placement, converted counts and limits. The converter
+uses the first diffuse sampler in each material; it does not evaluate native
+shader graphs, normal/specular effects, illumination, lightmaps or vertex stream
+73. This reproduces the selected source geometry and pixels, not the complete
+native appearance.
+
+The reproducible command accepts extracted files from the local installation;
+the committed world indexes reject bytes that do not match the recorded source:
+
+```powershell
+python -B tools/gothic3/export_xardas_tower.py `
+  --node "<extracted G3_World_Lowpoly_01_Levelmesh_01_Spat.node>" `
+  --low-mesh "<extracted G3_Nordmar_Xardas_Tower_01_LOWPOLY.xcmsh>" `
+  --mesh "<extracted G3_Nordmar_Xardas_Tower_01.xcmsh>" `
+  --material-root "<extracted effective compiled-material files>" `
+  --image-root "<extracted effective compiled-image files>"
+```
+
+The converter writes the GLB and
+[`landmarks/manifest.json`](../../public/gothic3/world/landmarks/manifest.json)
+under `public/gothic3/world/landmarks/`. In the browser,
+[`world-landmarks.ts`](../../src/gothic3/world-landmarks.ts) verifies each
+asset receipt, streams the landmark within 500 metres, applies the source
+transform, and exposes its meshes to the explorer's collision refresh. This is
+render-mesh triangle collision, not an extracted or reconstructed PhysX shape.
+The GLB contains 13,709 vertices and 7,695 triangles in a 7,610,012-byte file.
+
+### Current review boundary
+
+`npm run typecheck` and `npm run build` pass; the build retains the existing
+large-chunk warning. The asset exporter completed and produced the manifest and
+GLB, both served successfully by the restarted local Vite server. The browser
+rendered the tower, and pressing `F` to leave preview flight placed the Hero in
+the `GROUNDED` state at 211.8 metres. No ordinary overland travel or quest
+completion at the tower was exercised. The change is local and unpublished.
+The existing checkpoint 92 quest callback and save/restore cases remain
+unit-tested.

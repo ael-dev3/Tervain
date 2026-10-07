@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { GOTHIC3_HERO_EYE_HEIGHT_METRES } from './native-world-coordinates';
 
 export type ExplorerAction = 'interact' | 'inspect' | 'journal' | 'inventory' | 'save' | 'reset' | 'map' | 'fly' | 'attack' | 'powerAttack';
 
@@ -25,7 +26,7 @@ interface SweepHit {
   normal: THREE.Vector3;
 }
 
-const EYE_HEIGHT = 1.65;
+const EYE_HEIGHT = GOTHIC3_HERO_EYE_HEIGHT_METRES;
 const BODY_RADIUS = 0.28;
 const MAX_STEP = 0.35;
 const MAX_SLOPE_COS = Math.cos(50 * Math.PI / 180);

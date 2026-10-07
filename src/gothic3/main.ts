@@ -4,6 +4,7 @@ import { NativeAssets, assetUrl } from './assets';
 import { ExplorerController } from './controls';
 import { NativeAnimations } from './animation';
 import { NativeTerrain } from './terrain';
+import { NativeWorldLandmarks } from './world-landmarks';
 import { landscapeDestinations } from './landscape-destinations';
 import { showOriginalPlayerState } from './initial-state-view';
 import { showOriginalWorldClock } from './world-clock-view';
@@ -30,6 +31,8 @@ import type { BrowserNpcEntityServiceOwner } from './browser-npc-entity-services
 import type { BrowserNpcNavigationOwner } from './browser-npc-navigation-owner';
 import type { BrowserNavigationAreaSourceRuntime } from './browser-navigation-area-source-runtime';
 import { NativeQuestRuntime, nativeQuestStatusName } from './quest-runtime';
+import { browserHeroPositionToNativeCm, GOTHIC3_HERO_EYE_HEIGHT_METRES } from './native-world-coordinates';
+import { QuestStatus } from './quest-state';
 import type { ArdeaScene, ScenePerson } from './types';
 import './style.css';
 
@@ -40,6 +43,7 @@ const LEGACY_SAVE_KEY = 'gothic3:ardea:exploration:v1';
 // This browser route has no original difficulty-selection screen yet; Normal
 // is an explicit browser-session choice until that menu is reconstructed.
 const BROWSER_DIFFICULTY = 1 as const;
+const HERO_AREA_POLL_INTERVAL_MS = 250;
 const canvas = document.querySelector<HTMLCanvasElement>('#world')!;
 const ui = document.querySelector<HTMLDivElement>('#interface')!;
 ui.innerHTML = '<header class="masthead"><div class="eyebrow">Gothic 3 · browser port</div><h1 id="world-title">Ardea</h1><p id="world-caption">Recovered scene · native landscape</p></header>' +
@@ -72,6 +76,8 @@ const assets = new NativeAssets(renderer);
 const animations = new NativeAnimations();
 const terrain = new NativeTerrain(renderer);
 world.add(terrain.group);
+const worldLandmarks = new NativeWorldLandmarks(renderer);
+world.add(worldLandmarks.group);
 const sceneObjects: THREE.Object3D[] = [];
 const legacyTerrain: THREE.Object3D[] = [];
 let nativeTerrainActive = false;
@@ -128,6 +134,10 @@ let npcEntityPreparations: readonly BrowserNpcEntityPreparation[] = [];
 let npcEntityLoading: Promise<void> | null = null;
 let npcNavigationOwner: BrowserNpcNavigationOwner | null = null;
 let npcNavigationAreas: BrowserNavigationAreaSourceRuntime | null = null;
+let npcNavigationReady = false;
+let lastHeroAreaPoll = 0;
+let heroAreaBaselineReady = false;
+let currentHeroAreaId: string | null = null;
 let npcEntityStudyError: string | null = null;
 let npcEntityStudyDisposed = false;
 const pickpocketActions = new BrowserPickpocketActions();
@@ -183,27 +193,36 @@ function loadNpcEntityStudy(): Promise<void> {
           import('./browser-navigation-area-source-runtime'),
         ]);
         if (npcEntityStudyDisposed) return;
-        const source = await entityModule.loadBrowserNpcEntitySources();
-        if (npcEntityStudyDisposed) return;
         npcEntityServices = serviceModule.createBrowserNpcEntityServices({ crypto, now: () => performance.now() });
         const sessionMode = npcEntityServices.startBrowserSessionMode();
         if (!sessionMode.known) throw new Error(sessionMode.reason);
         const navigationOwner = await navigationModule.loadBrowserNpcNavigationOwner(npcEntityServices.application);
         if (npcEntityStudyDisposed) { navigationOwner.dispose(); return; }
-        const navigationAreas = new staticAreaModule.BrowserNavigationAreaSourceRuntime(navigationOwner);
-        npcEntityServices.navigationNames.connectProxyEntityServices(navigationAreas);
         npcNavigationOwner = navigationOwner;
+        const navigationAreas = new staticAreaModule.BrowserNavigationAreaSourceRuntime(navigationOwner);
         npcNavigationAreas = navigationAreas;
+        npcEntityServices.navigationNames.connectProxyEntityServices(navigationAreas);
         const binding = navigationOwner.bindStoredQueryProperties();
         if (binding.status !== 'query-bindings-complete') {
           throw new Error('Static Navigation map binding stopped: ' + (binding.reason ?? binding.status));
         }
+        npcNavigationReady = true;
+        const source = await entityModule.loadBrowserNpcEntitySources();
+        if (npcEntityStudyDisposed) return;
         npcEntityRuntime = new entityModule.BrowserNpcEntityRuntime({ ...npcEntityServices.services,
           applicationMode270EqualsOne: navigationOwner.applicationMode270EqualsOne,
           findZoneAt: navigationOwner.findZoneAt,
         });
         npcEntityPreparations = Object.freeze(source.entities.map(record => npcEntityRuntime!.prepare(record)));
       } catch (error) {
+        if (!npcNavigationReady) {
+          npcNavigationAreas?.dispose();
+          npcNavigationOwner?.dispose();
+          npcEntityServices?.dispose();
+          npcNavigationAreas = null;
+          npcNavigationOwner = null;
+          npcEntityServices = null;
+        }
         npcEntityStudyError = error instanceof Error ? error.message : String(error);
       } finally { if (!npcEntityStudyDisposed) updateNpcEntityStudy(selectedPerson); }
     })();
@@ -661,6 +680,7 @@ async function showLandscape(): Promise<void> {
         landscapeName = destination.name;
         const point = new THREE.Vector3(...destination.position).sub(terrain.originMetres);
         point.y += 90;
+        worldLandmarks.update(point, performance.now(), true);
         explorer.fly = true;
         explorer.teleport([point.x, point.y, point.z], 0, -0.55);
         terrain.update(explorer.position, performance.now(), true);
@@ -850,7 +870,7 @@ function updateHeroPresentation(dt: number): void {
     return;
   }
   const eye = explorer.position;
-  const feetY = eye.y - 1.65;
+  const feetY = eye.y - GOTHIC3_HERO_EYE_HEIGHT_METRES;
   heroActor.object.position.set(eye.x, feetY, eye.z);
   heroActor.object.rotation.y = explorer.heading;
   heroActor.object.visible = thirdPerson;
@@ -1081,6 +1101,7 @@ async function boot(): Promise<void> {
   await Promise.all([
     animations.loadManifest().catch((error: unknown) => { failures.push('Native animation: ' + String(error)); }),
     terrain.initialize().catch((error: unknown) => { failures.push('Native terrain: ' + String(error)); }),
+    worldLandmarks.initialize().catch((error: unknown) => { failures.push('Native world landmarks: ' + String(error)); }),
   ]);
   if (manifest.units !== 'metres' || !Array.isArray(manifest.meshes) || !manifest.meshes.length) throw new Error('No recovered world geometry in this scene manifest.');
   const total = manifest.meshes.length + manifest.people.length + 1;
@@ -1149,7 +1170,7 @@ async function boot(): Promise<void> {
   }));
   if (!sceneObjects.length) throw new Error('None of the native world meshes could load. ' + failures.slice(0, 3).join('; '));
   const spawn: [number, number, number] = [...manifest.spawn];
-  if (!manifest.spawnIsEye) spawn[1] += 1.65;
+  if (!manifest.spawnIsEye) spawn[1] += GOTHIC3_HERO_EYE_HEIGHT_METRES;
   explorer.setWorld(sceneObjects, spawn, manifest.spawnYaw ?? 0);
   element<HTMLButtonElement>('view-button').disabled = heroActor === null;
   const options = element<HTMLSelectElement>('model-select');
@@ -1280,6 +1301,37 @@ document.addEventListener('visibilitychange', () => {
   if (document.hidden) releaseMouse();
 });
 
+function updateHeroAreaEntry(now: number): void {
+  if (!started || !questRuntime || !npcNavigationReady || !npcNavigationAreas ||
+      modalOpen || inspectMode || explorer.fly || now - lastHeroAreaPoll < HERO_AREA_POLL_INTERVAL_MS) return;
+  lastHeroAreaPoll = now;
+
+  const eye = explorer.position;
+  const origin = terrain.originMetres;
+  const positionCm = browserHeroPositionToNativeCm([eye.x, eye.y, eye.z], [origin.x, origin.y, origin.z]);
+  const selected = npcNavigationAreas.findZoneAtPositionCm(positionCm);
+  if (!selected.known) return;
+  const nextAreaId = selected.value?.id ?? null;
+  if (!heroAreaBaselineReady) {
+    heroAreaBaselineReady = true;
+    currentHeroAreaId = nextAreaId;
+    return;
+  }
+  const entered = selected.value;
+  const changedArea = entered !== null && entered.id !== currentHeroAreaId;
+  currentHeroAreaId = nextAreaId;
+  if (!changedArea || !entered) return;
+
+  const result = questRuntime.enterArea('PC_Hero', entered.name);
+  if (result.progress.length === 0) return;
+  const completed = result.progress.filter((progress) =>
+    progress.status === QuestStatus.Success || progress.status === QuestStatus.Won);
+  notify(completed.length
+    ? completed.map((progress) => 'Quest completed: ' + progress.questId).join(' · ')
+    : result.progress.map((progress) => 'Quest updated: ' + progress.questId + ' (' + progress.counter +
+      (progress.amount === null ? '' : '/' + progress.amount) + ')').join(' · '));
+}
+
 function frame(now: number): void {
   requestAnimationFrame(frame);
   const dt = Math.min((now - lastFrame) / 1000, 0.05);
@@ -1300,15 +1352,24 @@ function frame(now: number): void {
   } else {
     renderer.setViewport(0, 0, innerWidth, innerHeight);
     terrain.update(explorer.position, now);
+    worldLandmarks.update(explorer.position, now);
+    let terrainActivated = false;
     if (!nativeTerrainActive && terrain.hasGroundAt(explorer.position)) {
       nativeTerrainActive = true;
+      terrainActivated = true;
       for (const object of legacyTerrain) object.visible = false;
-      explorer.setGeometry([...sceneObjects.filter((object) => object.userData.kind !== 'terrain'), ...terrain.objects]);
     }
-    if (terrain.consumeGeometryChange()) {
-      explorer.setGeometry([...sceneObjects.filter((object) => !nativeTerrainActive || object.userData.kind !== 'terrain'), ...terrain.objects]);
+    const terrainChanged = terrain.consumeGeometryChange();
+    const landmarksChanged = worldLandmarks.consumeGeometryChange();
+    if (terrainActivated || terrainChanged || landmarksChanged) {
+      explorer.setGeometry([
+        ...sceneObjects.filter((object) => !nativeTerrainActive || object.userData.kind !== 'terrain'),
+        ...terrain.objects,
+        ...worldLandmarks.objects,
+      ]);
     }
     if (started && !modalOpen) explorer.update(dt);
+    updateHeroAreaEntry(now);
     if (started && !modalOpen) for (const actor of personActors.values()) actor.update(dt);
     updateHeroPresentation(dt);
     renderer.render(world, camera);
@@ -1344,7 +1405,7 @@ function frame(now: number): void {
       if (!canInteractWithPerson(person)) continue;
       const personPosition = livePersonPosition(person);
       const delta = Math.hypot(personPosition[0] - position.x, personPosition[2] - position.z);
-      if (delta < distance && Math.abs(personPosition[1] - (position.y - 1.65)) < 4) { nearest = person; distance = delta; }
+      if (delta < distance && Math.abs(personPosition[1] - (position.y - GOTHIC3_HERO_EYE_HEIGHT_METRES)) < 4) { nearest = person; distance = delta; }
     }
     element('prompt').classList.toggle('hidden', !nearest || inspectMode || modalOpen);
     if (nearest) element('prompt').textContent = 'E · talk to ' + nearest.name;
