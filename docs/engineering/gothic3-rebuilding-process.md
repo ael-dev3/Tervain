@@ -8325,7 +8325,42 @@ SHA-256 `f34612a1d82c690c5bb8040aefedd00d76f4ee021d3ea27930b3224aa6509fc5`.
 Both served files matched this exact local build. The earlier build and local
 observation remain preserved separately. This confirms the selected normal
 execution path after the correction; it does not measure a speed improvement,
-replace the pending corrected-head CI result or establish completed startup.
+establish successful CI or establish completed startup.
+
+### Preserve the second PR diagnostic failure
+
+The next normal [PR run](https://github.com/ael-dev3/Tervain/actions/runs/37682903878)
+at head `e497379a072dabb42a4e284aa43e753d242a740d` passed typechecking and
+2,463 existing cases, including the previously timed-out NPC read. One
+existing image-admission case failed because the new unknown-label rejection
+changed its expected diagnostic. The private admission cache now preserves
+the original `independent source admission` message for an unknown label;
+missing or changed retained views still use their separate canonical-view
+rejection. All current storage checks and immutable-work optimizations remain.
+
+The second failed log has SHA-256
+`9a7e13268298ab538ff1475cee34dc67405dfa8e0c6190b7f01cf288487c116b`.
+Its build and deployment were skipped. Both failed runs remain preserved;
+no unchanged-head rerun, workflow change, timeout change or local test run was
+used to resolve them. Passing the former timeout case in this run is specific
+CI evidence and is not a controlled performance benchmark.
+
+### Inspect the final diagnostic-corrected build
+
+The final captured build passed typechecking and transformed 473 modules.
+All 75,731 input hashes matched before and after, with no capture errors.
+A new production tab repeated the actual Ardea novice inspection and displayed
+I/O return zero, both parser returns, encoding publication, argument count 1,
+14,777 completed argument operations and return zero. The next unexecuted call
+remained `__setenvp` at `204678e7`; captured browser error logs were empty.
+
+The actual DOM entry `gothic3-BOReSUbp.js` has SHA-256
+`92441d540756edc6603199e4e7543439040de6db0629a929a90ec6ca9d5bb8bc`.
+The inspected service bundle `browser-npc-entity-services-jM5Ytaeh.js` has
+SHA-256 `0bf285c824fc0d76d9f4cdb3e071cb8c5cc25cb9b252a2bef0d212c4bccd448d`.
+Both served files matched this exact build. Earlier observations remain
+separate history; this is the final local execution observation for the
+diagnostic-corrected code, not a hosted execution or a completed campaign.
 
 Environment initialization and remaining CRT and module startup still require
 implementation. Native NPC activation and the finishable campaign remain

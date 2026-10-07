@@ -388,8 +388,9 @@ export class NativeModuleCrtOwner {
   #retainedImageStorage(label: string): NativeHeapObjectViews {
     if (this.module !== 'Game') throw new Error('Engine image aliases remain owned by their existing source services');
     const admission = this.#imageAdmissions.get(label);
+    if (!admission) throw new Error('Game CRT image storage has no independent source admission: ' + label);
     const fields = this.#imageViews.get(label);
-    if (!admission || !fields || admission.fields !== fields) throw new Error('Actual canonical Game CRT image view required: ' + label);
+    if (!fields || admission.fields !== fields) throw new Error('Actual canonical Game CRT image view required: ' + label);
     const proof = this.#imageProofs.get(fields);
     if (!proof || proof.length !== admission.bytes) throw new Error('Actual retained Game image source admission required: ' + label);
     if (!proof || fields.backing.freed || fields.backing !== proof.backing || fields.bytes !== proof.bytes ||
