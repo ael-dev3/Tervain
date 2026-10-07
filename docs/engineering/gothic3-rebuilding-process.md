@@ -4,16 +4,16 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
-Updated: 7 October 2026. The captured browser-runtime exercise remains
-checkpoint 83 at `c52d16da73fe1c9be5d240b0111cfe1074d1e8cc`; the latest
-published baseline is `main` commit `3b968ba51c1924a1c6b2daded2803d7782fabb39`,
-merged in [PR 55](https://github.com/ael-dev3/Tervain/pull/55) and published by
-successful [workflow run 37571447817](https://github.com/ael-dev3/Tervain/actions/runs/37571447817),
+Updated: 7 October 2026. The recorded NPC-runtime exercise remains checkpoint
+83 at `c52d16da73fe1c9be5d240b0111cfe1074d1e8cc`. Checkpoints 92–93 were merged
+in [PR 56](https://github.com/ael-dev3/Tervain/pull/56) at `main` commit
+`dcc68c61a5f738ad9e99c464e8ca6f98f4db5dd6` and published by successful
+[workflow run 37581031860](https://github.com/ael-dev3/Tervain/actions/runs/37581031860),
 attempt 1.
 Checkpoint 91 is the published NPC reconstruction in PR 55. Checkpoint 92
 connects Hero movement to source-registered Navigation zones and the native
 type-8 quest-entry callback, adding a destination-quest slice while leaving the
-broader campaign and NPC activation unfinished. Local checkpoint 93 exports the
+broader campaign and NPC activation unfinished. Checkpoint 93 exports the
 source-placed full-detail Xardas Tower and adds its streamed triangles to browser
 rendering and static collision. Local browser review confirms rendering and a
 grounded Hero after the landscape-preview teleport; ordinary overland travel is
@@ -6376,10 +6376,11 @@ browser exercise started Ardea and moved the Hero about 0.6 m. A separate
 attempt to land at Xardas Tower fell through the terrain gap, so the callback
 has not been completed by ordinary travel in the browser. Its quest completion
 is verified by the integration test. The browser console reported no errors.
-This checkpoint does not construct the
-original movement/physics stack,
-load the full world outside the registered Navigation data, activate NPCs, or
-complete the broader campaign. The published site remains at checkpoint 91.
+PR 56 publishes this callback and the checkpoint 93 Tower mesh. This checkpoint
+does not construct the original movement/physics stack, load the full world
+outside the registered Navigation data, activate NPCs, or complete the broader
+campaign. Ordinary overland arrival and quest completion in the browser remain
+unverified.
 
 Run the focused checks with:
 
@@ -6391,13 +6392,14 @@ npm run build
 
 ## 93. Export and stream a source-placed Xardas Tower
 
-Date: 7 October 2026. This local checkpoint carries one distant static landmark
+Date: 7 October 2026. This checkpoint carries one distant static landmark
 through the evidence-to-browser path used by the Ardea scene: verify the winning
 world and mesh resources, convert their geometry and diffuse images, preserve
 the native placement in a manifest, then load and collide with the streamed
 result. Browser review rendered the tower and left the Hero grounded after a
-landscape-preview teleport. Ordinary overland travel to Nordmar has not yet
-been manually verified.
+landscape-preview teleport. This checkpoint was published in PR 56 by workflow
+run 37581031860. Ordinary overland travel to Nordmar has not yet been manually
+verified.
 
 ### Verify the placement and mesh family
 
@@ -6451,6 +6453,7 @@ large-chunk warning. The asset exporter completed and produced the manifest and
 GLB, both served successfully by the restarted local Vite server. The browser
 rendered the tower, and pressing `F` to leave preview flight placed the Hero in
 the `GROUNDED` state at 211.8 metres. No ordinary overland travel or quest
-completion at the tower was exercised. The change is local and unpublished.
-The existing checkpoint 92 quest callback and save/restore cases remain
-unit-tested.
+completion at the tower was exercised. The published checkpoint includes the
+checkpoint 92 quest callback and its save/restore coverage. The Tower preview
+does not establish ordinary overland travel or quest completion by physical
+arrival.
