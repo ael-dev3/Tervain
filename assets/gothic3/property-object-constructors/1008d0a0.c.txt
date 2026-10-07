@@ -1,0 +1,20 @@
+/* ENTRY 1008d0a0 | bCPropertyObjectFactory::bCPropertyObjectFactory | STATUS decompiled | 4 ms */
+
+void __thiscall
+bCPropertyObjectFactory::bCPropertyObjectFactory(bCPropertyObjectFactory *this,int *param_1)
+
+{
+  int iVar1;
+  
+  this->vftablePtr = &vftable;
+  (this->bCPropertyObjectFactory_data).offset_0x0 = (void *)0x0;
+  (this->bCPropertyObjectFactory_data).offset_0x4 = 0;
+  (this->bCPropertyObjectFactory_data).offset_0x8 = 0;
+  (this->bCPropertyObjectFactory_data).offset_0xc = 1;
+  iVar1 = *param_1;
+  (this->bCPropertyObjectFactory_data).offset_0x10 = iVar1;
+  if (iVar1 != 0) {
+    *(short *)(iVar1 + -4) = *(short *)(iVar1 + -4) + 1;
+  }
+  return;
+}
