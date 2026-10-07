@@ -1,0 +1,21 @@
+/* ENTRY 10088610 | FUN_10088610 | STATUS decompiled | 5 ms */
+
+undefined4 __thiscall FUN_10088610(int *param_1,uint param_2)
+
+{
+  undefined4 *_Dst;
+  undefined4 uVar1;
+  int iVar2;
+  
+  if ((uint)param_1[1] <= param_2) {
+    return 0;
+  }
+  iVar2 = (param_1[1] - param_2) + -1;
+  _Dst = (undefined4 *)(*param_1 + param_2 * 4);
+  uVar1 = *_Dst;
+  if (0 < iVar2) {
+    _memmove(_Dst,_Dst + 1,iVar2 * 4);
+  }
+  param_1[1] = param_1[1] + -1;
+  return uVar1;
+}
