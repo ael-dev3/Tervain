@@ -321,13 +321,54 @@ export class NativeGameTypeInfoName {
     this.guard(); const value = fact(result, name); this.trace.push(name); return value;
   }
   private strlen(text: NativeHeapObjectViews): number {
-    // The pinned Game _strlen uses a DWORD-at-a-time zero-byte test. Its
-    // returned value is the first NUL offset, so bytes beyond that NUL are
-    // semantically irrelevant and remain unobserved/unowned here.
-    for (let offset = 0; offset < text.bytes.length; offset++) {
-      if (text.readUnsigned(offset, 1) === 0) return offset;
+    // 2046dbd0 first peels to a DWORD boundary with unaligned DWORD loads and
+    // low-byte tests, then applies the original 0x7efefeff / 0x81010100
+    // predicate, rereading candidate DWORDs before ordered byte tests.
+    const geometry = fact(this.crt.byteGeometry().resolveNativePointer({ fields: text, offset: 0 }),
+      'Game _strlen pointer geometry');
+    let offset = 0, residue: number = geometry.modulo4;
+    while (residue !== 0) {
+      this.trace.push('Game._strlen.load.unaligned+' + offset.toString(16));
+      const loaded = text.maskedWord(offset, 4);
+      if ((loaded.knownMask & 0xff) !== 0xff) throw new Error('Game _strlen low-byte mask is unknown at +' + offset.toString(16));
+      if ((loaded.value & 0xff) === 0) return offset;
+      offset++; residue = (residue + 1) & 3;
     }
-    throw new Error('Game type_info::_Name_base _strlen has no terminating NUL in its allocation');
+    for (;;) {
+      this.trace.push('Game._strlen.load.dword+' + offset.toString(16));
+      const loaded = text.maskedWord(offset, 4), value = loaded.value >>> 0, knownMask = loaded.knownMask >>> 0;
+      const candidates = new Set<boolean>(), unknownBits: number[] = [];
+      for (let bit = 0; bit < 32; bit++) if (((knownMask >>> bit) & 1) === 0) unknownBits.push(bit);
+      // The current Navigation output has exactly 16 unknown padding bits in
+      // its final candidate DWORD. Bound enumeration; never treat masked bytes
+      // as zero-filled evidence.
+      if (unknownBits.length > 16) throw new Error('Game _strlen DWORD predicate has more than 16 unknown bits at +' + offset.toString(16));
+      const completions = 2 ** unknownBits.length, fixed = (value & knownMask) >>> 0;
+      for (let completion = 0; completion < completions; completion++) {
+        let word = fixed;
+        for (let index = 0; index < unknownBits.length; index++) {
+          if (((completion >>> index) & 1) !== 0) word = (word | (1 << unknownBits[index]!)) >>> 0;
+        }
+        const predicate = ((((word ^ 0xffffffff) ^ ((word + 0x7efefeff) >>> 0)) & 0x81010100) >>> 0) !== 0;
+        candidates.add(predicate);
+        if (candidates.size > 1) break;
+      }
+      if (candidates.size !== 1) throw new Error('Game _strlen DWORD predicate is ambiguous at +' + offset.toString(16));
+      const candidate = [...candidates][0]!;
+      if (!candidate) { offset += 4; continue; }
+
+      this.trace.push('Game._strlen.candidate-reread+' + offset.toString(16));
+      const reread = text.maskedWord(offset, 4), candidateWord = reread.value >>> 0, candidateMask = reread.knownMask >>> 0;
+      for (let index = 0; index < 4; index++) {
+        if (((candidateMask >>> (index * 8)) & 0xff) !== 0xff) {
+          throw new Error('Game _strlen candidate byte mask is unknown at +' + (offset + index).toString(16));
+        }
+        if (((candidateWord >>> (index * 8)) & 0xff) === 0) {
+          this.trace.push('Game._strlen.return' + (offset + index)); return offset + index;
+        }
+      }
+      offset += 4;
+    }
   }
   getName(): NativeValue<NativeMemoryBacking | null> {
     if (this.active) { this.reentrant = true; return unknown('Game type_info::Name is already executing'); }
