@@ -1,0 +1,3476 @@
+{
+  "studyDate": "2026-10-05",
+  "repositoryEditionDate": "2026-10-07",
+  "historicalBaseline": {
+    "documentation": "9e7c6fbd",
+    "characterRuntime": "67788fa1",
+    "landscapeRuntime": "88cf6678",
+    "version": "0.0.12"
+  },
+  "sourcePdfs": [
+    {
+      "source": "audit bundle",
+      "sourceBytes": 15428356,
+      "sourceSha256": "ca58d4a56f27fe22f556f8dab6e169fc0336b6977fa484967738c63a7a926a0c",
+      "publishedFile": "Tervain-Visual-Audit.pdf",
+      "modification": "Text operands containing private paths (pages64/86) and account-specific publication details (pages63/95) replaced. No overlay; page count, images and other extracted text preserved."
+    },
+    {
+      "source": "separately submitted Desktop PDF",
+      "sourceBytes": 15428255,
+      "sourceSha256": "7ee63a9dd57ef46deb11b2b4537728cf80196ce0654e811a0937abcae0d6b6bd",
+      "publishedFile": "Tervain-Visual-Audit-submitted.pdf",
+      "modification": "Text operands containing private paths (pages64/86) and account-specific publication details (pages63/95) replaced. No overlay; page count, images and other extracted text preserved."
+    }
+  ],
+  "preferredReport": "Tervain-Visual-Audit.pdf",
+  "pdfDifference": "The bundle PDF corrects wording on p27, the existing water-depth path on pp38\u201339 and dynamic fog density on p91. Both distinct submissions are retained; local paths redacted in each.",
+  "archiveBoundary": [
+    "Whole one-second timeline and 59 chronological sheets (contain private application/account screens)",
+    "Original MOV",
+    "Authoring/extraction scripts and layout proof logs",
+    "Raw browser accessibility-tree capture and local machine paths"
+  ],
+  "sourceRecording": {
+    "fileName": "2026-10-05 16-00-07.mov",
+    "sha256": "bc4221ac17de325a83d78644f64669cb2bb0329ab5fd34cdfd25916938821e0b",
+    "decodedFrames": 69871,
+    "recordingFps": 60,
+    "durationSeconds": 1164.516667
+  },
+  "rights": "Study only. Gothic 3 imagery remains third-party reference material outside Tervain\u2019s source-code license; no CC or general reuse grant, rights-holder clearance or commercial asset permission is established.",
+  "files": [
+    {
+      "file": ".gitattributes",
+      "bytes": 132,
+      "sha256": "f8340c9e481e838862980ef5aaf1cb7c10f9891648185a0d6e2a6a550a48832b",
+      "modification": "repository derivative or sanitized source record"
+    },
+    {
+      "file": "Audit-text.md",
+      "bytes": 132063,
+      "sha256": "30f1747507cbb3e0dba8df4f660df72a934bd3c49200ac3c441e5c57ed70ce15",
+      "modification": "repository derivative or sanitized source record"
+    },
+    {
+      "file": "Audit.html",
+      "bytes": 211510,
+      "sha256": "2d64840fcfd5a19a7f3dbd2c10a464178324775d96ad904705ee03c59c48a48b",
+      "modification": "repository derivative or sanitized source record"
+    },
+    {
+      "file": "Frame-Atlas.html",
+      "bytes": 9824,
+      "sha256": "b3fc37293b64579b704b21ff2e03f1fc69929789548cb24b1173ddd41071c396",
+      "modification": "repository derivative or sanitized source record"
+    },
+    {
+      "file": "Tervain-Visual-Audit-submitted.pdf",
+      "bytes": 15436220,
+      "sha256": "ee5e2fa1285220a3b5195229ba5ca2d790553c7c4b8299b88f9f1eae95551d3d",
+      "modification": "repository derivative or sanitized source record"
+    },
+    {
+      "file": "Tervain-Visual-Audit.pdf",
+      "bytes": 15436297,
+      "sha256": "a73e9c0912016542b1099603b561652cbf3a0014d41ef7415dced78490a65079",
+      "modification": "repository derivative or sanitized source record"
+    },
+    {
+      "file": "analysis-summary.json",
+      "bytes": 4698,
+      "sha256": "1d5a9f46316913a3df3dd299380375e8bd89c0a359056d0921efbd74b6a1e7dd",
+      "modification": "repository derivative or sanitized source record"
+    },
+    {
+      "file": "burst-sheet-camera-clip-1.jpg",
+      "bytes": 350207,
+      "sha256": "f75b6887be8defc4ea704704b8409a9f91098c15fbabcde5069cf541b39378c5",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "burst-sheet-camera-clip-2.jpg",
+      "bytes": 342155,
+      "sha256": "4d54a0ec6f5ba4bf5d51f34f579db9a6a798f089776ad08170db753cbed77436",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "burst-sheet-camera-clip-3.jpg",
+      "bytes": 344719,
+      "sha256": "00f15a78744f5f549491ed9c499e97ce66750c9956302e0417c1191e06c6058d",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "burst-sheet-camera-clip-4.jpg",
+      "bytes": 346009,
+      "sha256": "136565d3a9bc31588e6ea85c29e029877f694058b42cceaaf6666e6a4da38927",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "burst-sheet-combat-1.jpg",
+      "bytes": 449732,
+      "sha256": "b0ba673cde75645807a6cd31ca87bb9dc480ff540598e7726529428176817c16",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "burst-sheet-combat-2.jpg",
+      "bytes": 449884,
+      "sha256": "25bb5c2b462b26517eb1c3e545957f1b04b88089d00459ba60dddd5f387f955e",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "burst-sheet-combat-3.jpg",
+      "bytes": 452627,
+      "sha256": "79c06de6fbafe69847f45c75118cd718c0a2b17871815dd469384decbf0599f8",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "burst-sheet-combat-4.jpg",
+      "bytes": 457226,
+      "sha256": "870c064547573783fb2a09c7555ecc4af80572eef575ced2ee83ed3f5abd66f7",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "burst-sheet-stairs-1.jpg",
+      "bytes": 294461,
+      "sha256": "5d89575ded2b41f47ae8335ccc152556fa54742811c1548603f14d27d87100f7",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "burst-sheet-stairs-2.jpg",
+      "bytes": 313539,
+      "sha256": "f04c9a5e2fb5685144e958a78ba0be96bf92d2de4f726a71feae22e1df713856",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "burst-sheet-stairs-3.jpg",
+      "bytes": 315467,
+      "sha256": "1db12161c06e4cc1ed909988a3f8e64bf2aa33f17e910cc155035d2644cf175b",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "burst-sheet-stairs-4.jpg",
+      "bytes": 332337,
+      "sha256": "cfba39bdd7483fca64924cde8c92fc8d53e62e522af7df3e5e9d616e23366223",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "burst-sheet-walk-1.jpg",
+      "bytes": 357142,
+      "sha256": "28c5ba2673e6257dfbe2d1fcabf6ee2c387a909f0f882eddae901bc384f948e6",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "burst-sheet-walk-2.jpg",
+      "bytes": 358758,
+      "sha256": "3a0592a0f8dadcea805f4471c9eb1275aaa023a38c3bd74dd66c99ff8109e9ad",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "burst-sheet-walk-3.jpg",
+      "bytes": 355965,
+      "sha256": "38a2897d61bf3b25a1aa97bd424e0cf2e78fd45db9e71a98e6793164ffd425e2",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "burst-sheet-walk-4.jpg",
+      "bytes": 356346,
+      "sha256": "a13a7650395e50316c491a0862fc16778ac967cd4a504a5e7cd98d8e9e7249de",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/001.jpg",
+      "bytes": 42133,
+      "sha256": "5be1b2ebe6f2b4fce9b2a66ef59cb370c4bb057a9f9011d6ed5823b1be6f110f",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/002.jpg",
+      "bytes": 42115,
+      "sha256": "df45fef18f8ec3f00c42431dc1268548f440f315ff0cbd242662aa4b0e781d39",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/003.jpg",
+      "bytes": 42138,
+      "sha256": "6110fea6198446f5da0efe2efe265fa59fe3ce050b5a0181b1e42a4e75a615cd",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/004.jpg",
+      "bytes": 42154,
+      "sha256": "7bc725fb0eb1862b6e69960a2bc604eea48d90b3f8ef4b7a4df70e1fa4dbbec4",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/005.jpg",
+      "bytes": 41835,
+      "sha256": "2c5d50824126ca670f9aa798232fbc4e03aca2d0123b98b7ea092da1e4c79c59",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/006.jpg",
+      "bytes": 41533,
+      "sha256": "baf811d1d5f03498e28c924c45aa9a7e4d0cd8f62edd2f5736955ca4e2fe651f",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/007.jpg",
+      "bytes": 41153,
+      "sha256": "3ed7a2dd15e9a3375d6a27f23c00b80897d272c67669f25eb426900175eeb7b1",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/008.jpg",
+      "bytes": 40903,
+      "sha256": "75669c83c93205f23823df705ac277d2ec4737208d4c6b0042e77846ca6b851f",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/009.jpg",
+      "bytes": 41006,
+      "sha256": "b6ab656ff38559e463e2233de6da41c8b3d0985dc8629ca5d6537d961df21948",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/010.jpg",
+      "bytes": 40706,
+      "sha256": "5fbd1cc338da02a4dbbe65ac3f9f0337e0581f3d56218dabc05b31c9c93c3e9c",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/011.jpg",
+      "bytes": 40340,
+      "sha256": "542c0457d19e6a3a11781e9a7f5c39f086217edd841f1edf7d825ade05c4c8d4",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/012.jpg",
+      "bytes": 40254,
+      "sha256": "4ce8f0ca8a417c661db70716db4bf56f93c071ef298ee76d7742a29abf3b89f3",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/013.jpg",
+      "bytes": 39839,
+      "sha256": "e8a6ffa3c710212688256877f47f0814d9b707499edfc9cb7dbc6729a2801002",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/014.jpg",
+      "bytes": 39974,
+      "sha256": "ca7a1c0a86ce3f0c42636e6d8c87d7a64eb5716258cb2f1c99a999de282a1171",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/015.jpg",
+      "bytes": 40237,
+      "sha256": "0b8bf432c6e6af810f25ecc46b7da0a0373b6e148563d16be84f325f02129fe2",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/016.jpg",
+      "bytes": 41056,
+      "sha256": "5d8cbf4aea6395adf6a946984fb8fa41dbee3b5549a7e7d3785856dfc3a5ada8",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/017.jpg",
+      "bytes": 41709,
+      "sha256": "fe801e49768098f293707909b8d99cd0a1f57789c2c0452bf16afe8800702596",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/018.jpg",
+      "bytes": 42341,
+      "sha256": "a93c42e3e75ef71eb4970fb0a5c96bbc3bc7e58a06074ff324c42f7aa8886977",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/019.jpg",
+      "bytes": 41451,
+      "sha256": "ef544e9da8bd3133b53a6c5bf29a672b69ccd39a4c022e10e9a0c414804d82aa",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/020.jpg",
+      "bytes": 41014,
+      "sha256": "7f7ad4b7799a04034a2055bdce40d9323d1dab6f34d2239565e859016aa9c5c9",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/021.jpg",
+      "bytes": 40309,
+      "sha256": "5fcd8d9127f516f95408aacb240b3372b0ae5b7b1a54de947791099975eb782e",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/022.jpg",
+      "bytes": 39978,
+      "sha256": "4c6d7df3063eaf0f1c88aa36402b4ff2486934c6ca2889ea737c0fdbc7a97a89",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/023.jpg",
+      "bytes": 39314,
+      "sha256": "882a70a17fb6b983907bd150fe18cbb7809ca64a5a2b7cd755b8ebdfe4a2163c",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/024.jpg",
+      "bytes": 38694,
+      "sha256": "c8dddbd37fdbfcdd3eadb5a16f801fa104ba77c702981198990217aaf506e20e",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/025.jpg",
+      "bytes": 38198,
+      "sha256": "5ed49b7253ff136c3fb7a65afeba8dd8fce67e8389a096d0b92654a07c75b41d",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/026.jpg",
+      "bytes": 38177,
+      "sha256": "31f3b5c9bb2a811abfbd286a8ae71d6e360236412399649470a207ec6bdfb8c9",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/027.jpg",
+      "bytes": 37694,
+      "sha256": "05cfb935e1a65cd786a309784b0b73d7fbf81ad27739181295622e649528c9cb",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/028.jpg",
+      "bytes": 37411,
+      "sha256": "5348d396e7a83bf4000859c768fa4bdfb1c552bc1f8f8f9a26c9c668f7d7ea6c",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/029.jpg",
+      "bytes": 37287,
+      "sha256": "d1ec117dd6af8bc69db22554eff6cd70d4578bd20e7ee7f0b5052a158029e2b1",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/030.jpg",
+      "bytes": 37292,
+      "sha256": "c8b090eb97a04100f5b6472c43aef15e2c70124579774104b48cb84ebdd1b28e",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/031.jpg",
+      "bytes": 37292,
+      "sha256": "f205b10b4db20a277210b5179d8ce5ce37ba14b84583fb0155bd834cecb4a1e0",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/032.jpg",
+      "bytes": 37068,
+      "sha256": "5c7a3f57a942495f4cceb805a76f3b8798548a869591ec3b5bf382a9ec6b6e20",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/033.jpg",
+      "bytes": 37001,
+      "sha256": "714d9b2fc7540a3679ffc723e23372eb373e618671a011128f7e7c8efe2faea2",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/034.jpg",
+      "bytes": 36760,
+      "sha256": "69319c9dc4a540cb03d53dc386412c95d1ff00a0ed56602ee3524f62ea52daa8",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/035.jpg",
+      "bytes": 36635,
+      "sha256": "37fe15b40943a6c11d5d15015efd8e0a859214f5a00cb4eaee2b002a7dc11b1e",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/036.jpg",
+      "bytes": 36515,
+      "sha256": "31f0e270fa234f1dea70c832914200bd55bb9f3314f8c421af69d384644ad323",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/037.jpg",
+      "bytes": 36286,
+      "sha256": "76664fd22aee457b02904d6ab5b556e5aff0749109a965372806bbaba22552de",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/038.jpg",
+      "bytes": 36495,
+      "sha256": "cb642b56110a5ce7f8920856c1989ea947a3b8484c033f4e59f3ed5e1f8a29a6",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/039.jpg",
+      "bytes": 36762,
+      "sha256": "e6fe33050f90454d5ffefe74eb04cd222b973cdcb0efa47da67e3edba3c6d4f5",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/040.jpg",
+      "bytes": 37030,
+      "sha256": "6c72d064d58d22c25e072d475da156899c46655dd199d3be57c3a0806337f791",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/041.jpg",
+      "bytes": 36941,
+      "sha256": "c0bdf0e33defb1f2fc37bce67082cc2a8bceeab3293aa2ad846cab3744d765d9",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/042.jpg",
+      "bytes": 37133,
+      "sha256": "c8311c31ec125b0f8a3a1d563cc71e3abdf4c2dfee01a2354f0086e5dfc3ea1f",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/043.jpg",
+      "bytes": 37342,
+      "sha256": "29868655cf948afdc0e445313e589e1c3ba47050d5caa8d84ab15fbeda6271bc",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/044.jpg",
+      "bytes": 37339,
+      "sha256": "10da0d8513ac0fac6a15bddca3c2dc71cd5fd3245d0af0ff6850e558686eeba6",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/045.jpg",
+      "bytes": 37420,
+      "sha256": "d099f076e15acaff12f9ea07d10805aabbd0079912b7962ba923c9eaa2967795",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/046.jpg",
+      "bytes": 37562,
+      "sha256": "e7167c0d9a1250417e33b76583c1d9860d5f3e1e869cd0ad238b7fa7dee8b113",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/047.jpg",
+      "bytes": 38030,
+      "sha256": "e1fd0ac591b8b203d0964b101b5bbba76a3d6b25c9b6beb76bec3b584657953b",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/048.jpg",
+      "bytes": 38507,
+      "sha256": "f47591833ae73603509c18adb377819ac88b6dea6f9935b31c1c6552fba65fec",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/049.jpg",
+      "bytes": 39368,
+      "sha256": "4e9d3b6e8b1838432dbbe785147af5682e8c7492eda3b87d58187a4bf87c8ad7",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/050.jpg",
+      "bytes": 39644,
+      "sha256": "49970579ae4094a2951a5ac2f433208a1fcf68ed7df6b6aec6d76d0391801832",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/051.jpg",
+      "bytes": 39548,
+      "sha256": "a4ee02d971932aa030f0b5d289f0756bbc5bd3346436f8da499ad8220752c51d",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/052.jpg",
+      "bytes": 39407,
+      "sha256": "8d85e3a0e828e3f674293225c840a0bd48505d809ff954ee9ede4f967820db27",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/053.jpg",
+      "bytes": 39204,
+      "sha256": "32c9e5fd449c93e6c1ca58380ba628c67f3671400578a1a954eff69544b1fd39",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/054.jpg",
+      "bytes": 39030,
+      "sha256": "ac9069368b8dbfc39bb91764214fad2f38aafb4218dc359006a6662ccadbf458",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/055.jpg",
+      "bytes": 38801,
+      "sha256": "bd9cd3a33b8112d58de583bbc1ebdf507ac0ee47aaa52a5539b85b0c1f4ef091",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/056.jpg",
+      "bytes": 38530,
+      "sha256": "6523b7d75bf600575f3d998d51cbac2288dd1171f062ffc9f5bbf3f8fce345d0",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/057.jpg",
+      "bytes": 38515,
+      "sha256": "7f311b72fc94d945998c3d05acf6b8acdd7d16edc4c4cada28f480fa229680f5",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/058.jpg",
+      "bytes": 38385,
+      "sha256": "5768b220548909299a4fd6b1cb8ed003e635702c5c8e31f32bd93c5ada3b226c",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/059.jpg",
+      "bytes": 38242,
+      "sha256": "e1ad9663f40bce6c511a2852db9efbba3e3a7d1f23bcf11d22538466be52e55c",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/060.jpg",
+      "bytes": 37892,
+      "sha256": "35f1155d06c8562711af5492a483cf4b5cd6ea89e5cc59f16055cc4909b00386",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/061.jpg",
+      "bytes": 37692,
+      "sha256": "252c01761aa39cba12ae82202f09d894fd633fdc1da73b737006338f416f81e9",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/062.jpg",
+      "bytes": 37753,
+      "sha256": "1a559157265b12156fd95e4052580cdeeed79c3ada0a6f0f43b46cf4c9f42b65",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/063.jpg",
+      "bytes": 37787,
+      "sha256": "778773244f1f7359549e39ed5fc9cbdc5385b7410d4d7893ef71f58481561e5e",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/064.jpg",
+      "bytes": 37443,
+      "sha256": "c0ee8c5bac0b461a5f7f59c28b00a834e37da3a21104eb49f5a14eebf9d057b6",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/065.jpg",
+      "bytes": 37463,
+      "sha256": "e421d906aac83f3a7599635160c8cbd435baa24c9b60889d0efdb82e64c51cbf",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/066.jpg",
+      "bytes": 37708,
+      "sha256": "7c5a08ac8ce54ac5b4091decef83767e96938c56a5de9267ba7f5769ac5baa53",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/067.jpg",
+      "bytes": 37754,
+      "sha256": "06e31cdfd8461a4eb0ee0645a1f707462cdd5e5f5ce654bf40d7ca10409bd454",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/068.jpg",
+      "bytes": 37548,
+      "sha256": "97bf4da305f2af60cba7ed1ef6dc260512d03e509795ce042059fbb791a78667",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/069.jpg",
+      "bytes": 37676,
+      "sha256": "75bf1244149497fcf98aaa045979da06102d5f8e08c1a7c9937388785148956c",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/070.jpg",
+      "bytes": 37948,
+      "sha256": "53c3bf79fabd2242b31a7381530edb8fbf5a9413362ffbdf4b0f099f3dec24a2",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/071.jpg",
+      "bytes": 37989,
+      "sha256": "8aa53561817e1e735801a3604330bebb01a5086cb3866ee6a608d588a9cb78a9",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/072.jpg",
+      "bytes": 38157,
+      "sha256": "6b119368b6b7153089a5340e53a97d1aa0e6285a96934a88ff359844acb7ad31",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/073.jpg",
+      "bytes": 37842,
+      "sha256": "6a43e3ae8d1ce1bafb7103a037375e5a672a4cd7927c050b6c457f424e71c6b7",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/074.jpg",
+      "bytes": 37708,
+      "sha256": "ef0b2dd60da61fe774287d06005e5cd538a50c4fd8aec948877621bc6824c656",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/075.jpg",
+      "bytes": 37814,
+      "sha256": "b5093718fa1e580cab2ccd60fc60e9bf3b0b356111fdf134ad46d5918713ee08",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/076.jpg",
+      "bytes": 37982,
+      "sha256": "9f42fd734397a42f6c2966d0733a833bcc6e4bcef45cbf2267351e02c6146a9d",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/077.jpg",
+      "bytes": 38097,
+      "sha256": "227cf35e16a8eaf1d5208f7c04dbdbaf4b4438b31199ea458011bc07c4d29aa9",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/078.jpg",
+      "bytes": 38508,
+      "sha256": "da073093784d49a30b005524a664cad2dba8d3b682c3ba6722721ec58f04b175",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/079.jpg",
+      "bytes": 39152,
+      "sha256": "e15944f46c268c1e4f6790523b254397c32836a4b0be5676485fa3910b5c443c",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/080.jpg",
+      "bytes": 39780,
+      "sha256": "9b54aacbc760273c40d28a540632247003581f435af275e5a36305d2cdbb96fe",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/081.jpg",
+      "bytes": 40162,
+      "sha256": "f1da20f4b5978add9c7779927b80f535bce368b7d6277b83df66680bf35c60ff",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/082.jpg",
+      "bytes": 39614,
+      "sha256": "c2d7b39e2a120cd13a55bac0b54dbe40b3f07727c444e8a7aaee7def9f660b7b",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/083.jpg",
+      "bytes": 39044,
+      "sha256": "9ee9766298bd842c99a0b3da2c112a53b009cdaf95004d0b7204d199ab639e73",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/084.jpg",
+      "bytes": 38766,
+      "sha256": "58b55b024a8ecdcac956473433119ed91b84aa29e40e48ee22d24dc94006c257",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/085.jpg",
+      "bytes": 38554,
+      "sha256": "cb1d806480ed0229e3ecc976c14fee7b2e5d8008cba89c015a0b2d4233c0cda2",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/086.jpg",
+      "bytes": 38391,
+      "sha256": "eeb34f86cc701cc14ef33669b1d7d5f0c9e5db510b09630968a44175e6e3a643",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/087.jpg",
+      "bytes": 38393,
+      "sha256": "73b4ecf0a09ba9638c50fa16dc54c95fe84534e8e783824a0969b1b3362ef461",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/088.jpg",
+      "bytes": 38380,
+      "sha256": "08a39bd27119795ebe64abe448e0e6bce6cbf9c87c77ef4254ef58ca2f13f8f9",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/089.jpg",
+      "bytes": 38428,
+      "sha256": "7a261e99000f37864739ae7d453df5c5e4c84a9e8aaf48c9d3218ee595dbc1d9",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/090.jpg",
+      "bytes": 38173,
+      "sha256": "cfe7bce1c16d7baa7325881a1d38c7de93610b98f062c95224470cddbf2b9676",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/091.jpg",
+      "bytes": 38251,
+      "sha256": "c88820be8c18cb68462df6f515f4e816d356cf56ad97ebbfd5f67e8b2536e63f",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/092.jpg",
+      "bytes": 37899,
+      "sha256": "c57236d102d1644ec03c798ca9e1a1af9b245723293edd2811da57aad10b2501",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/093.jpg",
+      "bytes": 37865,
+      "sha256": "822a755acfc39d28f041afd6cf412f8c7ab276021269d2e84f5823e226c6576a",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/094.jpg",
+      "bytes": 37794,
+      "sha256": "baf2351e36e84a607dccaa81cbc6f9e8a858124cd9f284e9329fbad20b184f67",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/095.jpg",
+      "bytes": 37840,
+      "sha256": "cd2570449babf8eee865a8cf2d1639538c05640fa52eae8524dbc8a9b50726ee",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/096.jpg",
+      "bytes": 37659,
+      "sha256": "3880d8dee9c48c9ed6ba75873855fa021cd9013460cf1c2f7dfb2860ce80f16e",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/097.jpg",
+      "bytes": 37605,
+      "sha256": "b670e3a1c14faed9a67c27b2ba3b27306c10698ebbab7fb8cbb9bcee89eabddc",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/098.jpg",
+      "bytes": 37967,
+      "sha256": "74408cdc70c550033ffb2defc0758861152578d0a4af73e5c6b87f5fb22c0d72",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/099.jpg",
+      "bytes": 37886,
+      "sha256": "92ea2add735539f13dcf846b6f85eba86e37ad55bd1003353515a30aa6fbba71",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/100.jpg",
+      "bytes": 37888,
+      "sha256": "e8758aa0293d03e4c2c02314468de6d7f25f7fe438748ba53948172e7cb95d43",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/101.jpg",
+      "bytes": 37791,
+      "sha256": "b28e528a50f077799b12c0f83ffcac301257525ed68c8f0ba8cf60d85ccb8e80",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/102.jpg",
+      "bytes": 38075,
+      "sha256": "e4009867c5950baac90bcb7edd709755b49f2344ced3b58d07f64e3e423c29eb",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/103.jpg",
+      "bytes": 37894,
+      "sha256": "637bc81775a2bc733dff8abc367e53aea4eb1762c854c28aef68dd78945ba73a",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/104.jpg",
+      "bytes": 38040,
+      "sha256": "02bc53b063c2eebfdf386721b629ad2a3362e782c62db3e56f0c6738b10645da",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/105.jpg",
+      "bytes": 38060,
+      "sha256": "52b1263da285e14fda8ae7019e6c6f8938d50d1a177da4adebc370c084b6eafd",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/106.jpg",
+      "bytes": 38117,
+      "sha256": "4e0d0a1a886c2183cdbda7cc431b77f4dd7de1d69c4c73e8a951ead23cf5d884",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/107.jpg",
+      "bytes": 38125,
+      "sha256": "a1716cd7b18771fdcfe668b99af0f2164c2e4578b02f4e3e316fbd2e7727c2c9",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/108.jpg",
+      "bytes": 37967,
+      "sha256": "d6ea8e745d237a393bc39ca08afb0ce9d10a2c91c4fb9ab76e5989301d15e9ea",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/109.jpg",
+      "bytes": 38160,
+      "sha256": "5cd8bc31add49a1dcb86635d5c3a7f3f2abc2c172b8a4543fa0d147de2518674",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/110.jpg",
+      "bytes": 38392,
+      "sha256": "e8c6b29c1ea0f755af490077c2e94ffa1957a7f8c2e0c506dd5cff59a5a00eb3",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/111.jpg",
+      "bytes": 39173,
+      "sha256": "b41c73d74e4a6452d5f8b2acbc4783d226afd975484ee631f1103f96ef36314a",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/112.jpg",
+      "bytes": 39679,
+      "sha256": "64158de8d165967bbefd207e9d3e665ef48fd69d754f343c832466403b554a51",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/113.jpg",
+      "bytes": 39565,
+      "sha256": "048867c2ce03a8def96ee04e1c096e96232aacb512f073a6558a2da14e11454f",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/114.jpg",
+      "bytes": 39236,
+      "sha256": "ace14e9a82352969704b4b82459f8c91991ef77323ce29b23950a0b4c6086a61",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/115.jpg",
+      "bytes": 39098,
+      "sha256": "c7424e94e1dbf523dc9ebff17e824eb49b8f2d5743f3e875ca8faa5780e0d32a",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/116.jpg",
+      "bytes": 38931,
+      "sha256": "28a31713f5886f816c989fee6e27bbb5a6b12dcf639d626cc82b319609756a7a",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/117.jpg",
+      "bytes": 38737,
+      "sha256": "42cfe0e56eefeddbc02da1f4910a86ce092466d3ab828dd9fad999aad31804b2",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/118.jpg",
+      "bytes": 38632,
+      "sha256": "27c219d0a7cf7dc00540db15d40e3566a7edb7a0e28e63431b1f9178bc34f49f",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/119.jpg",
+      "bytes": 38531,
+      "sha256": "d678b9965cd12d7773a5aa9ffc871d8e10759721c10982ae3d5d268a62323c4d",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/camera-clip/120.jpg",
+      "bytes": 38577,
+      "sha256": "66510372fa5bb06fc3d18128c47608a702494e406cf914f8e80a9390f86640ef",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/001.jpg",
+      "bytes": 55845,
+      "sha256": "ed63050cab5f4836a8a113e0a41033ed5ccb27d6bca2d0c3dee9eb624a068d9c",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/002.jpg",
+      "bytes": 56477,
+      "sha256": "309424c543cfdd537349939865af47ee7e0a0abd8e99a6111f7449bb2254e962",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/003.jpg",
+      "bytes": 57064,
+      "sha256": "1c1354aac90f9d69ddef846d073a923841108c20077d6a7129fd27e13f77404f",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/004.jpg",
+      "bytes": 57825,
+      "sha256": "53a3fad2c9fb361e9881aa677873042e9298b76feac9a8912a7a5f2c01a9fdf0",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/005.jpg",
+      "bytes": 58019,
+      "sha256": "7bf5b670eb9559442478b0b95743d56dada1c935454811a85fc2cc886ada63fd",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/006.jpg",
+      "bytes": 58051,
+      "sha256": "7bb128834d808dca5c1ee4890d0474db66b7abff31a22dc7ef5625864b1ccc6e",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/007.jpg",
+      "bytes": 57691,
+      "sha256": "b5a43b8250fcff06b91bba02dc56f57c5b5c983839f4fcb017dc24af6bfffdf5",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/008.jpg",
+      "bytes": 57713,
+      "sha256": "f91f687a9db3a352e327e888767e90838b552cff50568f86bdc34bc18a4befcc",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/009.jpg",
+      "bytes": 57467,
+      "sha256": "374548ca3f1542e79c15bec98e8f4f0dcb211989ff74de24bff015f0d94cd8b7",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/010.jpg",
+      "bytes": 57090,
+      "sha256": "07e3afe23063534b2adfd991bf34ca42c34afc1173494d8a45ba856e4e442ce8",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/011.jpg",
+      "bytes": 56822,
+      "sha256": "2677db311ae4b1e76c2c4169784229774c5f2d70e8f0fdaac814a95cc0331244",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/012.jpg",
+      "bytes": 56403,
+      "sha256": "70d2dd01be8c23db69af64728f64478cf2a6bed9f0db337fabd7d15adc0ed85e",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/013.jpg",
+      "bytes": 56283,
+      "sha256": "bb7e1f3c589a4fa361f0b3570b0e3e4ecfd8fbf33031b592a0f9fa4686ece972",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/014.jpg",
+      "bytes": 56283,
+      "sha256": "e3206a7a4068d436f44d1ec8d4beed89387b967180fec3076ee1336b6b3800a6",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/015.jpg",
+      "bytes": 56399,
+      "sha256": "ee56f52daefefb906d4ea8338280166e172ea6da6240451567af0155741fb2ab",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/016.jpg",
+      "bytes": 56216,
+      "sha256": "c35a165390b1f1c02583a0b990f2bed4fab3f7470321516e8e920a1ab591b82e",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/017.jpg",
+      "bytes": 56128,
+      "sha256": "4eda08748311ceece8fd45fda66565caf06c292053189689ce695a6e88201c6b",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/018.jpg",
+      "bytes": 55622,
+      "sha256": "97142d6a1957f0b3d67b43b38ec62e3d91302642efa25886817c3d34db5470a2",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/019.jpg",
+      "bytes": 55767,
+      "sha256": "905d0d2253cc6ff9f113646f10d07350ba693adf00bdc2764439132f720d20ec",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/020.jpg",
+      "bytes": 55832,
+      "sha256": "8eb44fb4b88ed707666dead4f2f6bab2f5cde5a4699db33ee7afe31134138cef",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/021.jpg",
+      "bytes": 55242,
+      "sha256": "709d878116c9a5fbb318183a3720f33cf9c69a30d1e02a88f9f05a544da7e689",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/022.jpg",
+      "bytes": 55151,
+      "sha256": "1af646d98627976ebe07d1795936d10e2f3f5124cbc8463e88c02450f2fb6d7d",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/023.jpg",
+      "bytes": 55207,
+      "sha256": "e2c499c258686ef585fa47659a44450bb8d6e25547ceb8412165f5d08c3159bd",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/024.jpg",
+      "bytes": 55467,
+      "sha256": "49175611a61de4f70ea86fc05970fdde693eb95077da0d912e42628394ccdfac",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/025.jpg",
+      "bytes": 55225,
+      "sha256": "66a8d1d0f72f41923273c99130b643061749f692d0cfe0d5927f557da37c3b62",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/026.jpg",
+      "bytes": 55290,
+      "sha256": "8dd81f8a7ac89180c98ee8c776be31fc57dca36af1e24a225a09895aab289160",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/027.jpg",
+      "bytes": 55597,
+      "sha256": "b853058ebaa38ad01078ca06be20da359e826cbf097cddca7fb9fa3060827745",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/028.jpg",
+      "bytes": 56262,
+      "sha256": "b65f037708fb300ce1d6e59b53fc1c0b8a99542754b392a6695e4b12f1b3fd88",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/029.jpg",
+      "bytes": 56191,
+      "sha256": "a4e0935b4ec5cc7d0cac3da1381ab6f4e33e16849de73f6c38045422eb959f66",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/030.jpg",
+      "bytes": 56099,
+      "sha256": "b4afecea487007ced459bed165b085ff5a47c8f2fd89b43ff44695aa7d25a898",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/031.jpg",
+      "bytes": 56225,
+      "sha256": "b37112057ea4a1dacefdb6ba932ba245a1d058190c5c761d0c55444c87c84dbe",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/032.jpg",
+      "bytes": 56367,
+      "sha256": "6f75655c5e54c150ec234ad56706bd4095b52b1af34932b843aef4646158ac0a",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/033.jpg",
+      "bytes": 57127,
+      "sha256": "60cc9ea3f555d3eb02cf9f172c23db91d2f45fd24ddb52cf815047879df6d4f6",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/034.jpg",
+      "bytes": 57594,
+      "sha256": "bc8cf828ddc2291729b6a94703a7ea1916a9fe901ca23bbc99757a98fa2e5b59",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/035.jpg",
+      "bytes": 57628,
+      "sha256": "d53abe1432d5229fb08506817b3167ced28f352c704ee147f74e5bf894f6a50c",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/036.jpg",
+      "bytes": 57611,
+      "sha256": "69b0087c75dbd635f644f5df2da5f4fc2aabc28aa9ec026ff57ee2d3eae0754e",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/037.jpg",
+      "bytes": 57815,
+      "sha256": "3a47b5408aed80e407d2af429ce9931a2081a95b0f4a51824931b62c2baeb15d",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/038.jpg",
+      "bytes": 57644,
+      "sha256": "02ff161df42303d525eb94b9131606f7bf16f50020ae79e0b706239889990548",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/039.jpg",
+      "bytes": 57130,
+      "sha256": "fea53557d18031cb9e44bc0056aa6611efc6c66b806b1e7ade8c2c2581772fa3",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/040.jpg",
+      "bytes": 56638,
+      "sha256": "29913aac68b64c1e5529b819ff77a49ed393e835d29122c0e4d65108e69f7450",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/041.jpg",
+      "bytes": 56516,
+      "sha256": "1f37038d0f12aa8b44025d11637eb7cb7926f741fef72f24210c452645e77cb5",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/042.jpg",
+      "bytes": 56053,
+      "sha256": "cc4473e0d11be8a32716fb0dd7e5ae255953e3e05588e1da9e06e1dd5c88268d",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/043.jpg",
+      "bytes": 55718,
+      "sha256": "286ee4c5f91dcfe392cf9545d31dd4f44fdebb8f71178b7b6e602fd35ad4bdf9",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/044.jpg",
+      "bytes": 55482,
+      "sha256": "192dd8886f323a283269e1d2fd94901ba08b893a59ad40d21c47869534a1e240",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/045.jpg",
+      "bytes": 55123,
+      "sha256": "201e33856459f1175ae727c69df3ac53ff5558f5ed7b52f1b9b59916d5ffcfea",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/046.jpg",
+      "bytes": 54856,
+      "sha256": "cfc3e94a6d01d5b320b728d4856228071f59655ba76dadf03e394f53e707e354",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/047.jpg",
+      "bytes": 54820,
+      "sha256": "c2fbc3bf21ae4765236b452734b896e5a3cab97dfde3a035e62567647e73069e",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/048.jpg",
+      "bytes": 54342,
+      "sha256": "7d299fdf8513ec7981e88d0a61c60e7775f035d41b0bc65d2a7fc59d51784862",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/049.jpg",
+      "bytes": 54118,
+      "sha256": "182503207f418543ef868b533322e1def3b1e7415145506cee3f005c7f1b013a",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/050.jpg",
+      "bytes": 54255,
+      "sha256": "445e05db9b58f65d72533b5a06f5f0220e372616d24978c04a2340c0fd03c817",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/051.jpg",
+      "bytes": 54849,
+      "sha256": "c1a53ccb8bb8b0908b94f539db44c86956a296633562d4b69e553c3a53669293",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/052.jpg",
+      "bytes": 54731,
+      "sha256": "8f1883b0ba274f257c664358ac1f22fd6e728173528567be4304adc3bdedb301",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/053.jpg",
+      "bytes": 54527,
+      "sha256": "4df78a3676b36486bbebe375bd36b105ee7e579f6658e9ce1c65aec7bb9f5f35",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/054.jpg",
+      "bytes": 54328,
+      "sha256": "1aea25623041d55143e98b41eb766242f8af54c7d2b783cb8e55efe957463d7b",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/055.jpg",
+      "bytes": 54372,
+      "sha256": "c7104faa188eb6c49997e56afa077537d37c3f3eb7518a76a8d8d6da1f73d5e6",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/056.jpg",
+      "bytes": 54592,
+      "sha256": "47a08093dbbd7fa38dcb84d9444a6ef323fa2cdc4ed434d1c151df16fab05aea",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/057.jpg",
+      "bytes": 54469,
+      "sha256": "30c3c4e09fbb2f49e0e2a97cbaae3d172dedd4d747d9139743df566732f37e32",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/058.jpg",
+      "bytes": 54666,
+      "sha256": "face6735267ce8c60857724482d0d0fc59ffb1eab52edfa8832638c84b8f379d",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/059.jpg",
+      "bytes": 55106,
+      "sha256": "84ca5f95cd2bf11a15c216ac238481bc14e944ff2bea3da6fce6161b005d1018",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/060.jpg",
+      "bytes": 55454,
+      "sha256": "f5a6119926164b4c71a31c503946010fa92bbcecfaf064e96b0248ee18db534d",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/061.jpg",
+      "bytes": 56499,
+      "sha256": "7c0bc47a50e86bd79a722e3a76803489bb1556abda4eadf5431aece757676959",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/062.jpg",
+      "bytes": 56617,
+      "sha256": "4376d2e7c8a34e41b600e768252fc88d0450dce152a5595531092dfbbf58da44",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/063.jpg",
+      "bytes": 56834,
+      "sha256": "6dc60d43cbfc53e79921ead260395027810b970bbbf8a261dd52d1e4c0ee3e4c",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/064.jpg",
+      "bytes": 57304,
+      "sha256": "e892c0c25da5684b011784f294a83b1150c69569303ee9d080b4c91eb8d0bc5b",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/065.jpg",
+      "bytes": 58023,
+      "sha256": "196d7da9a40c357834a5ec66de480a57192d23718eb66c78b89552b987189301",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/066.jpg",
+      "bytes": 58682,
+      "sha256": "06aa3d8f16a0f8dded3e251b7f7a7b4e375c09ea0daa99c29982c6743a3dc054",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/067.jpg",
+      "bytes": 59351,
+      "sha256": "9e0e9f83e8ae3e7bfeb350cdc7f9a16a339bcb6acfcec5303d5bea497b82db4b",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/068.jpg",
+      "bytes": 59702,
+      "sha256": "c80263571d6d8f01b9cc43688a116b45a8c22525297ef13c0f327c5d5044ea82",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/069.jpg",
+      "bytes": 59516,
+      "sha256": "2ff0f72456b827e3653b80f16a6078135cd371ed2b36c59a9b354bc0ef356b03",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/070.jpg",
+      "bytes": 59134,
+      "sha256": "a1462fb5543f7bbe1b2d62a4afd963f6865591e5687d8445e0f8e076fe82fd1c",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/071.jpg",
+      "bytes": 58916,
+      "sha256": "1e3350991bc2316a31a786a1b7b8d0a093203c390b6ad3a8dbc3e8807ab9e242",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/072.jpg",
+      "bytes": 58789,
+      "sha256": "8a838993dc887692e05fafba517851465ac59f6fc40f7cc21fbddbb79cd01a40",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/073.jpg",
+      "bytes": 58746,
+      "sha256": "58a3f15c4a4fe38a7cc15a6ee387d5a75c9303f72abede7b761d095c4f28b763",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/074.jpg",
+      "bytes": 58815,
+      "sha256": "1c0d30219081b976e1fba279247049bd0cac074cfbb980e5bdb08f86dd825c46",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/075.jpg",
+      "bytes": 58564,
+      "sha256": "7a7a13ae9033714756afef5e69b1074c6c7df4acf68509e48e3e94f302c0cdb0",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/076.jpg",
+      "bytes": 58457,
+      "sha256": "d22c5d04ce38817a0350751c1777cf9a89d77ab26e59c4634ba21b07639edc4b",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/077.jpg",
+      "bytes": 58368,
+      "sha256": "7d9bebe09f7eca62390c10e6909fed79d4a73c0fad55d9792f639adfea13be7b",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/078.jpg",
+      "bytes": 58229,
+      "sha256": "765c22974e88d79b6505977b50d6f7963331b9207b1b5f26eefa5113ef2c468d",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/079.jpg",
+      "bytes": 58027,
+      "sha256": "e9a42b75db0b14a30161376bf6fbad4da6b79475f4426be73f0f41cae900cc05",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/080.jpg",
+      "bytes": 57714,
+      "sha256": "8774c500d96fde2aae2cb22903533e57299aa9b47e617d9a78e6d41b82f16663",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/081.jpg",
+      "bytes": 57881,
+      "sha256": "b761c30b5df473a47ee2d4ee75aa4f93b33df551aa746f6827b57ef8d54213bf",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/082.jpg",
+      "bytes": 57677,
+      "sha256": "4cd9ce53d1e55eee691969cb0507aaa899bd68ac020f71dd6177ee10582a0c2c",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/083.jpg",
+      "bytes": 57499,
+      "sha256": "e38233a33612f1ffcef64f57edf7d05be2b97068539ccf8f9fbd985fa4087ea1",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/084.jpg",
+      "bytes": 57389,
+      "sha256": "8920a295cc3484000e007581abff92ee19ed00de768744ac4b6bbd431125fb34",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/085.jpg",
+      "bytes": 57372,
+      "sha256": "dc99dd14b6fc42a67f2e4c58142bbfd862af6a402c9703f0dc6d5a165bab853a",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/086.jpg",
+      "bytes": 57434,
+      "sha256": "f7e38ae995ae2ea64a996be50a461dc81ef6facd399919902ff0c52fb18f0bb5",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/087.jpg",
+      "bytes": 57484,
+      "sha256": "cf9f91e3185bc6eedbf0ca6505e7c0b3f309710a6414a8f22dd35f950d26f7ff",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/088.jpg",
+      "bytes": 57734,
+      "sha256": "e74d0e2b865279efa149aa3b6e83ed2b370e9f969afb8f2e6b300e9428d0384f",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/089.jpg",
+      "bytes": 57909,
+      "sha256": "2d1ce52c68e8ecdb147405ae974a0b913f91f6a0de347dc7296c2c64409d81ce",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/090.jpg",
+      "bytes": 57707,
+      "sha256": "0db55057d3d8c4742ca2ace6b19335a122a42185d087761c934b6300b72cbd61",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/091.jpg",
+      "bytes": 57830,
+      "sha256": "1bbe741fa6660adcce428ba3f01c8d727604e2e08cf6c7e94e2ecb4064de863a",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/092.jpg",
+      "bytes": 57836,
+      "sha256": "3525b13ea4863bc6186c9332d4972abe531f07e45be536e14b56f2b9556635b1",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/093.jpg",
+      "bytes": 57944,
+      "sha256": "9494003c3a56cf957be57bd316c5830b2136c9f97d514d80d5c5d8a8358954aa",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/094.jpg",
+      "bytes": 58030,
+      "sha256": "f096e74c41546c9a252129326f5345e02fc672595cce2284a592fc3c8d2bedbe",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/095.jpg",
+      "bytes": 58339,
+      "sha256": "135b7bd1a9d8b4b675a6f62894993d6717ae99d1a73d429604c29e7c4c1197fe",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/096.jpg",
+      "bytes": 58994,
+      "sha256": "f0cd3e8be1f2afde8a75079e04404d8e8f60ba96854b5744f397fcaecd0d5b83",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/097.jpg",
+      "bytes": 59499,
+      "sha256": "df611db93f3bcec15625cf38d855eb395e72f87f06d33522b215390c16cfb9ae",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/098.jpg",
+      "bytes": 59929,
+      "sha256": "4ff5069cf50f0db236f05383043c5cff54170ef51b52c596ee2b904af90ceb97",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/099.jpg",
+      "bytes": 59521,
+      "sha256": "dd62b2cbade734573a1afb8258d7e1e88db6fbfed52a4ac21a8569f34dae5c62",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/100.jpg",
+      "bytes": 59480,
+      "sha256": "59bc153da09f9084b5e27d4b7a646d1ad0b46046f90848762f967b204305431b",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/101.jpg",
+      "bytes": 59283,
+      "sha256": "f75628961ebbaa2fda03be413896b5dee9864cf9bb06ee29351dd0e161a3ac35",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/102.jpg",
+      "bytes": 58993,
+      "sha256": "5dac9deef2b8288eff4d5c30c6ee8a389fbaf1e356536a84492671ec27ba637d",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/103.jpg",
+      "bytes": 58957,
+      "sha256": "8361bb47f207c7a62c3af4a40ef5c1a320a4c48c945d7b68c4839e37ffaf7894",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/104.jpg",
+      "bytes": 58653,
+      "sha256": "522fd0708f6fdd700e4591d25cb52586cad73239ed74e5eed82ec26f80a74f8f",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/105.jpg",
+      "bytes": 58371,
+      "sha256": "2f1ba2a0a3b380e68ba3d64a1e58c5e726f77c446d910d19a842a0f3874c09b6",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/106.jpg",
+      "bytes": 58059,
+      "sha256": "a8ae613b0edb1d089e20f78f0c7f4248cf35dee9620ae9c6b627098d5771925e",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/107.jpg",
+      "bytes": 58128,
+      "sha256": "08cbc71b2d89eaa0689d8cf8697b4e6573b788863c999aa3eca7441da57a5a47",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/108.jpg",
+      "bytes": 58405,
+      "sha256": "8b0341b4498466d0972b267fc0873ccb09f82baa9f5cd55f072727f6b65593c6",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/109.jpg",
+      "bytes": 58506,
+      "sha256": "45f50d4004509e9e4eecd80e3767b64053b855ea8ac98399210aec18cd3495eb",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/110.jpg",
+      "bytes": 58688,
+      "sha256": "ad0c5470bd32f717ff3230c801b8f6817d922603ac7544fdc16b39ca88da0afc",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/111.jpg",
+      "bytes": 58735,
+      "sha256": "b1f9493c55b4e819ff4c5b75d9707c70210d3a7cff03c6d620d0596a4db83307",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/112.jpg",
+      "bytes": 58903,
+      "sha256": "3f408353a8e5ba6b1fc240f74bcd538927bde6bb3caccd8e1489052c62d79c77",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/113.jpg",
+      "bytes": 58919,
+      "sha256": "0bba6aaa52fb7b18e029663f239fd9c2eb2c14b9bf13fa66fffaceb94928b3bd",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/114.jpg",
+      "bytes": 59044,
+      "sha256": "e6f2d5da4a2307483728ffd740ebbca6a45f0a189df4cdd3d6a60b1fe51be5b7",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/115.jpg",
+      "bytes": 59230,
+      "sha256": "77df6084b304da00b2555f56298a78aecf93c2f2ae67086319b6dd9a01fe3bfb",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/116.jpg",
+      "bytes": 59275,
+      "sha256": "3a5d7a57b9e5e19a37c47c05e5492b77d0e6106f9dc2c1ac7708b344626d46e5",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/117.jpg",
+      "bytes": 59514,
+      "sha256": "d27ce688f248e696153ecd55bcfaa63d8ae68e55759934734ccc6556c2bb48ac",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/118.jpg",
+      "bytes": 59497,
+      "sha256": "08c80468a92a409a40b932994823a4257486232fc0d54270516ab7bb0f7e6eb6",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/119.jpg",
+      "bytes": 59600,
+      "sha256": "bc8d52dcd54c8d8f02d50e8b45b81a978e46ee22200bf5602b8f3f337a3cb342",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/combat/120.jpg",
+      "bytes": 59852,
+      "sha256": "89353b00a5a9ce2ab94a2f518e629e90257b8e6e03f361e12c0e7ab6b04a819b",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/001.jpg",
+      "bytes": 26953,
+      "sha256": "bc6c6843ad59a06b2752e2602767f1db81b80d26a3b6b2ea6a064d1d7ac24e62",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/002.jpg",
+      "bytes": 27424,
+      "sha256": "51904299bc3b8e405c47d4292ba1d21f3ab01d4a36884d9ccf08fcac75f3f26e",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/003.jpg",
+      "bytes": 27586,
+      "sha256": "0a9e1128f6e188c188c448c5e758c8b0fa9d40064ac63342774ef458f4286cfb",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/004.jpg",
+      "bytes": 27332,
+      "sha256": "ba77475857451bfa438e47e97d6e9c718dcf6006f21da3894a5bc677719a6e6c",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/005.jpg",
+      "bytes": 27240,
+      "sha256": "f723cc5f1c4b1705c3591d5902fad5cf80f57faa81096c9ff12db57c05982233",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/006.jpg",
+      "bytes": 27345,
+      "sha256": "e0d7bfcde4773baead5244056c0650d1bbb8c7a1389e383b8d2b1982a4dfb336",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/007.jpg",
+      "bytes": 27491,
+      "sha256": "dbce72ba12ba34091534cb84d6327b9dbf90dbe77bf6015747ea697e0d83eaa7",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/008.jpg",
+      "bytes": 27256,
+      "sha256": "78231ac3d56d4e71961fca1cba16aa1c5bc0d326c1e0a9f63a416fb6c0d1e90f",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/009.jpg",
+      "bytes": 27423,
+      "sha256": "102b5553d4ef000e28599c0d926a723f0b578ecde63090f0ac9df213929c7700",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/010.jpg",
+      "bytes": 27564,
+      "sha256": "4f483594cbd3428be6866c98d6c42c6f2210403ce16539b51299c654fad28b9a",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/011.jpg",
+      "bytes": 27759,
+      "sha256": "b97559899338caa89bf14f84a281ecc44d10bda530218e4e97aebcb69a1f1b71",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/012.jpg",
+      "bytes": 27819,
+      "sha256": "66c4b9d1df4b6039994d7673cf2d206bf01a0be01e561b16fb37551fe5db97ce",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/013.jpg",
+      "bytes": 27827,
+      "sha256": "19a55c7d0e294b40606a4edfef096dade10d66c03844c4917e8e605acbe71620",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/014.jpg",
+      "bytes": 28424,
+      "sha256": "43864af5ecc0688ac6af954c4f8b7cbae388f5565585899abb3d8f3d1a15be68",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/015.jpg",
+      "bytes": 28940,
+      "sha256": "a607cf66d16e86f16e1891234c11286b7b6135b822c0c7ad8af1697dac200e0d",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/016.jpg",
+      "bytes": 29088,
+      "sha256": "3c73391b968aa1909ab40d2d62a703f4c8a85c301239bc419ee73234486b2477",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/017.jpg",
+      "bytes": 28948,
+      "sha256": "8dd88f75fdc43ddca408b6abd3a1b48b1ea66d88338abebe892885320172e3d7",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/018.jpg",
+      "bytes": 29216,
+      "sha256": "74f5dd4d24a93e98e77458c0269e87539e65f611e7e07091a3dfa6a7690f68cf",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/019.jpg",
+      "bytes": 29376,
+      "sha256": "7d7b621dd8541cc0ee187cbc85db0e1caa1568d9379a99ba1fc8376c5d45edb2",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/020.jpg",
+      "bytes": 29696,
+      "sha256": "3e135e195e06ef4aa750af2ac6813cb923ee8fd256952a68a3b62e7d268007bf",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/021.jpg",
+      "bytes": 30082,
+      "sha256": "8d8ed5a9ce4626487ecfbb57c3d2b659beaca61bed64ad6e6ca0b48d36b2cfd3",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/022.jpg",
+      "bytes": 30311,
+      "sha256": "3af5d2f97277335e4116201d9c3ae010149c0c3dbfe1ea9e6226196d8629479c",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/023.jpg",
+      "bytes": 30263,
+      "sha256": "2960cad524f0382cb5f4b2caf04a45bd5e48552f819552c49fbf0f5f8df05c94",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/024.jpg",
+      "bytes": 30199,
+      "sha256": "5a830de9e2263a27b28f14f7a66eaf770d828459feb71cae27c078ef81c60840",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/025.jpg",
+      "bytes": 30314,
+      "sha256": "3663a4e7e8b1ab45438f4b92f56e8b81433264790927dc097896ef893592683d",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/026.jpg",
+      "bytes": 30408,
+      "sha256": "80e5f8ccfbcf03add551bd87242735c95316e8127deb71e297b3c2d0a85e6d4f",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/027.jpg",
+      "bytes": 30591,
+      "sha256": "1b0c36782dd20812c2e439c2ede42119d47e7caa13ecb54dab496a06a6aa83a1",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/028.jpg",
+      "bytes": 31024,
+      "sha256": "933d33b68567a044ec60f45989d510590600bc7ea1ce39e80bd5127765c3dabc",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/029.jpg",
+      "bytes": 31112,
+      "sha256": "ebe2c7519f17bfde0b3cb549e2f49a6677d0039cd165644761334e4367f2ee16",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/030.jpg",
+      "bytes": 31293,
+      "sha256": "1ccac9db86f0b44ce1e030c253103eb565f67c908cc0a8c7886c4060d9d4cc39",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/031.jpg",
+      "bytes": 31050,
+      "sha256": "25f5ec06f0f16ccfeabec9bbadd16f3f57a0593a6741a93d882d0e181a763c9a",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/032.jpg",
+      "bytes": 31127,
+      "sha256": "2c0a80b7b46f1595b45ff53f82e23c0cb3a15bf7a7a9057b69d3abbce003f4d5",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/033.jpg",
+      "bytes": 31218,
+      "sha256": "c83536be552a4877beb599147c0a5e4bab3a33574c5d494ceb7f96ae5e078df1",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/034.jpg",
+      "bytes": 31434,
+      "sha256": "1b4b45f19433bd98a74521ceb4a3d1012eea675f6e9e662e39aabb6c34912f48",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/035.jpg",
+      "bytes": 31890,
+      "sha256": "8801f88ef538b096b2a5a354a0199faf62a222810d5d4f42a45b65f8562cdff0",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/036.jpg",
+      "bytes": 32320,
+      "sha256": "5d9b7e4c5d25641d0d2078db9ccc2852817c6e86221db31cced79e4f8565eb96",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/037.jpg",
+      "bytes": 32485,
+      "sha256": "9a6c239de1e729fce54252b5493e533f8143c81d995a03170bff2392ecbf13f4",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/038.jpg",
+      "bytes": 32668,
+      "sha256": "6ec70423e1f340136be1db3aa5dee5831307630042a7758e62bd37567ac93b7a",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/039.jpg",
+      "bytes": 32647,
+      "sha256": "edcc8b632c801646db7ddc9835c51a810c3b70614b699e66c406f8c3e7176992",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/040.jpg",
+      "bytes": 32630,
+      "sha256": "3b0147bcb62c5ce8913b6d2f9b456b418b4cfe48a71e8563ee62e599599d2028",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/041.jpg",
+      "bytes": 32882,
+      "sha256": "87875858efa6826d836ef26ef9baf8b349743360a2aa5dfa6bf436b1ee45bc5e",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/042.jpg",
+      "bytes": 32628,
+      "sha256": "38a0f30ea9ad7f4a27d027ea1c911e93cf2a6e20b8987925424f91738e770ed4",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/043.jpg",
+      "bytes": 32755,
+      "sha256": "9fe0e250221310343ae43a6a8774a7cab27665b7f7c63b829afc7cbe6dfb8dd3",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/044.jpg",
+      "bytes": 32878,
+      "sha256": "3170e5b7bbd168ecf406dcfd15aaa1b8ccf03f18473589044e1b0919a1f860b4",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/045.jpg",
+      "bytes": 32695,
+      "sha256": "35a416d1292171bf16d8f6598233913b390271cf7c86b0053bbde7b0f8bfd91e",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/046.jpg",
+      "bytes": 32826,
+      "sha256": "ec914a89fe79a6b2011c3a88e44b04c06e9501297698e0a8ef01ac8210eb2a10",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/047.jpg",
+      "bytes": 32464,
+      "sha256": "a2745b707bc44b14f8b94c147a64233bea70919587279fd27fad293614576a05",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/048.jpg",
+      "bytes": 32885,
+      "sha256": "eda0e2e5ae17ba4f4f61c23ec0cd3749644d486c1d192a7245f5f042dd832501",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/049.jpg",
+      "bytes": 32962,
+      "sha256": "90a6b902f9b815ec3459455b6ab048becd769fd299885aec58f949636980b6bb",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/050.jpg",
+      "bytes": 33205,
+      "sha256": "ee8cd23ac4cce38680ac4690fe207a9913a7930358f8c22753c22b36ae8faebe",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/051.jpg",
+      "bytes": 33079,
+      "sha256": "e93d9936c485d21df54c61ec61d4ad1db9b771deb6c06923a0dd1ae5a3128916",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/052.jpg",
+      "bytes": 32893,
+      "sha256": "59807a93e4b74f811e9d419ea2146d81e19fa33d236d6b4733aedcfe17c66a22",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/053.jpg",
+      "bytes": 33291,
+      "sha256": "ea818d90136e6b6666c357451f71dbd99df567f75319f23c6a5b00b3923e4cf4",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/054.jpg",
+      "bytes": 33309,
+      "sha256": "0707c67aada206bc09d03d57b5b93fdf101d24ed2af17dd5f2299a9c43789daa",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/055.jpg",
+      "bytes": 33184,
+      "sha256": "463eb183c74992430cbc5295cb160d91b19f32b7902848eaa5c80ec8316aa884",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/056.jpg",
+      "bytes": 33321,
+      "sha256": "591a7debe3e62c7349e459d49d0c5015b5d6c823c5ecbc355fc8d2f663f26cb8",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/057.jpg",
+      "bytes": 33482,
+      "sha256": "e83b86954cb120fb52567fdd87b07097deadd19578e25201a48a925940a0ee09",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/058.jpg",
+      "bytes": 33594,
+      "sha256": "32aaebad7ed582ebc472839735824c50986eae6b8ec8e9fd33b6a340e9d396a7",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/059.jpg",
+      "bytes": 33808,
+      "sha256": "7eac96099984b2cdb455fe77543449f0bb27811db74f7542a2c8c39e70df7b7f",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/060.jpg",
+      "bytes": 34292,
+      "sha256": "df05ed0ea43c09ede22aa4a2fd541ee3276348ce60bbccdc98ea803dee325e2b",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/061.jpg",
+      "bytes": 34417,
+      "sha256": "3471fdb7a1b6698b12cc4351bde4ca1f18408c4de87a9ea943a90a79b274162b",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/062.jpg",
+      "bytes": 34610,
+      "sha256": "c4b26f6b22e395d8e067ec2f738dddc3d0b360558cadfa8156c0b06df5043db0",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/063.jpg",
+      "bytes": 34877,
+      "sha256": "cf59f79b2414ba7b9300e47029f1314ee794d198daf5c1a625932c99c160471b",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/064.jpg",
+      "bytes": 34761,
+      "sha256": "28efd5225298d91912ddeca59947329359c17d38fef088a103699520981fc3cf",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/065.jpg",
+      "bytes": 34482,
+      "sha256": "956af2b0413232d10aad527260d38c8dbc83da3d44b935f9c2f7d7fc4d13e7fe",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/066.jpg",
+      "bytes": 33992,
+      "sha256": "904e0ece97d12d091e3aa660c27dcb2fc5f1311454f0f3501eccca22c06491b8",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/067.jpg",
+      "bytes": 33805,
+      "sha256": "8151b9b1ae75b5a7dd5e515428304a863c19ca4a49ab9d4185bbfdfe9679057f",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/068.jpg",
+      "bytes": 33495,
+      "sha256": "2142aea1bea560a47f61b6722faaaa23d745cc0855ab3d75b87653509b14889c",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/069.jpg",
+      "bytes": 33491,
+      "sha256": "8bb95120f703932a07e941c8365a52a757ebfd73190cd51adceb7c1328c8ad3d",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/070.jpg",
+      "bytes": 33381,
+      "sha256": "a29b8e6248de7502a7efb475404d071494cc18f4ad2a9061f12a0df2dd12f546",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/071.jpg",
+      "bytes": 33282,
+      "sha256": "79469d76792877cdfa062988dbb8669ff9f75d5dce2f74ba4ac17e2fc81fab9d",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/072.jpg",
+      "bytes": 33414,
+      "sha256": "61c59b27b4a34c43f2834dc813d62143ee66f786c003263a9620f47bb81d4ab7",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/073.jpg",
+      "bytes": 33450,
+      "sha256": "9e404362795ae82aa3c738ca12f4436e555b1d8a08286220de83806c465857b9",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/074.jpg",
+      "bytes": 33204,
+      "sha256": "879917aafdbbb9b25fcb85cde28df92cee31f8bfd74e37d46171d554e790f7f1",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/075.jpg",
+      "bytes": 33284,
+      "sha256": "6653b0d157877a70eac835b45579c4059b6043d052b74c57ca746676af993549",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/076.jpg",
+      "bytes": 33579,
+      "sha256": "1bfb567bc27d1303a2236ba6bfaeacf99db75fe2ab0d09b320e5aa34fa3a5dd5",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/077.jpg",
+      "bytes": 33813,
+      "sha256": "367b392e34f341eb994015ae495e3124b12a83932464a1944f18de57976b5d23",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/078.jpg",
+      "bytes": 34105,
+      "sha256": "04017535f92413b27615f1a638d6724b747f04fea2fad84e12d15d5f71db0830",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/079.jpg",
+      "bytes": 34027,
+      "sha256": "dd91be1417871bc51c947e22249bf245dff5e20b49976493acafc30973ddc368",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/080.jpg",
+      "bytes": 34003,
+      "sha256": "d359c23b49fad8afc6832e92b7ac6c2beb86decc6c2e2a20f8b9f5c6abc7debf",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/081.jpg",
+      "bytes": 34023,
+      "sha256": "bdd82c4eed06ffab8f4635dd268df12d4c575a8c374f444449d96682ace72841",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/082.jpg",
+      "bytes": 34757,
+      "sha256": "2622cf979aa498bae7a3e60c7297b34f6565c1e6106d12ffbf7e0e76aaea7505",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/083.jpg",
+      "bytes": 34661,
+      "sha256": "c0744867cb2b382cd93860e1decd2436ad574e71969c523cbc379408c78a56f5",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/084.jpg",
+      "bytes": 34869,
+      "sha256": "8626ff58cb4d2dc0eeea0a9c701e6f69d06dc080d8e827b2afc938df6388be9e",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/085.jpg",
+      "bytes": 35158,
+      "sha256": "f91fc2b43e0ce24cbbe0a59f0632bf7dd801cf27ba1e0a22985609ddaecb7ed5",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/086.jpg",
+      "bytes": 35583,
+      "sha256": "11640d641d6fb8382ef3992a0c3da389a317e27e3e114636e370483893dbd314",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/087.jpg",
+      "bytes": 35633,
+      "sha256": "2581c38d27e19f46116f075666e520bddc1c22aa857a2173c0df4fc8fc9c92ee",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/088.jpg",
+      "bytes": 35930,
+      "sha256": "8b39d7f6753fd9de4d254b0da03a97d80d6e12e5d0c6e63a91f8db88ffe5ab32",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/089.jpg",
+      "bytes": 36028,
+      "sha256": "e668b92dca6844a3ca71c09e9b1a6423f451ab54f19fe2fda116d23eff198acb",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/090.jpg",
+      "bytes": 36255,
+      "sha256": "8440ab8c1dd4627ecf91df3143399496d970f153b9b09599296e4d57209ed2a4",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/091.jpg",
+      "bytes": 36691,
+      "sha256": "63e01af84a1a96f4ad4d999d5b1d930ced435ae8038dce14b61f7a75fd7e6c2c",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/092.jpg",
+      "bytes": 36776,
+      "sha256": "8c3e29c700c898acc8f88b3c03f8b49641397b265995cc1769c0938d64b52692",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/093.jpg",
+      "bytes": 36828,
+      "sha256": "a0be86748cf5fbdf6f486d90df1c3b6c5e2d7a54746a131fc700b6990634c056",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/094.jpg",
+      "bytes": 37488,
+      "sha256": "44b42b386753da2c04e5cd58db705c18ab3ccc0aa53ef067b8b211aa1036ac49",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/095.jpg",
+      "bytes": 37890,
+      "sha256": "53fcbb1f7dd856e366739bec46442d15d11a964a5177e85059910346cbba641b",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/096.jpg",
+      "bytes": 37972,
+      "sha256": "0e43fc08f003ccaedca606dded52a54f036afb6bc69657f42b74abdad972a867",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/097.jpg",
+      "bytes": 37676,
+      "sha256": "8a4affe999d54d2a784f7fd36f25d061991e18d899c23926d5e6a817c4cc63a1",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/098.jpg",
+      "bytes": 37717,
+      "sha256": "285a09fd361d87a2af7be87bfc146b0e6d3c208f5986d7e27657bc4128ad51a9",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/099.jpg",
+      "bytes": 37766,
+      "sha256": "145ec3af250071ab0e33a6776314b842dd87e0034d7bc314030299bb95b3ba83",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/100.jpg",
+      "bytes": 37781,
+      "sha256": "3db5a4fc00bc797d1f4e6ce05bb6590c15c295dbeb415d043f3bf15d29de2b1e",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/101.jpg",
+      "bytes": 37749,
+      "sha256": "24655fbe8830efa75d6f06bc233497fa55dbcb015da5e9b4ff9f3eed98de8b63",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/102.jpg",
+      "bytes": 37666,
+      "sha256": "3c20451310a6e19db6ffe0edacb50b3ecd5b93cf9f629e3aa68961b9da78713b",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/103.jpg",
+      "bytes": 37691,
+      "sha256": "10a653e82b21cae91621a41562637f8e608adb2913a8c5d09f7f52082836f070",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/104.jpg",
+      "bytes": 37384,
+      "sha256": "d68542964ea2d0156460558600a5c092a83503a9bfe1806b78f876523655604f",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/105.jpg",
+      "bytes": 37420,
+      "sha256": "d65698ec68a0e4f9a08f6c71158cf40b52ff11825679c5b32a780194664ae2ee",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/106.jpg",
+      "bytes": 37443,
+      "sha256": "b8b6afa3ed15455c006b2196841572dc517ca3d211c97fa7de0d2482b4349f1f",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/107.jpg",
+      "bytes": 37547,
+      "sha256": "d30e1a95855388cec0720fef7943b20ad216f35c916ff3d0acd6ac5056eee140",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/108.jpg",
+      "bytes": 37705,
+      "sha256": "34dfd36b2c6194872a05c5f5e6327e96b8fb920070e45ef9293de37fb5a4b8b9",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/109.jpg",
+      "bytes": 37876,
+      "sha256": "4e2488cacfd1689faadcaa0585eb99c74f7865d8652a26fcb344057b9bbfda24",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/110.jpg",
+      "bytes": 37884,
+      "sha256": "ba216fc408c06c8bcfdb72eed436d57df874f77f07b0fb57245a36ddc8c0c80c",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/111.jpg",
+      "bytes": 38038,
+      "sha256": "01efb1e522e1dd7a1331aca2ae0dfe94c36383f635115622d669f886bfc827f1",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/112.jpg",
+      "bytes": 38226,
+      "sha256": "8766cac56c7eae1de5fa37a4665bbe7c063e92c1534955609834559fc85374d4",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/113.jpg",
+      "bytes": 38160,
+      "sha256": "0a5485e1048c03be3327319f0d934b2e25fb46582b8ecedb54098dddc150e714",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/114.jpg",
+      "bytes": 38057,
+      "sha256": "ee5fd291697420443a70e5dbaa8456ce88eb3045ae1c8e1b1ab91029fad0e708",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/115.jpg",
+      "bytes": 38196,
+      "sha256": "a8102db408f767098909f7300df4cae04baf6bb25c0f8a44327322a3fe8b5aa4",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/116.jpg",
+      "bytes": 38196,
+      "sha256": "724aeeddf9409626c6d791500d7645fcdfe60f7ea230312782373eee7f12cdd7",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/117.jpg",
+      "bytes": 38230,
+      "sha256": "b3a70087e4571ac0cd271ffce0f7e010390aa441a353d34f0bd1149f11a00ce0",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/118.jpg",
+      "bytes": 38312,
+      "sha256": "fca85a790a1f44576fc7b936d258c738aec62fb079c5a380938baec04ade2825",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/119.jpg",
+      "bytes": 38278,
+      "sha256": "e5ccf512f6b200fa09ab3e993fe83738e523c9ecd5d16bf836f933db135fb3d1",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/stairs/120.jpg",
+      "bytes": 38164,
+      "sha256": "9e9fbd9fdfa4346d252aea9f0155293cc7e9fa5bc5de72fa71e04f9edfea1977",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/001.jpg",
+      "bytes": 43135,
+      "sha256": "d743ac4ef0da7fe5b1c6bbfae13f370ace2ccbd340131e0d5f9a5d9655ea8c3b",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/002.jpg",
+      "bytes": 43193,
+      "sha256": "c44508e17614105de237f686b71ee3c4893fa895ee312e0c030cbd280d90c7a3",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/003.jpg",
+      "bytes": 43421,
+      "sha256": "16d101bb28aac938bef661d51eab5f4ac5713ece5145f3761160162dbfdc03f5",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/004.jpg",
+      "bytes": 43866,
+      "sha256": "5a70eebebdc07ad01640b648967f3477dbccf393e6d4e00073e618b9f5c60c9d",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/005.jpg",
+      "bytes": 44248,
+      "sha256": "92cd9f8bfe96eb062ef59de4c7452e222065bb99e2041dbee85c0c60d7356d06",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/006.jpg",
+      "bytes": 44276,
+      "sha256": "64d6e101ab886aac912e55a6761178ceb2803b2d9569e232610b81b8346a226e",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/007.jpg",
+      "bytes": 44326,
+      "sha256": "2f107472ff29de9ec415f163366a3ae0adcf34cfe00f0e5835779a7f76f7de0f",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/008.jpg",
+      "bytes": 44558,
+      "sha256": "1c5b04bc568f7b8eea7a60de509b2d124c469efacd78d756261443a03c54bf85",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/009.jpg",
+      "bytes": 44295,
+      "sha256": "b51aa177f56e94311efaac043bce29496f94c9f88f8058ada9ee9e99ccd13647",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/010.jpg",
+      "bytes": 44150,
+      "sha256": "d9ed120ec5bb5cc19294be651acd8ca92e806ac68120cff5860389cf5d8312f4",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/011.jpg",
+      "bytes": 44247,
+      "sha256": "ccac559d8cf5b11dd8c45b0f5468b2ec58fd45c736597498673ca9e63a267ef8",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/012.jpg",
+      "bytes": 43922,
+      "sha256": "76e0af13de54b4813cd1bc75481e43f42accb210ac8324220dc3d5f9e5dde5c4",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/013.jpg",
+      "bytes": 43800,
+      "sha256": "0f78629b61ce2f44d5bf658ecc6596e89b69088eee093e0921b33a18f1104cf1",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/014.jpg",
+      "bytes": 43558,
+      "sha256": "5309f12fb27f3fd88fd39367d5ea0fb95b4be62f7b37c138fa6bdae945e4dbc5",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/015.jpg",
+      "bytes": 43762,
+      "sha256": "82a637d6fcc33888c847232d8e17f5dd9980e67ac6e0fc7378b8dcc116429a48",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/016.jpg",
+      "bytes": 44526,
+      "sha256": "783d58c5270a85abcdd0fc7c0383f294816cb6355bd7dd6ab5deefd9a7b608bc",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/017.jpg",
+      "bytes": 45817,
+      "sha256": "3ead2cb8a8b42b6b5036928bf48b41a27d6c7819d34f9f25cf46209609ea7a8f",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/018.jpg",
+      "bytes": 46290,
+      "sha256": "974e3ff9a5826751e0d33d016926a703145455662b5bfe981c10f1c4b4f851c0",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/019.jpg",
+      "bytes": 46980,
+      "sha256": "285e9960ca33e94cc3b8599a7388c3f2f9d693d5dd0ea4aec74b7309ba598257",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/020.jpg",
+      "bytes": 46296,
+      "sha256": "74114f7ec86436bb207540cd888da3bb793c225b0681cda32ae8beb185a036c9",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/021.jpg",
+      "bytes": 45741,
+      "sha256": "0f1a2071d577144876857472326a96067fad4ba39faad29d76637badf9e6653f",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/022.jpg",
+      "bytes": 45203,
+      "sha256": "7dab88c24c44bce15cbe77b7a0a6b68997b97633db4bd70ce101fca03df67467",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/023.jpg",
+      "bytes": 44800,
+      "sha256": "0cfb2495ab3681bc273266426799b3110cbfe01fdf495897bf5c6c8a5c2e15d9",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/024.jpg",
+      "bytes": 44493,
+      "sha256": "114d3d9233230732c1481ff02312039b415372a20411d1bdfa34dc62fcc0d923",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/025.jpg",
+      "bytes": 44522,
+      "sha256": "13f8991798c1b3a400505caa859f13cf994f7d20134327bb706e967fe755752b",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/026.jpg",
+      "bytes": 44548,
+      "sha256": "337e2104bee378bb52efb90afc590731c801b35d1f9600881cad00490800c456",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/027.jpg",
+      "bytes": 44342,
+      "sha256": "181c7b9ac2a2fd9926d32f8d8cb5d4c22382581ba9085d5340ede3ea1a3b060b",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/028.jpg",
+      "bytes": 44544,
+      "sha256": "f5026255ba0da21979a5d18f09a19a9d05824af229932fefe894eba26ee6b5e6",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/029.jpg",
+      "bytes": 44570,
+      "sha256": "6737686556bc41ccc667fdffd48f464a2721e9bc3232e35f4347f015a10574ef",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/030.jpg",
+      "bytes": 44773,
+      "sha256": "741365e3ce08e83adb8836ea942fe38b20f0a2817cc0a415a329184cc21a2e0d",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/031.jpg",
+      "bytes": 44774,
+      "sha256": "31e364709228816ec7d8dcfe1a47339de0d85ff8441e68da5c6ff43d341f85e8",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/032.jpg",
+      "bytes": 44694,
+      "sha256": "8f290d2b6303ef77f69f649c1aefa9e8a1a06cdd449c18e9a7d532b0a2da5772",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/033.jpg",
+      "bytes": 44595,
+      "sha256": "98f85881c3cfc0dfdb1256adf3b64f4013dbe40b9406436919ebb2025cb81bc5",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/034.jpg",
+      "bytes": 44689,
+      "sha256": "5593e95e73067b644118df58e4b378e0a42bb3b265942c2a274f1eb6cae56c06",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/035.jpg",
+      "bytes": 44904,
+      "sha256": "a08457e0563c8d3419eced07f50e872c12e671b059aa0132102013c9c8a9f8ea",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/036.jpg",
+      "bytes": 45636,
+      "sha256": "fb4c83539566083d0586039a779e57a92fe2c697b4de70da9141e0aeb3cb6322",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/037.jpg",
+      "bytes": 46329,
+      "sha256": "0129956fde6802df601c9b4c5276f691214df72aa2b8d3a33aef529c6b163ddb",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/038.jpg",
+      "bytes": 45826,
+      "sha256": "9e92e945b897c0e9a2e4a25ed244b2ba4ff25bc860ae0a9ce7099f22f7d4c8a3",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/039.jpg",
+      "bytes": 45500,
+      "sha256": "55c5b05663478c12eee495a2aa9ccf84eed7e3c5af1556a5b810576f1aeb16be",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/040.jpg",
+      "bytes": 44982,
+      "sha256": "132ab7a72e1bc378087ddeee2695400b4141d29d60759cc140f0dc6576ce9857",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/041.jpg",
+      "bytes": 44858,
+      "sha256": "90a3aa03c3e2c7474e89be923f2a99cd468ed15a46ffc5abca29f6ebc2ed2d98",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/042.jpg",
+      "bytes": 44691,
+      "sha256": "a6d454b8649a52f086d975ed8590506f03d7c3f4926f8a9b09c2049025b9098b",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/043.jpg",
+      "bytes": 44564,
+      "sha256": "38c6dc449d294322907d4e111a5bfd5a2d7d955bb4619c0892bcd19cb44ab9fd",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/044.jpg",
+      "bytes": 44560,
+      "sha256": "ca7aba326de6ddc27d4deed841a98646d0fe1763af017657a0583fac33500fc1",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/045.jpg",
+      "bytes": 44135,
+      "sha256": "651092072c9e9de444debac09e1db24d4ec54016990fd264099e827afd9b301b",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/046.jpg",
+      "bytes": 44354,
+      "sha256": "d3056da6136901bc8591c5e8c8427096b7b7428e14afe009eb631462a0b649e5",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/047.jpg",
+      "bytes": 44896,
+      "sha256": "864ea27f40713e3a0490b1aa2ebaca62114e71a111f7d2daa1c0cff0efa571f6",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/048.jpg",
+      "bytes": 46327,
+      "sha256": "00407424452be8c12a323560f6c5197ee791e2176e59965eb28afa98ac3c5642",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/049.jpg",
+      "bytes": 47273,
+      "sha256": "69be4ec46f570e22d7c3e7ac9fc8d7e276e2a5a47d5522eca5c49b3b1b56350e",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/050.jpg",
+      "bytes": 47802,
+      "sha256": "0fd1c6264383c953a03550d58c718e4ca53692af935c345ab01e0e8c21ae85e9",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/051.jpg",
+      "bytes": 48010,
+      "sha256": "1b0d832244d0311f1c776f8e8b4c52779b3f8c6646c300cd5c549c47460d795b",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/052.jpg",
+      "bytes": 47977,
+      "sha256": "f0ae9387396af12530051a6b91af0762225ffec15c4d723a4cad8d362906b2bd",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/053.jpg",
+      "bytes": 47330,
+      "sha256": "ae2fb8b0c3e0179b37c5450cb7e9a0d0f86f3f8a50095aa5b171a90470ed68dd",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/054.jpg",
+      "bytes": 46669,
+      "sha256": "72274ac75a59a36bd067c1a8599bc4fa2d873637941696c6c46b735e81f603ff",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/055.jpg",
+      "bytes": 46092,
+      "sha256": "df81da23c6a97cd987f34a7cd3f1edbb067f282a99a360cecd574270b65fa828",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/056.jpg",
+      "bytes": 45577,
+      "sha256": "e4fda87eb9713cd2228ec4d4f09cf75fa297ad681db5ec0eb1969f1d2cff47c3",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/057.jpg",
+      "bytes": 45077,
+      "sha256": "ff2e89edbd4bbb50a066cef3f20cf205988466c899579104a5504498e4809adb",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/058.jpg",
+      "bytes": 44718,
+      "sha256": "541a21a65a440607f2aceee695bd5048c91c344a6c0606331e93634e771dd9dc",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/059.jpg",
+      "bytes": 44136,
+      "sha256": "ed57990a160a82340637b78717c87f63fae514bf76f4dc364d1d6f3911bb1955",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/060.jpg",
+      "bytes": 43969,
+      "sha256": "e73178c11f82618dace4236e9899e8ffaed2f729df96c40e2c4503ae987b9af9",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/061.jpg",
+      "bytes": 43970,
+      "sha256": "451734e67608c236ba5796afd3ab5ca35ff4ba92dd15a896f240bcf387787946",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/062.jpg",
+      "bytes": 43904,
+      "sha256": "6fe18344cce8b1db87923c69a647017a6358317faec914e515ccf3211d5c0277",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/063.jpg",
+      "bytes": 44319,
+      "sha256": "77b85544a1e65c5b35469df868c1c16238eb094db6fcc1da41ea0553dbdb3e4e",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/064.jpg",
+      "bytes": 44524,
+      "sha256": "8ba22977be539ab3b1fb59d79cce78ee395e7a281d77d6cc3c552ae803b7e767",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/065.jpg",
+      "bytes": 44716,
+      "sha256": "2557a63b1caa60289b75437e70a996c41e2d42e52b6ce43f91f307a8fb1833b7",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/066.jpg",
+      "bytes": 44459,
+      "sha256": "e4c6d5edcb1ae5aae5024655b84f145ba04989a90ca7204ae40da9d0200057d7",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/067.jpg",
+      "bytes": 44440,
+      "sha256": "5803ee663ef1f342fb0cbaa6beaa219a02d3b1f1f3ba7836c82c353155f34cb6",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/068.jpg",
+      "bytes": 44218,
+      "sha256": "3110922463cfb409abf4aaab6c2f39e91b4c0afaeb3236e43d1fda4c9b165b0b",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/069.jpg",
+      "bytes": 44332,
+      "sha256": "01bf60293da259436de4ab62ad3c060d7d283f94fe366d4c7bb21080aef8f70f",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/070.jpg",
+      "bytes": 44299,
+      "sha256": "4d946dd69cd06b51aa3416527f766fd75fcbb2bf6ea2fa38899f77bde05afa7a",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/071.jpg",
+      "bytes": 44279,
+      "sha256": "dd4bca591236995c1e28e8470cbbf0248a07e9c886e7e1711a413a921abe8f16",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/072.jpg",
+      "bytes": 44514,
+      "sha256": "6099dae1b0c0cea66b321300fc6d2976adc72fe44a5c009bba4808e6f5ee4b1d",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/073.jpg",
+      "bytes": 45116,
+      "sha256": "59c4e71ebff6e1e3ed60e2b26e21b9186dae33549c81b742606a7a7bd5c5686c",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/074.jpg",
+      "bytes": 45242,
+      "sha256": "edf96131f620b9aef1c6fb69a4acb708f6bd99a9f5d0f9af127e0fbe33676b01",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/075.jpg",
+      "bytes": 45295,
+      "sha256": "58a46c30f76924e587f8f5f08fdcb63fe012487d8bc06e2a3b8d3dd1a367575c",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/076.jpg",
+      "bytes": 44945,
+      "sha256": "25581654213d4e8b2fa8f82b20cd90b649fe3c16ddbbc9b8af23894eaca894b3",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/077.jpg",
+      "bytes": 44680,
+      "sha256": "990a8f79576a11b1a650f35f72f6b826b0afa0d48cc8ce1704f3ef30a22717f0",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/078.jpg",
+      "bytes": 44867,
+      "sha256": "1813d57143157259da58527ac1c1b351dc56df552413a37983d1089959140c8c",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/079.jpg",
+      "bytes": 45493,
+      "sha256": "6ddeb2f5c71cdbcb2a1eb27870b7478923204507b4759b2f1de21fe9f9585fbc",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/080.jpg",
+      "bytes": 46352,
+      "sha256": "9fd19e856b88e748d93e1ab416e18b292caec49c9c005ae1e34cac8c2a5e5bf9",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/081.jpg",
+      "bytes": 47646,
+      "sha256": "7c48e7d372e33d8019069c860bae873ba196a8485037a3bdcdf78dd12c05dc55",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/082.jpg",
+      "bytes": 47340,
+      "sha256": "ac62cacc3c4390e3854197232ef63c6d01556b9e26bf4439060a5abaaad06b97",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/083.jpg",
+      "bytes": 47391,
+      "sha256": "0abefa947d8d801cf67f2b3b8e778857005f89a10b5a11765f131bcebf7e11e2",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/084.jpg",
+      "bytes": 47124,
+      "sha256": "0382d76e8d6828b80790ff6124a5afbaa6bf00e9332563d170bfdf8b64f7f8ac",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/085.jpg",
+      "bytes": 46585,
+      "sha256": "a6295a591e7848f56d690b57e81acd733dda2741e5b0147c783c2d091228ecf1",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/086.jpg",
+      "bytes": 46014,
+      "sha256": "f8b837ffcaa8f566093a534d5b47dc29f67d224935003c4c5301c5e21731101f",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/087.jpg",
+      "bytes": 45092,
+      "sha256": "33813765f408c8540a162edd778c79a301fb152a15a1a05067c05988810735c6",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/088.jpg",
+      "bytes": 44869,
+      "sha256": "cc58ba681c7d47cd24764f94b68ff32417b6a81419b58ca9abc8a3ff0cd839bc",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/089.jpg",
+      "bytes": 44893,
+      "sha256": "7e507749017f6603b55b6d7dc736ae50d791390b944ced02957b07738aca9d16",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/090.jpg",
+      "bytes": 45111,
+      "sha256": "c638bb6dfe7551408a526ce6c331b3a863570790954a32ec97222b4a01c8f696",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/091.jpg",
+      "bytes": 45043,
+      "sha256": "173cc992044a227898af76622edc689832235055c09f2c573d5c0bcff337cbd5",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/092.jpg",
+      "bytes": 44949,
+      "sha256": "14adb76ca1f96a8926257ca693b81f6348ed5e0a17ca45c466b1e9293b83e171",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/093.jpg",
+      "bytes": 44813,
+      "sha256": "1868cf358a98169655555209d6cb1114bd0d8598d8beb3142026d608f125ae38",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/094.jpg",
+      "bytes": 44821,
+      "sha256": "7bb823f1f689018264f8014d16e7173ca88d3a5c3d482343a116dc7976713b33",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/095.jpg",
+      "bytes": 44811,
+      "sha256": "c3b9560f1af340fbe0e93f2036e179a12cffe20d57de755999d597ce472ade49",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/096.jpg",
+      "bytes": 44678,
+      "sha256": "5dd020be71cf30df7577f7d2f415a6291e8a6ae6ecb583ac13a0fce00cf8f184",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/097.jpg",
+      "bytes": 44759,
+      "sha256": "d74b55689a5417a9ad3c46b009f46ccb76b289bf878999fac7a76d64da18ca43",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/098.jpg",
+      "bytes": 45032,
+      "sha256": "79022f6b50b17d8ed00c8b6bdf19f6a318312b478f39525dcec171152fc01fe3",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/099.jpg",
+      "bytes": 45497,
+      "sha256": "a59294357a5e22b64cde02b36a6fca953d52c3ab212dcba95657a54da1b15e49",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/100.jpg",
+      "bytes": 45754,
+      "sha256": "c56a7282821fc8566f837971da68afdd0f4476941d0587d57df9604c50b578c9",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/101.jpg",
+      "bytes": 45737,
+      "sha256": "fc1929cdaeca1cdd6f62f8106489fe8d076c298b5ebeed2ee20770bb3046b642",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/102.jpg",
+      "bytes": 45790,
+      "sha256": "bd9cd9acf9cecc8a87a24ebc599d0a789ff36606ae70e7b607f978b63bfd4739",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/103.jpg",
+      "bytes": 45783,
+      "sha256": "910ca97a3379b5a264405d548924eb617d0e65b22838932f756f523e372ee311",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/104.jpg",
+      "bytes": 45616,
+      "sha256": "814bdb77ae3701f21d16834dc11b8ebdc4c5bfaa6608e3a9feeaf9375176745b",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/105.jpg",
+      "bytes": 45453,
+      "sha256": "e1e77b331c5e11261e6f61c77e1170d7b7f3d3c318c10bafdcf94c4062674931",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/106.jpg",
+      "bytes": 45172,
+      "sha256": "5b0ca4a3376fc025793fca4d9a4e22c12940165edaa3f5c2dcfbc7766e79c6a7",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/107.jpg",
+      "bytes": 45389,
+      "sha256": "7b6ff2237e129854ba29c24b4f22ad1b5844c921d2687c874bfff0ad0a1a2fde",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/108.jpg",
+      "bytes": 45110,
+      "sha256": "7486c58a9088487317b3f805a647e29b51b3dea21855d8aeb84260e822fcdc89",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/109.jpg",
+      "bytes": 45326,
+      "sha256": "6aa6c32201c58cfeb086fce67a49860d03b0205774fe809655e341aef45e116a",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/110.jpg",
+      "bytes": 45992,
+      "sha256": "2b2856cab0ea24edd1063d0f5b789fe8cae884ebda7a4e961fb5a39f52e3875e",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/111.jpg",
+      "bytes": 46970,
+      "sha256": "ec7a710e933844f8b9b02e2b21869fe74dcfef960de99912ad2def8111ba7ca1",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/112.jpg",
+      "bytes": 47800,
+      "sha256": "02546cff74dd091b870c28617c21ae35165e75b8d91e897e0f8c9fe65722c3f2",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/113.jpg",
+      "bytes": 48250,
+      "sha256": "5f0c9efc9140bc0851bfb83ab392dec0d67a037c3b38680dee7fa43ad75b3192",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/114.jpg",
+      "bytes": 48644,
+      "sha256": "d48f38fceff98c3ca7d8f0ca7ae924546d0893b5f29522137ea8d36983ec92a4",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/115.jpg",
+      "bytes": 48757,
+      "sha256": "c13d699c2f02be913c030b7cd881fb20eab98156283ea66717ebd46b6db58044",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/116.jpg",
+      "bytes": 47648,
+      "sha256": "9f67b20068cfa08a3b8823631a203e7ba05dd786ae72c41d401d40f78431887b",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/117.jpg",
+      "bytes": 47216,
+      "sha256": "967bac55715c07c4a063f3142272f0b0ccf4766ed9b54eca6f788d9bbdd4d198",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/118.jpg",
+      "bytes": 46932,
+      "sha256": "468740359a61145c1c3cd26a47f60033c393bf57588ae3d6392b3dc68d771b23",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/119.jpg",
+      "bytes": 46480,
+      "sha256": "4dc06be63fe6c73154b90f492db233597e96fc8a226c17cad86c68b40098d18d",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "bursts/walk/120.jpg",
+      "bytes": 46055,
+      "sha256": "a1115c774008acf319e406f5e999aac24f429acda2595e823692e4d41ddc7364",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "current/bay.jpg",
+      "bytes": 110016,
+      "sha256": "96ed0de722bce67017314d9eb2f130efb4337fb948bd0877f1679fabc62fe623",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "current/character-runtime.txt",
+      "bytes": 670,
+      "sha256": "1ccb9fecc0b0760f4111e8f973778370b8934b92e187b00a3e84c27b1db255af",
+      "modification": "repository derivative or sanitized source record"
+    },
+    {
+      "file": "current/characters.jpg",
+      "bytes": 175162,
+      "sha256": "1aae99315aa9d1f710b1e6c9ef54c83183f38ed301c2fde79c90eac112652292",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "current/eastern-oaks.jpg",
+      "bytes": 201213,
+      "sha256": "3e0c2d1ceb21e1044120a651af0a0771a2ed855345acad32891b1b8a5e247474",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "current/landscape-evidence.json",
+      "bytes": 3776,
+      "sha256": "bd26486ba60c84f25bc2416ef09d83f91b471b7c91370947a1bc196929fddba7",
+      "modification": "repository derivative or sanitized source record"
+    },
+    {
+      "file": "current/trail.jpg",
+      "bytes": 145553,
+      "sha256": "3a06910258e3b1713db4ac1aea003fdcafdecf5f9b891a277cf541bf89423e61",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "every-frame-metrics.csv",
+      "bytes": 3818979,
+      "sha256": "10d038c7af6c5e188af29e6c7023571fc046c3d1fc37a2a24c12a7ec16096b1a",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "frame-index.json",
+      "bytes": 78478,
+      "sha256": "5ca0998bfad5f94a942f00e1c9c733fb346e2ba9d28e30855a966fa0d8b35b32",
+      "modification": "repository derivative or sanitized source record"
+    },
+    {
+      "file": "plates/reference-0015.jpg",
+      "bytes": 183023,
+      "sha256": "c5f67b0aef71fb8c471ffbcca4f013ca88cbad272ad2933536ea5fa309095998",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "plates/reference-0045.jpg",
+      "bytes": 236003,
+      "sha256": "dc828ad2ccbbb9ddb34edf567143b95afe14366d2bc2ac1c07b9669a585fa60d",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "plates/reference-0091.jpg",
+      "bytes": 125184,
+      "sha256": "ac2c30d75e5bdb2676d675fb0e3e7abb7ab81975c2cfa184870204e5b15505d5",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "plates/reference-0123.jpg",
+      "bytes": 109133,
+      "sha256": "9dd966cbcf82fce9dea25015b6fd783c2192a78a43fcf9cb3f831bfab8236d98",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "plates/reference-0179.jpg",
+      "bytes": 124213,
+      "sha256": "42d2f549670093b7142769be258cd2b79f2868e91f7f1efeb6e03a5a444fde24",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "plates/reference-0240.jpg",
+      "bytes": 131783,
+      "sha256": "67a1ce16f9d74089a58609b8a5f6222312628e9c271ebcd016d8a1dcd5e22472",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "plates/reference-0248.jpg",
+      "bytes": 148589,
+      "sha256": "8b2fb6248f9cf2beb8374eac2756eadcbc61e6fac1d30ce45e5d5b88196726ae",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "plates/reference-0264.jpg",
+      "bytes": 257660,
+      "sha256": "81bc51e1c94acd8ba9d9125bf9bcba37123185ccb68360b5aea98bee96206258",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "plates/reference-0315.jpg",
+      "bytes": 219720,
+      "sha256": "effa6499162f4734f91d578d63498869df9ed7c2b5971e9f1f5bd638cbb43f2c",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "plates/reference-0327.jpg",
+      "bytes": 320945,
+      "sha256": "14aad77e8b382ecb53678d811e8a256ad1bf9dd935ff9f09b5992e6cdf98dd9a",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "plates/reference-0410.jpg",
+      "bytes": 309206,
+      "sha256": "4216501ccff93e1e23d13392bb4628a59186fe4a1c290f28afc73ba14984a889",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "plates/reference-0545.jpg",
+      "bytes": 267254,
+      "sha256": "acaab603e69eb967075d58d81a34de5997865d9f60c555bf6f7298bd2072850d",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "plates/reference-0625.jpg",
+      "bytes": 350263,
+      "sha256": "89fbe8ce11ece3831becb9ca9fd606140a6ce7ebb0d6baa9dce3dae9d0cd6c98",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "plates/reference-0665.jpg",
+      "bytes": 266838,
+      "sha256": "ec940dbe2c5fe22a6f9417c5183f5f19f9bd5b2dbc84ade3ca3d444b66cf3b13",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "plates/reference-0688.jpg",
+      "bytes": 364566,
+      "sha256": "cdf069989a4cffff44c69a8efdc59f516970eb54c268cd7e8c6ab11f20e7c356",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "plates/reference-0708.jpg",
+      "bytes": 335529,
+      "sha256": "8453306ba260ac0ecff00885ff3abde8c7960a473d176a4eb826fbeaa99000e2",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "plates/reference-0728.jpg",
+      "bytes": 316020,
+      "sha256": "3da9029df63a6b8622adca662ae1f0e4ae8471e6d6af28ad9c9c4b87b4b16459",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "plates/reference-0736.jpg",
+      "bytes": 241409,
+      "sha256": "fb4ed009a135208a16a40864d57af54051449561af3b0cbb2b675dd36722e095",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "plates/reference-0738.jpg",
+      "bytes": 319341,
+      "sha256": "7219ee9828b5cb85f6e3ffca66bc61d553ddfb855f6b1f8e571bff9bdf8a0e64",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "plates/reference-0750.jpg",
+      "bytes": 192226,
+      "sha256": "c488fc949043e3c52a084e08e449132c8571a1f6785f458d26d375d72a00be46",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "plates/reference-0783.jpg",
+      "bytes": 277701,
+      "sha256": "a0a6cac6889f8e834b0f1a887f9a419a6ae31cd1200fa158272c9e98625f9701",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "plates/reference-0815.jpg",
+      "bytes": 347711,
+      "sha256": "7e412802b6992c4e7e6081bc21e7bf31221dec2b9a61a7d417c487c05c97ecaf",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "plates/reference-0836.jpg",
+      "bytes": 301272,
+      "sha256": "a2d7387570457c07767e1aa46ed9e63a762f500f510e46207223f9edf19fdefd",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "plates/reference-0846.jpg",
+      "bytes": 301589,
+      "sha256": "6069c1cb56d2ff7962b59ad4891823443f5471b2b61efffa0493d316fb538f55",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "plates/reference-0869.jpg",
+      "bytes": 327135,
+      "sha256": "81c85cc6ed96ba3615d8480eba205a09072a3aef475bfd9939f8d3ed66e5328e",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "plates/reference-0894.jpg",
+      "bytes": 254376,
+      "sha256": "32007b35b9be7b1eda12527de98e7ae341bd896036146aa14fa708b0327c5d69",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "plates/reference-0923.jpg",
+      "bytes": 231987,
+      "sha256": "9fb271074f0c7a20c52404bd41840336a4bb16d85b767e3f35fde5954d4716b5",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "plates/reference-0931.jpg",
+      "bytes": 284033,
+      "sha256": "fe164c786945e7c59b916b57fc7c45b834dcb4ffff824896c0e138945b412fd5",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "plates/reference-0952.jpg",
+      "bytes": 191431,
+      "sha256": "6d877bcd7447c0355a1c8b681d32ebd4198b53eb4836962af92006ed538f8bec",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "plates/reference-0963.jpg",
+      "bytes": 222441,
+      "sha256": "222bf2111a70360eb1693620378a0757557c299bc81524710bff7aee1e6885b2",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "plates/reference-0982.jpg",
+      "bytes": 250761,
+      "sha256": "c4fd726befd97156edddb5cf3ad5cfc5b0136478fb090ac17ac76a464af0df7c",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "plates/reference-1017.jpg",
+      "bytes": 280804,
+      "sha256": "6a3f3ecc00488828e0ec8fbaaf8292a838d7b2f5e97e4d4e2add45609cd9919c",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "plates/reference-1071.jpg",
+      "bytes": 296389,
+      "sha256": "5bbf25db0491e0dcf523a2afe3e1b60325984e78d47f94d62baa6e476bc17eeb",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "plates/reference-1080.jpg",
+      "bytes": 158810,
+      "sha256": "d680f68593e0249a1b3c29f3f6bb1c9b6b3240b0819469f0699df1a9819f37b9",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "plates/reference-1087.jpg",
+      "bytes": 172582,
+      "sha256": "75d8904146cf2d3beb079c19943c3aa999a3b20f1d43d98de41bf379f7b34119",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "plates/reference-1095.jpg",
+      "bytes": 103429,
+      "sha256": "383a0760e4062b03685c6a21dbc3dfcceba6efbc33caae236e9402a6a19081e5",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "plates/reference-1116.jpg",
+      "bytes": 244471,
+      "sha256": "3221866008f4f6db41227abf9326f059664aca1dcb5aaec79380034a775b2766",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "plates/reference-1120.jpg",
+      "bytes": 117605,
+      "sha256": "cd7d628b267dd5c73822a33d1c6f3e94a0d4198cf6258798e17fd284afa31bf8",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "plates/reference-1150.jpg",
+      "bytes": 203973,
+      "sha256": "9902b1fb0cac28e08ffc7045ea495c33341670e4cf3a982276b371e0dd4d1302",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "reference-ledger.md",
+      "bytes": 33023,
+      "sha256": "a141c80b5ceb6aad67a731bad6a5df267960c7a29e7fd1719afc49e72618c590",
+      "modification": "repository derivative or sanitized source record"
+    },
+    {
+      "file": "second-half-native/10-06.jpg",
+      "bytes": 261851,
+      "sha256": "54e7d348f3458b8a97c341e9b6815f5f3ee4b01176e6238ec380123ef4d108a8",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "second-half-native/10-38.jpg",
+      "bytes": 269991,
+      "sha256": "1c116a34307ac6ed444de6f35df216c0e1638bdca3ced9ba6e80fd10c4c1314b",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "second-half-native/11-05.jpg",
+      "bytes": 266838,
+      "sha256": "ec940dbe2c5fe22a6f9417c5183f5f19f9bd5b2dbc84ade3ca3d444b66cf3b13",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "second-half-native/11-16.jpg",
+      "bytes": 314184,
+      "sha256": "b521d7632f0d89a4c9fc4151e6a90028d99526a20066fbf5199850cc877e88c6",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "second-half-native/11-24.jpg",
+      "bytes": 321861,
+      "sha256": "40b5ddf3ed2dac78af8ac9eecede59306f2d29d86f61fc3194d38faf5700dca2",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "second-half-native/11-48.jpg",
+      "bytes": 335529,
+      "sha256": "8453306ba260ac0ecff00885ff3abde8c7960a473d176a4eb826fbeaa99000e2",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "second-half-native/12-18.jpg",
+      "bytes": 319341,
+      "sha256": "7219ee9828b5cb85f6e3ffca66bc61d553ddfb855f6b1f8e571bff9bdf8a0e64",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "second-half-native/12-33.jpg",
+      "bytes": 209240,
+      "sha256": "00ac2c87830baa388662fcc5af0de09e8f7b73f56fa2191c4bb179bc5412e8dc",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "second-half-native/12-49.jpg",
+      "bytes": 207164,
+      "sha256": "9500a8227a6ca0ac6d62f399caa701540d46a363a5eeb4272af5f60ff90a2d45",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "second-half-native/14-25.jpg",
+      "bytes": 296223,
+      "sha256": "912e1f25fcde04c613f586f0396d4b86fea81f76f629d5918afd806e452e3013",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "second-half-native/15-23.jpg",
+      "bytes": 231987,
+      "sha256": "9fb271074f0c7a20c52404bd41840336a4bb16d85b767e3f35fde5954d4716b5",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "second-half-native/15-31.jpg",
+      "bytes": 284033,
+      "sha256": "fe164c786945e7c59b916b57fc7c45b834dcb4ffff824896c0e138945b412fd5",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "second-half-native/15-53.jpg",
+      "bytes": 183838,
+      "sha256": "99476371e74c1f60e0fd95167bc30d1c815ba478823dae702422cc7cdd821d2a",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "second-half-native/16-06.jpg",
+      "bytes": 244612,
+      "sha256": "6f3b3aaf5cf4c7d251278b9805d0c4e0fa3e2bfef9e5437839a892b73071433a",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "second-half-native/16-16.jpg",
+      "bytes": 230036,
+      "sha256": "ea8241650e6486a0be27ee6cd7d05a0d359ece1436a1aa31639ba0121dfc5d5b",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "second-half-native/16-31.jpg",
+      "bytes": 241388,
+      "sha256": "5528301132ca71f0af0258a3dee8e3d075efdf404dd701150f6ad628c2fa1b30",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "second-half-native/18-14.jpg",
+      "bytes": 116652,
+      "sha256": "7b2219b15e3c886eb119cee82460ea0676aff990fddc552d8b0e21bedf8543c9",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "second-half-native/18-30.jpg",
+      "bytes": 251472,
+      "sha256": "cff204792b3f3f9682700b2b118bac472dbf19dbf9088c89ce576e23ddd125c0",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "second-half-native/18-40.jpg",
+      "bytes": 117605,
+      "sha256": "cd7d628b267dd5c73822a33d1c6f3e94a0d4198cf6258798e17fd284afa31bf8",
+      "modification": "byte-exact supplied image/metrics"
+    },
+    {
+      "file": "source-probe.json",
+      "bytes": 3781,
+      "sha256": "307ef2f7b5a5d784bbf8ef2789f2d1f7c7bf6cc192c4172140073d6a37eda705",
+      "modification": "repository derivative or sanitized source record"
+    },
+    {
+      "file": "tervain-gap-sourcearchitecture-render-material-camera-HUD-performance-proposal.md",
+      "bytes": 39017,
+      "sha256": "8ef92fdcb9accad751b06fcc333f85e40bf455fdaadd1c23b89c2ea875b5440b",
+      "modification": "repository derivative or sanitized source record"
+    }
+  ]
+}

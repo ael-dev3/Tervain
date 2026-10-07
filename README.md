@@ -62,6 +62,7 @@ Browser checks do not establish packaged desktop compatibility or performance on
 - [Decision register](docs/decisions.md)
 - [Vertical slice](docs/production/vertical-slice.md)
 - [Art direction](docs/art/art-audio-ui.md)
+- [Illustrated Gothic 3 video / Tervain visual audit](docs/art/studies/gothic3-video-2026-10-05/README.md) — dated study, comparisons and selected motion evidence.
 - [Shared asset provenance](docs/engineering/shared-assets.md)
 - [Gothic 3 rebuilding process](docs/engineering/gothic3-rebuild-overview.md)
 

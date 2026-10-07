@@ -1,0 +1,214 @@
+{
+  "source": "2026-10-05 16-00-07.mov",
+  "sha256": "bc4221ac17de325a83d78644f64669cb2bb0329ab5fd34cdfd25916938821e0b",
+  "decoded_frames": 69871,
+  "expected_frames": 69871,
+  "fps": 60,
+  "duration_seconds": 1164.516667,
+  "analysis": "Every frame decoded; numerical luma/difference metrics at 96\u00d754. Human visual study is all chronological 1-second contact sheets plus selected detailed frames and motion strips. Not manual inspection of all 69871 images, game FPS, optical flow or renderer instrumentation.",
+  "one_second_frames": 1165,
+  "contact_sheets": 59,
+  "largest_frame_change_events": [
+    {
+      "frame": 12462,
+      "seconds": 207.7,
+      "adjacent_frame_MAD": 107.8547
+    },
+    {
+      "frame": 15584,
+      "seconds": 259.733333,
+      "adjacent_frame_MAD": 107.5941
+    },
+    {
+      "frame": 12725,
+      "seconds": 212.083333,
+      "adjacent_frame_MAD": 104.2911
+    },
+    {
+      "frame": 12935,
+      "seconds": 215.583333,
+      "adjacent_frame_MAD": 97.6721
+    },
+    {
+      "frame": 58519,
+      "seconds": 975.316667,
+      "adjacent_frame_MAD": 79.0691
+    },
+    {
+      "frame": 58113,
+      "seconds": 968.55,
+      "adjacent_frame_MAD": 77.9147
+    },
+    {
+      "frame": 50011,
+      "seconds": 833.516667,
+      "adjacent_frame_MAD": 75.8131
+    },
+    {
+      "frame": 50716,
+      "seconds": 845.266667,
+      "adjacent_frame_MAD": 75.8025
+    },
+    {
+      "frame": 59494,
+      "seconds": 991.566667,
+      "adjacent_frame_MAD": 72.2024
+    },
+    {
+      "frame": 50201,
+      "seconds": 836.683333,
+      "adjacent_frame_MAD": 63.1555
+    },
+    {
+      "frame": 11792,
+      "seconds": 196.533333,
+      "adjacent_frame_MAD": 62.1597
+    },
+    {
+      "frame": 67569,
+      "seconds": 1126.15,
+      "adjacent_frame_MAD": 60.7745
+    },
+    {
+      "frame": 51103,
+      "seconds": 851.716667,
+      "adjacent_frame_MAD": 57.8349
+    },
+    {
+      "frame": 53182,
+      "seconds": 886.366667,
+      "adjacent_frame_MAD": 56.7062
+    },
+    {
+      "frame": 16048,
+      "seconds": 267.466667,
+      "adjacent_frame_MAD": 55.7708
+    },
+    {
+      "frame": 15344,
+      "seconds": 255.733333,
+      "adjacent_frame_MAD": 54.2483
+    },
+    {
+      "frame": 27027,
+      "seconds": 450.45,
+      "adjacent_frame_MAD": 52.6931
+    },
+    {
+      "frame": 58878,
+      "seconds": 981.3,
+      "adjacent_frame_MAD": 50.9697
+    },
+    {
+      "frame": 12034,
+      "seconds": 200.566667,
+      "adjacent_frame_MAD": 49.9051
+    },
+    {
+      "frame": 12236,
+      "seconds": 203.933333,
+      "adjacent_frame_MAD": 49.8036
+    },
+    {
+      "frame": 30706,
+      "seconds": 511.766667,
+      "adjacent_frame_MAD": 48.1516
+    },
+    {
+      "frame": 49351,
+      "seconds": 822.516667,
+      "adjacent_frame_MAD": 47.6175
+    },
+    {
+      "frame": 42724,
+      "seconds": 712.066667,
+      "adjacent_frame_MAD": 46.4093
+    },
+    {
+      "frame": 66399,
+      "seconds": 1106.65,
+      "adjacent_frame_MAD": 45.7388
+    },
+    {
+      "frame": 52007,
+      "seconds": 866.783333,
+      "adjacent_frame_MAD": 45.2986
+    },
+    {
+      "frame": 189,
+      "seconds": 3.15,
+      "adjacent_frame_MAD": 45.1615
+    },
+    {
+      "frame": 473,
+      "seconds": 7.883333,
+      "adjacent_frame_MAD": 41.8781
+    },
+    {
+      "frame": 65783,
+      "seconds": 1096.383333,
+      "adjacent_frame_MAD": 41.1046
+    },
+    {
+      "frame": 55684,
+      "seconds": 928.066667,
+      "adjacent_frame_MAD": 40.8773
+    },
+    {
+      "frame": 2725,
+      "seconds": 45.416667,
+      "adjacent_frame_MAD": 40.8736
+    },
+    {
+      "frame": 65531,
+      "seconds": 1092.183333,
+      "adjacent_frame_MAD": 40.8598
+    },
+    {
+      "frame": 29450,
+      "seconds": 490.833333,
+      "adjacent_frame_MAD": 40.5274
+    },
+    {
+      "frame": 35446,
+      "seconds": 590.766667,
+      "adjacent_frame_MAD": 39.0392
+    },
+    {
+      "frame": 35049,
+      "seconds": 584.15,
+      "adjacent_frame_MAD": 38.0073
+    },
+    {
+      "frame": 66066,
+      "seconds": 1101.1,
+      "adjacent_frame_MAD": 37.5461
+    },
+    {
+      "frame": 9831,
+      "seconds": 163.85,
+      "adjacent_frame_MAD": 37.4028
+    },
+    {
+      "frame": 64995,
+      "seconds": 1083.25,
+      "adjacent_frame_MAD": 36.898
+    },
+    {
+      "frame": 28002,
+      "seconds": 466.7,
+      "adjacent_frame_MAD": 36.7473
+    },
+    {
+      "frame": 1122,
+      "seconds": 18.7,
+      "adjacent_frame_MAD": 36.3677
+    },
+    {
+      "frame": 52588,
+      "seconds": 876.466667,
+      "adjacent_frame_MAD": 36.1728
+    }
+  ],
+  "repositoryEdition": "Private local paths removed; original measured values preserved. Source metadata, not a new analysis or performance test."
+}
