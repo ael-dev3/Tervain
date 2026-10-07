@@ -11,17 +11,32 @@ of Gothic 3's endings. A scene viewer, a decoded model or a successfully read
 native data structure is a useful component milestone, but it does not by
 itself establish a playable reconstruction.
 
-The published rebuild baseline recorded on 7 October 2026 includes checkpoints
-95–99, merged in [PR 60](https://github.com/ael-dev3/Tervain/pull/60) at commit
-`5f530d4176595e0df294f58039eb99f2e42d33c4` and published by successful
-[workflow run 37601141422](https://github.com/ael-dev3/Tervain/actions/runs/37601141422).
-These checkpoints add ScriptAdmin class-name, ModuleAdmin, allocator and input
-dispatcher owners. Their production NPC integration remains unfinished.
+The latest published source checkpoint recorded on 7 October 2026 is 100,
+merged in [PR 63](https://github.com/ael-dev3/Tervain/pull/63) at commit
+`53fe508ee214ab9dc01cb65cc53c7dbb47259979` and published by successful
+[workflow run 37606093507](https://github.com/ael-dev3/Tervain/actions/runs/37606093507).
+It adds selected ScriptAdmin static initializer bodies and allocator pools,
+following the class-name, ModuleAdmin and input dispatcher work in checkpoints
+95–99. Their production NPC integration remains unfinished.
 The browser supports exploration and selected gameplay paths. Native NPC
 activation and most campaign progression remain unfinished. See
 [current implementation status](#current-implementation-status) below; the
 [detailed checkpoint record](gothic3-rebuilding-process.md) preserves the
 individual source and review receipts.
+
+## Start here
+
+| Task | Entry point | Required input |
+| --- | --- | --- |
+| Run the reconstruction | [`/gothic3/`](https://ael-dev3.github.io/Tervain/gothic3/) or the [local build](#run-the-committed-browser-build) | Committed browser assets; no installation picker |
+| Compare a scene with your own installed files | [`/gothic3-local/`](https://ael-dev3.github.io/Tervain/gothic3-local/), documented in the [local viewer guide](gothic3-local.md) | Your Gothic 3 installation, read by the browser |
+| Reproduce an asset or native-source checkpoint | [`tools/gothic3/`](../../tools/gothic3/README.md) and the matching [checkpoint receipt](gothic3-rebuilding-process.md) | The extracted offline study and that checkpoint's tool revision |
+| Extend gameplay | [`src/gothic3/`](../../src/gothic3/), starting with the [feature workflow](#how-to-rebuild-one-feature) | Verified records, native behavior evidence and the live session services needed by the feature |
+
+The original Tervain game uses the root URL. The two Gothic routes have their
+own entries and implementation directories. The local-install viewer's format
+readers and generated trees are a separate study path; its rendering progress
+does not establish gameplay progress in the reconstruction.
 
 ## The rebuilding loop
 
@@ -50,6 +65,29 @@ resource. This makes it possible to select the same winning file consistently
 instead of silently using an older duplicate. Archive extraction only exposes
 bytes; meshes, images, world records and behavior still require separate
 readers.
+
+The local input layout used by the offline tools is:
+
+```text
+C:\Program Files (x86)\Steam\steamapps\common\Gothic 3\
+  Data\                             installed archives and patch layers
+
+<LOCAL_GOTHIC3_STUDY>\
+  00_Original_Runtime\               preserved native executables and DLLs
+  01_Decompiled_Code\                reconstructed C-like and assembly listings
+  02_Unpacked_Data\
+    Archives\                       extracted resource bytes
+    _metadata\effective_layers.json logical resource paths, layers and hashes
+```
+
+The offline producers expect this study to exist already. They do not create
+the complete extraction and decompilation study from an installation folder.
+
+The browser archive reader supports stored and zlib-compressed entries in the
+selected `G3V0` archives. Reading a binary resource after decompression still
+requires its own parser. These steps do not establish that every file in the
+installation uses the same format. See the [archive reader](../../src/gothic3local/archive.ts)
+and [source-layer reader](../../src/gothic3local/source.ts).
 
 ### 2. Decode only what the browser needs
 
@@ -89,6 +127,16 @@ reference material, not original buildable C++ source. The implementation
 checks claims against captured native bytes or source data where possible,
 then writes a bounded TypeScript equivalent. Unknown engine calls stay
 explicit rather than being filled in with guesses.
+
+The native-source preparation packages keep `runtime-rules.json` for the
+selected layouts and operations, `native-evidence.json` for byte audits, and a
+manifest of the captured files. The Game CRT and selected ScriptAdmin startup
+manifests also pin producer and shared-helper dependencies. Their `sources/`
+directories retain selected listings for review. The corresponding TypeScript
+owner checks the source identity and implements the admitted operations.
+Reconstructing an object also means preserving its shared storage, aliasing,
+callback order and teardown; inventing a successful return for a missing
+service would hide the next implementation requirement.
 
 ### 4. Join data and behavior in a playable slice
 
@@ -236,7 +284,7 @@ when its dependency chain spans several modules.
 | Inspect and decode local files | [`tools/gothic3/`](../../tools/gothic3/) | Offline readers and preparation scripts verify selected inputs and convert native records. The installed game and full study remain outside the repository. |
 | Keep browser-ready source data | [`assets/gothic3/`](../../assets/gothic3/) and [`public/gothic3/`](../../public/gothic3/) | Reviewed portable assets and JSON catalogs, with provenance and conversion limits recorded alongside the data. |
 | Implement game behavior | [`src/gothic3/`](../../src/gothic3/) | TypeScript modules model selected native state and operations; unsupported behavior stays unavailable or explicitly unknown. |
-| Present and connect the game | [`gothic3/`](../../gothic3/) | The separate browser route connects the runtime, scene, controls and UI. |
+| Present and connect the game | [`gothic3/index.html`](../../gothic3/index.html) → [`src/gothic3/main.ts`](../../src/gothic3/main.ts) | The separate browser entry composes the runtime, scene, controls and UI. |
 | Check and document the result | [`tests/`](../../tests/) and [`docs/engineering/`](./) | Focused checks cover bounded behavior; engineering notes preserve evidence, limitations and reproducible checkpoints. |
 
 ## Example: rebuild a placed world landmark
@@ -285,6 +333,9 @@ npm run dev
 
 The committed portable assets are sufficient for this route. For a production
 preview, run `npm run build`, then `npm run preview` and open the same route.
+These commands use [`package.json`](../../package.json) and the three browser
+entries in [`vite.config.ts`](../../vite.config.ts). The production output is
+`dist/`; an asset conversion does not replace the TypeScript build step.
 See the [controls and scope](gothic3-browser-port.md#controls) for exploration,
 the model inspector, dialogue and local browser saves.
 
@@ -298,6 +349,21 @@ and native binary evidence. The full installation and study are not committed.
 The [preparation guide](../../tools/gothic3/README.md) lists each tool's inputs,
 dependencies and output folders; use the converter for the feature being
 rebuilt rather than regenerating unrelated assets.
+
+For visual exports, the preparation guide specifies Python 3.10+, Pillow with
+DDS support and Rimy3D. Rimy3D converts selected actor assets offline; it is not
+a browser dependency. Keep converter scratch output outside the study:
+
+```powershell
+$gothicStudy = 'C:\path\to\Gothic3_Decompiled_Study_2026-10-04'
+python tools/gothic3/prepare_ardea.py --study $gothicStudy `
+  --rimy 'C:\path\to\Rimy3D.exe' --scratch 'C:\outside-the-study\ardea-preparation'
+```
+
+This prepares the selected static Ardea assets in `public/gothic3/`. Use the
+separate animation, terrain, world-index and gameplay exporters listed in the
+preparation guide when extending those parts. Review the generated manifests
+and changed files before committing them.
 
 For example, the selected NPC record package can be reproduced with:
 
@@ -328,6 +394,32 @@ entities. See [checkpoint
 [90](gothic3-rebuilding-process.md#90-resolve-source-backed-navigation-entity-proxies-during-npc-read)
 and [89](gothic3-rebuilding-process.md#89-materialize-navigation-areas-for-the-npc-query).
 
+### Regenerate dependent native-source packages together
+
+The allocator and selected startup packages have linked receipts. For work on
+this source set, generate the base before the packages that read it:
+
+```powershell
+python -B tools/gothic3/prepare_runtime_admin_source.py --study $gothicStudy
+python -B tools/gothic3/prepare_npc_heap_source.py --study $gothicStudy
+python -B tools/gothic3/prepare_scene_startup_source.py --study $gothicStudy
+```
+
+The selected ScriptAdmin startup package reads the Game CRT rules:
+
+```powershell
+python -B tools/gothic3/prepare_game_crt_source.py --study $gothicStudy
+python -B tools/gothic3/prepare_script_admin_startup_source.py --study $gothicStudy
+```
+
+These commands assume the other committed prerequisite packages are present.
+The Game CRT and ScriptAdmin producers also record hashes of shared Python
+helpers; changing a helper can require regenerating their manifests even when
+the captured native instructions are unchanged. Review dependent receipts and
+TypeScript source pins together. A hash update needs an explained input or
+scope change; it is not a substitute for reviewing the newly admitted behavior.
+Reproduce an older checkpoint from its recorded commit and tools.
+
 ### Record a reviewable result
 
 For each implementation checkpoint, retain:
@@ -350,6 +442,22 @@ Before publishing, inspect repository-wide Actions runs and workflow triggers.
 Reuse relevant results and allow an existing applicable run to finish. A pull
 request runs the checks; a merge to `main` runs checks and the Pages deployment.
 Use the resulting deployment receipt to verify the public `/gothic3/` route.
+
+### Publish the reviewed browser build
+
+The [Pages workflow](../../.github/workflows/pages.yml) installs the locked
+dependencies with Node.js 24, typechecks, runs the existing scenario suite and
+builds all three entries. Pull requests perform those checks. A push to `main`
+also uploads `dist/` and deploys it to GitHub Pages. The workflow additionally
+has a manual trigger; no manual run is needed when the normal publication run
+already supplies the relevant evidence.
+
+Inspect repository-wide queued, running and completed runs, including rerun
+attempts, before a push, pull-request update or merge. Check the actual workflow
+and any downstream triggers, and reuse applicable results. After publication,
+record the exact commit, successful deployment and served route. Document-only
+changes can reuse the unchanged application's existing build evidence; check
+their Markdown links and diff without treating them as a new gameplay release.
 
 ## Current implementation status
 
