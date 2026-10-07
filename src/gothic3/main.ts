@@ -181,8 +181,13 @@ function updateNpcEntityStudy(person: ScenePerson | null): void {
         : io.callocCalled ? 'interrupted' : 'not called'));
       startupDetails.push('I/O globals published: ' + (io.ioGlobalsPublished ? 'yes' : 'no'));
       startupDetails.push('I/O records initialized: ' + io.initializedRecordCount);
+      startupDetails.push('Standard handles returned: ' + io.getStdHandleReturnedCount);
+      startupDetails.push('Standard handle types returned: ' + io.getFileTypeReturnedCount);
+      startupDetails.push('Standard I/O sections initialized: ' + io.initializedStandardRecordCount);
+      startupDetails.push('Handle-count import returned: ' + (io.setHandleCountReturned ? 'yes' : 'no'));
       startupDetails.push('I/O source operations completed: ' + io.effects.length);
       startupDetails.push('I/O initialization returned: ' + (io.ioInitReturned ? 'yes' : 'no'));
+      if (attach.ioResult !== null) startupDetails.push('I/O return value: ' + attach.ioResult);
     }
   } else if (startup) startupDetails.push('Game startup unavailable: ' + startup.reason);
   target.textContent = [

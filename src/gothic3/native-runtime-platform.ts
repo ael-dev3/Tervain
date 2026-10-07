@@ -27,6 +27,9 @@ import type { NativeHeapAllocCallGrant } from './native-x86-thread-stack';
 import { retainNativeWin32StartupIoSelection } from './native-win32-startup-io';
 import type { NativeWin32StartupIoSelection, RetainedWin32StartupIoSelection,
   NativeWin32StartupIoEndpoints, NativeStartupInfoCallGrant } from './native-win32-startup-io';
+import { retainNativeWin32StandardIoSelection } from './native-win32-standard-io';
+import type { NativeWin32StandardIoSelection, RetainedWin32StandardIoSelection, NativeWin32StandardIoEndpoints,
+  NativeStandardIoCallGrant, NativeStandardIoResult, NativeStandardIoCapabilityKind, NativeWin32HandleCapability } from './native-win32-standard-io';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = (reason: string): { known: false; reason: string } => ({ known: false, reason });
@@ -118,6 +121,7 @@ export interface NativeEngineCrtPlatformServices {
   readonly processInputs?: NativeWin32ProcessInputSelection;
   readonly threadStack?: NativeX86ThreadStackSelection;
   readonly startupIo?: NativeWin32StartupIoSelection;
+  readonly standardIo?: NativeWin32StandardIoSelection;
   readonly entropy?: {
     systemTimeAsFileTime?(): NativeValue<{ low: number; high: number }>;
     currentProcessId?(): NativeValue<number>;
@@ -126,9 +130,10 @@ export interface NativeEngineCrtPlatformServices {
     performanceCounter?(): NativeValue<{ success: boolean; low?: number; high?: number }>;
   };
 }
-type RetainedCrtServices = Omit<NativeEngineCrtPlatformServices, 'tlsValues' | 'processInputs' | 'startupIo'> & {
+type RetainedCrtServices = Omit<NativeEngineCrtPlatformServices, 'tlsValues' | 'processInputs' | 'startupIo' | 'standardIo'> & {
   readonly processInputs?: RetainedWin32ProcessInputSelection;
   readonly startupIo?: Readonly<RetainedWin32StartupIoSelection>;
+  readonly standardIo?: RetainedWin32StandardIoSelection;
 };
 /** Retain configuration values and exact function identities. TLS values are
  * opaque capabilities, so copy their entries without cloning those identities.
@@ -139,7 +144,7 @@ function retainCrtServices(selected: NativeEngineCrtPlatformServices | undefined
 } {
   if (selected === undefined) return { services: undefined, tls: [] };
   const { tlsValues, kernel32Available, pointerCodec, sectionSpinProcedure,
-    fiberLocalStorage, processHeap, osVersion, entropy, processInputs, threadStack, startupIo } = selected;
+    fiberLocalStorage, processHeap, osVersion, entropy, processInputs, threadStack, startupIo, standardIo } = selected;
   if (typeof kernel32Available !== 'boolean' || (pointerCodec !== 'absent' && pointerCodec !== 'owned-bijection') ||
       [sectionSpinProcedure, fiberLocalStorage, processHeap].some(value => value !== undefined && typeof value !== 'boolean')) {
     throw new Error('Explicit selected CRT registry configuration required');
@@ -165,7 +170,8 @@ function retainCrtServices(selected: NativeEngineCrtPlatformServices | undefined
     fiberLocalStorage, processHeap, osVersion: version, entropy: callbacks,
     processInputs: processInputs === undefined ? undefined : retainNativeWin32ProcessInputSelection(processInputs),
     threadStack: threadStack === undefined ? undefined : retainNativeX86ThreadStackSelection(threadStack),
-    startupIo: startupIo === undefined ? undefined : retainNativeWin32StartupIoSelection(startupIo) }), tls: Object.freeze(tls) };
+    startupIo: startupIo === undefined ? undefined : retainNativeWin32StartupIoSelection(startupIo),
+    standardIo: standardIo === undefined ? undefined : retainNativeWin32StandardIoSelection(standardIo) }), tls: Object.freeze(tls) };
 }
 interface ProcessBuffer {
   readonly kind: 'command-line-a' | 'environment-a' | 'environment-w';
@@ -289,6 +295,14 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
   readonly #heapAllocConsumed = new WeakSet<NativeHeapAllocCallGrant>();
   readonly #heapAllocEffects = new WeakMap<NativeHeapAllocCallGrant, NativeMemoryBacking | null>();
   readonly #heapAllocNormalReturns = new WeakMap<NativeHeapAllocCallGrant, NativeMemoryBacking | null>();
+  readonly standardIoEndpoints?: Readonly<NativeWin32StandardIoEndpoints>;
+  readonly #standardIoEndpoints?: Readonly<NativeWin32StandardIoEndpoints>;
+  #standardIoActiveCall: NativeStandardIoCallGrant | null = null;
+  readonly #standardIoConsumed = new WeakSet<NativeStandardIoCallGrant>();
+  readonly #standardIoNormalReturns = new WeakMap<NativeStandardIoCallGrant, NativeStandardIoResult>();
+  readonly #standardIoEffects = new WeakMap<NativeStandardIoCallGrant, Readonly<{ sectionRegistered: boolean }>>();
+  readonly #standardHandles = new Map<object, Readonly<{ capability: NativeWin32HandleCapability; slot: number }>>();
+  #requestedHandleCount: number | undefined;
   private readonly sections = new Map<string, Section>();
   private readonly sectionIdentities = new Map<object, Section>();
   readonly #physicalSections = new Map<object, Map<number, PhysicalSection>>();
@@ -345,9 +359,19 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     this.#heapAllocEndpoint = crt.services === undefined ? undefined : Object.freeze((call: NativeHeapAllocCallGrant) => this.#getHeapAllocForCall(call));
     this.heapAllocEndpoint = this.#heapAllocEndpoint;
     Object.defineProperty(this, 'heapAllocEndpoint', { value: this.#heapAllocEndpoint, writable: false, configurable: false });
+    this.#standardIoEndpoints = crt.services?.standardIo === undefined ? undefined : Object.freeze({
+      invoke: (call: NativeStandardIoCallGrant) => this.#getStandardIoForCall(call),
+    });
+    this.standardIoEndpoints = this.#standardIoEndpoints;
+    Object.defineProperty(this, 'standardIoEndpoints', { value: this.#standardIoEndpoints, writable: false, configurable: false });
     for (const [index, value] of crt.tls) { this.#crtTlsValues.set(index, value); this.#tlsIndexes.add(index); }
     const owner = Object.freeze({});
     this.#kernel32 = Object.freeze({ identity: Object.freeze({}), owner, name: 'KERNEL32.DLL' });
+    for (let slot = 0; slot < (crt.services?.standardIo?.standardHandles.length ?? 0); slot++) {
+      if (crt.services!.standardIo!.standardHandles[slot]!.result !== 'valid') continue;
+      const capability = Object.freeze({ identity: Object.freeze({}), owner });
+      this.#standardHandles.set(capability, Object.freeze({ capability, slot }));
+    }
     this.#pointerEncode = Object.freeze({ identity: Object.freeze({}), owner, name: 'EncodePointer',
       invoke: (value: object | null): NativeValue<object | null> => {
         if (this.#crtServices?.pointerCodec !== 'owned-bijection') return unknown('Actual owned pointer-encoding procedure required');
@@ -363,6 +387,8 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
         return known(this.#decodedPointers.get(value)!);
       } });
     this.#sectionProcedure = Object.freeze({ identity: Object.freeze({}), owner, name: 'InitializeCriticalSectionAndSpinCount',
+      // Preserve the established lower endpoint dispatch. The source-guarded
+      // standard-I/O bridge separately calls the private core with its grant.
       invoke: (fields: NativeHeapObjectViews, sectionOwner: object, spinCount: 4000) => this.initializePhysicalCriticalSection(fields, sectionOwner, spinCount) });
     this.tlsProcedures = Object.freeze({
       alloc: Object.freeze({ kind: 'alloc', name: 'TlsAlloc', invoke: (_callback: NativeCrtThreadDestructor) => this.tlsAlloc() }),
@@ -510,6 +536,105 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     const active = NativeRuntimePlatform.requireActivePlatform(platform); if (!active.known) return active;
     return endpoints && endpoints === platform.#processInputEndpoints && endpoints === platform.processInputEndpoints
       ? known(undefined) : unknown('Actual immutable same-platform process-input endpoints required');
+  }
+  static standardIoSelectionForPlatform(platform: NativeRuntimePlatform): NativeValue<RetainedWin32StandardIoSelection> {
+    const active = NativeRuntimePlatform.requireActivePlatform(platform); if (!active.known) return active;
+    return platform.#crtServices?.standardIo ? known(platform.#crtServices.standardIo) : unknown('Explicit retained standard-I/O selection required');
+  }
+  static canonicalStandardIoEndpointsForPlatform(platform: NativeRuntimePlatform,
+    endpoints: NativeWin32StandardIoEndpoints): NativeValue<void> {
+    const active = NativeRuntimePlatform.requireActivePlatform(platform); if (!active.known) return active;
+    return endpoints && endpoints === platform.#standardIoEndpoints && endpoints === platform.standardIoEndpoints
+      ? known(undefined) : unknown('Actual immutable same-platform standard-I/O endpoints required');
+  }
+  static canonicalStandardIoInvocationForPlatform(platform: NativeRuntimePlatform, call: NativeStandardIoCallGrant): NativeValue<void> {
+    const active = NativeRuntimePlatform.requireActivePlatform(platform); if (!active.known) return active;
+    return !!call && platform.#standardIoActiveCall !== null && platform.#standardIoActiveCall === call && !!platform.#standardIoEndpoints
+      ? known(undefined) : unknown('Actual current private standard-I/O invocation required');
+  }
+  static canonicalStandardIoNormalReturnForPlatform(platform: NativeRuntimePlatform,
+    call: NativeStandardIoCallGrant): NativeValue<NativeStandardIoResult> {
+    const active = NativeRuntimePlatform.requireActivePlatform(platform); if (!active.known) return active;
+    return platform.#standardIoNormalReturns.has(call) ? known(platform.#standardIoNormalReturns.get(call)!)
+      : unknown('Actual normal standard-I/O endpoint result required');
+  }
+  static standardIoEffectForPlatform(platform: NativeRuntimePlatform,
+    call: NativeStandardIoCallGrant): NativeValue<Readonly<{ sectionRegistered: boolean }>> {
+    return retainedRuntimePlatforms.has(platform) && platform.#standardIoEffects.has(call) ? known(platform.#standardIoEffects.get(call)!)
+      : unknown('No retained effect for this actual private call');
+  }
+  static standardIoCapabilityForPlatform(platform: NativeRuntimePlatform, value: object): NativeValue<NativeStandardIoCapabilityKind> {
+    const active = NativeRuntimePlatform.requireActivePlatform(platform); if (!active.known) return active;
+    if (platform.#standardHandles.get(value)?.capability === value) return known('handle');
+    if (value === platform.tlsProcedures.get) return known('tls-get');
+    if (value === platform.#flsProcedures.get) return known('fls-get');
+    if (value === platform.#pointerDecode) return known('decode');
+    if (value === platform.#sectionProcedure) return known('section');
+    if (platform.#decodedPointers.has(value)) return known('encoded');
+    return unknown('Actual private live Runtime handle/procedure/encoded capability required');
+  }
+  static standardIoTlsProcedureForPlatform(platform: NativeRuntimePlatform): NativeValue<object> {
+    const active = NativeRuntimePlatform.requireActivePlatform(platform); if (!active.known) return active;
+    return platform.#crtServices ? known(platform.tlsProcedures.get) : unknown('Actual retained Runtime TLS getter required');
+  }
+  #getStandardIoForCall(call: NativeStandardIoCallGrant): NativeValue<NativeStandardIoResult> {
+    const active = NativeRuntimePlatform.requireActivePlatform(this); if (!active.known) return active;
+    if (!call || !this.#standardIoEndpoints || this.#standardIoActiveCall !== null || this.#standardIoConsumed.has(call)) {
+      return unknown('Actual fresh non-reentrant standard-I/O call required');
+    }
+    this.#standardIoActiveCall = call;
+    try {
+      const args = NativeX86ThreadStack.standardIoArgumentsForPlatform(this, call); if (!args.known) return args;
+      this.#standardIoConsumed.add(call);
+      const input = args.value, selection = this.#crtServices!.standardIo!;
+      let result: NativeValue<NativeStandardIoResult>;
+      switch (input.kind) {
+        case 'GetStdHandle': {
+          const slot = selection.standardHandles.findIndex(entry => (entry.id >>> 0) === input.scalar);
+          if (slot < 0) return unknown('Actual declared standard-handle ID required');
+          const entry = selection.standardHandles[slot]!; this.#processLastError(entry.getStdHandleLastError);
+          if (entry.result === 'unknown') return unknown('Declared standard-handle result is unknown');
+          result = known(entry.result === 'null' ? null : entry.result === 'invalid' ? 0xffffffff
+            : [...this.#standardHandles.values()].find(record => record.slot === slot)!.capability); break;
+        }
+        case 'GetFileType': {
+          const record = input.object ? this.#standardHandles.get(input.object) : undefined;
+          if (!record || record.capability !== input.object) return unknown('Actual live virtual handle required by GetFileType');
+          const entry = selection.standardHandles[record.slot]!; this.#processLastError(entry.fileTypeLastError);
+          result = known(entry.fileType); break;
+        }
+        case 'TlsGetValue':
+          if (input.procedure !== this.tlsProcedures.get) return unknown('Actual indirect Runtime TlsGetValue procedure required');
+          result = this.#tlsGetValue(input.scalar!); break;
+        case 'FlsGetValue':
+          if (input.procedure !== this.#flsProcedures.get) return unknown('Actual direct cached Runtime FlsGetValue procedure required');
+          result = this.#flsGetValue(input.scalar!); break;
+        case 'DecodePointer':
+          if (input.procedure !== this.#pointerDecode || !input.object || !this.#decodedPointers.has(input.object)) {
+            return unknown('Actual current DecodePointer procedure and encoded capability required');
+          }
+          result = known(this.#decodedPointers.get(input.object)!); break;
+        case 'InitializeCriticalSectionAndSpinCount': {
+          if (input.procedure !== this.#sectionProcedure || !input.section || !input.sectionFields || input.scalar !== 4000) {
+            return unknown('Actual selected spin procedure/current section and spin4000 required');
+          }
+          const span = NativeRuntimePlatform.canonicalGameHeapDestination(this, input.crt, input.section, 24); if (!span.known) return span;
+          const initialized = this.#initializePhysicalSection(input.sectionFields, input.crt.identity, 4000, false);
+          if (!initialized.known) return initialized;
+          this.#standardIoEffects.set(call, Object.freeze({ sectionRegistered: true }));
+          const writes = NativeX86ThreadStack.invalidateStandardIoSectionForCall(this, call); if (!writes.known) return writes;
+          result = known(1); break;
+        }
+        case 'SetHandleCount':
+          this.#requestedHandleCount = input.scalar!; this.#processLastError(selection.setHandleCount.lastError);
+          result = known(selection.setHandleCount.result); break;
+        default: return unknown('Actual admitted standard-I/O import kind required');
+      }
+      if (!result.known) return result;
+      const after = NativeX86ThreadStack.standardIoArgumentsForPlatform(this, call); if (!after.known) return after;
+      this.#standardIoNormalReturns.set(call, result.value); return result;
+    } catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
+    finally { this.#standardIoActiveCall = null; }
   }
   static canonicalNativePointerAccessForPlatform(platform: NativeRuntimePlatform, pointer: NativeBytePointer,
     relativeOffset: number, bytes: number): NativeValue<void> {
@@ -983,11 +1108,12 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     }
     retained.destroyed = true; return known(true);
   }
-  tlsGetValue(index: number): NativeValue<object | null> {
+  tlsGetValue(index: number): NativeValue<object | null> { return this.#tlsGetValue(index); }
+  #tlsGetValue(index: number): NativeValue<object | null> {
     if (!this.#crtServices || !Number.isInteger(index) || index < 0 || index > 0xffffffff) return unknown('Actual owned CRT TLS registry and uint32 index required');
     // The explicitly selected lower TLS endpoint clears LastError on success.
     // An unallocated scalar index takes its owned invalid-index error branch.
-    this.#win32LastError.writeUnsigned(0, this.#tlsIndexes.has(index) ? 0 : 87);
+    NativeHeapObjectViews.prototype.writeUnsigned.call(this.#win32LastError, 0, this.#tlsIndexes.has(index) ? 0 : 87);
     return known(this.#crtTlsValues.get(index) ?? null);
   }
   tlsAlloc(): NativeValue<number> {
@@ -1012,7 +1138,8 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     if (this.#nextFlsIndex >= 0xffffffff) return known(0xffffffff);
     const index = this.#nextFlsIndex++; this.#flsIndexes.set(index, { callback, value: null }); return known(index);
   }
-  private flsGetValue(index: number): NativeValue<object | null> { return this.#crtServices?.fiberLocalStorage ? known(this.#flsIndexes.get(index)?.value ?? null) : unknown('Actual selected FLS getter required'); }
+  private flsGetValue(index: number): NativeValue<object | null> { return this.#flsGetValue(index); }
+  #flsGetValue(index: number): NativeValue<object | null> { return this.#crtServices?.fiberLocalStorage ? known(this.#flsIndexes.get(index)?.value ?? null) : unknown('Actual selected FLS getter required'); }
   private flsSetValue(index: number, value: object | null): NativeValue<boolean> {
     if (!this.#crtServices?.fiberLocalStorage) return unknown('Actual selected FLS setter required');
     const entry = this.#flsIndexes.get(index); if (!entry) return known(false); entry.value = value; return known(true);
@@ -1087,13 +1214,13 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
   /** Lower Win32 endpoint. The CRT owner performs its source resolver/cache. */
   initializePhysicalCriticalSection(fields: NativeHeapObjectViews, owner: object, spinCount: 4000): NativeValue<boolean> {
     if (spinCount !== 4000) return unknown('Original physical section spin count4000 required');
-    return this.initializePhysicalSection(fields, owner, spinCount);
+    return this.#initializePhysicalSection(fields, owner, spinCount);
   }
   initializePhysicalCriticalSectionWithoutSpin(fields: NativeHeapObjectViews, owner: object): NativeValue<void> {
-    const result = this.initializePhysicalSection(fields, owner, null);
+    const result = this.#initializePhysicalSection(fields, owner, null);
     return result.known ? known(undefined) : result;
   }
-  private initializePhysicalSection(fields: NativeHeapObjectViews, owner: object, spinCount: 4000 | null): NativeValue<boolean> {
+  #initializePhysicalSection(fields: NativeHeapObjectViews, owner: object, spinCount: 4000 | null, opaqueWrites = true): NativeValue<boolean> {
     try {
       if (this.#shutdownPhase !== 'active' || !owner || typeof owner !== 'object') {
         return unknown('Actual active physical section owner required');
@@ -1113,7 +1240,7 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
         bytes: fields.bytes, masks: fields.knownMask, spinCount, depth: 0, deleted: false });
       // The lower procedure owns initialization, but its opaque Win32 stores
       // do not prove the original cold zero bytes survived the call.
-      fields.knownMask.fill(0);
+      if (opaqueWrites) Uint8Array.prototype.fill.call(fields.knownMask, 0);
       return known(true);
     } catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
   }
@@ -1225,6 +1352,7 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     allocations: Object.freeze([...this.#backing.values()].map(entry => Object.freeze({ kind: entry.kind, ordinal: entry.ordinal, backing: entry.backing }))),
     sections: Object.freeze([...this.sections.values()].map(section => Object.freeze({ ...section }))),
     physicalSections: Object.freeze([...this.#physicalSections.values()].flatMap(positions => [...positions.values()].map(section => Object.freeze({ ...section })))),
+    virtualHandleCountRequested: this.#requestedHandleCount,
     winHeaps: Object.freeze([...this.#winHeaps.values()].map(heap => Object.freeze({ capability: heap.capability, options: heap.options,
       destroyed: heap.destroyed, allocations: Object.freeze([...heap.allocations]) }))),
     win32LastError: this.#win32LastError,

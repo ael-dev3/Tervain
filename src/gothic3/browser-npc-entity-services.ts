@@ -9,6 +9,7 @@ import { createBrowserNpcRuntimeAdminOwner } from './native-runtime-platform';
 import { createBrowserGameCrtPlatform } from './browser-game-crt-platform';
 import { browserGameProcessInputs } from './browser-game-process-inputs';
 import { browserGameStartupIoInputs } from './browser-game-startup-io-inputs';
+import { browserGameStandardIoInputs } from './browser-game-standard-io-inputs';
 import { nativeEntityDefaultComparatorImportIdentity } from './native-entity-heap';
 import { BrowserNavigationApplicationOwner } from './browser-npc-navigation-owner';
 import type { BrowserSessionModeOwner } from './browser-npc-navigation-owner';
@@ -113,6 +114,7 @@ export function createBrowserNpcEntityServices(platform: BrowserNpcEntityPlatfor
   const runtimeAdmins = createBrowserNpcRuntimeAdminOwner(createBrowserGameCrtPlatform({
     processInputs: browserGameProcessInputs, threadStack: { reservationBytes: 4096 },
     startupIo: browserGameStartupIoInputs,
+    standardIo: browserGameStandardIoInputs,
   }));
   const scriptAdminStartup = createBrowserScriptAdminStartup(runtimeAdmins.platform, runtimeAdmins.memory, runtimeAdmins.error);
   const navigationNames = new BrowserNavigationNotificationNames(runtimeAdmins.memory, runtimeAdmins.platform);

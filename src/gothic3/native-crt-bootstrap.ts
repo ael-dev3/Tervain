@@ -144,7 +144,7 @@ export type NativeCrtAttachOperationName = 'version.size.store' | 'GetVersionExA
   'os.minor.store' | 'os.build.store' | 'heapInit.return' | 'mtInit.return' |
   'heapTerm.return' | 'preCInit.return' | 'GetCommandLineA.boundary' |
   'GetCommandLineA.return' | 'commandLinePointer.store' | 'environment.return' |
-  'environmentBlock.store' | 'ioInit.boundary' | 'ioInit.enter' | 'crtAttach.return';
+  'environmentBlock.store' | 'ioInit.boundary' | 'ioInit.enter' | 'ioInit.return' | 'crtAttach.return';
 export interface NativeCrtAttachOperation {
   readonly operation: NativeCrtAttachOperationName;
   /** Load/store instruction, returned PC of a completed lower call, or reached
@@ -175,9 +175,11 @@ export interface NativeCrtAttachProgress {
   readonly environmentNonNull: boolean | null;
   readonly environmentProgress: ReturnType<NativeGameCrtEnvironment['snapshot']> | null;
   readonly ioProgress: ReturnType<NativeGameCrtIoInit['snapshot']> | null;
+  readonly ioResult: number | null;
   readonly nextBoundary: Readonly<{ name: 'ioInit'; address: string; target: string }> |
-    Readonly<{ name: 'GetStartupInfoA' | 'HeapAlloc' | 'GetStdHandle'; address: string; iat: string }> |
-    Readonly<{ name: 'calloc'; address: string; target: string }> | null;
+    Readonly<{ name: 'GetStartupInfoA' | 'HeapAlloc' | 'GetStdHandle' | 'GetFileType' | 'SetHandleCount'; address: string; iat: string }> |
+    Readonly<{ name: 'calloc' | 'TlsGetValue' | 'FlsGetValue' | 'DecodePointer' | 'sectionInitializer'; address: string; target: string }> |
+    Readonly<{ name: 'callerTest'; address: string; instruction: 'TEST EAX,EAX' }> | null;
   readonly crtTraversalCompleted: false;
   readonly nativeModuleInstantiated: false;
 }
@@ -225,6 +227,7 @@ export class NativeCrtBootstrap {
   readonly #io: NativeValue<NativeGameCrtIoInit> | null;
   readonly #ioCallPermit = Object.freeze({});
   #ioInvocationActive = false;
+  #ioResult: number | null = null;
   #commandLineReturned = false;
   #commandLineNonNull: boolean | null = null;
   #environmentReturned = false;
@@ -590,18 +593,26 @@ export class NativeCrtBootstrap {
     const io = this.#io.value;
     this.#ioInvocationActive = true;
     try {
-      this.#call('ioInit' + points.ioInitTarget + ' at' + points.ioInitCall, () => {
+      const result = this.#call('ioInit' + points.ioInitTarget + ' at' + points.ioInitCall, () => {
         this.#record('ioInit.enter', null, points.ioInitCall);
-        return NativeGameCrtIoInit.enterForAttach(io, this.#crt, this, this.#ioCallPermit);
+        const returned = NativeGameCrtIoInit.enterForAttach(io, this.#crt, this, this.#ioCallPermit);
+        if (!returned.known) return returned;
+        const proof = NativeGameCrtIoInit.canonicalReturnedIoForCrt(io, this.#crt, this, this.#ioCallPermit);
+        if (!proof.known) return proof;
+        return proof.value === returned.value ? returned : unknown('Actual ioInit result differs from its retained return');
       });
+      this.#ioResult = result;
+      this.#record('ioInit.return', result, '204678d3');
     } finally {
       this.#ioInvocationActive = false;
       const reached = NativeGameCrtIoInit.prototype.snapshot.call(io).nextBoundary;
-      if (reached) this.#nextBoundary = 'iat' in reached
-        ? Object.freeze({ name: reached.operation, address: reached.pc, iat: reached.iat })
-        : Object.freeze({ name: reached.operation, address: reached.pc, target: reached.target });
+      this.#nextBoundary = !reached ? null : 'instruction' in reached
+        ? Object.freeze({ name: reached.operation, address: reached.pc, instruction: reached.instruction })
+        : 'iat' in reached
+          ? Object.freeze({ name: reached.operation, address: reached.pc, iat: reached.iat })
+          : Object.freeze({ name: reached.operation, address: reached.pc, target: reached.target });
     }
-    this.#gate('Unowned ioInit return and caller continuation at204678d3');
+    this.#gate('caller TEST EAX,EAX at204678d3 after ioInit returned ' + this.#ioResult);
   }
   #continuationPointerStore(label: 'commandLinePointer' | 'environmentBlock', pointer: NativeBytePointer | null): void {
     const fields = NativeModuleCrtOwner.canonicalImageForOwner(this.#crt, label);
@@ -680,6 +691,7 @@ export class NativeCrtBootstrap {
       environmentReturned: this.#environmentReturned, environmentNonNull: this.#environmentNonNull,
       environmentProgress: this.#environment?.known ? this.#environment.value.snapshot() : null,
       ioProgress: this.#io?.known ? NativeGameCrtIoInit.prototype.snapshot.call(this.#io.value) : null,
+      ioResult: this.#ioResult,
       nextBoundary: this.#nextBoundary,
       crtTraversalCompleted: false, nativeModuleInstantiated: false });
   }

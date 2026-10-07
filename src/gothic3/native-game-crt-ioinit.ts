@@ -1,6 +1,6 @@
-/** Actual Game ioInit stack/SEH, startup writer and normal calloc return. The
- * first block is published and initialized in source order; standard handles,
- * sections, exception dispatch and the final IO return remain prerequisites. */
+/** Actual Game ioInit source calls, physical frames and normal return. Current
+ * virtual handles and cached section procedures control the reached path;
+ * native exception dispatch and the caller's remaining CRT work stay unowned. */
 import type { NativeValue } from './dialogue';
 import { NativeCrtBootstrap } from './native-crt-bootstrap';
 import { NativeModuleCrtOwner } from './native-engine-crt-locks';
@@ -11,6 +11,8 @@ import type { NativeX86Word32 } from './native-x86-thread-stack';
 import { admitGameIoStartupSource, gameIoStartupInstruction, gameIoStartupImageReceipt } from './native-game-crt-io-source';
 import { admitGameIoWriterSource, gameIoWriterStartupInstruction } from './native-game-crt-io-writer-source';
 import { admitGameIoAllocationSource, gameIoAllocationInstruction, gameIoAllocationImageReceipt } from './native-game-crt-io-allocation-source';
+import { admitGameIoCompletionSource, gameIoCompletionInstruction, gameIoCompletionImageReceipt } from './native-game-crt-io-completion-source';
+import type { NativeStandardIoCallSite } from './native-win32-standard-io';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = (reason: string): { known: false; reason: string } => ({ known: false, reason });
@@ -19,7 +21,7 @@ function reason(error: unknown): string {
   try { return error instanceof Error ? error.message : String(error); }
   catch { return 'Game ioInit escaped without an owned error description'; }
 }
-type Phase = 'cold' | 'invoking' | 'blocked';
+type Phase = 'cold' | 'invoking' | 'blocked' | 'returned';
 interface Construction {
   phase: 'constructing' | 'returned' | 'blocked'; owner: NativeGameCrtIoInit | null; boundary: string | null;
 }
@@ -30,7 +32,24 @@ export type NativeGameCrtIoInitNextBoundary =
   | Readonly<{ pc: '20474314'; iat: '207d7c1c'; operation: 'GetStartupInfoA' }>
   | Readonly<{ pc: '20474327'; target: '204683ce'; operation: 'calloc' }>
   | Readonly<{ pc: '20477ce8'; iat: '207d7b84'; operation: 'HeapAlloc' }>
-  | Readonly<{ pc: '204744b4'; iat: '207d7bbc'; operation: 'GetStdHandle' }>;
+  | Readonly<{ pc: '204744b4'; iat: '207d7bbc'; operation: 'GetStdHandle' }>
+  | Readonly<{ pc: '204744c6'; iat: '207d7c18'; operation: 'GetFileType' }>
+  | Readonly<{ pc: '2047451e'; iat: '207d7c14'; operation: 'SetHandleCount' }>
+  | Readonly<{ pc: '20467de8' | '20467dff'; target: 'ESI'; operation: 'TlsGetValue' }>
+  | Readonly<{ pc: '20467e01'; target: 'EAX'; operation: 'FlsGetValue' }>
+  | Readonly<{ pc: '20467e3d'; target: 'EAX'; operation: 'DecodePointer' }>
+  | Readonly<{ pc: '20474246'; target: 'ESI'; operation: 'sectionInitializer' }>
+  | Readonly<{ pc: '204678d3'; instruction: 'TEST EAX,EAX'; operation: 'callerTest' }>;
+const standardIoBoundaries: Readonly<Record<NativeStandardIoCallSite, NativeGameCrtIoInitNextBoundary>> = Object.freeze({
+  '204744b4': Object.freeze({ pc: '204744b4', iat: '207d7bbc', operation: 'GetStdHandle' }),
+  '204744c6': Object.freeze({ pc: '204744c6', iat: '207d7c18', operation: 'GetFileType' }),
+  '2047451e': Object.freeze({ pc: '2047451e', iat: '207d7c14', operation: 'SetHandleCount' }),
+  '20467de8': Object.freeze({ pc: '20467de8', target: 'ESI', operation: 'TlsGetValue' }),
+  '20467dff': Object.freeze({ pc: '20467dff', target: 'ESI', operation: 'TlsGetValue' }),
+  '20467e01': Object.freeze({ pc: '20467e01', target: 'EAX', operation: 'FlsGetValue' }),
+  '20467e3d': Object.freeze({ pc: '20467e3d', target: 'EAX', operation: 'DecodePointer' }),
+  '20474246': Object.freeze({ pc: '20474246', target: 'ESI', operation: 'sectionInitializer' }),
+});
 const owners = new WeakMap<NativeModuleCrtOwner, Construction>();
 const constructionToken = Object.freeze({});
 
@@ -66,6 +85,19 @@ export class NativeGameCrtIoInit {
   #initializedRecordCount = 0;
   #standardInputArgumentPrepared = false;
   #standardHandleBoundaryReached = false;
+  #completionSourceAdmitted = false;
+  #standardLoopActive = false;
+  #standardIoCallSite: NativeStandardIoCallSite | null = null;
+  #sectionScope: NativeHeapObjectViews | null = null;
+  #sectionActive = false;
+  #sectionPrologReturned = false;
+  #sectionEpilogActive = false;
+  #sectionEpilogReturned = false;
+  #decodeActive = false;
+  #outerEpilogActive = false;
+  #outerEpilogReturned = false;
+  #callerReturnConsumed = false;
+  #ioResult: 0 | -1 | null = null;
   #suspension: Readonly<NativeValue<void>> | null = null;
   readonly #effects: IoEffect[] = [];
 
@@ -113,7 +145,7 @@ export class NativeGameCrtIoInit {
     // Retain the already admitted graph even if a current execution/lifetime
     // proof failed. This original private identity permits no source operation.
     if (mode === 'retain') {
-      return entry.phase === 'returned' && (owner.#phase === 'invoking' || owner.#phase === 'blocked')
+      return entry.phase === 'returned' && (owner.#phase === 'invoking' || owner.#phase === 'blocked' || owner.#phase === 'returned')
         ? known(undefined) : unknown('Actual reached ioInit prefix required for retention');
     }
     if (!NativeModuleCrtOwner.isConstructedOwner(crt) || crt.module !== 'Game') return unknown('Actual constructed Game CRT required');
@@ -158,6 +190,51 @@ export class NativeGameCrtIoInit {
       ? known(undefined) : unknown('Actual reached HeapAlloc in the retained nested Game calloc frame required');
   }
 
+  /** Each fixed import site belongs to the actual current outer, section or
+   * decode source frame. The graph separately proves its current arguments,
+   * procedure identity, pending return and normal endpoint result. */
+  static canonicalStandardIoCallForCrt(owner: NativeGameCrtIoInit, crt: NativeModuleCrtOwner,
+    controller: object, site: NativeStandardIoCallSite): NativeValue<void> {
+    const active = NativeGameCrtIoInit.canonicalControllerForCrt(owner, crt, controller, 'invoke');
+    if (!active.known) return active;
+    if (owner.#pc !== site || owner.#standardIoCallSite !== site || !owner.#standardLoopActive ||
+        owner.#outerEpilogActive || owner.#callerReturnConsumed) return unknown('Actual current standard-I/O source CALL required');
+    if (site === '204744b4' || site === '204744c6' || site === '2047451e') {
+      return !owner.#sectionActive && !owner.#decodeActive ? known(undefined)
+        : unknown('Actual outer ioInit import frame required');
+    }
+    if (!owner.#sectionActive || !owner.#sectionPrologReturned || owner.#sectionEpilogActive || !owner.#sectionScope) {
+      return unknown('Actual retained section source frame and current registration required');
+    }
+    if (site === '20474246') return !owner.#decodeActive ? known(undefined) : unknown('Section procedure cannot be called inside its decode wrapper');
+    return owner.#decodeActive ? known(undefined) : unknown('Actual current physical DecodePointer wrapper required');
+  }
+
+  static canonicalIoReturnForCrt(owner: NativeGameCrtIoInit, crt: NativeModuleCrtOwner,
+    controller: object): NativeValue<void> {
+    const active = NativeGameCrtIoInit.canonicalControllerForCrt(owner, crt, controller, 'invoke');
+    if (!active.known) return active;
+    return owner.#pc === '2047453e' && owner.#outerEpilogReturned && owner.#callerReturnConsumed &&
+      !owner.#sectionActive && !owner.#decodeActive && !owner.#callocImplActive
+      ? known(undefined) : unknown('Actual final Game ioInit RET and restored outer frame required');
+  }
+
+  /** A caller may verify the one actually returned result while its original
+   * private invocation permit remains active. This never executes or replays IO. */
+  static canonicalReturnedIoForCrt(owner: NativeGameCrtIoInit, crt: NativeModuleCrtOwner,
+    bootstrap: NativeCrtBootstrap, permit: object): NativeValue<number> {
+    const entry = owners.get(crt);
+    if (!owner || entry?.phase !== 'returned' || entry.owner !== owner || owner.#crt !== crt ||
+        owner.#bootstrap !== bootstrap || owner.#permit !== permit || owner.#phase !== 'returned' ||
+        owner.#pc !== '204678d3' || !owner.#callerReturnConsumed || !owner.#outerEpilogReturned || owner.#ioResult === null) {
+      return unknown('Actual normal IO return from the original same-CRT invocation required');
+    }
+    const caller = NativeCrtBootstrap.canonicalIoCallForCrt(bootstrap, crt, permit);
+    if (!caller.known) return caller;
+    try { owner.#requireImages(); return known(owner.#ioResult); }
+    catch (error) { return unknown(reason(error)); }
+  }
+
   static enterForAttach(owner: NativeGameCrtIoInit, crt: NativeModuleCrtOwner,
     bootstrap: NativeCrtBootstrap, permit: object): NativeValue<number> {
     const entry = owners.get(crt);
@@ -183,15 +260,18 @@ export class NativeGameCrtIoInit {
     }
     if (this.#callocScope && (fact(NativeModuleCrtOwner.canonicalImageForOwner(this.#crt, 'callocEH4Scope')) !== this.#callocScope ||
         this.#callocScope.bytes.length !== 28)) throw new Error('Actual retained canonical Game calloc scope required');
+    if (this.#sectionScope && (fact(NativeModuleCrtOwner.canonicalImageForOwner(this.#crt, 'sectionInitExceptionTable')) !== this.#sectionScope ||
+        this.#sectionScope.bytes.length !== 28)) throw new Error('Actual retained canonical Game section scope required');
   }
   #guard(): void {
     this.#requireImages();
     if (this.#phase !== 'invoking' || !this.#bootstrap || !this.#permit) throw new Error(this.#boundary ?? 'Actual active ioInit invocation required');
     fact(NativeCrtBootstrap.canonicalIoCallForCrt(this.#bootstrap, this.#crt, this.#permit));
   }
-  #step<T>(pc: string, operation: string, body: () => NativeValue<T>, writerSource: boolean | 'allocation' = false): T {
+  #step<T>(pc: string, operation: string, body: () => NativeValue<T>, writerSource: boolean | 'allocation' | 'completion' = false): T {
     this.#pc = pc; this.#guard();
     if (writerSource === 'allocation') gameIoAllocationInstruction(pc);
+    else if (writerSource === 'completion') gameIoCompletionInstruction(pc);
     else if (writerSource) gameIoWriterStartupInstruction(pc); else gameIoStartupInstruction(pc);
     const value = fact(body());
     this.#effects.push(Object.freeze({ pc, operation }));
@@ -224,6 +304,10 @@ export class NativeGameCrtIoInit {
   #allocationStep<T>(pc: string, operation: string, body: () => NativeValue<T>): T {
     return this.#step(pc, operation, body, 'allocation');
   }
+  #completionStep<T>(pc: string, operation: string, body: () => NativeValue<T>): T {
+    if (!this.#completionSourceAdmitted) { admitGameIoCompletionSource(); this.#completionSourceAdmitted = true; }
+    return this.#step(pc, operation, body, 'completion');
+  }
   #add(word: NativeX86Word32, displacement: number): NativeX86Word32 {
     return fact(NativeX86ThreadStack.prototype.add.call(this.#stack, this.#controller, word, displacement));
   }
@@ -237,9 +321,9 @@ export class NativeGameCrtIoInit {
   #test(left: NativeX86Word32, right: NativeX86Word32): NativeValue<void> {
     return NativeX86ThreadStack.prototype.test.call(this.#stack, this.#controller, left, right);
   }
-  #branch(pc: string, condition: 'z' | 'nz' | 'be' | 'a' | 'c'): boolean {
-    return this.#allocationStep(pc, 'J' + condition.toUpperCase(), () =>
-      NativeX86ThreadStack.prototype.condition.call(this.#stack, this.#controller, condition));
+  #branch(pc: string, condition: 'z' | 'nz' | 'be' | 'a' | 'c' | 'l', source: 'allocation' | 'completion' = 'allocation'): boolean {
+    return this.#step(pc, 'J' + condition.toUpperCase(), () =>
+      NativeX86ThreadStack.prototype.condition.call(this.#stack, this.#controller, condition), source);
   }
   #pop(register: 'EAX' | 'EBX' | 'ECX' | 'EDX' | 'ESI' | 'EDI' | 'EBP' | 'ESP'): NativeValue<void> {
     return NativeX86ThreadStack.prototype.pop.call(this.#stack, this.#controller, register);
@@ -247,15 +331,15 @@ export class NativeGameCrtIoInit {
   #call(pc: string, returnPc: string): NativeValue<void> {
     return NativeX86ThreadStack.prototype.call.call(this.#stack, this.#controller, pc, returnPc);
   }
-  #return(pc: string, target: string): void {
-    const word = this.#allocationStep(pc, 'RET to ' + target, () => NativeX86ThreadStack.prototype.ret.call(this.#stack, this.#controller));
+  #return(pc: string, target: string, source: 'allocation' | 'completion' = 'allocation'): void {
+    const word = this.#step(pc, 'RET to ' + target, () => NativeX86ThreadStack.prototype.ret.call(this.#stack, this.#controller), source);
     fact(NativeX86ThreadStack.prototype.requireSourceAddress.call(this.#stack, this.#controller, word, 'code', target));
   }
-  #imageWord(label: string): NativeX86Word32 {
-    return fact(NativeX86ThreadStack.prototype.readGameImageWord.call(this.#stack, this.#controller, label, 0));
+  #imageWord(label: string, offset = 0): NativeX86Word32 {
+    return fact(NativeX86ThreadStack.prototype.readGameImageWord.call(this.#stack, this.#controller, label, offset));
   }
-  #imagePointer(label: string): NativeX86Word32 {
-    return fact(NativeX86ThreadStack.prototype.readGameImagePointer.call(this.#stack, this.#controller, label, 0));
+  #imagePointer(label: string, offset = 0): NativeX86Word32 {
+    return fact(NativeX86ThreadStack.prototype.readGameImagePointer.call(this.#stack, this.#controller, label, offset));
   }
   #loadWidth(address: NativeX86Word32, width: 1 | 2 | 4): NativeX86Word32 {
     return fact(NativeX86ThreadStack.prototype.loadWidth.call(this.#stack, this.#controller, address, width));
@@ -263,8 +347,10 @@ export class NativeGameCrtIoInit {
   #storeWidth(address: NativeX86Word32, word: NativeX86Word32, width: 1 | 2 | 4): NativeValue<void> {
     return NativeX86ThreadStack.prototype.storeWidth.call(this.#stack, this.#controller, address, word, width);
   }
-  #stopAt(pc: string, boundary: string): never {
-    this.#pc = pc; this.#guard(); gameIoAllocationInstruction(pc); throw new Error(boundary);
+  #stopAt(pc: string, boundary: string, source: 'allocation' | 'completion' = 'allocation'): never {
+    this.#pc = pc; this.#guard();
+    if (source === 'completion') gameIoCompletionInstruction(pc); else gameIoAllocationInstruction(pc);
+    throw new Error(boundary);
   }
 
   #nestedProlog(): void {
@@ -404,11 +490,11 @@ export class NativeGameCrtIoInit {
     this.#return('20468415', '2047432c'); this.#callocReturned = true;
   }
 
-  #initializeFirstBlock(): never {
+  #initializeFirstBlock(): boolean {
     this.#allocationStep('2047432c', 'POP ECX callerCount', () => this.#pop('ECX'));
     this.#allocationStep('2047432d', 'POP ECX callerSize', () => this.#pop('ECX'));
     this.#allocationStep('2047432e', 'CMP callocResult zero', () => this.#compare(this.#register('EAX'), this.#register('EDI')));
-    if (this.#branch('20474330', 'z')) this.#stopAt('20474536', 'Game ioInit NULL allocation failure tail and final outer return are not owned');
+    if (this.#branch('20474330', 'z')) { this.#finishIo(true); return false; }
     this.#allocationStep('20474336', 'MOV currentIoBlock allocationPointer', () =>
       NativeX86ThreadStack.prototype.storeGameImagePointer.call(this.#stack, this.#controller, 'ioBlocks', 0, this.#register('EAX')));
     this.#ioBlockPublished = true;
@@ -460,7 +546,226 @@ export class NativeGameCrtIoInit {
     this.#allocationStep('204744b3', 'PUSH actualSTD_INPUT_HANDLE', () => this.#push(this.#register('EAX')));
     this.#standardInputArgumentPrepared = true;
     this.#pc = '204744b4'; this.#guard(); gameIoAllocationInstruction(this.#pc); this.#standardHandleBoundaryReached = true;
-    throw new Error('Game ioInit204744b4 GetStdHandle IAT207d7bbc requires its actual import and normal stdcall return; STD_INPUT_HANDLE minus10 is retained on the original outer stack');
+    this.#standardLoopActive = true;
+    return true;
+  }
+
+  #standardCall(site: NativeStandardIoCallSite, operation: string, body: () => NativeValue<void>): void {
+    this.#pc = site; this.#standardIoCallSite = site;
+    this.#completionStep(site, operation, body);
+  }
+
+  /** The current record, source flags and real import results decide each
+   * iteration. Neither a selected profile nor a copied count chooses a branch. */
+  #standardHandles(): void {
+    while (true) {
+      this.#standardCall('204744b4', 'CALL GetStdHandle IAT207d7bbc', () =>
+        NativeX86ThreadStack.prototype.invokeGetStdHandle.call(this.#stack, this.#controller));
+      this.#completionStep('204744ba', 'MOV EDI actualStandardHandle', () => this.#set('EDI', this.#register('EAX')));
+      this.#completionStep('204744bc', 'CMP standardHandle minus1', () => this.#compare(this.#register('EDI'), this.#immediate(0xffffffff)));
+      let unavailable = this.#branch('204744bf', 'z', 'completion');
+      if (!unavailable) {
+        this.#completionStep('204744c1', 'TEST actualStandardHandle', () => this.#test(this.#register('EDI'), this.#register('EDI')));
+        unavailable = this.#branch('204744c3', 'z', 'completion');
+      }
+      if (!unavailable) {
+        this.#completionStep('204744c5', 'PUSH actualStandardHandle', () => this.#push(this.#register('EDI')));
+        this.#standardCall('204744c6', 'CALL GetFileType IAT207d7c18', () =>
+          NativeX86ThreadStack.prototype.invokeGetFileType.call(this.#stack, this.#controller));
+        this.#completionStep('204744cc', 'TEST actualFileType', () => this.#test(this.#register('EAX'), this.#register('EAX')));
+        unavailable = this.#branch('204744ce', 'z', 'completion');
+      }
+      if (unavailable) {
+        this.#completionStep('20474504', 'OR unavailableRecordFlag 0x40', () => {
+          const address = this.#add(this.#register('ESI'), 4);
+          return this.#storeWidth(address, this.#alu('or', this.#loadWidth(address, 1), this.#immediate(0x40), 1), 1);
+        });
+        this.#completionStep('20474508', 'MOV unavailableRecordHandle minus2', () => this.#storeWidth(this.#register('ESI'), this.#immediate(0xfffffffe), 4));
+      } else {
+        this.#completionStep('204744d0', 'MOV currentRecord actualHandleCapability', () => this.#storeWidth(this.#register('ESI'), this.#register('EDI'), 4));
+        this.#completionStep('204744d2', 'AND fileType lowByte', () => this.#set('EAX', this.#alu('and', this.#register('EAX'), this.#immediate(0xff))));
+        this.#completionStep('204744d7', 'CMP actualFileType character', () => this.#compare(this.#register('EAX'), this.#immediate(2)));
+        if (!this.#branch('204744da', 'nz', 'completion')) {
+          this.#completionStep('204744dc', 'OR characterRecordFlag 0x40', () => {
+            const address = this.#add(this.#register('ESI'), 4);
+            return this.#storeWidth(address, this.#alu('or', this.#loadWidth(address, 1), this.#immediate(0x40), 1), 1);
+          });
+          this.#completionStep('204744e0', 'JMP sectionArguments', () => known(undefined));
+        } else {
+          this.#completionStep('204744e2', 'CMP actualFileType pipe', () => this.#compare(this.#register('EAX'), this.#immediate(3)));
+          if (!this.#branch('204744e5', 'nz', 'completion')) {
+            this.#completionStep('204744e7', 'OR pipeRecordFlag 0x08', () => {
+              const address = this.#add(this.#register('ESI'), 4);
+              return this.#storeWidth(address, this.#alu('or', this.#loadWidth(address, 1), this.#immediate(8), 1), 1);
+            });
+          }
+        }
+        this.#completionStep('204744eb', 'PUSH sectionSpinCount 4000', () => this.#push(this.#immediate(4000)));
+        this.#completionStep('204744f0', 'LEA currentRecordSection', () => this.#set('EAX', this.#add(this.#register('ESI'), 0x0c)));
+        this.#completionStep('204744f3', 'PUSH currentRecordSection', () => this.#push(this.#register('EAX')));
+        this.#completionStep('204744f4', 'CALL sectionHelper204741c7', () => this.#call('204744f4', '204744f9'));
+        this.#sectionActive = true; this.#sectionPrologReturned = false; this.#sectionEpilogReturned = false;
+        this.#section();
+        this.#completionStep('204744f9', 'POP ECX sectionPointerArgument', () => this.#pop('ECX'));
+        this.#completionStep('204744fa', 'POP ECX sectionSpinArgument', () => this.#pop('ECX'));
+        this.#completionStep('204744fb', 'TEST actualSectionResult', () => this.#test(this.#register('EAX'), this.#register('EAX')));
+        if (this.#branch('204744fd', 'z', 'completion')) { this.#finishIo(true); return; }
+        this.#completionStep('204744ff', 'INC initializedRecordSectionCount', () => {
+          const address = this.#add(this.#register('ESI'), 8);
+          return this.#storeWidth(address, fact(NativeX86ThreadStack.prototype.increment.call(this.#stack, this.#controller, this.#loadWidth(address, 4))), 4);
+        });
+        this.#completionStep('20474502', 'JMP nextStandardRecord', () => known(undefined));
+      }
+      this.#completionStep('2047450e', 'INC standardRecordIndex', () => this.#set('EBX', fact(NativeX86ThreadStack.prototype.increment.call(this.#stack, this.#controller, this.#register('EBX')))));
+      this.#completionStep('2047450f', 'CMP standardRecordIndex three', () => this.#compare(this.#register('EBX'), this.#immediate(3)));
+      if (!this.#branch('20474512', 'l', 'completion')) break;
+      this.#prepareNextStandardHandle();
+    }
+    this.#completionStep('20474518', 'PUSH currentIoHandleCount', () => this.#push(this.#imageWord('ioHandleCount')));
+    this.#standardCall('2047451e', 'CALL SetHandleCount IAT207d7c14', () =>
+      NativeX86ThreadStack.prototype.invokeSetHandleCount.call(this.#stack, this.#controller));
+    this.#completionStep('20474524', 'XOR EAX normalIoResult', () => { const eax = this.#register('EAX'); return this.#set('EAX', this.#xor(eax, eax)); });
+    this.#completionStep('20474526', 'JMP outerIoEpilog', () => known(undefined));
+    this.#finishIo(false);
+  }
+
+  #prepareNextStandardHandle(): void {
+    this.#completionStep('2047447f', 'MOV ESI currentStandardIndex', () => this.#set('ESI', this.#register('EBX')));
+    this.#completionStep('20474481', 'IMUL ESI recordStride', () => this.#set('ESI', this.#alu('imul', this.#register('ESI'), this.#immediate(0x38))));
+    this.#completionStep('20474484', 'ADD ESI currentIoBlockPointer', () => this.#set('ESI', this.#alu('add', this.#register('ESI'), this.#imagePointer('ioBlocks'))));
+    this.#completionStep('2047448a', 'MOV EAX currentStandardRecordHandle', () => this.#set('EAX', this.#loadWidth(this.#register('ESI'), 4)));
+    this.#completionStep('2047448c', 'CMP currentRecordHandle minus1', () => this.#compare(this.#register('EAX'), this.#immediate(0xffffffff)));
+    if (!this.#branch('2047448f', 'z', 'completion')) this.#stopAt('20474491', 'Game ioInit preexisting later standard handle branch is not owned', 'completion');
+    this.#completionStep('2047449c', 'MOV currentRecordFlags 0x81', () => this.#storeWidth(this.#add(this.#register('ESI'), 4), this.#immediate(0x81), 1));
+    this.#completionStep('204744a0', 'TEST currentStandardIndex', () => this.#test(this.#register('EBX'), this.#register('EBX')));
+    if (this.#branch('204744a2', 'nz', 'completion')) {
+      this.#completionStep('204744a9', 'MOV EAX currentStandardIndex', () => this.#set('EAX', this.#register('EBX')));
+      this.#completionStep('204744ab', 'DEC EAX standardIdentifier', () => this.#set('EAX', fact(NativeX86ThreadStack.prototype.decrement.call(this.#stack, this.#controller, this.#register('EAX')))));
+      this.#completionStep('204744ac', 'NEG EAX standardIdentifier', () => this.#set('EAX', fact(NativeX86ThreadStack.prototype.negate.call(this.#stack, this.#controller, this.#register('EAX')))));
+      this.#completionStep('204744ae', 'SBB EAX EAX fromCurrentCF', () => { const eax = this.#register('EAX'); return this.#set('EAX', this.#alu('sbb', eax, eax)); });
+      this.#completionStep('204744b0', 'ADD EAX standardOutputBase minus11', () => this.#set('EAX', this.#alu('add', this.#register('EAX'), this.#immediate(0xfffffff5))));
+    } else {
+      this.#completionStep('204744a4', 'PUSH STD_INPUT_HANDLE minus10', () => this.#push(this.#immediate(0xfffffff6)));
+      this.#completionStep('204744a6', 'POP EAX STD_INPUT_HANDLE', () => this.#pop('EAX'));
+      this.#completionStep('204744a7', 'JMP standardHandleArgument', () => known(undefined));
+    }
+    this.#completionStep('204744b3', 'PUSH currentStandardIdentifier', () => this.#push(this.#register('EAX')));
+  }
+
+  #section(): void {
+    this.#completionStep('204741c7', 'PUSH sectionLocalBytes', () => this.#push(this.#immediate(0x14)));
+    this.#completionStep('204741c9', 'PUSH readonlySectionScope', () => {
+      const receipt = gameIoCompletionImageReceipt('sectionInitExceptionTable');
+      if (receipt.address !== '206e8e70' || receipt.bytes !== 28) throw new Error('Original Game section scope differs');
+      this.#sectionScope = fact(NativeModuleCrtOwner.canonicalImageForOwner(this.#crt, 'sectionInitExceptionTable'));
+      fact(NativeX86ThreadStack.prototype.registerSourceImage.call(this.#stack, this.#controller, receipt.address, this.#sectionScope));
+      return this.#push(fact(NativeX86ThreadStack.prototype.sourceAddress.call(this.#stack, this.#controller, 'image', receipt.address)));
+    });
+    this.#completionStep('204741ce', 'CALL sectionSEHProlog4', () => this.#call('204741ce', '204741d3'));
+    this.#sectionProlog(); this.#sectionPrologReturned = true;
+    this.#completionStep('204741d3', 'XOR EDI sectionZero', () => { const edi = this.#register('EDI'); return this.#set('EDI', this.#xor(edi, edi)); });
+    this.#completionStep('204741d5', 'MOV localPlatformField zero', () => this.#store(this.#relative('EBP', -0x1c), this.#register('EDI')));
+    this.#completionStep('204741d8', 'PUSH currentEncodedSectionInitializer', () => this.#push(this.#imagePointer('crtSectionInitializer')));
+    this.#completionStep('204741de', 'CALL physicalDecodePointer20467ddb', () => this.#call('204741de', '204741e3'));
+    this.#decodeActive = true; this.#decodePointer(); this.#decodeActive = false;
+    this.#completionStep('204741e3', 'POP ECX decodedCallerArgument', () => this.#pop('ECX'));
+    this.#completionStep('204741e4', 'MOV ESI actualDecodedProcedure', () => this.#set('ESI', this.#register('EAX')));
+    this.#completionStep('204741e6', 'CMP decodedProcedure zero', () => this.#compare(this.#register('ESI'), this.#register('EDI')));
+    if (!this.#branch('204741e8', 'nz', 'completion')) this.#stopAt('204741ea', 'Game section initializer current cached-NULL resolver source calls are not owned', 'completion');
+    this.#completionStep('2047423d', 'MOV sectionTryLevel zero', () => this.#store(this.#relative('EBP', -4), this.#register('EDI')));
+    this.#completionStep('20474240', 'PUSH currentSectionSpinArgument', () => this.#push(this.#load(this.#relative('EBP', 0x0c))));
+    this.#completionStep('20474243', 'PUSH currentSectionPointerArgument', () => this.#push(this.#load(this.#relative('EBP', 8))));
+    this.#standardCall('20474246', 'CALL currentSectionProcedure ESI', () =>
+      NativeX86ThreadStack.prototype.invokeSectionInitializer.call(this.#stack, this.#controller));
+    this.#completionStep('20474248', 'MOV actualSectionBOOL', () => this.#store(this.#relative('EBP', -0x20), this.#register('EAX')));
+    this.#completionStep('2047424b', 'JMP sectionNormalEpilog', () => known(undefined));
+    this.#completionStep('2047427c', 'MOV sectionTryLevel minus2', () => this.#store(this.#relative('EBP', -4), this.#immediate(0xfffffffe)));
+    this.#completionStep('20474283', 'MOV EAX retainedSectionBOOL', () => this.#set('EAX', this.#load(this.#relative('EBP', -0x20))));
+    this.#completionStep('20474286', 'CALL sectionSEHEpilog4', () => this.#call('20474286', '2047428b'));
+    this.#sectionEpilogActive = true; this.#completionEpilog('2047428b'); this.#sectionEpilogReturned = true;
+    this.#return('2047428b', '204744f9', 'completion');
+    this.#sectionEpilogActive = false; this.#sectionActive = false;
+  }
+
+  #sectionProlog(): void {
+    this.#completionStep('20468570', 'PUSH sectionHandlerAddress', () => this.#push(fact(NativeX86ThreadStack.prototype.sourceAddress.call(this.#stack, this.#controller, 'code', '20468600'))));
+    this.#completionStep('20468575', 'PUSH previousFS0', () => this.#push(fact(NativeX86ThreadStack.prototype.readFs0.call(this.#stack, this.#controller))));
+    this.#completionStep('2046857c', 'MOV EAX sectionLocalBytes', () => this.#set('EAX', this.#load(this.#relative('ESP', 0x10))));
+    this.#completionStep('20468580', 'MOV savedEBP', () => this.#store(this.#relative('ESP', 0x10), this.#register('EBP')));
+    this.#completionStep('20468584', 'LEA EBP sectionFrame', () => this.#set('EBP', this.#relative('ESP', 0x10)));
+    this.#completionStep('20468588', 'SUB ESP sectionLocalBytes', () => this.#set('ESP', this.#alu('sub', this.#register('ESP'), this.#register('EAX'))));
+    this.#completionStep('2046858a', 'PUSH savedEBX', () => this.#push(this.#register('EBX')));
+    this.#completionStep('2046858b', 'PUSH savedESI', () => this.#push(this.#register('ESI')));
+    this.#completionStep('2046858c', 'PUSH savedEDI', () => this.#push(this.#register('EDI')));
+    this.#completionStep('2046858d', 'MOV EAX currentSecurityCookie', () => this.#set('EAX', this.#imageWord('securityCookie')));
+    this.#completionStep('20468592', 'XOR encodedSectionScopeCookie', () => {
+      const address = this.#relative('EBP', -4);
+      return this.#store(address, this.#xor(this.#load(address), this.#register('EAX')));
+    });
+    this.#completionStep('20468595', 'XOR EAX sectionEBP', () => this.#set('EAX', this.#xor(this.#register('EAX'), this.#register('EBP'))));
+    this.#completionStep('20468597', 'PUSH sectionFrameCookie', () => this.#push(this.#register('EAX')));
+    this.#completionStep('20468598', 'MOV sectionSavedESP', () => this.#store(this.#relative('EBP', -0x18), this.#register('ESP')));
+    this.#completionStep('2046859b', 'PUSH sectionPrologReturn', () => this.#push(this.#load(this.#relative('EBP', -8))));
+    this.#completionStep('2046859e', 'MOV EAX encodedSectionScope', () => this.#set('EAX', this.#load(this.#relative('EBP', -4))));
+    this.#completionStep('204685a1', 'MOV sectionTryLevel minus2', () => this.#store(this.#relative('EBP', -4), this.#immediate(0xfffffffe)));
+    this.#completionStep('204685a8', 'MOV encodedSectionScope', () => this.#store(this.#relative('EBP', -8), this.#register('EAX')));
+    this.#completionStep('204685ab', 'LEA sectionRegistration', () => this.#set('EAX', this.#relative('EBP', -0x10)));
+    this.#completionStep('204685ae', 'MOV FS0 actualSectionRegistration', () => NativeX86ThreadStack.prototype.writeFs0.call(this.#stack, this.#controller, this.#register('EAX')));
+    this.#return('204685b4', '204741d3', 'completion');
+  }
+
+  #decodePointer(): void {
+    this.#completionStep('20467ddb', 'PUSH decodeSavedESI', () => this.#push(this.#register('ESI')));
+    this.#completionStep('20467ddc', 'PUSH currentGetterTLSIndex', () => this.#push(this.#imageWord('crtTlsIndexes', 4)));
+    this.#completionStep('20467de2', 'MOV ESI actualTlsGetValueImport', () => this.#set('ESI', fact(NativeX86ThreadStack.prototype.runtimeProcedure.call(this.#stack, this.#controller, 'TlsGetValue'))));
+    this.#standardCall('20467de8', 'CALL currentTlsGetValue ESI', () => NativeX86ThreadStack.prototype.invokeTlsGetValue.call(this.#stack, this.#controller, '20467de8'));
+    this.#completionStep('20467dea', 'TEST actualGetterCacheResult', () => this.#test(this.#register('EAX'), this.#register('EAX')));
+    if (this.#branch('20467dec', 'z', 'completion')) this.#stopAt('20467e0f', 'Game DecodePointer missing current TLS getter resolver path is not owned', 'completion');
+    this.#completionStep('20467dee', 'MOV EAX currentPTDIndex', () => this.#set('EAX', this.#imageWord('crtTlsIndexes')));
+    this.#completionStep('20467df3', 'CMP currentPTDIndex minus1', () => this.#compare(this.#register('EAX'), this.#immediate(0xffffffff)));
+    if (this.#branch('20467df6', 'z', 'completion')) this.#stopAt('20467e0f', 'Game DecodePointer current invalid PTD-index resolver path is not owned', 'completion');
+    this.#completionStep('20467df8', 'PUSH currentPTDIndex', () => this.#push(this.#register('EAX')));
+    this.#completionStep('20467df9', 'PUSH currentGetterTLSIndex', () => this.#push(this.#imageWord('crtTlsIndexes', 4)));
+    this.#standardCall('20467dff', 'CALL currentTlsGetValue ESI', () => NativeX86ThreadStack.prototype.invokeTlsGetValue.call(this.#stack, this.#controller, '20467dff'));
+    this.#standardCall('20467e01', 'CALL actualCachedFlsGetValue EAX', () => NativeX86ThreadStack.prototype.invokeFlsGetValue.call(this.#stack, this.#controller));
+    this.#completionStep('20467e03', 'TEST actualCurrentPTD', () => this.#test(this.#register('EAX'), this.#register('EAX')));
+    if (this.#branch('20467e05', 'z', 'completion')) this.#stopAt('20467e0f', 'Game DecodePointer current NULL PTD resolver path is not owned', 'completion');
+    this.#completionStep('20467e07', 'MOV EAX currentPTDDecodeProcedure', () => this.#set('EAX', fact(NativeX86ThreadStack.prototype.loadPointer.call(this.#stack, this.#controller, this.#add(this.#register('EAX'), 0x1fc)))));
+    this.#completionStep('20467e0d', 'JMP currentDecodeProcedureTest', () => known(undefined));
+    this.#completionStep('20467e35', 'TEST currentDecodeProcedure', () => this.#test(this.#register('EAX'), this.#register('EAX')));
+    if (!this.#branch('20467e37', 'z', 'completion')) {
+      this.#completionStep('20467e39', 'PUSH currentEncodedCallerArgument', () => this.#push(this.#load(this.#relative('ESP', 8))));
+      this.#standardCall('20467e3d', 'CALL actualCurrentDecodePointer EAX', () => NativeX86ThreadStack.prototype.invokeDecodePointer.call(this.#stack, this.#controller));
+      this.#completionStep('20467e3f', 'MOV decodedResult actualCallerArgument', () => this.#store(this.#relative('ESP', 8), this.#register('EAX')));
+    }
+    this.#completionStep('20467e43', 'MOV EAX actualCallerArgument', () => this.#set('EAX', this.#load(this.#relative('ESP', 8))));
+    this.#completionStep('20467e47', 'POP ESI decodeSavedRegister', () => this.#pop('ESI'));
+    this.#return('20467e48', '204741e3', 'completion');
+  }
+
+  #completionEpilog(returnPc: '2047428b' | '2047453e'): void {
+    this.#completionStep('204685b5', 'MOV ECX previousFS0', () => this.#set('ECX', this.#load(this.#relative('EBP', -0x10))));
+    this.#completionStep('204685b8', 'MOV FS0 previousRegistration', () => NativeX86ThreadStack.prototype.writeFs0.call(this.#stack, this.#controller, this.#register('ECX')));
+    this.#completionStep('204685bf', 'POP ECX actualEpilogReturn', () => this.#pop('ECX'));
+    this.#completionStep('204685c0', 'POP EDI frameCookie', () => this.#pop('EDI'));
+    this.#completionStep('204685c1', 'POP EDI savedRegister', () => this.#pop('EDI'));
+    this.#completionStep('204685c2', 'POP ESI savedRegister', () => this.#pop('ESI'));
+    this.#completionStep('204685c3', 'POP EBX savedRegister', () => this.#pop('EBX'));
+    this.#completionStep('204685c4', 'MOV ESP currentEBP', () => this.#set('ESP', this.#register('EBP')));
+    this.#completionStep('204685c6', 'POP EBP savedFrame', () => this.#pop('EBP'));
+    this.#completionStep('204685c7', 'PUSH ECX actualEpilogReturn', () => this.#push(this.#register('ECX')));
+    this.#return('204685c8', returnPc, 'completion');
+  }
+
+  #finishIo(failed: boolean): void {
+    if (failed) this.#completionStep('20474536', 'OR EAX failedIoResult minus1', () => this.#set('EAX', this.#alu('or', this.#register('EAX'), this.#immediate(0xffffffff))));
+    this.#completionStep('20474539', 'CALL outerIoSEHEpilog4', () => this.#call('20474539', '2047453e'));
+    this.#outerEpilogActive = true; this.#completionEpilog('2047453e'); this.#outerEpilogReturned = true;
+    this.#return('2047453e', '204678d3', 'completion'); this.#callerReturnConsumed = true;
+    const result = fact(NativeX86ThreadStack.prototype.ioReturnResult.call(this.#stack, this.#controller));
+    if (result !== 0 && result !== -1) throw new Error('Actual source IO return must be zero or signed minus1');
+    this.#ioResult = result; this.#standardLoopActive = false; this.#outerEpilogActive = false;
+    this.#phase = 'returned'; this.#pc = '204678d3';
   }
   #suspend(boundary: string): void {
     // Retention uses its own original-controller proof even if the caller's
@@ -473,6 +778,7 @@ export class NativeGameCrtIoInit {
   }
 
   #enter(bootstrap: NativeCrtBootstrap, permit: object): NativeValue<number> {
+    if (this.#phase === 'returned') return unknown('The completed Game ioInit invocation cannot replay');
     if (this.#phase === 'blocked') return unknown(this.#boundary!);
     if (this.#phase === 'invoking') {
       this.#suspend('Reentrant Game ioInit interrupted its active source prefix'); return unknown(this.#boundary!);
@@ -539,7 +845,9 @@ export class NativeGameCrtIoInit {
       this.#step('20474326', 'PUSH ESI calloc count32', () => this.#push(this.#register('ESI')), true);
       this.#pc = '20474327'; this.#guard(); gameIoWriterStartupInstruction(this.#pc);
       this.#callocBoundaryReached = true;
-      this.#calloc(); this.#initializeFirstBlock();
+      this.#calloc();
+      if (this.#initializeFirstBlock()) this.#standardHandles();
+      return NativeGameCrtIoInit.canonicalReturnedIoForCrt(this, this.#crt, bootstrap, permit);
     } catch (error) { this.#suspend(reason(error)); return unknown(this.#boundary!); }
   }
 
@@ -549,8 +857,14 @@ export class NativeGameCrtIoInit {
     // including a post-operation guard failure. They never authorize a call,
     // retry, epilog or continuation on the retained graph.
     const callocCall = stack.calls.find(call => call.site === '20474327');
-    const nextBoundary: Readonly<NativeGameCrtIoInitNextBoundary> | null = this.#standardHandleBoundaryReached
-      ? Object.freeze({ pc: '204744b4', iat: '207d7bbc', operation: 'GetStdHandle' })
+    const incomingCall = stack.calls.find(call => call.site === '204678ce');
+    const outerEpilogCall = stack.calls.find(call => call.site === '20474539');
+    const nextBoundary: Readonly<NativeGameCrtIoInitNextBoundary> | null = this.#phase === 'returned'
+      ? Object.freeze({ pc: '204678d3', instruction: 'TEST EAX,EAX', operation: 'callerTest' })
+      : this.#standardIoCallSite && this.#pc === this.#standardIoCallSite
+        ? standardIoBoundaries[this.#standardIoCallSite]
+      : this.#standardHandleBoundaryReached && this.#pc === '204744b4'
+        ? Object.freeze({ pc: '204744b4', iat: '207d7bbc', operation: 'GetStdHandle' })
       : this.#heapAllocBoundaryReached && this.#pc === '20477ce8'
         ? Object.freeze({ pc: '20477ce8', iat: '207d7b84', operation: 'HeapAlloc' })
       : this.#callocBoundaryReached && this.#pc === '20474327' && !callocCall
@@ -577,8 +891,10 @@ export class NativeGameCrtIoInit {
       startupInfo, suspension: this.#suspension,
       effects: Object.freeze([...this.#effects]),
       stack,
-      callerReturn: '204678d3', callerReturnConsumed: false,
-      callerSlotLifetime: 'retained-through-final-ioInit-RET2047453e' as const,
+      callerReturn: '204678d3', callerReturnConsumed: this.#callerReturnConsumed || incomingCall?.returned === true,
+      callerSlotLifetime: this.#callerReturnConsumed || incomingCall?.returned === true
+        ? 'consumed-by-original-ioInit-RET2047453e' as const : 'retained-through-final-ioInit-RET2047453e' as const,
+      startupInfoFrameLifetime: incomingCall?.returned === true ? 'expired' as const : 'retained' as const,
       getStartupInfoCallPushed: stack.startupInfoCallPushed,
       getStartupInfoCalled: stack.startupInfoWriterCalled, getStartupInfoReturned: stack.startupInfoWriterReturned,
       callocArgumentPrefixCompleted: this.#callocBoundaryReached,
@@ -593,8 +909,19 @@ export class NativeGameCrtIoInit {
       ioGlobalsPublished: this.#ioBlockPublished && this.#ioCountPublished,
       initializedRecordCount: this.#initializedRecordCount,
       standardInputArgumentPrepared: this.#standardInputArgumentPrepared,
-      exceptionDispatchExecuted: false, epilogExecuted: false,
-      ioInitReturned: false, wholeCrtTraversalCompleted: false, moduleAttachCompleted: false });
+      standardIoCalls: stack.standardIoCalls,
+      getStdHandleReturnedCount: stack.standardIoCalls.filter(call => call.site === '204744b4' && call.returned).length,
+      getFileTypeReturnedCount: stack.standardIoCalls.filter(call => call.site === '204744c6' && call.returned).length,
+      sectionHelperReturnedCount: stack.calls.filter(call => call.site === '204744f4' && call.returned).length,
+      initializedStandardRecordCount: this.#effects.filter(effect => effect.pc === '204744ff').length,
+      setHandleCountReturned: stack.standardIoCalls.some(call => call.site === '2047451e' && call.returned),
+      sectionActive: this.#sectionActive, sectionPrologReturned: this.#sectionPrologReturned,
+      sectionEpilogReturned: this.#sectionEpilogReturned, decodeActive: this.#decodeActive,
+      exceptionDispatchExecuted: false,
+      outerEpilogEntered: !!outerEpilogCall, outerEpilogReturned: this.#outerEpilogReturned || outerEpilogCall?.returned === true,
+      epilogExecuted: this.#outerEpilogReturned || outerEpilogCall?.returned === true,
+      ioInitRetExecuted: incomingCall?.returned === true, ioResult: this.#ioResult,
+      ioInitReturned: this.#phase === 'returned', wholeCrtTraversalCompleted: false, moduleAttachCompleted: false });
   }
 }
 export type NativeGameCrtIoInitSnapshot = ReturnType<NativeGameCrtIoInit['snapshot']>;

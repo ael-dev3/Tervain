@@ -14,6 +14,7 @@ import type { NativeWin32HeapCapability, NativeWin32ModuleCapability, NativeCrtP
 import type { NativeWin32ProcessInputEndpoints } from './native-win32-process-inputs';
 import { NativeX86ThreadStack } from './native-x86-thread-stack';
 import type { NativeHeapAllocCallGrant } from './native-x86-thread-stack';
+import { NativeCrtThreadStartup } from './native-crt-thread-startup';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = (reason: string): { known: false; reason: string } => ({ known: false, reason });
@@ -227,6 +228,18 @@ export class NativeModuleCrtOwner {
       return heap && heap.owner === owner.identity && owner.#heaps.has(heap) ? known(heap)
         : unknown('Actual current same-owner Game CRT heap capability required');
     } catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
+  }
+  /** Admit only the actual thread owner's retained PTD; this does not call a
+   * getter, allocate a record or initialize/replay any thread source routine. */
+  static canonicalGamePtdForPlatform(owner: NativeModuleCrtOwner, platform: NativeRuntimePlatform,
+    value: object): NativeValue<NativeHeapObjectViews> {
+    if (!NativeModuleCrtOwner.isConstructedOwner(owner) || owner.module !== 'Game' || owner.host.platform !== platform) {
+      return unknown('Actual same-platform Game PTD owner required');
+    }
+    const record = NativeCrtThreadStartup.canonicalPtdForCrt(owner, value); if (!record.known) return record;
+    const pointer = Object.freeze({ fields: record.value, offset: 0 });
+    const span = NativeRuntimePlatform.canonicalGameHeapDestination(platform, owner, pointer, 532); if (!span.known) return span;
+    return record;
   }
   readonly module: NativeCrtModule;
   readonly sourceProfile: NativeCrtSourceProfile;

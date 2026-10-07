@@ -693,3 +693,27 @@ before `GetStdHandle` at `204744b4`; handles, critical sections, the final I/O
 return and full startup remain required. See
 [checkpoint 107](../../docs/engineering/gothic3-rebuilding-process.md#107-own-the-first-io-allocation-and-record-initialization)
 for its review and publication status.
+
+## Game standard handles, sections and normal I/O return
+
+Generate the completion supplement after the unchanged preceding packages:
+
+```powershell
+python -B scripts/gothic3_game_io_completion_source.py --study '<LOCAL_DESKTOP_STUDY>' --repo . --output assets/gothic3/game-io-completion
+```
+
+The [four-output package](../../assets/gothic3/game-io-completion/README.md)
+reuses five original bodies with 304 rows and 908 instruction bytes. A separate
+caller TEST receipt marks an unexecuted boundary. Its contextual listings
+distinguish 12 original C/ASM bodies from three noncallable PE-only source gaps.
+The producer verifies the original files and earlier receipts without running
+native code or TypeScript.
+
+The explicit browser v5 policy supplies three virtual CHAR handles and a
+SetHandleCount result. Private physical calls reread the actual TLS/FLS/PTD and
+DecodePointer procedure, register three sections in the existing allocation,
+consume the helpers' normal returns and finish the outer I/O return. The next
+unowned instruction is caller TEST at `204678d3`; full startup, native NPCs and
+the campaign remain unfinished. See
+[checkpoint 108](../../docs/engineering/gothic3-rebuilding-process.md#108-own-standard-handles-critical-sections-and-the-normal-io-return)
+for source evidence, ownership and actual validation status.

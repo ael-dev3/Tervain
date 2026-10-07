@@ -4,6 +4,7 @@ import rulesText from '../../assets/gothic3/game-crt/runtime-rules.json?raw';
 import { admitGameEnvironmentSource, gameContinuationImagePins, gameContinuationImageReceipt } from './native-game-crt-attach-source';
 import { admitGameIoStartupSource, gameIoStartupImagePins, gameIoStartupImageReceipt } from './native-game-crt-io-source';
 import { admitGameIoAllocationSource, gameIoAllocationImagePins, gameIoAllocationImageReceipt } from './native-game-crt-io-allocation-source';
+import { admitGameIoCompletionSource } from './native-game-crt-io-completion-source';
 
 export type NativeCrtModule = 'Engine' | 'Game';
 export interface NativeCrtMethodReceipt {
@@ -175,6 +176,7 @@ export function admitNativeGameCrtSource(): void {
   admitGameEnvironmentSource();
   admitGameIoStartupSource();
   admitGameIoAllocationSource();
+  admitGameIoCompletionSource();
   if (rules.schema !== 'gothic3-game-crt-rules-v1' ||
       rules.inputs.Game !== 'b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f' ||
       methods.some(([label, address, hash]) => rules.methods[label]?.module !== 'Game' || rules.methods[label]?.entry !== address ||

@@ -5,21 +5,18 @@ start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
 Updated: 7 October 2026. The latest confirmed Gothic implementation publication
-recorded here is [checkpoint 106](#106-own-the-startup-info-writer-and-normal-import-return),
-merged in [PR 72](https://github.com/ael-dev3/Tervain/pull/72) at commit
-`9d8bbfb071e7f22deb0a412162b3aac3bfa01efa` and published by successful
-[workflow run 37639921718](https://github.com/ael-dev3/Tervain/actions/runs/37639921718).
-It connects the selected startup-info writer and normal stack return to the
-retained virtual stack, registers and exception frame, then prepares the first
-I/O allocation arguments. Its next required call is `calloc` at `20474327`.
-The [publication receipt](#confirmed-publication-of-checkpoint-106) verifies
+recorded here is [checkpoint 107](#107-own-the-first-io-allocation-and-record-initialization),
+merged in [PR 74](https://github.com/ael-dev3/Tervain/pull/74) at commit
+`b6cbd47eaeb56f641eba99eb7e9bdaa4f766fe21` and published by successful
+[workflow run 37650693600](https://github.com/ael-dev3/Tervain/actions/runs/37650693600).
+It connects the actual nested allocation, normal returns and first I/O block
+initialization. Its next required call is `GetStdHandle` at `204744b4`.
+The [publication receipt](#confirmed-publication-of-checkpoint-107) verifies
 the deployed artifacts. Full startup, production NPC activation and campaign
 completion remain unfinished.
 
-Checkpoint 107 is locally reviewed through the actual nested allocation and
-normal returns, then the connected first I/O block and record initialization.
-Its local browser observation shows 32 records and 531 source operations before
-`GetStdHandle` at `204744b4`; publication still needs a separate receipt. The earlier
+Checkpoint 107's local browser observation shows 32 records and 531 source
+operations before `GetStdHandle` at `204744b4`. The earlier
 checkpoint receipts remain evidence for their recorded revisions.
 The published baseline for checkpoints 95–99 was
 merged in [PR 60](https://github.com/ael-dev3/Tervain/pull/60) at commit
@@ -139,7 +136,7 @@ The [scope record](gothic3-browser-port.md) describes the current controls,
 limitations and source terms.
 
 This guide records the hosted baseline and subsequent dated checkpoints that
-preserve the evidence for each stage. Sections 10–107 cover
+preserve the evidence for each stage. Sections 10–108 cover
 the later runtime work; each receipt identifies its source revision and scope.
 
 Each checkpoint's reproduction commands describe its recorded source revision.
@@ -7881,8 +7878,8 @@ claim.
 
 This increment extends the retained startup invocation through the original
 `calloc` wrapper and nested implementation, then the first I/O record loop.
-The last confirmed publication remains checkpoint 106 until this increment
-has its own reviewed build, browser observation and deployment receipt.
+Its reviewed build, local browser observation and confirmed publication are
+recorded below.
 
 ### Preserve the full call path and genuine source gaps
 
@@ -7995,3 +7992,158 @@ pose. The captured browser error log contained no errors. This observation
 confirms the connected allocation and loop in this local build. It does not
 establish standard handle results, completed I/O or module startup, original
 Windows execution, NPC activation or a finishable campaign.
+
+### Confirmed publication of checkpoint 107
+
+[PR 74](https://github.com/ael-dev3/Tervain/pull/74) merged reviewed head
+`999f53d60ff901afac8bae08347de33aed704021` into main commit
+`b6cbd47eaeb56f641eba99eb7e9bdaa4f766fe21` on 7 October 2026.
+The [PR run 37649782591](https://github.com/ael-dev3/Tervain/actions/runs/37649782591)
+and [publication run 37650693600](https://github.com/ael-dev3/Tervain/actions/runs/37650693600)
+passed 2,464 existing scenarios in 235 files and built 460 modules, on attempt 1.
+Pages deployment `6915020894` succeeded for that exact main commit.
+
+The root, `/gothic3/` and `/gothic3-local/` routes returned HTTP 200. The three
+entry bundles and Gothic NPC service bundle matched the successful main run's
+downloaded artifact byte for byte. The ten implementation files, four source
+package outputs and producer matched the reviewed commit. README and the three
+rebuilding/tool documents fetched at that exact revision matched it too.
+The integrated artifact also retained the four reviewed fixes from
+[PR 73](https://github.com/ael-dev3/Tervain/pull/73), which had merged before this
+checkpoint. The integrated local production build passed with unchanged source
+inputs. This publication audit establishes the served revision; the browser
+observation above remains a local preview observation.
+
+## 108. Own standard handles, critical sections and the normal I/O return
+
+This increment continues the same retained invocation through the standard
+handle loop, three cached critical-section calls, `SetHandleCount` and the
+outer epilog and return. It stops before the caller's `TEST EAX,EAX` at
+`204678d3`. Full CRT/module startup, property initialization, NPC activation
+and campaign completion remain required.
+
+### Preserve original source and distinguish contextual gaps
+
+The [completion producer](../../scripts/gothic3_game_io_completion_source.py)
+creates a [four-output supplement](../../assets/gothic3/game-io-completion/README.md).
+Its five active original bodies contain 304 rows and 908 instruction bytes:
+I/O `204742ff`, prolog `20468570`, epilog `204685b5`, section helper `204741c7`
+and DecodePointer wrapper `20467ddb`. A separate original caller TEST receipt
+describes the next boundary; it does not execute that instruction.
+
+Retained context contains 12 original C/ASM bodies with 703 rows and 2,118
+bytes, plus three separately labeled PE-decoded listings with 20 rows and 68
+bytes. Exception filter `2047424d`, handler `20474264` and compiler TLS thunk
+`20467e52` have genuine catalog/C/ASM gaps and remain noncallable context.
+The runtime's direct cached FlsGetValue procedure does not execute that native
+thunk. Earlier source packages and physical image aliases are reused without
+reseeding current storage.
+
+### Declare compatibility inputs and prove actual calls
+
+The explicit [browser v5 selection](../../src/gothic3/browser-game-crt-platform.ts)
+uses [three declared CHAR handles](../../src/gothic3/browser-game-standard-io-inputs.ts)
+and a declared SetHandleCount result of 32. RuntimePlatform mints opaque
+handle capabilities and retains the copied policy and immutable endpoint.
+These declarations do not capture host Windows handles or implement console
+reading and writing. Earlier provider profiles retain their endpoint omissions.
+
+Every reached endpoint requires a private call grant from the actual current
+source frame. The bridge checks live arguments, stack cursor, FS registration,
+pending return words and the same Game owner. TLS/FLS and DecodePointer calls
+reread the actual cached procedure, indices and retained 532-byte PTD.
+The read-only PTD proof requires exact allocation-time record membership and
+live physical storage; it does not acquire or initialize another record.
+
+Each 24-byte critical section aliases `record+0xc` in the existing 1,792-byte
+allocation. The selected spin procedure performs a real physical registry
+insertion. Opaque section writes invalidate known bytes and overlapping pointer
+bookkeeping across the allocation's aliases. The surrounding handle, flag and
+section-count fields retain their separate source effects. A zeroed section
+or a copied object does not establish initialization.
+
+### Consume normal returns in source order
+
+Current handle outcomes and file types control the original branches. Valid
+CHAR handles take the section path; NULL, invalid and unknown outcomes remain
+distinct. Each selected helper runs its own prolog, cached DecodePointer
+wrapper, spin call, epilog and source RET. The caller cleans its arguments and
+increments the record's section count only after the actual successful result.
+The standard loop derives IDs -10, -11 and -12 using the original arithmetic.
+
+After SetHandleCount returns, source rows produce EAX 0, restore the outer
+registration and registers, and consume the original incoming `204678d3`
+return word. The caller accepts a result only with the private original
+invocation's return proof, records that actual number, and stops before TEST.
+Unknown calls preserve already applied effects and pending stack/FS state;
+they execute no invented cleanup, normal return or replay. Resolver fallback
+and native exception dispatch remain unfinished when reached.
+
+The static selected CHAR path adds 368 operations to checkpoint 107's 531,
+giving an expected total of 899. This source ledger is not an observed runtime
+count. The tail's deepest stack depth is 216 bytes; checkpoint 107's allocator
+still supplies the larger 224-byte requirement, within the existing 4,096-byte
+reservation.
+
+### Build and local browser observation
+
+The first browser inspection rejected the supplement's normal row ledger.
+JavaScript enumerates decimal-looking object keys before other string keys;
+the hexadecimal address map therefore needed explicit fixed-width address
+sorting. The admission helper now sorts those keys before selecting spans.
+Static review confirms exact 368-row normal and 80-row NULL ledgers after this
+correction. The producer, four package outputs and 917 earlier source files
+remain unchanged.
+
+The first [PR workflow run](https://github.com/ael-dev3/Tervain/actions/runs/37660609795)
+on head `6683ea0bc94e2228493973f5ebc9677cfcda6a4f` passed typechecking but
+failed eight existing lock-initialization compatibility checks; 2,456 other
+cases passed. Static diagnosis traced all eight failures to the cached legacy
+section procedure bypassing the existing public lower endpoint and its
+platform overrides. Restoring that earlier dispatch preserves the selected
+failure, exception and observation paths. The new standard I/O bridge retains
+its separate private initializer and actual call-grant checks. The existing
+test cases are unchanged; that first failed run is preserved as failure
+evidence and is not reused as a successful publication check.
+
+The corrected local production build passed typechecking and transformed 466
+modules. A subsequent complete build capture recorded exit zero, identical
+before/after binary hashes and inventories for 75,704 tracked and new
+nonignored repository files, no input changes and no capture errors. These are
+interval snapshots, not continuous monitoring; ignored dependencies, build
+outputs and the separate offline source study are outside that inventory.
+No new test cases were added and no local tests were run in this increment.
+
+In the local production preview, entering Ardea, selecting
+`Ardea_OutNovice_01` in Models and expanding its developer details showed:
+
+```text
+Game startup: blocked · next callerTest at 204678d3
+Startup-info import: returned
+First I/O allocation: returned
+I/O globals published: yes
+I/O records initialized: 32
+Standard handles returned: 3
+Standard handle types returned: 3
+Standard I/O sections initialized: 3
+Handle-count import returned: yes
+I/O source operations completed: 899
+I/O initialization returned: yes
+I/O return value: 0
+```
+
+Captured browser error logs were empty. The inspected local service bundle
+`browser-npc-entity-services-Bph-DSD9.js` has SHA-256
+`b5fbf289d5e890a05384e9c92d9a3cb92d89b77ae489805f9b87abed7f8eceaa`;
+the Gothic entry `gothic3-BHWdeEmx.js` has SHA-256
+`fd75d43d3f64388f27e2aae077f9734a8f0c1ebeb8384d9af7565184122ab00a`.
+Both inspected files match the successful final local build. This establishes
+local browser execution of the selected path; matching future served artifact
+bytes alone would establish publication identity, not another execution
+observation. The fresh inspection and final capture were repeated after the
+legacy dispatch correction; the same 899-operation zero return was observed.
+
+The next required work owns the original caller TEST and conditional branch,
+then the complete argument initialization path with its MBC/NLS dependencies,
+parser passes, allocation and actual return. Whole CRT and module startup,
+native NPC activation and the campaign remain unfinished.
