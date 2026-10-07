@@ -1,6 +1,7 @@
 import rules from '../../assets/gothic3/npc-heap/runtime-rules.json';
 import textRules from '../../assets/gothic3/cstring-text-construction/runtime-rules.json';
 import pointerRules from '../../assets/gothic3/script-admin-startup/runtime-rules.json';
+import propertySource from '../../assets/gothic3/property-type-constructors/source.json';
 import type { NativeValue } from './dialogue';
 import { NativeHeapObjectViews } from './native-heap-views';
 import type { NativeMemoryAdmin, NativeMemoryAllocation } from './native-memory-admin';
@@ -379,6 +380,35 @@ export class NativeHeapCString {
       const comparison = this.compareText(input); if (!comparison.known) return comparison;
       this.trace.push('cstring-equals-text:10013b70');
       return known(comparison.value === 0 ? 1 : 0);
+    });
+  }
+  /** Original CString-to-CString equality compares pointer NULLness first,
+   * then stored lengths and two bytes per loop. NULL and an allocated empty
+   * holder differ; text equality is not a substitute for this overload. */
+  equalsCString(other: NativeHeapCString): NativeValue<0 | 1> {
+    return this.execute(() => {
+      const method = propertySource.methods.equalsCString;
+      if (propertySource.sharedBaseSha256 !== source.inputs.SharedBase ||
+          method.entryVA !== '0x10002eb9' || method.bodyVA !== '0x10011600' ||
+          method.instructionCount !== 42 || method.bodyByteCount !== 107 ||
+          method.bodyInstructionBytesSha256 !== '2f4155bfe9636a75c6510cd28b8b409a543c7135ebe0686d3ea7e9d51a83dacc') {
+        return unknown('Original CString equality source differs');
+      }
+      if (!(other instanceof NativeHeapCString) || other.memory !== this.memory || other.destroyed ||
+          other.blocked || other.construction !== 'complete') return unknown('Live completed same-heap CString argument required');
+      const left = this.retainedDataPointer(), right = other.retainedDataPointer();
+      if (!left) return known(right === null ? 1 : 0);
+      if (!right) return known(0);
+      const rightFields = other.fields(right), leftFields = this.fields(left);
+      if (rightFields.readUnsigned(0) !== leftFields.readUnsigned(0)) return known(0);
+      for (let offset = 8; ; offset += 2) {
+        const first = leftFields.readUnsigned(offset, 1);
+        if (first !== rightFields.readUnsigned(offset, 1)) return known(0);
+        if (first === 0) return known(1);
+        const second = leftFields.readUnsigned(offset + 1, 1);
+        if (second !== rightFields.readUnsigned(offset + 1, 1)) return known(0);
+        if (second === 0) return known(1);
+      }
     });
   }
   /** GetText100044a3->100134e0 reloads the actual character pointer. It reads

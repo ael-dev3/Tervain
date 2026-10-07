@@ -3,6 +3,7 @@ import npcHeapRules from '../../assets/gothic3/npc-heap/runtime-rules.json';
 import sceneStartupRules from '../../assets/gothic3/scene-startup/runtime-rules.json';
 import type { NativeValue } from './dialogue';
 import type { NativeByteGeometryHost, NativeBytePointer } from './native-pointer-geometry';
+import { NativeHeapObjectViews } from './native-heap-views';
 
 /** Physical bytes and pointer capabilities are separate: a browser identity is
  * never encoded as a guessed x86 address. Views alias the retained allocation. */
@@ -463,7 +464,7 @@ export class NativeMemoryAdmin {
   }
   private copy(to: Allocation, from: Allocation, bytes: number) {
     if (bytes > to.capacity) throw new Error('Source capacity copy exceeds destination');
-    to.bytes.set(from.bytes.subarray(0, bytes)); to.knownMask.set(from.knownMask.subarray(0, bytes));
+    new NativeHeapObjectViews(to).copyAllocationBytesFrom(new NativeHeapObjectViews(from), bytes);
     this.trace.push(`copy:${bytes}`);
   }
   private release(allocation: Allocation) {
