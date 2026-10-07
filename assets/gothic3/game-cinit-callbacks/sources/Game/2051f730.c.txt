@@ -1,0 +1,16 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 2051f730 | FUN_2051f730 | STATUS decompiled */
+
+void FUN_2051f730(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gEAction_ParadeL");
+  thunk_FUN_20367520(&DAT_207cc33a,&gCScriptRoutine_PS::ms_PropertyMember_m_enuAction,abStack_4,0xf)
+  ;
+  bCString::~bCString(abStack_4);
+  return;
+}
+

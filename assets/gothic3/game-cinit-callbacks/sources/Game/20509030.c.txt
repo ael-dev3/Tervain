@@ -1,0 +1,15 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 20509030 | FUN_20509030 | STATUS decompiled */
+
+void FUN_20509030(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gENavObstacleType_Obstacle");
+  thunk_FUN_2027cc90(&DAT_207bf5a8,&gCCollisionCircle_PS::ms_PropertyMember_m_Type,abStack_4,0,0);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

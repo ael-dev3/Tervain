@@ -1,0 +1,16 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204c2780 | FUN_204c2780 | STATUS decompiled */
+
+void FUN_204c2780(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gEMusicTriggerTime_NextPriorityExit");
+  thunk_FUN_201128b0(&DAT_207b7c56,&gCEffectCommandMusicTrigger::ms_PropertyMember_m_enuExit,
+                     abStack_4,2);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

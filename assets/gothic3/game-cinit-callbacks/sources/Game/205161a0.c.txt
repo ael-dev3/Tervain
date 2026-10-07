@@ -1,0 +1,16 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 205161a0 | FUN_205161a0 | STATUS decompiled */
+
+void FUN_205161a0(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gEPoliticalAlignment_None");
+  thunk_FUN_20316fa0(&DAT_207c125e,&gCNPC_PS::ms_PropertyMember_m_enuPoliticalAlignment,abStack_4,0,
+                     0);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

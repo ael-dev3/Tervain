@@ -1,0 +1,36 @@
+/* ENTRY 20507330 | bTPropertyType<gCMusicSequencer,bTPropertyContainer<gEMusicSequence>_>::~bTPropertyType<gCMusicSequencer,bTPropertyContainer<gEMusicSequence>_> | STATUS decompiled | 14 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCMusicSequencer,bTPropertyContainer<gEMusicSequence>_>::
+~bTPropertyType<gCMusicSequencer,bTPropertyContainer<gEMusicSequence>_>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Shuffle");
+  bCString::bCString(local_c,"FragmentSequence");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCMusicSequencer::ms_PropertyMember_m_enuFragmentSequence,
+             local_c,local_8,local_4,2,false);
+  _ms_PropertyMember_m_enuFragmentSequence = &vftable;
+  DAT_207bf11c = bTPropertyObjectType<gCMusicSequencer,bCObjectRefBase>::
+                 ~bTPropertyObjectType<gCMusicSequencer,bCObjectRefBase>();
+  _DAT_207bf120 = 0x1c;
+  _DAT_207bf124 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCMusicSequencer::ms_PropertyMember_m_enuFragmentSequence);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bf11c,
+             (bCPropertyTypeBase *)&gCMusicSequencer::ms_PropertyMember_m_enuFragmentSequence);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gEMusicSequence>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gEMusicSequence>_>);
+  return;
+}

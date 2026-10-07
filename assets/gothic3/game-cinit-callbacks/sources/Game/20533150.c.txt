@@ -1,0 +1,15 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 20533150 | FUN_20533150 | STATUS decompiled */
+
+void FUN_20533150(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gEFocusPriority_High");
+  thunk_FUN_2040fe50(&DAT_207cf0b2,&gCInteraction_PS::ms_PropertyMember_m_enuFocusPri,abStack_4,2);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

@@ -1,0 +1,11 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204b17a0 | FUN_204b17a0 | STATUS decompiled */
+
+void FUN_204b17a0(void)
+
+{
+  DAT_207b4ed0 = bTPropertyObjectType<gCDummyCollectorAdmin,eCEngineComponentBase>::vfunction1();
+  return;
+}
+

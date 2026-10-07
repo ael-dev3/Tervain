@@ -1,0 +1,21 @@
+/* ENTRY 204c74d0 | bTPropertyObject<gCFocus_PS,eCEntityPropertySet>::~bTPropertyObject<gCFocus_PS,eCEntityPropertySet> | STATUS decompiled | 7 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyObject<gCFocus_PS,eCEntityPropertySet>::~bTPropertyObject<gCFocus_PS,eCEntityPropertySet>
+          (bTPropertyObject<gCFocus_PS,eCEntityPropertySet> *this)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)&gCFocus_PS::ms_PropertyObjectInstance_gCFocus_PS);
+  _DAT_207b89a4 = 0;
+  _ms_PropertyObjectInstance_gCFocus_PS = &vftable;
+  _DAT_207b89a8 =
+       bTPropertyObjectType<gCFocus_PS,eCEntityPropertySet>::
+       ~bTPropertyObjectType<gCFocus_PS,eCEntityPropertySet>();
+  _DAT_207b89a4 = 0;
+  thunk_FUN_201461f0(1);
+  _atexit(~bTPropertyObject<gCFocus_PS,eCEntityPropertySet>);
+  return;
+}

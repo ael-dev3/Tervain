@@ -1,0 +1,12 @@
+/* ENTRY 20502600 | FUN_20502600 | STATUS decompiled | 6 ms */
+
+void FUN_20502600(void)
+
+{
+  bCString::bCString((bCString *)&g_pstrMusicTransitionTimings,"Centered");
+  bCString::bCString((bCString *)&DAT_207be2e4,"OverCurrent");
+  bCString::bCString((bCString *)&DAT_207be2e8,"OverNext");
+  bCString::bCString((bCString *)&DAT_207be2ec,"SpecifiedOffset");
+  _atexit(FUN_205596a0);
+  return;
+}

@@ -1,0 +1,31 @@
+/* ENTRY 2052a510 | bTPropertyType<gCProject,bCString>::~bTPropertyType<gCProject,bCString> | STATUS decompiled | 10 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCProject,bCString>::~bTPropertyType<gCProject,bCString>
+          (bTPropertyType<gCProject,bCString> *this)
+
+{
+  bTPropertyType<gCProject,bCString> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"ActiveWorld");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCProject::ms_PropertyMember_m_strCurrentActiveWorld,
+             (bCString *)&local_4,1);
+  _DAT_207cd7c8 = 0;
+  _ms_PropertyMember_m_strCurrentActiveWorld = &vftable;
+  DAT_207cd7cc = bTPropertyObjectType<gCProject,eCProcessibleElement>::
+                 ~bTPropertyObjectType<gCProject,eCProcessibleElement>();
+  _DAT_207cd7d0 = 0x28;
+  _DAT_207cd7d4 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCProject::ms_PropertyMember_m_strCurrentActiveWorld);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cd7cc,
+             (bCPropertyTypeBase *)&gCProject::ms_PropertyMember_m_strCurrentActiveWorld);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bCString>::~bTPropertyTypeOnly<bCString>);
+  return;
+}

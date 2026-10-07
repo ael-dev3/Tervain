@@ -1,0 +1,12 @@
+/* ENTRY 205025a0 | FUN_205025a0 | STATUS decompiled | 6 ms */
+
+void FUN_205025a0(void)
+
+{
+  bCString::bCString((bCString *)&g_pstrMusicFragmentPositions,"Begin");
+  bCString::bCString((bCString *)&DAT_207be2d4,"Current");
+  bCString::bCString((bCString *)&DAT_207be2d8,"LoopEntrance");
+  bCString::bCString((bCString *)&DAT_207be2dc,"RandomEntrance");
+  _atexit(FUN_20559670);
+  return;
+}

@@ -1,0 +1,16 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 20521a20 | FUN_20521a20 | STATUS decompiled */
+
+void FUN_20521a20(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gEHitDirection_Left");
+  thunk_FUN_20367860(&DAT_207cc3c3,&gCScriptRoutine_PS::ms_PropertyMember_m_enuHitDirection,
+                     abStack_4,0,0);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

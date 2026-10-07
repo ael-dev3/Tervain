@@ -1,0 +1,23 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204fbc10 | FUN_204fbc10 | STATUS decompiled */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void FUN_204fbc10(void)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)&gCTimeZone_PS::ms_PropertyObjectInstance_gCTimeZone_PS);
+  _DAT_207bd28c = 0;
+  _ms_PropertyObjectInstance_gCTimeZone_PS =
+       &bTPropertyObject<gCTimeZone_PS,gCDistanceTrigger_PS>::vftable;
+  _DAT_207bd290 =
+       bTPropertyObjectType<gCTimeZone_PS,gCDistanceTrigger_PS>::
+       ~bTPropertyObjectType<gCTimeZone_PS,gCDistanceTrigger_PS>();
+  _DAT_207bd28c = 0;
+  thunk_FUN_202074d0(1);
+  _atexit((_func_4879 *)&UNK_20557730);
+  return;
+}
+

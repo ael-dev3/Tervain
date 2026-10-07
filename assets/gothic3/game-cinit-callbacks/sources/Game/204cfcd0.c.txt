@@ -1,0 +1,12 @@
+/* ENTRY 204cfcd0 | FUN_204cfcd0 | STATUS decompiled | 6 ms */
+
+void FUN_204cfcd0(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207ba134,"G3_HUD_Icon_Transform_Bless.tga");
+  bCString::bCString((bCString *)&DAT_207ba138,"G3_HUD_Icon_Transform_Poison.tga");
+  bCString::bCString((bCString *)&DAT_207ba13c,"G3_HUD_Icon_Transform_Sharpen.tga");
+  bCString::bCString((bCString *)&DAT_207ba140,"G3_HUD_Icon_Transform_Fry.tga");
+  _atexit(FUN_205524c0);
+  return;
+}

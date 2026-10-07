@@ -1,0 +1,11 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204b6360 | FUN_204b6360 | STATUS decompiled */
+
+void FUN_204b6360(void)
+
+{
+  DAT_207b618c = bTPropertyObjectType<gCInventoryStack,gCInventorySlot>::vfunction1();
+  return;
+}
+

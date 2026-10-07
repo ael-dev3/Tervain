@@ -1,0 +1,23 @@
+/* ENTRY 20537b70 | bTPropertyObject<gCAmbientEnvironment,bCObjectRefBase>::~bTPropertyObject<gCAmbientEnvironment,bCObjectRefBase> | STATUS decompiled | 6 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyObject<gCAmbientEnvironment,bCObjectRefBase>::
+~bTPropertyObject<gCAmbientEnvironment,bCObjectRefBase>
+          (bTPropertyObject<gCAmbientEnvironment,bCObjectRefBase> *this)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)
+             &gCAmbientEnvironment::ms_PropertyObjectInstance_gCAmbientEnvironment);
+  _DAT_207cf8a4 = 0;
+  _ms_PropertyObjectInstance_gCAmbientEnvironment = &vftable;
+  _DAT_207cf8a8 =
+       bTPropertyObjectType<gCAmbientEnvironment,bCObjectRefBase>::
+       ~bTPropertyObjectType<gCAmbientEnvironment,bCObjectRefBase>();
+  _DAT_207cf8a4 = 0;
+  thunk_FUN_2041de30(1);
+  _atexit(~bTPropertyObject<gCAmbientEnvironment,bCObjectRefBase>);
+  return;
+}

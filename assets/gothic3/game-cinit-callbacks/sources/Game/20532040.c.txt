@@ -1,0 +1,31 @@
+/* ENTRY 20532040 | bTPropertyType<gCFlock_PS,bCAnimationResourceString>::~bTPropertyType<gCFlock_PS,bCAnimationResourceString> | STATUS decompiled | 12 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCFlock_PS,bCAnimationResourceString>::
+~bTPropertyType<gCFlock_PS,bCAnimationResourceString>
+          (bTPropertyType<gCFlock_PS,bCAnimationResourceString> *this)
+
+{
+  bTPropertyType<gCFlock_PS,bCAnimationResourceString> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"MoveAni");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCFlock_PS::ms_PropertyMember_m_strMoveAni,(bCString *)&local_4,
+             1);
+  _ms_PropertyMember_m_strMoveAni = &vftable;
+  DAT_207cec94 = bTPropertyObjectType<gCFlock_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCFlock_PS,eCEntityPropertySet>();
+  _DAT_207cec98 = 0x60;
+  _DAT_207cec9c = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCFlock_PS::ms_PropertyMember_m_strMoveAni);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cec94,
+             (bCPropertyTypeBase *)&gCFlock_PS::ms_PropertyMember_m_strMoveAni);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bCAnimationResourceString>::
+          ~bTPropertyTypeOnly<bCAnimationResourceString>);
+  return;
+}

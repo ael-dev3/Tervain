@@ -1,0 +1,33 @@
+/* ENTRY 204b39f0 | bTPropertyType<gCCameraAI_PS,bTPropertyObject<gCCameraModeParams,bCObjectRefBase>_>::~bTPropertyType<gCCameraAI_PS,bTPropertyObject<gCCameraModeParams,bCObjectRefBase>_> | STATUS decompiled | 10 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCCameraAI_PS,bTPropertyObject<gCCameraModeParams,bCObjectRefBase>_>::
+~bTPropertyType<gCCameraAI_PS,bTPropertyObject<gCCameraModeParams,bCObjectRefBase>_>
+          (bTPropertyType<gCCameraAI_PS,bTPropertyObject<gCCameraModeParams,bCObjectRefBase>_> *this
+          )
+
+{
+  bTPropertyType<gCCameraAI_PS,bTPropertyObject<gCCameraModeParams,bCObjectRefBase>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"CamModeSwim");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCCameraAI_PS::ms_PropertyMember_m_poCamModeSwim,
+             (bCString *)&local_4,3);
+  _ms_PropertyMember_m_poCamModeSwim = &vftable;
+  DAT_207b5574 = bTPropertyObjectType<gCCameraAI_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCCameraAI_PS,eCEntityPropertySet>();
+  _DAT_207b5578 = 0x74;
+  _DAT_207b557c = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCCameraAI_PS::ms_PropertyMember_m_poCamModeSwim);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b5574,
+             (bCPropertyTypeBase *)&gCCameraAI_PS::ms_PropertyMember_m_poCamModeSwim);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyObject<gCCameraModeParams,bCObjectRefBase>_>::
+          ~bTPropertyTypeOnly<bTPropertyObject<gCCameraModeParams,bCObjectRefBase>_>);
+  return;
+}

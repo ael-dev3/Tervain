@@ -1,0 +1,11 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204b1660 | FUN_204b1660 | STATUS decompiled */
+
+void FUN_204b1660(void)
+
+{
+  DAT_207b4f20 = bTPropertyObjectType<gCProject,eCProcessibleElement>::vfunction1();
+  return;
+}
+

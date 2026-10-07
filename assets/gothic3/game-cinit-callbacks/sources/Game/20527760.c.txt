@@ -1,0 +1,34 @@
+/* ENTRY 20527760 | bTPropertyType<gCSkill_PS,eCTemplateEntityProxy>::~bTPropertyType<gCSkill_PS,eCTemplateEntityProxy> | STATUS decompiled | 14 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCSkill_PS,eCTemplateEntityProxy>::~bTPropertyType<gCSkill_PS,eCTemplateEntityProxy>
+          (void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Requirements");
+  bCString::bCString(local_c,"ReqSkill1");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCSkill_PS::ms_PropertyMember_m_entReqSkill1,local_c,local_8,
+             local_4,1,false);
+  _ms_PropertyMember_m_entReqSkill1 = &vftable;
+  DAT_207cd3bc = bTPropertyObjectType<gCSkill_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCSkill_PS,eCEntityPropertySet>();
+  _DAT_207cd3c0 = 0x3c;
+  _DAT_207cd3c4 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCSkill_PS::ms_PropertyMember_m_entReqSkill1);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cd3bc,
+             (bCPropertyTypeBase *)&gCSkill_PS::ms_PropertyMember_m_entReqSkill1);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<eCTemplateEntityProxy>::~bTPropertyTypeOnly<eCTemplateEntityProxy>);
+  return;
+}

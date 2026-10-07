@@ -1,0 +1,34 @@
+/* ENTRY 204f8590 | bTPropertyType<gCLock_PS,eCTemplateEntityProxy>::~bTPropertyType<gCLock_PS,eCTemplateEntityProxy> | STATUS decompiled | 16 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCLock_PS,eCTemplateEntityProxy>::~bTPropertyType<gCLock_PS,eCTemplateEntityProxy>
+          (void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Common");
+  bCString::bCString(local_c,"Key");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCLock_PS::ms_PropertyMember_m_proxyKey,local_c,local_8,local_4,
+             2,false);
+  _ms_PropertyMember_m_proxyKey = &vftable;
+  DAT_207bc794 = bTPropertyObjectType<gCLock_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCLock_PS,eCEntityPropertySet>();
+  _DAT_207bc798 = 0x1c;
+  _DAT_207bc79c = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCLock_PS::ms_PropertyMember_m_proxyKey);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bc794,
+             (bCPropertyTypeBase *)&gCLock_PS::ms_PropertyMember_m_proxyKey);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<eCTemplateEntityProxy>::~bTPropertyTypeOnly<eCTemplateEntityProxy>);
+  return;
+}

@@ -1,0 +1,15 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 20506510 | FUN_20506510 | STATUS decompiled */
+
+void FUN_20506510(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gEMusicTriggerTime_Immediately");
+  thunk_FUN_2025cff0(&DAT_207bee40,&gCMusicTrigger::ms_PropertyMember_m_enuExit,abStack_4,0,0);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

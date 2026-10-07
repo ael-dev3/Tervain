@@ -1,0 +1,15 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204b2c60 | FUN_204b2c60 | STATUS decompiled */
+
+void FUN_204b2c60(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gEAnchorType_Local");
+  thunk_FUN_2007daf0(&DAT_207b5438,&gCAnchor_PS::ms_PropertyMember_m_enuAnchorType,abStack_4,0,0);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

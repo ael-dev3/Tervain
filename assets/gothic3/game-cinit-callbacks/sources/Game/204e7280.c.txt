@@ -1,0 +1,19 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204e7280 | FUN_204e7280 | STATUS decompiled */
+
+void FUN_204e7280(void)
+
+{
+  bCString::bCString((bCString *)0x207baa6c,"Raw");
+  bCString::bCString((bCString *)0x207baa70,"Mono");
+  bCString::bCString((bCString *)&DAT_207baa74,"Stereo");
+  bCString::bCString((bCString *)0x207baa78,"Quadro");
+  bCString::bCString((bCString *)0x207baa7c,"Surround");
+  bCString::bCString((bCString *)0x207baa80,"5.1");
+  bCString::bCString((bCString *)0x207baa84,"7.1");
+  bCString::bCString((bCString *)0x207baa88,"Dolby ProLogic");
+  _atexit((_func_4879 *)&UNK_20552a70);
+  return;
+}
+

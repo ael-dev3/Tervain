@@ -1,0 +1,9 @@
+/* ENTRY 2052a8f0 | FUN_2052a8f0 | STATUS decompiled | 2 ms */
+
+void FUN_2052a8f0(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207cd8ac,".secdat");
+  _atexit(FUN_20563d90);
+  return;
+}

@@ -1,0 +1,16 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 20519ce0 | FUN_20519ce0 | STATUS decompiled */
+
+void FUN_20519ce0(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gEWeaponConfig_Ranged");
+  thunk_FUN_20328ef0(&DAT_207c19cd,&gCPlayerMemory_PS::ms_PropertyMember_m_enuLastWeaponConfig,
+                     abStack_4,1);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

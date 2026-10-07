@@ -1,0 +1,11 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204bdce0 | FUN_204bdce0 | STATUS decompiled */
+
+void FUN_204bdce0(void)
+
+{
+  DAT_207b6d88 = bTPropertyObjectType<gCEffectCommandPlayVoice,gCEffectCommand>::vfunction1();
+  return;
+}
+

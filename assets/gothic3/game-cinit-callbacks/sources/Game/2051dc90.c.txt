@@ -1,0 +1,23 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 2051dc90 | FUN_2051dc90 | STATUS decompiled */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void FUN_2051dc90(void)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)&gCScriptAdmin::ms_PropertyObjectInstance_gCScriptAdmin);
+  _DAT_207cbf0c = 0;
+  _ms_PropertyObjectInstance_gCScriptAdmin =
+       &bTPropertyObject<gCScriptAdmin,eCEngineComponentBase>::vftable;
+  _DAT_207cbf10 =
+       bTPropertyObjectType<gCScriptAdmin,eCEngineComponentBase>::
+       ~bTPropertyObjectType<gCScriptAdmin,eCEngineComponentBase>();
+  _DAT_207cbf0c = 0;
+  thunk_FUN_20356730(1);
+  _atexit((_func_4879 *)&UNK_20561940);
+  return;
+}
+

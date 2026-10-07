@@ -1,0 +1,29 @@
+/* ENTRY 204b74d0 | bTPropertyType<gCDamage_PS,long>::~bTPropertyType<gCDamage_PS,long> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCDamage_PS,long>::~bTPropertyType<gCDamage_PS,long>
+          (bTPropertyType<gCDamage_PS,long> *this)
+
+{
+  bTPropertyType<gCDamage_PS,long> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"DamageAmount");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCDamage_PS::ms_PropertyMember_m_iDamageAmount,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_iDamageAmount = &vftable;
+  DAT_207b63d0 = bTPropertyObjectType<gCDamage_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCDamage_PS,eCEntityPropertySet>();
+  _DAT_207b63d4 = 0x1c;
+  _DAT_207b63d8 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCDamage_PS::ms_PropertyMember_m_iDamageAmount);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b63d0,
+             (bCPropertyTypeBase *)&gCDamage_PS::ms_PropertyMember_m_iDamageAmount);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<long>::~bTPropertyTypeOnly<long>);
+  return;
+}

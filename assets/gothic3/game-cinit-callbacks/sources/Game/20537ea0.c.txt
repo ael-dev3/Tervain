@@ -1,0 +1,34 @@
+/* ENTRY 20537ea0 | bTPropertyType<gCAmbientEnvironment,float>::~bTPropertyType<gCAmbientEnvironment,float> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCAmbientEnvironment,float>::~bTPropertyType<gCAmbientEnvironment,float>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Spawning");
+  bCString::bCString(local_c,"MaxSpawnDelay");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCAmbientEnvironment::ms_PropertyMember_m_fMaxSpawnDelay,local_c
+             ,local_8,local_4,1,false);
+  _ms_PropertyMember_m_fMaxSpawnDelay = &vftable;
+  DAT_207cf930 = bTPropertyObjectType<gCAmbientEnvironment,bCObjectRefBase>::
+                 ~bTPropertyObjectType<gCAmbientEnvironment,bCObjectRefBase>();
+  _DAT_207cf934 = 0x18;
+  _DAT_207cf938 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCAmbientEnvironment::ms_PropertyMember_m_fMaxSpawnDelay);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cf930,
+             (bCPropertyTypeBase *)&gCAmbientEnvironment::ms_PropertyMember_m_fMaxSpawnDelay);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}

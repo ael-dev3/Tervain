@@ -1,0 +1,13 @@
+/* ENTRY 204d0770 | FUN_204d0770 | STATUS decompiled | 6 ms */
+
+void FUN_204d0770(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207ba2d4,"G3_HUD_Icon_Quality_Poison.tga");
+  bCString::bCString((bCString *)&DAT_207ba2d8,"G3_HUD_Icon_Quality_Sharpened.tga");
+  bCString::bCString((bCString *)&DAT_207ba2dc,"G3_HUD_Icon_Quality_Blessed.tga");
+  bCString::bCString((bCString *)&DAT_207ba2e0,"G3_HUD_Icon_Quality_Forged.tga");
+  bCString::bCString((bCString *)&DAT_207ba2e4,"G3_HUD_Icon_Quality_Worn.tga");
+  _atexit(FUN_20552700);
+  return;
+}

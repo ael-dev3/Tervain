@@ -1,0 +1,14 @@
+204ebdb0 | 51 | PUSH ECX
+204ebdb1 | 68d4cc6720 | PUSH 0x2067ccd4
+204ebdb6 | 8d4c2404 | LEA ECX,[ESP + 0x4]
+204ebdba | ff150c897d20 | CALL dword ptr [0x207d890c]
+204ebdc0 | 6a08 | PUSH 0x8
+204ebdc2 | 8d442404 | LEA EAX,[ESP + 0x4]
+204ebdc6 | 50 | PUSH EAX
+204ebdc7 | 6880ae7b20 | PUSH 0x207bae80
+204ebdcc | b901b07b20 | MOV ECX,0x207bb001
+204ebdd1 | e89428b2ff | CALL 0x2000e66a
+204ebdd6 | 8d0c24 | LEA ECX,[ESP]
+204ebdd9 | ff1534887d20 | CALL dword ptr [0x207d8834]
+204ebddf | 59 | POP ECX
+204ebde0 | c3 | RET

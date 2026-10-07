@@ -1,0 +1,36 @@
+/* ENTRY 204c7530 | bTPropertyType<gCFocus_PS,bTPropertyContainer<gEFocusLookAt>_>::~bTPropertyType<gCFocus_PS,bTPropertyContainer<gEFocusLookAt>_> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCFocus_PS,bTPropertyContainer<gEFocusLookAt>_>::
+~bTPropertyType<gCFocus_PS,bTPropertyContainer<gEFocusLookAt>_>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"LookAtMode");
+  bCString::bCString(local_c,"FocusLookAtMode");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCFocus_PS::ms_PropertyMember_m_enuFocusLookAtMode,local_c,
+             local_8,local_4,2,false);
+  _ms_PropertyMember_m_enuFocusLookAtMode = &vftable;
+  DAT_207b89c4 = bTPropertyObjectType<gCFocus_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCFocus_PS,eCEntityPropertySet>();
+  _DAT_207b89c8 = 0x14;
+  _DAT_207b89cc = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCFocus_PS::ms_PropertyMember_m_enuFocusLookAtMode);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b89c4,
+             (bCPropertyTypeBase *)&gCFocus_PS::ms_PropertyMember_m_enuFocusLookAtMode);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gEFocusLookAt>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gEFocusLookAt>_>);
+  return;
+}

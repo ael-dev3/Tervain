@@ -1,0 +1,32 @@
+/* ENTRY 205321d0 | bTPropertyType<gCFlock_PS,float>::~bTPropertyType<gCFlock_PS,float> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall bTPropertyType<gCFlock_PS,float>::~bTPropertyType<gCFlock_PS,float>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Internal");
+  bCString::bCString(local_c,"FreeWillTimer");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCFlock_PS::ms_PropertyMember_m_fFreeWillTimer,local_c,local_8,
+             local_4,1,true);
+  _ms_PropertyMember_m_fFreeWillTimer = &vftable;
+  DAT_207cecdc = bTPropertyObjectType<gCFlock_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCFlock_PS,eCEntityPropertySet>();
+  _DAT_207cece0 = 0x6c;
+  _DAT_207cece4 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCFlock_PS::ms_PropertyMember_m_fFreeWillTimer);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cecdc,
+             (bCPropertyTypeBase *)&gCFlock_PS::ms_PropertyMember_m_fFreeWillTimer);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}

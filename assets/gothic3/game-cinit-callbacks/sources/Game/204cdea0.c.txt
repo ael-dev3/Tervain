@@ -1,0 +1,30 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204cdea0 | FUN_204cdea0 | STATUS decompiled */
+
+void FUN_204cdea0(void)
+
+{
+  bCByteAlphaColor::bCByteAlphaColor((bCByteAlphaColor *)&DAT_207b9a70,'\0',0xff,0xff,0xff);
+  bCByteAlphaColor::bCByteAlphaColor((bCByteAlphaColor *)0x207b9a7c,0xff,'\0',0xff,0xff);
+  bCByteAlphaColor::bCByteAlphaColor((bCByteAlphaColor *)0x207b9a88,0xff,0xff,'\0',0xff);
+  bCByteAlphaColor::bCByteAlphaColor((bCByteAlphaColor *)0x207b9a94,'\0','\0',0xff,0xff);
+  bCByteAlphaColor::bCByteAlphaColor((bCByteAlphaColor *)0x207b9aa0,0xff,'\0','\0',0xff);
+  bCByteAlphaColor::bCByteAlphaColor((bCByteAlphaColor *)0x207b9aac,'\0',0xff,'\0',0xff);
+  bCByteAlphaColor::bCByteAlphaColor((bCByteAlphaColor *)0x207b9ab8,0x80,0xff,0xff,0xff);
+  bCByteAlphaColor::bCByteAlphaColor((bCByteAlphaColor *)0x207b9ac4,0xff,0x80,0xff,0xff);
+  bCByteAlphaColor::bCByteAlphaColor((bCByteAlphaColor *)0x207b9ad0,0xff,0xff,0x80,0xff);
+  bCByteAlphaColor::bCByteAlphaColor((bCByteAlphaColor *)0x207b9adc,0x80,0x80,0xff,0xff);
+  bCByteAlphaColor::bCByteAlphaColor((bCByteAlphaColor *)0x207b9ae8,0xff,0x80,0x80,0xff);
+  bCByteAlphaColor::bCByteAlphaColor((bCByteAlphaColor *)0x207b9af4,0x80,0xff,0x80,0xff);
+  bCByteAlphaColor::bCByteAlphaColor((bCByteAlphaColor *)0x207b9b00,0xff,0xff,0xff,0xff);
+  bCByteAlphaColor::bCByteAlphaColor((bCByteAlphaColor *)0x207b9b0c,'\0','\0','\0',0xff);
+  bCByteAlphaColor::bCByteAlphaColor((bCByteAlphaColor *)0x207b9b18,'\0','\0','\0',0xff);
+  bCByteAlphaColor::bCByteAlphaColor((bCByteAlphaColor *)0x207b9b24,'\0','\0','\0',0xff);
+  bCByteAlphaColor::bCByteAlphaColor((bCByteAlphaColor *)0x207b9b30,'\0','\0','\0',0xff);
+  bCByteAlphaColor::bCByteAlphaColor((bCByteAlphaColor *)0x207b9b3c,'\0','\0','\0',0xff);
+  bCByteAlphaColor::bCByteAlphaColor((bCByteAlphaColor *)0x207b9b48,'\0','\0','\0',0xff);
+  _atexit((_func_4879 *)&UNK_20552100);
+  return;
+}
+

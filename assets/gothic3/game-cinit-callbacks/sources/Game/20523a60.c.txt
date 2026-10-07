@@ -1,0 +1,30 @@
+/* ENTRY 20523a60 | bTPropertyType<gCSession,bTPropertyContainer<gESession_State>_>::~bTPropertyType<gCSession,bTPropertyContainer<gESession_State>_> | STATUS decompiled | 12 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCSession,bTPropertyContainer<gESession_State>_>::
+~bTPropertyType<gCSession,bTPropertyContainer<gESession_State>_>
+          (bTPropertyType<gCSession,bTPropertyContainer<gESession_State>_> *this)
+
+{
+  bTPropertyType<gCSession,bTPropertyContainer<gESession_State>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"State");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCSession::ms_PropertyMember_m_enuState,(bCString *)&local_4,2);
+  _ms_PropertyMember_m_enuState = &vftable;
+  DAT_207cc924 = bTPropertyObjectType<gCSession,eCEngineComponentBase>::
+                 ~bTPropertyObjectType<gCSession,eCEngineComponentBase>();
+  _DAT_207cc928 = 0x14;
+  _DAT_207cc92c = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCSession::ms_PropertyMember_m_enuState);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cc924,
+             (bCPropertyTypeBase *)&gCSession::ms_PropertyMember_m_enuState);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gESession_State>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gESession_State>_>);
+  return;
+}

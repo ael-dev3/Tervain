@@ -1,0 +1,13 @@
+/* ENTRY 204cf170 | FUN_204cf170 | STATUS decompiled | 4 ms */
+
+void FUN_204cf170(void)
+
+{
+  bCString *pbVar1;
+  
+  pbVar1 = (bCString *)bTPropertyObjectType<gCGUIModule,eCEngineComponentBase>::vfunction1();
+  bCAccessorCreator::bCAccessorCreator
+            ((bCAccessorCreator *)&DAT_207b9c9c,(bCPropertyID *)&DAT_207b9c88,pbVar1);
+  _atexit(FUN_20552260);
+  return;
+}

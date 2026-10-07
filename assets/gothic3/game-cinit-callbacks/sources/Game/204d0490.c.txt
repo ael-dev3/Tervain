@@ -1,0 +1,16 @@
+/* ENTRY 204d0490 | FUN_204d0490 | STATUS decompiled | 10 ms */
+
+void FUN_204d0490(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207ba364,"G3_HUD_Icon_QuestStatus_Open.tga");
+  bCString::bCString((bCString *)&DAT_207ba368,"G3_HUD_Icon_QuestStatus_Running.tga");
+  bCString::bCString((bCString *)&DAT_207ba36c,"G3_HUD_Icon_QuestStatus_Success.tga");
+  bCString::bCString((bCString *)&DAT_207ba370,"G3_HUD_Icon_QuestStatus_Failed.tga");
+  bCString::bCString((bCString *)&DAT_207ba374,"G3_HUD_Icon_QuestStatus_Obsolete.tga");
+  bCString::bCString((bCString *)&DAT_207ba378,"G3_HUD_Icon_QuestStatus_Cancelled.tga");
+  bCString::bCString((bCString *)&DAT_207ba37c,"G3_HUD_Icon_QuestStatus_Lost.tga");
+  bCString::bCString((bCString *)&DAT_207ba380,"G3_HUD_Icon_QuestStatus_Won.tga");
+  _atexit(FUN_20552610);
+  return;
+}

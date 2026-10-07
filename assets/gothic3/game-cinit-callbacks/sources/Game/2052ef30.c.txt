@@ -1,0 +1,15 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 2052ef30 | FUN_2052ef30 | STATUS decompiled */
+
+void FUN_2052ef30(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gESkillCategory_Hunting");
+  thunk_FUN_203e9d40(&DAT_207ce44d,&gCRecipe_PS::ms_PropertyMember_m_enuCraft,abStack_4,1);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

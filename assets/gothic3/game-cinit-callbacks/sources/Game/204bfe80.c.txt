@@ -1,0 +1,35 @@
+/* ENTRY 204bfe80 | bTPropertyType<gCEffectCommandPlayVoice,float>::~bTPropertyType<gCEffectCommandPlayVoice,float> | STATUS decompiled | 16 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCEffectCommandPlayVoice,float>::~bTPropertyType<gCEffectCommandPlayVoice,float>
+          (void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Audibility");
+  bCString::bCString(local_c,"MaxDistance");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCEffectCommandPlayVoice::ms_PropertyMember_m_fMaxDistance,
+             local_c,local_8,local_4,1,true);
+  _ms_PropertyMember_m_fMaxDistance = &vftable;
+  DAT_207b7534 = bTPropertyObjectType<gCEffectCommandPlayVoice,gCEffectCommand>::
+                 ~bTPropertyObjectType<gCEffectCommandPlayVoice,gCEffectCommand>();
+  _DAT_207b7538 = 0x18;
+  _DAT_207b753c = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCEffectCommandPlayVoice::ms_PropertyMember_m_fMaxDistance);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b7534,
+             (bCPropertyTypeBase *)&gCEffectCommandPlayVoice::ms_PropertyMember_m_fMaxDistance);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}

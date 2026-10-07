@@ -1,0 +1,33 @@
+/* ENTRY 204f18a0 | bTPropertyType<gCItem_PS,bCString>::~bTPropertyType<gCItem_PS,bCString> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall bTPropertyType<gCItem_PS,bCString>::~bTPropertyType<gCItem_PS,bCString>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Modifiers");
+  bCString::bCString(local_c,"ModAttrib5Tag");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCItem_PS::ms_PropertyMember_m_strModAttrib5,local_c,local_8,
+             local_4,1,false);
+  _DAT_207bba10 = 0;
+  _ms_PropertyMember_m_strModAttrib5 = &vftable;
+  DAT_207bba14 = bTPropertyObjectType<gCItem_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCItem_PS,eCEntityPropertySet>();
+  _DAT_207bba18 = 0x10c;
+  _DAT_207bba1c = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCItem_PS::ms_PropertyMember_m_strModAttrib5);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bba14,
+             (bCPropertyTypeBase *)&gCItem_PS::ms_PropertyMember_m_strModAttrib5);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bCString>::~bTPropertyTypeOnly<bCString>);
+  return;
+}

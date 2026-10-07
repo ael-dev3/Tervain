@@ -1,0 +1,11 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204b1860 | FUN_204b1860 | STATUS decompiled */
+
+void FUN_204b1860(void)
+
+{
+  DAT_207b4ea0 = bTPropertyType<gCNavigation_PS,bTObjArray<bCString>_>::vfunction4();
+  return;
+}
+

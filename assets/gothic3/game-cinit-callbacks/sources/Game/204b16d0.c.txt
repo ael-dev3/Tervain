@@ -1,0 +1,11 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204b16d0 | FUN_204b16d0 | STATUS decompiled */
+
+void FUN_204b16d0(void)
+
+{
+  DAT_207b4f04 = bTPropertyObjectType<gCGeometryLayer,gCLayerBase>::vfunction1();
+  return;
+}
+

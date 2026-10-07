@@ -1,0 +1,34 @@
+/* ENTRY 20504360 | bTPropertyType<gCMusicStream,unsigned_long>::~bTPropertyType<gCMusicStream,unsigned_long> | STATUS decompiled | 14 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCMusicStream,unsigned_long>::~bTPropertyType<gCMusicStream,unsigned_long>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Range");
+  bCString::bCString(local_c,"LeadOutBegin");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCMusicStream::ms_PropertyMember_m_u32LeadOutBegin,local_c,
+             local_8,local_4,1,false);
+  _ms_PropertyMember_m_u32LeadOutBegin = &vftable;
+  DAT_207be7f0 = bTPropertyObjectType<gCMusicStream,bCObjectRefBase>::
+                 ~bTPropertyObjectType<gCMusicStream,bCObjectRefBase>();
+  _DAT_207be7f4 = 0x18;
+  _DAT_207be7f8 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCMusicStream::ms_PropertyMember_m_u32LeadOutBegin);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207be7f0,
+             (bCPropertyTypeBase *)&gCMusicStream::ms_PropertyMember_m_u32LeadOutBegin);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<unsigned_long>::~bTPropertyTypeOnly<unsigned_long>);
+  return;
+}

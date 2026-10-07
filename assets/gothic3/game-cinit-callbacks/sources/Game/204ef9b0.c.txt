@@ -1,0 +1,32 @@
+/* ENTRY 204ef9b0 | bTPropertyType<gCItem_PS,bool>::~bTPropertyType<gCItem_PS,bool> | STATUS decompiled | 14 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall bTPropertyType<gCItem_PS,bool>::~bTPropertyType<gCItem_PS,bool>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Transform");
+  bCString::bCString(local_c,"Dropped");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCItem_PS::ms_PropertyMember_m_bDropped,local_c,local_8,local_4,
+             1,false);
+  _ms_PropertyMember_m_bDropped = &vftable;
+  DAT_207bb54c = bTPropertyObjectType<gCItem_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCItem_PS,eCEntityPropertySet>();
+  _DAT_207bb550 = 0x30;
+  _DAT_207bb554 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCItem_PS::ms_PropertyMember_m_bDropped);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bb54c,
+             (bCPropertyTypeBase *)&gCItem_PS::ms_PropertyMember_m_bDropped);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}

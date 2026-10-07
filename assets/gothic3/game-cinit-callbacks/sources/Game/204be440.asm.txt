@@ -1,0 +1,46 @@
+204be440 | 83ec0c | SUB ESP,0xc
+204be443 | 56 | PUSH ESI
+204be444 | 8b350c897d20 | MOV ESI,dword ptr [0x207d890c]
+204be44a | 6807716520 | PUSH 0x20657107
+204be44f | 8d4c2410 | LEA ECX,[ESP + 0x10]
+204be453 | ffd6 | CALL ESI
+204be455 | 68882f6620 | PUSH 0x20662f88
+204be45a | 8d4c240c | LEA ECX,[ESP + 0xc]
+204be45e | ffd6 | CALL ESI
+204be460 | 6888226620 | PUSH 0x20662288
+204be465 | 8d4c2408 | LEA ECX,[ESP + 0x8]
+204be469 | ffd6 | CALL ESI
+204be46b | 33f6 | XOR ESI,ESI
+204be46d | 56 | PUSH ESI
+204be46e | 6a01 | PUSH 0x1
+204be470 | 8d442414 | LEA EAX,[ESP + 0x14]
+204be474 | 50 | PUSH EAX
+204be475 | 8d4c2414 | LEA ECX,[ESP + 0x14]
+204be479 | 51 | PUSH ECX
+204be47a | 8d542414 | LEA EDX,[ESP + 0x14]
+204be47e | 52 | PUSH EDX
+204be47f | b9bc6f7b20 | MOV ECX,0x207b6fbc
+204be484 | ff1588847d20 | CALL dword ptr [0x207d8488]
+204be48a | 8935d46f7b20 | MOV dword ptr [0x207b6fd4],ESI
+204be490 | c705bc6f7b20fc336620 | MOV dword ptr [0x207b6fbc],0x206633fc
+204be49a | e8beeab5ff | CALL 0x2001cf5d
+204be49f | b9bc6f7b20 | MOV ECX,0x207b6fbc
+204be4a4 | a3d86f7b20 | MOV [0x207b6fd8],EAX
+204be4a9 | c705dc6f7b2020000000 | MOV dword ptr [0x207b6fdc],0x20
+204be4b3 | 8935e06f7b20 | MOV dword ptr [0x207b6fe0],ESI
+204be4b9 | ff15d8877d20 | CALL dword ptr [0x207d87d8]
+204be4bf | 8b0dd86f7b20 | MOV ECX,dword ptr [0x207b6fd8]
+204be4c5 | 68bc6f7b20 | PUSH 0x207b6fbc
+204be4ca | ff15cc877d20 | CALL dword ptr [0x207d87cc]
+204be4d0 | 8d4c2404 | LEA ECX,[ESP + 0x4]
+204be4d4 | ff1534887d20 | CALL dword ptr [0x207d8834]
+204be4da | 8d4c2408 | LEA ECX,[ESP + 0x8]
+204be4de | ff1534887d20 | CALL dword ptr [0x207d8834]
+204be4e4 | 8d4c240c | LEA ECX,[ESP + 0xc]
+204be4e8 | ff1534887d20 | CALL dword ptr [0x207d8834]
+204be4ee | 6830cf5420 | PUSH 0x2054cf30
+204be4f3 | e8d652faff | CALL 0x204637ce
+204be4f8 | 83c404 | ADD ESP,0x4
+204be4fb | 5e | POP ESI
+204be4fc | 83c40c | ADD ESP,0xc
+204be4ff | c3 | RET

@@ -1,0 +1,11 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204b6c20 | FUN_204b6c20 | STATUS decompiled */
+
+void FUN_204b6c20(void)
+
+{
+  DAT_207b6274 = bTPropertyType<gCScriptRoutine_PS,bTPropertyContainer<gEAction>_>::vfunction4();
+  return;
+}
+

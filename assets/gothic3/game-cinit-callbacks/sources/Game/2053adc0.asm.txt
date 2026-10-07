@@ -1,0 +1,25 @@
+2053adc0 | 51 | PUSH ECX
+2053adc1 | 68b4ad6620 | PUSH 0x2066adb4
+2053adc6 | 8d4c2404 | LEA ECX,[ESP + 0x4]
+2053adca | ff150c897d20 | CALL dword ptr [0x207d890c]
+2053add0 | 6a01 | PUSH 0x1
+2053add2 | 8d442404 | LEA EAX,[ESP + 0x4]
+2053add6 | 50 | PUSH EAX
+2053add7 | b9cc017d20 | MOV ECX,0x207d01cc
+2053addc | ff1594877d20 | CALL dword ptr [0x207d8794]
+2053ade2 | c705cc017d200c046b20 | MOV dword ptr [0x207d01cc],0x206b040c
+2053adec | e8178cacff | CALL 0x20003a08
+2053adf1 | b9cc017d20 | MOV ECX,0x207d01cc
+2053adf6 | a3e4017d20 | MOV [0x207d01e4],EAX
+2053adfb | c705e8017d204c000000 | MOV dword ptr [0x207d01e8],0x4c
+2053ae05 | c705ec017d2000000000 | MOV dword ptr [0x207d01ec],0x0
+2053ae0f | ff15d8877d20 | CALL dword ptr [0x207d87d8]
+2053ae15 | 8b0de4017d20 | MOV ECX,dword ptr [0x207d01e4]
+2053ae1b | 68cc017d20 | PUSH 0x207d01cc
+2053ae20 | ff15cc877d20 | CALL dword ptr [0x207d87cc]
+2053ae26 | 8d0c24 | LEA ECX,[ESP]
+2053ae29 | ff1534887d20 | CALL dword ptr [0x207d8834]
+2053ae2f | 68208c5620 | PUSH 0x20568c20
+2053ae34 | e89589f2ff | CALL 0x204637ce
+2053ae39 | 83c408 | ADD ESP,0x8
+2053ae3c | c3 | RET

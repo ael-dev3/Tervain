@@ -1,0 +1,16 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 2051a8b0 | FUN_2051a8b0 | STATUS decompiled */
+
+void FUN_2051a8b0(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gEProjectileTouchBehavior_KillSelf");
+  thunk_FUN_20334a20(&DAT_207c1d75,&gCProjectile_PS::ms_PropertyMember_m_enuTouchBehavior,abStack_4,
+                     0);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

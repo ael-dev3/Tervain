@@ -1,0 +1,15 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 2053b5c0 | FUN_2053b5c0 | STATUS decompiled */
+
+void FUN_2053b5c0(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gEInfoCondType_Overtime");
+  thunk_FUN_20448e50(&DAT_207d0364,&gCInfo_PS::ms_PropertyMember_m_enuCondType,abStack_4,4);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

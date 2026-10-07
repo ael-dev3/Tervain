@@ -1,0 +1,31 @@
+/* ENTRY 20508270 | bTPropertyType<gCAIZone_PS,bTPropertyContainer<gEZoneType>_>::~bTPropertyType<gCAIZone_PS,bTPropertyContainer<gEZoneType>_> | STATUS decompiled | 10 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCAIZone_PS,bTPropertyContainer<gEZoneType>_>::
+~bTPropertyType<gCAIZone_PS,bTPropertyContainer<gEZoneType>_>
+          (bTPropertyType<gCAIZone_PS,bTPropertyContainer<gEZoneType>_> *this)
+
+{
+  bTPropertyType<gCAIZone_PS,bTPropertyContainer<gEZoneType>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"Type");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCAIZone_PS::ms_PropertyMember_m_enuZoneType,
+             (bCString *)&local_4,2);
+  _ms_PropertyMember_m_enuZoneType = &vftable;
+  DAT_207bf37c = bTPropertyObjectType<gCAIZone_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCAIZone_PS,eCEntityPropertySet>();
+  _DAT_207bf380 = 0x14;
+  _DAT_207bf384 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCAIZone_PS::ms_PropertyMember_m_enuZoneType);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bf37c,
+             (bCPropertyTypeBase *)&gCAIZone_PS::ms_PropertyMember_m_enuZoneType);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gEZoneType>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gEZoneType>_>);
+  return;
+}

@@ -1,0 +1,30 @@
+/* ENTRY 2051c190 | bTPropertyType<gCQuest_PS,bTPropertyContainer<gEQuestStatus>_>::~bTPropertyType<gCQuest_PS,bTPropertyContainer<gEQuestStatus>_> | STATUS decompiled | 12 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCQuest_PS,bTPropertyContainer<gEQuestStatus>_>::
+~bTPropertyType<gCQuest_PS,bTPropertyContainer<gEQuestStatus>_>
+          (bTPropertyType<gCQuest_PS,bTPropertyContainer<gEQuestStatus>_> *this)
+
+{
+  bTPropertyType<gCQuest_PS,bTPropertyContainer<gEQuestStatus>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"Status");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCQuest_PS::ms_PropertyMember_m_status,(bCString *)&local_4,2);
+  _ms_PropertyMember_m_status = &vftable;
+  DAT_207cbc44 = bTPropertyObjectType<gCQuest_PS,bCObjectRefBase>::
+                 ~bTPropertyObjectType<gCQuest_PS,bCObjectRefBase>();
+  _DAT_207cbc48 = 0x8c;
+  _DAT_207cbc4c = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCQuest_PS::ms_PropertyMember_m_status);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cbc44,
+             (bCPropertyTypeBase *)&gCQuest_PS::ms_PropertyMember_m_status);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gEQuestStatus>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gEQuestStatus>_>);
+  return;
+}

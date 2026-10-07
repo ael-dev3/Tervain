@@ -1,0 +1,30 @@
+/* ENTRY 2051bbd0 | bTPropertyType<gCQuest_PS,long>::~bTPropertyType<gCQuest_PS,long> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCQuest_PS,long>::~bTPropertyType<gCQuest_PS,long>
+          (bTPropertyType<gCQuest_PS,long> *this)
+
+{
+  bTPropertyType<gCQuest_PS,long> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"AttribSuccessAmount");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCQuest_PS::ms_PropertyMember_m_attribSuccessAmount,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_attribSuccessAmount = &vftable;
+  DAT_207cbaf8 = bTPropertyObjectType<gCQuest_PS,bCObjectRefBase>::
+                 ~bTPropertyObjectType<gCQuest_PS,bCObjectRefBase>();
+  _DAT_207cbafc = 0x50;
+  _DAT_207cbb00 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCQuest_PS::ms_PropertyMember_m_attribSuccessAmount);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cbaf8,
+             (bCPropertyTypeBase *)&gCQuest_PS::ms_PropertyMember_m_attribSuccessAmount);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<long>::~bTPropertyTypeOnly<long>);
+  return;
+}

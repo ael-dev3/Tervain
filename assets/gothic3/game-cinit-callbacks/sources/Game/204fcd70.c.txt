@@ -1,0 +1,11 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204fcd70 | FUN_204fcd70 | STATUS decompiled */
+
+void FUN_204fcd70(void)
+
+{
+  DAT_207bd388 = bTPropertyObjectType<gCAmbientModule,eCAmbientModuleBase>::vfunction2();
+  return;
+}
+

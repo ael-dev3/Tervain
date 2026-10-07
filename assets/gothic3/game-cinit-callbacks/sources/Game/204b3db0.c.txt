@@ -1,0 +1,33 @@
+/* ENTRY 204b3db0 | bTPropertyType<gCCameraAI_PS,bTPropertyObject<gCCameraModeParams,bCObjectRefBase>_>::~bTPropertyType<gCCameraAI_PS,bTPropertyObject<gCCameraModeParams,bCObjectRefBase>_> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCCameraAI_PS,bTPropertyObject<gCCameraModeParams,bCObjectRefBase>_>::
+~bTPropertyType<gCCameraAI_PS,bTPropertyObject<gCCameraModeParams,bCObjectRefBase>_>
+          (bTPropertyType<gCCameraAI_PS,bTPropertyObject<gCCameraModeParams,bCObjectRefBase>_> *this
+          )
+
+{
+  bTPropertyType<gCCameraAI_PS,bTPropertyObject<gCCameraModeParams,bCObjectRefBase>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"CamModeFirstPersonFight");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCCameraAI_PS::ms_PropertyMember_m_poCamMode1stPersonFight,
+             (bCString *)&local_4,3);
+  _ms_PropertyMember_m_poCamMode1stPersonFight = &vftable;
+  DAT_207b564c = bTPropertyObjectType<gCCameraAI_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCCameraAI_PS,eCEntityPropertySet>();
+  _DAT_207b5650 = 0xd4;
+  _DAT_207b5654 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCCameraAI_PS::ms_PropertyMember_m_poCamMode1stPersonFight);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b564c,
+             (bCPropertyTypeBase *)&gCCameraAI_PS::ms_PropertyMember_m_poCamMode1stPersonFight);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyObject<gCCameraModeParams,bCObjectRefBase>_>::
+          ~bTPropertyTypeOnly<bTPropertyObject<gCCameraModeParams,bCObjectRefBase>_>);
+  return;
+}

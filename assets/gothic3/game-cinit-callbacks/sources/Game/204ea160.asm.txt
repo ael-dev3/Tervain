@@ -1,0 +1,5 @@
+204ea160 | d9059c197a20 | FLD float ptr [0x207a199c]
+204ea166 | d9e8 | FLD1
+204ea168 | def1 | FDIVRP
+204ea16a | d91df4ab7b20 | FSTP float ptr [0x207babf4]
+204ea170 | c3 | RET

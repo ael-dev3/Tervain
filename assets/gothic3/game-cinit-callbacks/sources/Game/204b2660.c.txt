@@ -1,0 +1,23 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204b2660 | FUN_204b2660 | STATUS decompiled */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void FUN_204b2660(void)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)&eCAIHelperAdmin::ms_PropertyObjectInstance_eCAIHelperAdmin);
+  _DAT_207b52a0 = 0;
+  _ms_PropertyObjectInstance_eCAIHelperAdmin =
+       &bTPropertyObject<eCAIHelperAdmin,eCEngineComponentBase>::vftable;
+  _DAT_207b52a4 =
+       bTPropertyObjectType<eCAIHelperAdmin,eCEngineComponentBase>::
+       ~bTPropertyObjectType<eCAIHelperAdmin,eCEngineComponentBase>();
+  _DAT_207b52a0 = 0;
+  thunk_FUN_20077040(1);
+  _atexit((_func_4879 *)&UNK_20549d60);
+  return;
+}
+

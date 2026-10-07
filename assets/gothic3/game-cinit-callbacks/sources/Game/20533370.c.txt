@@ -1,0 +1,36 @@
+/* ENTRY 20533370 | bTPropertyType<gCInteraction_PS,bTPropertyContainer<gEUseType>_>::~bTPropertyType<gCInteraction_PS,bTPropertyContainer<gEUseType>_> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCInteraction_PS,bTPropertyContainer<gEUseType>_>::
+~bTPropertyType<gCInteraction_PS,bTPropertyContainer<gEUseType>_>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Interact");
+  bCString::bCString(local_c,"UseType");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCInteraction_PS::ms_PropertyMember_m_enuUseType,local_c,local_8
+             ,local_4,2,false);
+  _ms_PropertyMember_m_enuUseType = &vftable;
+  DAT_207cf114 = bTPropertyObjectType<gCInteraction_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCInteraction_PS,eCEntityPropertySet>();
+  _DAT_207cf118 = 0x54;
+  _DAT_207cf11c = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCInteraction_PS::ms_PropertyMember_m_enuUseType);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cf114,
+             (bCPropertyTypeBase *)&gCInteraction_PS::ms_PropertyMember_m_enuUseType);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gEUseType>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gEUseType>_>);
+  return;
+}

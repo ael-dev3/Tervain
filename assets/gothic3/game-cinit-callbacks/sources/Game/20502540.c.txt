@@ -1,0 +1,12 @@
+/* ENTRY 20502540 | FUN_20502540 | STATUS decompiled | 6 ms */
+
+void FUN_20502540(void)
+
+{
+  bCString::bCString((bCString *)&g_pstrMusicTriggerTimes,"Immediately");
+  bCString::bCString((bCString *)&DAT_207be2c4,"NextExit");
+  bCString::bCString((bCString *)&DAT_207be2c8,"NextPriorityExit");
+  bCString::bCString((bCString *)&DAT_207be2cc,"EndOfFragment");
+  _atexit(FUN_20559640);
+  return;
+}

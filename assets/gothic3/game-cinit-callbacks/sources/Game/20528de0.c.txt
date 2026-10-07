@@ -1,0 +1,12 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 20528de0 | FUN_20528de0 | STATUS decompiled */
+
+void FUN_20528de0(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207cd548,"data/workspace/skilladmin.txt");
+  _atexit((_func_4879 *)&UNK_205638c0);
+  return;
+}
+

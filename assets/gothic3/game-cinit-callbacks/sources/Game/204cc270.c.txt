@@ -1,0 +1,9 @@
+/* ENTRY 204cc270 | FUN_204cc270 | STATUS decompiled | 3 ms */
+
+void FUN_204cc270(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207b94f8,"GetFocusEntityPriority");
+  _atexit(FUN_2054fc90);
+  return;
+}

@@ -1,0 +1,29 @@
+/* ENTRY 2050dbc0 | bTPropertyType<gCNegZone_PS,bool>::~bTPropertyType<gCNegZone_PS,bool> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCNegZone_PS,bool>::~bTPropertyType<gCNegZone_PS,bool>
+          (bTPropertyType<gCNegZone_PS,bool> *this)
+
+{
+  bTPropertyType<gCNegZone_PS,bool> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"ZoneIsCCW");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCNegZone_PS::ms_PropertyMember_m_bZoneIsCCW,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_bZoneIsCCW = &vftable;
+  DAT_207c0318 = bTPropertyObjectType<gCNegZone_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCNegZone_PS,eCEntityPropertySet>();
+  _DAT_207c031c = 0x30;
+  _DAT_207c0320 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCNegZone_PS::ms_PropertyMember_m_bZoneIsCCW);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207c0318,
+             (bCPropertyTypeBase *)&gCNegZone_PS::ms_PropertyMember_m_bZoneIsCCW);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}

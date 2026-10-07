@@ -1,0 +1,31 @@
+/* ENTRY 2050ee00 | bTPropertyType<gCWaterZone_PS,bTValArray<bCVector>_>::~bTPropertyType<gCWaterZone_PS,bTValArray<bCVector>_> | STATUS decompiled | 12 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCWaterZone_PS,bTValArray<bCVector>_>::
+~bTPropertyType<gCWaterZone_PS,bTValArray<bCVector>_>
+          (bTPropertyType<gCWaterZone_PS,bTValArray<bCVector>_> *this)
+
+{
+  bTPropertyType<gCWaterZone_PS,bTValArray<bCVector>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"CoveringPoint");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCWaterZone_PS::ms_PropertyMember_m_arrCoveringPoint,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_arrCoveringPoint = &vftable;
+  DAT_207c05e0 = bTPropertyObjectType<gCWaterZone_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCWaterZone_PS,eCEntityPropertySet>();
+  _DAT_207c05e4 = 0x20;
+  _DAT_207c05e8 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCWaterZone_PS::ms_PropertyMember_m_arrCoveringPoint);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207c05e0,
+             (bCPropertyTypeBase *)&gCWaterZone_PS::ms_PropertyMember_m_arrCoveringPoint);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTValArray<bCVector>_>::~bTPropertyTypeOnly<bTValArray<bCVector>_>);
+  return;
+}

@@ -1,0 +1,33 @@
+/* ENTRY 204f90f0 | bTPropertyType<gCMagic_PS,float>::~bTPropertyType<gCMagic_PS,float> | STATUS decompiled | 14 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall bTPropertyType<gCMagic_PS,float>::~bTPropertyType<gCMagic_PS,float>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Animation");
+  bCString::bCString(local_c,"ReloadDelaySeconds");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCMagic_PS::ms_PropertyMember_m_fReloadDelaySeconds,local_c,
+             local_8,local_4,1,false);
+  _ms_PropertyMember_m_fReloadDelaySeconds = &vftable;
+  DAT_207bca68 = bTPropertyObjectType<gCMagic_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCMagic_PS,eCEntityPropertySet>();
+  _DAT_207bca6c = 0x40;
+  _DAT_207bca70 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCMagic_PS::ms_PropertyMember_m_fReloadDelaySeconds);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bca68,
+             (bCPropertyTypeBase *)&gCMagic_PS::ms_PropertyMember_m_fReloadDelaySeconds);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}

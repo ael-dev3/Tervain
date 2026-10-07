@@ -1,0 +1,12 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204b1970 | FUN_204b1970 | STATUS decompiled */
+
+void FUN_204b1970(void)
+
+{
+  DAT_207b4e5c = bTPropertyType<gCInteraction_PS,bTPropertyContainer<gEFocusNameType>_>::vfunction4
+                           ();
+  return;
+}
+

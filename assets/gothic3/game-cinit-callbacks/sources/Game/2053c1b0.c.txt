@@ -1,0 +1,9 @@
+/* ENTRY 2053c1b0 | FUN_2053c1b0 | STATUS decompiled | 2 ms */
+
+void FUN_2053c1b0(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207d03b4,"Parent");
+  _atexit(FUN_20568570);
+  return;
+}

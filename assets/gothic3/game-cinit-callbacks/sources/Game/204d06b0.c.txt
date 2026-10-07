@@ -1,0 +1,19 @@
+/* ENTRY 204d06b0 | FUN_204d06b0 | STATUS decompiled | 11 ms */
+
+void FUN_204d06b0(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207ba244,"HL_INV_Misc");
+  bCString::bCString((bCString *)&DAT_207ba248,"HL_INV_Weapons");
+  bCString::bCString((bCString *)&DAT_207ba24c,"HL_INV_Armor");
+  bCString::bCString((bCString *)&DAT_207ba250,"HL_INV_Artefacts");
+  bCString::bCString((bCString *)&DAT_207ba254,"HL_INV_Alchemy");
+  bCString::bCString((bCString *)&DAT_207ba258,"HL_INV_Alchemy");
+  bCString::bCString((bCString *)&DAT_207ba25c,"HL_INV_Misc");
+  bCString::bCString((bCString *)&DAT_207ba260,"HL_INV_Written");
+  bCString::bCString((bCString *)&DAT_207ba264,"HL_INV_Trophy");
+  bCString::bCString((bCString *)&DAT_207ba268,"HL_INV_Spells");
+  bCString::bCString((bCString *)&DAT_207ba26c,"HL_INV_Skills");
+  _atexit(FUN_205526d0);
+  return;
+}

@@ -1,0 +1,19 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 20463763 | FUN_20463763 | STATUS decompiled */
+
+undefined4 FUN_20463763(void)
+
+{
+  undefined4 *puVar1;
+  
+  puVar1 = __calloc_crt(0x20,4);
+  DAT_207d2b7c = FUN_20467d64(puVar1);
+  DAT_207d2b80 = DAT_207d2b7c;
+  if (puVar1 == (undefined4 *)0x0) {
+    return 0x18;
+  }
+  *puVar1 = 0;
+  return 0;
+}
+

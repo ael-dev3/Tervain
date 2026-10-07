@@ -1,0 +1,38 @@
+/* ENTRY 204be260 | bTPropertyType<gCEffectCommandModifyEntity,bTPropertyContainer<eEPropertySetType>_>::~bTPropertyType<gCEffectCommandModifyEntity,bTPropertyContainer<eEPropertySetType>_> | STATUS decompiled | 14 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCEffectCommandModifyEntity,bTPropertyContainer<eEPropertySetType>_>::
+~bTPropertyType<gCEffectCommandModifyEntity,bTPropertyContainer<eEPropertySetType>_>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"General");
+  bCString::bCString(local_c,"PropertySet");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCEffectCommandModifyEntity::ms_PropertyMember_m_enuPropertySet,
+             local_c,local_8,local_4,2,false);
+  _ms_PropertyMember_m_enuPropertySet = &vftable;
+  DAT_207b6f88 = bTPropertyObjectType<gCEffectCommandModifyEntity,gCEffectCommand>::
+                 ~bTPropertyObjectType<gCEffectCommandModifyEntity,gCEffectCommand>();
+  _DAT_207b6f8c = 0x14;
+  _DAT_207b6f90 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCEffectCommandModifyEntity::ms_PropertyMember_m_enuPropertySet)
+  ;
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b6f88,
+             (bCPropertyTypeBase *)&gCEffectCommandModifyEntity::ms_PropertyMember_m_enuPropertySet)
+  ;
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<eEPropertySetType>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<eEPropertySetType>_>);
+  return;
+}

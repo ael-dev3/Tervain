@@ -1,0 +1,9 @@
+/* ENTRY 2053da40 | FUN_2053da40 | STATUS decompiled | 2 ms */
+
+void FUN_2053da40(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207d06cc,"player");
+  _atexit(FUN_20569280);
+  return;
+}

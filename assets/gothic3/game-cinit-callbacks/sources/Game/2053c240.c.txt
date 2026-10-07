@@ -1,0 +1,9 @@
+/* ENTRY 2053c240 | FUN_2053c240 | STATUS decompiled | 3 ms */
+
+void FUN_2053c240(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207d03c0,"InfoType");
+  _atexit(FUN_205685a0);
+  return;
+}

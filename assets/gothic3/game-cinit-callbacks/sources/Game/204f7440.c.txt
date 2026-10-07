@@ -1,0 +1,29 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204f7440 | FUN_204f7440 | STATUS decompiled */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void FUN_204f7440(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"SectorPtr");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCLayerBase::ms_PropertyMember_m_pSector,abStack_4,2);
+  _ms_PropertyMember_m_pSector = &bTPropertyType<gCLayerBase,bTPOSmartPtr<gCSector>_>::vftable;
+  _DAT_207bc488 =
+       (bCPropertyObjectTypeBase *)
+       bTPropertyObjectType<gCLayerBase,eCProcessibleElement>::
+       ~bTPropertyObjectType<gCLayerBase,eCProcessibleElement>();
+  _DAT_207bc48c = 0x1c;
+  _DAT_207bc490 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCLayerBase::ms_PropertyMember_m_pSector);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            (_DAT_207bc488,(bCPropertyTypeBase *)&gCLayerBase::ms_PropertyMember_m_pSector);
+  bCString::~bCString(abStack_4);
+  _atexit((_func_4879 *)&UNK_20555bb0);
+  return;
+}
+

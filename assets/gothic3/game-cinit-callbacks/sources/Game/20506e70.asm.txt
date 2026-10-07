@@ -1,0 +1,3 @@
+20506e70 | e8d19eb2ff | CALL 0x20030d46
+20506e75 | a350ef7b20 | MOV [0x207bef50],EAX
+20506e7a | c3 | RET

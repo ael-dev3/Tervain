@@ -1,0 +1,9 @@
+/* ENTRY 2053c060 | FUN_2053c060 | STATUS decompiled | 3 ms */
+
+void FUN_2053c060(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207d0398,"npc");
+  _atexit(FUN_20568500);
+  return;
+}

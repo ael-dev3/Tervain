@@ -1,0 +1,11 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204c4c50 | FUN_204c4c50 | STATUS decompiled */
+
+void FUN_204c4c50(void)
+
+{
+  DAT_207b8044 = bTPropertyObjectType<gCEnclaveAdmin,eCEngineComponentBase>::vfunction1();
+  return;
+}
+

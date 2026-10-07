@@ -1,0 +1,15 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 20516de0 | FUN_20516de0 | STATUS decompiled */
+
+void FUN_20516de0(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gEAttackReason_Arena");
+  thunk_FUN_20317590(&DAT_207c128f,&gCNPC_PS::ms_PropertyMember_m_enuAttackReason,abStack_4,0x12);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

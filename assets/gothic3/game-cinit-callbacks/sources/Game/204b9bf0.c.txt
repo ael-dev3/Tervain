@@ -1,0 +1,12 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204b9bf0 | FUN_204b9bf0 | STATUS decompiled */
+
+void FUN_204b9bf0(void)
+
+{
+  DAT_207b69ec = bTPropertyType<gCEffectCommandCreateDecal,bCImageOrMaterialResourceString>::
+                 vfunction4();
+  return;
+}
+

@@ -1,0 +1,30 @@
+/* ENTRY 204c6e30 | bTPropertyType<gCDistanceTrigger_PS,float>::~bTPropertyType<gCDistanceTrigger_PS,float> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCDistanceTrigger_PS,float>::~bTPropertyType<gCDistanceTrigger_PS,float>
+          (bTPropertyType<gCDistanceTrigger_PS,float> *this)
+
+{
+  bTPropertyType<gCDistanceTrigger_PS,float> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"MaxDistance");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCDistanceTrigger_PS::ms_PropertyMember_m_fMaxDistance,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_fMaxDistance = &vftable;
+  DAT_207b8820 = bTPropertyObjectType<gCDistanceTrigger_PS,gCEventScript_PS>::
+                 ~bTPropertyObjectType<gCDistanceTrigger_PS,gCEventScript_PS>();
+  _DAT_207b8824 = 0xfc;
+  _DAT_207b8828 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCDistanceTrigger_PS::ms_PropertyMember_m_fMaxDistance);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b8820,
+             (bCPropertyTypeBase *)&gCDistanceTrigger_PS::ms_PropertyMember_m_fMaxDistance);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}

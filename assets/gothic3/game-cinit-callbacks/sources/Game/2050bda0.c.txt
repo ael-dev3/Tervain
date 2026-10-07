@@ -1,0 +1,29 @@
+/* ENTRY 2050bda0 | bTPropertyType<gCNavPath_PS,bTValArray<float>_>::~bTPropertyType<gCNavPath_PS,bTValArray<float>_> | STATUS decompiled | 12 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCNavPath_PS,bTValArray<float>_>::~bTPropertyType<gCNavPath_PS,bTValArray<float>_>
+          (bTPropertyType<gCNavPath_PS,bTValArray<float>_> *this)
+
+{
+  bTPropertyType<gCNavPath_PS,bTValArray<float>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"Radius");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCNavPath_PS::ms_PropertyMember_m_arrRadius,(bCString *)&local_4
+             ,1);
+  _ms_PropertyMember_m_arrRadius = &vftable;
+  DAT_207bfd38 = bTPropertyObjectType<gCNavPath_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCNavPath_PS,eCEntityPropertySet>();
+  _DAT_207bfd3c = 0x20;
+  _DAT_207bfd40 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCNavPath_PS::ms_PropertyMember_m_arrRadius);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bfd38,
+             (bCPropertyTypeBase *)&gCNavPath_PS::ms_PropertyMember_m_arrRadius);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTValArray<float>_>::~bTPropertyTypeOnly<bTValArray<float>_>);
+  return;
+}

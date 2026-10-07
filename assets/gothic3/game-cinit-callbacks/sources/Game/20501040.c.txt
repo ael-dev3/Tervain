@@ -1,0 +1,30 @@
+/* ENTRY 20501040 | bTPropertyType<gCCharacterMovement_PS,float>::~bTPropertyType<gCCharacterMovement_PS,float> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCCharacterMovement_PS,float>::~bTPropertyType<gCCharacterMovement_PS,float>
+          (bTPropertyType<gCCharacterMovement_PS,float> *this)
+
+{
+  bTPropertyType<gCCharacterMovement_PS,float> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"LastFallVelocity");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCCharacterMovement_PS::ms_PropertyMember_m_fLastFallVelocity,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_fLastFallVelocity = &vftable;
+  DAT_207bdfbc = bTPropertyObjectType<gCCharacterMovement_PS,gCMovementBase_PS>::
+                 ~bTPropertyObjectType<gCCharacterMovement_PS,gCMovementBase_PS>();
+  _DAT_207bdfc0 = 0x94;
+  _DAT_207bdfc4 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCCharacterMovement_PS::ms_PropertyMember_m_fLastFallVelocity);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bdfbc,
+             (bCPropertyTypeBase *)&gCCharacterMovement_PS::ms_PropertyMember_m_fLastFallVelocity);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}

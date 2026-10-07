@@ -1,0 +1,13 @@
+204e7ca0 | 56 | PUSH ESI
+204e7ca1 | 8b350c897d20 | MOV ESI,dword ptr [0x207d890c]
+204e7ca7 | 689cb96720 | PUSH 0x2067b99c
+204e7cac | b9d8aa7b20 | MOV ECX,0x207baad8
+204e7cb1 | ffd6 | CALL ESI
+204e7cb3 | 687cb96720 | PUSH 0x2067b97c
+204e7cb8 | b9dcaa7b20 | MOV ECX,0x207baadc
+204e7cbd | ffd6 | CALL ESI
+204e7cbf | 68002b5520 | PUSH 0x20552b00
+204e7cc4 | e805bbf7ff | CALL 0x204637ce
+204e7cc9 | 83c404 | ADD ESP,0x4
+204e7ccc | 5e | POP ESI
+204e7ccd | c3 | RET

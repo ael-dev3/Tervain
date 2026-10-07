@@ -1,0 +1,11 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204b18e0 | FUN_204b18e0 | STATUS decompiled */
+
+void FUN_204b18e0(void)
+
+{
+  DAT_207b4e80 = bTPropertyType<gCMover_PS,bCAnimationResourceString>::vfunction4();
+  return;
+}
+

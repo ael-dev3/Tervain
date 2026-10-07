@@ -1,0 +1,30 @@
+/* ENTRY 20531b40 | bTPropertyType<gCFlock_PS,float>::~bTPropertyType<gCFlock_PS,float> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCFlock_PS,float>::~bTPropertyType<gCFlock_PS,float>
+          (bTPropertyType<gCFlock_PS,float> *this)
+
+{
+  bTPropertyType<gCFlock_PS,float> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"RoamPropabilitySecsMax");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCFlock_PS::ms_PropertyMember_m_fRoamPropabilitySecsMax,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_fRoamPropabilitySecsMax = &vftable;
+  DAT_207ceb74 = bTPropertyObjectType<gCFlock_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCFlock_PS,eCEntityPropertySet>();
+  _DAT_207ceb78 = 0x3c;
+  _DAT_207ceb7c = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCFlock_PS::ms_PropertyMember_m_fRoamPropabilitySecsMax);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207ceb74,
+             (bCPropertyTypeBase *)&gCFlock_PS::ms_PropertyMember_m_fRoamPropabilitySecsMax);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}

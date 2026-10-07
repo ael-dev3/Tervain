@@ -1,0 +1,35 @@
+/* ENTRY 204c07c0 | bTPropertyType<gCEffectCommandCreateDecal,bCVector>::~bTPropertyType<gCEffectCommandCreateDecal,bCVector> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCEffectCommandCreateDecal,bCVector>::
+~bTPropertyType<gCEffectCommandCreateDecal,bCVector>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Extent");
+  bCString::bCString(local_c,"Size");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCEffectCommandCreateDecal::ms_PropertyMember_m_vecSize,local_c,
+             local_8,local_4,1,false);
+  _ms_PropertyMember_m_vecSize = &vftable;
+  DAT_207b769c = bTPropertyObjectType<gCEffectCommandCreateDecal,gCEffectCommand>::
+                 ~bTPropertyObjectType<gCEffectCommandCreateDecal,gCEffectCommand>();
+  _DAT_207b76a0 = 0x18;
+  _DAT_207b76a4 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCEffectCommandCreateDecal::ms_PropertyMember_m_vecSize);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b769c,
+             (bCPropertyTypeBase *)&gCEffectCommandCreateDecal::ms_PropertyMember_m_vecSize);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bCVector>::~bTPropertyTypeOnly<bCVector>);
+  return;
+}

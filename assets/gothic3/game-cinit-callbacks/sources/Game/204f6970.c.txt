@@ -1,0 +1,21 @@
+/* ENTRY 204f6970 | bTPropertyObject<gCDynamicLayer,gCLayerBase>::~bTPropertyObject<gCDynamicLayer,gCLayerBase> | STATUS decompiled | 6 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyObject<gCDynamicLayer,gCLayerBase>::~bTPropertyObject<gCDynamicLayer,gCLayerBase>
+          (bTPropertyObject<gCDynamicLayer,gCLayerBase> *this)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)&gCDynamicLayer::ms_PropertyObjectInstance_gCDynamicLayer);
+  _DAT_207bc238 = 0;
+  _ms_PropertyObjectInstance_gCDynamicLayer = &vftable;
+  _DAT_207bc23c =
+       bTPropertyObjectType<gCDynamicLayer,gCLayerBase>::
+       ~bTPropertyObjectType<gCDynamicLayer,gCLayerBase>();
+  _DAT_207bc238 = 0;
+  thunk_FUN_201d7d20(1);
+  _atexit(~bTPropertyObject<gCDynamicLayer,gCLayerBase>);
+  return;
+}

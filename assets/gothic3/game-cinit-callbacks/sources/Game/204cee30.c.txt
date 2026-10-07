@@ -1,0 +1,11 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204cee30 | FUN_204cee30 | STATUS decompiled */
+
+void FUN_204cee30(void)
+
+{
+  DAT_207b9bac = bTPropertyObjectType<gCLock_PS,eCEntityPropertySet>::vfunction1();
+  return;
+}
+

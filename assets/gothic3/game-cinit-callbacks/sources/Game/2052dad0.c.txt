@@ -1,0 +1,29 @@
+/* ENTRY 2052dad0 | bTPropertyType<gCMap_PS,bCString>::~bTPropertyType<gCMap_PS,bCString> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCMap_PS,bCString>::~bTPropertyType<gCMap_PS,bCString>
+          (bTPropertyType<gCMap_PS,bCString> *this)
+
+{
+  bTPropertyType<gCMap_PS,bCString> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"Bitmap");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCMap_PS::ms_PropertyMember_m_strBitmap,(bCString *)&local_4,1);
+  _DAT_207ce0e0 = 0;
+  _ms_PropertyMember_m_strBitmap = &vftable;
+  DAT_207ce0e4 = bTPropertyObjectType<gCMap_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCMap_PS,eCEntityPropertySet>();
+  _DAT_207ce0e8 = 0x18;
+  _DAT_207ce0ec = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCMap_PS::ms_PropertyMember_m_strBitmap);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207ce0e4,
+             (bCPropertyTypeBase *)&gCMap_PS::ms_PropertyMember_m_strBitmap);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bCString>::~bTPropertyTypeOnly<bCString>);
+  return;
+}

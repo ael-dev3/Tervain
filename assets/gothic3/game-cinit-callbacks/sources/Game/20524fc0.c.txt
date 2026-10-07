@@ -1,0 +1,22 @@
+/* ENTRY 20524fc0 | bTPropertyObject<gCSessionEditor,eCInputReceiver>::~bTPropertyObject<gCSessionEditor,eCInputReceiver> | STATUS decompiled | 6 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyObject<gCSessionEditor,eCInputReceiver>::
+~bTPropertyObject<gCSessionEditor,eCInputReceiver>
+          (bTPropertyObject<gCSessionEditor,eCInputReceiver> *this)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)&gCSessionEditor::ms_PropertyObjectInstance_gCSessionEditor);
+  _DAT_207ccccc = 0;
+  _ms_PropertyObjectInstance_gCSessionEditor = &vftable;
+  _DAT_207cccd0 =
+       bTPropertyObjectType<gCSessionEditor,eCInputReceiver>::
+       ~bTPropertyObjectType<gCSessionEditor,eCInputReceiver>();
+  _DAT_207ccccc = 0;
+  thunk_FUN_2038b500(1);
+  _atexit(~bTPropertyObject<gCSessionEditor,eCInputReceiver>);
+  return;
+}

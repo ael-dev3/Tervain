@@ -1,0 +1,17 @@
+/* ENTRY 204e2140 | FUN_204e2140 | STATUS decompiled | 11 ms */
+
+void FUN_204e2140(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207ba7a0,"None");
+  bCString::bCString((bCString *)&DAT_207ba7a4,"Impact");
+  bCString::bCString((bCString *)&DAT_207ba7a8,"Blade");
+  bCString::bCString((bCString *)&DAT_207ba7ac,"Missile");
+  bCString::bCString((bCString *)&DAT_207ba7b0,"Fire");
+  bCString::bCString((bCString *)&DAT_207ba7b4,"Ice");
+  bCString::bCString((bCString *)&DAT_207ba7b8,"Lightning");
+  bCString::bCString((bCString *)&DAT_207ba7bc,"Physics");
+  bCString::bCString((bCString *)&DAT_207ba7c0,"Invalid");
+  _atexit(FUN_205528f0);
+  return;
+}

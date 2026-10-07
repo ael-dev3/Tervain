@@ -1,0 +1,35 @@
+/* ENTRY 204c06d0 | bTPropertyType<gCEffectCommandCreateDecal,float>::~bTPropertyType<gCEffectCommandCreateDecal,float> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCEffectCommandCreateDecal,float>::~bTPropertyType<gCEffectCommandCreateDecal,float>
+          (void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Decal");
+  bCString::bCString(local_c,"LifeTime");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCEffectCommandCreateDecal::ms_PropertyMember_m_fLifeTime,
+             local_c,local_8,local_4,1,false);
+  _ms_PropertyMember_m_fLifeTime = &vftable;
+  DAT_207b7678 = bTPropertyObjectType<gCEffectCommandCreateDecal,gCEffectCommand>::
+                 ~bTPropertyObjectType<gCEffectCommandCreateDecal,gCEffectCommand>();
+  _DAT_207b767c = 0x14;
+  _DAT_207b7680 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCEffectCommandCreateDecal::ms_PropertyMember_m_fLifeTime);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b7678,
+             (bCPropertyTypeBase *)&gCEffectCommandCreateDecal::ms_PropertyMember_m_fLifeTime);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}

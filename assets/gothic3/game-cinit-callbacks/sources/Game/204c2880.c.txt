@@ -1,0 +1,16 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204c2880 | FUN_204c2880 | STATUS decompiled */
+
+void FUN_204c2880(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gEMusicFragmentPosition_RandomEntrance");
+  thunk_FUN_20112a00(&DAT_207b7c5a,&gCEffectCommandMusicTrigger::ms_PropertyMember_m_enuEntrance,
+                     abStack_4,3);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

@@ -1,0 +1,9 @@
+/* ENTRY 2053c270 | FUN_2053c270 | STATUS decompiled | 3 ms */
+
+void FUN_2053c270(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207d03c4,"GoldCost");
+  _atexit(FUN_205685b0);
+  return;
+}

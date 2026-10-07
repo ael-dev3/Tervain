@@ -1,0 +1,31 @@
+/* ENTRY 2052a3d0 | bTPropertyType<gCProject,bTPOSmartPtr<gCWorkspace>_>::~bTPropertyType<gCProject,bTPOSmartPtr<gCWorkspace>_> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCProject,bTPOSmartPtr<gCWorkspace>_>::
+~bTPropertyType<gCProject,bTPOSmartPtr<gCWorkspace>_>
+          (bTPropertyType<gCProject,bTPOSmartPtr<gCWorkspace>_> *this)
+
+{
+  bTPropertyType<gCProject,bTPOSmartPtr<gCWorkspace>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"WorkspacePtr");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCProject::ms_PropertyMember_m_pWorkspace,(bCString *)&local_4,2
+            );
+  _ms_PropertyMember_m_pWorkspace = &vftable;
+  DAT_207cd780 = bTPropertyObjectType<gCProject,eCProcessibleElement>::
+                 ~bTPropertyObjectType<gCProject,eCProcessibleElement>();
+  _DAT_207cd784 = 0x2c;
+  _DAT_207cd788 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCProject::ms_PropertyMember_m_pWorkspace);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cd780,
+             (bCPropertyTypeBase *)&gCProject::ms_PropertyMember_m_pWorkspace);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTPOSmartPtr<gCWorkspace>_>::
+          ~bTPropertyTypeOnly<bTPOSmartPtr<gCWorkspace>_>);
+  return;
+}

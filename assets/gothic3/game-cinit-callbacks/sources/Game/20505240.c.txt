@@ -1,0 +1,11 @@
+/* ENTRY 20505240 | FUN_20505240 | STATUS decompiled | 5 ms */
+
+void FUN_20505240(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207beab8,"in");
+  bCString::bCString((bCString *)&DAT_207beabc,"out");
+  bCString::bCString((bCString *)&DAT_207beac0,"type");
+  _atexit(FUN_2055a0d0);
+  return;
+}

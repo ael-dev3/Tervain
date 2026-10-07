@@ -1,0 +1,9 @@
+/* ENTRY 2053c2a0 | FUN_2053c2a0 | STATUS decompiled | 2 ms */
+
+void FUN_2053c2a0(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207d03c8,"CondOwnerNearEntity");
+  _atexit(FUN_205685c0);
+  return;
+}

@@ -1,0 +1,32 @@
+/* ENTRY 204c6cf0 | bTPropertyType<gCDistanceTrigger_PS,bTPropertyContainer<gEMaxDistType>_>::~bTPropertyType<gCDistanceTrigger_PS,bTPropertyContainer<gEMaxDistType>_> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCDistanceTrigger_PS,bTPropertyContainer<gEMaxDistType>_>::
+~bTPropertyType<gCDistanceTrigger_PS,bTPropertyContainer<gEMaxDistType>_>
+          (bTPropertyType<gCDistanceTrigger_PS,bTPropertyContainer<gEMaxDistType>_> *this)
+
+{
+  bTPropertyType<gCDistanceTrigger_PS,bTPropertyContainer<gEMaxDistType>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"MaxDistType");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCDistanceTrigger_PS::ms_PropertyMember_m_enuMaxDistType,
+             (bCString *)&local_4,2);
+  _ms_PropertyMember_m_enuMaxDistType = &vftable;
+  DAT_207b87d8 = bTPropertyObjectType<gCDistanceTrigger_PS,gCEventScript_PS>::
+                 ~bTPropertyObjectType<gCDistanceTrigger_PS,gCEventScript_PS>();
+  _DAT_207b87dc = 0xf0;
+  _DAT_207b87e0 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCDistanceTrigger_PS::ms_PropertyMember_m_enuMaxDistType);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b87d8,
+             (bCPropertyTypeBase *)&gCDistanceTrigger_PS::ms_PropertyMember_m_enuMaxDistType);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gEMaxDistType>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gEMaxDistType>_>);
+  return;
+}

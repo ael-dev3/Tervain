@@ -1,0 +1,16 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204e7770 | FUN_204e7770 | STATUS decompiled */
+
+void FUN_204e7770(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207baa9c,"HUD_Audio_Volume_Master");
+  bCString::bCString((bCString *)0x207baaa0,"HUD_Audio_Volume_Voice");
+  bCString::bCString((bCString *)0x207baaa4,"HUD_Audio_Volume_Music");
+  bCString::bCString((bCString *)0x207baaa8,"HUD_Audio_Volume_Effects");
+  bCString::bCString((bCString *)0x207baaac,"HUD_Audio_Volume_Ambient");
+  _atexit((_func_4879 *)&UNK_20552aa0);
+  return;
+}
+

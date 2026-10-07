@@ -1,0 +1,16 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204c6f10 | FUN_204c6f10 | STATUS decompiled */
+
+void FUN_204c6f10(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gEMaxDistType_NavZone");
+  thunk_FUN_2013aee0(&DAT_207b882d,&gCDistanceTrigger_PS::ms_PropertyMember_m_enuMaxDistType,
+                     abStack_4,1);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

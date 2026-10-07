@@ -1,0 +1,34 @@
+/* ENTRY 204ea7a0 | bTPropertyType<gCArmorSet_PS,eCTemplateEntityProxy>::~bTPropertyType<gCArmorSet_PS,eCTemplateEntityProxy> | STATUS decompiled | 14 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCArmorSet_PS,eCTemplateEntityProxy>::
+~bTPropertyType<gCArmorSet_PS,eCTemplateEntityProxy>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Requirements");
+  bCString::bCString(local_c,"Body");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCArmorSet_PS::ms_PropertyMember_m_entBody,local_c,local_8,
+             local_4,1,false);
+  _ms_PropertyMember_m_entBody = &vftable;
+  DAT_207bad4c = bTPropertyObjectType<gCArmorSet_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCArmorSet_PS,eCEntityPropertySet>();
+  _DAT_207bad50 = 0x20;
+  _DAT_207bad54 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCArmorSet_PS::ms_PropertyMember_m_entBody);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bad4c,
+             (bCPropertyTypeBase *)&gCArmorSet_PS::ms_PropertyMember_m_entBody);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<eCTemplateEntityProxy>::~bTPropertyTypeOnly<eCTemplateEntityProxy>);
+  return;
+}

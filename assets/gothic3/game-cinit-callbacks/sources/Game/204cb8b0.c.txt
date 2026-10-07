@@ -1,0 +1,35 @@
+/* ENTRY 204cb8b0 | bTPropertyType<gCFocus_PS,bTPropertyContainer<gEFocus>_>::~bTPropertyType<gCFocus_PS,bTPropertyContainer<gEFocus>_> | STATUS decompiled | 14 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCFocus_PS,bTPropertyContainer<gEFocus>_>::
+~bTPropertyType<gCFocus_PS,bTPropertyContainer<gEFocus>_>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Status");
+  bCString::bCString(local_c,"CurrentMode");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCFocus_PS::ms_PropertyMember_m_enuCurrentMode,local_c,local_8,
+             local_4,2,false);
+  _ms_PropertyMember_m_enuCurrentMode = &vftable;
+  DAT_207b93e4 = bTPropertyObjectType<gCFocus_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCFocus_PS,eCEntityPropertySet>();
+  _DAT_207b93e8 = 0x128;
+  _DAT_207b93ec = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCFocus_PS::ms_PropertyMember_m_enuCurrentMode);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b93e4,
+             (bCPropertyTypeBase *)&gCFocus_PS::ms_PropertyMember_m_enuCurrentMode);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gEFocus>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gEFocus>_>);
+  return;
+}

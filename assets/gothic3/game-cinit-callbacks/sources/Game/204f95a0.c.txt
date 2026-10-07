@@ -1,0 +1,34 @@
+/* ENTRY 204f95a0 | bTPropertyType<gCMagic_PS,bCString>::~bTPropertyType<gCMagic_PS,bCString> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall bTPropertyType<gCMagic_PS,bCString>::~bTPropertyType<gCMagic_PS,bCString>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Effects");
+  bCString::bCString(local_c,"EffectItemLoad");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCMagic_PS::ms_PropertyMember_m_strEffectItemLoad,local_c,
+             local_8,local_4,1,false);
+  _DAT_207bcb28 = 0;
+  _ms_PropertyMember_m_strEffectItemLoad = &vftable;
+  DAT_207bcb2c = bTPropertyObjectType<gCMagic_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCMagic_PS,eCEntityPropertySet>();
+  _DAT_207bcb30 = 0x5c;
+  _DAT_207bcb34 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCMagic_PS::ms_PropertyMember_m_strEffectItemLoad);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bcb2c,
+             (bCPropertyTypeBase *)&gCMagic_PS::ms_PropertyMember_m_strEffectItemLoad);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bCString>::~bTPropertyTypeOnly<bCString>);
+  return;
+}

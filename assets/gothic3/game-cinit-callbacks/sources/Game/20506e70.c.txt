@@ -1,0 +1,11 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 20506e70 | FUN_20506e70 | STATUS decompiled */
+
+void FUN_20506e70(void)
+
+{
+  DAT_207bef50 = bTPropertyObjectType<gCMusicChannel,bCObjectRefBase>::vfunction1();
+  return;
+}
+

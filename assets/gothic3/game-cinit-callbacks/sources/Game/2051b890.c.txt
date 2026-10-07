@@ -1,0 +1,32 @@
+/* ENTRY 2051b890 | bTPropertyType<gCQuest_PS,bTPropertyContainer<gEPoliticalAlignment>_>::~bTPropertyType<gCQuest_PS,bTPropertyContainer<gEPoliticalAlignment>_> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCQuest_PS,bTPropertyContainer<gEPoliticalAlignment>_>::
+~bTPropertyType<gCQuest_PS,bTPropertyContainer<gEPoliticalAlignment>_>
+          (bTPropertyType<gCQuest_PS,bTPropertyContainer<gEPoliticalAlignment>_> *this)
+
+{
+  bTPropertyType<gCQuest_PS,bTPropertyContainer<gEPoliticalAlignment>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"PoliticalSuccess");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCQuest_PS::ms_PropertyMember_m_enuPoliticalSuccess,
+             (bCString *)&local_4,2);
+  _ms_PropertyMember_m_enuPoliticalSuccess = &vftable;
+  DAT_207cba3c = bTPropertyObjectType<gCQuest_PS,bCObjectRefBase>::
+                 ~bTPropertyObjectType<gCQuest_PS,bCObjectRefBase>();
+  _DAT_207cba40 = 0x38;
+  _DAT_207cba44 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCQuest_PS::ms_PropertyMember_m_enuPoliticalSuccess);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cba3c,
+             (bCPropertyTypeBase *)&gCQuest_PS::ms_PropertyMember_m_enuPoliticalSuccess);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gEPoliticalAlignment>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gEPoliticalAlignment>_>);
+  return;
+}

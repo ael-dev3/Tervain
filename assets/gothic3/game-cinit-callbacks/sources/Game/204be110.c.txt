@@ -1,0 +1,23 @@
+/* ENTRY 204be110 | bTPropertyObject<gCEffectCommandModifyEntity,gCEffectCommand>::~bTPropertyObject<gCEffectCommandModifyEntity,gCEffectCommand> | STATUS decompiled | 7 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyObject<gCEffectCommandModifyEntity,gCEffectCommand>::
+~bTPropertyObject<gCEffectCommandModifyEntity,gCEffectCommand>
+          (bTPropertyObject<gCEffectCommandModifyEntity,gCEffectCommand> *this)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)
+             &gCEffectCommandModifyEntity::ms_PropertyObjectInstance_gCEffectCommandModifyEntity);
+  _DAT_207b6f44 = 0;
+  _ms_PropertyObjectInstance_gCEffectCommandModifyEntity = &vftable;
+  _DAT_207b6f48 =
+       bTPropertyObjectType<gCEffectCommandModifyEntity,gCEffectCommand>::
+       ~bTPropertyObjectType<gCEffectCommandModifyEntity,gCEffectCommand>();
+  _DAT_207b6f44 = 0;
+  thunk_FUN_200ebc70(1);
+  _atexit(~bTPropertyObject<gCEffectCommandModifyEntity,gCEffectCommand>);
+  return;
+}

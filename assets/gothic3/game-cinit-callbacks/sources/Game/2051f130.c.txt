@@ -1,0 +1,16 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 2051f130 | FUN_2051f130 | STATUS decompiled */
+
+void FUN_2051f130(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gEAniState_TalkStand");
+  thunk_FUN_203673d0(&DAT_207cc322,&gCScriptRoutine_PS::ms_PropertyMember_m_enuAniState,abStack_4,
+                     0x16);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

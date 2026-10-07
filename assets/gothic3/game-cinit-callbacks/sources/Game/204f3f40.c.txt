@@ -1,0 +1,15 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204f3f40 | FUN_204f3f40 | STATUS decompiled */
+
+void FUN_204f3f40(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gESlot_EquipLeftHand");
+  thunk_FUN_201c7320(&DAT_207bbe93,&gCInventorySlot::ms_PropertyMember_m_enuSlot,abStack_4,3);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

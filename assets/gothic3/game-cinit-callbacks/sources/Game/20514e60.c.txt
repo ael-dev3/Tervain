@@ -1,0 +1,34 @@
+/* ENTRY 20514e60 | bTPropertyType<gCNPC_PS,unsigned_long>::~bTPropertyType<gCNPC_PS,unsigned_long> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCNPC_PS,unsigned_long>::~bTPropertyType<gCNPC_PS,unsigned_long>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Status");
+  bCString::bCString(local_c,"TimeStampBurning");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_u32TimeStampBurning,local_c,
+             local_8,local_4,1,true);
+  _ms_PropertyMember_m_u32TimeStampBurning = &vftable;
+  DAT_207c11a8 = bTPropertyObjectType<gCNPC_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCNPC_PS,eCEntityPropertySet>();
+  _DAT_207c11ac = 0x184;
+  _DAT_207c11b0 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_u32TimeStampBurning);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207c11a8,
+             (bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_u32TimeStampBurning);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<unsigned_long>::~bTPropertyTypeOnly<unsigned_long>);
+  return;
+}

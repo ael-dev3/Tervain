@@ -1,0 +1,16 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 20517360 | FUN_20517360 | STATUS decompiled */
+
+void FUN_20517360(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gELastFightAgainstPlayer_None");
+  thunk_FUN_20317630(&DAT_207c12a5,&gCNPC_PS::ms_PropertyMember_m_enuLastFightAgainstPlayer,
+                     abStack_4,0,0);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

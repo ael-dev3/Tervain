@@ -1,0 +1,32 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 20509750 | FUN_20509750 | STATUS decompiled */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void FUN_20509750(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"Radius");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCDynamicCollisionCircle_PS::ms_PropertyMember_m_fRadius,
+             abStack_4,1);
+  _ms_PropertyMember_m_fRadius = &bTPropertyType<gCDynamicCollisionCircle_PS,float>::vftable;
+  _DAT_207bf694 =
+       (bCPropertyObjectTypeBase *)
+       bTPropertyObjectType<gCDynamicCollisionCircle_PS,eCEntityPropertySet>::
+       ~bTPropertyObjectType<gCDynamicCollisionCircle_PS,eCEntityPropertySet>();
+  _DAT_207bf698 = 0x14;
+  _DAT_207bf69c = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCDynamicCollisionCircle_PS::ms_PropertyMember_m_fRadius);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            (_DAT_207bf694,
+             (bCPropertyTypeBase *)&gCDynamicCollisionCircle_PS::ms_PropertyMember_m_fRadius);
+  bCString::~bCString(abStack_4);
+  _atexit((_func_4879 *)&UNK_2055bb20);
+  return;
+}
+

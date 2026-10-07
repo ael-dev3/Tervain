@@ -1,0 +1,13 @@
+/* ENTRY 204cfbf0 | FUN_204cfbf0 | STATUS decompiled | 8 ms */
+
+void FUN_204cfbf0(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207ba084,"G3_HUD_Icon_Document_Map.tga");
+  bCString::bCString((bCString *)&DAT_207ba088,"G3_HUD_Icon_Document_Book.tga");
+  bCString::bCString((bCString *)&DAT_207ba08c,"G3_HUD_Icon_Document_Recipe_Alchemy.tga");
+  bCString::bCString((bCString *)&DAT_207ba090,"G3_HUD_Icon_Document_Recipe_Cooking.tga");
+  bCString::bCString((bCString *)&DAT_207ba094,"G3_HUD_Icon_Document_Recipe_Smithing.tga");
+  _atexit(FUN_20552460);
+  return;
+}

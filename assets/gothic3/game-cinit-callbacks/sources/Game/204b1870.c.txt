@@ -1,0 +1,11 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204b1870 | FUN_204b1870 | STATUS decompiled */
+
+void FUN_204b1870(void)
+
+{
+  DAT_207b4e9c = bTPropertyObjectType<gCCameraModeParams,bCObjectRefBase>::vfunction1();
+  return;
+}
+

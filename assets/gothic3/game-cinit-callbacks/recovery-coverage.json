@@ -1,0 +1,12 @@
+{
+  "program": "Game.dll",
+  "sha256": "b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f",
+  "ghidra_version": "12.1.4",
+  "complete_selected_functions": true,
+  "selected_functions": 1394,
+  "timeout_seconds_per_function": 30,
+  "workers": 3,
+  "status_counts": {
+    "decompiled": 1394
+  }
+}

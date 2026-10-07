@@ -1,0 +1,35 @@
+/* ENTRY 205188f0 | bTPropertyType<gCPlayerMemory_PS,bTValArray<long>_>::~bTPropertyType<gCPlayerMemory_PS,bTValArray<long>_> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCPlayerMemory_PS,bTValArray<long>_>::
+~bTPropertyType<gCPlayerMemory_PS,bTValArray<long>_>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Common");
+  bCString::bCString(local_c,"PoliticalCrimeCount");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCPlayerMemory_PS::ms_PropertyMember_m_arrPoliticalCrimeCount,
+             local_c,local_8,local_4,1,false);
+  _ms_PropertyMember_m_arrPoliticalCrimeCount = &vftable;
+  DAT_207c16f0 = bTPropertyObjectType<gCPlayerMemory_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCPlayerMemory_PS,eCEntityPropertySet>();
+  _DAT_207c16f4 = 0x3c;
+  _DAT_207c16f8 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCPlayerMemory_PS::ms_PropertyMember_m_arrPoliticalCrimeCount);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207c16f0,
+             (bCPropertyTypeBase *)&gCPlayerMemory_PS::ms_PropertyMember_m_arrPoliticalCrimeCount);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bTValArray<long>_>::~bTPropertyTypeOnly<bTValArray<long>_>);
+  return;
+}

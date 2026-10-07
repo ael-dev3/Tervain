@@ -1,0 +1,23 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 20507c50 | FUN_20507c50 | STATUS decompiled */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void FUN_20507c50(void)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)&gCMusicModule::ms_PropertyObjectInstance_gCMusicModule);
+  _DAT_207bf230 = 0;
+  _ms_PropertyObjectInstance_gCMusicModule =
+       &bTPropertyObject<gCMusicModule,eCEngineComponentBase>::vftable;
+  _DAT_207bf234 =
+       bTPropertyObjectType<gCMusicModule,eCEngineComponentBase>::
+       ~bTPropertyObjectType<gCMusicModule,eCEngineComponentBase>();
+  _DAT_207bf230 = 0;
+  thunk_FUN_2026b7a0(1);
+  _atexit((_func_4879 *)&UNK_2055b2e0);
+  return;
+}
+

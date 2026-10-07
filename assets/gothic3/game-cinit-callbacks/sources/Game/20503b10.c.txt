@@ -1,0 +1,15 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 20503b10 | FUN_20503b10 | STATUS decompiled */
+
+void FUN_20503b10(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gEMusicLink_Generic");
+  thunk_FUN_20248b40(&DAT_207be69b,&gCMusicLink::ms_PropertyMember_m_enuType,abStack_4,3);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

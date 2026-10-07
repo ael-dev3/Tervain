@@ -1,0 +1,15 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204b1eb0 | FUN_204b1eb0 | STATUS decompiled */
+
+void FUN_204b1eb0(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gEArenaStatus_Running");
+  thunk_FUN_20071f10(&DAT_207b505d,&gCArena_PS::ms_PropertyMember_m_enuStatus,abStack_4,1);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

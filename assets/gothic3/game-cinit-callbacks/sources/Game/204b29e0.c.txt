@@ -1,0 +1,31 @@
+/* ENTRY 204b29e0 | bTPropertyType<gCAnchor_PS,bTPropertyContainer<gEAnchorType>_>::~bTPropertyType<gCAnchor_PS,bTPropertyContainer<gEAnchorType>_> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCAnchor_PS,bTPropertyContainer<gEAnchorType>_>::
+~bTPropertyType<gCAnchor_PS,bTPropertyContainer<gEAnchorType>_>
+          (bTPropertyType<gCAnchor_PS,bTPropertyContainer<gEAnchorType>_> *this)
+
+{
+  bTPropertyType<gCAnchor_PS,bTPropertyContainer<gEAnchorType>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"AnchorType");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCAnchor_PS::ms_PropertyMember_m_enuAnchorType,
+             (bCString *)&local_4,2);
+  _ms_PropertyMember_m_enuAnchorType = &vftable;
+  DAT_207b53c0 = bTPropertyObjectType<gCAnchor_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCAnchor_PS,eCEntityPropertySet>();
+  _DAT_207b53c4 = 0x14;
+  _DAT_207b53c8 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCAnchor_PS::ms_PropertyMember_m_enuAnchorType);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b53c0,
+             (bCPropertyTypeBase *)&gCAnchor_PS::ms_PropertyMember_m_enuAnchorType);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gEAnchorType>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gEAnchorType>_>);
+  return;
+}

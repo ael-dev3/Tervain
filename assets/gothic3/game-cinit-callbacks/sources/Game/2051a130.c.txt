@@ -1,0 +1,30 @@
+/* ENTRY 2051a130 | bTPropertyType<gCProjectile_PS,bCVector>::~bTPropertyType<gCProjectile_PS,bCVector> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCProjectile_PS,bCVector>::~bTPropertyType<gCProjectile_PS,bCVector>
+          (bTPropertyType<gCProjectile_PS,bCVector> *this)
+
+{
+  bTPropertyType<gCProjectile_PS,bCVector> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"TargetPosition");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCProjectile_PS::ms_PropertyMember_m_vecTargetPos,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_vecTargetPos = &vftable;
+  DAT_207c1c20 = bTPropertyObjectType<gCProjectile_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCProjectile_PS,eCEntityPropertySet>();
+  _DAT_207c1c24 = 0x30;
+  _DAT_207c1c28 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCProjectile_PS::ms_PropertyMember_m_vecTargetPos);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207c1c20,
+             (bCPropertyTypeBase *)&gCProjectile_PS::ms_PropertyMember_m_vecTargetPos);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bCVector>::~bTPropertyTypeOnly<bCVector>);
+  return;
+}

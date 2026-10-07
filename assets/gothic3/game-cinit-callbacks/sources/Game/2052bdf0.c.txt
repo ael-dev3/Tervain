@@ -1,0 +1,9 @@
+/* ENTRY 2052bdf0 | FUN_2052bdf0 | STATUS decompiled | 3 ms */
+
+void FUN_2052bdf0(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207cdcf8,"Game.World.Data");
+  _atexit(FUN_205644a0);
+  return;
+}

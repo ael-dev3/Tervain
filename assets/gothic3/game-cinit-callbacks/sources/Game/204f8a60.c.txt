@@ -1,0 +1,35 @@
+/* ENTRY 204f8a60 | bTPropertyType<gCMagic_PS,bTPropertyContainer<gESpellType>_>::~bTPropertyType<gCMagic_PS,bTPropertyContainer<gESpellType>_> | STATUS decompiled | 14 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCMagic_PS,bTPropertyContainer<gESpellType>_>::
+~bTPropertyType<gCMagic_PS,bTPropertyContainer<gESpellType>_>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"General");
+  bCString::bCString(local_c,"SpellType");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCMagic_PS::ms_PropertyMember_m_enuSpellType,local_c,local_8,
+             local_4,2,false);
+  _ms_PropertyMember_m_enuSpellType = &vftable;
+  DAT_207bc96c = bTPropertyObjectType<gCMagic_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCMagic_PS,eCEntityPropertySet>();
+  _DAT_207bc970 = 0x1c;
+  _DAT_207bc974 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCMagic_PS::ms_PropertyMember_m_enuSpellType);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bc96c,
+             (bCPropertyTypeBase *)&gCMagic_PS::ms_PropertyMember_m_enuSpellType);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gESpellType>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gESpellType>_>);
+  return;
+}

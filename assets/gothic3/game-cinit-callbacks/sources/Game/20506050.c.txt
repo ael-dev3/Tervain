@@ -1,0 +1,33 @@
+/* ENTRY 20506050 | bTPropertyType<gCMusicTrigger,int>::~bTPropertyType<gCMusicTrigger,int> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall bTPropertyType<gCMusicTrigger,int>::~bTPropertyType<gCMusicTrigger,int>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Transition");
+  bCString::bCString(local_c,"ConnectOut");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCMusicTrigger::ms_PropertyMember_m_iConnectOut,local_c,local_8,
+             local_4,1,false);
+  _ms_PropertyMember_m_iConnectOut = &vftable;
+  DAT_207bedc0 = bTPropertyObjectType<gCMusicTrigger,bCObjectRefBase>::
+                 ~bTPropertyObjectType<gCMusicTrigger,bCObjectRefBase>();
+  _DAT_207bedc4 = 0x3c;
+  _DAT_207bedc8 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCMusicTrigger::ms_PropertyMember_m_iConnectOut)
+  ;
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bedc0,
+             (bCPropertyTypeBase *)&gCMusicTrigger::ms_PropertyMember_m_iConnectOut);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<int>::~bTPropertyTypeOnly<int>);
+  return;
+}

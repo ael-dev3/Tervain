@@ -1,0 +1,22 @@
+/* ENTRY 20530c70 | bTPropertyObject<gCBoidsAdmin,eCEngineComponentBase>::~bTPropertyObject<gCBoidsAdmin,eCEngineComponentBase> | STATUS decompiled | 7 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyObject<gCBoidsAdmin,eCEngineComponentBase>::
+~bTPropertyObject<gCBoidsAdmin,eCEngineComponentBase>
+          (bTPropertyObject<gCBoidsAdmin,eCEngineComponentBase> *this)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)&gCBoidsAdmin::ms_PropertyObjectInstance_gCBoidsAdmin);
+  _DAT_207ce918 = 0;
+  _ms_PropertyObjectInstance_gCBoidsAdmin = &vftable;
+  _DAT_207ce91c =
+       bTPropertyObjectType<gCBoidsAdmin,eCEngineComponentBase>::
+       ~bTPropertyObjectType<gCBoidsAdmin,eCEngineComponentBase>();
+  _DAT_207ce918 = 0;
+  thunk_FUN_203fcb70(1);
+  _atexit(~bTPropertyObject<gCBoidsAdmin,eCEngineComponentBase>);
+  return;
+}

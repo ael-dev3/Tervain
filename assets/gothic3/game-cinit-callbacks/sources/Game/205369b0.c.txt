@@ -1,0 +1,16 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 205369b0 | FUN_205369b0 | STATUS decompiled */
+
+void FUN_205369b0(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gETreasureDistribution_Plunder");
+  thunk_FUN_204176d0(&DAT_207cf5c8,&gCTreasureSet_PS::ms_PropertyMember_m_enuTreasureDistribution,
+                     abStack_4,0,0);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

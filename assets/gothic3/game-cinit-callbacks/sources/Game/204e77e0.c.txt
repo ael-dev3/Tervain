@@ -1,0 +1,16 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204e77e0 | FUN_204e77e0 | STATUS decompiled */
+
+void FUN_204e77e0(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207baab0,"");
+  bCString::bCString((bCString *)0x207baab4,"GUI_Loop_SVM.wav");
+  bCString::bCString((bCString *)0x207baab8,"");
+  bCString::bCString((bCString *)0x207baabc,"GUI_Loop_FX.wav");
+  bCString::bCString((bCString *)0x207baac0,"GUI_Loop_Ambient.wav");
+  _atexit((_func_4879 *)&UNK_20552ad0);
+  return;
+}
+

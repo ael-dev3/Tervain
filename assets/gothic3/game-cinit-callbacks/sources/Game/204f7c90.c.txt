@@ -1,0 +1,35 @@
+/* ENTRY 204f7c90 | bTPropertyType<gCDoor_PS,bTPropertyContainer<gEDoorStatus>_>::~bTPropertyType<gCDoor_PS,bTPropertyContainer<gEDoorStatus>_> | STATUS decompiled | 17 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCDoor_PS,bTPropertyContainer<gEDoorStatus>_>::
+~bTPropertyType<gCDoor_PS,bTPropertyContainer<gEDoorStatus>_>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Common");
+  bCString::bCString(local_c,"Status");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCDoor_PS::ms_PropertyMember_m_enuStatus,local_c,local_8,local_4
+             ,2,false);
+  _ms_PropertyMember_m_enuStatus = &vftable;
+  DAT_207bc668 = bTPropertyObjectType<gCDoor_PS,gCMover_PS>::
+                 ~bTPropertyObjectType<gCDoor_PS,gCMover_PS>();
+  _DAT_207bc66c = 0x114;
+  _DAT_207bc670 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCDoor_PS::ms_PropertyMember_m_enuStatus);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bc668,
+             (bCPropertyTypeBase *)&gCDoor_PS::ms_PropertyMember_m_enuStatus);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gEDoorStatus>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gEDoorStatus>_>);
+  return;
+}

@@ -1,0 +1,27 @@
+/* ENTRY 204b5cb0 | bTPropertyType<gCCameraModeParams,bool>::~bTPropertyType<gCCameraModeParams,bool> | STATUS decompiled | 10 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCCameraModeParams,bool>::~bTPropertyType<gCCameraModeParams,bool>
+          (bTPropertyType<gCCameraModeParams,bool> *this)
+
+{
+  bTPropertyType<gCCameraModeParams,bool> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"IsDialogPreset");
+  bCPropertyTypeBase::bCPropertyTypeBase((bCPropertyTypeBase *)&DAT_207b5d28,(bCString *)&local_4,1)
+  ;
+  _DAT_207b5d28 = &vftable;
+  DAT_207b5d40 = bTPropertyObjectType<gCCameraModeParams,bCObjectRefBase>::
+                 ~bTPropertyObjectType<gCCameraModeParams,bCObjectRefBase>();
+  _DAT_207b5d44 = 0x89;
+  _DAT_207b5d48 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&DAT_207b5d28);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b5d40,(bCPropertyTypeBase *)&DAT_207b5d28);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}

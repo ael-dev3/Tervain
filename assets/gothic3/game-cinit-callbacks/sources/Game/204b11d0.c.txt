@@ -1,0 +1,11 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204b11d0 | FUN_204b11d0 | STATUS decompiled */
+
+void FUN_204b11d0(void)
+
+{
+  DAT_207b4788 = bTPropertyType<gCArena_PS,bCObsoleteClass>::vfunction4();
+  return;
+}
+

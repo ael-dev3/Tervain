@@ -1,0 +1,11 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204b1c90 | FUN_204b1c90 | STATUS decompiled */
+
+void FUN_204b1c90(void)
+
+{
+  DAT_207b4d94 = bTPropertyType<gCNPC_PS,bTPropertyContainer<gEGuardStatus>_>::vfunction4();
+  return;
+}
+

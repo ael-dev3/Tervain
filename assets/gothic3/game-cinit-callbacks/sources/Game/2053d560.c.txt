@@ -1,0 +1,36 @@
+/* ENTRY 2053d560 | bTPropertyType<gCInfoManager_PS,bTPropertyContainer<gESession_State>_>::~bTPropertyType<gCInfoManager_PS,bTPropertyContainer<gESession_State>_> | STATUS decompiled | 13 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCInfoManager_PS,bTPropertyContainer<gESession_State>_>::
+~bTPropertyType<gCInfoManager_PS,bTPropertyContainer<gESession_State>_>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"");
+  bCString::bCString(local_c,"LastSessionState");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCInfoManager_PS::ms_PropertyMember_m_lastSessionState,local_c,
+             local_8,local_4,2,true);
+  _ms_PropertyMember_m_lastSessionState = &vftable;
+  DAT_207d0690 = bTPropertyObjectType<gCInfoManager_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCInfoManager_PS,eCEntityPropertySet>();
+  _DAT_207d0694 = 0x20;
+  _DAT_207d0698 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCInfoManager_PS::ms_PropertyMember_m_lastSessionState);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207d0690,
+             (bCPropertyTypeBase *)&gCInfoManager_PS::ms_PropertyMember_m_lastSessionState);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gESession_State>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gESession_State>_>);
+  return;
+}

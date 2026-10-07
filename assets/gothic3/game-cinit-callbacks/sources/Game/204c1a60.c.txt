@@ -1,0 +1,23 @@
+/* ENTRY 204c1a60 | bTPropertyObject<gCEffectCommandMusicTrigger,gCEffectCommand>::~bTPropertyObject<gCEffectCommandMusicTrigger,gCEffectCommand> | STATUS decompiled | 7 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyObject<gCEffectCommandMusicTrigger,gCEffectCommand>::
+~bTPropertyObject<gCEffectCommandMusicTrigger,gCEffectCommand>
+          (bTPropertyObject<gCEffectCommandMusicTrigger,gCEffectCommand> *this)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)
+             &gCEffectCommandMusicTrigger::ms_PropertyObjectInstance_gCEffectCommandMusicTrigger);
+  _DAT_207b7a84 = 0;
+  _ms_PropertyObjectInstance_gCEffectCommandMusicTrigger = &vftable;
+  _DAT_207b7a88 =
+       bTPropertyObjectType<gCEffectCommandMusicTrigger,gCEffectCommand>::
+       ~bTPropertyObjectType<gCEffectCommandMusicTrigger,gCEffectCommand>();
+  _DAT_207b7a84 = 0;
+  thunk_FUN_2010f090(1);
+  _atexit(~bTPropertyObject<gCEffectCommandMusicTrigger,gCEffectCommand>);
+  return;
+}

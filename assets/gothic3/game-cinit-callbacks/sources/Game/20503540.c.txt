@@ -1,0 +1,21 @@
+/* ENTRY 20503540 | bTPropertyObject<gCMusicLink,bCObjectRefBase>::~bTPropertyObject<gCMusicLink,bCObjectRefBase> | STATUS decompiled | 31 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyObject<gCMusicLink,bCObjectRefBase>::~bTPropertyObject<gCMusicLink,bCObjectRefBase>
+          (bTPropertyObject<gCMusicLink,bCObjectRefBase> *this)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)&gCMusicLink::ms_PropertyObjectInstance_gCMusicLink);
+  _DAT_207be5dc = 0;
+  _ms_PropertyObjectInstance_gCMusicLink = &vftable;
+  _DAT_207be5e0 =
+       bTPropertyObjectType<gCMusicLink,bCObjectRefBase>::
+       ~bTPropertyObjectType<gCMusicLink,bCObjectRefBase>();
+  _DAT_207be5dc = 0;
+  thunk_FUN_20247290(1);
+  _atexit(~bTPropertyObject<gCMusicLink,bCObjectRefBase>);
+  return;
+}

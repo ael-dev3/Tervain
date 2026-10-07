@@ -1,0 +1,15 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 20539ed0 | FUN_20539ed0 | STATUS decompiled */
+
+void FUN_20539ed0(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"eEAmbientEnvironment_Coast");
+  thunk_FUN_204318b0(&DAT_207cfe00,&gCAmbientSound::ms_PropertyMember_m_enuEnvironment,abStack_4,4);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

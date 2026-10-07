@@ -1,0 +1,9 @@
+/* ENTRY 20529bb0 | FUN_20529bb0 | STATUS decompiled | 2 ms */
+
+void FUN_20529bb0(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207cd610,".dbdat");
+  _atexit(FUN_20563900);
+  return;
+}

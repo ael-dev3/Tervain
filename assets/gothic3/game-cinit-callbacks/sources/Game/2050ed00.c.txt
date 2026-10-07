@@ -1,0 +1,22 @@
+/* ENTRY 2050ed00 | bTPropertyObject<gCWaterZone_PS,eCEntityPropertySet>::~bTPropertyObject<gCWaterZone_PS,eCEntityPropertySet> | STATUS decompiled | 7 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyObject<gCWaterZone_PS,eCEntityPropertySet>::
+~bTPropertyObject<gCWaterZone_PS,eCEntityPropertySet>
+          (bTPropertyObject<gCWaterZone_PS,eCEntityPropertySet> *this)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)&gCWaterZone_PS::ms_PropertyObjectInstance_gCWaterZone_PS);
+  _DAT_207c059c = 0;
+  _ms_PropertyObjectInstance_gCWaterZone_PS = &vftable;
+  _DAT_207c05a0 =
+       bTPropertyObjectType<gCWaterZone_PS,eCEntityPropertySet>::
+       ~bTPropertyObjectType<gCWaterZone_PS,eCEntityPropertySet>();
+  _DAT_207c059c = 0;
+  thunk_FUN_202bae80(1);
+  _atexit(~bTPropertyObject<gCWaterZone_PS,eCEntityPropertySet>);
+  return;
+}

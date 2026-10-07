@@ -1,0 +1,35 @@
+/* ENTRY 2052e0e0 | bTPropertyType<gCRecipe_PS,bTPropertyContainer<gESkillCategory>_>::~bTPropertyType<gCRecipe_PS,bTPropertyContainer<gESkillCategory>_> | STATUS decompiled | 14 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCRecipe_PS,bTPropertyContainer<gESkillCategory>_>::
+~bTPropertyType<gCRecipe_PS,bTPropertyContainer<gESkillCategory>_>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"General");
+  bCString::bCString(local_c,"Craft");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCRecipe_PS::ms_PropertyMember_m_enuCraft,local_c,local_8,
+             local_4,2,false);
+  _ms_PropertyMember_m_enuCraft = &vftable;
+  DAT_207ce244 = bTPropertyObjectType<gCRecipe_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCRecipe_PS,eCEntityPropertySet>();
+  _DAT_207ce248 = 0x14;
+  _DAT_207ce24c = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCRecipe_PS::ms_PropertyMember_m_enuCraft);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207ce244,
+             (bCPropertyTypeBase *)&gCRecipe_PS::ms_PropertyMember_m_enuCraft);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gESkillCategory>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gESkillCategory>_>);
+  return;
+}

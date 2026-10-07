@@ -1,0 +1,15 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 20516560 | FUN_20516560 | STATUS decompiled */
+
+void FUN_20516560(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gEClass_Paladin");
+  thunk_FUN_203172f0(&DAT_207c126d,&gCNPC_PS::ms_PropertyMember_m_enuClass,abStack_4,2);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

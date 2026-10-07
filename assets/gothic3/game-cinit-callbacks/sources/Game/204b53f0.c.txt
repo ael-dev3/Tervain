@@ -1,0 +1,27 @@
+/* ENTRY 204b53f0 | bTPropertyType<gCCameraModeParams,float>::~bTPropertyType<gCCameraModeParams,float> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCCameraModeParams,float>::~bTPropertyType<gCCameraModeParams,float>
+          (bTPropertyType<gCCameraModeParams,float> *this)
+
+{
+  bTPropertyType<gCCameraModeParams,float> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"TargetOffsetXMaxRange");
+  bCPropertyTypeBase::bCPropertyTypeBase((bCPropertyTypeBase *)&DAT_207b5b30,(bCString *)&local_4,1)
+  ;
+  _DAT_207b5b30 = &vftable;
+  DAT_207b5b48 = bTPropertyObjectType<gCCameraModeParams,bCObjectRefBase>::
+                 ~bTPropertyObjectType<gCCameraModeParams,bCObjectRefBase>();
+  _DAT_207b5b4c = 0x6c;
+  _DAT_207b5b50 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&DAT_207b5b30);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b5b48,(bCPropertyTypeBase *)&DAT_207b5b30);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}

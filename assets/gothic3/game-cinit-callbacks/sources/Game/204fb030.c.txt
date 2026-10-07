@@ -1,0 +1,35 @@
+/* ENTRY 204fb030 | bTPropertyType<gCMagicBarrier_PS,bTPropertyContainer<gEMagicBarrierShape>_>::~bTPropertyType<gCMagicBarrier_PS,bTPropertyContainer<gEMagicBarrierShape>_> | STATUS decompiled | 16 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCMagicBarrier_PS,bTPropertyContainer<gEMagicBarrierShape>_>::
+~bTPropertyType<gCMagicBarrier_PS,bTPropertyContainer<gEMagicBarrierShape>_>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Shape");
+  bCString::bCString(local_c,"Shape");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCMagicBarrier_PS::ms_PropertyMember_m_eShape,local_c,local_8,
+             local_4,2,false);
+  _ms_PropertyMember_m_eShape = &vftable;
+  DAT_207bd0a0 = bTPropertyObjectType<gCMagicBarrier_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCMagicBarrier_PS,eCEntityPropertySet>();
+  _DAT_207bd0a4 = 0x18;
+  _DAT_207bd0a8 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCMagicBarrier_PS::ms_PropertyMember_m_eShape);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bd0a0,
+             (bCPropertyTypeBase *)&gCMagicBarrier_PS::ms_PropertyMember_m_eShape);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gEMagicBarrierShape>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gEMagicBarrierShape>_>);
+  return;
+}

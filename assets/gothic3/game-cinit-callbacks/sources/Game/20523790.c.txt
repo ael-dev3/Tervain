@@ -1,0 +1,11 @@
+/* ENTRY 20523790 | FUN_20523790 | STATUS decompiled | 4 ms */
+
+void FUN_20523790(void)
+
+{
+  bCString::bCString((bCString *)&g_pstrFaceAni,"None");
+  bCString::bCString((bCString *)&DAT_207cc7c0,"Neutral");
+  bCString::bCString((bCString *)&DAT_207cc7c4,"Angry");
+  _atexit(FUN_20562500);
+  return;
+}

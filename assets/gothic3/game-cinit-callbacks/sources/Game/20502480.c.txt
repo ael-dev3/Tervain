@@ -1,0 +1,9 @@
+/* ENTRY 20502480 | FUN_20502480 | STATUS decompiled | 3 ms */
+
+void FUN_20502480(void)
+
+{
+  bCString::bCString(&g_strDefaultMusicDayTime,"day");
+  _atexit(FUN_205595f0);
+  return;
+}

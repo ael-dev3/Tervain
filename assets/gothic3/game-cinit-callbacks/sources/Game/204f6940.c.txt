@@ -1,0 +1,9 @@
+/* ENTRY 204f6940 | FUN_204f6940 | STATUS decompiled | 2 ms */
+
+void FUN_204f6940(void)
+
+{
+  bCString::bCString(&gCDynamicLayer::ms_strDynamicEntityTempLayer,"SysDynTemp");
+  _atexit(FUN_205556a0);
+  return;
+}

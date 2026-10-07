@@ -1,0 +1,30 @@
+/* ENTRY 2051b9d0 | bTPropertyType<gCQuest_PS,bCString>::~bTPropertyType<gCQuest_PS,bCString> | STATUS decompiled | 12 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCQuest_PS,bCString>::~bTPropertyType<gCQuest_PS,bCString>
+          (bTPropertyType<gCQuest_PS,bCString> *this)
+
+{
+  bTPropertyType<gCQuest_PS,bCString> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"EnclaveSuccess");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCQuest_PS::ms_PropertyMember_m_enclaveSuccess,
+             (bCString *)&local_4,1);
+  _DAT_207cba84 = 0;
+  _ms_PropertyMember_m_enclaveSuccess = &vftable;
+  DAT_207cba88 = bTPropertyObjectType<gCQuest_PS,bCObjectRefBase>::
+                 ~bTPropertyObjectType<gCQuest_PS,bCObjectRefBase>();
+  _DAT_207cba8c = 0x44;
+  _DAT_207cba90 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCQuest_PS::ms_PropertyMember_m_enclaveSuccess);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cba88,
+             (bCPropertyTypeBase *)&gCQuest_PS::ms_PropertyMember_m_enclaveSuccess);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bCString>::~bTPropertyTypeOnly<bCString>);
+  return;
+}

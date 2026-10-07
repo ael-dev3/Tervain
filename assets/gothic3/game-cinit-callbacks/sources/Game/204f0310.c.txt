@@ -1,0 +1,33 @@
+/* ENTRY 204f0310 | bTPropertyType<gCItem_PS,bCString>::~bTPropertyType<gCItem_PS,bCString> | STATUS decompiled | 14 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall bTPropertyType<gCItem_PS,bCString>::~bTPropertyType<gCItem_PS,bCString>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Requirements");
+  bCString::bCString(local_c,"ReqAttrib2Tag");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCItem_PS::ms_PropertyMember_m_strReqAttrib2,local_c,local_8,
+             local_4,1,false);
+  _DAT_207bb6b8 = 0;
+  _ms_PropertyMember_m_strReqAttrib2 = &vftable;
+  DAT_207bb6bc = bTPropertyObjectType<gCItem_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCItem_PS,eCEntityPropertySet>();
+  _DAT_207bb6c0 = 0x84;
+  _DAT_207bb6c4 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCItem_PS::ms_PropertyMember_m_strReqAttrib2);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bb6bc,
+             (bCPropertyTypeBase *)&gCItem_PS::ms_PropertyMember_m_strReqAttrib2);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bCString>::~bTPropertyTypeOnly<bCString>);
+  return;
+}

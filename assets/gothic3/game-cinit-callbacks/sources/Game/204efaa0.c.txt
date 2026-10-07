@@ -1,0 +1,34 @@
+/* ENTRY 204efaa0 | bTPropertyType<gCItem_PS,eCTemplateEntityProxy>::~bTPropertyType<gCItem_PS,eCTemplateEntityProxy> | STATUS decompiled | 14 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCItem_PS,eCTemplateEntityProxy>::~bTPropertyType<gCItem_PS,eCTemplateEntityProxy>
+          (void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Transform");
+  bCString::bCString(local_c,"ItemWorld");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCItem_PS::ms_PropertyMember_m_itemWorld,local_c,local_8,local_4
+             ,1,false);
+  _ms_PropertyMember_m_itemWorld = &vftable;
+  DAT_207bb570 = bTPropertyObjectType<gCItem_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCItem_PS,eCEntityPropertySet>();
+  _DAT_207bb574 = 0x34;
+  _DAT_207bb578 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCItem_PS::ms_PropertyMember_m_itemWorld);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bb570,
+             (bCPropertyTypeBase *)&gCItem_PS::ms_PropertyMember_m_itemWorld);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<eCTemplateEntityProxy>::~bTPropertyTypeOnly<eCTemplateEntityProxy>);
+  return;
+}

@@ -1,0 +1,30 @@
+/* ENTRY 20536910 | bTPropertyType<gCTreasureSet_PS,unsigned_long>::~bTPropertyType<gCTreasureSet_PS,unsigned_long> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCTreasureSet_PS,unsigned_long>::~bTPropertyType<gCTreasureSet_PS,unsigned_long>
+          (bTPropertyType<gCTreasureSet_PS,unsigned_long> *this)
+
+{
+  bTPropertyType<gCTreasureSet_PS,unsigned_long> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"MaxTransferStacks");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCTreasureSet_PS::ms_PropertyMember_m_iMaxTransferStacks,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_iMaxTransferStacks = &vftable;
+  DAT_207cf5bc = bTPropertyObjectType<gCTreasureSet_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCTreasureSet_PS,eCEntityPropertySet>();
+  _DAT_207cf5c0 = 0x20;
+  _DAT_207cf5c4 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCTreasureSet_PS::ms_PropertyMember_m_iMaxTransferStacks);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cf5bc,
+             (bCPropertyTypeBase *)&gCTreasureSet_PS::ms_PropertyMember_m_iMaxTransferStacks);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<unsigned_long>::~bTPropertyTypeOnly<unsigned_long>);
+  return;
+}

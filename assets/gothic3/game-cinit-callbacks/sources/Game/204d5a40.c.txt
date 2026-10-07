@@ -1,0 +1,11 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204d5a40 | FUN_204d5a40 | STATUS decompiled */
+
+void FUN_204d5a40(void)
+
+{
+  DAT_207ba6ac = bTPropertyType<gCMagic_PS,bTPropertyContainer<gESpellTarget>_>::vfunction4();
+  return;
+}
+

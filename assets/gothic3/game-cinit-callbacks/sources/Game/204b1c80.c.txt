@@ -1,0 +1,12 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204b1c80 | FUN_204b1c80 | STATUS decompiled */
+
+void FUN_204b1c80(void)
+
+{
+  DAT_207b4d98 = bTPropertyType<gCNPC_PS,bTPropertyContainer<gELastFightAgainstPlayer>_>::vfunction4
+                           ();
+  return;
+}
+

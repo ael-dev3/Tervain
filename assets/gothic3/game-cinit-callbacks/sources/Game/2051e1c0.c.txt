@@ -1,0 +1,23 @@
+/* ENTRY 2051e1c0 | bTPropertyObject<gCScriptRoutine_PS,eCEntityPropertySet>::~bTPropertyObject<gCScriptRoutine_PS,eCEntityPropertySet> | STATUS decompiled | 7 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyObject<gCScriptRoutine_PS,eCEntityPropertySet>::
+~bTPropertyObject<gCScriptRoutine_PS,eCEntityPropertySet>
+          (bTPropertyObject<gCScriptRoutine_PS,eCEntityPropertySet> *this)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)
+             &gCScriptRoutine_PS::ms_PropertyObjectInstance_gCScriptRoutine_PS);
+  _DAT_207cc0dc = 0;
+  _ms_PropertyObjectInstance_gCScriptRoutine_PS = &vftable;
+  _DAT_207cc0e0 =
+       bTPropertyObjectType<gCScriptRoutine_PS,eCEntityPropertySet>::
+       ~bTPropertyObjectType<gCScriptRoutine_PS,eCEntityPropertySet>();
+  _DAT_207cc0dc = 0;
+  thunk_FUN_20361e10(1);
+  _atexit(~bTPropertyObject<gCScriptRoutine_PS,eCEntityPropertySet>);
+  return;
+}

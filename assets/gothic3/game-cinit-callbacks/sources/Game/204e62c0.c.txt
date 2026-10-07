@@ -1,0 +1,56 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204e62c0 | FUN_204e62c0 | STATUS decompiled */
+
+void FUN_204e62c0(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207ba8b0,"HUD_SessionKey_None");
+  bCString::bCString((bCString *)0x207ba8b4,"HUD_SessionKey_Forward");
+  bCString::bCString((bCString *)0x207ba8b8,"HUD_SessionKey_Backward");
+  bCString::bCString((bCString *)0x207ba8bc,"HUD_SessionKey_StrafeLeft");
+  bCString::bCString((bCString *)0x207ba8c0,"HUD_SessionKey_StrafeRight");
+  bCString::bCString((bCString *)0x207ba8c4,"HUD_SessionKey_TurnPlayerRight");
+  bCString::bCString((bCString *)0x207ba8c8,"HUD_SessionKey_TurnPlayerLeft");
+  bCString::bCString((bCString *)0x207ba8cc,"HUD_SessionKey_TurnUp");
+  bCString::bCString((bCString *)0x207ba8d0,"HUD_SessionKey_TurnDown");
+  bCString::bCString((bCString *)0x207ba8d4,"HUD_SessionKey_RotateCamRight");
+  bCString::bCString((bCString *)0x207ba8d8,"HUD_SessionKey_RotateCamLeft");
+  bCString::bCString((bCString *)0x207ba8dc,"HUD_SessionKey_Walk");
+  bCString::bCString((bCString *)0x207ba8e0,"HUD_SessionKey_WalkToggle");
+  bCString::bCString((bCString *)0x207ba8e4,"HUD_SessionKey_Up");
+  bCString::bCString((bCString *)0x207ba8e8,"HUD_SessionKey_Down");
+  bCString::bCString((bCString *)0x207ba8ec,"HUD_SessionKey_Use1");
+  bCString::bCString((bCString *)0x207ba8f0,"HUD_SessionKey_Use2");
+  bCString::bCString((bCString *)0x207ba8f4,"HUD_SessionKey_Plus");
+  bCString::bCString((bCString *)0x207ba8f8,"HUD_SessionKey_Minus");
+  bCString::bCString((bCString *)0x207ba8fc,"HUD_SessionKey_QuickUse0");
+  bCString::bCString((bCString *)0x207ba900,"HUD_SessionKey_QuickUse1");
+  bCString::bCString((bCString *)0x207ba904,"HUD_SessionKey_QuickUse2");
+  bCString::bCString((bCString *)0x207ba908,"HUD_SessionKey_QuickUse3");
+  bCString::bCString((bCString *)0x207ba90c,"HUD_SessionKey_QuickUse4");
+  bCString::bCString((bCString *)0x207ba910,"HUD_SessionKey_QuickUse5");
+  bCString::bCString((bCString *)0x207ba914,"HUD_SessionKey_QuickUse6");
+  bCString::bCString((bCString *)0x207ba918,"HUD_SessionKey_QuickUse7");
+  bCString::bCString((bCString *)0x207ba91c,"HUD_SessionKey_QuickUse8");
+  bCString::bCString((bCString *)0x207ba920,"HUD_SessionKey_QuickUse9");
+  bCString::bCString((bCString *)0x207ba924,"HUD_SessionKey_Confirm");
+  bCString::bCString((bCString *)0x207ba928,"HUD_SessionKey_Cancel");
+  bCString::bCString((bCString *)0x207ba92c,"HUD_SessionKey_InventoryMode");
+  bCString::bCString((bCString *)0x207ba930,"HUD_SessionKey_JournalModeLog");
+  bCString::bCString((bCString *)0x207ba934,"HUD_SessionKey_JournalModeCharScreen");
+  bCString::bCString((bCString *)0x207ba938,"HUD_SessionKey_JournalModeMagBook");
+  bCString::bCString((bCString *)0x207ba93c,"HUD_SessionKey_JournalModeMap");
+  bCString::bCString((bCString *)0x207ba940,"HUD_SessionKey_QuickLoad");
+  bCString::bCString((bCString *)0x207ba944,"HUD_SessionKey_QuickSave");
+  bCString::bCString((bCString *)0x207ba948,"HUD_SessionKey_WeaponMode");
+  bCString::bCString((bCString *)0x207ba94c,"HUD_SessionKey_Lock");
+  bCString::bCString((bCString *)0x207ba950,"HUD_SessionKey_Look");
+  bCString::bCString((bCString *)0x207ba954,"HUD_SessionKey_FirstPerson");
+  bCString::bCString((bCString *)0x207ba958,"HUD_SessionKey_ResetCamera");
+  bCString::bCString((bCString *)0x207ba95c,"HUD_SessionKey_ToggleHUD");
+  bCString::bCString((bCString *)0x207ba960,"HUD_SessionKey_ToggleEntityDebug");
+  _atexit((_func_4879 *)&UNK_20552960);
+  return;
+}
+

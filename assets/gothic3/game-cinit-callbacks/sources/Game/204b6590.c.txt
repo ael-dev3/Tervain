@@ -1,0 +1,11 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204b6590 | FUN_204b6590 | STATUS decompiled */
+
+void FUN_204b6590(void)
+
+{
+  DAT_207b6168 = bTPropertyObjectType<gCFocus_PS,eCEntityPropertySet>::vfunction1();
+  return;
+}
+

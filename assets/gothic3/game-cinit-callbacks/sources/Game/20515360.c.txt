@@ -1,0 +1,15 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 20515360 | FUN_20515360 | STATUS decompiled */
+
+void FUN_20515360(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gEAttitude_Predator");
+  thunk_FUN_20316c60(&DAT_207c1225,&gCNPC_PS::ms_PropertyMember_m_enuAttitudeToPlayer2,abStack_4,5);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

@@ -1,0 +1,24 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204b9250 | FUN_204b9250 | STATUS decompiled */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void FUN_204b9250(void)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)
+             &gCDummyVisualBase_PS::ms_PropertyObjectInstance_gCDummyVisualBase_PS);
+  _DAT_207b67dc = 0;
+  _ms_PropertyObjectInstance_gCDummyVisualBase_PS =
+       &bTPropertyObject<gCDummyVisualBase_PS,eCEditorEntityPropertySet>::vftable;
+  _DAT_207b67e0 =
+       bTPropertyObjectType<gCDummyVisualBase_PS,eCEditorEntityPropertySet>::
+       ~bTPropertyObjectType<gCDummyVisualBase_PS,eCEditorEntityPropertySet>();
+  _DAT_207b67dc = 0;
+  thunk_FUN_200bf5e0(1);
+  _atexit((_func_4879 *)&UNK_2054c580);
+  return;
+}
+

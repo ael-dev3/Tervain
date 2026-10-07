@@ -1,0 +1,11 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 2052b230 | FUN_2052b230 | STATUS decompiled */
+
+void FUN_2052b230(void)
+
+{
+  DAT_207cd8a4 = bTPropertyObjectType<gCSectorPersistence_PS,eCEntityPropertySet>::vfunction1();
+  return;
+}
+

@@ -1,0 +1,33 @@
+/* ENTRY 204b36d0 | bTPropertyType<gCCameraAI_PS,bTPropertyObject<gCCameraModeParams,bCObjectRefBase>_>::~bTPropertyType<gCCameraAI_PS,bTPropertyObject<gCCameraModeParams,bCObjectRefBase>_> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCCameraAI_PS,bTPropertyObject<gCCameraModeParams,bCObjectRefBase>_>::
+~bTPropertyType<gCCameraAI_PS,bTPropertyObject<gCCameraModeParams,bCObjectRefBase>_>
+          (bTPropertyType<gCCameraAI_PS,bTPropertyObject<gCCameraModeParams,bCObjectRefBase>_> *this
+          )
+
+{
+  bTPropertyType<gCCameraAI_PS,bTPropertyObject<gCCameraModeParams,bCObjectRefBase>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"CamModeMelee");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCCameraAI_PS::ms_PropertyMember_m_poCamModeMelee,
+             (bCString *)&local_4,3);
+  _ms_PropertyMember_m_poCamModeMelee = &vftable;
+  DAT_207b54c0 = bTPropertyObjectType<gCCameraAI_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCCameraAI_PS,eCEntityPropertySet>();
+  _DAT_207b54c4 = 0x24;
+  _DAT_207b54c8 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCCameraAI_PS::ms_PropertyMember_m_poCamModeMelee);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b54c0,
+             (bCPropertyTypeBase *)&gCCameraAI_PS::ms_PropertyMember_m_poCamModeMelee);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyObject<gCCameraModeParams,bCObjectRefBase>_>::
+          ~bTPropertyTypeOnly<bTPropertyObject<gCCameraModeParams,bCObjectRefBase>_>);
+  return;
+}

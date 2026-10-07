@@ -1,0 +1,11 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204b1680 | FUN_204b1680 | STATUS decompiled */
+
+void FUN_204b1680(void)
+
+{
+  DAT_207b4f18 = bTPropertyObjectType<gCDynamicLayer,gCLayerBase>::vfunction2();
+  return;
+}
+

@@ -1,0 +1,32 @@
+/* ENTRY 204ef6e0 | bTPropertyType<gCItem_PS,bool>::~bTPropertyType<gCItem_PS,bool> | STATUS decompiled | 14 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall bTPropertyType<gCItem_PS,bool>::~bTPropertyType<gCItem_PS,bool>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"General");
+  bCString::bCString(local_c,"Permanent");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCItem_PS::ms_PropertyMember_m_bPermanent,local_c,local_8,
+             local_4,1,false);
+  _ms_PropertyMember_m_bPermanent = &vftable;
+  DAT_207bb4dc = bTPropertyObjectType<gCItem_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCItem_PS,eCEntityPropertySet>();
+  _DAT_207bb4e0 = 0x21;
+  _DAT_207bb4e4 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCItem_PS::ms_PropertyMember_m_bPermanent);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bb4dc,
+             (bCPropertyTypeBase *)&gCItem_PS::ms_PropertyMember_m_bPermanent);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}

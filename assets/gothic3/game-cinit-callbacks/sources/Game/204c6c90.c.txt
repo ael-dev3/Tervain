@@ -1,0 +1,23 @@
+/* ENTRY 204c6c90 | bTPropertyObject<gCDistanceTrigger_PS,gCEventScript_PS>::~bTPropertyObject<gCDistanceTrigger_PS,gCEventScript_PS> | STATUS decompiled | 6 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyObject<gCDistanceTrigger_PS,gCEventScript_PS>::
+~bTPropertyObject<gCDistanceTrigger_PS,gCEventScript_PS>
+          (bTPropertyObject<gCDistanceTrigger_PS,gCEventScript_PS> *this)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)
+             &gCDistanceTrigger_PS::ms_PropertyObjectInstance_gCDistanceTrigger_PS);
+  _DAT_207b87b8 = 0;
+  _ms_PropertyObjectInstance_gCDistanceTrigger_PS = &vftable;
+  _DAT_207b87bc =
+       bTPropertyObjectType<gCDistanceTrigger_PS,gCEventScript_PS>::
+       ~bTPropertyObjectType<gCDistanceTrigger_PS,gCEventScript_PS>();
+  _DAT_207b87b8 = 0;
+  thunk_FUN_201397d0(1);
+  _atexit(~bTPropertyObject<gCDistanceTrigger_PS,gCEventScript_PS>);
+  return;
+}

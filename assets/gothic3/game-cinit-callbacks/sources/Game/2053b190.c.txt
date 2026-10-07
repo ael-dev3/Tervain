@@ -1,0 +1,30 @@
+/* ENTRY 2053b190 | bTPropertyType<gCInfo_PS,long>::~bTPropertyType<gCInfo_PS,long> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCInfo_PS,long>::~bTPropertyType<gCInfo_PS,long>
+          (bTPropertyType<gCInfo_PS,long> *this)
+
+{
+  bTPropertyType<gCInfo_PS,long> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"TeachAttribValue");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCInfo_PS::ms_PropertyMember_m_teachAttribValue,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_teachAttribValue = &vftable;
+  DAT_207d02c0 = bTPropertyObjectType<gCInfo_PS,bCObjectRefBase>::
+                 ~bTPropertyObjectType<gCInfo_PS,bCObjectRefBase>();
+  _DAT_207d02c4 = 0x8c;
+  _DAT_207d02c8 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCInfo_PS::ms_PropertyMember_m_teachAttribValue)
+  ;
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207d02c0,
+             (bCPropertyTypeBase *)&gCInfo_PS::ms_PropertyMember_m_teachAttribValue);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<long>::~bTPropertyTypeOnly<long>);
+  return;
+}

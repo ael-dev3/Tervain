@@ -1,0 +1,9 @@
+/* ENTRY 2052a340 | FUN_2052a340 | STATUS decompiled | 2 ms */
+
+void FUN_2052a340(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207cd754,"Game.Project.Data");
+  _atexit(FUN_20563b80);
+  return;
+}

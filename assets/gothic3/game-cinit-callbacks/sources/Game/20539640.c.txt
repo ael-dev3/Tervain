@@ -1,0 +1,35 @@
+/* ENTRY 20539640 | bTPropertyType<gCAmbientSound,bTPropertyContainer<eEAmbientDayTime>_>::~bTPropertyType<gCAmbientSound,bTPropertyContainer<eEAmbientDayTime>_> | STATUS decompiled | 18 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCAmbientSound,bTPropertyContainer<eEAmbientDayTime>_>::
+~bTPropertyType<gCAmbientSound,bTPropertyContainer<eEAmbientDayTime>_>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Situation");
+  bCString::bCString(local_c,"DayTime");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCAmbientSound::ms_PropertyMember_m_enuDayTime,local_c,local_8,
+             local_4,2,false);
+  _ms_PropertyMember_m_enuDayTime = &vftable;
+  DAT_207cfd10 = bTPropertyObjectType<gCAmbientSound,bCObjectRefBase>::
+                 ~bTPropertyObjectType<gCAmbientSound,bCObjectRefBase>();
+  _DAT_207cfd14 = 0x1c;
+  _DAT_207cfd18 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCAmbientSound::ms_PropertyMember_m_enuDayTime);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cfd10,
+             (bCPropertyTypeBase *)&gCAmbientSound::ms_PropertyMember_m_enuDayTime);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<eEAmbientDayTime>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<eEAmbientDayTime>_>);
+  return;
+}

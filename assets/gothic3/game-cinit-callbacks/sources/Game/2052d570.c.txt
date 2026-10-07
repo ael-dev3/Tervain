@@ -1,0 +1,29 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 2052d570 | FUN_2052d570 | STATUS decompiled */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void FUN_2052d570(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"Text");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCLetter_PS::ms_PropertyMember_m_strText,abStack_4,1);
+  _ms_PropertyMember_m_strText = &bTPropertyType<gCLetter_PS,eCLocString>::vftable;
+  _DAT_207cdfd8 =
+       (bCPropertyObjectTypeBase *)
+       bTPropertyObjectType<gCLetter_PS,eCEntityPropertySet>::
+       ~bTPropertyObjectType<gCLetter_PS,eCEntityPropertySet>();
+  _DAT_207cdfdc = 0x18;
+  _DAT_207cdfe0 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCLetter_PS::ms_PropertyMember_m_strText);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            (_DAT_207cdfd8,(bCPropertyTypeBase *)&gCLetter_PS::ms_PropertyMember_m_strText);
+  bCString::~bCString(abStack_4);
+  _atexit((_func_4879 *)&UNK_205649d0);
+  return;
+}
+

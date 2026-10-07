@@ -1,0 +1,13 @@
+/* ENTRY 204cfc60 | FUN_204cfc60 | STATUS decompiled | 6 ms */
+
+void FUN_204cfc60(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207ba0dc,"HL_Maps");
+  bCString::bCString((bCString *)&DAT_207ba0e0,"HL_Books");
+  bCString::bCString((bCString *)&DAT_207ba0e4,"HL_Recipes_ALC");
+  bCString::bCString((bCString *)&DAT_207ba0e8,"HL_Recipes_Cooking");
+  bCString::bCString((bCString *)&DAT_207ba0ec,"HL_Recipes_SMT");
+  _atexit(FUN_20552490);
+  return;
+}

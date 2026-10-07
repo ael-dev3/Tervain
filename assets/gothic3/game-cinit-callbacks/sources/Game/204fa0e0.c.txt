@@ -1,0 +1,32 @@
+/* ENTRY 204fa0e0 | bTPropertyType<gCMagic_PS,int>::~bTPropertyType<gCMagic_PS,int> | STATUS decompiled | 16 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall bTPropertyType<gCMagic_PS,int>::~bTPropertyType<gCMagic_PS,int>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Requirements");
+  bCString::bCString(local_c,"LearnPoints");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCMagic_PS::ms_PropertyMember_m_iLearnPoints,local_c,local_8,
+             local_4,1,false);
+  _ms_PropertyMember_m_iLearnPoints = &vftable;
+  DAT_207bcd08 = bTPropertyObjectType<gCMagic_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCMagic_PS,eCEntityPropertySet>();
+  _DAT_207bcd0c = 0x8c;
+  _DAT_207bcd10 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCMagic_PS::ms_PropertyMember_m_iLearnPoints);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bcd08,
+             (bCPropertyTypeBase *)&gCMagic_PS::ms_PropertyMember_m_iLearnPoints);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<int>::~bTPropertyTypeOnly<int>);
+  return;
+}

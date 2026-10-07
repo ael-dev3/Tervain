@@ -1,0 +1,33 @@
+/* ENTRY 2053e650 | bTPropertyType<gCInfoScript_PS,bool>::~bTPropertyType<gCInfoScript_PS,bool> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall bTPropertyType<gCInfoScript_PS,bool>::~bTPropertyType<gCInfoScript_PS,bool>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"");
+  bCString::bCString(local_c,"ScriptIsRunnig");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCInfoScript_PS::ms_PropertyMember_m_bScriptIsRunning,local_c,
+             local_8,local_4,1,true);
+  _ms_PropertyMember_m_bScriptIsRunning = &vftable;
+  DAT_207d0828 = bTPropertyObjectType<gCInfoScript_PS,bCObjectRefBase>::
+                 ~bTPropertyObjectType<gCInfoScript_PS,bCObjectRefBase>();
+  _DAT_207d082c = 0x1c;
+  _DAT_207d0830 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCInfoScript_PS::ms_PropertyMember_m_bScriptIsRunning);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207d0828,
+             (bCPropertyTypeBase *)&gCInfoScript_PS::ms_PropertyMember_m_bScriptIsRunning);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}

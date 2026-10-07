@@ -1,0 +1,29 @@
+/* ENTRY 204fcf20 | bTPropertyType<gCDialog_PS,bool>::~bTPropertyType<gCDialog_PS,bool> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCDialog_PS,bool>::~bTPropertyType<gCDialog_PS,bool>
+          (bTPropertyType<gCDialog_PS,bool> *this)
+
+{
+  bTPropertyType<gCDialog_PS,bool> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"TradeEnabled");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCDialog_PS::ms_PropertyMember_m_bTradeEnabled,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_bTradeEnabled = &vftable;
+  DAT_207bd5f4 = bTPropertyObjectType<gCDialog_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCDialog_PS,eCEntityPropertySet>();
+  _DAT_207bd5f8 = 0x1c;
+  _DAT_207bd5fc = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCDialog_PS::ms_PropertyMember_m_bTradeEnabled);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bd5f4,
+             (bCPropertyTypeBase *)&gCDialog_PS::ms_PropertyMember_m_bTradeEnabled);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}

@@ -1,0 +1,36 @@
+/* ENTRY 204eb5b0 | bTPropertyType<gCArmorSet_PS,bTPropertyContainer<EAttribModOperation>_>::~bTPropertyType<gCArmorSet_PS,bTPropertyContainer<EAttribModOperation>_> | STATUS decompiled | 29 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCArmorSet_PS,bTPropertyContainer<EAttribModOperation>_>::
+~bTPropertyType<gCArmorSet_PS,bTPropertyContainer<EAttribModOperation>_>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Benefits");
+  bCString::bCString(local_c,"ModAttrib4Op");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCArmorSet_PS::ms_PropertyMember_m_enuModAttrib4,local_c,local_8
+             ,local_4,2,false);
+  _ms_PropertyMember_m_enuModAttrib4 = &vftable;
+  DAT_207baf78 = bTPropertyObjectType<gCArmorSet_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCArmorSet_PS,eCEntityPropertySet>();
+  _DAT_207baf7c = 0x90;
+  _DAT_207baf80 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCArmorSet_PS::ms_PropertyMember_m_enuModAttrib4);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207baf78,
+             (bCPropertyTypeBase *)&gCArmorSet_PS::ms_PropertyMember_m_enuModAttrib4);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<EAttribModOperation>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<EAttribModOperation>_>);
+  return;
+}

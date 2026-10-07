@@ -1,0 +1,23 @@
+/* ENTRY 204c0580 | bTPropertyObject<gCEffectCommandCreateDecal,gCEffectCommand>::~bTPropertyObject<gCEffectCommandCreateDecal,gCEffectCommand> | STATUS decompiled | 7 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyObject<gCEffectCommandCreateDecal,gCEffectCommand>::
+~bTPropertyObject<gCEffectCommandCreateDecal,gCEffectCommand>
+          (bTPropertyObject<gCEffectCommandCreateDecal,gCEffectCommand> *this)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)
+             &gCEffectCommandCreateDecal::ms_PropertyObjectInstance_gCEffectCommandCreateDecal);
+  _DAT_207b7634 = 0;
+  _ms_PropertyObjectInstance_gCEffectCommandCreateDecal = &vftable;
+  _DAT_207b7638 =
+       bTPropertyObjectType<gCEffectCommandCreateDecal,gCEffectCommand>::
+       ~bTPropertyObjectType<gCEffectCommandCreateDecal,gCEffectCommand>();
+  _DAT_207b7634 = 0;
+  thunk_FUN_20100230(1);
+  _atexit(~bTPropertyObject<gCEffectCommandCreateDecal,gCEffectCommand>);
+  return;
+}

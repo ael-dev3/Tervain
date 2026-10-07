@@ -1,0 +1,9 @@
+/* ENTRY 2053c330 | FUN_2053c330 | STATUS decompiled | 3 ms */
+
+void FUN_2053c330(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207d03d4,"CondItemContainer");
+  _atexit(FUN_205685f0);
+  return;
+}

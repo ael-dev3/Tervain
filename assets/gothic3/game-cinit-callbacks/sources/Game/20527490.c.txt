@@ -1,0 +1,32 @@
+/* ENTRY 20527490 | bTPropertyType<gCSkill_PS,int>::~bTPropertyType<gCSkill_PS,int> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall bTPropertyType<gCSkill_PS,int>::~bTPropertyType<gCSkill_PS,int>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Requirements");
+  bCString::bCString(local_c,"ReqAttrib3Value");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCSkill_PS::ms_PropertyMember_m_iReqAttrib3,local_c,local_8,
+             local_4,1,false);
+  _ms_PropertyMember_m_iReqAttrib3 = &vftable;
+  DAT_207cd34c = bTPropertyObjectType<gCSkill_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCSkill_PS,eCEntityPropertySet>();
+  _DAT_207cd350 = 0x30;
+  _DAT_207cd354 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCSkill_PS::ms_PropertyMember_m_iReqAttrib3);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cd34c,
+             (bCPropertyTypeBase *)&gCSkill_PS::ms_PropertyMember_m_iReqAttrib3);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<int>::~bTPropertyTypeOnly<int>);
+  return;
+}

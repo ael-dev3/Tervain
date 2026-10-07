@@ -1,0 +1,35 @@
+/* ENTRY 20533af0 | bTPropertyType<gCInteraction_PS,bCString>::~bTPropertyType<gCInteraction_PS,bCString> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCInteraction_PS,bCString>::~bTPropertyType<gCInteraction_PS,bCString>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Script");
+  bCString::bCString(local_c,"EnterROIScript");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCInteraction_PS::ms_PropertyMember_m_strEnterROIScript,local_c,
+             local_8,local_4,1,false);
+  _DAT_207cf23c = 0;
+  _ms_PropertyMember_m_strEnterROIScript = &vftable;
+  DAT_207cf240 = bTPropertyObjectType<gCInteraction_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCInteraction_PS,eCEntityPropertySet>();
+  _DAT_207cf244 = 0xa4;
+  _DAT_207cf248 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCInteraction_PS::ms_PropertyMember_m_strEnterROIScript);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cf240,
+             (bCPropertyTypeBase *)&gCInteraction_PS::ms_PropertyMember_m_strEnterROIScript);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bCString>::~bTPropertyTypeOnly<bCString>);
+  return;
+}

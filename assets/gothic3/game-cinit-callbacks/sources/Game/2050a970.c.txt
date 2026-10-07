@@ -1,0 +1,33 @@
+/* ENTRY 2050a970 | bTPropertyType<gCNavigation_PS,bool>::~bTPropertyType<gCNavigation_PS,bool> | STATUS decompiled | 10 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCNavigation_PS,bool>::~bTPropertyType<gCNavigation_PS,bool>
+          (bTPropertyType<gCNavigation_PS,bool> *this)
+
+{
+  bTPropertyType<gCNavigation_PS,bool> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"LastUseableNavigationZoneIsPath");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)
+             &gCNavigation_PS::ms_PropertyMember_m_bLastUseableNavigationZoneIsPath,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_bLastUseableNavigationZoneIsPath = &vftable;
+  DAT_207bfa94 = bTPropertyObjectType<gCNavigation_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCNavigation_PS,eCEntityPropertySet>();
+  _DAT_207bfa98 = 0x104;
+  _DAT_207bfa9c = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)
+             &gCNavigation_PS::ms_PropertyMember_m_bLastUseableNavigationZoneIsPath);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bfa94,
+             (bCPropertyTypeBase *)
+             &gCNavigation_PS::ms_PropertyMember_m_bLastUseableNavigationZoneIsPath);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}

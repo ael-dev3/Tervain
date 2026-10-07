@@ -1,0 +1,9 @@
+/* ENTRY 205024b0 | FUN_205024b0 | STATUS decompiled | 2 ms */
+
+void FUN_205024b0(void)
+
+{
+  bCString::bCString(&g_strDefaultMusicVariation,"00");
+  _atexit(FUN_20559600);
+  return;
+}

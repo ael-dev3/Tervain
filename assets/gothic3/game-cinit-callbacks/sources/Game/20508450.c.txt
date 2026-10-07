@@ -1,0 +1,15 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 20508450 | FUN_20508450 | STATUS decompiled */
+
+void FUN_20508450(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gEZoneType_Indoor");
+  thunk_FUN_20273ab0(&DAT_207bf3d0,&gCAIZone_PS::ms_PropertyMember_m_enuZoneType,abStack_4,1);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

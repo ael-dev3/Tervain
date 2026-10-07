@@ -1,0 +1,11 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 205109a0 | FUN_205109a0 | STATUS decompiled */
+
+void FUN_205109a0(void)
+
+{
+  _atexit((_func_4879 *)&UNK_2055db50);
+  return;
+}
+

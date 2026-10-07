@@ -1,0 +1,11 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204c32b0 | FUN_204c32b0 | STATUS decompiled */
+
+void FUN_204c32b0(void)
+
+{
+  DAT_207b7d64 = bTPropertyObjectType<gCEffectModule,eCEngineComponentBase>::vfunction1();
+  return;
+}
+

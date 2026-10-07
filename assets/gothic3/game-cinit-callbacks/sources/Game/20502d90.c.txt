@@ -1,0 +1,19 @@
+/* ENTRY 20502d90 | FUN_20502d90 | STATUS decompiled | 12 ms */
+
+void FUN_20502d90(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207be4b0,"type");
+  bCString::bCString((bCString *)&DAT_207be4b4,"location");
+  bCString::bCString((bCString *)&DAT_207be4b8,"situation");
+  bCString::bCString((bCString *)&DAT_207be4bc,"daytime");
+  bCString::bCString((bCString *)&DAT_207be4c0,"variation");
+  bCString::bCString((bCString *)&DAT_207be4c4,"nextvariation");
+  bCString::bCString((bCString *)&DAT_207be4c8,"in");
+  bCString::bCString((bCString *)&DAT_207be4cc,"out");
+  bCString::bCString((bCString *)&DAT_207be4d0,"prio");
+  bCString::bCString((bCString *)&DAT_207be4d4,"defaultin");
+  bCString::bCString((bCString *)&DAT_207be4d8,"defaultout");
+  _atexit(FUN_20559750);
+  return;
+}

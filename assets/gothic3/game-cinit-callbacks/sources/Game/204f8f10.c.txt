@@ -1,0 +1,35 @@
+/* ENTRY 204f8f10 | bTPropertyType<gCMagic_PS,bTPropertyContainer<gECastType>_>::~bTPropertyType<gCMagic_PS,bTPropertyContainer<gECastType>_> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCMagic_PS,bTPropertyContainer<gECastType>_>::
+~bTPropertyType<gCMagic_PS,bTPropertyContainer<gECastType>_>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Animation");
+  bCString::bCString(local_c,"CastType");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCMagic_PS::ms_PropertyMember_m_enuCastType,local_c,local_8,
+             local_4,2,false);
+  _ms_PropertyMember_m_enuCastType = &vftable;
+  DAT_207bca20 = bTPropertyObjectType<gCMagic_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCMagic_PS,eCEntityPropertySet>();
+  _DAT_207bca24 = 0x34;
+  _DAT_207bca28 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCMagic_PS::ms_PropertyMember_m_enuCastType);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bca20,
+             (bCPropertyTypeBase *)&gCMagic_PS::ms_PropertyMember_m_enuCastType);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gECastType>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gECastType>_>);
+  return;
+}

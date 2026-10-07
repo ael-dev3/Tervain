@@ -1,0 +1,11 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204fb8b0 | FUN_204fb8b0 | STATUS decompiled */
+
+void FUN_204fb8b0(void)
+
+{
+  DAT_207bd074 = bTPropertyObjectType<gCMagicBarrier_PS,eCEntityPropertySet>::vfunction1();
+  return;
+}
+

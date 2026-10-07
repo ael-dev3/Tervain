@@ -1,0 +1,9 @@
+/* ENTRY 2052be50 | FUN_2052be50 | STATUS decompiled | 3 ms */
+
+void FUN_2052be50(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207cdd00,"PC_Camera");
+  _atexit(FUN_205644c0);
+  return;
+}

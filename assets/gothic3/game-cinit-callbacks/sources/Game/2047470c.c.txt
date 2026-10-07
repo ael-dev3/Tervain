@@ -1,0 +1,48 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 2047470c | FUN_2047470c | STATUS decompiled */
+
+undefined4 FUN_2047470c(void)
+
+{
+  size_t sVar1;
+  undefined **ppuVar2;
+  undefined4 *puVar3;
+  int iVar4;
+  uint uVar5;
+  
+  sVar1 = 0x14;
+  if (DAT_207d29c0 == 0) {
+    sVar1 = 0x200;
+  }
+  else if (0x13 < (int)DAT_207d29c0) goto LAB_2047472b;
+  DAT_207d29c0 = sVar1;
+LAB_2047472b:
+  DAT_207d1664 = __calloc_crt(DAT_207d29c0,4);
+  if (DAT_207d1664 == (void *)0x0) {
+    DAT_207d29c0 = 0x14;
+    DAT_207d1664 = __calloc_crt(0x14,4);
+    if (DAT_207d1664 == (void *)0x0) {
+      return 0x1a;
+    }
+  }
+  iVar4 = 0;
+  ppuVar2 = &PTR_DAT_207b2e50;
+  do {
+    *(undefined ***)(iVar4 + (int)DAT_207d1664) = ppuVar2;
+    ppuVar2 = ppuVar2 + 8;
+    iVar4 = iVar4 + 4;
+  } while ((int)ppuVar2 < 0x207b30d0);
+  uVar5 = 0;
+  puVar3 = &DAT_207b2e60;
+  do {
+    iVar4 = *(int *)((uVar5 & 0x1f) * 0x38 + (&DAT_207d2a20)[(int)uVar5 >> 5]);
+    if (((iVar4 == -1) || (iVar4 == -2)) || (iVar4 == 0)) {
+      *puVar3 = 0xfffffffe;
+    }
+    puVar3 = puVar3 + 8;
+    uVar5 = uVar5 + 1;
+  } while ((int)puVar3 < 0x207b2ec0);
+  return 0;
+}
+

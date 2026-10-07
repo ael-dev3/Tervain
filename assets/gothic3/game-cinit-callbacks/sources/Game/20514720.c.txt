@@ -1,0 +1,30 @@
+/* ENTRY 20514720 | bTPropertyType<gCNPC_PS,float>::~bTPropertyType<gCNPC_PS,float> | STATUS decompiled | 12 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCNPC_PS,float>::~bTPropertyType<gCNPC_PS,float>
+          (bTPropertyType<gCNPC_PS,float> *this)
+
+{
+  bTPropertyType<gCNPC_PS,float> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"LastDistToGuardPoint");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_lastDistToGuardPoint,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_lastDistToGuardPoint = &vftable;
+  DAT_207c1060 = bTPropertyObjectType<gCNPC_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCNPC_PS,eCEntityPropertySet>();
+  _DAT_207c1064 = 0x134;
+  _DAT_207c1068 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_lastDistToGuardPoint);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207c1060,
+             (bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_lastDistToGuardPoint);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}

@@ -1,0 +1,12 @@
+/* ENTRY 204cfd30 | FUN_204cfd30 | STATUS decompiled | 5 ms */
+
+void FUN_204cfd30(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207ba144,"HL_Bless");
+  bCString::bCString((bCString *)&DAT_207ba148,"HL_PoisonWeapon");
+  bCString::bCString((bCString *)&DAT_207ba14c,"HL_GrindStone");
+  bCString::bCString((bCString *)&DAT_207ba150,"HL_FryMeat");
+  _atexit(FUN_205524f0);
+  return;
+}

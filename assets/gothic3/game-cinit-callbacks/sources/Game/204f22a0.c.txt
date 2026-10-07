@@ -1,0 +1,15 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204f22a0 | FUN_204f22a0 | STATUS decompiled */
+
+void FUN_204f22a0(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gEItemCategory_Skill");
+  thunk_FUN_201bf6c0(&DAT_207bbb2a,&gCItem_PS::ms_PropertyMember_m_enuCategory,abStack_4,10);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

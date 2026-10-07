@@ -1,0 +1,24 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 205096f0 | FUN_205096f0 | STATUS decompiled */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void FUN_205096f0(void)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)
+             &gCDynamicCollisionCircle_PS::ms_PropertyObjectInstance_gCDynamicCollisionCircle_PS);
+  _DAT_207bf674 = 0;
+  _ms_PropertyObjectInstance_gCDynamicCollisionCircle_PS =
+       &bTPropertyObject<gCDynamicCollisionCircle_PS,eCEntityPropertySet>::vftable;
+  _DAT_207bf678 =
+       bTPropertyObjectType<gCDynamicCollisionCircle_PS,eCEntityPropertySet>::
+       ~bTPropertyObjectType<gCDynamicCollisionCircle_PS,eCEntityPropertySet>();
+  _DAT_207bf674 = 0;
+  thunk_FUN_20282960(1);
+  _atexit((_func_4879 *)&UNK_2055baf0);
+  return;
+}
+

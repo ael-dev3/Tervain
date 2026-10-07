@@ -1,0 +1,16 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 2053d900 | FUN_2053d900 | STATUS decompiled */
+
+void FUN_2053d900(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gESession_State_Dialog");
+  thunk_FUN_20452e70(&DAT_207d06c7,&gCInfoManager_PS::ms_PropertyMember_m_lastSessionState,abStack_4
+                     ,7);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

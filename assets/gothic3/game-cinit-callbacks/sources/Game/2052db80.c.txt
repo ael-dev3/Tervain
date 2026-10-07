@@ -1,0 +1,29 @@
+/* ENTRY 2052db80 | bTPropertyType<gCMap_PS,bCVector>::~bTPropertyType<gCMap_PS,bCVector> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCMap_PS,bCVector>::~bTPropertyType<gCMap_PS,bCVector>
+          (bTPropertyType<gCMap_PS,bCVector> *this)
+
+{
+  bTPropertyType<gCMap_PS,bCVector> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"WorldTopLeft");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCMap_PS::ms_PropertyMember_m_vecWorldTopLeft,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_vecWorldTopLeft = &vftable;
+  DAT_207ce108 = bTPropertyObjectType<gCMap_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCMap_PS,eCEntityPropertySet>();
+  _DAT_207ce10c = 0x1c;
+  _DAT_207ce110 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCMap_PS::ms_PropertyMember_m_vecWorldTopLeft);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207ce108,
+             (bCPropertyTypeBase *)&gCMap_PS::ms_PropertyMember_m_vecWorldTopLeft);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bCVector>::~bTPropertyTypeOnly<bCVector>);
+  return;
+}

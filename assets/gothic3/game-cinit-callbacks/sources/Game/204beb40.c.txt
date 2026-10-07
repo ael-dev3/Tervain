@@ -1,0 +1,38 @@
+/* ENTRY 204beb40 | bTPropertyType<gCEffectCommandSpawnEntity,bTPropertyContainer<gEEffectLink>_>::~bTPropertyType<gCEffectCommandSpawnEntity,bTPropertyContainer<gEEffectLink>_> | STATUS decompiled | 17 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCEffectCommandSpawnEntity,bTPropertyContainer<gEEffectLink>_>::
+~bTPropertyType<gCEffectCommandSpawnEntity,bTPropertyContainer<gEEffectLink>_>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,
+                     "The link type determines the parent entity to link the spawnee to. Specify gEEffectLink_Independant if you do not want the spawnee to be attached to neither the target entity nor a bone of the target entity\'s skeleton."
+                    );
+  bCString::bCString(local_8,"General");
+  bCString::bCString(local_c,"CoordinateSystem");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCEffectCommandSpawnEntity::ms_PropertyMember_m_enuLink,local_c,
+             local_8,local_4,2,false);
+  _ms_PropertyMember_m_enuLink = &vftable;
+  DAT_207b716c = bTPropertyObjectType<gCEffectCommandSpawnEntity,gCEffectCommand>::
+                 ~bTPropertyObjectType<gCEffectCommandSpawnEntity,gCEffectCommand>();
+  _DAT_207b7170 = 0x24;
+  _DAT_207b7174 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCEffectCommandSpawnEntity::ms_PropertyMember_m_enuLink);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b716c,
+             (bCPropertyTypeBase *)&gCEffectCommandSpawnEntity::ms_PropertyMember_m_enuLink);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gEEffectLink>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gEEffectLink>_>);
+  return;
+}

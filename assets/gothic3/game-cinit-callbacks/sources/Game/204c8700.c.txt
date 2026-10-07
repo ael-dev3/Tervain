@@ -1,0 +1,33 @@
+/* ENTRY 204c8700 | bTPropertyType<gCFocus_PS,float>::~bTPropertyType<gCFocus_PS,float> | STATUS decompiled | 14 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall bTPropertyType<gCFocus_PS,float>::~bTPropertyType<gCFocus_PS,float>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"MeleeMode");
+  bCString::bCString(local_c,"MeleeModeItemScanElevUp");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCFocus_PS::ms_PropertyMember_m_fMeleeModeItemScanElevUp,local_c
+             ,local_8,local_4,1,false);
+  _ms_PropertyMember_m_fMeleeModeItemScanElevUp = &vftable;
+  DAT_207b8c70 = bTPropertyObjectType<gCFocus_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCFocus_PS,eCEntityPropertySet>();
+  _DAT_207b8c74 = 0x68;
+  _DAT_207b8c78 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCFocus_PS::ms_PropertyMember_m_fMeleeModeItemScanElevUp);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b8c70,
+             (bCPropertyTypeBase *)&gCFocus_PS::ms_PropertyMember_m_fMeleeModeItemScanElevUp);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}

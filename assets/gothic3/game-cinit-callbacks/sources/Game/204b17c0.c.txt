@@ -1,0 +1,11 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204b17c0 | FUN_204b17c0 | STATUS decompiled */
+
+void FUN_204b17c0(void)
+
+{
+  DAT_207b4ec8 = bTPropertyType<gCCollisionCircle_PS,bTValArray<bCVector>_>::vfunction4();
+  return;
+}
+

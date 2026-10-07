@@ -1,0 +1,9 @@
+/* ENTRY 20501ae0 | FUN_20501ae0 | STATUS decompiled | 2 ms */
+
+void FUN_20501ae0(void)
+
+{
+  bCVector::bCVector((bCVector *)&DAT_207be138);
+  _atexit(FUN_20559400);
+  return;
+}

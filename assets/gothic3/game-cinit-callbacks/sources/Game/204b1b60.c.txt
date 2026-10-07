@@ -1,0 +1,12 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204b1b60 | FUN_204b1b60 | STATUS decompiled */
+
+void FUN_204b1b60(void)
+
+{
+  DAT_207b4de0 = bTPropertyType<gCCollisionCircle_PS,bTPropertyContainer<gENavObstacleType>_>::
+                 vfunction4();
+  return;
+}
+

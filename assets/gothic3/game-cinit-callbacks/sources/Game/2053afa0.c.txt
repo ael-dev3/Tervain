@@ -1,0 +1,32 @@
+/* ENTRY 2053afa0 | bTPropertyType<gCInfo_PS,bTValArray<unsigned_long>_>::~bTPropertyType<gCInfo_PS,bTValArray<unsigned_long>_> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCInfo_PS,bTValArray<unsigned_long>_>::
+~bTPropertyType<gCInfo_PS,bTValArray<unsigned_long>_>
+          (bTPropertyType<gCInfo_PS,bTValArray<unsigned_long>_> *this)
+
+{
+  bTPropertyType<gCInfo_PS,bTValArray<unsigned_long>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"CondSecondaryNPCStatus");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCInfo_PS::ms_PropertyMember_m_arrCondSecondaryNPCStatus,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_arrCondSecondaryNPCStatus = &vftable;
+  DAT_207d0250 = bTPropertyObjectType<gCInfo_PS,bCObjectRefBase>::
+                 ~bTPropertyObjectType<gCInfo_PS,bCObjectRefBase>();
+  _DAT_207d0254 = 0x70;
+  _DAT_207d0258 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCInfo_PS::ms_PropertyMember_m_arrCondSecondaryNPCStatus);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207d0250,
+             (bCPropertyTypeBase *)&gCInfo_PS::ms_PropertyMember_m_arrCondSecondaryNPCStatus);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTValArray<unsigned_long>_>::
+          ~bTPropertyTypeOnly<bTValArray<unsigned_long>_>);
+  return;
+}

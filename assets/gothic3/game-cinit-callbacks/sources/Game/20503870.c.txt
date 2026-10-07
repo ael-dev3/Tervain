@@ -1,0 +1,32 @@
+/* ENTRY 20503870 | bTPropertyType<gCMusicLink,bool>::~bTPropertyType<gCMusicLink,bool> | STATUS decompiled | 17 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall bTPropertyType<gCMusicLink,bool>::~bTPropertyType<gCMusicLink,bool>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"General");
+  bCString::bCString(local_c,"IsPriority");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCMusicLink::ms_PropertyMember_m_bIsPriority,local_c,local_8,
+             local_4,1,false);
+  _ms_PropertyMember_m_bIsPriority = &vftable;
+  DAT_207be668 = bTPropertyObjectType<gCMusicLink,bCObjectRefBase>::
+                 ~bTPropertyObjectType<gCMusicLink,bCObjectRefBase>();
+  _DAT_207be66c = 0x18;
+  _DAT_207be670 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCMusicLink::ms_PropertyMember_m_bIsPriority);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207be668,
+             (bCPropertyTypeBase *)&gCMusicLink::ms_PropertyMember_m_bIsPriority);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}

@@ -1,0 +1,11 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204b1b50 | FUN_204b1b50 | STATUS decompiled */
+
+void FUN_204b1b50(void)
+
+{
+  DAT_207b4de4 = bTPropertyType<gCAnchor_PS,unsigned_long>::vfunction4();
+  return;
+}
+

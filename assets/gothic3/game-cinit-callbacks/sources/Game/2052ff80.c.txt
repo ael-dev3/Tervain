@@ -1,0 +1,33 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 2052ff80 | FUN_2052ff80 | STATUS decompiled */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void FUN_2052ff80(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"DestinationEntity");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCTeleporter_PS::ms_PropertyMember_m_strDestinationEntity,
+             abStack_4,1);
+  _DAT_207ce848 = 0;
+  _ms_PropertyMember_m_strDestinationEntity = &bTPropertyType<gCTeleporter_PS,bCString>::vftable;
+  _DAT_207ce84c =
+       (bCPropertyObjectTypeBase *)
+       bTPropertyObjectType<gCTeleporter_PS,eCTrigger_PS>::
+       ~bTPropertyObjectType<gCTeleporter_PS,eCTrigger_PS>();
+  _DAT_207ce850 = 0xe4;
+  _DAT_207ce854 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCTeleporter_PS::ms_PropertyMember_m_strDestinationEntity);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            (_DAT_207ce84c,
+             (bCPropertyTypeBase *)&gCTeleporter_PS::ms_PropertyMember_m_strDestinationEntity);
+  bCString::~bCString(abStack_4);
+  _atexit((_func_4879 *)&UNK_20565aa0);
+  return;
+}
+

@@ -1,0 +1,11 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 2050a020 | FUN_2050a020 | STATUS decompiled */
+
+void FUN_2050a020(void)
+
+{
+  DAT_207bf74c = bTPropertyObjectType<gCNavHelper_PS,eCEntityPropertySet>::vfunction1();
+  return;
+}
+

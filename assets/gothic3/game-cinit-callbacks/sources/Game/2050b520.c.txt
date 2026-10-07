@@ -1,0 +1,31 @@
+/* ENTRY 2050b520 | bTPropertyType<gCNavOffset_PS,bTValArray<bCMotion>_>::~bTPropertyType<gCNavOffset_PS,bTValArray<bCMotion>_> | STATUS decompiled | 10 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCNavOffset_PS,bTValArray<bCMotion>_>::
+~bTPropertyType<gCNavOffset_PS,bTValArray<bCMotion>_>
+          (bTPropertyType<gCNavOffset_PS,bTValArray<bCMotion>_> *this)
+
+{
+  bTPropertyType<gCNavOffset_PS,bTValArray<bCMotion>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"OffsetPose");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCNavOffset_PS::ms_PropertyMember_m_arrOffsetPose,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_arrOffsetPose = &vftable;
+  DAT_207bfc08 = bTPropertyObjectType<gCNavOffset_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCNavOffset_PS,eCEntityPropertySet>();
+  _DAT_207bfc0c = 0x18;
+  _DAT_207bfc10 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCNavOffset_PS::ms_PropertyMember_m_arrOffsetPose);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bfc08,
+             (bCPropertyTypeBase *)&gCNavOffset_PS::ms_PropertyMember_m_arrOffsetPose);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTValArray<bCMotion>_>::~bTPropertyTypeOnly<bTValArray<bCMotion>_>);
+  return;
+}

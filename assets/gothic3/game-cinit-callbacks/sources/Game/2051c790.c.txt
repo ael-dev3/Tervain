@@ -1,0 +1,15 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 2051c790 | FUN_2051c790 | STATUS decompiled */
+
+void FUN_2051c790(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gEQuestType_BringNpc");
+  thunk_FUN_20347500(&DAT_207cbcca,&gCQuest_PS::ms_PropertyMember_m_enuType,abStack_4,6);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

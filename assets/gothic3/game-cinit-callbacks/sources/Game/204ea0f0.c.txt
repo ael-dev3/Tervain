@@ -1,0 +1,13 @@
+/* ENTRY 204ea0f0 | FUN_204ea0f0 | STATUS decompiled | 6 ms */
+
+void FUN_204ea0f0(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207babe0,"HUD_Video_Brightness");
+  bCString::bCString((bCString *)&DAT_207babe4,"HUD_Video_Contrast");
+  bCString::bCString((bCString *)&DAT_207babe8,"HUD_Video_Gamma_Red");
+  bCString::bCString((bCString *)&DAT_207babec,"HUD_Video_Gamma_Green");
+  bCString::bCString((bCString *)&DAT_207babf0,"HUD_Video_Gamma_Blue");
+  _atexit(FUN_20552c20);
+  return;
+}

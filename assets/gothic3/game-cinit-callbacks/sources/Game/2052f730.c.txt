@@ -1,0 +1,29 @@
+/* ENTRY 2052f730 | bTPropertyType<gCMover_PS,bool>::~bTPropertyType<gCMover_PS,bool> | STATUS decompiled | 12 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCMover_PS,bool>::~bTPropertyType<gCMover_PS,bool>
+          (bTPropertyType<gCMover_PS,bool> *this)
+
+{
+  bTPropertyType<gCMover_PS,bool> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"LoopAni");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCMover_PS::ms_PropertyMember_m_bLoopAni,(bCString *)&local_4,1)
+  ;
+  _ms_PropertyMember_m_bLoopAni = &vftable;
+  DAT_207ce6d8 = bTPropertyObjectType<gCMover_PS,gCTouchDamage_PS>::
+                 ~bTPropertyObjectType<gCMover_PS,gCTouchDamage_PS>();
+  _DAT_207ce6dc = 0x10c;
+  _DAT_207ce6e0 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCMover_PS::ms_PropertyMember_m_bLoopAni);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207ce6d8,
+             (bCPropertyTypeBase *)&gCMover_PS::ms_PropertyMember_m_bLoopAni);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}

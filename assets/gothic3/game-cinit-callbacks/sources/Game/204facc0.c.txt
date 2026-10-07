@@ -1,0 +1,15 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204facc0 | FUN_204facc0 | STATUS decompiled */
+
+void FUN_204facc0(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gESpellTarget_Caster");
+  thunk_FUN_201fd690(&DAT_207bce72,&gCMagic_PS::ms_PropertyMember_m_enuSpellTarget,abStack_4,0,0);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

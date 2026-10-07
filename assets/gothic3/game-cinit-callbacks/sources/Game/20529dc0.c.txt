@@ -1,0 +1,9 @@
+/* ENTRY 20529dc0 | FUN_20529dc0 | STATUS decompiled | 2 ms */
+
+void FUN_20529dc0(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207cd63c,"TemplateHeaders.dat");
+  _atexit(FUN_205639b0);
+  return;
+}

@@ -1,0 +1,14 @@
+/* ENTRY 204d0410 | FUN_204d0410 | STATUS decompiled | 7 ms */
+
+void FUN_204d0410(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207ba34c,"GO_PoliticalFame_PAL_Orc");
+  bCString::bCString((bCString *)&DAT_207ba350,"GO_PoliticalFame_PAL_Nrd");
+  bCString::bCString((bCString *)&DAT_207ba354,"GO_PoliticalFame_PAL_Reb");
+  bCString::bCString((bCString *)&DAT_207ba358,"GO_PoliticalFame_PAL_Mid");
+  bCString::bCString((bCString *)&DAT_207ba35c,"GO_PoliticalFame_PAL_Ass");
+  bCString::bCString((bCString *)&DAT_207ba360,"GO_PoliticalFame_PAL_Nom");
+  _atexit(FUN_205525e0);
+  return;
+}

@@ -1,0 +1,18 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 205128f0 | FUN_205128f0 | STATUS decompiled */
+
+void FUN_205128f0(void)
+
+{
+  bCString::bCString((bCString *)&g_strStringIDJob,"JOB_Gladiator");
+  bCString::bCString((bCString *)0x207c07fc,"JOB_Thief");
+  bCString::bCString((bCString *)0x207c0800,"JOB_Hunter");
+  bCString::bCString((bCString *)0x207c0804,"JOB_Smith");
+  bCString::bCString((bCString *)0x207c0808,"JOB_Alchemist");
+  bCString::bCString((bCString *)0x207c080c,"JOB_Mage");
+  bCString::bCString((bCString *)0x207c0810,"JOB_None");
+  _atexit((_func_4879 *)&UNK_2055dba0);
+  return;
+}
+

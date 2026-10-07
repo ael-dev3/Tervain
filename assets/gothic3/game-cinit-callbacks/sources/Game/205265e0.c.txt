@@ -1,0 +1,32 @@
+/* ENTRY 205265e0 | bTPropertyType<gCAttribute,int>::~bTPropertyType<gCAttribute,int> | STATUS decompiled | 13 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall bTPropertyType<gCAttribute,int>::~bTPropertyType<gCAttribute,int>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Value");
+  bCString::bCString(local_c,"Value");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCAttribute::ms_PropertyMember_m_iBaseValue,local_c,local_8,
+             local_4,1,false);
+  _ms_PropertyMember_m_iBaseValue = &vftable;
+  DAT_207cd028 = bTPropertyObjectType<gCAttribute,bCObjectRefBase>::
+                 ~bTPropertyObjectType<gCAttribute,bCObjectRefBase>();
+  _DAT_207cd02c = 0x14;
+  _DAT_207cd030 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCAttribute::ms_PropertyMember_m_iBaseValue);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cd028,
+             (bCPropertyTypeBase *)&gCAttribute::ms_PropertyMember_m_iBaseValue);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<int>::~bTPropertyTypeOnly<int>);
+  return;
+}

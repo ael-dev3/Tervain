@@ -1,0 +1,15 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 20517560 | FUN_20517560 | STATUS decompiled */
+
+void FUN_20517560(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gEBearing_Zombie");
+  thunk_FUN_20317830(&DAT_207c12ad,&gCNPC_PS::ms_PropertyMember_m_enuBearing,abStack_4,2);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

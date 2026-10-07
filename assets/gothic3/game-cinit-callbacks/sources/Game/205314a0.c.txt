@@ -1,0 +1,21 @@
+/* ENTRY 205314a0 | bTPropertyObject<gCFlock_PS,eCEntityPropertySet>::~bTPropertyObject<gCFlock_PS,eCEntityPropertySet> | STATUS decompiled | 6 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyObject<gCFlock_PS,eCEntityPropertySet>::~bTPropertyObject<gCFlock_PS,eCEntityPropertySet>
+          (bTPropertyObject<gCFlock_PS,eCEntityPropertySet> *this)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)&gCFlock_PS::ms_PropertyObjectInstance_gCFlock_PS);
+  _DAT_207ce9ec = 0;
+  _ms_PropertyObjectInstance_gCFlock_PS = &vftable;
+  _DAT_207ce9f0 =
+       bTPropertyObjectType<gCFlock_PS,eCEntityPropertySet>::
+       ~bTPropertyObjectType<gCFlock_PS,eCEntityPropertySet>();
+  _DAT_207ce9ec = 0;
+  thunk_FUN_203ffe40(1);
+  _atexit(~bTPropertyObject<gCFlock_PS,eCEntityPropertySet>);
+  return;
+}

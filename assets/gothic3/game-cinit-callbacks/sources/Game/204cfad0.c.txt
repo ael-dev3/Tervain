@@ -1,0 +1,25 @@
+/* ENTRY 204cfad0 | FUN_204cfad0 | STATUS decompiled | 39 ms */
+
+void FUN_204cfad0(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207ba0f0,"TUT_Inventory");
+  bCString::bCString((bCString *)&DAT_207ba0f4,"TUT_Spellbook");
+  bCString::bCString((bCString *)&DAT_207ba0f8,"TUT_Maps");
+  bCString::bCString((bCString *)&DAT_207ba0fc,"TUT_Charscreen");
+  bCString::bCString((bCString *)&DAT_207ba100,"TUT_MissionLog");
+  bCString::bCString((bCString *)&DAT_207ba104,"TUT_Trade");
+  bCString::bCString((bCString *)&DAT_207ba108,"TUT_Dialog");
+  bCString::bCString((bCString *)&DAT_207ba10c,"TUT_Loot");
+  bCString::bCString((bCString *)&DAT_207ba110,"TUT_Synth_Alchemy");
+  bCString::bCString((bCString *)&DAT_207ba114,"TUT_Synth_Cooking");
+  bCString::bCString((bCString *)&DAT_207ba118,"TUT_Synth_Smithing");
+  bCString::bCString((bCString *)&DAT_207ba11c,"TUT_Transform_Bless");
+  bCString::bCString((bCString *)&DAT_207ba120,"TUT_Transform_Poison");
+  bCString::bCString((bCString *)&DAT_207ba124,"TUT_Transform_Sharpen");
+  bCString::bCString((bCString *)&DAT_207ba128,"TUT_Transform_Fry");
+  bCString::bCString((bCString *)&DAT_207ba12c,"TUT_Tutorial");
+  bCString::bCString((bCString *)&DAT_207ba130,"TUT_Slideshow");
+  _atexit(FUN_20552430);
+  return;
+}

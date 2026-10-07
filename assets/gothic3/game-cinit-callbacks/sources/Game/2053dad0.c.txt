@@ -1,0 +1,9 @@
+/* ENTRY 2053dad0 | FUN_2053dad0 | STATUS decompiled | 3 ms */
+
+void FUN_2053dad0(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207d06d8,"owner");
+  _atexit(FUN_205692b0);
+  return;
+}

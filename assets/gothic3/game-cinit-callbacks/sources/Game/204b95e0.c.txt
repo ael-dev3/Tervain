@@ -1,0 +1,17 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204b95e0 | FUN_204b95e0 | STATUS decompiled */
+
+void FUN_204b95e0(void)
+
+{
+  bCString *pbVar1;
+  
+  pbVar1 = (bCString *)
+           bTPropertyObjectType<gCDummyCollectorAdmin,eCEngineComponentBase>::vfunction1();
+  bCAccessorCreator::bCAccessorCreator
+            ((bCAccessorCreator *)0x207b6a48,(bCPropertyID *)&DAT_207b6a34,pbVar1);
+  _atexit((_func_4879 *)&UNK_2054c800);
+  return;
+}
+

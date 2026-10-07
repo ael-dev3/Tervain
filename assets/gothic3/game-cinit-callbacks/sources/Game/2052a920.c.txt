@@ -1,0 +1,9 @@
+/* ENTRY 2052a920 | FUN_2052a920 | STATUS decompiled | 2 ms */
+
+void FUN_2052a920(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207cd8b0,"Game.Sector");
+  _atexit(FUN_20563da0);
+  return;
+}

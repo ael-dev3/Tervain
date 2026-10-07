@@ -1,0 +1,21 @@
+/* ENTRY 204c5e40 | bTPropertyObject<gCEventScript_PS,eCTrigger_PS>::~bTPropertyObject<gCEventScript_PS,eCTrigger_PS> | STATUS decompiled | 6 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyObject<gCEventScript_PS,eCTrigger_PS>::~bTPropertyObject<gCEventScript_PS,eCTrigger_PS>
+          (bTPropertyObject<gCEventScript_PS,eCTrigger_PS> *this)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)&gCEventScript_PS::ms_PropertyObjectInstance_gCEventScript_PS);
+  _DAT_207b84e4 = 0;
+  _ms_PropertyObjectInstance_gCEventScript_PS = &vftable;
+  _DAT_207b84e8 =
+       bTPropertyObjectType<gCEventScript_PS,eCTrigger_PS>::
+       ~bTPropertyObjectType<gCEventScript_PS,eCTrigger_PS>();
+  _DAT_207b84e4 = 0;
+  thunk_FUN_201308e0(1);
+  _atexit(~bTPropertyObject<gCEventScript_PS,eCTrigger_PS>);
+  return;
+}

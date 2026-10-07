@@ -1,0 +1,38 @@
+/* ENTRY 204c0b80 | bTPropertyType<gCEffectCommandCreateDecal,bCEulerAngles>::~bTPropertyType<gCEffectCommandCreateDecal,bCEulerAngles> | STATUS decompiled | 16 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCEffectCommandCreateDecal,bCEulerAngles>::
+~bTPropertyType<gCEffectCommandCreateDecal,bCEulerAngles>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Direction");
+  bCString::bCString(local_c,"DirectionOffset");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)
+             &gCEffectCommandCreateDecal::ms_PropertyMember_m_eulDirectionOffset,local_c,local_8,
+             local_4,1,false);
+  _ms_PropertyMember_m_eulDirectionOffset = &vftable;
+  DAT_207b7730 = bTPropertyObjectType<gCEffectCommandCreateDecal,gCEffectCommand>::
+                 ~bTPropertyObjectType<gCEffectCommandCreateDecal,gCEffectCommand>();
+  _DAT_207b7734 = 0x38;
+  _DAT_207b7738 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)
+             &gCEffectCommandCreateDecal::ms_PropertyMember_m_eulDirectionOffset);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b7730,
+             (bCPropertyTypeBase *)
+             &gCEffectCommandCreateDecal::ms_PropertyMember_m_eulDirectionOffset);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bCEulerAngles>::~bTPropertyTypeOnly<bCEulerAngles>);
+  return;
+}

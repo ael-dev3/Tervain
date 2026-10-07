@@ -1,0 +1,14 @@
+2052a9b0 | b9bcd87c20 | MOV ECX,0x207cd8bc
+2052a9b5 | ff15b8877d20 | CALL dword ptr [0x207d87b8]
+2052a9bb | c705c4d87c2000000000 | MOV dword ptr [0x207cd8c4],0x0
+2052a9c5 | c705bcd87c2084596a20 | MOV dword ptr [0x207cd8bc],0x206a5984
+2052a9cf | e8e100aeff | CALL 0x2000aab5
+2052a9d4 | 6a01 | PUSH 0x1
+2052a9d6 | b9bcd87c20 | MOV ECX,0x207cd8bc
+2052a9db | a3c8d87c20 | MOV [0x207cd8c8],EAX
+2052a9e0 | c705c4d87c2000000000 | MOV dword ptr [0x207cd8c4],0x0
+2052a9ea | e82b99b0ff | CALL 0x2003431a
+2052a9ef | 68203e5620 | PUSH 0x20563e20
+2052a9f4 | e8d58df3ff | CALL 0x204637ce
+2052a9f9 | 59 | POP ECX
+2052a9fa | c3 | RET

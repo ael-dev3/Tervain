@@ -1,0 +1,32 @@
+/* ENTRY 205323b0 | bTPropertyType<gCFlock_PS,bCVector>::~bTPropertyType<gCFlock_PS,bCVector> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall bTPropertyType<gCFlock_PS,bCVector>::~bTPropertyType<gCFlock_PS,bCVector>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Internal");
+  bCString::bCString(local_c,"TouchNormal");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCFlock_PS::ms_PropertyMember_m_vecTouchNormal,local_c,local_8,
+             local_4,1,true);
+  _ms_PropertyMember_m_vecTouchNormal = &vftable;
+  DAT_207ced24 = bTPropertyObjectType<gCFlock_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCFlock_PS,eCEntityPropertySet>();
+  _DAT_207ced28 = 0x7c;
+  _DAT_207ced2c = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCFlock_PS::ms_PropertyMember_m_vecTouchNormal);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207ced24,
+             (bCPropertyTypeBase *)&gCFlock_PS::ms_PropertyMember_m_vecTouchNormal);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bCVector>::~bTPropertyTypeOnly<bCVector>);
+  return;
+}

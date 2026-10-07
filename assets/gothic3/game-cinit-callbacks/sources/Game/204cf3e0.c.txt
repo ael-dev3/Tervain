@@ -1,0 +1,17 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204cf3e0 | FUN_204cf3e0 | STATUS decompiled */
+
+void FUN_204cf3e0(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207ba020,"System.Info");
+  bCString::bCString((bCString *)0x207ba024,"System.Warning");
+  bCString::bCString((bCString *)0x207ba028,"System.Error");
+  bCString::bCString((bCString *)0x207ba02c,"Battle.L0");
+  bCString::bCString((bCString *)0x207ba030,"Battle.L1");
+  bCString::bCString((bCString *)0x207ba034,"Battle.L2");
+  _atexit((_func_4879 *)&UNK_20552360);
+  return;
+}
+

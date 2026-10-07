@@ -1,0 +1,33 @@
+/* ENTRY 204c8160 | bTPropertyType<gCFocus_PS,float>::~bTPropertyType<gCFocus_PS,float> | STATUS decompiled | 14 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall bTPropertyType<gCFocus_PS,float>::~bTPropertyType<gCFocus_PS,float>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"NormalMode");
+  bCString::bCString(local_c,"NormalModeInteractScanAzi");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCFocus_PS::ms_PropertyMember_m_fNormalModeInteractScanAzi,
+             local_c,local_8,local_4,1,false);
+  _ms_PropertyMember_m_fNormalModeInteractScanAzi = &vftable;
+  DAT_207b8b98 = bTPropertyObjectType<gCFocus_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCFocus_PS,eCEntityPropertySet>();
+  _DAT_207b8b9c = 0x50;
+  _DAT_207b8ba0 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCFocus_PS::ms_PropertyMember_m_fNormalModeInteractScanAzi);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b8b98,
+             (bCPropertyTypeBase *)&gCFocus_PS::ms_PropertyMember_m_fNormalModeInteractScanAzi);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}

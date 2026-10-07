@@ -1,0 +1,22 @@
+/* ENTRY 204e21f0 | FUN_204e21f0 | STATUS decompiled | 7 ms */
+
+void FUN_204e21f0(void)
+
+{
+  bCFloatAlphaColor::bCFloatAlphaColor
+            ((bCFloatAlphaColor *)&DAT_207ba7c8,(bCByteAlphaColor *)&DAT_207ba3d8);
+  bCFloatAlphaColor::bCFloatAlphaColor
+            ((bCFloatAlphaColor *)&DAT_207ba7dc,(bCByteAlphaColor *)&DAT_207ba3f0);
+  bCFloatAlphaColor::bCFloatAlphaColor
+            ((bCFloatAlphaColor *)&DAT_207ba7f0,(bCByteAlphaColor *)&DAT_207ba420);
+  bCFloatAlphaColor::bCFloatAlphaColor
+            ((bCFloatAlphaColor *)&DAT_207ba804,(bCByteAlphaColor *)&DAT_207ba420);
+  bCFloatAlphaColor::bCFloatAlphaColor
+            ((bCFloatAlphaColor *)&DAT_207ba818,(bCByteAlphaColor *)&DAT_207ba3e4);
+  bCFloatAlphaColor::bCFloatAlphaColor
+            ((bCFloatAlphaColor *)&DAT_207ba82c,(bCByteAlphaColor *)&DAT_207ba420);
+  bCFloatAlphaColor::bCFloatAlphaColor
+            ((bCFloatAlphaColor *)&DAT_207ba840,(bCByteAlphaColor *)&DAT_207ba3fc);
+  _atexit(FUN_20552920);
+  return;
+}

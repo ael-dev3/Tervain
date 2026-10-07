@@ -1,0 +1,31 @@
+/* ENTRY 2052f690 | bTPropertyType<gCMover_PS,bCAnimationResourceString>::~bTPropertyType<gCMover_PS,bCAnimationResourceString> | STATUS decompiled | 12 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCMover_PS,bCAnimationResourceString>::
+~bTPropertyType<gCMover_PS,bCAnimationResourceString>
+          (bTPropertyType<gCMover_PS,bCAnimationResourceString> *this)
+
+{
+  bTPropertyType<gCMover_PS,bCAnimationResourceString> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"CloseAni");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCMover_PS::ms_PropertyMember_m_strCloseAni,(bCString *)&local_4
+             ,1);
+  _ms_PropertyMember_m_strCloseAni = &vftable;
+  DAT_207ce6b4 = bTPropertyObjectType<gCMover_PS,gCTouchDamage_PS>::
+                 ~bTPropertyObjectType<gCMover_PS,gCTouchDamage_PS>();
+  _DAT_207ce6b8 = 0x108;
+  _DAT_207ce6bc = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCMover_PS::ms_PropertyMember_m_strCloseAni);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207ce6b4,
+             (bCPropertyTypeBase *)&gCMover_PS::ms_PropertyMember_m_strCloseAni);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bCAnimationResourceString>::
+          ~bTPropertyTypeOnly<bCAnimationResourceString>);
+  return;
+}

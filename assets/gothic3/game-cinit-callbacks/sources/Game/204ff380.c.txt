@@ -1,0 +1,16 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204ff380 | FUN_204ff380 | STATUS decompiled */
+
+void FUN_204ff380(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gESessionKey_ResetCamera");
+  thunk_FUN_202210d0(&DAT_207bd990,&gCCharacterControl_PS::ms_PropertyMember_m_enuPressedKey,
+                     abStack_4,0x2a);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

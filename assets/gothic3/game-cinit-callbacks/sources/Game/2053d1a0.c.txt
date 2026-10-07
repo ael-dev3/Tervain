@@ -1,0 +1,33 @@
+/* ENTRY 2053d1a0 | bTPropertyType<gCInfoManager_PS,int>::~bTPropertyType<gCInfoManager_PS,int> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall bTPropertyType<gCInfoManager_PS,int>::~bTPropertyType<gCInfoManager_PS,int>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"");
+  bCString::bCString(local_c,"CurrentInfoIndex");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCInfoManager_PS::ms_PropertyMember_m_currentInfoIndex,local_c,
+             local_8,local_4,1,true);
+  _ms_PropertyMember_m_currentInfoIndex = &vftable;
+  DAT_207d0600 = bTPropertyObjectType<gCInfoManager_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCInfoManager_PS,eCEntityPropertySet>();
+  _DAT_207d0604 = 0x18;
+  _DAT_207d0608 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCInfoManager_PS::ms_PropertyMember_m_currentInfoIndex);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207d0600,
+             (bCPropertyTypeBase *)&gCInfoManager_PS::ms_PropertyMember_m_currentInfoIndex);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<int>::~bTPropertyTypeOnly<int>);
+  return;
+}

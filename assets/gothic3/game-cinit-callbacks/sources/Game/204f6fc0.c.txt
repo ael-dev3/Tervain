@@ -1,0 +1,32 @@
+/* ENTRY 204f6fc0 | bTPropertyType<gCGeometryLayer,bTPropertyContainer<gEGeometryType>_>::~bTPropertyType<gCGeometryLayer,bTPropertyContainer<gEGeometryType>_> | STATUS decompiled | 10 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCGeometryLayer,bTPropertyContainer<gEGeometryType>_>::
+~bTPropertyType<gCGeometryLayer,bTPropertyContainer<gEGeometryType>_>
+          (bTPropertyType<gCGeometryLayer,bTPropertyContainer<gEGeometryType>_> *this)
+
+{
+  bTPropertyType<gCGeometryLayer,bTPropertyContainer<gEGeometryType>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"GeometryType");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCGeometryLayer::ms_PropertyMember_m_enuGeometryType,
+             (bCString *)&local_4,2);
+  _ms_PropertyMember_m_enuGeometryType = &vftable;
+  DAT_207bc3a8 = bTPropertyObjectType<gCGeometryLayer,gCLayerBase>::
+                 ~bTPropertyObjectType<gCGeometryLayer,gCLayerBase>();
+  _DAT_207bc3ac = 0x44;
+  _DAT_207bc3b0 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCGeometryLayer::ms_PropertyMember_m_enuGeometryType);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bc3a8,
+             (bCPropertyTypeBase *)&gCGeometryLayer::ms_PropertyMember_m_enuGeometryType);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gEGeometryType>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gEGeometryType>_>);
+  return;
+}

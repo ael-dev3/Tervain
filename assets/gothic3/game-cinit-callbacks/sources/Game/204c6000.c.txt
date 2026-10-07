@@ -1,0 +1,31 @@
+/* ENTRY 204c6000 | bTPropertyType<gCEventScript_PS,bCString>::~bTPropertyType<gCEventScript_PS,bCString> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCEventScript_PS,bCString>::~bTPropertyType<gCEventScript_PS,bCString>
+          (bTPropertyType<gCEventScript_PS,bCString> *this)
+
+{
+  bTPropertyType<gCEventScript_PS,bCString> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"ScriptUntriggerFunc");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCEventScript_PS::ms_PropertyMember_m_strScriptUntriggerFunc,
+             (bCString *)&local_4,1);
+  _DAT_207b8554 = 0;
+  _ms_PropertyMember_m_strScriptUntriggerFunc = &vftable;
+  DAT_207b8558 = bTPropertyObjectType<gCEventScript_PS,eCTrigger_PS>::
+                 ~bTPropertyObjectType<gCEventScript_PS,eCTrigger_PS>();
+  _DAT_207b855c = 0xec;
+  _DAT_207b8560 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCEventScript_PS::ms_PropertyMember_m_strScriptUntriggerFunc);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b8558,
+             (bCPropertyTypeBase *)&gCEventScript_PS::ms_PropertyMember_m_strScriptUntriggerFunc);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bCString>::~bTPropertyTypeOnly<bCString>);
+  return;
+}

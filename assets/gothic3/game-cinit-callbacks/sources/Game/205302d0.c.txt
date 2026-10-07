@@ -1,0 +1,11 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 205302d0 | FUN_205302d0 | STATUS decompiled */
+
+void FUN_205302d0(void)
+
+{
+  DAT_207ce81c = bTPropertyObjectType<gCTeleporter_PS,eCTrigger_PS>::vfunction1();
+  return;
+}
+

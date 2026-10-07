@@ -1,0 +1,29 @@
+/* ENTRY 2052d010 | bTPropertyType<gCBook_PS,eCLocString>::~bTPropertyType<gCBook_PS,eCLocString> | STATUS decompiled | 10 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCBook_PS,eCLocString>::~bTPropertyType<gCBook_PS,eCLocString>
+          (bTPropertyType<gCBook_PS,eCLocString> *this)
+
+{
+  bTPropertyType<gCBook_PS,eCLocString> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"RightText");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCBook_PS::ms_PropertyMember_m_strTextRight,(bCString *)&local_4
+             ,1);
+  _ms_PropertyMember_m_strTextRight = &vftable;
+  DAT_207cded4 = bTPropertyObjectType<gCBook_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCBook_PS,eCEntityPropertySet>();
+  _DAT_207cded8 = 0x1c;
+  _DAT_207cdedc = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCBook_PS::ms_PropertyMember_m_strTextRight);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cded4,
+             (bCPropertyTypeBase *)&gCBook_PS::ms_PropertyMember_m_strTextRight);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<eCLocString>::~bTPropertyTypeOnly<eCLocString>);
+  return;
+}

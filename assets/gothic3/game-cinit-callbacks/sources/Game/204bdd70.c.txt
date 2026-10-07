@@ -1,0 +1,23 @@
+/* ENTRY 204bdd70 | bTPropertyObject<gCEffectCommandKillEntity,gCEffectCommand>::~bTPropertyObject<gCEffectCommandKillEntity,gCEffectCommand> | STATUS decompiled | 7 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyObject<gCEffectCommandKillEntity,gCEffectCommand>::
+~bTPropertyObject<gCEffectCommandKillEntity,gCEffectCommand>
+          (bTPropertyObject<gCEffectCommandKillEntity,gCEffectCommand> *this)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)
+             &gCEffectCommandKillEntity::ms_PropertyObjectInstance_gCEffectCommandKillEntity);
+  _DAT_207b6e40 = 0;
+  _ms_PropertyObjectInstance_gCEffectCommandKillEntity = &vftable;
+  _DAT_207b6e44 =
+       bTPropertyObjectType<gCEffectCommandKillEntity,gCEffectCommand>::
+       ~bTPropertyObjectType<gCEffectCommandKillEntity,gCEffectCommand>();
+  _DAT_207b6e40 = 0;
+  thunk_FUN_200e5fe0(1);
+  _atexit(~bTPropertyObject<gCEffectCommandKillEntity,gCEffectCommand>);
+  return;
+}

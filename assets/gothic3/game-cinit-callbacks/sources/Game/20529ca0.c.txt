@@ -1,0 +1,9 @@
+/* ENTRY 20529ca0 | FUN_20529ca0 | STATUS decompiled | 3 ms */
+
+void FUN_20529ca0(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207cd624,"Materials");
+  _atexit(FUN_20563950);
+  return;
+}

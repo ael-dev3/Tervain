@@ -1,0 +1,36 @@
+/* ENTRY 204c09a0 | bTPropertyType<gCEffectCommandCreateDecal,bCString>::~bTPropertyType<gCEffectCommandCreateDecal,bCString> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCEffectCommandCreateDecal,bCString>::
+~bTPropertyType<gCEffectCommandCreateDecal,bCString>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Position");
+  bCString::bCString(local_c,"BoneName");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCEffectCommandCreateDecal::ms_PropertyMember_m_strBone,local_c,
+             local_8,local_4,1,false);
+  _DAT_207b76e4 = 0;
+  _ms_PropertyMember_m_strBone = &vftable;
+  DAT_207b76e8 = bTPropertyObjectType<gCEffectCommandCreateDecal,gCEffectCommand>::
+                 ~bTPropertyObjectType<gCEffectCommandCreateDecal,gCEffectCommand>();
+  _DAT_207b76ec = 0x30;
+  _DAT_207b76f0 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCEffectCommandCreateDecal::ms_PropertyMember_m_strBone);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b76e8,
+             (bCPropertyTypeBase *)&gCEffectCommandCreateDecal::ms_PropertyMember_m_strBone);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bCString>::~bTPropertyTypeOnly<bCString>);
+  return;
+}

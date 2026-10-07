@@ -1,0 +1,33 @@
+/* ENTRY 204b43f0 | bTPropertyType<gCCameraAI_PS,bTPropertyObject<gCCameraModeParams,bCObjectRefBase>_>::~bTPropertyType<gCCameraAI_PS,bTPropertyObject<gCCameraModeParams,bCObjectRefBase>_> | STATUS decompiled | 32 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCCameraAI_PS,bTPropertyObject<gCCameraModeParams,bCObjectRefBase>_>::
+~bTPropertyType<gCCameraAI_PS,bTPropertyObject<gCCameraModeParams,bCObjectRefBase>_>
+          (bTPropertyType<gCCameraAI_PS,bTPropertyObject<gCCameraModeParams,bCObjectRefBase>_> *this
+          )
+
+{
+  bTPropertyType<gCCameraAI_PS,bTPropertyObject<gCCameraModeParams,bCObjectRefBase>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"CamModeDialogShoulder2R");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCCameraAI_PS::ms_PropertyMember_m_poCamModeDialogShoulder2R,
+             (bCString *)&local_4,3);
+  _ms_PropertyMember_m_poCamModeDialogShoulder2R = &vftable;
+  DAT_207b57b4 = bTPropertyObjectType<gCCameraAI_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCCameraAI_PS,eCEntityPropertySet>();
+  _DAT_207b57b8 = 0x174;
+  _DAT_207b57bc = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCCameraAI_PS::ms_PropertyMember_m_poCamModeDialogShoulder2R);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b57b4,
+             (bCPropertyTypeBase *)&gCCameraAI_PS::ms_PropertyMember_m_poCamModeDialogShoulder2R);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyObject<gCCameraModeParams,bCObjectRefBase>_>::
+          ~bTPropertyTypeOnly<bTPropertyObject<gCCameraModeParams,bCObjectRefBase>_>);
+  return;
+}

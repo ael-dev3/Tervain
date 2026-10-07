@@ -1,0 +1,24 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204cc9c0 | FUN_204cc9c0 | STATUS decompiled */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void FUN_204cc9c0(void)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)
+             &gCDialogManagerCtrl::ms_PropertyObjectInstance_gCDialogManagerCtrl);
+  _DAT_207b9870 = 0;
+  _ms_PropertyObjectInstance_gCDialogManagerCtrl =
+       &bTPropertyObject<gCDialogManagerCtrl,eCWnd>::vftable;
+  _DAT_207b9874 =
+       bTPropertyObjectType<gCDialogManagerCtrl,eCWnd>::
+       ~bTPropertyObjectType<gCDialogManagerCtrl,eCWnd>();
+  _DAT_207b9870 = 0;
+  thunk_FUN_2014d4d0(1);
+  _atexit((_func_4879 *)&UNK_20551e90);
+  return;
+}
+

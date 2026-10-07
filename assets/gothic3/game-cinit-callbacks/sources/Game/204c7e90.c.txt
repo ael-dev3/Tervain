@@ -1,0 +1,35 @@
+/* ENTRY 204c7e90 | bTPropertyType<gCFocus_PS,float>::~bTPropertyType<gCFocus_PS,float> | STATUS decompiled | 14 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall bTPropertyType<gCFocus_PS,float>::~bTPropertyType<gCFocus_PS,float>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"NormalMode");
+  bCString::bCString(local_c,"NormalModeCharacterScanElevDown");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCFocus_PS::ms_PropertyMember_m_fNormalModeCharacterScanElevDown
+             ,local_c,local_8,local_4,1,false);
+  _ms_PropertyMember_m_fNormalModeCharacterScanElevDown = &vftable;
+  DAT_207b8b2c = bTPropertyObjectType<gCFocus_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCFocus_PS,eCEntityPropertySet>();
+  _DAT_207b8b30 = 0x44;
+  _DAT_207b8b34 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCFocus_PS::ms_PropertyMember_m_fNormalModeCharacterScanElevDown
+            );
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b8b2c,
+             (bCPropertyTypeBase *)&gCFocus_PS::ms_PropertyMember_m_fNormalModeCharacterScanElevDown
+            );
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}

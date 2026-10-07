@@ -1,0 +1,33 @@
+/* ENTRY 20506f40 | bTPropertyType<gCMusicSequencer,bool>::~bTPropertyType<gCMusicSequencer,bool> | STATUS decompiled | 14 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall bTPropertyType<gCMusicSequencer,bool>::~bTPropertyType<gCMusicSequencer,bool>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"General");
+  bCString::bCString(local_c,"AcceptTriggers");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCMusicSequencer::ms_PropertyMember_m_bAcceptTriggers,local_c,
+             local_8,local_4,1,false);
+  _ms_PropertyMember_m_bAcceptTriggers = &vftable;
+  DAT_207bf080 = bTPropertyObjectType<gCMusicSequencer,bCObjectRefBase>::
+                 ~bTPropertyObjectType<gCMusicSequencer,bCObjectRefBase>();
+  _DAT_207bf084 = 0xc;
+  _DAT_207bf088 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCMusicSequencer::ms_PropertyMember_m_bAcceptTriggers);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bf080,
+             (bCPropertyTypeBase *)&gCMusicSequencer::ms_PropertyMember_m_bAcceptTriggers);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}

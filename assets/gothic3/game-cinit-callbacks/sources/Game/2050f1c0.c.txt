@@ -1,0 +1,29 @@
+/* ENTRY 2050f1c0 | bTPropertyType<gCWaterZone_PS,float>::~bTPropertyType<gCWaterZone_PS,float> | STATUS decompiled | 12 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCWaterZone_PS,float>::~bTPropertyType<gCWaterZone_PS,float>
+          (bTPropertyType<gCWaterZone_PS,float> *this)
+
+{
+  bTPropertyType<gCWaterZone_PS,float> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"MaxZ");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCWaterZone_PS::ms_PropertyMember_m_fMaxZ,(bCString *)&local_4,1
+            );
+  _ms_PropertyMember_m_fMaxZ = &vftable;
+  DAT_207c06b8 = bTPropertyObjectType<gCWaterZone_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCWaterZone_PS,eCEntityPropertySet>();
+  _DAT_207c06bc = 0x48;
+  _DAT_207c06c0 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCWaterZone_PS::ms_PropertyMember_m_fMaxZ);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207c06b8,
+             (bCPropertyTypeBase *)&gCWaterZone_PS::ms_PropertyMember_m_fMaxZ);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}

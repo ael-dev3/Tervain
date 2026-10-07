@@ -1,0 +1,9 @@
+/* ENTRY 2053c360 | FUN_2053c360 | STATUS decompiled | 3 ms */
+
+void FUN_2053c360(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207d03d8,"CondItems");
+  _atexit(FUN_20568600);
+  return;
+}

@@ -1,0 +1,16 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204c6f50 | FUN_204c6f50 | STATUS decompiled */
+
+void FUN_204c6f50(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gEMaxDistType_CollisionShape");
+  thunk_FUN_2013aee0(&DAT_207b882e,&gCDistanceTrigger_PS::ms_PropertyMember_m_enuMaxDistType,
+                     abStack_4,2);
+  bCString::~bCString(abStack_4);
+  return;
+}
+
