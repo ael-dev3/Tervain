@@ -1,0 +1,10 @@
+/* ENTRY 20350560 | bTPropertyObjectType<gCScriptAdmin,eCEngineComponentBase>::vfunction6 | STATUS decompiled | 1 ms */
+
+void __thiscall bTPropertyObjectType<gCScriptAdmin,eCEngineComponentBase>::vfunction6(void)
+
+{
+  GE_MESSAGEF_WARN("The method %s detected an improper usage! \nHint:%s ",
+                   "bTPropertyObjectType<CLASS, BASECLASS>::Write",
+                   "METHOD Read/Write not used for current implementation!");
+  return;
+}

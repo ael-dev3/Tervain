@@ -1,0 +1,14 @@
+/* ENTRY 10012710 | FUN_10012710 | STATUS decompiled | 3 ms */
+
+uint __fastcall FUN_10012710(int param_1)
+
+{
+  uint in_EAX;
+  int iVar1;
+
+  if (*(char *)(param_1 + 0x10) == '\0') {
+    return in_EAX & 0xffffff00;
+  }
+  iVar1 = thunk_FUN_10012290(param_1,&DAT_101ab150);
+  return (uint)(iVar1 == 1);
+}

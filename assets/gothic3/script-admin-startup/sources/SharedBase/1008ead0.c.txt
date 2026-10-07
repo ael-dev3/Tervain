@@ -1,0 +1,13 @@
+/* ENTRY 1008ead0 | FUN_1008ead0 | STATUS decompiled | 4 ms */
+
+void __thiscall FUN_1008ead0(int *param_1,undefined4 *param_2)
+
+{
+  int iVar1;
+
+  iVar1 = param_1[1] + 1;
+  thunk_FUN_1008dd70(iVar1,(iVar1 != 0) - 1);
+  param_1[1] = iVar1;
+  *(undefined4 *)(*param_1 + -4 + iVar1 * 4) = *param_2;
+  return;
+}

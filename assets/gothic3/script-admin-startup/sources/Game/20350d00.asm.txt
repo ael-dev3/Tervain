@@ -1,0 +1,33 @@
+20350d00 | 56 | PUSH ESI
+20350d01 | 8bf1 | MOV ESI,ECX
+20350d03 | 8b4e0c | MOV ECX,dword ptr [ESI + 0xc]
+20350d06 | 8b01 | MOV EAX,dword ptr [ECX]
+20350d08 | 8b500c | MOV EDX,dword ptr [EAX + 0xc]
+20350d0b | 57 | PUSH EDI
+20350d0c | 56 | PUSH ESI
+20350d0d | ffd2 | CALL EDX
+20350d0f | 8bc8 | MOV ECX,EAX
+20350d11 | ff1580877d20 | CALL dword ptr [0x207d8780]
+20350d17 | 8b4e08 | MOV ECX,dword ptr [ESI + 0x8]
+20350d1a | 85c9 | TEST ECX,ECX
+20350d1c | 7415 | JZ 0x20350d33
+20350d1e | ff15c0877d20 | CALL dword ptr [0x207d87c0]
+20350d24 | 83f801 | CMP EAX,0x1
+20350d27 | 750a | JNZ 0x20350d33
+20350d29 | 8b4e08 | MOV ECX,dword ptr [ESI + 0x8]
+20350d2c | 8b01 | MOV EAX,dword ptr [ECX]
+20350d2e | 8b5014 | MOV EDX,dword ptr [EAX + 0x14]
+20350d31 | ffd2 | CALL EDX
+20350d33 | 8b7e08 | MOV EDI,dword ptr [ESI + 0x8]
+20350d36 | 85ff | TEST EDI,EDI
+20350d38 | 7412 | JZ 0x20350d4c
+20350d3a | 6a00 | PUSH 0x0
+20350d3c | 8bcf | MOV ECX,EDI
+20350d3e | ff15c4877d20 | CALL dword ptr [0x207d87c4]
+20350d44 | 8bcf | MOV ECX,EDI
+20350d46 | ff15c8877d20 | CALL dword ptr [0x207d87c8]
+20350d4c | 5f | POP EDI
+20350d4d | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+20350d54 | 8bce | MOV ECX,ESI
+20350d56 | 5e | POP ESI
+20350d57 | ff2584877d20 | JMP dword ptr [0x207d8784]

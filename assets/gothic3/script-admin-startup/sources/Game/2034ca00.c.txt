@@ -1,0 +1,21 @@
+/* ENTRY 2034ca00 | FUN_2034ca00 | STATUS decompiled | 30 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+bCPropertyObjectBase * FUN_2034ca00(void)
+
+{
+  bCPropertyObjectSingleton *this;
+  bCString *pbVar1;
+  bCString local_4 [4];
+
+  if ((_DAT_207cbe6c & 1) == 0) {
+    _DAT_207cbe6c = _DAT_207cbe6c | 1;
+    bCString::bCString(local_4,"gCScriptAdmin");
+    pbVar1 = local_4;
+    this = bCPropertyObjectSingleton::GetInstance();
+    DAT_207cbe68 = bCPropertyObjectSingleton::GetRootObject(this,pbVar1);
+    bCString::~bCString(local_4);
+  }
+  return DAT_207cbe68;
+}

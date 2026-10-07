@@ -7,6 +7,7 @@ Game owns distinct CRT globals even when algorithms correspond to Engine.
 from __future__ import annotations
 
 import argparse
+import csv
 import hashlib
 import json
 import re
@@ -90,6 +91,7 @@ TARGETS = {
     'onexitLock8': 0x20466415, 'onexitUnlock8': 0x2046641e,
     'onexitCleanup': 0x204637c8, 'reallocCrt': 0x20468416, 'msize': 0x204684cd,
     'exitTraversal': 0x20466686, 'typeInfoDtorOtherList': 0x20468796,
+    'scriptAdminPropertyIdInitializer': 0x2051dcf0, 'scriptAdminTypeCleanup': 0x20561900,
 }
 MANUAL = {
     'navigationClassNameInitializer': (0x204b1840, 0x204b1840, '204b1840-204b184a'),
@@ -98,6 +100,7 @@ MANUAL = {
     'onexitColdInitializer': (0x20463763, 0x20463763, '20463763-20463791'),
     'terminatePointerTarget': (0x2047396b, 0x2047396b, '2047396b-204739a3'),
     'tlsAllocFallback': (0x20467e49, 0x20467e49, '20467e49-20467e51'),
+    'scriptAdminPropertyIdCleanup': (0x205618e0, 0x205618e0, '205618e0-205618ea'),
 }
 TERMINATE_RECOVERY = {
     0x2047398b: ('33c0', 'XOR EAX,EAX'),
@@ -129,6 +132,9 @@ COLD = {
     'navigationTypeInfoDescriptor': (0x20796ce4, 30),
     'scriptAdminClassName': (0x207b47a0, 12), 'scriptAdminInitializerResult': (0x207b4f3c, 4),
     'scriptAdminTypeInfoDescriptor': (0x207966e0, 30), 'scriptAdminLookupCacheGuard': (0x207b6028, 8),
+    'scriptAdminStartupObjects': (0x207cbf04, 40),
+    'scriptAdminPropertyTypeAndGuard': (0x207cbe78, 64),
+    'scriptAdminRootLookupCacheGuard': (0x207cbe68, 8),
     'crtTypeInfoList': (0x207d0a18, 8),
     'navigationPropertyObjectTypeAndGuard': (0x207bf7e4, 64),
     'crtHeapHandle': (0x207d11b4, 4), 'crtHeapMode': (0x207d1658, 4),
@@ -160,6 +166,10 @@ CONSTANTS = {
     'charNodeVtable': (0x206bec94, 12), 'indirectNodeVtable': (0x206beca4, 12),
     'statusNodeVtable': (0x206becb4, 12), 'textNodeVtable': (0x206becc4, 12),
     'localeDecimalPoint': (0x207b3484, 2),
+    'scriptAdminRootInitializerSlot': (0x205faf54, 4),
+    'scriptAdminPropertyIdInitializerSlot': (0x205faf58, 4),
+    'scriptAdminAccessorInitializerSlot': (0x205faf5c, 4),
+    'scriptAdminPropertyIdLiteral': (0x2069c090, 39),
 }
 STRINGS = {
     'kernel32Module': 0x206be548,
@@ -186,6 +196,47 @@ TLS_PE = {
     }),
 }
 
+# These four exact bodies are absent from both the catalog and study ASM.
+# Keep their PE-only provenance distinct from existing ASM-only cleanup rows.
+SCRIPT_ADMIN_PE = {
+    'scriptAdminRootInitializer': (0x2051dc90, 0x2051dcda, {
+        0x2051dc90: ('b904bf7c20', 'MOV ECX,0x207cbf04'),
+        0x2051dc95: ('ff15b8877d20', 'CALL dword ptr [0x207d87b8]'),
+        0x2051dc9b: ('c7050cbf7c2000000000', 'MOV dword ptr [0x207cbf0c],0x0'),
+        0x2051dca5: ('c70504bf7c2034b76920', 'MOV dword ptr [0x207cbf04],0x2069b734'),
+        0x2051dcaf: ('e85dc6afff', 'CALL 0x2001a311'),
+        0x2051dcb4: ('6a01', 'PUSH 0x1'),
+        0x2051dcb6: ('b904bf7c20', 'MOV ECX,0x207cbf04'),
+        0x2051dcbb: ('a310bf7c20', 'MOV [0x207cbf10],EAX'),
+        0x2051dcc0: ('c7050cbf7c2000000000', 'MOV dword ptr [0x207cbf0c],0x0'),
+        0x2051dcca: ('e8309bb0ff', 'CALL 0x200277ff'),
+        0x2051dccf: ('6840195620', 'PUSH 0x20561940'),
+        0x2051dcd4: ('e8f55af4ff', 'CALL 0x204637ce'),
+        0x2051dcd9: ('59', 'POP ECX'), 0x2051dcda: ('c3', 'RET'),
+    }),
+    'scriptAdminAccessorInitializer': (0x2051dd50, 0x2051dd71, {
+        0x2051dd50: ('e8f135b0ff', 'CALL 0x20021346'),
+        0x2051dd55: ('50', 'PUSH EAX'),
+        0x2051dd56: ('6814bf7c20', 'PUSH 0x207cbf14'),
+        0x2051dd5b: ('b928bf7c20', 'MOV ECX,0x207cbf28'),
+        0x2051dd60: ('ff15b4867d20', 'CALL dword ptr [0x207d86b4]'),
+        0x2051dd66: ('6830195620', 'PUSH 0x20561930'),
+        0x2051dd6b: ('e85e5af4ff', 'CALL 0x204637ce'),
+        0x2051dd70: ('59', 'POP ECX'), 0x2051dd71: ('c3', 'RET'),
+    }),
+    'scriptAdminAccessorCleanup': (0x20561930, 0x2056193a, {
+        0x20561930: ('b928bf7c20', 'MOV ECX,0x207cbf28'),
+        0x20561935: ('ff25d0887d20', 'JMP dword ptr [0x207d88d0]'),
+    }),
+    'scriptAdminRootCleanup': (0x20561940, 0x2056195d, {
+        0x20561940: ('b904bf7c20', 'MOV ECX,0x207cbf04'),
+        0x20561945: ('c70504bf7c2034b76920', 'MOV dword ptr [0x207cbf04],0x2069b734'),
+        0x2056194f: ('e8353baaff', 'CALL 0x20005489'),
+        0x20561954: ('b904bf7c20', 'MOV ECX,0x207cbf04'),
+        0x20561959: ('e9e820adff', 'JMP 0x20033a46'),
+    }),
+}
+
 
 def sha(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
@@ -202,6 +253,10 @@ def ranges(text: str) -> list[tuple[int, int]]:
 
 def manual_methods(study: Path, pe: native.PE) -> list[dict]:
     selected = []
+    with (study / '01_Decompiled_Code/Game_dll/functions.csv').open(encoding='utf-8-sig', newline='') as stream:
+        catalog_entries = {row['address'] for row in csv.DictReader(stream)}
+    require(not {f'{begin:08x}' for begin, _, _ in SCRIPT_ADMIN_PE.values()} & catalog_entries,
+            'ScriptAdmin PE-only selection now has catalog provenance')
     for label, (entry, body, extent) in MANUAL.items():
         chain = []
         current = entry
@@ -223,6 +278,8 @@ def manual_methods(study: Path, pe: native.PE) -> list[dict]:
             if not match:
                 continue
             address = int(match[1], 16)
+            require(not any(begin <= address <= end for begin, end, _ in SCRIPT_ADMIN_PE.values()),
+                    'ScriptAdmin PE-only selection now has study ASM; preserve original provenance')
             for method in selected:
                 if any(start <= address <= end for start, end in ranges(method['bodyRanges'])):
                     raw = bytes.fromhex(match[2].decode())
@@ -251,6 +308,12 @@ def manual_methods(study: Path, pe: native.PE) -> list[dict]:
             entryChain=[], bodyRanges=f'{begin:08x}-{end:08x}', sourceCGap=True, sourceASMGap=True,
             recovery='Explicit original PE compiler thunk; no fabricated CSV row',
             instructions=[instruction(pe, address, raw, text) for address, (raw, text) in rows.items()]))
+    for label, (begin, end, rows) in SCRIPT_ADMIN_PE.items():
+        selected.append(dict(label=label, entryVA=f'0x{begin:08x}', bodyVA=f'0x{begin:08x}',
+            entryChain=[], bodyRanges=f'{begin:08x}-{end:08x}', sourceCGap=True, sourceASMGap=True,
+            recovery='Explicit original Game PE static initializer/cleanup; no recovered C or fabricated catalog row',
+            instructions=[instruction(pe, address, raw, text) for address, (raw, text) in rows.items()]))
+    next(method for method in selected if method['label'] == 'scriptAdminPropertyIdCleanup').update(sourceASMGap=False)
     return selected
 
 
@@ -309,7 +372,7 @@ def emit_initializer_table(label: str, table: dict) -> dict:
     path.write_bytes(encode(table))
     keys = ['module', 'address', 'bytes', 'sha256', 'scope', 'liveValueCaptured',
             'exclusiveEnd', 'elementBytes', 'slots', 'nonNullCount', 'wholeTableExecuted',
-            'selectedNavigationInitializer']
+            'selectedNavigationInitializer', 'selectedScriptAdminInitializers']
     summary = {key: table[key] for key in keys if key in table}
     summary['sourceRef'] = dict(path=path.relative_to(OUT).as_posix(), bytes=path.stat().st_size,
                                sha256=sha(path.read_bytes()))
@@ -397,6 +460,19 @@ def layouts() -> dict:
             nativePropertyTypeRegistered=False),
         scriptAdminLookup=dict(storage='scriptAdminLookupCacheGuard', bytes=8,
             offsets=dict(cachedInstance=0, guard=4), getterEntry='2001afbe', getterBody='200a4bb0'),
+        scriptAdminStartup=dict(storage='scriptAdminStartupObjects', bytes=40,
+            offsets=dict(rootWrapper=0, propertyId=16, accessor=36),
+            objectBytes=dict(rootWrapper=16, propertyId=20, accessor=4),
+            wrapperOffsets=dict(vtable=0, flags=4, nativePointer=8, typePointer=12),
+            propertyTypeStorage='scriptAdminPropertyTypeAndGuard', propertyTypeBytes=24,
+            factoryOffset=24, factoryAccessedExtentBytes=24, factorySpanToGuard=36,
+            factoryUnclassifiedTailBytes=12,
+            factoryExtentScope='Selected original factory constructor/destructor accessed prefix; sizeof unproven',
+            typeGuardOffset=60,
+            rootLookupStorage='scriptAdminRootLookupCacheGuard', rootLookupOffsets=dict(cachedRoot=0, guard=4),
+            propertyIdLiteralStorage='scriptAdminPropertyIdLiteral',
+            callbacks=['scriptAdminRootInitializer', 'scriptAdminPropertyIdInitializer', 'scriptAdminAccessorInitializer'],
+            nativeStartupExecuted=False),
         exitTables=dict(beginStorage='crtExitBegin', endStorage='crtExitEnd', lock=8,
             initialCells=32, cellBytes=4, encodedPointers=True, callbacksTraversedInReverse=True,
             actualExitTableInitialized=False),
@@ -437,6 +513,12 @@ def prepare(study: Path) -> dict:
     require(cold['scriptAdminClassName']['raw'] == '00' * 12 and
         cold['scriptAdminInitializerResult']['raw'] == '00' * 4, 'Cold ScriptAdmin class-name storage differs')
     require(cold['scriptAdminLookupCacheGuard']['raw'] == '00' * 8, 'Cold ScriptAdmin lookup storage differs')
+    require(all(cold[label]['allZero'] for label in ['scriptAdminStartupObjects',
+        'scriptAdminPropertyTypeAndGuard', 'scriptAdminRootLookupCacheGuard']),
+        'Cold ScriptAdmin canonical startup storage differs')
+    require(constants['scriptAdminPropertyIdLiteral']['raw'] ==
+        '7b34394130323442412d393730412d343161362d393933432d3435384133394446314236317d00',
+        'Original ScriptAdmin PropertyID literal differs')
     require(constants['classKeyword']['raw'] == '636c6173732000', 'Game class keyword differs')
     require(constants['truncatedNameText']['raw'] == '203f3f2000', 'Game truncated-name text differs')
     physical_layouts = layouts()
@@ -475,6 +557,21 @@ def prepare(study: Path) -> dict:
             'Onexit C initializer order differs')
     init_tables['cppInitializers']['selectedNavigationInitializer'] = dict(cpp[nav_index],
         nonNullOrdinal=nav_index + 1, precedingNonNullCallbacks=nav_index, selectedCallbackExecuted=False)
+    startup_slots = [('scriptAdminRootInitializerSlot', 'scriptAdminRootInitializer', 146389, 1673),
+                     ('scriptAdminPropertyIdInitializerSlot', 'scriptAdminPropertyIdInitializer', 146390, 1674),
+                     ('scriptAdminAccessorInitializerSlot', 'scriptAdminAccessorInitializer', 146391, 1675)]
+    selected_startup = []
+    for slot_label, method_label, expected_index, expected_ordinal in startup_slots:
+        slot = constants[slot_label]
+        ordinal = next(index + 1 for index, row in enumerate(cpp) if row['slot'] == slot['address'])
+        row = cpp[ordinal - 1]
+        target = struct.unpack('<I', bytes.fromhex(slot['raw']))[0]
+        require(row['index'] == expected_index and ordinal == expected_ordinal and
+                row['target'] == f'{target:08x}' == rules_methods[method_label]['entry'],
+                'Original ScriptAdmin callback slot/order differs: ' + method_label)
+        selected_startup.append(dict(row, method=method_label, slotStorage=slot_label,
+            nonNullOrdinal=ordinal, precedingNonNullCallbacks=ordinal - 1, selectedCallbackExecuted=False))
+    init_tables['cppInitializers']['selectedScriptAdminInitializers'] = selected_startup
     table_summaries = {label: emit_initializer_table(label, table) for label, table in init_tables.items()}
     used_iats = {f'0x{value}' for method in methods for row in method['instructions']
         for value in re.findall(r'\[0x([0-9a-f]{8})\]', row['instruction'])}

@@ -55,6 +55,9 @@ TARGETS = {
     'heap192BitmapAlloc': 0x10004abb, 'heap192BlockInitialize': 0x1000531c,
     'heap224BitmapAlloc': 0x10003508, 'heap224BlockInitialize': 0x1000504c,
     'heap80BitmapAlloc': 0x10008ab2, 'heap80BlockInitialize': 0x10002581,
+    'heap128BitmapAlloc': 0x10007991, 'heap128BlockInitialize': 0x10008328,
+    'heap640BitmapAlloc': 0x1000893b, 'heap640BlockInitialize': 0x10006f14,
+    'heap1536BitmapAlloc': 0x1000773e, 'heap1536BlockInitialize': 0x10006f8c,
     'heapAddPointerArea': 0x100012e4, 'heapGetPointerArea': 0x10005b37,
     'heapMediumInsert': 0x1003c760, 'heapMediumUnlink': 0x1003c7a0,
     'heapMediumSplit': 0x1003c7e0, 'heapMediumMerge': 0x1003c850,
@@ -64,6 +67,7 @@ TARGETS = {
     'heap768InlineFree': 0x10005b78, 'heap28InlineFree': 0x100025cc,
     'heap192InlineFree': 0x1000817a,
     'heap224InlineFree': 0x10005024,
+    'heap640InlineFree': 0x10004bba, 'heap1536InlineFree': 0x10003c92,
     'crtOperatorNew': 0x100aabd2, 'crtAtexit': 0x100a72d0,
     'crtOnExit': 0x100a7294, 'crtCallbackAppend': 0x100a71ac,
     'crtNormalTermination': 0x100aa6c4,
@@ -83,6 +87,9 @@ ASM_ONLY = {
     'heap28PoolDispatch': [(0x100480f0, 0x10048119), (0x10048120, 0x1004816f)],
     'heap192PoolDispatch': [(0x100487d0, 0x100487f9), (0x10048800, 0x1004884f)],
     'heap224PoolDispatch': [(0x10048870, 0x10048899), (0x100488a0, 0x100488ef)],
+    'heap128PoolDispatch': [(0x10048690, 0x100486b9), (0x100486c0, 0x1004870f)],
+    'heap640PoolDispatch': [(0x10048c30, 0x10048c59), (0x10048c60, 0x10048caf)],
+    'heap1536PoolDispatch': [(0x10048f50, 0x10048f79), (0x10048f80, 0x10048fcf)],
     'heap12Free': [(0x10043ff0, 0x10044034)],
     'heap112Free': [(0x10044980, 0x100449ca)],
     'heap112Realloc': [(0x100449e0, 0x10044a23)],
@@ -98,6 +105,18 @@ ASM_ONLY = {
     'heap192Realloc': [(0x10044c40, 0x10044c85)],
     'heap224Free': [(0x10044ca0, 0x10044cea)],
     'heap224Realloc': [(0x10044d00, 0x10044d45)],
+    'heap128Free': [(0x10044a40, 0x10044a7d)],
+    'heap128Realloc': [(0x10044a90, 0x10044b02)],
+    'heap128PoolShutdown': [(0x10040d60, 0x10040e33)],
+    'heap128Statistics': [(0x10040e70, 0x10040eb7)],
+    'heap640Free': [(0x10045160, 0x100451a4)],
+    'heap640Realloc': [(0x100451c0, 0x10045205)],
+    'heap640PoolShutdown': [(0x10041a70, 0x10041b43)],
+    'heap640Statistics': [(0x10041b80, 0x10041bcc)],
+    'heap1536Free': [(0x10045540, 0x10045584)],
+    'heap1536Realloc': [(0x100455a0, 0x100455e5)],
+    'heap1536PoolShutdown': [(0x100421b0, 0x10042283)],
+    'heap1536Statistics': [(0x100422c0, 0x1004230d)],
     'memoryShutdown': [(0x100e2710, 0x100e274e)],
     'errorShutdown': [(0x100e2770, 0x100e2785)],
     'messageShutdown': [(0x100e27d0, 0x100e2802)],
@@ -121,6 +140,14 @@ ASM_ALIASES = {
     'heap28Free': 0x1000436d, 'heap28Realloc': 0x10002a59,
     'heap192Free': 0x10008ac6, 'heap192Realloc': 0x100063f2,
     'heap224Free': 0x1000794b, 'heap224Realloc': 0x10006e8d,
+    'heap128PoolDispatch': 0x1000690b, 'heap640PoolDispatch': 0x10005448,
+    'heap1536PoolDispatch': 0x1000647e,
+    'heap128Free': 0x10005dc6, 'heap128Realloc': 0x10002149,
+    'heap128PoolShutdown': 0x1000186b, 'heap128Statistics': 0x10003210,
+    'heap640Free': 0x10007752, 'heap640Realloc': 0x10004570,
+    'heap640PoolShutdown': 0x100019e7, 'heap640Statistics': 0x10008800,
+    'heap1536Free': 0x10007e64, 'heap1536Realloc': 0x10001d02,
+    'heap1536PoolShutdown': 0x10008c56, 'heap1536Statistics': 0x1000271b,
 }
 COLD = {
     'errorAdmin': (0x10142a58, 44), 'errorAdminGuard': (0x10142a8c, 4),
@@ -138,17 +165,23 @@ COLD = {
     'heap768PoolGlobals': (0x102ffe60, 12),
     'heap28PoolGlobals': (0x102ffd7c, 12), 'heap192PoolGlobals': (0x102ffe00, 12),
     'heap224PoolGlobals': (0x102ffe0c, 12),
+    'heap128PoolGlobals': (0x102ffde8, 12), 'heap640PoolGlobals': (0x102ffe54, 12),
+    'heap1536PoolGlobals': (0x102ffe90, 12),
     'heap80PoolGlobals': (0x102ffdc4, 12), 'heap80DescriptorSlot': (0x102fff14, 4),
     'heapMediumBuckets': (0x10144214, 4097 * 4),
     'heapMediumRegionList': (0x10148218, 512 * 4), 'heapMediumRegionCount': (0x102fb04c, 4),
-    # Only the selected first nine pointer-area records are admitted. No table
-    # maximum is inferred from proximity to another static variable.
-    'heapPointerAreasSelected': (0x10149a18, 9 * 16),
+    # Only one first region for each of the twelve selected classes is admitted.
+    # These include ScriptAdmin's 120/520-byte requests and the property
+    # singleton's selected 1468-byte map grow; no startup coldness is inferred.
+    # No table maximum is inferred from proximity to another static variable.
+    'heapPointerAreasSelected': (0x10149a18, 12 * 16),
     'heap12DescriptorSlot': (0x102ffeec, 4), 'heap112DescriptorSlot': (0x102fff1c, 4),
     'heap16DescriptorSlot': (0x102ffef0, 4), 'heap448DescriptorSlot': (0x102fff3c, 4),
     'heap768DescriptorSlot': (0x102fff48, 4),
     'heap28DescriptorSlot': (0x102ffefc, 4), 'heap192DescriptorSlot': (0x102fff28, 4),
     'heap224DescriptorSlot': (0x102fff2c, 4),
+    'heap128DescriptorSlot': (0x102fff20, 4), 'heap640DescriptorSlot': (0x102fff44, 4),
+    'heap1536DescriptorSlot': (0x102fff58, 4),
     'errorHistoryPopScratch': (0x10144028, 250), 'errorHistoryPushScratch': (0x10143ef8, 250),
 }
 CONST_STRINGS = {
@@ -170,6 +203,9 @@ CONST_WORDS = {
     'heap192Stride': (0x100e7b18, 192), 'heap192Capacity': (0x100e7b1c, 0xffd5),
     'heap224Stride': (0x100e7b20, 224), 'heap224Capacity': (0x100e7b24, 0x7fed),
     'heap80Stride': (0x100e7af0, 80), 'heap80Capacity': (0x100e7af4, 0xff99),
+    'heap128Stride': (0x100e7b08, 128), 'heap128Capacity': (0x100e7b0c, 0xffbf),
+    'heap640Stride': (0x100e7b50, 640), 'heap640Capacity': (0x100e7b54, 0xfff),
+    'heap1536Stride': (0x100e7b78, 1536), 'heap1536Capacity': (0x100e7b7c, 0xff),
 }
 POINTER_TABLES = {
     'heap12DispatchSlot': (0x102fb080, 4), 'heap12FallbackSlot': (0x102fb084, 4),
@@ -181,6 +217,21 @@ POINTER_TABLES = {
 # extrapolated from a general stride formula, and the full dispatch table pins
 # every admitted request range including native Navigation's request688.
 BUCKETS = {
+    '128': dict(stride=128, minimumRequest=113, maximumRequest=128, regionBytes=0x800000,
+        capacity=0xffbf, bitmapOffset=0x7fdf90, bitmapBytes=0x1ff8,
+        lastBitmapMask=0x7fffffff, payloadBytes=0x7fdf80,
+        globals=dict(count='102ffde8', list='102ffdec', peak='102ffdf0', descriptor='102fff20'),
+        callbacks=['10005dc6', '10002149', '1000186b', '10003210']),
+    '640': dict(stride=640, minimumRequest=513, maximumRequest=640, regionBytes=0x280000,
+        capacity=0xfff, bitmapOffset=0x27fd90, bitmapBytes=0x200,
+        lastBitmapMask=0x7fffffff, payloadBytes=0x27fd80,
+        globals=dict(count='102ffe54', list='102ffe58', peak='102ffe5c', descriptor='102fff44'),
+        callbacks=['10007752', '10004570', '100019e7', '10008800']),
+    '1536': dict(stride=1536, minimumRequest=1281, maximumRequest=1536, regionBytes=0x60000,
+        capacity=0xff, bitmapOffset=0x5fa10, bitmapBytes=0x20,
+        lastBitmapMask=0x7fffffff, payloadBytes=0x5fa00,
+        globals=dict(count='102ffe90', list='102ffe94', peak='102ffe98', descriptor='102fff58'),
+        callbacks=['10007e64', '10001d02', '10008c56', '1000271b']),
     '224': dict(stride=224, minimumRequest=193, maximumRequest=224, regionBytes=0x700000,
         capacity=0x7fed, bitmapOffset=0x6fef70, bitmapBytes=0x1000,
         lastBitmapMask=0x1fff, payloadBytes=0x6fef60,
@@ -455,15 +506,40 @@ def prepare(study: Path) -> dict:
         for request in range(values['minimumRequest'], values['maximumRequest'] + 1):
             require(tables['heapDispatchTable']['values'][request] == dispatch,
                     f'Bucket {name} request {request} original dispatch differs')
+        require(tables['heapDispatchTable']['values'][values['minimumRequest'] - 1] != dispatch
+                and tables['heapDispatchTable']['values'][values['maximumRequest'] + 1] != dispatch,
+                f'Bucket {name} original dispatch boundary differs')
         proofs = {}
         for field in ['regionBytes', 'bitmapOffset', 'bitmapBytes', 'lastBitmapMask', 'payloadBytes']:
+            if name == '1536' and field == 'bitmapBytes':
+                # This initializer writes eight DWORDs directly. It has no
+                # memset length operand from which to take a 0x20 receipt.
+                initializer = concrete[2]['instructions']
+                by_address = {int(row['va'], 16): row for row in initializer}
+                setup = by_address[0x10047682]
+                require(setup['bytes'] == '83c8ff', 'Heap1536 bitmap all-ones register setup differs')
+                stores = []
+                for word in range(7):
+                    row = by_address[0x10047693 + word * 6]
+                    require(row['bytes'] == '8986' + struct.pack('<I', 0x5fa10 + word * 4).hex(),
+                            'Heap1536 bitmap DWORD store differs')
+                    stores.append(row)
+                last = by_address[0x100476bd]
+                require(last['bytes'] == 'c7862cfa0500ffffff7f'
+                        and values['bitmapOffset'] == 0x5fa10 and values['bitmapBytes'] == 8 * 4,
+                        'Heap1536 bitmap final store/extent differs')
+                proofs[field] = [dict(derived='Seven all-ones DWORD stores followed by one masked DWORD store; the original initializer covers exactly eight contiguous bitmap words.',
+                    bitmapWords=8, bitmapBytes=32)] + [
+                    dict(va=row['va'], bytes=row['bytes'], instruction=row['instruction'])
+                    for row in [setup, *stores, last]]
+                continue
             encoded = struct.pack('<I', values[field]).hex()
             rows = [row for row in instructions if encoded in row['bytes']]
             require(rows, f'Bucket {name} {field} audited operand absent')
             proofs[field] = [{'va': row['va'], 'bytes': row['bytes'], 'instruction': row['instruction']} for row in rows]
         for callback in values['callbacks']:
             require(struct.pack('<I', int(callback, 16)) in code, 'Descriptor callback operand absent: ' + callback)
-        referenced_labels = labels + ['heap' + name + suffix for suffix in ['Free', 'Realloc', 'InlineFree']
+        referenced_labels = labels + ['heap' + name + suffix for suffix in ['Free', 'Realloc', 'InlineFree', 'PoolShutdown', 'Statistics']
                                      if 'heap' + name + suffix in method_rules]
         buckets[name] = dict(values, sourceRefs={label: method_rules[label] for label in referenced_labels},
                              operandProofs=proofs,

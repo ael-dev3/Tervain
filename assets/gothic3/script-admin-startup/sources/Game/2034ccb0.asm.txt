@@ -1,0 +1,13 @@
+2034ccb0 | 56 | PUSH ESI
+2034ccb1 | 8bf1 | MOV ESI,ECX
+2034ccb3 | 8b06 | MOV EAX,dword ptr [ESI]
+2034ccb5 | 8b5004 | MOV EDX,dword ptr [EAX + 0x4]
+2034ccb8 | ffd2 | CALL EDX
+2034ccba | 3c01 | CMP AL,0x1
+2034ccbc | 7507 | JNZ 0x2034ccc5
+2034ccbe | b801000000 | MOV EAX,0x1
+2034ccc3 | 5e | POP ESI
+2034ccc4 | c3 | RET
+2034ccc5 | 8bce | MOV ECX,ESI
+2034ccc7 | 5e | POP ESI
+2034ccc8 | ff2560867d20 | JMP dword ptr [0x207d8660]

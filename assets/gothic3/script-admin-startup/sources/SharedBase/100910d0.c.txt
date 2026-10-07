@@ -1,0 +1,58 @@
+/* ENTRY 100910d0 | FUN_100910d0 | STATUS decompiled | 15 ms */
+
+void __fastcall FUN_100910d0(int *param_1)
+
+{
+  int *piVar1;
+  bCMemoryAdmin *pbVar2;
+  void *pvVar3;
+  int iVar4;
+  int *piVar5;
+  int local_4;
+
+  local_4 = 0;
+  if (0 < param_1[1]) {
+    do {
+      piVar5 = *(int **)(*param_1 + local_4 * 4);
+      while (piVar5 != (int *)0x0) {
+        pvVar3 = (void *)piVar5[1];
+        piVar1 = (int *)piVar5[2];
+        if (pvVar3 != (void *)0x0) {
+          pbVar2 = bCMemoryAdmin::GetInstance();
+          bCMemoryAdmin::DeleteObject(pbVar2,pvVar3);
+          piVar5[1] = 0;
+        }
+        iVar4 = *piVar5;
+        if (iVar4 != 0) {
+          *(short *)(iVar4 + -4) = *(short *)(iVar4 + -4) + -1;
+          pvVar3 = (void *)(iVar4 + -8);
+          if (*(short *)(iVar4 + -4) == 0) {
+            pbVar2 = bCMemoryAdmin::GetInstance();
+            bCMemoryAdmin::Free(pbVar2,pvVar3);
+          }
+        }
+        pbVar2 = bCMemoryAdmin::GetInstance();
+        bCMemoryAdmin::DeleteObject(pbVar2,piVar5);
+        piVar5 = piVar1;
+      }
+      local_4 = local_4 + 1;
+    } while (local_4 < param_1[1]);
+  }
+  pvVar3 = (void *)*param_1;
+  if (pvVar3 != (void *)0x0) {
+    pbVar2 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar2,pvVar3);
+    *param_1 = 0;
+    param_1[1] = 0;
+    param_1[2] = 0;
+  }
+  param_1[3] = 0;
+  thunk_FUN_10090b80(0x2b,0);
+  param_1[1] = 0x2b;
+  iVar4 = 0;
+  do {
+    *(undefined4 *)(iVar4 + *param_1) = 0;
+    iVar4 = iVar4 + 4;
+  } while (iVar4 < 0xac);
+  return;
+}

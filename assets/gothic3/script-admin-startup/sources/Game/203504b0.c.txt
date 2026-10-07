@@ -1,0 +1,9 @@
+/* ENTRY 203504b0 | bTPropertyObjectType<gCScriptAdmin,eCEngineComponentBase>::vfunction4 | STATUS decompiled | 1 ms */
+
+undefined1 * __thiscall
+bTPropertyObjectType<gCScriptAdmin,eCEngineComponentBase>::vfunction4
+          (bTPropertyObjectType<gCScriptAdmin,eCEngineComponentBase> *this)
+
+{
+  return &(this->bTPropertyObjectType<gCScriptAdmin,eCEngineComponentBase>_data).field_0x14;
+}

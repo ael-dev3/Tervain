@@ -4,7 +4,7 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
-Updated: 7 October 2026. The latest published rebuild checkpoints are 95–99,
+Updated: 7 October 2026. The published baseline for checkpoints 95–99 was
 merged in [PR 60](https://github.com/ael-dev3/Tervain/pull/60) at commit
 `5f530d4176595e0df294f58039eb99f2e42d33c4` and published by successful
 [workflow run 37601141422](https://github.com/ael-dev3/Tervain/actions/runs/37601141422).
@@ -6903,3 +6903,136 @@ accessor/factory owners, its class-name/RTTI and script-call owners, full
 entity property attachment, world membership and processing.
 Then NPC behavior must participate in ordinary gameplay, quests and saves.
 The full browser campaign remains unfinished.
+
+## 100. Own selected ScriptAdmin static initializer bodies
+
+Date: 7 October 2026. This checkpoint captures the actual Game C++ initializer
+slots, reproduces selected callback bodies in TypeScript, and extends the
+allocator source profile they reach. It is a startup component checkpoint;
+production NPC activation and the full browser campaign remain unfinished.
+
+### Establish the original table order
+
+The Game CRT C++ table contains 238,852 slots and 2,468 non-NULL entries. The
+three selected slots are:
+
+| Table slot | Original target | Non-NULL ordinal | Purpose |
+| --- | --- | ---: | --- |
+| `205faf54` | `2051dc90` | 1,673 | Construct the root ScriptAdmin wrapper |
+| `205faf58` | `2051dcf0` | 1,674 | Construct its GUID-derived PropertyID |
+| `205faf5c` | `2051dd50` | 1,675 | Construct the accessor creator |
+
+The updated [Game CRT package](../../assets/gothic3/game-crt/README.md) captures
+the three initializers and four cleanup entries. Four bodies absent from the
+catalog/assembly are explicitly recovered from original PE instructions;
+existing ASM-only bodies retain that provenance. The package now contains
+147 bodies, 5,246 instruction records and 58 PE-recovered instructions.
+The ordinary CRT process-attach owner still stops at GetCommandLineA. These
+three selected bodies are not invoked as a substitute for the 1,672 preceding
+callbacks or full C++ table traversal.
+
+### Preserve canonical storage and callback state
+
+[`native-game-script-admin-startup.ts`](../../src/gothic3/native-game-script-admin-startup.ts)
+owns views over the same Game static storage: the 16-byte root wrapper,
+20-byte PropertyID and four-byte accessor share the 40-byte range at
+`207cbf04`. The property type starts at `207cbe78`, its factory starts at
+`207cbe90`, and the guard is at `207cbeb4`. Constructor/destructor evidence
+accesses 24 factory bytes. The 36-byte factory-to-guard span includes 12
+unclassified bytes and does not establish the factory's native size.
+
+The root initializer preserves the property-base constructor's first mask
+store, bit-packed reference count, vtable stores, repeated NULL stores,
+property-type lookup and root-wrapper initialization call. Type initialization
+sets its guard before calling the lower constructor. Guard-set getter reentry
+returns the same static view, including during incomplete construction.
+The factory constructor and template registration are explicit lower owners.
+
+The PropertyID initializer allocates a 24-byte uninitialized stack frame.
+It constructs the CString from the exact original GUID literal, calls the
+GUID text constructor, clears PropertyID DWORDs in the original order, and
+copies GUID payload DWORDs sequentially when valid and non-null. Invalid GUIDs
+do not require payload reads. The GUID text constructor performs no prior
+validity clear. The original null-GUID payload remains an actual lower storage
+dependency, preserving preceding native writes. GUID destruction is a RET;
+CString destruction preserves its stale physical slot. The frame expires only
+after the source cleanup and registration sequence completes.
+
+Accessor construction clears its pointer before querying the singleton,
+adds a reference to the returned object through its current vtable, reloads
+the current accessor pointer, releases it when present, assigns the result,
+then reloads the returned object's vtable for the final release. Mutations
+made by that final callback remain intact. The constructor's PropertyID
+argument is unused. Cleanup preserves the ErrorAdmin panic branch, repeated
+NULL stores and source teardown ordering. Failed cleanup calls retain their
+applied prefix and cannot be replayed. Known `_atexit` failure is ignored by
+the native initializer; only successful registration retains a cleanup
+capability. CRT exit-table traversal remains separate.
+
+The [focused source package](../../assets/gothic3/script-admin-startup/README.md)
+contains 98 bodies, 2,552 instructions and 7,146 instruction bytes, together
+with 67 import bindings and 44 vtable words. The native ScriptAdmin table is
+labeled a prefix. `ClearDLLList` and the Engine base `Invalidate` import are
+recorded separately. No DLL or Windows/OLE function was executed.
+
+### Admit the reached allocator classes
+
+| Generated runtime rules | SHA-256 |
+| --- | --- |
+| Game CRT | `9a3bbb750ec71a1edb13502a26a71ef44a8dcde366f8fd8899553cc85bf4ab86` |
+| ScriptAdmin startup | `09f033f6499a396994f666535b9990aa55fca197f93a056b5c538232849432e9` |
+| RuntimeAdmin | `4f1399da573a7b77eaa218191ab8af05ffb58301d3789ce8774e22f080846a2e` |
+| NPC heap | `4ea50707070b0c8b03c3564fee0c479cadecbce8c6b2f9889e411c138e6165c1` |
+| Scene startup | `e2718f3e7fc40272eabd47b29ea0e6e1e4eb83a46437443795f6c990042825f8` |
+
+| Pool stride | Original request interval | First region bytes | Capacity | Bitmap offset / bytes |
+| ---: | --- | --- | --- | --- |
+| 128 | 113–128 | `0x800000` | `0xffbf` | `0x7fdf90` / `0x1ff8` |
+| 640 | 513–640 | `0x280000` | `0xfff` | `0x27fd90` / `0x200` |
+| 1,536 | 1,281–1,536 | `0x60000` | `0xff` | `0x5fa10` / `0x20` |
+
+The 520-byte ScriptAdmin request reaches pool 640. Its 120-byte processing
+array reaches pool 128. The property singleton's conditional cold map growth
+requests 1,468 bytes and reaches pool 1,536. Earlier callbacks may already have
+initialized that singleton; this trace does not assume its cold state at
+ordinal 1,673. Pool 1,536 uses eight explicit DWORD bitmap stores, each checked
+against the original PE. All three final bitmap masks are `0x7fffffff`.
+
+The base allocator admits 12 classes; the NPC and combined Scene profiles
+admit 15 and 17. Their selected pointer-area prefixes cover 192, 240 and 272
+bytes without inferring a native maximum. Failure fallbacks to pools 160 and
+1,792 remain unsupported. The dependent NPC/Scene receipts and TypeScript
+pins are regenerated against the updated base identity.
+
+### Reproduce and review
+
+```powershell
+python -B tools/gothic3/prepare_game_crt_source.py --study '<LOCAL_DESKTOP_STUDY>'
+python -B tools/gothic3/prepare_script_admin_startup_source.py --study '<LOCAL_DESKTOP_STUDY>'
+python -B tools/gothic3/prepare_runtime_admin_source.py --study '<LOCAL_DESKTOP_STUDY>'
+python -B tools/gothic3/prepare_npc_heap_source.py --study '<LOCAL_DESKTOP_STUDY>'
+python -B tools/gothic3/prepare_scene_startup_source.py --study '<LOCAL_DESKTOP_STUDY>'
+npm run typecheck
+npm run build
+```
+
+Independent source review verified all 7,798 instruction rows in the two
+startup packages against the original PEs, both complete initializer tables,
+229 reconstructed C excerpts, import chains and vtable words. Allocator
+generation verified 135 base methods and 5,181 instruction records with zero
+PE mismatches. Its three packages reproduced all 508 generated files
+byte-for-byte. Typechecking and production build passed; the build transformed
+393 modules and retained the existing large-chunk warning. No new test cases
+were added and no tests were run locally for this checkpoint. Existing
+allocator scenario data is adjusted to the extended scope. No browser
+execution of the new owner is recorded.
+
+Actual mapped-literal pointer geometry, GUID conversion through
+MultiByteToWideChar/IIDFromString, type/factory/singleton construction,
+wrapper/native/descriptor initialization and teardown remain lower
+dependencies. The 38-character GUID CString also requests a 47-byte holder,
+which reaches the original, currently unaudited 48-byte pool. The selected
+initializer owner is not instantiated by the
+production NPC services. Connecting those owners, completing CRT startup,
+and progressing through ordinary gameplay and saves remain required before
+this work can establish a finishable game.

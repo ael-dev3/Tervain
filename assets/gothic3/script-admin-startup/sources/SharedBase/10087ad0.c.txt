@@ -1,0 +1,23 @@
+/* ENTRY 10087ad0 | FUN_10087ad0 | STATUS decompiled | 5 ms */
+
+int FUN_10087ad0(bCString *param_1)
+
+{
+  char *pcVar1;
+  char cVar2;
+  char *pcVar3;
+  int iVar4;
+
+  pcVar3 = bCString::GetText(param_1);
+  iVar4 = 0;
+  if (pcVar3 != (char *)0x0) {
+    cVar2 = *pcVar3;
+    while (cVar2 != '\0') {
+      pcVar1 = pcVar3 + 1;
+      pcVar3 = pcVar3 + 1;
+      iVar4 = (int)cVar2 + iVar4 * 0x21;
+      cVar2 = *pcVar1;
+    }
+  }
+  return iVar4;
+}

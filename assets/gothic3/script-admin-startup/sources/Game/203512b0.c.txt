@@ -1,0 +1,19 @@
+/* ENTRY 203512b0 | bTPropertyObject<gCScriptAdmin,eCEngineComponentBase>::scalar_deleting_destructor | STATUS decompiled | 3 ms */
+
+bTPropertyObject<gCScriptAdmin,eCEngineComponentBase> * __thiscall
+bTPropertyObject<gCScriptAdmin,eCEngineComponentBase>::scalar_deleting_destructor
+          (bTPropertyObject<gCScriptAdmin,eCEngineComponentBase> *this,byte param_1)
+
+{
+                    /* inlined destructor:
+                       bTPropertyObject<gCScriptAdmin,eCEngineComponentBase>::~bTPropertyObject<gCScriptAdmin,eCEngineComponentBase>
+                        */
+  this->vftablePtr = &vftable;
+  vfunction10(this);
+  bTPOPureSmartPtr<gCScriptAdmin>::~bTPOPureSmartPtr<gCScriptAdmin>
+            ((bTPOPureSmartPtr<gCScriptAdmin> *)this);
+  if ((param_1 & 1) != 0) {
+    _free(this);
+  }
+  return this;
+}

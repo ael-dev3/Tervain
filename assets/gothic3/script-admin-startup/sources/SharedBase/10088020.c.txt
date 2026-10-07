@@ -1,0 +1,17 @@
+/* ENTRY 10088020 | bCPropertyObjectTypeBase::bCPropertyObjectTypeBase | STATUS decompiled | 5 ms */
+
+bCPropertyObjectTypeBase * __thiscall
+bCPropertyObjectTypeBase::bCPropertyObjectTypeBase(bCPropertyObjectTypeBase *this,byte param_1)
+
+{
+  byte *pbVar1;
+
+  this->vftablePtr = &vftable;
+  bCString::bCString((bCString *)&this->bCPropertyObjectTypeBase_data);
+  (this->bCPropertyObjectTypeBase_data).offset_0x4 = (void *)0x0;
+  (this->bCPropertyObjectTypeBase_data).offset_0x8 = 0;
+  (this->bCPropertyObjectTypeBase_data).offset_0xc = 0;
+  pbVar1 = &(this->bCPropertyObjectTypeBase_data).offset_0x10;
+  *pbVar1 = *pbVar1 ^ ((this->bCPropertyObjectTypeBase_data).offset_0x10 ^ param_1) & 1;
+  return this;
+}

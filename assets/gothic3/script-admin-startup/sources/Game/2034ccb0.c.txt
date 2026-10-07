@@ -1,0 +1,17 @@
+/* ENTRY 2034ccb0 | FUN_2034ccb0 | STATUS decompiled | 5 ms */
+
+bEResult __fastcall FUN_2034ccb0(bCObjectBase *param_1)
+
+{
+  char cVar1;
+  bEResult bVar2;
+
+  cVar1 = (**(code **)((int)*param_1 + 4))();
+  if (cVar1 == '\x01') {
+    return 1;
+  }
+                    /* WARNING: Could not recover jumptable at 0x2034ccc8. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bVar2 = bCObjectRefBase::Create((bCObjectRefBase *)param_1);
+  return bVar2;
+}

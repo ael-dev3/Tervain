@@ -1,0 +1,9 @@
+/* ENTRY 20350da0 | bTPropertyObject<gCScriptAdmin,eCEngineComponentBase>::vfunction1 | STATUS decompiled | 2 ms */
+
+bCObjectRefBase * __thiscall
+bTPropertyObject<gCScriptAdmin,eCEngineComponentBase>::vfunction1
+          (bTPropertyObject<gCScriptAdmin,eCEngineComponentBase> *this)
+
+{
+  return (this->bTPOPureSmartPtr<gCScriptAdmin>_data).offset_0x4;
+}

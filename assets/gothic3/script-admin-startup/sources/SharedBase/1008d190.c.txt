@@ -1,0 +1,52 @@
+/* ENTRY 1008d190 | FUN_1008d190 | STATUS decompiled | 28 ms */
+
+uint __thiscall FUN_1008d190(int param_1,bCPropertyObjectBase *param_2)
+
+{
+  undefined4 *puVar1;
+  bCPropertyObjectBase *this;
+  bool bVar2;
+  uint in_EAX;
+  bCPropertyObjectSingleton *this_00;
+  undefined3 extraout_var;
+  undefined3 extraout_var_00;
+  char *pcVar3;
+  bCErrorAdmin *this_01;
+  undefined3 extraout_var_01;
+  undefined3 uVar4;
+  char *pcVar5;
+  int iVar6;
+
+  this = param_2;
+  if (param_2 != (bCPropertyObjectBase *)0x0) {
+    this_00 = (bCPropertyObjectSingleton *)bCPropertyObjectSingleton::GetInstance();
+    bVar2 = bCPropertyObjectSingleton::IsRegistrationEnabled(this_00);
+    uVar4 = extraout_var;
+    if ((bVar2) && (bVar2 = bCPropertyObjectBase::IsRoot(this), uVar4 = extraout_var_00, bVar2)) {
+      if (*(int *)(param_1 + 8) != 0) {
+        bVar2 = bCPropertyObjectBase::IsRoot((bCPropertyObjectBase *)**(undefined4 **)(param_1 + 4))
+        ;
+        if (bVar2) {
+          puVar1 = *(undefined4 **)(param_1 + 4);
+          (**(code **)(*(int *)*puVar1 + 4))();
+          (*this->vftablePtr->vfunction2)(this);
+          bCString::Format((bCString *)*puVar1,(char *)&g_strDefault);
+          iVar6 = 0x112;
+          pcVar5 = ".\\propertysystem\\factories\\ge_propertyobjectfactory.cpp";
+          pcVar3 = bCString::operator_char_const_((bCString *)&g_strDefault);
+          this_01 = bCErrorAdmin::GetInstance();
+          bCErrorAdmin::CallFatalError(this_01,pcVar3,pcVar5,iVar6);
+        }
+        else {
+          thunk_FUN_1008ead0(*(undefined4 *)(param_1 + 4));
+          thunk_FUN_1008de10(0);
+        }
+      }
+      param_2 = this;
+      thunk_FUN_1008eb10(0,&param_2);
+      uVar4 = extraout_var_01;
+    }
+    return CONCAT31(uVar4,1);
+  }
+  return in_EAX & 0xffffff00;
+}

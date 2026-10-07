@@ -30,6 +30,10 @@ All static storage is an original image receipt, with file-backed and loader-zer
 
 The C initializer table has five non-NULL callbacks. Onexit initialization is its first callback. Navigation class-name initializer `204b1840` occupies C++ slot `2056c220`, index 136 and non-NULL ordinal 72, with 71 preceding callbacks. Capturing or invoking this one callback does not complete the table or Game startup. Full table execution is unproven.
 
+The three real ScriptAdmin callbacks are `2051dc90`, `2051dcf0` and `2051dd50` at slots `205faf54/58/5c`, with non-NULL ordinals 1673–1675. Root/accessor initializer bodies and root/accessor cleanup bodies are explicit original-PE-only receipts. PropertyID cleanup `205618e0` already has original ASM and retains that provenance. The package now captures 147 bodies and 5246 instructions, including 58 explicitly recovered PE instructions; no reconstructed C or study ASM is claimed for a missing body.
+
+Canonical ScriptAdmin image storage consists of the contiguous 40-byte root wrapper/PropertyID/accessor area at `207cbf04`, the separate 64-byte property type/factory/guard at `207cbe78`, and the root lookup cache/guard at `207cbe68`. The GUID literal and each original callback slot have independent constant receipts. The focused `script-admin-startup` package references these same canonical areas.
+
 Navigation class-name cache `207b4964`, Navigation RTTI descriptor `20796ce4`, ScriptAdmin class-name cache `207b47a0`, ScriptAdmin RTTI descriptor `207966e0`, ScriptAdmin getter cache/guard `207b6028`, selected type-name list `207d0a18` and property-type singleton `207bf7e4` are separate source receipts. The captured `_Type_info_dtor` uses list `207d0a98`; it does not prove cleanup of either class-name list. Actual ScriptAdmin construction and registration, Shared property type/factory/registry services, entity attachment and full NPC activation still require their own retained owners and source-ordered execution.
 
 The producer performs offline source audits only. It executes no native code, captures no live process state, and runs no repository tests or builds. Earlier source packages remain frozen.

@@ -1,0 +1,31 @@
+/* ENTRY 10012790 | FUN_10012790 | STATUS decompiled | 11 ms */
+
+undefined1 __thiscall FUN_10012790(LPIID param_1,bCString *param_2)
+
+{
+  bool bVar1;
+  char *pcVar2;
+  int cchWideChar;
+  bCMemoryAdmin *pbVar3;
+  LPCOLESTR lpWideCharStr;
+  HRESULT HVar4;
+  ulong uVar5;
+
+  bVar1 = bCString::operator==(param_2,"{}");
+  if (bVar1) {
+    *(undefined1 *)&param_1[1].Data1 = 0;
+    return 1;
+  }
+  pcVar2 = bCString::operator_char_const_(param_2);
+  cchWideChar = MultiByteToWideChar(0,0,pcVar2,-1,(LPWSTR)0x0,0);
+  uVar5 = cchWideChar * 2;
+  pbVar3 = bCMemoryAdmin::GetInstance();
+  lpWideCharStr = bCMemoryAdmin::Malloc(pbVar3,uVar5);
+  pcVar2 = bCString::operator_char_const_(param_2);
+  MultiByteToWideChar(0,0,pcVar2,-1,lpWideCharStr,cchWideChar);
+  HVar4 = IIDFromString(lpWideCharStr,param_1);
+  *(bool *)&param_1[1].Data1 = HVar4 == 0;
+  pbVar3 = bCMemoryAdmin::GetInstance();
+  bCMemoryAdmin::Free(pbVar3,lpWideCharStr);
+  return (char)param_1[1].Data1;
+}

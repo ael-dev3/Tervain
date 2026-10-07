@@ -405,3 +405,12 @@ boundaries and composes its SceneAdmin registration bridge. These owners still
 need original application/ScriptAdmin creation and live NPC integration. See
 [checkpoint 99](gothic3-rebuilding-process.md#99-own-the-engine-input-dispatcher-and-compose-moduleadmin-registration)
 for source receipts, local review and exact remaining dependencies.
+
+Checkpoint 100 captures the three selected ScriptAdmin static initializers and
+their cleanup callbacks, then reproduces their bounded TypeScript state
+changes. It also admits the original 128-, 640- and 1,536-byte allocator pools.
+The first selected callback follows 1,672 earlier callbacks; those callbacks
+and full CRT traversal have not been implemented. GUID conversion, property
+factory construction and native ScriptAdmin creation remain explicit lower
+dependencies. See [checkpoint 100](gothic3-rebuilding-process.md#100-own-selected-scriptadmin-static-initializer-bodies)
+for the exact scope and reproduction steps.
