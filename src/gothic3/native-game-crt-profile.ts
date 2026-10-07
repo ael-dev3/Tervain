@@ -2,6 +2,7 @@
  * Game.dll image; cold bytes do not certify initialized platform resources. */
 import rulesText from '../../assets/gothic3/game-crt/runtime-rules.json?raw';
 import { admitGameEnvironmentSource, gameContinuationImagePins, gameContinuationImageReceipt } from './native-game-crt-attach-source';
+import { admitGameIoStartupSource, gameIoStartupImagePins, gameIoStartupImageReceipt } from './native-game-crt-io-source';
 
 export type NativeCrtModule = 'Engine' | 'Game';
 export interface NativeCrtMethodReceipt {
@@ -80,6 +81,7 @@ export const nativeGameImagePins: Readonly<Record<string, readonly [
   'coldGlobals' | 'constBytes', string, number, string, string
 ]>> = Object.freeze({
   ...gameContinuationImagePins,
+  ...gameIoStartupImagePins,
   "navigationClassName": ["coldGlobals","207b4964",12,"000000000000000000000000","15ec7bf0b50732b49f8228e07d24365338f9e3ab994b00af08e5a3bffe55fd8b"],
   "navigationInitializerResult": ["coldGlobals","207b4ea8",4,"00000000","df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"],
   "scriptAdminClassName": ["coldGlobals","207b47a0",12,"000000000000000000000000","15ec7bf0b50732b49f8228e07d24365338f9e3ab994b00af08e5a3bffe55fd8b"],
@@ -169,6 +171,7 @@ const imports = [
 ] as const;
 export function admitNativeGameCrtSource(): void {
   admitGameEnvironmentSource();
+  admitGameIoStartupSource();
   if (rules.schema !== 'gothic3-game-crt-rules-v1' ||
       rules.inputs.Game !== 'b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f' ||
       methods.some(([label, address, hash]) => rules.methods[label]?.module !== 'Game' || rules.methods[label]?.entry !== address ||
@@ -185,6 +188,7 @@ export function admitNativeGameCrtSource(): void {
 }
 export function nativeGameImageReceipt(label: string): NativeCrtImageReceipt {
   if (Object.hasOwn(gameContinuationImagePins, label)) return gameContinuationImageReceipt(label);
+  if (Object.hasOwn(gameIoStartupImagePins, label)) return gameIoStartupImageReceipt(label);
   const pin = nativeGameImagePins[label];
   if (!pin) throw new Error('Game CRT image storage has no independent source admission: ' + label);
   const [group, address, bytes, raw, hash] = pin, receipt = rules[group][label];

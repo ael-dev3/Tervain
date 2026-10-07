@@ -9,6 +9,7 @@ import { NativeRuntimePlatform } from './native-runtime-platform';
 import type { NativeEngineCrtPlatformServices } from './native-runtime-platform';
 import { retainNativeWin32ProcessInputSelection } from './native-win32-process-inputs';
 import type { NativeWin32ProcessInputSelection, RetainedWin32ProcessInputSelection } from './native-win32-process-inputs';
+import type { NativeX86ThreadStackSelection } from './native-x86-thread-stack-profile';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = (reason: string): { known: false; reason: string } => ({ known: false, reason });
@@ -45,12 +46,20 @@ export interface BrowserGameCrtProcessAbiProfile extends Omit<typeof browserGame
   readonly conversionCoverage: 'ascii-explicit-positive-count';
   readonly initialDirectionFlag: 0;
 }
+export interface BrowserGameCrtStackAbiProfile extends Omit<typeof browserGameCrtAbiProfile, 'profile' | 'commandLineProvided'> {
+  readonly profile: 'browser-game-crt-virtual-win32-nt6.1-opaque-stack-v3';
+  readonly commandLineProvided: boolean;
+  readonly environmentAProvided: boolean; readonly environmentWProvided: boolean;
+  readonly stackAddressModel: 'opaque-relative'; readonly stackReservationBytes: number;
+  readonly initialStackRegisters: 'unknown'; readonly initialFs0: 'unknown';
+}
 export interface BrowserGameCrtPlatformProfile {
   readonly identity: object;
-  readonly abi: typeof browserGameCrtAbiProfile | BrowserGameCrtProcessAbiProfile;
+  readonly abi: typeof browserGameCrtAbiProfile | BrowserGameCrtProcessAbiProfile | BrowserGameCrtStackAbiProfile;
   readonly thread: Readonly<{ capability: object; logicalId: number }>;
   /** Immutable descriptions, never OS-buffer or conversion authority. */
   readonly processInputs?: Readonly<{ identity: object; selection: RetainedWin32ProcessInputSelection }>;
+  readonly threadStack?: Readonly<NativeX86ThreadStackSelection>;
 }
 // Only this factory can publish provider authority. Descriptive records or an
 // arbitrary RuntimePlatform with similar service settings supply no proof.
@@ -68,25 +77,43 @@ export function browserGameCrtPlatformProfile(platform: NativeRuntimePlatform): 
     const proof = NativeRuntimePlatform.canonicalProcessInputEndpointsForPlatform(platform, endpoints);
     if (!proof.known) return proof;
   } else if (platform.processInputEndpoints !== undefined) return unknown('Prefix-only browser profile cannot replace its process-input selection');
+  if (profile.threadStack) {
+    const stack = NativeRuntimePlatform.threadStackSelectionForPlatform(platform);
+    if (!stack.known || stack.value !== profile.threadStack || stack.value.threadCapability !== profile.thread.capability) {
+      return unknown('Actual retained same-logical-thread browser stack selection required');
+    }
+  }
   return known(profile);
 }
 
 /** Construct a fresh actual platform before any Game owner retains its host.
  * The logical ID is allocated once and stays stable; its callback returns that
  * private retained capability's ID rather than a guessed known-success value. */
-export function createBrowserGameCrtPlatform(options: { readonly processInputs?: NativeWin32ProcessInputSelection } = {}): NativeRuntimePlatform {
+export function createBrowserGameCrtPlatform(options: { readonly processInputs?: NativeWin32ProcessInputSelection;
+  readonly threadStack?: Readonly<{ reservationBytes: number }> } = {}): NativeRuntimePlatform {
   if (nextLogicalThreadId > 0xffffffff) throw new Error('Browser Game CRT logical thread-ID space exhausted');
   const thread = Object.freeze({ capability: Object.freeze({}), logicalId: nextLogicalThreadId++ });
   const identity = Object.freeze({});
-  const { processInputs } = options;
+  const { processInputs, threadStack } = options;
+  const stackSelection: NativeX86ThreadStackSelection | undefined = threadStack === undefined ? undefined : Object.freeze({
+    threadCapability: thread.capability, reservationBytes: threadStack.reservationBytes, addressModel: 'opaque-relative',
+    initialRegisters: 'unknown', initialFs0: 'unknown',
+  });
   const process = processInputs === undefined ? undefined : retainNativeWin32ProcessInputSelection(processInputs);
-  const abi: BrowserGameCrtPlatformProfile['abi'] = process === undefined ? browserGameCrtAbiProfile : Object.freeze({
+  const baseAbi = process === undefined ? browserGameCrtAbiProfile : Object.freeze({
     ...browserGameCrtAbiProfile, profile: 'browser-game-crt-virtual-win32-nt6.1-process-inputs-v2',
     commandLineProvided: process.commandLineA !== undefined, environmentAProvided: process.environmentA !== undefined,
     environmentWProvided: process.environmentW !== undefined, processBufferAlignment: 4,
     commandLineLifetime: 'stable-process-buffer', environmentLifetime: 'per-acquisition-os-block',
     environmentMutability: 'retained-live-buffers-no-reseed', processInputOrigin: 'declared-virtual-process',
     acpCodePage: process.acpCodePage, conversionCoverage: process.conversionCoverage, initialDirectionFlag: process.initialDirectionFlag,
+  });
+  const abi: BrowserGameCrtPlatformProfile['abi'] = stackSelection === undefined ? baseAbi : Object.freeze({
+    ...baseAbi, profile: 'browser-game-crt-virtual-win32-nt6.1-opaque-stack-v3',
+    commandLineProvided: process?.commandLineA !== undefined, environmentAProvided: process?.environmentA !== undefined,
+    environmentWProvided: process?.environmentW !== undefined, stackAddressModel: stackSelection.addressModel,
+    stackReservationBytes: stackSelection.reservationBytes, initialStackRegisters: stackSelection.initialRegisters,
+    initialFs0: stackSelection.initialFs0,
   });
   let platform: NativeRuntimePlatform | null = null;
   const currentThreadId = (): NativeValue<number> => {
@@ -108,9 +135,12 @@ export function createBrowserGameCrtPlatform(options: { readonly processInputs?:
     osVersion: browserGameCrtAbiProfile.virtualOsVersion,
     entropy: Object.freeze({ currentThreadId }),
     processInputs: process,
+    threadStack: stackSelection,
   });
   platform = new NativeRuntimePlatform({ engineCrtServices: services });
-  providers.set(platform, Object.freeze({ identity, abi, thread,
+  const retainedStack = stackSelection === undefined ? undefined : NativeRuntimePlatform.threadStackSelectionForPlatform(platform);
+  if (retainedStack && !retainedStack.known) throw new Error(retainedStack.reason);
+  providers.set(platform, Object.freeze({ identity, abi, thread, threadStack: retainedStack?.known ? retainedStack.value : undefined,
     processInputs: process === undefined ? undefined : Object.freeze({ identity: Object.freeze({}), selection: process }) }));
   return platform;
 }

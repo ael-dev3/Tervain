@@ -1,0 +1,16 @@
+2046f891 | 53 | PUSH EBX
+2046f892 | 51 | PUSH ECX
+2046f893 | bb402c7b20 | MOV EBX,0x207b2c40
+2046f898 | 8b4c240c | MOV ECX,dword ptr [ESP + 0xc]
+2046f89c | 894b08 | MOV dword ptr [EBX + 0x8],ECX
+2046f89f | 894304 | MOV dword ptr [EBX + 0x4],EAX
+2046f8a2 | 896b0c | MOV dword ptr [EBX + 0xc],EBP
+2046f8a5 | 55 | PUSH EBP
+2046f8a6 | 51 | PUSH ECX
+2046f8a7 | 50 | PUSH EAX
+2046f8a8 | 58 | POP EAX
+2046f8a9 | 59 | POP ECX
+2046f8aa | 5d | POP EBP
+2046f8ab | 59 | POP ECX
+2046f8ac | 5b | POP EBX
+2046f8ad | c20400 | RET 0x4

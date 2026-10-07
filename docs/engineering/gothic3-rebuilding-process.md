@@ -7583,3 +7583,116 @@ typechecking and the final production build passed with 436 modules. The existin
 large-chunk warning remains. The documentation audit passed 381 relative links
 and 42 Markdown anchors; whitespace review passed. These are static source and
 build results, with no new browser interaction or performance observation.
+
+### Confirmed publication of checkpoint 104
+
+[PR 69](https://github.com/ael-dev3/Tervain/pull/69) merged reviewed head
+`646bb8d4be70e775d3c5d289a715c585beac6036` into main commit
+`15dfc38a6736b5b7883d23cb9e038f15bcbdb8d4` on 7 October 2026.
+The [PR run 37625619891](https://github.com/ael-dev3/Tervain/actions/runs/37625619891)
+and [publication run 37626377654](https://github.com/ael-dev3/Tervain/actions/runs/37626377654)
+passed the existing 2,409 scenarios in 230 files and built 436 modules.
+Pages deployment `6910905458` succeeded for that exact main commit. All three
+routes returned HTTP 200; their entry bundles and the NPC service bundle
+matched the downloaded artifact from the successful main run byte for byte.
+This verifies the published version and its static checks. Full CRT startup,
+native NPC activation and campaign completion remain unfinished.
+
+## 105. Own the Game I/O startup stack and SEH prolog
+
+The next original caller operation is `CALL204742ff` at `204678ce`, followed
+by a result test at `204678d3`. Its callee first calls `__SEH_prolog4` before
+reaching `GetStartupInfoA`. A temporary byte buffer and a pointer codec cannot
+supply the original register, stack, return-slot, FS and cookie/XOR relations.
+This checkpoint connects that bounded source prefix to a retained virtual x86
+machine state on the actual Game platform.
+
+### Capture original source and preserve genuine gaps
+
+```powershell
+python -B scripts/gothic3_game_io_startup_source.py --study '<LOCAL_GOTHIC3_STUDY>' --repo . --output assets/gothic3/game-io-startup
+```
+
+The [package](../../assets/gothic3/game-io-startup/README.md) retains 13
+cataloged bodies, 516 original instruction rows and 1,610 instruction bytes.
+Three bodies reuse the unchanged continuation source paths; ten add original
+C/ASM pairs containing 298 rows and 959 bytes. The manifest pins the final
+producer, actually loaded helpers, exact original inputs and prior packages.
+Earlier Game CRT, continuation and memcpy packages remain unchanged.
+
+The two readonly EH4 scopes are `206e8e90` and `206e8e70`, each 28 bytes.
+Only the I/O scope becomes a new live Game image alias. Two ranges totaling
+14 bytes at `20474528`–`20474536` have genuine original C ENTRY, catalog and
+ASM gaps. They are retained as PE-only evidence. Manual opcode interpretations
+are labeled inference and do not authorize runtime filter/handler execution.
+The captured exception closure and section-initializer scope remain context.
+
+### Retain machine words and their physical aliases
+
+[`NativeX86ThreadStack`](../../src/gothic3/native-x86-thread-stack.ts) owns one
+reserved physical stack and register/FS bank for the selected logical thread.
+The production [factory selection](../../src/gothic3/browser-npc-entity-services.ts)
+reserves 4,096 bytes before the Game graph is constructed. The optional v3
+selection uses opaque relative stack addresses, unknown incoming registers
+and unknown incoming `FS:[0]`. Numeric runtime Windows addresses are not
+invented. Default profiles without this service keep their previous boundary.
+
+Private words retain current byte values, bit masks and captured source,
+relative-address or XOR provenance. Physical DWORD stores preserve those
+values/masks in aliased storage; overwritten or externally changed cells cannot
+reuse stale expression authority. XOR of the same captured word with itself
+produces known zero. Cookie reversal needs the captured key relation; a changed
+current cookie cannot authorize the old expression. Source VAs identify
+captured code/image capabilities while numeric runtime pointer masks remain
+unknown. The ordinary source prolog requires no exception dispatch.
+
+### Connect the actual caller and source frame
+
+[`NativeCrtBootstrap`](../../src/gothic3/native-crt-bootstrap.ts) retains the
+I/O owner before attach starts, then issues a private permit only around its
+reached `204678ce` call. The permit verifies the actual same-CRT bootstrap,
+running attach, active source scope and current lower call. Descriptive progress
+does not supply that permit. The [I/O owner](../../src/gothic3/native-game-crt-ioinit.ts)
+executes the incoming CALL, two argument PUSHes, prolog CALL, all 21 original
+prolog instructions and four subsequent I/O instructions: 29 source rows in
+total. Every operation rechecks its actual controller and caller authority.
+
+For entry ESP `S`, the resulting frame has `EBP=S-4`, returned prolog
+`ESP=EBP-0x74` and published `FS:[0]=EBP-0x10`. The original prolog saves
+inherited EBP/EBX/ESI/EDI and prior FS, reads current canonical Game cookie
+`207b2314`, encodes the scope with that captured word, and stores the frame
+cookie/XOR relation and saved ESP. Its RET consumes the transferred private
+`2047430b` continuation. The following I/O prefix writes try level zero and
+pushes the actual `EBP-0x64` address of its 68-byte STARTUPINFOA alias.
+
+The next boundary is `GetStartupInfoA` at `20474314`/IAT `207d7c1c`, before
+the writer call. Unknown interruption retains every applied store, published
+FS registration, saved register word, physical alias and outstanding caller
+slot. It does not replay the prefix, dispatch a native exception or execute
+the epilog. The incoming `204678d3` return slot must remain live through the
+final `ioInit` RET at `2047453e`; the separate epilog RET cannot retire it early.
+
+### Continue toward complete startup and gameplay
+
+Full I/O still needs the owned STARTUPINFOA writer, inherited and standard
+handle capabilities, current I/O blocks/count, Game calloc, per-record sections,
+native exception paths and the source epilog/final return. The caller's result
+branch, argument/MBC construction, environment vectors, full C/C++ initializer
+traversal, module entry, property factories and native NPC activation remain
+required. This prefix supplies a prerequisite for those paths; it does not
+establish a finishable campaign.
+
+Local validation uses whole-tree typechecking, the production build, independent
+source/ownership reviews and link/diff audits. No new test cases or local test
+execution are introduced. Runtime or browser observations are recorded only
+when actually performed; source inspection alone does not establish fidelity.
+
+Independent original-source, source-admission, provider and caller integration
+reviews passed. Review corrected physical storage checks and made stack/I/O
+snapshots copy descriptions without exposing the private writer alias or changing
+word records. The final production build passed TypeScript checking and built
+441 modules. The existing large-chunk warning remains. The documentation audit
+passed 389 relative links and 43 Markdown anchors; diff whitespace review passed.
+All 24 package outputs regenerate identically, and 885 files across eight earlier
+source packages remain byte-identical. These are source and build results;
+no new browser interaction, native execution or campaign completion is claimed.

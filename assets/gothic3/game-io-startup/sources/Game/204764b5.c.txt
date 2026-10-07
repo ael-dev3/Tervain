@@ -1,0 +1,17 @@
+/* ENTRY 204764b5 | _EH4_TransferToHandler | STATUS decompiled | 2 ms */
+
+/* Library Function - Single Match
+    @_EH4_TransferToHandler@8
+
+   Library: Visual Studio 2005 Release
+   __fastcall _EH4_TransferToHandler,8 */
+
+void __fastcall _EH4_TransferToHandler(code *UNRECOVERED_JUMPTABLE)
+
+{
+  __NLG_Notify(1);
+                    /* WARNING: Could not recover jumptable at 0x204764cc. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  (*UNRECOVERED_JUMPTABLE)();
+  return;
+}

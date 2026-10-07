@@ -622,3 +622,28 @@ selected browser inputs, the next expected call is I/O initialization; its SEH
 frame and later argument, environment-vector and full initializer owners remain
 unfinished. See [checkpoint 104](../../docs/engineering/gothic3-rebuilding-process.md#104-own-the-game-command-line-and-environment-prefix)
 for ownership, reproduction, source-review and integration limits.
+
+## Game I/O startup frame and source context
+
+Preserve the finalized Game CRT and continuation packages, then generate this
+separate package:
+
+```powershell
+python -B scripts/gothic3_game_io_startup_source.py --study '<LOCAL_DESKTOP_STUDY>' --repo . --output assets/gothic3/game-io-startup
+```
+
+The [I/O source package](../../assets/gothic3/game-io-startup/README.md) captures
+13 cataloged bodies, 516 original rows and 1,610 instruction bytes. Three bodies
+reuse unchanged continuation paths; ten add original C/ASM pairs. Two 28-byte
+EH4 scopes and 14 separately labeled PE-only bytes preserve original source
+gaps. Manual opcode interpretations do not create original ASM or authorize
+exception execution.
+
+The explicit browser v3 stack selection reserves 4,096 bytes on the same
+logical thread, with unknown incoming registers and FS state. The connected
+I/O owner executes the incoming CALL, original SEH prolog and startup-info
+argument prefix. It retains current byte masks, captured cookie/XOR relations,
+saved registers, return slots and published FS registration. Its next boundary
+is `GetStartupInfoA` at `20474314`, before any writer call. Full I/O, native
+exceptions, epilog/return, argument construction and whole-module startup remain
+unfinished. See [checkpoint 105](../../docs/engineering/gothic3-rebuilding-process.md#105-own-the-game-io-startup-stack-and-seh-prolog).

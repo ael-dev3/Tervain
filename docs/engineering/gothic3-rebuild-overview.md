@@ -11,17 +11,18 @@ of Gothic 3's endings. A scene viewer, a decoded model or a successfully read
 native data structure is a useful component milestone, but it does not by
 itself establish a playable reconstruction.
 
-The latest completed publication receipt recorded here on 7 October 2026 is 103,
-merged in [PR 68](https://github.com/ael-dev3/Tervain/pull/68) at commit
-`af05f7656d66ab8d8a004e7a3d56ec2c033774ab` and published by successful
-[workflow run 37620977457](https://github.com/ael-dev3/Tervain/actions/runs/37620977457).
-It supplies a declared virtual Win32 environment before creating the NPC
-platform and enters the original Game attach prerequisites in source order.
+The latest completed publication receipt recorded here on 7 October 2026 is 104,
+merged in [PR 69](https://github.com/ael-dev3/Tervain/pull/69) at commit
+`15dfc38a6736b5b7883d23cb9e038f15bcbdb8d4` and published by successful
+[workflow run 37626377654](https://github.com/ael-dev3/Tervain/actions/runs/37626377654).
+It retains declared virtual process buffers and implements the original Game
+environment routine and its scalar byte-copy path.
 The current source extension,
-[checkpoint 104](gothic3-rebuilding-process.md#104-own-the-game-command-line-and-environment-prefix),
-adds retained process buffers, the original environment routine and its scalar
-byte-copy path. Under the selected browser inputs, the next expected boundary
-is I/O initialization. The Game owner retains its actual lower results and
+[checkpoint 105](gothic3-rebuilding-process.md#105-own-the-game-io-startup-stack-and-seh-prolog),
+adds a retained virtual x86 stack, registers and FS registration, then connects
+the original I/O caller, SEH prolog and startup-info argument prefix. Under the
+selected browser inputs, the next expected boundary is the `GetStartupInfoA`
+writer at `20474314`. The Game owner retains its actual lower results and
 applied stores; the later property-ID initializer remains unentered while
 attach is incomplete. Native NPC activation and whole-module startup remain
 unfinished.
@@ -444,6 +445,17 @@ Their [source packages](../../assets/gothic3/game-attach-continuation/README.md)
 include later I/O, argument and initializer evidence for review. Capturing a
 callee or a full initializer table supplies source context; each reached
 operation still needs its actual runtime owner.
+
+The [I/O startup package](../../assets/gothic3/game-io-startup/README.md) reads
+those finalized packages without modifying them:
+
+```powershell
+python -B scripts/gothic3_game_io_startup_source.py --study $gothicStudy --repo . --output assets/gothic3/game-io-startup
+```
+
+It preserves original cataloged bodies, readonly scope bytes and separately
+marked PE-only gaps. Its new live consumer owns the ordinary stack/prolog
+prefix; exception handlers and later I/O operations remain source context.
 
 ### Record a reviewable result
 
