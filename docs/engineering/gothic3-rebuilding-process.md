@@ -7450,3 +7450,136 @@ hash mismatches; full physical tables and selected cold ranges also matched.
 The four-document link review passed 369 relative links and 41 Markdown anchors.
 These are source, integration and build receipts; no new browser execution or
 performance result is claimed.
+
+### Confirmed publication of checkpoint 103
+
+[PR 68](https://github.com/ael-dev3/Tervain/pull/68) merged reviewed head
+`555b1aedd6899bb93912c7366a3ff35c85b744c5` into main commit
+`af05f7656d66ab8d8a004e7a3d56ec2c033774ab`. The corrected PR check
+[37620281526](https://github.com/ael-dev3/Tervain/actions/runs/37620281526)
+passed all 2,409 existing cases across 230 files and built 430 modules. The
+normal main publication
+[37620977457](https://github.com/ael-dev3/Tervain/actions/runs/37620977457)
+completed successfully; Pages deployment `6909953497` identifies that exact
+main commit. Repository-wide Actions and workflow-trigger review preceded
+the remote steps. No workflow was dispatched, rerun or changed.
+
+HTTP checks returned 200 for `/Tervain/`, `/Tervain/gothic3/` and
+`/Tervain/gothic3-local/`. Served entry and NPC-service bundle hashes matched
+the downloaded successful-run artifact, including the declared ABI and retained
+incomplete-attach markers. These checks establish which build was published;
+browser interaction and campaign completion were not exercised in this receipt.
+
+## 104. Own the Game command-line and environment prefix
+
+Checkpoint 104 continues the original Game CRT attach immediately after
+`preCInit204737dd`. It supplies explicit virtual process inputs and implements
+`crtGetEnvironmentStringsA20476835`, including its reached scalar
+`memcpy20463ed0` path. The selected fresh browser graph is expected to reach
+the I/O call at `204678ce`; attach remains incomplete there.
+
+### Capture the next source without changing the earlier package
+
+Two separate source producers retain the original PE bytes, assembly rows,
+catalog extents, C references and dependency manifests:
+
+```powershell
+python -B scripts/gothic3_game_memcpy_supplement.py --study '<LOCAL_GOTHIC3_STUDY>' --repo . --output assets/gothic3/game-memcpy
+python -B scripts/gothic3_game_attach_continuation.py --study '<LOCAL_GOTHIC3_STUDY>' --repo . --output assets/gothic3/game-attach-continuation
+```
+
+The [continuation package](../../assets/gothic3/game-attach-continuation/README.md)
+contains 39 methods, 2,167 instructions and 6,256 bytes; two methods reuse
+unchanged Game CRT receipts. Five initializers have original ASM-only evidence.
+It also retains 19 cold ranges, seven constants and 30 exact imports. The full
+C and C++ tables remain source context. Their captured cells do not authorize
+runtime traversal or overwrite already canonical Navigation/ScriptAdmin aliases.
+
+The [memcpy supplement](../../assets/gothic3/game-memcpy/README.md) captures
+two vector/helper bodies with 129 instructions and 356 bytes. Six readonly
+code ranges contain 32 DWORDs: 30 actual scalar targets and two unreachable
+words overlapping instruction tails/padding. Negative selectors and physical
+aliases are preserved. Vector execution remains an explicit runtime gap.
+
+Independent original-source audits and separate regeneration checked both
+landed packages with zero mismatches. All 285 existing Game CRT files remained
+byte-identical. The continuation manifest depends on the finalized supplement;
+the supplement has no reverse manifest dependency.
+
+### Retain process inputs and their real buffer lifetimes
+
+[`browser-game-process-inputs.ts`](../../src/gothic3/browser-game-process-inputs.ts)
+declares the command line `"Gothic3.exe"` and environment entry
+`GOTHIC3_BROWSER=1`, with the original required NUL terminators. These are
+application inputs, not observations of the installed process. The factory's
+optional v2 profile copies and freezes every supplied byte/mask array and
+nested policy before retaining it. The default v1 prefix profile is preserved.
+
+[`NativeRuntimePlatform`](../../src/gothic3/native-runtime-platform.ts)
+owns the actual endpoint descriptor and process-buffer capabilities. A command
+line keeps stable process lifetime. Each A/W environment acquisition issues
+its own OS block; successful nonzero release expires that block. A zero release
+result leaves it live, and the native environment routine ignores that known
+BOOL. Descriptive records, foreign buffers, interior release pointers and
+replaced public accessors supply no ownership authority. Logical thread
+LastError changes only when the selected outcome declares an effect.
+
+The explicit ACP1252 provider supports ASCII with positive character counts.
+Query and fill reread the retained live UTF16 source, including its NULs, and
+fill validates the actual Game heap destination. Reached output writes acquire
+known masks; an untouched suffix keeps its existing masks. Uncovered encodings
+remain unknown. DLL-entry security-cookie entropy and general NLS behavior
+still require separate implementations.
+
+### Preserve native environment branches and scalar writes
+
+[`NativeGameCrtEnvironment`](../../src/gothic3/native-game-crt-environment.ts)
+reads and writes the actual Game mode cell `207d11b0`. From mode 0, a non-NULL
+W acquisition writes mode 1; a NULL result changes mode to 2 only for actual
+LastError `0x78`. Other outcomes follow current native mode reads. W scans,
+conversion query, Game malloc, conversion fill, zero-result free and W release
+occur in source order. An empty W block has the original count of one character.
+The A path scans its own block, allocates from Game's current heap, copies,
+then releases the OS block. Known allocation/conversion failures follow the
+original cleanup; an unknown lower operation preserves its completed prefix.
+
+[`NativeGameCrtByteCopy`](../../src/gothic3/native-game-crt-byte-copy.ts)
+uses actual canonical geometry, current dispatch words, byte values and masks.
+It preserves overlap direction, scalar alignment/unrolled/tail transfers and
+backward `STD`/`REP MOVSD`/`CLD` order. An interruption after `STD` retains DF 1.
+Forward copies of at least 256 bytes read the current Game CPU flag before
+selecting a scalar/vector path; a reached unowned vector branch stays unknown.
+Each completed call can be invoked again through a fresh private frame. An
+interrupted or reentered owner cannot replay its partial work. This checkpoint
+admits active Game attach invocations; future atexit/draining use remains a gap.
+
+### Connect the original caller and retain the next boundary
+
+[`NativeCrtBootstrap`](../../src/gothic3/native-crt-bootstrap.ts) calls the
+actual `GetCommandLineA` endpoint at `204678b9`/IAT `207d7ca0` and stores its
+returned pointer at `204678bf` into canonical `207d2b60`. It calls the retained
+environment owner at `204678c4`, then stores the returned pointer at `204678c9`
+into canonical `207d0a74`. Both stores include NULL; the original caller has
+no intervening success test. Progress describes those actual returns and
+stores without inventing numeric x86 addresses for browser pointer capabilities.
+
+The next call is `ioInit204742ff` at `204678ce`. Its first lower dependency is
+`SEHprolog4` at `20474306`, before `GetStartupInfoA`. Actual exception-frame and
+scope ownership, startup handles, I/O records, argument/MBC construction,
+environment vectors, C/C++ callbacks and teardown remain required. The attach
+count is not incremented and the property-ID initializer remains unentered.
+The same platform continues to own the module image, heap and process buffers.
+
+Local review uses whole-tree typechecking, the production build, original-source
+and link/diff audits. No new cases or local test execution are introduced by
+this checkpoint. A published build does not establish full startup, NPC
+activation, browser fidelity or a finishable campaign.
+
+Independent source, provider, environment/copy and caller integration reviews
+passed. The physical-access review corrected helper/DataView shadow gaps by
+admitting each new Game image access through the retained actual root, preserving
+its native address geometry and aliases without copying or reseeding. Whole-tree
+typechecking and the final production build passed with 436 modules. The existing
+large-chunk warning remains. The documentation audit passed 381 relative links
+and 42 Markdown anchors; whitespace review passed. These are static source and
+build results, with no new browser interaction or performance observation.

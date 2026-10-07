@@ -7,6 +7,7 @@ import { NativeReflectionController } from './entity-reflection';
 import { monotonicClockMilliseconds } from './world-clock';
 import { createBrowserNpcRuntimeAdminOwner } from './native-runtime-platform';
 import { createBrowserGameCrtPlatform } from './browser-game-crt-platform';
+import { browserGameProcessInputs } from './browser-game-process-inputs';
 import { nativeEntityDefaultComparatorImportIdentity } from './native-entity-heap';
 import { BrowserNavigationApplicationOwner } from './browser-npc-navigation-owner';
 import type { BrowserSessionModeOwner } from './browser-npc-navigation-owner';
@@ -108,7 +109,7 @@ export interface BrowserNpcEntityServiceOwner {
 }
 
 export function createBrowserNpcEntityServices(platform: BrowserNpcEntityPlatform): BrowserNpcEntityServiceOwner {
-  const runtimeAdmins = createBrowserNpcRuntimeAdminOwner(createBrowserGameCrtPlatform());
+  const runtimeAdmins = createBrowserNpcRuntimeAdminOwner(createBrowserGameCrtPlatform({ processInputs: browserGameProcessInputs }));
   const scriptAdminStartup = createBrowserScriptAdminStartup(runtimeAdmins.platform, runtimeAdmins.memory, runtimeAdmins.error);
   const navigationNames = new BrowserNavigationNotificationNames(runtimeAdmins.memory, runtimeAdmins.platform);
   const initializedNavigationNames = navigationNames.initialize();

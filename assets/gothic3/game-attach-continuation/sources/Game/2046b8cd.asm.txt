@@ -1,0 +1,4 @@
+2046b8cd | 6a0d | PUSH 0xd
+2046b8cf | e8e87d0000 | CALL 0x204736bc
+2046b8d4 | 59 | POP ECX
+2046b8d5 | c3 | RET

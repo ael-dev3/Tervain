@@ -9,8 +9,9 @@ import type { NativeMemoryBacking } from './native-memory-admin';
 import type { NativeByteGeometryHost, NativeBytePointer, NativePointerGeometry } from './native-pointer-geometry';
 import { admitNativeGameCrtSource, nativeGameCrtSourceProfile, nativeGameImagePins, nativeGameImageReceipt } from './native-game-crt-profile';
 import type { NativeCrtModule, NativeCrtSourceProfile, NativeCrtSourceRules } from './native-game-crt-profile';
-import { NativeWin32PlatformException } from './native-runtime-platform';
+import { NativeWin32PlatformException, NativeRuntimePlatform } from './native-runtime-platform';
 import type { NativeWin32HeapCapability, NativeWin32ModuleCapability, NativeCrtPointerProcedure, NativeCrtSectionProcedure, NativeCrtLocalProcedure, NativeCrtLocalGetProcedure, NativeCrtPlatformProcedure } from './native-runtime-platform';
+import type { NativeWin32ProcessInputEndpoints } from './native-win32-process-inputs';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = (reason: string): { known: false; reason: string } => ({ known: false, reason });
@@ -96,6 +97,7 @@ function bootstrapStorage(label: string, address: string, bytes: number, raw = '
 }
 
 export interface NativeEngineCrtPlatform {
+  readonly processInputEndpoints?: Readonly<NativeWin32ProcessInputEndpoints>;
   registerCanonicalGameGuidLiteral?(owner: NativeGameCrtOwner): NativeValue<NativeBytePointer>;
   createWin32Heap(owner: object, options: 0 | 1, initialBytes: 4096, maximumBytes: 0): NativeValue<NativeWin32HeapCapability | null>;
   win32HeapAlloc(heap: NativeWin32HeapCapability, flags: 0 | 8, bytes: number): NativeValue<NativeMemoryBacking | null>;
@@ -159,6 +161,37 @@ export class NativeModuleCrtOwner {
     try { return known(owner.#retainedImageStorage(label)); }
     catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
   }
+  /** The actual current Game owner and its private allocator records supply
+   * the destination heap proof; a matching caller capability cannot do so. */
+  static canonicalGameHeapForPlatform(platform: NativeEngineCrtPlatform,
+    pointer: NativeBytePointer): NativeValue<NativeWin32HeapCapability> {
+    const owner = gameOwners.get(platform);
+    return owner ? NativeModuleCrtOwner.canonicalGameHeapForAllocation(owner, platform, pointer)
+      : unknown('Actual retained same-platform Game CRT owner required');
+  }
+  static canonicalGameHeapForAllocation(owner: NativeModuleCrtOwner, platform: NativeEngineCrtPlatform,
+    pointer: NativeBytePointer): NativeValue<NativeWin32HeapCapability> {
+    if (!NativeModuleCrtOwner.isConstructedOwner(owner) || owner.module !== 'Game' || owner.host.platform !== platform || owner.#heapTerminated) {
+      return unknown('Actual live same-platform Game CRT allocation owner required');
+    }
+    try {
+      const retained = Object.freeze({ fields: pointer.fields, offset: pointer.offset });
+      const live = NativeRuntimePlatform.canonicalNativePointerAccessForPlatform(platform as NativeRuntimePlatform, retained, 0, 0);
+      if (!live.known) return live;
+      const backing = retained.fields.backing;
+      if ('region' in backing || !owner.#allocations.has(backing) || backing.freed) {
+        return unknown('Actual allocation returned by this Game CRT owner required');
+      }
+      const heapFields = owner.#retainedImageStorage('crtHeapHandle');
+      const heapAccess = NativeRuntimePlatform.canonicalGameModuleImageAccessForPlatform(
+        platform as NativeRuntimePlatform, owner, 'crtHeapHandle', 0, 4);
+      if (!heapAccess.known) return heapAccess;
+      const heap = NativeHeapObjectViews.prototype.pointer.call(heapFields, 0).get() as NativeWin32HeapCapability | null;
+      if (owner.#retainedImageStorage('crtHeapHandle') !== heapFields) return unknown('Retained Game heap-handle image changed during its actual load');
+      return heap && heap.owner === owner.identity && owner.#heaps.has(heap) ? known(heap)
+        : unknown('Actual current same-owner Game CRT heap capability required');
+    } catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
+  }
   readonly module: NativeCrtModule;
   readonly sourceProfile: NativeCrtSourceProfile;
   readonly identity = Object.freeze({});
@@ -180,12 +213,12 @@ export class NativeModuleCrtOwner {
   private heapPhase: InitPhase = 'cold';
   private locksPhase: InitPhase = 'cold';
   private locksTerminated = false;
-  private heapTerminated = false;
+  #heapTerminated = false;
   private boundary: string | null = null;
   private readonly failedOperations = new Set<string | object>();
   private readonly failedReleases = new WeakSet<NativeMemoryBacking>();
-  private readonly heaps = new Set<NativeWin32HeapCapability>();
-  private readonly allocations = new Set<NativeMemoryBacking>();
+  readonly #heaps = new Set<NativeWin32HeapCapability>();
+  readonly #allocations = new Set<NativeMemoryBacking>();
   private readonly dynamicSections = new Map<NativeHeapObjectViews, NativeMemoryBacking>();
   private readonly trace: string[] = [];
   private readonly fallbackSectionProcedure: NativeCrtSectionProcedure = Object.freeze({ identity: Object.freeze({}),
@@ -247,6 +280,10 @@ export class NativeModuleCrtOwner {
         fields = new NativeHeapObjectViews({ identity: Object.freeze({}), bytes: raw, knownMask: new Uint8Array(receipt.bytes).fill(255), freed: false });
         ranges.push({ address, fields });
       }
+      // The new allocator proof reads the current heap capability through this
+      // physical slot. Lock its object/pointer bookkeeping before publication;
+      // the underlying native bytes, masks and pointer stores stay mutable.
+      if (label === 'crtHeapHandle') Object.freeze(fields);
       this.#imageViews.set(label, fields);
       if (!this.#imageProofs.has(fields)) this.#imageProofs.set(fields, Object.freeze({
         backing: fields.backing, bytes: fields.bytes, masks: fields.knownMask, view: fields.view,
@@ -334,13 +371,13 @@ export class NativeModuleCrtOwner {
   private heap(): NativeWin32HeapCapability {
     const heap = this.physical.heapHandle.pointer<NativeWin32HeapCapability>(0).get();
     if (!heap) this.gate('__FF_MSGBANNER3067e8e6 before CRT error30 / ExitProcess255');
-    if (!this.heaps.has(heap) || heap.owner !== this.identity) throw new Error('Actual same-owner ' + this.module + ' CRT heap handle required');
+    if (!this.#heaps.has(heap) || heap.owner !== this.identity) throw new Error('Actual same-owner ' + this.module + ' CRT heap handle required');
     return heap;
   }
   private retainedHeap(operation: 'HeapFree' | 'HeapDestroy'): NativeWin32HeapCapability {
     const heap = this.physical.heapHandle.pointer<NativeWin32HeapCapability>(0).get();
     if (!heap) this.gate(operation + '(NULL) platform call');
-    if (!this.heaps.has(heap) || heap.owner !== this.identity) throw new Error('Actual same-owner ' + this.module + ' CRT heap handle required');
+    if (!this.#heaps.has(heap) || heap.owner !== this.identity) throw new Error('Actual same-owner ' + this.module + ' CRT heap handle required');
     return heap;
   }
   private errnoFields(): NativeHeapObjectViews {
@@ -394,7 +431,7 @@ export class NativeModuleCrtOwner {
       if (ptd !== null) {
         if (!(ptd instanceof NativeHeapObjectViews) || ptd.bytes.length !== 532) throw new Error('Actual live532-byte PTD required by pointer codec');
         const backing = ptd.backing;
-        if (!this.allocations.has(backing as NativeMemoryBacking) || backing.freed || ptd.bytes.buffer !== backing.bytes.buffer || ptd.bytes.byteOffset !== backing.bytes.byteOffset ||
+        if (!this.#allocations.has(backing as NativeMemoryBacking) || backing.freed || ptd.bytes.buffer !== backing.bytes.buffer || ptd.bytes.byteOffset !== backing.bytes.byteOffset ||
             ptd.knownMask.buffer !== backing.knownMask.buffer || ptd.knownMask.byteOffset !== backing.knownMask.byteOffset || ptd.knownMask.length !== 532) throw new Error('Actual same-CRT canonical PTD allocation required by pointer codec');
         const procedure = ptd.pointer<NativeCrtPointerProcedure>(direction === 'EncodePointer' ? 0x1f8 : 0x1fc).get();
         if (procedure === null) return value;
@@ -459,16 +496,16 @@ export class NativeModuleCrtOwner {
     });
   }
   initHeap(argument = 1): NativeValue<number> {
-    if (this.heapTerminated) return unknown(this.module + ' CRT heap lifetime has ended');
+    if (this.#heapTerminated) return unknown(this.module + ' CRT heap lifetime has ended');
     if (this.heapPhase === 'ready') return known(1);
     if (this.heapPhase === 'null') return known(0);
     if (this.heapPhase === 'initializing') { this.boundary ??= 'Reentrant ' + this.module + ' CRT heap initialization'; return unknown(this.boundary); }
     return this.run('heapInit3068442b', () => {
       if (!Number.isInteger(argument) || argument < 0 || argument > 0xffffffff) throw new Error('Original uint32 heap-init argument required');
-      if (this.heapTerminated) throw new Error(this.module + ' CRT heap lifetime has ended');
+      if (this.#heapTerminated) throw new Error(this.module + ' CRT heap lifetime has ended');
       this.heapPhase = 'initializing';
       const heap = this.call('HeapCreate', () => this.host.platform.createWin32Heap(this.identity, argument === 0 ? 1 : 0, 4096, 0),
-        value => { if (value) this.heaps.add(value); });
+        value => { if (value) this.#heaps.add(value); });
       this.physical.heapHandle.pointer<NativeWin32HeapCapability>(0).set(heap); this.note('heapHandle.publish');
       if (heap === null) { this.heapPhase = 'null'; return 0; }
       if (heap.owner !== this.identity) throw new Error('HeapCreate returned a different physical heap owner');
@@ -509,7 +546,7 @@ export class NativeModuleCrtOwner {
       const heap = this.heap(), selector = this.physical.heapSelector.readUnsigned(0);
       if (selector !== 1) this.gate(selector === 3 ? 'small-block malloc30672e03' : 'non-NT rounded CRT malloc profile');
       const backing = this.call('HeapAlloc(' + Math.max(1, bytes) + ')', () => this.host.platform.win32HeapAlloc(heap, 0, Math.max(1, bytes)),
-        value => { if (value) this.allocations.add(value); });
+        value => { if (value) this.#allocations.add(value); });
       if (backing) {
         if (backing.freed || backing.bytes.length < Math.max(1, bytes) || backing.knownMask.length !== backing.bytes.length) {
           throw new Error('Actual retained HeapAlloc storage and masks required');
@@ -550,8 +587,8 @@ export class NativeModuleCrtOwner {
           if (selector === 3) this.gate('callocImpl30695a7f small-block allocation under lock4');
           const heap = this.physical.heapHandle.pointer<NativeWin32HeapCapability>(0).get();
           if (heap === null) this.gate('callocImpl30695a7f HeapAlloc(NULL,8) platform call');
-          if (!this.heaps.has(heap) || heap.owner !== this.identity) throw new Error('Actual same-owner calloc HeapAlloc handle required');
-          backing = this.call('HeapAlloc(' + bytes + ',8)', () => this.host.platform.win32HeapAlloc(heap, 8, bytes), value => { if (value) this.allocations.add(value); });
+          if (!this.#heaps.has(heap) || heap.owner !== this.identity) throw new Error('Actual same-owner calloc HeapAlloc handle required');
+          backing = this.call('HeapAlloc(' + bytes + ',8)', () => this.host.platform.win32HeapAlloc(heap, 8, bytes), value => { if (value) this.#allocations.add(value); });
           if (backing || this.physical.newMode.readUnsigned(0) === 0) break;
           const retry = this.call('callNewHandler306824b9', () => this.host.callNewHandler?.(bytes) ?? unknown('Original calloc new-handler retry required'));
           if (retry === 0) break;
@@ -664,20 +701,20 @@ export class NativeModuleCrtOwner {
     }, true);
   }
   terminateHeap(): NativeValue<void> {
-    if (this.heapTerminated) return known(undefined);
+    if (this.#heapTerminated) return known(undefined);
     return this.run('heapTerm30684485', () => {
       if (this.physical.heapSelector.readUnsigned(0) === 3) this.gate('small-block heap termination30684491');
       const heap = this.retainedHeap('HeapDestroy');
       this.call('HeapDestroy', () => this.host.platform.win32HeapDestroy(heap));
       this.physical.heapHandle.pointer<NativeWin32HeapCapability>(0).set(null); this.note('heapHandle.clear');
-      this.heapTerminated = true;
+      this.#heapTerminated = true;
     }, true);
   }
   snapshot() {
     return Object.freeze({ heapPhase: this.boundary && this.heapPhase === 'initializing' ? 'blocked' : this.heapPhase,
       locksPhase: this.boundary && this.locksPhase === 'initializing' ? 'blocked' : this.locksPhase,
-      boundary: this.boundary, locksTerminated: this.locksTerminated, heapTerminated: this.heapTerminated,
-      physical: this.physical, heaps: Object.freeze([...this.heaps]), allocations: Object.freeze([...this.allocations]),
+      boundary: this.boundary, locksTerminated: this.locksTerminated, heapTerminated: this.#heapTerminated,
+      physical: this.physical, heaps: Object.freeze([...this.#heaps]), allocations: Object.freeze([...this.#allocations]),
       dynamicSections: Object.freeze([...this.dynamicSections].map(([fields, backing]) => Object.freeze({ fields, backing }))),
       trace: Object.freeze(this.trace.slice()) });
   }

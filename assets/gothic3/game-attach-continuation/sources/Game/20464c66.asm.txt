@@ -1,0 +1,42 @@
+20464c66 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+20464c6a | 85c0 | TEST EAX,EAX
+20464c6c | 56 | PUSH ESI
+20464c6d | 8bf1 | MOV ESI,ECX
+20464c6f | c6460c00 | MOV byte ptr [ESI + 0xc],0x0
+20464c73 | 7563 | JNZ 0x20464cd8
+20464c75 | e8b1330000 | CALL 0x2046802b
+20464c7a | 894608 | MOV dword ptr [ESI + 0x8],EAX
+20464c7d | 8b486c | MOV ECX,dword ptr [EAX + 0x6c]
+20464c80 | 890e | MOV dword ptr [ESI],ECX
+20464c82 | 8b4868 | MOV ECX,dword ptr [EAX + 0x68]
+20464c85 | 894e04 | MOV dword ptr [ESI + 0x4],ECX
+20464c88 | 8b0e | MOV ECX,dword ptr [ESI]
+20464c8a | 3b0d282c7b20 | CMP ECX,dword ptr [0x207b2c28]
+20464c90 | 7412 | JZ 0x20464ca4
+20464c92 | 8b0d442b7b20 | MOV ECX,dword ptr [0x207b2b44]
+20464c98 | 854870 | TEST dword ptr [EAX + 0x70],ECX
+20464c9b | 7507 | JNZ 0x20464ca4
+20464c9d | e83b730000 | CALL 0x2046bfdd
+20464ca2 | 8906 | MOV dword ptr [ESI],EAX
+20464ca4 | 8b4604 | MOV EAX,dword ptr [ESI + 0x4]
+20464ca7 | 3b05482a7b20 | CMP EAX,dword ptr [0x207b2a48]
+20464cad | 7416 | JZ 0x20464cc5
+20464caf | 8b4608 | MOV EAX,dword ptr [ESI + 0x8]
+20464cb2 | 8b0d442b7b20 | MOV ECX,dword ptr [0x207b2b44]
+20464cb8 | 854870 | TEST dword ptr [EAX + 0x70],ECX
+20464cbb | 7508 | JNZ 0x20464cc5
+20464cbd | e8706b0000 | CALL 0x2046b832
+20464cc2 | 894604 | MOV dword ptr [ESI + 0x4],EAX
+20464cc5 | 8b4608 | MOV EAX,dword ptr [ESI + 0x8]
+20464cc8 | f6407002 | TEST byte ptr [EAX + 0x70],0x2
+20464ccc | 7514 | JNZ 0x20464ce2
+20464cce | 83487002 | OR dword ptr [EAX + 0x70],0x2
+20464cd2 | c6460c01 | MOV byte ptr [ESI + 0xc],0x1
+20464cd6 | eb0a | JMP 0x20464ce2
+20464cd8 | 8b08 | MOV ECX,dword ptr [EAX]
+20464cda | 890e | MOV dword ptr [ESI],ECX
+20464cdc | 8b4004 | MOV EAX,dword ptr [EAX + 0x4]
+20464cdf | 894604 | MOV dword ptr [ESI + 0x4],EAX
+20464ce2 | 8bc6 | MOV EAX,ESI
+20464ce4 | 5e | POP ESI
+20464ce5 | c20400 | RET 0x4

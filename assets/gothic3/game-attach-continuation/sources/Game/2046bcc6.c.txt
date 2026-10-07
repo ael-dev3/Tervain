@@ -1,0 +1,8 @@
+/* ENTRY 2046bcc6 | FUN_2046bcc6 | STATUS decompiled | 1 ms */
+
+void FUN_2046bcc6(void)
+
+{
+  FUN_204736bc(0xd);
+  return;
+}

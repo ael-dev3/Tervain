@@ -1,0 +1,20 @@
+/* ENTRY 20047000 | bTPropertyObjectType<gCLayerBase,eCProcessibleElement>::vfunction2 | STATUS decompiled | 6 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined * __thiscall bTPropertyObjectType<gCLayerBase,eCProcessibleElement>::vfunction2(void)
+
+{
+  if ((DAT_207b4588 & 1) == 0) {
+    DAT_207b4588 = DAT_207b4588 | 1;
+    _DAT_207b4584 = DAT_207b4760;
+  }
+  if ((DAT_207b4588 & 2) == 0) {
+    DAT_207b4588 = DAT_207b4588 | 2;
+    type_info::name((type_info *)&eCProcessibleElement::RTTI_Type_Descriptor,
+                    (__type_info_node *)&DAT_207d0a18);
+    bCClassNameBase::UnMangle(&DAT_207b4580);
+    _atexit((_func_4879 *)&LAB_20034649);
+  }
+  return &DAT_207b4580;
+}
