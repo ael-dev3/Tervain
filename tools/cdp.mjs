@@ -24,14 +24,14 @@ const candidates = [
   '/usr/bin/chromium',
 ].filter(Boolean);
 
-export async function openPage(url = process.env.TERVAIN_URL ?? 'http://127.0.0.1:5173/', { w = 1280, h = 720 } = {}) {
+export async function openPage(url = process.env.TERVAIN_URL ?? 'http://127.0.0.1:5173/', { w = 1280, h = 720, init = null, flags = [] } = {}) {
   const browser = candidates.find((c) => fs.existsSync(c));
   if (!browser) throw new Error('no Chrome/Edge found; set CHROME');
   const port = 9300 + Math.floor(Math.random() * 500);
   const profile = fs.mkdtempSync(path.join(os.tmpdir(), 'tervain-cdp-'));
   const browserArgs = [
     '--headless=new', '--no-sandbox', '--hide-scrollbars', '--ignore-gpu-blocklist', '--enable-unsafe-swiftshader',
-    `--remote-debugging-port=${port}`, `--user-data-dir=${profile}`, `--window-size=${w},${h}`, 'about:blank',
+    `--remote-debugging-port=${port}`, `--user-data-dir=${profile}`, `--window-size=${w},${h}`, ...flags, 'about:blank',
   ];
   if (process.platform === 'win32') browserArgs.splice(4, 0, '--use-angle=d3d11');
   const proc = spawn(browser, browserArgs, { stdio: 'ignore' });
@@ -75,6 +75,8 @@ export async function openPage(url = process.env.TERVAIN_URL ?? 'http://127.0.0.
   await send('Runtime.enable');
   await send('Page.enable');
   await send('Emulation.setDeviceMetricsOverride', { width: w, height: h, deviceScaleFactor: 1, mobile: false });
+  // Runs before any of the page's own scripts (for example, a seeded Math.random for repeatable captures).
+  if (init) await send('Page.addScriptToEvaluateOnNewDocument', { source: init });
   await send('Page.navigate', { url });
   const page = {
     async eval(js) {
@@ -86,6 +88,15 @@ export async function openPage(url = process.env.TERVAIN_URL ?? 'http://127.0.0.
       const r = await send('Page.captureScreenshot', { format: 'png' });
       fs.writeFileSync(file, Buffer.from(r.result.data, 'base64'));
       return file;
+    },
+    /** The current frame as an image buffer (png or jpeg), for piping into an encoder. */
+    async image(format = 'png', quality) {
+      const r = await send('Page.captureScreenshot', { format, ...(quality ? { quality } : {}), optimizeForSpeed: true });
+      return Buffer.from(r.result.data, 'base64');
+    },
+    /** A transparent page background, so captures keep their alpha (caption overlays). */
+    transparent() {
+      return send('Emulation.setDefaultBackgroundColorOverride', { color: { r: 0, g: 0, b: 0, a: 0 } });
     },
     key(type, code, key = code) {
       return send('Input.dispatchKeyEvent', { type, code, key, windowsVirtualKeyCode: 0 });

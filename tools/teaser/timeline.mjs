@@ -1,0 +1,128 @@
+/**
+ * The "presentable" teaser, as one timeline shared by the film, the captions, the score and the edit: the shots (where
+ * the camera goes and what happens) and what is written over them. Shot lengths are whole beats of the menu score's
+ * measured tempo, so every cut lands on the music.
+ */
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+export const FPS = 60;
+export const WIDTH = 1920;
+export const HEIGHT = 1080;
+
+const RHYTHM = fs.readFileSync(path.join(path.dirname(fileURLToPath(import.meta.url)), '../../src/presentation/menu/menuScoreRhythmData.ts'), 'utf8');
+const measured = (key) => Number(new RegExp(`"${key}":\\s*([\\d.]+)`).exec(RHYTHM)[1]);
+export const BEAT = measured('period');
+const SONG_FIRST_BEAT = measured('first');
+/** The menu score's time at its beat k. */
+export const songBeat = (k) => SONG_FIRST_BEAT + k * BEAT;
+
+/** Where the player waits when a shot should not show him (he is also hidden). */
+const OFFSTAGE = { x: -60, z: 60, yaw: 0, hidden: true };
+
+/**
+ * World shots run in the game proper (a new game in shot mode); menu shots on the title screen. Camera keys give a
+ * position and a point looked at, each as [x, metres above the ground, z], at a time in seconds within the shot;
+ * `ease` slows the move into and out of its ends. A `follow` camera rides behind the player. `preroll` seconds of the
+ * world run before the first frame; actions happen at their time within the shot (negative times fall in the
+ * preroll). `beast` places the thornback and sets its mind; `dress` puts it in its formal wear (tools/teaser/costume.mjs).
+ */
+export const SHOTS = [
+  {
+    // The new grass and the trees in the wind at the golden hour: the hero wades through the meadow by the ford,
+    // against the low sun, the grass parting where he walks.
+    id: 'golden', beats: 8, scene: 'world', hour: 17.2, player: { x: 35.2, z: 43.4, yaw: 2.4 }, preroll: 0.6,
+    camera: { ease: true, keys: [
+      { t: 0, p: [42.4, 0.8, 41.8], l: [37.0, 1.2, 40.2], fov: 46 },
+      { t: 4.5, p: [42.3, 0.82, 40.9], l: [40.6, 1.2, 37.6], fov: 43 },
+    ] },
+    actions: [{ t: -0.6, hold: 'KeyW' }],
+  },
+  {
+    // Sel writing in the ledger on the ford camp's bench, the ford running behind, the same evening.
+    id: 'ford', beats: 6, scene: 'world', hour: 17.2, player: OFFSTAGE,
+    camera: { ease: true, keys: [
+      { t: 0, p: [46.6, 1.35, 35.6], l: [44.0, 0.95, 32.6], fov: 40 },
+      { t: 4, p: [46.1, 1.3, 35.0], l: [44.0, 0.95, 32.6], fov: 37 },
+    ] },
+  },
+  {
+    // The hero, alone at the sea's edge at sunset.
+    id: 'proud', beats: 5, scene: 'world', hour: 18.5, player: { x: -266, z: 30, yaw: 4.6 },
+    camera: { ease: true, keys: [
+      { t: 0, p: [-262.8, 1.0, 31.5], l: [-268.5, 1.9, 29.6], fov: 38 },
+      { t: 3, p: [-263.2, 1.05, 31.2], l: [-268.5, 1.9, 29.6], fov: 34 },
+    ] },
+  },
+  {
+    // The thornback as it was, standing where the reveal will find it, framed the same way: the "before". Long enough
+    // to read the comment over it.
+    id: 'lurk', beats: 9, scene: 'world', hour: 16.4, player: { x: 105.57, z: -51.57, yaw: 0, hidden: true },
+    beast: { x: 108.4, z: -54.4, yaw: -0.785, state: 'alert', t: 999 },
+    camera: { ease: true, keys: [
+      { t: 0, p: [107.02, 0.8, -50.06], l: [107.59, 1.02, -53.59], fov: 35 },
+      { t: 5.0, p: [107.0, 0.8, -50.24], l: [107.59, 1.02, -53.59], fov: 34 },
+    ] },
+  },
+  {
+    // The reveal: the same creature, dressed, three-quarters on from the monocle's side. A slow push into a portrait.
+    id: 'reveal', beats: 8, scene: 'world', hour: 16.4, dress: 1,
+    player: { x: 105.57, z: -51.57, yaw: 0, hidden: true },
+    beast: { x: 108.4, z: -54.4, yaw: -0.785, state: 'alert', t: 999 },
+    camera: { ease: true, keys: [
+      { t: 0, p: [107.0, 0.8, -50.24], l: [107.59, 1.02, -53.59], fov: 34 },
+      { t: 4.5, p: [107.15, 0.82, -51.12], l: [107.59, 1.05, -53.59], fov: 31 },
+    ] },
+    // It notices the camera: the hidden player it watches steps to where the camera stands.
+    actions: [{ t: 2.55, player: [107.09, -50.8] }],
+  },
+  {
+    // It is still the thornback. Seen from the monocle's side of the charge, rising and pushing in to the blow, which
+    // lands four frames before the cut.
+    id: 'payoff', beats: 5, scene: 'world', hour: 16.4, dress: 1, equip: 'rusted_sword', preroll: 0.1,
+    player: { x: 104.8, z: -50.4, yaw: 2.36 },
+    beast: { x: 108.6, z: -54.2, yaw: -0.785, state: 'alert', t: 1.06 },
+    camera: { ease: true, keys: [
+      { t: 0, p: [111.37, 1.45, -47.63], l: [106.7, 0.95, -52.3], fov: 40 },
+      { t: 2.78, p: [110.2, 2.0, -49.6], l: [105.4, 0.9, -51.0], fov: 30 },
+    ] },
+    actions: [{ t: 1.62, press: 'KeyJ' }],
+    aim: 'cut_creature',
+  },
+  { id: 'freeze', beats: 3, scene: 'hold', of: 'payoff' },
+  { id: 'title', beats: 5, scene: 'menu', song: songBeat(128), ui: 'title' },
+];
+
+/** When the monocle catches the light, in seconds within the reveal: on the third beat of its first bar. */
+export const GLINT = 2 * BEAT;
+
+/** Where each shot starts, in beats and seconds, and its frames in the finished teaser. */
+let beat = 0;
+for (const s of SHOTS) {
+  s.beat = beat;
+  s.start = beat * BEAT;
+  s.seconds = s.beats * BEAT;
+  s.firstFrame = Math.round(s.start * FPS);
+  beat += s.beats;
+  s.frames = Math.round(beat * BEAT * FPS) - s.firstFrame;
+}
+export const START = Object.fromEntries(SHOTS.map((s) => [s.id, s.start]));
+export const BEATS = beat;
+export const LENGTH = beat * BEAT;
+export const FRAMES = Math.round(LENGTH * FPS);
+export const shot = (id) => SHOTS.find((s) => s.id === id);
+
+/**
+ * What is written over the picture. `line` is the deadpan voice (plain lowercase); `comment` a comment card (its
+ * wording quoted exactly, its author left out; `place: 'left'` keeps it clear of a face in the middle, `size: 'long'`
+ * fits a long comment above the subject); times are seconds within the shot.
+ */
+export const CAPTIONS = [
+  { shot: 'golden', t: 0.35, until: 4.3, line: 'i asked AI to make a game\nheavily inspired by gothic 3' },
+  { shot: 'ford', t: 0.25, until: 3.2, comment: 'COMMENT_GOTHIC', place: 'left' },
+  { shot: 'proud', t: 0.75, until: 2.7, line: 'mission failed successfully', style: 'big' },
+  // Off a half second before the cut, so the plain creature is seen before it is dressed.
+  { shot: 'lurk', t: 0.2, until: 4.5, comment: 'COMMENT_PRESENTABLE', size: 'long' },
+  { shot: 'freeze', t: 0.05, until: 1.62, line: 'presentable.', style: 'freeze' },
+].map((c) => ({ ...c, from: START[c.shot] + c.t, to: START[c.shot] + c.until }));
