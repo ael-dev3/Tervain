@@ -2,7 +2,8 @@ import * as THREE from 'three';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { NPC_LIST } from '../../src/content/npcs';
-import { poseRig } from '../../src/presentation/characters';
+import { poseRig, type Rig } from '../../src/presentation/characters';
+import { NPC_SKIN_REPAIR_PROFILE } from '../../src/presentation/npc/skinRepair';
 import { NpcActor, EnemyActor, resolveGoal, type ActorContext } from '../../src/presentation/actors';
 import { BONES, type BoneName } from '../../src/presentation/human/skin';
 import { Frame } from '../../src/presentation/human/frame';
@@ -287,11 +288,16 @@ describe('budgeted Meshy NPC replacement and lifetime', () => {
     }
   });
 
-  it.each(['spring-steward', 'mill-hand', 'maintenance-worker', 'ford-bandit-a'])('preserves %s source skinning instead of imposing the Mara garment fit', id => {
-    const f = skirtSource(), rig = createMeshyNpcRig(f.asset, { ...entry, id, triangles: 7, surfaceBake: 'geometry-only-v1' });
-    const mesh = rig.body.getObjectByProperty('isSkinnedMesh', true) as THREE.SkinnedMesh;
-    for (const name of ['skinIndex', 'skinWeight']) expect(Array.from(mesh.geometry.getAttribute(name).array)).toEqual(Array.from(f.geometry.getAttribute(name).array));
-    expect(mesh.geometry.userData.npcGarment).toBeUndefined();
+  it.each(['spring-steward', 'mill-hand', 'maintenance-worker', 'ford-bandit-a'])('keeps the Mara garment fit off %s: source skinning without the shared repair, that repair with it', id => {
+    const f = skirtSource(), own = { ...entry, id, triangles: 7, surfaceBake: 'geometry-only-v1' as const };
+    const skin = (rig: Rig) => rig.body.getObjectByProperty('isSkinnedMesh', true) as THREE.SkinnedMesh;
+    const plain = skin(createMeshyNpcRig(f.asset, own, 1, 'none', undefined, { skinRepair: false }));
+    for (const name of ['skinIndex', 'skinWeight']) expect(Array.from(plain.geometry.getAttribute(name).array)).toEqual(Array.from(f.geometry.getAttribute(name).array));
+    expect(plain.geometry.userData.npcGarment).toBeUndefined();
+    const repaired = skin(createMeshyNpcRig(f.asset, own));
+    expect(repaired.geometry.userData.npcGarment).toBeUndefined();
+    expect(repaired.geometry.userData.npcSkinRepair.profile).toBe(NPC_SKIN_REPAIR_PROFILE);
+    for (const name of ['position', 'uv', 'uv1']) expect(Array.from(repaired.geometry.getAttribute(name).array)).toEqual(Array.from(f.geometry.getAttribute(name).array));
   });
 
   it('does not animate walking through a blocking contact, and preserves schedule hiding on the replacement rig', () => {

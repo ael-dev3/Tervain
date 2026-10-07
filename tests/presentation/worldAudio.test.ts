@@ -70,6 +70,7 @@ describe('prepared world audio', () => {
     expect(fs.readdirSync(OUT).sort()).toEqual(files.flatMap((f) => [`${f}.m4a`, `${f}.ogg`]).sort());
   });
 
+  // Hashing every source and derivative is bound by the disk, which other workers reading models and audio share.
   it('records the prompt, the unchanged source and every derivative by hash', () => {
     const sources = fs.readdirSync(path.join(ROOT, 'assets/audio/source/world')).sort();
     expect(provenance.assets.map((a) => path.basename(a.source.path)).sort()).toEqual(sources);
@@ -99,7 +100,7 @@ describe('prepared world audio', () => {
       }
     }
     expect([...derived].map((p) => path.basename(p)).sort()).toEqual(fs.readdirSync(OUT).sort());
-  });
+  }, 30_000);
 
   it('records the length of every generation and credits ElevenLabs in the game', () => {
     for (const a of provenance.assets) expect(a.seconds, a.id).toBeGreaterThan(0);

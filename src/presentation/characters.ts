@@ -5,6 +5,8 @@ import { PAL } from './kit';
 import { mulberry32 } from '../world/noise';
 import { limb, loft as rigidLoft, type RGB, type Section } from './humanGeo';
 import { npcStyle, type WorkGesture } from './npcStyle';
+import type { NpcPoseFit } from './npc/poseFit';
+import { seatLegs } from './npc/seat';
 import type { AssetNeed } from './assets/library';
 import { Frame } from './human/frame';
 import { buildHead, type HairCut, type HeadFit } from './human/head';
@@ -71,6 +73,8 @@ export interface Pose {
   workGesture?: WorkGesture;
   /** Talking or resting at a seat keeps the authored lower-body support instead of standing on every remark. */
   seated?: boolean;
+  /** Height of the seat top above the actor's ground, metres: a fitted resident sits on it rather than at a fixed drop. */
+  seatHeight?: number;
   /**
    * A resident's idle routine while standing: who they are (seed) and a clock in seconds. Without it a person stands in
    * the plain idle (the player, hostiles). `force` holds one variant (the people tool).
@@ -79,8 +83,13 @@ export interface Pose {
 }
 
 /** What a resident does with themselves while standing, chosen in turn by their idle routine (presentation only). */
-export const IDLE_VARIANTS = ['rest', 'arms crossed', 'hands on hips', 'hands behind back', 'look around', 'scratch head', 'shift weight'] as const;
+export const IDLE_VARIANTS = ['rest', 'arms crossed', 'hands on hips', 'hands behind back', 'look around', 'hands clasped', 'shift weight'] as const;
 export type IdleVariant = (typeof IDLE_VARIANTS)[number];
+
+/** Standing gestures that take the hands off the hanging rest, by the pose fit that places each on the body. */
+const ARM_GESTURES: ReadonlyMap<IdleVariant, string> = new Map([
+  ['arms crossed', 'crossed'], ['hands on hips', 'hips'], ['hands behind back', 'behind'], ['hands clasped', 'clasped'],
+]);
 
 /** Seconds each idle turn lasts, and how often each variant comes up (rest most often). */
 const IDLE_TURN = 7;
@@ -107,8 +116,11 @@ export type Grip = 'none' | 'blade';
 export interface Rig {
   /** The approved main hero has its own skeleton and distance-aware animation. */
   hero?: HeroAnimationController;
-  /** Imported residents' bounded visual sole clearance. This never moves the physical actor root or performs foot IK. */
-  npc?: { settle(mode: Mode, dt: number): void };
+  /**
+   * Imported residents: bounded visual sole clearance (never moves the physical actor root or performs foot IK), and the
+   * arm angles fitted to this figure's own body (npc/poseFit.ts).
+   */
+  npc?: { settle(mode: Mode, dt: number): void; fit?: NpcPoseFit; work?: { gesture: WorkGesture; props: THREE.Object3D[] } };
   root: THREE.Group;
   /** Root of the visual body; lowered when sitting and rotated when defeated. */
   body: THREE.Group;
@@ -179,7 +191,7 @@ export interface Look {
   accent?: number;
 }
 
-const ANGLE_KEYS = ['legL', 'legR', 'armLx', 'armLy', 'armLz', 'armRx', 'armRy', 'armRz', 'torsoX', 'torsoZ', 'headX', 'headY', 'lower', 'bodyX', 'bodyY', 'kneeL', 'kneeR', 'elbowL', 'elbowR'] as const;
+export const ANGLE_KEYS = ['legL', 'legR', 'armLx', 'armLy', 'armLz', 'armRx', 'armRy', 'armRz', 'torsoX', 'torsoZ', 'headX', 'headY', 'lower', 'bodyX', 'bodyY', 'kneeL', 'kneeR', 'elbowL', 'elbowR'] as const;
 
 /* ================================================================ people */
 
@@ -842,11 +854,8 @@ const smooth01 = (value: number) => {
 };
 
 /** A short action inside a standing turn, with relaxed hands before and after it. */
-function idleEnvelope(variant: IdleVariant, clock: number): number {
+function idleEnvelope(clock: number): number {
   const phase = ((clock % IDLE_TURN) + IDLE_TURN) % IDLE_TURN;
-  if (variant === 'scratch head') {
-    return smooth01((phase - 1) / .7) * (1 - smooth01((phase - 2.8) / .7));
-  }
   return smooth01((phase - .55) / .95) * (1 - smooth01((phase - 5.45) / 1));
 }
 
@@ -871,6 +880,10 @@ export function poseRig(rig: Rig, p: Pose, dt: number) {
   const speed = Math.max(0, Math.min(1, p.speed));
   const seated = p.mode === 'sit' || p.seated === true;
   let fast = 12;
+  // Residents' arms fitted to their own bodies: the hanging arm's outward lift, and gestures that rest on the body.
+  const fit = rig.npc?.fit;
+  const hangL = fit?.hang[0] ?? 0, hangR = fit?.hang[1] ?? 0;
+  const armSwing = fit?.garmentArms ? 0.55 : 1;
 
   if (rig.kind === 'thornback') {
     poseCreature(rig, p, a);
@@ -880,8 +893,8 @@ export function poseRig(rig: Rig, p: Pose, dt: number) {
         // Arms hang a little away from the body (+z lifts the left arm outward, -z the right).
         a.armLx = 0.04 + breathe * 3;
         a.armRx = 0.04 - breathe * 3;
-        a.armLz = 0.11;
-        a.armRz = -0.11;
+        a.armLz = 0.11 + hangL;
+        a.armRz = -0.11 - hangR;
         a.headY = Math.sin(p.time * 0.4) * 0.15 * amp;
         a.headX = 0.05;
         a.torsoX = 0.04 + breathe;
@@ -892,12 +905,18 @@ export function poseRig(rig: Rig, p: Pose, dt: number) {
           a.elbowR = -0.55;
         } else if (p.idle) {
           // A resident's routine: something to do with themselves while they stand, as the Gothic games' people fold
-          // their arms, look about or scratch their heads (proposal; presentation only).
+          // their arms, look about or clasp their hands (proposal; presentation only).
           const c = p.idle.clock;
-          const v = p.idle.force ?? idleVariant(p.idle.seed, c);
+          let v = p.idle.force ?? idleVariant(p.idle.seed, c);
+          // A cape or apron the arms carry would be dragged off the body, and a gesture the fit could not place clear of
+          // this body would sink into it: such figures look about or shift their weight instead.
+          const gesture = ARM_GESTURES.get(v);
+          if (gesture && fit && !p.idle.force && (fit.garmentArms || fit.unplaced.some(entry => entry.startsWith(gesture)))) {
+            v = Math.floor(c / IDLE_TURN) % 2 ? 'look around' : 'shift weight';
+          }
           const relaxed = { ...a };
-          idlePose(a, v, c, 1);
-          const weight = amp * (p.idle.force ? 1 : idleEnvelope(v, c));
+          idlePose(a, v, c, 1, fit);
+          const weight = amp * (p.idle.force ? 1 : idleEnvelope(c));
           for (const key of ANGLE_KEYS) a[key] = lerpA(relaxed[key]!, a[key]!, weight);
           fast = 4.2;
         }
@@ -909,10 +928,12 @@ export function poseRig(rig: Rig, p: Pose, dt: number) {
         const swing = (0.55 + run * 0.35) * speed * amp;
         a.legL = sw * swing;
         a.legR = -sw * swing;
-        a.armLx = -sw * swing * 0.8;
-        a.armRx = sw * swing * 0.8;
-        a.armLz = 0.1;
-        a.armRz = -0.1;
+        a.armLx = -sw * swing * 0.8 * armSwing;
+        a.armRx = sw * swing * 0.8 * armSwing;
+        // The fitted lift, plus what a swinging hand needs to pass a flared skirt or coat at either end of its arc.
+        const reach = Math.min(1, swing / 0.43);
+        a.armLz = 0.1 + hangL + (fit ? (fit.swing[0][0] * Math.max(0, sw) + fit.swing[0][1] * Math.max(0, -sw)) * reach : 0);
+        a.armRz = -0.1 - hangR - (fit ? (fit.swing[1][0] * Math.max(0, -sw) + fit.swing[1][1] * Math.max(0, sw)) * reach : 0);
         a.torsoX = 0.06 + run * 0.14;
         a.torsoZ = sw * 0.03 * amp;
         a.lower = -Math.abs(sw) * 0.035 * amp;
@@ -1133,6 +1154,10 @@ export function poseRig(rig: Rig, p: Pose, dt: number) {
             break;
         }
         fast = 8;
+        const task = p.workGesture && fit?.work[p.workGesture as keyof NpcPoseFit['work']];
+        if (task && p.workGesture) {
+          fast = fittedWork(a, task, p.workGesture, p.time, amp);
+        }
         break;
       }
       case 'swim': {
@@ -1161,7 +1186,19 @@ export function poseRig(rig: Rig, p: Pose, dt: number) {
         a.kneeR = 1.5;
         a.elbowL = -0.8;
         a.elbowR = -0.7;
-        if (p.workGesture === 'writing') {
+        if (fit && p.seatHeight !== undefined) {
+          // Palms resting on the thighs, placed for this figure on a seat of about this height.
+          let hands = fit.seatedHands[0];
+          for (const option of fit.seatedHands) if (Math.abs(option.height - p.seatHeight) < Math.abs((hands?.height ?? Infinity) - p.seatHeight)) hands = option;
+          if (hands) {
+            const [l, r] = hands.arms;
+            a.armLx = l.x; a.armLy = l.y; a.armLz = l.z; a.elbowL = l.elbow;
+            a.armRx = r.x; a.armRy = r.y; a.armRz = r.z; a.elbowR = r.elbow;
+          }
+        }
+        if (p.workGesture === 'writing' && fit?.work.writing && p.seatHeight !== undefined) {
+          fittedWork(a, fit.work.writing, 'writing', p.time, amp);
+        } else if (p.workGesture === 'writing') {
           const s = Math.sin(p.time * 2.1) * amp;
           a.armLx = -0.48 + 0.02 * s;
           a.armRx = -0.64 - 0.04 * s;
@@ -1174,11 +1211,11 @@ export function poseRig(rig: Rig, p: Pose, dt: number) {
         // A phrase has one open-hand gesture and a quiet pause, rather than endlessly pumping an arm.
         const phrase = .5 + .5 * Math.sin(p.time * .85);
         const gesture = smooth01((phrase - .28) / .55) * amp;
-        a.armRx = (seated ? -.5 : .04) - gesture * .65;
-        a.armRz = -.1 + gesture * .34;
+        a.armRx = (seated ? -.5 : .04) - gesture * .65 * armSwing;
+        a.armRz = -.1 - (seated ? 0 : hangR * (1 - gesture)) + gesture * .34;
         a.elbowR = (seated ? -.7 : -.22) - gesture * .55;
         a.armLx = seated ? -.6 : .04 + breathe;
-        a.armLz = .11;
+        a.armLz = .11 + (seated ? 0 : hangL);
         a.elbowL = seated ? -.8 : -.22;
         a.torsoX = .035 + breathe;
         a.headX = .035 + Math.sin(p.time * 1.4) * .04 * amp;
@@ -1203,8 +1240,20 @@ export function poseRig(rig: Rig, p: Pose, dt: number) {
       a.lower = -.48;
       a.torsoX = .05 + breathe;
     }
+    if (seated && fit && p.seatHeight !== undefined && p.mode !== 'walk' && p.mode !== 'run') {
+      // On a real seat the seat contact rests on it and the soles find the ground, whatever this figure's build.
+      const legs = seatLegs(fit.seat, p.seatHeight, rig.body.scale.y || 1, rig.hipY);
+      a.legL = a.legR = legs.thigh;
+      a.kneeL = a.kneeR = legs.knee;
+      a.lower = legs.lower;
+    }
   }
 
+  const work = rig.npc?.work;
+  if (work) {
+    const working = (p.mode === 'work' || (p.mode === 'sit' && seated && p.seatHeight !== undefined)) && p.workGesture === work.gesture;
+    for (const prop of work.props) prop.visible = working;
+  }
   const k = 1 - Math.exp(-frameDt * fast);
   const peaceful = rig.kind === 'humanoid' && ['idle', 'walk', 'run', 'work', 'sit', 'talk'].includes(p.mode);
   const seatTransition = peaceful && (a.lower! <= -.1 || rig.cur.lower! <= -.1);
@@ -1229,24 +1278,7 @@ export function poseRig(rig: Rig, p: Pose, dt: number) {
     }
     rig.cur[key] = previous + change;
   }
-  const c = rig.cur as Record<(typeof ANGLE_KEYS)[number], number>;
-  if (rig.kind === 'humanoid') {
-    const scale = rig.hipY / 0.95;
-    rig.legL.rotation.x = c.legL;
-    rig.legR.rotation.x = c.legR;
-    // y turns the arm about its own length (the forearm folds across the body, not forward).
-    rig.armL.rotation.set(c.armLx, c.armLy, c.armLz);
-    rig.armR.rotation.set(c.armRx, c.armRy, c.armRz);
-    rig.torso.rotation.set(c.torsoX, c.bodyY * 0.6, c.torsoZ);
-    rig.head.rotation.set(c.headX, c.headY, 0);
-    if (rig.kneeL) rig.kneeL.rotation.x = c.kneeL;
-    if (rig.kneeR) rig.kneeR.rotation.x = c.kneeR;
-    if (rig.elbowL) rig.elbowL.rotation.x = c.elbowL;
-    if (rig.elbowR) rig.elbowR.rotation.x = c.elbowR;
-    rig.hips.position.y = rig.hipY + c.lower * scale;
-    rig.body.rotation.x = c.bodyX;
-    rig.body.position.y = c.bodyX !== 0 ? (0.22 * scale * Math.abs(c.bodyX)) / 1.5 : 0;
-  }
+  if (rig.kind === 'humanoid') applyRigAngles(rig, rig.cur);
   // The body pivot has just been reset from this frame's pose, so visual clearance cannot accumulate between frames.
   rig.npc?.settle(p.mode, frameDt);
   // Hit flash tints materials briefly.
@@ -1255,40 +1287,113 @@ export function poseRig(rig: Rig, p: Pose, dt: number) {
   }
 }
 
+/** Write a set of joint angles (the poser's channels) onto a humanoid rig's joints. */
+export function applyRigAngles(rig: Rig, angles: Readonly<Record<string, number>>) {
+  const c = angles as Record<(typeof ANGLE_KEYS)[number], number>;
+  const scale = rig.hipY / 0.95;
+  rig.legL.rotation.x = c.legL;
+  rig.legR.rotation.x = c.legR;
+  // y turns the arm about its own length (the forearm folds across the body, not forward).
+  rig.armL.rotation.set(c.armLx, c.armLy, c.armLz);
+  rig.armR.rotation.set(c.armRx, c.armRy, c.armRz);
+  rig.torso.rotation.set(c.torsoX, c.bodyY * 0.6, c.torsoZ);
+  rig.head.rotation.set(c.headX, c.headY, 0);
+  if (rig.kneeL) rig.kneeL.rotation.x = c.kneeL;
+  if (rig.kneeR) rig.kneeR.rotation.x = c.kneeR;
+  if (rig.elbowL) rig.elbowL.rotation.x = c.elbowL;
+  if (rig.elbowR) rig.elbowR.rotation.x = c.elbowR;
+  rig.hips.position.y = rig.hipY + c.lower * scale;
+  rig.body.rotation.x = c.bodyX;
+  rig.body.position.y = c.bodyX !== 0 ? (0.22 * scale * Math.abs(c.bodyX)) / 1.5 : 0;
+}
+
+/**
+ * A task with tools, between its two fitted key poses: strokes of a quill, a hand lifting an arrow to sight along it,
+ * a hammer raised slowly and struck fast, a hand sliding down a measuring rod. Returns the joints' response rate.
+ */
+function fittedWork(a: Record<string, number>, task: NonNullable<NpcPoseFit['work'][keyof NpcPoseFit['work']]>, gesture: WorkGesture, time: number, amp: number): number {
+  let blend = 0, rate = 8;
+  switch (gesture) {
+    case 'writing': {
+      // Short strokes along a line, a pause to dip and read now and then.
+      const line = smooth01(((time % 6) - 0.4) / 0.4) * (1 - smooth01(((time % 6) - 4.6) / 0.5));
+      blend = (0.5 + 0.5 * Math.sin(time * 5.2)) * line * amp;
+      a.headX = 0.34; a.torsoX = 0.14;
+      rate = 10;
+      break;
+    }
+    case 'provisioning': {
+      // Hands on the counter; every eight seconds the right lifts an arrow to eye height and turns it.
+      const phase = time % 8;
+      blend = smooth01((phase - 4.4) / 0.8) * (1 - smooth01((phase - 6.8) / 0.8)) * amp;
+      a.headX = 0.26 - 0.3 * blend; a.headY = -0.18 * blend; a.torsoX = 0.1 * (1 - blend) + 0.02;
+      rate = 6;
+      break;
+    }
+    case 'stonework': {
+      // Raise the hammer over most of the beat, strike in a fraction of it, rest on the chisel a moment.
+      const beat = (time / 1.4) % 1;
+      blend = (beat < 0.7 ? 1 - smooth01(beat / 0.7) : smooth01((beat - 0.7) / 0.1)) * amp + (1 - amp);
+      a.headX = 0.22; a.torsoX = 0.1 + 0.05 * blend;
+      rate = 24;
+      break;
+    }
+    case 'measuring': {
+      blend = (0.5 + 0.5 * Math.sin(time * 0.55)) * amp;
+      a.headX = 0.12 + 0.12 * blend; a.headY = -0.2;
+      rate = 5;
+      break;
+    }
+    default:
+      break;
+  }
+  for (const side of [0, 1] as const) {
+    const from = task.a[side], to = task.b[side];
+    const x = from.x + (to.x - from.x) * blend, y = from.y + (to.y - from.y) * blend, z = from.z + (to.z - from.z) * blend;
+    const elbow = from.elbow + (to.elbow - from.elbow) * blend;
+    if (side === 0) { a.armLx = x; a.armLy = y; a.armLz = z; a.elbowL = elbow; } else { a.armRx = x; a.armRy = y; a.armRz = z; a.elbowR = elbow; }
+  }
+  return rate;
+}
+
+/** One arm's angles: the shoulder's three turns and the elbow's bend. */
+export interface ArmAngles { x: number; y: number; z: number; elbow: number }
+
+/**
+ * Standing gestures for a figure without a fitted body (procedural people, tests), [left, right]. The hands on the hips
+ * are placed by the residents' own reach (npc/armReach.ts) on the generic frame: palms at the waist's sides.
+ */
+export const GESTURE_DEFAULTS = {
+  crossed: [{ x: -0.22, y: -1.2, z: -0.06, elbow: -1.55 }, { x: -0.3, y: 1.2, z: 0.06, elbow: -1.72 }],
+  hips: [{ x: 1.02, y: -0.75, z: 0.81, elbow: -1.39 }, { x: 1.02, y: 0.75, z: -0.81, elbow: -1.39 }],
+  behind: [{ x: 0.36, y: -1.75, z: 0.12, elbow: -1.2 }, { x: 0.36, y: 1.75, z: -0.12, elbow: -1.2 }],
+  clasped: [{ x: -0.2, y: -1.0, z: 0.05, elbow: -0.95 }, { x: -0.2, y: 1.0, z: -0.05, elbow: -0.95 }],
+} as const satisfies Record<'crossed' | 'hips' | 'behind' | 'clasped', readonly [ArmAngles, ArmAngles]>;
+
 /** Targets for one idle variant (on top of the plain idle already in `a`). */
-function idlePose(a: Record<string, number>, v: IdleVariant, clock: number, amp: number) {
+function idlePose(a: Record<string, number>, v: IdleVariant, clock: number, amp: number, fit?: NpcPoseFit) {
+  const arms = (pair: readonly [ArmAngles, ArmAngles]) => {
+    const [l, r] = pair;
+    a.armLx = l.x; a.armLy = l.y; a.armLz = l.z; a.elbowL = l.elbow;
+    a.armRx = r.x; a.armRy = r.y; a.armRz = r.z; a.elbowR = r.elbow;
+  };
   switch (v) {
     case 'rest':
       break;
     case 'arms crossed':
       // Upper arms close to the body, turned in, forearms folded across the chest, the right over the left.
-      a.armLx = -0.22;
-      a.armRx = -0.3;
-      a.armLy = -1.2;
-      a.armRy = 1.2;
-      a.armLz = -0.06;
-      a.armRz = 0.06;
-      a.elbowL = -1.55;
-      a.elbowR = -1.72;
+      arms(fit?.crossed ?? GESTURE_DEFAULTS.crossed);
       a.headX = 0.02;
       break;
     case 'hands on hips':
-      a.armLz = 0.52;
-      a.armRz = -0.52;
-      a.armLx = 0.18;
-      a.armRx = 0.18;
-      a.elbowL = -1.25;
-      a.elbowR = -1.25;
+      arms(fit?.hips ?? GESTURE_DEFAULTS.hips);
       a.torsoX = 0.01;
       a.headX = -0.03;
       break;
     case 'hands behind back':
-      a.armLx = 0.42;
-      a.armRx = 0.42;
-      a.armLz = -0.04;
-      a.armRz = 0.04;
-      a.elbowL = -0.85;
-      a.elbowR = -0.85;
+      // The upper arms back and turned in, so the bent forearms meet behind the back rather than in front of the hips.
+      arms(fit?.behind ?? GESTURE_DEFAULTS.behind);
+      a.torsoX = -0.02;
       a.headX = 0.02;
       break;
     case 'look around':
@@ -1297,12 +1402,11 @@ function idlePose(a: Record<string, number>, v: IdleVariant, clock: number, amp:
       a.bodyY = Math.sin(clock * 0.55 - 0.6) * 0.18 * amp;
       a.headX = -0.04;
       break;
-    case 'scratch head':
-      a.armRx = -2.45;
-      a.armRz = -0.4;
-      a.elbowR = -2.15 + 0.07 * Math.sin(clock * 13) * amp;
-      a.headX = 0.12;
-      a.headY = -0.12;
+    case 'hands clasped':
+      // Waiting with the hands together in front of the belt, the forearms turned in rather than reaching out.
+      arms(fit?.clasped ?? GESTURE_DEFAULTS.clasped);
+      a.headX = 0.06 + Math.sin(clock * 0.7) * 0.03 * amp;
+      a.headY = Math.sin(clock * 0.31) * 0.12 * amp;
       break;
     case 'shift weight':
       // Weight on the right leg, the left knee easy, the hips dropped a touch to that side.

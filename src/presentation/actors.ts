@@ -75,7 +75,7 @@ function clearNpcSegment(from: V2, to: V2, ctx: Pick<ActorContext, 'terrain' | '
 }
 
 /** Stable places beside a shared conversation/office anchor; work surfaces and seats retain their authored placement. */
-export function npcGoalPosition(def: NpcDef, goal: Goal, ctx: Pick<ActorContext, 'terrain' | 'colliders'>, height: number): V2 & { yaw: number } {
+export function npcGoalPosition(def: NpcDef, goal: Goal, ctx: Pick<ActorContext, 'terrain' | 'colliders'>, height: number): V2 & { yaw: number; seat?: number } {
   const base = ANCHORS[goal.anchor] ?? { x: 0, z: 0, yaw: 0 };
   if (goal.activity !== 'stand' && goal.activity !== 'talk') return base;
   const entries = (d: NpcDef) => [...d.schedule, ...d.overrides ?? []];
@@ -134,7 +134,7 @@ export class NpcActor {
   private placed = false;
   private viaMaint = false;
   private maintenanceCursor = 0;
-  private destination: V2 & { yaw: number } = { x: 0, z: 0, yaw: 0 };
+  private destination: V2 & { yaw: number; seat?: number } = { x: 0, z: 0, yaw: 0 };
   private speed = 0;
   private routeRetry = 0;
   private routeFailures = 0;
@@ -394,6 +394,7 @@ export class NpcActor {
       moveSpeed: dt > 0 ? travel / dt : 0,
       workGesture: style.work,
       seated: !moving && this.goal.activity === 'sit' && this.atDestination(),
+      seatHeight: this.destination.seat,
       // Standing about, a resident folds their arms, looks round, shifts their weight (still when motion is reduced).
       idle: ctx.reducedMotion ? undefined : { seed: style.faceSeed, clock: this.clock },
     };

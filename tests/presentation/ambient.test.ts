@@ -8,7 +8,7 @@ import { poseRig, type Rig } from '../../src/presentation/characters';
 import type { BuildContext, FrameContext } from '../../src/presentation/context';
 import { createMeshyNpcRig, type MeshyNpcManifest } from '../../src/presentation/meshynpcs';
 import { Colliders } from '../../src/world/colliders';
-import { ANCHORS } from '../../src/world/layout';
+import { ANCHORS, BENCH_SEAT_HEIGHT } from '../../src/world/layout';
 import { Terrain } from '../../src/world/terrain';
 
 // Capture the actual controller-to-poser boundary while retaining the real bone
@@ -30,6 +30,21 @@ function rig(scale: number): Rig {
   return { root, body, hips, torso, head, armL, armR, elbowL, elbowR, legL, legR, kneeL, kneeR,
     weapon: null, shield: null, scabbard: null, sheathed: null, sash: null, grip: 'none', height: 1.8 * scale,
     hipY: .95 * scale, cur, materials: [], hitFlash: 0, kind: 'humanoid' };
+}
+
+/** Lowest posed point of the seat (bind 0.62–1.0 m about the centre line, behind the hip joint), in world metres. */
+function seatContact(resident: Rig) {
+  const mesh = resident.body.getObjectByProperty('isSkinnedMesh', true) as THREE.SkinnedMesh;
+  const position = mesh.geometry.getAttribute('position'), point = new THREE.Vector3();
+  let lowest = Infinity;
+  for (let vertex = 0; vertex < position.count; vertex += 3) {
+    const y = position.getY(vertex);
+    if (y < .62 || y > 1 || Math.abs(position.getX(vertex)) > .25) continue;
+    mesh.localToWorld(mesh.getVertexPosition(vertex, point));
+    if (resident.root.worldToLocal(point.clone()).z > 0) continue;
+    lowest = Math.min(lowest, point.y);
+  }
+  return lowest;
 }
 
 function setup(terrain = { groundAt: () => 2.75, heightAt: () => -5 } as unknown as Terrain) {
@@ -114,7 +129,9 @@ describe('ambient hamlet residents', () => {
     fireside.root.updateMatrixWorld(true);
     const hipY = fireside.hips.getWorldPosition(new THREE.Vector3()).y;
     const ground = fireside.root.position.y;
-    expect(Math.abs(hipY - ground - .505)).toBeLessThan(.15);
+    // The seat rests on the hearth bench's plank, not sunk into it or hovering above it. (In front of the hip, the long
+    // skirt's back panel drapes a few centimetres into the plank's front edge; there is no cloth collision.)
+    expect(Math.abs(seatContact(fireside) - ground - BENCH_SEAT_HEIGHT)).toBeLessThan(.04);
     let talkFrames = 0;
     for (let frame = 0; frame < 12 * 30; frame++) {
       ambient.update(1 / 30, { time: frame / 30, nightness: 0, reducedMotion: false, wildlifeActive: true } as FrameContext);
