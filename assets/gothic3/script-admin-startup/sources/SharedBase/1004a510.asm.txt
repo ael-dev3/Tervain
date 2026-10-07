@@ -1,0 +1,2 @@
+1004a510 | 8b4104 | MOV EAX,dword ptr [ECX + 0x4]
+1004a513 | c3 | RET

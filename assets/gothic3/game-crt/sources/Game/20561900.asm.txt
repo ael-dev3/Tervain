@@ -1,0 +1,5 @@
+20561900 | b990be7c20 | MOV ECX,0x207cbe90
+20561905 | c70578be7c20fcb66920 | MOV dword ptr [0x207cbe78],0x2069b6fc
+2056190f | ff15a0877d20 | CALL dword ptr [0x207d87a0]
+20561915 | b978be7c20 | MOV ECX,0x207cbe78
+2056191a | ff25a4877d20 | JMP dword ptr [0x207d87a4]

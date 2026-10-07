@@ -1,0 +1,14 @@
+10092ba0 | 33c0 | XOR EAX,EAX
+10092ba2 | 56 | PUSH ESI
+10092ba3 | 8bf1 | MOV ESI,ECX
+10092ba5 | 89460c | MOV dword ptr [ESI + 0xc],EAX
+10092ba8 | 894608 | MOV dword ptr [ESI + 0x8],EAX
+10092bab | 894604 | MOV dword ptr [ESI + 0x4],EAX
+10092bae | 8906 | MOV dword ptr [ESI],EAX
+10092bb0 | 894610 | MOV dword ptr [ESI + 0x10],EAX
+10092bb3 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+10092bb7 | 50 | PUSH EAX
+10092bb8 | e82c28f7ff | CALL 0x100053e9
+10092bbd | 8bc6 | MOV EAX,ESI
+10092bbf | 5e | POP ESI
+10092bc0 | c20400 | RET 0x4

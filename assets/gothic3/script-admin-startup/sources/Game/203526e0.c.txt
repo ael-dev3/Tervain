@@ -1,0 +1,28 @@
+/* ENTRY 203526e0 | bTPropertyObjectType<gCScriptAdmin,eCEngineComponentBase>::~bTPropertyObjectType<gCScriptAdmin,eCEngineComponentBase> | STATUS decompiled | 7 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined * __thiscall
+bTPropertyObjectType<gCScriptAdmin,eCEngineComponentBase>::
+~bTPropertyObjectType<gCScriptAdmin,eCEngineComponentBase>(void)
+
+{
+  bCString *pbVar1;
+  bCPropertyObjectSingleton *this;
+  bCPropertyObjectTypeBase *pbVar2;
+
+  if ((_DAT_207cbeb4 & 1) == 0) {
+    _DAT_207cbeb4 = _DAT_207cbeb4 | 1;
+    bCPropertyObjectTypeBase::bCPropertyObjectTypeBase
+              ((bCPropertyObjectTypeBase *)&DAT_207cbe78,true);
+    _DAT_207cbe78 = &vftable;
+    pbVar1 = (bCString *)vfunction1();
+    bCPropertyObjectFactory::bCPropertyObjectFactory
+              ((bCPropertyObjectFactory *)&DAT_207cbe90,pbVar1);
+    pbVar2 = (bCPropertyObjectTypeBase *)&DAT_207cbe78;
+    this = bCPropertyObjectSingleton::GetInstance();
+    bCPropertyObjectSingleton::RegisterTemplate(this,pbVar2);
+    _atexit(~bTPropertyObjectType<gCScriptAdmin,eCEngineComponentBase>);
+  }
+  return &DAT_207cbe78;
+}

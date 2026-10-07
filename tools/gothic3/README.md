@@ -526,3 +526,25 @@ registration and live NPC attachment are still required. See
 [checkpoint 81](../../docs/engineering/gothic3-rebuilding-process.md#81-preserve-canonical-game-crt-ownership-before-navigation-type-construction).
 The onexit table receipt is at
 [checkpoint 82](../../docs/engineering/gothic3-rebuilding-process.md#82-rebuild-the-game-crt-onexit-table-within-its-original-capacity).
+
+## ScriptAdmin static initializer bodies
+
+```powershell
+python -B tools/gothic3/prepare_script_admin_startup_source.py --study '<LOCAL_DESKTOP_STUDY>'
+```
+
+The [`script-admin-startup` package](../../assets/gothic3/script-admin-startup/README.md)
+captures 98 original method bodies and 2,552 byte-checked instructions, including
+GUID/CString dependencies, 67 import bindings and 44 original vtable words.
+Its producer requires the current Game CRT package, which owns the three
+original initializer slots and canonical static storage. Regenerate Game CRT
+before this package. Regenerate RuntimeAdmin, NPC heap and Scene startup in
+that order after changing their shared allocator profile.
+
+The [TypeScript owner](../../src/gothic3/native-game-script-admin-startup.ts)
+reproduces selected callback state changes over canonical Game storage. A
+missing lower method preserves the applied prefix and stops. The GUID parser
+still requires actual Win32/OLE output and allocator owners; it does not turn
+a browser UUID parser into a claimed native constructor. This owner is not
+connected to production NPC startup, and does not implement CRT table
+traversal. See [checkpoint 100](../../docs/engineering/gothic3-rebuilding-process.md#100-own-selected-scriptadmin-static-initializer-bodies).

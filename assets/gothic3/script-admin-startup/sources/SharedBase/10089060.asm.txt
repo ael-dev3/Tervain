@@ -1,0 +1,2 @@
+10089060 | c70124a20e10 | MOV dword ptr [ECX],0x100ea224
+10089066 | c3 | RET

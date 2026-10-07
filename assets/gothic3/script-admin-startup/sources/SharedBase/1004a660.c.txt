@@ -1,0 +1,17 @@
+/* ENTRY 1004a660 | FUN_1004a660 | STATUS decompiled | 9 ms */
+
+void __fastcall FUN_1004a660(bCObjectRefBase *param_1)
+
+{
+  bool bVar1;
+
+  bVar1 = (*param_1->vftablePtr->IsVirtualReferencingEnabled)(param_1);
+  if (bVar1) {
+                    /* WARNING: Could not recover jumptable at 0x1004a676. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+    (*param_1->vftablePtr->ReleaseReference)(param_1);
+    return;
+  }
+  bCObjectRefBase::ReleaseReference(param_1);
+  return;
+}

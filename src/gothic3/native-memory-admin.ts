@@ -51,7 +51,7 @@ export interface NativeMemoryRulesExtension {
   readonly baseRulesSha256: string;
   readonly inputs: { readonly SharedBase: string; readonly Engine: string };
 }
-const BASE_RULES_SHA = '4c95912d7c7087af7a4c6c1c1d9f31d1b69e23da9456e5022c7d64f8756be016';
+const BASE_RULES_SHA = '4f1399da573a7b77eaa218191ab8af05ffb58301d3789ce8774e22f080846a2e';
 type ExtensionRules = Rules & { baseRulesSha256: string; inputs: { SharedBase: string; Engine: string } };
 const extensionSource = npcHeapRules as unknown as ExtensionRules;
 const sceneStartupExtensionSource = sceneStartupRules as unknown as ExtensionRules;

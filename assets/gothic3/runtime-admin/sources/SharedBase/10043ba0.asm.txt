@@ -1,0 +1,20 @@
+10043ba0 | 51 | PUSH ECX
+10043ba1 | 8b542408 | MOV EDX,dword ptr [ESP + 0x8]
+10043ba5 | 832d90fe2f1001 | SUB dword ptr [0x102ffe90],0x1
+10043bac | 2bd1 | SUB EDX,ECX
+10043bae | 83ea10 | SUB EDX,0x10
+10043bb1 | b8abaaaaaa | MOV EAX,0xaaaaaaab
+10043bb6 | f7e2 | MUL EDX
+10043bb8 | c1ea0a | SHR EDX,0xa
+10043bbb | 890c24 | MOV dword ptr [ESP],ECX
+10043bbe | 89542408 | MOV dword ptr [ESP + 0x8],EDX
+10043bc2 | 8b542408 | MOV EDX,dword ptr [ESP + 0x8]
+10043bc6 | b81f000000 | MOV EAX,0x1f
+10043bcb | 8b0c24 | MOV ECX,dword ptr [ESP]
+10043bce | 23c2 | AND EAX,EDX
+10043bd0 | c1ea05 | SHR EDX,0x5
+10043bd3 | f00fab849110fa0500 | BTS.LOCK [ECX + EDX*0x4 + 0x5fa10],EAX
+10043bdc | f0ff4908 | DEC.LOCK dword ptr [ECX + 0x8]
+10043be0 | 89510c | MOV dword ptr [ECX + 0xc],EDX
+10043be3 | 59 | POP ECX
+10043be4 | c20400 | RET 0x4

@@ -1,0 +1,8 @@
+/* ENTRY 10012ae0 | FUN_10012ae0 | STATUS decompiled | 2 ms */
+
+bCGuid * __thiscall FUN_10012ae0(bCGuid *param_1,bCString *param_2)
+
+{
+  bCGuid::SetText(param_1,param_2);
+  return param_1;
+}

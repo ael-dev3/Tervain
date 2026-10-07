@@ -1,0 +1,15 @@
+/* ENTRY 20561900 | bTPropertyObjectType<gCScriptAdmin,eCEngineComponentBase>::~bTPropertyObjectType<gCScriptAdmin,eCEngineComponentBase> | STATUS decompiled | 4 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void bTPropertyObjectType<gCScriptAdmin,eCEngineComponentBase>::
+     ~bTPropertyObjectType<gCScriptAdmin,eCEngineComponentBase>(void)
+
+{
+  _DAT_207cbe78 = &vftable;
+  bCPropertyObjectFactory::~bCPropertyObjectFactory((bCPropertyObjectFactory *)&DAT_207cbe90);
+                    /* WARNING: Could not recover jumptable at 0x2056191a. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCPropertyObjectTypeBase::~bCPropertyObjectTypeBase((bCPropertyObjectTypeBase *)&DAT_207cbe78);
+  return;
+}

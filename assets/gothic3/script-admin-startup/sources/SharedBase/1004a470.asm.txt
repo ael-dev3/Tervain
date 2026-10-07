@@ -1,0 +1,3 @@
+1004a470 | 8b4108 | MOV EAX,dword ptr [ECX + 0x8]
+1004a473 | 25ffffff7f | AND EAX,0x7fffffff
+1004a478 | c3 | RET

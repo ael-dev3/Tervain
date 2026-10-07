@@ -1,0 +1,2 @@
+20561930 | b928bf7c20 | MOV ECX,0x207cbf28
+20561935 | ff25d0887d20 | JMP dword ptr [0x207d88d0]

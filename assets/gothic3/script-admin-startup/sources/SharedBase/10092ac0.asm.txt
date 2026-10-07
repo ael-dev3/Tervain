@@ -1,0 +1,7 @@
+10092ac0 | 33c0 | XOR EAX,EAX
+10092ac2 | 89410c | MOV dword ptr [ECX + 0xc],EAX
+10092ac5 | 894108 | MOV dword ptr [ECX + 0x8],EAX
+10092ac8 | 894104 | MOV dword ptr [ECX + 0x4],EAX
+10092acb | 8901 | MOV dword ptr [ECX],EAX
+10092acd | 894110 | MOV dword ptr [ECX + 0x10],EAX
+10092ad0 | c3 | RET

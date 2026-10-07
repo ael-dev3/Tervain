@@ -1,0 +1,19 @@
+/* ENTRY 10093af0 | FUN_10093af0 | STATUS decompiled | 5 ms */
+
+bool __fastcall FUN_10093af0(bCAccessorPropertyObject *param_1)
+
+{
+  uint uVar1;
+  bool bVar2;
+  bCPropertyObjectBase *this;
+  bCPropertyObjectTypeBase *pbVar3;
+
+  bVar2 = bCAccessorPropertyObject::IsValid(param_1);
+  if (!bVar2) {
+    return bVar2;
+  }
+  uVar1 = *(uint *)(param_1 + 8);
+  this = (bCPropertyObjectBase *)bCAccessorPropertyObject::GetRootObject(param_1);
+  pbVar3 = bCPropertyObjectBase::GetTemplate(this);
+  return uVar1 < *(uint *)(pbVar3 + 0xc);
+}

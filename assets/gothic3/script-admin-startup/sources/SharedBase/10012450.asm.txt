@@ -1,0 +1,2 @@
+10012450 | 8a4110 | MOV AL,byte ptr [ECX + 0x10]
+10012453 | c3 | RET

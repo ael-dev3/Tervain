@@ -1,0 +1,8 @@
+/* ENTRY 10089060 | bCPropertyObjectBase::~bCPropertyObjectBase | STATUS decompiled | 3 ms */
+
+void __thiscall bCPropertyObjectBase::~bCPropertyObjectBase(bCPropertyObjectBase *this)
+
+{
+  this->vftablePtr = &vftable;
+  return;
+}

@@ -1,0 +1,28 @@
+1004a620 | 56 | PUSH ESI
+1004a621 | 8bf1 | MOV ESI,ECX
+1004a623 | 8b06 | MOV EAX,dword ptr [ESI]
+1004a625 | 8b503c | MOV EDX,dword ptr [EAX + 0x3c]
+1004a628 | ffd2 | CALL EDX
+1004a62a | 3c01 | CMP AL,0x1
+1004a62c | 750a | JNZ 0x1004a638
+1004a62e | 8b06 | MOV EAX,dword ptr [ESI]
+1004a630 | 8b5020 | MOV EDX,dword ptr [EAX + 0x20]
+1004a633 | 8bce | MOV ECX,ESI
+1004a635 | 5e | POP ESI
+1004a636 | ffe2 | JMP EDX
+1004a638 | 8b4e04 | MOV ECX,dword ptr [ESI + 0x4]
+1004a63b | 85c9 | TEST ECX,ECX
+1004a63d | 7408 | JZ 0x1004a647
+1004a63f | 8b01 | MOV EAX,dword ptr [ECX]
+1004a641 | 8b5030 | MOV EDX,dword ptr [EAX + 0x30]
+1004a644 | 5e | POP ESI
+1004a645 | ffe2 | JMP EDX
+1004a647 | 8b4e08 | MOV ECX,dword ptr [ESI + 0x8]
+1004a64a | 8d4101 | LEA EAX,[ECX + 0x1]
+1004a64d | 33c1 | XOR EAX,ECX
+1004a64f | 25ffffff7f | AND EAX,0x7fffffff
+1004a654 | 33c1 | XOR EAX,ECX
+1004a656 | 894608 | MOV dword ptr [ESI + 0x8],EAX
+1004a659 | 25ffffff7f | AND EAX,0x7fffffff
+1004a65e | 5e | POP ESI
+1004a65f | c3 | RET
