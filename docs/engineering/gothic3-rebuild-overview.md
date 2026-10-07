@@ -11,29 +11,36 @@ of Gothic 3's endings. A scene viewer, a decoded model or a successfully read
 native data structure is a useful component milestone, but it does not by
 itself establish a playable reconstruction.
 
-The confirmed argument-initialization publication recorded here is
-[checkpoint 109](gothic3-rebuilding-process.md#109-own-cold-encoding-initialization-and-the-normal-argument-return),
-merged in [PR 77](https://github.com/ael-dev3/Tervain/pull/77) at commit
-`25e631eb745282d0517f2153723e29a2cf98a1aa` and published by successful
-[workflow run 37686349159](https://github.com/ael-dev3/Tervain/actions/runs/37686349159).
-It extends the retained I/O invocation through cold encoding-table
-initialization and both argument parser passes to the actual zero argument
-return. The corrected local production preview records 14,777 completed source
-operations and argument count 1, then stops before environment initialization
-at `204678e7`.
+## Current status — 8 October 2026
 
-The [publication receipt](gothic3-rebuilding-process.md#confirmed-publication-of-checkpoint-109)
-records successful checks and matching deployed artifacts. Those comparisons
-establish published code identity; the execution observation is from the local
-production preview. The [checkpoint record](gothic3-rebuilding-process.md#109-own-cold-encoding-initialization-and-the-normal-argument-return)
-preserves the first startup timeout, the subsequent diagnostic compatibility
-failure, and their corrections.
+The latest confirmed publication is [PR 81](https://github.com/ael-dev3/Tervain/pull/81),
+merged at `7bf684961ba6912011370d652ce8afa66cee37b4` and deployed by
+[Pages run 37702332541](https://github.com/ael-dev3/Tervain/actions/runs/37702332541).
+The served Gothic entry and three selected JavaScript chunks were compared with
+the corresponding local production artifacts and matched byte for byte.
+That establishes publication identity; it does not establish complete gameplay.
 
-The current code extends that baseline with
-[environment initialization in checkpoint 110](gothic3-game-environment-startup.md).
-The selected browser startup copies its environment, releases the input,
-returns zero, and prepares the next initializer argument. Its next unfinished
-call is `__cinit` at `204678f2`.
+Startup now completes the selected environment initialization and stops before
+Game's `__cinit` call at `204678f2`. The repository captures all 2,473 Game
+initializer callbacks and verifies 49,272 instructions against 207,641 original
+bytes. Capturing those callbacks does not execute them.
+
+PR 81 implements original property constructors, CString equality, template-array
+reserve behavior and pointer identity preservation during allocation copies.
+Its CI passed typechecking, the production build and 2,477 tests. These supporting
+components still need to join actual initializer traversal and property
+registration before they can enable full NPC startup.
+
+A subsequent local implementation captures and reads 328 property-owner getters:
+291 use field offset 24 and 37 use offset 28. It reads the retained receiver's
+actual vtable and pointer storage. This work is not yet published or connected
+to live virtual-call execution, and does not register property templates.
+
+The next dependency chain includes original type-singleton initialization,
+class-name and factory construction, property registration, and the lifecycle
+calls made by virtual `Create`. The first studied `Create` target destroys/reset
+state and unregisters a template before the callback registers it again; simply
+zeroing fields would omit that behavior.
 
 The browser supports exploration and selected gameplay paths. Whole-module
 startup, native NPC activation and most campaign progression remain unfinished.

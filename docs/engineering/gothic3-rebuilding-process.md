@@ -4,6 +4,18 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Latest process summary — 8 October 2026
+
+See the [current rebuilding overview](gothic3-rebuild-overview.md#current-status--8-october-2026)
+for the latest confirmed deployment, source recovery, supporting implementations
+and remaining startup dependencies. PR 81 is published at main commit
+`7bf684961ba6912011370d652ce8afa66cee37b4`; the selected live Game startup
+still stops before `__cinit` at `204678f2`. The property-owner getter implementation
+following that publication is local work and has not been connected to live dispatch.
+
+The dated checkpoint receipts below describe their own revisions and observations.
+Their publication statements should be read as historical evidence.
+
 Updated: 7 October 2026. The latest confirmed Gothic implementation publication
 recorded here is [checkpoint 109](#109-own-cold-encoding-initialization-and-the-normal-argument-return),
 merged in [PR 77](https://github.com/ael-dev3/Tervain/pull/77) at commit
