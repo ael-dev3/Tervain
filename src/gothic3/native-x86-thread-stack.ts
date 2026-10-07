@@ -8,6 +8,7 @@ import { NativeModuleCrtOwner } from './native-engine-crt-locks';
 import { nativeGameImageReceipt } from './native-game-crt-profile';
 import { NativeGameCrtIoInit } from './native-game-crt-ioinit';
 import type { NativeX86ThreadStackSelection } from './native-x86-thread-stack-profile';
+import type { NativeStartupInfoCallGrant } from './native-win32-startup-io';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = (reason: string): { known: false; reason: string } => ({ known: false, reason });
@@ -23,8 +24,14 @@ interface Slot { readonly word: NativeX86Word32; readonly bytes: readonly number
 interface Binding { readonly crt: NativeModuleCrtOwner; readonly owner: NativeGameCrtIoInit; readonly controller: object; }
 interface PhysicalProof { readonly backing: NativeMemoryBacking; readonly identity: object; readonly rootBytes: Uint8Array;
   readonly rootMasks: Uint8Array; readonly bytes: Uint8Array; readonly masks: Uint8Array; readonly view: DataView; readonly length: number; }
+interface StartupCall {
+  readonly stack: NativeX86ThreadStack; readonly controller: object; readonly fields: NativeHeapObjectViews;
+  readonly offset: number; readonly argument: NativeX86Word32; readonly position: number;
+  readonly returnWord: NativeX86Word32; phase: 'pending' | 'returned';
+}
 const graphs = new WeakMap<NativeRuntimePlatform, NativeX86ThreadStack>();
 const retirements = new WeakMap<NativeX86ThreadStack, () => void>();
+const startupCalls = new WeakMap<NativeStartupInfoCallGrant, StartupCall>();
 const constructionToken = token;
 function physical(bytes: number): NativeHeapObjectViews {
   const backing: NativeMemoryBacking = { identity: Object.freeze({}), bytes: new Uint8Array(bytes), knownMask: new Uint8Array(bytes), freed: false };
@@ -50,6 +57,10 @@ export class NativeX86ThreadStack {
   readonly #storage = new WeakMap<NativeHeapObjectViews, PhysicalProof>();
   readonly #startupViews = new Map<number, NativeHeapObjectViews>();
   readonly #calls: { site: string; returnWord: NativeX86Word32; position: number; returned: boolean }[] = [];
+  #startupGrant: NativeStartupInfoCallGrant | null = null;
+  #startupInfoCallPushed = false;
+  #startupInfoWriterCalled = false;
+  #startupInfoWriterReturned = false;
   #binding: Binding | null = null;
   #phase: 'cold' | 'running' | 'blocked' | 'retired' = 'cold';
   #boundary: string | null = null;
@@ -92,6 +103,60 @@ export class NativeX86ThreadStack {
     if (stack.#binding) return stack.#binding.owner === owner && stack.#binding.crt === crt && stack.#binding.controller === controller
       ? known(undefined) : unknown('Retained x86 controller cannot rebind');
     stack.#binding = Object.freeze({ crt, owner, controller }); return known(undefined);
+  }
+  static canonicalStartupInfoCallForPlatform(platform: NativeRuntimePlatform,
+    grant: NativeStartupInfoCallGrant): NativeValue<void> {
+    const invocation = NativeRuntimePlatform.canonicalStartupInfoInvocationForPlatform(platform, grant);
+    if (!invocation.known) return invocation;
+    const call = startupCalls.get(grant);
+    if (!call || graphs.get(platform) !== call.stack) return unknown('Actual same-platform privately minted startup call required');
+    try { call.stack.#startupProof(grant, call); return known(undefined); }
+    catch (error) { return unknown(reason(error)); }
+  }
+  /** Only the Runtime's exact currently executing endpoint may write the
+   * privately resolved frame. This never exposes its alias or controller. */
+  static writeStartupInfoForCall(platform: NativeRuntimePlatform, grant: NativeStartupInfoCallGrant,
+    offset: number, width: 1 | 2 | 4, value: number, mask: number): NativeValue<void> {
+    const admitted = NativeX86ThreadStack.canonicalStartupInfoCallForPlatform(platform, grant); if (!admitted.known) return admitted;
+    const call = startupCalls.get(grant)!;
+    try {
+      const maximum = width === 4 ? 0xffffffff : width === 2 ? 0xffff : 0xff;
+      if (![1, 2, 4].includes(width) || !Number.isSafeInteger(offset) || offset < 0 || offset + width > 68 ||
+          !Number.isInteger(value) || value < 0 || value > maximum || !Number.isInteger(mask) || mask < 0 || mask > maximum) {
+        throw new Error('Actual bounded STARTUPINFOA byte/word/dword masked store required');
+      }
+      if (offset < 0x38 && offset + width > 0x34 &&
+          (offset !== 0x34 || width !== 4 || value !== 0 || mask !== 0xffffffff)) {
+        throw new Error('STARTUPINFOA non-NULL reserved pointer has no owned block capability');
+      }
+      const stack = call.stack, position = call.offset + offset;
+      stack.#physical(stack.#stack); stack.#physical(stack.#bank);
+      const slots = stack.#slots.get(stack.#stack);
+      if (slots) for (const begin of slots.keys()) if (begin < position + width && begin + 4 > position) slots.delete(begin);
+      const current = NativeHeapObjectViews.prototype.maskedWord.call(stack.#stack, position, width);
+      current.value = value; current.knownMask = mask;
+      stack.#startupProof(grant, call); return known(undefined);
+    } catch (error) { return unknown(reason(error)); }
+  }
+  #startupProof(grant: NativeStartupInfoCallGrant, call: StartupCall): void {
+    this.#check(call.controller);
+    const binding = this.#binding!, actual = NativeGameCrtIoInit.canonicalStartupInfoCallForCrt(binding.owner, binding.crt, call.controller);
+    if (!actual.known) throw new Error(actual.reason);
+    const top = this.#calls.at(-1), argument = this.#load(this.#stack, call.position + 4);
+    if (!this.#executing || this.#startupGrant !== grant || call.phase !== 'pending' || call.stack !== this ||
+        call.fields !== actual.value || this.#startupViews.get(call.offset) !== call.fields ||
+        call.position !== call.offset - 0x18 ||
+        this.#address(this.#load(this.#bank, this.#reg('ESP'))) !== call.position ||
+        this.#address(this.#load(this.#bank, this.#reg('EBP'))) - 0x64 !== call.offset ||
+        argument !== call.argument || this.#address(argument) !== call.offset ||
+        !top || top.returned || top.site !== '20474314' || top.position !== call.position || top.returnWord !== call.returnWord ||
+        this.#load(this.#stack, call.position) !== call.returnWord ||
+        call.fields.backing !== this.#stack.backing || call.fields.bytes.buffer !== this.#stack.bytes.buffer ||
+        call.fields.bytes.byteOffset !== this.#stack.bytes.byteOffset + call.offset || call.fields.bytes.length !== 68 ||
+        call.fields.knownMask.buffer !== this.#stack.knownMask.buffer ||
+        call.fields.knownMask.byteOffset !== this.#stack.knownMask.byteOffset + call.offset || call.fields.knownMask.length !== 68) {
+      throw new Error('Actual pending GetStartupInfoA call/current argument/private frame alias required');
+    }
   }
   #controllerProof(controller: object, mode: 'invoke' | 'retain' = 'invoke'): void {
     const binding = this.#binding;
@@ -181,6 +246,13 @@ export class NativeX86ThreadStack {
     this.#calls.push({ site, returnWord, position: this.#address(this.#load(this.#bank, this.#reg('ESP'))), returned: false });
     this.#trace.push('CALL ' + site + ' return ' + returnAddress);
   }
+  #ret(): NativeX86Word32 {
+    const esp = this.#address(this.#load(this.#bank, this.#reg('ESP'))), word = this.#load(this.#stack, esp);
+    const call = [...this.#calls].reverse().find(entry => !entry.returned);
+    if (!call || call.returnWord !== word) throw new Error('Actual owned source CALL/RET continuation required');
+    this.#store(this.#bank, this.#reg('ESP'), this.#mint(0, 0, { kind: 'stack', offset: esp + 4 }));
+    call.returned = true; this.#currentPc = word; return word;
+  }
   beginIoCall(controller: object): NativeValue<void> {
     try { this.#controllerProof(controller); } catch (error) { return unknown(reason(error)); }
     try {
@@ -245,13 +317,48 @@ export class NativeX86ThreadStack {
   load(controller: object, address: NativeX86Word32): NativeValue<NativeX86Word32> { return this.#run(controller, () => this.#load(this.#stack, this.#address(address))); }
   store(controller: object, address: NativeX86Word32, word: NativeX86Word32): NativeValue<void> { return this.#run(controller, () => this.#store(this.#stack, this.#address(address), word)); }
   push(controller: object, word: NativeX86Word32): NativeValue<void> { return this.#run(controller, () => this.#push(word)); }
-  call(controller: object, site: string, returnAddress: string): NativeValue<void> { return this.#run(controller, () => this.#call(site, returnAddress)); }
-  ret(controller: object): NativeValue<NativeX86Word32> { return this.#run(controller, () => {
+  pop(controller: object, name: NativeX86Register): NativeValue<void> { return this.#run(controller, () => {
     const esp = this.#address(this.#load(this.#bank, this.#reg('ESP'))), word = this.#load(this.#stack, esp);
-    const call = [...this.#calls].reverse().find(entry => !entry.returned);
-    if (!call || call.returnWord !== word) throw new Error('Actual owned source CALL/RET continuation required');
-    this.#store(this.#bank, this.#reg('ESP'), this.#mint(0, 0, { kind: 'stack', offset: esp + 4 }));
-    call.returned = true; this.#currentPc = word; return word;
+    this.#store(this.#bank, this.#reg(name), word);
+    if (name !== 'ESP') this.#store(this.#bank, this.#reg('ESP'), this.#mint(0, 0, { kind: 'stack', offset: esp + 4 }));
+  }); }
+  call(controller: object, site: string, returnAddress: string): NativeValue<void> { return this.#run(controller, () => this.#call(site, returnAddress)); }
+  ret(controller: object): NativeValue<NativeX86Word32> { return this.#run(controller, () => this.#ret()); }
+  /** Fixed original import site; the caller cannot supply a grant, source PC,
+   * argument view, endpoint implementation or a completed return snapshot. */
+  invokeStartupInfoA(controller: object): NativeValue<void> { return this.#run(controller, () => {
+    const endpoints = this.#platform.startupIoEndpoints;
+    if (!endpoints) throw new Error('GetStartupInfoA20474314 requires an actual selected Runtime writer');
+    const endpointProof = NativeRuntimePlatform.canonicalStartupIoEndpointsForPlatform(this.#platform, endpoints);
+    if (!endpointProof.known) throw new Error(endpointProof.reason);
+    const binding = this.#binding!, actual = NativeGameCrtIoInit.canonicalStartupInfoCallForCrt(binding.owner, binding.crt, controller);
+    if (!actual.known) throw new Error(actual.reason);
+    if (this.#startupGrant) throw new Error('Retained startup import cannot replay');
+    const argumentPosition = this.#address(this.#load(this.#bank, this.#reg('ESP'))), argument = this.#load(this.#stack, argumentPosition);
+    const ebp = this.#address(this.#load(this.#bank, this.#reg('EBP'))), offset = ebp - 0x64, fields = this.#startupViews.get(offset);
+    if (!fields || fields !== actual.value || this.#address(argument) !== offset || argumentPosition !== ebp - 0x78) throw new Error('Current startup argument must resolve to its exact private68-byte frame alias');
+    this.#call('20474314', '2047431a'); this.#startupInfoCallPushed = true;
+    const top = this.#calls.at(-1)!, grant = Object.freeze({ identity: Object.freeze({}) });
+    const call: StartupCall = { stack: this, controller, fields, offset, argument,
+      position: top.position, returnWord: top.returnWord, phase: 'pending' };
+    this.#startupGrant = grant; startupCalls.set(grant, call); this.#startupInfoWriterCalled = true;
+    const result = endpoints.getStartupInfoA(grant); if (!result.known) throw new Error(result.reason);
+    const returned = NativeRuntimePlatform.canonicalStartupInfoNormalReturnForPlatform(this.#platform, grant);
+    if (!returned.known) throw new Error(returned.reason);
+    this.#startupProof(grant, call);
+    // Explicit virtual ABI, not observed Windows registers: the void import
+    // supplies no known volatile bits. Callee-saved registers/FS stay retained.
+    for (const name of ['EAX', 'ECX', 'EDX'] as const) this.#store(this.#bank, this.#reg(name), this.#mint(0, 0));
+    const continuation = this.#load(this.#stack, call.position), record = this.#record(continuation);
+    if (record.provenance?.kind !== 'source' || record.provenance.type !== 'code' || record.provenance.address !== '2047431a') throw new Error('Actual startup stdcall continuation required');
+    if (this.#address(this.#load(this.#bank, this.#reg('ESP'))) !== call.position ||
+        call.position + 4 !== argumentPosition || this.#load(this.#stack, argumentPosition) !== argument ||
+        call.position + 8 > this.#stack.bytes.length) throw new Error('Actual startup stdcall argument cleanup required');
+    // The declared RET4 consumes the return and argument in one owned ESP
+    // transition. Unknown outcomes never reach this normal-return operation.
+    this.#store(this.#bank, this.#reg('ESP'), this.#mint(0, 0, { kind: 'stack', offset: call.position + 8 }));
+    top.returned = true; this.#currentPc = continuation;
+    call.phase = 'returned'; this.#startupInfoWriterReturned = true;
   }); }
   readFs0(controller: object): NativeValue<NativeX86Word32> { return this.#run(controller, () => this.#load(this.#bank, 32)); }
   writeFs0(controller: object, word: NativeX86Word32): NativeValue<void> { return this.#run(controller, () => this.#store(this.#bank, 32, word)); }
@@ -291,6 +398,8 @@ export class NativeX86ThreadStack {
       stack: Object.freeze({ bytes: copy(this.#stack.bytes), knownMask: copy(this.#stack.knownMask), freed: this.#stack.backing.freed }),
       registers: Object.freeze(cells), fs0: cell(32), currentPc: this.#currentPc ? describe(this.#currentPc) : null,
       calls: Object.freeze(this.#calls.map(call => Object.freeze({ site: call.site, returnWord: describe(call.returnWord), position: call.position, returned: call.returned }))), trace: Object.freeze(this.#trace.slice()),
+      startupInfoCallPushed: this.#startupInfoCallPushed, startupInfoWriterCalled: this.#startupInfoWriterCalled,
+      startupInfoWriterReturned: this.#startupInfoWriterReturned,
       numericalRuntimeAddressesProvided: false, nativeSehDispatchExecuted: false });
   }
 }

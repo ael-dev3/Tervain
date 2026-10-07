@@ -15,6 +15,15 @@ stack, register and exception-frame state. The next required operation is the
 [publication receipt](#confirmed-publication-of-checkpoint-105) verifies the
 deployed artifacts. Full startup, production NPC activation and campaign
 completion remain unfinished.
+
+The current source extension is
+[checkpoint 106](#106-own-the-startup-info-writer-and-normal-import-return),
+which owns the selected startup-info writer and normal stack return, then
+prepares the first I/O allocation arguments. Its next required call is
+`calloc` at `20474327`. The local browser observation is recorded below.
+Publication evidence for this extension must identify its own merged revision,
+successful main workflow and deployed artifacts; checkpoint 105's receipt
+remains historical evidence for 105.
 The published baseline for checkpoints 95–99 was
 merged in [PR 60](https://github.com/ael-dev3/Tervain/pull/60) at commit
 `5f530d4176595e0df294f58039eb99f2e42d33c4` and published by successful
@@ -133,7 +142,7 @@ The [scope record](gothic3-browser-port.md) describes the current controls,
 limitations and source terms.
 
 This guide records the hosted baseline and subsequent dated checkpoints that
-preserve the evidence for each stage. Sections 10–105 cover
+preserve the evidence for each stage. Sections 10–106 cover
 the later runtime work; each receipt identifies its source revision and scope.
 
 Each checkpoint's reproduction commands describe its recorded source revision.
@@ -432,17 +441,18 @@ code is under [src/gothic3](../../src/gothic3):
 | `animation.ts`, `skinning.ts` | Hero clip playback and all native bone influences |
 | `native-motion.ts` | Source quaternion packing/interpolation, pose fallback and normalization |
 | `catalog.ts`, `catalog-view.ts` | Verified original quest/dialogue records and language selection |
-| `quest-state.ts` | Native status transition kernel with explicit host effects; not enabled for play |
+| `quest-state.ts`, `quest-runtime.ts`, `live-dialogue.ts` | Native status transition kernel and bounded saved Ardea quest/dialogue integration; unsupported host effects remain explicit |
 | `resource.ts` | Hash-checked, bounded decompression of lazy native-data chunks |
 | `native-data.ts`, `scene-routine-position.ts` | Read indexed source entities, resolve unambiguous routine-point references and seed Ardea character transforms; no NPC scheduler or activation |
 | `style.css` | The separate page's interface |
 
 This code uses Three.js to display the prepared resources. It does not load
 native DLLs, execute decompiled functions or import Tervain's simulation.
-Ground support and movement are new approximations. NPC models remain static
-bind-pose previews. The Hero inspector uses original skin weights and selected
-motion tracks; equipment attachments, combat and NPC animation selection still
-need corresponding native behavior. Preview lighting and brightness are browser
+Ground support and movement are new approximations. Most NPC models remain
+static bind-pose previews; Diego uses source skin weights and mapped Hero clips.
+The Hero inspector uses original skin weights and selected motion tracks;
+equipment attachments, combat and general NPC animation selection still need
+corresponding native behavior. Preview lighting and brightness are browser
 choices.
 
 The generated [scene manifest](../../public/gothic3/scene.json) connects models
@@ -7716,3 +7726,132 @@ The served NPC service retained the v3 stack profile, the I/O caller permit and
 the `20474314`/`207d7c1c` boundary markers. This establishes which reviewed
 implementation was served. No new browser interaction, native execution,
 performance result or campaign completion was observed in this checkpoint.
+
+## 106. Own the startup-info writer and normal import return
+
+The next original I/O operation calls `GetStartupInfoA` through IAT `207d7c1c`
+at `20474314`. It must write the 68-byte structure already passed by the actual
+caller and return to `2047431a`. This checkpoint connects a declared virtual
+writer to that current physical call, then executes the five original rows
+preparing the first allocation. It leaves the outer I/O frame and final caller
+continuation retained at the next unowned call.
+
+### Preserve the focused original caller evidence
+
+```powershell
+python -B scripts/gothic3_game_io_writer_source.py --study '<LOCAL_GOTHIC3_STUDY>' --repo . --output assets/gothic3/game-io-writer
+```
+
+The four-output [source package](../../assets/gothic3/game-io-writer/README.md)
+captures six selected rows totaling 19 original instruction bytes. Its seventh
+instruction pin is the unexecuted next call at `20474327`. It reuses the exact
+I/O body and calloc wrapper C/ASM references in the unchanged continuation and
+Game CRT packages: 212 contextual rows and 634 bytes. Its manifest retains the
+original binary, assembly, catalog and C source identities, final producer and
+loaded helpers, nine dependency documents and four reused source artifacts.
+The original I/O source gap remains explicitly unfilled.
+
+The void stdcall4 return, preserved registers/FS and unknown volatile registers
+are declared virtual Win32 compatibility rules consistent with the original
+caller. They are separate from captured native caller instructions. No original
+Windows callee or host process output is executed or claimed as captured.
+
+### Select the actual writer before constructing the graph
+
+The [production inputs](../../src/gothic3/browser-game-startup-io-inputs.ts)
+select three ordered masked stores: DWORD `cb=68`, WORD `cbReserved2=0` at
+offset `0x32`, and the NULL DWORD `lpReserved2` at offset `0x34`. These ten
+bytes become known through actual stores; untouched bytes retain their current
+unknown masks. The caller does not zero the whole structure.
+
+The [selection contract](../../src/gothic3/native-win32-startup-io.ts) copies and
+freezes primitive write data before a fresh Runtime/Game/bootstrap/I/O graph
+exists. It rejects accessor or iterator implementations and unsupported partial
+or non-NULL reserved pointers. The browser factory's optional v4 profile
+declares the writer and retains the selected logical thread and physical stack.
+Absent writer selections keep the previous pre-import boundary. No blocked
+graph is patched, enlarged, reset or replayed.
+
+### Own the physical call, stores and one normal return
+
+The [stack bridge](../../src/gothic3/native-x86-thread-stack.ts) checks the actual
+private I/O controller, current `20474314` call site, current argument word and
+exact retained `EBP-0x64` frame alias. It pushes the private `2047431a` return
+word, then grants only the Runtime's retained endpoint access during this call.
+Each BYTE/WORD/DWORD store checks current physical backing, masks, spans and
+lifetime and invalidates overlapping word/pointer provenance. Public endpoint
+shapes, source metadata and copied snapshots cannot manufacture a grant.
+
+After the argument PUSH, ESP is `EBP-0x78`; the import CALL places its return at
+`EBP-0x7c`. A normal void stdcall4 return consumes that actual return and four
+argument bytes, restoring ESP to `EBP-0x74`. EAX/ECX/EDX remain numerically
+unknown under the declared ABI, while callee-saved registers and FS remain
+retained. A 128-byte reservation fits checkpoint 105 but cannot fit this CALL;
+it stops at the attempted PUSH. The production 4,096-byte selection is sufficient.
+
+An unknown writer or escaped JavaScript error retains completed stores, pending
+call/argument slots, protected try level and FS registration. It consumes no
+normal return, executes no following try-level store and dispatches no native
+exception. Snapshots distinguish an attempted CALL, entered writer and completed
+normal return using their actual private execution state.
+
+### Continue the caller through its next actual dependency
+
+Only the completed normal import return permits these original source rows:
+
+| PC | Operation |
+| --- | --- |
+| `2047431a` | Store try level -2 at `EBP-4`. |
+| `20474321` | PUSH allocation element size 56. |
+| `20474323` | PUSH count 32. |
+| `20474325` | POP the current count into ESI. |
+| `20474326` | PUSH that retained ESI value as the count argument. |
+
+The selected normal path completes 35 original source operations including the
+29-row checkpoint 105 prefix. It stops **before** CALL `20474327` targeting
+`204683ce`; the count/size arguments and outer frame remain live. The existing
+logical allocator is reusable later, but its result cannot replace the missing
+nested stack/SEH execution and return. No allocation, I/O global publication,
+record initialization, epilog, final I/O return or module success is supplied.
+
+The bootstrap copies the reached `calloc` boundary only after its actual I/O
+invocation interrupts. Its private caller permit remains tied to the original
+I/O call. The model inspector's existing folded developer study now shows the
+retained startup phase, next operation, startup-info call result and incomplete
+I/O return. This is descriptive evidence; it grants no execution authority or
+NPC activation.
+
+### Local source, build and browser review
+
+Independent source, provider, stack, caller integration and coherent checkpoint
+reviews found no material issue in the final selection and return path. The
+four source-package outputs regenerate identically, and all 909 files in the
+earlier packages remain byte-identical. Whole-tree TypeScript checking and the
+production build passed, transforming 447 modules; the existing large-chunk
+warning remains. The documentation audit passed 405 relative links and 53
+Markdown anchors, and the diff whitespace check passed. No new cases or local
+test-suite execution were introduced.
+
+The local production preview was opened at `/gothic3/`. After entering Ardea,
+opening Models, selecting `Ardea_OutNovice_01` and expanding **Original entity
+study · developer details**, the displayed retained result was:
+
+```text
+Game startup: blocked · next calloc at 20474327
+Startup-info import: returned
+I/O initialization returned: no
+```
+
+The displayed interruption names the missing nested source call, frame,
+allocation and return and the retained count 32, size 56 and outer SEH frame.
+The model is its exported bind-pose body/head pair, with 11,280 triangles and
+two material meshes. The captured browser error log contained no errors during
+this review. This observation confirms the selected browser path reached the
+new startup boundary. It does not demonstrate complete I/O startup, original
+Windows execution, native NPC activation or campaign completion.
+
+The next work is to own the actual nested allocation frame and normal return,
+then continue I/O records, inherited/standard handles, sections, native exception
+paths and outer return. Remaining argument/environment/initializer traversal,
+module and property factories, live NPC activation and the full playable
+campaign remain required.

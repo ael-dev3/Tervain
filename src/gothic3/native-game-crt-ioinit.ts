@@ -1,6 +1,6 @@
-/** Actual incoming Game ioInit call and __SEH_prolog4 prefix. The published
- * FS frame remains suspended at GetStartupInfoA; no writer, exception dispatch,
- * epilog, ioInit return or module activation is supplied by this owner. */
+/** Actual incoming Game ioInit call, __SEH_prolog4 and selected STARTUPINFOA
+ * import continuation. A normal declared writer advances to the real calloc
+ * argument prefix; nested allocation, exceptions and final return remain unowned. */
 import type { NativeValue } from './dialogue';
 import { NativeCrtBootstrap } from './native-crt-bootstrap';
 import { NativeModuleCrtOwner } from './native-engine-crt-locks';
@@ -9,6 +9,7 @@ import { NativeRuntimePlatform } from './native-runtime-platform';
 import { NativeX86ThreadStack } from './native-x86-thread-stack';
 import type { NativeX86Word32 } from './native-x86-thread-stack';
 import { admitGameIoStartupSource, gameIoStartupInstruction, gameIoStartupImageReceipt } from './native-game-crt-io-source';
+import { admitGameIoWriterSource, gameIoWriterStartupInstruction } from './native-game-crt-io-writer-source';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = (reason: string): { known: false; reason: string } => ({ known: false, reason });
@@ -24,9 +25,9 @@ interface Construction {
 interface IoEffect {
   readonly pc: string; readonly operation: string;
 }
-export interface NativeGameCrtIoInitNextBoundary {
-  readonly pc: '20474314'; readonly iat: '207d7c1c'; readonly operation: 'GetStartupInfoA';
-}
+export type NativeGameCrtIoInitNextBoundary =
+  | Readonly<{ pc: '20474314'; iat: '207d7c1c'; operation: 'GetStartupInfoA' }>
+  | Readonly<{ pc: '20474327'; target: '204683ce'; operation: 'calloc' }>;
 const owners = new WeakMap<NativeModuleCrtOwner, Construction>();
 const constructionToken = Object.freeze({});
 
@@ -49,6 +50,7 @@ export class NativeGameCrtIoInit {
   #fsPublished = false;
   #startupInfo: NativeHeapObjectViews | null = null;
   #writerBoundaryReached = false;
+  #callocBoundaryReached = false;
   #suspension: Readonly<NativeValue<void>> | null = null;
   readonly #effects: IoEffect[] = [];
 
@@ -112,6 +114,23 @@ export class NativeGameCrtIoInit {
     } catch (error) { return unknown(reason(error)); }
   }
 
+  /** Only the exact active controller at the actual import source row can
+   * obtain this retained frame alias. The graph checks current physical
+   * storage and the current stack argument before each granted writer store. */
+  static canonicalStartupInfoCallForCrt(owner: NativeGameCrtIoInit, crt: NativeModuleCrtOwner,
+    controller: object): NativeValue<NativeHeapObjectViews> {
+    const active = NativeGameCrtIoInit.canonicalControllerForCrt(owner, crt, controller, 'invoke');
+    if (!active.known) return active;
+    try {
+      if (owner.#pc !== '20474314' || !owner.#writerBoundaryReached || !owner.#startupInfo ||
+          owner.#startupInfo.bytes.length !== 68 || owner.#startupInfo.knownMask.length !== 68 ||
+          owner.#startupInfo.backing.freed !== false) {
+        return unknown('Actual reached Game GetStartupInfoA call and retained frame alias of 68 bytes required');
+      }
+      return known(owner.#startupInfo);
+    } catch (error) { return unknown(reason(error)); }
+  }
+
   static enterForAttach(owner: NativeGameCrtIoInit, crt: NativeModuleCrtOwner,
     bootstrap: NativeCrtBootstrap, permit: object): NativeValue<number> {
     const entry = owners.get(crt);
@@ -141,8 +160,9 @@ export class NativeGameCrtIoInit {
     if (this.#phase !== 'invoking' || !this.#bootstrap || !this.#permit) throw new Error(this.#boundary ?? 'Actual active ioInit invocation required');
     fact(NativeCrtBootstrap.canonicalIoCallForCrt(this.#bootstrap, this.#crt, this.#permit));
   }
-  #step<T>(pc: string, operation: string, body: () => NativeValue<T>): T {
-    this.#pc = pc; this.#guard(); gameIoStartupInstruction(pc);
+  #step<T>(pc: string, operation: string, body: () => NativeValue<T>, writerSource = false): T {
+    this.#pc = pc; this.#guard();
+    if (writerSource) gameIoWriterStartupInstruction(pc); else gameIoStartupInstruction(pc);
     const value = fact(body());
     this.#effects.push(Object.freeze({ pc, operation }));
     this.#guard(); return value;
@@ -233,14 +253,31 @@ export class NativeGameCrtIoInit {
       this.#pc = '20474314'; this.#guard(); gameIoStartupInstruction(this.#pc);
       this.#startupInfo = fact(NativeX86ThreadStack.prototype.startupInfoView.call(this.#stack, this.#controller, this.#register('EBP')));
       this.#guard(); this.#writerBoundaryReached = true;
-      this.#suspend('Game ioInit20474314 GetStartupInfoA IAT207d7c1c requires an actual owned STARTUPINFOA writer or native exception dispatch; published SEH frame remains retained');
+      // The retained platform decides whether it owns this import before it
+      // pushes a return word. Only its normal void stdcall return permits the
+      // next source row; snapshots of a pending call supply no such authority.
+      admitGameIoWriterSource();
+      this.#step('20474314', 'CALL GetStartupInfoA IAT207d7c1c', () =>
+        NativeX86ThreadStack.prototype.invokeStartupInfoA.call(this.#stack, this.#controller), true);
+      this.#step('2047431a', 'MOV tryLevel minus2 after writer return', () =>
+        this.#store(this.#relative('EBP', -4), this.#immediate(0xfffffffe)), true);
+      this.#step('20474321', 'PUSH calloc size56', () => this.#push(this.#immediate(0x38)), true);
+      this.#step('20474323', 'PUSH calloc count32', () => this.#push(this.#immediate(0x20)), true);
+      this.#step('20474325', 'POP ESI count32', () =>
+        NativeX86ThreadStack.prototype.pop.call(this.#stack, this.#controller, 'ESI'), true);
+      this.#step('20474326', 'PUSH ESI calloc count32', () => this.#push(this.#register('ESI')), true);
+      this.#pc = '20474327'; this.#guard(); gameIoWriterStartupInstruction(this.#pc);
+      this.#callocBoundaryReached = true;
+      this.#suspend('Game ioInit20474327 calloc204683ce requires its actual nested source call, frame, allocation and return; count32 and size56 arguments and the published outer SEH frame remain retained');
       return unknown(this.#boundary!);
     } catch (error) { this.#suspend(reason(error)); return unknown(this.#boundary!); }
   }
 
   snapshot() {
-    const nextBoundary: Readonly<NativeGameCrtIoInitNextBoundary> | null = this.#writerBoundaryReached
-      ? Object.freeze({ pc: '20474314', iat: '207d7c1c', operation: 'GetStartupInfoA' }) : null;
+    const nextBoundary: Readonly<NativeGameCrtIoInitNextBoundary> | null = this.#callocBoundaryReached
+      ? Object.freeze({ pc: '20474327', target: '204683ce', operation: 'calloc' })
+      : this.#writerBoundaryReached && this.#pc === '20474314'
+        ? Object.freeze({ pc: '20474314', iat: '207d7c1c', operation: 'GetStartupInfoA' }) : null;
     let startupInfo: Readonly<{ bytes: readonly number[] | null; knownMask: readonly number[] | null;
       length: number | null; freed: boolean | null }> | null = null;
     if (this.#startupInfo) {
@@ -255,15 +292,20 @@ export class NativeGameCrtIoInit {
       } catch { /* A detached diagnostic view remains descriptive only. */ }
       startupInfo = Object.freeze({ bytes, knownMask: masks, length, freed });
     }
+    const stack = NativeX86ThreadStack.prototype.snapshot.call(this.#stack);
     return Object.freeze({ module: 'Game' as const, entry: '204742ff', phase: this.#phase, pc: this.#pc,
       boundary: this.#boundary, nextBoundary, incomingCallCompleted: this.#incomingCallCompleted,
       prologReturned: this.#prologReturned, fsPublished: this.#fsPublished,
       startupInfo, suspension: this.#suspension,
       effects: Object.freeze([...this.#effects]),
-      stack: NativeX86ThreadStack.prototype.snapshot.call(this.#stack),
+      stack,
       callerReturn: '204678d3', callerReturnConsumed: false,
       callerSlotLifetime: 'retained-through-final-ioInit-RET2047453e' as const,
-      getStartupInfoCalled: false, exceptionDispatchExecuted: false, epilogExecuted: false,
+      getStartupInfoCallPushed: stack.startupInfoCallPushed,
+      getStartupInfoCalled: stack.startupInfoWriterCalled, getStartupInfoReturned: stack.startupInfoWriterReturned,
+      callocArgumentPrefixCompleted: this.#callocBoundaryReached,
+      callocCalled: false, firstIoBlockAllocated: false, ioGlobalsPublished: false,
+      exceptionDispatchExecuted: false, epilogExecuted: false,
       ioInitReturned: false, wholeCrtTraversalCompleted: false, moduleAttachCompleted: false });
   }
 }

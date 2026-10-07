@@ -10,6 +10,8 @@ import type { NativeEngineCrtPlatformServices } from './native-runtime-platform'
 import { retainNativeWin32ProcessInputSelection } from './native-win32-process-inputs';
 import type { NativeWin32ProcessInputSelection, RetainedWin32ProcessInputSelection } from './native-win32-process-inputs';
 import type { NativeX86ThreadStackSelection } from './native-x86-thread-stack-profile';
+import { retainNativeWin32StartupIoSelection } from './native-win32-startup-io';
+import type { NativeWin32StartupIoSelection, RetainedWin32StartupIoSelection } from './native-win32-startup-io';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = (reason: string): { known: false; reason: string } => ({ known: false, reason });
@@ -53,13 +55,23 @@ export interface BrowserGameCrtStackAbiProfile extends Omit<typeof browserGameCr
   readonly stackAddressModel: 'opaque-relative'; readonly stackReservationBytes: number;
   readonly initialStackRegisters: 'unknown'; readonly initialFs0: 'unknown';
 }
+export interface BrowserGameCrtStartupWriterAbiProfile extends Omit<BrowserGameCrtStackAbiProfile, 'profile'> {
+  readonly profile: 'browser-game-crt-virtual-win32-nt6.1-startup-writer-v4';
+  readonly startupInfoWriterProvided: boolean;
+  readonly startupInfoOrigin: 'declared-virtual-process';
+  readonly startupInfoCoverage: 'explicit-ordered-masked-writes';
+  readonly startupInfoCallConvention: 'void-stdcall4';
+  readonly startupInfoVolatileRegisters: 'unknown-EAX-ECX-EDX';
+  readonly startupInfoNativeExceptionDispatchProvided: false;
+}
 export interface BrowserGameCrtPlatformProfile {
   readonly identity: object;
-  readonly abi: typeof browserGameCrtAbiProfile | BrowserGameCrtProcessAbiProfile | BrowserGameCrtStackAbiProfile;
+  readonly abi: typeof browserGameCrtAbiProfile | BrowserGameCrtProcessAbiProfile | BrowserGameCrtStackAbiProfile | BrowserGameCrtStartupWriterAbiProfile;
   readonly thread: Readonly<{ capability: object; logicalId: number }>;
   /** Immutable descriptions, never OS-buffer or conversion authority. */
   readonly processInputs?: Readonly<{ identity: object; selection: RetainedWin32ProcessInputSelection }>;
   readonly threadStack?: Readonly<NativeX86ThreadStackSelection>;
+  readonly startupIo?: Readonly<RetainedWin32StartupIoSelection>;
 }
 // Only this factory can publish provider authority. Descriptive records or an
 // arbitrary RuntimePlatform with similar service settings supply no proof.
@@ -83,6 +95,15 @@ export function browserGameCrtPlatformProfile(platform: NativeRuntimePlatform): 
       return unknown('Actual retained same-logical-thread browser stack selection required');
     }
   }
+  if (profile.startupIo) {
+    const selected = NativeRuntimePlatform.startupIoSelectionForPlatform(platform);
+    if (!selected.known || selected.value !== profile.startupIo) return unknown('Actual retained browser startup writer selection required');
+    const endpoints = platform.startupIoEndpoints;
+    if (profile.startupIo.startupInfoA) {
+      if (!endpoints) return unknown('Actual retained browser startup writer endpoint required');
+      const proof = NativeRuntimePlatform.canonicalStartupIoEndpointsForPlatform(platform, endpoints); if (!proof.known) return proof;
+    } else if (endpoints !== undefined) return unknown('Absent selected startup writer cannot acquire a replacement endpoint');
+  } else if (platform.startupIoEndpoints !== undefined) return unknown('Browser profile cannot replace its absent startup writer');
   return known(profile);
 }
 
@@ -90,16 +111,18 @@ export function browserGameCrtPlatformProfile(platform: NativeRuntimePlatform): 
  * The logical ID is allocated once and stays stable; its callback returns that
  * private retained capability's ID rather than a guessed known-success value. */
 export function createBrowserGameCrtPlatform(options: { readonly processInputs?: NativeWin32ProcessInputSelection;
-  readonly threadStack?: Readonly<{ reservationBytes: number }> } = {}): NativeRuntimePlatform {
+  readonly threadStack?: Readonly<{ reservationBytes: number }>; readonly startupIo?: NativeWin32StartupIoSelection } = {}): NativeRuntimePlatform {
   if (nextLogicalThreadId > 0xffffffff) throw new Error('Browser Game CRT logical thread-ID space exhausted');
   const thread = Object.freeze({ capability: Object.freeze({}), logicalId: nextLogicalThreadId++ });
   const identity = Object.freeze({});
-  const { processInputs, threadStack } = options;
+  const { processInputs, threadStack, startupIo } = options;
+  if (startupIo !== undefined && threadStack === undefined) throw new Error('Explicit startup writer requires a selected opaque logical-thread stack');
   const stackSelection: NativeX86ThreadStackSelection | undefined = threadStack === undefined ? undefined : Object.freeze({
     threadCapability: thread.capability, reservationBytes: threadStack.reservationBytes, addressModel: 'opaque-relative',
     initialRegisters: 'unknown', initialFs0: 'unknown',
   });
   const process = processInputs === undefined ? undefined : retainNativeWin32ProcessInputSelection(processInputs);
+  const startup = startupIo === undefined ? undefined : retainNativeWin32StartupIoSelection(startupIo);
   const baseAbi = process === undefined ? browserGameCrtAbiProfile : Object.freeze({
     ...browserGameCrtAbiProfile, profile: 'browser-game-crt-virtual-win32-nt6.1-process-inputs-v2',
     commandLineProvided: process.commandLineA !== undefined, environmentAProvided: process.environmentA !== undefined,
@@ -108,12 +131,22 @@ export function createBrowserGameCrtPlatform(options: { readonly processInputs?:
     environmentMutability: 'retained-live-buffers-no-reseed', processInputOrigin: 'declared-virtual-process',
     acpCodePage: process.acpCodePage, conversionCoverage: process.conversionCoverage, initialDirectionFlag: process.initialDirectionFlag,
   });
-  const abi: BrowserGameCrtPlatformProfile['abi'] = stackSelection === undefined ? baseAbi : Object.freeze({
+  const stackAbi = stackSelection === undefined ? baseAbi : Object.freeze({
     ...baseAbi, profile: 'browser-game-crt-virtual-win32-nt6.1-opaque-stack-v3',
     commandLineProvided: process?.commandLineA !== undefined, environmentAProvided: process?.environmentA !== undefined,
     environmentWProvided: process?.environmentW !== undefined, stackAddressModel: stackSelection.addressModel,
     stackReservationBytes: stackSelection.reservationBytes, initialStackRegisters: stackSelection.initialRegisters,
     initialFs0: stackSelection.initialFs0,
+  });
+  const abi: BrowserGameCrtPlatformProfile['abi'] = startup === undefined ? stackAbi : Object.freeze({
+    ...stackAbi, profile: 'browser-game-crt-virtual-win32-nt6.1-startup-writer-v4',
+    commandLineProvided: process?.commandLineA !== undefined, environmentAProvided: process?.environmentA !== undefined,
+    environmentWProvided: process?.environmentW !== undefined, stackAddressModel: stackSelection!.addressModel,
+    stackReservationBytes: stackSelection!.reservationBytes, initialStackRegisters: stackSelection!.initialRegisters,
+    initialFs0: stackSelection!.initialFs0, startupInfoWriterProvided: startup.startupInfoA !== undefined,
+    startupInfoOrigin: 'declared-virtual-process', startupInfoCoverage: 'explicit-ordered-masked-writes',
+    startupInfoCallConvention: 'void-stdcall4', startupInfoVolatileRegisters: 'unknown-EAX-ECX-EDX',
+    startupInfoNativeExceptionDispatchProvided: false,
   });
   let platform: NativeRuntimePlatform | null = null;
   const currentThreadId = (): NativeValue<number> => {
@@ -136,11 +169,15 @@ export function createBrowserGameCrtPlatform(options: { readonly processInputs?:
     entropy: Object.freeze({ currentThreadId }),
     processInputs: process,
     threadStack: stackSelection,
+    startupIo: startup,
   });
   platform = new NativeRuntimePlatform({ engineCrtServices: services });
   const retainedStack = stackSelection === undefined ? undefined : NativeRuntimePlatform.threadStackSelectionForPlatform(platform);
   if (retainedStack && !retainedStack.known) throw new Error(retainedStack.reason);
+  const retainedStartup = startup === undefined ? undefined : NativeRuntimePlatform.startupIoSelectionForPlatform(platform);
+  if (retainedStartup && !retainedStartup.known) throw new Error(retainedStartup.reason);
   providers.set(platform, Object.freeze({ identity, abi, thread, threadStack: retainedStack?.known ? retainedStack.value : undefined,
+    startupIo: retainedStartup?.known ? retainedStartup.value : undefined,
     processInputs: process === undefined ? undefined : Object.freeze({ identity: Object.freeze({}), selection: process }) }));
   return platform;
 }

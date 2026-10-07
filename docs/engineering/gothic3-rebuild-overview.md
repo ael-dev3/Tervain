@@ -24,6 +24,14 @@ path is incomplete. The [publication receipt](gothic3-rebuilding-process.md#conf
 records successful checks and exact deployed bundle matching; it contains no
 new browser gameplay observation.
 
+The current source extension is
+[checkpoint 106](gothic3-rebuilding-process.md#106-own-the-startup-info-writer-and-normal-import-return).
+It supplies the selected virtual startup-info writer, its actual stack return
+and the five original instructions preparing the first I/O allocation. The
+next required call is `calloc` at `20474327`; its nested frame, allocation and
+return remain unimplemented. The model inspector's existing developer details
+describe the reached startup boundary without activating an NPC.
+
 The browser supports exploration and selected gameplay paths. Whole-module
 startup, native NPC activation and most campaign progression remain unfinished. See
 [current implementation status](#current-implementation-status) below; the
@@ -461,6 +469,19 @@ It preserves original cataloged bodies, readonly scope bytes and separately
 marked PE-only gaps. Its new live consumer owns the ordinary stack/prolog
 prefix; exception handlers and later I/O operations remain source context.
 
+The focused writer supplement reads those same finalized packages and reuses
+their exact I/O and allocation-wrapper listings:
+
+```powershell
+python -B scripts/gothic3_game_io_writer_source.py --study $gothicStudy --repo . --output assets/gothic3/game-io-writer
+```
+
+Its [receipt](../../assets/gothic3/game-io-writer/README.md) pins the import call,
+normal continuation and five post-return rows. The void stdcall ABI is declared
+virtual compatibility behavior; the Windows callee is not captured or executed.
+The TypeScript writer still needs private current-call authority to write the
+actual retained stack frame. Generating the source package executes no writer.
+
 ### Record a reviewable result
 
 For each implementation checkpoint, retain:
@@ -473,11 +494,13 @@ For each implementation checkpoint, retain:
 | Browser exercise and save/reload result | Whether that operation is connected to the visible session and persisted state. |
 | Exact commit and successful workflow/deployment URL | Which reviewed version was checked and published. |
 
-Run `npm run typecheck`, `npm test` and `npm run build`, review the diff, and
-exercise the changed browser interaction. For documentation edits, check
-relative links and `git diff --check`. Record partial execution as partial:
-an unknown prerequisite must preserve the effects already applied and must
-not replay them after restore.
+Choose checks proportionate to the change and record only those actually
+performed. Runtime changes need typechecking, a production build and source
+review; reuse applicable CI scenario results. Exercise the browser when a
+connected interaction changes. For documentation edits, check relative links
+and `git diff --check`. Record partial execution as partial: an unknown
+prerequisite must preserve the effects already applied and must not replay them
+after restore.
 
 Before publishing, inspect repository-wide Actions runs and workflow triggers.
 Reuse relevant results and allow an existing applicable run to finish. A pull
@@ -504,7 +527,7 @@ their Markdown links and diff without treating them as a new gameplay release.
 
 The published `/gothic3/` route is an incomplete browser reconstruction. The
 table summarizes gameplay evidence through checkpoint 94 and runtime source
-work through checkpoint 105. Later startup components have source and build
+work through checkpoint 106. Later startup components have source and build
 receipts; they have not established new NPC gameplay in the browser.
 
 | Area | Connected or recovered | Work still required |
@@ -514,17 +537,17 @@ receipts; they have not established new NPC gameplay in the browser.
 | Dialogue and quests | Selected Ardea dialogue, Jack's bounded bandit quest, destination callbacks and supported rewards | Most original dialogue, quests, faction consequences and campaign endings |
 | Inventory and combat | Selected inventory operations, potion/XP effects and bounded fist damage/death prefixes | Full item/equipment lifecycle, native attack eligibility, NPC attacks, defeat/death cleanup and loot |
 | Persistence | Browser saves for the supported session state and selected progression effects | Full campaign state and recovery for every added system |
-| Runtime foundations | Selected property readers, heap/runtime owners, Navigation callbacks, ScriptAdmin/ModuleAdmin components, canonical GUID storage and the Game CRT prefix through the I/O startup prolog | Remaining CRT and module startup, reflected factories, full entity attachment, world membership and processing activation |
+| Runtime foundations | Selected property readers, heap/runtime owners, Navigation callbacks, ScriptAdmin/ModuleAdmin components, canonical GUID storage and the Game CRT prefix through the selected startup-info writer and first allocation arguments | Nested I/O allocation, remaining CRT and module startup, reflected factories, full entity attachment, world membership and processing activation |
 
 Checkpoint 92 connects source-registered Navigation zones to the native type-8
 quest-entry callback and has focused save/restore coverage. Checkpoint 93 adds
 Xardas Tower rendering and browser collision using its mesh triangles. A local
 preview-teleport review confirmed rendering and a grounded Hero; ordinary
 overland arrival remains unverified. Checkpoint 94 models the ScriptAdmin
-getter protocol. Checkpoints 95–105 add individual registration and startup
+getter protocol. Checkpoints 95–106 add individual registration and startup
 prerequisites; full native ScriptAdmin creation and live NPC activation remain
-unfinished. The latest startup path stops before `GetStartupInfoA`, retaining
-its applied state. See [checkpoint 105](gothic3-rebuilding-process.md#105-own-the-game-io-startup-stack-and-seh-prolog)
+unfinished. The selected startup path now stops before the first I/O `calloc`,
+retaining its applied state. See [checkpoint 106](gothic3-rebuilding-process.md#106-own-the-startup-info-writer-and-normal-import-return)
 and the [current controls and scope](gothic3-browser-port.md).
 
 ### Why startup is the current implementation focus
@@ -535,11 +558,12 @@ initialization that the browser must supply. The current work follows that
 dependency chain so a decoded NPC can eventually become a live, processing
 entity in the same world as the Hero.
 
-At checkpoint 105, the virtual stack and original I/O startup prolog are owned.
-The next operation must write the actual 68-byte startup-info structure passed
-by that call. Later work must initialize I/O records and handles, finish the
-caller, arguments, environment and initializer traversal, and connect module
-creation to NPC activation. These are prerequisites for the full gameplay loop.
+At checkpoint 106, the virtual stack, original I/O startup prolog, selected
+68-byte startup-info writer and first allocation arguments are owned. The next
+call needs its actual nested allocation frame and return. Later work must
+initialize I/O records and handles, finish the caller, arguments, environment
+and initializer traversal, and connect module creation to NPC activation.
+These are prerequisites for the full gameplay loop.
 The finishable campaign remains the completion criterion.
 
 ## Road toward a complete game
@@ -597,6 +621,8 @@ connects the declared browser CRT provider to the actual Game attach prefix.
 [Checkpoint 104](gothic3-rebuilding-process.md#104-own-the-game-command-line-and-environment-prefix)
 adds command-line and environment buffers and the source environment routine.
 [Checkpoint 105](gothic3-rebuilding-process.md#105-own-the-game-io-startup-stack-and-seh-prolog)
-adds the physical virtual stack and I/O startup prolog. Its next operation is
-the `GetStartupInfoA` writer. These components still need complete startup and
-live NPC integration before they can support ordinary campaign play.
+adds the physical virtual stack and I/O startup prolog.
+[Checkpoint 106](gothic3-rebuilding-process.md#106-own-the-startup-info-writer-and-normal-import-return)
+implements the selected startup-info writer and normal import return, stopping
+before the actual allocation call. These components still need complete startup
+and live NPC integration before they can support ordinary campaign play.
