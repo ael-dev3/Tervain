@@ -24,3 +24,9 @@ original CString equality. A zero bucket count reaches DIV-by-zero, not an
 empty-table fallback. Hashing reads signed bytes through the first NUL, without
 reading holder length or reference metadata. CString assignment calls SetText
 and remains a separate dependency of node insertion.
+
+`native-property-type-table.ts` implements the captured find and get-or-insert
+dependencies over retained table and bucket views. It admits its own node owners,
+uses actual CString fields, preserves collision chains and allocates with the
+original tag. Table initialization, singleton construction, class-name virtual
+execution and RegisterTemplate's wrapper/value store are still separate work.
