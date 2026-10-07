@@ -7,6 +7,7 @@ import { REST_ANGLES } from '../src/presentation/npc/poseFit.ts';
 import { blendDualQuaternions, dualQuaternionSkinOf } from '../src/presentation/npc/dualQuaternionSkinning.ts';
 import type { WorkGesture } from '../src/presentation/npcStyle.ts';
 import { npcSkinInspection } from '../src/presentation/npc/skinRepair.ts';
+import { disposeSceneResources } from '../src/presentation/disposeScene.ts';
 
 const status = document.querySelector('#status') as HTMLElement;
 const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
@@ -51,6 +52,7 @@ camera.lookAt(0, 1, 0);
 addEventListener('resize', () => { renderer.setSize(innerWidth, innerHeight); camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); });
 
 let rig: Rig | null = null;
+let loadRequest = 0;
 let role = '';
 let skinned: THREE.SkinnedMesh | null = null;
 let debugMesh: THREE.Mesh | null = null;
@@ -63,29 +65,60 @@ const overlay = new THREE.Group();
 overlay.renderOrder = 10;
 scene.add(overlay);
 let overlayOn = false;
+let overlaySkin: THREE.SkinnedMesh | null = null;
+let overlayBones: { bone: THREE.Bone; dot: THREE.Mesh; line: THREE.Line | null }[] = [];
+const overlayPoint = new THREE.Vector3(), overlayParent = new THREE.Vector3();
+function clearOverlay() {
+  const retired = new THREE.Scene();
+  retired.add(overlay);
+  disposeSceneResources(retired, () => {});
+  overlay.clear(); scene.add(overlay);
+  overlaySkin = null; overlayBones = [];
+}
 function updateOverlay() {
-  overlay.clear();
-  if (!overlayOn || !skinned) return;
-  const pivot = new THREE.SphereGeometry(0.018, 10, 8);
-  const dot = new THREE.MeshBasicMaterial({ color: 0xffe14a, depthTest: false });
-  const line = new THREE.LineBasicMaterial({ color: 0x4af0ff, depthTest: false });
-  const v = new THREE.Vector3(), w = new THREE.Vector3();
-  for (const bone of skinned.skeleton.bones) {
-    bone.getWorldPosition(v);
-    const ball = new THREE.Mesh(pivot, dot); ball.position.copy(v); ball.renderOrder = 11; overlay.add(ball);
-    if ((bone.parent as THREE.Bone)?.isBone) {
-      (bone.parent as THREE.Bone).getWorldPosition(w);
-      const g = new THREE.BufferGeometry().setFromPoints([w.clone(), v.clone()]);
-      const l = new THREE.Line(g, line); l.renderOrder = 11; overlay.add(l);
+  overlay.visible = overlayOn && skinned !== null;
+  if (!overlay.visible || !skinned) return;
+  if (overlaySkin !== skinned) {
+    clearOverlay(); overlaySkin = skinned;
+    const pivot = new THREE.SphereGeometry(0.018, 10, 8);
+    const dot = new THREE.MeshBasicMaterial({ color: 0xffe14a, depthTest: false });
+    const line = new THREE.LineBasicMaterial({ color: 0x4af0ff, depthTest: false });
+    for (const bone of skinned.skeleton.bones) {
+      const ball = new THREE.Mesh(pivot, dot); ball.renderOrder = 11; overlay.add(ball);
+      let link: THREE.Line | null = null;
+      if ((bone.parent as THREE.Bone)?.isBone) {
+        const geometry = new THREE.BufferGeometry();
+        geometry.setAttribute('position', new THREE.Float32BufferAttribute(new Float32Array(6), 3));
+        link = new THREE.Line(geometry, line); link.renderOrder = 11; link.frustumCulled = false; overlay.add(link);
+      }
+      overlayBones.push({ bone, dot: ball, line: link });
+    }
+  }
+  for (const { bone, dot, line } of overlayBones) {
+    bone.getWorldPosition(overlayPoint); dot.position.copy(overlayPoint);
+    if (line && bone.parent) {
+      bone.parent.getWorldPosition(overlayParent);
+      const position = line.geometry.getAttribute('position') as THREE.BufferAttribute;
+      position.setXYZ(0, overlayParent.x, overlayParent.y, overlayParent.z);
+      position.setXYZ(1, overlayPoint.x, overlayPoint.y, overlayPoint.z);
+      position.needsUpdate = true;
     }
   }
 }
 function render() { if (rig) rig.root.updateMatrixWorld(true); updateOverlay(); renderer.render(scene, camera); }
 
 async function load(nextRole: string, options: NpcRigOptions = {}, scale = 1) {
+  const request = ++loadRequest;
   const catalog = await loadMeshyNpcCatalog(undefined, [nextRole]);
-  if (rig) { scene.remove(rig.root); }
-  rig = catalog.create(nextRole, scale, nextRole.startsWith('enemy:') ? 'blade' : 'none', options);
+  if (request !== loadRequest) return null;
+  const next = catalog.create(nextRole, scale, nextRole.startsWith('enemy:') ? 'blade' : 'none', options);
+  clearDebug(); clearOverlay();
+  if (rig) {
+    const retired = new THREE.Scene();
+    retired.add(rig.root);
+    disposeSceneResources(retired, () => {});
+  }
+  rig = next;
   role = nextRole;
   scene.add(rig.root);
   skinned = null;

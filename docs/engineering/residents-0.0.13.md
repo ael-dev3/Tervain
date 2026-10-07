@@ -120,7 +120,9 @@ carried through, are neither drawn nor cast shadows. Arms, hands and the head ne
 ## Cost
 
 The repairs and fits are computed once per source model when its first actor is built; every further actor of that
-model reuses them. On the development machine the first builds of all seventeen models take about 2.7 s together on
+model with the same repair settings reuses them. Surface priors and covered layers keep separate cache entries for
+the joint-fit settings that affect them, so the lab's comparisons do not reuse another configuration's measurements.
+On the development machine the first builds of all seventeen models take about 2.7 s together on
 the CPU (the covered-layer search about 0.8 s of it); later actors take a few milliseconds. Per frame, skinning blends
 dual quaternions instead of matrices in the vertex stage and the surface adds a few texture reads and noise terms per
 pixel. No per-frame GPU timing was taken.
@@ -131,6 +133,10 @@ After `npm run dev`, `/tools/npc-lab.html` shows one resident under the real pos
 (`dualQuaternion`, `skinRepair`, `jointFit`, `poseFit`, `surface`), seats and work sites, and debug views of skin
 weights, leg sharing, garment release, covered layers and per-triangle stretch. Its `window.lab` interface drives the
 same views from headless capture scripts.
+
+Replacing a lab figure releases its private geometry, materials, textures, skeleton and shadow resources through the
+game's disposal helper. The joint overlay reuses its buffers and materials until that figure is replaced; a late
+load request cannot replace a more recently requested figure.
 
 ## Verification
 

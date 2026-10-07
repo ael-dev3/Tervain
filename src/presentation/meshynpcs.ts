@@ -171,8 +171,8 @@ export const NPC_RIG_DEFAULTS: Required<Omit<NpcRigOptions, 'work'>> & Pick<NpcR
 /** Skin priors per source geometry and repair setting (every actor of one model shares its prior). */
 const skinPriors = new WeakMap<THREE.BufferGeometry, Map<string, Float32Array>>();
 
-/** Covered layers per source geometry (npc/residentSurface.ts), shared the same way. */
-const hiddenLayers = new WeakMap<THREE.BufferGeometry, Float32Array>();
+/** Covered layers per source geometry and joint fit (the fitted axes decide a lining's side). */
+const hiddenLayers = new WeakMap<THREE.BufferGeometry, Map<string, Float32Array>>();
 
 /** Joint fits per source model: the first actor measures, the rest take the same joint places. */
 const jointFits = new WeakMap<THREE.Object3D, { fit: NpcJointFit; places: Map<string, THREE.Vector3> }>();
@@ -261,13 +261,16 @@ export function createMeshyNpcRig(asset: Pick<GLTF, 'scene' | 'animations'>, ent
       skin.boundingSphere = new THREE.Sphere(new THREE.Vector3(0, entry.height / 2, 0), entry.height * 1.2);
       if (settings.surface) {
         const names = skin.skeleton.bones.map(bone => bone.name);
-        const priorKey = `${settings.skinRepair}`, source = sourceOf(skin.geometry);
+        const priorKey = `${settings.skinRepair}|${settings.jointFit}`, source = sourceOf(skin.geometry);
         let priors = skinPriors.get(source);
         if (!priors) { priors = new Map(); skinPriors.set(source, priors); }
         let prior = priors.get(priorKey);
         if (!prior) { prior = residentSkinPrior(skin.geometry, names); priors.set(priorKey, prior); }
-        let hidden = hiddenLayers.get(source);
-        if (!hidden) { hidden = residentHiddenLayers(source, names, residentAxes(repairJoints ?? npcRepairJoints(scene, bones))); hiddenLayers.set(source, hidden); }
+        const hiddenKey = `${settings.jointFit}`;
+        let byFit = hiddenLayers.get(source);
+        if (!byFit) { byFit = new Map(); hiddenLayers.set(source, byFit); }
+        let hidden = byFit.get(hiddenKey);
+        if (!hidden) { hidden = residentHiddenLayers(source, names, residentAxes(repairJoints ?? npcRepairJoints(scene, bones))); byFit.set(hiddenKey, hidden); }
         for (const material of Array.isArray(skin.material) ? skin.material : [skin.material]) {
           if ((material as THREE.MeshStandardMaterial).isMeshStandardMaterial) {
             installResidentSurface(material as THREE.MeshStandardMaterial, skin.geometry, prior,

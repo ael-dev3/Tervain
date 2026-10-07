@@ -196,7 +196,11 @@ function surfaceDistance(surface: Surface, seeds: number[], allowed: (id: number
       const other = surface.neighbours[k]!;
       if (!allowed(other)) continue;
       const next = d + surface.lengths[k]!;
-      if (next < distance[other]! && next <= limit) { distance[other] = next; source[other] = source[id]!; heap.push(next, other); }
+      if (next < distance[other]! && next <= limit) {
+        distance[other] = next; source[other] = source[id]!;
+        // Compare queued keys at the same precision as the stored distance.
+        heap.push(distance[other]!, other);
+      }
     }
   }
   return { distance, source };
