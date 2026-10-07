@@ -109,7 +109,9 @@ export interface BrowserNpcEntityServiceOwner {
 }
 
 export function createBrowserNpcEntityServices(platform: BrowserNpcEntityPlatform): BrowserNpcEntityServiceOwner {
-  const runtimeAdmins = createBrowserNpcRuntimeAdminOwner(createBrowserGameCrtPlatform({ processInputs: browserGameProcessInputs }));
+  const runtimeAdmins = createBrowserNpcRuntimeAdminOwner(createBrowserGameCrtPlatform({
+    processInputs: browserGameProcessInputs, threadStack: { reservationBytes: 4096 },
+  }));
   const scriptAdminStartup = createBrowserScriptAdminStartup(runtimeAdmins.platform, runtimeAdmins.memory, runtimeAdmins.error);
   const navigationNames = new BrowserNavigationNotificationNames(runtimeAdmins.memory, runtimeAdmins.platform);
   const initializedNavigationNames = navigationNames.initialize();

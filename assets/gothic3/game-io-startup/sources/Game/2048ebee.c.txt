@@ -1,0 +1,10 @@
+/* ENTRY 2048ebee | KERNEL32.DLL::RtlUnwind | STATUS decompiled | 2 ms */
+
+void RtlUnwind(PVOID TargetFrame,PVOID TargetIp,PEXCEPTION_RECORD ExceptionRecord,PVOID ReturnValue)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x2048ebee. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  RtlUnwind(TargetFrame,TargetIp,ExceptionRecord,ReturnValue);
+  return;
+}

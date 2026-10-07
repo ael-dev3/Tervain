@@ -1,0 +1,9 @@
+204764e8 | 55 | PUSH EBP
+204764e9 | 8b6c2408 | MOV EBP,dword ptr [ESP + 0x8]
+204764ed | 52 | PUSH EDX
+204764ee | 51 | PUSH ECX
+204764ef | ff742414 | PUSH dword ptr [ESP + 0x14]
+204764f3 | e8b4feffff | CALL 0x204763ac
+204764f8 | 83c40c | ADD ESP,0xc
+204764fb | 5d | POP EBP
+204764fc | c20800 | RET 0x8

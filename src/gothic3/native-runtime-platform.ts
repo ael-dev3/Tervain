@@ -20,6 +20,9 @@ import { NativeSharedModuleImage } from './native-shared-module-image';
 import { retainNativeWin32ProcessInputSelection } from './native-win32-process-inputs';
 import type { NativeWin32ProcessInputSelection, RetainedWin32ProcessInputSelection, RetainedProcessInputOutcome,
   NativeWin32ProcessInputEndpoints, NativeWideCharToMultiByteArguments } from './native-win32-process-inputs';
+import { retainNativeX86ThreadStackSelection } from './native-x86-thread-stack-profile';
+import type { NativeX86ThreadStackSelection } from './native-x86-thread-stack-profile';
+import { retireNativeX86ThreadStackForPlatform } from './native-x86-thread-stack';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = (reason: string): { known: false; reason: string } => ({ known: false, reason });
@@ -109,6 +112,7 @@ export interface NativeEngineCrtPlatformServices {
   readonly processHeap?: boolean;
   readonly osVersion?: { readonly platform: number; readonly major: number; readonly minor: number; readonly build: number } | null;
   readonly processInputs?: NativeWin32ProcessInputSelection;
+  readonly threadStack?: NativeX86ThreadStackSelection;
   readonly entropy?: {
     systemTimeAsFileTime?(): NativeValue<{ low: number; high: number }>;
     currentProcessId?(): NativeValue<number>;
@@ -129,7 +133,7 @@ function retainCrtServices(selected: NativeEngineCrtPlatformServices | undefined
 } {
   if (selected === undefined) return { services: undefined, tls: [] };
   const { tlsValues, kernel32Available, pointerCodec, sectionSpinProcedure,
-    fiberLocalStorage, processHeap, osVersion, entropy, processInputs } = selected;
+    fiberLocalStorage, processHeap, osVersion, entropy, processInputs, threadStack } = selected;
   if (typeof kernel32Available !== 'boolean' || (pointerCodec !== 'absent' && pointerCodec !== 'owned-bijection') ||
       [sectionSpinProcedure, fiberLocalStorage, processHeap].some(value => value !== undefined && typeof value !== 'boolean')) {
     throw new Error('Explicit selected CRT registry configuration required');
@@ -153,7 +157,8 @@ function retainCrtServices(selected: NativeEngineCrtPlatformServices | undefined
   }
   return { services: Object.freeze({ kernel32Available, pointerCodec, sectionSpinProcedure,
     fiberLocalStorage, processHeap, osVersion: version, entropy: callbacks,
-    processInputs: processInputs === undefined ? undefined : retainNativeWin32ProcessInputSelection(processInputs) }), tls: Object.freeze(tls) };
+    processInputs: processInputs === undefined ? undefined : retainNativeWin32ProcessInputSelection(processInputs),
+    threadStack: threadStack === undefined ? undefined : retainNativeX86ThreadStackSelection(threadStack) }), tls: Object.freeze(tls) };
 }
 interface ProcessBuffer {
   readonly kind: 'command-line-a' | 'environment-a' | 'environment-w';
@@ -359,6 +364,15 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     NativeSharedModuleImage.establishForPlatform(this);
   }
   static isRetainedPlatform(platform: NativeRuntimePlatform): boolean { return retainedRuntimePlatforms.has(platform); }
+  static threadStackSelectionForPlatform(platform: NativeRuntimePlatform): NativeValue<Readonly<NativeX86ThreadStackSelection>> {
+    const active = NativeRuntimePlatform.requireActivePlatform(platform); if (!active.known) return active;
+    const selection = platform.#crtServices?.threadStack;
+    return selection ? known(selection) : unknown('Explicit same-logical-thread opaque-relative x86 stack selection required');
+  }
+  static threadStackLifetimeHasEnded(platform: NativeRuntimePlatform, selection: Readonly<NativeX86ThreadStackSelection>): boolean {
+    return retainedRuntimePlatforms.has(platform) && platform.#crtServices?.threadStack === selection &&
+      (platform.#shutdownPhase === 'disposed' || platform.#shutdownPhase === 'blocked');
+  }
   /** New selected startup graphs require the actual constructor-admitted
    * platform before shutdown begins. Existing Shared views separately remain
    * available during callback drain through their scoped lifetime API. */
@@ -1066,14 +1080,20 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
       let result: NativeValue<void>;
       try { result = entry.execute(); } catch (error) { result = unknown(error instanceof Error ? error.message : String(error)); }
       this.executed.push(entry);
-      if (!result.known) { this.#shutdownPhase = 'blocked'; this.boundary = `Shutdown ${entry.address}: ${result.reason}`; return unknown(this.boundary); }
+      if (!result.known) {
+        this.#shutdownPhase = 'blocked'; this.boundary = `Shutdown ${entry.address}: ${result.reason}`;
+        if (this.#crtServices?.threadStack) retireNativeX86ThreadStackForPlatform(this, this.#crtServices.threadStack);
+        return unknown(this.boundary);
+      }
     }
     for (const entry of this.#backing.values()) if (entry.kind === 'module-image') entry.backing.freed = true;
     for (const buffer of this.#processBuffers.values()) if (buffer.phase === 'live') {
       buffer.phase = 'expired'; this.#releasedBackings.add(buffer.backing); buffer.backing.freed = true;
       this.bytesOwned -= buffer.bytes.length;
     }
-    this.#shutdownPhase = 'disposed'; return known(undefined);
+    this.#shutdownPhase = 'disposed';
+    if (this.#crtServices?.threadStack) retireNativeX86ThreadStackForPlatform(this, this.#crtServices.threadStack);
+    return known(undefined);
   }
   snapshot() { return Object.freeze({ phase: this.#shutdownPhase, boundary: this.boundary, bytesOwned: this.bytesOwned,
     allocations: Object.freeze([...this.#backing.values()].map(entry => Object.freeze({ kind: entry.kind, ordinal: entry.ordinal, backing: entry.backing }))),
