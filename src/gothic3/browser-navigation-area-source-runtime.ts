@@ -292,6 +292,28 @@ export class BrowserNavigationAreaSourceRuntime implements BrowserNavigationArea
     return known(record.entity);
   }
 
+  /** Resolve a native spatial query result back to the exact source-registered
+   * zone owner. A map ID without its live gCNavZone_PS owner is not a usable
+   * destination name for Script_Game's OnEnterArea callback. */
+  findZoneAtPositionCm(positionCm: readonly [number, number, number]):
+    NativeValue<Readonly<{ id: string; name: string }> | null> {
+    const selected = this.navigation.queryZoneIdAtPositionCm(positionCm);
+    if (!selected.known) return selected;
+    if (selected.value === null) return known(null);
+    const definition = this.byId.get(selected.value);
+    if (!definition || definition.propertySets[0]?.name !== 'gCNavZone_PS') {
+      return missing('Native Navigation query selected an ID without an exact source zone definition: ' + selected.value);
+    }
+    const record = this.liveRecords.get(definition.key);
+    if (!record || record.phase !== 'registered' || record.area.kind !== 'zone' ||
+        record.area.id !== selected.value || record.area.name !== definition.name ||
+        this.registry.findRegistered(selected.value) !== record.entity || !record.propertySet.isValid() ||
+        record.propertySet.owner.read() !== record.entity) {
+      return missing('Native Navigation query selected a zone without its completed registered source owner: ' + selected.value);
+    }
+    return known(Object.freeze({ id: record.area.id, name: record.area.name }));
+  }
+
   sourceLoadSummary(): Readonly<{ loadedSources: number; failedSources: number; liveAreas: number }> {
     return Object.freeze({ loadedSources: this.loadedSources.size,
       failedSources: this.failedSources.size, liveAreas: this.liveRecords.size });

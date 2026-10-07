@@ -99,10 +99,10 @@ export const ARDEA_QUESTS: ArdeaQuest[] = [
   },
   {
     id: 'Xardas_FindXardas', title: 'Find Xardas!',
-    summary: 'Original main-story EnterArea quest names PC_Hero and Xardas_Tower, with ExperiencePoints=250. Ardea conversations connect to this quest. Landscape inspection near the tower is available; original dialogue predicates and the arrival trigger remain unimplemented.',
+    summary: 'Original main-story EnterArea quest names PC_Hero and Xardas_Tower, with ExperiencePoints=250. Ardea conversations connect to this quest. The browser resolves Hero movement through source-registered Navigation zones and reconstructs the native type-8 area-entry callback. A local preview teleport rendered the source tower and grounded the Hero on its mesh, but the tested landing is above the Xardas_Tower quest zone; ordinary overland arrival and in-browser quest completion remain unverified. Original dialogue predicates are still incomplete.',
     source: 'Quests.pak/G3_World_01/Xardas_FindXardas_quest_G3_World_01.quest; Infos.pak/G3_World_01/BPANKRATZ31455–31456, FILLER65, FILLER67 (.info)',
     implemented: false,
-    unsupportedCommands: ['Say', 'SetGameEvent', 'ClearGameEvent', 'native:gCQuest_PS::OnEnter'],
+    unsupportedCommands: ['Say', 'SetGameEvent', 'ClearGameEvent'],
   },
 ];
 

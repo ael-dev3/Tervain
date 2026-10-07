@@ -391,6 +391,12 @@ export class BrowserNpcNavigationOwner {
     : missing<boolean>('Browser Navigation owner has been disposed');
   readonly findZoneAt: NativeNavigationLifecycleHost['findZoneAt'] = (...args) => this.live && !this.mutating ? this.scene.findZoneAt(...args)
     : missing('Browser Navigation owner is disposed or an area mutation is in progress');
+  /** Read-only zone-only query for world systems such as Script_Game area entry.
+   * The lifecycle callback above retains its narrower native argument profile. */
+  queryZoneIdAtPositionCm(positionCm: readonly [number, number, number]): NativeValue<string | null> {
+    return this.live && !this.mutating ? this.scene.findZoneAt(positionCm, true, true, -1)
+      : missing('Browser Navigation owner is disposed or an area mutation is in progress');
+  }
   registeredAreas(): readonly BrowserConstructedNavigationArea[] {
     return Object.freeze([...this.admitted.values()].filter(record => record.area.kind === 'zone'
       ? this.zones.includes(record.propertySet) : this.paths.registered.includes(record.propertySet)));

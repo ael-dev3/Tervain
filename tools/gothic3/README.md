@@ -68,6 +68,34 @@ and source references, not machine-specific desktop paths.
 - The Nameless Hero body/head is an inspector-only exhibit. Its `[0,0,0]` exhibit
   position does not assert a native world placement.
 
+## Source-placed static landmark example
+
+`export_xardas_tower.py` demonstrates a single original world object moving
+through this pipeline. It verifies the indexed `.node`, the node-referenced
+low-poly `.xcmsh`, and the corresponding full-detail mesh by SHA-256. It checks
+the entity GUID and transform, reads the full-detail mesh and its native
+material/image dependencies, then writes a source-receipted GLB and manifest.
+The browser uses that manifest to stream the tower and add its render triangles
+to static collision. This is not a recovered PhysX collision shape.
+
+First extract the named effective source files from the installed archives to
+local working folders, then run:
+
+```powershell
+python -B tools/gothic3/export_xardas_tower.py `
+  --node "<extracted G3_World_Lowpoly_01_Levelmesh_01_Spat.node>" `
+  --low-mesh "<extracted G3_Nordmar_Xardas_Tower_01_LOWPOLY.xcmsh>" `
+  --mesh "<extracted G3_Nordmar_Xardas_Tower_01.xcmsh>" `
+  --material-root "<folder containing the extracted effective XSHMAT files>" `
+  --image-root "<folder containing the extracted effective XIMG files>"
+```
+
+The exporter rejects files whose hashes do not match the committed world and
+mesh indexes. It expects each referenced material and image name to resolve to
+one file within the supplied roots. Output goes to
+`public/gothic3/world/landmarks/`. See the [checkpoint record](../../docs/engineering/gothic3-rebuilding-process.md#93-export-and-stream-a-source-placed-xardas-tower)
+for the asset counts and current browser-review status.
+
 ## Current fidelity limits
 
 The static `prepare_ardea.py` path produces native geometry and source placements.

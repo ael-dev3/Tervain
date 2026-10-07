@@ -296,3 +296,80 @@ describe('bounded native NPC kill-objective callback', () => {
     expect(restored.quests.state('Jack_KillBandits')?.status).toBe(QuestStatus.Running);
   }, 30_000);
 });
+
+describe('native Script_Game OnEnterArea quest callback', () => {
+  afterEach(() => vi.unstubAllGlobals());
+
+  it('matches exact type-8 destination and first delivery entity only', () => {
+    const matching = definition('Enter_Matching', 8,
+      [{ entity: 'PC_Hero', amount: 1 }, { entity: 'PC_Hero', amount: 1 }]);
+    matching.destination = 'Exact_Zone';
+    const wrongCase = definition('Enter_Wrong_Case', 8, [{ entity: 'PC_Hero', amount: 1 }]);
+    wrongCase.destination = 'exact_zone';
+    const wrongEntity = definition('Enter_Wrong_Entity', 8, [{ entity: 'Companion', amount: 1 }]);
+    wrongEntity.destination = 'Exact_Zone';
+    const wrongType = definition('Not_Enter', 2, [{ entity: 'PC_Hero', amount: 1 }]);
+    wrongType.destination = 'Exact_Zone';
+    const { quests, changed } = manager([matching, wrongCase, wrongEntity, wrongType],
+      [QuestStatus.Running, QuestStatus.Running, QuestStatus.Running, QuestStatus.Running]);
+
+    expect(quests.enterArea('PC_Hero', 'Exact_Zone')).toEqual({ kind: 'applied', progress: [
+      { questId: 'Enter_Matching', entity: 'PC_Hero', area: 'Exact_Zone', counter: 1, amount: 1,
+        previousStatus: QuestStatus.Running, status: QuestStatus.Running },
+    ] });
+    expect(quests.state('Enter_Matching')).toMatchObject({ status: QuestStatus.Running, counters: [1, 0] });
+    expect(quests.state('Enter_Wrong_Case')?.counters).toEqual([0]);
+    expect(quests.state('Enter_Wrong_Entity')?.counters).toEqual([0]);
+    expect(quests.state('Not_Enter')?.counters).toEqual([0]);
+    expect(changed).toEqual(['Enter_Matching']);
+  });
+
+  it('runs the shared completion checker and preserves native no-status-guard counter writes', () => {
+    const open = definition('Enter_Open', 8, [{ entity: 'PC_Hero', amount: 1 }]);
+    open.destination = 'Tower';
+    const lost = definition('Enter_Lost', 8, [{ entity: 'PC_Hero', amount: 1 }]);
+    lost.destination = 'Tower';
+    const terminal = definition('Enter_Terminal', 8, [{ entity: 'PC_Hero', amount: 2 }]);
+    terminal.destination = 'Tower';
+    const { quests } = manager([open, lost, terminal],
+      [QuestStatus.Open, QuestStatus.Lost, QuestStatus.Success]);
+
+    const result = quests.enterArea('PC_Hero', 'Tower');
+
+    expect(result).toMatchObject({ kind: 'applied', progress: [
+      { questId: 'Enter_Open', counter: 1, previousStatus: QuestStatus.Open, status: QuestStatus.Success },
+      { questId: 'Enter_Lost', counter: 1, previousStatus: QuestStatus.Lost, status: QuestStatus.Lost },
+      { questId: 'Enter_Terminal', counter: 1, previousStatus: QuestStatus.Success, status: QuestStatus.Success },
+    ] });
+    expect(quests.state('Enter_Open')).toMatchObject({ status: QuestStatus.Success, counters: [1] });
+    expect(quests.state('Enter_Lost')).toMatchObject({ status: QuestStatus.Lost, counters: [1] });
+    expect(quests.state('Enter_Terminal')).toMatchObject({ status: QuestStatus.Success, counters: [1] });
+  });
+
+  it('wraps the first native counter as an unsigned 32-bit value', () => {
+    const quest = definition('Enter_Wrapping', 8, [{ entity: 'PC_Hero', amount: 0xffffffff }]);
+    quest.destination = 'Tower';
+    const { quests } = manager([quest], [QuestStatus.Running], [[0xffffffff]]);
+
+    expect(quests.enterArea('PC_Hero', 'Tower')).toMatchObject({ kind: 'applied', progress: [
+      { questId: 'Enter_Wrapping', counter: 0, amount: 0xffffffff },
+    ] });
+    expect(quests.state(quest.id)).toMatchObject({ status: QuestStatus.Running, counters: [0] });
+  });
+
+  it('completes the real Xardas destination quest and persists its counter', async () => {
+    vi.stubGlobal('location', { href: 'https://ael-dev3.github.io/Tervain/gothic3/index.html' });
+    vi.stubGlobal('fetch', readLocalAsset);
+    const runtime = await NativeQuestRuntime.newGame(await loadNativeHeroPlayerMemory());
+    expect(runtime.quests.state('Xardas_FindXardas')?.status).toBe(QuestStatus.Running);
+
+    expect(runtime.enterArea('PC_Hero', 'Xardas_Tower')).toMatchObject({ kind: 'applied', progress: [
+      { questId: 'Xardas_FindXardas', counter: 1, amount: 1, status: QuestStatus.Success },
+    ] });
+    const save = runtime.saveData();
+    expect(save.quests.Xardas_FindXardas).toMatchObject({ status: QuestStatus.Success, counters: [1] });
+
+    const restored = await NativeQuestRuntime.restore(save, await loadNativeHeroPlayerMemory());
+    expect(restored.quests.state('Xardas_FindXardas')).toMatchObject({ status: QuestStatus.Success, counters: [1] });
+  }, 30_000);
+});

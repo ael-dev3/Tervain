@@ -1,27 +1,26 @@
 # Gothic 3 browser port
 
-Date: 6 October 2026. Status: exploration, a moving Hero presentation and native-data foundations of an incomplete port.
+Date: 7 October 2026. Status: an incomplete TypeScript browser reconstruction with source-backed Ardea gameplay slices.
 
 ## Owner request and route
 
 The owner asked to rebuild the installed Gothic 3 in TypeScript and host it as
 a second URL in Tervain. The repository is public and GitHub Pages is enabled.
 The [Gothic 3 / Ardea route](https://ael-dev3.github.io/Tervain/gothic3/) is
-live. The verified deployed checkpoint 74 is `main` commit
-`eec169d0002c2f9ec8c46585f9df18b69be1c4f1`, merged in
-[PR 41](https://github.com/ael-dev3/Tervain/pull/41) and published by successful
-[workflow run 37522723425](https://github.com/ael-dev3/Tervain/actions/runs/37522723425), attempt 1.
-The public route serves `gothic3-siaPiAJn.js`. Browser confirmation loads 202
-objects and 70 character models, enters Ardea with Hero HP 100 and inspects
-the Hero model (10,692 triangles, three meshes), with no captured warnings or
-errors. The standalone admin modules are not connected to the retained browser
-NPC read.
-Checkpoint 75 adds isolated shared heap field/table/CString owners and keeps
-full startup and browser integration as explicit prerequisites.
-The [Pages workflow](https://github.com/ael-dev3/Tervain/actions/workflows/pages.yml)
-records subsequent publication receipts.
-It remains an incomplete exploration and gameplay prototype, not a finished
-game.
+live. Its latest verified public baseline is `main` commit
+`3b968ba51c1924a1c6b2daded2803d7782fabb39`, merged in
+[PR 55](https://github.com/ael-dev3/Tervain/pull/55) and published by successful
+[workflow run 37571447817](https://github.com/ael-dev3/Tervain/actions/runs/37571447817),
+attempt 1. The current local branch adds checkpoints 92–93: Hero zone-entry
+dispatch for the recovered type-8 quest callback, plus the source-placed
+Xardas Tower render mesh and triangle collision. Typechecking and the
+production build pass. Local browser review confirms the tower renders and
+supports a grounded Hero after a landscape-preview teleport; the tested landing
+is above the source Xardas quest zone, so ordinary overland arrival and quest
+completion remain unverified. These local changes are not published. The
+[Pages workflow](https://github.com/ael-dev3/Tervain/actions/workflows/pages.yml)
+records deployment receipts. This remains an incomplete reconstruction, not a
+finished game.
 
 Tervain's separate browser build keeps its own entry, content,
 version, renderer, save namespace and original artistic direction.
@@ -47,7 +46,10 @@ Gothic assets as original Tervain content or change earlier Tervain asset rules.
   Gothic 3 native saves.
 - Presents recovered original quest references as inspection data and applies
   the single audited new-world `Xardas_FindXardas` transition. Remaining quest
-  activation, dialogue choices and completion are not broadly playable.
+  activation, dialogue choices and completion are not broadly playable. The
+  browser now resolves movement through source-registered Navigation zones and
+  dispatches the reconstructed native type-8 area-entry callback, but the local
+  tower preview did not enter the source quest zone.
 - Loads the native skinned Hero and 11 source motion clips in the inspector,
   preserving every bone influence, body/head inverse binds and source poses.
 - Provides a searchable catalog of all 641 original quests and 4,381 dialogue

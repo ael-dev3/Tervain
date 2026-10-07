@@ -42,6 +42,18 @@ export interface NativeNpcKillObjectiveProgress {
 export type NativeNpcKilledResult =
   | { readonly kind: 'applied'; readonly progress: readonly NativeNpcKillObjectiveProgress[] }
   | { readonly kind: 'unsupported'; readonly reason: string };
+export interface NativeQuestAreaEnteredProgress {
+  readonly questId: string;
+  readonly entity: string;
+  readonly area: string;
+  readonly counter: number;
+  readonly amount: number | null;
+  readonly previousStatus: QuestStatus;
+  readonly status: QuestStatus;
+}
+export type NativeQuestAreaEnteredResult =
+  | { readonly kind: 'applied'; readonly progress: readonly NativeQuestAreaEnteredProgress[] }
+  | { readonly kind: 'unsupported'; readonly reason: string; readonly progress: readonly NativeQuestAreaEnteredProgress[] };
 export interface NativeNpcKilledPlanUpdate {
   readonly questId: string;
   readonly counters: readonly number[];
@@ -222,6 +234,56 @@ export class NativeQuests {
     if (completion.target !== null) return this.setStatus(id, completion.target);
     this.host.changed(quest, state.status, structuredClone(state));
     return { kind: 'applied' };
+  }
+
+  /** Script_Game OnEnterArea dispatches PSQuestManager::OnEnter. The manager
+   * walks its native type-8 quest list; gCQuest_PS::OnEnter matches the exact
+   * destination and first delivery entity, increments counter 0 with 32-bit
+   * wrap, then runs CheckDeliveryEntitiesStatus. The original handler has no
+   * status guard, so even a terminal quest's matching counter can advance. */
+  enterArea(entity: string, area: string): NativeQuestAreaEnteredResult {
+    const progress: NativeQuestAreaEnteredProgress[] = [];
+    if (!entity || entity.includes('\0') || !area || area.includes('\0')) {
+      return { kind: 'unsupported', reason: 'Native area-entry entity or area name is empty or malformed.', progress };
+    }
+
+    let failure: string | null = null;
+    for (const quest of this.definitions.values()) {
+      if (quest.numericType !== 8 || quest.destination !== area) continue;
+      if (quest.deliveryTargets.length < 1) {
+        failure ??= 'Native EnterArea quest has no delivery entities: ' + quest.id;
+        continue;
+      }
+      const target = quest.deliveryTargets[0]!;
+      if (target.entity !== entity) continue;
+      const state = this.states.get(quest.id);
+      if (!state) {
+        failure ??= 'Original quest state has not been seeded: ' + quest.id;
+        continue;
+      }
+      if (!isUint32(state.counters[0])) {
+        failure ??= 'Native EnterArea counter 0 is not initialized32-bit: ' + quest.id;
+        continue;
+      }
+
+      const previousStatus = state.status;
+      state.counters[0] = (state.counters[0]! + 1) >>> 0;
+      const completion = this.checkDeliveryEntitiesStatus(quest.id);
+      if (state.status === previousStatus) {
+        // Counter writes remain visible even when the shared checker leaves
+        // status alone or reaches an unresolved native reward service.
+        this.host.changed(quest, state.status, structuredClone(state));
+      }
+      progress.push({ questId: quest.id, entity, area, counter: state.counters[0]!,
+        amount: target.amount, previousStatus, status: state.status });
+      if (completion.kind === 'unsupported') failure ??= completion.reason;
+      // The native EnterArea and manager callbacks return success regardless
+      // of SetStatus's rejected transition (for example, Lost -> Success).
+    }
+
+    return failure
+      ? { kind: 'unsupported', reason: failure, progress }
+      : { kind: 'applied', progress };
   }
 
   /** Original checker type/status guards, unsigned comparisons and SetStatus call.

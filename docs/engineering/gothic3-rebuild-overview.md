@@ -11,6 +11,15 @@ of Gothic 3's endings. A scene viewer, a decoded model or a successfully read
 native data structure is a useful component milestone, but it does not by
 itself establish a playable reconstruction.
 
+PR 55 published checkpoints 87–91. Checkpoint 92 connects Hero movement to
+source-registered Navigation zones and the native type-8 quest-entry callback.
+The current local work also exports and streams the source-placed, full-detail
+Xardas Tower mesh and includes its triangles in browser collision. The native
+destination transition has focused save/restore coverage. Local browser review
+confirms the tower renders and supports the Hero after a landscape-preview
+teleport; ordinary overland travel to Nordmar remains unverified. Most of the
+campaign and native NPC activation remain unfinished.
+
 ## The rebuilding loop
 
 The work follows two tracks—recovering original game data and reconstructing
@@ -174,6 +183,30 @@ and [checkpoint
 | Present and connect the game | [`gothic3/`](../../gothic3/) | The separate browser route connects the runtime, scene, controls and UI. |
 | Check and document the result | [`tests/`](../../tests/) and [`docs/engineering/`](./) | Focused checks cover bounded behavior; engineering notes preserve evidence, limitations and reproducible checkpoints. |
 
+## Example: rebuild a placed world landmark
+
+The local Xardas Tower addition shows the asset path from an original world
+record to the running scene. The source `.node` record identifies the tower's
+placement and low-poly mesh family. The exporter checks that record and both
+mesh variants against the committed world indexes, then selects the matching
+full-detail `.xcmsh`, reads its material sections, and embeds the original
+diffuse image pixels in a GLB. Its manifest preserves source hashes, placement,
+triangle counts and known rendering omissions.
+
+[`world-landmarks.ts`](../../src/gothic3/world-landmarks.ts) verifies the
+manifest and GLB bytes, streams the model near the Hero, and applies the source
+placement. The loaded mesh also joins the browser's static collision geometry.
+That collider uses rendered triangles; it is not a recovered Gothic PhysX
+shape. The material preview currently uses the first diffuse sampler and does
+not reproduce the native shader graph, normal/specular effects, illumination,
+lightmaps or vertex stream 73. See the
+[exporter](../../tools/gothic3/export_xardas_tower.py),
+[asset receipt](../../public/gothic3/world/landmarks/manifest.json), and
+[checkpoint 93](gothic3-rebuilding-process.md#93-export-and-stream-a-source-placed-xardas-tower).
+The mesh is connected in code, and a local preview-teleport check rendered the
+tower and left the Hero grounded on its geometry. Ordinary overland travel to
+the tower has not yet been confirmed.
+
 The boundary between stages matters: a successful decoder proves that a data
 format was read; a passing runtime check proves a bounded state transition; and
 a browser interaction proves that the pieces are connected for that case. None
@@ -283,14 +316,14 @@ route when the reviewed changes reach `main`.
 
 The separate TypeScript route is live at
 [Gothic 3 / Ardea](https://ael-dev3.github.io/Tervain/gothic3/) and currently
-responds with HTTP 200. Its latest published revision is
-`main` commit `5f6af5a397e25224decb68d481c28fb8b3883a7e`, merged in
-[PR 54](https://github.com/ael-dev3/Tervain/pull/54) and published by successful
-[workflow run 37559119442](https://github.com/ael-dev3/Tervain/actions/runs/37559119442), attempt 1.
-That publication adds source-backed NPC runtime-admin integration and evidence
-for selected Script_Game combat attitude helpers. It does not activate NPCs or
-complete the campaign. The latest captured browser-runtime exercise remains
-checkpoint 83 at commit
+responds with HTTP 200. Before checkpoint 92, its published revision was
+`main` commit `3b968ba51c1924a1c6b2daded2803d7782fabb39`, merged in
+[PR 55](https://github.com/ael-dev3/Tervain/pull/55) and published by successful
+[workflow run 37571447817](https://github.com/ael-dev3/Tervain/actions/runs/37571447817).
+That publication advances the selected NPC construction read through
+Navigation contact callbacks to the unresolved ScriptAdmin getter. It does not
+activate NPCs or complete the campaign. The latest captured browser-runtime
+exercise remains checkpoint 83 at commit
 `c52d16da73fe1c9be5d240b0111cfe1074d1e8cc`, published by
 [workflow run 37551902308](https://github.com/ael-dev3/Tervain/actions/runs/37551902308), attempt 1.
 Checkpoints 81–84 preserve selected Engine/Game CRT ownership and Navigation
@@ -299,9 +332,9 @@ Navigation's reflected type to live NPC activation. The
 [detailed rebuilding record](gothic3-rebuilding-process.md) distinguishes
 those source components from browser behavior.
 
-The current working copy has unpublished checkpoints 87–91. The retained NPC
-read passes the selected application-mode check, resolves its current-zone
-proxy to the registered source Navigation entity, and follows the selected
+Checkpoints 87–91 are now published in PR 55. The retained NPC read passes the
+selected application-mode check, resolves its current-zone proxy to the
+registered source Navigation entity, and follows the selected
 Engine proxy copy/destruction operations. Checkpoint 91 adds the original
 gCEntity contact dispatch and the source-shaped iterator, with the verified
 actor-side `gCNavigation_PS` no-op callback. Its focused runtime test now
@@ -315,7 +348,7 @@ See [checkpoint
 for the native dispatch trace and exact limits. This lower browser loader does
 not provide original application startup, reflected factories or full entity
 reads, and it does not make the NPC world-resident. No browser exercise of the
-NPC inspector after PR 54 is recorded here. Original Navigation reflection,
+NPC inspector after PR 55 is recorded here. Original Navigation reflection,
 full source-ordered property attachment, world attachment and NPC activation
 remain open.
 

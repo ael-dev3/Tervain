@@ -10,6 +10,8 @@ import type { NativeValue } from '../../src/gothic3/dialogue';
 import { createBrowserNpcEntityServices } from '../../src/gothic3/browser-npc-entity-services';
 import { loadBrowserNpcNavigationOwner } from '../../src/gothic3/browser-npc-navigation-owner';
 import { BrowserNavigationAreaSourceRuntime } from '../../src/gothic3/browser-navigation-area-source-runtime';
+import { navigationPropertyId } from '../../src/gothic3/navigation-scene';
+import { browserHeroPositionToNativeCm, GOTHIC3_HERO_EYE_HEIGHT_METRES } from '../../src/gothic3/native-world-coordinates';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 let source: BrowserNpcEntitySources;
@@ -116,6 +118,24 @@ describe('retained original Ardea NPC owner prefix', () => {
       expect(binding.fullNavigationAdminCompiled).toBe(false);
       expect(areas.sourceLoadSummary()).toEqual({ loadedSources: 67, failedSources: 0, liveAreas: 5385 });
       expect(navigation.registeredAreas()).toHaveLength(5385);
+
+      const xardasTower = areas.source.definitions.entities.find((definition) => definition.name === 'Xardas_Tower');
+      if (!xardasTower) throw new Error('Missing source Navigation zone Xardas_Tower.');
+      expect(areas.findZoneAtPositionCm([
+        xardasTower.worldMatrix[12]!, xardasTower.worldMatrix[13]!, xardasTower.worldMatrix[14]!,
+      ])).toEqual({ known: true, value: { id: navigationPropertyId(xardasTower.guid), name: 'Xardas_Tower' } });
+      const [nativeX, nativeY, nativeZ] = xardasTower.worldMatrix.slice(12, 15);
+      if (nativeX === undefined || nativeY === undefined || nativeZ === undefined) {
+        throw new Error('Xardas_Tower source matrix has no complete position');
+      }
+      const heroEyePosition: [number, number, number] = [
+        nativeX / 100 - 920,
+        nativeY / 100 - 52 + GOTHIC3_HERO_EYE_HEIGHT_METRES,
+        -nativeZ / 100 - 120,
+      ];
+      expect(areas.findZoneAtPositionCm(browserHeroPositionToNativeCm(heroEyePosition, [920, 52, 120]))).toEqual({
+        known: true, value: { id: navigationPropertyId(xardasTower.guid), name: 'Xardas_Tower' },
+      });
 
       const bandit = source.entities[0]!;
       const runtime = new BrowserNpcEntityRuntime({ ...serviceOwner.services,
