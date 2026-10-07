@@ -12,25 +12,26 @@ native data structure is a useful component milestone, but it does not by
 itself establish a playable reconstruction.
 
 The latest confirmed Gothic implementation publication recorded here is
-[checkpoint 105](gothic3-rebuilding-process.md#105-own-the-game-io-startup-stack-and-seh-prolog),
-merged on 7 October 2026 in [PR 70](https://github.com/ael-dev3/Tervain/pull/70)
-at commit `ef2bba53bbb8dae47a8b1c8fd6f192c907da3d9f` and published by successful
-[workflow run 37631082331](https://github.com/ael-dev3/Tervain/actions/runs/37631082331).
-It adds a retained virtual x86 stack, registers and exception-frame registration,
-then connects the original I/O caller, startup prolog and startup-info argument
-prefix. The next required operation is the `GetStartupInfoA` writer at
-`20474314`. The property-ID initializer remains unentered while this startup
-path is incomplete. The [publication receipt](gothic3-rebuilding-process.md#confirmed-publication-of-checkpoint-105)
-records successful checks and exact deployed bundle matching; it contains no
-new browser gameplay observation.
-
-The current source extension is
-[checkpoint 106](gothic3-rebuilding-process.md#106-own-the-startup-info-writer-and-normal-import-return).
+[checkpoint 106](gothic3-rebuilding-process.md#106-own-the-startup-info-writer-and-normal-import-return),
+merged on 7 October 2026 in [PR 72](https://github.com/ael-dev3/Tervain/pull/72)
+at commit `9d8bbfb071e7f22deb0a412162b3aac3bfa01efa` and published by successful
+[workflow run 37639921718](https://github.com/ael-dev3/Tervain/actions/runs/37639921718).
 It supplies the selected virtual startup-info writer, its actual stack return
 and the five original instructions preparing the first I/O allocation. The
-next required call is `calloc` at `20474327`; its nested frame, allocation and
-return remain unimplemented. The model inspector's existing developer details
-describe the reached startup boundary without activating an NPC.
+next required call is `calloc` at `20474327`. The property-ID initializer remains
+unentered while this startup path is incomplete. The
+[publication receipt](gothic3-rebuilding-process.md#confirmed-publication-of-checkpoint-106)
+records successful checks and exact deployed bundle matching. Its browser
+observation covers the local production preview and the retained allocation
+boundary; it does not establish a completed game.
+
+Checkpoint 107 is locally reviewed through the nested allocation, its physical
+returns and the connected first I/O block initialization. The local browser
+observation shows 32 records and 531 completed source operations, stopping before
+`GetStdHandle` at `204744b4`. The model inspector's existing developer details
+describe actual reached startup progress without
+activating an NPC. Publication of this extension requires its own reviewed
+commit, successful workflow and matching deployed artifacts.
 
 The browser supports exploration and selected gameplay paths. Whole-module
 startup, native NPC activation and most campaign progression remain unfinished. See

@@ -668,3 +668,28 @@ call's private stack alias, consumes its normal return and prepares count32 and
 size56 arguments. It stops before the actual calloc CALL at `20474327`; nested
 allocation, full I/O and NPC activation remain required. See
 [checkpoint 106](../../docs/engineering/gothic3-rebuilding-process.md#106-own-the-startup-info-writer-and-normal-import-return).
+
+## Game first I/O allocation and records
+
+The allocation supplement preserves the earlier source packages:
+
+```powershell
+python -B scripts/gothic3_game_io_allocation_source.py --study '<LOCAL_DESKTOP_STUDY>' --repo . --output assets/gothic3/game-io-allocation
+```
+
+Its [four-output package](../../assets/gothic3/game-io-allocation/README.md)
+reuses five full source bodies, 337 original rows and 995 instruction bytes.
+It adds the original 28-byte allocation scope, preserves the five-byte cleanup
+entry as a noncallable PE-only gap, and admits the two existing loader-zero I/O
+globals as canonical fresh-image ranges. Three exact import sites are pinned.
+The producer executes no TypeScript, native binary, allocator or browser.
+
+The connected implementation follows the actual nested source calls, stack and
+SEH prolog/epilog, selected HeapAlloc stdcall12 return and caller cleanup. It
+publishes the actual allocation and count in source order, initializes records
+with their original widths, and rereads the current canonical block pointer on
+each loop iteration. The selected path prepares STD_INPUT_HANDLE and stops
+before `GetStdHandle` at `204744b4`; handles, critical sections, the final I/O
+return and full startup remain required. See
+[checkpoint 107](../../docs/engineering/gothic3-rebuilding-process.md#107-own-the-first-io-allocation-and-record-initialization)
+for its review and publication status.

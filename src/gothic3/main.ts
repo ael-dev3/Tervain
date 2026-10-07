@@ -177,6 +177,11 @@ function updateNpcEntityStudy(person: ScenePerson | null): void {
       const io = attach.ioProgress;
       startupDetails.push('Startup-info import: ' + (io.getStartupInfoReturned ? 'returned'
         : io.getStartupInfoCalled ? 'interrupted' : 'not called'));
+      startupDetails.push('First I/O allocation: ' + (io.callocReturned ? 'returned'
+        : io.callocCalled ? 'interrupted' : 'not called'));
+      startupDetails.push('I/O globals published: ' + (io.ioGlobalsPublished ? 'yes' : 'no'));
+      startupDetails.push('I/O records initialized: ' + io.initializedRecordCount);
+      startupDetails.push('I/O source operations completed: ' + io.effects.length);
       startupDetails.push('I/O initialization returned: ' + (io.ioInitReturned ? 'yes' : 'no'));
     }
   } else if (startup) startupDetails.push('Game startup unavailable: ' + startup.reason);

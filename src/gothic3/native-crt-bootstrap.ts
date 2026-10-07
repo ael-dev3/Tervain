@@ -176,7 +176,7 @@ export interface NativeCrtAttachProgress {
   readonly environmentProgress: ReturnType<NativeGameCrtEnvironment['snapshot']> | null;
   readonly ioProgress: ReturnType<NativeGameCrtIoInit['snapshot']> | null;
   readonly nextBoundary: Readonly<{ name: 'ioInit'; address: string; target: string }> |
-    Readonly<{ name: 'GetStartupInfoA'; address: string; iat: string }> |
+    Readonly<{ name: 'GetStartupInfoA' | 'HeapAlloc' | 'GetStdHandle'; address: string; iat: string }> |
     Readonly<{ name: 'calloc'; address: string; target: string }> | null;
   readonly crtTraversalCompleted: false;
   readonly nativeModuleInstantiated: false;
@@ -597,7 +597,7 @@ export class NativeCrtBootstrap {
     } finally {
       this.#ioInvocationActive = false;
       const reached = NativeGameCrtIoInit.prototype.snapshot.call(io).nextBoundary;
-      if (reached) this.#nextBoundary = reached.operation === 'GetStartupInfoA'
+      if (reached) this.#nextBoundary = 'iat' in reached
         ? Object.freeze({ name: reached.operation, address: reached.pc, iat: reached.iat })
         : Object.freeze({ name: reached.operation, address: reached.pc, target: reached.target });
     }

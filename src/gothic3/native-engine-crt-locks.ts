@@ -12,6 +12,8 @@ import type { NativeCrtModule, NativeCrtSourceProfile, NativeCrtSourceRules } fr
 import { NativeWin32PlatformException, NativeRuntimePlatform } from './native-runtime-platform';
 import type { NativeWin32HeapCapability, NativeWin32ModuleCapability, NativeCrtPointerProcedure, NativeCrtSectionProcedure, NativeCrtLocalProcedure, NativeCrtLocalGetProcedure, NativeCrtPlatformProcedure } from './native-runtime-platform';
 import type { NativeWin32ProcessInputEndpoints } from './native-win32-process-inputs';
+import { NativeX86ThreadStack } from './native-x86-thread-stack';
+import type { NativeHeapAllocCallGrant } from './native-x86-thread-stack';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = (reason: string): { known: false; reason: string } => ({ known: false, reason });
@@ -168,6 +170,40 @@ export class NativeModuleCrtOwner {
     const owner = gameOwners.get(platform);
     return owner ? NativeModuleCrtOwner.canonicalGameHeapForAllocation(owner, platform, pointer)
       : unknown('Actual retained same-platform Game CRT owner required');
+  }
+  /** Preallocation authority is the actual current image handle and private
+   * HeapCreate membership. Existing-allocation proof cannot supply this. */
+  static canonicalGameHeapHandleForPlatform(owner: NativeModuleCrtOwner,
+    platform: NativeRuntimePlatform): NativeValue<NativeWin32HeapCapability> {
+    if (!NativeModuleCrtOwner.isConstructedOwner(owner) || owner.module !== 'Game' || owner.host.platform !== platform || owner.#heapTerminated) {
+      return unknown('Actual active same-platform Game heap owner required');
+    }
+    try {
+      const active = NativeRuntimePlatform.requireActivePlatform(platform); if (!active.known) return active;
+      const fields = owner.#retainedImageStorage('crtHeapHandle');
+      const access = NativeRuntimePlatform.canonicalGameModuleImageAccessForPlatform(platform, owner, 'crtHeapHandle', 0, 4);
+      if (!access.known) return access;
+      const heap = NativeHeapObjectViews.prototype.pointer.call(fields, 0).get() as NativeWin32HeapCapability | null;
+      if (!heap || !owner.#heaps.has(heap) || heap.owner !== owner.identity || owner.#retainedImageStorage('crtHeapHandle') !== fields) {
+        return unknown('Actual current Game HeapCreate capability required');
+      }
+      const lower = NativeRuntimePlatform.canonicalWin32HeapForOwner(platform, heap, owner.identity); if (!lower.known) return lower;
+      return known(heap);
+    } catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
+  }
+  /** Fixed physical import lower effect only: no facade calloc, source frame,
+   * caller cleanup, epilog, retry, or extra allocation is executed here. */
+  static heapAllocForPhysicalCall(owner: NativeModuleCrtOwner, platform: NativeRuntimePlatform,
+    call: NativeHeapAllocCallGrant): NativeValue<NativeMemoryBacking | null> {
+    const args = NativeX86ThreadStack.heapAllocArgumentsForPlatform(platform, call); if (!args.known) return args;
+    if (args.value.crt !== owner) return unknown('Actual HeapAlloc call belongs to another Game CRT');
+    const current = NativeModuleCrtOwner.canonicalGameHeapHandleForPlatform(owner, platform);
+    if (!current.known || current.value !== args.value.heap) return unknown(current.known ? 'Current Game heap differs from its actual physical call' : current.reason);
+    const result = NativeRuntimePlatform.performHeapAllocForPhysicalCall(platform, call, args.value.heap, args.value.flags, args.value.bytes);
+    // Retain the real allocation effect before later graph/physical proof can
+    // fail. The source did not roll it back, free it, or return on interruption.
+    if (result.known && result.value !== null) owner.#allocations.add(result.value);
+    return result;
   }
   static canonicalGameHeapForAllocation(owner: NativeModuleCrtOwner, platform: NativeEngineCrtPlatform,
     pointer: NativeBytePointer): NativeValue<NativeWin32HeapCapability> {
