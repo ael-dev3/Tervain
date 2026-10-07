@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 /**
  * The presentable teaser's sound, mixed to picture:
+ * - the narration (tools/teaser/voice.mjs) at its places, with the rest of the mix stepping back while it speaks;
  * - a score composed for the cut with Tervain's own composer and theme (tools/world-audio/compose), on the teaser's
- *   beat: the theme at the golden hour, a triumph that deflates, a build that stops dead, and a harpsichord minuet for
- *   the thornback in its formal wear;
+ *   beat: the theme at the golden hour, a triumph that deflates on "failed", an easy lute groove under the new
+ *   features, a build that stops dead, and a harpsichord minuet for the thornback in its formal wear;
  * - every sound the game made while the film was shot (logged per frame by film.mjs), played from the game's own
  *   banks and placed by its distance and direction from the camera;
  * - each place's ambience bed;
@@ -22,7 +23,8 @@ import * as I from '../world-audio/compose/instruments.mjs';
 import { Tempo, parse, rootOf, tonesOf } from '../world-audio/compose/notation.mjs';
 import { Mix, SPACES, THEME, blown, bowed, plucked, roll, sung, timed } from '../world-audio/compose/pieces.mjs';
 import { OUT } from './film.mjs';
-import { BEAT, CAPTIONS, FPS, GLINT, LENGTH, SHOTS, shot } from './timeline.mjs';
+import { BEAT, FPS, GLINT, LENGTH, SCREENSHOTS, SHOTS, VOICE, shot } from './timeline.mjs';
+import { VOICE_DIR } from './voice.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const SECONDS = LENGTH + 2.5;
@@ -49,8 +51,10 @@ function moment(id, test) {
 /** The thornback's blow lands on the hero (the freeze holds four frames later). */
 const HURT = moment('payoff', (r) => r.player.state === 'hurt');
 const CUT = shot('freeze').start;
-/** The caption that deflates the triumph appears here; the music stops with it. */
-const DEFLATE = shot('proud').start + 0.75;
+/** The triumph stops dead on the narrator's "failed" (read from the take's word timings); "successfully" lands in the quiet. */
+const MISSION = VOICE.find((v) => v.line === 'mission');
+const DEFLATE = MISSION.words.find((w) => /^failed/i.test(w.text)).end + 0.03;
+const SUCCESS = MISSION.words.at(-1).end;
 /** The jump cut to the dressed thornback, and the glint of its monocle. */
 const REVEAL = shot('reveal').start;
 const SHINE = REVEAL + GLINT;
@@ -186,24 +190,24 @@ function score() {
   const coda = new Mix(SECONDS, 'room', { wet: 0.26, seed: 505 });
   const random = rng(77);
 
-  // The golden hour: the theme on the wooden flute, over the harp's broken chords, in D Dorian.
-  const golden = BEATS.golden;
+  // The golden hour and Lantern Point: the theme on the wooden flute over the harp's broken chords, in D Dorian; the
+  // flute rests while the comment is read.
+  const golden = BEATS.golden, proud = BEATS.proud;
   const harp = [];
-  ['Dm', 'Am', 'C', 'Dm', 'Dm'].forEach((chord, k) => {
+  ['Dm', 'G', 'Dm', 'C', 'Dm', 'Am', 'C', 'Dm'].forEach((chord, k) => {
     const start = golden + 3 * k;
     const bass = rootOf(chord, midi('D2'));
     const up = tonesOf(chord, bass + 7, 3);
-    (k === 4 ? [bass, up[0], up[1]] : [bass, up[0], up[1], up[2], up[1], up[0]]).forEach((m, j) => {
+    [bass, up[0], up[1], up[2], up[1], up[0]].forEach((m, j) => {
       harp.push({ t: at(start + j * 0.5) + (random() - 0.5) * 0.01, freq: mtof(m), vel: 0.42 * (j === 0 ? 1.15 : 0.85) * (0.93 + 0.14 * random()) });
     });
   });
   harp.push(...sweep('D4', 9, Math.max(0, at(golden) - 0.02), 0.3, 0.04));
   meadow.add(plucked(SECONDS, 'harp', harp, { ring: 3 }), 0, { pan: -0.28, send: 0.35, gain: 1.05 });
   blown(meadow, line(THEME.A2, 3, golden, { transpose: 12, random, vel: 0.62, humanize: 0.008 }), { seed: 11, breath: 0.55 }, { pan: 0.18, send: 0.36, gain: 0.95 });
-  bowed(meadow, [hold('D3', golden, golden + 14, 0.22)], { body: I.VIOLA, seed: 14, brightness: 0.25, attack: 1, release: 0.6, vibDepth: 0.001 }, { pan: -0.1, send: 0.35, gain: 0.75 });
+  bowed(meadow, [hold('D3', golden, proud, 0.22)], { body: I.VIOLA, seed: 14, brightness: 0.25, attack: 1, release: 0.6, vibDepth: 0.001 }, { pan: -0.1, send: 0.35, gain: 0.75 });
 
-  // Mission failed successfully: a triumph in D major swells on the cut and deflates as the caption lands.
-  const proud = BEATS.proud;
+  // Mission failed successfully: a triumph in D major swells on the cut and deflates on "failed".
   triumph.add(I.drumHit({ f0: 36, vel: 1, decay: 1.6, strike: 0.05, slap: 0.4, seed: 21 }), at(proud), { gain: 1.4, send: 0.3 });
   triumph.add(I.drumHit({ f0: 55, vel: 0.9, decay: 1.0, strike: 0.15, slap: 0.3, seed: 22 }), at(proud) + 0.004, { gain: 0.9, send: 0.3 });
   triumph.add(braam(2.4, ['D1', 'D2', 'A2', 'F#3'], { seed: 23, open: 2400, decay: 0.6 }), at(proud), { gain: 0.32, send: 0.25 });
@@ -215,6 +219,22 @@ function score() {
     bowed(triumph, [hold(name, proud, proud + 4, 0.5)], { body, seed, brightness: 0.55, attack: 0.05, release: 0.4, vibDepth: 0.003, tremolo: name >= 'A5' ? 0.6 : 0 }, { pan, send: 0.32, gain: 0.8 });
   }
   triumph.add(plucked(SECONDS, 'harp', roll([midi('D3'), midi('A3'), midi('D4'), midi('F#4'), midi('A4'), midi('D5')], at(proud), 0.5, 0.03), { ring: 4 }), 0, { pan: 0.25, send: 0.4 });
+
+  // Since then: an easy lute groove in four, D major, under the narration from the grass to the bench.
+  const montage = new Mix(SECONDS, 'room', { wet: 0.22, seed: 506 });
+  const m0 = BEATS.grass, m1 = BEATS.lurk;
+  const lute = [];
+  ['D', 'A', 'Em', 'G', 'D'].forEach((chord, k) => {
+    const root = rootOf(chord, midi('D3'));
+    const third = chord.endsWith('m') ? 3 : 4;
+    [0, 7, 12, 12 + third, 19, 12 + third, 12, 7].forEach((step, j) => {
+      const b = m0 + 4 * k + j * 0.5;
+      if (b < m1) lute.push({ t: at(b) + (random() - 0.5) * 0.008, freq: mtof(root + step), vel: 0.34 * (j === 0 ? 1.2 : j % 2 ? 0.8 : 0.95) * (0.92 + 0.16 * random()) });
+    });
+  });
+  montage.add(plucked(SECONDS, 'lute', lute, { ring: 1.6 }), 0, { pan: 0.12, send: 0.25, gain: 1 });
+  bowed(montage, ['D2', 'A1', 'E2', 'G1', 'D2'].map((n, k) => hold(n, m0 + 4 * k, Math.min(m1, m0 + 4 * k + 4), 0.3)).filter((n) => n.dur > 0),
+    { body: I.VIOL, seed: 60, brightness: 0.3, attack: 0.3, release: 0.3, vibDepth: 0.001 }, { pan: -0.15, send: 0.3, gain: 0.6 });
 
   // The thornback as it was: a low drone, a slow drum that hurries, a rising hiss, and nothing on the cut.
   const lurk = BEATS.lurk, end = lurk + shot('lurk').beats;
@@ -237,18 +257,20 @@ function score() {
   salon.add(harpsichord(SECONDS, [...right, ...left]), 0, { pan: 0.05, send: 0.22, gain: 1.35 });
   bowed(salon, line('D3:3 | A2:3 | D3:3 | A2:3 | A2:3 |', 3, reveal, { random, vel: 0.36 }), { body: I.VIOL, seed: 50, brightness: 0.3, attack: 0.05, release: 0.2, vibDepth: 0.001 }, { pan: -0.25, send: 0.25, gain: 0.55 });
 
-  // The title: the minuet's polite cadence, a harp roll and a small bell.
+  // The title: a harp roll and a small bell as it appears, then the minuet's polite cadence under the last line.
   const title = BEATS.title;
-  const cadence = line('G5:1 E5:0.5 C#5:0.5 A4:1 | D5:2 r:1 |', 3, title + 0.5, { random, vel: 0.6 });
-  const cadenceBass = line('A2:1 C#3:1 E3:1 | D2:2 r:1 |', 3, title + 0.5, { random, vel: 0.5 });
-  coda.add(harpsichord(SECONDS, [...cadence, ...cadenceBass]), 0, { pan: 0.05, send: 0.25, gain: 1.3 });
-  coda.add(plucked(SECONDS, 'harp', roll([midi('D2'), midi('A2'), midi('D3'), midi('F#3'), midi('A3'), midi('D4'), midi('F#4'), midi('A4')], at(title + 3.5), 0.42, 0.035), { ring: 5 }), 0, { pan: -0.2, send: 0.4, gain: 0.9 });
-  coda.add(I.chime(hzOf('A5'), { seconds: 3, vel: 0.6, seed: 61 }), at(title + 3.5), { pan: 0.3, send: 0.5, gain: 0.4 });
+  coda.add(plucked(SECONDS, 'harp', roll([midi('D2'), midi('A2'), midi('D3'), midi('F#3'), midi('A3'), midi('D4'), midi('F#4'), midi('A4')], at(title) + 0.02, 0.42, 0.035), { ring: 5 }), 0, { pan: -0.2, send: 0.4, gain: 0.9 });
+  coda.add(I.chime(hzOf('A5'), { seconds: 3, vel: 0.6, seed: 61 }), at(title) + 0.05, { pan: 0.3, send: 0.5, gain: 0.4 });
+  const cadence = line('G5:1 E5:0.5 C#5:0.5 A4:1 | D5:2 r:1 |', 3, title + 1, { random, vel: 0.55 });
+  const cadenceBass = line('A2:1 C#3:1 E3:1 | D2:2 r:1 |', 3, title + 1, { random, vel: 0.45 });
+  coda.add(harpsichord(SECONDS, [...cadence, ...cadenceBass]), 0, { pan: 0.05, send: 0.25, gain: 1.2 });
 
-  // The meadow's theme stops where the strand's triumph starts.
+  // The meadow's theme stops where the strand's triumph starts; the groove where the thornback's build starts.
   const [gl, gr] = meadow.finish();
   gate([gl, gr], at(proud) - 0.004, 0.03);
-  const parts = [[gl, gr], coda.finish()];
+  const [ul, ur] = montage.finish();
+  gate([ul, ur], at(m1) - 0.004, 0.12);
+  const parts = [[gl, gr], [ul, ur], coda.finish()];
   const [tl, tr] = triumph.finish();
   tapeStop(tl, tr, DEFLATE - 0.02, 0.42);
   const [dl, dr] = dread.finish();
@@ -366,7 +388,7 @@ const TRIM = {
  * caption and the cards, and the stonecutter's distant chisel taps against the dread and the minuet in the cut.
  */
 const MUTE = {
-  golden: ['bell.town'], ford: ['bell.town'], proud: ['bell.town'],
+  golden: ['bell.town'], vista: ['bell.town'], proud: ['bell.town'], grass: ['bell.town'], swim: ['bell.town'], bench: ['bell.town'],
   lurk: ['bell.town', 'work.chisel'], reveal: ['bell.town', 'work.chisel'], payoff: ['bell.town', 'work.chisel'],
 };
 /** The player's own cries, as the game plays them now. */
@@ -469,8 +491,11 @@ function eq(L, R) {
 /** Each shot's beds: a loop and its level (RMS, dBFS). */
 const BEDS = {
   golden: [['meadow_day', -30], ['brook', -34]],
-  ford: [['brook', -25], ['village_day', -32]],
+  vista: [['sea_far', -27], ['cliff_wind', -33]],
   proud: [['sea', -21], ['surf', -30]],
+  grass: [['meadow_day', -28], ['forest_day', -36]],
+  swim: [['lap', -24], ['sea', -28]],
+  bench: [['brook', -25], ['village_day', -32]],
   lurk: [['cut', -32]],
   reveal: [['cut', -36]],
   payoff: [['cut', -33]],
@@ -569,6 +594,47 @@ function loudness(L, R) {
   return { lufs: Number(j.input_i), tp: Number(j.input_tp) };
 }
 
+/* ------------------------------------------------------------------ the narration */
+
+/** The narrator's takes at their places in the teaser, mono in the middle, dry. */
+function narration() {
+  const out = new Float32Array(N);
+  const takes = VOICE.map((v) => {
+    const r = spawnSync('ffmpeg', ['-v', 'error', '-i', path.join(VOICE_DIR, `${v.line}.mp3`), '-f', 'f32le', '-ac', '1', '-ar', String(SR), 'pipe:1'], { maxBuffer: 1 << 26 });
+    if (r.status !== 0) throw new Error(`could not decode the ${v.line} take: ${r.stderr}`);
+    const take = new Float32Array(r.stdout.buffer.slice(r.stdout.byteOffset, r.stdout.byteOffset + r.stdout.length));
+    new Biquad('highpass', 70, 0.7).run(take);
+    return { v, take, lufs: loudness(take, take).lufs };
+  });
+  // The takes come back within a few dB of each other: bring each gently towards the middle one.
+  const middle = takes.map((t) => t.lufs).sort((a, b) => a - b)[Math.floor(takes.length / 2)];
+  for (const { v, take, lufs } of takes) {
+    const level = db(Math.max(-2.5, Math.min(2.5, middle - lufs)));
+    const o = Math.round(v.at * SR);
+    for (let i = 0; i < take.length && o + i < N; i++) out[o + i] += take[i] * level;
+  }
+  return out;
+}
+
+/**
+ * While the narrator speaks: 1 from just before each word to a little after it, so the gaps between words stay
+ * under; closing in 80 ms and opening again over 400 ms.
+ */
+function speaking() {
+  const on = new Uint8Array(N);
+  for (const v of VOICE) {
+    for (const w of v.words) {
+      for (let i = Math.max(0, Math.round((w.start - 0.15) * SR)); i < Math.min(N, Math.round((w.end + 0.3) * SR)); i++) on[i] = 1;
+    }
+  }
+  const out = new Float32Array(N), close = 1 / (0.08 * SR), open = 1 / (0.4 * SR);
+  for (let i = 0, e = 0; i < N; i++) {
+    e = on[i] ? Math.min(1, e + close) : Math.max(0, e - open);
+    out[i] = e;
+  }
+  return out;
+}
+
 /* ------------------------------------------------------------------ mix and master */
 
 const { parts, minuet } = score();
@@ -593,31 +659,38 @@ const put = (buf, t, gain, pan = 0) => {
     extra[1][o + i] += buf[i] * gain * gr;
   }
 };
-// The comment cards pop in; the monocle glints; the freeze scratches.
-for (const c of CAPTIONS.filter((x) => x.comment)) put(pop(Math.round(c.from * 10)), c.from, 0.55, 0.1);
+// The screenshots pop into their corner; the monocle glints; the freeze scratches.
+for (const c of SCREENSHOTS) put(pop(Math.round(c.from * 10)), c.from, 0.5, -0.35);
 put(ting(), SHINE, 0.42, 0.25);
 const o = Math.round(CUT * SR);
 for (let i = 0; i < sl.length && o + i < N; i++) {
   extra[0][o + i] += sl[i] * 1.1;
   extra[1][o + i] += sr[i] * 1.1;
 }
-// After the triumph deflates: the sea, and one cricket.
-for (const [dt, seed, pan] of [[1.05, 1, 0.35], [1.45, 2, 0.35]]) put(I.cricketChirp({ carrier: 4600, pulses: 4, seed }), DEFLATE + dt, 0.22, pan);
+// After "successfully": the sea, and one cricket.
+for (const [dt, seed, pan] of [[0.3, 1, 0.35], [0.7, 2, 0.35]]) put(I.cricketChirp({ carrier: 4600, pulses: 4, seed }), SUCCESS + dt, 0.22, pan);
 
-const LEVEL = { music: 1, effects: 1.5, beds: 1, extra: 1 };
+const LEVEL = { music: 1, effects: 1.5, beds: 1, extra: 1, voice: 1.8 };
+/** How far each part steps back while the narrator speaks (linear gain left under the voice). */
+const UNDER = { music: db(-11), effects: db(-4), beds: db(-10) };
+const voice = narration();
+const talk = speaking();
 const L = new Float32Array(N), R = new Float32Array(N);
 for (let i = 0; i < N; i++) {
-  L[i] = music[0][i] * LEVEL.music + fx[0][i] * LEVEL.effects + bed[0][i] * LEVEL.beds + extra[0][i] * LEVEL.extra;
-  R[i] = music[1][i] * LEVEL.music + fx[1][i] * LEVEL.effects + bed[1][i] * LEVEL.beds + extra[1][i] * LEVEL.extra;
+  const k = talk[i], under = (g) => 1 - (1 - g) * k;
+  const m = LEVEL.music * under(UNDER.music), f = LEVEL.effects * under(UNDER.effects), b = LEVEL.beds * under(UNDER.beds);
+  L[i] = music[0][i] * m + fx[0][i] * f + bed[0][i] * b + extra[0][i] * LEVEL.extra;
+  R[i] = music[1][i] * m + fx[1][i] * f + bed[1][i] * b + extra[1][i] * LEVEL.extra;
 }
-// The freeze is the world stopped: nothing but the scratch carries into it.
+// The freeze is the world stopped: nothing but the scratch carries into it (and the narrator, who is not in the world).
 silence([L, R], CUT + scratchLength(), shot('title').start, 0.03);
-// The picture ends at LENGTH: the last chord fades out by then.
+const under = [L.slice(), R.slice()];
+// The picture ends at LENGTH: the last chord fades out by then; the last line has finished before.
 const endFade = Math.round(1.2 * SR), end = Math.round(LENGTH * SR);
 for (let i = 0; i < N; i++) {
   const w = i >= end ? 0 : i > end - endFade ? 0.5 + 0.5 * Math.cos((Math.PI * (i - (end - endFade))) / endFade) : 1;
-  L[i] *= w;
-  R[i] *= w;
+  L[i] = L[i] * w + voice[i] * LEVEL.voice;
+  R[i] = R[i] * w + voice[i] * LEVEL.voice;
 }
 // Master for X: -14 LUFS integrated, true peak under -1 dBTP. Bring the mix to a working level, compress it gently,
 // then raise it into the limiter until it measures -14.
@@ -646,8 +719,11 @@ if (process.argv.includes('--stems')) {
   writeWav(path.join(OUT, 'stem-music.wav'), music.map((c) => c.subarray(0, end).map((v) => v * g)));
   writeWav(path.join(OUT, 'stem-effects.wav'), fx.map((c) => c.subarray(0, end).map((v) => v * g * LEVEL.effects)));
   writeWav(path.join(OUT, 'stem-beds.wav'), bed.map((c) => c.subarray(0, end).map((v) => v * g)));
+  writeWav(path.join(OUT, 'stem-voice.wav'), [0, 1].map(() => voice.subarray(0, end).map((v) => v * g * LEVEL.voice)));
+  // Everything but the voice, as it sits under it (ducked), for checking the balance.
+  writeWav(path.join(OUT, 'stem-under.wav'), under.map((c) => c.subarray(0, end).map((v) => v * g)));
 }
-console.log(`teaser-sound.wav: ${(end / SR).toFixed(2)} s; deflate ${DEFLATE.toFixed(3)} s, reveal ${REVEAL.toFixed(3)} s, glint ${SHINE.toFixed(3)} s, hero hurt ${HURT.toFixed(3)} s, freeze ${CUT.toFixed(3)} s`);
+console.log(`teaser-sound.wav: ${(end / SR).toFixed(2)} s; ${VOICE.length} lines of narration; deflate ${DEFLATE.toFixed(3)} s, reveal ${REVEAL.toFixed(3)} s, glint ${SHINE.toFixed(3)} s, hero hurt ${HURT.toFixed(3)} s, freeze ${CUT.toFixed(3)} s`);
 
 function scratchLength() {
   return 0.305;

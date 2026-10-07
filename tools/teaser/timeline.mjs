@@ -1,11 +1,12 @@
 /**
  * The "presentable" teaser, as one timeline shared by the film, the captions, the score and the edit: the shots (where
- * the camera goes and what happens) and what is written over them. Shot lengths are whole beats of the menu score's
- * measured tempo, so every cut lands on the music.
+ * the camera goes and what happens), the narration placed over them, and what is shown on top. Shot lengths are whole
+ * beats of the menu score's measured tempo, so every cut lands on the music.
  */
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { LINES, takes } from './voice.mjs';
 
 export const FPS = 60;
 export const WIDTH = 1920;
@@ -24,45 +25,71 @@ const OFFSTAGE = { x: -60, z: 60, yaw: 0, hidden: true };
 /**
  * World shots run in the game proper (a new game in shot mode); menu shots on the title screen. Camera keys give a
  * position and a point looked at, each as [x, metres above the ground, z], at a time in seconds within the shot;
- * `ease` slows the move into and out of its ends. A `follow` camera rides behind the player. `preroll` seconds of the
- * world run before the first frame; actions happen at their time within the shot (negative times fall in the
- * preroll). `beast` places the thornback and sets its mind; `dress` puts it in its formal wear (tools/teaser/costume.mjs).
+ * `ease` slows the move into and out of its ends. `preroll` seconds of the world run before the first frame; actions
+ * happen at their time within the shot (negative times fall in the preroll; the hero walks where the camera's yaw,
+ * set from his, points). `beast` places the thornback and sets its mind; `dress` puts it in its formal wear
+ * (tools/teaser/costume.mjs).
  */
 export const SHOTS = [
   {
-    // The new grass and the trees in the wind at the golden hour: the hero wades through the meadow by the ford,
-    // against the low sun, the grass parting where he walks.
-    id: 'golden', beats: 8, scene: 'world', hour: 17.2, player: { x: 35.2, z: 43.4, yaw: 2.4 }, preroll: 0.6,
+    // The grass and the trees in the wind at the golden hour: the hero wades through the meadow by the ford, against
+    // the low sun, the grass parting where he walks.
+    id: 'golden', beats: 10, scene: 'world', hour: 17.2, player: { x: 35.2, z: 43.4, yaw: 2.4 }, preroll: 0.6,
     camera: { ease: true, keys: [
       { t: 0, p: [42.4, 0.8, 41.8], l: [37.0, 1.2, 40.2], fov: 46 },
-      { t: 4.5, p: [42.3, 0.82, 40.9], l: [40.6, 1.2, 37.6], fov: 43 },
+      { t: 5.6, p: [42.25, 0.82, 40.6], l: [41.2, 1.2, 36.8], fov: 42 },
     ] },
     actions: [{ t: -0.6, hold: 'KeyW' }],
   },
   {
-    // Sel writing in the ledger on the ford camp's bench, the ford running behind, the same evening.
-    id: 'ford', beats: 6, scene: 'world', hour: 17.2, player: OFFSTAGE,
+    // Lantern Point at sunset, where the first trailer began: the first ten seconds in question.
+    id: 'vista', beats: 12, scene: 'world', hour: 18.6, player: OFFSTAGE,
     camera: { ease: true, keys: [
-      { t: 0, p: [46.6, 1.35, 35.6], l: [44.0, 0.95, 32.6], fov: 40 },
-      { t: 4, p: [46.1, 1.3, 35.0], l: [44.0, 0.95, 32.6], fov: 37 },
+      { t: 0, p: [-268, 6, 70], l: [-324, 13, 104], fov: 42 },
+      { t: 6.7, p: [-283, 10.5, 81], l: [-324, 14.5, 104], fov: 40 },
     ] },
   },
   {
     // The hero, alone at the sea's edge at sunset.
-    id: 'proud', beats: 5, scene: 'world', hour: 18.5, player: { x: -266, z: 30, yaw: 4.6 },
+    id: 'proud', beats: 7, scene: 'world', hour: 18.5, player: { x: -266, z: 30, yaw: 4.6 },
     camera: { ease: true, keys: [
       { t: 0, p: [-262.8, 1.0, 31.5], l: [-268.5, 1.9, 29.6], fov: 38 },
-      { t: 3, p: [-263.2, 1.05, 31.2], l: [-268.5, 1.9, 29.6], fov: 34 },
+      { t: 3.9, p: [-263.2, 1.05, 31.2], l: [-268.5, 1.9, 29.6], fov: 34 },
     ] },
   },
   {
-    // The thornback as it was, standing where the reveal will find it, framed the same way: the "before". Long enough
-    // to read the comment over it.
-    id: 'lurk', beats: 9, scene: 'world', hour: 16.4, player: { x: 105.57, z: -51.57, yaw: 0, hidden: true },
+    // Since then: the hero walks at the camera through the long grass at midday, the trees moving behind him.
+    id: 'grass', beats: 4, scene: 'world', hour: 11.5, player: { x: 34.2, z: 44.5, yaw: 2.4 }, preroll: 2.0,
+    camera: { ease: true, keys: [
+      { t: 0, p: [41.0, 2.2, 37.8], l: [36.2, 0.7, 42.6], fov: 44 },
+      { t: 2.24, p: [41.5, 2.25, 37.3], l: [37.0, 0.75, 41.8], fov: 42 },
+    ] },
+    actions: [{ t: -2.0, hold: 'KeyW' }],
+  },
+  {
+    // Out of his depth off the Grey Strand, swimming, his body seen through the water.
+    id: 'swim', beats: 3, scene: 'world', hour: 11.5, player: { x: -296, z: 40, yaw: 0.5 }, preroll: 1.6,
+    camera: { ease: true, keys: [
+      { t: 0, p: [-287.8, 1.4, 43.4], l: [-294.7, 0.2, 41.9], fov: 34 },
+      { t: 1.68, p: [-287.4, 1.4, 44.6], l: [-293.1, 0.2, 43.9], fov: 33 },
+    ] },
+    actions: [{ t: -1.6, hold: 'KeyW' }],
+  },
+  {
+    // Sel writing in the ledger on the ford camp's bench, the ford running behind, in the evening.
+    id: 'bench', beats: 9, scene: 'world', hour: 17.2, player: OFFSTAGE,
+    camera: { ease: true, keys: [
+      { t: 0, p: [46.6, 1.35, 35.6], l: [44.0, 0.95, 32.6], fov: 40 },
+      { t: 5.0, p: [46.1, 1.3, 35.0], l: [44.0, 0.95, 32.6], fov: 37 },
+    ] },
+  },
+  {
+    // The thornback as it was, standing where the reveal will find it, framed the same way: the "before".
+    id: 'lurk', beats: 12, scene: 'world', hour: 16.4, player: { x: 105.57, z: -51.57, yaw: 0, hidden: true },
     beast: { x: 108.4, z: -54.4, yaw: -0.785, state: 'alert', t: 999 },
     camera: { ease: true, keys: [
       { t: 0, p: [107.02, 0.8, -50.06], l: [107.59, 1.02, -53.59], fov: 35 },
-      { t: 5.0, p: [107.0, 0.8, -50.24], l: [107.59, 1.02, -53.59], fov: 34 },
+      { t: 6.0, p: [107.0, 0.8, -50.24], l: [107.59, 1.02, -53.59], fov: 34 },
     ] },
   },
   {
@@ -91,7 +118,7 @@ export const SHOTS = [
     aim: 'cut_creature',
   },
   { id: 'freeze', beats: 3, scene: 'hold', of: 'payoff' },
-  { id: 'title', beats: 5, scene: 'menu', song: songBeat(128), ui: 'title' },
+  { id: 'title', beats: 7, scene: 'menu', song: songBeat(128), ui: 'title' },
 ];
 
 /** When the monocle catches the light, in seconds within the reveal: on the third beat of its first bar. */
@@ -114,15 +141,51 @@ export const FRAMES = Math.round(LENGTH * FPS);
 export const shot = (id) => SHOTS.find((s) => s.id === id);
 
 /**
- * What is written over the picture. `line` is the deadpan voice (plain lowercase); `comment` a comment card (its
- * wording quoted exactly, its author left out; `place: 'left'` keeps it clear of a face in the middle, `size: 'long'`
- * fits a long comment above the subject); times are seconds within the shot.
+ * The narration (tools/teaser/voice.mjs): each line's take starts `t` seconds into its shot. `words` carries the
+ * take's transcribed words at their times in the teaser.
  */
-export const CAPTIONS = [
-  { shot: 'golden', t: 0.35, until: 4.3, line: 'i asked AI to make a game\nheavily inspired by gothic 3' },
-  { shot: 'ford', t: 0.25, until: 3.2, comment: 'COMMENT_GOTHIC', place: 'left' },
-  { shot: 'proud', t: 0.75, until: 2.7, line: 'mission failed successfully', style: 'big' },
-  // Off a half second before the cut, so the plain creature is seen before it is dressed.
-  { shot: 'lurk', t: 0.2, until: 4.5, comment: 'COMMENT_PRESENTABLE', size: 'long' },
-  { shot: 'freeze', t: 0.05, until: 1.62, line: 'presentable.', style: 'freeze' },
-].map((c) => ({ ...c, from: START[c.shot] + c.t, to: START[c.shot] + c.until }));
+export const VOICE = [
+  { line: 'intro', shot: 'golden', t: 0.2 },
+  { line: 'comment1', shot: 'vista', t: 0.15 },
+  { line: 'mission', shot: 'proud', t: 0.35 },
+  { line: 'polish', shot: 'grass', t: 0.1 },
+  { line: 'swim', shot: 'swim', t: 0.1 },
+  { line: 'bench', shot: 'bench', t: 0.05 },
+  { line: 'comment2', shot: 'lurk', t: 0.3 },
+  // A sigh, then the word, with a breath before the jump cut.
+  { line: 'fair', shot: 'lurk', t: 4.9 },
+  // Once it has turned to the lens.
+  { line: 'better', shot: 'reveal', t: 3.25 },
+  { line: 'presentable', shot: 'freeze', t: 0.35 },
+  { line: 'outro', shot: 'title', t: 0.25 },
+].map((v) => {
+  const take = takes().lines[v.line];
+  const at = START[v.shot] + v.t;
+  return { ...v, at, seconds: take?.seconds ?? 0, words: (take?.words ?? []).map((w) => ({ ...w, start: at + w.start, end: at + w.end })) };
+});
+
+const bare = (s) => s.toLowerCase().replace(/[^a-z0-9]/g, '');
+/**
+ * Subtitles for the narration, from its words: each of a line's cues starts on its first word and holds until the
+ * next cue, or a little after the last word (never past its shot).
+ */
+export const SUBTITLES = VOICE.flatMap((v) => {
+  const line = LINES.find((l) => l.id === v.line);
+  if (!v.words.length) return [];
+  const starts = [v.words[0].start];
+  let from = 0;
+  for (const key of line.at ?? []) {
+    const i = v.words.findIndex((w, k) => k > from && bare(w.text) === key);
+    starts.push(v.words[i].start);
+    from = i;
+  }
+  const s = shot(v.shot);
+  const last = Math.min(v.words.at(-1).end + 0.45, s.start + s.seconds - 0.03);
+  return line.shown.map((text, k) => ({ text, from: starts[k] - 0.05, to: k + 1 < starts.length ? starts[k + 1] - 0.06 : last }));
+});
+
+/** The comments, as screenshots of the thread, from their shot's moment `t` to its end. */
+export const SCREENSHOTS = [
+  { shot: 'vista', t: 0.2, image: 'comment-gothic.png' },
+  { shot: 'lurk', t: 0.3, image: 'comment-presentable.png' },
+].map((c) => ({ ...c, from: START[c.shot] + c.t, to: START[c.shot] + shot(c.shot).seconds - 0.1 }));

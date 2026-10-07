@@ -5,7 +5,7 @@
  * two-pass to fit the size budget, AAC stereo, fast start. Also pulls the poster frame. It refuses to encode while a
  * quoted comment is still marked as unconfirmed (tools/teaser/comments.mjs).
  *
- *   node tools/teaser/assemble.mjs [out.mp4]     after film.mjs, captions.mjs and score.mjs
+ *   node tools/teaser/assemble.mjs [out.mp4] [--budget MiB]     after film.mjs, captions.mjs and score.mjs
  */
 import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
@@ -21,9 +21,10 @@ if (unconfirmed.length && !process.argv.includes('--draft')) {
 }
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
-const target = path.resolve(process.argv.slice(2).find((a) => !a.startsWith('--')) ?? path.join(ROOT, 'outputs/teaser/tervain-teaser-presentable.mp4'));
-/** Mebibytes the finished file may take: small enough to send to a phone, well under GitHub's 50 MiB warning. */
-const BUDGET_MB = 27;
+const target = path.resolve(process.argv.slice(2).find((a, i, all) => !a.startsWith('--') && all[i - 1] !== '--budget') ?? path.join(ROOT, 'outputs/teaser/tervain-teaser-presentable.mp4'));
+/** Mebibytes the finished file may take: under GitHub's 50 MiB warning (a smaller copy for phones with --budget). */
+const budgetArg = process.argv.indexOf('--budget');
+const BUDGET_MB = budgetArg > 0 ? Number(process.argv[budgetArg + 1]) : 44;
 const AUDIO_KBPS = 256;
 
 const run = (args, opts = {}) => {
@@ -63,9 +64,9 @@ run([...picture, '-map', `${sound}:a`, '-af', 'apad', ...x264, '-pass', '2', '-p
   '-c:a', 'aac', '-b:a', `${AUDIO_KBPS}k`, '-ar', '48000', '-ac', '2', '-shortest', '-movflags', '+faststart',
   '-metadata', 'title=Tervain — presentable', '-metadata', 'comment=Captured from the browser prototype (0.0.13); see tools/teaser.', '-fflags', '+bitexact', '-flags:v', '+bitexact', '-flags:a', '+bitexact', target]);
 
-// The poster: the thornback in its formal wear, staring into the lens.
+// The poster: the thornback in its formal wear, staring into the lens (before the narrator asks).
 const poster = target.replace(/\.mp4$/, '-poster.jpg');
-run(['-ss', (shot('reveal').start + 3.9).toFixed(3), '-i', target, '-frames:v', '1', '-q:v', '2', poster]);
+run(['-ss', (shot('reveal').start + 3.15).toFixed(3), '-i', target, '-frames:v', '1', '-q:v', '2', poster]);
 
 const mb = fs.statSync(target).size / (1024 * 1024);
 console.log(`${path.relative(ROOT, target)}: ${mb.toFixed(1)} MB (video ${videoKbps} kb/s two-pass, audio ${AUDIO_KBPS} kb/s); ${path.relative(ROOT, poster)}`);
