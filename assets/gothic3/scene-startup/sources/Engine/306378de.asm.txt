@@ -1,0 +1,1 @@
+306378de | ff2564dcaf30 | JMP dword ptr [0x30afdc64]

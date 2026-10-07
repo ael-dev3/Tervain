@@ -1,0 +1,15 @@
+/* ENTRY 1004a490 | FUN_1004a490 | STATUS decompiled | 6 ms */
+
+void __fastcall FUN_1004a490(bCObjectBase *param_1)
+
+{
+  bool bVar1;
+  
+  bVar1 = (*param_1->vftablePtr->IsValid)(param_1);
+  if (bVar1) {
+    param_1[2].vftablePtr = (bCObjectBase_vftable *)((uint)param_1[2].vftablePtr & 0x7fffffff);
+    bCObjectBase::Destroy(param_1);
+    return;
+  }
+  return;
+}

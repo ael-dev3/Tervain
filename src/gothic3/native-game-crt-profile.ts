@@ -80,7 +80,11 @@ export const nativeGameImagePins: Readonly<Record<string, readonly [
 ]>> = Object.freeze({
   "navigationClassName": ["coldGlobals","207b4964",12,"000000000000000000000000","15ec7bf0b50732b49f8228e07d24365338f9e3ab994b00af08e5a3bffe55fd8b"],
   "navigationInitializerResult": ["coldGlobals","207b4ea8",4,"00000000","df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"],
+  "scriptAdminClassName": ["coldGlobals","207b47a0",12,"000000000000000000000000","15ec7bf0b50732b49f8228e07d24365338f9e3ab994b00af08e5a3bffe55fd8b"],
+  "scriptAdminInitializerResult": ["coldGlobals","207b4f3c",4,"00000000","df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"],
+  "scriptAdminLookupCacheGuard": ["coldGlobals","207b6028",8,"0000000000000000","af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"],
   "navigationTypeInfoDescriptor": ["coldGlobals","20796ce4",30,"74636b20000000002e3f415667434e617669676174696f6e5f5053404000","432dea591b8e93c3b36c7c7bd7d5157c6a1bb5946a2bb31e75379ecd1b08cb59"],
+  "scriptAdminTypeInfoDescriptor": ["coldGlobals","207966e0",30,"74636b20000000002e3f4156674353637269707441646d696e4040000000","f33c18e0ad041860c76b6d45308ecae45a842af912b0860dda2e85c63f37602a"],
   "crtTypeInfoList": ["coldGlobals","207d0a18",8,"0000000000000000","af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"],
   "charNodeVtable": ["constBytes","206bec94",12,"d8884720dc884720e0884720","075de1961f31e84319f8e3f9ba7ee485e986df270b630c7d36e05cbea45f15a6"],
   "indirectNodeVtable": ["constBytes","206beca4",12,"428e4720518e4720608e4720","15775356b4569994e9f7cee6a57f8bb84b762022c24e8fd53afc7c52f6ac7609"],

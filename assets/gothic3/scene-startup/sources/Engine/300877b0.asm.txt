@@ -1,0 +1,5 @@
+300877b0 | 33c0 | XOR EAX,EAX
+300877b2 | 894128 | MOV dword ptr [ECX + 0x28],EAX
+300877b5 | 89412c | MOV dword ptr [ECX + 0x2c],EAX
+300877b8 | c6413001 | MOV byte ptr [ECX + 0x30],0x1
+300877bc | c3 | RET

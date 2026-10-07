@@ -267,16 +267,26 @@ export function nativeSceneTypeInfoForCrt(crt: NativeEngineCrtOwner): NativeScen
   return name;
 }
 
-const gameTypeNames = new WeakMap<NativeGameCrtOwner, NativeGameTypeInfoName>();
+export type NativeGameTypeInfoTarget = 'navigation' | 'scriptAdmin';
+const gameTypeInfoTargets: Readonly<Record<NativeGameTypeInfoTarget, {
+  readonly descriptorStorage: string;
+  readonly decoratedName: string;
+  readonly label: string;
+}>> = Object.freeze({
+  navigation: Object.freeze({ descriptorStorage: 'navigationTypeInfoDescriptor',
+    decoratedName: '.?AVgCNavigation_PS@@', label: 'Navigation' }),
+  scriptAdmin: Object.freeze({ descriptorStorage: 'scriptAdminTypeInfoDescriptor',
+    decoratedName: '.?AVgCScriptAdmin@@', label: 'ScriptAdmin' }),
+});
+const gameTypeNames = new WeakMap<NativeGameCrtOwner, Map<NativeGameTypeInfoTarget, NativeGameTypeInfoName>>();
 const gameTypeInfoMethods = [
   ['typeInfoNameWrapper', '204637e0', 'e993582193b053903a0233de11767e2e5f59a078350762db06ef08338e02abd8'],
   ['typeInfoNameBody', '20468806', 'ae3f48bda6d41d14a3400665b49065f62042dbdc693472b12fd404ea3e3c4c5d'],
   ['typeInfoNameCleanup', '204688f2', '084f61fec2079ea071aa64ca396a8cf17ca74fc4087f67de3aba1218e37a4ff0'],
 ] as const;
 
-/** Game's type_info::_Name_base for the pinned gCNavigation_PS descriptor.
- * Its cache and type-info list alias Game image storage; Engine CRT state is
- * never consulted. */
+/** Game's type_info::_Name_base for a pinned Game class descriptor. Its cache
+ * and type-info list alias Game image storage; Engine CRT state is never used. */
 export class NativeGameTypeInfoName {
   readonly descriptor: NativeHeapObjectViews;
   readonly list: NativeHeapObjectViews;
@@ -287,7 +297,8 @@ export class NativeGameTypeInfoName {
   private readonly nodes: NativeMemoryBacking[] = [];
   private readonly trace: string[] = [];
 
-  constructor(private readonly crt: NativeGameCrtOwner, private readonly demangler: NativeCrtUndName) {
+  constructor(private readonly crt: NativeGameCrtOwner, private readonly demangler: NativeCrtUndName,
+    readonly target: NativeGameTypeInfoTarget = 'navigation') {
     if (crt.module !== 'Game' || demangler.crt !== crt) {
       throw new Error('Matching canonical Game CRT and demangler owners required for Game type_info::Name');
     }
@@ -297,18 +308,19 @@ export class NativeGameTypeInfoName {
       if (method?.module !== 'Game' || method.entry !== entry || method.body !== entry ||
           method.bodyInstructionBytesSha256 !== hash) throw new Error('Game type_info::Name source receipt differs: ' + label);
     }
-    const descriptorReceipt = nativeGameImageReceipt('navigationTypeInfoDescriptor');
+    const typeSpec = gameTypeInfoTargets[this.target];
+    const descriptorReceipt = nativeGameImageReceipt(typeSpec.descriptorStorage);
     const listReceipt = nativeGameImageReceipt('crtTypeInfoList');
-    this.descriptor = crt.imageStorage('navigationTypeInfoDescriptor');
+    this.descriptor = crt.imageStorage(typeSpec.descriptorStorage);
     this.list = crt.imageStorage('crtTypeInfoList');
     if (this.descriptor.bytes.length !== descriptorReceipt.bytes || this.descriptor.readUnsigned(0) !== 0x206b6374 ||
         this.list.bytes.length !== listReceipt.bytes || this.list.backing.identity !== crt.physical.crtTypeInfoList.backing.identity ||
         this.list.bytes.byteOffset !== crt.physical.crtTypeInfoList.bytes.byteOffset) {
-      throw new Error('Exact physical Game navigation RTTI descriptor and list aliases required');
+      throw new Error('Exact physical Game ' + typeSpec.label + ' RTTI descriptor and list aliases required');
     }
-    const mangled = [...'.?AVgCNavigation_PS@@\0'].map(character => character.charCodeAt(0));
+    const mangled = [...typeSpec.decoratedName + '\0'].map(character => character.charCodeAt(0));
     if (mangled.some((byte, index) => this.descriptor.readUnsigned(8 + index, 1) !== byte)) {
-      throw new Error('Original Game gCNavigation_PS RTTI descriptor differs');
+      throw new Error('Original Game ' + typeSpec.label + ' RTTI descriptor differs');
     }
   }
 
@@ -416,11 +428,14 @@ export class NativeGameTypeInfoName {
     nodes: Object.freeze([...this.nodes]), trace: Object.freeze([...this.trace]) }); }
 }
 
-export function nativeGameTypeInfoForCrt(crt: NativeGameCrtOwner): NativeGameTypeInfoName {
-  let name = gameTypeNames.get(crt);
+export function nativeGameTypeInfoForCrt(crt: NativeGameCrtOwner,
+  target: NativeGameTypeInfoTarget = 'navigation'): NativeGameTypeInfoName {
+  let names = gameTypeNames.get(crt);
+  if (!names) { names = new Map(); gameTypeNames.set(crt, names); }
+  let name = names.get(target);
   if (!name) {
-    name = new NativeGameTypeInfoName(crt, new NativeCrtUndName(crt));
-    gameTypeNames.set(crt, name);
+    name = new NativeGameTypeInfoName(crt, new NativeCrtUndName(crt), target);
+    names.set(target, name);
   }
   return name;
 }

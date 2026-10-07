@@ -81,7 +81,8 @@ TARGETS = {
     'preCInit': 0x204737dd, 'callocCleanup': 0x20477d26,
     'unlockInitPtd': 0x20467fab, 'getPtdNoExit': 0x20467fb4,
     'unlockFreePtdMbc': 0x2046814f, 'unlockFreePtdLocale': 0x2046815b,
-    'navigationClassName': 0x2001328c, 'navigationPropertyObjectTypeSingleton': 0x20022c3c,
+    'navigationClassName': 0x2001328c, 'scriptAdminClassName': 0x20021346,
+    'navigationPropertyObjectTypeSingleton': 0x20022c3c,
     'typeInfoNameWrapper': 0x204637e0, 'typeInfoNameBody': 0x20468806,
     'typeInfoNameCleanup': 0x204688f2, 'strlen': 0x2046dbd0,
     'strcpyS': 0x20475b80, 'cinit': 0x204665f4, 'inittermE': 0x2046643f,
@@ -93,6 +94,7 @@ TARGETS = {
 MANUAL = {
     'navigationClassNameInitializer': (0x204b1840, 0x204b1840, '204b1840-204b184a'),
     'navigationClassNameDestructor': (0x20003904, 0x205496d0, '205496d0-205496da'),
+    'scriptAdminClassNameDestructor': (0x20013971, 0x205491a0, '205491a0-205491aa'),
     'onexitColdInitializer': (0x20463763, 0x20463763, '20463763-20463791'),
     'terminatePointerTarget': (0x2047396b, 0x2047396b, '2047396b-204739a3'),
     'tlsAllocFallback': (0x20467e49, 0x20467e49, '20467e49-20467e51'),
@@ -124,7 +126,10 @@ SECTION_SEH = {
 }
 COLD = {
     'navigationClassName': (0x207b4964, 12), 'navigationInitializerResult': (0x207b4ea8, 4),
-    'navigationTypeInfoDescriptor': (0x20796ce4, 30), 'crtTypeInfoList': (0x207d0a18, 8),
+    'navigationTypeInfoDescriptor': (0x20796ce4, 30),
+    'scriptAdminClassName': (0x207b47a0, 12), 'scriptAdminInitializerResult': (0x207b4f3c, 4),
+    'scriptAdminTypeInfoDescriptor': (0x207966e0, 30), 'scriptAdminLookupCacheGuard': (0x207b6028, 8),
+    'crtTypeInfoList': (0x207d0a18, 8),
     'navigationPropertyObjectTypeAndGuard': (0x207bf7e4, 64),
     'crtHeapHandle': (0x207d11b4, 4), 'crtHeapMode': (0x207d1658, 4),
     'crtLockTable': (0x207b2c70, 288), 'crtStaticSections': (0x207d0f30, 336),
@@ -385,6 +390,13 @@ def layouts() -> dict:
             typeInfoDescriptorStorage='navigationTypeInfoDescriptor', typeInfoListStorage='crtTypeInfoList',
             destructor='navigationClassNameDestructor', selectedInitializer='navigationClassNameInitializer',
             nativeClassNameConstructed=False, nativePropertyTypeRegistered=False),
+        scriptAdminClassName=dict(storage='scriptAdminClassName', bytes=12,
+            offsets=dict(string=0, initializerResult=4, guard=8), initializerResultStorage='scriptAdminInitializerResult',
+            typeInfoDescriptorStorage='scriptAdminTypeInfoDescriptor', typeInfoListStorage='crtTypeInfoList',
+            destructor='scriptAdminClassNameDestructor', nativeClassNameConstructed=False,
+            nativePropertyTypeRegistered=False),
+        scriptAdminLookup=dict(storage='scriptAdminLookupCacheGuard', bytes=8,
+            offsets=dict(cachedInstance=0, guard=4), getterEntry='2001afbe', getterBody='200a4bb0'),
         exitTables=dict(beginStorage='crtExitBegin', endStorage='crtExitEnd', lock=8,
             initialCells=32, cellBytes=4, encodedPointers=True, callbacksTraversedInReverse=True,
             actualExitTableInitialized=False),
@@ -420,6 +432,11 @@ def prepare(study: Path) -> dict:
     require(cold['crtTlsIndexes']['raw'] == 'ffffffffffffffff', 'Cold Game TLS indexes differ')
     require(cold['navigationTypeInfoDescriptor']['raw'] ==
         '74636b20000000002e3f415667434e617669676174696f6e5f5053404000', 'Navigation RTTI descriptor differs')
+    require(cold['scriptAdminTypeInfoDescriptor']['raw'] ==
+        '74636b20000000002e3f4156674353637269707441646d696e4040000000', 'ScriptAdmin RTTI descriptor differs')
+    require(cold['scriptAdminClassName']['raw'] == '00' * 12 and
+        cold['scriptAdminInitializerResult']['raw'] == '00' * 4, 'Cold ScriptAdmin class-name storage differs')
+    require(cold['scriptAdminLookupCacheGuard']['raw'] == '00' * 8, 'Cold ScriptAdmin lookup storage differs')
     require(constants['classKeyword']['raw'] == '636c6173732000', 'Game class keyword differs')
     require(constants['truncatedNameText']['raw'] == '203f3f2000', 'Game truncated-name text differs')
     physical_layouts = layouts()

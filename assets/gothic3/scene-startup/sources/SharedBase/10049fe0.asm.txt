@@ -1,0 +1,2 @@
+10049fe0 | c7011c7e0e10 | MOV dword ptr [ECX],0x100e7e1c
+10049fe6 | c3 | RET

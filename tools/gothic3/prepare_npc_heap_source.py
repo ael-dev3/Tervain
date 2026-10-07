@@ -20,7 +20,7 @@ ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / 'assets/gothic3/npc-heap'
 SHARED = '5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214'
 ENGINE = 'd49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3'
-BASE_RULES = '64f3cabc691a51639fc3d5b320e986bf8372ab50a61a6faa21bb9c58b70375a6'
+BASE_RULES = '4c95912d7c7087af7a4c6c1c1d9f31d1b69e23da9456e5022c7d64f8756be016'
 TARGETS = {
     'heap32BitmapAlloc': 0x10002261, 'heap32BlockInitialize': 0x10002298,
     'heap20BitmapAlloc': 0x10008427, 'heap20BlockInitialize': 0x10003396,
@@ -76,7 +76,7 @@ COLD = {
     'heap20PoolGlobals': (0x102ffd64, 12), 'heap20DescriptorSlot': (0x102ffef4, 4),
     'heap40PoolGlobals': (0x102ffd94, 12), 'heap40DescriptorSlot': (0x102fff04, 4),
     # Extended selected record prefix, not a claim about the native table maximum.
-    'heapPointerAreasSelected': (0x10149a18, 11 * 16),
+    'heapPointerAreasSelected': (0x10149a18, 12 * 16),
 }
 REUSED_ENGINE = ['sceneRegisterEntity', 'sceneUnregisterEntity',
     'registeredMapConstructor', 'registeredMapGrow', 'registeredMapLookup',
@@ -252,7 +252,7 @@ def prepare(study: Path) -> dict:
     require(empty_text == b'\0', 'CString NULL GetText fallback is not the original empty literal')
     const_bytes = dict(emptyCStringText=dict(address='100e5e3c', raw=empty_text.hex(), bytes=1, sha256=sha(empty_text)))
     reused = {
-        'baseAllocator': dict(path='../runtime-admin/runtime-rules.json', bytes=len(base_raw), sha256=sha(base_raw), scope='Frozen PR41 allocator checkpoint'),
+        'baseAllocator': dict(path='../runtime-admin/runtime-rules.json', bytes=len(base_raw), sha256=sha(base_raw), scope='Source-verified runtime-admin allocator rules'),
         'engineMapNames': dict(path='../runtime-admin/prior-startup-allocations.json', bytes=len(prior_raw), sha256=sha(prior_raw), methods=REUSED_ENGINE),
     }
     records_path = ROOT / 'assets/gothic3/npc-entity/bandit-records.json'

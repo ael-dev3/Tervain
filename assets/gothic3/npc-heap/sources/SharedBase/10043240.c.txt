@@ -1,4 +1,4 @@
-/* ENTRY 10043240 | FUN_10043240 | STATUS decompiled | 4 ms */
+/* ENTRY 10043240 | FUN_10043240 | STATUS decompiled | 5 ms */
 
 void __thiscall FUN_10043240(int param_1,int param_2)
 

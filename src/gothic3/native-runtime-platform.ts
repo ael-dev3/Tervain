@@ -126,6 +126,22 @@ function admittedNavigationNameDestructor(address: string): boolean {
   return method?.module === 'Game' && method.entry === address && method.body === address &&
     /^[0-9a-f]{64}$/.test(method.bodyInstructionBytesSha256);
 }
+function admittedModuleAdminShutdown(address: string): boolean {
+  if (address !== '30797fc0' || sceneSource.schema !== 'gothic3-scene-startup-rules-v1' ||
+      sceneSource.inputs.Engine !== 'd49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3' ||
+      sceneSource.inputs.SharedBase !== '5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214') return false;
+  const selected = [
+    ['moduleShutdown', '30797fc0', '30797fc0', '6fc17cee6034097d35d92d10abe9343ab168c51dfb4b3274e889c2e555fac634'],
+    ['moduleDestructor', '3001bb30', '30088e10', '56c6929f25b36fbbe9ee5d0fa1f3d1a23b3b0da1b4cee4015e5197e6c0211e73'],
+    ['inputDispatcherDestroy', '300235bf', '30087c00', 'd14ddbf9c2f92e33783a4dbe815fbfa11ebc42f42eb29771f3b59192ec796fb8'],
+    ['inputDispatcherDestructor', '300458fe', '30087d10', '04b80425f517c2c658b1e456fa07a6ff8d5753b37dee3e2e7dd072fa7f6d005c'],
+  ] as const;
+  return selected.every(([name, entry, body, hash]) => {
+    const method = sceneSource.methods[name];
+    return method?.module === 'Engine' && method.entry === entry && method.body === body &&
+      method.bodyInstructionBytesSha256 === hash;
+  });
+}
 
 /** Scoped diagnostic services. Empty owned registries are a selected platform
  * profile, not an inferred absence of native host windows or disk files. */
@@ -598,7 +614,7 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
       method?.module === 'Engine' && method.entry === address && method.body === '30797c90' &&
       method.bodyInstructionBytesSha256 === 'b1a2e2bb4cbdd84ecc08a969c18b636ac5e27f20ba3f1a6cf054d183329b51bc';
     const admittedShared = admitted?.address === address && /^(?:[0-9a-f]{2})+$/.test(admitted.raw) && /^[0-9a-f]{64}$/.test(admitted.sha256);
-    if (this.shutdownPhase !== 'active' || (!admittedShared && !admittedSceneName &&
+    if (this.shutdownPhase !== 'active' || (!admittedShared && !admittedSceneName && !admittedModuleAdminShutdown(address) &&
         !admittedMatrixDestructor(address) && !admittedNavigationNameDestructor(address)) || typeof execute !== 'function') {
       return unknown('Actual admitted active runtime shutdown registration required');
     }

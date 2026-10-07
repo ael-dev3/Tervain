@@ -3,6 +3,8 @@ import type { NativeValue } from '../../src/gothic3/dialogue';
 import { NativeGameCrtOwner } from '../../src/gothic3/native-game-crt';
 import { NativeGameExitTable } from '../../src/gothic3/native-game-crt-exit-table';
 import { NativeGameNavigationClassName } from '../../src/gothic3/native-game-navigation-class-name';
+import { NativeGameScriptAdminClassName } from '../../src/gothic3/native-game-script-admin-class-name';
+import { NativeGameScriptAdminLookup } from '../../src/gothic3/native-game-script-admin-lookup';
 import { NativeHeapObjectViews } from '../../src/gothic3/native-heap-views';
 import { NativeMemoryAdmin, nativeSceneStartupHeapExtension } from '../../src/gothic3/native-memory-admin';
 import type { NativeMemoryBacking } from '../../src/gothic3/native-memory-admin';
@@ -83,6 +85,69 @@ describe('Game gCNavigation_PS class-name startup', () => {
     expect(temporary).toBeDefined();
     expect([...temporary!.knownMask.subarray(0, expected.length)]).toEqual(new Array(expected.length).fill(255));
     expect([...temporary!.knownMask.subarray(expected.length, 24)]).toEqual([0, 0]);
+  });
+
+  it('resolves the exact Game gCScriptAdmin RTTI descriptor through its own Game CRT cache', () => {
+    const f = fixture(), typeInfo = nativeGameTypeInfoForCrt(f.crt, 'scriptAdmin');
+    const descriptor = f.crt.imageStorage('scriptAdminTypeInfoDescriptor');
+    expect(typeInfo.target).toBe('scriptAdmin');
+    expect(typeInfo.descriptor.backing.identity).toBe(descriptor.backing.identity);
+    expect(typeInfo.descriptor.bytes.byteOffset).toBe(descriptor.bytes.byteOffset);
+    expect(typeInfo.descriptor.readUnsigned(0)).toBe(0x206b6374);
+    expect(typeInfo.descriptor.pointer<NativeMemoryBacking>(4).get()).toBeNull();
+
+    const name = value(typeInfo.getName());
+    expect(text(name!)).toBe('class gCScriptAdmin');
+    expect(typeInfo.descriptor.pointer<NativeMemoryBacking>(4).get()).not.toBeNull();
+    expect(typeInfo.snapshot().boundary).toBe(null);
+  });
+
+  it('runs the source ScriptAdmin class-name cache before its ModuleAdmin lookup', () => {
+    const f = fixture(), owner = NativeGameScriptAdminClassName.forCrt(f.crt, f.memory);
+    const name = value(owner.get());
+    expect(value(name.text())).toBe('gCScriptAdmin');
+    expect(owner.fields.readUnsigned(8)).toBe(3);
+    expect(owner.fields.pointer<NativeHeapObjectViews>(4).get()).toBeNull();
+    expect(owner.initializerResult.pointer<NativeHeapObjectViews>(0).get()).toBeNull();
+    expect(owner.snapshot().registeredCallback).toMatchObject({
+      module: 'Game', entry: '20013971', label: 'scriptAdminClassNameDestructor',
+    });
+    const trace = owner.snapshot().trace;
+    expect(trace.indexOf('Game.ScriptAdmin.guard1.copy-prior')).toBeLessThan(trace.indexOf('Game.ScriptAdmin.guard2'));
+    expect(trace.indexOf('Game.ScriptAdmin.guard2')).toBeLessThan(trace.indexOf('Game.type_info.Name.attempt'));
+    expect(trace).toContain('Game.ScriptAdmin.class-name-complete');
+
+    const callback = owner.snapshot().registeredCallback!;
+    value(owner.invokeRegisteredDestructor(callback));
+    expect(owner.snapshot().destroyed).toBe(true);
+    expect(name.text().known).toBe(false);
+  });
+
+  it('connects the ScriptAdmin class name to the getter using the real Game cache and guard', () => {
+    const f = fixture(), className = NativeGameScriptAdminClassName.forCrt(f.crt, f.memory);
+    const application = new NativeHeapObjectViews({ identity: {}, bytes: new Uint8Array(1),
+      knownMask: new Uint8Array(1).fill(255), freed: false });
+    application.writeUnsigned(0, 1, 1);
+    const module = {}, calls: string[] = [];
+    const lookup = NativeGameScriptAdminLookup.forCrt<{ identity: object }, typeof module>(application, f.crt, {
+      className: () => className.get(),
+      moduleAdmin: () => { calls.push('moduleAdmin'); return known(module); },
+      findModule: (actualModule, actualName) => {
+        expect(actualModule).toBe(module);
+        expect(value(actualName.text())).toBe('gCScriptAdmin');
+        calls.push('findModule'); return known(null);
+      },
+      dynamicCast: component => { expect(component).toBeNull(); calls.push('dynamicCast'); return known(null); },
+    });
+    const globals = f.crt.imageStorage('scriptAdminLookupCacheGuard');
+
+    expect(lookup.getInstance()).toEqual(known(null));
+    expect(globals.readUnsigned(4)).toBe(1);
+    expect(globals.pointer<{ identity: object }>(0).get()).toBeNull();
+    expect(calls).toEqual(['moduleAdmin', 'findModule', 'dynamicCast']);
+    expect(lookup.snapshot().trace).toEqual(['scriptAdmin.lookup.guard', 'scriptAdmin.lookup.cache']);
+    expect(lookup.getInstance()).toEqual(known(null));
+    expect(calls).toEqual(['moduleAdmin', 'findModule', 'dynamicCast']);
   });
 
   it('retains guard and Shared CString allocation when the actual Game exit table is still cold', () => {

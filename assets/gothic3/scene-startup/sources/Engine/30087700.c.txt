@@ -1,0 +1,27 @@
+/* ENTRY 30087700 | FUN_30087700 | STATUS decompiled | 84 ms */
+
+void __thiscall FUN_30087700(int param_1,int *param_2)
+
+{
+  eCApplication *peVar1;
+  eCKeyboard *this;
+  eCMouse *this_00;
+  
+  if (param_2 != (int *)0x0) {
+    peVar1 = (eCApplication *)eCApplication::GetInstance();
+    this = (eCKeyboard *)eCApplication::GetKeyboard(peVar1);
+    peVar1 = (eCApplication *)eCApplication::GetInstance();
+    this_00 = (eCMouse *)eCApplication::GetMouse(peVar1);
+    eCKeyboard::ClearKeyBuffer(this);
+    eCMouse::ClearBuffer(this_00);
+  }
+  if (*(int **)(param_1 + 0x28) != (int *)0x0) {
+    (**(code **)(**(int **)(param_1 + 0x28) + 0x24))();
+    *(undefined4 *)(param_1 + 0x28) = 0;
+  }
+  *(int **)(param_1 + 0x28) = param_2;
+  if (param_2 != (int *)0x0) {
+    (**(code **)(*param_2 + 0x20))();
+  }
+  return;
+}

@@ -1,4 +1,4 @@
-/* ENTRY 10013730 | FUN_10013730 | STATUS decompiled | 4 ms */
+/* ENTRY 10013730 | FUN_10013730 | STATUS decompiled | 3 ms */
 
 void FUN_10013730(void *param_1)
 

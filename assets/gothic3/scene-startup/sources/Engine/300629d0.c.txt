@@ -1,0 +1,7 @@
+/* ENTRY 300629d0 | FUN_300629d0 | STATUS decompiled | 1 ms */
+
+eCApplication * FUN_300629d0(void)
+
+{
+  return eCApplication::ms_pApplication;
+}

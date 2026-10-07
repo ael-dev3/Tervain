@@ -21,7 +21,7 @@ ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / 'assets/gothic3/scene-startup'
 SHARED = '5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214'
 ENGINE = 'd49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3'
-BASE_RULES = '64f3cabc691a51639fc3d5b320e986bf8372ab50a61a6faa21bb9c58b70375a6'
+BASE_RULES = '4c95912d7c7087af7a4c6c1c1d9f31d1b69e23da9456e5022c7d64f8756be016'
 
 SHARED_TARGETS = {
     'heap24BitmapAlloc': 0x10004557, 'heap24BlockInitialize': 0x10002b3f,
@@ -30,6 +30,10 @@ SHARED_TARGETS = {
     'heap24Statistics': 0x10007536,
     'classNameUnMangle': 0x100088cd, 'sceneSectionSetSpinCount': 0x10002f27,
     'objectBaseConstructor': 0x10007c11, 'objectRefBaseConstructor': 0x10001d07,
+    'objectBaseCreate': 0x10008143, 'objectBaseDestroy': 0x100046ba,
+    'objectBaseIsValid': 0x10006140, 'objectBaseDestructor': 0x10002946,
+    'objectRefBaseCreate': 0x100079fa, 'objectRefBaseDestroy': 0x10004d59,
+    'objectRefBaseIsValid': 0x10007f81, 'objectRefBaseDestructor': 0x10005998,
     'vectorConstructor': 0x10002833, 'sphereConstructor': 0x10003634,
     'boxConstructor': 0x1000782e, 'sphereClear': 0x10005e20,
     'boxInvalidate': 0x10007e28,
@@ -39,6 +43,11 @@ ENGINE_TARGETS = {
     'typeInfoName': 0x306713ae, 'typeInfoNameBody': 0x3067da97,
     'sceneReflectedCreator': 0x304d1fb0,
     'engineComponentConstructor': 0x300027b1, 'inputReceiverConstructor': 0x30035a5d,
+    'inputReceiverIsInputEnabled': 0x30001e9c, 'inputReceiverGetInputPriority': 0x3000d95e,
+    'inputReceiverDestructor': 0x3003b5fc,
+    'objectRefBaseIsValidImport': 0x306378de,
+    'objectRefBaseAddReferenceImport': 0x30637908,
+    'objectRefBaseReleaseReferenceImport': 0x3063790e,
     'entityAdminConstructor': 0x3001d1ce, 'entityAdminInvalidate': 0x300210a8,
     'entityMapConstructor': 0x304502a0, 'entityMapGrow': 0x3044ef00,
     'templateMapConstructor': 0x304d1220, 'templateMapGrow': 0x304ce8b0,
@@ -49,6 +58,12 @@ ENGINE_TARGETS = {
     'inputDispatcherConstructor': 0x3003f026, 'inputDispatcherCreate': 0x3000f5bf,
     'inputDispatcherRegister': 0x3001ca21, 'inputDispatcherDestroy': 0x300235bf,
     'inputDispatcherDestructor': 0x300458fe,
+    'inputDispatcherArrayContains': 0x30006203, 'inputDispatcherArrayAppend': 0x30029be0,
+    'inputDispatcherSetSession': 0x30014a79, 'inputDispatcherSetActionMapper': 0x30012a49,
+    'inputDispatcherInvalidate': 0x30036237,
+    'applicationGetInstance': 0x3003e270, 'applicationGetKeyboard': 0x30010e1a,
+    'applicationGetMouse': 0x30006519, 'keyboardClearKeyBuffer': 0x3003fb9d,
+    'mouseClearBuffer': 0x30024ac3,
     'sceneDestructor': 0x304cc4b0, 'crtAtexit': 0x30671596,
     'sceneDynamicCast': 0x30671ae7,
     'crtTypeInfoMalloc': 0x30672ec7, 'crtTypeInfoFree': 0x30672f8a,
@@ -102,17 +117,52 @@ BUCKETS = {
 SHARED_COLD = {
     'heap24PoolGlobals': (0x102ffd70, 12), 'heap24DescriptorSlot': (0x102ffef8, 4),
     'heap384PoolGlobals': (0x102ffe30, 12), 'heap384DescriptorSlot': (0x102fff38, 4),
-    'heapPointerAreasSelected': (0x10149a18, 13 * 16),
+    'heapPointerAreasSelected': (0x10149a18, 14 * 16),
 }
 ENGINE_COLD = {
     'sceneClassName': (0x30ad9c44, 12), 'sceneCachedSingleton': (0x30ad9cdc, 8),
-    'applicationInitialized': (0x30ad989c, 1),
+    'applicationPointer': (0x30ad9898, 4), 'applicationInitialized': (0x30ad989c, 1),
     # This is a cached CLASS-NAME return pointer, not the RTTI descriptor.
     'sceneTypeInfoPointer': (0x30ad9d6c, 4), 'crtTypeInfoList': (0x30af70ac, 8),
     'moduleAdmin': (0x30ad9e78, 0x54), 'moduleAdminGuard': (0x30ad9ecc, 4),
     'entityAdminCriticalSection': (0x30af23d0, 24),
     'sceneGlobalCString': (0x30adcd2c, 4), 'sceneGlobalCounter': (0x30adcd30, 4),
     'sceneDefaultTrigger': (0x30adcd28, 4),
+}
+# These immutable vtable slices prove the selected inherited dispatch slots.
+# A receipt records original target identities; it does not bind a live owner.
+INPUT_VTABLES = {
+    'objectBaseVtable': ('SharedBase', 0x100e7e1c, 0x1c,
+        {0x04: 0x10006140, 0x14: 0x100046ba, 0x18: 0x10008143}),
+    'objectRefBaseVtable': ('SharedBase', 0x100e7eac, 0x40,
+        {0x04: 0x10007f81, 0x14: 0x10004d59, 0x18: 0x100079fa,
+         0x20: 0x100022d4, 0x24: 0x1000551a}),
+    'inputReceiverVtable': ('Engine', 0x308257bc, 0x70,
+        {0x04: 0x306378de, 0x20: 0x30637908, 0x24: 0x3063790e, 0x60: 0x3000d95e}),
+    'inputDispatcherVtable': ('Engine', 0x3081cabc, 0x88,
+        {0x04: 0x306378de, 0x14: 0x300235bf, 0x18: 0x3000f5bf,
+         0x20: 0x30637908, 0x24: 0x3063790e, 0x60: 0x3000d95e,
+         0x74: 0x3001ca21, 0x7c: 0x30014a79, 0x80: 0x30012a49}),
+    'moduleAdminVtable': ('Engine', 0x3081cdd4, 0x88,
+        {0x04: 0x306378de, 0x20: 0x30637908, 0x24: 0x3063790e,
+         0x60: 0x3000d95e, 0x74: 0x300164ff, 0x7c: 0x30014a79, 0x80: 0x30012a49}),
+    'engineComponentVtable': ('Engine', 0x3082553c, 0x70,
+        {0x04: 0x306378de, 0x20: 0x30637908, 0x24: 0x3063790e, 0x60: 0x3000d95e}),
+    'sceneAdminVtable': ('Engine', 0x3087c7dc, 0x70,
+        {0x04: 0x306378de, 0x20: 0x30637908, 0x24: 0x3063790e, 0x60: 0x3000d95e}),
+}
+INPUT_IMPORTS = {
+    'objectRefBaseConstructor': (0x30afdc08, '??0bCObjectRefBase@@QAE@XZ', 'objectRefBaseConstructor'),
+    'objectRefBaseCreate': (0x30afdc50, '?Create@bCObjectRefBase@@UAE?AW4bEResult@@XZ', 'objectRefBaseCreate'),
+    'objectRefBaseDestroy': (0x30afdc54, '?Destroy@bCObjectRefBase@@UAEXXZ', 'objectRefBaseDestroy'),
+    'objectRefBaseDestructor': (0x30afdc04, '??1bCObjectRefBase@@MAE@XZ', 'objectRefBaseDestructor'),
+    'objectRefBaseIsValid': (0x30afdc64, '?IsValid@bCObjectRefBase@@UBE_NXZ', 'objectRefBaseIsValid'),
+    # The real receiver's reference lifetime remains a lower service owner.
+    'objectRefBaseAddReference': (0x30afdc48, '?AddReference@bCObjectRefBase@@UAEKXZ', None),
+    'objectRefBaseReleaseReference': (0x30afdc44, '?ReleaseReference@bCObjectRefBase@@UAEKXZ', None),
+    'memoryGetInstance': (0x30afdbac, '?GetInstance@bCMemoryAdmin@@SGAAV1@XZ', None),
+    'memoryFree': (0x30afdb0c, '?Free@bCMemoryAdmin@@QAEXPAX@Z', None),
+    'memoryRealloc': (0x30afdb08, '?Realloc@bCMemoryAdmin@@QAEPAXPAXK@Z', None),
 }
 REUSED_ENGINE = {
     'registeredMapConstructor': 'registeredMapConstructor', 'registeredMapGrow': 'registeredMapGrow',
@@ -240,6 +290,22 @@ def const(pe: native.PE, address: int, size: int) -> dict:
     return dict(address=f'{address:08x}', bytes=size, raw=raw.hex(), knownMask='ff' * size,
                 sha256=sha(raw), module='Engine' if pe.base == 0x30000000 else 'SharedBase',
                 section=section, scope='cold-original-image', liveValueCaptured=False)
+
+
+def named_exports(pe: native.PE) -> dict[str, int]:
+    rva, size = struct.unpack_from('<II', pe.data, pe.optional + 96)
+    require(rva != 0 and size >= 40, 'Original named export directory is absent')
+    fields = struct.unpack('<IIHHIIIIIII', pe.bytes(pe.base + rva, 40))
+    count, name_count, functions, names, ordinals = fields[6:11]
+    require(max(count, name_count) <= 65536, 'Original export count exceeds selected bounds')
+    result = {}
+    for index in range(name_count):
+        name = struct.unpack('<I', pe.bytes(pe.base + names + index * 4, 4))[0]
+        ordinal = struct.unpack('<H', pe.bytes(pe.base + ordinals + index * 2, 2))[0]
+        require(ordinal < count, 'Original export ordinal exceeds function table')
+        target = struct.unpack('<I', pe.bytes(pe.base + functions + ordinal * 4, 4))[0]
+        result[pe.string(pe.base + name)] = pe.base + target
+    return result
 
 
 def reuse_method(module: str, method: dict, folder: str, pe: native.PE) -> dict:
@@ -383,6 +449,18 @@ def prepare(study: Path) -> dict:
             constants['boxInvalidMinimum']['raw'] == 'ffff7f7f' and
             constants['boxInvalidMaximum']['raw'] == 'ffff7fff', 'Source math invalidation constants differ')
     require(constants['classNameSpaceNeedle']['raw'] == '2000', 'UnMangle strstr space literal differs')
+    vtable_slots = {}
+    for label, (module, address, size, selected_slots) in INPUT_VTABLES.items():
+        owner = engine if module == 'Engine' else pe
+        receipt = const(owner, address, size)
+        raw = bytes.fromhex(receipt['raw'])
+        slots = {str(offset): f'{struct.unpack_from("<I", raw, offset)[0]:08x}'
+                 for offset in range(0, size, 4)}
+        for offset, expected in selected_slots.items():
+            require(slots[str(offset)] == f'{expected:08x}',
+                    f'Original selected vtable target differs: {label}+{offset:x}')
+        constants[label] = receipt
+        vtable_slots[label] = slots
     # Import metadata and unbound original thunk bytes never claim live bindings.
     imports = {}
     for module, owner in [('SharedBase', pe), ('Engine', engine)]:
@@ -393,6 +471,23 @@ def prepare(study: Path) -> dict:
         imports[module] = [dict(value, originalIatRaw=owner.bytes(int(value['iatVA'], 16), 4).hex(),
             originalIatSha256=sha(owner.bytes(int(value['iatVA'], 16), 4)), scope='original-unbound-import-thunk')
             for value in owner.imports() if value['iatVA'] in used]
+    engine_imports = {row['iatVA']: row for row in imports['Engine']}
+    shared_exports = named_exports(pe)
+    input_imports = {}
+    for label, (address, decorated, method_label) in INPUT_IMPORTS.items():
+        receipt = engine_imports.get(f'0x{address:08x}')
+        require(receipt is not None and receipt['module'].lower() == 'sharedbase.dll' and
+                receipt['name'] == decorated and decorated in shared_exports,
+                'Original dispatcher SharedBase import identity differs: ' + label)
+        target = shared_exports[decorated]
+        if method_label is not None:
+            method = method_rules[method_label]
+            require(method['module'] == 'SharedBase' and method['entry'] == f'{target:08x}',
+                    'Original dispatcher import/export target differs: ' + label)
+        input_imports[label] = dict(receipt, targetModule='SharedBase', exportEntry=f'{target:08x}',
+            targetMethod=method_label, targetBody=method_rules[method_label]['body'] if method_label else None,
+            source='original PE named export table; unbound Engine IAT metadata',
+            liveBindingCaptured=False)
     call_inventory = {method['label']: [dict(va=row['va'], bytes=row['bytes'], instruction=row['instruction'])
         for row in method['instructions'] if row['instruction'].startswith('CALL ') or
             row['instruction'].startswith('JMP dword ptr ')] for method in methods}
@@ -428,15 +523,19 @@ def prepare(study: Path) -> dict:
     audit_summary = dict(methodCount=len(methods), instructionCount=sum(len(m['instructions']) for m in methods),
         uniqueInstructionCount=len({(m['module'], row['va']) for m in methods for row in m['instructions']}),
         reusedMethodCount=len(REUSED_ENGINE) + len(REUSED_NPC),
-        recoveredPEInstructionCount=len(PE_RECOVERY), byteMismatchCount=0, nativeCodeExecuted=False)
+        recoveredPEInstructionCount=len(PE_RECOVERY), byteMismatchCount=0, nativeCodeExecuted=False,
+        vtableCount=len(vtable_slots), vtableWordCount=sum(len(value) for value in vtable_slots.values()),
+        inputDispatcherImportCount=len(input_imports))
     rules = dict(schema='gothic3-scene-startup-rules-v1', inputs=inputs, baseRulesSha256=BASE_RULES,
         methods=method_rules, coldGlobals=cold_globals, buckets=buckets, constWords=words, constBytes=constants,
-        imports=imports, callInventory=call_inventory, className=class_name, sceneConstruction=scene, reusedSourceReceipts=reused,
+        imports=imports, inputDispatcherImports=input_imports, vtableSlots=vtable_slots,
+        callInventory=call_inventory, className=class_name, sceneConstruction=scene, reusedSourceReceipts=reused,
         scope='Source-only extension admitted at construction of a fresh shared MemoryAdmin owner; no live native process image or complete campaign is claimed.')
     evidence = dict(schema='gothic3-scene-startup-evidence-v1', inputs=inputs, baseRulesSha256=BASE_RULES,
         sourceRoot='<LOCAL_DESKTOP_STUDY>', modules={name: {k: v for k, v in value.items() if k != 'methods'}
             for name, value in audits.items()}, methods=methods, coldGlobals=cold_globals, constWords=words,
-        constBytes=constants, imports=imports, className=class_name, sceneConstruction=scene,
+        constBytes=constants, imports=imports, inputDispatcherImports=input_imports, vtableSlots=vtable_slots,
+        className=class_name, sceneConstruction=scene,
         reusedSourceReceipts=reused, audit=audit_summary)
     OUT.mkdir(parents=True, exist_ok=True)
     outputs = {}

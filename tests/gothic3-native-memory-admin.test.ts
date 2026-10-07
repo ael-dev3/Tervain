@@ -114,11 +114,11 @@ describe('source-owned SharedBase MemoryAdmin and MemHeap', () => {
 
   it('owns all admitted map/entity/admin buckets and their descriptor and free effects', () => {
     const f = fixture();
-    const requests = [12, 16, 28, 108, 172, 204, 448, 688];
+    const requests = [12, 16, 28, 72, 108, 172, 204, 448, 688];
     const blocks = requests.map(bytes => allocation(f.memory.newObject(bytes)));
-    expect(blocks.map(block => block.capacity)).toEqual([12, 16, 28, 112, 192, 224, 448, 768]);
-    expect(f.memory.snapshot().pointerAreaCount).toBe(8);
-    expect(f.crt).toHaveLength(8);
+    expect(blocks.map(block => block.capacity)).toEqual([12, 16, 28, 80, 112, 192, 224, 448, 768]);
+    expect(f.memory.snapshot().pointerAreaCount).toBe(9);
+    expect(f.crt).toHaveLength(9);
     expect([...f.crt[0]!.knownMask.subarray(0, 4)]).toEqual([255, 255, 255, 255]);
     expect(word(f.crt[0]!.bytes, 0)).toBe(0);
     expect([...f.crt[1]!.knownMask.subarray(0, 4)]).toEqual([0, 0, 0, 0]);
