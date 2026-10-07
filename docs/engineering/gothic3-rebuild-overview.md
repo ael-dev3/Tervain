@@ -20,7 +20,10 @@ source-placed, full-detail Xardas Tower mesh and includes its triangles in
 browser collision. The native destination transition has focused save/restore
 coverage. Local browser review confirms the tower renders and supports the Hero
 after a landscape-preview teleport; ordinary overland travel to Nordmar remains
-unverified. Most of the campaign and native NPC activation remain unfinished.
+unverified. Local checkpoint 94 models the source ScriptAdmin lazy getter and
+adds an explicit injection seam; the browser does not yet supply its native
+type-name, ModuleAdmin, RTTI or ScriptAdmin call-slot owners. Most of the
+campaign and native NPC activation remain unfinished.
 
 ## The rebuilding loop
 
@@ -354,6 +357,13 @@ NPC inspector after PR 55 is recorded here. Original Navigation reflection,
 full source-ordered property attachment, world attachment and NPC activation
 remain open.
 
+Local checkpoint 94 models the getter's initialization check, guard-first
+cache, class-name/module lookup, RTTI cast and reentrant NULL-cache behavior.
+It does not construct or register a ScriptAdmin, and the production NPC service
+does not inject a getter. The selected read therefore still stops at the same
+boundary. See [checkpoint
+94](gothic3-rebuilding-process.md#94-model-the-source-scriptadmin-getter-without-inventing-a-module-owner).
+
 The public browser check loads 202 scene objects and 70 character models,
 enters Ardea with Hero HP 100 and inspects the Hero model (10,692 triangles,
 three meshes) and a coastal bandit (11,280 triangles, two meshes).
@@ -549,11 +559,15 @@ Their native behavior is not connected:
    the current-zone proxy to its source entity and follows Engine proxy caching.
    Checkpoint 91 adds the contact iterator and selected Navigation property-set
    dispatch; the focused test confirms the next boundary is ScriptAdmin, which
-   remains unimplemented ([checkpoint
-   91](gothic3-rebuilding-process.md#91-reconstruct-the-selected-navigation-contact-callbacks)).
+   remains unconnected in the browser. Checkpoint 94 models the getter's
+   source-ordered cache protocol, but not the original class-name, ModuleAdmin,
+   RTTI or ScriptAdmin owner ([checkpoint
+   94](gothic3-rebuilding-process.md#94-model-the-source-scriptadmin-getter-without-inventing-a-module-owner)).
    Reflected wrapper/native allocations and original application/module startup
-   remain prerequisites, followed by full source-ordered property attachment
-   and world activation.
+   remain prerequisites, followed by the area `CallScript` slot, full
+   source-ordered property attachment and world activation. The earlier
+   contact dispatch is recorded in [checkpoint
+   91](gothic3-rebuilding-process.md#91-reconstruct-the-selected-navigation-contact-callbacks).
 5. Connect native contact eligibility, animation/action state and NPC responses,
    then finish the scheduled death prefix through enclave notification,
    destination and plunder cleanup, ragdoll and knockout handling. The bandit

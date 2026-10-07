@@ -14,6 +14,7 @@ import { OriginalEnclaveProxy as OriginalEnclaveProxyOwner } from './native-prop
 import type { NativeNavigationNotificationHost, NativeNavigationNotifyString,
   NativeNavigationContactIterator, NativeNavigationContactSlot, NativeNavigationScriptAdmin,
   NativeNavigationAreaScriptSlot, NativeNavigationPropertyName } from './navigation-notifications';
+import type { NativeGameScriptAdminLookup } from './native-game-script-admin-lookup';
 import type { OriginalNavigationProperties } from './navigation-reading';
 import type { NativeNavigationDCCHost } from './navigation-runtime';
 import type { NativeRuntimePlatform } from './native-runtime-platform';
@@ -345,6 +346,7 @@ export class BrowserNavigationNotificationNames {
   private readonly contactIterators = new Set<BrowserNavigationContactIterator>();
   private readonly borrowedInputs = new Set<object>();
   private readonly navigationActors = new WeakSet<NativeLiveEntity>();
+  private scriptAdminLookup: Pick<NativeGameScriptAdminLookup<NativeNavigationScriptAdmin, object>, 'getInstance'> | null = null;
   private proxyEntityServices: BrowserNavigationProxyEntityServices | null = null;
   private proxyResolutionAttempted = false;
   private state: 'cold' | 'running' | 'ready' | 'blocked' = 'cold';
@@ -385,7 +387,8 @@ export class BrowserNavigationNotificationNames {
       constructContactIterator: (type: 5 | 8 | 10) => this.constructContactIterator(type),
       destroyContactIterator: (iterator: NativeNavigationContactIterator) => this.destroyContactIterator(iterator),
       captureContactSlot: (receiver: NativeLiveEntity, phase: 'enter' | 'exit') => this.captureContactSlot(receiver, phase),
-      scriptAdmin: () => this.notConnected<NativeNavigationScriptAdmin | null>('Game ScriptAdmin getter'),
+      scriptAdmin: () => this.scriptAdminLookup?.getInstance() ??
+        this.notConnected<NativeNavigationScriptAdmin | null>('Game ScriptAdmin getter'),
       captureAreaScriptSlot: (_admin: NativeNavigationScriptAdmin) =>
         this.notConnected<NativeNavigationAreaScriptSlot>('Navigation area script vtable slot'),
       pointNotification: (_properties: OriginalNavigationProperties, _phase: 'enter' | 'exit', _name: 'SleepingPoint' | 'WorkingPoint' | 'RelaxingPoint') =>
@@ -396,6 +399,16 @@ export class BrowserNavigationNotificationNames {
 
   private notConnected<T>(operation: string): NativeValue<T> {
     return missing('Original ' + operation + ' owner is not connected');
+  }
+
+  /** Connect only a getter backed by the retained source globals and its real
+   * class-name, ModuleAdmin and RTTI owners. The area CallScript slot remains a
+   * separate prerequisite. */
+  connectScriptAdminLookup(lookup: Pick<NativeGameScriptAdminLookup<NativeNavigationScriptAdmin, object>, 'getInstance'>): void {
+    if (!lookup || typeof lookup.getInstance !== 'function' || this.scriptAdminLookup) {
+      throw new Error('One retained source ScriptAdmin lookup owner is required');
+    }
+    this.scriptAdminLookup = lookup;
   }
 
   /** Connect the selected SceneAdmin-backed entity/property table before a

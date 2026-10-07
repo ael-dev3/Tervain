@@ -10,6 +10,9 @@ in [PR 56](https://github.com/ael-dev3/Tervain/pull/56) at `main` commit
 `dcc68c61a5f738ad9e99c464e8ca6f98f4db5dd6` and published by successful
 [workflow run 37581031860](https://github.com/ael-dev3/Tervain/actions/runs/37581031860),
 attempt 1.
+Local checkpoint 94 now models the ScriptAdmin getter's source-ordered cache
+protocol behind explicit owner injection. It does not connect the original
+class-name, ModuleAdmin, RTTI or ScriptAdmin call-slot owners to the browser.
 Checkpoint 91 is the published NPC reconstruction in PR 55. Checkpoint 92
 connects Hero movement to source-registered Navigation zones and the native
 type-8 quest-entry callback, adding a destination-quest slice while leaving the
@@ -86,21 +89,23 @@ Navigation property-set contact callbacks. Its focused runtime test confirms
 that the NPC read reaches the ScriptAdmin getter; no manual browser exercise is
 recorded.
 
-The [Gothic 3 / Ardea route](https://ael-dev3.github.io/Tervain/gothic3/) serves
-the published incomplete build and currently responds with HTTP 200. The latest
-published revision is `main` commit `3b968ba51c1924a1c6b2daded2803d7782fabb39`,
-merged in [PR 55](https://github.com/ael-dev3/Tervain/pull/55) by successful
+At the checkpoint 91 review, before PR 56, the [Gothic 3 / Ardea
+route](https://ael-dev3.github.io/Tervain/gothic3/) served the published
+incomplete build and responded with HTTP 200. That historical published
+revision was `main` commit `3b968ba51c1924a1c6b2daded2803d7782fabb39`, merged
+in [PR 55](https://github.com/ael-dev3/Tervain/pull/55) by successful
 [workflow run 37571447817](https://github.com/ael-dev3/Tervain/actions/runs/37571447817),
-attempt 1.
-PR 55 publishes checkpoints 87–91, extending the selected NPC construction
-read through Navigation contact callbacks. The read stops at ScriptAdmin; it
-does not activate NPCs or complete a quest.
-The latest captured browser-runtime exercise remains checkpoint 83 at
-commit
+attempt 1. PR 55 published checkpoints 87–91, extending the selected NPC
+construction read through Navigation contact callbacks. The read stopped at
+ScriptAdmin; it did not activate NPCs or complete a quest.
+
+The most recent captured browser-runtime exercise recorded at that checkpoint
+was checkpoint 83 at commit
 `c52d16da73fe1c9be5d240b0111cfe1074d1e8cc`, published by [workflow run
 37551902308](https://github.com/ael-dev3/Tervain/actions/runs/37551902308),
-attempt 1. No post-PR-55 exercise of the NPC inspector is recorded here.
-Earlier publication receipts are available in the repository's
+attempt 1. No post-PR-55 exercise of the NPC inspector was recorded there.
+The current publication status is summarized at the start of this document;
+earlier deployment receipts are available in the repository's
 [Pages workflow](https://github.com/ael-dev3/Tervain/actions/workflows/pages.yml).
 The [scope record](gothic3-browser-port.md) describes the current controls,
 limitations and source terms.
@@ -6457,3 +6462,57 @@ completion at the tower was exercised. The published checkpoint includes the
 checkpoint 92 quest callback and its save/restore coverage. The Tower preview
 does not establish ordinary overland travel or quest completion by physical
 arrival.
+
+## 94. Model the source ScriptAdmin getter without inventing a module owner
+
+Date: 7 October 2026. This local checkpoint follows the selected retained NPC
+read through the next recovered Navigation callback boundary. It turns the
+audited Game.dll getter into a small TypeScript owner and keeps unavailable
+class-name, ModuleAdmin, RTTI and `CallScript` owners explicit. This moves the
+implementation boundary; it does not activate the NPC or make the browser's
+area callback executable.
+
+### Follow the getter's native order
+
+The admitted Game.dll entry `2001afbe` forwards to body `200a4bb0`. That body
+first checks `eCApplication::IsInitialised`. A false result returns NULL before
+touching the lazy guard. Otherwise, the getter sets bit 0 of `207b602c` before
+asking `bTPropertyObjectType<gCScriptAdmin,eCEngineComponentBase>` for its class
+name, looking the component up through `eCModuleAdmin::GetInstance` and
+`FindModule`, RTTI-casting from `eCEngineComponentBase` to `gCScriptAdmin`, and
+storing the result at `207b6028`. The retained source receipt pins the getter
+entry/body to the installed Game.dll hash; its 86-byte body and decompiled
+listing are retained in
+[`movement-state/native-evidence.json`](../../assets/gothic3/movement-state/native-evidence.json)
+and [`sources/Game/200a4bb0.c.txt`](../../assets/gothic3/movement-state/sources/Game/200a4bb0.c.txt).
+
+`native-game-script-admin-lookup.ts` preserves the initialization check,
+guard-first ordering, NULL cache behavior on reentry, first-match module lookup
+and cast/store sequence over caller-supplied live memory views. The browser
+Navigation owner accepts this getter only through an explicit injection point.
+It remains unconnected by `createBrowserNpcEntityServices`: that runtime still
+does not own the original type-name CString, ModuleAdmin singleton and module
+registry, or ScriptAdmin instance. An isolated fake host in tests confirms the
+protocol but does not fill any of those runtime prerequisites. The original
+`CallScript` body also requires the GameApp, SceneAdmin/entity processing state
+and script processing unit; it is not implemented here.
+
+### Review boundary
+
+The six focused lookup cases cover the uninitialized branch, exact call order,
+cache reuse, guarded reentry, missing-module result and retained unknown-owner
+boundary. The NPC integration test confirms the existing browser path still
+stops at the unconnected ScriptAdmin getter and that its later area-script
+vtable slot remains a separate missing owner. This checkpoint establishes a
+source-shaped TypeScript model only: no native execution, actual ModuleAdmin
+registration, resident NPC, visible area script, quest progression or browser
+exercise is claimed.
+
+Reproduce the local review with:
+
+```powershell
+npm run typecheck
+npm test -- tests/gothic3-dialogue/native-game-script-admin-lookup.test.ts tests/gothic3-dialogue/browser-npc-entity.test.ts
+npm test
+npm run build
+```
