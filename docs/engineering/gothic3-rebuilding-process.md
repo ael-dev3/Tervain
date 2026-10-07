@@ -5,25 +5,22 @@ start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
 Updated: 7 October 2026. The latest confirmed Gothic implementation publication
-recorded here is [checkpoint 105](#105-own-the-game-io-startup-stack-and-seh-prolog),
-merged in [PR 70](https://github.com/ael-dev3/Tervain/pull/70) at commit
-`ef2bba53bbb8dae47a8b1c8fd6f192c907da3d9f` and published by successful
-[workflow run 37631082331](https://github.com/ael-dev3/Tervain/actions/runs/37631082331).
-It connects the actual Game I/O caller and startup prolog to retained virtual
-stack, register and exception-frame state. The next required operation is the
-`GetStartupInfoA` writer at `20474314`. The
-[publication receipt](#confirmed-publication-of-checkpoint-105) verifies the
-deployed artifacts. Full startup, production NPC activation and campaign
+recorded here is [checkpoint 106](#106-own-the-startup-info-writer-and-normal-import-return),
+merged in [PR 72](https://github.com/ael-dev3/Tervain/pull/72) at commit
+`9d8bbfb071e7f22deb0a412162b3aac3bfa01efa` and published by successful
+[workflow run 37639921718](https://github.com/ael-dev3/Tervain/actions/runs/37639921718).
+It connects the selected startup-info writer and normal stack return to the
+retained virtual stack, registers and exception frame, then prepares the first
+I/O allocation arguments. Its next required call is `calloc` at `20474327`.
+The [publication receipt](#confirmed-publication-of-checkpoint-106) verifies
+the deployed artifacts. Full startup, production NPC activation and campaign
 completion remain unfinished.
 
-The current source extension is
-[checkpoint 106](#106-own-the-startup-info-writer-and-normal-import-return),
-which owns the selected startup-info writer and normal stack return, then
-prepares the first I/O allocation arguments. Its next required call is
-`calloc` at `20474327`. The local browser observation is recorded below.
-Publication evidence for this extension must identify its own merged revision,
-successful main workflow and deployed artifacts; checkpoint 105's receipt
-remains historical evidence for 105.
+Checkpoint 107 is locally reviewed through the actual nested allocation and
+normal returns, then the connected first I/O block and record initialization.
+Its local browser observation shows 32 records and 531 source operations before
+`GetStdHandle` at `204744b4`; publication still needs a separate receipt. The earlier
+checkpoint receipts remain evidence for their recorded revisions.
 The published baseline for checkpoints 95–99 was
 merged in [PR 60](https://github.com/ael-dev3/Tervain/pull/60) at commit
 `5f530d4176595e0df294f58039eb99f2e42d33c4` and published by successful
@@ -142,7 +139,7 @@ The [scope record](gothic3-browser-port.md) describes the current controls,
 limitations and source terms.
 
 This guide records the hosted baseline and subsequent dated checkpoints that
-preserve the evidence for each stage. Sections 10–106 cover
+preserve the evidence for each stage. Sections 10–107 cover
 the later runtime work; each receipt identifies its source revision and scope.
 
 Each checkpoint's reproduction commands describe its recorded source revision.
@@ -7855,3 +7852,146 @@ then continue I/O records, inherited/standard handles, sections, native exceptio
 paths and outer return. Remaining argument/environment/initializer traversal,
 module and property factories, live NPC activation and the full playable
 campaign remain required.
+
+### Confirmed publication of checkpoint 106
+
+[PR 72](https://github.com/ael-dev3/Tervain/pull/72) merged reviewed head
+`bacfc4dcccafddf55961e4b6bbc6b21eb59bbe7c` into main commit
+`9d8bbfb071e7f22deb0a412162b3aac3bfa01efa` on 7 October 2026.
+The [PR run 37638673398](https://github.com/ael-dev3/Tervain/actions/runs/37638673398)
+and [publication run 37639921718](https://github.com/ael-dev3/Tervain/actions/runs/37639921718)
+passed 2,441 existing scenarios in 231 files and built 447 modules, on attempt 1.
+Pages deployment `6913267154` succeeded for that exact main commit.
+
+The root, `/gothic3/` and `/gothic3-local/` routes returned HTTP 200 during the
+publication review. The three entry bundles and Gothic NPC service bundle
+matched the successful main run's downloaded artifact byte for byte. The served
+service retained the v4 writer profile, actual import bridge and `20474327`
+allocation boundary. Artifact metadata and the downloaded tar digest bind the
+comparison to this run. The ten implementation-file hashes, four source-package
+hashes and producer hash matched the reviewed commit. README and the three
+rebuilding/tool documents fetched at the exact main revision also matched it.
+
+The browser observation above is from the local production preview. This
+publication audit establishes the served code revision; it introduces no new
+browser gameplay, Windows execution, NPC activation or campaign completion
+claim.
+
+## 107. Own the first I/O allocation and record initialization
+
+This increment extends the retained startup invocation through the original
+`calloc` wrapper and nested implementation, then the first I/O record loop.
+The last confirmed publication remains checkpoint 106 until this increment
+has its own reviewed build, browser observation and deployment receipt.
+
+### Preserve the full call path and genuine source gaps
+
+The [allocation producer](../../scripts/gothic3_game_io_allocation_source.py)
+creates a [four-output supplement](../../assets/gothic3/game-io-allocation/README.md)
+using five unchanged full C/ASM bodies: wrapper `204683ce`, implementation
+`20477c2a`, prolog `20468570`, epilog `204685b5` and I/O caller `204742ff`.
+They contain 337 original rows and 995 instruction bytes. The independent
+static audit compared them with the preserved Game DLL, regenerated the four
+outputs identically and found all 913 earlier package files unchanged.
+
+The original 28-byte scope at `206e8f98` and the existing loader-zero ranges
+`ioBlocks207d2a20/256B` and `ioHandleCount207d29c4/4B` become canonical fresh
+Game images. Initial loader zeros do not establish current values: execution
+uses the retained backing, current masks and pointer bookkeeping. The five
+bytes at cleanup entry `20477d21` remain separately labeled PE-only evidence.
+The missing original C/catalog/ASM entries are preserved as gaps; no handler,
+cleanup call, exception dispatch or invented cookie check is supplied.
+
+### Follow the physical allocation and normal returns
+
+The [I/O owner](../../src/gothic3/native-game-crt-ioinit.ts) pushes the original
+caller return at `20474327`, executes the wrapper's argument forwarding, enters
+the nested implementation and runs its actual SEH prolog. The nested frame
+retains the outer frame and FS registration. Current arithmetic operands and
+private masked flags control the source branches, including DIV, SBB, INC,
+IMUL and the current heap-mode check.
+
+At `20477ce8`, the [stack bridge](../../src/gothic3/native-x86-thread-stack.ts)
+checks the current heap, three actual arguments, nested frame, pending source
+returns and FS registration. Only the Runtime's constructor-retained endpoint
+receives the private call grant. The [Game CRT owner](../../src/gothic3/native-engine-crt-locks.ts)
+retains the real allocation effect, and the [Runtime owner](../../src/gothic3/native-runtime-platform.ts)
+records the actual normal result. The virtual HeapAlloc compatibility contract
+is explicit; it does not claim captured Windows callee execution or numerical
+addresses for opaque pointers.
+
+The selected mode-1, non-NULL path allocates 1,792 zeroed bytes with flags 8.
+Its stdcall12 return consumes the actual import return and arguments. Original
+source rows then restore the outer FS registration through the normal epilog,
+return to the wrapper, clean its forwarded arguments, restore saved registers
+and return to I/O caller `2047432c`. The deepest selected stack depth is 224
+bytes; the existing production reservation is 4,096 bytes.
+
+Unknown results retain completed effects, pending return/argument words and
+the reached nested or outer registration. They execute no cleanup, unwind,
+normal return or replay. Unsupported overflow, mode-3, retry and inherited-handle
+paths stop at their actual unmet source row. A logical allocator call cannot
+replace the source frame or its returns.
+
+### Publish and initialize the actual first block
+
+After caller cleanup and the actual non-NULL branch, source row `20474336`
+publishes the allocation pointer before `2047433b` publishes count 32. Partial
+publication stays partial if interrupted. The actual loop initializes 32
+records of 56 bytes, with BYTE and DWORD writes kept distinct:
+
+| Record offset | Source value |
+| --- | --- |
+| `+0` | Handle becomes `0xffffffff` through the original OR operation. |
+| `+4`, `+5` | Flags 0 and text-mode byte `0x0a`. |
+| `+8` | Section state DWORD 0. |
+| `+0x24`, `+0x25`, `+0x26` | Lookahead bytes 0, `0x0a`, `0x0a`. |
+
+Every iteration reloads the current canonical block pointer before its
+comparison. Comparisons use live, contained offsets of the same allocation;
+copied bytes or numeric zero placeholders do not prove pointer identity. Zero
+bytes in the section storage do not initialize a critical section.
+
+The current startup-info WORD `cbReserved2 == 0` permits the inherited-block
+skip. Original standard-input prefix rows select record zero, write flags
+`0x81`, and push `STD_INPUT_HANDLE == -10`. The next unowned import is
+`GetStdHandle` at `204744b4`, IAT `207d7bbc`, before its call or return word.
+The static selected ledger is 531 completed source operations including the
+preceding 35; this expected count must be distinguished from an observed
+execution. The final outer I/O return `204678d3` remains outstanding.
+
+The model inspector's folded developer details describe the actual allocation
+return, global publication, initialized record count and source-operation
+count. Descriptive snapshots grant no execution authority. Standard handle
+results, handle types, sections, final I/O return, remaining CRT traversal,
+module/property initialization, active NPCs and campaign completion remain
+required.
+
+### Local build and browser observation
+
+Whole-tree TypeScript checking and the local production build passed with 451
+modules. The existing large-chunk warning remains. No new cases or local
+test-suite execution were introduced. Source, physical provider, I/O caller,
+integration and documentation reviews found no material issue in the frozen
+implementation.
+
+At `/gothic3/` in the local production preview, the review entered Ardea, opened
+Models, selected `Ardea_OutNovice_01` and expanded **Original entity study ·
+developer details**. The displayed retained state was:
+
+```text
+Game startup: blocked · next GetStdHandle at 204744b4
+Startup-info import: returned
+First I/O allocation: returned
+I/O globals published: yes
+I/O records initialized: 32
+I/O source operations completed: 531
+I/O initialization returned: no
+```
+
+The interruption names the actual unowned import and retained -10 argument.
+The displayed model remains its 11,280-triangle, two-material exported bind
+pose. The captured browser error log contained no errors. This observation
+confirms the connected allocation and loop in this local build. It does not
+establish standard handle results, completed I/O or module startup, original
+Windows execution, NPC activation or a finishable campaign.

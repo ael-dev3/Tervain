@@ -23,6 +23,7 @@ import type { NativeWin32ProcessInputSelection, RetainedWin32ProcessInputSelecti
 import { retainNativeX86ThreadStackSelection } from './native-x86-thread-stack-profile';
 import type { NativeX86ThreadStackSelection } from './native-x86-thread-stack-profile';
 import { NativeX86ThreadStack, retireNativeX86ThreadStackForPlatform } from './native-x86-thread-stack';
+import type { NativeHeapAllocCallGrant } from './native-x86-thread-stack';
 import { retainNativeWin32StartupIoSelection } from './native-win32-startup-io';
 import type { NativeWin32StartupIoSelection, RetainedWin32StartupIoSelection,
   NativeWin32StartupIoEndpoints, NativeStartupInfoCallGrant } from './native-win32-startup-io';
@@ -282,6 +283,12 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
   readonly #startupIoEndpoints?: Readonly<NativeWin32StartupIoEndpoints>;
   #startupInfoActiveCall: NativeStartupInfoCallGrant | null = null;
   readonly #startupInfoNormalReturns = new WeakSet<NativeStartupInfoCallGrant>();
+  readonly heapAllocEndpoint?: (call: NativeHeapAllocCallGrant) => NativeValue<NativeMemoryBacking | null>;
+  readonly #heapAllocEndpoint?: (call: NativeHeapAllocCallGrant) => NativeValue<NativeMemoryBacking | null>;
+  #heapAllocActiveCall: NativeHeapAllocCallGrant | null = null;
+  readonly #heapAllocConsumed = new WeakSet<NativeHeapAllocCallGrant>();
+  readonly #heapAllocEffects = new WeakMap<NativeHeapAllocCallGrant, NativeMemoryBacking | null>();
+  readonly #heapAllocNormalReturns = new WeakMap<NativeHeapAllocCallGrant, NativeMemoryBacking | null>();
   private readonly sections = new Map<string, Section>();
   private readonly sectionIdentities = new Map<object, Section>();
   readonly #physicalSections = new Map<object, Map<number, PhysicalSection>>();
@@ -335,6 +342,9 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     });
     this.startupIoEndpoints = this.#startupIoEndpoints;
     Object.defineProperty(this, 'startupIoEndpoints', { value: this.#startupIoEndpoints, writable: false, configurable: false });
+    this.#heapAllocEndpoint = crt.services === undefined ? undefined : Object.freeze((call: NativeHeapAllocCallGrant) => this.#getHeapAllocForCall(call));
+    this.heapAllocEndpoint = this.#heapAllocEndpoint;
+    Object.defineProperty(this, 'heapAllocEndpoint', { value: this.#heapAllocEndpoint, writable: false, configurable: false });
     for (const [index, value] of crt.tls) { this.#crtTlsValues.set(index, value); this.#tlsIndexes.add(index); }
     const owner = Object.freeze({});
     this.#kernel32 = Object.freeze({ identity: Object.freeze({}), owner, name: 'KERNEL32.DLL' });
@@ -441,6 +451,60 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     }
     return known(undefined);
   }
+  static canonicalHeapAllocEndpointForPlatform(platform: NativeRuntimePlatform,
+    endpoint: (call: NativeHeapAllocCallGrant) => NativeValue<NativeMemoryBacking | null>): NativeValue<void> {
+    const active = NativeRuntimePlatform.requireActivePlatform(platform); if (!active.known) return active;
+    return endpoint && endpoint === platform.#heapAllocEndpoint && endpoint === platform.heapAllocEndpoint
+      ? known(undefined) : unknown('Actual constructor-retained selected HeapAlloc endpoint required');
+  }
+  static canonicalHeapAllocInvocationForPlatform(platform: NativeRuntimePlatform, call: NativeHeapAllocCallGrant): NativeValue<void> {
+    const active = NativeRuntimePlatform.requireActivePlatform(platform); if (!active.known) return active;
+    return !!call && platform.#heapAllocActiveCall !== null && platform.#heapAllocActiveCall === call && !!platform.#heapAllocEndpoint ? known(undefined)
+      : unknown('Actual currently executing private HeapAlloc grant required');
+  }
+  static canonicalHeapAllocNormalReturnForPlatform(platform: NativeRuntimePlatform, call: NativeHeapAllocCallGrant): NativeValue<NativeMemoryBacking | null> {
+    const active = NativeRuntimePlatform.requireActivePlatform(platform); if (!active.known) return active;
+    return platform.#heapAllocNormalReturns.has(call) ? known(platform.#heapAllocNormalReturns.get(call)!)
+      : unknown('Actual normal HeapAlloc endpoint return required');
+  }
+  /** Diagnostic effect lookup does not authorize memory access or RET. */
+  static heapAllocEffectForPlatform(platform: NativeRuntimePlatform, call: NativeHeapAllocCallGrant): NativeValue<NativeMemoryBacking | null> {
+    return retainedRuntimePlatforms.has(platform) && platform.#heapAllocEffects.has(call) ? known(platform.#heapAllocEffects.get(call)!)
+      : unknown('No actual retained HeapAlloc effect for this private call');
+  }
+  static canonicalWin32HeapForOwner(platform: NativeRuntimePlatform, heap: NativeWin32HeapCapability, owner: object): NativeValue<void> {
+    const active = NativeRuntimePlatform.requireActivePlatform(platform); if (!active.known) return active;
+    if (!heap || typeof heap !== 'object') return unknown('Actual Runtime heap capability required');
+    const retained = platform.#winHeaps.get(heap.identity);
+    return retained?.capability === heap && !retained.destroyed && heap.owner === owner ? known(undefined)
+      : unknown('Actual live same-owner Runtime HeapCreate capability required');
+  }
+  static performHeapAllocForPhysicalCall(platform: NativeRuntimePlatform, call: NativeHeapAllocCallGrant,
+    heap: NativeWin32HeapCapability, flags: 8, bytes: number): NativeValue<NativeMemoryBacking | null> {
+    const active = NativeRuntimePlatform.canonicalHeapAllocInvocationForPlatform(platform, call); if (!active.known) return active;
+    const args = NativeX86ThreadStack.heapAllocArgumentsForPlatform(platform, call); if (!args.known) return args;
+    if (args.value.heap !== heap || args.value.flags !== flags || args.value.bytes !== bytes || platform.#heapAllocConsumed.has(call)) {
+      return unknown('Actual current private HeapAlloc arguments and one allocation effect required');
+    }
+    const current = NativeModuleCrtOwner.canonicalGameHeapHandleForPlatform(args.value.crt, platform);
+    if (!current.known || current.value !== heap) return unknown(current.known ? 'Current Game heap differs from actual call arguments' : current.reason);
+    platform.#heapAllocConsumed.add(call);
+    const result = platform.#win32HeapAlloc(heap, flags, bytes);
+    if (result.known) platform.#heapAllocEffects.set(call, result.value);
+    return result;
+  }
+  #getHeapAllocForCall(call: NativeHeapAllocCallGrant): NativeValue<NativeMemoryBacking | null> {
+    const active = NativeRuntimePlatform.requireActivePlatform(this); if (!active.known) return active;
+    if (!this.#heapAllocEndpoint || this.#heapAllocActiveCall !== null) return unknown('Actual non-reentrant selected HeapAlloc endpoint required');
+    this.#heapAllocActiveCall = call;
+    try {
+      const args = NativeX86ThreadStack.heapAllocArgumentsForPlatform(this, call); if (!args.known) return args;
+      const result = NativeModuleCrtOwner.heapAllocForPhysicalCall(args.value.crt, this, call); if (!result.known) return result;
+      const after = NativeX86ThreadStack.heapAllocArgumentsForPlatform(this, call); if (!after.known) return after;
+      this.#heapAllocNormalReturns.set(call, result.value); return result;
+    } catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
+    finally { this.#heapAllocActiveCall = null; }
+  }
   static canonicalProcessInputEndpointsForPlatform(platform: NativeRuntimePlatform,
     endpoints: NativeWin32ProcessInputEndpoints): NativeValue<void> {
     const active = NativeRuntimePlatform.requireActivePlatform(platform); if (!active.known) return active;
@@ -525,7 +589,7 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     if (value !== 0 && value !== 1) return unknown('Actual native STD/CLD direction bit required');
     platform.#nativeDirectionFlag = value; return known(undefined);
   }
-  static canonicalGameHeapDestination(platform: NativeRuntimePlatform, owner: NativeGameCrtOwner,
+  static canonicalGameHeapDestination(platform: NativeRuntimePlatform, owner: NativeModuleCrtOwner,
     pointer: NativeBytePointer, bytes: number): NativeValue<void> {
     if (!retainedRuntimePlatforms.has(platform)) return unknown('Actual constructed RuntimePlatform required');
     try {
@@ -713,6 +777,9 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     return known(capability);
   }
   win32HeapAlloc(heap: NativeWin32HeapCapability, flags: 0 | 8, bytes: number): NativeValue<NativeMemoryBacking | null> {
+    return this.#win32HeapAlloc(heap, flags, bytes);
+  }
+  #win32HeapAlloc(heap: NativeWin32HeapCapability, flags: 0 | 8, bytes: number): NativeValue<NativeMemoryBacking | null> {
     const retained = this.#winHeaps.get(heap.identity);
     if (!retained || retained.capability !== heap || retained.destroyed || (flags !== 0 && flags !== 8)) {
       return unknown('Actual live selected HeapAlloc handle and flags required');
