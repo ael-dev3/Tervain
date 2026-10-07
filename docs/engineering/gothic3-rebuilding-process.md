@@ -5,19 +5,20 @@ start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
 Updated: 7 October 2026. The latest confirmed Gothic implementation publication
-recorded here is [checkpoint 107](#107-own-the-first-io-allocation-and-record-initialization),
-merged in [PR 74](https://github.com/ael-dev3/Tervain/pull/74) at commit
-`b6cbd47eaeb56f641eba99eb7e9bdaa4f766fe21` and published by successful
-[workflow run 37650693600](https://github.com/ael-dev3/Tervain/actions/runs/37650693600).
-It connects the actual nested allocation, normal returns and first I/O block
-initialization. Its next required call is `GetStdHandle` at `204744b4`.
-The [publication receipt](#confirmed-publication-of-checkpoint-107) verifies
-the deployed artifacts. Full startup, production NPC activation and campaign
+recorded here is [checkpoint 109](#109-own-cold-encoding-initialization-and-the-normal-argument-return),
+merged in [PR 77](https://github.com/ael-dev3/Tervain/pull/77) at commit
+`25e631eb745282d0517f2153723e29a2cf98a1aa` and published by successful
+[workflow run 37686349159](https://github.com/ael-dev3/Tervain/actions/runs/37686349159).
+It connects the returned I/O graph, cold encoding-table initialization and both
+argument parser passes to the actual zero argument return. Its corrected local
+production preview records 14,777 completed source operations and argument
+count 1, stopping before `__setenvp` at `204678e7`.
+The [publication receipt](#confirmed-publication-of-checkpoint-109) verifies
+the deployed artifact identity; the execution observation is from the local
+production preview. Full startup, production NPC activation and campaign
 completion remain unfinished.
 
-Checkpoint 107's local browser observation shows 32 records and 531 source
-operations before `GetStdHandle` at `204744b4`. The earlier
-checkpoint receipts remain evidence for their recorded revisions.
+Earlier checkpoint receipts remain evidence for their recorded revisions.
 The published baseline for checkpoints 95–99 was
 merged in [PR 60](https://github.com/ael-dev3/Tervain/pull/60) at commit
 `5f530d4176595e0df294f58039eb99f2e42d33c4` and published by successful
@@ -136,7 +137,7 @@ The [scope record](gothic3-browser-port.md) describes the current controls,
 limitations and source terms.
 
 This guide records the hosted baseline and subsequent dated checkpoints that
-preserve the evidence for each stage. Sections 10–108 cover
+preserve the evidence for each stage. Sections 10–109 cover
 the later runtime work; each receipt identifies its source revision and scope.
 
 Each checkpoint's reproduction commands describe its recorded source revision.
@@ -8365,3 +8366,34 @@ diagnostic-corrected code, not a hosted execution or a completed campaign.
 Environment initialization and remaining CRT and module startup still require
 implementation. Native NPC activation and the finishable campaign remain
 unfinished.
+
+### Confirmed publication of checkpoint 109
+
+[PR 77](https://github.com/ael-dev3/Tervain/pull/77) merged the reviewed head
+`57f13daa5ef9189e97fb6dc533949a073270d9a5` at main commit
+`25e631eb745282d0517f2153723e29a2cf98a1aa` on 2026-10-07.
+The corrected [PR check](https://github.com/ael-dev3/Tervain/actions/runs/37685498927)
+and normal [main publication](https://github.com/ael-dev3/Tervain/actions/runs/37686349159)
+succeeded on their first attempts. The verified main result records 2,464
+existing cases in 235 files, typechecking, and a build of 473 modules. The
+earlier timeout and diagnostic compatibility failure remain in the record.
+This increment added no test cases; local tests were not run.
+
+Pages deployment `6920887507` succeeded. The root Tervain
+URL, `/gothic3/` and `/gothic3-local/` returned HTTP 200. The inspected Gothic
+entry and NPC service bundles matched both the final local build above and the
+`github-pages` artifact `11511606616` from that exact main run.
+Its retained artifact tar has SHA-256 `132a9cc8920b94a071cd6214547c47c8852186ac4a3d53d6243689b7b68e8d3e`.
+The publication audit also checked the reviewed source/package/producer and
+documentation identities recorded in its receipt.
+
+The hosted checks establish code and source identity. The execution observation
+above comes from the local production preview, which recorded 14,777 completed
+argument operations, argument count 1, both parser returns and actual return
+zero. It stopped before `__setenvp` at `204678e7`. Environment initialization,
+remaining CRT/module startup, native NPC activation and a finishable campaign
+remain unfinished.
+
+A repository-wide paginated workflow audit after publication found
+178 runs and no active jobs. No dispatch,
+rerun, remote cancellation or workflow change was used for this increment.
