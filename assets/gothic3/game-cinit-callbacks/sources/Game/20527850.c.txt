@@ -1,0 +1,35 @@
+/* ENTRY 20527850 | bTPropertyType<gCSkill_PS,bTPropertyContainer<gESkillCategory>_>::~bTPropertyType<gCSkill_PS,bTPropertyContainer<gESkillCategory>_> | STATUS decompiled | 13 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCSkill_PS,bTPropertyContainer<gESkillCategory>_>::
+~bTPropertyType<gCSkill_PS,bTPropertyContainer<gESkillCategory>_>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Display");
+  bCString::bCString(local_c,"Category");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCSkill_PS::ms_PropertyMember_m_enuCategory,local_c,local_8,
+             local_4,2,false);
+  _ms_PropertyMember_m_enuCategory = &vftable;
+  DAT_207cd3e0 = bTPropertyObjectType<gCSkill_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCSkill_PS,eCEntityPropertySet>();
+  _DAT_207cd3e4 = 0x48;
+  _DAT_207cd3e8 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCSkill_PS::ms_PropertyMember_m_enuCategory);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cd3e0,
+             (bCPropertyTypeBase *)&gCSkill_PS::ms_PropertyMember_m_enuCategory);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gESkillCategory>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gESkillCategory>_>);
+  return;
+}

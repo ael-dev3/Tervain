@@ -1,0 +1,12 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 20521f80 | FUN_20521f80 | STATUS decompiled */
+
+void FUN_20521f80(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207cc478,"NULL");
+  _atexit((_func_4879 *)&UNK_20562400);
+  return;
+}
+

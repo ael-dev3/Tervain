@@ -1,0 +1,15 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204eb9f0 | FUN_204eb9f0 | STATUS decompiled */
+
+void FUN_204eb9f0(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"EOp_AddPercentageToVal");
+  thunk_FUN_201a8ce0(&DAT_207baff2,&gCArmorSet_PS::ms_PropertyMember_m_enuModAttrib1,abStack_4,2);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

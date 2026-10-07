@@ -1,0 +1,30 @@
+/* ENTRY 2051a3b0 | bTPropertyType<gCProjectile_PS,float>::~bTPropertyType<gCProjectile_PS,float> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCProjectile_PS,float>::~bTPropertyType<gCProjectile_PS,float>
+          (bTPropertyType<gCProjectile_PS,float> *this)
+
+{
+  bTPropertyType<gCProjectile_PS,float> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"ShootVelocity");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCProjectile_PS::ms_PropertyMember_m_fShootVelocity,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_fShootVelocity = &vftable;
+  DAT_207c1cb0 = bTPropertyObjectType<gCProjectile_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCProjectile_PS,eCEntityPropertySet>();
+  _DAT_207c1cb4 = 0x5c;
+  _DAT_207c1cb8 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCProjectile_PS::ms_PropertyMember_m_fShootVelocity);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207c1cb0,
+             (bCPropertyTypeBase *)&gCProjectile_PS::ms_PropertyMember_m_fShootVelocity);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}

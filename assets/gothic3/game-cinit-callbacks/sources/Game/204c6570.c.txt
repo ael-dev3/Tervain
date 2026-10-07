@@ -1,0 +1,21 @@
+/* ENTRY 204c6570 | bTPropertyObject<gCTouchDamage_PS,eCTrigger_PS>::~bTPropertyObject<gCTouchDamage_PS,eCTrigger_PS> | STATUS decompiled | 6 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyObject<gCTouchDamage_PS,eCTrigger_PS>::~bTPropertyObject<gCTouchDamage_PS,eCTrigger_PS>
+          (bTPropertyObject<gCTouchDamage_PS,eCTrigger_PS> *this)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)&gCTouchDamage_PS::ms_PropertyObjectInstance_gCTouchDamage_PS);
+  _DAT_207b8630 = 0;
+  _ms_PropertyObjectInstance_gCTouchDamage_PS = &vftable;
+  _DAT_207b8634 =
+       bTPropertyObjectType<gCTouchDamage_PS,eCTrigger_PS>::
+       ~bTPropertyObjectType<gCTouchDamage_PS,eCTrigger_PS>();
+  _DAT_207b8630 = 0;
+  thunk_FUN_201335f0(1);
+  _atexit(~bTPropertyObject<gCTouchDamage_PS,eCTrigger_PS>);
+  return;
+}

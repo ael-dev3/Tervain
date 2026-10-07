@@ -1,0 +1,8 @@
+/* ENTRY 204b35c0 | FUN_204b35c0 | STATUS decompiled | 1 ms */
+
+void FUN_204b35c0(void)
+
+{
+  _atexit(FUN_2054a320);
+  return;
+}

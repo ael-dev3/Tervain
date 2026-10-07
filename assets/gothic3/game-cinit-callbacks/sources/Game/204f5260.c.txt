@@ -1,0 +1,19 @@
+/* ENTRY 204f5260 | FUN_204f5260 | STATUS decompiled | 9 ms */
+
+void FUN_204f5260(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207bc0b8,"G3_HUD_Icon_Category_Misc.tga");
+  bCString::bCString((bCString *)&DAT_207bc0bc,"G3_HUD_Icon_Category_Weapon.tga");
+  bCString::bCString((bCString *)&DAT_207bc0c0,"G3_HUD_Icon_Category_Armor.tga");
+  bCString::bCString((bCString *)&DAT_207bc0c4,"G3_HUD_Icon_Category_Artefact.tga");
+  bCString::bCString((bCString *)&DAT_207bc0c8,"G3_HUD_Icon_Category_Food.tga");
+  bCString::bCString((bCString *)&DAT_207bc0cc,"G3_HUD_Icon_Category_Misc.tga");
+  bCString::bCString((bCString *)&DAT_207bc0d0,"G3_HUD_Icon_Category_Misc.tga");
+  bCString::bCString((bCString *)&DAT_207bc0d4,"G3_HUD_Icon_Category_Misc.tga");
+  bCString::bCString((bCString *)&DAT_207bc0d8,"G3_HUD_Icon_Category_Misc.tga");
+  bCString::bCString((bCString *)&DAT_207bc0dc,"G3_HUD_Icon_Category_Misc.tga");
+  bCString::bCString((bCString *)&DAT_207bc0e0,"G3_HUD_Icon_Category_Misc.tga");
+  _atexit(FUN_205551d0);
+  return;
+}

@@ -1,0 +1,15 @@
+/* ENTRY 204d0850 | FUN_204d0850 | STATUS decompiled | 9 ms */
+
+void FUN_204d0850(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207ba3b8,"GUI_Open.wav");
+  bCString::bCString((bCString *)&DAT_207ba3bc,"GUI_Close.wav");
+  bCString::bCString((bCString *)&DAT_207ba3c0,"GUI_Activate.wav");
+  bCString::bCString((bCString *)&DAT_207ba3c4,"GUI_SelChange.wav");
+  bCString::bCString((bCString *)&DAT_207ba3c8,"GUI_Push.wav");
+  bCString::bCString((bCString *)&DAT_207ba3cc,"GUI_Release.wav");
+  bCString::bCString((bCString *)&DAT_207ba3d0,"GUI_Error.wav");
+  _atexit(FUN_20552760);
+  return;
+}

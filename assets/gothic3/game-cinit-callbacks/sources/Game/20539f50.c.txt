@@ -1,0 +1,15 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 20539f50 | FUN_20539f50 | STATUS decompiled */
+
+void FUN_20539f50(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"eEAmbientDayTime_Morning");
+  thunk_FUN_20431950(&DAT_207cfe02,&gCAmbientSound::ms_PropertyMember_m_enuDayTime,abStack_4,0,0);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

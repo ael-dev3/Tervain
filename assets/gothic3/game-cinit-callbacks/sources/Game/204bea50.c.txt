@@ -1,0 +1,38 @@
+/* ENTRY 204bea50 | bTPropertyType<gCEffectCommandSpawnEntity,bCString>::~bTPropertyType<gCEffectCommandSpawnEntity,bCString> | STATUS decompiled | 17 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCEffectCommandSpawnEntity,bCString>::
+~bTPropertyType<gCEffectCommandSpawnEntity,bCString>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,
+                     "The bone to spawn the template at. Please note that unless you set the CoordinateSystem property to gEEffectLink_TargetBone, the spawned entity will not be attached to the bone."
+                    );
+  bCString::bCString(local_8,"General");
+  bCString::bCString(local_c,"BoneName");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCEffectCommandSpawnEntity::ms_PropertyMember_m_strBone,local_c,
+             local_8,local_4,1,false);
+  _DAT_207b7144 = 0;
+  _ms_PropertyMember_m_strBone = &vftable;
+  DAT_207b7148 = bTPropertyObjectType<gCEffectCommandSpawnEntity,gCEffectCommand>::
+                 ~bTPropertyObjectType<gCEffectCommandSpawnEntity,gCEffectCommand>();
+  _DAT_207b714c = 0x20;
+  _DAT_207b7150 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCEffectCommandSpawnEntity::ms_PropertyMember_m_strBone);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b7148,
+             (bCPropertyTypeBase *)&gCEffectCommandSpawnEntity::ms_PropertyMember_m_strBone);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bCString>::~bTPropertyTypeOnly<bCString>);
+  return;
+}

@@ -1,0 +1,9 @@
+/* ENTRY 20529d30 | FUN_20529d30 | STATUS decompiled | 3 ms */
+
+void FUN_20529d30(void)
+
+{
+  bCString::operator+((bCString *)&DAT_207cd624,&DAT_207cd630);
+  _atexit(FUN_20563980);
+  return;
+}

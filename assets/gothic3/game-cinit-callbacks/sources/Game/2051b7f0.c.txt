@@ -1,0 +1,28 @@
+/* ENTRY 2051b7f0 | bTPropertyType<gCQuest_PS,unsigned_long>::~bTPropertyType<gCQuest_PS,unsigned_long> | STATUS decompiled | 10 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCQuest_PS,unsigned_long>::~bTPropertyType<gCQuest_PS,unsigned_long>
+          (bTPropertyType<gCQuest_PS,unsigned_long> *this)
+
+{
+  bTPropertyType<gCQuest_PS,unsigned_long> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"ExperiencePoints");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCQuest_PS::ms_PropertyMember_m_iXP,(bCString *)&local_4,1);
+  _ms_PropertyMember_m_iXP = &vftable;
+  DAT_207cba18 = bTPropertyObjectType<gCQuest_PS,bCObjectRefBase>::
+                 ~bTPropertyObjectType<gCQuest_PS,bCObjectRefBase>();
+  _DAT_207cba1c = 0x34;
+  _DAT_207cba20 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCQuest_PS::ms_PropertyMember_m_iXP);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cba18,
+             (bCPropertyTypeBase *)&gCQuest_PS::ms_PropertyMember_m_iXP);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<unsigned_long>::~bTPropertyTypeOnly<unsigned_long>);
+  return;
+}

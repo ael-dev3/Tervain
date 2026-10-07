@@ -1,0 +1,15 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204fab00 | FUN_204fab00 | STATUS decompiled */
+
+void FUN_204fab00(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gESpellDeity_Adanos");
+  thunk_FUN_201fd3f0(&DAT_207bce6b,&gCMagic_PS::ms_PropertyMember_m_enuSpellDeity,abStack_4,0,0);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

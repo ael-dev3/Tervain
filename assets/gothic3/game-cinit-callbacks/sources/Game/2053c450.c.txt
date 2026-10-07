@@ -1,0 +1,9 @@
+/* ENTRY 2053c450 | FUN_2053c450 | STATUS decompiled | 2 ms */
+
+void FUN_2053c450(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207d03ec,"TeachAttrib");
+  _atexit(FUN_20568650);
+  return;
+}

@@ -1,4 +1,7 @@
 * text=auto eol=lf
+assets/gothic3/game-cinit-callbacks/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/game-cinit-callbacks/sources/** -whitespace
+tools/gothic3/prepare_game_cinit_callbacks.py -text -eol
 *.png binary
 *.jpg binary
 public/gothic3/** -text -eol whitespace=cr-at-eol,-blank-at-eof

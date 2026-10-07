@@ -1,0 +1,36 @@
+/* ENTRY 204c1ca0 | bTPropertyType<gCEffectCommandMusicTrigger,bCString>::~bTPropertyType<gCEffectCommandMusicTrigger,bCString> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCEffectCommandMusicTrigger,bCString>::
+~bTPropertyType<gCEffectCommandMusicTrigger,bCString>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Situation");
+  bCString::bCString(local_c,"DayTime");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCEffectCommandMusicTrigger::ms_PropertyMember_m_strDayTime,
+             local_c,local_8,local_4,1,false);
+  _DAT_207b7af4 = 0;
+  _ms_PropertyMember_m_strDayTime = &vftable;
+  DAT_207b7af8 = bTPropertyObjectType<gCEffectCommandMusicTrigger,gCEffectCommand>::
+                 ~bTPropertyObjectType<gCEffectCommandMusicTrigger,gCEffectCommand>();
+  _DAT_207b7afc = 0x18;
+  _DAT_207b7b00 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCEffectCommandMusicTrigger::ms_PropertyMember_m_strDayTime);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b7af8,
+             (bCPropertyTypeBase *)&gCEffectCommandMusicTrigger::ms_PropertyMember_m_strDayTime);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bCString>::~bTPropertyTypeOnly<bCString>);
+  return;
+}

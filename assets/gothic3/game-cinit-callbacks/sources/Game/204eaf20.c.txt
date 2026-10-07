@@ -1,0 +1,35 @@
+/* ENTRY 204eaf20 | bTPropertyType<gCArmorSet_PS,bCString>::~bTPropertyType<gCArmorSet_PS,bCString> | STATUS decompiled | 16 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCArmorSet_PS,bCString>::~bTPropertyType<gCArmorSet_PS,bCString>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Benefits");
+  bCString::bCString(local_c,"ModAttrib2Tag");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCArmorSet_PS::ms_PropertyMember_m_strModAttrib2,local_c,local_8
+             ,local_4,1,false);
+  _DAT_207bae70 = 0;
+  _ms_PropertyMember_m_strModAttrib2 = &vftable;
+  DAT_207bae74 = bTPropertyObjectType<gCArmorSet_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCArmorSet_PS,eCEntityPropertySet>();
+  _DAT_207bae78 = 0x6c;
+  _DAT_207bae7c = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCArmorSet_PS::ms_PropertyMember_m_strModAttrib2);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bae74,
+             (bCPropertyTypeBase *)&gCArmorSet_PS::ms_PropertyMember_m_strModAttrib2);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bCString>::~bTPropertyTypeOnly<bCString>);
+  return;
+}

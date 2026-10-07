@@ -1,0 +1,35 @@
+/* ENTRY 2051a970 | bTPropertyType<gCProjectile_PS,bCString>::~bTPropertyType<gCProjectile_PS,bCString> | STATUS decompiled | 16 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCProjectile_PS,bCString>::~bTPropertyType<gCProjectile_PS,bCString>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Collision");
+  bCString::bCString(local_c,"EffectPointImpact");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCProjectile_PS::ms_PropertyMember_m_strEffectPointImpact,
+             local_c,local_8,local_4,1,false);
+  _DAT_207c1d90 = 0;
+  _ms_PropertyMember_m_strEffectPointImpact = &vftable;
+  DAT_207c1d94 = bTPropertyObjectType<gCProjectile_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCProjectile_PS,eCEntityPropertySet>();
+  _DAT_207c1d98 = 0x6c;
+  _DAT_207c1d9c = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCProjectile_PS::ms_PropertyMember_m_strEffectPointImpact);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207c1d94,
+             (bCPropertyTypeBase *)&gCProjectile_PS::ms_PropertyMember_m_strEffectPointImpact);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bCString>::~bTPropertyTypeOnly<bCString>);
+  return;
+}

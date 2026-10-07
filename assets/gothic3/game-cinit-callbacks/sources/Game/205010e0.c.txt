@@ -1,0 +1,30 @@
+/* ENTRY 205010e0 | bTPropertyType<gCCharacterMovement_PS,bool>::~bTPropertyType<gCCharacterMovement_PS,bool> | STATUS decompiled | 10 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCCharacterMovement_PS,bool>::~bTPropertyType<gCCharacterMovement_PS,bool>
+          (bTPropertyType<gCCharacterMovement_PS,bool> *this)
+
+{
+  bTPropertyType<gCCharacterMovement_PS,bool> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"TreatWaterAsSolid");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCCharacterMovement_PS::ms_PropertyMember_m_bTreatWaterAsSolid,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_bTreatWaterAsSolid = &vftable;
+  DAT_207bdfe0 = bTPropertyObjectType<gCCharacterMovement_PS,gCMovementBase_PS>::
+                 ~bTPropertyObjectType<gCCharacterMovement_PS,gCMovementBase_PS>();
+  _DAT_207bdfe4 = 0x98;
+  _DAT_207bdfe8 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCCharacterMovement_PS::ms_PropertyMember_m_bTreatWaterAsSolid);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bdfe0,
+             (bCPropertyTypeBase *)&gCCharacterMovement_PS::ms_PropertyMember_m_bTreatWaterAsSolid);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}

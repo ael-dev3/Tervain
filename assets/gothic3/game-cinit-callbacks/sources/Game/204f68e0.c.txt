@@ -1,0 +1,9 @@
+/* ENTRY 204f68e0 | FUN_204f68e0 | STATUS decompiled | 2 ms */
+
+void FUN_204f68e0(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207bc224,"Game.Layer.Entity.Data");
+  _atexit(FUN_20555680);
+  return;
+}

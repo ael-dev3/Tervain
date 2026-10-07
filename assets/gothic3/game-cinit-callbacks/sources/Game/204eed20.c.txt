@@ -1,0 +1,11 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204eed20 | FUN_204eed20 | STATUS decompiled */
+
+void FUN_204eed20(void)
+
+{
+  DAT_207bb2d4 = bTPropertyType<gCDialog_PS,bTPropertyContainer<gETradeCategory>_>::vfunction4();
+  return;
+}
+

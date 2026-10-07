@@ -1,0 +1,9 @@
+/* ENTRY 2052b690 | FUN_2052b690 | STATUS decompiled | 3 ms */
+
+void FUN_2052b690(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207cdae4,".wksdat");
+  _atexit(FUN_205641c0);
+  return;
+}

@@ -1,0 +1,31 @@
+/* ENTRY 2053abc0 | bTPropertyType<gCInfo_PS,bCString>::~bTPropertyType<gCInfo_PS,bCString> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCInfo_PS,bCString>::~bTPropertyType<gCInfo_PS,bCString>
+          (bTPropertyType<gCInfo_PS,bCString> *this)
+
+{
+  bTPropertyType<gCInfo_PS,bCString> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"ConditionOwnerNearEntity");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCInfo_PS::ms_PropertyMember_m_condOwnerNearEntity,
+             (bCString *)&local_4,1);
+  _DAT_207d0170 = 0;
+  _ms_PropertyMember_m_condOwnerNearEntity = &vftable;
+  DAT_207d0174 = bTPropertyObjectType<gCInfo_PS,bCObjectRefBase>::
+                 ~bTPropertyObjectType<gCInfo_PS,bCObjectRefBase>();
+  _DAT_207d0178 = 0x38;
+  _DAT_207d017c = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCInfo_PS::ms_PropertyMember_m_condOwnerNearEntity);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207d0174,
+             (bCPropertyTypeBase *)&gCInfo_PS::ms_PropertyMember_m_condOwnerNearEntity);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bCString>::~bTPropertyTypeOnly<bCString>);
+  return;
+}

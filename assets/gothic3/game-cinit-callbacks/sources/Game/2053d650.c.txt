@@ -1,0 +1,33 @@
+/* ENTRY 2053d650 | bTPropertyType<gCInfoManager_PS,bool>::~bTPropertyType<gCInfoManager_PS,bool> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall bTPropertyType<gCInfoManager_PS,bool>::~bTPropertyType<gCInfoManager_PS,bool>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"");
+  bCString::bCString(local_c,"LastInfoExecuted");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCInfoManager_PS::ms_PropertyMember_m_bLastInfoExecuted,local_c,
+             local_8,local_4,1,true);
+  _ms_PropertyMember_m_bLastInfoExecuted = &vftable;
+  DAT_207d06b4 = bTPropertyObjectType<gCInfoManager_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCInfoManager_PS,eCEntityPropertySet>();
+  _DAT_207d06b8 = 0x28;
+  _DAT_207d06bc = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCInfoManager_PS::ms_PropertyMember_m_bLastInfoExecuted);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207d06b4,
+             (bCPropertyTypeBase *)&gCInfoManager_PS::ms_PropertyMember_m_bLastInfoExecuted);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}

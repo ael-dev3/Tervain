@@ -1,0 +1,35 @@
+/* ENTRY 204c1580 | bTPropertyType<gCEffectCommandEarthquake,bCVector>::~bTPropertyType<gCEffectCommandEarthquake,bCVector> | STATUS decompiled | 16 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCEffectCommandEarthquake,bCVector>::
+~bTPropertyType<gCEffectCommandEarthquake,bCVector>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Strength");
+  bCString::bCString(local_c,"Amplitude");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCEffectCommandEarthquake::ms_PropertyMember_m_vecAmplitude,
+             local_c,local_8,local_4,1,false);
+  _ms_PropertyMember_m_vecAmplitude = &vftable;
+  DAT_207b791c = bTPropertyObjectType<gCEffectCommandEarthquake,gCEffectCommand>::
+                 ~bTPropertyObjectType<gCEffectCommandEarthquake,gCEffectCommand>();
+  _DAT_207b7920 = 0x1c;
+  _DAT_207b7924 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCEffectCommandEarthquake::ms_PropertyMember_m_vecAmplitude);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b791c,
+             (bCPropertyTypeBase *)&gCEffectCommandEarthquake::ms_PropertyMember_m_vecAmplitude);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bCVector>::~bTPropertyTypeOnly<bCVector>);
+  return;
+}

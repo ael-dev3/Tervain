@@ -1,0 +1,35 @@
+/* ENTRY 2052e3b0 | bTPropertyType<gCRecipe_PS,eCTemplateEntityProxy>::~bTPropertyType<gCRecipe_PS,eCTemplateEntityProxy> | STATUS decompiled | 36 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCRecipe_PS,eCTemplateEntityProxy>::
+~bTPropertyType<gCRecipe_PS,eCTemplateEntityProxy>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Ingredients");
+  bCString::bCString(local_c,"Ingredient2Item");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCRecipe_PS::ms_PropertyMember_m_entIngredient2Item,local_c,
+             local_8,local_4,1,false);
+  _ms_PropertyMember_m_entIngredient2Item = &vftable;
+  DAT_207ce2b0 = bTPropertyObjectType<gCRecipe_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCRecipe_PS,eCEntityPropertySet>();
+  _DAT_207ce2b4 = 0x2c;
+  _DAT_207ce2b8 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCRecipe_PS::ms_PropertyMember_m_entIngredient2Item);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207ce2b0,
+             (bCPropertyTypeBase *)&gCRecipe_PS::ms_PropertyMember_m_entIngredient2Item);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<eCTemplateEntityProxy>::~bTPropertyTypeOnly<eCTemplateEntityProxy>);
+  return;
+}

@@ -1,0 +1,15 @@
+204fac00 | 51 | PUSH ECX
+204fac01 | 68804a6820 | PUSH 0x20684a80
+204fac06 | 8d4c2404 | LEA ECX,[ESP + 0x4]
+204fac0a | ff150c897d20 | CALL dword ptr [0x207d890c]
+204fac10 | 6a00 | PUSH 0x0
+204fac12 | 6a00 | PUSH 0x0
+204fac14 | 8d442408 | LEA EAX,[ESP + 0x8]
+204fac18 | 50 | PUSH EAX
+204fac19 | 6808ca7b20 | PUSH 0x207bca08
+204fac1e | b96fce7b20 | MOV ECX,0x207bce6f
+204fac23 | e8b76db3ff | CALL 0x200319df
+204fac28 | 8d0c24 | LEA ECX,[ESP]
+204fac2b | ff1534887d20 | CALL dword ptr [0x207d8834]
+204fac31 | 59 | POP ECX
+204fac32 | c3 | RET

@@ -1,0 +1,12 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 20469f3a | FUN_20469f3a | STATUS decompiled */
+
+undefined4 FUN_20469f3a(void)
+
+{
+  DAT_207d2b40 = 0;
+  DAT_207d2b40 = __get_sse2_info();
+  return 0;
+}
+

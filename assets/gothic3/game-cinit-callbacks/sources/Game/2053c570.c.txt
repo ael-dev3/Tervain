@@ -1,0 +1,9 @@
+/* ENTRY 2053c570 | FUN_2053c570 | STATUS decompiled | 3 ms */
+
+void FUN_2053c570(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207d0404,"InfoScript_Entities2");
+  _atexit(FUN_205686b0);
+  return;
+}

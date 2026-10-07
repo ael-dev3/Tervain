@@ -1,0 +1,21 @@
+/* ENTRY 2052ce70 | bTPropertyObject<gCBook_PS,eCEntityPropertySet>::~bTPropertyObject<gCBook_PS,eCEntityPropertySet> | STATUS decompiled | 7 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyObject<gCBook_PS,eCEntityPropertySet>::~bTPropertyObject<gCBook_PS,eCEntityPropertySet>
+          (bTPropertyObject<gCBook_PS,eCEntityPropertySet> *this)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)&gCBook_PS::ms_PropertyObjectInstance_gCBook_PS);
+  _DAT_207cde6c = 0;
+  _ms_PropertyObjectInstance_gCBook_PS = &vftable;
+  _DAT_207cde70 =
+       bTPropertyObjectType<gCBook_PS,eCEntityPropertySet>::
+       ~bTPropertyObjectType<gCBook_PS,eCEntityPropertySet>();
+  _DAT_207cde6c = 0;
+  thunk_FUN_203dbd90(1);
+  _atexit(~bTPropertyObject<gCBook_PS,eCEntityPropertySet>);
+  return;
+}

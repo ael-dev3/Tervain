@@ -1,0 +1,30 @@
+/* ENTRY 2053af00 | bTPropertyType<gCInfo_PS,bTObjArray<bCString>_>::~bTPropertyType<gCInfo_PS,bTObjArray<bCString>_> | STATUS decompiled | 12 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCInfo_PS,bTObjArray<bCString>_>::~bTPropertyType<gCInfo_PS,bTObjArray<bCString>_>
+          (bTPropertyType<gCInfo_PS,bTObjArray<bCString>_> *this)
+
+{
+  bTPropertyType<gCInfo_PS,bTObjArray<bCString>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"CondSecondaryNPC");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCInfo_PS::ms_PropertyMember_m_arrCondSecondaryNPC,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_arrCondSecondaryNPC = &vftable;
+  DAT_207d022c = bTPropertyObjectType<gCInfo_PS,bCObjectRefBase>::
+                 ~bTPropertyObjectType<gCInfo_PS,bCObjectRefBase>();
+  _DAT_207d0230 = 100;
+  _DAT_207d0234 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCInfo_PS::ms_PropertyMember_m_arrCondSecondaryNPC);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207d022c,
+             (bCPropertyTypeBase *)&gCInfo_PS::ms_PropertyMember_m_arrCondSecondaryNPC);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTObjArray<bCString>_>::~bTPropertyTypeOnly<bTObjArray<bCString>_>);
+  return;
+}

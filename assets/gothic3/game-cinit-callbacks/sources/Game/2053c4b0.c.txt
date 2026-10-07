@@ -1,0 +1,9 @@
+/* ENTRY 2053c4b0 | FUN_2053c4b0 | STATUS decompiled | 3 ms */
+
+void FUN_2053c4b0(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207d03f4,"ClearChildren");
+  _atexit(FUN_20568670);
+  return;
+}

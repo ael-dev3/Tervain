@@ -1,0 +1,39 @@
+/* ENTRY 204c05e0 | bTPropertyType<gCEffectCommandCreateDecal,bCImageOrMaterialResourceString>::~bTPropertyType<gCEffectCommandCreateDecal,bCImageOrMaterialResourceString> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCEffectCommandCreateDecal,bCImageOrMaterialResourceString>::
+~bTPropertyType<gCEffectCommandCreateDecal,bCImageOrMaterialResourceString>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Decal");
+  bCString::bCString(local_c,"ImageOrMaterial");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)
+             &gCEffectCommandCreateDecal::ms_PropertyMember_m_strImageOrMaterial,local_c,local_8,
+             local_4,1,false);
+  _ms_PropertyMember_m_strImageOrMaterial = &vftable;
+  DAT_207b7654 = bTPropertyObjectType<gCEffectCommandCreateDecal,gCEffectCommand>::
+                 ~bTPropertyObjectType<gCEffectCommandCreateDecal,gCEffectCommand>();
+  _DAT_207b7658 = 0x10;
+  _DAT_207b765c = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)
+             &gCEffectCommandCreateDecal::ms_PropertyMember_m_strImageOrMaterial);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b7654,
+             (bCPropertyTypeBase *)
+             &gCEffectCommandCreateDecal::ms_PropertyMember_m_strImageOrMaterial);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bCImageOrMaterialResourceString>::
+          ~bTPropertyTypeOnly<bCImageOrMaterialResourceString>);
+  return;
+}

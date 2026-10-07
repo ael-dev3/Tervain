@@ -1,0 +1,3 @@
+204cf3c0 | e87f54b4ff | CALL 0x20014844
+204cf3c5 | a3749c7b20 | MOV [0x207b9c74],EAX
+204cf3ca | c3 | RET

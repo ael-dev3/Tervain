@@ -1,0 +1,33 @@
+/* ENTRY 2053e4c0 | bTPropertyType<gCInfoScript_PS,bTObjArray<bTAutoPOSmartPtr<gCInfoScriptLine_PS>_>_>::~bTPropertyType<gCInfoScript_PS,bTObjArray<bTAutoPOSmartPtr<gCInfoScriptLine_PS>_>_> | STATUS decompiled | 12 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCInfoScript_PS,bTObjArray<bTAutoPOSmartPtr<gCInfoScriptLine_PS>_>_>::
+~bTPropertyType<gCInfoScript_PS,bTObjArray<bTAutoPOSmartPtr<gCInfoScriptLine_PS>_>_>
+          (bTPropertyType<gCInfoScript_PS,bTObjArray<bTAutoPOSmartPtr<gCInfoScriptLine_PS>_>_> *this
+          )
+
+{
+  bTPropertyType<gCInfoScript_PS,bTObjArray<bTAutoPOSmartPtr<gCInfoScriptLine_PS>_>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"InfoScriptLines");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCInfoScript_PS::ms_PropertyMember_m_arrInfoScriptLines,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_arrInfoScriptLines = &vftable;
+  DAT_207d07e0 = bTPropertyObjectType<gCInfoScript_PS,bCObjectRefBase>::
+                 ~bTPropertyObjectType<gCInfoScript_PS,bCObjectRefBase>();
+  _DAT_207d07e4 = 0xc;
+  _DAT_207d07e8 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCInfoScript_PS::ms_PropertyMember_m_arrInfoScriptLines);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207d07e0,
+             (bCPropertyTypeBase *)&gCInfoScript_PS::ms_PropertyMember_m_arrInfoScriptLines);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTObjArray<bTAutoPOSmartPtr<gCInfoScriptLine_PS>_>_>::
+          ~bTPropertyTypeOnly<bTObjArray<bTAutoPOSmartPtr<gCInfoScriptLine_PS>_>_>);
+  return;
+}

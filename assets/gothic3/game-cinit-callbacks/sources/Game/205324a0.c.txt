@@ -1,0 +1,32 @@
+/* ENTRY 205324a0 | bTPropertyType<gCFlock_PS,bool>::~bTPropertyType<gCFlock_PS,bool> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall bTPropertyType<gCFlock_PS,bool>::~bTPropertyType<gCFlock_PS,bool>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Internal");
+  bCString::bCString(local_c,"IsDead");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCFlock_PS::ms_PropertyMember_m_bIsDead,local_c,local_8,local_4,
+             1,true);
+  _ms_PropertyMember_m_bIsDead = &vftable;
+  DAT_207ced48 = bTPropertyObjectType<gCFlock_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCFlock_PS,eCEntityPropertySet>();
+  _DAT_207ced4c = 0x88;
+  _DAT_207ced50 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCFlock_PS::ms_PropertyMember_m_bIsDead);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207ced48,
+             (bCPropertyTypeBase *)&gCFlock_PS::ms_PropertyMember_m_bIsDead);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}

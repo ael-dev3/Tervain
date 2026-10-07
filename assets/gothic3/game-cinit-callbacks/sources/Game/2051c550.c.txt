@@ -1,0 +1,15 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 2051c550 | FUN_2051c550 | STATUS decompiled */
+
+void FUN_2051c550(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gEQuestStatus_Cancelled");
+  thunk_FUN_203473b0(&DAT_207cbcc1,&gCQuest_PS::ms_PropertyMember_m_status,abStack_4,5);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

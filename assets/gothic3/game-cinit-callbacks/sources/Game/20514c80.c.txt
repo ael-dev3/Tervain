@@ -1,0 +1,33 @@
+/* ENTRY 20514c80 | bTPropertyType<gCNPC_PS,unsigned_long>::~bTPropertyType<gCNPC_PS,unsigned_long> | STATUS decompiled | 14 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCNPC_PS,unsigned_long>::~bTPropertyType<gCNPC_PS,unsigned_long>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Status");
+  bCString::bCString(local_c,"StatusEffects");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_u32StatusEffects,local_c,local_8,
+             local_4,1,true);
+  _ms_PropertyMember_m_u32StatusEffects = &vftable;
+  DAT_207c1160 = bTPropertyObjectType<gCNPC_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCNPC_PS,eCEntityPropertySet>();
+  _DAT_207c1164 = 0x17c;
+  _DAT_207c1168 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_u32StatusEffects);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207c1160,
+             (bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_u32StatusEffects);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<unsigned_long>::~bTPropertyTypeOnly<unsigned_long>);
+  return;
+}

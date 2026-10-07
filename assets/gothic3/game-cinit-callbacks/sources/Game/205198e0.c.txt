@@ -1,0 +1,34 @@
+/* ENTRY 205198e0 | bTPropertyType<gCPlayerMemory_PS,bool>::~bTPropertyType<gCPlayerMemory_PS,bool> | STATUS decompiled | 16 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCPlayerMemory_PS,bool>::~bTPropertyType<gCPlayerMemory_PS,bool>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Internal");
+  bCString::bCString(local_c,"TalkedToMilten");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCPlayerMemory_PS::ms_PropertyMember_m_bTalkedToMilten,local_c,
+             local_8,local_4,1,true);
+  _ms_PropertyMember_m_bTalkedToMilten = &vftable;
+  DAT_207c1954 = bTPropertyObjectType<gCPlayerMemory_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCPlayerMemory_PS,eCEntityPropertySet>();
+  _DAT_207c1958 = 0x9e;
+  _DAT_207c195c = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCPlayerMemory_PS::ms_PropertyMember_m_bTalkedToMilten);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207c1954,
+             (bCPropertyTypeBase *)&gCPlayerMemory_PS::ms_PropertyMember_m_bTalkedToMilten);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}

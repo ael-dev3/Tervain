@@ -1,0 +1,37 @@
+/* ENTRY 204bec30 | bTPropertyType<gCEffectCommandSpawnEntity,bool>::~bTPropertyType<gCEffectCommandSpawnEntity,bool> | STATUS decompiled | 17 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCEffectCommandSpawnEntity,bool>::~bTPropertyType<gCEffectCommandSpawnEntity,bool>
+          (void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,
+                     "Indicates whether to automatically kill the spawned entity when the effect ends."
+                    );
+  bCString::bCString(local_8,"General");
+  bCString::bCString(local_c,"AutoKill");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCEffectCommandSpawnEntity::ms_PropertyMember_m_bAutoKill,
+             local_c,local_8,local_4,1,false);
+  _ms_PropertyMember_m_bAutoKill = &vftable;
+  DAT_207b7190 = bTPropertyObjectType<gCEffectCommandSpawnEntity,gCEffectCommand>::
+                 ~bTPropertyObjectType<gCEffectCommandSpawnEntity,gCEffectCommand>();
+  _DAT_207b7194 = 0x2c;
+  _DAT_207b7198 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCEffectCommandSpawnEntity::ms_PropertyMember_m_bAutoKill);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b7190,
+             (bCPropertyTypeBase *)&gCEffectCommandSpawnEntity::ms_PropertyMember_m_bAutoKill);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}

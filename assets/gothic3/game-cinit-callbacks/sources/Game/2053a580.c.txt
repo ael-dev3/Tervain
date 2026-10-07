@@ -1,0 +1,21 @@
+/* ENTRY 2053a580 | bTPropertyObject<gCInfo_PS,bCObjectRefBase>::~bTPropertyObject<gCInfo_PS,bCObjectRefBase> | STATUS decompiled | 6 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyObject<gCInfo_PS,bCObjectRefBase>::~bTPropertyObject<gCInfo_PS,bCObjectRefBase>
+          (bTPropertyObject<gCInfo_PS,bCObjectRefBase> *this)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)&gCInfo_PS::ms_PropertyObjectInstance_gCInfo_PS);
+  _DAT_207cfffc = 0;
+  _ms_PropertyObjectInstance_gCInfo_PS = &vftable;
+  _DAT_207d0000 =
+       bTPropertyObjectType<gCInfo_PS,bCObjectRefBase>::
+       ~bTPropertyObjectType<gCInfo_PS,bCObjectRefBase>();
+  _DAT_207cfffc = 0;
+  thunk_FUN_20446480(1);
+  _atexit(~bTPropertyObject<gCInfo_PS,bCObjectRefBase>);
+  return;
+}

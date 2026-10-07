@@ -1,0 +1,9 @@
+/* ENTRY 20529c40 | FUN_20529c40 | STATUS decompiled | 2 ms */
+
+void FUN_20529c40(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207cd61c,"Meshes");
+  _atexit(FUN_20563930);
+  return;
+}

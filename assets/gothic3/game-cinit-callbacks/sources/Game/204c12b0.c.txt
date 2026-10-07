@@ -1,0 +1,35 @@
+/* ENTRY 204c12b0 | bTPropertyType<gCEffectCommandEarthquake,float>::~bTPropertyType<gCEffectCommandEarthquake,float> | STATUS decompiled | 16 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCEffectCommandEarthquake,float>::~bTPropertyType<gCEffectCommandEarthquake,float>
+          (void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Range");
+  bCString::bCString(local_c,"Radius");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCEffectCommandEarthquake::ms_PropertyMember_m_fRadius,local_c,
+             local_8,local_4,1,false);
+  _ms_PropertyMember_m_fRadius = &vftable;
+  DAT_207b78b0 = bTPropertyObjectType<gCEffectCommandEarthquake,gCEffectCommand>::
+                 ~bTPropertyObjectType<gCEffectCommandEarthquake,gCEffectCommand>();
+  _DAT_207b78b4 = 0x10;
+  _DAT_207b78b8 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCEffectCommandEarthquake::ms_PropertyMember_m_fRadius);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b78b0,
+             (bCPropertyTypeBase *)&gCEffectCommandEarthquake::ms_PropertyMember_m_fRadius);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}

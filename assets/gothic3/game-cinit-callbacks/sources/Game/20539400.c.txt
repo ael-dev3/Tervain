@@ -1,0 +1,21 @@
+/* ENTRY 20539400 | bTPropertyObject<gCAmbientSound,bCObjectRefBase>::~bTPropertyObject<gCAmbientSound,bCObjectRefBase> | STATUS decompiled | 7 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyObject<gCAmbientSound,bCObjectRefBase>::~bTPropertyObject<gCAmbientSound,bCObjectRefBase>
+          (bTPropertyObject<gCAmbientSound,bCObjectRefBase> *this)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)&gCAmbientSound::ms_PropertyObjectInstance_gCAmbientSound);
+  _DAT_207cfca8 = 0;
+  _ms_PropertyObjectInstance_gCAmbientSound = &vftable;
+  _DAT_207cfcac =
+       bTPropertyObjectType<gCAmbientSound,bCObjectRefBase>::
+       ~bTPropertyObjectType<gCAmbientSound,bCObjectRefBase>();
+  _DAT_207cfca8 = 0;
+  thunk_FUN_20430900(1);
+  _atexit(~bTPropertyObject<gCAmbientSound,bCObjectRefBase>);
+  return;
+}

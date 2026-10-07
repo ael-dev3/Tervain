@@ -1,0 +1,9 @@
+/* ENTRY 20529d60 | FUN_20529d60 | STATUS decompiled | 3 ms */
+
+void FUN_20529d60(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207cd634,"Templates");
+  _atexit(FUN_20563990);
+  return;
+}

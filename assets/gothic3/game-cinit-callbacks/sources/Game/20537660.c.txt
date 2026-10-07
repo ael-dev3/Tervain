@@ -1,0 +1,11 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 20537660 | FUN_20537660 | STATUS decompiled */
+
+void FUN_20537660(void)
+
+{
+  DAT_207cf7c4 = bTPropertyObjectType<gCAmbientSequencer,bCObjectRefBase>::vfunction1();
+  return;
+}
+

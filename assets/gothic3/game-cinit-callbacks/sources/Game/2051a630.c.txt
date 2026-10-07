@@ -1,0 +1,30 @@
+/* ENTRY 2051a630 | bTPropertyType<gCProjectile_PS,bool>::~bTPropertyType<gCProjectile_PS,bool> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCProjectile_PS,bool>::~bTPropertyType<gCProjectile_PS,bool>
+          (bTPropertyType<gCProjectile_PS,bool> *this)
+
+{
+  bTPropertyType<gCProjectile_PS,bool> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"FadeOnDecay");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCProjectile_PS::ms_PropertyMember_m_bFadeOnDecay,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_bFadeOnDecay = &vftable;
+  DAT_207c1d40 = bTPropertyObjectType<gCProjectile_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCProjectile_PS,eCEntityPropertySet>();
+  _DAT_207c1d44 = 0x65;
+  _DAT_207c1d48 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCProjectile_PS::ms_PropertyMember_m_bFadeOnDecay);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207c1d40,
+             (bCPropertyTypeBase *)&gCProjectile_PS::ms_PropertyMember_m_bFadeOnDecay);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}

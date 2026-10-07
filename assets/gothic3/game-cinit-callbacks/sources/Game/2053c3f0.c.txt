@@ -1,0 +1,9 @@
+/* ENTRY 2053c3f0 | FUN_2053c3f0 | STATUS decompiled | 3 ms */
+
+void FUN_2053c3f0(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207d03e4,"CondSecondaryNPCstates");
+  _atexit(FUN_20568630);
+  return;
+}

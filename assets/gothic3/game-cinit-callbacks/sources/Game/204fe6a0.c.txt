@@ -1,0 +1,34 @@
+/* ENTRY 204fe6a0 | bTPropertyType<gCCharacterControl_PS,bool>::~bTPropertyType<gCCharacterControl_PS,bool> | STATUS decompiled | 16 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCCharacterControl_PS,bool>::~bTPropertyType<gCCharacterControl_PS,bool>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"ScriptParam");
+  bCString::bCString(local_c,"IsPressedBefore");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCCharacterControl_PS::ms_PropertyMember_m_bPressedBefore,
+             local_c,local_8,local_4,1,true);
+  _ms_PropertyMember_m_bPressedBefore = &vftable;
+  DAT_207bd934 = bTPropertyObjectType<gCCharacterControl_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCCharacterControl_PS,eCEntityPropertySet>();
+  _DAT_207bd938 = 0x25;
+  _DAT_207bd93c = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCCharacterControl_PS::ms_PropertyMember_m_bPressedBefore);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bd934,
+             (bCPropertyTypeBase *)&gCCharacterControl_PS::ms_PropertyMember_m_bPressedBefore);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}

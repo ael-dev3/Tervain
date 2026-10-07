@@ -1,0 +1,35 @@
+/* ENTRY 20503960 | bTPropertyType<gCMusicLink,bTPropertyContainer<gEMusicLink>_>::~bTPropertyType<gCMusicLink,bTPropertyContainer<gEMusicLink>_> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCMusicLink,bTPropertyContainer<gEMusicLink>_>::
+~bTPropertyType<gCMusicLink,bTPropertyContainer<gEMusicLink>_>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"General");
+  bCString::bCString(local_c,"Type");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCMusicLink::ms_PropertyMember_m_enuType,local_c,local_8,local_4
+             ,2,false);
+  _ms_PropertyMember_m_enuType = &vftable;
+  DAT_207be68c = bTPropertyObjectType<gCMusicLink,bCObjectRefBase>::
+                 ~bTPropertyObjectType<gCMusicLink,bCObjectRefBase>();
+  _DAT_207be690 = 0x1c;
+  _DAT_207be694 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCMusicLink::ms_PropertyMember_m_enuType);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207be68c,
+             (bCPropertyTypeBase *)&gCMusicLink::ms_PropertyMember_m_enuType);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gEMusicLink>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gEMusicLink>_>);
+  return;
+}

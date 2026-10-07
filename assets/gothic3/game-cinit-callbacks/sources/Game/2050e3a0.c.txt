@@ -1,0 +1,30 @@
+/* ENTRY 2050e3a0 | bTPropertyType<gCPrefPath_PS,bTValArray<bCVector>_>::~bTPropertyType<gCPrefPath_PS,bTValArray<bCVector>_> | STATUS decompiled | 12 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCPrefPath_PS,bTValArray<bCVector>_>::
+~bTPropertyType<gCPrefPath_PS,bTValArray<bCVector>_>
+          (bTPropertyType<gCPrefPath_PS,bTValArray<bCVector>_> *this)
+
+{
+  bTPropertyType<gCPrefPath_PS,bTValArray<bCVector>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"Point");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCPrefPath_PS::ms_PropertyMember_m_arrPoint,(bCString *)&local_4
+             ,1);
+  _ms_PropertyMember_m_arrPoint = &vftable;
+  DAT_207c0434 = bTPropertyObjectType<gCPrefPath_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCPrefPath_PS,eCEntityPropertySet>();
+  _DAT_207c0438 = 0x14;
+  _DAT_207c043c = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCPrefPath_PS::ms_PropertyMember_m_arrPoint);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207c0434,
+             (bCPropertyTypeBase *)&gCPrefPath_PS::ms_PropertyMember_m_arrPoint);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTValArray<bCVector>_>::~bTPropertyTypeOnly<bTValArray<bCVector>_>);
+  return;
+}

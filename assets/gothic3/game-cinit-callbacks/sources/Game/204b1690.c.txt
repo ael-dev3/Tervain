@@ -1,0 +1,11 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204b1690 | FUN_204b1690 | STATUS decompiled */
+
+void FUN_204b1690(void)
+
+{
+  DAT_207b4f14 = bTPropertyType<gCLayerBase,bTPOSmartPtr<gCSector>_>::vfunction4();
+  return;
+}
+

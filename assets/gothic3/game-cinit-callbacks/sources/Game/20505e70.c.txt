@@ -1,0 +1,36 @@
+/* ENTRY 20505e70 | bTPropertyType<gCMusicTrigger,bTPropertyContainer<gEMusicFragmentPosition>_>::~bTPropertyType<gCMusicTrigger,bTPropertyContainer<gEMusicFragmentPosition>_> | STATUS decompiled | 17 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCMusicTrigger,bTPropertyContainer<gEMusicFragmentPosition>_>::
+~bTPropertyType<gCMusicTrigger,bTPropertyContainer<gEMusicFragmentPosition>_>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Transition");
+  bCString::bCString(local_c,"Entrance");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCMusicTrigger::ms_PropertyMember_m_enuEntrance,local_c,local_8,
+             local_4,2,false);
+  _ms_PropertyMember_m_enuEntrance = &vftable;
+  DAT_207bed78 = bTPropertyObjectType<gCMusicTrigger,bCObjectRefBase>::
+                 ~bTPropertyObjectType<gCMusicTrigger,bCObjectRefBase>();
+  _DAT_207bed7c = 0x30;
+  _DAT_207bed80 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCMusicTrigger::ms_PropertyMember_m_enuEntrance)
+  ;
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bed78,
+             (bCPropertyTypeBase *)&gCMusicTrigger::ms_PropertyMember_m_enuEntrance);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gEMusicFragmentPosition>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gEMusicFragmentPosition>_>);
+  return;
+}

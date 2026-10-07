@@ -1,0 +1,29 @@
+/* ENTRY 2053adc0 | bTPropertyType<gCInfo_PS,bTObjArray<bCString>_>::~bTPropertyType<gCInfo_PS,bTObjArray<bCString>_> | STATUS decompiled | 10 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCInfo_PS,bTObjArray<bCString>_>::~bTPropertyType<gCInfo_PS,bTObjArray<bCString>_>
+          (bTPropertyType<gCInfo_PS,bTObjArray<bCString>_> *this)
+
+{
+  bTPropertyType<gCInfo_PS,bTObjArray<bCString>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"CondItems");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCInfo_PS::ms_PropertyMember_m_arrCondItems,(bCString *)&local_4
+             ,1);
+  _ms_PropertyMember_m_arrCondItems = &vftable;
+  DAT_207d01e4 = bTPropertyObjectType<gCInfo_PS,bCObjectRefBase>::
+                 ~bTPropertyObjectType<gCInfo_PS,bCObjectRefBase>();
+  _DAT_207d01e8 = 0x4c;
+  _DAT_207d01ec = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCInfo_PS::ms_PropertyMember_m_arrCondItems);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207d01e4,
+             (bCPropertyTypeBase *)&gCInfo_PS::ms_PropertyMember_m_arrCondItems);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTObjArray<bCString>_>::~bTPropertyTypeOnly<bTObjArray<bCString>_>);
+  return;
+}

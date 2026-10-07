@@ -1,0 +1,13 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204ea180 | FUN_204ea180 | STATUS decompiled */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void FUN_204ea180(void)
+
+{
+  _DAT_207babf8 = 1.0 / _DAT_207a19a0;
+  return;
+}
+

@@ -1,0 +1,33 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 20509d60 | FUN_20509d60 | STATUS decompiled */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void FUN_20509d60(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"LinkedToSecondEntityID");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCNavHelper_PS::ms_PropertyMember_m_idLinkedToSecondEntityID,
+             abStack_4,1);
+  _ms_PropertyMember_m_idLinkedToSecondEntityID =
+       &bTPropertyType<gCNavHelper_PS,bCPropertyID>::vftable;
+  _DAT_207bf79c =
+       (bCPropertyObjectTypeBase *)
+       bTPropertyObjectType<gCNavHelper_PS,eCEntityPropertySet>::
+       ~bTPropertyObjectType<gCNavHelper_PS,eCEntityPropertySet>();
+  _DAT_207bf7a0 = 0x28;
+  _DAT_207bf7a4 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCNavHelper_PS::ms_PropertyMember_m_idLinkedToSecondEntityID);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            (_DAT_207bf79c,
+             (bCPropertyTypeBase *)&gCNavHelper_PS::ms_PropertyMember_m_idLinkedToSecondEntityID);
+  bCString::~bCString(abStack_4);
+  _atexit((_func_4879 *)&UNK_2055bcc0);
+  return;
+}
+

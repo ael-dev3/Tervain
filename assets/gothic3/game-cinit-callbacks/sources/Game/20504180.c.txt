@@ -1,0 +1,32 @@
+/* ENTRY 20504180 | bTPropertyType<gCMusicStream,float>::~bTPropertyType<gCMusicStream,float> | STATUS decompiled | 14 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall bTPropertyType<gCMusicStream,float>::~bTPropertyType<gCMusicStream,float>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Audibility");
+  bCString::bCString(local_c,"Volume");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCMusicStream::ms_PropertyMember_m_fVolume,local_c,local_8,
+             local_4,1,false);
+  _ms_PropertyMember_m_fVolume = &vftable;
+  DAT_207be7a8 = bTPropertyObjectType<gCMusicStream,bCObjectRefBase>::
+                 ~bTPropertyObjectType<gCMusicStream,bCObjectRefBase>();
+  _DAT_207be7ac = 0x10;
+  _DAT_207be7b0 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCMusicStream::ms_PropertyMember_m_fVolume);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207be7a8,
+             (bCPropertyTypeBase *)&gCMusicStream::ms_PropertyMember_m_fVolume);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}

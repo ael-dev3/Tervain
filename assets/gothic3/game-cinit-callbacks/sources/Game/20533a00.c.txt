@@ -1,0 +1,33 @@
+/* ENTRY 20533a00 | bTPropertyType<gCInteraction_PS,bool>::~bTPropertyType<gCInteraction_PS,bool> | STATUS decompiled | 13 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall bTPropertyType<gCInteraction_PS,bool>::~bTPropertyType<gCInteraction_PS,bool>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Intern");
+  bCString::bCString(local_c,"UsedByPlayer");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCInteraction_PS::ms_PropertyMember_m_bUsedByPlayer,local_c,
+             local_8,local_4,1,true);
+  _ms_PropertyMember_m_bUsedByPlayer = &vftable;
+  DAT_207cf218 = bTPropertyObjectType<gCInteraction_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCInteraction_PS,eCEntityPropertySet>();
+  _DAT_207cf21c = 0xa0;
+  _DAT_207cf220 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCInteraction_PS::ms_PropertyMember_m_bUsedByPlayer);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cf218,
+             (bCPropertyTypeBase *)&gCInteraction_PS::ms_PropertyMember_m_bUsedByPlayer);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}

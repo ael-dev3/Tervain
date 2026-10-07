@@ -1,0 +1,21 @@
+/* ENTRY 2052bee0 | bTPropertyObject<gCWorld,eCProcessibleElement>::~bTPropertyObject<gCWorld,eCProcessibleElement> | STATUS decompiled | 7 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyObject<gCWorld,eCProcessibleElement>::~bTPropertyObject<gCWorld,eCProcessibleElement>
+          (bTPropertyObject<gCWorld,eCProcessibleElement> *this)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)&gCWorld::ms_PropertyObjectInstance_gCWorld);
+  _DAT_207cdd14 = 0;
+  _ms_PropertyObjectInstance_gCWorld = &vftable;
+  _DAT_207cdd18 =
+       bTPropertyObjectType<gCWorld,eCProcessibleElement>::
+       ~bTPropertyObjectType<gCWorld,eCProcessibleElement>();
+  _DAT_207cdd14 = 0;
+  thunk_FUN_203d7800(1);
+  _atexit(~bTPropertyObject<gCWorld,eCProcessibleElement>);
+  return;
+}

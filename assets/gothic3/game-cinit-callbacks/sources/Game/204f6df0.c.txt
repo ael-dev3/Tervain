@@ -1,0 +1,9 @@
+/* ENTRY 204f6df0 | FUN_204f6df0 | STATUS decompiled | 2 ms */
+
+void FUN_204f6df0(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207bc348,".lrgeo");
+  _atexit(FUN_205558b0);
+  return;
+}

@@ -1,0 +1,32 @@
+/* ENTRY 2051a310 | bTPropertyType<gCProjectile_PS,bTPropertyContainer<gEProjectileTouchBehavior>_>::~bTPropertyType<gCProjectile_PS,bTPropertyContainer<gEProjectileTouchBehavior>_> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCProjectile_PS,bTPropertyContainer<gEProjectileTouchBehavior>_>::
+~bTPropertyType<gCProjectile_PS,bTPropertyContainer<gEProjectileTouchBehavior>_>
+          (bTPropertyType<gCProjectile_PS,bTPropertyContainer<gEProjectileTouchBehavior>_> *this)
+
+{
+  bTPropertyType<gCProjectile_PS,bTPropertyContainer<gEProjectileTouchBehavior>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"TouchBehavior");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCProjectile_PS::ms_PropertyMember_m_enuTouchBehavior,
+             (bCString *)&local_4,2);
+  _ms_PropertyMember_m_enuTouchBehavior = &vftable;
+  DAT_207c1c8c = bTPropertyObjectType<gCProjectile_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCProjectile_PS,eCEntityPropertySet>();
+  _DAT_207c1c90 = 0x54;
+  _DAT_207c1c94 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCProjectile_PS::ms_PropertyMember_m_enuTouchBehavior);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207c1c8c,
+             (bCPropertyTypeBase *)&gCProjectile_PS::ms_PropertyMember_m_enuTouchBehavior);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gEProjectileTouchBehavior>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gEProjectileTouchBehavior>_>);
+  return;
+}

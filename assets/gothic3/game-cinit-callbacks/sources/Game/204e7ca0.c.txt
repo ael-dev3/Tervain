@@ -1,0 +1,13 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204e7ca0 | FUN_204e7ca0 | STATUS decompiled */
+
+void FUN_204e7ca0(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207baad8,"HUD_Controls_Invert_Axis_X");
+  bCString::bCString((bCString *)0x207baadc,"HUD_Controls_Invert_Axis_Y");
+  _atexit((_func_4879 *)&UNK_20552b00);
+  return;
+}
+

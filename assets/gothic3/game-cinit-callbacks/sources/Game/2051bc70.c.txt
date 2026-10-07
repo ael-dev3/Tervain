@@ -1,0 +1,30 @@
+/* ENTRY 2051bc70 | bTPropertyType<gCQuest_PS,bTObjArray<bCString>_>::~bTPropertyType<gCQuest_PS,bTObjArray<bCString>_> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCQuest_PS,bTObjArray<bCString>_>::~bTPropertyType<gCQuest_PS,bTObjArray<bCString>_>
+          (bTPropertyType<gCQuest_PS,bTObjArray<bCString>_> *this)
+
+{
+  bTPropertyType<gCQuest_PS,bTObjArray<bCString>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"DeliveryEntities");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCQuest_PS::ms_PropertyMember_m_arrDeliveryEntities,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_arrDeliveryEntities = &vftable;
+  DAT_207cbb1c = bTPropertyObjectType<gCQuest_PS,bCObjectRefBase>::
+                 ~bTPropertyObjectType<gCQuest_PS,bCObjectRefBase>();
+  _DAT_207cbb20 = 0x54;
+  _DAT_207cbb24 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCQuest_PS::ms_PropertyMember_m_arrDeliveryEntities);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cbb1c,
+             (bCPropertyTypeBase *)&gCQuest_PS::ms_PropertyMember_m_arrDeliveryEntities);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTObjArray<bCString>_>::~bTPropertyTypeOnly<bTObjArray<bCString>_>);
+  return;
+}

@@ -1,0 +1,30 @@
+/* ENTRY 2050db20 | bTPropertyType<gCNegZone_PS,bCVector>::~bTPropertyType<gCNegZone_PS,bCVector> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCNegZone_PS,bCVector>::~bTPropertyType<gCNegZone_PS,bCVector>
+          (bTPropertyType<gCNegZone_PS,bCVector> *this)
+
+{
+  bTPropertyType<gCNegZone_PS,bCVector> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"RadiusOffset");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCNegZone_PS::ms_PropertyMember_m_vecRadiusOffset,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_vecRadiusOffset = &vftable;
+  DAT_207c02f4 = bTPropertyObjectType<gCNegZone_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCNegZone_PS,eCEntityPropertySet>();
+  _DAT_207c02f8 = 0x24;
+  _DAT_207c02fc = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCNegZone_PS::ms_PropertyMember_m_vecRadiusOffset);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207c02f4,
+             (bCPropertyTypeBase *)&gCNegZone_PS::ms_PropertyMember_m_vecRadiusOffset);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bCVector>::~bTPropertyTypeOnly<bCVector>);
+  return;
+}

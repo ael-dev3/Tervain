@@ -1,0 +1,32 @@
+/* ENTRY 20508310 | bTPropertyType<gCAIZone_PS,bTPropertyContainer<gESecurityLevel>_>::~bTPropertyType<gCAIZone_PS,bTPropertyContainer<gESecurityLevel>_> | STATUS decompiled | 10 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCAIZone_PS,bTPropertyContainer<gESecurityLevel>_>::
+~bTPropertyType<gCAIZone_PS,bTPropertyContainer<gESecurityLevel>_>
+          (bTPropertyType<gCAIZone_PS,bTPropertyContainer<gESecurityLevel>_> *this)
+
+{
+  bTPropertyType<gCAIZone_PS,bTPropertyContainer<gESecurityLevel>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"SecurityLevel");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCAIZone_PS::ms_PropertyMember_m_enuSecurityLevel,
+             (bCString *)&local_4,2);
+  _ms_PropertyMember_m_enuSecurityLevel = &vftable;
+  DAT_207bf3a0 = bTPropertyObjectType<gCAIZone_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCAIZone_PS,eCEntityPropertySet>();
+  _DAT_207bf3a4 = 0x1c;
+  _DAT_207bf3a8 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCAIZone_PS::ms_PropertyMember_m_enuSecurityLevel);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bf3a0,
+             (bCPropertyTypeBase *)&gCAIZone_PS::ms_PropertyMember_m_enuSecurityLevel);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gESecurityLevel>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gESecurityLevel>_>);
+  return;
+}

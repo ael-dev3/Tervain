@@ -1,0 +1,11 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204c7240 | FUN_204c7240 | STATUS decompiled */
+
+void FUN_204c7240(void)
+
+{
+  DAT_207b87ac = bTPropertyObjectType<gCDistanceTrigger_PS,gCEventScript_PS>::vfunction1();
+  return;
+}
+

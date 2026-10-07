@@ -1,0 +1,36 @@
+/* ENTRY 20523250 | FUN_20523250 | STATUS decompiled | 47 ms */
+
+void FUN_20523250(void)
+
+{
+  bCString::bCString((bCString *)&g_pstrPhaseString,"Raise");
+  bCString::bCString((bCString *)&DAT_207cc6ec,"Hit");
+  bCString::bCString((bCString *)&DAT_207cc6f0,"Aim");
+  bCString::bCString((bCString *)&DAT_207cc6f4,"Recover");
+  bCString::bCString((bCString *)&DAT_207cc6f8,"Begin");
+  bCString::bCString((bCString *)&DAT_207cc6fc,"Loop");
+  bCString::bCString((bCString *)&DAT_207cc700,"End");
+  bCString::bCString((bCString *)&DAT_207cc704,"Full");
+  bCString::bCString((bCString *)&DAT_207cc708,"Walk");
+  bCString::bCString((bCString *)&DAT_207cc70c,"Run");
+  bCString::bCString((bCString *)&DAT_207cc710,"Sprint");
+  bCString::bCString((bCString *)&DAT_207cc714,"Far");
+  bCString::bCString((bCString *)&DAT_207cc718,"Stand");
+  bCString::bCString((bCString *)&DAT_207cc71c,"StrafeL");
+  bCString::bCString((bCString *)&DAT_207cc720,"StrafeR");
+  bCString::bCString((bCString *)&DAT_207cc724,"Turn90");
+  bCString::bCString((bCString *)&DAT_207cc728,"Ambient");
+  bCString::bCString((bCString *)&DAT_207cc72c,"Proud");
+  bCString::bCString((bCString *)&DAT_207cc730,"Approve");
+  bCString::bCString((bCString *)&DAT_207cc734,"Thoughtful");
+  bCString::bCString((bCString *)&DAT_207cc738,"Angry");
+  bCString::bCString((bCString *)&DAT_207cc73c,"Threaten");
+  bCString::bCString((bCString *)&DAT_207cc740,"Nervous");
+  bCString::bCString((bCString *)&DAT_207cc744,"Point");
+  bCString::bCString((bCString *)&DAT_207cc748,"Preach");
+  bCString::bCString((bCString *)&DAT_207cc74c,"Beg");
+  bCString::bCString((bCString *)&DAT_207cc750,"Sad");
+  bCString::bCString((bCString *)&DAT_207cc754);
+  _atexit(FUN_20562470);
+  return;
+}

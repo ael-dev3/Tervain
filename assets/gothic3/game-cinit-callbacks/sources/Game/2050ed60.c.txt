@@ -1,0 +1,30 @@
+/* ENTRY 2050ed60 | bTPropertyType<gCWaterZone_PS,bCVector>::~bTPropertyType<gCWaterZone_PS,bCVector> | STATUS decompiled | 12 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCWaterZone_PS,bCVector>::~bTPropertyType<gCWaterZone_PS,bCVector>
+          (bTPropertyType<gCWaterZone_PS,bCVector> *this)
+
+{
+  bTPropertyType<gCWaterZone_PS,bCVector> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"FaceNormal");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCWaterZone_PS::ms_PropertyMember_m_vecFaceNormal,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_vecFaceNormal = &vftable;
+  DAT_207c05bc = bTPropertyObjectType<gCWaterZone_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCWaterZone_PS,eCEntityPropertySet>();
+  _DAT_207c05c0 = 0x14;
+  _DAT_207c05c4 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCWaterZone_PS::ms_PropertyMember_m_vecFaceNormal);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207c05bc,
+             (bCPropertyTypeBase *)&gCWaterZone_PS::ms_PropertyMember_m_vecFaceNormal);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bCVector>::~bTPropertyTypeOnly<bCVector>);
+  return;
+}

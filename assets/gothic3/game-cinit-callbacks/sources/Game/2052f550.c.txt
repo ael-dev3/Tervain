@@ -1,0 +1,32 @@
+/* ENTRY 2052f550 | bTPropertyType<gCMover_PS,bTPropertyContainer<gEMoverTouchBehavior>_>::~bTPropertyType<gCMover_PS,bTPropertyContainer<gEMoverTouchBehavior>_> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCMover_PS,bTPropertyContainer<gEMoverTouchBehavior>_>::
+~bTPropertyType<gCMover_PS,bTPropertyContainer<gEMoverTouchBehavior>_>
+          (bTPropertyType<gCMover_PS,bTPropertyContainer<gEMoverTouchBehavior>_> *this)
+
+{
+  bTPropertyType<gCMover_PS,bTPropertyContainer<gEMoverTouchBehavior>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"MoverTouchBehavior");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCMover_PS::ms_PropertyMember_m_enuMoverTouchBehavior,
+             (bCString *)&local_4,2);
+  _ms_PropertyMember_m_enuMoverTouchBehavior = &vftable;
+  DAT_207ce66c = bTPropertyObjectType<gCMover_PS,gCTouchDamage_PS>::
+                 ~bTPropertyObjectType<gCMover_PS,gCTouchDamage_PS>();
+  _DAT_207ce670 = 0xfc;
+  _DAT_207ce674 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCMover_PS::ms_PropertyMember_m_enuMoverTouchBehavior);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207ce66c,
+             (bCPropertyTypeBase *)&gCMover_PS::ms_PropertyMember_m_enuMoverTouchBehavior);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gEMoverTouchBehavior>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gEMoverTouchBehavior>_>);
+  return;
+}

@@ -1,0 +1,9 @@
+/* ENTRY 204f6e80 | FUN_204f6e80 | STATUS decompiled | 3 ms */
+
+void FUN_204f6e80(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207bc354,"Game.Layer.Geometry.Data");
+  _atexit(FUN_205558e0);
+  return;
+}

@@ -1,0 +1,30 @@
+/* ENTRY 204c3b20 | bTPropertyType<gCEnclave_PS,long>::~bTPropertyType<gCEnclave_PS,long> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCEnclave_PS,long>::~bTPropertyType<gCEnclave_PS,long>
+          (bTPropertyType<gCEnclave_PS,long> *this)
+
+{
+  bTPropertyType<gCEnclave_PS,long> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"PlayerFame");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCEnclave_PS::ms_PropertyMember_m_i32PlayerFame,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_i32PlayerFame = &vftable;
+  DAT_207b8094 = bTPropertyObjectType<gCEnclave_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCEnclave_PS,eCEntityPropertySet>();
+  _DAT_207b8098 = 0x1c;
+  _DAT_207b809c = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCEnclave_PS::ms_PropertyMember_m_i32PlayerFame)
+  ;
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b8094,
+             (bCPropertyTypeBase *)&gCEnclave_PS::ms_PropertyMember_m_i32PlayerFame);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<long>::~bTPropertyTypeOnly<long>);
+  return;
+}

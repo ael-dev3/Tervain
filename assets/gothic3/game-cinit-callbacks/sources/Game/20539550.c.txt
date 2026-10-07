@@ -1,0 +1,36 @@
+/* ENTRY 20539550 | bTPropertyType<gCAmbientSound,bTPropertyContainer<eEAmbientEnvironment>_>::~bTPropertyType<gCAmbientSound,bTPropertyContainer<eEAmbientEnvironment>_> | STATUS decompiled | 17 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCAmbientSound,bTPropertyContainer<eEAmbientEnvironment>_>::
+~bTPropertyType<gCAmbientSound,bTPropertyContainer<eEAmbientEnvironment>_>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Situation");
+  bCString::bCString(local_c,"Environment");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCAmbientSound::ms_PropertyMember_m_enuEnvironment,local_c,
+             local_8,local_4,2,false);
+  _ms_PropertyMember_m_enuEnvironment = &vftable;
+  DAT_207cfcec = bTPropertyObjectType<gCAmbientSound,bCObjectRefBase>::
+                 ~bTPropertyObjectType<gCAmbientSound,bCObjectRefBase>();
+  _DAT_207cfcf0 = 0x14;
+  _DAT_207cfcf4 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCAmbientSound::ms_PropertyMember_m_enuEnvironment);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cfcec,
+             (bCPropertyTypeBase *)&gCAmbientSound::ms_PropertyMember_m_enuEnvironment);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<eEAmbientEnvironment>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<eEAmbientEnvironment>_>);
+  return;
+}

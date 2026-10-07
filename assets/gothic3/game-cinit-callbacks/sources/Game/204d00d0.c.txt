@@ -1,0 +1,33 @@
+/* ENTRY 204d00d0 | FUN_204d00d0 | STATUS decompiled | 23 ms */
+
+void FUN_204d00d0(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207ba270,"GO_Enclave_Ardea");
+  bCString::bCString((bCString *)&DAT_207ba274,"GO_Enclave_Bakaresh");
+  bCString::bCString((bCString *)&DAT_207ba278,"GO_Enclave_BenErai");
+  bCString::bCString((bCString *)&DAT_207ba27c,"GO_Enclave_BenSala");
+  bCString::bCString((bCString *)&DAT_207ba280,"GO_Enclave_Braga");
+  bCString::bCString((bCString *)&DAT_207ba284,"GO_Enclave_Faring");
+  bCString::bCString((bCString *)&DAT_207ba288,"GO_Enclave_FireClan");
+  bCString::bCString((bCString *)&DAT_207ba28c,"GO_Enclave_Geldern");
+  bCString::bCString((bCString *)&DAT_207ba290,"GO_Enclave_Gotha");
+  bCString::bCString((bCString *)&DAT_207ba294,"GO_Enclave_HammerClan");
+  bCString::bCString((bCString *)&DAT_207ba298,"GO_Enclave_Monastery");
+  bCString::bCString((bCString *)&DAT_207ba29c,"GO_Enclave_Ishtar");
+  bCString::bCString((bCString *)&DAT_207ba2a0,"GO_Enclave_KapDun");
+  bCString::bCString((bCString *)&DAT_207ba2a4,"GO_Enclave_Lago");
+  bCString::bCString((bCString *)&DAT_207ba2a8,"GO_Enclave_Montera");
+  bCString::bCString((bCString *)&DAT_207ba2ac,"GO_Enclave_MoraSul");
+  bCString::bCString((bCString *)&DAT_207ba2b0,"GO_Enclave_Nemora");
+  bCString::bCString((bCString *)&DAT_207ba2b4,"GO_Enclave_Okara");
+  bCString::bCString((bCString *)&DAT_207ba2b8,"GO_Enclave_Reddock");
+  bCString::bCString((bCString *)&DAT_207ba2bc,"GO_Enclave_Silden");
+  bCString::bCString((bCString *)&DAT_207ba2c0,"GO_Enclave_Trelis");
+  bCString::bCString((bCString *)&DAT_207ba2c4,"GO_Enclave_Vangard");
+  bCString::bCString((bCString *)&DAT_207ba2c8,"GO_Enclave_WolfClan");
+  bCString::bCString((bCString *)&DAT_207ba2cc,"HUD_Main");
+  bCString::bCString((bCString *)&DAT_207ba2d0,"HUD_All");
+  _atexit(FUN_20552580);
+  return;
+}

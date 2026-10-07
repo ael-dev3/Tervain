@@ -1,0 +1,11 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204b18a0 | FUN_204b18a0 | STATUS decompiled */
+
+void FUN_204b18a0(void)
+
+{
+  DAT_207b4e90 = bTPropertyObjectType<gCCharacterMovement_PS,gCMovementBase_PS>::vfunction2();
+  return;
+}
+

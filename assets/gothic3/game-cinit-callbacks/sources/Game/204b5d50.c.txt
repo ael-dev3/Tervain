@@ -1,0 +1,9 @@
+/* ENTRY 204b5d50 | FUN_204b5d50 | STATUS decompiled | 3 ms */
+
+void FUN_204b5d50(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207b5d4c,"Head_Head_1");
+  _atexit(FUN_2054a100);
+  return;
+}

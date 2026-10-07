@@ -1,0 +1,22 @@
+/* ENTRY 20506ee0 | bTPropertyObject<gCMusicSequencer,bCObjectRefBase>::~bTPropertyObject<gCMusicSequencer,bCObjectRefBase> | STATUS decompiled | 6 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyObject<gCMusicSequencer,bCObjectRefBase>::
+~bTPropertyObject<gCMusicSequencer,bCObjectRefBase>
+          (bTPropertyObject<gCMusicSequencer,bCObjectRefBase> *this)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)&gCMusicSequencer::ms_PropertyObjectInstance_gCMusicSequencer);
+  _DAT_207bf060 = 0;
+  _ms_PropertyObjectInstance_gCMusicSequencer = &vftable;
+  _DAT_207bf064 =
+       bTPropertyObjectType<gCMusicSequencer,bCObjectRefBase>::
+       ~bTPropertyObjectType<gCMusicSequencer,bCObjectRefBase>();
+  _DAT_207bf060 = 0;
+  thunk_FUN_20267ef0(1);
+  _atexit(~bTPropertyObject<gCMusicSequencer,bCObjectRefBase>);
+  return;
+}

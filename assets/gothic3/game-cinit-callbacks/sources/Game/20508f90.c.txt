@@ -1,0 +1,32 @@
+/* ENTRY 20508f90 | bTPropertyType<gCCollisionCircle_PS,bTValArray<bCPropertyID>_>::~bTPropertyType<gCCollisionCircle_PS,bTValArray<bCPropertyID>_> | STATUS decompiled | 10 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCCollisionCircle_PS,bTValArray<bCPropertyID>_>::
+~bTPropertyType<gCCollisionCircle_PS,bTValArray<bCPropertyID>_>
+          (bTPropertyType<gCCollisionCircle_PS,bTValArray<bCPropertyID>_> *this)
+
+{
+  bTPropertyType<gCCollisionCircle_PS,bTValArray<bCPropertyID>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"ZoneEntityIDs");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCCollisionCircle_PS::ms_PropertyMember_m_arrZoneEntityIDs,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_arrZoneEntityIDs = &vftable;
+  DAT_207bf59c = bTPropertyObjectType<gCCollisionCircle_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCCollisionCircle_PS,eCEntityPropertySet>();
+  _DAT_207bf5a0 = 0x3c;
+  _DAT_207bf5a4 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCCollisionCircle_PS::ms_PropertyMember_m_arrZoneEntityIDs);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bf59c,
+             (bCPropertyTypeBase *)&gCCollisionCircle_PS::ms_PropertyMember_m_arrZoneEntityIDs);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTValArray<bCPropertyID>_>::
+          ~bTPropertyTypeOnly<bTValArray<bCPropertyID>_>);
+  return;
+}

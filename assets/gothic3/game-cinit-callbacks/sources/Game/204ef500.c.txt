@@ -1,0 +1,32 @@
+/* ENTRY 204ef500 | bTPropertyType<gCItem_PS,long>::~bTPropertyType<gCItem_PS,long> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall bTPropertyType<gCItem_PS,long>::~bTPropertyType<gCItem_PS,long>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"General");
+  bCString::bCString(local_c,"GoldValue");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCItem_PS::ms_PropertyMember_m_iGoldValue,local_c,local_8,
+             local_4,1,false);
+  _ms_PropertyMember_m_iGoldValue = &vftable;
+  DAT_207bb494 = bTPropertyObjectType<gCItem_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCItem_PS,eCEntityPropertySet>();
+  _DAT_207bb498 = 0x1c;
+  _DAT_207bb49c = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCItem_PS::ms_PropertyMember_m_iGoldValue);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bb494,
+             (bCPropertyTypeBase *)&gCItem_PS::ms_PropertyMember_m_iGoldValue);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<long>::~bTPropertyTypeOnly<long>);
+  return;
+}

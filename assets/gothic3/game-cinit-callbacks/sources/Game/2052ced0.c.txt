@@ -1,0 +1,29 @@
+/* ENTRY 2052ced0 | bTPropertyType<gCBook_PS,eCLocString>::~bTPropertyType<gCBook_PS,eCLocString> | STATUS decompiled | 12 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCBook_PS,eCLocString>::~bTPropertyType<gCBook_PS,eCLocString>
+          (bTPropertyType<gCBook_PS,eCLocString> *this)
+
+{
+  bTPropertyType<gCBook_PS,eCLocString> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"Header");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCBook_PS::ms_PropertyMember_m_strHeader,(bCString *)&local_4,1)
+  ;
+  _ms_PropertyMember_m_strHeader = &vftable;
+  DAT_207cde8c = bTPropertyObjectType<gCBook_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCBook_PS,eCEntityPropertySet>();
+  _DAT_207cde90 = 0x14;
+  _DAT_207cde94 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCBook_PS::ms_PropertyMember_m_strHeader);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cde8c,
+             (bCPropertyTypeBase *)&gCBook_PS::ms_PropertyMember_m_strHeader);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<eCLocString>::~bTPropertyTypeOnly<eCLocString>);
+  return;
+}

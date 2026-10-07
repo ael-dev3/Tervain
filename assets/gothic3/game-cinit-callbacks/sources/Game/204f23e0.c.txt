@@ -1,0 +1,15 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204f23e0 | FUN_204f23e0 | STATUS decompiled */
+
+void FUN_204f23e0(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"EOp_MaxGreaterEqual");
+  thunk_FUN_201bf810(&DAT_207bbb2f,&gCItem_PS::ms_PropertyMember_m_enuReqAttrib2,abStack_4,1);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

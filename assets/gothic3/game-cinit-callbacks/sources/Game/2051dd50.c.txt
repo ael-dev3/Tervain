@@ -1,0 +1,16 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 2051dd50 | FUN_2051dd50 | STATUS decompiled */
+
+void FUN_2051dd50(void)
+
+{
+  bCString *pbVar1;
+  
+  pbVar1 = (bCString *)bTPropertyObjectType<gCScriptAdmin,eCEngineComponentBase>::vfunction1();
+  bCAccessorCreator::bCAccessorCreator
+            ((bCAccessorCreator *)0x207cbf28,(bCPropertyID *)&DAT_207cbf14,pbVar1);
+  _atexit((_func_4879 *)&UNK_20561930);
+  return;
+}
+

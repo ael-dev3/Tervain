@@ -1,0 +1,11 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 205382a0 | FUN_205382a0 | STATUS decompiled */
+
+void FUN_205382a0(void)
+
+{
+  DAT_207cf898 = bTPropertyObjectType<gCAmbientEnvironment,bCObjectRefBase>::vfunction1();
+  return;
+}
+

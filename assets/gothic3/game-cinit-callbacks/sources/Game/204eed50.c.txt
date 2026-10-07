@@ -1,0 +1,11 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204eed50 | FUN_204eed50 | STATUS decompiled */
+
+void FUN_204eed50(void)
+
+{
+  DAT_207bb2d0 = bTPropertyObjectType<gCTreasureSetAdmin,eCEngineComponentBase>::vfunction1();
+  return;
+}
+

@@ -1,0 +1,16 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 205358c0 | FUN_205358c0 | STATUS decompiled */
+
+void FUN_205358c0(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gEUseType_DrinkWater");
+  thunk_FUN_204100f0(&DAT_207cf303,&gCInteraction_PS::ms_PropertyMember_m_enuUseType,abStack_4,0x68)
+  ;
+  bCString::~bCString(abStack_4);
+  return;
+}
+

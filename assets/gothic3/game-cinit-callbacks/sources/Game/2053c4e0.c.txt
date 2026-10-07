@@ -1,0 +1,9 @@
+/* ENTRY 2053c4e0 | FUN_2053c4e0 | STATUS decompiled | 3 ms */
+
+void FUN_2053c4e0(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207d03f8,"Permanent");
+  _atexit(FUN_20568680);
+  return;
+}

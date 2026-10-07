@@ -1,0 +1,8 @@
+2046bcff | 833d842b7d2000 | CMP dword ptr [0x207d2b84],0x0
+2046bd06 | 7512 | JNZ 0x2046bd1a
+2046bd08 | 6afd | PUSH -0x3
+2046bd0a | e856feffff | CALL 0x2046bb65
+2046bd0f | 59 | POP ECX
+2046bd10 | c705842b7d2001000000 | MOV dword ptr [0x207d2b84],0x1
+2046bd1a | 33c0 | XOR EAX,EAX
+2046bd1c | c3 | RET

@@ -1,0 +1,16 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204c4400 | FUN_204c4400 | STATUS decompiled */
+
+void FUN_204c4400(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gEPlayerCrime_Murder");
+  thunk_FUN_20129640(&DAT_207b81cd,&gCEnclave_PS::ms_PropertyMember_m_enuKnownPlayerCrime,abStack_4,
+                     4);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

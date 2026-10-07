@@ -1,0 +1,29 @@
+/* ENTRY 2050c3e0 | bTPropertyType<gCNavPath_PS,float>::~bTPropertyType<gCNavPath_PS,float> | STATUS decompiled | 10 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCNavPath_PS,float>::~bTPropertyType<gCNavPath_PS,float>
+          (bTPropertyType<gCNavPath_PS,float> *this)
+
+{
+  bTPropertyType<gCNavPath_PS,float> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"TopToleranz");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCNavPath_PS::ms_PropertyMember_m_fTopToleranz,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_fTopToleranz = &vftable;
+  DAT_207bfea0 = bTPropertyObjectType<gCNavPath_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCNavPath_PS,eCEntityPropertySet>();
+  _DAT_207bfea4 = 0xa0;
+  _DAT_207bfea8 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCNavPath_PS::ms_PropertyMember_m_fTopToleranz);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bfea0,
+             (bCPropertyTypeBase *)&gCNavPath_PS::ms_PropertyMember_m_fTopToleranz);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}

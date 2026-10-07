@@ -1,0 +1,12 @@
+/* ENTRY 204fca80 | FUN_204fca80 | STATUS decompiled | 6 ms */
+
+void FUN_204fca80(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207bd478,"Dawn");
+  bCString::bCString((bCString *)&DAT_207bd47c,"Day");
+  bCString::bCString((bCString *)&DAT_207bd480,"Dusk");
+  bCString::bCString((bCString *)&DAT_207bd484,"Night");
+  _atexit(FUN_20557880);
+  return;
+}

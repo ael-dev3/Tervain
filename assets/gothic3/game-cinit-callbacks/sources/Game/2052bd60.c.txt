@@ -1,0 +1,9 @@
+/* ENTRY 2052bd60 | FUN_2052bd60 | STATUS decompiled | 3 ms */
+
+void FUN_2052bd60(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207cdcec,".wrldat");
+  _atexit(FUN_20564470);
+  return;
+}

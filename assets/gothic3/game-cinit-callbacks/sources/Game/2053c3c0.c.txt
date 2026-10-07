@@ -1,0 +1,9 @@
+/* ENTRY 2053c3c0 | FUN_2053c3c0 | STATUS decompiled | 3 ms */
+
+void FUN_2053c3c0(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207d03e0,"CondSecondaryNPC");
+  _atexit(FUN_20568620);
+  return;
+}

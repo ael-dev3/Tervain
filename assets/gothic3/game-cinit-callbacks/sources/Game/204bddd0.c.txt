@@ -1,0 +1,34 @@
+/* ENTRY 204bddd0 | bTPropertyType<gCEffectCommandKillEntity,int>::~bTPropertyType<gCEffectCommandKillEntity,int> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCEffectCommandKillEntity,int>::~bTPropertyType<gCEffectCommandKillEntity,int>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"General");
+  bCString::bCString(local_c,"EntityIndex");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCEffectCommandKillEntity::ms_PropertyMember_m_iEntityIndex,
+             local_c,local_8,local_4,1,false);
+  _ms_PropertyMember_m_iEntityIndex = &vftable;
+  DAT_207b6e60 = bTPropertyObjectType<gCEffectCommandKillEntity,gCEffectCommand>::
+                 ~bTPropertyObjectType<gCEffectCommandKillEntity,gCEffectCommand>();
+  _DAT_207b6e64 = 0x10;
+  _DAT_207b6e68 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCEffectCommandKillEntity::ms_PropertyMember_m_iEntityIndex);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b6e60,
+             (bCPropertyTypeBase *)&gCEffectCommandKillEntity::ms_PropertyMember_m_iEntityIndex);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<int>::~bTPropertyTypeOnly<int>);
+  return;
+}

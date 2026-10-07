@@ -1,0 +1,30 @@
+/* ENTRY 2050b480 | bTPropertyType<gCNavOffset_PS,bool>::~bTPropertyType<gCNavOffset_PS,bool> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCNavOffset_PS,bool>::~bTPropertyType<gCNavOffset_PS,bool>
+          (bTPropertyType<gCNavOffset_PS,bool> *this)
+
+{
+  bTPropertyType<gCNavOffset_PS,bool> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"OffsetCircle");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCNavOffset_PS::ms_PropertyMember_m_bOffsetCircle,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_bOffsetCircle = &vftable;
+  DAT_207bfbe4 = bTPropertyObjectType<gCNavOffset_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCNavOffset_PS,eCEntityPropertySet>();
+  _DAT_207bfbe8 = 0x14;
+  _DAT_207bfbec = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCNavOffset_PS::ms_PropertyMember_m_bOffsetCircle);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bfbe4,
+             (bCPropertyTypeBase *)&gCNavOffset_PS::ms_PropertyMember_m_bOffsetCircle);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}

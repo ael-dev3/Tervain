@@ -1,0 +1,16 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204f70a0 | FUN_204f70a0 | STATUS decompiled */
+
+void FUN_204f70a0(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gEGeometryType_Culling");
+  thunk_FUN_201dec10(&DAT_207bc3b5,&gCGeometryLayer::ms_PropertyMember_m_enuGeometryType,abStack_4,1
+                    );
+  bCString::~bCString(abStack_4);
+  return;
+}
+

@@ -1,0 +1,9 @@
+/* ENTRY 2052a980 | FUN_2052a980 | STATUS decompiled | 3 ms */
+
+void FUN_2052a980(void)
+
+{
+  bCString::bCString(&gCSector::ms_strDynamicEntitySector,"SysDyn");
+  _atexit(FUN_20563dc0);
+  return;
+}

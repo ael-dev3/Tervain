@@ -1,0 +1,12 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204fc570 | FUN_204fc570 | STATUS decompiled */
+
+void FUN_204fc570(void)
+
+{
+  DAT_207bd278 = bTPropertyType<gCProjectile_PS,bTPropertyContainer<gEProjectilePath>_>::vfunction4
+                           ();
+  return;
+}
+

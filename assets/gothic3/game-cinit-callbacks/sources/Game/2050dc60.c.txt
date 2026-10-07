@@ -1,0 +1,29 @@
+/* ENTRY 2050dc60 | bTPropertyType<gCNegZone_PS,bCPropertyID>::~bTPropertyType<gCNegZone_PS,bCPropertyID> | STATUS decompiled | 14 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCNegZone_PS,bCPropertyID>::~bTPropertyType<gCNegZone_PS,bCPropertyID>
+          (bTPropertyType<gCNegZone_PS,bCPropertyID> *this)
+
+{
+  bTPropertyType<gCNegZone_PS,bCPropertyID> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"ZoneEntityID");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCNegZone_PS::ms_PropertyMember_m_ZoneEntityID,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_ZoneEntityID = &vftable;
+  DAT_207c033c = bTPropertyObjectType<gCNegZone_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCNegZone_PS,eCEntityPropertySet>();
+  _DAT_207c0340 = 0x34;
+  _DAT_207c0344 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCNegZone_PS::ms_PropertyMember_m_ZoneEntityID);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207c033c,
+             (bCPropertyTypeBase *)&gCNegZone_PS::ms_PropertyMember_m_ZoneEntityID);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bCPropertyID>::~bTPropertyTypeOnly<bCPropertyID>);
+  return;
+}

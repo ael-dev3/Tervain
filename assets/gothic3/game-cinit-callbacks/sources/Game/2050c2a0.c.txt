@@ -1,0 +1,30 @@
+/* ENTRY 2050c2a0 | bTPropertyType<gCNavPath_PS,bCVector>::~bTPropertyType<gCNavPath_PS,bCVector> | STATUS decompiled | 61 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCNavPath_PS,bCVector>::~bTPropertyType<gCNavPath_PS,bCVector>
+          (bTPropertyType<gCNavPath_PS,bCVector> *this)
+
+{
+  bTPropertyType<gCNavPath_PS,bCVector> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"ZoneBIntersectionMargin2");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCNavPath_PS::ms_PropertyMember_m_vecZoneBIntersectionMargin2,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_vecZoneBIntersectionMargin2 = &vftable;
+  DAT_207bfe58 = bTPropertyObjectType<gCNavPath_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCNavPath_PS,eCEntityPropertySet>();
+  _DAT_207bfe5c = 0x88;
+  _DAT_207bfe60 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCNavPath_PS::ms_PropertyMember_m_vecZoneBIntersectionMargin2);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bfe58,
+             (bCPropertyTypeBase *)&gCNavPath_PS::ms_PropertyMember_m_vecZoneBIntersectionMargin2);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bCVector>::~bTPropertyTypeOnly<bCVector>);
+  return;
+}

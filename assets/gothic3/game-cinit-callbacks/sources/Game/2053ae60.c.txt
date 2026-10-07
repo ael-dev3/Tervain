@@ -1,0 +1,32 @@
+/* ENTRY 2053ae60 | bTPropertyType<gCInfo_PS,bTValArray<unsigned_long>_>::~bTPropertyType<gCInfo_PS,bTValArray<unsigned_long>_> | STATUS decompiled | 12 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCInfo_PS,bTValArray<unsigned_long>_>::
+~bTPropertyType<gCInfo_PS,bTValArray<unsigned_long>_>
+          (bTPropertyType<gCInfo_PS,bTValArray<unsigned_long>_> *this)
+
+{
+  bTPropertyType<gCInfo_PS,bTValArray<unsigned_long>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"CondItemAmounts");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCInfo_PS::ms_PropertyMember_m_arrCondItemAmounts,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_arrCondItemAmounts = &vftable;
+  DAT_207d0208 = bTPropertyObjectType<gCInfo_PS,bCObjectRefBase>::
+                 ~bTPropertyObjectType<gCInfo_PS,bCObjectRefBase>();
+  _DAT_207d020c = 0x58;
+  _DAT_207d0210 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCInfo_PS::ms_PropertyMember_m_arrCondItemAmounts);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207d0208,
+             (bCPropertyTypeBase *)&gCInfo_PS::ms_PropertyMember_m_arrCondItemAmounts);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTValArray<unsigned_long>_>::
+          ~bTPropertyTypeOnly<bTValArray<unsigned_long>_>);
+  return;
+}

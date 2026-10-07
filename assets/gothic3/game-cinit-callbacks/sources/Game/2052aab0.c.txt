@@ -1,0 +1,32 @@
+/* ENTRY 2052aab0 | bTPropertyType<gCSector,bTRefPtrArray<bCPropertyObjectBase*>_>::~bTPropertyType<gCSector,bTRefPtrArray<bCPropertyObjectBase*>_> | STATUS decompiled | 13 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCSector,bTRefPtrArray<bCPropertyObjectBase*>_>::
+~bTPropertyType<gCSector,bTRefPtrArray<bCPropertyObjectBase*>_>
+          (bTPropertyType<gCSector,bTRefPtrArray<bCPropertyObjectBase*>_> *this)
+
+{
+  bTPropertyType<gCSector,bTRefPtrArray<bCPropertyObjectBase*>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"GeometryLayers");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCSector::ms_PropertyMember_m_arrGeometryLayers,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_arrGeometryLayers = &vftable;
+  DAT_207cd908 = bTPropertyObjectType<gCSector,eCProcessibleElement>::
+                 ~bTPropertyObjectType<gCSector,eCProcessibleElement>();
+  _DAT_207cd90c = 0x1c;
+  _DAT_207cd910 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCSector::ms_PropertyMember_m_arrGeometryLayers)
+  ;
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cd908,
+             (bCPropertyTypeBase *)&gCSector::ms_PropertyMember_m_arrGeometryLayers);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTRefPtrArray<bCPropertyObjectBase*>_>::
+          ~bTPropertyTypeOnly<bTRefPtrArray<bCPropertyObjectBase*>_>);
+  return;
+}

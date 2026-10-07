@@ -1,0 +1,35 @@
+/* ENTRY 204bfca0 | bTPropertyType<gCEffectCommandPlayVoice,float>::~bTPropertyType<gCEffectCommandPlayVoice,float> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCEffectCommandPlayVoice,float>::~bTPropertyType<gCEffectCommandPlayVoice,float>
+          (void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Audibility");
+  bCString::bCString(local_c,"Volume");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCEffectCommandPlayVoice::ms_PropertyMember_m_fVolume,local_c,
+             local_8,local_4,1,true);
+  _ms_PropertyMember_m_fVolume = &vftable;
+  DAT_207b74ec = bTPropertyObjectType<gCEffectCommandPlayVoice,gCEffectCommand>::
+                 ~bTPropertyObjectType<gCEffectCommandPlayVoice,gCEffectCommand>();
+  _DAT_207b74f0 = 0x10;
+  _DAT_207b74f4 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCEffectCommandPlayVoice::ms_PropertyMember_m_fVolume);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b74ec,
+             (bCPropertyTypeBase *)&gCEffectCommandPlayVoice::ms_PropertyMember_m_fVolume);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}

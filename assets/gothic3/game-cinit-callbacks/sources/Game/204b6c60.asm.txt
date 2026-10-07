@@ -1,0 +1,3 @@
+204b6c60 | e8c96ab5ff | CALL 0x2000d72e
+204b6c65 | a364627b20 | MOV [0x207b6264],EAX
+204b6c6a | c3 | RET

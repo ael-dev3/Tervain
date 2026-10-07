@@ -1,0 +1,38 @@
+/* ENTRY 204c0e50 | bTPropertyType<gCEffectCommandCreateDecal,bool>::~bTPropertyType<gCEffectCommandCreateDecal,bool> | STATUS decompiled | 14 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCEffectCommandCreateDecal,bool>::~bTPropertyType<gCEffectCommandCreateDecal,bool>
+          (void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Decal");
+  bCString::bCString(local_c,"CreateOnDynamicEntities");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)
+             &gCEffectCommandCreateDecal::ms_PropertyMember_m_bCreateOnDynamicEntities,local_c,
+             local_8,local_4,1,false);
+  _ms_PropertyMember_m_bCreateOnDynamicEntities = &vftable;
+  DAT_207b779c = bTPropertyObjectType<gCEffectCommandCreateDecal,gCEffectCommand>::
+                 ~bTPropertyObjectType<gCEffectCommandCreateDecal,gCEffectCommand>();
+  _DAT_207b77a0 = 0x4c;
+  _DAT_207b77a4 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)
+             &gCEffectCommandCreateDecal::ms_PropertyMember_m_bCreateOnDynamicEntities);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b779c,
+             (bCPropertyTypeBase *)
+             &gCEffectCommandCreateDecal::ms_PropertyMember_m_bCreateOnDynamicEntities);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}

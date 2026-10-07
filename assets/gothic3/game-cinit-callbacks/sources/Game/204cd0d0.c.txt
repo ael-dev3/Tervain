@@ -1,0 +1,12 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204cd0d0 | FUN_204cd0d0 | STATUS decompiled */
+
+void FUN_204cd0d0(void)
+
+{
+  DAT_207b9858 = bTPropertyType<gCInfoScript_PS,bTObjArray<bTAutoPOSmartPtr<gCInfoScriptLine_PS>_>_>
+                 ::vfunction4();
+  return;
+}
+

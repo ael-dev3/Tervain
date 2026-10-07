@@ -1,0 +1,11 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204b1750 | FUN_204b1750 | STATUS decompiled */
+
+void FUN_204b1750(void)
+
+{
+  DAT_207b4ee4 = thunk_FUN_20061190();
+  return;
+}
+

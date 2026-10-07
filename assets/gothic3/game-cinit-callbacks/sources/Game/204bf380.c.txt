@@ -1,0 +1,36 @@
+/* ENTRY 204bf380 | bTPropertyType<gCEffectCommandTriggerEntity,bCString>::~bTPropertyType<gCEffectCommandTriggerEntity,bCString> | STATUS decompiled | 16 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCEffectCommandTriggerEntity,bCString>::
+~bTPropertyType<gCEffectCommandTriggerEntity,bCString>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"General");
+  bCString::bCString(local_c,"Trigger");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCEffectCommandTriggerEntity::ms_PropertyMember_m_strTrigger,
+             local_c,local_8,local_4,1,false);
+  _DAT_207b72d4 = 0;
+  _ms_PropertyMember_m_strTrigger = &vftable;
+  DAT_207b72d8 = bTPropertyObjectType<gCEffectCommandTriggerEntity,gCEffectCommand>::
+                 ~bTPropertyObjectType<gCEffectCommandTriggerEntity,gCEffectCommand>();
+  _DAT_207b72dc = 0x14;
+  _DAT_207b72e0 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCEffectCommandTriggerEntity::ms_PropertyMember_m_strTrigger);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b72d8,
+             (bCPropertyTypeBase *)&gCEffectCommandTriggerEntity::ms_PropertyMember_m_strTrigger);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bCString>::~bTPropertyTypeOnly<bCString>);
+  return;
+}

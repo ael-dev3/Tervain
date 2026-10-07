@@ -1,0 +1,29 @@
+/* ENTRY 20532b30 | bTPropertyType<gCFlock_PS,bool>::~bTPropertyType<gCFlock_PS,bool> | STATUS decompiled | 12 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCFlock_PS,bool>::~bTPropertyType<gCFlock_PS,bool>
+          (bTPropertyType<gCFlock_PS,bool> *this)
+
+{
+  bTPropertyType<gCFlock_PS,bool> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"IsLeader");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCFlock_PS::ms_PropertyMember_m_bIsLeader,(bCString *)&local_4,1
+            );
+  _ms_PropertyMember_m_bIsLeader = &vftable;
+  DAT_207cee44 = bTPropertyObjectType<gCFlock_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCFlock_PS,eCEntityPropertySet>();
+  _DAT_207cee48 = 0x14;
+  _DAT_207cee4c = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCFlock_PS::ms_PropertyMember_m_bIsLeader);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cee44,
+             (bCPropertyTypeBase *)&gCFlock_PS::ms_PropertyMember_m_bIsLeader);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}

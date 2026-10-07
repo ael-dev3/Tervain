@@ -1,0 +1,9 @@
+/* ENTRY 204f77e0 | FUN_204f77e0 | STATUS decompiled | 2 ms */
+
+void FUN_204f77e0(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207bc544,".lrtpl");
+  _atexit(FUN_20555c70);
+  return;
+}

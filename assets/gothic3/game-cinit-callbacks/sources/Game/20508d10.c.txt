@@ -1,0 +1,30 @@
+/* ENTRY 20508d10 | bTPropertyType<gCCollisionCircle_PS,float>::~bTPropertyType<gCCollisionCircle_PS,float> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCCollisionCircle_PS,float>::~bTPropertyType<gCCollisionCircle_PS,float>
+          (bTPropertyType<gCCollisionCircle_PS,float> *this)
+
+{
+  bTPropertyType<gCCollisionCircle_PS,float> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"DefaultRadius");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCCollisionCircle_PS::ms_PropertyMember_m_fDefaultRadius,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_fDefaultRadius = &vftable;
+  DAT_207bf50c = bTPropertyObjectType<gCCollisionCircle_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCCollisionCircle_PS,eCEntityPropertySet>();
+  _DAT_207bf510 = 0x18;
+  _DAT_207bf514 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCCollisionCircle_PS::ms_PropertyMember_m_fDefaultRadius);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bf50c,
+             (bCPropertyTypeBase *)&gCCollisionCircle_PS::ms_PropertyMember_m_fDefaultRadius);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}

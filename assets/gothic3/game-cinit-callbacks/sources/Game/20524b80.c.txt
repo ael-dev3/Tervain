@@ -1,0 +1,32 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 20524b80 | FUN_20524b80 | STATUS decompiled */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void FUN_20524b80(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"CheatInvisibleEnabled");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCSessionCheats::ms_PropertyMember_m_bCheatInvisibleEnabled,
+             abStack_4,1);
+  _ms_PropertyMember_m_bCheatInvisibleEnabled = &bTPropertyType<gCSessionCheats,bool>::vftable;
+  _DAT_207ccbb4 =
+       (bCPropertyObjectTypeBase *)
+       bTPropertyObjectType<gCSessionCheats,bCObjectRefBase>::
+       ~bTPropertyObjectType<gCSessionCheats,bCObjectRefBase>();
+  _DAT_207ccbb8 = 0xd;
+  _DAT_207ccbbc = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCSessionCheats::ms_PropertyMember_m_bCheatInvisibleEnabled);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            (_DAT_207ccbb4,
+             (bCPropertyTypeBase *)&gCSessionCheats::ms_PropertyMember_m_bCheatInvisibleEnabled);
+  bCString::~bCString(abStack_4);
+  _atexit((_func_4879 *)&UNK_20562860);
+  return;
+}
+

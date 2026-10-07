@@ -1,0 +1,15 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204f7dc0 | FUN_204f7dc0 | STATUS decompiled */
+
+void FUN_204f7dc0(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gEDoorStatus_Closed");
+  thunk_FUN_201e9790(&DAT_207bc675,&gCDoor_PS::ms_PropertyMember_m_enuStatus,abStack_4,1,1);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

@@ -1,0 +1,12 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204c7250 | FUN_204c7250 | STATUS decompiled */
+
+void FUN_204c7250(void)
+
+{
+  DAT_207b87a8 = bTPropertyType<gCDistanceTrigger_PS,bTPropertyContainer<gEMaxDistType>_>::
+                 vfunction4();
+  return;
+}
+

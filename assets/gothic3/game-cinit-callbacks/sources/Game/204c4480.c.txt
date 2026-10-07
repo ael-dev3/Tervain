@@ -1,0 +1,15 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204c4480 | FUN_204c4480 | STATUS decompiled */
+
+void FUN_204c4480(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gEEnclaveStatus_Attack");
+  thunk_FUN_20129790(&DAT_207b81cf,&gCEnclave_PS::ms_PropertyMember_m_enuStatus,abStack_4,1);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

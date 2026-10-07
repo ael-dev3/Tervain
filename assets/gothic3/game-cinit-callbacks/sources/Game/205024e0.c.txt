@@ -1,0 +1,12 @@
+/* ENTRY 205024e0 | FUN_205024e0 | STATUS decompiled | 6 ms */
+
+void FUN_205024e0(void)
+
+{
+  bCString::bCString((bCString *)&g_pstrMusicTransitions,"NoTransition");
+  bCString::bCString((bCString *)&DAT_207be2b4,"MatchingConnector");
+  bCString::bCString((bCString *)&DAT_207be2b8,"SpecifiedConnector");
+  bCString::bCString((bCString *)&DAT_207be2bc,"SpecifiedTransition");
+  _atexit(FUN_20559610);
+  return;
+}

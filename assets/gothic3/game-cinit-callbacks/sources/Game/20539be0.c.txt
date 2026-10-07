@@ -1,0 +1,34 @@
+/* ENTRY 20539be0 | bTPropertyType<gCAmbientSound,unsigned_long>::~bTPropertyType<gCAmbientSound,unsigned_long> | STATUS decompiled | 14 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCAmbientSound,unsigned_long>::~bTPropertyType<gCAmbientSound,unsigned_long>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Range");
+  bCString::bCString(local_c,"Duration");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCAmbientSound::ms_PropertyMember_m_u32Duration,local_c,local_8,
+             local_4,1,false);
+  _ms_PropertyMember_m_u32Duration = &vftable;
+  DAT_207cfdec = bTPropertyObjectType<gCAmbientSound,bCObjectRefBase>::
+                 ~bTPropertyObjectType<gCAmbientSound,bCObjectRefBase>();
+  _DAT_207cfdf0 = 0x38;
+  _DAT_207cfdf4 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCAmbientSound::ms_PropertyMember_m_u32Duration)
+  ;
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cfdec,
+             (bCPropertyTypeBase *)&gCAmbientSound::ms_PropertyMember_m_u32Duration);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<unsigned_long>::~bTPropertyTypeOnly<unsigned_long>);
+  return;
+}

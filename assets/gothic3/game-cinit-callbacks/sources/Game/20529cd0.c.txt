@@ -1,0 +1,9 @@
+/* ENTRY 20529cd0 | FUN_20529cd0 | STATUS decompiled | 3 ms */
+
+void FUN_20529cd0(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207cd628,"Animation");
+  _atexit(FUN_20563960);
+  return;
+}

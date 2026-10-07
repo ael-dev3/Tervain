@@ -1,0 +1,12 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204c5170 | FUN_204c5170 | STATUS decompiled */
+
+void FUN_204c5170(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207b8314,"DoLogicalDamage");
+  _atexit((_func_4879 *)&UNK_2054f460);
+  return;
+}
+

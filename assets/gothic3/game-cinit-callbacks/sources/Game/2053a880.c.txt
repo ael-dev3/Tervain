@@ -1,0 +1,30 @@
+/* ENTRY 2053a880 | bTPropertyType<gCInfo_PS,bCString>::~bTPropertyType<gCInfo_PS,bCString> | STATUS decompiled | 29 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCInfo_PS,bCString>::~bTPropertyType<gCInfo_PS,bCString>
+          (bTPropertyType<gCInfo_PS,bCString> *this)
+
+{
+  bTPropertyType<gCInfo_PS,bCString> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"Parent");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCInfo_PS::ms_PropertyMember_m_strParent,(bCString *)&local_4,1)
+  ;
+  _DAT_207d00b4 = 0;
+  _ms_PropertyMember_m_strParent = &vftable;
+  DAT_207d00b8 = bTPropertyObjectType<gCInfo_PS,bCObjectRefBase>::
+                 ~bTPropertyObjectType<gCInfo_PS,bCObjectRefBase>();
+  _DAT_207d00bc = 0x1c;
+  _DAT_207d00c0 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCInfo_PS::ms_PropertyMember_m_strParent);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207d00b8,
+             (bCPropertyTypeBase *)&gCInfo_PS::ms_PropertyMember_m_strParent);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bCString>::~bTPropertyTypeOnly<bCString>);
+  return;
+}

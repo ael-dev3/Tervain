@@ -1,0 +1,22 @@
+/* ENTRY 204fcd80 | bTPropertyObject<gCDialog_PS,eCEntityPropertySet>::~bTPropertyObject<gCDialog_PS,eCEntityPropertySet> | STATUS decompiled | 8 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyObject<gCDialog_PS,eCEntityPropertySet>::
+~bTPropertyObject<gCDialog_PS,eCEntityPropertySet>
+          (bTPropertyObject<gCDialog_PS,eCEntityPropertySet> *this)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)&gCDialog_PS::ms_PropertyObjectInstance_gCDialog_PS);
+  _DAT_207bd58c = 0;
+  _ms_PropertyObjectInstance_gCDialog_PS = &vftable;
+  _DAT_207bd590 =
+       bTPropertyObjectType<gCDialog_PS,eCEntityPropertySet>::
+       ~bTPropertyObjectType<gCDialog_PS,eCEntityPropertySet>();
+  _DAT_207bd58c = 0;
+  thunk_FUN_2020fa30(1);
+  _atexit(~bTPropertyObject<gCDialog_PS,eCEntityPropertySet>);
+  return;
+}

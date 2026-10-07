@@ -1,0 +1,11 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204b1c50 | FUN_204b1c50 | STATUS decompiled */
+
+void FUN_204b1c50(void)
+
+{
+  DAT_207b4da4 = bTPropertyType<gCNPC_PS,bTPropertyContainer<gEAttitude>_>::vfunction4();
+  return;
+}
+

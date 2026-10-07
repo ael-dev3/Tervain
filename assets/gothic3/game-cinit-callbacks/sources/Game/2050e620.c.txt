@@ -1,0 +1,30 @@
+/* ENTRY 2050e620 | bTPropertyType<gCPrefPath_PS,bCPropertyID>::~bTPropertyType<gCPrefPath_PS,bCPropertyID> | STATUS decompiled | 12 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCPrefPath_PS,bCPropertyID>::~bTPropertyType<gCPrefPath_PS,bCPropertyID>
+          (bTPropertyType<gCPrefPath_PS,bCPropertyID> *this)
+
+{
+  bTPropertyType<gCPrefPath_PS,bCPropertyID> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"ZoneEntityID");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCPrefPath_PS::ms_PropertyMember_m_ZoneEntityID,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_ZoneEntityID = &vftable;
+  DAT_207c04c4 = bTPropertyObjectType<gCPrefPath_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCPrefPath_PS,eCEntityPropertySet>();
+  _DAT_207c04c8 = 0x3c;
+  _DAT_207c04cc = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCPrefPath_PS::ms_PropertyMember_m_ZoneEntityID)
+  ;
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207c04c4,
+             (bCPropertyTypeBase *)&gCPrefPath_PS::ms_PropertyMember_m_ZoneEntityID);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bCPropertyID>::~bTPropertyTypeOnly<bCPropertyID>);
+  return;
+}

@@ -1,0 +1,8 @@
+/* ENTRY 20501b20 | FUN_20501b20 | STATUS decompiled | 1 ms */
+
+void FUN_20501b20(void)
+
+{
+  _atexit(FUN_20559490);
+  return;
+}

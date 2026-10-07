@@ -1,0 +1,16 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 20507650 | FUN_20507650 | STATUS decompiled */
+
+void FUN_20507650(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gEMusicSequence_Random");
+  thunk_FUN_20269920(&DAT_207bf151,&gCMusicSequencer::ms_PropertyMember_m_enuTransitionSequence,
+                     abStack_4,2);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

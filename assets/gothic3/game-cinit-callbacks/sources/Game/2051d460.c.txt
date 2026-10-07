@@ -1,0 +1,31 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 2051d460 | FUN_2051d460 | STATUS decompiled */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void FUN_2051d460(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"Quests");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCQuestManager_PS::ms_PropertyMember_m_arrQuests,abStack_4,1);
+  _ms_PropertyMember_m_arrQuests =
+       &bTPropertyType<gCQuestManager_PS,bTObjArray<bTAutoPOSmartPtr<gCQuest_PS>_>_>::vftable;
+  _DAT_207cbe50 =
+       (bCPropertyObjectTypeBase *)
+       bTPropertyObjectType<gCQuestManager_PS,eCEntityPropertySet>::
+       ~bTPropertyObjectType<gCQuestManager_PS,eCEntityPropertySet>();
+  _DAT_207cbe54 = 0x14;
+  _DAT_207cbe58 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCQuestManager_PS::ms_PropertyMember_m_arrQuests);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            (_DAT_207cbe50,(bCPropertyTypeBase *)&gCQuestManager_PS::ms_PropertyMember_m_arrQuests);
+  bCString::~bCString(abStack_4);
+  _atexit((_func_4879 *)&UNK_20561820);
+  return;
+}
+

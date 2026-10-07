@@ -1,0 +1,22 @@
+/* ENTRY 204f49c0 | bTPropertyObject<gCInventoryStack,gCInventorySlot>::~bTPropertyObject<gCInventoryStack,gCInventorySlot> | STATUS decompiled | 6 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyObject<gCInventoryStack,gCInventorySlot>::
+~bTPropertyObject<gCInventoryStack,gCInventorySlot>
+          (bTPropertyObject<gCInventoryStack,gCInventorySlot> *this)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)&gCInventoryStack::ms_PropertyObjectInstance_gCInventoryStack);
+  _DAT_207bbf8c = 0;
+  _ms_PropertyObjectInstance_gCInventoryStack = &vftable;
+  _DAT_207bbf90 =
+       bTPropertyObjectType<gCInventoryStack,gCInventorySlot>::
+       ~bTPropertyObjectType<gCInventoryStack,gCInventorySlot>();
+  _DAT_207bbf8c = 0;
+  thunk_FUN_201cbc70(1);
+  _atexit(~bTPropertyObject<gCInventoryStack,gCInventorySlot>);
+  return;
+}

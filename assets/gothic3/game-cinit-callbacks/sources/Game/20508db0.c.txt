@@ -1,0 +1,31 @@
+/* ENTRY 20508db0 | bTPropertyType<gCCollisionCircle_PS,bTValArray<bCVector>_>::~bTPropertyType<gCCollisionCircle_PS,bTValArray<bCVector>_> | STATUS decompiled | 10 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCCollisionCircle_PS,bTValArray<bCVector>_>::
+~bTPropertyType<gCCollisionCircle_PS,bTValArray<bCVector>_>
+          (bTPropertyType<gCCollisionCircle_PS,bTValArray<bCVector>_> *this)
+
+{
+  bTPropertyType<gCCollisionCircle_PS,bTValArray<bCVector>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"Offset");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCCollisionCircle_PS::ms_PropertyMember_m_arrOffset,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_arrOffset = &vftable;
+  DAT_207bf530 = bTPropertyObjectType<gCCollisionCircle_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCCollisionCircle_PS,eCEntityPropertySet>();
+  _DAT_207bf534 = 0x1c;
+  _DAT_207bf538 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCCollisionCircle_PS::ms_PropertyMember_m_arrOffset);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bf530,
+             (bCPropertyTypeBase *)&gCCollisionCircle_PS::ms_PropertyMember_m_arrOffset);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTValArray<bCVector>_>::~bTPropertyTypeOnly<bTValArray<bCVector>_>);
+  return;
+}

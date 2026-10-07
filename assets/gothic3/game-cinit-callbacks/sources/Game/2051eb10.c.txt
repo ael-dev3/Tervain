@@ -1,0 +1,32 @@
+/* ENTRY 2051eb10 | bTPropertyType<gCScriptRoutine_PS,bTPropertyContainer<gEHitDirection>_>::~bTPropertyType<gCScriptRoutine_PS,bTPropertyContainer<gEHitDirection>_> | STATUS decompiled | 35 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCScriptRoutine_PS,bTPropertyContainer<gEHitDirection>_>::
+~bTPropertyType<gCScriptRoutine_PS,bTPropertyContainer<gEHitDirection>_>
+          (bTPropertyType<gCScriptRoutine_PS,bTPropertyContainer<gEHitDirection>_> *this)
+
+{
+  bTPropertyType<gCScriptRoutine_PS,bTPropertyContainer<gEHitDirection>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"HitDirection");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCScriptRoutine_PS::ms_PropertyMember_m_enuHitDirection,
+             (bCString *)&local_4,2);
+  _ms_PropertyMember_m_enuHitDirection = &vftable;
+  DAT_207cc300 = bTPropertyObjectType<gCScriptRoutine_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCScriptRoutine_PS,eCEntityPropertySet>();
+  _DAT_207cc304 = 0x5c;
+  _DAT_207cc308 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCScriptRoutine_PS::ms_PropertyMember_m_enuHitDirection);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cc300,
+             (bCPropertyTypeBase *)&gCScriptRoutine_PS::ms_PropertyMember_m_enuHitDirection);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gEHitDirection>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gEHitDirection>_>);
+  return;
+}

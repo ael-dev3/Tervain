@@ -1,0 +1,11 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204b1b80 | FUN_204b1b80 | STATUS decompiled */
+
+void FUN_204b1b80(void)
+
+{
+  DAT_207b4dd8 = bTPropertyType<gCNavOffset_PS,bTValArray<bCMotion>_>::vfunction4();
+  return;
+}
+

@@ -1,0 +1,32 @@
+/* ENTRY 205367d0 | bTPropertyType<gCTreasureSet_PS,bTPropertyContainer<gETreasureDistribution>_>::~bTPropertyType<gCTreasureSet_PS,bTPropertyContainer<gETreasureDistribution>_> | STATUS decompiled | 10 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCTreasureSet_PS,bTPropertyContainer<gETreasureDistribution>_>::
+~bTPropertyType<gCTreasureSet_PS,bTPropertyContainer<gETreasureDistribution>_>
+          (bTPropertyType<gCTreasureSet_PS,bTPropertyContainer<gETreasureDistribution>_> *this)
+
+{
+  bTPropertyType<gCTreasureSet_PS,bTPropertyContainer<gETreasureDistribution>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"TreasureDistribution");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCTreasureSet_PS::ms_PropertyMember_m_enuTreasureDistribution,
+             (bCString *)&local_4,2);
+  _ms_PropertyMember_m_enuTreasureDistribution = &vftable;
+  DAT_207cf574 = bTPropertyObjectType<gCTreasureSet_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCTreasureSet_PS,eCEntityPropertySet>();
+  _DAT_207cf578 = 0x14;
+  _DAT_207cf57c = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCTreasureSet_PS::ms_PropertyMember_m_enuTreasureDistribution);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cf574,
+             (bCPropertyTypeBase *)&gCTreasureSet_PS::ms_PropertyMember_m_enuTreasureDistribution);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gETreasureDistribution>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gETreasureDistribution>_>);
+  return;
+}

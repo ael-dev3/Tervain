@@ -1,0 +1,11 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204b1650 | FUN_204b1650 | STATUS decompiled */
+
+void FUN_204b1650(void)
+
+{
+  DAT_207b4f24 = bTPropertyObjectType<gCSessionInfo,bCObjectRefBase>::vfunction1();
+  return;
+}
+

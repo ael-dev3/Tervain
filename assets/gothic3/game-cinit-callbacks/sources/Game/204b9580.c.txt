@@ -1,0 +1,17 @@
+/* ENTRY 204b9580 | FUN_204b9580 | STATUS decompiled | 7 ms */
+
+void FUN_204b9580(void)
+
+{
+  bCGuid *pbVar1;
+  bCString local_18 [4];
+  bCGuid local_14 [20];
+  
+  bCString::bCString(local_18,"{3D02AF27-6F8A-4838-8D2B-FC2606F7A377}");
+  pbVar1 = (bCGuid *)bCGuid::bCGuid(local_14,local_18);
+  bCPropertyID::bCPropertyID((bCPropertyID *)&DAT_207b6a34,pbVar1);
+  bCGuid::~bCGuid(local_14);
+  bCString::~bCString(local_18);
+  _atexit((_func_4879 *)&LAB_2054c610);
+  return;
+}

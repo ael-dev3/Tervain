@@ -1,0 +1,9 @@
+/* ENTRY 204f6850 | FUN_204f6850 | STATUS decompiled | 3 ms */
+
+void FUN_204f6850(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207bc218,".lrent");
+  _atexit(FUN_20555650);
+  return;
+}

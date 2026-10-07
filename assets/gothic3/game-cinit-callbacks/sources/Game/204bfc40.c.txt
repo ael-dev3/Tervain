@@ -1,0 +1,23 @@
+/* ENTRY 204bfc40 | bTPropertyObject<gCEffectCommandPlayVoice,gCEffectCommand>::~bTPropertyObject<gCEffectCommandPlayVoice,gCEffectCommand> | STATUS decompiled | 7 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyObject<gCEffectCommandPlayVoice,gCEffectCommand>::
+~bTPropertyObject<gCEffectCommandPlayVoice,gCEffectCommand>
+          (bTPropertyObject<gCEffectCommandPlayVoice,gCEffectCommand> *this)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)
+             &gCEffectCommandPlayVoice::ms_PropertyObjectInstance_gCEffectCommandPlayVoice);
+  _DAT_207b74cc = 0;
+  _ms_PropertyObjectInstance_gCEffectCommandPlayVoice = &vftable;
+  _DAT_207b74d0 =
+       bTPropertyObjectType<gCEffectCommandPlayVoice,gCEffectCommand>::
+       ~bTPropertyObjectType<gCEffectCommandPlayVoice,gCEffectCommand>();
+  _DAT_207b74cc = 0;
+  thunk_FUN_200fcbc0(1);
+  _atexit(~bTPropertyObject<gCEffectCommandPlayVoice,gCEffectCommand>);
+  return;
+}

@@ -1,0 +1,27 @@
+/* ENTRY 2052ac90 | bTPropertyType<gCSector,bool>::~bTPropertyType<gCSector,bool> | STATUS decompiled | 10 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCSector,bool>::~bTPropertyType<gCSector,bool>(bTPropertyType<gCSector,bool> *this)
+
+{
+  bTPropertyType<gCSector,bool> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"Freezed");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCSector::ms_PropertyMember_m_bFreezed,(bCString *)&local_4,1);
+  _ms_PropertyMember_m_bFreezed = &vftable;
+  DAT_207cd974 = bTPropertyObjectType<gCSector,eCProcessibleElement>::
+                 ~bTPropertyObjectType<gCSector,eCProcessibleElement>();
+  _DAT_207cd978 = 0x3d;
+  _DAT_207cd97c = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCSector::ms_PropertyMember_m_bFreezed);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cd974,
+             (bCPropertyTypeBase *)&gCSector::ms_PropertyMember_m_bFreezed);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}

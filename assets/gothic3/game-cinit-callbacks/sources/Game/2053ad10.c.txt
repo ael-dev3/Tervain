@@ -1,0 +1,31 @@
+/* ENTRY 2053ad10 | bTPropertyType<gCInfo_PS,bCString>::~bTPropertyType<gCInfo_PS,bCString> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCInfo_PS,bCString>::~bTPropertyType<gCInfo_PS,bCString>
+          (bTPropertyType<gCInfo_PS,bCString> *this)
+
+{
+  bTPropertyType<gCInfo_PS,bCString> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"ConditionItemContainer");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCInfo_PS::ms_PropertyMember_m_condItemContainer,
+             (bCString *)&local_4,1);
+  _DAT_207d01bc = 0;
+  _ms_PropertyMember_m_condItemContainer = &vftable;
+  DAT_207d01c0 = bTPropertyObjectType<gCInfo_PS,bCObjectRefBase>::
+                 ~bTPropertyObjectType<gCInfo_PS,bCObjectRefBase>();
+  _DAT_207d01c4 = 0x48;
+  _DAT_207d01c8 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCInfo_PS::ms_PropertyMember_m_condItemContainer);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207d01c0,
+             (bCPropertyTypeBase *)&gCInfo_PS::ms_PropertyMember_m_condItemContainer);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bCString>::~bTPropertyTypeOnly<bCString>);
+  return;
+}

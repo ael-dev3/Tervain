@@ -1,0 +1,15 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 205251c0 | FUN_205251c0 | STATUS decompiled */
+
+void FUN_205251c0(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gESessionEditorState_Navigation");
+  thunk_FUN_2038cb40(&DAT_207cccfc,&gCSessionEditor::ms_PropertyMember_m_enuState,abStack_4,4);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

@@ -1,0 +1,16 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204bee90 | FUN_204bee90 | STATUS decompiled */
+
+void FUN_204bee90(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gEEffectLink_TargetBone");
+  thunk_FUN_200f5230(&DAT_207b71c2,&gCEffectCommandSpawnEntity::ms_PropertyMember_m_enuLink,
+                     abStack_4,2);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

@@ -1,0 +1,16 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204fd380 | FUN_204fd380 | STATUS decompiled */
+
+void FUN_204fd380(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gETradeCategory_None");
+  thunk_FUN_20210ff0(&DAT_207bd6d8,&gCDialog_PS::ms_PropertyMember_m_enuTradeCategory,abStack_4,0,0)
+  ;
+  bCString::~bCString(abStack_4);
+  return;
+}
+

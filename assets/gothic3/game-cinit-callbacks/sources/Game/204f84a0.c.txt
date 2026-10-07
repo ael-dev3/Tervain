@@ -1,0 +1,35 @@
+/* ENTRY 204f84a0 | bTPropertyType<gCLock_PS,bTPropertyContainer<gELockStatus>_>::~bTPropertyType<gCLock_PS,bTPropertyContainer<gELockStatus>_> | STATUS decompiled | 16 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCLock_PS,bTPropertyContainer<gELockStatus>_>::
+~bTPropertyType<gCLock_PS,bTPropertyContainer<gELockStatus>_>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Common");
+  bCString::bCString(local_c,"Status");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCLock_PS::ms_PropertyMember_m_enuStatus,local_c,local_8,local_4
+             ,2,false);
+  _ms_PropertyMember_m_enuStatus = &vftable;
+  DAT_207bc770 = bTPropertyObjectType<gCLock_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCLock_PS,eCEntityPropertySet>();
+  _DAT_207bc774 = 0x14;
+  _DAT_207bc778 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCLock_PS::ms_PropertyMember_m_enuStatus);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bc770,
+             (bCPropertyTypeBase *)&gCLock_PS::ms_PropertyMember_m_enuStatus);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gELockStatus>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gELockStatus>_>);
+  return;
+}

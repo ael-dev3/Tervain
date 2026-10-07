@@ -1,0 +1,21 @@
+/* ENTRY 204f6eb0 | bTPropertyObject<gCGeometryLayer,gCLayerBase>::~bTPropertyObject<gCGeometryLayer,gCLayerBase> | STATUS decompiled | 6 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyObject<gCGeometryLayer,gCLayerBase>::~bTPropertyObject<gCGeometryLayer,gCLayerBase>
+          (bTPropertyObject<gCGeometryLayer,gCLayerBase> *this)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)&gCGeometryLayer::ms_PropertyObjectInstance_gCGeometryLayer);
+  _DAT_207bc360 = 0;
+  _ms_PropertyObjectInstance_gCGeometryLayer = &vftable;
+  _DAT_207bc364 =
+       bTPropertyObjectType<gCGeometryLayer,gCLayerBase>::
+       ~bTPropertyObjectType<gCGeometryLayer,gCLayerBase>();
+  _DAT_207bc360 = 0;
+  thunk_FUN_201dd3f0(1);
+  _atexit(~bTPropertyObject<gCGeometryLayer,gCLayerBase>);
+  return;
+}

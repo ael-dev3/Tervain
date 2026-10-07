@@ -1,0 +1,16 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204fe880 | FUN_204fe880 | STATUS decompiled */
+
+void FUN_204fe880(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gECharacterControlFOR_Camera");
+  thunk_FUN_20220ed0(&DAT_207bd964,&gCCharacterControl_PS::ms_PropertyMember_m_enuControlFOR,
+                     abStack_4,0,0);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

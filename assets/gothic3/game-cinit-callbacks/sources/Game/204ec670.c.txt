@@ -1,0 +1,31 @@
+/* ENTRY 204ec670 | bTPropertyType<gCInventory_PS,bCString>::~bTPropertyType<gCInventory_PS,bCString> | STATUS decompiled | 12 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCInventory_PS,bCString>::~bTPropertyType<gCInventory_PS,bCString>
+          (bTPropertyType<gCInventory_PS,bCString> *this)
+
+{
+  bTPropertyType<gCInventory_PS,bCString> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"TreasureSet1");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCInventory_PS::ms_PropertyMember_m_strTreasureSet1,
+             (bCString *)&local_4,1);
+  _DAT_207bb1b8 = 0;
+  _ms_PropertyMember_m_strTreasureSet1 = &vftable;
+  DAT_207bb1bc = bTPropertyObjectType<gCInventory_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCInventory_PS,eCEntityPropertySet>();
+  _DAT_207bb1c0 = 0x1c;
+  _DAT_207bb1c4 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCInventory_PS::ms_PropertyMember_m_strTreasureSet1);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bb1bc,
+             (bCPropertyTypeBase *)&gCInventory_PS::ms_PropertyMember_m_strTreasureSet1);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bCString>::~bTPropertyTypeOnly<bCString>);
+  return;
+}

@@ -1,0 +1,9 @@
+/* ENTRY 2053c1e0 | FUN_2053c1e0 | STATUS decompiled | 2 ms */
+
+void FUN_2053c1e0(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207d03b8,"Quest");
+  _atexit(FUN_20568580);
+  return;
+}

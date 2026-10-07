@@ -1,0 +1,15 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 20521860 | FUN_20521860 | STATUS decompiled */
+
+void FUN_20521860(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gEAIMode_Flee");
+  thunk_FUN_203677c0(&DAT_207cc3bc,&gCScriptRoutine_PS::ms_PropertyMember_m_enuAIMode,abStack_4,4);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

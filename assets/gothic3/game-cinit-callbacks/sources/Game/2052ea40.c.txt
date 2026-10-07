@@ -1,0 +1,34 @@
+/* ENTRY 2052ea40 | bTPropertyType<gCRecipe_PS,bCString>::~bTPropertyType<gCRecipe_PS,bCString> | STATUS decompiled | 17 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall bTPropertyType<gCRecipe_PS,bCString>::~bTPropertyType<gCRecipe_PS,bCString>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Requirements");
+  bCString::bCString(local_c,"ReqAttrib1Tag");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCRecipe_PS::ms_PropertyMember_m_entReqAttrib1Tag,local_c,
+             local_8,local_4,1,false);
+  _DAT_207ce3ac = 0;
+  _ms_PropertyMember_m_entReqAttrib1Tag = &vftable;
+  DAT_207ce3b0 = bTPropertyObjectType<gCRecipe_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCRecipe_PS,eCEntityPropertySet>();
+  _DAT_207ce3b4 = 0x68;
+  _DAT_207ce3b8 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCRecipe_PS::ms_PropertyMember_m_entReqAttrib1Tag);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207ce3b0,
+             (bCPropertyTypeBase *)&gCRecipe_PS::ms_PropertyMember_m_entReqAttrib1Tag);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bCString>::~bTPropertyTypeOnly<bCString>);
+  return;
+}

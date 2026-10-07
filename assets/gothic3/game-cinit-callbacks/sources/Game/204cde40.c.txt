@@ -1,0 +1,24 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204cde40 | FUN_204cde40 | STATUS decompiled */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void FUN_204cde40(void)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)
+             &gCScreenOutputCtrl::ms_PropertyObjectInstance_gCScreenOutputCtrl);
+  _DAT_207b9a68 = 0;
+  _ms_PropertyObjectInstance_gCScreenOutputCtrl =
+       &bTPropertyObject<gCScreenOutputCtrl,eCWnd>::vftable;
+  _DAT_207b9a6c =
+       bTPropertyObjectType<gCScreenOutputCtrl,eCWnd>::
+       ~bTPropertyObjectType<gCScreenOutputCtrl,eCWnd>();
+  _DAT_207b9a68 = 0;
+  thunk_FUN_20159320(1);
+  _atexit((_func_4879 *)&UNK_20552130);
+  return;
+}
+

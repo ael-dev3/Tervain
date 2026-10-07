@@ -1,0 +1,29 @@
+/* ENTRY 20517da0 | bTPropertyType<gCParty_PS,bool>::~bTPropertyType<gCParty_PS,bool> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCParty_PS,bool>::~bTPropertyType<gCParty_PS,bool>
+          (bTPropertyType<gCParty_PS,bool> *this)
+
+{
+  bTPropertyType<gCParty_PS,bool> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"Waiting");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCParty_PS::ms_PropertyMember_m_bWaiting,(bCString *)&local_4,1)
+  ;
+  _ms_PropertyMember_m_bWaiting = &vftable;
+  DAT_207c1544 = bTPropertyObjectType<gCParty_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCParty_PS,eCEntityPropertySet>();
+  _DAT_207c1548 = 0x38;
+  _DAT_207c154c = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCParty_PS::ms_PropertyMember_m_bWaiting);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207c1544,
+             (bCPropertyTypeBase *)&gCParty_PS::ms_PropertyMember_m_bWaiting);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}

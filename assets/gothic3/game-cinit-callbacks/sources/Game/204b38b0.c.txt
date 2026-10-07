@@ -1,0 +1,33 @@
+/* ENTRY 204b38b0 | bTPropertyType<gCCameraAI_PS,bTPropertyObject<gCCameraModeParams,bCObjectRefBase>_>::~bTPropertyType<gCCameraAI_PS,bTPropertyObject<gCCameraModeParams,bCObjectRefBase>_> | STATUS decompiled | 35 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCCameraAI_PS,bTPropertyObject<gCCameraModeParams,bCObjectRefBase>_>::
+~bTPropertyType<gCCameraAI_PS,bTPropertyObject<gCCameraModeParams,bCObjectRefBase>_>
+          (bTPropertyType<gCCameraAI_PS,bTPropertyObject<gCCameraModeParams,bCObjectRefBase>_> *this
+          )
+
+{
+  bTPropertyType<gCCameraAI_PS,bTPropertyObject<gCCameraModeParams,bCObjectRefBase>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"CamModeDialog");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCCameraAI_PS::ms_PropertyMember_m_poCamModeDialog,
+             (bCString *)&local_4,3);
+  _ms_PropertyMember_m_poCamModeDialog = &vftable;
+  DAT_207b552c = bTPropertyObjectType<gCCameraAI_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCCameraAI_PS,eCEntityPropertySet>();
+  _DAT_207b5530 = 0x54;
+  _DAT_207b5534 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCCameraAI_PS::ms_PropertyMember_m_poCamModeDialog);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b552c,
+             (bCPropertyTypeBase *)&gCCameraAI_PS::ms_PropertyMember_m_poCamModeDialog);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyObject<gCCameraModeParams,bCObjectRefBase>_>::
+          ~bTPropertyTypeOnly<bTPropertyObject<gCCameraModeParams,bCObjectRefBase>_>);
+  return;
+}

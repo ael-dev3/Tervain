@@ -1,0 +1,34 @@
+/* ENTRY 20519ac0 | bTPropertyType<gCPlayerMemory_PS,float>::~bTPropertyType<gCPlayerMemory_PS,float> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCPlayerMemory_PS,float>::~bTPropertyType<gCPlayerMemory_PS,float>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Internal");
+  bCString::bCString(local_c,"TimeStampStart");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCPlayerMemory_PS::ms_PropertyMember_m_fTimeStampStart,local_c,
+             local_8,local_4,1,true);
+  _ms_PropertyMember_m_fTimeStampStart = &vftable;
+  DAT_207c199c = bTPropertyObjectType<gCPlayerMemory_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCPlayerMemory_PS,eCEntityPropertySet>();
+  _DAT_207c19a0 = 0xa0;
+  _DAT_207c19a4 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCPlayerMemory_PS::ms_PropertyMember_m_fTimeStampStart);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207c199c,
+             (bCPropertyTypeBase *)&gCPlayerMemory_PS::ms_PropertyMember_m_fTimeStampStart);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}

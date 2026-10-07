@@ -1,0 +1,16 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 20533dc0 | FUN_20533dc0 | STATUS decompiled */
+
+void FUN_20533dc0(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gEFocusNameType_Skeleton");
+  thunk_FUN_2040fef0(&DAT_207cf0b3,&gCInteraction_PS::ms_PropertyMember_m_enuFocusNameType,abStack_4
+                     ,0,0);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

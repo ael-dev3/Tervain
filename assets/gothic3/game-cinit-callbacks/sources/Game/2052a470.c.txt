@@ -1,0 +1,31 @@
+/* ENTRY 2052a470 | bTPropertyType<gCProject,bTRefPtrArray<bCPropertyObjectBase*>_>::~bTPropertyType<gCProject,bTRefPtrArray<bCPropertyObjectBase*>_> | STATUS decompiled | 10 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCProject,bTRefPtrArray<bCPropertyObjectBase*>_>::
+~bTPropertyType<gCProject,bTRefPtrArray<bCPropertyObjectBase*>_>
+          (bTPropertyType<gCProject,bTRefPtrArray<bCPropertyObjectBase*>_> *this)
+
+{
+  bTPropertyType<gCProject,bTRefPtrArray<bCPropertyObjectBase*>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"Worlds");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCProject::ms_PropertyMember_m_arrWorlds,(bCString *)&local_4,1)
+  ;
+  _ms_PropertyMember_m_arrWorlds = &vftable;
+  DAT_207cd7a4 = bTPropertyObjectType<gCProject,eCProcessibleElement>::
+                 ~bTPropertyObjectType<gCProject,eCProcessibleElement>();
+  _DAT_207cd7a8 = 0x1c;
+  _DAT_207cd7ac = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCProject::ms_PropertyMember_m_arrWorlds);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cd7a4,
+             (bCPropertyTypeBase *)&gCProject::ms_PropertyMember_m_arrWorlds);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTRefPtrArray<bCPropertyObjectBase*>_>::
+          ~bTPropertyTypeOnly<bTRefPtrArray<bCPropertyObjectBase*>_>);
+  return;
+}

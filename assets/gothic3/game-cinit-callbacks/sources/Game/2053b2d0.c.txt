@@ -1,0 +1,29 @@
+/* ENTRY 2053b2d0 | bTPropertyType<gCInfo_PS,bool>::~bTPropertyType<gCInfo_PS,bool> | STATUS decompiled | 12 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCInfo_PS,bool>::~bTPropertyType<gCInfo_PS,bool>
+          (bTPropertyType<gCInfo_PS,bool> *this)
+
+{
+  bTPropertyType<gCInfo_PS,bool> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"Permanent");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCInfo_PS::ms_PropertyMember_m_bPermanent,(bCString *)&local_4,1
+            );
+  _ms_PropertyMember_m_bPermanent = &vftable;
+  DAT_207d0308 = bTPropertyObjectType<gCInfo_PS,bCObjectRefBase>::
+                 ~bTPropertyObjectType<gCInfo_PS,bCObjectRefBase>();
+  _DAT_207d030c = 0x91;
+  _DAT_207d0310 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCInfo_PS::ms_PropertyMember_m_bPermanent);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207d0308,
+             (bCPropertyTypeBase *)&gCInfo_PS::ms_PropertyMember_m_bPermanent);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}

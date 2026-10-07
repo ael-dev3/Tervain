@@ -1,0 +1,32 @@
+/* ENTRY 20529ef0 | bTPropertyType<gCDatabase,bTRefPtrArray<bCPropertyObjectBase*>_>::~bTPropertyType<gCDatabase,bTRefPtrArray<bCPropertyObjectBase*>_> | STATUS decompiled | 12 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCDatabase,bTRefPtrArray<bCPropertyObjectBase*>_>::
+~bTPropertyType<gCDatabase,bTRefPtrArray<bCPropertyObjectBase*>_>
+          (bTPropertyType<gCDatabase,bTRefPtrArray<bCPropertyObjectBase*>_> *this)
+
+{
+  bTPropertyType<gCDatabase,bTRefPtrArray<bCPropertyObjectBase*>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"TemplateLayers");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCDatabase::ms_PropertyMember_m_arrTemplateLayers,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_arrTemplateLayers = &vftable;
+  DAT_207cd68c = bTPropertyObjectType<gCDatabase,eCProcessibleElement>::
+                 ~bTPropertyObjectType<gCDatabase,eCProcessibleElement>();
+  _DAT_207cd690 = 0x1c;
+  _DAT_207cd694 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCDatabase::ms_PropertyMember_m_arrTemplateLayers);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cd68c,
+             (bCPropertyTypeBase *)&gCDatabase::ms_PropertyMember_m_arrTemplateLayers);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTRefPtrArray<bCPropertyObjectBase*>_>::
+          ~bTPropertyTypeOnly<bTRefPtrArray<bCPropertyObjectBase*>_>);
+  return;
+}

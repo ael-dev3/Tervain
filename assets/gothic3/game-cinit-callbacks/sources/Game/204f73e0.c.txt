@@ -1,0 +1,23 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204f73e0 | FUN_204f73e0 | STATUS decompiled */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void FUN_204f73e0(void)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)&gCLayerBase::ms_PropertyObjectInstance_gCLayerBase);
+  _DAT_207bc468 = 0;
+  _ms_PropertyObjectInstance_gCLayerBase =
+       &bTPropertyObject<gCLayerBase,eCProcessibleElement>::vftable;
+  _DAT_207bc46c =
+       bTPropertyObjectType<gCLayerBase,eCProcessibleElement>::
+       ~bTPropertyObjectType<gCLayerBase,eCProcessibleElement>();
+  _DAT_207bc468 = 0;
+  thunk_FUN_201e1620(1);
+  _atexit((_func_4879 *)&UNK_20555b80);
+  return;
+}
+

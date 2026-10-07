@@ -1,0 +1,9 @@
+/* ENTRY 20529d90 | FUN_20529d90 | STATUS decompiled | 3 ms */
+
+void FUN_20529d90(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207cd638,"SaveGame");
+  _atexit(FUN_205639a0);
+  return;
+}

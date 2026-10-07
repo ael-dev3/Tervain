@@ -1,0 +1,30 @@
+/* ENTRY 2051c370 | bTPropertyType<gCQuest_PS,unsigned_long>::~bTPropertyType<gCQuest_PS,unsigned_long> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCQuest_PS,unsigned_long>::~bTPropertyType<gCQuest_PS,unsigned_long>
+          (bTPropertyType<gCQuest_PS,unsigned_long> *this)
+
+{
+  bTPropertyType<gCQuest_PS,unsigned_long> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"ActivationTime_Hour");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCQuest_PS::ms_PropertyMember_m_activationTime_Hour,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_activationTime_Hour = &vftable;
+  DAT_207cbcb0 = bTPropertyObjectType<gCQuest_PS,bCObjectRefBase>::
+                 ~bTPropertyObjectType<gCQuest_PS,bCObjectRefBase>();
+  _DAT_207cbcb4 = 0x9c;
+  _DAT_207cbcb8 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCQuest_PS::ms_PropertyMember_m_activationTime_Hour);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cbcb0,
+             (bCPropertyTypeBase *)&gCQuest_PS::ms_PropertyMember_m_activationTime_Hour);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<unsigned_long>::~bTPropertyTypeOnly<unsigned_long>);
+  return;
+}

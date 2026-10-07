@@ -1,0 +1,12 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204bdd40 | FUN_204bdd40 | STATUS decompiled */
+
+void FUN_204bdd40(void)
+
+{
+  DAT_207b6d74 = bTPropertyType<gCEffectCommandMusicTrigger,bTPropertyContainer<gEMusicTransition>_>
+                 ::vfunction4();
+  return;
+}
+

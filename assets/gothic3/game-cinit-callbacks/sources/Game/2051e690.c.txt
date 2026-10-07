@@ -1,0 +1,31 @@
+/* ENTRY 2051e690 | bTPropertyType<gCScriptRoutine_PS,bCString>::~bTPropertyType<gCScriptRoutine_PS,bCString> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCScriptRoutine_PS,bCString>::~bTPropertyType<gCScriptRoutine_PS,bCString>
+          (bTPropertyType<gCScriptRoutine_PS,bCString> *this)
+
+{
+  bTPropertyType<gCScriptRoutine_PS,bCString> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"LastTask");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCScriptRoutine_PS::ms_PropertyMember_m_strLastTask,
+             (bCString *)&local_4,1);
+  _DAT_207cc1fc = 0;
+  _ms_PropertyMember_m_strLastTask = &vftable;
+  DAT_207cc200 = bTPropertyObjectType<gCScriptRoutine_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCScriptRoutine_PS,eCEntityPropertySet>();
+  _DAT_207cc204 = 0x30;
+  _DAT_207cc208 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCScriptRoutine_PS::ms_PropertyMember_m_strLastTask);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cc200,
+             (bCPropertyTypeBase *)&gCScriptRoutine_PS::ms_PropertyMember_m_strLastTask);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bCString>::~bTPropertyTypeOnly<bCString>);
+  return;
+}

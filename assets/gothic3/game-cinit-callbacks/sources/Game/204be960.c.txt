@@ -1,0 +1,35 @@
+/* ENTRY 204be960 | bTPropertyType<gCEffectCommandSpawnEntity,eCTemplateEntityProxy>::~bTPropertyType<gCEffectCommandSpawnEntity,eCTemplateEntityProxy> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCEffectCommandSpawnEntity,eCTemplateEntityProxy>::
+~bTPropertyType<gCEffectCommandSpawnEntity,eCTemplateEntityProxy>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"The template entity to spawn.");
+  bCString::bCString(local_8,"General");
+  bCString::bCString(local_c,"TemplateEntity");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCEffectCommandSpawnEntity::ms_PropertyMember_m_entTemplate,
+             local_c,local_8,local_4,1,false);
+  _ms_PropertyMember_m_entTemplate = &vftable;
+  DAT_207b7120 = bTPropertyObjectType<gCEffectCommandSpawnEntity,gCEffectCommand>::
+                 ~bTPropertyObjectType<gCEffectCommandSpawnEntity,gCEffectCommand>();
+  _DAT_207b7124 = 0x14;
+  _DAT_207b7128 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCEffectCommandSpawnEntity::ms_PropertyMember_m_entTemplate);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b7120,
+             (bCPropertyTypeBase *)&gCEffectCommandSpawnEntity::ms_PropertyMember_m_entTemplate);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<eCTemplateEntityProxy>::~bTPropertyTypeOnly<eCTemplateEntityProxy>);
+  return;
+}

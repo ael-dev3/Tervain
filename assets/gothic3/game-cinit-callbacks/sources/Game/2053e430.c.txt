@@ -1,0 +1,9 @@
+/* ENTRY 2053e430 | FUN_2053e430 | STATUS decompiled | 2 ms */
+
+void FUN_2053e430(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207d07b4,"description");
+  _atexit(FUN_20569710);
+  return;
+}

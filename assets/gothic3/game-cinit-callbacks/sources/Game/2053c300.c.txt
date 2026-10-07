@@ -1,0 +1,9 @@
+/* ENTRY 2053c300 | FUN_2053c300 | STATUS decompiled | 3 ms */
+
+void FUN_2053c300(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207d03d0,"CondPlayerKnows");
+  _atexit(FUN_205685e0);
+  return;
+}

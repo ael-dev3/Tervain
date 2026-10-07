@@ -1,0 +1,29 @@
+/* ENTRY 204b2b20 | bTPropertyType<gCAnchor_PS,unsigned_long>::~bTPropertyType<gCAnchor_PS,unsigned_long> | STATUS decompiled | 10 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCAnchor_PS,unsigned_long>::~bTPropertyType<gCAnchor_PS,unsigned_long>
+          (bTPropertyType<gCAnchor_PS,unsigned_long> *this)
+
+{
+  bTPropertyType<gCAnchor_PS,unsigned_long> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"MaxUsers");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCAnchor_PS::ms_PropertyMember_m_u32MaxUsers,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_u32MaxUsers = &vftable;
+  DAT_207b5408 = bTPropertyObjectType<gCAnchor_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCAnchor_PS,eCEntityPropertySet>();
+  _DAT_207b540c = 0x20;
+  _DAT_207b5410 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCAnchor_PS::ms_PropertyMember_m_u32MaxUsers);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b5408,
+             (bCPropertyTypeBase *)&gCAnchor_PS::ms_PropertyMember_m_u32MaxUsers);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<unsigned_long>::~bTPropertyTypeOnly<unsigned_long>);
+  return;
+}

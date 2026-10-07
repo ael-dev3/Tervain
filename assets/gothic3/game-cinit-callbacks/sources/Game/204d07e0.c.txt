@@ -1,0 +1,13 @@
+/* ENTRY 204d07e0 | FUN_204d07e0 | STATUS decompiled | 6 ms */
+
+void FUN_204d07e0(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207ba3a4,"HUD_Quality_Poison");
+  bCString::bCString((bCString *)&DAT_207ba3a8,"HUD_Quality_Sharp");
+  bCString::bCString((bCString *)&DAT_207ba3ac,"HUD_Quality_Blessed");
+  bCString::bCString((bCString *)&DAT_207ba3b0,"HUD_Quality_Selfmade");
+  bCString::bCString((bCString *)&DAT_207ba3b4,"HUD_Quality_Worn");
+  _atexit(FUN_20552730);
+  return;
+}

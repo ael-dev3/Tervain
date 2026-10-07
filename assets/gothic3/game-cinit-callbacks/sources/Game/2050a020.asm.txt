@@ -1,0 +1,3 @@
+2050a020 | e8d8e3b1ff | CALL 0x200283fd
+2050a025 | a34cf77b20 | MOV [0x207bf74c],EAX
+2050a02a | c3 | RET

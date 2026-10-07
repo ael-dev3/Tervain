@@ -1,0 +1,24 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 20537060 | FUN_20537060 | STATUS decompiled */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void FUN_20537060(void)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)
+             &gCTreasureSetAdmin::ms_PropertyObjectInstance_gCTreasureSetAdmin);
+  _DAT_207cf6ac = 0;
+  _ms_PropertyObjectInstance_gCTreasureSetAdmin =
+       &bTPropertyObject<gCTreasureSetAdmin,eCEngineComponentBase>::vftable;
+  _DAT_207cf6b0 =
+       bTPropertyObjectType<gCTreasureSetAdmin,eCEngineComponentBase>::
+       ~bTPropertyObjectType<gCTreasureSetAdmin,eCEngineComponentBase>();
+  _DAT_207cf6ac = 0;
+  thunk_FUN_20418770(1);
+  _atexit((_func_4879 *)&UNK_20567580);
+  return;
+}
+

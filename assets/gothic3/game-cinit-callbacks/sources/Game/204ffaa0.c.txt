@@ -1,0 +1,23 @@
+/* ENTRY 204ffaa0 | bTPropertyObject<gCCharacterMovement_PS,gCMovementBase_PS>::~bTPropertyObject<gCCharacterMovement_PS,gCMovementBase_PS> | STATUS decompiled | 7 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyObject<gCCharacterMovement_PS,gCMovementBase_PS>::
+~bTPropertyObject<gCCharacterMovement_PS,gCMovementBase_PS>
+          (bTPropertyObject<gCCharacterMovement_PS,gCMovementBase_PS> *this)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)
+             &gCCharacterMovement_PS::ms_PropertyObjectInstance_gCCharacterMovement_PS);
+  _DAT_207bdad4 = 0;
+  _ms_PropertyObjectInstance_gCCharacterMovement_PS = &vftable;
+  _DAT_207bdad8 =
+       bTPropertyObjectType<gCCharacterMovement_PS,gCMovementBase_PS>::
+       ~bTPropertyObjectType<gCCharacterMovement_PS,gCMovementBase_PS>();
+  _DAT_207bdad4 = 0;
+  thunk_FUN_20236030(1);
+  _atexit(~bTPropertyObject<gCCharacterMovement_PS,gCMovementBase_PS>);
+  return;
+}

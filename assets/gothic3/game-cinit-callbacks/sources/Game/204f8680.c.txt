@@ -1,0 +1,28 @@
+/* ENTRY 204f8680 | bTPropertyType<gCLock_PS,int>::~bTPropertyType<gCLock_PS,int> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCLock_PS,int>::~bTPropertyType<gCLock_PS,int>(bTPropertyType<gCLock_PS,int> *this)
+
+{
+  bTPropertyType<gCLock_PS,int> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"Difficulty");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCLock_PS::ms_PropertyMember_m_bDifficulty,(bCString *)&local_4,
+             1);
+  _ms_PropertyMember_m_bDifficulty = &vftable;
+  DAT_207bc7b8 = bTPropertyObjectType<gCLock_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCLock_PS,eCEntityPropertySet>();
+  _DAT_207bc7bc = 0x28;
+  _DAT_207bc7c0 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCLock_PS::ms_PropertyMember_m_bDifficulty);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bc7b8,
+             (bCPropertyTypeBase *)&gCLock_PS::ms_PropertyMember_m_bDifficulty);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<int>::~bTPropertyTypeOnly<int>);
+  return;
+}

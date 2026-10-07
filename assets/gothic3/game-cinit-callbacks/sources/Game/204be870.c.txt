@@ -1,0 +1,37 @@
+/* ENTRY 204be870 | bTPropertyType<gCEffectCommandSpawnEntity,int>::~bTPropertyType<gCEffectCommandSpawnEntity,int> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCEffectCommandSpawnEntity,int>::~bTPropertyType<gCEffectCommandSpawnEntity,int>
+          (void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,
+                     "The index in the effect\'s entity map to store the spawnee at. Pass a negative value if you don\'t want to reference the entity later using modification or kill commands."
+                    );
+  bCString::bCString(local_8,"General");
+  bCString::bCString(local_c,"EntityIndex");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCEffectCommandSpawnEntity::ms_PropertyMember_m_iEntityIndex,
+             local_c,local_8,local_4,1,false);
+  _ms_PropertyMember_m_iEntityIndex = &vftable;
+  DAT_207b70fc = bTPropertyObjectType<gCEffectCommandSpawnEntity,gCEffectCommand>::
+                 ~bTPropertyObjectType<gCEffectCommandSpawnEntity,gCEffectCommand>();
+  _DAT_207b7100 = 0x10;
+  _DAT_207b7104 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCEffectCommandSpawnEntity::ms_PropertyMember_m_iEntityIndex);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b70fc,
+             (bCPropertyTypeBase *)&gCEffectCommandSpawnEntity::ms_PropertyMember_m_iEntityIndex);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<int>::~bTPropertyTypeOnly<int>);
+  return;
+}

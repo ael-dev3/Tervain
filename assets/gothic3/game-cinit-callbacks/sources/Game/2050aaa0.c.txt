@@ -1,0 +1,9 @@
+/* ENTRY 2050aaa0 | FUN_2050aaa0 | STATUS decompiled | 2 ms */
+
+void FUN_2050aaa0(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207bfaac,"WorkingPoint");
+  _atexit(FUN_2055bdb0);
+  return;
+}

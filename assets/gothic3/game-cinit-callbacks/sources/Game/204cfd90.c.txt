@@ -1,0 +1,33 @@
+/* ENTRY 204cfd90 | FUN_204cfd90 | STATUS decompiled | 23 ms */
+
+void FUN_204cfd90(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207ba168,"ardea");
+  bCString::bCString((bCString *)&DAT_207ba16c,"bakaresh");
+  bCString::bCString((bCString *)&DAT_207ba170,"benerai");
+  bCString::bCString((bCString *)&DAT_207ba174,"bensala");
+  bCString::bCString((bCString *)&DAT_207ba178,"braga");
+  bCString::bCString((bCString *)&DAT_207ba17c,"faring");
+  bCString::bCString((bCString *)&DAT_207ba180,"fireclan");
+  bCString::bCString((bCString *)&DAT_207ba184,"geldern");
+  bCString::bCString((bCString *)&DAT_207ba188,"gotha");
+  bCString::bCString((bCString *)&DAT_207ba18c,"hammerclan");
+  bCString::bCString((bCString *)&DAT_207ba190,"innos");
+  bCString::bCString((bCString *)&DAT_207ba194,"ishtar");
+  bCString::bCString((bCString *)&DAT_207ba198,"kapdun");
+  bCString::bCString((bCString *)&DAT_207ba19c,"lago");
+  bCString::bCString((bCString *)&DAT_207ba1a0,"montera");
+  bCString::bCString((bCString *)&DAT_207ba1a4,"morasul");
+  bCString::bCString((bCString *)&DAT_207ba1a8,"nemora");
+  bCString::bCString((bCString *)&DAT_207ba1ac,"okara");
+  bCString::bCString((bCString *)&DAT_207ba1b0,"reddock");
+  bCString::bCString((bCString *)&DAT_207ba1b4,"silden");
+  bCString::bCString((bCString *)&DAT_207ba1b8,"trelis");
+  bCString::bCString((bCString *)&DAT_207ba1bc,"vangard");
+  bCString::bCString((bCString *)&DAT_207ba1c0,"wolfclan");
+  bCString::bCString((bCString *)&DAT_207ba1c4,"haupt");
+  bCString::bCString((bCString *)&DAT_207ba1c8,"world");
+  _atexit(FUN_20552520);
+  return;
+}

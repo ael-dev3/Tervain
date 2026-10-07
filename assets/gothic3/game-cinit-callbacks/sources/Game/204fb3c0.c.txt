@@ -1,0 +1,35 @@
+/* ENTRY 204fb3c0 | bTPropertyType<gCMagicBarrier_PS,bCString>::~bTPropertyType<gCMagicBarrier_PS,bCString> | STATUS decompiled | 33 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCMagicBarrier_PS,bCString>::~bTPropertyType<gCMagicBarrier_PS,bCString>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Script");
+  bCString::bCString(local_c,"OnLeaveScript");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCMagicBarrier_PS::ms_PropertyMember_m_strOnLeaveScript,local_c,
+             local_8,local_4,1,false);
+  _DAT_207bd114 = 0;
+  _ms_PropertyMember_m_strOnLeaveScript = &vftable;
+  DAT_207bd118 = bTPropertyObjectType<gCMagicBarrier_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCMagicBarrier_PS,eCEntityPropertySet>();
+  _DAT_207bd11c = 0x24;
+  _DAT_207bd120 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCMagicBarrier_PS::ms_PropertyMember_m_strOnLeaveScript);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bd118,
+             (bCPropertyTypeBase *)&gCMagicBarrier_PS::ms_PropertyMember_m_strOnLeaveScript);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bCString>::~bTPropertyTypeOnly<bCString>);
+  return;
+}

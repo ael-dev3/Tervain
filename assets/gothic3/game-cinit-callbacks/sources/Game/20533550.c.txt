@@ -1,0 +1,35 @@
+/* ENTRY 20533550 | bTPropertyType<gCInteraction_PS,eCEntityProxy>::~bTPropertyType<gCInteraction_PS,eCEntityProxy> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCInteraction_PS,eCEntityProxy>::~bTPropertyType<gCInteraction_PS,eCEntityProxy>
+          (void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Intern");
+  bCString::bCString(local_c,"AnchorPoint");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCInteraction_PS::ms_PropertyMember_m_AnchorPoint,local_c,
+             local_8,local_4,1,true);
+  _ms_PropertyMember_m_AnchorPoint = &vftable;
+  DAT_207cf160 = bTPropertyObjectType<gCInteraction_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCInteraction_PS,eCEntityPropertySet>();
+  _DAT_207cf164 = 0x60;
+  _DAT_207cf168 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCInteraction_PS::ms_PropertyMember_m_AnchorPoint);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cf160,
+             (bCPropertyTypeBase *)&gCInteraction_PS::ms_PropertyMember_m_AnchorPoint);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<eCEntityProxy>::~bTPropertyTypeOnly<eCEntityProxy>);
+  return;
+}

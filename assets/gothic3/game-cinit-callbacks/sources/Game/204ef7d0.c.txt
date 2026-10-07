@@ -1,0 +1,35 @@
+/* ENTRY 204ef7d0 | bTPropertyType<gCItem_PS,bTPropertyContainer<gEItemCategory>_>::~bTPropertyType<gCItem_PS,bTPropertyContainer<gEItemCategory>_> | STATUS decompiled | 14 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCItem_PS,bTPropertyContainer<gEItemCategory>_>::
+~bTPropertyType<gCItem_PS,bTPropertyContainer<gEItemCategory>_>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Display");
+  bCString::bCString(local_c,"Category");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCItem_PS::ms_PropertyMember_m_enuCategory,local_c,local_8,
+             local_4,2,false);
+  _ms_PropertyMember_m_enuCategory = &vftable;
+  DAT_207bb500 = bTPropertyObjectType<gCItem_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCItem_PS,eCEntityPropertySet>();
+  _DAT_207bb504 = 0x24;
+  _DAT_207bb508 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCItem_PS::ms_PropertyMember_m_enuCategory);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bb500,
+             (bCPropertyTypeBase *)&gCItem_PS::ms_PropertyMember_m_enuCategory);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gEItemCategory>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gEItemCategory>_>);
+  return;
+}

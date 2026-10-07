@@ -1,0 +1,23 @@
+/* ENTRY 204c1250 | bTPropertyObject<gCEffectCommandEarthquake,gCEffectCommand>::~bTPropertyObject<gCEffectCommandEarthquake,gCEffectCommand> | STATUS decompiled | 7 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyObject<gCEffectCommandEarthquake,gCEffectCommand>::
+~bTPropertyObject<gCEffectCommandEarthquake,gCEffectCommand>
+          (bTPropertyObject<gCEffectCommandEarthquake,gCEffectCommand> *this)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)
+             &gCEffectCommandEarthquake::ms_PropertyObjectInstance_gCEffectCommandEarthquake);
+  _DAT_207b7890 = 0;
+  _ms_PropertyObjectInstance_gCEffectCommandEarthquake = &vftable;
+  _DAT_207b7894 =
+       bTPropertyObjectType<gCEffectCommandEarthquake,gCEffectCommand>::
+       ~bTPropertyObjectType<gCEffectCommandEarthquake,gCEffectCommand>();
+  _DAT_207b7890 = 0;
+  thunk_FUN_20105fc0(1);
+  _atexit(~bTPropertyObject<gCEffectCommandEarthquake,gCEffectCommand>);
+  return;
+}

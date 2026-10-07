@@ -1,0 +1,9 @@
+/* ENTRY 2053c5a0 | FUN_2053c5a0 | STATUS decompiled | 3 ms */
+
+void FUN_2053c5a0(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207d0408,"InfoScript_IDs1");
+  _atexit(FUN_205686c0);
+  return;
+}

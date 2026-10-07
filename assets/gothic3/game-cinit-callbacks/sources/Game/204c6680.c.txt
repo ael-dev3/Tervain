@@ -1,0 +1,30 @@
+/* ENTRY 204c6680 | bTPropertyType<gCTouchDamage_PS,bool>::~bTPropertyType<gCTouchDamage_PS,bool> | STATUS decompiled | 12 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCTouchDamage_PS,bool>::~bTPropertyType<gCTouchDamage_PS,bool>
+          (bTPropertyType<gCTouchDamage_PS,bool> *this)
+
+{
+  bTPropertyType<gCTouchDamage_PS,bool> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"ResetOnUntouch");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCTouchDamage_PS::ms_PropertyMember_m_bResetOnUntouch,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_bResetOnUntouch = &vftable;
+  DAT_207b8678 = bTPropertyObjectType<gCTouchDamage_PS,eCTrigger_PS>::
+                 ~bTPropertyObjectType<gCTouchDamage_PS,eCTrigger_PS>();
+  _DAT_207b867c = 0xe8;
+  _DAT_207b8680 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCTouchDamage_PS::ms_PropertyMember_m_bResetOnUntouch);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b8678,
+             (bCPropertyTypeBase *)&gCTouchDamage_PS::ms_PropertyMember_m_bResetOnUntouch);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}

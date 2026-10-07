@@ -1,0 +1,22 @@
+/* ENTRY 2052e080 | bTPropertyObject<gCRecipe_PS,eCEntityPropertySet>::~bTPropertyObject<gCRecipe_PS,eCEntityPropertySet> | STATUS decompiled | 6 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyObject<gCRecipe_PS,eCEntityPropertySet>::
+~bTPropertyObject<gCRecipe_PS,eCEntityPropertySet>
+          (bTPropertyObject<gCRecipe_PS,eCEntityPropertySet> *this)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)&gCRecipe_PS::ms_PropertyObjectInstance_gCRecipe_PS);
+  _DAT_207ce224 = 0;
+  _ms_PropertyObjectInstance_gCRecipe_PS = &vftable;
+  _DAT_207ce228 =
+       bTPropertyObjectType<gCRecipe_PS,eCEntityPropertySet>::
+       ~bTPropertyObjectType<gCRecipe_PS,eCEntityPropertySet>();
+  _DAT_207ce224 = 0;
+  thunk_FUN_203e9250(1);
+  _atexit(~bTPropertyObject<gCRecipe_PS,eCEntityPropertySet>);
+  return;
+}

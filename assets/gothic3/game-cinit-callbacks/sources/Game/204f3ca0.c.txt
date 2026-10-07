@@ -1,0 +1,33 @@
+/* ENTRY 204f3ca0 | bTPropertyType<gCInventorySlot,eCEntityProxy>::~bTPropertyType<gCInventorySlot,eCEntityProxy> | STATUS decompiled | 14 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCInventorySlot,eCEntityProxy>::~bTPropertyType<gCInventorySlot,eCEntityProxy>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Instance");
+  bCString::bCString(local_c,"Item");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCInventorySlot::ms_PropertyMember_m_entItem,local_c,local_8,
+             local_4,1,true);
+  _ms_PropertyMember_m_entItem = &vftable;
+  DAT_207bbe60 = bTPropertyObjectType<gCInventorySlot,bCObjectRefBase>::
+                 ~bTPropertyObjectType<gCInventorySlot,bCObjectRefBase>();
+  _DAT_207bbe64 = 0x18;
+  _DAT_207bbe68 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCInventorySlot::ms_PropertyMember_m_entItem);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bbe60,
+             (bCPropertyTypeBase *)&gCInventorySlot::ms_PropertyMember_m_entItem);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<eCEntityProxy>::~bTPropertyTypeOnly<eCEntityProxy>);
+  return;
+}

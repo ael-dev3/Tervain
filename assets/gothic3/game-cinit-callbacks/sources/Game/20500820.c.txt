@@ -1,0 +1,33 @@
+/* ENTRY 20500820 | bTPropertyType<gCCharacterMovement_PS,bool>::~bTPropertyType<gCCharacterMovement_PS,bool> | STATUS decompiled | 12 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCCharacterMovement_PS,bool>::~bTPropertyType<gCCharacterMovement_PS,bool>
+          (bTPropertyType<gCCharacterMovement_PS,bool> *this)
+
+{
+  bTPropertyType<gCCharacterMovement_PS,bool> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"SensorAffectsDirection");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)
+             &gCCharacterMovement_PS::ms_PropertyMember_m_bSensorAffectsDirection,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_bSensorAffectsDirection = &vftable;
+  DAT_207bdde8 = bTPropertyObjectType<gCCharacterMovement_PS,gCMovementBase_PS>::
+                 ~bTPropertyObjectType<gCCharacterMovement_PS,gCMovementBase_PS>();
+  _DAT_207bddec = 0x5c;
+  _DAT_207bddf0 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)
+             &gCCharacterMovement_PS::ms_PropertyMember_m_bSensorAffectsDirection);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bdde8,
+             (bCPropertyTypeBase *)
+             &gCCharacterMovement_PS::ms_PropertyMember_m_bSensorAffectsDirection);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}

@@ -1,0 +1,36 @@
+/* ENTRY 20505c90 | bTPropertyType<gCMusicTrigger,bTPropertyContainer<gEMusicTransition>_>::~bTPropertyType<gCMusicTrigger,bTPropertyContainer<gEMusicTransition>_> | STATUS decompiled | 16 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCMusicTrigger,bTPropertyContainer<gEMusicTransition>_>::
+~bTPropertyType<gCMusicTrigger,bTPropertyContainer<gEMusicTransition>_>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Transition");
+  bCString::bCString(local_c,"TransitionMode");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCMusicTrigger::ms_PropertyMember_m_enuTransition,local_c,
+             local_8,local_4,2,false);
+  _ms_PropertyMember_m_enuTransition = &vftable;
+  DAT_207bed30 = bTPropertyObjectType<gCMusicTrigger,bCObjectRefBase>::
+                 ~bTPropertyObjectType<gCMusicTrigger,bCObjectRefBase>();
+  _DAT_207bed34 = 0x20;
+  _DAT_207bed38 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCMusicTrigger::ms_PropertyMember_m_enuTransition);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bed30,
+             (bCPropertyTypeBase *)&gCMusicTrigger::ms_PropertyMember_m_enuTransition);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gEMusicTransition>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gEMusicTransition>_>);
+  return;
+}

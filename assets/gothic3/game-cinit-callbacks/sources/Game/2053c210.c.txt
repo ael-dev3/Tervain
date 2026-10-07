@@ -1,0 +1,9 @@
+/* ENTRY 2053c210 | FUN_2053c210 | STATUS decompiled | 2 ms */
+
+void FUN_2053c210(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207d03bc,"ConditionType");
+  _atexit(FUN_20568590);
+  return;
+}

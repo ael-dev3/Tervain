@@ -1,0 +1,16 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204be570 | FUN_204be570 | STATUS decompiled */
+
+void FUN_204be570(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"eEPropertySetType_AudioEmitter");
+  thunk_FUN_200ed450(&DAT_207b6fe5,&gCEffectCommandModifyEntity::ms_PropertyMember_m_enuPropertySet,
+                     abStack_4,0x5f);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

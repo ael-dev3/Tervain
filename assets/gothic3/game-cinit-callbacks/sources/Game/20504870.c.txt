@@ -1,0 +1,23 @@
+/* ENTRY 20504870 | bTPropertyObject<gCMusicTransition,gCMusicStream>::~bTPropertyObject<gCMusicTransition,gCMusicStream> | STATUS decompiled | 5 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyObject<gCMusicTransition,gCMusicStream>::
+~bTPropertyObject<gCMusicTransition,gCMusicStream>
+          (bTPropertyObject<gCMusicTransition,gCMusicStream> *this)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)&gCMusicTransition::ms_PropertyObjectInstance_gCMusicTransition
+            );
+  _DAT_207be964 = 0;
+  _ms_PropertyObjectInstance_gCMusicTransition = &vftable;
+  _DAT_207be968 =
+       bTPropertyObjectType<gCMusicTransition,gCMusicStream>::
+       ~bTPropertyObjectType<gCMusicTransition,gCMusicStream>();
+  _DAT_207be964 = 0;
+  thunk_FUN_20253dd0(1);
+  _atexit(~bTPropertyObject<gCMusicTransition,gCMusicStream>);
+  return;
+}

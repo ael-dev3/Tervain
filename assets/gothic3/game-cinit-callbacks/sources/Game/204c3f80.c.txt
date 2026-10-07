@@ -1,0 +1,29 @@
+/* ENTRY 204c3f80 | bTPropertyType<gCEnclave_PS,bool>::~bTPropertyType<gCEnclave_PS,bool> | STATUS decompiled | 10 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCEnclave_PS,bool>::~bTPropertyType<gCEnclave_PS,bool>
+          (bTPropertyType<gCEnclave_PS,bool> *this)
+
+{
+  bTPropertyType<gCEnclave_PS,bool> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"MusicPlayed");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCEnclave_PS::ms_PropertyMember_m_bMusicPlayed,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_bMusicPlayed = &vftable;
+  DAT_207b8190 = bTPropertyObjectType<gCEnclave_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCEnclave_PS,eCEntityPropertySet>();
+  _DAT_207b8194 = 0x43;
+  _DAT_207b8198 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCEnclave_PS::ms_PropertyMember_m_bMusicPlayed);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b8190,
+             (bCPropertyTypeBase *)&gCEnclave_PS::ms_PropertyMember_m_bMusicPlayed);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}

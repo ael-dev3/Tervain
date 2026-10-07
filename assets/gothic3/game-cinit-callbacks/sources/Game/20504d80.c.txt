@@ -1,0 +1,35 @@
+/* ENTRY 20504d80 | bTPropertyType<gCMusicTransition,unsigned_long>::~bTPropertyType<gCMusicTransition,unsigned_long> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCMusicTransition,unsigned_long>::~bTPropertyType<gCMusicTransition,unsigned_long>
+          (void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Fading");
+  bCString::bCString(local_c,"FadeInBegin");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCMusicTransition::ms_PropertyMember_m_u32FadeInBegin,local_c,
+             local_8,local_4,1,false);
+  _ms_PropertyMember_m_u32FadeInBegin = &vftable;
+  DAT_207bea3c = bTPropertyObjectType<gCMusicTransition,gCMusicStream>::
+                 ~bTPropertyObjectType<gCMusicTransition,gCMusicStream>();
+  _DAT_207bea40 = 0x30;
+  _DAT_207bea44 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCMusicTransition::ms_PropertyMember_m_u32FadeInBegin);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bea3c,
+             (bCPropertyTypeBase *)&gCMusicTransition::ms_PropertyMember_m_u32FadeInBegin);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<unsigned_long>::~bTPropertyTypeOnly<unsigned_long>);
+  return;
+}

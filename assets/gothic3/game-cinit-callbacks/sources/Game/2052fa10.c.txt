@@ -1,0 +1,15 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 2052fa10 | FUN_2052fa10 | STATUS decompiled */
+
+void FUN_2052fa10(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gEMoverBehavior_2STATE_TOGGLE");
+  thunk_FUN_203f4b80(&DAT_207ce730,&gCMover_PS::ms_PropertyMember_m_enuMoverBehavior,abStack_4,1,1);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

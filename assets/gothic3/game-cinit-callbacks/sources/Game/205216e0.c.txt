@@ -1,0 +1,16 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 205216e0 | FUN_205216e0 | STATUS decompiled */
+
+void FUN_205216e0(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gEAmbientAction_Ambient");
+  thunk_FUN_203675c0(&DAT_207cc3b6,&gCScriptRoutine_PS::ms_PropertyMember_m_enuAmbientAction,
+                     abStack_4,0,0);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

@@ -1,0 +1,11 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204b1cf0 | FUN_204b1cf0 | STATUS decompiled */
+
+void FUN_204b1cf0(void)
+
+{
+  DAT_207b4d7c = bTPropertyType<gCQuest_PS,bTObjArray<gCQuest_PS::SLogEntry>_>::vfunction4();
+  return;
+}
+

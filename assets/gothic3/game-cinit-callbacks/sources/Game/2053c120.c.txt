@@ -1,0 +1,9 @@
+/* ENTRY 2053c120 | FUN_2053c120 | STATUS decompiled | 2 ms */
+
+void FUN_2053c120(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207d03a8,"SortID");
+  _atexit(FUN_20568540);
+  return;
+}

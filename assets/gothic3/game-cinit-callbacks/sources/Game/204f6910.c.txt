@@ -1,0 +1,9 @@
+/* ENTRY 204f6910 | FUN_204f6910 | STATUS decompiled | 2 ms */
+
+void FUN_204f6910(void)
+
+{
+  bCString::bCString(&gCDynamicLayer::ms_strDynamicEntityLayer,"SysDyn");
+  _atexit(FUN_20555690);
+  return;
+}

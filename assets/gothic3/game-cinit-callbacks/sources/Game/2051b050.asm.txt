@@ -1,0 +1,3 @@
+2051b050 | e8e174aeff | CALL 0x20002536
+2051b055 | a3cc1b7c20 | MOV [0x207c1bcc],EAX
+2051b05a | c3 | RET

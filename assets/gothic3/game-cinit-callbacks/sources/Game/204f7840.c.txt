@@ -1,0 +1,9 @@
+/* ENTRY 204f7840 | FUN_204f7840 | STATUS decompiled | 3 ms */
+
+void FUN_204f7840(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207bc54c,"Game.Layer.Template");
+  _atexit(FUN_20555c90);
+  return;
+}

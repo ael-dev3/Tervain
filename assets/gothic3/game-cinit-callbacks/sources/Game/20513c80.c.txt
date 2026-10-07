@@ -1,0 +1,31 @@
+/* ENTRY 20513c80 | bTPropertyType<gCNPC_PS,bTPropertyContainer<gEAttackReason>_>::~bTPropertyType<gCNPC_PS,bTPropertyContainer<gEAttackReason>_> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCNPC_PS,bTPropertyContainer<gEAttackReason>_>::
+~bTPropertyType<gCNPC_PS,bTPropertyContainer<gEAttackReason>_>
+          (bTPropertyType<gCNPC_PS,bTPropertyContainer<gEAttackReason>_> *this)
+
+{
+  bTPropertyType<gCNPC_PS,bTPropertyContainer<gEAttackReason>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"AttackReason");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_enuAttackReason,
+             (bCString *)&local_4,2);
+  _ms_PropertyMember_m_enuAttackReason = &vftable;
+  DAT_207c0dfc = bTPropertyObjectType<gCNPC_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCNPC_PS,eCEntityPropertySet>();
+  _DAT_207c0e00 = 0x74;
+  _DAT_207c0e04 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_enuAttackReason);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207c0dfc,
+             (bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_enuAttackReason);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gEAttackReason>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gEAttackReason>_>);
+  return;
+}

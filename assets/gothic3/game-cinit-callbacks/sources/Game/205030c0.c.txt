@@ -1,0 +1,11 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 205030c0 | FUN_205030c0 | STATUS decompiled */
+
+void FUN_205030c0(void)
+
+{
+  DAT_207be3c8 = bTPropertyType<gCMusicLink,bTPropertyContainer<gEMusicLink>_>::vfunction4();
+  return;
+}
+

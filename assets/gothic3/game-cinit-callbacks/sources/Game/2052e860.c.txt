@@ -1,0 +1,34 @@
+/* ENTRY 2052e860 | bTPropertyType<gCRecipe_PS,unsigned_long>::~bTPropertyType<gCRecipe_PS,unsigned_long> | STATUS decompiled | 17 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCRecipe_PS,unsigned_long>::~bTPropertyType<gCRecipe_PS,unsigned_long>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Ingredients");
+  bCString::bCString(local_c,"Ingredient4Amount");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCRecipe_PS::ms_PropertyMember_m_u32Ingredient4Amount,local_c,
+             local_8,local_4,1,false);
+  _ms_PropertyMember_m_u32Ingredient4Amount = &vftable;
+  DAT_207ce364 = bTPropertyObjectType<gCRecipe_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCRecipe_PS,eCEntityPropertySet>();
+  _DAT_207ce368 = 0x58;
+  _DAT_207ce36c = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCRecipe_PS::ms_PropertyMember_m_u32Ingredient4Amount);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207ce364,
+             (bCPropertyTypeBase *)&gCRecipe_PS::ms_PropertyMember_m_u32Ingredient4Amount);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<unsigned_long>::~bTPropertyTypeOnly<unsigned_long>);
+  return;
+}

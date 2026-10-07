@@ -1,0 +1,33 @@
+/* ENTRY 204f4fc0 | bTPropertyType<gCInventoryStack,int>::~bTPropertyType<gCInventoryStack,int> | STATUS decompiled | 14 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall bTPropertyType<gCInventoryStack,int>::~bTPropertyType<gCInventoryStack,int>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Skill");
+  bCString::bCString(local_c,"ActivationCount");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCInventoryStack::ms_PropertyMember_m_iActivationCount,local_c,
+             local_8,local_4,1,true);
+  _ms_PropertyMember_m_iActivationCount = &vftable;
+  DAT_207bc084 = bTPropertyObjectType<gCInventoryStack,gCInventorySlot>::
+                 ~bTPropertyObjectType<gCInventoryStack,gCInventorySlot>();
+  _DAT_207bc088 = 0x58;
+  _DAT_207bc08c = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCInventoryStack::ms_PropertyMember_m_iActivationCount);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bc084,
+             (bCPropertyTypeBase *)&gCInventoryStack::ms_PropertyMember_m_iActivationCount);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<int>::~bTPropertyTypeOnly<int>);
+  return;
+}

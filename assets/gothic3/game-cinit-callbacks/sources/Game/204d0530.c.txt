@@ -1,0 +1,16 @@
+/* ENTRY 204d0530 | FUN_204d0530 | STATUS decompiled | 8 ms */
+
+void FUN_204d0530(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207ba384,"HUD_Quest_Open");
+  bCString::bCString((bCString *)&DAT_207ba388,"HUD_Quest_Running");
+  bCString::bCString((bCString *)&DAT_207ba38c,"HUD_Quest_Success");
+  bCString::bCString((bCString *)&DAT_207ba390,"HUD_Quest_Failed");
+  bCString::bCString((bCString *)&DAT_207ba394,"HUD_Quest_Obsolete");
+  bCString::bCString((bCString *)&DAT_207ba398,"HUD_Quest_Cancelled");
+  bCString::bCString((bCString *)&DAT_207ba39c,"HUD_Quest_Lost");
+  bCString::bCString((bCString *)&DAT_207ba3a0,"HUD_Quest_Won");
+  _atexit(FUN_20552640);
+  return;
+}

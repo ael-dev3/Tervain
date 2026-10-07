@@ -1,0 +1,25 @@
+/* ENTRY 204cf9b0 | FUN_204cf9b0 | STATUS decompiled | 40 ms */
+
+void FUN_204cf9b0(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207ba098,"HUD_Page_Inventory");
+  bCString::bCString((bCString *)&DAT_207ba09c,"HUD_Page_Spells");
+  bCString::bCString((bCString *)&DAT_207ba0a0,"HUD_Page_Documents");
+  bCString::bCString((bCString *)&DAT_207ba0a4,"HUD_Page_Character");
+  bCString::bCString((bCString *)&DAT_207ba0a8,"HUD_Page_Mission");
+  bCString::bCString((bCString *)&DAT_207ba0ac,"HUD_Page_Trade");
+  bCString::bCString((bCString *)&DAT_207ba0b0,"HUD_Page_Dialog");
+  bCString::bCString((bCString *)&DAT_207ba0b4,"HUD_Page_Loot");
+  bCString::bCString((bCString *)&DAT_207ba0b8,"HUD_Page_Synth_Alchemy");
+  bCString::bCString((bCString *)&DAT_207ba0bc,"HUD_Page_Synth_Cooking");
+  bCString::bCString((bCString *)&DAT_207ba0c0,"HUD_Page_Synth_Smithing");
+  bCString::bCString((bCString *)&DAT_207ba0c4,"HUD_Page_Transform_Bless");
+  bCString::bCString((bCString *)&DAT_207ba0c8,"HUD_Page_Transform_Poison");
+  bCString::bCString((bCString *)&DAT_207ba0cc,"HUD_Page_Transform_Sharpen");
+  bCString::bCString((bCString *)&DAT_207ba0d0,"HUD_Page_Transform_Fry");
+  bCString::bCString((bCString *)&DAT_207ba0d4,"HUD_Page_Tutorial");
+  bCString::bCString((bCString *)&DAT_207ba0d8,"HUD_Page_Slideshow");
+  _atexit(FUN_20552400);
+  return;
+}

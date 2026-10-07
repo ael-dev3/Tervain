@@ -1,0 +1,33 @@
+/* ENTRY 204d0270 | FUN_204d0270 | STATUS decompiled | 23 ms */
+
+void FUN_204d0270(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207ba2e8,"Ardea");
+  bCString::bCString((bCString *)&DAT_207ba2ec,"Bakaresh");
+  bCString::bCString((bCString *)&DAT_207ba2f0,"BenErai");
+  bCString::bCString((bCString *)&DAT_207ba2f4,"BenSala");
+  bCString::bCString((bCString *)&DAT_207ba2f8,"Braga");
+  bCString::bCString((bCString *)&DAT_207ba2fc,"Faring");
+  bCString::bCString((bCString *)&DAT_207ba300,"Fireclan");
+  bCString::bCString((bCString *)&DAT_207ba304,"Geldern");
+  bCString::bCString((bCString *)&DAT_207ba308,"Gotha");
+  bCString::bCString((bCString *)&DAT_207ba30c,"Hammerclan");
+  bCString::bCString((bCString *)&DAT_207ba310,"Monastery");
+  bCString::bCString((bCString *)&DAT_207ba314,"Ishtar");
+  bCString::bCString((bCString *)&DAT_207ba318,"KapDun");
+  bCString::bCString((bCString *)&DAT_207ba31c,"Enclave_Lago");
+  bCString::bCString((bCString *)&DAT_207ba320,"Montera");
+  bCString::bCString((bCString *)&DAT_207ba324,"MoraSul");
+  bCString::bCString((bCString *)&DAT_207ba328,"Nemora");
+  bCString::bCString((bCString *)&DAT_207ba32c,"Okara");
+  bCString::bCString((bCString *)&DAT_207ba330,"Reddock");
+  bCString::bCString((bCString *)&DAT_207ba334,"Silden");
+  bCString::bCString((bCString *)&DAT_207ba338,"Trelis");
+  bCString::bCString((bCString *)&DAT_207ba33c,"Vangard");
+  bCString::bCString((bCString *)&DAT_207ba340,"Wolfclan");
+  bCString::bCString((bCString *)&DAT_207ba344,"Main");
+  bCString::bCString((bCString *)&DAT_207ba348,"World");
+  _atexit(FUN_205525b0);
+  return;
+}

@@ -1,0 +1,15 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 205153e0 | FUN_205153e0 | STATUS decompiled */
+
+void FUN_205153e0(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gEGender_Male");
+  thunk_FUN_20316d00(&DAT_207c1227,&gCNPC_PS::ms_PropertyMember_m_enuGender,abStack_4,0,0);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

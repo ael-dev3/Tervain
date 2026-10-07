@@ -1,0 +1,15 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204fac80 | FUN_204fac80 | STATUS decompiled */
+
+void FUN_204fac80(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gECastType_Regular");
+  thunk_FUN_201fd5f0(&DAT_207bce71,&gCMagic_PS::ms_PropertyMember_m_enuCastType,abStack_4,2);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

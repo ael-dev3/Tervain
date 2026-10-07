@@ -1,0 +1,34 @@
+/* ENTRY 204efe60 | bTPropertyType<gCItem_PS,eCTemplateEntityProxy>::~bTPropertyType<gCItem_PS,eCTemplateEntityProxy> | STATUS decompiled | 56 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCItem_PS,eCTemplateEntityProxy>::~bTPropertyType<gCItem_PS,eCTemplateEntityProxy>
+          (void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Behaviour");
+  bCString::bCString(local_c,"Skill");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCItem_PS::ms_PropertyMember_m_entSkill,local_c,local_8,local_4,
+             1,false);
+  _ms_PropertyMember_m_entSkill = &vftable;
+  DAT_207bb600 = bTPropertyObjectType<gCItem_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCItem_PS,eCEntityPropertySet>();
+  _DAT_207bb604 = 100;
+  _DAT_207bb608 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCItem_PS::ms_PropertyMember_m_entSkill);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bb600,
+             (bCPropertyTypeBase *)&gCItem_PS::ms_PropertyMember_m_entSkill);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<eCTemplateEntityProxy>::~bTPropertyTypeOnly<eCTemplateEntityProxy>);
+  return;
+}

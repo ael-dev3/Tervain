@@ -1,0 +1,32 @@
+/* ENTRY 2050b5c0 | bTPropertyType<gCNavOffset_PS,bTValArray<gEDirection>_>::~bTPropertyType<gCNavOffset_PS,bTValArray<gEDirection>_> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCNavOffset_PS,bTValArray<gEDirection>_>::
+~bTPropertyType<gCNavOffset_PS,bTValArray<gEDirection>_>
+          (bTPropertyType<gCNavOffset_PS,bTValArray<gEDirection>_> *this)
+
+{
+  bTPropertyType<gCNavOffset_PS,bTValArray<gEDirection>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"AniDirection");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCNavOffset_PS::ms_PropertyMember_m_arrAniDirection,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_arrAniDirection = &vftable;
+  DAT_207bfc2c = bTPropertyObjectType<gCNavOffset_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCNavOffset_PS,eCEntityPropertySet>();
+  _DAT_207bfc30 = 0x24;
+  _DAT_207bfc34 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCNavOffset_PS::ms_PropertyMember_m_arrAniDirection);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bfc2c,
+             (bCPropertyTypeBase *)&gCNavOffset_PS::ms_PropertyMember_m_arrAniDirection);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTValArray<gEDirection>_>::
+          ~bTPropertyTypeOnly<bTValArray<gEDirection>_>);
+  return;
+}

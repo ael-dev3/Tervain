@@ -1,0 +1,31 @@
+/* ENTRY 2051e740 | bTPropertyType<gCScriptRoutine_PS,bCString>::~bTPropertyType<gCScriptRoutine_PS,bCString> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCScriptRoutine_PS,bCString>::~bTPropertyType<gCScriptRoutine_PS,bCString>
+          (bTPropertyType<gCScriptRoutine_PS,bCString> *this)
+
+{
+  bTPropertyType<gCScriptRoutine_PS,bCString> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"CurrentState");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCScriptRoutine_PS::ms_PropertyMember_m_strCurrentState,
+             (bCString *)&local_4,1);
+  _DAT_207cc224 = 0;
+  _ms_PropertyMember_m_strCurrentState = &vftable;
+  DAT_207cc228 = bTPropertyObjectType<gCScriptRoutine_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCScriptRoutine_PS,eCEntityPropertySet>();
+  _DAT_207cc22c = 0x34;
+  _DAT_207cc230 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCScriptRoutine_PS::ms_PropertyMember_m_strCurrentState);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cc228,
+             (bCPropertyTypeBase *)&gCScriptRoutine_PS::ms_PropertyMember_m_strCurrentState);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bCString>::~bTPropertyTypeOnly<bCString>);
+  return;
+}

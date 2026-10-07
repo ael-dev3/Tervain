@@ -1,0 +1,32 @@
+/* ENTRY 204c3d00 | bTPropertyType<gCEnclave_PS,bTPropertyContainer<gEPlayerCrime>_>::~bTPropertyType<gCEnclave_PS,bTPropertyContainer<gEPlayerCrime>_> | STATUS decompiled | 10 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCEnclave_PS,bTPropertyContainer<gEPlayerCrime>_>::
+~bTPropertyType<gCEnclave_PS,bTPropertyContainer<gEPlayerCrime>_>
+          (bTPropertyType<gCEnclave_PS,bTPropertyContainer<gEPlayerCrime>_> *this)
+
+{
+  bTPropertyType<gCEnclave_PS,bTPropertyContainer<gEPlayerCrime>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"KnownPlayerCrime");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCEnclave_PS::ms_PropertyMember_m_enuKnownPlayerCrime,
+             (bCString *)&local_4,2);
+  _ms_PropertyMember_m_enuKnownPlayerCrime = &vftable;
+  DAT_207b8100 = bTPropertyObjectType<gCEnclave_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCEnclave_PS,eCEntityPropertySet>();
+  _DAT_207b8104 = 0x38;
+  _DAT_207b8108 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCEnclave_PS::ms_PropertyMember_m_enuKnownPlayerCrime);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b8100,
+             (bCPropertyTypeBase *)&gCEnclave_PS::ms_PropertyMember_m_enuKnownPlayerCrime);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gEPlayerCrime>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gEPlayerCrime>_>);
+  return;
+}

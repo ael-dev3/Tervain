@@ -1,0 +1,13 @@
+/* ENTRY 20523e60 | FUN_20523e60 | STATUS decompiled | 4 ms */
+
+void FUN_20523e60(void)
+
+{
+  bCString *pbVar1;
+  
+  pbVar1 = (bCString *)bTPropertyObjectType<gCSession,eCEngineComponentBase>::vfunction1();
+  bCAccessorCreator::bCAccessorCreator
+            ((bCAccessorCreator *)&DAT_207cc950,(bCPropertyID *)&DAT_207cc93c,pbVar1);
+  _atexit(FUN_205625d0);
+  return;
+}

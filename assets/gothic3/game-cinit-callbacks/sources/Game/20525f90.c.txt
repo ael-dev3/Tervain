@@ -1,0 +1,23 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 20525f90 | FUN_20525f90 | STATUS decompiled */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void FUN_20525f90(void)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)&gCSessionKeys::ms_PropertyObjectInstance_gCSessionKeys);
+  _DAT_207ccf14 = 0;
+  _ms_PropertyObjectInstance_gCSessionKeys =
+       &bTPropertyObject<gCSessionKeys,bCObjectRefBase>::vftable;
+  _DAT_207ccf18 =
+       bTPropertyObjectType<gCSessionKeys,bCObjectRefBase>::
+       ~bTPropertyObjectType<gCSessionKeys,bCObjectRefBase>();
+  _DAT_207ccf14 = 0;
+  thunk_FUN_20396300(1);
+  _atexit((_func_4879 *)&UNK_20562d70);
+  return;
+}
+

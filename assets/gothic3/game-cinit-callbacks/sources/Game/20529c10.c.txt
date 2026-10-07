@@ -1,0 +1,9 @@
+/* ENTRY 20529c10 | FUN_20529c10 | STATUS decompiled | 2 ms */
+
+void FUN_20529c10(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207cd618,"Game.Database.Data");
+  _atexit(FUN_20563920);
+  return;
+}

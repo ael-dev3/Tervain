@@ -1,0 +1,34 @@
+/* ENTRY 205048d0 | bTPropertyType<gCMusicTransition,bCString>::~bTPropertyType<gCMusicTransition,bCString> | STATUS decompiled | 17 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCMusicTransition,bCString>::~bTPropertyType<gCMusicTransition,bCString>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"General");
+  bCString::bCString(local_c,"ID");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCMusicTransition::ms_PropertyMember_m_strID,local_c,local_8,
+             local_4,1,false);
+  _DAT_207be984 = 0;
+  _ms_PropertyMember_m_strID = &vftable;
+  DAT_207be988 = bTPropertyObjectType<gCMusicTransition,gCMusicStream>::
+                 ~bTPropertyObjectType<gCMusicTransition,gCMusicStream>();
+  _DAT_207be98c = 0x24;
+  _DAT_207be990 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCMusicTransition::ms_PropertyMember_m_strID);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207be988,
+             (bCPropertyTypeBase *)&gCMusicTransition::ms_PropertyMember_m_strID);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bCString>::~bTPropertyTypeOnly<bCString>);
+  return;
+}

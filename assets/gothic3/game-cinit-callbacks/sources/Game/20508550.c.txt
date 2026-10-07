@@ -1,0 +1,15 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 20508550 | FUN_20508550 | STATUS decompiled */
+
+void FUN_20508550(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gESecurityLevel_Enclave");
+  thunk_FUN_20273c00(&DAT_207bf3d4,&gCAIZone_PS::ms_PropertyMember_m_enuSecurityLevel,abStack_4,2);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

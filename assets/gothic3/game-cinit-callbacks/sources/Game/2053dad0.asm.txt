@@ -1,0 +1,7 @@
+2053dad0 | 68f0196b20 | PUSH 0x206b19f0
+2053dad5 | b9d8067d20 | MOV ECX,0x207d06d8
+2053dada | ff150c897d20 | CALL dword ptr [0x207d890c]
+2053dae0 | 68b0925620 | PUSH 0x205692b0
+2053dae5 | e8e45cf2ff | CALL 0x204637ce
+2053daea | 59 | POP ECX
+2053daeb | c3 | RET

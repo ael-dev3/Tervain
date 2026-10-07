@@ -1,0 +1,33 @@
+/* ENTRY 204cff30 | FUN_204cff30 | STATUS decompiled | 23 ms */
+
+void FUN_204cff30(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207ba1e0,"G3_HUD_Icon_Location_Ardea.tga");
+  bCString::bCString((bCString *)&DAT_207ba1e4,"G3_HUD_Icon_Location_Bakaresh.tga");
+  bCString::bCString((bCString *)&DAT_207ba1e8,"G3_HUD_Icon_Location_BenErai.tga");
+  bCString::bCString((bCString *)&DAT_207ba1ec,"G3_HUD_Icon_Location_BenSala.tga");
+  bCString::bCString((bCString *)&DAT_207ba1f0,"G3_HUD_Icon_Location_Braga.tga");
+  bCString::bCString((bCString *)&DAT_207ba1f4,"G3_HUD_Icon_Location_Faring.tga");
+  bCString::bCString((bCString *)&DAT_207ba1f8,"G3_HUD_Icon_Location_FireClan.tga");
+  bCString::bCString((bCString *)&DAT_207ba1fc,"G3_HUD_Icon_Location_Geldern.tga");
+  bCString::bCString((bCString *)&DAT_207ba200,"G3_HUD_Icon_Location_Gotha.tga");
+  bCString::bCString((bCString *)&DAT_207ba204,"G3_HUD_Icon_Location_HammerClan.tga");
+  bCString::bCString((bCString *)&DAT_207ba208,"G3_HUD_Icon_Location_InnosMonastery.tga");
+  bCString::bCString((bCString *)&DAT_207ba20c,"G3_HUD_Icon_Location_Ishtar.tga");
+  bCString::bCString((bCString *)&DAT_207ba210,"G3_HUD_Icon_Location_KapDun.tga");
+  bCString::bCString((bCString *)&DAT_207ba214,"G3_HUD_Icon_Location_Lago.tga");
+  bCString::bCString((bCString *)&DAT_207ba218,"G3_HUD_Icon_Location_Montera.tga");
+  bCString::bCString((bCString *)&DAT_207ba21c,"G3_HUD_Icon_Location_MoraSul.tga");
+  bCString::bCString((bCString *)&DAT_207ba220,"G3_HUD_Icon_Location_Nemora.tga");
+  bCString::bCString((bCString *)&DAT_207ba224,"G3_HUD_Icon_Location_Okara.tga");
+  bCString::bCString((bCString *)&DAT_207ba228,"G3_HUD_Icon_Location_Reddock.tga");
+  bCString::bCString((bCString *)&DAT_207ba22c,"G3_HUD_Icon_Location_Silden.tga");
+  bCString::bCString((bCString *)&DAT_207ba230,"G3_HUD_Icon_Location_Trelis.tga");
+  bCString::bCString((bCString *)&DAT_207ba234,"G3_HUD_Icon_Location_Vangard.tga");
+  bCString::bCString((bCString *)&DAT_207ba238,"G3_HUD_Icon_Location_WolfClan.tga");
+  bCString::bCString((bCString *)&DAT_207ba23c,"G3_HUD_Icon_Location_Main.tga");
+  bCString::bCString((bCString *)&DAT_207ba240,"G3_HUD_Icon_Location_World.tga");
+  _atexit(FUN_20552550);
+  return;
+}

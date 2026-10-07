@@ -1,0 +1,35 @@
+/* ENTRY 204f0e50 | bTPropertyType<gCItem_PS,bTPropertyContainer<EAttribModOperation>_>::~bTPropertyType<gCItem_PS,bTPropertyContainer<EAttribModOperation>_> | STATUS decompiled | 13 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCItem_PS,bTPropertyContainer<EAttribModOperation>_>::
+~bTPropertyType<gCItem_PS,bTPropertyContainer<EAttribModOperation>_>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Modifiers");
+  bCString::bCString(local_c,"ModAttrib1Op");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCItem_PS::ms_PropertyMember_m_enuModAttrib1,local_c,local_8,
+             local_4,2,false);
+  _ms_PropertyMember_m_enuModAttrib1 = &vftable;
+  DAT_207bb878 = bTPropertyObjectType<gCItem_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCItem_PS,eCEntityPropertySet>();
+  _DAT_207bb87c = 0xd0;
+  _DAT_207bb880 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCItem_PS::ms_PropertyMember_m_enuModAttrib1);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bb878,
+             (bCPropertyTypeBase *)&gCItem_PS::ms_PropertyMember_m_enuModAttrib1);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<EAttribModOperation>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<EAttribModOperation>_>);
+  return;
+}

@@ -1,0 +1,33 @@
+/* ENTRY 204ef8c0 | bTPropertyType<gCItem_PS,bCString>::~bTPropertyType<gCItem_PS,bCString> | STATUS decompiled | 16 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall bTPropertyType<gCItem_PS,bCString>::~bTPropertyType<gCItem_PS,bCString>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Display");
+  bCString::bCString(local_c,"Texture");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCItem_PS::ms_PropertyMember_m_strTexture,local_c,local_8,
+             local_4,1,false);
+  _DAT_207bb524 = 0;
+  _ms_PropertyMember_m_strTexture = &vftable;
+  DAT_207bb528 = bTPropertyObjectType<gCItem_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCItem_PS,eCEntityPropertySet>();
+  _DAT_207bb52c = 0x2c;
+  _DAT_207bb530 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCItem_PS::ms_PropertyMember_m_strTexture);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bb528,
+             (bCPropertyTypeBase *)&gCItem_PS::ms_PropertyMember_m_strTexture);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bCString>::~bTPropertyTypeOnly<bCString>);
+  return;
+}

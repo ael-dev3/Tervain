@@ -1,0 +1,22 @@
+/* ENTRY 204ea650 | bTPropertyObject<gCArmorSet_PS,eCEntityPropertySet>::~bTPropertyObject<gCArmorSet_PS,eCEntityPropertySet> | STATUS decompiled | 6 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyObject<gCArmorSet_PS,eCEntityPropertySet>::
+~bTPropertyObject<gCArmorSet_PS,eCEntityPropertySet>
+          (bTPropertyObject<gCArmorSet_PS,eCEntityPropertySet> *this)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)&gCArmorSet_PS::ms_PropertyObjectInstance_gCArmorSet_PS);
+  _DAT_207bad08 = 0;
+  _ms_PropertyObjectInstance_gCArmorSet_PS = &vftable;
+  _DAT_207bad0c =
+       bTPropertyObjectType<gCArmorSet_PS,eCEntityPropertySet>::
+       ~bTPropertyObjectType<gCArmorSet_PS,eCEntityPropertySet>();
+  _DAT_207bad08 = 0;
+  thunk_FUN_201a7430(1);
+  _atexit(~bTPropertyObject<gCArmorSet_PS,eCEntityPropertySet>);
+  return;
+}

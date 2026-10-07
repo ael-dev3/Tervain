@@ -1,0 +1,29 @@
+/* ENTRY 2050e4e0 | bTPropertyType<gCPrefPath_PS,float>::~bTPropertyType<gCPrefPath_PS,float> | STATUS decompiled | 13 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCPrefPath_PS,float>::~bTPropertyType<gCPrefPath_PS,float>
+          (bTPropertyType<gCPrefPath_PS,float> *this)
+
+{
+  bTPropertyType<gCPrefPath_PS,float> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"Radius");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCPrefPath_PS::ms_PropertyMember_m_fRadius,(bCString *)&local_4,
+             1);
+  _ms_PropertyMember_m_fRadius = &vftable;
+  DAT_207c047c = bTPropertyObjectType<gCPrefPath_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCPrefPath_PS,eCEntityPropertySet>();
+  _DAT_207c0480 = 0x2c;
+  _DAT_207c0484 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCPrefPath_PS::ms_PropertyMember_m_fRadius);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207c047c,
+             (bCPropertyTypeBase *)&gCPrefPath_PS::ms_PropertyMember_m_fRadius);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}

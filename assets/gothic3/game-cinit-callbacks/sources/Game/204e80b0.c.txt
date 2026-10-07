@@ -1,0 +1,13 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204e80b0 | FUN_204e80b0 | STATUS decompiled */
+
+void FUN_204e80b0(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207baae4,"HUD_Controls_Sensitivity_Axis_X");
+  bCString::bCString((bCString *)0x207baae8,"HUD_Controls_Sensitivity_Axis_Y");
+  _atexit((_func_4879 *)&UNK_20552b30);
+  return;
+}
+

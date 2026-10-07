@@ -1,0 +1,30 @@
+/* ENTRY 2050c5c0 | bTPropertyType<gCNavPath_PS,bool>::~bTPropertyType<gCNavPath_PS,bool> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCNavPath_PS,bool>::~bTPropertyType<gCNavPath_PS,bool>
+          (bTPropertyType<gCNavPath_PS,bool> *this)
+
+{
+  bTPropertyType<gCNavPath_PS,bool> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"LinkInnerTopArea");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCNavPath_PS::ms_PropertyMember_m_bLinkInnerTopArea,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_bLinkInnerTopArea = &vftable;
+  DAT_207bff0c = bTPropertyObjectType<gCNavPath_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCNavPath_PS,eCEntityPropertySet>();
+  _DAT_207bff10 = 0xa9;
+  _DAT_207bff14 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCNavPath_PS::ms_PropertyMember_m_bLinkInnerTopArea);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bff0c,
+             (bCPropertyTypeBase *)&gCNavPath_PS::ms_PropertyMember_m_bLinkInnerTopArea);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}

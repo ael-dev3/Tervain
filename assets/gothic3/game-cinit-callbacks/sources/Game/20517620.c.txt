@@ -1,0 +1,15 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 20517620 | FUN_20517620 | STATUS decompiled */
+
+void FUN_20517620(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gEGuardStatus_SecondWarnGiven");
+  thunk_FUN_20317980(&DAT_207c12b0,&gCNPC_PS::ms_PropertyMember_m_enuGuardStatus,abStack_4,2);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

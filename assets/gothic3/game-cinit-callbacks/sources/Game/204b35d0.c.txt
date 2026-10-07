@@ -1,0 +1,22 @@
+/* ENTRY 204b35d0 | bTPropertyObject<gCCameraAI_PS,eCEntityPropertySet>::~bTPropertyObject<gCCameraAI_PS,eCEntityPropertySet> | STATUS decompiled | 7 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyObject<gCCameraAI_PS,eCEntityPropertySet>::
+~bTPropertyObject<gCCameraAI_PS,eCEntityPropertySet>
+          (bTPropertyObject<gCCameraAI_PS,eCEntityPropertySet> *this)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)&gCCameraAI_PS::ms_PropertyObjectInstance_gCCameraAI_PS);
+  _DAT_207b547c = 0;
+  _ms_PropertyObjectInstance_gCCameraAI_PS = &vftable;
+  _DAT_207b5480 =
+       bTPropertyObjectType<gCCameraAI_PS,eCEntityPropertySet>::
+       ~bTPropertyObjectType<gCCameraAI_PS,eCEntityPropertySet>();
+  _DAT_207b547c = 0;
+  thunk_FUN_200a8910(1);
+  _atexit(~bTPropertyObject<gCCameraAI_PS,eCEntityPropertySet>);
+  return;
+}

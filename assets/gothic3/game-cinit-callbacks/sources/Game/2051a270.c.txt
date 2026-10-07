@@ -1,0 +1,32 @@
+/* ENTRY 2051a270 | bTPropertyType<gCProjectile_PS,bTPropertyContainer<gEProjectilePath>_>::~bTPropertyType<gCProjectile_PS,bTPropertyContainer<gEProjectilePath>_> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCProjectile_PS,bTPropertyContainer<gEProjectilePath>_>::
+~bTPropertyType<gCProjectile_PS,bTPropertyContainer<gEProjectilePath>_>
+          (bTPropertyType<gCProjectile_PS,bTPropertyContainer<gEProjectilePath>_> *this)
+
+{
+  bTPropertyType<gCProjectile_PS,bTPropertyContainer<gEProjectilePath>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"PathStyle");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCProjectile_PS::ms_PropertyMember_m_enuPathStyle,
+             (bCString *)&local_4,2);
+  _ms_PropertyMember_m_enuPathStyle = &vftable;
+  DAT_207c1c68 = bTPropertyObjectType<gCProjectile_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCProjectile_PS,eCEntityPropertySet>();
+  _DAT_207c1c6c = 0x4c;
+  _DAT_207c1c70 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCProjectile_PS::ms_PropertyMember_m_enuPathStyle);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207c1c68,
+             (bCPropertyTypeBase *)&gCProjectile_PS::ms_PropertyMember_m_enuPathStyle);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gEProjectilePath>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gEProjectilePath>_>);
+  return;
+}

@@ -1,0 +1,29 @@
+/* ENTRY 204c3ee0 | bTPropertyType<gCEnclave_PS,bool>::~bTPropertyType<gCEnclave_PS,bool> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCEnclave_PS,bool>::~bTPropertyType<gCEnclave_PS,bool>
+          (bTPropertyType<gCEnclave_PS,bool> *this)
+
+{
+  bTPropertyType<gCEnclave_PS,bool> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"Switched");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCEnclave_PS::ms_PropertyMember_m_bSwitched,(bCString *)&local_4
+             ,1);
+  _ms_PropertyMember_m_bSwitched = &vftable;
+  DAT_207b816c = bTPropertyObjectType<gCEnclave_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCEnclave_PS,eCEntityPropertySet>();
+  _DAT_207b8170 = 0x42;
+  _DAT_207b8174 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCEnclave_PS::ms_PropertyMember_m_bSwitched);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b816c,
+             (bCPropertyTypeBase *)&gCEnclave_PS::ms_PropertyMember_m_bSwitched);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}

@@ -1,0 +1,9 @@
+/* ENTRY 2052b6f0 | FUN_2052b6f0 | STATUS decompiled | 3 ms */
+
+void FUN_2052b6f0(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207cdaec,"Game.Workspace.Data");
+  _atexit(FUN_205641e0);
+  return;
+}

@@ -1,0 +1,12 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204ff770 | FUN_204ff770 | STATUS decompiled */
+
+void FUN_204ff770(void)
+
+{
+  DAT_207bd898 = bTPropertyType<gCCharacterControl_PS,bTPropertyContainer<gECharacterControlFOR>_>::
+                 vfunction4();
+  return;
+}
+

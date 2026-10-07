@@ -1,0 +1,9 @@
+/* ENTRY 204c6540 | FUN_204c6540 | STATUS decompiled | 2 ms */
+
+void FUN_204c6540(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207b8624,"AddHitPoints");
+  _atexit(FUN_2054f7c0);
+  return;
+}

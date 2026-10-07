@@ -1,0 +1,29 @@
+/* ENTRY 2051b6b0 | bTPropertyType<gCQuest_PS,eCLocString>::~bTPropertyType<gCQuest_PS,eCLocString> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCQuest_PS,eCLocString>::~bTPropertyType<gCQuest_PS,eCLocString>
+          (bTPropertyType<gCQuest_PS,eCLocString> *this)
+
+{
+  bTPropertyType<gCQuest_PS,eCLocString> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"LogTopic");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCQuest_PS::ms_PropertyMember_m_strLogTopic,(bCString *)&local_4
+             ,1);
+  _ms_PropertyMember_m_strLogTopic = &vftable;
+  DAT_207cb9d0 = bTPropertyObjectType<gCQuest_PS,bCObjectRefBase>::
+                 ~bTPropertyObjectType<gCQuest_PS,bCObjectRefBase>();
+  _DAT_207cb9d4 = 0x24;
+  _DAT_207cb9d8 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCQuest_PS::ms_PropertyMember_m_strLogTopic);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cb9d0,
+             (bCPropertyTypeBase *)&gCQuest_PS::ms_PropertyMember_m_strLogTopic);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<eCLocString>::~bTPropertyTypeOnly<eCLocString>);
+  return;
+}

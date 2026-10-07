@@ -1,0 +1,9 @@
+/* ENTRY 20523e90 | FUN_20523e90 | STATUS decompiled | 3 ms */
+
+void FUN_20523e90(void)
+
+{
+  eCArchiveFile::eCArchiveFile((eCArchiveFile *)&DAT_207cc954);
+  _atexit(FUN_20562540);
+  return;
+}

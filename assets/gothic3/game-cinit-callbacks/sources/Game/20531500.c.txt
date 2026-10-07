@@ -1,0 +1,29 @@
+/* ENTRY 20531500 | bTPropertyType<gCFlock_PS,bool>::~bTPropertyType<gCFlock_PS,bool> | STATUS decompiled | 12 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCFlock_PS,bool>::~bTPropertyType<gCFlock_PS,bool>
+          (bTPropertyType<gCFlock_PS,bool> *this)
+
+{
+  bTPropertyType<gCFlock_PS,bool> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"IsGround");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCFlock_PS::ms_PropertyMember_m_bIsGround,(bCString *)&local_4,1
+            );
+  _ms_PropertyMember_m_bIsGround = &vftable;
+  DAT_207cea0c = bTPropertyObjectType<gCFlock_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCFlock_PS,eCEntityPropertySet>();
+  _DAT_207cea10 = 0x15;
+  _DAT_207cea14 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCFlock_PS::ms_PropertyMember_m_bIsGround);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cea0c,
+             (bCPropertyTypeBase *)&gCFlock_PS::ms_PropertyMember_m_bIsGround);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}

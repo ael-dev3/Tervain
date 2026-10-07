@@ -1,0 +1,9 @@
+/* ENTRY 2053c180 | FUN_2053c180 | STATUS decompiled | 2 ms */
+
+void FUN_2053c180(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207d03b0,"InfoGiven");
+  _atexit(FUN_20568560);
+  return;
+}

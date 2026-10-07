@@ -1,0 +1,33 @@
+/* ENTRY 205035a0 | bTPropertyType<gCMusicLink,unsigned_long>::~bTPropertyType<gCMusicLink,unsigned_long> | STATUS decompiled | 39 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCMusicLink,unsigned_long>::~bTPropertyType<gCMusicLink,unsigned_long>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Position");
+  bCString::bCString(local_c,"Offset");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCMusicLink::ms_PropertyMember_m_u32Offset,local_c,local_8,
+             local_4,1,false);
+  _ms_PropertyMember_m_u32Offset = &vftable;
+  DAT_207be5fc = bTPropertyObjectType<gCMusicLink,bCObjectRefBase>::
+                 ~bTPropertyObjectType<gCMusicLink,bCObjectRefBase>();
+  _DAT_207be600 = 0xc;
+  _DAT_207be604 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCMusicLink::ms_PropertyMember_m_u32Offset);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207be5fc,
+             (bCPropertyTypeBase *)&gCMusicLink::ms_PropertyMember_m_u32Offset);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<unsigned_long>::~bTPropertyTypeOnly<unsigned_long>);
+  return;
+}

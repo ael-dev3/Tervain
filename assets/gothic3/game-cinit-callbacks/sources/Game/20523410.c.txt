@@ -1,0 +1,33 @@
+/* ENTRY 20523410 | FUN_20523410 | STATUS decompiled | 22 ms */
+
+void FUN_20523410(void)
+
+{
+  bCString::bCString((bCString *)&g_pstrPoseString,"None");
+  bCString::bCString((bCString *)&DAT_207cc75c,"P0");
+  bCString::bCString((bCString *)&DAT_207cc760,"P1");
+  bCString::bCString((bCString *)&DAT_207cc764,"P2");
+  bCString::bCString((bCString *)&DAT_207cc768,"P3");
+  bCString::bCString((bCString *)&DAT_207cc76c,"P00");
+  bCString::bCString((bCString *)&DAT_207cc770,"P01");
+  bCString::bCString((bCString *)&DAT_207cc774,"P02");
+  bCString::bCString((bCString *)&DAT_207cc778,"P03");
+  bCString::bCString((bCString *)&DAT_207cc77c,"P10");
+  bCString::bCString((bCString *)&DAT_207cc780,"P11");
+  bCString::bCString((bCString *)&DAT_207cc784,"P12");
+  bCString::bCString((bCString *)&DAT_207cc788,"P13");
+  bCString::bCString((bCString *)&DAT_207cc78c,"P20");
+  bCString::bCString((bCString *)&DAT_207cc790,"P21");
+  bCString::bCString((bCString *)&DAT_207cc794,"P22");
+  bCString::bCString((bCString *)&DAT_207cc798,"P23");
+  bCString::bCString((bCString *)&DAT_207cc79c,"P30");
+  bCString::bCString((bCString *)&DAT_207cc7a0,"P31");
+  bCString::bCString((bCString *)&DAT_207cc7a4,"P32");
+  bCString::bCString((bCString *)&DAT_207cc7a8,"P33");
+  bCString::bCString((bCString *)&DAT_207cc7ac,"P40");
+  bCString::bCString((bCString *)&DAT_207cc7b0,"P50");
+  bCString::bCString((bCString *)&DAT_207cc7b4,"P60");
+  bCString::bCString((bCString *)&DAT_207cc7b8,"P70");
+  _atexit(FUN_205624a0);
+  return;
+}

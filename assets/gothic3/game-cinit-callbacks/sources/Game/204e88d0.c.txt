@@ -1,0 +1,13 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204e88d0 | FUN_204e88d0 | STATUS decompiled */
+
+void FUN_204e88d0(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207baafc,"HUD_Audio_Language_Text");
+  bCString::bCString((bCString *)0x207bab00,"HUD_Audio_Language_Voice");
+  _atexit((_func_4879 *)&UNK_20552b90);
+  return;
+}
+

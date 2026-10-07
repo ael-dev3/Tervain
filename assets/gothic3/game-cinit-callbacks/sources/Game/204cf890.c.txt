@@ -1,0 +1,25 @@
+/* ENTRY 204cf890 | FUN_204cf890 | STATUS decompiled | 39 ms */
+
+void FUN_204cf890(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207ba040,"G3_HUD_Icon_Page_Inventory.tga");
+  bCString::bCString((bCString *)&DAT_207ba044,"G3_HUD_Icon_Page_Book.tga");
+  bCString::bCString((bCString *)&DAT_207ba048,"G3_HUD_Icon_Page_Map.tga");
+  bCString::bCString((bCString *)&DAT_207ba04c,"G3_HUD_Icon_Page_Character.tga");
+  bCString::bCString((bCString *)&DAT_207ba050,"G3_HUD_Icon_Page_Log.tga");
+  bCString::bCString((bCString *)&DAT_207ba054,"G3_HUD_Icon_Page_Trade.tga");
+  bCString::bCString((bCString *)&DAT_207ba058,"G3_HUD_Icon_Page_Dialog.tga");
+  bCString::bCString((bCString *)&DAT_207ba05c,"G3_HUD_Icon_Page_Loot.tga");
+  bCString::bCString((bCString *)&DAT_207ba060,"G3_HUD_Icon_Page_Synth_Alchemy.tga");
+  bCString::bCString((bCString *)&DAT_207ba064,"G3_HUD_Icon_Page_Synth_Cooking.tga");
+  bCString::bCString((bCString *)&DAT_207ba068,"G3_HUD_Icon_Page_Synth_Smithing.tga");
+  bCString::bCString((bCString *)&DAT_207ba06c,"G3_HUD_Icon_Page_Transform_Bless.tga");
+  bCString::bCString((bCString *)&DAT_207ba070,"G3_HUD_Icon_Page_Transform_Poison.tga");
+  bCString::bCString((bCString *)&DAT_207ba074,"G3_HUD_Icon_Page_Transform_Sharpen.tga");
+  bCString::bCString((bCString *)&DAT_207ba078,"G3_HUD_Icon_Page_Transform_Fry.tga");
+  bCString::bCString((bCString *)&DAT_207ba07c,"G3_HUD_Icon_Page_Tutorial.tga");
+  bCString::bCString((bCString *)&DAT_207ba080,"G3_HUD_Icon_Page_Slideshow.tga");
+  _atexit(FUN_205523d0);
+  return;
+}

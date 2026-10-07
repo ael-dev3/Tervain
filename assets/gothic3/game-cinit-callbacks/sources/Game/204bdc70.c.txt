@@ -1,0 +1,12 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204bdc70 | FUN_204bdc70 | STATUS decompiled */
+
+void FUN_204bdc70(void)
+
+{
+  DAT_207b6d9c = bTPropertyType<gCEffectCommandSpawnEntity,bTPropertyContainer<gEEffectLink>_>::
+                 vfunction4();
+  return;
+}
+

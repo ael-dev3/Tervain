@@ -1,0 +1,11 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204b1d20 | FUN_204b1d20 | STATUS decompiled */
+
+void FUN_204b1d20(void)
+
+{
+  DAT_207b4d70 = bTPropertyType<gCEnclave_PS,bTValArray<long>_>::vfunction4();
+  return;
+}
+

@@ -1,0 +1,9 @@
+/* ENTRY 20529c70 | FUN_20529c70 | STATUS decompiled | 3 ms */
+
+void FUN_20529c70(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207cd620,"SpeedTrees");
+  _atexit(FUN_20563940);
+  return;
+}

@@ -1,0 +1,9 @@
+/* ENTRY 20502450 | FUN_20502450 | STATUS decompiled | 2 ms */
+
+void FUN_20502450(void)
+
+{
+  bCString::bCString(&g_strDefaultMusicSituation,"explore");
+  _atexit(FUN_205595e0);
+  return;
+}

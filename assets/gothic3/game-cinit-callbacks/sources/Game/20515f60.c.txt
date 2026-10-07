@@ -1,0 +1,15 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 20515f60 | FUN_20515f60 | STATUS decompiled */
+
+void FUN_20515f60(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gESpecies_Seagull");
+  thunk_FUN_20316f00(&DAT_207c1255,&gCNPC_PS::ms_PropertyMember_m_enuSpecies,abStack_4,0x2c);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

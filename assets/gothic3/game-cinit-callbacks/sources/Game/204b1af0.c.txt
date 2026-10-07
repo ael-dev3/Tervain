@@ -1,0 +1,12 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204b1af0 | FUN_204b1af0 | STATUS decompiled */
+
+void FUN_204b1af0(void)
+
+{
+  DAT_207b4dfc = bTPropertyType<gCMover_PS,bTPropertyContainer<gEMoverTouchBehavior>_>::vfunction4()
+  ;
+  return;
+}
+

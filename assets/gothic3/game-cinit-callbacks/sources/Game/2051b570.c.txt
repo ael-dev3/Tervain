@@ -1,0 +1,30 @@
+/* ENTRY 2051b570 | bTPropertyType<gCQuest_PS,bTPropertyContainer<gEQuestType>_>::~bTPropertyType<gCQuest_PS,bTPropertyContainer<gEQuestType>_> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCQuest_PS,bTPropertyContainer<gEQuestType>_>::
+~bTPropertyType<gCQuest_PS,bTPropertyContainer<gEQuestType>_>
+          (bTPropertyType<gCQuest_PS,bTPropertyContainer<gEQuestType>_> *this)
+
+{
+  bTPropertyType<gCQuest_PS,bTPropertyContainer<gEQuestType>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"Type");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCQuest_PS::ms_PropertyMember_m_enuType,(bCString *)&local_4,2);
+  _ms_PropertyMember_m_enuType = &vftable;
+  DAT_207cb988 = bTPropertyObjectType<gCQuest_PS,bCObjectRefBase>::
+                 ~bTPropertyObjectType<gCQuest_PS,bCObjectRefBase>();
+  _DAT_207cb98c = 0x10;
+  _DAT_207cb990 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCQuest_PS::ms_PropertyMember_m_enuType);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cb988,
+             (bCPropertyTypeBase *)&gCQuest_PS::ms_PropertyMember_m_enuType);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gEQuestType>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gEQuestType>_>);
+  return;
+}

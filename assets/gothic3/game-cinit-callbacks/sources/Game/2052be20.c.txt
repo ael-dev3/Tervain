@@ -1,0 +1,9 @@
+/* ENTRY 2052be20 | FUN_2052be20 | STATUS decompiled | 3 ms */
+
+void FUN_2052be20(void)
+
+{
+  bCString::bCString((bCString *)&g_strPlayerName,"PC_Hero");
+  _atexit(FUN_205644b0);
+  return;
+}

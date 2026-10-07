@@ -1,0 +1,15 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204cc0b0 | FUN_204cc0b0 | STATUS decompiled */
+
+void FUN_204cc0b0(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gEFocusLookAt_Keys");
+  thunk_FUN_20149180(&DAT_207b94ee,&gCFocus_PS::ms_PropertyMember_m_enuFocusLookAtMode,abStack_4,2);
+  bCString::~bCString(abStack_4);
+  return;
+}
+

@@ -1,0 +1,16 @@
+/* Targeted retry; recovered C-like pseudocode, not original source. */
+
+/* ENTRY 204fe940 | FUN_204fe940 | STATUS decompiled */
+
+void FUN_204fe940(void)
+
+{
+  bCString abStack_4 [4];
+  
+  bCString::bCString(abStack_4,"gESessionKey_Forward");
+  thunk_FUN_202210d0(&DAT_207bd967,&gCCharacterControl_PS::ms_PropertyMember_m_enuPressedKey,
+                     abStack_4,1);
+  bCString::~bCString(abStack_4);
+  return;
+}
+
