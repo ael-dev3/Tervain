@@ -4,9 +4,15 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
-Updated: 7 October 2026. The latest published rebuild checkpoint is 94, merged in
-[PR 58](https://github.com/ael-dev3/Tervain/pull/58) at commit
-`99d4112c77eff59c7f844785e4798ae8a3642f3e` and published by successful
+Updated: 7 October 2026. The latest published rebuild checkpoints are 95–99,
+merged in [PR 60](https://github.com/ael-dev3/Tervain/pull/60) at commit
+`5f530d4176595e0df294f58039eb99f2e42d33c4` and published by successful
+[workflow run 37601141422](https://github.com/ael-dev3/Tervain/actions/runs/37601141422).
+They add ScriptAdmin class-name, ModuleAdmin, allocator and input dispatcher
+owners; those owners are not yet connected to production NPC startup.
+Checkpoint 94 remains the browser's ScriptAdmin getter integration boundary,
+recorded in [PR 58](https://github.com/ael-dev3/Tervain/pull/58) at
+`99d4112c77eff59c7f844785e4798ae8a3642f3e` and
 [workflow run 37586423373](https://github.com/ael-dev3/Tervain/actions/runs/37586423373).
 The retained public NPC-runtime exercise is checkpoint 83 at
 `c52d16da73fe1c9be5d240b0111cfe1074d1e8cc`; the separate local tower review
@@ -6878,6 +6884,19 @@ which reaches the Game property-object creator and the ScriptAdmin constructor
 that registers through ModuleAdmin. This occurs before application
 initialization. Some initializer bodies are absent from the reconstructed
 function catalog and must be captured from original PE bytes explicitly.
+
+The startup clone uses the root wrapper as its source, so it skips the
+property-object CopyFrom branch. Its non-root smart-pointer initialization is
+the path that allocates the 520-byte ScriptAdmin instance, invokes its
+constructor, then Create and the reference/link helper. Wrapper initialization
+continues through factory registration, descriptor initialization and
+PostInitializeProperties. Each of these operations needs an owned source port
+before this chain can activate NPCs.
+
+The current Game CRT attach implementation stops at GetCommandLineA and does
+not execute the C++ initializer table. The table trace establishes the original
+startup order; it does not demonstrate completed browser startup or native
+execution.
 
 The remaining route is to capture and connect those initializer and
 accessor/factory owners, its class-name/RTTI and script-call owners, full

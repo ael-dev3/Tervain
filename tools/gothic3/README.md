@@ -343,7 +343,11 @@ ErrorAdmin singleton. Later checkpoints connect shared admins and selected
 Navigation callbacks; the read now reaches the unconnected ScriptAdmin getter.
 See the [rebuilding status](../../docs/engineering/gothic3-rebuild-overview.md#current-implementation-status)
 and [checkpoint 94](../../docs/engineering/gothic3-rebuilding-process.md#94-model-the-source-scriptadmin-getter-without-inventing-a-module-owner)
-for the current integration boundary and remaining prerequisites.
+for the browser integration boundary. Later
+[checkpoints 95–99](../../docs/engineering/gothic3-rebuilding-process.md#99-own-the-engine-input-dispatcher-and-compose-moduleadmin-registration)
+add class-name, ModuleAdmin, allocator and input dispatcher owners. The original
+Game initializer/accessor/factory creation chain and its production integration
+remain unfinished.
 
 ## Shared runtime admin source and allocation evidence
 
