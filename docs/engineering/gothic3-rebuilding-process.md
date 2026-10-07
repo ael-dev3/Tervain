@@ -4,12 +4,13 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
-Updated: 7 October 2026. The latest published source checkpoint is 100,
-merged in [PR 63](https://github.com/ael-dev3/Tervain/pull/63) at commit
-`53fe508ee214ab9dc01cb65cc53c7dbb47259979` and published by successful
-[workflow run 37606093507](https://github.com/ael-dev3/Tervain/actions/runs/37606093507).
-It adds selected ScriptAdmin static initializer bodies and three allocator
-pools; its lower dependencies and production NPC integration remain unfinished.
+Updated: 7 October 2026. The latest published source checkpoint is 101,
+merged in [PR 65](https://github.com/ael-dev3/Tervain/pull/65) at commit
+`f9d8b609afebb8f1e4781d3f1665f6f38d4b50e9` and published by successful
+[workflow run 37611795592](https://github.com/ael-dev3/Tervain/actions/runs/37611795592).
+It adds GUID text construction, CString operations, canonical literal storage
+and the original 48-byte holder pool. The Shared GUID NullPayload initializer,
+full startup and production NPC integration remain unfinished.
 The published baseline for checkpoints 95–99 was
 merged in [PR 60](https://github.com/ael-dev3/Tervain/pull/60) at commit
 `5f530d4176595e0df294f58039eb99f2e42d33c4` and published by successful
@@ -7157,3 +7158,17 @@ that dependency is supplied, payload copying, CString destruction, exit
 registration and temporary stack expiration are unreached in this path.
 Property factories, native ScriptAdmin construction, full startup, live NPC
 activation and the finishable campaign remain required.
+
+### Publication receipt
+
+[PR 65](https://github.com/ael-dev3/Tervain/pull/65) merged reviewed head
+`d3e61c9da4bb8a633de9d5dcfac3db6ef6184850` into main commit
+`f9d8b609afebb8f1e4781d3f1665f6f38d4b50e9`. Corrected PR run
+[37611036192](https://github.com/ael-dev3/Tervain/actions/runs/37611036192)
+and main publication run
+[37611795592](https://github.com/ael-dev3/Tervain/actions/runs/37611795592)
+passed 2,392 existing tests across 228 files and built 401 modules. Pages
+deployment `6908335449` succeeded. HTTP review returned 200 for the root,
+`/gothic3/` and `/gothic3-local/`; the served Gothic entry is
+`gothic3-CnpZfxX6.js`, matching the publication build. These receipts establish
+the published checkpoint, while the runtime and campaign limits above remain.

@@ -293,6 +293,18 @@ export function floraLodWeights(quality: Quality, distance: number): readonly [n
   const middle = smoothDistanceFade(distance, ...bands.middle);
   return [near, middle - near, 1 - middle];
 }
+/**
+ * The low decorative shrubs (supplied trees scaled to about 1.5 m) are the exception: a whole source tree drawn for a
+ * few pixels of bush. On every preset they crossfade to their own lighter source LODs within a short walk, the same
+ * dithered coverage as the other presets' trees, so nothing pops. Trees keep the rules above.
+ */
+export const SHRUB_LOD_BANDS = { near: [22, 34], middle: [60, 90] } as const;
+export function floraLodWeightsFor(species: Species, quality: Quality, distance: number): readonly [number, number, number] {
+  if (species !== 'shrub') return floraLodWeights(quality, distance);
+  const near = quality === 'low' ? 0 : smoothDistanceFade(distance, ...SHRUB_LOD_BANDS.near);
+  const middle = smoothDistanceFade(distance, ...SHRUB_LOD_BANDS.middle);
+  return [near, middle - near, 1 - middle];
+}
 /** Dominant level for inspections and non-render consumers. Actual drawing crossfades both adjacent levels. */
 export function floraLod(quality: Quality, distance: number): 0 | 1 | 2 {
   const weights = floraLodWeights(quality, distance);

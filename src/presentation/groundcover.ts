@@ -5,12 +5,12 @@ import { Habitat } from './ground/habitat';
 import { createGrassField, GRASS_QUALITY } from './grass/grassField';
 import { GrassTrample, type GrassMover } from './grass/trample';
 import { GrassWind } from './grass/wind';
+import { REALM_WIND } from './realmWind';
+
+export { REALM_WIND } from './realmWind';
 
 /** Assets this module wants loaded before the world is built. */
 export const NEEDS: AssetNeed[] = [];
-
-/** The realm's prevailing wind comes in off the sea to the west, across the strand and up the valley. */
-export const REALM_WIND = { direction: [0.93, 0.36] as [number, number], steady: 0.16, gust: 0.42, speed: 4.2 };
 
 export interface Groundcover extends SceneModule {
   readonly wind: GrassWind;
@@ -26,8 +26,11 @@ export function buildGroundcover(ctx: BuildContext): Groundcover {
   group.name = 'groundcover';
   const habitat = new Habitat(ctx);
   const spec = GRASS_QUALITY[ctx.quality];
-  const wind = new GrassWind(REALM_WIND);
-  const trample = spec.trample.size > 0 ? new GrassTrample(spec.trample.size, spec.trample.extent) : null;
+  // The world's shared wind when there is one (the trees answer it too); a standalone build makes its own.
+  const ownsWind = !ctx.foliage;
+  const wind = ctx.foliage?.wind ?? new GrassWind(REALM_WIND);
+  // The field's uniforms are the world's, so the forest floor's ferns read the same trails.
+  const trample = spec.trample.size > 0 ? new GrassTrample(spec.trample.size, spec.trample.extent, undefined, ctx.foliage?.trample) : null;
   const field = createGrassField(ctx.terrain, habitat, ctx.quality, wind, trample);
   group.add(field.group);
   const cam = new THREE.Vector3();
@@ -42,7 +45,7 @@ export function buildGroundcover(ctx: BuildContext): Groundcover {
     update(dt: number, f: FrameContext) {
       f.camera.getWorldPosition(cam);
       reduced = f.reducedMotion;
-      wind.update(dt, { reducedMotion: f.reducedMotion });
+      if (ownsWind) wind.update(dt, { reducedMotion: f.reducedMotion });
       // The focus (the hero) walks through the grass too, leaning it the way he goes.
       const step = Number.isFinite(dt) && dt > 0 ? dt : 1 / 60;
       const vx = Number.isFinite(lastFocus.x) ? (f.focus.x - lastFocus.x) / step : 0;
@@ -64,7 +67,7 @@ export function buildGroundcover(ctx: BuildContext): Groundcover {
     dispose() {
       field.dispose();
       trample?.dispose();
-      wind.dispose();
+      if (ownsWind) wind.dispose();
     },
   };
 }

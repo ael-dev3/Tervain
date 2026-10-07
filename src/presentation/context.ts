@@ -7,6 +7,7 @@ import type { AssetLibrary } from './assets/library';
 import type { Exclusions, SwayUniforms } from './vegetation';
 import type { MeshyNpcCatalog } from './meshynpcs';
 import type { PlantedCrownField } from './plantedCrowns';
+import type { FoliageField } from './foliage/foliageWind';
 
 export type Quality = 'low' | 'medium' | 'high';
 
@@ -25,6 +26,8 @@ export interface BuildContext {
   npcAssets?: MeshyNpcCatalog;
   /** Actual accepted foliage projections, shared by soil and understory. */
   plantedCrowns?: PlantedCrownField;
+  /** The realm's one wind (grass and trees answer the same gusts) and what is moving through the foliage. */
+  foliage?: FoliageField;
 }
 
 /** Per-frame inputs shared by every scene module. */

@@ -1,7 +1,9 @@
 import * as THREE from 'three';
 import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import type { AncientTree } from './menuTree';
-import type { SwayUniforms } from '../vegetation';
+import { FOLIAGE_RESPONSE, type FoliageField } from '../foliage/foliageWind';
+import { crownOf, installFoliage, installFoliageShadow } from '../foliage/foliageMaterial';
+import { shadowDepthMaterial } from '../foliage/shadowCasters';
 import type { WispLighting } from './menuWispLight';
 import { sampleLeafSurfaceSites } from '../leafSurfaceSites';
 
@@ -17,7 +19,12 @@ interface CustomSprig {
   stemRootVertexIndices: readonly number[];
 }
 interface CustomFoliage { sourceVertices: number; sprigs: readonly CustomSprig[] }
-interface CrownPart { geometry: THREE.BufferGeometry; material: THREE.MeshStandardMaterial }
+interface CrownPart {
+  geometry: THREE.BufferGeometry;
+  material: THREE.MeshStandardMaterial;
+  /** The shadow pass's material, moving with the crown in the wind (when there is wind). */
+  depth: THREE.MeshDepthMaterial | null;
+}
 export interface MenuTreeRemix {
   readonly parts: readonly CrownPart[];
   readonly crown: AncientTree['crown'];
@@ -135,7 +142,7 @@ function bindCustomSprigs(
  * stem roots receive zero wind displacement, without deforming the sprig or source.
  */
 export function createMenuTreeRemix(
-  source: readonly [GLTF, GLTF, GLTF], architecture: AncientTree, sway: SwayUniforms, lights: WispLighting,
+  source: readonly [GLTF, GLTF, GLTF], architecture: AncientTree, foliage: FoliageField | null, lights: WispLighting,
 ): MenuTreeRemix {
   const available = TRIANGLE_LIMIT - 1 - architecture.stats.woodTris - ARCHITECTURE_RESERVE;
   let selected: ReturnType<typeof sourceFoliage> | undefined, sourceLod = -1, triangles = 0;
@@ -171,19 +178,11 @@ export function createMenuTreeRemix(
     material.side = THREE.DoubleSide; material.shadowSide = THREE.DoubleSide;
     material.transparent = false; material.alphaToCoverage = material.alphaTest > 0;
     material.onBeforeCompile = shader => {
-      shader.uniforms.uMenuCrownTime = sway.uTime; shader.uniforms.uMenuCrownWind = sway.uWind;
-      shader.vertexShader = `uniform float uMenuCrownTime;\nuniform float uMenuCrownWind;\nattribute float menuCrownWindWeight;\n${shader.vertexShader}`.replace(
-        '#include <begin_vertex>',
-        `#include <begin_vertex>
-        transformed.x += sin(position.y * 0.63 + position.z * 0.24 + uMenuCrownTime * 0.55) * uMenuCrownWind * menuCrownWindWeight * 0.055;
-        transformed.z += sin(position.y * 0.48 + position.x * 0.21 + uMenuCrownTime * 0.43) * uMenuCrownWind * menuCrownWindWeight * 0.035;`,
-      );
       shader.fragmentShader = shader.fragmentShader.replace('#include <normal_fragment_begin>',
         THREE.ShaderChunk.normal_fragment_begin.replace('gl_FrontFacing ? 1.0 : - 1.0', '1.0'));
-      lights.patch(shader);
     };
-    material.customProgramCacheKey = () => `tervain-menu-supplied-crown-v2-anchored-sprigs-${lights.key}`;
-    parts.push({ geometry, material });
+    material.customProgramCacheKey = () => 'tervain-menu-supplied-crown-v3-anchored-sprigs';
+    parts.push({ geometry, material, depth: null });
   }
   const sourceSize = sourceBounds.getSize(new THREE.Vector3()), sourceCenter = sourceBounds.getCenter(new THREE.Vector3());
   if (![sourceSize.x, sourceSize.y, sourceSize.z].every(value => Number.isFinite(value) && value > 0.01)) {
@@ -204,6 +203,9 @@ export function createMenuTreeRemix(
     .multiply(new THREE.Matrix4().makeScale(scale, scale, scale))
     .multiply(new THREE.Matrix4().makeTranslation(-sourceCenter.x, -sourceCenter.y, -sourceCenter.z));
   const crown = { x: target.x, z: target.z, radius: 0, bottom: Infinity, top: -Infinity };
+  // Wind in the sea gusts over the heath, as the real trees answer theirs: the carved trunk and boughs hold the door,
+  // the rags and the lanterns, so the crown sways at its branches and leaves only, and each sprig's stem root stays put.
+  const response = { ...FOLIAGE_RESPONSE.broadleaf, trunk: 0, branch: 0.9 };
   const leafSites: AncientTree['leafSites'] = [];
   for (const [partIndex, part] of parts.entries()) {
     part.geometry.applyMatrix4(fit);
@@ -219,14 +221,23 @@ export function createMenuTreeRemix(
     for (const site of sampleLeafSurfaceSites(part.geometry, part.material, { limit: 120 })) {
       leafSites.push([site.x, site.y, site.z]);
     }
+    if (foliage) {
+      const installed = installFoliage(part.material, { field: foliage, response: { ...response, height: Math.max(6, crown.top) }, leaf: true, crown: crownOf(part.geometry), weight: 'menuCrownWindWeight' });
+      part.depth = shadowDepthMaterial(part.material);
+      installFoliageShadow(part.depth, { field: foliage, response, leaf: true, weight: 'menuCrownWindWeight' }, installed);
+    }
+    // The spirits' light on the leaves comes last, after every other change to the shader.
+    const compile = part.material.onBeforeCompile, key = part.material.customProgramCacheKey;
+    part.material.onBeforeCompile = function(shader, renderer) { compile.call(this, shader, renderer); lights.patch(shader); };
+    part.material.customProgramCacheKey = function() { return `${key.call(this)}-${lights.key}`; };
   }
-  // Cover gentle menu-only wind in the crow avoidance envelope.
-  crown.radius += 0.1; crown.bottom -= 0.1; crown.top += 0.1;
+  // Cover the crown's swing in the wind in the crow avoidance envelope.
+  crown.radius += 0.25; crown.bottom -= 0.2; crown.top += 0.25;
   let disposed = false;
   return { parts, crown, leafSites, triangles, sourceLod,
     dispose() {
       if (disposed) return; disposed = true;
-      for (const part of parts) { part.geometry.dispose(); part.material.dispose(); }
+      for (const part of parts) { part.geometry.dispose(); part.material.dispose(); part.depth?.dispose(); }
       for (const texture of textures.values()) texture.dispose();
     },
   };

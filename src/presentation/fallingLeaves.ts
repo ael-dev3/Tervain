@@ -7,7 +7,7 @@ import type { FloraTree } from './floraPopulation';
 import type { TreeVariant } from './treeGen';
 import { smoothDistanceFade } from './distanceVisibility';
 
-/** Cosmetic shedding, separate from the paused rooted tree/leaf sway. All source geometry stays untouched. */
+/** Cosmetic shedding, drifting downwind. All source geometry stays untouched. */
 export const FALLING_LEAF_LIMIT: Readonly<Record<Quality, number>> = { high: 256, medium: 160, low: 80 };
 export const FALLING_LEAF_DISTANCE = [30, 55] as const;
 
@@ -88,8 +88,8 @@ function leafGeometry(): THREE.BufferGeometry {
 
 function airbornePosition(stream: Stream, age: number, out: Site): void {
   const t = Math.min(age, stream.contactTime);
-  // Bounded breeze drift and slow alternating sideslip start exactly on the selected canopy card.
-  const breeze = t / (20 + t) * 1.15;
+  // Bounded downwind drift and slow alternating sideslip start exactly on the selected canopy card.
+  const breeze = t / (14 + t) * 2.2;
   out.x = stream.origin.x + Math.cos(stream.drift) * breeze + 0.31 * (Math.sin(t * 0.63 + stream.flutter) - Math.sin(stream.flutter));
   out.z = stream.origin.z + Math.sin(stream.drift) * breeze + 0.26 * (Math.sin(t * 0.49 + stream.flutter * 1.3) - Math.sin(stream.flutter * 1.3));
   out.y = stream.origin.y - stream.speed * t;
@@ -111,6 +111,8 @@ export function buildFallingLeaves(
   quality: Quality,
   trees: readonly FloraTree[],
   variantFor: (tree: Readonly<FloraTree>) => TreeVariant,
+  /** Direction the wind blows toward (radians from +x toward +z): leaves drift downwind, spread a little. */
+  windAngle = 0,
 ): SceneModule {
   const group = new THREE.Group(); group.name = 'falling-leaves';
   const geometry = leafGeometry();
@@ -133,7 +135,7 @@ export function buildFallingLeaves(
       const rng = mulberry32(seedFor(tree, slot));
       const site = sites[Math.floor(rng() * sites.length)]!;
       const origin = worldCanopySite(tree, site);
-      const stream: Stream = { origin, phase: rng(), speed: 0.24 + rng() * 0.18, drift: -0.7 + rng() * 1.4,
+      const stream: Stream = { origin, phase: rng(), speed: 0.24 + rng() * 0.18, drift: windAngle - 0.45 + rng() * 0.9,
         flutter: rng() * Math.PI * 2, yaw: rng() * Math.PI * 2, size: 0.16 + rng() * 0.08,
         contactTime: Infinity, contact: { x: 0, y: 0, z: 0 }, cycle: 0, tint: rng(), terrainCeiling: -Infinity };
       const leafRadius = radius * stream.size;

@@ -3,8 +3,8 @@
 The grass was rebuilt as an engine of its own ([A61](../decisions.md)). The requirement was lush, detailed grass;
 characters, animals and anything else moving through it should push it aside and leave a trail. Wind should cross it
 the way it crosses a real meadow. On the title screen the meadow is the centre of the scene, and the cost to the frame
-stays modest. The 0.0.10 folded tufts, their cluster texture and patch material are removed. Tree and leaf sway stays
-paused ([A16](../decisions.md)); grass wind remains a separate effect.
+stays modest. The 0.0.10 folded tufts, their cluster texture and patch material are removed. Since
+[A62](../decisions.md) the trees answer the same wind ([foliage](foliage-0.0.13.md)).
 
 ## Blades
 

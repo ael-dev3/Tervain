@@ -26,7 +26,7 @@ const template = (triangles = 12): GLTF => {
   return { scene, scenes: [scene], animations: [], cameras: [], asset: { version: '2.0' }, userData: {} } as unknown as GLTF;
 };
 const remix = (source: readonly [GLTF, GLTF, GLTF], tree: AncientTree): MenuTreeRemix => {
-  const result = createMenuTreeRemix(source, tree, { uTime: { value: 0 }, uWind: { value: 0.8 } }, createWispLighting(4));
+  const result = createMenuTreeRemix(source, tree, null, createWispLighting(4));
   owned.push(result); return result;
 };
 
@@ -69,8 +69,9 @@ describe('supplied menu crown and retained score-led hermitage', () => {
     expect(result.leafSites).toHaveLength(12);
     const box = result.parts[0]!.geometry.boundingBox!;
     for (const site of result.leafSites) expect(box.containsPoint(new THREE.Vector3(...site))).toBe(true);
-    expect(result.crown.bottom).toBeCloseTo(box.min.y - 0.1, 5);
-    expect(result.crown.top).toBeCloseTo(box.max.y + 0.1, 5);
+    // The crow envelope covers the crown's swing in the sea wind.
+    expect(result.crown.bottom).toBeCloseTo(box.min.y - 0.2, 5);
+    expect(result.crown.top).toBeCloseTo(box.max.y + 0.25, 5);
     const p = result.parts[0]!.geometry.getAttribute('position');
     for (let i = 0; i < p.count; i++) expect(Math.hypot(p.getX(i) - result.crown.x, p.getZ(i) - result.crown.z)).toBeLessThan(result.crown.radius);
   });

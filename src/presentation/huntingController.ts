@@ -16,7 +16,7 @@ interface HuntingHost {
   game: Game; input: Input; player: Player; world: WorldScene; cam: CameraRig;
   audio: AudioEngine; hud: Hud; settings: Settings;
 }
-interface HuntingImpact extends ArrowImpact { animal?: AnimalArrowHit; expired?: boolean }
+interface HuntingImpact extends ArrowImpact { animal?: AnimalArrowHit; treeId?: string; expired?: boolean }
 const SPEED = 65;
 const DRAW_SECONDS = .7;
 const center = new THREE.Vector2();
@@ -133,7 +133,7 @@ export class HuntingController {
     // The visible bow cannot put an arrow through cover between the player and the arrow tip.
     const cover = world.physics.traceProjectile({ x: player.x, y: player.y + 1.25, z: player.z }, muzzle.origin);
     if (cover) {
-      this.impact(shot, { point: new THREE.Vector3().copy(cover.point) });
+      this.impact(shot, { point: new THREE.Vector3().copy(cover.point), treeId: cover.treeId });
       // Resolve that obstruction on the first swept step too, then remove the flight exactly once.
       this.shotOrigins.set(shot.id, new THREE.Vector3(Infinity, Infinity, Infinity));
     }
@@ -149,7 +149,7 @@ export class HuntingController {
     if (animal && (!scenery || animal.distance < scenery.distance - 1e-5)) {
       return { point: new THREE.Vector3().copy(animal.point), animal, lodge: false };
     }
-    if (scenery) return { point: new THREE.Vector3().copy(scenery.point) };
+    if (scenery) return { point: new THREE.Vector3().copy(scenery.point), treeId: scenery.treeId };
     if (to.distanceTo(origin) > HUNTING_ARROW_RANGE) return { point: to.clone(), lodge: false, expired: true };
     return null;
   }
@@ -168,7 +168,11 @@ export class HuntingController {
         world.animals.syncHunting(game.state.hunting);
         audio.huntingSound('arrow_flesh', impact.point, this.listener());
       } else audio.huntingSound('arrow_ground', impact.point, this.listener());
-    } else if (!this.underWater(impact.point)) audio.huntingSound('arrow_ground', impact.point, this.listener());
+    } else if (!this.underWater(impact.point)) {
+      // Only the actual finite wood contact may shake a tree; nearby ground and cargo do not.
+      if (impact.treeId) world.strikeTree?.(impact.point.x, impact.point.y, impact.point.z, 1, impact.treeId);
+      audio.huntingSound('arrow_ground', impact.point, this.listener());
+    }
   }
 
   /** A shaft stopped by a stream bed or the sea floor was already heard entering the water. */

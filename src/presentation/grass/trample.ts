@@ -83,7 +83,7 @@ export interface GrassTrampleUniforms {
 }
 
 export class GrassTrample {
-  readonly uniforms: GrassTrampleUniforms = { tTrample: { value: null }, uTrample: { value: new THREE.Vector4(0, 0, 1, 0) } };
+  readonly uniforms: GrassTrampleUniforms;
   private targets: [THREE.WebGLRenderTarget, THREE.WebGLRenderTarget];
   private readonly scene = new THREE.Scene();
   private readonly camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
@@ -103,7 +103,9 @@ export class GrassTrample {
    * A field of `size`² texels over `extent` metres. With `centre` it stays put (the menu's meadow); otherwise it follows
    * the focus given to update(), moving in whole texels so nothing it holds ever shifts against the ground.
    */
-  constructor(readonly size: number, readonly extent: number, private readonly centre?: { x: number; z: number }) {
+  constructor(readonly size: number, readonly extent: number, private readonly centre?: { x: number; z: number }, uniforms?: GrassTrampleUniforms) {
+    // Shared uniform objects let other plants (the forest floor) read the same field.
+    this.uniforms = uniforms ?? { tTrample: { value: null }, uTrample: { value: new THREE.Vector4(0, 0, 1, 0) } };
     const make = () => new THREE.WebGLRenderTarget(size, size, {
       type: THREE.HalfFloatType, depthBuffer: false, minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter,
       wrapS: THREE.ClampToEdgeWrapping, wrapT: THREE.ClampToEdgeWrapping, colorSpace: THREE.NoColorSpace, generateMipmaps: false,

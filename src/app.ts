@@ -51,6 +51,7 @@ import { createHeroRig } from './presentation/hero/rig';
 import { HuntingController } from './presentation/huntingController';
 import { loadMeshyNpcCatalog, type MeshyNpcCatalog } from './presentation/meshynpcs';
 import { ANIMALS, loadAnimalTemplates } from './presentation/animals';
+import { REALM_WIND } from './presentation/realmWind';
 import type { AnimalDefinition } from './presentation/animals/catalog';
 import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { npcStyle } from './presentation/npcStyle';
@@ -2034,7 +2035,8 @@ export class App {
       flow: v.flow.main,
       millNear: Math.max(0, 1 - millD / 40),
       millTurning: v.millTurning,
-      windAmount: Math.min(1, 0.3 + camPos.y / 60),
+      // Higher ground is windier; each gust that crosses the grass and the crowns is heard as it passes.
+      windAmount: Math.min(1, (0.3 + camPos.y / 60) * (0.62 + 0.7 * Math.min(1, this.world.grassWind.pushAt(camPos.x, camPos.z) / (REALM_WIND.steady + REALM_WIND.gust)))),
       quarryNear: Math.max(0, 1 - quarryD / 60),
       quarryWorking: v.quarryState === 'working' || v.quarryState === 'night_shift',
       time: this.audioClock,

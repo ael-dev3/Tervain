@@ -1,3 +1,5 @@
+import { createFoliageField } from '../../src/presentation/foliage/foliageWind';
+import { GrassWind } from '../../src/presentation/grass/wind';
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import * as THREE from 'three';
 import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
@@ -55,16 +57,17 @@ function woodDistance(point: THREE.Vector3, geometry: THREE.BufferGeometry) {
   return Math.sqrt(squared);
 }
 function compile(material: THREE.MeshStandardMaterial) {
-  const shader = { uniforms: {}, vertexShader: '#include <begin_vertex>', fragmentShader: '#include <normal_fragment_begin>\n#include <lights_fragment_end>' } as
+  const shader = { uniforms: {}, vertexShader: THREE.ShaderLib.standard.vertexShader, fragmentShader: THREE.ShaderLib.standard.fragmentShader } as
     Parameters<THREE.MeshStandardMaterial['onBeforeCompile']>[0];
   material.onBeforeCompile(shader, {} as THREE.WebGLRenderer); return shader;
 }
+const wind = () => createFoliageField(new GrassWind({ direction: [0.5, 0.87], steady: 0.2, gust: 0.55, speed: 3.4 }));
 
 describe('actual custom foliage bound to the carved menu tree', () => {
   it('rigidly binds every actual sprig to the retained wood surface and pins its complete stem base under wind', () => {
     const tree = architecture(), details = metadata();
     expect(details.sourceVertices).toBeGreaterThan(0); expect(details.sprigs.length).toBeGreaterThan(0);
-    const result = createMenuTreeRemix(source, tree, { uTime: { value: 8 }, uWind: { value: 0.8 } }, createWispLighting(4));
+    const field = wind(), result = createMenuTreeRemix(source, tree, field, createWispLighting(4));
     owned.push(result);
     const part = result.parts[0]!, positions = part.geometry.getAttribute('position'), weights = part.geometry.getAttribute('menuCrownWindWeight');
     expect(result.sourceLod).toBe(0); expect(weights.count).toBe(positions.count);
@@ -78,14 +81,22 @@ describe('actual custom foliage bound to the carved menu tree', () => {
     for (let i = 0; i < details.sourceVertices; i++) expect(weights.getX(i)).toBe(1);
     const shader = compile(part.material);
     expect(shader.vertexShader).toContain('attribute float menuCrownWindWeight;');
-    expect(shader.vertexShader.match(/uMenuCrownWind \* menuCrownWindWeight/g)).toHaveLength(2);
+    // The crown's wind (the heath's sea wind) is scaled by the pinning weight exactly once; stem roots never move.
+    expect(shader.vertexShader.match(/\* menuCrownWindWeight/g)).toHaveLength(1);
+    expect(shader.vertexShader).toContain('tvFoliageOffset');
+    expect(shader.uniforms.uGrassTime).toBe(field.wind.uniforms.uGrassTime);
+    // Lit as leaves, and the spirits' light is still the last change to the shader.
+    expect(shader.fragmentShader).toContain('#define RE_Direct RE_Direct_Foliage');
+    expect(shader.fragmentShader.lastIndexOf('uWispLights')).toBeGreaterThan(shader.fragmentShader.indexOf('RE_Direct_Foliage'));
+    // The crown's shadow moves with it.
+    expect(part.depth).not.toBeNull();
   });
 
   it('keeps every ordinary source vertex under one uniform fit, each sprig rigid, UVs/indices intact and shared source bytes untouched', () => {
     const original = foliage(), details = metadata(original), originalPositions = original.geometry.getAttribute('position');
     const before = new Float32Array(originalPositions.array), beforeUv = new Float32Array(original.geometry.getAttribute('uv').array);
     const sourceDisposal = vi.spyOn(original.geometry, 'dispose');
-    const tree = architecture(), result = createMenuTreeRemix(source, tree, { uTime: { value: 0 }, uWind: { value: 0.8 } }, createWispLighting(4));
+    const tree = architecture(), result = createMenuTreeRemix(source, tree, wind(), createWispLighting(4));
     owned.push(result);
     const geometry = result.parts[0]!.geometry, positions = geometry.getAttribute('position');
     const originalBox = new THREE.Box3(), fittedBox = new THREE.Box3(), point = new THREE.Vector3();
@@ -138,10 +149,11 @@ describe('actual custom foliage bound to the carved menu tree', () => {
         expect(positions.array).toEqual(referencePositions); expect(scene.stats.treeTriangles).toBe(referenceCount);
       } else { referencePositions = new Float32Array(positions.array); referenceCount = scene.stats.treeTriangles; }
       scene.update(0.04, false, { time: 35, duration: 214.2, playing: true, gain: 0.352 });
-      const shader = compile(leaves.material), frozen = shader.uniforms.uMenuCrownTime!.value;
+      // The crown keeps the heath's wind clock: Reduced Motion holds it exactly where it was.
+      const shader = compile(leaves.material), frozen = shader.uniforms.uGrassTime!.value;
       const awakening = scene.awakeningState;
       scene.update(12, true, { time: 90, duration: 214.2, playing: true, gain: 0.352 });
-      expect(shader.uniforms.uMenuCrownTime!.value).toBe(frozen); expect(scene.awakeningState).toEqual(awakening);
+      expect(shader.uniforms.uGrassTime!.value).toBe(frozen); expect(scene.awakeningState).toEqual(awakening);
       expect(positions.array).toEqual(referencePositions);
     }
   });
@@ -151,7 +163,7 @@ describe('actual custom foliage bound to the carved menu tree', () => {
     mesh.userData.tervainCustomFoliage.sprigs[0].vertexStart = -1;
     const geometryDisposal = vi.spyOn(mesh.geometry, 'dispose');
     expect(() => createMenuTreeRemix([broken, source[1], source[2]], architecture(),
-      { uTime: { value: 0 }, uWind: { value: 0.8 } }, createWispLighting(4))).toThrow(/sprig range/);
+      wind(), createWispLighting(4))).toThrow(/sprig range/);
     expect(geometryDisposal).not.toHaveBeenCalled(); expect(metadata().sprigs[0]!.vertexStart).toBeGreaterThanOrEqual(metadata().sourceVertices);
   });
 });

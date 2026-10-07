@@ -48,6 +48,10 @@ import { buildAnimals, loadAnimalTemplates, type AnimalTemplates, type AnimalWil
 import { ANIMALS } from './animals/catalog';
 import { checkCancelled, yieldToBrowser, type CooperativeOptions } from '../platform/cooperative';
 import { disposeSceneResources } from './disposeScene';
+import { GrassWind } from './grass/wind';
+import { REALM_WIND } from './realmWind';
+import { FOLIAGE_MAX_MOVERS, createFoliageField, type FoliageField } from './foliage/foliageWind';
+import { installShadowOnlyGroup } from './foliage/shadowCasters';
 
 export interface WorldBuildProgress {
   phase: 'models' | 'textures' | 'terrain' | 'woodland' | 'settlement' | 'physics' | 'navigation' | 'finishing';
@@ -80,6 +84,8 @@ interface WorldResources {
   dust: THREE.Points;
   dustData: DustParticle[];
   riteResponse: RiteResponse;
+  /** The realm's one wind, and what moves through the foliage. */
+  foliage: FoliageField;
   buildMs: number;
   disposeOwned(): void;
 }
@@ -98,6 +104,8 @@ export class WorldScene {
   /** Forest, ground cover, wildlife: updated every frame with the shared frame context. */
   readonly modules: WorldModules;
   private environment: EnvironmentHandle;
+  /** The realm's wind and the bodies moving through the foliage (shared by grass and trees). */
+  readonly foliage: FoliageField;
   /** The grass (ground cover module): its wind, and the field everything moving through it writes into. */
   private readonly groundcover: Groundcover | null;
   /** Residents and enemies walking through the grass this frame (from the app); animals and cargo are added here. */
@@ -229,12 +237,17 @@ export class WorldScene {
       scene.add(water.group);
       await checkpoint('terrain', 'Physical ground ready', groundTotal, groundTotal);
       const sway: SwayUniforms = { uTime: { value: 0 }, uWind: { value: 1 } };
-      const ctx: BuildContext = { terrain, colliders, library, quality: settings.quality, settings, sway, excl: new Exclusions(terrain), npcAssets };
+      // One wind for the realm: the grass and the trees answer the same gusts as they cross the land.
+      const foliage = createFoliageField(own(new GrassWind(REALM_WIND)));
+      const ctx: BuildContext = { terrain, colliders, library, quality: settings.quality, settings, sway, excl: new Exclusions(terrain), npcAssets, foliage };
       await checkpoint('woodland', 'Woodland landmarks');
       const landmarks = own(buildForestLandmarks(terrain, colliders, settings.quality));
       addModule('woodland landmarks', { group: landmarks.group, update() {}, stats: () => landmarks.stats });
       await checkpoint('woodland', 'Trees and forest floor');
       const forest = addModule('forest', buildFlora(ctx, pine, true, treeTemplates));
+      // Tree shadows come from shadow-only casters that the colour pass never draws.
+      const casters = forest.shadowCasters as THREE.Group | undefined;
+      if (casters) own({ dispose: installShadowOnlyGroup(scene, sky.sun, casters) });
       await checkpoint('woodland', 'Forest floor');
       forest.initializeFloor();
       await checkpoint('woodland', 'Fallen branches and shore');
@@ -324,7 +337,7 @@ export class WorldScene {
       checkCancelled(options.signal);
       const world = new WorldScene(state, library, {
         scene, terrain, colliders, sky, water, sway, modules, environment, scenery, animals, terrainMesh,
-        physics, nav, lanternLights, dust, dustData, riteResponse, buildMs: performance.now() - t0, disposeOwned,
+        physics, nav, lanternLights, dust, dustData, riteResponse, foliage, buildMs: performance.now() - t0, disposeOwned,
       });
       phase('finishing', 'Scene ready', 1, 1);
       return world;
@@ -354,6 +367,7 @@ export class WorldScene {
     this.dust = resources.dust;
     this.dustData = resources.dustData;
     this.riteResponse = resources.riteResponse;
+    this.foliage = resources.foliage;
     this.disposeOwned = resources.disposeOwned;
     this.view = worldView(state);
     this.syncStatic(state, true);
@@ -460,9 +474,28 @@ export class WorldScene {
     this.groundcover?.prepare(renderer, dt);
   }
 
-  /** The wind the grass shows, for anything else that should move with it. */
+  /** The wind the grass and the trees show, for anything else that should move with it. */
   get grassWind() {
-    return this.groundcover?.wind ?? null;
+    return this.foliage.wind;
+  }
+
+  /** Respond to the canonical tree ID retained by a finite wood contact at (x, y, z). */
+  strikeTree(x: number, y: number, z: number, strength = 1, treeId?: string): boolean {
+    const forest = this.modules.find((m) => m.name === 'forest')?.module as { strike?(x: number, y: number, z: number, s?: number, treeId?: string): boolean } | undefined;
+    return forest?.strike?.(x, y, z, strength, treeId) ?? false;
+  }
+
+  /** The hero and the nearest bodies moving through low foliage, as spheres the leaves are pushed out of. */
+  private setFoliageMovers(focus: THREE.Vector3, movers: readonly GrassMover[]) {
+    const near = [{ x: focus.x, z: focus.z, radius: 0.75, centre: 1.0 },
+      ...movers.map((m) => ({ x: m.x, z: m.z, radius: m.radius * 1.4, centre: Math.max(0.5, m.radius * 1.2) }))]
+      .map((m) => ({ ...m, d: Math.hypot(m.x - focus.x, m.z - focus.z) }))
+      .filter((m) => m.d < 40 && [m.x, m.z, m.radius].every(Number.isFinite))
+      .sort((a, b) => a.d - b.d)
+      .slice(0, FOLIAGE_MAX_MOVERS);
+    const slots = this.foliage.movers.value;
+    near.forEach((m, i) => slots[i]!.set(m.x, this.terrain.heightAt(m.x, m.z) + m.centre, m.z, m.radius));
+    this.foliage.moverCount.value = near.length;
   }
 
   waterRenderInputs(settings: Settings): WaterRenderInputs {
@@ -516,6 +549,9 @@ export class WorldScene {
     const reduced = settings.reducedMotion;
     this.sway.uTime.value = this.time;
     this.sway.uWind.value = reduced ? 0.25 : 1;
+    // The wind crosses grass and trees alike; Reduced Motion holds the trees entirely still.
+    this.foliage.wind.update(dt, { reducedMotion: reduced });
+    this.foliage.strength.value = reduced ? 0 : 1;
     this.sky.brightness = settings.brightness;
     this.sky.update(hour, focus, dt, reduced);
     const night = this.sky.state.nightness;
@@ -536,7 +572,9 @@ export class WorldScene {
     this.animals.syncHunting(state.hunting);
     this.animals.setReduceEffects(settings.reduceEffects);
     this.environment.update(dt, frame);
-    this.groundcover?.setMovers(this.grassMovers(dt));
+    const movers = this.grassMovers(dt);
+    this.groundcover?.setMovers(movers);
+    this.setFoliageMovers(focus, movers);
     for (const m of this.modules) m.module.update(dt, frame);
 
     // Three resident lamps fade at range, and a slot only changes lamp after dimming.

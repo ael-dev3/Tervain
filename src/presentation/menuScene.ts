@@ -13,6 +13,7 @@ import { buildMenuGroundGeometry, buildPuddles, restHeight } from './menu/menuLa
 import { buildMenuMeadow, type MenuMeadow } from './menu/menuMeadow';
 import { GrassTrample, type GrassMover } from './grass/trample';
 import { GrassWind, type GrassWindOptions } from './grass/wind';
+import { createFoliageField, type FoliageField } from './foliage/foliageWind';
 import { buildMenuDeer, type MenuDeer } from './menu/menuDeer';
 import { buildMenuFluff, type MenuFluff } from './menu/menuFluff';
 import { createAnimalFigure } from './animals';
@@ -120,6 +121,8 @@ export class MenuScene {
   private readonly banner: ReturnType<typeof buildMenuBanner>;
   private readonly meadow: MenuMeadow;
   private readonly meadowWind: GrassWind;
+  /** The menu's wind and touch for the ancient tree's crown (the same wind as the heath). */
+  private readonly foliage: FoliageField;
   private readonly meadowTrample: GrassTrample;
   private readonly movers: GrassMover[] = [];
   private readonly brushStamps: GrassMover[] = [];
@@ -242,7 +245,10 @@ export class MenuScene {
     woodMat.customProgramCacheKey = () => `tervain-menu-bark-${wispLight.lights.key}`;
     bark.map.wrapS = bark.map.wrapT = THREE.RepeatWrapping;
     bark.normal.wrapS = bark.normal.wrapT = THREE.RepeatWrapping;
-    const remix = suppliedTree ? createMenuTreeRemix(suppliedTree, tree, this.sway, wispLight.lights) : null;
+    // The sea wind exists before the tree: the crown sways in the same gusts that roll over the heath.
+    this.meadowWind = new GrassWind(MENU_WIND);
+    this.foliage = createFoliageField(this.meadowWind);
+    const remix = suppliedTree ? createMenuTreeRemix(suppliedTree, tree, this.foliage, wispLight.lights) : null;
     if (remix) {
       tree.crown = remix.crown; tree.leafSites = remix.leafSites;
       tree.height = Math.max(tree.height, remix.crown.top);
@@ -276,6 +282,7 @@ export class MenuScene {
     if (remix) {
       remix.parts.forEach((part, i) => {
         const mesh = new THREE.Mesh(part.geometry, part.material);
+        if (part.depth) mesh.customDepthMaterial = part.depth;
         mesh.name = i === 0 ? 'Menu_Ancient_Tree_Leaves' : `Menu_Ancient_Tree_Leaves_${i}`;
         mesh.castShadow = q !== 'low'; mesh.receiveShadow = true; treeRoot.add(mesh);
       });
@@ -398,7 +405,6 @@ export class MenuScene {
 
     // The heath: blades by the hundred thousand wherever nothing else stands, bent by the sea wind and parted by
     // anything that moves through it (the spirits skimming low, the viewer's own hand).
-    this.meadowWind = new GrassWind(MENU_WIND);
     this.meadowTrample = new GrassTrample(MENU_TRAMPLE.size[q], MENU_TRAMPLE.extent, MENU_TRAMPLE.centre);
     this.meadow = buildMenuMeadow({ quality: q, keep: this.camp.keep, wind: this.meadowWind, trample: this.meadowTrample,
       patch: (sh) => this.wisps.lights.patch(sh), patchKey: this.wisps.lights.key });

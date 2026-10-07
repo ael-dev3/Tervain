@@ -11,13 +11,14 @@ of Gothic 3's endings. A scene viewer, a decoded model or a successfully read
 native data structure is a useful component milestone, but it does not by
 itself establish a playable reconstruction.
 
-The latest published source checkpoint recorded on 7 October 2026 is 100,
-merged in [PR 63](https://github.com/ael-dev3/Tervain/pull/63) at commit
-`53fe508ee214ab9dc01cb65cc53c7dbb47259979` and published by successful
-[workflow run 37606093507](https://github.com/ael-dev3/Tervain/actions/runs/37606093507).
-It adds selected ScriptAdmin static initializer bodies and allocator pools,
-following the class-name, ModuleAdmin and input dispatcher work in checkpoints
-95–99. Their production NPC integration remains unfinished.
+The latest published source checkpoint recorded on 7 October 2026 is 101,
+merged in [PR 65](https://github.com/ael-dev3/Tervain/pull/65) at commit
+`f9d8b609afebb8f1e4781d3f1665f6f38d4b50e9` and published by successful
+[workflow run 37611795592](https://github.com/ael-dev3/Tervain/actions/runs/37611795592).
+It adds GUID text construction, CString operations, canonical literal storage
+and the original 48-byte holder pool, following the selected ScriptAdmin static
+initializer bodies in checkpoint 100. Their production NPC integration remains
+unfinished.
 The browser supports exploration and selected gameplay paths. Native NPC
 activation and most campaign progression remain unfinished. See
 [current implementation status](#current-implementation-status) below; the
