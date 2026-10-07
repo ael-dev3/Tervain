@@ -1,0 +1,12 @@
+/* ENTRY 306378de | SHAREDBASE.DLL::bCObjectRefBase::IsValid | STATUS decompiled | 3 ms */
+
+bool __thiscall bCObjectRefBase::IsValid(bCObjectRefBase *this)
+
+{
+  bool bVar1;
+  
+                    /* WARNING: Could not recover jumptable at 0x306378de. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bVar1 = IsValid(this);
+  return bVar1;
+}

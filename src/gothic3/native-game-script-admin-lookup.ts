@@ -9,6 +9,8 @@ import movementRulesText from '../../assets/gothic3/movement-state/runtime-rules
 import type { NativeValue } from './dialogue';
 import { NativeHeapObjectViews } from './native-heap-views';
 import type { NativeHeapCString } from './native-heap-cstring';
+import { NativeGameCrtOwner } from './native-game-crt';
+import { admitNativeGameCrtSource, nativeGameImageReceipt } from './native-game-crt-profile';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = <T>(reason: string): NativeValue<T> => ({ known: false, reason });
@@ -59,6 +61,19 @@ export class NativeGameScriptAdminLookup<T extends object, M extends object> {
     if (globals.bytes.length !== 8 || globals.knownMask.length !== 8) {
       throw new Error('Actual eight-byte ScriptAdmin cache and guard globals required');
     }
+  }
+
+  /** Bind the cache and guard to the captured Game.dll globals at 207b6028.
+   * The caller still supplies the real class-name, ModuleAdmin and RTTI owners. */
+  static forCrt<T extends object, M extends object>(applicationInitialized: NativeHeapObjectViews,
+    crt: NativeGameCrtOwner, host: NativeGameScriptAdminLookupHost<T, M>): NativeGameScriptAdminLookup<T, M> {
+    if (crt.module !== 'Game') throw new Error('Canonical Game CRT owner required for ScriptAdmin globals');
+    admitNativeGameCrtSource();
+    const receipt = nativeGameImageReceipt('scriptAdminLookupCacheGuard');
+    if (receipt.address !== '207b6028' || receipt.bytes !== 8) {
+      throw new Error('Original Game ScriptAdmin cache and guard receipt differs');
+    }
+    return new NativeGameScriptAdminLookup(applicationInitialized, crt.imageStorage('scriptAdminLookupCacheGuard'), host);
   }
 
   getInstance(): NativeValue<T | null> {

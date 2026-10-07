@@ -1,0 +1,1 @@
+30637908 | ff2548dcaf30 | JMP dword ptr [0x30afdc48]

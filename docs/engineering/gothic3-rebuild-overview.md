@@ -394,3 +394,12 @@ Asset counts, decompiled function counts and passing component checks do not
 measure campaign completion. The
 [detailed process and checkpoints](gothic3-rebuilding-process.md) retain the
 technical evidence for the work already completed and its remaining gaps.
+
+## Runtime owners after the gameplay baseline
+
+Checkpoints 95–98 add the ScriptAdmin class-name owner, creator-edge
+research, ModuleAdmin registry and its audited 80-byte allocator pool. Checkpoint 99 adds the concrete input dispatcher, corrects reviewed ModuleAdmin
+boundaries and composes its SceneAdmin registration bridge. These owners still
+need original application/ScriptAdmin creation and live NPC integration. See
+[checkpoint 99](gothic3-rebuilding-process.md#99-own-the-engine-input-dispatcher-and-compose-moduleadmin-registration)
+for source receipts, local review and exact remaining dependencies.

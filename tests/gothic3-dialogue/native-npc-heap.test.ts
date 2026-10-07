@@ -37,13 +37,13 @@ describe('construction-only NPC heap extension', () => {
     expect(platform.snapshot().allocations).toHaveLength(0);
     expect(platform.snapshot().pending).toHaveLength(0);
   });
-  it('keeps the default frozen scope and uses all11 NPC buckets on one extended owner', () => {
+  it('keeps the default frozen scope and uses all12 NPC buckets on one extended owner', () => {
     const old = new NativeMemoryAdmin(new NativeRuntimePlatform());
     expect(old.newObject(20).known).toBe(false);
-    const f = fixture(), requests = [12, 16, 20, 28, 29, 36, 108, 172, 204, 448, 688];
+    const f = fixture(), requests = [12, 16, 20, 28, 29, 36, 72, 108, 172, 204, 448, 688];
     const allocations = requests.map(request => block(f.memory.newObject(request)));
-    expect(allocations.map(allocation => allocation.capacity)).toEqual([12, 16, 20, 28, 32, 40, 112, 192, 224, 448, 768]);
-    expect(f.memory.snapshot().pointerAreaCount).toBe(11);
+    expect(allocations.map(allocation => allocation.capacity)).toEqual([12, 16, 20, 28, 32, 40, 80, 112, 192, 224, 448, 768]);
+    expect(f.memory.snapshot().pointerAreaCount).toBe(12);
     expect(f.platform.snapshot().pending.filter(entry => entry.address === '100e2710')).toHaveLength(1);
     allocations.forEach(allocation => value(f.memory.free(allocation)));
     expect(f.memory.snapshot().pools.every(pool => pool.count === 0 && pool.peak === 1)).toBe(true);

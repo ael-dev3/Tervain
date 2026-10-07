@@ -1,0 +1,39 @@
+/* ENTRY 10046610 | FUN_10046610 | STATUS decompiled | 11 ms */
+
+void __fastcall FUN_10046610(undefined4 *param_1)
+
+{
+  MemHeap *pMVar1;
+  undefined4 *puVar2;
+  
+  if (DAT_102fff14 == (MemHeap *)0x0) {
+    DAT_102fff14 = (MemHeap *)FUN_100aabd2(0x14);
+    if (DAT_102fff14 == (MemHeap *)0x0) {
+      DAT_102fff14 = (MemHeap *)0x0;
+    }
+    else {
+      *(undefined1 **)(DAT_102fff14 + 4) = &LAB_10008c47;
+      *(undefined1 **)(DAT_102fff14 + 8) = &LAB_10002243;
+      *(undefined1 **)(DAT_102fff14 + 0xc) = &LAB_100025a4;
+      *(undefined1 **)(DAT_102fff14 + 0x10) = &LAB_100038cd;
+      *(undefined4 *)DAT_102fff14 = 0;
+      LOCK();
+      UNLOCK();
+      pMVar1 = DAT_102fff14;
+      *(MemHeap **)DAT_102fff14 = MemHeap::s_pFirst;
+      MemHeap::s_pFirst = pMVar1;
+    }
+  }
+  param_1[2] = 0;
+  param_1[3] = 0;
+  _memset(param_1 + 0x13f7f8,-1,0x1ff4);
+  param_1[0x13fff4] = 0x1ffffff;
+  *param_1 = 0;
+  LOCK();
+  UNLOCK();
+  puVar2 = param_1;
+  *param_1 = DAT_102ffdc8;
+  DAT_102ffdc8 = puVar2;
+  MemHeap::addPointerArea(DAT_102fff14,param_1 + 4,0x4fdfd0,param_1);
+  return;
+}

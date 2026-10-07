@@ -1,0 +1,2 @@
+30102f80 | c701bc578230 | MOV dword ptr [ECX],0x308257bc
+30102f86 | ff2504dcaf30 | JMP dword ptr [0x30afdc04]

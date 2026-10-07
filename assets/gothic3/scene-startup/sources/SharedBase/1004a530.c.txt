@@ -1,0 +1,10 @@
+/* ENTRY 1004a530 | FUN_1004a530 | STATUS decompiled | 2 ms */
+
+undefined4 __fastcall FUN_1004a530(int param_1)
+
+{
+  uint uVar1;
+  
+  uVar1 = *(uint *)(param_1 + 8) & 0x80000000;
+  return CONCAT31((int3)(uVar1 >> 8),uVar1 == 0x80000000);
+}

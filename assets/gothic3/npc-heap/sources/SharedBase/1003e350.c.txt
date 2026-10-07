@@ -1,4 +1,4 @@
-/* ENTRY 1003e350 | FUN_1003e350 | STATUS decompiled | 19 ms */
+/* ENTRY 1003e350 | FUN_1003e350 | STATUS decompiled | 22 ms */
 
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 

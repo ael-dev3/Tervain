@@ -39,7 +39,7 @@ function admitSource(): void {
   if (source.schema !== 'gothic3-npc-heap-rules-v1' ||
       source.inputs.SharedBase !== '5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214' ||
       source.inputs.Engine !== 'd49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3' ||
-      source.baseRulesSha256 !== '64f3cabc691a51639fc3d5b320e986bf8372ab50a61a6faa21bb9c58b70375a6') {
+      source.baseRulesSha256 !== '4c95912d7c7087af7a4c6c1c1d9f31d1b69e23da9456e5022c7d64f8756be016') {
     throw new Error('Selected PropertyID heap source inputs differ');
   }
   for (const [label, entry, body, hash] of sourceMethods) {

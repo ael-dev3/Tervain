@@ -1,0 +1,11 @@
+/* ENTRY 30102f80 | eCInputReceiver::~eCInputReceiver | STATUS decompiled | 4 ms */
+
+void __thiscall eCInputReceiver::~eCInputReceiver(eCInputReceiver *this)
+
+{
+  this->vftablePtr = &vftable;
+                    /* WARNING: Could not recover jumptable at 0x30102f86. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCObjectRefBase::~bCObjectRefBase((bCObjectRefBase *)this);
+  return;
+}

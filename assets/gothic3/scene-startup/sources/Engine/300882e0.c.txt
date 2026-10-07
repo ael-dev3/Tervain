@@ -1,0 +1,21 @@
+/* ENTRY 300882e0 | FUN_300882e0 | STATUS decompiled | 4 ms */
+
+undefined4 __thiscall FUN_300882e0(int *param_1,int *param_2)
+
+{
+  int iVar1;
+  int *piVar2;
+  
+  iVar1 = param_1[1];
+  if (iVar1 != 0) {
+    piVar2 = (int *)(*param_1 + iVar1 * 4);
+    do {
+      piVar2 = piVar2 + -1;
+      iVar1 = iVar1 + -1;
+      if (*param_2 == *piVar2) goto LAB_30088303;
+    } while (iVar1 != 0);
+  }
+  iVar1 = -1;
+LAB_30088303:
+  return CONCAT31((int3)((uint)iVar1 >> 8),iVar1 != -1);
+}

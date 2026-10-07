@@ -54,6 +54,7 @@ TARGETS = {
     'heap28BitmapAlloc': 0x10001b72, 'heap28BlockInitialize': 0x100039db,
     'heap192BitmapAlloc': 0x10004abb, 'heap192BlockInitialize': 0x1000531c,
     'heap224BitmapAlloc': 0x10003508, 'heap224BlockInitialize': 0x1000504c,
+    'heap80BitmapAlloc': 0x10008ab2, 'heap80BlockInitialize': 0x10002581,
     'heapAddPointerArea': 0x100012e4, 'heapGetPointerArea': 0x10005b37,
     'heapMediumInsert': 0x1003c760, 'heapMediumUnlink': 0x1003c7a0,
     'heapMediumSplit': 0x1003c7e0, 'heapMediumMerge': 0x1003c850,
@@ -69,6 +70,11 @@ TARGETS = {
 }
 ASM_ONLY = {
     'errorMessageCallback': [(0x10022590, 0x10022696)],
+    'heap80PoolDispatch': [(0x100484b0, 0x100484d9), (0x100484e0, 0x1004852f)],
+    'heap80Free': [(0x10044800, 0x10044844)],
+    'heap80Realloc': [(0x10044860, 0x100448a3)],
+    'heap80DeleteObject': [(0x10040910, 0x10040949), (0x10040950, 0x100409ac), (0x100409b0, 0x100409cf)],
+    'heap80InlineFree': [(0x10040a20, 0x10040a6c)],
     'heap12PoolDispatch': [(0x10047e70, 0x10047e99), (0x10047ea0, 0x10047eef)],
     'heap112PoolDispatch': [(0x100485f0, 0x10048619), (0x10048620, 0x1004866f)],
     'heap16PoolDispatch': [(0x10047f10, 0x10047f39), (0x10047f40, 0x10047f8f)],
@@ -100,6 +106,9 @@ ASM_ONLY = {
 }
 ASM_ALIASES = {
     'errorMessageCallback': 0x10002df6,
+    'heap80PoolDispatch': 0x10004002,
+    'heap80Free': 0x10008c47, 'heap80Realloc': 0x10002243,
+    'heap80DeleteObject': 0x100025a4, 'heap80InlineFree': 0x100038cd,
     'heap12PoolDispatch': 0x100028f6, 'heap112PoolDispatch': 0x10003102,
     'heap16PoolDispatch': 0x10002d97, 'heap448PoolDispatch': 0x10003012,
     'heap768PoolDispatch': 0x10006b9f,
@@ -129,11 +138,12 @@ COLD = {
     'heap768PoolGlobals': (0x102ffe60, 12),
     'heap28PoolGlobals': (0x102ffd7c, 12), 'heap192PoolGlobals': (0x102ffe00, 12),
     'heap224PoolGlobals': (0x102ffe0c, 12),
+    'heap80PoolGlobals': (0x102ffdc4, 12), 'heap80DescriptorSlot': (0x102fff14, 4),
     'heapMediumBuckets': (0x10144214, 4097 * 4),
     'heapMediumRegionList': (0x10148218, 512 * 4), 'heapMediumRegionCount': (0x102fb04c, 4),
-    # Only the selected first eight pointer-area records are admitted. No table
+    # Only the selected first nine pointer-area records are admitted. No table
     # maximum is inferred from proximity to another static variable.
-    'heapPointerAreasSelected': (0x10149a18, 8 * 16),
+    'heapPointerAreasSelected': (0x10149a18, 9 * 16),
     'heap12DescriptorSlot': (0x102ffeec, 4), 'heap112DescriptorSlot': (0x102fff1c, 4),
     'heap16DescriptorSlot': (0x102ffef0, 4), 'heap448DescriptorSlot': (0x102fff3c, 4),
     'heap768DescriptorSlot': (0x102fff48, 4),
@@ -159,6 +169,7 @@ CONST_WORDS = {
     'heap28Stride': (0x100e7ac0, 28), 'heap28Capacity': (0x100e7ac4, 0xfedc),
     'heap192Stride': (0x100e7b18, 192), 'heap192Capacity': (0x100e7b1c, 0xffd5),
     'heap224Stride': (0x100e7b20, 224), 'heap224Capacity': (0x100e7b24, 0x7fed),
+    'heap80Stride': (0x100e7af0, 80), 'heap80Capacity': (0x100e7af4, 0xff99),
 }
 POINTER_TABLES = {
     'heap12DispatchSlot': (0x102fb080, 4), 'heap12FallbackSlot': (0x102fb084, 4),
@@ -195,6 +206,11 @@ BUCKETS = {
         lastBitmapMask=0x3fffff, payloadBytes=0x6fdfa0,
         globals=dict(count='102ffddc', list='102ffde0', peak='102ffde4', descriptor='102fff1c'),
         callbacks=['10001587', '10006988', '10008a21', '100049c1']),
+    '80': dict(stride=80, minimumRequest=65, maximumRequest=80, regionBytes=0x500000,
+        capacity=0xff99, bitmapOffset=0x4fdfe0, bitmapBytes=0x1ff4,
+        lastBitmapMask=0x1ffffff, payloadBytes=0x4fdfd0,
+        globals=dict(count='102ffdc4', list='102ffdc8', peak='102ffdcc', descriptor='102fff14'),
+        callbacks=['10008c47', '10002243', '100025a4', '100038cd']),
     '16': dict(stride=16, minimumRequest=13, maximumRequest=16, regionBytes=0x102000,
         capacity=0xffff, bitmapOffset=0x100000, bitmapBytes=0x2000,
         lastBitmapMask=0x7fffffff, payloadBytes=0xffff0,

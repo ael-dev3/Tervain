@@ -1,4 +1,4 @@
-/* ENTRY 100135f0 | FUN_100135f0 | STATUS decompiled | 8 ms */
+/* ENTRY 100135f0 | FUN_100135f0 | STATUS decompiled | 7 ms */
 
 bCString * __thiscall FUN_100135f0(bCString *param_1,char *param_2)
 

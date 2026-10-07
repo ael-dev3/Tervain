@@ -6521,3 +6521,366 @@ npm test -- tests/gothic3-dialogue/native-game-script-admin-lookup.test.ts tests
 npm test
 npm run build
 ```
+
+
+## 95. Resolve the source ScriptAdmin class name for the lazy getter
+
+Date: 7 October 2026. This local checkpoint adds the ScriptAdmin type and
+class-name path using the installed Game.dll receipts. It does not construct
+or register a ScriptAdmin and is not connected to the browser NPC services.
+
+The Game CRT package now captures the 30-byte `gCScriptAdmin` RTTI descriptor
+at `207966e0`, the class-name object at `207b47a0`, its prior initializer
+result at `207b4f3c`, and the getter cache/guard at `207b6028`. It pins
+`bTPropertyObjectType<gCScriptAdmin,eCEngineComponentBase>::vfunction1` entry
+`20021346` forwarding to body `20060670`, and the registered destructor thunk
+`20013971` forwarding to `205491a0`. The selected 140 methods contain 5,190
+instructions, all checked against the installed Game.dll. The producer runs no
+native code.
+
+`NativeGameTypeInfoName` now handles both the existing Navigation descriptor
+and the ScriptAdmin descriptor. `NativeGameScriptAdminClassName` follows the
+two guard bits, copies the prior initializer result, requests the Game CRT type
+name, constructs the SharedBase CString and retains the exact Game exit
+callback. `NativeGameScriptAdminLookup.forCrt` binds its cache and guard to the
+captured Game image globals.
+
+The focused test resolves `gCScriptAdmin`, passes that CString through the
+getter and verifies a NULL cache result when its injected test registry has no
+matching module. It does not prove the real ModuleAdmin is empty or that the
+original application would omit ScriptAdmin registration. The live browser NPC
+read remains unconnected at this boundary: Game CRT startup, Engine ModuleAdmin
+construction and registration, the ScriptAdmin instance and the RTTI cast are
+still missing. `CallScript`, resident NPC activation and campaign progression
+are unchanged.
+
+Reproduce this checkpoint with:
+
+```powershell
+python tools/gothic3/prepare_game_crt_source.py --study 'C:/Users/heyas/OneDrive/Рабочий стол/Gothic3_Decompiled_Study_2026-10-04'
+npm run typecheck
+npm test -- tests/gothic3-dialogue/game-navigation-class-name.test.ts
+```
+
+## 96. Trace the Engine ModuleAdmin path and locate the remaining creator edge
+
+Date: 7 October 2026. This research checkpoint follows the getter into its
+actual Engine owner and records the remaining ScriptAdmin construction edge.
+It adds no browser integration and does not claim a ScriptAdmin instance.
+
+The existing `scene-startup` source package captures Engine
+`eCModuleAdmin::GetInstance` entry `3002e9ec` / body `30088e90`,
+`FindModule` entry `3001d11a` / body `30088af0`, `RegisterModule` entry
+`300164ff` / body `30088f60`, and the module-array grow routine at `30088240`.
+These 61 selected Engine and SharedBase methods were checked against the
+original PE. The getter uses static Engine object storage `30ad9e78` (84 bytes)
+and guard `30ad9ecc`; the module pointer array, count and capacity are at
+object offsets `+0x34`, `+0x38` and `+0x3c`.
+
+`30088e90` sets the guard before it initializes the `eCInputDispatcher` base,
+publishes ModuleAdmin vtable `3081cdd4`, clears the three registry fields,
+calls the base `Create` routine and registers shutdown callback `30797fc0`.
+`FindModule` walks the registered pointers from the first slot, obtains each
+class name and returns the first equal name. `RegisterModule` deduplicates
+against the existing array, grows and appends when needed, then forwards the
+component to `eCInputDispatcher::RegisterModule`.
+
+The local Game decompilation records `gCScriptAdmin` constructor entry
+`200098bd` forwarding to body `2034f330`. The constructor calls
+`eCModuleAdmin::GetInstance` and then the ModuleAdmin virtual at `+0x74` to
+register itself. `gCScriptAdmin::GetRootObject` entry `20033f14` (body
+`2034ca00`) resolves the root property object by the name `gCScriptAdmin`
+through `bCPropertyObjectSingleton`; that establishes the root-template lookup,
+but not who asks the factory to instantiate the component.
+
+`bTPropertyObject<gCScriptAdmin,eCEngineComponentBase>` copy entry `20012a76`
+forwards to body `20356630`. When the copied component slot is empty, that body
+calls smart-pointer initializer entry `200151b3` (body `20356440`). The
+initializer allocates `0x208` bytes with tag `0xc4` and calls the ScriptAdmin
+constructor. The property-object creator entry `200108a7` (body `203568f0`)
+uses creator body `20356730`, which initializes the smart pointer and registers
+the property object with `bCPropertyObjectFactory`. These Game constructor,
+root-lookup and property-object bodies are study pseudocode at this checkpoint;
+they have not yet been added to the byte-audited Game source package.
+
+The unresolved edge is which application object invokes that copy or creator
+path, and where it falls in startup relative to the cached `gCScriptAdmin`
+getter. The getter does not construct the component; if it sees no
+registration, its original lookup returns `NULL`. The focused checkpoint 95
+test uses an empty registry fixture only, and no production NPC service
+supplies the Engine ModuleAdmin, ScriptAdmin construction or RTTI cast owners
+yet. The next source task is to recover the caller and its source order before
+wiring the lookup.
+
+[`prepare_crt_bootstrap_source.py`](../../tools/gothic3/prepare_crt_bootstrap_source.py)
+checks original instruction bytes and captures cold storage, output layouts,
+pointer bindings, callbacks and omitted post-free continuations. The
+[`source package`](../../assets/gothic3/crt-bootstrap/README.md) separates new
+receipts from reused CRT evidence. Regeneration executes no game code and does
+not alter the older packages.
+
+The frozen package contains 52 method receipts: 31 newly audited catalog
+methods, eighteen reused methods (seventeen unchanged and one attach body
+extended with its omitted continuation), and three uncataloged compiler thunks.
+All 1,665 unique instructions match the original Engine PE. Forty-nine recovered
+post-free instructions comprise forty-one new recoveries and eight reused ones.
+All 105 generated files reproduced identically; 101 excerpt references matched
+their recorded SHA-256. All 166 files in the preceding CRT package remained
+unchanged. The producer executes no native code.
+
+| Frozen output | Bytes | SHA-256 |
+| --- | ---: | --- |
+| Bootstrap rules | 134,847 | `a57679bc2772b4be46bb0c7e960be3c17b5c1fe3a41e4c31d40d8a4a243050ef` |
+| Bootstrap evidence | 329,223 | `95795ca42bce2bd0d658b63e62571a716167d92c3931f0e4bbdce7014cc46f21` |
+
+The combined checkout includes the reviewed [grass contribution](https://github.com/ael-dev3/Tervain/pull/45)
+and its local fix commit `6ee7185b19949264d8aee677c738521476b096fa`.
+Pointer stamps persist until consumed and all configured flower LODs retain a
+bloom row; the [grass record](grass-0.0.13.md#integration-fixes) describes those
+changes. Independent reviews checked startup source order, canonical aliases,
+partial cleanup, held locks, index rereads and the grass fixes.
+
+Combined local validation passes typecheck and all **2,231 tests across 215
+files** in 123.64 seconds. The production build succeeds with 373 modules in
+30.26 seconds. The Gothic entry remains `gothic3-CAj9xpg6.js` (1,156.02 kB),
+with unchanged NPC entity and services chunks. These startup components have
+no browser application-entry import. The separate Tervain build contains the
+grass changes; the existing large-chunk warning remains. All 260 relative
+links checked across the rebuilding guides, tool guide and grass record resolve,
+and the combined diff passes whitespace checks.
+
+Local browser review exercised the title meadow at High, Low and Medium with
+pointer brushing, then loaded a new High game and checked movement and a
+pause/resume round trip. Health remained 100 and coin count six; the captured
+browser console contained no warnings or errors. This was a functional review,
+without a new performance benchmark.
+
+This startup prefix still requires command-line, environment, I/O and full C
+initialization before Engine DllMain and native application/module startup.
+ErrorAdmin, EntityAdmin, reflection/type registration, Navigation and indexed
+names remain part of the downstream NPC activation work. The live reader still
+stops at 338 of 6,544 bytes, with zero of sixteen property sets attached and no
+native processing graph. Passing component checks does not establish campaign
+completion.
+
+## 97. Model the Engine ModuleAdmin object and registry
+
+Date: 7 October 2026. This local checkpoint adds the first TypeScript owner for
+Engine's static `eCModuleAdmin` object. It follows the verified singleton,
+lookup, registration, array-growth and shutdown receipts; it does not yet wire
+the ModuleAdmin into browser NPC construction.
+
+### Keep the image object and registry order
+
+The source receipt pins the 84-byte Engine object at `30ad9e78`, its guard at
+`30ad9ecc`, the ModuleAdmin vtable at `3081cdd4`, and registry fields at offsets
+`+0x34` (array), `+0x38` (count) and `+0x3c` (capacity). The owner sets the guard
+before the injected eCInputDispatcher constructor, then applies the ModuleAdmin
+vtable and zero registry fields, calls `Create`, and registers shutdown thunk
+`30797fc0` in that order.
+
+`native-engine-module-admin.ts` implements forward first-match class lookup,
+backward duplicate detection, the `max(8, capacity >> 3)` growth increment,
+MemoryAdmin reallocation, and append-before-input-dispatcher-registration. It
+keeps opaque component pointer capabilities when an injected allocator moves
+the backing. A failure in a lower owner retains the source's applied prefix.
+The dispatcher constructor, input registration, RTTI class-name comparison
+and dispatcher teardown remain required host capabilities; the owner does not
+replace them with empty registries or successful no-ops.
+
+### Record the allocator boundary
+
+In the initial checkpoint 97 review, nine pointer slots requested 36 bytes
+through the audited 40-byte bucket, while the tenth module's 72-byte request
+was not covered. Checkpoint 98 adds the verified 80-byte pool and extends the
+real MemoryAdmin path through that reallocation. A separate injected moving-
+allocator case checks opaque module-pointer rebinding.
+
+`NativeRuntimePlatform` admits the ModuleAdmin shutdown callback only when the
+Engine thunk, destructor, dispatcher Destroy and dispatcher destructor match
+their captured byte receipts. Actual application startup must still establish
+and verify the memory-owner registration order before enabling teardown. The
+browser NPC service also remains unconnected to this ModuleAdmin and still
+does not construct or register `gCScriptAdmin`; the application edge that
+creates the ScriptAdmin wrapper and its RTTI cast remain open.
+
+### Review boundary
+
+The focused tests cover singleton order, exact Engine image fields,
+first-match lookup, duplicate suppression, ten registrations through the real
+72-byte request, append-prefix behavior when input registration is unowned,
+and pointer capability rebinding under a moving test allocator. They execute
+no native code and do not demonstrate a live Engine component registry, NPC
+activation, area script, quest progression or a hosted playable campaign.
+
+Reproduce this local review with:
+
+```powershell
+npm run typecheck
+npm test -- tests/gothic3-dialogue/native-engine-module-admin.test.ts
+```
+
+## 98. Extend the audited heap through the ModuleAdmin growth point
+
+Date: 7 October 2026. Scope: add the exact SharedBase small-pool class needed
+for Engine ModuleAdmin's tenth registry entry. This advances a local runtime
+owner and its allocator evidence; it does not connect the owner to browser NPC
+startup.
+
+The ModuleAdmin pointer list first requests 36 bytes for nine slots. Growing it
+for entry ten asks `bCMemoryAdmin::Realloc` for 72 bytes. SharedBase dispatches
+requests 65–80 to its 80-byte pool. The updated evidence pins the dispatch body
+`100484b0`, 80-byte callbacks and bitmap initializer, pool globals and
+descriptor slot, stride 80, capacity `0xff99`, region size `0x500000`, bitmap
+offset `0x4fdfe0`, and the exact callback table. The producer records separated
+contiguous instruction ranges around source gaps and checks each selected byte
+against the original `SharedBase.dll` before emitting receipts.
+
+Regenerating the base allocator receipt changes its SHA-256. The NPC heap and
+SceneAdmin startup extensions are regenerated against that base identity, and
+the TypeScript owners reject stale extension packages. The base now has nine
+buckets; the NPC and SceneAdmin combinations admit twelve and eleven buckets
+respectively, and the SceneAdmin extension now pins the first 14 pointer-area
+records needed by the combined profile. The following record remains outside
+the selected source prefix and is tested as an explicit stop. Source generation
+executes no native code.
+
+| Source package | Output | Bytes | SHA-256 |
+| --- | --- | ---: | --- |
+| [Runtime admin](../../assets/gothic3/runtime-admin/manifest.json) | Runtime rules | 295,911 | `4c95912d7c7087af7a4c6c1c1d9f31d1b69e23da9456e5022c7d64f8756be016` |
+| Runtime admin | Native evidence | 808,906 | `22490217c2eeeccc91849e9610b1f6c9be9ea3ff8a897946242dd5d87f3c38ca` |
+| [NPC heap](../../assets/gothic3/npc-heap/manifest.json) | Rules | 66,979 | `cfc2631ff21780f66e15c33f68968756f62761c8ff178e397496d854f8593d2b` |
+| NPC heap | Evidence | 201,114 | `f0f55eb9f3eb228af66cc1efa087496fb06b082dfa1e03542612badac676a10c` |
+| [Scene startup](../../assets/gothic3/scene-startup/manifest.json) | Rules | 114,218 | `b15a38b8a95f92cea93ad3fc2063b255bd18ed7bd6cd682b0c6f782adb8e55ab` |
+| Scene startup | Evidence | 342,689 | `abb548b6d15d3f8e0430e29c16a531e6298b752a981c1c2472338f00f3dc2fe8` |
+
+The real ModuleAdmin test registers ten distinct components. It verifies that
+the 72-byte growth reaches the 80-byte pool, stores a capacity of 18 slots and
+still finds the first and last component after growth. The dispatcher,
+class-name, RTTI and application startup owners remain injected dependencies;
+this registry is not yet used by `createBrowserNpcEntityServices`.
+
+Reproduce the source packages and focused review with:
+
+```powershell
+python -B tools/gothic3/prepare_runtime_admin_source.py --study "C:\path\to\Gothic3_Decompiled_Study_2026-10-04"
+python -B tools/gothic3/prepare_npc_heap_source.py --study "C:\path\to\Gothic3_Decompiled_Study_2026-10-04"
+python -B tools/gothic3/prepare_scene_startup_source.py --study "C:\path\to\Gothic3_Decompiled_Study_2026-10-04"
+npm run typecheck
+npm test -- tests/gothic3-dialogue/native-engine-module-admin.test.ts tests/gothic3-dialogue/scene-startup-memory.test.ts
+```
+
+### Validation
+
+The source producer reports 112 SharedBase methods, 4,300 instruction records
+and 4,259 unique instructions with zero PE byte mismatches. Local typechecking
+passes; all 2,392 tests in 228 files pass. The production build succeeds with
+393 transformed modules. Its Gothic entry is 1,180.47 kB; the existing Tervain
+and world chunks remain above the 1,200 kB warning threshold. This allocator
+checkpoint changes no browser route, and it has not been manually exercised in
+the browser.
+
+`npm run dev` serves `/gothic3/` locally. Review the actual rendered scene and
+models as well as the source diff. Check every generated output hash, asset
+reference and source record; record unsupported behavior instead of treating
+successful conversion as game equivalence. The current snapshot contains
+202 world instances, 67 NPC records, 130 models and 139 textures.
+
+Vite builds Tervain, `/gothic3/` and `/gothic3-local/` into one `dist`
+artifact. Publication uses the existing Pages workflow. Before a coherent main
+push, inspect repository-wide runs, attempts and workflow trigger chains; reuse
+applicable results and avoid duplicate runs. The workflow retains its required
+typecheck, scenario suite and build, followed by deployment. Confirm the served
+Ardea route, the local-install viewer introduction and the original Tervain
+version after the deployment succeeds.
+
+The 4 October foundation checkpoint passed local typecheck, production build,
+documentation link checks and generated-byte verification. All 11,843 gameplay
+output receipts matched; 9,301 gzip files also matched their decoded receipts.
+The largest decoded chunk was 2,749,307 bytes. Native Hero walking and paused
+fist deformation rendered in the browser without console warnings, and catalog
+search/language selection showed the original records. This evidence does not
+include a native-game comparison run or a browser playthrough.
+
+## 99. Own the Engine input dispatcher and compose ModuleAdmin registration
+
+Date: 7 October 2026. This checkpoint corrects the reviewed
+ModuleAdmin getter, lookup and destructor boundaries, then implements the
+original input-dispatcher base over that same retained static object. It adds
+no claim of native NPC activation or a complete campaign.
+
+### Preserve the actual base object and callbacks
+
+[`native-engine-input-dispatcher.ts`](../../src/gothic3/native-engine-input-dispatcher.ts)
+owns the first 52 bytes of the ModuleAdmin object. Construction follows
+ObjectBase, ObjectRefBase and InputReceiver stores before initializing the
+priority arrays at offsets `+0x10` and `+0x1c`, session `+0x28`, action mapper
+`+0x2c` and flag `+0x30`. ObjectRefBase Create sets the original validity bit.
+Registration reads the component's input-enabled byte at `+0x0c` and admits
+exactly value 1, checks both lists for duplicate pointers, then dispatches the
+actual priority method at virtual `+0x60`. Original inherited priority 0 is
+selected only through the pinned vtable mapping; other overrides require
+owned callbacks. Priorities 0 and 1 append to their corresponding arrays.
+
+Array growth uses the original required-count, growth increment, Realloc,
+pointer store, memset and capacity order. Pointer capabilities are rebound
+after a moved allocation without inventing x86 addresses. Nonzero high-bit
+counts and unowned backing remain explicit boundaries. NULL setters support
+ordinary teardown. Non-NULL session/mapper setters preserve their original
+application/device and release/assign/add-reference order, while requiring
+actual application, buffer and reference owners.
+
+Destroy frees priority 1 before priority 0, invokes the object's pinned
+session and mapper slots, clears validity through the original IsValid path,
+and retains the repeated cleanup reads in the destructor. ModuleAdmin itself
+now allows guard-set getter reentry, reads lookup slots lazily, reloads the
+matched slot, restores its destructor vtable and performs both post-Destroy
+registry cleanup checks.
+
+[`native-engine-module-owner.ts`](../../src/gothic3/native-engine-module-owner.ts)
+composes the concrete dispatcher operations with ModuleAdmin and supplies a
+SceneAdmin constructor registration bridge through the pinned virtual `+0x74`.
+It requires the same MemoryAdmin and actual component fields. Class-name
+comparison, reflected creation, original application startup and ScriptAdmin
+creation are still separate owners; this compositor is not instantiated by
+the production NPC services yet.
+
+### Capture and admit the lower source
+
+The scene-startup producer adds 24 method receipts, seven original vtable
+slices with 175 pointer words, ten import/export mappings and the cold
+Application pointer at `30ad9898`. The TypeScript owner pins complete table
+bytes and consumed import identities. The new audit covers 85 bodies, 2,226
+unique instructions and 22 reused receipts, with zero original-PE byte
+mismatches. No native program was executed.
+
+| Generated receipt | SHA-256 |
+| --- | --- |
+| `assets/gothic3/scene-startup/runtime-rules.json` | `426db5775f7da2f47feffde1360368ac3e681add63aeeb750dc370c15b7514a3` |
+| `assets/gothic3/scene-startup/native-evidence.json` | `f4c4ba2c49709f57b548b57e571f700f6a30fa6d91bde2401219ceb0f10f3cdd` |
+
+### Local review and remaining integration
+
+Independent source review identified and corrected constructor store ordering,
+receipt admission and nonzero high-bit list handling. `npm run typecheck`
+passes. `npm run build` succeeds with 393 modules in 39.65 seconds and the
+existing large-chunk warning; its Gothic entry is `gothic3-D6Kc6l9E.js`,
+1,180.47 kB (268.48 kB gzip). The build was made from the uncommitted runtime
+changes on parent `99d4112c`, before incorporating the documentation-only
+PR 59 merge. No new tests were added or run for this checkpoint, and the new
+compositor has no recorded browser execution.
+
+The next source trace identifies the creation edge in the Game DLL C++
+initializer table: `205faf54` initializes the root ScriptAdmin wrapper,
+`205faf58` establishes its PropertyID, and `205faf5c` constructs an accessor
+creator. The accessor calls the SharedBase singleton/factory clone path,
+which reaches the Game property-object creator and the ScriptAdmin constructor
+that registers through ModuleAdmin. This occurs before application
+initialization. Some initializer bodies are absent from the reconstructed
+function catalog and must be captured from original PE bytes explicitly.
+
+The remaining route is to capture and connect those initializer and
+accessor/factory owners, its class-name/RTTI and script-call owners, full
+entity property attachment, world membership and processing.
+Then NPC behavior must participate in ordinary gameplay, quests and saves.
+The full browser campaign remains unfinished.

@@ -1,6 +1,6 @@
 # Original Game CRT source receipts
 
-This additive package records the installed Gothic 3 `Game.dll` CRT algorithms, actual Game storage and selected Navigation class-name/type dependencies. Game owns its heap, locks, thread indexes, pointer slots, demangler, exit table and class caches. Corresponding method labels help compare source algorithms with the earlier Engine packages; they do not admit an Engine owner for Game or establish blanket algorithm equivalence.
+This additive package records the installed Gothic 3 `Game.dll` CRT algorithms, actual Game storage, and selected Navigation and ScriptAdmin type-info dependencies. Game owns its heap, locks, thread indexes, pointer slots, demangler, exit table and class caches. Corresponding method labels help compare source algorithms with the earlier Engine packages; they do not admit an Engine owner for Game or establish blanket algorithm equivalence.
 
 ## Reproduce
 
@@ -30,6 +30,6 @@ All static storage is an original image receipt, with file-backed and loader-zer
 
 The C initializer table has five non-NULL callbacks. Onexit initialization is its first callback. Navigation class-name initializer `204b1840` occupies C++ slot `2056c220`, index 136 and non-NULL ordinal 72, with 71 preceding callbacks. Capturing or invoking this one callback does not complete the table or Game startup. Full table execution is unproven.
 
-Navigation class-name cache `207b4964`, RTTI descriptor `20796ce4`, selected type-name list `207d0a18` and property-type singleton `207bf7e4` are separate source receipts. The captured `_Type_info_dtor` uses list `207d0a98`; it does not prove cleanup of the Navigation list. Actual class-name construction, Shared property type/factory/registry services, entity attachment and full NPC activation require their own retained owners and source-ordered execution.
+Navigation class-name cache `207b4964`, Navigation RTTI descriptor `20796ce4`, ScriptAdmin class-name cache `207b47a0`, ScriptAdmin RTTI descriptor `207966e0`, ScriptAdmin getter cache/guard `207b6028`, selected type-name list `207d0a18` and property-type singleton `207bf7e4` are separate source receipts. The captured `_Type_info_dtor` uses list `207d0a98`; it does not prove cleanup of either class-name list. Actual ScriptAdmin construction and registration, Shared property type/factory/registry services, entity attachment and full NPC activation still require their own retained owners and source-ordered execution.
 
 The producer performs offline source audits only. It executes no native code, captures no live process state, and runs no repository tests or builds. Earlier source packages remain frozen.

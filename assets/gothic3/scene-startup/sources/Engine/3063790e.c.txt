@@ -1,0 +1,12 @@
+/* ENTRY 3063790e | SHAREDBASE.DLL::bCObjectRefBase::ReleaseReference | STATUS decompiled | 3 ms */
+
+ulong __thiscall bCObjectRefBase::ReleaseReference(bCObjectRefBase *this)
+
+{
+  ulong uVar1;
+  
+                    /* WARNING: Could not recover jumptable at 0x3063790e. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  uVar1 = ReleaseReference(this);
+  return uVar1;
+}

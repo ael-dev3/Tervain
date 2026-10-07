@@ -1,0 +1,14 @@
+3027ad70 | 56 | PUSH ESI
+3027ad71 | 8bf1 | MOV ESI,ECX
+3027ad73 | 8b4634 | MOV EAX,dword ptr [ESI + 0x34]
+3027ad76 | 85c0 | TEST EAX,EAX
+3027ad78 | 7424 | JZ 0x3027ad9e
+3027ad7a | 50 | PUSH EAX
+3027ad7b | ff15acdbaf30 | CALL dword ptr [0x30afdbac]
+3027ad81 | 8bc8 | MOV ECX,EAX
+3027ad83 | ff150cdbaf30 | CALL dword ptr [0x30afdb0c]
+3027ad89 | c7463400000000 | MOV dword ptr [ESI + 0x34],0x0
+3027ad90 | c7463800000000 | MOV dword ptr [ESI + 0x38],0x0
+3027ad97 | c7463c00000000 | MOV dword ptr [ESI + 0x3c],0x0
+3027ad9e | 5e | POP ESI
+3027ad9f | c3 | RET

@@ -1,11 +1,11 @@
-/* ENTRY 1004a5a0 | FUN_1004a5a0 | STATUS decompiled | 3 ms */
+/* ENTRY 1004a5a0 | bCObjectRefBase::bCObjectRefBase | STATUS decompiled | 6 ms */
 
-bCObjectBase * __fastcall FUN_1004a5a0(bCObjectBase *param_1)
+bCObjectRefBase * __thiscall bCObjectRefBase::bCObjectRefBase(bCObjectRefBase *this)
 
 {
-  bCObjectBase::bCObjectBase(param_1);
-  *(undefined4 *)(param_1 + 4) = 0;
-  *(undefined ***)param_1 = bCObjectRefBase::vftable;
-  *(undefined4 *)(param_1 + 8) = 1;
-  return param_1;
+  bCObjectBase::bCObjectBase((bCObjectBase *)this);
+  (this->bCObjectRefBase_data).offset_0x0 = 0;
+  this->vftablePtr = &vftable;
+  (this->bCObjectRefBase_data).offset_0x4 = 1;
+  return this;
 }
