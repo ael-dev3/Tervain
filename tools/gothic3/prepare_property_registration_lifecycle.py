@@ -11,7 +11,8 @@ def capture(study, output):
     audit = native.audit_module(study, 'SharedBase_dll', 'SharedBase.dll',
                                {0x1000191f: 'registerType', 0x1000206d: 'unregisterProperty',
                                 0x100035ee: 'destroyProperty', 0x10090e30: 'lookupTypeSlot',
-                                0x10088610: 'removePropertySlot'})
+                                0x10088610: 'removePropertySlot', 0x10008cd3: 'findTypeSlot',
+                                0x10002c7a: 'hashCString', 0x10004638: 'assignCString'})
     output.mkdir(parents=True, exist_ok=True)
     methods = {}
     for method in audit['methods']:

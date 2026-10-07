@@ -74,6 +74,57 @@
       "entryChain": [],
       "assemblySha256": "0c92e8113baab345b50ef41b801db9d2f81a007bca83e694eebfcc03c6a2223d",
       "cSha256": "12bc19d029b62b0ed857231ebb8134a6d89b183b1b2b0751a40a1e08490a6a29"
+    },
+    "findTypeSlot": {
+      "entryVA": "0x10008cd3",
+      "bodyVA": "0x10090ac0",
+      "bodyRanges": "10090ac0-10090b12",
+      "instructionCount": 37,
+      "bodyByteCount": 83,
+      "bodyInstructionBytesSha256": "b18d216888a9b6639c354c0e97ee63325d832fa63e05628b15f9c243dc6eb1d6",
+      "entryChain": [
+        {
+          "va": "10008cd3",
+          "bytes": "e9e87d0800",
+          "targetVA": "10090ac0"
+        }
+      ],
+      "assemblySha256": "7bb7a549acb13b939b231550e203fb34de0fd5e6432be541c7316e085fe9100c",
+      "cSha256": "21fda837a95926805dfdee3e511ac632b379672d42ee79a99b3253aef1b962fb"
+    },
+    "hashCString": {
+      "entryVA": "0x10002c7a",
+      "bodyVA": "0x10087ad0",
+      "bodyRanges": "10087ad0-10087b01",
+      "instructionCount": 21,
+      "bodyByteCount": 50,
+      "bodyInstructionBytesSha256": "2cca94382b5b996a2ab1ff4597606cf3edb72646aaa840ecb4057207d81dd8fc",
+      "entryChain": [
+        {
+          "va": "10002c7a",
+          "bytes": "e9514e0800",
+          "targetVA": "10087ad0"
+        }
+      ],
+      "assemblySha256": "a15479ef0d15ff68e8293c165feb8d15502ac0a66822618b41988f9d0e0431c6",
+      "cSha256": "e18fc89dc3a14187cd9bf7c254a59228c41dd4647c12666582a7b6b91336a63d"
+    },
+    "assignCString": {
+      "entryVA": "0x10004638",
+      "bodyVA": "0x10015430",
+      "bodyRanges": "10015430-10015442",
+      "instructionCount": 8,
+      "bodyByteCount": 19,
+      "bodyInstructionBytesSha256": "412475bfdebccf0279b4810435e16976cd1f7513bda3a44b78846a95c5ade4e3",
+      "entryChain": [
+        {
+          "va": "10004638",
+          "bytes": "e9f30d0100",
+          "targetVA": "10015430"
+        }
+      ],
+      "assemblySha256": "4e051f5530198297ea53c4fd16353f423b79cb4f8657ad5c26d42cb101515857",
+      "cSha256": "1987626404a56839472eece986a65edacf93378a6f2880cc82e265f0eeb81b4e"
     }
   },
   "runtimeRegistrationCompleted": false,
