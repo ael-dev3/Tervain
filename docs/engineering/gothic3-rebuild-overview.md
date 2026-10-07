@@ -13,9 +13,9 @@ itself establish a playable reconstruction.
 
 ## Current status — 8 October 2026
 
-The latest confirmed publication is [PR 81](https://github.com/ael-dev3/Tervain/pull/81),
-merged at `7bf684961ba6912011370d652ce8afa66cee37b4` and deployed by
-[Pages run 37702332541](https://github.com/ael-dev3/Tervain/actions/runs/37702332541).
+The latest confirmed publication is [PR 82](https://github.com/ael-dev3/Tervain/pull/82),
+merged at `8d90a344e419148ed5f28e7269ea81a8cbbdbcf7` and deployed by
+[Pages run 37704420647](https://github.com/ael-dev3/Tervain/actions/runs/37704420647).
 The served Gothic entry and three selected JavaScript chunks were compared with
 the corresponding local production artifacts and matched byte for byte.
 That establishes publication identity; it does not establish complete gameplay.
@@ -31,15 +31,20 @@ Its CI passed typechecking, the production build and 2,477 tests. These supporti
 components still need to join actual initializer traversal and property
 registration before they can enable full NPC startup.
 
-A subsequent local implementation captures and reads 328 property-owner getters:
-291 use field offset 24 and 37 use offset 28. It reads the retained receiver's
-actual vtable and pointer storage. This work is not yet published or connected
-to live virtual-call execution, and does not register property templates. The same
-local work adds the original property-object and named-factory constructors,
-preserving flag-bit knowledge, WORD stores, padding and CString ownership. It
-also implements the original template-array removal dependency with overlapping
-pointer-preserving memmove. The singleton's string-keyed registration table and
-the higher-level unregister calls remain unfinished.
+PR 82 publishes read support for 328 property-owner getter layouts, original
+property-object and named-factory constructors, and pointer-preserving template
+removal. These components are not connected to live virtual-call execution or
+property registration.
+
+Subsequent local work implements the string-keyed type table's lookup, insertion,
+clear/recreation and constructor; original signed-byte CString hashing; and the
+original 4-byte allocator pool used by registration wrappers. It also implements
+the property singleton constructor's allocation sequence: construct 43 buckets,
+clear/recreate them, then grow to 359 buckets with capacity 367. Focused checks
+verify the allocation sequence and untouched padding. This work is not yet
+published. The canonical SharedBase singleton storage, getter guard, exit
+registration, class-name virtual dispatch and full RegisterTemplate connection
+remain unfinished.
 
 The next dependency chain includes original type-singleton initialization,
 class-name and factory construction, property registration, and the lifecycle

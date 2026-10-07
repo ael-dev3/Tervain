@@ -44,3 +44,10 @@ without replay. Its current tests use the original 4-byte value allocation throu
 source-admitted property heap extension. That pool is now implemented locally;
 RegisterTemplate's class-name virtual call and wrapper/value-store integration
 remain separate dependencies.
+
+`native-property-singleton-construction.ts` implements the original 28-byte base
+constructor over supplied retained fields, preserving padding and the original
+43-bucket construction, clear/recreation and growth to 359 logical buckets. Tests
+verify the two 224-byte-pool allocations followed by the 1536-byte-pool allocation.
+This helper does not own the canonical SharedBase image singleton, getter guard
+or exit registration and does not complete module initialization.
