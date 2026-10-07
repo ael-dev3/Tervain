@@ -1,0 +1,23 @@
+2046d263 | 55 | PUSH EBP
+2046d264 | 8bec | MOV EBP,ESP
+2046d266 | 83ec10 | SUB ESP,0x10
+2046d269 | ff7508 | PUSH dword ptr [EBP + 0x8]
+2046d26c | 8d4df0 | LEA ECX,[EBP + -0x10]
+2046d26f | e8f279ffff | CALL 0x20464c66
+2046d274 | ff7528 | PUSH dword ptr [EBP + 0x28]
+2046d277 | 8d4df0 | LEA ECX,[EBP + -0x10]
+2046d27a | ff7524 | PUSH dword ptr [EBP + 0x24]
+2046d27d | ff7520 | PUSH dword ptr [EBP + 0x20]
+2046d280 | ff751c | PUSH dword ptr [EBP + 0x1c]
+2046d283 | ff7518 | PUSH dword ptr [EBP + 0x18]
+2046d286 | ff7514 | PUSH dword ptr [EBP + 0x14]
+2046d289 | ff7510 | PUSH dword ptr [EBP + 0x10]
+2046d28c | ff750c | PUSH dword ptr [EBP + 0xc]
+2046d28f | e82dfcffff | CALL 0x2046cec1
+2046d294 | 83c420 | ADD ESP,0x20
+2046d297 | 807dfc00 | CMP byte ptr [EBP + -0x4],0x0
+2046d29b | 7407 | JZ 0x2046d2a4
+2046d29d | 8b4df8 | MOV ECX,dword ptr [EBP + -0x8]
+2046d2a0 | 836170fd | AND dword ptr [ECX + 0x70],0xfffffffd
+2046d2a4 | c9 | LEAVE
+2046d2a5 | c3 | RET

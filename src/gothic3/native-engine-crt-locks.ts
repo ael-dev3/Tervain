@@ -14,6 +14,7 @@ import type { NativeWin32HeapCapability, NativeWin32ModuleCapability, NativeCrtP
 import type { NativeWin32ProcessInputEndpoints } from './native-win32-process-inputs';
 import { NativeX86ThreadStack } from './native-x86-thread-stack';
 import type { NativeHeapAllocCallGrant } from './native-x86-thread-stack';
+import type { NativeArgvNlsCallGrant } from './native-win32-argv-nls';
 import { NativeCrtThreadStartup } from './native-crt-thread-startup';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
@@ -227,6 +228,36 @@ export class NativeModuleCrtOwner {
       if (owner.#retainedImageStorage('crtHeapHandle') !== heapFields) return unknown('Retained Game heap-handle image changed during its actual load');
       return heap && heap.owner === owner.identity && owner.#heaps.has(heap) ? known(heap)
         : unknown('Actual current same-owner Game CRT heap capability required');
+    } catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
+  }
+  static heapAllocForArgvCall(owner: NativeModuleCrtOwner, platform: NativeRuntimePlatform,
+    call: NativeArgvNlsCallGrant): NativeValue<NativeMemoryBacking | null> {
+    const admitted = NativeX86ThreadStack.argvArgumentsForPlatform(platform, call); if (!admitted.known) return admitted;
+    const input = admitted.value, args = input.arguments;
+    if (input.crt !== owner || input.kind !== 'HeapAlloc' || args[0]?.kind !== 'object' || args[1]?.kind !== 'scalar' ||
+        args[1].value !== 0 || args[2]?.kind !== 'scalar') return unknown('Actual current Game malloc import arguments required');
+    const heap = NativeModuleCrtOwner.canonicalGameHeapHandleForPlatform(owner, platform); if (!heap.known) return heap;
+    if (args[0].value !== heap.value) return unknown('Actual current Game heap differs from malloc import');
+    const result = NativeRuntimePlatform.performArgvHeapAllocForCall(platform, call, heap.value, args[2].value);
+    if (result.known && result.value !== null) owner.#allocations.add(result.value);
+    return result;
+  }
+  /** This proves the current source lock-table pointer, not an image-shaped
+   * caller object or a newly initialized substitute section. */
+  static canonicalGameLock13ForPlatform(owner: NativeModuleCrtOwner, platform: NativeRuntimePlatform,
+    fields: NativeHeapObjectViews, offset: number): NativeValue<NativeHeapObjectViews> {
+    if (!NativeModuleCrtOwner.isConstructedOwner(owner) || owner.module !== 'Game' || owner.host.platform !== platform || owner.locksTerminated) {
+      return unknown('Actual current same-platform Game lock owner required');
+    }
+    try {
+      const access = NativeRuntimePlatform.canonicalGameModuleImageAccessForPlatform(platform, owner, 'crtLockTable', 13 * 8, 4); if (!access.known) return access;
+      const table = owner.#retainedImageStorage('crtLockTable'), value = NativeHeapObjectViews.prototype.pointer.call(table, 13 * 8).get();
+      if (!(value instanceof NativeHeapObjectViews) || fields.bytes.buffer !== value.bytes.buffer ||
+          fields.bytes.byteOffset + offset !== value.bytes.byteOffset || fields.knownMask.buffer !== value.knownMask.buffer ||
+          fields.knownMask.byteOffset + offset !== value.knownMask.byteOffset || value.bytes.length !== 24) return unknown('Actual current lock13 physical alias required');
+      const root = owner.#retainedImageStorage('crtStaticSections'), begin = value.bytes.byteOffset - root.bytes.byteOffset;
+      const physical = NativeRuntimePlatform.canonicalGameModuleImageAccessForPlatform(platform, owner, 'crtStaticSections', begin, 24); if (!physical.known) return physical;
+      return known(value);
     } catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
   }
   /** Admit only the actual thread owner's retained PTD; this does not call a

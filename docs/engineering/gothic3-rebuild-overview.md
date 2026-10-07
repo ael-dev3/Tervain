@@ -12,23 +12,27 @@ native data structure is a useful component milestone, but it does not by
 itself establish a playable reconstruction.
 
 The latest confirmed Gothic implementation publication recorded here is
-[checkpoint 107](gothic3-rebuilding-process.md#107-own-the-first-io-allocation-and-record-initialization),
-merged on 7 October 2026 in [PR 74](https://github.com/ael-dev3/Tervain/pull/74)
-at commit `b6cbd47eaeb56f641eba99eb7e9bdaa4f766fe21` and published by successful
-[workflow run 37650693600](https://github.com/ael-dev3/Tervain/actions/runs/37650693600).
-It connects the nested allocation, its physical returns and the first I/O block
-initialization. The local production-preview observation shows 32 records and
-531 completed source operations before `GetStdHandle` at `204744b4`. The
-[publication receipt](gothic3-rebuilding-process.md#confirmed-publication-of-checkpoint-107)
-records successful checks and matching deployed artifacts. Whole startup and
-the later property-ID initializer remain unfinished.
+[checkpoint 108](gothic3-rebuilding-process.md#108-own-standard-handles-critical-sections-and-the-normal-io-return),
+merged on 7 October 2026 in [PR 75](https://github.com/ael-dev3/Tervain/pull/75)
+at commit `acc3ddfc791614bb772b0832e13203e599b9605c` and published by successful
+[workflow run 37665161360](https://github.com/ael-dev3/Tervain/actions/runs/37665161360).
+It extends the retained I/O invocation through three standard handles and
+critical sections to its actual zero return. The corrected local production
+preview shows 32 records and 899 completed source operations, then stops before
+the caller TEST at `204678d3`. The
+[publication receipt](gothic3-rebuilding-process.md#confirmed-publication-of-checkpoint-108)
+records successful checks and matching deployed artifacts. Those comparisons
+establish published code identity; the execution observation is from the local
+production preview. Whole startup and the later property-ID initializer remain
+unfinished.
 
-The following [checkpoint 108](gothic3-rebuilding-process.md#108-own-standard-handles-critical-sections-and-the-normal-io-return)
-extends the retained I/O invocation through three standard handles and critical
-sections to its actual zero return. Its corrected local production preview
-shows 899 completed source operations and stops before the caller TEST at
-`204678d3`. The recorded publication receipt above covers checkpoint 107;
-checkpoint 108's build and execution evidence is recorded with that increment.
+The next documented implementation increment is
+[checkpoint 109](gothic3-rebuilding-process.md#109-own-cold-encoding-initialization-and-the-normal-argument-return).
+Its corrected local production preview extends that same returned I/O graph
+through cold encoding-table initialization and both argument parser passes:
+14,777 completed source operations, argument count 1 and actual return zero.
+It stops before environment initialization at `204678e7`. This local execution
+receipt is separate from the confirmed publication record above.
 
 The browser supports exploration and selected gameplay paths. Whole-module
 startup, native NPC activation and most campaign progression remain unfinished. See
@@ -536,18 +540,21 @@ Startup components have not established new NPC gameplay in the browser.
 | Dialogue and quests | Selected Ardea dialogue, Jack's bounded bandit quest, destination callbacks and supported rewards | Most original dialogue, quests, faction consequences and campaign endings |
 | Inventory and combat | Selected inventory operations, potion/XP effects and bounded fist damage/death prefixes | Full item/equipment lifecycle, native attack eligibility, NPC attacks, defeat/death cleanup and loot |
 | Persistence | Browser saves for the supported session state and selected progression effects | Full campaign state and recovery for every added system |
-| Runtime foundations | Selected property readers, heap/runtime owners, Navigation callbacks, ScriptAdmin/ModuleAdmin components, canonical GUID storage and the Game CRT prefix through standard handles, critical sections and the actual I/O return observed in the local preview | Caller branch, arguments/environment and remaining CRT/module startup, reflected factories, full entity attachment, world membership and processing activation |
+| Runtime foundations | Selected property readers, heap/runtime owners, Navigation callbacks, ScriptAdmin/ModuleAdmin components, canonical GUID storage and the Game CRT prefix through I/O, cold encoding-table initialization and the actual argument return observed in the local preview | Environment initialization and remaining CRT/module startup, reflected factories, full entity attachment, world membership and processing activation |
 
 Checkpoint 92 connects source-registered Navigation zones to the native type-8
 quest-entry callback and has focused save/restore coverage. Checkpoint 93 adds
 Xardas Tower rendering and browser collision using its mesh triangles. A local
 preview-teleport review confirmed rendering and a grounded Hero; ordinary
 overland arrival remains unverified. Checkpoint 94 models the ScriptAdmin
-getter protocol. Checkpoints 95–108 add individual registration and startup
+getter protocol. Checkpoints 95–109 add individual registration and startup
 prerequisites; full native ScriptAdmin creation and live NPC activation remain
 unfinished. Published checkpoint 107 stopped before `GetStdHandle`, retaining
 its applied state; checkpoint 108's local observation reaches the caller TEST
 after I/O returns zero. See [checkpoint 108](gothic3-rebuilding-process.md#108-own-standard-handles-critical-sections-and-the-normal-io-return)
+for that publication. Checkpoint 109's corrected local production observation
+continues through the argument return to the unexecuted environment CALL.
+See [checkpoint 109](gothic3-rebuilding-process.md#109-own-cold-encoding-initialization-and-the-normal-argument-return)
 and the [current controls and scope](gothic3-browser-port.md).
 
 ### Why startup is the current implementation focus
@@ -560,9 +567,10 @@ entity in the same world as the Hero.
 
 Checkpoints 106–108 connect the virtual stack, original I/O startup prolog,
 selected 68-byte startup-info writer, nested allocation, record initialization,
-standard handles and sections, and the actual I/O return. The next work owns
-the caller branch and full argument initialization with its MBC/NLS
-dependencies. Environment and initializer traversal, module creation and NPC
+standard handles and sections, and the actual I/O return. Checkpoint 109 owns
+the caller branch and the selected normal argument initialization with its
+MBC/NLS dependencies, both parser passes and actual return. Environment and
+initializer traversal, module creation and NPC
 activation remain prerequisites for the full gameplay loop.
 The finishable campaign remains the completion criterion.
 

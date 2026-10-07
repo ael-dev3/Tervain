@@ -13,6 +13,7 @@ import type { NativeWin32HeapCapability } from './native-runtime-platform';
 import { NativeRuntimePlatform } from './native-runtime-platform';
 import { NativeGameCrtEnvironment } from './native-game-crt-environment';
 import { NativeGameCrtIoInit } from './native-game-crt-ioinit';
+import { NativeGameCrtArgv } from './native-game-crt-argv';
 import { gameAttachContinuationInstructionPoints } from './native-game-crt-attach-source';
 import type { NativeWin32ProcessInputEndpoints } from './native-win32-process-inputs';
 import type { NativeBytePointer } from './native-pointer-geometry';
@@ -144,7 +145,8 @@ export type NativeCrtAttachOperationName = 'version.size.store' | 'GetVersionExA
   'os.minor.store' | 'os.build.store' | 'heapInit.return' | 'mtInit.return' |
   'heapTerm.return' | 'preCInit.return' | 'GetCommandLineA.boundary' |
   'GetCommandLineA.return' | 'commandLinePointer.store' | 'environment.return' |
-  'environmentBlock.store' | 'ioInit.boundary' | 'ioInit.enter' | 'ioInit.return' | 'crtAttach.return';
+  'environmentBlock.store' | 'ioInit.boundary' | 'ioInit.enter' | 'ioInit.return' |
+  'argv.enter' | 'argv.return' | 'argv.boundary' | 'crtAttach.return';
 export interface NativeCrtAttachOperation {
   readonly operation: NativeCrtAttachOperationName;
   /** Load/store instruction, returned PC of a completed lower call, or reached
@@ -176,10 +178,13 @@ export interface NativeCrtAttachProgress {
   readonly environmentProgress: ReturnType<NativeGameCrtEnvironment['snapshot']> | null;
   readonly ioProgress: ReturnType<NativeGameCrtIoInit['snapshot']> | null;
   readonly ioResult: number | null;
+  readonly argvProgress: ReturnType<NativeGameCrtArgv['snapshot']> | null;
+  readonly argvResult: number | null;
   readonly nextBoundary: Readonly<{ name: 'ioInit'; address: string; target: string }> |
     Readonly<{ name: 'GetStartupInfoA' | 'HeapAlloc' | 'GetStdHandle' | 'GetFileType' | 'SetHandleCount'; address: string; iat: string }> |
     Readonly<{ name: 'calloc' | 'TlsGetValue' | 'FlsGetValue' | 'DecodePointer' | 'sectionInitializer'; address: string; target: string }> |
-    Readonly<{ name: 'callerTest'; address: string; instruction: 'TEST EAX,EAX' }> | null;
+    Readonly<{ name: 'callerTest'; address: string; instruction: 'TEST EAX,EAX' }> |
+    Readonly<{ name: string; address: string; instruction?: string; iat?: string; target?: string }> | null;
   readonly crtTraversalCompleted: false;
   readonly nativeModuleInstantiated: false;
 }
@@ -225,8 +230,15 @@ export class NativeCrtBootstrap {
   readonly #processInputs: NativeWin32ProcessInputEndpoints | null;
   readonly #environment: NativeValue<NativeGameCrtEnvironment> | null;
   readonly #io: NativeValue<NativeGameCrtIoInit> | null;
+  readonly #argv: NativeValue<NativeGameCrtArgv> | null;
+  readonly #argvSelected: boolean;
   readonly #ioCallPermit = Object.freeze({});
+  readonly #argvCallPermit = Object.freeze({});
   #ioInvocationActive = false;
+  #argvInvocationActive = false;
+  #argvAttempted = false;
+  #argvOutcome: NativeValue<void> | null = null;
+  #argvResult: 0 | -1 | null = null;
   #ioResult: number | null = null;
   #commandLineReturned = false;
   #commandLineNonNull: boolean | null = null;
@@ -282,6 +294,24 @@ export class NativeCrtBootstrap {
     }
     return known(undefined);
   }
+  /** The reached caller and argv callee have a separate private scope. It is
+   * entered while the original I/O callback still owns its real return, so a
+   * copied result cannot acquire the returned physical register/stack bank. */
+  static canonicalArgvCallForCrt(bootstrap: NativeCrtBootstrap, crt: NativeModuleCrtOwner,
+    permit: object): NativeValue<void> {
+    const retained = bootstrapByCrt.get(crt);
+    if (!NativeModuleCrtOwner.isConstructedOwner(crt) || crt.module !== 'Game' || !bootstrap ||
+        retained?.phase !== 'returned' || retained.owner !== bootstrap || bootstrap.#crt !== crt ||
+        bootstrap.#boundary !== null || bootstrap.#attachPhase !== 'running' ||
+        !(bootstrap.#active.has(bootstrap.#name('crtAttach')) ||
+          (bootstrap.#entryPhase === 'running' && bootstrap.#active.has(bootstrap.#name('entry')))) ||
+        !bootstrap.#ioInvocationActive || !bootstrap.#argvInvocationActive ||
+        permit !== bootstrap.#argvCallPermit || bootstrap.#lowerCall !== 'ioInit204742ff at204678ce' ||
+        !bootstrap.#argvAttempted || !bootstrap.#argv?.known) {
+      return unknown('Actual reached same-CRT caller/argv invocation permit required');
+    }
+    return known(undefined);
+  }
   private constructor(readonly crt: NativeModuleCrtOwner, token: object) {
     if (token !== bootstrapConstructionToken || new.target !== NativeCrtBootstrap ||
         !NativeModuleCrtOwner.isConstructedOwner(crt)) throw new Error('Private canonical CRT bootstrap construction required');
@@ -316,6 +346,9 @@ export class NativeCrtBootstrap {
     this.#processInputs = crt.module === 'Game' ? crt.host.platform.processInputEndpoints ?? null : null;
     this.#environment = crt.module === 'Game' ? NativeGameCrtEnvironment.forCrt(crt) : null;
     this.#io = crt.module === 'Game' ? NativeGameCrtIoInit.forCrt(crt) : null;
+    this.#argv = crt.module === 'Game' ? NativeGameCrtArgv.forCrt(crt) : null;
+    this.#argvSelected = crt.module === 'Game' && NativeRuntimePlatform.argvNlsSelectionForPlatform(
+      crt.host.platform as NativeRuntimePlatform).known;
     if (crt.module === 'Game') for (const label of ['commandLinePointer', 'environmentBlock']) {
       const fields = NativeModuleCrtOwner.canonicalImageForOwner(crt, label);
       if (!fields.known) throw new Error(fields.reason);
@@ -599,18 +632,48 @@ export class NativeCrtBootstrap {
         if (!returned.known) return returned;
         const proof = NativeGameCrtIoInit.canonicalReturnedIoForCrt(io, this.#crt, this, this.#ioCallPermit);
         if (!proof.known) return proof;
-        return proof.value === returned.value ? returned : unknown('Actual ioInit result differs from its retained return');
+        if (proof.value !== returned.value) return unknown('Actual ioInit result differs from its retained return');
+        // Record the completed original call before the returned bank moves to
+        // its caller. A later argv interruption does not undo the I/O return.
+        this.#ioResult = proof.value;
+        this.#record('ioInit.return', proof.value, '204678d3');
+        if (this.#argv?.known) {
+          const argv = this.#argv.value;
+          this.#argvAttempted = true;
+          this.#argvInvocationActive = true;
+          try {
+            this.#record('argv.enter', null, '204678d3');
+            this.#argvOutcome = NativeGameCrtArgv.enterFromReturnedIoForAttach(
+              argv, io, this.#crt, this, this.#ioCallPermit, this.#argvCallPermit);
+            const actualReturn = NativeGameCrtArgv.canonicalReturnedArgvForCrt(
+              argv, this.#crt, this, this.#argvCallPermit);
+            if (actualReturn.known) {
+              this.#argvResult = actualReturn.value;
+              this.#record('argv.return', actualReturn.value, '204678e3');
+            }
+          } finally { this.#argvInvocationActive = false; }
+        }
+        return returned;
       });
       this.#ioResult = result;
-      this.#record('ioInit.return', result, '204678d3');
     } finally {
       this.#ioInvocationActive = false;
-      const reached = NativeGameCrtIoInit.prototype.snapshot.call(io).nextBoundary;
+      const reached = this.#argvAttempted && this.#argv?.known
+        ? NativeGameCrtArgv.prototype.snapshot.call(this.#argv.value).nextBoundary
+        : NativeGameCrtIoInit.prototype.snapshot.call(io).nextBoundary;
       this.#nextBoundary = !reached ? null : 'instruction' in reached
         ? Object.freeze({ name: reached.operation, address: reached.pc, instruction: reached.instruction })
         : 'iat' in reached
           ? Object.freeze({ name: reached.operation, address: reached.pc, iat: reached.iat })
           : Object.freeze({ name: reached.operation, address: reached.pc, target: reached.target });
+    }
+    if (this.#argvAttempted) {
+      this.#record('argv.boundary', null, this.#nextBoundary?.address ?? null);
+      this.#gate(this.#argvOutcome && !this.#argvOutcome.known ? this.#argvOutcome.reason
+        : 'Unowned original Game continuation after caller/argv at' + (this.#nextBoundary?.address ?? 'unknown'));
+    }
+    if (this.#argvSelected && this.#argv && !this.#argv.known) {
+      this.#gate('Game argv construction at204678d3: ' + this.#argv.reason);
     }
     this.#gate('caller TEST EAX,EAX at204678d3 after ioInit returned ' + this.#ioResult);
   }
@@ -692,6 +755,8 @@ export class NativeCrtBootstrap {
       environmentProgress: this.#environment?.known ? this.#environment.value.snapshot() : null,
       ioProgress: this.#io?.known ? NativeGameCrtIoInit.prototype.snapshot.call(this.#io.value) : null,
       ioResult: this.#ioResult,
+      argvProgress: this.#argv?.known ? NativeGameCrtArgv.prototype.snapshot.call(this.#argv.value) : null,
+      argvResult: this.#argvResult,
       nextBoundary: this.#nextBoundary,
       crtTraversalCompleted: false, nativeModuleInstantiated: false });
   }

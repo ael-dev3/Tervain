@@ -8147,3 +8147,143 @@ The next required work owns the original caller TEST and conditional branch,
 then the complete argument initialization path with its MBC/NLS dependencies,
 parser passes, allocation and actual return. Whole CRT and module startup,
 native NPC activation and the campaign remain unfinished.
+
+### Confirmed publication of checkpoint 108
+
+[PR 75](https://github.com/ael-dev3/Tervain/pull/75) merged the corrected reviewed
+head `93a8cbb15e0f5b8138cfa30c8ce271766009a73d` at main commit
+`acc3ddfc791614bb772b0832e13203e599b9605c` on 7 October 2026.
+The corrected [PR check](https://github.com/ael-dev3/Tervain/actions/runs/37663616326)
+and normal [main publication](https://github.com/ael-dev3/Tervain/actions/runs/37665161360)
+both succeeded on their first attempts: 2,464 existing cases in 235 files,
+typechecking, and a build of 466 modules. The separate first-head failure
+described above remains failure evidence. This increment added no test cases
+and ran no local tests.
+
+Pages deployment `6917407367` succeeded. The root Tervain URL, `/gothic3/` and
+`/gothic3-local/` returned HTTP 200. The four inspected entry/service bundles
+matched the `github-pages` artifact `11502855998` from that exact main run;
+its retained artifact tar has SHA-256
+`963789d52855064efe07b18d017e5b4f481aef50caeda39b738a0392db052d66`.
+The Gothic and NPC service bundle hashes also match the corrected local
+observation above. Four repository documentation files and 22 source/package
+files matched the reviewed commit, with the producer independently verified.
+
+These are publication and source-identity checks. They are not another browser
+execution observation and do not establish completed CRT traversal, native NPC
+activation or a finishable campaign. A repository-wide paginated workflow audit
+after publication found 172 runs and no active jobs; no dispatch, rerun, remote
+cancellation or workflow change was used for this increment.
+
+## 109. Own cold encoding initialization and the normal argument return
+
+This increment continues the same original Game I/O invocation through its
+caller TEST/JGE, argument initializer CALL at `204678de`, actual callee return
+and the caller's following TEST/JL. The next unexecuted operation is
+`CALL 204764ff` at `204678e7`, the environment initializer `__setenvp`.
+Completing this selected argument path does not complete the outer CRT attach.
+
+### Recover and admit the source
+
+[`gothic3_game_argv_source.py`](../../scripts/gothic3_game_argv_source.py)
+produces the [22-file supplement](../../assets/gothic3/game-argv/README.md).
+It pins 32 original bodies, 1,850 distinct assembly rows and 5,225 instruction
+bytes: 23 reused bodies contain 1,205 rows and 3,486 bytes; nine new bodies
+contain 645 rows and 1,739 bytes. The separate original exception-handler
+listing has 125 contextual rows and 406 bytes. The 172-site full call inventory
+and 78 conditionally selected unique sites describe source coverage, not a
+dynamic operation count or complete alternate-path ownership.
+
+All 22 outputs regenerated identically. Independent original PE, C/ASM,
+metadata and manifest inspection found no mismatches. The preceding 917
+source files and checkpoint 108's producer and four outputs remain unchanged.
+The package adds 17 canonical image receipts while reusing the current cookie,
+heap, TLS, lock, locale, MBC and command-line storage. Cold bytes are
+initialization evidence; they do not authorize resetting those live cells.
+
+The update-MBC exception scope names cleanup entry `2046b8ca`. Its only
+captured source is the three original PE bytes `8b75e4`; no original catalog,
+C entry or assembly body covers it. The inferred decode is not a callable
+implementation. Normal helper `2046b8cd` retains its separate original listing.
+Normal prologs and epilogs are implemented; native exception dispatch and
+unwinding remain outside this selected path.
+
+### Implement the actual dependency chain
+
+[`NativeGameCrtArgv`](../../src/gothic3/native-game-crt-argv.ts) claims the
+actual returned I/O graph once, under the original active bootstrap scope and
+a distinct private argument permit. Registers, stack bytes, masks, FS and
+return words stay in their current storage. The old controller cannot execute
+again. Source snapshots and diagnostic counts grant no continuation authority.
+
+The fresh browser v6 selection declares a 4,096-byte page-aligned virtual
+stack and a complete 256-entry CP1252 single-byte NLS policy. The tables derive
+from the pinned Unicode CP1252 table and UnicodeData 15.1. Undefined vendor
+bytes retain their C1 values; case mappings outside the selected repertoire
+retain identity. These are explicit virtual compatibility choices, not
+measurements of the installed game's Windows locale.
+
+The original cold MBC flag causes the encoding initializer to run even for
+the declared ASCII command line. The implementation follows current PTD and
+locale accesses, lock 13, reference-count atomics, allocation, NLS probes and
+query/fill calls, real stack probes, table publication, both parser passes and
+the argument allocation. Twenty-six fixed import sites require their actual
+private source cursor, current physical frames, arguments, procedure identities
+and normal return proof. Unknown outcomes retain partial effects and pending
+call state. No predicted argument count, successful return or cleanup is
+substituted for source execution.
+
+### Preserve failures and validate the corrected increment
+
+The first local typecheck found an unused former alias-local invalidation
+helper. Its removal left all current stores using the existing alias-aware
+range invalidation. The first captured production build then succeeded, but
+its fresh browser inspection correctly rejected argument construction:
+`sse2Flag` was a source-receipt label, while the already admitted canonical
+storage key was `sse2Flag207d2b50`. The owner now separates that receipt lookup
+from the canonical key. Independent review verified all 31 active image
+references; the source package, original bytes and current storage are unchanged.
+The earlier check and observation evidence remains preserved outside the checkout.
+
+The corrected final build passed TypeScript checking and transformed 473
+modules. Binary hashes of all 75,731 tracked and new nonignored repository
+inputs matched before and after the build, with no capture errors. These are
+interval snapshots; ignored dependencies, build outputs and the separate
+offline study are outside that inventory. No test cases were added and no
+local tests were run in this increment.
+
+A fresh corrected local production tab entered Ardea, selected
+`Ardea_OutNovice_01` in Models and expanded its developer details:
+
+```text
+Game startup: blocked · next __setenvp at 204678e7
+I/O source operations completed: 899
+I/O initialization returned: yes
+I/O return value: 0
+Argument startup graph transferred: yes
+Argument initializer: returned
+Encoding startup flag set: yes
+Encoding tables published: yes
+Argument counting pass returned: yes
+Argument filling pass returned: yes
+Argument block published: yes
+Program name published: yes
+Argument count: 1
+Argument source operations completed: 14777
+Argument return value: 0
+```
+
+Captured browser error logs were empty. The observed entry
+`gothic3-DGXUkDw7.js` has SHA-256
+`abf984303a2d3bbb3f9a8bf56715f98317194e2a22e38826994d0a44c017aa33`;
+the inspected local service bundle `browser-npc-entity-services-CBxLp3T-.js`
+has SHA-256
+`7d726334bee4e68f22a799609c49efdc0f08fb5fd23120047c7fac3c687b82bc`.
+Their served bytes match the corrected final local build. The development
+preview independently showed the same 14,777-operation normal path before
+this production observation. Matching later published artifact bytes would
+establish publication identity, not another execution observation.
+
+Environment initialization and remaining CRT and module startup still require
+implementation. Native NPC activation and the finishable campaign remain
+unfinished.
