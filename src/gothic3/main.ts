@@ -164,6 +164,22 @@ function updateNpcEntityStudy(person: ScenePerson | null): void {
   const registered = entity !== undefined && npcEntityRuntime?.getOwner(row.source.guid) === entity;
   const navigationRegistered = navigation !== null &&
     npcEntityRuntime?.navigationRegistry.navigationPS.includes(navigation.state) === true;
+  const startupDetails: string[] = [];
+  const startup = npcEntityServices?.scriptAdminStartup;
+  if (startup?.known) {
+    const attach = startup.value.prerequisites.attachProgress;
+    const next = attach.nextBoundary;
+    startupDetails.push('Game startup: ' + attach.phase +
+      (next ? ' · next ' + next.name + ' at ' + next.address : ''));
+    const result = startup.value.prerequisites.attachResult;
+    if (!result.known) startupDetails.push('Startup interruption: ' + result.reason);
+    if (attach.ioProgress) {
+      const io = attach.ioProgress;
+      startupDetails.push('Startup-info import: ' + (io.getStartupInfoReturned ? 'returned'
+        : io.getStartupInfoCalled ? 'interrupted' : 'not called'));
+      startupDetails.push('I/O initialization returned: ' + (io.ioInitReturned ? 'yes' : 'no'));
+    }
+  } else if (startup) startupDetails.push('Game startup unavailable: ' + startup.reason);
   target.textContent = [
     'TypeScript study of the recovered original constructor and read sequence.',
     'Constructor: ' + (row.construction.supported ? 'complete' : 'stopped'),
@@ -176,6 +192,7 @@ function updateNpcEntityStudy(person: ScenePerson | null): void {
     'Graph context: ' + (entity?.context?.identity ?? 'none; graph attachment has not run'),
     'Original NPC activation: incomplete.',
     'Current boundary: ' + row.boundary,
+    ...startupDetails,
     'The visible model and browser combat/death state use separate presentation and gameplay objects.',
   ].join('\n');
 }

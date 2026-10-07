@@ -22,7 +22,10 @@ import type { NativeWin32ProcessInputSelection, RetainedWin32ProcessInputSelecti
   NativeWin32ProcessInputEndpoints, NativeWideCharToMultiByteArguments } from './native-win32-process-inputs';
 import { retainNativeX86ThreadStackSelection } from './native-x86-thread-stack-profile';
 import type { NativeX86ThreadStackSelection } from './native-x86-thread-stack-profile';
-import { retireNativeX86ThreadStackForPlatform } from './native-x86-thread-stack';
+import { NativeX86ThreadStack, retireNativeX86ThreadStackForPlatform } from './native-x86-thread-stack';
+import { retainNativeWin32StartupIoSelection } from './native-win32-startup-io';
+import type { NativeWin32StartupIoSelection, RetainedWin32StartupIoSelection,
+  NativeWin32StartupIoEndpoints, NativeStartupInfoCallGrant } from './native-win32-startup-io';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = (reason: string): { known: false; reason: string } => ({ known: false, reason });
@@ -113,6 +116,7 @@ export interface NativeEngineCrtPlatformServices {
   readonly osVersion?: { readonly platform: number; readonly major: number; readonly minor: number; readonly build: number } | null;
   readonly processInputs?: NativeWin32ProcessInputSelection;
   readonly threadStack?: NativeX86ThreadStackSelection;
+  readonly startupIo?: NativeWin32StartupIoSelection;
   readonly entropy?: {
     systemTimeAsFileTime?(): NativeValue<{ low: number; high: number }>;
     currentProcessId?(): NativeValue<number>;
@@ -121,8 +125,9 @@ export interface NativeEngineCrtPlatformServices {
     performanceCounter?(): NativeValue<{ success: boolean; low?: number; high?: number }>;
   };
 }
-type RetainedCrtServices = Omit<NativeEngineCrtPlatformServices, 'tlsValues' | 'processInputs'> & {
+type RetainedCrtServices = Omit<NativeEngineCrtPlatformServices, 'tlsValues' | 'processInputs' | 'startupIo'> & {
   readonly processInputs?: RetainedWin32ProcessInputSelection;
+  readonly startupIo?: Readonly<RetainedWin32StartupIoSelection>;
 };
 /** Retain configuration values and exact function identities. TLS values are
  * opaque capabilities, so copy their entries without cloning those identities.
@@ -133,7 +138,7 @@ function retainCrtServices(selected: NativeEngineCrtPlatformServices | undefined
 } {
   if (selected === undefined) return { services: undefined, tls: [] };
   const { tlsValues, kernel32Available, pointerCodec, sectionSpinProcedure,
-    fiberLocalStorage, processHeap, osVersion, entropy, processInputs, threadStack } = selected;
+    fiberLocalStorage, processHeap, osVersion, entropy, processInputs, threadStack, startupIo } = selected;
   if (typeof kernel32Available !== 'boolean' || (pointerCodec !== 'absent' && pointerCodec !== 'owned-bijection') ||
       [sectionSpinProcedure, fiberLocalStorage, processHeap].some(value => value !== undefined && typeof value !== 'boolean')) {
     throw new Error('Explicit selected CRT registry configuration required');
@@ -158,7 +163,8 @@ function retainCrtServices(selected: NativeEngineCrtPlatformServices | undefined
   return { services: Object.freeze({ kernel32Available, pointerCodec, sectionSpinProcedure,
     fiberLocalStorage, processHeap, osVersion: version, entropy: callbacks,
     processInputs: processInputs === undefined ? undefined : retainNativeWin32ProcessInputSelection(processInputs),
-    threadStack: threadStack === undefined ? undefined : retainNativeX86ThreadStackSelection(threadStack) }), tls: Object.freeze(tls) };
+    threadStack: threadStack === undefined ? undefined : retainNativeX86ThreadStackSelection(threadStack),
+    startupIo: startupIo === undefined ? undefined : retainNativeWin32StartupIoSelection(startupIo) }), tls: Object.freeze(tls) };
 }
 interface ProcessBuffer {
   readonly kind: 'command-line-a' | 'environment-a' | 'environment-w';
@@ -272,6 +278,10 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
   #nativeDirectionFlag: 0 | 1 | undefined;
   readonly processInputEndpoints?: Readonly<NativeWin32ProcessInputEndpoints>;
   readonly #processInputEndpoints?: Readonly<NativeWin32ProcessInputEndpoints>;
+  readonly startupIoEndpoints?: Readonly<NativeWin32StartupIoEndpoints>;
+  readonly #startupIoEndpoints?: Readonly<NativeWin32StartupIoEndpoints>;
+  #startupInfoActiveCall: NativeStartupInfoCallGrant | null = null;
+  readonly #startupInfoNormalReturns = new WeakSet<NativeStartupInfoCallGrant>();
   private readonly sections = new Map<string, Section>();
   private readonly sectionIdentities = new Map<object, Section>();
   readonly #physicalSections = new Map<object, Map<number, PhysicalSection>>();
@@ -320,6 +330,11 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     });
     this.processInputEndpoints = this.#processInputEndpoints;
     Object.defineProperty(this, 'processInputEndpoints', { value: this.#processInputEndpoints, writable: false, configurable: false });
+    this.#startupIoEndpoints = crt.services?.startupIo?.startupInfoA === undefined ? undefined : Object.freeze({
+      getStartupInfoA: (call: NativeStartupInfoCallGrant) => this.#getStartupInfoA(call),
+    });
+    this.startupIoEndpoints = this.#startupIoEndpoints;
+    Object.defineProperty(this, 'startupIoEndpoints', { value: this.#startupIoEndpoints, writable: false, configurable: false });
     for (const [index, value] of crt.tls) { this.#crtTlsValues.set(index, value); this.#tlsIndexes.add(index); }
     const owner = Object.freeze({});
     this.#kernel32 = Object.freeze({ identity: Object.freeze({}), owner, name: 'KERNEL32.DLL' });
@@ -372,6 +387,50 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
   static threadStackLifetimeHasEnded(platform: NativeRuntimePlatform, selection: Readonly<NativeX86ThreadStackSelection>): boolean {
     return retainedRuntimePlatforms.has(platform) && platform.#crtServices?.threadStack === selection &&
       (platform.#shutdownPhase === 'disposed' || platform.#shutdownPhase === 'blocked');
+  }
+  static startupIoSelectionForPlatform(platform: NativeRuntimePlatform): NativeValue<Readonly<RetainedWin32StartupIoSelection>> {
+    const active = NativeRuntimePlatform.requireActivePlatform(platform); if (!active.known) return active;
+    const selection = platform.#crtServices?.startupIo;
+    return selection ? known(selection) : unknown('Explicit retained startup writer selection required');
+  }
+  static canonicalStartupIoEndpointsForPlatform(platform: NativeRuntimePlatform,
+    endpoints: NativeWin32StartupIoEndpoints): NativeValue<void> {
+    const active = NativeRuntimePlatform.requireActivePlatform(platform); if (!active.known) return active;
+    return endpoints && endpoints === platform.#startupIoEndpoints && endpoints === platform.startupIoEndpoints
+      ? known(undefined) : unknown('Actual immutable same-platform startup writer endpoints required');
+  }
+  /** A grant by itself never permits a store: this exact private endpoint must
+   * currently be executing it on the actual active platform. */
+  static canonicalStartupInfoInvocationForPlatform(platform: NativeRuntimePlatform,
+    call: NativeStartupInfoCallGrant): NativeValue<void> {
+    const active = NativeRuntimePlatform.requireActivePlatform(platform); if (!active.known) return active;
+    return platform.#startupInfoActiveCall === call && platform.#startupIoEndpoints !== undefined
+      ? known(undefined) : unknown('Actual current Runtime GetStartupInfoA invocation required');
+  }
+  static canonicalStartupInfoNormalReturnForPlatform(platform: NativeRuntimePlatform,
+    call: NativeStartupInfoCallGrant): NativeValue<void> {
+    const active = NativeRuntimePlatform.requireActivePlatform(platform); if (!active.known) return active;
+    return platform.#startupInfoNormalReturns.has(call) ? known(undefined)
+      : unknown('Actual completed Runtime GetStartupInfoA normal writer required');
+  }
+  #getStartupInfoA(call: NativeStartupInfoCallGrant): NativeValue<void> {
+    const active = NativeRuntimePlatform.requireActivePlatform(this); if (!active.known) return active;
+    const selection = this.#crtServices?.startupIo?.startupInfoA;
+    if (!selection || !this.#startupIoEndpoints) return unknown('Actual selected GetStartupInfoA writer required');
+    if (this.#startupInfoActiveCall) return unknown('Reentrant Runtime startup writer cannot enter another call');
+    this.#startupInfoActiveCall = call;
+    try {
+      const admitted = NativeX86ThreadStack.canonicalStartupInfoCallForPlatform(this, call); if (!admitted.known) return admitted;
+      for (const write of selection.writes) {
+        const stored = NativeX86ThreadStack.writeStartupInfoForCall(this, call, write.offset, write.width, write.value, write.knownMask);
+        if (!stored.known) return stored;
+      }
+      if (selection.lastError !== undefined) NativeHeapObjectViews.prototype.writeUnsigned.call(this.#win32LastError, 0, selection.lastError);
+      if (selection.outcome === 'unknown') return unknown(selection.reason ?? 'Declared GetStartupInfoA unknown after retained writes');
+      const completed = NativeX86ThreadStack.canonicalStartupInfoCallForPlatform(this, call); if (!completed.known) return completed;
+      this.#startupInfoNormalReturns.add(call); return known(undefined);
+    } catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
+    finally { this.#startupInfoActiveCall = null; }
   }
   /** New selected startup graphs require the actual constructor-admitted
    * platform before shutdown begins. Existing Shared views separately remain

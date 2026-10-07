@@ -176,7 +176,8 @@ export interface NativeCrtAttachProgress {
   readonly environmentProgress: ReturnType<NativeGameCrtEnvironment['snapshot']> | null;
   readonly ioProgress: ReturnType<NativeGameCrtIoInit['snapshot']> | null;
   readonly nextBoundary: Readonly<{ name: 'ioInit'; address: string; target: string }> |
-    Readonly<{ name: 'GetStartupInfoA'; address: string; iat: string }> | null;
+    Readonly<{ name: 'GetStartupInfoA'; address: string; iat: string }> |
+    Readonly<{ name: 'calloc'; address: string; target: string }> | null;
   readonly crtTraversalCompleted: false;
   readonly nativeModuleInstantiated: false;
 }
@@ -596,7 +597,9 @@ export class NativeCrtBootstrap {
     } finally {
       this.#ioInvocationActive = false;
       const reached = NativeGameCrtIoInit.prototype.snapshot.call(io).nextBoundary;
-      if (reached) this.#nextBoundary = Object.freeze({ name: reached.operation, address: reached.pc, iat: reached.iat });
+      if (reached) this.#nextBoundary = reached.operation === 'GetStartupInfoA'
+        ? Object.freeze({ name: reached.operation, address: reached.pc, iat: reached.iat })
+        : Object.freeze({ name: reached.operation, address: reached.pc, target: reached.target });
     }
     this.#gate('Unowned ioInit return and caller continuation at204678d3');
   }

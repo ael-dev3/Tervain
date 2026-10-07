@@ -647,3 +647,24 @@ saved registers, return slots and published FS registration. Its next boundary
 is `GetStartupInfoA` at `20474314`, before any writer call. Full I/O, native
 exceptions, epilog/return, argument construction and whole-module startup remain
 unfinished. See [checkpoint 105](../../docs/engineering/gothic3-rebuilding-process.md#105-own-the-game-io-startup-stack-and-seh-prolog).
+
+## Game startup-info writer caller
+
+The focused caller supplement reuses the preceding finalized packages:
+
+```powershell
+python -B scripts/gothic3_game_io_writer_source.py --study '<LOCAL_DESKTOP_STUDY>' --repo . --output assets/gothic3/game-io-writer
+```
+
+Its [four-output package](../../assets/gothic3/game-io-writer/README.md) pins the
+original import CALL and five following rows: six instructions and 19 bytes.
+It reuses 212 contextual I/O/calloc-wrapper rows and their existing C/ASM
+references without modifying those packages. The normal void stdcall4 behavior
+is explicitly declared virtual compatibility, with no captured Windows callee
+or current process outputs. Source preparation executes no writer or allocation.
+
+The corresponding TypeScript owner writes only through the retained import
+call's private stack alias, consumes its normal return and prepares count32 and
+size56 arguments. It stops before the actual calloc CALL at `20474327`; nested
+allocation, full I/O and NPC activation remain required. See
+[checkpoint 106](../../docs/engineering/gothic3-rebuilding-process.md#106-own-the-startup-info-writer-and-normal-import-return).
