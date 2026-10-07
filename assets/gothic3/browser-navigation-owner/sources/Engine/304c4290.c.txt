@@ -1,0 +1,16 @@
+/* ENTRY 304c4290 | FUN_304c4290 | STATUS decompiled | 8 ms */
+
+undefined4 __thiscall FUN_304c4290(int param_1,int param_2)
+
+{
+  if (*(eCEntityProxyInternal **)(param_2 + 4) != (eCEntityProxyInternal *)0x0) {
+    eCEntityProxyInternal::AddReference(*(eCEntityProxyInternal **)(param_2 + 4));
+  }
+  if (*(eCEntityProxyInternal **)(param_1 + 4) != (eCEntityProxyInternal *)0x0) {
+    eCEntityProxyInternal::ReleaseReference(*(eCEntityProxyInternal **)(param_1 + 4));
+    *(undefined4 *)(param_1 + 4) = 0;
+  }
+  bCPropertyID::operator=((bCPropertyID *)(param_1 + 8),(bCPropertyID *)(param_2 + 8));
+  *(undefined4 *)(param_1 + 4) = *(undefined4 *)(param_2 + 4);
+  return 1;
+}

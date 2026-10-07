@@ -1,0 +1,13 @@
+30315f30 | 56 | PUSH ESI
+30315f31 | 8bf1 | MOV ESI,ECX
+30315f33 | 8b06 | MOV EAX,dword ptr [ESI]
+30315f35 | 85c0 | TEST EAX,EAX
+30315f37 | c6463200 | MOV byte ptr [ESI + 0x32],0x0
+30315f3b | 7415 | JZ 0x30315f52
+30315f3d | 50 | PUSH EAX
+30315f3e | ff15acdbaf30 | CALL dword ptr [0x30afdbac]
+30315f44 | 8bc8 | MOV ECX,EAX
+30315f46 | ff15b0dbaf30 | CALL dword ptr [0x30afdbb0]
+30315f4c | c70600000000 | MOV dword ptr [ESI],0x0
+30315f52 | 5e | POP ESI
+30315f53 | c3 | RET

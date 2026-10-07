@@ -4,9 +4,10 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
-Updated: 7 October 2026. The captured browser-runtime baseline before offline
-checkpoint 84 is `c52d16da73fe1c9be5d240b0111cfe1074d1e8cc`; the latest
-published baseline is `main` commit `28d85b7b72f19352a0abc9abff13f4a2c0c440f3`.
+Updated: 7 October 2026. The captured browser-runtime exercise remains
+checkpoint 83 at `c52d16da73fe1c9be5d240b0111cfe1074d1e8cc`; the latest
+published baseline is `main` commit `5f6af5a397e25224decb68d481c28fb8b3883a7e`.
+The latest local, unpublished NPC reconstruction is checkpoint 91 below.
 The preceding historical baseline before checkpoint 72 was
 `610619f43a809e14118ee8edb186fed67aa2052b`.
 Checkpoints 55–71 add
@@ -58,30 +59,40 @@ registration and selected initializer. Checkpoint 85 extends the byte-verified
 combat source set with three Script_Game attitude helpers and their command
 registrations. Checkpoint 86 connects the shared MemoryAdmin and ErrorAdmin
 owner to the retained browser NPC constructor, and places its Matrix destructor
-on the same reverse-order shutdown stack. This is a local integration step:
-Navigation reflection still uses logical allocations because the native
-PropertyObjectType owner is missing, and no live NPC activation is claimed. The
+on the same reverse-order shutdown stack. PR 54 publishes this bounded runtime
+admin integration and the attitude-helper evidence. Navigation reflection
+still uses logical allocations because the native PropertyObjectType owner is
+missing, and no live NPC activation is claimed. The
 [overview](gothic3-rebuild-overview.md) records the latest confirmed
 publication; the individual receipts below distinguish locally validated
-components from published browser behavior.
+components from published browser behavior. Checkpoint 87 adds a heap-backed
+source NPC name; checkpoint 88 connects a lower browser session-mode adapter;
+checkpoint 89 materializes source-derived Navigation areas so the selected
+NPC read passes its former proxy-resolution boundary. The NPC remains neither
+world-resident nor active. Checkpoint 90 follows the selected Navigation
+entity proxy through the Engine cache/copy path. Checkpoint 91 adds the original
+gCEntity contact slots, a source-shaped contact iterator, and the verified
+Navigation property-set contact callbacks. Its focused runtime test confirms
+that the NPC read reaches the ScriptAdmin getter; no manual browser exercise is
+recorded.
 
 The [Gothic 3 / Ardea route](https://ael-dev3.github.io/Tervain/gothic3/) serves
 the published incomplete build and currently responds with HTTP 200. The latest
-published revision is `main` commit `28d85b7b72f19352a0abc9abff13f4a2c0c440f3`,
-merged in [PR 53](https://github.com/ael-dev3/Tervain/pull/53) by successful
-[workflow run 37554766730](https://github.com/ael-dev3/Tervain/actions/runs/37554766730), attempt 1.
-Checkpoint 84 adds native source behavior outside the browser integration, so
-the visible game bundle remains unchanged. The latest captured browser-runtime
-exercise remains checkpoint 83 at commit
+published revision is `main` commit `5f6af5a397e25224decb68d481c28fb8b3883a7e`,
+merged in [PR 54](https://github.com/ael-dev3/Tervain/pull/54) by successful
+[workflow run 37559119442](https://github.com/ael-dev3/Tervain/actions/runs/37559119442), attempt 1.
+Checkpoint 86 connects the shared NPC runtime admins, while checkpoint 85 adds
+combat attitude-helper evidence. Neither activates NPCs or completes a quest.
+The latest captured browser-runtime exercise remains checkpoint 83 at commit
 `c52d16da73fe1c9be5d240b0111cfe1074d1e8cc`, published by [workflow run
 37551902308](https://github.com/ael-dev3/Tervain/actions/runs/37551902308),
-attempt 1. Earlier publication receipts are available in the repository's
+attempt 1. No post-PR-54 exercise of the NPC inspector is recorded here. Earlier publication receipts are available in the repository's
 [Pages workflow](https://github.com/ael-dev3/Tervain/actions/workflows/pages.yml).
 The [scope record](gothic3-browser-port.md) describes the current controls,
 limitations and source terms.
 
-This guide records the preceding hosted baseline and subsequent dated
-checkpoints that preserve the evidence for each stage. Sections 10–86 cover
+This guide records the hosted baseline and subsequent dated checkpoints that
+preserve the evidence for each stage. Sections 10–91 cover
 the later runtime work; each receipt identifies its source revision and scope.
 
 Each checkpoint's reproduction commands describe its recorded source revision.
@@ -6011,4 +6022,283 @@ this hookup; no changed read boundary or new gameplay behavior is claimed.
 Local verification: `npm run typecheck`, `npm run build` and `git diff --check`
 pass. The build retains the repository's existing large-chunk warning. The
 automated test suite was not run for this local step. This checkpoint is not
-published and does not establish campaign progress.
+evidence of campaign progress. PR 54 subsequently published this bounded
+runtime-admin integration; the successful workflow confirms build and
+deployment, not NPC activation or campaign completion.
+
+## 87. Construct the source-backed NPC name in the shared heap
+
+Date: 7 October 2026. This integration extends checkpoint 86's real shared
+`NativeMemoryAdmin` from the selected 448-byte `gCEntity` allocation into its
+name field at offset `0x138`. It uses the native CString owner already modeled
+by `NativeHeapCString`, so the field is an owned heap-backed value rather than
+a JavaScript-only string.
+
+### Follow the original source string through assignment
+
+The runtime rules pin the NPC records and string table by SHA-256. For the
+three selected Ardea bandits—`Ardea_OutNovice_01`, `_02` and `_03`—the reader
+also checks original string indices 1096–1098 and their 18 ASCII bytes. The
+entity constructor first initializes its CString view over the physical entity
+allocation and performs the source clear operation. When the serialized name
+is assigned, the bridge allocates a temporary CString from those exact source
+bytes, assigns it to the entity-owned CString through the same MemoryAdmin,
+then destroys the temporary. A name outside those three admitted records is
+rejected; the bridge does not synthesize source bytes from arbitrary text.
+
+`NativeOriginalEntityFactory` passes the same MemoryAdmin used for the entity
+allocation into `NativeEntityHeapFields`. The focused integration case creates
+the actual `BrowserNpcEntityServices` owner, prepares a hash-verified selected
+record, checks the stored heap-backed name, and verifies that the shared
+ErrorAdmin is not in panic. The read advances beyond 338 bytes and now stops at
+`gCGameApp virtual270`, which requires the initialized application and owned
+ModuleAdmin/session cache. The result is still not world-resident.
+
+Reproduce the focused case with:
+
+```powershell
+npm test -- tests/gothic3-dialogue/browser-npc-entity.test.ts
+```
+
+At checkpoint 87 the focused run passed **8 tests** and stopped at
+`gCGameApp virtual270`, which required the initialized application and owned
+ModuleAdmin/session cache. Checkpoint 88 advances this same integration test to
+the next boundary, `Compiled navigation query requires actual owned area proxy
+resolution`.
+
+## 88. Supply the selected browser session mode
+
+Date: 7 October 2026. This checkpoint wires the existing
+`BrowserNavigationApplicationOwner` into the retained NPC service and starts
+its selected lower session-mode bridge only after the player enters the world.
+It advances the native NPC read to the actual Navigation area-proxy lookup;
+it does not recreate the Windows application, ModuleAdmin, or native Session.
+
+### Preserve the session boundary
+
+`BrowserNpcEntityServiceOwner` now owns a `BrowserNavigationApplicationOwner`
+and exposes `startBrowserSessionMode()`. The explicit start allocates its
+browser session-mode record, sets its running byte, registers that record, and
+then marks the selected Engine initialized byte. The NPC lifecycle's
+`applicationMode270EqualsOne` callback uses this owner, so it follows the
+verified cached-session guard and reads the source mode field. These writes
+belong to the selected browser adapter; they do not assert that native
+`gCGameApp` or `gCSession` startup ran.
+
+The page previously prepared the NPC study during scene boot, before the user
+entered the world. `main.ts` now begins that study after `enterWorld()` starts
+the browser-owned game session. This preserves the source sequence needed by
+the reader and keeps the study out of the pre-game menu. The visual character
+and browser combat state remain independent of the reconstructed native entity.
+
+The focused test creates the service owner, starts the browser session-mode
+bridge, and prepares the real hash-verified NPC record. It passes the
+application-mode check and stops at `Compiled navigation query requires actual
+owned area proxy resolution`. No constructed/attached Navigation area proxy is
+available to answer the query, so the NPC is still not world-resident.
+
+Reproduce the focused case with:
+
+```powershell
+npm test -- tests/gothic3-dialogue/browser-npc-entity.test.ts
+npm run typecheck
+npm run build
+```
+
+The focused suite passes **8 tests**, typechecking passes, and the production
+build succeeds with the repository's existing large-chunk warning. This does
+not complete native startup, construct Navigation zones/paths, attach remaining
+NPC properties, register processing, activate a character, or advance
+gameplay. No post-PR-54 browser exercise is recorded for this adapter.
+
+## 89. Materialize Navigation areas for the NPC query
+
+Date: 7 October 2026. This local browser integration supplies the Navigation
+area lookup that checkpoint 88 was missing. The source catalog contains 5,385
+map-referenced area definitions: 2,226 zones and 3,159 paths, grouped across
+67 registered source files—66 static `.node` files and one dynamic
+`.lrentdat` layer.
+
+### Build live query owners from verified source records
+
+`BrowserNavigationAreaSourceRuntime` checks the decoded catalog, its source
+receipts, unique IDs, property-set classes and compiled proxy references. It
+groups area definitions by their source file, then creates a browser-owned
+entity, its selected `gCNavZone_PS` or `gCNavPath_PS`, and matrix storage for
+each area. Static `.node` entities use the `eCEntity` base; the dynamic layer
+uses `gCEntity`. Each supported area is admitted to the browser Navigation
+owner and registered through its zone or path lifecycle callbacks.
+
+Binding the stored query properties resolves the full set of 67 source groups
+and registers 5,385 live browser area owners. This is deliberately a lower
+loader: it does not invoke Gothic 3's reflected property factories, perform
+the full serialized entity read, or attach other property sets that may be
+present on the source entity. It therefore provides data for the compiled map
+query without claiming the original entity-construction pipeline.
+
+The retained NPC test now resolves its Navigation proxies and advances beyond
+the earlier proxy-resolution stop. The read remains unsupported later in its
+sequence, and the NPC has no world context, remains unattached to a live game
+world and is not active. The visible Ardea character and its browser combat
+state continue to use separate objects. No post-PR-54 browser exercise of the
+inspector is recorded.
+
+Reproduce the focused integration with:
+
+```powershell
+npm run typecheck
+npm test -- tests/gothic3-dialogue/browser-npc-entity.test.ts
+```
+
+The focused suite passes **9 tests**. This checkpoint does not complete native
+Navigation reflection, full entity reads, property attachment, world context,
+processing registration, NPC activation or campaign progress.
+
+## 90. Resolve source-backed Navigation entity proxies during NPC read
+
+Date: 7 October 2026. This checkpoint follows the bandit's selected
+`CurrentZoneEntityProxy` through the verified Navigation source catalog and
+the next original Engine proxy operations. It also replaces the earlier
+callback-name placeholder with the selected Game.dll C-string globals and
+notification rules. The read advances to the NPC contact-vtable call; it
+still does not finish property attachment or make the NPC world-resident.
+
+### Preserve IDs, proxy references and call order
+
+The serialized proxy ID
+`7e3d269f0004064d9bcbd4c4c62de6aa00000000` resolves to source entity
+`world-0048:20`, `Nav_NavZone 1 Edge`, whose exact property set is
+`gCNavZone_PS`. `BrowserNavigationAreaSourceRuntime.resolveEntity` returns the
+registered source owner only after its source group has loaded and the
+property-set owner/ID checks pass. An ID outside this Navigation catalog
+remains unknown; this loader does not claim to own the rest of the world.
+
+The notification bridge now follows Engine `eCEntityProxy::GetEntity`: it
+reads a retained internal owner first, tests the 16-byte ID, resolves that ID,
+and caches the resulting owner. It constructs the temporary proxy, runs
+`eCEntityProxy::CopyFrom` with AddReference-before-release order, and destroys
+that temporary through the selected proxy destructor. The evidence producer
+pins the Engine vtable at `3087bff4`, its `+0x14` slot, and the target
+`30008adf` → `304c4290`. It also retains Game helper `201327e0`, which lazily
+loads contact mask `0x800000` from the cold `207b8588` global and reads that
+bit from the current entity flags.
+The corresponding actor `GetPropertySet(6)` branch calls the audited empty
+`OnReadContent` virtual, checks the current type bit and returns NULL while that
+bit is clear; its later type-bit-present search/sort branch is not claimed by
+this checkpoint.
+
+The five selected Game Navigation callback-name globals are constructed from
+their original C++ initializer-table entries and original module literals.
+Their CStrings use the shared MemoryAdmin and the audited 24-byte and 32-byte
+small-allocation pools. The production profile still does not run all Game
+CRT initializers, reconstruct all original SceneAdmin behavior, or invoke
+native code.
+
+### Current boundary and verification
+
+The focused Ardea NPC read consumes 700 source bytes. It now reaches
+`Navigation actor captured contact vtable slot`; the actual contact
+notification and iterator services are unresolved. The source area loader
+remains a lower browser owner for Navigation data, not the original reflected
+entity loader. The NPC stays outside a live game world and inactive, and
+browser combat uses separate presentation/gameplay objects.
+
+The local evidence producer reports 43 selected methods and 1,515 instruction
+records, all matching the pinned original PE bytes. Typechecking passes and the
+focused NPC plus Navigation-notification suites pass (25 tests). The production
+build succeeds with the repository's existing large-chunk warning. No browser
+exercise was run for this checkpoint.
+
+Reproduce the local checks with:
+
+```powershell
+npm run typecheck
+npm test -- tests/gothic3-dialogue/browser-npc-entity.test.ts
+```
+
+This checkpoint remains unpublished and does not establish NPC activation,
+combat progression, save/reload behavior, or campaign completion.
+
+## 91. Reconstruct the selected Navigation contact callbacks
+
+Date: 7 October 2026. This local step follows the bandit's Navigation
+notification past the actor contact virtual call by tracing the original Game
+vtable slots into Engine's dynamic-entity handlers, then implementing their
+selected callback path in TypeScript. It preserves the existing 700-byte read
+prefix and leaves unrelated property-set, collision-shape and ScriptAdmin
+calls explicit.
+
+### Recover the dispatch and iterator from original bytes
+
+The original Game `gCEntity` vtable at `0x2066813c` has `OnTouch` at `+0x174`
+and `OnUntouch` at `+0x17c`. Each slot points to a Game import thunk, whose IAT
+symbol names the corresponding Engine `eCDynamicEntity` method. The producer
+records the table bytes, both thunk bodies and the Engine import names. The
+Engine forwarding entries resolve to `OnTouch` body `0x304be5c0` and `OnUntouch`
+body `0x304be760`; both preserve property-set order and reset the contact
+iterator between callbacks.
+
+`eCContactIterator` occupies `0x44` bytes. Its constructor sets the contact
+pointer, type, flags and trailing word, default-constructs its three vectors,
+clears the vector at `+0x24`, and constructs/clears its CString at `+0x3c`.
+The two earlier vectors remain unknown in the browser byte view because their
+original `bCVector` default constructor writes nothing. Reset clears byte
+`+0x32`; in this selected case its contact pointer is null, so it does not
+need the unconnected `MemoryAdmin::DeleteObject` branch. Destruction follows
+the original order; the CString owner is destroyed and the three verified
+vector destructors are no-ops.
+
+The exact original vtables for `gCNavigation_PS`, `gCNavZone_PS` and
+`gCNavPath_PS` show `OnTouch`/`OnUntouch` slots at `+0xcc`/`+0xd4`. Their
+selected Game thunks forward to the empty Engine base callbacks. The browser
+currently dispatches only an attached `gCNavigation_PS` on the selected
+`gCEntity` actor. The zone/path callbacks are recorded, but area-side contact
+virtuals remain unsupported. Other property-set classes stop explicitly. A
+set `eCCollisionShape_PS` type bit also remains unsupported because its contact
+callback path is outside this step.
+
+### Local implementation and review limit
+
+`BrowserNavigationContactIterator` retains the physical field bytes and the
+same MemoryAdmin-backed CString owner. The contact slot is captured before
+iterator construction, then invoked using that captured phase. Its source
+profile admits only iterator types 5, 8 and 10. The current actor-side path
+can handle a clear type-14 bit and the supported Navigation callback classes;
+unknown property classes and non-null iterator-list deletion remain explicit.
+
+The selected Navigation name `CurrentZoneEntityProxy` is 22 bytes, so its
+source CString allocation requests 31 bytes (`length + 9`). The NPC heap
+extension therefore adds the original 32-byte bucket to the same MemoryAdmin
+owner. Its verified cold pointer-area range now contains 11 entries; when
+composed with the SceneAdmin extension, the selected shared range contains 13.
+The pool producer verifies the range against the original zero-filled PE
+bytes. This preserves the source allocator's boundary for the first unsupported
+fourteenth region instead of inventing capacity in TypeScript.
+
+The offline producers report **57 Navigation methods / 1,726 instruction
+records**, **45 NPC heap methods / 1,229 records**, and **61 SceneAdmin methods /
+2,041 records**, all matching pinned original PE bytes. Typechecking passes.
+The focused NPC read and Navigation notification suites pass (**25 tests across
+two files**) and confirm the next boundary: `Navigation area ScriptAdmin getter`.
+The complete local suite also passes (**2,370 tests across 225 files**). The
+production build succeeds with the existing large-chunk warning. No manual
+browser exercise was run for this checkpoint. The getter first checks
+`eCApplication::IsInitialised`; on the initialized path it lazily resolves the
+`gCScriptAdmin` property-object type, looks up the module through ModuleAdmin,
+and RTTI-casts the cached component. The browser route has not constructed
+those original application, property-type or module owners, so this step leaves
+that call unresolved. The change remains unpublished and does not establish
+NPC activation, combat progression, save/reload behavior, or campaign
+completion.
+
+Reproduce the source receipt and local typecheck with:
+
+```powershell
+python tools/gothic3/prepare_browser_navigation_owner_source.py --study "<LOCAL_GOTHIC3_STUDY>"
+python tools/gothic3/prepare_npc_heap_source.py --study "<LOCAL_GOTHIC3_STUDY>"
+python tools/gothic3/prepare_scene_startup_source.py --study "<LOCAL_GOTHIC3_STUDY>"
+npm run typecheck
+npm test -- tests/gothic3-dialogue/browser-npc-entity.test.ts tests/gothic3-dialogue/navigation-notifications.test.ts
+npm test -- tests/gothic3-dialogue/native-npc-heap.test.ts tests/gothic3-dialogue/native-entity-heap.test.ts tests/gothic3-dialogue/scene-startup-memory.test.ts
+npm run build
+```

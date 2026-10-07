@@ -1,0 +1,2 @@
+10024b70 | 8bc1 | MOV EAX,ECX
+10024b72 | c3 | RET

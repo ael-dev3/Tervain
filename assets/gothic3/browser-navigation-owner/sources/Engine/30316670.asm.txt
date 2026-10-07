@@ -1,0 +1,20 @@
+30316670 | 56 | PUSH ESI
+30316671 | 8bf1 | MOV ESI,ECX
+30316673 | 8b06 | MOV EAX,dword ptr [ESI]
+30316675 | 85c0 | TEST EAX,EAX
+30316677 | 7415 | JZ 0x3031668e
+30316679 | 50 | PUSH EAX
+3031667a | ff15acdbaf30 | CALL dword ptr [0x30afdbac]
+30316680 | 8bc8 | MOV ECX,EAX
+30316682 | ff15b0dbaf30 | CALL dword ptr [0x30afdbb0]
+30316688 | c70600000000 | MOV dword ptr [ESI],0x0
+3031668e | 8d4e3c | LEA ECX,[ESI + 0x3c]
+30316691 | c7460400000000 | MOV dword ptr [ESI + 0x4],0x0
+30316698 | ff15dcdbaf30 | CALL dword ptr [0x30afdbdc]
+3031669e | 8d4e24 | LEA ECX,[ESI + 0x24]
+303166a1 | ff156cdbaf30 | CALL dword ptr [0x30afdb6c]
+303166a7 | 8d4e18 | LEA ECX,[ESI + 0x18]
+303166aa | ff156cdbaf30 | CALL dword ptr [0x30afdb6c]
+303166b0 | 8d4e0c | LEA ECX,[ESI + 0xc]
+303166b3 | 5e | POP ESI
+303166b4 | ff256cdbaf30 | JMP dword ptr [0x30afdb6c]

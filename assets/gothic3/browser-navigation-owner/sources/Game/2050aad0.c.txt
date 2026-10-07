@@ -1,0 +1,9 @@
+/* ENTRY 2050aad0 | FUN_2050aad0 | STATUS decompiled | 2 ms */
+
+void FUN_2050aad0(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207bfab0,"RelaxingPoint");
+  _atexit(FUN_2055bdc0);
+  return;
+}

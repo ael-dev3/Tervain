@@ -1,14 +1,17 @@
 import type { NativeLiveEntity, NativeMaskedWord } from './entity-lifecycle';
 import { NativeEntityReadData } from './entity-reading';
 import type { OriginalPropertyOwner } from './native-properties';
-import type { NativeMemoryAllocation } from './native-memory-admin';
+import type { NativeMemoryAdmin, NativeMemoryAllocation } from './native-memory-admin';
 import { NativeHeapObjectViews } from './native-heap-views';
+import { NativeHeapCString } from './native-heap-cstring';
 import npcHeapRulesText from '../../assets/gothic3/npc-heap/runtime-rules.json?raw';
 
 const npcHeapRules = JSON.parse(npcHeapRulesText) as { schema: string; entityComparatorImport?: {
   iatVA: string; module: string; importIdentity: { iatVA: string; module: string; name: string; ordinal: number | null };
   originalIatRaw: string; originalIatSha256: string; resolvedExportEntry: string; resolvedExportBody: string; sourceMethod: string;
-} };
+}; nameStringPath?: { sourceRecordsSha256: string; sourceStringTableSha256: string;
+  selectedNames: readonly { key: string; name: string; sourceStringIndex: number; raw: string; bytes: number;
+    nativeCStringRequestBytes: number; nativeBucket: string }[] } };
 const comparatorImport = npcHeapRules.entityComparatorImport;
 if (npcHeapRules.schema !== 'gothic3-npc-heap-rules-v1' || comparatorImport?.iatVA !== '30afcd5c' ||
     comparatorImport.module !== 'Engine' || comparatorImport.importIdentity.iatVA !== '0x30afcd5c' ||
@@ -19,6 +22,29 @@ if (npcHeapRules.schema !== 'gothic3-npc-heap-rules-v1' || comparatorImport?.iat
     comparatorImport.resolvedExportEntry !== '10003553' || comparatorImport.resolvedExportBody !== '10087b60' ||
     comparatorImport.sourceMethod !== 'arraySortDefaultCompare') {
   throw new Error('Original imported default comparator identity differs');
+}
+const selectedNameReceipts = [
+  { key: 'world-2419:22138', name: 'Ardea_OutNovice_01', sourceStringIndex: 1096, raw: '41726465615f4f75744e6f766963655f3031' },
+  { key: 'world-2419:22141', name: 'Ardea_OutNovice_02', sourceStringIndex: 1097, raw: '41726465615f4f75744e6f766963655f3032' },
+  { key: 'world-2419:22144', name: 'Ardea_OutNovice_03', sourceStringIndex: 1098, raw: '41726465615f4f75744e6f766963655f3033' },
+] as const;
+const nameStringPath = npcHeapRules.nameStringPath;
+if (nameStringPath?.sourceRecordsSha256 !== '1c4a516f70704609744ca6b18c8d3a8fefa97290e8f320baef5037f5be7976ee' ||
+    nameStringPath.sourceStringTableSha256 !== 'd201acbb3ea681bee822c308fb043e847c5c3f8eb0e57c4176af04956ac3aa53' ||
+    nameStringPath.selectedNames.length !== selectedNameReceipts.length ||
+    nameStringPath.selectedNames.some((row, index) => {
+      const expected = selectedNameReceipts[index]!;
+      return row.key !== expected.key || row.name !== expected.name || row.sourceStringIndex !== expected.sourceStringIndex ||
+        row.raw !== expected.raw || row.bytes !== 18 || row.nativeCStringRequestBytes !== 27 || row.nativeBucket !== '28';
+    })) throw new Error('Selected NPC CString source-byte receipts differ');
+function selectedNpcNameBytes(name: string): Uint8Array {
+  const row = nameStringPath!.selectedNames.find(value => value.name === name);
+  if (!row) throw new Error('NPC CString name is outside the selected original Ardea string records');
+  const result = Uint8Array.from(row.raw.match(/../g)!, byte => Number.parseInt(byte, 16));
+  if (result.length !== row.bytes || new TextDecoder().decode(result) !== name) {
+    throw new Error('Selected original NPC string bytes do not match the decoded name');
+  }
+  return result;
 }
 /** Opaque original import identity for the constructor's pointer store. It is
  * not a claim that the source comparator body has been invoked here. */
@@ -65,7 +91,9 @@ export class NativeEntityHeapFields {
   readonly creator: { propertyId20: string };
   readonly flags1bc: NativeMaskedWord;
   private defaultComparator: object | null = null;
-  constructor(readonly allocation: NativeMemoryAllocation, entity: NativeLiveEntity, owner: OriginalPropertyOwner) {
+  private nameCString: NativeHeapCString | null = null;
+  constructor(readonly allocation: NativeMemoryAllocation, entity: NativeLiveEntity, owner: OriginalPropertyOwner,
+    private readonly memory: NativeMemoryAdmin) {
     if (allocation.requestedBytes !== 0x1c0 || allocation.capacity < 0x1c0) throw new Error('Actual original gCEntity448-byte allocation required');
     const views = this.views = new NativeHeapObjectViews(allocation, 0, 0x1c0);
     const scalar = (target: object, key: string, offset: number) => Object.defineProperty(target, key, {
@@ -105,15 +133,24 @@ export class NativeEntityHeapFields {
       worldBox: views.floatArray(0xe8, 6), localSphere: views.floatArray(0x100, 4), localBox: views.floatArray(0x110, 6),
     }, '');
     Object.defineProperty(this.data, 'numeric', { value: new NativeEntityHeapNumericFields(views), enumerable: true });
-    const name = views.pointer(0x138);
     Object.defineProperty(this.data, 'name', { enumerable: true,
       get: () => {
-        if (name.get() === null) return '';
-        throw new Error('Non-NULL source CString owner is outside constructor-only entity heap profile');
+        if (!this.nameCString) throw new Error('Original entity CString constructor has not run');
+        const value = this.nameCString.text();
+        if (!value.known) throw new Error(value.reason);
+        return value.value;
       },
       set: (value: string) => {
-        if (value !== '' || name.get() !== null) throw new Error('Owned source CString assignment/clear dependency required');
-        name.set(null);
+        if (!this.nameCString) throw new Error('Original entity CString constructor has not run');
+        if (typeof value !== 'string' || value.includes('\0')) throw new Error('Selected source NPC CString bridge requires a valid source name');
+        const source = new NativeHeapCString(this.memory);
+        const input = selectedNpcNameBytes(value);
+        const allocated = source.allocateTextBytes(input);
+        if (!allocated.known) throw new Error(allocated.reason);
+        const assigned = this.nameCString.assign(source);
+        if (!assigned.known) throw new Error(assigned.reason);
+        const destroyed = source.destroy();
+        if (!destroyed.known) throw new Error(destroyed.reason);
       },
     });
     const creator = views.propertyId(0x1a8);
@@ -121,7 +158,15 @@ export class NativeEntityHeapFields {
     this.flags1bc = views.maskedWord(0x1bc, 2);
   }
   /** Native CString constructor storesNULL without reading the old slot. */
-  initializeName(): void { this.views.pointer(0x138).set(null); }
+  initializeName(): void {
+    if (this.nameCString) throw new Error('Original entity CString constructor already ran');
+    this.nameCString = new NativeHeapCString(this.memory, new NativeHeapObjectViews(this.allocation, 0x138, 4));
+  }
+  clearName(): void {
+    if (!this.nameCString) throw new Error('Original entity CString constructor has not run');
+    const result = this.nameCString.clear();
+    if (!result.known) throw new Error(result.reason);
+  }
   initializeChildren(): void {
     this.views.pointer(0x14).set(null); this.views.writeUnsigned(0x10, 0, 2); this.views.writeUnsigned(0x12, 0, 2);
   }

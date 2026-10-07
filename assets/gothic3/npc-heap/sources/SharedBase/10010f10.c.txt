@@ -1,4 +1,4 @@
-/* ENTRY 10010f10 | FUN_10010f10 | STATUS decompiled | 1 ms */
+/* ENTRY 10010f10 | FUN_10010f10 | STATUS decompiled | 2 ms */
 
 void __fastcall FUN_10010f10(LPCRITICAL_SECTION param_1)
 

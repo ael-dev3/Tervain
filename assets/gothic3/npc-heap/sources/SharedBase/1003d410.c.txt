@@ -1,4 +1,4 @@
-/* ENTRY 1003d410 | FUN_1003d410 | STATUS decompiled | 12 ms */
+/* ENTRY 1003d410 | FUN_1003d410 | STATUS decompiled | 10 ms */
 
 void * FUN_1003d410(uint param_1)
 

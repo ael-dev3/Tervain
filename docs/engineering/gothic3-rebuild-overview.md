@@ -222,9 +222,22 @@ original input, record boundaries and compressed/decoded output hashes. The
 wire bytes and all decoded bytes before admitting the three selected records.
 When HTTP gzip decoding hides wire bytes, only the exact decoded receipt can
 be checked in the browser. Source graph metadata remains
-separate from live world registration and activation; this reader currently
-stops at the first unowned ErrorAdmin prerequisite. See
-[checkpoint 73](gothic3-rebuilding-process.md#73-construct-retained-npc-owners-and-reach-the-first-property-factory).
+separate from live world registration and activation. In the current local
+checkpoint, the three selected bandit names are copied from their verified
+source string-table bytes into heap-backed CStrings using the same MemoryAdmin
+as the entity allocation. A lower browser session-mode adapter lets the read
+pass its selected application-mode check. It materializes the 5,385
+source-verified Navigation zones and paths across 67 groups, resolves the
+bandit's current-zone proxy through Engine's cache/copy path, and exercises the
+selected actor contact callback. The same heap owner now includes the
+source-audited 32-byte bucket required for the 31-byte `CurrentZoneEntityProxy`
+CString. The focused read reaches the unresolved ScriptAdmin getter; the NPC
+remains outside the world and inactive. This minimal Navigation owner does not
+run the original reflected factories or load every property set on those
+entities. See [checkpoint
+91](gothic3-rebuilding-process.md#91-reconstruct-the-selected-navigation-contact-callbacks),
+[90](gothic3-rebuilding-process.md#90-resolve-source-backed-navigation-entity-proxies-during-npc-read)
+and [89](gothic3-rebuilding-process.md#89-materialize-navigation-areas-for-the-npc-query).
 
 ### Record a reviewable result
 
@@ -271,29 +284,40 @@ route when the reviewed changes reach `main`.
 The separate TypeScript route is live at
 [Gothic 3 / Ardea](https://ael-dev3.github.io/Tervain/gothic3/) and currently
 responds with HTTP 200. Its latest published revision is
-`main` commit `28d85b7b72f19352a0abc9abff13f4a2c0c440f3`, merged in
-[PR 53](https://github.com/ael-dev3/Tervain/pull/53) and published by successful
-[workflow run 37554766730](https://github.com/ael-dev3/Tervain/actions/runs/37554766730), attempt 1.
-That change adds checkpoint 84's offline Game CRT and Navigation class-name
-research; it does not change the browser runtime. The latest captured browser
-exercise is checkpoint 83 at commit
+`main` commit `5f6af5a397e25224decb68d481c28fb8b3883a7e`, merged in
+[PR 54](https://github.com/ael-dev3/Tervain/pull/54) and published by successful
+[workflow run 37559119442](https://github.com/ael-dev3/Tervain/actions/runs/37559119442), attempt 1.
+That publication adds source-backed NPC runtime-admin integration and evidence
+for selected Script_Game combat attitude helpers. It does not activate NPCs or
+complete the campaign. The latest captured browser-runtime exercise remains
+checkpoint 83 at commit
 `c52d16da73fe1c9be5d240b0111cfe1074d1e8cc`, published by
 [workflow run 37551902308](https://github.com/ael-dev3/Tervain/actions/runs/37551902308), attempt 1.
-Checkpoint 84 corrects the Game `_strlen` DWORD path and constructs the Game
-Navigation class name through the shared CString allocator. It does not run the
-71 earlier C++ initializers or connect Navigation's reflected type to live NPC
-activation; see the
-[detailed rebuilding record](gothic3-rebuilding-process.md#84-construct-the-game-navigation-class-name-through-sharedbase).
+Checkpoints 81–84 preserve selected Engine/Game CRT ownership and Navigation
+class-name evidence; they do not run all original DLL initializers or connect
+Navigation's reflected type to live NPC activation. The
+[detailed rebuilding record](gothic3-rebuilding-process.md) distinguishes
+those source components from browser behavior.
 
-The local working tree also has checkpoints 85–86 that are not part of this
-published build. Checkpoint 85 extends the byte-verified combat source receipts
-with three Script_Game attitude helpers. Checkpoint 86 connects the NPC
-constructor's first 448-byte allocation and reflection panic checks to one
-shared runtime-admin owner. The local production build passes and its preview
-boots the Ardea scene; the NPC inspector has not yet been reviewed after this
-hookup, so no new read boundary or gameplay behavior is claimed. The Navigation
-PropertyObjectType owner, physical Navigation allocations, world attachment and
-NPC activation remain open.
+The current working copy has unpublished checkpoints 87–91. The retained NPC
+read passes the selected application-mode check, resolves its current-zone
+proxy to the registered source Navigation entity, and follows the selected
+Engine proxy copy/destruction operations. Checkpoint 91 adds the original
+gCEntity contact dispatch and the source-shaped iterator, with the verified
+actor-side `gCNavigation_PS` no-op callback. Its focused runtime test now
+confirms the read reaches the next boundary, the unresolved ScriptAdmin getter;
+the NPC is still not world-resident or active. Typechecking passes, the full
+test suite passes (225 files, 2,370 tests), and the production build succeeds
+with the existing large-chunk warning. No manual browser exercise of this
+checkpoint is recorded.
+See [checkpoint
+91](gothic3-rebuilding-process.md#91-reconstruct-the-selected-navigation-contact-callbacks)
+for the native dispatch trace and exact limits. This lower browser loader does
+not provide original application startup, reflected factories or full entity
+reads, and it does not make the NPC world-resident. No browser exercise of the
+NPC inspector after PR 54 is recorded here. Original Navigation reflection,
+full source-ordered property attachment, world attachment and NPC activation
+remain open.
 
 The public browser check loads 202 scene objects and 70 character models,
 enters Ardea with Hero HP 100 and inspects the Hero model (10,692 triangles,
@@ -483,9 +507,18 @@ Their native behavior is not connected:
 4. Construct and activate that NPC through property attachment, world context
    and processing registration. Checkpoint 86 routes the initial 448-byte
    entity allocation through MemoryAdmin and connects its ErrorAdmin panic
-   check; reflected wrapper/native allocations and registered scene-map backing
-   still need the same shared heap. Then supply the original
-   application/module/session path and attach properties in source order.
+   check. Checkpoint 87 also constructs its selected source name through a
+   heap-backed CString on that same MemoryAdmin. Checkpoint 88 supplies a
+   lower browser-owned session-mode adapter; checkpoint 89 resolves the
+   compiled query with source-derived Navigation areas. Checkpoint 90 resolves
+   the current-zone proxy to its source entity and follows Engine proxy caching.
+   Checkpoint 91 adds the contact iterator and selected Navigation property-set
+   dispatch; the focused test confirms the next boundary is ScriptAdmin, which
+   remains unimplemented ([checkpoint
+   91](gothic3-rebuilding-process.md#91-reconstruct-the-selected-navigation-contact-callbacks)).
+   Reflected wrapper/native allocations and original application/module startup
+   remain prerequisites, followed by full source-ordered property attachment
+   and world activation.
 5. Connect native contact eligibility, animation/action state and NPC responses,
    then finish the scheduled death prefix through enclave notification,
    destination and plunder cleanup, ragdoll and knockout handling. The bandit

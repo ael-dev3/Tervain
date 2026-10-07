@@ -42,12 +42,12 @@ describe('source-admitted pools for class-name and reflected SceneAdmin allocati
     expect(platform.snapshot().sections).toHaveLength(0);
   });
 
-  it('preserves the eight-bucket default and ten-bucket NPC profile while adding a separate ten-bucket scene profile', () => {
+  it('preserves the eight-bucket default and eleven-bucket NPC profile while adding a separate ten-bucket scene profile', () => {
     const base = new NativeMemoryAdmin(new NativeRuntimePlatform());
     expect(base.snapshot().pools.map(pool => pool.stride)).toEqual([12, 16, 28, 112, 192, 224, 448, 768]);
     expect(base.newObject(21).known).toBe(false);
     const npc = fixture([nativeNpcHeapExtension]);
-    expect(npc.memory.snapshot().pools.map(pool => pool.stride)).toEqual([12, 16, 20, 28, 40, 112, 192, 224, 448, 768]);
+    expect(npc.memory.snapshot().pools.map(pool => pool.stride)).toEqual([12, 16, 20, 28, 32, 40, 112, 192, 224, 448, 768]);
     expect(npc.memory.newObject(348, 0xc4).known).toBe(false);
     const scene = fixture([nativeSceneStartupHeapExtension]);
     expect(scene.memory.snapshot().pools.map(pool => pool.stride)).toEqual([12, 16, 24, 28, 112, 192, 224, 384, 448, 768]);
@@ -161,12 +161,12 @@ describe('source-admitted pools for class-name and reflected SceneAdmin allocati
     expect(f.memory.snapshot().pools.filter(pool => pool.descriptor).map(pool => pool.stride)).toEqual([28, 448]);
   });
 
-  it('uses all twelve source buckets on one owner and canonical pointer-area prefix in either extension order', () => {
+  it('uses all thirteen source buckets on one owner and canonical pointer-area prefix in either extension order', () => {
     for (const extensions of [[nativeNpcHeapExtension, nativeSceneStartupHeapExtension], [nativeSceneStartupHeapExtension, nativeNpcHeapExtension]]) {
-      const f = fixture(extensions), requests = [12, 16, 20, 21, 28, 36, 108, 172, 204, 348, 448, 688];
+      const f = fixture(extensions), requests = [12, 16, 20, 21, 28, 29, 36, 108, 172, 204, 348, 448, 688];
       const allocations = requests.map(request => block(f.memory.newObject(request)));
-      expect(allocations.map(allocation => allocation.capacity)).toEqual([12, 16, 20, 24, 28, 40, 112, 192, 224, 384, 448, 768]);
-      expect(f.memory.snapshot()).toMatchObject({ pointerAreaCount: 12, guard: 1, criticalSectionEntered: false });
+      expect(allocations.map(allocation => allocation.capacity)).toEqual([12, 16, 20, 24, 28, 32, 40, 112, 192, 224, 384, 448, 768]);
+      expect(f.memory.snapshot()).toMatchObject({ pointerAreaCount: 13, guard: 1, criticalSectionEntered: false });
       expect(f.platform.snapshot().pending.filter(entry => entry.address === '100e2710')).toHaveLength(1);
       const section = f.platform.snapshot().sections[0]!;
       expect(f.platform.snapshot().sections).toHaveLength(1); expect(section.depth).toBe(0);
@@ -199,19 +199,19 @@ describe('source-admitted pools for class-name and reflected SceneAdmin allocati
     expect(name.freed).toBe(false);
   });
 
-  it('retains the actual allocation prefix when a thirteenth pool region would exceed the audited pointer-area range', () => {
-    const f = fixture(), requests = [12, 16, 20, 21, 28, 36, 108, 172, 204, 348, 448, 688];
+  it('retains the actual allocation prefix when a fourteenth pool region would exceed the audited pointer-area range', () => {
+    const f = fixture(), requests = [12, 16, 20, 21, 28, 29, 36, 108, 172, 204, 348, 448, 688];
     requests.forEach(request => block(f.memory.newObject(request)));
     // Source pool 384 capacity 0x1ffd: the first allocation leaves 0x1ffc slots.
     for (let index = 0; index < 0x1ffc; index++) block(f.memory.newObject(348, 0xc4));
-    expect(f.memory.snapshot().pointerAreaCount).toBe(12);
+    expect(f.memory.snapshot().pointerAreaCount).toBe(13);
     const result = f.memory.newObject(348, 0xc4);
     expect(result.known).toBe(false);
     if (!result.known) expect(result.reason).toContain('pointer-area write exceeds');
-    expect(f.memory.snapshot()).toMatchObject({ pointerAreaCount: 12, criticalSectionEntered: true });
-    expect(f.memory.snapshot().virtualRegions).toHaveLength(13);
+    expect(f.memory.snapshot()).toMatchObject({ pointerAreaCount: 13, criticalSectionEntered: true });
+    expect(f.memory.snapshot().virtualRegions).toHaveLength(14);
     expect(f.memory.snapshot().pools.find(pool => pool.stride === 384)!.count).toBe(0x1ffe);
     expect(f.memory.newObject(21).known).toBe(false);
-    expect(f.memory.snapshot().virtualRegions).toHaveLength(13);
+    expect(f.memory.snapshot().virtualRegions).toHaveLength(14);
   });
 });

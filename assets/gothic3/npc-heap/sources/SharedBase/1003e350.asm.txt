@@ -1,0 +1,51 @@
+1003e350 | 55 | PUSH EBP
+1003e351 | 8bec | MOV EBP,ESP
+1003e353 | 83ec08 | SUB ESP,0x8
+1003e356 | 53 | PUSH EBX
+1003e357 | 56 | PUSH ESI
+1003e358 | 57 | PUSH EDI
+1003e359 | 894df8 | MOV dword ptr [EBP + -0x8],ECX
+1003e35c | c745fc00000000 | MOV dword ptr [EBP + -0x4],0x0
+1003e363 | 60 | PUSHAD
+1003e364 | 8b75f8 | MOV ESI,dword ptr [EBP + -0x8]
+1003e367 | 8b0dcc7a0e10 | MOV ECX,dword ptr [0x100e7acc]
+1003e36d | 8b560c | MOV EDX,dword ptr [ESI + 0xc]
+1003e370 | 8dbe10f00f00 | LEA EDI,[ESI + 0xff010]
+1003e376 | f0ff4608 | INC.LOCK dword ptr [ESI + 0x8]
+1003e37a | 83c11f | ADD ECX,0x1f
+1003e37d | 33c0 | XOR EAX,EAX
+1003e37f | c1e905 | SHR ECX,0x5
+1003e382 | 8d3c97 | LEA EDI,[EDI + EDX*0x4]
+1003e385 | 2bca | SUB ECX,EDX
+1003e387 | fc | CLD
+1003e388 | f3af | SCASD.REPE ES:EDI
+1003e38a | 7439 | JZ 0x1003e3c5
+1003e38c | 41 | INC ECX
+1003e38d | 83ef04 | SUB EDI,0x4
+1003e390 | 833f00 | CMP dword ptr [EDI],0x0
+1003e393 | 74f2 | JZ 0x1003e387
+1003e395 | 0fbc17 | BSF EDX,dword ptr [EDI]
+1003e398 | 74f6 | JZ 0x1003e390
+1003e39a | f00fb317 | BTR.LOCK [EDI],EDX
+1003e39e | 73f0 | JNC 0x1003e390
+1003e3a0 | a1cc7a0e10 | MOV EAX,[0x100e7acc]
+1003e3a5 | 83c01f | ADD EAX,0x1f
+1003e3a8 | c1e805 | SHR EAX,0x5
+1003e3ab | 2bc1 | SUB EAX,ECX
+1003e3ad | 89460c | MOV dword ptr [ESI + 0xc],EAX
+1003e3b0 | c1e005 | SHL EAX,0x5
+1003e3b3 | 03c2 | ADD EAX,EDX
+1003e3b5 | 0faf05c87a0e10 | IMUL EAX,dword ptr [0x100e7ac8]
+1003e3bc | 8d443010 | LEA EAX,[EAX + ESI*0x1 + 0x10]
+1003e3c0 | 8945fc | MOV dword ptr [EBP + -0x4],EAX
+1003e3c3 | eb07 | JMP 0x1003e3cc
+1003e3c5 | f0ff4e08 | DEC.LOCK dword ptr [ESI + 0x8]
+1003e3c9 | 894e0c | MOV dword ptr [ESI + 0xc],ECX
+1003e3cc | 61 | POPAD
+1003e3cd | 8b45fc | MOV EAX,dword ptr [EBP + -0x4]
+1003e3d0 | 5f | POP EDI
+1003e3d1 | 5e | POP ESI
+1003e3d2 | 5b | POP EBX
+1003e3d3 | 8be5 | MOV ESP,EBP
+1003e3d5 | 5d | POP EBP
+1003e3d6 | c3 | RET

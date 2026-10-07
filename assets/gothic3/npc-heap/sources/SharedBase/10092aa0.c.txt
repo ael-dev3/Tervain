@@ -1,4 +1,4 @@
-/* ENTRY 10092aa0 | FUN_10092aa0 | STATUS decompiled | 2 ms */
+/* ENTRY 10092aa0 | FUN_10092aa0 | STATUS decompiled | 1 ms */
 
 void __fastcall FUN_10092aa0(undefined4 *param_1)
 

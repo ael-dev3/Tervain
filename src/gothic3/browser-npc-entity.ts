@@ -20,6 +20,7 @@ import { createNativeNavigationFactory } from './navigation-reading';
 import type { OriginalNavigationProperties } from './navigation-reading';
 import { NativeNavigationLifecycle, NativeNavigationRegistry, createNativeNavigationState } from './navigation-runtime';
 import type { NativeNavigationEntity, NativeNavigationLifecycleHost, NativeNavigationState } from './navigation-runtime';
+import type { NativeNavigationNotificationHost } from './navigation-notifications';
 import { monotonicClockMilliseconds } from './world-clock';
 import { readNativeResource } from './resource';
 import type { ResourceReceipt } from './resource';
@@ -130,6 +131,9 @@ export interface BrowserNpcEntityServices {
    * flag is not this getter. Missing service retains that OnAdded prefix. */
   readonly applicationMode270EqualsOne?: NativeNavigationLifecycleHost['applicationMode270EqualsOne'];
   readonly findZoneAt?: NativeNavigationLifecycleHost['findZoneAt'];
+  /** Five selected Game.dll navigation-name globals plus actual CString heap
+   * operations; proxy, contact, DCC and script services remain explicit. */
+  readonly navigationNotifications?: NativeNavigationNotificationHost;
 }
 export interface BrowserNpcEntityPreparation {
   readonly source: BrowserNpcEntitySourceRecord;
@@ -212,7 +216,7 @@ export class BrowserNpcEntityRuntime {
           // Constructor really writes this pointer slot to NULL. Do not skip
           // the original ReleaseReference tail for a later non-NULL pointer.
           return data.value.numeric.get(0x18c) === 0 ? known(undefined) :
-            missing('Actual non-NULL entity proxy slot18c release is not connected');
+          missing('Actual non-NULL entity proxy slot18c release is not connected');
         },
       });
       const setters = new NativeEntitySetters({
@@ -280,7 +284,7 @@ export class BrowserNpcEntityRuntime {
         allocateNavigation: identity => known({ state: createNativeNavigationState(identity), wishes: { wishedMovementMode: 0 } }),
         coCreateGuid: scratch => this.factory.host.guid.coCreateGuid({ bytes: scratch.bytes,
           knownMask: scratch.knownMask, valid: false, destroyed: scratch.destroyed }),
-        ownerView, lifecycle: navigationLifecycle,
+        ownerView, lifecycle: navigationLifecycle, notifications: this.services.navigationNotifications,
         postRead: () => missing('Original Navigation GameReset and proxy PostRead are not connected'),
       });
       const registered = reflection.registerFactory(navigationFactory);

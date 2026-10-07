@@ -1,0 +1,9 @@
+/* ENTRY 2050aa70 | FUN_2050aa70 | STATUS decompiled | 3 ms */
+
+void FUN_2050aa70(void)
+
+{
+  bCString::bCString((bCString *)&DAT_207bfaa8,"SleepingPoint");
+  _atexit(FUN_2055bda0);
+  return;
+}

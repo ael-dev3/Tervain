@@ -1,0 +1,41 @@
+/* ENTRY 304be5c0 | FUN_304be5c0 | STATUS decompiled | 20 ms */
+
+void __thiscall FUN_304be5c0(eCEntity *param_1,int param_2,eCContactIterator *param_3)
+
+{
+  bool bVar1;
+  eCEntityPropertySet *peVar2;
+  int iVar3;
+  eCEntityPropertySet *peVar4;
+  int iVar5;
+
+  if (param_1 == (eCEntity *)0x0) {
+    peVar2 = (eCEntityPropertySet *)0x0;
+  }
+  else {
+    peVar2 = (*param_1->vftablePtr->GetPropertySet)(param_1,0xe);
+  }
+  if ((param_2 != 0) && (peVar2 != (eCEntityPropertySet *)0x0)) {
+    (**(code **)(*(int *)peVar2 + 0x1ac))(param_2,param_3);
+    eCContactIterator::ResetIterator(param_3);
+  }
+  iVar5 = 0;
+  iVar3 = eCEntity::GetPropertySetCount(param_1);
+  if (0 < iVar3) {
+    do {
+      bVar1 = eCEntity::IsValidPropertySetIndex(param_1,iVar5);
+      if (bVar1) {
+        peVar4 = eCEntity::GetPropertySetAt(param_1,iVar5);
+        (**(code **)(*(int *)peVar4 + 0xcc))(param_2,param_3);
+        eCContactIterator::ResetIterator(param_3);
+      }
+      iVar5 = iVar5 + 1;
+      iVar3 = eCEntity::GetPropertySetCount(param_1);
+    } while (iVar5 < iVar3);
+  }
+  if ((param_2 != 0) && (peVar2 != (eCEntityPropertySet *)0x0)) {
+    (**(code **)(*(int *)peVar2 + 0x1b4))(param_2,param_3);
+    eCContactIterator::ResetIterator(param_3);
+  }
+  return;
+}

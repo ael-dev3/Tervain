@@ -1,8 +1,8 @@
-/* ENTRY 1004a1c0 | bCObjectBase::~bCObjectBase | STATUS decompiled | 2 ms */
+/* ENTRY 1004a1c0 | FUN_1004a1c0 | STATUS decompiled | 1 ms */
 
-void __thiscall bCObjectBase::~bCObjectBase(bCObjectBase *this)
+void __fastcall FUN_1004a1c0(undefined4 *param_1)
 
 {
-  this->vftablePtr = &vftable;
+  *param_1 = bCObjectBase::vftable;
   return;
 }
