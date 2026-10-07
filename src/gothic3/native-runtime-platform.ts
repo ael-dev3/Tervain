@@ -387,7 +387,9 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
         return known(this.#decodedPointers.get(value)!);
       } });
     this.#sectionProcedure = Object.freeze({ identity: Object.freeze({}), owner, name: 'InitializeCriticalSectionAndSpinCount',
-      invoke: (fields: NativeHeapObjectViews, sectionOwner: object, spinCount: 4000) => this.#initializePhysicalSection(fields, sectionOwner, spinCount) });
+      // Preserve the established lower endpoint dispatch. The source-guarded
+      // standard-I/O bridge separately calls the private core with its grant.
+      invoke: (fields: NativeHeapObjectViews, sectionOwner: object, spinCount: 4000) => this.initializePhysicalCriticalSection(fields, sectionOwner, spinCount) });
     this.tlsProcedures = Object.freeze({
       alloc: Object.freeze({ kind: 'alloc', name: 'TlsAlloc', invoke: (_callback: NativeCrtThreadDestructor) => this.tlsAlloc() }),
       get: Object.freeze({ kind: 'get', name: 'TlsGetValue', invoke: (index: number) => this.tlsGetValue(index) }),
@@ -397,7 +399,7 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     Object.defineProperty(this, 'tlsProcedures', { value: this.tlsProcedures, writable: false, configurable: false });
     this.#flsProcedures = Object.freeze({
       alloc: Object.freeze({ kind: 'alloc', name: 'FlsAlloc', invoke: (callback: NativeCrtThreadDestructor) => this.flsAlloc(callback) }),
-      get: Object.freeze({ kind: 'get', name: 'FlsGetValue', invoke: (index: number) => this.#flsGetValue(index) }),
+      get: Object.freeze({ kind: 'get', name: 'FlsGetValue', invoke: (index: number) => this.flsGetValue(index) }),
       set: Object.freeze({ kind: 'set', name: 'FlsSetValue', invoke: (index: number, value: object | null) => this.flsSetValue(index, value) }),
       free: Object.freeze({ kind: 'free', name: 'FlsFree', invoke: (index: number) => this.flsFree(index) }),
     });
@@ -1136,6 +1138,7 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     if (this.#nextFlsIndex >= 0xffffffff) return known(0xffffffff);
     const index = this.#nextFlsIndex++; this.#flsIndexes.set(index, { callback, value: null }); return known(index);
   }
+  private flsGetValue(index: number): NativeValue<object | null> { return this.#flsGetValue(index); }
   #flsGetValue(index: number): NativeValue<object | null> { return this.#crtServices?.fiberLocalStorage ? known(this.#flsIndexes.get(index)?.value ?? null) : unknown('Actual selected FLS getter required'); }
   private flsSetValue(index: number, value: object | null): NativeValue<boolean> {
     if (!this.#crtServices?.fiberLocalStorage) return unknown('Actual selected FLS setter required');

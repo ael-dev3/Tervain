@@ -8095,6 +8095,17 @@ Static review confirms exact 368-row normal and 80-row NULL ledgers after this
 correction. The producer, four package outputs and 917 earlier source files
 remain unchanged.
 
+The first [PR workflow run](https://github.com/ael-dev3/Tervain/actions/runs/37660609795)
+on head `6683ea0bc94e2228493973f5ebc9677cfcda6a4f` passed typechecking but
+failed eight existing lock-initialization compatibility checks; 2,456 other
+cases passed. Static diagnosis traced all eight failures to the cached legacy
+section procedure bypassing the existing public lower endpoint and its
+platform overrides. Restoring that earlier dispatch preserves the selected
+failure, exception and observation paths. The new standard I/O bridge retains
+its separate private initializer and actual call-grant checks. The existing
+test cases are unchanged; that first failed run is preserved as failure
+evidence and is not reused as a successful publication check.
+
 The corrected local production build passed typechecking and transformed 466
 modules. A subsequent complete build capture recorded exit zero, identical
 before/after binary hashes and inventories for 75,704 tracked and new
@@ -8122,14 +8133,15 @@ I/O return value: 0
 ```
 
 Captured browser error logs were empty. The inspected local service bundle
-`browser-npc-entity-services-DFxmt2wC.js` has SHA-256
-`00066dba535cb5ac1b666df6429fbbfba569eba909d4e3eba8afdf8d025fce97`;
-the Gothic entry `gothic3-CQBbHUYN.js` has SHA-256
-`d43fbaf4f88d7b9a4b7b3add1699e2f81412316884103ab3c77931f56a6ae64a`.
+`browser-npc-entity-services-Bph-DSD9.js` has SHA-256
+`b5fbf289d5e890a05384e9c92d9a3cb92d89b77ae489805f9b87abed7f8eceaa`;
+the Gothic entry `gothic3-BHWdeEmx.js` has SHA-256
+`fd75d43d3f64388f27e2aae077f9734a8f0c1ebeb8384d9af7565184122ab00a`.
 Both inspected files match the successful final local build. This establishes
 local browser execution of the selected path; matching future served artifact
 bytes alone would establish publication identity, not another execution
-observation.
+observation. The fresh inspection and final capture were repeated after the
+legacy dispatch correction; the same 899-operation zero return was observed.
 
 The next required work owns the original caller TEST and conditional branch,
 then the complete argument initialization path with its MBC/NLS dependencies,
