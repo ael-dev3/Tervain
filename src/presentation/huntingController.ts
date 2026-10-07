@@ -168,7 +168,11 @@ export class HuntingController {
         world.animals.syncHunting(game.state.hunting);
         audio.huntingSound('arrow_flesh', impact.point, this.listener());
       } else audio.huntingSound('arrow_ground', impact.point, this.listener());
-    } else if (!this.underWater(impact.point)) audio.huntingSound('arrow_ground', impact.point, this.listener());
+    } else if (!this.underWater(impact.point)) {
+      // An arrow in a trunk shakes the tree (a sapling visibly) and knocks a few leaves loose.
+      world.strikeTree?.(impact.point.x, impact.point.y, impact.point.z, 1);
+      audio.huntingSound('arrow_ground', impact.point, this.listener());
+    }
   }
 
   /** A shaft stopped by a stream bed or the sea floor was already heard entering the water. */

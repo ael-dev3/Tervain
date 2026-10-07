@@ -21,7 +21,7 @@ Medium retains complementary opaque coverage between adjacent levels. Low retain
 
 New settings default to High. Loading an existing saved Medium or Low preference preserves it; this release does not silently replace an explicit preference. Resetting defaults selects High. A comparison must record the actual preset, since upgrading the code alone does not change a saved graphics choice.
 
-No source GLB, UV, authored normal, tree-family scale, root shape or canonical placement is rebaked or reshaped by this revision. The only geometry transforms remain flattening source node transforms, uniform scale/yaw and translation to embed the whole root footprint. Attached canopy, branches and trunks remain static. The approved separate falling-leaf streams remain animated and freeze in Reduced Motion.
+No source GLB, UV, authored normal, tree-family scale, root shape or canonical placement is rebaked or reshaped by this revision. The only geometry transforms remain flattening source node transforms, uniform scale/yaw and translation to embed the whole root footprint. Attached canopy, branches and trunks remain static (until A62 in 0.0.13, see [foliage](foliage-0.0.13.md)). The approved separate falling-leaf streams remain animated and freeze in Reduced Motion.
 
 ## Close bark with original surface detail
 

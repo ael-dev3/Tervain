@@ -8,7 +8,10 @@ export interface SwayUniforms {
   uWind: { value: number };
 }
 
-/** Tree and leaf sway is paused for the current patch after motion review. */
+/**
+ * The old rooted sway of the procedural fallback trees (authoring tools and fixtures) stays off. The supplied trees in
+ * the world answer the realm's wind through foliage/foliageWind.ts instead (A62).
+ */
 export const TREE_SWAY_ENABLED = false;
 export const TREE_SWAY_MULTIPLIER = TREE_SWAY_ENABLED ? 1 : 0;
 

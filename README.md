@@ -27,6 +27,8 @@ The prototype includes:
   and its pool; floating cargo, wading, swimming and a view under the surface.
 - Lush blade-by-blade meadows that gusts sweep across and that the hero, residents, animals and cargo push through,
   leaving trails that slowly close.
+- Woods that move in the same wind: trunks lean and sway, branches swing and leaves flutter and glow against the
+  light; ferns part around the hero and a struck tree shakes and drops a few leaves.
 - Nineteen supplied, optimized and rigged animals across settlement, forest and warm-woodland habitats.
 - Bow hunting, grounded carcasses and saved skinning rewards for thirteen wild animals; cats, dogs and the saddled trail mount remain protected. Rowan Vale welcomes you at a solid woodland supply table with an offline Eleven v4 voice.
 - Adaptive world music, surface footsteps, item/combat/work sounds, wildlife and captioned resident speech.

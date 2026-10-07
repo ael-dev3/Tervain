@@ -110,7 +110,7 @@ describe('actual supplied Meshy tree catalog', () => {
       door: { az: 2, halfWidth: HERMIT_DOOR.faceHalfWidth, height: HERMIT_DOOR.faceTop,
         opening: { width: HERMIT_DOOR.width, height: HERMIT_DOOR.height } } });
     const lights = createWispLighting(4), crown = createMenuTreeRemix(templates.get(MENU_TREE_SOURCE)!, tree,
-      { uTime: { value: 0 }, uWind: { value: 0.8 } }, lights);
+      null, lights);
     const root = new THREE.Group(); root.add(new THREE.Mesh(tree.wood));
     for (const part of crown.parts) root.add(new THREE.Mesh(part.geometry, part.material));
     const hollow = buildMenuHollow(tree.door!, { lights }); root.add(hollow.mesh);

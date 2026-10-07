@@ -4,7 +4,7 @@ import type { BuildContext, FrameContext, SceneModule } from './context';
 import { SPECIES, buildTreeVariant, type TreeVariant, type Species } from './treeGen';
 import { leafMaterial, woodMaterial, disposeTreeMaterials } from './treeMaterials';
 import { disposeTreeTextures } from './treeTextures';
-import { createFloraPopulation, selectFloraPopulation, registerFloraColliders, FLORA_VARIANTS, FLORA_FADE_START, FLORA_MAX_DISTANCE, floraLodWeights, type FloraTree } from './floraPopulation';
+import { createFloraPopulation, selectFloraPopulation, registerFloraColliders, FLORA_VARIANTS, FLORA_FADE_START, FLORA_MAX_DISTANCE, floraLodWeightsFor, type FloraTree } from './floraPopulation';
 import { buildForestFloor } from './forestFloor';
 import { buildFallingLeaves } from './fallingLeaves';
 import { createPineForest, isPineSpecies, type PineTemplates } from './solitaryPine';
@@ -12,18 +12,47 @@ import { groundedTreeY, treeWoodCollisionRadius } from './treeGrounding';
 import { PlantedCrownIndex } from './plantedCrowns';
 import { attachInstanceDistanceVisibility, smoothDistanceFade, type InstanceDistanceVisibility } from './distanceVisibility';
 import type { PhysicalWoodGeometry } from '../world/physicsGeometry';
+import { FOLIAGE_RESPONSE, type FoliageResponse } from './foliage/foliageWind';
+import { crownOf, installFoliage, installFoliageShadow, type InstalledFoliage } from './foliage/foliageMaterial';
+import { shadowDepthMaterial, shadowGeometry } from './foliage/shadowCasters';
+import { createLeafBurst } from './foliage/leafBurst';
 
 /**
  * Trees and shrubs. An empty strand gives way to a layered old-growth woodland: flared oak roots under tall pine/fir columns,
  * a lower birch stratum and native fern/moss floor. The trail remains open under the interlocking crowns. Every
  * tree is one of a few seeded variants per species. High retains the complete source instances at every distance;
- * other presets retain three levels with opaque complementary fades. Culling uses the actual source crown envelope
- * and follows camera turns on the same frame.
+ * other presets retain three levels with opaque complementary fades (low shrubs fade to their lighter models on every
+ * preset). Culling uses the actual source crown envelope and follows camera turns on the same frame.
+ *
+ * Every tree answers the realm's wind and is lit as foliage (foliage/), and shadows come from separate shadow-only
+ * casters: only trees inside the sun's shadow volume, with lighter source models away from the camera, so the colour
+ * pass never draws a tree the camera cannot see.
  */
+
+/**
+ * Which source LOD casts a tree's shadow: the full model near the camera, where its shadow is seen up close, and the
+ * lighter source LODs beyond (the same baked leaf cards, so the same shapes in the shadow map). The Pine's far LOD is
+ * four crossed planes, so its shadows stop at the middle model.
+ */
+export const FLORA_SHADOW_LOD = { full: 25, middle: 70 } as const;
+export function floraShadowLod(distance: number, pine: boolean): 0 | 1 | 2 {
+  if (distance < FLORA_SHADOW_LOD.full) return 0;
+  if (distance < FLORA_SHADOW_LOD.middle || pine) return 1;
+  return 2;
+}
+
+/** How a tree answers the wind, from its kind and its own height. */
+export function foliageResponse(variant: Pick<TreeVariant, 'species' | 'height'>): FoliageResponse {
+  const kind = variant.species === 'pine' || variant.species === 'fir' || variant.species === 'shorepine' ? 'conifer'
+    : variant.species === 'palm' ? 'palm' : variant.species === 'shrub' ? 'shrub' : variant.species === 'dead' ? 'dead' : 'broadleaf';
+  return { ...FOLIAGE_RESPONSE[kind], height: Math.max(0.6, variant.height) };
+}
 
 interface Batch {
   variant: TreeVariant;
   meshes: { wood: THREE.InstancedMesh | null; leaf: THREE.InstancedMesh | null }[];
+  /** Shadow-only copies per LOD (drawn only into the sun's shadow map), when this preset casts shadows. */
+  casters: { wood: THREE.InstancedMesh | null; leaf: THREE.InstancedMesh | null }[];
   visibility: { wood: InstanceDistanceVisibility | null; leaf: InstanceDistanceVisibility | null }[];
   bounds: THREE.Sphere;
   trees: FloraTree[];
@@ -31,6 +60,15 @@ interface Batch {
 
 export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, deferFloor = false, meshyTemplates?: MeshyTreeTemplates): SceneModule & {
   counts: { trees: number; triangles: number }; physicalWood: readonly PhysicalWoodGeometry[]; initializeFloor(extraTrees?: readonly FloraTree[]): void;
+  /** Meshes drawn only into the sun's shadow map; the world shows them for the shadow pass alone. */
+  shadowCasters: THREE.Group;
+  /** The tree rooted nearest (x, z) within `reach` metres of its trunk, for things that strike a tree. */
+  treeAt(x: number, z: number, reach?: number): { x: number; z: number; height: number; scale: number; leafy: boolean } | null;
+  /**
+   * Something struck a tree at (x, y, z): it shakes and settles (a sapling visibly, a giant hardly at all) and a few
+   * leaves fall from its crown. False when no trunk is there.
+   */
+  strike(x: number, y: number, z: number, strength?: number): boolean;
 } {
   const { terrain, colliders, quality, sway, excl } = ctx;
   const group = new THREE.Group();
@@ -95,7 +133,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
   let forestFloor: SceneModule | undefined;
   const initializeFloor = (extraTrees: readonly FloraTree[] = []) => {
     if (forestFloor) return;
-    forestFloor = buildForestFloor(terrain, excl, quality, [...population, ...extraTrees], plantedCrowns);
+    forestFloor = buildForestFloor(terrain, excl, quality, [...population, ...extraTrees], plantedCrowns, ctx.foliage);
     group.add(forestFloor.group);
   };
   if (!deferFloor) initializeFloor();
@@ -130,7 +168,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         geometry.computeBoundingBox();
         box.union(geometry.boundingBox!);
       }
-      b = { variant, meshes: [], visibility: [], bounds: box.getBoundingSphere(new THREE.Sphere()), trees: [] };
+      b = { variant, meshes: [], casters: [], visibility: [], bounds: box.getBoundingSphere(new THREE.Sphere()), trees: [] };
       byVariant.set(variant, b);
       batches.push(b);
     }
@@ -138,8 +176,19 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
   }
   const white = new THREE.Color();
   let triangles = 0;
+  // Wind and the foliage look come from the world's shared field (absent only in standalone tools and fixtures).
+  const foliage = ctx.foliage ?? null;
+  const castsShadows = quality !== 'low';
+  const shadowCasters = new THREE.Group();
+  shadowCasters.name = 'flora-shadow-casters';
+  shadowCasters.visible = false;
+  group.add(shadowCasters);
+  const casterMaterials: THREE.Material[] = [];
+  const casterGeometries: THREE.BufferGeometry[] = [];
   for (const b of batches) {
     const v = b.variant;
+    const response = foliageResponse(v);
+    const crown = v.lods[0].leaf ? crownOf(v.lods[0].leaf) : undefined;
     for (let l = 0; l < 3; l++) {
       const lod = v.lods[l]!;
       const importedMaterials = usesPine(v.species) ? pine.materials[l]! : meshy ? meshy.materialsFor(v)[l]! : null;
@@ -151,8 +200,9 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         m.count = 0;
         m.frustumCulled = false;
         m.name = `${usesPine(v.species) ? 'solitary-pine' : v.assetId ?? v.species}:${l}:${m === wood ? 'wood' : 'foliage'}`;
-        // The middle preset renders LOD1 close to the player; that canopy must cast shadows too.
-        m.castShadow = quality !== 'low' && l < 2;
+        // Shadows come from the separate shadow-only casters below: only trees in the sun's shadow volume, lighter
+        // source LODs away from the camera.
+        m.castShadow = false;
         m.receiveShadow = true;
         // Give every instance a colour slot now so the buffer exists when we start writing matrices.
         m.setColorAt(0, white.setRGB(1, 1, 1));
@@ -160,13 +210,40 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       }
       b.meshes.push({ wood, leaf });
       b.visibility.push({ wood: wood ? attachInstanceDistanceVisibility(wood) : null, leaf: leaf ? attachInstanceDistanceVisibility(leaf) : null });
+      const installed: { wood: InstalledFoliage | null; leaf: InstalledFoliage | null } = { wood: null, leaf: null };
+      if (foliage) {
+        if (wood) installed.wood = installFoliage(wood.material as THREE.Material, { field: foliage, response, leaf: false, crown });
+        if (leaf) installed.leaf = installFoliage(leaf.material as THREE.Material, { field: foliage, response, leaf: true, crown });
+      }
+      const caster = (mesh: THREE.InstancedMesh | null, part: 'wood' | 'leaf') => {
+        if (!mesh || !castsShadows) return null;
+        const geometry = shadowGeometry(mesh.geometry);
+        const c = new THREE.InstancedMesh(geometry, mesh.material, b.trees.length);
+        c.count = 0;
+        c.visible = false;
+        c.frustumCulled = false;
+        c.castShadow = true;
+        c.receiveShadow = false;
+        c.name = `${mesh.name}:shadow`;
+        const depth = shadowDepthMaterial(mesh.material as THREE.Material);
+        if (foliage) installFoliageShadow(depth, { field: foliage, response, leaf: part === 'leaf' }, installed[part] ?? undefined);
+        c.customDepthMaterial = depth;
+        shadowCasters.add(c);
+        casterMaterials.push(depth);
+        casterGeometries.push(geometry);
+        return c;
+      };
+      b.casters.push({ wood: caster(wood, 'wood'), leaf: caster(leaf, 'leaf') });
     }
     triangles += v.lods[0].tris * b.trees.length;
   }
 
-  // Detached leaves have their own motion; approved trunks, branches and canopy meshes remain static.
-  const fallingLeaves = buildFallingLeaves(terrain, quality, trees, variantFor);
+  // Detached leaves drift downwind; leaves knocked loose by a strike join them.
+  const windDirection = ctx.foliage?.wind.direction;
+  const fallingLeaves = buildFallingLeaves(terrain, quality, trees, variantFor, windDirection ? Math.atan2(windDirection[1], windDirection[0]) : 0);
   group.add(fallingLeaves.group);
+  const burst = ctx.foliage ? createLeafBurst(terrain, ctx.foliage.wind) : null;
+  if (burst) group.add(burst.mesh);
 
   /* ---- Per-frame selection ---- */
   const frustum = new THREE.Frustum();
@@ -187,6 +264,8 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
   let sinceRefresh = 1;
   let visible = 0;
   let drawTris = 0;
+  let shadowTrees = 0;
+  let shadowTris = 0;
   let disposed = false;
 
   const refresh = (cam: THREE.Camera, shadowFrustum: THREE.Frustum | null | undefined) => {
@@ -196,9 +275,13 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
     const cz = cam.position.z;
     visible = 0;
     drawTris = 0;
+    shadowTrees = 0;
+    shadowTris = 0;
     for (const b of batches) {
       const counts = [0, 0, 0];
+      const shadowCounts = [0, 0, 0];
       const v = b.variant;
+      const pineShadows = usesPine(v.species);
       for (const t of b.trees) {
         const dx = t.x - cx;
         const dz = t.z - cz;
@@ -214,10 +297,24 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         // guard preloads edge silhouettes. Retain off-screen casters only inside the actual
         // sun-shadow volume instead of paying for every tree in a large circle behind the player.
         sphere.radius += 2;
-        if (!frustum.intersectsSphere(sphere) && !shadowFrustum?.intersectsSphere(sphere)) continue;
+        const inView = frustum.intersectsSphere(sphere);
+        const inShadow = b.casters.length > 0 && !!shadowFrustum?.intersectsSphere(sphere);
+        if (!inView && !inShadow) continue;
+        if (inShadow) {
+          const sl = forceLod >= 0 ? Math.min(2, Math.floor(forceLod)) : floraShadowLod(d, pineShadows);
+          const c = b.casters[sl]!;
+          if (c.wood || c.leaf) {
+            const i = shadowCounts[sl]!++;
+            c.wood?.setMatrixAt(i, mtx);
+            c.leaf?.setMatrixAt(i, mtx);
+            shadowTrees++;
+          }
+        }
+        // Off-screen trees inside the sun's volume are shadow-only; the colour pass draws what the camera sees.
+        if (!inView) continue;
         // The stand supplies a shared value group; turning a tree must not change its colour.
         col.setRGB(t.tint, t.tint * 0.99, t.tint * 0.95);
-        const weights: number[] = forceLod >= 0 ? [0, 0, 0] : [...floraLodWeights(quality, d)];
+        const weights: number[] = forceLod >= 0 ? [0, 0, 0] : [...floraLodWeightsFor(v.species, quality, d)];
         if (forceLod >= 0) weights[Math.min(2, Math.floor(forceLod))] = 1;
         let intervalStart = 0;
         for (let l = 0; l < 3; l++) {
@@ -247,6 +344,18 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         }
         for (const visibility of [b.visibility[l]!.wood, b.visibility[l]!.leaf]) if (visibility) visibility.coverage.needsUpdate = true;
         drawTris += v.lods[l]!.tris * counts[l]!;
+        // Empty meshes leave the render lists entirely (no per-frame draw setup for an LOD nobody sees).
+        for (const mesh of [m.wood, m.leaf]) if (mesh) mesh.visible = counts[l]! > 0;
+        const c = b.casters[l];
+        if (c) {
+          for (const mesh of [c.wood, c.leaf]) {
+            if (!mesh) continue;
+            mesh.count = shadowCounts[l]!;
+            mesh.visible = shadowCounts[l]! > 0;
+            mesh.instanceMatrix.needsUpdate = true;
+          }
+          shadowTris += v.lods[l]!.tris * shadowCounts[l]!;
+        }
       }
     }
   };
@@ -259,6 +368,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       if (disposed) return;
       forestFloor?.update(dt, f);
       fallingLeaves.update(dt, f);
+      burst?.update(dt, f.reducedMotion);
       sinceRefresh += dt;
       const cam = f.camera;
       const moved = cam.position.distanceTo(lastCam);
@@ -286,19 +396,57 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       refresh(cam, f.shadowFrustum);
     },
     initializeFloor,
-    stats: () => ({ trees: trees.length, solitaryPines, meshyTrees: meshy ? trees.length - solitaryPines : 0, treeObstacles: obstacles.length, treesDrawn: visible, treeTris: Math.round(drawTris), ...forestFloor?.stats?.(), ...fallingLeaves.stats?.() }),
+    shadowCasters,
+    strike(x, y, z, strength = 1) {
+      const field = ctx.foliage;
+      if (disposed || !field || ![x, y, z, strength].every(Number.isFinite)) return false;
+      const tree = this.treeAt(x, z, 0.5);
+      if (!tree) return false;
+      const ground = terrain.heightAt(tree.x, tree.z);
+      if (y < ground - 0.3 || y > ground + tree.height) return false;
+      const amp = THREE.MathUtils.clamp(strength * 6 / Math.max(tree.height, 1), 0.12, 1.2);
+      const slots = field.shakes.value;
+      let oldest = 0;
+      for (let i = 1; i < slots.length; i++) if (slots[i]!.z < slots[oldest]!.z) oldest = i;
+      slots[oldest]!.set(tree.x, tree.z, field.wind.uniforms.uGrassTime.value, amp);
+      if (tree.leafy && burst) burst.release(tree.x, ground + tree.height * 0.62, tree.z, Math.max(0.5, tree.height * 0.28), Math.round(3 + amp * 7));
+      return true;
+    },
+    treeAt(x, z, reach = 0.6) {
+      let best: { x: number; z: number; height: number; scale: number; leafy: boolean } | null = null;
+      let bestD = Infinity;
+      for (const b of batches) {
+        const v = b.variant;
+        for (const t of b.trees) {
+          const d = Math.hypot(t.x - x, t.z - z);
+          if (d >= bestD || d > Math.max(0.3, v.trunkRadius * t.s) + reach) continue;
+          bestD = d;
+          best = { x: t.x, z: t.z, height: v.height * t.s, scale: t.s, leafy: !!v.lods[0].leaf };
+        }
+      }
+      return best;
+    },
+    stats: () => ({ trees: trees.length, solitaryPines, meshyTrees: meshy ? trees.length - solitaryPines : 0, treeObstacles: obstacles.length, treesDrawn: visible, treeTris: Math.round(drawTris),
+      shadowTrees, shadowTris: Math.round(shadowTris), struckLeaves: burst?.active ?? 0, ...forestFloor?.stats?.(), ...fallingLeaves.stats?.() }),
     dispose() {
       if (disposed) return;
       disposed = true;
       forestFloor?.dispose?.();
       fallingLeaves.dispose?.();
+      burst?.dispose();
       for (const batch of batches) {
         for (const visibility of batch.visibility) { visibility.wood?.dispose(); visibility.leaf?.dispose(); }
         for (const mesh of batch.meshes) {
           mesh.wood?.dispose();
           mesh.leaf?.dispose();
         }
+        for (const mesh of batch.casters) {
+          mesh.wood?.dispose();
+          mesh.leaf?.dispose();
+        }
       }
+      for (const material of casterMaterials) material.dispose();
+      for (const geometry of casterGeometries) geometry.dispose();
       // Grounding also examines rejected candidates; all procedural variants belong to this world.
       for (const variant of variants.values()) {
         for (const lod of usesPine(variant.species) || meshy ? [] : variant.lods) {

@@ -1,3 +1,4 @@
+import { patchFloorPlantVertex, type FoliageField } from './foliage/foliageWind';
 import * as THREE from 'three';
 import { deepwoodCover, forestClearingCover, forestClearingDistance } from '../world/forest';
 import { WORLD } from '../world/layout';
@@ -436,6 +437,16 @@ function installFloorLeafMask(material: THREE.Material, texture: THREE.DataTextu
   material.customProgramCacheKey = function() { return `${key.call(this)}|tervain-floor-leaf-mask-v1`; };
 }
 
+/** Wind and trampling for the floor's plants (after the leaf mask, which declares their leaf weights). */
+function installFloorPlantWind(material: THREE.Material, foliage: FoliageField) {
+  const compile = material.onBeforeCompile, key = material.customProgramCacheKey;
+  material.onBeforeCompile = function(shader, renderer) {
+    compile.call(this, shader, renderer);
+    patchFloorPlantVertex(shader, foliage);
+  };
+  material.customProgramCacheKey = function() { return `${key.call(this)}|tervain-floor-plant-wind-v1`; };
+}
+
 function installFloorLeafSurface(material: THREE.MeshStandardMaterial, texture: THREE.DataTexture) {
   installFloorLeafMask(material, texture);
   const compile = material.onBeforeCompile;
@@ -461,7 +472,7 @@ function installFloorLeafSurface(material: THREE.MeshStandardMaterial, texture: 
 }
 
 /** Native forest detail shares flora ownership and disposal. No collider is needed for these low, nonblocking pieces. */
-export function buildForestFloor(terrain: Terrain, exclusions: Exclusions, quality: Quality, trees?: readonly FloraTree[], crowns?: PlantedCrownField): SceneModule {
+export function buildForestFloor(terrain: Terrain, exclusions: Exclusions, quality: Quality, trees?: readonly FloraTree[], crowns?: PlantedCrownField, foliage?: FoliageField): SceneModule {
   const population = createForestFloorPopulation(terrain, exclusions, trees, crowns);
   const pieces = selectForestFloorPopulation(population, quality);
   const group = new THREE.Group();
@@ -469,6 +480,7 @@ export function buildForestFloor(terrain: Terrain, exclusions: Exclusions, quali
   const material = new THREE.MeshStandardMaterial({ vertexColors: true, side: THREE.DoubleSide, roughness: 1, metalness: 0, envMapIntensity: 0.35 });
   const leafSurface = buildForestLeafTexture();
   installFloorLeafSurface(material, leafSurface);
+  if (foliage) installFloorPlantWind(material, foliage);
   // Bark textures are shared with the tree module and released by flora's texture owner after this module disposes.
   const bark = barkTextures('dead');
   const logMaterial = new THREE.MeshStandardMaterial({ map: bark.map, normalMap: bark.normal, vertexColors: true, roughness: 1, metalness: 0 });
@@ -510,6 +522,8 @@ export function buildForestFloor(terrain: Terrain, exclusions: Exclusions, quali
     if (first.kind !== 'log') {
       installFloorLeafMask(mesh.customDepthMaterial!, leafSurface);
       installFloorLeafMask(mesh.customDistanceMaterial!, leafSurface);
+      // Shadows move with the fronds.
+      if (foliage) { installFloorPlantWind(mesh.customDepthMaterial!, foliage); installFloorPlantWind(mesh.customDistanceMaterial!, foliage); }
     }
     owned.push({ geometry, mesh, pieces: batch, transforms, bounds, visibility });
     group.add(mesh);

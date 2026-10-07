@@ -186,3 +186,25 @@ describe('gentle detached broadleaf shedding', () => {
     variant.lods[0].leaf!.dispose();
   });
 });
+
+describe('detached leaves on the realm wind', () => {
+  it('drift downwind of the crown they fall from, whichever way the wind blows', () => {
+    const mean = (angle: number) => {
+      // Sixteen identical crowns; each leaf leaves the card centre at (x + 2, z + 1) and drifts as it falls.
+      const variant = source(), trees = Array.from({ length: 16 }, (_, i) => ({ ...tree(`oak:${i}`), x: -182 + (i % 4) * 0.2, z: 14 + Math.floor(i / 4) * 0.2, y: 2 }));
+      const site = new THREE.Vector2(-182 + 0.3 + 2, 14 + 0.3 + 1);
+      const leaves = buildFallingLeaves({ heightAt: () => 0 }, 'high', trees, () => variant, angle);
+      const mesh = meshOf(leaves), d = new THREE.Vector2();
+      for (let step = 0; step < 6; step++) {
+        leaves.update(7, frame());
+        for (let i = 0; i < mesh.count; i++) { const p = positionOf(mesh, i); d.x += p.x - site.x; d.y += p.z - site.y; }
+      }
+      leaves.dispose?.();
+      return Math.atan2(d.y, d.x);
+    };
+    for (const angle of [0, Math.PI / 2, 2.5]) {
+      const got = mean(angle);
+      expect(Math.abs(Math.atan2(Math.sin(got - angle), Math.cos(got - angle)))).toBeLessThan(0.5);
+    }
+  });
+});

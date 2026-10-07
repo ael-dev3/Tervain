@@ -178,7 +178,7 @@ describe('historical source-Pine component render substitution without the Meshy
     forest.dispose!(); vi.unstubAllGlobals();
   });
 
-  it('retains real off-screen shadow casters and tracks a moving sun with an idle camera', () => {
+  it('casts off-screen trees in the sun volume from shadow-only meshes, never drawn in colour, and tracks a moving sun with an idle camera', () => {
     vi.stubGlobal('location', { search: '' });
     const quality = 'high', colliders = new Colliders();
     const forest = buildFlora({ terrain, excl, colliders, quality, settings: { ...defaultSettings(), quality }, library: AssetLibrary.empty(), sway: { uTime: { value: 0 }, uWind: { value: 0 } } }, templates);
@@ -192,18 +192,25 @@ describe('historical source-Pine component render substitution without the Meshy
       shadow.setFromProjectionMatrix(pv.multiplyMatrices(shadowCamera.projectionMatrix, shadowCamera.matrixWorldInverse));
     };
     const frame: FrameContext = { camera, quality, time: 1, focus: camera.position.clone(), nightness: 0, sunDir: new THREE.Vector3(1, 1, 1), shadowFrustum: null, reducedMotion: false, hour: 11, view: worldView(createInitialState()) };
-    const foliage = forest.group.children.filter(object => object.name.startsWith('solitary-pine:') && object.name.endsWith(':foliage')) as THREE.InstancedMesh[];
+    const foliage = forest.shadowCasters.children.filter(object => object.name.startsWith('solitary-pine:') && object.name.endsWith(':foliage:shadow')) as THREE.InstancedMesh[];
+    const colour = forest.group.children.filter(object => object.name.startsWith('solitary-pine:') && object.name.endsWith(':foliage')) as THREE.InstancedMesh[];
+    expect(foliage.length).toBeGreaterThan(0);
+    expect(foliage.every(mesh => mesh.castShadow && !mesh.receiveShadow)).toBe(true);
+    expect(colour.every(mesh => !mesh.castShadow)).toBe(true);
     const matrix = new THREE.Matrix4();
-    const targetPresent = () => foliage.some(mesh => {
+    const drawnIn = (meshes: THREE.InstancedMesh[]) => meshes.some(mesh => {
       for (let i = 0; i < mesh.count; i++) {
         mesh.getMatrixAt(i, matrix);
         if (Math.abs(matrix.elements[12]! - tree.x) < 0.00002 && Math.abs(matrix.elements[14]! - tree.z) < 0.00002) return true;
       }
       return false;
     });
+    const targetPresent = () => drawnIn(foliage);
     forest.update(0.2, frame); expect(targetPresent()).toBe(false);
     setShadow(0); frame.shadowFrustum = shadow;
     forest.update(0.001, frame); expect(targetPresent()).toBe(true);
+    // Shadow-only: the colour pass does not pay for a tree the camera cannot see.
+    expect(drawnIn(colour)).toBe(false);
     const versions = foliage.map(mesh => mesh.instanceMatrix.version);
     forest.update(0.01, frame); expect(foliage.map(mesh => mesh.instanceMatrix.version)).toEqual(versions);
     setShadow(0.1);
