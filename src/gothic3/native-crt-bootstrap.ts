@@ -10,6 +10,11 @@ import { NativeCrtThreadStartup } from './native-crt-thread-startup';
 import { NativeHeapObjectViews } from './native-heap-views';
 import type { NativeMemoryBacking } from './native-memory-admin';
 import type { NativeWin32HeapCapability } from './native-runtime-platform';
+import { NativeRuntimePlatform } from './native-runtime-platform';
+import { NativeGameCrtEnvironment } from './native-game-crt-environment';
+import { gameAttachContinuationInstructionPoints } from './native-game-crt-attach-source';
+import type { NativeWin32ProcessInputEndpoints } from './native-win32-process-inputs';
+import type { NativeBytePointer } from './native-pointer-geometry';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = (reason: string): { known: false; reason: string } => ({ known: false, reason });
@@ -136,7 +141,9 @@ export type NativeCrtAttachOperationName = 'version.size.store' | 'GetVersionExA
   'version.platform.read' | 'version.build.read' | 'version.major.read' | 'version.minor.read' |
   'version.release.return' | 'os.platform.store' | 'os.version.store' | 'os.major.store' |
   'os.minor.store' | 'os.build.store' | 'heapInit.return' | 'mtInit.return' |
-  'heapTerm.return' | 'preCInit.return' | 'GetCommandLineA.boundary' | 'crtAttach.return';
+  'heapTerm.return' | 'preCInit.return' | 'GetCommandLineA.boundary' |
+  'GetCommandLineA.return' | 'commandLinePointer.store' | 'environment.return' |
+  'environmentBlock.store' | 'ioInit.boundary' | 'crtAttach.return';
 export interface NativeCrtAttachOperation {
   readonly operation: NativeCrtAttachOperationName;
   /** Load/store instruction, returned PC of a completed lower call, or reached
@@ -159,6 +166,14 @@ export interface NativeCrtAttachProgress {
   readonly mtResult: number | null;
   readonly preCReturned: boolean;
   readonly commandLineBoundary: Readonly<{ address: string; iat: string }> | null;
+  /** Pointer results are described as NULL/non-NULL without inventing raw
+   * numerical x86 addresses for the actual retained browser capabilities. */
+  readonly commandLineReturned: boolean;
+  readonly commandLineNonNull: boolean | null;
+  readonly environmentReturned: boolean;
+  readonly environmentNonNull: boolean | null;
+  readonly environmentProgress: ReturnType<NativeGameCrtEnvironment['snapshot']> | null;
+  readonly nextBoundary: Readonly<{ name: 'ioInit'; address: string; target: string }> | null;
   readonly crtTraversalCompleted: false;
   readonly nativeModuleInstantiated: false;
 }
@@ -201,6 +216,13 @@ export class NativeCrtBootstrap {
   #mtResult: number | null = null;
   #preCReturned = false;
   #commandLineBoundary: NativeCrtAttachProgress['commandLineBoundary'] = null;
+  readonly #processInputs: NativeWin32ProcessInputEndpoints | null;
+  readonly #environment: NativeValue<NativeGameCrtEnvironment> | null;
+  #commandLineReturned = false;
+  #commandLineNonNull: boolean | null = null;
+  #environmentReturned = false;
+  #environmentNonNull: boolean | null = null;
+  #nextBoundary: NativeCrtAttachProgress['nextBoundary'] = null;
   static forCrt(crt: NativeModuleCrtOwner): NativeCrtBootstrap {
     if (!NativeModuleCrtOwner.isConstructedOwner(crt)) throw new Error('Actual constructed CRT owner required for bootstrap');
     const previous = bootstrapByCrt.get(crt);
@@ -259,6 +281,16 @@ export class NativeCrtBootstrap {
         if (fields !== expected && !sameCounter) throw new Error('Thread bootstrap dependency differs from canonical Game image: ' + label);
       }
       this.#pin(fields);
+    }
+    // Retain continuation owners before the selected attach's first execution.
+    // Missing process services do not skip or prematurely run its native
+    // prefix; their unknown result is consumed only at the reached call.
+    this.#processInputs = crt.module === 'Game' ? crt.host.platform.processInputEndpoints ?? null : null;
+    this.#environment = crt.module === 'Game' ? NativeGameCrtEnvironment.forCrt(crt) : null;
+    if (crt.module === 'Game') for (const label of ['commandLinePointer', 'environmentBlock']) {
+      const fields = NativeModuleCrtOwner.canonicalImageForOwner(crt, label);
+      if (!fields.known) throw new Error(fields.reason);
+      this.#pin(fields.value);
     }
     // Retain dependency identities and prevent added method shadows while
     // preserving the thread owner's mutable destructor-callback hook. Native
@@ -501,10 +533,42 @@ export class NativeCrtBootstrap {
     this.#preCInitialize();
     this.#preCReturned = true;
     this.#record('preCInit.return', null, this.#point('30677251', '204678b9'));
-    this.#commandLineBoundary = Object.freeze({ address: this.#instruction('30677251', 'commandLineCall'),
-      iat: this.#instruction('30afc69c', 'commandLineIat') });
-    this.#record('GetCommandLineA.boundary', null, this.#commandLineBoundary.address);
-    this.#gate('GetCommandLineA IAT' + this.#instruction('30afc69c', 'commandLineIat') + ' at' + this.#instruction('30677251', 'commandLineCall'));
+    if (this.#crt.module === 'Engine' || !this.#processInputs) {
+      this.#commandLineBoundary = Object.freeze({ address: this.#instruction('30677251', 'commandLineCall'),
+        iat: this.#instruction('30afc69c', 'commandLineIat') });
+      this.#record('GetCommandLineA.boundary', null, this.#commandLineBoundary.address);
+      this.#gate('GetCommandLineA IAT' + this.#instruction('30afc69c', 'commandLineIat') + ' at' + this.#instruction('30677251', 'commandLineCall'));
+    }
+    const points = gameAttachContinuationInstructionPoints;
+    const endpointProof = NativeRuntimePlatform.canonicalProcessInputEndpointsForPlatform(
+      this.#crt.host.platform as NativeRuntimePlatform, this.#processInputs);
+    this.#call('Game process input endpoint authority', () => endpointProof);
+    const commandLine = this.#call('GetCommandLineA IAT' + points.commandLineIat + ' at' + points.commandLineCall,
+      () => this.#processInputs!.getCommandLineA());
+    this.#commandLineReturned = true; this.#commandLineNonNull = commandLine !== null;
+    this.#record('GetCommandLineA.return', this.#commandLineNonNull, points.commandLineStore);
+    this.#continuationPointerStore('commandLinePointer', commandLine);
+    this.#record('commandLinePointer.store', this.#commandLineNonNull, points.commandLineStore);
+    const environment = this.#call('crtGetEnvironmentStringsA' + points.environmentTarget + ' at' + points.environmentCall,
+      () => this.#environment?.known
+        ? NativeGameCrtEnvironment.captureForCrt(this.#environment.value, this.#crt)
+        : unknown(this.#environment && !this.#environment.known ? this.#environment.reason : 'Actual retained Game environment owner required'));
+    this.#environmentReturned = true; this.#environmentNonNull = environment !== null;
+    this.#record('environment.return', this.#environmentNonNull, points.environmentStore);
+    // Original caller stores EAX, including NULL, without a result test here.
+    this.#continuationPointerStore('environmentBlock', environment);
+    this.#record('environmentBlock.store', this.#environmentNonNull, points.environmentStore);
+    this.#nextBoundary = Object.freeze({ name: 'ioInit', address: points.ioInitCall, target: points.ioInitTarget });
+    this.#record('ioInit.boundary', null, points.ioInitCall);
+    this.#gate('ioInit' + points.ioInitTarget + ' at' + points.ioInitCall);
+  }
+  #continuationPointerStore(label: 'commandLinePointer' | 'environmentBlock', pointer: NativeBytePointer | null): void {
+    const fields = NativeModuleCrtOwner.canonicalImageForOwner(this.#crt, label);
+    if (!fields.known) throw new Error(fields.reason);
+    const physical = NativeRuntimePlatform.canonicalGameModuleImageAccessForPlatform(
+      this.#crt.host.platform as NativeRuntimePlatform, this.#crt, label, 0, 4);
+    if (!physical.known) throw new Error(physical.reason);
+    NativeHeapObjectViews.prototype.pointer.call(this.#checked(fields.value), 0).set(pointer);
   }
   #releaseVersion(backing: NativeMemoryBacking): void {
     const heap = this.#call('GetProcessHeap.free', () => this.#platform.getProcessHeap?.() ?? unknown('Actual process heap call required'));
@@ -571,6 +635,10 @@ export class NativeCrtBootstrap {
       result, operations: Object.freeze([...this.#attachOperations]), versionRecord,
       versionAvailable: this.#versionAvailable, heapResult: this.#heapResult, mtResult: this.#mtResult,
       preCReturned: this.#preCReturned, commandLineBoundary: this.#commandLineBoundary,
+      commandLineReturned: this.#commandLineReturned, commandLineNonNull: this.#commandLineNonNull,
+      environmentReturned: this.#environmentReturned, environmentNonNull: this.#environmentNonNull,
+      environmentProgress: this.#environment?.known ? this.#environment.value.snapshot() : null,
+      nextBoundary: this.#nextBoundary,
       crtTraversalCompleted: false, nativeModuleInstantiated: false });
   }
   snapshot() {

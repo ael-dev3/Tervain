@@ -1,0 +1,64 @@
+{
+  "schema": "gothic3-game-math-initializer-static-receipt-v1",
+  "originalModuleSha256": "b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f",
+  "address": "206b638c",
+  "rva": "6b638c",
+  "fileOffset": 7037836,
+  "bytes": 4,
+  "raw": "17394620",
+  "sha256": "3468905866defd683941d79267b5734400ebf291a89807ce9ef218d853b47415",
+  "target": "20463917",
+  "section": {
+    "virtualAddress": 5685248,
+    "virtualSize": 2268534,
+    "rawSize": 2269184,
+    "rawOffset": 5685248,
+    "fileBackedBytes": 4,
+    "loaderZeroFillBytes": 0
+  },
+  "originalPESection": {
+    "name": ".rdata",
+    "address": "2056c000",
+    "characteristics": "40000040",
+    "readable": true,
+    "writable": false,
+    "executable": false
+  },
+  "cinitCaller": {
+    "entry": "204665f4",
+    "nonzeroCellTest": "204665f4",
+    "readonlyProofCall": "20466602",
+    "indirectMathCall": "20466610",
+    "indirectMathCallRaw": "ff158c636b20",
+    "attachArgument": 0
+  },
+  "targetSource": {
+    "entry": "0x20463917",
+    "body": "0x20463917",
+    "bodyRanges": "20463917-20463934",
+    "instructionCount": 8,
+    "bodyBytes": 30,
+    "bodySha256": "5e75f97071537d475c39b7df3b62e9eca01af3ef6c300fde223b3244ff320344",
+    "sourceRefs": {
+      "assembly": "sources/Game/20463917.asm.txt",
+      "assemblySha256": "477ff817c43b27272610bba822fc6431d9bbbd9e7a41bb3322e0eb32117bcb32",
+      "c": "sources/Game/20463917.c.txt",
+      "cSha256": "bb5261fa9ccc7aa402e1c5e2cdcdeb07e4e6c4af16c04b3246a3e4a2d48e3b67",
+      "cNormalization": "rstrip-line-whitespace; LF line endings; final newline"
+    },
+    "reconstructedC": {
+      "path": "01_Decompiled_Code/Game_dll/pseudocode/functions_00124.c",
+      "sha256": "ed1fdab7b0ac494318118b652a0989780f3c6e6c4f65bb2658ea67af57e9b61e",
+      "line": 4207,
+      "status": "decompiled"
+    }
+  },
+  "currentPackageGap": {
+    "runtimeRulesSha256": "9a3bbb750ec71a1edb13502a26a71ef44a8dcde366f8fd8899553cc85bf4ab86",
+    "pointerReceiptPresent": false,
+    "mathTargetMethodPresent": false
+  },
+  "sourceOnly": true,
+  "liveCellValueCaptured": false,
+  "nativeOrBrowserCodeExecuted": false
+}

@@ -253,3 +253,10 @@ assets/gothic3/crt-undname/sources/** -whitespace
 tools/gothic3/prepare_crt_bootstrap_source.py -text -eol
 assets/gothic3/crt-bootstrap/** -text -eol whitespace=cr-at-eol,-blank-at-eof
 assets/gothic3/crt-bootstrap/sources/** -whitespace
+scripts/gothic3_game_memcpy_supplement.py -text -eol
+scripts/gothic3_game_attach_continuation.py -text -eol
+assets/gothic3/game-attach-continuation/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/game-attach-continuation/sources/** -whitespace
+assets/gothic3/game-memcpy/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/game-memcpy/sources/** -whitespace
+assets/gothic3/game-memcpy/constants/*.bin binary

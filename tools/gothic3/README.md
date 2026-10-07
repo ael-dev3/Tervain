@@ -598,3 +598,27 @@ retained; source initialization is not replaced with direct global seeding.
 No new native source package is required for this prefix. Command-line,
 environment, I/O, argument and C/C++ callback continuation still need their
 actual source owners. See [checkpoint 103](../../docs/engineering/gothic3-rebuilding-process.md#103-connect-the-browser-game-crt-attach-prerequisites).
+
+## Game process-input and environment continuation
+
+Generate the separate memcpy supplement before its dependent continuation:
+
+```powershell
+python -B scripts/gothic3_game_memcpy_supplement.py --study '<LOCAL_DESKTOP_STUDY>' --repo . --output assets/gothic3/game-memcpy
+python -B scripts/gothic3_game_attach_continuation.py --study '<LOCAL_DESKTOP_STUDY>' --repo . --output assets/gothic3/game-attach-continuation
+```
+
+These producers live in [`scripts/`](../../scripts/) and preserve the earlier
+Game CRT package. The [continuation](../../assets/gothic3/game-attach-continuation/README.md)
+retains 39 original bodies plus cold storage, exact imports and table context;
+the [supplement](../../assets/gothic3/game-memcpy/README.md) retains two original
+vector/helper bodies and the six scalar dispatch ranges. Their manifests pin
+the actual final producers, helpers, source files and dependencies.
+
+The runtime now owns explicit command-line/OS environment buffers, the original
+Game environment routine, reached scalar memcpy transfers and actual caller
+pointer stores. Uncovered conversion/vector paths remain unknown. Under the
+selected browser inputs, the next expected call is I/O initialization; its SEH
+frame and later argument, environment-vector and full initializer owners remain
+unfinished. See [checkpoint 104](../../docs/engineering/gothic3-rebuilding-process.md#104-own-the-game-command-line-and-environment-prefix)
+for ownership, reproduction, source-review and integration limits.

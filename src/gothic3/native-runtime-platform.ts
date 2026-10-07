@@ -14,11 +14,42 @@ import { NativeErrorAdminModule } from './native-error-admin';
 import { NativeHeapObjectViews } from './native-heap-views';
 import type { NativeByteGeometryHost, NativeBytePointer, NativePointerGeometry } from './native-pointer-geometry';
 import { NativeGameCrtOwner } from './native-game-crt';
+import { NativeModuleCrtOwner } from './native-engine-crt-locks';
 import { nativeGameImageReceipt } from './native-game-crt-profile';
 import { NativeSharedModuleImage } from './native-shared-module-image';
+import { retainNativeWin32ProcessInputSelection } from './native-win32-process-inputs';
+import type { NativeWin32ProcessInputSelection, RetainedWin32ProcessInputSelection, RetainedProcessInputOutcome,
+  NativeWin32ProcessInputEndpoints, NativeWideCharToMultiByteArguments } from './native-win32-process-inputs';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = (reason: string): { known: false; reason: string } => ({ known: false, reason });
+const typedArrayPrototype = Object.getPrototypeOf(Uint8Array.prototype) as object;
+/** The new access authority admits physical views, not matching properties or
+ * shadowed helper functions. Intrinsic getters also reject proxy/fake brands. */
+function requirePhysicalNativeViews(fields: NativeHeapObjectViews): void {
+  if (Object.getPrototypeOf(fields) !== NativeHeapObjectViews.prototype ||
+      ['backing', 'bytes', 'knownMask', 'view', 'pointerIdentity', 'pointerBegin'].some(key =>
+        !Object.prototype.hasOwnProperty.call(Object.getOwnPropertyDescriptor(fields, key) ?? {}, 'value')) ||
+      Object.getOwnPropertyNames(NativeHeapObjectViews.prototype).some(key => Object.prototype.hasOwnProperty.call(fields, key))) {
+    throw new Error('Actual physical native view bindings and unchanged helper methods required');
+  }
+  for (const bytes of [fields.bytes, fields.knownMask]) {
+    if (Object.getPrototypeOf(bytes) !== Uint8Array.prototype ||
+        Object.getOwnPropertyNames(typedArrayPrototype).some(key => Object.prototype.hasOwnProperty.call(bytes, key))) {
+      throw new Error('Actual native Uint8Array storage and unchanged byte methods required');
+    }
+    for (const key of ['buffer', 'byteOffset', 'byteLength', 'length']) {
+      Object.getOwnPropertyDescriptor(typedArrayPrototype, key)!.get!.call(bytes);
+    }
+  }
+  if (Object.getPrototypeOf(fields.view) !== DataView.prototype ||
+      Object.getOwnPropertyNames(DataView.prototype).some(key => Object.prototype.hasOwnProperty.call(fields.view, key))) {
+    throw new Error('Actual native DataView and unchanged physical byte methods required');
+  }
+  for (const key of ['buffer', 'byteOffset', 'byteLength']) {
+    Object.getOwnPropertyDescriptor(DataView.prototype, key)!.get!.call(fields.view);
+  }
+}
 // Constructor admission is the authority. Object.create or a structurally
 // similar caller object cannot establish a canonical module image.
 const retainedRuntimePlatforms = new WeakSet<NativeRuntimePlatform>();
@@ -40,9 +71,10 @@ interface ShutdownEntry {
   readonly address: string; readonly owner: object; readonly execute: () => NativeValue<void>;
 }
 interface BackingEntry {
-  readonly backing: NativeMemoryBacking; readonly kind: 'virtual' | 'crt-new' | 'crt-malloc' | 'win32-heap' | 'module-image'; readonly ordinal: number;
+  readonly backing: NativeMemoryBacking; readonly kind: 'virtual' | 'crt-new' | 'crt-malloc' | 'win32-heap' | 'module-image' | 'win32-process-buffer'; readonly ordinal: number;
   nativeGeometry?: Readonly<{ alignment: 'virtual-page' | 'win32-heap-eight';
     bytes: Uint8Array; masks: Uint8Array; capacity: number } | { alignment: 'module-image';
+    bytes: Uint8Array; masks: Uint8Array; capacity: number } | { alignment: 'process-buffer-four';
     bytes: Uint8Array; masks: Uint8Array; capacity: number }>;
 }
 /** A retained platform handle, with no invented numerical x86 address. */
@@ -76,6 +108,7 @@ export interface NativeEngineCrtPlatformServices {
   readonly fiberLocalStorage?: boolean;
   readonly processHeap?: boolean;
   readonly osVersion?: { readonly platform: number; readonly major: number; readonly minor: number; readonly build: number } | null;
+  readonly processInputs?: NativeWin32ProcessInputSelection;
   readonly entropy?: {
     systemTimeAsFileTime?(): NativeValue<{ low: number; high: number }>;
     currentProcessId?(): NativeValue<number>;
@@ -84,7 +117,9 @@ export interface NativeEngineCrtPlatformServices {
     performanceCounter?(): NativeValue<{ success: boolean; low?: number; high?: number }>;
   };
 }
-type RetainedCrtServices = Omit<NativeEngineCrtPlatformServices, 'tlsValues'>;
+type RetainedCrtServices = Omit<NativeEngineCrtPlatformServices, 'tlsValues' | 'processInputs'> & {
+  readonly processInputs?: RetainedWin32ProcessInputSelection;
+};
 /** Retain configuration values and exact function identities. TLS values are
  * opaque capabilities, so copy their entries without cloning those identities.
  * Neither freezing a caller Map nor retaining its nested version object owns
@@ -94,7 +129,7 @@ function retainCrtServices(selected: NativeEngineCrtPlatformServices | undefined
 } {
   if (selected === undefined) return { services: undefined, tls: [] };
   const { tlsValues, kernel32Available, pointerCodec, sectionSpinProcedure,
-    fiberLocalStorage, processHeap, osVersion, entropy } = selected;
+    fiberLocalStorage, processHeap, osVersion, entropy, processInputs } = selected;
   if (typeof kernel32Available !== 'boolean' || (pointerCodec !== 'absent' && pointerCodec !== 'owned-bijection') ||
       [sectionSpinProcedure, fiberLocalStorage, processHeap].some(value => value !== undefined && typeof value !== 'boolean')) {
     throw new Error('Explicit selected CRT registry configuration required');
@@ -117,7 +152,14 @@ function retainCrtServices(selected: NativeEngineCrtPlatformServices | undefined
     tls.push(Object.freeze([index, value] as const));
   }
   return { services: Object.freeze({ kernel32Available, pointerCodec, sectionSpinProcedure,
-    fiberLocalStorage, processHeap, osVersion: version, entropy: callbacks }), tls: Object.freeze(tls) };
+    fiberLocalStorage, processHeap, osVersion: version, entropy: callbacks,
+    processInputs: processInputs === undefined ? undefined : retainNativeWin32ProcessInputSelection(processInputs) }), tls: Object.freeze(tls) };
+}
+interface ProcessBuffer {
+  readonly kind: 'command-line-a' | 'environment-a' | 'environment-w';
+  readonly backing: NativeMemoryBacking; readonly pointer: NativeBytePointer;
+  readonly bytes: Uint8Array; readonly masks: Uint8Array; readonly view: DataView;
+  phase: 'live' | 'released' | 'expired';
 }
 interface WinHeap {
   readonly capability: NativeWin32HeapCapability;
@@ -215,6 +257,16 @@ export class NativeRuntimeDiagnostics implements NativeMessageDiagnosticPlatform
 export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGeometryHost {
   readonly diagnostics: NativeRuntimeDiagnostics;
   readonly #backing = new Map<object, BackingEntry>();
+  readonly #releasedBackings = new WeakSet<NativeMemoryBacking>();
+  readonly #processBuffers = new Map<NativeMemoryBacking, ProcessBuffer>();
+  readonly #processBases = new WeakMap<NativeBytePointer, ProcessBuffer>();
+  readonly #gameImageMappings = new WeakMap<NativeMemoryBacking, Readonly<{
+    owner: NativeModuleCrtOwner; baseAddress: number; bytes: Uint8Array; masks: Uint8Array; capacity: number;
+  }>>();
+  #commandLinePointer: NativeBytePointer | undefined;
+  #nativeDirectionFlag: 0 | 1 | undefined;
+  readonly processInputEndpoints?: Readonly<NativeWin32ProcessInputEndpoints>;
+  readonly #processInputEndpoints?: Readonly<NativeWin32ProcessInputEndpoints>;
   private readonly sections = new Map<string, Section>();
   private readonly sectionIdentities = new Map<object, Section>();
   readonly #physicalSections = new Map<object, Map<number, PhysicalSection>>();
@@ -246,10 +298,23 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
   constructor(options: { diagnostics?: NativeRuntimeDiagnostics; maximumAllocationBytes?: number; maximumOwnedBytes?: number;
     engineCrtServices?: NativeEngineCrtPlatformServices } = {}) {
     this.diagnostics = options.diagnostics ?? new NativeRuntimeDiagnostics();
+    Object.freeze(this.#win32LastError);
     this.maximumAllocationBytes = options.maximumAllocationBytes ?? 64 * 1024 * 1024;
     this.maximumOwnedBytes = options.maximumOwnedBytes ?? 256 * 1024 * 1024;
     const crt = retainCrtServices(options.engineCrtServices);
     this.#crtServices = crt.services;
+    const process = crt.services?.processInputs;
+    this.#nativeDirectionFlag = process?.initialDirectionFlag;
+    this.#processInputEndpoints = process === undefined ? undefined : Object.freeze({
+      getCommandLineA: () => this.#getCommandLineA(),
+      getEnvironmentStringsW: () => this.#acquireProcessBuffer(process.environmentW, 'environment-w'),
+      getEnvironmentStrings: () => this.#acquireProcessBuffer(process.environmentA, 'environment-a'),
+      freeEnvironmentStringsW: (input: NativeBytePointer) => this.#releaseProcessBuffer(input, 'environment-w'),
+      freeEnvironmentStringsA: (input: NativeBytePointer) => this.#releaseProcessBuffer(input, 'environment-a'),
+      wideCharToMultiByte: (args: NativeWideCharToMultiByteArguments) => this.#wideCharToMultiByte(args),
+    });
+    this.processInputEndpoints = this.#processInputEndpoints;
+    Object.defineProperty(this, 'processInputEndpoints', { value: this.#processInputEndpoints, writable: false, configurable: false });
     for (const [index, value] of crt.tls) { this.#crtTlsValues.set(index, value); this.#tlsIndexes.add(index); }
     const owner = Object.freeze({});
     this.#kernel32 = Object.freeze({ identity: Object.freeze({}), owner, name: 'KERNEL32.DLL' });
@@ -303,11 +368,237 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     }
     return known(undefined);
   }
+  static canonicalProcessInputEndpointsForPlatform(platform: NativeRuntimePlatform,
+    endpoints: NativeWin32ProcessInputEndpoints): NativeValue<void> {
+    const active = NativeRuntimePlatform.requireActivePlatform(platform); if (!active.known) return active;
+    return endpoints && endpoints === platform.#processInputEndpoints && endpoints === platform.processInputEndpoints
+      ? known(undefined) : unknown('Actual immutable same-platform process-input endpoints required');
+  }
+  static canonicalNativePointerAccessForPlatform(platform: NativeRuntimePlatform, pointer: NativeBytePointer,
+    relativeOffset: number, bytes: number): NativeValue<void> {
+    if (!retainedRuntimePlatforms.has(platform)) return unknown('Actual constructed RuntimePlatform required');
+    return platform.#canonicalNativeAccess(pointer, relativeOffset, bytes);
+  }
+  /** Admit only the actual owner's retained Game image, retaining its root and
+   * alias geometry before the selected access. This performs no native store. */
+  static canonicalGameModuleImageAccessForPlatform(platform: NativeRuntimePlatform, owner: NativeModuleCrtOwner,
+    label: string, relativeOffset: number, bytes: number): NativeValue<void> {
+    if (!retainedRuntimePlatforms.has(platform) || !NativeModuleCrtOwner.isConstructedOwner(owner) ||
+        owner.module !== 'Game' || owner.host.platform !== platform) return unknown('Actual same-platform Game image owner required');
+    try {
+      const live = platform.#readablePlatform(); if (!live.known) return live;
+      const selected = NativeModuleCrtOwner.canonicalImageForOwner(owner, label); if (!selected.known) return selected;
+      const fields = selected.value; requirePhysicalNativeViews(fields);
+      const receipt = nativeGameImageReceipt(label), backing = fields.backing;
+      if ('region' in backing) return unknown('Actual canonical Game module-image root required');
+      const begin = fields.bytes.byteOffset - backing.bytes.byteOffset;
+      const address = Number.parseInt(receipt.address, 16), baseAddress = address - begin;
+      if (receipt.module !== 'Game' || receipt.bytes !== fields.bytes.length || !Number.isSafeInteger(begin) || begin < 0 ||
+          !Number.isSafeInteger(baseAddress) || baseAddress < 0 || baseAddress + backing.bytes.length > 0x100000000 ||
+          begin + fields.bytes.length > backing.bytes.length) return unknown('Exact source-derived Game image root and alias geometry required');
+      const mapping = platform.#gameImageMappings.get(backing), previous = platform.#backing.get(backing.identity);
+      if (mapping && (mapping.owner !== owner || mapping.baseAddress !== baseAddress || mapping.bytes !== backing.bytes ||
+          mapping.masks !== backing.knownMask || mapping.capacity !== backing.bytes.length)) return unknown('Retained Game module-image root mapping differs');
+      if (previous) {
+        const proof = previous.nativeGeometry;
+        if (previous.backing !== backing || previous.kind !== 'module-image' || proof?.alignment !== 'module-image' ||
+            proof.bytes !== backing.bytes || proof.masks !== backing.knownMask || proof.capacity !== backing.bytes.length) {
+          return unknown('Game module-image root conflicts with its actual platform registration');
+        }
+      } else {
+        const active = NativeRuntimePlatform.requireActivePlatform(platform); if (!active.known) return active;
+        platform.#backing.set(backing.identity, { backing, kind: 'module-image', ordinal: ++platform.nextOrdinal,
+          nativeGeometry: Object.freeze({ alignment: 'module-image', bytes: backing.bytes,
+            masks: backing.knownMask, capacity: backing.bytes.length }) });
+      }
+      if (!mapping) platform.#gameImageMappings.set(backing, Object.freeze({ owner, baseAddress,
+        bytes: backing.bytes, masks: backing.knownMask, capacity: backing.bytes.length }));
+      return platform.#canonicalNativeAccess(Object.freeze({ fields, offset: 0 }), relativeOffset, bytes);
+    } catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
+  }
+  static canonicalProcessInputSpanForPlatform(platform: NativeRuntimePlatform, pointer: NativeBytePointer,
+    bytes: number): NativeValue<void> {
+    try {
+      const retained = Object.freeze({ fields: pointer.fields, offset: pointer.offset });
+      const access = NativeRuntimePlatform.canonicalNativePointerAccessForPlatform(platform, retained, 0, bytes);
+      if (!access.known) return access;
+      const geometry = platform.#resolveNativePointer(retained); if (!geometry.known) return geometry;
+      return platform.#processBuffers.has(geometry.value.canonicalBacking) ? known(undefined)
+        : unknown('Actual same-platform retained OS process-input span required');
+    } catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
+  }
+  static readProcessInputUnsigned(platform: NativeRuntimePlatform, pointer: NativeBytePointer,
+    relativeOffset: number, width: 1 | 2): NativeValue<number> {
+    if (width !== 1 && width !== 2) return unknown('Actual process-input BYTE or UTF16 load required');
+    try {
+      const retained = Object.freeze({ fields: pointer.fields, offset: pointer.offset });
+      const access = NativeRuntimePlatform.canonicalNativePointerAccessForPlatform(platform, retained, relativeOffset, width);
+      if (!access.known) return access;
+      const geometry = platform.#resolveNativePointer(retained); if (!geometry.known) return geometry;
+      const buffer = platform.#processBuffers.get(geometry.value.canonicalBacking);
+      if (!buffer || (width === 2 && (buffer.kind !== 'environment-w' || (geometry.value.offset + relativeOffset) % 2 !== 0))) {
+        return unknown('Actual retained OS process-input encoding/geometry required');
+      }
+      return known(NativeHeapObjectViews.prototype.readUnsigned.call(retained.fields, retained.offset + relativeOffset, width));
+    } catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
+  }
+  static readNativeDirectionFlag(platform: NativeRuntimePlatform): NativeValue<0 | 1> {
+    if (!retainedRuntimePlatforms.has(platform)) return unknown('Actual logical-thread RuntimePlatform required');
+    const live = platform.#readablePlatform(); if (!live.known) return live;
+    return platform.#nativeDirectionFlag === undefined ? unknown('Explicit logical-thread direction-flag ABI required') : known(platform.#nativeDirectionFlag);
+  }
+  static writeNativeDirectionFlag(platform: NativeRuntimePlatform, value: 0 | 1): NativeValue<void> {
+    const previous = NativeRuntimePlatform.readNativeDirectionFlag(platform); if (!previous.known) return previous;
+    if (value !== 0 && value !== 1) return unknown('Actual native STD/CLD direction bit required');
+    platform.#nativeDirectionFlag = value; return known(undefined);
+  }
+  static canonicalGameHeapDestination(platform: NativeRuntimePlatform, owner: NativeGameCrtOwner,
+    pointer: NativeBytePointer, bytes: number): NativeValue<void> {
+    if (!retainedRuntimePlatforms.has(platform)) return unknown('Actual constructed RuntimePlatform required');
+    try {
+      const retained = Object.freeze({ fields: pointer.fields, offset: pointer.offset });
+      const heap = NativeModuleCrtOwner.canonicalGameHeapForAllocation(owner, platform, retained);
+      if (!heap.known) return heap;
+      return platform.#canonicalGameHeapSpan(heap.value, retained, bytes);
+    } catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
+  }
+  #readablePlatform(): NativeValue<void> {
+    return retainedRuntimePlatforms.has(this) && (this.#shutdownPhase === 'active' || this.#shutdownPhase === 'draining')
+      ? known(undefined) : unknown('Actual live RuntimePlatform byte lifetime required');
+  }
+  #canonicalNativeAccess(pointer: NativeBytePointer, relativeOffset: number, bytes: number): NativeValue<void> {
+    try {
+      const retained = Object.freeze({ fields: pointer.fields, offset: pointer.offset });
+      const live = this.#readablePlatform(); if (!live.known) return live;
+      requirePhysicalNativeViews(retained.fields);
+      if (!Number.isSafeInteger(relativeOffset) || relativeOffset < 0 || !Number.isSafeInteger(bytes) || bytes < 0) {
+        return unknown('Contained retained native byte access required');
+      }
+      const geometry = this.#resolveNativePointer(retained); if (!geometry.known) return geometry;
+      const again = this.#readablePlatform(); if (!again.known) return again;
+      const root = geometry.value.canonicalBacking, entry = this.#backing.get(root.identity);
+      if ('region' in retained.fields.backing) return unknown('Pooled child-allocation lifetime requires its actual allocator owner');
+      if (['identity', 'bytes', 'knownMask', 'freed'].some(key =>
+        !Object.prototype.hasOwnProperty.call(Object.getOwnPropertyDescriptor(root, key) ?? {}, 'value')) ||
+          Object.getOwnPropertyDescriptor(retained.fields, 'pointerIdentity')!.value !== root.identity ||
+          Object.getOwnPropertyDescriptor(retained.fields, 'pointerBegin')!.value !== geometry.value.offset - retained.offset) {
+        return unknown('Retained physical backing and pointer-slot bookkeeping required');
+      }
+      if (root.freed || this.#releasedBackings.has(root) || !entry ||
+          retained.offset + relativeOffset + bytes > retained.fields.bytes.length ||
+          geometry.value.offset + relativeOffset + bytes > geometry.value.allocationEnd) {
+        return unknown('Actual live contained owned native byte span required');
+      }
+      const process = this.#processBuffers.get(root);
+      if (entry.kind === 'win32-process-buffer' && (!process || process.phase !== 'live' ||
+          process.bytes !== root.bytes || process.masks !== root.knownMask ||
+          process.pointer.fields.view !== process.view || process.pointer.fields.bytes.buffer !== root.bytes.buffer ||
+          process.pointer.fields.bytes.byteOffset !== root.bytes.byteOffset)) return unknown('Retained OS process-buffer lifetime/identity has ended');
+      return known(undefined);
+    } catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
+  }
+  #canonicalGameHeapSpan(heap: NativeWin32HeapCapability, pointer: NativeBytePointer, bytes: number): NativeValue<void> {
+    const access = this.#canonicalNativeAccess(pointer, 0, bytes); if (!access.known) return access;
+    const geometry = this.#resolveNativePointer(pointer); if (!geometry.known) return geometry;
+    const retained = this.#winHeaps.get(heap.identity), backing = geometry.value.canonicalBacking;
+    const entry = this.#backing.get(backing.identity);
+    return retained?.capability === heap && !retained.destroyed && retained.allocations.has(backing) &&
+      entry?.kind === 'win32-heap' && !this.#releasedBackings.has(backing)
+      ? known(undefined) : unknown('Actual same Game CRT heap allocation destination required');
+  }
+  #processLastError(error: number | undefined): void {
+    if (error !== undefined) NativeHeapObjectViews.prototype.writeUnsigned.call(this.#win32LastError, 0, error);
+  }
+  #acquireProcessBuffer(outcome: RetainedProcessInputOutcome | undefined,
+    kind: ProcessBuffer['kind']): NativeValue<NativeBytePointer | null> {
+    const active = NativeRuntimePlatform.requireActivePlatform(this); if (!active.known) return active;
+    if (!outcome) return unknown('Explicit selected ' + kind + ' acquisition endpoint required');
+    if (outcome.kind === 'null') { this.#processLastError(outcome.lastError); return known(null); }
+    const allocated = this.#allocate(outcome.bytes.length, 'win32-process-buffer');
+    if (!allocated.known) return allocated;
+    if (!allocated.value) return unknown('Actual successful retained OS process-buffer allocation required');
+    const backing = allocated.value;
+    backing.bytes.set(outcome.bytes); backing.knownMask.set(outcome.knownMask);
+    const fields = new NativeHeapObjectViews(backing); Object.freeze(fields);
+    const pointer = Object.freeze({ fields, offset: 0 });
+    const record: ProcessBuffer = { kind, backing, pointer, bytes: backing.bytes, masks: backing.knownMask,
+      view: fields.view, phase: 'live' };
+    this.#backing.get(backing.identity)!.nativeGeometry = Object.freeze({ alignment: 'process-buffer-four',
+      bytes: backing.bytes, masks: backing.knownMask, capacity: backing.bytes.length });
+    this.#processBuffers.set(backing, record); this.#processBases.set(pointer, record);
+    this.#processLastError(outcome.lastError); return known(pointer);
+  }
+  #getCommandLineA(): NativeValue<NativeBytePointer | null> {
+    const active = NativeRuntimePlatform.requireActivePlatform(this); if (!active.known) return active;
+    const selection = this.#crtServices?.processInputs?.commandLineA;
+    if (!selection) return unknown('Explicit selected GetCommandLineA endpoint required');
+    if (this.#commandLinePointer) {
+      const access = this.#canonicalNativeAccess(this.#commandLinePointer, 0, 0); if (!access.known) return access;
+      this.#processLastError(selection.lastError); return known(this.#commandLinePointer);
+    }
+    const result = this.#acquireProcessBuffer(selection, 'command-line-a');
+    if (result.known && result.value) this.#commandLinePointer = result.value;
+    return result;
+  }
+  #releaseProcessBuffer(pointer: NativeBytePointer, kind: 'environment-a' | 'environment-w'): NativeValue<number> {
+    const live = this.#readablePlatform(); if (!live.known) return live;
+    const record = this.#processBases.get(pointer), selection = this.#crtServices?.processInputs;
+    if (!record || record.kind !== kind || record.phase !== 'live' || !selection) {
+      return unknown('Actual exact live A/W acquisition base pointer required for OS release');
+    }
+    const access = this.#canonicalNativeAccess(pointer, 0, 0); if (!access.known) return access;
+    const policy = kind === 'environment-w' ? selection.releaseW : selection.releaseA;
+    this.#processLastError(policy.lastError);
+    if (policy.result !== 0) {
+      record.phase = 'released'; this.#releasedBackings.add(record.backing); record.backing.freed = true;
+      this.bytesOwned -= record.bytes.length;
+    }
+    return known(policy.result);
+  }
+  #wideCharToMultiByte(args: NativeWideCharToMultiByteArguments): NativeValue<number> {
+    try {
+      const { codePage, flags, input: suppliedInput, inputCharacters, output: suppliedOutput, outputBytes,
+        defaultCharacter, usedDefaultCharacter } = args;
+      const input = Object.freeze({ fields: suppliedInput.fields, offset: suppliedInput.offset });
+      const output = suppliedOutput === null ? null : Object.freeze({ fields: suppliedOutput.fields, offset: suppliedOutput.offset });
+      const live = this.#readablePlatform(); if (!live.known) return live;
+      const selection = this.#crtServices?.processInputs;
+      if (!selection || codePage !== 0 || flags !== 0 || defaultCharacter !== null || usedDefaultCharacter !== null ||
+          !Number.isInteger(inputCharacters) || inputCharacters <= 0 || inputCharacters > 0x7fffffff ||
+          !Number.isInteger(outputBytes) || outputBytes < 0 || outputBytes > 0x7fffffff) {
+        return unknown('Selected ACP1252/flags0/explicit positive UTF16 count conversion contract required');
+      }
+      const span = NativeRuntimePlatform.canonicalProcessInputSpanForPlatform(this, input, inputCharacters * 2);
+      if (!span.known) return span;
+      const source = this.#resolveNativePointer(input); if (!source.known) return source;
+      if (this.#processBuffers.get(source.value.canonicalBacking)?.kind !== 'environment-w' || source.value.offset % 2 !== 0) {
+        return unknown('Actual same-platform retained UTF16 environment input required');
+      }
+      const query = output === null && outputBytes === 0;
+      if (!query && (output === null || outputBytes === 0)) return unknown('Actual admitted query or retained conversion destination required');
+      if (output) {
+        const heap = NativeModuleCrtOwner.canonicalGameHeapForPlatform(this, output); if (!heap.known) return heap;
+        const destination = this.#canonicalGameHeapSpan(heap.value, output, outputBytes); if (!destination.known) return destination;
+      }
+      const failure = query ? selection.conversionFailure.query : selection.conversionFailure.fill;
+      if (failure) { this.#processLastError(failure.lastError); return known(failure.result); }
+      for (let index = 0; index < inputCharacters; index++) {
+        const unit = NativeRuntimePlatform.readProcessInputUnsigned(this, input, index * 2, 2); if (!unit.known) return unit;
+        if (unit.value > 127) return unknown('Selected ACP conversion covers ASCII UTF16 units only');
+        if (output) {
+          if (index >= outputBytes) return unknown('Current explicit conversion input exceeds retained output count; failure writes remain unowned');
+          const access = this.#canonicalNativeAccess(output, index, 1); if (!access.known) return access;
+          NativeHeapObjectViews.prototype.writeUnsigned.call(output.fields, output.offset + index, unit.value, 1);
+        }
+      }
+      return known(inputCharacters);
+    } catch (error) { return unknown('Selected WideCharToMultiByte: ' + (error instanceof Error ? error.message : String(error))); }
+  }
   private readonly maximumAllocationBytes: number;
   private readonly maximumOwnedBytes: number;
   private readonly originalModuleLiterals = new Map<string, NativeMemoryBacking>();
   private readonly canonicalGameGuidLiterals = new WeakMap<NativeGameCrtOwner, NativeBytePointer>();
-  private allocate(bytes: number, kind: BackingEntry['kind']): NativeValue<NativeMemoryBacking | null> {
+  #allocate(bytes: number, kind: BackingEntry['kind']): NativeValue<NativeMemoryBacking | null> {
     if (this.#shutdownPhase === 'disposed' || this.#shutdownPhase === 'blocked') return unknown('Selected runtime platform is not active');
     if (!Number.isInteger(bytes) || bytes < 0 || bytes > 0xffffffff) return unknown('Original platform uint32 allocation size required');
     if (bytes > this.maximumAllocationBytes || bytes + this.bytesOwned > this.maximumOwnedBytes) {
@@ -322,22 +613,22 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
   }
   virtualAlloc(bytes: number, type: 0x103000, protect: 4): NativeValue<NativeMemoryRegion | null> {
     if (type !== 0x103000 || protect !== 4) return unknown('Original VirtualAlloc flags differ from admitted pool profile');
-    const result = this.allocate(bytes, 'virtual');
+    const result = this.#allocate(bytes, 'virtual');
     // Successful reservation/commit owns a page-aligned base. This record is
     // allocator provenance; an arbitrary byte buffer gets no such geometry.
     if (result.known && result.value) this.#backing.get(result.value.identity)!.nativeGeometry = Object.freeze({
       alignment: 'virtual-page', bytes: result.value.bytes, masks: result.value.knownMask, capacity: result.value.bytes.length });
     return result;
   }
-  crtNew(bytes: number): NativeValue<NativeMemoryBacking | null> { return this.allocate(bytes, 'crt-new'); }
-  crtMalloc(bytes: number): NativeValue<NativeMemoryBacking | null> { return this.allocate(bytes, 'crt-malloc'); }
+  crtNew(bytes: number): NativeValue<NativeMemoryBacking | null> { return this.#allocate(bytes, 'crt-new'); }
+  crtMalloc(bytes: number): NativeValue<NativeMemoryBacking | null> { return this.#allocate(bytes, 'crt-malloc'); }
   crtFree(backing: NativeMemoryBacking): NativeValue<void> {
     const entry = this.#backing.get(backing.identity);
-    if (!entry || entry.backing !== backing || backing.freed ||
+    if (!entry || entry.backing !== backing || backing.freed || this.#releasedBackings.has(backing) ||
         (entry.kind !== 'crt-new' && entry.kind !== 'crt-malloc')) {
       return unknown('Actual live selected CRT backing required for free');
     }
-    backing.freed = true; this.bytesOwned -= backing.bytes.length; return known(undefined);
+    this.#releasedBackings.add(backing); backing.freed = true; this.bytesOwned -= backing.bytes.length; return known(undefined);
   }
   createWin32Heap(owner: object, options: 0 | 1, initialBytes: 4096, maximumBytes: 0): NativeValue<NativeWin32HeapCapability | null> {
     if (this.#shutdownPhase !== 'active' || !owner || typeof owner !== 'object' ||
@@ -353,7 +644,7 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     if (!retained || retained.capability !== heap || retained.destroyed || (flags !== 0 && flags !== 8)) {
       return unknown('Actual live selected HeapAlloc handle and flags required');
     }
-    const allocated = this.allocate(bytes, 'win32-heap');
+    const allocated = this.#allocate(bytes, 'win32-heap');
     if (allocated.known && allocated.value) {
       retained.allocations.add(allocated.value);
       // The admitted x86 HeapAlloc contract returns an eight-byte-aligned
@@ -471,7 +762,7 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     const backing = geometry.value.canonicalBacking;
     const allocation = this.#backing.get(backing.identity);
     if (!allocation || allocation.backing !== backing || allocation.kind !== 'win32-heap' ||
-        !retained.allocations.has(backing) || backing.freed || geometry.value.offset !== geometry.value.allocationBegin) {
+        !retained.allocations.has(backing) || backing.freed || this.#releasedBackings.has(backing) || geometry.value.offset !== geometry.value.allocationBegin) {
       // HeapSize reports SIZE_T(-1) for a selected call that does not identify a
       // live base pointer owned by this exact heap.
       return known(0xffffffff);
@@ -483,10 +774,12 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     }
     return known(proof.capacity);
   }
-  resolveNativePointer(pointer: NativeBytePointer): NativeValue<NativePointerGeometry> {
+  resolveNativePointer(pointer: NativeBytePointer): NativeValue<NativePointerGeometry> { return this.#resolveNativePointer(pointer); }
+  #resolveNativePointer(pointer: NativeBytePointer): NativeValue<NativePointerGeometry> {
     try {
-      if (!(pointer.fields instanceof NativeHeapObjectViews) || !Number.isSafeInteger(pointer.offset)) throw new Error('Actual retained native byte pointer required');
-      const fields = pointer.fields, backing = fields.backing;
+      const { fields, offset: pointerOffset } = pointer;
+      if (!(fields instanceof NativeHeapObjectViews) || !Number.isSafeInteger(pointerOffset)) throw new Error('Actual retained native byte pointer required');
+      const backing = fields.backing;
       const canonical = 'region' in backing ? backing.region : backing;
       const entry = this.#backing.get(canonical.identity);
       if (!entry || entry.backing !== canonical || !entry.nativeGeometry) throw new Error('Native pointer has no retained allocator or mapped-image geometry');
@@ -501,7 +794,7 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
           ('region' in backing && (!Number.isSafeInteger(backing.capacity) || backing.capacity !== capacity)) ||
           canonical.bytes.length !== canonical.knownMask.length || backing.knownMask.length !== capacity ||
           allocationEnd > canonical.bytes.length || begin < 0 || begin + fields.bytes.length > capacity ||
-          fields.bytes.length !== fields.knownMask.length || pointer.offset < 0 || pointer.offset > fields.bytes.length ||
+          fields.bytes.length !== fields.knownMask.length || pointerOffset < 0 || pointerOffset > fields.bytes.length ||
           backing.bytes.buffer !== canonical.bytes.buffer || backing.bytes.byteOffset !== canonical.bytes.byteOffset + allocationBegin ||
           backing.knownMask.buffer !== canonical.knownMask.buffer || backing.knownMask.byteOffset !== canonical.knownMask.byteOffset + allocationBegin ||
           fields.bytes.buffer !== canonical.bytes.buffer || fields.bytes.byteOffset !== canonical.bytes.byteOffset + allocationBegin + begin ||
@@ -510,10 +803,11 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
           fields.view.byteLength !== fields.bytes.length) {
         throw new Error('Native pointer canonical allocation/view aliases differ');
       }
-      const offset = allocationBegin + begin + pointer.offset;
+      const offset = allocationBegin + begin + pointerOffset;
+      const imageBase = this.#gameImageMappings.get(canonical)?.baseAddress ?? 0;
       return known(Object.freeze({ canonicalBacking: canonical, allocationIdentity: canonical.identity,
         offset, allocationBegin, allocationEnd, canonicalCapacity: canonical.bytes.length,
-        modulo4: (offset & 3) as 0 | 1 | 2 | 3 }));
+        modulo4: ((imageBase + offset) & 3) as 0 | 1 | 2 | 3 }));
     } catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
   }
   proveNativeCopyDirection(destination: NativeBytePointer, input: NativeBytePointer, bytes: number): NativeValue<'forward' | 'backward'> {
@@ -536,15 +830,17 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
   win32HeapFree(heap: NativeWin32HeapCapability, flags: 0, backing: NativeMemoryBacking): NativeValue<boolean> {
     const retained = this.#winHeaps.get(heap.identity), entry = this.#backing.get(backing.identity);
     if (!retained || retained.capability !== heap || retained.destroyed || flags !== 0 ||
-        !retained.allocations.has(backing) || !entry || entry.backing !== backing || backing.freed) {
+        !retained.allocations.has(backing) || !entry || entry.backing !== backing || backing.freed || this.#releasedBackings.has(backing)) {
       return unknown('Actual live selected HeapFree handle and retained allocation required');
     }
-    backing.freed = true; this.bytesOwned -= backing.bytes.length; return known(true);
+    this.#releasedBackings.add(backing); backing.freed = true; this.bytesOwned -= backing.bytes.length; return known(true);
   }
   win32HeapDestroy(heap: NativeWin32HeapCapability): NativeValue<boolean> {
     const retained = this.#winHeaps.get(heap.identity);
     if (!retained || retained.capability !== heap || retained.destroyed || heap === this.#processHeap) return unknown('Actual live destroyable selected HeapDestroy handle required');
-    for (const backing of retained.allocations) if (!backing.freed) { backing.freed = true; this.bytesOwned -= backing.bytes.length; }
+    for (const backing of retained.allocations) if (!this.#releasedBackings.has(backing)) {
+      this.#releasedBackings.add(backing); backing.freed = true; this.bytesOwned -= backing.bytes.length;
+    }
     retained.destroyed = true; return known(true);
   }
   tlsGetValue(index: number): NativeValue<object | null> {
@@ -773,6 +1069,10 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
       if (!result.known) { this.#shutdownPhase = 'blocked'; this.boundary = `Shutdown ${entry.address}: ${result.reason}`; return unknown(this.boundary); }
     }
     for (const entry of this.#backing.values()) if (entry.kind === 'module-image') entry.backing.freed = true;
+    for (const buffer of this.#processBuffers.values()) if (buffer.phase === 'live') {
+      buffer.phase = 'expired'; this.#releasedBackings.add(buffer.backing); buffer.backing.freed = true;
+      this.bytesOwned -= buffer.bytes.length;
+    }
     this.#shutdownPhase = 'disposed'; return known(undefined);
   }
   snapshot() { return Object.freeze({ phase: this.#shutdownPhase, boundary: this.boundary, bytesOwned: this.bytesOwned,

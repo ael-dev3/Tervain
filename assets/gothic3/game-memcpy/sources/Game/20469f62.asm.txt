@@ -1,0 +1,35 @@
+20469f62 | 55 | PUSH EBP
+20469f63 | 8bec | MOV EBP,ESP
+20469f65 | 83ec08 | SUB ESP,0x8
+20469f68 | 897dfc | MOV dword ptr [EBP + -0x4],EDI
+20469f6b | 8975f8 | MOV dword ptr [EBP + -0x8],ESI
+20469f6e | 8b750c | MOV ESI,dword ptr [EBP + 0xc]
+20469f71 | 8b7d08 | MOV EDI,dword ptr [EBP + 0x8]
+20469f74 | 8b4d10 | MOV ECX,dword ptr [EBP + 0x10]
+20469f77 | c1e907 | SHR ECX,0x7
+20469f7a | eb06 | JMP 0x20469f82
+20469f82 | 660f6f06 | MOVDQA XMM0,xmmword ptr [ESI]
+20469f86 | 660f6f4e10 | MOVDQA XMM1,xmmword ptr [ESI + 0x10]
+20469f8b | 660f6f5620 | MOVDQA XMM2,xmmword ptr [ESI + 0x20]
+20469f90 | 660f6f5e30 | MOVDQA XMM3,xmmword ptr [ESI + 0x30]
+20469f95 | 660f7f07 | MOVDQA xmmword ptr [EDI],XMM0
+20469f99 | 660f7f4f10 | MOVDQA xmmword ptr [EDI + 0x10],XMM1
+20469f9e | 660f7f5720 | MOVDQA xmmword ptr [EDI + 0x20],XMM2
+20469fa3 | 660f7f5f30 | MOVDQA xmmword ptr [EDI + 0x30],XMM3
+20469fa8 | 660f6f6640 | MOVDQA XMM4,xmmword ptr [ESI + 0x40]
+20469fad | 660f6f6e50 | MOVDQA XMM5,xmmword ptr [ESI + 0x50]
+20469fb2 | 660f6f7660 | MOVDQA XMM6,xmmword ptr [ESI + 0x60]
+20469fb7 | 660f6f7e70 | MOVDQA XMM7,xmmword ptr [ESI + 0x70]
+20469fbc | 660f7f6740 | MOVDQA xmmword ptr [EDI + 0x40],XMM4
+20469fc1 | 660f7f6f50 | MOVDQA xmmword ptr [EDI + 0x50],XMM5
+20469fc6 | 660f7f7760 | MOVDQA xmmword ptr [EDI + 0x60],XMM6
+20469fcb | 660f7f7f70 | MOVDQA xmmword ptr [EDI + 0x70],XMM7
+20469fd0 | 8db680000000 | LEA ESI,[ESI + 0x80]
+20469fd6 | 8dbf80000000 | LEA EDI,[EDI + 0x80]
+20469fdc | 49 | DEC ECX
+20469fdd | 75a3 | JNZ 0x20469f82
+20469fdf | 8b75f8 | MOV ESI,dword ptr [EBP + -0x8]
+20469fe2 | 8b7dfc | MOV EDI,dword ptr [EBP + -0x4]
+20469fe5 | 8be5 | MOV ESP,EBP
+20469fe7 | 5d | POP EBP
+20469fe8 | c3 | RET

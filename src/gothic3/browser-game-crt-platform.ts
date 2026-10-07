@@ -2,11 +2,13 @@
  * processAttach prefix. These ABI fields describe a virtual environment;
  * they are not observations of the browser's host OS or Windows thread IDs.
  * RuntimePlatform owns the real byte writes, heap/TLS/FLS/section operations
- * and pointer capabilities. Command line, DLL-entry entropy and later CRT
- * startup services remain absent until their actual owners are supplied. */
+ * and pointer capabilities. Optional process inputs use declared copied
+ * literals; DLL-entry entropy and later CRT owners remain separate. */
 import type { NativeValue } from './dialogue';
 import { NativeRuntimePlatform } from './native-runtime-platform';
 import type { NativeEngineCrtPlatformServices } from './native-runtime-platform';
+import { retainNativeWin32ProcessInputSelection } from './native-win32-process-inputs';
+import type { NativeWin32ProcessInputSelection, RetainedWin32ProcessInputSelection } from './native-win32-process-inputs';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = (reason: string): { known: false; reason: string } => ({ known: false, reason });
@@ -30,10 +32,25 @@ export const browserGameCrtAbiProfile = Object.freeze({
   commandLineProvided: false,
 });
 
+export interface BrowserGameCrtProcessAbiProfile extends Omit<typeof browserGameCrtAbiProfile, 'profile' | 'commandLineProvided'> {
+  readonly profile: 'browser-game-crt-virtual-win32-nt6.1-process-inputs-v2';
+  readonly commandLineProvided: boolean;
+  readonly environmentAProvided: boolean; readonly environmentWProvided: boolean;
+  readonly processBufferAlignment: 4;
+  readonly commandLineLifetime: 'stable-process-buffer';
+  readonly environmentLifetime: 'per-acquisition-os-block';
+  readonly environmentMutability: 'retained-live-buffers-no-reseed';
+  readonly processInputOrigin: 'declared-virtual-process';
+  readonly acpCodePage: 1252;
+  readonly conversionCoverage: 'ascii-explicit-positive-count';
+  readonly initialDirectionFlag: 0;
+}
 export interface BrowserGameCrtPlatformProfile {
   readonly identity: object;
-  readonly abi: typeof browserGameCrtAbiProfile;
+  readonly abi: typeof browserGameCrtAbiProfile | BrowserGameCrtProcessAbiProfile;
   readonly thread: Readonly<{ capability: object; logicalId: number }>;
+  /** Immutable descriptions, never OS-buffer or conversion authority. */
+  readonly processInputs?: Readonly<{ identity: object; selection: RetainedWin32ProcessInputSelection }>;
 }
 // Only this factory can publish provider authority. Descriptive records or an
 // arbitrary RuntimePlatform with similar service settings supply no proof.
@@ -44,16 +61,33 @@ export function browserGameCrtPlatformProfile(platform: NativeRuntimePlatform): 
   const profile = providers.get(platform);
   if (!profile) return unknown('Actual factory-created browser Game CRT platform required');
   const active = NativeRuntimePlatform.requireActivePlatform(platform);
-  return active.known ? known(profile) : active;
+  if (!active.known) return active;
+  if (profile.processInputs) {
+    const endpoints = platform.processInputEndpoints;
+    if (!endpoints) return unknown('Retained extended browser process-input endpoints required');
+    const proof = NativeRuntimePlatform.canonicalProcessInputEndpointsForPlatform(platform, endpoints);
+    if (!proof.known) return proof;
+  } else if (platform.processInputEndpoints !== undefined) return unknown('Prefix-only browser profile cannot replace its process-input selection');
+  return known(profile);
 }
 
 /** Construct a fresh actual platform before any Game owner retains its host.
  * The logical ID is allocated once and stays stable; its callback returns that
  * private retained capability's ID rather than a guessed known-success value. */
-export function createBrowserGameCrtPlatform(): NativeRuntimePlatform {
+export function createBrowserGameCrtPlatform(options: { readonly processInputs?: NativeWin32ProcessInputSelection } = {}): NativeRuntimePlatform {
   if (nextLogicalThreadId > 0xffffffff) throw new Error('Browser Game CRT logical thread-ID space exhausted');
   const thread = Object.freeze({ capability: Object.freeze({}), logicalId: nextLogicalThreadId++ });
   const identity = Object.freeze({});
+  const { processInputs } = options;
+  const process = processInputs === undefined ? undefined : retainNativeWin32ProcessInputSelection(processInputs);
+  const abi: BrowserGameCrtPlatformProfile['abi'] = process === undefined ? browserGameCrtAbiProfile : Object.freeze({
+    ...browserGameCrtAbiProfile, profile: 'browser-game-crt-virtual-win32-nt6.1-process-inputs-v2',
+    commandLineProvided: process.commandLineA !== undefined, environmentAProvided: process.environmentA !== undefined,
+    environmentWProvided: process.environmentW !== undefined, processBufferAlignment: 4,
+    commandLineLifetime: 'stable-process-buffer', environmentLifetime: 'per-acquisition-os-block',
+    environmentMutability: 'retained-live-buffers-no-reseed', processInputOrigin: 'declared-virtual-process',
+    acpCodePage: process.acpCodePage, conversionCoverage: process.conversionCoverage, initialDirectionFlag: process.initialDirectionFlag,
+  });
   let platform: NativeRuntimePlatform | null = null;
   const currentThreadId = (): NativeValue<number> => {
     if (!platform) return unknown('Browser Game CRT platform construction has not completed');
@@ -73,8 +107,10 @@ export function createBrowserGameCrtPlatform(): NativeRuntimePlatform {
     processHeap: browserGameCrtAbiProfile.processHeap,
     osVersion: browserGameCrtAbiProfile.virtualOsVersion,
     entropy: Object.freeze({ currentThreadId }),
+    processInputs: process,
   });
   platform = new NativeRuntimePlatform({ engineCrtServices: services });
-  providers.set(platform, Object.freeze({ identity, abi: browserGameCrtAbiProfile, thread }));
+  providers.set(platform, Object.freeze({ identity, abi, thread,
+    processInputs: process === undefined ? undefined : Object.freeze({ identity: Object.freeze({}), selection: process }) }));
   return platform;
 }

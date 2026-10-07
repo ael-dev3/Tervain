@@ -11,19 +11,20 @@ of Gothic 3's endings. A scene viewer, a decoded model or a successfully read
 native data structure is a useful component milestone, but it does not by
 itself establish a playable reconstruction.
 
-The latest completed publication receipt recorded here on 7 October 2026 is 102,
-merged in [PR 67](https://github.com/ael-dev3/Tervain/pull/67) at commit
-`be062db145c40c337ed23187e3283ea62f9f5d0f` and published by successful
-[workflow run 37616248532](https://github.com/ael-dev3/Tervain/actions/runs/37616248532).
-It adds the actual Shared GUID null initializer, canonical module storage and
-same-platform selected callback composition, following the GUID/CString work
-in checkpoint 101. Native NPC activation remains unfinished.
-The current source extension, [checkpoint 103](gothic3-rebuilding-process.md#103-connect-the-browser-game-crt-attach-prerequisites),
-supplies a declared virtual Win32 environment before creating the NPC platform
-and enters the original Game attach prerequisites in source order. The Game
-owner retains its actual lower result and stops at the first unowned operation;
-the later property-ID initializer is not entered while attach is incomplete.
-This does not finish native NPC activation or whole-module startup.
+The latest completed publication receipt recorded here on 7 October 2026 is 103,
+merged in [PR 68](https://github.com/ael-dev3/Tervain/pull/68) at commit
+`af05f7656d66ab8d8a004e7a3d56ec2c033774ab` and published by successful
+[workflow run 37620977457](https://github.com/ael-dev3/Tervain/actions/runs/37620977457).
+It supplies a declared virtual Win32 environment before creating the NPC
+platform and enters the original Game attach prerequisites in source order.
+The current source extension,
+[checkpoint 104](gothic3-rebuilding-process.md#104-own-the-game-command-line-and-environment-prefix),
+adds retained process buffers, the original environment routine and its scalar
+byte-copy path. Under the selected browser inputs, the next expected boundary
+is I/O initialization. The Game owner retains its actual lower results and
+applied stores; the later property-ID initializer remains unentered while
+attach is incomplete. Native NPC activation and whole-module startup remain
+unfinished.
 The browser supports exploration and selected gameplay paths. Native NPC
 activation and most campaign progression remain unfinished. See
 [current implementation status](#current-implementation-status) below; the
@@ -429,6 +430,20 @@ the captured native instructions are unchanged. Review dependent receipts and
 TypeScript source pins together. A hash update needs an explained input or
 scope change; it is not a substitute for reviewing the newly admitted behavior.
 Reproduce an older checkpoint from its recorded commit and tools.
+
+The process-input continuation uses separate producers. Preserve the existing
+Game CRT package and generate the memcpy supplement before its dependent
+continuation package:
+
+```powershell
+python -B scripts/gothic3_game_memcpy_supplement.py --study $gothicStudy --repo . --output assets/gothic3/game-memcpy
+python -B scripts/gothic3_game_attach_continuation.py --study $gothicStudy --repo . --output assets/gothic3/game-attach-continuation
+```
+
+Their [source packages](../../assets/gothic3/game-attach-continuation/README.md)
+include later I/O, argument and initializer evidence for review. Capturing a
+callee or a full initializer table supplies source context; each reached
+operation still needs its actual runtime owner.
 
 ### Record a reviewable result
 
