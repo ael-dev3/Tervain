@@ -7142,6 +7142,12 @@ transformed 401 modules and retained the existing large-chunk warning. Existing
 allocator scenario data was extended; no test cases were added or tests run
 locally. No browser execution of the new startup owner is recorded.
 
+The initial PR workflow exposed two existing combined-profile scenarios that
+still selected 17 pools and the former pointer-area limit. Their existing
+request lists now include the 47-byte holder, their count is 18, and the next
+region exceeds the 288-byte prefix at entry 19. This is a scenario-data and
+count correction; it adds no test cases or changes to the runtime.
+
 After successful selected conversion, the original path clears PropertyID and
 reaches its next prerequisite: the actual mutable Shared NullPayload at
 `101ab150`. Original initializer `100e1470` copies four DWORDs from `100ebb28`
