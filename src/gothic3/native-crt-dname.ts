@@ -4,6 +4,8 @@ import sourceText from '../../assets/gothic3/crt-undname/runtime-rules.json?raw'
 import type { NativeValue } from './dialogue';
 import { NativeHeapObjectViews } from './native-heap-views';
 import type { NativeMemoryBacking } from './native-memory-admin';
+import { NativeGameCrtOwner } from './native-game-crt';
+import { admitNativeGameCrtSource, nativeGameImageReceipt } from './native-game-crt-profile';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = (reason: string): { known: false; reason: string } => ({ known: false, reason });
@@ -92,13 +94,164 @@ function constant(label: string, address: string, bytes: number): NativeHeapObje
   const raw: Record<string, string> = {
     charNodeVtable: 'a26e6930a66e6930aa6e6930', indirectNodeVtable: '0c7469301b7469302a746930',
     statusNodeVtable: '1d6f6930216f693047746930', textNodeVtable: 'c56e6930c9736930db736930',
-    truncatedNameText: '203f3f2000',
+    truncatedNameText: '203f3f2000', classKeyword: '636c6173732000',
+    genericTypePrefix: '67656e657269632d747970652d00',
+    templateParameterPrefix: '74656d706c6174652d706172616d657465722d00',
   };
   if (!range || range.address !== address || range.bytes !== bytes || range.raw !== raw[label]) {
     throw new Error('Original CRT graph constant differs: ' + label);
   }
   return new NativeHeapObjectViews({ identity: {}, bytes: Uint8Array.from(range.raw.match(/../g)!, byte => parseInt(byte, 16)),
     knownMask: new Uint8Array(bytes).fill(255), freed: false });
+}
+
+interface NativeCrtDNameGraphProfile {
+  readonly module: 'Engine' | 'Game';
+  readonly owner: NativeGameCrtOwner | null;
+  admit(): void;
+  constant(label: string, address: string, bytes: number): NativeHeapObjectViews;
+  address(label: string): number;
+}
+const engineDNameGraphProfile: NativeCrtDNameGraphProfile = Object.freeze({ module: 'Engine', owner: null,
+  admit, constant, address: (label: string) => {
+    admit(); const range = source.constBytes[label];
+    if (!range) throw new Error('Original Engine CRT graph address is not admitted: ' + label);
+    return parseInt(range.address, 16);
+  } });
+const gameDNameGraphProfiles = new WeakMap<NativeGameCrtOwner, NativeCrtDNameGraphProfile>();
+const gameScratchHosts = new WeakMap<NativeGameCrtOwner, NativeCrtScratchHost>();
+const gameDNameMethodPins = [
+  ['unDName','2047cca1','7a59153542d6dfa3dd5ce87fe024eabe602bbdb9be7e6ebe6dab61db400c6aa9'],
+  ['unDNameCleanup','2047cd3b','cadca7e681971bfe8ee2d9516ecabcad25b3a7c320a7565b81bc5cd99c8942cc'],
+  ['ensureLock','204736e9','b82b0a9bfd5d85292b7de7d7e94b6eaa309a0fd030a807438939fbf3d64c0a26'],
+  ['mtInitLocks','2047361e','fdc3b3bd6a6a9e6f3938945524d9076a4b9c0e7672dc1bb642d042274f2a47fb'],
+  ['mtDeleteLocks','20473667','7eb26841548ba19651fd3840bd3eff3b38e22ab02547ebd164c3d77d8875c793'],
+  ['lock','204737ac','d38c92fe9ba4a577050a6108f14298a1e4319c8f40a054cb88e662b8c888c24b'],
+  ['unlock','204736bc','2105e18945d52532e7c2979f396347cf51f429150f76cf26ea9370477e2228a5'],
+  ['ensureLockCleanup','204737a3','7c8670c564d00524ac491f13c55e55718cd88f082aaecb91b1a141f2e86a4042'],
+  ['mallocCrt','2046838e','ce7bb44e9953221ceb28425d6e1199ad59db7f780d0ceb83f1e40b3b3f9ec445'],
+  ['errno','2046a282','0e0cc0d6c4d377eb8cef5833010fe4226fac61ce169f7f15a854c29ac2fd369d'],
+  ['initCritSecAndSpinCount','204741c7','e4666cc20a730154db1404bbc0399373039275646b82e22fa0378d722eab79f9'],
+  ['initCritSecFallback','204741b7','6a9d71899ceb3082f087906258408e630305ba10629333b4d896cc95e2582953'],
+  ['heapInit','204769c5','ce939dcc3ad91e76647b492a04691ef9c17f59001477c59565acf0e60a1e34d0'],
+  ['heapSelect','2047696a','55125c157c9960c0666bdff6a6e40615791f661a48f66be0f41b8c9b26a3f6fb'],
+  ['getOsPlatform','2046645f','8238dbabcb9734239b406d95487b627a7bc5b94028b162086f03ba7b23cef692'],
+  ['getWinMajor','2046650e','19e3d59dee8ead8449a03d4bf3d56b285c319cb145f588b18e9f01750b216777'],
+  ['mtInit','204681d9','3e80229254d0d800267a9cf2495fd9ce8b6c4157620b1553cbc33900a041ba68'],
+  ['crtAttach','204677e4','9469f04e5cd533e1cf5aaa85553339f7e4eb4eb7f38ec894a6b4d8dd0493be27'],
+  ['unDecoratorConstructor','20478eb0','6cdc3344a10620f1f27f5ec361dcf142eb302c5f160f0811a290c42f8fed0cbf'],
+  ['unDecoratorToString','2047c9ee','64b67aa0283cd06f3aa70c36c7271fe93ba11d1a0824529583166670cec9abfb'],
+  ['getDecoratedName','2047bd2d','d1f9df04ac3b9fabe06a5edefa09a802c675a0c17f6c780090b781a20d75c55a'],
+  ['getDataType','2047d2ac','46b012a7c059b4324d5a87f2624b5729552a9602ac2b5a8e83610065a382f682'],
+  ['getDataIndirectType','2047c50a','406811e251c1d162aa8bc8d5282689896f591de4f1a642aef64f46ad2ce1584b'],
+  ['getPrimaryDataType','2047d16e','1cfab994505a2c6cf818e124a9913572a8e7ae7e3b2304438001531afacbe5d6'],
+  ['getSimpleDataType','2047cde7','dec106c9751f6c1987ab54b7405c657798f423a6e4bb198fa51a87d94d92339c'],
+  ['getECSUDataType','2047b013','f158657392304544e387eeced61523f2ba2b7ecebc844ee1f7bf72306214ac6f'],
+  ['getScopedName','2047af20','3f3e7bffd4025b3596c31ad4cf90055839c96e0d0bf4acb46f4c611353ed6e3d'],
+  ['getZName','2047ad36','1c4fcf12a1cf6b0a2158bda9b72b2fd6a6f7abaff7e00e5d602cc2a055ab3d80'],
+  ['dnameDelimitedConstructor','2047913f','14e57005518e956e28130cacf4ed717c0096f6b868d6dccbb98a1047f4eeab7c'],
+  ['dnameDoPchar','20479042','21f45ecbe3505d49379ff3924f7175b7fb6a211816ad2a843e029bd9295fcea7'],
+  ['heapGetMemory','20478626','774936df235c70bcd973832bc64d958ab076c5572fa56dd24b384f0282f02195'],
+  ['heapDestructor','2047803c','7240f5c4af9b71314832dede1b11ec12132e169829273dc80a516cf351961f34'],
+  ['replicatorConstructor','20478cee','10aa1a13d6a1a005ffb3959bdf9eeedf15e1ca58b9aaec8b0b204762e179dca6'],
+  ['replicatorAppend','20478d0c','c397c6a3d16e75cbd3cda0cb2ea5935d43edbfd2d387841d1008cdd66f525e3e'],
+  ['replicatorLookup','20478863','e90ba5f876fa66cd09a0cc1e3dff93e458a8ae2fc1af918dfed70b3de8c19b1f'],
+  ['dnameCopyConstructor','204786c9','22eeb723a5ce45dfd1aa18fc0eac1e42f55c7056ea135450d9a86576200ec857'],
+  ['dnameAssign','204787df','6092345761e20b79efe5f85cce1c7e3f599aab47d5ee82d240ed30c3c14bc0bf'],
+  ['dnameNodeConcat','20478899','a11ae770c8ade5fbf75502f3534d89fe9e721e9cacbd7709edc34a0d5e2eecde'],
+  ['dnameIndirectNodeConstructor','204788ff','e4acd38671c6aff51bf8745427d7ac5cdf7c870c0ddf3fbe2af3c12f60d06c89'],
+  ['dnamePointerConstructor','20478a31','048fcca74389f77955e29f6242e67d31a5bc02709013d5c0c85559d16d7362ae'],
+  ['dnameStatusConstructor','20478a87','13fcb4f86f3436e484c4896ce8b717c747b926fd9a11c8d5ccef9a728b79150b'],
+  ['dnameStatusNodeConstructor','2047892e','4271e131e9fedb530c13407d8f609c5ddfad24af252f0cbe9021925b5016f157'],
+  ['dnameIsValid','20478ae8','96b22d177ed2a689f182acee9ce39a518b2f0e84a9291080864dbbfc209900ad'],
+  ['dnameIsEmpty','20478aff','090f282989d8b04187ed3e8fd62d8f990456f804741ff750a7d0c42fa50acb6c'],
+  ['dnameLength','20478b4a','0fe5d55f6f86a90523cc8f0556670ce586279a421c2d2686ac833d17dd0cf22e'],
+  ['dnameGetString','20478ba7','d32d61092521d2eae5507224e1def7ded600474009db53b535dbf9b5060ff350'],
+  ['dnameAssignStatus','20478c6d','92549e749c14cdea1dfd1a8b517cc99349dd3b42b77daba7ec250bc7030cbd26'],
+  ['dnameCloneNode','20478d53','72341a8053abdc185e3c2f3e029223ae2c5277b028df948df44677a861733e79'],
+  ['dnameTextNodeConstructor','20478d9a','86c84ced32c6af929ee008e0a8ecf4ca42b5266712b0f7039296149dc51ca6fd'],
+  ['undStrncpy','20478972','7778f334bcc5a59f32ecc12d663ac57a31e732a98e4b20d28849b48b6ccfee9d'],
+  ['dnameTextNodeGetString','20478e11','b9c6c4ce908f3b00ae5db5cec532266cd71288b2341ee043b9208ffab2648240'],
+  ['dnameIndirectNodeLength','20478e42','747076544dd68a9c3c9c8996b1583a7173480bdc8e3f390d85652048f412c284'],
+  ['dnameIndirectNodeGetString','20478e60','767bcbf8b079244670988ad0f16bbfc038c5828b8a443c7f7daf411abee88d32'],
+  ['dnameConcatStatus','20478f61','b933828fa19aba87aa27dc433078dc2f5ea197ed359f6159974d3b349f33f8db'],
+  ['dnameAssignPointer','20478fda','6c8b477dfae976fae8c116e617c95d8e7cb3cfbb7c31d7f7f056f7dddfed7aac'],
+  ['dnameCharConstructor','204790e8','03b494be34cd2555f1dcb43badc71017867a9b3736e59ac9c366bbf5329073c5'],
+  ['dnameTextConstructor','2047910e','b5ea63b3511900ff77580161bcfe26c89e8046b7d33d107687a9c291308cc1dd'],
+  ['dnameConcat','2047933c','ad2472d219743788dec4e13650a0adec9101873ea40468a3bdd44dc446aa2e95'],
+  ['dnamePointerConcat','2047939e','9d1df1ea448b85f2695400f0ddc85ae1fa97883c61b9df846d8e4141a67adedc'],
+  ['dnameAssignText','20479445','497112b515454ee35aa2ecb02e759cd29b3e44aa74d6353f486b4f2e667c9887'],
+  ['dnamePlus','2047954c','eae1aa310e597134ce69be74b6253365ae768313fe00d3037fc5360cdf1fc4ae'],
+  ['heapTerm','20476a1f','868c2a5c0c2513e2f30c43de68269b0e831f008db50344a87749aa9bffb27f2b'],
+  ['malloc','20467ba7','50aa761bd1f0486a1b70619e6fed78062aafadd2b3a93fb23f36fd79f123be5b'],
+  ['free','20467c6a','3f5fc78854ea9f1f767cfc155b115eb851f7d6f40a9939e546f05f04f94380cf'],
+  ['freeCleanup','20467cc0','965025cf74f46720c1e4c5715f1a35cad9ff3d7c4605853842c1e72361112095'],
+  ['callNewHandler','204742dd','160648d4dfe805c18330e90a7c986972b8fc124d36218225201ff8ac4decec70'],
+  ['osErrorToErrno','2046a247','a91bbfd4e58fd6df8310bcee293b7d970db633c705fd26d7c84b8c6da9fec845'],
+  ['encodePointer','20467d64','7a6aca648a5272b8b66761e76fa72b6bbeebdfd4b789904b3cc43f084e01bd63'],
+  ['decodePointer','20467ddb','cb3a88e5fa9e53d81b30478aa8d45b6777c4d25366401ea4d3cf3e85a9678ab0'],
+  ['pointerEncodingAvailability','20467cf8','2bb95172deaa8938ccf70800daf9e2f5df280344fd4146477554a70cd194d2a9'],
+  ['dnameLastChar','20478b6f','09585411a7dcbf80d194c6186ed230a1d69737aa6b8fffbf5b4994442c4500a3'],
+  ['dnameCharNodeLength','204788d8','194f81a127723ec366ff0b8410df190c0649a05808a94d5554d82de5af7f425b'],
+  ['dnameCharNodeLastChar','204788dc','8a905797df24e4a1fe68a2f630971aa55b606cd6a92fed57303379d0f93a7a2d'],
+  ['dnameCharNodeGetString','204788e0','fa0056337c92666278e6c7abcd8865d37a30de6c4fd69098420aaf6355b8158f'],
+  ['dnameTextNodeLength','204788fb','2e339cdc5de837ec151dbde90057caeabba18ac3ea32e7c2cffc8f95df41a6ff'],
+  ['dnameTextNodeLastChar','20478dff','38996d7d955cf4bc9a93b1c898cfd439cf057d2c230677d1bd2490d46ddac017'],
+  ['dnameIndirectNodeLastChar','20478e51','f2c386e622c75c51e32bf72841e8b2591a235036f50a0bc27243ef3d5085f290'],
+  ['dnameStatusNodeLength','20478953','2e339cdc5de837ec151dbde90057caeabba18ac3ea32e7c2cffc8f95df41a6ff'],
+  ['dnameStatusNodeLastChar','20478957','98243bf07e739751c43f4af9524f082a3baa83d05f90b778eb6687f5cba62a6c'],
+  ['dnameStatusNodeGetString','20478e7d','06ad20ab5fa464a9edb35092bbf8409e1ab1fa2e70bffb01f8dbf17a7383c38b'],
+  ['typeInfoNameWrapper','204637e0','e993582193b053903a0233de11767e2e5f59a078350762db06ef08338e02abd8'],
+  ['typeInfoNameBody','20468806','ae3f48bda6d41d14a3400665b49065f62042dbdc693472b12fd404ea3e3c4c5d'],
+  ['typeInfoNameCleanup','204688f2','084f61fec2079ea071aa64ca396a8cf17ca74fc4087f67de3aba1218e37a4ff0'],
+  ['strlen','2046dbd0','5044fc769fb26ae1772d18e3e1ef5ffc16757c910207278cab8d90af3557a7f0'],
+  ['strcpyS','20475b80','e89637c58c0e259c517f45d4767114aefa4e9842a76ea63e47746a1d683170a5'],
+] as const;
+
+function gameDNameGraphProfile(crt: NativeGameCrtOwner): NativeCrtDNameGraphProfile {
+  if (crt.module !== 'Game' || NativeGameCrtOwner.forPlatform(crt.host) !== crt) {
+    throw new Error('Canonical Game CRT owner required for the Game DName graph');
+  }
+  const existing = gameDNameGraphProfiles.get(crt);
+  if (existing) return existing;
+  const profile: NativeCrtDNameGraphProfile = Object.freeze({
+    module: 'Game', owner: crt,
+    admit: () => {
+      admitNativeGameCrtSource();
+      for (const [label, entry, hash] of gameDNameMethodPins) {
+        const method = crt.sourceProfile.heapRules.methods[label];
+        if (method?.module !== 'Game' || method.entry !== entry || method.body !== entry ||
+            method.bodyInstructionBytesSha256 !== hash) throw new Error('Game DName source receipt differs: ' + label);
+      }
+    },
+    constant: (label: string, address: string, bytes: number) => {
+      const receipt = nativeGameImageReceipt(label);
+      if (receipt.address !== address || receipt.bytes !== bytes || receipt.module !== 'Game') {
+        throw new Error('Game DName image receipt differs: ' + label);
+      }
+      const image = crt.imageStorage(label), expected = Uint8Array.from(receipt.raw.match(/../g)!, byte => parseInt(byte, 16));
+      if (image.bytes.length !== bytes || image.backing.freed || image.knownMask.some(mask => mask !== 255) ||
+          image.bytes.some((byte, index) => byte !== expected[index])) {
+        throw new Error('Game DName image bytes differ from their admitted receipt: ' + label);
+      }
+      return new NativeHeapObjectViews({ identity: {}, bytes: expected, knownMask: new Uint8Array(bytes).fill(255), freed: false });
+    },
+    address: (label: string) => parseInt(nativeGameImageReceipt(label).address, 16),
+  });
+  profile.admit(); gameDNameGraphProfiles.set(crt, profile); return profile;
+}
+
+function gameScratchHost(crt: NativeGameCrtOwner): NativeCrtScratchHost {
+  if (crt.module !== 'Game' || NativeGameCrtOwner.forPlatform(crt.host) !== crt) {
+    throw new Error('Canonical Game CRT owner required for the Game scratch arena');
+  }
+  let host = gameScratchHosts.get(crt);
+  if (!host) {
+    host = Object.freeze({ crtMalloc: (bytes: number) => crt.malloc(bytes),
+      crtFree: (backing: NativeMemoryBacking) => crt.free(backing) });
+    gameScratchHosts.set(crt, host);
+  }
+  return host;
 }
 
 export interface NativeCrtScratchHost {
@@ -122,6 +275,8 @@ export interface NativeCrtScratchSlice {
  * zero stores belong to ___unDName; constructing this view performs no stores. */
 export class NativeCrtScratchArena {
   readonly fields: NativeHeapObjectViews;
+  readonly graphProfile: NativeCrtDNameGraphProfile;
+  readonly gameOwner: NativeGameCrtOwner | null;
   private active = false;
   private reentrant = false;
   private boundary: string | null = null;
@@ -129,9 +284,30 @@ export class NativeCrtScratchArena {
   private readonly slices: NativeCrtScratchSlice[] = [];
   private readonly allocations: NativeMemoryBacking[] = [];
   constructor(private readonly host: NativeCrtScratchHost,
-    private readonly options: { fields: NativeHeapObjectViews; checkpoint?: (operation: string) => void }) {
-    admit(); this.fields = subview(options.fields, 0, 20);
+    private readonly options: { fields: NativeHeapObjectViews; checkpoint?: (operation: string) => void;
+      gameOwner?: NativeGameCrtOwner }) {
+    this.gameOwner = options.gameOwner ?? null;
+    if (this.gameOwner) {
+      this.graphProfile = gameDNameGraphProfile(this.gameOwner);
+      if (host !== gameScratchHost(this.gameOwner)) throw new Error('Game scratch callbacks must be the canonical Game CRT owner');
+      const globals = this.gameOwner.imageStorage('demanglerGlobals');
+      if (options.fields.backing.identity !== globals.backing.identity ||
+          options.fields.bytes.byteOffset - options.fields.backing.bytes.byteOffset !==
+            globals.bytes.byteOffset - globals.backing.bytes.byteOffset || options.fields.bytes.length !== globals.bytes.length) {
+        throw new Error('Game scratch arena must alias the physical Game demangler globals');
+      }
+    } else {
+      admit(); this.graphProfile = engineDNameGraphProfile;
+    }
+    this.fields = subview(options.fields, 0, 20);
   }
+  static forGame(crt: NativeGameCrtOwner, checkpoint?: (operation: string) => void): NativeCrtScratchArena {
+    return new NativeCrtScratchArena(gameScratchHost(crt), {
+      fields: crt.imageStorage('demanglerGlobals'), checkpoint, gameOwner: crt,
+    });
+  }
+  static admitGame(crt: NativeGameCrtOwner): void { gameDNameGraphProfile(crt); gameScratchHost(crt); }
+  static gameCallbacks(crt: NativeGameCrtOwner): NativeCrtScratchHost { return gameScratchHost(crt); }
   check(operation: string): void {
     if (this.reentrant) throw new Error('Unsupported reentry into CRT scratch arena');
     if (this.boundary) throw new Error(this.boundary);
@@ -259,12 +435,22 @@ export class NativeCrtDNameFactory {
   private reentrant = false;
   private readonly nodes = new WeakSet<NativeCrtDNameNode>();
   private readonly records = new WeakSet<NativeCrtDNameRecord>();
-  private readonly vtables: Record<NativeCrtDNameNodeKind, NativeHeapObjectViews> = {
-    char: constant('charNodeVtable', '3089f28c', 12), indirect: constant('indirectNodeVtable', '3089f29c', 12),
-    status: constant('statusNodeVtable', '3089f2ac', 12), text: constant('textNodeVtable', '3089f2bc', 12),
-  };
-  private readonly truncated = constant('truncatedNameText', '3089f2c8', 5);
-  constructor(readonly arena: NativeCrtScratchArena) {}
+  private readonly vtables: Record<NativeCrtDNameNodeKind, NativeHeapObjectViews>;
+  private readonly truncated: NativeHeapObjectViews;
+  private readonly graphProfile: NativeCrtDNameGraphProfile;
+  constructor(readonly arena: NativeCrtScratchArena) {
+    this.graphProfile = arena.graphProfile;
+    this.vtables = {
+      char: this.graphProfile.constant('charNodeVtable', this.graphProfile.module === 'Game' ? '206bec94' : '3089f28c', 12),
+      indirect: this.graphProfile.constant('indirectNodeVtable', this.graphProfile.module === 'Game' ? '206beca4' : '3089f29c', 12),
+      status: this.graphProfile.constant('statusNodeVtable', this.graphProfile.module === 'Game' ? '206becb4' : '3089f2ac', 12),
+      text: this.graphProfile.constant('textNodeVtable', this.graphProfile.module === 'Game' ? '206becc4' : '3089f2bc', 12),
+    };
+    this.truncated = this.graphProfile.constant('truncatedNameText', this.graphProfile.module === 'Game' ? '206becd0' : '3089f2c8', 5);
+  }
+  sourceConstant(label: string, address: string, bytes: number): NativeHeapObjectViews {
+    return this.graphProfile.constant(label, address, bytes);
+  }
   check(operation: string): void {
     if (this.reentrant) throw new Error('Unsupported reentry into CRT DName graph');
     if (this.boundary) throw new Error(this.boundary);
@@ -303,8 +489,9 @@ export class NativeCrtDNameFactory {
   private node(kind: NativeCrtDNameNodeKind, slice: NativeCrtScratchSlice): NativeCrtDNameNode {
     const node = new NativeCrtDNameNode(this, kind, slice); this.nodes.add(node);
     node.fields.pointer<NativeCrtDNameNode>(4).set(null);
-    node.fields.writeUnsigned(0, parseInt(source.constBytes[{ char: 'charNodeVtable', text: 'textNodeVtable',
-      indirect: 'indirectNodeVtable', status: 'statusNodeVtable' }[kind]]!.address, 16));
+    const label = { char: 'charNodeVtable', text: 'textNodeVtable', indirect: 'indirectNodeVtable',
+      status: 'statusNodeVtable' }[kind];
+    node.fields.writeUnsigned(0, this.graphProfile.address(label));
     return node;
   }
   private statusNode(status: number): NativeCrtDNameNode | null {
@@ -449,8 +636,9 @@ export class NativeCrtDNameFactory {
     this.check('DNameNode.virtual');
     if (!this.nodes.has(node) || node.factory !== this) throw new Error('CRT DName node is not owned');
     if (!dispatch) return;
-    const address = parseInt(source.constBytes[{ char: 'charNodeVtable', text: 'textNodeVtable',
-      indirect: 'indirectNodeVtable', status: 'statusNodeVtable' }[node.kind]]!.address, 16);
+    const label = { char: 'charNodeVtable', text: 'textNodeVtable', indirect: 'indirectNodeVtable',
+      status: 'statusNodeVtable' }[node.kind];
+    const address = this.graphProfile.address(label);
     if (node.fields.readUnsigned(0) !== address) throw new Error('CRT DName virtual table differs from retained source');
     // The actual three virtual function DWORDs are admitted source bytes.
     this.vtables[node.kind].readUnsigned(0);
