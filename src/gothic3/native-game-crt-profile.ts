@@ -6,6 +6,7 @@ import { admitGameIoStartupSource, gameIoStartupImagePins, gameIoStartupImageRec
 import { admitGameIoAllocationSource, gameIoAllocationImagePins, gameIoAllocationImageReceipt } from './native-game-crt-io-allocation-source';
 import { admitGameIoCompletionSource } from './native-game-crt-io-completion-source';
 import { admitGameArgvSource, gameArgvImagePins, gameArgvImageReceipt } from './native-game-crt-argv-source';
+import { admitGameSetEnvpSource, gameSetEnvpImagePins, gameSetEnvpImageReceipt } from './native-game-crt-setenvp-source';
 
 export type NativeCrtModule = 'Engine' | 'Game';
 export interface NativeCrtMethodReceipt {
@@ -87,6 +88,7 @@ export const nativeGameImagePins: Readonly<Record<string, readonly [
   ...gameIoStartupImagePins,
   ...gameIoAllocationImagePins,
   ...gameArgvImagePins,
+  ...gameSetEnvpImagePins,
   "navigationClassName": ["coldGlobals","207b4964",12,"000000000000000000000000","15ec7bf0b50732b49f8228e07d24365338f9e3ab994b00af08e5a3bffe55fd8b"],
   "navigationInitializerResult": ["coldGlobals","207b4ea8",4,"00000000","df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"],
   "scriptAdminClassName": ["coldGlobals","207b47a0",12,"000000000000000000000000","15ec7bf0b50732b49f8228e07d24365338f9e3ab994b00af08e5a3bffe55fd8b"],
@@ -180,6 +182,7 @@ export function admitNativeGameCrtSource(): void {
   admitGameIoAllocationSource();
   admitGameIoCompletionSource();
   admitGameArgvSource();
+  admitGameSetEnvpSource();
   if (rules.schema !== 'gothic3-game-crt-rules-v1' ||
       rules.inputs.Game !== 'b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f' ||
       methods.some(([label, address, hash]) => rules.methods[label]?.module !== 'Game' || rules.methods[label]?.entry !== address ||
@@ -195,6 +198,7 @@ export function admitNativeGameCrtSource(): void {
   }
 }
 export function nativeGameImageReceipt(label: string): NativeCrtImageReceipt {
+  if (Object.hasOwn(gameSetEnvpImagePins, label)) return gameSetEnvpImageReceipt(label);
   if (Object.hasOwn(gameContinuationImagePins, label)) return gameContinuationImageReceipt(label);
   if (Object.hasOwn(gameIoStartupImagePins, label)) return gameIoStartupImageReceipt(label);
   if (Object.hasOwn(gameIoAllocationImagePins, label)) return gameIoAllocationImageReceipt(label);

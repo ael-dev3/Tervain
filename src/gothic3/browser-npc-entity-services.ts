@@ -117,6 +117,7 @@ export function createBrowserNpcEntityServices(platform: BrowserNpcEntityPlatfor
     startupIo: browserGameStartupIoInputs,
     standardIo: browserGameStandardIoInputs,
     argvNls: browserGameArgvNlsInputs,
+    setEnvp: { physicalGameHeapCapacity: 'round-eight-unknown-padding', heapFree: { outcome: 'success' } },
   }));
   const scriptAdminStartup = createBrowserScriptAdminStartup(runtimeAdmins.platform, runtimeAdmins.memory, runtimeAdmins.error);
   const navigationNames = new BrowserNavigationNotificationNames(runtimeAdmins.memory, runtimeAdmins.platform);

@@ -11,7 +11,7 @@ of Gothic 3's endings. A scene viewer, a decoded model or a successfully read
 native data structure is a useful component milestone, but it does not by
 itself establish a playable reconstruction.
 
-The latest confirmed Gothic implementation publication recorded here is
+The confirmed argument-initialization publication recorded here is
 [checkpoint 109](gothic3-rebuilding-process.md#109-own-cold-encoding-initialization-and-the-normal-argument-return),
 merged in [PR 77](https://github.com/ael-dev3/Tervain/pull/77) at commit
 `25e631eb745282d0517f2153723e29a2cf98a1aa` and published by successful
@@ -28,6 +28,12 @@ establish published code identity; the execution observation is from the local
 production preview. The [checkpoint record](gothic3-rebuilding-process.md#109-own-cold-encoding-initialization-and-the-normal-argument-return)
 preserves the first startup timeout, the subsequent diagnostic compatibility
 failure, and their corrections.
+
+The current code extends that baseline with
+[environment initialization in checkpoint 110](gothic3-game-environment-startup.md).
+The selected browser startup copies its environment, releases the input,
+returns zero, and prepares the next initializer argument. Its next unfinished
+call is `__cinit` at `204678f2`.
 
 The browser supports exploration and selected gameplay paths. Whole-module
 startup, native NPC activation and most campaign progression remain unfinished.
@@ -524,7 +530,7 @@ their Markdown links and diff without treating them as a new gameplay release.
 
 The `/gothic3/` reconstruction remains incomplete. The table summarizes gameplay
 evidence through checkpoint 94 and runtime implementation through checkpoint
-109. The latest publication receipt retained here covers checkpoint 109;
+110. The historical publication receipt retained here covers checkpoint 109;
 the local startup execution observation is recorded separately above.
 Startup components have not established new NPC gameplay in the browser.
 
@@ -535,20 +541,20 @@ Startup components have not established new NPC gameplay in the browser.
 | Dialogue and quests | Selected Ardea dialogue, Jack's bounded bandit quest, destination callbacks and supported rewards | Most original dialogue, quests, faction consequences and campaign endings |
 | Inventory and combat | Selected inventory operations, potion/XP effects and bounded fist damage/death prefixes | Full item/equipment lifecycle, native attack eligibility, NPC attacks, defeat/death cleanup and loot |
 | Persistence | Browser saves for the supported session state and selected progression effects | Full campaign state and recovery for every added system |
-| Runtime foundations | Selected property readers, heap/runtime owners, Navigation callbacks, ScriptAdmin/ModuleAdmin components, canonical GUID storage and the Game CRT prefix through I/O, cold encoding-table initialization and the actual argument return observed in the local preview | Environment initialization and remaining CRT/module startup, reflected factories, full entity attachment, world membership and processing activation |
+| Runtime foundations | Selected property readers, heap/runtime owners, Navigation callbacks, ScriptAdmin/ModuleAdmin components, canonical GUID storage and the Game CRT prefix through I/O, cold encoding-table initialization, argument parsing and the normal environment return | Remaining CRT/module startup, reflected factories, full entity attachment, world membership and processing activation |
 
 Checkpoint 92 connects source-registered Navigation zones to the native type-8
 quest-entry callback and has focused save/restore coverage. Checkpoint 93 adds
 Xardas Tower rendering and browser collision using its mesh triangles. A local
 preview-teleport review confirmed rendering and a grounded Hero; ordinary
 overland arrival remains unverified. Checkpoint 94 models the ScriptAdmin
-getter protocol. Checkpoints 95–109 add individual registration and startup
+getter protocol. Checkpoints 95–110 add individual registration and startup
 prerequisites; full native ScriptAdmin creation and live NPC activation remain
 unfinished. Checkpoint 108's local observation reached the caller TEST after
 I/O returned zero. Checkpoint 109's corrected local production observation
 continues through the argument return to the unexecuted environment CALL. The
 preceding public step is recorded in [checkpoint 108](gothic3-rebuilding-process.md#108-own-standard-handles-critical-sections-and-the-normal-io-return),
-and the current boundary and controls are described in [checkpoint 109](gothic3-rebuilding-process.md#109-own-cold-encoding-initialization-and-the-normal-argument-return)
+and the environment return and next boundary are described in [checkpoint 110](gothic3-game-environment-startup.md)
 and the [current scope](gothic3-browser-port.md).
 
 ### Why startup is the current implementation focus
@@ -563,7 +569,8 @@ Checkpoints 106–108 connect the virtual stack, original I/O startup prolog,
 selected 68-byte startup-info writer, nested allocation, record initialization,
 standard handles and sections, and the actual I/O return. Checkpoint 109 owns
 the caller branch and the selected normal argument initialization with its
-MBC/NLS dependencies, both parser passes and actual return. Environment and
+MBC/NLS dependencies, both parser passes and actual return. Checkpoint 110
+continues through environment initialization and its actual return. Remaining
 initializer traversal, module creation and NPC
 activation remain prerequisites for the full gameplay loop.
 The finishable campaign remains the completion criterion.

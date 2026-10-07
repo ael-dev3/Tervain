@@ -14,6 +14,7 @@ import { NativeRuntimePlatform } from './native-runtime-platform';
 import { NativeGameCrtEnvironment } from './native-game-crt-environment';
 import { NativeGameCrtIoInit } from './native-game-crt-ioinit';
 import { NativeGameCrtArgv } from './native-game-crt-argv';
+import { NativeGameCrtSetEnvp } from './native-game-crt-setenvp';
 import { gameAttachContinuationInstructionPoints } from './native-game-crt-attach-source';
 import type { NativeWin32ProcessInputEndpoints } from './native-win32-process-inputs';
 import type { NativeBytePointer } from './native-pointer-geometry';
@@ -146,7 +147,8 @@ export type NativeCrtAttachOperationName = 'version.size.store' | 'GetVersionExA
   'heapTerm.return' | 'preCInit.return' | 'GetCommandLineA.boundary' |
   'GetCommandLineA.return' | 'commandLinePointer.store' | 'environment.return' |
   'environmentBlock.store' | 'ioInit.boundary' | 'ioInit.enter' | 'ioInit.return' |
-  'argv.enter' | 'argv.return' | 'argv.boundary' | 'crtAttach.return';
+  'argv.enter' | 'argv.return' | 'argv.boundary' | 'setEnvp.enter' | 'setEnvp.return' |
+  'setEnvp.boundary' | 'crtAttach.return';
 export interface NativeCrtAttachOperation {
   readonly operation: NativeCrtAttachOperationName;
   /** Load/store instruction, returned PC of a completed lower call, or reached
@@ -180,6 +182,9 @@ export interface NativeCrtAttachProgress {
   readonly ioResult: number | null;
   readonly argvProgress: ReturnType<NativeGameCrtArgv['snapshot']> | null;
   readonly argvResult: number | null;
+  readonly setEnvpProgress: ReturnType<NativeGameCrtSetEnvp['snapshot']> | null;
+  readonly setEnvpAdapterEntered: boolean;
+  readonly setEnvpResult: 0 | -1 | null;
   readonly nextBoundary: Readonly<{ name: 'ioInit'; address: string; target: string }> |
     Readonly<{ name: 'GetStartupInfoA' | 'HeapAlloc' | 'GetStdHandle' | 'GetFileType' | 'SetHandleCount'; address: string; iat: string }> |
     Readonly<{ name: 'calloc' | 'TlsGetValue' | 'FlsGetValue' | 'DecodePointer' | 'sectionInitializer'; address: string; target: string }> |
@@ -231,14 +236,21 @@ export class NativeCrtBootstrap {
   readonly #environment: NativeValue<NativeGameCrtEnvironment> | null;
   readonly #io: NativeValue<NativeGameCrtIoInit> | null;
   readonly #argv: NativeValue<NativeGameCrtArgv> | null;
+  readonly #setEnvp: NativeValue<NativeGameCrtSetEnvp> | null;
   readonly #argvSelected: boolean;
+  readonly #setEnvpSelected: boolean;
   readonly #ioCallPermit = Object.freeze({});
   readonly #argvCallPermit = Object.freeze({});
+  readonly #setEnvpCallPermit = Object.freeze({});
   #ioInvocationActive = false;
   #argvInvocationActive = false;
+  #setEnvpInvocationActive = false;
   #argvAttempted = false;
+  #setEnvpAdapterEntered = false;
   #argvOutcome: NativeValue<void> | null = null;
+  #setEnvpOutcome: NativeValue<void> | null = null;
   #argvResult: 0 | -1 | null = null;
+  #setEnvpResult: 0 | -1 | null = null;
   #ioResult: number | null = null;
   #commandLineReturned = false;
   #commandLineNonNull: boolean | null = null;
@@ -312,6 +324,23 @@ export class NativeCrtBootstrap {
     }
     return known(undefined);
   }
+  /** The environment owner has a distinct permit, nested inside the same live
+   * I/O callback and reached only after the selected argv owner returns. */
+  static canonicalSetEnvpCallForCrt(bootstrap: NativeCrtBootstrap, crt: NativeModuleCrtOwner,
+    permit: object): NativeValue<void> {
+    const retained = bootstrapByCrt.get(crt);
+    if (!NativeModuleCrtOwner.isConstructedOwner(crt) || crt.module !== 'Game' || !bootstrap ||
+        retained?.phase !== 'returned' || retained.owner !== bootstrap || bootstrap.#crt !== crt ||
+        bootstrap.#boundary !== null || bootstrap.#attachPhase !== 'running' ||
+        !(bootstrap.#active.has(bootstrap.#name('crtAttach')) ||
+          (bootstrap.#entryPhase === 'running' && bootstrap.#active.has(bootstrap.#name('entry')))) ||
+        !bootstrap.#ioInvocationActive || !bootstrap.#argvInvocationActive || !bootstrap.#setEnvpInvocationActive ||
+        permit !== bootstrap.#setEnvpCallPermit || bootstrap.#lowerCall !== 'ioInit204742ff at204678ce' ||
+        !bootstrap.#argvAttempted || !bootstrap.#argv?.known || !bootstrap.#setEnvpAdapterEntered || !bootstrap.#setEnvp?.known) {
+      return unknown('Actual reached same-CRT caller/argv/environment invocation permit required');
+    }
+    return known(undefined);
+  }
   private constructor(readonly crt: NativeModuleCrtOwner, token: object) {
     if (token !== bootstrapConstructionToken || new.target !== NativeCrtBootstrap ||
         !NativeModuleCrtOwner.isConstructedOwner(crt)) throw new Error('Private canonical CRT bootstrap construction required');
@@ -347,7 +376,10 @@ export class NativeCrtBootstrap {
     this.#environment = crt.module === 'Game' ? NativeGameCrtEnvironment.forCrt(crt) : null;
     this.#io = crt.module === 'Game' ? NativeGameCrtIoInit.forCrt(crt) : null;
     this.#argv = crt.module === 'Game' ? NativeGameCrtArgv.forCrt(crt) : null;
+    this.#setEnvp = crt.module === 'Game' ? NativeGameCrtSetEnvp.forCrt(crt) : null;
     this.#argvSelected = crt.module === 'Game' && NativeRuntimePlatform.argvNlsSelectionForPlatform(
+      crt.host.platform as NativeRuntimePlatform).known;
+    this.#setEnvpSelected = crt.module === 'Game' && NativeRuntimePlatform.setEnvpSelectionForPlatform(
       crt.host.platform as NativeRuntimePlatform).known;
     if (crt.module === 'Game') for (const label of ['commandLinePointer', 'environmentBlock']) {
       const fields = NativeModuleCrtOwner.canonicalImageForOwner(crt, label);
@@ -650,6 +682,27 @@ export class NativeCrtBootstrap {
             if (actualReturn.known) {
               this.#argvResult = actualReturn.value;
               this.#record('argv.return', actualReturn.value, '204678e3');
+              if (this.#setEnvpSelected && actualReturn.value === 0) {
+                const argvProgress = NativeGameCrtArgv.prototype.snapshot.call(argv);
+                if (argvProgress.plannedSetEnvpFrontierReached) this.#record('argv.boundary', null, '204678e7');
+                if (this.#setEnvp?.known) {
+                  const env = this.#setEnvp.value;
+                  this.#setEnvpAdapterEntered = true;
+                  this.#setEnvpInvocationActive = true;
+                  try {
+                    this.#setEnvpOutcome = NativeGameCrtSetEnvp.enterFromArgvFrontierForAttach(
+                      env, argv, this.#crt, this, this.#argvCallPermit, this.#setEnvpCallPermit);
+                    const envProgress = NativeGameCrtSetEnvp.prototype.snapshot.call(env);
+                    if (envProgress.envCalled) this.#record('setEnvp.enter', null, '204678e7');
+                    const envReturn = NativeGameCrtSetEnvp.canonicalReturnedSetEnvpForCrt(
+                      env, this.#crt, this, this.#setEnvpCallPermit);
+                    if (envReturn.known) {
+                      this.#setEnvpResult = envReturn.value;
+                      this.#record('setEnvp.return', envReturn.value, '204678ec');
+                    }
+                  } finally { this.#setEnvpInvocationActive = false; }
+                }
+              }
             }
           } finally { this.#argvInvocationActive = false; }
         }
@@ -658,16 +711,31 @@ export class NativeCrtBootstrap {
       this.#ioResult = result;
     } finally {
       this.#ioInvocationActive = false;
-      const reached = this.#argvAttempted && this.#argv?.known
-        ? NativeGameCrtArgv.prototype.snapshot.call(this.#argv.value).nextBoundary
-        : NativeGameCrtIoInit.prototype.snapshot.call(io).nextBoundary;
+      const envProgress = this.#setEnvpAdapterEntered && this.#setEnvp?.known
+        ? NativeGameCrtSetEnvp.prototype.snapshot.call(this.#setEnvp.value) : null;
+      const reached = envProgress?.physicalGraphTransferred ? envProgress.nextBoundary
+        : this.#argvAttempted && this.#argv?.known
+          ? NativeGameCrtArgv.prototype.snapshot.call(this.#argv.value).nextBoundary
+          : NativeGameCrtIoInit.prototype.snapshot.call(io).nextBoundary;
       this.#nextBoundary = !reached ? null : 'instruction' in reached
         ? Object.freeze({ name: reached.operation, address: reached.pc, instruction: reached.instruction })
         : 'iat' in reached
           ? Object.freeze({ name: reached.operation, address: reached.pc, iat: reached.iat })
           : Object.freeze({ name: reached.operation, address: reached.pc, target: reached.target });
     }
-    if (this.#argvAttempted) {
+    if (this.#setEnvpAdapterEntered && this.#setEnvp?.known) {
+      const progress = NativeGameCrtSetEnvp.prototype.snapshot.call(this.#setEnvp.value);
+      if (progress.physicalGraphTransferred) this.#record('setEnvp.boundary', null, this.#nextBoundary?.address ?? null);
+      this.#gate(this.#setEnvpOutcome && !this.#setEnvpOutcome.known ? this.#setEnvpOutcome.reason
+        : 'Unowned original Game environment continuation at' + (this.#nextBoundary?.address ?? 'unknown'));
+    }
+    const setEnvpConstructionFailedAtFrontier = this.#setEnvpSelected && this.#argvResult === 0 &&
+      !!this.#setEnvp && !this.#setEnvp.known && this.#argv?.known &&
+      NativeGameCrtArgv.prototype.snapshot.call(this.#argv.value).plannedSetEnvpFrontierReached;
+    if (setEnvpConstructionFailedAtFrontier && this.#setEnvp && !this.#setEnvp.known) {
+      this.#gate('Game environment construction at204678e7: ' + this.#setEnvp.reason);
+    }
+    if (this.#argvAttempted && !this.#setEnvpAdapterEntered && !setEnvpConstructionFailedAtFrontier) {
       this.#record('argv.boundary', null, this.#nextBoundary?.address ?? null);
       this.#gate(this.#argvOutcome && !this.#argvOutcome.known ? this.#argvOutcome.reason
         : 'Unowned original Game continuation after caller/argv at' + (this.#nextBoundary?.address ?? 'unknown'));
@@ -757,6 +825,8 @@ export class NativeCrtBootstrap {
       ioResult: this.#ioResult,
       argvProgress: this.#argv?.known ? NativeGameCrtArgv.prototype.snapshot.call(this.#argv.value) : null,
       argvResult: this.#argvResult,
+      setEnvpProgress: this.#setEnvp?.known ? NativeGameCrtSetEnvp.prototype.snapshot.call(this.#setEnvp.value) : null,
+      setEnvpAdapterEntered: this.#setEnvpAdapterEntered, setEnvpResult: this.#setEnvpResult,
       nextBoundary: this.#nextBoundary,
       crtTraversalCompleted: false, nativeModuleInstantiated: false });
   }

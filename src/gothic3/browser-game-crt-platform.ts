@@ -16,6 +16,8 @@ import { retainNativeWin32StandardIoSelection } from './native-win32-standard-io
 import type { NativeWin32StandardIoSelection, RetainedWin32StandardIoSelection } from './native-win32-standard-io';
 import { retainNativeWin32ArgvNlsSelection } from './native-win32-argv-nls';
 import type { NativeWin32ArgvNlsSelection, RetainedWin32ArgvNlsSelection } from './native-win32-argv-nls';
+import { retainNativeWin32SetEnvpSelection } from './native-win32-setenvp';
+import type { NativeWin32SetEnvpSelection, RetainedWin32SetEnvpSelection } from './native-win32-setenvp';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = (reason: string): { known: false; reason: string } => ({ known: false, reason });
@@ -92,6 +94,7 @@ export interface BrowserGameCrtPlatformProfile {
   readonly startupIo?: Readonly<RetainedWin32StartupIoSelection>;
   readonly standardIo?: RetainedWin32StandardIoSelection;
   readonly argvNls?: RetainedWin32ArgvNlsSelection;
+  readonly setEnvp?: RetainedWin32SetEnvpSelection;
 }
 // Only this factory can publish provider authority. Descriptive records or an
 // arbitrary RuntimePlatform with similar service settings supply no proof.
@@ -140,6 +143,14 @@ export function browserGameCrtPlatformProfile(platform: NativeRuntimePlatform): 
     const proof = NativeRuntimePlatform.canonicalArgvNlsEndpointsForPlatform(platform, endpoints);
     if (!proof.known) return proof;
   } else if (platform.argvNlsEndpoints !== undefined) return unknown('Browser profile cannot replace its absent argv/NLS selection');
+  if (profile.setEnvp) {
+    const selected = NativeRuntimePlatform.setEnvpSelectionForPlatform(platform);
+    if (!selected.known || selected.value !== profile.setEnvp) return unknown('Actual retained browser environment/heap selection required');
+    const endpoints = platform.setEnvpEndpoints;
+    if (!endpoints) return unknown('Actual retained browser environment/heap endpoint required');
+    const proof = NativeRuntimePlatform.canonicalSetEnvpEndpointsForPlatform(platform, endpoints);
+    if (!proof.known) return proof;
+  } else if (platform.setEnvpEndpoints !== undefined) return unknown('Browser profile cannot replace its absent environment/heap selection');
   return known(profile);
 }
 
@@ -148,17 +159,19 @@ export function browserGameCrtPlatformProfile(platform: NativeRuntimePlatform): 
  * private retained capability's ID rather than a guessed known-success value. */
 export function createBrowserGameCrtPlatform(options: { readonly processInputs?: NativeWin32ProcessInputSelection;
   readonly threadStack?: Readonly<{ reservationBytes: number; pageAlignment?: 'virtual-page-4096' }>; readonly startupIo?: NativeWin32StartupIoSelection;
-  readonly standardIo?: NativeWin32StandardIoSelection; readonly argvNls?: NativeWin32ArgvNlsSelection } = {}): NativeRuntimePlatform {
+  readonly standardIo?: NativeWin32StandardIoSelection; readonly argvNls?: NativeWin32ArgvNlsSelection;
+  readonly setEnvp?: NativeWin32SetEnvpSelection } = {}): NativeRuntimePlatform {
   if (nextLogicalThreadId > 0xffffffff) throw new Error('Browser Game CRT logical thread-ID space exhausted');
   const thread = Object.freeze({ capability: Object.freeze({}), logicalId: nextLogicalThreadId++ });
   const identity = Object.freeze({});
-  const { processInputs, threadStack, startupIo, standardIo, argvNls } = options;
+  const { processInputs, threadStack, startupIo, standardIo, argvNls, setEnvp } = options;
   if (startupIo !== undefined && threadStack === undefined) throw new Error('Explicit startup writer requires a selected opaque logical-thread stack');
   if (standardIo !== undefined && (threadStack === undefined || startupIo === undefined)) throw new Error('Explicit standard I/O requires selected startup data and an opaque logical-thread stack');
   if (argvNls !== undefined && (processInputs === undefined || standardIo === undefined ||
       threadStack?.pageAlignment !== 'virtual-page-4096' || threadStack.reservationBytes < 4096)) {
     throw new Error('Explicit argv/NLS requires process inputs, standard I/O and a fresh page-aligned logical stack');
   }
+  if (setEnvp !== undefined && argvNls === undefined) throw new Error('Explicit environment/heap policy requires a fresh selected argv/NLS startup profile');
   const stackSelection: NativeX86ThreadStackSelection | undefined = threadStack === undefined ? undefined : Object.freeze({
     threadCapability: thread.capability, reservationBytes: threadStack.reservationBytes, addressModel: 'opaque-relative',
     initialRegisters: 'unknown', initialFs0: 'unknown',
@@ -168,6 +181,7 @@ export function createBrowserGameCrtPlatform(options: { readonly processInputs?:
   const startup = startupIo === undefined ? undefined : retainNativeWin32StartupIoSelection(startupIo);
   const standard = standardIo === undefined ? undefined : retainNativeWin32StandardIoSelection(standardIo);
   const argv = argvNls === undefined ? undefined : retainNativeWin32ArgvNlsSelection(argvNls);
+  const envp = setEnvp === undefined ? undefined : retainNativeWin32SetEnvpSelection(setEnvp);
   const baseAbi = process === undefined ? browserGameCrtAbiProfile : Object.freeze({
     ...browserGameCrtAbiProfile, profile: 'browser-game-crt-virtual-win32-nt6.1-process-inputs-v2',
     commandLineProvided: process.commandLineA !== undefined, environmentAProvided: process.environmentA !== undefined,
@@ -242,6 +256,7 @@ export function createBrowserGameCrtPlatform(options: { readonly processInputs?:
     startupIo: startup,
     standardIo: standard,
     argvNls: argv,
+    setEnvp: envp,
   });
   platform = new NativeRuntimePlatform({ engineCrtServices: services });
   const retainedStack = stackSelection === undefined ? undefined : NativeRuntimePlatform.threadStackSelectionForPlatform(platform);
@@ -252,10 +267,13 @@ export function createBrowserGameCrtPlatform(options: { readonly processInputs?:
   if (retainedStandard && !retainedStandard.known) throw new Error(retainedStandard.reason);
   const retainedArgv = argv === undefined ? undefined : NativeRuntimePlatform.argvNlsSelectionForPlatform(platform);
   if (retainedArgv && !retainedArgv.known) throw new Error(retainedArgv.reason);
+  const retainedEnvp = envp === undefined ? undefined : NativeRuntimePlatform.setEnvpSelectionForPlatform(platform);
+  if (retainedEnvp && !retainedEnvp.known) throw new Error(retainedEnvp.reason);
   providers.set(platform, Object.freeze({ identity, abi, thread, threadStack: retainedStack?.known ? retainedStack.value : undefined,
     startupIo: retainedStartup?.known ? retainedStartup.value : undefined,
     standardIo: retainedStandard?.known ? retainedStandard.value : undefined,
     argvNls: retainedArgv?.known ? retainedArgv.value : undefined,
+    setEnvp: retainedEnvp?.known ? retainedEnvp.value : undefined,
     processInputs: process === undefined ? undefined : Object.freeze({ identity: Object.freeze({}), selection: process }) }));
   return platform;
 }

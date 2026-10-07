@@ -30,6 +30,8 @@ import type { NativeWin32StartupIoSelection, RetainedWin32StartupIoSelection,
 import { retainNativeWin32StandardIoSelection } from './native-win32-standard-io';
 import type { NativeWin32StandardIoSelection, RetainedWin32StandardIoSelection, NativeWin32StandardIoEndpoints,
   NativeStandardIoCallGrant, NativeStandardIoResult, NativeStandardIoCapabilityKind, NativeWin32HandleCapability } from './native-win32-standard-io';
+import { retainNativeWin32SetEnvpSelection } from './native-win32-setenvp';
+import type { NativeWin32SetEnvpSelection, RetainedWin32SetEnvpSelection, NativeWin32SetEnvpEndpoints, NativeSetEnvpCallGrant, NativeSetEnvpResult } from './native-win32-setenvp';
 import { retainNativeWin32ArgvNlsSelection } from './native-win32-argv-nls';
 import type { NativeWin32ArgvNlsSelection, RetainedWin32ArgvNlsSelection, NativeWin32ArgvNlsEndpoints,
   NativeArgvNlsCallGrant, NativeArgvNlsResult, NativeArgvImportKind } from './native-win32-argv-nls';
@@ -126,6 +128,7 @@ export interface NativeEngineCrtPlatformServices {
   readonly startupIo?: NativeWin32StartupIoSelection;
   readonly standardIo?: NativeWin32StandardIoSelection;
   readonly argvNls?: NativeWin32ArgvNlsSelection;
+  readonly setEnvp?: NativeWin32SetEnvpSelection;
   readonly entropy?: {
     systemTimeAsFileTime?(): NativeValue<{ low: number; high: number }>;
     currentProcessId?(): NativeValue<number>;
@@ -134,11 +137,12 @@ export interface NativeEngineCrtPlatformServices {
     performanceCounter?(): NativeValue<{ success: boolean; low?: number; high?: number }>;
   };
 }
-type RetainedCrtServices = Omit<NativeEngineCrtPlatformServices, 'tlsValues' | 'processInputs' | 'startupIo' | 'standardIo' | 'argvNls'> & {
+type RetainedCrtServices = Omit<NativeEngineCrtPlatformServices, 'tlsValues' | 'processInputs' | 'startupIo' | 'standardIo' | 'argvNls' | 'setEnvp'> & {
   readonly processInputs?: RetainedWin32ProcessInputSelection;
   readonly startupIo?: Readonly<RetainedWin32StartupIoSelection>;
   readonly standardIo?: RetainedWin32StandardIoSelection;
   readonly argvNls?: RetainedWin32ArgvNlsSelection;
+  readonly setEnvp?: RetainedWin32SetEnvpSelection;
 };
 /** Retain configuration values and exact function identities. TLS values are
  * opaque capabilities, so copy their entries without cloning those identities.
@@ -149,7 +153,7 @@ function retainCrtServices(selected: NativeEngineCrtPlatformServices | undefined
 } {
   if (selected === undefined) return { services: undefined, tls: [] };
   const { tlsValues, kernel32Available, pointerCodec, sectionSpinProcedure,
-    fiberLocalStorage, processHeap, osVersion, entropy, processInputs, threadStack, startupIo, standardIo, argvNls } = selected;
+    fiberLocalStorage, processHeap, osVersion, entropy, processInputs, threadStack, startupIo, standardIo, argvNls, setEnvp } = selected;
   if (typeof kernel32Available !== 'boolean' || (pointerCodec !== 'absent' && pointerCodec !== 'owned-bijection') ||
       [sectionSpinProcedure, fiberLocalStorage, processHeap].some(value => value !== undefined && typeof value !== 'boolean')) {
     throw new Error('Explicit selected CRT registry configuration required');
@@ -177,7 +181,8 @@ function retainCrtServices(selected: NativeEngineCrtPlatformServices | undefined
     threadStack: threadStack === undefined ? undefined : retainNativeX86ThreadStackSelection(threadStack),
     startupIo: startupIo === undefined ? undefined : retainNativeWin32StartupIoSelection(startupIo),
     standardIo: standardIo === undefined ? undefined : retainNativeWin32StandardIoSelection(standardIo),
-    argvNls: argvNls === undefined ? undefined : retainNativeWin32ArgvNlsSelection(argvNls) }), tls: Object.freeze(tls) };
+    argvNls: argvNls === undefined ? undefined : retainNativeWin32ArgvNlsSelection(argvNls),
+    setEnvp: setEnvp === undefined ? undefined : retainNativeWin32SetEnvpSelection(setEnvp) }), tls: Object.freeze(tls) };
 }
 interface ProcessBuffer {
   readonly kind: 'command-line-a' | 'environment-a' | 'environment-w';
@@ -185,10 +190,23 @@ interface ProcessBuffer {
   readonly bytes: Uint8Array; readonly masks: Uint8Array; readonly view: DataView;
   phase: 'live' | 'released' | 'expired';
 }
+interface HeapAllocationViews {
+  readonly backing: NativeMemoryBacking; readonly heap: NativeWin32HeapCapability;
+  readonly owner: NativeModuleCrtOwner; readonly requestedBytes: number; readonly physicalCapacity: number;
+  readonly bytes: Uint8Array; readonly masks: Uint8Array;
+  readonly logical: NativeHeapObjectViews; readonly physical: NativeHeapObjectViews;
+  readonly logicalBytes: Uint8Array; readonly logicalMasks: Uint8Array; readonly logicalView: DataView;
+  readonly physicalBytes: Uint8Array; readonly physicalMasks: Uint8Array; readonly physicalView: DataView;
+}
+interface SetEnvpRelease {
+  readonly allocation: HeapAllocationViews; readonly crt: NativeModuleCrtOwner;
+  readonly heap: NativeWin32HeapCapability; readonly backing: NativeMemoryBacking;
+}
 interface WinHeap {
   readonly capability: NativeWin32HeapCapability;
   readonly options: 0 | 1;
   readonly allocations: Set<NativeMemoryBacking>;
+  readonly gameOwner?: NativeModuleCrtOwner;
   destroyed: boolean;
 }
 interface PhysicalSection {
@@ -282,6 +300,14 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
   readonly diagnostics: NativeRuntimeDiagnostics;
   readonly #backing = new Map<object, BackingEntry>();
   readonly #releasedBackings = new WeakSet<NativeMemoryBacking>();
+  readonly #heapAllocationViews = new WeakMap<NativeMemoryBacking, HeapAllocationViews>();
+  readonly setEnvpEndpoints?: Readonly<NativeWin32SetEnvpEndpoints>;
+  readonly #setEnvpEndpoints?: Readonly<NativeWin32SetEnvpEndpoints>;
+  #setEnvpActiveCall: NativeSetEnvpCallGrant | null = null;
+  readonly #setEnvpConsumed = new WeakSet<NativeSetEnvpCallGrant>();
+  readonly #setEnvpNormal = new WeakMap<NativeSetEnvpCallGrant, NativeSetEnvpResult>();
+  readonly #setEnvpAllocations = new WeakMap<NativeSetEnvpCallGrant, NativeMemoryBacking | null>();
+  readonly #setEnvpReleases = new WeakMap<NativeSetEnvpCallGrant, SetEnvpRelease>();
   readonly #processBuffers = new Map<NativeMemoryBacking, ProcessBuffer>();
   readonly #processBases = new WeakMap<NativeBytePointer, ProcessBuffer>();
   readonly #gameImageMappings = new WeakMap<NativeMemoryBacking, Readonly<{
@@ -385,6 +411,11 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     if (this.#argvNlsEndpoints) for (const name of ['HeapAlloc', 'InterlockedIncrement', 'MultiByteToWideChar', 'LCMapStringW'] as const) {
       this.#argvProcedures.set(name, Object.freeze({ identity: Object.freeze({}), name }));
     }
+    this.#setEnvpEndpoints = crt.services?.setEnvp === undefined ? undefined : Object.freeze({
+      invoke: (call: NativeSetEnvpCallGrant) => this.#invokeSetEnvp(call),
+    });
+    this.setEnvpEndpoints = this.#setEnvpEndpoints;
+    Object.defineProperty(this, 'setEnvpEndpoints', { value: this.#setEnvpEndpoints, writable: false, configurable: false });
     for (const [index, value] of crt.tls) { this.#crtTlsValues.set(index, value); this.#tlsIndexes.add(index); }
     const owner = Object.freeze({});
     this.#kernel32 = Object.freeze({ identity: Object.freeze({}), owner, name: 'KERNEL32.DLL' });
@@ -551,6 +582,135 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
       this.#heapAllocNormalReturns.set(call, result.value); return result;
     } catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
     finally { this.#heapAllocActiveCall = null; }
+  }
+  /** Private fresh policy/endpoint identity. No old Runtime gains a service later. */
+  static setEnvpSelectionForPlatform(platform: NativeRuntimePlatform): NativeValue<RetainedWin32SetEnvpSelection> {
+    const active = NativeRuntimePlatform.requireActivePlatform(platform); if (!active.known) return active;
+    return platform.#crtServices?.setEnvp ? known(platform.#crtServices.setEnvp) : unknown('Explicit fresh environment heap ABI selection required');
+  }
+  static canonicalSetEnvpEndpointsForPlatform(platform: NativeRuntimePlatform, endpoints: NativeWin32SetEnvpEndpoints): NativeValue<void> {
+    const active = NativeRuntimePlatform.requireActivePlatform(platform); if (!active.known) return active;
+    return endpoints && endpoints === platform.#setEnvpEndpoints && endpoints === platform.setEnvpEndpoints
+      ? known(undefined) : unknown('Actual immutable Runtime environment endpoints required');
+  }
+  static canonicalSetEnvpInvocationForPlatform(platform: NativeRuntimePlatform, call: NativeSetEnvpCallGrant): NativeValue<void> {
+    const active = NativeRuntimePlatform.requireActivePlatform(platform); if (!active.known) return active;
+    return !!call && platform.#setEnvpActiveCall === call && !!platform.#setEnvpEndpoints ? known(undefined)
+      : unknown('Actual active private environment import invocation required');
+  }
+  static canonicalSetEnvpNormalReturnForPlatform(platform: NativeRuntimePlatform, call: NativeSetEnvpCallGrant): NativeValue<NativeSetEnvpResult> {
+    const active = NativeRuntimePlatform.requireActivePlatform(platform); if (!active.known) return active;
+    return platform.#setEnvpNormal.has(call) ? known(platform.#setEnvpNormal.get(call)!) : unknown('Actual normal environment import return required');
+  }
+  /** Descriptive lower effects are never sufficient for a normal RET. */
+  static setEnvpEffectsForPlatform(platform: NativeRuntimePlatform, call: NativeSetEnvpCallGrant): NativeValue<Readonly<{ allocated: boolean; released: boolean }>> {
+    return retainedRuntimePlatforms.has(platform) && platform.#setEnvpConsumed.has(call)
+      ? known(Object.freeze({ allocated: platform.#setEnvpAllocations.has(call) && platform.#setEnvpAllocations.get(call) !== null,
+        released: platform.#setEnvpReleases.has(call) })) : unknown('No retained environment import effect');
+  }
+  #proveHeapAllocationViews(record: HeapAllocationViews, retired = false): void {
+    const backing = record.backing, entry = this.#backing.get(backing.identity), proof = entry?.nativeGeometry;
+    if (this.#heapAllocationViews.get(backing) !== record || !entry || entry.backing !== backing || entry.kind !== 'win32-heap' ||
+        proof?.alignment !== 'win32-heap-eight' || proof.bytes !== record.bytes || proof.masks !== record.masks ||
+        proof.capacity !== record.physicalCapacity || backing.bytes !== record.bytes || backing.knownMask !== record.masks ||
+        backing.bytes.length !== record.physicalCapacity || backing.knownMask.length !== record.physicalCapacity ||
+        record.requestedBytes < 0 || record.requestedBytes > record.physicalCapacity ||
+        record.logical.bytes !== record.logicalBytes || record.logical.knownMask !== record.logicalMasks || record.logical.view !== record.logicalView ||
+        record.physical.bytes !== record.physicalBytes || record.physical.knownMask !== record.physicalMasks || record.physical.view !== record.physicalView ||
+        (retired ? !this.#releasedBackings.has(backing) : backing.freed || this.#releasedBackings.has(backing))) {
+      throw new Error('Actual retained logical/physical Game allocation storage and lifetime required');
+    }
+    for (const [fields, length] of [[record.logical, record.requestedBytes], [record.physical, record.physicalCapacity]] as const) {
+      requirePhysicalNativeViews(fields);
+      if (fields.backing !== backing || fields.bytes.length !== length || fields.knownMask.length !== length ||
+          fields.bytes.buffer !== record.bytes.buffer || fields.bytes.byteOffset !== record.bytes.byteOffset ||
+          fields.knownMask.buffer !== record.masks.buffer || fields.knownMask.byteOffset !== record.masks.byteOffset ||
+          fields.view.buffer !== fields.bytes.buffer || fields.view.byteOffset !== fields.bytes.byteOffset || fields.view.byteLength !== length ||
+          Object.getOwnPropertyDescriptor(fields, 'pointerIdentity')!.value !== backing.identity ||
+          Object.getOwnPropertyDescriptor(fields, 'pointerBegin')!.value !== 0) throw new Error('Current exact logical/physical allocation aliases differ');
+    }
+  }
+  static canonicalGameHeapAllocationViewsForPlatform(platform: NativeRuntimePlatform, owner: NativeModuleCrtOwner,
+    backing: NativeMemoryBacking): NativeValue<Readonly<{ logical: NativeHeapObjectViews; physical: NativeHeapObjectViews; requestedBytes: number; physicalCapacity: number }>> {
+    const active = NativeRuntimePlatform.requireActivePlatform(platform); if (!active.known) return active;
+    try {
+      const record = platform.#heapAllocationViews.get(backing); if (!record || record.owner !== owner) return unknown('Actual fresh-policy Game allocation record required');
+      platform.#proveHeapAllocationViews(record);
+      const pointer = Object.freeze({ fields: record.physical, offset: 0 });
+      const heap = NativeModuleCrtOwner.canonicalGameHeapForAllocation(owner, platform, pointer); if (!heap.known) return heap;
+      if (heap.value !== record.heap) return unknown('Current allocation heap differs from retained capacity owner');
+      const span = platform.#canonicalGameHeapSpan(heap.value, pointer, record.physicalCapacity); if (!span.known) return span;
+      return known(Object.freeze({ logical: record.logical, physical: record.physical,
+        requestedBytes: record.requestedBytes, physicalCapacity: record.physicalCapacity }));
+    } catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
+  }
+  /** Readonly structural retirement proof. It never permits a byte access. */
+  static canonicalSetEnvpReleasedAllocationForCall(platform: NativeRuntimePlatform, call: NativeSetEnvpCallGrant,
+    owner: NativeModuleCrtOwner, heap: NativeWin32HeapCapability, backing: NativeMemoryBacking): NativeValue<void> {
+    const active = NativeRuntimePlatform.requireActivePlatform(platform); if (!active.known) return active;
+    try {
+      const receipt = platform.#setEnvpReleases.get(call);
+      if (!receipt || receipt.crt !== owner || receipt.heap !== heap || receipt.backing !== backing) return unknown('Exact private source HeapFree release receipt required');
+      platform.#proveHeapAllocationViews(receipt.allocation, true);
+      const current = NativeModuleCrtOwner.canonicalGameHeapHandleForPlatform(owner, platform);
+      return current.known && current.value === heap ? known(undefined) : unknown(current.known ? 'Current release heap changed' : current.reason);
+    } catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
+  }
+  static performSetEnvpAllocationForCall(platform: NativeRuntimePlatform, call: NativeSetEnvpCallGrant,
+    owner: NativeModuleCrtOwner, heap: NativeWin32HeapCapability, bytes: number): NativeValue<NativeMemoryBacking | null> {
+    const active = NativeRuntimePlatform.canonicalSetEnvpInvocationForPlatform(platform, call); if (!active.known) return active;
+    const input = NativeX86ThreadStack.setEnvpArgumentsForPlatform(platform, call); if (!input.known) return input;
+    if (input.value.site !== '20477ce8' || input.value.crt !== owner || input.value.heap !== heap || input.value.flags !== 8 ||
+        input.value.bytes !== bytes || platform.#setEnvpConsumed.has(call)) return unknown('Actual current source calloc allocation grant required');
+    platform.#setEnvpConsumed.add(call);
+    const result = platform.#win32HeapAlloc(heap, 8, bytes);
+    if (result.known) platform.#setEnvpAllocations.set(call, result.value);
+    return result;
+  }
+  static performSetEnvpReleaseForCall(platform: NativeRuntimePlatform, call: NativeSetEnvpCallGrant,
+    owner: NativeModuleCrtOwner, heap: NativeWin32HeapCapability, backing: NativeMemoryBacking): NativeValue<boolean> {
+    const active = NativeRuntimePlatform.canonicalSetEnvpInvocationForPlatform(platform, call); if (!active.known) return active;
+    const input = NativeX86ThreadStack.setEnvpArgumentsForPlatform(platform, call); if (!input.known) return input;
+    if (input.value.site !== '20467cd2' || input.value.crt !== owner || input.value.heap !== heap || input.value.flags !== 0 ||
+        input.value.backing !== backing || platform.#setEnvpConsumed.has(call)) return unknown('Actual current source HeapFree grant required');
+    const allocation = platform.#heapAllocationViews.get(backing);
+    if (!allocation || allocation.owner !== owner || allocation.heap !== heap) return unknown('Actual retained Game allocation release required');
+    try { platform.#proveHeapAllocationViews(allocation); } catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
+    platform.#setEnvpConsumed.add(call);
+    const policy = platform.#crtServices!.setEnvp!.heapFree;
+    platform.#processLastError(policy.lastError);
+    if (policy.outcome === 'unknown') return unknown('Declared virtual HeapFree outcome is unknown');
+    if (policy.outcome === 'false') return known(false);
+    const retained = platform.#winHeaps.get(heap.identity), entry = platform.#backing.get(backing.identity);
+    if (!retained || retained.capability !== heap || retained.destroyed || !retained.allocations.has(backing) ||
+        !entry || entry.backing !== backing || entry.kind !== 'win32-heap' || platform.#releasedBackings.has(backing) || backing.freed) {
+      return unknown('Actual live same-heap source HeapFree allocation required');
+    }
+    // Keep the private lower effect before writing the exposed descriptive
+    // marker. If that write is interrupted, release and pending CALL remain;
+    // the normal-return map is still absent and no source cleanup occurs.
+    platform.#releasedBackings.add(backing);
+    platform.bytesOwned -= allocation.physicalCapacity;
+    platform.#setEnvpReleases.set(call, Object.freeze({ allocation, crt: owner, heap, backing }));
+    backing.freed = true;
+    return known(true);
+  }
+  #invokeSetEnvp(call: NativeSetEnvpCallGrant): NativeValue<NativeSetEnvpResult> {
+    const active = NativeRuntimePlatform.requireActivePlatform(this); if (!active.known) return active;
+    if (!call || !this.#setEnvpEndpoints || this.#setEnvpActiveCall || this.#setEnvpConsumed.has(call)) return unknown('Fresh non-reentrant environment import required');
+    this.#setEnvpActiveCall = call;
+    try {
+      const input = NativeX86ThreadStack.setEnvpArgumentsForPlatform(this, call); if (!input.known) return input;
+      const result = input.value.site === '20477ce8'
+        ? NativeModuleCrtOwner.heapAllocForSetEnvpCall(input.value.crt, this, call)
+        : NativeModuleCrtOwner.heapFreeForSetEnvpCall(input.value.crt, this, call);
+      if (!result.known) return result;
+      // The graph's phase-specific proof accepts an exact retired release;
+      // ordinary live access remains permanently rejected at this point.
+      const after = NativeX86ThreadStack.setEnvpArgumentsForPlatform(this, call); if (!after.known) return after;
+      this.#setEnvpNormal.set(call, result.value); return result;
+    } catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
+    finally { this.#setEnvpActiveCall = null; }
   }
   static canonicalProcessInputEndpointsForPlatform(platform: NativeRuntimePlatform,
     endpoints: NativeWin32ProcessInputEndpoints): NativeValue<void> {
@@ -1067,7 +1227,9 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
       return unknown('Actual active selected HeapCreate owner and original options required');
     }
     const capability = Object.freeze({ identity: Object.freeze({}), owner });
-    this.#winHeaps.set(capability.identity, { capability, options, allocations: new Set(), destroyed: false });
+    const game = NativeModuleCrtOwner.canonicalGameHeapOwnerIdentityForPlatform(this, owner);
+    this.#winHeaps.set(capability.identity, { capability, options, allocations: new Set(), destroyed: false,
+      gameOwner: game.known ? game.value : undefined });
     return known(capability);
   }
   win32HeapAlloc(heap: NativeWin32HeapCapability, flags: 0 | 8, bytes: number): NativeValue<NativeMemoryBacking | null> {
@@ -1078,14 +1240,32 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     if (!retained || retained.capability !== heap || retained.destroyed || (flags !== 0 && flags !== 8)) {
       return unknown('Actual live selected HeapAlloc handle and flags required');
     }
-    const allocated = this.#allocate(bytes, 'win32-heap');
+    if (!Number.isInteger(bytes) || bytes < 0 || bytes > 0xffffffff) return unknown('Original HeapAlloc uint32 request required');
+    const rounded = !!this.#crtServices?.setEnvp && !!retained.gameOwner;
+    const capacity = rounded ? Math.ceil(bytes / 8) * 8 : bytes;
+    if (capacity > 0xffffffff) return unknown('Fresh virtual physical heap capacity exceeds uint32');
+    const allocated = this.#allocate(capacity, 'win32-heap');
     if (allocated.known && allocated.value) {
       retained.allocations.add(allocated.value);
-      // The admitted x86 HeapAlloc contract returns an eight-byte-aligned
-      // block. Its retained capacity stays exact; no padding is invented.
+      // Omitted policy retains exact capacity. A fresh selected Game heap
+      // declares rounded physical capacity, independently of the logical request.
+      // Padding is retained uninitialized with mask0, not host observations.
       this.#backing.get(allocated.value.identity)!.nativeGeometry = Object.freeze({ alignment: 'win32-heap-eight',
         bytes: allocated.value.bytes, masks: allocated.value.knownMask, capacity: allocated.value.bytes.length });
-      if (flags === 8) { allocated.value.bytes.fill(0); allocated.value.knownMask.fill(255); }
+      if (flags === 8) { allocated.value.bytes.fill(0, 0, bytes); allocated.value.knownMask.fill(255, 0, bytes); }
+      if (rounded) {
+        const backing = allocated.value;
+        for (const key of ['identity', 'bytes', 'knownMask'] as const) Object.defineProperty(backing, key, {
+          value: backing[key], writable: false, configurable: false, enumerable: true });
+        Object.defineProperty(backing, 'freed', { value: false, writable: true, configurable: false, enumerable: true });
+        const logical = new NativeHeapObjectViews(backing, 0, bytes);
+        const physical = bytes === capacity ? logical : new NativeHeapObjectViews(backing, 0, capacity);
+        for (const fields of [logical, physical]) { Object.freeze(fields.view); Object.freeze(fields); }
+        this.#heapAllocationViews.set(backing, Object.freeze({ backing, heap, owner: retained.gameOwner!,
+          requestedBytes: bytes, physicalCapacity: capacity, bytes: backing.bytes, masks: backing.knownMask,
+          logical, physical, logicalBytes: logical.bytes, logicalMasks: logical.knownMask, logicalView: logical.view,
+          physicalBytes: physical.bytes, physicalMasks: physical.knownMask, physicalView: physical.view }));
+      }
     }
     return allocated;
   }
