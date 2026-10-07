@@ -84,12 +84,49 @@ interface State {
   active: Set<string | object>; failed: Set<string | object>; trace: string[]; records: Set<NativeHeapObjectViews>;
 }
 const shared = new WeakMap<NativeModuleCrtOwner, State>();
+interface PtdStorageProof {
+  readonly backing: NativeHeapObjectViews['backing'];
+  readonly backingIdentity: object;
+  readonly backingBytes: Uint8Array; readonly backingMasks: Uint8Array;
+  readonly root: NativeMemoryBacking; readonly rootIdentity: object;
+  readonly rootBytes: Uint8Array; readonly rootMasks: Uint8Array;
+  readonly bytes: Uint8Array; readonly masks: Uint8Array; readonly view: DataView;
+  readonly position: number;
+}
+const ptdStorage = new WeakMap<NativeHeapObjectViews, PtdStorageProof>();
 export interface NativeCrtThreadStartupHost { readonly crt: NativeModuleCrtOwner; initPointers(): NativeValue<void>; }
 export class NativeCrtThreadStartup {
   private readonly source: Rules;
   private readonly s: State;
   readonly physical: State['physical'];
   private readonly destructor: NativeCrtThreadDestructor;
+  /** Read-only membership proof for an already initialized CRT PTD. This never
+   * acquires TLS storage, initializes a record or replays startup. */
+  static canonicalPtdForCrt(crt: NativeModuleCrtOwner, value: object): NativeValue<NativeHeapObjectViews> {
+    if (!NativeModuleCrtOwner.isConstructedOwner(crt)) return unknown('Actual constructed CRT owner required for PTD proof');
+    const state = shared.get(crt);
+    if (!state || state.phase !== 'ready' || state.boundary !== null ||
+        !(value instanceof NativeHeapObjectViews) || !state.records.has(value)) {
+      return unknown('Actual ready same-CRT retained PTD record required');
+    }
+    const proof = ptdStorage.get(value);
+    if (!proof) return unknown('Actual retained PTD storage proof required');
+    const backing = value.backing, root = 'region' in backing ? backing.region : backing;
+    if (backing !== proof.backing || backing.identity !== proof.backingIdentity || backing.freed ||
+        backing.bytes !== proof.backingBytes || backing.knownMask !== proof.backingMasks ||
+        root !== proof.root || root.identity !== proof.rootIdentity || root.freed ||
+        root.bytes !== proof.rootBytes || root.knownMask !== proof.rootMasks ||
+        value.bytes !== proof.bytes || value.knownMask !== proof.masks || value.view !== proof.view ||
+        value.bytes.length !== 532 || value.knownMask.length !== 532 || root.bytes.length !== root.knownMask.length ||
+        proof.position < 0 || proof.position + 532 > root.bytes.length ||
+        proof.position !== ('region' in backing ? backing.offset : 0) + value.bytes.byteOffset - backing.bytes.byteOffset ||
+        value.bytes.buffer !== root.bytes.buffer || value.bytes.byteOffset !== root.bytes.byteOffset + proof.position ||
+        value.knownMask.buffer !== root.knownMask.buffer || value.knownMask.byteOffset !== root.knownMask.byteOffset + proof.position ||
+        value.view.buffer !== value.bytes.buffer || value.view.byteOffset !== value.bytes.byteOffset || value.view.byteLength !== 532) {
+      return unknown('Actual retained live PTD physical storage required');
+    }
+    return known(value);
+  }
   constructor(readonly host: NativeCrtThreadStartupHost) {
     const source = this.source = host.crt.module === 'Engine' ? engineSource : host.crt.sourceProfile.bootstrapRules as Rules;
     if (host.crt.module === 'Game') admitGameCrtStartupSource(source,
@@ -165,7 +202,17 @@ export class NativeCrtThreadStartup {
     return value;
   }
   private calloc(): NativeHeapObjectViews | null {
-    const backing = this.call('callocCrt(1,532)', () => this.crt.callocCrt(1, 532), value => { if (value) this.s.records.add(new NativeHeapObjectViews(value, 0, 532)); });
+    const backing = this.call('callocCrt(1,532)', () => this.crt.callocCrt(1, 532), value => {
+      if (!value) return;
+      const record = new NativeHeapObjectViews(value, 0, 532), backing = record.backing;
+      const root = 'region' in backing ? backing.region : backing;
+      canonical(record, 532);
+      ptdStorage.set(record, Object.freeze({ backing, backingIdentity: backing.identity,
+        backingBytes: backing.bytes, backingMasks: backing.knownMask, root, rootIdentity: root.identity,
+        rootBytes: root.bytes, rootMasks: root.knownMask, bytes: record.bytes, masks: record.knownMask,
+        view: record.view, position: 'region' in backing ? backing.offset : 0 }));
+      this.s.records.add(record);
+    });
     return backing ? [...this.s.records].find(record => record.backing === backing)! : null;
   }
   private originalPointer(fields: NativeHeapObjectViews, offset: number, address: number, target: NativeHeapObjectViews): NativeHeapObjectViews | null {

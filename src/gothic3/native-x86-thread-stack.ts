@@ -11,6 +11,8 @@ import type { NativeX86ThreadStackSelection } from './native-x86-thread-stack-pr
 import type { NativeStartupInfoCallGrant } from './native-win32-startup-io';
 import type { NativeWin32HeapCapability } from './native-runtime-platform';
 import type { NativeBytePointer } from './native-pointer-geometry';
+import type { NativeStandardIoCallSite, NativeStandardIoCallKind, NativeStandardIoCallGrant,
+  NativeStandardIoCapabilityKind } from './native-win32-standard-io';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = (reason: string): { known: false; reason: string } => ({ known: false, reason });
@@ -19,13 +21,14 @@ export type NativeX86Register = 'EAX' | 'EBX' | 'ECX' | 'EDX' | 'ESI' | 'EDI' | 
 const registers: readonly NativeX86Register[] = ['EAX', 'EBX', 'ECX', 'EDX', 'ESI', 'EDI', 'EBP', 'ESP'];
 export interface NativeX86Word32 { readonly identity: object; }
 export interface NativeHeapAllocCallGrant { readonly identity: object; }
-export type NativeX86Condition = 'z' | 'nz' | 'be' | 'a' | 'c';
+export type NativeX86Condition = 'z' | 'nz' | 'be' | 'a' | 'c' | 'l';
 type Width = 1 | 2 | 4;
-interface Allocation { readonly fields: NativeHeapObjectViews; readonly heap: NativeWin32HeapCapability; readonly crt: NativeModuleCrtOwner; }
+interface Allocation { readonly fields: NativeHeapObjectViews; readonly heap: NativeWin32HeapCapability; readonly crt: NativeModuleCrtOwner; readonly ptd?: true; }
 type WordRecord = Readonly<{ value: number; mask: number; provenance?:
   Readonly<{ kind: 'stack'; offset: number }> |
   Readonly<{ kind: 'heap'; heap: NativeWin32HeapCapability }> |
   Readonly<{ kind: 'allocation'; allocation: Allocation; offset: number; pointer: NativeBytePointer }> |
+  Readonly<{ kind: 'platform'; object: object; category: NativeStandardIoCapabilityKind }> |
   Readonly<{ kind: 'source'; type: 'code' | 'image'; address: string; fields?: NativeHeapObjectViews }> |
   Readonly<{ kind: 'xor'; left: NativeX86Word32; right: NativeX86Word32 }> }>;
 interface Slot { readonly word: NativeX86Word32; readonly bytes: readonly number[]; readonly masks: readonly number[]; }
@@ -44,10 +47,32 @@ interface HeapCall {
   readonly bytes: number; readonly position: number; readonly frame: number; readonly returnWord: NativeX86Word32;
   phase: 'pending' | 'returned';
 }
+export interface NativeStandardIoArguments {
+  readonly site: NativeStandardIoCallSite; readonly kind: NativeStandardIoCallKind; readonly crt: NativeModuleCrtOwner;
+  readonly scalar?: number; readonly object?: object | null; readonly procedure?: object;
+  readonly section?: NativeBytePointer; readonly sectionFields?: NativeHeapObjectViews;
+}
+interface StandardCall {
+  readonly stack: NativeX86ThreadStack; readonly controller: object; readonly args: NativeStandardIoArguments;
+  readonly position: number; readonly frame: number; readonly fs: NativeX86Word32;
+  readonly argumentWords: readonly NativeX86Word32[]; readonly returnWord: NativeX86Word32;
+  readonly argumentBytes: 4 | 8; phase: 'pending' | 'returned';
+}
+const standardSites: Readonly<Record<NativeStandardIoCallSite, Readonly<{ kind: NativeStandardIoCallKind; returnAddress: string; argumentBytes: 4 | 8; position: number }>>> = Object.freeze({
+  '204744b4': Object.freeze({ kind: 'GetStdHandle', returnAddress: '204744ba', argumentBytes: 4, position: -0x7c }),
+  '204744c6': Object.freeze({ kind: 'GetFileType', returnAddress: '204744cc', argumentBytes: 4, position: -0x7c }),
+  '20467de8': Object.freeze({ kind: 'TlsGetValue', returnAddress: '20467dea', argumentBytes: 4, position: -0x48 }),
+  '20467dff': Object.freeze({ kind: 'TlsGetValue', returnAddress: '20467e01', argumentBytes: 4, position: -0x4c }),
+  '20467e01': Object.freeze({ kind: 'FlsGetValue', returnAddress: '20467e03', argumentBytes: 4, position: -0x48 }),
+  '20467e3d': Object.freeze({ kind: 'DecodePointer', returnAddress: '20467e3f', argumentBytes: 4, position: -0x48 }),
+  '20474246': Object.freeze({ kind: 'InitializeCriticalSectionAndSpinCount', returnAddress: '20474248', argumentBytes: 8, position: -0x40 }),
+  '2047451e': Object.freeze({ kind: 'SetHandleCount', returnAddress: '20474524', argumentBytes: 4, position: -0x7c }),
+});
 const graphs = new WeakMap<NativeRuntimePlatform, NativeX86ThreadStack>();
 const retirements = new WeakMap<NativeX86ThreadStack, () => void>();
 const startupCalls = new WeakMap<NativeStartupInfoCallGrant, StartupCall>();
 const heapCalls = new WeakMap<NativeHeapAllocCallGrant, HeapCall>();
+const standardCalls = new WeakMap<NativeStandardIoCallGrant, StandardCall>();
 const constructionToken = token;
 function physical(bytes: number): NativeHeapObjectViews {
   const backing: NativeMemoryBacking = { identity: Object.freeze({}), bytes: new Uint8Array(bytes), knownMask: new Uint8Array(bytes), freed: false };
@@ -75,6 +100,11 @@ export class NativeX86ThreadStack {
   readonly #storage = new WeakMap<NativeHeapObjectViews, PhysicalProof>();
   readonly #startupViews = new Map<number, NativeHeapObjectViews>();
   readonly #nativePointers = new WeakMap<object, NativeX86Word32>();
+  readonly #objects = new WeakMap<object, NativeX86Word32>();
+  readonly #sectionViews = new Map<NativeMemoryBacking, Map<number, NativeHeapObjectViews>>();
+  readonly #standardIoRows: { site: NativeStandardIoCallSite; callPushed: boolean; called: boolean; returned: boolean; sectionRegistered: boolean }[] = [];
+  #standardGrant: NativeStandardIoCallGrant | null = null;
+  #initial: Readonly<{ esp: NativeX86Word32; ebp: NativeX86Word32; ebx: NativeX86Word32; esi: NativeX86Word32; edi: NativeX86Word32; fs: NativeX86Word32 }> | null = null;
   readonly #calls: { site: string; returnWord: NativeX86Word32; position: number; returned: boolean }[] = [];
   #startupGrant: NativeStartupInfoCallGrant | null = null;
   #startupInfoCallPushed = false;
@@ -86,7 +116,7 @@ export class NativeX86ThreadStack {
   #heapAllocReturned = false;
   #heapAllocBlockAllocated = false;
   #binding: Binding | null = null;
-  #phase: 'cold' | 'running' | 'blocked' | 'retired' = 'cold';
+  #phase: 'cold' | 'running' | 'returned' | 'blocked' | 'retired' = 'cold';
   #boundary: string | null = null;
   #executing = false;
   #currentPc: NativeX86Word32 | null = null;
@@ -146,6 +176,28 @@ export class NativeX86ThreadStack {
     if (!call || graphs.get(platform) !== call.stack) return unknown('Actual private same-platform HeapAlloc call required');
     try { call.stack.#heapProof(grant, call); return known(Object.freeze({ crt: call.crt, heap: call.heap, flags: 8, bytes: call.bytes })); }
     catch (error) { return unknown(reason(error)); }
+  }
+  static standardIoArgumentsForPlatform(platform: NativeRuntimePlatform,
+    grant: NativeStandardIoCallGrant): NativeValue<NativeStandardIoArguments> {
+    const active = NativeRuntimePlatform.canonicalStandardIoInvocationForPlatform(platform, grant); if (!active.known) return active;
+    const call = standardCalls.get(grant);
+    if (!call || graphs.get(platform) !== call.stack) return unknown('Actual private same-platform standard-I/O call required');
+    try { call.stack.#standardProof(grant, call); return known(call.args); }
+    catch (error) { return unknown(reason(error)); }
+  }
+  static invalidateStandardIoSectionForCall(platform: NativeRuntimePlatform, grant: NativeStandardIoCallGrant): NativeValue<void> {
+    const args = NativeX86ThreadStack.standardIoArgumentsForPlatform(platform, grant); if (!args.known) return args;
+    if (args.value.kind !== 'InitializeCriticalSectionAndSpinCount' || !args.value.section) return unknown('Actual pending section call required');
+    const call = standardCalls.get(grant)!, pointer = args.value.section;
+    try {
+      for (let offset = 0; offset < 24; offset += 4) {
+        call.stack.#standardProof(grant, call);
+        call.stack.#invalidateRange(pointer.fields, pointer.offset + offset, 4);
+        const word = NativeHeapObjectViews.prototype.maskedWord.call(pointer.fields, pointer.offset + offset);
+        word.knownMask = 0;
+      }
+      call.stack.#standardProof(grant, call); return known(undefined);
+    } catch (error) { return unknown(reason(error)); }
   }
   /** Only the Runtime's exact currently executing endpoint may write the
    * privately resolved frame. This never exposes its alias or controller. */
@@ -217,6 +269,94 @@ export class NativeX86ThreadStack {
       throw new Error('Actual nested calloc call and FS registration required');
     }
   }
+  #gameScalar(label: string, offset = 0): number {
+    const crt = this.#binding!.crt, image = NativeModuleCrtOwner.canonicalImageForOwner(crt, label);
+    if (!image.known) throw new Error(image.reason);
+    const access = NativeRuntimePlatform.canonicalGameModuleImageAccessForPlatform(this.#platform, crt, label, offset, 4);
+    if (!access.known) throw new Error(access.reason);
+    return NativeHeapObjectViews.prototype.readUnsigned.call(image.value, offset);
+  }
+  #platformObject(word: NativeX86Word32, category?: NativeStandardIoCapabilityKind): object {
+    const p = this.#liveWord(word).provenance;
+    if (p?.kind !== 'platform' || (category !== undefined && p.category !== category)) throw new Error('Actual matching private Runtime procedure/handle word required');
+    return p.object;
+  }
+  #objectWord(value: object): NativeX86Word32 {
+    const old = this.#objects.get(value); if (old) { this.#liveWord(old); return old; }
+    if (value instanceof NativeHeapObjectViews) {
+      const crt = this.#binding!.crt, ptd = NativeModuleCrtOwner.canonicalGamePtdForPlatform(crt, this.#platform, value);
+      if (!ptd.known) throw new Error(ptd.reason);
+      const heap = NativeModuleCrtOwner.canonicalGameHeapForAllocation(crt, this.#platform, Object.freeze({ fields: ptd.value, offset: 0 }));
+      if (!heap.known) throw new Error(heap.reason);
+      const word = this.#allocationWord(Object.freeze({ fields: ptd.value, heap: heap.value, crt, ptd: true }), 0);
+      this.#objects.set(value, word); return word;
+    }
+    const kind = NativeRuntimePlatform.standardIoCapabilityForPlatform(this.#platform, value); if (!kind.known) throw new Error(kind.reason);
+    const word = this.#mint(0, 0, { kind: 'platform', object: value, category: kind.value }); this.#objects.set(value, word); return word;
+  }
+  #standardProof(grant: NativeStandardIoCallGrant, call: StandardCall): void {
+    this.#check(call.controller);
+    const binding = this.#binding!, site = NativeGameCrtIoInit.canonicalStandardIoCallForCrt(binding.owner, binding.crt, call.controller, call.args.site);
+    if (!site.known) throw new Error(site.reason);
+    const spec = standardSites[call.args.site], top = this.#calls.at(-1);
+    if (!this.#executing || this.#standardGrant !== grant || call.phase !== 'pending' || call.stack !== this || call.args.crt !== binding.crt ||
+        this.#address(this.#load(this.#bank, this.#reg('EBP'))) !== call.frame ||
+        this.#address(this.#load(this.#bank, this.#reg('ESP'))) !== call.position || call.position !== call.frame + spec.position ||
+        this.#load(this.#bank, 32) !== call.fs || this.#address(call.fs) !== call.frame - 0x10 ||
+        !top || top.returned || top.site !== call.args.site || top.position !== call.position || top.returnWord !== call.returnWord ||
+        this.#load(this.#stack, call.position) !== call.returnWord ||
+        call.argumentWords.some((word, index) => this.#load(this.#stack, call.position + 4 + index * 4) !== word)) {
+      throw new Error('Actual pending standard-I/O call/current frame/FS/arguments/return required');
+    }
+    for (const word of call.argumentWords) this.#liveWord(word);
+    const incoming = [...this.#calls].reverse().find(entry => !entry.returned && entry.site === '204678ce');
+    if (!incoming || this.#load(this.#stack, incoming.position) !== incoming.returnWord) throw new Error('Actual original outer IO call required');
+    const nested = !['204744b4', '204744c6', '2047451e'].includes(call.args.site);
+    if (nested) {
+      const helper = [...this.#calls].reverse().find(entry => !entry.returned && entry.site === '204744f4');
+      const parent = this.#load(this.#stack, call.frame), outer = this.#address(parent);
+      if (!helper || helper.position !== call.frame + 4 || this.#load(this.#stack, helper.position) !== helper.returnWord ||
+          outer + 4 !== incoming.position || this.#address(this.#load(this.#stack, call.frame - 0x10)) !== outer - 0x10) {
+        throw new Error('Actual nested section caller and outer FS registration required');
+      }
+      if (call.args.site !== '20474246') {
+        const wrapper = [...this.#calls].reverse().find(entry => !entry.returned && entry.site === '204741de');
+        if (!wrapper || wrapper.position !== call.frame - 0x3c || this.#load(this.#stack, wrapper.position) !== wrapper.returnWord) {
+          throw new Error('Actual pending cached DecodePointer source wrapper required');
+        }
+      }
+    } else if (incoming.position !== call.frame + 4) throw new Error('Actual outer IO frame required');
+    switch (call.args.kind) {
+      case 'TlsGetValue':
+        if (this.#numeric(call.argumentWords[0]!, 4) !== this.#gameScalar('crtTlsIndexes', 4) ||
+            this.#platformObject(this.#load(this.#bank, this.#reg('ESI')), 'tls-get') !== call.args.procedure) throw new Error('Current TLS getter/index changed');
+        break;
+      case 'FlsGetValue':
+        if (this.#numeric(call.argumentWords[0]!, 4) !== this.#gameScalar('crtTlsIndexes', 0) ||
+            this.#platformObject(this.#load(this.#bank, this.#reg('EAX')), 'fls-get') !== call.args.procedure) throw new Error('Current FLS getter/PTD index changed');
+        break;
+      case 'DecodePointer':
+        if (this.#platformObject(call.argumentWords[0]!, 'encoded') !== call.args.object ||
+            this.#platformObject(this.#load(this.#bank, this.#reg('EAX')), 'decode') !== call.args.procedure) throw new Error('Current DecodePointer procedure/argument changed');
+        break;
+      case 'InitializeCriticalSectionAndSpinCount': {
+        const address = this.#liveWord(call.argumentWords[0]!).provenance, record = this.#liveWord(this.#load(this.#bank, this.#reg('ESI'))).provenance;
+        // ESI holds the selected procedure inside the helper; the original
+        // record pointer is source-saved at the section frame's -0x2c.
+        const saved = this.#liveWord(this.#load(this.#stack, call.frame - 0x2c)).provenance;
+        if (record?.kind !== 'platform' || record.category !== 'section' || address?.kind !== 'allocation' || saved?.kind !== 'allocation' ||
+            address.allocation !== saved.allocation || address.offset !== saved.offset + 12 || this.#numeric(call.argumentWords[1]!, 4) !== 4000 ||
+            address.pointer !== call.args.section || this.#platformObject(this.#load(this.#bank, this.#reg('ESI')), 'section') !== call.args.procedure) {
+          throw new Error('Current section procedure/record+0xc alias/spin arguments required');
+        }
+        this.#allocationLive(address.allocation, address.offset, 24); break;
+      }
+      case 'GetFileType': if (this.#platformObject(call.argumentWords[0]!, 'handle') !== call.args.object) throw new Error('Current GetFileType handle changed'); break;
+      case 'GetStdHandle':
+        if (![0xfffffff6, 0xfffffff5, 0xfffffff4].includes(this.#numeric(call.argumentWords[0]!, 4))) throw new Error('Actual standard ID argument required'); break;
+      case 'SetHandleCount': if (this.#numeric(call.argumentWords[0]!, 4) !== this.#gameScalar('ioHandleCount')) throw new Error('Current handle-count argument changed'); break;
+    }
+  }
   #controllerProof(controller: object, mode: 'invoke' | 'retain' = 'invoke'): void {
     const binding = this.#binding;
     if (!binding || binding.controller !== controller || graphs.get(this.#platform) !== this) throw new Error('Actual private bound x86 controller required');
@@ -282,6 +422,10 @@ export class NativeX86ThreadStack {
     const access = NativeRuntimePlatform.canonicalGameHeapDestination(this.#platform, allocation.crt,
       Object.freeze({ fields: allocation.fields, offset }), bytes);
     if (!access.known) throw new Error(access.reason);
+    if (allocation.ptd) {
+      const ptd = NativeModuleCrtOwner.canonicalGamePtdForPlatform(allocation.crt, this.#platform, allocation.fields);
+      if (!ptd.known || ptd.value !== allocation.fields) throw new Error(ptd.known ? 'Retained PTD identity changed' : ptd.reason);
+    }
   }
   #allocationWord(allocation: Allocation, offset: number): NativeX86Word32 {
     this.#allocationLive(allocation, offset, 0);
@@ -307,12 +451,26 @@ export class NativeX86ThreadStack {
     const cells = this.#imageReads.get(fields);
     if (cells) for (const position of cells.keys()) if (position < offset + width && position + 4 > offset) cells.delete(position);
   }
+  #invalidateRange(fields: NativeHeapObjectViews, offset: number, bytes: number): void {
+    const begin = fields.bytes.byteOffset + offset, end = begin + bytes;
+    for (const maps of [this.#slots, this.#imageReads]) for (const [alias, cells] of maps) {
+      if (alias.bytes.buffer !== fields.bytes.buffer) continue;
+      for (const position of cells.keys()) {
+        const cell = alias.bytes.byteOffset + position;
+        if (cell < end && cell + 4 > begin) cells.delete(position);
+      }
+    }
+  }
   #liveWord(word: NativeX86Word32): WordRecord {
     const record = this.#record(word), p = record.provenance;
     if (p?.kind === 'allocation') this.#allocationLive(p.allocation, p.offset, 0);
     if (p?.kind === 'heap') {
       const heap = NativeModuleCrtOwner.canonicalGameHeapHandleForPlatform(this.#binding!.crt, this.#platform);
       if (!heap.known || heap.value !== p.heap) throw new Error(heap.known ? 'Current heap word differs from its actual Game heap' : heap.reason);
+    }
+    if (p?.kind === 'platform') {
+      const kind = NativeRuntimePlatform.standardIoCapabilityForPlatform(this.#platform, p.object);
+      if (!kind.known || kind.value !== p.category) throw new Error(kind.known ? 'Retained Runtime capability category changed' : kind.reason);
     }
     return record;
   }
@@ -397,7 +555,11 @@ export class NativeX86ThreadStack {
     try { this.#controllerProof(controller); } catch (error) { return unknown(reason(error)); }
     try {
       if (this.#phase !== 'cold') throw new Error(this.#boundary ?? 'Actual ioInit CALL cannot restart');
-      this.#phase = 'running'; return this.#run(controller, () => this.#call('204678ce', '204678d3'));
+      this.#phase = 'running'; return this.#run(controller, () => {
+        this.#initial = Object.freeze({ esp: this.#load(this.#bank, this.#reg('ESP')), ebp: this.#load(this.#bank, this.#reg('EBP')),
+          ebx: this.#load(this.#bank, this.#reg('EBX')), esi: this.#load(this.#bank, this.#reg('ESI')), edi: this.#load(this.#bank, this.#reg('EDI')), fs: this.#load(this.#bank, 32) });
+        this.#call('204678ce', '204678d3');
+      });
     } catch (error) { this.#boundary ??= reason(error); this.#phase = 'blocked'; return unknown(this.#boundary); }
   }
   register(controller: object, name: NativeX86Register): NativeValue<NativeX86Word32> { return this.#run(controller, () => this.#load(this.#bank, this.#reg(name))); }
@@ -421,8 +583,8 @@ export class NativeX86ThreadStack {
   }); }
   sourceAddress(controller: object, type: 'code' | 'image', address: string): NativeValue<NativeX86Word32> { return this.#run(controller, () => this.#source(type, address)); }
   registerSourceImage(controller: object, address: string, fields: NativeHeapObjectViews): NativeValue<void> { return this.#run(controller, () => {
-    const label = address === '206e8e90' ? 'ioInitEH4Scope' : address === '206e8f98' ? 'callocEH4Scope' : null;
-    if (!label) throw new Error('Only the exact admitted ioInit/calloc EH4 scopes are owned');
+    const label = address === '206e8e90' ? 'ioInitEH4Scope' : address === '206e8f98' ? 'callocEH4Scope' : address === '206e8e70' ? 'sectionInitExceptionTable' : null;
+    if (!label) throw new Error('Only the exact admitted ioInit/calloc/section EH4 scopes are owned');
     const crt = this.#binding!.crt, selected = NativeModuleCrtOwner.canonicalImageForOwner(crt, label);
     if (!selected.known || selected.value !== fields) throw new Error('Actual same-Game canonical scope image required');
     const receipt = nativeGameImageReceipt(label);
@@ -445,6 +607,7 @@ export class NativeX86ThreadStack {
       if (!heap.known || heap.value !== pointer) throw new Error(heap.known ? 'Actual current Game heap image pointer required' : heap.reason);
       return this.#mint(0, 0, { kind: 'heap', heap: heap.value });
     }
+    if (label === 'crtSectionInitializer' && offset === 0) return this.#objectWord(pointer);
     const word = this.#nativePointers.get(pointer);
     if (!word || this.#liveWord(word).provenance?.kind !== 'allocation') throw new Error('Current image pointer lacks an actual returned allocation capability');
     return word;
@@ -501,6 +664,16 @@ export class NativeX86ThreadStack {
     const zero = (r: WordRecord) => r.mask === 0xffffffff && r.value === 0;
     if (width === 4 && pointer(a) && zero(b)) { this.#flags(0, 0x41); return; }
     if (width === 4 && zero(a) && pointer(b)) { this.#flags(1, 0x41); return; }
+    // Opaque capabilities establish equality relations, never invented
+    // numerical address ordering or sign bits. A minted valid handle is
+    // distinct from NULL and the two native invalid-handle sentinels.
+    if (width === 4 && p?.kind === 'platform' && q?.kind === 'platform') {
+      this.#flags(p.object === q.object ? 0x40 : 0, 0x40); return;
+    }
+    const excluded = (cap: WordRecord, scalar: WordRecord) => cap.provenance?.kind === 'platform' &&
+      scalar.mask === 0xffffffff && (scalar.value === 0 ||
+        (cap.provenance.category === 'handle' && (scalar.value === 0xffffffff || scalar.value === 0xfffffffe)));
+    if (width === 4 && (excluded(a, b) || excluded(b, a))) { this.#flags(0, 0x40); return; }
     if (((a.mask & maximum) >>> 0) !== maximum || ((b.mask & maximum) >>> 0) !== maximum) {
       const unequal = ((a.value ^ b.value) & a.mask & b.mask & maximum) !== 0;
       this.#flags(0, unequal ? 0x40 : 0); return;
@@ -510,15 +683,15 @@ export class NativeX86ThreadStack {
   }); }
   test(controller: object, left: NativeX86Word32, right: NativeX86Word32, width: Width = 4): NativeValue<void> { return this.#run(controller, () => {
     const a = this.#liveWord(left), b = this.#liveWord(right);
-    if (width === 4 && left === right && (a.provenance?.kind === 'allocation' || a.provenance?.kind === 'heap')) { this.#flags(0, 0x841); return; }
+    if (width === 4 && left === right && (a.provenance?.kind === 'allocation' || a.provenance?.kind === 'heap' || a.provenance?.kind === 'platform')) { this.#flags(0, 0x841); return; }
     const mask = (a.mask & b.mask) | ((~a.value) & a.mask) | ((~b.value) & b.mask);
     this.#logicalFlags(a.value & b.value, mask, width);
   }); }
   condition(controller: object, condition: NativeX86Condition): NativeValue<boolean> { return this.#run(controller, () => {
-    const flags = this.#record(this.#load(this.#bank, 36)), required = condition === 'be' || condition === 'a' ? 0x41 : condition === 'c' ? 1 : 0x40;
-    if (!['z', 'nz', 'be', 'a', 'c'].includes(condition) || (flags.mask & required) !== required) throw new Error('Current known consumed x86 branch flags required');
+    const flags = this.#record(this.#load(this.#bank, 36)), required = condition === 'be' || condition === 'a' ? 0x41 : condition === 'c' ? 1 : condition === 'l' ? 0x880 : 0x40;
+    if (!['z', 'nz', 'be', 'a', 'c', 'l'].includes(condition) || (flags.mask & required) !== required) throw new Error('Current known consumed x86 branch flags required');
     const z = (flags.value & 0x40) !== 0, c = (flags.value & 1) !== 0;
-    return condition === 'z' ? z : condition === 'nz' ? !z : condition === 'be' ? c || z : condition === 'a' ? !c && !z : c;
+    return condition === 'z' ? z : condition === 'nz' ? !z : condition === 'be' ? c || z : condition === 'a' ? !c && !z : condition === 'l' ? !!(flags.value & 0x80) !== !!(flags.value & 0x800) : c;
   }); }
   alu(controller: object, op: 'add' | 'sub' | 'sbb' | 'imul' | 'or' | 'and', left: NativeX86Word32, right: NativeX86Word32,
     width: Width = 4): NativeValue<NativeX86Word32> { return this.#run(controller, () => {
@@ -557,6 +730,16 @@ export class NativeX86ThreadStack {
     const after = this.#record(this.#load(this.#bank, 36)); this.#flags((after.value & ~1) | (before.value & 1), (after.mask & ~1) | (before.mask & 1));
     return this.#mint(result, maximum);
   }); }
+  decrement(controller: object, word: NativeX86Word32, width: Width = 4): NativeValue<NativeX86Word32> { return this.#run(controller, () => {
+    const maximum = this.#maximum(width), before = this.#record(this.#load(this.#bank, 36)), value = this.#numeric(word, width), result = ((value - 1) & maximum) >>> 0;
+    this.#arithmeticFlags(value, 1, result, width, true);
+    const after = this.#record(this.#load(this.#bank, 36)); this.#flags((after.value & ~1) | (before.value & 1), (after.mask & ~1) | (before.mask & 1));
+    return this.#mint(result, maximum);
+  }); }
+  negate(controller: object, word: NativeX86Word32, width: Width = 4): NativeValue<NativeX86Word32> { return this.#run(controller, () => {
+    const maximum = this.#maximum(width), value = this.#numeric(word, width), result = (-value & maximum) >>> 0;
+    this.#arithmeticFlags(0, value, result, width, true); return this.#mint(result, maximum);
+  }); }
   divideUnsigned(controller: object, divisor: NativeX86Word32): NativeValue<void> { return this.#run(controller, () => {
     const d = this.#numeric(divisor, 4), high = this.#numeric(this.#load(this.#bank, this.#reg('EDX')), 4), low = this.#numeric(this.#load(this.#bank, this.#reg('EAX')), 4);
     if (d === 0) throw new Error('Actual DIV zero divisor requires an unowned native exception');
@@ -568,14 +751,39 @@ export class NativeX86ThreadStack {
   loadWidth(controller: object, address: NativeX86Word32, width: Width): NativeValue<NativeX86Word32> { return this.#run(controller, () => {
     this.#maximum(width); const memory = this.#memory(address, width);
     if (width === 4 && memory.fields === this.#stack) return this.#load(memory.fields, memory.offset);
+    if (width === 4) {
+      const slot = this.#slots.get(memory.fields)?.get(memory.offset), p = slot && this.#record(slot.word).provenance;
+      if (p?.kind === 'platform' || p?.kind === 'allocation') {
+        const current = NativeHeapObjectViews.prototype.pointer.call(memory.fields, memory.offset).get();
+        if (current !== (p.kind === 'platform' ? p.object : p.pointer)) throw new Error('Current allocation pointer sidecar changed outside its source store');
+        this.#liveWord(slot!.word); return this.#load(memory.fields, memory.offset);
+      }
+    }
     const word = NativeHeapObjectViews.prototype.maskedWord.call(memory.fields, memory.offset, width); return this.#mint(word.value, word.knownMask);
   }); }
   storeWidth(controller: object, address: NativeX86Word32, word: NativeX86Word32, width: Width): NativeValue<void> { return this.#run(controller, () => {
     const maximum = this.#maximum(width), memory = this.#memory(address, width), record = this.#record(word);
     if (width === 4 && memory.fields === this.#stack) { this.#store(memory.fields, memory.offset, word); return; }
+    const p = this.#liveWord(word).provenance;
+    if (width === 4 && (p?.kind === 'platform' || p?.kind === 'allocation')) {
+      this.#invalidateRange(memory.fields, memory.offset, 4); this.#store(memory.fields, memory.offset, word);
+      NativeHeapObjectViews.prototype.pointer.call(memory.fields, memory.offset).set(p.kind === 'platform' ? p.object : p.pointer); return;
+    }
     this.#invalidate(memory.fields, memory.offset, width);
     const field = NativeHeapObjectViews.prototype.maskedWord.call(memory.fields, memory.offset, width);
     field.value = (record.value & maximum) >>> 0; field.knownMask = (record.mask & maximum) >>> 0;
+  }); }
+  loadPointer(controller: object, address: NativeX86Word32): NativeValue<NativeX86Word32> { return this.#run(controller, () => {
+    const memory = this.#memory(address, 4), pointer = NativeHeapObjectViews.prototype.pointer.call(memory.fields, memory.offset).get();
+    if (pointer === null) return this.#mint(0, 0xffffffff);
+    const allocation = this.#nativePointers.get(pointer);
+    if (allocation) { this.#liveWord(allocation); return allocation; }
+    return this.#objectWord(pointer);
+  }); }
+  runtimeProcedure(controller: object, name: 'TlsGetValue'): NativeValue<NativeX86Word32> { return this.#run(controller, () => {
+    if (name !== 'TlsGetValue') throw new Error('Only the selected original TLS IAT procedure is admitted');
+    const procedure = NativeRuntimePlatform.standardIoTlsProcedureForPlatform(this.#platform);
+    if (!procedure.known) throw new Error(procedure.reason); return this.#objectWord(procedure.value);
   }); }
   load(controller: object, address: NativeX86Word32): NativeValue<NativeX86Word32> { return this.#run(controller, () => this.#load(this.#stack, this.#address(address))); }
   store(controller: object, address: NativeX86Word32, word: NativeX86Word32): NativeValue<void> { return this.#run(controller, () => this.#store(this.#stack, this.#address(address), word)); }
@@ -671,6 +879,118 @@ export class NativeX86ThreadStack {
     this.#store(this.#bank, this.#reg('ESP'), this.#mint(0, 0, { kind: 'stack', offset: call.position + 16 }));
     top.returned = true; call.phase = 'returned'; this.#currentPc = call.returnWord; this.#heapAllocReturned = true; this.#heapGrant = null;
   }); }
+  #sectionView(pointer: NativeBytePointer): NativeHeapObjectViews {
+    const fields = pointer.fields, backing = fields.backing as NativeMemoryBacking;
+    const begin = fields.bytes.byteOffset - backing.bytes.byteOffset + pointer.offset;
+    let positions = this.#sectionViews.get(backing);
+    if (!positions) { positions = new Map(); this.#sectionViews.set(backing, positions); }
+    const old = positions.get(begin); if (old) return old;
+    const alias = new NativeHeapObjectViews(backing, begin, 24);
+    Object.freeze(alias.view); Object.preventExtensions(alias.bytes); Object.preventExtensions(alias.knownMask); Object.freeze(alias);
+    positions.set(begin, alias); return alias;
+  }
+  #invokeStandard(controller: object, site: NativeStandardIoCallSite): NativeValue<void> { return this.#run(controller, () => {
+    const binding = this.#binding!, spec = standardSites[site];
+    const source = NativeGameCrtIoInit.canonicalStandardIoCallForCrt(binding.owner, binding.crt, controller, site);
+    if (!source.known) throw new Error(source.reason);
+    const endpoints = this.#platform.standardIoEndpoints;
+    if (!endpoints) throw new Error('Actual selected standard-I/O endpoint is absent at' + site);
+    const endpointProof = NativeRuntimePlatform.canonicalStandardIoEndpointsForPlatform(this.#platform, endpoints);
+    if (!endpointProof.known) throw new Error(endpointProof.reason);
+    if (this.#standardGrant) throw new Error('An interrupted standard-I/O call cannot replay');
+    const frame = this.#address(this.#load(this.#bank, this.#reg('EBP')));
+    const argumentPosition = this.#address(this.#load(this.#bank, this.#reg('ESP')));
+    if (argumentPosition !== frame + spec.position + 4) throw new Error('Actual standard-I/O argument geometry required');
+    const argumentWords = Object.freeze(Array.from({ length: spec.argumentBytes / 4 }, (_, index) => this.#load(this.#stack, argumentPosition + index * 4)));
+    let scalar: number | undefined, object: object | undefined, procedure: object | undefined;
+    let section: NativeBytePointer | undefined, sectionFields: NativeHeapObjectViews | undefined;
+    switch (spec.kind) {
+      case 'GetStdHandle': case 'SetHandleCount': scalar = this.#numeric(argumentWords[0]!, 4); break;
+      case 'GetFileType': object = this.#platformObject(argumentWords[0]!, 'handle'); break;
+      case 'TlsGetValue': scalar = this.#numeric(argumentWords[0]!, 4); procedure = this.#platformObject(this.#load(this.#bank, this.#reg('ESI')), 'tls-get'); break;
+      case 'FlsGetValue': scalar = this.#numeric(argumentWords[0]!, 4); procedure = this.#platformObject(this.#load(this.#bank, this.#reg('EAX')), 'fls-get'); break;
+      case 'DecodePointer': object = this.#platformObject(argumentWords[0]!, 'encoded'); procedure = this.#platformObject(this.#load(this.#bank, this.#reg('EAX')), 'decode'); break;
+      case 'InitializeCriticalSectionAndSpinCount': {
+        const p = this.#liveWord(argumentWords[0]!).provenance;
+        if (p?.kind !== 'allocation') throw new Error('Actual contained Game section pointer required');
+        this.#allocationLive(p.allocation, p.offset, 24);
+        section = p.pointer; sectionFields = this.#sectionView(section);
+        scalar = this.#numeric(argumentWords[1]!, 4); procedure = this.#platformObject(this.#load(this.#bank, this.#reg('ESI')), 'section'); break;
+      }
+    }
+    const args: NativeStandardIoArguments = Object.freeze({ site, kind: spec.kind, crt: binding.crt, scalar, object, procedure, section, sectionFields });
+    const row = { site, callPushed: false, called: false, returned: false, sectionRegistered: false };
+    this.#standardIoRows.push(row);
+    // Capacity failure happens at this real CALL, retaining the existing
+    // argument stores without manufacturing a pending return or enlarging it.
+    this.#call(site, spec.returnAddress); row.callPushed = true;
+    const top = this.#calls.at(-1)!, grant: NativeStandardIoCallGrant = Object.freeze({ identity: Object.freeze({}) });
+    const call: StandardCall = { stack: this, controller, args, position: top.position, frame,
+      fs: this.#load(this.#bank, 32), argumentWords, returnWord: top.returnWord, argumentBytes: spec.argumentBytes, phase: 'pending' };
+    standardCalls.set(grant, call); this.#standardGrant = grant; this.#standardProof(grant, call);
+    row.called = true;
+    let result: NativeValue<object | number | null>;
+    try { result = endpoints.invoke(grant); }
+    finally {
+      const effect = NativeRuntimePlatform.standardIoEffectForPlatform(this.#platform, grant);
+      if (effect.known && effect.value.sectionRegistered) row.sectionRegistered = true;
+    }
+    if (!result.known) throw new Error(result.reason);
+    const normal = NativeRuntimePlatform.canonicalStandardIoNormalReturnForPlatform(this.#platform, grant);
+    if (!normal.known || normal.value !== result.value) throw new Error(normal.known ? 'Actual standard-I/O result identity changed' : normal.reason);
+    this.#standardProof(grant, call);
+    const word = result.value === null ? this.#mint(0, 0xffffffff)
+      : typeof result.value === 'number' ? this.#mint(result.value, 0xffffffff) : this.#objectWord(result.value);
+    // ABI register clobbers follow the actual normal result proof. The
+    // pending procedure in EAX is consumed before replacing that register.
+    this.#store(this.#bank, this.#reg('EAX'), word);
+    for (const name of ['ECX', 'EDX'] as const) this.#store(this.#bank, this.#reg(name), this.#mint(0, 0));
+    this.#flags(0, 0);
+    const continuation = this.#load(this.#stack, call.position), continuationRecord = this.#record(continuation);
+    if (continuation !== call.returnWord || continuationRecord.provenance?.kind !== 'source' ||
+        continuationRecord.provenance.type !== 'code' || continuationRecord.provenance.address !== spec.returnAddress ||
+        this.#address(this.#load(this.#bank, this.#reg('ESP'))) !== call.position ||
+        call.argumentWords.some((argument, index) => this.#load(this.#stack, call.position + 4 + index * 4) !== argument) ||
+        this.#load(this.#bank, 32) !== call.fs || call.position + 4 + call.argumentBytes > this.#stack.bytes.length) {
+      throw new Error('Actual standard-I/O pending return and normal stdcall cleanup required');
+    }
+    // Single normal RET4/RET8. Unknown outcomes retain all current stack
+    // arguments, nested FS registrations and lower effects.
+    this.#store(this.#bank, this.#reg('ESP'), this.#mint(0, 0, { kind: 'stack', offset: call.position + 4 + call.argumentBytes }));
+    top.returned = true; call.phase = 'returned'; this.#currentPc = continuation; row.returned = true; this.#standardGrant = null;
+  }); }
+  invokeGetStdHandle(controller: object): NativeValue<void> { return this.#invokeStandard(controller, '204744b4'); }
+  invokeGetFileType(controller: object): NativeValue<void> { return this.#invokeStandard(controller, '204744c6'); }
+  invokeTlsGetValue(controller: object, site: '20467de8' | '20467dff'): NativeValue<void> {
+    if (site !== '20467de8' && site !== '20467dff') return unknown('Exact original TLS call site required');
+    return this.#invokeStandard(controller, site);
+  }
+  invokeFlsGetValue(controller: object): NativeValue<void> { return this.#invokeStandard(controller, '20467e01'); }
+  invokeDecodePointer(controller: object): NativeValue<void> { return this.#invokeStandard(controller, '20467e3d'); }
+  invokeSectionInitializer(controller: object): NativeValue<void> { return this.#invokeStandard(controller, '20474246'); }
+  invokeSetHandleCount(controller: object): NativeValue<void> { return this.#invokeStandard(controller, '2047451e'); }
+  /** Retire frame execution only after the actual incoming CALL has returned
+   * and restored its saved state. Copied snapshots cannot grant this result. */
+  ioReturnResult(controller: object): NativeValue<number> {
+    const result = this.#run(controller, () => {
+      const binding = this.#binding!, permit = NativeGameCrtIoInit.canonicalIoReturnForCrt(binding.owner, binding.crt, controller);
+      if (!permit.known) throw new Error(permit.reason);
+      const original = this.#calls.find(call => call.site === '204678ce'), initial = this.#initial;
+      if (!initial || !original || !original.returned || this.#currentPc !== original.returnWord ||
+          this.#record(original.returnWord).provenance?.kind !== 'source' ||
+          (this.#record(original.returnWord).provenance as { address: string }).address !== '204678d3' ||
+          this.#calls.some(call => !call.returned) || this.#standardGrant !== null || this.#heapGrant !== null ||
+          this.#address(this.#load(this.#bank, this.#reg('ESP'))) !== this.#address(initial.esp) ||
+          this.#load(this.#bank, this.#reg('EBP')) !== initial.ebp || this.#load(this.#bank, this.#reg('EBX')) !== initial.ebx ||
+          this.#load(this.#bank, this.#reg('ESI')) !== initial.esi || this.#load(this.#bank, this.#reg('EDI')) !== initial.edi ||
+          this.#load(this.#bank, 32) !== initial.fs) throw new Error('Actual original IO return/current continuation/restored frame and FS required');
+      const value = this.#numeric(this.#load(this.#bank, this.#reg('EAX')), 4);
+      if (value !== 0 && value !== 0xffffffff) throw new Error('Actual selected source IO return scalar required');
+      return value | 0;
+    });
+    if (result.known) this.#phase = 'returned';
+    return result;
+  }
   readFs0(controller: object): NativeValue<NativeX86Word32> { return this.#run(controller, () => this.#load(this.#bank, 32)); }
   writeFs0(controller: object, word: NativeX86Word32): NativeValue<void> { return this.#run(controller, () => this.#store(this.#bank, 32, word)); }
   startupInfoView(controller: object, ebp: NativeX86Word32): NativeValue<NativeHeapObjectViews> { return this.#run(controller, () => {
@@ -697,6 +1017,7 @@ export class NativeX86ThreadStack {
         : provenance?.kind === 'stack' ? Object.freeze({ kind: provenance.kind, offset: provenance.offset })
           : provenance?.kind === 'heap' ? Object.freeze({ kind: provenance.kind })
             : provenance?.kind === 'allocation' ? Object.freeze({ kind: provenance.kind, offset: provenance.offset, capacity: provenance.allocation.fields.bytes.length })
+              : provenance?.kind === 'platform' ? Object.freeze({ kind: provenance.kind, category: provenance.category })
           : provenance?.kind === 'xor' ? Object.freeze({ kind: provenance.kind, left: describe(provenance.left), right: describe(provenance.right) }) : null });
     };
     const cell = (offset: number) => {
@@ -715,6 +1036,7 @@ export class NativeX86ThreadStack {
       startupInfoWriterReturned: this.#startupInfoWriterReturned,
       heapAllocCallPushed: this.#heapAllocCallPushed, heapAllocCalled: this.#heapAllocCalled,
       heapAllocReturned: this.#heapAllocReturned, heapAllocBlockAllocated: this.#heapAllocBlockAllocated,
+      standardIoCalls: Object.freeze(this.#standardIoRows.map(row => Object.freeze({ ...row }))),
       numericalRuntimeAddressesProvided: false, nativeSehDispatchExecuted: false });
   }
 }
