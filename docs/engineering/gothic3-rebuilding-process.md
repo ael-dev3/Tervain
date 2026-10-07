@@ -7001,7 +7001,7 @@ against the original PE. All three final bitmap masks are `0x7fffffff`.
 The base allocator admits 12 classes; the NPC and combined Scene profiles
 admit 15 and 17. Their selected pointer-area prefixes cover 192, 240 and 272
 bytes without inferring a native maximum. Failure fallbacks to pools 160 and
-2,048 remain unsupported. The dependent NPC/Scene receipts and TypeScript
+1,792 remain unsupported. The dependent NPC/Scene receipts and TypeScript
 pins are regenerated against the updated base identity.
 
 ### Reproduce and review
@@ -7030,7 +7030,9 @@ execution of the new owner is recorded.
 Actual mapped-literal pointer geometry, GUID conversion through
 MultiByteToWideChar/IIDFromString, type/factory/singleton construction,
 wrapper/native/descriptor initialization and teardown remain lower
-dependencies. The selected initializer owner is not instantiated by the
+dependencies. The 38-character GUID CString also requests a 47-byte holder,
+which reaches the original, currently unaudited 48-byte pool. The selected
+initializer owner is not instantiated by the
 production NPC services. Connecting those owners, completing CRT startup,
 and progressing through ordinary gameplay and saves remain required before
 this work can establish a finishable game.
