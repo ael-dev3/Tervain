@@ -53,6 +53,23 @@ function fixture(extra: Partial<BrowserNpcEntityServices> = {}) {
 }
 
 describe('retained original Ardea NPC owner prefix', () => {
+  it('keeps the ScriptAdmin getter and area CallScript slot as separate injectable owners', () => {
+    const owner = createBrowserNpcEntityServices({ crypto: { randomUUID }, now: () => performance.now() });
+    try {
+      const before = owner.navigationNames.host.scriptAdmin();
+      expect(before.known).toBe(false);
+      if (!before.known) expect(before.reason).toContain('Original Game ScriptAdmin getter owner is not connected');
+      const admin = { identity: {} };
+      owner.navigationNames.connectScriptAdminLookup({ getInstance: () => known(admin) });
+      expect(owner.navigationNames.host.scriptAdmin()).toEqual(known(admin));
+      const slot = owner.navigationNames.host.captureAreaScriptSlot(admin);
+      expect(slot.known).toBe(false);
+      if (!slot.known) expect(slot.reason).toContain('Original Navigation area script vtable slot owner is not connected');
+      expect(() => owner.navigationNames.connectScriptAdminLookup({ getInstance: () => known(admin) }))
+        .toThrow('One retained source ScriptAdmin lookup owner is required');
+    } finally { owner.dispose(); }
+  });
+
   it('admits only verified complete raw records and freezes their source context', () => {
     expect(source.entities).toHaveLength(3);
     expect(source.entities[0]!.propertySets.map(set => set.name)).toHaveLength(16);
