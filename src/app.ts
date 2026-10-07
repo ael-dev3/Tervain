@@ -33,7 +33,7 @@ import { chooseInteractable } from './presentation/interactionTarget';
 import { Player } from './presentation/player';
 import { Hud } from './presentation/ui/hud';
 import { MapView } from './presentation/ui/map';
-import { PanelHost, aboutPanel, controlsPanel, huntingPanel, inventoryPanel, journalPanel, noticePanel, pauseMenu, settingsPanel, sluicePanel, slotsPanel, type PanelActions, type PanelCtx } from './presentation/ui/panels';
+import { PanelHost, aboutPanel, controlsPanel, huntingPanel, inventoryPanel, journalPanel, noticePanel, pauseMenu, settingsPanel, sluicePanel, slotsPanel, type PanelActions, type PanelCtx, type PanelSaveResult } from './presentation/ui/panels';
 import { h, clear } from './presentation/ui/dom';
 import { createMenuScreen } from './presentation/ui/menuView';
 import { installMenuMaterials } from './presentation/ui/menuMaterials';
@@ -1330,10 +1330,7 @@ export class App {
   private panelActions(): PanelActions {
     return {
       resume: () => this.panels.closeAll(),
-      save: (slot) => {
-        this.saveTo(slot);
-        this.panels.replaceTop(slotsPanel(this.panelCtx(), 'save'));
-      },
+      save: (slot) => this.saveTo(slot),
       load: (slot) => this.loadSlot(slot),
       newGame: () => this.startNew(),
       quitToTitle: () => this.quitToTitle(),
@@ -1761,13 +1758,15 @@ export class App {
     this.game.state.physicalObjects = this.world.physics.snapshot().map(({ id, position, rotation }) => ({ id, position, rotation }));
   }
 
-  saveTo(slot: SlotId) {
-    if (this.worldPaused) return;
-    if (this.mode !== 'play') return;
+  saveTo(slot: SlotId): PanelSaveResult {
+    if (this.worldPaused || this.mode !== 'play' || !this.world || this.worldDisposed) {
+      return { ok: false, message: S('menu.saveUnavailable') };
+    }
     this.stamp();
     const r = this.saves.save(slot, this.game.state);
     if (r.ok) this.hud.toast(S('menu.saved', { slot: S(`menu.slot.${slot}`) }), 'good');
     else this.hud.toast(S('menu.savefailed', { reason: r.message }), 'bad');
+    return r;
   }
 
   private autosave(reason: string) {

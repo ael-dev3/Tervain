@@ -5,6 +5,7 @@ import { animalLoot, SKINNING_SECONDS, type AnimalId } from '../../src/game/hunt
 import { defaultSettings } from '../../src/platform/settings';
 import { HuntingController } from '../../src/presentation/huntingController';
 import type { AnimalArrowHit } from '../../src/presentation/animals/hunting/hit';
+import { S } from '../../src/content/strings';
 
 const fixtures: { controller: HuntingController }[] = [];
 afterEach(() => { for (const item of fixtures.splice(0)) item.controller.arrows.dispose(); });
@@ -33,7 +34,7 @@ function fixture() {
   };
   const channel: { done: (() => void) | null; cancel: (() => void) | null } = { done: null, cancel: null };
   const player = {
-    x: corpse.x, y: 4, z: -68, yaw: 0, alive: true, state: 'free',
+    x: corpse.x, y: 4, z: -68, yaw: 0, alive: true, grounded: true, swimming: false, state: 'free',
     bowAiming: false, skinningProgress: null as number | null,
     bowEquipped: vi.fn((current: Game) => current.state.equippedWeapon === 'hunting_bow'),
     setBowAim: vi.fn((aim: unknown) => { player.bowAiming = !!aim; }),
@@ -126,6 +127,89 @@ function prepareCarcass(item: ReturnType<typeof fixture>) {
 }
 
 describe('hunting controller command integration', () => {
+  it('fires a completed attack tap between frames once, with one arrow and one eventual impact', () => {
+    const item = fixture();
+    const launch = vi.spyOn(item.controller.arrows, 'launch');
+    // Input preserves the press edge when mouseup/key-up arrives before the next rendered frame.
+    item.mutable.attackPressed = true;
+    item.mutable.held = false;
+    item.controller.controls(1 / 60, true);
+    expect(item.controller.isDrawing).toBe(false);
+    expect(item.game.state.inventory.arrow).toBe(24);
+    expect(item.player.bowAiming).toBe(true);
+    item.controller.afterWorld(0, true);
+    item.controller.afterWorld(0, true);
+    expect(item.game.state.inventory.arrow).toBe(23);
+    expect(item.controller.arrows.activeCount).toBe(1);
+    expect(launch).toHaveBeenCalledExactlyOnceWith(expect.any(THREE.Vector3), expect.any(THREE.Vector3), 65);
+    item.mutable.attackPressed = false;
+    item.controller.controls(1 / 60, true);
+    item.controller.afterWorld(.25, true);
+    item.controller.controls(1 / 60, true);
+    item.controller.afterWorld(.25, true);
+    expect(item.dispatch.mock.calls.filter(([command]) => command.t === 'fireBow')).toHaveLength(1);
+    expect(item.dispatch.mock.calls.filter(([command]) => command.t === 'hitAnimal')).toHaveLength(1);
+    expect(item.audio.huntingSound.mock.calls.filter(([kind]) => kind === 'bow_release')).toHaveLength(1);
+    expect(item.game.state.hunting['bear-a']?.status).toBe('dead');
+  });
+
+  it('retains held aim draw behavior when attack was held before aiming', () => {
+    const item = fixture(); item.mutable.held = true;
+    item.controller.controls(.1, true);
+    expect(item.controller.isDrawing).toBe(false);
+    item.mutable.aimHeld = true;
+    item.controller.controls(.35, true);
+    expect(item.controller.isDrawing).toBe(true);
+    expect(item.controller.drawFraction).toBeCloseTo(.5);
+    expect(item.game.state.inventory.arrow).toBe(24);
+    release(item);
+    expect(item.game.state.inventory.arrow).toBe(23);
+  });
+
+  it('does not draw, play draw audio or zoom the camera while swimming', () => {
+    const item = fixture(); item.player.swimming = true;
+    item.mutable.held = item.mutable.attackPressed = item.mutable.aimHeld = true;
+    item.controller.controls(.35, true);
+    item.controller.afterWorld(.25, true);
+    expect(item.controller.isDrawing).toBe(false);
+    expect(item.player.setBowAim).toHaveBeenLastCalledWith(null);
+    expect(item.cam.setAiming).toHaveBeenLastCalledWith(false);
+    expect(item.audio.huntingSound).not.toHaveBeenCalled();
+    expect(item.game.state.inventory.arrow).toBe(24);
+    expect(item.controller.arrows.activeCount).toBe(0);
+  });
+
+  it.each(['drawing', 'release queued'] as const)('entering deep water cancels a %s bow before release without a delayed shot', (phase) => {
+    const item = fixture(); beginDraw(item);
+    if (phase === 'release queued') {
+      item.mutable.held = false;
+      item.controller.controls(0, true);
+    }
+    // Swimming starts in player.update, between hunting controls and afterWorld.
+    item.player.swimming = true;
+    item.controller.afterWorld(.25, true);
+    expect(item.controller.isDrawing).toBe(false);
+    expect(item.cam.setAiming).toHaveBeenLastCalledWith(false);
+    expect(item.audio.stopHuntingSounds).toHaveBeenCalledWith('bow_draw');
+    expect(item.player.releaseBow).not.toHaveBeenCalled();
+    expect(item.game.state.inventory.arrow).toBe(24);
+    item.player.swimming = false;
+    item.mutable.held = item.mutable.attackPressed = false;
+    item.controller.controls(.1, true);
+    item.controller.afterWorld(.25, true);
+    expect(item.controller.arrows.activeCount).toBe(0);
+    expect(item.dispatch.mock.calls.some(([command]) => command.t === 'fireBow')).toBe(false);
+  });
+
+  it('keeps an already launched arrow flying when the player enters deep water', () => {
+    const item = fixture(); beginDraw(item); release(item);
+    item.player.swimming = true;
+    item.controller.afterWorld(.25, true);
+    expect(item.game.state.hunting['bear-a']?.status).toBe('dead');
+    expect(item.game.state.inventory.arrow).toBe(23);
+    expect(item.dispatch.mock.calls.filter(([command]) => command.t === 'fireBow')).toHaveLength(1);
+  });
+
   it('charges without spending ammo, then spends one arrow at release and damages only at swept contact', () => {
     const item = fixture();
     beginDraw(item);
@@ -246,6 +330,42 @@ describe('hunting controller command integration', () => {
 });
 
 describe('skinning controller command integration', () => {
+  it('offers the skinning instructions when a grounded player can reach a settled carcass', () => {
+    const item = fixture(); prepareCarcass(item);
+    item.controller.updateHud();
+    expect(item.hud.setHunting).toHaveBeenLastCalledWith(expect.objectContaining({
+      canSkin: true, skinUnavailable: undefined,
+    }));
+    item.controller.skin();
+    expect(item.player.beginSkinning).toHaveBeenCalledOnce();
+  });
+
+  it.each([
+    ['airborne', 'hunting.skin_need_footing'], ['swimming', 'hunting.skin_need_footing'],
+    ['held object', 'hunting.skin_put_down'], ['drawing', 'hunting.skin_release_bow'],
+    ['busy', 'hunting.skin_busy'], ['collapse', 'hunting.skin_wait'],
+    ['cover', 'hunting.skin_blocked'], ['distance', 'hunting.too_far'], ['knife', 'hunting.need_knife'],
+  ] as const)('the HUD and Skin action explain the same unavailable prerequisite for %s', (cause, key) => {
+    const item = fixture(); prepareCarcass(item);
+    if (cause === 'airborne') item.player.grounded = false;
+    if (cause === 'swimming') item.player.swimming = true;
+    if (cause === 'held object') item.world.physics.holding = true;
+    if (cause === 'drawing') beginDraw(item);
+    if (cause === 'busy') item.player.state = 'attack';
+    if (cause === 'collapse') item.mutable.frame!.ready = false;
+    if (cause === 'cover') item.mutable.cover = [-60.5];
+    if (cause === 'distance') item.mutable.frame!.stance.z += .41;
+    if (cause === 'knife') item.game.state.inventory.skinning_knife = 0;
+    item.controller.updateHud();
+    expect(item.hud.setHunting).toHaveBeenLastCalledWith(expect.objectContaining({
+      canSkin: false, skinUnavailable: S(key),
+    }));
+    item.controller.skin();
+    expect(item.hud.toast).toHaveBeenLastCalledWith(S(key), cause === 'knife' ? 'bad' : undefined);
+    expect(item.player.beginSkinning).not.toHaveBeenCalled();
+    expect(item.game.state.inventory.animal_hide ?? 0).toBe(0);
+  });
+
   it('channels against the real ready carcass target and grants species loot only once after completion', () => {
     const item = fixture(); prepareCarcass(item);
     item.controller.skin();
@@ -280,10 +400,12 @@ describe('skinning controller command integration', () => {
       expect(item.game.state.hunting['bear-a']?.status).toBe('dead');
     });
 
-  it.each(['pause', 'moved', 'knife', 'cover', 'cancel button', 'reset'] as const)(
+  it.each(['pause', 'moved', 'airborne', 'swimming', 'knife', 'cover', 'cancel button', 'reset'] as const)(
     'cancels a skinning channel on %s and gives no partial loot', (cause) => {
       const item = fixture(); prepareCarcass(item); item.controller.skin();
       if (cause === 'moved') item.player.z -= .5;
+      if (cause === 'airborne') item.player.grounded = false;
+      if (cause === 'swimming') item.player.swimming = true;
       if (cause === 'knife') item.game.state.inventory.skinning_knife = 0;
       if (cause === 'cover') item.mutable.cover = [-60.5];
       if (cause === 'cancel button') item.controller.skin();

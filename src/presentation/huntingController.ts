@@ -76,11 +76,12 @@ export class HuntingController {
     }
     if (input.pressed('skin')) this.skin();
     if (this.skinId && !this.skinValid(this.skinId)) player.cancelSkinning();
-    const available = player.bowEquipped(game) && player.state === 'free' && player.alive && !world.physics.holding;
+    const available = player.bowEquipped(game) && player.state === 'free' && player.alive && !player.swimming && !world.physics.holding;
     if (!available) { this.cancelDraw(); cam.setAiming(false); return; }
     const held = input.isDown('attack');
     const aimHeld = input.isDown('block');
-    if (!this.drawing && held && (input.pressed('attack') || aimHeld)) {
+    // A complete click between rendered frames still carries a press edge, even though it is no longer held.
+    if (!this.drawing && !this.releasePending && (input.pressed('attack') || (held && aimHeld))) {
       if ((game.state.inventory.arrow ?? 0) <= 0) {
         if (input.pressed('attack')) this.host.hud.toast(S('hunting.need_arrow'), 'bad');
       } else {
@@ -102,6 +103,8 @@ export class HuntingController {
   /** Runs after camera following and native animal posing, so contacts use this frame's visible triangles. */
   afterWorld(dt: number, playing: boolean) {
     if (!playing || !this.canAct()) return;
+    // Movement can enter deep water after controls ran. Cancel before releasing, while existing arrows keep flying.
+    if (this.host.player.swimming) { this.cancelDraw(); this.host.cam.setAiming(false); }
     if (this.releasePending) { this.releasePending = false; this.release(); this.drawTime = 0; }
     const water = this.host.world.water as WorldScene['water'] | undefined;
     this.arrows.update(dt, (from, to, shot) => this.sweep(from, to, shot), (shot, impact) => this.impact(shot, impact as HuntingImpact), water && {
@@ -186,17 +189,29 @@ export class HuntingController {
     return { x: cam.camera.position.x, y: cam.camera.position.y, z: cam.camera.position.z, heading: cam.yaw };
   }
 
-  private skinValid(id: AnimalId) {
+  /** The HUD and activation report the same prerequisite; active channels also recheck their footing and reach. */
+  private skinUnavailable(id: AnimalId, starting = true): string | null {
     const { player, game, world } = this.host;
     const record = game.state.hunting[id];
-    if (record?.status !== 'dead' || (game.state.inventory.skinning_knife ?? 0) < 1 || !player.alive) return false;
+    if (record?.status !== 'dead') return 'hunting.animal_alive';
+    if ((game.state.inventory.skinning_knife ?? 0) < 1) return 'hunting.need_knife';
+    if (!player.alive || !player.grounded || player.swimming) return 'hunting.skin_need_footing';
+    if (starting) {
+      if (world.physics.holding) return 'hunting.skin_put_down';
+      if (this.drawing || this.releasePending) return 'hunting.skin_release_bow';
+      if (player.state !== 'free') return 'hunting.skin_busy';
+    }
     const frame = world.animals.skinningFrame(id, player);
-    if (!frame?.ready || Math.hypot(frame.stance.x - player.x, frame.stance.z - player.z) > .4) return false;
+    if (!frame?.ready) return 'hunting.skin_wait';
+    if (Math.hypot(frame.stance.x - player.x, frame.stance.z - player.z) > .4) return 'hunting.too_far';
     const from = { x: player.x, y: player.y + .95, z: player.z };
     const target = { ...frame.target, y: frame.target.y + .04 };
     const obstruction = world.physics.traceProjectile(from, target);
-    return !obstruction || obstruction.distance >= Math.hypot(target.x - from.x, target.y - from.y, target.z - from.z) - .06;
+    return obstruction && obstruction.distance < Math.hypot(target.x - from.x, target.y - from.y, target.z - from.z) - .06
+      ? 'hunting.skin_blocked' : null;
   }
+
+  private skinValid(id: AnimalId) { return this.skinUnavailable(id, false) === null; }
 
   skin() {
     const { player, world, game, hud, audio } = this.host;
@@ -204,9 +219,8 @@ export class HuntingController {
     if (player.skinningProgress !== null) { player.cancelSkinning(); return; }
     const carcass = world.animals.nearestCarcass(player);
     if (!carcass) return;
-    if ((game.state.inventory.skinning_knife ?? 0) < 1) { hud.toast(S('hunting.need_knife'), 'bad'); return; }
-    if (player.state !== 'free' || world.physics.holding || this.drawing) return;
-    if (!this.skinValid(carcass.id)) { hud.toast(S('hunting.too_far')); return; }
+    const unavailable = this.skinUnavailable(carcass.id);
+    if (unavailable) { hud.toast(S(unavailable), unavailable === 'hunting.need_knife' ? 'bad' : undefined); return; }
     const frame = world.animals.skinningFrame(carcass.id, player)!;
     this.cancelDraw(); this.host.cam.setAiming(false);
     const started = player.beginSkinning(frame.target.x, frame.target.z, SKINNING_SECONDS, () => {
@@ -229,14 +243,14 @@ export class HuntingController {
     const { player, world, game, hud, input } = this.host;
     if (!this.canAct()) { hud.setHunting(null); return; }
     const carcass = this.skinId ? { id: this.skinId } : world.animals.nearestCarcass(player);
-    const knife = (game.state.inventory.skinning_knife ?? 0) > 0;
+    const unavailable = carcass ? this.skinUnavailable(carcass.id) : null;
     hud.setHunting({
       bowEquipped: player.bowEquipped(game), aiming: player.bowAiming, drawing: this.drawing,
       drawFraction: this.drawFraction, arrows: game.state.inventory.arrow ?? 0,
       aimKey: input.label('block', codeLabel), drawKey: input.label('attack', codeLabel), skinKey: input.label('skin', codeLabel),
       carcassName: carcass ? S(`animal.${ANIMAL_SPECIES[carcass.id]}`) : undefined,
-      canSkin: !!carcass && knife && player.state === 'free' && !this.drawing && !world.physics.holding && this.skinValid(carcass.id),
-      skinUnavailable: !knife ? S('hunting.need_knife') : S('hunting.too_far'),
+      canSkin: !!carcass && unavailable === null,
+      skinUnavailable: unavailable ? S(unavailable) : undefined,
       skinProgress: player.skinningProgress,
     });
   }
