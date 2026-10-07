@@ -522,3 +522,13 @@ and full CRT traversal have not been implemented. GUID conversion, property
 factory construction and native ScriptAdmin creation remain explicit lower
 dependencies. See [checkpoint 100](gothic3-rebuilding-process.md#100-own-selected-scriptadmin-static-initializer-bodies)
 for the exact scope and reproduction steps.
+
+Checkpoint 101 reconstructs GUID text assignment over the actual temporary
+CString and GUID views, adds the original 48-byte holder pool, and registers
+the existing Game GUID literal with the platform's pointer geometry. Its
+explicitly selected ASCII/UTF16 provider supplies conversion and parsing
+writes without executing Windows APIs. The next property initializer boundary
+is the mutable Shared GUID NullPayload and its original startup writer; it
+cannot be replaced by an assumed zero array. These owners still need full
+startup and production NPC integration. See
+[checkpoint 101](gothic3-rebuilding-process.md#101-own-guid-text-construction-and-canonical-literal-storage).

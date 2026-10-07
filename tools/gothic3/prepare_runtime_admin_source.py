@@ -58,6 +58,7 @@ TARGETS = {
     'heap128BitmapAlloc': 0x10007991, 'heap128BlockInitialize': 0x10008328,
     'heap640BitmapAlloc': 0x1000893b, 'heap640BlockInitialize': 0x10006f14,
     'heap1536BitmapAlloc': 0x1000773e, 'heap1536BlockInitialize': 0x10006f8c,
+    'heap48BitmapAlloc': 0x100060d7, 'heap48BlockInitialize': 0x10006aaf,
     'heapAddPointerArea': 0x100012e4, 'heapGetPointerArea': 0x10005b37,
     'heapMediumInsert': 0x1003c760, 'heapMediumUnlink': 0x1003c7a0,
     'heapMediumSplit': 0x1003c7e0, 'heapMediumMerge': 0x1003c850,
@@ -68,6 +69,7 @@ TARGETS = {
     'heap192InlineFree': 0x1000817a,
     'heap224InlineFree': 0x10005024,
     'heap640InlineFree': 0x10004bba, 'heap1536InlineFree': 0x10003c92,
+    'heap48InlineFree': 0x10005e34,
     'crtOperatorNew': 0x100aabd2, 'crtAtexit': 0x100a72d0,
     'crtOnExit': 0x100a7294, 'crtCallbackAppend': 0x100a71ac,
     'crtNormalTermination': 0x100aa6c4,
@@ -90,6 +92,7 @@ ASM_ONLY = {
     'heap128PoolDispatch': [(0x10048690, 0x100486b9), (0x100486c0, 0x1004870f)],
     'heap640PoolDispatch': [(0x10048c30, 0x10048c59), (0x10048c60, 0x10048caf)],
     'heap1536PoolDispatch': [(0x10048f50, 0x10048f79), (0x10048f80, 0x10048fcf)],
+    'heap48PoolDispatch': [(0x100482d0, 0x100482f9), (0x10048300, 0x1004834f)],
     'heap12Free': [(0x10043ff0, 0x10044034)],
     'heap112Free': [(0x10044980, 0x100449ca)],
     'heap112Realloc': [(0x100449e0, 0x10044a23)],
@@ -117,6 +120,10 @@ ASM_ONLY = {
     'heap1536Realloc': [(0x100455a0, 0x100455e5)],
     'heap1536PoolShutdown': [(0x100421b0, 0x10042283)],
     'heap1536Statistics': [(0x100422c0, 0x1004230d)],
+    'heap48Free': [(0x100445a0, 0x100445e4)],
+    'heap48Realloc': [(0x10044600, 0x10044643)],
+    'heap48PoolShutdown': [(0x100404a0, 0x100404d9), (0x100404e0, 0x1004053c), (0x10040540, 0x10040573)],
+    'heap48Statistics': [(0x100405b0, 0x100405fc)],
     'memoryShutdown': [(0x100e2710, 0x100e274e)],
     'errorShutdown': [(0x100e2770, 0x100e2785)],
     'messageShutdown': [(0x100e27d0, 0x100e2802)],
@@ -148,6 +155,9 @@ ASM_ALIASES = {
     'heap640PoolShutdown': 0x100019e7, 'heap640Statistics': 0x10008800,
     'heap1536Free': 0x10007e64, 'heap1536Realloc': 0x10001d02,
     'heap1536PoolShutdown': 0x10008c56, 'heap1536Statistics': 0x1000271b,
+    'heap48PoolDispatch': 0x1000617c, 'heap48Free': 0x10002e0a,
+    'heap48Realloc': 0x10005d3a, 'heap48PoolShutdown': 0x10008486,
+    'heap48Statistics': 0x10005853,
 }
 COLD = {
     'errorAdmin': (0x10142a58, 44), 'errorAdminGuard': (0x10142a8c, 4),
@@ -167,14 +177,15 @@ COLD = {
     'heap224PoolGlobals': (0x102ffe0c, 12),
     'heap128PoolGlobals': (0x102ffde8, 12), 'heap640PoolGlobals': (0x102ffe54, 12),
     'heap1536PoolGlobals': (0x102ffe90, 12),
+    'heap48PoolGlobals': (0x102ffda0, 12),
     'heap80PoolGlobals': (0x102ffdc4, 12), 'heap80DescriptorSlot': (0x102fff14, 4),
     'heapMediumBuckets': (0x10144214, 4097 * 4),
     'heapMediumRegionList': (0x10148218, 512 * 4), 'heapMediumRegionCount': (0x102fb04c, 4),
-    # Only one first region for each of the twelve selected classes is admitted.
-    # These include ScriptAdmin's 120/520-byte requests and the property
+    # Only one first region for each of the thirteen selected classes is admitted.
+    # These include ScriptAdmin's 47/120/520-byte requests and the property
     # singleton's selected 1468-byte map grow; no startup coldness is inferred.
     # No table maximum is inferred from proximity to another static variable.
-    'heapPointerAreasSelected': (0x10149a18, 12 * 16),
+    'heapPointerAreasSelected': (0x10149a18, 13 * 16),
     'heap12DescriptorSlot': (0x102ffeec, 4), 'heap112DescriptorSlot': (0x102fff1c, 4),
     'heap16DescriptorSlot': (0x102ffef0, 4), 'heap448DescriptorSlot': (0x102fff3c, 4),
     'heap768DescriptorSlot': (0x102fff48, 4),
@@ -182,6 +193,7 @@ COLD = {
     'heap224DescriptorSlot': (0x102fff2c, 4),
     'heap128DescriptorSlot': (0x102fff20, 4), 'heap640DescriptorSlot': (0x102fff44, 4),
     'heap1536DescriptorSlot': (0x102fff58, 4),
+    'heap48DescriptorSlot': (0x102fff08, 4),
     'errorHistoryPopScratch': (0x10144028, 250), 'errorHistoryPushScratch': (0x10143ef8, 250),
 }
 CONST_STRINGS = {
@@ -206,10 +218,12 @@ CONST_WORDS = {
     'heap128Stride': (0x100e7b08, 128), 'heap128Capacity': (0x100e7b0c, 0xffbf),
     'heap640Stride': (0x100e7b50, 640), 'heap640Capacity': (0x100e7b54, 0xfff),
     'heap1536Stride': (0x100e7b78, 1536), 'heap1536Capacity': (0x100e7b7c, 0xff),
+    'heap48Stride': (0x100e7ad8, 48), 'heap48Capacity': (0x100e7adc, 0xff55),
 }
 POINTER_TABLES = {
     'heap12DispatchSlot': (0x102fb080, 4), 'heap12FallbackSlot': (0x102fb084, 4),
     'heap108DispatchSlot': (0x102fb200, 4), 'heap112DispatchSlot': (0x102fb210, 4),
+    'heap48DispatchSlot': (0x102fb110, 4), 'heap48FallbackSlot': (0x102fb114, 4),
     'heapDispatchTable': (0x102fb050, 4097 * 4),
 }
 
@@ -217,6 +231,11 @@ POINTER_TABLES = {
 # extrapolated from a general stride formula, and the full dispatch table pins
 # every admitted request range including native Navigation's request688.
 BUCKETS = {
+    '48': dict(stride=48, minimumRequest=41, maximumRequest=48, regionBytes=0x300000,
+        capacity=0xff55, bitmapOffset=0x2fe000, bitmapBytes=0x1fec,
+        lastBitmapMask=0x1fffff, payloadBytes=0x2fdff0,
+        globals=dict(count='102ffda0', list='102ffda4', peak='102ffda8', descriptor='102fff08'),
+        callbacks=['10002e0a', '10005d3a', '10008486', '10005853']),
     '128': dict(stride=128, minimumRequest=113, maximumRequest=128, regionBytes=0x800000,
         capacity=0xffbf, bitmapOffset=0x7fdf90, bitmapBytes=0x1ff8,
         lastBitmapMask=0x7fffffff, payloadBytes=0x7fdf80,

@@ -96,6 +96,7 @@ function bootstrapStorage(label: string, address: string, bytes: number, raw = '
 }
 
 export interface NativeEngineCrtPlatform {
+  registerCanonicalGameGuidLiteral?(owner: NativeGameCrtOwner): NativeValue<NativeBytePointer>;
   createWin32Heap(owner: object, options: 0 | 1, initialBytes: 4096, maximumBytes: 0): NativeValue<NativeWin32HeapCapability | null>;
   win32HeapAlloc(heap: NativeWin32HeapCapability, flags: 0 | 8, bytes: number): NativeValue<NativeMemoryBacking | null>;
   win32HeapSize(heap: NativeWin32HeapCapability | null, flags: 0, pointer: NativeBytePointer): NativeValue<number>;
@@ -154,6 +155,10 @@ export class NativeModuleCrtOwner {
     }>;
   }>;
   private readonly imageViews = new Map<string, NativeHeapObjectViews>();
+  private readonly imageProofs = new WeakMap<NativeHeapObjectViews, Readonly<{
+    backing: NativeMemoryBacking; bytes: Uint8Array; masks: Uint8Array; view: DataView;
+    rootBytes: Uint8Array; rootMasks: Uint8Array; begin: number; length: number;
+  }>>();
   private heapPhase: InitPhase = 'cold';
   private locksPhase: InitPhase = 'cold';
   private locksTerminated = false;
@@ -223,6 +228,11 @@ export class NativeModuleCrtOwner {
         ranges.push({ address, fields });
       }
       this.imageViews.set(label, fields);
+      if (!this.imageProofs.has(fields)) this.imageProofs.set(fields, Object.freeze({
+        backing: fields.backing, bytes: fields.bytes, masks: fields.knownMask, view: fields.view,
+        rootBytes: fields.backing.bytes, rootMasks: fields.backing.knownMask,
+        begin: fields.bytes.byteOffset - fields.backing.bytes.byteOffset, length: fields.bytes.length,
+      }));
     }
   }
   /** Canonical admitted Game module-image objects. Constructing views supplies
@@ -232,6 +242,22 @@ export class NativeModuleCrtOwner {
     nativeGameImageReceipt(label);
     const fields = this.imageViews.get(label);
     if (!fields) throw new Error('Actual canonical Game CRT image view required: ' + label);
+    return fields;
+  }
+  /** Check retained identities and aliases without performing a native load. */
+  protected retainedImageStorage(label: string): NativeHeapObjectViews {
+    const fields = this.imageStorage(label), proof = this.imageProofs.get(fields);
+    if (!proof || fields.backing !== proof.backing || fields.bytes !== proof.bytes ||
+        fields.knownMask !== proof.masks || fields.view !== proof.view || fields.backing.bytes !== proof.rootBytes ||
+        fields.backing.knownMask !== proof.rootMasks || fields.bytes.length !== proof.length ||
+        fields.knownMask.length !== proof.length || fields.bytes.buffer !== proof.rootBytes.buffer ||
+        fields.bytes.byteOffset !== proof.rootBytes.byteOffset + proof.begin ||
+        fields.knownMask.buffer !== proof.rootMasks.buffer ||
+        fields.knownMask.byteOffset !== proof.rootMasks.byteOffset + proof.begin ||
+        fields.view.buffer !== fields.bytes.buffer || fields.view.byteOffset !== fields.bytes.byteOffset ||
+        fields.view.byteLength !== proof.length) {
+      throw new Error('Canonical Game image storage differs from its retained original view');
+    }
     return fields;
   }
   byteGeometry(): NativeByteGeometryHost {
@@ -648,6 +674,16 @@ export class NativeGameCrtOwner extends NativeModuleCrtOwner {
   private constructor(host: NativeEngineCrtHost, token: object) {
     super(host, 'Game', token);
     Object.defineProperty(this, 'host', { value: host, writable: false, configurable: false });
+  }
+  /** The private registry, rather than caller-provided receipt objects, proves
+   * that this is the selected platform's existing canonical Game owner. */
+  static canonicalImageForPlatform(owner: NativeGameCrtOwner, platform: NativeEngineCrtPlatform,
+    label: 'scriptAdminPropertyIdLiteral'): NativeValue<NativeHeapObjectViews> {
+    if (!owner || gameOwners.get(platform) !== owner || owner.host.platform !== platform) {
+      return unknown('Actual canonical Game CRT owner for this platform required');
+    }
+    try { return known(owner.retainedImageStorage(label)); }
+    catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
   }
   static forPlatform(host: NativeEngineCrtHost): NativeGameCrtOwner {
     const existing = gameOwners.get(host.platform);

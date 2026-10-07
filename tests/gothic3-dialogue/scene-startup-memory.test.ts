@@ -42,15 +42,15 @@ describe('source-admitted pools for class-name and reflected SceneAdmin allocati
     expect(platform.snapshot().sections).toHaveLength(0);
   });
 
-  it('preserves the twelve-bucket default, fifteen-bucket NPC profile and separate fourteen-bucket scene profile', () => {
+  it('preserves the thirteen-bucket default, sixteen-bucket NPC profile and separate fifteen-bucket scene profile', () => {
     const base = new NativeMemoryAdmin(new NativeRuntimePlatform());
-    expect(base.snapshot().pools.map(pool => pool.stride)).toEqual([12, 16, 28, 80, 112, 128, 192, 224, 448, 640, 768, 1536]);
+    expect(base.snapshot().pools.map(pool => pool.stride)).toEqual([12, 16, 28, 48, 80, 112, 128, 192, 224, 448, 640, 768, 1536]);
     expect(base.newObject(21).known).toBe(false);
     const npc = fixture([nativeNpcHeapExtension]);
-    expect(npc.memory.snapshot().pools.map(pool => pool.stride)).toEqual([12, 16, 20, 28, 32, 40, 80, 112, 128, 192, 224, 448, 640, 768, 1536]);
+    expect(npc.memory.snapshot().pools.map(pool => pool.stride)).toEqual([12, 16, 20, 28, 32, 40, 48, 80, 112, 128, 192, 224, 448, 640, 768, 1536]);
     expect(npc.memory.newObject(348, 0xc4).known).toBe(false);
     const scene = fixture([nativeSceneStartupHeapExtension]);
-    expect(scene.memory.snapshot().pools.map(pool => pool.stride)).toEqual([12, 16, 24, 28, 80, 112, 128, 192, 224, 384, 448, 640, 768, 1536]);
+    expect(scene.memory.snapshot().pools.map(pool => pool.stride)).toEqual([12, 16, 24, 28, 48, 80, 112, 128, 192, 224, 384, 448, 640, 768, 1536]);
     expect(block(scene.memory.malloc(21)).capacity).toBe(24);
     expect(block(scene.memory.newObject(348, 0xc4)).capacity).toBe(384);
   });
@@ -60,7 +60,7 @@ describe('source-admitted pools for class-name and reflected SceneAdmin allocati
     expect([21, 24, 321, 348, 384].map(request => block(f.memory.newObject(request)).capacity)).toEqual([24, 24, 384, 384, 384]);
     expect(block(f.memory.newObject(25)).capacity).toBe(28);
     expect(block(f.memory.newObject(385)).capacity).toBe(448);
-    for (const request of [20, 29, 32, 41, 320, 449, 512]) {
+    for (const request of [20, 29, 32, 49, 320, 449, 512]) {
       const selected = fixture([nativeSceneStartupHeapExtension]);
       const result = selected.memory.newObject(request);
       expect(result.known).toBe(false);
@@ -161,12 +161,12 @@ describe('source-admitted pools for class-name and reflected SceneAdmin allocati
     expect(f.memory.snapshot().pools.filter(pool => pool.descriptor).map(pool => pool.stride)).toEqual([28, 448]);
   });
 
-  it('uses all seventeen source buckets on one owner and canonical pointer-area prefix in either extension order', () => {
+  it('uses all eighteen source buckets on one owner and canonical pointer-area prefix in either extension order', () => {
     for (const extensions of [[nativeNpcHeapExtension, nativeSceneStartupHeapExtension], [nativeSceneStartupHeapExtension, nativeNpcHeapExtension]]) {
-      const f = fixture(extensions), requests = [12, 16, 20, 21, 28, 29, 36, 72, 108, 120, 172, 204, 348, 448, 520, 688, 1468];
+      const f = fixture(extensions), requests = [12, 16, 20, 21, 28, 29, 36, 47, 72, 108, 120, 172, 204, 348, 448, 520, 688, 1468];
       const allocations = requests.map(request => block(f.memory.newObject(request)));
-      expect(allocations.map(allocation => allocation.capacity)).toEqual([12, 16, 20, 24, 28, 32, 40, 80, 112, 128, 192, 224, 384, 448, 640, 768, 1536]);
-      expect(f.memory.snapshot()).toMatchObject({ pointerAreaCount: 17, guard: 1, criticalSectionEntered: false });
+      expect(allocations.map(allocation => allocation.capacity)).toEqual([12, 16, 20, 24, 28, 32, 40, 48, 80, 112, 128, 192, 224, 384, 448, 640, 768, 1536]);
+      expect(f.memory.snapshot()).toMatchObject({ pointerAreaCount: 18, guard: 1, criticalSectionEntered: false });
       expect(f.platform.snapshot().pending.filter(entry => entry.address === '100e2710')).toHaveLength(1);
       const section = f.platform.snapshot().sections[0]!;
       expect(f.platform.snapshot().sections).toHaveLength(1); expect(section.depth).toBe(0);
@@ -199,10 +199,10 @@ describe('source-admitted pools for class-name and reflected SceneAdmin allocati
     expect(name.freed).toBe(false);
   });
 
-  it('retains the actual allocation prefix when an eighteenth pool region would exceed the audited pointer-area range', () => {
-    const f = fixture(), requests = [12, 16, 20, 21, 28, 29, 36, 72, 108, 120, 172, 204, 348, 448, 520, 688, 1468];
+  it('retains the actual allocation prefix when a nineteenth pool region would exceed the audited pointer-area range', () => {
+    const f = fixture(), requests = [12, 16, 20, 21, 28, 29, 36, 47, 72, 108, 120, 172, 204, 348, 448, 520, 688, 1468];
     requests.forEach(request => block(f.memory.newObject(request)));
-    expect(f.memory.snapshot().pointerAreaCount).toBe(17);
+    expect(f.memory.snapshot().pointerAreaCount).toBe(18);
     // Fill the current 80-byte pool through its physical source-used count.
     const pool80 = f.memory.snapshot().pools.find(pool => pool.stride === 80)!;
     const region80 = pool80.regions[0]!.region;
@@ -211,10 +211,10 @@ describe('source-admitted pools for class-name and reflected SceneAdmin allocati
     const result = f.memory.newObject(72);
     expect(result.known).toBe(false);
     if (!result.known) expect(result.reason).toContain('pointer-area write exceeds');
-    expect(f.memory.snapshot()).toMatchObject({ pointerAreaCount: 17, criticalSectionEntered: true });
-    expect(f.memory.snapshot().virtualRegions).toHaveLength(18);
+    expect(f.memory.snapshot()).toMatchObject({ pointerAreaCount: 18, criticalSectionEntered: true });
+    expect(f.memory.snapshot().virtualRegions).toHaveLength(19);
     expect(f.memory.snapshot().pools.find(pool => pool.stride === 80)!.count).toBe(2);
     expect(f.memory.newObject(21).known).toBe(false);
-    expect(f.memory.snapshot().virtualRegions).toHaveLength(18);
+    expect(f.memory.snapshot().virtualRegions).toHaveLength(19);
   });
 });

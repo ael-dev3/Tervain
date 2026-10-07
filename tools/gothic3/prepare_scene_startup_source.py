@@ -21,7 +21,7 @@ ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / 'assets/gothic3/scene-startup'
 SHARED = '5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214'
 ENGINE = 'd49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3'
-BASE_RULES = '4f1399da573a7b77eaa218191ab8af05ffb58301d3789ce8774e22f080846a2e'
+BASE_RULES = '8f4f8a4cc4e73334385309c78743069c8fef4e682eea72c1716a6a0bf45c5576'
 
 SHARED_TARGETS = {
     'heap24BitmapAlloc': 0x10004557, 'heap24BlockInitialize': 0x10002b3f,
@@ -117,7 +117,7 @@ BUCKETS = {
 SHARED_COLD = {
     'heap24PoolGlobals': (0x102ffd70, 12), 'heap24DescriptorSlot': (0x102ffef8, 4),
     'heap384PoolGlobals': (0x102ffe30, 12), 'heap384DescriptorSlot': (0x102fff38, 4),
-    'heapPointerAreasSelected': (0x10149a18, 17 * 16),
+    'heapPointerAreasSelected': (0x10149a18, 18 * 16),
 }
 ENGINE_COLD = {
     'sceneClassName': (0x30ad9c44, 12), 'sceneCachedSingleton': (0x30ad9cdc, 8),
