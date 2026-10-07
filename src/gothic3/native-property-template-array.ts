@@ -2,6 +2,7 @@
  * The caller owns array initialization and selecting the shared MemoryAdmin.
  * No property registration or virtual-method result is synthesized here. */
 import source from '../../assets/gothic3/property-type-constructors/source.json';
+import lifecycle from '../../assets/gothic3/property-registration-lifecycle/source.json';
 import { NativeHeapObjectViews } from './native-heap-views';
 import { NativeMemoryAdmin } from './native-memory-admin';
 import type { NativeMemoryAllocation } from './native-memory-admin';
@@ -63,6 +64,35 @@ export class NativePropertyTemplateArray {
         this.fields.writeUnsigned(8, capacity);
       }
       this.phase = 'idle'; return known(undefined);
+    } catch (error) {
+      this.phase = 'blocked'; this.boundary ??= error instanceof Error ? error.message : String(error);
+      return unknown(this.boundary);
+    }
+  }
+  /** Original 10088610: return the removed pointer, shift the live suffix,
+   * decrement count, and retain capacity and the obsolete tail word. */
+  remove(index: number): NativeValue<object | null> {
+    if (this.phase !== 'idle') return unknown(this.boundary ?? 'Template array is already executing');
+    this.phase = 'invoking';
+    try {
+      if (!uint32(index) || lifecycle.methods.removePropertySlot.bodyVA !== '0x10088610' ||
+          lifecycle.methods.removePropertySlot.bodyInstructionBytesSha256 !== '2aeaee0103f24e17cff9c0feacb2cd329ba7e05ec030245c64eece6151e41bf1') {
+        throw new Error('Original template removal source and DWORD index required');
+      }
+      const count = this.fields.readUnsigned(4);
+      if (count <= index) { this.phase = 'idle'; return known(null); }
+      const allocation = this.fields.pointer<NativeMemoryAllocation>(0).get();
+      if (!allocation) throw new Error('Original template removal reaches NULL storage');
+      const begin = (index * 4) >>> 0;
+      const destination = new NativeHeapObjectViews(allocation, begin);
+      const removed = destination.pointer(0).get();
+      const remaining = ((count - index - 1) | 0);
+      if (remaining > 0) {
+        const bytes = (remaining * 4) >>> 0;
+        destination.moveAllocationBytesFrom(new NativeHeapObjectViews(allocation, (begin + 4) >>> 0), bytes);
+      }
+      this.fields.writeUnsigned(4, (count - 1) >>> 0);
+      this.phase = 'idle'; return known(removed);
     } catch (error) {
       this.phase = 'blocked'; this.boundary ??= error instanceof Error ? error.message : String(error);
       return unknown(this.boundary);

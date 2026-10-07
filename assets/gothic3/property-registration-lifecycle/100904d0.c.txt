@@ -1,0 +1,24 @@
+/* ENTRY 100904d0 | FUN_100904d0 | STATUS decompiled | 6 ms */
+
+undefined4 FUN_100904d0(undefined4 *param_1)
+
+{
+  undefined4 *puVar1;
+  undefined4 uVar2;
+  undefined4 *puVar3;
+  
+  if (param_1 == (undefined4 *)0x0) {
+    return 0;
+  }
+  puVar1 = (undefined4 *)new(4,0xed);
+  if (puVar1 == (undefined4 *)0x0) {
+    puVar1 = (undefined4 *)0x0;
+  }
+  else {
+    *puVar1 = param_1;
+  }
+  uVar2 = (**(code **)*param_1)();
+  puVar3 = (undefined4 *)thunk_FUN_10090e30(uVar2);
+  *puVar3 = puVar1;
+  return 1;
+}

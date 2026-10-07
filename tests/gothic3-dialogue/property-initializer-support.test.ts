@@ -23,6 +23,28 @@ function heldEmpty(memory: NativeMemoryAdmin) {
   value(string.setTextBytes(Uint8Array.of(0))); return string;
 }
 
+it('removes a template with overlapping pointer-preserving memmove and retains the stale tail', () => {
+  const memory = fixture(), arrayFields = fields(12), allocation = value(memory.newObject(16))!;
+  const storage = new NativeHeapObjectViews(allocation), first = {}, second = {}, third = {};
+  storage.pointer(0).set(first); storage.pointer(4).set(second); storage.pointer(8).set(third);
+  storage.writeUnsigned(12, 0);
+  arrayFields.pointer(0).set(allocation); arrayFields.writeUnsigned(4, 3); arrayFields.writeUnsigned(8, 4);
+  const array = new NativePropertyTemplateArray(arrayFields, memory);
+  expect(value(array.remove(0))).toBe(first);
+  expect(storage.pointer(0).get()).toBe(second); expect(storage.pointer(4).get()).toBe(third);
+  expect(storage.pointer(8).get()).toBe(third);
+  expect(arrayFields.readUnsigned(4)).toBe(2); expect(arrayFields.readUnsigned(8)).toBe(4);
+  expect(value(array.remove(2))).toBeNull(); expect(arrayFields.readUnsigned(4)).toBe(2);
+  expect(value(array.remove(1))).toBe(third); expect(arrayFields.readUnsigned(4)).toBe(1);
+});
+it('does not invent capabilities for partial pointer words during overlapping memmove', () => {
+  const view = fields(12), owner = {};
+  view.pointer(4).set(owner);
+  new NativeHeapObjectViews(view.backing, 0, 3).moveAllocationBytesFrom(new NativeHeapObjectViews(view.backing, 4, 3), 3);
+  expect(() => view.pointer(0).get()).toThrow();
+  expect(view.pointer(4).get()).toBe(owner);
+});
+
 describe('property initializer support over original heap owners', () => {
   it('keeps pointer identity through a real moving pool reallocation and rejects the ended source', () => {
     const memory = fixture(), allocation = value(memory.newObject(12))!;

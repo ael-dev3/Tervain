@@ -34,7 +34,12 @@ registration before they can enable full NPC startup.
 A subsequent local implementation captures and reads 328 property-owner getters:
 291 use field offset 24 and 37 use offset 28. It reads the retained receiver's
 actual vtable and pointer storage. This work is not yet published or connected
-to live virtual-call execution, and does not register property templates.
+to live virtual-call execution, and does not register property templates. The same
+local work adds the original property-object and named-factory constructors,
+preserving flag-bit knowledge, WORD stores, padding and CString ownership. It
+also implements the original template-array removal dependency with overlapping
+pointer-preserving memmove. The singleton's string-keyed registration table and
+the higher-level unregister calls remain unfinished.
 
 The next dependency chain includes original type-singleton initialization,
 class-name and factory construction, property registration, and the lifecycle

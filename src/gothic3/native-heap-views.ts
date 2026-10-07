@@ -76,6 +76,11 @@ export class NativeHeapObjectViews {
         this.pointerBegin < source.pointerBegin + bytes && source.pointerBegin < this.pointerBegin + bytes) {
       throw new Error('Allocation copy requires nonoverlapping retained source and destination');
     }
+    this.moveAllocationBytesFrom(source, bytes);
+  }
+  /** Native memmove snapshots overlapping bytes and complete pointer slots. */
+  moveAllocationBytesFrom(source: NativeHeapObjectViews, bytes: number): void {
+    this.range(0, bytes); source.range(0, bytes);
     const carried = [...(pointers.get(source.pointerIdentity)?.entries() ?? [])]
       .filter(([position, slot]) => position >= source.pointerBegin && position + 4 <= source.pointerBegin + bytes &&
         slot.bytes.every((byte, i) => byte === source.bytes[position - source.pointerBegin + i]) &&
