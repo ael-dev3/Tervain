@@ -1,5 +1,15 @@
 # Meshy NPC cast
 
+## 0.0.13 runtime rework
+
+A63 keeps every prepared file below and repairs the residents at runtime, once per model: each actor's private
+skeleton moves its elbows and knees onto the model's own limbs; the skin's zone field is made continuous, with
+blended shoulders, garments returned from the arms to the body and cloth shared between the legs; joints blend as
+dual quaternions; the hanging arm, gestures, seats and work poses are fitted to each body; four trades hold small
+tools built in code; and surfaces shade as skin, cloth, leather or steel, with covered cloth layers kept behind their
+cover. The eleven-joint contract, hashes, UVs, textures and budgets below are unchanged. See the
+[resident record](residents-0.0.13.md).
+
 ## Current 0.0.12 character repair
 
 The owner's character-polish request (A55) rebuilds all **17 supplied NPC derivatives** from the unchanged Meshy originals. The repaired files are installed locally under `public/models/npcs/`; every manifest entry records `surfaceBake: "geometry-only-v1"`. This supersedes the original **0.0.11** geometry/material preparation below while retaining the 17 role assignments, faces and costumes, eleven-joint procedural rig, private per-world resources and complete **50,000-triangle actor cap**. The approved Weathered Wanderer retains its geometry, source PBR maps, six authored clips and calibrated movement. No new image generation, lore, cloth simulation or version promotion is introduced.

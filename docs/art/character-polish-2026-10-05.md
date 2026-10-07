@@ -171,3 +171,6 @@ under `outputs/tervain-character-polish/`. Earlier hip-heavy/skirt snapshots
 and unstamped prototypes are history, not the accepted garment source. All
 preview results are local; publication remains pending integration, as
 recorded in the [release record](../production/releases/0.0.12.md#publication).
+
+**Later, A63 (7 October 2026):** the residents' joints, skin blending, poses, seats and shading were repaired again at
+runtime, on the same files. See the [resident record](../engineering/residents-0.0.13.md).

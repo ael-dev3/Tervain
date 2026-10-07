@@ -2,9 +2,17 @@ import * as THREE from 'three';
 import { GLTFLoader, type GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { clone as cloneSkinned } from 'three/examples/jsm/utils/SkeletonUtils.js';
 import { NPCS } from '../content/npcs';
+import type { NpcId } from '../game/types';
 import { createNpcAttachments, setArmed, type Grip, type Rig, type NpcEquipment, type Mode } from './characters';
 import { BONES, type BoneName } from './human/skin';
 import { repairNpcSurfaceGeometry, repairNpcSurfaceMaterial } from './npcSurface';
+import { installDualQuaternionSkinning } from './npc/dualQuaternionSkinning';
+import { applyNpcSkinRepair, computeNpcSkinRepair, type LowerGarment, type SkinRepairJoints } from './npc/skinRepair';
+import { fitNpcJoints, measuredPalm, type NpcJointFit } from './npc/jointFit';
+import { fitNpcPoses, measureBody, type FittedWork, type NpcPoseFit } from './npc/poseFit';
+import { createWorkProp } from './npc/workProps';
+import { installResidentSurface, patchResidentShadow, residentHiddenLayers, residentSkinPrior, type ResidentAxis } from './npc/residentSurface';
+import { npcStyle, type WorkGesture } from './npcStyle';
 import { modelAssetUrl } from './assets/modelUrl';
 import { withModelLoadSlot, type ModelLoadProgress } from './assets/modelLoadQueue';
 
@@ -130,15 +138,75 @@ export function validateMeshyNpcAsset(asset: Pick<GLTF, 'scene' | 'animations'>,
   return triangles;
 }
 
+/** Mara's source and its fireside twin keep their measured long-skirt fit (below) instead of the shared leg cloth. */
+export const NPC_LOWER_GARMENTS: Readonly<Record<string, LowerGarment>> = { 'rillford-reeve': 'fitted', fireside: 'fitted' };
+
+/**
+ * Sources whose arms took a garment panel hanging beside them (the caravan master's cape, the baker's apron, the fisher's
+ * pack), with how close beside the forearm and hand that panel hangs.
+ */
+export const NPC_ARM_GARMENTS: Readonly<Record<string, Partial<Record<'upper' | 'fore' | 'hand', number>>>> = {
+  // The baker's back apron hangs right against his forearms and below his hands: only its detached panel is released.
+  'caravan-master': { hand: 0.09 }, 'village-baker': { upper: 1, fore: 1, hand: 1 }, fisher: {},
+};
+
+/** Presentation repairs layered over the prepared skins; every one is on in the game. Review tools switch them off to compare. */
+export interface NpcRigOptions {
+  /** Blend joints as rigid motions (dual quaternions) instead of averaged matrices. */
+  dualQuaternion?: boolean;
+  /** Blend the shoulder seam and release garments that the source skin gave to the arms. */
+  skinRepair?: boolean;
+  /** Move each elbow and knee to the model's own joint before anything measures from them. */
+  jointFit?: boolean;
+  /** Fit the hanging arm and the standing gestures to this figure's own body. */
+  poseFit?: boolean;
+  /** Shade skin, cloth, leather and steel as what they are (npc/residentSurface.ts). */
+  surface?: boolean;
+  /** The resident's task when it is drawn with tools (writing, provisioning, stonework, measuring). */
+  work?: WorkGesture;
+}
+
+export const NPC_RIG_DEFAULTS: Required<Omit<NpcRigOptions, 'work'>> & Pick<NpcRigOptions, 'work'> = { dualQuaternion: true, skinRepair: true, jointFit: true, poseFit: true, surface: true };
+
+/** Skin priors per source geometry and repair setting (every actor of one model shares its prior). */
+const skinPriors = new WeakMap<THREE.BufferGeometry, Map<string, Float32Array>>();
+
+/** Covered layers per source geometry and joint fit (the fitted axes decide a lining's side). */
+const hiddenLayers = new WeakMap<THREE.BufferGeometry, Map<string, Float32Array>>();
+
+/** Joint fits per source model: the first actor measures, the rest take the same joint places. */
+const jointFits = new WeakMap<THREE.Object3D, { fit: NpcJointFit; places: Map<string, THREE.Vector3> }>();
+
+function fittedJoints(template: THREE.Object3D, scene: THREE.Group, bones: Record<BoneName, THREE.Bone>): NpcJointFit {
+  const known = jointFits.get(template);
+  if (!known) {
+    const fit = fitNpcJoints(scene, bones);
+    jointFits.set(template, { fit, places: new Map(BONES.map(name => [name, bones[name].position.clone()])) });
+    return fit;
+  }
+  for (const name of BONES) bones[name].position.copy(known.places.get(name)!);
+  scene.updateMatrixWorld(true);
+  scene.traverse(object => { if ((object as THREE.SkinnedMesh).isSkinnedMesh) (object as THREE.SkinnedMesh).skeleton.calculateInverses(); });
+  return known.fit;
+}
+
+/** Pose fits are measured once per source model and repair setting; every actor of that model shares the angles. */
+const poseFits = new WeakMap<THREE.BufferGeometry, Map<string, NpcPoseFit>>();
+
 /** A private animated skeleton and GPU resources per actor/world; only decoded image pixels are shared. */
-export function createMeshyNpcRig(asset: Pick<GLTF, 'scene' | 'animations'>, entry: MeshyNpcEntry, heightScale = 1, grip: Grip = 'none', equipment?: NpcEquipment): Rig {
+export function createMeshyNpcRig(asset: Pick<GLTF, 'scene' | 'animations'>, entry: MeshyNpcEntry, heightScale = 1, grip: Grip = 'none', equipment?: NpcEquipment,
+  options: NpcRigOptions = {}): Rig {
+  const settings = { ...NPC_RIG_DEFAULTS, ...options };
   if (!Number.isFinite(heightScale) || heightScale < 0.7 || heightScale > 1.4) throw new Error('Resident height scale is invalid.');
   const root = new THREE.Group(), body = new THREE.Group();
   root.name = `Resident / ${entry.id}`; body.name = 'Resident / visual action pivot'; root.add(body);
   const scene = cloneSkinned(asset.scene) as THREE.Group;
   body.add(scene);
   const bones = bindNpcBones(scene);
+  const jointFit = settings.jointFit ? fittedJoints(asset.scene, scene, bones) : null;
+  const repairJoints = settings.skinRepair ? npcRepairJoints(scene, bones) : null;
   const geometries = new Map<THREE.BufferGeometry, THREE.BufferGeometry>();
+  const sourceOf = (own: THREE.BufferGeometry) => { for (const [template, clone] of geometries) if (clone === own) return template; return own; };
   const fittedSkirts = new Set<THREE.BufferGeometry>();
   const materials = new Map<THREE.Material, THREE.Material>();
   const textures = new Map<THREE.Texture, THREE.Texture>();
@@ -173,6 +241,11 @@ export function createMeshyNpcRig(asset: Pick<GLTF, 'scene' | 'animations'>, ent
       // Properly rebaked templates already carry the precise Blender basis used by their normal texture.
       // Only old prepared templates/recovery fixtures need runtime geometric-normal reconstruction.
       if (entry.surfaceBake !== 'geometry-only-v1') repairNpcSurfaceGeometry(geometry);
+      const skinned = mesh as THREE.SkinnedMesh;
+      if (repairJoints && skinned.isSkinnedMesh) {
+        applyNpcSkinRepair(geometry, computeNpcSkinRepair(mesh.geometry, skinned.skeleton.bones.map(bone => bone.name), repairJoints,
+          { lowerGarment: NPC_LOWER_GARMENTS[entry.id] ?? 'shared', armGarments: entry.id in NPC_ARM_GARMENTS, armReach: NPC_ARM_GARMENTS[entry.id] }));
+      }
       geometries.set(mesh.geometry, geometry);
     }
     mesh.geometry = geometry;
@@ -186,6 +259,39 @@ export function createMeshyNpcRig(asset: Pick<GLTF, 'scene' | 'animations'>, ent
         conditionLongSkirtSkin(skin); fittedSkirts.add(geometry);
       }
       skin.boundingSphere = new THREE.Sphere(new THREE.Vector3(0, entry.height / 2, 0), entry.height * 1.2);
+      if (settings.surface) {
+        const names = skin.skeleton.bones.map(bone => bone.name);
+        const priorKey = `${settings.skinRepair}|${settings.jointFit}`, source = sourceOf(skin.geometry);
+        let priors = skinPriors.get(source);
+        if (!priors) { priors = new Map(); skinPriors.set(source, priors); }
+        let prior = priors.get(priorKey);
+        if (!prior) { prior = residentSkinPrior(skin.geometry, names); priors.set(priorKey, prior); }
+        const hiddenKey = `${settings.jointFit}`;
+        let byFit = hiddenLayers.get(source);
+        if (!byFit) { byFit = new Map(); hiddenLayers.set(source, byFit); }
+        let hidden = byFit.get(hiddenKey);
+        if (!hidden) { hidden = residentHiddenLayers(source, names, residentAxes(repairJoints ?? npcRepairJoints(scene, bones))); byFit.set(hiddenKey, hidden); }
+        for (const material of Array.isArray(skin.material) ? skin.material : [skin.material]) {
+          if ((material as THREE.MeshStandardMaterial).isMeshStandardMaterial) {
+            installResidentSurface(material as THREE.MeshStandardMaterial, skin.geometry, prior,
+              { metal: (material as THREE.MeshStandardMaterial).metalness > 0.1, hidden });
+          }
+        }
+      }
+      // The matching shadow materials belong to the actor's colour material and leave with it.
+      const owner = Array.isArray(skin.material) ? skin.material[0] : skin.material;
+      if (settings.dualQuaternion) {
+        const dq = installDualQuaternionSkinning(skin);
+        owner?.addEventListener('dispose', () => dq.dispose());
+      } else if (settings.surface) {
+        const side = owner?.side ?? THREE.FrontSide;
+        const depth = new THREE.MeshDepthMaterial({ depthPacking: THREE.RGBADepthPacking, side }), distance = new THREE.MeshDistanceMaterial({ side });
+        skin.customDepthMaterial = depth; skin.customDistanceMaterial = distance;
+        owner?.addEventListener('dispose', () => { depth.dispose(); distance.dispose(); });
+      }
+      if (settings.surface) {
+        for (const shadow of [skin.customDepthMaterial, skin.customDistanceMaterial]) if (shadow) patchResidentShadow(shadow as THREE.MeshDepthMaterial);
+      }
     }
   });
   const carried = equipment ?? (grip === 'blade' ? 'blade' : undefined);
@@ -213,7 +319,7 @@ export function createMeshyNpcRig(asset: Pick<GLTF, 'scene' | 'animations'>, ent
   // Scale the visual only. Controllers, routes, collision radii and durable actor identities remain authoritative.
   body.scale.setScalar(heightScale);
   root.userData.meshyNpc = { id: entry.id, triangles: completeTriangles, modelTriangles: entry.triangles,
-    attachmentTriangles: completeTriangles - entry.triangles, animation: 'derived-game-poser' };
+    attachmentTriangles: completeTriangles - entry.triangles, animation: 'derived-game-poser', jointFit: jointFit?.moved ?? null };
   const rig: Rig = {
     root, body, hips: bones.hips, torso: bones.torso, head: bones.head,
     armL: bones.armL, armR: bones.armR, elbowL: bones.elbowL, elbowR: bones.elbowR,
@@ -247,6 +353,47 @@ export function createMeshyNpcRig(asset: Pick<GLTF, 'scene' | 'animations'>, ent
     root.userData.meshyNpc.soleClearance = soleClearance;
   } };
   root.userData.meshyNpc.soleSamples = sole.reduce((total, sample) => total + sample.vertices.length, 0);
+  if (settings.poseFit) {
+    let skin: THREE.SkinnedMesh | null = null, source: THREE.BufferGeometry | null = null;
+    scene.traverse(object => { if ((object as THREE.SkinnedMesh).isSkinnedMesh && !skin) skin = object as THREE.SkinnedMesh; });
+    for (const [template, own] of geometries) if (own === skin!?.geometry) source = template;
+    const key = `${settings.skinRepair}|${settings.jointFit}`;
+    const known = source ? poseFits.get(source)?.get(key) : undefined;
+    const palms: [THREE.Vector3, THREE.Vector3] = jointFit ? [jointFit.palmL, jointFit.palmR]
+      : [measuredPalm(scene, bones.elbowL, bones.armL), measuredPalm(scene, bones.elbowR, bones.armR)];
+    const fit = known ?? (skin ? fitNpcPoses(rig, measureBody(rig, skin), palms, entry.id in NPC_ARM_GARMENTS) : undefined);
+    if (fit && source && !known) {
+      const byKey = poseFits.get(source) ?? new Map<string, NpcPoseFit>();
+      byKey.set(key, fit); poseFits.set(source, byKey);
+    }
+    rig.npc.fit = fit;
+    root.userData.meshyNpc.poseFit = fit ? { hang: fit.hang, rest: fit.rest, unplaced: fit.unplaced } : null;
+    const task = settings.work && fit?.work[settings.work as FittedWork];
+    if (task && settings.work) {
+      // Tools for the resident's task, shown only while they work; the complete actor stays within its budget.
+      const props: THREE.Object3D[] = [];
+      let added = 0;
+      for (const placement of task.props) {
+        const built = createWorkProp(placement.kind, placement.length);
+        const holder = placement.holder === 'lap' ? bones.hips : placement.holder === 'handL' ? bones.elbowL : bones.elbowR;
+        const socket = new THREE.Group();
+        socket.name = `NPC / ${placement.holder} work socket`;
+        if (placement.holder === 'lap') socket.position.fromArray(placement.position);
+        else socket.position.copy(placement.holder === 'handL' ? palms[0] : palms[1]).sub(scene.worldToLocal(holder.getWorldPosition(new THREE.Vector3())));
+        built.group.quaternion.fromArray(placement.quaternion);
+        socket.add(built.group);
+        holder.add(socket);
+        props.push(socket);
+        paint.push(...built.materials);
+        added += built.triangles;
+      }
+      for (const prop of props) prop.visible = false;
+      rig.npc.work = { gesture: settings.work, props };
+      root.userData.meshyNpc.triangles += added;
+      root.userData.meshyNpc.attachmentTriangles += added;
+      if (root.userData.meshyNpc.triangles > NPC_TRIANGLE_LIMIT) throw new Error(`Resident ${entry.id} exceeds the complete ${NPC_TRIANGLE_LIMIT}-triangle actor budget with work tools.`);
+    }
+  }
   if (carried) setArmed(rig, carried === 'sheathed' ? 'sheathed' : 'drawn');
   return rig;
 }
@@ -358,44 +505,34 @@ function npcSoleSamples(scene: THREE.Group): { mesh: THREE.SkinnedMesh; vertices
   return [...samples].map(([mesh, vertices]) => ({ mesh, vertices }));
 }
 
-/** Palm centre inferred from the lower tip of the source's actual elbow-weighted surface, with a bounded fallback for synthetic fixtures. */
-function measuredPalm(scene: THREE.Group, elbow: THREE.Bone, arm: THREE.Bone): THREE.Vector3 {
-  const candidates: THREE.Vector3[] = [], point = new THREE.Vector3();
-  scene.updateMatrixWorld(true);
-  scene.traverse(object => {
-    const mesh = object as THREE.SkinnedMesh;
-    if (!mesh.isSkinnedMesh) return;
-    const joint = mesh.skeleton.bones.indexOf(elbow), position = mesh.geometry.getAttribute('position');
-    const indices = mesh.geometry.getAttribute('skinIndex'), weights = mesh.geometry.getAttribute('skinWeight');
-    for (let vertex = 0; vertex < position.count; vertex++) {
-      let weight = 0;
-      for (let slot = 0; slot < 4; slot++) if (indices.getComponent(vertex, slot) === joint) weight += weights.getComponent(vertex, slot);
-      if (weight < 0.6) continue;
-      point.fromBufferAttribute(position, vertex); mesh.localToWorld(point); scene.worldToLocal(point);
-      candidates.push(point.clone());
-    }
-  });
-  const at = elbow.getWorldPosition(new THREE.Vector3()); scene.worldToLocal(at);
-  const shoulder = arm.getWorldPosition(new THREE.Vector3()); scene.worldToLocal(shoulder);
-  const fallback = at.clone().add(new THREE.Vector3(0.013, -Math.max(0.18, shoulder.y - at.y) - 0.035, 0.012));
-  if (candidates.length < 12) return fallback;
-  const bottom = Math.min(...candidates.map(candidate => candidate.y));
-  const hand = candidates.filter(candidate => candidate.y <= bottom + 0.085);
-  if (hand.length < 6 || bottom < at.y - 0.6 || bottom > at.y - 0.1) return fallback;
-  const palm = hand.reduce((sum, candidate) => sum.add(candidate), new THREE.Vector3()).multiplyScalar(1 / hand.length);
-  // The grasp lands above fingertips and near the centre of the glove, including chunky armour variants.
-  palm.y = bottom + 0.065;
-  return palm;
+/** Bind pivots the skin repair measures from: shoulders, elbows and palms in the skinned scene's space. */
+/** The bones' spans in bind space, for telling a garment's outer face from its lining: spine, arms to the palms, legs to the ankles. */
+function residentAxes({ pivots, palmL, palmR }: SkinRepairJoints): ResidentAxis[] {
+  const ankle = (knee: THREE.Vector3) => new THREE.Vector3(knee.x, 0.06, knee.z);
+  return [
+    [pivots.hips, pivots.torso], [pivots.torso, pivots.head], [pivots.head, pivots.head.clone().add(new THREE.Vector3(0, 0.2, 0))],
+    [pivots.armL, pivots.elbowL], [pivots.elbowL, palmL], [pivots.armR, pivots.elbowR], [pivots.elbowR, palmR],
+    [pivots.legL, pivots.kneeL], [pivots.kneeL, ankle(pivots.kneeL)], [pivots.legR, pivots.kneeR], [pivots.kneeR, ankle(pivots.kneeR)],
+  ];
+}
+
+function npcRepairJoints(scene: THREE.Group, bones: Record<BoneName, THREE.Bone>): SkinRepairJoints {
+  const at = (bone: THREE.Bone) => scene.worldToLocal(bone.getWorldPosition(new THREE.Vector3()));
+  const pivots = Object.fromEntries(BONES.map(name => [name, at(bones[name])])) as Record<BoneName, THREE.Vector3>;
+  return { pivots, palmL: measuredPalm(scene, bones.elbowL, bones.armL), palmR: measuredPalm(scene, bones.elbowR, bones.armR) };
 }
 
 export class MeshyNpcCatalog {
   constructor(readonly manifest: MeshyNpcManifest, private readonly templates: ReadonlyMap<string, GLTF>) {}
-  create(role: string, heightScale = 1, grip: Grip = 'none'): Rig {
+  create(role: string, heightScale = 1, grip: Grip = 'none', options?: NpcRigOptions): Rig {
     const id = this.manifest.roles[role], entry = this.manifest.assets.find(candidate => candidate.id === id);
     const asset = id && this.templates.get(id);
     if (!entry || !asset) throw new Error(`Resident model ${role} has not been prepared.`);
     const equipment = role === 'enemy:ford_bandit_b' ? 'club' : role === 'enemy:ford_bandit_a' ? 'blade' : role === 'named:shrine_warden' ? 'sheathed' : undefined;
-    return createMeshyNpcRig(asset, entry, heightScale, grip, equipment);
+    const resident = role.startsWith('named:') ? role.slice('named:'.length) as NpcId : null;
+    const task = resident ? npcStyle(resident).work : undefined;
+    const work = task === 'writing' || task === 'provisioning' || task === 'stonework' || task === 'measuring' ? task : undefined;
+    return createMeshyNpcRig(asset, entry, heightScale, grip, equipment, { work, ...options });
   }
 }
 

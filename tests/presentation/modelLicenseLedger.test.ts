@@ -10,6 +10,7 @@ const glbs = (directory: string): string[] => readdirSync(join(root, directory),
     : entry.name.endsWith('.glb') ? [`${directory}/${entry.name}`] : []);
 
 describe('distributed model source notices', () => {
+  // Hashing every delivered model is bound by the disk, which other workers parsing the same models share.
   it('covers every original-game and archived GLB with an accurate binary fingerprint', () => {
     const actual = [...glbs('public/models'), ...glbs('assets/warpkeep')].sort();
     expect(ledger.assets.map((asset: { file: string }) => asset.file).sort()).toEqual(actual);
@@ -21,7 +22,7 @@ describe('distributed model source notices', () => {
     }
     expect(ledger.summary.publicModelFiles).toBe(glbs('public/models').length);
     expect(ledger.summary.archivedWarpkeepFiles).toBe(glbs('assets/warpkeep').length);
-  });
+  }, 60_000);
 
   it('retains the supplied animals, their exact source records and modification credit', () => {
     const record = JSON.parse(readFileSync(join(root, 'docs/engineering/meshy-animal-assets.json'), 'utf8'));

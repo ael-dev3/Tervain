@@ -36,7 +36,9 @@ function resident() {
   scene.add(mesh); mesh.bind(new THREE.Skeleton(BONES.map(name => bones[name])));
   const entry: MeshyNpcEntry = { id: 'pose-resident', file: 'pose-resident.glb', triangles: 3, bytes: 20,
     height: 1.8, sha256: '0'.repeat(64), surfaceBake: 'geometry-only-v1' };
-  const rig = createMeshyNpcRig({ scene, animations: [] } as unknown as GLTF, entry);
+  // Three triangles are no body to fit joints, skin or gestures to: this stand-in exercises the written poses.
+  const rig = createMeshyNpcRig({ scene, animations: [] } as unknown as GLTF, entry, 1, 'none', undefined,
+    { jointFit: false, skinRepair: false, poseFit: false });
   return { rig, geometry, mesh: rig.body.getObjectByProperty('isSkinnedMesh', true) as THREE.SkinnedMesh };
 }
 
@@ -80,7 +82,7 @@ describe('resident pose continuity and supported posture', () => {
     rig.root.position.set(7, 2, -4); rig.root.rotation.y = .6;
     hold(rig, pose({ mode: 'work', workGesture: 'provisioning', time: 3 }));
     const modes: Partial<Pose>[] = [
-      { mode: 'talk' }, { mode: 'idle', idle: { seed: 1103, clock: 3, force: 'scratch head' } },
+      { mode: 'talk' }, { mode: 'idle', idle: { seed: 1103, clock: 3, force: 'hands clasped' } },
       { mode: 'walk', speed: .78 }, { mode: 'sit' }, { mode: 'talk', seated: true }, { mode: 'walk', speed: .78 },
       { mode: 'work', workGesture: 'stonework' }, { mode: 'idle' },
     ];
@@ -108,21 +110,19 @@ describe('resident pose continuity and supported posture', () => {
     expect(rig.root.userData.meshyNpc.triangles).toBe(3);
   });
 
-  it('performs a brief scratch and returns to rest before selecting another standing gesture', () => {
+  it('clasps the hands for part of a turn, then returns them to rest before the next gesture', () => {
     let seed = 1;
-    while (idleVariant(seed, 1) !== 'scratch head') seed++;
+    while (idleVariant(seed, 1) !== 'hands clasped') seed++;
     const { rig } = resident();
-    let raisedSeconds = 0, peak = 0;
+    let claspedSeconds = 0;
     for (let frame = 0; frame < 420; frame++) {
       const clock = frame / 60;
       poseRig(rig, pose({ time: clock, idle: { seed, clock } }), 1 / 60);
-      if (rig.armR.rotation.x < -1.2) raisedSeconds += 1 / 60;
-      peak = Math.min(peak, rig.armR.rotation.x);
+      if (rig.elbowR!.rotation.x < -0.6) claspedSeconds += 1 / 60;
     }
-    expect(peak).toBeLessThan(-2);
-    expect(raisedSeconds).toBeGreaterThan(1);
-    expect(raisedSeconds).toBeLessThan(2.5);
-    expect(rig.armR.rotation.x).toBeGreaterThan(-.1);
+    expect(claspedSeconds).toBeGreaterThan(3);
+    expect(claspedSeconds).toBeLessThan(6);
+    expect(Math.abs(rig.armR.rotation.y)).toBeLessThan(.1);
     expect(rig.elbowR!.rotation.x).toBeGreaterThan(-.25);
   });
 

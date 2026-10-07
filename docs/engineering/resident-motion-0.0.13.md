@@ -68,3 +68,7 @@ No model, texture, voice or music binary is changed by this correction.
 The existing 50,000-triangle actor budget and model-rights records remain
 in effect. These are procedural animation improvements, not motion-capture
 or full foot IK.
+
+A63 later fitted the hanging arms, gestures, seats and work poses to each resident's body, refitted the elbows and
+knees, blended the skin as rigid motions and gave four trades their tools; see the
+[resident record](residents-0.0.13.md).

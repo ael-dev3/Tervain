@@ -166,7 +166,7 @@ export const HUNTER_CAMP = {
   x: -216, z: 31, yaw: Math.PI,
   shelter: { x: -4.3, z: -2.5, width: 3.6, depth: 3.2, frontHeight: 2.45, backHeight: 1.65 },
   dryingRack: { x: 3.7, z: -3.8, width: 2.8, height: 2.08 },
-  worker: { x: 1.75, z: 0 },
+  worker: { x: 1.62, z: 0 },
 } as const;
 
 export function hunterCampPoint(localX: number, localZ: number): V2 {
@@ -271,12 +271,24 @@ export function frontOf(b: BuildingSpec, out: number, side = 0): V2 {
 
 export interface Anchor extends V2 {
   yaw: number;
+  /** For a place to sit: the seat top's height above the ground, metres. */
+  seat?: number;
 }
 
-const a = (p: V2, yaw = 0): Anchor => ({ x: p.x, z: p.z, yaw });
+const a = (p: V2, yaw = 0, seat?: number): Anchor => (seat === undefined ? { x: p.x, z: p.z, yaw } : { x: p.x, z: p.z, yaw, seat });
+
+/** Top of the village's plank benches (presentation/props.ts `benchSet`: a 0.09 m plank laid at 0.46 m). */
+export const BENCH_SEAT_HEIGHT = 0.55;
+
+/**
+ * A place on a bench at (x, z) laid along `yaw`: the sitter faces along the bench's +z, the hip joint a few centimetres
+ * forward of the plank's centre so the seat of the trousers or skirt rests on the plank and the thighs pass its edge.
+ */
+const onBench = (x: number, z: number, yaw: number, along = 0): Anchor =>
+  a({ x: x + Math.cos(yaw) * along + Math.sin(yaw) * 0.04, z: z - Math.sin(yaw) * along + Math.cos(yaw) * 0.04 }, yaw, BENCH_SEAT_HEIGHT);
 
 export const ANCHORS: Record<string, Anchor> = {
-  // The supplier stands beside the counter, leaving its front and the woodland track open.
+  // The supplier stands at the counter's end, close enough to rest both hands on it, leaving its front and the woodland track open.
   hunter_station: a(hunterCampPoint(HUNTER_CAMP.worker.x, HUNTER_CAMP.worker.z), Math.PI / 2),
   hunter_shelter: a({ x: -211, z: 30 }, HUNTER_CAMP.yaw),
   hunter_shelter_structure: a(hunterCampPoint(HUNTER_CAMP.shelter.x, HUNTER_CAMP.shelter.z), HUNTER_CAMP.yaw),
@@ -291,7 +303,7 @@ export const ANCHORS: Record<string, Anchor> = {
   reeve_door: a(frontOf(bySpec('reeve_house'), 1.4), 0),
   bakery_door: a(frontOf(bySpec('bakery'), 1.4), 0),
   mill_door: a(frontOf(bySpec('mill'), 1.4), 0),
-  inn_bench: a({ x: -9, z: 35.2 }, 0),
+  inn_bench: onBench(-9, 35.6, 0, -0.35),
   shrine_altar: a({ x: -14, z: -95.6 }, 3.1),
   shrine_steps: a({ x: -18, z: -95 }, 0),
   wetland_edge: a({ x: -15, z: -86 }, -2.2),
@@ -301,10 +313,11 @@ export const ANCHORS: Record<string, Anchor> = {
   archive_back: a({ x: -46, z: -109.4 }, 0),
   quarry_yard: a({ x: 86, z: -24 }, 1.2),
   quarry_office: a(frontOf(bySpec('quarry_office'), 1.4), 0),
-  quarry_face: a({ x: 96, z: -30 }, 1.6),
+  // Within a hammer's reach of the westmost boulder's face, so the chisel meets stone.
+  quarry_face: a({ x: 97.25, z: -28.7 }, Math.PI / 2),
   crew_bunks: a(frontOf(bySpec('crew_bunks'), 1.4), 0),
   cut_ledge: a({ x: 122, z: -72 }, 3.1),
-  ford_camp: a({ x: 44, z: 31 }, 1.0),
+  ford_camp: onBench(44, 32.4, 1.0, 0.3),
   strand_fire: a({ x: -103, z: 16 }, 0),
   lantern_door: a({ x: -318, z: 113 }, 0),
 };

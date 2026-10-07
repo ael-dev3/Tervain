@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { ANCHORS, bySpec, frontOf } from '../world/layout';
+import { ANCHORS, bySpec, frontOf, BENCH_SEAT_HEIGHT } from '../world/layout';
 import type { BuildContext, FrameContext, SceneModule } from './context';
 import { createAmbientRig, poseRig, type AmbientStyle, type Look, type Mode, type Rig } from './characters';
 
@@ -80,6 +80,7 @@ function poseResident(p: Resident, dt: number, reducedMotion: boolean) {
   poseRig(p.rig, {
     mode,
     seated: p.spec.seated,
+    seatHeight: p.spec.seated ? BENCH_SEAT_HEIGHT : undefined,
     speed: 0,
     // A single actor clock preserves gesture phase through pauses and mode changes.
     time: p.t,
