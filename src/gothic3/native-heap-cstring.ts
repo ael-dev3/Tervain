@@ -10,6 +10,7 @@ import { copyNativeBytesScalar } from './native-byte-string';
 type CStringData = { readonly allocation: NativeMemoryAllocation; readonly characterOffset: 8 };
 const dataOwners = new WeakMap<object, NativeMemoryAdmin>();
 const pendingTextConstruction = Symbol('Original CString text constructor destination');
+const pendingPropertyCopy = Symbol('Original property constructor inline CString copy');
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = (reason: string): { known: false; reason: string } => ({ known: false, reason });
 const source = rules as unknown as { schema: string; inputs: { SharedBase: string };
@@ -75,13 +76,13 @@ export class NativeHeapCString {
   private constructingText = false;
   private constructionAllocation: NativeMemoryAllocation | null = null;
   private readonly trace: string[] = [];
-  constructor(private readonly memory: NativeMemoryAdmin, slot?: NativeHeapObjectViews, token?: typeof pendingTextConstruction,
+  constructor(private readonly memory: NativeMemoryAdmin, slot?: NativeHeapObjectViews, token?: typeof pendingTextConstruction | typeof pendingPropertyCopy,
     private readonly interrupted?: () => string | null) {
     assertSource();
-    if (token !== undefined && token !== pendingTextConstruction) throw new Error('Actual CString text-construction entry required');
+    if (token !== undefined && token !== pendingTextConstruction && token !== pendingPropertyCopy) throw new Error('Actual CString construction entry required');
     this.slot = slot ?? new NativeHeapObjectViews({ identity: {}, bytes: new Uint8Array(4), knownMask: new Uint8Array(4), freed: false });
     if (this.slot.bytes.length !== 4) throw new Error('Actual four-byte bCString object slot required');
-    this.construction = token === pendingTextConstruction ? 'pending' : 'complete';
+    this.construction = token !== undefined ? 'pending' : 'complete';
     if (this.construction === 'complete') {
       this.slot.pointer<CStringData>(0).set(null);
       this.trace.push('cstring-default-constructor:10012d20');
@@ -92,6 +93,26 @@ export class NativeHeapCString {
   static beginTextConstruction(memory: NativeMemoryAdmin, slot: NativeHeapObjectViews,
     interrupted?: () => string | null): NativeHeapCString {
     return new NativeHeapCString(memory, slot, pendingTextConstruction, interrupted);
+  }
+  /** Inline copies in the original property constructors store the current
+   * pointer and increment its WORD reference count even for an empty holder.
+   * Creating the destination owner performs no preliminary NULL store. */
+  static copyForPropertyConstruction(source: NativeHeapCString, slot: NativeHeapObjectViews): NativeValue<NativeHeapCString> {
+    if (!(source instanceof NativeHeapCString)) return unknown('Actual property CString source owner required');
+    const destination = new NativeHeapCString(source.memory, slot, pendingPropertyCopy, source.interrupted);
+    const result = source.execute(() => {
+      const data = source.data();
+      destination.slot.pointer<CStringData>(0).set(data);
+      if (data) {
+        const fields = source.fields(data), references = (fields.readUnsigned(4, 2) + 1) & 0xffff;
+        fields.writeUnsigned(4, references, 2);
+        destination.trace.push('property-inline-cstring-copy:' + references);
+      }
+      destination.construction = 'complete';
+      return known(destination);
+    });
+    if (!result.known) { destination.construction = 'failed'; destination.blocked = result.reason; }
+    return result;
   }
   /** Heap identity admission only; this performs no native field access. */
   usesMemoryAdmin(memory: NativeMemoryAdmin): boolean { return this.memory === memory; }

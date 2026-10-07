@@ -1,0 +1,20 @@
+/* ENTRY 10088cc0 | bCPropertyTypeBase::bCPropertyTypeBase | STATUS decompiled | 7 ms */
+
+bCPropertyTypeBase * __thiscall
+bCPropertyTypeBase::bCPropertyTypeBase(bCPropertyTypeBase *this,int *param_1,undefined4 param_2)
+
+{
+  int iVar1;
+  
+  this->vftablePtr = &vftable;
+  iVar1 = *param_1;
+  (this->bCPropertyTypeBase_data).offset_0x0 = iVar1;
+  if (iVar1 != 0) {
+    *(short *)(iVar1 + -4) = *(short *)(iVar1 + -4) + 1;
+  }
+  bCString::bCString((bCString *)&(this->bCPropertyTypeBase_data).offset_0x4);
+  bCString::bCString((bCString *)&(this->bCPropertyTypeBase_data).offset_0x8);
+  (this->bCPropertyTypeBase_data).offset_0xc = param_2;
+  (this->bCPropertyTypeBase_data).offset_0x10 = 0;
+  return this;
+}
