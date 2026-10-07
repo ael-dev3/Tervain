@@ -12,7 +12,10 @@ def capture(study, output):
                                {0x1000191f: 'registerType', 0x1000206d: 'unregisterProperty',
                                 0x100035ee: 'destroyProperty', 0x10090e30: 'lookupTypeSlot',
                                 0x10088610: 'removePropertySlot', 0x10008cd3: 'findTypeSlot',
-                                0x10002c7a: 'hashCString', 0x10004638: 'assignCString'})
+                                0x10002c7a: 'hashCString', 0x10004638: 'assignCString',
+                                0x10004fd4: 'getPropertySingleton', 0x10004aac: 'constructPropertySingleton',
+                                0x10001c49: 'constructTypeTable', 0x10005cdb: 'clearTypeTable',
+                                0x1000799b: 'reserveTypeTable'})
     output.mkdir(parents=True, exist_ok=True)
     methods = {}
     for method in audit['methods']:

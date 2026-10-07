@@ -4,9 +4,12 @@ import source from '../../assets/gothic3/property-registration-lifecycle/source.
 import { NativeHeapCString } from './native-heap-cstring';
 import { NativeHeapObjectViews } from './native-heap-views';
 import { NativeMemoryAdmin } from './native-memory-admin';
+import { NativePropertyTemplateArray } from './native-property-template-array';
+import type { NativeMemoryAllocation } from './native-memory-admin';
 import type { NativeValue } from './dialogue';
 
 function fact<T>(result: NativeValue<T>): T { if (!result.known) throw new Error(result.reason); return result.value; }
+const constructed = new WeakMap<object, Set<number>>();
 class Node {
   constructor(readonly fields: NativeHeapObjectViews, readonly name: NativeHeapCString,
     readonly memory: NativeMemoryAdmin) {}
@@ -22,6 +25,37 @@ export class NativePropertyTypeTable {
         source.methods.lookupTypeSlot.bodyInstructionBytesSha256 !== '4bf9956a530c2f03466f5a649f55ab39064e1d489a07e8bca6db69efa00c8801') {
       throw new Error('Original property type table and actual 16-byte fields required');
     }
+  }
+  /** Original 100911d0 fresh constructor. Singleton clearing/growth is separate. */
+  static construct(memory: NativeMemoryAdmin, fields: NativeHeapObjectViews): NativeValue<NativePropertyTypeTable> {
+    try {
+      const table = new NativePropertyTypeTable(fields, memory);
+      if (source.methods.constructTypeTable.bodyVA !== '0x100911d0' ||
+          source.methods.constructTypeTable.bodyInstructionBytesSha256 !== 'e52e47a0da18415be5b9c59cb833ddbdb7d546060eaf327830e554dd2c407431') {
+        throw new Error('Original type table constructor source differs');
+      }
+      const position = fields.bytes.byteOffset - fields.backing.bytes.byteOffset;
+      let claimed = constructed.get(fields.backing.identity);
+      if (claimed?.has(position)) throw new Error('Property table constructor cannot replay');
+      if (!claimed) { claimed = new Set(); constructed.set(fields.backing.identity, claimed); }
+      claimed.add(position);
+      fields.pointer(0).set(null);
+      fields.writeUnsigned(4, 0); fields.writeUnsigned(8, 0); fields.writeUnsigned(12, 0);
+      const begin = fields.bytes.byteOffset - fields.backing.bytes.byteOffset;
+      const array = new NativePropertyTemplateArray(new NativeHeapObjectViews(fields.backing, begin, 12), memory, 'typeTable');
+      fact(array.reserve(43, 0));
+      fields.writeUnsigned(4, 43);
+      // Source reloads the bucket pointer on every iteration.
+      for (let offset = 0; offset < 172; offset += 4) table.buckets().writeUnsigned(offset, 0);
+      return { known: true, value: table };
+    } catch (error) {
+      return { known: false, reason: error instanceof Error ? error.message : String(error) };
+    }
+  }
+  private buckets(): NativeHeapObjectViews {
+    const storage = this.fields.pointer<NativeHeapObjectViews | NativeMemoryAllocation>(0).get();
+    if (!storage) throw new Error('Original property buckets reach NULL storage');
+    return storage instanceof NativeHeapObjectViews ? storage : new NativeHeapObjectViews(storage);
   }
   private run<T>(body: () => T): NativeValue<T> {
     if (this.active) this.boundary ??= 'Property table cannot reenter an executing operation';
@@ -46,8 +80,7 @@ export class NativePropertyTypeTable {
     const bucket = hash % count;
     index.writeUnsigned(0, bucket);
     if (bucket >= this.fields.readUnsigned(4)) return null;
-    const buckets = this.fields.pointer<NativeHeapObjectViews>(0).get();
-    if (!(buckets instanceof NativeHeapObjectViews)) throw new Error('Original property buckets have no retained field owner');
+    const buckets = this.buckets();
     let node = buckets.pointer<Node>((bucket * 4) >>> 0).get();
     const seen = new Set<Node>();
     while (node) {
@@ -84,14 +117,12 @@ export class NativePropertyTypeTable {
       const string = new NativeHeapCString(this.memory, new NativeHeapObjectViews(allocation, 0, 4));
       fact(NativeHeapCString.prototype.assign.call(string, name));
       if (this.boundary) throw new Error(this.boundary);
-      const buckets = this.fields.pointer<NativeHeapObjectViews>(0).get();
-      if (!(buckets instanceof NativeHeapObjectViews)) throw new Error('Original property buckets have no retained field owner');
+      const buckets = this.buckets();
       const bucket = (index.readUnsigned(0) * 4) >>> 0;
       fields.pointer(8).set(buckets.pointer<Node>(bucket).get());
       const node = new Node(fields, string, this.memory);
       // The original reloads bucket storage before linking the node.
-      const current = this.fields.pointer<NativeHeapObjectViews>(0).get();
-      if (!(current instanceof NativeHeapObjectViews)) throw new Error('Property bucket storage changed to an unowned pointer');
+      const current = this.buckets();
       current.pointer(bucket).set(node);
       this.fields.writeUnsigned(12, (this.fields.readUnsigned(12) + 1) >>> 0);
       return this.valueSlot(node);

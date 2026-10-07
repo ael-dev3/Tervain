@@ -30,3 +30,9 @@ dependencies over retained table and bucket views. It admits its own node owners
 uses actual CString fields, preserves collision chains and allocates with the
 original tag. Table initialization, singleton construction, class-name virtual
 execution and RegisterTemplate's wrapper/value store are still separate work.
+
+The fresh type-table constructor is implemented through its own captured reserve
+body: 43 logical buckets and capacity 51, with the original zero stores. Its
+returned table can insert and find retained nodes. Constructor replay is rejected.
+The captured singleton constructor still needs its clear/recreate/grow sequence
+and the SharedBase getter's guard bit, canonical image fields and atexit call.

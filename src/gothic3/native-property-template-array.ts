@@ -17,12 +17,16 @@ export class NativePropertyTemplateArray {
   private boundary: string | null = null;
   private reallocations = 0;
   private zeroFillBytes = 0;
-  constructor(readonly fields: NativeHeapObjectViews, private readonly memory: NativeMemoryAdmin) {
-    const method = source.methods.reserveTemplates;
+  constructor(readonly fields: NativeHeapObjectViews, private readonly memory: NativeMemoryAdmin,
+    kind: 'property' | 'typeTable' = 'property') {
+    const method = kind === 'property' ? source.methods.reserveTemplates : lifecycle.methods.reserveTypeTable;
     if (source.sharedBaseSha256 !== '5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214' ||
-        method.entryVA !== '0x100013ed' || method.bodyVA !== '0x10088570' ||
+        method.entryVA !== (kind === 'property' ? '0x100013ed' : '0x1000799b') ||
+        method.bodyVA !== (kind === 'property' ? '0x10088570' : '0x10090b80') ||
         method.instructionCount !== 49 || method.bodyByteCount !== 124 ||
-        method.bodyInstructionBytesSha256 !== 'efcca40fe42a8aaf90094ae6054e1b0993fa2b0c3677df8361865475d1202126' ||
+        method.bodyInstructionBytesSha256 !== (kind === 'property' ?
+          'efcca40fe42a8aaf90094ae6054e1b0993fa2b0c3677df8361865475d1202126' :
+          '0ecf60b1d0c260ffa32eae370aafb1d92698408df8709e859fe27f4e42093f0a') ||
         fields.bytes.length !== 12 || !(memory instanceof NativeMemoryAdmin)) {
       throw new Error('Original reserve source and actual 12-byte template array required');
     }

@@ -40,3 +40,17 @@ it('keeps the source divide-by-zero boundary and does not write the bucket outpu
   expect(() => index.readUnsigned(0)).toThrow();
   expect(table.findSlot(text('a'), index).known).toBe(false);
 });
+
+it('constructs the source 43-bucket table through its actual reserve allocation', () => {
+  const memory = new NativeMemoryAdmin(new NativeRuntimePlatform(), { extensions: [nativeNpcHeapExtension] });
+  const view = fields(16), index = fields(4);
+  const table = value(NativePropertyTypeTable.construct(memory, view));
+  expect(view.readUnsigned(4)).toBe(43); expect(view.readUnsigned(8)).toBe(51);
+  expect(view.readUnsigned(12)).toBe(0);
+  const name = new NativeHeapCString(memory); value(name.allocateTextBytes(new TextEncoder().encode('gCArena_PS')));
+  const slot = value(table.getOrInsertSlot(name, index)), identity = {};
+  slot.pointer(0).set(identity);
+  expect(value(table.findSlot(name, index))!.pointer(0).get()).toBe(identity);
+  expect(NativePropertyTypeTable.construct(memory, view).known).toBe(false);
+  expect(view.readUnsigned(12)).toBe(1);
+});
