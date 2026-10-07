@@ -1,0 +1,10 @@
+/* ENTRY 2055bdc0 | FUN_2055bdc0 | STATUS decompiled | 1 ms */
+
+void FUN_2055bdc0(void)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x2055bdc5. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCString::~bCString((bCString *)&DAT_207bfab0);
+  return;
+}

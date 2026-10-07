@@ -220,12 +220,13 @@ export class BrowserNpcNavigationOwner {
   private readonly callbacks = new Map<NativeNavigationArea, NativePropertyCallbacks>();
   private readonly failures = new Map<BrowserConstructedNavigationArea, string>();
   private readonly released = new Set<BrowserConstructedNavigationArea>();
+  private lookupAttempted = false;
   private mutating = false;
   private reentrant = false;
   private live = true;
   constructor(readonly source: NativeNavigationSceneSource,
     readonly application = new BrowserNavigationApplicationOwner(),
-    private readonly lookup?: BrowserNavigationAreaLookupHost) {
+    private lookup?: BrowserNavigationAreaLookupHost) {
     this.scene = new NativeStoredNavigationScene(source, {
       resolve: proxy => this.resolve(proxy),
       notifyPathProperty: (...args) => this.live ? this.pathBindings.notifyPathProperty(...args)
@@ -240,6 +241,17 @@ export class BrowserNpcNavigationOwner {
     if (result.known) { this.areas.set(sourceKey, result.value); this.ownedAreas.add(result.value); }
     return result;
   }
+  /** Connect one source-backed browser world lookup before the first proxy
+   * resolution. Replacing it after a query begins could mix owners from two
+   * world lifetimes. */
+  connectAreaLookupHost(host: BrowserNavigationAreaLookupHost): void {
+    if (!this.live) throw new Error('Browser Navigation owner has been disposed');
+    if (this.lookup === host) return;
+    if (this.lookup || this.lookupAttempted || this.admitted.size) {
+      throw new Error('Navigation area lookup is already selected or has begun');
+    }
+    this.lookup = host;
+  }
   /** Admit a caller's constructed/read area PS. This performs no factory,
    * constructor, serialized read, owner assignment or entity attachment. */
   admitConstructedArea(set: NativeLivePropertySet<object>, host: BrowserConstructedNavigationAreaHost): NativeValue<BrowserConstructedNavigationArea> {
@@ -250,7 +262,7 @@ export class BrowserNpcNavigationOwner {
       if (!area || !(set instanceof NativeLivePropertySet) || !(entity instanceof NativeLiveEntity) ||
           set.className !== (area.kind === 'zone' ? 'gCNavZone_PS' : 'gCNavPath_PS') ||
           set.propertyType !== (area.kind === 'zone' ? 8 : 10) || !set.isValid() ||
-          entity.sourceReadStage !== 'entity-read-complete' || !entity.propertySets.includes(set) ||
+          entity.sourceReadStage === 'constructor' || !entity.propertySets.includes(set) ||
           navigationPropertyId(entity.propertyId20) !== area.id) {
         throw new Error('Actual constructed/read/attached source area entity and exact property-set value store required');
       }
@@ -351,6 +363,7 @@ export class BrowserNpcNavigationOwner {
   private resolveRecord(proxy: NativeNavigationProxy): NativeValue<BrowserConstructedNavigationArea | null> {
     if (!this.live || this.mutating) return missing('Browser Navigation owner is disposed or an area mutation is in progress');
     if (navigationPropertyId(proxy.guid20) === null) return known(null);
+    this.lookupAttempted = true;
     const resolved = this.lookup?.resolvePropertySet(proxy);
     if (!resolved) return missing('Actual SceneAdmin/property-set proxy lookup capability is missing');
     if (!resolved.known) return resolved;

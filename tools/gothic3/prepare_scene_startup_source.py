@@ -102,7 +102,7 @@ BUCKETS = {
 SHARED_COLD = {
     'heap24PoolGlobals': (0x102ffd70, 12), 'heap24DescriptorSlot': (0x102ffef8, 4),
     'heap384PoolGlobals': (0x102ffe30, 12), 'heap384DescriptorSlot': (0x102fff38, 4),
-    'heapPointerAreasSelected': (0x10149a18, 12 * 16),
+    'heapPointerAreasSelected': (0x10149a18, 13 * 16),
 }
 ENGINE_COLD = {
     'sceneClassName': (0x30ad9c44, 12), 'sceneCachedSingleton': (0x30ad9cdc, 8),

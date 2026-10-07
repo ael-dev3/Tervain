@@ -1,4 +1,4 @@
-/* ENTRY 10087b60 | FUN_10087b60 | STATUS decompiled | 2 ms */
+/* ENTRY 10087b60 | FUN_10087b60 | STATUS decompiled | 3 ms */
 
 uint FUN_10087b60(uint *param_1,uint *param_2)
 

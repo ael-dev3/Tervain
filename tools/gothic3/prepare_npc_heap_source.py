@@ -1,4 +1,4 @@
-"""Audit additional NPC/name heap prerequisites without changing frozen receipts.
+"""Audit selected NPC/name and Navigation CString heap prerequisites.
 
 The package extends only a fresh MemoryAdmin owner. Original PE operands and
 dispatch entries are authoritative; decompiler C excerpts are explanatory.
@@ -22,6 +22,7 @@ SHARED = '5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214'
 ENGINE = 'd49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3'
 BASE_RULES = '64f3cabc691a51639fc3d5b320e986bf8372ab50a61a6faa21bb9c58b70375a6'
 TARGETS = {
+    'heap32BitmapAlloc': 0x10002261, 'heap32BlockInitialize': 0x10002298,
     'heap20BitmapAlloc': 0x10008427, 'heap20BlockInitialize': 0x10003396,
     'heap40BitmapAlloc': 0x10002770, 'heap40BlockInitialize': 0x10002b76,
     'heap20InlineFree': 0x10002ae0, 'heap40InlineFree': 0x10008053,
@@ -40,6 +41,12 @@ TARGETS = {
     'cstringGetText': 0x1000708b, 'arraySortDefaultCompare': 0x10003553,
 }
 ASM = {
+    'heap32PoolDispatch': (0x10008152, [(0x10048190, 0x100481b9), (0x100481c0, 0x1004820f)]),
+    'heap32Free': (0x1000139d, [(0x10044400, 0x1004443d)]),
+    'heap32Realloc': (0x10007086, [(0x10044450, 0x100444c0)]),
+    'heap32DeleteObject': (0x1000345e, [(0x100401b0, 0x100401e9),
+        (0x100401f0, 0x1004024c), (0x10040250, 0x10040283)]),
+    'heap32InlineFree': (0x10004c4b, [(0x100402c0, 0x10040307)]),
     'heap20PoolDispatch': (0x10002aa9, [(0x10047fb0, 0x10047fd9), (0x10047fe0, 0x1004802f)]),
     'heap40PoolDispatch': (0x100031d4, [(0x10048230, 0x10048259), (0x10048260, 0x100482af)]),
     'heap20Free': (0x100023ce, [(0x100441a0, 0x100441e4)]),
@@ -48,6 +55,11 @@ ASM = {
     'heap40Realloc': (0x10006c49, [(0x10044540, 0x10044583)]),
 }
 BUCKETS = {
+    '32': dict(stride=32, minimumRequest=29, maximumRequest=32,
+        regionBytes=0x100000, capacity=0x7f80, bitmapOffset=0xff010,
+        bitmapBytes=0xff0, lastBitmapMask=0xffffffff, payloadBytes=0xff000,
+        globals=dict(count='102ffd88', list='102ffd8c', peak='102ffd90', descriptor='102fff00'),
+        callbacks=['1000139d', '10007086', '1000345e', '10004c4b']),
     '20': dict(stride=20, minimumRequest=17, maximumRequest=20,
         regionBytes=0x142000, capacity=0xffff, bitmapOffset=0x13fffc,
         bitmapBytes=0x2000, lastBitmapMask=0x7fffffff, payloadBytes=0x13ffec,
@@ -60,10 +72,11 @@ BUCKETS = {
         callbacks=['10005768', '10006c49', '10006203', '10001357']),
 }
 COLD = {
+    'heap32PoolGlobals': (0x102ffd88, 12), 'heap32DescriptorSlot': (0x102fff00, 4),
     'heap20PoolGlobals': (0x102ffd64, 12), 'heap20DescriptorSlot': (0x102ffef4, 4),
     'heap40PoolGlobals': (0x102ffd94, 12), 'heap40DescriptorSlot': (0x102fff04, 4),
     # Extended selected record prefix, not a claim about the native table maximum.
-    'heapPointerAreasSelected': (0x10149a18, 10 * 16),
+    'heapPointerAreasSelected': (0x10149a18, 11 * 16),
 }
 REUSED_ENGINE = ['sceneRegisterEntity', 'sceneUnregisterEntity',
     'registeredMapConstructor', 'registeredMapGrow', 'registeredMapLookup',
@@ -168,13 +181,19 @@ def prepare(study: Path) -> dict:
         require(table['values'][values['minimumRequest'] - 1] != dispatch and table['values'][values['maximumRequest'] + 1] != dispatch, 'Dispatch boundary differs')
         proofs = {}
         for field in ['regionBytes', 'bitmapOffset', 'bitmapBytes', 'lastBitmapMask', 'payloadBytes']:
+            if name == '32' and field == 'lastBitmapMask':
+                require(values['bitmapBytes'] * 8 == values['capacity'] and values[field] == 0xffffffff,
+                        'Heap32 bitmap does not end on a complete all-ones word')
+                proofs[field] = [dict(derived='All bitmap bytes are initialized to 0xff; 0xff0*8 equals the 0x7f80 slots, so the final 32-bit bitmap word is unmasked.',
+                    bitmapBytes=values['bitmapBytes'], capacity=values['capacity'], codeRanges=['10046160-10046214', '1003e350-1003e3d6'])]
+                continue
             operand = struct.pack('<I', values[field]).hex()
             rows = [row for row in code_rows if operand in row['bytes']]
             require(rows, 'Native pool operand absent: ' + name + ':' + field)
             proofs[field] = [dict(va=row['va'], bytes=row['bytes'], instruction=row['instruction']) for row in rows]
         for callback in values['callbacks']:
             require(struct.pack('<I', int(callback, 16)) in code, 'Native descriptor callback operand differs')
-        word_address = 0x100e7ab0 if name == '20' else 0x100e7ad0
+        word_address = {'20': 0x100e7ab0, '32': 0x100e7ac8, '40': 0x100e7ad0}[name]
         for suffix, address, value in [('Stride', word_address, values['stride']), ('Capacity', word_address + 4, values['capacity'])]:
             raw = pe.bytes(address, 4)
             require(struct.unpack('<I', raw)[0] == value, 'Native pool static DWORD differs')

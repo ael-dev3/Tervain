@@ -6,8 +6,11 @@ import manifestText from '../../assets/gothic3/npc-entity/manifest.json?raw';
 import { OriginalControlModuleState, OriginalControlReader } from './control-reading';
 import { NativeReflectionController } from './entity-reflection';
 import { monotonicClockMilliseconds } from './world-clock';
-import { createNativeRuntimeAdminOwner } from './native-runtime-platform';
+import { createBrowserNpcRuntimeAdminOwner } from './native-runtime-platform';
 import { nativeEntityDefaultComparatorImportIdentity } from './native-entity-heap';
+import { BrowserNavigationApplicationOwner } from './browser-npc-navigation-owner';
+import type { BrowserSessionModeOwner } from './browser-npc-navigation-owner';
+import { BrowserNavigationNotificationNames } from './browser-navigation-notification-names';
 import type { BrowserNpcEntityServices } from './browser-npc-entity';
 import type { NativeValue } from './dialogue';
 
@@ -90,14 +93,40 @@ export interface BrowserNpcEntityPlatform {
 }
 export interface BrowserNpcEntityServiceOwner {
   readonly services: BrowserNpcEntityServices;
+  readonly application: BrowserNavigationApplicationOwner;
+  readonly navigationNames: BrowserNavigationNotificationNames;
   readonly matrixModule: OriginalControlModuleState;
   readonly control: OriginalControlReader;
   readonly shutdown: BrowserMatrixShutdownRegistry;
+  /** Starts only the selected lower browser session mode used by virtual270.
+   * This is not native gCGameApp/Session startup. */
+  startBrowserSessionMode(): NativeValue<void>;
   dispose(): void;
 }
 
 export function createBrowserNpcEntityServices(platform: BrowserNpcEntityPlatform): BrowserNpcEntityServiceOwner {
-  const runtimeAdmins = createNativeRuntimeAdminOwner();
+  const runtimeAdmins = createBrowserNpcRuntimeAdminOwner();
+  const navigationNames = new BrowserNavigationNotificationNames(runtimeAdmins.memory, runtimeAdmins.platform);
+  const initializedNavigationNames = navigationNames.initialize();
+  if (!initializedNavigationNames.known) throw new Error(initializedNavigationNames.reason);
+  const application = new BrowserNavigationApplicationOwner();
+  let browserSession: BrowserSessionModeOwner | null = null;
+  const startBrowserSessionMode = (): NativeValue<void> => {
+    if (browserSession) {
+      const current = browserSession.readRunningByte();
+      return current.known && current.value === 1 ? known(undefined)
+        : { known: false, reason: current.known ? 'Selected browser session mode is not running' : current.reason };
+    }
+    const session = application.createSessionModeOwner();
+    const running = session.writeRunningByte(1);
+    if (!running.known) return running;
+    const registered = application.registerSession(session);
+    if (!registered.known) return registered;
+    const initialized = application.writeInitializedByte(1);
+    if (!initialized.known) return initialized;
+    browserSession = session;
+    return known(undefined);
+  };
   const shutdown = new BrowserMatrixShutdownRegistry((entry, callback) =>
     runtimeAdmins.platform.registerShutdown(entry.address, entry.module, callback));
   const matrixModule = OriginalControlModuleState.fromColdOriginalImage();
@@ -111,11 +140,14 @@ export function createBrowserNpcEntityServices(platform: BrowserNpcEntityPlatfor
     module: matrixModule,
     registerMatrixDestructor: address => shutdown.register(matrixModule, address),
   });
-  return Object.freeze({ matrixModule, control, shutdown,
+  return Object.freeze({ matrixModule, control, shutdown, navigationNames,
+    application, startBrowserSessionMode,
     services: Object.freeze({ crypto: platform.crypto, now: platform.now, control, runtimeAdmins,
+      applicationMode270EqualsOne: application.applicationMode270EqualsOne,
+      navigationNotifications: navigationNames.host,
       defaultPropertyComparator: () => known(nativeEntityDefaultComparatorImportIdentity) }),
     // One native callback stack preserves registration order across MemoryAdmin,
     // Matrix, MessageAdmin and ErrorAdmin. The platform drains it in reverse.
-    dispose: () => { runtimeAdmins.dispose(); shutdown.dispose(); },
+    dispose: () => { runtimeAdmins.dispose(); shutdown.dispose(); application.dispose(); },
   });
 }

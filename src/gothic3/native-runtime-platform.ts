@@ -3,10 +3,11 @@
  * does not report observations of the host's Windows allocator, zSpy or files. */
 import rulesText from '../../assets/gothic3/runtime-admin/runtime-rules.json?raw';
 import sceneRulesText from '../../assets/gothic3/scene-startup/runtime-rules.json?raw';
+import navigationRulesText from '../../assets/gothic3/browser-navigation-owner/runtime-rules.json?raw';
 import npcEntityManifestText from '../../assets/gothic3/npc-entity/manifest.json?raw';
 import type { NativeValue } from './dialogue';
-import { NativeMemoryAdmin } from './native-memory-admin';
-import type { NativeMemoryBacking, NativeMemoryPlatform, NativeMemoryRegion } from './native-memory-admin';
+import { NativeMemoryAdmin, nativeNpcHeapExtension, nativeSceneStartupHeapExtension } from './native-memory-admin';
+import type { NativeMemoryBacking, NativeMemoryPlatform, NativeMemoryRegion, NativeMemoryRulesExtension } from './native-memory-admin';
 import { NativeMessageAdminModule } from './native-message-admin';
 import type { NativeMessageDiagnosticPlatform } from './native-message-admin';
 import { NativeErrorAdminModule } from './native-error-admin';
@@ -33,8 +34,9 @@ interface ShutdownEntry {
   readonly address: string; readonly owner: object; readonly execute: () => NativeValue<void>;
 }
 interface BackingEntry {
-  readonly backing: NativeMemoryBacking; readonly kind: 'virtual' | 'crt-new' | 'crt-malloc' | 'win32-heap'; readonly ordinal: number;
+  readonly backing: NativeMemoryBacking; readonly kind: 'virtual' | 'crt-new' | 'crt-malloc' | 'win32-heap' | 'module-image'; readonly ordinal: number;
   nativeGeometry?: Readonly<{ alignment: 'virtual-page' | 'win32-heap-eight';
+    bytes: Uint8Array; masks: Uint8Array; capacity: number } | { alignment: 'module-image';
     bytes: Uint8Array; masks: Uint8Array; capacity: number }>;
 }
 /** A retained platform handle, with no invented numerical x86 address. */
@@ -107,6 +109,23 @@ const source = JSON.parse(rulesText) as { schema: string; inputs: { SharedBase: 
   shutdown: Record<string, { address: string; raw: string; sha256: string }> };
 const sceneSource = JSON.parse(sceneRulesText) as { schema: string; inputs: { Engine: string; SharedBase: string };
   methods: Record<string, { module: string; entry: string; body: string; bodyInstructionBytesSha256: string }> };
+const navigationSource = JSON.parse(navigationRulesText) as {
+  schema: string; inputs: { Game: string };
+  navigationNameInitializers: { tableSha256: string; tableWholeExecuted: boolean;
+    initializers: readonly { name: string; destructor: string; literalAddress: string; literalRaw: string }[] };
+  methods: Record<string, { module: string; entry: string; body: string; bodyInstructionBytesSha256: string }>;
+};
+function admittedNavigationNameDestructor(address: string): boolean {
+  if (navigationSource.schema !== 'gothic3-browser-navigation-owner-rules-v1' ||
+      navigationSource.inputs.Game !== 'b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f' ||
+      navigationSource.navigationNameInitializers.tableSha256 !== 'b03bdc863cc852e3b14ef05e1082cb8616ce78c63efe3d35e5e80e9dcea40185' ||
+      navigationSource.navigationNameInitializers.tableWholeExecuted !== false) return false;
+  const initializer = navigationSource.navigationNameInitializers.initializers.find(row => row.destructor === address);
+  if (!initializer) return false;
+  const method = navigationSource.methods['navigationNameDestructor' + initializer.name];
+  return method?.module === 'Game' && method.entry === address && method.body === address &&
+    /^[0-9a-f]{64}$/.test(method.bodyInstructionBytesSha256);
+}
 
 /** Scoped diagnostic services. Empty owned registries are a selected platform
  * profile, not an inferred absence of native host windows or disk files. */
@@ -215,6 +234,7 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
   }
   private readonly maximumAllocationBytes: number;
   private readonly maximumOwnedBytes: number;
+  private readonly originalModuleLiterals = new Map<string, NativeMemoryBacking>();
   private allocate(bytes: number, kind: BackingEntry['kind']): NativeValue<NativeMemoryBacking | null> {
     if (this.shutdownPhase === 'disposed' || this.shutdownPhase === 'blocked') return unknown('Selected runtime platform is not active');
     if (!Number.isInteger(bytes) || bytes < 0 || bytes > 0xffffffff) return unknown('Original platform uint32 allocation size required');
@@ -270,6 +290,28 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
       if (flags === 8) { allocated.value.bytes.fill(0); allocated.value.knownMask.fill(255); }
     }
     return allocated;
+  }
+  /** One exact immutable Game.dll literal slice used by the selected browser
+   * CString initializer profile. This is mapped image data, not a heap block. */
+  registerOriginalGameCStringLiteral(address: string, raw: Uint8Array): NativeValue<NativeMemoryBacking> {
+    if (this.shutdownPhase !== 'active' || !/^[0-9a-f]{8}$/.test(address) ||
+        navigationSource.inputs.Game !== 'b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f') {
+      return unknown('Selected active original Game.dll literal range required');
+    }
+    const receipt = navigationSource.navigationNameInitializers.initializers.find(row => row.literalAddress === address);
+    const expected = receipt?.literalRaw.match(/../g)?.map(byte => Number.parseInt(byte, 16));
+    if (!receipt || !expected || raw.length !== expected.length || raw.some((byte, index) => byte !== expected[index])) {
+      return unknown('Game.dll literal bytes do not match the selected PE receipt');
+    }
+    const previous = this.originalModuleLiterals.get(address);
+    if (previous) return previous.freed ? unknown('Selected original Game.dll literal lifetime has ended') : known(previous);
+    const backing: NativeMemoryBacking = { identity: Object.freeze({}), bytes: raw.slice(),
+      knownMask: new Uint8Array(raw.length).fill(255), freed: false };
+    this.backing.set(backing.identity, { backing, kind: 'module-image', ordinal: ++this.nextOrdinal,
+      nativeGeometry: Object.freeze({ alignment: 'module-image', bytes: backing.bytes,
+        masks: backing.knownMask, capacity: backing.bytes.length }) });
+    this.originalModuleLiterals.set(address, backing);
+    return known(backing);
   }
   win32HeapSize(heap: NativeWin32HeapCapability | null, _flags: 0, pointer: NativeBytePointer): NativeValue<number> {
     if (heap === null) return unknown('Selected actual HeapSize call on the NULL CRT heap handle is unowned');
@@ -556,7 +598,8 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
       method?.module === 'Engine' && method.entry === address && method.body === '30797c90' &&
       method.bodyInstructionBytesSha256 === 'b1a2e2bb4cbdd84ecc08a969c18b636ac5e27f20ba3f1a6cf054d183329b51bc';
     const admittedShared = admitted?.address === address && /^(?:[0-9a-f]{2})+$/.test(admitted.raw) && /^[0-9a-f]{64}$/.test(admitted.sha256);
-    if (this.shutdownPhase !== 'active' || (!admittedShared && !admittedSceneName && !admittedMatrixDestructor(address)) || typeof execute !== 'function') {
+    if (this.shutdownPhase !== 'active' || (!admittedShared && !admittedSceneName &&
+        !admittedMatrixDestructor(address) && !admittedNavigationNameDestructor(address)) || typeof execute !== 'function') {
       return unknown('Actual admitted active runtime shutdown registration required');
     }
     this.pending.push(Object.freeze({ address, owner, execute })); return known(0);
@@ -578,6 +621,7 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
       this.executed.push(entry);
       if (!result.known) { this.shutdownPhase = 'blocked'; this.boundary = `Shutdown ${entry.address}: ${result.reason}`; return unknown(this.boundary); }
     }
+    for (const entry of this.backing.values()) if (entry.kind === 'module-image') entry.backing.freed = true;
     this.shutdownPhase = 'disposed'; return known(undefined);
   }
   snapshot() { return Object.freeze({ phase: this.shutdownPhase, boundary: this.boundary, bytesOwned: this.bytesOwned,
@@ -593,8 +637,9 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
 /** Standalone cold admin owner. Connecting this to an NPC requires every
  * earlier source allocation on that NPC path to use this same MemoryAdmin;
  * logical factory allocation receipts alone do not satisfy that prerequisite. */
-export function createNativeRuntimeAdminOwner(platform = new NativeRuntimePlatform()) {
-  const memory = new NativeMemoryAdmin(platform);
+export function createNativeRuntimeAdminOwner(platform = new NativeRuntimePlatform(),
+  options: { readonly memoryExtensions?: readonly NativeMemoryRulesExtension[] } = {}) {
+  const memory = new NativeMemoryAdmin(platform, { extensions: options.memoryExtensions ?? [] });
   let error: NativeErrorAdminModule;
   const message = new NativeMessageAdminModule({ memory,
     initializeCriticalSection: (address, owner) => platform.initializeCriticalSection(address, owner),
@@ -609,4 +654,11 @@ export function createNativeRuntimeAdminOwner(platform = new NativeRuntimePlatfo
     messageAdmin: () => message.getInstance(),
     unregisterMessageCallbackForShutdown: (callback, owner) => message.unregisterForErrorShutdown(callback, owner) });
   return Object.freeze({ platform, memory, message, error, dispose: () => platform.dispose() });
+}
+
+/** The Ardea NPC owner consumes the source-audited 24/32-byte MemoryAdmin pools
+ * needed by Game.dll Navigation-name CStrings, alongside its 20/40-byte NPC
+ * path pools. Other standalone admin owners remain cold/base-only. */
+export function createBrowserNpcRuntimeAdminOwner(platform = new NativeRuntimePlatform()) {
+  return createNativeRuntimeAdminOwner(platform, { memoryExtensions: [nativeNpcHeapExtension, nativeSceneStartupHeapExtension] });
 }

@@ -1,4 +1,4 @@
-/* ENTRY 10046e80 | FUN_10046e80 | STATUS decompiled | 11 ms */
+/* ENTRY 10046e80 | FUN_10046e80 | STATUS decompiled | 8 ms */
 
 void __fastcall FUN_10046e80(undefined4 *param_1)
 

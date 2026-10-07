@@ -7,14 +7,22 @@ import { OriginalControlModuleState, OriginalControlReader } from '../../src/got
 import { NativeReflectionController } from '../../src/gothic3/entity-reflection';
 import { monotonicClockMilliseconds } from '../../src/gothic3/world-clock';
 import type { NativeValue } from '../../src/gothic3/dialogue';
+import { createBrowserNpcEntityServices } from '../../src/gothic3/browser-npc-entity-services';
+import { loadBrowserNpcNavigationOwner } from '../../src/gothic3/browser-npc-navigation-owner';
+import { BrowserNavigationAreaSourceRuntime } from '../../src/gothic3/browser-navigation-area-source-runtime';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 let source: BrowserNpcEntitySources;
 beforeAll(async () => {
   vi.stubGlobal('location', { href: 'http://local.test/gothic3/index.html' });
   vi.stubGlobal('fetch', vi.fn(async (url: string) => {
-    expect(url).toBe('http://local.test/gothic3/gameplay/npc-entity/bandit-records.json.gz');
-    const bytes = new Uint8Array(readFileSync(new URL('../../public/gothic3/gameplay/npc-entity/bandit-records.json.gz', import.meta.url)));
+    const path = new URL(url).pathname;
+    const localPath = path === '/gothic3/gameplay/npc-entity/bandit-records.json.gz'
+      ? '../../public/gothic3/gameplay/npc-entity/bandit-records.json.gz'
+      : /^\/gothic3\/navigation-scene\/(query-map|entity-definitions)\.json\.gz$/.test(path)
+        ? '../../public' + path : null;
+    if (!localPath) throw new Error('Unexpected source fixture request: ' + url);
+    const bytes = new Uint8Array(readFileSync(new URL(localPath, import.meta.url)));
     return new Response(bytes);
   }));
   source = await loadBrowserNpcEntitySources();
@@ -72,6 +80,65 @@ describe('retained original Ardea NPC owner prefix', () => {
     expect(runtime.names.first(record.name)).toBe(allocation.data.entity);
     expect(allocation.data.entity.flags.knownMask).not.toBe(0xffffffff);
   });
+
+  it('uses the application-owned runtime admins for the retained source NPC read', () => {
+    const owner = createBrowserNpcEntityServices({ crypto: { randomUUID }, now: () => performance.now() });
+    try {
+      expect(owner.startBrowserSessionMode()).toEqual(known(undefined));
+      const runtime = new BrowserNpcEntityRuntime(owner.services);
+      const result = runtime.prepare(source.entities[0]!);
+      expect(owner.services.runtimeAdmins!.error.isInPanicState()).toEqual(known(false));
+      expect(result.allocation!.heapFields!.data.name).toBe(source.entities[0]!.name);
+      const read = result.read;
+      expect(read?.supported).toBe(false);
+      if (!read || read.supported) throw new Error('Expected the Navigation area-proxy read boundary');
+      expect(result.consumedBytes, `${read.reason}; ${JSON.stringify(owner.services.runtimeAdmins!.error.snapshot().trace)}`)
+        .toBeGreaterThan(338);
+      expect(read.reason).toContain('Compiled navigation query requires actual owned area proxy resolution');
+      expect(result.worldResident).toBe(false);
+    } finally {
+      owner.dispose();
+    }
+  });
+
+  it('loads source-registered Navigation areas and resolves Navigation name notifications', async () => {
+    const serviceOwner = createBrowserNpcEntityServices({ crypto: { randomUUID }, now: () => performance.now() });
+    let navigation: Awaited<ReturnType<typeof loadBrowserNpcNavigationOwner>> | null = null;
+    let areas: BrowserNavigationAreaSourceRuntime | null = null;
+    try {
+      expect(serviceOwner.startBrowserSessionMode()).toEqual(known(undefined));
+      navigation = await loadBrowserNpcNavigationOwner(serviceOwner.application);
+      const areaRuntime = new BrowserNavigationAreaSourceRuntime(navigation);
+      areas = areaRuntime;
+      serviceOwner.navigationNames.connectProxyEntityServices(areaRuntime);
+      const binding = navigation.bindStoredQueryProperties();
+      expect(binding.status, binding.reason).toBe('query-bindings-complete');
+      expect(binding.fullNavigationAdminCompiled).toBe(false);
+      expect(areas.sourceLoadSummary()).toEqual({ loadedSources: 67, failedSources: 0, liveAreas: 5385 });
+      expect(navigation.registeredAreas()).toHaveLength(5385);
+
+      const bandit = source.entities[0]!;
+      const runtime = new BrowserNpcEntityRuntime({ ...serviceOwner.services,
+        applicationMode270EqualsOne: navigation.applicationMode270EqualsOne,
+        findZoneAt: navigation.findZoneAt,
+      });
+      const prepared = runtime.prepare(bandit);
+      expect(prepared.read?.supported).toBe(false);
+      if (!prepared.read || prepared.read.supported) throw new Error('Expected a later retained Navigation read boundary');
+      expect(prepared.consumedBytes).toBe(700);
+      expect(prepared.read.reason).not.toContain('actual owned area proxy resolution');
+      expect(prepared.read.reason).not.toContain('Navigation proxy GetEntity: Original Engine proxy GetEntity owner is not connected');
+      expect(prepared.read.reason).toContain('Navigation area ScriptAdmin getter: Original Game ScriptAdmin getter owner is not connected');
+      const currentZoneProxy = prepared.navigation?.proxies.get('CurrentZoneEntityProxy');
+      expect(currentZoneProxy?.propertyID()).toBe('7e3d269f0004064d9bcbd4c4c62de6aa00000000');
+      expect(currentZoneProxy?.internal?.identity).toBe('browser-navigation-proxy-reference:browser-navigation-source:world-0048:20');
+      expect(prepared.worldResident).toBe(false);
+    } finally {
+      areas?.dispose();
+      navigation?.dispose();
+      serviceOwner.dispose();
+    }
+  }, 120000);
 
   it('retains real Navigation defaults at the earlier ErrorAdmin creator cleanup boundary', () => {
     const { runtime } = fixture();

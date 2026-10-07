@@ -27,6 +27,8 @@ import { BrowserArdeaNpcCombatRuntime } from './npc-combat-runtime';
 import { BrowserNpcDeathRuntime } from './browser-npc-death';
 import type { BrowserNpcEntityRuntime, BrowserNpcEntityPreparation } from './browser-npc-entity';
 import type { BrowserNpcEntityServiceOwner } from './browser-npc-entity-services';
+import type { BrowserNpcNavigationOwner } from './browser-npc-navigation-owner';
+import type { BrowserNavigationAreaSourceRuntime } from './browser-navigation-area-source-runtime';
 import { NativeQuestRuntime, nativeQuestStatusName } from './quest-runtime';
 import type { ArdeaScene, ScenePerson } from './types';
 import './style.css';
@@ -124,6 +126,8 @@ let npcEntityServices: BrowserNpcEntityServiceOwner | null = null;
 let npcEntityRuntime: BrowserNpcEntityRuntime | null = null;
 let npcEntityPreparations: readonly BrowserNpcEntityPreparation[] = [];
 let npcEntityLoading: Promise<void> | null = null;
+let npcNavigationOwner: BrowserNpcNavigationOwner | null = null;
+let npcNavigationAreas: BrowserNavigationAreaSourceRuntime | null = null;
 let npcEntityStudyError: string | null = null;
 let npcEntityStudyDisposed = false;
 const pickpocketActions = new BrowserPickpocketActions();
@@ -141,6 +145,7 @@ function updateNpcEntityStudy(person: ScenePerson | null): void {
   if (!row) {
     target.textContent = npcEntityLoading && !npcEntityRuntime
       ? 'Reading verified original coastal bandit records…'
+      : !started ? 'Start the world session to run the selected NPC construction study.'
       : "This construction study covers Jack’s three coastal bandits. Select one of their models.";
     return;
   }
@@ -171,15 +176,32 @@ function loadNpcEntityStudy(): Promise<void> {
   if (!npcEntityLoading) {
     npcEntityLoading = (async () => {
       try {
-        const [entityModule, serviceModule] = await Promise.all([
+        const [entityModule, serviceModule, navigationModule, staticAreaModule] = await Promise.all([
           import('./browser-npc-entity'),
           import('./browser-npc-entity-services'),
+          import('./browser-npc-navigation-owner'),
+          import('./browser-navigation-area-source-runtime'),
         ]);
         if (npcEntityStudyDisposed) return;
         const source = await entityModule.loadBrowserNpcEntitySources();
         if (npcEntityStudyDisposed) return;
         npcEntityServices = serviceModule.createBrowserNpcEntityServices({ crypto, now: () => performance.now() });
-        npcEntityRuntime = new entityModule.BrowserNpcEntityRuntime(npcEntityServices.services);
+        const sessionMode = npcEntityServices.startBrowserSessionMode();
+        if (!sessionMode.known) throw new Error(sessionMode.reason);
+        const navigationOwner = await navigationModule.loadBrowserNpcNavigationOwner(npcEntityServices.application);
+        if (npcEntityStudyDisposed) { navigationOwner.dispose(); return; }
+        const navigationAreas = new staticAreaModule.BrowserNavigationAreaSourceRuntime(navigationOwner);
+        npcEntityServices.navigationNames.connectProxyEntityServices(navigationAreas);
+        npcNavigationOwner = navigationOwner;
+        npcNavigationAreas = navigationAreas;
+        const binding = navigationOwner.bindStoredQueryProperties();
+        if (binding.status !== 'query-bindings-complete') {
+          throw new Error('Static Navigation map binding stopped: ' + (binding.reason ?? binding.status));
+        }
+        npcEntityRuntime = new entityModule.BrowserNpcEntityRuntime({ ...npcEntityServices.services,
+          applicationMode270EqualsOne: navigationOwner.applicationMode270EqualsOne,
+          findZoneAt: navigationOwner.findZoneAt,
+        });
         npcEntityPreparations = Object.freeze(source.entities.map(record => npcEntityRuntime!.prepare(record)));
       } catch (error) {
         npcEntityStudyError = error instanceof Error ? error.message : String(error);
@@ -193,6 +215,8 @@ function loadNpcEntityStudy(): Promise<void> {
 // unload delivery and the original Windows CRT shutdown are not asserted.
 import.meta.hot?.dispose(() => {
   npcEntityStudyDisposed = true;
+  npcNavigationAreas?.dispose();
+  npcNavigationOwner?.dispose();
   npcEntityServices?.dispose();
 });
 
@@ -1054,7 +1078,6 @@ async function boot(): Promise<void> {
   } catch (error) {
     failures.push('Source NPC routines: ' + String(error));
   }
-  void loadNpcEntityStudy();
   await Promise.all([
     animations.loadManifest().catch((error: unknown) => { failures.push('Native animation: ' + String(error)); }),
     terrain.initialize().catch((error: unknown) => { failures.push('Native terrain: ' + String(error)); }),
@@ -1189,6 +1212,7 @@ async function enterWorld(): Promise<void> {
     questRuntimeError = error instanceof Error ? error.message : String(error);
   }
   started = true;
+  void loadNpcEntityStudy();
   element('loading').classList.add('hidden');
   explorer.active = true;
   restore();

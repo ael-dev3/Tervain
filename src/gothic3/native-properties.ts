@@ -36,7 +36,8 @@ export type OriginalPropertySetKind = 'gCScriptRoutine_PS' | 'gCPlayerMemory_PS'
 export type OriginalPropertyPhase = 'enter' | 'exit';
 export interface OriginalPropertyTrace {
   operation: 'owner-modified-read' | 'virtual-on-notify' | 'proxy-id-copy' |
-    'proxy-release-reference' | 'proxy-internal-clear' | 'proxy-id-destroy' | 'shared-base-return';
+    'proxy-release-reference' | 'proxy-internal-clear' | 'proxy-internal-set' |
+    'proxy-id-destroy' | 'shared-base-return';
   phase: OriginalPropertyPhase;
   property: string;
   owner?: string;
@@ -79,6 +80,8 @@ export class OriginalPropertyOwner {
 
 export interface OriginalProxyInternalReference {
   readonly identity: string;
+  /** AddReference is needed by source eCEntityProxy::CopyFrom. */
+  addReference?(): NativeValue<void>;
   /** Real eCEntityProxyInternal::ReleaseReference, including final destruction.
    * An unknown return may expose effects already applied by the callback. */
   releaseReference(): NativeValue<void>;
@@ -131,6 +134,56 @@ export class OriginalEnclaveProxy {
       this.internal = null;
       emit('proxy-internal-clear', null);
     }
+  }
+
+  /** Engine304c43a0 after eCEntityProxy::GetEntity's virtual ResolveEntity
+   * succeeds: assign the entity ID, release the previous internal reference,
+   * then retain the resolved entity's QueryEntityProxyInternal owner. */
+  cacheResolvedEntity(id: string, reference: OriginalProxyInternalReference,
+    emit: (operation: OriginalPropertyTrace['operation'], value?: string | null) => void): void {
+    propertyID(id);
+    if (id.slice(0, 32) !== this.id.slice(0, 32)) {
+      this.id = id.slice(0, 32) + '00000000';
+      emit('proxy-id-copy', this.id);
+    }
+    const previous = this.internal;
+    if (previous !== null) {
+      emit('proxy-release-reference', previous.identity);
+      const released = previous.releaseReference();
+      if (!released.known) throw new Error('Entity proxy SetEntity ReleaseReference: ' + released.reason);
+      this.internal = null;
+      emit('proxy-internal-clear', null);
+    }
+    this.internal = reference;
+    emit('proxy-internal-set', reference.identity);
+  }
+
+  /** Engine30008adf eCEntityProxy::CopyFrom: retain the incoming internal
+   * owner, release the destination owner, copy the 16-byte ID, then store the
+   * retained pointer. */
+  copyFrom(source: OriginalEnclaveProxy,
+    emit: (operation: OriginalPropertyTrace['operation'], value?: string | null) => void): void {
+    const incoming = source.internal;
+    if (incoming !== null) {
+      const added = incoming.addReference?.();
+      if (!added) throw new Error('Entity proxy CopyFrom AddReference capability is not connected');
+      if (!added.known) throw new Error('Entity proxy CopyFrom AddReference: ' + added.reason);
+    }
+    const previous = this.internal;
+    if (previous !== null) {
+      emit('proxy-release-reference', previous.identity);
+      const released = previous.releaseReference();
+      if (!released.known) throw new Error('Entity proxy CopyFrom ReleaseReference: ' + released.reason);
+      this.internal = null;
+      emit('proxy-internal-clear', null);
+    }
+    const id = source.propertyID();
+    if (id.slice(0, 32) !== this.id.slice(0, 32)) {
+      this.id = id.slice(0, 32) + '00000000';
+      emit('proxy-id-copy', this.id);
+    }
+    this.internal = incoming;
+    emit('proxy-internal-set', incoming?.identity ?? null);
   }
 }
 

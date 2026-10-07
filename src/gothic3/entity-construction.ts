@@ -78,7 +78,7 @@ export interface NativeEntityConstructionHost {
 /** Explicit isolated physical profile. Its SceneAdmin/identity services still
  * have to be supplied; connecting a heap does not own their lazy startup. */
 export interface NativeEntityConstructionMemoryProfile {
-  readonly memory: Pick<NativeMemoryAdmin, 'newObject'>;
+  readonly memory: NativeMemoryAdmin;
   defaultPropertyComparator(): NativeValue<object>;
 }
 export interface NativeEntityConstructionTrace {
@@ -181,7 +181,8 @@ export class NativeOriginalEntityFactory {
       const entityIdentity = this.identity + ':entity:' + ++this.nextIdentity;
       const owner = OriginalPropertyOwner.fromConstructor(entityIdentity, 'gCEntity');
       const entity = new NativeLiveEntity(entityIdentity, owner, ZERO_ID, 'deferred-source-construction');
-      const heapFields = nativeAllocation ? new NativeEntityHeapFields(nativeAllocation, entity, owner) : null;
+      const heapFields = nativeAllocation ? new NativeEntityHeapFields(nativeAllocation, entity, owner,
+        this.memoryProfile!.memory) : null;
       const data = heapFields?.data ?? new NativeEntityReadData(entity, { worldMatrix: new Array(16), localMatrix: new Array(16),
         treeBox: new Array(6), localBox: new Array(6), worldBox: new Array(6),
         worldSphere: new Array(4), localSphere: new Array(4) }, '');
@@ -258,7 +259,7 @@ export class NativeOriginalEntityFactory {
           else data.arrays[field].splice(0, 4, ...values);
         });
       }
-      write('name CString clear', 'SharedBase:100149b0', () => { data.name = ''; }, '');
+      write('name CString clear', 'SharedBase:100149b0', () => { if (heapFields) heapFields.clearName(); else data.name = ''; }, '');
       write('entity render-priority mask', 'Engine:304b2a30', () => { entity.completeEntityConstructorFlags(); });
       for (const [offset, value] of [[0x38, 0], [0x190, 0], [0x18c, 0], [0x34, 1], [0x128, 1], [0x12c, 1]] as const) {
         write('entity field0x' + offset.toString(16), 'Engine:304b2a30', () => { data.numeric.set(offset, value); }, value);

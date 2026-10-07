@@ -1,4 +1,4 @@
-/* ENTRY 10014640 | FUN_10014640 | STATUS decompiled | 7 ms */
+/* ENTRY 10014640 | FUN_10014640 | STATUS decompiled | 9 ms */
 
 void __thiscall FUN_10014640(bCString *param_1,int *param_2)
 
