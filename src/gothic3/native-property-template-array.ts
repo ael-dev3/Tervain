@@ -43,6 +43,9 @@ export class NativePropertyTemplateArray {
         const capacity = (growth + requested) >>> 0;
         const bytes = (capacity * 4) >>> 0;
         const old = this.fields.pointer<NativeMemoryAllocation>(0).get();
+        const instance = NativeMemoryAdmin.prototype.getInstance.call(this.memory);
+        if (!instance.known) throw new Error(instance.reason);
+        if (instance.value !== this.memory || this.boundary) throw new Error(this.boundary ?? 'Original shared MemoryAdmin singleton required');
         const result = NativeMemoryAdmin.prototype.realloc.call(this.memory, old, bytes);
         if (!result.known) throw new Error(result.reason);
         this.reallocations++;
