@@ -63,8 +63,9 @@ Browser checks do not establish packaged desktop compatibility or performance on
 - [Vertical slice](docs/production/vertical-slice.md)
 - [Art direction](docs/art/art-audio-ui.md)
 - [Shared asset provenance](docs/engineering/shared-assets.md)
+- [Gothic 3 rebuilding process](docs/engineering/gothic3-rebuild-overview.md)
 
-## Separate study viewers
+## Gothic 3 browser rebuild and study viewers
 
 The [Gothic 3 / Ardea reconstruction](https://ael-dev3.github.io/Tervain/gothic3/)
 is a separate, incomplete TypeScript browser port. The rebuild proceeds in
