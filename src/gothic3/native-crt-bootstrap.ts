@@ -3,7 +3,7 @@
  * does not complete DLL initialization or activate the browser NPC reader. */
 import sourceText from '../../assets/gothic3/crt-bootstrap/runtime-rules.json?raw';
 import type { NativeValue } from './dialogue';
-import type { NativeModuleCrtOwner } from './native-engine-crt-locks';
+import { NativeModuleCrtOwner } from './native-engine-crt-locks';
 import { admitGameCrtStartupSource, gameStartupInstructionPoints } from './native-game-crt-startup-source';
 import type { NativeEngineCrtPlatform } from './native-engine-crt-locks';
 import { NativeCrtThreadStartup } from './native-crt-thread-startup';
@@ -13,6 +13,12 @@ import type { NativeWin32HeapCapability } from './native-runtime-platform';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = (reason: string): { known: false; reason: string } => ({ known: false, reason });
+function failureReason(error: unknown): string {
+  try {
+    const value: unknown = error instanceof Error ? error.message : error;
+    return typeof value === 'string' ? value : String(value);
+  } catch { return 'Escaped bootstrap failure could not be described'; }
+}
 interface Receipt { module: string; address: string; bytes: number; raw: string; knownMask: string; }
 interface SourceRules {
   schema: string; inputs: { Engine?: string; Game?: string };
@@ -85,15 +91,26 @@ interface PhysicalBootstrap {
   attachCount: NativeHeapObjectViews; attachCallback: NativeHeapObjectViews; preCInitializerTable: NativeHeapObjectViews;
 }
 const physicalByCrt = new WeakMap<NativeModuleCrtOwner, PhysicalBootstrap>();
-const bootstrapByCrt = new WeakMap<NativeModuleCrtOwner, NativeCrtBootstrap>();
+interface BootstrapConstruction {
+  phase: 'constructing' | 'returned' | 'blocked';
+  owner: NativeCrtBootstrap | null;
+  boundary: string | null;
+}
+const bootstrapByCrt = new WeakMap<NativeModuleCrtOwner, BootstrapConstruction>();
+const bootstrapConstructionToken = Object.freeze({});
 function physicalFor(crt: NativeModuleCrtOwner): PhysicalBootstrap {
   let physical = physicalByCrt.get(crt);
   if (!physical) {
+    const gameImage = (label: string): NativeHeapObjectViews => {
+      const result = NativeModuleCrtOwner.canonicalImageForOwner(crt, label);
+      if (!result.known) throw new Error(result.reason);
+      return result.value;
+    };
     physical = Object.freeze(crt.module === 'Game' ? {
-      securityCookie: crt.imageStorage('securityCookie'),
-      securityCookieComplement: crt.imageStorage('securityCookieComplement'),
-      attachCount: crt.imageStorage('attachCount'), attachCallback: crt.imageStorage('attachCallback'),
-      preCInitializerTable: crt.imageStorage('preCInitializerTable'),
+      securityCookie: gameImage('securityCookie'),
+      securityCookieComplement: gameImage('securityCookieComplement'),
+      attachCount: gameImage('attachCount'), attachCallback: gameImage('attachCallback'),
+      preCInitializerTable: gameImage('preCInitializerTable'),
     } : {
       securityCookie: originalStorage('coldGlobals', 'securityCookie', '30ad43ec', 4, '4ee640bb'),
       securityCookieComplement: originalStorage('coldGlobals', 'securityCookieComplement', '30ad43f0', 4, 'b119bf44'),
@@ -115,207 +132,452 @@ export interface NativeCrtBootstrapPlatform extends NativeEngineCrtPlatform {
   queryPerformanceCounter?(fields: NativeHeapObjectViews): NativeValue<boolean>;
 }
 type Phase = 'cold' | 'running' | 'returned' | 'blocked';
+export type NativeCrtAttachOperationName = 'version.size.store' | 'GetVersionExA.return' |
+  'version.platform.read' | 'version.build.read' | 'version.major.read' | 'version.minor.read' |
+  'version.release.return' | 'os.platform.store' | 'os.version.store' | 'os.major.store' |
+  'os.minor.store' | 'os.build.store' | 'heapInit.return' | 'mtInit.return' |
+  'heapTerm.return' | 'preCInit.return' | 'GetCommandLineA.boundary' | 'crtAttach.return';
+export interface NativeCrtAttachOperation {
+  readonly operation: NativeCrtAttachOperationName;
+  /** Load/store instruction, returned PC of a completed lower call, or reached
+   * boundary. A descriptive attach-body return has no simulated PC. */
+  readonly address: string | null;
+  readonly value: number | boolean | null;
+}
+export interface NativeCrtAttachProgress {
+  readonly module: 'Engine' | 'Game';
+  readonly entry: string;
+  readonly phase: Phase;
+  /** Actual attach body result/boundary; null means its body has not returned
+   * or interrupted. This is a description, never continuation authority. */
+  readonly result: Readonly<NativeValue<number>> | null;
+  readonly operations: readonly NativeCrtAttachOperation[];
+  readonly versionRecord: Readonly<{ bytes: readonly number[]; knownMask: readonly number[];
+    freed: boolean; retainedView: boolean }> | null;
+  readonly versionAvailable: boolean | null;
+  readonly heapResult: number | null;
+  readonly mtResult: number | null;
+  readonly preCReturned: boolean;
+  readonly commandLineBoundary: Readonly<{ address: string; iat: string }> | null;
+  readonly crtTraversalCompleted: false;
+  readonly nativeModuleInstantiated: false;
+}
+interface StorageProof {
+  readonly backing: NativeHeapObjectViews['backing'];
+  readonly backingIdentity: object;
+  readonly backingBytes: Uint8Array; readonly backingMasks: Uint8Array;
+  readonly bytes: Uint8Array; readonly masks: Uint8Array; readonly view: DataView;
+  readonly root: NativeMemoryBacking;
+  readonly rootIdentity: object;
+  readonly rootBytes: Uint8Array; readonly rootMasks: Uint8Array;
+  readonly position: number; readonly length: number;
+}
 /** The same CRT owner supplies canonical OS fields, heap, TLS indexes and
  * pointer initialization slots. Runtime callbacks receive retained views. */
 export class NativeCrtBootstrap {
-  private readonly source: SourceRules;
+  readonly #source: SourceRules;
+  readonly #crt: NativeModuleCrtOwner;
   readonly physical: PhysicalBootstrap;
   readonly thread: NativeCrtThreadStartup;
-  private boundary: string | null = null;
-  private readonly trace: string[] = [];
-  private cookiePhase: Phase = 'cold';
-  private pointerPhase: Phase = 'cold';
-  private attachPhase: Phase = 'cold';
-  private entryPhase: Phase = 'cold';
-  private attachResult: number | null = null;
-  private entryResult: number | null = null;
-  private entryArguments: { module: object | null; reason: 0 | 1 | 2 | 3; reserved: object | null } | null = null;
-  private cookieFrame: NativeHeapObjectViews | null = null;
-  private versionRecord: NativeHeapObjectViews | null = null;
-  private readonly terminateTarget: NativeSourceProcedure;
-  private readonly exitTarget: NativeSourceProcedure;
+  #boundary: string | null = null;
+  readonly #trace: string[] = [];
+  #cookiePhase: Phase = 'cold';
+  #pointerPhase: Phase = 'cold';
+  #attachPhase: Phase = 'cold';
+  #entryPhase: Phase = 'cold';
+  #attachResult: number | null = null;
+  #entryResult: number | null = null;
+  #entryArguments: { module: object | null; reason: 0 | 1 | 2 | 3; reserved: object | null } | null = null;
+  #cookieFrame: NativeHeapObjectViews | null = null;
+  #versionRecord: NativeHeapObjectViews | null = null;
+  readonly #terminateTarget: NativeSourceProcedure;
+  readonly #exitTarget: NativeSourceProcedure;
+  readonly #active = new Set<string>();
+  #lowerCall: string | null = null;
+  readonly #storage = new WeakMap<NativeHeapObjectViews, StorageProof>();
+  readonly #attachOperations: NativeCrtAttachOperation[] = [];
+  #versionAvailable: boolean | null = null;
+  #heapResult: number | null = null;
+  #mtResult: number | null = null;
+  #preCReturned = false;
+  #commandLineBoundary: NativeCrtAttachProgress['commandLineBoundary'] = null;
   static forCrt(crt: NativeModuleCrtOwner): NativeCrtBootstrap {
-    let bootstrap = bootstrapByCrt.get(crt);
-    if (!bootstrap) { bootstrap = new NativeCrtBootstrap(crt); bootstrapByCrt.set(crt, bootstrap); }
-    return bootstrap;
-  }
-  private constructor(readonly crt: NativeModuleCrtOwner) {
-    this.source = admitSource(crt); this.physical = physicalFor(crt);
-    this.terminateTarget = Object.freeze({ identity: Object.freeze({}), owner: crt.identity, address: this.address('terminatePointerTarget'),
-      invoke: () => unknown('Unowned source terminate' + this.address('terminatePointerTarget') + ' invocation') });
-    this.exitTarget = Object.freeze({ identity: Object.freeze({}), owner: crt.identity, address: this.address('exitPointerTarget'),
-      invoke: () => unknown('Unowned source __exit' + this.address('exitPointerTarget') + ' invocation') });
-    this.thread = new NativeCrtThreadStartup({ crt, initPointers: () => this.initializePointers() });
-  }
-  private get platform(): NativeCrtBootstrapPlatform { return this.crt.host.platform; }
-  private address(label: string): string { return this.source.methods[label]!.entry; }
-  private name(label: string): string { return label + this.address(label); }
-  private instruction(engine: string, label: keyof typeof gameStartupInstructionPoints): string {
-    return this.crt.module === 'Engine' ? engine : gameStartupInstructionPoints[label];
-  }
-  private run<T>(name: string, execute: () => T): NativeValue<T> {
-    if (this.boundary) return unknown(this.boundary);
-    try { const value = execute(); return this.boundary ? unknown(this.boundary) : known(value); }
-    catch (error) {
-      this.boundary ??= name + ': ' + (error instanceof Error ? error.message : String(error));
-      return unknown(this.boundary);
+    if (!NativeModuleCrtOwner.isConstructedOwner(crt)) throw new Error('Actual constructed CRT owner required for bootstrap');
+    const previous = bootstrapByCrt.get(crt);
+    if (previous) {
+      if (previous.phase === 'returned') return previous.owner!;
+      previous.boundary ??= 'Reentrant CRT bootstrap construction cannot publish an incomplete owner';
+      throw new Error(previous.boundary);
+    }
+    const retained: BootstrapConstruction = { phase: 'constructing', owner: null, boundary: null };
+    bootstrapByCrt.set(crt, retained);
+    try {
+      const bootstrap = new NativeCrtBootstrap(crt, bootstrapConstructionToken);
+      retained.owner = bootstrap;
+      if (retained.boundary) throw new Error(retained.boundary);
+      retained.phase = 'returned'; return bootstrap;
+    } catch (error) {
+      retained.phase = 'blocked';
+      retained.boundary ??= failureReason(error);
+      throw new Error(retained.boundary);
     }
   }
-  private call<T>(name: string, execute: () => NativeValue<T>): T {
-    const before = this.boundary;
-    this.trace.push(name + '.attempt');
-    const result = execute();
-    if (this.boundary !== before) throw new Error(this.boundary!);
-    if (!result.known) throw new Error(name + ': ' + result.reason);
-    this.trace.push(name); return result.value;
+  /** Invoke the actual retained body without trusting replaceable instance
+   * methods or descriptive snapshots. Platform lifetime is proved by callers. */
+  static processAttachForCrt(bootstrap: NativeCrtBootstrap, crt: NativeModuleCrtOwner): NativeValue<number> {
+    const retained = bootstrapByCrt.get(crt);
+    if (!NativeModuleCrtOwner.isConstructedOwner(crt) || !bootstrap ||
+        retained?.phase !== 'returned' || retained.owner !== bootstrap || bootstrap.#crt !== crt) {
+      return unknown('Actual retained bootstrap and constructed same CRT owner required');
+    }
+    return bootstrap.#processAttach();
   }
-  private gate(name: string): never { this.trace.push(name + '.boundary'); throw new Error('Unowned ' + name); }
-  private u32(value: number): number {
+  private constructor(readonly crt: NativeModuleCrtOwner, token: object) {
+    if (token !== bootstrapConstructionToken || new.target !== NativeCrtBootstrap ||
+        !NativeModuleCrtOwner.isConstructedOwner(crt)) throw new Error('Private canonical CRT bootstrap construction required');
+    this.#crt = crt;
+    this.#source = admitSource(crt); this.physical = physicalFor(crt);
+    for (const fields of Object.values(this.physical)) this.#pin(fields);
+    this.#pin(crt.physical.crtOsFields);
+    for (const fields of Object.values(crt.physical.pointerInitialization)) this.#pin(fields);
+    this.#terminateTarget = Object.freeze({ identity: Object.freeze({}), owner: crt.identity, address: this.#address('terminatePointerTarget'),
+      invoke: () => unknown('Unowned source terminate' + this.#address('terminatePointerTarget') + ' invocation') });
+    this.#exitTarget = Object.freeze({ identity: Object.freeze({}), owner: crt.identity, address: this.#address('exitPointerTarget'),
+      invoke: () => unknown('Unowned source __exit' + this.#address('exitPointerTarget') + ' invocation') });
+    this.thread = new NativeCrtThreadStartup(Object.freeze({ crt, initPointers: () => this.#initializePointers(true) }));
+    for (const [label, fields] of Object.entries(this.thread.physical)) {
+      if (crt.module === 'Game') {
+        const original = NativeModuleCrtOwner.canonicalImageForOwner(crt, label);
+        if (!original.known) throw new Error(original.reason);
+        const expected = original.value;
+        // The thread owner creates a legitimate subview for MBC's counter;
+        // all other Game fields are the exact canonical image view objects.
+        const sameCounter = label === 'mbcRefCounter' && fields.backing === expected.backing &&
+          fields.bytes.buffer === expected.bytes.buffer && fields.bytes.byteOffset === expected.bytes.byteOffset &&
+          fields.bytes.length === expected.bytes.length && fields.knownMask.buffer === expected.knownMask.buffer &&
+          fields.knownMask.byteOffset === expected.knownMask.byteOffset && fields.knownMask.length === expected.knownMask.length;
+        if (fields !== expected && !sameCounter) throw new Error('Thread bootstrap dependency differs from canonical Game image: ' + label);
+      }
+      this.#pin(fields);
+    }
+    // Retain dependency identities and prevent added method shadows while
+    // preserving the thread owner's mutable destructor-callback hook. Native
+    // cleanup rereads live TLS indices after this callback returns.
+    Object.defineProperty(this.thread, 'freePtdCallback', {
+      value: NativeCrtThreadStartup.prototype.freePtdCallback, writable: true, configurable: false,
+    });
+    for (const key of Reflect.ownKeys(this.thread)) if (key !== 'freePtdCallback') {
+      Object.defineProperty(this.thread, key, { writable: false, configurable: false });
+    }
+    Object.seal(this.thread);
+    Object.freeze(this);
+  }
+  #assertCrt(): void {
+    if (!NativeModuleCrtOwner.isConstructedOwner(this.#crt) || this.crt !== this.#crt) {
+      throw new Error('Bootstrap CRT dependencies differ from their retained construction');
+    }
+  }
+  #pin(fields: NativeHeapObjectViews): void {
+    if (this.#storage.has(fields)) return;
+    const backing = fields.backing, root = 'region' in backing ? backing.region : backing;
+    const position = ('region' in backing ? backing.offset : 0) + fields.bytes.byteOffset - backing.bytes.byteOffset;
+    this.#storage.set(fields, Object.freeze({ backing, backingIdentity: backing.identity,
+      backingBytes: backing.bytes, backingMasks: backing.knownMask,
+      bytes: fields.bytes, masks: fields.knownMask, view: fields.view, root, rootIdentity: root.identity,
+      rootBytes: root.bytes, rootMasks: root.knownMask, position, length: fields.bytes.length }));
+    this.#checked(fields);
+  }
+  #sameStorage(fields: NativeHeapObjectViews, proof: StorageProof): boolean {
+    const backing = fields.backing, root = 'region' in backing ? backing.region : backing;
+    return backing === proof.backing && backing.identity === proof.backingIdentity &&
+      backing.bytes === proof.backingBytes && backing.knownMask === proof.backingMasks && root === proof.root &&
+      root.identity === proof.rootIdentity && root.bytes === proof.rootBytes && root.knownMask === proof.rootMasks &&
+      fields.bytes === proof.bytes && fields.knownMask === proof.masks && fields.view === proof.view &&
+      fields.bytes.length === proof.length && fields.knownMask.length === proof.length && proof.position >= 0 &&
+      proof.position + proof.length <= root.bytes.length && root.knownMask.length === root.bytes.length &&
+      proof.position === ('region' in backing ? backing.offset : 0) + fields.bytes.byteOffset - backing.bytes.byteOffset &&
+      fields.bytes.buffer === root.bytes.buffer && fields.bytes.byteOffset === root.bytes.byteOffset + proof.position &&
+      fields.knownMask.buffer === root.knownMask.buffer && fields.knownMask.byteOffset === root.knownMask.byteOffset + proof.position &&
+      fields.view.buffer === fields.bytes.buffer && fields.view.byteOffset === fields.bytes.byteOffset &&
+      fields.view.byteLength === proof.length;
+  }
+  #checked(fields: NativeHeapObjectViews): NativeHeapObjectViews {
+    this.#assertCrt();
+    const proof = this.#storage.get(fields);
+    if (!proof || !this.#sameStorage(fields, proof) || proof.backing.freed || proof.root.freed) {
+      throw new Error('Actual retained live bootstrap physical storage required');
+    }
+    return fields;
+  }
+  get #platform(): NativeCrtBootstrapPlatform { return this.#crt.host.platform; }
+  #address(label: string): string { return this.#source.methods[label]!.entry; }
+  #name(label: string): string { return label + this.#address(label); }
+  #instruction(engine: string, label: keyof typeof gameStartupInstructionPoints): string {
+    return this.#crt.module === 'Engine' ? engine : gameStartupInstructionPoints[label];
+  }
+  #point(engine: string, game: string): string { return this.#crt.module === 'Engine' ? engine : game; }
+  #block(reason: string): void {
+    this.#boundary ??= reason;
+    if (this.#cookiePhase === 'running') this.#cookiePhase = 'blocked';
+    if (this.#pointerPhase === 'running') this.#pointerPhase = 'blocked';
+    if (this.#attachPhase === 'running') this.#attachPhase = 'blocked';
+    if (this.#entryPhase === 'running') this.#entryPhase = 'blocked';
+  }
+  #run<T>(name: string, execute: () => T, nested = false): NativeValue<T> {
+    if (this.#boundary) return unknown(this.#boundary);
+    if (this.#active.has(name) || (!nested && this.#active.size !== 0)) {
+      this.#block(name + ': Reentrant CRT bootstrap operation cannot replay its retained frame');
+      return unknown(this.#boundary!);
+    }
+    this.#active.add(name);
+    try {
+      this.#assertCrt();
+      const value = execute(); return this.#boundary ? unknown(this.#boundary) : known(value);
+    }
+    catch (error) {
+      this.#block(name + ': ' + failureReason(error));
+      return unknown(this.#boundary!);
+    }
+    finally { this.#active.delete(name); }
+  }
+  #call<T>(name: string, execute: () => NativeValue<T>): T {
+    const before = this.#boundary;
+    this.#trace.push(name + '.attempt');
+    const previousCall = this.#lowerCall;
+    this.#lowerCall = name;
+    let result: NativeValue<T>;
+    try { result = execute(); }
+    finally { this.#lowerCall = previousCall; }
+    if (this.#boundary !== before) throw new Error(this.#boundary!);
+    this.#assertCrt();
+    if (!result.known) throw new Error(name + ': ' + result.reason);
+    this.#trace.push(name); return result.value;
+  }
+  #gate(name: string): never { this.#trace.push(name + '.boundary'); throw new Error('Unowned ' + name); }
+  #u32(value: number): number {
     if (!Number.isInteger(value) || value < 0 || value > 0xffffffff) throw new Error('Actual uint32 Win32 output required');
     return value;
   }
+  #record(operation: NativeCrtAttachOperationName, value: number | boolean | null, address: string | null = null): void {
+    if (this.#boundary) throw new Error(this.#boundary);
+    this.#attachOperations.push(Object.freeze({ operation, address, value }));
+  }
   initializeSecurityCookie(): NativeValue<void> {
-    return this.run(this.name('securityInitCookie'), () => {
-      if (this.cookiePhase === 'returned') return;
-      if (this.cookiePhase !== 'cold') throw new Error('Suspended security cookie frame cannot replay');
-      this.cookiePhase = 'running';
-      const frame = this.cookieFrame = stackFrame(16);
-      let cookie = this.physical.securityCookie.readUnsigned(0); this.trace.push('cookie.read' + this.instruction('3068e9ab', 'cookieRead'));
+    return this.#initializeSecurityCookie(false);
+  }
+  #initializeSecurityCookie(nested: boolean): NativeValue<void> {
+    return this.#run(this.#name('securityInitCookie'), () => {
+      if (this.#cookiePhase === 'returned') return;
+      if (this.#cookiePhase !== 'cold') throw new Error('Suspended security cookie frame cannot replay');
+      this.#cookiePhase = 'running';
+      const frame = this.#cookieFrame = stackFrame(16);
+      this.#pin(frame);
+      let cookie = this.#checked(this.physical.securityCookie).readUnsigned(0); this.#trace.push('cookie.read' + this.#instruction('3068e9ab', 'cookieRead'));
       // EBP-8/EBP-4 FILETIME stores occur even for the existing-cookie branch.
-      frame.writeUnsigned(8, 0); this.trace.push('cookie.FILETIME.low.zero');
-      frame.writeUnsigned(12, 0); this.trace.push('cookie.FILETIME.high.zero');
+      this.#checked(frame).writeUnsigned(8, 0); this.#trace.push('cookie.FILETIME.low.zero');
+      this.#checked(frame).writeUnsigned(12, 0); this.#trace.push('cookie.FILETIME.high.zero');
       if (cookie === 0xbb40e64e || (cookie & 0xffff0000) === 0) {
         const fileTime = new NativeHeapObjectViews(frame.backing, 8, 8);
-        this.call('GetSystemTimeAsFileTime', () => this.platform.getSystemTimeAsFileTime?.(fileTime) ??
+        this.#pin(fileTime);
+        this.#call('GetSystemTimeAsFileTime', () => this.#platform.getSystemTimeAsFileTime?.(fileTime) ??
           unknown('Actual owned FILETIME writer required'));
-        cookie = fileTime.readUnsigned(4) ^ fileTime.readUnsigned(0);
-        cookie ^= this.u32(this.call('GetCurrentProcessId', () => this.platform.getCurrentProcessId?.() ??
+        cookie = this.#checked(fileTime).readUnsigned(4) ^ this.#checked(fileTime).readUnsigned(0);
+        cookie ^= this.#u32(this.#call('GetCurrentProcessId', () => this.#platform.getCurrentProcessId?.() ??
           unknown('Actual owned process ID call required')));
-        cookie ^= this.u32(this.call('GetCurrentThreadId', () => this.platform.getCurrentThreadId?.() ??
+        cookie ^= this.#u32(this.#call('GetCurrentThreadId', () => this.#platform.getCurrentThreadId?.() ??
           unknown('Actual owned thread ID call required')));
-        cookie ^= this.u32(this.call('GetTickCount', () => this.platform.getTickCount?.() ??
+        cookie ^= this.#u32(this.#call('GetTickCount', () => this.#platform.getTickCount?.() ??
           unknown('Actual owned tick count call required')));
         const counter = new NativeHeapObjectViews(frame.backing, 0, 8);
+        this.#pin(counter);
         // Original caller ignores BOOL and reads the two actual output DWORDs.
-        this.call('QueryPerformanceCounter', () => this.platform.queryPerformanceCounter?.(counter) ??
+        this.#call('QueryPerformanceCounter', () => this.#platform.queryPerformanceCounter?.(counter) ??
           unknown('Actual owned performance counter writer required'));
-        cookie = (cookie ^ counter.readUnsigned(4) ^ counter.readUnsigned(0)) >>> 0;
+        cookie = (cookie ^ this.#checked(counter).readUnsigned(4) ^ this.#checked(counter).readUnsigned(0)) >>> 0;
         if (cookie === 0xbb40e64e) cookie = 0xbb40e64f;
         else if ((cookie & 0xffff0000) === 0) cookie = (cookie | (cookie << 16)) >>> 0;
-        this.physical.securityCookie.writeUnsigned(0, cookie); this.trace.push('cookie.store' + this.instruction('3068ea26', 'cookieStore'));
+        this.#checked(this.physical.securityCookie).writeUnsigned(0, cookie); this.#trace.push('cookie.store' + this.#instruction('3068ea26', 'cookieStore'));
       }
-      this.physical.securityCookieComplement.writeUnsigned(0, (~cookie) >>> 0);
-      this.trace.push('cookieComplement.store');
-      frame.backing.freed = true; this.cookiePhase = 'returned'; this.trace.push('cookie.frame.expire');
-    });
+      this.#checked(this.physical.securityCookieComplement).writeUnsigned(0, (~cookie) >>> 0);
+      this.#trace.push('cookieComplement.store');
+      frame.backing.freed = true; this.#cookiePhase = 'returned'; this.#trace.push('cookie.frame.expire');
+    }, nested);
   }
   initializePointers(): NativeValue<void> {
-    return this.run(this.name('initPointers'), () => {
-      if (this.pointerPhase === 'returned') return;
-      if (this.pointerPhase !== 'cold') throw new Error('Suspended pointer initialization cannot replay');
-      this.pointerPhase = 'running';
-      const encodedNull = this.call(this.name('encodedNull'), () => this.crt.encodePointer(null));
-      const slots = this.crt.physical.pointerInitialization;
-      const store = (label: string, fields: NativeHeapObjectViews, offset = 0) => {
-        fields.pointer<object>(offset).set(encodedNull); this.trace.push(label);
-      };
-      store(this.name('initNewHandler') + '.store', slots.newHandler);
-      store(this.name('initSectionInitializer') + '.store', slots.sectionInitializer);
-      store(this.name('initInvalidParameter') + '.store', slots.invalidParameter);
-      store(this.name('initCrtReportHook') + '.store', slots.exceptionFilter);
-      store(this.name('initUnhandledException') + '.store', slots.mathError);
-      for (let offset = 0; offset < 16; offset += 4) store(this.name('initWinSignalPointers') + '.store' + offset, slots.winSignalPointers, offset);
-      this.trace.push(this.name('initDebugReportNoop'));
-      const terminate = this.call(this.name('initEhHooks') + '.encodeTerminate', () => this.crt.encodePointer(this.terminateTarget));
-      slots.terminateHandler.pointer<object>(0).set(terminate); this.trace.push('terminateHandler.store' + this.instruction('3068a93d', 'terminateStore'));
-      const exit = this.call(this.name('initPointers') + '.encodeExit', () => this.crt.encodePointer(this.exitTarget));
-      slots.exitFunction.pointer<object>(0).set(exit); this.trace.push('exitFunction.store' + this.instruction('3067d3c0', 'exitStore'));
-      this.pointerPhase = 'returned';
-    });
+    return this.#initializePointers(false);
   }
-  private preCInitialize(): void {
+  #initializePointers(nested: boolean): NativeValue<void> {
+    if (nested && this.#active.size !== 0 &&
+        (this.#attachPhase !== 'running' || this.#lowerCall !== this.#name('mtInit'))) {
+      this.#block('Reentrant CRT pointer initialization outside the retained MT call is unowned');
+      return unknown(this.#boundary!);
+    }
+    return this.#run(this.#name('initPointers'), () => {
+      if (this.#pointerPhase === 'returned') return;
+      if (this.#pointerPhase !== 'cold') throw new Error('Suspended pointer initialization cannot replay');
+      this.#pointerPhase = 'running';
+      const encodedNull = this.#call(this.#name('encodedNull'), () => NativeModuleCrtOwner.prototype.encodePointer.call(this.#crt, null));
+      const slots = this.#crt.physical.pointerInitialization;
+      const store = (label: string, fields: NativeHeapObjectViews, offset = 0) => {
+        this.#checked(fields).pointer<object>(offset).set(encodedNull); this.#trace.push(label);
+      };
+      store(this.#name('initNewHandler') + '.store', slots.newHandler);
+      store(this.#name('initSectionInitializer') + '.store', slots.sectionInitializer);
+      store(this.#name('initInvalidParameter') + '.store', slots.invalidParameter);
+      store(this.#name('initCrtReportHook') + '.store', slots.exceptionFilter);
+      store(this.#name('initUnhandledException') + '.store', slots.mathError);
+      for (let offset = 0; offset < 16; offset += 4) store(this.#name('initWinSignalPointers') + '.store' + offset, slots.winSignalPointers, offset);
+      this.#trace.push(this.#name('initDebugReportNoop'));
+      const terminate = this.#call(this.#name('initEhHooks') + '.encodeTerminate', () => NativeModuleCrtOwner.prototype.encodePointer.call(this.#crt, this.#terminateTarget));
+      this.#checked(slots.terminateHandler).pointer<object>(0).set(terminate); this.#trace.push('terminateHandler.store' + this.#instruction('3068a93d', 'terminateStore'));
+      const exit = this.#call(this.#name('initPointers') + '.encodeExit', () => NativeModuleCrtOwner.prototype.encodePointer.call(this.#crt, this.#exitTarget));
+      this.#checked(slots.exitFunction).pointer<object>(0).set(exit); this.#trace.push('exitFunction.store' + this.#instruction('3067d3c0', 'exitStore'));
+      this.#pointerPhase = 'returned';
+    }, nested);
+  }
+  #preCInitialize(): void {
     // The source advances by four through the actual 64-pointer table.
     for (let offset = 0; offset < 256; offset += 4) {
-      const procedure = this.physical.preCInitializerTable.pointer<NativeSourceProcedure>(offset).get();
-      this.trace.push(this.name('preCInit') + '.read' + offset);
-      if (procedure) this.gate(this.name('preCInit') + ' callback at' + this.source.constBytes.preCInitializerTable!.address + '+' + offset);
+      const procedure = this.#checked(this.physical.preCInitializerTable).pointer<NativeSourceProcedure>(offset).get();
+      this.#trace.push(this.#name('preCInit') + '.read' + offset);
+      if (procedure) this.#gate(this.#name('preCInit') + ' callback at' + this.#source.constBytes.preCInitializerTable!.address + '+' + offset);
     }
-    this.trace.push(this.name('preCInit') + '.return');
+    this.#trace.push(this.#name('preCInit') + '.return');
   }
-  private attach(): number {
-    if (this.attachPhase === 'returned') return this.attachResult!;
-    if (this.attachPhase !== 'cold') throw new Error('Suspended DLL attach cannot replay');
-    this.attachPhase = 'running';
-    const heap = this.call('GetProcessHeap', () => this.platform.getProcessHeap?.() ?? unknown('Actual process heap call required'));
-    if (!heap) this.gate('HeapAlloc(NULL,0,148) platform call');
-    const backing = this.call('HeapAlloc(processHeap,0,148)', () => this.platform.win32HeapAlloc(heap, 0, 148));
-    if (backing === null) return this.finishAttach(0);
+  #attach(): number {
+    if (this.#attachPhase === 'returned') return this.#attachResult!;
+    if (this.#attachPhase !== 'cold') throw new Error('Suspended DLL attach cannot replay');
+    this.#attachPhase = 'running';
+    const heap = this.#call('GetProcessHeap', () => this.#platform.getProcessHeap?.() ?? unknown('Actual process heap call required'));
+    if (!heap) this.#gate('HeapAlloc(NULL,0,148) platform call');
+    const backing = this.#call('HeapAlloc(processHeap,0,148)', () => this.#platform.win32HeapAlloc(heap, 0, 148));
+    if (backing === null) return this.#finishAttach(0);
     if (backing.freed || backing.bytes.length !== 148 || backing.knownMask.length !== 148) throw new Error('Actual live OSVERSIONINFOA148B backing required');
-    const fields = this.versionRecord = new NativeHeapObjectViews(backing);
-    fields.writeUnsigned(0, 148); this.trace.push('OSVERSIONINFOA.size.store');
-    const versionAvailable = this.call('GetVersionExA', () => this.platform.getVersionExA?.(fields) ??
+    const fields = this.#versionRecord = new NativeHeapObjectViews(backing);
+    this.#pin(fields);
+    this.#checked(fields).writeUnsigned(0, 148); this.#trace.push('OSVERSIONINFOA.size.store');
+    this.#record('version.size.store', 148, this.#point('306771b4', '2046781c'));
+    const versionAvailable = this.#call('GetVersionExA', () => this.#platform.getVersionExA?.(fields) ??
       unknown('Actual owned GetVersionExA writer required'));
-    if (!versionAvailable) { this.releaseVersion(backing); return this.finishAttach(0); }
-    const osPlatform = fields.readUnsigned(16);
-    let build = fields.readUnsigned(12) & 0x7fff;
-    const major = fields.readUnsigned(4), minor = fields.readUnsigned(8);
-    this.releaseVersion(backing);
+    this.#versionAvailable = versionAvailable;
+    this.#record('GetVersionExA.return', versionAvailable, this.#point('306771bc', '20467824'));
+    if (!versionAvailable) { this.#releaseVersion(backing); return this.#finishAttach(0); }
+    const osPlatform = this.#checked(fields).readUnsigned(16);
+    this.#record('version.platform.read', osPlatform, this.#point('306771ce', '20467836'));
+    let build = this.#checked(fields).readUnsigned(12);
+    this.#record('version.build.read', build, this.#point('306771d1', '20467839'));
+    const major = this.#checked(fields).readUnsigned(4);
+    this.#record('version.major.read', major, this.#point('306771d7', '2046783f'));
+    const minor = this.#checked(fields).readUnsigned(8);
+    this.#record('version.minor.read', minor, this.#point('306771dd', '20467845'));
+    build &= 0x7fff;
+    this.#releaseVersion(backing);
     if (osPlatform !== 2) build |= 0x8000;
-    const os = this.crt.physical.crtOsFields;
+    const os = this.#crt.physical.crtOsFields;
     // Actual original operand/store order, after the HeapFree call.
-    os.writeUnsigned(0, osPlatform); this.trace.push('os.platform.store' + this.instruction('30677203', 'osPlatformStore'));
-    os.writeUnsigned(8, ((major << 8) + minor) >>> 0); this.trace.push('os.version.store' + this.instruction('30677214', 'osVersionStore'));
-    os.writeUnsigned(12, major); this.trace.push('os.major.store' + this.instruction('3067721a', 'osMajorStore'));
-    os.writeUnsigned(16, minor); this.trace.push('os.minor.store' + this.instruction('3067721f', 'osMinorStore'));
-    os.writeUnsigned(4, build); this.trace.push('os.build.store' + this.instruction('30677225', 'osBuildStore'));
-    if (this.call(this.name('heapInit'), () => this.crt.initHeap(1)) === 0) return this.finishAttach(0);
-    if (this.call(this.name('mtInit'), () => this.thread.initialize()) === 0) {
-      this.call(this.name('heapTerm'), () => this.crt.terminateHeap()); return this.finishAttach(0);
+    this.#checked(os).writeUnsigned(0, osPlatform); this.#trace.push('os.platform.store' + this.#instruction('30677203', 'osPlatformStore'));
+    this.#record('os.platform.store', osPlatform, this.#instruction('30677203', 'osPlatformStore'));
+    const packedVersion = ((major << 8) + minor) >>> 0;
+    this.#checked(os).writeUnsigned(8, packedVersion); this.#trace.push('os.version.store' + this.#instruction('30677214', 'osVersionStore'));
+    this.#record('os.version.store', packedVersion, this.#instruction('30677214', 'osVersionStore'));
+    this.#checked(os).writeUnsigned(12, major); this.#trace.push('os.major.store' + this.#instruction('3067721a', 'osMajorStore'));
+    this.#record('os.major.store', major, this.#instruction('3067721a', 'osMajorStore'));
+    this.#checked(os).writeUnsigned(16, minor); this.#trace.push('os.minor.store' + this.#instruction('3067721f', 'osMinorStore'));
+    this.#record('os.minor.store', minor, this.#instruction('3067721f', 'osMinorStore'));
+    this.#checked(os).writeUnsigned(4, build); this.#trace.push('os.build.store' + this.#instruction('30677225', 'osBuildStore'));
+    this.#record('os.build.store', build, this.#instruction('30677225', 'osBuildStore'));
+    const heapResult = this.#call(this.#name('heapInit'), () => NativeModuleCrtOwner.prototype.initHeap.call(this.#crt, 1));
+    this.#heapResult = heapResult;
+    this.#record('heapInit.return', heapResult, this.#point('30677230', '20467898'));
+    if (heapResult === 0) return this.#finishAttach(0);
+    const mtResult = this.#call(this.#name('mtInit'), () => NativeCrtThreadStartup.prototype.initialize.call(this.thread));
+    this.#mtResult = mtResult;
+    this.#record('mtInit.return', mtResult, this.#point('3067723e', '204678a6'));
+    if (mtResult === 0) {
+      this.#call(this.#name('heapTerm'), () => NativeModuleCrtOwner.prototype.terminateHeap.call(this.#crt));
+      this.#record('heapTerm.return', null, this.#point('30677247', '204678af'));
+      return this.#finishAttach(0);
     }
-    this.preCInitialize();
-    this.gate('GetCommandLineA IAT' + this.instruction('30afc69c', 'commandLineIat') + ' at' + this.instruction('30677251', 'commandLineCall'));
+    this.#preCInitialize();
+    this.#preCReturned = true;
+    this.#record('preCInit.return', null, this.#point('30677251', '204678b9'));
+    this.#commandLineBoundary = Object.freeze({ address: this.#instruction('30677251', 'commandLineCall'),
+      iat: this.#instruction('30afc69c', 'commandLineIat') });
+    this.#record('GetCommandLineA.boundary', null, this.#commandLineBoundary.address);
+    this.#gate('GetCommandLineA IAT' + this.#instruction('30afc69c', 'commandLineIat') + ' at' + this.#instruction('30677251', 'commandLineCall'));
   }
-  private releaseVersion(backing: NativeMemoryBacking): void {
-    const heap = this.call('GetProcessHeap.free', () => this.platform.getProcessHeap?.() ?? unknown('Actual process heap call required'));
-    if (!heap) this.gate('HeapFree(NULL,0,OSVERSIONINFOA) platform call');
+  #releaseVersion(backing: NativeMemoryBacking): void {
+    const heap = this.#call('GetProcessHeap.free', () => this.#platform.getProcessHeap?.() ?? unknown('Actual process heap call required'));
+    if (!heap) this.#gate('HeapFree(NULL,0,OSVERSIONINFOA) platform call');
     // Original caller ignores HeapFree BOOL, including a known false result.
-    this.call('HeapFree(processHeap,0,OSVERSIONINFOA)', () => this.platform.win32HeapFree(heap, 0, backing));
+    const released = this.#call('HeapFree(processHeap,0,OSVERSIONINFOA)', () => this.#platform.win32HeapFree(heap, 0, backing));
+    this.#record('version.release.return', released, this.#point(
+      this.#versionAvailable ? '306771f2' : '306771cc', this.#versionAvailable ? '2046785a' : '20467834'));
   }
-  private finishAttach(value: number): number {
-    this.attachPhase = 'returned'; this.attachResult = value; this.trace.push('crtAttach.return' + value); return value;
+  #finishAttach(value: number): number {
+    this.#record('crtAttach.return', value);
+    this.#attachPhase = 'returned'; this.#attachResult = value; this.#trace.push('crtAttach.return' + value); return value;
   }
   processAttach(): NativeValue<number> {
-    return this.run(this.name('crtAttach'), () => this.attach());
+    return NativeCrtBootstrap.processAttachForCrt(this, this.#crt);
+  }
+  #processAttach(): NativeValue<number> {
+    return this.#run(this.#name('crtAttach'), () => this.#attach());
   }
   entry(module: object | null, reason: 0 | 1 | 2 | 3, reserved: object | null): NativeValue<number> {
     if (![0, 1, 2, 3].includes(reason) || (module !== null && typeof module !== 'object') ||
         (reserved !== null && typeof reserved !== 'object')) return unknown('Actual DLL entry module/reason/reserved arguments required');
-    if (this.entryArguments && (this.entryArguments.module !== module || this.entryArguments.reason !== reason ||
-        this.entryArguments.reserved !== reserved)) return unknown('Different DLL entry invocation requires a separate owned frame');
-    return this.run(this.name('entry'), () => {
-      if (this.entryPhase === 'returned') return this.entryResult!;
-      if (this.entryPhase !== 'cold') throw new Error('Suspended DLL entry cannot replay');
-      this.entryArguments = { module, reason, reserved };
-      this.entryPhase = 'running'; this.trace.push(this.name('entry') + '.reason' + reason);
-      if (reason === 1) this.call(this.name('securityInitCookie'), () => this.initializeSecurityCookie());
-      this.trace.push(this.name('dllMainCrtStartup'));
-      if (reason === 0 && this.physical.attachCount.readUnsigned(0) === 0) return this.finishEntry(0);
+    if (this.#entryArguments && (this.#entryArguments.module !== module || this.#entryArguments.reason !== reason ||
+        this.#entryArguments.reserved !== reserved)) return unknown('Different DLL entry invocation requires a separate owned frame');
+    return this.#run(this.#name('entry'), () => {
+      if (this.#entryPhase === 'returned') return this.#entryResult!;
+      if (this.#entryPhase !== 'cold') throw new Error('Suspended DLL entry cannot replay');
+      this.#entryArguments = { module, reason, reserved };
+      this.#entryPhase = 'running'; this.#trace.push(this.#name('entry') + '.reason' + reason);
+      if (reason === 1) this.#call(this.#name('securityInitCookie'), () => this.#initializeSecurityCookie(true));
+      this.#trace.push(this.#name('dllMainCrtStartup'));
+      if (reason === 0 && this.#checked(this.physical.attachCount).readUnsigned(0) === 0) return this.#finishEntry(0);
       if (reason === 1 || reason === 2) {
-        if (this.physical.attachCallback.pointer<object>(0).get() !== null) this.gate('DllStartup attach callback' + this.source.constBytes.attachCallback!.address);
-        this.trace.push('attachCallback.NULL');
-        if (reason === 2) this.gate(this.name('crtAttach') + ' thread-attach branch' + this.instruction('306772e1', 'threadAttachBranch'));
-        if (this.attach() === 0) return this.finishEntry(0);
+        if (this.#checked(this.physical.attachCallback).pointer<object>(0).get() !== null) this.#gate('DllStartup attach callback' + this.#source.constBytes.attachCallback!.address);
+        this.#trace.push('attachCallback.NULL');
+        if (reason === 2) this.#gate(this.#name('crtAttach') + ' thread-attach branch' + this.#instruction('306772e1', 'threadAttachBranch'));
+        if (this.#attach() === 0) return this.#finishEntry(0);
       }
-      this.gate(this.crt.module + ' DllMain thunk' + this.instruction('300350da', 'dllMainThunk') + ' / body' + this.instruction('305eacb0', 'dllMainBody'));
+      this.#gate(this.#crt.module + ' DllMain thunk' + this.#instruction('300350da', 'dllMainThunk') + ' / body' + this.#instruction('305eacb0', 'dllMainBody'));
     });
   }
-  private finishEntry(value: number): number {
-    this.entryPhase = 'returned'; this.entryResult = value; this.trace.push('entry.return' + value); return value;
+  #finishEntry(value: number): number {
+    this.#entryPhase = 'returned'; this.#entryResult = value; this.#trace.push('entry.return' + value); return value;
+  }
+  /** A copied description of the selected invocation and current retained
+   * version bytes. It performs no native reads, calls or continuation. */
+  attachProgress(): NativeCrtAttachProgress { return this.#attachProgress(); }
+  #attachProgress(): NativeCrtAttachProgress {
+    let versionRecord: NativeCrtAttachProgress['versionRecord'] = null;
+    if (this.#versionRecord) {
+      const proof = this.#storage.get(this.#versionRecord)!;
+      let retainedView = false;
+      try { retainedView = this.#sameStorage(this.#versionRecord, proof); }
+      catch { /* A replaced/detached physical view remains descriptive only. */ }
+      // Slice through Array's indexed access, so a detached diagnostic buffer
+      // describes its remaining extent without invoking typed-array iteration.
+      versionRecord = Object.freeze({ bytes: Object.freeze(Array.prototype.slice.call(proof.bytes) as number[]),
+        knownMask: Object.freeze(Array.prototype.slice.call(proof.masks) as number[]),
+        freed: proof.backing.freed || proof.root.freed, retainedView });
+    }
+    const result = this.#attachPhase === 'returned' ? Object.freeze(known(this.#attachResult!)) :
+      this.#attachPhase === 'blocked' ? Object.freeze(unknown(this.#boundary!)) : null;
+    return Object.freeze({ module: this.#crt.module, entry: this.#address('crtAttach'), phase: this.#attachPhase,
+      result, operations: Object.freeze([...this.#attachOperations]), versionRecord,
+      versionAvailable: this.#versionAvailable, heapResult: this.#heapResult, mtResult: this.#mtResult,
+      preCReturned: this.#preCReturned, commandLineBoundary: this.#commandLineBoundary,
+      crtTraversalCompleted: false, nativeModuleInstantiated: false });
   }
   snapshot() {
-    return Object.freeze({ boundary: this.boundary, trace: Object.freeze([...this.trace]),
-      cookiePhase: this.cookiePhase, pointerPhase: this.pointerPhase, attachPhase: this.attachPhase, entryPhase: this.entryPhase,
-      cookieFrame: this.cookieFrame, versionRecord: this.versionRecord, attachResult: this.attachResult,
-      entryResult: this.entryResult, terminateTarget: this.terminateTarget, exitTarget: this.exitTarget });
+    return Object.freeze({ boundary: this.#boundary, trace: Object.freeze([...this.#trace]),
+      cookiePhase: this.#cookiePhase, pointerPhase: this.#pointerPhase, attachPhase: this.#attachPhase, entryPhase: this.#entryPhase,
+      cookieFrame: this.#cookieFrame, versionRecord: this.#versionRecord, attachResult: this.#attachResult,
+      entryResult: this.#entryResult, terminateTarget: this.#terminateTarget, exitTarget: this.#exitTarget,
+      attachProgress: this.#attachProgress() });
   }
 }
