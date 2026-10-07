@@ -1,0 +1,167 @@
+/* ENTRY 100188c0 | FUN_100188c0 | STATUS decompiled | 89 ms */
+
+undefined4 FUN_100188c0(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3)
+
+{
+  bool bVar1;
+  eCEntity *peVar2;
+  int iVar3;
+  Entity *pEVar4;
+  gENPCType gVar5;
+  gEEnclaveStatus gVar6;
+  int iVar7;
+  uint unaff_ESI;
+  code *pcVar8;
+  Entity *pEVar9;
+  undefined1 *puVar10;
+  undefined1 *puVar11;
+  undefined1 local_348 [120];
+  PropertyStatus local_2d0 [36];
+  Entity local_2ac [4];
+  Entity local_2a8 [8];
+  Entity local_2a0 [40];
+  PropertyType local_278 [40];
+  PSParty local_250 [76];
+  Entity local_204 [4];
+  undefined1 local_200 [8];
+  Entity local_1f8 [52];
+  PSNpc local_1c4 [104];
+  Entity local_15c [4];
+  Entity local_158 [4];
+  undefined1 local_154 [160];
+  Entity local_b4 [4];
+  Entity local_b0 [176];
+  
+  Entity::Entity(local_1f8);
+  if (param_2 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    Entity::AttachTo(local_1f8,peVar2);
+  }
+  else {
+    Entity::operator=(local_1f8,param_2);
+  }
+  Entity::Entity(local_2a0);
+  if (param_3 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    Entity::AttachTo(local_2a0,peVar2);
+  }
+  else {
+    Entity::operator=(local_2a0,param_3);
+  }
+  puVar11 = local_348;
+  PSNpc::GetEnclave(local_1c4);
+  puVar10 = local_154;
+  Entity::GetPlayer();
+  pEVar9 = (Entity *)&stack0xfffffcb0;
+  bVar1 = Entity::operator==((Entity *)None_exref,pEVar9);
+  pcVar8 = ~Entity_exref;
+  if (bVar1) goto LAB_1001898c;
+  iVar3 = thunk_FUN_100183e0(param_1,local_200,&stack0xfffffcb0,0);
+  pEVar9 = local_2a8;
+  bVar1 = Entity::operator==(local_158,pEVar9);
+  if (bVar1) {
+LAB_10018a29:
+    bVar1 = true;
+  }
+  else {
+    pEVar9 = local_b0;
+    pEVar4 = (Entity *)PSParty::GetPartyLeader(local_250);
+    bVar1 = Entity::operator==(local_15c,pEVar4);
+    if ((bVar1) || (gVar5 = PSNpc::PropertyType::operator_enum_gENPCType(local_278), gVar5 == 3))
+    goto LAB_10018a29;
+    bVar1 = false;
+  }
+  pcVar8 = ~Entity_exref;
+  if ((unaff_ESI & 1) != 0) {
+    Entity::~Entity(local_b4);
+  }
+  if (bVar1) {
+    gVar6 = PSEnclave::PropertyStatus::operator_enum_gEEnclaveStatus(local_2d0);
+    if (gVar6 == 0) {
+      bVar1 = PSEnclave::PropertySwitched::operator_bool((PropertySwitched *)local_2d0);
+      if (bVar1) goto LAB_10018a87;
+      if (iVar3 != 4) {
+        if (iVar3 != 2) goto LAB_1001898c;
+        goto LAB_10018ac3;
+      }
+      bVar1 = PSEnclave::PropertyRaid::operator_bool((PropertyRaid *)local_2d0);
+    }
+    else {
+      gVar6 = PSEnclave::PropertyStatus::operator_enum_gEEnclaveStatus(local_2d0);
+      if (gVar6 != 1) {
+        gVar6 = PSEnclave::PropertyStatus::operator_enum_gEEnclaveStatus(local_2d0);
+        if (gVar6 == 2) {
+          Entity::~Entity(local_15c);
+          Entity::~Entity((Entity *)&stack0xfffffcac);
+          Entity::~Entity(local_2ac);
+          Entity::~Entity(local_204);
+          if (iVar3 != 1) {
+            return 1;
+          }
+          return 6;
+        }
+        goto LAB_1001898c;
+      }
+      if (iVar3 == 1) goto LAB_10018b7d;
+      if (iVar3 == 4) goto LAB_10018a87;
+LAB_10018ac3:
+      bVar1 = PSEnclave::PropertyRevolution::operator_bool((PropertyRevolution *)local_2d0);
+    }
+LAB_10018a7f:
+    bVar1 = bVar1 == true;
+  }
+  else {
+    gVar6 = PSEnclave::PropertyStatus::operator_enum_gEEnclaveStatus(local_2d0);
+    if (gVar6 != 1) goto LAB_1001898c;
+    iVar7 = thunk_FUN_100183e0(param_1,local_2ac,&stack0xfffffcac,0);
+    if (iVar3 == 1) {
+      if (iVar7 == 1) goto LAB_10018a87;
+      if (iVar7 == 2) {
+        bVar1 = PSEnclave::PropertyRevolution::operator_bool((PropertyRevolution *)local_2d0);
+      }
+      else {
+        bVar1 = iVar7 == 4;
+      }
+      if (bVar1) goto LAB_10018b7d;
+      goto LAB_1001898c;
+    }
+    if (iVar3 == 2) {
+      bVar1 = PSEnclave::PropertyRevolution::operator_bool((PropertyRevolution *)local_2d0);
+      if (!bVar1) goto LAB_1001898c;
+      if (iVar7 == 1) {
+LAB_10018b7d:
+        Entity::~Entity(local_15c);
+        Entity::~Entity((Entity *)&stack0xfffffcac);
+        Entity::~Entity(local_2ac);
+        Entity::~Entity(local_204);
+        return 4;
+      }
+      if (iVar7 == 2) goto LAB_10018a87;
+    }
+    else {
+      if (iVar3 != 4) goto LAB_1001898c;
+      if (iVar7 == 1) goto LAB_10018b7d;
+      if (iVar7 == 2) {
+        bVar1 = PSEnclave::PropertyRevolution::operator_bool((PropertyRevolution *)local_2d0);
+        goto LAB_10018a7f;
+      }
+    }
+    bVar1 = iVar7 == 4;
+  }
+  if (bVar1) {
+LAB_10018a87:
+    Entity::~Entity(local_15c);
+    Entity::~Entity((Entity *)&stack0xfffffcac);
+    Entity::~Entity(local_2ac);
+    Entity::~Entity(local_204);
+    return 1;
+  }
+LAB_1001898c:
+  (*pcVar8)(pEVar9,puVar10,puVar11);
+  (*pcVar8)();
+  (*pcVar8)();
+  (*pcVar8)();
+  return 0;
+}
+
+

@@ -3,6 +3,28 @@ import { NativeEntityReadData } from './entity-reading';
 import type { OriginalPropertyOwner } from './native-properties';
 import type { NativeMemoryAllocation } from './native-memory-admin';
 import { NativeHeapObjectViews } from './native-heap-views';
+import npcHeapRulesText from '../../assets/gothic3/npc-heap/runtime-rules.json?raw';
+
+const npcHeapRules = JSON.parse(npcHeapRulesText) as { schema: string; entityComparatorImport?: {
+  iatVA: string; module: string; importIdentity: { iatVA: string; module: string; name: string; ordinal: number | null };
+  originalIatRaw: string; originalIatSha256: string; resolvedExportEntry: string; resolvedExportBody: string; sourceMethod: string;
+} };
+const comparatorImport = npcHeapRules.entityComparatorImport;
+if (npcHeapRules.schema !== 'gothic3-npc-heap-rules-v1' || comparatorImport?.iatVA !== '30afcd5c' ||
+    comparatorImport.module !== 'Engine' || comparatorImport.importIdentity.iatVA !== '0x30afcd5c' ||
+    comparatorImport.importIdentity.module !== 'SharedBase.dll' ||
+    comparatorImport.importIdentity.name !== '?g_ArraySortDefaultCompare@@YAHPBX0@Z' ||
+    comparatorImport.importIdentity.ordinal !== null || comparatorImport.originalIatRaw !== 'ca2ab000' ||
+    comparatorImport.originalIatSha256 !== '17b509660e929a2a20d729af5b65984bbb091167736ed5ba155bad906110d35b' ||
+    comparatorImport.resolvedExportEntry !== '10003553' || comparatorImport.resolvedExportBody !== '10087b60' ||
+    comparatorImport.sourceMethod !== 'arraySortDefaultCompare') {
+  throw new Error('Original imported default comparator identity differs');
+}
+/** Opaque original import identity for the constructor's pointer store. It is
+ * not a claim that the source comparator body has been invoked here. */
+export const nativeEntityDefaultComparatorImportIdentity = Object.freeze({
+  module: 'SharedBase.dll', address: '10087b60', name: '?g_ArraySortDefaultCompare@@YAHPBX0@Z',
+});
 
 const FLOAT_FIELDS = new Set([0x34, 0x128, 0x12c, 0x134, 0x14c, 0x150, 0x154, 0x188]);
 const DWORD_FIELDS = new Set([0x2c, 0x30, 0x15c, 0x160, 0x164, 0x168, 0x16c,

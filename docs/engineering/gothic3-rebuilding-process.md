@@ -4,9 +4,11 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
-Updated: 7 October 2026. The latest published baseline before checkpoint 84 is
-`main` commit `c52d16da73fe1c9be5d240b0111cfe1074d1e8cc`; the preceding historical
-baseline before checkpoint 72 was `610619f43a809e14118ee8edb186fed67aa2052b`.
+Updated: 7 October 2026. The captured browser-runtime baseline before offline
+checkpoint 84 is `c52d16da73fe1c9be5d240b0111cfe1074d1e8cc`; the latest
+published baseline is `main` commit `28d85b7b72f19352a0abc9abff13f4a2c0c440f3`.
+The preceding historical baseline before checkpoint 72 was
+`610619f43a809e14118ee8edb186fed67aa2052b`.
 Checkpoints 55–71 add
 browser NPC Plunder inventory in checkpoint 55, resolves NPC armor class in
 checkpoint 56, materializes deterministic Weaponry stacks with unapplied
@@ -52,24 +54,34 @@ and within-capacity callback registration before Game Navigation
 class-name/type integration. Checkpoint 84 corrects Game `_strlen` to follow its
 aligned DWORD predicate with unknown-bit proofs and adds the separately owned
 Game Navigation class-name cache, shared CString construction, Game exit-table
-registration and selected initializer. The new
-admin, heap and SceneAdmin owners remain separate from the live NPC reader,
-which still stops at its first property-factory dependency. The [overview](gothic3-rebuild-overview.md)
-records the latest confirmed publication; the individual receipts below
-distinguish locally validated components from published browser behavior.
+registration and selected initializer. Checkpoint 85 extends the byte-verified
+combat source set with three Script_Game attitude helpers and their command
+registrations. Checkpoint 86 connects the shared MemoryAdmin and ErrorAdmin
+owner to the retained browser NPC constructor, and places its Matrix destructor
+on the same reverse-order shutdown stack. This is a local integration step:
+Navigation reflection still uses logical allocations because the native
+PropertyObjectType owner is missing, and no live NPC activation is claimed. The
+[overview](gothic3-rebuild-overview.md) records the latest confirmed
+publication; the individual receipts below distinguish locally validated
+components from published browser behavior.
 
 The [Gothic 3 / Ardea route](https://ael-dev3.github.io/Tervain/gothic3/) serves
-the published incomplete build. The latest browser-runtime baseline is
-checkpoint 83, deployed by [workflow run
-37551902308](https://github.com/ael-dev3/Tervain/actions/runs/37551902308).
+the published incomplete build and currently responds with HTTP 200. The latest
+published revision is `main` commit `28d85b7b72f19352a0abc9abff13f4a2c0c440f3`,
+merged in [PR 53](https://github.com/ael-dev3/Tervain/pull/53) by successful
+[workflow run 37554766730](https://github.com/ael-dev3/Tervain/actions/runs/37554766730), attempt 1.
 Checkpoint 84 adds native source behavior outside the browser integration, so
-the visible game bundle remains unchanged. Earlier publication receipts are
-available in the repository's [Pages workflow](https://github.com/ael-dev3/Tervain/actions/workflows/pages.yml).
+the visible game bundle remains unchanged. The latest captured browser-runtime
+exercise remains checkpoint 83 at commit
+`c52d16da73fe1c9be5d240b0111cfe1074d1e8cc`, published by [workflow run
+37551902308](https://github.com/ael-dev3/Tervain/actions/runs/37551902308),
+attempt 1. Earlier publication receipts are available in the repository's
+[Pages workflow](https://github.com/ael-dev3/Tervain/actions/workflows/pages.yml).
 The [scope record](gothic3-browser-port.md) describes the current controls,
 limitations and source terms.
 
 This guide records the preceding hosted baseline and subsequent dated
-checkpoints that preserve the evidence for each stage. Sections 10–84 cover
+checkpoints that preserve the evidence for each stage. Sections 10–86 cover
 the later runtime work; each receipt identifies its source revision and scope.
 
 Each checkpoint's reproduction commands describe its recorded source revision.
@@ -5948,3 +5960,55 @@ exit-table boundary.
 
 This is a native-behavior component checkpoint, not a playable browser change.
 The existing Ardea route and NPC reader remain unchanged.
+
+## 85. Extend the byte-verified combat source set with attitude helpers
+
+Date: 7 October 2026. This source-only checkpoint adds three Script_Game
+attitude helpers—political, enclave and general—and their three script command
+registrations to the native combat evidence set. The selected functions are
+`100183e0`, `100188c0`, `10019050`, `10109e50`, `1010a010` and `1010a080`.
+The exact installed `Script_Game.dll` hash remains pinned. Regenerating the
+receipt reports 160 function entries, 13,335 instruction records and 46,765
+instruction bytes, with every selected instruction byte matching the offline
+binary study.
+
+The added source is evidence for investigating faction-dependent combat
+results. It does not by itself establish the live enclave status or prove
+whether the starting Ardea Orcs are killed or knocked unconscious. Their
+attacker, defender and session state still have to be connected before a
+disposition can be implemented. The browser combat handler remains unchanged.
+
+This checkpoint runs the existing native evidence producer against the exact
+offline module set. The local TypeScript build also passes. It does not execute
+the native code or establish behavior in ordinary play.
+
+## 86. Connect the shared runtime admins to retained NPC construction
+
+Date: 7 October 2026. This local integration step shares the existing native
+runtime owner with the retained browser NPC constructor and reflection path.
+It builds on the earlier separately studied MemoryAdmin, MessageAdmin and
+ErrorAdmin rather than adding browser-specific success stubs.
+
+`BrowserNpcEntityRuntime` now gives its 448-byte `gCEntity` constructor the
+same `NativeMemoryAdmin` instance that backs the service owner's ErrorAdmin.
+Its initial tagged allocation therefore has retained physical heap backing.
+The constructor receives the source-verified opaque identity of the imported
+`g_ArraySortDefaultCompare` target; the comparator body is not invoked by this
+pointer store. Navigation reflection creator checks now call the owner's
+`ErrorAdmin.IsInPanicState`. The Matrix destructor registration is admitted by
+the runtime platform using its exact `SharedBase:100e2910` RET receipt, so
+MemoryAdmin, Matrix, MessageAdmin and ErrorAdmin share one reverse-order
+shutdown stack.
+
+This does not complete the NativeReflection heap path. The Navigation
+PropertyObjectType singleton is still unowned, so its wrapper and 688-byte
+native storage are not connected to that heap. Registered SceneAdmin map
+backing, remaining reflected factories, property attachment, world context,
+processing registration and NPC activation also remain open. The browser
+preview loaded the Ardea scene, but the NPC inspector was not reviewed after
+this hookup; no changed read boundary or new gameplay behavior is claimed.
+
+Local verification: `npm run typecheck`, `npm run build` and `git diff --check`
+pass. The build retains the repository's existing large-chunk warning. The
+automated test suite was not run for this local step. This checkpoint is not
+published and does not establish campaign progress.
