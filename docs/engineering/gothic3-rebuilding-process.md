@@ -4,7 +4,13 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
-Updated: 7 October 2026. The published baseline for checkpoints 95–99 was
+Updated: 7 October 2026. The latest published source checkpoint is 100,
+merged in [PR 63](https://github.com/ael-dev3/Tervain/pull/63) at commit
+`53fe508ee214ab9dc01cb65cc53c7dbb47259979` and published by successful
+[workflow run 37606093507](https://github.com/ael-dev3/Tervain/actions/runs/37606093507).
+It adds selected ScriptAdmin static initializer bodies and three allocator
+pools; its lower dependencies and production NPC integration remain unfinished.
+The published baseline for checkpoints 95–99 was
 merged in [PR 60](https://github.com/ael-dev3/Tervain/pull/60) at commit
 `5f530d4176595e0df294f58039eb99f2e42d33c4` and published by successful
 [workflow run 37601141422](https://github.com/ael-dev3/Tervain/actions/runs/37601141422).
@@ -122,7 +128,7 @@ The [scope record](gothic3-browser-port.md) describes the current controls,
 limitations and source terms.
 
 This guide records the hosted baseline and subsequent dated checkpoints that
-preserve the evidence for each stage. Sections 10–94 cover
+preserve the evidence for each stage. Sections 10–100 cover
 the later runtime work; each receipt identifies its source revision and scope.
 
 Each checkpoint's reproduction commands describe its recorded source revision.

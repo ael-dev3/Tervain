@@ -64,7 +64,7 @@ Browser checks do not establish packaged desktop compatibility or performance on
 - [Art direction](docs/art/art-audio-ui.md)
 - [Illustrated Gothic 3 video / Tervain visual audit](docs/art/studies/gothic3-video-2026-10-05/README.md) — dated study, comparisons and selected motion evidence.
 - [Shared asset provenance](docs/engineering/shared-assets.md)
-- [Gothic 3 rebuilding process](docs/engineering/gothic3-rebuild-overview.md)
+- [Gothic 3 rebuilding process](docs/engineering/gothic3-rebuild-overview.md) — source folders, extraction and behavior research, TypeScript integration, reproduction commands, hosting and unfinished campaign work.
 
 ## Gothic 3 browser rebuild and study viewers
 
