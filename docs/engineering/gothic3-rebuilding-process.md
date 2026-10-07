@@ -4,15 +4,15 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
-Updated: 7 October 2026. The latest completed publication receipt recorded here is 101,
-merged in [PR 65](https://github.com/ael-dev3/Tervain/pull/65) at commit
-`f9d8b609afebb8f1e4781d3f1665f6f38d4b50e9` and published by successful
-[workflow run 37611795592](https://github.com/ael-dev3/Tervain/actions/runs/37611795592).
-It adds GUID text construction, CString operations, canonical literal storage
-and the original 48-byte holder pool. The current source extension is
-[checkpoint 102](#102-own-the-canonical-shared-guid-null-initializer), which owns
-the selected Shared GUID NullPayload initializer and same-platform callback
-composition. Full startup and production NPC activation remain unfinished.
+Updated: 7 October 2026. The latest completed publication receipt recorded here is 102,
+merged in [PR 67](https://github.com/ael-dev3/Tervain/pull/67) at commit
+`be062db145c40c337ed23187e3283ea62f9f5d0f` and published by successful
+[workflow run 37616248532](https://github.com/ael-dev3/Tervain/actions/runs/37616248532).
+It adds the selected Shared GUID NullPayload initializer, canonical module
+storage and same-platform callback composition. The current source extension is
+[checkpoint 103](#103-connect-the-browser-game-crt-attach-prerequisites), which
+connects a declared browser CRT provider and the actual Game attach prefix.
+Full startup and production NPC activation remain unfinished.
 The published baseline for checkpoints 95–99 was
 merged in [PR 60](https://github.com/ael-dev3/Tervain/pull/60) at commit
 `5f530d4176595e0df294f58039eb99f2e42d33c4` and published by successful
@@ -7288,3 +7288,158 @@ relative links and 40 Markdown anchors. Local tests were not run and no new
 test cases were added. Source
 capture, typechecking and a production build do not establish full startup,
 production NPC activation or campaign completion.
+
+### Confirmed publication of checkpoint 102
+
+[PR 67](https://github.com/ael-dev3/Tervain/pull/67) merged reviewed head
+`1f38f1095bf523d7b7b694acd9b3020bd97bbce4` into main commit
+`be062db145c40c337ed23187e3283ea62f9f5d0f`. PR run
+[37615533798](https://github.com/ael-dev3/Tervain/actions/runs/37615533798)
+and main publication run
+[37616248532](https://github.com/ael-dev3/Tervain/actions/runs/37616248532)
+passed 2,409 existing tests across 230 files and built 425 modules. Pages
+deployment `6909117853` succeeded for that main commit. HTTP review returned
+200 for the root, `/gothic3/` and `/gothic3-local/`, with served entry names
+matching the publication log. The Gothic entry is `gothic3-B6jm-gJe.js`; the
+new NPC service chunk is `browser-npc-entity-services-DJ0ep5AN.js` and contains
+the selected GUID initializer and property-ID composition. This is publication
+evidence, not a new browser execution or performance observation.
+
+## 103. Connect the browser Game CRT attach prerequisites
+
+**Source integration checkpoint, 7 October 2026.** The previous selected
+property-ID schedule supplied Shared's real GUID payload but left Game's heap,
+thread and lock prerequisites cold. This checkpoint creates the browser NPC
+platform with an explicit CRT provider and enters the existing original Game
+attach body before the later property-ID callback. It retains the first reached
+incomplete attach boundary. Native module activation and a finishable campaign
+remain required.
+
+### Declare the browser compatibility environment before construction
+
+[`createBrowserGameCrtPlatform`](../../src/gothic3/browser-game-crt-platform.ts)
+declares the virtual x86 Win32 ABI
+`browser-game-crt-virtual-win32-nt6.1-v1`: platform 2, version 6.1, build 7601,
+KERNEL32 availability, owned pointer encoding, FLS and spin-count exports,
+a process heap and initially empty TLS storage. The factory allocates one
+stable logical thread ID per platform. These are declared compatibility
+inputs; no host OS version or native Windows thread ID is observed.
+
+[`NativeRuntimePlatform`](../../src/gothic3/native-runtime-platform.ts) performs
+the actual retained heap, TLS/FLS, pointer and physical-section operations.
+It copies scalar/version configuration and initial TLS entries, retaining
+the exact supplied endpoint functions. Configuration and capability registries
+are private; caller mutation of an input Map or version object cannot replace
+them. The published TLS procedure object and its binding retain their original
+identities. A default platform still has no CRT service provider.
+
+The provider's private factory registry proves the actual platform/profile
+identity. A static constructor and private-phase lifetime check rejects fresh
+startup during draining, blocked shutdown or disposal. Shared image views
+retain their existing lifetime during legitimate callback drain. This provider
+does not supply command line, full security-cookie entropy or missing native
+startup bodies.
+
+### Retain the actual Game attach graph and source order
+
+[`createBrowserGameCrtStartup`](../../src/gothic3/browser-game-crt-startup.ts)
+installs a constructing record before lower calls and retains the final Game
+host once. Its errno closure resolves the same bootstrap thread/PTD owner;
+it does not allocate a substitute errno DWORD. The same factory-created platform
+continues to own MemoryAdmin, Shared storage, Game storage and lower CRT
+capabilities. A preexisting conflicting Game host or interrupted graph cannot
+receive replacement callbacks and replay.
+
+The original [Game CRT package](../../assets/gothic3/game-crt/README.md)
+already admits this prefix. `crtAttach204677e4` contains 151 original
+instructions and 473 bytes, with body hash
+`9469f04e5cd533e1cf5aaa85553339f7e4eb4eb7f38ec894a6b4d8dd0493be27`.
+The [bootstrap owner](../../src/gothic3/native-crt-bootstrap.ts) preserves:
+
+1. Actual process-heap allocation of the 148-byte version record, its size
+   store, the supplied version writer, reached field reads and original free.
+2. Game OS-field stores after the free, in their original instruction order.
+3. `heapInit204769c5`, including actual `HeapCreate(0,4096,0)`, heap publication
+   and selection from the produced OS fields.
+4. `mtInit204681d9`: actual FLS/TLS queries and indices, pointer initialization,
+   encoded procedure publication, all 14 static locks in the original 36-record
+   traversal, the 532-byte PTD allocation/publication, locale references and
+   logical thread-ID store.
+5. `preCInit204737dd`, checking all 64 current physical cells; a reached
+   non-NULL unowned callback remains a boundary.
+6. The next unowned `GetCommandLineA` call at `204678b9`, IAT `207d7ca0`.
+
+Heap-only initialization leaves static creation lock 10 cold. Initializing
+locks before the owned pointer initialization can fail when cold scalar zero
+is decoded as an encoded capability. The source ordering above supplies these
+prerequisites through their actual owners. Known NULL/false/zero results retain
+the source failure and cleanup paths.
+
+`NativeCrtBootstrap.processAttachForCrt` proves the actual retained constructor,
+CRT identity and private scheduling state, then invokes the real private body.
+Public instance replacements or a descriptive progress record cannot authorize
+that execution. Bootstrap phases, interruption state and dependency identities
+are private/retained. Game bootstrap and thread physical views resolve through
+the original private canonical image authority, preserving current bytes,
+masks and aliases instead of accepting replaced public view accessors.
+
+The attach progress record describes actual returned calls, reached reads and
+stores, known lower results and partial version-buffer bytes/masks. It adds no
+native loads and supplies no continuation permission. If the command-line
+boundary is reached, the attach result remains unknown, the applied prefix
+is retained and the attach count has not been incremented. Separately entering
+this attach body does not execute the DLL-entry security cookie or complete
+module startup.
+
+### Gate the production property-ID callback on its prerequisites
+
+[`createBrowserNpcEntityServices`](../../src/gothic3/browser-npc-entity-services.ts)
+now constructs the declared platform before its runtime admins.
+[`createBrowserScriptAdminStartup`](../../src/gothic3/browser-script-admin-startup.ts)
+retains Shared's successful selected GUID initializer, enters the Game attach
+graph and records whether the later property-ID initializer was entered.
+An incomplete attach returns an explicit prerequisite boundary with
+`propertyIdInvocation: 'not-entered'` and `game: null`; it cannot be described
+as a failed property-ID body that never ran. Reacquisition checks the retained
+Game/Shared identities and active platform lifetime without restarting them.
+
+No original guards, property-ID cleanup cells, onexit entries, factory objects
+or module registration are fabricated to cross that boundary. The currently
+supported successful lower profile is statically expected to stop at the
+command-line call; no new browser runtime observation is recorded here.
+
+### Continue the original initialization toward the playable game
+
+The next source work follows `GetCommandLineA` with environment preparation
+`20476835`, I/O initialization `204742ff`, argument construction `2047677c`,
+environment-vector construction `204764ff` and `cinit204665f4` in their original
+order. Their caller receipt alone does not supply their implementations.
+The original math initializer pointer bytes are nonzero; continuation must
+read its current canonical storage and resolve any reached target. The other
+C callbacks, earlier C++ callbacks, onexit initialization,
+ScriptAdmin factory/root/accessor, module/session activation and native NPC
+lifetime still need actual connected owners. Full exit-table traversal and
+CRT teardown are also unfinished. These requirements remain part of the
+browser game objective.
+
+For this integration, use the existing source package and review the production
+composition with:
+
+```powershell
+npm run typecheck
+npm run build
+```
+
+No new native package, test cases or local test execution are introduced by
+this checkpoint. A typecheck, build or bounded startup result does not prove
+a complete campaign.
+
+Whole-tree TypeScript and the final production build passed with 430 modules.
+The existing large-chunk warning remains. Independent review found and corrected
+canonical host-descriptor retention and constructor storage-accessor gaps.
+Direct original PE/ASM review of the existing Game package checked 28 bodies,
+1,191 instruction rows and 3,453 bytes, with zero byte, assembly-row or excerpt
+hash mismatches; full physical tables and selected cold ranges also matched.
+The four-document link review passed 369 relative links and 41 Markdown anchors.
+These are source, integration and build receipts; no new browser execution or
+performance result is claimed.

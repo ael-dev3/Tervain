@@ -137,10 +137,28 @@ const engineConstructionToken = Object.freeze({});
 const gameConstructionToken = Object.freeze({});
 const gameOwners = new WeakMap<NativeEngineCrtPlatform, NativeGameCrtOwner>();
 const hostCallbacks = ['errnoSlot', 'callNewHandler', 'sleep', 'getLastError', 'mapOsError'] as const;
+const constructedCrtOwners = new WeakMap<NativeModuleCrtOwner, Readonly<{
+  host: NativeEngineCrtHost; platform: NativeEngineCrtPlatform; identity: object;
+  physical: NativeModuleCrtOwner['physical'];
+}>>();
 
 /** Algorithms shared only after each module's independent source admission.
  * A Game owner never constructs an Engine facade or copies its live state. */
 export class NativeModuleCrtOwner {
+  /** Constructor admission is private authority; an inherited prototype or
+   * caller-shaped source/physical fields cannot supply an actual CRT owner. */
+  static isConstructedOwner(owner: NativeModuleCrtOwner): boolean {
+    const proof = constructedCrtOwners.get(owner);
+    return !!proof && proof.host === owner.host && proof.platform === owner.host.platform &&
+      proof.identity === owner.identity && proof.physical === owner.physical;
+  }
+  /** Resolve the original retained image through private authority. Public
+   * instance accessors and caller-provided view maps cannot replace it. */
+  static canonicalImageForOwner(owner: NativeModuleCrtOwner, label: string): NativeValue<NativeHeapObjectViews> {
+    if (!NativeModuleCrtOwner.isConstructedOwner(owner)) return unknown('Actual constructed CRT owner required');
+    try { return known(owner.#retainedImageStorage(label)); }
+    catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
+  }
   readonly module: NativeCrtModule;
   readonly sourceProfile: NativeCrtSourceProfile;
   readonly identity = Object.freeze({});
@@ -154,8 +172,8 @@ export class NativeModuleCrtOwner {
       terminateHandler: NativeHeapObjectViews; exitFunction: NativeHeapObjectViews;
     }>;
   }>;
-  private readonly imageViews = new Map<string, NativeHeapObjectViews>();
-  private readonly imageProofs = new WeakMap<NativeHeapObjectViews, Readonly<{
+  readonly #imageViews = new Map<string, NativeHeapObjectViews>();
+  readonly #imageProofs = new WeakMap<NativeHeapObjectViews, Readonly<{
     backing: NativeMemoryBacking; bytes: Uint8Array; masks: Uint8Array; view: DataView;
     rootBytes: Uint8Array; rootMasks: Uint8Array; begin: number; length: number;
   }>>();
@@ -185,14 +203,14 @@ export class NativeModuleCrtOwner {
         (module !== 'Engine' && module !== 'Game')) throw new Error('Actual admitted CRT module facade construction required');
     this.module = module;
     if (module === 'Engine') { admitSource(); this.sourceProfile = engineProfile; }
-    else { admitNativeGameCrtSource(); this.sourceProfile = nativeGameCrtSourceProfile; this.initializeGameImage(); }
+    else { admitNativeGameCrtSource(); this.sourceProfile = nativeGameCrtSourceProfile; this.#initializeGameImage(); }
     Object.defineProperties(this, {
       module: { value: this.module, writable: false, configurable: false },
       sourceProfile: { value: this.sourceProfile, writable: false, configurable: false },
     });
-    const select = (label: string, address: string, bytes: number) => module === 'Engine' ? storage(label, address, bytes) : this.imageStorage(label);
+    const select = (label: string, address: string, bytes: number) => module === 'Engine' ? storage(label, address, bytes) : this.#retainedImageStorage(label);
     const selectBootstrap = (label: string, address: string, bytes: number, raw?: string) =>
-      module === 'Engine' ? bootstrapStorage(label, address, bytes, raw) : this.imageStorage(label);
+      module === 'Engine' ? bootstrapStorage(label, address, bytes, raw) : this.#retainedImageStorage(label);
     const sectionInitializer = select('crtSectionInitializer', '30af7c50', 4);
     this.physical = Object.freeze({
       heapHandle: select('crtHeapHandle', '30af76f4', 4), heapSelector: select('crtHeapMode', '30af7e20', 4),
@@ -206,8 +224,10 @@ export class NativeModuleCrtOwner {
         terminateHandler: selectBootstrap('terminateHandler', '30af7744', 4), exitFunction: selectBootstrap('exitHandler', '30ad4830', 4, '4cd36730'),
       }),
     });
+    constructedCrtOwners.set(this, Object.freeze({ host, platform: host.platform,
+      identity: this.identity, physical: this.physical }));
   }
-  private initializeGameImage(): void {
+  #initializeGameImage(): void {
     const ranges: { address: number; fields: NativeHeapObjectViews }[] = [];
     const labels = Object.keys(nativeGameImagePins).sort((a, b) => {
       const ra = nativeGameImageReceipt(a), rb = nativeGameImageReceipt(b);
@@ -227,8 +247,8 @@ export class NativeModuleCrtOwner {
         fields = new NativeHeapObjectViews({ identity: Object.freeze({}), bytes: raw, knownMask: new Uint8Array(receipt.bytes).fill(255), freed: false });
         ranges.push({ address, fields });
       }
-      this.imageViews.set(label, fields);
-      if (!this.imageProofs.has(fields)) this.imageProofs.set(fields, Object.freeze({
+      this.#imageViews.set(label, fields);
+      if (!this.#imageProofs.has(fields)) this.#imageProofs.set(fields, Object.freeze({
         backing: fields.backing, bytes: fields.bytes, masks: fields.knownMask, view: fields.view,
         rootBytes: fields.backing.bytes, rootMasks: fields.backing.knownMask,
         begin: fields.bytes.byteOffset - fields.backing.bytes.byteOffset, length: fields.bytes.length,
@@ -238,16 +258,16 @@ export class NativeModuleCrtOwner {
   /** Canonical admitted Game module-image objects. Constructing views supplies
    * cold bytes, never a live section, heap or initialized CRT status. */
   imageStorage(label: string): NativeHeapObjectViews {
-    if (this.module !== 'Game') throw new Error('Engine image aliases remain owned by their existing source services');
-    nativeGameImageReceipt(label);
-    const fields = this.imageViews.get(label);
-    if (!fields) throw new Error('Actual canonical Game CRT image view required: ' + label);
-    return fields;
+    return this.#retainedImageStorage(label);
   }
   /** Check retained identities and aliases without performing a native load. */
-  protected retainedImageStorage(label: string): NativeHeapObjectViews {
-    const fields = this.imageStorage(label), proof = this.imageProofs.get(fields);
-    if (!proof || fields.backing !== proof.backing || fields.bytes !== proof.bytes ||
+  #retainedImageStorage(label: string): NativeHeapObjectViews {
+    if (this.module !== 'Game') throw new Error('Engine image aliases remain owned by their existing source services');
+    nativeGameImageReceipt(label);
+    const fields = this.#imageViews.get(label);
+    if (!fields) throw new Error('Actual canonical Game CRT image view required: ' + label);
+    const proof = this.#imageProofs.get(fields);
+    if (!proof || fields.backing.freed || fields.backing !== proof.backing || fields.bytes !== proof.bytes ||
         fields.knownMask !== proof.masks || fields.view !== proof.view || fields.backing.bytes !== proof.rootBytes ||
         fields.backing.knownMask !== proof.rootMasks || fields.bytes.length !== proof.length ||
         fields.knownMask.length !== proof.length || fields.bytes.buffer !== proof.rootBytes.buffer ||
@@ -682,8 +702,7 @@ export class NativeGameCrtOwner extends NativeModuleCrtOwner {
     if (!owner || gameOwners.get(platform) !== owner || owner.host.platform !== platform) {
       return unknown('Actual canonical Game CRT owner for this platform required');
     }
-    try { return known(owner.retainedImageStorage(label)); }
-    catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
+    return NativeModuleCrtOwner.canonicalImageForOwner(owner, label);
   }
   static forPlatform(host: NativeEngineCrtHost): NativeGameCrtOwner {
     const existing = gameOwners.get(host.platform);

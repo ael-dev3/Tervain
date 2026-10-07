@@ -3,7 +3,7 @@
  * physical cold objects. This does not claim a completed CRT process attach. */
 import sourceText from '../../assets/gothic3/crt-bootstrap/runtime-rules.json?raw';
 import type { NativeValue } from './dialogue';
-import type { NativeModuleCrtOwner } from './native-engine-crt-locks';
+import { NativeModuleCrtOwner } from './native-engine-crt-locks';
 import { admitGameCrtStartupSource } from './native-game-crt-startup-source';
 import { NativeHeapObjectViews } from './native-heap-views';
 import type { NativeMemoryBacking } from './native-memory-admin';
@@ -99,7 +99,12 @@ export class NativeCrtThreadStartup {
     let state = shared.get(host.crt);
     if (!state) {
       const game = host.crt.module === 'Game';
-      const physical = (label: string, address: string, bytes: number, constant = false) => game ? host.crt.imageStorage(label) : storage(label, address, bytes, constant);
+      const physical = (label: string, address: string, bytes: number, constant = false) => {
+        if (!game) return storage(label, address, bytes, constant);
+        const fields = NativeModuleCrtOwner.canonicalImageForOwner(host.crt, label);
+        if (!fields.known) throw new Error(fields.reason);
+        return fields.value;
+      };
       const mbcObject = physical('mbcObject', '30ad4bd0', 544);
       const alias = source.coldGlobals.mbcRefCounter;
       if (!alias || alias.address !== (game ? '207b2620' : '30ad4bd0') || alias.bytes !== 4 || alias.raw !== source.coldGlobals.mbcObject!.raw.slice(0, 8)) throw new Error('Source MBC refcounter alias differs');

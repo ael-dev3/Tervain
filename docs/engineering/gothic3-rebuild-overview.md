@@ -11,19 +11,19 @@ of Gothic 3's endings. A scene viewer, a decoded model or a successfully read
 native data structure is a useful component milestone, but it does not by
 itself establish a playable reconstruction.
 
-The latest completed publication receipt recorded here on 7 October 2026 is 101,
-merged in [PR 65](https://github.com/ael-dev3/Tervain/pull/65) at commit
-`f9d8b609afebb8f1e4781d3f1665f6f38d4b50e9` and published by successful
-[workflow run 37611795592](https://github.com/ael-dev3/Tervain/actions/runs/37611795592).
-It adds GUID text construction, CString operations, canonical literal storage
-and the original 48-byte holder pool, following the selected ScriptAdmin static
-initializer bodies in checkpoint 100. Their production NPC integration remains
-unfinished.
-The current source extension, [checkpoint 102](gothic3-rebuilding-process.md#102-own-the-canonical-shared-guid-null-initializer),
-implements the actual Shared GUID null initializer and canonical module storage.
-Browser NPC preparation now schedules that selected callback before a fresh
-Game property-ID callback, retaining any later Game CRT boundary. This selected
-composition does not finish native NPC activation or whole-module startup.
+The latest completed publication receipt recorded here on 7 October 2026 is 102,
+merged in [PR 67](https://github.com/ael-dev3/Tervain/pull/67) at commit
+`be062db145c40c337ed23187e3283ea62f9f5d0f` and published by successful
+[workflow run 37616248532](https://github.com/ael-dev3/Tervain/actions/runs/37616248532).
+It adds the actual Shared GUID null initializer, canonical module storage and
+same-platform selected callback composition, following the GUID/CString work
+in checkpoint 101. Native NPC activation remains unfinished.
+The current source extension, [checkpoint 103](gothic3-rebuilding-process.md#103-connect-the-browser-game-crt-attach-prerequisites),
+supplies a declared virtual Win32 environment before creating the NPC platform
+and enters the original Game attach prerequisites in source order. The Game
+owner retains its actual lower result and stops at the first unowned operation;
+the later property-ID initializer is not entered while attach is incomplete.
+This does not finish native NPC activation or whole-module startup.
 The browser supports exploration and selected gameplay paths. Native NPC
 activation and most campaign progression remain unfinished. See
 [current implementation status](#current-implementation-status) below; the

@@ -553,8 +553,9 @@ selected [ASCII/UTF16 provider](../../src/gothic3/native-guid-platform.ts)
 writes its supplied retained buffers and supports canonical braced GUID text;
 it executes no Windows or OLE functions. The original 48-byte holder pool is
 admitted, and the Game literal maps its existing canonical CRT image backing.
-The selected browser callback composition now supplies the canonical Shared
-GUID null payload described below. Full production NPC activation and CRT table
+The selected browser composition retains the canonical Shared GUID null
+payload described below and enters the Game attach prerequisites before the
+later property-ID callback. Full production NPC activation and CRT table
 traversal remain unfinished. See [checkpoint 100](../../docs/engineering/gothic3-rebuilding-process.md#100-own-selected-scriptadmin-static-initializer-bodies)
 and [checkpoint 101](../../docs/engineering/gothic3-rebuilding-process.md#101-own-guid-text-construction-and-canonical-literal-storage).
 
@@ -576,7 +577,24 @@ The [canonical image registry](../../src/gothic3/native-shared-module-image.ts)
 and [initializer owner](../../src/gothic3/native-shared-guid-null.ts) preserve
 actual mutable storage and physical table-slot aliases. The
 [browser composition](../../src/gothic3/browser-script-admin-startup.ts)
-schedules this selected callback before a fresh Game property-ID initializer
-on the same platform, retaining later Game CRT boundaries. Full CRT traversal,
+schedules this selected callback on the same platform as the Game attach
+prerequisites. A later property-ID initializer is not entered through an
+incomplete attach boundary. Full CRT traversal,
 property factories, native NPC activation and campaign completion remain
 required. See [checkpoint 102](../../docs/engineering/gothic3-rebuilding-process.md#102-own-the-canonical-shared-guid-null-initializer).
+
+## Browser Game CRT prerequisite integration
+
+The [browser compatibility provider](../../src/gothic3/browser-game-crt-platform.ts)
+declares one virtual Win32 ABI and creates a fresh actual NPC platform. Its
+version fields and allocated logical thread ID are compatibility inputs, not
+observations of the player's operating system. RuntimePlatform supplies retained
+heap, TLS/FLS, pointer and physical critical-section operations.
+
+The [Game startup graph](../../src/gothic3/browser-game-crt-startup.ts) retains
+the final canonical Game host and runs the already admitted original
+`processAttach204677e4` prefix. Its actual result and descriptive progress are
+retained; source initialization is not replaced with direct global seeding.
+No new native source package is required for this prefix. Command-line,
+environment, I/O, argument and C/C++ callback continuation still need their
+actual source owners. See [checkpoint 103](../../docs/engineering/gothic3-rebuilding-process.md#103-connect-the-browser-game-crt-attach-prerequisites).

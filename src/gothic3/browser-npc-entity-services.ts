@@ -1,12 +1,12 @@
-/** Selected browser platform services for the retained NPC constructor.
- * GUID/timer and ordered shutdown storage replace their platform boundaries;
- * they do not reconstruct Windows CRT allocation, pointer encoding or locks.
- */
+/** Browser platform services for the retained NPC constructor. The declared
+ * CRT compatibility platform owns real selected heap/TLS/lock operations;
+ * incomplete native startup remains an explicit prerequisite boundary. */
 import manifestText from '../../assets/gothic3/npc-entity/manifest.json?raw';
 import { OriginalControlModuleState, OriginalControlReader } from './control-reading';
 import { NativeReflectionController } from './entity-reflection';
 import { monotonicClockMilliseconds } from './world-clock';
 import { createBrowserNpcRuntimeAdminOwner } from './native-runtime-platform';
+import { createBrowserGameCrtPlatform } from './browser-game-crt-platform';
 import { nativeEntityDefaultComparatorImportIdentity } from './native-entity-heap';
 import { BrowserNavigationApplicationOwner } from './browser-npc-navigation-owner';
 import type { BrowserSessionModeOwner } from './browser-npc-navigation-owner';
@@ -108,7 +108,7 @@ export interface BrowserNpcEntityServiceOwner {
 }
 
 export function createBrowserNpcEntityServices(platform: BrowserNpcEntityPlatform): BrowserNpcEntityServiceOwner {
-  const runtimeAdmins = createBrowserNpcRuntimeAdminOwner();
+  const runtimeAdmins = createBrowserNpcRuntimeAdminOwner(createBrowserGameCrtPlatform());
   const scriptAdminStartup = createBrowserScriptAdminStartup(runtimeAdmins.platform, runtimeAdmins.memory, runtimeAdmins.error);
   const navigationNames = new BrowserNavigationNotificationNames(runtimeAdmins.memory, runtimeAdmins.platform);
   const initializedNavigationNames = navigationNames.initialize();
