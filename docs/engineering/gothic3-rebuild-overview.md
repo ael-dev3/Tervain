@@ -12,35 +12,26 @@ native data structure is a useful component milestone, but it does not by
 itself establish a playable reconstruction.
 
 The latest confirmed Gothic implementation publication recorded here is
-[checkpoint 108](gothic3-rebuilding-process.md#108-own-standard-handles-critical-sections-and-the-normal-io-return),
-merged on 7 October 2026 in [PR 75](https://github.com/ael-dev3/Tervain/pull/75)
-at commit `acc3ddfc791614bb772b0832e13203e599b9605c` and published by successful
-[workflow run 37665161360](https://github.com/ael-dev3/Tervain/actions/runs/37665161360).
-It extends the retained I/O invocation through three standard handles and
-critical sections to its actual zero return. The corrected local production
-preview shows 32 records and 899 completed source operations, then stops before
-the caller TEST at `204678d3`. The
-[publication receipt](gothic3-rebuilding-process.md#confirmed-publication-of-checkpoint-108)
+[checkpoint 109](gothic3-rebuilding-process.md#109-own-cold-encoding-initialization-and-the-normal-argument-return),
+merged in [PR 77](https://github.com/ael-dev3/Tervain/pull/77) at commit
+`25e631eb745282d0517f2153723e29a2cf98a1aa` and published by successful
+[workflow run 37686349159](https://github.com/ael-dev3/Tervain/actions/runs/37686349159).
+It extends the retained I/O invocation through cold encoding-table
+initialization and both argument parser passes to the actual zero argument
+return. The corrected local production preview records 14,777 completed source
+operations and argument count 1, then stops before environment initialization
+at `204678e7`.
+
+The [publication receipt](gothic3-rebuilding-process.md#confirmed-publication-of-checkpoint-109)
 records successful checks and matching deployed artifacts. Those comparisons
 establish published code identity; the execution observation is from the local
-production preview. Whole startup and the later property-ID initializer remain
-unfinished.
-
-The next documented implementation increment is
-[checkpoint 109](gothic3-rebuilding-process.md#109-own-cold-encoding-initialization-and-the-normal-argument-return).
-Its fresh local production preview after the immutable-work correction
-extends that same returned I/O graph
-through cold encoding-table initialization and both argument parser passes:
-14,777 completed source operations, argument count 1 and actual return zero.
-It stops before environment initialization at `204678e7`. This local execution
-receipt is separate from the confirmed publication record above.
-Its first PR run passed typechecking and hit one existing startup timeout;
-the [checkpoint record](gothic3-rebuilding-process.md#diagnose-the-first-pr-timeout)
-preserves that failure and the correction to repeated immutable work.
+production preview. The [checkpoint record](gothic3-rebuilding-process.md#109-own-cold-encoding-initialization-and-the-normal-argument-return)
+preserves the first startup timeout, the subsequent diagnostic compatibility
+failure, and their corrections.
 
 The browser supports exploration and selected gameplay paths. Whole-module
-startup, native NPC activation and most campaign progression remain unfinished. See
-[current implementation status](#current-implementation-status) below; the
+startup, native NPC activation and most campaign progression remain unfinished.
+See [current implementation status](#current-implementation-status) below; the
 [detailed checkpoint record](gothic3-rebuilding-process.md) preserves the
 individual source and review receipts.
 
@@ -533,8 +524,8 @@ their Markdown links and diff without treating them as a new gameplay release.
 
 The `/gothic3/` reconstruction remains incomplete. The table summarizes gameplay
 evidence through checkpoint 94 and runtime implementation through checkpoint
-108. The latest publication receipt retained here covers checkpoint 107;
-checkpoint 108's local startup observation is recorded separately above.
+109. The latest publication receipt retained here covers checkpoint 109;
+the local startup execution observation is recorded separately above.
 Startup components have not established new NPC gameplay in the browser.
 
 | Area | Connected or recovered | Work still required |
@@ -553,13 +544,12 @@ preview-teleport review confirmed rendering and a grounded Hero; ordinary
 overland arrival remains unverified. Checkpoint 94 models the ScriptAdmin
 getter protocol. Checkpoints 95–109 add individual registration and startup
 prerequisites; full native ScriptAdmin creation and live NPC activation remain
-unfinished. Published checkpoint 107 stopped before `GetStdHandle`, retaining
-its applied state; checkpoint 108's local observation reaches the caller TEST
-after I/O returns zero. See [checkpoint 108](gothic3-rebuilding-process.md#108-own-standard-handles-critical-sections-and-the-normal-io-return)
-for that publication. Checkpoint 109's corrected local production observation
-continues through the argument return to the unexecuted environment CALL.
-See [checkpoint 109](gothic3-rebuilding-process.md#109-own-cold-encoding-initialization-and-the-normal-argument-return)
-and the [current controls and scope](gothic3-browser-port.md).
+unfinished. Checkpoint 108's local observation reached the caller TEST after
+I/O returned zero. Checkpoint 109's corrected local production observation
+continues through the argument return to the unexecuted environment CALL. The
+preceding public step is recorded in [checkpoint 108](gothic3-rebuilding-process.md#108-own-standard-handles-critical-sections-and-the-normal-io-return),
+and the current boundary and controls are described in [checkpoint 109](gothic3-rebuilding-process.md#109-own-cold-encoding-initialization-and-the-normal-argument-return)
+and the [current scope](gothic3-browser-port.md).
 
 ### Why startup is the current implementation focus
 
