@@ -1,0 +1,15 @@
+100aa47d | 56 | PUSH ESI
+100aa47e | 8b742408 | MOV ESI,dword ptr [ESP + 0x8]
+100aa482 | 33c0 | XOR EAX,EAX
+100aa484 | eb0f | JMP 0x100aa495
+100aa486 | 85c0 | TEST EAX,EAX
+100aa488 | 7511 | JNZ 0x100aa49b
+100aa48a | 8b0e | MOV ECX,dword ptr [ESI]
+100aa48c | 85c9 | TEST ECX,ECX
+100aa48e | 7402 | JZ 0x100aa492
+100aa490 | ffd1 | CALL ECX
+100aa492 | 83c604 | ADD ESI,0x4
+100aa495 | 3b74240c | CMP ESI,dword ptr [ESP + 0xc]
+100aa499 | 72eb | JC 0x100aa486
+100aa49b | 5e | POP ESI
+100aa49c | c3 | RET

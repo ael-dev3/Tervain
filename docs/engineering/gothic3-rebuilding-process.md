@@ -4,13 +4,15 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
-Updated: 7 October 2026. The latest published source checkpoint is 101,
+Updated: 7 October 2026. The latest completed publication receipt recorded here is 101,
 merged in [PR 65](https://github.com/ael-dev3/Tervain/pull/65) at commit
 `f9d8b609afebb8f1e4781d3f1665f6f38d4b50e9` and published by successful
 [workflow run 37611795592](https://github.com/ael-dev3/Tervain/actions/runs/37611795592).
 It adds GUID text construction, CString operations, canonical literal storage
-and the original 48-byte holder pool. The Shared GUID NullPayload initializer,
-full startup and production NPC integration remain unfinished.
+and the original 48-byte holder pool. The current source extension is
+[checkpoint 102](#102-own-the-canonical-shared-guid-null-initializer), which owns
+the selected Shared GUID NullPayload initializer and same-platform callback
+composition. Full startup and production NPC activation remain unfinished.
 The published baseline for checkpoints 95–99 was
 merged in [PR 60](https://github.com/ael-dev3/Tervain/pull/60) at commit
 `5f530d4176595e0df294f58039eb99f2e42d33c4` and published by successful
@@ -7172,3 +7174,117 @@ deployment `6908335449` succeeded. HTTP review returned 200 for the root,
 `/gothic3/` and `/gothic3-local/`; the served Gothic entry is
 `gothic3-CnpZfxX6.js`, matching the publication build. These receipts establish
 the published checkpoint, while the runtime and campaign limits above remain.
+
+## 102. Own the canonical Shared GUID null initializer
+
+**Source and implementation checkpoint, 7 October 2026.** The next reached
+ScriptAdmin property-ID dependency is SharedBase's actual mutable 16-byte GUID
+payload at `101ab150`. This checkpoint supplies its original initializer and
+ties it to the browser NPC platform's retained module storage. Full CRT
+traversal, native component creation and a finishable campaign remain required.
+
+### Capture the original body and complete physical tables
+
+[`prepare_shared_guid_null_source.py`](../../tools/gothic3/prepare_shared_guid_null_source.py)
+reads the original SharedBase image with SHA-256
+`5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214`.
+The [source package](../../assets/gothic3/shared-guid-null/README.md) captures
+three original bodies with 74 instructions and 223 bytes. Only initializer
+`100e1470` is implemented here: nine original ASM instructions, 45 bytes,
+with body hash `fe95f9b100333ef62ca804d288a0db74d3c72240b197fa4b92481e1be29d1e03`.
+It has original assembly and symbol evidence, but no catalog function or
+reconstructed C body; those source gaps remain explicit.
+
+`__cinit100aa632` and `__initterm_e100aa47d` supply contextual table evidence.
+Both full original tables are retained: 214 C++ slots in 856 bytes and 135 C
+slots in 540 bytes. The selected callback is physical C++ index 132 at
+`100e5210`, nonzero ordinal four with three preceding callbacks. Its slot is a
+view at byte offset 528 in the complete table. Capturing the tables proves no
+callback execution. The original C declaration for `__initterm_e` says `void`,
+while assembly returns a callback result in EAX and the caller tests it; the
+unchanged C excerpt records this discrepancy.
+
+Three existing IsNull/raw-equality/destructor receipts add 79 instruction rows
+and 193 bytes as separate pinned dependencies, with no duplicated bodies or
+excerpts. Exact SetGuid-to-IsNull and IsNull-to-equality callsites remain
+linked to the focused ScriptAdmin source. The producer also records all eight
+PE sections, permissions, cold/file-backed provenance and 19 bounded absolute
+operand references; this reference search proves no whole-memory writer closure.
+
+### Retain one image authority and execute the real store order
+
+[`NativeSharedModuleImage`](../../src/gothic3/native-shared-module-image.ts)
+owns canonical fragments per actual constructed
+[`NativeRuntimePlatform`](../../src/gothic3/native-runtime-platform.ts).
+Private registries retain backing, bytes, masks, buffers, DataView identities,
+offsets and spans. The source `100ebb28`, mutable payload `101ab150`, full
+tables and both existing Shared CString literals are acquired through this
+authority. CString-first and registry-first acquisition return the same
+retained views. Cold receipts initialize storage once; later acquisitions
+preserve current bytes and unknown masks.
+
+Contained address ranges resolve to retained subviews. A wider range spanning
+separately allocated fragments returns an explicit boundary; it cannot become
+one contiguous TypedArray by copying mutable storage. MemoryAdmin's other
+selected cold ranges are not consolidated by this checkpoint.
+
+[`NativeSharedGuidNull`](../../src/gothic3/native-shared-guid-null.ts)
+checks the current physical slot target and preserves the native instruction
+order: three source DWORD loads, the first destination store, the fourth
+source load, then the remaining three cached stores and RET. A failed later
+read retains any earlier store. Private selected-execution state prevents
+reentry or replay after an interrupted prefix; it writes no native guard.
+The getter becomes available only after actual selected execution reaches RET
+and returns the same live 16-byte view, preserving subsequent bytes and masks.
+The separate 20-byte `GetNullGuid` object cannot supply this service.
+
+Every acquired fragment is registered as module-image storage before
+publication. CRT free rejects it. Platform lifetime uses an ECMAScript private
+phase, so resetting exposed byte/backing fields cannot resurrect terminal
+storage. Module backings expire only after successful callback drain. This
+browser disposal profile establishes no original Shared CRT termination.
+The selected initializer registers no destructor or exit callback.
+
+### Compose the selected callbacks on the browser NPC platform
+
+[`createBrowserScriptAdminStartup`](../../src/gothic3/browser-script-admin-startup.ts)
+is retained by
+[`createBrowserNpcEntityServices`](../../src/gothic3/browser-npc-entity-services.ts).
+It explicitly schedules the selected Shared callback before a fresh Game
+property-ID initializer. The Game image's private canonical owner and the
+MemoryAdmin construction registry prove the same actual platform. The heap's
+execution platform is immutable. A retained blocked Game graph cannot receive
+a replacement lower service and replay its applied prefix.
+
+The host uses the selected ASCII/UTF16 GUID writer from checkpoint 101 and
+gets the actual Shared payload through the canonical owner proof on each call.
+The returned graph retains the Game initializer's actual `propertyIdResult`,
+including a later lower failure. It does not fabricate successful exit
+registration, root/factory/accessor construction, ModuleAdmin registration or
+ScriptAdmin call slots. The NPCs remain inactive until those paths and their
+world/entity lifetimes are connected. This composition is connected in code;
+no new browser observation is recorded for it in this checkpoint.
+
+### Reproduce and review
+
+From the repository root, with the original read-only study and current focused
+ScriptAdmin package:
+
+```powershell
+python -B tools/gothic3/prepare_shared_guid_null_source.py --study $gothicStudy --repo . --output assets/gothic3/shared-guid-null
+npm run typecheck
+npm run build
+```
+
+The generated package contains 11 files and a self-excluded manifest of 22
+unique artifact/producer/dependency records. Independent reviews cover exact
+source admission, table aliases, instruction order, same-platform callback
+composition, current mutable payloads, retained interruptions and terminal
+lifetime. Direct PE/source review found zero byte mismatches; all 11 generated
+files reproduced byte for byte, and all 22 manifest records matched their
+files. Whole-tree TypeScript and the production build passed with 425 modules;
+the existing large-chunk warning remains. Documentation review passed 359
+relative links and 40 Markdown anchors. Local tests were not run and no new
+test cases were added. Source
+capture, typechecking and a production build do not establish full startup,
+production NPC activation or campaign completion.

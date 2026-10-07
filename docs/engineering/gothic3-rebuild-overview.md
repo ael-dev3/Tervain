@@ -11,7 +11,7 @@ of Gothic 3's endings. A scene viewer, a decoded model or a successfully read
 native data structure is a useful component milestone, but it does not by
 itself establish a playable reconstruction.
 
-The latest published source checkpoint recorded on 7 October 2026 is 101,
+The latest completed publication receipt recorded here on 7 October 2026 is 101,
 merged in [PR 65](https://github.com/ael-dev3/Tervain/pull/65) at commit
 `f9d8b609afebb8f1e4781d3f1665f6f38d4b50e9` and published by successful
 [workflow run 37611795592](https://github.com/ael-dev3/Tervain/actions/runs/37611795592).
@@ -19,6 +19,11 @@ It adds GUID text construction, CString operations, canonical literal storage
 and the original 48-byte holder pool, following the selected ScriptAdmin static
 initializer bodies in checkpoint 100. Their production NPC integration remains
 unfinished.
+The current source extension, [checkpoint 102](gothic3-rebuilding-process.md#102-own-the-canonical-shared-guid-null-initializer),
+implements the actual Shared GUID null initializer and canonical module storage.
+Browser NPC preparation now schedules that selected callback before a fresh
+Game property-ID callback, retaining any later Game CRT boundary. This selected
+composition does not finish native NPC activation or whole-module startup.
 The browser supports exploration and selected gameplay paths. Native NPC
 activation and most campaign progression remain unfinished. See
 [current implementation status](#current-implementation-status) below; the
@@ -411,9 +416,13 @@ The selected ScriptAdmin startup package reads the Game CRT rules:
 ```powershell
 python -B tools/gothic3/prepare_game_crt_source.py --study $gothicStudy
 python -B tools/gothic3/prepare_script_admin_startup_source.py --study $gothicStudy
+python -B tools/gothic3/prepare_shared_guid_null_source.py --study $gothicStudy --repo . --output assets/gothic3/shared-guid-null
 ```
 
 These commands assume the other committed prerequisite packages are present.
+The Shared GUID null producer reads the focused ScriptAdmin package and retains
+its IsNull, raw equality and destructor receipts as dependencies. Its complete
+C/C++ tables remain source context; preparing them executes no callbacks.
 The Game CRT and ScriptAdmin producers also record hashes of shared Python
 helpers; changing a helper can require regenerating their manifests even when
 the captured native instructions are unchanged. Review dependent receipts and

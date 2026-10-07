@@ -12,9 +12,12 @@ import { NativeHeapCString } from './native-heap-cstring';
 import { NativeHeapObjectViews } from './native-heap-views';
 import { NativeGuidText, nativeGuidPayloadEquals } from './native-guid-text';
 import type { NativeGuidTextPlatform } from './native-guid-text';
-import type { NativeMemoryAdmin, NativeMemoryBacking } from './native-memory-admin';
+import { NativeMemoryAdmin } from './native-memory-admin';
+import type { NativeMemoryBacking } from './native-memory-admin';
 import type { NativeBytePointer } from './native-pointer-geometry';
 import { nativeGameImageReceipt } from './native-game-crt-profile';
+import { NativeSharedGuidNull } from './native-shared-guid-null';
+import type { NativeRuntimePlatform } from './native-runtime-platform';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = <T>(reason: string): NativeValue<T> => ({ known: false, reason });
@@ -109,6 +112,9 @@ export class NativeGameScriptAdminStartup {
   private constructor(readonly crt: NativeGameCrtOwner, private readonly memory: NativeMemoryAdmin,
     private readonly host: NativeScriptAdminStartupHost, constructionToken: object) {
     if (constructionToken !== token || NativeGameCrtOwner.forPlatform(crt.host) !== crt) throw new Error('Canonical Game CRT owner required');
+    for (const [label, value] of [['crt', crt], ['memory', memory], ['host', host]] as const) {
+      Object.defineProperty(this, label, { value, writable: false, configurable: false });
+    }
     const methods = rules.methods as Record<string, { module: string; entry: string; body: string; bodyInstructionBytesSha256: string }>;
     if (rules.schema !== 'gothic3-script-admin-startup-rules-v1' ||
       rules.inputs.Game !== 'b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f' ||
@@ -194,6 +200,25 @@ export class NativeGameScriptAdminStartup {
     }
     const owner = new NativeGameScriptAdminStartup(crt, memory, host, token);
     owners.set(crt, owner); return owner;
+  }
+
+  /** Compose a fresh selected Game owner with the already executed Shared
+   * initializer on its SAME platform. No missing-service interruption is
+   * replaced or replayed, and no whole-module CRT scheduling is inferred. */
+  static forCrtWithSharedGuid(crt: NativeGameCrtOwner, memory: NativeMemoryAdmin,
+    platform: NativeRuntimePlatform, shared: NativeSharedGuidNull,
+    host: Omit<NativeScriptAdminStartupHost, 'guidNullPayload'>): NativeValue<NativeGameScriptAdminStartup> {
+    try {
+      if (owners.has(crt)) return unknown('A fresh ScriptAdmin startup graph is required to bind Shared GUID storage');
+      if (!NativeMemoryAdmin.isForPlatform(memory, platform)) return unknown('ScriptAdmin heap and Shared image must use the same retained platform');
+      const gameImage = NativeGameCrtOwner.canonicalImageForPlatform(crt, platform, 'scriptAdminPropertyIdLiteral');
+      if (!gameImage.known) return gameImage;
+      const payload = NativeSharedGuidNull.canonicalPayloadForPlatform(shared, platform);
+      if (!payload.known) return payload;
+      const retainedHost = Object.freeze({ ...host,
+        guidNullPayload: () => NativeSharedGuidNull.canonicalPayloadForPlatform(shared, platform) });
+      return known(NativeGameScriptAdminStartup.forCrt(crt, memory, retainedHost));
+    } catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
   }
 
   private call<T>(label: string, body: () => NativeValue<T>): T {

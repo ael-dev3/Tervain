@@ -553,8 +553,30 @@ selected [ASCII/UTF16 provider](../../src/gothic3/native-guid-platform.ts)
 writes its supplied retained buffers and supports canonical braced GUID text;
 it executes no Windows or OLE functions. The original 48-byte holder pool is
 admitted, and the Game literal maps its existing canonical CRT image backing.
-The mutable Shared GUID NullPayload and its native initializer remain required.
-This owner is not
-connected to production NPC startup, and does not implement CRT table
-traversal. See [checkpoint 100](../../docs/engineering/gothic3-rebuilding-process.md#100-own-selected-scriptadmin-static-initializer-bodies)
+The selected browser callback composition now supplies the canonical Shared
+GUID null payload described below. Full production NPC activation and CRT table
+traversal remain unfinished. See [checkpoint 100](../../docs/engineering/gothic3-rebuilding-process.md#100-own-selected-scriptadmin-static-initializer-bodies)
 and [checkpoint 101](../../docs/engineering/gothic3-rebuilding-process.md#101-own-guid-text-construction-and-canonical-literal-storage).
+
+## Canonical Shared GUID null initializer
+
+```powershell
+python -B tools/gothic3/prepare_shared_guid_null_source.py --study '<LOCAL_DESKTOP_STUDY>' --repo . --output assets/gothic3/shared-guid-null
+```
+
+The [Shared GUID null package](../../assets/gothic3/shared-guid-null/README.md)
+reads the current focused ScriptAdmin evidence/rules and reuses its IsNull,
+raw equality and destructor receipts. Its own three original bodies contain
+74 instructions and 223 bytes; the reused receipts retain their separate
+79-instruction/193-byte count. The selected nine-instruction initializer is
+original ASM-only evidence. Contextual CRT listings and both complete tables
+execute no callbacks during preparation.
+
+The [canonical image registry](../../src/gothic3/native-shared-module-image.ts)
+and [initializer owner](../../src/gothic3/native-shared-guid-null.ts) preserve
+actual mutable storage and physical table-slot aliases. The
+[browser composition](../../src/gothic3/browser-script-admin-startup.ts)
+schedules this selected callback before a fresh Game property-ID initializer
+on the same platform, retaining later Game CRT boundaries. Full CRT traversal,
+property factories, native NPC activation and campaign completion remain
+required. See [checkpoint 102](../../docs/engineering/gothic3-rebuilding-process.md#102-own-the-canonical-shared-guid-null-initializer).

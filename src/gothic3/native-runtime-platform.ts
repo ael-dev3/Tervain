@@ -5,7 +5,6 @@ import rulesText from '../../assets/gothic3/runtime-admin/runtime-rules.json?raw
 import sceneRulesText from '../../assets/gothic3/scene-startup/runtime-rules.json?raw';
 import navigationRulesText from '../../assets/gothic3/browser-navigation-owner/runtime-rules.json?raw';
 import npcEntityManifestText from '../../assets/gothic3/npc-entity/manifest.json?raw';
-import guidStartupRulesText from '../../assets/gothic3/script-admin-startup/runtime-rules.json?raw';
 import type { NativeValue } from './dialogue';
 import { NativeMemoryAdmin, nativeNpcHeapExtension, nativeSceneStartupHeapExtension } from './native-memory-admin';
 import type { NativeMemoryBacking, NativeMemoryPlatform, NativeMemoryRegion, NativeMemoryRulesExtension } from './native-memory-admin';
@@ -16,9 +15,13 @@ import { NativeHeapObjectViews } from './native-heap-views';
 import type { NativeByteGeometryHost, NativeBytePointer, NativePointerGeometry } from './native-pointer-geometry';
 import { NativeGameCrtOwner } from './native-game-crt';
 import { nativeGameImageReceipt } from './native-game-crt-profile';
+import { NativeSharedModuleImage } from './native-shared-module-image';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = (reason: string): { known: false; reason: string } => ({ known: false, reason });
+// Constructor admission is the authority. Object.create or a structurally
+// similar caller object cannot establish a canonical module image.
+const retainedRuntimePlatforms = new WeakSet<NativeRuntimePlatform>();
 const npcEntityManifest = JSON.parse(npcEntityManifestText) as { matrixDestructor?: {
   module: string; inputSha256: string; address: string; instructionBytesHex: string; instructionBytesSha256: string;
 } };
@@ -112,10 +115,6 @@ const source = JSON.parse(rulesText) as { schema: string; inputs: { SharedBase: 
   shutdown: Record<string, { address: string; raw: string; sha256: string }> };
 const sceneSource = JSON.parse(sceneRulesText) as { schema: string; inputs: { Engine: string; SharedBase: string };
   methods: Record<string, { module: string; entry: string; body: string; bodyInstructionBytesSha256: string }> };
-const guidImageSource = JSON.parse(guidStartupRulesText) as {
-  schema: string; inputs: { SharedBase: string };
-  constBytes: Record<string, { module: string; address: string; bytes: number; raw: string; sha256: string }>;
-};
 const navigationSource = JSON.parse(navigationRulesText) as {
   schema: string; inputs: { Game: string };
   navigationNameInitializers: { tableSha256: string; tableWholeExecuted: boolean;
@@ -205,7 +204,7 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     knownMask: new Uint8Array(4), freed: false });
   private readonly pending: ShutdownEntry[] = [];
   private readonly executed: ShutdownEntry[] = [];
-  private shutdownPhase: 'active' | 'draining' | 'blocked' | 'disposed' = 'active';
+  #shutdownPhase: 'active' | 'draining' | 'blocked' | 'disposed' = 'active';
   private boundary: string | null = null;
   private bytesOwned = 0;
   private nextOrdinal = 0;
@@ -254,15 +253,16 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
         source.inputs.SharedBase !== '5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214') {
       throw new Error('Selected runtime platform source receipt differs');
     }
+    retainedRuntimePlatforms.add(this);
+    NativeSharedModuleImage.establishForPlatform(this);
   }
+  static isRetainedPlatform(platform: NativeRuntimePlatform): boolean { return retainedRuntimePlatforms.has(platform); }
   private readonly maximumAllocationBytes: number;
   private readonly maximumOwnedBytes: number;
   private readonly originalModuleLiterals = new Map<string, NativeMemoryBacking>();
   private readonly canonicalGameGuidLiterals = new WeakMap<NativeGameCrtOwner, NativeBytePointer>();
-  private readonly sharedCStringLiterals = new Map<'emptyCStringText' | 'guidEmptyLiteral', NativeBytePointer>();
-  private readonly sharedCStringViews = new WeakMap<NativeBytePointer, DataView>();
   private allocate(bytes: number, kind: BackingEntry['kind']): NativeValue<NativeMemoryBacking | null> {
-    if (this.shutdownPhase === 'disposed' || this.shutdownPhase === 'blocked') return unknown('Selected runtime platform is not active');
+    if (this.#shutdownPhase === 'disposed' || this.#shutdownPhase === 'blocked') return unknown('Selected runtime platform is not active');
     if (!Number.isInteger(bytes) || bytes < 0 || bytes > 0xffffffff) return unknown('Original platform uint32 allocation size required');
     if (bytes > this.maximumAllocationBytes || bytes + this.bytesOwned > this.maximumOwnedBytes) {
       return unknown('Allocation exceeds the selected successful bounded platform profile');
@@ -294,7 +294,7 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     backing.freed = true; this.bytesOwned -= backing.bytes.length; return known(undefined);
   }
   createWin32Heap(owner: object, options: 0 | 1, initialBytes: 4096, maximumBytes: 0): NativeValue<NativeWin32HeapCapability | null> {
-    if (this.shutdownPhase !== 'active' || !owner || typeof owner !== 'object' ||
+    if (this.#shutdownPhase !== 'active' || !owner || typeof owner !== 'object' ||
         (options !== 0 && options !== 1) || initialBytes !== 4096 || maximumBytes !== 0) {
       return unknown('Actual active selected HeapCreate owner and original options required');
     }
@@ -321,7 +321,7 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
   /** One exact immutable Game.dll literal slice used by the selected browser
    * CString initializer profile. This is mapped image data, not a heap block. */
   registerOriginalGameCStringLiteral(address: string, raw: Uint8Array): NativeValue<NativeMemoryBacking> {
-    if (this.shutdownPhase !== 'active' || !/^[0-9a-f]{8}$/.test(address) ||
+    if (this.#shutdownPhase !== 'active' || !/^[0-9a-f]{8}$/.test(address) ||
         navigationSource.inputs.Game !== 'b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f') {
       return unknown('Selected active original Game.dll literal range required');
     }
@@ -343,7 +343,7 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
   /** Register the actual existing Game image range. The canonical CRT owner
    * and retained view proof prevent a second copied GUID literal backing. */
   registerCanonicalGameGuidLiteral(owner: NativeGameCrtOwner): NativeValue<NativeBytePointer> {
-    if (this.shutdownPhase === 'disposed' || this.shutdownPhase === 'blocked') return unknown('Live platform module-image lifetime required');
+    if (this.#shutdownPhase === 'disposed' || this.#shutdownPhase === 'blocked') return unknown('Live platform module-image lifetime required');
     const selected = NativeGameCrtOwner.canonicalImageForPlatform(owner, this, 'scriptAdminPropertyIdLiteral');
     if (!selected.known) return selected;
     const receipt = nativeGameImageReceipt('scriptAdminPropertyIdLiteral');
@@ -377,45 +377,44 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     this.canonicalGameGuidLiterals.set(owner, pointer);
     return known(pointer);
   }
-  /** Selected immutable SharedBase image ranges, retained once per platform.
-   * A future larger Shared image owner must adopt these same ranges. */
-  sharedCStringLiteralPointer(label: 'emptyCStringText' | 'guidEmptyLiteral'): NativeValue<NativeBytePointer> {
-    if (this.shutdownPhase === 'disposed' || this.shutdownPhase === 'blocked') return unknown('Live platform module-image lifetime required');
-    const [address, raw, hash] = label === 'emptyCStringText' ?
-      ['100e5e3c', '00', '6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d'] :
-      ['100e5e10', '7b7d00', '68e9e86b6926cc2b37df96b5e61bb8cabdab276272bb73f6767e420c3ead0663'];
-    const receipt = guidImageSource.constBytes[label], bytes = raw.length / 2;
-    if (guidImageSource.schema !== 'gothic3-script-admin-startup-rules-v1' ||
-        guidImageSource.inputs.SharedBase !== '5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214' ||
-        receipt?.module !== 'SharedBase' || receipt.address !== address || receipt.bytes !== bytes ||
-        receipt.raw !== raw || receipt.sha256 !== hash) {
-      return unknown('Selected original SharedBase CString literal receipt differs');
+  /** Shared image bytes remain usable while callbacks drain. A blocked drain
+   * retains storage but cannot construct/publish further image views. */
+  canonicalSharedModuleImageLifetime(): NativeValue<void> {
+    if (!retainedRuntimePlatforms.has(this) || this.#shutdownPhase === 'disposed' || this.#shutdownPhase === 'blocked') {
+      return unknown('Live actual platform SharedBase module-image lifetime required');
     }
-    const previous = this.sharedCStringLiterals.get(label);
+    return known(undefined);
+  }
+  /** Register the registry's original retained backing before any view is
+   * published. The private registry proof rejects caller-shaped cold storage. */
+  registerCanonicalSharedModuleImage(image: NativeSharedModuleImage, fields: NativeHeapObjectViews): NativeValue<void> {
+    const lifetime = this.canonicalSharedModuleImageLifetime(); if (!lifetime.known) return lifetime;
+    const canonical = NativeSharedModuleImage.canonicalBackingForPlatform(image, this, fields);
+    if (!canonical.known) return canonical;
+    const backing = canonical.value;
+    if (fields.bytes.length !== backing.bytes.length || fields.knownMask.length !== backing.knownMask.length ||
+        fields.bytes.byteOffset !== backing.bytes.byteOffset || fields.knownMask.byteOffset !== backing.knownMask.byteOffset) {
+      return unknown('Complete canonical SharedBase image fragment required for registration');
+    }
+    const previous = this.backing.get(backing.identity);
     if (previous) {
-      const backing = previous.fields.backing, entry = this.backing.get(backing.identity), proof = entry?.nativeGeometry;
-      if (backing.freed || entry?.backing !== backing || entry.kind !== 'module-image' ||
-          proof?.bytes !== backing.bytes || proof.masks !== backing.knownMask || proof.capacity !== bytes ||
-          previous.fields.bytes.buffer !== backing.bytes.buffer || previous.fields.bytes.byteOffset !== backing.bytes.byteOffset ||
-          previous.fields.knownMask.buffer !== backing.knownMask.buffer || previous.fields.knownMask.byteOffset !== backing.knownMask.byteOffset ||
-          previous.fields.bytes.length !== bytes || previous.fields.knownMask.length !== bytes || previous.offset !== 0 ||
-          previous.fields.view !== this.sharedCStringViews.get(previous) ||
-          previous.fields.view.buffer !== backing.bytes.buffer ||
-          previous.fields.view.byteOffset !== backing.bytes.byteOffset || previous.fields.view.byteLength !== bytes) {
-        return unknown('Retained SharedBase CString image mapping differs');
+      const proof = previous.nativeGeometry;
+      if (previous.backing !== backing || previous.kind !== 'module-image' || proof?.alignment !== 'module-image' ||
+          proof.bytes !== backing.bytes || proof.masks !== backing.knownMask || proof.capacity !== backing.bytes.length) {
+        return unknown('Retained canonical SharedBase image geometry differs');
       }
-      return known(previous);
+      return known(undefined);
     }
-    const backing: NativeMemoryBacking = { identity: Object.freeze({}),
-      bytes: Uint8Array.from(raw.match(/../g)!, byte => Number.parseInt(byte, 16)),
-      knownMask: new Uint8Array(bytes).fill(255), freed: false };
     this.backing.set(backing.identity, { backing, kind: 'module-image', ordinal: ++this.nextOrdinal,
       nativeGeometry: Object.freeze({ alignment: 'module-image', bytes: backing.bytes,
-        masks: backing.knownMask, capacity: bytes }) });
-    const pointer = Object.freeze({ fields: new NativeHeapObjectViews(backing), offset: 0 });
-    this.sharedCStringLiterals.set(label, pointer);
-    this.sharedCStringViews.set(pointer, pointer.fields.view);
-    return known(pointer);
+        masks: backing.knownMask, capacity: backing.bytes.length }) });
+    return known(undefined);
+  }
+  /** The canonical Shared image registry is the authority in both CString
+   * acquisition orders; no independent literal allocation is retained here. */
+  sharedCStringLiteralPointer(label: 'emptyCStringText' | 'guidEmptyLiteral'): NativeValue<NativeBytePointer> {
+    const image = NativeSharedModuleImage.forPlatform(this);
+    return image.known ? image.value.cstringLiteralPointer(label) : image;
   }
   win32HeapSize(heap: NativeWin32HeapCapability | null, _flags: 0, pointer: NativeBytePointer): NativeValue<number> {
     if (heap === null) return unknown('Selected actual HeapSize call on the NULL CRT heap handle is unowned');
@@ -614,7 +613,7 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
   }
   private initializePhysicalSection(fields: NativeHeapObjectViews, owner: object, spinCount: 4000 | null): NativeValue<boolean> {
     try {
-      if (this.shutdownPhase !== 'active' || !owner || typeof owner !== 'object') {
+      if (this.#shutdownPhase !== 'active' || !owner || typeof owner !== 'object') {
         return unknown('Actual active physical section owner required');
       }
       const { canonicalBacking, position } = physicalPosition(fields);
@@ -672,7 +671,7 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
   initializeCriticalSection(address: '10189a18', owner: object, spinCount: 1000): NativeValue<number>;
   initializeCriticalSection(address: string, owner: object): NativeValue<object>;
   initializeCriticalSection(address: string, owner: object, spinCount?: 1000): NativeValue<number | object> {
-    if (this.shutdownPhase === 'disposed' || this.shutdownPhase === 'blocked') return unknown('Selected CS platform is not active');
+    if (this.#shutdownPhase === 'disposed' || this.#shutdownPhase === 'blocked') return unknown('Selected CS platform is not active');
     if (!/^[0-9a-f]{8}$/.test(address) || this.sections.has(address) || (spinCount !== undefined && (address !== '10189a18' || spinCount !== 1000))) {
       return unknown('Actual fresh source critical-section registration required');
     }
@@ -704,7 +703,7 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
       method?.module === 'Engine' && method.entry === address && method.body === '30797c90' &&
       method.bodyInstructionBytesSha256 === 'b1a2e2bb4cbdd84ecc08a969c18b636ac5e27f20ba3f1a6cf054d183329b51bc';
     const admittedShared = admitted?.address === address && /^(?:[0-9a-f]{2})+$/.test(admitted.raw) && /^[0-9a-f]{64}$/.test(admitted.sha256);
-    if (this.shutdownPhase !== 'active' || (!admittedShared && !admittedSceneName && !admittedModuleAdminShutdown(address) &&
+    if (this.#shutdownPhase !== 'active' || (!admittedShared && !admittedSceneName && !admittedModuleAdminShutdown(address) &&
         !admittedMatrixDestructor(address) && !admittedNavigationNameDestructor(address)) || typeof execute !== 'function') {
       return unknown('Actual admitted active runtime shutdown registration required');
     }
@@ -716,21 +715,21 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     return unknown('Original MemoryAdmin default CString bytes must be consumed by its source owner');
   }
   dispose(): NativeValue<void> {
-    if (this.shutdownPhase === 'disposed') return known(undefined);
-    if (this.shutdownPhase === 'blocked') return unknown(this.boundary!);
-    if (this.shutdownPhase === 'draining') return unknown('Selected runtime shutdown is already executing');
-    this.shutdownPhase = 'draining';
+    if (this.#shutdownPhase === 'disposed') return known(undefined);
+    if (this.#shutdownPhase === 'blocked') return unknown(this.boundary!);
+    if (this.#shutdownPhase === 'draining') return unknown('Selected runtime shutdown is already executing');
+    this.#shutdownPhase = 'draining';
     while (this.pending.length) {
       const entry = this.pending.pop()!;
       let result: NativeValue<void>;
       try { result = entry.execute(); } catch (error) { result = unknown(error instanceof Error ? error.message : String(error)); }
       this.executed.push(entry);
-      if (!result.known) { this.shutdownPhase = 'blocked'; this.boundary = `Shutdown ${entry.address}: ${result.reason}`; return unknown(this.boundary); }
+      if (!result.known) { this.#shutdownPhase = 'blocked'; this.boundary = `Shutdown ${entry.address}: ${result.reason}`; return unknown(this.boundary); }
     }
     for (const entry of this.backing.values()) if (entry.kind === 'module-image') entry.backing.freed = true;
-    this.shutdownPhase = 'disposed'; return known(undefined);
+    this.#shutdownPhase = 'disposed'; return known(undefined);
   }
-  snapshot() { return Object.freeze({ phase: this.shutdownPhase, boundary: this.boundary, bytesOwned: this.bytesOwned,
+  snapshot() { return Object.freeze({ phase: this.#shutdownPhase, boundary: this.boundary, bytesOwned: this.bytesOwned,
     allocations: Object.freeze([...this.backing.values()].map(entry => Object.freeze({ kind: entry.kind, ordinal: entry.ordinal, backing: entry.backing }))),
     sections: Object.freeze([...this.sections.values()].map(section => Object.freeze({ ...section }))),
     physicalSections: Object.freeze([...this.physicalSections.values()].flatMap(positions => [...positions.values()].map(section => Object.freeze({ ...section })))),
