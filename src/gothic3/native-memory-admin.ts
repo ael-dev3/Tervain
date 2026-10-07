@@ -106,6 +106,7 @@ const pointer = (backing: NativeMemoryBacking, offset: number, value: object | n
   else backing.knownMask.fill(0, offset, offset + 4);
 };
 
+const retainedMemoryPlatforms = new WeakMap<NativeMemoryAdmin, NativeMemoryPlatform>();
 /** Source-owned MemHeap algorithms, with platform allocation/CS/CRT services.
  * Unsupported branches retain their applied prefix (including an entered CS).
  * The module must be created before every source tagged-new using this heap. */
@@ -122,6 +123,12 @@ export class NativeMemoryAdmin {
   private entered = false;
   private halted: string | null = null;
   private readonly trace: string[] = [];
+
+  /** Construction identity proves the lower platform; caller-shaped heap or
+   * geometry objects cannot bind a second platform's static module owner. */
+  static isForPlatform(memory: NativeMemoryAdmin, platform: NativeMemoryPlatform): boolean {
+    return retainedMemoryPlatforms.get(memory) === platform && memory.platform === platform;
+  }
 
   /** Geometry comes from the actual lower allocation owner. Neither a heap
    * view nor a pool constant supplies a native pointer address/alignment. */
@@ -147,6 +154,7 @@ export class NativeMemoryAdmin {
   }
 
   constructor(private readonly platform: NativeMemoryPlatform, options: { extensions?: readonly NativeMemoryRulesExtension[] } = {}) {
+    Object.defineProperty(this, 'platform', { value: platform, writable: false, configurable: false });
     const rules = runtimeRules as unknown as Rules;
     if (rules.schema !== 'gothic3-runtime-admin-rules-v1' || rules.inputs.SharedBase !== SHARED_BASE) throw new Error('MemoryAdmin source receipt does not match the original SharedBase input');
     const sources = [rules];
@@ -186,6 +194,7 @@ export class NativeMemoryAdmin {
     for (const [address, bytes] of [['10142798', 16], ['102fb000', 1], ['102fb004', 4], ['102fb030', 4], ['102fb04c', 4]] as const) this.requireColdZero(address, bytes);
     for (const bucket of this.buckets) for (const address of Object.values(bucket.rule.globals)) this.requireColdZero(address, 4);
     this.requireColdZero('10144214', 4097 * 4);
+    retainedMemoryPlatforms.set(this, platform);
   }
 
   private range(address: string | number, length: number): { backing: NativeMemoryBacking; offset: number } {

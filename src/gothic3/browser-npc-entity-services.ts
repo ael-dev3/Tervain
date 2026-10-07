@@ -11,6 +11,8 @@ import { nativeEntityDefaultComparatorImportIdentity } from './native-entity-hea
 import { BrowserNavigationApplicationOwner } from './browser-npc-navigation-owner';
 import type { BrowserSessionModeOwner } from './browser-npc-navigation-owner';
 import { BrowserNavigationNotificationNames } from './browser-navigation-notification-names';
+import { createBrowserScriptAdminStartup } from './browser-script-admin-startup';
+import type { BrowserScriptAdminStartup } from './browser-script-admin-startup';
 import type { BrowserNpcEntityServices } from './browser-npc-entity';
 import type { NativeValue } from './dialogue';
 
@@ -95,6 +97,7 @@ export interface BrowserNpcEntityServiceOwner {
   readonly services: BrowserNpcEntityServices;
   readonly application: BrowserNavigationApplicationOwner;
   readonly navigationNames: BrowserNavigationNotificationNames;
+  readonly scriptAdminStartup: NativeValue<BrowserScriptAdminStartup>;
   readonly matrixModule: OriginalControlModuleState;
   readonly control: OriginalControlReader;
   readonly shutdown: BrowserMatrixShutdownRegistry;
@@ -106,6 +109,7 @@ export interface BrowserNpcEntityServiceOwner {
 
 export function createBrowserNpcEntityServices(platform: BrowserNpcEntityPlatform): BrowserNpcEntityServiceOwner {
   const runtimeAdmins = createBrowserNpcRuntimeAdminOwner();
+  const scriptAdminStartup = createBrowserScriptAdminStartup(runtimeAdmins.platform, runtimeAdmins.memory, runtimeAdmins.error);
   const navigationNames = new BrowserNavigationNotificationNames(runtimeAdmins.memory, runtimeAdmins.platform);
   const initializedNavigationNames = navigationNames.initialize();
   if (!initializedNavigationNames.known) throw new Error(initializedNavigationNames.reason);
@@ -140,7 +144,7 @@ export function createBrowserNpcEntityServices(platform: BrowserNpcEntityPlatfor
     module: matrixModule,
     registerMatrixDestructor: address => shutdown.register(matrixModule, address),
   });
-  return Object.freeze({ matrixModule, control, shutdown, navigationNames,
+  return Object.freeze({ matrixModule, control, shutdown, navigationNames, scriptAdminStartup,
     application, startBrowserSessionMode,
     services: Object.freeze({ crypto: platform.crypto, now: platform.now, control, runtimeAdmins,
       applicationMode270EqualsOne: application.applicationMode270EqualsOne,
