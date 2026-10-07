@@ -536,15 +536,25 @@ python -B tools/gothic3/prepare_script_admin_startup_source.py --study '<LOCAL_D
 The [`script-admin-startup` package](../../assets/gothic3/script-admin-startup/README.md)
 captures 98 original method bodies and 2,552 byte-checked instructions, including
 GUID/CString dependencies, 67 import bindings and 44 original vtable words.
-Its producer requires the current Game CRT package, which owns the three
-original initializer slots and canonical static storage. Regenerate Game CRT
-before this package. Regenerate RuntimeAdmin, NPC heap and Scene startup in
-that order after changing their shared allocator profile.
+Its producer requires current Game CRT, RuntimeAdmin and NPC heap packages.
+Game CRT owns the three original initializer slots and canonical static storage.
+Regenerate Game CRT before this package. Regenerate RuntimeAdmin, NPC heap and
+Scene startup in that order after changing their shared allocator profile.
+Three reused GUID allocator bodies add 101 independently checked instruction
+rows outside the 2,552 focused-body count. Four actual CALL sites and seven
+forwarding JMP hops bind them to the GUID caller.
 
 The [TypeScript owner](../../src/gothic3/native-game-script-admin-startup.ts)
 reproduces selected callback state changes over canonical Game storage. A
-missing lower method preserves the applied prefix and stops. The GUID parser
-still requires actual Win32/OLE output and allocator owners; it does not turn
-a browser UUID parser into a claimed native constructor. This owner is not
+missing lower method preserves the applied prefix and stops. The
+[GUID text owner](../../src/gothic3/native-guid-text.ts) now reproduces the
+native CString/conversion/allocation/validity/free sequence. An explicitly
+selected [ASCII/UTF16 provider](../../src/gothic3/native-guid-platform.ts)
+writes its supplied retained buffers and supports canonical braced GUID text;
+it executes no Windows or OLE functions. The original 48-byte holder pool is
+admitted, and the Game literal maps its existing canonical CRT image backing.
+The mutable Shared GUID NullPayload and its native initializer remain required.
+This owner is not
 connected to production NPC startup, and does not implement CRT table
-traversal. See [checkpoint 100](../../docs/engineering/gothic3-rebuilding-process.md#100-own-selected-scriptadmin-static-initializer-bodies).
+traversal. See [checkpoint 100](../../docs/engineering/gothic3-rebuilding-process.md#100-own-selected-scriptadmin-static-initializer-bodies)
+and [checkpoint 101](../../docs/engineering/gothic3-rebuilding-process.md#101-own-guid-text-construction-and-canonical-literal-storage).

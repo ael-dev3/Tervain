@@ -5,6 +5,7 @@ import rulesText from '../../assets/gothic3/runtime-admin/runtime-rules.json?raw
 import sceneRulesText from '../../assets/gothic3/scene-startup/runtime-rules.json?raw';
 import navigationRulesText from '../../assets/gothic3/browser-navigation-owner/runtime-rules.json?raw';
 import npcEntityManifestText from '../../assets/gothic3/npc-entity/manifest.json?raw';
+import guidStartupRulesText from '../../assets/gothic3/script-admin-startup/runtime-rules.json?raw';
 import type { NativeValue } from './dialogue';
 import { NativeMemoryAdmin, nativeNpcHeapExtension, nativeSceneStartupHeapExtension } from './native-memory-admin';
 import type { NativeMemoryBacking, NativeMemoryPlatform, NativeMemoryRegion, NativeMemoryRulesExtension } from './native-memory-admin';
@@ -13,6 +14,8 @@ import type { NativeMessageDiagnosticPlatform } from './native-message-admin';
 import { NativeErrorAdminModule } from './native-error-admin';
 import { NativeHeapObjectViews } from './native-heap-views';
 import type { NativeByteGeometryHost, NativeBytePointer, NativePointerGeometry } from './native-pointer-geometry';
+import { NativeGameCrtOwner } from './native-game-crt';
+import { nativeGameImageReceipt } from './native-game-crt-profile';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = (reason: string): { known: false; reason: string } => ({ known: false, reason });
@@ -109,6 +112,10 @@ const source = JSON.parse(rulesText) as { schema: string; inputs: { SharedBase: 
   shutdown: Record<string, { address: string; raw: string; sha256: string }> };
 const sceneSource = JSON.parse(sceneRulesText) as { schema: string; inputs: { Engine: string; SharedBase: string };
   methods: Record<string, { module: string; entry: string; body: string; bodyInstructionBytesSha256: string }> };
+const guidImageSource = JSON.parse(guidStartupRulesText) as {
+  schema: string; inputs: { SharedBase: string };
+  constBytes: Record<string, { module: string; address: string; bytes: number; raw: string; sha256: string }>;
+};
 const navigationSource = JSON.parse(navigationRulesText) as {
   schema: string; inputs: { Game: string };
   navigationNameInitializers: { tableSha256: string; tableWholeExecuted: boolean;
@@ -251,6 +258,9 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
   private readonly maximumAllocationBytes: number;
   private readonly maximumOwnedBytes: number;
   private readonly originalModuleLiterals = new Map<string, NativeMemoryBacking>();
+  private readonly canonicalGameGuidLiterals = new WeakMap<NativeGameCrtOwner, NativeBytePointer>();
+  private readonly sharedCStringLiterals = new Map<'emptyCStringText' | 'guidEmptyLiteral', NativeBytePointer>();
+  private readonly sharedCStringViews = new WeakMap<NativeBytePointer, DataView>();
   private allocate(bytes: number, kind: BackingEntry['kind']): NativeValue<NativeMemoryBacking | null> {
     if (this.shutdownPhase === 'disposed' || this.shutdownPhase === 'blocked') return unknown('Selected runtime platform is not active');
     if (!Number.isInteger(bytes) || bytes < 0 || bytes > 0xffffffff) return unknown('Original platform uint32 allocation size required');
@@ -277,7 +287,8 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
   crtMalloc(bytes: number): NativeValue<NativeMemoryBacking | null> { return this.allocate(bytes, 'crt-malloc'); }
   crtFree(backing: NativeMemoryBacking): NativeValue<void> {
     const entry = this.backing.get(backing.identity);
-    if (!entry || entry.backing !== backing || backing.freed || entry.kind === 'virtual' || entry.kind === 'win32-heap') {
+    if (!entry || entry.backing !== backing || backing.freed ||
+        (entry.kind !== 'crt-new' && entry.kind !== 'crt-malloc')) {
       return unknown('Actual live selected CRT backing required for free');
     }
     backing.freed = true; this.bytesOwned -= backing.bytes.length; return known(undefined);
@@ -329,6 +340,83 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     this.originalModuleLiterals.set(address, backing);
     return known(backing);
   }
+  /** Register the actual existing Game image range. The canonical CRT owner
+   * and retained view proof prevent a second copied GUID literal backing. */
+  registerCanonicalGameGuidLiteral(owner: NativeGameCrtOwner): NativeValue<NativeBytePointer> {
+    if (this.shutdownPhase === 'disposed' || this.shutdownPhase === 'blocked') return unknown('Live platform module-image lifetime required');
+    const selected = NativeGameCrtOwner.canonicalImageForPlatform(owner, this, 'scriptAdminPropertyIdLiteral');
+    if (!selected.known) return selected;
+    const receipt = nativeGameImageReceipt('scriptAdminPropertyIdLiteral');
+    const fields = selected.value, backing = fields.backing;
+    const raw = '7b34394130323442412d393730412d343161362d393933432d3435384133394446314236317d00';
+    if (receipt.module !== 'Game' || receipt.address !== '2069c090' || receipt.bytes !== 39 ||
+        receipt.raw !== raw || receipt.sha256 !== '6a71ad2a1b17bc82c460fc0a09d40e08852f854cd183700909780de17a799034' ||
+        'region' in backing || backing.freed || backing.bytes.length !== 39 || backing.knownMask.length !== 39 ||
+        fields.bytes.length !== 39 || fields.knownMask.length !== 39 ||
+        fields.bytes.buffer !== backing.bytes.buffer || fields.bytes.byteOffset !== backing.bytes.byteOffset ||
+        fields.knownMask.buffer !== backing.knownMask.buffer || fields.knownMask.byteOffset !== backing.knownMask.byteOffset ||
+        fields.bytes.some((byte, index) => byte !== Number.parseInt(raw.slice(index * 2, index * 2 + 2), 16)) ||
+        fields.knownMask.some(mask => mask !== 255)) {
+      return unknown('Exact live canonical Game2069c090 image literal required');
+    }
+    const previous = this.canonicalGameGuidLiterals.get(owner);
+    if (previous) {
+      const entry = this.backing.get(backing.identity), proof = entry?.nativeGeometry;
+      if (previous.fields !== fields || previous.offset !== 0 || entry?.backing !== backing ||
+          entry.kind !== 'module-image' || proof?.bytes !== backing.bytes ||
+          proof.masks !== backing.knownMask || proof.capacity !== 39 || proof.alignment !== 'module-image') {
+        return unknown('Retained canonical Game image mapping differs');
+      }
+      return known(previous);
+    }
+    if (this.backing.has(backing.identity)) return unknown('Canonical Game image backing already has a conflicting platform owner');
+    this.backing.set(backing.identity, { backing, kind: 'module-image', ordinal: ++this.nextOrdinal,
+      nativeGeometry: Object.freeze({ alignment: 'module-image', bytes: backing.bytes,
+        masks: backing.knownMask, capacity: 39 }) });
+    const pointer = Object.freeze({ fields, offset: 0 });
+    this.canonicalGameGuidLiterals.set(owner, pointer);
+    return known(pointer);
+  }
+  /** Selected immutable SharedBase image ranges, retained once per platform.
+   * A future larger Shared image owner must adopt these same ranges. */
+  sharedCStringLiteralPointer(label: 'emptyCStringText' | 'guidEmptyLiteral'): NativeValue<NativeBytePointer> {
+    if (this.shutdownPhase === 'disposed' || this.shutdownPhase === 'blocked') return unknown('Live platform module-image lifetime required');
+    const [address, raw, hash] = label === 'emptyCStringText' ?
+      ['100e5e3c', '00', '6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d'] :
+      ['100e5e10', '7b7d00', '68e9e86b6926cc2b37df96b5e61bb8cabdab276272bb73f6767e420c3ead0663'];
+    const receipt = guidImageSource.constBytes[label], bytes = raw.length / 2;
+    if (guidImageSource.schema !== 'gothic3-script-admin-startup-rules-v1' ||
+        guidImageSource.inputs.SharedBase !== '5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214' ||
+        receipt?.module !== 'SharedBase' || receipt.address !== address || receipt.bytes !== bytes ||
+        receipt.raw !== raw || receipt.sha256 !== hash) {
+      return unknown('Selected original SharedBase CString literal receipt differs');
+    }
+    const previous = this.sharedCStringLiterals.get(label);
+    if (previous) {
+      const backing = previous.fields.backing, entry = this.backing.get(backing.identity), proof = entry?.nativeGeometry;
+      if (backing.freed || entry?.backing !== backing || entry.kind !== 'module-image' ||
+          proof?.bytes !== backing.bytes || proof.masks !== backing.knownMask || proof.capacity !== bytes ||
+          previous.fields.bytes.buffer !== backing.bytes.buffer || previous.fields.bytes.byteOffset !== backing.bytes.byteOffset ||
+          previous.fields.knownMask.buffer !== backing.knownMask.buffer || previous.fields.knownMask.byteOffset !== backing.knownMask.byteOffset ||
+          previous.fields.bytes.length !== bytes || previous.fields.knownMask.length !== bytes || previous.offset !== 0 ||
+          previous.fields.view !== this.sharedCStringViews.get(previous) ||
+          previous.fields.view.buffer !== backing.bytes.buffer ||
+          previous.fields.view.byteOffset !== backing.bytes.byteOffset || previous.fields.view.byteLength !== bytes) {
+        return unknown('Retained SharedBase CString image mapping differs');
+      }
+      return known(previous);
+    }
+    const backing: NativeMemoryBacking = { identity: Object.freeze({}),
+      bytes: Uint8Array.from(raw.match(/../g)!, byte => Number.parseInt(byte, 16)),
+      knownMask: new Uint8Array(bytes).fill(255), freed: false };
+    this.backing.set(backing.identity, { backing, kind: 'module-image', ordinal: ++this.nextOrdinal,
+      nativeGeometry: Object.freeze({ alignment: 'module-image', bytes: backing.bytes,
+        masks: backing.knownMask, capacity: bytes }) });
+    const pointer = Object.freeze({ fields: new NativeHeapObjectViews(backing), offset: 0 });
+    this.sharedCStringLiterals.set(label, pointer);
+    this.sharedCStringViews.set(pointer, pointer.fields.view);
+    return known(pointer);
+  }
   win32HeapSize(heap: NativeWin32HeapCapability | null, _flags: 0, pointer: NativeBytePointer): NativeValue<number> {
     if (heap === null) return unknown('Selected actual HeapSize call on the NULL CRT heap handle is unowned');
     const retained = this.winHeaps.get(heap.identity);
@@ -356,7 +444,7 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
       const fields = pointer.fields, backing = fields.backing;
       const canonical = 'region' in backing ? backing.region : backing;
       const entry = this.backing.get(canonical.identity);
-      if (!entry || entry.backing !== canonical || !entry.nativeGeometry) throw new Error('Native pointer alignment has no successful owned VirtualAlloc/HeapAlloc record');
+      if (!entry || entry.backing !== canonical || !entry.nativeGeometry) throw new Error('Native pointer has no retained allocator or mapped-image geometry');
       const proof = entry.nativeGeometry;
       if (canonical.bytes !== proof.bytes || canonical.knownMask !== proof.masks || canonical.bytes.length !== proof.capacity) {
         throw new Error('Native pointer canonical storage differs from its retained allocator proof');
@@ -372,7 +460,9 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
           backing.bytes.buffer !== canonical.bytes.buffer || backing.bytes.byteOffset !== canonical.bytes.byteOffset + allocationBegin ||
           backing.knownMask.buffer !== canonical.knownMask.buffer || backing.knownMask.byteOffset !== canonical.knownMask.byteOffset + allocationBegin ||
           fields.bytes.buffer !== canonical.bytes.buffer || fields.bytes.byteOffset !== canonical.bytes.byteOffset + allocationBegin + begin ||
-          fields.knownMask.buffer !== canonical.knownMask.buffer || fields.knownMask.byteOffset !== canonical.knownMask.byteOffset + allocationBegin + begin) {
+          fields.knownMask.buffer !== canonical.knownMask.buffer || fields.knownMask.byteOffset !== canonical.knownMask.byteOffset + allocationBegin + begin ||
+          fields.view.buffer !== fields.bytes.buffer || fields.view.byteOffset !== fields.bytes.byteOffset ||
+          fields.view.byteLength !== fields.bytes.length) {
         throw new Error('Native pointer canonical allocation/view aliases differ');
       }
       const offset = allocationBegin + begin + pointer.offset;

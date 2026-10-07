@@ -2,7 +2,7 @@ import runtimeRules from '../../assets/gothic3/runtime-admin/runtime-rules.json'
 import npcHeapRules from '../../assets/gothic3/npc-heap/runtime-rules.json';
 import sceneStartupRules from '../../assets/gothic3/scene-startup/runtime-rules.json';
 import type { NativeValue } from './dialogue';
-import type { NativeByteGeometryHost } from './native-pointer-geometry';
+import type { NativeByteGeometryHost, NativeBytePointer } from './native-pointer-geometry';
 
 /** Physical bytes and pointer capabilities are separate: a browser identity is
  * never encoded as a guessed x86 address. Views alias the retained allocation. */
@@ -24,6 +24,7 @@ export interface NativeMemoryAllocation {
   freed: boolean;
 }
 export interface NativeMemoryPlatform {
+  sharedCStringLiteralPointer?(label: 'emptyCStringText' | 'guidEmptyLiteral'): NativeValue<NativeBytePointer>;
   resolveNativePointer?: NativeByteGeometryHost['resolveNativePointer'];
   proveNativeCopyDirection?: NativeByteGeometryHost['proveNativeCopyDirection'];
   virtualAlloc(bytes: number, type: 0x103000, protect: 4): NativeValue<NativeMemoryRegion | null>;
@@ -51,7 +52,7 @@ export interface NativeMemoryRulesExtension {
   readonly baseRulesSha256: string;
   readonly inputs: { readonly SharedBase: string; readonly Engine: string };
 }
-const BASE_RULES_SHA = '4f1399da573a7b77eaa218191ab8af05ffb58301d3789ce8774e22f080846a2e';
+const BASE_RULES_SHA = '8f4f8a4cc4e73334385309c78743069c8fef4e682eea72c1716a6a0bf45c5576';
 type ExtensionRules = Rules & { baseRulesSha256: string; inputs: { SharedBase: string; Engine: string } };
 const extensionSource = npcHeapRules as unknown as ExtensionRules;
 const sceneStartupExtensionSource = sceneStartupRules as unknown as ExtensionRules;
@@ -132,6 +133,17 @@ export class NativeMemoryAdmin {
         this.platform.proveNativeCopyDirection?.(destination, source, bytes) ??
         unknown('Owned native pointer overlap/direction proof is unavailable'),
     };
+  }
+
+  /** Exact SharedBase image pointers used by CString.GetText and Guid.SetData.
+   * Looking up ownership supplies no heap allocation or native field store. */
+  emptyCStringTextPointer(): NativeValue<NativeBytePointer> {
+    return this.platform.sharedCStringLiteralPointer?.('emptyCStringText') ??
+      unknown('Canonical SharedBase empty CString image pointer is unavailable');
+  }
+  guidEmptyLiteralPointer(): NativeValue<NativeBytePointer> {
+    return this.platform.sharedCStringLiteralPointer?.('guidEmptyLiteral') ??
+      unknown('Canonical SharedBase GUID empty literal pointer is unavailable');
   }
 
   constructor(private readonly platform: NativeMemoryPlatform, options: { extensions?: readonly NativeMemoryRulesExtension[] } = {}) {

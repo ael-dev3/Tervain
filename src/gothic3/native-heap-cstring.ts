@@ -1,9 +1,10 @@
 import rules from '../../assets/gothic3/npc-heap/runtime-rules.json';
 import textRules from '../../assets/gothic3/cstring-text-construction/runtime-rules.json';
+import pointerRules from '../../assets/gothic3/script-admin-startup/runtime-rules.json';
 import type { NativeValue } from './dialogue';
 import { NativeHeapObjectViews } from './native-heap-views';
 import type { NativeMemoryAdmin, NativeMemoryAllocation } from './native-memory-admin';
-import type { NativeBytePointer } from './native-pointer-geometry';
+import type { NativeByteGeometryHost, NativeBytePointer } from './native-pointer-geometry';
 import { copyNativeBytesScalar } from './native-byte-string';
 
 type CStringData = { readonly allocation: NativeMemoryAllocation; readonly characterOffset: 8 };
@@ -13,6 +14,12 @@ const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = (reason: string): { known: false; reason: string } => ({ known: false, reason });
 const source = rules as unknown as { schema: string; inputs: { SharedBase: string };
   methods: Record<string, { entry: string; body: string }>; constBytes: { emptyCStringText: { address: string; raw: string } } };
+const pointerSource = pointerRules as unknown as { schema: string; inputs: { SharedBase: string };
+  methods: Record<string, { module: string; entry: string; body: string; bodyRanges: string;
+    instructionCount: number; bodyBytes: number; bodyInstructionBytesSha256: string;
+    entryChain: readonly { va: string; bytes: string; targetVA: string }[] }>;
+  constBytes: { emptyCStringText: { module: string; address: string; bytes: number; raw: string;
+    knownMask: string; sha256: string; scope: string; liveValueCaptured: boolean } } };
 const assertSource = () => {
   const methods = { cstringDefaultConstructor: '10012d20', cstringAlloc: '10013240', cstringRealloc: '10013e70',
     cstringSetText: '10014560', cstringSetShared: '10014640', cstringAssign: '10015430',
@@ -29,6 +36,32 @@ const assertSource = () => {
       textRules.methods.alloc.bodyInstructionBytesSha256 !== 'dc8a43b75e1dccffc84e53f09fff8d1d25e6ce0e0485cfa4722de0f09887fd04') {
     throw new Error('Original CString text-construction source receipt differs');
   }
+  if (pointerSource.schema !== 'gothic3-script-admin-startup-rules-v1' || pointerSource.inputs.SharedBase !== source.inputs.SharedBase) {
+    throw new Error('Original CString pointer/comparison source receipt differs');
+  }
+  for (const [name, entry, body, extent, count, bytes, hash, thunk] of [
+    ['cstringCompareText', '10004bfb', '100137c0', '100137c0-1001382b', 44, 108,
+      '5baf83a596cd1b631027721bbad6cb2b985a163a1bba39911284eccea8d1f73c', 'e9c0eb0000'],
+    ['cstringEqualsText', '10005ffb', '10013b70', '10013b70-10013b83', 7, 20,
+      '5c55ddc9cc4029bf21bbabeaf91ce1aa682c2901db038ff74e745e6ff4fb5fed', 'e970db0000'],
+    ['cstringGetText', '100044a3', '100134e0', '100134e0-100134eb', 5, 12,
+      '2bc33b00ff34663e6950b5542c69eba0cb0f84303962aac9d3d9cc1988d1b705', 'e938f00000'],
+  ] as const) {
+    const method = pointerSource.methods[name], chain = method?.entryChain;
+    if (method?.module !== 'SharedBase' || method.entry !== entry || method.body !== body ||
+        method.bodyRanges !== extent || method.instructionCount !== count || method.bodyBytes !== bytes ||
+        method.bodyInstructionBytesSha256 !== hash || chain?.length !== 1 ||
+        chain[0]?.va !== entry || chain[0]?.bytes !== thunk || chain[0]?.targetVA !== body) {
+      throw new Error('Original CString pointer/comparison method differs: ' + name);
+    }
+  }
+  const empty = pointerSource.constBytes.emptyCStringText;
+  if (empty.module !== 'SharedBase' || empty.address !== '100e5e3c' || empty.bytes !== 1 ||
+      empty.raw !== '00' || empty.knownMask !== 'ff' ||
+      empty.sha256 !== '6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d' ||
+      empty.scope !== 'original-file-backed-constant' || empty.liveValueCaptured !== false) {
+    throw new Error('Original CString empty-text pointer receipt differs');
+  }
 };
 
 /** Original bCString state over an actual four-byte object slot. Character
@@ -42,7 +75,8 @@ export class NativeHeapCString {
   private constructingText = false;
   private constructionAllocation: NativeMemoryAllocation | null = null;
   private readonly trace: string[] = [];
-  constructor(private readonly memory: NativeMemoryAdmin, slot?: NativeHeapObjectViews, token?: typeof pendingTextConstruction) {
+  constructor(private readonly memory: NativeMemoryAdmin, slot?: NativeHeapObjectViews, token?: typeof pendingTextConstruction,
+    private readonly interrupted?: () => string | null) {
     assertSource();
     if (token !== undefined && token !== pendingTextConstruction) throw new Error('Actual CString text-construction entry required');
     this.slot = slot ?? new NativeHeapObjectViews({ identity: {}, bytes: new Uint8Array(4), knownMask: new Uint8Array(4), freed: false });
@@ -55,15 +89,42 @@ export class NativeHeapCString {
   }
   /** Own the destination before the original text constructor begins. Creating
    * this view/owner performs no native slot read, NULL store or constructor. */
-  static beginTextConstruction(memory: NativeMemoryAdmin, slot: NativeHeapObjectViews): NativeHeapCString {
-    return new NativeHeapCString(memory, slot, pendingTextConstruction);
+  static beginTextConstruction(memory: NativeMemoryAdmin, slot: NativeHeapObjectViews,
+    interrupted?: () => string | null): NativeHeapCString {
+    return new NativeHeapCString(memory, slot, pendingTextConstruction, interrupted);
+  }
+  /** Heap identity admission only; this performs no native field access. */
+  usesMemoryAdmin(memory: NativeMemoryAdmin): boolean { return this.memory === memory; }
+  private checkInterruption(): void {
+    if (this.blocked) throw new Error(this.blocked);
+    const reason = this.interrupted?.();
+    if (reason) throw new Error(reason);
+  }
+  /** Geometry delegation can invoke an owning parent's callbacks. Stop at
+   * that return before memcpy reaches another load or store. */
+  private copyGeometry(): NativeByteGeometryHost {
+    const geometry = this.memory.byteGeometry();
+    return {
+      resolveNativePointer: pointer => {
+        this.checkInterruption();
+        const result = geometry.resolveNativePointer(pointer);
+        this.checkInterruption(); return result;
+      },
+      proveNativeCopyDirection: (destination, input, bytes) => {
+        this.checkInterruption();
+        const result = geometry.proveNativeCopyDirection(destination, input, bytes);
+        this.checkInterruption(); return result;
+      },
+    };
   }
   private execute<T>(body: () => NativeValue<T>, textConstructor = false): NativeValue<T> {
     if (this.blocked) return unknown(this.blocked);
     if (this.destroyed) return unknown('CString object lifetime has ended');
     if (!textConstructor && this.construction !== 'complete') return unknown('CString text construction has not completed');
     try {
+      this.checkInterruption();
       const result = body();
+      this.checkInterruption();
       if (!result.known) { this.blocked = result.reason; this.trace.push('blocked:' + result.reason); }
       return result;
     } catch (error) {
@@ -74,6 +135,15 @@ export class NativeHeapCString {
   private data(): CStringData | null {
     const value = this.slot.pointer<CStringData>(0).get();
     if (value && (value.characterOffset !== 8 || dataOwners.get(value) !== this.memory || value.allocation.freed || value.allocation.region.freed)) throw new Error('CString data pointer has no live same-heap holder capability');
+    return value;
+  }
+  /** A native slot load can return an ended holder pointer. Its later actual
+   * header/character access owns the lifetime and known-byte checks. */
+  private retainedDataPointer(): CStringData | null {
+    const value = this.slot.pointer<CStringData>(0).get();
+    if (value && (value.characterOffset !== 8 || dataOwners.get(value) !== this.memory)) {
+      throw new Error('CString character pointer has no same-heap holder capability');
+    }
     return value;
   }
   private fields(data: CStringData): NativeHeapObjectViews { return new NativeHeapObjectViews(data.allocation); }
@@ -89,8 +159,8 @@ export class NativeHeapCString {
     const fields = this.fields(data), references = (fields.readUnsigned(4, 2) - 1) & 0xffff;
     fields.writeUnsigned(4, references, 2); this.trace.push(`cstring-decrement:${references}`);
     if (references === 0) {
-      const instance = this.memory.getInstance(); if (!instance.known) return instance;
-      const freed = this.memory.free(data.allocation); if (!freed.known) return freed;
+      const instance = this.memory.getInstance(); this.checkInterruption(); if (!instance.known) return instance;
+      const freed = this.memory.free(data.allocation); this.checkInterruption(); if (!freed.known) return freed;
       this.trace.push('cstring-free-holder');
     }
     return known(undefined);
@@ -105,10 +175,8 @@ export class NativeHeapCString {
   }
   private alloc(length: number): NativeValue<void> {
     if (length === 0) { this.slot.pointer<CStringData>(0).set(null); return known(undefined); }
-    const instance = this.memory.getInstance(); if (!instance.known) return instance;
-    if (this.constructingText && this.blocked) return unknown(this.blocked);
-    const allocated = this.memory.malloc(length + 9); if (!allocated.known) return allocated;
-    if (this.constructingText && this.blocked) return unknown(this.blocked);
+    const instance = this.memory.getInstance(); this.checkInterruption(); if (!instance.known) return instance;
+    const allocated = this.memory.malloc(length + 9); this.checkInterruption(); if (!allocated.known) return allocated;
     if (!allocated.value) return unknown('Native CString Malloc NULL reaches unowned holder dereference/failure behavior');
     if (this.constructingText) this.constructionAllocation = allocated.value;
     const fields = new NativeHeapObjectViews(allocated.value);
@@ -147,8 +215,9 @@ export class NativeHeapCString {
       if (!data || data.characterOffset !== 8 || dataOwners.get(data) !== this.memory) {
         return unknown('Actual freshly allocated CString character pointer required');
       }
-      const copied = copyNativeBytesScalar(this.memory.byteGeometry(),
+      const copied = copyNativeBytesScalar(this.copyGeometry(),
         { fields: new NativeHeapObjectViews(data.allocation), offset: data.characterOffset }, input, length);
+      this.checkInterruption();
       if (!copied.known) return copied;
       if (this.blocked) return unknown(this.blocked);
       this.trace.push('cstring-text-constructor-copy:100135f0'); return known(undefined);
@@ -251,6 +320,59 @@ export class NativeHeapCString {
     });
   }
   isEmpty(): NativeValue<boolean> { return this.execute(() => { const data = this.data(); return known(data === null || this.length(data) === 0); }); }
+  /** Compare(char const*)10004bfb->100137c0. NULL/empty results and the
+   * unsigned two-byte loop follow the actual loads, without text snapshots. */
+  compareText(input: NativeBytePointer | null): NativeValue<number> {
+    return this.execute(() => {
+      const left = this.retainedDataPointer(); // Receiver slot100137c8.
+      const result = (comparison: -1 | 0 | 1): NativeValue<number> => {
+        this.trace.push('cstring-compare-text:100137c0'); return known(comparison);
+      };
+      if (input === null) {
+        if (left === null) return result(1);
+        // This branch reads only the DWORD at character pointer-8. The native
+        // routine applies no length range, ASCII or terminator validation.
+        return result(this.fields(left).readUnsigned(left.characterOffset - 8) === 0 ? 1 : 0);
+      }
+      if (left === null) return result(input.fields.readUnsigned(input.offset, 1) === 0 ? 0 : -1);
+      //100137f6 reads right first. An empty right string never reads left data.
+      if (input.fields.readUnsigned(input.offset, 1) === 0) return result(1);
+      const fields = this.fields(left);
+      let leftOffset: number = left.characterOffset, rightOffset = input.offset;
+      for (;;) {
+        let leftByte = fields.readUnsigned(leftOffset, 1);
+        let rightByte = input.fields.readUnsigned(rightOffset, 1);
+        if (leftByte !== rightByte) return result(leftByte < rightByte ? -1 : 1);
+        if (leftByte === 0) return result(0);
+        leftByte = fields.readUnsigned(leftOffset + 1, 1);
+        rightByte = input.fields.readUnsigned(rightOffset + 1, 1);
+        if (leftByte !== rightByte) return result(leftByte < rightByte ? -1 : 1);
+        leftOffset += 2; rightOffset += 2;
+        if (leftByte === 0) return result(0);
+      }
+    });
+  }
+  /** Equals10005ffb->10013b70 preserves Compare==0 as the native BOOL. */
+  equalsText(input: NativeBytePointer | null): NativeValue<0 | 1> {
+    return this.execute(() => {
+      const comparison = this.compareText(input); if (!comparison.known) return comparison;
+      this.trace.push('cstring-equals-text:10013b70');
+      return known(comparison.value === 0 ? 1 : 0);
+    });
+  }
+  /** GetText100044a3->100134e0 reloads the actual character pointer. It reads
+   * neither holder bytes nor characters; NULL returns Shared static text. */
+  getTextPointer(): NativeValue<NativeBytePointer> {
+    return this.execute(() => {
+      const data = this.retainedDataPointer();
+      if (data === null) {
+        const empty = this.memory.emptyCStringTextPointer(); if (!empty.known) return empty;
+        this.trace.push('cstring-get-text:100134e0'); return empty;
+      }
+      this.trace.push('cstring-get-text:100134e0');
+      return known(Object.freeze({ fields: this.fields(data), offset: data.characterOffset }));
+    });
+  }
   textBytes(): NativeValue<Uint8Array> {
     return this.execute(() => {
       const data = this.data(); if (data === null) return known(new Uint8Array());

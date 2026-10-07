@@ -1,0 +1,20 @@
+/* ENTRY 10043420 | FUN_10043420 | STATUS decompiled | 5 ms */
+
+void __thiscall FUN_10043420(int param_1,int param_2)
+
+{
+  byte *pbVar1;
+  uint uVar2;
+  
+  DAT_102ffda0 = DAT_102ffda0 + -1;
+  uVar2 = ((param_2 - param_1) - 0x10U) / 0x30;
+  LOCK();
+  pbVar1 = (byte *)(param_1 + 0x2fe000 + (uVar2 >> 5) * 4 + ((int)(uVar2 & 0x1f) >> 3));
+  *pbVar1 = *pbVar1 | '\x01' << (uVar2 & 7);
+  UNLOCK();
+  LOCK();
+  *(int *)(param_1 + 8) = *(int *)(param_1 + 8) + -1;
+  UNLOCK();
+  *(uint *)(param_1 + 0xc) = uVar2 >> 5;
+  return;
+}

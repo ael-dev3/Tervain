@@ -1,6 +1,8 @@
 /** Selected original Game C++ initializer bodies. This owner does not walk the
  * CRT initializer table or assume that its 1,672 earlier callbacks ran. */
 import rules from '../../assets/gothic3/script-admin-startup/runtime-rules.json';
+import cstringTextRules from '../../assets/gothic3/cstring-text-construction/runtime-rules.json';
+import npcHeapRules from '../../assets/gothic3/npc-heap/runtime-rules.json';
 import type { NativeValue } from './dialogue';
 import { NativeGameCrtOwner } from './native-game-crt';
 import { NativeGameExitTable } from './native-game-crt-exit-table';
@@ -8,7 +10,10 @@ import type { NativeGameCrtCallback } from './native-game-crt-exit-table';
 import { NativeGameScriptAdminClassName } from './native-game-script-admin-class-name';
 import { NativeHeapCString } from './native-heap-cstring';
 import { NativeHeapObjectViews } from './native-heap-views';
+import { NativeGuidText, nativeGuidPayloadEquals } from './native-guid-text';
+import type { NativeGuidTextPlatform } from './native-guid-text';
 import type { NativeMemoryAdmin, NativeMemoryBacking } from './native-memory-admin';
+import type { NativeBytePointer } from './native-pointer-geometry';
 import { nativeGameImageReceipt } from './native-game-crt-profile';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
@@ -27,9 +32,8 @@ export interface NativeScriptAdminStartupHost {
   singletonGetInstance?(): NativeValue<NativeHeapObjectViews>;
   registerTemplate?(singleton: NativeHeapObjectViews, type: NativeHeapObjectViews): NativeValue<number>;
   initializeWrapper?(wrapper: NativeHeapObjectViews, isRoot: 1): NativeValue<number>;
-  /** SharedBase10012790, including actual CString comparison, Win32 conversion,
-   * OLE output writes and MemoryAdmin Free. A parsed browser UUID is insufficient. */
-  guidSetText?(guid: NativeHeapObjectViews, text: NativeHeapCString): NativeValue<number>;
+  /** Lower Win32 conversion/OLE writers used by the concrete Shared GUID owner. */
+  guidTextPlatform?: NativeGuidTextPlatform;
   /** Actual SharedBase101ab150 payload, preserving any preceding native writes. */
   guidNullPayload?(): NativeValue<NativeHeapObjectViews>;
   queryNewObject?(singleton: NativeHeapObjectViews, name: NativeHeapCString): NativeValue<NativeHeapObjectViews | null>;
@@ -53,6 +57,8 @@ const methodPins = [
   ['guidTextCtor', 'SharedBase', '10001528', '10012ae0', '18cb32d48cabedddca37515ff2d61990f377dfa71ffe930330002c5b15738984'],
   ['guidDtor', 'SharedBase', '100015cd', '10012440', 'ae3f4619b0413d70d3004b9131c3752153074e45725be13b9a148978895e359e'],
   ['guidIsNull', 'SharedBase', '10003fd0', '10012710', '3b51a10464785c496b0f7a62a357ec7cb5172533ec2ceafc9ee59fc4928e2e03'],
+  ['guidIsValid', 'SharedBase', '10006abe', '10012450', '47af619b3e220babf4669a6ad04ded74eac128808c50b426ef20410162316d2c'],
+  ['guidGetGuidConst', 'SharedBase', '10008be3', '10012460', '58367ffa2a0179375018fa0f5c26da24391e42ebe0ed8fdda35a21fc7bdc396f'],
   ['guidEqualsRaw', 'SharedBase', '100075f4', '10012290', '547f5bb93125da1133935d868b524c211fef6404611e336905b1672e6a6f534c'],
   ['wrapperDestroy', 'Game', '20005489', '20350d00', '63d2647de00319c80682ae69d33bebf4a68fbc9b0bb2755ad85442b3e6869bf2'],
   ['smartptrDestructor', 'Game', '20033a46', '20350c90', 'b8d17fb79244e177bdfdbb3dc680ddfe2f8cd9b16dd22c9c04458c29253f9e29'],
@@ -98,6 +104,7 @@ export class NativeGameScriptAdminStartup {
   private interruption: string | null = null;
   private frame: NativeMemoryBacking | null = null;
   private temporaryText: NativeHeapCString | null = null;
+  private temporaryGuid: NativeGuidText | null = null;
 
   private constructor(readonly crt: NativeGameCrtOwner, private readonly memory: NativeMemoryAdmin,
     private readonly host: NativeScriptAdminStartupHost, constructionToken: object) {
@@ -130,6 +137,27 @@ export class NativeGameScriptAdminStartup {
         !('exportEntry' in binding) || binding.exportEntry !== methods[method]?.entry ||
         !('body' in binding) || binding.body !== methods[method]?.body || binding.liveImportTargetCaptured !== false) {
         throw new Error('Original Game ScriptAdmin IAT binding differs: ' + iat);
+      }
+    }
+    for (const [iat, name, raw, canonical, entry, body, extent, count, bytes, hash, thunk] of [
+      ['207d890c', '??0bCString@@QAE@PBD@Z', 'c28f7d00', cstringTextRules.methods.textConstructor,
+        '10003ba7', '100135f0', '100135f0-1001364a', 42, 91, '1bb0b6450709549da4589f055cb6f9780becea05ea8cefcd75e37701a22d0be5', 'e944fa0000'],
+      ['207d8834', '??1bCString@@QAE@XZ', '348e7d00', npcHeapRules.methods.cstringDestructor,
+        '100060c3', '10012250', '10012250-10012279', 15, 42, 'b072045e99aec22a89a355e2803eb75e933a4700c1296da707f69c00a08214de', 'e988c10000'],
+    ] as const) {
+      const binding = rules.importBindings['Game:' + iat as keyof typeof rules.importBindings];
+      if (cstringTextRules.schema !== 'gothic3-cstring-text-construction-rules-v1' || npcHeapRules.schema !== 'gothic3-npc-heap-rules-v1' ||
+          cstringTextRules.inputs.SharedBase !== rules.inputs.SharedBase || npcHeapRules.inputs.SharedBase !== rules.inputs.SharedBase ||
+          canonical.module !== 'SharedBase' || canonical.entry !== entry || canonical.body !== body || canonical.bodyRanges !== extent ||
+          canonical.instructionCount !== count || canonical.bodyBytes !== bytes || canonical.bodyInstructionBytesSha256 !== hash ||
+          !binding || binding.module !== 'Game' || binding.iatVA !== iat || binding.importModule !== 'SharedBase.dll' ||
+          binding.decoratedName !== name || binding.ordinal !== null || binding.originalIATBytes !== raw ||
+          !('targetModule' in binding) || binding.targetModule !== 'SharedBase' ||
+          !('exportEntry' in binding) || binding.exportEntry !== entry || !('body' in binding) || binding.body !== body ||
+          !('selectedMethod' in binding) || binding.selectedMethod !== null || !('entryChain' in binding) ||
+          binding.entryChain.length !== 1 || binding.entryChain[0]?.va !== entry || binding.entryChain[0]?.bytes !== thunk ||
+          binding.entryChain[0]?.targetVA !== body || binding.liveImportTargetCaptured !== false) {
+        throw new Error('Original Game CString IAT/lower receipt differs: ' + iat);
       }
     }
     for (const [label, address, bytes, hash] of [
@@ -238,12 +266,8 @@ export class NativeGameScriptAdminStartup {
     // IsNull tests validity again before the short-circuit payload comparison.
     if (guid.readUnsigned(16, 1) !== 0) {
       const nullPayload = this.call('SharedBase.Guid.NullPayload101ab150', () => this.host.guidNullPayload?.() ?? this.missing<NativeHeapObjectViews>('guidNullPayload'));
-      let isNull = true;
-      for (const offset of [0, 4, 8, 12]) {
-        const left = guid.readUnsigned(offset), right = nullPayload.readUnsigned(offset);
-        if (left !== right) { isNull = false; break; }
-      }
-      if (isNull) return 0;
+      const isNull = this.call('SharedBase.Guid.EqualsRaw10012290', () => nativeGuidPayloadEquals(guid, nullPayload));
+      if (isNull === 1) return 0;
     }
     this.propertyId.writeUnsigned(16, 0);
     for (const offset of [0, 4, 8, 12]) this.propertyId.writeUnsigned(offset, guid.readUnsigned(offset));
@@ -254,11 +278,13 @@ export class NativeGameScriptAdminStartup {
     this.frame = { identity: Object.freeze({}), bytes: new Uint8Array(24), knownMask: new Uint8Array(24), freed: false };
     const frame = new NativeHeapObjectViews(this.frame);
     const stringSlot = window(frame, 0, 4), guid = window(frame, 4, 20);
-    this.temporaryText = NativeHeapCString.beginTextConstruction(this.memory, stringSlot);
-    const literal = this.crt.imageStorage('scriptAdminPropertyIdLiteral');
-    this.call('SharedBase.CString.textCtor.IAT207d890c', () => this.temporaryText!.constructText({ fields: literal, offset: 0 }));
+    this.temporaryText = NativeHeapCString.beginTextConstruction(this.memory, stringSlot, () => this.interruption);
+    const literal = this.call<NativeBytePointer>('Game.ScriptAdmin.canonical-guid-literal2069c090', () =>
+      this.crt.host.platform.registerCanonicalGameGuidLiteral?.(this.crt) ?? this.missing<NativeBytePointer>('canonical Game GUID literal mapping'));
+    this.call('SharedBase.CString.textCtor.IAT207d890c', () => this.temporaryText!.constructText(literal));
     // Text ctor10012ae0 ignores SetData's BOOL and returns its actual this.
-    this.call('SharedBase.Guid.SetData10012790', () => this.host.guidSetText?.(guid, this.temporaryText!) ?? this.missing('guidSetText'));
+    this.temporaryGuid = new NativeGuidText(this.memory, guid, this.host.guidTextPlatform, () => this.interruption);
+    this.call('SharedBase.Guid.SetData10012790', () => this.temporaryGuid!.setData(this.temporaryText!));
     this.clearPropertyId();
     this.setPropertyIdFromGuid(guid); // Native constructor ignores this BOOL.
     this.trace.push('SharedBase.Guid.dtor10012440.RET');
@@ -355,6 +381,6 @@ export class NativeGameScriptAdminStartup {
   snapshot() { return Object.freeze({ boundary: this.boundary, typeBoundary: this.typeBoundary,
     completed: Object.freeze([...this.completed]), registered: Object.freeze([...this.registered]),
     destroyed: Object.freeze([...this.destroyed]), cleanupFailed: Object.freeze([...this.cleanupFailed]),
-    frame: this.frame, temporaryText: this.temporaryText,
+    frame: this.frame, temporaryText: this.temporaryText, temporaryGuid: this.temporaryGuid,
     trace: Object.freeze([...this.trace]), crtTraversalCompleted: false, nativeModuleInstantiated: false }); }
 }
