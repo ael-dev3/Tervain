@@ -269,11 +269,13 @@ checkpoint. The production workflow checks the build and deploys the separate
 route when the reviewed changes reach `main`.
 
 The separate TypeScript route is live at
-[Gothic 3 / Ardea](https://ael-dev3.github.io/Tervain/gothic3/). The deployed
-integration through checkpoint 80 is `main` commit
-`60c38ff6c2f1516015fc29ffe9c4d66c3295be94`, merged in
-[PR 49](https://github.com/ael-dev3/Tervain/pull/49) and published by successful
-[workflow run 37543656027](https://github.com/ael-dev3/Tervain/actions/runs/37543656027), attempt 1.
+[Gothic 3 / Ardea](https://ael-dev3.github.io/Tervain/gothic3/). The last host
+check recorded here followed checkpoint 82 at `main` commit
+`13b6739fb2f0d2447aac3adedfec6f249f904b7f`, merged in
+[PR 51](https://github.com/ael-dev3/Tervain/pull/51) and published by successful
+[workflow run 37549465349](https://github.com/ael-dev3/Tervain/actions/runs/37549465349), attempt 1.
+Checkpoints 81–82 added Game CRT source owners without changing the browser
+gameplay integration; its live NPC path remains the checkpoint 80 boundary.
 
 The public browser check loads 202 scene objects and 70 character models,
 enters Ardea with Hero HP 100 and inspects the Hero model (10,692 triangles,
@@ -318,6 +320,11 @@ still need the Game class-name/type owners and integration with the live NPC.
 now models the separate Game CRT's 128-byte encoded onexit table and its first
 32 registrations. Table growth and callback traversal remain unowned, and this
 component is not connected to live NPC construction.
+[Checkpoint 83](gothic3-rebuilding-process.md#83-demangle-the-game-navigation-rtti-name-through-game-owned-crt-state)
+adds the ordinary Game RTTI demangler and caches the Navigation type name in
+the Game CRT descriptor/list. It is a locally validated native-behavior
+component; the SharedBase class-name CString, reflected registration and live
+NPC integration remain open.
 Subsequent build and deployment receipts are recorded in the
 [Pages workflow](https://github.com/ael-dev3/Tervain/actions/workflows/pages.yml).
 This is an incomplete reconstruction; hosting and a successful build do not

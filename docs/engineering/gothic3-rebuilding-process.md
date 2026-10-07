@@ -39,9 +39,9 @@ enclave callback. Native NPC
 activation, AI, responses, full death handling and most campaign progression remain
 unavailable.
 
-Checkpoints 73–82 add retained source NPC readers, shared runtime admins,
-heap-backed field owners, physical SceneAdmin startup components and the
-selected Engine CRT class-name decoder and an ordinary DLL attach prefix.
+Checkpoints 73–83 add retained source NPC readers, shared runtime admins,
+heap-backed field owners, physical SceneAdmin startup components and selected
+Engine and Game CRT RTTI/type-name components and ordinary DLL attach prefixes.
 Checkpoint 79 preserves Navigation notifications and application/area ownership;
 checkpoint 80 corrects the fresh CString text constructor and its owned byte
 operations, checkpoint 81 adds the separate Game CRT ownership and startup
@@ -5807,3 +5807,71 @@ type registration, and fifteen Navigation descriptors on the same MemoryAdmin
 as the live NPC entity, wrapper and ErrorAdmin. The browser NPC reader remains
 unchanged; this component does not activate characters or advance campaign
 completion.
+
+## 83. Demangle the Game Navigation RTTI name through Game-owned CRT state
+
+Date: 7 October 2026. This checkpoint adds the ordinary, unqualified class
+RTTI path for the Game CRT and applies it to the original
+`gCNavigation_PS` `type_info` descriptor. The Engine demangler and SceneAdmin
+type-name service keep their existing Engine owners and storage.
+
+### Keep each module's demangler graph separate
+
+[`native-crt-dname.ts`](../../src/gothic3/native-crt-dname.ts) now selects an
+independently admitted graph profile. The Game profile requires the canonical
+`NativeGameCrtOwner`, the Game `demanglerGlobals` image view at `207d14e4`, the
+Game malloc/free callbacks and the Game image bytes for its DName node
+vtables and literals. Its source gate pins the methods used by
+`___unDName`, `UnDecorator`, DName nodes, HeapManager and Replicator, plus the
+type-name string routines. It checks each label's Game module, entry, body and
+instruction hash before using that graph. The constants are pinned separately
+in `nativeGameImagePins`; this does not relabel Engine addresses or borrow the
+Engine heap, lock table or demangler globals.
+
+[`native-crt-undname.ts`](../../src/gothic3/native-crt-undname.ts) runs the
+selected ordinary class grammar against that profile. For the Game input
+`?AVgCNavigation_PS@@` and flags `0x2800`, it returns `class gCNavigation_PS`.
+Its source-supported scratch arena uses Game heap allocations and Game lock 5;
+the retained DName graph reads the Game node vtables from the Game image. Other
+RTTI grammar still stops at an explicit boundary.
+
+### Preserve Game `type_info::_Name_base` ordering
+
+`NativeGameTypeInfoName` aliases the 30-byte descriptor at `20796ce4` and the
+eight-byte Game CRT type-info list at `207d0a18`. The uncached call passes
+`descriptor + 9` to `___unDName` with flags `0x2800`. The pinned Game `_strlen`
+result drives the original trailing-space trim. It then takes Game lock 14,
+rechecks the cache, allocates the eight-byte list node and result string,
+publishes the cache pointer, copies the successful `strcpy_s` result including
+NUL and links the node into the physical list before freeing the temporary
+demangled result and unlocking. An already-cached pointer is returned without
+scanning its contents, matching the original fast path. The descriptor, list,
+allocator, locks and demangler are required to belong to the same canonical
+Game CRT owner.
+
+The focused suite is
+[`game-crt-typeinfo-name.test.ts`](../../tests/gothic3-dialogue/game-crt-typeinfo-name.test.ts).
+It exercises Game demangling, the physical type-info cache/list link, the
+no-scan cached path, Game/Engine storage separation, and the pre-existing
+Engine demangler and DName cases. Reproduce it with:
+
+```powershell
+npm run typecheck
+npx vitest run tests/gothic3-dialogue/game-crt-typeinfo-name.test.ts tests/gothic3-dialogue/crt-undname.test.ts tests/gothic3-dialogue/crt-dname.test.ts
+npm test
+npm run build
+```
+
+Local verification passes typecheck, the focused three-file suite (**44
+tests**), and the full suite (**2,364 tests across 224 files**). The production
+build transforms 375 modules and succeeds with the existing large-chunk
+warning. The Gothic 3 bundle remains `gothic3-C3iMc5TP.js`, confirming this
+native component did not change the browser runtime bundle. `git diff --check`
+also passes.
+
+This constructs a Game RTTI name only for the pinned Navigation descriptor.
+It does not yet run the Game C initializer table, construct the SharedBase
+class-name CString, register Navigation's reflected factory/type, create the
+fifteen Navigation descriptors, or connect them to live NPC activation. The
+browser world, NPC reader and hosted gameplay behavior are unchanged by this
+CRT checkpoint.

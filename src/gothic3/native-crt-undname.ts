@@ -1,13 +1,14 @@
-/** Engine ___unDName3069b26b. The admitted grammar currently follows the
+/** Module-owned ___unDName. The admitted grammar currently follows the
  * ordinary, unqualified class RTTI branch; other grammar remains a boundary. */
 import sourceText from '../../assets/gothic3/crt-undname/runtime-rules.json?raw';
 import type { NativeValue } from './dialogue';
 import { NativeHeapObjectViews } from './native-heap-views';
 import type { NativeMemoryBacking } from './native-memory-admin';
-import type { NativeEngineCrtOwner } from './native-engine-crt-locks';
+import type { NativeEngineCrtOwner, NativeGameCrtOwner, NativeModuleCrtOwner } from './native-engine-crt-locks';
 import { NativeCrtDNameFactory, NativeCrtReplicator, NativeCrtScratchArena } from './native-crt-dname';
 import type { NativeCrtBytePointer, NativeCrtByteCursor, NativeCrtDNameRecord } from './native-crt-dname';
 import { NativeSceneTypeInfoName } from './native-scene-startup';
+import { admitNativeGameCrtSource, nativeGameImageReceipt } from './native-game-crt-profile';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = (reason: string): { known: false; reason: string } => ({ known: false, reason });
@@ -64,15 +65,17 @@ interface State {
   allocator: (bytes: number) => NativeValue<NativeMemoryBacking | null>;
   free: (backing: NativeMemoryBacking) => NativeValue<void>;
 }
-const owners = new WeakMap<NativeEngineCrtOwner, State>();
+const owners = new WeakMap<NativeModuleCrtOwner, State>();
 const typeNames = new WeakMap<NativeEngineCrtOwner, NativeSceneTypeInfoName>();
 
 export class NativeCrtUndName {
   private readonly state: State;
-  constructor(readonly crt: NativeEngineCrtOwner) {
-    admit(); let state = owners.get(crt);
+  constructor(readonly crt: NativeEngineCrtOwner | NativeGameCrtOwner) {
+    if (crt.module === 'Engine') admit();
+    else NativeCrtScratchArena.admitGame(crt);
+    let state = owners.get(crt);
     if (!state) {
-      state = { fields: storage('demanglerGlobals', '30af7c54', 60), active: false, reentrant: false,
+      state = { fields: crt.module === 'Engine' ? storage('demanglerGlobals', '30af7c54', 60) : crt.imageStorage('demanglerGlobals'), active: false, reentrant: false,
         boundary: null, held: false, trace: [], arena: null, decorator: null, factory: null,
         allocator: bytes => crt.malloc(bytes), free: backing => crt.free(backing) };
       owners.set(crt, state);
@@ -116,7 +119,7 @@ export class NativeCrtUndName {
     this.advance(); this.advance(-1); // The simple-type default rewinds before ECSU.
     const keepKeyword = !(this.flags() & 0x8000) && !(this.flags() & 0x1000);
     this.advance(); // getECSUDataType consumes 'V'.
-    const keyword = storage('classKeyword', '3089f408', 7, '636c6173732000', true);
+    const keyword = factory.sourceConstant('classKeyword', this.crt.module === 'Game' ? '206bee10' : '3089f408', 7);
     const className = this.empty(factory);
     fact(factory.assignText(className, { fields: keyword, offset: 0 }), 'getECSUDataType.classKeyword');
     const result = this.empty(factory);
@@ -129,11 +132,11 @@ export class NativeCrtUndName {
     } else {
       if (current === 0x3f) throw new Error('Unowned getZName template grammar');
       // These two prefixes select dimension/parameter services, not ordinary identifiers.
-      for (const [label, address, size, raw, count] of [
-        ['templateParameterPrefix', '3089f3d4', 20, '74656d706c6174652d706172616d657465722d00', 18],
-        ['genericTypePrefix', '3089f3c4', 14, '67656e657269632d747970652d00', 12],
+      for (const [label, engineAddress, gameAddress, size, count] of [
+        ['templateParameterPrefix', '3089f3d4', '206bedd8', 20, 18],
+        ['genericTypePrefix', '3089f3c4', '206bedc8', 14, 12],
       ] as const) {
-        const prefix = storage(label, address, size, raw, true);
+        const prefix = factory.sourceConstant(label, this.crt.module === 'Game' ? gameAddress : engineAddress, size);
         const pointer = this.cursor(); let match = true;
         for (let i = 0; i <= count; i++) {
           const byte = pointer.fields.readUnsigned(pointer.offset + i, 1);
@@ -170,7 +173,7 @@ export class NativeCrtUndName {
   unDName(input: NativeCrtBytePointer | null, flags: number, output: NativeCrtBytePointer | null = null,
     outputBytes = 0): NativeValue<NativeCrtBytePointer | null> {
     const s = this.state;
-    if (s.active) { s.reentrant = true; return unknown('Shared Engine ___unDName is already executing'); }
+    if (s.active) { s.reentrant = true; return unknown('Shared ' + this.crt.module + ' ___unDName is already executing'); }
     if (s.boundary) return unknown(s.boundary);
     s.active = true; s.reentrant = false;
     try {
@@ -179,10 +182,14 @@ export class NativeCrtUndName {
       }
       if (!this.call('crt.ensureLock5', () => this.crt.ensureLock(5))) return known(null);
       s.held = null; this.call('crt.lock5', () => this.crt.lock(5), () => { s.held = true; });
-      this.fields.pointer(0).set(s.allocator); this.fields.pointer(4).set(s.free);
+      const gameCallbacks = this.crt.module === 'Game' ? NativeCrtScratchArena.gameCallbacks(this.crt) : null;
+      this.fields.pointer(0).set(gameCallbacks?.crtMalloc ?? s.allocator);
+      this.fields.pointer(4).set(gameCallbacks?.crtFree ?? s.free);
       this.fields.writeUnsigned(16, 0); this.fields.pointer(8).set(null); this.fields.pointer(12).set(null);
-      s.arena = new NativeCrtScratchArena({ crtMalloc: s.allocator, crtFree: s.free },
-        { fields: subview(this.fields, 0, 20), checkpoint: operation => this.guard(operation) });
+      s.arena = this.crt.module === 'Game'
+        ? NativeCrtScratchArena.forGame(this.crt, operation => this.guard(operation))
+        : new NativeCrtScratchArena({ crtMalloc: s.allocator, crtFree: s.free },
+          { fields: subview(this.fields, 0, 20), checkpoint: operation => this.guard(operation) });
       const factory = new NativeCrtDNameFactory(s.arena); s.factory = factory;
       const decorator = stack(120); s.decorator = decorator;
       const first = new NativeCrtReplicator(factory, subview(decorator, 0, 60));
@@ -256,6 +263,123 @@ export function nativeSceneTypeInfoForCrt(crt: NativeEngineCrtOwner): NativeScen
       crtMalloc: bytes => crt.malloc(bytes), crtFree: backing => crt.free(backing),
       lock: id => crt.lock(id), unlock: id => crt.unlock(id) }, crt.physical.crtTypeInfoList);
     typeNames.set(crt, name);
+  }
+  return name;
+}
+
+const gameTypeNames = new WeakMap<NativeGameCrtOwner, NativeGameTypeInfoName>();
+const gameTypeInfoMethods = [
+  ['typeInfoNameWrapper', '204637e0', 'e993582193b053903a0233de11767e2e5f59a078350762db06ef08338e02abd8'],
+  ['typeInfoNameBody', '20468806', 'ae3f48bda6d41d14a3400665b49065f62042dbdc693472b12fd404ea3e3c4c5d'],
+  ['typeInfoNameCleanup', '204688f2', '084f61fec2079ea071aa64ca396a8cf17ca74fc4087f67de3aba1218e37a4ff0'],
+] as const;
+
+/** Game's type_info::_Name_base for the pinned gCNavigation_PS descriptor.
+ * Its cache and type-info list alias Game image storage; Engine CRT state is
+ * never consulted. */
+export class NativeGameTypeInfoName {
+  readonly descriptor: NativeHeapObjectViews;
+  readonly list: NativeHeapObjectViews;
+  private active = false;
+  private reentrant = false;
+  private boundary: string | null = null;
+  private held: boolean | null = false;
+  private readonly nodes: NativeMemoryBacking[] = [];
+  private readonly trace: string[] = [];
+
+  constructor(private readonly crt: NativeGameCrtOwner, private readonly demangler: NativeCrtUndName) {
+    if (crt.module !== 'Game' || demangler.crt !== crt) {
+      throw new Error('Matching canonical Game CRT and demangler owners required for Game type_info::Name');
+    }
+    admitNativeGameCrtSource();
+    for (const [label, entry, hash] of gameTypeInfoMethods) {
+      const method = crt.sourceProfile.heapRules.methods[label];
+      if (method?.module !== 'Game' || method.entry !== entry || method.body !== entry ||
+          method.bodyInstructionBytesSha256 !== hash) throw new Error('Game type_info::Name source receipt differs: ' + label);
+    }
+    const descriptorReceipt = nativeGameImageReceipt('navigationTypeInfoDescriptor');
+    const listReceipt = nativeGameImageReceipt('crtTypeInfoList');
+    this.descriptor = crt.imageStorage('navigationTypeInfoDescriptor');
+    this.list = crt.imageStorage('crtTypeInfoList');
+    if (this.descriptor.bytes.length !== descriptorReceipt.bytes || this.descriptor.readUnsigned(0) !== 0x206b6374 ||
+        this.list.bytes.length !== listReceipt.bytes || this.list.backing.identity !== crt.physical.crtTypeInfoList.backing.identity ||
+        this.list.bytes.byteOffset !== crt.physical.crtTypeInfoList.bytes.byteOffset) {
+      throw new Error('Exact physical Game navigation RTTI descriptor and list aliases required');
+    }
+    const mangled = [...'.?AVgCNavigation_PS@@\0'].map(character => character.charCodeAt(0));
+    if (mangled.some((byte, index) => this.descriptor.readUnsigned(8 + index, 1) !== byte)) {
+      throw new Error('Original Game gCNavigation_PS RTTI descriptor differs');
+    }
+  }
+
+  private guard(): void {
+    if (this.reentrant) throw new Error('Unsupported reentry into Game CRT type_info::Name');
+  }
+  private call<T>(name: string, body: () => NativeValue<T>, retain?: (value: T) => void): T {
+    this.guard(); this.trace.push(name + '.attempt');
+    const result = body(); if (result.known) retain?.(result.value);
+    this.guard(); const value = fact(result, name); this.trace.push(name); return value;
+  }
+  private strlen(text: NativeHeapObjectViews): number {
+    // The pinned Game _strlen uses a DWORD-at-a-time zero-byte test. Its
+    // returned value is the first NUL offset, so bytes beyond that NUL are
+    // semantically irrelevant and remain unobserved/unowned here.
+    for (let offset = 0; offset < text.bytes.length; offset++) {
+      if (text.readUnsigned(offset, 1) === 0) return offset;
+    }
+    throw new Error('Game type_info::_Name_base _strlen has no terminating NUL in its allocation');
+  }
+  getName(): NativeValue<NativeMemoryBacking | null> {
+    if (this.active) { this.reentrant = true; return unknown('Game type_info::Name is already executing'); }
+    if (this.boundary) return unknown(this.boundary);
+    this.active = true; this.reentrant = false;
+    try {
+      // The original cached branch returns the pointer without scanning it.
+      const cached = this.descriptor.pointer<NativeMemoryBacking>(4).get();
+      if (cached) return known(cached);
+      const temporary = this.call('Game.___unDName.0x2800', () => this.demangler.decode(
+        { fields: this.descriptor, offset: 9 }, 0x2800));
+      if (!temporary) return known(null);
+      const text = new NativeHeapObjectViews(temporary);
+      let length = this.strlen(text);
+      while (length > 0 && text.readUnsigned(length - 1, 1) === 0x20) text.writeUnsigned(--length, 0, 1);
+      this.held = null;
+      this.call('Game.crt.lock.14', () => this.crt.lock(14), () => { this.held = true; });
+      if (this.descriptor.pointer<NativeMemoryBacking>(4).get() === null) {
+        const node = this.call('Game.crt.malloc.8', () => this.crt.malloc(8), allocation => { if (allocation) this.nodes.push(allocation); });
+        if (node) {
+          const destination = this.call('Game.crt.malloc.name', () => this.crt.malloc(length + 1));
+          this.guard();
+          // _Name_base publishes the cache before its successful strcpy_s path.
+          this.descriptor.pointer<NativeMemoryBacking>(4).set(destination);
+          if (destination) {
+            const output = new NativeHeapObjectViews(destination);
+            for (let offset = 0; offset <= length; offset++) output.writeUnsigned(offset, text.readUnsigned(offset, 1), 1);
+            const links = new NativeHeapObjectViews(node, 0, 8);
+            links.pointer<NativeMemoryBacking>(0).set(destination);
+            links.pointer<NativeMemoryBacking>(4).set(this.list.pointer<NativeMemoryBacking>(4).get());
+            this.list.pointer<NativeMemoryBacking>(4).set(node); this.trace.push('Game.crt.typeInfoList.link');
+          } else this.call('Game.crt.free.node', () => this.crt.free(node));
+        }
+      }
+      this.call('Game.crt.free.undname', () => this.crt.free(temporary));
+      this.held = null;
+      this.call('Game.crt.unlock.14', () => this.crt.unlock(14), () => { this.held = false; });
+      this.guard(); return known(this.descriptor.pointer<NativeMemoryBacking>(4).get());
+    } catch (error) {
+      this.boundary = error instanceof Error ? error.message : String(error);
+      this.trace.push('blocked:' + this.boundary); return unknown(this.boundary);
+    } finally { this.active = false; }
+  }
+  snapshot() { return Object.freeze({ boundary: this.boundary, held: this.held,
+    nodes: Object.freeze([...this.nodes]), trace: Object.freeze([...this.trace]) }); }
+}
+
+export function nativeGameTypeInfoForCrt(crt: NativeGameCrtOwner): NativeGameTypeInfoName {
+  let name = gameTypeNames.get(crt);
+  if (!name) {
+    name = new NativeGameTypeInfoName(crt, new NativeCrtUndName(crt));
+    gameTypeNames.set(crt, name);
   }
   return name;
 }
