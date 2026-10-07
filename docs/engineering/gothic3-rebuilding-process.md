@@ -4,15 +4,17 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
-Updated: 7 October 2026. The latest completed publication receipt recorded here is 102,
-merged in [PR 67](https://github.com/ael-dev3/Tervain/pull/67) at commit
-`be062db145c40c337ed23187e3283ea62f9f5d0f` and published by successful
-[workflow run 37616248532](https://github.com/ael-dev3/Tervain/actions/runs/37616248532).
-It adds the selected Shared GUID NullPayload initializer, canonical module
-storage and same-platform callback composition. The current source extension is
-[checkpoint 103](#103-connect-the-browser-game-crt-attach-prerequisites), which
-connects a declared browser CRT provider and the actual Game attach prefix.
-Full startup and production NPC activation remain unfinished.
+Updated: 7 October 2026. The latest confirmed Gothic implementation publication
+recorded here is [checkpoint 105](#105-own-the-game-io-startup-stack-and-seh-prolog),
+merged in [PR 70](https://github.com/ael-dev3/Tervain/pull/70) at commit
+`ef2bba53bbb8dae47a8b1c8fd6f192c907da3d9f` and published by successful
+[workflow run 37631082331](https://github.com/ael-dev3/Tervain/actions/runs/37631082331).
+It connects the actual Game I/O caller and startup prolog to retained virtual
+stack, register and exception-frame state. The next required operation is the
+`GetStartupInfoA` writer at `20474314`. The
+[publication receipt](#confirmed-publication-of-checkpoint-105) verifies the
+deployed artifacts. Full startup, production NPC activation and campaign
+completion remain unfinished.
 The published baseline for checkpoints 95–99 was
 merged in [PR 60](https://github.com/ael-dev3/Tervain/pull/60) at commit
 `5f530d4176595e0df294f58039eb99f2e42d33c4` and published by successful
@@ -131,7 +133,7 @@ The [scope record](gothic3-browser-port.md) describes the current controls,
 limitations and source terms.
 
 This guide records the hosted baseline and subsequent dated checkpoints that
-preserve the evidence for each stage. Sections 10–100 cover
+preserve the evidence for each stage. Sections 10–105 cover
 the later runtime work; each receipt identifies its source revision and scope.
 
 Each checkpoint's reproduction commands describe its recorded source revision.
@@ -7696,3 +7698,21 @@ passed 389 relative links and 43 Markdown anchors; diff whitespace review passed
 All 24 package outputs regenerate identically, and 885 files across eight earlier
 source packages remain byte-identical. These are source and build results;
 no new browser interaction, native execution or campaign completion is claimed.
+
+### Confirmed publication of checkpoint 105
+
+[PR 70](https://github.com/ael-dev3/Tervain/pull/70) merged reviewed head
+`75d4a278d0ec109e3a487cfb89c3a23f9d70d5f8` into main commit
+`ef2bba53bbb8dae47a8b1c8fd6f192c907da3d9f` on 7 October 2026.
+The [PR run 37630163967](https://github.com/ael-dev3/Tervain/actions/runs/37630163967)
+and [publication run 37631082331](https://github.com/ael-dev3/Tervain/actions/runs/37631082331)
+passed the existing 2,409 scenarios in 230 files and built 441 modules.
+Pages deployment `6911853998` succeeded for that exact main commit.
+
+The root, `/gothic3/` and `/gothic3-local/` routes returned HTTP 200 on the
+recorded publication review. Their entry bundles and the Gothic NPC service
+bundle matched the successful main run's downloaded artifact byte for byte.
+The served NPC service retained the v3 stack profile, the I/O caller permit and
+the `20474314`/`207d7c1c` boundary markers. This establishes which reviewed
+implementation was served. No new browser interaction, native execution,
+performance result or campaign completion was observed in this checkpoint.

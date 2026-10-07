@@ -11,23 +11,21 @@ of Gothic 3's endings. A scene viewer, a decoded model or a successfully read
 native data structure is a useful component milestone, but it does not by
 itself establish a playable reconstruction.
 
-The latest completed publication receipt recorded here on 7 October 2026 is 104,
-merged in [PR 69](https://github.com/ael-dev3/Tervain/pull/69) at commit
-`15dfc38a6736b5b7883d23cb9e038f15bcbdb8d4` and published by successful
-[workflow run 37626377654](https://github.com/ael-dev3/Tervain/actions/runs/37626377654).
-It retains declared virtual process buffers and implements the original Game
-environment routine and its scalar byte-copy path.
-The current source extension,
+The latest confirmed Gothic implementation publication recorded here is
 [checkpoint 105](gothic3-rebuilding-process.md#105-own-the-game-io-startup-stack-and-seh-prolog),
-adds a retained virtual x86 stack, registers and FS registration, then connects
-the original I/O caller, SEH prolog and startup-info argument prefix. Under the
-selected browser inputs, the next expected boundary is the `GetStartupInfoA`
-writer at `20474314`. The Game owner retains its actual lower results and
-applied stores; the later property-ID initializer remains unentered while
-attach is incomplete. Native NPC activation and whole-module startup remain
-unfinished.
-The browser supports exploration and selected gameplay paths. Native NPC
-activation and most campaign progression remain unfinished. See
+merged on 7 October 2026 in [PR 70](https://github.com/ael-dev3/Tervain/pull/70)
+at commit `ef2bba53bbb8dae47a8b1c8fd6f192c907da3d9f` and published by successful
+[workflow run 37631082331](https://github.com/ael-dev3/Tervain/actions/runs/37631082331).
+It adds a retained virtual x86 stack, registers and exception-frame registration,
+then connects the original I/O caller, startup prolog and startup-info argument
+prefix. The next required operation is the `GetStartupInfoA` writer at
+`20474314`. The property-ID initializer remains unentered while this startup
+path is incomplete. The [publication receipt](gothic3-rebuilding-process.md#confirmed-publication-of-checkpoint-105)
+records successful checks and exact deployed bundle matching; it contains no
+new browser gameplay observation.
+
+The browser supports exploration and selected gameplay paths. Whole-module
+startup, native NPC activation and most campaign progression remain unfinished. See
 [current implementation status](#current-implementation-status) below; the
 [detailed checkpoint record](gothic3-rebuilding-process.md) preserves the
 individual source and review receipts.
@@ -47,6 +45,12 @@ readers and generated trees are a separate study path; its rendering progress
 does not establish gameplay progress in the reconstruction.
 
 ## The rebuilding loop
+
+In practical terms, we extract and identify the original resources, convert the
+selected data into browser-readable assets, recover the behavior that uses
+those resources, and implement that behavior in TypeScript. Each feature then
+joins the same running world and saved state. Comparing the resulting encounter
+with the installed game reveals the next missing resource or behavior.
 
 The work follows two tracks—recovering original game data and reconstructing
 game behavior—and joins them in playable slices:
@@ -499,8 +503,9 @@ their Markdown links and diff without treating them as a new gameplay release.
 ## Current implementation status
 
 The published `/gothic3/` route is an incomplete browser reconstruction. The
-status below describes gameplay evidence through checkpoint 94; subsequent
-runtime work must carry its own source and browser review receipts.
+table summarizes gameplay evidence through checkpoint 94 and runtime source
+work through checkpoint 105. Later startup components have source and build
+receipts; they have not established new NPC gameplay in the browser.
 
 | Area | Connected or recovered | Work still required |
 | --- | --- | --- |
@@ -509,17 +514,33 @@ runtime work must carry its own source and browser review receipts.
 | Dialogue and quests | Selected Ardea dialogue, Jack's bounded bandit quest, destination callbacks and supported rewards | Most original dialogue, quests, faction consequences and campaign endings |
 | Inventory and combat | Selected inventory operations, potion/XP effects and bounded fist damage/death prefixes | Full item/equipment lifecycle, native attack eligibility, NPC attacks, defeat/death cleanup and loot |
 | Persistence | Browser saves for the supported session state and selected progression effects | Full campaign state and recovery for every added system |
-| Runtime foundations | Selected property readers, heap/runtime owners, Navigation callbacks and the ScriptAdmin getter model | Original startup/registration services, reflected factories, full entity attachment, world membership and processing activation |
+| Runtime foundations | Selected property readers, heap/runtime owners, Navigation callbacks, ScriptAdmin/ModuleAdmin components, canonical GUID storage and the Game CRT prefix through the I/O startup prolog | Remaining CRT and module startup, reflected factories, full entity attachment, world membership and processing activation |
 
 Checkpoint 92 connects source-registered Navigation zones to the native type-8
 quest-entry callback and has focused save/restore coverage. Checkpoint 93 adds
 Xardas Tower rendering and browser collision using its mesh triangles. A local
 preview-teleport review confirmed rendering and a grounded Hero; ordinary
 overland arrival remains unverified. Checkpoint 94 models the ScriptAdmin
-getter protocol. The production NPC services still lack its class-name,
-ModuleAdmin, RTTI and ScriptAdmin call-slot owners, so the selected NPC read
-stops at that dependency. See [checkpoint 94](gothic3-rebuilding-process.md#94-model-the-source-scriptadmin-getter-without-inventing-a-module-owner)
+getter protocol. Checkpoints 95–105 add individual registration and startup
+prerequisites; full native ScriptAdmin creation and live NPC activation remain
+unfinished. The latest startup path stops before `GetStartupInfoA`, retaining
+its applied state. See [checkpoint 105](gothic3-rebuilding-process.md#105-own-the-game-io-startup-stack-and-seh-prolog)
 and the [current controls and scope](gothic3-browser-port.md).
+
+### Why startup is the current implementation focus
+
+Original NPC loading depends on shared engine services, module registration,
+property factories and native object lifetimes. Those services depend on
+initialization that the browser must supply. The current work follows that
+dependency chain so a decoded NPC can eventually become a live, processing
+entity in the same world as the Hero.
+
+At checkpoint 105, the virtual stack and original I/O startup prolog are owned.
+The next operation must write the actual 68-byte startup-info structure passed
+by that call. Later work must initialize I/O records and handles, finish the
+caller, arguments, environment and initializer traversal, and connect module
+creation to NPC activation. These are prerequisites for the full gameplay loop.
+The finishable campaign remains the completion criterion.
 
 ## Road toward a complete game
 
@@ -555,17 +576,27 @@ Checkpoint 100 captures the three selected ScriptAdmin static initializers and
 their cleanup callbacks, then reproduces their bounded TypeScript state
 changes. It also admits the original 128-, 640- and 1,536-byte allocator pools.
 The first selected callback follows 1,672 earlier callbacks; those callbacks
-and full CRT traversal have not been implemented. GUID conversion, property
-factory construction and native ScriptAdmin creation remain explicit lower
-dependencies. See [checkpoint 100](gothic3-rebuilding-process.md#100-own-selected-scriptadmin-static-initializer-bodies)
+and full CRT traversal have not been implemented. At checkpoint 100, GUID
+conversion, property factory construction and native ScriptAdmin creation were
+explicit lower dependencies. See [checkpoint 100](gothic3-rebuilding-process.md#100-own-selected-scriptadmin-static-initializer-bodies)
 for the exact scope and reproduction steps.
 
 Checkpoint 101 reconstructs GUID text assignment over the actual temporary
 CString and GUID views, adds the original 48-byte holder pool, and registers
 the existing Game GUID literal with the platform's pointer geometry. Its
 explicitly selected ASCII/UTF16 provider supplies conversion and parsing
-writes without executing Windows APIs. The next property initializer boundary
-is the mutable Shared GUID NullPayload and its original startup writer; it
-cannot be replaced by an assumed zero array. These owners still need full
-startup and production NPC integration. See
+writes without executing Windows APIs. At checkpoint 101, the next property
+initializer boundary was the mutable Shared GUID NullPayload and its original
+startup writer. See
 [checkpoint 101](gothic3-rebuilding-process.md#101-own-guid-text-construction-and-canonical-literal-storage).
+
+[Checkpoint 102](gothic3-rebuilding-process.md#102-own-the-canonical-shared-guid-null-initializer)
+owns that selected Shared GUID initializer and its canonical storage.
+[Checkpoint 103](gothic3-rebuilding-process.md#103-connect-the-browser-game-crt-attach-prerequisites)
+connects the declared browser CRT provider to the actual Game attach prefix.
+[Checkpoint 104](gothic3-rebuilding-process.md#104-own-the-game-command-line-and-environment-prefix)
+adds command-line and environment buffers and the source environment routine.
+[Checkpoint 105](gothic3-rebuilding-process.md#105-own-the-game-io-startup-stack-and-seh-prolog)
+adds the physical virtual stack and I/O startup prolog. Its next operation is
+the `GetStartupInfoA` writer. These components still need complete startup and
+live NPC integration before they can support ordinary campaign play.
