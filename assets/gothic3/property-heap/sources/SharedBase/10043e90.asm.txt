@@ -1,0 +1,32 @@
+10043e90 | 8b44240c | MOV EAX,dword ptr [ESP + 0xc]
+10043e94 | 83f804 | CMP EAX,0x4
+10043e97 | 7707 | JA 0x10043ea0
+10043e99 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+10043e9d | c20c00 | RET 0xc
+10043ea0 | 56 | PUSH ESI
+10043ea1 | 50 | PUSH EAX
+10043ea2 | e881d1fbff | CALL 0x10001028
+10043ea7 | 8bf0 | MOV ESI,EAX
+10043ea9 | 85f6 | TEST ESI,ESI
+10043eab | 7504 | JNZ 0x10043eb1
+10043ead | 5e | POP ESI
+10043eae | c20c00 | RET 0xc
+10043eb1 | 8b44240c | MOV EAX,dword ptr [ESP + 0xc]
+10043eb5 | 8b08 | MOV ECX,dword ptr [EAX]
+10043eb7 | 2b442408 | SUB EAX,dword ptr [ESP + 0x8]
+10043ebb | 890e | MOV dword ptr [ESI],ECX
+10043ebd | 832d34fd2f1001 | SUB dword ptr [0x102ffd34],0x1
+10043ec4 | 83e810 | SUB EAX,0x10
+10043ec7 | c1e802 | SHR EAX,0x2
+10043eca | 8944240c | MOV dword ptr [ESP + 0xc],EAX
+10043ece | 8b54240c | MOV EDX,dword ptr [ESP + 0xc]
+10043ed2 | b81f000000 | MOV EAX,0x1f
+10043ed7 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+10043edb | 23c2 | AND EAX,EDX
+10043edd | c1ea05 | SHR EDX,0x5
+10043ee0 | f00fab849100000400 | BTS.LOCK [ECX + EDX*0x4 + 0x40000],EAX
+10043ee9 | f0ff4908 | DEC.LOCK dword ptr [ECX + 0x8]
+10043eed | 89510c | MOV dword ptr [ECX + 0xc],EDX
+10043ef0 | 8bc6 | MOV EAX,ESI
+10043ef2 | 5e | POP ESI
+10043ef3 | c20c00 | RET 0xc

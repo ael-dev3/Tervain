@@ -40,6 +40,7 @@ and the SharedBase getter's guard bit, canonical image fields and atexit call.
 The table clear implementation walks retained nodes, deletes owned value
 allocations, releases each key, deletes the node, frees bucket storage, and
 recreates the original 43-bucket table. Unknown ownership stops the operation
-without replay. Its tests use an admitted 12-byte value allocation to exercise
-deletion; they do not prove allocation of RegisterTemplate's original 4-byte
-wrapper. The missing 4-byte allocator bucket remains an explicit dependency.
+without replay. Its current tests use the original 4-byte value allocation through the
+source-admitted property heap extension. That pool is now implemented locally;
+RegisterTemplate's class-name virtual call and wrapper/value-store integration
+remain separate dependencies.

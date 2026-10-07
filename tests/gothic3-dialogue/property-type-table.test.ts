@@ -2,7 +2,7 @@ import { expect, it } from 'vitest';
 import { NativePropertyTypeTable } from '../../src/gothic3/native-property-type-table';
 import { NativeHeapObjectViews } from '../../src/gothic3/native-heap-views';
 import { NativeHeapCString } from '../../src/gothic3/native-heap-cstring';
-import { NativeMemoryAdmin, nativeNpcHeapExtension } from '../../src/gothic3/native-memory-admin';
+import { NativeMemoryAdmin, nativeNpcHeapExtension, nativePropertyHeapExtension } from '../../src/gothic3/native-memory-admin';
 import { NativeRuntimePlatform } from '../../src/gothic3/native-runtime-platform';
 import type { NativeValue } from '../../src/gothic3/dialogue';
 function value<T>(result: NativeValue<T>): T { if (!result.known) throw new Error(result.reason); return result.value; }
@@ -11,7 +11,7 @@ function fields(bytes: number) {
     knownMask: new Uint8Array(bytes), freed: false });
 }
 function fixture(count = 2) {
-  const memory = new NativeMemoryAdmin(new NativeRuntimePlatform(), { extensions: [nativeNpcHeapExtension] });
+  const memory = new NativeMemoryAdmin(new NativeRuntimePlatform(), { extensions: [nativeNpcHeapExtension, nativePropertyHeapExtension] });
   const tableFields = fields(16), buckets = fields(count * 4), index = fields(4);
   for (let i = 0; i < count; i++) buckets.pointer(i * 4).set(null);
   tableFields.pointer(0).set(buckets); tableFields.writeUnsigned(4, count); tableFields.writeUnsigned(12, 0);
@@ -42,7 +42,7 @@ it('keeps the source divide-by-zero boundary and does not write the bucket outpu
 });
 
 it('constructs the source 43-bucket table through its actual reserve allocation', () => {
-  const memory = new NativeMemoryAdmin(new NativeRuntimePlatform(), { extensions: [nativeNpcHeapExtension] });
+  const memory = new NativeMemoryAdmin(new NativeRuntimePlatform(), { extensions: [nativeNpcHeapExtension, nativePropertyHeapExtension] });
   const view = fields(16), index = fields(4);
   const table = value(NativePropertyTypeTable.construct(memory, view));
   expect(view.readUnsigned(4)).toBe(43); expect(view.readUnsigned(8)).toBe(51);
@@ -56,15 +56,13 @@ it('constructs the source 43-bucket table through its actual reserve allocation'
 });
 
 it('clears collision nodes and wrappers, releases shared names, and recreates original buckets', () => {
-  const memory = new NativeMemoryAdmin(new NativeRuntimePlatform(), { extensions: [nativeNpcHeapExtension] });
+  const memory = new NativeMemoryAdmin(new NativeRuntimePlatform(), { extensions: [nativeNpcHeapExtension, nativePropertyHeapExtension] });
   const view = fields(16), index = fields(4), table = value(NativePropertyTypeTable.construct(memory, view));
   const a = new NativeHeapCString(memory), b = new NativeHeapCString(memory);
   value(a.allocateTextBytes(new TextEncoder().encode('a')));
   value(b.allocateTextBytes(new TextEncoder().encode('a')));
   const slot = value(table.getOrInsertSlot(a, index));
-  // Exercise deletion with an admitted owned value allocation; the original
-  // RegisterTemplate 4-byte wrapper pool remains a separate missing dependency.
-  const wrapper = value(memory.newObject(12, 0xed))!; slot.pointer(0).set(wrapper);
+  const wrapper = value(memory.newObject(4, 0xed))!; slot.pointer(0).set(wrapper);
   const buckets = view.pointer<import('../../src/gothic3/native-memory-admin').NativeMemoryAllocation>(0).get()!;
   const keyHolder = a.snapshot().allocation!;
   expect(new NativeHeapObjectViews(keyHolder).readUnsigned(4, 2)).toBe(2);
@@ -78,7 +76,7 @@ it('clears collision nodes and wrappers, releases shared names, and recreates or
 });
 
 it('stops on an unowned value pointer before releasing its key or node and cannot replay', () => {
-  const memory = new NativeMemoryAdmin(new NativeRuntimePlatform(), { extensions: [nativeNpcHeapExtension] });
+  const memory = new NativeMemoryAdmin(new NativeRuntimePlatform(), { extensions: [nativeNpcHeapExtension, nativePropertyHeapExtension] });
   const view = fields(16), index = fields(4), table = value(NativePropertyTypeTable.construct(memory, view));
   const name = new NativeHeapCString(memory); value(name.allocateTextBytes(new TextEncoder().encode('gCArena_PS')));
   const slot = value(table.getOrInsertSlot(name, index)), unknownWrapper = {};
