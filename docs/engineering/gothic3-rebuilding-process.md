@@ -7383,6 +7383,13 @@ are private/retained. Game bootstrap and thread physical views resolve through
 the original private canonical image authority, preserving current bytes,
 masks and aliases instead of accepting replaced public view accessors.
 
+The thread's retained own dependencies are nonwritable and nonconfigurable,
+and sealing prevents added method shadows. Its existing `freePtdCallback` hook
+remains writable: native cleanup must reread the current TLS getter index after
+the callback returns. The first PR check found that freezing the whole thread
+blocked this legitimate hook (2,408 tests passed, one failed); this checkpoint
+replaces that freeze without changing the tests or the private attach dispatch.
+
 The attach progress record describes actual returned calls, reached reads and
 stores, known lower results and partial version-buffer bytes/masks. It adds no
 native loads and supplies no continuation permission. If the command-line

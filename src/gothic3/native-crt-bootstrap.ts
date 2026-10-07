@@ -260,9 +260,16 @@ export class NativeCrtBootstrap {
       }
       this.#pin(fields);
     }
-    // Dependencies retain their actual identities while private phases remain
-    // mutable. Public property writes cannot replace the selected graph.
-    Object.freeze(this.thread);
+    // Retain dependency identities and prevent added method shadows while
+    // preserving the thread owner's mutable destructor-callback hook. Native
+    // cleanup rereads live TLS indices after this callback returns.
+    Object.defineProperty(this.thread, 'freePtdCallback', {
+      value: NativeCrtThreadStartup.prototype.freePtdCallback, writable: true, configurable: false,
+    });
+    for (const key of Reflect.ownKeys(this.thread)) if (key !== 'freePtdCallback') {
+      Object.defineProperty(this.thread, key, { writable: false, configurable: false });
+    }
+    Object.seal(this.thread);
     Object.freeze(this);
   }
   #assertCrt(): void {
