@@ -11,14 +11,16 @@ of Gothic 3's endings. A scene viewer, a decoded model or a successfully read
 native data structure is a useful component milestone, but it does not by
 itself establish a playable reconstruction.
 
-PR 55 published checkpoints 87–91. Checkpoint 92 connects Hero movement to
-source-registered Navigation zones and the native type-8 quest-entry callback.
-The current local work also exports and streams the source-placed, full-detail
-Xardas Tower mesh and includes its triangles in browser collision. The native
-destination transition has focused save/restore coverage. Local browser review
-confirms the tower renders and supports the Hero after a landscape-preview
-teleport; ordinary overland travel to Nordmar remains unverified. Most of the
-campaign and native NPC activation remain unfinished.
+PR 55 published checkpoints 87–91. PR 56 published checkpoints 92–93 at
+`main` commit `dcc68c61a5f738ad9e99c464e8ca6f98f4db5dd6`, deployed by
+[workflow run 37581031860](https://github.com/ael-dev3/Tervain/actions/runs/37581031860).
+Checkpoint 92 connects Hero movement to source-registered Navigation zones and
+the native type-8 quest-entry callback. Checkpoint 93 exports and streams the
+source-placed, full-detail Xardas Tower mesh and includes its triangles in
+browser collision. The native destination transition has focused save/restore
+coverage. Local browser review confirms the tower renders and supports the Hero
+after a landscape-preview teleport; ordinary overland travel to Nordmar remains
+unverified. Most of the campaign and native NPC activation remain unfinished.
 
 ## The rebuilding loop
 

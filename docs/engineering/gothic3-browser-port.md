@@ -7,17 +7,16 @@ Date: 7 October 2026. Status: an incomplete TypeScript browser reconstruction wi
 The owner asked to rebuild the installed Gothic 3 in TypeScript and host it as
 a second URL in Tervain. The repository is public and GitHub Pages is enabled.
 The [Gothic 3 / Ardea route](https://ael-dev3.github.io/Tervain/gothic3/) is
-live. Its latest verified public baseline is `main` commit
-`3b968ba51c1924a1c6b2daded2803d7782fabb39`, merged in
-[PR 55](https://github.com/ael-dev3/Tervain/pull/55) and published by successful
-[workflow run 37571447817](https://github.com/ael-dev3/Tervain/actions/runs/37571447817),
-attempt 1. The current local branch adds checkpoints 92–93: Hero zone-entry
-dispatch for the recovered type-8 quest callback, plus the source-placed
-Xardas Tower render mesh and triangle collision. Typechecking and the
-production build pass. Local browser review confirms the tower renders and
-supports a grounded Hero after a landscape-preview teleport; the tested landing
-is above the source Xardas quest zone, so ordinary overland arrival and quest
-completion remain unverified. These local changes are not published. The
+live. Checkpoints 92–93 were merged in
+[PR 56](https://github.com/ael-dev3/Tervain/pull/56) at commit
+`dcc68c61a5f738ad9e99c464e8ca6f98f4db5dd6` and published by successful
+[workflow run 37581031860](https://github.com/ael-dev3/Tervain/actions/runs/37581031860),
+attempt 1. They add Hero zone-entry dispatch for the recovered type-8 quest
+callback and the source-placed Xardas Tower render mesh with triangle collision.
+Typechecking, the full test suite and the production build pass. Local browser
+review confirms the tower renders and supports a grounded Hero after a
+landscape-preview teleport; the tested landing is above the source Xardas quest
+zone, so ordinary overland arrival and quest completion remain unverified. The
 [Pages workflow](https://github.com/ael-dev3/Tervain/actions/workflows/pages.yml)
 records deployment receipts. This remains an incomplete reconstruction, not a
 finished game.
