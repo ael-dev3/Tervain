@@ -189,6 +189,21 @@ function updateNpcEntityStudy(person: ScenePerson | null): void {
       startupDetails.push('I/O initialization returned: ' + (io.ioInitReturned ? 'yes' : 'no'));
       if (attach.ioResult !== null) startupDetails.push('I/O return value: ' + attach.ioResult);
     }
+    if (attach.argvProgress) {
+      const argv = attach.argvProgress;
+      startupDetails.push('Argument startup graph transferred: ' + (argv.physicalGraphTransferred ? 'yes' : 'no'));
+      startupDetails.push('Argument initializer: ' + (argv.argvReturned ? 'returned'
+        : argv.argvCalled ? 'interrupted' : 'not called'));
+      startupDetails.push('Encoding startup flag set: ' + (argv.mbcInitialized ? 'yes' : 'no'));
+      startupDetails.push('Encoding tables published: ' + (argv.mbcPublished ? 'yes' : 'no'));
+      startupDetails.push('Argument counting pass returned: ' + (argv.countingPassReturned ? 'yes' : 'no'));
+      startupDetails.push('Argument filling pass returned: ' + (argv.fillingPassReturned ? 'yes' : 'no'));
+      startupDetails.push('Argument block published: ' + (argv.argvPublished ? 'yes' : 'no'));
+      startupDetails.push('Program name published: ' + (argv.programNamePublished ? 'yes' : 'no'));
+      if (argv.argc !== null) startupDetails.push('Argument count: ' + argv.argc);
+      startupDetails.push('Argument source operations completed: ' + argv.sourceOperationsCompleted);
+      if (attach.argvResult !== null) startupDetails.push('Argument return value: ' + attach.argvResult);
+    }
   } else if (startup) startupDetails.push('Game startup unavailable: ' + startup.reason);
   target.textContent = [
     'TypeScript study of the recovered original constructor and read sequence.',

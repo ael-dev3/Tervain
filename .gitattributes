@@ -269,3 +269,6 @@ scripts/gothic3_game_io_allocation_source.py -text -eol
 assets/gothic3/game-io-allocation/** -text -eol whitespace=cr-at-eol,-blank-at-eof
 scripts/gothic3_game_io_completion_source.py -text -eol
 assets/gothic3/game-io-completion/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+scripts/gothic3_game_argv_source.py -text -eol
+assets/gothic3/game-argv/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/game-argv/sources/** -whitespace

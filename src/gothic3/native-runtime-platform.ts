@@ -30,6 +30,9 @@ import type { NativeWin32StartupIoSelection, RetainedWin32StartupIoSelection,
 import { retainNativeWin32StandardIoSelection } from './native-win32-standard-io';
 import type { NativeWin32StandardIoSelection, RetainedWin32StandardIoSelection, NativeWin32StandardIoEndpoints,
   NativeStandardIoCallGrant, NativeStandardIoResult, NativeStandardIoCapabilityKind, NativeWin32HandleCapability } from './native-win32-standard-io';
+import { retainNativeWin32ArgvNlsSelection } from './native-win32-argv-nls';
+import type { NativeWin32ArgvNlsSelection, RetainedWin32ArgvNlsSelection, NativeWin32ArgvNlsEndpoints,
+  NativeArgvNlsCallGrant, NativeArgvNlsResult, NativeArgvImportKind } from './native-win32-argv-nls';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = (reason: string): { known: false; reason: string } => ({ known: false, reason });
@@ -122,6 +125,7 @@ export interface NativeEngineCrtPlatformServices {
   readonly threadStack?: NativeX86ThreadStackSelection;
   readonly startupIo?: NativeWin32StartupIoSelection;
   readonly standardIo?: NativeWin32StandardIoSelection;
+  readonly argvNls?: NativeWin32ArgvNlsSelection;
   readonly entropy?: {
     systemTimeAsFileTime?(): NativeValue<{ low: number; high: number }>;
     currentProcessId?(): NativeValue<number>;
@@ -130,10 +134,11 @@ export interface NativeEngineCrtPlatformServices {
     performanceCounter?(): NativeValue<{ success: boolean; low?: number; high?: number }>;
   };
 }
-type RetainedCrtServices = Omit<NativeEngineCrtPlatformServices, 'tlsValues' | 'processInputs' | 'startupIo' | 'standardIo'> & {
+type RetainedCrtServices = Omit<NativeEngineCrtPlatformServices, 'tlsValues' | 'processInputs' | 'startupIo' | 'standardIo' | 'argvNls'> & {
   readonly processInputs?: RetainedWin32ProcessInputSelection;
   readonly startupIo?: Readonly<RetainedWin32StartupIoSelection>;
   readonly standardIo?: RetainedWin32StandardIoSelection;
+  readonly argvNls?: RetainedWin32ArgvNlsSelection;
 };
 /** Retain configuration values and exact function identities. TLS values are
  * opaque capabilities, so copy their entries without cloning those identities.
@@ -144,7 +149,7 @@ function retainCrtServices(selected: NativeEngineCrtPlatformServices | undefined
 } {
   if (selected === undefined) return { services: undefined, tls: [] };
   const { tlsValues, kernel32Available, pointerCodec, sectionSpinProcedure,
-    fiberLocalStorage, processHeap, osVersion, entropy, processInputs, threadStack, startupIo, standardIo } = selected;
+    fiberLocalStorage, processHeap, osVersion, entropy, processInputs, threadStack, startupIo, standardIo, argvNls } = selected;
   if (typeof kernel32Available !== 'boolean' || (pointerCodec !== 'absent' && pointerCodec !== 'owned-bijection') ||
       [sectionSpinProcedure, fiberLocalStorage, processHeap].some(value => value !== undefined && typeof value !== 'boolean')) {
     throw new Error('Explicit selected CRT registry configuration required');
@@ -171,7 +176,8 @@ function retainCrtServices(selected: NativeEngineCrtPlatformServices | undefined
     processInputs: processInputs === undefined ? undefined : retainNativeWin32ProcessInputSelection(processInputs),
     threadStack: threadStack === undefined ? undefined : retainNativeX86ThreadStackSelection(threadStack),
     startupIo: startupIo === undefined ? undefined : retainNativeWin32StartupIoSelection(startupIo),
-    standardIo: standardIo === undefined ? undefined : retainNativeWin32StandardIoSelection(standardIo) }), tls: Object.freeze(tls) };
+    standardIo: standardIo === undefined ? undefined : retainNativeWin32StandardIoSelection(standardIo),
+    argvNls: argvNls === undefined ? undefined : retainNativeWin32ArgvNlsSelection(argvNls) }), tls: Object.freeze(tls) };
 }
 interface ProcessBuffer {
   readonly kind: 'command-line-a' | 'environment-a' | 'environment-w';
@@ -297,6 +303,13 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
   readonly #heapAllocNormalReturns = new WeakMap<NativeHeapAllocCallGrant, NativeMemoryBacking | null>();
   readonly standardIoEndpoints?: Readonly<NativeWin32StandardIoEndpoints>;
   readonly #standardIoEndpoints?: Readonly<NativeWin32StandardIoEndpoints>;
+  readonly argvNlsEndpoints?: Readonly<NativeWin32ArgvNlsEndpoints>;
+  readonly #argvNlsEndpoints?: Readonly<NativeWin32ArgvNlsEndpoints>;
+  #argvNlsActiveCall: NativeArgvNlsCallGrant | null = null;
+  readonly #argvNlsConsumed = new WeakSet<NativeArgvNlsCallGrant>();
+  readonly #argvNlsNormal = new WeakMap<NativeArgvNlsCallGrant, NativeArgvNlsResult>();
+  readonly #argvHeapEffects = new WeakMap<NativeArgvNlsCallGrant, NativeMemoryBacking | null>();
+  readonly #argvProcedures = new Map<NativeArgvImportKind, object>();
   #standardIoActiveCall: NativeStandardIoCallGrant | null = null;
   readonly #standardIoConsumed = new WeakSet<NativeStandardIoCallGrant>();
   readonly #standardIoNormalReturns = new WeakMap<NativeStandardIoCallGrant, NativeStandardIoResult>();
@@ -364,6 +377,14 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     });
     this.standardIoEndpoints = this.#standardIoEndpoints;
     Object.defineProperty(this, 'standardIoEndpoints', { value: this.#standardIoEndpoints, writable: false, configurable: false });
+    this.#argvNlsEndpoints = crt.services?.argvNls === undefined ? undefined : Object.freeze({
+      invoke: (call: NativeArgvNlsCallGrant) => this.#invokeArgvNls(call),
+    });
+    this.argvNlsEndpoints = this.#argvNlsEndpoints;
+    Object.defineProperty(this, 'argvNlsEndpoints', { value: this.#argvNlsEndpoints, writable: false, configurable: false });
+    if (this.#argvNlsEndpoints) for (const name of ['HeapAlloc', 'InterlockedIncrement', 'MultiByteToWideChar', 'LCMapStringW'] as const) {
+      this.#argvProcedures.set(name, Object.freeze({ identity: Object.freeze({}), name }));
+    }
     for (const [index, value] of crt.tls) { this.#crtTlsValues.set(index, value); this.#tlsIndexes.add(index); }
     const owner = Object.freeze({});
     this.#kernel32 = Object.freeze({ identity: Object.freeze({}), owner, name: 'KERNEL32.DLL' });
@@ -635,6 +656,154 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
       this.#standardIoNormalReturns.set(call, result.value); return result;
     } catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
     finally { this.#standardIoActiveCall = null; }
+  }
+  static argvNlsSelectionForPlatform(platform: NativeRuntimePlatform): NativeValue<RetainedWin32ArgvNlsSelection> {
+    const active = NativeRuntimePlatform.requireActivePlatform(platform); if (!active.known) return active;
+    return platform.#crtServices?.argvNls ? known(platform.#crtServices.argvNls) : unknown('Explicit retained virtual argv/NLS selection required');
+  }
+  static canonicalArgvNlsEndpointsForPlatform(platform: NativeRuntimePlatform, endpoints: NativeWin32ArgvNlsEndpoints): NativeValue<void> {
+    const active = NativeRuntimePlatform.requireActivePlatform(platform); if (!active.known) return active;
+    return endpoints && endpoints === platform.#argvNlsEndpoints && endpoints === platform.argvNlsEndpoints ? known(undefined)
+      : unknown('Actual immutable Runtime argv/NLS endpoints required');
+  }
+  static argvProcedureForPlatform(platform: NativeRuntimePlatform, name: NativeArgvImportKind): NativeValue<object> {
+    const active = NativeRuntimePlatform.requireActivePlatform(platform); if (!active.known) return active;
+    const value = platform.#argvProcedures.get(name); return value ? known(value) : unknown('Actual declared argv import procedure required');
+  }
+  static argvCapabilityForPlatform(platform: NativeRuntimePlatform, value: object): NativeValue<NativeArgvImportKind> {
+    const active = NativeRuntimePlatform.requireActivePlatform(platform); if (!active.known) return active;
+    for (const [name, capability] of platform.#argvProcedures) if (capability === value) return known(name);
+    return unknown('Actual Runtime argv procedure capability required');
+  }
+  static canonicalArgvNlsInvocationForPlatform(platform: NativeRuntimePlatform, call: NativeArgvNlsCallGrant): NativeValue<void> {
+    const active = NativeRuntimePlatform.requireActivePlatform(platform); if (!active.known) return active;
+    return platform.#argvNlsActiveCall === call && !!platform.#argvNlsEndpoints ? known(undefined) : unknown('Actual active private argv import invocation required');
+  }
+  static canonicalArgvNlsNormalReturnForPlatform(platform: NativeRuntimePlatform, call: NativeArgvNlsCallGrant): NativeValue<NativeArgvNlsResult> {
+    const active = NativeRuntimePlatform.requireActivePlatform(platform); if (!active.known) return active;
+    return platform.#argvNlsNormal.has(call) ? known(platform.#argvNlsNormal.get(call)!) : unknown('Actual normal argv import result required');
+  }
+  static performArgvHeapAllocForCall(platform: NativeRuntimePlatform, call: NativeArgvNlsCallGrant,
+    heap: NativeWin32HeapCapability, bytes: number): NativeValue<NativeMemoryBacking | null> {
+    const active = NativeRuntimePlatform.canonicalArgvNlsInvocationForPlatform(platform, call); if (!active.known) return active;
+    const current = NativeX86ThreadStack.argvArgumentsForPlatform(platform, call); if (!current.known) return current;
+    const args = current.value.arguments;
+    if (current.value.kind !== 'HeapAlloc' || args[0]?.kind !== 'object' || args[0].value !== heap ||
+        args[1]?.kind !== 'scalar' || args[1].value !== 0 || args[2]?.kind !== 'scalar' || args[2].value !== bytes || platform.#argvHeapEffects.has(call)) {
+      return unknown('Actual current malloc HeapAlloc flags0 and one lower effect required');
+    }
+    const result = platform.#win32HeapAlloc(heap, 0, bytes);
+    if (result.known) platform.#argvHeapEffects.set(call, result.value); return result;
+  }
+  #invokeArgvNls(call: NativeArgvNlsCallGrant): NativeValue<NativeArgvNlsResult> {
+    const active = NativeRuntimePlatform.requireActivePlatform(this); if (!active.known) return active;
+    if (!call || !this.#argvNlsEndpoints || this.#argvNlsActiveCall || this.#argvNlsConsumed.has(call)) return unknown('Fresh non-reentrant argv/NLS call required');
+    this.#argvNlsActiveCall = call;
+    try {
+      const admitted = NativeX86ThreadStack.argvArgumentsForPlatform(this, call); if (!admitted.known) return admitted;
+      const input = admitted.value, selected = this.#crtServices!.argvNls!;
+      this.#argvNlsConsumed.add(call);
+      const scalar = (index: number): number => { const arg = input.arguments[index]; if (arg?.kind !== 'scalar') throw new Error('Current scalar argv import argument required'); return arg.value; };
+      const memory = (index: number) => { const arg = input.arguments[index]; if (arg?.kind !== 'memory') throw new Error('Current owned argv import memory argument required'); return arg; };
+      const read = (index: number, offset: number, width: 1 | 2 | 4): number => {
+        const result = NativeX86ThreadStack.readArgvMemoryForCall(this, call, index, offset, width); if (!result.known) throw new Error(result.reason); return result.value;
+      };
+      const write = (index: number, offset: number, width: 1 | 2 | 4, value: number): void => {
+        const result = NativeX86ThreadStack.writeArgvMemoryForCall(this, call, index, offset, width, value); if (!result.known) throw new Error(result.reason);
+      };
+      const signedCount = (index: number): number => { const value = scalar(index) | 0; if (value <= 0) throw new Error('This declared NLS ABI requires positive explicit source counts'); return value; };
+      const scalarResult = (value: number): NativeArgvNlsResult => Object.freeze({ kind: 'scalar', value: value >>> 0 });
+      const reverse = new Map(selected.reverse), byteFor = (value: number): number => { const byte = reverse.get(value); if (byte === undefined) throw new Error('UTF16 value is outside the declared closed CP1252 repertoire'); return byte; };
+      let result: NativeArgvNlsResult;
+      switch (input.kind) {
+        case 'GetModuleFileNameA': {
+          if (scalar(0) !== 0 || scalar(2) !== 260) throw new Error('Selected current-module NULL/count260 contract required');
+          const dst = memory(1), image = NativeModuleCrtOwner.canonicalImageForOwner(input.crt, 'moduleName');
+          if (!image.known || dst.fields !== image.value || dst.offset !== 0) throw new Error('Actual261-byte canonical module-name alias required');
+          for (let index = 0; index < selected.moduleName.length; index++) write(1, index, 1, selected.moduleName[index]!);
+          write(1, selected.moduleName.length, 1, 0); result = scalarResult(selected.moduleName.length); break;
+        }
+        case 'GetACP': result = scalarResult(selected.codePage); break;
+        case 'IsValidCodePage': result = scalarResult(scalar(0) === selected.codePage ? 1 : 0); break;
+        case 'GetCPInfo': {
+          if (scalar(0) !== selected.codePage) { result = scalarResult(0); break; }
+          write(1, 0, 4, 1); write(1, 4, 1, 63); write(1, 5, 1, 0);
+          for (let index = 6; index < 18; index++) write(1, index, 1, 0);
+          result = scalarResult(1); break;
+        }
+        case 'GetLastError': result = scalarResult(NativeHeapObjectViews.prototype.readUnsigned.call(this.#win32LastError, 0)); break;
+        case 'SetLastError': NativeHeapObjectViews.prototype.writeUnsigned.call(this.#win32LastError, 0, scalar(0)); result = Object.freeze({ kind: 'void' }); break;
+        case 'TlsGetValue': {
+          if (scalar(0) !== this.#readGameScalar(input.crt, 'crtTlsIndexes', 4)) throw new Error('Actual current cached-getter TLS index required');
+          const got = this.#tlsGetValue(scalar(0)); if (!got.known) return got; result = Object.freeze({ kind: 'object', value: got.value }); break;
+        }
+        case 'FlsGetValue': {
+          if (input.procedure !== this.#flsProcedures.get || scalar(0) !== this.#readGameScalar(input.crt, 'crtTlsIndexes', 0)) throw new Error('Actual cached FLS capability/current PTD index required');
+          const got = this.#flsGetValue(scalar(0)); if (!got.known) return got;
+          if (got.value !== null) { const ptd = NativeModuleCrtOwner.canonicalGamePtdForPlatform(input.crt, this, got.value); if (!ptd.known) return ptd; }
+          result = Object.freeze({ kind: 'object', value: got.value }); break;
+        }
+        case 'InterlockedIncrement': case 'InterlockedDecrement': {
+          if (input.kind === 'InterlockedIncrement' && input.procedure !== this.#argvProcedures.get('InterlockedIncrement')) throw new Error('Actual current indirect InterlockedIncrement procedure required');
+          const before = read(0, 0, 4), value = (before + (input.kind === 'InterlockedIncrement' ? 1 : -1)) >>> 0;
+          write(0, 0, 4, value); result = scalarResult(value); break;
+        }
+        case 'HeapAlloc': {
+          const got = NativeModuleCrtOwner.heapAllocForArgvCall(input.crt, this, call); if (!got.known) return got;
+          result = Object.freeze({ kind: 'object', value: got.value }); break;
+        }
+        case 'EnterCriticalSection': case 'LeaveCriticalSection': {
+          const pointer = memory(0), lock = NativeModuleCrtOwner.canonicalGameLock13ForPlatform(input.crt, this, pointer.fields, pointer.offset);
+          if (!lock.known) return lock;
+          const section = this.#physicalSection(lock.value, input.crt.identity);
+          if (input.kind === 'EnterCriticalSection') section.depth++;
+          else { if (!section.depth) throw new Error('Actual acquired lock13 required before leave'); section.depth--; }
+          result = Object.freeze({ kind: 'void' }); break;
+        }
+        case 'MultiByteToWideChar': {
+          if (input.procedure !== this.#argvProcedures.get('MultiByteToWideChar') || scalar(0) !== selected.codePage || ![1, 9].includes(scalar(1))) throw new Error('Declared CP1252 MB_PRECOMPOSED/optional error-check flags required');
+          const count = signedCount(3), capacity = scalar(5), values: number[] = [];
+          for (let index = 0; index < count; index++) values.push(selected.unicode[read(2, index, 1)]!);
+          if (capacity === 0) { if (scalar(4) !== 0) throw new Error('Query destination must be NULL'); result = scalarResult(count); break; }
+          if (capacity < count) { this.#processLastError(122); result = scalarResult(0); break; }
+          for (let index = 0; index < count; index++) write(4, index * 2, 2, values[index]!);
+          result = scalarResult(count); break;
+        }
+        case 'GetStringTypeW': {
+          if (scalar(0) !== 1) throw new Error('Declared CT_CTYPE1 contract required'); const count = signedCount(2);
+          for (let index = 0; index < count; index++) write(3, index * 2, 2, selected.ctype1[byteFor(read(1, index * 2, 2))]!);
+          result = scalarResult(1); break;
+        }
+        case 'LCMapStringW': {
+          if (input.procedure && input.procedure !== this.#argvProcedures.get('LCMapStringW')) throw new Error('Actual indirect LCMapStringW procedure required');
+          if (![0, 0x409].includes(scalar(0)) || ![0x100, 0x200].includes(scalar(1))) throw new Error('Declared virtual default/English case mapping contract required');
+          const count = signedCount(3), capacity = scalar(5), values: number[] = [], table = scalar(1) === 0x100 ? selected.lower : selected.upper;
+          for (let index = 0; index < count; index++) values.push(table[byteFor(read(2, index * 2, 2))]!);
+          if (capacity === 0) { if (scalar(4) !== 0) throw new Error('Query destination must be NULL'); result = scalarResult(count); break; }
+          if (capacity < count) { this.#processLastError(122); result = scalarResult(0); break; }
+          for (let index = 0; index < count; index++) write(4, index * 2, 2, values[index]!);
+          result = scalarResult(count); break;
+        }
+        case 'WideCharToMultiByte': {
+          if (scalar(0) !== selected.codePage || scalar(1) !== 0 || scalar(6) !== 0 || scalar(7) !== 0) throw new Error('Declared explicit CP1252 flags0/NULL default-char and usage contracts required');
+          const count = signedCount(3), capacity = scalar(5), values: number[] = [];
+          for (let index = 0; index < count; index++) values.push(byteFor(read(2, index * 2, 2)));
+          if (capacity === 0) { if (scalar(4) !== 0) throw new Error('Query destination must be NULL'); result = scalarResult(count); break; }
+          if (capacity < count) { this.#processLastError(122); result = scalarResult(0); break; }
+          for (let index = 0; index < count; index++) write(4, index, 1, values[index]!); result = scalarResult(count); break;
+        }
+        default: return unknown('Original argv import is outside the declared virtual policy');
+      }
+      this.#processLastError(selected.lastError?.[input.kind]);
+      const after = NativeX86ThreadStack.argvArgumentsForPlatform(this, call); if (!after.known) return after;
+      this.#argvNlsNormal.set(call, result); return known(result);
+    } catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
+    finally { this.#argvNlsActiveCall = null; }
+  }
+  #readGameScalar(crt: NativeModuleCrtOwner, label: string, offset: number): number {
+    const access = NativeRuntimePlatform.canonicalGameModuleImageAccessForPlatform(this, crt, label, offset, 4); if (!access.known) throw new Error(access.reason);
+    const image = NativeModuleCrtOwner.canonicalImageForOwner(crt, label); if (!image.known) throw new Error(image.reason);
+    return NativeHeapObjectViews.prototype.readUnsigned.call(image.value, offset);
   }
   static canonicalNativePointerAccessForPlatform(platform: NativeRuntimePlatform, pointer: NativeBytePointer,
     relativeOffset: number, bytes: number): NativeValue<void> {
@@ -1244,7 +1413,7 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
       return known(true);
     } catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
   }
-  private physicalSection(fields: NativeHeapObjectViews, owner: object): PhysicalSection {
+  #physicalSection(fields: NativeHeapObjectViews, owner: object): PhysicalSection {
     const { canonicalBacking, position } = physicalPosition(fields);
     const section = this.#physicalSections.get(canonicalBacking.identity)?.get(position);
     if (!section || section.owner !== owner || section.canonicalBacking !== canonicalBacking || section.deleted ||
@@ -1255,16 +1424,16 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     return section;
   }
   enterPhysicalCriticalSection(fields: NativeHeapObjectViews, owner: object): NativeValue<void> {
-    try { this.physicalSection(fields, owner).depth++; return known(undefined); }
+    try { this.#physicalSection(fields, owner).depth++; return known(undefined); }
     catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
   }
   leavePhysicalCriticalSection(fields: NativeHeapObjectViews, owner: object): NativeValue<void> {
-    try { const section = this.physicalSection(fields, owner); if (!section.depth) throw new Error('Actual entered physical critical section required');
+    try { const section = this.#physicalSection(fields, owner); if (!section.depth) throw new Error('Actual entered physical critical section required');
       section.depth--; return known(undefined); }
     catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
   }
   deletePhysicalCriticalSection(fields: NativeHeapObjectViews, owner: object): NativeValue<void> {
-    try { const section = this.physicalSection(fields, owner); if (section.depth) throw new Error('Actual idle physical critical section required');
+    try { const section = this.#physicalSection(fields, owner); if (section.depth) throw new Error('Actual idle physical critical section required');
       section.deleted = true; return known(undefined); }
     catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
   }

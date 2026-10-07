@@ -7,6 +7,7 @@ import { NativeModuleCrtOwner } from './native-engine-crt-locks';
 import type { NativeHeapObjectViews } from './native-heap-views';
 import { NativeRuntimePlatform } from './native-runtime-platform';
 import { NativeX86ThreadStack } from './native-x86-thread-stack';
+import { NativeGameCrtArgv } from './native-game-crt-argv';
 import type { NativeX86Word32 } from './native-x86-thread-stack';
 import { admitGameIoStartupSource, gameIoStartupInstruction, gameIoStartupImageReceipt } from './native-game-crt-io-source';
 import { admitGameIoWriterSource, gameIoWriterStartupInstruction } from './native-game-crt-io-writer-source';
@@ -98,6 +99,8 @@ export class NativeGameCrtIoInit {
   #outerEpilogReturned = false;
   #callerReturnConsumed = false;
   #ioResult: 0 | -1 | null = null;
+  #argvHandoff: 'available' | 'transferring' | 'transferred' | 'blocked' = 'available';
+  #argvClaim: Readonly<{ owner: NativeGameCrtArgv; controller: object }> | null = null;
   #suspension: Readonly<NativeValue<void>> | null = null;
   readonly #effects: IoEffect[] = [];
 
@@ -233,6 +236,38 @@ export class NativeGameCrtIoInit {
     if (!caller.known) return caller;
     try { owner.#requireImages(); return known(owner.#ioResult); }
     catch (error) { return unknown(reason(error)); }
+  }
+
+  /** Claim the exact returned graph once while its original bootstrap IO
+   * scope is still active. The graph retires the IO execution controller and
+   * binds the distinct current argv controller without replacing storage. */
+  static transferReturnedGraphForArgv(owner: NativeGameCrtIoInit, crt: NativeModuleCrtOwner,
+    bootstrap: NativeCrtBootstrap, permit: object, argv: NativeGameCrtArgv,
+    controller: object): NativeValue<NativeX86ThreadStack> {
+    const returned = NativeGameCrtIoInit.canonicalReturnedIoForCrt(owner, crt, bootstrap, permit);
+    if (!returned.known) return returned;
+    const claim = NativeGameCrtArgv.canonicalControllerForCrt(argv, crt, controller, 'bind');
+    if (!claim.known) return claim;
+    if (owner.#argvHandoff !== 'available' || owner.#argvClaim) return unknown('The returned IO graph cannot be claimed again');
+    owner.#argvHandoff = 'transferring'; owner.#argvClaim = Object.freeze({ owner: argv, controller });
+    try {
+      fact(NativeX86ThreadStack.transferReturnedIoForArgv(owner.#stack, crt, owner, owner.#controller, argv, controller));
+      owner.#argvHandoff = 'transferred'; return known(owner.#stack);
+    } catch (error) { owner.#argvHandoff = 'blocked'; return unknown(reason(error)); }
+  }
+
+  /** The stack consumes only this current private handoff claim. Copied IO
+   * return diagnostics and the retired IO controller cannot authorize argv. */
+  static canonicalReturnedGraphForArgv(owner: NativeGameCrtIoInit, crt: NativeModuleCrtOwner,
+    ioController: object, argv: NativeGameCrtArgv, controller: object): NativeValue<NativeX86ThreadStack> {
+    if (!owner || owner.#controller !== ioController || owner.#crt !== crt || owner.#argvHandoff !== 'transferring' ||
+        owner.#argvClaim?.owner !== argv || owner.#argvClaim.controller !== controller || !owner.#bootstrap || !owner.#permit) {
+      return unknown('Actual private one-time returned IO graph handoff required');
+    }
+    const returned = NativeGameCrtIoInit.canonicalReturnedIoForCrt(owner, crt, owner.#bootstrap, owner.#permit);
+    if (!returned.known) return returned;
+    const claim = NativeGameCrtArgv.canonicalControllerForCrt(argv, crt, controller, 'bind');
+    return claim.known ? known(owner.#stack) : claim;
   }
 
   static enterForAttach(owner: NativeGameCrtIoInit, crt: NativeModuleCrtOwner,

@@ -717,3 +717,29 @@ unowned instruction is caller TEST at `204678d3`; full startup, native NPCs and
 the campaign remain unfinished. See
 [checkpoint 108](../../docs/engineering/gothic3-rebuilding-process.md#108-own-standard-handles-critical-sections-and-the-normal-io-return)
 for source evidence, ownership and actual validation status.
+
+## Game arguments and encoding source
+
+Generate the argument supplement from the unchanged original study and earlier
+source packages:
+
+```powershell
+python -B scripts/gothic3_game_argv_source.py --study '<LOCAL_DESKTOP_STUDY>' --repo . --output assets/gothic3/game-argv
+```
+
+The [22-output package](../../assets/gothic3/game-argv/README.md) captures 32
+original bodies, 1,850 assembly rows and 5,225 instruction bytes. Nine bodies
+have newly extracted C/ASM files; the others reuse unchanged earlier listings.
+It preserves the missing update-MBC cleanup at `2046b8ca` as three PE bytes
+with no callable owner. The manifest records source and producer dependencies;
+the source package supplies no runtime or Windows authority.
+
+The selected source chain covers the caller tests, cold multibyte-table
+initialization, CP1252 NLS probes, both command-line parser passes, allocation
+and the argument initializer's actual return. Its intended next boundary is
+the unexecuted environment initializer CALL at `204678e7`. Source coverage is
+distinct from observed execution. The corrected local production preview
+completed 14,777 source operations, both parser passes and actual return zero,
+then stopped before that environment CALL. See
+[checkpoint 109](../../docs/engineering/gothic3-rebuilding-process.md#109-own-cold-encoding-initialization-and-the-normal-argument-return)
+for the selected virtual policy, correction history and validation scope.

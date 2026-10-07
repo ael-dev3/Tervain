@@ -1,0 +1,10 @@
+2046ce8c | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+2046ce90 | 85c0 | TEST EAX,EAX
+2046ce92 | 7412 | JZ 0x2046cea6
+2046ce94 | 83e808 | SUB EAX,0x8
+2046ce97 | 8138dddd0000 | CMP dword ptr [EAX],0xdddd
+2046ce9d | 7507 | JNZ 0x2046cea6
+2046ce9f | 50 | PUSH EAX
+2046cea0 | e8c5adffff | CALL 0x20467c6a
+2046cea5 | 59 | POP ECX
+2046cea6 | c3 | RET

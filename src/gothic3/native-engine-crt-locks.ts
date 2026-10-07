@@ -14,6 +14,7 @@ import type { NativeWin32HeapCapability, NativeWin32ModuleCapability, NativeCrtP
 import type { NativeWin32ProcessInputEndpoints } from './native-win32-process-inputs';
 import { NativeX86ThreadStack } from './native-x86-thread-stack';
 import type { NativeHeapAllocCallGrant } from './native-x86-thread-stack';
+import type { NativeArgvNlsCallGrant } from './native-win32-argv-nls';
 import { NativeCrtThreadStartup } from './native-crt-thread-startup';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
@@ -229,6 +230,36 @@ export class NativeModuleCrtOwner {
         : unknown('Actual current same-owner Game CRT heap capability required');
     } catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
   }
+  static heapAllocForArgvCall(owner: NativeModuleCrtOwner, platform: NativeRuntimePlatform,
+    call: NativeArgvNlsCallGrant): NativeValue<NativeMemoryBacking | null> {
+    const admitted = NativeX86ThreadStack.argvArgumentsForPlatform(platform, call); if (!admitted.known) return admitted;
+    const input = admitted.value, args = input.arguments;
+    if (input.crt !== owner || input.kind !== 'HeapAlloc' || args[0]?.kind !== 'object' || args[1]?.kind !== 'scalar' ||
+        args[1].value !== 0 || args[2]?.kind !== 'scalar') return unknown('Actual current Game malloc import arguments required');
+    const heap = NativeModuleCrtOwner.canonicalGameHeapHandleForPlatform(owner, platform); if (!heap.known) return heap;
+    if (args[0].value !== heap.value) return unknown('Actual current Game heap differs from malloc import');
+    const result = NativeRuntimePlatform.performArgvHeapAllocForCall(platform, call, heap.value, args[2].value);
+    if (result.known && result.value !== null) owner.#allocations.add(result.value);
+    return result;
+  }
+  /** This proves the current source lock-table pointer, not an image-shaped
+   * caller object or a newly initialized substitute section. */
+  static canonicalGameLock13ForPlatform(owner: NativeModuleCrtOwner, platform: NativeRuntimePlatform,
+    fields: NativeHeapObjectViews, offset: number): NativeValue<NativeHeapObjectViews> {
+    if (!NativeModuleCrtOwner.isConstructedOwner(owner) || owner.module !== 'Game' || owner.host.platform !== platform || owner.locksTerminated) {
+      return unknown('Actual current same-platform Game lock owner required');
+    }
+    try {
+      const access = NativeRuntimePlatform.canonicalGameModuleImageAccessForPlatform(platform, owner, 'crtLockTable', 13 * 8, 4); if (!access.known) return access;
+      const table = owner.#retainedImageStorage('crtLockTable'), value = NativeHeapObjectViews.prototype.pointer.call(table, 13 * 8).get();
+      if (!(value instanceof NativeHeapObjectViews) || fields.bytes.buffer !== value.bytes.buffer ||
+          fields.bytes.byteOffset + offset !== value.bytes.byteOffset || fields.knownMask.buffer !== value.knownMask.buffer ||
+          fields.knownMask.byteOffset + offset !== value.knownMask.byteOffset || value.bytes.length !== 24) return unknown('Actual current lock13 physical alias required');
+      const root = owner.#retainedImageStorage('crtStaticSections'), begin = value.bytes.byteOffset - root.bytes.byteOffset;
+      const physical = NativeRuntimePlatform.canonicalGameModuleImageAccessForPlatform(platform, owner, 'crtStaticSections', begin, 24); if (!physical.known) return physical;
+      return known(value);
+    } catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
+  }
   /** Admit only the actual thread owner's retained PTD; this does not call a
    * getter, allocate a record or initialize/replay any thread source routine. */
   static canonicalGamePtdForPlatform(owner: NativeModuleCrtOwner, platform: NativeRuntimePlatform,
@@ -255,6 +286,9 @@ export class NativeModuleCrtOwner {
     }>;
   }>;
   readonly #imageViews = new Map<string, NativeHeapObjectViews>();
+  readonly #imageAdmissions = new Map<string, Readonly<{
+    fields: NativeHeapObjectViews; address: string; bytes: number;
+  }>>();
   readonly #imageProofs = new WeakMap<NativeHeapObjectViews, Readonly<{
     backing: NativeMemoryBacking; bytes: Uint8Array; masks: Uint8Array; view: DataView;
     rootBytes: Uint8Array; rootMasks: Uint8Array; begin: number; length: number;
@@ -339,6 +373,10 @@ export class NativeModuleCrtOwner {
         rootBytes: fields.backing.bytes, rootMasks: fields.backing.knownMask,
         begin: fields.bytes.byteOffset - fields.backing.bytes.byteOffset, length: fields.bytes.length,
       }));
+      // Source admission and cold seeding happen only above. Retain their
+      // immutable label/view relation privately; later access still proves
+      // every current storage identity, alias geometry and lifetime below.
+      this.#imageAdmissions.set(label, Object.freeze({ fields, address: receipt.address, bytes: receipt.bytes }));
     }
   }
   /** Canonical admitted Game module-image objects. Constructing views supplies
@@ -349,10 +387,12 @@ export class NativeModuleCrtOwner {
   /** Check retained identities and aliases without performing a native load. */
   #retainedImageStorage(label: string): NativeHeapObjectViews {
     if (this.module !== 'Game') throw new Error('Engine image aliases remain owned by their existing source services');
-    nativeGameImageReceipt(label);
+    const admission = this.#imageAdmissions.get(label);
+    if (!admission) throw new Error('Game CRT image storage has no independent source admission: ' + label);
     const fields = this.#imageViews.get(label);
-    if (!fields) throw new Error('Actual canonical Game CRT image view required: ' + label);
+    if (!fields || admission.fields !== fields) throw new Error('Actual canonical Game CRT image view required: ' + label);
     const proof = this.#imageProofs.get(fields);
+    if (!proof || proof.length !== admission.bytes) throw new Error('Actual retained Game image source admission required: ' + label);
     if (!proof || fields.backing.freed || fields.backing !== proof.backing || fields.bytes !== proof.bytes ||
         fields.knownMask !== proof.masks || fields.view !== proof.view || fields.backing.bytes !== proof.rootBytes ||
         fields.backing.knownMask !== proof.rootMasks || fields.bytes.length !== proof.length ||

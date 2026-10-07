@@ -7,6 +7,8 @@ import { NativeRuntimePlatform } from './native-runtime-platform';
 import { NativeModuleCrtOwner } from './native-engine-crt-locks';
 import { nativeGameImageReceipt } from './native-game-crt-profile';
 import { NativeGameCrtIoInit } from './native-game-crt-ioinit';
+import { NativeGameCrtArgv } from './native-game-crt-argv';
+import type { NativeArgvCallSite, NativeArgvImportKind, NativeArgvNlsCallGrant, NativeArgvNlsArguments, NativeArgvArgument } from './native-win32-argv-nls';
 import type { NativeX86ThreadStackSelection } from './native-x86-thread-stack-profile';
 import type { NativeStartupInfoCallGrant } from './native-win32-startup-io';
 import type { NativeWin32HeapCapability } from './native-runtime-platform';
@@ -16,23 +18,37 @@ import type { NativeStandardIoCallSite, NativeStandardIoCallKind, NativeStandard
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = (reason: string): { known: false; reason: string } => ({ known: false, reason });
+// Retain the actual intrinsic brand getters once. Every physical check still
+// reads current view storage through them; later prototype rebinding cannot
+// substitute caller functions for the native DataView brand proof.
+const dataViewBuffer = Object.getOwnPropertyDescriptor(DataView.prototype, 'buffer')!.get!;
+const dataViewByteOffset = Object.getOwnPropertyDescriptor(DataView.prototype, 'byteOffset')!.get!;
+const dataViewByteLength = Object.getOwnPropertyDescriptor(DataView.prototype, 'byteLength')!.get!;
 const token = Object.freeze({});
 export type NativeX86Register = 'EAX' | 'EBX' | 'ECX' | 'EDX' | 'ESI' | 'EDI' | 'EBP' | 'ESP';
 const registers: readonly NativeX86Register[] = ['EAX', 'EBX', 'ECX', 'EDX', 'ESI', 'EDI', 'EBP', 'ESP'];
 export interface NativeX86Word32 { readonly identity: object; }
 export interface NativeHeapAllocCallGrant { readonly identity: object; }
-export type NativeX86Condition = 'z' | 'nz' | 'be' | 'a' | 'c' | 'l';
+export type NativeX86Condition = 'z' | 'nz' | 'be' | 'a' | 'c' | 'nc' | 'l' | 'ge' | 'le' | 'g';
+export type NativeX86Lane = 'low8' | 'high8' | 'low16';
 type Width = 1 | 2 | 4;
 interface Allocation { readonly fields: NativeHeapObjectViews; readonly heap: NativeWin32HeapCapability; readonly crt: NativeModuleCrtOwner; readonly ptd?: true; }
 type WordRecord = Readonly<{ value: number; mask: number; provenance?:
   Readonly<{ kind: 'stack'; offset: number }> |
+  Readonly<{ kind: 'module'; label: string; fields: NativeHeapObjectViews; offset: number }> |
+  Readonly<{ kind: 'process'; pointer: NativeBytePointer }> |
   Readonly<{ kind: 'heap'; heap: NativeWin32HeapCapability }> |
   Readonly<{ kind: 'allocation'; allocation: Allocation; offset: number; pointer: NativeBytePointer }> |
-  Readonly<{ kind: 'platform'; object: object; category: NativeStandardIoCapabilityKind }> |
+  Readonly<{ kind: 'platform'; object: object; category: NativeStandardIoCapabilityKind | NativeArgvImportKind }> |
   Readonly<{ kind: 'source'; type: 'code' | 'image'; address: string; fields?: NativeHeapObjectViews }> |
-  Readonly<{ kind: 'xor'; left: NativeX86Word32; right: NativeX86Word32 }> }>;
+  Readonly<{ kind: 'xor'; left: NativeX86Word32; right: NativeX86Word32 }> |
+  Readonly<{ kind: 'neg'; word: NativeX86Word32 }> }>;
 interface Slot { readonly word: NativeX86Word32; readonly bytes: readonly number[]; readonly masks: readonly number[]; }
 interface Binding { readonly crt: NativeModuleCrtOwner; readonly owner: NativeGameCrtIoInit; readonly controller: object; }
+interface ArgvBinding { readonly crt: NativeModuleCrtOwner; readonly owner: NativeGameCrtArgv; readonly controller: object; }
+interface ArgvCall { readonly stack: NativeX86ThreadStack; readonly controller: object; readonly args: NativeArgvNlsArguments;
+  readonly position: number; readonly fs: NativeX86Word32; readonly returnWord: NativeX86Word32;
+  readonly words: readonly NativeX86Word32[]; readonly argumentBytes: number; readonly frames: readonly string[]; phase: 'pending' | 'returned'; }
 interface PhysicalProof { readonly backing: NativeMemoryBacking; readonly identity: object; readonly rootBytes: Uint8Array;
   readonly rootMasks: Uint8Array; readonly bytes: Uint8Array; readonly masks: Uint8Array; readonly view: DataView; readonly length: number; }
 interface StartupCall {
@@ -73,6 +89,23 @@ const retirements = new WeakMap<NativeX86ThreadStack, () => void>();
 const startupCalls = new WeakMap<NativeStartupInfoCallGrant, StartupCall>();
 const heapCalls = new WeakMap<NativeHeapAllocCallGrant, HeapCall>();
 const standardCalls = new WeakMap<NativeStandardIoCallGrant, StandardCall>();
+const argvCalls = new WeakMap<NativeArgvNlsCallGrant, ArgvCall>();
+const argvSites: Readonly<Record<NativeArgvCallSite, readonly [NativeArgvImportKind, number, string, NativeX86Register?]>> = Object.freeze({
+  '204767a6': ['GetModuleFileNameA', 3, '204767ac'],
+  '2046bbdb': ['InterlockedDecrement', 1, '2046bbe1'], '2046bc00': ['InterlockedIncrement', 1, '2046bc02', 'EDI'],
+  '2046bc92': ['InterlockedDecrement', 1, '2046bc98'], '2046bcb6': ['InterlockedIncrement', 1, '2046bcb8', 'EDI'],
+  '2046b920': ['GetACP', 0, '2046b926'], '2046b9c1': ['IsValidCodePage', 1, '2046b9c7'],
+  '2046b9d4': ['GetCPInfo', 2, '2046b9da'], '2046b6cc': ['GetCPInfo', 2, '2046b6d2'],
+  '20467fb6': ['GetLastError', 0, '20467fbc'], '20467fc9': ['FlsGetValue', 1, '20467fcb', 'EAX'],
+  '20468020': ['SetLastError', 1, '20468026'], '20467c1f': ['HeapAlloc', 3, '20467c21', 'EBX'],
+  '2047f554': ['GetStringTypeW', 4, '2047f55a'], '2047f5cb': ['MultiByteToWideChar', 6, '2047f5cd', 'ESI'],
+  '2047f635': ['MultiByteToWideChar', 6, '2047f637', 'ESI'], '2047f643': ['GetStringTypeW', 4, '2047f649'],
+  '2046cef1': ['LCMapStringW', 6, '2046cef7'], '2046cf8f': ['MultiByteToWideChar', 6, '2046cf91', 'ESI'],
+  '2046cffb': ['MultiByteToWideChar', 6, '2046cffd', 'ESI'], '2046d017': ['LCMapStringW', 6, '2046d019', 'ESI'],
+  '2046d0b4': ['LCMapStringW', 6, '2046d0ba'], '2046d0d7': ['WideCharToMultiByte', 8, '2046d0dd'],
+  '20467e74': ['TlsGetValue', 1, '20467e7a'], '204737d4': ['EnterCriticalSection', 1, '204737da'],
+  '204736c9': ['LeaveCriticalSection', 1, '204736cf'],
+});
 const constructionToken = token;
 function physical(bytes: number): NativeHeapObjectViews {
   const backing: NativeMemoryBacking = { identity: Object.freeze({}), bytes: new Uint8Array(bytes), knownMask: new Uint8Array(bytes), freed: false };
@@ -116,6 +149,13 @@ export class NativeX86ThreadStack {
   #heapAllocReturned = false;
   #heapAllocBlockAllocated = false;
   #binding: Binding | null = null;
+  #argvBinding: ArgvBinding | null = null;
+  #transferred = false;
+  #argvGrant: NativeArgvNlsCallGrant | null = null;
+  #argvReturned = false;
+  readonly #argvRows: { site: NativeArgvCallSite; callPushed: boolean; called: boolean; returned: boolean }[] = [];
+  readonly #moduleWords = new Map<string, NativeX86Word32>();
+  readonly #modulePointers = new Map<string, NativeBytePointer>();
   #phase: 'cold' | 'running' | 'returned' | 'blocked' | 'retired' = 'cold';
   #boundary: string | null = null;
   #executing = false;
@@ -130,7 +170,7 @@ export class NativeX86ThreadStack {
       masks: fields.knownMask, view: fields.view, length: fields.bytes.length,
     }));
     for (const name of registers) this.#store(this.#bank, registers.indexOf(name) * 4,
-      name === 'ESP' ? this.#mint(0, 0, { kind: 'stack', offset: selection.reservationBytes }) : this.#mint(0, 0));
+      name === 'ESP' ? this.#stackWord(selection.reservationBytes) : this.#mint(0, 0));
     this.#store(this.#bank, 32, this.#mint(0, 0));
     this.#store(this.#bank, 36, this.#mint(0, 0));
     retirements.set(this, () => {
@@ -158,6 +198,25 @@ export class NativeX86ThreadStack {
     if (stack.#binding) return stack.#binding.owner === owner && stack.#binding.crt === crt && stack.#binding.controller === controller
       ? known(undefined) : unknown('Retained x86 controller cannot rebind');
     stack.#binding = Object.freeze({ crt, owner, controller }); return known(undefined);
+  }
+  static transferReturnedIoForArgv(stack: NativeX86ThreadStack, crt: NativeModuleCrtOwner,
+    io: NativeGameCrtIoInit, ioController: object, argv: NativeGameCrtArgv, controller: object): NativeValue<void> {
+    if (!NativeModuleCrtOwner.isConstructedOwner(crt) || graphs.get(crt.host.platform as NativeRuntimePlatform) !== stack) return unknown('Actual returned same-platform IO graph required');
+    try {
+      const proof = NativeGameCrtIoInit.canonicalReturnedGraphForArgv(io, crt, ioController, argv, controller);
+      if (!proof.known || proof.value !== stack) throw new Error(proof.known ? 'Actual original IO graph required' : proof.reason);
+      const claim = NativeGameCrtArgv.canonicalControllerForCrt(argv, crt, controller, 'bind'); if (!claim.known) throw new Error(claim.reason);
+      if (stack.#transferred || stack.#phase !== 'returned' || stack.#executing || stack.#argvBinding ||
+          stack.#binding?.owner !== io || stack.#binding.controller !== ioController || stack.#binding.crt !== crt) throw new Error('One returned IO graph transfer required');
+      stack.#transferred = true;
+      const initial = stack.#initial, incoming = stack.#calls.find(c => c.site === '204678ce');
+      if (!initial || !incoming?.returned || stack.#currentPc !== incoming.returnWord ||
+          stack.#address(stack.#load(stack.#bank, stack.#reg('ESP'))) !== stack.#address(initial.esp) ||
+          stack.#calls.some(c => !c.returned) || stack.#selection.pageAlignment !== 'virtual-page-4096') throw new Error('Actual original return and preselected page-aligned graph required');
+      stack.#physical(stack.#stack); stack.#physical(stack.#bank);
+      const selection = NativeRuntimePlatform.argvNlsSelectionForPlatform(stack.#platform); if (!selection.known) throw new Error(selection.reason);
+      stack.#argvBinding = Object.freeze({ crt, owner: argv, controller }); stack.#phase = 'running'; return known(undefined);
+    } catch (error) { stack.#transferred = true; stack.#phase = 'blocked'; stack.#boundary ??= reason(error); return unknown(stack.#boundary); }
   }
   static canonicalStartupInfoCallForPlatform(platform: NativeRuntimePlatform,
     grant: NativeStartupInfoCallGrant): NativeValue<void> {
@@ -291,8 +350,133 @@ export class NativeX86ThreadStack {
       const word = this.#allocationWord(Object.freeze({ fields: ptd.value, heap: heap.value, crt, ptd: true }), 0);
       this.#objects.set(value, word); return word;
     }
-    const kind = NativeRuntimePlatform.standardIoCapabilityForPlatform(this.#platform, value); if (!kind.known) throw new Error(kind.reason);
+    const legacy = NativeRuntimePlatform.standardIoCapabilityForPlatform(this.#platform, value);
+    const kind = legacy.known ? legacy : NativeRuntimePlatform.argvCapabilityForPlatform(this.#platform, value); if (!kind.known) throw new Error(kind.reason);
     const word = this.#mint(0, 0, { kind: 'platform', object: value, category: kind.value }); this.#objects.set(value, word); return word;
+  }
+  #moduleWord(label: string, offset: number): NativeX86Word32 {
+    const crt = this.#binding!.crt, image = NativeModuleCrtOwner.canonicalImageForOwner(crt, label);
+    if (!image.known) throw new Error(image.reason);
+    const access = NativeRuntimePlatform.canonicalGameModuleImageAccessForPlatform(this.#platform, crt, label, offset, 0);
+    if (!access.known) throw new Error(access.reason);
+    const key = label + ':' + offset, old = this.#moduleWords.get(key);
+    if (old) { const p = this.#record(old).provenance; if (p?.kind !== 'module' || p.fields !== image.value) throw new Error('Actual retained module alias changed'); return old; }
+    const word = this.#mint((Number.parseInt(nativeGameImageReceipt(label).address, 16) + offset) & 3, 3, { kind: 'module', label, fields: image.value, offset }); this.#moduleWords.set(key, word); return word;
+  }
+  #modulePointer(p: Extract<NonNullable<WordRecord['provenance']>, { kind: 'module' }>): NativeBytePointer {
+    const key = p.label + ':' + p.offset; let pointer = this.#modulePointers.get(key);
+    if (!pointer) { pointer = Object.freeze({ fields: p.fields, offset: p.offset }); this.#modulePointers.set(key, pointer); this.#nativePointers.set(pointer, this.#moduleWord(p.label, p.offset)); }
+    return pointer;
+  }
+  #processWord(pointer: NativeBytePointer): NativeX86Word32 {
+    const proof = NativeRuntimePlatform.canonicalProcessInputSpanForPlatform(this.#platform, pointer, 0); if (!proof.known) throw new Error(proof.reason);
+    const old = this.#nativePointers.get(pointer); if (old) return old;
+    const word = this.#mint(pointer.offset & 3, 3, { kind: 'process', pointer }); this.#nativePointers.set(pointer, word); return word;
+  }
+  #pointerWord(pointer: object): NativeX86Word32 {
+    const old = this.#nativePointers.get(pointer); if (old) { this.#liveWord(old); return old; }
+    const heap = NativeModuleCrtOwner.canonicalGameHeapHandleForPlatform(this.#binding!.crt, this.#platform);
+    if (heap.known && heap.value === pointer) return this.#mint(0, 0, { kind: 'heap', heap: heap.value });
+    const labels = ['mbcObject', 'mbcRefCounter', 'defaultLocale', 'currentLocale', 'moduleName', 'globalMbcType', 'globalMbcCase', 'globalMbcFields', 'CPtable', 'crtStaticSections'];
+    for (const label of labels) {
+      const image = NativeModuleCrtOwner.canonicalImageForOwner(this.#binding!.crt, label);
+      if (image.known && image.value === pointer) return this.#moduleWord(label, 0);
+      if (image.known && pointer instanceof NativeHeapObjectViews && pointer.bytes.buffer === image.value.bytes.buffer &&
+          pointer.knownMask.buffer === image.value.knownMask.buffer) {
+        const offset = pointer.bytes.byteOffset - image.value.bytes.byteOffset;
+        if (offset >= 0 && offset + pointer.bytes.length <= image.value.bytes.length &&
+            pointer.knownMask.byteOffset - image.value.knownMask.byteOffset === offset) return this.#moduleWord(label, offset);
+      }
+    }
+    if (pointer && 'fields' in pointer && 'offset' in pointer) {
+      const candidate = pointer as NativeBytePointer;
+      const process = NativeRuntimePlatform.canonicalProcessInputSpanForPlatform(this.#platform, candidate, 0);
+      if (process.known) return this.#processWord(candidate);
+    }
+    return this.#objectWord(pointer);
+  }
+  #currentMemoryWord(fields: NativeHeapObjectViews, offset: number): NativeX86Word32 {
+    if (fields === this.#stack) return this.#load(fields, offset);
+    try { const pointer = NativeHeapObjectViews.prototype.pointer.call(fields, offset).get(); return pointer === null ? this.#mint(0, 0xffffffff) : this.#pointerWord(pointer); }
+    catch (error) {
+      const message = reason(error);
+      if (message !== 'Non-NULL numerical native pointer has no owned browser capability' && !message.startsWith('Native field contains unowned backing bits')) throw error;
+      const current = NativeHeapObjectViews.prototype.maskedWord.call(fields, offset);
+      if (current.knownMask === 0xffffffff) {
+        // Only the two captured original pointer cells establish this loader
+        // relation. An arbitrary scalar numerically matching a source VA does
+        // not acquire a pointer capability. Later stores use actual sidecars.
+        for (const [cell,label] of [['currentMbcPointer','mbcObject'],['currentLocale','defaultLocale']] as const) {
+          const origin=NativeModuleCrtOwner.canonicalImageForOwner(this.#binding!.crt,cell);
+          if(origin.known&&origin.value===fields&&offset===0&&current.value===Number.parseInt(nativeGameImageReceipt(label).address,16))return this.#moduleWord(label,0);
+        }
+      }
+      let cells=this.#imageReads.get(fields);if(!cells){cells=new Map();this.#imageReads.set(fields,cells);}
+      const old=cells.get(offset);
+      if(old&&old.bytes.every((byte,index)=>byte===fields.bytes[offset+index])&&old.masks.every((mask,index)=>mask===fields.knownMask[offset+index]))return old.word;
+      const word=this.#mint(current.value,current.knownMask);cells.set(offset,Object.freeze({word,
+        bytes:Object.freeze(Array.from(fields.bytes.subarray(offset,offset+4))),masks:Object.freeze(Array.from(fields.knownMask.subarray(offset,offset+4)))}));return word;
+    }
+  }
+  static argvArgumentsForPlatform(platform: NativeRuntimePlatform, grant: NativeArgvNlsCallGrant): NativeValue<NativeArgvNlsArguments> {
+    const active = NativeRuntimePlatform.canonicalArgvNlsInvocationForPlatform(platform, grant); if (!active.known) return active;
+    const call = argvCalls.get(grant); if (!call || graphs.get(platform) !== call.stack) return unknown('Actual private same-platform argv call required');
+    try { call.stack.#argvProof(grant, call); return known(call.args); } catch (error) { return unknown(reason(error)); }
+  }
+  static readArgvMemoryForCall(platform: NativeRuntimePlatform, grant: NativeArgvNlsCallGrant,
+    index: number, relative: number, width: Width): NativeValue<number> {
+    const args = NativeX86ThreadStack.argvArgumentsForPlatform(platform, grant); if (!args.known) return args;
+    try {
+      const call = argvCalls.get(grant)!, address = call.words[index];
+      if (!address || args.value.arguments[index]?.kind !== 'memory' || !Number.isSafeInteger(relative) || relative < 0) throw new Error('Actual retained import memory argument and nonnegative offset required');
+      const memory = call.stack.#memory(call.stack.#offsetWord(address, relative), width);
+      return known(NativeHeapObjectViews.prototype.readUnsigned.call(memory.fields, memory.offset, width));
+    } catch (error) { return unknown(reason(error)); }
+  }
+  static writeArgvMemoryForCall(platform: NativeRuntimePlatform, grant: NativeArgvNlsCallGrant,
+    index: number, relative: number, width: Width, value: number): NativeValue<void> {
+    const args = NativeX86ThreadStack.argvArgumentsForPlatform(platform, grant); if (!args.known) return args;
+    try {
+      const call = argvCalls.get(grant)!, address = call.words[index];
+      if (!address || args.value.arguments[index]?.kind !== 'memory' || !Number.isSafeInteger(relative) || relative < 0) throw new Error('Actual retained import output alias required');
+      const maximum = call.stack.#maximum(width);
+      if (!Number.isInteger(value) || value < 0 || value > maximum) throw new Error('Actual width-bounded import scalar store required');
+      call.stack.#writeMemory(call.stack.#offsetWord(address, relative), call.stack.#mint(value, maximum), width);
+      call.stack.#argvProof(grant, call); return known(undefined);
+    } catch (error) { return unknown(reason(error)); }
+  }
+  #argvProof(grant: NativeArgvNlsCallGrant, call: ArgvCall): void {
+    this.#check(call.controller);
+    const binding = this.#argvBinding;
+    if (!binding || this.#argvGrant !== grant || argvCalls.get(grant) !== call || call.phase !== 'pending' || !this.#executing) throw new Error('Actual executing pending argv import required');
+    const current = NativeGameCrtArgv.canonicalArgvImportCallForCrt(binding.owner, binding.crt, call.controller, call.args.site);
+    if (!current.known) throw new Error(current.reason);
+    const chain = NativeGameCrtArgv.canonicalSourceFrameChainForCrt(binding.owner, binding.crt, call.controller);
+    if (!chain.known || chain.value.length !== call.frames.length || chain.value.some((frame,index) => frame.entry + ':' + frame.site + ':' + frame.returnPc !== call.frames[index])) throw new Error('Actual current original argv source-frame chain changed');
+    const top = [...this.#calls].reverse().find(entry => !entry.returned), spec = argvSites[call.args.site];
+    if (!top || top.site !== call.args.site || top.position !== call.position || top.returnWord !== call.returnWord ||
+        this.#load(this.#stack, call.position) !== call.returnWord || this.#address(this.#load(this.#bank, this.#reg('ESP'))) !== call.position ||
+        this.#load(this.#bank, 32) !== call.fs || call.args.kind !== spec[0] || call.argumentBytes !== spec[1] * 4) throw new Error('Actual pending import CALL, current ESP/FS and return word required');
+    const physicalFrames=this.#calls.filter(entry=>!entry.returned&&entry!==top);
+    if(physicalFrames.length!==chain.value.length||physicalFrames.some((entry,index)=>{
+      const frame=chain.value[index]!,source=this.#record(entry.returnWord).provenance;
+      return entry.site!==frame.site||source?.kind!=='source'||source.type!=='code'||source.address!==frame.returnPc||this.#load(this.#stack,entry.position)!==entry.returnWord;
+    }))throw new Error('Actual retained outer source CALL/return slots must match the private argv frame chain');
+    for (let index=0; index<call.words.length; index++) {
+      if (this.#load(this.#stack, call.position + 4 + index * 4) !== call.words[index]) throw new Error('Current import argument word changed');
+      this.#liveWord(call.words[index]!);
+    }
+    if (spec[3]) {
+      const p = this.#liveWord(this.#load(this.#bank, this.#reg(spec[3]))).provenance;
+      if (p?.kind !== 'platform' || p.object !== call.args.procedure || p.category !== (call.args.kind === 'FlsGetValue' ? 'fls-get' : call.args.kind)) throw new Error('Actual current indirect argv procedure required');
+    }
+    if (call.args.kind === 'HeapAlloc') {
+      const heap = NativeModuleCrtOwner.canonicalGameHeapHandleForPlatform(binding.crt, this.#platform);
+      const p = this.#record(call.words[0]!).provenance;
+      if (!heap.known || p?.kind !== 'heap' || heap.value !== p.heap || this.#numeric(call.words[1]!,4) !== 0 ||
+          this.#gameScalar('crtHeapMode') !== 1 || this.#numeric(this.#load(this.#bank, this.#reg('EBP')),4) !== this.#numeric(call.words[2]!,4) ||
+          chain.value.at(-1)?.entry !== '20467ba7') throw new Error('Actual malloc EBP scalar/current heap/mode1/flags0 source chain required');
+    }
   }
   #standardProof(grant: NativeStandardIoCallGrant, call: StandardCall): void {
     this.#check(call.controller);
@@ -359,8 +543,10 @@ export class NativeX86ThreadStack {
   }
   #controllerProof(controller: object, mode: 'invoke' | 'retain' = 'invoke'): void {
     const binding = this.#binding;
-    if (!binding || binding.controller !== controller || graphs.get(this.#platform) !== this) throw new Error('Actual private bound x86 controller required');
-    const proof = NativeGameCrtIoInit.canonicalControllerForCrt(binding.owner, binding.crt, controller, mode);
+    if (!binding || (this.#argvBinding ? this.#argvBinding.controller : binding.controller) !== controller || graphs.get(this.#platform) !== this) throw new Error('Actual private bound x86 controller required');
+    const argv = this.#argvBinding;
+    const proof = argv ? NativeGameCrtArgv.canonicalControllerForCrt(argv.owner, argv.crt, controller, mode)
+      : NativeGameCrtIoInit.canonicalControllerForCrt(binding.owner, binding.crt, controller, mode);
     if (!proof.known) throw new Error(proof.reason);
     if (mode === 'retain') return;
     const selection = NativeRuntimePlatform.threadStackSelectionForPlatform(this.#platform);
@@ -380,9 +566,9 @@ export class NativeX86ThreadStack {
           fields.knownMask.length !== proof.length || proof.rootBytes.length !== proof.length || proof.rootMasks.length !== proof.length ||
           fields.bytes.buffer !== proof.rootBytes.buffer || fields.bytes.byteOffset !== proof.rootBytes.byteOffset ||
           fields.knownMask.buffer !== proof.rootMasks.buffer || fields.knownMask.byteOffset !== proof.rootMasks.byteOffset ||
-          Object.getOwnPropertyDescriptor(DataView.prototype, 'buffer')!.get!.call(fields.view) !== fields.bytes.buffer ||
-          Object.getOwnPropertyDescriptor(DataView.prototype, 'byteOffset')!.get!.call(fields.view) !== fields.bytes.byteOffset ||
-          Object.getOwnPropertyDescriptor(DataView.prototype, 'byteLength')!.get!.call(fields.view) !== proof.length) {
+          dataViewBuffer.call(fields.view) !== fields.bytes.buffer ||
+          dataViewByteOffset.call(fields.view) !== fields.bytes.byteOffset ||
+          dataViewByteLength.call(fields.view) !== proof.length) {
         throw new Error('Actual live retained x86 physical stack/register storage required');
       }
     } catch (error) { this.#phase = 'blocked'; this.#boundary ??= reason(error); throw error; }
@@ -395,6 +581,11 @@ export class NativeX86ThreadStack {
       try { const value = body(); this.#check(controller); return known(value); }
       finally { this.#executing = false; }
     } catch (error) { this.#boundary ??= reason(error); this.#phase = 'blocked'; return unknown(this.#boundary); }
+  }
+  #stackWord(offset: number): NativeX86Word32 {
+    if (!Number.isSafeInteger(offset) || offset < 0 || offset > this.#selection.reservationBytes) throw new Error('Actual contained nonwrapping virtual stack address required');
+    const aligned = this.#selection.pageAlignment === 'virtual-page-4096';
+    return this.#mint(aligned ? offset & 0xfff : 0, aligned ? 0xfff : 0, { kind: 'stack', offset });
   }
   #mint(value: number, mask: number, provenance?: WordRecord['provenance']): NativeX86Word32 {
     const word = Object.freeze({ identity: Object.freeze({}) });
@@ -430,7 +621,7 @@ export class NativeX86ThreadStack {
   #allocationWord(allocation: Allocation, offset: number): NativeX86Word32 {
     this.#allocationLive(allocation, offset, 0);
     const pointer = Object.freeze({ fields: allocation.fields, offset });
-    const word = this.#mint(0, 0, { kind: 'allocation', allocation, offset, pointer }); this.#nativePointers.set(pointer, word); return word;
+    const word = this.#mint(offset & 7, 7, { kind: 'allocation', allocation, offset, pointer }); this.#nativePointers.set(pointer, word); return word;
   }
   #memory(address: NativeX86Word32, width: Width): { fields: NativeHeapObjectViews; offset: number } {
     const provenance = this.#record(address).provenance;
@@ -443,13 +634,15 @@ export class NativeX86ThreadStack {
       this.#allocationLive(provenance.allocation, provenance.offset, width);
       return { fields: provenance.allocation.fields, offset: provenance.offset };
     }
-    throw new Error('Actual owned stack/allocation address required for memory access');
-  }
-  #invalidate(fields: NativeHeapObjectViews, offset: number, width: Width): void {
-    const slots = this.#slots.get(fields);
-    if (slots) for (const position of slots.keys()) if (position < offset + width && position + 4 > offset) slots.delete(position);
-    const cells = this.#imageReads.get(fields);
-    if (cells) for (const position of cells.keys()) if (position < offset + width && position + 4 > offset) cells.delete(position);
+    if (provenance?.kind === 'module') {
+      const access = NativeRuntimePlatform.canonicalGameModuleImageAccessForPlatform(this.#platform, this.#binding!.crt, provenance.label, provenance.offset, width);
+      if (!access.known) throw new Error(access.reason); return { fields: provenance.fields, offset: provenance.offset };
+    }
+    if (provenance?.kind === 'process') {
+      const access = NativeRuntimePlatform.canonicalProcessInputSpanForPlatform(this.#platform, provenance.pointer, width);
+      if (!access.known) throw new Error(access.reason); return { fields: provenance.pointer.fields, offset: provenance.pointer.offset };
+    }
+    throw new Error('Actual owned stack/allocation/module/process address required for memory access');
   }
   #invalidateRange(fields: NativeHeapObjectViews, offset: number, bytes: number): void {
     const begin = fields.bytes.byteOffset + offset, end = begin + bytes;
@@ -464,12 +657,16 @@ export class NativeX86ThreadStack {
   #liveWord(word: NativeX86Word32): WordRecord {
     const record = this.#record(word), p = record.provenance;
     if (p?.kind === 'allocation') this.#allocationLive(p.allocation, p.offset, 0);
+    if (p?.kind === 'module') this.#moduleWord(p.label, p.offset);
+    if (p?.kind === 'process') this.#processWord(p.pointer);
+    if (p?.kind === 'neg') this.#liveWord(p.word);
     if (p?.kind === 'heap') {
       const heap = NativeModuleCrtOwner.canonicalGameHeapHandleForPlatform(this.#binding!.crt, this.#platform);
       if (!heap.known || heap.value !== p.heap) throw new Error(heap.known ? 'Current heap word differs from its actual Game heap' : heap.reason);
     }
     if (p?.kind === 'platform') {
-      const kind = NativeRuntimePlatform.standardIoCapabilityForPlatform(this.#platform, p.object);
+      const legacy = NativeRuntimePlatform.standardIoCapabilityForPlatform(this.#platform, p.object);
+      const kind = legacy.known ? legacy : NativeRuntimePlatform.argvCapabilityForPlatform(this.#platform, p.object);
       if (!kind.known || kind.value !== p.category) throw new Error(kind.known ? 'Retained Runtime capability category changed' : kind.reason);
     }
     return record;
@@ -497,11 +694,65 @@ export class NativeX86ThreadStack {
     const p = this.#liveWord(word).provenance;
     if (!Number.isSafeInteger(displacement)) throw new Error('Exact signed owned pointer displacement required');
     if (p?.kind === 'allocation') return this.#allocationWord(p.allocation, p.offset + displacement);
-    if (p?.kind !== 'stack') throw new Error('Actual owned stack/allocation pointer arithmetic required');
+    if (p?.kind === 'module') return this.#moduleWord(p.label, p.offset + displacement);
+    if (p?.kind === 'process') return this.#processWord(Object.freeze({ fields: p.pointer.fields, offset: p.pointer.offset + displacement }));
+    if (p?.kind !== 'stack') throw new Error('Actual owned stack/allocation/module pointer arithmetic required');
     const offset = p.offset + displacement;
     if (offset < 0 || offset > this.#stack.bytes.length) throw new Error('Opaque relative stack address exceeds reservation');
-    return this.#mint(0, 0, { kind: 'stack', offset });
+    return this.#stackWord(offset);
   }
+  gameImageAddress(controller: object, label: string, offset = 0): NativeValue<NativeX86Word32> { return this.#run(controller, () => this.#moduleWord(label, offset)); }
+  effectiveAddress(controller: object, terms: readonly { word: NativeX86Word32; scale?: number; negative?: boolean }[], displacement: number): NativeValue<NativeX86Word32> { return this.#run(controller, () => {
+    if (!Number.isSafeInteger(displacement)) throw new Error('Actual source displacement required');
+    let pointer: NativeX86Word32 | null = null, scalar = displacement;
+    for (const term of terms) {
+      const p = this.#liveWord(term.word).provenance, scale = term.scale ?? 1;
+      if (![1, 2, 4, 8].includes(scale)) throw new Error('Actual x86 source scale required');
+      if (p && ['stack', 'allocation', 'module', 'process'].includes(p.kind)) {
+        if (pointer || scale !== 1 || term.negative) throw new Error('One contained opaque base pointer required by LEA'); pointer = term.word;
+      } else scalar += (this.#numeric(term.word, 4) | 0) * scale * (term.negative ? -1 : 1);
+    }
+    return pointer ? this.#offsetWord(pointer, scalar) : this.#mint(scalar >>> 0, 0xffffffff);
+  }); }
+  registerLane(controller: object, register: NativeX86Register, lane: NativeX86Lane): NativeValue<NativeX86Word32> { return this.#run(controller, () => {
+    const word = this.#record(this.#load(this.#bank, this.#reg(register))), shift = lane === 'high8' ? 8 : 0, maximum = lane === 'low16' ? 0xffff : 255;
+    if (!['low8', 'high8', 'low16'].includes(lane)) throw new Error('Actual x86 register lane required');
+    return this.#mint((word.value >>> shift) & maximum, (word.mask >>> shift) & maximum);
+  }); }
+  setRegisterLane(controller: object, register: NativeX86Register, lane: NativeX86Lane, word: NativeX86Word32): NativeValue<void> { return this.#run(controller, () => {
+    const old = this.#record(this.#load(this.#bank, this.#reg(register))), incoming = this.#record(word), shift = lane === 'high8' ? 8 : 0, maximum = lane === 'low16' ? 0xffff : 255;
+    if (!['low8', 'high8', 'low16'].includes(lane)) throw new Error('Actual x86 register lane required');
+    const mask = maximum << shift;
+    this.#store(this.#bank, this.#reg(register), this.#mint((old.value & ~mask) | ((incoming.value & maximum) << shift), (old.mask & ~mask) | ((incoming.mask & maximum) << shift)));
+  }); }
+  scalarLane(controller: object, word: NativeX86Word32, width: 1 | 2, signed = false): NativeValue<NativeX86Word32> { return this.#run(controller, () => {
+    const r = this.#record(word), maximum = this.#maximum(width), sign = width === 1 ? 0x80 : 0x8000;
+    const bits = r.value & maximum, masks = r.mask & maximum;
+    return this.#mint(signed && (bits & sign) ? bits | ~maximum : bits, masks | (signed ? masks & sign ? ~maximum : 0 : ~maximum));
+  }); }
+  bitwiseNot(controller: object, word: NativeX86Word32, width: Width = 4): NativeValue<NativeX86Word32> { return this.#run(controller, () => { const r = this.#record(word), m = this.#maximum(width); return this.#mint(~r.value & m, r.mask & m); }); }
+  setCondition(controller: object, condition: NativeX86Condition): NativeValue<NativeX86Word32> {
+    const value = NativeX86ThreadStack.prototype.condition.call(this, controller, condition); if (!value.known) return value;
+    return this.#run(controller, () => this.#mint(value.value ? 1 : 0, 255));
+  }
+  shift(controller: object, word: NativeX86Word32, count: number, direction: 'left' | 'logicalRight' | 'arithmeticRight', width: Width = 4): NativeValue<NativeX86Word32> { return this.#run(controller, () => {
+    const maximum = this.#maximum(width), bits = width * 8, n = count & 31;
+    if (!Number.isInteger(count) || !['left', 'logicalRight', 'arithmeticRight'].includes(direction)) throw new Error('Actual source shift count/direction required');
+    if (!n) return word;
+    const value = this.#numeric(word, width), sign = 2 ** (bits - 1), signed = value & sign ? value - 2 ** bits : value;
+    const result = ((direction === 'left' ? value * 2 ** n : direction === 'logicalRight' ? Math.floor(value / 2 ** n) : Math.floor(signed / 2 ** n)) & maximum) >>> 0;
+    const cf = n <= bits ? direction === 'left' ? (value >>> (bits - n)) & 1 : (value >>> (n - 1)) & 1 : 0;
+    this.#logicalFlags(result, maximum, width); const f = this.#record(this.#load(this.#bank, 36));
+    const of = direction === 'left' ? !!(result & sign) !== !!cf : direction === 'logicalRight' ? !!(value & sign) : false;
+    this.#flags((f.value & ~0x801) | cf | (n === 1 && of ? 0x800 : 0), (f.mask & ~0x801) | (n <= bits ? 1 : 0) | (n === 1 ? 0x800 : 0)); return this.#mint(result, maximum);
+  }); }
+  leave(controller: object): NativeValue<void> { return this.#run(controller, () => {
+    const ebp = this.#load(this.#bank, this.#reg('EBP')), offset = this.#address(ebp), saved = this.#load(this.#stack, offset);
+    this.#store(this.#bank, this.#reg('ESP'), this.#stackWord(offset + 4)); this.#store(this.#bank, this.#reg('EBP'), saved);
+  }); }
+  exchangeRegisters(controller: object, left: NativeX86Register, right: NativeX86Register): NativeValue<void> { return this.#run(controller, () => {
+    const a = this.#load(this.#bank, this.#reg(left)), b = this.#load(this.#bank, this.#reg(right)); this.#store(this.#bank, this.#reg(left), b); this.#store(this.#bank, this.#reg(right), a);
+  }); }
   #store(fields: NativeHeapObjectViews, offset: number, word: NativeX86Word32): void {
     const record = this.#record(word);
     if (!Number.isSafeInteger(offset) || offset < 0 || offset + 4 > fields.bytes.length) throw new Error('Owned physical x86 DWORD store outside reservation');
@@ -532,7 +783,7 @@ export class NativeX86ThreadStack {
   }
   #push(word: NativeX86Word32): void {
     const esp = this.#load(this.#bank, this.#reg('ESP')), offset = this.#address(esp) - 4;
-    this.#store(this.#stack, offset, word); this.#store(this.#bank, this.#reg('ESP'), this.#mint(0, 0, { kind: 'stack', offset }));
+    this.#store(this.#stack, offset, word); this.#store(this.#bank, this.#reg('ESP'), this.#stackWord(offset));
   }
   #source(type: 'code' | 'image', address: string): NativeX86Word32 {
     if ((type !== 'code' && type !== 'image') || !/^[0-9a-f]{8}$/.test(address)) throw new Error('Admitted source-address metadata required');
@@ -544,11 +795,12 @@ export class NativeX86ThreadStack {
     this.#calls.push({ site, returnWord, position: this.#address(this.#load(this.#bank, this.#reg('ESP'))), returned: false });
     this.#trace.push('CALL ' + site + ' return ' + returnAddress);
   }
-  #ret(): NativeX86Word32 {
+  #ret(argumentBytes = 0): NativeX86Word32 {
+    if (!Number.isSafeInteger(argumentBytes) || argumentBytes < 0 || argumentBytes % 4 !== 0) throw new Error('Actual source RET argument cleanup required');
     const esp = this.#address(this.#load(this.#bank, this.#reg('ESP'))), word = this.#load(this.#stack, esp);
     const call = [...this.#calls].reverse().find(entry => !entry.returned);
     if (!call || call.returnWord !== word) throw new Error('Actual owned source CALL/RET continuation required');
-    this.#store(this.#bank, this.#reg('ESP'), this.#mint(0, 0, { kind: 'stack', offset: esp + 4 }));
+    this.#store(this.#bank, this.#reg('ESP'), this.#stackWord(esp + 4 + argumentBytes));
     call.returned = true; this.#currentPc = word; return word;
   }
   beginIoCall(controller: object): NativeValue<void> {
@@ -583,8 +835,8 @@ export class NativeX86ThreadStack {
   }); }
   sourceAddress(controller: object, type: 'code' | 'image', address: string): NativeValue<NativeX86Word32> { return this.#run(controller, () => this.#source(type, address)); }
   registerSourceImage(controller: object, address: string, fields: NativeHeapObjectViews): NativeValue<void> { return this.#run(controller, () => {
-    const label = address === '206e8e90' ? 'ioInitEH4Scope' : address === '206e8f98' ? 'callocEH4Scope' : address === '206e8e70' ? 'sectionInitExceptionTable' : null;
-    if (!label) throw new Error('Only the exact admitted ioInit/calloc/section EH4 scopes are owned');
+    const label = address === '206e8e90' ? 'ioInitEH4Scope' : address === '206e8f98' ? 'callocEH4Scope' : address === '206e8e70' ? 'sectionInitExceptionTable' : address === '206e8cb8' ? 'setMbcEH4Scope' : address === '206e8c98' ? 'updateMbcEH4Scope' : null;
+    if (!label) throw new Error('Only exact admitted Game EH4 scope views are owned');
     const crt = this.#binding!.crt, selected = NativeModuleCrtOwner.canonicalImageForOwner(crt, label);
     if (!selected.known || selected.value !== fields) throw new Error('Actual same-Game canonical scope image required');
     const receipt = nativeGameImageReceipt(label);
@@ -617,7 +869,7 @@ export class NativeX86ThreadStack {
     if (!image.known) throw new Error(image.reason);
     const access = NativeRuntimePlatform.canonicalGameModuleImageAccessForPlatform(this.#platform, crt, label, offset, width);
     if (!access.known) throw new Error(access.reason);
-    this.#invalidate(image.value, offset, width); const record = this.#record(word), field = NativeHeapObjectViews.prototype.maskedWord.call(image.value, offset, width);
+    this.#invalidateRange(image.value, offset, width); const record = this.#record(word), field = NativeHeapObjectViews.prototype.maskedWord.call(image.value, offset, width);
     field.value = (record.value & maximum) >>> 0; field.knownMask = (record.mask & maximum) >>> 0;
   }); }
   storeGameImagePointer(controller: object, label: string, offset: number, word: NativeX86Word32): NativeValue<void> { return this.#run(controller, () => {
@@ -626,9 +878,9 @@ export class NativeX86ThreadStack {
     const access = NativeRuntimePlatform.canonicalGameModuleImageAccessForPlatform(this.#platform, crt, label, offset, 4);
     if (!access.known) throw new Error(access.reason);
     const p = record.provenance;
-    if (p?.kind !== 'allocation' && !(record.mask === 0xffffffff && record.value === 0)) throw new Error('Actual allocation or known NULL required for canonical image pointer store');
-    this.#invalidate(image.value, offset, 4);
-    NativeHeapObjectViews.prototype.pointer.call(image.value, offset).set(p?.kind === 'allocation' ? p.pointer : null);
+    if (p?.kind !== 'allocation' && p?.kind !== 'module' && p?.kind !== 'process' && !(record.mask === 0xffffffff && record.value === 0)) throw new Error('Actual allocation or known NULL required for canonical image pointer store');
+    this.#invalidateRange(image.value, offset, 4);
+    NativeHeapObjectViews.prototype.pointer.call(image.value, offset).set(p?.kind === 'allocation' || p?.kind === 'process' ? p.pointer : p?.kind === 'module' ? this.#modulePointer(p) : null);
   }); }
   requireSourceAddress(controller: object, word: NativeX86Word32, type: 'code' | 'image', address: string): NativeValue<void> { return this.#run(controller, () => {
     const record = this.#record(word); if (record.provenance?.kind !== 'source' || record.provenance.type !== type || record.provenance.address !== address) throw new Error('Actual expected source continuation capability required');
@@ -641,10 +893,11 @@ export class NativeX86ThreadStack {
     const offset = this.#address(left) - operand.value;
     if (offset < 0 || offset > this.#stack.bytes.length) throw new Error('Current stack subtraction exceeds owned reservation');
     this.#flags(0, 0);
-    return this.#mint(0, 0, { kind: 'stack', offset });
+    return this.#stackWord(offset);
   }); }
-  xor(controller: object, left: NativeX86Word32, right: NativeX86Word32): NativeValue<NativeX86Word32> { return this.#run(controller, () => {
+  xor(controller: object, left: NativeX86Word32, right: NativeX86Word32, width: Width = 4): NativeValue<NativeX86Word32> { return this.#run(controller, () => {
     const a = this.#record(left), b = this.#record(right);
+    if (width !== 4) { const maximum = this.#maximum(width), value = (a.value ^ b.value) & maximum, mask = left === right ? maximum : (a.mask & b.mask & maximum); this.#logicalFlags(value, mask, width); return this.#mint(value, mask); }
     if (left === right) { this.#logicalFlags(0, 0xffffffff, 4); return this.#mint(0, 0xffffffff); }
     const same = (x: NativeX86Word32, y: NativeX86Word32) => x === y || (this.#record(x).mask === 0xffffffff && this.#record(y).mask === 0xffffffff && this.#record(x).value === this.#record(y).value);
     if (a.provenance?.kind === 'xor' && same(a.provenance.right, right)) { const r = this.#record(a.provenance.left); this.#logicalFlags(r.value, r.mask, 4); return a.provenance.left; }
@@ -654,19 +907,21 @@ export class NativeX86ThreadStack {
   }); }
   compare(controller: object, left: NativeX86Word32, right: NativeX86Word32, width: Width = 4): NativeValue<void> { return this.#run(controller, () => {
     const a = this.#liveWord(left), b = this.#liveWord(right), maximum = this.#maximum(width), p = a.provenance, q = b.provenance;
+    if(left===right){this.#arithmeticFlags(0,0,0,width,true);return;}
     if (width === 4 && p?.kind === 'allocation' && q?.kind === 'allocation' && p.allocation === q.allocation) {
       this.#flags((p.offset < q.offset ? 1 : 0) | (p.offset === q.offset ? 0x40 : 0), 0x41); return;
     }
     if (width === 4 && p?.kind === 'stack' && q?.kind === 'stack') {
       this.#flags((p.offset < q.offset ? 1 : 0) | (p.offset === q.offset ? 0x40 : 0), 0x41); return;
     }
-    const pointer = (r: WordRecord) => r.provenance?.kind === 'allocation' || r.provenance?.kind === 'heap';
+    const pointer = (r: WordRecord) => r.provenance && ['allocation', 'heap', 'module', 'process', 'stack'].includes(r.provenance.kind);
     const zero = (r: WordRecord) => r.mask === 0xffffffff && r.value === 0;
     if (width === 4 && pointer(a) && zero(b)) { this.#flags(0, 0x41); return; }
     if (width === 4 && zero(a) && pointer(b)) { this.#flags(1, 0x41); return; }
     // Opaque capabilities establish equality relations, never invented
     // numerical address ordering or sign bits. A minted valid handle is
     // distinct from NULL and the two native invalid-handle sentinels.
+    if (width === 4 && p?.kind === 'module' && q?.kind === 'module' && p.fields.bytes.buffer === q.fields.bytes.buffer) { const ap = p.fields.bytes.byteOffset + p.offset, bp = q.fields.bytes.byteOffset + q.offset; this.#flags((ap < bp ? 1 : 0) | (ap === bp ? 0x40 : 0), 0x41); return; }
     if (width === 4 && p?.kind === 'platform' && q?.kind === 'platform') {
       this.#flags(p.object === q.object ? 0x40 : 0, 0x40); return;
     }
@@ -683,35 +938,40 @@ export class NativeX86ThreadStack {
   }); }
   test(controller: object, left: NativeX86Word32, right: NativeX86Word32, width: Width = 4): NativeValue<void> { return this.#run(controller, () => {
     const a = this.#liveWord(left), b = this.#liveWord(right);
-    if (width === 4 && left === right && (a.provenance?.kind === 'allocation' || a.provenance?.kind === 'heap' || a.provenance?.kind === 'platform')) { this.#flags(0, 0x841); return; }
+    if (width === 4 && left === right && (a.provenance && ['allocation','heap','platform','module','process','stack'].includes(a.provenance.kind))) { this.#flags(0, 0x841); return; }
     const mask = (a.mask & b.mask) | ((~a.value) & a.mask) | ((~b.value) & b.mask);
     this.#logicalFlags(a.value & b.value, mask, width);
   }); }
   condition(controller: object, condition: NativeX86Condition): NativeValue<boolean> { return this.#run(controller, () => {
-    const flags = this.#record(this.#load(this.#bank, 36)), required = condition === 'be' || condition === 'a' ? 0x41 : condition === 'c' ? 1 : condition === 'l' ? 0x880 : 0x40;
-    if (!['z', 'nz', 'be', 'a', 'c', 'l'].includes(condition) || (flags.mask & required) !== required) throw new Error('Current known consumed x86 branch flags required');
+    const flags = this.#record(this.#load(this.#bank, 36)), required = condition === 'be' || condition === 'a' ? 0x41 : condition === 'c' || condition === 'nc' ? 1 : condition === 'l' || condition === 'ge' ? 0x880 : condition === 'le' || condition === 'g' ? 0x8c0 : 0x40;
+    if (!['z', 'nz', 'be', 'a', 'c', 'nc', 'l', 'ge', 'le', 'g'].includes(condition) || (flags.mask & required) !== required) throw new Error('Current known consumed x86 branch flags required');
     const z = (flags.value & 0x40) !== 0, c = (flags.value & 1) !== 0;
-    return condition === 'z' ? z : condition === 'nz' ? !z : condition === 'be' ? c || z : condition === 'a' ? !c && !z : condition === 'l' ? !!(flags.value & 0x80) !== !!(flags.value & 0x800) : c;
+    return condition === 'z' ? z : condition === 'nz' ? !z : condition === 'be' ? c || z : condition === 'a' ? !c && !z : condition === 'l' ? !!(flags.value & 0x80) !== !!(flags.value & 0x800) : condition === 'ge' ? !!(flags.value & 0x80) === !!(flags.value & 0x800) : condition === 'le' ? z || !!(flags.value & 0x80) !== !!(flags.value & 0x800) : condition === 'g' ? !z && !!(flags.value & 0x80) === !!(flags.value & 0x800) : condition === 'nc' ? !c : c;
   }); }
   alu(controller: object, op: 'add' | 'sub' | 'sbb' | 'imul' | 'or' | 'and', left: NativeX86Word32, right: NativeX86Word32,
     width: Width = 4): NativeValue<NativeX86Word32> { return this.#run(controller, () => {
     const a = this.#liveWord(left), b = this.#liveWord(right), maximum = this.#maximum(width);
     if (op === 'or' || op === 'and') {
+      if (width === 4 && op === 'and' && b.mask === 0xffffffff && a.provenance?.kind === 'stack') {
+        if (b.value === 0xfffff000) { const result = this.#stackWord(a.provenance.offset & ~0xfff), r = this.#record(result); this.#logicalFlags(r.value, r.mask, 4); return result; }
+        if (b.value === 0xffffffff) { this.#logicalFlags(a.value, a.mask, 4); return left; }
+      }
       const value = op === 'or' ? a.value | b.value : a.value & b.value;
       const mask = op === 'or' ? (a.mask & b.mask) | (a.value & a.mask) | (b.value & b.mask)
         : (a.mask & b.mask) | ((~a.value) & a.mask) | ((~b.value) & b.mask);
       this.#logicalFlags(value, mask, width); return this.#mint(value & maximum, mask & maximum);
     }
     if (width === 4 && (op === 'add' || op === 'sub')) {
-      const pointer = a.provenance?.kind === 'allocation' || a.provenance?.kind === 'stack';
-      const reverse = op === 'add' && (b.provenance?.kind === 'allocation' || b.provenance?.kind === 'stack');
+      const pointer = ['allocation', 'stack', 'module', 'process'].includes(a.provenance?.kind ?? '');
+      const reverse = op === 'add' && ['allocation', 'stack', 'module', 'process'].includes(b.provenance?.kind ?? '');
       if (pointer || reverse) {
         const amount = this.#numeric(pointer ? right : left, 4);
-        if (amount > 0x7fffffff) throw new Error('Owned pointer addition covers contained positive scalar displacement');
-        const result = this.#offsetWord(pointer ? left : right, op === 'sub' ? -amount : amount);
-        this.#flags(0, 0); return result;
+        const result = this.#offsetWord(pointer ? left : right, op === 'sub' ? -(amount | 0) : amount | 0);
+        this.#flags(amount > 0x7fffffff ? 1 : 0, a.provenance?.kind === 'stack' || b.provenance?.kind === 'stack' ? 1 : 0); return result;
       }
     }
+    if (op === 'sub' && left === right) { this.#arithmeticFlags(0, 0, 0, width, true); return this.#mint(0, maximum); }
+    if (op === 'sbb' && left === right) { const f = this.#record(this.#load(this.#bank, 36)); if (!(f.mask & 1)) throw new Error('Current CF required'); const carry = f.value & 1, v = (-carry & maximum) >>> 0; this.#arithmeticFlags(0, 0, v, width, true, carry); return this.#mint(v, maximum); }
     const av = this.#numeric(left, width), bv = this.#numeric(right, width);
     if (op === 'imul') {
       if (width !== 4) throw new Error('Selected source IMUL requires DWORD operands');
@@ -725,19 +985,31 @@ export class NativeX86ThreadStack {
     this.#arithmeticFlags(av, bv, value, width, subtract, carry); return this.#mint(value, maximum);
   }); }
   increment(controller: object, word: NativeX86Word32, width: Width = 4): NativeValue<NativeX86Word32> { return this.#run(controller, () => {
+    const pointer = this.#liveWord(word).provenance;
+    if (width === 4 && pointer && ['stack','allocation','module','process'].includes(pointer.kind)) {
+      const before = this.#record(this.#load(this.#bank, 36)), result = this.#offsetWord(word, 1);
+      this.#flags(before.value & 1, (before.mask & 1) | 0x40); return result;
+    }
     const maximum = this.#maximum(width), before = this.#record(this.#load(this.#bank, 36)), value = this.#numeric(word, width), result = ((value + 1) & maximum) >>> 0;
     this.#arithmeticFlags(value, 1, result, width, false);
     const after = this.#record(this.#load(this.#bank, 36)); this.#flags((after.value & ~1) | (before.value & 1), (after.mask & ~1) | (before.mask & 1));
     return this.#mint(result, maximum);
   }); }
   decrement(controller: object, word: NativeX86Word32, width: Width = 4): NativeValue<NativeX86Word32> { return this.#run(controller, () => {
+    const pointer = this.#liveWord(word).provenance;
+    if (width === 4 && pointer && ['stack','allocation','module','process'].includes(pointer.kind)) {
+      const before = this.#record(this.#load(this.#bank, 36)), result = this.#offsetWord(word, -1);
+      this.#flags(before.value & 1, (before.mask & 1) | 0x40); return result;
+    }
     const maximum = this.#maximum(width), before = this.#record(this.#load(this.#bank, 36)), value = this.#numeric(word, width), result = ((value - 1) & maximum) >>> 0;
     this.#arithmeticFlags(value, 1, result, width, true);
     const after = this.#record(this.#load(this.#bank, 36)); this.#flags((after.value & ~1) | (before.value & 1), (after.mask & ~1) | (before.mask & 1));
     return this.#mint(result, maximum);
   }); }
   negate(controller: object, word: NativeX86Word32, width: Width = 4): NativeValue<NativeX86Word32> { return this.#run(controller, () => {
-    const maximum = this.#maximum(width), value = this.#numeric(word, width), result = (-value & maximum) >>> 0;
+    const maximum = this.#maximum(width), r = this.#liveWord(word);
+    if (width === 4 && r.provenance && ['stack', 'allocation', 'module', 'process'].includes(r.provenance.kind)) { this.#flags(1, 0x41); return this.#mint(-r.value, r.mask, { kind: 'neg', word }); }
+    const value = this.#numeric(word, width), result = (-value & maximum) >>> 0;
     this.#arithmeticFlags(0, value, result, width, true); return this.#mint(result, maximum);
   }); }
   divideUnsigned(controller: object, divisor: NativeX86Word32): NativeValue<void> { return this.#run(controller, () => {
@@ -750,39 +1022,53 @@ export class NativeX86ThreadStack {
   }); }
   loadWidth(controller: object, address: NativeX86Word32, width: Width): NativeValue<NativeX86Word32> { return this.#run(controller, () => {
     this.#maximum(width); const memory = this.#memory(address, width);
-    if (width === 4 && memory.fields === this.#stack) return this.#load(memory.fields, memory.offset);
-    if (width === 4) {
-      const slot = this.#slots.get(memory.fields)?.get(memory.offset), p = slot && this.#record(slot.word).provenance;
-      if (p?.kind === 'platform' || p?.kind === 'allocation') {
-        const current = NativeHeapObjectViews.prototype.pointer.call(memory.fields, memory.offset).get();
-        if (current !== (p.kind === 'platform' ? p.object : p.pointer)) throw new Error('Current allocation pointer sidecar changed outside its source store');
-        this.#liveWord(slot!.word); return this.#load(memory.fields, memory.offset);
-      }
-    }
+    if (width === 4) return this.#currentMemoryWord(memory.fields, memory.offset);
     const word = NativeHeapObjectViews.prototype.maskedWord.call(memory.fields, memory.offset, width); return this.#mint(word.value, word.knownMask);
   }); }
   storeWidth(controller: object, address: NativeX86Word32, word: NativeX86Word32, width: Width): NativeValue<void> { return this.#run(controller, () => {
+    this.#writeMemory(address, word, width);
+  }); }
+  #writeMemory(address: NativeX86Word32, word: NativeX86Word32, width: Width): void {
     const maximum = this.#maximum(width), memory = this.#memory(address, width), record = this.#record(word);
     if (width === 4 && memory.fields === this.#stack) { this.#store(memory.fields, memory.offset, word); return; }
     const p = this.#liveWord(word).provenance;
-    if (width === 4 && (p?.kind === 'platform' || p?.kind === 'allocation')) {
+    if (width === 4 && (p?.kind === 'platform' || p?.kind === 'allocation' || p?.kind === 'module' || p?.kind === 'process')) {
       this.#invalidateRange(memory.fields, memory.offset, 4); this.#store(memory.fields, memory.offset, word);
-      NativeHeapObjectViews.prototype.pointer.call(memory.fields, memory.offset).set(p.kind === 'platform' ? p.object : p.pointer); return;
+      NativeHeapObjectViews.prototype.pointer.call(memory.fields, memory.offset).set(p.kind === 'platform' ? p.object : p.kind === 'module' ? this.#modulePointer(p) : p.pointer); return;
     }
-    this.#invalidate(memory.fields, memory.offset, width);
+    this.#invalidateRange(memory.fields, memory.offset, width);
     const field = NativeHeapObjectViews.prototype.maskedWord.call(memory.fields, memory.offset, width);
     field.value = (record.value & maximum) >>> 0; field.knownMask = (record.mask & maximum) >>> 0;
+  }
+  #stringDword(move: boolean): void {
+    const direction = NativeRuntimePlatform.readNativeDirectionFlag(this.#platform); if (!direction.known) throw new Error(direction.reason);
+    const destination = this.#load(this.#bank, this.#reg('EDI'));
+    const source = move ? this.#load(this.#bank, this.#reg('ESI')) : this.#load(this.#bank, this.#reg('EAX'));
+    const memory = move ? this.#memory(source, 4) : null;
+    const word = memory ? this.#currentMemoryWord(memory.fields, memory.offset) : source;
+    this.#writeMemory(destination, word, 4);
+    this.#store(this.#bank, this.#reg('EDI'), this.#offsetWord(destination, direction.value ? -4 : 4));
+    if (move) this.#store(this.#bank, this.#reg('ESI'), this.#offsetWord(source, direction.value ? -4 : 4));
+  }
+  storeDwordString(controller: object): NativeValue<void> { return this.#run(controller, () => this.#stringDword(false)); }
+  repeatMoveDwords(controller: object): NativeValue<void> { return this.#run(controller, () => {
+    while (this.#numeric(this.#load(this.#bank, this.#reg('ECX')),4) !== 0) {
+      this.#check(controller); this.#stringDword(true);
+      this.#store(this.#bank, this.#reg('ECX'), this.#mint(this.#numeric(this.#load(this.#bank, this.#reg('ECX')),4)-1,0xffffffff));
+    }
+  }); }
+  repeatStoreDwords(controller: object): NativeValue<void> { return this.#run(controller, () => {
+    while (this.#numeric(this.#load(this.#bank, this.#reg('ECX')),4) !== 0) {
+      this.#check(controller); this.#stringDword(false);
+      this.#store(this.#bank, this.#reg('ECX'), this.#mint(this.#numeric(this.#load(this.#bank, this.#reg('ECX')),4)-1,0xffffffff));
+    }
   }); }
   loadPointer(controller: object, address: NativeX86Word32): NativeValue<NativeX86Word32> { return this.#run(controller, () => {
-    const memory = this.#memory(address, 4), pointer = NativeHeapObjectViews.prototype.pointer.call(memory.fields, memory.offset).get();
-    if (pointer === null) return this.#mint(0, 0xffffffff);
-    const allocation = this.#nativePointers.get(pointer);
-    if (allocation) { this.#liveWord(allocation); return allocation; }
-    return this.#objectWord(pointer);
+    const memory = this.#memory(address, 4); return this.#currentMemoryWord(memory.fields, memory.offset);
   }); }
-  runtimeProcedure(controller: object, name: 'TlsGetValue'): NativeValue<NativeX86Word32> { return this.#run(controller, () => {
-    if (name !== 'TlsGetValue') throw new Error('Only the selected original TLS IAT procedure is admitted');
-    const procedure = NativeRuntimePlatform.standardIoTlsProcedureForPlatform(this.#platform);
+  runtimeProcedure(controller: object, name: 'TlsGetValue' | 'HeapAlloc' | 'InterlockedIncrement' | 'MultiByteToWideChar' | 'LCMapStringW'): NativeValue<NativeX86Word32> { return this.#run(controller, () => {
+    const procedure = name === 'TlsGetValue' ? NativeRuntimePlatform.standardIoTlsProcedureForPlatform(this.#platform)
+      : NativeRuntimePlatform.argvProcedureForPlatform(this.#platform, name);
     if (!procedure.known) throw new Error(procedure.reason); return this.#objectWord(procedure.value);
   }); }
   load(controller: object, address: NativeX86Word32): NativeValue<NativeX86Word32> { return this.#run(controller, () => this.#load(this.#stack, this.#address(address))); }
@@ -791,10 +1077,10 @@ export class NativeX86ThreadStack {
   pop(controller: object, name: NativeX86Register): NativeValue<void> { return this.#run(controller, () => {
     const esp = this.#address(this.#load(this.#bank, this.#reg('ESP'))), word = this.#load(this.#stack, esp);
     this.#store(this.#bank, this.#reg(name), word);
-    if (name !== 'ESP') this.#store(this.#bank, this.#reg('ESP'), this.#mint(0, 0, { kind: 'stack', offset: esp + 4 }));
+    if (name !== 'ESP') this.#store(this.#bank, this.#reg('ESP'), this.#stackWord(esp + 4));
   }); }
   call(controller: object, site: string, returnAddress: string): NativeValue<void> { return this.#run(controller, () => this.#call(site, returnAddress)); }
-  ret(controller: object): NativeValue<NativeX86Word32> { return this.#run(controller, () => this.#ret()); }
+  ret(controller: object, argumentBytes = 0): NativeValue<NativeX86Word32> { return this.#run(controller, () => this.#ret(argumentBytes)); }
   /** Fixed original import site; the caller cannot supply a grant, source PC,
    * argument view, endpoint implementation or a completed return snapshot. */
   invokeStartupInfoA(controller: object): NativeValue<void> { return this.#run(controller, () => {
@@ -828,7 +1114,7 @@ export class NativeX86ThreadStack {
         call.position + 8 > this.#stack.bytes.length) throw new Error('Actual startup stdcall argument cleanup required');
     // The declared RET4 consumes the return and argument in one owned ESP
     // transition. Unknown outcomes never reach this normal-return operation.
-    this.#store(this.#bank, this.#reg('ESP'), this.#mint(0, 0, { kind: 'stack', offset: call.position + 8 }));
+    this.#store(this.#bank, this.#reg('ESP'), this.#stackWord(call.position + 8));
     top.returned = true; this.#currentPc = continuation;
     call.phase = 'returned'; this.#startupInfoWriterReturned = true;
   }); }
@@ -876,7 +1162,7 @@ export class NativeX86ThreadStack {
     this.#flags(0, 0); this.#heapProof(grant, call);
     // One normal stdcall12 return transition. No unknown outcome consumes any
     // argument/return or unwinds the nested/outer FS registrations.
-    this.#store(this.#bank, this.#reg('ESP'), this.#mint(0, 0, { kind: 'stack', offset: call.position + 16 }));
+    this.#store(this.#bank, this.#reg('ESP'), this.#stackWord(call.position + 16));
     top.returned = true; call.phase = 'returned'; this.#currentPc = call.returnWord; this.#heapAllocReturned = true; this.#heapGrant = null;
   }); }
   #sectionView(pointer: NativeBytePointer): NativeHeapObjectViews {
@@ -956,10 +1242,55 @@ export class NativeX86ThreadStack {
     }
     // Single normal RET4/RET8. Unknown outcomes retain all current stack
     // arguments, nested FS registrations and lower effects.
-    this.#store(this.#bank, this.#reg('ESP'), this.#mint(0, 0, { kind: 'stack', offset: call.position + 4 + call.argumentBytes }));
+    this.#store(this.#bank, this.#reg('ESP'), this.#stackWord(call.position + 4 + call.argumentBytes));
     top.returned = true; call.phase = 'returned'; this.#currentPc = continuation; row.returned = true; this.#standardGrant = null;
   }); }
   invokeGetStdHandle(controller: object): NativeValue<void> { return this.#invokeStandard(controller, '204744b4'); }
+  invokeArgvImport(controller: object, site: NativeArgvCallSite): NativeValue<void> { return this.#run(controller, () => {
+    const binding = this.#argvBinding, spec = argvSites[site];
+    if (!binding || !spec || this.#argvGrant) throw new Error('Actual fresh same-controller argv import site required');
+    const source = NativeGameCrtArgv.canonicalArgvImportCallForCrt(binding.owner, binding.crt, controller, site); if (!source.known) throw new Error(source.reason);
+    const endpoints = this.#platform.argvNlsEndpoints;
+    if (!endpoints) throw new Error('Selected argv/NLS endpoint absent at' + site);
+    const endpoint = NativeRuntimePlatform.canonicalArgvNlsEndpointsForPlatform(this.#platform, endpoints); if (!endpoint.known) throw new Error(endpoint.reason);
+    const position = this.#address(this.#load(this.#bank, this.#reg('ESP'))), words = Object.freeze(Array.from({length: spec[1]},(_,index)=>this.#load(this.#stack,position+index*4)));
+    const args: NativeArgvArgument[] = words.map(word => {
+      const p = this.#liveWord(word).provenance;
+      if (p?.kind === 'heap') return Object.freeze({kind:'object' as const,value:p.heap});
+      if (p?.kind === 'platform') return Object.freeze({kind:'object' as const,value:p.object});
+      if (p && ['stack','allocation','module','process'].includes(p.kind)) { const memory=this.#memory(word,1); return Object.freeze({kind:'memory' as const,...memory}); }
+      return Object.freeze({kind:'scalar' as const,value:this.#numeric(word,4)});
+    });
+    let procedure: object | undefined;
+    if (spec[3]) { const p=this.#liveWord(this.#load(this.#bank,this.#reg(spec[3]))).provenance; if(p?.kind!=='platform')throw new Error('Actual indirect import capability required'); procedure=p.object; }
+    const chain = NativeGameCrtArgv.canonicalSourceFrameChainForCrt(binding.owner,binding.crt,controller); if(!chain.known)throw new Error(chain.reason);
+    const row={site,callPushed:false,called:false,returned:false};this.#argvRows.push(row);
+    this.#call(site,spec[2]);row.callPushed=true;
+    const top=this.#calls.at(-1)!, grant=Object.freeze({identity:Object.freeze({})});
+    const call: ArgvCall={stack:this,controller,args:Object.freeze({crt:binding.crt,site,kind:spec[0],arguments:Object.freeze(args),procedure}),
+      position:top.position,fs:this.#load(this.#bank,32),returnWord:top.returnWord,words,argumentBytes:spec[1]*4,
+      frames:Object.freeze(chain.value.map(frame=>frame.entry+':'+frame.site+':'+frame.returnPc)),phase:'pending'};
+    argvCalls.set(grant,call);this.#argvGrant=grant;this.#argvProof(grant,call);row.called=true;
+    const result=endpoints.invoke(grant);if(!result.known)throw new Error(result.reason);
+    const normal=NativeRuntimePlatform.canonicalArgvNlsNormalReturnForPlatform(this.#platform,grant);
+    if(!normal.known||normal.value!==result.value)throw new Error(normal.known?'Actual argv normal result identity changed':normal.reason);
+    this.#argvProof(grant,call);
+    let word:NativeX86Word32;
+    if(result.value.kind==='scalar')word=this.#mint(result.value.value,0xffffffff);
+    else if(result.value.kind==='void')word=this.#mint(0,0);
+    else if(result.value.value===null)word=this.#mint(0,0xffffffff);
+    else if(spec[0]==='HeapAlloc') {
+      const backing=result.value.value as NativeMemoryBacking,fields=new NativeHeapObjectViews(backing);
+      Object.freeze(fields.view);Object.freeze(fields);
+      const heap=NativeModuleCrtOwner.canonicalGameHeapHandleForPlatform(binding.crt,this.#platform);if(!heap.known)throw new Error(heap.reason);
+      const allocation=Object.freeze({fields,heap:heap.value,crt:binding.crt});this.#allocationLive(allocation,0,this.#numeric(words[2]!,4));
+      if(fields.bytes.length!==this.#numeric(words[2]!,4))throw new Error('Actual exact malloc backing size required');
+      word=this.#allocationWord(allocation,0);
+    } else word=this.#pointerWord(result.value.value);
+    this.#store(this.#bank,this.#reg('EAX'),word);
+    for(const name of ['ECX','EDX'] as const)this.#store(this.#bank,this.#reg(name),this.#mint(0,0));
+    this.#flags(0,0);this.#ret(call.argumentBytes);call.phase='returned';row.returned=true;this.#argvGrant=null;
+  }); }
   invokeGetFileType(controller: object): NativeValue<void> { return this.#invokeStandard(controller, '204744c6'); }
   invokeTlsGetValue(controller: object, site: '20467de8' | '20467dff'): NativeValue<void> {
     if (site !== '20467de8' && site !== '20467dff') return unknown('Exact original TLS call site required');
@@ -992,6 +1323,20 @@ export class NativeX86ThreadStack {
     return result;
   }
   readFs0(controller: object): NativeValue<NativeX86Word32> { return this.#run(controller, () => this.#load(this.#bank, 32)); }
+  argvReturnResult(controller: object): NativeValue<number> { return this.#run(controller, () => {
+    const binding=this.#argvBinding;if(!binding||this.#argvReturned)throw new Error('Actual once-only argv callee return required');
+    const proof=NativeGameCrtArgv.canonicalArgvReturnForCrt(binding.owner,binding.crt,controller);if(!proof.known)throw new Error(proof.reason);
+    const call=this.#calls.find(entry=>entry.site==='204678de'),initial=this.#initial;
+    if(!initial||!call||!call.returned||this.#currentPc!==call.returnWord||this.#record(call.returnWord).provenance?.kind!=='source'||
+      (this.#record(call.returnWord).provenance as {address:string}).address!=='204678e3'||this.#calls.some(entry=>!entry.returned)||this.#argvGrant||
+      this.#address(this.#load(this.#bank,this.#reg('ESP')))!==this.#address(initial.esp)||
+      this.#load(this.#bank,this.#reg('EBP'))!==initial.ebp||this.#load(this.#bank,this.#reg('EBX'))!==initial.ebx||
+      this.#load(this.#bank,this.#reg('ESI'))!==initial.esi||this.#load(this.#bank,this.#reg('EDI'))!==initial.edi||this.#load(this.#bank,32)!==initial.fs) {
+      throw new Error('Actual original argv return/restored frame and FS required');
+    }
+    const value=this.#numeric(this.#load(this.#bank,this.#reg('EAX')),4);if(value!==0&&value!==0xffffffff)throw new Error('Actual selected argv result0/-1 required');
+    this.#argvReturned=true;return value|0;
+  }); }
   writeFs0(controller: object, word: NativeX86Word32): NativeValue<void> { return this.#run(controller, () => this.#store(this.#bank, 32, word)); }
   startupInfoView(controller: object, ebp: NativeX86Word32): NativeValue<NativeHeapObjectViews> { return this.#run(controller, () => {
     const offset = this.#address(ebp) - 0x64;
@@ -1037,6 +1382,8 @@ export class NativeX86ThreadStack {
       heapAllocCallPushed: this.#heapAllocCallPushed, heapAllocCalled: this.#heapAllocCalled,
       heapAllocReturned: this.#heapAllocReturned, heapAllocBlockAllocated: this.#heapAllocBlockAllocated,
       standardIoCalls: Object.freeze(this.#standardIoRows.map(row => Object.freeze({ ...row }))),
+      argvCalls: Object.freeze(this.#argvRows.map(row => Object.freeze({ ...row }))),
+      returnedIoTransferred: this.#transferred, argvReturned: this.#argvReturned,
       numericalRuntimeAddressesProvided: false, nativeSehDispatchExecuted: false });
   }
 }
