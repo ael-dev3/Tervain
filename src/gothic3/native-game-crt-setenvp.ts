@@ -1,32 +1,30 @@
-/** The bounded original Game caller/argv source unit. Every reached instruction
+/** The bounded original Game caller/environment source unit. Every reached instruction
  * is lowered from its admitted original receipt into the same physical graph
- * that actually returned from ioInit. Windows/NLS imports require fixed private
+ * that actually returned from argv. Heap imports require fixed private
  * source grants; alternate unowned calls retain their reached frontier. */
 import type { NativeValue } from './dialogue';
 import { NativeCrtBootstrap } from './native-crt-bootstrap';
 import { NativeModuleCrtOwner } from './native-engine-crt-locks';
-import { NativeGameCrtIoInit } from './native-game-crt-ioinit';
-import { NativeGameCrtSetEnvp } from './native-game-crt-setenvp';
+import { NativeGameCrtArgv } from './native-game-crt-argv';
 import { NativeRuntimePlatform } from './native-runtime-platform';
 import { NativeX86ThreadStack } from './native-x86-thread-stack';
 import type { NativeX86Word32, NativeX86Register, NativeX86Condition } from './native-x86-thread-stack';
 import type { NativeHeapObjectViews } from './native-heap-views';
 import type { NativeGameIoInstruction } from './native-game-crt-io-source';
-import type { NativeArgvCallSite, NativeWin32ArgvNlsSelection } from './native-win32-argv-nls';
-import type { NativeWin32SetEnvpSelection } from './native-win32-setenvp';
-import { admitGameArgvSource, gameArgvInstruction, gameArgvImageReceipt } from './native-game-crt-argv-source';
+import type { NativeSetEnvpCallSite, NativeWin32SetEnvpSelection } from './native-win32-setenvp';
+import { admitGameSetEnvpSource, gameSetEnvpInstruction, gameSetEnvpImageReceipt } from './native-game-crt-setenvp-source';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = (reason: string): { known: false; reason: string } => ({ known: false, reason });
 function fact<T>(value: NativeValue<T>): T { if (!value.known) throw new Error(value.reason); return value.value; }
 function reason(error: unknown): string {
   try { return error instanceof Error ? error.message : String(error); }
-  catch { return 'Original Game argv source escaped without an owned reason'; }
+  catch { return 'Original Game environment source escaped without an owned reason'; }
 }
 type Width = 1 | 2 | 4;
 type Lane = 'low8' | 'high8' | 'low16';
-type Phase = 'cold' | 'claiming' | 'invoking' | 'frontier' | 'transferred' | 'blocked';
-interface Construction { phase: 'constructing' | 'returned' | 'blocked'; owner: NativeGameCrtArgv | null; boundary: string | null; }
+type Phase = 'cold' | 'claiming' | 'invoking' | 'blocked';
+interface Construction { phase: 'constructing' | 'returned' | 'blocked'; owner: NativeGameCrtSetEnvp | null; boundary: string | null; }
 interface Frame { readonly entry: string; readonly site: string; readonly returnPc: string; readonly previousEntry: string; }
 interface Effect { readonly pc: string; readonly operation: string; }
 interface Image { readonly label: string; readonly address: number; readonly bytes: number; readonly fields: NativeHeapObjectViews; }
@@ -38,7 +36,7 @@ interface InstructionSyntax {
 }
 type AddressTermSyntax = Readonly<{ kind: 'register'; register: NativeX86Register; scale: number; negative: boolean }> |
   Readonly<{ kind: 'literal'; value: number; negative: boolean }>;
-export type NativeGameCrtArgvNextBoundary = Readonly<{ pc: string; operation: string; target: string }> |
+export type NativeGameCrtSetEnvpNextBoundary = Readonly<{ pc: string; operation: string; target: string }> |
   Readonly<{ pc: string; operation: string; iat: string }> |
   Readonly<{ pc: string; operation: string; instruction: string }>;
 
@@ -51,52 +49,23 @@ const addressSyntaxCache = new Map<string, readonly AddressTermSyntax[]>();
 // These are the complete original body extents, not a general x86 entry API.
 // The separate getter proves every actual row's original bytes and ASM line.
 const bodies = Object.freeze([
-  ['204677e4', '204677e4-204679bc'], ['2047677c', '2047677c-20476834'],
-  ['204765e4', '204765e4-2047677b'], ['2047012d', '2047012d-2047013f'],
-  ['2046ff6f', '2046ff6f-2046ffbf'], ['20464c66', '20464c66-20464ce7'],
-  ['2046bcff', '2046bcff-2046bd1c'], ['2046bb65', '2046bb65-2046bcc5;2046bcd1-2046bcfe'],
-  ['2046b832', '2046b832-2046b8c9'], ['2046b8d6', '2046b8d6-2046b94f'],
-  ['2046b950', '2046b950-2046bb28'], ['2046b6a8', '2046b6a8-2046b831'],
-  ['2046802b', '2046802b-20468042'], ['20467fb4', '20467fb4-2046802a'],
-  ['2046838e', '2046838e-204683cd'], ['20467ba7', '20467ba7-20467c69'],
+  ['204677e4', '204677e4-204679bc'], ['204764ff', '204764ff-20476592;20476596-204765d9'],
+  ['2046dbd0', '2046dbd0-2046dc5a'], ['20475b80', '20475b80-20475be4'],
+  ['20467c6a', '20467c6a-20467cbf;20467cc9-20467cf7'], ['204683ce', '204683ce-20468415'],
+  ['20477c2a', '20477c2a-20477d20;20477d2f-20477d47'],
   ['20468570', '20468570-204685b4'], ['204685b5', '204685b5-204685c8'],
-  ['2047f6df', '2047f6df-2047f71e'], ['2047f527', '2047f527-2047f6de'],
-  ['2046d263', '2046d263-2046d2a5'], ['2046cec1', '2046cec1-2046d262'],
-  ['20467e6d', '20467e6d-20467e9e'], ['2046bcc6', '2046bcc6-2046bcce'],
-  ['2046b8cd', '2046b8cd-2046b8d5'], ['204737ac', '204737ac-204737dc'],
-  ['204736bc', '204736bc-204736d0'], ['20463e50', '20463e50-20463ec9'],
-  ['20484f00', '20484f00-20484f15'], ['20464ea0', '20464ea0-20464eca'],
-  ['2046ce8c', '2046ce8c-2046cea6'], ['20467ad4', '20467ad4-20467ae2'],
 ] as const);
 const ranges = new Map<string, readonly (readonly [number, number])[]>(bodies.map(([entry, text]) =>
   [entry, Object.freeze(text.split(';').map(range => Object.freeze(range.split('-').map(x => Number.parseInt(x, 16)) as [number, number]))) ]));
-const callerRows = new Set(['204678d3', '204678d5', '204678de', '204678e3', '204678e5']);
+const callerRows = new Set(['204678e7', '204678ec', '204678ee', '204678f0']);
 const imageSpecs = Object.freeze([
-  ['argc', '207d0a40', 4], ['argv', '207d0a44', 4], ['programName', '207d0a5c', 4],
-  ['moduleName', '207d10a8', 261], ['mbcInitialized', '207d2b84', 4], ['commandLinePointer', '207d2b60', 4],
-  ['currentMbcPointer', '207b2a48', 4], ['currentLocale', '207b2c28', 4], ['mbcObject', '207b2620', 544],
-  ['defaultLocale', '207b2b50', 216], ['globalLocaleStatus', '207b2b44', 4],
-  ['globalMbcType', '207b2840', 257], ['globalMbcCase', '207b2948', 256],
-  ['globalMbcFields', '207d0dc8', 24], ['systemCPFlag', '207d0dc4', 4], ['CPtable', '207b2a50', 240],
-  ['stringTypeMode', '207d1540', 4], ['mapMode', '207d0e04', 4], ['sse2Flag207d2b50', '207d2b50', 4],
+  ['envp', '207d0a4c', 4], ['environmentAllocated', '207d2b6c', 4],
+  ['environmentBlock', '207d0a74', 4], ['mbcInitialized', '207d2b84', 4],
   ['crtHeapMode', '207d1658', 4], ['crtHeapHandle', '207d11b4', 4], ['securityCookie', '207b2314', 4],
-  ['procedureSlots', '207d0a84', 16], ['crtTlsIndexes', '207b231c', 8], ['crtLockTable', '207b2c70', 288],
-  ['crtStaticSections', '207d0f30', 336], ['crtMallocRetry', '207d0a94', 4], ['newMode', '207d14e0', 4],
-  ['setMbcEH4Scope', '206e8cb8', 28], ['updateMbcEH4Scope', '206e8c98', 28], ['probeUTF16NUL', '206b92a8', 2],
+  ['crtMallocRetry', '207d0a94', 4], ['newMode', '207d14e0', 4],
+  ['callocEH4Scope', '206e8f98', 28], ['freeEH4Scope', '206e8b70', 28],
 ] as const);
-const imports = new Set<NativeArgvCallSite>([
-  '204767a6', '2046bbdb', '2046bc00', '2046bc92', '2046bcb6', '2046b920', '2046b9c1', '2046b9d4',
-  '2046b6cc', '20467fb6', '20467fc9', '20468020', '20467c1f', '2047f554', '2047f5cb', '2047f635',
-  '2047f643', '2046cef1', '2046cf8f', '2046cffb', '2046d017', '2046d0b4', '2046d0d7', '20467e74',
-  '204737d4', '204736c9',
-]);
-const procedureLoads = Object.freeze({
-  '20467bb6': Object.freeze({ iat: '207d7b84', name: 'HeapAlloc' as const }),
-  '2046bbfa': Object.freeze({ iat: '207d7b9c', name: 'InterlockedIncrement' as const }),
-  '2047f5aa': Object.freeze({ iat: '207d7be8', name: 'MultiByteToWideChar' as const }),
-  '2046cf6e': Object.freeze({ iat: '207d7be8', name: 'MultiByteToWideChar' as const }),
-  '2046d005': Object.freeze({ iat: '207d7bec', name: 'LCMapStringW' as const }),
-});
+const imports = new Set<NativeSetEnvpCallSite>(['20477ce8', '20467cd2']);
 const lanes: Readonly<Record<string, Readonly<{ register: NativeX86Register; lane: Lane }>>> = Object.freeze({
   AL: { register: 'EAX', lane: 'low8' }, AH: { register: 'EAX', lane: 'high8' }, AX: { register: 'EAX', lane: 'low16' },
   BL: { register: 'EBX', lane: 'low8' }, BH: { register: 'EBX', lane: 'high8' }, BX: { register: 'EBX', lane: 'low16' },
@@ -109,9 +78,9 @@ const conditions: Readonly<Record<string, NativeX86Condition>> = Object.freeze({
 });
 function hex(value: number): string { return (value >>> 0).toString(16).padStart(8, '0'); }
 function integer(text: string): number {
-  if (!/^-?0x[0-9a-f]+$/.test(text)) throw new Error('Original argv scalar operand syntax is not owned: ' + text);
+  if (!/^-?0x[0-9a-f]+$/.test(text)) throw new Error('Original environment scalar operand syntax is not owned: ' + text);
   const value = text.startsWith('-') ? -Number.parseInt(text.slice(3), 16) : Number.parseInt(text.slice(2), 16);
-  if (!Number.isSafeInteger(value) || value < -0x80000000 || value > 0xffffffff) throw new Error('Original argv scalar exceeds32 bits');
+  if (!Number.isSafeInteger(value) || value < -0x80000000 || value > 0xffffffff) throw new Error('Original environment scalar exceeds32 bits');
   return value >>> 0;
 }
 function operand(text: string): Operand {
@@ -120,14 +89,14 @@ function operand(text: string): Operand {
   if (lanes[value]) return { kind: 'register', ...lanes[value] };
   if (/^-?0x[0-9a-f]+$/.test(value)) return { kind: 'immediate', value: integer(value) };
   const memory = /^(?:(byte|word|dword) ptr )?(FS:)?\[(.+)\]$/.exec(value);
-  if (!memory || !memory[3]) throw new Error('Original argv operand syntax is not owned: ' + value);
+  if (!memory || !memory[3]) throw new Error('Original environment operand syntax is not owned: ' + value);
   return { kind: 'memory', expression: memory[3], fs: !!memory[2],
     width: memory[1] === 'byte' ? 1 : memory[1] === 'word' ? 2 : memory[1] === 'dword' ? 4 : undefined };
 }
 function instructionSyntax(point: NativeGameIoInstruction): InstructionSyntax {
   const retained = instructionSyntaxCache.get(point); if (retained) return retained;
   const [opcode, ...rest] = point.instruction.split(' '), text = rest.join(' ');
-  if (!opcode) throw new Error('Original argv opcode is absent at' + point.va);
+  if (!opcode) throw new Error('Original environment opcode is absent at' + point.va);
   const next = hex(Number.parseInt(point.va, 16) + point.bytes.length / 2);
   const stringOperation = opcode === 'MOVSD.REP' || opcode === 'STOSD.REP' || opcode === 'STOSD';
   if (stringOperation && text !== (opcode === 'MOVSD.REP' ? 'ES:EDI,ESI' : 'ES:EDI')) {
@@ -144,11 +113,10 @@ function width(value: Operand): Width {
   return value.kind === 'register' && value.lane ? value.lane === 'low16' ? 2 : 1 : value.kind === 'memory' ? value.width ?? 4 : 4;
 }
 
-export class NativeGameCrtArgv {
+export class NativeGameCrtSetEnvp {
   readonly #crt: NativeModuleCrtOwner;
   readonly #platform: NativeRuntimePlatform;
-  readonly #selection: Readonly<NativeWin32ArgvNlsSelection>;
-  readonly #setEnvpSelection: NativeValue<Readonly<NativeWin32SetEnvpSelection>>;
+  readonly #selection: Readonly<NativeWin32SetEnvpSelection>;
   readonly #stack: NativeX86ThreadStack;
   readonly #controller = Object.freeze({});
   readonly #images: readonly Image[];
@@ -157,198 +125,151 @@ export class NativeGameCrtArgv {
   #phase: Phase = 'cold';
   #bootstrap: NativeCrtBootstrap | null = null;
   #permit: object | null = null;
-  #pc = '204678d3';
+  #pc = '204678e7';
   #currentEntry = '204677e4';
   #attempt: NativeGameIoInstruction | null = null;
   #boundary: string | null = null;
-  #nextBoundary: NativeGameCrtArgvNextBoundary | null = null;
-  #importSite: NativeArgvCallSite | null = null;
+  #nextBoundary: NativeGameCrtSetEnvpNextBoundary | null = null;
+  #importSite: NativeSetEnvpCallSite | null = null;
   #physicalGraphTransferred = false;
-  #argvCalled = false;
+  #envCalled = false;
   #callerReturnConsumed = false;
-  #argvResult: 0 | -1 | null = null;
+  #envResult: 0 | -1 | null = null;
   #countingPassReturned = false;
-  #fillingPassReturned = false;
-  #programNamePublished = false;
-  #argvPublished = false;
-  #mbcPublished = false;
+  #visibleCount = 0;
+  #arrayCallReturned = false;
+  #stringAllocationCallsReturned = 0;
+  #stringCopiesCompleted = 0;
+  #envpPublished = false;
+  #inputFreeReturned = false;
+  #environmentBlockCleared = false;
+  #terminalNullWritten = false;
+  #cinitArgumentPrepared = false;
   #callerTestsCompleted = 0;
-  #setEnvpHandoff: 'absent' | 'available' | 'transferring' | 'transferred' | 'blocked' = 'absent';
-  #setEnvpClaim: Readonly<{ owner: NativeGameCrtSetEnvp; controller: object }> | null = null;
 
-  private constructor(crt: NativeModuleCrtOwner, selected: Readonly<NativeWin32ArgvNlsSelection>, token: object, entry: Construction) {
-    if (token !== constructionToken || new.target !== NativeGameCrtArgv || owners.get(crt) !== entry || entry.owner || entry.phase !== 'constructing') {
-      throw new Error('Actual private Game argv construction required');
+  private constructor(crt: NativeModuleCrtOwner, selected: Readonly<NativeWin32SetEnvpSelection>, token: object, entry: Construction) {
+    if (token !== constructionToken || new.target !== NativeGameCrtSetEnvp || owners.get(crt) !== entry || entry.owner || entry.phase !== 'constructing') {
+      throw new Error('Actual private Game environment construction required');
     }
-    admitGameArgvSource(); this.#crt = crt; this.#platform = crt.host.platform as NativeRuntimePlatform; this.#selection = selected;
-    // Presence is fixed before this fresh whole graph,
-    // never attached to an already suspended109 invocation.
-    this.#setEnvpSelection = NativeRuntimePlatform.setEnvpSelectionForPlatform(this.#platform);
+    admitGameSetEnvpSource(); this.#crt = crt; this.#platform = crt.host.platform as NativeRuntimePlatform; this.#selection = selected;
     this.#requireCrt(); this.#stack = fact(NativeX86ThreadStack.forPlatform(this.#platform));
     this.#images = Object.freeze(imageSpecs.map(([label, address, bytes]) => {
-      const receipt = gameArgvImageReceipt(label === 'sse2Flag207d2b50' ? 'sse2Flag' : label),
+      const receipt = gameSetEnvpImageReceipt(label),
         fields = fact(NativeModuleCrtOwner.canonicalImageForOwner(crt, label));
       if (receipt.address !== address || receipt.bytes !== bytes || fields.bytes.length !== bytes || fields.knownMask.length !== bytes) {
-        throw new Error('Actual original argv image geometry differs: ' + label);
+        throw new Error('Actual original environment image geometry differs: ' + label);
       }
       return Object.freeze({ label, address: Number.parseInt(address, 16), bytes, fields });
     }));
     entry.owner = this; this.#requireImages(); Object.freeze(this);
   }
-  static forCrt(crt: NativeModuleCrtOwner): NativeValue<NativeGameCrtArgv> {
-    if (!NativeModuleCrtOwner.isConstructedOwner(crt) || crt.module !== 'Game') return unknown('Actual constructed Game CRT required for argv');
-    const selected = NativeRuntimePlatform.argvNlsSelectionForPlatform(crt.host.platform as NativeRuntimePlatform);
+  static forCrt(crt: NativeModuleCrtOwner): NativeValue<NativeGameCrtSetEnvp> {
+    if (!NativeModuleCrtOwner.isConstructedOwner(crt) || crt.module !== 'Game') return unknown('Actual constructed Game CRT required for environment');
+    const selected = NativeRuntimePlatform.setEnvpSelectionForPlatform(crt.host.platform as NativeRuntimePlatform);
     if (!selected.known) return selected;
     const retained = owners.get(crt);
     if (retained) {
-      if (retained.phase === 'constructing') { retained.phase = 'blocked'; retained.boundary = 'Reentrant Game argv construction cannot restart'; }
+      if (retained.phase === 'constructing') { retained.phase = 'blocked'; retained.boundary = 'Reentrant Game environment construction cannot restart'; }
       if (retained.phase !== 'returned') return unknown(retained.boundary!);
       try { retained.owner!.#requireImages(); return known(retained.owner!); } catch (error) { return unknown(reason(error)); }
     }
     const entry: Construction = { phase: 'constructing', owner: null, boundary: null }; owners.set(crt, entry);
     try {
-      const owner = new NativeGameCrtArgv(crt, selected.value, constructionToken, entry);
-      if (entry.phase !== 'constructing' || entry.owner !== owner) throw new Error(entry.boundary ?? 'Game argv construction interrupted');
+      const owner = new NativeGameCrtSetEnvp(crt, selected.value, constructionToken, entry);
+      if (entry.phase !== 'constructing' || entry.owner !== owner) throw new Error(entry.boundary ?? 'Game environment construction interrupted');
       entry.phase = 'returned'; return known(owner);
     } catch (error) { entry.phase = 'blocked'; entry.boundary ??= reason(error); return unknown(entry.boundary); }
   }
-  static canonicalControllerForCrt(owner: NativeGameCrtArgv, crt: NativeModuleCrtOwner, controller: object,
+  static canonicalControllerForCrt(owner: NativeGameCrtSetEnvp, crt: NativeModuleCrtOwner, controller: object,
     mode: 'bind' | 'invoke' | 'retain'): NativeValue<void> {
     const entry = owners.get(crt);
     if (!owner || entry?.phase !== 'returned' || entry.owner !== owner || owner.#crt !== crt || controller !== owner.#controller) {
-      return unknown('Actual retained same-CRT argv controller required');
+      return unknown('Actual retained same-CRT environment controller required');
     }
-    if (mode === 'retain') return owner.#phase !== 'cold' ? known(undefined) : unknown('Actual reached argv claim required for retention');
+    if (mode === 'retain') return owner.#phase !== 'cold' ? known(undefined) : unknown('Actual reached environment claim required for retention');
     try {
       owner.#requireImages();
-      if (!owner.#bootstrap || !owner.#permit) return unknown('Actual private bootstrap argv scope required');
-      const caller = NativeCrtBootstrap.canonicalArgvCallForCrt(owner.#bootstrap, crt, owner.#permit); if (!caller.known) return caller;
-      if (mode === 'bind') return owner.#phase === 'claiming' && !owner.#physicalGraphTransferred && owner.#pc === '204678d3'
-        ? known(undefined) : unknown('Actual one-time returned-I/O argv claim required');
+      if (!owner.#bootstrap || !owner.#permit) return unknown('Actual private bootstrap environment scope required');
+      const caller = NativeCrtBootstrap.canonicalSetEnvpCallForCrt(owner.#bootstrap, crt, owner.#permit); if (!caller.known) return caller;
+      if (mode === 'bind') return owner.#phase === 'claiming' && !owner.#physicalGraphTransferred && owner.#pc === '204678e7'
+        ? known(undefined) : unknown('Actual one-time reached argv frontier claim required');
       return owner.#phase === 'invoking' && owner.#physicalGraphTransferred ? known(undefined)
-        : unknown(owner.#boundary ?? 'Actual active argv source invocation required');
+        : unknown(owner.#boundary ?? 'Actual active environment source invocation required');
     } catch (error) { return unknown(reason(error)); }
   }
-  static canonicalArgvImportCallForCrt(owner: NativeGameCrtArgv, crt: NativeModuleCrtOwner, controller: object,
-    site: NativeArgvCallSite): NativeValue<void> {
-    const active = NativeGameCrtArgv.canonicalControllerForCrt(owner, crt, controller, 'invoke'); if (!active.known) return active;
+  static canonicalSetEnvpImportCallForCrt(owner: NativeGameCrtSetEnvp, crt: NativeModuleCrtOwner, controller: object,
+    site: NativeSetEnvpCallSite): NativeValue<void> {
+    const active = NativeGameCrtSetEnvp.canonicalControllerForCrt(owner, crt, controller, 'invoke'); if (!active.known) return active;
     try {
       if (owner.#pc !== site || owner.#importSite !== site || !imports.has(site) || !owner.#frames.length ||
-          !gameArgvInstruction(site).instruction.startsWith('CALL ')) return unknown('Actual current original argv import source row required');
+          !gameSetEnvpInstruction(site).instruction.startsWith('CALL ')) return unknown('Actual current original environment import source row required');
       owner.#requireSourcePoint(site); return known(undefined);
     } catch (error) { return unknown(reason(error)); }
   }
-  static canonicalSourceFrameChainForCrt(owner: NativeGameCrtArgv, crt: NativeModuleCrtOwner, controller: object):
+  static canonicalSourceFrameChainForCrt(owner: NativeGameCrtSetEnvp, crt: NativeModuleCrtOwner, controller: object):
     NativeValue<readonly Readonly<{ entry: string; site: string; returnPc: string }>[]> {
-    const active = NativeGameCrtArgv.canonicalControllerForCrt(owner, crt, controller, 'invoke'); if (!active.known) return active;
+    const active = NativeGameCrtSetEnvp.canonicalControllerForCrt(owner, crt, controller, 'invoke'); if (!active.known) return active;
     try {
       owner.#requireSourcePoint(owner.#pc);
       return known(Object.freeze(owner.#frames.map(frame => Object.freeze({ entry: frame.entry, site: frame.site, returnPc: frame.returnPc }))));
     } catch (error) { return unknown(reason(error)); }
   }
-  static canonicalArgvReturnForCrt(owner: NativeGameCrtArgv, crt: NativeModuleCrtOwner, controller: object): NativeValue<void> {
-    const active = NativeGameCrtArgv.canonicalControllerForCrt(owner, crt, controller, 'invoke'); if (!active.known) return active;
+  static canonicalSetEnvpReturnForCrt(owner: NativeGameCrtSetEnvp, crt: NativeModuleCrtOwner, controller: object): NativeValue<void> {
+    const active = NativeGameCrtSetEnvp.canonicalControllerForCrt(owner, crt, controller, 'invoke'); if (!active.known) return active;
     const frame = owner.#frames.at(-1);
-    return owner.#pc === '20476834' && owner.#currentEntry === '2047677c' && owner.#argvCalled && owner.#callerReturnConsumed &&
-      frame?.site === '204678de' && frame.returnPc === '204678e3' && owner.#frames.length === 1 && owner.#importSite === null
-      ? known(undefined) : unknown('Actual original argv RET/current restored callee required');
+    return owner.#pc === '204765c3' && owner.#currentEntry === '204764ff' && owner.#envCalled && owner.#callerReturnConsumed &&
+      frame?.site === '204678e7' && frame.returnPc === '204678ec' && owner.#frames.length === 1 && owner.#importSite === null
+      ? known(undefined) : unknown('Actual original setenvp RET/current restored callee required');
   }
-  static canonicalReturnedArgvForCrt(owner: NativeGameCrtArgv, crt: NativeModuleCrtOwner,
+  static canonicalReturnedSetEnvpForCrt(owner: NativeGameCrtSetEnvp, crt: NativeModuleCrtOwner,
     bootstrap: NativeCrtBootstrap, permit: object): NativeValue<0 | -1> {
     const entry = owners.get(crt);
     if (!owner || entry?.phase !== 'returned' || entry.owner !== owner || owner.#crt !== crt || owner.#bootstrap !== bootstrap ||
-        owner.#permit !== permit || !owner.#physicalGraphTransferred || !owner.#callerReturnConsumed || owner.#argvResult === null) {
-      return unknown('Actual same original invocation argv normal return required');
+        owner.#permit !== permit || !owner.#physicalGraphTransferred || !owner.#callerReturnConsumed || owner.#envResult === null) {
+      return unknown('Actual same original invocation environment normal return required');
     }
-    const caller = NativeCrtBootstrap.canonicalArgvCallForCrt(bootstrap, crt, permit); if (!caller.known) return caller;
-    try { owner.#requireImages(); return known(owner.#argvResult); } catch (error) { return unknown(reason(error)); }
+    const caller = NativeCrtBootstrap.canonicalSetEnvpCallForCrt(bootstrap, crt, permit); if (!caller.known) return caller;
+    try { owner.#requireImages(); return known(owner.#envResult); } catch (error) { return unknown(reason(error)); }
   }
-  static enterFromReturnedIoForAttach(owner: NativeGameCrtArgv, io: NativeGameCrtIoInit, crt: NativeModuleCrtOwner,
-    bootstrap: NativeCrtBootstrap, ioPermit: object, argvPermit: object): NativeValue<void> {
-    if (!owner || owners.get(crt)?.owner !== owner || owner.#crt !== crt) return unknown('Actual retained same-CRT argv owner required');
-    if (owner.#phase !== 'cold') return unknown(owner.#boundary ?? 'Game argv invocation cannot replay');
-    const caller = NativeCrtBootstrap.canonicalArgvCallForCrt(bootstrap, crt, argvPermit); if (!caller.known) return caller;
-    const returned = NativeGameCrtIoInit.canonicalReturnedIoForCrt(io, crt, bootstrap, ioPermit); if (!returned.known) return returned;
-    owner.#bootstrap = bootstrap; owner.#permit = argvPermit; owner.#phase = 'claiming';
+  static enterFromArgvFrontierForAttach(owner: NativeGameCrtSetEnvp, argv: NativeGameCrtArgv, crt: NativeModuleCrtOwner,
+    bootstrap: NativeCrtBootstrap, argvPermit: object, envPermit: object): NativeValue<void> {
+    if (!owner || owners.get(crt)?.owner !== owner || owner.#crt !== crt) return unknown('Actual retained same-CRT environment owner required');
+    if (owner.#phase !== 'cold') return unknown(owner.#boundary ?? 'Game environment invocation cannot replay');
+    const caller = NativeCrtBootstrap.canonicalSetEnvpCallForCrt(bootstrap, crt, envPermit); if (!caller.known) return caller;
+    const returned = NativeGameCrtArgv.canonicalReturnedArgvForCrt(argv, crt, bootstrap, argvPermit); if (!returned.known) return returned;
+    if (returned.value !== 0) return unknown('Actual successful argv return required before environment call');
+    owner.#bootstrap = bootstrap; owner.#permit = envPermit; owner.#phase = 'claiming';
     try {
       owner.#requireImages();
-      const graph = fact(NativeGameCrtIoInit.transferReturnedGraphForArgv(io, crt, bootstrap, ioPermit, owner, owner.#controller));
-      if (graph !== owner.#stack) throw new Error('Actual returned IO graph differs from retained argv graph');
+      const graph = fact(NativeGameCrtArgv.transferFrontierGraphForSetEnvp(argv, crt, bootstrap, argvPermit, owner, owner.#controller));
+      if (graph !== owner.#stack) throw new Error('Actual argv frontier graph differs from retained environment graph');
       owner.#physicalGraphTransferred = true; owner.#phase = 'invoking'; owner.#run();
       return known(undefined);
     } catch (error) { return owner.#stop(reason(error)); }
   }
-  /** Claim only the fresh preselected, actually reached e7 frontier before
-   * ordinary unknown suspension. The earlier argv controller then retires. */
-  static transferFrontierGraphForSetEnvp(owner: NativeGameCrtArgv, crt: NativeModuleCrtOwner,
-    bootstrap: NativeCrtBootstrap, permit: object, env: NativeGameCrtSetEnvp,
-    controller: object): NativeValue<NativeX86ThreadStack> {
-    const returned = NativeGameCrtArgv.canonicalReturnedArgvForCrt(owner, crt, bootstrap, permit);
-    if (!returned.known) return returned;
-    if (returned.value !== 0 || owner.#phase !== 'frontier' || owner.#setEnvpHandoff !== 'available' ||
-        owner.#setEnvpClaim || !owner.#setEnvpSelection.known || owner.#pc !== '204678e7') {
-      return unknown('Actual fresh planned environment frontier required; blocked argv cannot resume');
-    }
-    const claim = NativeGameCrtSetEnvp.canonicalControllerForCrt(env, crt, controller, 'bind'); if (!claim.known) return claim;
-    owner.#setEnvpHandoff = 'transferring'; owner.#setEnvpClaim = Object.freeze({ owner: env, controller });
-    try {
-      fact(NativeX86ThreadStack.transferArgvFrontierForSetEnvp(owner.#stack, crt, owner, owner.#controller, env, controller));
-      owner.#setEnvpHandoff = 'transferred'; owner.#phase = 'transferred'; return known(owner.#stack);
-    } catch (error) {
-      owner.#setEnvpHandoff = 'blocked'; owner.#phase = 'blocked'; owner.#boundary ??= reason(error); return unknown(owner.#boundary);
-    }
-  }
-  /** Physical transfer consumes this private in-progress claim only. The
-   * copied e7 description, checked result and public snapshots do not grant it. */
-  static canonicalFrontierGraphForSetEnvp(owner: NativeGameCrtArgv, crt: NativeModuleCrtOwner,
-    argvController: object, env: NativeGameCrtSetEnvp, controller: object): NativeValue<NativeX86ThreadStack> {
-    const entry = owners.get(crt);
-    if (!owner || entry?.phase !== 'returned' || entry.owner !== owner || owner.#crt !== crt ||
-        owner.#controller !== argvController || owner.#phase !== 'frontier' || owner.#pc !== '204678e7' ||
-        owner.#currentEntry !== '204677e4' || owner.#setEnvpHandoff !== 'transferring' ||
-        owner.#setEnvpClaim?.owner !== env || owner.#setEnvpClaim.controller !== controller ||
-        !owner.#bootstrap || !owner.#permit || !owner.#setEnvpSelection.known ||
-        !owner.#argvCalled || !owner.#callerReturnConsumed || owner.#argvResult !== 0 ||
-        owner.#callerTestsCompleted !== 2 || owner.#frames.length !== 0 || owner.#importSite !== null || owner.#attempt !== null) {
-      return unknown('Actual private original argv e7 transfer claim/current caller tests required');
-    }
-    const returned = NativeGameCrtArgv.canonicalReturnedArgvForCrt(owner, crt, owner.#bootstrap, owner.#permit);
-    if (!returned.known) return returned;
-    const selected = NativeRuntimePlatform.setEnvpSelectionForPlatform(owner.#platform);
-    if (!selected.known || selected.value !== owner.#setEnvpSelection.value) return unknown('Actual immutable fresh environment selection required');
-    try {
-      // e7 is an admitted caller CALL boundary, not an executed argv row.
-      const point = gameArgvInstruction(owner.#pc);
-      if (point.va !== '204678e7' || point.instruction !== 'CALL 0x204764ff' || point.bytes !== 'e813ec0000') {
-        throw new Error('Actual original environment CALL boundary receipt required');
-      }
-      return known(owner.#stack);
-    }
-    catch (error) { return unknown(reason(error)); }
-  }
   #requireCrt(): void {
     if (!NativeModuleCrtOwner.isConstructedOwner(this.#crt) || this.#crt.module !== 'Game' || this.#crt.host.platform !== this.#platform) {
-      throw new Error('Actual same-platform constructed Game CRT required for argv');
+      throw new Error('Actual same-platform constructed Game CRT required for environment');
     }
     fact(NativeRuntimePlatform.requireActivePlatform(this.#platform));
-    if (fact(NativeRuntimePlatform.argvNlsSelectionForPlatform(this.#platform)) !== this.#selection) throw new Error('Actual immutable fresh argv/NLS selection required');
+    if (fact(NativeRuntimePlatform.setEnvpSelectionForPlatform(this.#platform)) !== this.#selection) throw new Error('Actual immutable fresh environment/heap selection required');
   }
   #requireImages(): void {
     this.#requireCrt();
     for (const image of this.#images) if (fact(NativeModuleCrtOwner.canonicalImageForOwner(this.#crt, image.label)) !== image.fields ||
         image.fields.backing.freed !== false || image.fields.bytes.length !== image.bytes || image.fields.knownMask.length !== image.bytes) {
-      throw new Error('Actual retained argv image alias/lifetime required: ' + image.label);
+      throw new Error('Actual retained environment image alias/lifetime required: ' + image.label);
     }
   }
   #guard(): void {
-    fact(NativeGameCrtArgv.canonicalControllerForCrt(this, this.#crt, this.#controller, 'invoke'));
+    fact(NativeGameCrtSetEnvp.canonicalControllerForCrt(this, this.#crt, this.#controller, 'invoke'));
   }
   #requireSourcePoint(pc: string): NativeGameIoInstruction {
     const extent = ranges.get(this.#currentEntry), address = Number.parseInt(pc, 16);
     if (!extent?.some(([first, last]) => address >= first && address <= last) ||
-        this.#currentEntry === '204677e4' && !callerRows.has(pc)) throw new Error('Unowned Game argv source frontier at' + pc);
-    const point = gameArgvInstruction(pc);
-    if (point.va !== pc || !/^(?:[0-9a-f]{2})+$/.test(point.bytes)) throw new Error('Original argv row receipt differs at' + pc);
+        this.#currentEntry === '204677e4' && !callerRows.has(pc)) throw new Error('Unowned Game environment source frontier at' + pc);
+    const point = gameSetEnvpInstruction(pc);
+    if (point.va !== pc || !/^(?:[0-9a-f]{2})+$/.test(point.bytes)) throw new Error('Original environment row receipt differs at' + pc);
     return point;
   }
   #register(register: NativeX86Register): NativeX86Word32 { return fact(NativeX86ThreadStack.prototype.register.call(this.#stack, this.#controller, register)); }
@@ -356,7 +277,7 @@ export class NativeGameCrtArgv {
   #imageAt(value: number): Image | undefined { return this.#images.find(image => value >= image.address && value < image.address + image.bytes); }
   #literal(value: number): NativeX86Word32 {
     const image = this.#imageAt(value);
-    if (image && (image.label === 'setMbcEH4Scope' || image.label === 'updateMbcEH4Scope') && value === image.address) {
+    if (image && (image.label === 'callocEH4Scope' || image.label === 'freeEH4Scope') && value === image.address) {
       const address = hex(value);
       fact(NativeX86ThreadStack.prototype.registerSourceImage.call(this.#stack, this.#controller, address, image.fields));
       return fact(NativeX86ThreadStack.prototype.sourceAddress.call(this.#stack, this.#controller, 'image', address));
@@ -407,8 +328,6 @@ export class NativeGameCrtArgv {
       if (value.expression !== '0x0' || bytes !== 4) throw new Error('Only original FS:[0] is admitted');
       return fact(NativeX86ThreadStack.prototype.readFs0.call(this.#stack, this.#controller));
     }
-    const load = procedureLoads[this.#pc as keyof typeof procedureLoads];
-    if (load && value.expression === '0x' + load.iat && bytes === 4) return fact(NativeX86ThreadStack.prototype.runtimeProcedure.call(this.#stack, this.#controller, load.name));
     const address = this.#address(value.expression);
     return bytes === 4 ? fact(NativeX86ThreadStack.prototype.loadPointer.call(this.#stack, this.#controller, address))
       : fact(NativeX86ThreadStack.prototype.loadWidth.call(this.#stack, this.#controller, address, bytes));
@@ -426,9 +345,9 @@ export class NativeGameCrtArgv {
     fact(NativeX86ThreadStack.prototype.storeWidth.call(this.#stack, this.#controller, this.#address(destination.expression), word, bytes));
   }
   #call(point: NativeGameIoInstruction, target: Operand, returnPc: string): string {
-    if (imports.has(point.va as NativeArgvCallSite)) {
-      this.#importSite = point.va as NativeArgvCallSite;
-      fact(NativeX86ThreadStack.prototype.invokeArgvImport.call(this.#stack, this.#controller, this.#importSite));
+    if (imports.has(point.va as NativeSetEnvpCallSite)) {
+      this.#importSite = point.va as NativeSetEnvpCallSite;
+      fact(NativeX86ThreadStack.prototype.invokeSetEnvpImport.call(this.#stack, this.#controller, this.#importSite));
       this.#importSite = null; return returnPc;
     }
     if (target.kind !== 'immediate' || !ranges.has(hex(target.value)) || hex(target.value) === '204677e4') {
@@ -436,24 +355,25 @@ export class NativeGameCrtArgv {
         : target.kind === 'memory' && /^0x[0-9a-f]{8}$/.test(target.expression)
           ? Object.freeze({ pc: point.va, operation: 'import', iat: target.expression.slice(2) })
           : Object.freeze({ pc: point.va, operation: 'import', target: point.instruction.slice(5) });
-      throw new Error('Unowned original argv CALL at' + point.va + ': ' + point.instruction);
+      throw new Error('Unowned original environment CALL at' + point.va + ': ' + point.instruction);
     }
     const entry = hex(target.value);
     fact(NativeX86ThreadStack.prototype.call.call(this.#stack, this.#controller, point.va, returnPc));
     this.#frames.push(Object.freeze({ entry, site: point.va, returnPc, previousEntry: this.#currentEntry }));
-    this.#currentEntry = entry; if (point.va === '204678de') this.#argvCalled = true; return entry;
+    this.#currentEntry = entry; if (point.va === '204678e7') this.#envCalled = true; return entry;
   }
   #return(point: NativeGameIoInstruction, argumentBytes: number): string {
-    const frame = this.#frames.at(-1); if (!frame) throw new Error('Original argv RET has no actual owned source CALL');
+    const frame = this.#frames.at(-1); if (!frame) throw new Error('Original environment RET has no actual owned source CALL');
     const word = fact(NativeX86ThreadStack.prototype.ret.call(this.#stack, this.#controller, argumentBytes));
     fact(NativeX86ThreadStack.prototype.requireSourceAddress.call(this.#stack, this.#controller, word, 'code', frame.returnPc));
-    if (point.va === '20476834') {
+    if (point.va === '204765c3') {
       this.#callerReturnConsumed = true;
-      const result = fact(NativeX86ThreadStack.prototype.argvReturnResult.call(this.#stack, this.#controller));
-      if (result !== 0 && result !== -1) throw new Error('Original argv returned an unowned scalar'); this.#argvResult = result;
+      const result = fact(NativeX86ThreadStack.prototype.setEnvpReturnResult.call(this.#stack, this.#controller));
+      if (result !== 0 && result !== -1) throw new Error('Original environment returned an unowned scalar'); this.#envResult = result;
     }
-    if (point.va === '2047677b' && frame.site === '204767d1') this.#countingPassReturned = true;
-    if (point.va === '2047677b' && frame.site === '20476812') this.#fillingPassReturned = true;
+    if (point.va === '20468415' && frame.site === '2047653f') this.#arrayCallReturned = true;
+    if (point.va === '20468415' && frame.site === '2047656d') this.#stringAllocationCallsReturned++;
+    if (point.va === '20467cf7' && frame.site === '204765a5') this.#inputFreeReturned = true;
     this.#frames.pop(); this.#currentEntry = frame.previousEntry; return frame.returnPc;
   }
   #lower(point: NativeGameIoInstruction): string {
@@ -465,7 +385,7 @@ export class NativeGameCrtArgv {
       return next;
     }
     const argument = (index: number): Operand => {
-      const value = args[index]; if (!value) throw new Error('Original argv operand is absent at' + point.va); return value;
+      const value = args[index]; if (!value) throw new Error('Original environment operand is absent at' + point.va); return value;
     };
     if (opcode === 'RET') {
       const cleanup = args[0];
@@ -482,14 +402,13 @@ export class NativeGameCrtArgv {
     const source = binary ? argument(1) : destination;
     if (opcode === 'CALL') return this.#call(point, destination, next);
     if (opcode === 'JMP') {
-      if (destination?.kind !== 'immediate') throw new Error('Original indirect argv JMP is not owned');
+      if (destination?.kind !== 'immediate') throw new Error('Original indirect environment JMP is not owned');
       const target = hex(destination.value);
-      if (point.va === '20484f11' && target === '20464ea0') this.#currentEntry = target;
       return target;
     }
     const condition = conditions[opcode];
     if (condition) {
-      if (destination?.kind !== 'immediate') throw new Error('Original argv branch target is not a source address');
+      if (destination?.kind !== 'immediate') throw new Error('Original environment branch target is not a source address');
       return fact(NativeX86ThreadStack.prototype.condition.call(this.#stack, this.#controller, condition)) ? hex(destination.value) : next;
     }
     if (opcode === 'MOV') this.#write(destination, this.#read(source, width(destination)));
@@ -497,10 +416,10 @@ export class NativeGameCrtArgv {
       const bytes = width(source); if (bytes === 4) throw new Error('Original extension operand width is not owned');
       this.#write(destination, fact(NativeX86ThreadStack.prototype.scalarLane.call(this.#stack, this.#controller, this.#read(source, bytes), bytes, opcode === 'MOVSX')));
     } else if (opcode === 'LEA') {
-      if (source.kind !== 'memory' || source.fs) throw new Error('Original argv LEA address required'); this.#write(destination, this.#address(source.expression));
+      if (source.kind !== 'memory' || source.fs) throw new Error('Original environment LEA address required'); this.#write(destination, this.#address(source.expression));
     } else if (opcode === 'PUSH') fact(NativeX86ThreadStack.prototype.push.call(this.#stack, this.#controller, this.#read(destination, 4)));
     else if (opcode === 'POP') {
-      if (destination.kind !== 'register' || destination.lane) throw new Error('Original argv POP register required');
+      if (destination.kind !== 'register' || destination.lane) throw new Error('Original environment POP register required');
       fact(NativeX86ThreadStack.prototype.pop.call(this.#stack, this.#controller, destination.register));
     } else if (opcode === 'CMP' || opcode === 'TEST') {
       const bytes = width(destination) === 4 && source?.kind === 'register' && source.lane ? width(source) : width(destination);
@@ -526,37 +445,34 @@ export class NativeGameCrtArgv {
         this.#read(destination), source.value, opcode === 'SHL' ? 'left' : 'logicalRight', width(destination))));
     } else if (opcode === 'DIV') fact(NativeX86ThreadStack.prototype.divideUnsigned.call(this.#stack, this.#controller, this.#read(destination)));
     else if (opcode === 'XCHG') {
-      if (destination.kind !== 'register' || destination.lane || source.kind !== 'register' || source.lane) throw new Error('Original argv XCHG registers required');
+      if (destination.kind !== 'register' || destination.lane || source.kind !== 'register' || source.lane) throw new Error('Original environment XCHG registers required');
       fact(NativeX86ThreadStack.prototype.exchangeRegisters.call(this.#stack, this.#controller, destination.register, source.register));
-    } else throw new Error('Original argv opcode is not owned at' + point.va + ': ' + opcode);
+    } else throw new Error('Original environment opcode is not owned at' + point.va + ': ' + opcode);
     return next;
   }
   #run(): void {
     while (true) {
       this.#guard();
-      if (this.#currentEntry === '204677e4' && this.#pc === '204678e7') {
-        gameArgvInstruction(this.#pc); this.#nextBoundary = Object.freeze({ pc: this.#pc, target: '204764ff', operation: '__setenvp' });
-        if (this.#setEnvpSelection.known) {
-          const selected = NativeRuntimePlatform.setEnvpSelectionForPlatform(this.#platform);
-          if (!selected.known || selected.value !== this.#setEnvpSelection.value || this.#argvResult !== 0 ||
-              this.#callerTestsCompleted !== 2 || this.#frames.length !== 0 || this.#importSite !== null ||
-              this.#attempt !== null || this.#setEnvpHandoff !== 'absent') throw new Error('Actual fresh successful argv planned frontier required');
-          this.#phase = 'frontier'; this.#setEnvpHandoff = 'available'; return;
-        }
-        throw new Error('Unowned original __setenvp CALL at204678e7 after argv returned' + this.#argvResult);
+      if (this.#currentEntry === '204677e4' && this.#pc === '204678f2') {
+        gameSetEnvpInstruction(this.#pc); this.#nextBoundary = Object.freeze({ pc: this.#pc, target: '204665f4', operation: '__cinit' });
+        throw new Error('Unowned original __cinit CALL at204678f2 after environment returned' + this.#envResult);
       }
-      if (this.#currentEntry === '204677e4' && (this.#pc === '204678d7' || this.#pc === '20467907')) {
-        gameArgvInstruction(this.#pc); this.#nextBoundary = Object.freeze({ pc: this.#pc,
-          target: this.#pc === '204678d7' ? '20467eb8' : '2047453f', operation: this.#pc === '204678d7' ? '__mtterm' : '__ioterm' });
+      if (this.#currentEntry === '204677e4' && this.#pc === '20467907') {
+        gameSetEnvpInstruction(this.#pc); this.#nextBoundary = Object.freeze({ pc: this.#pc,
+          target: '2047453f', operation: '__ioterm' });
         throw new Error('Unowned original failure cleanup CALL at' + this.#pc);
       }
       const point = this.#requireSourcePoint(this.#pc); this.#attempt = point;
       const next = this.#lower(point);
       this.#effects.push(Object.freeze({ pc: point.va, operation: point.instruction }));
-      if (point.va === '204678d3' || point.va === '204678e3') this.#callerTestsCompleted++;
-      if (point.va === '204767b3') this.#programNamePublished = true;
-      if (point.va === '20476823') this.#argvPublished = true;
-      if (point.va === '2046bcaf') this.#mbcPublished = true;
+      if (point.va === '204678ec') this.#callerTestsCompleted++;
+      if (point.va === '204678f0') this.#cinitArgumentPrepared = true;
+      if (point.va === '20476529') this.#visibleCount++;
+      if (point.va === '20476539' && next === '2047653b') this.#countingPassReturned = true;
+      if (point.va === '2047654a') this.#envpPublished = true;
+      if (point.va === '20476587' && next === '20476596') this.#stringCopiesCompleted++;
+      if (point.va === '204765aa') this.#environmentBlockCleared = true;
+      if (point.va === '204765b0') this.#terminalNullWritten = true;
       this.#guard(); this.#pc = next; this.#attempt = null;
     }
   }
@@ -574,22 +490,23 @@ export class NativeGameCrtArgv {
     return fields.view.getInt32(0, true);
   }
   snapshot() {
-    // These copied graph rows describe already pushed/consumed native words,
-    // including effects retained after a post-operation guard failure. They
-    // cannot grant a controller, handoff, return result or source continuation.
+    // Descriptive copies only. Released import effects remain visible even if
+    // a later proof failed; these rows cannot acquire execution or revive data.
     const graph = NativeX86ThreadStack.prototype.snapshot.call(this.#stack);
-    const argvCall = graph.calls.find(call => call.site === '204678de');
-    const countingCall = graph.calls.find(call => call.site === '204767d1');
-    const fillingCall = graph.calls.find(call => call.site === '20476812');
+    const envCall = graph.calls.find(call => call.site === '204678e7');
+    const imports = graph.setEnvpCalls;
     return Object.freeze({ module: 'Game' as const, phase: this.#phase, currentPC: this.#pc, boundary: this.#boundary,
       nextBoundary: this.#nextBoundary, physicalGraphTransferred: this.#physicalGraphTransferred,
-      plannedSetEnvpFrontierReached: this.#setEnvpHandoff !== 'absent', setEnvpGraphTransferred: this.#setEnvpHandoff === 'transferred',
-      argvCalled: this.#argvCalled || !!argvCall, argvRetExecuted: argvCall?.returned === true,
-      argvReturned: this.#argvResult !== null, argvResult: this.#argvResult,
-      countingPassReturned: this.#countingPassReturned || countingCall?.returned === true,
-      fillingPassReturned: this.#fillingPassReturned || fillingCall?.returned === true,
-      argc: this.#diagnosticScalar('argc'), argvPublished: this.#argvPublished, programNamePublished: this.#programNamePublished,
-      mbcInitialized: this.#diagnosticScalar('mbcInitialized') === 1, mbcPublished: this.#mbcPublished,
+      envCalled: this.#envCalled || !!envCall, envRetExecuted: envCall?.returned === true,
+      envReturned: this.#envResult !== null, envResult: this.#envResult,
+      countingPassReturned: this.#countingPassReturned, visibleCount: this.#countingPassReturned ? this.#visibleCount : null,
+      arrayCallReturned: this.#arrayCallReturned, stringAllocationCallsReturned: this.#stringAllocationCallsReturned,
+      stringCopiesCompleted: this.#stringCopiesCompleted, envpPublished: this.#envpPublished,
+      inputFreeReturned: this.#inputFreeReturned,
+      inputReleased: imports.some(row => row.site === '20467cd2' && row.callerSite === '204765a5' && row.released),
+      environmentBlockCleared: this.#environmentBlockCleared, terminalNullWritten: this.#terminalNullWritten,
+      environmentAllocated: this.#diagnosticScalar('environmentAllocated') === 1,
+      mbcInitialized: this.#diagnosticScalar('mbcInitialized') === 1, cinitArgumentPrepared: this.#cinitArgumentPrepared,
       callerTestsCompleted: this.#callerTestsCompleted, sourceOperationsCompleted: this.#effects.length,
       effects: Object.freeze(this.#effects.map(effect => Object.freeze({ ...effect }))),
       wholeCrtTraversalCompleted: false, moduleAttachCompleted: false, fullCampaignCompleted: false });

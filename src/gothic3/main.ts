@@ -28,6 +28,7 @@ import { BrowserArdeaNpcCombatRuntime } from './npc-combat-runtime';
 import { BrowserNpcDeathRuntime } from './browser-npc-death';
 import type { BrowserNpcEntityRuntime, BrowserNpcEntityPreparation } from './browser-npc-entity';
 import type { BrowserNpcEntityServiceOwner } from './browser-npc-entity-services';
+import type { NativeCrtAttachProgress } from './native-crt-bootstrap';
 import type { BrowserNpcNavigationOwner } from './browser-npc-navigation-owner';
 import type { BrowserNavigationAreaSourceRuntime } from './browser-navigation-area-source-runtime';
 import { NativeQuestRuntime, nativeQuestStatusName } from './quest-runtime';
@@ -144,6 +145,25 @@ const pickpocketActions = new BrowserPickpocketActions();
 let questRuntimeError: string | null = null;
 let enteringWorld = false;
 
+function environmentStartupStudyDetails(attach: NativeCrtAttachProgress): string[] {
+  const env = attach.setEnvpProgress;
+  if (!env) return [];
+  return [
+    'Environment startup graph transferred: ' + (env.physicalGraphTransferred ? 'yes' : 'no'),
+    'Environment initializer: ' + (env.envReturned ? 'returned' : env.envCalled ? 'interrupted' : 'not called'),
+    'Environment entry count: ' + (env.visibleCount ?? 'not established'),
+    'Environment strings copied: ' + env.stringCopiesCompleted,
+    'Environment table published: ' + (env.envpPublished ? 'yes' : 'no'),
+    'Environment input released: ' + (env.inputReleased ? 'yes' : 'no'),
+    'Environment input global cleared: ' + (env.environmentBlockCleared ? 'yes' : 'no'),
+    'Environment terminal NULL written: ' + (env.terminalNullWritten ? 'yes' : 'no'),
+    'Environment source operations completed: ' + env.sourceOperationsCompleted,
+    'Environment return value: ' + (attach.setEnvpResult ?? 'not returned'),
+    'C initializer argument prepared: ' + (env.cinitArgumentPrepared ? 'yes' : 'no'),
+    'Environment continuation: ' + (env.nextBoundary ? env.nextBoundary.operation + ' at ' + env.nextBoundary.pc : 'not reached'),
+  ];
+}
+
 function updateNpcEntityStudy(person: ScenePerson | null): void {
   const target = element('entity-study-status');
   target.style.whiteSpace = 'pre-line';
@@ -157,6 +177,11 @@ function updateNpcEntityStudy(person: ScenePerson | null): void {
       ? 'Reading verified original coastal bandit records…'
       : !started ? 'Start the world session to run the selected NPC construction study.'
       : "This construction study covers Jack’s three coastal bandits. Select one of their models.";
+    const startup = npcEntityServices?.scriptAdminStartup;
+    if (startup?.known) {
+      const attach = startup.value.prerequisites.attachProgress;
+      target.textContent += '\nGame startup: ' + attach.phase + '\n' + environmentStartupStudyDetails(attach).join('\n');
+    }
     return;
   }
   const entity = row.allocation?.data.entity;
@@ -204,6 +229,7 @@ function updateNpcEntityStudy(person: ScenePerson | null): void {
       startupDetails.push('Argument source operations completed: ' + argv.sourceOperationsCompleted);
       if (attach.argvResult !== null) startupDetails.push('Argument return value: ' + attach.argvResult);
     }
+    startupDetails.push(...environmentStartupStudyDetails(attach));
   } else if (startup) startupDetails.push('Game startup unavailable: ' + startup.reason);
   target.textContent = [
     'TypeScript study of the recovered original constructor and read sequence.',

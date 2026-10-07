@@ -149,7 +149,11 @@ export class NativeGameCrtEnvironment {
       frame.allocation = value; this.#effect(pc, 'mallocCrt2046838e.return', value);
     });
     if (backing === null) return null;
-    const fields = new NativeHeapObjectViews(backing); Object.freeze(fields);
+    const aliases = this.#platform.setEnvpEndpoints
+      ? fact(NativeRuntimePlatform.canonicalGameHeapAllocationViewsForPlatform(this.#platform, this.#crt, backing))
+      : null;
+    if (aliases && aliases.requestedBytes !== bytes) throw new Error('Actual retained logical Game environment allocation span required');
+    const fields = aliases?.logical ?? new NativeHeapObjectViews(backing); Object.freeze(fields);
     const pointer: NativeBytePointer = Object.freeze({ fields, offset: 0 });
     fact(NativeRuntimePlatform.canonicalGameHeapDestination(this.#platform, this.#crt, pointer, 0));
     frame.output = pointer; this.#guard(); return pointer;

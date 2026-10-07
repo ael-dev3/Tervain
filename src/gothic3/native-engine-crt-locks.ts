@@ -12,6 +12,7 @@ import type { NativeCrtModule, NativeCrtSourceProfile, NativeCrtSourceRules } fr
 import { NativeWin32PlatformException, NativeRuntimePlatform } from './native-runtime-platform';
 import type { NativeWin32HeapCapability, NativeWin32ModuleCapability, NativeCrtPointerProcedure, NativeCrtSectionProcedure, NativeCrtLocalProcedure, NativeCrtLocalGetProcedure, NativeCrtPlatformProcedure } from './native-runtime-platform';
 import type { NativeWin32ProcessInputEndpoints } from './native-win32-process-inputs';
+import type { NativeSetEnvpCallGrant } from './native-win32-setenvp';
 import { NativeX86ThreadStack } from './native-x86-thread-stack';
 import type { NativeHeapAllocCallGrant } from './native-x86-thread-stack';
 import type { NativeArgvNlsCallGrant } from './native-win32-argv-nls';
@@ -172,6 +173,57 @@ export class NativeModuleCrtOwner {
     const owner = gameOwners.get(platform);
     return owner ? NativeModuleCrtOwner.canonicalGameHeapForAllocation(owner, platform, pointer)
       : unknown('Actual retained same-platform Game CRT owner required');
+  }
+  /** Only private constructed Game ownership can select rounded Game heap
+   * geometry. An arbitrary HeapCreate owner does not become the Game CRT. */
+  static canonicalGameHeapOwnerIdentityForPlatform(platform: NativeRuntimePlatform,
+    identity: object): NativeValue<NativeModuleCrtOwner> {
+    const owner = gameOwners.get(platform);
+    return owner && NativeModuleCrtOwner.isConstructedOwner(owner) && owner.module === 'Game' &&
+      owner.host.platform === platform && owner.identity === identity && !owner.#heapTerminated
+      ? known(owner) : unknown('Actual constructed Game heap owner identity required');
+  }
+  /** Exact original environment sidecar plus private allocation membership.
+   * This admits an existing allocation; it never copies, allocates or reseeds. */
+  static canonicalEnvironmentAllocationForPlatform(owner: NativeModuleCrtOwner, platform: NativeRuntimePlatform,
+    pointer: NativeBytePointer): NativeValue<Readonly<{ pointer: NativeBytePointer; logical: NativeHeapObjectViews;
+      physical: NativeHeapObjectViews; requestedBytes: number; physicalCapacity: number; heap: NativeWin32HeapCapability }>> {
+    try {
+      const selected = NativeModuleCrtOwner.canonicalImageForOwner(owner, 'environmentBlock'); if (!selected.known) return selected;
+      const access = NativeRuntimePlatform.canonicalGameModuleImageAccessForPlatform(platform, owner, 'environmentBlock', 0, 4); if (!access.known) return access;
+      const current = NativeHeapObjectViews.prototype.pointer.call(selected.value, 0).get();
+      if (current !== pointer || pointer.offset !== 0 || 'region' in pointer.fields.backing) return unknown('Exact current base environment allocation pointer required');
+      const heap = NativeModuleCrtOwner.canonicalGameHeapForAllocation(owner, platform, pointer); if (!heap.known) return heap;
+      const aliases = NativeRuntimePlatform.canonicalGameHeapAllocationViewsForPlatform(platform, owner, pointer.fields.backing); if (!aliases.known) return aliases;
+      const again = NativeModuleCrtOwner.canonicalImageForOwner(owner, 'environmentBlock'); if (!again.known) return again;
+      const currentAccess = NativeRuntimePlatform.canonicalGameModuleImageAccessForPlatform(platform, owner, 'environmentBlock', 0, 4); if (!currentAccess.known) return currentAccess;
+      if (pointer.fields !== aliases.value.logical || NativeHeapObjectViews.prototype.pointer.call(selected.value, 0).get() !== pointer ||
+          again.value !== selected.value) return unknown('Current environment pointer must retain its privately minted logical alias');
+      return known(Object.freeze({ pointer, ...aliases.value, heap: heap.value }));
+    } catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
+  }
+  /** Fixed source calloc effect; no logical calloc facade or frame replay. */
+  static heapAllocForSetEnvpCall(owner: NativeModuleCrtOwner, platform: NativeRuntimePlatform,
+    call: NativeSetEnvpCallGrant): NativeValue<NativeMemoryBacking | null> {
+    const args = NativeX86ThreadStack.setEnvpArgumentsForPlatform(platform, call); if (!args.known) return args;
+    if (args.value.crt !== owner || args.value.site !== '20477ce8' || args.value.flags !== 8 || args.value.bytes === undefined) {
+      return unknown('Actual current environment calloc arguments required');
+    }
+    const result = NativeRuntimePlatform.performSetEnvpAllocationForCall(platform, call, owner, args.value.heap, args.value.bytes);
+    if (result.known && result.value !== null) owner.#allocations.add(result.value);
+    return result;
+  }
+  /** Release effect retains the original membership record. Runtime's private
+   * terminal lifetime permanently kills dereference; source cleanup may copy
+   * and discard already retained opaque pointer bits after the release. */
+  static heapFreeForSetEnvpCall(owner: NativeModuleCrtOwner, platform: NativeRuntimePlatform,
+    call: NativeSetEnvpCallGrant): NativeValue<boolean> {
+    const args = NativeX86ThreadStack.setEnvpArgumentsForPlatform(platform, call); if (!args.known) return args;
+    const input = args.value;
+    if (input.crt !== owner || input.site !== '20467cd2' || input.flags !== 0 || !input.backing || !owner.#allocations.has(input.backing)) {
+      return unknown('Actual current environment source HeapFree allocation required');
+    }
+    return NativeRuntimePlatform.performSetEnvpReleaseForCall(platform, call, owner, input.heap, input.backing);
   }
   /** Preallocation authority is the actual current image handle and private
    * HeapCreate membership. Existing-allocation proof cannot supply this. */
