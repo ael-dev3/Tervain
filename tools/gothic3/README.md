@@ -336,11 +336,14 @@ compressed bytes and every decoded byte before admission; when Fetch removes
 HTTP gzip encoding, the exact decoded receipt is checked.
 
 The package supplies source records and graph metadata. It does not create
-the other graph entities or activate the selected NPCs. The current original
-entity read stops at the Navigation default creator's unowned ErrorAdmin
-singleton, before serialized property reading or attachment. See
-[checkpoint 73](../../docs/engineering/gothic3-rebuilding-process.md#73-construct-retained-npc-owners-and-reach-the-first-property-factory)
-for the exact applied prefix and remaining prerequisites.
+the other graph entities or activate the selected NPCs. At
+[checkpoint 73](../../docs/engineering/gothic3-rebuilding-process.md#73-construct-retained-npc-owners-and-reach-the-first-property-factory),
+the original entity read stopped at the Navigation default creator's unowned
+ErrorAdmin singleton. Later checkpoints connect shared admins and selected
+Navigation callbacks; the read now reaches the unconnected ScriptAdmin getter.
+See the [rebuilding status](../../docs/engineering/gothic3-rebuild-overview.md#current-implementation-status)
+and [checkpoint 94](../../docs/engineering/gothic3-rebuilding-process.md#94-model-the-source-scriptadmin-getter-without-inventing-a-module-owner)
+for the current integration boundary and remaining prerequisites.
 
 ## Shared runtime admin source and allocation evidence
 

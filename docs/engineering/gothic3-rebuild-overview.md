@@ -11,19 +11,15 @@ of Gothic 3's endings. A scene viewer, a decoded model or a successfully read
 native data structure is a useful component milestone, but it does not by
 itself establish a playable reconstruction.
 
-PR 55 published checkpoints 87–91. PR 56 published checkpoints 92–93 at
-`main` commit `dcc68c61a5f738ad9e99c464e8ca6f98f4db5dd6`, deployed by
-[workflow run 37581031860](https://github.com/ael-dev3/Tervain/actions/runs/37581031860).
-Checkpoint 92 connects Hero movement to source-registered Navigation zones and
-the native type-8 quest-entry callback. Checkpoint 93 exports and streams the
-source-placed, full-detail Xardas Tower mesh and includes its triangles in
-browser collision. The native destination transition has focused save/restore
-coverage. Local browser review confirms the tower renders and supports the Hero
-after a landscape-preview teleport; ordinary overland travel to Nordmar remains
-unverified. Local checkpoint 94 models the source ScriptAdmin lazy getter and
-adds an explicit injection seam; the browser does not yet supply its native
-type-name, ModuleAdmin, RTTI or ScriptAdmin call-slot owners. Most of the
-campaign and native NPC activation remain unfinished.
+The published rebuild baseline recorded on 7 October 2026 includes checkpoint 94,
+merged in [PR 58](https://github.com/ael-dev3/Tervain/pull/58) at commit
+`99d4112c77eff59c7f844785e4798ae8a3642f3e` and published by successful
+[workflow run 37586423373](https://github.com/ael-dev3/Tervain/actions/runs/37586423373).
+The browser supports exploration and selected gameplay paths. Native NPC
+activation and most campaign progression remain unfinished. See
+[current implementation status](#current-implementation-status) below; the
+[detailed checkpoint record](gothic3-rebuilding-process.md) preserves the
+individual source and review receipts.
 
 ## The rebuilding loop
 
@@ -61,6 +57,26 @@ provenance, hashes, coordinate transforms, assumptions and known omissions.
 The browser loads these portable outputs; it does not need access to the
 player's installation. The first data slice is Ardea, with landscape and
 gameplay foundations being added as their readers are verified.
+
+The main source formats and their readers are:
+
+| Original data | What we recover | Preparation code |
+| --- | --- | --- |
+| `.node`, `.lrentdat` | Entity identities, transforms, property sets and actor resource references | [`read_genome.py`](../../tools/gothic3/read_genome.py) |
+| `.xcmsh` | Static mesh vertices, triangles, UVs and material sections | [`read_xcmsh.py`](../../tools/gothic3/read_xcmsh.py) |
+| `.xact` | Actor hierarchy, geometry, skin weights and bind transforms | [`read_xact_skin.py`](../../tools/gothic3/read_xact_skin.py) |
+| `.xmot` | Native motion tracks, default poses and animation phases | [`export_animated.py`](../../tools/gothic3/export_animated.py) |
+| `.ximg`, `.xshmat` | Texture pixels, mip layout and selected material properties | [`prepare_ardea.py`](../../tools/gothic3/prepare_ardea.py), [`read_xshmat.py`](../../tools/gothic3/read_xshmat.py) |
+| `.quest`, `.info`, strings and gameplay properties | Quest/dialogue operands, localization and initial data | [`export_gameplay.py`](../../tools/gothic3/export_gameplay.py) |
+| `.wrldatasc`, `.secdat` and world contexts | World/sector membership, enabled flags and landscape inventory | [`export_world_index.py`](../../tools/gothic3/export_world_index.py) |
+
+For trees, the separate local study viewer reads SpeedTree `.spt` definitions
+and generates its own trunk, branch and leaf geometry. Its appearance remains
+an approximation; matching the in-game trees requires further work on their
+generation, leaf selection, materials and wind. The
+[tree fidelity limits](gothic3-local.md#what-is-implemented) are recorded with
+that viewer. A recovered filename or a rotating model does not establish an
+in-game visual match.
 
 ### 3. Reconstruct native behavior in small, evidenced pieces
 
@@ -178,6 +194,39 @@ See [checkpoint
 and [checkpoint
 62](gothic3-rebuilding-process.md#62-connect-the-bounded-info-delivery-callback).
 
+## How to rebuild one feature
+
+Choose a concrete player outcome, such as talking to a resident, receiving a
+quest reward, or equipping a weapon. Use this sequence for each checkpoint:
+
+1. **Define the scenario.** Record its starting state, player action, expected
+   result and save/reload behavior. Use the detailed history to identify which
+   parts are already connected.
+2. **Resolve its data.** Follow entity GUIDs and resource references through the
+   effective archive index. Record the selected source path and SHA-256 before
+   decoding; preserve the original bytes.
+3. **Trace its behavior.** Follow the native entry through forwarding exports,
+   imports, virtual calls and callbacks. Confirm the examined instructions
+   against the original binary. Include prerequisites and teardown order.
+4. **Implement the next supported operation.** Keep source identities, field
+   ownership, mutation order and error boundaries in the TypeScript module.
+   Preserve effects already applied if a later dependency is unavailable.
+5. **Connect ordinary play.** Supply the required services from the live world
+   and use its shared entity, inventory, clock and save state. A component that
+   works only with a test fixture still needs this integration.
+6. **Check the result.** Review the diff and relevant scenarios, then exercise
+   the changed interaction in the browser. Compare with the installed game
+   where possible and check save/reload for persistent effects.
+7. **Record and publish the checkpoint.** Keep its inputs, conversion receipts,
+   implementation, observed result and remaining limits together. Review
+   Actions state before publication and retain the resulting commit/run URLs.
+
+A useful checkpoint records the source resource or function, verified hashes,
+changed modules, exact scenario, local results, browser observations and next
+unresolved dependency. This makes it possible for another contributor to
+continue from the same boundary. Keep the required behavior explicit even
+when its dependency chain spans several modules.
+
 ## Where each stage lives
 
 | Stage | Repository location | Result |
@@ -260,8 +309,8 @@ original input, record boundaries and compressed/decoded output hashes. The
 wire bytes and all decoded bytes before admitting the three selected records.
 When HTTP gzip decoding hides wire bytes, only the exact decoded receipt can
 be checked in the browser. Source graph metadata remains
-separate from live world registration and activation. In the current local
-checkpoint, the three selected bandit names are copied from their verified
+separate from live world registration and activation. At published checkpoint
+91, the three selected bandit names are copied from their verified
 source string-table bytes into heap-backed CStrings using the same MemoryAdmin
 as the entity allocation. A lower browser session-mode adapter lets the read
 pass its selected application-mode check. It materializes the 5,385
@@ -302,284 +351,46 @@ Use the resulting deployment receipt to verify the public `/gothic3/` route.
 
 ## Current implementation status
 
-The steps above can be followed in the checked-out repository. The committed
-portable assets are sufficient to run the browser build; regenerating original
-assets additionally requires the owner's offline study and the tools described
-in the [preparation guide](../../tools/gothic3/README.md).
+The published `/gothic3/` route is an incomplete browser reconstruction. The
+status below describes gameplay evidence through checkpoint 94; subsequent
+runtime work must carry its own source and browser review receipts.
 
-```powershell
-npm ci
-npm run dev
-# Open the local Vite URL with /gothic3/ appended.
-```
+| Area | Connected or recovered | Work still required |
+| --- | --- | --- |
+| World and rendering | Source-derived Ardea, streamed landscape cells across Myrtana/Nordmar/Varant, and the source-placed Xardas Tower | Complete world interactions, native physics shapes, lighting and material fidelity; ordinary travel to the tower remains unverified |
+| Characters and motion | Original Hero skin/motions, a skinned Diego preview and source-identified Ardea actors | Native NPC activation, routines, animation selection, responses and equipment attachment |
+| Dialogue and quests | Selected Ardea dialogue, Jack's bounded bandit quest, destination callbacks and supported rewards | Most original dialogue, quests, faction consequences and campaign endings |
+| Inventory and combat | Selected inventory operations, potion/XP effects and bounded fist damage/death prefixes | Full item/equipment lifecycle, native attack eligibility, NPC attacks, defeat/death cleanup and loot |
+| Persistence | Browser saves for the supported session state and selected progression effects | Full campaign state and recovery for every added system |
+| Runtime foundations | Selected property readers, heap/runtime owners, Navigation callbacks and the ScriptAdmin getter model | Original startup/registration services, reflected factories, full entity attachment, world membership and processing activation |
 
-Before publishing implementation changes, run `npm run typecheck`, `npm test`
-and `npm run build`, inspect the diff and exercise the changed interaction in
-the browser. Keep its source receipts and save/restore checks with the same
-checkpoint. The production workflow checks the build and deploys the separate
-route when the reviewed changes reach `main`.
+Checkpoint 92 connects source-registered Navigation zones to the native type-8
+quest-entry callback and has focused save/restore coverage. Checkpoint 93 adds
+Xardas Tower rendering and browser collision using its mesh triangles. A local
+preview-teleport review confirmed rendering and a grounded Hero; ordinary
+overland arrival remains unverified. Checkpoint 94 models the ScriptAdmin
+getter protocol. The production NPC services still lack its class-name,
+ModuleAdmin, RTTI and ScriptAdmin call-slot owners, so the selected NPC read
+stops at that dependency. See [checkpoint 94](gothic3-rebuilding-process.md#94-model-the-source-scriptadmin-getter-without-inventing-a-module-owner)
+and the [current controls and scope](gothic3-browser-port.md).
 
-The separate TypeScript route is live at
-[Gothic 3 / Ardea](https://ael-dev3.github.io/Tervain/gothic3/) and currently
-responds with HTTP 200. Before checkpoint 92, its published revision was
-`main` commit `3b968ba51c1924a1c6b2daded2803d7782fabb39`, merged in
-[PR 55](https://github.com/ael-dev3/Tervain/pull/55) and published by successful
-[workflow run 37571447817](https://github.com/ael-dev3/Tervain/actions/runs/37571447817).
-That publication advances the selected NPC construction read through
-Navigation contact callbacks to the unresolved ScriptAdmin getter. It does not
-activate NPCs or complete the campaign. The latest captured browser-runtime
-exercise remains checkpoint 83 at commit
-`c52d16da73fe1c9be5d240b0111cfe1074d1e8cc`, published by
-[workflow run 37551902308](https://github.com/ael-dev3/Tervain/actions/runs/37551902308), attempt 1.
-Checkpoints 81–84 preserve selected Engine/Game CRT ownership and Navigation
-class-name evidence; they do not run all original DLL initializers or connect
-Navigation's reflected type to live NPC activation. The
-[detailed rebuilding record](gothic3-rebuilding-process.md) distinguishes
-those source components from browser behavior.
+## Road toward a complete game
 
-Checkpoints 87–91 are now published in PR 55. The retained NPC read passes the
-selected application-mode check, resolves its current-zone proxy to the
-registered source Navigation entity, and follows the selected
-Engine proxy copy/destruction operations. Checkpoint 91 adds the original
-gCEntity contact dispatch and the source-shaped iterator, with the verified
-actor-side `gCNavigation_PS` no-op callback. Its focused runtime test now
-confirms the read reaches the next boundary, the unresolved ScriptAdmin getter;
-the NPC is still not world-resident or active. Typechecking passes, the full
-test suite passes (225 files, 2,370 tests), and the production build succeeds
-with the existing large-chunk warning. No manual browser exercise of this
-checkpoint is recorded.
-See [checkpoint
-91](gothic3-rebuilding-process.md#91-reconstruct-the-selected-navigation-contact-callbacks)
-for the native dispatch trace and exact limits. This lower browser loader does
-not provide original application startup, reflected factories or full entity
-reads, and it does not make the NPC world-resident. No browser exercise of the
-NPC inspector after PR 55 is recorded here. Original Navigation reflection,
-full source-ordered property attachment, world attachment and NPC activation
-remain open.
+1. Complete the startup and registration dependencies needed to construct a
+   source-backed NPC, attach its property sets, place it in the live world and
+   register it for processing.
+2. Connect that NPC's routines, equipment, contact eligibility, animation,
+   dialogue and responses to the same session used by the Hero.
+3. Finish a complete encounter, including inventory/rewards, death or defeat,
+   enclave consequences and save/reload. Expand the supported Ardea scenarios
+   only after those services work together.
+4. Extend the connected systems through Myrtana, Nordmar and Varant, including
+   travel, quests, factions, settlements, items and all ending prerequisites.
+5. Play from a fresh game through each intended ending and review persistence,
+   progression failures and browser performance on the exact published build.
 
-Local checkpoint 94 models the getter's initialization check, guard-first
-cache, class-name/module lookup, RTTI cast and reentrant NULL-cache behavior.
-It does not construct or register a ScriptAdmin, and the production NPC service
-does not inject a getter. The selected read therefore still stops at the same
-boundary. See [checkpoint
-94](gothic3-rebuilding-process.md#94-model-the-source-scriptadmin-getter-without-inventing-a-module-owner).
-
-The public browser check loads 202 scene objects and 70 character models,
-enters Ardea with Hero HP 100 and inspects the Hero model (10,692 triangles,
-three meshes) and a coastal bandit (11,280 triangles, two meshes).
-The route serves `gothic3-C3iMc5TP.js`; the final captured check contained no
-warnings or errors. An initial material request returned HTTP 503; one browser
-reload recovered it. The complete observation is retained in PR 49. The
-checkpoint 74 standalone runtime-admin checks did not connect those owners to
-the browser NPC reader. The isolated shared heap
-owners in [checkpoint 75](gothic3-rebuilding-process.md#75-alias-selected-npc-fields-to-the-shared-heap)
-still require full native startup and browser integration; their tests do not
-establish an activated NPC or campaign progress.
-[Checkpoint 76](gothic3-rebuilding-process.md#76-separate-physical-sceneadmin-construction-from-singleton-lookup)
-implements physical SceneAdmin construction separately from cached module
-lookup and class-name startup. Actual CRT, section, module and application
-services remain prerequisites before these owners can supply live NPCs.
-[Checkpoint 77](gothic3-rebuilding-process.md#77-own-the-engine-crt-heap-locks-and-selected-class-name-decoder)
-adds source-owned CRT heap/lock operations and the selected ordinary class RTTI
-decoder. Its isolated checks use explicitly admitted OS/TLS/platform fixtures;
-they do not supply full native startup to the live NPC reader.
-[Checkpoint 78](gothic3-rebuilding-process.md#78-rebuild-the-ordinary-engine-dll-attach-prefix)
-adds the ordinary Engine DLL attach prefix: physical security cookie, OS
-output, TLS/FLS indices, encoded pointers and the 532-byte CRT thread record.
-It reaches the next GetCommandLineA dependency before full DLL startup; these
-components remain separate from the live NPC reader.
-[Checkpoint 79](gothic3-rebuilding-process.md#79-preserve-navigation-attachment-notifications-and-live-area-ownership)
-adds the original nonpropagated Navigation notification sequence and a browser
-owner for the application session cache and area query services. Actual area
-construction, reflected type ownership and lower notification services remain
-required before this can activate the selected NPCs.
-[Checkpoint 80](gothic3-rebuilding-process.md#80-reproduce-fresh-cstring-text-construction-and-owned-byte-operations)
-corrects fresh CString text construction and the class-name adapter's original
-space search and scalar copy. Pointer alignment and capacity come from actual
-owned allocation records. These component changes are prerequisites for the
-Game Navigation class-name/type owners; they do not advance the live NPC reader.
-[Checkpoint 81](gothic3-rebuilding-process.md#81-preserve-canonical-game-crt-ownership-before-navigation-type-construction)
-supplies the selected Game CRT heap, locks, original module storage and ordinary
-DLL attach prefix with its own verified addresses. It preserves the unresolved
-command-line call and later C/C++ initializer dependencies. These components
-still need the Game class-name/type owners and integration with the live NPC.
-[Checkpoint 82](gothic3-rebuilding-process.md#82-rebuild-the-game-crt-onexit-table-within-its-original-capacity)
-now models the separate Game CRT's 128-byte encoded onexit table and its first
-32 registrations. Table growth and callback traversal remain unowned, and this
-component is not connected to live NPC construction.
-[Checkpoint 83](gothic3-rebuilding-process.md#83-demangle-the-game-navigation-rtti-name-through-game-owned-crt-state)
-adds the ordinary Game RTTI demangler and caches the Navigation type name in
-the Game CRT descriptor/list. It is a locally validated native-behavior
-component; the SharedBase class-name CString, reflected registration and live
-NPC integration remain open.
-Subsequent build and deployment receipts are recorded in the
-[Pages workflow](https://github.com/ael-dev3/Tervain/actions/workflows/pages.yml).
-This is an incomplete reconstruction; hosting and a successful build do not
-mean the campaign can be completed.
-
-The current playable slice combines a source-derived Ardea scene, a moving
-third-person Hero, model and motion inspection, and streamed landscape cells
-from Myrtana, Nordmar and Varant. Its browser-owned session can save and restore
-the Hero's position, world clock, quest states, supported game events, selected
-dialogue flags, and bounded progression values. The startup quest run,
-selected dialogue conditions and effects, Hero XP/level/learning-point changes,
-some quest rewards, and a source-verified health-potion effect are connected to
-that session. These are narrow supported paths; most original quests, item
-interactions, faction consequences and endings are not implemented.
-
-Scene data identifies all 70 placed Ardea actors by their source records,
-including Jack's three coastal bandits.
-Three residents can be placed at matching native Start routine points when
-their work, rest and sleep assignments agree. Diego's bounded dialogue was
-exercised after placement and across save/restore.
-Their daily routines, AI and native entity lifecycle are not connected. The
-selected bandits now run the scheduled death prefix described below. Combat
-research resolves damage rules, the unarmed Fist carrier,
-serialized equipment references and deterministic Weaponry recipes. On the
-current checkpoint, the Plunder bridge resolves distribution-0 draws
-with a browser-owned MSVCRT-compatible random stream and creates NPC inventory
-stacks through `NativeInventory`. Distribution-3 Weaponry now adds the
-hash-checked Raider axe through `AssureItems` at quality 256 and amount 1; its
-primary-slot-6 `EquipStack` plan is retained with `applied: false`. UseType 2
-two-hand weapons are marked as requiring a split-stack/slots-6-and-5 path that
-is not yet implemented. Browser NPC save schema v3 persists the source-bounded
-inventory, and v1 saves rebuild the new Weaponry stack from their stored Plunder
-draws. Creation still occurs on browser first contact, not native NPC cache-in;
-the browser seed and global
-random-call order do not reproduce the installed game's sequence. Physical
-ItemWorld objects, actual equipment attachment and AI remain disconnected.
-This checkpoint applies browser-hosted fist damage to the 15 exact
-starting Raider identities and Jack's three coastal bandits. It uses
-source-verified Hero and Fist data and the audited damage calculation, then
-updates NPC HP in browser saves. Zero-HP visuals hide immediately and stay
-hidden after restore. Only the bandits have a source-resolved lethal
-disposition; Raider zero HP does not establish a kill. The kill callback
-updates exact-name targets for types 2/3/4 and can complete eligible quests,
-with their supported rewards saved once. The hit detector and standing target
-state remain browser-owned; native NPC activation, AI, attacks and responses,
-full Kill/Defeat handling, death animation, loot and several reward
-services remain absent. The connected bandit death prefix is described below. The
-retained initialized Hero seed supplies verified enum fields because the sparse
-runtime NPC reader does not decode them. Details are in [checkpoint
-55](gothic3-rebuilding-process.md#55-create-browser-npc-inventory-from-plunder)
-and [checkpoint
-57](gothic3-rebuilding-process.md#57-materialize-deterministic-weaponry-in-the-browser-npc-inventory).
-The branch also connects Jack's first bandit-quest dialogue: its source events,
-condition-5 report and condition-6 quest start now persist through browser
-save/restore ([checkpoint
-69](gothic3-rebuilding-process.md#69-start-jacks-source-backed-bandit-quest)).
-The three source-directed bandit kill callbacks can now complete the quest,
-award its 500 XP and unlock the condition-10 return dialogue for 50 gold and
-250 further XP. This is a bounded browser path. See [checkpoint
-70](gothic3-rebuilding-process.md#70-connect-jacks-bandits-and-correct-native-quest-callbacks).
-Source-directed lethal hits now schedule `ZS_RagDollDead` through the recovered
-Script wrapper. A later script-processor frame executes its one-time prefix,
-dispatches the Kill quest event and calculates 50 defeat XP from the Hero's
-post-event progress. The third kill's 500 quest XP therefore precedes its
-50 defeat XP. Each prefix stops explicitly at the unconnected `NotifyEnclave`
-callback; its applied state is retained in saves. Native speech playback,
-ragdoll, plunder cleanup and the full NPC lifecycle remain incomplete. See
-[checkpoint 72](gothic3-rebuilding-process.md#72-schedule-the-bandit-death-state-and-preserve-its-applied-prefix).
-Checkpoint 73 constructs retained original owners for those three
-bandits and remaps their constructor GUIDs through the original Node read.
-Before the local checkpoint 86 work below, the first Navigation factory
-stopped at an unowned ErrorAdmin service, before serialized property reading
-or attachment. These owners do not yet supply native activation or replace
-browser combat state.
-See [checkpoint 73](gothic3-rebuilding-process.md#73-construct-retained-npc-owners-and-reach-the-first-property-factory).
-Checkpoint 74 owns the shared ErrorAdmin, MessageAdmin and MemoryAdmin chain
-under an explicit cold platform profile. Checkpoint 86 now connects the same
-MemoryAdmin to the NPC constructor's 448-byte entity allocation and connects
-ErrorAdmin to the reflection creator checks. It also schedules the admitted
-Matrix destructor on the runtime platform's reverse-order callback stack.
-Navigation's PropertyObjectType singleton and physical wrapper/native
-allocations, registered scene-map backing, world attachment and activation
-remain missing. See [checkpoint
-74](gothic3-rebuilding-process.md#74-own-the-shared-runtime-admin-chain-before-connecting-it-to-npcs)
-for the original admin source audit and [checkpoint
-86](gothic3-rebuilding-process.md#86-connect-the-shared-runtime-admins-to-retained-npc-construction)
-for the local hookup and its remaining gate.
-The current branch also resolves the native body-template `Robe` flag from
-inventory slot17 and labels routine `Action`/`AniState` fields separately from
-live combat animation state. A new reader maps the selected Hero motion into
-the pose candidates and blend weight that `TrackCurrentPose` writes when the
-actor transition flag is supplied. It is not connected to the damage planner;
-other NPCs still use static bind-pose models. Diego is now an exception: the
-branch converts his exact source body and head XACT files into a skinned actor,
-checks their shared bind hierarchy, and maps the 11 audited Hero clips onto
-matching named bones. The browser places and idles Diego's actor by his source
-person GUID, and the model inspector can play the same clips. These are visual
-and verified combat inputs; they do not select original NPC animations, apply
-damage or activate NPC responses. See [checkpoint
-56](gothic3-rebuilding-process.md#56-resolve-npc-armor-class-without-misusing-routine-state),
-[checkpoint
-58](gothic3-rebuilding-process.md#58-decode-the-live-motions-tracked-pose-fields),
-and [checkpoint
-59](gothic3-rebuilding-process.md#59-convert-and-connect-diegos-source-skinned-actor).
-The bounded damage integration is described in [checkpoint
-60](gothic3-rebuilding-process.md#60-apply-a-bounded-browser-hero-fist-hit), and
-the 15-Raider HP, defeat-visual and save/restore integration is described in
-[checkpoint 67](gothic3-rebuilding-process.md#67-persist-defeat-for-the-starting-ardea-raiders).
-The current branch also exposes a browser PickPocket action. It reads the
-source Hero Theft value and target level, applies the source gate, and adds
-successful distribution-7 loot to the saved Hero inventory. The target's
-`Dialog.PickedPocket` flag is saved by exact actor identity. Failure/caught
-responses, the enclave crime effect, native InfoManager lifecycle, property
-listeners and the `Ardea_Pocket` quest-start path remain unresolved, so the
-quest stays Open. See [checkpoint
-64](gothic3-rebuilding-process.md#64-port-the-bounded-pickpocket-gate-and-loot-generator)
-and [checkpoint
-65](gothic3-rebuilding-process.md#65-persist-the-source-backed-pickedpocket-actor-flag)
-and [checkpoint
-66](gothic3-rebuilding-process.md#66-connect-source-backed-pickpocket-loot-to-hero-inventory).
-
-## Next playable integration gate
-
-The next slice is to connect a source-backed NPC encounter through native
-activation, action state and saved game state. The browser can already apply
-bounded damage to the 15 starting Raiders and Jack's three bandits, and
-complete Jack's supported quest through source-directed bandit kill callbacks.
-Their native behavior is not connected:
-
-1. Trace and connect the PickPocket failure/caught response, enclave crime,
-   `Dialog.PickedPocket` property-listener and quest-start callback, then route
-   the browser action through the native InfoManager lifecycle.
-2. Replace browser first-contact inventory creation with the NPC
-   processing-range/cache-in callback order and the native process-wide random
-   sequence for Plunder.
-3. Apply the Weaponry stack through the live actor's entity/skeleton/stat
-   equipment host, including the source-serialized body/head attachments.
-4. Construct and activate that NPC through property attachment, world context
-   and processing registration. Checkpoint 86 routes the initial 448-byte
-   entity allocation through MemoryAdmin and connects its ErrorAdmin panic
-   check. Checkpoint 87 also constructs its selected source name through a
-   heap-backed CString on that same MemoryAdmin. Checkpoint 88 supplies a
-   lower browser-owned session-mode adapter; checkpoint 89 resolves the
-   compiled query with source-derived Navigation areas. Checkpoint 90 resolves
-   the current-zone proxy to its source entity and follows Engine proxy caching.
-   Checkpoint 91 adds the contact iterator and selected Navigation property-set
-   dispatch; the focused test confirms the next boundary is ScriptAdmin, which
-   remains unconnected in the browser. Checkpoint 94 models the getter's
-   source-ordered cache protocol, but not the original class-name, ModuleAdmin,
-   RTTI or ScriptAdmin owner ([checkpoint
-   94](gothic3-rebuilding-process.md#94-model-the-source-scriptadmin-getter-without-inventing-a-module-owner)).
-   Reflected wrapper/native allocations and original application/module startup
-   remain prerequisites, followed by the area `CallScript` slot, full
-   source-ordered property attachment and world activation. The earlier
-   contact dispatch is recorded in [checkpoint
-   91](gothic3-rebuilding-process.md#91-reconstruct-the-selected-navigation-contact-callbacks).
-5. Connect native contact eligibility, animation/action state and NPC responses,
-   then finish the scheduled death prefix through enclave notification,
-   destination and plunder cleanup, ragdoll and knockout handling. The bandit
-   prefix already dispatches its connected quest and XP operations in order.
-6. Save, reload and verify the encounter's resulting state.
-
-Then expand the connected loop across Ardea, the other regions, faction
-consequences and the campaign branches. Completion means a player can start a
-new game and play through Gothic 3's progression to an available ending, with
-worlds, NPC behavior, factions, dialogue, quests, combat and save/load working
-together. A decoder, inspector, isolated formula or browser scene is evidence
-for that component only.
-
-For local asset preparation and source requirements, see the
-[preparation guide](../../tools/gothic3/README.md).
+Completion means the player can finish Gothic 3 through ordinary browser play.
+Asset counts, decompiled function counts and passing component checks do not
+measure campaign completion. The
+[detailed process and checkpoints](gothic3-rebuilding-process.md) retain the
+technical evidence for the work already completed and its remaining gaps.

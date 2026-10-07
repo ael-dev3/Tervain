@@ -4,13 +4,18 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
-Updated: 7 October 2026. The recorded NPC-runtime exercise remains checkpoint
-83 at `c52d16da73fe1c9be5d240b0111cfe1074d1e8cc`. Checkpoints 92–93 were merged
+Updated: 7 October 2026. The latest published rebuild checkpoint is 94, merged in
+[PR 58](https://github.com/ael-dev3/Tervain/pull/58) at commit
+`99d4112c77eff59c7f844785e4798ae8a3642f3e` and published by successful
+[workflow run 37586423373](https://github.com/ael-dev3/Tervain/actions/runs/37586423373).
+The retained public NPC-runtime exercise is checkpoint 83 at
+`c52d16da73fe1c9be5d240b0111cfe1074d1e8cc`; the separate local tower review
+is recorded at checkpoint 93. Checkpoints 92–93 were merged
 in [PR 56](https://github.com/ael-dev3/Tervain/pull/56) at `main` commit
 `dcc68c61a5f738ad9e99c464e8ca6f98f4db5dd6` and published by successful
 [workflow run 37581031860](https://github.com/ael-dev3/Tervain/actions/runs/37581031860),
 attempt 1.
-Local checkpoint 94 now models the ScriptAdmin getter's source-ordered cache
+Published checkpoint 94 models the ScriptAdmin getter's source-ordered cache
 protocol behind explicit owner injection. It does not connect the original
 class-name, ModuleAdmin, RTTI or ScriptAdmin call-slot owners to the browser.
 Checkpoint 91 is the published NPC reconstruction in PR 55. Checkpoint 92
@@ -111,7 +116,7 @@ The [scope record](gothic3-browser-port.md) describes the current controls,
 limitations and source terms.
 
 This guide records the hosted baseline and subsequent dated checkpoints that
-preserve the evidence for each stage. Sections 10–93 cover
+preserve the evidence for each stage. Sections 10–94 cover
 the later runtime work; each receipt identifies its source revision and scope.
 
 Each checkpoint's reproduction commands describe its recorded source revision.
