@@ -23,6 +23,8 @@ def capture(study, output):
     pe = native.PE(binary)
     tables = {}
     targets = {
+        0x10001028: 'heapAllocate', 0x10047f10: 'pool16Dispatch',
+        0x100061cc: 'pool16Initialize', 0x1000605a: 'pool16Allocate',
         0x10003cd8: 'memoryMalloc',
         0x10002aae: 'memoryGetInstance',
         0x10003ba7: 'rootTextConstructor', 0x10007d65: 'rootTextAlloc',
@@ -67,6 +69,9 @@ def capture(study, output):
         ('processorFeature',0x102f853c,4), ('memcpySseEnabled',0x102f854c,4),
         ('stdioCount',0x102f8500,4), ('stdioVector',0x102f71c0,4),
         ('stdioFiles',0x10141790,640),
+        ('heapDispatchTable',0x102fb050,4097*4), ('pool16State',0x102ffd58,12),
+        ('pool16Descriptor',0x102ffef0,4), ('poolDescriptorList',0x102fb004,4),
+        ('pool16Geometry',0x100e7aa8,8), ('poolVirtualAllocImport',0x102f9680,4),
         ('memoryMallocScope',0x100f8318,12), ('memoryHeapSection',0x10189a18,24),
         ('memoryHeapSectionInitialized',0x102fb000,1),
         ('memoryHeapSectionInitializeImport',0x102f966c,4),
@@ -103,7 +108,7 @@ def capture(study, output):
     admitted_targets = {}
     entries = {}
     offline = {}
-    assembly_only = {0x100a7265: 0x100a7293, 0x100bb8e7: 0x100bb90a,
+    assembly_only = {0x10047f10: 0x10047f8f, 0x100a7265: 0x100a7293, 0x100bb8e7: 0x100bb90a,
                      0x100b4b6b: 0x100b4b7e, 0x100bef05: 0x100befb5,
                      0x100ce0f5: 0x100ce101}
     targets[0x100bb8e7] = 'rtcTerminate'
@@ -158,6 +163,12 @@ def capture(study, output):
             bodyInstructionBytesSha256=hashlib.sha256(raw).hexdigest(), entryChain=[],
             assemblySha256=hashlib.sha256(asm).hexdigest(), cSha256=None,
             reconstructedCUnavailable=True)
+    pool_thunk = pe.bytes(0x10002d97,5)
+    if pool_thunk[0] != 0xe9 or 0x10002d97 + 5 + struct.unpack_from('<i',pool_thunk,1)[0] != 0x10047f10:
+        raise ValueError('Original 16-byte pool entry thunk differs')
+    methods['pool16Dispatch']['entryVA'] = '0x10002d97'
+    methods['pool16Dispatch']['entryChain'] = [dict(va='10002d97',bytes=pool_thunk.hex(),targetVA='10047f10')]
+    entries['10002d97'] = dict(containingEntry='10047f10',methodLabel='pool16Dispatch')
     if offline:
         import capstone
         decoder = capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_32)
@@ -204,6 +215,7 @@ def capture(study, output):
                 reconstructedCUnavailable=True, decoder=f'capstone {capstone.__version__}',
                 allDirectBranchesRecovered=True)
     imports = {entry['iatVA'][2:]:entry for entry in pe.imports()}
+    cold['poolVirtualAllocImport']['importEntry'] = imports['102f9680']
     calls = []
     for label, method in methods.items():
         for row in (output / (method['bodyVA'][2:] + '.asm.txt')).read_text(encoding='utf-8').splitlines():

@@ -30,8 +30,8 @@ it('pins original SharedBase source identity without granting initializer execut
   expect(source.verifiedAgainstOriginalPE).toBe(true);
   expect(source.sourceOnly).toBe(true);
   expect(source.initializerExecutionCompleted).toBe(false);
-  expect(Object.keys(source.methods)).toHaveLength(55);
-  expect((Object.values(source.methods) as Method[]).reduce((sum,m)=>sum+m.instructionCount,0)).toBe(1021);
+  expect(Object.keys(source.methods)).toHaveLength(59);
+  expect((Object.values(source.methods) as Method[]).reduce((sum,m)=>sum+m.instructionCount,0)).toBe(1244);
 });
 it('preserves every admitted instruction byte and separates unavailable C exports',()=>{
   let recovered=0;
@@ -106,7 +106,7 @@ it('captures the section write flag and cold conversion/exit/RTC storage',()=>{
   expect(source.coldGlobals.rtcTerminators.raw).toBe('00'.repeat(256));
 });
 it('retains original CALL encodings and distinguishes imports from indirect callbacks',()=>{
-  expect(source.calls).toHaveLength(107);
+  expect(source.calls).toHaveLength(120);
   for(const call of source.calls){
     const raw=Buffer.from(call.raw,'hex');
     if(call.kind==='direct'){
@@ -173,4 +173,73 @@ it('retains original MemoryAdmin GetInstance thunk and static guard storage',()=
 
 it('retains original Malloc thunk chain, scope and heap-section imports',()=>{
  expect(source.methods.memoryMalloc.entryChain).toEqual([{va:'10003cd8',bytes:'e923ce0100',targetVA:'10020b00'},{va:'10020b00',bytes:'e93c69feff',targetVA:'10007441'},{va:'10007441',bytes:'e9ca5f0300',targetVA:'1003d410'}]);expect(source.coldGlobals.memoryMallocScope).toMatchObject({address:'100f8318',raw:'ffffffffa5d40310afd40310',bytes:12});expect(source.coldGlobals.memoryHeapSection).toMatchObject({address:'10189a18',bytes:24,raw:'00'.repeat(24)});expect(source.calls.find((call:{address:string})=>call.address==='1003d449').importEntry).toMatchObject({module:'KERNEL32.dll',name:'InitializeCriticalSectionAndSpinCount'});
+});
+
+it('pins the lower dispatcher and 16-byte pool instruction bodies and entry thunks',()=>{
+  for(const [label,entry,body,thunk,hash,count] of [
+    ['heapAllocate','10001028','1003d2f0','e9c3c20300','81a87d3f55464496b395c0d896cf0bf6e3d9386e1312f40effb2dcb0f29debf0',81],
+    ['pool16Dispatch','10002d97','10047f10','e974510400','ca60809dbb386056b7f7b05993e45ac896079a37e28034dfc0ad840583c60e03',43],
+    ['pool16Initialize','100061cc','10045da0','e9cffb0300','2581efd22be28d3f60729e79fa46125e7f0b4c4bd711d68ca0ad2bfdf9e7777d',48],
+    ['pool16Allocate','1000605a','1003e090','e931800300','ac1587863d6014b6666d859f2f1d81eb2879152e6297a3860bad25e62e4cf324',51],
+  ] as const){
+    const method=source.methods[label];expect(method.entryVA).toBe('0x'+entry);
+    expect(method.bodyVA).toBe('0x'+body);expect(method.instructionCount).toBe(count);
+    expect(method.bodyInstructionBytesSha256).toBe(hash);
+    expect(method.entryChain).toEqual([{va:entry,bytes:thunk,targetVA:body}]);
+    const bytes=Buffer.from(thunk,'hex');expect(bytes[0]).toBe(0xe9);
+    expect(parseInt(entry,16)+5+bytes.readInt32LE(1)).toBe(parseInt(body,16));
+  }
+  // Captured bodies are deliberately not admitted to live execution yet.
+  expect(()=>sharedInitializerInstruction('10047f74')).toThrow('Unowned');
+});
+it('preserves every original size-to-pool dispatch slot including the 13-byte selection',()=>{
+  const table=source.coldGlobals.heapDispatchTable;const raw=Buffer.from(table.raw,'hex');
+  expect(table.address).toBe('102fb050');expect(table.bytes).toBe(4097*4);
+  expect(table.section.fileBackedBytes).toBe(raw.length);expect(table.section.loaderZeroFillBytes).toBe(0);
+  expect(sha(raw)).toBe(table.sha256);
+  const ranges=[
+    [0,0x10008698],[5,0x10006a14],[9,0x100028f6],[13,0x10002d97],
+    [17,0x10002aa9],[21,0x10004214],[25,0x10005966],[29,0x10008152],
+    [33,0x100031d4],[41,0x1000617c],[49,0x1000196a],[57,0x10006dac],
+    [65,0x10004002],[81,0x10007315],[97,0x10003102],[113,0x1000690b],
+    [129,0x10005fc9],[161,0x10006be5],[193,0x100070c7],[225,0x10004c2d],
+    [257,0x100077a7],[321,0x10006eec],[385,0x10003012],[449,0x10007662],
+    [513,0x10005448],[641,0x10006b9f],[769,0x10004b1f],[897,0x10004d13],
+    [1025,0x1000719e],[1281,0x1000647e],[1537,0x10007be9],[1793,0x1000460b],
+    [2049,0x1000830f],[2561,0x100024d2],[3073,0x10002e7d],[3585,0x1000536c],
+  ];
+  for(let range=0;range<ranges.length;range++){
+    for(let index=ranges[range]![0]!;index<(ranges[range+1]?.[0]??4097);index++){
+      expect(raw.readUInt32LE(index*4)).toBe(ranges[range]![1]);
+    }
+  }
+  expect(raw.readUInt32LE(13*4)).toBe(0x10002d97);
+  expect(0x102fb050+17*4).toBe(0x102fb094);
+  expect(raw.readUInt32LE(17*4)).toBe(0x10002aa9);
+});
+it('retains original pool globals, bitmap geometry and VirtualAlloc request evidence',()=>{
+  for(const [label,address,raw] of [
+    ['pool16State','102ffd58','00'.repeat(12)],['pool16Descriptor','102ffef0','00000000'],
+    ['poolDescriptorList','102fb004','00000000'],['pool16Geometry','100e7aa8','10000000ffff0000'],
+    ['poolVirtualAllocImport','102f9680','da9d2f00'],
+  ]){
+    const receipt=source.coldGlobals[label!];expect(receipt.address).toBe(address);
+    expect(receipt.raw).toBe(raw);expect(receipt.bytes).toBe(raw!.length/2);
+    expect(sha(Buffer.from(raw!,'hex'))).toBe(receipt.sha256);
+    expect(receipt.liveValueCaptured).toBe(false);
+  }
+  expect(source.coldGlobals.poolVirtualAllocImport.importEntry).toEqual({iatVA:'0x102f9680',module:'KERNEL32.dll',name:'VirtualAlloc',ordinal:null});
+  const rows=readFileSync(base+'10047f10.asm.txt','utf8');
+  expect(rows).toContain('10047f68 | 6800301000 | PUSH 0x103000');
+  expect(rows).toContain('10047f6d | 6800201000 | PUSH 0x102000');
+  expect(rows).toContain('10047f72 | 6a00 | PUSH 0x0');
+  expect(rows).toContain('10047f74 | ffd7 | CALL EDI');
+  expect(rows).toContain('10047f86 | ff2594b02f10 | JMP dword ptr [0x102fb094]');
+  const init=readFileSync(base+'10045da0.asm.txt','utf8');
+  expect(init).toContain('MOV dword ptr [ESI + 0x101ffc],0x7fffffff');
+  expect(init).toContain('XCHG.LOCK dword ptr [0x102ffd5c],EAX');
+  const bitmap=readFileSync(base+'1003e090.asm.txt','utf8');
+  expect(bitmap).toContain('SCASD.REPE ES:EDI');expect(bitmap).toContain('BTR.LOCK [EDI],EDX');
+  expect(source.calls.find((call:{address:string})=>call.address==='10047f7c').targetVA).toBe('100061cc');
+  expect(source.calls).toHaveLength(120);
 });
