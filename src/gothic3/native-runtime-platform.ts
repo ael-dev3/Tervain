@@ -7,7 +7,7 @@ import sceneRulesText from '../../assets/gothic3/scene-startup/runtime-rules.jso
 import navigationRulesText from '../../assets/gothic3/browser-navigation-owner/runtime-rules.json?raw';
 import npcEntityManifestText from '../../assets/gothic3/npc-entity/manifest.json?raw';
 import type { NativeValue } from './dialogue';
-import { NativeMemoryAdmin, nativeNpcHeapExtension, nativeSceneStartupHeapExtension } from './native-memory-admin';
+import { NativeMemoryAdmin, nativeNpcHeapExtension, nativeSceneStartupHeapExtension, nativePropertyHeapExtension } from './native-memory-admin';
 import type { NativeMemoryBacking, NativeMemoryPlatform, NativeMemoryRegion, NativeMemoryRulesExtension } from './native-memory-admin';
 import { NativeMessageAdminModule } from './native-message-admin';
 import type { NativeMessageDiagnosticPlatform } from './native-message-admin';
@@ -1733,7 +1733,8 @@ export function createNativeRuntimeAdminOwner(platform = new NativeRuntimePlatfo
 
 /** The Ardea NPC owner consumes the source-audited 24/32-byte MemoryAdmin pools
  * needed by Game.dll Navigation-name CStrings, alongside its 20/40-byte NPC
- * path pools. Other standalone admin owners remain cold/base-only. */
+ * path pools and the 4-byte reflected type-registration wrappers. Other
+ * standalone admin owners remain cold/base-only. */
 export function createBrowserNpcRuntimeAdminOwner(platform = new NativeRuntimePlatform()) {
-  return createNativeRuntimeAdminOwner(platform, { memoryExtensions: [nativeNpcHeapExtension, nativeSceneStartupHeapExtension] });
+  return createNativeRuntimeAdminOwner(platform, { memoryExtensions: [nativeNpcHeapExtension, nativeSceneStartupHeapExtension, nativePropertyHeapExtension] });
 }

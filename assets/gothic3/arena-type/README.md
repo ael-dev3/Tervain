@@ -23,7 +23,31 @@ python tools/gothic3/prepare_arena_type_source.py --study $env:LOCAL_GOTHIC3_STU
 ```
 
 Every captured instruction and forwarding jump is checked against the preserved
-Game.dll. Repeating the producer must preserve source bytes. This package is
-source evidence for the next runtime owner; it does not execute the getter,
-construct the Arena type, register a template, traverse CRT initializers, or
-activate a live NPC.
+Game.dll. Repeating the producer must preserve source bytes. Producing the package executes no native code.
+
+`NativeGameArenaType` implements the selected original getter over canonical
+Game storage. It preserves the guard, base construction, derived vtable, named
+factory, SharedBase singleton getter and RegisterTemplate sequence. Registration
+allocates the original 4-byte tagged wrapper, stores the actual type pointer,
+loads the actual type vtable and class-name slot, invokes the admitted Arena
+class-name owner and stores the wrapper in the same-heap type table. The later
+Game exit registration retains the original cleanup capability.
+
+Selected cleanup restores the derived vtable, destroys the factory and then
+calls the base destructor. Those destructors preserve the source CString
+reference counts, stale CString slots, conditional frees and array-clear order.
+An array entry requiring an unowned live property virtual destructor stops at
+that dependency with its applied prefix intact.
+
+Focused checks cover registration identity, callback order, shared CString
+lifetime, untouched padding/tail, warm guard behavior, a changed actual vtable,
+unknown guard knowledge and a missing allocation pool. The existing NPC heap
+extension and the dedicated Arena extension both supply the original 20-byte
+pool; select one of those alternatives when configuring a fresh heap. Duplicate
+overlapping extensions are rejected.
+
+This selected runtime owner is not connected to the live Game CRT initializer
+frame. Full initializer traversal, the first property callback's Create/reset/
+unregister/register sequence, NPC activation and campaign progression remain
+unfinished. Game exit-table traversal is separate from invoking a selected
+registered cleanup body.

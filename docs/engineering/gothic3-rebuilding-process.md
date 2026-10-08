@@ -8,14 +8,13 @@ is the detailed technical record and dated checkpoint history.
 
 See the [current rebuilding overview](gothic3-rebuild-overview.md#current-status--8-october-2026)
 for the latest confirmed deployment, source recovery, supporting implementations
-and remaining startup dependencies. PR 83 is published at main commit
-`a3474bf3701f65480ae08a9e0cd60c0b8436611c`; four selected served artifacts match
-the corresponding local production bytes. It adds property-registry and
-singleton construction support.
-The selected live Game startup still stops before `__cinit` at `204678f2`.
-The canonical singleton getter, destruction sequence and Arena class-name
-owner are subsequent local work. These components have not established live NPC activation or a finishable
-campaign.
+and remaining startup dependencies. PR 84 is published at main commit
+`bcb41bc0a9cfb549373ed8f5eb80ad93829669cd`; four selected served artifacts match
+the corresponding local production bytes. It adds singleton lifecycle and Arena
+class-name support. The selected live Game startup still stops before `__cinit`
+at `204678f2`. Arena type construction, selected type registration and property
+object destruction are subsequent local work. These components have not
+established live NPC activation or a finishable campaign.
 
 The dated checkpoint receipts below describe their own revisions and observations.
 Their publication statements should be read as historical evidence.
