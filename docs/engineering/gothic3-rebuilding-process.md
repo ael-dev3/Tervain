@@ -10152,3 +10152,40 @@ exactly. The package contains 126 bodies, 4,901 instructions and 444 CALL
 receipts. The full suite passes 2,857 tests across 270 files (176.51 seconds);
 publication remains pending. Full CRT
 attach, Game startup, world activation and campaign completion are outstanding.
+
+
+## CRT caller success branch (work in progress, 2026-10-08)
+
+After the original initializer table returns zero, the interpreter follows the
+actual caller TEST, argument POP and success branch. It increments the live
+attach-count image at 102f648c and reaches EAX = 1 through the original XOR/INC.
+Execution stops at 100adc1e before saved-register restoration: the preceding
+CRT caller frame must still be retained and proved. No completed CRT attach
+or DLL entry return is reported.
+
+All 262 focused checks pass, including existing count and 32-bit wraparound
+cases and no repeat increment after the boundary. Typechecking, production
+build and authored diff check pass. All 242 generated evidence files and the
+instruction module reproduce exactly. The package contains 127 bodies,
+5,052 instructions and 475 CALL receipts. The full suite passes 2,860 tests
+across 270 files (175.30 seconds); publication remains pending. Engine startup and campaign integration are
+unfinished.
+
+
+## Retained CRT caller and successful helper return (work in progress, 2026-10-08)
+
+The logical thread now retains the original CRT helper ABI frame and saved
+register identities. Following the initializer success branch, the captured
+POP/LEAVE/RET instructions restore that frame and return one to 100adc7e.
+Repeated attach requests reuse the returned result without incrementing the
+attach count again. A changed original DLL caller receipt is rejected before
+frame construction; corruption through the real saved-register stack alias
+is rejected by the retained expression storage guard.
+
+This directly invokes the CRT helper with opaque module and reserved words.
+The preceding DLL wrapper has not been executed, so its complete startup and
+return remain unproved. Game startup, world activation and campaign completion
+remain unfinished. All 265 focused checks pass. The full suite passes 2,863 tests across 270 files (170.87 seconds).
+Typechecking, production build and authored diff check pass. The subsequent
+non-null byte-access annotation in the corruption test also passes its focused
+check. This checkpoint has not been published.

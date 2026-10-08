@@ -484,3 +484,13 @@ zero to 100adb5f. Full CRT attach remains pending at the caller continuation.
 The source package contains 126 bodies, 4,901 instructions and 444 CALL
 receipts; all 240 generated files and the instruction module reproduce exactly.
 Full startup and campaign integration remain unfinished.
+
+
+### Original CRT success continuation
+
+The original TEST/POP/branch after cinit returns zero increments the retained
+attach-count image and reaches EAX = 1. Execution stops at 100adc1e before
+restoring saved registers because the preceding caller frame is not yet owned.
+The package contains 127 bodies, 5,052 instructions and 475 CALL receipts;
+all 242 generated files and the instruction module reproduce exactly.
+Complete CRT attach, DLL entry and campaign integration remain unfinished.
