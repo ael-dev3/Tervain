@@ -3491,6 +3491,171 @@ const rows:readonly (readonly string[])[] = [
     "100e1466",
     "c3",
     "RET"
+  ],
+  [
+    "100e1470",
+    "a128bb0e10",
+    "mov eax, dword ptr [0x100ebb28]"
+  ],
+  [
+    "100e1475",
+    "8b0d2cbb0e10",
+    "mov ecx, dword ptr [0x100ebb2c]"
+  ],
+  [
+    "100e147b",
+    "8b1530bb0e10",
+    "mov edx, dword ptr [0x100ebb30]"
+  ],
+  [
+    "100e1481",
+    "a350b11a10",
+    "mov dword ptr [0x101ab150], eax"
+  ],
+  [
+    "100e1486",
+    "a134bb0e10",
+    "mov eax, dword ptr [0x100ebb34]"
+  ],
+  [
+    "100e148b",
+    "890d54b11a10",
+    "mov dword ptr [0x101ab154], ecx"
+  ],
+  [
+    "100e1491",
+    "891558b11a10",
+    "mov dword ptr [0x101ab158], edx"
+  ],
+  [
+    "100e1497",
+    "a35cb11a10",
+    "mov dword ptr [0x101ab15c], eax"
+  ],
+  [
+    "100e149c",
+    "c3",
+    "ret"
+  ],
+  [
+    "100e14b0",
+    "6830290e10",
+    "PUSH 0x100e2930"
+  ],
+  [
+    "100e14b5",
+    "e8165efcff",
+    "CALL 0x100a72d0"
+  ],
+  [
+    "100e14ba",
+    "59",
+    "POP ECX"
+  ],
+  [
+    "100e14bb",
+    "c3",
+    "RET"
+  ],
+  [
+    "100e14c0",
+    "6840290e10",
+    "PUSH 0x100e2940"
+  ],
+  [
+    "100e14c5",
+    "e8065efcff",
+    "CALL 0x100a72d0"
+  ],
+  [
+    "100e14ca",
+    "59",
+    "POP ECX"
+  ],
+  [
+    "100e14cb",
+    "c3",
+    "RET"
+  ],
+  [
+    "100e14d0",
+    "6850290e10",
+    "PUSH 0x100e2950"
+  ],
+  [
+    "100e14d5",
+    "e8f65dfcff",
+    "CALL 0x100a72d0"
+  ],
+  [
+    "100e14da",
+    "59",
+    "POP ECX"
+  ],
+  [
+    "100e14db",
+    "c3",
+    "RET"
+  ],
+  [
+    "100e14e0",
+    "6860290e10",
+    "PUSH 0x100e2960"
+  ],
+  [
+    "100e14e5",
+    "e8e65dfcff",
+    "CALL 0x100a72d0"
+  ],
+  [
+    "100e14ea",
+    "59",
+    "POP ECX"
+  ],
+  [
+    "100e14eb",
+    "c3",
+    "RET"
+  ],
+  [
+    "100e14f0",
+    "68002a0e10",
+    "PUSH 0x100e2a00"
+  ],
+  [
+    "100e14f5",
+    "e8d65dfcff",
+    "CALL 0x100a72d0"
+  ],
+  [
+    "100e14fa",
+    "59",
+    "POP ECX"
+  ],
+  [
+    "100e14fb",
+    "c3",
+    "RET"
+  ],
+  [
+    "100e1500",
+    "68102a0e10",
+    "PUSH 0x100e2a10"
+  ],
+  [
+    "100e1505",
+    "e8c65dfcff",
+    "CALL 0x100a72d0"
+  ],
+  [
+    "100e150a",
+    "59",
+    "POP ECX"
+  ],
+  [
+    "100e150b",
+    "c3",
+    "RET"
   ]
 ];
 const instructions=new Map<string,SharedInitializerInstruction>(rows.map(([address,bytes,instruction])=>

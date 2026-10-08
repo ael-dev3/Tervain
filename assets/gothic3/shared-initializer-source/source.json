@@ -1300,6 +1300,38 @@
       "scope": "cold-original-image",
       "liveValueCaptured": false
     },
+    "staticValueSource": {
+      "address": "100ebb28",
+      "raw": "00000000000000000000000000000000",
+      "bytes": 16,
+      "sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+      "section": {
+        "virtualAddress": 937984,
+        "virtualSize": 366840,
+        "rawSize": 368640,
+        "rawOffset": 937984,
+        "fileBackedBytes": 16,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "staticValueDestination": {
+      "address": "101ab150",
+      "raw": "00000000000000000000000000000000",
+      "bytes": 16,
+      "sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 0,
+        "loaderZeroFillBytes": 16
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
     "staticCriticalSection": {
       "address": "10197da0",
       "raw": "000000000000000000000000000000000000000000000000",
