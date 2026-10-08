@@ -2,6 +2,23 @@ import { describe, expect, it } from 'vitest';
 import { NativeRuntimeDiagnostics, NativeRuntimePlatform } from '../../src/gothic3/native-runtime-platform';
 import type { NativeValue } from '../../src/gothic3/dialogue';
 const fact = <T>(value: NativeValue<T>): T => { if (!value.known) throw new Error(value.reason); return value.value; };
+it('retains explicit processor results and canonical module/procedure identities',()=>{
+ const selection={tlsValues:new Map<number,object>(),kernel32Available:true,pointerCodec:'absent' as const,processorFeatureProcedure:true,floatingPointPrecisionErratum:true};
+ const platform=new NativeRuntimePlatform({engineCrtServices:selection});selection.floatingPointPrecisionErratum=false;selection.processorFeatureProcedure=false;
+ const module=fact(platform.getWin32ModuleHandle('KERNEL32'))!;expect(module).toBe(fact(platform.getWin32ModuleHandle('kernel32.dll')));
+ const procedure=fact(platform.getWin32Procedure(module,'IsProcessorFeaturePresent'))!;expect(procedure.invoke(0)).toEqual({known:true,value:1});expect(procedure.invoke(10).known).toBe(false);expect(Object.isFrozen(procedure)).toBe(true);expect(NativeRuntimePlatform.canonicalProcessorFeatureProcedureForPlatform(platform,procedure).known).toBe(true);expect(NativeRuntimePlatform.canonicalProcessorFeatureProcedureForPlatform(platform,{...procedure}).known).toBe(false);
+ const other=new NativeRuntimePlatform({engineCrtServices:{...selection,processorFeatureProcedure:true}});expect(NativeRuntimePlatform.canonicalProcessorFeatureProcedureForPlatform(other,procedure).known).toBe(false);expect(other.getWin32Procedure(module,'IsProcessorFeaturePresent').known).toBe(false);
+});
+it('distinguishes an absent processor export from an unselected result and unselected availability',()=>{
+ const make=(options:{processorFeatureProcedure?:boolean;floatingPointPrecisionErratum?:boolean})=>new NativeRuntimePlatform({engineCrtServices:{tlsValues:new Map(),kernel32Available:true,pointerCodec:'absent',...options}});
+ const absent=make({processorFeatureProcedure:false}),missing=make({processorFeatureProcedure:true}),unselected=make({});
+ expect(absent.getWin32Procedure(fact(absent.getWin32ModuleHandle('KERNEL32'))!,'IsProcessorFeaturePresent')).toEqual({known:true,value:null});
+ const procedure=fact(missing.getWin32Procedure(fact(missing.getWin32ModuleHandle('KERNEL32'))!,'IsProcessorFeaturePresent'))!;expect(procedure.invoke(0).known).toBe(false);
+ expect(unselected.getWin32Procedure(fact(unselected.getWin32ModuleHandle('KERNEL32'))!,'IsProcessorFeaturePresent').known).toBe(false);
+});
+it('rejects malformed processor selections before admitting a platform',()=>{
+ for(const key of ['processorFeatureProcedure','floatingPointPrecisionErratum'] as const)expect(()=>new NativeRuntimePlatform({engineCrtServices:{tlsValues:new Map(),kernel32Available:true,pointerCodec:'absent',[key]:'invalid' as unknown as boolean}})).toThrow('Explicit selected CRT registry configuration');
+});
 
 describe('selected source admin platform capabilities', () => {
   it('owns actual CRT storage/masks/lifetime and rejects copied or double-freed capabilities', () => {

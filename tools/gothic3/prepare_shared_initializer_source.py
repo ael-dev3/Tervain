@@ -55,7 +55,10 @@ def capture(study, output):
         ('floatDivisionErratum',0x102f6424,4), ('exitTableBegin',0x102f8580,4),
         ('exitTableEnd',0x102f8584,4), ('rtcTerminators',0x100f7ef4,256),
         ('processorFeature',0x102f853c,4), ('memcpySseEnabled',0x102f854c,4),
-        ('stdioCount',0x102f8500,4), ('stdioVector',0x102f71c0,4)]:
+        ('stdioCount',0x102f8500,4), ('stdioVector',0x102f71c0,4),
+        ('processorModuleName',0x100ede4c,len(b'KERNEL32\0')),
+        ('processorProcedureName',0x100ede30,len(b'IsProcessorFeaturePresent\0')),
+        ('moduleHandleImportSlot',0x102f9768,4), ('procedureLookupImportSlot',0x102f9648,4)]:
         raw, section = image_bytes(pe,address,size)
         cold[label] = dict(address=f'{address:08x}',raw=raw.hex(),bytes=size,
             sha256=hashlib.sha256(raw).hexdigest(),section=section,
@@ -205,7 +208,7 @@ def capture(study, output):
 
 def initializer_runtime(output, destination):
     rows = []
-    for body in ['100aa632','100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407']:
+    for body in ['100aa632','100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100b444f']:
         for line in (output / (body + '.asm.txt')).read_text(encoding='utf-8').splitlines():
             rows.append(line.split(' | '))
     header=json.loads((output/'source.json').read_text(encoding='utf-8'))['imageHeader']

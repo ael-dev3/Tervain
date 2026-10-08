@@ -50,8 +50,9 @@ strings. The caller allocates the combined vector/string block, publishes
 argc/argv and returns zero. SharedBase setenvp now builds its environment vector,
 copies strings, frees the temporary block and returns zero. The initializer now
 checks actual image headers and section ownership, restores FS and installs
-ten floating-point conversion addresses. Its next boundary is the division
-erratum query at `100a7903 -> 100b448b`. Allocation failures retain
+ten floating-point conversion addresses. The original division-erratum query
+now returns through retained virtual imports and publishes its selected result.
+Its next boundary is FNCLEX at `100a7919`. Allocation failures retain
 the original partial cleanup; a positive retry delay remains unresolved.
 Those local helper results still need to join the live
 startup path before they can enable NPC activation. The full game remains
@@ -73,7 +74,8 @@ captures all five error-returning and seventeen void callbacks, the non-NULL
 floating-point hook and its selected dependencies. Four callbacks absent from
 the original study are recovered from original DLL bytes. The new local prefix
 executes cinit through conversion installation and retains the actual pending
-division-query call. The table initializer callbacks have not executed.
+FNCLEX operation after the original division query returns. The table
+initializer callbacks have not executed.
 The earlier PR 84 served-artifact comparison remains evidence for that prior
 revision; no new served-byte comparison is claimed for PR 96.
 
