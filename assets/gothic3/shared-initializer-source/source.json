@@ -2,6 +2,23 @@
   "schema": "gothic3-shared-initializer-source-v1",
   "sharedBaseSha256": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214",
   "methods": {
+    "memoryGetInstance": {
+      "entryVA": "0x10002aae",
+      "bodyVA": "0x10020bf0",
+      "bodyRanges": "10020bf0-10020c39",
+      "instructionCount": 16,
+      "bodyByteCount": 74,
+      "bodyInstructionBytesSha256": "79302e58eb88b69239f60db781967e6c265bf12fff7f5da8f5efcdb022e9a454",
+      "entryChain": [
+        {
+          "va": "10002aae",
+          "bytes": "e93de10100",
+          "targetVA": "10020bf0"
+        }
+      ],
+      "assemblySha256": "18089041735901783ee1a90d44719db252d798c3d8899e2bda11199745b12cb8",
+      "cSha256": "3351a2fd57e2ccf22799fdfb22ddce3a8338c106989636b4e17d986f8eeefcb1"
+    },
     "rootTextConstructor": {
       "entryVA": "0x10003ba7",
       "bodyVA": "0x100135f0",
@@ -968,6 +985,10 @@
     }
   },
   "entries": {
+    "10002aae": {
+      "containingEntry": "10002aae",
+      "methodLabel": "memoryGetInstance"
+    },
     "10003ba7": {
       "containingEntry": "10003ba7",
       "methodLabel": "rootTextConstructor"
@@ -1337,6 +1358,22 @@
         "rawSize": 16384,
         "rawOffset": 1306624,
         "fileBackedBytes": 640,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "memoryAdminState": {
+      "address": "10142798",
+      "raw": "00000000000000000000000000000000",
+      "bytes": 16,
+      "sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 16,
         "loaderZeroFillBytes": 0
       },
       "scope": "cold-original-image",
@@ -1715,6 +1752,14 @@
     "liveValueCaptured": false
   },
   "calls": [
+    {
+      "method": "memoryGetInstance",
+      "address": "10020c2c",
+      "raw": "e89f660800",
+      "instruction": "CALL 0x100a72d0",
+      "kind": "direct",
+      "targetVA": "100a72d0"
+    },
     {
       "method": "rootTextConstructor",
       "address": "10013623",

@@ -22,13 +22,13 @@ and the next missing dependency. Three states matter:
   receipts determine what is supported.
 - **Published:** a reviewed commit has completed the Pages deployment workflow.
 
-These states are recorded separately. The current local Root-constructor
-checkpoint passes 160 focused checks, 2,717 tests across 259 files and the
-production build. It enters the original CString constructor and Alloc helper,
-reaching MemoryAdmin::GetInstance at `10013257 -> 10002aae`. All 96 generated
-source-package files and the instruction module reproduce exactly. It awaits
-remote review and deployment. Full engine startup, world activation and
-campaign completion remain outstanding.
+These states are recorded separately. The current local MemoryAdmin GetInstance
+checkpoint passes 165 focused checks, 2,722 tests across 259 files and the
+production build. It executes the original guard and shutdown registration in
+the live initializer, returning the owned singleton pointer and reaching Malloc
+at `1001325e -> 10003cd8`. All 98 generated source-package files and the
+instruction module reproduce exactly. It awaits remote review and deployment.
+Full engine startup, world activation and campaign completion remain outstanding.
 
 ## Process at a glance
 

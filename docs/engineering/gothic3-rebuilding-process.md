@@ -9346,3 +9346,31 @@ unfinished.
 
 PR 122 passed CI run 37768791245 and merged at
 `635afde46d2949f22743ebb16ef8ebf7014821ce`.
+
+
+## 8 October 2026 — MemoryAdmin GetInstance in live initializer
+
+The original thunk `10002aae -> 10020bf0` now executes within the same startup
+stack and exit-table owner. It tests guard bit 0 at `101427a4`, ORs that bit into
+the live guard, initializes the selected bytes at `1014279c`, `1014279d`,
+`101427a0` and `101427a1`, and registers shutdown address `100e2710` through the
+original atexit path. Eleven callback addresses are now stored, with cursor
+44. A previously set guard follows the original skip branch.
+
+The return is the actual owned static singleton pointer at `101427a0`; the
+CString Alloc caller moves it to ECX and reaches `1001325e -> 10003cd8` (Malloc).
+This does not bind a disconnected standalone allocator or claim successful
+allocation. Guard bytes, singleton storage and exit registration remain owned
+by the same initializer. Shutdown registration does not execute shutdown.
+
+The producer now captures 54 bodies, 977 instructions and 103 CALL receipts.
+All 98 generated package files and the instruction module reproduce exactly.
+MOV from AL infers its original byte store width, preserving adjacent state;
+OR retains unknown upper bits. The 165 focused checks cover live flags,
+guard reuse, callback order, singleton-pointer return and allocator stack
+arguments. Typechecking, production build and all 2,722 tests across 259
+files pass.
+Full startup and campaign completion remain unfinished.
+
+PR 123 passed CI run 37769622859 and merged at
+`3db30c57b5433f8be4bd70ed8e8561b8482a19d4`.
