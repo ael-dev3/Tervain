@@ -4,6 +4,27 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local checkpoint — 9 October 2026: ErrorAdmin termination registration
+
+Original `100219ad -> 100a72d0` now appends the encoded ErrorAdmin termination
+callback `100e2770` through the existing CRT exit-table walker, lock and pointer
+codec. Its 22 original bytes are captured from the hash-pinned DLL. Registration
+retains code identity; it does not execute the shutdown function. The callback
+occupies the nineteenth exit-table entry, with the actual cursor advancing from
+72 to 76 bytes. The getter and MessageAdmin Create tail-call return, and execution
+reaches `10049799 -> 10008b11`, the original SpyAdmin getter.
+
+This continuation exposed missing local-view registration for initializer calloc
+allocations. Those allocations already had owned heap spans; their actual view,
+backing and byte/mask identities are now retained when the allocator returns,
+allowing later DLL continuations to validate the exit-table storage.
+
+Focused execution, 41 source checks, typechecking, exact DLL evidence regeneration
+and the production build pass. The full suite passes 2,967 tests across 275
+files (235.86 seconds). SpyAdmin and
+SpieAdmin startup, full DLL attachment, live world activation and campaign
+integration remain unfinished.
+
 ## Local checkpoint — 9 October 2026: ErrorAdmin callback registration
 
 Original MessageAdmin Register (`10007cac -> 10049650`) reserves nine handler

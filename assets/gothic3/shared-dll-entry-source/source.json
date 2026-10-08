@@ -23428,6 +23428,20 @@
   ],
   "coldImages": [
     {
+      "label": "dllErrorShutdownSource",
+      "address": "100e2770",
+      "size": 22,
+      "bytes": "b9582a1410e84a0bf2ff68602a1410ff15f8952f10c3",
+      "section": {
+        "virtualAddress": 4096,
+        "virtualSize": 930343,
+        "rawSize": 933888,
+        "rawOffset": 4096,
+        "fileBackedBytes": 22,
+        "loaderZeroFillBytes": 0
+      }
+    },
+    {
       "label": "dllErrorBufferScope",
       "address": "100f8338",
       "size": 12,

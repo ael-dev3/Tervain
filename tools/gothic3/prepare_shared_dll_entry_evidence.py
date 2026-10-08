@@ -142,6 +142,7 @@ def capture(study, output):
             'instruction': f'JMP dword ptr [0x{iat:08x}]', 'import': receipt})
     result['coldImages'] = []
     for label, address, size in [
+        ('dllErrorShutdownSource',0x100e2770,22),
         ('dllErrorBufferScope',0x100f8338,12),('dllLargePoolBins',0x10144214,0x4004),('dllLargePoolRegionFirst',0x10148218,4),('dllLargePoolRegionCount',0x102fb04c,4),
         ('dllErrorState',0x10142a58,44),('dllErrorGuard',0x10142a8c,4),
         ('dllMessageState', 0x10197d6c, 32),

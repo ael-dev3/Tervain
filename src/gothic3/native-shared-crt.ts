@@ -297,7 +297,7 @@ export class NativeSharedCrtOwner {
    calloc:(count:number,size:number,errorOutput:number,caller:string):NativeHeapObjectViews|null=>{
     const valid=caller==='100a726a'?count===32:(caller==='100bef27'||caller==='100bef40')&&count===this.#initializerImages['102f8500']!.readUnsigned(0)&&count>=20&&(caller!=='100bef40'||count===20);
     if(!valid||size!==4||errorOutput!==0)throw new Error('Actual original initializer calloc arguments and caller required');
-    const fields=this.#callocCrt(count,size,false);if(fields)this.#initializerAllocations.add(fields);return fields;
+    const fields=this.#callocCrt(count,size,false);if(fields){this.#initializerAllocations.add(fields);this.#locals.set(fields,{backing:fields.backing,bytes:fields.bytes,masks:fields.knownMask,backingBytes:fields.backing.bytes,backingMasks:fields.backing.knownMask,view:fields.view});}return fields;
    },
    descriptorBlock:():NativeHeapObjectViews=>{
     if(!this.#active||!this.#initializerActive||!this.#ioBlock||NativeHeapObjectViews.prototype.pointer.call(this.imageStorage('ioBlocks'),0).get()!==this.#ioBlock)throw new Error('Actual initialized SharedBase descriptor block required');
@@ -401,7 +401,8 @@ export class NativeSharedCrtOwner {
    encodeCode:(procedure:object,address:number):object|null=>{
     const proof=NativeRuntimePlatform.canonicalPointerCodecForPlatform(this.platform,procedure,'EncodePointer');if(!proof.known)throw new Error(proof.reason);
     if(address===0){const encoded=this.#call('100ae2dd.EncodePointer(NULL)',()=>proof.value.invoke(null));if(encoded)this.#initializerEncodedPointers.add(encoded);return encoded;}
-    if(![0x100cdf9f,0x100b43e6,0x100b3a8b,0x100b3a49,0x100b3a7d,0x100b39f3,0x100b4360,0x100b3a09,0x100b3973,0x100b3902,0x100bb8e7,0x100e30f0,0x100e26d0,0x100e2810,0x100e2930,0x100e2940,0x100e2950,0x100e2960,0x100e2a00,0x100e2a10,0x100e2710,0x100e2b40,0x100e2f20,0x100079ff,0x10005f65,0x100e30b0,0x100e3110,0x100e3100].includes(address))throw new Error('Original installed conversion address required');
+    const errorShutdown=address===0x100e2770&&this.#active&&this.#initializerActive&&this.#dllCall!==null&&this.#dllBoundary==='Original SharedBase ErrorAdmin termination registration pending at 100a72d0'&&dllEntrySource.coldImages.some(row=>row.label==='dllErrorShutdownSource'&&row.address==='100e2770'&&row.size===22&&row.bytes==='b9582a1410e84a0bf2ff68602a1410ff15f8952f10c3');
+    if(!errorShutdown&&![0x100cdf9f,0x100b43e6,0x100b3a8b,0x100b3a49,0x100b3a7d,0x100b39f3,0x100b4360,0x100b3a09,0x100b3973,0x100b3902,0x100bb8e7,0x100e30f0,0x100e26d0,0x100e2810,0x100e2930,0x100e2940,0x100e2950,0x100e2960,0x100e2a00,0x100e2a10,0x100e2710,0x100e2b40,0x100e2f20,0x100079ff,0x10005f65,0x100e30b0,0x100e3110,0x100e3100].includes(address))throw new Error('Original installed conversion address required');
     let pointer=this.#initializerCodePointers.get(address);if(!pointer){pointer=Object.freeze({owner:this.identity,originalCodeAddress:address});this.#initializerCodePointers.set(address,pointer);}
     const encoded=this.#call('100ae2dd.EncodePointer',()=>proof.value.invoke(pointer!));if(encoded){this.#initializerEncodedPointers.add(encoded);this.#initializerDecodedPointers.set(encoded,{original:pointer!,address});}return encoded;
    },
@@ -1417,6 +1418,10 @@ export class NativeSharedCrtOwner {
   try{this.#active=true;this.#dllCall=Object.freeze({});const result=NativeX86ThreadStack.finishSharedDllFilenameCopy(this.#argvStack,this.#dllCall);if(!result.known)this.#dllBoundary=result.reason;return result;}
   catch(error){this.#dllBoundary=error instanceof Error?error.message:String(error);return {known:false,reason:this.#dllBoundary};}
   finally{this.#dllCall=null;this.#active=false;}
+ }
+ processDllMessageErrorTerminate():NativeValue<number>{
+  if(this.#active||!this.#argvStack||this.#dllBoundary!=='Original SharedBase ErrorAdmin termination registration pending at 100a72d0')return {known:false,reason:this.#dllBoundary??'Actual pending ErrorAdmin termination registration required'};
+  try{const receipt=dllEntrySource.coldImages.find(row=>row.label==='dllErrorShutdownSource');if(!receipt||receipt.address!=='100e2770'||receipt.size!==22||receipt.bytes!=='b9582a1410e84a0bf2ff68602a1410ff15f8952f10c3')throw new Error('Original ErrorAdmin shutdown source required');this.#active=true;this.#initializerActive=true;this.#dllCall=Object.freeze({});this.#dllMallocCall=this.#dllCall;const result=NativeX86ThreadStack.runSharedInitializers(this.#argvStack,this.#dllCall,'dll-message-error-terminate');if(!result.known)this.#dllBoundary=result.reason;return result;}catch(error){this.#dllBoundary=error instanceof Error?error.message:String(error);return {known:false,reason:this.#dllBoundary};}finally{this.#dllMallocCall=null;this.#dllCall=null;this.#initializerActive=false;this.#active=false;}
  }
  processDllMessageErrorRegister():NativeValue<number>{
   if(this.#active||!this.#argvStack||this.#dllBoundary!=='Original SharedBase ErrorAdmin callback registration pending at 10007cac')return {known:false,reason:this.#dllBoundary??'Actual pending ErrorAdmin callback registration required'};

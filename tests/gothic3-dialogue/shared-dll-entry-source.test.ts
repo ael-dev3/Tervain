@@ -97,3 +97,5 @@ it('retains original cold MessageAdmin state and source metadata for DLL logging
 it('captures the original variable-pool cold bins and buffer scope',()=>{
  expect(source.coldImages.find(row=>row.label==='dllLargePoolBins')).toMatchObject({address:'10144214',size:0x4004,bytes:'00'.repeat(0x4004)});expect(source.coldImages.find(row=>row.label==='dllLargePoolRegionFirst')).toMatchObject({address:'10148218',size:4,bytes:'00000000'});expect(source.coldImages.find(row=>row.label==='dllLargePoolRegionCount')).toMatchObject({address:'102fb04c',size:4,bytes:'00000000'});expect(source.coldImages.find(row=>row.label==='dllErrorBufferScope')).toMatchObject({address:'100f8338',size:12,bytes:'ffffffff39d9031043d90310'});
 });
+
+it('pins the original ErrorAdmin termination callback bytes',()=>{expect(source.coldImages.find(row=>row.label==='dllErrorShutdownSource')).toMatchObject({address:'100e2770',size:22,bytes:'b9582a1410e84a0bf2ff68602a1410ff15f8952f10c3'});});
