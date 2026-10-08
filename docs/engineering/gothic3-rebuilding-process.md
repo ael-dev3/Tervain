@@ -6,6 +6,27 @@ is the detailed technical record and dated checkpoint history.
 
 ## Latest process summary — 8 October 2026
 
+### SharedBase enclosing case helper and wrappers
+
+The next local continuation owns the original case frame at `100b11fd`, its
+adjusted EBP, `51c`-byte reservation and saved registers. CPInfo, character types,
+lower/upper maps and byte input alias the original offsets on that stack.
+Classification and mapping wrapper frames own their actual locale records and
+constructor ABI around the translated lower locale effects. Parent argument
+cleanup follows the original deferred 68-byte and subsequent 36-byte steps.
+
+The original table loop writes the candidate and its register effects. The case
+cookie relationship is checked before saved EBP/register restoration and return.
+The caller's XOR sets EAX to zero. The next boundary is the configuration cookie
+frame at `100b166f`; candidate installation and full CRT/live Game integration
+remain unfinished. No NPC activation or campaign completion is established.
+
+Focused validation passes 61 tests, including every table byte, actual alias
+offsets, returned calls, deferred cleanup, locale flags and source-admission
+failure for changed cleanup/cookie receipts. Typechecking and production build
+checks pass, as do 2,599 full-suite tests across 258 files. PR 101 deployed successfully through Pages run
+37730924635 at `597a38ecee0dae61a38e8ab92eb5ee2ba30101e3`.
+
 ### SharedBase lower and upper case mapping
 
 The next local branch completes both declared CP1252 case mappings through

@@ -19,6 +19,14 @@ The candidate's case tables are written in source order. The current boundary
 is the enclosing case helper's epilogue at `100b1370`; its native caller frame
 and global candidate installation remain unfinished.
 
+The next local continuation owns that enclosing case frame and the classification
+and mapping wrappers. Its tables and wrapper locale records alias actual stack
+storage at the original offsets. The source deferred argument cleanup, table-loop
+register effects and cookie epilogue now return normally. Runtime admission pins
+both the cleanup and cookie-check instruction-byte hashes. The current boundary
+is the configuration caller's cookie frame at `100b166f`, before PTD/global
+candidate installation and full CRT/live Game startup integration.
+
 SharedBase owns these globals independently of Game and Engine. Its two dynamic thread indices begin at `ffffffff`; the four procedure slots begin as loader-filled zero bytes. The static TLS index from the PE TLS directory is a different field. Loading static TLS does not allocate either dynamic slot, initialize the heap, install FLS/TLS procedures or initialize CRT thread data.
 
 `__mtinit` resolves four FLS procedures, falls back to the original TLS procedures if any is unavailable, allocates a getter-cache TLS index, initializes pointer encoding, initializes locks, allocates a PTD slot with its cleanup callback, allocates 0x214 bytes, installs that allocation and initializes its locale/thread fields. Failed branches run the original teardown where specified. None of these effects can be replaced with a successful metadata flag.
