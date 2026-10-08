@@ -53,6 +53,7 @@ The separate `/gothic3/` reconstruction is being implemented in TypeScript from
 local asset and native behavior evidence. Startup and campaign integration are
 still incomplete.
 
+- [Gothic 3 rebuilding process: start here](docs/engineering/gothic3-rebuild-guide.md)
 - [How rebuilding works](docs/engineering/gothic3-rebuild-overview.md)
 - [Step-by-step process, repository map and current status](docs/engineering/gothic3-rebuild-workflow.md)
 - [Technical checkpoint history](docs/engineering/gothic3-rebuilding-process.md)
