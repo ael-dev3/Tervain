@@ -36,15 +36,20 @@ property-object and named-factory constructors, and pointer-preserving template
 removal. These components are not connected to live virtual-call execution or
 property registration.
 
-Subsequent local work implements the string-keyed type table's lookup, insertion,
-clear/recreation and constructor; original signed-byte CString hashing; and the
-original 4-byte allocator pool used by registration wrappers. It also implements
-the property singleton constructor's allocation sequence: construct 43 buckets,
-clear/recreate them, then grow to 359 buckets with capacity 367. Focused checks
-verify the allocation sequence and untouched padding. This work is not yet
-published. The canonical SharedBase singleton storage, getter guard, exit
-registration, class-name virtual dispatch and full RegisterTemplate connection
-remain unfinished.
+[PR 83](https://github.com/ael-dev3/Tervain/pull/83) merges the string-keyed
+property type table's lookup, insertion, clear/recreation and constructor;
+original signed-byte CString hashing; the original 4-byte allocator pool used
+by registration wrappers; and canonical SharedBase singleton storage. The
+singleton constructor preserves the allocation sequence: construct 43 buckets,
+clear/recreate them, then grow to 359 buckets with capacity 367. This merged
+source is newer than the confirmed publication receipt above.
+
+The current local branch additionally implements the canonical singleton getter,
+its original guard writes, selected shutdown callback and destruction sequence.
+Those changes have focused checks but are not yet published. The callback uses
+the browser's selected shutdown adapter; it does not establish execution of the
+full original SharedBase CRT. Class-name virtual dispatch, type-singleton
+initialization and the full RegisterTemplate connection remain unfinished.
 
 The next dependency chain includes original type-singleton initialization,
 class-name and factory construction, property registration, and the lifecycle
@@ -96,6 +101,44 @@ flowchart LR
   R -->|gaps| N
   R -->|complete progression| G[Playable game through its endings]
 ```
+
+### Example: turning an Ardea NPC into a playable character
+
+The process has a concrete dependency chain:
+
+1. Read the NPC's world record to recover its identity, placement, property sets
+   and actor references. Preserve the effective archive layer and input hashes.
+2. Decode its actor, skin weights, textures and motion tracks. Convert coordinates
+   consistently and compare the rendered result with the installed game.
+3. Follow the native entity construction and property-registration calls. Capture
+   the relevant functions, layouts, globals and initializer order from the DLLs.
+4. Implement the admitted behavior in TypeScript. Keep one actual owner for shared
+   storage; preserve pointer identity, allocation, callbacks and teardown. A
+   missing dependency stops at an explicit boundary with its prior effects intact.
+5. Connect the constructed entity to the browser world, processing, routines,
+   animation, equipment, interaction and dialogue services.
+6. Exercise an ordinary encounter, including its quest effects and save/reload.
+   Record the exact checked revision, then publish through the repo workflow.
+
+Today, decoded actors and selected gameplay services exist, while original NPC
+startup is still being reconstructed. A model that can be rotated proves that
+its geometry can be displayed; activating that NPC requires the later steps.
+
+### Where the work lives
+
+| Repository path | Purpose |
+| --- | --- |
+| `tools/gothic3/` | Offline readers and producers for original resources and bounded native evidence. |
+| `assets/gothic3/` | Captured source packages, runtime rules and provenance used by reconstruction modules. |
+| `public/gothic3/` | Browser-served converted assets and reading packages. |
+| `src/gothic3/` | The TypeScript reconstruction, gameplay services and native behavior owners. |
+| `src/gothic3local/` | Readers and rendering for the separate local-install study viewer. |
+| `tests/gothic3-dialogue/` | Source-derived scenarios and runtime checks for supported behavior. |
+| `.github/workflows/pages.yml` | Checks, production build and GitHub Pages deployment. |
+
+The [detailed checkpoint history](gothic3-rebuilding-process.md) records the
+individual inputs and receipts. The sections below explain how to reproduce and
+extend the work; the completion criterion is ordinary play through the campaign.
 
 ### 1. Inventory the source
 

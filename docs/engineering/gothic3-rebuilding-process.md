@@ -8,10 +8,12 @@ is the detailed technical record and dated checkpoint history.
 
 See the [current rebuilding overview](gothic3-rebuild-overview.md#current-status--8-october-2026)
 for the latest confirmed deployment, source recovery, supporting implementations
-and remaining startup dependencies. PR 81 is published at main commit
-`7bf684961ba6912011370d652ce8afa66cee37b4`; the selected live Game startup
-still stops before `__cinit` at `204678f2`. The property-owner getter implementation
-following that publication is local work and has not been connected to live dispatch.
+and remaining startup dependencies. PR 82 has a confirmed publication receipt;
+PR 83 merges further property-registry and singleton construction support.
+The selected live Game startup still stops before `__cinit` at `204678f2`.
+The canonical singleton getter and destruction sequence are subsequent local
+work. These components have not established live NPC activation or a finishable
+campaign.
 
 The dated checkpoint receipts below describe their own revisions and observations.
 Their publication statements should be read as historical evidence.
