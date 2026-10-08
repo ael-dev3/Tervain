@@ -1,0 +1,36 @@
+/* ENTRY 100adc25 | ___DllMainCRTStartup | STATUS decompiled | 17 ms */
+
+/* WARNING: Function: __SEH_prolog4 replaced with injection: SEH_prolog4 */
+/* WARNING: Function: __SEH_epilog4 replaced with injection: EH_epilog3 */
+/* WARNING: Removing unreachable block (ram,0x100adcb7) */
+/* WARNING: Removing unreachable block (ram,0x100adc64) */
+/* WARNING: Removing unreachable block (ram,0x100adce4) */
+/* Library Function - Single Match
+    ___DllMainCRTStartup
+   
+   Library: Visual Studio 2005 Release */
+
+int __fastcall ___DllMainCRTStartup(undefined4 param_1,int param_2,undefined4 param_3)
+
+{
+  int iVar1;
+  int local_20;
+  
+  if (((param_2 == 0) && (DAT_102f648c == 0)) ||
+     (((param_2 == 1 || (param_2 == 2)) &&
+      (iVar1 = __CRT_INIT_12(param_3,param_2,param_1), iVar1 == 0)))) {
+    local_20 = 0;
+  }
+  else {
+    local_20 = thunk_FUN_100a1630(param_3,param_2,param_1);
+    if ((param_2 == 1) && (local_20 == 0)) {
+      thunk_FUN_100a1630(param_3,0,param_1);
+      __CRT_INIT_12(param_3,0,param_1);
+    }
+    if (((param_2 == 0) || (param_2 == 3)) &&
+       (iVar1 = __CRT_INIT_12(param_3,param_2,param_1), iVar1 == 0)) {
+      local_20 = 0;
+    }
+  }
+  return local_20;
+}

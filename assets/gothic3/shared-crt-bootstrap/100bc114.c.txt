@@ -1,0 +1,30 @@
+/* ENTRY 100bc114 | __heap_term | STATUS decompiled | 9 ms */
+
+/* Library Function - Single Match
+    __heap_term
+   
+   Library: Visual Studio 2005 Release */
+
+void __cdecl __heap_term(void)
+
+{
+  undefined4 *puVar1;
+  int iVar2;
+  
+  if (DAT_102f8530 == 3) {
+    iVar2 = 0;
+    if (0 < DAT_102f8518) {
+      puVar1 = (undefined4 *)((int)DAT_102f851c + 0x10);
+      do {
+        VirtualFree((LPVOID)puVar1[-1],0,0x8000);
+        HeapFree(DAT_102f6ac8,0,(LPVOID)*puVar1);
+        puVar1 = puVar1 + 5;
+        iVar2 = iVar2 + 1;
+      } while (iVar2 < DAT_102f8518);
+    }
+    HeapFree(DAT_102f6ac8,0,DAT_102f851c);
+  }
+  HeapDestroy(DAT_102f6ac8);
+  DAT_102f6ac8 = (HANDLE)0x0;
+  return;
+}

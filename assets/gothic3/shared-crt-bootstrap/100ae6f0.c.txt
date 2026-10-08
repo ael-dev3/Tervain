@@ -1,0 +1,61 @@
+/* ENTRY 100ae6f0 | __mtinit | STATUS decompiled | 27 ms */
+
+/* Library Function - Single Match
+    __mtinit
+   
+   Library: Visual Studio 2005 Release */
+
+int __cdecl __mtinit(void)
+
+{
+  HMODULE hModule;
+  BOOL BVar1;
+  int iVar2;
+  code *pcVar3;
+  DWORD *pDVar4;
+  DWORD DVar5;
+  
+  hModule = GetModuleHandleA("KERNEL32.DLL");
+  if (hModule == (HMODULE)0x0) {
+    __mtterm();
+    return 0;
+  }
+  DAT_102f64a4 = GetProcAddress(hModule,"FlsAlloc");
+  DAT_102f64a8 = GetProcAddress(hModule,"FlsGetValue");
+  DAT_102f64ac = GetProcAddress(hModule,"FlsSetValue");
+  DAT_102f64b0 = GetProcAddress(hModule,"FlsFree");
+  if ((((DAT_102f64a4 == (FARPROC)0x0) || (DAT_102f64a8 == (FARPROC)0x0)) ||
+      (DAT_102f64ac == (FARPROC)0x0)) || (DAT_102f64b0 == (FARPROC)0x0)) {
+    DAT_102f64a8 = TlsGetValue_exref;
+    DAT_102f64a4 = (FARPROC)&LAB_100ae360;
+    DAT_102f64ac = TlsSetValue_exref;
+    DAT_102f64b0 = TlsFree_exref;
+  }
+  DAT_10140b48 = TlsAlloc();
+  if ((DAT_10140b48 != 0xffffffff) && (BVar1 = TlsSetValue(DAT_10140b48,DAT_102f64a8), BVar1 != 0))
+  {
+    __init_pointers();
+    DAT_102f64a4 = (FARPROC)FUN_100ae27b(DAT_102f64a4);
+    DAT_102f64a8 = (FARPROC)FUN_100ae27b(DAT_102f64a8);
+    DAT_102f64ac = (FARPROC)FUN_100ae27b(DAT_102f64ac);
+    DAT_102f64b0 = (FARPROC)FUN_100ae27b(DAT_102f64b0);
+    iVar2 = __mtinitlocks();
+    if (iVar2 != 0) {
+      pcVar3 = (code *)FUN_100ae2f2(DAT_102f64a4,__freefls_4);
+      DAT_10140b44 = (*pcVar3)();
+      if ((DAT_10140b44 != -1) && (pDVar4 = __calloc_crt(1,0x214), pDVar4 != (DWORD *)0x0)) {
+        pcVar3 = (code *)FUN_100ae2f2(DAT_102f64ac,DAT_10140b44,pDVar4);
+        iVar2 = (*pcVar3)();
+        if (iVar2 != 0) {
+          FUN_100ae40c(pDVar4,0);
+          DVar5 = GetCurrentThreadId();
+          pDVar4[1] = 0xffffffff;
+          *pDVar4 = DVar5;
+          return 1;
+        }
+      }
+    }
+    __mtterm();
+  }
+  return 0;
+}

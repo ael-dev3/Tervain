@@ -22,7 +22,7 @@ interface Method {
   bodyVA: string; instructionCount: number; bodyByteCount: number;
   bodyInstructionBytesSha256: string; assemblySha256: string; cSha256: string;
 }
-for (const packageName of ['arena-property-registration', 'arena-status-descriptor', 'game-template-demangler', 'shared-diagnostic-locale']) {
+for (const packageName of ['arena-property-registration', 'arena-status-descriptor', 'game-template-demangler', 'shared-diagnostic-locale', 'shared-crt-bootstrap']) {
   it(`preserves the original instruction and C evidence for ${packageName}`, () => {
     const base = `assets/gothic3/${packageName}/`;
     const source = JSON.parse(readFileSync(base + 'source.json', 'utf8'));
@@ -83,4 +83,23 @@ it('records original SharedBase static TLS without claiming loader-assigned thre
   expect(tls.callbacksTerminatorRaw).toBe('00000000');
   expect(source.registrationDebugFormat.address).toBe('100e9f40');
   expect(source.registrationDebugFormat.text.match(/%s/g)).toHaveLength(2);
+});
+
+it('preserves original SharedBase CRT cold globals separately from static TLS',()=>{
+ const source=JSON.parse(readFileSync('assets/gothic3/shared-crt-bootstrap/source.json','utf8'));
+ const globals=source.coldGlobals;
+ expect(globals.securityCookie.raw).toBe('4ee640bb');
+ expect(globals.securityCookieComplement.raw).toBe('b119bf44');
+ expect(globals.tlsGetterIndex.raw).toBe('ffffffff');
+ expect(globals.threadDataIndex.raw).toBe('ffffffff');
+ expect(globals.procedureSlots.raw).toBe('00'.repeat(16));
+ expect(globals.procedureSlots.section.loaderZeroFillBytes).toBe(16);
+ expect(globals.localePointer.raw).toBe('90131410');
+ expect(globals.multibytePointer.raw).toBe('600e1410');
+ expect(globals.threadLocaleMask.raw).toBe('feffffff');
+ for(const receipt of Object.values(globals) as {bytes:number;raw:string;knownMask:string;scope:string;liveValueCaptured:boolean}[]){
+  expect(receipt.raw.length).toBe(receipt.bytes*2);
+  expect(receipt.knownMask).toBe('ff'.repeat(receipt.bytes));
+  expect(receipt.scope).toBe('cold-original-image');expect(receipt.liveValueCaptured).toBe(false);
+ }
 });

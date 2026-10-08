@@ -1,0 +1,24 @@
+/* ENTRY 100ae3cf | __mtterm | STATUS decompiled | 5 ms */
+
+/* Library Function - Single Match
+    __mtterm
+   
+   Library: Visual Studio 2005 Release */
+
+void __cdecl __mtterm(void)
+
+{
+  code *pcVar1;
+  
+  if (DAT_10140b44 != -1) {
+    pcVar1 = (code *)FUN_100ae2f2(DAT_102f64b0,DAT_10140b44);
+    (*pcVar1)();
+    DAT_10140b44 = -1;
+  }
+  if (DAT_10140b48 != 0xffffffff) {
+    TlsFree(DAT_10140b48);
+    DAT_10140b48 = 0xffffffff;
+  }
+  __mtdeletelocks();
+  return;
+}
