@@ -724,7 +724,7 @@ export class NativeX86ThreadStack {
           pc=(parseInt(pc,16)+row.bytes.length/2).toString(16).padStart(8,'0');continue;
         }
         if(opcode==='FLD')throw new Error('Unowned SharedBase initializer opcode '+opcode);
-        const args=text?text.split(',').map(operand):[],next=(parseInt(pc,16)+row.bytes.length/2).toString(16).padStart(8,'0');
+        const args=text&&opcode!=='STOSD.REP'?text.split(',').map(operand):[],next=(parseInt(pc,16)+row.bytes.length/2).toString(16).padStart(8,'0');
         if(opcode==='MOV'){const destination=args[0]!,source=args[1]!,byteDestination=destination.kind==='register'&&destination.byte,byteSource=source.kind==='register'&&source.byte;write(destination.kind==='memory'&&byteSource?{...destination,width:1}:destination,read(source.kind==='memory'&&byteDestination?{...source,width:1}:source));}
         else if(opcode==='MOVZX'){const source=args[1]!,width=source.kind==='memory'?source.width:4;write(args[0]!,stack.#mint(stack.#numeric(read(source),width),0xffffffff));}
         else if(opcode==='LEA'){const source=args[1]!;if(source.kind!=='memory')throw new Error('Actual initializer LEA required');write(args[0]!,address(source.expression));}
@@ -752,10 +752,16 @@ export class NativeX86ThreadStack {
         }else if(opcode==='XOR'||opcode==='AND'){
           const left=read(args[0]!),right=read(args[1]!),a=stack.#record(left),b=stack.#record(right),same=args[0]!.kind==='register'&&args[1]!.kind==='register'&&args[0]!.slot===args[1]!.slot;
           const value=opcode==='XOR'&&same?0:opcode==='XOR'?a.value^b.value:a.value&b.value;
-          const mask=opcode==='XOR'&&same?0xffffffff:a.mask&b.mask;
+          const mask=opcode==='XOR'&&same?0xffffffff:opcode==='AND'?(a.mask&b.mask)|((~a.value)&a.mask)|((~b.value)&b.mask):a.mask&b.mask;
           write(args[0]!,opcode==='XOR'&&!same&&mask!==0xffffffff?stack.#mint(value,mask,{kind:'xor',left,right}):stack.#mint(value,mask));stack.#logicalFlags(value,mask,4);
-        }else if(opcode==='LEAVE'){stack.#store(stack.#bank,stack.#reg('ESP'),stack.#load(stack.#bank,stack.#reg('EBP')));pop({kind:'register',slot:stack.#reg('EBP')});}
-        else if(opcode==='NEG'){const value=stack.#numeric(read(args[0]!),4),result=(-value)>>>0;write(args[0]!,stack.#mint(result,0xffffffff));stack.#arithmeticFlags(0,value,result,4,true);}
+        }
+        else if(opcode==='NEG'){
+          const word=read(args[0]!),provenance=stack.#record(word).provenance;
+          if(provenance?.kind==='shared-local'){const proof=NativeRuntimePlatform.canonicalNativePointerModulo4ForPlatform(stack.#platform,{fields:provenance.fields,offset:provenance.offset??0});if(!proof.known)throw new Error(proof.reason);write(args[0]!,stack.#mint((-proof.value)&3,3,{kind:'neg',word}));stack.#flags(1,0x41);}
+          else {const value=stack.#numeric(word,4),result=(-value)>>>0;write(args[0]!,stack.#mint(result,0xffffffff));stack.#arithmeticFlags(0,value,result,4,true);}
+        }
+        else if(opcode==='STOSD.REP'){if(text!=='ES:EDI')throw new Error('Original initializer REP STOSD form required');let count=stack.#numeric(stack.#load(stack.#bank,stack.#reg('ECX')),4);while(count){stack.#stringDword(false);stack.#store(stack.#bank,stack.#reg('ECX'),stack.#mint(--count,0xffffffff));}}
+
         else if(opcode==='SBB'){if(text!=='EAX,EAX')throw new Error('Unowned initializer SBB form');const old=stack.#numeric(read(args[0]!),4),flags=stack.#record(stack.#load(stack.#bank,36));if(!(flags.mask&1))throw new Error('Actual initializer SBB carry required');const carry=flags.value&1,result=(-carry)>>>0;write(args[0]!,stack.#mint(result,0xffffffff));stack.#arithmeticFlags(old,old,result,4,true,carry);}
         else if(opcode==='DEC'){const value=stack.#numeric(read(args[0]!),4),flags=stack.#record(stack.#load(stack.#bank,36)),result=(value-1)>>>0;write(args[0]!,stack.#mint(result,0xffffffff));stack.#arithmeticFlags(value,1,result,4,true);const updated=stack.#record(stack.#load(stack.#bank,36));stack.#flags((updated.value&~1)|(flags.value&1),(updated.mask&~1)|(flags.mask&1));}
         else if(opcode==='INC'){const old=read(args[0]!),value=stack.#numeric(old,4),flags=stack.#record(stack.#load(stack.#bank,36)),result=(value+1)>>>0;write(args[0]!,stack.#mint(result,0xffffffff));stack.#arithmeticFlags(value,1,result,4,false);const updated=stack.#record(stack.#load(stack.#bank,36));stack.#flags((updated.value&~1)|(flags.value&1),(updated.mask&~1)|(flags.mask&1));}
@@ -765,6 +771,9 @@ export class NativeX86ThreadStack {
         }
         else if(opcode==='SAR'){
           const value=stack.#numeric(read(args[0]!),4),shift=stack.#numeric(read(args[1]!),4)&31;if(shift){const result=(value>>shift)>>>0;write(args[0]!,stack.#mint(result,0xffffffff));stack.#logicalFlags(result,0xffffffff,4);const flags=stack.#record(stack.#load(stack.#bank,36));stack.#flags((flags.value&~0x801)|((value>>>(shift-1))&1),(flags.mask&~0x800)|(shift===1?0x800:0));}
+        }
+        else if(opcode==='SHL'){
+          const value=stack.#numeric(read(args[0]!),4),shift=stack.#numeric(read(args[1]!),4)&31;if(shift){const result=(value<<shift)>>>0;write(args[0]!,stack.#mint(result,0xffffffff));stack.#logicalFlags(result,0xffffffff,4);const flags=stack.#record(stack.#load(stack.#bank,36)),carry=(value>>>(32-shift))&1;stack.#flags((flags.value&~0x801)|carry|(shift===1?(((result>>>31)^carry)<<11):0),(flags.mask&~0x800)|(shift===1?0x800:0));}
         }
         else if(opcode==='SHR'){const value=stack.#numeric(read(args[0]!),4),shift=stack.#numeric(read(args[1]!),4);write(args[0]!,stack.#mint(value>>>shift,0xffffffff));stack.#logicalFlags(value>>>shift,0xffffffff,4);const flags=stack.#record(stack.#load(stack.#bank,36));stack.#flags((flags.value&~0x801)|((value>>>(shift-1))&1),(flags.mask&~0x800));}
         else if(opcode==='CMP'||opcode==='TEST'){
@@ -833,7 +842,7 @@ export class NativeX86ThreadStack {
             const raw='feffffff00000000d4ffffff00000000feffffff62e00c107ee00c10';for(let offset=0;offset<28;offset++)if(NativeHeapObjectViews.prototype.readUnsigned.call(scopeFields!,offset,1)!==parseInt(raw.slice(offset*2,offset*2+2),16))throw new Error('Original live processor SIMD scope bytes required');
             stack.#processorSimdFrame={oldFs:stack.#load(stack.#bank,32),oldEbp:stack.#load(stack.#bank,stack.#reg('EBP')),oldEbx:stack.#load(stack.#bank,stack.#reg('EBX')),oldEsi:stack.#load(stack.#bank,stack.#reg('ESI')),oldEdi:stack.#load(stack.#bank,stack.#reg('EDI')),scope,returned:false};
           }
-          if(!((pc==='100ce0e2'&&target==='100ce045')||(pc==='100ce04c'&&target==='100aeb68')||(pc==='100ce08f'&&target==='100aebad')||((pc==='100a729b'||pc==='100b10dd')&&target==='100aeb68')||((pc==='100a72c4'||pc==='100b1162')&&target==='100aebad'))&&!['100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100ae27b','100aa47d','100a7265','100aef10','100b1854','100b4b6b','100ce095','100bef05','100ce0f5','100a72d0','100a7294','100a71ac','100ae2f2','100b10d6','100aa453','100aa45c','100a72ca','100e1660','100e1440','100e1450','100e1470','100e14b0','100e14c0','100e14d0','100e14e0','100e14f0','100e1500','100e1510','10003ba7','10007d65','10002aae','10003cd8','10001028','10002d97','100061cc','100aabd2','100aaaf6'].includes(target))throw new Error('Unowned SharedBase initializer child at '+pc+' -> '+target+' (cinit 100aa632)');
+          if(!((pc==='100ce0e2'&&target==='100ce045')||(pc==='100ce04c'&&target==='100aeb68')||(pc==='100ce08f'&&target==='100aebad')||((pc==='100a729b'||pc==='100b10dd')&&target==='100aeb68')||((pc==='100a72c4'||pc==='100b1162')&&target==='100aebad'))&&!['100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100ae27b','100aa47d','100a7265','100aef10','100b1854','100b4b6b','100ce095','100bef05','100ce0f5','100a72d0','100a7294','100a71ac','100ae2f2','100b10d6','100aa453','100aa45c','100a72ca','100e1660','100e1440','100e1450','100e1470','100e14b0','100e14c0','100e14d0','100e14e0','100e14f0','100e1500','100e1510','10003ba7','10007d65','10002aae','10003cd8','10001028','10002d97','100061cc','100aabd2','100aaaf6','100a7980','100012e4'].includes(target))throw new Error('Unowned SharedBase initializer child at '+pc+' -> '+target+' (cinit 100aa632)');
           pc=target;continue;
         }else if(opcode==='RET'){
           const continuation=stack.#record(stack.#ret(args.length?stack.#numeric(read(args[0]!),4):0)).provenance;if(continuation?.kind!=='source')throw new Error('Actual initializer return required');

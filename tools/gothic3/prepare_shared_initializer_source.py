@@ -23,6 +23,7 @@ def capture(study, output):
     pe = native.PE(binary)
     tables = {}
     targets = {
+        0x100a7980: 'memset', 0x100012e4: 'heapAddPointerArea',
         0x100aabd2: 'crtOperatorNew', 0x100aaaf6: 'crtMalloc',
         0x10001028: 'heapAllocate', 0x10047f10: 'pool16Dispatch',
         0x100061cc: 'pool16Initialize', 0x1000605a: 'pool16Allocate',
@@ -70,6 +71,7 @@ def capture(study, output):
         ('processorFeature',0x102f853c,4), ('memcpySseEnabled',0x102f854c,4),
         ('stdioCount',0x102f8500,4), ('stdioVector',0x102f71c0,4),
         ('stdioFiles',0x10141790,640),
+        ('heapPointerAreaCount',0x102fb030,4), ('heapPointerAreas',0x10149a18,0x40000),
         ('heapDispatchTable',0x102fb050,4097*4), ('pool16State',0x102ffd58,12),
         ('pool16Descriptor',0x102ffef0,4), ('poolDescriptorList',0x102fb004,4),
         ('poolHeapAllocImport',0x102f9684,4), ('pool16Geometry',0x100e7aa8,8), ('poolVirtualAllocImport',0x102f9680,4),
@@ -248,11 +250,11 @@ def capture(study, output):
 
 def initializer_runtime(output, destination):
     rows = []
-    for body in ['100aa632','100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100b444f','100ae27b','100aa47d','100a7265','100aef10','100b1854','100b4b6b','100ce095','100ce045','100aeb68','100aebad','100bef05','100ce0f5','100a72d0','100a7294','100a71ac','100ae2f2','100b10d6','100aa453','100aa45c','100a72ca','100e1660','100e1440','100e1450','100e1470','100e14b0','100e14c0','100e14d0','100e14e0','100e14f0','100e1500','100e1510','100135f0','10013240','10020bf0','1003d410','1003d2f0','10047f10','10045da0','100aabd2','100aaaf6']:
+    for body in ['100aa632','100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100b444f','100ae27b','100aa47d','100a7265','100aef10','100b1854','100b4b6b','100ce095','100ce045','100aeb68','100aebad','100bef05','100ce0f5','100a72d0','100a7294','100a71ac','100ae2f2','100b10d6','100aa453','100aa45c','100a72ca','100e1660','100e1440','100e1450','100e1470','100e14b0','100e14c0','100e14d0','100e14e0','100e14f0','100e1500','100e1510','100135f0','10013240','10020bf0','1003d410','1003d2f0','10047f10','10045da0','100aabd2','100aaaf6','100a7980','1003c650']:
         for line in (output / (body + '.asm.txt')).read_text(encoding='utf-8').splitlines():
             rows.append(line.split(' | '))
     source=json.loads((output/'source.json').read_text(encoding='utf-8'))
-    for label in ['rootTextConstructor','rootTextAlloc','memoryGetInstance','memoryMalloc','heapAllocate','pool16Dispatch','pool16Initialize']:
+    for label in ['rootTextConstructor','rootTextAlloc','memoryGetInstance','memoryMalloc','heapAllocate','pool16Dispatch','pool16Initialize','heapAddPointerArea']:
         for entry in source['methods'][label]['entryChain']:
             rows.append([entry['va'],entry['bytes'],'JMP 0x'+entry['targetVA']])
     header=json.loads((output/'source.json').read_text(encoding='utf-8'))['imageHeader']

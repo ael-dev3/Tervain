@@ -247,3 +247,25 @@ small-block allocation stops at its original helper. Missing or replaced
 capabilities retain their applied prefixes. The region, descriptor, Malloc lock
 and exception frame remain owned. Bitmap initialization, pool registration,
 slot allocation, CString return and complete startup remain outstanding.
+
+
+## Live bitmap fill and cold area registration — 8 October 2026
+
+The initializer executes original `100a7980` memset. Its nonzero fill byte
+selects the scalar path even when the earlier CPU query enables SSE. Private
+platform geometry proves the low address bits used by NEG/AND alignment;
+opaque pointers do not acquire invented numeric Windows addresses. Original
+SHL/ADD builds the DWORD pattern and REP STOSD fills 8,192 bytes using the
+logical thread's actual direction flag. The caller disables the final bitmap
+bit with 0x7fffffff, then exchanges the region-list head and preserves its link.
+
+The original `100012e4 -> 1003c650` registrar writes the cold first area record:
+payload start at region+16, exclusive end at region+0x100000, region base and
+actual descriptor. It increments `102fb030` and performs RET 12. The area
+storage is the original PE loader-zero interval `10149a18..10189a18`; this
+physical capture does not establish a logical maximum record count. Warmed
+sorting across distinct regions and its memmove remain unsupported.
+
+Normal execution now reaches `10047f57 -> 1000605a`, the bitmap slot allocator.
+The enclosing heap lock and Malloc exception frame remain entered. No payload
+slot, CString, Root constructor or complete module startup has returned.

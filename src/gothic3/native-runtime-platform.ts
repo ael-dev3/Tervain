@@ -1509,6 +1509,10 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     }
     return known(proof.capacity);
   }
+  static canonicalNativePointerModulo4ForPlatform(platform:NativeRuntimePlatform,pointer:NativeBytePointer):NativeValue<number> {
+    const access=NativeRuntimePlatform.canonicalNativePointerAccessForPlatform(platform,pointer,0,0);if(!access.known)return access;
+    const geometry=platform.#resolveNativePointer(pointer);return geometry.known?known(geometry.value.modulo4):geometry;
+  }
   resolveNativePointer(pointer: NativeBytePointer): NativeValue<NativePointerGeometry> { return this.#resolveNativePointer(pointer); }
   #resolveNativePointer(pointer: NativeBytePointer): NativeValue<NativePointerGeometry> {
     try {
