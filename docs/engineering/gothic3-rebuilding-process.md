@@ -8667,3 +8667,41 @@ remain unfinished.
 
 PR 103 passed CI run 37735759120 and merged at
 `5e6576d52bfacdf5abdcb1e07a951b7deec557ad`. Its Pages deployment is not yet confirmed here.
+
+
+### Local multibyte candidate installation and normal return
+
+The source decrement/increment calls now use private pending grants and a
+canonical virtual platform counter service. A call is consumed once and its
+normal-return object records the exact before/after values. Forged calls cannot
+admit storage or mutate a counter. The old static record is not freed when its
+PTD reference reaches zero; its later global decrement follows the source even
+when this produces `ffffffff`. Counts are not clamped.
+
+The candidate replaces PTD+104 and receives its PTD reference. Own-locale mask
+0x02 and global locale mask 0x01 select the original publication branch. The
+published branch acquires the actual lock 13, enters the scope, writes three
+DWORD fields, five WORD fields, 257 classification bytes and 256 case bytes in
+source order, exchanges the old global reference, publishes the typed candidate
+pointer and increments its global reference. The table loops retain the source
+counter/register effects. The retained lock-release handler returns after the
+actual lower unlock service. The other branch retains a PTD-only candidate and
+leaves the global record and tables unchanged.
+
+The original normal SEH epilogue restores the incoming FS word and saved
+registers, relocates its return word and returns through setmbcp. The init-table
+caller removes its argument and sets the initialization flag; the translated
+path models its final XOR setting EAX to zero.
+Execution now stops at module filename acquisition `100c0bd1`. The candidate's
+reference count is 2 after global publication or 1 when retained only by PTD.
+All owned calls on the selected normal path have returned and ESP is restored
+to the selected stack top.
+
+Final validation passes 65 focused tests, typechecking, the production build
+and all 2,603 tests across 258 files. Dynamic old-record free, allocation-failure and exception paths remain
+unimplemented. Lower PTD/locale/allocation/memset and lock bodies still use the
+retained owner's translated effects. Complete SharedBase attach, live Game
+initializer traversal, NPC activation and a finishable campaign remain missing.
+
+PR 104 passed CI run 37736807410 and merged at
+`861fbf5ab7fca284b52e3cc8aebaeaf9b0ae2a6f`. Its Pages deployment is not yet confirmed here.

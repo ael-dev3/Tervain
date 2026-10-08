@@ -12,8 +12,11 @@ selected thread stack. The IsValidCodePage and GetCPInfo imports, configuration
 memset ABI, nested case frame and configuration cookie return retain their source
 CALL/RET sequence. Execution reaches `100b171d` with EAX zero and the two caller
 argument words still present. The enclosing setmbcp SEH prologue is now owned;
-its caller removes those words and retains the pending decrement import at
-`100b1730`. Installation and the parent SEH epilogue remain unfinished.
+its caller removes those words and follows the reference-count exchange,
+PTD installation and optional global publication. The selected normal path
+executes the parent epilogue and restores incoming FS; the next boundary is
+module filename acquisition at `100c0bd1`. Dynamic-record free and exception
+paths remain unfinished.
 
 The lower getSystemCP body and configuration memset body still use the retained
 owner's translated implementation. Complete SharedBase attachment and live Game
@@ -86,8 +89,23 @@ The captured prologue relocates its original return word, preserves FS:[0],
 encodes the scope-table pointer with the cookie, and registers EBP-16 as FS:[0].
 The cookie/EBP expression is retained at EBP-52. Source locals EBP-32 and EBP-36
 hold the configuration result and PTD respectively. The original epilogue and
-lock-release handler are source evidence; neither has executed at the current
-pending decrement boundary. Exception dispatch remains unimplemented.
+lock-release handler now execute on the selected normal publication path.
+Exception dispatch remains unimplemented.
 
 The helper entry still starts on a cold selected graph. Earlier SharedBase DLL
 and CRT caller frames and live Game graph integration are not established.
+
+## Current normal installation path
+
+Private grants admit each counter operation exactly once to the canonical
+virtual platform service. Source branches select PTD-only or PTD-and-global
+ownership, producing candidate counts 1 or 2. The global path copies all five
+WORD fields and both complete tables under lock 13, publishes a typed pointer
+and returns through the lock-release handler and SEH epilogue. Warmup readers
+resolve that retained typed global pointer rather than requiring the original
+cold numerical pointer. The cold static record follows both original decrement
+operations; the global branch leaves its count at ffffffff.
+
+The selected normal return permits the init-table flag write. It does not prove
+complete argument setup, full module attach, live Game initialization or campaign
+completion. Exception dispatch and dynamic old-record free remain unimplemented.
