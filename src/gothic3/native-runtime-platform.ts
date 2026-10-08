@@ -89,6 +89,7 @@ interface ShutdownEntry {
 }
 interface BackingEntry {
   readonly backing: NativeMemoryBacking; readonly kind: 'virtual' | 'crt-new' | 'crt-malloc' | 'win32-heap' | 'module-image' | 'win32-process-buffer'; readonly ordinal: number;
+  win32HeapRequest?: Readonly<{heap:NativeWin32HeapCapability;flags:0|8;bytes:number}>;
   nativeGeometry?: Readonly<{ alignment: 'virtual-page' | 'win32-heap-eight';
     bytes: Uint8Array; masks: Uint8Array; capacity: number } | { alignment: 'module-image';
     bytes: Uint8Array; masks: Uint8Array; capacity: number } | { alignment: 'process-buffer-four';
@@ -1305,6 +1306,15 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
       alignment: 'virtual-page', bytes: result.value.bytes, masks: result.value.knownMask, capacity: result.value.bytes.length });
     return result;
   }
+  static heapAllocForSharedInitializer(platform:NativeRuntimePlatform,heap:NativeWin32HeapCapability,owner:object,size:number):NativeValue<NativeMemoryBacking|null> {
+    const active=NativeRuntimePlatform.canonicalWin32HeapForOwner(platform,heap,owner);if(!active.known)return active;
+    if(!Number.isInteger(size)||size<1||size>0xffffffe0)return unknown('Original normalized CRT malloc HeapAlloc size required');
+    const previous=new Set(Array.from(platform.#backing.values(),entry=>entry.backing));
+    const result=platform.win32HeapAlloc(heap,0,size);if(!result.known||!result.value)return result;
+    const fields=new NativeHeapObjectViews(result.value),span=NativeRuntimePlatform.canonicalOwnedWin32HeapAllocationSpan(platform,heap,owner,{fields,offset:0},size);if(!span.known)return span;
+    const request=platform.#backing.get(result.value.identity)?.win32HeapRequest;if(request?.heap!==heap||request.flags!==0||request.bytes!==size)return unknown('Actual CRT HeapAlloc flags and request receipt required');
+    return previous.has(result.value)?unknown('Fresh descriptor from the current HeapAlloc invocation required'):result;
+  }
   static virtualAllocForSharedInitializer(platform:NativeRuntimePlatform,size:number):NativeValue<NativeMemoryRegion|null> {
     const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)return active;
     if(size!==0x102000)return unknown('Original 16-byte pool virtual reservation size required');
@@ -1357,6 +1367,7 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     const allocated = this.#allocate(capacity, 'win32-heap');
     if (allocated.known && allocated.value) {
       retained.allocations.add(allocated.value);
+      this.#backing.get(allocated.value.identity)!.win32HeapRequest=Object.freeze({heap,flags,bytes});
       // Omitted policy retains exact capacity. A fresh selected Game heap
       // declares rounded physical capacity, independently of the logical request.
       // Padding is retained uninitialized with mask0, not host observations.

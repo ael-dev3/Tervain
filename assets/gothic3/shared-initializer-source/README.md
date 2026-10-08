@@ -222,3 +222,28 @@ Normal reservation leaves the heap lock and Malloc exception frame entered.
 Pool block initialization, descriptor registration, bitmap slot selection and
 allocation return are still unfinished. Their captured bodies remain source
 only; reservation alone does not complete CString construction or startup.
+
+
+## Live descriptor construction — 8 October 2026
+
+The block initializer now enters original CRT operator new at `100aabd2` and
+malloc at `100aaaf6`. Its normal 20-byte request follows the live heap-selection
+branch and calls the original HeapAlloc IAT at `102f9684`. The same live
+SharedBase CRT heap owns the fresh backing. The private platform receipt must
+match that heap, flags 0 and the actual requested size. Returning earlier,
+foreign or differently allocated storage does not grant a descriptor pointer.
+The bridge supports normalized CRT sizes; it does not impose a 20-byte limit.
+
+Original malloc restores its saved registers and returns; operator new performs
+its original LEAVE/RET. The initializer writes the four callback addresses,
+clears the first link, exchanges the descriptor-list head and publishes the
+actual descriptor at `102ffef0`. Callback addresses are stored without granting
+execution of their bodies. Its occupancy/search stores then reach
+`10045e1e -> 100a7980`, requesting an 8,192-byte bitmap fill at region offset
+0x100000 with byte 0xff. That fill has not executed in the initializer yet.
+
+NULL HeapAlloc follows the original errno-helper CALL boundary; mode-three
+small-block allocation stops at its original helper. Missing or replaced
+capabilities retain their applied prefixes. The region, descriptor, Malloc lock
+and exception frame remain owned. Bitmap initialization, pool registration,
+slot allocation, CString return and complete startup remain outstanding.

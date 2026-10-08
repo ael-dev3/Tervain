@@ -22,7 +22,7 @@ and the next missing dependency. Three states matter:
   receipts determine what is supported.
 - **Published:** a reviewed commit has completed the Pages deployment workflow.
 
-These states are recorded separately. The published runtime checkpoint is PR 125. Full engine startup, world activation
+These states are recorded separately. The published runtime checkpoint is PR 129. Full engine startup, world activation
 and campaign completion remain outstanding.
 
 ## Process at a glance
@@ -96,14 +96,22 @@ Local validation passed 172 focused checks, 2,729 tests across 259 files,
 typechecking, the production build and exact regeneration of all 100 generated
 source files plus the instruction module.
 
-The next local runtime checkpoint executes the lower heap dispatcher and the
-original 16-byte pool callback. It requests and retains a fresh, owned
-1,056,768-byte virtual region and reaches the block initializer at
-`10047f7c -> 100061cc`. The heap lock and Malloc exception frame remain active;
-no slot or CString allocation has returned. Validation passes 187 focused
-checks, 2,744 tests across 259 files, typechecking, the production build and exact
-regeneration of all 107 source-package files plus the instruction module.
-This runtime checkpoint awaits remote review and publication.
+[PR 129](https://github.com/ael-dev3/Tervain/pull/129) merged at
+`49d56a21385c8e29d10ef1945639ccb0d25e307c` after
+[successful CI](https://github.com/ael-dev3/Tervain/actions/runs/37775450873);
+its [Pages deployment](https://github.com/ael-dev3/Tervain/actions/runs/37777023637)
+succeeded. It executes the original pool dispatcher and owns the fresh virtual
+reservation, reaching the block initializer.
+
+The next local runtime checkpoint executes original CRT operator new/malloc,
+allocates the real twenty-byte descriptor from SharedBase's live heap, writes
+its callback addresses and exchanges the descriptor-list head. Execution reaches
+bitmap memset at `10045e1e -> 100a7980`. The heap lock and Malloc exception frame
+remain active; no payload slot or CString allocation has returned. Validation
+passes 199 focused checks, 2,756 tests across 259 files, typechecking, the
+production build and exact regeneration of all 111 generated source-package
+files plus the instruction module. This checkpoint awaits remote review and
+publication.
 
 Earlier stages of the selected SharedBase path now perform argument and
 environment setup, floating-point conversion installation, encoded-pointer

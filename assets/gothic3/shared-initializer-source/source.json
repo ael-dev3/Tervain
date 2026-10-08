@@ -2,6 +2,28 @@
   "schema": "gothic3-shared-initializer-source-v1",
   "sharedBaseSha256": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214",
   "methods": {
+    "crtOperatorNew": {
+      "entryVA": "0x100aabd2",
+      "bodyVA": "0x100aabd2",
+      "bodyRanges": "100aabd2-100aac3a",
+      "instructionCount": 33,
+      "bodyByteCount": 105,
+      "bodyInstructionBytesSha256": "3cf0637b4a6ec05fe2a843ef56071ae4e1142a1aec075e0234556d46c4ff5197",
+      "entryChain": [],
+      "assemblySha256": "b4d7bede2ed1d467e28642dffbb3cb512cdd127f40cfbbe2529e3ff97dc4c669",
+      "cSha256": "196c138ccb0f8a718ea85018c282ca60c73a86239a4453cebf638fe46b062e10"
+    },
+    "crtMalloc": {
+      "entryVA": "0x100aaaf6",
+      "bodyVA": "0x100aaaf6",
+      "bodyRanges": "100aaaf6-100aabb8",
+      "instructionCount": 78,
+      "bodyByteCount": 195,
+      "bodyInstructionBytesSha256": "70262c4e3e41925b21175c516dbef31313d2260ef97767a9a6676779eedf7a08",
+      "entryChain": [],
+      "assemblySha256": "abd7d6a03356f1145eb638b38336d72a3654b739b91538098afd5c5136e9f2df",
+      "cSha256": "e6cc7f737d772484f1f14793696db205bd369c053945daa3feb328d1cc96a23d"
+    },
     "heapAllocate": {
       "entryVA": "0x10001028",
       "bodyVA": "0x1003d2f0",
@@ -1081,6 +1103,14 @@
     }
   },
   "entries": {
+    "100aabd2": {
+      "containingEntry": "100aabd2",
+      "methodLabel": "crtOperatorNew"
+    },
+    "100aaaf6": {
+      "containingEntry": "100aaaf6",
+      "methodLabel": "crtMalloc"
+    },
     "10001028": {
       "containingEntry": "10001028",
       "methodLabel": "heapAllocate"
@@ -1546,6 +1576,28 @@
       },
       "scope": "cold-original-image",
       "liveValueCaptured": false
+    },
+    "poolHeapAllocImport": {
+      "address": "102f9684",
+      "raw": "ea9d2f00",
+      "bytes": 4,
+      "sha256": "47920a622e417eb9ccc7f295669de70ec40aab5934fd6aa3d7f39d045fd73877",
+      "section": {
+        "virtualAddress": 3117056,
+        "virtualSize": 6242,
+        "rawSize": 8192,
+        "rawOffset": 1323008,
+        "fileBackedBytes": 4,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false,
+      "importEntry": {
+        "iatVA": "0x102f9684",
+        "module": "KERNEL32.dll",
+        "name": "HeapAlloc",
+        "ordinal": null
+      }
     },
     "pool16Geometry": {
       "address": "100e7aa8",
@@ -2070,6 +2122,133 @@
     "liveValueCaptured": false
   },
   "calls": [
+    {
+      "method": "crtOperatorNew",
+      "address": "100aabdd",
+      "raw": "e85b140100",
+      "instruction": "CALL 0x100bc03d",
+      "kind": "direct",
+      "targetVA": "100bc03d"
+    },
+    {
+      "method": "crtOperatorNew",
+      "address": "100aabea",
+      "raw": "e807ffffff",
+      "instruction": "CALL 0x100aaaf6",
+      "kind": "direct",
+      "targetVA": "100aaaf6"
+    },
+    {
+      "method": "crtOperatorNew",
+      "address": "100aac0d",
+      "raw": "e8a7ffffff",
+      "instruction": "CALL 0x100aabb9",
+      "kind": "direct",
+      "targetVA": "100aabb9"
+    },
+    {
+      "method": "crtOperatorNew",
+      "address": "100aac17",
+      "raw": "e8b4c6ffff",
+      "instruction": "CALL 0x100a72d0",
+      "kind": "direct",
+      "targetVA": "100a72d0"
+    },
+    {
+      "method": "crtOperatorNew",
+      "address": "100aac21",
+      "raw": "e868320000",
+      "instruction": "CALL 0x100ade8e",
+      "kind": "direct",
+      "targetVA": "100ade8e"
+    },
+    {
+      "method": "crtOperatorNew",
+      "address": "100aac36",
+      "raw": "e8f7fbffff",
+      "instruction": "CALL 0x100aa832",
+      "kind": "direct",
+      "targetVA": "100aa832"
+    },
+    {
+      "method": "crtMalloc",
+      "address": "100aab19",
+      "raw": "e81b640000",
+      "instruction": "CALL 0x100b0f39",
+      "kind": "direct",
+      "targetVA": "100b0f39"
+    },
+    {
+      "method": "crtMalloc",
+      "address": "100aab20",
+      "raw": "e854620000",
+      "instruction": "CALL 0x100b0d79",
+      "kind": "direct",
+      "targetVA": "100b0d79"
+    },
+    {
+      "method": "crtMalloc",
+      "address": "100aab2a",
+      "raw": "e80ff9ffff",
+      "instruction": "CALL 0x100aa43e",
+      "kind": "direct",
+      "targetVA": "100aa43e"
+    },
+    {
+      "method": "crtMalloc",
+      "address": "100aab4f",
+      "raw": "e8defeffff",
+      "instruction": "CALL 0x100aaa32",
+      "kind": "direct",
+      "targetVA": "100aaa32"
+    },
+    {
+      "method": "crtMalloc",
+      "address": "100aab6e",
+      "raw": "ffd3",
+      "instruction": "CALL EBX",
+      "kind": "register-or-memory-indirect"
+    },
+    {
+      "method": "crtMalloc",
+      "address": "100aab82",
+      "raw": "e8b6140100",
+      "instruction": "CALL 0x100bc03d",
+      "kind": "direct",
+      "targetVA": "100bc03d"
+    },
+    {
+      "method": "crtMalloc",
+      "address": "100aab8e",
+      "raw": "e83e420000",
+      "instruction": "CALL 0x100aedd1",
+      "kind": "direct",
+      "targetVA": "100aedd1"
+    },
+    {
+      "method": "crtMalloc",
+      "address": "100aab95",
+      "raw": "e837420000",
+      "instruction": "CALL 0x100aedd1",
+      "kind": "direct",
+      "targetVA": "100aedd1"
+    },
+    {
+      "method": "crtMalloc",
+      "address": "100aaba4",
+      "raw": "e894140100",
+      "instruction": "CALL 0x100bc03d",
+      "kind": "direct",
+      "targetVA": "100bc03d"
+    },
+    {
+      "method": "crtMalloc",
+      "address": "100aabaa",
+      "raw": "e822420000",
+      "instruction": "CALL 0x100aedd1",
+      "kind": "direct",
+      "targetVA": "100aedd1"
+    },
     {
       "method": "heapAllocate",
       "address": "1003d304",
