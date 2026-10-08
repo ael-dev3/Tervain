@@ -3,6 +3,106 @@ export const sharedInitializerHeader=Object.freeze({"address": "10000000", "raw"
 export interface SharedInitializerInstruction {readonly address:string;readonly bytes:string;readonly instruction:string;}
 const rows:readonly (readonly string[])[] = [
   [
+    "10045600",
+    "8b4c2408",
+    "MOV ECX,dword ptr [ESP + 0x8]"
+  ],
+  [
+    "10045604",
+    "2b4c2404",
+    "SUB ECX,dword ptr [ESP + 0x4]"
+  ],
+  [
+    "10045608",
+    "832d9cfe2f1001",
+    "SUB dword ptr [0x102ffe9c],0x1"
+  ],
+  [
+    "1004560f",
+    "83e910",
+    "SUB ECX,0x10"
+  ],
+  [
+    "10045612",
+    "b825499224",
+    "MOV EAX,0x24924925"
+  ],
+  [
+    "10045617",
+    "f7e1",
+    "MUL ECX"
+  ],
+  [
+    "10045619",
+    "2bca",
+    "SUB ECX,EDX"
+  ],
+  [
+    "1004561b",
+    "d1e9",
+    "SHR ECX,0x1"
+  ],
+  [
+    "1004561d",
+    "03ca",
+    "ADD ECX,EDX"
+  ],
+  [
+    "1004561f",
+    "c1e90a",
+    "SHR ECX,0xa"
+  ],
+  [
+    "10045622",
+    "894c2408",
+    "MOV dword ptr [ESP + 0x8],ECX"
+  ],
+  [
+    "10045626",
+    "8b542408",
+    "MOV EDX,dword ptr [ESP + 0x8]"
+  ],
+  [
+    "1004562a",
+    "b81f000000",
+    "MOV EAX,0x1f"
+  ],
+  [
+    "1004562f",
+    "8b4c2404",
+    "MOV ECX,dword ptr [ESP + 0x4]"
+  ],
+  [
+    "10045633",
+    "23c2",
+    "AND EAX,EDX"
+  ],
+  [
+    "10045635",
+    "c1ea05",
+    "SHR EDX,0x5"
+  ],
+  [
+    "10045638",
+    "f00fab849110f90600",
+    "BTS.LOCK [ECX + EDX*0x4 + 0x6f910],EAX"
+  ],
+  [
+    "10045641",
+    "f0ff4908",
+    "DEC.LOCK dword ptr [ECX + 0x8]"
+  ],
+  [
+    "10045645",
+    "89510c",
+    "MOV dword ptr [ECX + 0xc],EDX"
+  ],
+  [
+    "10045648",
+    "c20800",
+    "RET 0x8"
+  ],
+  [
     "10048ff0",
     "a19cfe2f10",
     "MOV EAX,[0x102ffe9c]"

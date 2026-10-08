@@ -1406,3 +1406,20 @@ it('rejects an altered FileVersion query before returning its pointer or copying
  const {owner}=fileVersionQueryFixture(),before=owner.snapshot().caseState!.stack!.snapshot(),inner=before.sharedDllLanguageFrame!.buffer!.fields,bytes=inner.bytes.slice();owner.snapshot().dllLanguageFormatImages!.output.writeUnsigned(0,88,1);
  expect(owner.processDllFileVersionQuery()).toEqual({known:false,reason:'Recorded version query order required'});expect(inner.bytes).toEqual(bytes);const stack=owner.snapshot().caseState!.stack!.snapshot();expect(stack.sharedDllFileVersionFrame).toBeNull();expect(stack.calls.at(-1)!.site).toBe('1004c3a0');expect(stack.calls.at(-1)!.returned).toBe(false);expect(stack.sharedDllLanguageFrame!.handle.readUnsigned(0)).toBe(4);
 });
+
+
+it('enters original MemoryAdmin Free and selects the actual language pool descriptor',()=>{
+ const {owner}=fileVersionQueryFixture();owner.processDllFileVersionQuery();const result=owner.processDllLanguageFree();
+ expect(result).toEqual({known:false,reason:'Original SharedBase language cleanup returned at 1004c3f5'});
+ const state=owner.snapshot(),stack=state.caseState!.stack!.snapshot();expect(state.memoryHeapSectionHeld).toBe(false);expect(stack.trace).toContain('1003c700.sharedInitializer.MOV');expect(stack.trace).toContain('10045638.sharedInitializer.BTS.LOCK');expect(state.poolSlots.some(row=>row.fields===stack.sharedDllLanguageFrame!.buffer!.fields)).toBe(false);
+});
+
+
+it('releases only the inner language slot and preserves the outer version buffer',()=>{
+ const {owner}=fileVersionQueryFixture();owner.processDllFileVersionQuery();const before=owner.snapshot(),stack=before.caseState!.stack!.snapshot(),inner=stack.sharedDllLanguageFrame!.buffer!,outer=stack.sharedDllResourceFrame!.buffer!,outerBytes=outer.fields.bytes.slice(),slot=before.poolSlots.find(row=>row.fields===inner.fields)!,poolLive=slot.region.readUnsigned(8),globalLive=before.initializerImages['102ffe9c']!.readUnsigned(0);
+ owner.processDllLanguageFree();const after=owner.snapshot();expect(slot.region.readUnsigned(0x6f910)).toBe(0xfffffffe);expect(slot.region.readUnsigned(8)).toBe(poolLive-1);expect(after.initializerImages['102ffe9c']!.readUnsigned(0)).toBe(globalLive-1);expect(outer.fields.bytes).toEqual(outerBytes);expect(after.poolSlots.some(row=>row.fields===outer.fields)).toBe(true);expect(after.poolSlots.some(row=>row.fields===inner.fields)).toBe(false);expect(after.memoryHeapSectionHeld).toBe(false);
+ const calls=after.caseState!.stack!.snapshot().calls.length;owner.processDllLanguageFree();expect(owner.snapshot().caseState!.stack!.snapshot().calls).toHaveLength(calls);
+});
+it('rejects an already released language bitmap before entering Free',()=>{
+ const {owner}=fileVersionQueryFixture();owner.processDllFileVersionQuery();const state=owner.snapshot(),inner=state.caseState!.stack!.snapshot().sharedDllLanguageFrame!.buffer!,slot=state.poolSlots.find(row=>row.fields===inner.fields)!;slot.region.writeUnsigned(0x6f910,(slot.region.readUnsigned(0x6f910)|2)>>>0);const calls=state.caseState!.stack!.snapshot().calls.length;const result=owner.processDllLanguageFree();expect(result.known).toBe(false);if(!result.known)expect(result.reason).toMatch(/bitmap slot claim/);expect(owner.snapshot().memoryHeapSectionHeld).toBe(false);expect(owner.snapshot().caseState!.stack!.snapshot().calls).toHaveLength(calls);
+});

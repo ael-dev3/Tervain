@@ -47,6 +47,7 @@ export interface NativeSharedInitializerImports {
  poolVirtualAlloc(address:number,size:number,type:number,protect:number):NativeHeapObjectViews|null;
  proveDisjointInitializerCopy(destination:NativeBytePointer,input:NativeBytePointer,bytes:number):void;
  comparePoolPointers(left:NativeBytePointer,right:NativeBytePointer):number;
+ releasePoolSlot(pointer:NativeBytePointer):void;
  validatePoolRegion(region:NativeHeapObjectViews,offset:number,capacity:16|24|1792):void;
  retainPoolSlot(region:NativeHeapObjectViews,offset:number,capacity:16|24|1792):NativeHeapObjectViews;
  readonly memorySectionInitializeProcedure:object;
@@ -341,10 +342,13 @@ export class NativeSharedCrtOwner {
     for(const pointer of [destination,input])if(!Number.isInteger(pointer.offset)||pointer.offset<0||pointer.offset+bytes>pointer.fields.bytes.length)throw new Error('Contained original initializer copy spans required');
     if(destination.fields.backing===input.fields.backing||destination.fields.bytes.buffer===input.fields.bytes.buffer)throw new Error('Distinct original image and owned pool-slot spans required');
    },
+   releasePoolSlot:(pointer:NativeBytePointer):void=>{
+    if(!this.#active||!this.#initializerActive||!this.#memoryHeapSectionHeld||pointer.offset!==0)throw new Error('Actual locked original pool release required');const slot=this.#poolSlots.get(pointer.fields);if(!slot||slot.capacity!==1792)throw new Error('Actual retained language slot required');this.#requireLocal(slot.region);const index=(slot.offset-16)/slot.capacity;if(!(slot.region.readUnsigned(0x6f910+Math.floor(index/32)*4)&(1<<(index&31))))throw new Error('Original bitmap release stores required');this.#poolSlots.delete(pointer.fields);this.#locals.delete(pointer.fields);
+   },
    comparePoolPointers:(left:NativeBytePointer,right:NativeBytePointer):number=>{
     if(!this.#active||!this.#initializerActive)throw new Error('Actual active initializer pool comparison required');
-    for(const pointer of [left,right]){if(!this.#poolRegions.has(pointer.fields)||!Number.isInteger(pointer.offset)||pointer.offset<0||pointer.offset>pointer.fields.bytes.length)throw new Error('Actual contained original pool-region pointers required');this.#requireLocal(pointer.fields);}
-    const order=this.#call('1003c67e.poolRegionOrder',()=>this.platform.compareRegions(left.fields.backing as NativeMemoryRegion,right.fields.backing as NativeMemoryRegion));return order||Math.sign(left.offset-right.offset);
+    const normalize=(pointer:NativeBytePointer)=>{if(!Number.isInteger(pointer.offset)||pointer.offset<0||pointer.offset>pointer.fields.bytes.length)throw new Error('Actual contained original pool pointers required');this.#requireLocal(pointer.fields);const slot=this.#poolSlots.get(pointer.fields);if(slot)return {fields:slot.region,offset:slot.offset+pointer.offset};if(!this.#poolRegions.has(pointer.fields))throw new Error('Actual original pool region or live slot required');return pointer;};
+    const a=normalize(left),b=normalize(right),order=this.#call('1003c67e.poolRegionOrder',()=>this.platform.compareRegions(a.fields.backing as NativeMemoryRegion,b.fields.backing as NativeMemoryRegion));return order||Math.sign(a.offset-b.offset);
    },
    validatePoolRegion:(region:NativeHeapObjectViews,offset:number,capacity:16|24|1792):void=>{
     if(!this.#active||!this.#initializerActive||!this.#poolRegions.has(region)||offset!==0||![16,24,1792].includes(capacity)||region.bytes.length!==(capacity===16?0x102000:capacity===24?0xc0000:0x70000))throw new Error('Actual original bitmap pool receiver required');this.#requireLocal(region);const geometry=this.#initializerImages[capacity===16?'100e7aa8':capacity===24?'100e7ab8':'100e7b80']!;if(geometry.readUnsigned(0)!==capacity||geometry.readUnsigned(4)!==(capacity===16?65535:capacity===24?0x7f55:255))throw new Error('Live original bitmap pool geometry required');
@@ -1399,6 +1403,15 @@ export class NativeSharedCrtOwner {
   try{this.#active=true;this.#dllCall=Object.freeze({});const result=NativeX86ThreadStack.finishSharedDllFilenameCopy(this.#argvStack,this.#dllCall);if(!result.known)this.#dllBoundary=result.reason;return result;}
   catch(error){this.#dllBoundary=error instanceof Error?error.message:String(error);return {known:false,reason:this.#dllBoundary};}
   finally{this.#dllCall=null;this.#active=false;}
+ }
+ processDllLanguageFree():NativeValue<number>{
+  if(this.#active||!this.#argvStack||this.#dllBoundary!=='Original SharedBase language buffer Free pending at 10002112')return {known:false,reason:this.#dllBoundary??'Actual pending language buffer Free required'};
+  try{
+   const receipt=dllEntrySource.coldImages.find(row=>row.label==='versionMemoryFreeScope');if(!receipt||receipt.address!=='100f82e8'||receipt.size!==12||receipt.bytes!=='ffffffffdecb0310e8cb0310')throw new Error('Original MemoryAdmin Free scope required');
+   const scope=this.#retainLocal(12);for(let offset=0;offset<12;offset++)scope.writeUnsigned(offset,parseInt(receipt.bytes.slice(offset*2,offset*2+2),16),1);this.#dllFormatImages=Object.freeze({...this.#dllFormatImages,'100f82e8':scope});
+   this.#active=true;this.#initializerActive=true;this.#dllCall=Object.freeze({});this.#dllMallocCall=this.#dllCall;
+   const result=NativeX86ThreadStack.runSharedInitializers(this.#argvStack,this.#dllCall,'dll-language-free');if(!result.known)this.#dllBoundary=result.reason;return result;
+  }catch(error){this.#dllBoundary=error instanceof Error?error.message:String(error);return {known:false,reason:this.#dllBoundary};}finally{this.#dllMallocCall=null;this.#dllCall=null;this.#initializerActive=false;this.#active=false;}
  }
  processDllFileVersionQuery():NativeValue<number>{
   if(this.#dllFileVersionAttempted)return {known:false,reason:this.#dllBoundary??'Retained FileVersion query attempt required'};
