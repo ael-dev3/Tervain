@@ -11,6 +11,45 @@ of Gothic 3's endings. A scene viewer, a decoded model or a successfully read
 native data structure is a useful component milestone, but it does not by
 itself establish a playable reconstruction.
 
+## Rebuilding process: contributor checklist
+
+For a new feature, use this sequence and record the result in the checkpoint
+history linked below:
+
+1. **Choose an observable result.** Describe what the player should be able to
+   do, such as rotate an extracted tree, load an Ardea resident, or advance a
+   quest. Identify which existing systems that result depends on.
+2. **Trace the local original.** Record the installed archive/resource path,
+   patch priority and input hash. For engine behavior, include the original
+   module, caller/callee addresses, relevant bytes and static data. Decompiled
+   C is a research aid; verify critical behavior against disassembly and bytes.
+3. **Make preparation repeatable.** Add or extend a generator under
+   `tools/gothic3/`. Keep source provenance in `assets/gothic3/` and portable
+   browser resources in `public/gothic3/`. Regenerate into a separate output
+   directory and compare the generated files before accepting a checkpoint.
+4. **Implement the actual state changes.** Add TypeScript behavior under
+   `src/gothic3/`, keeping pointer identity, memory ownership, callback order,
+   thread state and cleanup connected to the existing runtime owners. Preserve
+   the applied state at an unsupported operation and identify that boundary.
+5. **Connect the feature to play.** Join assets and runtime behavior to the
+   browser route, renderer and gameplay systems. A model viewer establishes
+   inspection support; campaign progress also requires NPC activation, combat,
+   inventory, dialogue, quests and persistent saves working together.
+6. **Validate the checkpoint.** Inspect the diff and run checks appropriate to
+   the change. Runtime checkpoints use focused tests, typechecking, the build
+   and source-regeneration comparisons; integrated gameplay needs browser
+   observation and save/reload evidence. Record commands, revision, results and
+   cases that remain unsupported.
+7. **Review and publish.** Inspect repository-wide Actions history and workflow
+   triggers before remote changes. A pull request validates the revision; a
+   reviewed merge to `main` also publishes through `.github/workflows/pages.yml`.
+   Record the successful deployment separately from local implementation.
+
+The current working tree also contains ongoing pool-bitmap and pointer-area
+registration changes. Those changes are work in progress and have not yet
+established a reviewed, deployed checkpoint. The confirmed evidence and
+remaining campaign work are described below.
+
 ## How to read progress reports
 
 The reconstruction advances in reviewable checkpoints. Each checkpoint should
@@ -22,7 +61,7 @@ and the next missing dependency. Three states matter:
   receipts determine what is supported.
 - **Published:** a reviewed commit has completed the Pages deployment workflow.
 
-These states are recorded separately. The published runtime checkpoint is PR 129. Full engine startup, world activation
+These states are recorded separately. The published runtime checkpoint is PR 130. Full engine startup, world activation
 and campaign completion remain outstanding.
 
 ## Process at a glance
@@ -103,15 +142,23 @@ its [Pages deployment](https://github.com/ael-dev3/Tervain/actions/runs/37777023
 succeeded. It executes the original pool dispatcher and owns the fresh virtual
 reservation, reaching the block initializer.
 
-The next local runtime checkpoint executes original CRT operator new/malloc,
-allocates the real twenty-byte descriptor from SharedBase's live heap, writes
-its callback addresses and exchanges the descriptor-list head. Execution reaches
-bitmap memset at `10045e1e -> 100a7980`. The heap lock and Malloc exception frame
-remain active; no payload slot or CString allocation has returned. Validation
-passes 199 focused checks, 2,756 tests across 259 files, typechecking, the
-production build and exact regeneration of all 111 generated source-package
-files plus the instruction module. This checkpoint awaits remote review and
-publication.
+[PR 130](https://github.com/ael-dev3/Tervain/pull/130) passed
+[CI](https://github.com/ael-dev3/Tervain/actions/runs/37779027856) and merged at
+`03187338e1c4539c66d1761544796f77b48a9294`. Its
+[Pages run](https://github.com/ael-dev3/Tervain/actions/runs/37781043283)
+completed successfully. It executes original CRT operator new/malloc, allocates
+the twenty-byte descriptor from SharedBase's live heap, stores callback addresses
+and exchanges the descriptor-list head. Its normal boundary is bitmap memset
+at `10045e1e -> 100a7980`.
+
+The next local checkpoint executes that original bitmap fill, disables its
+reserved bit, links the region and registers the cold first payload area in
+original static storage. Execution reaches bitmap slot allocation at
+`10047f57 -> 1000605a`. The heap lock and Malloc exception frame remain active;
+no payload slot or CString allocation has returned. The 206 focused checks and
+exact regeneration of 115 source-package files plus the instruction module
+pass. Typechecking, the production build and all 2,763 tests across 259 files
+pass. Remote review and publication remain separate pending steps.
 
 Earlier stages of the selected SharedBase path now perform argument and
 environment setup, floating-point conversion installation, encoded-pointer

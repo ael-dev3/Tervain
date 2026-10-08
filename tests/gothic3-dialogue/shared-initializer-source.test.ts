@@ -7,7 +7,7 @@ const base='assets/gothic3/shared-initializer-source/';
 const source=JSON.parse(readFileSync(base+'source.json','utf8'));
 const sha=(raw:Uint8Array)=>createHash('sha256').update(raw).digest('hex');
 it('matches every generated initializer row and header to original admitted receipts',()=>{
-  for(const body of ['100aa632','100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100b444f','100ae27b','100aa47d','100a7265','100aef10','100b1854','100b4b6b','100ce095','100ce045','100aeb68','100aebad','100bef05','100ce0f5','100a72d0','100a7294','100a71ac','100ae2f2','100b10d6','100aa453','100aa45c','100a72ca','100e1660','100e1440','100e1450','100e1470','100e14b0','100e14c0','100e14d0','100e14e0','100e14f0','100e1500','100e1510','100135f0','10013240','10020bf0','1003d410','1003d2f0','10047f10','10045da0','100aabd2','100aaaf6']){
+  for(const body of ['100aa632','100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100b444f','100ae27b','100aa47d','100a7265','100aef10','100b1854','100b4b6b','100ce095','100ce045','100aeb68','100aebad','100bef05','100ce0f5','100a72d0','100a7294','100a71ac','100ae2f2','100b10d6','100aa453','100aa45c','100a72ca','100e1660','100e1440','100e1450','100e1470','100e14b0','100e14c0','100e14d0','100e14e0','100e14f0','100e1500','100e1510','100135f0','10013240','10020bf0','1003d410','1003d2f0','10047f10','10045da0','100aabd2','100aaaf6','100a7980','1003c650']){
     for(const row of readFileSync(base+body+'.asm.txt','utf8').trim().split('\n')){
       const [address,bytes,instruction]=row.split(' | ');
       const emitted=sharedInitializerInstruction(address!);
@@ -30,8 +30,8 @@ it('pins original SharedBase source identity without granting initializer execut
   expect(source.verifiedAgainstOriginalPE).toBe(true);
   expect(source.sourceOnly).toBe(true);
   expect(source.initializerExecutionCompleted).toBe(false);
-  expect(Object.keys(source.methods)).toHaveLength(61);
-  expect((Object.values(source.methods) as Method[]).reduce((sum,m)=>sum+m.instructionCount,0)).toBe(1355);
+  expect(Object.keys(source.methods)).toHaveLength(63);
+  expect((Object.values(source.methods) as Method[]).reduce((sum,m)=>sum+m.instructionCount,0)).toBe(1461);
 });
 it('preserves every admitted instruction byte and separates unavailable C exports',()=>{
   let recovered=0;
@@ -106,7 +106,7 @@ it('captures the section write flag and cold conversion/exit/RTC storage',()=>{
   expect(source.coldGlobals.rtcTerminators.raw).toBe('00'.repeat(256));
 });
 it('retains original CALL encodings and distinguishes imports from indirect callbacks',()=>{
-  expect(source.calls).toHaveLength(136);
+  expect(source.calls).toHaveLength(137);
   for(const call of source.calls){
     const raw=Buffer.from(call.raw,'hex');
     if(call.kind==='direct'){
@@ -241,7 +241,7 @@ it('retains original pool globals, bitmap geometry and VirtualAlloc request evid
   const bitmap=readFileSync(base+'1003e090.asm.txt','utf8');
   expect(bitmap).toContain('SCASD.REPE ES:EDI');expect(bitmap).toContain('BTR.LOCK [EDI],EDX');
   expect(source.calls.find((call:{address:string})=>call.address==='10047f7c').targetVA).toBe('100061cc');
-  expect(source.calls).toHaveLength(136);
+  expect(source.calls).toHaveLength(137);
 });
 
 it('pins descriptor CRT new/malloc bodies and the original HeapAlloc IAT',()=>{
@@ -251,4 +251,15 @@ it('pins descriptor CRT new/malloc bodies and the original HeapAlloc IAT',()=>{
  expect(sharedInitializerInstruction('100061cc')).toEqual({address:'100061cc',bytes:'e9cffb0300',instruction:'JMP 0x10045da0'});
  expect(source.calls.find((call:{address:string})=>call.address==='100aabea').targetVA).toBe('100aaaf6');
  expect(source.calls.find((call:{address:string})=>call.address==='100aab6e').kind).toBe('register-or-memory-indirect');
+});
+
+it('pins original bitmap memset and pointer-area registration bytes and thunk',()=>{
+ expect(source.methods.memset).toMatchObject({bodyVA:'0x100a7980',instructionCount:47,bodyByteCount:122,bodyInstructionBytesSha256:'9ef7f32cb2a542225e41f61960817c9c8c8cee8cf8d798402dee12226c520968'});
+ expect(source.methods.heapAddPointerArea).toMatchObject({bodyVA:'0x1003c650',instructionCount:59,bodyByteCount:171,bodyInstructionBytesSha256:'628281f022bbb0687d9d32d6028e19adfd8cc072c4ddda696d363ede1b166ba5',entryChain:[{va:'100012e4',bytes:'e967b30300',targetVA:'1003c650'}]});
+ expect(sharedInitializerInstruction('100a7994')!.instruction).toBe('JNZ 0x100a79ac');expect(sharedInitializerInstruction('100a79df')!.instruction).toBe('STOSD.REP ES:EDI');expect(sharedInitializerInstruction('1003c6f8')!.instruction).toBe('RET 0xc');
+});
+it('captures the physical cold pointer-area interval with original PE loader-zero evidence',()=>{
+ const areas=source.coldGlobals.heapPointerAreas,count=source.coldGlobals.heapPointerAreaCount,raw=Buffer.from(areas.raw,'hex');
+ expect(areas).toMatchObject({address:'10149a18',bytes:0x40000,scope:'cold-original-image',liveValueCaptured:false,sha256:'8a39d2abd3999ab73c34db2476849cddf303ce389b35826850f9a700589b4a90',section:{fileBackedBytes:0,loaderZeroFillBytes:0x40000}});
+ expect(parseInt(areas.address,16)+raw.length).toBe(0x10189a18);expect(raw.every(byte=>byte===0)).toBe(true);expect(sha(raw)).toBe(areas.sha256);expect(count).toMatchObject({address:'102fb030',bytes:4,raw:'00000000',section:{fileBackedBytes:4,loaderZeroFillBytes:0}});
 });

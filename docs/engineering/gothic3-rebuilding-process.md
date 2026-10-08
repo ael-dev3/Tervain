@@ -9504,3 +9504,45 @@ passes 2,756 tests across 259 files in 187.75 seconds; the production build pass
 Next are the original bitmap fill, list publication and pointer-area registration,
 then the bitmap allocator and allocation return. Full startup, world activation
 and a finishable campaign remain unfinished.
+
+
+## 8 October 2026 — Original bitmap fill and cold pointer-area registration
+
+PR 130 passed CI run 37779027856 and merged at
+`03187338e1c4539c66d1761544796f77b48a9294`. Pages run 37781043283 tracks its
+publication independently of the next local checkpoint and completed successfully.
+
+The retained initializer now executes original memset at `100a7980`. The
+0xff fill byte follows its scalar branch, independent of the SSE flag. Private
+same-platform geometry supplies only the low address bits required by NEG/AND;
+no numeric virtual address is invented. SHL/ADD constructs 0xffffffff and
+REP STOSD writes 2,048 DWORDs using the actual logical thread direction flag.
+The original return restores EDI and the caller removes twelve argument bytes.
+The caller writes 0x7fffffff to the last bitmap word, disabling its reserved bit.
+
+The original list exchange at `10045e3c` publishes the actual region and stores
+its previous link. The original pointer-area thunk at `100012e4` enters
+`1003c650`. With cold count zero, it skips the binary search and shift, writes
+payload start region+16, exclusive payload end region+0x100000, region base and
+actual CRT descriptor into the original static area storage, then increments
+`102fb030` and returns with twelve-byte callee cleanup. The captured 262,144-byte
+PE loader-zero interval ends at the following heap critical section; its
+physical size does not prove a logical record limit. Sorting across distinct
+regions and the warmed insertion memmove remain unsupported.
+
+The block initializer returns to the pool loop, which reaches pending
+`10047f57 -> 1000605a`: bitmap slot allocation. The region, descriptor, heap
+lock and original Malloc exception frame remain retained. No slot, CString,
+Root constructor or complete module startup has returned.
+
+The package captures 63 bodies, 1,461 instructions and 137 CALL receipts.
+All 115 generated source files and the instruction module regenerate exactly.
+The 206 focused checks pass, covering physical bitmap contents and masks,
+reserved-bit clearing, actual record/list pointer identities, native cleanup,
+private alignment proof and reverse-direction stores. The production build
+passes. The final full suite passes 2,763 tests across 259 files in 185.49
+seconds; typechecking also passes. Authored whitespace checks pass, with
+original captured C whitespace preserved.
+
+Full startup, world and NPC activation, integrated saves/progression and a
+finishable campaign remain outstanding.
