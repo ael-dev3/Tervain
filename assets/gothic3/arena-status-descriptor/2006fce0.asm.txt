@@ -1,0 +1,4 @@
+2006fce0 | 8b4918 | MOV ECX,dword ptr [ECX + 0x18]
+2006fce3 | 8b01 | MOV EAX,dword ptr [ECX]
+2006fce5 | 8b10 | MOV EDX,dword ptr [EAX]
+2006fce7 | ffe2 | JMP EDX

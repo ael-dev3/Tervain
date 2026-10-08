@@ -1,0 +1,9 @@
+/* ENTRY 2006fcb0 | bTPropertyType<gCArena_PS,bTPropertyContainer<gEArenaStatus>_>::vfunction1 | STATUS decompiled | 3 ms */
+
+bTPropertyType<gCArena_PS,bTPropertyContainer<gEArenaStatus>_>_vftable * __thiscall
+bTPropertyType<gCArena_PS,bTPropertyContainer<gEArenaStatus>_>::vfunction1
+          (bTPropertyType<gCArena_PS,bTPropertyContainer<gEArenaStatus>_> *this)
+
+{
+  return this[7].vftablePtr;
+}

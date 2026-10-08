@@ -1,0 +1,75 @@
+{
+  "schema": "gothic3-game-template-demangler-v1",
+  "gameSha256": "b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f",
+  "methods": {
+    "getTemplateName": {
+      "entryVA": "0x2047abe3",
+      "bodyVA": "0x2047abe3",
+      "bodyRanges": "2047abe3-2047ad35",
+      "instructionCount": 103,
+      "bodyByteCount": 339,
+      "bodyInstructionBytesSha256": "4bf93898221803ab979bb069aa1209c9b0ca724327f1cd57eeedcde8d490b737",
+      "entryChain": [],
+      "assemblySha256": "1eb23b76d0f4adffdf0d8b6824ee8e69a900be00151b96c0a4b3976e89056393",
+      "cSha256": "d5d38122ca2051c02c6c0e6878ca6f700ec5e46601bad4940bae465800870f04"
+    },
+    "getTemplateArgumentList": {
+      "entryVA": "0x2047a4bc",
+      "bodyVA": "0x2047a4bc",
+      "bodyRanges": "2047a4bc-2047a673",
+      "instructionCount": 145,
+      "bodyByteCount": 440,
+      "bodyInstructionBytesSha256": "0e6f182d1b61f96b47ee1760b7ecf877288400ffcc429890fca5802618c3b7a9",
+      "entryChain": [],
+      "assemblySha256": "e6e27dc7bb2182d522799184d781eeafc6169df672b5298f3751376eecef51c1",
+      "cSha256": "9fa9216033886397961ffdf9d0fb3224945fec3eb505adba21a3342b868b8059"
+    },
+    "getZName": {
+      "entryVA": "0x2047ad36",
+      "bodyVA": "0x2047ad36",
+      "bodyRanges": "2047ad36-2047af1f",
+      "instructionCount": 177,
+      "bodyByteCount": 490,
+      "bodyInstructionBytesSha256": "1c4fcf12a1cf6b0a2158bda9b72b2fd6a6f7abaff7e00e5d602cc2a055ab3d80",
+      "entryChain": [],
+      "assemblySha256": "e6297c56d90845f3eb099ed630d32b79537ed94f3bcfa5e87ee2ca2d7d61833c",
+      "cSha256": "eed089c30def31e9b191f3a72690347fa63583bc62e8690f5a2ba9785940ecc1"
+    },
+    "getECSUDataType": {
+      "entryVA": "0x2047b013",
+      "bodyVA": "0x2047b013",
+      "bodyRanges": "2047b013-2047b112",
+      "instructionCount": 91,
+      "bodyByteCount": 256,
+      "bodyInstructionBytesSha256": "f158657392304544e387eeced61523f2ba2b7ecebc844ee1f7bf72306214ac6f",
+      "entryChain": [],
+      "assemblySha256": "cdf8f01b2ea763fcc9f92076ff0e37a119a710f9a2d5a5800ccdb26048561652",
+      "cSha256": "dcf83a104c581804353e8be6ce0b75143b67f8bedd803132b7eec25302fd3424"
+    },
+    "getEnumType": {
+      "entryVA": "0x204799d3",
+      "bodyVA": "0x204799d3",
+      "bodyRanges": "204799d3-20479a84",
+      "instructionCount": 60,
+      "bodyByteCount": 178,
+      "bodyInstructionBytesSha256": "a279a8f6194159a511d7bbdd14a967bf14f5cba2739a1b6b1d39e941976410e7",
+      "entryChain": [],
+      "assemblySha256": "316f2b55c9e82ecafc42bacb1dbe08298c5ae3a7752c0bdd2b87388aa202b766",
+      "cSha256": "946da06635b78c9a40e3edc4feb0fb831e0aaaf4eccbe73440c207e73cfd3566"
+    }
+  },
+  "enumKeyword": {
+    "address": "206bee18",
+    "raw": "656e756d2000",
+    "section": {
+      "virtualAddress": 5685248,
+      "virtualSize": 2268534,
+      "rawSize": 2269184,
+      "rawOffset": 5685248,
+      "fileBackedBytes": 6,
+      "loaderZeroFillBytes": 0
+    }
+  },
+  "sourceOnly": true,
+  "wholeCrtTraversalCompleted": false
+}

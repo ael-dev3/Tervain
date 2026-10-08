@@ -1,6 +1,7 @@
 /** Original SharedBase property-type constructors over retained native fields.
  * These owners do not register templates or execute a virtual Create call. */
 import source from '../../assets/gothic3/property-type-constructors/source.json';
+import registrationSource from '../../assets/gothic3/arena-property-registration/source.json';
 import { NativeHeapCString } from './native-heap-cstring';
 import { NativeHeapObjectViews } from './native-heap-views';
 import type { NativeValue } from './dialogue';
@@ -9,6 +10,7 @@ import type { NativeMemoryAdmin } from './native-memory-admin';
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = (reason: string): NativeValue<never> => ({ known: false, reason });
 const claimed = new WeakMap<object, Set<number>>();
+const completedNames = new WeakMap<NativePropertyTypeConstruction, {fields:NativeHeapObjectViews;name:NativeHeapCString}>();
 for (const method of Object.values(source.methods)) {
   for (const hop of method.entryChain) Object.freeze(hop);
   Object.freeze(method.entryChain); Object.freeze(method);
@@ -71,6 +73,7 @@ export class NativePropertyTypeConstruction {
       fields.writeUnsigned(16, input.propertyType);
       fields.writeUnsigned(20, input.named?.flag ?? 0, 1);
       owner.state = 'returned';
+      completedNames.set(owner,{fields,name:owner.strings[0]!});
       return known(owner);
     } catch (error) {
       owner.state = 'blocked'; owner.boundary = error instanceof Error ? error.message : String(error);
@@ -80,5 +83,12 @@ export class NativePropertyTypeConstruction {
   snapshot() {
     return Object.freeze({ phase: this.state, boundary: this.boundary,
       retainedStringOwners: this.strings.length, registered: false, virtualCreateExecuted: false });
+  }
+  /** Original GetName10006e83 returns the embedded CString at receiver +4. */
+  getName():NativeValue<NativeHeapCString> {
+    const proof=completedNames.get(this), method=registrationSource.methods.getPropertyName;
+    if(!proof||proof.fields!==this.fields||method.entryVA!=='0x10006e83'||method.bodyVA!=='0x10088af0'||
+      method.bodyInstructionBytesSha256!=='4181cb1fec090d6487f323c8ce84a17ff37429613d7843b4f5f40f5eae266b77')return unknown('Actual constructed property name and original getter required');
+    return known(proof.name);
   }
 }

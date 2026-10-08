@@ -13,12 +13,12 @@ itself establish a playable reconstruction.
 
 ## Current status — 8 October 2026
 
-The latest confirmed publication is [PR 84](https://github.com/ael-dev3/Tervain/pull/84),
-merged at `bcb41bc0a9cfb549373ed8f5eb80ad93829669cd` and deployed by
-[Pages run 37708307858](https://github.com/ael-dev3/Tervain/actions/runs/37708307858).
-The served Gothic entry and three selected JavaScript chunks were compared with
-the corresponding local production artifacts and matched byte for byte.
-That establishes publication identity; it does not establish complete gameplay.
+The latest confirmed publication is [PR 85](https://github.com/ael-dev3/Tervain/pull/85),
+merged at `6824954f3cc53927355c7c862ef341e385b6b8b4` and deployed by
+[Pages run 37710968391](https://github.com/ael-dev3/Tervain/actions/runs/37710968391).
+It publishes the Arena type singleton, selected type registration and cleanup.
+The earlier PR 84 served-artifact comparison remains evidence for that prior
+revision; no new byte comparison is claimed here for PR 85.
 
 Startup now completes the selected environment initialization and stops before
 Game's `__cinit` call at `204678f2`. The repository captures all 2,473 Game
@@ -51,14 +51,13 @@ construction, Game exit registration, later initializer publication and selected
 cleanup. The original Game string-length predicate now handles arbitrary unknown
 padding bits. Its CI passed typechecking, scenarios and the production build.
 
-The current local work additionally implements the Arena type singleton's base
+PR 85 additionally publishes the Arena type singleton's base
 and factory construction and its SharedBase RegisterTemplate sequence. The
 registry stores a real 4-byte wrapper pointing to the canonical type object,
 using the actual source vtable/class-name slot and shared CString key. Selected
 type cleanup destroys the factory before the base. Focused checks cover pointer
 identity, original callback order, shared CString lifetime, untouched padding,
-warm guards and retained failure prefixes. This work is not yet published or
-connected to the live Game CRT initializer frame. See the
+warm guards and retained failure prefixes. This published work is not yet connected to the live Game CRT initializer frame. See the
 [Arena type package](../../assets/gothic3/arena-type/README.md) and
 [property destruction evidence](../../assets/gothic3/property-object-destruction/README.md).
 
@@ -68,16 +67,28 @@ included in that full run. Repeated source preparation preserves the captured
 bytes. These checks do not establish live Game initializer execution or new
 campaign progress.
 
-The first property callback still needs its original virtual Create/reset,
-unregistration and descriptor registration calls. Property pointer-array cleanup
-with a live non-NULL element still needs that property's original virtual
-destructor. Full NPC startup and campaign completion remain unfinished.
+Subsequent local work implements the first Arena Status descriptor's constructor,
+cold virtual Create/reset and original unregister lookup, then pointer-array
+registration through its diagnostic call. It constructs the actual temporary
+Status CString, obtains the canonical Arena type and stores the descriptor in
+its real property array. The selected template demangler now constructs
+`bTPropertyContainer<enum gEArenaStatus>`, restores its local name tables and
+registers the original Status name cleanup callback.
 
-The next dependency chain includes original type-singleton initialization,
-class-name and factory construction, property registration, and the lifecycle
-calls made by virtual `Create`. The first studied `Create` target destroys/reset
-state and unregisters a template before the callback registers it again; simply
-zeroing fields would omit that behavior.
+The registration call stops at Message.Debug (`10088191`). Original evidence
+shows that Debug always reads static TLS through FS:0x2c, formats at thread offset
+0x108, obtains MessageAdmin and invokes OnMessage. Static TLS thread ownership,
+locale-aware formatting and diagnostic dispatch remain required. The temporary
+Status name is still retained; descriptor cleanup registration and the first
+initializer's normal return have not executed. These local components are not
+connected to the live Game CRT frame.
+
+See the [Status descriptor evidence](../../assets/gothic3/arena-status-descriptor/README.md),
+[property registration and diagnostic evidence](../../assets/gothic3/arena-property-registration/README.md)
+and [template demangler evidence](../../assets/gothic3/game-template-demangler/README.md).
+Property pointer-array cleanup with a live non-NULL element still needs that
+property's original virtual destructor. Full NPC startup and campaign completion
+remain unfinished.
 
 The browser supports exploration and selected gameplay paths. Whole-module
 startup, native NPC activation and most campaign progression remain unfinished.

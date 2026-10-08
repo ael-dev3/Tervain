@@ -1,0 +1,13 @@
+/* ENTRY 20070f20 | bTPropertyType<gCArena_PS,bTPropertyContainer<gEArenaStatus>_>::vfunction19 | STATUS decompiled | 6 ms */
+
+void __thiscall
+bTPropertyType<gCArena_PS,bTPropertyContainer<gEArenaStatus>_>::vfunction19
+          (bTPropertyType<gCArena_PS,bTPropertyContainer<gEArenaStatus>_> *this)
+
+{
+  bCPropertyTypeBase::Destroy((bCPropertyTypeBase *)this);
+  thunk_FUN_20070e90(this + 8);
+  bCPropertyObjectTypeBase::UnregisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)this[6].vftablePtr,(bCPropertyTypeBase *)this);
+  return;
+}

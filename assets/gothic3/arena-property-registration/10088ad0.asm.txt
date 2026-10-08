@@ -1,0 +1,3 @@
+10088ad0 | 8b01 | MOV EAX,dword ptr [ECX]
+10088ad2 | 8b5048 | MOV EDX,dword ptr [EAX + 0x48]
+10088ad5 | ffe2 | JMP EDX

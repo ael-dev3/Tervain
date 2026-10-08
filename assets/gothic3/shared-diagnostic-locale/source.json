@@ -1,0 +1,52 @@
+{
+  "schema": "gothic3-shared-diagnostic-locale-v1",
+  "sharedBaseSha256": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214",
+  "methods": {
+    "localeUpdate": {
+      "entryVA": "0x100a74b6",
+      "bodyVA": "0x100a74b6",
+      "bodyRanges": "100a74b6-100a7537",
+      "instructionCount": 42,
+      "bodyByteCount": 130,
+      "bodyInstructionBytesSha256": "afbb832a9811913fd67febefb9e9a53acafe8103a68bc6032044e6d7c6a6daf8",
+      "entryChain": [],
+      "assemblySha256": "16fd5535804768205856265064fb5af7945101fceafafa85ac057db891b00655",
+      "cSha256": "921f22b56dcd99f5a4adf0d4d2f2dad162a446eb27ad6e4976252c85cb379ab9"
+    },
+    "getPerThreadData": {
+      "entryVA": "0x100ae542",
+      "bodyVA": "0x100ae542",
+      "bodyRanges": "100ae542-100ae559",
+      "instructionCount": 11,
+      "bodyByteCount": 24,
+      "bodyInstructionBytesSha256": "f2662a20d6a5b27758faeac91878529d9fae2d5561d12ff0a4ccea827a465720",
+      "entryChain": [],
+      "assemblySha256": "e5449f67169bd138bed2828c5cb56c54b49039a4288f9de8028a80b87a1d3dbf",
+      "cSha256": "bb8f169baca4b5df2058b31f81082d766a4e8d69b1315bd6f2c666e83176fe71"
+    },
+    "updateThreadLocale": {
+      "entryVA": "0x100b1b32",
+      "bodyVA": "0x100b1b32",
+      "bodyRanges": "100b1b32-100b1b9b",
+      "instructionCount": 31,
+      "bodyByteCount": 106,
+      "bodyInstructionBytesSha256": "87c283cd7e28fb0e67445e4961f6aa2a8cd8cf6c4bd2580e5f3db467331a6eca",
+      "entryChain": [],
+      "assemblySha256": "3d9dd60bcad8dcf3ace9407397ef5ba77aeceb09b581fc38324ec76fbf7762b7",
+      "cSha256": "5745e347af09664be3fad6a8b8558aab74bc66dadb56c37f3a55ad07fefc71c9"
+    },
+    "updateThreadMultibyte": {
+      "entryVA": "0x100b1387",
+      "bodyVA": "0x100b1387",
+      "bodyRanges": "100b1387-100b141e",
+      "instructionCount": 47,
+      "bodyByteCount": 152,
+      "bodyInstructionBytesSha256": "9274c592b33871195ff2f82d894f6c03be23ab53e461929537d634a25643ee0d",
+      "entryChain": [],
+      "assemblySha256": "f7f819730d5fde7716ba6f01f5e98a28cadcab54724a145b6938ff9ef5cad922",
+      "cSha256": "48149e122285f302f543db9e20f556f959226a5ab1dcdc440008039dab67a83c"
+    }
+  },
+  "sourceOnly": true,
+  "wholeCrtTraversalCompleted": false
+}

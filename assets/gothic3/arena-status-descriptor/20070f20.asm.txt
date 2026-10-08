@@ -1,0 +1,11 @@
+20070f20 | 56 | PUSH ESI
+20070f21 | 8bf1 | MOV ESI,ECX
+20070f23 | ff15dc877d20 | CALL dword ptr [0x207d87dc]
+20070f29 | 8d4620 | LEA EAX,[ESI + 0x20]
+20070f2c | 50 | PUSH EAX
+20070f2d | e8a4abfaff | CALL 0x2001bad6
+20070f32 | 8b4e18 | MOV ECX,dword ptr [ESI + 0x18]
+20070f35 | 56 | PUSH ESI
+20070f36 | ff15dc867d20 | CALL dword ptr [0x207d86dc]
+20070f3c | 5e | POP ESI
+20070f3d | c3 | RET

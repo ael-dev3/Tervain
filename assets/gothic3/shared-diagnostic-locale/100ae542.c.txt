@@ -1,0 +1,18 @@
+/* ENTRY 100ae542 | __getptd | STATUS decompiled | 5 ms */
+
+/* Library Function - Single Match
+    __getptd
+   
+   Library: Visual Studio 2005 Release */
+
+_ptiddata __cdecl __getptd(void)
+
+{
+  _ptiddata p_Var1;
+  
+  p_Var1 = (_ptiddata)FUN_100ae4cb();
+  if (p_Var1 == (_ptiddata)0x0) {
+    __amsg_exit(0x10);
+  }
+  return p_Var1;
+}

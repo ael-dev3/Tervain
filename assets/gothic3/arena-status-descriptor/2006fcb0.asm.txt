@@ -1,0 +1,2 @@
+2006fcb0 | 8b411c | MOV EAX,dword ptr [ECX + 0x1c]
+2006fcb3 | c3 | RET
