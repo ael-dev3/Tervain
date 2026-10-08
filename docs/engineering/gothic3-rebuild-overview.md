@@ -13,12 +13,12 @@ itself establish a playable reconstruction.
 
 ## Current status — 8 October 2026
 
-The latest confirmed publication is [PR 85](https://github.com/ael-dev3/Tervain/pull/85),
-merged at `6824954f3cc53927355c7c862ef341e385b6b8b4` and deployed by
-[Pages run 37710968391](https://github.com/ael-dev3/Tervain/actions/runs/37710968391).
-It publishes the Arena type singleton, selected type registration and cleanup.
-The earlier PR 84 served-artifact comparison remains evidence for that prior
-revision; no new byte comparison is claimed here for PR 85.
+The latest confirmed publication is [PR 87](https://github.com/ael-dev3/Tervain/pull/87),
+merged at `931fde2560e2bd86220a00cb4e542b266ee911b4` and deployed by
+[Pages run 37714985260](https://github.com/ael-dev3/Tervain/actions/runs/37714985260).
+It includes the selected Status initializer prefix from PR 86 and its diagnostic
+TLS/FILE prefix from PR 87. The earlier PR 84 served-artifact comparison remains
+evidence for that prior revision; no new byte comparison is claimed here for PR 87.
 
 Startup now completes the selected environment initialization and stops before
 Game's `__cinit` call at `204678f2`. The repository captures all 2,473 Game
@@ -67,7 +67,7 @@ included in that full run. Repeated source preparation preserves the captured
 bytes. These checks do not establish live Game initializer execution or new
 campaign progress.
 
-Subsequent local work implements the first Arena Status descriptor's constructor,
+PR 86 publishes the first Arena Status descriptor's constructor,
 cold virtual Create/reset and original unregister lookup, then pointer-array
 registration through its diagnostic call. It constructs the actual temporary
 Status CString, obtains the canonical Arena type and stores the descriptor in
@@ -75,13 +75,24 @@ its real property array. The selected template demangler now constructs
 `bTPropertyContainer<enum gEArenaStatus>`, restores its local name tables and
 registers the original Status name cleanup callback.
 
-The registration call stops at Message.Debug (`10088191`). Original evidence
-shows that Debug always reads static TLS through FS:0x2c, formats at thread offset
-0x108, obtains MessageAdmin and invokes OnMessage. Static TLS thread ownership,
-locale-aware formatting and diagnostic dispatch remain required. The temporary
-Status name is still retained; descriptor cleanup registration and the first
-initializer's normal return have not executed. These local components are not
-connected to the live Game CRT frame.
+PR 87 connects that diagnostic to an explicitly loaded SharedBase static TLS
+block for the retained logical thread. It retains the actual property/type
+CString pointers, forwards NULL locale and writes the original vsprintf FILE
+prefix. The call stops at `100a7eff -> 100b5355`, before formatter execution.
+Missing thread or unloaded TLS remains an explicit failure. No formatted text,
+terminator or MessageAdmin dispatch is fabricated. The virtual loader's slot
+assignment does not claim a captured Windows slot or completed DLL attach.
+
+Further local work captures the independent SharedBase CRT startup and cold
+globals, implements its original security-cookie initializer, and follows its
+process-attach version detection and modern heap creation. The selected attach
+prefix stops at `100adb09 -> 100ae6f0` (`__mtinit`). Dynamic thread indices,
+encoded procedures, locks, locale/PTD and full SharedBase startup remain
+required. These local helpers are not connected to the live Game CRT frame.
+
+The temporary Status name remains retained; descriptor cleanup registration and
+the first initializer's normal return have not executed. Full initializer
+traversal remains unfinished.
 
 See the [Status descriptor evidence](../../assets/gothic3/arena-status-descriptor/README.md),
 [property registration and diagnostic evidence](../../assets/gothic3/arena-property-registration/README.md)

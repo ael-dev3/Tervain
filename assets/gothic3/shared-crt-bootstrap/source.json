@@ -2,6 +2,39 @@
   "schema": "gothic3-shared-crt-bootstrap-v1",
   "sharedBaseSha256": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214",
   "methods": {
+    "getOsPlatform": {
+      "entryVA": "0x100aa49d",
+      "bodyVA": "0x100aa49d",
+      "bodyRanges": "100aa49d-100aa4d3",
+      "instructionCount": 25,
+      "bodyByteCount": 55,
+      "bodyInstructionBytesSha256": "cc5b7331299d47cd8f5d5cb850aa67581d71d5bd370b6aeba4f41feed3edf68d",
+      "entryChain": [],
+      "assemblySha256": "e3c8840516823a264491d3c959ceb636398e8f4c085bad425ed996dfbdfc9474",
+      "cSha256": "6510750c1bb4fcf3baabfd18c47066854c141825a597e240b68ba2954512b48d"
+    },
+    "getWinMajor": {
+      "entryVA": "0x100aa54c",
+      "bodyVA": "0x100aa54c",
+      "bodyRanges": "100aa54c-100aa587",
+      "instructionCount": 25,
+      "bodyByteCount": 60,
+      "bodyInstructionBytesSha256": "c2d39a6b2e3a69dcf99941e96a2b991511307e2511a0c536100b091ab85aabde",
+      "entryChain": [],
+      "assemblySha256": "14cf28e8e86337d2dfce77dbc368c1e9a0eddea5627093522b1a3f0ecbcc37b1",
+      "cSha256": "5c4084da763ca89d9c98ecf264b1d604bfbeddb25f9a00aa620b3fecc4638ce8"
+    },
+    "dllEntry": {
+      "entryVA": "0x100add1b",
+      "bodyVA": "0x100add1b",
+      "bodyRanges": "100add1b-100add3b",
+      "instructionCount": 9,
+      "bodyByteCount": 33,
+      "bodyInstructionBytesSha256": "d80fdd9fd9acf0c51d83201b7712d348994e7114b48f44fb0f0a1cfb4886526d",
+      "entryChain": [],
+      "assemblySha256": "d1661f9d821ac5c25fef0bdd726c6507e0337898058b67b790252656dc1dfc7f",
+      "cSha256": "e81c3827e814ddf22db63158f97e3365ecc881acc1d81515693fa63fdc999b4d"
+    },
     "crtAttach": {
       "entryVA": "0x100ada4c",
       "bodyVA": "0x100ada4c",
@@ -223,6 +256,22 @@
         "rawOffset": 1306624,
         "fileBackedBytes": 0,
         "loaderZeroFillBytes": 16
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "osFields": {
+      "address": "102f642c",
+      "bytes": 20,
+      "raw": "0000000000000000000000000000000000000000",
+      "knownMask": "ffffffffffffffffffffffffffffffffffffffff",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 0,
+        "loaderZeroFillBytes": 20
       },
       "scope": "cold-original-image",
       "liveValueCaptured": false

@@ -1,0 +1,9 @@
+100add1b | 837c240801 | CMP dword ptr [ESP + 0x8],0x1
+100add20 | 7505 | JNZ 0x100add27
+100add22 | e86e300100 | CALL 0x100c0d95
+100add27 | ff742404 | PUSH dword ptr [ESP + 0x4]
+100add2b | 8b4c2410 | MOV ECX,dword ptr [ESP + 0x10]
+100add2f | 8b54240c | MOV EDX,dword ptr [ESP + 0xc]
+100add33 | e8edfeffff | CALL 0x100adc25
+100add38 | 59 | POP ECX
+100add39 | c20c00 | RET 0xc

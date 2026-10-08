@@ -9,7 +9,7 @@ from prepare_runtime_admin_source import INPUT_SHA, image_bytes, source_excerpt
 def capture(study, output):
     native.EXPECTED_INPUTS['SharedBase.dll'] = INPUT_SHA
     audit = native.audit_module(study, 'SharedBase_dll', 'SharedBase.dll',
-                               {0x100ada4c:'crtAttach', 0x100adc25:'dllMainCrtStartup',
+                               {0x100aa49d:'getOsPlatform', 0x100aa54c:'getWinMajor', 0x100add1b:'dllEntry', 0x100ada4c:'crtAttach', 0x100adc25:'dllMainCrtStartup',
                                 0x100c0d95:'securityInitCookie', 0x100bc0ba:'heapInit',
                                 0x100bc05f:'heapSelect', 0x100bc114:'heapTerm',
                                 0x100ae6f0:'mtInit', 0x100ae3cf:'mtTerm',
@@ -34,7 +34,7 @@ def capture(study, output):
     cold = {}
     for label,address,size in [('securityCookie',0x10140d6c,4), ('securityCookieComplement',0x10140d70,4), ('tlsGetterIndex',0x10140b48,4),
                                ('threadDataIndex',0x10140b44,4), ('procedureSlots',0x102f64a4,16),
-                               ('heapHandle',0x102f6ac8,4), ('heapSelection',0x102f8530,4),
+                               ('osFields',0x102f642c,20), ('heapHandle',0x102f6ac8,4), ('heapSelection',0x102f8530,4),
                                ('localePointer',0x10141468,4), ('multibytePointer',0x10141288,4),
                                ('threadLocaleMask',0x10141384,4)]:
         raw, section = image_bytes(pe,address,size)
