@@ -33,8 +33,8 @@ runtime and record exactly where execution still stops.
 
 ### Immediate remaining work
 
-- Complete the remaining SharedBase error/void initializers from `100bef05`,
-  SIMD exception dispatch and other fallback paths, then the enclosing CRT attach.
+- Complete RTC exit-callback registration at `100aa676 -> 100a72d0`, then
+  the remaining void initializers, fallback/exception paths and enclosing CRT attach.
 - Connect the supported shared runtime to live Game startup at 204678f2 and
   execute the required initializer callbacks in their original order.
 - Complete the remaining property/diagnostic dependencies and activate NPCs in
@@ -46,6 +46,42 @@ checks establish the published checkpoint's supported scope; campaign completion
 requires an integrated gameplay result.
 
 ## Latest process summary — 8 October 2026
+
+### Original FILE-vector initialization and complete error-table return
+
+The local runtime executes original `100bef05` over its own stdio count and
+vector storage. A zero count selects 512 entries; signed counts below 20 select
+20. The original wrapper calls the selected owned calloc lower with count*4,
+preserving caller identity, NULL checks, argument cleanup and saved registers.
+A failed first allocation retries with 20 entries. A second failure returns 26
+through the error walker and cinit, retaining the unimplemented outer attach
+cleanup at `100adb5f`. Unknown heap results, overflow and positive Sleep retry
+stop at their actual source boundaries.
+
+The successful callback publishes its real vector and fills 20 pointer slots
+with aliases of the original 640-byte FILE image at `10141790`, in 32-byte steps.
+The remaining vector bytes stay zero from the actual heap allocation. Original
+FILE buffer addresses remain source values; this does not grant memory access
+to the buffers. The first three records read the physical 56-byte descriptors
+already created by SharedBase I/O startup through the actual `102f70c0` root.
+Retained platform HANDLEs compare unequal to NULL/-1/-2 without inventing their
+numerical Windows values. Those three sentinel cases write -2 to FILE+16.
+Foreign blocks, copied HANDLEs and unowned numerical HANDLEs reject admission.
+
+Signed JGE/JL, three-operand IMUL and SAR execute from the pinned original rows.
+The fifth callback `100ce0f5` repeats the original processor probe and publishes
+its result to the live memcpy flag at `102f854c`. All five error callbacks return
+zero on the selected normal path; the table walker returns to cinit. Execution
+then stops at the actual RTC registration CALL `100aa676 -> 100a72d0`.
+
+Typechecking and 141 focused checks pass. All 80 generated source files and the
+emitted runtime reproduce exactly. The full suite passes 2,698 tests across
+259 files and the production build passes. Full CRT attachment, live Game startup,
+NPC activation and a campaign playable through an ending remain unfinished.
+
+PR 117 passed CI run 37761728106 and merged at
+`0270bb5cdd54f521731a4c6de164e3e967265d37`. Pages run 37762574694 completed successfully.
+
 
 ### Virtual CPU ownership and normal processor-probe return
 

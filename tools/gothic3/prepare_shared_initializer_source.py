@@ -60,6 +60,7 @@ def capture(study, output):
         ('exitTableEnd',0x102f8584,4), ('rtcTerminators',0x100f7ef4,256),
         ('processorFeature',0x102f853c,4), ('memcpySseEnabled',0x102f854c,4),
         ('stdioCount',0x102f8500,4), ('stdioVector',0x102f71c0,4),
+        ('stdioFiles',0x10141790,640),
         ('processorModuleName',0x100ede4c,len(b'KERNEL32\0')),
         ('processorProcedureName',0x100ede30,len(b'IsProcessorFeaturePresent\0')),
         ('pointerModuleName',0x100ed284,len(b'KERNEL32.DLL\0')),
@@ -217,7 +218,7 @@ def capture(study, output):
 
 def initializer_runtime(output, destination):
     rows = []
-    for body in ['100aa632','100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100b444f','100ae27b','100aa47d','100a7265','100aef10','100b1854','100b4b6b','100ce095','100ce045','100aeb68','100aebad']:
+    for body in ['100aa632','100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100b444f','100ae27b','100aa47d','100a7265','100aef10','100b1854','100b4b6b','100ce095','100ce045','100aeb68','100aebad','100bef05','100ce0f5']:
         for line in (output / (body + '.asm.txt')).read_text(encoding='utf-8').splitlines():
             rows.append(line.split(' | '))
     header=json.loads((output/'source.json').read_text(encoding='utf-8'))['imageHeader']

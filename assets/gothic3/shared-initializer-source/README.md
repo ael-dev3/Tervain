@@ -27,7 +27,7 @@ does not establish successful browser initializer execution.
 
 The tables' ends are exclusive. Cold bytes are source evidence, not captured
 live process state. `source.json` retains table slots, callback entries,
-section headers, relevant cold globals and 69 CALL sites with direct targets
+section headers, relevant cold globals and 75 CALL sites with direct targets
 or import identities where available.
 
 The committed TypeScript runtime now enters cinit, executes the original image
@@ -43,7 +43,12 @@ publishes the encoded exit table; the second uses the actual initialized
 multibyte flag. The third executes its processor probe using an explicit virtual
 CPU selection. The normal SIMD path owns the original EH4 prologue/epilogue,
 checks the live scope bytes, copies unknown XMM1 state to XMM0 and returns the
-source result. The fourth callback `100bef05` remains pending. Missing CPU
+source result. The fourth callback `100bef05` allocates the FILE vector, fills its first twenty
+slots with aliases of the original FILE image and updates the first three
+records from the owned descriptor block. Its allocation fallback returns 26 on
+double failure. The fifth callback repeats the probe and publishes its result
+to the live memcpy flag. The normal error table returns zero and reaches RTC
+registration `100aa676 -> 100a72d0`, which remains pending. Missing CPU
 selection stops at PUSHFD; missing CPUID leaves and SIMD exception dispatch
 remain explicit boundaries. Enclosing CRT attach and live Game startup are
 unfinished. Header rejection and a NULL hook preserve their original skip paths.
