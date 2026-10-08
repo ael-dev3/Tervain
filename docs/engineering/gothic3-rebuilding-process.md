@@ -10224,5 +10224,6 @@ canonical SharedBase owner and completed CRT helper.
 This is a direct DLL entry ABI invocation. The surrounding CRT wrapper and its
 SEH frame are still unexecuted. Cold DLL initialization, version-query imports,
 logging, Game/world activation and campaign completion remain unfinished.
-All 280 focused checks, typechecking and production build pass. Full-suite
-validation is pending; this checkpoint has not been published.
+All 280 focused checks, typechecking and production build pass. The full suite
+passes 2,878 tests across 272 files (204.87 seconds). Current-main integration
+changes no validated file content. This checkpoint has not been published.
