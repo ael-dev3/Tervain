@@ -1,8 +1,8 @@
 # SharedBase initializer source
 
 Original `SharedBase.dll` evidence for the next startup boundary,
-`100adb5a -> 100aa632`. This package captures 54 function bodies,
-977 instructions. It executes no native code and
+`100adb5a -> 100aa632`. This package captures 55 function bodies,
+1,021 instructions. It executes no native code and
 does not establish successful browser initializer execution.
 
 ## What startup requires
@@ -27,7 +27,7 @@ does not establish successful browser initializer execution.
 
 The tables' ends are exclusive. Cold bytes are source evidence, not captured
 live process state. `source.json` retains table slots, callback entries,
-section headers, relevant cold globals and 103 CALL sites with direct targets
+section headers, relevant cold globals and 107 CALL sites with direct targets
 or import identities where available.
 
 The committed TypeScript runtime now enters cinit, executes the original image
@@ -161,3 +161,11 @@ owned static storage at `10142798`, registers shutdown `100e2710` in the live
 exit table and returns the singleton pointer `101427a0`. A set guard skips
 registration. The normal exit cursor is offset 44. The next boundary is
 `1001325e -> 10003cd8`, Malloc; allocation and full startup remain incomplete.
+
+
+Malloc now follows its three original entry thunks, owns the original exception
+scope and FS-linked stack frame, and initializes/enters its actual heap critical
+section at spin count 1,000. The next pending CALL is `1003d474 -> 10001028`,
+the lower heap dispatcher. The normal prefix retains the entered lock and
+exception frame; no allocation, release or return is fabricated. Exception
+dispatch and the full initializer remain incomplete.
