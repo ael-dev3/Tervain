@@ -9290,3 +9290,32 @@ completion remain unfinished.
 
 PR 120 passed CI run 37767350351 and merged at
 `c20d44f022a98aab1bfb8e456673be96a6251f48`.
+
+
+## 8 October 2026 — static value and following registrations
+
+Void slot 132 now executes its original eight MOV instructions and RET. It
+copies four live DWORDs from file-backed source `100ebb28` to loader-zero
+storage `101ab150`; values and known-bit masks move through the owned register
+and memory state. The implementation reads the live source rather than replacing
+the operation with a constant zero assignment.
+
+Slots 133–136 and 138–139 then register shutdown addresses `100e2930`,
+`100e2940`, `100e2950`, `100e2960`, `100e2a00` and `100e2a10` in source order.
+Slot 137 remains NULL. The exit table now contains ten callbacks including the
+preceding RTC and void registrations, with cursor offset 40. Lock 8 and both
+normal SEH frames reenter and restore for every registration.
+
+The next boundary is void slot 140 at `100aa692 -> 100e1510`, which constructs
+a string through `10003ba7` before initializing additional state and registering
+its shutdown callback. That construction is not yet admitted. Registration
+continues to store address metadata without executing shutdown bodies.
+
+156 focused checks pass, including nonzero static-value copies, unknown-bit
+preservation and file-backed versus loader-zero provenance. All 92 source-package
+files and the instruction module reproduce exactly. Typechecking, production
+build and all 2,713 tests across 259 files pass. Full startup and a finishable campaign
+remain outstanding.
+
+PR 121 passed CI run 37768080880 and merged at
+`4a475b14ea6a6a572cdcabe9fd7a1aae636bd3b2`.

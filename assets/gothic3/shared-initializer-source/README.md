@@ -55,7 +55,10 @@ HeapSize and appends the encoded RTC callback. It publishes the cursor at
 offset 4, releases the lock and restores both original normal SEH frames.
 The first two void callbacks register `100e30f0` and `100e26d0` through the
 same path and advance the cursor to offset 12. The next boundary is the
-static-value copy at `100aa692 -> 100e1470`. The preceding critical-section
+string-construction initializer at `100aa692 -> 100e1510`. The static-value
+copy now moves four live DWORDs from `100ebb28` to `101ab150`, preserving
+unknown bits. The following six registration wrappers append their callbacks
+in original order, bringing the exit cursor to offset 40. The preceding critical-section
 initializer initializes its original 24-byte storage through the retained
 InitializeCriticalSection import and registers `100e2810`, advancing the
 exit cursor to offset 16. The virtual platform owns the section; post-call

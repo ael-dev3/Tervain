@@ -7,7 +7,7 @@ const base='assets/gothic3/shared-initializer-source/';
 const source=JSON.parse(readFileSync(base+'source.json','utf8'));
 const sha=(raw:Uint8Array)=>createHash('sha256').update(raw).digest('hex');
 it('matches every generated initializer row and header to original admitted receipts',()=>{
-  for(const body of ['100aa632','100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100b444f','100ae27b','100aa47d','100a7265','100aef10','100b1854','100b4b6b','100ce095','100ce045','100aeb68','100aebad','100bef05','100ce0f5','100a72d0','100a7294','100a71ac','100ae2f2','100b10d6','100aa453','100aa45c','100a72ca','100e1660','100e1440','100e1450']){
+  for(const body of ['100aa632','100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100b444f','100ae27b','100aa47d','100a7265','100aef10','100b1854','100b4b6b','100ce095','100ce045','100aeb68','100aebad','100bef05','100ce0f5','100a72d0','100a7294','100a71ac','100ae2f2','100b10d6','100aa453','100aa45c','100a72ca','100e1660','100e1440','100e1450','100e1470','100e14b0','100e14c0','100e14d0','100e14e0','100e14f0','100e1500']){
     for(const row of readFileSync(base+body+'.asm.txt','utf8').trim().split('\n')){
       const [address,bytes,instruction]=row.split(' | ');
       const emitted=sharedInitializerInstruction(address!);
@@ -157,4 +157,8 @@ it('pins the original twenty FILE records and their buffer/descriptor fields',()
 
 it('retains loader-zero static section storage and original InitializeCriticalSection IAT bytes',()=>{
  expect(source.coldGlobals.staticCriticalSection).toMatchObject({address:'10197da0',bytes:24,raw:'00'.repeat(24),section:{fileBackedBytes:0,loaderZeroFillBytes:24},liveValueCaptured:false});expect(source.coldGlobals.initializeSectionImportSlot).toMatchObject({address:'102f95f4',bytes:4,raw:'349b2f00'});
+});
+
+it('retains the file-backed static source and loader-zero destination separately',()=>{
+ expect(source.coldGlobals.staticValueSource).toMatchObject({address:'100ebb28',bytes:16,raw:'00'.repeat(16),section:{fileBackedBytes:16,loaderZeroFillBytes:0}});expect(source.coldGlobals.staticValueDestination).toMatchObject({address:'101ab150',bytes:16,raw:'00'.repeat(16),section:{fileBackedBytes:0,loaderZeroFillBytes:16}});
 });
