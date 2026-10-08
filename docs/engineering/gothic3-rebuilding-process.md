@@ -6,7 +6,30 @@ is the detailed technical record and dated checkpoint history.
 
 ## Latest process summary — 8 October 2026
 
-### SharedBase wide temporary continuation
+### SharedBase classification normal return
+
+The subsequent local branch completes the classification helper for the declared
+virtual CP1252 service profile. Conversion fills the actual 512-byte stack alias;
+classification writes 256 WORDs into the retained output. Original `__freea`
+preserves the stack allocation, and the helper checks the canonical cookie via
+its symbolic EBP relation before restoring the saved registers and returning.
+The caller's seven argument words are removed. Temporary call authority expires
+and locale ownership is restored where the caller's local flag requires it.
+The next mapping scope begins and stops at `100b5112 -> 100b4d44`.
+
+Focused validation passes 59 tests, including all 256 Unicode and type values,
+returned CALL records, restored ESP, preserved header and locale flags 0/1/3.
+Typechecking, the production build and the full suite of 2,597 tests across
+258 files pass. Lower/upper maps remain unknown;
+the multibyte candidate has not been installed. These direct-helper results are
+not joined to live Game initializer traversal, so no NPC activation or campaign
+completion is claimed.
+
+### Publication of the preceding wide temporary checkpoint
+
+PR 98 deployed successfully through Pages run 37727870217. PR 99 passed CI run
+37728168251 and merged at `a95b3e89fc6003bc7c8b3da7695929b5dc2b636c`;
+its deployment is not yet confirmed here.
 
 PR 97 deployed successfully through Pages run 37726681547 at
 `59cfbfe6c69ef0eed93e94197eb88c55d4a583ae`. PR 98 passed CI run 37726972996
