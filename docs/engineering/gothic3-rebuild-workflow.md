@@ -11,6 +11,59 @@ or a model viewer establishes only the behavior actually demonstrated.
 Read the [rebuild overview](gothic3-rebuild-overview.md) for architecture and the
 [checkpoint history](gothic3-rebuilding-process.md) for dated implementation evidence.
 
+## How the reconstruction works
+
+There are two connected preparation paths:
+
+```text
+Installed archives -> format readers -> converted assets + provenance
+                                            |
+                                            v
+                                      browser renderer
+
+Original DLL bytes + disassembly -> captured instruction/source evidence
+                                            |
+                                            v
+                              TypeScript runtime + platform imports
+                                            |
+                                            v
+                          world, actors, quests and persistent saves
+```
+
+Asset conversion supplies the visible world. Behavior recovery supplies the
+state changes that make that world playable. A decompiled function must be
+checked against its original instructions and connected to the runtime's real
+memory and objects before it can support a gameplay claim.
+
+### Repository map
+
+| Location | Role in the rebuilding process |
+| --- | --- |
+| `tools/gothic3/` | Readers, exporters and reproducible evidence generators |
+| `assets/gothic3/` | Source receipts, hashes, captured instructions and research evidence |
+| `public/gothic3/` | Resources served to the browser |
+| `src/gothic3/` | TypeScript runtime, memory owners, interpreters and game integration |
+| `tests/gothic3-dialogue/` | Focused runtime and evidence checks |
+| `docs/engineering/gothic3-rebuilding-process.md` | Dated checkpoint history and validation receipts |
+| `.github/workflows/pages.yml` | Pull-request validation and main-branch deployment |
+
+### Current startup work: 2026-10-08
+
+The local implementation has progressed through selected SharedBase CRT
+initializers, a successful direct CRT helper return, the direct DLL entry guard,
+the retained initializer's version-query frame and its filename copy. The next
+local changes connect the original `LoadLibraryA`, `GetProcAddress` and
+`FreeLibrary` frames to a selected current-module backend. That path uses the
+captured absence of `DllGetVersion`, balances additional module references and
+stops at the version-resource fallback at `1004c62e`.
+
+These are bounded startup checkpoints. The surrounding DLL wrapper and SEH
+execution, complete DLL initialization, Game/world activation and campaign
+integration remain unfinished. The module-import continuation is local work;
+its publication and complete validation must be recorded separately. Consult
+the checkpoint history and the deployed commit before treating any local
+milestone as hosted behavior.
+
 ## 1. Inventory the installed game
 
 The local reference installation is
@@ -100,3 +153,43 @@ The hosted route is [Gothic 3 reconstruction](https://ael-dev3.github.io/Tervain
 Record its deployed revision and supported behavior. Continue through remaining
 startup, world and campaign dependencies until the completion criteria above
 are demonstrated.
+## A reproducible behavior checkpoint
+
+For example, the SharedBase startup work follows this cycle:
+
+1. Hash the local `SharedBase.dll` and retain the matching disassembly.
+2. Use `prepare_shared_initializer_source.py` or
+   `prepare_shared_dll_entry_evidence.py` to capture the relevant bodies,
+   thunks, import slots, globals and resource/export receipts.
+3. Regenerate the source package and emitted TypeScript instruction table into
+   a separate directory, then compare them with the checked-in files.
+4. Implement the missing dependency in its owning runtime component. The
+   current stack interpreter is `native-x86-thread-stack.ts`; the SharedBase
+   startup owner is `native-shared-crt.ts`.
+5. Execute the original supported instructions against retained stack and
+   memory state. Import services must validate their caller, arguments,
+   pointer identity and lifetime before applying changes.
+6. Check the expected continuation and corruption/failure cases. Record the
+   exact next unsupported address, including any state already applied.
+7. Review the coherent diff, validate it locally, inspect Actions and publish
+   a reviewed checkpoint. Continue from the retained boundary.
+
+Windows version-resource observations are captured separately with
+`capture_shared_version_api.py`. This reads the file through Windows resource
+APIs without loading or executing Gothic code. Its recorded API buffer is
+separate evidence from the raw PE resource; the runtime must preserve the
+selected buffer layout and query mutations when connecting those imports.
+
+## What establishes completion
+
+A complete reconstruction needs evidence for all of the following:
+
+- A new game reaches an active world with the player and NPCs initialized.
+- Movement, collision, rendering, animation and interaction work together.
+- Combat, inventory, dialogue, quests and factions consume connected game state.
+- Saves restore the world and campaign consequences needed for later progress.
+- Ordinary browser play can reach a supported ending.
+- The reviewed revision is deployed at the separate `/gothic3/` route.
+
+Keep a build receipt, deployment receipt and playthrough receipt as separate
+records. Compilation and hosting alone do not establish campaign completion.
