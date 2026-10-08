@@ -84,6 +84,9 @@ def capture(study, output):
         0x10002d42: 'dllVersionResourceLanguage',
         0x100aa234: 'versionQuerySprintf',
         0x100b5355: 'formattedOutputEngine',
+        0x100a74b6: 'outputLocale',
+        0x100a99b3: 'outputIsLeadByte',
+        0x100b5289: 'outputByte',
     })
     pe = native.PE(binary)
     export_rva, export_size = struct.unpack_from('<II', binary, pe.optional + 96)
@@ -122,6 +125,7 @@ def capture(study, output):
         ('versionQueryOutput', 0x101ab190, 256),
         ('formatStateTables', 0x100ede50, 160),
         ('formatDispatchTable', 0x100b5cc9, 32),
+        ('outputCtypeTable', 0x100f2e38, 512),
         ('moduleName', 0x100ebb14, 15),
         ('versionFormat', 0x100eba68, 80),
         ('separator', 0x100ebab8, 76),

@@ -10470,3 +10470,30 @@ The full-suite receipt in the preceding section predates this formatter-prefix
 change. This local checkpoint remains unpublished. Query output, resource queries,
 parsing and cleanup still require implementation before complete DLL startup,
 world activation and campaign integration can be claimed.
+
+
+## Original translation-query output engine (local work, 2026-10-08)
+
+The retained formatter now executes the original 100b5355 output engine through
+the existing TypeScript instruction interpreter. Its captured classification,
+transition and dispatch tables drive the scanner; the original LocaleUpdate,
+lead-byte predicate and byte writer are included in the source package. The
+locale helper's PTD request uses the existing source-backed warm PTD implementation.
+Both initial/global locale aliases and the contained character-type table remain
+actual owned views; numerical resource pointers are not manufactured.
+
+The scanner writes the 24-byte translation query into the actual 256-byte output
+image. The original sprintf continuation appends its terminator and returns its
+character count, restoring its saved registers. The output engine checks its
+cookie and restores its saved registers and FS state; locale flags are restored.
+Both outer and nested version buffers remain unchanged. The caller then builds
+and retains its original VerQueryValueA frame at 1004c330 -> 100d55d6.
+
+The source package now includes 14 bodies and 1,399 body instructions. Independent
+regeneration matches the source package and emitted instruction table exactly.
+Changed scanner bytes and damaged stream counts are rejected before query output
+writes. The three new focused checks, typechecking and production build pass.
+The full suite passes 2,935 tests across 275 files (196.79 seconds) for this
+combined language checkpoint. Publication is pending. The translation API return, translated hexadecimal query, FileVersion
+query, parsing, frees and logging still require integration, followed by complete
+DLL startup, world activation and campaign playthrough evidence.

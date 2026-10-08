@@ -1335,3 +1335,23 @@ it('rejects a released nested slot before entering the formatted-output helper',
  const {owner}=languageFormatFixture(),inner=owner.snapshot().caseState!.stack!.snapshot().sharedDllLanguageFrame!.buffer!,slot=owner.snapshot().poolSlots.find(row=>row.fields===inner.fields)!;slot.region.writeUnsigned(0x6f910,(slot.region.readUnsigned(0x6f910)|2)>>>0);
  expect(owner.processDllLanguageFormatPrefix()).toEqual({known:false,reason:'Live original bitmap slot claim required'});expect(owner.snapshot().caseState!.stack!.snapshot().sharedDllFormatFrame).toBeNull();expect(owner.snapshot().dllLanguageFormatImages!.output.bytes).toEqual(new Uint8Array(256));
 });
+
+
+it('executes the original output scanner and byte writer to produce the translation query',()=>{
+ const {owner}=languageFormatFixture();owner.processDllLanguageFormatPrefix();const ptdFlags=owner.snapshot().ptd!.readUnsigned(0x70),before=owner.snapshot().caseState!.stack!.snapshot(),outer=before.sharedDllResourceFrame!.buffer!.fields.bytes.slice(),inner=before.sharedDllLanguageFrame!.buffer!.fields.bytes.slice();
+ const result=owner.processDllLanguageOutput();expect(result).toEqual({known:false,reason:'Original SharedBase translation resource query pending at 100d55d6'});
+ const state=owner.snapshot(),stack=state.caseState!.stack!.snapshot(),frame=stack.sharedDllFormatFrame!;
+ expect(Buffer.from(frame.output.bytes.slice(0,25)).toString('ascii')).toBe('\\VarFileInfo\\Translation\0');expect(frame.output.bytes.slice(25)).toEqual(new Uint8Array(231));expect(frame.stream.readUnsigned(4)).toBe(0x7fffffff-25);
+ expect(stack.calls.find(call=>call.site==='100aa287')!.returned).toBe(true);expect(stack.calls.find(call=>call.site==='1004c318')!.returned).toBe(true);expect(stack.calls.at(-1)!.site).toBe('1004c330');expect(stack.calls.at(-1)!.returned).toBe(false);
+ expect(state.ptd!.readUnsigned(0x70)).toBe(ptdFlags);expect(stack.trace).toContain('100b5289.sharedInitializer.TEST');expect(stack.trace).toContain('100b54f7.sharedInitializer.JMP');expect(stack.sharedDllResourceFrame!.buffer!.fields.bytes).toEqual(outer);expect(stack.sharedDllLanguageFrame!.buffer!.fields.bytes).toEqual(inner);
+ const calls=stack.calls.length;expect(owner.processDllLanguageOutput()).toEqual(result);expect(owner.snapshot().caseState!.stack!.snapshot().calls).toHaveLength(calls);expect(state.memoryHeapSectionHeld).toBe(false);
+});
+
+
+it('rejects changed format scanner bytes before the output engine writes the query',()=>{
+ const {owner}=languageFormatFixture();owner.processDllLanguageFormatPrefix();const image=dllEntrySource.coldImages.find(i=>i.label==='formatStateTables')!,saved=image.bytes;
+ try{image.bytes='00'.repeat(image.size);expect(owner.processDllLanguageOutput()).toEqual({known:false,reason:'Original output scanner image required'});expect(owner.snapshot().dllLanguageFormatImages!.output.bytes).toEqual(new Uint8Array(256));expect(owner.snapshot().caseState!.stack!.snapshot().calls.at(-1)!.site).toBe('100aa287');}finally{image.bytes=saved;}
+});
+it('rejects a damaged stream count before emitting any query bytes',()=>{
+ const {owner}=languageFormatFixture();owner.processDllLanguageFormatPrefix();owner.snapshot().caseState!.stack!.snapshot().sharedDllFormatFrame!.stream.writeUnsigned(4,0);const result=owner.processDllLanguageOutput();expect(result.known).toBe(false);if(!result.known)expect(result.reason).toMatch(/expression slot|stream arguments/);expect(owner.snapshot().dllLanguageFormatImages!.output.bytes).toEqual(new Uint8Array(256));
+});
