@@ -141,9 +141,21 @@
       "entryChain": [],
       "assemblySha256": "582484f0d4116cc965976ce1fabf86f649f6ee7c38de2d88a3735b4161c663e5",
       "cSha256": "0bc40d3fb9007341fdb5c7deca977f37f1ee1f2c72cd5c5fd65b885308e2c0e9"
+    },
+    "statusInitializer": {
+      "entryVA": "0x204b1dd0",
+      "bodyVA": "0x204b1dd0",
+      "bodyRanges": "204b1dd0-204b1e4c",
+      "instructionCount": 25,
+      "bodyByteCount": 125,
+      "bodyInstructionBytesSha256": "bace2c837c299786cffd84f4888c6f3d9adbb34e0afabf16b6293f83dc667c1c",
+      "entryChain": [],
+      "assemblySha256": "99afecf4fb98e4b99c34ce6fa99fb8d7401957cf8c3a27bb381ee55486bc2a6a",
+      "cSha256": "a376dcb2bf7865cd37ba9d8ae246cebcdbe9ebd372e6c70adb708ee4af04044d"
     }
   },
   "vtableAddress": "20659aec",
+  "vtableRaw": "5b63012052ed0220252f02205c18002023af0120f76b0220",
   "slots": {
     "00": "2001635b",
     "04": "2002ed52",

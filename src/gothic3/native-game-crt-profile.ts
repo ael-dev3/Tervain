@@ -39,7 +39,7 @@ const baseRules = JSON.parse(rulesText) as NativeCrtSourceRules;
 const rules: NativeCrtSourceRules = { ...baseRules,
   methods: { ...baseRules.methods, ...gameArenaSourceRules.methods, ...gameArenaTypeSourceRules.methods, ...gameArenaStatusSourceRules.methods },
   coldGlobals: { ...baseRules.coldGlobals, ...gameArenaSourceRules.coldGlobals, ...gameArenaTypeSourceRules.coldGlobals, ...gameArenaStatusSourceRules.coldGlobals },
-  constBytes: { ...baseRules.constBytes, ...gameArenaSourceRules.constBytes, ...gameTemplateConstants },
+  constBytes: { ...baseRules.constBytes, ...gameArenaSourceRules.constBytes, ...gameTemplateConstants, ...gameArenaStatusSourceRules.constBytes },
 };
 function freeze(value: unknown): void {
   if (value !== null && typeof value === 'object' && !Object.isFrozen(value)) {

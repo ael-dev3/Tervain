@@ -15,7 +15,7 @@ def capture(study, output):
     slots = {offset: struct.unpack('<I', pe.bytes(0x20659aec + offset, 4))[0]
              for offset in range(0, 24, 4)}
     targets = {address: f'statusVirtualSlot{offset:02x}' for offset, address in slots.items()}
-    targets.update({0x2002ad8d: 'createStatus', 0x20070e90: 'resetStatusStorage'})
+    targets.update({0x2002ad8d: 'createStatus', 0x20070e90: 'resetStatusStorage', 0x204b1dd0: 'statusInitializer'})
     audit = native.audit_module(study, 'Game_dll', 'Game.dll', targets)
     output.mkdir(parents=True, exist_ok=True)
     methods = {}
@@ -47,7 +47,7 @@ def capture(study, output):
     cleanup = pe.bytes(0x20549920, 11)
     assert cleanup == bytes.fromhex('b9584f7b20ff2534887d20')
     result = dict(schema='gothic3-arena-status-descriptor-v1', gameSha256=GAME_SHA,
-                  methods=methods, vtableAddress='20659aec',
+                  methods=methods, vtableAddress='20659aec', vtableRaw=pe.bytes(0x20659aec,24).hex(),
                   slots={f'{offset:02x}': f'{address:08x}' for offset, address in slots.items()},
                   coldDescriptor=dict(address='207b5038', raw=cold.hex(), section=section),
                   nameLiteral=dict(address='20657534', raw='53746174757300'),
