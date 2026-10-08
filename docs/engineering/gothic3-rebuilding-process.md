@@ -10379,3 +10379,23 @@ pass. The full suite passes 2,917 tests across 275 files (189.56 seconds).
 Publication is pending. Resource filling,
 language queries, version parsing and cleanup remain to be connected, followed
 by complete DLL startup, world activation and campaign progression.
+
+## Original version-info import fills the claimed pool slot (local work, 2026-10-08)
+
+The retained allocation now follows the original argument setup and
+GetFileVersionInfoA thunk. The selected recorded ANSI service writes exactly
+1,740 bytes into the actual claimed 1,792-byte pool slot. Interpreter byte
+stores synchronize those writes with retained word state; the unused tail
+remains unchanged. The original sixteen-byte argument cleanup and success
+branch reach the pending language-query CALL at 10002d42.
+
+Resource accesses to an owned pool region also require the allocator's actual
+retained slot view and live bitmap claim. Released slots and reconstructed
+alias views are rejected before the API changes resource bytes. Repeated
+continuation requests retain the pending language call without replaying it.
+
+All 309 focused startup/evidence checks, typechecking and the production build
+pass. Full-suite validation and publication are pending. The next work is the
+language helper's nested buffer, translation and FileVersion queries, followed
+by parsing, frees and logging. Complete DLL startup, world activation and
+campaign completion remain unfinished.

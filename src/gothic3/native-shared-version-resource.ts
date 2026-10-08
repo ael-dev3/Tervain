@@ -1,6 +1,7 @@
 /** Explicit recorded Windows VERSION.dll selection for the original SharedBase file.
  * Import call-frame integration remains pending. No host API is called here. */
 import observation from '../../assets/gothic3/shared-dll-entry-source/windows-version-api-observation.json';
+import {NativeSharedCrtOwner} from './native-shared-crt';
 import {NativeRuntimePlatform} from './native-runtime-platform';
 import {NativeHeapObjectViews} from './native-heap-views';
 import type {NativeBytePointer} from './native-pointer-geometry';
@@ -22,7 +23,7 @@ export class NativeSharedVersionResource {
  }
  #access(pointer:NativeBytePointer,bytes:number):void{
   if(owners.get(this.platform)!==this)throw new Error('Actual version resource owner required');
-  const access=NativeRuntimePlatform.canonicalNativePointerAccessForPlatform(this.platform,pointer,0,bytes);if(!access.known)throw new Error(access.reason);
+  const access=NativeRuntimePlatform.canonicalNativePointerAccessForPlatform(this.platform,pointer,0,bytes);if(!access.known)throw new Error(access.reason);const slot=NativeSharedCrtOwner.versionResourcePoolSpanForPlatform(this.platform,pointer,bytes);if(!slot.known)throw new Error(slot.reason);
  }
  #failure(error:unknown):NativeValue<never>{return {known:false,reason:error instanceof Error?error.message:String(error)};}
  sizeOutcome(filename:string):NativeValue<Readonly<{size:number;handle:number}>>{
