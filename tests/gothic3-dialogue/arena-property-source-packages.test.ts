@@ -110,3 +110,17 @@ it('pins the original SharedBase TLS fallback allocator instructions',()=>{
  expect(source.tlsFallbackAllocator.raw).toBe('ff15bc972f10c20400');
  expect(sha(Buffer.from(source.tlsFallbackAllocator.raw,'hex'))).toBe(source.tlsFallbackAllocator.sha256);
 });
+
+it('preserves the original critical-section SEH filter, handler and scope table',()=>{
+ const source=JSON.parse(readFileSync('assets/gothic3/shared-crt-bootstrap/source.json','utf8'));
+ const receipt=source.sectionException;
+ expect(receipt.filter.address).toBe('100bbfad');
+ expect(receipt.filter.raw).toBe('8b45ec8b008b008945dc33c93d170000c00f94c18bc1c3');
+ expect(receipt.handler.address).toBe('100bbfc4');
+ expect(receipt.handler.raw).toBe('8b65e8817ddc170000c075086a08ff157c972f108365e000');
+ const table=Buffer.from(receipt.scopeTable.raw,'hex');
+ expect(table.readInt32LE(0)).toBe(-2);expect(table.readInt32LE(8)).toBe(-52);
+ expect(table.readInt32LE(16)).toBe(-2);expect(table.readUInt32LE(20)).toBe(0x100bbfad);
+ expect(table.readUInt32LE(24)).toBe(0x100bbfc4);
+ for(const item of Object.values(receipt) as {raw:string;sha256:string}[])expect(sha(Buffer.from(item.raw,'hex'))).toBe(item.sha256);
+});

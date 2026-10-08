@@ -39,6 +39,14 @@ def capture(study, output):
     pe = native.PE((study / '00_Original_Runtime/SharedBase.dll').read_bytes())
     fallback = pe.bytes(0x100ae360,9)
     assert fallback.hex() == 'ff15bc972f10c20400'
+    section_filter = pe.bytes(0x100bbfad,23)
+    section_handler = pe.bytes(0x100bbfc4,24)
+    section_scope = pe.bytes(0x100f8d18,28)
+    assert section_filter.hex() == '8b45ec8b008b008945dc33c93d170000c00f94c18bc1c3'
+    assert section_handler.hex() == '8b65e8817ddc170000c075086a08ff157c972f108365e000'
+    assert section_scope.hex() == 'feffffff00000000ccffffff00000000feffffffadbf0b10c4bf0b10'
+    section_exception = {label:{'address':f'{address:08x}', 'raw':raw.hex(), 'sha256':hashlib.sha256(raw).hexdigest()}
+                         for label,address,raw in [('filter',0x100bbfad,section_filter),('handler',0x100bbfc4,section_handler),('scopeTable',0x100f8d18,section_scope)]}
     cold = {}
     for label,address,size in [('securityCookie',0x10140d6c,4), ('securityCookieComplement',0x10140d70,4), ('tlsGetterIndex',0x10140b48,4),
                                ('threadDataIndex',0x10140b44,4), ('procedureSlots',0x102f64a4,16),
@@ -56,6 +64,7 @@ def capture(study, output):
                        'scope':'cold-original-image', 'liveValueCaptured':False}
     (output / 'source.json').write_bytes((json.dumps({'schema': 'gothic3-shared-crt-bootstrap-v1',
         'sharedBaseSha256': INPUT_SHA, 'methods': methods, 'coldGlobals':cold,
+        'sectionException':section_exception,
         'tlsFallbackAllocator': {'address':'100ae360', 'raw':fallback.hex(), 'sha256':hashlib.sha256(fallback).hexdigest()},
         'sourceOnly': True, 'wholeCrtTraversalCompleted': False}, indent=2) + '\n').encode())
 

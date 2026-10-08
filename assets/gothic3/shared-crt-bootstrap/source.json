@@ -693,6 +693,23 @@
       "liveValueCaptured": false
     }
   },
+  "sectionException": {
+    "filter": {
+      "address": "100bbfad",
+      "raw": "8b45ec8b008b008945dc33c93d170000c00f94c18bc1c3",
+      "sha256": "aefc33fcb2b8ed0e3ae7c21dd80fd55872b836b2fb2e192c4241113ce71a300e"
+    },
+    "handler": {
+      "address": "100bbfc4",
+      "raw": "8b65e8817ddc170000c075086a08ff157c972f108365e000",
+      "sha256": "2f4921cd204f4ea29a57546cf28047d5c4b01b6f34dc5f173a8c7ace82b15e1f"
+    },
+    "scopeTable": {
+      "address": "100f8d18",
+      "raw": "feffffff00000000ccffffff00000000feffffffadbf0b10c4bf0b10",
+      "sha256": "d079cc612ce3e759ed0b41ff49874c9c38426b477eaf12909187689a7a2900a6"
+    }
+  },
   "tlsFallbackAllocator": {
     "address": "100ae360",
     "raw": "ff15bc972f10c20400",
