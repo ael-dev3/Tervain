@@ -2,6 +2,17 @@
   "schema": "gothic3-shared-crt-bootstrap-v1",
   "sharedBaseSha256": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214",
   "methods": {
+    "rtcInitialize": {
+      "entryVA": "0x100bb8c3",
+      "bodyVA": "0x100bb8c3",
+      "bodyRanges": "100bb8c3-100bb8e6",
+      "instructionCount": 17,
+      "bodyByteCount": 36,
+      "bodyInstructionBytesSha256": "2e030b3c988c98e3f4a29768aae959e9c83cef2d3de4c5c2e4307712741ae0cb",
+      "entryChain": [],
+      "assemblySha256": "5a910427939c0ad82584c93492483b0941e5e7b941533d9eb3477c30e6d12c77",
+      "cSha256": "d0c83d56b72aad1008d214dff57bf5e55774a060c6358de8ad4e690d0fea20a5"
+    },
     "unlock": {
       "entryVA": "0x100bb7a2",
       "bodyVA": "0x100bb7a2",
@@ -433,6 +444,22 @@
     }
   },
   "coldGlobals": {
+    "rtcInitializers": {
+      "address": "100f7cec",
+      "bytes": 256,
+      "raw": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "knownMask": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "section": {
+        "virtualAddress": 937984,
+        "virtualSize": 366840,
+        "rawSize": 368640,
+        "rawOffset": 937984,
+        "fileBackedBytes": 256,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
     "exceptionActionsAnchor": {
       "address": "10140b50",
       "bytes": 4,

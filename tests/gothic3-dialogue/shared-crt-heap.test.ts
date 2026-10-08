@@ -182,7 +182,7 @@ it('installs and initializes the actual 532-byte PTD before requiring a thread I
 it('returns original mtinit after actual thread ID and increments independent locale references',()=>{
  const platform=new NativeRuntimePlatform({engineCrtServices:{tlsValues:new Map(),kernel32Available:true,pointerCodec:'owned-bijection',fiberLocalStorage:true,processHeap:true,osVersion:{platform:2,major:6,minor:1,build:42},entropy:{currentThreadId:()=>({known:true,value:77})}}});
  const owner=NativeSharedCrtOwner.forPlatform(platform);const result=owner.processAttach();expect(result.known).toBe(false);
- const state=owner.snapshot();expect(state.mtReturned).toBe(1);expect(state.ptdInitialized).toBe(true);
+ const state=owner.snapshot();expect(state.rtcReturned).toBe(true);expect(state.trace.filter(label=>label.startsWith('rtc.skipNull')).length).toBe(64);expect(state.mtReturned).toBe(1);expect(state.ptdInitialized).toBe(true);
  expect(state.ptd!.readUnsigned(0)).toBe(77);expect(state.ptd!.readUnsigned(4)).toBe(0xffffffff);
  expect(owner.imageStorage('multibyteRefcount').readUnsigned(0)).toBe(1);
  expect(owner.imageStorage('initialLocale').readUnsigned(0)).toBe(2);
