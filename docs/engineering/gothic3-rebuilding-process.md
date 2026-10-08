@@ -4,6 +4,32 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local checkpoint — 9 October 2026: SpyAdmin construction and shutdown registration
+
+Original `1004b4af -> 100089e5` now removes and registers SpyAdmin's handler
+through the existing MessageAdmin getter, Remove, Register and Reserve bodies.
+The existing 112-byte record allocation is retained: count becomes 2 and capacity
+remains 9. ErrorAdmin's record stays intact; the second record stores handler
+`10008c06`, the actual SpyAdmin context and priority 1.
+
+Original `1004b83d` calls FindWindowA with NULL class and `[zSpy]`. The platform
+retains a copied diagnostic-window profile at construction and validates its
+service and window identities. The declared empty profile returns NULL, so the
+original constructor restores its saved registers and returns. A supplied window
+retains its opaque identity and follows the original positive branch, stopping
+at unsupported RegisterWindowMessageA (`1004b855`); it never takes the NULL path.
+This profile is separate from observations of native Windows host windows.
+
+Original `1004b4b9 -> 100a72d0` registers the encoded shutdown address `100e2890`.
+Its 41 original bytes are captured; registration does not execute shutdown.
+The SpyAdmin getter returns, and startup reaches the SpieAdmin getter at
+`1004979e -> 10001334`.
+
+Typechecking, focused NULL/positive profile checks, exact DLL regeneration and
+the production build pass. All 2,972 tests across 275 files pass (223.04 seconds).
+The DLL package contains 45 methods and 2,856 body instructions. Complete DLL
+attachment, world activation and campaign integration remain unfinished.
+
 ## Local checkpoint — 9 October 2026: SpyAdmin cold getter
 
 Original `10049799 -> 10008b11 -> 1004b480` now executes the SpyAdmin cold
