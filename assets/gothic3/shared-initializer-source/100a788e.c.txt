@@ -1,0 +1,22 @@
+/* ENTRY 100a788e | __cfltcvt_init | STATUS decompiled | 7 ms */
+
+/* Library Function - Single Match
+    __cfltcvt_init
+   
+   Library: Visual Studio 2005 Release */
+
+void __cfltcvt_init(void)
+
+{
+  PTR_LAB_10141480 = __cfltcvt;
+  PTR_LAB_10141484 = &LAB_100b3a8b;
+  PTR_LAB_10141488 = &LAB_100b3a49;
+  PTR_LAB_1014148c = &LAB_100b3a7d;
+  PTR_LAB_10141490 = &LAB_100b39f3;
+  PTR_LAB_10141494 = __cfltcvt;
+  PTR_LAB_10141498 = __cfltcvt_l;
+  PTR_LAB_1014149c = __fassign_l;
+  PTR_LAB_101414a0 = __cropzeros_l;
+  PTR_LAB_101414a4 = __forcdecpt_l;
+  return;
+}

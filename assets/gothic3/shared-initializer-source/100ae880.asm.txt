@@ -1,0 +1,14 @@
+100ae880 | 8b4c2404 | MOV ECX,dword ptr [ESP + 0x4]
+100ae884 | 6681394d5a | CMP word ptr [ECX],0x5a4d
+100ae889 | 7403 | JZ 0x100ae88e
+100ae88b | 33c0 | XOR EAX,EAX
+100ae88d | c3 | RET
+100ae88e | 8b413c | MOV EAX,dword ptr [ECX + 0x3c]
+100ae891 | 03c1 | ADD EAX,ECX
+100ae893 | 813850450000 | CMP dword ptr [EAX],0x4550
+100ae899 | 75f0 | JNZ 0x100ae88b
+100ae89b | 33c9 | XOR ECX,ECX
+100ae89d | 668178180b01 | CMP word ptr [EAX + 0x18],0x10b
+100ae8a3 | 0f94c1 | SETZ CL
+100ae8a6 | 8bc1 | MOV EAX,ECX
+100ae8a8 | c3 | RET

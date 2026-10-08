@@ -47,6 +47,34 @@ requires an integrated gameplay result.
 
 ## Latest process summary — 8 October 2026
 
+### SharedBase initializer tables and recovered callback evidence
+
+The [initializer source package](../../assets/gothic3/shared-initializer-source/README.md)
+captures the next boundary `100adb5a -> 100aa632`: 39 function bodies,
+662 instructions and 1,927 instruction bytes, verified against the original
+SharedBase DLL. Its 135-slot error table contains five callbacks; the 214-slot
+void table contains seventeen. Their slot indices, NULL gaps and order are
+retained. The floating-point hook is non-NULL and lies in nonwritable `.rdata`;
+the dynamic TLS hook is zero in the cold loader-filled image.
+
+The package includes floating-point conversion installation/encoding, processor
+feature queries, image ownership checks, exit registration and RTC termination
+evidence, with relevant cold globals and 69 CALL sites. Four void callbacks
+missing from the original study were recovered directly from original PE bytes
+using Capstone 5.0.7. Their reachable direct branches are complete; no inferred
+C prototype or successful runtime execution is claimed. Five additional bodies
+have original ASM but no standalone reconstructed C export.
+
+Repeated preparation reproduces all 70 generated files exactly. Five focused
+source checks, typechecking and the production build pass. The full local suite
+passes 2,636 tests across 259 files. Runtime execution still stops before
+`100aa632`; callback capture does not advance live Game startup at `204678f2`,
+activate NPCs or establish a finishable campaign.
+
+PR 109 passed CI run 37745615022 and merged at
+`4aa6de44dcdcc0e993e58f2c20ea27f10bbe104e`. Its Pages run 37746463396 is
+running; the previous PR 108 deployment completed successfully.
+
 ### SharedBase environment vector and initializer boundary
 
 The latest local continuation executes the original setenvp routine `100c092a`

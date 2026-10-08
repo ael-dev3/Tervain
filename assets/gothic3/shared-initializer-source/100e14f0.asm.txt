@@ -1,0 +1,4 @@
+100e14f0 | 68002a0e10 | PUSH 0x100e2a00
+100e14f5 | e8d65dfcff | CALL 0x100a72d0
+100e14fa | 59 | POP ECX
+100e14fb | c3 | RET

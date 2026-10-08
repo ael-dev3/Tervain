@@ -1,0 +1,9 @@
+/* ENTRY 100e15d0 | FUN_100e15d0 | STATUS decompiled | 3 ms */
+
+void FUN_100e15d0(void)
+
+{
+  bCString::bCString((bCString *)&g_strRootPropertyObject_Postfix,"_Root");
+  _atexit(FUN_100e2f20);
+  return;
+}

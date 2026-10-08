@@ -1,0 +1,4 @@
+100ce0f5 | e89bffffff | CALL 0x100ce095
+100ce0fa | a34c852f10 | MOV [0x102f854c],EAX
+100ce0ff | 33c0 | XOR EAX,EAX
+100ce101 | c3 | RET

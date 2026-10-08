@@ -1,0 +1,8 @@
+/* ENTRY 100e1680 | FUN_100e1680 | STATUS decompiled | 2 ms */
+
+void FUN_100e1680(void)
+
+{
+  _atexit(CSymbolEngine::~CSymbolEngine);
+  return;
+}

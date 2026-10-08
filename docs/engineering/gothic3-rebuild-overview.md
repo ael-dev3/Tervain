@@ -58,15 +58,20 @@ establish campaign completion.
 
 ## Current status — 8 October 2026
 
-The latest confirmed deployment recorded here is [PR 107](https://github.com/ael-dev3/Tervain/pull/107),
-merged at `dd145fd8025cac46308ff48fd3d7a6b00c7bc77d` and deployed by
-[Pages run 37742375940](https://github.com/ael-dev3/Tervain/actions/runs/37742375940).
-PR 108 subsequently passed CI run 37742924477 and merged at
-`5cc1143c4d83e8f2807171c58930d71044b74845`; Pages run 37744468447 is pending confirmation.
+The latest confirmed deployment recorded here is [PR 108](https://github.com/ael-dev3/Tervain/pull/108),
+merged at `5cc1143c4d83e8f2807171c58930d71044b74845` and deployed by
+[Pages run 37744468447](https://github.com/ael-dev3/Tervain/actions/runs/37744468447).
+PR 109 subsequently passed CI run 37745615022 and merged at
+`4aa6de44dcdcc0e993e58f2c20ea27f10bbe104e`; Pages run 37746463396 is running.
 The newest local environment checkpoint passes 93 focused tests and
 2,631 tests across 258 files, plus typechecking and the production build.
 It includes original SharedBase pointer/lock setup, PTD allocation and selected
 default-locale initialization, environment setup and standard I/O descriptors.
+The next [SharedBase initializer source package](../../assets/gothic3/shared-initializer-source/README.md)
+captures all five error-returning and seventeen void callbacks, the non-NULL
+floating-point hook and its selected dependencies. Four callbacks absent from
+the original study are recovered from original DLL bytes. This is source
+evidence for the next implementation step; these callbacks have not executed.
 The earlier PR 84 served-artifact comparison remains evidence for that prior
 revision; no new served-byte comparison is claimed for PR 96.
 
