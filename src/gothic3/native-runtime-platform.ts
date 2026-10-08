@@ -1305,6 +1305,22 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
       alignment: 'virtual-page', bytes: result.value.bytes, masks: result.value.knownMask, capacity: result.value.bytes.length });
     return result;
   }
+  static virtualAllocForSharedInitializer(platform:NativeRuntimePlatform,size:number):NativeValue<NativeMemoryRegion|null> {
+    const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)return active;
+    if(size!==0x102000)return unknown('Original 16-byte pool virtual reservation size required');
+    const previous=new Set(Array.from(platform.#backing.values(),entry=>entry.backing));
+    const result=platform.virtualAlloc(size,0x103000,4);if(!result.known||!result.value)return result;
+    const proof=NativeRuntimePlatform.canonicalVirtualRegionForPlatform(platform,result.value,size);if(!proof.known)return proof;
+    return previous.has(result.value)?unknown('Fresh region from the current pool VirtualAlloc invocation required'):result;
+  }
+  static canonicalVirtualRegionForPlatform(platform:NativeRuntimePlatform,region:NativeMemoryRegion,size:number):NativeValue<void> {
+    const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)return active;
+    const entry=region?platform.#backing.get(region.identity):undefined,geometry=entry?.nativeGeometry;
+    return entry?.backing===region&&entry.kind==='virtual'&&!platform.#releasedBackings.has(region)&&!region.freed&&
+      geometry?.alignment==='virtual-page'&&geometry.bytes===region.bytes&&geometry.masks===region.knownMask&&
+      geometry.capacity===size&&region.bytes.length===size&&region.knownMask.length===size
+      ?known(undefined):unknown('Actual live same-platform VirtualAlloc region required');
+  }
   crtNew(bytes: number): NativeValue<NativeMemoryBacking | null> { return this.#allocate(bytes, 'crt-new'); }
   crtMalloc(bytes: number): NativeValue<NativeMemoryBacking | null> { return this.#allocate(bytes, 'crt-malloc'); }
   crtFree(backing: NativeMemoryBacking): NativeValue<void> {

@@ -198,3 +198,27 @@ initializer instruction interpreter. The runtime still stops at
 `1003d474 -> 10001028` with Malloc's lock and exception frame active. Executing
 the dispatcher, owning the VirtualAlloc region, initializing its metadata and
 returning a real slot remain the next implementation work.
+
+
+## Live lower dispatch and pool reservation — 8 October 2026
+
+The lower heap and 16-byte pool dispatcher bodies and their original thunks are
+now admitted to the live initializer. The owned dispatch table retains all
+4,097 original callbacks; the executed path reads its live size-13 slot. Pool
+count/peak/list share the original contiguous twelve-byte storage.
+
+The original VirtualAlloc CALL at `10047f74` validates NULL address, 0x102000
+bytes, flags 0x103000 and protection 4, invokes the selected platform and proves
+that its returned region belongs to that platform's private virtual-allocation
+registry and geometry and was newly allocated during this invocation. Returning
+an earlier same-platform region is rejected. The same backing becomes the retained SharedBase local
+view. Successful stdcall cleanup consumes sixteen argument bytes; EAX and ECX
+carry the actual region into pending `10047f7c -> 100061cc`.
+
+NULL return follows the source pops and indirect jump through `102fb094` to the
+unimplemented next pool. An unknown endpoint, foreign import or foreign, freed,
+CRT-owned or replaced backing retains the applied prefix and pending operation.
+Normal reservation leaves the heap lock and Malloc exception frame entered.
+Pool block initialization, descriptor registration, bitmap slot selection and
+allocation return are still unfinished. Their captured bodies remain source
+only; reservation alone does not complete CString construction or startup.

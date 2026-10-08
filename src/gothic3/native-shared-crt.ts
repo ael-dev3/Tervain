@@ -29,6 +29,8 @@ export interface NativeSharedInitializerImports {
  getPtd(procedure:object,index:number):NativeHeapObjectViews|null;
  getCodec(record:NativeHeapObjectViews,direction?:'EncodePointer'|'DecodePointer'):object|null;
  decodePointer(procedure:object,encoded:object):Readonly<{fields:NativeHeapObjectViews;offset:number}>|number;
+ readonly poolVirtualAllocProcedure:object;
+ poolVirtualAlloc(address:number,size:number,type:number,protect:number):NativeHeapObjectViews|null;
  readonly memorySectionInitializeProcedure:object;
  readonly memorySectionEnterProcedure:object;
  readonly memorySectionLeaveProcedure:object;
@@ -190,6 +192,7 @@ export class NativeSharedCrtOwner {
  readonly #initializerAllocationPointers=new Map<NativeHeapObjectViews,Map<number,object>>();
  #exitLockHeld=false;
  #memoryHeapSectionHeld=false;
+ readonly #poolRegions=new Set<NativeHeapObjectViews>();
  readonly #initializerAllocations=new Set<NativeHeapObjectViews>();
  #environmentStrings:NativeHeapObjectViews[]=[];
  #setEnvpReturned:number|null=null;
@@ -223,8 +226,9 @@ export class NativeSharedCrtOwner {
   for(const [address,raw] of [['10000000',sharedInitializerHeader.raw],['100ed568','fe780a10'],['10141480','9fdf0c10'.repeat(10)],['102f6424','00000000']]){
    const fields=this.#retainLocal(raw!.length/2);for(let offset=0;offset<fields.bytes.length;offset++)fields.writeUnsigned(offset,parseInt(raw!.slice(offset*2,offset*2+2),16),1);initializerImages[address!]=fields;
   }
+  const poolVirtualAllocProcedure=Object.freeze({owner:this.identity,name:'VirtualAlloc'});
   const getModuleHandleA=Object.freeze({owner:this.identity,name:'GetModuleHandleA'}),getProcAddress=Object.freeze({owner:this.identity,name:'GetProcAddress'}),tlsGetValue=Object.freeze({owner:this.identity,name:'TlsGetValue'}),heapSizeProcedure=Object.freeze({owner:this.identity,name:'HeapSize'}),initializeSectionProcedure=Object.freeze({owner:this.identity,name:'InitializeCriticalSection'}),memorySectionInitializeProcedure=Object.freeze({owner:this.identity,name:'MemoryHeap.InitializeCriticalSectionAndSpinCount'}),memorySectionEnterProcedure=Object.freeze({owner:this.identity,name:'MemoryHeap.EnterCriticalSection'}),memorySectionLeaveProcedure=Object.freeze({owner:this.identity,name:'MemoryHeap.LeaveCriticalSection'});
-  this.#initializerImports=Object.freeze({getModuleHandleA,getProcAddress,tlsGetValue,heapSizeProcedure,initializeSectionProcedure,memorySectionInitializeProcedure,memorySectionEnterProcedure,memorySectionLeaveProcedure,
+  this.#initializerImports=Object.freeze({poolVirtualAllocProcedure,getModuleHandleA,getProcAddress,tlsGetValue,heapSizeProcedure,initializeSectionProcedure,memorySectionInitializeProcedure,memorySectionEnterProcedure,memorySectionLeaveProcedure,
    memorySectionInitialize:(fields:NativeHeapObjectViews,offset:number,spin:number):number=>{if(!this.#active||!this.#initializerActive||fields!==this.#initializerImages['10189a18']||offset!==0||spin!==1000)throw new Error('Actual original MemoryAdmin heap section arguments required');this.#requireLocal(fields);return this.#call('1003d449.InitializeCriticalSectionAndSpinCount',()=>this.platform.initializePhysicalMemoryHeapCriticalSection(fields,this.identity,1000))?1:0;},
    memorySectionLock:(fields:NativeHeapObjectViews,offset:number,enter:boolean):void=>{if(!this.#active||!this.#initializerActive||fields!==this.#initializerImages['10189a18']||offset!==0||enter===this.#memoryHeapSectionHeld)throw new Error('Actual original MemoryAdmin heap section transition required');this.#requireLocal(fields);this.#call(enter?'1003d463.EnterCriticalSection':'1003d48a.LeaveCriticalSection',()=>enter?this.platform.enterPhysicalCriticalSection(fields,this.identity):this.platform.leavePhysicalCriticalSection(fields,this.identity));this.#memoryHeapSectionHeld=enter;},
    initializeSection:(fields:NativeHeapObjectViews,offset:number):void=>{if(!this.#active||!this.#initializerActive||fields!==this.#initializerImages['10197da0']||offset!==0)throw new Error('Actual original static critical-section storage required');this.#requireLocal(fields);this.#call('100e1455.InitializeCriticalSection',()=>this.platform.initializePhysicalCriticalSectionWithoutSpin(fields,this.identity));},
@@ -255,6 +259,12 @@ export class NativeSharedCrtOwner {
     const decoded=this.#call('100ae354.DecodePointer',()=>proof.value.invoke(encoded));if(decoded!==record.original)throw new Error('Actual initializer pointer decode identity required');
     if('address' in record)return record.address;
     const span=NativeRuntimePlatform.canonicalOwnedWin32HeapAllocationSpan(this.platform,this.#heap!,this.identity,{fields:record.fields,offset:record.offset},0);if(!span.known)throw new Error(span.reason);return Object.freeze({fields:record.fields,offset:record.offset});
+   },
+   poolVirtualAlloc:(address:number,size:number,type:number,protect:number):NativeHeapObjectViews|null=>{
+    if(!this.#active||!this.#initializerActive||address!==0||size!==0x102000||type!==0x103000||protect!==4)throw new Error('Original 16-byte pool VirtualAlloc arguments required');
+    const region=this.#call('10047f74.VirtualAlloc',()=>NativeRuntimePlatform.virtualAllocForSharedInitializer(this.platform,size));if(!region)return null;
+    const proof=NativeRuntimePlatform.canonicalVirtualRegionForPlatform(this.platform,region,size);if(!proof.known)throw new Error(proof.reason);
+    const fields=new NativeHeapObjectViews(region,0,size);this.#locals.set(fields,{backing:region,bytes:fields.bytes,masks:fields.knownMask,backingBytes:region.bytes,backingMasks:region.knownMask,view:fields.view});this.#poolRegions.add(fields);return fields;
    },
    heapSize:(heap:object,flags:number,fields:NativeHeapObjectViews,offset:number):number=>{
     if(heap!==this.#heap||flags!==0||offset!==0||!this.#initializerAllocations.has(fields))throw new Error('Actual original initializer HeapSize arguments required');
@@ -329,6 +339,29 @@ export class NativeSharedCrtOwner {
   for(const [label,entry,body,raw] of [['memoryGetInstance','10002aae','10020bf0','e93de10100'],['rootTextConstructor','10003ba7','100135f0','e944fa0000'],['rootTextAlloc','10007d65','10013240','e9d6b40000']] as const){const chain=initializerSource.methods[label].entryChain;if(chain.length!==1||chain[0]!.va!==entry||chain[0]!.targetVA!==body||chain[0]!.bytes!==raw)throw new Error('Original Root text entry thunk required');}
   const memoryState=initializerSource.coldGlobals.memoryAdminState;if(memoryState.address!=='10142798'||memoryState.bytes!==16||memoryState.raw!=='00'.repeat(16))throw new Error('Original MemoryAdmin static state required');const memoryFields=this.#retainLocal(16);for(let offset=0;offset<16;offset++)memoryFields.writeUnsigned(offset,0,1);initializerImages['10142798']=memoryFields;
   for(const [label,address,raw,procedure] of [['memoryMallocScope','100f8318','ffffffffa5d40310afd40310',null],['memoryHeapSection','10189a18','00'.repeat(24),null],['memoryHeapSectionInitialized','102fb000','00',null],['memoryHeapSectionInitializeImport','102f966c','7e9d2f00',memorySectionInitializeProcedure],['memoryHeapSectionEnterImport','102f9604','a09b2f00',memorySectionEnterProcedure],['memoryHeapSectionLeaveImport','102f9608','b89b2f00',memorySectionLeaveProcedure]] as const){const receipt=initializerSource.coldGlobals[label];if(receipt.address!==address||receipt.raw!==raw||receipt.bytes!==raw.length/2)throw new Error('Original MemoryAdmin Malloc dependency receipt required');const fields=this.#retainLocal(receipt.bytes);for(let offset=0;offset<receipt.bytes;offset++)fields.writeUnsigned(offset,parseInt(raw.slice(offset*2,offset*2+2),16),1);if(procedure)fields.pointer(0).set(procedure);initializerImages[address]=fields;}
+  for(const [label,entry,body,raw,hash] of [
+   ['heapAllocate','10001028','1003d2f0','e9c3c20300','81a87d3f55464496b395c0d896cf0bf6e3d9386e1312f40effb2dcb0f29debf0'],
+   ['pool16Dispatch','10002d97','10047f10','e974510400','ca60809dbb386056b7f7b05993e45ac896079a37e28034dfc0ad840583c60e03'],
+  ] as const){const method=initializerSource.methods[label],chain=method.entryChain;if(method.bodyInstructionBytesSha256!==hash||chain.length!==1||chain[0]!.va!==entry||chain[0]!.bytes!==raw||chain[0]!.targetVA!==body)throw new Error('Original lower heap/pool source required');}
+  const poolRanges=[
+   [0,0x10008698],[5,0x10006a14],[9,0x100028f6],[13,0x10002d97],[17,0x10002aa9],[21,0x10004214],[25,0x10005966],[29,0x10008152],
+   [33,0x100031d4],[41,0x1000617c],[49,0x1000196a],[57,0x10006dac],[65,0x10004002],[81,0x10007315],[97,0x10003102],[113,0x1000690b],
+   [129,0x10005fc9],[161,0x10006be5],[193,0x100070c7],[225,0x10004c2d],[257,0x100077a7],[321,0x10006eec],[385,0x10003012],[449,0x10007662],
+   [513,0x10005448],[641,0x10006b9f],[769,0x10004b1f],[897,0x10004d13],[1025,0x1000719e],[1281,0x1000647e],[1537,0x10007be9],[1793,0x1000460b],
+   [2049,0x1000830f],[2561,0x100024d2],[3073,0x10002e7d],[3585,0x1000536c],
+  ];
+  const table=initializerSource.coldGlobals.heapDispatchTable,tableFields=this.#retainLocal(4097*4);
+  if(table.address!=='102fb050'||table.bytes!==4097*4||table.raw.length!==4097*8)throw new Error('Original heap dispatch table required');
+  for(let range=0;range<poolRanges.length;range++)for(let index=poolRanges[range]![0]!;index<(poolRanges[range+1]?.[0]??4097);index++){
+   const expected=poolRanges[range]![1]!,offset=index*4,raw=table.raw.slice(offset*2,offset*2+8),value=parseInt(raw.match(/../g)!.reverse().join(''),16);
+   if(value!==expected)throw new Error('Original heap dispatch table slot required');tableFields.writeUnsigned(offset,value);
+  }
+  initializerImages['102fb050']=tableFields;
+  for(const [label,address,raw] of [['pool16State','102ffd58','00'.repeat(12)],['poolVirtualAllocImport','102f9680','da9d2f00']] as const){
+   const receipt=initializerSource.coldGlobals[label];if(receipt.address!==address||receipt.raw!==raw||receipt.bytes!==raw.length/2)throw new Error('Original pool dependency receipt required');
+   const fields=this.#retainLocal(receipt.bytes);for(let offset=0;offset<receipt.bytes;offset++)fields.writeUnsigned(offset,parseInt(raw.slice(offset*2,offset*2+2),16),1);if(label==='poolVirtualAllocImport')fields.pointer(0).set(poolVirtualAllocProcedure);initializerImages[address]=fields;
+  }
+  const poolImport=initializerSource.coldGlobals.poolVirtualAllocImport.importEntry;if(poolImport.iatVA!=='0x102f9680'||poolImport.module!=='KERNEL32.dll'||poolImport.name!=='VirtualAlloc')throw new Error('Original pool VirtualAlloc import required');
   const mallocChain=initializerSource.methods.memoryMalloc.entryChain;for(const [index,address,raw,target] of [[0,'10003cd8','e923ce0100','10020b00'],[1,'10020b00','e93c69feff','10007441'],[2,'10007441','e9ca5f0300','1003d410']] as const){if(mallocChain.length!==3||mallocChain[index]!.va!==address||mallocChain[index]!.bytes!==raw||mallocChain[index]!.targetVA!==target)throw new Error('Original MemoryAdmin Malloc entry chain required');}
   const voidBytes=new Uint8Array(856),voidView=new DataView(voidBytes.buffer);
   for(const [index,address] of [[65,0x100e1660],[130,0x100e1440],[131,0x100e1450],[132,0x100e1470],[133,0x100e14b0],[134,0x100e14c0],[135,0x100e14d0],[136,0x100e14e0],[138,0x100e14f0],[139,0x100e1500],[140,0x100e1510],[141,0x100e15d0],[142,0x100e1600],[143,0x100e1610],[144,0x100e1630],[145,0x100e1670],[146,0x100e1680]])voidView.setUint32(index!*4,address!,true);
@@ -362,6 +395,7 @@ export class NativeSharedCrtOwner {
  }
  #requireLocal(fields:NativeHeapObjectViews):void {
   const root=this.#locals.get(fields);
+  if(this.#poolRegions.has(fields)){const proof=NativeRuntimePlatform.canonicalVirtualRegionForPlatform(this.platform,fields.backing,0x102000);if(!proof.known)throw new Error(proof.reason);}
   if(!root||fields.backing!==root.backing||root.backing.freed||fields.bytes!==root.bytes||fields.knownMask!==root.masks||fields.view!==root.view||root.backing.bytes!==root.backingBytes||root.backing.knownMask!==root.backingMasks||fields.view.buffer!==root.bytes.buffer||fields.view.byteOffset!==root.bytes.byteOffset||fields.view.byteLength!==root.bytes.length)throw new Error('Actual retained SharedBase local storage required');
  }
  static sharedStackArgumentsForPlatform(platform:NativeRuntimePlatform,call:object):NativeValue<Readonly<{stage:'enter'|'allocate';input:NativeHeapObjectViews;types:NativeHeapObjectViews;codePage:number;count:number;cookie:number;locale:NativeHeapObjectViews}>> {
@@ -1166,7 +1200,7 @@ export class NativeSharedCrtOwner {
   }catch(error){this.#boundary??=error instanceof Error?error.message:String(error);return {known:false,reason:this.#boundary};}
   finally{this.#stackCall=null;this.#caseCall=null;this.#configurationCall=null;this.#setMultibyteCall=null;this.#argvCall=null;this.#initializerActive=false;this.#active=false;}
  }
- snapshot(){return Object.freeze({memoryHeapSectionHeld:this.#memoryHeapSectionHeld,exitLockHeld:this.#exitLockHeld,initializerImages:this.#initializerImages,initializerAllocations:Object.freeze([...this.#initializerAllocations]),argvInput:this.#argvInput,argvAllocation:this.#argvAllocation,argvReturned:this.#argvReturned,environmentVector:this.#environmentVector,environmentStrings:Object.freeze([...this.#environmentStrings]),setEnvpReturned:this.#setEnvpReturned,mappingState:this.#mappingState?Object.freeze({...this.#mappingState}):null,boundary:this.#boundary,localeUpdate:this.#localeUpdate,multibyteAllocation:this.#multibyteAllocation,cpInfo:this.#cpInfo,caseState:this.#caseState?Object.freeze({...this.#caseState}):null,codePage:this.#codePage,startupInfo:this.#startupInfo,ioBlock:this.#ioBlock,ioReturned:this.#ioReturned,versionAllocation:this.#versionAllocation,
+ snapshot(){return Object.freeze({memoryHeapSectionHeld:this.#memoryHeapSectionHeld,exitLockHeld:this.#exitLockHeld,initializerImages:this.#initializerImages,poolRegions:Object.freeze([...this.#poolRegions]),initializerAllocations:Object.freeze([...this.#initializerAllocations]),argvInput:this.#argvInput,argvAllocation:this.#argvAllocation,argvReturned:this.#argvReturned,environmentVector:this.#environmentVector,environmentStrings:Object.freeze([...this.#environmentStrings]),setEnvpReturned:this.#setEnvpReturned,mappingState:this.#mappingState?Object.freeze({...this.#mappingState}):null,boundary:this.#boundary,localeUpdate:this.#localeUpdate,multibyteAllocation:this.#multibyteAllocation,cpInfo:this.#cpInfo,caseState:this.#caseState?Object.freeze({...this.#caseState}):null,codePage:this.#codePage,startupInfo:this.#startupInfo,ioBlock:this.#ioBlock,ioReturned:this.#ioReturned,versionAllocation:this.#versionAllocation,
   ptd:this.#ptd,ptdInstalled:this.#ptdInstalled,ptdInitialized:this.#ptdInitialized,rtcReturned:this.#rtcReturned,environmentInput:this.#environmentInput,environmentAllocation:this.#environmentAllocation,environmentReturned:this.#environmentReturned,heap:this.#heap,heapReturned:this.#heapReturned,attachReturned:this.#attachReturned,mtReturned:this.#mtReturned,locksReturned:this.#locksReturned,sections:Object.freeze([...this.#sections]),pointersReturned:this.#pointersReturned,
   trace:Object.freeze([...this.#trace]),dllEntryExecuted:false,wholeCrtTraversalCompleted:false});}
 }

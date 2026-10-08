@@ -9431,3 +9431,42 @@ These captures do not execute the pool operations. The live boundary remains
 MemoryAdmin/exit-table owner, acquire the region through the canonical platform
 VirtualAlloc capability, execute original metadata initialization and return an
 owned slot. Full startup and campaign completion remain unfinished.
+
+
+## 8 October 2026 — Live 16-byte pool dispatcher and virtual reservation
+
+The live SharedBase initializer now executes lower heap dispatch and the selected
+16-byte pool callback. A thirteen-byte Root CString request reads the original
+size table, increments the pool count, updates its peak through the original
+branch and reads the live list root. The cold list reaches VirtualAlloc.
+
+The CALL retains its original four arguments and IAT identity. The platform's
+private registry proves that the actual returned 1,056,768-byte region is live,
+owned and has the original virtual geometry. Its backing and masks become the
+same retained SharedBase view. The reservation wrapper requires a fresh region
+created during the current invocation; earlier same-platform regions are rejected.
+No disconnected MemoryAdmin or invented pointer
+is substituted. The caller performs its sixteen-byte stdcall cleanup and passes
+the actual region to `10047f7c -> 100061cc`, the block initializer. At that
+boundary the heap lock and original exception frame remain entered.
+
+NULL allocation follows the original register pops and indirect fallback jump
+to the next pool. Unsupported callbacks and unavailable or replaced capabilities
+retain their real operation boundary. Focused checks cover original counters,
+region identity/geometry, CALL arguments/cleanup, fallback and rejection of
+foreign, freed, CRT-owned and replaced storage. The 187 focused checks and
+typechecking pass. All 107 generated files and the instruction module reproduce
+exactly. The final full suite passes 2,744 tests across 259 files in 165.02
+seconds, and the production build passes.
+
+The next missing work is the original block initializer: its 20-byte descriptor,
+callback stores, list exchanges, bitmap memset and pool registration, followed
+by actual bitmap slot selection. Full startup, NPC activation and campaign
+completion remain unfinished.
+
+
+PR 126 passed CI run 37773432296 and merged at
+`32233abb7fa6f251b893dbdb15b79a277657d940`; Pages run 37774323531 succeeded.
+PR 128 passed CI run 37773555162 and merged at
+`df155939721d668ef94142e24401d805f67b8a7a`. Its publication is tracked separately;
+merging source evidence does not execute the newly captured pool bodies.
