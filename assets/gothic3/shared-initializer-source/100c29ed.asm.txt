@@ -1,0 +1,29 @@
+100c29ed | 56 | PUSH ESI
+100c29ee | 8b742408 | MOV ESI,dword ptr [ESP + 0x8]
+100c29f2 | 51 | PUSH ECX
+100c29f3 | 8bce | MOV ECX,ESI
+100c29f5 | e870f1ffff | CALL 0x100c1b6a
+100c29fa | 8bce | MOV ECX,ESI
+100c29fc | e89ff5ffff | CALL 0x100c1fa0
+100c2a01 | 85c0 | TEST EAX,EAX
+100c2a03 | 740b | JZ 0x100c2a10
+100c2a05 | ff74240c | PUSH dword ptr [ESP + 0xc]
+100c2a09 | e872f2ffff | CALL 0x100c1c80
+100c2a0e | eb28 | JMP 0x100c2a38
+100c2a10 | 8b4c240c | MOV ECX,dword ptr [ESP + 0xc]
+100c2a14 | e887f5ffff | CALL 0x100c1fa0
+100c2a19 | 85c0 | TEST EAX,EAX
+100c2a1b | 7413 | JZ 0x100c2a30
+100c2a1d | 8b4104 | MOV EAX,dword ptr [ECX + 0x4]
+100c2a20 | c1e01c | SHL EAX,0x1c
+100c2a23 | c1f81c | SAR EAX,0x1c
+100c2a26 | 50 | PUSH EAX
+100c2a27 | 8bce | MOV ECX,ESI
+100c2a29 | e8d4f9ffff | CALL 0x100c2402
+100c2a2e | eb08 | JMP 0x100c2a38
+100c2a30 | 51 | PUSH ECX
+100c2a31 | 8bce | MOV ECX,ESI
+100c2a33 | e8a5fdffff | CALL 0x100c27dd
+100c2a38 | 8bc6 | MOV EAX,ESI
+100c2a3a | 5e | POP ESI
+100c2a3b | c20800 | RET 0x8

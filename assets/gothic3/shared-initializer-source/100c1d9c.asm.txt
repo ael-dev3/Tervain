@@ -1,0 +1,2 @@
+100c1d9c | 8b410c | MOV EAX,dword ptr [ECX + 0xc]
+100c1d9f | c3 | RET

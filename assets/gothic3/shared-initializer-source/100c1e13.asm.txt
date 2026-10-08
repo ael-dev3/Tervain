@@ -1,0 +1,13 @@
+100c1e13 | 837c240800 | CMP dword ptr [ESP + 0x8],0x0
+100c1e18 | 8b4c2404 | MOV ECX,dword ptr [ESP + 0x4]
+100c1e1c | 7410 | JZ 0x100c1e2e
+100c1e1e | 8a02 | MOV AL,byte ptr [EDX]
+100c1e20 | 84c0 | TEST AL,AL
+100c1e22 | 8801 | MOV byte ptr [ECX],AL
+100c1e24 | 7408 | JZ 0x100c1e2e
+100c1e26 | 41 | INC ECX
+100c1e27 | 42 | INC EDX
+100c1e28 | ff4c2408 | DEC dword ptr [ESP + 0x8]
+100c1e2c | 75f0 | JNZ 0x100c1e1e
+100c1e2e | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+100c1e32 | c3 | RET

@@ -382,3 +382,44 @@ DName constructor returns and the type-encoding call remains pending at
 There are 87 bodies, 2,794 instructions and 257 CALL receipts. The primary-type
 helper is captured/emitted but has not executed on this selected path.
 Grammar decoding, output and complete startup remain unfinished.
+
+### Live DName copy and append
+
+The original type-encoding append, DName copy, validity and append routines
+execute against retained stack fields. Each masked XOR sequence proves its
+unchanged physical destination and original operands; unknown padding remains
+unknown. Type encoding returns and primary parsing reaches
+`100c6647 -> 100c6288`. The package contains 93 bodies, 3,387 instructions and
+330 CALL receipts. Full startup and demangled output remain unfinished.
+
+### Live class dispatch and keyword text
+
+The simple-data-type and class/struct/union routines select the original `class `
+literal. Original text/Pchar/node constructors and the bounded byte-copy loop
+create a 16-byte text node and an aligned eight-byte buffer on the existing
+scratch block. Six text bytes are known; spare padding stays unknown. Parsing
+reaches `100c457a -> 100c43c1` before scoped-name decoding. There are 99 bodies,
+3,880 instructions and 369 CALL receipts. Full output/startup remain unfinished.
+
+### Live scoped identifier
+
+The identifier and delimited constructors create `bCObsoleteClass` in the
+retained scratch block and register its actual DName in the second Replicator.
+The saved cookie/EBP relation cancels against the same EBP word, and original
+cookie-check instructions return. Scoped parsing consumes both delimiters;
+concatenation remains pending at `100c4587 -> 100c27dd`. There are 105 bodies,
+4,277 instructions and 405 CALL receipts. Full name output/startup are unfinished.
+
+### Live graph concatenation, length and output allocation
+
+Original concatenation retains the keyword through an indirect node and links
+the identifier. Parser callers return and restore flags `0x2800`. The original
+virtual length methods calculate 21 characters from that actual graph. Their
+callbacks require constructor receipts, retained node/vtable pointers, the
+original slot and unchanged original twelve-byte vtable images.
+
+The original caller allocates a 24-byte CRT buffer for the required 22 bytes.
+The buffer is owned and published, with all bytes still unknown before writing.
+Execution stops at `100c5fa5 -> 100c2048`. There are 112 captured bodies,
+4,407 instructions and 416 CALL receipts. Final output, cache publication,
+cleanup, full startup and campaign integration remain unfinished.

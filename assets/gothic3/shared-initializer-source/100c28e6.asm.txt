@@ -1,0 +1,17 @@
+100c28e6 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+100c28ea | 56 | PUSH ESI
+100c28eb | 8bf1 | MOV ESI,ECX
+100c28ed | 8166040ff7ffff | AND dword ptr [ESI + 0x4],0xfffff70f
+100c28f4 | 33c9 | XOR ECX,ECX
+100c28f6 | 3808 | CMP byte ptr [EAX],CL
+100c28f8 | 7407 | JZ 0x100c2901
+100c28fa | 41 | INC ECX
+100c28fb | 803c0100 | CMP byte ptr [ECX + EAX*0x1],0x0
+100c28ff | 75f9 | JNZ 0x100c28fa
+100c2901 | 51 | PUSH ECX
+100c2902 | 50 | PUSH EAX
+100c2903 | 8bce | MOV ECX,ESI
+100c2905 | e8d9fbffff | CALL 0x100c24e3
+100c290a | 8bc6 | MOV EAX,ESI
+100c290c | 5e | POP ESI
+100c290d | c20400 | RET 0x4

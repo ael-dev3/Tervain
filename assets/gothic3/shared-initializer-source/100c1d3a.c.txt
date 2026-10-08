@@ -1,0 +1,28 @@
+/* ENTRY 100c1d3a | DNameNode::operator+= | STATUS decompiled | 5 ms */
+
+/* Library Function - Single Match
+    public: class DNameNode & __thiscall DNameNode::operator+=(class DNameNode *)
+   
+   Library: Visual Studio 2005 Release */
+
+DNameNode * __thiscall DNameNode::operator+=(DNameNode *this,DNameNode *param_1)
+
+{
+  DNameNode_vftable *pDVar1;
+  DNameNode_vftable *pDVar2;
+  
+  if (param_1 != (DNameNode *)0x0) {
+    pDVar1 = this[1].vftablePtr;
+    if (this[1].vftablePtr == (DNameNode_vftable *)0x0) {
+      this[1].vftablePtr = (DNameNode_vftable *)param_1;
+    }
+    else {
+      do {
+        pDVar2 = pDVar1;
+        pDVar1 = (DNameNode_vftable *)pDVar2->getLastChar;
+      } while (pDVar1 != (DNameNode_vftable *)0x0);
+      pDVar2->getLastChar = (getLastChar *)param_1;
+    }
+  }
+  return (DNameNode *)this;
+}

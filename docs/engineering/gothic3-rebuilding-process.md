@@ -9832,3 +9832,179 @@ files plus the instruction module reproduce exactly. Evidence contains 87
 bodies, 2,794 instructions and 257 CALL receipts. The production build and full suite pass: 2,798 tests across 260 files
 (177.30 seconds). Publication remains pending. Complete engine startup and campaign play
 remain unfinished.
+
+### Local type-encoding dispatch and initial DName — 8 October 2026
+
+The original 441-instruction type-encoding body now enters on the selected
+class-name path. Signed SETL consumes known SF/OF without changing flags. The
+original encoding arithmetic decodes `A`, advances the same retained cursor
+to `V`, and calls the original DName constructor with a zero character. That
+constructor stores the NULL node and clears its low twelve flag bits while
+preserving unknown upper padding. Execution reaches
+`100c5bb1 -> 100c29ed`, before append/copy operations. The parent parser calls,
+lock five and enclosing exception frames remain active.
+
+The next append and copy routines have been audited against the installed DLL.
+The copy uses masked XOR sequences for ten individual flag fields; these need
+physical-word correlation to preserve unknown padding accurately. Their bodies
+are research evidence and are not yet executed on this path.
+
+Local validation passes 238 focused checks and typechecking. All 167 generated
+files plus the instruction module reproduce exactly. Captured evidence contains
+89 bodies, 3,248 instructions and 323 CALL receipts. The production build passes. The full suite passes 2,798 tests across
+260 files (167.40 seconds). Publication remains pending. Full startup, world activation,
+saves and campaign endings remain unfinished.
+
+PR 137 Pages run 37800122027 succeeded. PR 138 passed CI run
+37800373662 and merged at `db376ec97e24aa8ab323a80518539af63b4dd138`
+after a 303-run audit found no active main deployment. Its own deployment
+is tracked separately.
+
+### Local DName copy/append and primary-type continuation — 8 October 2026
+
+The original DName copy, validity check, append and type-encoding append bodies
+now execute. Each masked flag transfer proves its original physical destination,
+initial XOR, exact mask and final XOR. Repeated memory reads must reference the
+same unchanged field; register operands must retain the actual stored word.
+The exact assignment preserves unknown destination padding and takes selected
+bits only from the original donor. No numerical equality of unknown words is
+used as a substitute for their physical relationship.
+
+Masked SHL preserves known bits and zero-fill bits while exposing carry only
+when its source bit is known. The following original SAR sign-extends the
+known low nibble. BL/DL use the same low-byte register lanes as AL/CL.
+
+The original type-encoding helper returns. Data-type processing resumes in the
+primary-type body, reaching `100c6647 -> 100c6288`; its caller chain and enclosing
+lock/frame remain active. This selected path has not produced a demangled name.
+Class-type parsing, complete startup and campaign play remain unfinished.
+
+Local evidence: 241 focused checks and typechecking pass. All 175 generated
+source files plus the instruction module reproduce exactly. The package contains
+93 bodies, 3,387 instructions and 330 CALL receipts. The production build
+and full suite pass: 2,798 tests across 260 files (166.93 seconds).
+Publication remains pending.
+
+### Local simple-data-type dispatch and class keyword — 8 October 2026
+
+Original simple-data-type dispatch now handles the retained `V` byte using
+known signed branch flags. It advances the actual input cursor, rewinds it in
+source order and calls the original class/struct/union decoder. That decoder
+consumes `V` and selects the seven original bytes `class ` plus NUL from
+SharedBase address `100f2b10`. The cursor now points to `bCObsoleteClass` on the
+same type-info backing. Execution reaches `100c455a -> 100c28e6`, before text
+construction. No output name or completed startup is claimed.
+
+MOVZX supports actual byte/word source widths; AX/BX share the existing low
+word lanes. Pointer DEC retains relative identity and carry while leaving
+address-dependent flags unknown. JG/JLE consume known SF, OF and ZF.
+
+Local validation passes 241 focused checks and typechecking. All 179 generated
+files plus the instruction module reproduce exactly. Evidence contains 95
+bodies, 3,741 instructions and 362 CALL receipts. Build/full-suite acceptance
+and publication remain pending.
+
+PR 138 Pages run 37802325563 succeeded. PR 140 passed CI run 37801663777
+and merged at `ef42975fe912eb308926b1230991130e844d4986` after a fresh
+304-run audit found no active workflows. Its Pages deployment is tracked
+separately. Full engine startup and a finishable campaign remain unfinished.
+
+### Local class keyword text construction — 8 October 2026
+
+The original text constructor counts the six `class ` bytes. Its Pchar helper
+allocates a 16-byte text node and an eight-byte aligned text span through the
+existing scratch allocator, then the original text-node constructor invokes
+the bounded byte-copy loop. Both allocations belong to the same retained
+4,104-byte CRT backing used by the replicators.
+
+The text node is at offset 4,020, with original vtable `100f29bc`, NULL next
+pointer, actual buffer pointer at offset 4,012, and length six. Exactly six
+bytes are copied; two spare buffer bytes keep unknown masks. Scratch available
+bytes become 4,008. The original constructor calls return, and class parsing
+reaches `100c457a -> 100c43c1` before scoped-name parsing. The keyword is an
+owned graph component, not a completed demangled name or campaign milestone.
+
+Local evidence: 242 focused checks and typechecking pass. All 187 generated
+source files plus the instruction module reproduce exactly. The package has
+99 bodies, 3,880 instructions and 369 CALL receipts. The production build
+and full suite pass: 2,799 tests across 260 files (166.80 seconds).
+Publication remains pending. Full startup and campaign play
+remain unfinished.
+
+PR 140 Pages run 37804123720 succeeded.
+
+### Local scoped identifier, Replicator entry and cookie return — 8 October 2026
+
+The original scoped-name, identifier, delimited-text, Replicator append and
+empty-check bodies now execute. The identifier reader compares the original
+template/generic prefixes, then the selected plain-name path reads fifteen
+bytes through the original delimiter loop. Its text node at scratch offset
+3,996 points to the same backing at offset 3,980 and contains `bCObsoleteClass`.
+The buffer's spare sixteenth byte remains unknown. The second Replicator count
+becomes zero; its first entry is the actual eight-byte DName at offset 3,972,
+which retains that identifier node. Scratch available bytes become 3,968.
+
+The identifier's saved cookie XOR EBP is recovered only when the original
+private XOR operand is the same retained EBP word. Original cookie-check
+instructions compare that cookie and return. Scoped-name parsing consumes
+both `@` delimiters and returns, leaving its actual input cursor at NUL.
+The next operation is concatenation `100c4587 -> 100c27dd`; keyword and
+identifier remain separate owned graph components.
+
+Physical pointer publication now synchronizes its retained expression with the
+opaque masks written by the pointer capability. Heap-backed flag copy proofs
+use actual memory-read/store grants, checking the unchanged physical field;
+they do not rely on freshly minted reads having equal object identities.
+
+Typechecking passes. The focused suite recorded 242 passes and one stale
+whole-trace byte-copy count; both affected keyword/identifier tests pass after
+accounting for their combined 21 original byte stores. All 199 generated files
+plus the instruction module reproduce exactly. Evidence contains 105 bodies,
+4,277 instructions and 405 CALL receipts. The production build passes;
+the full suite passes 2,800 tests across 260 files (169.80 seconds).
+Publication remains pending. Full startup and campaign play remain unfinished.
+
+### Local class-name graph concatenation and parser return — 8 October 2026
+
+The original DName concatenation, clone, indirect-node constructor and node
+linking bodies execute. The keyword's original text node is retained by an
+indirect DName at scratch offset 3,948, owned by the new indirect node at
+3,956. Its next pointer links the identifier text node at 3,996. The original
+buffers remain at 4,012 and 3,980. Following those actual pointers reconstructs
+`class bCObsoleteClass`; this is the node graph, before output serialization.
+Scratch available bytes become 3,944, using 152 bytes total.
+
+Class/simple/primary/data-type/declaration callers return in original order.
+The original caller restores the flag word to `0x2800`, assigns the completed
+graph to its output DName and reaches `100c5f79 -> 100c1feb` before length
+calculation. The demangler and outer name frames plus lock five remain active.
+No final output allocation, cache publication or full startup is claimed.
+
+Local evidence: 244 focused checks and typechecking pass. All 207 generated
+files plus the instruction module reproduce exactly. The package contains
+109 bodies, 4,380 instructions and 414 CALL receipts. The production build passes;
+the full suite passes 2,801 tests across 260 files (165.74 seconds).
+Publication remains pending. Full startup and campaign play remain unfinished.
+
+### Local class-name graph length and output allocation — 8 October 2026
+
+Original DName length `100c1feb`, indirect-node length `100c22e3` and
+text-node length `100c1d9c` execute on the retained graph. The constructors
+publish actual pointers to the original twelve-byte text and indirect vtables.
+Virtual length calls require the actual constructed receiver, its unchanged
+vtable pointer, the original slot and all original vtable bytes. Altering any
+of the three indirect-vtable slots is rejected before output allocation.
+
+Three original virtual calls sum the six-byte keyword and fifteen-byte
+identifier to 21 characters. The original caller records the required length
+22, rounds the CRT allocation to 24 bytes and publishes the actual owned
+output buffer. Its bytes remain unknown before serialization. Both demangler
+exception frames and lock five remain active. Execution now stops at
+`100c5fa5 -> 100c2048`, the original DName string-writing method.
+
+Local evidence: 245 focused checks pass; 213 generated evidence files plus
+the instruction module reproduce exactly. The source package contains
+112 bodies, 4,407 instructions and 416 CALL receipts. Typechecking and the
+production build pass. The full suite passes 2,805 tests across 260 files
+(170.40 seconds). Publication is pending. Full startup,
+world activation and campaign completion remain unfinished.

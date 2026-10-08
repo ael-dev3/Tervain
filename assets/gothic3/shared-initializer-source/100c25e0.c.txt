@@ -1,0 +1,66 @@
+/* ENTRY 100c25e0 | DName::DName | STATUS decompiled | 16 ms */
+
+/* Library Function - Single Match
+    public: __thiscall DName::DName(char const * &,char)
+   
+   Library: Visual Studio 2005 Release */
+
+DName * __thiscall DName::DName(DName *this,char **param_1,char param_2)
+
+{
+  byte bVar1;
+  char cVar2;
+  char *pcVar3;
+  uint uVar4;
+  byte *pbVar5;
+  int iVar6;
+  
+  *(uint *)(this + 4) = *(uint *)(this + 4) & 0xfffff000;
+  uVar4 = *(uint *)(this + 4);
+  iVar6 = 0;
+  *(undefined4 *)this = 0;
+  pcVar3 = *param_1;
+  if (pcVar3 == (char *)0x0) {
+LAB_100c2689:
+    uVar4 = uVar4 & 0xfffffff1 | 1;
+  }
+  else {
+    if (*pcVar3 != '\0') {
+      do {
+        bVar1 = **param_1;
+        if (bVar1 == param_2) break;
+        if (((((((bVar1 != 0x5f) && (bVar1 != 0x24)) && (bVar1 != 0x3c)) &&
+              (((bVar1 != 0x3e && (bVar1 != 0x2d)) && (((char)bVar1 < 'a' || ('z' < (char)bVar1)))))
+              ) && (((char)bVar1 < 'A' || ('Z' < (char)bVar1)))) &&
+            (((char)bVar1 < '0' || ('9' < (char)bVar1)))) &&
+           (((bVar1 < 0x80 || (bVar1 == 0xff)) && ((DAT_102f6f4c & 0x10000) == 0)))) {
+          uVar4 = *(uint *)(this + 4);
+          goto LAB_100c2689;
+        }
+        iVar6 = iVar6 + 1;
+        pbVar5 = (byte *)(*param_1 + 1);
+        *param_1 = (char *)pbVar5;
+      } while (*pbVar5 != 0);
+      doPchar(this,pcVar3,iVar6);
+      cVar2 = **param_1;
+      if (cVar2 != '\0') {
+        *param_1 = *param_1 + 1;
+        if (cVar2 == param_2) {
+          *(uint *)(this + 4) = *(uint *)(this + 4) & 0xfffffff0;
+          return this;
+        }
+        uVar4 = *(uint *)(this + 4) & 0xfffffff3 | 3;
+        *(undefined4 *)this = 0;
+        goto LAB_100c268f;
+      }
+      uVar4 = *(uint *)(this + 4);
+      if ((uVar4 & 0xf) != 0) {
+        return this;
+      }
+    }
+    uVar4 = uVar4 & 0xfffffff2 | 2;
+  }
+LAB_100c268f:
+  *(uint *)(this + 4) = uVar4;
+  return this;
+}

@@ -1,0 +1,10 @@
+100c1fa0 | 833900 | CMP dword ptr [ECX],0x0
+100c1fa3 | 740c | JZ 0x100c1fb1
+100c1fa5 | e8dfffffff | CALL 0x100c1f89
+100c1faa | 85c0 | TEST EAX,EAX
+100c1fac | 7403 | JZ 0x100c1fb1
+100c1fae | 33c0 | XOR EAX,EAX
+100c1fb0 | c3 | RET
+100c1fb1 | 33c0 | XOR EAX,EAX
+100c1fb3 | 40 | INC EAX
+100c1fb4 | c3 | RET

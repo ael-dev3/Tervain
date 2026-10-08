@@ -419,6 +419,12 @@ export class NativeSharedCrtOwner {
    ['sharedUnDNameScope','100f8e80','feffffff000000005cffffff00000000feffffff00000000dc610c10'],
    ['crtInitializeLockScope','100f8c98','feffffff00000000d4ffffff00000000feffffff0000000089b80b10'],
    ['sharedDemanglerHeap','102f6f1c','00'.repeat(60)],
+   ['demanglerClassKeyword','100f2b10','636c6173732000'],
+   ['demanglerIndirectVtable','100f299c','e3220c10f2220c1001230c10'],
+   ['demanglerTextVtable','100f29bc','9c1d0c10a0220c10b2220c10'],
+   ['demanglerTemplatePrefix','100f2ad8','74656d706c6174652d706172616d657465722d00'],
+   ['demanglerGenericPrefix','100f2ac8','67656e657269632d747970652d00'],
+   ['demanglerScopeSeparator','100f2aec','3a3a00'],
   ] as const){const receipt=initializerSource.coldGlobals[label];if(receipt.address!==address||receipt.raw!==raw||receipt.bytes!==raw.length/2)throw new Error('Original SharedBase class-name image required');const fields=this.#retainLocal(receipt.bytes);for(let offset=0;offset<receipt.bytes;offset++)fields.writeUnsigned(offset,parseInt(raw.slice(offset*2,offset*2+2),16),1);initializerImages[address]=fields;}
   for(const [label,address,raw] of [['underscoreRootLiteral','100ea340','5f526f6f7400'],['underscoreRootString','102f47d0','00000000']] as const){const receipt=initializerSource.coldGlobals[label];if(receipt.address!==address||receipt.raw!==raw||receipt.bytes!==raw.length/2)throw new Error('Original underscore Root initializer bytes required');const fields=this.#retainLocal(receipt.bytes);for(let offset=0;offset<receipt.bytes;offset++)fields.writeUnsigned(offset,parseInt(raw.slice(offset*2,offset*2+2),16),1);initializerImages[address]=fields;}
   const rootStatic=initializerSource.coldGlobals.rootStaticObject;if(rootStatic.address!=='102f4618'||rootStatic.bytes!==40||rootStatic.raw!=='00'.repeat(40))throw new Error('Original Root static object bytes required');const rootStaticFields=this.#retainLocal(40);rootStaticFields.bytes.fill(0);rootStaticFields.knownMask.fill(255);initializerImages['102f4618']=rootStaticFields;
