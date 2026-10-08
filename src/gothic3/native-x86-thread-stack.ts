@@ -191,7 +191,8 @@ export class NativeX86ThreadStack {
   #sharedFrame:{controller:object;ebp:number;probe:NativeHeapObjectViews;temporary:NativeHeapObjectViews|null;importCall:{call:NativeArgvNlsCallGrant;argumentBytes:number;kind:'probe'|'query'|'fill'|'types'}|null;requestedBytes:number|null;allocatedBytes:number|null;probedPages:number[]}|null=null;
   #mappingFrames:{controller:object;ebp:number;input:NativeHeapObjectViews|null;output:NativeHeapObjectViews|null;importCall:{call:NativeArgvNlsCallGrant;bytes:number;stage:string}|null;allocations:{site:string;requested:number;allocated:number;offset:number}[];returned:boolean}[]=[];
   #sharedEnvironmentFrame:{controller:object;entryEsp:number;operations:number;returned:boolean;result:number|null;strlenCalls:number;callocCalls:number;freeCalls:number;initializersPending:boolean}|null=null;
-  #sharedDllResourceFrame:{entryEsp:number;handle:NativeHeapObjectViews}|null=null;
+  #dllMemoryController:object|null=null;
+  #sharedDllResourceFrame:{entryEsp:number;handle:NativeHeapObjectViews;buffer?:Readonly<{fields:NativeHeapObjectViews;offset:number}>}|null=null;
   #sharedDllVersionFrame:{entryEsp:number;filename:NativeHeapObjectViews;source:NativeHeapObjectViews;copyPending:boolean}|null=null;
   #sharedDllInitializerFrame:{entryEsp:number;outputs:readonly NativeHeapObjectViews[];moduleName:NativeHeapObjectViews}|null=null;
   #sharedCrtCallerFrame:{controller:object;entryEsp:number;ebp:number;oldEbp:NativeX86Word32;oldEbx:NativeX86Word32;oldEsi:NativeX86Word32;oldEdi:NativeX86Word32;returned:boolean}|null=null;
@@ -722,6 +723,26 @@ export class NativeX86ThreadStack {
       const esp=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));stack.#store(stack.#bank,stack.#reg('ECX'),stack.#stackWord(esp+36));stack.#trace.push('1004c5a1.'+lea.instruction);stack.#push(stack.#load(stack.#bank,stack.#reg('ECX')));stack.#trace.push('1004c5a5.'+push.instruction);stack.#currentPc=stack.#source('code','1004c5a6');throw new Error('Original SharedBase LoadLibraryA binding pending at 1004c5a6');
     }catch(error){stack.#phase='blocked';stack.#boundary=reason(error);return unknown(stack.#boundary);}
   }
+  static runSharedDllMemoryAdmin(stack:NativeX86ThreadStack,controller:object):NativeValue<number>{
+    const proof=NativeSharedCrtOwner.dllEntryStackArgumentsForPlatform(stack.#platform,controller);if(!proof.known)return proof;
+    try{
+      if(graphs.get(stack.#platform)!==stack||stack.#phase!=='blocked'||stack.#boundary!=='Original SharedBase version buffer MemoryAdmin pending at 10002aae'||!stack.#sharedDllResourceFrame)throw new Error('Actual pending resource MemoryAdmin caller required');stack.#physical(stack.#stack);stack.#physical(stack.#bank);
+      const cursor=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP'))),call=stack.#calls.at(-1);if(!call||call.site!=='1004c4ea'||call.returned||call.position!==cursor||stack.#load(stack.#stack,cursor)!==call.returnWord||stack.#numeric(stack.#load(stack.#stack,cursor+4),4)!==1740)throw new Error('Actual version buffer size and singleton return word required');
+      stack.#boundary=null;stack.#phase='running';let pc='10002aae';
+      for(let operation=0;operation<12;operation++){
+        const row=pc==='1004c4ef'||pc==='1004c4f1'?sharedDllEntryInstruction(pc):sharedInitializerInstruction(pc),text=row.instruction.toUpperCase(),next=(parseInt(pc,16)+row.bytes.length/2).toString(16);stack.#currentPc=stack.#source('code',pc);stack.#trace.push(pc+'.dllMemoryAdmin.'+row.instruction);
+        if(pc==='10002aae'&&text==='JMP 0X10020BF0'){pc='10020bf0';}
+        else if(pc==='10020bf0'&&text==='MOV EAX,0X1'){stack.#store(stack.#bank,stack.#reg('EAX'),stack.#mint(1,0xffffffff));pc=next;}
+        else if(pc==='10020bf5'&&text==='TEST BYTE PTR [0X101427A4],AL'){const guard=NativeHeapObjectViews.prototype.readUnsigned.call(proof.value.memoryAdmin,12,1);stack.#logicalFlags(guard&1,255,1);pc=next;}
+        else if(pc==='10020bfb'&&text==='JNZ 0X10020C34'){const flags=stack.#record(stack.#load(stack.#bank,36));if((flags.mask&0x40)!==0x40)throw new Error('Known MemoryAdmin guard required');if(flags.value&0x40)throw new Error('Original MemoryAdmin cold singleton continuation pending at 10020bfd');pc='10020c34';}
+        else if(pc==='10020c34'&&text==='MOV EAX,0X101427A0'){stack.#store(stack.#bank,stack.#reg('EAX'),stack.#mint(0,0,{kind:'shared-local',fields:proof.value.memoryAdmin,offset:8}));pc=next;}
+        else if(pc==='10020c39'&&text==='RET'){const returned=stack.#record(stack.#ret()).provenance;if(returned?.kind!=='source'||returned.address!=='1004c4ef')throw new Error('Actual resource MemoryAdmin caller continuation required');pc=returned.address;}
+        else if(pc==='1004c4ef'&&text==='MOV ECX,EAX'){stack.#store(stack.#bank,stack.#reg('ECX'),stack.#load(stack.#bank,stack.#reg('EAX')));pc=next;}
+        else if(pc==='1004c4f1'&&text==='CALL 0X10003CD8'){stack.#call(pc,next);throw new Error('Original SharedBase version buffer Malloc pending at 10003cd8');}
+        else throw new Error('Unowned version MemoryAdmin instruction at '+pc);
+      }throw new Error('Version MemoryAdmin instruction budget exceeded');
+    }catch(error){stack.#phase='blocked';stack.#boundary=reason(error);return unknown(stack.#boundary);}
+  }
   static finishSharedDllResourceSize(stack:NativeX86ThreadStack,controller:object):NativeValue<number>{
     const proof=NativeSharedCrtOwner.dllEntryStackArgumentsForPlatform(stack.#platform,controller);if(!proof.known)return proof;
     try{
@@ -804,14 +825,20 @@ export class NativeX86ThreadStack {
       }throw new Error('Version module instruction budget exceeded');
     }catch(error){stack.#phase='blocked';stack.#boundary=reason(error);return unknown(stack.#boundary);}
   }
-  static runSharedInitializers(stack:NativeX86ThreadStack,controller:object):NativeValue<number>{
+  static runSharedInitializers(stack:NativeX86ThreadStack,controller:object,mode:'cinit'|'dll-version-malloc'='cinit'):NativeValue<number>{
     const proof=NativeSharedCrtOwner.initializerStackArgumentsForPlatform(stack.#platform,controller);if(!proof.known)return proof;
     try{
-      NativeX86ThreadStack.#sharedArgvProof(stack,controller);
-      if(!stack.#sharedEnvironmentFrame?.initializersPending||stack.#sharedInitializerFrame||stack.#phase!=='running')throw new Error('Actual pending cinit source frame required');
       const images=proof.value.images;
-      stack.#sharedInitializerFrame={controller,entryEsp:stack.#address(stack.#load(stack.#bank,stack.#reg('ESP'))),operations:0,ownershipReturned:null,conversionInstalled:false,oldFs:stack.#load(stack.#bank,32),fsRestored:false,moduleCalls:0,procedureCalls:0,featureCalls:0,divisionQueryResult:null,initializerResult:null};
-      const frame=stack.#sharedInitializerFrame;
+      if(mode==='cinit'){
+        NativeX86ThreadStack.#sharedArgvProof(stack,controller);
+        if(!stack.#sharedEnvironmentFrame?.initializersPending||stack.#sharedInitializerFrame||stack.#phase!=='running')throw new Error('Actual pending cinit source frame required');
+        stack.#sharedInitializerFrame={controller,entryEsp:stack.#address(stack.#load(stack.#bank,stack.#reg('ESP'))),operations:0,ownershipReturned:null,conversionInstalled:false,oldFs:stack.#load(stack.#bank,32),fsRestored:false,moduleCalls:0,procedureCalls:0,featureCalls:0,divisionQueryResult:null,initializerResult:null};
+      }else{
+        const cursor=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP'))),call=stack.#calls.at(-1),receiver=stack.#record(stack.#load(stack.#bank,stack.#reg('ECX'))).provenance;
+        if(stack.#phase!=='blocked'||stack.#boundary!=='Original SharedBase version buffer Malloc pending at 10003cd8'||!stack.#sharedInitializerFrame||!stack.#sharedCrtCallerFrame?.returned||!stack.#sharedDllResourceFrame||stack.#sharedDllResourceFrame.buffer||!call||call.site!=='1004c4f1'||call.returned||call.position!==cursor||stack.#load(stack.#stack,cursor)!==call.returnWord||stack.#numeric(stack.#load(stack.#stack,cursor+4),4)!==1740||receiver?.kind!=='shared-local'||receiver.fields!==images['10142798']||receiver.offset!==8||stack.#memoryMallocFrame&&!stack.#memoryMallocFrame.returned)throw new Error('Actual version buffer MemoryAdmin malloc frame required');
+        stack.#dllMemoryController=controller;stack.#memoryMallocFrame={oldFs:stack.#load(stack.#bank,32),oldEbp:stack.#load(stack.#bank,stack.#reg('EBP')),oldEbx:stack.#load(stack.#bank,stack.#reg('EBX')),oldEsi:stack.#load(stack.#bank,stack.#reg('ESI')),oldEdi:stack.#load(stack.#bank,stack.#reg('EDI')),entered:false,returned:false};stack.#boundary=null;stack.#phase='running';
+      }
+      const frame=stack.#sharedInitializerFrame!;
       type Operand={kind:'register';slot:number;byte?:boolean;word?:boolean;high?:boolean}|{kind:'immediate';value:number}|{kind:'memory';expression:string;width:Width};
       const number=(text:string)=>{if(!/^-?0x[0-9a-f]+$/.test(text))throw new Error('Unowned initializer literal '+text);return (text.startsWith('-')?-parseInt(text.slice(3),16):parseInt(text.slice(2),16))>>>0;};
       const pointer=(fields:NativeHeapObjectViews)=>stack.#mint(0,0,{kind:'shared-local',fields});
@@ -898,7 +925,7 @@ export class NativeX86ThreadStack {
       let bitfieldUpdate:{fields:NativeHeapObjectViews;offset:number;original:NativeX86Word32;selected?:NativeX86Word32;xor?:NativeX86Word32;masked?:NativeX86Word32}|null=null;
       const copyUpdates=[['100c1ca2','100c1ca4','100c1ca7',15,false],['100c1caf','100c1cb1','100c1cb4',16,false],['100c1cbc','100c1cbe','100c1cc1',32,false],['100c1cc9','100c1ccb','100c1cce',64,false],['100c1cd6','100c1cd8','100c1cde',128,false],['100c1ce6','100c1ce8','100c1cee',2048,false],['100c1b79','100c1b7d','100c1b80',15,false],['100c1b89','100c1b8b','100c1b8e',16,false],['100c1b96','100c1b98','100c1b9b',32,false],['100c1ba3','100c1ba5','100c1ba8',64,false],['100c1bb0','100c1bb2','100c1bb8',128,false],['100c1bc3','100c1bc6','100c1bcc',256,true],['100c1bd5','100c1bd7','100c1bdd',512,false],['100c1be5','100c1be7','100c1bed',1024,false],['100c1bf5','100c1bf7','100c1bfd',2048,false]] as const;
       let copyUpdate:{spec:typeof copyUpdates[number];fields:NativeHeapObjectViews;offset:number;original:NativeX86Word32;selected:NativeX86Word32;xor?:NativeX86Word32;masked?:NativeX86Word32}|null=null;
-      let pc='100aa632';
+      let pc=mode==='cinit'?'100aa632':'10003cd8';
       while(true){
         const row=sharedInitializerInstruction(pc),[opcode,...rest]=row.instruction.replace(/^\w+/,opcode=>opcode.toUpperCase()).replace(/\b(?:eax|ebx|ecx|edx|esi|edi|ebp|esp)\b/g,register=>register.toUpperCase()).split(' '),text=rest.join(' ');
         frame.operations++;stack.#trace.push(pc+'.sharedInitializer.'+opcode);stack.#currentPc=stack.#source('code',pc);
@@ -1087,7 +1114,7 @@ export class NativeX86ThreadStack {
               if(heap?.kind!=='heap'||allocation?.kind!=='shared-local')throw new Error('Actual CRT HeapFree heap and allocation arguments required');result=stack.#mint(proof.value.imports.crtHeapFree(heap.heap,stack.#numeric(stack.#load(stack.#stack,cursor+8),4),allocation.fields,allocation.offset??0),0xffffffff);bytes=12;
             }else if(pc==='100aab6e'&&capability.object===proof.value.imports.crtHeapAllocProcedure){
               const heap=stack.#record(stack.#load(stack.#stack,cursor+4)).provenance;if(heap?.kind!=='heap')throw new Error('Actual pool descriptor CRT heap argument required');const fields=proof.value.imports.crtHeapAlloc(heap.heap,stack.#numeric(stack.#load(stack.#stack,cursor+8),4),stack.#numeric(stack.#load(stack.#stack,cursor+12),4));result=fields?pointer(fields):stack.#mint(0,0xffffffff);bytes=12;
-            }else if((pc==='10047f74'||pc==='100480b4')&&capability.object===proof.value.imports.poolVirtualAllocProcedure){
+            }else if((pc==='10047f74'||pc==='100480b4'||pc==='10049054')&&capability.object===proof.value.imports.poolVirtualAllocProcedure){
               const region=proof.value.imports.poolVirtualAlloc(stack.#numeric(stack.#load(stack.#stack,cursor+4),4),stack.#numeric(stack.#load(stack.#stack,cursor+8),4),stack.#numeric(stack.#load(stack.#stack,cursor+12),4),stack.#numeric(stack.#load(stack.#stack,cursor+16),4));result=region?pointer(region):stack.#mint(0,0xffffffff);bytes=16;
             }else if(pc==='100e1455'&&capability.object===proof.value.imports.initializeSectionProcedure){const section=stack.#record(stack.#load(stack.#stack,cursor+4)).provenance;if(section?.kind!=='shared-local')throw new Error('Actual original static section pointer required');proof.value.imports.initializeSection(section.fields,section.offset??0);result=stack.#mint(0,0);bytes=4;
             }else if(pc==='100b1158'&&capability.object===proof.value.imports.heapSizeProcedure){
@@ -1119,13 +1146,16 @@ export class NativeX86ThreadStack {
             const raw='feffffff00000000d4ffffff00000000feffffff62e00c107ee00c10';for(let offset=0;offset<28;offset++)if(NativeHeapObjectViews.prototype.readUnsigned.call(scopeFields!,offset,1)!==parseInt(raw.slice(offset*2,offset*2+2),16))throw new Error('Original live processor SIMD scope bytes required');
             stack.#processorSimdFrame={oldFs:stack.#load(stack.#bank,32),oldEbp:stack.#load(stack.#bank,stack.#reg('EBP')),oldEbx:stack.#load(stack.#bank,stack.#reg('EBX')),oldEsi:stack.#load(stack.#bank,stack.#reg('ESI')),oldEdi:stack.#load(stack.#bank,stack.#reg('EDI')),scope,returned:false};
           }
-          if(target==='1000605a'||target==='10004557'){const receiver=stack.#record(stack.#load(stack.#bank,stack.#reg('ECX'))).provenance;if(receiver?.kind!=='shared-local')throw new Error('Actual original bitmap pool receiver required');proof.value.imports.validatePoolRegion(receiver.fields,receiver.offset??0,target==='1000605a'?16:24);}
-          if(!((pc==='100ce0e2'&&target==='100ce045')||(pc==='100ce04c'&&target==='100aeb68')||(pc==='100ce08f'&&target==='100aebad')||((pc==='100a729b'||pc==='100b10dd'||pc==='100b0909'||pc==='100c614c'||pc==='100bb7d6'||pc==='100aa9ab')&&target==='100aeb68')||((pc==='100a72c4'||pc==='100b1162'||pc==='100bb883'||pc==='100aaa2c'||pc==='100c61d6'||pc==='100b09e5')&&target==='100aebad'))&&!['100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100ae27b','100aa47d','100a7265','100aef10','100b1854','100b4b6b','100ce095','100bef05','100ce0f5','100a72d0','100a7294','100a71ac','100ae2f2','100b10d6','100aa453','100aa45c','100a72ca','100e1660','100e1440','100e1450','100e1470','100e14b0','100e14c0','100e14d0','100e14e0','100e14f0','100e1500','100e1510','100e15d0','100e1600','100e1610','100e1630','100e1670','100e1680','1000779d','10005e5c','1000619f','100a7099','100b0902','100c6142','100bb7cf','100aeed0','100bb892','100bb7a2','100bb889','10004214','10002b3f','10004557','100088cd','10091550','100a7430','100a7300','100c0e29','100b09ee','100b2a80','100c14dd','100c61dc','100aa9a4','100c2048','100c2301','100c22b2','100c1feb','100c22e3','100c1d9c','100c27dd','100c21f4','100c1d3a','100c1da0','100c43c1','100c41d7','100c25e0','100c21ad','100c1f89','100b01c8','100c28e6','100c24e3','100c223b','100c1e13','100c44b4','100c6288','100c1c80','100c29ed','100c1b6a','100c1fa0','100c59ab','100c2589','100c51ce','100c674d','100c1ed2','100c660f','100c5e8f','100c2351','100c218f','100c1f28','100c1ac7','100c1dcf','10003ba7','10007d65','10002aae','10003cd8','10001028','10002d97','100061cc','100aabd2','100aaaf6','100a7980','100012e4','1000605a','100a7a00'].includes(target))throw new Error('Unowned SharedBase initializer child at '+pc+' -> '+target+' (cinit 100aa632)');
+          if(target==='1000605a'||target==='10004557'||target==='1000322e'){const receiver=stack.#record(stack.#load(stack.#bank,stack.#reg('ECX'))).provenance;if(receiver?.kind!=='shared-local')throw new Error('Actual original bitmap pool receiver required');proof.value.imports.validatePoolRegion(receiver.fields,receiver.offset??0,target==='1000605a'?16:target==='10004557'?24:1792);}
+          if(!((pc==='100ce0e2'&&target==='100ce045')||(pc==='100ce04c'&&target==='100aeb68')||(pc==='100ce08f'&&target==='100aebad')||((pc==='100a729b'||pc==='100b10dd'||pc==='100b0909'||pc==='100c614c'||pc==='100bb7d6'||pc==='100aa9ab')&&target==='100aeb68')||((pc==='100a72c4'||pc==='100b1162'||pc==='100bb883'||pc==='100aaa2c'||pc==='100c61d6'||pc==='100b09e5')&&target==='100aebad'))&&!['10007be9','1000322e','1000717b','100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100ae27b','100aa47d','100a7265','100aef10','100b1854','100b4b6b','100ce095','100bef05','100ce0f5','100a72d0','100a7294','100a71ac','100ae2f2','100b10d6','100aa453','100aa45c','100a72ca','100e1660','100e1440','100e1450','100e1470','100e14b0','100e14c0','100e14d0','100e14e0','100e14f0','100e1500','100e1510','100e15d0','100e1600','100e1610','100e1630','100e1670','100e1680','1000779d','10005e5c','1000619f','100a7099','100b0902','100c6142','100bb7cf','100aeed0','100bb892','100bb7a2','100bb889','10004214','10002b3f','10004557','100088cd','10091550','100a7430','100a7300','100c0e29','100b09ee','100b2a80','100c14dd','100c61dc','100aa9a4','100c2048','100c2301','100c22b2','100c1feb','100c22e3','100c1d9c','100c27dd','100c21f4','100c1d3a','100c1da0','100c43c1','100c41d7','100c25e0','100c21ad','100c1f89','100b01c8','100c28e6','100c24e3','100c223b','100c1e13','100c44b4','100c6288','100c1c80','100c29ed','100c1b6a','100c1fa0','100c59ab','100c2589','100c51ce','100c674d','100c1ed2','100c660f','100c5e8f','100c2351','100c218f','100c1f28','100c1ac7','100c1dcf','10003ba7','10007d65','10002aae','10003cd8','10001028','10002d97','100061cc','100aabd2','100aaaf6','100a7980','100012e4','1000605a','100a7a00'].includes(target))throw new Error('Unowned SharedBase initializer child at '+pc+' -> '+target+' (cinit 100aa632)');
           pc=target;continue;
         }else if(opcode==='RET'){
-          if(pc==='1003e116'||pc==='1003e276'){const word=stack.#load(stack.#bank,stack.#reg('EAX')),slot=stack.#record(word).provenance;if(slot?.kind==='shared-local')stack.#store(stack.#bank,stack.#reg('EAX'),pointer(proof.value.imports.retainPoolSlot(slot.fields,slot.offset??0,pc==='1003e116'?16:24)));else if(stack.#numeric(word,4)!==0)throw new Error('Original bitmap allocator return required');}
+          if(pc==='1003e116'||pc==='1003e276'||pc==='1003f3a6'){const word=stack.#load(stack.#bank,stack.#reg('EAX')),slot=stack.#record(word).provenance;if(slot?.kind==='shared-local')stack.#store(stack.#bank,stack.#reg('EAX'),pointer(proof.value.imports.retainPoolSlot(slot.fields,slot.offset??0,pc==='1003e116'?16:pc==='1003e276'?24:1792)));else if(stack.#numeric(word,4)!==0)throw new Error('Original bitmap allocator return required');}
           const continuation=stack.#record(stack.#ret(args.length?stack.#numeric(read(args[0]!),4):0)).provenance;if(continuation?.kind!=='source')throw new Error('Actual initializer return required');
-          if(continuation.address==='10013263'){const malloc=stack.#memoryMallocFrame;if(!malloc?.entered||stack.#load(stack.#bank,32)!==malloc.oldFs||stack.#load(stack.#bank,stack.#reg('EBP'))!==malloc.oldEbp||stack.#load(stack.#bank,stack.#reg('EBX'))!==malloc.oldEbx||stack.#load(stack.#bank,stack.#reg('ESI'))!==malloc.oldEsi||stack.#load(stack.#bank,stack.#reg('EDI'))!==malloc.oldEdi)throw new Error('Original MemoryAdmin Malloc frame restoration required');malloc.returned=true;}
+          if(continuation.address==='10013263'||mode==='dll-version-malloc'&&continuation.address==='1004c4f6'){const malloc=stack.#memoryMallocFrame;if(!malloc?.entered||stack.#load(stack.#bank,32)!==malloc.oldFs||stack.#load(stack.#bank,stack.#reg('EBP'))!==malloc.oldEbp||stack.#load(stack.#bank,stack.#reg('EBX'))!==malloc.oldEbx||stack.#load(stack.#bank,stack.#reg('ESI'))!==malloc.oldEsi||stack.#load(stack.#bank,stack.#reg('EDI'))!==malloc.oldEdi)throw new Error('Original MemoryAdmin Malloc frame restoration required');malloc.returned=true;}
+          if(mode==='dll-version-malloc'&&continuation.address==='1004c4f6'){
+            const result=stack.#record(stack.#load(stack.#bank,stack.#reg('EAX'))).provenance;if(result?.kind!=='shared-local')throw new Error('Actual owned version buffer malloc result required');const offset=result.offset??0;if(result.fields.bytes.length-offset<1740)throw new Error('Actual version allocation extent required');stack.#sharedDllResourceFrame!.buffer=Object.freeze({fields:result.fields,offset});stack.#currentPc=stack.#source('code','1004c4f6');throw new Error('Original SharedBase version buffer initialized allocation pending at 1004c4f6');
+          }
           if(['100a72a0','100b10e2','100b090e','100c6151','100bb7db','100bb888','100a72c9','100b1167','100aa9b0','100aaa31','100c61db','100b09ea'].includes(continuation.address)){
             const enter=continuation.address==='100a72a0'||continuation.address==='100b10e2'||continuation.address==='100b090e'||continuation.address==='100c6151'||continuation.address==='100bb7db'||continuation.address==='100aa9b0',site=continuation.address==='100b09ea'?'100b0909':continuation.address==='100aa9b0'||continuation.address==='100aaa31'?'100aa9ab':continuation.address==='100c61db'?'100c614c':continuation.address==='100bb7db'||continuation.address==='100bb888'?'100bb7d6':continuation.address==='100c6151'?'100c614c':continuation.address==='100b090e'?'100b0909':continuation.address.startsWith('100a72')?'100a729b':'100b10dd',frame=stack.#initializerSehFrames.get(site);if(!frame)throw new Error('Actual initializer SEH frame required');
             if(enter){const ebp=stack.#address(stack.#load(stack.#bank,stack.#reg('EBP'))),encoded=stack.#record(stack.#load(stack.#stack,ebp-8)).provenance;if(encoded?.kind!=='xor'||encoded.left!==frame.scope||stack.#address(stack.#load(stack.#bank,32))!==ebp-16||stack.#load(stack.#stack,ebp-16)!==frame.oldFs)throw new Error('Original initializer SEH prologue relations required');frame.entered=true;}
@@ -1151,6 +1181,7 @@ export class NativeX86ThreadStack {
         pc=next;
       }
     }catch(error){const current=stack.#currentPc?stack.#record(stack.#currentPc).provenance:null;stack.#phase='blocked';stack.#boundary??=reason(error)+(current?.kind==='source'?' at '+current.address:'');return unknown(stack.#boundary);}
+    finally{stack.#dllMemoryController=null;}
   }
   static beginSharedArgvAllocation(stack:NativeX86ThreadStack,controller:object):NativeValue<number>{
     try{NativeX86ThreadStack.#sharedArgvProof(stack,controller);}catch(error){return unknown(reason(error));}
@@ -1867,7 +1898,7 @@ export class NativeX86ThreadStack {
     this.#physical(this.#stack); this.#physical(this.#bank);
   }
   #sharedLocalPhysical(fields:NativeHeapObjectViews):void{
-    const proof=NativeSharedCrtOwner.argvLocalStorageForPlatform(this.#platform,this.#sharedArgvFrame?.controller??token,fields);if(!proof.known)throw new Error(proof.reason);
+    const proof=this.#dllMemoryController?NativeSharedCrtOwner.dllMallocLocalStorageForPlatform(this.#platform,this.#dllMemoryController,fields):NativeSharedCrtOwner.argvLocalStorageForPlatform(this.#platform,this.#sharedArgvFrame?.controller??token,fields);if(!proof.known)throw new Error(proof.reason);
     if(dataViewBuffer.call(fields.view)!==fields.bytes.buffer||dataViewByteOffset.call(fields.view)!==fields.bytes.byteOffset||dataViewByteLength.call(fields.view)!==fields.bytes.length)throw new Error('Actual SharedBase argv physical view required');
   }
   #physical(fields: NativeHeapObjectViews): void {
@@ -2003,7 +2034,7 @@ export class NativeX86ThreadStack {
     }
     if (p?.kind === 'platform' && p.category==='InitializerEncodedCode') {
       if(!this.#sharedInitializerFrame)throw new Error('Actual pending initializer encoded pointer required');
-      const proof=NativeSharedCrtOwner.initializerStackArgumentsForPlatform(this.#platform,this.#sharedInitializerFrame.controller);if(!proof.known)throw new Error(proof.reason);
+      const proof=NativeSharedCrtOwner.initializerStackArgumentsForPlatform(this.#platform,this.#dllMemoryController??this.#sharedInitializerFrame.controller);if(!proof.known)throw new Error(proof.reason);
       proof.value.imports.validateEncodedCode(p.object);return record;
     }
     if (p?.kind === 'platform') {

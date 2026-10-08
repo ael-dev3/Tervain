@@ -47,8 +47,8 @@ export interface NativeSharedInitializerImports {
  poolVirtualAlloc(address:number,size:number,type:number,protect:number):NativeHeapObjectViews|null;
  proveDisjointInitializerCopy(destination:NativeBytePointer,input:NativeBytePointer,bytes:number):void;
  comparePoolPointers(left:NativeBytePointer,right:NativeBytePointer):number;
- validatePoolRegion(region:NativeHeapObjectViews,offset:number,capacity:16|24):void;
- retainPoolSlot(region:NativeHeapObjectViews,offset:number,capacity:16|24):NativeHeapObjectViews;
+ validatePoolRegion(region:NativeHeapObjectViews,offset:number,capacity:16|24|1792):void;
+ retainPoolSlot(region:NativeHeapObjectViews,offset:number,capacity:16|24|1792):NativeHeapObjectViews;
  readonly memorySectionInitializeProcedure:object;
  readonly memorySectionEnterProcedure:object;
  readonly memorySectionLeaveProcedure:object;
@@ -214,7 +214,7 @@ export class NativeSharedCrtOwner {
  #exitLockHeld=false;
  #memoryHeapSectionHeld=false;
  readonly #poolRegions=new Set<NativeHeapObjectViews>();
- readonly #poolSlots=new Map<NativeHeapObjectViews,Readonly<{region:NativeHeapObjectViews;offset:number;capacity:16|24}>>();
+ readonly #poolSlots=new Map<NativeHeapObjectViews,Readonly<{region:NativeHeapObjectViews;offset:number;capacity:16|24|1792}>>();
  readonly #initializerAllocations=new Set<NativeHeapObjectViews>();
  #environmentStrings:NativeHeapObjectViews[]=[];
  #setEnvpReturned:number|null=null;
@@ -235,6 +235,9 @@ export class NativeSharedCrtOwner {
  #dllModuleAttempted=false;
  #dllResourceAttempted=false;
  #dllResourceSizeAttempted=false;
+ #dllMemoryAdminAttempted=false;
+ #dllMallocAttempted=false;
+ #dllMallocCall:object|null=null;
  #dllResourceSize:Readonly<{slot:NativeHeapObjectViews;procedure:object;outcome:(filename:string)=>Readonly<{size:number;handle:number}>}>|null=null;
  #dllModuleHooks:Readonly<NativeSharedDllModuleHooks>|null=null;
  #dllModuleOwner:NativeSharedVersionModule|null=null;
@@ -312,8 +315,8 @@ export class NativeSharedCrtOwner {
     const fields=new NativeHeapObjectViews(backing);this.#locals.set(fields,{backing,bytes:fields.bytes,masks:fields.knownMask,backingBytes:backing.bytes,backingMasks:backing.knownMask,view:fields.view});this.#initializerAllocations.add(fields);return fields;
    },
    poolVirtualAlloc:(address:number,size:number,type:number,protect:number):NativeHeapObjectViews|null=>{
-    if(!this.#active||!this.#initializerActive||address!==0||![0x102000,0xc0000].includes(size)||type!==0x103000||protect!==4)throw new Error('Original 16/24-byte pool VirtualAlloc arguments required');
-    const region=this.#call(size===0x102000?'10047f74.VirtualAlloc':'100480b4.VirtualAlloc',()=>NativeRuntimePlatform.virtualAllocForSharedInitializer(this.platform,size));if(!region)return null;
+    if(!this.#active||!this.#initializerActive||address!==0||![0x102000,0xc0000,0x70000].includes(size)||type!==0x103000||protect!==4)throw new Error('Original 16/24-byte pool VirtualAlloc arguments required');
+    const region=this.#call(size===0x102000?'10047f74.VirtualAlloc':size===0xc0000?'100480b4.VirtualAlloc':'10049054.VirtualAlloc',()=>NativeRuntimePlatform.virtualAllocForSharedInitializer(this.platform,size));if(!region)return null;
     const proof=NativeRuntimePlatform.canonicalVirtualRegionForPlatform(this.platform,region,size);if(!proof.known)throw new Error(proof.reason);
     const fields=new NativeHeapObjectViews(region,0,size);this.#locals.set(fields,{backing:region,bytes:fields.bytes,masks:fields.knownMask,backingBytes:region.bytes,backingMasks:region.knownMask,view:fields.view});this.#poolRegions.add(fields);return fields;
    },
@@ -328,11 +331,11 @@ export class NativeSharedCrtOwner {
     for(const pointer of [left,right]){if(!this.#poolRegions.has(pointer.fields)||!Number.isInteger(pointer.offset)||pointer.offset<0||pointer.offset>pointer.fields.bytes.length)throw new Error('Actual contained original pool-region pointers required');this.#requireLocal(pointer.fields);}
     const order=this.#call('1003c67e.poolRegionOrder',()=>this.platform.compareRegions(left.fields.backing as NativeMemoryRegion,right.fields.backing as NativeMemoryRegion));return order||Math.sign(left.offset-right.offset);
    },
-   validatePoolRegion:(region:NativeHeapObjectViews,offset:number,capacity:16|24):void=>{
-    if(!this.#active||!this.#initializerActive||!this.#poolRegions.has(region)||offset!==0||![16,24].includes(capacity)||region.bytes.length!==(capacity===16?0x102000:0xc0000))throw new Error('Actual original bitmap pool receiver required');this.#requireLocal(region);const geometry=this.#initializerImages[capacity===16?'100e7aa8':'100e7ab8']!;if(geometry.readUnsigned(0)!==capacity||geometry.readUnsigned(4)!==(capacity===16?65535:0x7f55))throw new Error('Live original bitmap pool geometry required');
+   validatePoolRegion:(region:NativeHeapObjectViews,offset:number,capacity:16|24|1792):void=>{
+    if(!this.#active||!this.#initializerActive||!this.#poolRegions.has(region)||offset!==0||![16,24,1792].includes(capacity)||region.bytes.length!==(capacity===16?0x102000:capacity===24?0xc0000:0x70000))throw new Error('Actual original bitmap pool receiver required');this.#requireLocal(region);const geometry=this.#initializerImages[capacity===16?'100e7aa8':capacity===24?'100e7ab8':'100e7b80']!;if(geometry.readUnsigned(0)!==capacity||geometry.readUnsigned(4)!==(capacity===16?65535:capacity===24?0x7f55:255))throw new Error('Live original bitmap pool geometry required');
    },
-   retainPoolSlot:(region:NativeHeapObjectViews,offset:number,capacity:16|24):NativeHeapObjectViews=>{
-    this.#initializerImports.validatePoolRegion(region,0,capacity);const count=capacity===16?65535:0x7f55,bitmapBase=capacity===16?0x100000:0xbf008;
+   retainPoolSlot:(region:NativeHeapObjectViews,offset:number,capacity:16|24|1792):NativeHeapObjectViews=>{
+    this.#initializerImports.validatePoolRegion(region,0,capacity);const count=capacity===16?65535:capacity===24?0x7f55:255,bitmapBase=capacity===16?0x100000:capacity===24?0xbf008:0x6f910;
     if(!Number.isInteger(offset)||offset<16||offset+capacity>16+capacity*count||(offset-16)%capacity)throw new Error('Actual source-selected bitmap pool slot required');
     const index=(offset-16)/capacity,bitmap=region.readUnsigned(bitmapBase+Math.floor(index/32)*4);if(bitmap&(1<<(index&31)))throw new Error('Original bitmap slot claim required');
     for(const slot of this.#poolSlots.values())if(slot.region===region&&slot.offset===offset)throw new Error('Fresh original pool slot return required');
@@ -477,6 +480,8 @@ export class NativeSharedCrtOwner {
   const rootStatic=initializerSource.coldGlobals.rootStaticObject;if(rootStatic.address!=='102f4618'||rootStatic.bytes!==40||rootStatic.raw!=='00'.repeat(40))throw new Error('Original Root static object bytes required');const rootStaticFields=this.#retainLocal(40);rootStaticFields.bytes.fill(0);rootStaticFields.knownMask.fill(255);initializerImages['102f4618']=rootStaticFields;
   if(initializerSource.methods.memcpy.bodyInstructionBytesSha256!=='ada0fafd69940490a3c1ac706772420ce32760254cc28aff588c401ed09f1c44')throw new Error('Original SharedBase initializer memcpy source required');
   for(const [label,address,raw] of [['memcpyForwardDwords','100a7b08','6b7b0a10587b0a10507b0a10487b0a10407b0a10387b0a10307b0a10287b0a10'],['memcpyForwardTail','100a7b74','847b0a108c7b0a10987b0a10ac7b0a10']] as const){const receipt=initializerSource.coldGlobals[label];if(receipt.address!==address||receipt.raw!==raw||receipt.bytes!==raw.length/2)throw new Error('Original initializer memcpy dispatch bytes required');const fields=this.#retainLocal(receipt.bytes);for(let offset=0;offset<receipt.bytes;offset++)fields.writeUnsigned(offset,parseInt(raw.slice(offset*2,offset*2+2),16),1);initializerImages[address]=fields;}
+  for(const [label,hash] of [['pool1792Dispatch','3d58e290e25a0050ce25e335317c7cc96f0e482e0e36bba7699ffe633855670a'],['pool1792Initialize','1a883d8dae8cf11f85a1b8cfd0eff36b4796edd86066c6c703c3b10700d0b142'],['pool1792Allocate','7de11414ebcc3562183438855a5b58027768aa4d0c45e94f6e9a408b8566eaae']] as const)if(initializerSource.methods[label].bodyInstructionBytesSha256!==hash)throw new Error('Original version-buffer pool source required');
+  for(const [label,address,raw] of [['pool1792State','102ffe9c','00'.repeat(12)],['pool1792Descriptor','102fff5c','00'.repeat(4)],['pool1792Geometry','100e7b80','00070000ff000000']] as const){const receipt=initializerSource.coldGlobals[label];if(receipt.address!==address||receipt.raw!==raw)throw new Error('Original version-buffer pool storage required');const fields=this.#retainLocal(raw.length/2);for(let i=0;i<fields.bytes.length;i++)fields.writeUnsigned(i,parseInt(raw.slice(i*2,i*2+2),16),1);initializerImages[address]=fields;}
   const geometry=initializerSource.coldGlobals.pool16Geometry;if(geometry.address!=='100e7aa8'||geometry.bytes!==8||geometry.raw!=='10000000ffff0000')throw new Error('Original 16-byte pool geometry required');const geometryFields=this.#retainLocal(8);for(let offset=0;offset<8;offset++)geometryFields.writeUnsigned(offset,parseInt(geometry.raw.slice(offset*2,offset*2+2),16),1);initializerImages['100e7aa8']=geometryFields;
   const areaChain=initializerSource.methods.heapAddPointerArea.entryChain;if(areaChain.length!==1||areaChain[0]!.va!=='100012e4'||areaChain[0]!.targetVA!=='1003c650'||areaChain[0]!.bytes!=='e967b30300')throw new Error('Original pointer-area registration thunk required');
   for(const [label,address,length] of [['heapPointerAreaCount','102fb030',4],['heapPointerAreas','10149a18',0x40000]] as const){const receipt=initializerSource.coldGlobals[label];if(receipt.address!==address||receipt.bytes!==length||receipt.raw!=='00'.repeat(length))throw new Error('Original heap pointer-area storage required');const fields=this.#retainLocal(length);fields.bytes.fill(0);fields.knownMask.fill(255);initializerImages[address]=fields;}
@@ -517,7 +522,7 @@ export class NativeSharedCrtOwner {
  }
  #requireLocal(fields:NativeHeapObjectViews):void {
   const root=this.#locals.get(fields);
-  const slot=this.#poolSlots.get(fields);if(slot){this.#requireLocal(slot.region);const index=(slot.offset-16)/slot.capacity,bitmapBase=slot.capacity===16?0x100000:0xbf008;if(slot.region.readUnsigned(bitmapBase+Math.floor(index/32)*4)&(1<<(index&31)))throw new Error('Live original bitmap slot claim required');}
+  const slot=this.#poolSlots.get(fields);if(slot){this.#requireLocal(slot.region);const index=(slot.offset-16)/slot.capacity,bitmapBase=slot.capacity===16?0x100000:slot.capacity===24?0xbf008:0x6f910;if(slot.region.readUnsigned(bitmapBase+Math.floor(index/32)*4)&(1<<(index&31)))throw new Error('Live original bitmap slot claim required');}
   if(this.#poolRegions.has(fields)){const proof=NativeRuntimePlatform.canonicalVirtualRegionForPlatform(this.platform,fields.backing,fields.bytes.length);if(!proof.known)throw new Error(proof.reason);}
   if(!root||fields.backing!==root.backing||root.backing.freed||fields.bytes!==root.bytes||fields.knownMask!==root.masks||fields.view!==root.view||root.backing.bytes!==root.backingBytes||root.backing.knownMask!==root.backingMasks||fields.view.buffer!==root.bytes.buffer||fields.view.byteOffset!==root.bytes.byteOffset||fields.view.byteLength!==root.bytes.length)throw new Error('Actual retained SharedBase local storage required');
  }
@@ -533,15 +538,20 @@ export class NativeSharedCrtOwner {
   const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)return active;const owner=owners.get(platform);if(!owner||!owner.#active||owner.#argvCall!==call)return {known:false,reason:'Actual pending SharedBase setargv required'};
   try{return {known:true,value:{stage:owner.#argvStage,initialized:owner.imageStorage('multibyteInitialized').readUnsigned(0),module:owner.imageStorage('moduleNameBuffer'),input:owner.#argvInput,allocation:owner.#argvAllocation,result:owner.#argvReturned,argc:owner.imageStorage('argumentCount'),argv:owner.imageStorage('argumentVector'),retryDelay:owner.imageStorage('allocationRetryDelay').readUnsigned(0),envPointer:owner.imageStorage('environmentPointer'),envVector:owner.imageStorage('environmentVector'),envInitialized:owner.imageStorage('environmentInitialized'),mbInitialized:owner.imageStorage('multibyteInitialized')}};}catch(error){return {known:false,reason:error instanceof Error?error.message:String(error)};}
  }
- static dllEntryStackArgumentsForPlatform(platform:NativeRuntimePlatform,call:object):NativeValue<Readonly<{guard:NativeHeapObjectViews;object:NativeHeapObjectViews;moduleName:NativeHeapObjectViews;lstrcpy:Readonly<{slot:NativeHeapObjectViews;procedure:object}>|null;modules:Readonly<NativeSharedDllModuleHooks>|null;resourceSize:Readonly<{slot:NativeHeapObjectViews;procedure:object;outcome:(filename:string)=>Readonly<{size:number;handle:number}>}>|null}>>{
+ static dllEntryStackArgumentsForPlatform(platform:NativeRuntimePlatform,call:object):NativeValue<Readonly<{guard:NativeHeapObjectViews;object:NativeHeapObjectViews;moduleName:NativeHeapObjectViews;memoryAdmin:NativeHeapObjectViews;lstrcpy:Readonly<{slot:NativeHeapObjectViews;procedure:object}>|null;modules:Readonly<NativeSharedDllModuleHooks>|null;resourceSize:Readonly<{slot:NativeHeapObjectViews;procedure:object;outcome:(filename:string)=>Readonly<{size:number;handle:number}>}>|null}>>{
   const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)return active;const owner=owners.get(platform);
   if(!owner||!owner.#active||owner.#dllCall!==call||owner.#attachReturned!==1||!owner.#dllImages)return {known:false,reason:'Actual pending SharedBase DLL entry required'};
-  try{owner.#requireLocal(owner.#dllImages.guard);owner.#requireLocal(owner.#dllImages.object);owner.#requireLocal(owner.#dllImages.moduleName);if(owner.#dllLstrcpy){owner.#requireLocal(owner.#dllLstrcpy.slot);if(owner.#dllLstrcpy.slot.pointer(0).get()!==owner.#dllLstrcpy.procedure)throw new Error('Canonical DLL lstrcpyA import binding required');}if(owner.#dllModuleHooks){owner.#requireLocal(owner.#dllModuleHooks.procedureName);for(const binding of Object.values(owner.#dllModuleHooks.imports)){owner.#requireLocal(binding.slot);if(binding.slot.pointer(0).get()!==binding.procedure)throw new Error('Canonical DLL module import binding required');}}if(owner.#dllResourceSize){owner.#requireLocal(owner.#dllResourceSize.slot);if(owner.#dllResourceSize.slot.pointer(0).get()!==owner.#dllResourceSize.procedure)throw new Error('Canonical version size import binding required');}return {known:true,value:{...owner.#dllImages,lstrcpy:owner.#dllLstrcpy,modules:owner.#dllModuleHooks,resourceSize:owner.#dllResourceSize}};}catch(error){return {known:false,reason:error instanceof Error?error.message:String(error)};}
+  try{owner.#requireLocal(owner.#dllImages.guard);owner.#requireLocal(owner.#dllImages.object);owner.#requireLocal(owner.#dllImages.moduleName);if(owner.#dllLstrcpy){owner.#requireLocal(owner.#dllLstrcpy.slot);if(owner.#dllLstrcpy.slot.pointer(0).get()!==owner.#dllLstrcpy.procedure)throw new Error('Canonical DLL lstrcpyA import binding required');}if(owner.#dllModuleHooks){owner.#requireLocal(owner.#dllModuleHooks.procedureName);for(const binding of Object.values(owner.#dllModuleHooks.imports)){owner.#requireLocal(binding.slot);if(binding.slot.pointer(0).get()!==binding.procedure)throw new Error('Canonical DLL module import binding required');}}if(owner.#dllResourceSize){owner.#requireLocal(owner.#dllResourceSize.slot);if(owner.#dllResourceSize.slot.pointer(0).get()!==owner.#dllResourceSize.procedure)throw new Error('Canonical version size import binding required');}const memoryAdmin=owner.#initializerImages['10142798'];if(!memoryAdmin)throw new Error('Actual initialized MemoryAdmin state required');owner.#requireLocal(memoryAdmin);return {known:true,value:{...owner.#dllImages,memoryAdmin,lstrcpy:owner.#dllLstrcpy,modules:owner.#dllModuleHooks,resourceSize:owner.#dllResourceSize}};}catch(error){return {known:false,reason:error instanceof Error?error.message:String(error)};}
  }
  static initializerStackArgumentsForPlatform(platform:NativeRuntimePlatform,call:object):NativeValue<Readonly<{images:Readonly<Record<string,NativeHeapObjectViews>>;cookie:NativeHeapObjectViews;imports:Readonly<NativeSharedInitializerImports>}>>{
-  const proof=NativeSharedCrtOwner.argvStackArgumentsForPlatform(platform,call);if(!proof.known)return proof;const owner=owners.get(platform)!;
-  if(!owner.#initializerActive||proof.value.stage!=='environment')return {known:false,reason:'Actual pending SharedBase initializer required'};
+  const owner=owners.get(platform);if(!owner)return {known:false,reason:'Actual SharedBase owner required'};
+  if(owner.#dllMallocCall===call){const dll=NativeSharedCrtOwner.dllEntryStackArgumentsForPlatform(platform,call);if(!dll.known)return dll;}else{const proof=NativeSharedCrtOwner.argvStackArgumentsForPlatform(platform,call);if(!proof.known)return proof;if(proof.value.stage!=='environment')return {known:false,reason:'Actual pending SharedBase initializer required'};}
+  if(!owner.#initializerActive)return {known:false,reason:'Actual pending SharedBase initializer required'};
   try{for(const fields of Object.values(owner.#initializerImages))owner.#requireLocal(fields);const cookie=NativeSharedCrtSecurityCookie.forPlatform(platform);const read=cookie.readCookie();if(!read.known)return read;return {known:true,value:{images:Object.freeze({...owner.#initializerImages,'10140b48':owner.imageStorage('tlsGetterIndex'),'10140b44':owner.imageStorage('threadDataIndex'),'102f64b4':owner.imageStorage('allocationRetryDelay'),'102f8588':owner.imageStorage('multibyteInitialized'),'102f70c0':owner.imageStorage('ioBlocks'),'102f854c':owner.imageStorage('memcpySseFlag'),'102f6ad0':owner.imageStorage('newMode'),'102f8530':owner.imageStorage('heapSelection'),'102f6ac8':owner.imageStorage('heapHandle'),'101414b8':owner.imageStorage('lockTable')}),cookie:cookie.fields,imports:owner.#initializerImports}};}catch(error){return {known:false,reason:error instanceof Error?error.message:String(error)};}
+ }
+ static dllMallocLocalStorageForPlatform(platform:NativeRuntimePlatform,call:object,fields:NativeHeapObjectViews):NativeValue<void>{
+  const proof=NativeSharedCrtOwner.initializerStackArgumentsForPlatform(platform,call);if(!proof.known)return proof;const owner=owners.get(platform)!;if(owner.#dllMallocCall!==call)return {known:false,reason:'Actual DLL allocator storage grant required'};
+  try{if(fields===proof.value.cookie){const cookie=NativeSharedCrtSecurityCookie.forPlatform(platform).readCookie();if(!cookie.known)return cookie;}else if(!Object.values(proof.value.images).includes(fields)){owner.#requireLocal(fields);if(owner.#initializerAllocations.has(fields)){const span=NativeRuntimePlatform.canonicalOwnedWin32HeapAllocationSpan(platform,owner.#heap!,owner.identity,{fields,offset:0},fields.bytes.length);if(!span.known)return span;}}else if(Object.values(owner.#initializerImages).includes(fields))owner.#requireLocal(fields);if(fields.backing.freed)throw new Error('Actual live DLL allocator storage required');return {known:true,value:undefined};}catch(error){return {known:false,reason:error instanceof Error?error.message:String(error)};}
  }
  static argvLocalStorageForPlatform(platform:NativeRuntimePlatform,call:object,fields:NativeHeapObjectViews):NativeValue<void>{
   const proof=NativeSharedCrtOwner.argvStackArgumentsForPlatform(platform,call);if(!proof.known)return proof;const owner=owners.get(platform)!;
@@ -1369,6 +1379,24 @@ export class NativeSharedCrtOwner {
   this.#dllFilenameAttempted=true;
   try{this.#active=true;this.#dllCall=Object.freeze({});const result=NativeX86ThreadStack.finishSharedDllFilenameCopy(this.#argvStack,this.#dllCall);if(!result.known)this.#dllBoundary=result.reason;return result;}
   catch(error){this.#dllBoundary=error instanceof Error?error.message:String(error);return {known:false,reason:this.#dllBoundary};}
+  finally{this.#dllCall=null;this.#active=false;}
+ }
+ processDllVersionMalloc():NativeValue<number>{
+  if(this.#dllMallocAttempted)return {known:false,reason:this.#dllBoundary??'Retained DLL malloc attempt required'};
+  if(this.#active||this.#dllBoundary!=='Original SharedBase version buffer Malloc pending at 10003cd8'||!this.#argvStack)return {known:false,reason:'Actual pending version buffer malloc required'};
+  this.#dllMallocAttempted=true;
+  try{this.#active=true;this.#initializerActive=true;this.#dllCall=Object.freeze({});this.#dllMallocCall=this.#dllCall;const result=NativeX86ThreadStack.runSharedInitializers(this.#argvStack,this.#dllCall,'dll-version-malloc');if(!result.known)this.#dllBoundary=result.reason;return result;}
+  catch(error){this.#dllBoundary=error instanceof Error?error.message:String(error);return {known:false,reason:this.#dllBoundary};}
+  finally{this.#dllMallocCall=null;this.#dllCall=null;this.#initializerActive=false;this.#active=false;}
+ }
+ processDllMemoryAdmin():NativeValue<number>{
+  if(this.#dllMemoryAdminAttempted)return {known:false,reason:this.#dllBoundary??'Retained DLL MemoryAdmin attempt required'};
+  if(this.#active||this.#dllBoundary!=='Original SharedBase version buffer MemoryAdmin pending at 10002aae'||!this.#argvStack)return {known:false,reason:'Actual pending version buffer MemoryAdmin call required'};
+  this.#dllMemoryAdminAttempted=true;
+  try{
+   const receipt=initializerSource.methods.memoryGetInstance;if(receipt.bodyInstructionBytesSha256!=='79302e58eb88b69239f60db781967e6c265bf12fff7f5da8f5efcdb022e9a454'||receipt.entryChain[0]?.bytes!=='e93de10100')throw new Error('Original MemoryAdmin singleton source required');
+   this.#active=true;this.#dllCall=Object.freeze({});const result=NativeX86ThreadStack.runSharedDllMemoryAdmin(this.#argvStack,this.#dllCall);if(!result.known)this.#dllBoundary=result.reason;return result;
+  }catch(error){this.#dllBoundary=error instanceof Error?error.message:String(error);return {known:false,reason:this.#dllBoundary};}
   finally{this.#dllCall=null;this.#active=false;}
  }
  processDllResourceSize(profile:'recorded-sharedbase-ansi-version-buffer'):NativeValue<number>{
