@@ -8,15 +8,17 @@ is the detailed technical record and dated checkpoint history.
 
 See the [current rebuilding overview](gothic3-rebuild-overview.md#current-status--8-october-2026)
 for the latest confirmed deployment and remaining startup dependencies.
-PR 91 is deployed at main commit `56cb02439136ddb4c37922065158f0977e85afa2`
-by successful Pages run 37718958809. It publishes original SharedBase pointer
-setup and initialization of 14 static critical sections.
+PR 92 is deployed at main commit `57ce12047fed555a9d02fc3d9f375155b5cf3a6d`
+by successful Pages run 37720051978. It publishes original SharedBase pointer
+setup, 14 static critical sections, PTD allocation and default-locale initialization.
 
 Further local work follows actual FLS/TLS thread-index allocation, independent
 SharedBase calloc, PTD installation and initialization, default-locale reference
 increments under lock 12, and the original thread-ID/handle writes. Its selected
-`__mtinit` returns 1 with an actual thread-ID service. Full SharedBase attach still
-needs RTC, environment, I/O, arguments and initializer traversal. Native SEH
+`__mtinit` returns 1 with an actual thread-ID service. Further local work
+traverses RTC, acquires the command line and reconstructs ANSI/wide environment
+handling. It stops before I/O at `100adb36 -> 100bf165`. Full SharedBase attach
+still needs I/O, arguments and initializer traversal. Native SEH
 stack installation and non-NULL PTD destruction remain unimplemented.
 
 The live Game startup still stops before `__cinit` at `204678f2`. These components
