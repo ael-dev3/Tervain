@@ -28,6 +28,8 @@ export class NativeSharedStaticTls {
  #teb=physical(48);
  #vector=physical(4);
  #block:NativeHeapObjectViews|null=null;
+ #blockBytes:Uint8Array|null=null;
+ #blockMasks:Uint8Array|null=null;
  private constructor(private readonly platform:NativeRuntimePlatform,selection:Readonly<NativeX86ThreadStackSelection>,proof:object) {
   if(proof!==token)throw new Error('Canonical static TLS loader required');
   if(source.sharedBaseSha256!=='5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214'||JSON.stringify(source.staticTls)!==JSON.stringify(expected))throw new Error('Original SharedBase TLS template differs');
@@ -56,6 +58,7 @@ export class NativeSharedStaticTls {
    const bytes=Uint8Array.from(expected.templateRaw.match(/../g)!,byte=>parseInt(byte,16));
    const block=physical(bytes.length,true);block.bytes.set(bytes);
    this.#block=block;
+   this.#blockBytes=block.backing.bytes;this.#blockMasks=block.backing.knownMask;
    this.#vector.pointer<NativeHeapObjectViews>(0).set(block);
    this.#index.writeUnsigned(0,0);
    this.#teb.pointer<NativeHeapObjectViews>(44).set(this.#vector);
@@ -69,8 +72,9 @@ export class NativeSharedStaticTls {
    if(vector!==this.#vector)throw new Error('Actual retained FS:0x2c vector required');
    const index=this.#index.readUnsigned(0);
    const block=vector.pointer<NativeHeapObjectViews>(index*4).get();
-   if(!block||block!==this.#block||block.backing.freed||block.bytes!==block.backing.bytes||
-     block.knownMask!==block.backing.knownMask||block.bytes.length!==expected.templateRaw.length/2)throw new Error('Actual retained SharedBase TLS block required');
+   if(!block||block!==this.#block||block.backing.freed||block.backing.bytes!==this.#blockBytes||
+     block.backing.knownMask!==this.#blockMasks||block.bytes.buffer!==block.backing.bytes.buffer||
+     block.bytes.byteOffset!==block.backing.bytes.byteOffset||block.bytes.length!==expected.templateRaw.length/2)throw new Error('Actual retained SharedBase TLS block required');
    return {known:true,value:new NativeHeapObjectViews(block.backing,expected.debugBufferOffset,block.bytes.length-expected.debugBufferOffset)};
   }catch(error){return {known:false,reason:error instanceof Error?error.message:String(error)};}
  }
