@@ -423,3 +423,13 @@ The buffer is owned and published, with all bytes still unknown before writing.
 Execution stops at `100c5fa5 -> 100c2048`. There are 112 captured bodies,
 4,407 instructions and 416 CALL receipts. Final output, cache publication,
 cleanup, full startup and campaign integration remain unfinished.
+
+### Live output serialization
+
+Original string-writing and virtual text/indirect callbacks serialize
+`class bCObsoleteClass` plus NUL into the 24-byte CRT allocation. The first
+22 bytes are known and its two padding bytes remain unknown. Original
+whitespace compaction executes and ToString returns. Execution stops at
+`100c61c2 -> 100c14dd` before scratch cleanup. The package contains 115
+bodies, 4,501 instructions and 422 CALL receipts. Cleanup, cache publication,
+full startup and campaign integration remain unfinished.

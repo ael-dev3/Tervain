@@ -10008,3 +10008,26 @@ the instruction module reproduce exactly. The source package contains
 production build pass. The full suite passes 2,805 tests across 260 files
 (170.40 seconds). Publication is pending. Full startup,
 world activation and campaign completion remain unfinished.
+
+### Local class-name serialization and ToString return — 8 October 2026
+
+Original DName string writing `100c2048`, indirect-node callback `100c2301`
+and text-node callback `100c22b2` execute. Virtual calls at `100c2093` and
+`100c20ab` require the same constructed receiver and original vtable checks
+as length calculation, with exact slots zero and eight respectively. JNS
+consumes the actual known sign flag from the original length subtraction.
+
+The bounded copy loop writes both graph components into the owned CRT buffer.
+The original caller's whitespace loop runs and writes the terminator. Exactly
+22 bytes are known: `class bCObsoleteClass` followed by NUL. The final two
+allocation bytes remain unknown. ToString returns to unDName; execution stops
+at `100c61c2 -> 100c14dd`, before the scratch-heap destructor. The scratch
+allocation remains live and lock five is still held. Cache publication,
+cleanup and complete startup remain unfinished.
+
+Local evidence: 248 focused checks pass, including modified callbacks between
+length and output. Typechecking and production build pass. All 219 generated
+evidence files and the instruction module reproduce exactly. The package
+contains 115 bodies, 4,501 instructions and 422 CALL receipts. The full suite
+passes 2,808 tests across 260 files (165.13 seconds). Publication remains
+pending. World/NPC activation and campaign completion remain outstanding.

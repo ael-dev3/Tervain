@@ -1,0 +1,20 @@
+100c22b2 | 8b410c | MOV EAX,dword ptr [ECX + 0xc]
+100c22b5 | 8b542408 | MOV EDX,dword ptr [ESP + 0x8]
+100c22b9 | 3bd0 | CMP EDX,EAX
+100c22bb | 7e02 | JLE 0x100c22bf
+100c22bd | 8bd0 | MOV EDX,EAX
+100c22bf | 8b4908 | MOV ECX,dword ptr [ECX + 0x8]
+100c22c2 | 33c0 | XOR EAX,EAX
+100c22c4 | 3bc8 | CMP ECX,EAX
+100c22c6 | 7418 | JZ 0x100c22e0
+100c22c8 | 39442404 | CMP dword ptr [ESP + 0x4],EAX
+100c22cc | 7412 | JZ 0x100c22e0
+100c22ce | 3bd0 | CMP EDX,EAX
+100c22d0 | 740e | JZ 0x100c22e0
+100c22d2 | 52 | PUSH EDX
+100c22d3 | ff742408 | PUSH dword ptr [ESP + 0x8]
+100c22d7 | 8bd1 | MOV EDX,ECX
+100c22d9 | e835fbffff | CALL 0x100c1e13
+100c22de | 59 | POP ECX
+100c22df | 59 | POP ECX
+100c22e0 | c20800 | RET 0x8
