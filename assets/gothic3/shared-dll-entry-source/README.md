@@ -41,3 +41,21 @@ second independent output directory reproduced `source.json` byte for byte.
 The generated instruction table preserves all 497 body instructions and entry
 thunks. Four focused source checks and typechecking pass. Both generated
 outputs reproduce byte for byte. Runtime execution is still pending.
+
+## Explicit host resource API observation
+
+The hash-matching installed DLL was inspected through Windows VERSION.dll
+resource APIs without loading or executing Gothic code. On the recorded host,
+`GetFileVersionInfoSizeA` returned 1,740 bytes and cleared the handle to zero.
+After `GetFileVersionInfoA` initialized that allocation, translation query
+returned offset 864, length 4; ANSI FileVersion query returned offset 1,200,
+length 17, bytes for `1, 60, 25931, 29` including the terminator.
+The observation preserves the prepared buffer after these two queries. Its
+layout is an explicit host selection and is not asserted for every Windows
+version or every query order.
+
+Microsoft explains why the prepared buffer must include ANSI conversion space:
+[prepared version buffers](https://devblogs.microsoft.com/oldnewthing/20070731-00/?p=25783).
+The [API contract](https://learn.microsoft.com/en-us/windows/win32/api/winver/nf-winver-getfileversioninfosizea)
+requires the size returned by the API. Raw PE resource size must not be used as
+that allocation size. Browser import execution remains pending.
