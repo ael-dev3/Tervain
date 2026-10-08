@@ -276,3 +276,13 @@ reference-count exchange, candidate installation, exception dispatch, lock
 release nor the parent epilogue has executed. Lower services remain translated
 owner effects, and complete module attachment and live Game integration remain
 unfinished.
+
+
+The selected cold single-byte path now installs the candidate into PTD and,
+when the original locale masks allow it, publishes the complete global tables
+under lock 13. Private canonical counter grants preserve exact reference counts
+without clamping. The normal handler and SEH epilogue restore FS and return to
+the init-table caller, which marks initialization complete. The next boundary is
+module filename acquisition at `100c0bd1`. Exception dispatch, dynamic old-record
+free, complete argument setup and full SharedBase/Game integration remain
+unfinished. The package is unchanged: 79 functions and 56 cold image ranges.

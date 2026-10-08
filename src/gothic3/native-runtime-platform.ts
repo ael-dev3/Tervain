@@ -1586,6 +1586,15 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
         fields.bytes.buffer !== canonical.bytes.buffer || fields.bytes.byteOffset !== canonical.bytes.byteOffset + position ||
         fields.knownMask.buffer !== canonical.knownMask.buffer || fields.knownMask.byteOffset !== canonical.knownMask.byteOffset + position) throw new Error('Actual canonical live platform output storage required');
   }
+  readonly #sharedCounterUsed=new WeakSet<object>();
+  readonly #sharedCounterNormal=new WeakMap<object,Readonly<{value:number;before:number;after:number}>>();
+  static invokeSharedInterlockedCounter(platform:NativeRuntimePlatform,call:object):NativeValue<Readonly<{value:number;before:number;after:number}>>{
+    const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)return active;const admitted=NativeSharedCrtOwner.interlockedArgumentsForPlatform(platform,call);if(!admitted.known)return admitted;if(!platform.#crtServices||platform.#sharedCounterUsed.has(call))return unknown('Actual unused selected SharedBase interlocked call required');
+    try{platform.canonicalFields(admitted.value.fields,4);const before=NativeHeapObjectViews.prototype.readUnsigned.call(admitted.value.fields,0);if(before!==admitted.value.before)throw new Error('Actual retained SharedBase counter input required');platform.#sharedCounterUsed.add(call);const after=(before+admitted.value.delta)>>>0;NativeHeapObjectViews.prototype.writeUnsigned.call(admitted.value.fields,0,after);const result=Object.freeze({value:after|0,before,after});platform.#sharedCounterNormal.set(call,result);return known(result);}catch(error){return unknown(error instanceof Error?error.message:String(error));}
+  }
+  static canonicalSharedInterlockedReturn(platform:NativeRuntimePlatform,call:object):NativeValue<Readonly<{value:number;before:number;after:number}>>{
+    const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)return active;const admitted=NativeSharedCrtOwner.interlockedArgumentsForPlatform(platform,call);if(!admitted.known)return admitted;const result=platform.#sharedCounterNormal.get(call);return result?known(result):unknown('Actual SharedBase interlocked normal return required');
+  }
   interlockedCounter(fields: NativeHeapObjectViews, delta: 1 | -1): NativeValue<number> {
     if (!this.#crtServices) return unknown('Actual selected Interlocked counter service required');
     try { this.canonicalFields(fields, 4); const value = (fields.readUnsigned(0) + delta) >>> 0; fields.writeUnsigned(0, value); return known(value | 0); }
