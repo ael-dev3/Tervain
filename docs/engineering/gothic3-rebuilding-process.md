@@ -33,7 +33,7 @@ runtime and record exactly where execution still stops.
 
 ### Immediate remaining work
 
-- Complete SharedBase initializer startup after `100a7903 -> 100b448b`, including its actual
+- Complete SharedBase initializer startup after FNCLEX at `100a7919`, including its actual
   initializer tables and callback dependencies, then the enclosing CRT attach.
 - Connect the supported shared runtime to live Game startup at 204678f2 and
   execute the required initializer callbacks in their original order.
@@ -46,6 +46,38 @@ checks establish the published checkpoint's supported scope; campaign completion
 requires an integrated gameplay result.
 
 ## Latest process summary — 8 October 2026
+
+### SharedBase processor feature query and original return
+
+The initializer now enters original `100b448b`, reads the actual KERNEL32 and
+IsProcessorFeaturePresent literals, and uses retained virtual import slots.
+Module lookup, procedure lookup and the indirect feature call follow their
+original CALL/RET and stdcall cleanup of 4, 8 and 4 bytes. The returned BOOL
+remains in EAX, the query returns to `100a7908`, and the caller stores that same
+value at `102f6424`. Its zero argument takes the original branch around default
+precision setup. Execution stops before FNCLEX at `100a7919`; neither its effect
+nor a completed floating-point hook return is fabricated.
+
+The browser profile declares the processor export present and precision erratum
+false. These retained values are an explicit virtual process contract, not a
+host CPU query or captured Windows state. Both BOOL outcomes are supported.
+Feature 0 is the precision-erratum flag in
+[Microsoft's API contract](https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-isprocessorfeaturepresent).
+
+A missing selection stops at the actual lookup or feature call. A NULL module
+or absent export follows the original tail jump into `100b444f`, owns its saved
+EBP and 24-byte reservation, and stops before the x87 FLD at `100b4455`. Copied
+or foreign procedure capabilities and forged import slots cannot dispatch the
+feature call. Failure prefixes are sticky. Source-name bytes and import slots
+join the unchanged 39-body evidence package; all 70 source files and generated
+syntax reproduce exactly.
+
+Local focused validation passes 123 checks; the full suite passes 2,656 tests
+across 259 files. Typechecking and the production build also pass. PR 110 passed CI
+run 37749256837 and merged at `77ee0db88ac453a094d9d673dbc24e3cff6b3388`;
+Pages run 37750600707 completed successfully. Full CRT attachment, live Game startup
+at `204678f2`, NPC activation and a campaign playable to an ending remain
+unfinished.
 
 ### SharedBase initializer image check and floating-point installation
 

@@ -1023,6 +1023,70 @@
       },
       "scope": "cold-original-image",
       "liveValueCaptured": false
+    },
+    "processorModuleName": {
+      "address": "100ede4c",
+      "raw": "4b45524e454c333200",
+      "bytes": 9,
+      "sha256": "98aa8d3921926e401edb3be3d14537c79d9f0fde0dddd99af5a012f2586d0d4a",
+      "section": {
+        "virtualAddress": 937984,
+        "virtualSize": 366840,
+        "rawSize": 368640,
+        "rawOffset": 937984,
+        "fileBackedBytes": 9,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "processorProcedureName": {
+      "address": "100ede30",
+      "raw": "497350726f636573736f724665617475726550726573656e7400",
+      "bytes": 26,
+      "sha256": "55f71f8c1134090f1f8e919d3cc7f3c6112139cafead8b49a41389c8e7203585",
+      "section": {
+        "virtualAddress": 937984,
+        "virtualSize": 366840,
+        "rawSize": 368640,
+        "rawOffset": 937984,
+        "fileBackedBytes": 26,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "moduleHandleImportSlot": {
+      "address": "102f9768",
+      "raw": "64a12f00",
+      "bytes": 4,
+      "sha256": "31cedec818a44236fc2c91047a728897378e29de04d675c22fab3a0dc2bdb9dd",
+      "section": {
+        "virtualAddress": 3117056,
+        "virtualSize": 6242,
+        "rawSize": 8192,
+        "rawOffset": 1323008,
+        "fileBackedBytes": 4,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "procedureLookupImportSlot": {
+      "address": "102f9648",
+      "raw": "d89c2f00",
+      "bytes": 4,
+      "sha256": "c6f6300dde1b0ec88178a7fe68f20d85317a84ef0a84660fed92e57bdf1b1657",
+      "section": {
+        "virtualAddress": 3117056,
+        "virtualSize": 6242,
+        "rawSize": 8192,
+        "rawOffset": 1323008,
+        "fileBackedBytes": 4,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
     }
   },
   "sectionHeaders": [

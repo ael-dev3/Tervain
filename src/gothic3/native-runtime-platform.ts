@@ -111,7 +111,11 @@ export interface NativeCrtLocalGetProcedure { readonly kind: 'get'; readonly nam
 export interface NativeCrtLocalSetProcedure { readonly kind: 'set'; readonly name: 'FlsSetValue' | 'TlsSetValue'; invoke(index: number, value: object | null): NativeValue<boolean>; }
 export interface NativeCrtLocalFreeProcedure { readonly kind: 'free'; readonly name: 'FlsFree' | 'TlsFree'; invoke(index: number): NativeValue<boolean>; }
 export type NativeCrtLocalProcedure = NativeCrtLocalAllocProcedure | NativeCrtLocalGetProcedure | NativeCrtLocalSetProcedure | NativeCrtLocalFreeProcedure;
-export type NativeCrtPlatformProcedure = NativeCrtPointerProcedure | NativeCrtSectionProcedure | NativeCrtLocalProcedure;
+export interface NativeCrtProcessorFeatureProcedure {
+  readonly identity:object;readonly owner:object;readonly name:'IsProcessorFeaturePresent';
+  invoke(feature:number):NativeValue<number>;
+}
+export type NativeCrtPlatformProcedure = NativeCrtPointerProcedure | NativeCrtSectionProcedure | NativeCrtLocalProcedure | NativeCrtProcessorFeatureProcedure;
 export class NativeWin32PlatformException extends Error {
   constructor(readonly code: number) { super('Owned Win32 exception0x' + code.toString(16)); }
 }
@@ -122,6 +126,9 @@ export interface NativeEngineCrtPlatformServices {
   readonly kernel32Available: boolean;
   readonly pointerCodec: 'absent' | 'owned-bijection';
   readonly sectionSpinProcedure?: boolean;
+  readonly processorFeatureProcedure?:boolean;
+  /** Declared virtual processor result, never a host CPU measurement. */
+  readonly floatingPointPrecisionErratum?:boolean;
   readonly fiberLocalStorage?: boolean;
   readonly processHeap?: boolean;
   readonly osVersion?: { readonly platform: number; readonly major: number; readonly minor: number; readonly build: number } | null;
@@ -155,9 +162,9 @@ function retainCrtServices(selected: NativeEngineCrtPlatformServices | undefined
 } {
   if (selected === undefined) return { services: undefined, tls: [] };
   const { tlsValues, kernel32Available, pointerCodec, sectionSpinProcedure,
-    fiberLocalStorage, processHeap, osVersion, entropy, processInputs, threadStack, startupIo, standardIo, argvNls, setEnvp } = selected;
+    fiberLocalStorage, processHeap, osVersion, entropy, processInputs, threadStack, startupIo, standardIo, argvNls, setEnvp, processorFeatureProcedure, floatingPointPrecisionErratum } = selected;
   if (typeof kernel32Available !== 'boolean' || (pointerCodec !== 'absent' && pointerCodec !== 'owned-bijection') ||
-      [sectionSpinProcedure, fiberLocalStorage, processHeap].some(value => value !== undefined && typeof value !== 'boolean')) {
+      [sectionSpinProcedure, fiberLocalStorage, processHeap, processorFeatureProcedure, floatingPointPrecisionErratum].some(value => value !== undefined && typeof value !== 'boolean')) {
     throw new Error('Explicit selected CRT registry configuration required');
   }
   const version = osVersion === undefined || osVersion === null ? osVersion : Object.freeze({
@@ -177,7 +184,7 @@ function retainCrtServices(selected: NativeEngineCrtPlatformServices | undefined
         (typeof value !== 'object' && typeof value !== 'function')) throw new Error('Selected initial TLS indices and retained capabilities required');
     tls.push(Object.freeze([index, value] as const));
   }
-  return { services: Object.freeze({ kernel32Available, pointerCodec, sectionSpinProcedure,
+  return { services: Object.freeze({ kernel32Available, pointerCodec, sectionSpinProcedure, processorFeatureProcedure, floatingPointPrecisionErratum,
     fiberLocalStorage, processHeap, osVersion: version, entropy: callbacks,
     processInputs: processInputs === undefined ? undefined : retainNativeWin32ProcessInputSelection(processInputs),
     threadStack: threadStack === undefined ? undefined : retainNativeX86ThreadStackSelection(threadStack),
@@ -360,6 +367,7 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
   #processHeap: NativeWin32HeapCapability | null = null;
   readonly #kernel32: NativeWin32ModuleCapability;
   readonly #pointerEncode: NativeCrtPointerProcedure;
+  readonly #processorFeatureProcedure:NativeCrtProcessorFeatureProcedure;
   readonly #pointerDecode: NativeCrtPointerProcedure;
   readonly #sectionProcedure: NativeCrtSectionProcedure;
   readonly #encodedPointers = new Map<object | null, object>();
@@ -426,6 +434,12 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
       const capability = Object.freeze({ identity: Object.freeze({}), owner });
       this.#standardHandles.set(capability, Object.freeze({ capability, slot }));
     }
+    this.#processorFeatureProcedure=Object.freeze({identity:Object.freeze({}),owner,name:'IsProcessorFeaturePresent',invoke:(feature:number):NativeValue<number>=>{
+      const active=NativeRuntimePlatform.requireActivePlatform(this);if(!active.known)return active;
+      if(feature!==0)return unknown('Unowned virtual processor feature '+feature);
+      const value=this.#crtServices?.floatingPointPrecisionErratum;
+      return value===undefined?unknown('Explicit virtual floating-point precision erratum selection required'):known(value?1:0);
+    }});
     this.#pointerEncode = Object.freeze({ identity: Object.freeze({}), owner, name: 'EncodePointer',
       invoke: (value: object | null): NativeValue<object | null> => {
         if (this.#crtServices?.pointerCodec !== 'owned-bijection') return unknown('Actual owned pointer-encoding procedure required');
@@ -1633,21 +1647,27 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     try { return known(this.#win32LastError.readUnsigned(0)); }
     catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
   }
-  getWin32ModuleHandle(name: 'KERNEL32.DLL' | 'kernel32.dll'): NativeValue<NativeWin32ModuleCapability | null> {
-    if (!this.#crtServices || (name !== 'KERNEL32.DLL' && name !== 'kernel32.dll')) return unknown('Actual owned CRT Win32 module registry required');
+  getWin32ModuleHandle(name: 'KERNEL32.DLL' | 'kernel32.dll' | 'KERNEL32'): NativeValue<NativeWin32ModuleCapability | null> {
+    if (!this.#crtServices || (name !== 'KERNEL32.DLL' && name !== 'kernel32.dll' && name !== 'KERNEL32')) return unknown('Actual owned CRT Win32 module registry required');
     return known(this.#crtServices.kernel32Available ? this.#kernel32 : null);
   }
   getWin32Procedure(module: NativeWin32ModuleCapability, name: 'EncodePointer' | 'DecodePointer'): NativeValue<NativeCrtPointerProcedure | null>;
+  getWin32Procedure(module:NativeWin32ModuleCapability,name:'IsProcessorFeaturePresent'):NativeValue<NativeCrtProcessorFeatureProcedure|null>;
   getWin32Procedure(module: NativeWin32ModuleCapability, name: 'InitializeCriticalSectionAndSpinCount'): NativeValue<NativeCrtSectionProcedure | null>;
   getWin32Procedure(module: NativeWin32ModuleCapability, name: 'FlsAlloc' | 'FlsGetValue' | 'FlsSetValue' | 'FlsFree'): NativeValue<NativeCrtLocalProcedure | null>;
   getWin32Procedure(module: NativeWin32ModuleCapability, name: string): NativeValue<NativeCrtPlatformProcedure | null> {
     if (!this.#crtServices || module !== this.#kernel32 || !this.#crtServices.kernel32Available) return unknown('Actual owned CRT Win32 module capability required');
     if (name === 'EncodePointer') return known(this.#crtServices.pointerCodec === 'owned-bijection' ? this.#pointerEncode : null);
     if (name === 'DecodePointer') return known(this.#crtServices.pointerCodec === 'owned-bijection' ? this.#pointerDecode : null);
+    if(name==='IsProcessorFeaturePresent'){const available=this.#crtServices.processorFeatureProcedure;return available===undefined?unknown('Explicit selected processor-feature export availability required'):known(available?this.#processorFeatureProcedure:null);}
     if (name === 'InitializeCriticalSectionAndSpinCount') return known(this.#crtServices.sectionSpinProcedure === false ? null : this.#sectionProcedure);
     const key = ({ FlsAlloc: 'alloc', FlsGetValue: 'get', FlsSetValue: 'set', FlsFree: 'free' } as const)[name as 'FlsAlloc'];
     if (key) return known(this.#crtServices.fiberLocalStorage ? this.#flsProcedures[key] : null);
     return unknown('Admitted selected CRT Win32 procedure name required');
+  }
+  static canonicalProcessorFeatureProcedureForPlatform(platform:NativeRuntimePlatform,procedure:object):NativeValue<NativeCrtProcessorFeatureProcedure>{
+    const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)return active;
+    return platform.#crtServices?.processorFeatureProcedure===true&&procedure===platform.#processorFeatureProcedure?known(platform.#processorFeatureProcedure):unknown('Actual same-platform processor-feature procedure required');
   }
   /** Lower Win32 endpoint. The CRT owner performs its source resolver/cache. */
   initializePhysicalCriticalSection(fields: NativeHeapObjectViews, owner: object, spinCount: 4000): NativeValue<boolean> {

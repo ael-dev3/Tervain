@@ -921,6 +921,191 @@ const rows:readonly (readonly string[])[] = [
     "100b4425",
     "c3",
     "RET"
+  ],
+  [
+    "100b448b",
+    "684cde0e10",
+    "PUSH 0x100ede4c"
+  ],
+  [
+    "100b4490",
+    "ff1568972f10",
+    "CALL dword ptr [0x102f9768]"
+  ],
+  [
+    "100b4496",
+    "85c0",
+    "TEST EAX,EAX"
+  ],
+  [
+    "100b4498",
+    "7415",
+    "JZ 0x100b44af"
+  ],
+  [
+    "100b449a",
+    "6830de0e10",
+    "PUSH 0x100ede30"
+  ],
+  [
+    "100b449f",
+    "50",
+    "PUSH EAX"
+  ],
+  [
+    "100b44a0",
+    "ff1548962f10",
+    "CALL dword ptr [0x102f9648]"
+  ],
+  [
+    "100b44a6",
+    "85c0",
+    "TEST EAX,EAX"
+  ],
+  [
+    "100b44a8",
+    "7405",
+    "JZ 0x100b44af"
+  ],
+  [
+    "100b44aa",
+    "6a00",
+    "PUSH 0x0"
+  ],
+  [
+    "100b44ac",
+    "ffd0",
+    "CALL EAX"
+  ],
+  [
+    "100b44ae",
+    "c3",
+    "RET"
+  ],
+  [
+    "100b44af",
+    "e99bffffff",
+    "JMP 0x100b444f"
+  ],
+  [
+    "100b444f",
+    "55",
+    "PUSH EBP"
+  ],
+  [
+    "100b4450",
+    "8bec",
+    "MOV EBP,ESP"
+  ],
+  [
+    "100b4452",
+    "83ec18",
+    "SUB ESP,0x18"
+  ],
+  [
+    "100b4455",
+    "dd0528de0e10",
+    "FLD double ptr [0x100ede28]"
+  ],
+  [
+    "100b445b",
+    "dd5df0",
+    "FSTP double ptr [EBP + -0x10]"
+  ],
+  [
+    "100b445e",
+    "dd0520de0e10",
+    "FLD double ptr [0x100ede20]"
+  ],
+  [
+    "100b4464",
+    "dd5de8",
+    "FSTP double ptr [EBP + -0x18]"
+  ],
+  [
+    "100b4467",
+    "dd45e8",
+    "FLD double ptr [EBP + -0x18]"
+  ],
+  [
+    "100b446a",
+    "dc75f0",
+    "FDIV double ptr [EBP + -0x10]"
+  ],
+  [
+    "100b446d",
+    "dc4df0",
+    "FMUL double ptr [EBP + -0x10]"
+  ],
+  [
+    "100b4470",
+    "dc6de8",
+    "FSUBR double ptr [EBP + -0x18]"
+  ],
+  [
+    "100b4473",
+    "dd5df8",
+    "FSTP double ptr [EBP + -0x8]"
+  ],
+  [
+    "100b4476",
+    "d9e8",
+    "FLD1"
+  ],
+  [
+    "100b4478",
+    "dc5df8",
+    "FCOMP double ptr [EBP + -0x8]"
+  ],
+  [
+    "100b447b",
+    "dfe0",
+    "FNSTSW AX"
+  ],
+  [
+    "100b447d",
+    "f6c405",
+    "TEST AH,0x5"
+  ],
+  [
+    "100b4480",
+    "7a05",
+    "JP 0x100b4487"
+  ],
+  [
+    "100b4482",
+    "33c0",
+    "XOR EAX,EAX"
+  ],
+  [
+    "100b4484",
+    "40",
+    "INC EAX"
+  ],
+  [
+    "100b4485",
+    "c9",
+    "LEAVE"
+  ],
+  [
+    "100b4486",
+    "c3",
+    "RET"
+  ],
+  [
+    "100b4487",
+    "33c0",
+    "XOR EAX,EAX"
+  ],
+  [
+    "100b4489",
+    "c9",
+    "LEAVE"
+  ],
+  [
+    "100b448a",
+    "c3",
+    "RET"
   ]
 ];
 const instructions=new Map<string,SharedInitializerInstruction>(rows.map(([address,bytes,instruction])=>

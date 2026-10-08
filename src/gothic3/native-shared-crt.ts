@@ -8,6 +8,7 @@ import {NativeSharedCrtSecurityCookie} from './native-shared-crt-security-cookie
 import source from '../../assets/gothic3/shared-crt-bootstrap/source.json';
 import {NativeRuntimePlatform,NativeWin32PlatformException} from './native-runtime-platform';
 import type {NativeCrtLocalProcedure,NativeCrtLocalAllocProcedure,NativeCrtLocalGetProcedure,NativeCrtLocalSetProcedure,NativeCrtThreadDestructor,NativeWin32HeapCapability} from './native-runtime-platform';
+import type {NativeWin32ModuleCapability} from './native-runtime-platform';
 import {NativeHeapObjectViews} from './native-heap-views';
 import type {NativeMemoryBacking} from './native-memory-admin';
 import type {NativeBytePointer} from './native-pointer-geometry';
@@ -18,6 +19,12 @@ import type {NativeArgvNlsCallGrant} from './native-win32-argv-nls';
 import type {NativeValue} from './dialogue';
 const owners=new WeakMap<NativeRuntimePlatform,NativeSharedCrtOwner>();
 const token=Object.freeze({});
+export interface NativeSharedInitializerImports {
+ readonly getModuleHandleA:object;readonly getProcAddress:object;
+ getModule(name:string):object|null;
+ getProcedure(module:object,name:string):object|null;
+ queryFeature(procedure:object,feature:number):number;
+}
 const methods={
  setEnvp:['0x100c092a','7c2d07a7f3b191ba69dd4ae6f947cd3dc7f23e55095cf3548f27d7fe6b34b3a6'],
  strlen:['0x100b2a80','5044fc769fb26ae1772d18e3e1ef5ffc16757c910207278cab8d90af3557a7f0'],
@@ -156,6 +163,7 @@ export class NativeSharedCrtOwner {
  #environmentVector:NativeHeapObjectViews|null=null;
  #initializerImages:Readonly<Record<string,NativeHeapObjectViews>>;
  #initializerActive=false;
+ #initializerImports:Readonly<NativeSharedInitializerImports>;
  #environmentStrings:NativeHeapObjectViews[]=[];
  #setEnvpReturned:number|null=null;
  #version:NativeHeapObjectViews|null=null;
@@ -188,6 +196,19 @@ export class NativeSharedCrtOwner {
   for(const [address,raw] of [['10000000',sharedInitializerHeader.raw],['100ed568','fe780a10'],['10141480','9fdf0c10'.repeat(10)],['102f6424','00000000']]){
    const fields=this.#retainLocal(raw!.length/2);for(let offset=0;offset<fields.bytes.length;offset++)fields.writeUnsigned(offset,parseInt(raw!.slice(offset*2,offset*2+2),16),1);initializerImages[address!]=fields;
   }
+  const getModuleHandleA=Object.freeze({owner:this.identity,name:'GetModuleHandleA'}),getProcAddress=Object.freeze({owner:this.identity,name:'GetProcAddress'});
+  this.#initializerImports=Object.freeze({getModuleHandleA,getProcAddress,
+   getModule:(name:string):object|null=>{if(name!=='KERNEL32')throw new Error('Unowned SharedBase processor module name');return this.#call('100b4490.GetModuleHandleA',()=>this.platform.getWin32ModuleHandle('KERNEL32'));},
+   getProcedure:(module:object,name:string):object|null=>{
+    if(name!=='IsProcessorFeaturePresent')throw new Error('Unowned SharedBase processor procedure name');
+    const procedure=this.#call('100b44a0.GetProcAddress',()=>this.platform.getWin32Procedure(module as NativeWin32ModuleCapability,'IsProcessorFeaturePresent'));
+    if(procedure){const proof=NativeRuntimePlatform.canonicalProcessorFeatureProcedureForPlatform(this.platform,procedure);if(!proof.known)throw new Error(proof.reason);}return procedure;
+   },
+   queryFeature:(procedure:object,feature:number):number=>{const proof=NativeRuntimePlatform.canonicalProcessorFeatureProcedureForPlatform(this.platform,procedure);if(!proof.known)throw new Error(proof.reason);return this.#call('100b44ac.IsProcessorFeaturePresent',()=>proof.value.invoke(feature));},
+  });
+  for(const [address,capability] of [['102f9768',getModuleHandleA],['102f9648',getProcAddress]] as const){const fields=this.#retainLocal(4);fields.pointer<object>(0).set(capability);initializerImages[address]=fields;}
+  for(const label of ['processorModuleName','processorProcedureName'] as const){const receipt=initializerSource.coldGlobals[label],expected=label==='processorModuleName'?'4b45524e454c333200':'497350726f636573736f724665617475726550726573656e7400',address=label==='processorModuleName'?'100ede4c':'100ede30';if(receipt.raw!==expected||receipt.address!==address||receipt.bytes!==expected.length/2)throw new Error('Original SharedBase processor literal required');const fields=this.#retainLocal(receipt.bytes);for(let offset=0;offset<receipt.bytes;offset++)fields.writeUnsigned(offset,parseInt(expected.slice(offset*2,offset*2+2),16),1);initializerImages[address]=fields;}
+  for(const [label,hash] of [['queryFloatDivisionErratum','56f7a0aab3783275f87815c6ae4bc7f5b4f251270bc3df4fbbdbc01cedcb1fdf'],['queryFloatDivisionFallback','55bb8b73819ffceb78e0502d2c0278fc3220e77b3dd09347bbc3b3fa89d345b4']] as const)if(initializerSource.methods[label].bodyInstructionBytesSha256!==hash)throw new Error('Original SharedBase processor query source differs');
   this.#initializerImages=Object.freeze(initializerImages);
   const exception=source.sectionException;
   if(exception.filter.raw!=='8b45ec8b008b008945dc33c93d170000c00f94c18bc1c3'||exception.handler.raw!=='8b65e8817ddc170000c075086a08ff157c972f108365e000'||exception.scopeTable.raw!=='feffffff00000000ccffffff00000000feffffffadbf0b10c4bf0b10')throw new Error('Original section exception source required');
@@ -230,10 +251,10 @@ export class NativeSharedCrtOwner {
   const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)return active;const owner=owners.get(platform);if(!owner||!owner.#active||owner.#argvCall!==call)return {known:false,reason:'Actual pending SharedBase setargv required'};
   try{return {known:true,value:{stage:owner.#argvStage,initialized:owner.imageStorage('multibyteInitialized').readUnsigned(0),module:owner.imageStorage('moduleNameBuffer'),input:owner.#argvInput,allocation:owner.#argvAllocation,result:owner.#argvReturned,argc:owner.imageStorage('argumentCount'),argv:owner.imageStorage('argumentVector'),retryDelay:owner.imageStorage('allocationRetryDelay').readUnsigned(0),envPointer:owner.imageStorage('environmentPointer'),envVector:owner.imageStorage('environmentVector'),envInitialized:owner.imageStorage('environmentInitialized'),mbInitialized:owner.imageStorage('multibyteInitialized')}};}catch(error){return {known:false,reason:error instanceof Error?error.message:String(error)};}
  }
- static initializerStackArgumentsForPlatform(platform:NativeRuntimePlatform,call:object):NativeValue<Readonly<{images:Readonly<Record<string,NativeHeapObjectViews>>;cookie:NativeHeapObjectViews}>>{
+ static initializerStackArgumentsForPlatform(platform:NativeRuntimePlatform,call:object):NativeValue<Readonly<{images:Readonly<Record<string,NativeHeapObjectViews>>;cookie:NativeHeapObjectViews;imports:Readonly<NativeSharedInitializerImports>}>>{
   const proof=NativeSharedCrtOwner.argvStackArgumentsForPlatform(platform,call);if(!proof.known)return proof;const owner=owners.get(platform)!;
   if(!owner.#initializerActive||proof.value.stage!=='environment')return {known:false,reason:'Actual pending SharedBase initializer required'};
-  try{for(const fields of Object.values(owner.#initializerImages))owner.#requireLocal(fields);const cookie=NativeSharedCrtSecurityCookie.forPlatform(platform);const read=cookie.readCookie();if(!read.known)return read;return {known:true,value:{images:owner.#initializerImages,cookie:cookie.fields}};}catch(error){return {known:false,reason:error instanceof Error?error.message:String(error)};}
+  try{for(const fields of Object.values(owner.#initializerImages))owner.#requireLocal(fields);const cookie=NativeSharedCrtSecurityCookie.forPlatform(platform);const read=cookie.readCookie();if(!read.known)return read;return {known:true,value:{images:owner.#initializerImages,cookie:cookie.fields,imports:owner.#initializerImports}};}catch(error){return {known:false,reason:error instanceof Error?error.message:String(error)};}
  }
  static argvLocalStorageForPlatform(platform:NativeRuntimePlatform,call:object,fields:NativeHeapObjectViews):NativeValue<void>{
   const proof=NativeSharedCrtOwner.argvStackArgumentsForPlatform(platform,call);if(!proof.known)return proof;const owner=owners.get(platform)!;
