@@ -55,7 +55,9 @@ scans the main image sections through a string comparison. The package retains
 the original KERNEL32.DLL and EncodePointer names, cold TLS indices and TLS
 getter import slot. Cold values remain separate from live loader capabilities.
 All 72 generated source files and the unchanged generated runtime reproduce
-byte-for-byte; 23 source checks and typechecking pass. This capture does not
+byte-for-byte; 23 focused source checks, typechecking and all 2,657 tests across
+259 files pass. PR 112 passed CI run 37752324399 and merged at
+`4068aacec57dc591eea929333ea15583dcff2ef8`. This capture does not
 complete conversion encoding. The cached thread-data procedure and fallback
 lookup must still execute with their original stack and storage relationships.
 
