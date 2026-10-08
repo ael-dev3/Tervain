@@ -1194,3 +1194,37 @@ it('rejects changed DLL initializer evidence before constructing its local frame
  const {owner}=stdioFixture();owner.processAttach();owner.processDllEntryPrefix();const method=dllEntrySource.methods.find(item=>item.label==='sharedDllMainInitializer')!,hash=method.bodyInstructionBytesSha256;
  try{method.bodyInstructionBytesSha256='00'.repeat(32);expect(owner.processDllInitializerPrefix()).toEqual({known:false,reason:'Original DLL initializer source required'});expect(owner.snapshot().caseState!.stack!.snapshot().sharedDllInitializerFrame).toBeNull();}finally{method.bodyInstructionBytesSha256=hash;}
 });
+
+it('retains the original version filename-copy import and its actual local buffer',()=>{
+ const {owner}=stdioFixture();owner.processAttach();owner.processDllEntryPrefix();owner.processDllInitializerPrefix();const result=owner.processDllVersionQueryPrefix();expect(result).toEqual({known:false,reason:'Original SharedBase lstrcpyA pending at 1004c59f'});
+ const stack=owner.snapshot().caseState!.stack!.snapshot(),frame=stack.sharedDllVersionFrame!;expect(frame.copyPending).toBe(true);expect(frame.filename.bytes.length).toBe(260);expect(frame.filename.backing).toBe(stack.sharedArgvFrame!.argumentCount.backing);expect(frame.filename.bytes.byteOffset-frame.filename.backing.bytes.byteOffset).toBe(frame.entryEsp-260);expect(frame.source).toBe(owner.snapshot().dllEntryImages!.moduleName);
+ expect(stack.registers.EBP).toMatchObject({word:{knownMask:0,provenance:{kind:'platform',category:'DllLstrcpyA'}}});expect(stack.registers.EAX).toMatchObject({word:{knownMask:4095,provenance:{kind:'stack',offset:frame.entryEsp-260}}});expect(owner.snapshot().dllLstrcpyImport!.slot.pointer(0).get()).toBe(owner.snapshot().dllLstrcpyImport!.procedure);expect(stack.calls.find(call=>call.site==='1004c59f')!.returned).toBe(false);expect(stack.trace).toContain('1004c59f.CALL EBP');expect(owner.snapshot().dllEntryExecuted).toBe(false);
+ const calls=stack.calls.length;expect(owner.processDllVersionQueryPrefix()).toEqual(result);expect(owner.snapshot().caseState!.stack!.snapshot().calls).toHaveLength(calls);
+});
+it('requires the original pending version query before constructing its frame',()=>{
+ const {owner}=stdioFixture();expect(owner.processDllVersionQueryPrefix()).toEqual({known:false,reason:'Actual pending DLL version query required'});expect(owner.snapshot().dllLstrcpyImport).toBeNull();
+});
+
+it('rejects changed original filename-copy import evidence before version frame entry',()=>{
+ const {owner}=stdioFixture();owner.processAttach();owner.processDllEntryPrefix();owner.processDllInitializerPrefix();const receipt=dllEntrySource.imports.find(item=>item.iatVA==='0x102f96b0')!,name=receipt.name;
+ try{receipt.name='OtherProcedure';expect(owner.processDllVersionQueryPrefix()).toEqual({known:false,reason:'Original DLL filename-copy import required'});expect(owner.snapshot().caseState!.stack!.snapshot().sharedDllVersionFrame).toBeNull();expect(owner.snapshot().dllLstrcpyImport).toBeNull();}finally{receipt.name=name;}
+});
+it('rejects changed version-query return storage before saving its registers',()=>{
+ const {owner}=stdioFixture();owner.processAttach();owner.processDllEntryPrefix();owner.processDllInitializerPrefix();const stack=owner.snapshot().caseState!.stack!.snapshot(),call=stack.calls.find(call=>call.site==='100a15c1')!,backing=stack.sharedArgvFrame!.argumentCount.backing;
+ backing.bytes[call.position]=backing.bytes[call.position]!^1;backing.knownMask[call.position]=255;const result=owner.processDllVersionQueryPrefix();expect(result.known).toBe(false);if(result.known)throw new Error('corrupt query return admitted');expect(result.reason).toContain('changed outside its actual store');expect(owner.snapshot().caseState!.stack!.snapshot().sharedDllVersionFrame).toBeNull();
+});
+
+it('copies the actual DLL filename into its local buffer and returns through the import frame',()=>{
+ const {owner}=stdioFixture();owner.processAttach();owner.processDllEntryPrefix();owner.processDllInitializerPrefix();owner.processDllVersionQueryPrefix();const result=owner.processDllFilenameCopy();expect(result).toEqual({known:false,reason:'Original SharedBase LoadLibraryA binding pending at 1004c5a6'});
+ const stack=owner.snapshot().caseState!.stack!.snapshot(),frame=stack.sharedDllVersionFrame!;expect(String.fromCharCode(...frame.filename.bytes.slice(0,15))).toBe('sharedbase.dll\0');expect(Array.from(frame.filename.knownMask.slice(0,15))).toEqual(Array(15).fill(255));expect(frame.copyPending).toBe(false);expect(stack.calls.find(call=>call.site==='1004c59f')!.returned).toBe(true);expect(stack.trace).toContain('1004c59f.lstrcpyANormalReturn');expect(stack.registers.EAX).toMatchObject({word:{provenance:{kind:'stack',offset:frame.entryEsp-260}}});expect(stack.registers.ECX).toMatchObject({word:{provenance:{kind:'stack',offset:frame.entryEsp-260}}});
+ const calls=stack.calls.length;expect(owner.processDllFilenameCopy()).toEqual(result);expect(owner.snapshot().caseState!.stack!.snapshot().calls).toHaveLength(calls);expect(owner.snapshot().dllEntryExecuted).toBe(false);
+});
+
+it('rejects a changed filename-copy import slot before modifying the destination',()=>{
+ const {owner}=stdioFixture();owner.processAttach();owner.processDllEntryPrefix();owner.processDllInitializerPrefix();owner.processDllVersionQueryPrefix();const stack=owner.snapshot().caseState!.stack!.snapshot(),before=Array.from(stack.sharedDllVersionFrame!.filename.bytes);owner.snapshot().dllLstrcpyImport!.slot.pointer(0).set({});
+ expect(owner.processDllFilenameCopy()).toEqual({known:false,reason:'Canonical DLL lstrcpyA import binding required'});expect(Array.from(stack.sharedDllVersionFrame!.filename.bytes)).toEqual(before);expect(owner.snapshot().caseState!.stack!.snapshot().calls.find(call=>call.site==='1004c59f')!.returned).toBe(false);
+});
+it('retains applied filename bytes when the owned source has no terminator',()=>{
+ const {owner}=stdioFixture();owner.processAttach();owner.processDllEntryPrefix();owner.processDllInitializerPrefix();owner.processDllVersionQueryPrefix();const literal=owner.snapshot().dllEntryImages!.moduleName;literal.writeUnsigned(14,65,1);expect(owner.processDllFilenameCopy()).toEqual({known:false,reason:'Owned filename-copy terminator required'});
+ const stack=owner.snapshot().caseState!.stack!.snapshot();expect(String.fromCharCode(...stack.sharedDllVersionFrame!.filename.bytes.slice(0,15))).toBe('sharedbase.dllA');expect(stack.sharedDllVersionFrame!.copyPending).toBe(true);expect(stack.calls.find(call=>call.site==='1004c59f')!.returned).toBe(false);
+});

@@ -10247,3 +10247,28 @@ The full suite passes 2,881 tests across 272 files (202.90 seconds). Main
 integration changes no validated file content. Publication is pending.
 Version-query imports, logging, complete DLL startup,
 Game/world activation and campaign completion remain unfinished.
+
+
+## Version-query filename import and copy (work in progress, 2026-10-08)
+
+The original version-query thunk and prologue now retain their saved registers,
+280-byte local reservation and 260-byte filename buffer. The original lstrcpyA
+import slot is bound to an owner-retained capability. Its actual CALL passes
+the stack destination and owned source literal. The successful selected copy
+writes through the stack byte-store machinery and returns that destination
+capability through the original eight-byte argument cleanup.
+
+The original following LEA/PUSH operations retain the filename argument for
+LoadLibraryA. Execution remains pending at 1004c5a6 until its binding and module
+lifetime are implemented. Import-slot corruption is rejected before copying.
+When the owned source fragment has no terminator, already copied bytes remain
+and execution stops at the missing source-extent proof; no Windows failure
+return is invented.
+
+The successful copy matches the documented
+[lstrcpyA contract](https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-lstrcpya).
+All 290 focused checks, typechecking and production build (38.30 seconds) pass.
+The full suite passes 2,888 tests across 272 files (231.67 seconds). Main
+integration changes no validated file content. Publication is pending.
+Version resources, logging,
+full DLL startup, Game/world activation and campaign completion remain unfinished.
