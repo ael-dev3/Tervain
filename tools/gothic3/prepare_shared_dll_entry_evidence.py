@@ -107,6 +107,7 @@ def capture(study, output):
         0x100010e1: 'dllMessageNewHolder',
         0x10007441: 'dllMessageHolderAllocate',
         0x10006c1c: 'dllMessageErrorGet',
+        0x10007cac:'dllMessageRegister',0x1000631b:'dllMessageReserve',
         0x10004133:'dllErrorBufferMalloc',0x100052fe:'dllErrorBufferHeapAllocate',0x10007644:'dllLargePoolDispatch',0x10007aa9:'dllLargePoolInitialize',
         0x10001db1:'dllErrorCreate',0x100032c4:'dllErrorInvalidate',0x10001c21:'dllMessageRemove',
     })

@@ -48,9 +48,9 @@ export interface NativeSharedInitializerImports {
  proveDisjointInitializerCopy(destination:NativeBytePointer,input:NativeBytePointer,bytes:number):void;
  comparePoolPointers(left:NativeBytePointer,right:NativeBytePointer):number;
  releasePoolSlot(pointer:NativeBytePointer):void;
- validatePoolRegion(region:NativeHeapObjectViews,offset:number,capacity:12|16|24|1792):void;
+ validatePoolRegion(region:NativeHeapObjectViews,offset:number,capacity:12|16|24|112|1792):void;
  retainVariablePoolSlot(region:NativeHeapObjectViews,offset:number):NativeHeapObjectViews;
- retainPoolSlot(region:NativeHeapObjectViews,offset:number,capacity:12|16|24|1792):NativeHeapObjectViews;
+ retainPoolSlot(region:NativeHeapObjectViews,offset:number,capacity:12|16|24|112|1792):NativeHeapObjectViews;
  readonly memorySectionInitializeProcedure:object;
  readonly memorySectionEnterProcedure:object;
  readonly memorySectionLeaveProcedure:object;
@@ -218,7 +218,7 @@ export class NativeSharedCrtOwner {
  #memoryHeapSectionHeld=false;
  readonly #poolRegions=new Set<NativeHeapObjectViews>();
  readonly #variablePoolSlots=new Map<NativeHeapObjectViews,Readonly<{region:NativeHeapObjectViews;offset:number;capacity:number}>>();
- readonly #poolSlots=new Map<NativeHeapObjectViews,Readonly<{region:NativeHeapObjectViews;offset:number;capacity:12|16|24|1792}>>();
+ readonly #poolSlots=new Map<NativeHeapObjectViews,Readonly<{region:NativeHeapObjectViews;offset:number;capacity:12|16|24|112|1792}>>();
  readonly #initializerAllocations=new Set<NativeHeapObjectViews>();
  #environmentStrings:NativeHeapObjectViews[]=[];
  #setEnvpReturned:number|null=null;
@@ -333,8 +333,8 @@ export class NativeSharedCrtOwner {
     const fields=new NativeHeapObjectViews(backing);this.#locals.set(fields,{backing,bytes:fields.bytes,masks:fields.knownMask,backingBytes:backing.bytes,backingMasks:backing.knownMask,view:fields.view});this.#initializerAllocations.add(fields);return fields;
    },
    poolVirtualAlloc:(address:number,size:number,type:number,protect:number):NativeHeapObjectViews|null=>{
-    if(!this.#active||!this.#initializerActive||address!==0||![0x400000,0xc2000,0x102000,0xc0000,0x70000].includes(size)||type!==0x103000||protect!==4)throw new Error('Original SharedBase pool VirtualAlloc arguments required');
-    const region=this.#call(size===0x400000?'1003d237.VirtualAlloc':size===0xc2000?'10047ed4.VirtualAlloc':size===0x102000?'10047f74.VirtualAlloc':size===0xc0000?'100480b4.VirtualAlloc':'10049054.VirtualAlloc',()=>NativeRuntimePlatform.virtualAllocForSharedInitializer(this.platform,size));if(!region)return null;
+    if(!this.#active||!this.#initializerActive||address!==0||![0x700000,0x400000,0xc2000,0x102000,0xc0000,0x70000].includes(size)||type!==0x103000||protect!==4)throw new Error('Original SharedBase pool VirtualAlloc arguments required');
+    const region=this.#call(size===0x700000?'10048654.VirtualAlloc':size===0x400000?'1003d237.VirtualAlloc':size===0xc2000?'10047ed4.VirtualAlloc':size===0x102000?'10047f74.VirtualAlloc':size===0xc0000?'100480b4.VirtualAlloc':'10049054.VirtualAlloc',()=>NativeRuntimePlatform.virtualAllocForSharedInitializer(this.platform,size));if(!region)return null;
     const proof=NativeRuntimePlatform.canonicalVirtualRegionForPlatform(this.platform,region,size);if(!proof.known)throw new Error(proof.reason);
     const fields=new NativeHeapObjectViews(region,0,size);this.#locals.set(fields,{backing:region,bytes:fields.bytes,masks:fields.knownMask,backingBytes:region.bytes,backingMasks:region.knownMask,view:fields.view});this.#poolRegions.add(fields);return fields;
    },
@@ -352,14 +352,14 @@ export class NativeSharedCrtOwner {
     const normalize=(pointer:NativeBytePointer)=>{if(!Number.isInteger(pointer.offset)||pointer.offset<0||pointer.offset>pointer.fields.bytes.length)throw new Error('Actual contained original pool pointers required');this.#requireLocal(pointer.fields);const slot=this.#poolSlots.get(pointer.fields);if(slot)return {fields:slot.region,offset:slot.offset+pointer.offset};if(!this.#poolRegions.has(pointer.fields))throw new Error('Actual original pool region or live slot required');return pointer;};
     const a=normalize(left),b=normalize(right),order=this.#call('1003c67e.poolRegionOrder',()=>this.platform.compareRegions(a.fields.backing as NativeMemoryRegion,b.fields.backing as NativeMemoryRegion));return order||Math.sign(a.offset-b.offset);
    },
-   validatePoolRegion:(region:NativeHeapObjectViews,offset:number,capacity:12|16|24|1792):void=>{
-    if(!this.#active||!this.#initializerActive||!this.#poolRegions.has(region)||offset!==0||![12,16,24,1792].includes(capacity)||region.bytes.length!==(capacity===12?0xc2000:capacity===16?0x102000:capacity===24?0xc0000:0x70000))throw new Error('Actual original bitmap pool receiver required');this.#requireLocal(region);const geometry=this.#initializerImages[capacity===12?'100e7aa0':capacity===16?'100e7aa8':capacity===24?'100e7ab8':'100e7b80']!;if(geometry.readUnsigned(0)!==capacity||geometry.readUnsigned(4)!==(capacity===12?65534:capacity===16?65535:capacity===24?0x7f55:255))throw new Error('Live original bitmap pool geometry required');
+   validatePoolRegion:(region:NativeHeapObjectViews,offset:number,capacity:12|16|24|112|1792):void=>{
+    if(!this.#active||!this.#initializerActive||!this.#poolRegions.has(region)||offset!==0||![12,16,24,112,1792].includes(capacity)||region.bytes.length!==(capacity===112?0x700000:capacity===12?0xc2000:capacity===16?0x102000:capacity===24?0xc0000:0x70000))throw new Error('Actual original bitmap pool receiver required');this.#requireLocal(region);const geometry=this.#initializerImages[capacity===112?'100e7b00':capacity===12?'100e7aa0':capacity===16?'100e7aa8':capacity===24?'100e7ab8':'100e7b80']!;if(geometry.readUnsigned(0)!==capacity||geometry.readUnsigned(4)!==(capacity===112?65462:capacity===12?65534:capacity===16?65535:capacity===24?0x7f55:255))throw new Error('Live original bitmap pool geometry required');
    },
    retainVariablePoolSlot:(region:NativeHeapObjectViews,offset:number):NativeHeapObjectViews=>{
     if(!this.#active||!this.#initializerActive||!this.#memoryHeapSectionHeld||!this.#poolRegions.has(region)||region.bytes.length!==0x400000||!Number.isInteger(offset)||offset<16||(offset-16)%1024)throw new Error('Actual variable-pool allocation return required');this.#requireLocal(region);const header=offset-16,units=region.readUnsigned(header+8),capacity=units*1024-16;if(units<1||units>4096||offset+capacity>region.bytes.length||region.readUnsigned(header+12)!==1)throw new Error('Original allocated variable-pool block header required');for(const slot of this.#variablePoolSlots.values())if(slot.region===region&&slot.offset===offset)throw new Error('Fresh original variable-pool block required');const fields=new NativeHeapObjectViews(region.backing,offset,capacity);this.#locals.set(fields,{backing:fields.backing,bytes:fields.bytes,masks:fields.knownMask,backingBytes:fields.backing.bytes,backingMasks:fields.backing.knownMask,view:fields.view});this.#variablePoolSlots.set(fields,Object.freeze({region,offset,capacity}));return fields;
    },
-   retainPoolSlot:(region:NativeHeapObjectViews,offset:number,capacity:12|16|24|1792):NativeHeapObjectViews=>{
-    this.#initializerImports.validatePoolRegion(region,0,capacity);const count=capacity===12?65534:capacity===16?65535:capacity===24?0x7f55:255,bitmapBase=capacity===12?0xbfff8:capacity===16?0x100000:capacity===24?0xbf008:0x6f910;
+   retainPoolSlot:(region:NativeHeapObjectViews,offset:number,capacity:12|16|24|112|1792):NativeHeapObjectViews=>{
+    this.#initializerImports.validatePoolRegion(region,0,capacity);const count=capacity===112?65462:capacity===12?65534:capacity===16?65535:capacity===24?0x7f55:255,bitmapBase=capacity===112?0x6fdfb0:capacity===12?0xbfff8:capacity===16?0x100000:capacity===24?0xbf008:0x6f910;
     if(!Number.isInteger(offset)||offset<16||offset+capacity>16+capacity*count||(offset-16)%capacity)throw new Error('Actual source-selected bitmap pool slot required');
     const index=(offset-16)/capacity,bitmap=region.readUnsigned(bitmapBase+Math.floor(index/32)*4);if(bitmap&(1<<(index&31)))throw new Error('Original bitmap slot claim required');
     for(const slot of this.#poolSlots.values())if(slot.region===region&&slot.offset===offset)throw new Error('Fresh original pool slot return required');
@@ -450,6 +450,9 @@ export class NativeSharedCrtOwner {
   const memoryState=initializerSource.coldGlobals.memoryAdminState;if(memoryState.address!=='10142798'||memoryState.bytes!==16||memoryState.raw!=='00'.repeat(16))throw new Error('Original MemoryAdmin static state required');const memoryFields=this.#retainLocal(16);for(let offset=0;offset<16;offset++)memoryFields.writeUnsigned(offset,0,1);initializerImages['10142798']=memoryFields;
   for(const [label,address,raw,procedure] of [['memoryMallocScope','100f8318','ffffffffa5d40310afd40310',null],['memoryHeapSection','10189a18','00'.repeat(24),null],['memoryHeapSectionInitialized','102fb000','00',null],['memoryHeapSectionInitializeImport','102f966c','7e9d2f00',memorySectionInitializeProcedure],['memoryHeapSectionEnterImport','102f9604','a09b2f00',memorySectionEnterProcedure],['memoryHeapSectionLeaveImport','102f9608','b89b2f00',memorySectionLeaveProcedure]] as const){const receipt=initializerSource.coldGlobals[label];if(receipt.address!==address||receipt.raw!==raw||receipt.bytes!==raw.length/2)throw new Error('Original MemoryAdmin Malloc dependency receipt required');const fields=this.#retainLocal(receipt.bytes);for(let offset=0;offset<receipt.bytes;offset++)fields.writeUnsigned(offset,parseInt(raw.slice(offset*2,offset*2+2),16),1);if(procedure)fields.pointer(0).set(procedure);initializerImages[address]=fields;}
   for(const [label,entry,body,raw,hash] of [
+   ['pool112Dispatch','10003102','100485f0','e9e9540400','ae08f33a0b0f57ae64dbceba2d1251cc62f4162d5c56f5114ada6679d2d975cf'],
+   ['pool112Initialize','10001951','100467f0','e99a4e0400','7c4477d8ff4b3a77c47be87c82e89734554f71d89a819080b217ab8680f0dab9'],
+   ['pool112Allocate','10005731','1003e820','e9ea900300','7118b5f86e0f261ef751bd535848bb1449aecd61d07f18011fdb4ff52484ce3c'],
    ['pool12Dispatch','100028f6','10047e70','e975550400','f6b5a85ab066edbe8d754a90b821e4345fe83a20702ef4b749879c21cbf4be59'],
    ['pool12Initialize','10004683','10045cb0','e928160400','3f472523c024fe0fa5c3a3d9cfd944f37877f8e742dcde94b3c22dad7e5be436'],
    ['pool12Allocate','10006a19','1003dfe0','e9c2750300','3ae0d1d1017f5afc32bfaf793e552d6c9fb354f1902e90199ce6c748a45b7597'],
@@ -493,6 +496,7 @@ export class NativeSharedCrtOwner {
    ['sharedDemanglerHeap','102f6f1c','00'.repeat(60)],
    ['demanglerClassKeyword','100f2b10','636c6173732000'],
    ['classNameSeparator','100e6f44','2000'],
+   ['pool112State','102ffddc','00'.repeat(12)],['pool112Descriptor','102fff1c','00'.repeat(4)],['pool112Geometry','100e7b00','70000000b6ff0000'],
    ['pool12State','102ffd4c','00'.repeat(12)],['pool12Descriptor','102ffeec','00'.repeat(4)],['pool12Geometry','100e7aa0','0c000000feff0000'],
    ['pool24State','102ffd70','00'.repeat(12)],
    ['pool24Descriptor','102ffef8','00'.repeat(4)],
@@ -551,7 +555,7 @@ export class NativeSharedCrtOwner {
  #requireLocal(fields:NativeHeapObjectViews):void {
   const root=this.#locals.get(fields);
   const variable=this.#variablePoolSlots.get(fields);if(variable){this.#requireLocal(variable.region);if(variable.region.readUnsigned(variable.offset-8)*1024-16!==variable.capacity||variable.region.readUnsigned(variable.offset-4)!==1)throw new Error('Live original variable-pool block claim required');}
-  const slot=this.#poolSlots.get(fields);if(slot){this.#requireLocal(slot.region);const index=(slot.offset-16)/slot.capacity,bitmapBase=slot.capacity===12?0xbfff8:slot.capacity===16?0x100000:slot.capacity===24?0xbf008:0x6f910;if(slot.region.readUnsigned(bitmapBase+Math.floor(index/32)*4)&(1<<(index&31)))throw new Error('Live original bitmap slot claim required');}
+  const slot=this.#poolSlots.get(fields);if(slot){this.#requireLocal(slot.region);const index=(slot.offset-16)/slot.capacity,bitmapBase=slot.capacity===112?0x6fdfb0:slot.capacity===12?0xbfff8:slot.capacity===16?0x100000:slot.capacity===24?0xbf008:0x6f910;if(slot.region.readUnsigned(bitmapBase+Math.floor(index/32)*4)&(1<<(index&31)))throw new Error('Live original bitmap slot claim required');}
   if(this.#poolRegions.has(fields)){const proof=NativeRuntimePlatform.canonicalVirtualRegionForPlatform(this.platform,fields.backing,fields.bytes.length);if(!proof.known)throw new Error(proof.reason);}
   if(!root||fields.backing!==root.backing||root.backing.freed||fields.bytes!==root.bytes||fields.knownMask!==root.masks||fields.view!==root.view||root.backing.bytes!==root.backingBytes||root.backing.knownMask!==root.backingMasks||fields.view.buffer!==root.bytes.buffer||fields.view.byteOffset!==root.bytes.byteOffset||fields.view.byteLength!==root.bytes.length)throw new Error('Actual retained SharedBase local storage required');
  }
@@ -1413,6 +1417,10 @@ export class NativeSharedCrtOwner {
   try{this.#active=true;this.#dllCall=Object.freeze({});const result=NativeX86ThreadStack.finishSharedDllFilenameCopy(this.#argvStack,this.#dllCall);if(!result.known)this.#dllBoundary=result.reason;return result;}
   catch(error){this.#dllBoundary=error instanceof Error?error.message:String(error);return {known:false,reason:this.#dllBoundary};}
   finally{this.#dllCall=null;this.#active=false;}
+ }
+ processDllMessageErrorRegister():NativeValue<number>{
+  if(this.#active||!this.#argvStack||this.#dllBoundary!=='Original SharedBase ErrorAdmin callback registration pending at 10007cac')return {known:false,reason:this.#dllBoundary??'Actual pending ErrorAdmin callback registration required'};
+  try{if(dllEntrySource.methods.find(row=>row.label==='dllMessageRegister')?.bodyInstructionBytesSha256!=='4be20dc87cc964adfa7cfa563b44f9f1532a616c8356890527e487afd6777a69')throw new Error('Original MessageAdmin callback source required');if(dllEntrySource.methods.find(row=>row.label==='dllMessageReserve')?.bodyInstructionBytesSha256!=='73b609166cecc4aa9a10a3745508a9310d974c86345588fad544207b8242771d')throw new Error('Original MessageAdmin callback source required');this.#active=true;this.#initializerActive=true;this.#dllCall=Object.freeze({});this.#dllMallocCall=this.#dllCall;const result=NativeX86ThreadStack.runSharedInitializers(this.#argvStack,this.#dllCall,'dll-message-error-register');if(!result.known)this.#dllBoundary=result.reason;return result;}catch(error){this.#dllBoundary=error instanceof Error?error.message:String(error);return {known:false,reason:this.#dllBoundary};}finally{this.#dllMallocCall=null;this.#dllCall=null;this.#initializerActive=false;this.#active=false;}
  }
  processDllMessageErrorBuffer():NativeValue<number>{
   if(this.#active||!this.#argvStack||this.#dllBoundary!=='Original SharedBase ErrorAdmin buffer allocation pending at 10004133')return {known:false,reason:this.#dllBoundary??'Actual pending ErrorAdmin buffer allocation required'};

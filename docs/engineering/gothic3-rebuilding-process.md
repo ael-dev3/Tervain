@@ -4,6 +4,29 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local checkpoint — 9 October 2026: ErrorAdmin callback registration
+
+Original MessageAdmin Register (`10007cac -> 10049650`) reserves nine handler
+records through `1000631b -> 10049d80`. Its NULL-old-buffer request is 108 bytes;
+the actual allocation table selects the dedicated 112-byte pool at
+`10003102 -> 100485f0`. Original initialization allocates a 0x700000-byte region,
+registers its data area and fills the bitmap for 65,462 slots. The allocator
+claims its first slot and the reserve code zeroes the nine-record span.
+
+The original record stores retain handler address `10002df6`, priority 1 and
+the actual ErrorAdmin context pointer. Array count/capacity stores execute,
+common locking and saved registers restore, and the constructor returns to
+the ErrorAdmin getter. Execution reaches termination registration at
+`100219ad -> 100a72d0`. The shutdown callback has been traced; its registration
+and the subsequent SpyAdmin/SpieAdmin getters remain required.
+
+Focused behavior and 40 source checks, typechecking, exact regeneration of both
+packages and the production build pass. The full suite passes 2,965 tests
+across 275 files (267.22 seconds).
+The initializer package contains 137 bodies and 5,500 instructions; the DLL
+package contains 43 methods and 2,772 instructions. This remains local startup
+component work; world and campaign integration remain unfinished.
+
 ## Local checkpoint — 9 October 2026: variable-size ErrorAdmin buffer
 
 The original ErrorAdmin buffer Malloc (`10004133 -> 1003d8a0`) now executes its
@@ -32,7 +55,7 @@ startup, live world activation or playable campaign progression.
 
 PR #162 merged the preceding logging/ErrorAdmin prefix at
 `4d237924f7adf4246d5b6d47cace1cc74393ef04` after successful CI run `37855037370`.
-Pages run `37855751070` is in progress; deployment success remains to be checked.
+Pages run `37855751070` completed successfully.
 
 ## Local checkpoint — 9 October 2026: ErrorAdmin getter and cold invalidation
 

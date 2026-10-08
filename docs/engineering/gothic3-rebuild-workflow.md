@@ -71,10 +71,12 @@ the 12,500-byte buffer-allocation call at `100227a8 -> 10004133`. Shortened Root
 pool. The checkpoint passes 2,961 tests in 275 files, typechecking, the production
 build and exact independent regeneration of both evidence packages. The
 initializer package now has 134 bodies and 5,358 instructions. This MessageAdmin
-checkpoint merged in PR #162; its Pages deployment is still in progress.
-Later local work executes the original variable-size buffer allocator and reaches
-callback registration at `10022814 -> 10007cac`. It passes 2,963 tests,
-typechecking, the production build and exact DLL evidence regeneration.
+checkpoint merged in PR #162; its Pages deployment completed successfully.
+Later local work executes the original variable-size buffer allocator and
+callback registration through the dedicated 112-byte pool. The constructor
+returns and reaches termination registration at `100219ad -> 100a72d0`.
+It passes 2,965 tests, typechecking, the production build and exact regeneration
+of both evidence packages.
 
 These are selected component continuations. Complete DLL wrapper and exception
 handling, live Game startup, world/NPC activation and campaign integration remain

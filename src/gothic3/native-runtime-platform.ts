@@ -1317,7 +1317,7 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
   }
   static virtualAllocForSharedInitializer(platform:NativeRuntimePlatform,size:number):NativeValue<NativeMemoryRegion|null> {
     const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)return active;
-    if(size!==0x400000&&size!==0xc2000&&size!==0x102000&&size!==0xc0000&&size!==0x70000)return unknown('Original SharedBase pool virtual reservation size required');
+    if(size!==0x700000&&size!==0x400000&&size!==0xc2000&&size!==0x102000&&size!==0xc0000&&size!==0x70000)return unknown('Original SharedBase pool virtual reservation size required');
     const previous=new Set(Array.from(platform.#backing.values(),entry=>entry.backing));
     const result=platform.virtualAlloc(size,0x103000,4);if(!result.known||!result.value)return result;
     const proof=NativeRuntimePlatform.canonicalVirtualRegionForPlatform(platform,result.value,size);if(!proof.known)return proof;
