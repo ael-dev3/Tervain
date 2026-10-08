@@ -108,7 +108,7 @@ export interface WorkPropSet {
 /** Build one tool; `rodLength` is the measuring rod's length below the grip (its foot on the ground). */
 export function createWorkProp(kind: WorkPropKind, rodLength = 1): WorkPropSet {
   const wood = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.86 });
-  const metal = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.55, metalness: 0.6 });
+  const metal = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.72, metalness: 0.48 });
   const leather = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.8 });
   const paper = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.93 });
   const group = kind === 'ledger' ? ledger(paper, leather) : kind === 'quill' ? quill(paper) : kind === 'hammer' ? hammer(wood, metal)

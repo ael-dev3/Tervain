@@ -60,6 +60,12 @@ class GrowU {
 
 /** Transform stack. Only translations and rotations, so normals rotate with the same matrix. */
 export class Ctx {
+  /**
+   * The ground under the world, when this geometry stands on it (A67): walls then darken towards their feet with rising
+   * damp below a wavering tide line, and with splashed mud just above the ground. Left null for things built at a local
+   * origin and placed later, which cannot know where the ground will be.
+   */
+  ground: ((x: number, z: number) => number) | null = null;
   private cur = new THREE.Matrix4();
   private stack: THREE.Matrix4[] = [];
   private local = new THREE.Matrix4();
@@ -127,6 +133,15 @@ export interface LatheOpts {
   vs?: number;
 }
 
+/**
+ * Grime at the foot of every upright face standing on the ground (A67): rising damp darkens it (a little greener and
+ * browner) up to a tide line that wavers between the two heights, and splashed mud browns the lowest band. Fractions of
+ * the colour taken away per channel; heights in metres above the ground.
+ */
+export const GRIME = { reach: 1.4, tide: [0.55, 1.15] as [number, number], damp: [0.3, 0.28, 0.36] as RGB, splash: 0.3, mud: [0.1, 0.13, 0.17] as RGB };
+
+const smooth01 = (t: number) => (t <= 0 ? 0 : t >= 1 ? 1 : t * t * (3 - 2 * t));
+
 const FACE_PX = 1, FACE_NX = 2, FACE_PY = 4, FACE_NY = 8, FACE_PZ = 16, FACE_NZ = 32;
 export const FACES = { px: FACE_PX, nx: FACE_NX, py: FACE_PY, ny: FACE_NY, pz: FACE_PZ, nz: FACE_NZ, bottom: FACE_NY, all: 63 } as const;
 
@@ -166,6 +181,20 @@ export class Batch {
     nny /= nl;
     nnz /= nl;
     if (amp > 0) k *= 1 + amp * (valueNoise(wx * 0.9 + wz * 0.35, wy * 0.9 + wz * 0.6, 5) * 2 - 1) + amp * 0.5 * (valueNoise(wx * 3.1, wz * 3.1 + wy * 2.3, 9) * 2 - 1);
+    let kr = k, kg = k, kb = k;
+    const ground = this.ctx.ground;
+    if (ground && amp > 0) {
+      const above = wy - ground(wx, wz);
+      if (above < GRIME.reach) {
+        const tide = GRIME.tide[0] + (GRIME.tide[1] - GRIME.tide[0]) * valueNoise(wx * 0.62 + wz * 0.41, wz * 0.62 - wx * 0.37, 13);
+        // Upright faces take it; floors, steps' treads and paving stay as they are.
+        const side = 1 - nny * nny;
+        const damp = (1 - smooth01(above / tide)) * side, splash = (1 - smooth01(above / GRIME.splash)) * side;
+        kr *= 1 - damp * GRIME.damp[0] - splash * GRIME.mud[0];
+        kg *= 1 - damp * GRIME.damp[1] - splash * GRIME.mud[1];
+        kb *= 1 - damp * GRIME.damp[2] - splash * GRIME.mud[2];
+      }
+    }
     this.p.ensure(3);
     this.nr.ensure(3);
     this.uv.ensure(2);
@@ -179,9 +208,9 @@ export class Batch {
     this.nr.a[this.nr.n++] = nnz;
     this.uv.a[this.uv.n++] = u * this.uvScale;
     this.uv.a[this.uv.n++] = v * this.uvScale;
-    this.co.a[this.co.n++] = c[0] * k;
-    this.co.a[this.co.n++] = c[1] * k;
-    this.co.a[this.co.n++] = c[2] * k;
+    this.co.a[this.co.n++] = c[0] * kr;
+    this.co.a[this.co.n++] = c[1] * kg;
+    this.co.a[this.co.n++] = c[2] * kb;
     return i;
   }
 

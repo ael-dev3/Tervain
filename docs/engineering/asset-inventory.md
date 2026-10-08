@@ -164,3 +164,12 @@ The supplied [Rock Pile](rock-pile-assets.json) is a separate 5,220-triangle nat
 Fourteen supplied Meshy originals are inspected read-only, remixed and prepared as complete Wood/Foliage trees below 20,000 triangles each. Twelve source IDs are selected for fir, broadleaf, orchard, sapling, dead-wood and palm roles; two plinth-bearing originals are prepared reserves without a runtime assignment. The custom 9,706-triangle Solitary Pine and its approved lighter files remain byte-identical. The menu uses a source-derived crown with the retained carved architectural bole/door and score-led grove; the complete hybrid, including installed door hardware, has the same strict budget.
 
 Dense source foliage is baked into spatial canopy clusters and fitted curved cards, with new atlas UVs; original topology/UVs are not claimed for those crowns. Reduced wood retains coherent source UV paint. Two untextured source palms receive original procedural Blender bark/frond albedo and UV baking. Source PBR maps, source canopy bake inputs, original-source hashes, derivative counts and semantic-mask limitations are distinguished in [tree preparation](meshy-trees-0.0.12.md). No copied reference-game asset, new generation of character/tree art or separate open-content license is introduced. Final native appearance and runtime performance remain separate from file-budget and geometry checks.
+
+## Weathered building surfaces (A67, 0.0.13)
+
+The 24 JPEGs in `public/textures/buildings/` are original: a script in the repository,
+[bake-buildings.py](../../tools/textures/bake-buildings.py), generates them from seeded noise and cell fields with numpy
+and Pillow, and running it again gives identical files. There are twelve albedo and normal pairs, 5.9 MB in all, and
+their [manifest](../../public/textures/buildings/manifest.json) records each file's bytes and SHA-256. No photograph,
+scan, third-party texture, model or Gothic content is used. See the [weathered look record](weathered-look-0.0.13.md).
+

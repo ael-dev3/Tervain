@@ -415,7 +415,7 @@ export function createPersonRig(p: PersonSpec): Rig {
   }
 
   // Props on the bones: a blade or club in the right hand, a scabbard on the left hip.
-  const metalM = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.5, metalness: 0.6 });
+  const metalM = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.7, metalness: 0.5 });
   const leatherM = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.7 });
   const woodM = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.85 });
   materials.push(metalM, leatherM, woodM);
@@ -603,7 +603,7 @@ export type NpcEquipment = 'blade' | 'club' | 'sheathed';
 export function createNpcAttachments(kind: NpcEquipment): {
   weapon: THREE.Group; scabbard: THREE.Group | null; sheathed: THREE.Group | null; materials: THREE.MeshStandardMaterial[];
 } {
-  const metal = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.63, metalness: 0.55 });
+  const metal = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.74, metalness: 0.48 });
   const leather = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.88 });
   const wood = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.94 });
   const weapon = kind === 'club' ? clubModel(wood, leather, metal) : swordModel(metal, leather, true);

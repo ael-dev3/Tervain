@@ -8,6 +8,7 @@ import type { V2 } from '../world/layout';
 import type { BuildContext, FrameContext, SceneModule } from './context';
 import { modelAssetUrl } from './assets/modelUrl';
 import { withModelLoadSlot } from './assets/modelLoadQueue';
+import { matteHide } from './matte';
 import { ANIMAL_AUDIO, ANIMAL_CALL_EVENT, type AnimalCall } from './sound/animalAudio';
 import { ANIMALS, ANIMAL_SPEEDS, ANIMAL_TRIANGLE_LIMIT, requiredAnimalClips, type AnimalClip, type AnimalDefinition, type AnimalSpecies } from './animals/catalog';
 import { animalGroundAllowed, animalHabitatAllowed, animalNavigationColliders, findAnimalPath, findAnimalSite, type AnimalSite } from './animals/navigation';
@@ -228,6 +229,8 @@ function cloneAnimal(template: GLTF, definition: AnimalDefinition): AnimalBody {
         let texture = textures.get(value); if (!texture) { texture = value.clone(); textures.set(value, texture); }
         Reflect.set(copy, key, texture);
       }
+      // Some source animals are authored almost fully metallic or polished; every hide is matte (A67).
+      if ((copy as THREE.MeshStandardMaterial).isMeshStandardMaterial) matteHide(copy as THREE.MeshStandardMaterial);
     }
     return copy;
   };

@@ -1,0 +1,79 @@
+{
+  "model": "latest",
+  "style": "Rustic medieval European village furniture, hand-made from weathered dark oak and pine with dark iron fittings, worn edges and realistic materials. A single free-standing object with nothing around it.",
+  "pieces": {
+    "bed": {
+      "size": [2.05, 1.05, 1.1], "polycount": 4000, "texture": 1024, "turn": 1,
+      "prompt": "A simple medieval wooden bed: a low frame of rough-hewn oak planks with four short posts and a plank headboard, a straw-filled linen mattress, a folded grey wool blanket and a flat pillow."
+    },
+    "bunk": {
+      "size": [2.05, 1.75, 1.0], "polycount": 5000, "texture": 1024,
+      "prompt": "A medieval two-tier wooden bunk bed of rough-hewn pine posts and planks, a straw-filled linen mattress and a rumpled brown wool blanket on each tier, a short ladder at one end."
+    },
+    "table": {
+      "size": [1.7, 0.78, 0.82], "polycount": 3000, "texture": 1024,
+      "prompt": "A sturdy medieval trestle table: a top of three thick rough oak planks resting on two A-shaped trestle legs joined by a stretcher, worn and stained."
+    },
+    "stool": {
+      "size": [0.38, 0.46, 0.38], "polycount": 1500, "texture": 512,
+      "prompt": "A small three-legged wooden stool with a thick round seat, hand-carved and worn smooth."
+    },
+    "chair": {
+      "size": [0.5, 0.98, 0.5], "polycount": 2000, "texture": 512,
+      "prompt": "A simple medieval wooden chair with four straight legs, a woven rush seat and a straight back of two slats."
+    },
+    "chest": {
+      "size": [0.95, 0.58, 0.52], "polycount": 3000, "texture": 512,
+      "prompt": "A medieval oak storage chest with a flat lid, three iron bands, iron corner plates and a hasp lock, weathered."
+    },
+    "shelf": {
+      "size": [1.25, 1.65, 0.38], "polycount": 5000, "texture": 1024,
+      "prompt": "A free-standing rustic open wooden shelf with three boards holding clay jugs, stacked bowls, wooden cups, a small sack and a coil of rope."
+    },
+    "cupboard": {
+      "size": [1.0, 1.85, 0.52], "polycount": 3000, "texture": 1024,
+      "prompt": "A tall rustic wooden cupboard of vertical planks with two closed doors, iron strap hinges and a wooden latch."
+    },
+    "desk": {
+      "size": [0.95, 1.1, 0.62], "polycount": 4000, "texture": 512,
+      "prompt": "A small medieval writing desk with a slanted top, an open leather-bound ledger, a clay inkwell with a quill and a candle stub."
+    },
+    "bookshelf": {
+      "size": [1.25, 1.85, 0.4], "polycount": 5000, "texture": 1024,
+      "prompt": "A tall wooden archive shelf packed with leather-bound books, rolled scrolls tied with cord and stacked ledgers."
+    },
+    "hearth": {
+      "size": [1.6, 1.55, 0.75], "polycount": 5000, "texture": 1024,
+      "prompt": "A rustic fireplace built against a wall: a tall rectangular surround of rough fieldstones with a wide dark arched firebox, a thick soot-stained wooden mantel beam across the top, a raised stone hearth slab in front, an iron pot hanging over a few logs inside.",
+      "retired": "Two takes gave loose pots and logs instead of a fireplace; rooms build their fireplace in code at the chimney stack."
+    },
+    "oven": {
+      "size": [1.35, 1.35, 1.25], "polycount": 4000, "texture": 1024,
+      "prompt": "A domed bread oven of weathered grey-brown clay, soot-blackened around its dark arched mouth, on a low base of fieldstones, with a long wooden bread peel leaning against it."
+    },
+    "counter": {
+      "size": [2.0, 1.0, 0.65], "polycount": 4000, "texture": 1024,
+      "prompt": "A long medieval shop counter of thick wooden planks with a closed plank front, a set of iron scales and a few coins on top."
+    },
+    "workbench": {
+      "size": [1.75, 0.9, 0.7], "polycount": 5000, "texture": 1024,
+      "prompt": "A carpenter's heavy wooden workbench with a wooden vice, a mallet, chisels, a hand saw and curled wood shavings on top."
+    },
+    "rack": {
+      "size": [1.2, 1.75, 0.42], "polycount": 4000, "texture": 1024,
+      "prompt": "A wooden weapon rack holding two swords upright, a spear and a round wooden shield with an iron boss."
+    },
+    "altar": {
+      "size": [1.5, 1.05, 0.75], "polycount": 4000, "texture": 1024,
+      "prompt": "A small stone altar with a carved front panel, a linen cloth on top, a bronze offering bowl and several half-burnt candles."
+    },
+    "sacks": {
+      "size": [1.05, 0.7, 0.85], "polycount": 3000, "texture": 512,
+      "prompt": "A pile of four tied burlap grain sacks slumped against each other."
+    },
+    "loom": {
+      "size": [1.55, 1.9, 0.65], "polycount": 5000, "texture": 1024,
+      "prompt": "A medieval upright warp-weighted loom with a half-woven striped wool cloth and a row of clay loom weights hanging along the bottom."
+    }
+  }
+}

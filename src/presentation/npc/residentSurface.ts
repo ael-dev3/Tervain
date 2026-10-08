@@ -29,13 +29,13 @@ export const RESIDENT_LOOK = {
   skinWrap: 0.42,
   skinScatter: [1.0, 0.42, 0.3] as [number, number, number],
   /** Skin, leather and steel roughness; cloth keeps the model's own. */
-  skinRoughness: 0.52,
-  leatherRoughness: 0.64,
-  metalRoughness: 0.4,
+  skinRoughness: 0.6,
+  leatherRoughness: 0.74,
+  metalRoughness: 0.52,
   /** Sculpted-fold strength on cloth and leather relative to the model's damped normal scale. */
   clothFolds: 1.55,
   /** Grazing sheen on cloth. */
-  clothSheen: 0.22,
+  clothSheen: 0.14,
   /** Fine grain strength (0 off). */
   grain: 1,
   /** Unsharp mask on the colour atlas where a texel covers about a pixel or more. */

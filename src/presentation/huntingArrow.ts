@@ -5,7 +5,7 @@ export function createHuntingArrow(): THREE.Group {
   const arrow = new THREE.Group();
   arrow.name = 'Hunting / wooden arrow';
   const wood = new THREE.MeshStandardMaterial({ color: 0x72513a, roughness: .88 });
-  const steel = new THREE.MeshStandardMaterial({ color: 0x747471, roughness: .65, metalness: .6 });
+  const steel = new THREE.MeshStandardMaterial({ color: 0x747471, roughness: .72, metalness: .5 });
   const feather = new THREE.MeshStandardMaterial({ color: 0xcabfa7, roughness: .95, side: THREE.DoubleSide });
   const shaft = new THREE.Mesh(new THREE.CylinderGeometry(.006, .006, .72, 6), wood);
   shaft.rotation.x = Math.PI / 2;
