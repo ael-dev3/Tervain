@@ -9859,3 +9859,28 @@ PR 137 Pages run 37800122027 succeeded. PR 138 passed CI run
 37800373662 and merged at `db376ec97e24aa8ab323a80518539af63b4dd138`
 after a 303-run audit found no active main deployment. Its own deployment
 is tracked separately.
+
+### Local DName copy/append and primary-type continuation — 8 October 2026
+
+The original DName copy, validity check, append and type-encoding append bodies
+now execute. Each masked flag transfer proves its original physical destination,
+initial XOR, exact mask and final XOR. Repeated memory reads must reference the
+same unchanged field; register operands must retain the actual stored word.
+The exact assignment preserves unknown destination padding and takes selected
+bits only from the original donor. No numerical equality of unknown words is
+used as a substitute for their physical relationship.
+
+Masked SHL preserves known bits and zero-fill bits while exposing carry only
+when its source bit is known. The following original SAR sign-extends the
+known low nibble. BL/DL use the same low-byte register lanes as AL/CL.
+
+The original type-encoding helper returns. Data-type processing resumes in the
+primary-type body, reaching `100c6647 -> 100c6288`; its caller chain and enclosing
+lock/frame remain active. This selected path has not produced a demangled name.
+Class-type parsing, complete startup and campaign play remain unfinished.
+
+Local evidence: 241 focused checks and typechecking pass. All 175 generated
+source files plus the instruction module reproduce exactly. The package contains
+93 bodies, 3,387 instructions and 330 CALL receipts. The production build
+and full suite pass: 2,798 tests across 260 files (166.93 seconds).
+Publication remains pending.

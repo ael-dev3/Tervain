@@ -382,3 +382,12 @@ DName constructor returns and the type-encoding call remains pending at
 There are 87 bodies, 2,794 instructions and 257 CALL receipts. The primary-type
 helper is captured/emitted but has not executed on this selected path.
 Grammar decoding, output and complete startup remain unfinished.
+
+### Live DName copy and append
+
+The original type-encoding append, DName copy, validity and append routines
+execute against retained stack fields. Each masked XOR sequence proves its
+unchanged physical destination and original operands; unknown padding remains
+unknown. Type encoding returns and primary parsing reaches
+`100c6647 -> 100c6288`. The package contains 93 bodies, 3,387 instructions and
+330 CALL receipts. Full startup and demangled output remain unfinished.

@@ -1,0 +1,46 @@
+100c1c80 | 8bc1 | MOV EAX,ECX
+100c1c82 | 56 | PUSH ESI
+100c1c83 | 8b7004 | MOV ESI,dword ptr [EAX + 0x4]
+100c1c86 | 8bce | MOV ECX,ESI
+100c1c88 | c1e11c | SHL ECX,0x1c
+100c1c8b | c1f91c | SAR ECX,0x1c
+100c1c8e | 7405 | JZ 0x100c1c95
+100c1c90 | 83f902 | CMP ECX,0x2
+100c1c93 | 7562 | JNZ 0x100c1cf7
+100c1c95 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+100c1c99 | 8b5104 | MOV EDX,dword ptr [ECX + 0x4]
+100c1c9c | c1e21c | SHL EDX,0x1c
+100c1c9f | c1fa1c | SAR EDX,0x1c
+100c1ca2 | 33d6 | XOR EDX,ESI
+100c1ca4 | 83e20f | AND EDX,0xf
+100c1ca7 | 33d6 | XOR EDX,ESI
+100c1ca9 | 895004 | MOV dword ptr [EAX + 0x4],EDX
+100c1cac | 8b7104 | MOV ESI,dword ptr [ECX + 0x4]
+100c1caf | 33f2 | XOR ESI,EDX
+100c1cb1 | 83e610 | AND ESI,0x10
+100c1cb4 | 33f2 | XOR ESI,EDX
+100c1cb6 | 897004 | MOV dword ptr [EAX + 0x4],ESI
+100c1cb9 | 8b5104 | MOV EDX,dword ptr [ECX + 0x4]
+100c1cbc | 33d6 | XOR EDX,ESI
+100c1cbe | 83e220 | AND EDX,0x20
+100c1cc1 | 33d6 | XOR EDX,ESI
+100c1cc3 | 895004 | MOV dword ptr [EAX + 0x4],EDX
+100c1cc6 | 8b7104 | MOV ESI,dword ptr [ECX + 0x4]
+100c1cc9 | 33f2 | XOR ESI,EDX
+100c1ccb | 83e640 | AND ESI,0x40
+100c1cce | 33f2 | XOR ESI,EDX
+100c1cd0 | 897004 | MOV dword ptr [EAX + 0x4],ESI
+100c1cd3 | 8b5104 | MOV EDX,dword ptr [ECX + 0x4]
+100c1cd6 | 33d6 | XOR EDX,ESI
+100c1cd8 | 81e280000000 | AND EDX,0x80
+100c1cde | 33d6 | XOR EDX,ESI
+100c1ce0 | 895004 | MOV dword ptr [EAX + 0x4],EDX
+100c1ce3 | 8b7104 | MOV ESI,dword ptr [ECX + 0x4]
+100c1ce6 | 33f2 | XOR ESI,EDX
+100c1ce8 | 81e600080000 | AND ESI,0x800
+100c1cee | 33f2 | XOR ESI,EDX
+100c1cf0 | 897004 | MOV dword ptr [EAX + 0x4],ESI
+100c1cf3 | 8b09 | MOV ECX,dword ptr [ECX]
+100c1cf5 | 8908 | MOV dword ptr [EAX],ECX
+100c1cf7 | 5e | POP ESI
+100c1cf8 | c20400 | RET 0x4
