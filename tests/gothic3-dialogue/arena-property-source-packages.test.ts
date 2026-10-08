@@ -137,3 +137,12 @@ it('captures independent SharedBase PTD locale targets and cold reference counts
  expect(source.methods.initializePerThreadData.bodyVA).toBe('0x100ae40c');
  expect(source.methods.releasePtdLocaleLock.bodyVA).toBe('0x100ae4c2');
 });
+
+it('captures original independent SharedBase I/O table and ordered startup evidence',()=>{
+ const source=JSON.parse(readFileSync('assets/gothic3/shared-crt-bootstrap/source.json','utf8'));
+ expect(source.coldGlobals.ioHandleCount.address).toBe('102f7068');expect(source.coldGlobals.ioHandleCount.raw).toBe('00000000');
+ expect(source.coldGlobals.ioBlocks.address).toBe('102f70c0');expect(source.coldGlobals.ioBlocks.bytes).toBe(256);expect(source.coldGlobals.ioBlocks.raw).toBe('00'.repeat(256));
+ expect(source.methods.ioInit.bodyVA).toBe('0x100bf165');
+ const asm=readFileSync('assets/gothic3/shared-crt-bootstrap/100bf165.asm.txt','utf8');
+ expect(asm.indexOf('100bf17a')).toBeLessThan(asm.indexOf('100bf18d'));expect(asm).toContain('MOV [0x102f70c0],EAX');
+});

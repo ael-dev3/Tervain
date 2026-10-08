@@ -2,6 +2,17 @@
   "schema": "gothic3-shared-crt-bootstrap-v1",
   "sharedBaseSha256": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214",
   "methods": {
+    "ioInit": {
+      "entryVA": "0x100bf165",
+      "bodyVA": "0x100bf165",
+      "bodyRanges": "100bf165-100bf38d;100bf39c-100bf3a4",
+      "instructionCount": 186,
+      "bodyByteCount": 562,
+      "bodyInstructionBytesSha256": "5fc3d0c91e1861b89b12507adce6739546fc7fd1cc6863c2d30a53c5ca1109ad",
+      "entryChain": [],
+      "assemblySha256": "a3ea3c6dad4cccc4f778b16fbf6bfed43c70cc37d0a16de52290f2cd9f8dd131",
+      "cSha256": "9ab754cbdd696481181c805203a634eb6974cf734494fd3aecde6242ff30a9f0"
+    },
     "getPerThreadDataLower": {
       "entryVA": "0x100ae4cb",
       "bodyVA": "0x100ae4cb",
@@ -532,6 +543,38 @@
     }
   },
   "coldGlobals": {
+    "ioHandleCount": {
+      "address": "102f7068",
+      "bytes": 4,
+      "raw": "00000000",
+      "knownMask": "ffffffff",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 0,
+        "loaderZeroFillBytes": 4
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "ioBlocks": {
+      "address": "102f70c0",
+      "bytes": 256,
+      "raw": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "knownMask": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 0,
+        "loaderZeroFillBytes": 256
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
     "memcpyForwardAlignment": {
       "address": "100a7a88",
       "bytes": 16,
