@@ -1,8 +1,8 @@
 # SharedBase initializer source
 
 Original `SharedBase.dll` evidence for the next startup boundary,
-`100adb5a -> 100aa632`. This package captures 51 function bodies,
-896 instructions. It executes no native code and
+`100adb5a -> 100aa632`. This package captures 53 function bodies,
+961 instructions. It executes no native code and
 does not establish successful browser initializer execution.
 
 ## What startup requires
@@ -27,7 +27,7 @@ does not establish successful browser initializer execution.
 
 The tables' ends are exclusive. Cold bytes are source evidence, not captured
 live process state. `source.json` retains table slots, callback entries,
-section headers, relevant cold globals and 98 CALL sites with direct targets
+section headers, relevant cold globals and 102 CALL sites with direct targets
 or import identities where available.
 
 The committed TypeScript runtime now enters cinit, executes the original image
@@ -146,3 +146,11 @@ from PE bytes with Capstone. The filter recognizes access violation and illegal
 instruction; the handler clears the result local and rejoins the normal
 epilogue. Their branch closure and per-instruction byte identities are audited.
 This remains source evidence: exception dispatch is not executed yet.
+
+
+The Root initializer now enters `10003ba7 -> 100135f0`, scans the live
+five-byte literal at `100e9b5c`, and enters Alloc through
+`10007d65 -> 10013240`. Its normal four-character path requests thirteen bytes
+and stops at `10013257 -> 10002aae`, MemoryAdmin::GetInstance. Both thunks and
+bodies are byte checked. Empty text follows the original NULL-holder store and
+RET 4 cleanup; allocation and the enclosing initializer remain incomplete.

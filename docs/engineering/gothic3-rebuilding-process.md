@@ -9319,3 +9319,30 @@ remain outstanding.
 
 PR 121 passed CI run 37768080880 and merged at
 `4a475b14ea6a6a572cdcabe9fd7a1aae636bd3b2`.
+
+
+## 8 October 2026 — Root CString construction prefix
+
+Void slot 140 now enters its original text-constructor thunk
+`10003ba7 -> 100135f0` using literal `Root` at `100e9b5c` and its actual stack
+CString destination. The constructor scans the live source bytes, computes
+length four, enters Alloc through `10007d65 -> 10013240`, and requests thirteen
+bytes before reaching `10013257 -> 10002aae` (MemoryAdmin::GetInstance).
+
+The source package adds the two original bodies and both thunk receipts: 53
+bodies, 961 instructions and 102 CALL receipts. All 96 generated files and the
+instruction module reproduce exactly from the local DLL and study. Byte-register
+reads and writes preserve the unaffected register bits; original RET 4 applies
+stdcall argument cleanup. These behaviors are required by the actual scan and
+empty-text constructor return.
+
+160 focused checks pass, including length changes from a live terminator,
+empty-text return without allocation and the actual pending allocation request.
+Typechecking, the production build and all 2,717 tests across 259 files pass. The
+memory-admin call remains explicit. Existing standalone CString allocation is
+not connected here because its shutdown registration must use the same live
+initializer exit-table owner. Full startup and campaign completion remain
+unfinished.
+
+PR 122 passed CI run 37768791245 and merged at
+`635afde46d2949f22743ebb16ef8ebf7014821ce`.

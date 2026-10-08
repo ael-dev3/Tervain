@@ -625,14 +625,14 @@ export class NativeX86ThreadStack {
       const images=proof.value.images;
       stack.#sharedInitializerFrame={controller,entryEsp:stack.#address(stack.#load(stack.#bank,stack.#reg('ESP'))),operations:0,ownershipReturned:null,conversionInstalled:false,oldFs:stack.#load(stack.#bank,32),fsRestored:false,moduleCalls:0,procedureCalls:0,featureCalls:0,divisionQueryResult:null,initializerResult:null};
       const frame=stack.#sharedInitializerFrame;
-      type Operand={kind:'register';slot:number}|{kind:'immediate';value:number}|{kind:'memory';expression:string;width:Width};
+      type Operand={kind:'register';slot:number;byte?:boolean}|{kind:'immediate';value:number}|{kind:'memory';expression:string;width:Width};
       const number=(text:string)=>{if(!/^-?0x[0-9a-f]+$/.test(text))throw new Error('Unowned initializer literal '+text);return (text.startsWith('-')?-parseInt(text.slice(3),16):parseInt(text.slice(2),16))>>>0;};
       const pointer=(fields:NativeHeapObjectViews)=>stack.#mint(0,0,{kind:'shared-local',fields});
       const image=(value:number):NativeX86Word32|null=>{if(value===0x100e5358&&images['100e5000'])return stack.#offsetWord(pointer(images['100e5000']),856);if(value===0x10141a10&&images['10141790'])return stack.#offsetWord(pointer(images['10141790']),640);if(value===0x100e5678&&images['100e545c'])return stack.#offsetWord(pointer(images['100e545c']),540);for(const [base,fields] of Object.entries(images)){const offset=value-parseInt(base,16);if(offset>=0&&offset<fields.bytes.length)return stack.#offsetWord(pointer(fields),offset);}return null;};
       const operand=(text:string):Operand=>{
         text=text.trim();
         if(registers.includes(text as NativeX86Register))return {kind:'register',slot:stack.#reg(text as NativeX86Register)};
-        if(text==='CL'||text==='AL')return {kind:'register',slot:stack.#reg(text==='CL'?'ECX':'EAX')};
+        if(text==='CL'||text==='AL')return {kind:'register',slot:stack.#reg(text==='CL'?'ECX':'EAX'),byte:true};
         if(text==='FS:[0x0]'||text==='dword ptr FS:[0x0]')return {kind:'register',slot:32};
         if(/^-?0x[0-9a-f]+$/.test(text))return {kind:'immediate',value:number(text)};
         const match=/^(?:(byte|word|dword) ptr )?\[(.+)\]$/.exec(text);if(!match)throw new Error('Unowned initializer operand '+text);
@@ -650,7 +650,7 @@ export class NativeX86ThreadStack {
         return base?stack.#offsetWord(base,offset):stack.#mint(offset,0xffffffff);
       };
       const read=(item:Operand):NativeX86Word32=>{
-        if(item.kind==='register')return stack.#load(stack.#bank,item.slot);
+        if(item.kind==='register'){const word=stack.#load(stack.#bank,item.slot);if(!item.byte)return word;const value=stack.#record(word);return stack.#mint(value.value&255,value.mask&255);}
         if(item.kind==='immediate')return image(item.value)??stack.#mint(item.value,0xffffffff);
         const memory=stack.#memory(address(item.expression),item.width);
         if(item.width===4&&memory.offset===0&&(memory.fields===images['102f9768']||memory.fields===images['102f9648']||memory.fields===images['102f97b8'])){
@@ -675,7 +675,7 @@ export class NativeX86ThreadStack {
       };
       const write=(item:Operand,word:NativeX86Word32)=>{
         if(item.kind==='immediate')throw new Error('Unowned initializer immediate destination');
-        if(item.kind==='register')stack.#store(stack.#bank,item.slot,word);else stack.#writeMemory(address(item.expression),word,item.width);
+        if(item.kind==='register'){if(item.byte){const old=stack.#record(stack.#load(stack.#bank,item.slot)),value=stack.#record(word);stack.#store(stack.#bank,item.slot,stack.#mint((old.value&0xffffff00)|(value.value&255),(old.mask&0xffffff00)|(value.mask&255)));}else stack.#store(stack.#bank,item.slot,word);}else stack.#writeMemory(address(item.expression),word,item.width);
       };
       const pop=(item:Operand)=>{const esp=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));write(item,stack.#load(stack.#stack,esp));stack.#store(stack.#bank,stack.#reg('ESP'),stack.#stackWord(esp+4));};
       const relativeImageAddress=(word:NativeX86Word32):number=>{
@@ -760,7 +760,7 @@ export class NativeX86ThreadStack {
         }
         else if(opcode==='SHR'){const value=stack.#numeric(read(args[0]!),4),shift=stack.#numeric(read(args[1]!),4);write(args[0]!,stack.#mint(value>>>shift,0xffffffff));stack.#logicalFlags(value>>>shift,0xffffffff,4);const flags=stack.#record(stack.#load(stack.#bank,36));stack.#flags((flags.value&~0x801)|((value>>>(shift-1))&1),(flags.mask&~0x800));}
         else if(opcode==='CMP'||opcode==='TEST'){
-          const left=read(args[0]!),right=read(args[1]!),a=stack.#record(left),b=stack.#record(right),width=args[0]!.kind==='memory'?args[0]!.width:4;
+          const left=read(args[0]!),right=read(args[1]!),a=stack.#record(left),b=stack.#record(right),width=args[0]!.kind==='memory'?args[0]!.width:args[0]!.kind==='register'&&args[0]!.byte?1:4;
           if(a.provenance||b.provenance){
             if(opcode==='TEST'&&args[0]!.kind==='register'&&args[1]!.kind==='register'&&args[0]!.slot===args[1]!.slot)stack.#flags(0,0x40);
             else if(opcode==='CMP'&&a.provenance?.kind==='platform'&&a.provenance.category==='handle'&&!b.provenance&&[0,0xffffffff,0xfffffffe].includes(stack.#numeric(right,width))){const proof=NativeRuntimePlatform.standardIoCapabilityForPlatform(stack.#platform,a.provenance.object);if(!proof.known||proof.value!=='handle')throw new Error('Canonical descriptor HANDLE comparison required');stack.#flags(0,0x40);}
@@ -819,10 +819,10 @@ export class NativeX86ThreadStack {
             const raw='feffffff00000000d4ffffff00000000feffffff62e00c107ee00c10';for(let offset=0;offset<28;offset++)if(NativeHeapObjectViews.prototype.readUnsigned.call(scopeFields!,offset,1)!==parseInt(raw.slice(offset*2,offset*2+2),16))throw new Error('Original live processor SIMD scope bytes required');
             stack.#processorSimdFrame={oldFs:stack.#load(stack.#bank,32),oldEbp:stack.#load(stack.#bank,stack.#reg('EBP')),oldEbx:stack.#load(stack.#bank,stack.#reg('EBX')),oldEsi:stack.#load(stack.#bank,stack.#reg('ESI')),oldEdi:stack.#load(stack.#bank,stack.#reg('EDI')),scope,returned:false};
           }
-          if(!((pc==='100ce0e2'&&target==='100ce045')||(pc==='100ce04c'&&target==='100aeb68')||(pc==='100ce08f'&&target==='100aebad')||((pc==='100a729b'||pc==='100b10dd')&&target==='100aeb68')||((pc==='100a72c4'||pc==='100b1162')&&target==='100aebad'))&&!['100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100ae27b','100aa47d','100a7265','100aef10','100b1854','100b4b6b','100ce095','100bef05','100ce0f5','100a72d0','100a7294','100a71ac','100ae2f2','100b10d6','100aa453','100aa45c','100a72ca','100e1660','100e1440','100e1450','100e1470','100e14b0','100e14c0','100e14d0','100e14e0','100e14f0','100e1500'].includes(target))throw new Error('Unowned SharedBase initializer child at '+pc+' -> '+target+' (cinit 100aa632)');
+          if(!((pc==='100ce0e2'&&target==='100ce045')||(pc==='100ce04c'&&target==='100aeb68')||(pc==='100ce08f'&&target==='100aebad')||((pc==='100a729b'||pc==='100b10dd')&&target==='100aeb68')||((pc==='100a72c4'||pc==='100b1162')&&target==='100aebad'))&&!['100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100ae27b','100aa47d','100a7265','100aef10','100b1854','100b4b6b','100ce095','100bef05','100ce0f5','100a72d0','100a7294','100a71ac','100ae2f2','100b10d6','100aa453','100aa45c','100a72ca','100e1660','100e1440','100e1450','100e1470','100e14b0','100e14c0','100e14d0','100e14e0','100e14f0','100e1500','100e1510','10003ba7','10007d65'].includes(target))throw new Error('Unowned SharedBase initializer child at '+pc+' -> '+target+' (cinit 100aa632)');
           pc=target;continue;
         }else if(opcode==='RET'){
-          const continuation=stack.#record(stack.#ret()).provenance;if(continuation?.kind!=='source')throw new Error('Actual initializer return required');
+          const continuation=stack.#record(stack.#ret(args.length?stack.#numeric(read(args[0]!),4):0)).provenance;if(continuation?.kind!=='source')throw new Error('Actual initializer return required');
           if(['100a72a0','100b10e2','100a72c9','100b1167'].includes(continuation.address)){
             const enter=continuation.address==='100a72a0'||continuation.address==='100b10e2',site=continuation.address.startsWith('100a72')?'100a729b':'100b10dd',frame=stack.#initializerSehFrames.get(site);if(!frame)throw new Error('Actual initializer SEH frame required');
             if(enter){const ebp=stack.#address(stack.#load(stack.#bank,stack.#reg('EBP'))),encoded=stack.#record(stack.#load(stack.#stack,ebp-8)).provenance;if(encoded?.kind!=='xor'||encoded.left!==frame.scope||stack.#address(stack.#load(stack.#bank,32))!==ebp-16||stack.#load(stack.#stack,ebp-16)!==frame.oldFs)throw new Error('Original initializer SEH prologue relations required');frame.entered=true;}
