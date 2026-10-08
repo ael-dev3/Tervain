@@ -8,8 +8,8 @@ is the detailed technical record and dated checkpoint history.
 
 See the [current rebuilding overview](gothic3-rebuild-overview.md#current-status--8-october-2026)
 for the latest confirmed deployment and remaining startup dependencies.
-PR 95 is deployed at main commit `c0fc863caa8b106614ba5ecab991bf13a8e59926`
-by successful Pages run 37724188449. It publishes original SharedBase pointer
+PR 96 is deployed at main commit `d3fbb74114f0d850b4a2de899b0865abe2d77a19`
+by successful Pages run 37724835223. It publishes original SharedBase pointer
 setup, 14 static critical sections, PTD allocation, default-locale initialization,
 environment setup and standard I/O descriptors.
 
@@ -8494,3 +8494,24 @@ cookie checks and wrapper return have not run. The wrapper's temporary locale
 flag is retained until it can return normally. The candidate remains separate
 from the original PTD/global record. Live Game initializer traversal, full NPC
 activation and completion of the campaign are still unfinished.
+
+
+### Local direct-helper stack allocation continuation
+
+PR 96 is confirmed deployed at `d3fbb74114f0d850b4a2de899b0865abe2d77a19` by
+successful [Pages run 37724835223](https://github.com/ael-dev3/Tervain/actions/runs/37724835223).
+PR 97 has passed CI and is merged; its deployment is not yet confirmed here.
+
+The next local component places the classification stat helper on the canonical
+cold logical-thread x86 graph through a private pending-call token. It preserves
+the source argument words, saved registers, cookie/EBP relation, original probe
+alias and NLS import CALL/RET cleanup. The selected alloca16 path uses explicitly
+selected virtual page geometry, derives padding, relocates the owned return word
+and writes `0xcccc`. Its 512-byte payload aliases that same actual stack.
+Unknown alignment retains the pending call; a Game-bound graph cannot be claimed.
+
+This is a direct translated helper ABI. Preceding SharedBase DLL/CRT caller
+frames, module attachment and live Game stack integration are not established.
+Execution stops before temporary wide memset at `100c6f80 -> 100a7980`;
+conversion/classification fill, case maps, cookie checks and normal wrapper return
+remain unfinished. Full NPC activation and the finishable campaign remain missing.

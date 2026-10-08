@@ -1,6 +1,8 @@
 /** Original SharedBase CRT process-attach version/heap prefix.
  * This owns distinct SharedBase images and selected locks/thread-index setup;
  * PTD allocation, initialization and full attach remain pending. */
+import {NativeX86ThreadStack} from './native-x86-thread-stack';
+import {NativeSharedCrtSecurityCookie} from './native-shared-crt-security-cookie';
 import source from '../../assets/gothic3/shared-crt-bootstrap/source.json';
 import {NativeRuntimePlatform,NativeWin32PlatformException} from './native-runtime-platform';
 import type {NativeCrtLocalProcedure,NativeCrtLocalAllocProcedure,NativeCrtLocalGetProcedure,NativeCrtLocalSetProcedure,NativeCrtThreadDestructor,NativeWin32HeapCapability} from './native-runtime-platform';
@@ -15,6 +17,8 @@ import type {NativeValue} from './dialogue';
 const owners=new WeakMap<NativeRuntimePlatform,NativeSharedCrtOwner>();
 const token=Object.freeze({});
 const methods={
+ stackProbe:['0x100a8430','f8675b4976f7b8efc0bd917aebab734d11ca90222d20bcd2a166ce9914ed2b6e'],
+ allocaProbe16:['0x100ce300','c53e03f0b5d9e6f9a66c4203349f5bd29f84aa23939e32c33134a87fe54bdc53'],
  setMultibyteCase:['0x100b11fd','a8876b24b4cbadce33680092957a78c2edc69cfb26e1cc716e7673f00bdd0a51'],
  getStringTypeA:['0x100c703f','3a3fa19276bfbefbb1d4c78a869673bf26311b6f1e1fb6f99d43f29acf2065b0'],
  getStringTypeAStat:['0x100c6e87','b8590c434cc67ca317fff377165cccede734662c2b781825c69ca4a7c457ae85'],
@@ -84,7 +88,7 @@ const images={stringTypeMode:['102f6f74',4,'00000000'],emptyWideString:['100e5e6
 type Image=keyof typeof images;
 type SharedNlsKind='GetACP'|'IsValidCodePage'|'GetCPInfo'|'GetStringTypeW'|'MultiByteToWideChar';
 type LocalStorage={backing:NativeMemoryBacking;bytes:Uint8Array;masks:Uint8Array;backingBytes:Uint8Array;backingMasks:Uint8Array;view:DataView};
-type CaseState={info:NativeHeapObjectViews;input:NativeHeapObjectViews;types:NativeHeapObjectViews;lower:NativeHeapObjectViews;upper:NativeHeapObjectViews;probe:NativeHeapObjectViews;wideCount:number|null};
+type CaseState={info:NativeHeapObjectViews;input:NativeHeapObjectViews;types:NativeHeapObjectViews;lower:NativeHeapObjectViews;upper:NativeHeapObjectViews;probe:NativeHeapObjectViews;wideCount:number|null;stack:NativeX86ThreadStack|null;wideTemporary:NativeHeapObjectViews|null};
 function physical(size:number){return new NativeHeapObjectViews({identity:{},bytes:new Uint8Array(size),knownMask:new Uint8Array(size),freed:false});}
 export class NativeSharedCrtOwner {
  readonly identity=Object.freeze({});
@@ -97,6 +101,8 @@ export class NativeSharedCrtOwner {
  #cpInfo:NativeHeapObjectViews|null=null;
  #locals=new WeakMap<NativeHeapObjectViews,LocalStorage>();
  #caseState:CaseState|null=null;
+ #stackCall:object|null=null;
+ #stackStage:'enter'|'allocate'='enter';
  #ptdInstalled=false;
  #ptdInitialized=false;
  #startupInfo:NativeHeapObjectViews|null=null;
@@ -159,6 +165,14 @@ export class NativeSharedCrtOwner {
  #requireLocal(fields:NativeHeapObjectViews):void {
   const root=this.#locals.get(fields);
   if(!root||fields.backing!==root.backing||root.backing.freed||fields.bytes!==root.bytes||fields.knownMask!==root.masks||fields.view!==root.view||root.backing.bytes!==root.backingBytes||root.backing.knownMask!==root.backingMasks||fields.view.buffer!==root.bytes.buffer||fields.view.byteOffset!==root.bytes.byteOffset||fields.view.byteLength!==root.bytes.length)throw new Error('Actual retained SharedBase local storage required');
+ }
+ static sharedStackArgumentsForPlatform(platform:NativeRuntimePlatform,call:object):NativeValue<Readonly<{stage:'enter'|'allocate';input:NativeHeapObjectViews;types:NativeHeapObjectViews;codePage:number;count:number;cookie:number;locale:NativeHeapObjectViews}>> {
+  const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)return active;
+  const owner=owners.get(platform),item=owner?owner.#caseState:null;
+  if(!owner||!owner.#active||owner.#stackCall!==call||!item||!owner.#multibyteAllocation)return {known:false,reason:'Actual pending SharedBase stack call required'};
+  try{owner.#requireLocal(item.input);owner.#requireLocal(item.types);if(!owner.#localeUpdate)throw new Error('Actual SharedBase locale-update caller required');owner.#requireLocal(owner.#localeUpdate);const cookie=NativeSharedCrtSecurityCookie.forPlatform(platform).readCookie();if(!cookie.known)return cookie;
+   return {known:true,value:{stage:owner.#stackStage,input:item.input,types:item.types,codePage:owner.#multibyteAllocation.readUnsigned(4),count:item.wideCount??256,cookie:cookie.value,locale:owner.#localeUpdate!}};
+  }catch(error){return {known:false,reason:error instanceof Error?error.message:String(error)};}
  }
  static nlsArgumentsForPlatform(platform:NativeRuntimePlatform,call:NativeArgvNlsCallGrant):NativeValue<Readonly<{kind:SharedNlsKind;scalar:number;fields:NativeHeapObjectViews|null;input:NativeHeapObjectViews|null;count:number;flags:number;procedure:object|null}>> {
   const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)return active;
@@ -555,7 +569,7 @@ export class NativeSharedCrtOwner {
   this.#trace.push('100b1387.updateMultibyte.return');return mb;
  }
  #initializeLocaleUpdate():NativeHeapObjectViews {
-  const local=physical(16);this.#localeUpdate=local;local.writeUnsigned(12,0,1);
+  const local=this.#retainLocal(16);this.#localeUpdate=local;local.writeUnsigned(12,0,1);
   const ptd=this.#getPtdLowerWarm();local.pointer<NativeHeapObjectViews>(8).set(ptd);
   const locale=ptd.pointer<NativeHeapObjectViews>(0x6c).get(),mb=ptd.pointer<NativeHeapObjectViews>(0x68).get();
   local.pointer<NativeHeapObjectViews>(0).set(locale);local.pointer<NativeHeapObjectViews>(4).set(mb);
@@ -570,9 +584,12 @@ export class NativeSharedCrtOwner {
   const proof=NativeRuntimePlatform.canonicalArgvNlsEndpointsForPlatform(this.platform,endpoints);if(!proof.known)throw new Error(proof.reason);
   const call=Object.freeze({identity:Object.freeze({})});this.#nlsPending={call,kind,scalar,fields,input,count,flags,procedure};
   try{
+   if(this.#caseState?.stack&&(kind==='GetStringTypeW'||kind==='MultiByteToWideChar'))this.#call('SharedBase.NLS.stackCall',()=>NativeX86ThreadStack.beginSharedStringTypeImport(this.#caseState!.stack!,this.#stackCall!,call));
    const result=this.#call('SharedBase.'+kind,()=>endpoints.invoke(call));
    const actual=this.#call(kind+'.normalReturn',()=>NativeRuntimePlatform.canonicalArgvNlsNormalReturnForPlatform(this.platform,call));
-   if(result!==actual||result.kind!=='scalar')throw new Error('Actual SharedBase NLS scalar return required');return result.value;
+   if(result!==actual||result.kind!=='scalar')throw new Error('Actual SharedBase NLS scalar return required');
+   if(this.#caseState?.stack&&(kind==='GetStringTypeW'||kind==='MultiByteToWideChar'))this.#call('SharedBase.NLS.stackReturn',()=>NativeX86ThreadStack.finishSharedStringTypeImport(this.#caseState!.stack!,this.#stackCall!,call,result.value));
+   return result.value;
   }finally{this.#nlsPending=null;}
  }
  #getSystemCodePage(input=-3):number {
@@ -611,25 +628,34 @@ export class NativeSharedCrtOwner {
  }
  #initializeCasePrefix(fields:NativeHeapObjectViews):void {
   const info=this.#retainLocal(20),input=this.#retainLocal(256),types=this.#retainLocal(512),lower=this.#retainLocal(256),upper=this.#retainLocal(256),probe=this.#retainLocal(4);
-  this.#caseState={info,input,types,lower,upper,probe,wideCount:null};this.#cpInfo=info;
+  this.#caseState={info,input,types,lower,upper,probe,wideCount:null,stack:null,wideTemporary:null};this.#cpInfo=info;
   if(this.#nlsScalar('GetCPInfo',fields.readUnsigned(4),info)===0)throw new Error('Unowned SharedBase ASCII case fallback');
   for(let index=0;index<256;index++){input.writeUnsigned(index,index,1);this.#trace.push('100b1236.caseInputByte');}
   input.writeUnsigned(0,32,1);
   if(info.readUnsigned(6,1)!==0)throw new Error('Unowned SharedBase case lead-byte replacement');
   this.#initializeLocaleUpdate();this.#trace.push('100c703f.getStringTypeA.enterStat');
+  const selected=NativeRuntimePlatform.threadStackSelectionForPlatform(this.platform);
+  if(selected.known){
+   this.#stackCall=Object.freeze({});this.#stackStage='enter';
+   const entered=this.#call('100c7068.stackFrame',()=>NativeX86ThreadStack.beginSharedStringTypeFrame(this.platform,this.#stackCall!));
+   this.#caseState.stack=entered.stack;this.#caseState.probe=entered.probe;
+   const fields=entered.probe;this.#locals.set(fields,{backing:fields.backing,bytes:fields.bytes,masks:fields.knownMask,backingBytes:fields.backing.bytes,backingMasks:fields.backing.knownMask,view:fields.view});
+  }
   const mode=this.imageStorage('stringTypeMode');
   if(mode.readUnsigned(0)===0){
-   const result=this.#nlsScalar('GetStringTypeW',1,probe,this.imageStorage('emptyWideString'),1);
+   const result=this.#nlsScalar('GetStringTypeW',1,this.#caseState.probe,this.imageStorage('emptyWideString'),1);
    if(result!==0)mode.writeUnsigned(0,1);
    else {if(this.#call('100c6ec6.GetLastError',()=>this.platform.getWin32LastError())===120)mode.writeUnsigned(0,2);}
   }
   if(mode.readUnsigned(0)!==1)throw new Error('Unowned SharedBase ANSI string-type fallback');
-  probe.writeUnsigned(0,0);
+  if(this.#caseState.stack)this.#call('100c6efd.clearProbe',()=>NativeX86ThreadStack.clearSharedStringTypeProbe(this.#caseState!.stack!,this.#stackCall!));else probe.writeUnsigned(0,0);
   const procedure=this.#call('100c6f0a.MultiByteToWideCharImport',()=>NativeRuntimePlatform.argvProcedureForPlatform(this.platform,'MultiByteToWideChar'));
   const count=this.#nlsScalar('MultiByteToWideChar',fields.readUnsigned(4),null,input,256,1,procedure);this.#caseState.wideCount=count;
   if(count===0)throw new Error('Unowned SharedBase string-type conversion-query failure return/cookie check');
   if(count>0x7ffffff0||count*2+8>1024)throw new Error('Unowned SharedBase string-type wide heap allocation');
-  throw new Error('Unowned SharedBase aligned temporary stack allocation at 100c6f4c -> 100ce300');
+  if(!this.#caseState.stack)throw new Error('Unowned SharedBase aligned temporary stack allocation at 100c6f4c -> 100ce300');
+  this.#stackStage='allocate';this.#caseState.wideTemporary=this.#call('100c6f4c.alloca16',()=>NativeX86ThreadStack.allocateSharedStringTypeTemporary(this.#caseState!.stack!,this.#stackCall!));
+  throw new Error('Unowned SharedBase temporary wide memset at 100c6f80 -> 100a7980');
  }
  #initializeArgumentsPrefix():void {
   if(this.imageStorage('multibyteInitialized').readUnsigned(0)===0){
@@ -740,7 +766,7 @@ export class NativeSharedCrtOwner {
    if(this.#initializeIoPrefix()<0)throw new Error('Unowned SharedBase attach cleanup after I/O initialization failure');
    this.#initializeArgumentsPrefix();throw new Error('Unowned SharedBase attach after arguments');
   }catch(error){this.#boundary??=error instanceof Error?error.message:String(error);return {known:false,reason:this.#boundary};}
-  finally{this.#active=false;}
+  finally{this.#stackCall=null;this.#active=false;}
  }
  snapshot(){return Object.freeze({boundary:this.#boundary,localeUpdate:this.#localeUpdate,multibyteAllocation:this.#multibyteAllocation,cpInfo:this.#cpInfo,caseState:this.#caseState?Object.freeze({...this.#caseState}):null,codePage:this.#codePage,startupInfo:this.#startupInfo,ioBlock:this.#ioBlock,ioReturned:this.#ioReturned,versionAllocation:this.#versionAllocation,
   ptd:this.#ptd,ptdInstalled:this.#ptdInstalled,ptdInitialized:this.#ptdInitialized,rtcReturned:this.#rtcReturned,environmentInput:this.#environmentInput,environmentAllocation:this.#environmentAllocation,environmentReturned:this.#environmentReturned,heap:this.#heap,heapReturned:this.#heapReturned,attachReturned:this.#attachReturned,mtReturned:this.#mtReturned,locksReturned:this.#locksReturned,sections:Object.freeze([...this.#sections]),pointersReturned:this.#pointersReturned,

@@ -1,3 +1,4 @@
+import {NativeX86ThreadStack} from '../../src/gothic3/native-x86-thread-stack';
 import {nativeVirtualCp1252ArgvNlsSelection} from '../../src/gothic3/native-win32-argv-nls';
 import {expect,it} from 'vitest';
 import {NativeSharedCrtOwner} from '../../src/gothic3/native-shared-crt';
@@ -269,9 +270,9 @@ it('owns the original 544-byte multibyte root and aliases its refcount field',()
 });
 
 
-function argumentFixture(ownLocale=1,selected=true,sse=false){
+function argumentFixture(ownLocale=1,selected=true,sse=false,stack:'aligned'|'opaque'|false=false){
  let owner:NativeSharedCrtOwner;
- const platform=new NativeRuntimePlatform({engineCrtServices:{tlsValues:new Map(),kernel32Available:true,pointerCodec:'owned-bijection',fiberLocalStorage:true,processHeap:true,osVersion:{platform:2,major:6,minor:1,build:42},entropy:{currentThreadId:()=>{owner.snapshot().ptd!.writeUnsigned(0x70,ownLocale);if(sse)owner.imageStorage('memcpySseFlag').writeUnsigned(0,1);return {known:true,value:9};}},processInputs:{acpCodePage:1252,conversionCoverage:'ascii-explicit-positive-count',initialDirectionFlag:0,commandLineA:{kind:'buffer',bytes:[0]},environmentW:{kind:'buffer',bytes:[0,0]}},startupIo:{startupInfoA:{outcome:'normal',writes:[{offset:50,width:2,value:0,knownMask:65535}]}},standardIo:{standardHandles:[{id:-10,result:'valid',fileType:2},{id:-11,result:'valid',fileType:3},{id:-12,result:'null',fileType:0}],setHandleCount:{result:0},sectionInitialization:'owned-registration'},argvNls:selected?{...nativeVirtualCp1252ArgvNlsSelection,lastError:{GetACP:88}}:undefined}});
+ const platform=new NativeRuntimePlatform({engineCrtServices:{tlsValues:new Map(),kernel32Available:true,pointerCodec:'owned-bijection',fiberLocalStorage:true,processHeap:true,osVersion:{platform:2,major:6,minor:1,build:42},entropy:{currentThreadId:()=>{owner.snapshot().ptd!.writeUnsigned(0x70,ownLocale);if(sse)owner.imageStorage('memcpySseFlag').writeUnsigned(0,1);return {known:true,value:9};}},processInputs:{acpCodePage:1252,conversionCoverage:'ascii-explicit-positive-count',initialDirectionFlag:0,commandLineA:{kind:'buffer',bytes:[0]},environmentW:{kind:'buffer',bytes:[0,0]}},startupIo:{startupInfoA:{outcome:'normal',writes:[{offset:50,width:2,value:0,knownMask:65535}]}},standardIo:{standardHandles:[{id:-10,result:'valid',fileType:2},{id:-11,result:'valid',fileType:3},{id:-12,result:'null',fileType:0}],setHandleCount:{result:0},sectionInitialization:'owned-registration'},threadStack:stack?{threadCapability:{},reservationBytes:4096,addressModel:'opaque-relative',initialRegisters:'unknown',initialFs0:'unknown',pageAlignment:stack==='aligned'?'virtual-page-4096':undefined}:undefined,argvNls:selected?{...nativeVirtualCp1252ArgvNlsSelection,lastError:{GetACP:88}}:undefined}});
  owner=NativeSharedCrtOwner.forPlatform(platform);return {platform,owner};
 }
 for(const ownLocale of [1,3])it(`uses actual SharedBase GetACP and preserves original locale flag ownership ${ownLocale}`,()=>{
@@ -297,4 +298,17 @@ it('prepares original SharedBase case repertoire and follows the Unicode classif
  for(const fields of [item.types,item.lower,item.upper])expect([...fields.knownMask]).toEqual(Array(fields.bytes.length).fill(0));
  expect(owner.imageStorage('stringTypeMode').readUnsigned(0)).toBe(1);expect(state.ptd!.readUnsigned(0x70)).toBe(3);expect(state.ptd!.pointer(0x68).get()).toBe(owner.imageStorage('initialMultibyte'));expect(owner.imageStorage('multibyteInitialized').readUnsigned(0)).toBe(0);
  expect(state.trace.filter(v=>v==='100b1236.caseInputByte')).toHaveLength(256);expect(state.trace.filter(v=>v==='SharedBase.GetStringTypeW')).toHaveLength(1);expect(state.trace.filter(v=>v==='SharedBase.MultiByteToWideChar')).toHaveLength(1);expect(platform.argvNlsEndpoints!.invoke({identity:{}}).known).toBe(false);expect(owner.processAttach()).toEqual(result);expect(owner.snapshot().caseState!.input).toBe(item.input);
+});
+
+it('allocates SharedBase wide temporary on its actual direct-helper x86 stack with relocated return and marker',()=>{
+ const {owner,platform}=argumentFixture(1,true,false,'aligned');const denied=NativeX86ThreadStack.beginSharedStringTypeFrame(platform,{});expect(denied.known).toBe(false);
+ const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100c6f80');
+ const item=owner.snapshot().caseState!,stack=item.stack!,temp=item.wideTemporary!;expect(temp.bytes.length).toBe(512);expect(temp.backing).toBe(item.probe.backing);expect(temp.backing.freed).toBe(false);
+ const offset=temp.bytes.byteOffset-temp.backing.bytes.byteOffset;expect(offset%16).toBe(8);expect(new DataView(temp.backing.bytes.buffer,temp.backing.bytes.byteOffset).getUint32(offset-8,true)).toBe(0xcccc);
+ const state=stack.snapshot();expect(state.sharedFrame!.requestedBytes).toBe(520);expect(state.sharedFrame!.allocatedBytes).toBe(520);expect(state.sharedFrame!.probedPages).toEqual([]);expect(state.sharedFrame!.temporary).toBe(temp);expect(state.calls.filter(c=>c.site==='100c6f4c')).toHaveLength(1);expect(state.calls.find(c=>c.site==='100c6f4c')!.returned).toBe(true);
+ expect(item.probe.readUnsigned(0)).toBe(0);expect(item.wideCount).toBe(256);expect(owner.snapshot().ptd!.readUnsigned(0x70)).toBe(3);expect(owner.snapshot().ptd!.pointer(0x68).get()).toBe(owner.imageStorage('initialMultibyte'));expect(NativeX86ThreadStack.allocateSharedStringTypeTemporary(stack,{}).known).toBe(false);expect(stack.snapshot().phase).toBe(state.phase);expect(owner.processAttach()).toEqual(result);expect(owner.snapshot().caseState!.wideTemporary).toBe(temp);
+});
+it('retains the SharedBase helper frame and allocation call before unknown stack alignment',()=>{
+ const {owner}=argumentFixture(1,true,false,'opaque');const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('low-bit geometry');
+ const item=owner.snapshot().caseState!,state=item.stack!.snapshot();expect(item.wideCount).toBe(256);expect(item.wideTemporary).toBe(null);expect(state.phase).toBe('blocked');expect(state.sharedFrame!.requestedBytes).toBe(520);expect(state.sharedFrame!.allocatedBytes).toBe(null);expect(state.calls.find(c=>c.site==='100c6f4c')!.returned).toBe(false);expect(owner.processAttach()).toEqual(result);
 });

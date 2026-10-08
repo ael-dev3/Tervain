@@ -13,13 +13,13 @@ itself establish a playable reconstruction.
 
 ## Current status — 8 October 2026
 
-The latest confirmed publication is [PR 95](https://github.com/ael-dev3/Tervain/pull/95),
-merged at `c0fc863caa8b106614ba5ecab991bf13a8e59926` and deployed by
-[Pages run 37724188449](https://github.com/ael-dev3/Tervain/actions/runs/37724188449).
+The latest confirmed publication is [PR 96](https://github.com/ael-dev3/Tervain/pull/96),
+merged at `d3fbb74114f0d850b4a2de899b0865abe2d77a19` and deployed by
+[Pages run 37724835223](https://github.com/ael-dev3/Tervain/actions/runs/37724835223).
 It includes original SharedBase pointer/lock setup, PTD allocation and selected
 default-locale initialization, environment setup and standard I/O descriptors.
 The earlier PR 84 served-artifact comparison remains evidence for that prior
-revision; no new served-byte comparison is claimed for PR 95.
+revision; no new served-byte comparison is claimed for PR 96.
 
 Startup now completes the selected environment initialization and stops before
 Game's `__cinit` call at `204678f2`. The repository captures all 2,473 Game
@@ -824,3 +824,24 @@ cookie checks and wrapper return have not run. The wrapper's temporary locale
 flag is retained until it can return normally. The candidate remains separate
 from the original PTD/global record. Live Game initializer traversal, full NPC
 activation and completion of the campaign are still unfinished.
+
+
+### Local direct-helper stack allocation continuation
+
+PR 96 is confirmed deployed at `d3fbb74114f0d850b4a2de899b0865abe2d77a19` by
+successful [Pages run 37724835223](https://github.com/ael-dev3/Tervain/actions/runs/37724835223).
+PR 97 has passed CI and is merged; its deployment is not yet confirmed here.
+
+The next local component places the classification stat helper on the canonical
+cold logical-thread x86 graph through a private pending-call token. It preserves
+the source argument words, saved registers, cookie/EBP relation, original probe
+alias and NLS import CALL/RET cleanup. The selected alloca16 path uses explicitly
+selected virtual page geometry, derives padding, relocates the owned return word
+and writes `0xcccc`. Its 512-byte payload aliases that same actual stack.
+Unknown alignment retains the pending call; a Game-bound graph cannot be claimed.
+
+This is a direct translated helper ABI. Preceding SharedBase DLL/CRT caller
+frames, module attachment and live Game stack integration are not established.
+Execution stops before temporary wide memset at `100c6f80 -> 100a7980`;
+conversion/classification fill, case maps, cookie checks and normal wrapper return
+remain unfinished. Full NPC activation and the finishable campaign remain missing.
