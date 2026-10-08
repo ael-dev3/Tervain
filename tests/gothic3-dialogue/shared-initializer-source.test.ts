@@ -7,7 +7,7 @@ const base='assets/gothic3/shared-initializer-source/';
 const source=JSON.parse(readFileSync(base+'source.json','utf8'));
 const sha=(raw:Uint8Array)=>createHash('sha256').update(raw).digest('hex');
 it('matches every generated initializer row and header to original admitted receipts',()=>{
-  for(const body of ['100aa632','100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100b444f','100ae27b','100aa47d','100a7265','100aef10','100b1854','100b4b6b','100ce095','100ce045','100aeb68','100aebad','100bef05','100ce0f5','100a72d0','100a7294','100a71ac','100ae2f2','100b10d6','100aa453','100aa45c','100a72ca','100e1660','100e1440','100e1450','100e1470','100e14b0','100e14c0','100e14d0','100e14e0','100e14f0','100e1500','100e1510','100135f0','10013240','10020bf0','1003d410']){
+  for(const body of ['100aa632','100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100b444f','100ae27b','100aa47d','100a7265','100aef10','100b1854','100b4b6b','100ce095','100ce045','100aeb68','100aebad','100bef05','100ce0f5','100a72d0','100a7294','100a71ac','100ae2f2','100b10d6','100aa453','100aa45c','100a72ca','100e1660','100e1440','100e1450','100e1470','100e14b0','100e14c0','100e14d0','100e14e0','100e14f0','100e1500','100e1510','100135f0','10013240','10020bf0','1003d410','1003d2f0','10047f10']){
     for(const row of readFileSync(base+body+'.asm.txt','utf8').trim().split('\n')){
       const [address,bytes,instruction]=row.split(' | ');
       const emitted=sharedInitializerInstruction(address!);
@@ -189,8 +189,8 @@ it('pins the lower dispatcher and 16-byte pool instruction bodies and entry thun
     const bytes=Buffer.from(thunk,'hex');expect(bytes[0]).toBe(0xe9);
     expect(parseInt(entry,16)+5+bytes.readInt32LE(1)).toBe(parseInt(body,16));
   }
-  // Captured bodies are deliberately not admitted to live execution yet.
-  expect(()=>sharedInitializerInstruction('10047f74')).toThrow('Unowned');
+  // Block initialization and bitmap execution remain unadmitted.
+  expect(()=>sharedInitializerInstruction('10045da0')).toThrow('Unowned');
 });
 it('preserves every original size-to-pool dispatch slot including the 13-byte selection',()=>{
   const table=source.coldGlobals.heapDispatchTable;const raw=Buffer.from(table.raw,'hex');
