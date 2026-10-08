@@ -247,6 +247,7 @@ export class NativeSharedCrtOwner {
  #dllLanguageOutputAttempted=false;
  #dllTranslationAttempted=false;
  #dllTranslatedOutputAttempted=false;
+ #dllFileVersionAttempted=false;
  #dllResourceQuery:Readonly<NativeSharedDllResourceQuery>|null=null;
  #dllFormatImages:Readonly<Record<string,NativeHeapObjectViews>>={};
  #dllLanguageFormatImages:Readonly<{output:NativeHeapObjectViews;translation:NativeHeapObjectViews}>|null=null;
@@ -1398,6 +1399,14 @@ export class NativeSharedCrtOwner {
   try{this.#active=true;this.#dllCall=Object.freeze({});const result=NativeX86ThreadStack.finishSharedDllFilenameCopy(this.#argvStack,this.#dllCall);if(!result.known)this.#dllBoundary=result.reason;return result;}
   catch(error){this.#dllBoundary=error instanceof Error?error.message:String(error);return {known:false,reason:this.#dllBoundary};}
   finally{this.#dllCall=null;this.#active=false;}
+ }
+ processDllFileVersionQuery():NativeValue<number>{
+  if(this.#dllFileVersionAttempted)return {known:false,reason:this.#dllBoundary??'Retained FileVersion query attempt required'};
+  if(this.#active||this.#dllBoundary!=='Original SharedBase FileVersion resource query pending at 100d55d6'||!this.#argvStack||!this.#dllResourceQuery)return {known:false,reason:'Actual pending FileVersion query required'};
+  this.#dllFileVersionAttempted=true;
+  try{this.#active=true;this.#initializerActive=true;this.#dllCall=Object.freeze({});this.#dllMallocCall=this.#dllCall;
+   const returned=NativeX86ThreadStack.finishSharedDllTranslationQuery(this.#argvStack,this.#dllCall,'fileVersion');const result=returned.known?NativeX86ThreadStack.runSharedInitializers(this.#argvStack,this.#dllCall,'dll-language-version-copy'):returned;if(!result.known)this.#dllBoundary=result.reason;return result;
+  }catch(error){this.#dllBoundary=error instanceof Error?error.message:String(error);return {known:false,reason:this.#dllBoundary};}finally{this.#dllMallocCall=null;this.#dllCall=null;this.#initializerActive=false;this.#active=false;}
  }
  processDllTranslatedOutput():NativeValue<number>{
   if(this.#dllTranslatedOutputAttempted)return {known:false,reason:this.#dllBoundary??'Retained translated output attempt required'};
