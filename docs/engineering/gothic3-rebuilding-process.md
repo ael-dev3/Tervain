@@ -10731,6 +10731,6 @@ verify construction, stream state and rejection of a corrupted caller return
 word before FILE-slot acquisition. Typechecking and the production build passed.
 The first full run passed 2,985 tests with one existing startup-fixture test
 exceeding its five-second limit. That test now has an explicit 30-second limit;
-all three affected focused checks passed. A full rerun is required before remote
-publication. These methods currently have no production callers; complete DLL
+all three affected focused checks passed. The full rerun passed 2,986 tests
+across 277 files in 323.73 seconds before remote publication. These methods currently have no production callers; complete DLL
 startup, live world activation and campaign integration remain unfinished.
