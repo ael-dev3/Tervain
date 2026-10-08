@@ -46,6 +46,10 @@ def capture(study, output):
     assert 0x200064f1 + 5 + struct.unpack('<i', cleanup_thunk[1:])[0] == 0x20549920
     cleanup = pe.bytes(0x20549920, 11)
     assert cleanup == bytes.fromhex('b9584f7b20ff2534887d20')
+    import_slots = {'0x207d8794','0x207d87d8','0x207d87dc','0x207d86dc','0x207d87cc','0x207d890c','0x207d8834'}
+    imports = [row for row in pe.imports() if row['iatVA'] in import_slots]
+    assert len(imports) == len(import_slots)
+    assert all(row['module'] == 'SharedBase.dll' and row['ordinal'] is None for row in imports)
     result = dict(schema='gothic3-arena-status-descriptor-v1', gameSha256=GAME_SHA,
                   methods=methods, vtableAddress='20659aec', vtableRaw=pe.bytes(0x20659aec,24).hex(),
                   slots={f'{offset:02x}': f'{address:08x}' for offset, address in slots.items()},
@@ -60,7 +64,7 @@ def capture(study, output):
                                        bodyInstructionBytesSha256=hashlib.sha256(cleanup).hexdigest(),
                                        destination='207b4f58', sharedCStringDestructorIat='207d8834',
                                        recovery='Exact original PE bytes: MOV ECX,cache; JMP [CString destructor IAT]'),
-                  sourceOnly=True, wholeCrtTraversalCompleted=False)
+                  imports=dict(Game=imports), sourceOnly=True, wholeCrtTraversalCompleted=False)
     (output / 'source.json').write_bytes((json.dumps(result, indent=2) + '\n').encode('utf-8'))
 
 if __name__ == '__main__':

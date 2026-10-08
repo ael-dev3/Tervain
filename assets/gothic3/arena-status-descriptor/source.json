@@ -227,6 +227,52 @@
     "sharedCStringDestructorIat": "207d8834",
     "recovery": "Exact original PE bytes: MOV ECX,cache; JMP [CString destructor IAT]"
   },
+  "imports": {
+    "Game": [
+      {
+        "iatVA": "0x207d86dc",
+        "module": "SharedBase.dll",
+        "name": "?UnregisterPropertyTemplate@bCPropertyObjectTypeBase@@QAE_NPBVbCPropertyTypeBase@@@Z",
+        "ordinal": null
+      },
+      {
+        "iatVA": "0x207d8794",
+        "module": "SharedBase.dll",
+        "name": "??0bCPropertyTypeBase@@IAE@ABVbCString@@W4bEPropertyType@@@Z",
+        "ordinal": null
+      },
+      {
+        "iatVA": "0x207d87cc",
+        "module": "SharedBase.dll",
+        "name": "?RegisterPropertyTemplate@bCPropertyObjectTypeBase@@QAE_NPBVbCPropertyTypeBase@@@Z",
+        "ordinal": null
+      },
+      {
+        "iatVA": "0x207d87d8",
+        "module": "SharedBase.dll",
+        "name": "?Create@bCPropertyTypeBase@@MAEXXZ",
+        "ordinal": null
+      },
+      {
+        "iatVA": "0x207d87dc",
+        "module": "SharedBase.dll",
+        "name": "?Destroy@bCPropertyTypeBase@@MAEXXZ",
+        "ordinal": null
+      },
+      {
+        "iatVA": "0x207d8834",
+        "module": "SharedBase.dll",
+        "name": "??1bCString@@QAE@XZ",
+        "ordinal": null
+      },
+      {
+        "iatVA": "0x207d890c",
+        "module": "SharedBase.dll",
+        "name": "??0bCString@@QAE@PBD@Z",
+        "ordinal": null
+      }
+    ]
+  },
   "sourceOnly": true,
   "wholeCrtTraversalCompleted": false
 }
