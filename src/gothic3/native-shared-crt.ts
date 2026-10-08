@@ -349,7 +349,7 @@ export class NativeSharedCrtOwner {
    encodeCode:(procedure:object,address:number):object|null=>{
     const proof=NativeRuntimePlatform.canonicalPointerCodecForPlatform(this.platform,procedure,'EncodePointer');if(!proof.known)throw new Error(proof.reason);
     if(address===0){const encoded=this.#call('100ae2dd.EncodePointer(NULL)',()=>proof.value.invoke(null));if(encoded)this.#initializerEncodedPointers.add(encoded);return encoded;}
-    if(![0x100cdf9f,0x100b43e6,0x100b3a8b,0x100b3a49,0x100b3a7d,0x100b39f3,0x100b4360,0x100b3a09,0x100b3973,0x100b3902,0x100bb8e7,0x100e30f0,0x100e26d0,0x100e2810,0x100e2930,0x100e2940,0x100e2950,0x100e2960,0x100e2a00,0x100e2a10,0x100e2710,0x100e2b40,0x100e2f20,0x100079ff,0x10005f65].includes(address))throw new Error('Original installed conversion address required');
+    if(![0x100cdf9f,0x100b43e6,0x100b3a8b,0x100b3a49,0x100b3a7d,0x100b39f3,0x100b4360,0x100b3a09,0x100b3973,0x100b3902,0x100bb8e7,0x100e30f0,0x100e26d0,0x100e2810,0x100e2930,0x100e2940,0x100e2950,0x100e2960,0x100e2a00,0x100e2a10,0x100e2710,0x100e2b40,0x100e2f20,0x100079ff,0x10005f65,0x100e30b0,0x100e3110,0x100e3100].includes(address))throw new Error('Original installed conversion address required');
     let pointer=this.#initializerCodePointers.get(address);if(!pointer){pointer=Object.freeze({owner:this.identity,originalCodeAddress:address});this.#initializerCodePointers.set(address,pointer);}
     const encoded=this.#call('100ae2dd.EncodePointer',()=>proof.value.invoke(pointer!));if(encoded){this.#initializerEncodedPointers.add(encoded);this.#initializerDecodedPointers.set(encoded,{original:pointer!,address});}return encoded;
    },
@@ -428,7 +428,7 @@ export class NativeSharedCrtOwner {
   for(const [label,hash] of [['crtLock','3d74be3e3b5df76a33034414a8a1a7b8aba7962697d3aa7790c470b0e2fbde78'],['crtUnlock','bd77ef3907ee26a8a910d5015f4abc9206e55d072e8d12350b7dd7d59709012f'],['initializeCriticalSection','f73b38791ad720df5bc93afb51a63f39e6f0b3f93553464dd7b1e7fbdd27d5f5']] as const)if(initializerSource.methods[label].bodyInstructionBytesSha256!==hash)throw new Error('Original CRT section source required');
   for(const [label,address,raw] of [
    ['className142State','102f47e4','00'.repeat(12)],['className142Published','102f48bc','00000000'],
-   ['className143State','102f47f0','00'.repeat(12)],['className143Published','102f48b8','00000000'],
+   ['emptyString144','102f48e8','00000000'],['className143State','102f47f0','00'.repeat(12)],['className143Published','102f48b8','00000000'],
    ['className142TypeInfo','10140148','64d50e10000000002e3f415662434f62736f6c657465436c6173734040000000'],
    ['className143TypeInfo','1013f1a8','64d50e10000000002e3f415662434f626a656374526566426173654040000000'],
    ['typeInfoNode','102f6484','00'.repeat(8)],

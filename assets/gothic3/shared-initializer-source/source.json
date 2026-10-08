@@ -848,6 +848,23 @@
       "assemblySha256": "18089041735901783ee1a90d44719db252d798c3d8899e2bda11199745b12cb8",
       "cSha256": "3351a2fd57e2ccf22799fdfb22ddce3a8338c106989636b4e17d986f8eeefcb1"
     },
+    "emptyStringConstructor": {
+      "entryVA": "0x1000779d",
+      "bodyVA": "0x10012d20",
+      "bodyRanges": "10012d20-10012d28",
+      "instructionCount": 3,
+      "bodyByteCount": 9,
+      "bodyInstructionBytesSha256": "cda72abcdbb1efdc80edc8549a889c40e93418986336d31914aa9a2d9e967cc7",
+      "entryChain": [
+        {
+          "va": "1000779d",
+          "bytes": "e97eb50000",
+          "targetVA": "10012d20"
+        }
+      ],
+      "assemblySha256": "9db0d7306f10de0e1c75c5dcfe86ae94a64b18cf43474b2141b894371f1eba59",
+      "cSha256": "fa6d714a1f86cfafcfc6ef4b40d29ff25fe4367f57fa293a4a1126c41c93f435"
+    },
     "rootTextConstructor": {
       "entryVA": "0x10003ba7",
       "bodyVA": "0x100135f0",
@@ -2138,6 +2155,10 @@
       "containingEntry": "10002aae",
       "methodLabel": "memoryGetInstance"
     },
+    "1000779d": {
+      "containingEntry": "1000779d",
+      "methodLabel": "emptyStringConstructor"
+    },
     "10003ba7": {
       "containingEntry": "10003ba7",
       "methodLabel": "rootTextConstructor"
@@ -2538,6 +2559,22 @@
     },
     "className142Published": {
       "address": "102f48bc",
+      "raw": "00000000",
+      "bytes": 4,
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 0,
+        "loaderZeroFillBytes": 4
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "emptyString144": {
+      "address": "102f48e8",
       "raw": "00000000",
       "bytes": 4,
       "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",

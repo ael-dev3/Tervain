@@ -474,3 +474,13 @@ Initializer 142 publishes its result and registers callback 100079ff.
 There are 125 bodies, 4,898 instructions and 444 CALL receipts. All 238 generated
 files and the instruction module reproduce exactly. Execution next stops at
 `100aa692 -> 100e1610`. Full startup and campaign integration remain unfinished.
+
+
+### Final initializer-table return
+
+The final empty-string constructor and three shutdown registrations now run
+through their original instructions. The original cinit table loop returns
+zero to 100adb5f. Full CRT attach remains pending at the caller continuation.
+The source package contains 126 bodies, 4,901 instructions and 444 CALL
+receipts; all 240 generated files and the instruction module reproduce exactly.
+Full startup and campaign integration remain unfinished.

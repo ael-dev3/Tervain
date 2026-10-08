@@ -10135,3 +10135,20 @@ exactly. The full suite passes 2,818 tests across 260 files (178.79 seconds);
 publication remains pending.
 Execution next stops at `100aa692 -> 100e1630`. Full startup, world activation
 and a finishable campaign remain outstanding.
+
+
+## Final SharedBase initializer-table entries (work in progress, 2026-10-08)
+
+The original final three initializer entries now execute. The empty bCString
+constructor writes NULL to its actual four-byte object, and the remaining
+entries register callbacks 100e30b0, 100e3110 and 100e3100 without executing
+shutdown bodies. The original cinit loop reaches its end and returns zero.
+The interpreter retains that result and normal return to its caller at
+100adb5f. CRT attach itself remains pending at that caller continuation.
+
+All 259 focused checks, typechecking, production build and authored diff check
+pass. All 240 generated evidence files and the instruction module reproduce
+exactly. The package contains 126 bodies, 4,901 instructions and 444 CALL
+receipts. The full suite passes 2,857 tests across 270 files (176.51 seconds);
+publication remains pending. Full CRT
+attach, Game startup, world activation and campaign completion are outstanding.
