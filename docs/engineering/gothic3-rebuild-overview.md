@@ -49,8 +49,8 @@ history linked below:
 
 The checkpoint history distinguishes local implementation, reviewed changes and
 successful deployments. Merged PR #161 includes selected version-resource query,
-copy, parsing and buffer cleanup continuations. Its Pages deployment was still
-in progress at this update. Later MessageAdmin logging work remains local.
+copy, parsing and buffer cleanup continuations. Its Pages deployment completed
+successfully. Later MessageAdmin logging work remains local.
 Complete DLL startup, Game/world activation and campaign integration still
 require work. See the workflow's dated status for the exact execution boundary.
 

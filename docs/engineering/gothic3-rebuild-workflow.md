@@ -60,15 +60,18 @@ scanner, and both original buffer cleanup paths. The recovered version is
 That checkpoint passed 2,954 tests across 275 files, typechecking, the production
 build and exact regeneration of both source packages. Its
 [Pages deployment](https://github.com/ael-dev3/Tervain/actions/runs/37852424019)
-was still in progress when this documentation was updated; merge and deployment
-are separate receipts.
+completed successfully; merge and deployment are separate receipts.
 
-Further local logging work captures MessageAdmin construction and executes its
-separator prefix. Committed local checkpoint `b066d23a` passed 2,956 tests in
-275 files, typechecking, the build and exact DLL source regeneration. Subsequent
-uncommitted construction work initializes the original critical section and
-reaches the holder allocator; allocation currently stops at the unowned child
-`1003d304 -> 100028f6`. This work has not been published or fully validated.
+Further local logging work captures MessageAdmin construction, initializes its
+original physical critical section, and allocates the holder through the actual
+12-byte pool selected by `1003d304 -> 100028f6`. The original bitmap claim and
+three DWORD initialization stores execute, with the common MemoryAdmin lock and
+saved registers restored. Execution reaches ErrorAdmin initialization at
+`10006c1c`. Shortened Root strings also complete through this newly supported
+pool. The checkpoint passes 2,959 tests in 275 files, typechecking, the production
+build and exact independent regeneration of both evidence packages. The
+initializer package now has 134 bodies and 5,358 instructions. This MessageAdmin
+work remains local and has not been published.
 
 These are selected component continuations. Complete DLL wrapper and exception
 handling, live Game startup, world/NPC activation and campaign integration remain

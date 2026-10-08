@@ -103,6 +103,10 @@ def capture(study, output):
         0x100088b4: 'dllLogMessage',
         0x10005560: 'dllLogSubmit',
         0x100a7f27: 'dllLogVsprintf',
+        0x10006b7c: 'dllMessageCreate',
+        0x100010e1: 'dllMessageNewHolder',
+        0x10007441: 'dllMessageHolderAllocate',
+        0x10006c1c: 'dllMessageErrorGet',
     })
     pe = native.PE(binary)
     export_rva, export_size = struct.unpack_from('<II', binary, pe.optional + 96)

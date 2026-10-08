@@ -4,6 +4,30 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
+## Local checkpoint — 9 October 2026: MessageAdmin holder construction
+
+The separator logger enters the original MessageAdmin getter. Its cold guard is
+set and its physical critical section is initialized at object+4. The original
+Create method requests a 12-byte holder through `100010e1 -> 10020c40` and the
+common MemoryAdmin Malloc. The allocation table selects the dedicated pool
+`100028f6 -> 10047e70`; geometry at `100e7aa0` specifies 12-byte slots and 65,534
+entries. Original pool initialization allocates 0xc2000 bytes, registers the data
+area and fills its bitmap. The allocator claims the first slot at offset 16;
+Create zeros its three DWORD fields and publishes the holder. Lock and saved
+register restoration are checked. Execution then reaches the ErrorAdmin getter
+at `10006c1c`; its construction and subsequent logging callbacks remain required.
+
+The same pool allows one-, two- and three-character Root strings to finish
+through original CString construction. Local validation passes 2,959 tests across
+275 files, typechecking and the production build. Both source generators reproduce
+exactly. The initializer package contains 134 bodies and 5,358 instructions;
+the DLL-entry package contains 34 methods and 2,203 instructions. These selected
+continuations remain local and require live startup integration.
+
+PR #161's preceding version-query checkpoint merged at
+`d6b28f9e37e9dfce20a89e5afc2ab0aa2a107cf6`; Pages run `37852424019` succeeded.
+Complete DLL startup, Game/world activation and campaign integration are unfinished.
+
 ## Local checkpoint — 9 October 2026: version resource return and cleanup
 
 The selected SharedBase DLL startup continuation now executes the translation
