@@ -1784,6 +1784,22 @@
       "scope": "cold-original-image",
       "liveValueCaptured": false
     },
+    "typeInfoNameScope": {
+      "address": "100f8b20",
+      "raw": "feffffff00000000d4ffffff00000000feffffff00000000eb090b10",
+      "bytes": 28,
+      "sha256": "141cbd619c855da32819f30def127018330f9acd766042b381cda4007b0cdc7c",
+      "section": {
+        "virtualAddress": 937984,
+        "virtualSize": 366840,
+        "rawSize": 368640,
+        "rawOffset": 937984,
+        "fileBackedBytes": 28,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
     "underscoreRootLiteral": {
       "address": "100ea340",
       "raw": "5f526f6f7400",

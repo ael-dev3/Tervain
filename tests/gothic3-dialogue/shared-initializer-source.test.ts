@@ -7,7 +7,7 @@ const base='assets/gothic3/shared-initializer-source/';
 const source=JSON.parse(readFileSync(base+'source.json','utf8'));
 const sha=(raw:Uint8Array)=>createHash('sha256').update(raw).digest('hex');
 it('matches every generated initializer row and header to original admitted receipts',()=>{
-  for(const body of ['100aa632','100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100b444f','100ae27b','100aa47d','100a7265','100aef10','100b1854','100b4b6b','100ce095','100ce045','100aeb68','100aebad','100bef05','100ce0f5','100a72d0','100a7294','100a71ac','100ae2f2','100b10d6','100aa453','100aa45c','100a72ca','100e1660','100e1440','100e1450','100e1470','100e14b0','100e14c0','100e14d0','100e14e0','100e14f0','100e1500','100e1510','100e15d0','100e1600','1008e900','100a7099','100135f0','10013240','10020bf0','1003d410','1003d2f0','10047f10','10045da0','100aabd2','100aaaf6','100a7980','1003c650','1003e090','100a7a00']){
+  for(const body of ['100aa632','100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100b444f','100ae27b','100aa47d','100a7265','100aef10','100b1854','100b4b6b','100ce095','100ce045','100aeb68','100aebad','100bef05','100ce0f5','100a72d0','100a7294','100a71ac','100ae2f2','100b10d6','100aa453','100aa45c','100a72ca','100e1660','100e1440','100e1450','100e1470','100e14b0','100e14c0','100e14d0','100e14e0','100e14f0','100e1500','100e1510','100e15d0','100e1600','1008e900','100a7099','100b0902','100135f0','10013240','10020bf0','1003d410','1003d2f0','10047f10','10045da0','100aabd2','100aaaf6','100a7980','1003c650','1003e090','100a7a00']){
     for(const row of readFileSync(base+body+'.asm.txt','utf8').trim().split('\n')){
       const [address,bytes,instruction]=row.split(' | ');
       const emitted=sharedInitializerInstruction(address!);
@@ -280,6 +280,6 @@ it('captures the original forty-byte Root static object with loader-zero provena
 
 it('pins original class-name getters and their type-info dependency without granting lower execution',()=>{
  expect(source.methods.initializer142Getter.bodyInstructionBytesSha256).toBe('b5e596b1242dcc3a60689521e40148d38ae3082c3f776bea04a77a1348fd7285');expect(source.methods.initializer143Getter.bodyInstructionBytesSha256).toBe('0ba2997f34d67deab166846b174fc31066f4317663b823a462322cfe8ca8f885');expect(source.methods.typeInfoName.bodyInstructionBytesSha256).toBe('cd650ac75be4e2b54abe9afe24a8ffd0490ea4f16050f7542157fbe31e96b1d3');
- expect(sharedInitializerInstruction('1000619f')).toEqual({address:'1000619f',bytes:'e95c870800',instruction:'JMP 0x1008e900'});expect(()=>sharedInitializerInstruction('100b0902')).toThrow('Unowned');
+ expect(sharedInitializerInstruction('1000619f')).toEqual({address:'1000619f',bytes:'e95c870800',instruction:'JMP 0x1008e900'});expect(sharedInitializerInstruction('100b0902').instruction).toBe('PUSH 0xc');
  expect(source.coldGlobals.className142State.raw).toBe('00'.repeat(12));expect(source.coldGlobals.className143State.raw).toBe('00'.repeat(12));expect(source.coldGlobals.typeInfoNode.raw).toBe('00'.repeat(8));expect(Buffer.from(source.coldGlobals.className142TypeInfo.raw,'hex').subarray(8).toString('ascii')).toBe('.?AVbCObsoleteClass@@\0\0\0');
 });

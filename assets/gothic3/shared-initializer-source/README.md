@@ -320,3 +320,12 @@ the type-info wrapper. Execution stops at `100a709e -> 100b0902`. The lower
 name allocation/demangling body is captured but not admitted for execution.
 Initializer 143 and the unmangling/strstr bodies are also source evidence only.
 No generated evidence alone establishes full startup or playable completion.
+
+### Live `_Name_base` frame prefix
+
+Original body `100b0902` is emitted for source execution. Its cold-cache prefix
+enters EH4 using pinned scope `100f8b20` and reaches the original demangler CALL
+`100b0931 -> 100c6142`. The frame remains active, its prior FS and register
+identities retained. The lower demangler and the remaining allocation, locking,
+copy and cleanup paths still require implementation. Emitting the full body
+does not establish those paths.
