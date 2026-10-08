@@ -120,3 +120,12 @@ then initializes handles to -1 and record flags before processing inherited
 handles and standard handles. Actual section initialization precedes increment
 of each descriptor's section count. This source capture does not execute I/O
 startup or borrow the Game CRT's globals, stack grants or descriptor graph.
+
+The subsequent local I/O prefix owns a 68-byte STARTUPINFOA buffer with initially
+unknown bytes and a private pending writer grant. The canonical platform writer
+applies declared stores and masks; forged or ended grants are rejected. After a
+normal return it calls original calloc(32,56), publishes the independent
+SharedBase block/count and initializes all 32 records in source order. No native
+SEH stack installation is claimed. Inherited-handle and standard-handle work
+remain required; the first descriptor flags are published before the missing
+GetStdHandle call. This helper still does not complete I/O or full CRT attach.

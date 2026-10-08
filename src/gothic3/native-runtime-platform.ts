@@ -510,14 +510,21 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     if (this.#startupInfoActiveCall) return unknown('Reentrant Runtime startup writer cannot enter another call');
     this.#startupInfoActiveCall = call;
     try {
-      const admitted = NativeX86ThreadStack.canonicalStartupInfoCallForPlatform(this, call); if (!admitted.known) return admitted;
+      const shared=NativeSharedCrtOwner.canonicalStartupCallForPlatform(this,call);
+      const admitted = NativeX86ThreadStack.canonicalStartupInfoCallForPlatform(this, call); if (!admitted.known&&!shared.known) return admitted;
       for (const write of selection.writes) {
-        const stored = NativeX86ThreadStack.writeStartupInfoForCall(this, call, write.offset, write.width, write.value, write.knownMask);
-        if (!stored.known) return stored;
+        if(shared.known){
+          const current=NativeSharedCrtOwner.canonicalStartupCallForPlatform(this,call);if(!current.known)return current;
+          if(write.offset+write.width>68)return unknown('Contained SharedBase STARTUPINFOA write required');
+          NativeHeapObjectViews.prototype.writeUnsigned.call(current.value,write.offset,write.value,write.width);
+          for(let byte=0;byte<write.width;byte++)current.value.knownMask[write.offset+byte]=(write.knownMask>>>(byte*8))&255;
+        }else{
+          const stored = NativeX86ThreadStack.writeStartupInfoForCall(this, call, write.offset, write.width, write.value, write.knownMask);if (!stored.known) return stored;
+        }
       }
       if (selection.lastError !== undefined) NativeHeapObjectViews.prototype.writeUnsigned.call(this.#win32LastError, 0, selection.lastError);
       if (selection.outcome === 'unknown') return unknown(selection.reason ?? 'Declared GetStartupInfoA unknown after retained writes');
-      const completed = NativeX86ThreadStack.canonicalStartupInfoCallForPlatform(this, call); if (!completed.known) return completed;
+      const completed = shared.known?NativeSharedCrtOwner.canonicalStartupCallForPlatform(this,call):NativeX86ThreadStack.canonicalStartupInfoCallForPlatform(this, call); if (!completed.known) return completed;
       this.#startupInfoNormalReturns.add(call); return known(undefined);
     } catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
     finally { this.#startupInfoActiveCall = null; }
