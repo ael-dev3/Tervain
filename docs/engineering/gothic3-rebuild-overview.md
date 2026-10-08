@@ -60,7 +60,10 @@ callback, which allocates and publishes its encoded exit table and returns.
 The next callback returns through its already-initialized multibyte branch,
 and the processor callback executes its original probe with the declared virtual
 CPU profile. Its normal SIMD frame restores FS and saved registers and returns;
-the next callback `100bef05` remains pending. Without a selected CPU profile,
+the stdio callback builds its original FILE vector and checks owned descriptor
+handles. The fifth callback repeats the probe and publishes the memcpy flag.
+The error table returns zero and reaches pending RTC exit registration at
+`100aa676 -> 100a72d0`. Without a selected CPU profile,
 PUSHFD at `100ce0a8` remains an explicit boundary. Allocation failures retain
 the original partial cleanup; a positive retry delay remains unresolved.
 Those local helper results still need to join the live
@@ -70,21 +73,20 @@ establish campaign completion.
 
 ## Current status — 8 October 2026
 
-The latest merged runtime checkpoint is [PR 115](https://github.com/ael-dev3/Tervain/pull/115),
-merged at `d044545e75e4eee4cccdb5ffc447c4ba30c1db76` after successful
-[CI run 37757739546](https://github.com/ael-dev3/Tervain/actions/runs/37757739546).
-Its [Pages deployment](https://github.com/ael-dev3/Tervain/actions/runs/37758516262)
-is tracked separately from that CI result.
+The latest merged runtime checkpoint is [PR 117](https://github.com/ael-dev3/Tervain/pull/117),
+merged at `0270bb5cdd54f521731a4c6de164e3e967265d37` after successful
+[CI run 37761728106](https://github.com/ael-dev3/Tervain/actions/runs/37761728106).
+[Pages run 37762574694](https://github.com/ael-dev3/Tervain/actions/runs/37762574694)
+completed successfully.
 
-The selected SharedBase path now completes argument and environment setup,
-floating-point conversion installation and cached pointer encoding. The first
-error initializer allocates and publishes its exit table; the second returns
-through its live multibyte-initialized flag. The third enters the original
-processor-probe frame and stops before `PUSHFD` at `100ce0a8`. Full EFLAGS,
-CPUID, SIMD and exception-frame execution remain dependencies. Missing codec
-fallback resolution, retry handling and failure cleanup also remain bounded.
-PR 115 passed 122 focused checks, 2,671 tests across 259 files, typechecking and
-the production build; its 74 generated source files and runtime reproduced exactly.
+The selected SharedBase path completes argument and environment setup,
+floating-point conversion installation and cached pointer encoding. Its first
+error initializer publishes the exit table; the second returns through its live
+multibyte flag. The third executes its original CPU and normal SIMD probe using
+the declared virtual CPU profile. Missing CPU selection, CPUID leaves, SIMD
+exception dispatch, pointer fallback resolution and allocation retry/cleanup
+remain explicit boundaries. Full startup and campaign completion remain
+unfinished.
 
 [PR 116](https://github.com/ael-dev3/Tervain/pull/116) merged the processor
 exception-frame source evidence and process documentation at
@@ -93,7 +95,7 @@ exception-frame source evidence and process documentation at
 succeeded. Its source package contains 80 generated files; capturing those
 helpers alone did not execute them.
 
-The next local runtime checkpoint executes PUSHFD/POPFD, both selected CPUID
+PR 117 executes PUSHFD/POPFD, both selected CPUID
 leaves and the normal SIMD probe using an explicit virtual CPU profile. It owns
 the original scope, EH4 prologue/epilogue and XMM register copy; no host CPU or
 Windows state is inferred. It returns the processor result and reaches the
@@ -101,6 +103,13 @@ fourth error initializer, `100bef05`. Missing CPUID data or SIMD exception
 dispatch remains an explicit boundary. Typechecking, 125 focused checks and
 source regeneration pass. The full suite passes 2,682 tests across 259 files,
 and the production build passes. See the detailed process history for scope.
+
+The next stdio checkpoint executes the fourth and fifth error callbacks and
+returns the error walker to cinit. It preserves original allocation fallback,
+FILE storage, descriptor/HANDLE identities and failure code 26. RTC exit-callback
+registration, void-table traversal and enclosing attach remain unfinished.
+Typechecking, 141 focused checks and exact source regeneration pass. The full
+suite passes 2,698 tests across 259 files, and the production build passes.
 
 ### What each repository folder contributes
 

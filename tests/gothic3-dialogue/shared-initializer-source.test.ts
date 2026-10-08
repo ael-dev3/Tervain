@@ -7,7 +7,7 @@ const base='assets/gothic3/shared-initializer-source/';
 const source=JSON.parse(readFileSync(base+'source.json','utf8'));
 const sha=(raw:Uint8Array)=>createHash('sha256').update(raw).digest('hex');
 it('matches every generated initializer row and header to original admitted receipts',()=>{
-  for(const body of ['100aa632','100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100b444f','100ae27b','100aa47d','100a7265','100aef10','100b1854','100b4b6b','100ce095','100ce045','100aeb68','100aebad']){
+  for(const body of ['100aa632','100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100b444f','100ae27b','100aa47d','100a7265','100aef10','100b1854','100b4b6b','100ce095','100ce045','100aeb68','100aebad','100bef05','100ce0f5']){
     for(const row of readFileSync(base+body+'.asm.txt','utf8').trim().split('\n')){
       const [address,bytes,instruction]=row.split(' | ');
       const emitted=sharedInitializerInstruction(address!);
@@ -149,4 +149,8 @@ it('recovers processor exception filter and handler targets from the original sc
  const filter=readFileSync(base+'100ce062.asm.txt','utf8');expect(filter).toContain('cmp eax, 0xc0000005');expect(filter).toContain('cmp eax, 0xc000001d');
  const handler=readFileSync(base+'100ce07e.asm.txt','utf8');expect(handler).toContain('and dword ptr [ebp - 0x1c], 0');
  expect(()=>sharedInitializerInstruction('100ce062')).toThrow('Unowned');
+});
+
+it('pins the original twenty FILE records and their buffer/descriptor fields',()=>{
+ const files=source.coldGlobals.stdioFiles;expect(files).toMatchObject({address:'10141790',bytes:640,sha256:'f2a2cf29c97d8939530c43bb672a5b8097ce8fdb131e92ef721a7d85e477e9f3',liveValueCaptured:false});const raw=Buffer.from(files.raw,'hex');expect(sha(raw)).toBe(files.sha256);expect(raw.readUInt32LE(12)).toBe(257);for(let index=0;index<3;index++)expect(raw.readUInt32LE(index*32+16)).toBe(index);
 });
