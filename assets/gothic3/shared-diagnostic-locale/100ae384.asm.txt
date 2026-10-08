@@ -1,0 +1,16 @@
+100ae384 | 56 | PUSH ESI
+100ae385 | ff35480b1410 | PUSH dword ptr [0x10140b48]
+100ae38b | ff15b8972f10 | CALL dword ptr [0x102f97b8]
+100ae391 | 8bf0 | MOV ESI,EAX
+100ae393 | 85f6 | TEST ESI,ESI
+100ae395 | 751b | JNZ 0x100ae3b2
+100ae397 | ff35a8642f10 | PUSH dword ptr [0x102f64a8]
+100ae39d | e850ffffff | CALL 0x100ae2f2
+100ae3a2 | 59 | POP ECX
+100ae3a3 | 8bf0 | MOV ESI,EAX
+100ae3a5 | 56 | PUSH ESI
+100ae3a6 | ff35480b1410 | PUSH dword ptr [0x10140b48]
+100ae3ac | ff15c0972f10 | CALL dword ptr [0x102f97c0]
+100ae3b2 | 8bc6 | MOV EAX,ESI
+100ae3b4 | 5e | POP ESI
+100ae3b5 | c3 | RET
