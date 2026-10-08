@@ -10375,6 +10375,7 @@ and releases its heap section. Execution stops at caller continuation 1004c4f6,
 with the actual owned buffer retained for the version-resource import.
 
 All 306 focused startup/evidence checks, typechecking and the production build
-pass. Full-suite validation and publication are pending. Resource filling,
+pass. The full suite passes 2,917 tests across 275 files (189.56 seconds).
+Publication is pending. Resource filling,
 language queries, version parsing and cleanup remain to be connected, followed
 by complete DLL startup, world activation and campaign progression.
