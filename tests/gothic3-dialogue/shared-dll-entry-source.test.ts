@@ -8,8 +8,8 @@ describe('original SharedBase DLL entry evidence',()=>{
  it('retains every original body and thunk instruction without granting execution',()=>{
   expect(source.inputSha256).toBe('5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214');
   expect(source.verifiedAgainstOriginalPE).toBe(true);
-  expect(source.methods).toHaveLength(9);
-  expect(source.methods.reduce((n,m)=>n+m.instructions.length,0)).toBe(497);
+  expect(source.methods).toHaveLength(11);
+  expect(source.methods.reduce((n,m)=>n+m.instructions.length,0)).toBe(1317);
   for(const method of source.methods){
    for(const row of method.instructions){const emitted=sharedDllEntryInstruction(row.va);expect(emitted).toEqual({address:row.va,bytes:row.bytes,instruction:row.instruction});expect(Object.isFrozen(emitted)).toBe(true);}
    for(const row of method.entryChain)expect(sharedDllEntryInstruction(row.va)).toEqual({address:row.va,bytes:row.bytes,instruction:'JMP 0x'+row.targetVA});
@@ -64,4 +64,19 @@ it('replays only the observed query mutations from the initialized API buffer',(
 
 it('retains VERSION import thunk bytes and their original IAT receipts',()=>{
  expect(source.versionImportThunks).toHaveLength(3);for(const thunk of source.versionImportThunks){expect(thunk.import.module).toBe('VERSION.dll');expect(thunk.bytes).toBe('ff25'+Buffer.from(Uint32Array.of(parseInt(thunk.import.iatVA,16)).buffer).toString('hex'));expect(sharedDllEntryInstruction(thunk.address)).toEqual({address:thunk.address,bytes:thunk.bytes,instruction:thunk.instruction});}
+});
+
+
+it('captures the actual formatted query helper, output engine and zero-filled output buffer',()=>{
+ const helper=source.methods.find(m=>m.label==='versionQuerySprintf')!;
+ const engine=source.methods.find(m=>m.label==='formattedOutputEngine')!;
+ expect(helper.bodyVA).toBe('0x100aa234');expect(helper.instructions).toHaveLength(51);
+ expect(helper.instructions.find(i=>i.va==='100aa287')!.instruction).toBe('CALL 0x100b5355');
+ expect(engine.bodyVA).toBe('0x100b5355');expect(engine.instructions).toHaveLength(769);
+ const output=source.coldImages.find(i=>i.label==='versionQueryOutput')!;
+ expect(output.address).toBe('101ab190');expect(output.size).toBe(256);
+ expect(output.bytes).toBe('00'.repeat(256));
+ const literal=(label:string)=>Buffer.from(source.coldImages.find(i=>i.label===label)!.bytes,'hex').toString('ascii');
+ expect(literal('translatedVersionQuery')).toBe('\\StringFileInfo\\%02X%02X%02X%02X\\FileVersion\0');
+ expect(literal('localeVersionQuery')).toBe('\\StringFileInfo\\%04X04B0\\FileVersion\0');
 });

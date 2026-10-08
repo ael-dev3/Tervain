@@ -82,6 +82,8 @@ def capture(study, output):
         0x10002883: 'dllVersionResourceFallback',
         0x1000781a: 'dllVersionResourceValues',
         0x10002d42: 'dllVersionResourceLanguage',
+        0x100aa234: 'versionQuerySprintf',
+        0x100b5355: 'formattedOutputEngine',
     })
     pe = native.PE(binary)
     export_rva, export_size = struct.unpack_from('<II', binary, pe.optional + 96)
@@ -117,6 +119,7 @@ def capture(study, output):
         ('optionalCrtHook', 0x100ed680, 4),
         ('dllInitializerObject', 0x102f48ec, 4),
         ('dllInitializerGuard', 0x102f48f0, 4),
+        ('versionQueryOutput', 0x101ab190, 256),
         ('moduleName', 0x100ebb14, 15),
         ('versionFormat', 0x100eba68, 80),
         ('separator', 0x100ebab8, 76),

@@ -10421,3 +10421,27 @@ and production build pass. Changed helper evidence and damaged return words
 are rejected before nested-frame construction. The full suite passes 2,924
 tests across 275 files (183.44 seconds). Publication is pending. Nested buffer filling, resource queries, parsing,
 frees, logging, complete DLL startup and campaign integration remain unfinished.
+
+
+## Nested language buffer fill and formatter evidence (local work, 2026-10-08)
+
+The retained helper now executes its GetFileVersionInfoA argument setup and
+original thunk at 1004c301. The recorded service fills 1,740 bytes in the second
+claimed pool slot, preserving its unused tail and the outer version buffer.
+The original argument cleanup and success branch stop at 1004c30e before the
+translation-query literal is pushed. Released slots and damaged handle arguments
+are rejected before resource writes. Repeated continuation calls retain state.
+
+The formatter at 100aa234 and output engine at 100b5355 are captured against
+original DLL bytes, along with the 256-byte loader-zero-filled output image at
+101ab190. The evidence package now has 11 bodies and 1,317 body instructions.
+Both generated source and instruction table reproduce byte-for-byte. The original
+translated query uses four uppercase %02X conversions; its fallback uses %04X04B0.
+These bodies are captured evidence and are not yet executed by this continuation.
+
+The buffer-fill checkpoint passed 316 focused startup checks; the expanded source
+package passes eight checks. Typechecking and the production build pass. The
+combined full suite passes 2,928 tests across 275 files (192.50 seconds). This
+language checkpoint is local and unpublished. Formatting, translation and
+FileVersion queries, parsing, frees, logging, full DLL startup, world activation
+and campaign integration remain unfinished.
