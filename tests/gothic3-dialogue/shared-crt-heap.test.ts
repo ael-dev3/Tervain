@@ -1,6 +1,6 @@
 import {expect,it} from 'vitest';
 import {NativeSharedCrtOwner} from '../../src/gothic3/native-shared-crt';
-import {NativeRuntimePlatform} from '../../src/gothic3/native-runtime-platform';
+import {NativeRuntimePlatform,NativeWin32PlatformException} from '../../src/gothic3/native-runtime-platform';
 import {NativeGameCrtOwner} from '../../src/gothic3/native-game-crt';
 import type {NativeWin32HeapCapability} from '../../src/gothic3/native-runtime-platform';
 function fixture(version:{platform:number;major:number;minor:number;build:number}|null={platform:2,major:6,minor:1,build:0xabcd}){
@@ -12,7 +12,7 @@ it('stores the original OS fields and owns a distinct SharedBase heap before the
  const f=fixture(),game=NativeGameCrtOwner.forPlatform({platform:f.platform,errnoSlot:()=>({known:false,reason:'not initialized'})});
  const result=f.owner.processAttach();expect(result.known).toBe(false);
  if(result.known)throw new Error('Thread initialization unexpectedly returned');
- expect(result.reason).toContain('100ae7fc');expect(result.reason).toContain('100bb704');
+ expect(result.reason).toContain('100ae805');
  const os=f.owner.imageStorage('osFields');
  expect([0,4,8,12,16].map(offset=>os.readUnsigned(offset))).toEqual([2,0x2bcd,0x601,6,1]);
  expect(game.physical.crtOsFields.readUnsigned(0)).toBe(0);
@@ -69,7 +69,7 @@ it('keeps the actual unencoded FLS getter in TLS while encoding its procedure sl
  expect(actual.value).not.toBe(slots.pointer(4).get());
  expect(f.owner.imageStorage('threadDataIndex').readUnsigned(0)).toBe(0xffffffff);
  expect(f.owner.snapshot().mtReturned).toBeNull();expect(f.owner.snapshot().pointersReturned).toBe(true);
- expect(f.owner.snapshot().trace.slice(-1)).toEqual(['100ae7fc.callMtInitLocks']);
+ expect(f.owner.snapshot().trace.slice(-1)).toEqual(['100bb740.mtInitLocks.return1']);
 });
 it('encodes the original TLS fallback when FLS exports are absent',()=>{
  const platform=new NativeRuntimePlatform({engineCrtServices:{tlsValues:new Map(),kernel32Available:true,
@@ -89,7 +89,7 @@ it('initializes every original pointer slot in source order with encoded NULL an
  const f=fixture();expect(f.owner.processAttach().known).toBe(false);
  const encodedNull=f.owner.imageStorage('pointer6ac4').pointer<object>(0).get();expect(encodedNull).not.toBeNull();
  expect(decode(f.platform,encodedNull)).toBeNull();
- for(const label of ['pointer6ac0','pointer64a0','pointer690c','pointer6abc'] as const)expect(f.owner.imageStorage(label).pointer(0).get()).toBe(encodedNull);
+ for(const label of ['pointer64a0','pointer690c','pointer6abc'] as const)expect(f.owner.imageStorage(label).pointer(0).get()).toBe(encodedNull);
  for(const offset of [0,4,8,12])expect(f.owner.imageStorage('signalPointers').pointer(offset).get()).toBe(encodedNull);
  const terminate=decode(f.platform,f.owner.imageStorage('ehHook').pointer<object>(0).get()) as {address:string;owner:object};
  const exit=decode(f.platform,f.owner.imageStorage('exitPointer').pointer<object>(0).get()) as {address:string;owner:object};
@@ -117,4 +117,44 @@ it('retains the getter-cache prefix before the unowned pre-Vista main-image scan
 });
 it('rejects a structurally forged Runtime platform before admitting CRT images',()=>{
  expect(()=>NativeSharedCrtOwner.forPlatform(Object.create(NativeRuntimePlatform.prototype))).toThrow('Actual');
+});
+
+it('initializes all fourteen actual SharedBase static sections and caches one source initializer',()=>{
+ const f=fixture();expect(f.owner.processAttach().known).toBe(false);
+ const state=f.owner.snapshot();expect(state.locksReturned).toBe(1);expect(state.sections).toHaveLength(14);
+ const ids=[0,1,3,4,6,7,8,10,12,13,14,16,17,18];
+ ids.forEach((id,index)=>{
+  const fields=state.sections[index]!;expect(f.owner.imageStorage('lockTable').pointer(id*8).get()).toBe(fields);
+  expect(fields.bytes.byteOffset-f.owner.imageStorage('staticSections').bytes.byteOffset).toBe(index*24);
+  expect(f.platform.enterPhysicalCriticalSection(fields,f.owner.identity).known).toBe(true);
+  expect(f.platform.leavePhysicalCriticalSection(fields,f.owner.identity).known).toBe(true);
+ });
+ expect(state.trace.filter(label=>label==='section.GetProcAddress')).toHaveLength(1);
+ expect((decode(f.platform,f.owner.imageStorage('pointer6ac0').pointer<object>(0).get()) as {name:string}).name).toBe('InitializeCriticalSectionAndSpinCount');
+ expect(f.owner.imageStorage('threadDataIndex').readUnsigned(0)).toBe(0xffffffff);
+});
+
+it('preserves preceding sections and clears only the failed lock after the original allocation exception',()=>{
+ const f=fixture(),initialize=f.platform.initializePhysicalCriticalSection.bind(f.platform);let calls=0;
+ f.platform.initializePhysicalCriticalSection=(fields,owner,spin)=>{
+  if(++calls===3)throw new NativeWin32PlatformException(0xc0000017);
+  return initialize(fields,owner,spin);
+ };
+ const result=f.owner.processAttach();expect(result.known).toBe(false);
+ if(result.known)throw new Error('Missing teardown returned');expect(result.reason).toContain('__mtterm');
+ expect(f.owner.snapshot().locksReturned).toBe(0);expect(f.owner.snapshot().sections).toHaveLength(2);
+ expect(f.owner.imageStorage('lockTable').pointer(3*8).get()).toBeNull();
+ expect(f.owner.imageStorage('lockTable').pointer(0).get()).toBe(f.owner.snapshot().sections[0]);
+ expect(f.platform.getWin32LastError()).toEqual({known:true,value:8});
+ expect(f.owner.processAttach()).toEqual(result);expect(calls).toBe(3);
+});
+it('uses the original no-spin fallback when the spin initializer export is absent',()=>{
+ const platform=new NativeRuntimePlatform({engineCrtServices:{tlsValues:new Map(),kernel32Available:true,
+  pointerCodec:'owned-bijection',fiberLocalStorage:true,processHeap:true,sectionSpinProcedure:false,osVersion:{platform:2,major:6,minor:0,build:1}}});
+ const owner=NativeSharedCrtOwner.forPlatform(platform);expect(owner.processAttach().known).toBe(false);
+ expect(owner.snapshot().locksReturned).toBe(1);expect(owner.snapshot().sections).toHaveLength(14);
+ const fallback=decode(platform,owner.imageStorage('pointer6ac0').pointer<object>(0).get()) as {address:string;owner:object};
+ expect(fallback.address).toBe('100bbf17');expect(fallback.owner).toBe(owner.identity);
+ expect(platform.enterPhysicalCriticalSection(owner.snapshot().sections[0]!,owner.identity).known).toBe(true);
+ expect(platform.leavePhysicalCriticalSection(owner.snapshot().sections[0]!,owner.identity).known).toBe(true);
 });

@@ -85,14 +85,18 @@ terminator or MessageAdmin dispatch is fabricated. The virtual loader's slot
 assignment does not claim a captured Windows slot or completed DLL attach.
 
 Subsequent local work follows SharedBase thread startup through FLS export lookup,
-original TLS fallback and getter-cache publication. It completes the original
-pointer-slot initialization and then encodes the four thread-storage procedures.
-The selected modern path stops at `100ae7fc -> 100bb704` (`__mtinitlocks`).
+original TLS fallback, getter-cache publication, pointer-slot initialization and
+encoding of the four thread-storage procedures. It then initializes the 14
+original static critical sections, preserving their physical table aliases and
+the selected insufficient-memory exception branch. The successful selected path
+stops at `100ae805`, before FLS/PTD allocation. Source evidence now also covers
+SharedBase's independent calloc implementation and its cold retry/new-mode state;
+those allocator functions have not yet been implemented in this owner.
+
 Missing pointer exports follow the original identity branch; the older-version
-main-executable `.mixcrt` scan remains unimplemented. Original lock-table and
-critical-section resolver evidence is captured. Lock/PTD/locale initialization,
-full SharedBase attach and formatter execution remain required. These selected
-helpers are not connected to the live Game CRT frame.
+main-executable `.mixcrt` scan remains unimplemented. Native SEH stack installation,
+PTD/locale initialization, full SharedBase attach and formatter execution remain
+required. These local helpers are not connected to the live Game CRT frame.
 
 The temporary Status name remains retained; descriptor cleanup registration and
 the first initializer's normal return have not executed. Full initializer

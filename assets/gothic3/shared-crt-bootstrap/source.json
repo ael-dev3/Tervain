@@ -2,6 +2,39 @@
   "schema": "gothic3-shared-crt-bootstrap-v1",
   "sharedBaseSha256": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214",
   "methods": {
+    "callocCrt": {
+      "entryVA": "0x100aef10",
+      "bodyVA": "0x100aef10",
+      "bodyRanges": "100aef10-100aef57",
+      "instructionCount": 26,
+      "bodyByteCount": 72,
+      "bodyInstructionBytesSha256": "1e2daec524fa581a05bd1728174cf8d55cefe0fd1de4ad5bbb16a0f169c2a215",
+      "entryChain": [],
+      "assemblySha256": "6f416fe70aa88af3ff38e80b7c679dc09da965b56d1bf3c99fca951db3d24175",
+      "cSha256": "e729d6c1f2a440f3c9ad36c79fd4209827b66d225bc4a3cd839a60c43fa0ff87"
+    },
+    "callocImpl": {
+      "entryVA": "0x100c0e96",
+      "bodyVA": "0x100c0e96",
+      "bodyRanges": "100c0e96-100c0f8c;100c0f9b-100c0fb3",
+      "instructionCount": 93,
+      "bodyByteCount": 272,
+      "bodyInstructionBytesSha256": "f3f407babf88e4cb3e57b9873906a6dc4e2810b6d22d9dad8ef2488d7a04d002",
+      "entryChain": [],
+      "assemblySha256": "15cf51e77ac2bfb1e2405232001d6763ef9165ebe67343fee7024cecb8a93421",
+      "cSha256": "aef3f9c66d4036e19e48831a28581541775985546ea74fd33d9f14594c32a2f6"
+    },
+    "callNewHandler": {
+      "entryVA": "0x100bc03d",
+      "bodyVA": "0x100bc03d",
+      "bodyRanges": "100bc03d-100bc05e",
+      "instructionCount": 15,
+      "bodyByteCount": 34,
+      "bodyInstructionBytesSha256": "abdd56c493fb71672cc6b8737f39fd6fcffe98d0c7ddb786e8ab21377febf27e",
+      "entryChain": [],
+      "assemblySha256": "77d326a398a3094a111717d0a995ccd84d69e69192521a92da410779f86fdd28",
+      "cSha256": "e02e75980b8f11eb6620de52c8b3c25b611becd34e59ff40232acfe6079fa17d"
+    },
     "initCritSecAndSpinCount": {
       "entryVA": "0x100bbf27",
       "bodyVA": "0x100bbf27",
@@ -691,6 +724,55 @@
       },
       "scope": "cold-original-image",
       "liveValueCaptured": false
+    },
+    "allocationRetryDelay": {
+      "address": "102f64b4",
+      "bytes": 4,
+      "raw": "00000000",
+      "knownMask": "ffffffff",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 0,
+        "loaderZeroFillBytes": 4
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "newMode": {
+      "address": "102f6ad0",
+      "bytes": 4,
+      "raw": "00000000",
+      "knownMask": "ffffffff",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 0,
+        "loaderZeroFillBytes": 4
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    }
+  },
+  "sectionException": {
+    "filter": {
+      "address": "100bbfad",
+      "raw": "8b45ec8b008b008945dc33c93d170000c00f94c18bc1c3",
+      "sha256": "aefc33fcb2b8ed0e3ae7c21dd80fd55872b836b2fb2e192c4241113ce71a300e"
+    },
+    "handler": {
+      "address": "100bbfc4",
+      "raw": "8b65e8817ddc170000c075086a08ff157c972f108365e000",
+      "sha256": "2f4921cd204f4ea29a57546cf28047d5c4b01b6f34dc5f173a8c7ace82b15e1f"
+    },
+    "scopeTable": {
+      "address": "100f8d18",
+      "raw": "feffffff00000000ccffffff00000000feffffffadbf0b10c4bf0b10",
+      "sha256": "d079cc612ce3e759ed0b41ff49874c9c38426b477eaf12909187689a7a2900a6"
     }
   },
   "tlsFallbackAllocator": {
