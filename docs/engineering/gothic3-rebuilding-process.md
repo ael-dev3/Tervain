@@ -9963,3 +9963,25 @@ plus the instruction module reproduce exactly. Evidence contains 105 bodies,
 4,277 instructions and 405 CALL receipts. The production build passes;
 the full suite passes 2,800 tests across 260 files (169.80 seconds).
 Publication remains pending. Full startup and campaign play remain unfinished.
+
+### Local class-name graph concatenation and parser return — 8 October 2026
+
+The original DName concatenation, clone, indirect-node constructor and node
+linking bodies execute. The keyword's original text node is retained by an
+indirect DName at scratch offset 3,948, owned by the new indirect node at
+3,956. Its next pointer links the identifier text node at 3,996. The original
+buffers remain at 4,012 and 3,980. Following those actual pointers reconstructs
+`class bCObsoleteClass`; this is the node graph, before output serialization.
+Scratch available bytes become 3,944, using 152 bytes total.
+
+Class/simple/primary/data-type/declaration callers return in original order.
+The original caller restores the flag word to `0x2800`, assigns the completed
+graph to its output DName and reaches `100c5f79 -> 100c1feb` before length
+calculation. The demangler and outer name frames plus lock five remain active.
+No final output allocation, cache publication or full startup is claimed.
+
+Local evidence: 244 focused checks and typechecking pass. All 207 generated
+files plus the instruction module reproduce exactly. The package contains
+109 bodies, 4,380 instructions and 414 CALL receipts. The production build passes;
+the full suite passes 2,801 tests across 260 files (165.74 seconds).
+Publication remains pending. Full startup and campaign play remain unfinished.

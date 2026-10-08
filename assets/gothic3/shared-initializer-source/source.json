@@ -36,6 +36,50 @@
       "assemblySha256": "c0e9fa85bc0b8252d4d39a6081082eb7462b16e7563b7a40dfb97ab5df372827",
       "cSha256": "dfeb3753dfd27f5e66c86496039570db0a14859f2a74f77ae44221cc156521e2"
     },
+    "demanglerDnameConcat": {
+      "entryVA": "0x100c27dd",
+      "bodyVA": "0x100c27dd",
+      "bodyRanges": "100c27dd-100c283e",
+      "instructionCount": 38,
+      "bodyByteCount": 98,
+      "bodyInstructionBytesSha256": "ad2472d219743788dec4e13650a0adec9101873ea40468a3bdd44dc446aa2e95",
+      "entryChain": [],
+      "assemblySha256": "b51cb38d4f86561442d43f7a5b0b10345cf200fc0b263e273eaf7692705300d1",
+      "cSha256": "255a477bdcc5e28f4d41259d7adcfdfc87992fe3e5a10b9342ef3b03bd3745d3"
+    },
+    "demanglerCloneNode": {
+      "entryVA": "0x100c21f4",
+      "bodyVA": "0x100c21f4",
+      "bodyRanges": "100c21f4-100c223a",
+      "instructionCount": 31,
+      "bodyByteCount": 71,
+      "bodyInstructionBytesSha256": "6c7dbf08701d1adb6fcfa716a4c2889c14c9b3e16c0eba390299565f5efa0637",
+      "entryChain": [],
+      "assemblySha256": "ef90643ba2349da8bc448db12479b9b2fb781d7fc8c7dc1f20d8ce1ee7c6ecf8",
+      "cSha256": "4fd1b8c2a0197f58361eaceb33e0e7be8ae1c683c152764f2b23082557b64992"
+    },
+    "demanglerNodeConcat": {
+      "entryVA": "0x100c1d3a",
+      "bodyVA": "0x100c1d3a",
+      "bodyRanges": "100c1d3a-100c1d62",
+      "instructionCount": 18,
+      "bodyByteCount": 41,
+      "bodyInstructionBytesSha256": "a11ae770c8ade5fbf75502f3534d89fe9e721e9cacbd7709edc34a0d5e2eecde",
+      "entryChain": [],
+      "assemblySha256": "68dbcc538de4e6c1a3aa090fe4e9b30df90c61db0bd053340a0720c8b0efe57f",
+      "cSha256": "6445d85f762c6a34f0eec3ecb530cff9313437209c88d79fd97dd6a1192976b0"
+    },
+    "demanglerIndirectNodeConstructor": {
+      "entryVA": "0x100c1da0",
+      "bodyVA": "0x100c1da0",
+      "bodyRanges": "100c1da0-100c1dce",
+      "instructionCount": 16,
+      "bodyByteCount": 47,
+      "bodyInstructionBytesSha256": "4887aff7c9063dd11b7cc67fff4ada330d1353d41dda9e8788ec0e0460ba7293",
+      "entryChain": [],
+      "assemblySha256": "a77adddea887fbb9ac75321f0f53f056fa2b10479c7ae37587b6d4d5e837e977",
+      "cSha256": "ba4ffc5b54d2e586749be6ac3e8d154f0b5a32d93a72909379348b2eeb3a8c61"
+    },
     "demanglerScopedName": {
       "entryVA": "0x100c43c1",
       "bodyVA": "0x100c43c1",
@@ -1618,6 +1662,22 @@
     "10005e5c": {
       "containingEntry": "10005e5c",
       "methodLabel": "initializer143Getter"
+    },
+    "100c27dd": {
+      "containingEntry": "100c27dd",
+      "methodLabel": "demanglerDnameConcat"
+    },
+    "100c21f4": {
+      "containingEntry": "100c21f4",
+      "methodLabel": "demanglerCloneNode"
+    },
+    "100c1d3a": {
+      "containingEntry": "100c1d3a",
+      "methodLabel": "demanglerNodeConcat"
+    },
+    "100c1da0": {
+      "containingEntry": "100c1da0",
+      "methodLabel": "demanglerIndirectNodeConstructor"
     },
     "100c43c1": {
       "containingEntry": "100c43c1",
@@ -3205,6 +3265,78 @@
       "instruction": "CALL 0x100a72d0",
       "kind": "direct",
       "targetVA": "100a72d0"
+    },
+    {
+      "method": "demanglerDnameConcat",
+      "address": "100c27e7",
+      "raw": "e8b4f7ffff",
+      "instruction": "CALL 0x100c1fa0",
+      "kind": "direct",
+      "targetVA": "100c1fa0"
+    },
+    {
+      "method": "demanglerDnameConcat",
+      "address": "100c27fc",
+      "raw": "e801fcffff",
+      "instruction": "CALL 0x100c2402",
+      "kind": "direct",
+      "targetVA": "100c2402"
+    },
+    {
+      "method": "demanglerDnameConcat",
+      "address": "100c2803",
+      "raw": "e898f7ffff",
+      "instruction": "CALL 0x100c1fa0",
+      "kind": "direct",
+      "targetVA": "100c1fa0"
+    },
+    {
+      "method": "demanglerDnameConcat",
+      "address": "100c280d",
+      "raw": "e86ef4ffff",
+      "instruction": "CALL 0x100c1c80",
+      "kind": "direct",
+      "targetVA": "100c1c80"
+    },
+    {
+      "method": "demanglerDnameConcat",
+      "address": "100c2816",
+      "raw": "e8d9f9ffff",
+      "instruction": "CALL 0x100c21f4",
+      "kind": "direct",
+      "targetVA": "100c21f4"
+    },
+    {
+      "method": "demanglerDnameConcat",
+      "address": "100c2825",
+      "raw": "e810f5ffff",
+      "instruction": "CALL 0x100c1d3a",
+      "kind": "direct",
+      "targetVA": "100c1d3a"
+    },
+    {
+      "method": "demanglerCloneNode",
+      "address": "100c2204",
+      "raw": "e8bef8ffff",
+      "instruction": "CALL 0x100c1ac7",
+      "kind": "direct",
+      "targetVA": "100c1ac7"
+    },
+    {
+      "method": "demanglerCloneNode",
+      "address": "100c2215",
+      "raw": "e8adf8ffff",
+      "instruction": "CALL 0x100c1ac7",
+      "kind": "direct",
+      "targetVA": "100c1ac7"
+    },
+    {
+      "method": "demanglerCloneNode",
+      "address": "100c222e",
+      "raw": "e86dfbffff",
+      "instruction": "CALL 0x100c1da0",
+      "kind": "direct",
+      "targetVA": "100c1da0"
     },
     {
       "method": "demanglerScopedName",
