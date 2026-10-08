@@ -44,7 +44,8 @@ dependencies. The live Game path stops before `__cinit` at `204678f2`.
 Separately, the local SharedBase classification helper has completed its aligned
 512-byte stack allocation, conversion/classification and checked normal return.
 Both case mappings now complete locally and populate the candidate's case
-tables. The next boundary is the enclosing case helper's epilogue at `100b1370`.
+tables. The enclosing case helper and wrappers now return on their source stack
+layout; the next boundary is the configuration cookie frame at `100b166f`.
 Those local helper results still need to join the live
 startup path before they can enable NPC activation. The full game remains
 unfinished; successful extraction, compilation or deployment alone does not
@@ -52,9 +53,9 @@ establish campaign completion.
 
 ## Current status — 8 October 2026
 
-The latest confirmed publication is [PR 100](https://github.com/ael-dev3/Tervain/pull/100),
-merged at `532d63718610c1710b192c70af8585c781d29e8d` and deployed by
-[Pages run 37729493625](https://github.com/ael-dev3/Tervain/actions/runs/37729493625).
+The latest confirmed publication is [PR 101](https://github.com/ael-dev3/Tervain/pull/101),
+merged at `597a38ecee0dae61a38e8ab92eb5ee2ba30101e3` and deployed by
+[Pages run 37730924635](https://github.com/ael-dev3/Tervain/actions/runs/37730924635).
 It includes original SharedBase pointer/lock setup, PTD allocation and selected
 default-locale initialization, environment setup and standard I/O descriptors.
 The earlier PR 84 served-artifact comparison remains evidence for that prior
@@ -968,3 +969,39 @@ initializer traversal, NPC activation and a finishable campaign remain missing.
 
 PR 100 passed CI run 37728723765 and merged at
 `532d63718610c1710b192c70af8585c781d29e8d`; Pages run 37729493625 subsequently succeeded.
+
+### Local enclosing case frame and wrapper continuation
+
+The next local change owns the case call at `100b1614`, its adjusted EBP,
+`51c`-byte stack reservation and saved EBX/EDI. CPInfo, character types,
+upper/lower maps and input bytes are aliases at the original offsets on the
+same stack backing. The CPInfo import uses its original CALL/RET and arguments.
+
+Classification and both mapping wrappers now enclose their stat helpers.
+Their locale records alias the actual 16-byte wrapper locals. The locale
+constructor ABI preserves ESI and returns with four-byte argument cleanup;
+its PTD/locale effects still use the translated lower implementation.
+The parent defers classification's 32 argument bytes: after lower mapping it
+removes 68 bytes, then removes 36 bytes after upper mapping. This changes
+allocation padding from the earlier direct stat-entry checkpoints: the selected
+classification temporary consumes 532 bytes; each map consumes 528 bytes for
+each of its two 520-byte requests.
+
+The parent clears EBX before mapping, and its original 256-entry table loop
+updates the candidate and EAX/ECX. Its cookie check preserves the symbolic
+cookie/adjusted-EBP relationship. Saved registers and EBP return through the
+original case return capability; the caller's `100b14d5` XOR sets EAX to zero.
+Focused validation passes 61 tests, including stack aliases, returned calls,
+deferred cleanup, every table entry, locale flags and rejected forged grants.
+Cleanup and cookie-check source receipts are pinned at runtime; changed
+instruction-byte hashes reject construction before CRT state is admitted.
+Final validation passes typechecking, the production build and 2,599 tests
+across 258 files.
+
+The configuration cookie frame at `100b166f` remains unowned. PTD/global
+candidate installation, preceding SharedBase CRT caller frames and live Game
+initializer integration remain unfinished. These local results do not establish
+NPC activation or a finishable campaign.
+
+PR 101 passed CI run 37729901404 and merged at
+`597a38ecee0dae61a38e8ab92eb5ee2ba30101e3`; Pages run 37730924635 subsequently succeeded.
