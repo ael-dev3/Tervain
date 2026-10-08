@@ -8,8 +8,8 @@ is the detailed technical record and dated checkpoint history.
 
 See the [current rebuilding overview](gothic3-rebuild-overview.md#current-status--8-october-2026)
 for the latest confirmed deployment and remaining startup dependencies.
-PR 94 is deployed at main commit `e885eb55aaf70e6eed293cfc2476444c01f3a6b6`
-by successful Pages run 37722991608. It publishes original SharedBase pointer
+PR 95 is deployed at main commit `c0fc863caa8b106614ba5ecab991bf13a8e59926`
+by successful Pages run 37724188449. It publishes original SharedBase pointer
 setup, 14 static critical sections, PTD allocation, default-locale initialization,
 environment setup and standard I/O descriptors.
 
@@ -8473,3 +8473,24 @@ Execution now stops before case mapping at `100b1614 -> 100b11fd`. The candidate
 has not replaced the PTD or global record. Case tables, the configuration return
 and cookie check, complete arguments and original initializer traversal remain
 unfinished. This helper does not add live NPC activation or campaign progress.
+
+
+### Local Unicode classification query continuation
+
+PR 95 is confirmed deployed at `c0fc863caa8b106614ba5ecab991bf13a8e59926` by
+successful [Pages run 37724188449](https://github.com/ael-dev3/Tervain/actions/runs/37724188449).
+It publishes locale-update, code-page lookup and candidate multibyte allocation.
+PR 96 has passed CI and is merged; its deployment is not yet confirmed here.
+
+Further local work follows the original case helper's GetCPInfo call and builds
+the 256-byte input repertoire. The ANSI classification wrapper enters its locale
+scope, calls the original Unicode-service probe, publishes mode 1 and queries
+MultiByteToWideChar through the actual retained platform procedure. The selected
+result is 256 code units. Execution stops before aligned temporary stack
+allocation at `100c6f4c -> 100ce300`.
+
+The type and lower/upper case outputs remain unknown; conversion fill, mapping,
+cookie checks and wrapper return have not run. The wrapper's temporary locale
+flag is retained until it can return normally. The candidate remains separate
+from the original PTD/global record. Live Game initializer traversal, full NPC
+activation and completion of the campaign are still unfinished.

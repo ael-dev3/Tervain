@@ -1,0 +1,165 @@
+100c6e87 | 55 | PUSH EBP
+100c6e88 | 8bec | MOV EBP,ESP
+100c6e8a | 51 | PUSH ECX
+100c6e8b | 51 | PUSH ECX
+100c6e8c | a16c0d1410 | MOV EAX,[0x10140d6c]
+100c6e91 | 33c5 | XOR EAX,EBP
+100c6e93 | 8945fc | MOV dword ptr [EBP + -0x4],EAX
+100c6e96 | a1746f2f10 | MOV EAX,[0x102f6f74]
+100c6e9b | 53 | PUSH EBX
+100c6e9c | 56 | PUSH ESI
+100c6e9d | 33db | XOR EBX,EBX
+100c6e9f | 3bc3 | CMP EAX,EBX
+100c6ea1 | 57 | PUSH EDI
+100c6ea2 | 8bf9 | MOV EDI,ECX
+100c6ea4 | 753a | JNZ 0x100c6ee0
+100c6ea6 | 8d45f8 | LEA EAX,[EBP + -0x8]
+100c6ea9 | 50 | PUSH EAX
+100c6eaa | 33f6 | XOR ESI,ESI
+100c6eac | 46 | INC ESI
+100c6ead | 56 | PUSH ESI
+100c6eae | 68645e0e10 | PUSH 0x100e5e64
+100c6eb3 | 56 | PUSH ESI
+100c6eb4 | ff1530972f10 | CALL dword ptr [0x102f9730]
+100c6eba | 85c0 | TEST EAX,EAX
+100c6ebc | 7408 | JZ 0x100c6ec6
+100c6ebe | 8935746f2f10 | MOV dword ptr [0x102f6f74],ESI
+100c6ec4 | eb34 | JMP 0x100c6efa
+100c6ec6 | ff1580972f10 | CALL dword ptr [0x102f9780]
+100c6ecc | 83f878 | CMP EAX,0x78
+100c6ecf | 750a | JNZ 0x100c6edb
+100c6ed1 | 6a02 | PUSH 0x2
+100c6ed3 | 58 | POP EAX
+100c6ed4 | a3746f2f10 | MOV [0x102f6f74],EAX
+100c6ed9 | eb05 | JMP 0x100c6ee0
+100c6edb | a1746f2f10 | MOV EAX,[0x102f6f74]
+100c6ee0 | 83f802 | CMP EAX,0x2
+100c6ee3 | 0f84cf000000 | JZ 0x100c6fb8
+100c6ee9 | 3bc3 | CMP EAX,EBX
+100c6eeb | 0f84c7000000 | JZ 0x100c6fb8
+100c6ef1 | 83f801 | CMP EAX,0x1
+100c6ef4 | 0f85e8000000 | JNZ 0x100c6fe2
+100c6efa | 395d18 | CMP dword ptr [EBP + 0x18],EBX
+100c6efd | 895df8 | MOV dword ptr [EBP + -0x8],EBX
+100c6f00 | 7508 | JNZ 0x100c6f0a
+100c6f02 | 8b07 | MOV EAX,dword ptr [EDI]
+100c6f04 | 8b4004 | MOV EAX,dword ptr [EAX + 0x4]
+100c6f07 | 894518 | MOV dword ptr [EBP + 0x18],EAX
+100c6f0a | 8b353c962f10 | MOV ESI,dword ptr [0x102f963c]
+100c6f10 | 33c0 | XOR EAX,EAX
+100c6f12 | 395d20 | CMP dword ptr [EBP + 0x20],EBX
+100c6f15 | 53 | PUSH EBX
+100c6f16 | 53 | PUSH EBX
+100c6f17 | ff7510 | PUSH dword ptr [EBP + 0x10]
+100c6f1a | 0f95c0 | SETNZ AL
+100c6f1d | ff750c | PUSH dword ptr [EBP + 0xc]
+100c6f20 | 8d04c501000000 | LEA EAX,[EAX*0x8 + 0x1]
+100c6f27 | 50 | PUSH EAX
+100c6f28 | ff7518 | PUSH dword ptr [EBP + 0x18]
+100c6f2b | ffd6 | CALL ESI
+100c6f2d | 8bf8 | MOV EDI,EAX
+100c6f2f | 3bfb | CMP EDI,EBX
+100c6f31 | 0f84ab000000 | JZ 0x100c6fe2
+100c6f37 | 7e3c | JLE 0x100c6f75
+100c6f39 | 81fff0ffff7f | CMP EDI,0x7ffffff0
+100c6f3f | 7734 | JA 0x100c6f75
+100c6f41 | 8d443f08 | LEA EAX,[EDI + EDI*0x1 + 0x8]
+100c6f45 | 3d00040000 | CMP EAX,0x400
+100c6f4a | 7713 | JA 0x100c6f5f
+100c6f4c | e8af730000 | CALL 0x100ce300
+100c6f51 | 8bc4 | MOV EAX,ESP
+100c6f53 | 3bc3 | CMP EAX,EBX
+100c6f55 | 741c | JZ 0x100c6f73
+100c6f57 | c700cccc0000 | MOV dword ptr [EAX],0xcccc
+100c6f5d | eb11 | JMP 0x100c6f70
+100c6f5f | 50 | PUSH EAX
+100c6f60 | e8913bfeff | CALL 0x100aaaf6
+100c6f65 | 3bc3 | CMP EAX,EBX
+100c6f67 | 59 | POP ECX
+100c6f68 | 7409 | JZ 0x100c6f73
+100c6f6a | c700dddd0000 | MOV dword ptr [EAX],0xdddd
+100c6f70 | 83c008 | ADD EAX,0x8
+100c6f73 | 8bd8 | MOV EBX,EAX
+100c6f75 | 85db | TEST EBX,EBX
+100c6f77 | 7469 | JZ 0x100c6fe2
+100c6f79 | 8d043f | LEA EAX,[EDI + EDI*0x1]
+100c6f7c | 50 | PUSH EAX
+100c6f7d | 6a00 | PUSH 0x0
+100c6f7f | 53 | PUSH EBX
+100c6f80 | e8fb09feff | CALL 0x100a7980
+100c6f85 | 83c40c | ADD ESP,0xc
+100c6f88 | 57 | PUSH EDI
+100c6f89 | 53 | PUSH EBX
+100c6f8a | ff7510 | PUSH dword ptr [EBP + 0x10]
+100c6f8d | ff750c | PUSH dword ptr [EBP + 0xc]
+100c6f90 | 6a01 | PUSH 0x1
+100c6f92 | ff7518 | PUSH dword ptr [EBP + 0x18]
+100c6f95 | ffd6 | CALL ESI
+100c6f97 | 85c0 | TEST EAX,EAX
+100c6f99 | 7411 | JZ 0x100c6fac
+100c6f9b | ff7514 | PUSH dword ptr [EBP + 0x14]
+100c6f9e | 50 | PUSH EAX
+100c6f9f | 53 | PUSH EBX
+100c6fa0 | ff7508 | PUSH dword ptr [EBP + 0x8]
+100c6fa3 | ff1530972f10 | CALL dword ptr [0x102f9730]
+100c6fa9 | 8945f8 | MOV dword ptr [EBP + -0x8],EAX
+100c6fac | 53 | PUSH EBX
+100c6fad | e85dddfeff | CALL 0x100b4d0f
+100c6fb2 | 8b45f8 | MOV EAX,dword ptr [EBP + -0x8]
+100c6fb5 | 59 | POP ECX
+100c6fb6 | eb75 | JMP 0x100c702d
+100c6fb8 | 33f6 | XOR ESI,ESI
+100c6fba | 395d1c | CMP dword ptr [EBP + 0x1c],EBX
+100c6fbd | 7508 | JNZ 0x100c6fc7
+100c6fbf | 8b07 | MOV EAX,dword ptr [EDI]
+100c6fc1 | 8b4014 | MOV EAX,dword ptr [EAX + 0x14]
+100c6fc4 | 89451c | MOV dword ptr [EBP + 0x1c],EAX
+100c6fc7 | 395d18 | CMP dword ptr [EBP + 0x18],EBX
+100c6fca | 7508 | JNZ 0x100c6fd4
+100c6fcc | 8b07 | MOV EAX,dword ptr [EDI]
+100c6fce | 8b4004 | MOV EAX,dword ptr [EAX + 0x4]
+100c6fd1 | 894518 | MOV dword ptr [EBP + 0x18],EAX
+100c6fd4 | ff751c | PUSH dword ptr [EBP + 0x1c]
+100c6fd7 | e826710000 | CALL 0x100ce102
+100c6fdc | 83f8ff | CMP EAX,-0x1
+100c6fdf | 59 | POP ECX
+100c6fe0 | 7504 | JNZ 0x100c6fe6
+100c6fe2 | 33c0 | XOR EAX,EAX
+100c6fe4 | eb47 | JMP 0x100c702d
+100c6fe6 | 3b4518 | CMP EAX,dword ptr [EBP + 0x18]
+100c6fe9 | 741e | JZ 0x100c7009
+100c6feb | 53 | PUSH EBX
+100c6fec | 53 | PUSH EBX
+100c6fed | 8d4d10 | LEA ECX,[EBP + 0x10]
+100c6ff0 | 51 | PUSH ECX
+100c6ff1 | ff750c | PUSH dword ptr [EBP + 0xc]
+100c6ff4 | 50 | PUSH EAX
+100c6ff5 | ff7518 | PUSH dword ptr [EBP + 0x18]
+100c6ff8 | e84c710000 | CALL 0x100ce149
+100c6ffd | 8bf0 | MOV ESI,EAX
+100c6fff | 83c418 | ADD ESP,0x18
+100c7002 | 3bf3 | CMP ESI,EBX
+100c7004 | 74dc | JZ 0x100c6fe2
+100c7006 | 89750c | MOV dword ptr [EBP + 0xc],ESI
+100c7009 | ff7514 | PUSH dword ptr [EBP + 0x14]
+100c700c | ff7510 | PUSH dword ptr [EBP + 0x10]
+100c700f | ff750c | PUSH dword ptr [EBP + 0xc]
+100c7012 | ff7508 | PUSH dword ptr [EBP + 0x8]
+100c7015 | ff751c | PUSH dword ptr [EBP + 0x1c]
+100c7018 | ff1534972f10 | CALL dword ptr [0x102f9734]
+100c701e | 3bf3 | CMP ESI,EBX
+100c7020 | 8bf8 | MOV EDI,EAX
+100c7022 | 7407 | JZ 0x100c702b
+100c7024 | 56 | PUSH ESI
+100c7025 | e87a39feff | CALL 0x100aa9a4
+100c702a | 59 | POP ECX
+100c702b | 8bc7 | MOV EAX,EDI
+100c702d | 8d65ec | LEA ESP,[EBP + -0x14]
+100c7030 | 5f | POP EDI
+100c7031 | 5e | POP ESI
+100c7032 | 5b | POP EBX
+100c7033 | 8b4dfc | MOV ECX,dword ptr [EBP + -0x4]
+100c7036 | 33cd | XOR ECX,EBP
+100c7038 | e88b91feff | CALL 0x100b01c8
+100c703d | c9 | LEAVE
+100c703e | c3 | RET

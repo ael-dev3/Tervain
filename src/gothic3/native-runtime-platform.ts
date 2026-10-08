@@ -892,12 +892,25 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
         let value:number;
         if(input.kind==='GetACP')value=selection.codePage;
         else if(input.kind==='IsValidCodePage')value=input.scalar===selection.codePage?1:0;
-        else if(input.scalar!==selection.codePage)value=0;
-        else {
-          const fields=input.fields;if(!fields)throw new Error('Actual SharedBase CPInfo output required');requirePhysicalNativeViews(fields);
-          NativeHeapObjectViews.prototype.writeUnsigned.call(fields,0,1,4);
-          NativeHeapObjectViews.prototype.writeUnsigned.call(fields,4,63,1);NativeHeapObjectViews.prototype.writeUnsigned.call(fields,5,0,1);
-          for(let offset=6;offset<18;offset++)NativeHeapObjectViews.prototype.writeUnsigned.call(fields,offset,0,1);value=1;
+        else if(input.kind==='GetCPInfo'){
+          if(input.scalar!==selection.codePage)value=0;
+          else {
+            const fields=input.fields;if(!fields)throw new Error('Actual SharedBase CPInfo output required');requirePhysicalNativeViews(fields);
+            NativeHeapObjectViews.prototype.writeUnsigned.call(fields,0,1,4);
+            NativeHeapObjectViews.prototype.writeUnsigned.call(fields,4,63,1);NativeHeapObjectViews.prototype.writeUnsigned.call(fields,5,0,1);
+            for(let offset=6;offset<18;offset++)NativeHeapObjectViews.prototype.writeUnsigned.call(fields,offset,0,1);value=1;
+          }
+        }else if(input.kind==='GetStringTypeW'){
+          if(input.scalar!==1||input.count!==1||!input.input||!input.fields)throw new Error('Actual SharedBase CT_CTYPE1 probe ABI required');
+          requirePhysicalNativeViews(input.input);requirePhysicalNativeViews(input.fields);
+          const code=NativeHeapObjectViews.prototype.readUnsigned.call(input.input,0,2),byte=new Map(selection.reverse).get(code);
+          if(byte===undefined)throw new Error('Probe code unit outside declared NLS repertoire');
+          NativeHeapObjectViews.prototype.writeUnsigned.call(input.fields,0,selection.ctype1[byte]!,2);value=1;
+        }else {
+          if(input.kind!=='MultiByteToWideChar'||input.scalar!==selection.codePage||input.flags!==1||input.procedure!==this.#argvProcedures.get('MultiByteToWideChar')||!input.input||input.fields!==null||input.count!==256)throw new Error('Actual SharedBase conversion-query ABI required');
+          requirePhysicalNativeViews(input.input);
+          for(let index=0;index<input.count;index++){const byte=NativeHeapObjectViews.prototype.readUnsigned.call(input.input,index,1);if(selection.unicode[byte]===undefined)throw new Error('Byte outside declared NLS repertoire');}
+          value=input.count;
         }
         const result:NativeArgvNlsResult=Object.freeze({kind:'scalar',value});
         this.#processLastError(selection.lastError?.[input.kind]);
