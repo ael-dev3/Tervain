@@ -49,20 +49,55 @@ memory and objects before it can support a gameplay claim.
 
 ### Current startup work: 2026-10-08
 
-The local implementation has progressed through selected SharedBase CRT
-initializers, a successful direct CRT helper return, the direct DLL entry guard,
-the retained initializer's version-query frame and its filename copy. The next
-local changes connect the original `LoadLibraryA`, `GetProcAddress` and
-`FreeLibrary` frames to a selected current-module backend. That path uses the
-captured absence of `DllGetVersion`, balances additional module references and
-stops at the version-resource fallback at `1004c62e`.
+Published main revision `4298947b6ecad748fbbf166dca53f7f27466385d`
+([PR #157](https://github.com/ael-dev3/Tervain/pull/157)) includes the selected
+SharedBase CRT initialization, DLL entry prefix, module lookup and version-resource
+fallback. The original MemoryAdmin instructions allocate a 1,792-byte pool slot;
+the recorded Windows version API fills 1,740 bytes and execution reaches the
+language-helper call at `10002d42`. Its Pages deployment succeeded.
 
-These are bounded startup checkpoints. The surrounding DLL wrapper and SEH
-execution, complete DLL initialization, Game/world activation and campaign
-integration remain unfinished. The module-import continuation is local work;
-its publication and complete validation must be recorded separately. Consult
-the checkpoint history and the deployed commit before treating any local
-milestone as hosted behavior.
+Later local work retains the nested language-helper frame, requests 1,741 bytes,
+claims a second pool slot and fills its resource buffer. That continuation stops
+at `1004c30e`, before formatting the translation query. It is unpublished. The
+nested allocation checkpoint passed 2,924 tests across 275 files; the subsequent
+buffer-fill change passed 316 focused checks, typechecking and the production
+build, with its full-suite checkpoint still pending.
+
+The next dependencies are query-string formatting, translation and FileVersion
+queries, version parsing, buffer cleanup and logging. The surrounding DLL wrapper
+and SEH execution, complete DLL initialization, Game/world activation and campaign
+integration remain unfinished. Consult the checkpoint history and deployed commit
+when distinguishing local implementation from hosted behavior.
+
+### Reference inputs and reproducibility
+
+The installed reference root is
+`C:\Program Files (x86)\Steam\steamapps\common\Gothic 3`.
+The local research archive used for the startup checkpoints is
+`C:/Users/heyas/OneDrive/Рабочий стол/Gothic3_Decompiled_Study_2026-10-04`:
+
+- `00_Original_Runtime/SharedBase.dll`: the matching reference DLL.
+- `01_Decompiled_Code/SharedBase_dll/full_disassembly.asm`: retained disassembly.
+- Installed and archived SharedBase SHA-256:
+  `5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214`.
+
+These paths describe the developer's reference machine. Contributors supply their
+own matching installation and study directory; the paths are not browser URLs.
+Asset-specific archive paths, source hashes and conversion receipts belong in the
+corresponding evidence package, so tree and human resources remain traceable.
+
+For startup evidence, the principal generators are:
+
+| Generator | Output and purpose |
+| --- | --- |
+| `prepare_shared_initializer_source.py` | Initializer bodies, allocator instructions and cold memory images |
+| `prepare_shared_dll_entry_evidence.py` | DLL entry bodies, thunks, VERSION imports and literal images |
+| `capture_shared_version_api.py` | Windows API observations for the matching file's version resource |
+
+The initializer package currently records 130 bodies, 5,196 body instructions and
+480 CALL receipts. A body without a matching decompiled C record is explicitly
+captured as assembly-only evidence. Windows API observations read the file through
+system resource APIs without loading or executing Gothic code.
 
 ## 1. Inventory the installed game
 
