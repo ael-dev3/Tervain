@@ -87,11 +87,15 @@ export function loft(sections: Section[], sides: number, o: { wobble?: number; s
     }
     rings.push(start);
   }
+  // Every face is wound outward whichever way the sections run (a limb runs down), so the near side is the one drawn
+  // and the caps close the ends.
+  const rising = sections[n - 1]!.y > sections[0]!.y;
   for (let i = 0; i < n - 1; i++) {
     for (let k = 0; k < sides; k++) {
       const a = rings[i]! + k;
       const b = rings[i + 1]! + k;
-      acc.idx.push(a, a + 1, b, a + 1, b + 1, b);
+      if (rising) acc.idx.push(a, b, a + 1, a + 1, b, b + 1);
+      else acc.idx.push(a, a + 1, b, a + 1, b + 1, b);
     }
   }
   const cap = (i: number, up: boolean) => {
@@ -104,8 +108,8 @@ export function loft(sections: Section[], sides: number, o: { wobble?: number; s
     }
   };
   if (!o.open) {
-    if (o.capBottom ?? true) cap(0, false);
-    if (o.capTop ?? true) cap(n - 1, true);
+    if (o.capBottom ?? true) cap(0, !rising);
+    if (o.capTop ?? true) cap(n - 1, rising);
   }
   return acc.geometry();
 }
