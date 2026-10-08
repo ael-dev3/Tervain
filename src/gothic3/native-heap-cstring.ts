@@ -2,6 +2,7 @@ import rules from '../../assets/gothic3/npc-heap/runtime-rules.json';
 import textRules from '../../assets/gothic3/cstring-text-construction/runtime-rules.json';
 import pointerRules from '../../assets/gothic3/script-admin-startup/runtime-rules.json';
 import propertySource from '../../assets/gothic3/property-type-constructors/source.json';
+import registrationSource from '../../assets/gothic3/property-registration-lifecycle/source.json';
 import type { NativeValue } from './dialogue';
 import { NativeHeapObjectViews } from './native-heap-views';
 import type { NativeMemoryAdmin, NativeMemoryAllocation } from './native-memory-admin';
@@ -438,10 +439,30 @@ export class NativeHeapCString {
     const bytes = this.textBytes(); return bytes.known ? known(new TextDecoder().decode(bytes.value)) : bytes;
   }
   hash(): NativeValue<number> {
-    const bytes = this.textBytes(); if (!bytes.known) return bytes;
-    // Source MOVSX sign-extends char; selected bytes are ASCII. DWORD wraps.
-    let value = 0; for (const byte of bytes.value) value = (Math.imul(value, 33) + byte) >>> 0;
-    return known(value);
+    return this.execute(() => {
+      if (registrationSource.sharedBaseSha256 !== '5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214' ||
+          registrationSource.methods.hashCString.entryVA !== '0x10002c7a' ||
+          registrationSource.methods.hashCString.bodyVA !== '0x10087ad0' ||
+          registrationSource.methods.hashCString.bodyInstructionBytesSha256 !== '2cca94382b5b996a2ab1ff4597606cf3edb72646aaa840ecb4057207d81dd8fc') {
+        throw new Error('Original CString hash source differs');
+      }
+      // 10087ad0 calls GetText, scans through the first NUL, and MOVSX
+      // sign-extends each byte. The holder length/refcount are not read.
+      const data = this.retainedDataPointer();
+      let pointer: NativeBytePointer;
+      if (data) pointer = { fields: this.fields(data), offset: data.characterOffset };
+      else {
+        const empty = this.memory.emptyCStringTextPointer(); if (!empty.known) return empty;
+        pointer = empty.value;
+      }
+      let value = 0, cursor = pointer.offset;
+      for (;;) {
+        const byte = pointer.fields.readUnsigned(cursor++, 1);
+        if (byte === 0) { this.trace.push('cstring-hash:10087ad0'); return known(value); }
+        const signed = byte < 128 ? byte : byte - 256;
+        value = (Math.imul(value, 33) + signed) >>> 0;
+      }
+    });
   }
   snapshot() {
     // Diagnostics deliberately preserve the destructor's stale pointer bits;

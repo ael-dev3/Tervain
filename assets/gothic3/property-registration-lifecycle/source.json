@@ -74,9 +74,212 @@
       "entryChain": [],
       "assemblySha256": "0c92e8113baab345b50ef41b801db9d2f81a007bca83e694eebfcc03c6a2223d",
       "cSha256": "12bc19d029b62b0ed857231ebb8134a6d89b183b1b2b0751a40a1e08490a6a29"
+    },
+    "findTypeSlot": {
+      "entryVA": "0x10008cd3",
+      "bodyVA": "0x10090ac0",
+      "bodyRanges": "10090ac0-10090b12",
+      "instructionCount": 37,
+      "bodyByteCount": 83,
+      "bodyInstructionBytesSha256": "b18d216888a9b6639c354c0e97ee63325d832fa63e05628b15f9c243dc6eb1d6",
+      "entryChain": [
+        {
+          "va": "10008cd3",
+          "bytes": "e9e87d0800",
+          "targetVA": "10090ac0"
+        }
+      ],
+      "assemblySha256": "7bb7a549acb13b939b231550e203fb34de0fd5e6432be541c7316e085fe9100c",
+      "cSha256": "21fda837a95926805dfdee3e511ac632b379672d42ee79a99b3253aef1b962fb"
+    },
+    "hashCString": {
+      "entryVA": "0x10002c7a",
+      "bodyVA": "0x10087ad0",
+      "bodyRanges": "10087ad0-10087b01",
+      "instructionCount": 21,
+      "bodyByteCount": 50,
+      "bodyInstructionBytesSha256": "2cca94382b5b996a2ab1ff4597606cf3edb72646aaa840ecb4057207d81dd8fc",
+      "entryChain": [
+        {
+          "va": "10002c7a",
+          "bytes": "e9514e0800",
+          "targetVA": "10087ad0"
+        }
+      ],
+      "assemblySha256": "a15479ef0d15ff68e8293c165feb8d15502ac0a66822618b41988f9d0e0431c6",
+      "cSha256": "e18fc89dc3a14187cd9bf7c254a59228c41dd4647c12666582a7b6b91336a63d"
+    },
+    "assignCString": {
+      "entryVA": "0x10004638",
+      "bodyVA": "0x10015430",
+      "bodyRanges": "10015430-10015442",
+      "instructionCount": 8,
+      "bodyByteCount": 19,
+      "bodyInstructionBytesSha256": "412475bfdebccf0279b4810435e16976cd1f7513bda3a44b78846a95c5ade4e3",
+      "entryChain": [
+        {
+          "va": "10004638",
+          "bytes": "e9f30d0100",
+          "targetVA": "10015430"
+        }
+      ],
+      "assemblySha256": "4e051f5530198297ea53c4fd16353f423b79cb4f8657ad5c26d42cb101515857",
+      "cSha256": "1987626404a56839472eece986a65edacf93378a6f2880cc82e265f0eeb81b4e"
+    },
+    "getPropertySingleton": {
+      "entryVA": "0x10004fd4",
+      "bodyVA": "0x10090750",
+      "bodyRanges": "10090750-1009077f",
+      "instructionCount": 11,
+      "bodyByteCount": 48,
+      "bodyInstructionBytesSha256": "9788801ba55c453168b31f3de4e85fec88e9f8a25ad629511019281506070467",
+      "entryChain": [
+        {
+          "va": "10004fd4",
+          "bytes": "e977b70800",
+          "targetVA": "10090750"
+        }
+      ],
+      "assemblySha256": "ef1d5c89476b4b840f17913f41afbfa2b90e1f6111ca43bf2cd08ef6db00516b",
+      "cSha256": "ce9e246fa134423215b707914bd605fd424915e3a9786d99a6848b914060508e"
+    },
+    "constructPropertySingleton": {
+      "entryVA": "0x10004aac",
+      "bodyVA": "0x10090650",
+      "bodyRanges": "10090650-100906a7",
+      "instructionCount": 27,
+      "bodyByteCount": 88,
+      "bodyInstructionBytesSha256": "e8b9667b9bc36790bd7f7f449f74e9d6dfc85fe2c0315e68d724bd4c472acbb2",
+      "entryChain": [
+        {
+          "va": "10004aac",
+          "bytes": "e99fbb0800",
+          "targetVA": "10090650"
+        }
+      ],
+      "assemblySha256": "aa4104180539c0027f50cb01fdb88c0eec873e980bc2f66f71a1daff623b4660",
+      "cSha256": "49ec5fcfc46e12e11e606999f39733ed196fe42c36f04ee58b598bc437ab0533"
+    },
+    "constructTypeTable": {
+      "entryVA": "0x10001c49",
+      "bodyVA": "0x100911d0",
+      "bodyRanges": "100911d0-10091216",
+      "instructionCount": 19,
+      "bodyByteCount": 71,
+      "bodyInstructionBytesSha256": "e52e47a0da18415be5b9c59cb833ddbdb7d546060eaf327830e554dd2c407431",
+      "entryChain": [
+        {
+          "va": "10001c49",
+          "bytes": "e982f50800",
+          "targetVA": "100911d0"
+        }
+      ],
+      "assemblySha256": "b2a76749d435d512abcb3b3e4e1c70cd9cd4383cff1d12e6b581360b40438c05",
+      "cSha256": "7ed097850cd29c6ad95339d2bb64b79c90c9b6e29238c5897ab43fe166aec716"
+    },
+    "clearTypeTable": {
+      "entryVA": "0x10005cdb",
+      "bodyVA": "0x100910d0",
+      "bodyRanges": "100910d0-10091197",
+      "instructionCount": 77,
+      "bodyByteCount": 200,
+      "bodyInstructionBytesSha256": "b2c843805ce1a75ce128c96d83bf533737663f3561cc5d6172bae5a7e604e06a",
+      "entryChain": [
+        {
+          "va": "10005cdb",
+          "bytes": "e9f0b30800",
+          "targetVA": "100910d0"
+        }
+      ],
+      "assemblySha256": "a4121b8527f9862989912e52335510e127c50cc71b26230026f7f5cfa53848d5",
+      "cSha256": "56c8bbf28c3b22231bda134828b2875e4248fec59c427c5b06985c12b34709e4"
+    },
+    "reserveTypeTable": {
+      "entryVA": "0x1000799b",
+      "bodyVA": "0x10090b80",
+      "bodyRanges": "10090b80-10090bfb",
+      "instructionCount": 49,
+      "bodyByteCount": 124,
+      "bodyInstructionBytesSha256": "0ecf60b1d0c260ffa32eae370aafb1d92698408df8709e859fe27f4e42093f0a",
+      "entryChain": [
+        {
+          "va": "1000799b",
+          "bytes": "e9e0910800",
+          "targetVA": "10090b80"
+        }
+      ],
+      "assemblySha256": "26a2674516ca0ab92c27d69387febe0d56474590f2f7c33c6cbc5bac175ed477",
+      "cSha256": "3819b24afafe16a79865217fac0c671df9fd253b02063e386b538d01b4949121"
+    },
+    "destroyPropertySingleton": {
+      "entryVA": "0x10006654",
+      "bodyVA": "0x100906f0",
+      "bodyRanges": "100906f0-10090747",
+      "instructionCount": 34,
+      "bodyByteCount": 88,
+      "bodyInstructionBytesSha256": "5d8c579c2d0db9e2d096efcd6a83c190e0bbf46338c44daa35ee5de424a45bd1",
+      "entryChain": [
+        {
+          "va": "10006654",
+          "bytes": "e997a00800",
+          "targetVA": "100906f0"
+        }
+      ],
+      "assemblySha256": "3188f65b78fe0baa8d11c2535d0225fc2493772c49afedba675ca569fe47141a",
+      "cSha256": "4a774b714b205c4659fb5b6d46bc2c6fc95dd3f876637575cbbc1e469a1d2a9a"
+    },
+    "destroyTypeTable": {
+      "entryVA": "0x10091230",
+      "bodyVA": "0x10091230",
+      "bodyRanges": "10091230-100912f5",
+      "instructionCount": 67,
+      "bodyByteCount": 198,
+      "bodyInstructionBytesSha256": "70995dcf63faa747310585dbe53993e43e3fe8ea0c16345cba35bb787cbeb1c2",
+      "entryChain": [],
+      "assemblySha256": "62c597b302bbe989f5ed119e889a29b1448c2677ce03f895ace8e448eaaddc2c",
+      "cSha256": "e6b50b9a806d78174b528ef90092f42f23db5e15a49702178f680572619a218b"
     }
   },
   "runtimeRegistrationCompleted": false,
+  "imageReceipts": {
+    "propertySingleton": {
+      "address": "102f48c0",
+      "bytes": 40,
+      "raw": "00000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "knownMask": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "sha256": "2c34ce1df23b838c5abf2a7f6437cca3d3067ed509ff25f11df6b11b582b51eb",
+      "scope": "cold-original-image",
+      "liveValueCaptured": false,
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 0,
+        "loaderZeroFillBytes": 40
+      }
+    }
+  },
+  "exitCallback": {
+    "entry": "100e30a0",
+    "raw": "b9c0482f10e9aa35f2ff",
+    "bytes": 10,
+    "sha256": "0ce73d770a78108fe5fed06ead8e05daacc55fe28fe3f516fddfd9eaf7c37c82",
+    "receiver": "102f48c0",
+    "targetEntry": "10006654",
+    "instructions": [
+      {
+        "va": "100e30a0",
+        "bytes": "b9c0482f10",
+        "instruction": "MOV ECX,0x102f48c0"
+      },
+      {
+        "va": "100e30a5",
+        "bytes": "e9aa35f2ff",
+        "instruction": "JMP 0x10006654"
+      }
+    ]
+  },
   "sourceOnly": true,
   "wholeCrtTraversalCompleted": false
 }

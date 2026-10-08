@@ -1,0 +1,25 @@
+1003f850 | 8b0d38fd2f10 | MOV ECX,dword ptr [0x102ffd38]
+1003f856 | 85c9 | TEST ECX,ECX
+1003f858 | 743d | JZ 0x1003f897
+1003f85a | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+1003f85e | ba00200400 | MOV EDX,0x42000
+1003f863 | 53 | PUSH EBX
+1003f864 | 8b5908 | MOV EBX,dword ptr [ECX + 0x8]
+1003f867 | 0118 | ADD dword ptr [EAX],EBX
+1003f869 | 814004fcff0000 | ADD dword ptr [EAX + 0x4],0xfffc
+1003f870 | 83400801 | ADD dword ptr [EAX + 0x8],0x1
+1003f874 | 8b5908 | MOV EBX,dword ptr [ECX + 0x8]
+1003f877 | 03db | ADD EBX,EBX
+1003f879 | 03db | ADD EBX,EBX
+1003f87b | 01580c | ADD dword ptr [EAX + 0xc],EBX
+1003f87e | bbfcff0000 | MOV EBX,0xfffc
+1003f883 | 2b5908 | SUB EBX,dword ptr [ECX + 0x8]
+1003f886 | 015014 | ADD dword ptr [EAX + 0x14],EDX
+1003f889 | 03db | ADD EBX,EBX
+1003f88b | 03db | ADD EBX,EBX
+1003f88d | 015810 | ADD dword ptr [EAX + 0x10],EBX
+1003f890 | 8b09 | MOV ECX,dword ptr [ECX]
+1003f892 | 85c9 | TEST ECX,ECX
+1003f894 | 75ce | JNZ 0x1003f864
+1003f896 | 5b | POP EBX
+1003f897 | c20400 | RET 0x4

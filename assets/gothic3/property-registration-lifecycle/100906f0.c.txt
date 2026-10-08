@@ -1,0 +1,34 @@
+/* ENTRY 100906f0 | bCPropertyObjectSingleton::bCPropertyObjectSingleton_Constructor_or_Destructor | STATUS decompiled | 8 ms */
+
+void __fastcall
+bCPropertyObjectSingleton::bCPropertyObjectSingleton_Constructor_or_Destructor(undefined4 *param_1)
+
+{
+  int *piVar1;
+  bCMemoryAdmin *pbVar2;
+  void *pvVar3;
+  
+  piVar1 = param_1 + 3;
+  *param_1 = &vftable;
+  FUN_10005cdb();
+  thunk_FUN_10091230();
+  if (piVar1 != (int *)0x0) {
+    pvVar3 = (void *)*piVar1;
+    if (pvVar3 != (void *)0x0) {
+      pbVar2 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar2,pvVar3);
+      *piVar1 = 0;
+      param_1[4] = 0;
+      param_1[5] = 0;
+    }
+    pvVar3 = (void *)*piVar1;
+    if (pvVar3 != (void *)0x0) {
+      pbVar2 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar2,pvVar3);
+      *piVar1 = 0;
+      param_1[4] = 0;
+      param_1[5] = 0;
+    }
+  }
+  return;
+}
