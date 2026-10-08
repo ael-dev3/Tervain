@@ -10242,6 +10242,6 @@ this pointer. Corruption through the stack alias is rejected before local-frame
 construction. Changed source evidence is likewise rejected. Repeated requests
 retain the pending query and do not allocate a second frame.
 
-All 283 focused checks and typechecking pass. Production build and full-suite
-validation are pending. Version-query imports, logging, complete DLL startup,
+All 283 focused checks, typechecking and production build (39.32 seconds) pass.
+Full-suite validation is pending. Version-query imports, logging, complete DLL startup,
 Game/world activation and campaign completion remain unfinished.
