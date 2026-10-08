@@ -48,10 +48,11 @@ history linked below:
    Record the successful deployment separately from local implementation.
 
 The checkpoint history distinguishes local implementation, reviewed changes and
-successful deployments. The published SharedBase startup components include version-resource
-allocation, filling and translation-query formatting. Later local query and
-copy continuations still require live startup integration. Complete DLL startup
-remains unfinished. Game/world activation and campaign integration still require work.
+successful deployments. Merged PR #161 includes selected version-resource query,
+copy, parsing and buffer cleanup continuations. Its Pages deployment was still
+in progress at this update. Later MessageAdmin logging work remains local.
+Complete DLL startup, Game/world activation and campaign integration still
+require work. See the workflow's dated status for the exact execution boundary.
 
 ## Working on the reconstruction locally
 
