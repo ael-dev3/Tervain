@@ -10400,3 +10400,100 @@ Publication is pending. The next work is the
 language helper's nested buffer, translation and FileVersion queries, followed
 by parsing, frees and logging. Complete DLL startup, world activation and
 campaign completion remain unfinished.
+
+## Nested language size and allocator frames (local work, 2026-10-08)
+
+The original language helper saves the filename in EBP and performs its own
+size query through the retained VERSION import. The handle-output pointer
+aliases the caller's filename argument; its zero result overwrites that word
+through the interpreter's stack store. The saved filename remains available
+for later imports. The helper then requests 1,741 bytes through its own
+MemoryAdmin and malloc calls.
+
+The same original allocator claims a second 1,792-byte slot at region offset
+1,808, distinct from the outer slot at offset 16. The outer buffer remains
+unchanged, the bitmap records both claims, and malloc restores its saved
+registers/SEH state and releases the heap section. The continuation is retained
+at 1004c2f7. Repeated requests preserve each pending frame.
+
+The 311 subsystem checks and two additional corruption checks pass; typecheck
+and production build pass. Changed helper evidence and damaged return words
+are rejected before nested-frame construction. The full suite passes 2,924
+tests across 275 files (183.44 seconds). Publication is pending. Nested buffer filling, resource queries, parsing,
+frees, logging, complete DLL startup and campaign integration remain unfinished.
+
+
+## Nested language buffer fill and formatter evidence (local work, 2026-10-08)
+
+The retained helper now executes its GetFileVersionInfoA argument setup and
+original thunk at 1004c301. The recorded service fills 1,740 bytes in the second
+claimed pool slot, preserving its unused tail and the outer version buffer.
+The original argument cleanup and success branch stop at 1004c30e before the
+translation-query literal is pushed. Released slots and damaged handle arguments
+are rejected before resource writes. Repeated continuation calls retain state.
+
+The formatter at 100aa234 and output engine at 100b5355 are captured against
+original DLL bytes, along with the 256-byte loader-zero-filled output image at
+101ab190. The evidence package now has 11 bodies and 1,317 body instructions.
+Both generated source and instruction table reproduce byte-for-byte. The original
+translated query uses four uppercase %02X conversions; its fallback uses %04X04B0.
+These bodies are captured evidence and are not yet executed by this continuation.
+
+The buffer-fill checkpoint passed 316 focused startup checks; the expanded source
+package passes eight checks. Typechecking and the production build pass. The
+combined full suite passes 2,928 tests across 275 files (192.50 seconds). This
+language checkpoint is local and unpublished. Formatting, translation and
+FileVersion queries, parsing, frees, logging, full DLL startup, world activation
+and campaign integration remain unfinished.
+
+
+## Original query formatter stream frame (local work, 2026-10-08)
+
+The language helper now pushes the actual translation literal and owned query
+output image, calls 100aa234 and executes its original nonnull-argument prologue.
+Its stream occupies 32 retained stack bytes; current/base output pointers alias
+the same 256-byte global image, remaining count is 0x7fffffff and flags are 0x42.
+The output engine receives the real stream, format pointer, null locale argument
+and caller varargs pointer. Both cdecl calls remain pending at 100b5355.
+
+The global image remains zero-filled, and both version-resource buffers remain
+unchanged. The initializer's completed malloc/SEH state remains retained and no
+heap section is held. Repeated formatter requests preserve the same pending
+frames. Changed formatter evidence is rejected before allocating its images;
+a released language pool slot is rejected before entering the helper.
+
+The source package additionally captures the engine's 160-byte classification/
+transition image and eight-entry dispatch table, each pinned by a source check.
+All source output and emitted instructions reproduce byte-for-byte. All 321
+focused startup/evidence checks, typechecking and the production build pass.
+The full-suite receipt in the preceding section predates this formatter-prefix
+change. This local checkpoint remains unpublished. Query output, resource queries,
+parsing and cleanup still require implementation before complete DLL startup,
+world activation and campaign integration can be claimed.
+
+
+## Original translation-query output engine (local work, 2026-10-08)
+
+The retained formatter now executes the original 100b5355 output engine through
+the existing TypeScript instruction interpreter. Its captured classification,
+transition and dispatch tables drive the scanner; the original LocaleUpdate,
+lead-byte predicate and byte writer are included in the source package. The
+locale helper's PTD request uses the existing source-backed warm PTD implementation.
+Both initial/global locale aliases and the contained character-type table remain
+actual owned views; numerical resource pointers are not manufactured.
+
+The scanner writes the 24-byte translation query into the actual 256-byte output
+image. The original sprintf continuation appends its terminator and returns its
+character count, restoring its saved registers. The output engine checks its
+cookie and restores its saved registers and FS state; locale flags are restored.
+Both outer and nested version buffers remain unchanged. The caller then builds
+and retains its original VerQueryValueA frame at 1004c330 -> 100d55d6.
+
+The source package now includes 14 bodies and 1,399 body instructions. Independent
+regeneration matches the source package and emitted instruction table exactly.
+Changed scanner bytes and damaged stream counts are rejected before query output
+writes. The three new focused checks, typechecking and production build pass.
+The full suite passes 2,935 tests across 275 files (196.79 seconds) for this
+combined language checkpoint. Publication is pending. The translation API return, translated hexadecimal query, FileVersion
+query, parsing, frees and logging still require integration, followed by complete
+DLL startup, world activation and campaign playthrough evidence.

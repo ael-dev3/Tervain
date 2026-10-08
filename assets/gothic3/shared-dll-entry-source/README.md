@@ -86,3 +86,44 @@ The backend tracks independent allocation bases, including the outer resource
 buffer and the nested helper's size-plus-one allocation. Freeing the nested
 buffer preserves the outer buffer's query state. Reinitialization resets the
 selected query sequence for that allocation.
+
+
+## Language-query formatting evidence (2026-10-08)
+
+The package now also captures `100aa234` (51 instructions), the CRT
+formatted-output helper called by the version-language routine, and its output
+engine at `100b5355` (769 instructions). The complete package contains 11 method
+bodies and 1,317 body instructions. These additions and the emitted instruction
+table reproduce byte-for-byte in an independent output directory; all eight
+source-package checks pass.
+
+The helper constructs a stream frame and calls the output engine. The translated
+query literal contains four `%02X` substitutions, while the fallback literal
+contains `%04X04B0`. The destination at `101ab190` is captured as a 256-byte,
+loader-zero-filled image. Capturing these bodies does not grant their runtime
+execution. Formatting, translation queries and subsequent cleanup still need
+connection to the retained language-helper frame.
+
+
+The format scanner's classification/transition image at `100ede50` and its
+eight-entry dispatch table at `100b5cc9` are now captured too. Their source
+checks pin both byte hashes and all branch targets. Nine source-package checks
+pass and independent regeneration remains identical. Runtime execution currently
+constructs the original sprintf stream and retains the engine CALL at `100b5355`;
+the formatting engine and subsequent resource queries are not executed yet.
+
+
+## Original output-engine continuation (2026-10-08)
+
+The package contains 14 bodies and 1,399 body instructions after capturing the
+LocaleUpdate helper, lead-byte predicate and byte writer. The original locale's
+512-byte character-type table at `100f2e38` is retained too. Source generation and
+instruction emission reproduce byte-for-byte. Runtime admission pins the source
+bodies and all scanner image bytes before entering the output engine.
+
+The supported translation-literal path executes the original scanner and byte
+writer, then the original sprintf return and caller argument setup. It produces
+`\VarFileInfo\Translation` plus a terminator in the retained output global and
+stops at the actual VerQueryValueA call. The locale helper uses the already
+implemented warm PTD backend for its PTD request. This does not establish support
+for every CRT format branch, nor complete DLL initialization or browser gameplay.

@@ -8,8 +8,8 @@ describe('original SharedBase DLL entry evidence',()=>{
  it('retains every original body and thunk instruction without granting execution',()=>{
   expect(source.inputSha256).toBe('5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214');
   expect(source.verifiedAgainstOriginalPE).toBe(true);
-  expect(source.methods).toHaveLength(9);
-  expect(source.methods.reduce((n,m)=>n+m.instructions.length,0)).toBe(497);
+  expect(source.methods).toHaveLength(14);
+  expect(source.methods.reduce((n,m)=>n+m.instructions.length,0)).toBe(1399);
   for(const method of source.methods){
    for(const row of method.instructions){const emitted=sharedDllEntryInstruction(row.va);expect(emitted).toEqual({address:row.va,bytes:row.bytes,instruction:row.instruction});expect(Object.isFrozen(emitted)).toBe(true);}
    for(const row of method.entryChain)expect(sharedDllEntryInstruction(row.va)).toEqual({address:row.va,bytes:row.bytes,instruction:'JMP 0x'+row.targetVA});
@@ -64,4 +64,27 @@ it('replays only the observed query mutations from the initialized API buffer',(
 
 it('retains VERSION import thunk bytes and their original IAT receipts',()=>{
  expect(source.versionImportThunks).toHaveLength(3);for(const thunk of source.versionImportThunks){expect(thunk.import.module).toBe('VERSION.dll');expect(thunk.bytes).toBe('ff25'+Buffer.from(Uint32Array.of(parseInt(thunk.import.iatVA,16)).buffer).toString('hex'));expect(sharedDllEntryInstruction(thunk.address)).toEqual({address:thunk.address,bytes:thunk.bytes,instruction:thunk.instruction});}
+});
+
+
+it('captures the actual formatted query helper, output engine and zero-filled output buffer',()=>{
+ const helper=source.methods.find(m=>m.label==='versionQuerySprintf')!;
+ const engine=source.methods.find(m=>m.label==='formattedOutputEngine')!;
+ expect(helper.bodyVA).toBe('0x100aa234');expect(helper.instructions).toHaveLength(51);
+ expect(helper.instructions.find(i=>i.va==='100aa287')!.instruction).toBe('CALL 0x100b5355');
+ expect(engine.bodyVA).toBe('0x100b5355');expect(engine.instructions).toHaveLength(769);
+ const output=source.coldImages.find(i=>i.label==='versionQueryOutput')!;
+ expect(output.address).toBe('101ab190');expect(output.size).toBe(256);
+ expect(output.bytes).toBe('00'.repeat(256));
+ const literal=(label:string)=>Buffer.from(source.coldImages.find(i=>i.label===label)!.bytes,'hex').toString('ascii');
+ expect(literal('translatedVersionQuery')).toBe('\\StringFileInfo\\%02X%02X%02X%02X\\FileVersion\0');
+ expect(literal('localeVersionQuery')).toBe('\\StringFileInfo\\%04X04B0\\FileVersion\0');
+});
+
+
+it('retains the original output-engine classification and dispatch tables',()=>{
+ const state=source.coldImages.find(i=>i.label==='formatStateTables')!,dispatch=source.coldImages.find(i=>i.label==='formatDispatchTable')!;
+ expect(state.address).toBe('100ede50');expect(state.size).toBe(160);expect(sha(Buffer.from(state.bytes,'hex'))).toBe('6bf8a02d2cbf9c2988998af836adcb53cab68d22121cdec740ab7a7b3b5c2a33');
+ expect(dispatch.address).toBe('100b5cc9');expect(dispatch.size).toBe(32);expect(sha(Buffer.from(dispatch.bytes,'hex'))).toBe('d308f11f17971e936cc54ad67ed00c4810c67f8e05732e6e9a05e048582e8b4d');
+ const bytes=Buffer.from(dispatch.bytes,'hex');const targets=Array.from({length:8},(_,i)=>bytes.readUInt32LE(i*4).toString(16));expect(targets).toEqual(['100b5697','100b54fe','100b5519','100b5568','100b55a2','100b55aa','100b55e1','100b56d9']);for(const target of targets)expect(sharedDllEntryInstruction(target).address).toBe(target);
 });

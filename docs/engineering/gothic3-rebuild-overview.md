@@ -47,10 +47,10 @@ history linked below:
    reviewed merge to `main` also publishes through `.github/workflows/pages.yml`.
    Record the successful deployment separately from local implementation.
 
-The current working tree also contains the next class-name and demangler startup checkpoints.
-It remains separate from reviewed, deployed progress until validation and
-publication complete. Confirmed evidence and remaining campaign work are
-described below.
+The checkpoint history distinguishes local implementation, reviewed changes and
+successful deployments. SharedBase startup work has reached version-resource
+allocation and filling; language queries and complete DLL startup remain
+unfinished. Game/world activation and campaign integration still require work.
 
 ## Working on the reconstruction locally
 

@@ -1286,3 +1286,72 @@ it('rejects a released version pool slot before the resource import changes its 
 it('rejects a reconstructed alias of a retained pool slot at the version API boundary',()=>{
  const {owner,platform}=versionInfoFixture(),buffer=owner.snapshot().caseState!.stack!.snapshot().sharedDllResourceFrame!.buffer!,alias=new NativeHeapObjectViews(buffer.fields.backing,buffer.fields.bytes.byteOffset-buffer.fields.backing.bytes.byteOffset,1792),service=NativeSharedVersionResource.forPlatform(platform,'recorded-sharedbase-ansi-version-buffer');expect(service.known).toBe(true);if(!service.known)throw new Error(service.reason);buffer.fields.writeUnsigned(0,170,1);expect(service.value.initialize('sharedbase.dll',0,1740,{fields:alias,offset:0})).toEqual({known:false,reason:'Canonical retained pool slot required for version resource access'});expect(buffer.fields.readUnsigned(0,1)).toBe(170);
 });
+
+it('retains the original language size frame and its distinct MemoryAdmin call',()=>{
+ const {owner}=versionInfoFixture();owner.processDllVersionInfo();const result=owner.processDllLanguagePrefix();expect(result).toEqual({known:false,reason:'Original SharedBase language buffer MemoryAdmin pending at 10002aae'});let stack=owner.snapshot().caseState!.stack!.snapshot();expect(stack.sharedDllLanguageFrame!.handle.readUnsigned(0)).toBe(0);expect(stack.sharedDllLanguageFrame!.handle.backing).toBe(stack.sharedDllResourceFrame!.handle.backing);expect(stack.calls.find(call=>call.site==='1004c2d8')!.returned).toBe(true);expect(stack.calls.at(-1)!.site).toBe('1004c2eb');expect(stack.calls.at(-1)!.returned).toBe(false);const calls=stack.calls.length;expect(owner.processDllLanguagePrefix()).toEqual(result);expect(owner.snapshot().caseState!.stack!.snapshot().calls).toHaveLength(calls);expect(owner.snapshot().trace).toContain('1004c2d8.GetFileVersionInfoSizeA');
+ expect(owner.processDllLanguageMemoryAdmin()).toEqual({known:false,reason:'Original SharedBase language buffer Malloc pending at 10003cd8'});stack=owner.snapshot().caseState!.stack!.snapshot();expect(stack.calls.find(call=>call.site==='1004c2eb')!.returned).toBe(true);expect(stack.calls.at(-1)!.site).toBe('1004c2f2');expect(stack.calls.at(-1)!.returned).toBe(false);
+});
+
+it('allocates a distinct nested language slot and restores the original malloc frame',()=>{
+ const {owner}=versionInfoFixture();owner.processDllVersionInfo();const outer=owner.snapshot().caseState!.stack!.snapshot().sharedDllResourceFrame!.buffer!,bytes=outer.fields.bytes.slice();owner.processDllLanguagePrefix();owner.processDllLanguageMemoryAdmin();const result=owner.processDllLanguageMalloc();expect(result).toEqual({known:false,reason:'Original SharedBase language buffer allocation ready at 1004c2f7'});const stack=owner.snapshot().caseState!.stack!.snapshot(),inner=stack.sharedDllLanguageFrame!.buffer!,slots=owner.snapshot().poolSlots.filter(row=>row.capacity===1792);expect(inner.fields).not.toBe(outer.fields);expect(inner.fields.backing).toBe(outer.fields.backing);expect(inner.fields.bytes.length).toBe(1792);expect(slots.map(row=>row.offset)).toEqual([16,1808]);expect(outer.fields.bytes).toEqual(bytes);expect(slots[0]!.region.readUnsigned(0x6f910)).toBe(0xfffffffc);expect(stack.memoryMallocFrame).toEqual({entered:true,returned:true});expect(owner.snapshot().memoryHeapSectionHeld).toBe(false);expect(stack.calls.find(call=>call.site==='1004c2f2')!.returned).toBe(true);const calls=stack.calls.length;expect(owner.processDllLanguageMalloc()).toEqual(result);expect(owner.snapshot().caseState!.stack!.snapshot().calls).toHaveLength(calls);
+});
+
+it('rejects changed language evidence before constructing its nested stack frame',()=>{
+ const {owner}=versionInfoFixture();owner.processDllVersionInfo();const source=dllEntrySource.methods.find(item=>item.label==='dllVersionResourceLanguage')!,saved=source.bodyInstructionBytesSha256;try{source.bodyInstructionBytesSha256='00'.repeat(32);expect(owner.processDllLanguagePrefix()).toEqual({known:false,reason:'Original version language helper required'});expect(owner.snapshot().caseState!.stack!.snapshot().sharedDllLanguageFrame).toBeNull();expect(owner.snapshot().caseState!.stack!.snapshot().calls.at(-1)!.site).toBe('1004c525');}finally{source.bodyInstructionBytesSha256=saved;}
+});
+it('rejects a corrupted language return word before its filename argument is overwritten',()=>{
+ const {owner}=versionInfoFixture();owner.processDllVersionInfo();const stack=owner.snapshot().caseState!.stack!.snapshot(),call=stack.calls.at(-1)!,fields=new NativeHeapObjectViews(stack.sharedDllResourceFrame!.handle.backing,call.position,4);fields.writeUnsigned(0,0);const result=owner.processDllLanguagePrefix();expect(result.known).toBe(false);if(!result.known)expect(result.reason).toMatch(/expression slot|language return word/);expect(owner.snapshot().caseState!.stack!.snapshot().sharedDllLanguageFrame).toBeNull();expect(owner.snapshot().caseState!.stack!.snapshot().calls.at(-1)!.returned).toBe(false);
+});
+
+function languageInfoFixture(){const fixture=versionInfoFixture(),{owner}=fixture;owner.processDllVersionInfo();owner.processDllLanguagePrefix();owner.processDllLanguageMemoryAdmin();owner.processDllLanguageMalloc();return fixture;}
+it('fills the original nested language slot independently of the outer version allocation',()=>{
+ const {owner}=languageInfoFixture(),before=owner.snapshot().caseState!.stack!.snapshot(),outer=before.sharedDllResourceFrame!.buffer!,inner=before.sharedDllLanguageFrame!.buffer!,outerBytes=outer.fields.bytes.slice(),tail=inner.fields.bytes.slice(1740);const result=owner.processDllLanguageInfo();expect(result).toEqual({known:false,reason:'Original SharedBase translation query string pending at 1004c30e'});const stack=owner.snapshot().caseState!.stack!.snapshot();expect(stack.sharedDllLanguageFrame!.infoFilled).toBe(true);expect(inner.fields.bytes.slice(0,1740)).toEqual(Uint8Array.from(Buffer.from(versionObservation.initialBufferBytes,'hex')));expect(inner.fields.bytes.slice(1740)).toEqual(tail);expect(outer.fields.bytes).toEqual(outerBytes);expect(stack.calls.find(call=>call.site==='1004c301')!.returned).toBe(true);expect(owner.snapshot().trace).toContain('1004c301.GetFileVersionInfoA');const calls=stack.calls.length;expect(owner.processDllLanguageInfo()).toEqual(result);expect(owner.snapshot().caseState!.stack!.snapshot().calls).toHaveLength(calls);expect(owner.snapshot().memoryHeapSectionHeld).toBe(false);
+});
+
+it('rejects a released nested language slot before the second version info import writes bytes',()=>{
+ const {owner}=languageInfoFixture(),inner=owner.snapshot().caseState!.stack!.snapshot().sharedDllLanguageFrame!.buffer!,slot=owner.snapshot().poolSlots.find(row=>row.fields===inner.fields)!;inner.fields.writeUnsigned(0,170,1);slot.region.writeUnsigned(0x6f910,(slot.region.readUnsigned(0x6f910)|2)>>>0);expect(owner.processDllLanguageInfo()).toEqual({known:false,reason:'Live original bitmap slot claim required'});expect(inner.fields.readUnsigned(0,1)).toBe(170);expect(owner.snapshot().caseState!.stack!.snapshot().sharedDllLanguageFrame!.infoFilled).not.toBe(true);
+});
+it('rejects a damaged nested handle before the second version info import changes its buffer',()=>{
+ const {owner}=languageInfoFixture(),frame=owner.snapshot().caseState!.stack!.snapshot().sharedDllLanguageFrame!,inner=frame.buffer!;inner.fields.writeUnsigned(0,170,1);frame.handle.writeUnsigned(0,99);const result=owner.processDllLanguageInfo();expect(result.known).toBe(false);if(!result.known)expect(result.reason).toMatch(/expression slot|stack arguments/);expect(inner.fields.readUnsigned(0,1)).toBe(170);expect(owner.snapshot().caseState!.stack!.snapshot().sharedDllLanguageFrame!.infoFilled).not.toBe(true);
+});
+
+
+function languageFormatFixture(){const fixture=languageInfoFixture();fixture.owner.processDllLanguageInfo();return fixture;}
+it('builds the original sprintf stream and retains its actual output-engine call',()=>{
+ const {owner}=languageFormatFixture(),before=owner.snapshot().caseState!.stack!.snapshot(),innerBytes=before.sharedDllLanguageFrame!.buffer!.fields.bytes.slice(),outerBytes=before.sharedDllResourceFrame!.buffer!.fields.bytes.slice();
+ const result=owner.processDllLanguageFormatPrefix();expect(result).toEqual({known:false,reason:'Original SharedBase query output engine pending at 100b5355'});
+ const state=owner.snapshot(),stack=state.caseState!.stack!.snapshot(),frame=stack.sharedDllFormatFrame!,images=state.dllLanguageFormatImages!;
+ expect(frame.output).toBe(images.output);expect(frame.format).toBe(images.translation);expect(frame.output.bytes).toEqual(new Uint8Array(256));expect(Buffer.from(frame.format.bytes).toString('ascii')).toBe('\\VarFileInfo\\Translation\0');
+ expect(frame.stream.backing).toBe(stack.sharedDllLanguageFrame!.handle.backing);expect(frame.stream.readUnsigned(4)).toBe(0x7fffffff);expect(frame.stream.readUnsigned(12)).toBe(0x42);expect(frame.varargs).toBe(frame.ebp+16);expect(frame.entryEsp).toBe(frame.ebp+4);
+ expect(stack.calls.find(call=>call.site==='1004c318')!.returned).toBe(false);expect(stack.calls.at(-1)!.site).toBe('100aa287');expect(stack.calls.at(-1)!.returned).toBe(false);
+ expect(stack.trace).toContain('100aa275.LEA EAX,[EBP + -0x20]');expect(stack.sharedDllLanguageFrame!.buffer!.fields.bytes).toEqual(innerBytes);expect(stack.sharedDllResourceFrame!.buffer!.fields.bytes).toEqual(outerBytes);
+ const calls=stack.calls.length;expect(owner.processDllLanguageFormatPrefix()).toEqual(result);expect(owner.snapshot().caseState!.stack!.snapshot().calls).toHaveLength(calls);expect(state.memoryHeapSectionHeld).toBe(false);
+});
+it('rejects a changed sprintf body before creating its output images or stack frame',()=>{
+ const {owner}=languageFormatFixture(),method=dllEntrySource.methods.find(item=>item.label==='versionQuerySprintf')!,saved=method.bodyInstructionBytesSha256;
+ try{method.bodyInstructionBytesSha256='00'.repeat(32);expect(owner.processDllLanguageFormatPrefix()).toEqual({known:false,reason:'Original language query formatted-output helper required'});expect(owner.snapshot().dllLanguageFormatImages).toBeNull();expect(owner.snapshot().caseState!.stack!.snapshot().sharedDllFormatFrame).toBeNull();}finally{method.bodyInstructionBytesSha256=saved;}
+});
+it('rejects a released nested slot before entering the formatted-output helper',()=>{
+ const {owner}=languageFormatFixture(),inner=owner.snapshot().caseState!.stack!.snapshot().sharedDllLanguageFrame!.buffer!,slot=owner.snapshot().poolSlots.find(row=>row.fields===inner.fields)!;slot.region.writeUnsigned(0x6f910,(slot.region.readUnsigned(0x6f910)|2)>>>0);
+ expect(owner.processDllLanguageFormatPrefix()).toEqual({known:false,reason:'Live original bitmap slot claim required'});expect(owner.snapshot().caseState!.stack!.snapshot().sharedDllFormatFrame).toBeNull();expect(owner.snapshot().dllLanguageFormatImages!.output.bytes).toEqual(new Uint8Array(256));
+});
+
+
+it('executes the original output scanner and byte writer to produce the translation query',()=>{
+ const {owner}=languageFormatFixture();owner.processDllLanguageFormatPrefix();const ptdFlags=owner.snapshot().ptd!.readUnsigned(0x70),before=owner.snapshot().caseState!.stack!.snapshot(),outer=before.sharedDllResourceFrame!.buffer!.fields.bytes.slice(),inner=before.sharedDllLanguageFrame!.buffer!.fields.bytes.slice();
+ const result=owner.processDllLanguageOutput();expect(result).toEqual({known:false,reason:'Original SharedBase translation resource query pending at 100d55d6'});
+ const state=owner.snapshot(),stack=state.caseState!.stack!.snapshot(),frame=stack.sharedDllFormatFrame!;
+ expect(Buffer.from(frame.output.bytes.slice(0,25)).toString('ascii')).toBe('\\VarFileInfo\\Translation\0');expect(frame.output.bytes.slice(25)).toEqual(new Uint8Array(231));expect(frame.stream.readUnsigned(4)).toBe(0x7fffffff-25);
+ expect(stack.calls.find(call=>call.site==='100aa287')!.returned).toBe(true);expect(stack.calls.find(call=>call.site==='1004c318')!.returned).toBe(true);expect(stack.calls.at(-1)!.site).toBe('1004c330');expect(stack.calls.at(-1)!.returned).toBe(false);
+ expect(state.ptd!.readUnsigned(0x70)).toBe(ptdFlags);expect(stack.trace).toContain('100b5289.sharedInitializer.TEST');expect(stack.trace).toContain('100b54f7.sharedInitializer.JMP');expect(stack.sharedDllResourceFrame!.buffer!.fields.bytes).toEqual(outer);expect(stack.sharedDllLanguageFrame!.buffer!.fields.bytes).toEqual(inner);
+ const calls=stack.calls.length;expect(owner.processDllLanguageOutput()).toEqual(result);expect(owner.snapshot().caseState!.stack!.snapshot().calls).toHaveLength(calls);expect(state.memoryHeapSectionHeld).toBe(false);
+});
+
+
+it('rejects changed format scanner bytes before the output engine writes the query',()=>{
+ const {owner}=languageFormatFixture();owner.processDllLanguageFormatPrefix();const image=dllEntrySource.coldImages.find(i=>i.label==='formatStateTables')!,saved=image.bytes;
+ try{image.bytes='00'.repeat(image.size);expect(owner.processDllLanguageOutput()).toEqual({known:false,reason:'Original output scanner image required'});expect(owner.snapshot().dllLanguageFormatImages!.output.bytes).toEqual(new Uint8Array(256));expect(owner.snapshot().caseState!.stack!.snapshot().calls.at(-1)!.site).toBe('100aa287');}finally{image.bytes=saved;}
+});
+it('rejects a damaged stream count before emitting any query bytes',()=>{
+ const {owner}=languageFormatFixture();owner.processDllLanguageFormatPrefix();owner.snapshot().caseState!.stack!.snapshot().sharedDllFormatFrame!.stream.writeUnsigned(4,0);const result=owner.processDllLanguageOutput();expect(result.known).toBe(false);if(!result.known)expect(result.reason).toMatch(/expression slot|stream arguments/);expect(owner.snapshot().dllLanguageFormatImages!.output.bytes).toEqual(new Uint8Array(256));
+});
