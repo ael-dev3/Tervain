@@ -78,6 +78,11 @@ observation per constructed runtime platform. It writes the initialized buffer
 into a canonical live allocation, applies the observed query mutations and
 returns physical aliases of that allocation. It requires the recorded filename,
 size, query sequence and unchanged prepared bytes. Foreign allocations and
-ended lifetimes are rejected. Five backend checks and six source checks pass,
+ended lifetimes are rejected. Seven backend checks and six source checks pass,
 as does typechecking. Original DLL import call-frame integration remains pending;
 this backend alone does not establish startup completion.
+
+The backend tracks independent allocation bases, including the outer resource
+buffer and the nested helper's size-plus-one allocation. Freeing the nested
+buffer preserves the outer buffer's query state. Reinitialization resets the
+selected query sequence for that allocation.

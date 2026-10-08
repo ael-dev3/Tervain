@@ -25,3 +25,16 @@ it('rejects changed prepared bytes before applying query mutations',()=>{
 it('rejects an ended allocation lifetime',()=>{
  const {platform,heap,owner,fields,pointer}=fixture();owner.initialize('sharedbase.dll',0,1740,pointer);expect(platform.win32HeapFree(heap,0,fields.backing).known).toBe(true);expect(owner.query(pointer,'\\VarFileInfo\\Translation').known).toBe(false);
 });
+
+it('retains separate outer and nested resource allocations on the same platform',()=>{
+ const {platform,heap,owner,pointer}=fixture();expect(owner.initialize('sharedbase.dll',0,1740,pointer).known).toBe(true);
+ const allocated=platform.win32HeapAlloc(heap,0,1741);if(!allocated.known||!allocated.value)throw new Error('nested allocation');
+ const nested={fields:new NativeHeapObjectViews(allocated.value),offset:0};expect(owner.initialize('sharedbase.dll',0,1740,nested).known).toBe(true);
+ expect(owner.query(nested,'\\VarFileInfo\\Translation').known).toBe(true);expect(owner.query(nested,'\\StringFileInfo\\000004B0\\FileVersion').known).toBe(true);
+ expect(platform.win32HeapFree(heap,0,allocated.value).known).toBe(true);
+ expect(owner.query(pointer,'\\VarFileInfo\\Translation').known).toBe(true);
+});
+it('reinitializes a retained allocation and resets its query sequence',()=>{
+ const {owner,pointer}=fixture();owner.initialize('sharedbase.dll',0,1740,pointer);owner.query(pointer,'\\VarFileInfo\\Translation');
+ expect(owner.initialize('sharedbase.dll',0,1740,pointer).known).toBe(true);expect(owner.query(pointer,'\\VarFileInfo\\Translation').known).toBe(true);
+});

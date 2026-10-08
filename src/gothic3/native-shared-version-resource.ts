@@ -9,10 +9,11 @@ const selection='recorded-sharedbase-ansi-version-buffer' as const;
 const owners=new WeakMap<NativeRuntimePlatform,NativeSharedVersionResource>();
 const token=Object.freeze({});
 const decode=(hex:string)=>Uint8Array.from(hex.match(/../g)!.map(pair=>parseInt(pair,16)));
+interface VersionBuffer {readonly pointer:NativeBytePointer;readonly backing:object;readonly offset:number;readonly expected:Uint8Array;readonly next:number;}
 export class NativeSharedVersionResource {
  readonly #initial=decode(observation.initialBufferBytes);
  readonly #queries=observation.queries.map(query=>({...query,changedBytes:query.changedBytes.map(change=>({...change}))}));
- #buffer:Readonly<{pointer:NativeBytePointer;backing:object;offset:number;expected:Uint8Array;next:number}>|null=null;
+ readonly #buffers=new WeakMap<object,Map<number,VersionBuffer>>();
  private constructor(private readonly platform:NativeRuntimePlatform,key:object){if(key!==token)throw new Error('Canonical version resource owner required');}
  static forPlatform(platform:NativeRuntimePlatform,profile:typeof selection):NativeValue<NativeSharedVersionResource>{
   const live=NativeRuntimePlatform.requireActivePlatform(platform);if(!live.known)return live;
@@ -30,26 +31,27 @@ export class NativeSharedVersionResource {
  initialize(filename:string,handle:number,size:number,output:NativeBytePointer):NativeValue<number>{
   try{
    if(filename!=='sharedbase.dll'||handle!==0||size!==this.#initial.length)throw new Error('Recorded SharedBase version initialization ABI required');
-   this.#access(output,size);if(this.#buffer)throw new Error('One retained version buffer initialization required');
+   this.#access(output,size);
    const geometry=this.platform.resolveNativePointer(output);if(!geometry.known)throw new Error(geometry.reason);
    const pointer=Object.freeze({fields:output.fields,offset:output.offset});
    for(let i=0;i<size;i++)NativeHeapObjectViews.prototype.writeUnsigned.call(pointer.fields,pointer.offset+i,this.#initial[i]!,1);
-   this.#buffer={pointer,backing:geometry.value.canonicalBacking,offset:geometry.value.offset,expected:this.#initial.slice(),next:0};
+   let buffers=this.#buffers.get(geometry.value.canonicalBacking);if(!buffers){buffers=new Map();this.#buffers.set(geometry.value.canonicalBacking,buffers);}
+   buffers.set(geometry.value.offset,{pointer,backing:geometry.value.canonicalBacking,offset:geometry.value.offset,expected:this.#initial.slice(),next:0});
    return {known:true,value:1};
   }catch(error){return this.#failure(error);}
  }
  query(input:NativeBytePointer,path:string):NativeValue<Readonly<{result:number;pointer:NativeBytePointer;length:number}>>{
   try{
-   const buffer=this.#buffer;if(!buffer)throw new Error('Actual initialized version buffer required');this.#access(input,this.#initial.length);
+   this.#access(input,this.#initial.length);
    const geometry=this.platform.resolveNativePointer(input);if(!geometry.known)throw new Error(geometry.reason);
-   if(geometry.value.canonicalBacking!==buffer.backing||geometry.value.offset!==buffer.offset)throw new Error('Actual retained version allocation and base required');
+   const buffers=this.#buffers.get(geometry.value.canonicalBacking),buffer=buffers?.get(geometry.value.offset);if(!buffers||!buffer)throw new Error('Actual retained version allocation and base required');
    for(let i=0;i<buffer.expected.length;i++)if(NativeHeapObjectViews.prototype.readUnsigned.call(input.fields,input.offset+i,1)!==buffer.expected[i])throw new Error('Prepared version bytes changed outside the selected API');
    const index=this.#queries.findIndex(query=>query.query===path);
    if(index<0||index!==buffer.next)throw new Error('Recorded version query order required');
    const query=this.#queries[index]!;
    for(const change of query.changedBytes){if(buffer.expected[change.offset]!==change.before)throw new Error('Recorded version mutation precondition required');}
    for(const change of query.changedBytes){NativeHeapObjectViews.prototype.writeUnsigned.call(input.fields,input.offset+change.offset,change.after,1);buffer.expected[change.offset]=change.after;}
-   this.#buffer={...buffer,next:buffer.next+1};
+   buffers.set(buffer.offset,{...buffer,next:buffer.next+1});
    return {known:true,value:Object.freeze({result:query.result,pointer:Object.freeze({fields:input.fields,offset:input.offset+query.offset}),length:query.length})};
   }catch(error){return this.#failure(error);}
  }
