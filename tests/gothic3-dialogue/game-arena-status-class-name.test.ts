@@ -48,3 +48,34 @@ it('constructs the original Status container name, restores local tables and own
   expect(f.className.get().known).toBe(false);
   expect(f.exit.snapshot().traversalOwned).toBe(false);
 });
+it('retains the constructed Status CString when the later exit registration is unavailable', () => {
+  const f = fixture(false);
+  const result = f.className.get();
+  expect(result.known).toBe(false);
+  const name = f.className.snapshot().name!;
+  expect(value(name.text())).toBe('bTPropertyContainer<enum gEArenaStatus>');
+  expect(f.className.fields.readUnsigned(8)).toBe(3);
+  expect(f.className.snapshot().registeredCallback).toBeNull();
+  const trace = f.className.snapshot().trace;
+  expect(f.className.get()).toEqual(result);
+  expect(f.className.snapshot().trace).toEqual(trace);
+});
+it('keeps Status and Arena caches independent and copies the actual prior pointer once', () => {
+  const f = fixture();
+  const prior = f.crt.imageStorage('arenaClassName');
+  f.className.initializerResult.pointer<NativeHeapObjectViews>(0).set(prior);
+  const name = value(f.className.get());
+  expect(f.className.fields.pointer<NativeHeapObjectViews>(4).get()).toBe(prior);
+  f.className.initializerResult.pointer<NativeHeapObjectViews>(0).set(null);
+  expect(value(f.className.get())).toBe(name);
+  expect(f.className.fields.pointer<NativeHeapObjectViews>(4).get()).toBe(prior);
+  expect(prior.readUnsigned(8)).toBe(0);
+  expect(f.className.snapshot().registeredCallback?.entry).toBe('200064f1');
+});
+it('does not invent a retained Status name from manually pre-set guard bits', () => {
+  const f = fixture();
+  f.className.fields.writeUnsigned(8,3);
+  expect(f.className.get().known).toBe(false);
+  expect(f.className.snapshot().name).toBeNull();
+  expect(f.exit.snapshot().callbackCells).toHaveLength(0);
+});
