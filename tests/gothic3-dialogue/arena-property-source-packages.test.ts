@@ -65,3 +65,19 @@ it('pins the Status owner dispatch and cold descriptor independently of runtime 
   expect(sha(Buffer.from(source.typeNameCleanup.bodyBytes, 'hex')))
     .toBe(source.typeNameCleanup.bodyInstructionBytesSha256);
 });
+it('records original SharedBase static TLS without claiming loader-assigned thread storage', () => {
+  const source=JSON.parse(readFileSync('assets/gothic3/arena-property-registration/source.json','utf8'));
+  const tls=source.staticTls;
+  const directory=Buffer.from(tls.directoryRaw,'hex');
+  expect(directory.length).toBe(24);
+  expect(directory.readUInt32LE(0)).toBe(0x10301000);
+  expect(directory.readUInt32LE(4)).toBe(0x103016d4);
+  expect(directory.readUInt32LE(8)).toBe(0x102f6480);
+  const template=Buffer.from(tls.templateRaw,'hex');
+  expect(template.length).toBe(0x6d4);
+  expect(sha(template)).toBe(tls.templateSha256);
+  expect(tls.debugBufferOffset).toBe(0x108);
+  expect(tls.loaderSlotAssigned).toBe(false);
+  expect(source.registrationDebugFormat.address).toBe('100e9f40');
+  expect(source.registrationDebugFormat.text.match(/%s/g)).toHaveLength(2);
+});

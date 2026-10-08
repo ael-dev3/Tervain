@@ -1,0 +1,7 @@
+100a7f27 | ff74240c | PUSH dword ptr [ESP + 0xc]
+100a7f2b | 6a00 | PUSH 0x0
+100a7f2d | ff742410 | PUSH dword ptr [ESP + 0x10]
+100a7f31 | ff742410 | PUSH dword ptr [ESP + 0x10]
+100a7f35 | e871ffffff | CALL 0x100a7eab
+100a7f3a | 83c410 | ADD ESP,0x10
+100a7f3d | c3 | RET
