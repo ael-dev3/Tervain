@@ -192,7 +192,7 @@ export class NativeX86ThreadStack {
   #mappingFrames:{controller:object;ebp:number;input:NativeHeapObjectViews|null;output:NativeHeapObjectViews|null;importCall:{call:NativeArgvNlsCallGrant;bytes:number;stage:string}|null;allocations:{site:string;requested:number;allocated:number;offset:number}[];returned:boolean}[]=[];
   #sharedEnvironmentFrame:{controller:object;entryEsp:number;operations:number;returned:boolean;result:number|null;strlenCalls:number;callocCalls:number;freeCalls:number;initializersPending:boolean}|null=null;
   #dllMemoryController:object|null=null;
-  #sharedDllResourceFrame:{entryEsp:number;handle:NativeHeapObjectViews;buffer?:Readonly<{fields:NativeHeapObjectViews;offset:number}>}|null=null;
+  #sharedDllResourceFrame:{entryEsp:number;handle:NativeHeapObjectViews;infoFilled?:boolean;buffer?:Readonly<{fields:NativeHeapObjectViews;offset:number}>}|null=null;
   #sharedDllVersionFrame:{entryEsp:number;filename:NativeHeapObjectViews;source:NativeHeapObjectViews;copyPending:boolean}|null=null;
   #sharedDllInitializerFrame:{entryEsp:number;outputs:readonly NativeHeapObjectViews[];moduleName:NativeHeapObjectViews}|null=null;
   #sharedCrtCallerFrame:{controller:object;entryEsp:number;ebp:number;oldEbp:NativeX86Word32;oldEbx:NativeX86Word32;oldEsi:NativeX86Word32;oldEdi:NativeX86Word32;returned:boolean}|null=null;
@@ -722,6 +722,31 @@ export class NativeX86ThreadStack {
       const lea=sharedDllEntryInstruction('1004c5a1'),push=sharedDllEntryInstruction('1004c5a5');if(lea.instruction!=='LEA ECX,[ESP + 0x24]'||push.instruction!=='PUSH ECX')throw new Error('Original library filename argument setup required');
       const esp=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));stack.#store(stack.#bank,stack.#reg('ECX'),stack.#stackWord(esp+36));stack.#trace.push('1004c5a1.'+lea.instruction);stack.#push(stack.#load(stack.#bank,stack.#reg('ECX')));stack.#trace.push('1004c5a5.'+push.instruction);stack.#currentPc=stack.#source('code','1004c5a6');throw new Error('Original SharedBase LoadLibraryA binding pending at 1004c5a6');
     }catch(error){stack.#phase='blocked';stack.#boundary=reason(error);return unknown(stack.#boundary);}
+  }
+  static runSharedDllVersionInfo(stack:NativeX86ThreadStack,controller:object):NativeValue<number>{
+    const proof=NativeSharedCrtOwner.dllEntryStackArgumentsForPlatform(stack.#platform,controller);if(!proof.known)return proof;
+    try{
+      const frame=stack.#sharedDllResourceFrame,version=stack.#sharedDllVersionFrame,binding=proof.value.resourceInfo;if(graphs.get(stack.#platform)!==stack||stack.#phase!=='blocked'||stack.#boundary!=='Original SharedBase version buffer initialized allocation pending at 1004c4f6 at 1004c4f6'||!frame?.buffer||frame.infoFilled||!version||!binding||!stack.#memoryMallocFrame?.returned)throw new Error('Actual retained version buffer and info import required');
+      stack.#physical(stack.#stack);stack.#physical(stack.#bank);const allocation=stack.#record(stack.#load(stack.#bank,stack.#reg('EAX'))).provenance;if(allocation?.kind!=='shared-local'||allocation.fields!==frame.buffer.fields||(allocation.offset??0)!==frame.buffer.offset||!stack.#calls.find(call=>call.site==='1004c4f1')?.returned)throw new Error('Actual original version malloc result required');
+      stack.#dllMemoryController=controller;stack.#boundary=null;stack.#phase='running';let pc='1004c4f6';
+      for(let operation=0;operation<20;operation++){
+        const row=sharedDllEntryInstruction(pc),text=row.instruction,next=(parseInt(pc,16)+row.bytes.length/2).toString(16);stack.#currentPc=stack.#source('code',pc);stack.#trace.push(pc+'.'+text);
+        if(text==='MOV ECX,dword ptr [ESP + 0xc]'){const cursor=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));stack.#store(stack.#bank,stack.#reg('ECX'),stack.#load(stack.#stack,cursor+12));pc=next;}
+        else if(text==='MOV EBX,EAX'){stack.#store(stack.#bank,stack.#reg('EBX'),stack.#load(stack.#bank,stack.#reg('EAX')));pc=next;}
+        else if(/^PUSH (EBX|EDI|ECX|ESI|EBP)$/.test(text)){stack.#push(stack.#load(stack.#bank,stack.#reg(text.slice(5) as NativeX86Register)));pc=next;}
+        else if(text==='MOV dword ptr [ESP + 0x24],EBX'){const cursor=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));stack.#writeMemory(stack.#stackWord(cursor+36),stack.#load(stack.#bank,stack.#reg('EBX')),4);pc=next;}
+        else if(pc==='1004c504'&&text==='CALL 0x100d55dc'){
+          stack.#call(pc,next);const cursor=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP'))),filename=stack.#load(stack.#stack,cursor+4),handle=stack.#numeric(stack.#load(stack.#stack,cursor+8),4),size=stack.#numeric(stack.#load(stack.#stack,cursor+12),4),outputWord=stack.#load(stack.#stack,cursor+16),output=stack.#record(outputWord).provenance;
+          if(stack.#address(filename)!==version.entryEsp-260||handle!==0||size!==1740||output?.kind!=='shared-local'||output.fields!==frame.buffer.fields||(output.offset??0)!==frame.buffer.offset)throw new Error('Actual version info import stack arguments required');
+          const thunk=sharedDllEntryInstruction('100d55dc');if(thunk.instruction!=='JMP dword ptr [0x102f98ec]'||binding.slot.pointer(0).get()!==binding.procedure)throw new Error('Actual version info thunk capability required');stack.#trace.push('100d55dc.'+thunk.instruction);let name='',terminated=false;for(let i=0;i<260;i++){const value=NativeHeapObjectViews.prototype.readUnsigned.call(version.filename,i,1);if(value===0){terminated=true;break;}name+=String.fromCharCode(value);}if(!terminated)throw new Error('Owned version info filename terminator required');
+          const result=binding.initialize(name,handle,size,frame.buffer);if(result!==1)throw new Error('Recorded successful version info result required');for(let i=0;i<size;i++){const value=NativeHeapObjectViews.prototype.readUnsigned.call(frame.buffer.fields,frame.buffer.offset+i,1);stack.#writeMemory(stack.#offsetWord(outputWord,i),stack.#mint(value,255),1);}frame.infoFilled=true;stack.#store(stack.#bank,stack.#reg('EAX'),stack.#mint(result,0xffffffff));for(const name of ['ECX','EDX'] as const)stack.#store(stack.#bank,stack.#reg(name),stack.#mint(0,0));stack.#flags(0,0);stack.#ret(16);pc=next;
+        }else if(text==='TEST EAX,EAX'){stack.#logicalFlags(stack.#numeric(stack.#load(stack.#bank,stack.#reg('EAX')),4),0xffffffff,4);pc=next;}
+        else if(text==='JNZ 0x1004c523'){const flags=stack.#record(stack.#load(stack.#bank,36));if((flags.mask&0x40)!==0x40||(flags.value&0x40)!==0)throw new Error('Actual successful version info branch required');pc='1004c523';}
+        else if(pc==='1004c525'&&text==='CALL 0x10002d42'){stack.#call(pc,next);throw new Error('Original SharedBase version language query pending at 10002d42');}
+        else throw new Error('Unowned version info instruction at '+pc);
+      }throw new Error('Version info instruction budget exceeded');
+    }catch(error){stack.#phase='blocked';stack.#boundary=reason(error);return unknown(stack.#boundary);}
+    finally{stack.#dllMemoryController=null;}
   }
   static runSharedDllMemoryAdmin(stack:NativeX86ThreadStack,controller:object):NativeValue<number>{
     const proof=NativeSharedCrtOwner.dllEntryStackArgumentsForPlatform(stack.#platform,controller);if(!proof.known)return proof;
