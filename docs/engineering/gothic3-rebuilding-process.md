@@ -9470,3 +9470,37 @@ PR 126 passed CI run 37773432296 and merged at
 PR 128 passed CI run 37773555162 and merged at
 `df155939721d668ef94142e24401d805f67b8a7a`. Its publication is tracked separately;
 merging source evidence does not execute the newly captured pool bodies.
+
+
+## 8 October 2026 — Original CRT descriptor allocation and list exchange
+
+PR 129 passed CI run 37775450873 and merged at
+`49d56a21385c8e29d10ef1945639ccb0d25e307c`. Pages run 37777023637 tracks its
+publication and completed successfully.
+
+The live pool initializer now executes original CRT operator new and malloc.
+Its twenty-byte descriptor request uses the same live SharedBase heap through
+HeapAlloc at `100aab6e`. A private allocation receipt proves the actual heap,
+flags and requested size, and the returned backing must be fresh for that
+invocation. The bridge supports normalized CRT allocation sizes rather than
+limiting the primitive to this descriptor. Actual general rounding, mode-three
+helper boundaries and NULL allocation's errno boundary remain source-driven.
+
+The malloc caller restores its saved registers; operator new executes its
+original LEAVE/RET and caller cleanup. The initializer writes all four original
+callback addresses, preserves the old descriptor-list link through XCHG.LOCK
+and publishes the real descriptor. The region's occupancy/search fields are
+cleared before pending `10045e1e -> 100a7980`: original bitmap memset, offset
+0x100000, byte 0xff, count 0x2000. The heap lock and Malloc exception frame remain
+entered; no bitmap fill, slot return or enclosing initializer return is invented.
+
+The package now captures 61 bodies, 1,355 instructions and 136 CALL receipts.
+All 111 generated source files and the instruction module reproduce exactly.
+Typechecking and 199 focused checks pass, covering native descriptor contents,
+heap identity, allocation freshness, private request receipts, original return
+cleanup, unsupported helpers and retained failure prefixes. The final suite
+passes 2,756 tests across 259 files in 187.75 seconds; the production build passes.
+
+Next are the original bitmap fill, list publication and pointer-area registration,
+then the bitmap allocator and allocation return. Full startup, world activation
+and a finishable campaign remain unfinished.
