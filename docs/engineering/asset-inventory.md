@@ -172,4 +172,3 @@ The 24 JPEGs in `public/textures/buildings/` are original: a script in the repos
 and Pillow, and running it again gives identical files. There are twelve albedo and normal pairs, 5.9 MB in all, and
 their [manifest](../../public/textures/buildings/manifest.json) records each file's bytes and SHA-256. No photograph,
 scan, third-party texture, model or Gothic content is used. See the [weathered look record](weathered-look-0.0.13.md).
-

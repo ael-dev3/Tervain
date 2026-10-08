@@ -1,0 +1,12 @@
+100c218f | 56 | PUSH ESI
+100c2190 | 8bf1 | MOV ESI,ECX
+100c2192 | 6a03 | PUSH 0x3
+100c2194 | 8d4e2c | LEA ECX,[ESI + 0x2c]
+100c2197 | e88cfdffff | CALL 0x100c1f28
+100c219c | 6a01 | PUSH 0x1
+100c219e | 8d4e34 | LEA ECX,[ESI + 0x34]
+100c21a1 | e882fdffff | CALL 0x100c1f28
+100c21a6 | 830eff | OR dword ptr [ESI],0xffffffff
+100c21a9 | 8bc6 | MOV EAX,ESI
+100c21ab | 5e | POP ESI
+100c21ac | c3 | RET

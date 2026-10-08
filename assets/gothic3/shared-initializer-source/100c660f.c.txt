@@ -1,0 +1,80 @@
+/* ENTRY 100c660f | UnDecorator::getPrimaryDataType | STATUS decompiled | 25 ms */
+
+/* Library Function - Single Match
+    private: static class DName __cdecl UnDecorator::getPrimaryDataType(class DName const &)
+   
+   Library: Visual Studio 2005 Release */
+
+DName * __cdecl UnDecorator::getPrimaryDataType(DName *param_1)
+
+{
+  char cVar1;
+  int iVar2;
+  undefined4 uVar3;
+  char *pcVar4;
+  DName *in_stack_00000008;
+  DName local_1c [8];
+  undefined4 local_14;
+  uint local_10;
+  undefined4 local_c;
+  uint local_8;
+  
+  cVar1 = *DAT_102f6f3c;
+  local_8 = local_8 & 0xfffff000;
+  local_c = 0;
+  pcVar4 = DAT_102f6f3c;
+  if (cVar1 != '\0') {
+    if (cVar1 != '$') {
+      if (cVar1 != 'A') {
+        if (cVar1 != 'B') {
+          FUN_100c6288(param_1);
+          return param_1;
+        }
+        DName::operator=((DName *)&local_c,"volatile");
+        iVar2 = DName::isEmpty(in_stack_00000008);
+        if (iVar2 == 0) {
+          DName::operator+=((DName *)&local_c,' ');
+        }
+      }
+      DName::DName((DName *)&local_14,in_stack_00000008);
+      DAT_102f6f3c = DAT_102f6f3c + 1;
+      local_10 = local_10 | 0x10;
+      getPtrRefType(param_1,(DName *)&local_c,(char)&local_14);
+      return param_1;
+    }
+    if (DAT_102f6f3c[1] == '$') {
+      pcVar4 = DAT_102f6f3c + 2;
+      cVar1 = *pcVar4;
+      if (cVar1 != '\0') {
+        if (cVar1 == 'A') {
+          DAT_102f6f3c = DAT_102f6f3c + 3;
+          getFunctionIndirectType(param_1);
+          return param_1;
+        }
+        if (cVar1 == 'B') {
+          DAT_102f6f3c = DAT_102f6f3c + 3;
+          getPtrRefDataType(param_1,(int)in_stack_00000008);
+          return param_1;
+        }
+        if (cVar1 == 'C') {
+          local_10 = local_10 & 0xfffff000;
+          DAT_102f6f3c = DAT_102f6f3c + 3;
+          local_14 = 0;
+          uVar3 = getDataIndirectType(local_1c,(char)in_stack_00000008,(DName *)0x0,(int)&local_14);
+          FUN_100c6288(param_1,uVar3);
+          return param_1;
+        }
+        goto LAB_100c66b4;
+      }
+    }
+    else if (DAT_102f6f3c[1] != '\0') {
+LAB_100c66b4:
+      DAT_102f6f3c = pcVar4;
+      DName::DName(param_1,1);
+      return param_1;
+    }
+  }
+  DAT_102f6f3c = pcVar4;
+  ::operator+((DNameStatus)param_1,(DName *)0x2);
+  return param_1;
+}

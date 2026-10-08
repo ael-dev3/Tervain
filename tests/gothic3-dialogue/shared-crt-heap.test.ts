@@ -1,4 +1,6 @@
-import type {NativeHeapObjectViews} from '../../src/gothic3/native-heap-views';
+import {nativeVirtualX86CpuSelection, retainNativeX86ThreadStackSelection} from '../../src/gothic3/native-x86-thread-stack-profile';
+import type {NativeX86CpuSelection} from '../../src/gothic3/native-x86-thread-stack-profile';
+import {NativeHeapObjectViews} from '../../src/gothic3/native-heap-views';
 import {NativeX86ThreadStack} from '../../src/gothic3/native-x86-thread-stack';
 import sharedCrtSource from '../../assets/gothic3/shared-crt-bootstrap/source.json';
 import {nativeVirtualCp1252ArgvNlsSelection} from '../../src/gothic3/native-win32-argv-nls';
@@ -280,9 +282,9 @@ it('owns the original 544-byte multibyte root and aliases its refcount field',()
 });
 
 
-function argumentFixture(ownLocale=1,selected=true,sse=false,stack:'aligned'|'opaque'|false=false,stackBytes=4096,commandBytes:readonly number[]=[0],environmentWide:readonly number[]|null=[0,0],environmentAnsi:readonly number[]|null=null,processor:{export?:boolean;erratum?:boolean}={export:true,erratum:false}){
+function argumentFixture(ownLocale=1,selected=true,sse=false,stack:'aligned'|'opaque'|false=false,stackBytes=4096,commandBytes:readonly number[]=[0],environmentWide:readonly number[]|null=[0,0],environmentAnsi:readonly number[]|null=null,processor:{export?:boolean;erratum?:boolean;cpu?:NativeX86CpuSelection}={export:true,erratum:false}){
  let owner:NativeSharedCrtOwner;
- const platform=new NativeRuntimePlatform({engineCrtServices:{tlsValues:new Map(),kernel32Available:true,pointerCodec:'owned-bijection',processorFeatureProcedure:processor.export,floatingPointPrecisionErratum:processor.erratum,fiberLocalStorage:true,processHeap:true,osVersion:{platform:2,major:6,minor:1,build:42},entropy:{currentThreadId:()=>{owner.snapshot().ptd!.writeUnsigned(0x70,ownLocale);if(sse)owner.imageStorage('memcpySseFlag').writeUnsigned(0,1);return {known:true,value:9};}},processInputs:{acpCodePage:1252,conversionCoverage:'ascii-explicit-positive-count',initialDirectionFlag:0,commandLineA:{kind:'buffer',bytes:commandBytes},environmentW:environmentWide?{kind:'buffer',bytes:environmentWide}:{kind:'null'},environmentA:environmentAnsi?{kind:'buffer',bytes:environmentAnsi}:{kind:'null'}},startupIo:{startupInfoA:{outcome:'normal',writes:[{offset:50,width:2,value:0,knownMask:65535}]}},standardIo:{standardHandles:[{id:-10,result:'valid',fileType:2},{id:-11,result:'valid',fileType:3},{id:-12,result:'null',fileType:0}],setHandleCount:{result:0},sectionInitialization:'owned-registration'},threadStack:stack?{threadCapability:{},reservationBytes:stackBytes,addressModel:'opaque-relative',initialRegisters:'unknown',initialFs0:'unknown',pageAlignment:stack==='aligned'?'virtual-page-4096':undefined}:undefined,argvNls:selected?{...nativeVirtualCp1252ArgvNlsSelection,lastError:{GetACP:88}}:undefined}});
+ const platform=new NativeRuntimePlatform({engineCrtServices:{tlsValues:new Map(),kernel32Available:true,pointerCodec:'owned-bijection',processorFeatureProcedure:processor.export,floatingPointPrecisionErratum:processor.erratum,fiberLocalStorage:true,processHeap:true,osVersion:{platform:2,major:6,minor:1,build:42},entropy:{currentThreadId:()=>{owner.snapshot().ptd!.writeUnsigned(0x70,ownLocale);if(sse)owner.imageStorage('memcpySseFlag').writeUnsigned(0,1);return {known:true,value:9};}},processInputs:{acpCodePage:1252,conversionCoverage:'ascii-explicit-positive-count',initialDirectionFlag:0,commandLineA:{kind:'buffer',bytes:commandBytes},environmentW:environmentWide?{kind:'buffer',bytes:environmentWide}:{kind:'null'},environmentA:environmentAnsi?{kind:'buffer',bytes:environmentAnsi}:{kind:'null'}},startupIo:{startupInfoA:{outcome:'normal',writes:[{offset:50,width:2,value:0,knownMask:65535}]}},standardIo:{standardHandles:[{id:-10,result:'valid',fileType:2},{id:-11,result:'valid',fileType:3},{id:-12,result:'null',fileType:0}],setHandleCount:{result:0},sectionInitialization:'owned-registration'},threadStack:stack?{threadCapability:{},reservationBytes:stackBytes,addressModel:'opaque-relative',initialRegisters:'unknown',initialFs0:'unknown',pageAlignment:stack==='aligned'?'virtual-page-4096':undefined,cpu:processor.cpu}:undefined,argvNls:selected?{...nativeVirtualCp1252ArgvNlsSelection,lastError:{GetACP:88}}:undefined}});
  owner=NativeSharedCrtOwner.forPlatform(platform);return {platform,owner};
 }
 for(const ownLocale of [1,3])it(`uses actual SharedBase GetACP and preserves original locale flag ownership ${ownLocale}`,()=>{
@@ -540,9 +542,9 @@ it('allocates, encodes and publishes the first exit table before the next error 
  const begin=state.initializerImages['102f8580']!.pointer<object>(0).get(),end=state.initializerImages['102f8584']!.pointer<object>(0).get();expect(begin).not.toBeNull();expect(end).toBe(begin);const module=platform.getWin32ModuleHandle('KERNEL32.DLL');if(!module.known||!module.value)throw new Error('Module missing');const codec=platform.getWin32Procedure(module.value,'DecodePointer');if(!codec.known||!codec.value)throw new Error('Codec missing');expect(codec.value.invoke(begin)).toEqual({known:true,value:allocation});
  for(const site of ['100a726a','100aef1e','100a7272'])expect(snapshot.calls.find(call=>call.site===site)!.returned).toBe(true);expect(snapshot.sharedInitializerFrame!.initializerResult).toBeNull();expect(owner.processAttach()).toEqual(result);
 });
-it('returns the actual all-NULL error table and reaches original atexit registration',()=>{
+it('returns the all-NULL error table and stops decoding the uninitialized exit table',()=>{
  const {owner}=argumentFixture(1,true,false,'aligned'),table=owner.snapshot().initializerImages['100e545c']!;for(let offset=0;offset<table.bytes.length;offset+=4)table.writeUnsigned(offset,0);
- const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Full attach returned');expect(result.reason).toContain('100aa676 -> 100a72d0');const snapshot=owner.snapshot().caseState!.stack!.snapshot();expect(snapshot.trace.filter(row=>row==='100aa48a.sharedInitializer.MOV')).toHaveLength(135);expect(snapshot.calls.some(call=>call.site==='100aa490')).toBe(false);expect(snapshot.calls.find(call=>call.site==='100aa664')!.returned).toBe(true);expect(snapshot.calls.filter(call=>!call.returned).map(call=>call.site)).toEqual(['100adb5a','100aa676']);expect(snapshot.registers.EAX).toMatchObject({word:{value:0,knownMask:0xffffffff}});expect(snapshot.registers.ESP).toMatchObject({word:{provenance:{kind:'stack',offset:4072}}});expect(owner.processAttach()).toEqual(result);
+ const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Full attach returned');expect(result.reason).toContain('Actual initializer encoded argument required at 100ae354');const snapshot=owner.snapshot().caseState!.stack!.snapshot();expect(snapshot.trace.filter(row=>row==='100aa48a.sharedInitializer.MOV')).toHaveLength(135);expect(snapshot.calls.some(call=>call.site==='100aa490')).toBe(false);expect(snapshot.calls.find(call=>call.site==='100aa664')!.returned).toBe(true);expect(snapshot.calls.find(call=>call.site==='100ae354')!.returned).toBe(false);expect(owner.processAttach()).toEqual(result);
 });
 it('retains an unowned live error callback without dispatching it or advancing the table',()=>{
  const {owner}=argumentFixture(1,true,false,'aligned');owner.snapshot().initializerImages['100e545c']!.writeUnsigned(0,0x1000dead);const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Full attach returned');expect(result.reason).toContain('100aa490 -> 1000dead');const snapshot=owner.snapshot().caseState!.stack!.snapshot();expect(snapshot.trace.filter(row=>row==='100aa48a.sharedInitializer.MOV')).toHaveLength(1);expect(snapshot.calls.filter(call=>!call.returned).map(call=>call.site)).toEqual(['100adb5a','100aa664','100aa490']);expect(snapshot.registers.ESI).toMatchObject({word:{provenance:{kind:'shared-local'}}});expect(snapshot.calls.some(call=>call.site==='100a726a')).toBe(false);expect(owner.processAttach()).toEqual(result);
@@ -570,4 +572,455 @@ it('returns the initialized multibyte callback and enters original processor-pro
 it('retains original multibyte initialization call if its live initialized flag is cleared',()=>{
  const {owner,platform}=argumentFixture(1,true,false,'aligned'),allocate=platform.win32HeapAlloc.bind(platform);platform.win32HeapAlloc=(heap,flags,size)=>{const result=allocate(heap,flags,size);if(flags===8&&size===128)owner.imageStorage('multibyteInitialized').writeUnsigned(0,0);return result;};
  const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Full attach returned');expect(result.reason).toContain('100b185f -> 100b16ba');const snapshot=owner.snapshot().caseState!.stack!.snapshot();expect(owner.imageStorage('multibyteInitialized').readUnsigned(0)).toBe(0);expect(snapshot.calls.filter(call=>!call.returned).map(call=>call.site)).toEqual(['100adb5a','100aa664','100aa490','100b185f']);expect(snapshot.calls.some(call=>call.site==='100b4b72')).toBe(false);expect(snapshot.trace).not.toContain('100b1865.sharedInitializer.MOV');expect(owner.processAttach()).toEqual(result);
+});
+
+it('executes the original ID toggle, CPUID leaves and normal SIMD probe frame',()=>{
+ const {owner,platform}=argumentFixture(1,true,false,'aligned',4096,[0],[0,0],null,{export:true,erratum:false,cpu:nativeVirtualX86CpuSelection});
+ const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Full attach returned');
+ expect(result.reason).toContain('100c67d5 -> 100c59ab');const snapshot=owner.snapshot().caseState!.stack!.snapshot();
+ expect(snapshot.trace).toContain('100ce0bd.sharedInitializer.CPUID');expect(snapshot.trace).toContain('100ce0d0.sharedInitializer.CPUID');expect(snapshot.trace).toContain('100ce055.sharedInitializer.MOVAPD');
+ expect(snapshot.calls.find(call=>call.site==='100ce04c')!.returned).toBe(true);expect(snapshot.calls.find(call=>call.site==='100ce08f')!.returned).toBe(true);expect(snapshot.calls.find(call=>call.site==='100b4b72')!.returned).toBe(true);
+ expect(owner.snapshot().initializerImages['102f853c']!.readUnsigned(0)).toBe(1);expect(platform.getWin32LastError()).toEqual({known:true,value:0});expect(snapshot.xmm.knownMask.slice(16).every(mask=>mask===0)).toBe(true);expect(snapshot.processorSimdFrame!.returned).toBe(true);expect(owner.processAttach()).toEqual(result);
+});
+for(const cpu of [
+ {...nativeVirtualX86CpuSelection,idBitWritable:false},
+ {...nativeVirtualX86CpuSelection,initialEflags:0x200202,idBitWritable:false},
+ {...nativeVirtualX86CpuSelection,cpuidLeaf1:[0x600,0,0,0] as const},
+])it('follows original no-CPUID or no-SSE2 return without a SIMD call',()=>{
+ const {owner}=argumentFixture(1,true,false,'aligned',4096,[0],[0,0],null,{export:true,erratum:false,cpu});const result=owner.processAttach();expect(result.known).toBe(false);
+ const snapshot=owner.snapshot().caseState!.stack!.snapshot();expect(snapshot.trace).not.toContain('100ce055.sharedInitializer.MOVAPD');expect(snapshot.calls.find(call=>call.site==='100b4b72')!.returned).toBe(true);expect(owner.snapshot().initializerImages['102f853c']!.readUnsigned(0)).toBe(0);
+ expect(snapshot.trace.includes('100ce0bd.sharedInitializer.CPUID')).toBe(cpu.idBitWritable);
+});
+it('retains missing CPUID evidence and SIMD exception paths before inventing results',()=>{
+ for(const cpu of [{...nativeVirtualX86CpuSelection,cpuidLeaf1:undefined},{...nativeVirtualX86CpuSelection,sse2Execution:'illegal-instruction' as const}]){
+  const {owner}=argumentFixture(1,true,false,'aligned',4096,[0],[0,0],null,{export:true,erratum:false,cpu});const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain(cpu.cpuidLeaf1?'exception dispatch':'CPUID leaf 1');
+  expect(owner.snapshot().initializerImages['102f853c']!.readUnsigned(0)).toBe(0);expect(owner.processAttach()).toEqual(result);
+ }
+});
+it('copies and freezes virtual CPU tuples and rejects malformed flag profiles',()=>{
+ const leaf=[1,2,3,4] as [number,number,number,number],input={...nativeVirtualX86CpuSelection,cpuidLeaf0:leaf};
+ const selected=retainNativeX86ThreadStackSelection({threadCapability:{},reservationBytes:4096,addressModel:'opaque-relative',initialRegisters:'unknown',initialFs0:'unknown',cpu:input});leaf[0]=99;expect(selected.cpu!.cpuidLeaf0![0]).toBe(1);expect(Object.isFrozen(selected.cpu!.cpuidLeaf0)).toBe(true);
+ expect(()=>retainNativeX86ThreadStackSelection({...selected,cpu:{...input,cpuidLeaf0:Array(4) as [number,number,number,number]}})).toThrow('CPUID DWORDs');
+ for(const initialEflags of [0,0x302,0x3202,0x20202,0xffffffff])expect(()=>retainNativeX86ThreadStackSelection({...selected,cpu:{...input,initialEflags}})).toThrow('EFLAGS');
+});
+
+it('rejects changed live SIMD scope bytes before executing the frame helper',()=>{
+ const {owner}=argumentFixture(1,true,false,'aligned',4096,[0],[0,0],null,{export:true,erratum:false,cpu:nativeVirtualX86CpuSelection});owner.snapshot().initializerImages['100f8ec0']!.writeUnsigned(20,0);
+ const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Full attach returned');expect(result.reason).toContain('live processor SIMD scope');const snapshot=owner.snapshot().caseState!.stack!.snapshot();expect(snapshot.trace).not.toContain('100aeb68.sharedInitializer.PUSH');expect(owner.snapshot().initializerImages['102f853c']!.readUnsigned(0)).toBe(0);
+});
+
+it('restores an initially set ID bit before CPUID while retaining original unknown AF',()=>{
+ const {owner}=argumentFixture(1,true,false,'aligned',4096,[0],[0,0],null,{export:true,erratum:false,cpu:{...nativeVirtualX86CpuSelection,initialEflags:0x200202,cpuidLeaf0:undefined}});
+ const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Full attach returned');expect(result.reason).toContain('CPUID leaf 0');const snapshot=owner.snapshot().caseState!.stack!.snapshot();expect(snapshot.eflags).toMatchObject({word:{value:0x200246,knownMask:0xffffffef}});expect(snapshot.trace).not.toContain('100ce0d0.sharedInitializer.CPUID');
+});
+
+it('reenters the processor probe with a fresh normal EH frame after its prior return',()=>{
+ const {owner}=argumentFixture(1,true,false,'aligned',4096,[0],[0,0],null,{export:true,erratum:false,cpu:nativeVirtualX86CpuSelection});owner.snapshot().initializerImages['100e545c']!.writeUnsigned(68*4,0x100b4b6b);
+ const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100c67d5 -> 100c59ab');const snapshot=owner.snapshot().caseState!.stack!.snapshot();expect(snapshot.trace.filter(row=>row==='100ce055.sharedInitializer.MOVAPD')).toHaveLength(3);expect(snapshot.calls.filter(call=>call.site==='100ce08f').map(call=>call.returned)).toEqual([true,true,true]);expect(snapshot.processorSimdFrame!.returned).toBe(true);
+});
+
+function stdioFixture(count=0){const f=argumentFixture(1,true,false,'aligned',4096,[0],[0,0],null,{export:true,erratum:false,cpu:nativeVirtualX86CpuSelection});f.owner.snapshot().initializerImages['102f8500']!.writeUnsigned(0,count);return f;}
+function descriptorPending(owner:NativeSharedCrtOwner){return owner.snapshot().caseState?.stack?.snapshot().calls.some(call=>call.site==='100aab6e'&&!call.returned)??false;}
+for(const [requested,count] of [[0,512],[1,20],[19,20],[20,20],[33,33],[0x80000000,20],[0xffffffff,20]] as const)it(`initializes original FILE vector for signed requested count ${requested}`,()=>{
+ const {owner}=stdioFixture(requested),result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100c67d5 -> 100c59ab');const state=owner.snapshot(),images=state.initializerImages,files=images['10141790']!,vector=images['102f71c0']!.pointer<{fields:NativeHeapObjectViews;offset:number}>(0).get()!;
+ expect(images['102f8500']!.readUnsigned(0)).toBe(count);expect(vector.offset).toBe(0);expect(vector.fields.bytes.length).toBe(count*4);expect(state.initializerAllocations).toContain(vector.fields);
+ for(let index=0;index<20;index++){const entry=vector.fields.pointer<{fields:NativeHeapObjectViews;offset:number}>(index*4).get()!;expect(entry.fields).toBe(files);expect(entry.offset).toBe(index*32);}expect([...vector.fields.bytes.slice(80)]).toEqual(Array(count*4-80).fill(0));expect([...vector.fields.knownMask.slice(80)]).toEqual(Array(count*4-80).fill(255));
+ expect(files.readUnsigned(16)).toBe(0);expect(files.readUnsigned(48)).toBe(1);expect(files.readUnsigned(80)).toBe(0xfffffffe);expect(files.readUnsigned(12)).toBe(257);expect(owner.imageStorage('memcpySseFlag').readUnsigned(0)).toBe(1);const snapshot=state.caseState!.stack!.snapshot();expect(snapshot.trace.filter(row=>row==='100bef63.sharedInitializer.MOV')).toHaveLength(20);expect(snapshot.trace.filter(row=>row==='100bef93.sharedInitializer.MOV')).toHaveLength(3);expect(snapshot.calls.filter(call=>call.site==='100aa490').map(call=>call.returned)).toEqual([true,true,true,true,true]);expect(snapshot.trace.filter(row=>row==='100ce055.sharedInitializer.MOVAPD')).toHaveLength(2);expect(owner.processAttach()).toEqual(result);
+});
+it('follows original stdio fallback allocation of twenty entries after the large allocation fails',()=>{
+ const {owner,platform}=stdioFixture(),allocate=platform.win32HeapAlloc.bind(platform);platform.win32HeapAlloc=(heap,flags,size)=>flags===8&&size===2048?{known:true,value:null}:allocate(heap,flags,size);const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100c67d5 -> 100c59ab');expect(owner.snapshot().initializerImages['102f8500']!.readUnsigned(0)).toBe(20);const vector=owner.snapshot().initializerImages['102f71c0']!.pointer<{fields:NativeHeapObjectViews;offset:number}>(0).get()!;expect(vector.fields.bytes.length).toBe(80);const snapshot=owner.snapshot().caseState!.stack!.snapshot();expect(snapshot.calls.find(call=>call.site==='100bef27')!.returned).toBe(true);expect(snapshot.calls.find(call=>call.site==='100bef40')!.returned).toBe(true);
+});
+it('returns cinit failure 26 through the original stdio double-allocation failure branch',()=>{
+ const {owner,platform}=stdioFixture(),allocate=platform.win32HeapAlloc.bind(platform);platform.win32HeapAlloc=(heap,flags,size)=>flags===8&&(size===2048||size===80)?{known:true,value:null}:allocate(heap,flags,size);const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('initializer result 26');const state=owner.snapshot(),snapshot=state.caseState!.stack!.snapshot();expect(snapshot.sharedInitializerFrame!.initializerResult).toBe(26);expect(state.initializerImages['102f71c0']!.readUnsigned(0)).toBe(0);expect(state.initializerImages['102f8500']!.readUnsigned(0)).toBe(20);expect(owner.imageStorage('memcpySseFlag').readUnsigned(0)).toBe(0);expect(snapshot.trace).not.toContain('100bef63.sharedInitializer.MOV');expect(snapshot.trace).not.toContain('100ce0f5.sharedInitializer.CALL');expect(owner.processAttach()).toEqual(result);
+});
+it('retains the original stdio calloc lower call when its heap result is unknown',()=>{
+ const {owner,platform}=stdioFixture(),allocate=platform.win32HeapAlloc.bind(platform);platform.win32HeapAlloc=(heap,flags,size)=>flags===8&&size===2048?{known:false,reason:'stdio allocation unavailable'}:allocate(heap,flags,size);const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('stdio allocation unavailable');const snapshot=owner.snapshot().caseState!.stack!.snapshot();expect(snapshot.calls.filter(call=>!call.returned).map(call=>call.site)).toEqual(['100adb5a','100aa664','100aa490','100bef27','100aef1e']);expect(owner.snapshot().initializerImages['102f71c0']!.readUnsigned(0)).toBe(0);
+});
+it('rejects a foreign descriptor block before using its HANDLE records',()=>{
+ const {owner,platform}=stdioFixture(),allocate=platform.win32HeapAlloc.bind(platform);platform.win32HeapAlloc=(heap,flags,size)=>{const result=allocate(heap,flags,size);if(flags===8&&size===2048)owner.imageStorage('ioBlocks').pointer(0).set(owner.snapshot().ptd!);return result;};const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('initialized SharedBase descriptor block');const snapshot=owner.snapshot().caseState!.stack!.snapshot();expect(snapshot.trace).not.toContain('100bef93.sharedInitializer.MOV');expect(owner.imageStorage('memcpySseFlag').readUnsigned(0)).toBe(0);
+});
+
+it('uses the original invalid, detached and NULL descriptor branches',()=>{
+ for(const handle of [0xffffffff,0xfffffffe,0]){
+  const {owner,platform}=stdioFixture(),allocate=platform.win32HeapAlloc.bind(platform);platform.win32HeapAlloc=(heap,flags,size)=>{const result=allocate(heap,flags,size);if(flags===8&&size===2048)owner.snapshot().ioBlock!.writeUnsigned(0,handle);return result;};const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100c67d5 -> 100c59ab');expect(owner.snapshot().initializerImages['10141790']!.readUnsigned(16)).toBe(0xfffffffe);
+ }
+});
+it('rejects copied or invented HANDLE identities at the original descriptor read',()=>{
+ for(const handle of [7,{identity:{}}]){
+  const {owner,platform}=stdioFixture(),allocate=platform.win32HeapAlloc.bind(platform);platform.win32HeapAlloc=(heap,flags,size)=>{const result=allocate(heap,flags,size);if(flags===8&&size===2048){const fields=owner.snapshot().ioBlock!;if(typeof handle==='number')fields.writeUnsigned(0,handle);else fields.pointer(0).set(handle);}return result;};const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('HANDLE');expect(result.reason).toContain('100bef93');expect(owner.imageStorage('memcpySseFlag').readUnsigned(0)).toBe(0);expect(owner.snapshot().initializerImages['10141790']!.readUnsigned(16)).toBe(0);expect(owner.processAttach()).toEqual(result);
+ }
+});
+it('retains positive stdio calloc retry before original Sleep and before fallback allocation',()=>{
+ const {owner,platform}=stdioFixture(),allocate=platform.win32HeapAlloc.bind(platform);platform.win32HeapAlloc=(heap,flags,size)=>{if(flags===8&&size===2048){owner.imageStorage('allocationRetryDelay').writeUnsigned(0,5);return {known:true,value:null};}return allocate(heap,flags,size);};const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100aef35');const snapshot=owner.snapshot().caseState!.stack!.snapshot();expect(snapshot.calls.filter(call=>!call.returned).map(call=>call.site)).toEqual(['100adb5a','100aa664','100aa490','100bef27']);expect(snapshot.currentPc).toMatchObject({provenance:{kind:'source',address:'100aef35'}});expect(snapshot.calls.some(call=>call.site==='100bef40')).toBe(false);expect(owner.snapshot().initializerImages['102f71c0']!.readUnsigned(0)).toBe(0);
+});
+it('retains the original calloc overflow branch for a positive oversized FILE count',()=>{
+ const {owner}=stdioFixture(0x7fffffff);const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('calloc overflow');expect(result.reason).toContain('100aef1e');expect(owner.snapshot().initializerImages['102f71c0']!.readUnsigned(0)).toBe(0);expect(owner.processAttach()).toEqual(result);
+});
+
+
+it('registers the original RTC callback and restores both normal exit-registration frames',()=>{
+ const {owner,platform}=stdioFixture();const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100c67d5 -> 100c59ab');
+ const state=owner.snapshot(),stack=state.caseState!.stack!.snapshot();expect(state.exitLockHeld).toBe(false);
+ for(const site of ['100aa676','100a72d4','100a72ac','100a71e6','100b1158','100a72c4','100b1162'])expect(stack.calls.find(call=>call.site===site)!.returned).toBe(true);
+ expect(stack.initializerSehFrames).toEqual([{site:'100a729b',entered:true,returned:true},{site:'100b10dd',entered:true,returned:true},{site:'100b0909',entered:true,returned:false},{site:'100c614c',entered:true,returned:false},{site:'100bb7d6',entered:true,returned:true}]);
+ const decoder=NativeRuntimePlatform.canonicalPointerCodecForPlatform(platform,state.ptd!.pointer(0x1fc).get()!,'DecodePointer');expect(decoder.known).toBe(true);if(!decoder.known)throw new Error(decoder.reason);
+ const begin=decoder.value.invoke(state.initializerImages['102f8584']!.pointer(0).get()!);const end=decoder.value.invoke(state.initializerImages['102f8580']!.pointer(0).get()!);expect(begin.known).toBe(true);expect(end.known).toBe(true);if(!begin.known||!end.known)throw new Error('Exit pointers not decoded');
+ const cursor=end.value as {fields:NativeHeapObjectViews;offset:number};expect(cursor.fields).toBe(begin.value);expect(cursor.offset).toBe(52);
+ const callback=decoder.value.invoke(cursor.fields.pointer(0).get()!);expect(callback.known).toBe(true);expect(cursor.fields.bytes.length).toBe(128);
+});
+
+for(const address of ['100f8630','100f8ba0'])it('rejects changed original exit-registration scope '+address,()=>{
+ const {owner}=stdioFixture();owner.snapshot().initializerImages[address]!.writeUnsigned(0,0);const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('Original live initializer SEH scope required');expect(owner.snapshot().exitLockHeld).toBe(address==='100f8ba0');
+});
+it('retains the allocation-size frame and lock when HeapSize is unavailable',()=>{
+ const {owner,platform}=stdioFixture();platform.win32HeapSize=()=>({known:false,reason:'HeapSize endpoint unavailable'});const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('HeapSize endpoint unavailable');const state=owner.snapshot();expect(state.exitLockHeld).toBe(true);expect(state.caseState!.stack!.snapshot().calls.find(call=>call.site==='100b1158')!.returned).toBe(false);
+});
+it('rejects a replaced HeapSize import identity before invoking it',()=>{
+ const {owner}=stdioFixture();owner.snapshot().initializerImages['102f9678']!.pointer(0).set(Object.freeze({name:'HeapSize'}));const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('HeapSize');expect(owner.snapshot().exitLockHeld).toBe(true);
+});
+
+
+it('registers RTC and both leading void-table callbacks in original slot order',()=>{
+ const {owner,platform}=stdioFixture();const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100c67d5 -> 100c59ab');const state=owner.snapshot();
+ const decoder=NativeRuntimePlatform.canonicalPointerCodecForPlatform(platform,state.ptd!.pointer(0x1fc).get()!,'DecodePointer');if(!decoder.known)throw new Error(decoder.reason);const end=decoder.value.invoke(state.initializerImages['102f8580']!.pointer(0).get()!);if(!end.known)throw new Error(end.reason);const cursor=end.value as {fields:NativeHeapObjectViews;offset:number};expect(cursor.offset).toBe(52);
+ const addresses=[];for(let offset=0;offset<52;offset+=4){const callback=decoder.value.invoke(cursor.fields.pointer(offset).get()!);if(!callback.known)throw new Error(callback.reason);addresses.push((callback.value as {originalCodeAddress:number}).originalCodeAddress);}expect(addresses).toEqual([0x100bb8e7,0x100e30f0,0x100e26d0,0x100e2810,0x100e2930,0x100e2940,0x100e2950,0x100e2960,0x100e2a00,0x100e2a10,0x100e2710,0x100e2b40,0x100e2f20]);expect(state.exitLockHeld).toBe(false);const stack=state.caseState!.stack!.snapshot();expect(stack.calls.filter(call=>call.site==='100a729b').map(call=>call.returned)).toEqual(Array(13).fill(true));expect(stack.calls.filter(call=>call.site==='100b10dd').map(call=>call.returned)).toEqual(Array(13).fill(true));
+});
+
+it('skips an all-NULL void table and returns original cinit without claiming full attach',()=>{
+ const {owner}=stdioFixture();const table=owner.snapshot().initializerImages['100e5000']!;for(let offset=0;offset<table.bytes.length;offset+=4)table.writeUnsigned(offset,0);const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('Unowned SharedBase attach continuation after initializer result 0');const stack=owner.snapshot().caseState!.stack!.snapshot();expect(stack.sharedInitializerFrame!.initializerResult).toBe(0);expect(stack.trace.filter(row=>row==='100aa68c.sharedInitializer.MOV')).toHaveLength(214);expect(stack.calls.some(call=>call.site==='100aa692')).toBe(false);expect(owner.snapshot().attachReturned).toBeNull();
+});
+it('retains the original unknown void callback boundary after RTC registration',()=>{
+ const {owner}=stdioFixture();owner.snapshot().initializerImages['100e5000']!.writeUnsigned(0,0x1000dead);const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100aa692 -> 1000dead');expect(owner.snapshot().exitLockHeld).toBe(false);
+});
+
+
+it('initializes the canonical original static critical section and retains opaque Win32 stores',()=>{
+ const {owner,platform}=stdioFixture();const fields=owner.snapshot().initializerImages['10197da0']!;expect(fields.bytes.length).toBe(24);expect(fields.knownMask.every(mask=>mask===255)).toBe(true);const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100c67d5 -> 100c59ab');expect(fields.knownMask.every(mask=>mask===0)).toBe(true);expect(platform.enterPhysicalCriticalSection(fields,owner.identity)).toEqual({known:true,value:undefined});expect(platform.leavePhysicalCriticalSection(fields,owner.identity)).toEqual({known:true,value:undefined});expect(platform.enterPhysicalCriticalSection(fields,{}).known).toBe(false);const stack=owner.snapshot().caseState!.stack!.snapshot();expect(stack.calls.find(call=>call.site==='100e1455')!.returned).toBe(true);expect(stack.calls.find(call=>call.site==='100e1460')!.returned).toBe(true);
+});
+it('preserves the original static section CALL when its endpoint is unavailable',()=>{
+ const {owner,platform}=stdioFixture();const fields=owner.snapshot().initializerImages['10197da0']!,initialize=platform.initializePhysicalCriticalSectionWithoutSpin.bind(platform);platform.initializePhysicalCriticalSectionWithoutSpin=(section,sectionOwner)=>section===fields?{known:false,reason:'Static section initialization unavailable'}:initialize(section,sectionOwner);const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('Static section initialization unavailable');const stack=owner.snapshot().caseState!.stack!.snapshot();expect(stack.calls.find(call=>call.site==='100e1455')!.returned).toBe(false);expect(stack.calls.some(call=>call.site==='100e1460')).toBe(false);expect(fields.knownMask.every(mask=>mask===255)).toBe(true);
+});
+it('rejects a foreign InitializeCriticalSection import identity',()=>{
+ const {owner}=stdioFixture();owner.snapshot().initializerImages['102f95f4']!.pointer(0).set({name:'InitializeCriticalSection'});const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('Actual initializer InitializeCriticalSection import slot required');expect(owner.snapshot().caseState!.stack!.snapshot().calls.some(call=>call.site==='100e1460')).toBe(false);
+});
+
+
+it('copies four live static-value DWORDs through the original MOV sequence',()=>{
+ const {owner}=stdioFixture();const images=owner.snapshot().initializerImages,source=images['100ebb28']!,destination=images['101ab150']!;const values=[0x12345678,0x80000000,0xffffffff,0x7fffffff];values.forEach((value,index)=>source.writeUnsigned(index*4,value));const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100c67d5 -> 100c59ab');expect(values.map((_,index)=>destination.readUnsigned(index*4))).toEqual(values);const stack=owner.snapshot().caseState!.stack!.snapshot();for(const address of ['100e1470','100e1475','100e147b','100e1481','100e1486','100e148b','100e1491','100e1497'])expect(stack.trace).toContain(address+'.sharedInitializer.MOV');
+});
+it('preserves unknown bits when copying the original static value',()=>{
+ const {owner}=stdioFixture();const images=owner.snapshot().initializerImages,source=images['100ebb28']!,destination=images['101ab150']!;for(let index=0;index<16;index++){source.bytes[index]=index*13;source.knownMask[index]=index%2?0xf0:0x0f;}const result=owner.processAttach();expect(result.known).toBe(false);expect(Array.from(destination.bytes)).toEqual(Array.from(source.bytes));expect(Array.from(destination.knownMask)).toEqual(Array.from(source.knownMask));
+});
+
+
+it('executes Root strlen, allocation and payload copy before publishing the static object',()=>{
+ const {owner}=stdioFixture();const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100c67d5 -> 100c59ab');const stack=owner.snapshot().caseState!.stack!.snapshot();expect(stack.trace.filter(row=>row==='10013610.sharedInitializer.MOV')).toHaveLength(11);expect(stack.calls.find(call=>call.site==='1003d304')!.returned).toBe(true);expect(owner.snapshot().poolSlots[0]!.fields.readUnsigned(0)).toBe(4);expect(stack.memoryMallocFrame).toEqual({entered:true,returned:true});expect(stack.calls.find(call=>call.site==='100e151a')!.returned).toBe(true);expect(stack.calls.find(call=>call.site==='10013623')!.returned).toBe(true);expect(stack.calls.find(call=>call.site==='10013257')!.returned).toBe(true);expect(owner.snapshot().exitLockHeld).toBe(false);
+});
+it('uses the live Root source terminator when determining CString allocation length',()=>{
+ const {owner}=stdioFixture();owner.snapshot().initializerImages['100e9b5c']!.writeUnsigned(1,0,1);const result=owner.processAttach();expect(result.known).toBe(false);const stack=owner.snapshot().caseState!.stack!.snapshot();expect(stack.trace.filter(row=>row==='10013610.sharedInitializer.MOV')).toHaveLength(2);expect(stack.registers.ESI).toMatchObject({word:{value:10,knownMask:0xffffffff}});const pending=stack.calls.find(call=>call.site==='1001325e')!;expect(new DataView(Uint8Array.from(stack.stack.bytes!).buffer).getUint32(pending.position+4,true)).toBe(10);
+});
+it('returns the original empty-text constructor with stdcall cleanup before the next missing image store',()=>{
+ const {owner}=stdioFixture();owner.snapshot().initializerImages['100e9b5c']!.writeUnsigned(0,0,1);const result=owner.processAttach();expect(result.known).toBe(false);const stack=owner.snapshot().caseState!.stack!.snapshot();expect(stack.trace).toContain('10013648.sharedInitializer.RET');expect(stack.calls.find(call=>call.site==='100e151a')!.returned).toBe(true);expect(stack.calls.filter(call=>call.site==='10013623')).toHaveLength(1);expect(stack.calls.filter(call=>call.site==='10013257')).toHaveLength(1);expect(stack.trace).toContain('100e1526.sharedInitializer.MOV');
+});
+
+
+it('initializes original MemoryAdmin flags and returns the owned singleton pointer to Malloc',()=>{
+ const {owner,platform}=stdioFixture();const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100c67d5 -> 100c59ab');const state=owner.snapshot(),fields=state.initializerImages['10142798']!;expect(Array.from(fields.bytes)).toEqual([0,0,0,0,1,1,0,0,0,1,0,0,1,0,0,0]);const stack=state.caseState!.stack!.snapshot();expect(stack.memoryMallocFrame).toEqual({entered:true,returned:true});expect(stack.calls.find(call=>call.site==='10020c2c')!.returned).toBe(true);expect(state.exitLockHeld).toBe(false);
+ const decoder=NativeRuntimePlatform.canonicalPointerCodecForPlatform(platform,state.ptd!.pointer(0x1fc).get()!,'DecodePointer');if(!decoder.known)throw new Error(decoder.reason);const end=decoder.value.invoke(state.initializerImages['102f8580']!.pointer(0).get()!);if(!end.known)throw new Error(end.reason);const cursor=end.value as {fields:NativeHeapObjectViews;offset:number};expect(cursor.offset).toBe(52);const callback=decoder.value.invoke(cursor.fields.pointer(40).get()!);if(!callback.known)throw new Error(callback.reason);expect((callback.value as {originalCodeAddress:number}).originalCodeAddress).toBe(0x100e2710);
+});
+it('uses an already-set MemoryAdmin guard without registering shutdown again',()=>{
+ const {owner,platform}=stdioFixture();const fields=owner.snapshot().initializerImages['10142798']!;fields.writeUnsigned(12,0x80000001);fields.writeUnsigned(4,0x11223344);const result=owner.processAttach();expect(result.known).toBe(false);expect(fields.readUnsigned(12)).toBe(0x80000001);expect(fields.readUnsigned(4)).toBe(0x11223344);expect(owner.snapshot().caseState!.stack!.snapshot().calls.some(call=>call.site==='10020c2c')).toBe(false);const state=owner.snapshot(),decoder=NativeRuntimePlatform.canonicalPointerCodecForPlatform(platform,state.ptd!.pointer(0x1fc).get()!,'DecodePointer');if(!decoder.known)throw new Error(decoder.reason);const end=decoder.value.invoke(state.initializerImages['102f8580']!.pointer(0).get()!);if(!end.known)throw new Error(end.reason);expect((end.value as {offset:number}).offset).toBe(48);
+});
+it('preserves adjacent MemoryAdmin bytes on the original AL stores and initialized-flag branch',()=>{
+ const {owner}=stdioFixture();const fields=owner.snapshot().initializerImages['10142798']!;fields.writeUnsigned(4,0x55443322);fields.writeUnsigned(8,0x99887766);const result=owner.processAttach();expect(result.known).toBe(false);expect(Array.from(fields.bytes.slice(4,12))).toEqual([0x22,0x33,0x44,0x55,0,1,0x88,0x99]);expect(fields.readUnsigned(12)).toBe(1);
+});
+
+it('preserves unknown upper guard bits when setting the original MemoryAdmin registration bit',()=>{
+ const {owner}=stdioFixture();const fields=owner.snapshot().initializerImages['10142798']!;for(let offset=13;offset<16;offset++)fields.knownMask[offset]=0;const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100c67d5 -> 100c59ab');expect(fields.maskedWord(12)).toMatchObject({value:1,knownMask:255});
+});
+
+
+it('initializes the original Malloc section at spin1000 and releases it after source allocation return',()=>{
+ const {owner,platform}=stdioFixture();const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100c67d5 -> 100c59ab');const state=owner.snapshot(),fields=state.initializerImages['10189a18']!,section=platform.snapshot().physicalSections.find(section=>section.fields===fields)!;expect(section.owner).toBe(owner.identity);expect(section.spinCount).toBe(1000);expect(section.depth).toBe(0);expect(state.memoryHeapSectionHeld).toBe(false);expect(state.initializerImages['102fb000']!.readUnsigned(0,1)).toBe(1);expect(fields.knownMask.every(mask=>mask===0)).toBe(true);const stack=state.caseState!.stack!.snapshot();expect(stack.memoryMallocFrame).toEqual({entered:true,returned:true});expect(stack.calls.find(call=>call.site==='1003d449')!.returned).toBe(true);expect(stack.calls.find(call=>call.site==='1003d463')!.returned).toBe(true);expect(stack.calls.find(call=>call.site==='1003d48a')!.returned).toBe(true);
+});
+it('rejects changed live Malloc scope bytes before entering the original frame',()=>{
+ const {owner}=stdioFixture();owner.snapshot().initializerImages['100f8318']!.writeUnsigned(0,0);const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('Original live MemoryAdmin Malloc scope required');expect(owner.snapshot().caseState!.stack!.snapshot().memoryMallocFrame).toBeNull();expect(owner.snapshot().memoryHeapSectionHeld).toBe(false);
+});
+it('retains the Malloc frame when InitializeCriticalSectionAndSpinCount is unavailable',()=>{
+ const {owner,platform}=stdioFixture();platform.initializePhysicalMemoryHeapCriticalSection=()=>({known:false,reason:'Heap spin initializer unavailable'});const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('Heap spin initializer unavailable');const state=owner.snapshot(),stack=state.caseState!.stack!.snapshot();expect(stack.memoryMallocFrame).toEqual({entered:true,returned:false});expect(stack.calls.find(call=>call.site==='1003d449')!.returned).toBe(false);expect(stack.calls.some(call=>call.site==='1003d463')).toBe(false);expect(state.memoryHeapSectionHeld).toBe(false);expect(state.initializerImages['102fb000']!.readUnsigned(0,1)).toBe(0);
+});
+it('follows the original failed-spin-initialization branch without inventing an entered section',()=>{
+ const {owner,platform}=stdioFixture();platform.initializePhysicalMemoryHeapCriticalSection=()=>({known:true,value:false});const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('Actual original MemoryAdmin heap section transition required');const state=owner.snapshot(),stack=state.caseState!.stack!.snapshot();expect(stack.calls.find(call=>call.site==='1003d449')!.returned).toBe(true);expect(stack.calls.some(call=>call.site==='1003d463')).toBe(false);expect(state.memoryHeapSectionHeld).toBe(false);expect(state.initializerImages['102fb000']!.readUnsigned(0,1)).toBe(0);
+});
+it('rejects a set heap-section flag without canonical initialized storage',()=>{
+ const {owner}=stdioFixture();owner.snapshot().initializerImages['102fb000']!.writeUnsigned(0,1,1);const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('canonical initialized physical critical-section owner');const stack=owner.snapshot().caseState!.stack!.snapshot();expect(stack.calls.some(call=>call.site==='1003d449')).toBe(false);expect(stack.calls.find(call=>call.site==='1003d463')!.returned).toBe(false);expect(owner.snapshot().memoryHeapSectionHeld).toBe(false);
+});
+it('rejects a foreign heap-section Initialize import at the original Malloc read',()=>{
+ const {owner}=stdioFixture();owner.snapshot().initializerImages['102f966c']!.pointer(0).set({name:'InitializeCriticalSectionAndSpinCount'});const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('Actual MemoryAdmin critical-section import slot required');expect(owner.snapshot().memoryHeapSectionHeld).toBe(false);
+});
+
+it('dispatches thirteen bytes through the original 16-byte pool and owns its VirtualAlloc region',()=>{
+ const {owner,platform}=stdioFixture(),allocate=platform.virtualAlloc.bind(platform),requests:number[][]=[];let virtualArgs:number[]=[];
+ platform.virtualAlloc=(size,type,protect)=>{requests.push([size,type,protect]);const stack=owner.snapshot().caseState!.stack!.snapshot(),call=stack.calls.find(call=>call.site==='10047f74')!,view=new DataView(Uint8Array.from(stack.stack.bytes!).buffer);virtualArgs=[4,8,12,16].map(offset=>view.getUint32(call.position+offset,true));return allocate(size,type,protect);};
+ const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100c67d5 -> 100c59ab');
+ expect(requests).toEqual([[0x102000,0x103000,4]]);
+ const state=owner.snapshot(),stack=state.caseState!.stack!.snapshot(),pool=state.initializerImages['102ffd58']!;
+ expect([pool.readUnsigned(0),pool.readUnsigned(8)]).toEqual([2,2]);
+ const virtual=platform.snapshot().allocations.filter(entry=>entry.kind==='virtual');expect(virtual).toHaveLength(1);
+ const region=virtual[0]!.backing;expect(region.bytes.length).toBe(0x102000);expect(region.bytes.subarray(48,0x100000).every(byte=>byte===0)).toBe(true);expect(region.bytes.subarray(0x100004,0x101fff).every(byte=>byte===255)).toBe(true);expect(region.bytes[0x101fff]).toBe(127);expect(region.knownMask.every(mask=>mask===255)).toBe(true);
+ expect(NativeRuntimePlatform.canonicalVirtualRegionForPlatform(platform,region,0x102000)).toEqual({known:true,value:undefined});
+ const published=state.initializerImages['102f4618']!.pointer<{fields:NativeHeapObjectViews;offset:number}>(0).get()!;expect(published.fields).toBe(state.poolSlots[0]!.fields);expect(published.offset).toBe(8);
+ const fields=state.poolRegions[0]!;expect(state.poolRegions).toHaveLength(1);expect(fields.backing).toBe(region);
+ const call=stack.calls.find(call=>call.site==='10047f74')!;expect(call.returned).toBe(true);
+ expect(virtualArgs).toEqual([0,0x102000,0x103000,4]);expect(stack.calls.find(child=>child.site==='10047f7c')!.position-call.position).toBe(16);
+ expect(stack.calls.find(call=>call.site==='10047f7c')!.returned).toBe(true);expect(stack.calls.find(call=>call.site==='1003d474')!.returned).toBe(true);expect(stack.memoryMallocFrame).toEqual({entered:true,returned:true});expect(state.memoryHeapSectionHeld).toBe(false);
+ const geometry=platform.resolveNativePointer({fields,offset:0});expect(geometry.known).toBe(true);if(geometry.known){expect(geometry.value.canonicalBacking).toBe(region);expect(geometry.value.canonicalCapacity).toBe(0x102000);expect(geometry.value.modulo4).toBe(0);}
+});
+it('retains the pending original pool CALL when VirtualAlloc is unavailable',()=>{
+ const {owner,platform}=stdioFixture();platform.virtualAlloc=()=>({known:false,reason:'Pool reservation unavailable'});const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('Pool reservation unavailable');
+ const state=owner.snapshot(),stack=state.caseState!.stack!.snapshot();expect(stack.calls.find(call=>call.site==='10047f74')!.returned).toBe(false);expect(stack.calls.some(call=>call.site==='10047f7c')).toBe(false);expect(state.memoryHeapSectionHeld).toBe(true);expect(state.initializerImages['102ffd58']!.readUnsigned(0)).toBe(1);
+});
+it('follows original NULL VirtualAlloc fallback through the next pool dispatch slot',()=>{
+ const {owner,platform}=stdioFixture();platform.virtualAlloc=()=>({known:true,value:null});const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('10002aa9');
+ const stack=owner.snapshot().caseState!.stack!.snapshot();expect(stack.trace).toContain('10047f86.sharedInitializer.JMP');expect(stack.calls.find(call=>call.site==='10047f74')!.returned).toBe(true);expect(stack.calls.some(call=>call.site==='10047f7c')).toBe(false);expect(stack.registers.ESI).toMatchObject({word:{value:13,knownMask:0xffffffff}});expect(owner.snapshot().memoryHeapSectionHeld).toBe(true);
+});
+it('rejects a foreign VirtualAlloc import before calling an endpoint',()=>{
+ const {owner,platform}=stdioFixture();owner.snapshot().initializerImages['102f9680']!.pointer(0).set({name:'VirtualAlloc'});const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('Actual pool VirtualAlloc import slot required');expect(platform.snapshot().allocations.some(entry=>entry.kind==='virtual')).toBe(false);
+});
+it('rejects an allocated CRT buffer returned as a pool virtual region',()=>{
+ const {owner,platform}=stdioFixture();platform.virtualAlloc=size=>platform.crtNew(size);const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('Actual live same-platform VirtualAlloc region required');expect(owner.snapshot().caseState!.stack!.snapshot().calls.find(call=>call.site==='10047f74')!.returned).toBe(false);
+});
+it('rejects a virtual region from a different platform',()=>{
+ const {owner,platform}=stdioFixture(),other=stdioFixture().platform;platform.virtualAlloc=(size,type,protect)=>other.virtualAlloc(size,type,protect);const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('Actual live same-platform VirtualAlloc region required');
+});
+it('rejects a changed dispatch to the bitmap allocator without its owned pool receiver',()=>{
+ const {owner,platform}=stdioFixture();owner.snapshot().initializerImages['102fb050']!.writeUnsigned(13*4,0x1000605a);const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('Actual original bitmap pool receiver required');expect(platform.snapshot().allocations.some(entry=>entry.kind==='virtual')).toBe(false);expect(owner.snapshot().initializerImages['102ffd58']!.readUnsigned(0)).toBe(0);
+});
+for(const [count,peak,nextPeak] of [[5,10,10],[10,5,12]])it(`publishes pool count and follows the original peak branch from ${count}/${peak}`,()=>{
+ const {owner}=stdioFixture(),pool=owner.snapshot().initializerImages['102ffd58']!;pool.writeUnsigned(0,count!);pool.writeUnsigned(8,peak!);const result=owner.processAttach();expect(result.known).toBe(false);expect(pool.readUnsigned(0)).toBe(count!+2);expect(pool.readUnsigned(8)).toBe(nextPeak);
+});
+
+it('rejects a freed pool virtual region before granting a live pointer',()=>{
+ const {owner,platform}=stdioFixture(),allocate=platform.virtualAlloc.bind(platform);platform.virtualAlloc=(size,type,protect)=>{const result=allocate(size,type,protect);if(result.known&&result.value)result.value.freed=true;return result;};const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('Actual live same-platform VirtualAlloc region required');expect(owner.snapshot().poolRegions).toHaveLength(0);
+});
+it('rejects replaced virtual backing bytes against the private allocation geometry',()=>{
+ const {owner,platform}=stdioFixture(),allocate=platform.virtualAlloc.bind(platform);platform.virtualAlloc=(size,type,protect)=>{const result=allocate(size,type,protect);if(result.known&&result.value)Object.defineProperty(result.value,'bytes',{value:new Uint8Array(size)});return result;};const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('Actual live same-platform VirtualAlloc region required');expect(owner.snapshot().poolRegions).toHaveLength(0);
+});
+
+it('rejects an earlier same-platform virtual region returned for the current reservation',()=>{
+ const {owner,platform}=stdioFixture(),prior=platform.virtualAlloc(0x102000,0x103000,4);if(!prior.known||!prior.value)throw new Error('Missing earlier allocation');platform.virtualAlloc=()=>prior;const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('Fresh region from the current pool VirtualAlloc invocation required');expect(owner.snapshot().poolRegions).toHaveLength(0);expect(owner.snapshot().caseState!.stack!.snapshot().calls.find(call=>call.site==='10047f74')!.returned).toBe(false);
+});
+
+it('constructs the original 20-byte pool descriptor through live CRT new and malloc',()=>{
+ const {owner,platform}=stdioFixture(),allocate=platform.win32HeapAlloc.bind(platform),requests:{heap:NativeWin32HeapCapability;flags:number;size:number}[]=[];
+ platform.win32HeapAlloc=(heap,flags,size)=>{if(flags===0&&size===20&&descriptorPending(owner))requests.push({heap,flags,size});return allocate(heap,flags,size);};
+ const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100c67d5 -> 100c59ab');
+ const state=owner.snapshot(),descriptor=state.initializerImages['102ffef0']!.pointer<{fields:NativeHeapObjectViews;offset:number}>(0).get()!,head=state.initializerImages['102fb004']!.pointer<{fields:NativeHeapObjectViews;offset:number}>(0).get()!;
+ expect(descriptor.fields).toBe(head.fields);expect(descriptor.offset).toBe(0);expect(head.offset).toBe(0);expect(descriptor.fields.bytes.length).toBe(20);expect(requests).toEqual([{heap:state.heap!,flags:0,size:20}]);
+ expect([0,4,8,12,16].map(offset=>descriptor.fields.readUnsigned(offset))).toEqual([0,0x10008855,0x10006640,0x100013e3,0x10007b9e]);expect(descriptor.fields.knownMask.every(mask=>mask===255)).toBe(true);
+ expect(NativeRuntimePlatform.canonicalOwnedWin32HeapAllocationSpan(platform,state.heap!,owner.identity,{fields:descriptor.fields,offset:0},20)).toEqual({known:true,value:undefined});expect(state.initializerAllocations.includes(descriptor.fields)).toBe(true);
+ const stack=state.caseState!.stack!.snapshot();for(const site of ['10045db5','100aabea','100aab6e'])expect(stack.calls.find(call=>call.site===site)!.returned).toBe(true);
+ expect(stack.trace).toContain('100aabf4.sharedInitializer.LEAVE');expect(stack.trace).toContain('10045def.sharedInitializer.XCHG.LOCK');expect(state.memoryHeapSectionHeld).toBe(false);expect(stack.memoryMallocFrame).toEqual({entered:true,returned:true});
+ expect(stack.calls.find(call=>call.site==='10045e1e')!.returned).toBe(true);expect(stack.calls.find(call=>call.site==='10045e55')!.returned).toBe(true);
+ expect(state.poolRegions[0]!.readUnsigned(8)).toBe(2);expect(state.poolRegions[0]!.readUnsigned(12)).toBe(0);expect(state.poolRegions[0]!.bytes.subarray(0x100004,0x101fff).every(byte=>byte===255)).toBe(true);expect(state.poolRegions[0]!.readUnsigned(0x101ffc)).toBe(0x7fffffff);
+});
+it('retains descriptor allocation CALL when the actual CRT HeapAlloc is unavailable',()=>{
+ const {owner,platform}=stdioFixture(),allocate=platform.win32HeapAlloc.bind(platform);platform.win32HeapAlloc=(heap,flags,size)=>flags===0&&size===20&&descriptorPending(owner)?{known:false,reason:'Descriptor heap allocation unavailable'}:allocate(heap,flags,size);
+ const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('Descriptor heap allocation unavailable');const state=owner.snapshot();expect(state.initializerImages['102ffef0']!.readUnsigned(0)).toBe(0);expect(state.initializerImages['102fb004']!.readUnsigned(0)).toBe(0);expect(state.caseState!.stack!.snapshot().calls.find(call=>call.site==='100aab6e')!.returned).toBe(false);expect(state.poolRegions).toHaveLength(1);expect(state.memoryHeapSectionHeld).toBe(true);
+});
+it('retains original errno boundary after NULL CRT HeapAlloc without fabricating a descriptor',()=>{
+ const {owner,platform}=stdioFixture(),allocate=platform.win32HeapAlloc.bind(platform);platform.win32HeapAlloc=(heap,flags,size)=>flags===0&&size===20&&descriptorPending(owner)?{known:true,value:null}:allocate(heap,flags,size);const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100aab8e -> 100aedd1');const state=owner.snapshot(),stack=state.caseState!.stack!.snapshot();expect(stack.calls.find(call=>call.site==='100aab6e')!.returned).toBe(true);expect(stack.calls.find(call=>call.site==='10045db5')!.returned).toBe(false);expect(state.initializerImages['102ffef0']!.readUnsigned(0)).toBe(0);expect(stack.trace).not.toContain('10045def.sharedInitializer.XCHG.LOCK');
+});
+it('rejects a changed descriptor HeapAlloc import at its original read',()=>{
+ const {owner}=stdioFixture();owner.snapshot().initializerImages['102f9684']!.pointer(0).set({name:'HeapAlloc'});const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('Actual pool HeapAlloc import slot required');expect(owner.snapshot().initializerImages['102ffef0']!.readUnsigned(0)).toBe(0);
+});
+it('rejects an earlier same-heap descriptor allocation returned for the current CALL',()=>{
+ const {owner,platform}=stdioFixture(),allocate=platform.win32HeapAlloc.bind(platform);let prior:ReturnType<typeof allocate>|null=null;
+ platform.win32HeapAlloc=(heap,flags,size)=>{if(flags===8&&size===128)prior=allocate(heap,0,20);return flags===0&&size===20&&descriptorPending(owner)?prior!:allocate(heap,flags,size);};const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('Fresh descriptor from the current HeapAlloc invocation required');expect(owner.snapshot().initializerImages['102ffef0']!.readUnsigned(0)).toBe(0);
+});
+it('rejects a CRT new backing returned as the native descriptor HeapAlloc block',()=>{
+ const {owner,platform}=stdioFixture(),allocate=platform.win32HeapAlloc.bind(platform);platform.win32HeapAlloc=(heap,flags,size)=>flags===0&&size===20&&descriptorPending(owner)?platform.crtNew(20):allocate(heap,flags,size);const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('Win32 heap required');expect(owner.snapshot().initializerImages['102ffef0']!.readUnsigned(0)).toBe(0);
+});
+
+it('preserves original sixteen-byte rounding when the live CRT heap selection takes its general branch',()=>{
+ const {owner,platform}=stdioFixture(),allocate=platform.virtualAlloc.bind(platform);platform.virtualAlloc=(size,type,protect)=>{owner.imageStorage('heapSelection').writeUnsigned(0,2);return allocate(size,type,protect);};const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100c67d5 -> 100c59ab');const descriptor=owner.snapshot().initializerImages['102ffef0']!.pointer<{fields:NativeHeapObjectViews;offset:number}>(0).get()!.fields;expect(descriptor.bytes.length).toBe(32);expect(descriptor.knownMask.subarray(0,20).every(mask=>mask===255)).toBe(true);expect(descriptor.knownMask.subarray(20).every(mask=>mask===0)).toBe(true);
+});
+it('stops at the actual small-block helper when the live CRT heap selection is three',()=>{
+ const {owner,platform}=stdioFixture(),allocate=platform.virtualAlloc.bind(platform);platform.virtualAlloc=(size,type,protect)=>{owner.imageStorage('heapSelection').writeUnsigned(0,3);return allocate(size,type,protect);};const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100aab4f -> 100aaa32');expect(owner.snapshot().initializerImages['102ffef0']!.readUnsigned(0)).toBe(0);
+});
+
+it('retains the general normalized CRT HeapAlloc size domain in the shared platform bridge',()=>{
+ const {owner,platform}=stdioFixture();owner.processAttach();const heap=owner.snapshot().heap!;
+ for(const size of [1,17,48]){const result=NativeRuntimePlatform.heapAllocForSharedInitializer(platform,heap,owner.identity,size);expect(result.known).toBe(true);if(!result.known||!result.value)throw new Error('Missing owned general CRT block');expect(result.value.bytes.length).toBe(size);expect(result.value.knownMask.every(mask=>mask===0)).toBe(true);}
+ for(const size of [0,-1,1.5,0xffffffe1]){const result=NativeRuntimePlatform.heapAllocForSharedInitializer(platform,heap,owner.identity,size);expect(result.known).toBe(false);}
+});
+
+for(const [flags,size] of [[8,20],[0,24]] as const)it(`rejects descriptor backing with actual lower HeapAlloc flags/size ${flags}/${size}`,()=>{
+ const {owner,platform}=stdioFixture(),allocate=platform.win32HeapAlloc.bind(platform);platform.win32HeapAlloc=(heap,requestFlags,requestSize)=>descriptorPending(owner)?allocate(heap,flags,size):allocate(heap,requestFlags,requestSize);const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('Actual CRT HeapAlloc flags and request receipt required');expect(owner.snapshot().initializerImages['102ffef0']!.readUnsigned(0)).toBe(0);expect(owner.snapshot().caseState!.stack!.snapshot().calls.find(call=>call.site==='100aab6e')!.returned).toBe(false);
+});
+
+it('registers the actual cold pool payload range and descriptor in original static storage',()=>{
+ const {owner}=stdioFixture(),result=owner.processAttach();expect(result.known).toBe(false);
+ const state=owner.snapshot(),region=state.poolRegions[0]!,areas=state.initializerImages['10149a18']!,count=state.initializerImages['102fb030']!,descriptor=state.initializerImages['102ffef0']!.pointer<{fields:NativeHeapObjectViews;offset:number}>(0).get()!;
+ expect(count.readUnsigned(0)).toBe(1);
+ for(const [offset,expectedOffset] of [[0,16],[4,0x100000],[8,0]]){const pointer=areas.pointer<{fields:NativeHeapObjectViews;offset:number}>(offset!).get()!;expect(pointer.fields).toBe(region);expect(pointer.offset).toBe(expectedOffset);}
+ const registered=areas.pointer<{fields:NativeHeapObjectViews;offset:number}>(12).get()!;expect(registered.fields).toBe(descriptor.fields);expect(registered.offset).toBe(0);
+ const head=state.initializerImages['102ffd58']!.pointer<{fields:NativeHeapObjectViews;offset:number}>(4).get()!;expect(head.fields).toBe(region);expect(head.offset).toBe(0);expect(region.readUnsigned(0)).toBe(0);
+ expect(areas.bytes.subarray(16).every(byte=>byte===0)).toBe(true);expect(areas.knownMask.subarray(16).every(mask=>mask===255)).toBe(true);
+ const stack=state.caseState!.stack!.snapshot();expect(stack.trace).toContain('1003c6f8.sharedInitializer.RET');expect(stack.calls.find(call=>call.site==='10045e55')!.returned).toBe(true);expect(stack.calls.find(call=>call.site==='10047f57')!.returned).toBe(true);expect(stack.memoryMallocFrame).toEqual({entered:true,returned:true});expect(state.memoryHeapSectionHeld).toBe(false);
+});
+it('fills exactly the original 8192-byte bitmap and clears its final reserved bit',()=>{
+ const {owner}=stdioFixture();owner.processAttach();const region=owner.snapshot().poolRegions[0]!,stack=owner.snapshot().caseState!.stack!.snapshot();
+ expect(region.bytes.subarray(48,0x100000).every(byte=>byte===0)).toBe(true);expect(region.knownMask.every(mask=>mask===255)).toBe(true);
+ expect(region.readUnsigned(0x100000)).toBe(0xfffffffc);for(let offset=0x100004;offset<0x101ffc;offset+=4)expect(region.readUnsigned(offset)).toBe(0xffffffff);expect(region.readUnsigned(0x101ffc)).toBe(0x7fffffff);
+ expect(stack.trace).toContain('100a79df.sharedInitializer.STOSD.REP');expect(stack.trace).toContain('100a79f3.sharedInitializer.POP');expect(stack.trace).toContain('100a79f4.sharedInitializer.RET');expect(stack.trace).not.toContain('100a79a7.sharedInitializer.JMP');expect(stack.trace).not.toContain('100a79bd.sharedInitializer.MOV');
+});
+it('uses private canonical alignment even when public pointer resolution is replaced',()=>{
+ const {owner,platform}=stdioFixture();const result=owner.processAttach();platform.resolveNativePointer=()=>({known:false,reason:'Public geometry unavailable'});expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100c67d5 -> 100c59ab');const fields=owner.snapshot().poolRegions[0]!;
+ for(const offset of [0,1,2,3,0x100000])expect(NativeRuntimePlatform.canonicalNativePointerModulo4ForPlatform(platform,{fields,offset})).toEqual({known:true,value:offset&3});
+});
+it('rejects foreign virtual pointer alignment without borrowing its backing proof',()=>{
+ const {platform}=stdioFixture(),other=stdioFixture(),allocation=other.platform.virtualAlloc(0x102000,0x103000,4);expect(allocation.known).toBe(true);if(!allocation.known||!allocation.value)throw new Error('Missing foreign region');
+ const fields=new NativeHeapObjectViews(allocation.value);expect(NativeRuntimePlatform.canonicalNativePointerModulo4ForPlatform(platform,{fields,offset:0}).known).toBe(false);expect(NativeRuntimePlatform.canonicalNativePointerModulo4ForPlatform(other.platform,{fields,offset:0})).toEqual({known:true,value:0});allocation.value.freed=true;expect(NativeRuntimePlatform.canonicalNativePointerModulo4ForPlatform(other.platform,{fields,offset:0}).known).toBe(false);
+});
+
+it('preserves the actual reverse direction of original REP stores when the logical thread DF is set',()=>{
+ const {owner,platform}=stdioFixture(),allocate=platform.win32HeapAlloc.bind(platform);let injected=false;
+ platform.win32HeapAlloc=(heap,flags,size)=>{const result=allocate(heap,flags,size);if(flags===0&&size===20&&descriptorPending(owner)){expect(NativeRuntimePlatform.writeNativeDirectionFlag(platform,1).known).toBe(true);injected=true;}return result;};
+ const result=owner.processAttach();expect(injected).toBe(true);expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100c67d5 -> 100c59ab');const region=owner.snapshot().poolRegions[0]!;
+ expect(region.bytes.subarray(48,0xfe004).every(byte=>byte===0)).toBe(true);expect(region.bytes.subarray(0xfe004,0x100000).every(byte=>byte===255)).toBe(true);expect(region.bytes.subarray(0x100004,0x101ffc).every(byte=>byte===0)).toBe(true);expect(region.readUnsigned(0x101ffc)).toBe(0x7fffffff);expect(NativeRuntimePlatform.readNativeDirectionFlag(platform)).toEqual({known:true,value:0});
+});
+
+it('returns the claimed first pool slot as a bounded view of the original virtual region',()=>{
+ const {owner,platform}=stdioFixture(),result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100c67d5 -> 100c59ab');
+ const state=owner.snapshot(),slot=state.poolSlots[0]!;expect(state.poolSlots).toHaveLength(2);expect(slot.region).toBe(state.poolRegions[0]);expect(slot.offset).toBe(16);expect(slot.capacity).toBe(16);expect(slot.fields.backing).toBe(slot.region.backing);expect(slot.fields.bytes.byteOffset-slot.region.bytes.byteOffset).toBe(16);expect(slot.fields.bytes.length).toBe(16);expect(()=>slot.fields.readUnsigned(16,1)).toThrow('outside');
+ expect(slot.region.readUnsigned(8)).toBe(2);expect(slot.region.readUnsigned(12)).toBe(0);expect(slot.region.readUnsigned(0x100000)).toBe(0xfffffffc);
+ expect(slot.fields.readUnsigned(0)).toBe(4);expect(slot.fields.readUnsigned(4,2)).toBe(1);expect(slot.fields.readUnsigned(12,1)).toBe(0);expect(Array.from(slot.fields.bytes.subarray(8,12))).toEqual([82,111,111,116]);
+ const stack=state.caseState!.stack!.snapshot();expect(stack.memoryMallocFrame).toEqual({entered:true,returned:true});expect(state.memoryHeapSectionHeld).toBe(false);expect(platform.snapshot().physicalSections.find(section=>section.fields===state.initializerImages['10189a18'])!.depth).toBe(0);
+ for(const site of ['10047f57','1003d304','1003d474','1003d48a','1001325e','10013623'])expect(stack.calls.find(call=>call.site===site)!.returned).toBe(true);expect(stack.calls.find(call=>call.site==='1001362d')!.returned).toBe(true);
+ for(const instruction of ['1003e0a3.sharedInitializer.PUSHAD','1003e0b6.sharedInitializer.INC.LOCK','1003e0c7.sharedInitializer.CLD','1003e0c8.sharedInitializer.SCASD.REPE','1003e0d5.sharedInitializer.BSF','1003e0da.sharedInitializer.BTR.LOCK','1003e10c.sharedInitializer.POPAD'])expect(stack.trace).toContain(instruction);
+ expect(NativeRuntimePlatform.readNativeDirectionFlag(platform)).toEqual({known:true,value:0});
+});
+for(const [offset,value] of [[0,32],[4,0]])it(`rejects changed live pool geometry at field ${offset} before claiming a slot`,()=>{
+ const {owner}=stdioFixture();owner.snapshot().initializerImages['100e7aa8']!.writeUnsigned(offset!,value!);const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('Live original 16-byte pool geometry required');const state=owner.snapshot();expect(state.poolSlots).toHaveLength(0);expect(state.poolRegions[0]!.readUnsigned(8)).toBe(0);expect(state.poolRegions[0]!.readUnsigned(0x100000)).toBe(0xffffffff);expect(state.memoryHeapSectionHeld).toBe(true);expect(state.caseState!.stack!.snapshot().memoryMallocFrame).toEqual({entered:true,returned:false});
+});
+
+it('preserves the original thirteen-byte Malloc argument until its lower allocation returns',()=>{
+ const {owner,platform}=stdioFixture(),allocate=platform.virtualAlloc.bind(platform);let requested:number|undefined;
+ platform.virtualAlloc=(size,type,protect)=>{const snapshot=owner.snapshot().caseState!.stack!.snapshot(),call=snapshot.calls.find(call=>call.site==='1001325e')!;requested=new DataView(Uint8Array.from(snapshot.stack.bytes!).buffer).getUint32(call.position+4,true);return allocate(size,type,protect);};
+ owner.processAttach();expect(requested).toBe(13);expect(owner.snapshot().poolSlots[0]!.capacity).toBe(16);
+});
+
+for(const length of [4])it(`copies ${length} live Root bytes through the original scalar dispatch and returns its constructor`,()=>{
+ const {owner}=stdioFixture();if(length<4)owner.snapshot().initializerImages['100e9b5c']!.writeUnsigned(length,0,1);const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100c67d5 -> 100c59ab');
+ const state=owner.snapshot(),slot=state.poolSlots[0]!,fields=slot.fields,root=state.initializerImages['102f4618']!,pointer=root.pointer<{fields:NativeHeapObjectViews;offset:number}>(0).get()!;
+ expect(fields.readUnsigned(0)).toBe(length);expect(fields.readUnsigned(4,2)).toBe(1);expect(Array.from(fields.bytes.subarray(8,8+length))).toEqual([82,111,111,116].slice(0,length));expect(fields.readUnsigned(8+length,1)).toBe(0);expect(fields.bytes.subarray(9+length).every(byte=>byte===0)).toBe(true);
+ expect(pointer.fields).toBe(fields);expect(pointer.offset).toBe(8);expect(root.bytes.subarray(4).every(byte=>byte===0)).toBe(true);expect(root.knownMask.subarray(4).every(mask=>mask===255)).toBe(true);
+ const stack=state.caseState!.stack!.snapshot();for(const site of ['1001362d','100e151a','100e1599'])expect(stack.calls.find(call=>call.site===site)!.returned).toBe(true);
+ expect(stack.calls.find(call=>call.site==='100e1599')!.position).toBe(stack.calls.find(call=>call.site==='100e151a')!.position);expect(stack.trace).toContain('10013632.sharedInitializer.ADD');expect(stack.trace).toContain('100e15a1.sharedInitializer.RET');expect(stack.trace).toContain('100a7a14-100a7a20.disjointMemcpyControlJoin');expect(stack.trace).not.toContain('100a7a16.sharedInitializer.JBE');expect(stack.trace).not.toContain('100a7a18.sharedInitializer.CMP');
+ const tail=['100a7b8c','100a7b98','100a7bac','100a7b84'][length-1]!;expect(stack.trace).toContain(tail+'.sharedInitializer.MOV');expect(stack.trace).toContain('100e152d.sharedInitializer.ADD');expect(stack.trace).toContain('100e1575.sharedInitializer.ADD');expect(stack.trace).toContain('100e1535.sharedInitializer.XORPS');expect(stack.trace).toContain('100e1567.sharedInitializer.MOVSS');
+ expect(stack.xmm.bytes.slice(0,16)).toEqual(Array(16).fill(0));expect(stack.xmm.knownMask.slice(0,16)).toEqual(Array(16).fill(255));expect(state.memoryHeapSectionHeld).toBe(false);expect(state.exitLockHeld).toBe(false);
+});
+it('encodes and appends Root shutdown without executing its body',()=>{
+ const {owner,platform}=stdioFixture();owner.processAttach();const state=owner.snapshot(),decoder=NativeRuntimePlatform.canonicalPointerCodecForPlatform(platform,state.ptd!.pointer(0x1fc).get()!,'DecodePointer');if(!decoder.known)throw new Error(decoder.reason);
+ const end=decoder.value.invoke(state.initializerImages['102f8580']!.pointer(0).get()!);if(!end.known)throw new Error(end.reason);const cursor=end.value as {fields:NativeHeapObjectViews;offset:number};expect(cursor.offset).toBe(52);expect(cursor.fields.bytes.length).toBe(128);
+ const decoded=decoder.value.invoke(cursor.fields.pointer(44).get()!);if(!decoded.known)throw new Error(decoded.reason);expect((decoded.value as {originalCodeAddress:number}).originalCodeAddress).toBe(0x100e2b40);expect(state.caseState!.stack!.snapshot().trace.some(row=>row.startsWith('100e2b40.'))).toBe(false);
+});
+it('proves the original disjoint copy without trusting a replacement public direction method',()=>{
+ const {owner,platform}=stdioFixture(),allocate=platform.win32HeapAlloc.bind(platform);let injected=false;platform.win32HeapAlloc=(heap,flags,size)=>{const result=allocate(heap,flags,size);if(flags===0&&size===20&&descriptorPending(owner)){platform.proveNativeCopyDirection=()=>({known:true,value:'backward'});injected=true;}return result;};
+ const result=owner.processAttach();expect(injected).toBe(true);expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100c67d5 -> 100c59ab');expect(Array.from(owner.snapshot().poolSlots[0]!.fields.bytes.subarray(8,12))).toEqual([82,111,111,116]);
+});
+
+for(const length of [1,2,3])it(`retains the original 12-byte pool dependency for a shortened Root of length ${length}`,()=>{
+ const {owner}=stdioFixture();owner.snapshot().initializerImages['100e9b5c']!.writeUnsigned(length,0,1);const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('1003d304 -> 100028f6');const state=owner.snapshot();expect(state.poolSlots).toHaveLength(0);expect(state.poolRegions).toHaveLength(0);expect(state.initializerImages['102f4618']!.readUnsigned(0)).toBe(0);expect(state.memoryHeapSectionHeld).toBe(true);expect(state.caseState!.stack!.snapshot().calls.some(call=>call.site==='1001362d')).toBe(false);
+});
+
+it('preserves adjacent slot padding while balancing the original sixteen-bit CString reference count',()=>{
+ const {owner,platform}=stdioFixture(),allocate=platform.win32HeapAlloc.bind(platform);let injected=false;platform.win32HeapAlloc=(heap,flags,size)=>{const result=allocate(heap,flags,size);if(flags===0&&size===20&&descriptorPending(owner)){owner.snapshot().poolRegions[0]!.writeUnsigned(22,0xabcd,2);injected=true;}return result;};
+ const result=owner.processAttach();expect(injected).toBe(true);expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100c67d5 -> 100c59ab');const fields=owner.snapshot().poolSlots[0]!.fields;expect(fields.readUnsigned(4,2)).toBe(1);expect(fields.readUnsigned(6,2)).toBe(0xabcd);expect(Array.from(fields.bytes.subarray(8,12))).toEqual([82,111,111,116]);
+});
+
+it('constructs _Root in a second owned slot and returns initializer 141',()=>{
+ const {owner,platform}=stdioFixture(),result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100c67d5 -> 100c59ab');
+ const state=owner.snapshot(),first=state.poolSlots[0]!,second=state.poolSlots[1]!;expect(state.poolSlots).toHaveLength(2);expect(state.poolRegions).toHaveLength(1);expect(second.offset).toBe(32);expect(second.capacity).toBe(16);expect(second.region).toBe(first.region);expect(second.fields.backing).toBe(first.fields.backing);expect(second.fields).not.toBe(first.fields);
+ expect(second.fields.readUnsigned(0)).toBe(5);expect(second.fields.readUnsigned(4,2)).toBe(1);expect(Array.from(second.fields.bytes.subarray(8))).toEqual([95,82,111,111,116,0,0,0]);expect(first.fields.readUnsigned(4,2)).toBe(1);
+ const pointer=state.initializerImages['102f47d0']!.pointer<{fields:NativeHeapObjectViews;offset:number}>(0).get()!;expect(pointer.fields).toBe(second.fields);expect(pointer.offset).toBe(8);
+ const stack=state.caseState!.stack!.snapshot();expect(stack.calls.find(call=>call.site==='100e15da')!.returned).toBe(true);expect(stack.calls.find(call=>call.site==='100e15e4')!.returned).toBe(true);expect(stack.trace).toContain('100e15ea.sharedInitializer.RET');expect(stack.memoryMallocFrame).toEqual({entered:true,returned:true});expect(state.memoryHeapSectionHeld).toBe(false);expect(platform.snapshot().allocations.filter(entry=>entry.kind==='virtual')).toHaveLength(1);
+});
+
+it('executes initializer 142 getter guards and retains original type-info name call',()=>{
+ const {owner}=stdioFixture(),result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100c67d5 -> 100c59ab');
+ const state=owner.snapshot(),fields=state.initializerImages['102f47e4']!;expect(fields.readUnsigned(0)).toBe(0);expect(fields.readUnsigned(4)).toBe(0);expect(fields.readUnsigned(8)).toBe(3);expect(state.initializerImages['102f48bc']!.readUnsigned(0)).toBe(0);expect(state.initializerImages['10140148']!.readUnsigned(4)).toBe(0);
+ const stack=state.caseState!.stack!.snapshot();expect(stack.calls.find(call=>call.site==='100e1600')!.returned).toBe(false);expect(stack.calls.find(call=>call.site==='1008e933')!.returned).toBe(false);expect(stack.trace).toContain('1008e917.sharedInitializer.MOV');expect(stack.trace).toContain('1008e92e.sharedInitializer.MOV');expect(stack.calls.some(call=>call.site==='1008e93e')).toBe(false);expect(owner.processAttach()).toEqual(result);
+});
+
+it('preserves the first class-name guard and cached published copy when already initialized',()=>{
+ const {owner}=stdioFixture(),fields=owner.snapshot().initializerImages['102f47e4']!;fields.writeUnsigned(8,1);fields.writeUnsigned(4,0x12345678);const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100c67d5 -> 100c59ab');expect(fields.readUnsigned(8)).toBe(3);expect(fields.readUnsigned(4)).toBe(0x12345678);expect(owner.snapshot().caseState!.stack!.snapshot().trace).not.toContain('1008e917.sharedInitializer.MOV');
+});
+
+it('retains the actual type-info exception frame at the native demangler boundary',()=>{
+ const {owner}=stdioFixture(),result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100c67d5 -> 100c59ab');const state=owner.snapshot(),stack=state.caseState!.stack!.snapshot();expect(stack.initializerSehFrames).toContainEqual({site:'100b0909',entered:true,returned:false});expect(stack.calls.find(call=>call.site==='100b0909')!.returned).toBe(true);expect(stack.calls.find(call=>call.site==='100a709e')!.returned).toBe(false);expect(stack.trace).toContain('100b0913.sharedInitializer.CMP');expect(stack.trace).toContain('100b092c.sharedInitializer.LEA');expect(state.initializerImages['10140148']!.readUnsigned(4)).toBe(0);expect(state.initializerImages['102f6484']!.bytes.every(byte=>byte===0)).toBe(true);
+});
+it('rejects changed type-info scope bytes before entering the original exception frame',()=>{
+ const {owner}=stdioFixture();owner.snapshot().initializerImages['100f8b20']!.writeUnsigned(24,0,1);const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('Original live initializer SEH scope required');const stack=owner.snapshot().caseState!.stack!.snapshot();expect(stack.initializerSehFrames.some(frame=>frame.site==='100b0909')).toBe(false);expect(stack.calls.find(call=>call.site==='100b0909')!.returned).toBe(false);expect(stack.trace).not.toContain('100b0913.sharedInitializer.CMP');
+});
+
+it('enters the native demangler frame while retaining its outer type-info frame',()=>{
+ const {owner}=stdioFixture(),result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100c67d5 -> 100c59ab');const stack=owner.snapshot().caseState!.stack!.snapshot();expect(stack.initializerSehFrames).toContainEqual({site:'100b0909',entered:true,returned:false});expect(stack.initializerSehFrames).toContainEqual({site:'100c614c',entered:true,returned:false});expect(stack.calls.find(call=>call.site==='100c614c')!.returned).toBe(true);expect(stack.calls.find(call=>call.site==='100b0931')!.returned).toBe(false);expect(stack.trace).toContain('100c6151.sharedInitializer.MOV');expect(stack.calls.find(call=>call.site==='100aeed8')!.returned).toBe(true);expect(stack.trace).toContain('100c6154.sharedInitializer.XOR');expect(owner.processAttach()).toEqual(result);
+});
+it('rejects a changed nested demangler scope while preserving the entered outer frame',()=>{
+ const {owner}=stdioFixture();owner.snapshot().initializerImages['100f8e80']!.writeUnsigned(24,0,1);const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('Original live initializer SEH scope required');const stack=owner.snapshot().caseState!.stack!.snapshot();expect(stack.initializerSehFrames).toContainEqual({site:'100b0909',entered:true,returned:false});expect(stack.initializerSehFrames.some(frame=>frame.site==='100c614c')).toBe(false);expect(stack.calls.find(call=>call.site==='100c614c')!.returned).toBe(false);expect(stack.trace).not.toContain('100c6151.sharedInitializer.MOV');
+});
+
+it('initializes and publishes CRT lock five through original malloc and lock-ten protection',()=>{
+ const {owner,platform}=stdioFixture(),allocate=platform.win32HeapAlloc.bind(platform),requests:{heap:NativeWin32HeapCapability;flags:number;size:number}[]=[];platform.win32HeapAlloc=(heap,flags,size)=>{if(flags===0&&size===24)requests.push({heap,flags,size});return allocate(heap,flags,size);};const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100c67d5 -> 100c59ab');const state=owner.snapshot(),fields=state.initializerAllocations.find(fields=>fields.bytes.length===24)!;expect(fields).toBeDefined();expect(requests).toEqual([{heap:state.heap!,flags:0,size:24}]);expect(fields.backing.freed).toBe(false);expect(fields.knownMask.every(mask=>mask===0)).toBe(true);expect(NativeRuntimePlatform.canonicalOwnedWin32HeapAllocationSpan(platform,state.heap!,owner.identity,{fields,offset:0},24)).toEqual({known:true,value:undefined});const published=owner.imageStorage('lockTable').pointer<{fields:NativeHeapObjectViews;offset:number}>(5*8).get()!;expect(published.fields).toBe(fields);expect(published.offset).toBe(0);const stack=state.caseState!.stack!.snapshot();expect(stack.initializerSehFrames).toContainEqual({site:'100bb7d6',entered:true,returned:true});expect(stack.calls.find(call=>call.site==='100bb817')!.returned).toBe(true);expect(stack.calls.find(call=>call.site==='100aeed8')!.returned).toBe(true);expect(stack.trace).toContain('100aef0f.sharedInitializer.RET');
+});
+it('retains lock-five allocation failure at the actual heap call without publishing a section',()=>{
+ const {owner,platform}=stdioFixture(),allocate=platform.win32HeapAlloc.bind(platform);platform.win32HeapAlloc=(heap,flags,size)=>flags===0&&size===24?{known:false,reason:'Lock five heap allocation unavailable'}:allocate(heap,flags,size);const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('Lock five heap allocation unavailable');expect(owner.imageStorage('lockTable').pointer(5*8).get()).toBeNull();const state=owner.snapshot();expect(state.initializerAllocations.some(fields=>fields.bytes.length===24)).toBe(false);const stack=state.caseState!.stack!.snapshot();expect(stack.initializerSehFrames).toContainEqual({site:'100bb7d6',entered:true,returned:false});expect(stack.calls.find(call=>call.site==='100bb817')!.returned).toBe(false);expect(stack.calls.some(call=>call.site==='100bb834')).toBe(false);
+});
+
+it('publishes initialized CRT lock five, releases lock ten and enters the demangler lock',()=>{
+ const {owner,platform}=stdioFixture(),result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100c67d5 -> 100c59ab');const state=owner.snapshot(),table=owner.imageStorage('lockTable'),pointer=table.pointer<{fields:NativeHeapObjectViews;offset:number}>(5*8).get()!,ten=table.pointer<NativeHeapObjectViews>(10*8).get()!;expect(pointer.offset).toBe(0);expect(state.initializerAllocations.includes(pointer.fields)).toBe(true);const sections=platform.snapshot().physicalSections;expect(sections.find(section=>section.fields===pointer.fields)).toMatchObject({owner:owner.identity,spinCount:4000,depth:1});expect(sections.find(section=>section.fields===ten)!.depth).toBe(0);expect(state.sections.includes(pointer.fields)).toBe(true);const scratch=state.initializerImages['102f6f1c']!,block=state.initializerAllocations.find(fields=>fields.bytes.length===4104)!;expect(block).toBeDefined();expect(scratch.readUnsigned(0)).toBe(0x100aaaf6);expect(scratch.readUnsigned(4)).toBe(0x100aa9a4);for(const offset of [8,12]){const link=scratch.pointer<{fields:NativeHeapObjectViews;offset:number}>(offset).get()!;expect(link.fields).toBe(block);expect(link.offset).toBe(0);}expect(scratch.readUnsigned(16)).toBe(4032);const stack=state.caseState!.stack!.snapshot();expect(stack.initializerSehFrames).toContainEqual({site:'100bb7d6',entered:true,returned:true});for(const site of ['100bb834','100bb847','100bb88b','100bb883','100c6160','100c616c'])expect(stack.calls.find(call=>call.site===site)!.returned).toBe(true);expect(stack.trace).toContain('100bb869.sharedInitializer.MOV');
+});
+it('uses a bounded section view of the original rounded heap allocation',()=>{
+ const {owner,platform}=stdioFixture(),allocate=platform.virtualAlloc.bind(platform);platform.virtualAlloc=(size,type,protect)=>{owner.imageStorage('heapSelection').writeUnsigned(0,2);return allocate(size,type,protect);};const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100c67d5 -> 100c59ab');const pointer=owner.imageStorage('lockTable').pointer<{fields:NativeHeapObjectViews;offset:number}>(5*8).get()!,section=platform.snapshot().physicalSections.find(section=>section.fields.backing===pointer.fields.backing)!;expect(pointer.fields.bytes.length).toBe(32);expect(section.fields.bytes.length).toBe(24);expect(section.fields.bytes.byteOffset).toBe(pointer.fields.bytes.byteOffset);expect(section.fields.backing).toBe(pointer.fields.backing);expect(section.depth).toBe(1);expect(pointer.fields.knownMask.subarray(24).every(mask=>mask===0)).toBe(true);
+});
+it('retains lock-ten protection and an unpublished section on failed CRT initialization',()=>{
+ const {owner,platform}=stdioFixture(),initialize=platform.initializePhysicalCriticalSection.bind(platform);platform.initializePhysicalCriticalSection=(fields,sectionOwner,spin)=>owner.snapshot().initializerAllocations.some(allocated=>allocated.backing===fields.backing&&allocated.bytes.length===24)?{known:true,value:false}:initialize(fields,sectionOwner,spin);const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100bb853 -> 100aa9a4');const table=owner.imageStorage('lockTable');expect(table.pointer(5*8).get()).toBeNull();const ten=table.pointer<NativeHeapObjectViews>(10*8).get()!;expect(platform.snapshot().physicalSections.find(section=>section.fields===ten)!.depth).toBe(1);expect(owner.snapshot().caseState!.stack!.snapshot().initializerSehFrames).toContainEqual({site:'100bb7d6',entered:true,returned:false});
+});
+it('rejects a forged CRT lock-ten table pointer before entering its section',()=>{
+ const {owner,platform}=stdioFixture(),allocate=platform.win32HeapAlloc.bind(platform);platform.win32HeapAlloc=(heap,flags,size)=>{const result=allocate(heap,flags,size);if(flags===0&&size===24)owner.imageStorage('lockTable').pointer(10*8).set({name:'forged CRT section'});return result;};const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('Actual retained CRT section table pointer required');expect(owner.imageStorage('lockTable').pointer(5*8).get()).toBeNull();expect(owner.snapshot().caseState!.stack!.snapshot().calls.some(call=>call.site==='100bb847')).toBe(false);
+});
+
+it('rejects a cleared retained CRT lock-ten slot without initializing a different lock',()=>{
+ const {owner,platform}=stdioFixture(),allocate=platform.win32HeapAlloc.bind(platform);platform.win32HeapAlloc=(heap,flags,size)=>{const result=allocate(heap,flags,size);if(flags===0&&size===24)owner.imageStorage('lockTable').pointer(10*8).set(null);return result;};const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('Actual retained CRT section table pointer required');expect(owner.imageStorage('lockTable').pointer(5*8).get()).toBeNull();expect(owner.snapshot().caseState!.stack!.snapshot().calls.some(call=>call.site==='100bb847')).toBe(false);
+});
+
+ it('constructs four demangler scratch nodes on the original CRT heap',()=>{
+ const {owner,platform}=stdioFixture(),allocate=platform.win32HeapAlloc.bind(platform),requests:{heap:NativeWin32HeapCapability;flags:number;size:number}[]=[];
+ platform.win32HeapAlloc=(heap,flags,size)=>{if(size===4104)requests.push({heap,flags,size});return allocate(heap,flags,size);};
+ const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100c67d5 -> 100c59ab');
+ const state=owner.snapshot(),block=state.initializerAllocations.find(fields=>fields.bytes.length===4104)!;
+ expect(requests.length).toBe(1);expect(requests[0]!.heap).toBe(state.heap);expect(requests[0]!.flags).toBe(0);expect(block.backing.freed).toBe(false);expect(block.readUnsigned(0)).toBe(0);
+ for(const [index,offset] of [4084,4068,4052,4036].entries()){expect(block.readUnsigned(offset)).toBe(0x100f29ac);expect(block.readUnsigned(offset+4)).toBe(0);expect(block.readUnsigned(offset+8)).toBe(index%2===0?3:1);expect(block.readUnsigned(offset+12)).toBe(0);}
+ const scratch=state.initializerImages['102f6f1c']!,first=scratch.pointer<{fields:NativeHeapObjectViews;offset:number}>(20).get()!,second=scratch.pointer<{fields:NativeHeapObjectViews;offset:number}>(24).get()!;
+ expect(first.fields).toBe(second.fields);expect(second.offset-first.offset).toBe(60);expect(first.fields.readUnsigned(first.offset)).toBe(0xffffffff);expect(second.fields.readUnsigned(second.offset)).toBe(0xffffffff);
+ for(const [base,nodeOffsets] of [[first.offset,[4084,4068]],[second.offset,[4052,4036]]] as const){for(const [index,tableOffset] of [44,52].entries()){const link=first.fields.pointer<{fields:NativeHeapObjectViews;offset:number}>(base+tableOffset).get()!;expect(link.fields).toBe(block);expect(link.offset).toBe(nodeOffsets[index]);const flags=first.fields.maskedWord(base+tableOffset+4);expect(flags.value&0xfff).toBe(index===0?3:1);expect(flags.knownMask&0xfff).toBe(0xfff);}}
+ const stack=state.caseState!.stack!.snapshot();expect(stack.calls.find(call=>call.site==='100c61aa')!.returned).toBe(true);expect(scratch.readUnsigned(48)).toBe(0x800);expect(scratch.readUnsigned(56,1)).toBe(0);
+ });
+
+it('retains a failed demangler scratch allocation without publishing a block',()=>{
+ const {owner,platform}=stdioFixture(),allocate=platform.win32HeapAlloc.bind(platform);
+ platform.win32HeapAlloc=(heap,flags,size)=>size===4104?{known:false,reason:'Demangler scratch heap unavailable'}:allocate(heap,flags,size);
+ const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('Demangler scratch heap unavailable');
+ const state=owner.snapshot(),scratch=state.initializerImages['102f6f1c']!;expect(scratch.pointer(8).get()).toBeNull();expect(scratch.pointer(12).get()).toBeNull();expect(scratch.readUnsigned(16)).toBe(0);expect(state.initializerAllocations.some(fields=>fields.bytes.length===4104)).toBe(false);
+ const pointer=owner.imageStorage('lockTable').pointer<{fields:NativeHeapObjectViews;offset:number}>(40).get()!;expect(platform.snapshot().physicalSections.find(section=>section.fields===pointer.fields)!.depth).toBe(1);
+ const stack=state.caseState!.stack!.snapshot();expect(stack.calls.find(call=>call.site==='100c61aa')!.returned).toBe(false);expect(stack.initializerSehFrames).toContainEqual({site:'100c614c',entered:true,returned:false});
+});
+
+it('advances the original type-name cursor into data-type grammar with its frames active',()=>{
+ const {owner}=stdioFixture(),result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100c67d5 -> 100c59ab');
+ const state=owner.snapshot(),scratch=state.initializerImages['102f6f1c']!,initial=scratch.pointer<{fields:NativeHeapObjectViews;offset:number}>(36).get()!,cursor=scratch.pointer<{fields:NativeHeapObjectViews;offset:number}>(32).get()!;
+ expect(cursor.fields).toBe(initial.fields);expect(cursor.offset).toBe(initial.offset+1);expect(initial.fields.readUnsigned(initial.offset,1)).toBe(0x3f);expect(cursor.fields.readUnsigned(cursor.offset,1)).toBe(0x41);expect(scratch.readUnsigned(48)).toBe(0x800);
+ const stack=state.caseState!.stack!.snapshot();for(const site of ['100c61b5','100c5f16','100c51f3','100c67d5'])expect(stack.calls.find(call=>call.site===site)!.returned).toBe(false);expect(stack.calls.find(call=>call.site==='100c6759')!.returned).toBe(true);expect(stack.initializerSehFrames).toContainEqual({site:'100c614c',entered:true,returned:false});
 });

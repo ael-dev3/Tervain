@@ -1,0 +1,62 @@
+100bb7cf | 6a0c | PUSH 0xc
+100bb7d1 | 68988c0f10 | PUSH 0x100f8c98
+100bb7d6 | e88d33ffff | CALL 0x100aeb68
+100bb7db | 33ff | XOR EDI,EDI
+100bb7dd | 47 | INC EDI
+100bb7de | 897de4 | MOV dword ptr [EBP + -0x1c],EDI
+100bb7e1 | 33db | XOR EBX,EBX
+100bb7e3 | 391dc86a2f10 | CMP dword ptr [0x102f6ac8],EBX
+100bb7e9 | 7518 | JNZ 0x100bb803
+100bb7eb | e84957ffff | CALL 0x100b0f39
+100bb7f0 | 6a1e | PUSH 0x1e
+100bb7f2 | e88255ffff | CALL 0x100b0d79
+100bb7f7 | 68ff000000 | PUSH 0xff
+100bb7fc | e83decfeff | CALL 0x100aa43e
+100bb801 | 59 | POP ECX
+100bb802 | 59 | POP ECX
+100bb803 | 8b7508 | MOV ESI,dword ptr [EBP + 0x8]
+100bb806 | 8d34f5b8141410 | LEA ESI,[ESI*0x8 + 0x101414b8]
+100bb80d | 391e | CMP dword ptr [ESI],EBX
+100bb80f | 7404 | JZ 0x100bb815
+100bb811 | 8bc7 | MOV EAX,EDI
+100bb813 | eb6e | JMP 0x100bb883
+100bb815 | 6a18 | PUSH 0x18
+100bb817 | e8b436ffff | CALL 0x100aeed0
+100bb81c | 59 | POP ECX
+100bb81d | 8bf8 | MOV EDI,EAX
+100bb81f | 3bfb | CMP EDI,EBX
+100bb821 | 750f | JNZ 0x100bb832
+100bb823 | e8a935ffff | CALL 0x100aedd1
+100bb828 | c7000c000000 | MOV dword ptr [EAX],0xc
+100bb82e | 33c0 | XOR EAX,EAX
+100bb830 | eb51 | JMP 0x100bb883
+100bb832 | 6a0a | PUSH 0xa
+100bb834 | e859000000 | CALL 0x100bb892
+100bb839 | 59 | POP ECX
+100bb83a | 895dfc | MOV dword ptr [EBP + -0x4],EBX
+100bb83d | 391e | CMP dword ptr [ESI],EBX
+100bb83f | 752c | JNZ 0x100bb86d
+100bb841 | 68a00f0000 | PUSH 0xfa0
+100bb846 | 57 | PUSH EDI
+100bb847 | e8db060000 | CALL 0x100bbf27
+100bb84c | 59 | POP ECX
+100bb84d | 59 | POP ECX
+100bb84e | 85c0 | TEST EAX,EAX
+100bb850 | 7517 | JNZ 0x100bb869
+100bb852 | 57 | PUSH EDI
+100bb853 | e84cf1feff | CALL 0x100aa9a4
+100bb858 | 59 | POP ECX
+100bb859 | e87335ffff | CALL 0x100aedd1
+100bb85e | c7000c000000 | MOV dword ptr [EAX],0xc
+100bb864 | 895de4 | MOV dword ptr [EBP + -0x1c],EBX
+100bb867 | eb0b | JMP 0x100bb874
+100bb869 | 893e | MOV dword ptr [ESI],EDI
+100bb86b | eb07 | JMP 0x100bb874
+100bb86d | 57 | PUSH EDI
+100bb86e | e831f1feff | CALL 0x100aa9a4
+100bb873 | 59 | POP ECX
+100bb874 | c745fcfeffffff | MOV dword ptr [EBP + -0x4],0xfffffffe
+100bb87b | e809000000 | CALL 0x100bb889
+100bb880 | 8b45e4 | MOV EAX,dword ptr [EBP + -0x1c]
+100bb883 | e82533ffff | CALL 0x100aebad
+100bb888 | c3 | RET

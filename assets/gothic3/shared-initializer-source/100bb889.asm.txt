@@ -1,0 +1,4 @@
+100bb889 | 6a0a | PUSH 0xa
+100bb88b | e812ffffff | CALL 0x100bb7a2
+100bb890 | 59 | POP ECX
+100bb891 | c3 | RET

@@ -89,6 +89,7 @@ interface ShutdownEntry {
 }
 interface BackingEntry {
   readonly backing: NativeMemoryBacking; readonly kind: 'virtual' | 'crt-new' | 'crt-malloc' | 'win32-heap' | 'module-image' | 'win32-process-buffer'; readonly ordinal: number;
+  win32HeapRequest?: Readonly<{heap:NativeWin32HeapCapability;flags:0|8;bytes:number}>;
   nativeGeometry?: Readonly<{ alignment: 'virtual-page' | 'win32-heap-eight';
     bytes: Uint8Array; masks: Uint8Array; capacity: number } | { alignment: 'module-image';
     bytes: Uint8Array; masks: Uint8Array; capacity: number } | { alignment: 'process-buffer-four';
@@ -222,7 +223,7 @@ interface PhysicalSection {
   readonly fields: NativeHeapObjectViews; readonly owner: object; readonly identity: object;
   readonly canonicalBacking: NativeMemoryBacking; readonly position: number;
   readonly bytes: Uint8Array; readonly masks: Uint8Array;
-  readonly spinCount: 4000 | null; depth: number; deleted: boolean;
+  readonly spinCount: 4000 | 1000 | null; depth: number; deleted: boolean;
 }
 function physicalPosition(fields: NativeHeapObjectViews) {
   const backing = fields.backing;
@@ -1305,6 +1306,31 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
       alignment: 'virtual-page', bytes: result.value.bytes, masks: result.value.knownMask, capacity: result.value.bytes.length });
     return result;
   }
+  static heapAllocForSharedInitializer(platform:NativeRuntimePlatform,heap:NativeWin32HeapCapability,owner:object,size:number):NativeValue<NativeMemoryBacking|null> {
+    const active=NativeRuntimePlatform.canonicalWin32HeapForOwner(platform,heap,owner);if(!active.known)return active;
+    if(!Number.isInteger(size)||size<1||size>0xffffffe0)return unknown('Original normalized CRT malloc HeapAlloc size required');
+    const previous=new Set(Array.from(platform.#backing.values(),entry=>entry.backing));
+    const result=platform.win32HeapAlloc(heap,0,size);if(!result.known||!result.value)return result;
+    const fields=new NativeHeapObjectViews(result.value),span=NativeRuntimePlatform.canonicalOwnedWin32HeapAllocationSpan(platform,heap,owner,{fields,offset:0},size);if(!span.known)return span;
+    const request=platform.#backing.get(result.value.identity)?.win32HeapRequest;if(request?.heap!==heap||request.flags!==0||request.bytes!==size)return unknown('Actual CRT HeapAlloc flags and request receipt required');
+    return previous.has(result.value)?unknown('Fresh descriptor from the current HeapAlloc invocation required'):result;
+  }
+  static virtualAllocForSharedInitializer(platform:NativeRuntimePlatform,size:number):NativeValue<NativeMemoryRegion|null> {
+    const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)return active;
+    if(size!==0x102000)return unknown('Original 16-byte pool virtual reservation size required');
+    const previous=new Set(Array.from(platform.#backing.values(),entry=>entry.backing));
+    const result=platform.virtualAlloc(size,0x103000,4);if(!result.known||!result.value)return result;
+    const proof=NativeRuntimePlatform.canonicalVirtualRegionForPlatform(platform,result.value,size);if(!proof.known)return proof;
+    return previous.has(result.value)?unknown('Fresh region from the current pool VirtualAlloc invocation required'):result;
+  }
+  static canonicalVirtualRegionForPlatform(platform:NativeRuntimePlatform,region:NativeMemoryRegion,size:number):NativeValue<void> {
+    const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)return active;
+    const entry=region?platform.#backing.get(region.identity):undefined,geometry=entry?.nativeGeometry;
+    return entry?.backing===region&&entry.kind==='virtual'&&!platform.#releasedBackings.has(region)&&!region.freed&&
+      geometry?.alignment==='virtual-page'&&geometry.bytes===region.bytes&&geometry.masks===region.knownMask&&
+      geometry.capacity===size&&region.bytes.length===size&&region.knownMask.length===size
+      ?known(undefined):unknown('Actual live same-platform VirtualAlloc region required');
+  }
   crtNew(bytes: number): NativeValue<NativeMemoryBacking | null> { return this.#allocate(bytes, 'crt-new'); }
   crtMalloc(bytes: number): NativeValue<NativeMemoryBacking | null> { return this.#allocate(bytes, 'crt-malloc'); }
   crtFree(backing: NativeMemoryBacking): NativeValue<void> {
@@ -1341,6 +1367,7 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     const allocated = this.#allocate(capacity, 'win32-heap');
     if (allocated.known && allocated.value) {
       retained.allocations.add(allocated.value);
+      this.#backing.get(allocated.value.identity)!.win32HeapRequest=Object.freeze({heap,flags,bytes});
       // Omitted policy retains exact capacity. A fresh selected Game heap
       // declares rounded physical capacity, independently of the logical request.
       // Padding is retained uninitialized with mask0, not host observations.
@@ -1481,6 +1508,10 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
       return unknown('Actual retained HeapAlloc capacity proof required by HeapSize');
     }
     return known(proof.capacity);
+  }
+  static canonicalNativePointerModulo4ForPlatform(platform:NativeRuntimePlatform,pointer:NativeBytePointer):NativeValue<number> {
+    const access=NativeRuntimePlatform.canonicalNativePointerAccessForPlatform(platform,pointer,0,0);if(!access.known)return access;
+    const geometry=platform.#resolveNativePointer(pointer);return geometry.known?known(geometry.value.modulo4):geometry;
   }
   resolveNativePointer(pointer: NativeBytePointer): NativeValue<NativePointerGeometry> { return this.#resolveNativePointer(pointer); }
   #resolveNativePointer(pointer: NativeBytePointer): NativeValue<NativePointerGeometry> {
@@ -1679,11 +1710,15 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     if (spinCount !== 4000) return unknown('Original physical section spin count4000 required');
     return this.#initializePhysicalSection(fields, owner, spinCount);
   }
+  initializePhysicalMemoryHeapCriticalSection(fields: NativeHeapObjectViews, owner: object, spinCount: 1000): NativeValue<boolean> {
+    if(spinCount!==1000)return unknown('Original MemoryAdmin section spin count1000 required');
+    return this.#initializePhysicalSection(fields,owner,spinCount);
+  }
   initializePhysicalCriticalSectionWithoutSpin(fields: NativeHeapObjectViews, owner: object): NativeValue<void> {
     const result = this.#initializePhysicalSection(fields, owner, null);
     return result.known ? known(undefined) : result;
   }
-  #initializePhysicalSection(fields: NativeHeapObjectViews, owner: object, spinCount: 4000 | null, opaqueWrites = true): NativeValue<boolean> {
+  #initializePhysicalSection(fields: NativeHeapObjectViews, owner: object, spinCount: 4000 | 1000 | null, opaqueWrites = true): NativeValue<boolean> {
     try {
       if (this.#shutdownPhase !== 'active' || !owner || typeof owner !== 'object') {
         return unknown('Actual active physical section owner required');

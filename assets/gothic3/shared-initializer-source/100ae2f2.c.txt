@@ -1,0 +1,36 @@
+/* ENTRY 100ae2f2 | FUN_100ae2f2 | STATUS decompiled | 16 ms */
+
+int FUN_100ae2f2(int param_1)
+
+{
+  LPVOID pvVar1;
+  code *pcVar2;
+  int iVar3;
+  HMODULE hModule;
+  FARPROC pFVar4;
+  
+  pvVar1 = TlsGetValue(DAT_10140b48);
+  if ((pvVar1 != (LPVOID)0x0) && (DAT_10140b44 != -1)) {
+    iVar3 = DAT_10140b44;
+    pcVar2 = TlsGetValue(DAT_10140b48);
+    iVar3 = (*pcVar2)(iVar3);
+    if (iVar3 != 0) {
+      pFVar4 = *(FARPROC *)(iVar3 + 0x1fc);
+      goto LAB_100ae34c;
+    }
+  }
+  hModule = GetModuleHandleA("KERNEL32.DLL");
+  if (hModule == (HMODULE)0x0) {
+    return param_1;
+  }
+  iVar3 = FUN_100ae20f();
+  if (iVar3 == 0) {
+    return param_1;
+  }
+  pFVar4 = GetProcAddress(hModule,"DecodePointer");
+LAB_100ae34c:
+  if (pFVar4 != (FARPROC)0x0) {
+    param_1 = (*pFVar4)(param_1);
+  }
+  return param_1;
+}

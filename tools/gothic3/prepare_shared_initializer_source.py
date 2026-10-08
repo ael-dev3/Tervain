@@ -23,12 +23,37 @@ def capture(study, output):
     pe = native.PE(binary)
     tables = {}
     targets = {
+        0x1000619f: 'initializer142Getter', 0x10005e5c: 'initializer143Getter',
+        0x100c51ce: 'demanglerDeclaration', 0x100c674d: 'demanglerDataType',
+        0x100c1ed2: 'demanglerDnameConstructor', 0x100c660f: 'demanglerPrimaryType',
+        0x100c5e8f: 'unDecoratorToString', 0x100c2351: 'unDecoratorConstructor', 0x100c218f: 'replicatorConstructor',
+        0x100c1f28: 'replicatorListConstructor', 0x100c1ac7: 'demanglerScratchAllocate',
+        0x100c1dcf: 'dnameNodeConstructor',
+        0x100bb892: 'crtLock', 0x100bb7a2: 'crtUnlock',
+        0x100bb889: 'initializeLockCleanup', 0x100bbf27: 'initializeCriticalSection',
+        0x100bb7cf: 'crtInitializeLock', 0x100aeed0: 'mallocWrapper',
+        0x100c6142: 'sharedUnDName',
+        0x100a7099: 'typeInfoName', 0x100b0902: 'typeInfoNameBase',
+        0x100088cd: 'classNameUnMangle', 0x100a7430: 'strstr',
+        0x100a7a00: 'memcpy', 0x100a7980: 'memset', 0x100012e4: 'heapAddPointerArea',
+        0x100aabd2: 'crtOperatorNew', 0x100aaaf6: 'crtMalloc',
+        0x10001028: 'heapAllocate', 0x10047f10: 'pool16Dispatch',
+        0x100061cc: 'pool16Initialize', 0x1000605a: 'pool16Allocate',
+        0x10003cd8: 'memoryMalloc',
+        0x10002aae: 'memoryGetInstance',
+        0x10003ba7: 'rootTextConstructor', 0x10007d65: 'rootTextAlloc',
         0x100aa632: 'cinit', 0x100ae900: 'isNonwritableInCurrentImage',
         0x100b4407: 'initializeFloatConversions', 0x100aa47d: 'inittermError',
-        0x100a72d0: 'atexit', 0x100aef10: 'callocWrapper',
+        0x100a72d0: 'atexit', 0x100a7294: 'onexit',
+        0x100ae2f2: 'decodePointer', 0x100b10d6: 'allocationSize',
+        0x100aa453: 'lockExitTable', 0x100aa45c: 'unlockExitTable',
+        0x100a72ca: 'releaseExitTable', 0x100aef10: 'callocWrapper',
         0x100a788e: 'installFloatConversions', 0x100b448b: 'queryFloatDivisionErratum',
         0x100b4426: 'setDefaultPrecision', 0x100ae27b: 'encodePointer',
         0x100ae20f: 'pointerEncodingAvailable',
+        0x100aeb68: 'exceptionFrameEnter', 0x100aebad: 'exceptionFrameLeave',
+        0x100ce062: 'processorProbeExceptionFilter',
+        0x100ce07e: 'processorProbeExceptionHandler',
         0x100a71ac: 'appendExitCallback', 0x100ce095: 'queryProcessorFeature',
         0x100ae880: 'validateImageHeader', 0x100ae8b0: 'findImageSection',
         0x100b444f: 'queryFloatDivisionFallback', 0x100ce045: 'processorFeatureProbe',
@@ -57,12 +82,35 @@ def capture(study, output):
         ('exitTableEnd',0x102f8584,4), ('rtcTerminators',0x100f7ef4,256),
         ('processorFeature',0x102f853c,4), ('memcpySseEnabled',0x102f854c,4),
         ('stdioCount',0x102f8500,4), ('stdioVector',0x102f71c0,4),
+        ('stdioFiles',0x10141790,640),
+        ('className142State',0x102f47e4,12), ('className142Published',0x102f48bc,4),
+        ('className143State',0x102f47f0,12), ('className143Published',0x102f48b8,4),
+        ('className142TypeInfo',0x10140148,32), ('className143TypeInfo',0x1013f1a8,32),
+        ('typeInfoNode',0x102f6484,8), ('typeInfoNameScope',0x100f8b20,28), ('sharedUnDNameScope',0x100f8e80,28), ('crtInitializeLockScope',0x100f8c98,28), ('sharedDemanglerHeap',0x102f6f1c,60),
+        ('underscoreRootLiteral',0x100ea340,6), ('underscoreRootString',0x102f47d0,4),
+        ('rootStaticObject',0x102f4618,40),
+        ('memcpyForwardDwords',0x100a7b08,32), ('memcpyForwardTail',0x100a7b74,16),
+        ('heapPointerAreaCount',0x102fb030,4), ('heapPointerAreas',0x10149a18,0x40000),
+        ('heapDispatchTable',0x102fb050,4097*4), ('pool16State',0x102ffd58,12),
+        ('pool16Descriptor',0x102ffef0,4), ('poolDescriptorList',0x102fb004,4),
+        ('poolHeapAllocImport',0x102f9684,4), ('pool16Geometry',0x100e7aa8,8), ('poolVirtualAllocImport',0x102f9680,4),
+        ('memoryMallocScope',0x100f8318,12), ('memoryHeapSection',0x10189a18,24),
+        ('memoryHeapSectionInitialized',0x102fb000,1),
+        ('memoryHeapSectionInitializeImport',0x102f966c,4),
+        ('memoryHeapSectionEnterImport',0x102f9604,4),
+        ('memoryHeapSectionLeaveImport',0x102f9608,4), ('memoryAdminState',0x10142798,16), ('rootTextLiteral',0x100e9b5c,5),
+        ('staticValueSource',0x100ebb28,16), ('staticValueDestination',0x101ab150,16),
+        ('staticCriticalSection',0x10197da0,24), ('initializeSectionImportSlot',0x102f95f4,4),
+        ('onexitScope',0x100f8630,28), ('allocationSizeScope',0x100f8ba0,28),
+        ('heapSizeImportSlot',0x102f9678,4),
+        ('pointerDecodeProcedureName',0x100ed6e0,len(b'DecodePointer\0')),
         ('processorModuleName',0x100ede4c,len(b'KERNEL32\0')),
         ('processorProcedureName',0x100ede30,len(b'IsProcessorFeaturePresent\0')),
         ('pointerModuleName',0x100ed284,len(b'KERNEL32.DLL\0')),
         ('pointerEncodeProcedureName',0x100ed6d0,len(b'EncodePointer\0')),
         ('tlsGetterIndex',0x10140b48,4), ('threadDataIndex',0x10140b44,4),
         ('tlsGetValueImportSlot',0x102f97b8,4),
+        ('processorProbeScope',0x100f8ec0,28),
         ('moduleHandleImportSlot',0x102f9768,4), ('procedureLookupImportSlot',0x102f9648,4)]:
         raw, section = image_bytes(pe,address,size)
         cold[label] = dict(address=f'{address:08x}',raw=raw.hex(),bytes=size,
@@ -82,7 +130,7 @@ def capture(study, output):
     admitted_targets = {}
     entries = {}
     offline = {}
-    assembly_only = {0x100a7265: 0x100a7293, 0x100bb8e7: 0x100bb90a,
+    assembly_only = {0x10047f10: 0x10047f8f, 0x100a7265: 0x100a7293, 0x100bb8e7: 0x100bb90a,
                      0x100b4b6b: 0x100b4b7e, 0x100bef05: 0x100befb5,
                      0x100ce0f5: 0x100ce101}
     targets[0x100bb8e7] = 'rtcTerminate'
@@ -137,6 +185,12 @@ def capture(study, output):
             bodyInstructionBytesSha256=hashlib.sha256(raw).hexdigest(), entryChain=[],
             assemblySha256=hashlib.sha256(asm).hexdigest(), cSha256=None,
             reconstructedCUnavailable=True)
+    pool_thunk = pe.bytes(0x10002d97,5)
+    if pool_thunk[0] != 0xe9 or 0x10002d97 + 5 + struct.unpack_from('<i',pool_thunk,1)[0] != 0x10047f10:
+        raise ValueError('Original 16-byte pool entry thunk differs')
+    methods['pool16Dispatch']['entryVA'] = '0x10002d97'
+    methods['pool16Dispatch']['entryChain'] = [dict(va='10002d97',bytes=pool_thunk.hex(),targetVA='10047f10')]
+    entries['10002d97'] = dict(containingEntry='10047f10',methodLabel='pool16Dispatch')
     if offline:
         import capstone
         decoder = capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_32)
@@ -183,6 +237,8 @@ def capture(study, output):
                 reconstructedCUnavailable=True, decoder=f'capstone {capstone.__version__}',
                 allDirectBranchesRecovered=True)
     imports = {entry['iatVA'][2:]:entry for entry in pe.imports()}
+    cold['poolVirtualAllocImport']['importEntry'] = imports['102f9680']
+    cold['poolHeapAllocImport']['importEntry'] = imports['102f9684']
     calls = []
     for label, method in methods.items():
         for row in (output / (method['bodyVA'][2:] + '.asm.txt')).read_text(encoding='utf-8').splitlines():
@@ -213,9 +269,13 @@ def capture(study, output):
 
 def initializer_runtime(output, destination):
     rows = []
-    for body in ['100aa632','100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100b444f','100ae27b','100aa47d','100a7265','100aef10','100b1854','100b4b6b','100ce095']:
+    for body in ['100aa632','100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100b444f','100ae27b','100aa47d','100a7265','100aef10','100b1854','100b4b6b','100ce095','100ce045','100aeb68','100aebad','100bef05','100ce0f5','100a72d0','100a7294','100a71ac','100ae2f2','100b10d6','100aa453','100aa45c','100a72ca','100e1660','100e1440','100e1450','100e1470','100e14b0','100e14c0','100e14d0','100e14e0','100e14f0','100e1500','100e1510','100e15d0','100e1600','1008e900','100a7099','100b0902','100c6142','100bb7cf','100aeed0','100bb892','100bb7a2','100bb889','100c51ce','100c674d','100c1ed2','100c660f','100c5e8f','100c2351','100c218f','100c1f28','100c1ac7','100c1dcf','100135f0','10013240','10020bf0','1003d410','1003d2f0','10047f10','10045da0','100aabd2','100aaaf6','100a7980','1003c650','1003e090','100a7a00']:
         for line in (output / (body + '.asm.txt')).read_text(encoding='utf-8').splitlines():
             rows.append(line.split(' | '))
+    source=json.loads((output/'source.json').read_text(encoding='utf-8'))
+    for label in ['initializer142Getter','rootTextConstructor','rootTextAlloc','memoryGetInstance','memoryMalloc','heapAllocate','pool16Dispatch','pool16Initialize','heapAddPointerArea','pool16Allocate']:
+        for entry in source['methods'][label]['entryChain']:
+            rows.append([entry['va'],entry['bytes'],'JMP 0x'+entry['targetVA']])
     header=json.loads((output/'source.json').read_text(encoding='utf-8'))['imageHeader']
     destination.write_text('''/** Original admitted SharedBase initializer syntax; no runtime authority. */
 export const sharedInitializerHeader=Object.freeze(''' + json.dumps(header) + ''');

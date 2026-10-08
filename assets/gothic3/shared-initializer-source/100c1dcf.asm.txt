@@ -1,0 +1,13 @@
+100c1dcf | 8bc1 | MOV EAX,ECX
+100c1dd1 | 8b4c2404 | MOV ECX,dword ptr [ESP + 0x4]
+100c1dd5 | 83600400 | AND dword ptr [EAX + 0x4],0x0
+100c1dd9 | 83f902 | CMP ECX,0x2
+100c1ddc | c700ac290f10 | MOV dword ptr [EAX],0x100f29ac
+100c1de2 | 894808 | MOV dword ptr [EAX + 0x8],ECX
+100c1de5 | 7505 | JNZ 0x100c1dec
+100c1de7 | 6a04 | PUSH 0x4
+100c1de9 | 59 | POP ECX
+100c1dea | eb02 | JMP 0x100c1dee
+100c1dec | 33c9 | XOR ECX,ECX
+100c1dee | 89480c | MOV dword ptr [EAX + 0xc],ECX
+100c1df1 | c20400 | RET 0x4

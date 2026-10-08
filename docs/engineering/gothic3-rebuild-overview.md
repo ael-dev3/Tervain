@@ -11,6 +11,105 @@ of Gothic 3's endings. A scene viewer, a decoded model or a successfully read
 native data structure is a useful component milestone, but it does not by
 itself establish a playable reconstruction.
 
+## Rebuilding process: contributor checklist
+
+For a new feature, use this sequence and record the result in the checkpoint
+history linked below:
+
+1. **Choose an observable result.** Describe what the player should be able to
+   do, such as rotate an extracted tree, load an Ardea resident, or advance a
+   quest. Identify which existing systems that result depends on.
+2. **Trace the local original.** Record the installed archive/resource path,
+   patch priority and input hash. For engine behavior, include the original
+   module, caller/callee addresses, relevant bytes and static data. Decompiled
+   C is a research aid; verify critical behavior against disassembly and bytes.
+3. **Make preparation repeatable.** Add or extend a generator under
+   `tools/gothic3/`. Keep source provenance in `assets/gothic3/` and portable
+   browser resources in `public/gothic3/`. Regenerate into a separate output
+   directory and compare the generated files before accepting a checkpoint.
+4. **Implement the actual state changes.** Add TypeScript behavior under
+   `src/gothic3/`, keeping pointer identity, memory ownership, callback order,
+   thread state and cleanup connected to the existing runtime owners. Preserve
+   the applied state at an unsupported operation and identify that boundary.
+5. **Connect the feature to play.** Join assets and runtime behavior to the
+   browser route, renderer and gameplay systems. A model viewer establishes
+   inspection support; campaign progress also requires NPC activation, combat,
+   inventory, dialogue, quests and persistent saves working together.
+6. **Validate the checkpoint.** Inspect the diff and run checks appropriate to
+   the change. Runtime checkpoints use focused tests, typechecking, the build
+   and source-regeneration comparisons; integrated gameplay needs browser
+   observation and save/reload evidence. Record commands, revision, results and
+   cases that remain unsupported.
+7. **Review and publish.** Inspect repository-wide Actions history and workflow
+   triggers before remote changes. A pull request validates the revision; a
+   reviewed merge to `main` also publishes through `.github/workflows/pages.yml`.
+   Record the successful deployment separately from local implementation.
+
+The current working tree also contains the next class-name and demangler startup checkpoints.
+It remains separate from reviewed, deployed progress until validation and
+publication complete. Confirmed evidence and remaining campaign work are
+described below.
+
+## Working on the reconstruction locally
+
+From the repository root, install the dependencies and start the browser app:
+
+```sh
+npm ci
+npm run dev
+```
+
+Open the development server's `/gothic3/` route. Inspect its reported runtime
+boundary alongside the relevant source package and dated checkpoint. Asset
+viewers can help inspect geometry, materials and animations while their game
+systems are being implemented.
+
+For an implementation checkpoint, use the scripts defined in `package.json`:
+
+```sh
+npm run typecheck
+npm run build
+npm test
+```
+
+Run focused checks for the affected subsystem first. Asset preparation commands
+are specific to each reader or generator under `tools/gothic3/`; consult its
+source and evidence-package README for required local inputs. A production
+build compiles the currently implemented browser app. Campaign completion also
+needs gameplay evidence through an ending.
+
+### Order of integration
+
+1. Recover resource formats and prepare meshes, textures, actors, animations
+   and world placement with their original paths recorded.
+2. Complete the engine startup dependencies and connect their real state to
+   the live browser session.
+3. Activate the world, player and NPCs; connect rendering, movement, collision,
+   animation and interaction.
+4. Integrate combat, inventory, dialogue, quests and faction progression using
+   the original data and behavior evidence.
+5. Persist and restore the connected campaign state, then exercise progression
+   through each supported ending.
+6. Publish reviewed checkpoints and record deployment evidence in the history.
+
+Work on individual systems can overlap, but a later stage must consume the
+actual state produced by its dependencies. The current reconstruction still
+has unresolved startup and campaign integration work.
+
+## How to read progress reports
+
+The reconstruction advances in reviewable checkpoints. Each checkpoint should
+name the original input, the TypeScript behavior added, the checks that passed,
+and the next missing dependency. Three states matter:
+
+- **Captured:** bytes, listings or assets are available with provenance.
+- **Implemented locally:** a selected behavior has been written; its validation
+  receipts determine what is supported.
+- **Published:** a reviewed commit has completed the Pages deployment workflow.
+
+These states are recorded separately. The published runtime checkpoint is PR 136 (Pages run 37793944879 succeeded). Full engine startup, world activation
+and campaign completion remain outstanding.
+
 ## Process at a glance
 
 1. **Identify the installed inputs.** Start with
@@ -39,52 +138,165 @@ itself establish a playable reconstruction.
    Completion requires ordinary gameplay through a campaign ending, including
    progression and save/reload across the connected systems.
 
-The current development bottleneck is native startup and its shared runtime
-dependencies. The live Game path stops before `__cinit` at `204678f2`.
-Separately, the local SharedBase path completes selected CP1252 classification,
-case mapping, candidate installation and its normal SEH return. The enclosing
-setargv frame now acquires the declared virtual `Gothic3.exe` filename, publishes
-its module-buffer pointer and selects the actual command-line input or fallback.
-Both original parser passes now return with actual count outputs and filled
-strings. The caller allocates the combined vector/string block, publishes
-argc/argv and returns zero. SharedBase setenvp now builds its environment vector,
-copies strings, frees the temporary block and returns zero. The initializer now
-checks actual image headers and section ownership, restores FS and installs
-ten floating-point conversion addresses. The original division-erratum query
-now returns through retained virtual imports and publishes its selected result.
-It clears the x87 exception status bits, returns the hook and enters conversion
-encoding. The cached PTD encoder returns for all ten conversion pointers and
-stores their opaque encoded identities; its next boundary is the error-table
-walker, which skips the original leading NULL slots and enters the first
-callback, which allocates and publishes its encoded exit table and returns.
-The next callback returns through its already-initialized multibyte branch,
-and the processor callback enters its original probe frame. Its next boundary
-is PUSHFD at `100ce0a8`. Allocation failures retain
-the original partial cleanup; a positive retry delay remains unresolved.
-Those local helper results still need to join the live
-startup path before they can enable NPC activation. The full game remains
-unfinished; successful extraction, compilation or deployment alone does not
-establish campaign completion.
+## Where each part of the rebuild lives
+
+| Stage | Repository location | Result to record |
+| --- | --- | --- |
+| Local installation research | `tools/gothic3/` | Original archive/resource path, patch precedence, module hash and extraction command. |
+| Captured engine evidence | `assets/gothic3/` | Original function bytes, addresses, static data and reproducible source receipts. |
+| Browser asset preparation | `public/gothic3/` | Converted resources with a link back to their original input. |
+| TypeScript runtime | `src/gothic3/` | Supported behavior connected to the session's memory, thread and lifetime owners. |
+| Runtime checks | `tests/gothic3-dialogue/` | Evidence for the supported path, failure cases and the next unsupported operation. |
+| Publishing | `.github/workflows/pages.yml` | Reviewed revision and successful deployment to the separate `/gothic3/` route. |
+
+### Example: rebuilding a native string initializer
+
+Follow the initializer's original call into the string constructor. Capture the
+literal and the constructor's required globals from the local DLL. Implement
+its length calculation, allocation, owned buffer, reference count, byte copy
+and terminator in the live runtime. Execute the caller's remaining stores and
+shutdown registration in their original order. Check the actual bytes and
+ownership after return, then identify the next initializer that cannot yet run.
+This gives the next stage real state to consume.
+
+### What a checkpoint must report
+
+- **Input:** resource path or module hash, original addresses, and generator.
+- **Change:** the behavior implemented and its connection to the live runtime.
+- **Evidence:** exact revision, check commands, results and regeneration comparison.
+- **Boundary:** the next unsupported call, plus the state already applied.
+- **Publication:** pull request and deployment receipt, when available.
+
+The completion check is a playable campaign: start a new game, activate the
+world and NPCs, progress through combat/dialogue/quests, save and reload that
+progress, and reach an ending through ordinary browser play.
+
+## How native behavior becomes browser code
+
+For each missing operation, we follow the original caller into its callee and
+compare disassembly with the installed DLL bytes. Source packages record module
+hashes, instruction addresses, imports, static data and callback order. A
+repeatable generator produces the evidence package and selected instruction
+module; byte comparisons check that regeneration preserves the captured input.
+
+TypeScript runtime owners provide the memory, pointer identities, thread stack,
+virtual Windows imports and lifetime rules needed by those instructions. The
+selected instruction interpreter executes admitted source operations against
+that owned state. Rendering and gameplay systems are implemented in TypeScript
+and connected as their dependencies become available. This is a staged
+reimplementation: decompilation supplies evidence, and each supported behavior
+needs an explicit implementation and integration path.
+
+When an operation has not been implemented, execution stops at its original
+address with the applied state retained. For example, a pending allocation must
+preserve its active exception frame and lock. Returning invented success would
+hide the dependency and make later behavior unreliable. Capturing a callback,
+registering it and executing its body are separate milestones.
 
 ## Current status — 8 October 2026
 
-The latest confirmed deployment recorded here is [PR 109](https://github.com/ael-dev3/Tervain/pull/109),
-merged at `4aa6de44dcdcc0e993e58f2c20ea27f10bbe104e` and deployed by
-[Pages run 37746463396](https://github.com/ael-dev3/Tervain/actions/runs/37746463396).
-Its CI run 37745615022 also completed successfully.
-The newest local environment checkpoint passes 93 focused tests and
-2,631 tests across 258 files, plus typechecking and the production build.
-It includes original SharedBase pointer/lock setup, PTD allocation and selected
-default-locale initialization, environment setup and standard I/O descriptors.
-The next [SharedBase initializer source package](../../assets/gothic3/shared-initializer-source/README.md)
-captures all five error-returning and seventeen void callbacks, the non-NULL
-floating-point hook and its selected dependencies. Four callbacks absent from
-the original study are recovered from original DLL bytes. The new local prefix
-executes cinit through conversion installation and retains the actual pending
-FNCLEX operation after the original division query returns. The table
-initializer callbacks have not executed.
-The earlier PR 84 served-artifact comparison remains evidence for that prior
-revision; no new served-byte comparison is claimed for PR 96.
+[PR 124](https://github.com/ael-dev3/Tervain/pull/124) merged at
+`3dc3188d9d47712342d76f996e468013a52de98c`; its
+[Pages deployment](https://github.com/ael-dev3/Tervain/actions/runs/37771185817)
+succeeded. It executes the original MemoryAdmin singleton getter and reaches
+Malloc through the live SharedBase initializer owner.
+
+[PR 125](https://github.com/ael-dev3/Tervain/pull/125) passes
+[CI](https://github.com/ael-dev3/Tervain/actions/runs/37771585405) and merged at
+`90275aa46314fb5c4a7227bb51c7bc63eb0db023`. Its
+[Pages deployment](https://github.com/ael-dev3/Tervain/actions/runs/37772690355)
+succeeded.
+It follows Malloc's original thunks, owns its exception frame, initializes the
+heap critical section with spin count 1,000 and enters it. Execution reaches
+`1003d474 -> 10001028`, requesting thirteen bytes from the lower allocator.
+The lock and frame remain active; that allocation has not yet completed.
+Local validation passed 172 focused checks, 2,729 tests across 259 files,
+typechecking, the production build and exact regeneration of all 100 generated
+source files plus the instruction module.
+
+[PR 129](https://github.com/ael-dev3/Tervain/pull/129) merged at
+`49d56a21385c8e29d10ef1945639ccb0d25e307c` after
+[successful CI](https://github.com/ael-dev3/Tervain/actions/runs/37775450873);
+its [Pages deployment](https://github.com/ael-dev3/Tervain/actions/runs/37777023637)
+succeeded. It executes the original pool dispatcher and owns the fresh virtual
+reservation, reaching the block initializer.
+
+[PR 130](https://github.com/ael-dev3/Tervain/pull/130) passed
+[CI](https://github.com/ael-dev3/Tervain/actions/runs/37779027856) and merged at
+`03187338e1c4539c66d1761544796f77b48a9294`. Its
+[Pages run](https://github.com/ael-dev3/Tervain/actions/runs/37781043283)
+completed successfully. It executes original CRT operator new/malloc, allocates
+the twenty-byte descriptor from SharedBase's live heap, stores callback addresses
+and exchanges the descriptor-list head. Its normal boundary is bitmap memset
+at `10045e1e -> 100a7980`.
+
+[PR 131](https://github.com/ael-dev3/Tervain/pull/131) passed
+[CI](https://github.com/ael-dev3/Tervain/actions/runs/37782107395) and merged at
+`95d5611207732dbcf1917e0ef0d69854cd9110d4`. Its
+[Pages deployment](https://github.com/ael-dev3/Tervain/actions/runs/37782989550)
+succeeded. It executes the original bitmap fill, disables the reserved bit,
+links the region and registers the cold first payload area. Its normal boundary
+is bitmap slot allocation at `10047f57 -> 1000605a`.
+
+[PR 133](https://github.com/ael-dev3/Tervain/pull/133) passed
+[CI](https://github.com/ael-dev3/Tervain/actions/runs/37784481242) and merged at
+`aae1a3849b756298621b015e611656278be8f1e7`. Its
+[Pages deployment](https://github.com/ael-dev3/Tervain/actions/runs/37785902417)
+succeeded. It executes the original free-bit claim, retains a bounded slot,
+restores Malloc's frame and releases its heap lock. CString metadata setup
+reaches the original Root payload copy at `1001362d -> 100a7a00`.
+
+The next local checkpoint copies the actual four-byte Root payload using the
+original scalar dispatch tables, returns its CString constructor, publishes
+the Root static object, balances the temporary reference and registers shutdown.
+Execution reaches void initializer 141 at `100aa692 -> 100e15d0`.
+The 220 focused checks, typechecking and exact regeneration of 117 source files
+plus the instruction module pass. The production build and all 2,777 tests
+across 259 files also pass; remote review and publication remain pending.
+The disjoint-copy branch join preserves uncertainty about pointer
+address order; it does not assign invented native addresses. Other memcpy cases
+and allocator pools remain incomplete.
+
+Earlier stages of the selected SharedBase path now perform argument and
+environment setup, floating-point conversion installation, encoded-pointer
+publication, error initializer traversal, FILE/descriptor setup, exit-callback
+registration and the first static constructors. These are supported startup
+components. The live Game path still stops before `__cinit` at `204678f2`;
+its 2,473 captured initializer callbacks have not all been executed.
+
+## Work remaining to reach a finishable game
+
+1. Complete remaining allocation cases, CString construction, SharedBase
+   initializers and enclosing module startup, including applicable failure and
+   cleanup paths.
+2. Connect the recovered property factories and runtime owners to live Game
+   initialization and world/NPC activation.
+3. Integrate original world data and assets with movement, collision, animation,
+   NPC behavior, combat, inventory, dialogue and quest state.
+4. Connect progression and save/reload across those systems, then verify complete
+   playthroughs to the intended campaign endings in the browser.
+
+The hosted build is an evolving reconstruction. Successful extraction, source
+regeneration, tests or deployment establish their respective checkpoints;
+completion requires demonstrated integrated gameplay through an ending.
+
+### What each repository folder contributes
+
+| Folder | Purpose | What it establishes |
+| --- | --- | --- |
+| `tools/gothic3/` | Extraction, decoding and source-package generators | Repeatable preparation from identified local inputs |
+| `assets/gothic3/` | Captured bytes, listings, manifests and provenance | Evidence for specific formats and native behavior |
+| `public/gothic3/` | Portable resources loaded by the browser | Available scene/model/data inputs |
+| `src/gothic3/` | TypeScript runtime and its owners | Implemented behavior within explicit supported boundaries |
+| `docs/engineering/` | Process, dependency records and checkpoints | Scope, validation receipts and remaining integration work |
+
+A normal contribution traces a missing dependency, captures its original input,
+implements its state changes under the responsible runtime owner, connects the
+caller, and records both the supported cases and the next unresolved operation.
+Regeneration checks evidence fidelity; runtime checks establish implemented
+behavior; browser play and save/reload establish gameplay integration.
+
+### Earlier supporting checkpoints
 
 Startup now completes the selected environment initialization and stops before
 Game's `__cinit` call at `204678f2`. The repository captures all 2,473 Game

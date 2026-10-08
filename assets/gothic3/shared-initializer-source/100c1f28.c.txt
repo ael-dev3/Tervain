@@ -1,0 +1,36 @@
+/* ENTRY 100c1f28 | DName::DName | STATUS decompiled | 8 ms */
+
+/* Library Function - Single Match
+    public: __thiscall DName::DName(enum DNameStatus)
+   
+   Library: Visual Studio 2005 Release */
+
+DName * __thiscall DName::DName(DName *this,DNameStatus param_1)
+
+{
+  DNameStatus DVar1;
+  DNameStatusNode *this_00;
+  int extraout_EAX;
+  int iVar2;
+  
+  DVar1 = param_1;
+  if ((param_1 != 1) && (param_1 != 3)) {
+    DVar1 = 0;
+  }
+  *(DNameStatus *)(this + 4) =
+       *(DNameStatus *)(this + 4) ^ (*(DNameStatus *)(this + 4) ^ DVar1) & 0xf;
+  this_00 = HeapManager::getMemory((HeapManager *)&DAT_102f6f1c,0x10,0);
+  if (this_00 == (DNameStatusNode *)0x0) {
+    iVar2 = 0;
+  }
+  else {
+    DNameStatusNode::DNameStatusNode(this_00,param_1);
+    iVar2 = extraout_EAX;
+  }
+  *(uint *)(this + 4) = *(uint *)(this + 4) & 0xfffff00f;
+  *(int *)this = iVar2;
+  if (iVar2 == 0) {
+    *(uint *)(this + 4) = *(uint *)(this + 4) & 0xfffffff3 | 3;
+  }
+  return this;
+}

@@ -33,8 +33,10 @@ runtime and record exactly where execution still stops.
 
 ### Immediate remaining work
 
-- Complete SharedBase processor probing from PUSHFD at `100ce0a8`, then its remaining
-  initializer tables and callback dependencies, then the enclosing CRT attach.
+- Complete the remaining SharedBase void initializers, fallback/exception
+  paths and enclosing CRT attach. Earlier dated entries retain the boundary
+  reached at that checkpoint; consult the overview and latest checkpoint
+  receipts for subsequent progress.
 - Connect the supported shared runtime to live Game startup at 204678f2 and
   execute the required initializer callbacks in their original order.
 - Complete the remaining property/diagnostic dependencies and activate NPCs in
@@ -46,6 +48,75 @@ checks establish the published checkpoint's supported scope; campaign completion
 requires an integrated gameplay result.
 
 ## Latest process summary — 8 October 2026
+
+### Original FILE-vector initialization and complete error-table return
+
+The local runtime executes original `100bef05` over its own stdio count and
+vector storage. A zero count selects 512 entries; signed counts below 20 select
+20. The original wrapper calls the selected owned calloc lower with count*4,
+preserving caller identity, NULL checks, argument cleanup and saved registers.
+A failed first allocation retries with 20 entries. A second failure returns 26
+through the error walker and cinit, retaining the unimplemented outer attach
+cleanup at `100adb5f`. Unknown heap results, overflow and positive Sleep retry
+stop at their actual source boundaries.
+
+The successful callback publishes its real vector and fills 20 pointer slots
+with aliases of the original 640-byte FILE image at `10141790`, in 32-byte steps.
+The remaining vector bytes stay zero from the actual heap allocation. Original
+FILE buffer addresses remain source values; this does not grant memory access
+to the buffers. The first three records read the physical 56-byte descriptors
+already created by SharedBase I/O startup through the actual `102f70c0` root.
+Retained platform HANDLEs compare unequal to NULL/-1/-2 without inventing their
+numerical Windows values. Those three sentinel cases write -2 to FILE+16.
+Foreign blocks, copied HANDLEs and unowned numerical HANDLEs reject admission.
+
+Signed JGE/JL, three-operand IMUL and SAR execute from the pinned original rows.
+The fifth callback `100ce0f5` repeats the original processor probe and publishes
+its result to the live memcpy flag at `102f854c`. All five error callbacks return
+zero on the selected normal path; the table walker returns to cinit. Execution
+then stops at the actual RTC registration CALL `100aa676 -> 100a72d0`.
+
+Typechecking and 141 focused checks pass. All 80 generated source files and the
+emitted runtime reproduce exactly. The full suite passes 2,698 tests across
+259 files and the production build passes. Full CRT attachment, live Game startup,
+NPC activation and a campaign playable through an ending remain unfinished.
+
+PR 117 passed CI run 37761728106 and merged at
+`0270bb5cdd54f521731a4c6de164e3e967265d37`. Pages run 37762574694 completed successfully.
+
+
+### Virtual CPU ownership and normal processor-probe return
+
+The local runtime owns a declared CPL3/IOPL0 EFLAGS image, synchronized with
+its arithmetic flags and the logical thread's DF. The CPU profile and CPUID
+tuples are copied and frozen before execution. They describe a selected virtual
+processor. Unknown arithmetic bits remain unknown; the original ID toggle and
+subtraction use retained word identities to preserve correlation through AF.
+
+Original PUSHFD and POPFD execute in order. POPFD respects selected ID-bit
+writability and user-mode protection of IF/IOPL. CPUID leaves 0 and 1 load their
+four retained DWORD outputs into EAX/EBX/ECX/EDX. Missing leaves stop at their
+original instruction. The ID-not-writable and no-SSE2 branches return zero
+through the original processor callback without entering SIMD.
+
+The normal SSE2 branch executes original `100ce045`, its `100aeb68` frame
+prologue and `100aebad` epilogue. It retains the original 28-byte scope image,
+rejects changed scope bytes before frame execution, binds the encoded scope
+and FS registration to the owned stack, and checks saved-register/FS restoration.
+MOVAPD copies all four retained XMM1 DWORD identities into XMM0. Initial XMM
+contents remain unknown. The original result reaches `102f853c` and the table
+walker advances to its fourth callback, `100bef05`, whose CALL remains pending.
+The browser NPC service selects the explicit normal virtual CPU profile.
+
+Selected illegal-instruction or absent SIMD execution policy stops before
+MOVAPD effects. Original exception filter/handler evidence is captured, but
+exception dispatch remains unfinished. This implementation follows the flag
+and instruction contracts in [Intel's architecture manual](https://www.intel.com/content/www/us/en/developer/articles/technical/intel-sdm.html).
+Full SharedBase attachment, live Game startup and campaign completion remain
+unfinished. Local typechecking and 125 focused checks pass; all 80 generated
+source files and the emitted runtime reproduce exactly. The full suite passes
+2,682 tests across 259 files; the production build also passes.
+
 
 ### Existing multibyte state and processor-probe entry
 
@@ -63,7 +134,9 @@ still required; no processor result is supplied in place of those operations.
 Typechecking, 122 focused checks and the production build pass. All 74 generated
 source files and emitted runtime reproduce exactly. The full suite passes
 2,671 tests across 259 files. PR 114 passed CI run 37756577528 and merged at
-`bdc3d8f4abc7f79da511e92b50f3160bbccb59de`; Pages run 37757319592 is running.
+`bdc3d8f4abc7f79da511e92b50f3160bbccb59de`; Pages run 37757319592 succeeded.
+PR 115 passed CI run 37757739546 and merged this processor-entry checkpoint
+at `d044545e75e4eee4cccdb5ffc447c4ba30c1db76`. Its Pages run is 37758516262.
 Full startup, NPC activation and campaign completion remain unfinished.
 
 ### First error initializer allocation, encoding and return
@@ -9117,3 +9190,645 @@ initializer traversal, NPC activation and a finishable campaign remain missing.
 
 PR 104 passed CI run 37736807410 and merged at
 `861fbf5ab7fca284b52e3cc8aebaeaf9b0ae2a6f`. Its Pages deployment is not yet confirmed here.
+
+## Processor probe dependencies still to implement
+
+The local probe toggles EFLAGS.ID (bit 21), compares the read-back flags, queries
+CPUID leaves 0 and 1 and tests EDX bit 26. The SIMD path calls `100ce045`, whose
+normal path copies XMM1 to XMM0 under the original exception frame. The frame
+helpers `100aeb68`/`100aebad` and 28-byte scope at `100f8ec0` are now captured
+as source evidence. They are not admitted for runtime execution yet. The study
+disassembly omits cold handler bytes between `100ce060` and `100ce085`; their
+original PE bytes are now recovered using Capstone: filter `100ce062`
+recognizes access violation and illegal instruction, and handler `100ce07e`
+clears the result local before the normal epilogue. Branch closure and original
+bytes are checked. Runtime exception dispatch still needs implementation.
+
+[Intel’s architecture manual](https://cdrdv2-public.intel.com/868137/325462-089-sdm-vol-1-2abcd-3abcd-4.pdf)
+defines the ID-bit probe and processor instructions. Implementation must retain
+virtual flags, selected CPUID results, XMM state and exception ownership, and
+preserve unknown state outside the supported effects. Current execution still
+stops before PUSHFD at `100ce0a8`.
+
+Processor exception evidence validation: all 80 generated source files and the
+unchanged runtime reproduce exactly. Nine focused checks, typechecking, the
+production build and all 2,673 tests across 259 files pass. PR 115 passed CI
+run 37757739546 and merged at `d044545e75e4eee4cccdb5ffc447c4ba30c1db76`.
+These receipts validate source recovery; they do not establish execution of
+PUSHFD, POPFD, CPUID, MOVAPD or native exception dispatch.
+
+
+## 8 October 2026 — RTC exit-registration checkpoint
+
+PR 118 passed CI run 37763572750 and merged at
+`07ac76f56f8124d3f6467abefb4c4bb917429bd6`. It executes FILE initialization,
+the repeated processor probe and the original error-table return.
+
+The next local checkpoint captures six additional original bodies, for a total
+of 51 bodies, 896 instructions and 98 CALL receipts. All 92 generated package
+files and the TypeScript instruction module reproduce byte for byte from the
+identified local SharedBase DLL and offline study.
+
+The selected normal atexit/onexit path owns lock 8, DecodePointer identities,
+the original allocation-size frame and HeapSize call. It appends the encoded
+RTC callback to the actual 128-byte exit table, moves its cursor to offset 4,
+releases the lock and restores both normal exception frames. Startup now reaches
+the first void initializer `100aa692 -> 100e1660`. This does not execute RTC
+shutdown, the remaining void callbacks, full CRT attach or campaign gameplay.
+
+The focused suite passes 146 checks. Changed scope bytes, a replaced HeapSize
+import and a missing HeapSize endpoint preserve explicit failure boundaries.
+The expanded full suite passes 2,703 tests across 259 files. Typechecking
+and production build pass. Table growth, decoder
+fallback and exception dispatch remain unresolved.
+
+PR 118 Pages run 37765766597 completed successfully.
+
+
+## 8 October 2026 — leading void-table registration
+
+The first two original void callbacks, slots 65 and 130, register shutdown
+addresses `100e30f0` and `100e26d0` using the same original atexit path. The
+selected path now stores RTC termination followed by these two addresses in the
+actual exit table, advances its cursor to offset 12 and releases lock 8 after
+each append. Both SEH helpers reenter and restore their frames on all three
+normal registrations.
+
+The next live dependency is slot 131, `100e1450`: it initializes a critical
+section at `10197da0`, then registers `100e2810`. That initializer has not yet
+been admitted. No shutdown callback body is executed by registration.
+
+The instruction reader accepts the lowercase opcode/register spelling retained
+by source recovery. Both callback bodies retain their original bytes and are
+pinned by source hashes. All 92 package files and the generated instruction
+module reproduce exactly. The focused suite passes 149 checks, including a
+fully NULL void table returning cinit zero without claiming enclosing attach,
+and an unknown callback retaining its original CALL boundary. The full suite
+passes 2,706 tests across 259 files; typechecking and production build pass.
+PR 119 passed CI run 37766553792 and merged at
+`04df7277c8166a75cf67a5c688ba766f280f9645`.
+
+
+## 8 October 2026 — original static critical-section initializer
+
+Void slot 131 at `100e1450` now calls the retained original
+InitializeCriticalSection import at `102f95f4` with its 24-byte static storage at
+`10197da0`. The producer verifies the import's original KERNEL32 identity and
+cold IAT bytes `349b2f00`; the section has 24 loader-zero bytes and no file-backed
+bytes. These cold bytes establish preparation, not post-call Windows internals.
+
+The existing virtual platform owns the initialized physical section and makes
+its opaque storage bits unknown. The original stdcall removes four argument
+bytes, leaving the void return register unknown. The callback then registers
+shutdown address `100e2810` through atexit and publishes exit cursor offset 16.
+The next boundary is slot 132 at `100aa692 -> 100e1470`, a static-value copy.
+
+153 focused checks pass, including same-owner section entry/leave, foreign-owner
+rejection, an unavailable initialization endpoint and a replaced import. Both
+failure cases stop before shutdown callback registration. All 92 generated
+package files and the instruction module reproduce exactly. Typechecking, the production build and all 2,710
+tests across 259 files pass. Full CRT attach and campaign
+completion remain unfinished.
+
+PR 120 passed CI run 37767350351 and merged at
+`c20d44f022a98aab1bfb8e456673be96a6251f48`.
+
+
+## 8 October 2026 — static value and following registrations
+
+Void slot 132 now executes its original eight MOV instructions and RET. It
+copies four live DWORDs from file-backed source `100ebb28` to loader-zero
+storage `101ab150`; values and known-bit masks move through the owned register
+and memory state. The implementation reads the live source rather than replacing
+the operation with a constant zero assignment.
+
+Slots 133–136 and 138–139 then register shutdown addresses `100e2930`,
+`100e2940`, `100e2950`, `100e2960`, `100e2a00` and `100e2a10` in source order.
+Slot 137 remains NULL. The exit table now contains ten callbacks including the
+preceding RTC and void registrations, with cursor offset 40. Lock 8 and both
+normal SEH frames reenter and restore for every registration.
+
+The next boundary is void slot 140 at `100aa692 -> 100e1510`, which constructs
+a string through `10003ba7` before initializing additional state and registering
+its shutdown callback. That construction is not yet admitted. Registration
+continues to store address metadata without executing shutdown bodies.
+
+156 focused checks pass, including nonzero static-value copies, unknown-bit
+preservation and file-backed versus loader-zero provenance. All 92 source-package
+files and the instruction module reproduce exactly. Typechecking, production
+build and all 2,713 tests across 259 files pass. Full startup and a finishable campaign
+remain outstanding.
+
+PR 121 passed CI run 37768080880 and merged at
+`4a475b14ea6a6a572cdcabe9fd7a1aae636bd3b2`.
+
+
+## 8 October 2026 — Root CString construction prefix
+
+Void slot 140 now enters its original text-constructor thunk
+`10003ba7 -> 100135f0` using literal `Root` at `100e9b5c` and its actual stack
+CString destination. The constructor scans the live source bytes, computes
+length four, enters Alloc through `10007d65 -> 10013240`, and requests thirteen
+bytes before reaching `10013257 -> 10002aae` (MemoryAdmin::GetInstance).
+
+The source package adds the two original bodies and both thunk receipts: 53
+bodies, 961 instructions and 102 CALL receipts. All 96 generated files and the
+instruction module reproduce exactly from the local DLL and study. Byte-register
+reads and writes preserve the unaffected register bits; original RET 4 applies
+stdcall argument cleanup. These behaviors are required by the actual scan and
+empty-text constructor return.
+
+160 focused checks pass, including length changes from a live terminator,
+empty-text return without allocation and the actual pending allocation request.
+Typechecking, the production build and all 2,717 tests across 259 files pass. The
+memory-admin call remains explicit. Existing standalone CString allocation is
+not connected here because its shutdown registration must use the same live
+initializer exit-table owner. Full startup and campaign completion remain
+unfinished.
+
+PR 122 passed CI run 37768791245 and merged at
+`635afde46d2949f22743ebb16ef8ebf7014821ce`.
+
+
+## 8 October 2026 — MemoryAdmin GetInstance in live initializer
+
+The original thunk `10002aae -> 10020bf0` now executes within the same startup
+stack and exit-table owner. It tests guard bit 0 at `101427a4`, ORs that bit into
+the live guard, initializes the selected bytes at `1014279c`, `1014279d`,
+`101427a0` and `101427a1`, and registers shutdown address `100e2710` through the
+original atexit path. Eleven callback addresses are now stored, with cursor
+44. A previously set guard follows the original skip branch.
+
+The return is the actual owned static singleton pointer at `101427a0`; the
+CString Alloc caller moves it to ECX and reaches `1001325e -> 10003cd8` (Malloc).
+This does not bind a disconnected standalone allocator or claim successful
+allocation. Guard bytes, singleton storage and exit registration remain owned
+by the same initializer. Shutdown registration does not execute shutdown.
+
+The producer now captures 54 bodies, 977 instructions and 103 CALL receipts.
+All 98 generated package files and the instruction module reproduce exactly.
+MOV from AL infers its original byte store width, preserving adjacent state;
+OR retains unknown upper bits. The 165 focused checks cover live flags,
+guard reuse, callback order, singleton-pointer return and allocator stack
+arguments. Typechecking, production build and all 2,722 tests across 259
+files pass.
+Full startup and campaign completion remain unfinished.
+
+PR 123 passed CI run 37769622859 and merged at
+`3db30c57b5433f8be4bd70ed8e8561b8482a19d4`.
+
+
+## 8 October 2026 — Malloc critical-section prefix
+
+Malloc follows its original three-jump chain:
+`10003cd8 -> 10020b00 -> 10007441 -> 1003d410`. The live initializer now owns
+its original exception scope at `100f8318`, checks the singleton receiver and
+verifies the FS-linked stack frame. Exception dispatch is not yet implemented.
+
+The source path reads the heap-section flag at `102fb000`, initializes the
+24-byte storage at `10189a18` with spin count 1,000 through original IAT
+`102f966c`, publishes the original SETZ result, then enters that same physical
+section through `102f9604`. The platform owns the canonical section and makes
+its opaque storage bits unknown. The normal path reaches
+`1003d474 -> 10001028` with a thirteen-byte lower heap request. Its lock and
+exception frame remain entered at that pending CALL; no cleanup is invented.
+
+The source's failed-initialization branch skips EnterCriticalSection and still
+reaches the lower heap call. A set flag without canonical initialized storage
+stops at the actual enter operation. Missing endpoints, replaced imports and
+changed scope bytes preserve their applied prefixes.
+
+The package now has 55 bodies, 1,021 instructions and 107 CALL receipts. All
+100 generated source files and the instruction module reproduce exactly. The
+172 focused checks, typechecking, production build and all 2,729 tests across
+259 files pass. Lower allocation, exception dispatch, full startup and campaign
+completion remain unfinished.
+
+PR 124 passed CI run 37770523149 and merged at
+`3dc3188d9d47712342d76f996e468013a52de98c`.
+
+
+## 8 October 2026 — Lower heap and 16-byte pool evidence
+
+PR 125 passed CI run 37771585405 and merged at
+`90275aa46314fb5c4a7227bb51c7bc63eb0db023`. Its Pages publication is tracked by
+run 37772690355, which completed successfully.
+
+The next source package captures four original allocator bodies: lower heap
+dispatch, the 16-byte pool dispatcher, its block initializer and bitmap
+allocator. The complete dispatch table proves that Root's thirteen-byte request
+selects the 16-byte pool. Its cold path requests a 1,056,768-byte virtual region,
+then initializes a bitmap and pool descriptor before selecting a payload slot.
+
+The producer verifies all new instruction bytes against the installed DLL and
+captures the cold roots, geometry and VirtualAlloc import identity. Focused
+checks pin all 4,097 dispatch entries, four body hashes and entry thunks, request
+arguments, fallback selection and bitmap instructions. All 107 generated files
+and the unchanged live instruction module reproduce exactly. The expanded
+focused suite passes 175 checks. Typechecking, the production build and all
+2,732 tests across 259 files pass (full-suite duration 182.58 seconds).
+
+These captures do not execute the pool operations. The live boundary remains
+`1003d474 -> 10001028`. The next implementation must retain the existing live
+MemoryAdmin/exit-table owner, acquire the region through the canonical platform
+VirtualAlloc capability, execute original metadata initialization and return an
+owned slot. Full startup and campaign completion remain unfinished.
+
+
+## 8 October 2026 — Live 16-byte pool dispatcher and virtual reservation
+
+The live SharedBase initializer now executes lower heap dispatch and the selected
+16-byte pool callback. A thirteen-byte Root CString request reads the original
+size table, increments the pool count, updates its peak through the original
+branch and reads the live list root. The cold list reaches VirtualAlloc.
+
+The CALL retains its original four arguments and IAT identity. The platform's
+private registry proves that the actual returned 1,056,768-byte region is live,
+owned and has the original virtual geometry. Its backing and masks become the
+same retained SharedBase view. The reservation wrapper requires a fresh region
+created during the current invocation; earlier same-platform regions are rejected.
+No disconnected MemoryAdmin or invented pointer
+is substituted. The caller performs its sixteen-byte stdcall cleanup and passes
+the actual region to `10047f7c -> 100061cc`, the block initializer. At that
+boundary the heap lock and original exception frame remain entered.
+
+NULL allocation follows the original register pops and indirect fallback jump
+to the next pool. Unsupported callbacks and unavailable or replaced capabilities
+retain their real operation boundary. Focused checks cover original counters,
+region identity/geometry, CALL arguments/cleanup, fallback and rejection of
+foreign, freed, CRT-owned and replaced storage. The 187 focused checks and
+typechecking pass. All 107 generated files and the instruction module reproduce
+exactly. The final full suite passes 2,744 tests across 259 files in 165.02
+seconds, and the production build passes.
+
+The next missing work is the original block initializer: its 20-byte descriptor,
+callback stores, list exchanges, bitmap memset and pool registration, followed
+by actual bitmap slot selection. Full startup, NPC activation and campaign
+completion remain unfinished.
+
+
+PR 126 passed CI run 37773432296 and merged at
+`32233abb7fa6f251b893dbdb15b79a277657d940`; Pages run 37774323531 succeeded.
+PR 128 passed CI run 37773555162 and merged at
+`df155939721d668ef94142e24401d805f67b8a7a`. Its publication is tracked separately;
+merging source evidence does not execute the newly captured pool bodies.
+
+
+## 8 October 2026 — Original CRT descriptor allocation and list exchange
+
+PR 129 passed CI run 37775450873 and merged at
+`49d56a21385c8e29d10ef1945639ccb0d25e307c`. Pages run 37777023637 tracks its
+publication and completed successfully.
+
+The live pool initializer now executes original CRT operator new and malloc.
+Its twenty-byte descriptor request uses the same live SharedBase heap through
+HeapAlloc at `100aab6e`. A private allocation receipt proves the actual heap,
+flags and requested size, and the returned backing must be fresh for that
+invocation. The bridge supports normalized CRT allocation sizes rather than
+limiting the primitive to this descriptor. Actual general rounding, mode-three
+helper boundaries and NULL allocation's errno boundary remain source-driven.
+
+The malloc caller restores its saved registers; operator new executes its
+original LEAVE/RET and caller cleanup. The initializer writes all four original
+callback addresses, preserves the old descriptor-list link through XCHG.LOCK
+and publishes the real descriptor. The region's occupancy/search fields are
+cleared before pending `10045e1e -> 100a7980`: original bitmap memset, offset
+0x100000, byte 0xff, count 0x2000. The heap lock and Malloc exception frame remain
+entered; no bitmap fill, slot return or enclosing initializer return is invented.
+
+The package now captures 61 bodies, 1,355 instructions and 136 CALL receipts.
+All 111 generated source files and the instruction module reproduce exactly.
+Typechecking and 199 focused checks pass, covering native descriptor contents,
+heap identity, allocation freshness, private request receipts, original return
+cleanup, unsupported helpers and retained failure prefixes. The final suite
+passes 2,756 tests across 259 files in 187.75 seconds; the production build passes.
+
+Next are the original bitmap fill, list publication and pointer-area registration,
+then the bitmap allocator and allocation return. Full startup, world activation
+and a finishable campaign remain unfinished.
+
+
+## 8 October 2026 — Original bitmap fill and cold pointer-area registration
+
+PR 130 passed CI run 37779027856 and merged at
+`03187338e1c4539c66d1761544796f77b48a9294`. Pages run 37781043283 tracks its
+publication independently of the next local checkpoint and completed successfully.
+
+The retained initializer now executes original memset at `100a7980`. The
+0xff fill byte follows its scalar branch, independent of the SSE flag. Private
+same-platform geometry supplies only the low address bits required by NEG/AND;
+no numeric virtual address is invented. SHL/ADD constructs 0xffffffff and
+REP STOSD writes 2,048 DWORDs using the actual logical thread direction flag.
+The original return restores EDI and the caller removes twelve argument bytes.
+The caller writes 0x7fffffff to the last bitmap word, disabling its reserved bit.
+
+The original list exchange at `10045e3c` publishes the actual region and stores
+its previous link. The original pointer-area thunk at `100012e4` enters
+`1003c650`. With cold count zero, it skips the binary search and shift, writes
+payload start region+16, exclusive payload end region+0x100000, region base and
+actual CRT descriptor into the original static area storage, then increments
+`102fb030` and returns with twelve-byte callee cleanup. The captured 262,144-byte
+PE loader-zero interval ends at the following heap critical section; its
+physical size does not prove a logical record limit. Sorting across distinct
+regions and the warmed insertion memmove remain unsupported.
+
+The block initializer returns to the pool loop, which reaches pending
+`10047f57 -> 1000605a`: bitmap slot allocation. The region, descriptor, heap
+lock and original Malloc exception frame remain retained. No slot, CString,
+Root constructor or complete module startup has returned.
+
+The package captures 63 bodies, 1,461 instructions and 137 CALL receipts.
+All 115 generated source files and the instruction module regenerate exactly.
+The 206 focused checks pass, covering physical bitmap contents and masks,
+reserved-bit clearing, actual record/list pointer identities, native cleanup,
+private alignment proof and reverse-direction stores. The production build
+passes. The final full suite passes 2,763 tests across 259 files in 185.49
+seconds; typechecking also passes. Authored whitespace checks pass, with
+original captured C whitespace preserved.
+
+Full startup, world and NPC activation, integrated saves/progression and a
+finishable campaign remain outstanding.
+
+
+## 8 October 2026 — Original bitmap slot claim and Malloc return
+
+PR 131 passed CI run 37782107395 and merged at
+`95d5611207732dbcf1917e0ef0d69854cd9110d4`; Pages run 37782989550 succeeded.
+
+The retained initializer admits the captured `1000605a -> 1003e090` body. Its
+original PUSHAD stores the entry ESP among the eight registers; POPAD discards
+that ESP slot and restores the other seven. INC.LOCK increments occupancy.
+CLD sets the logical thread direction to forward, REPE SCASD compares the actual
+bitmap words with zero and advances EDI/ECX, BSF finds the least free bit and
+BTR.LOCK clears it and reports the old bit through carry. IMUL uses the original
+sixteen-byte stride to compute the slot address. The admitted operations run
+synchronously in the retained logical thread; they do not claim host-thread
+concurrency support.
+
+The actual returned region+16 becomes a bounded sixteen-byte field view over
+the same backing. The owner retains its region, offset, logical capacity and
+bitmap claim. Access checks preserve the canonical virtual-region lifetime and
+reject a slot whose bit has been returned to the free bitmap. Changed geometry
+or an unowned pool receiver cannot grant a logical slot. Aliased region and
+slot pointers retain native equality through their common backing and offsets.
+
+The original dispatcher restores registers and returns through the lower heap.
+Malloc calls the original LeaveCriticalSection import, restores FS and saved
+registers, and returns. The existing frame-restoration checks verify that return.
+CString setup then writes its original length, reference count, payload pointer
+and terminator into the same slot. The original thirteen-byte request selects a
+sixteen-byte pool allocation; it does not allocate a separate host buffer.
+
+Normal execution now stops at `1001362d -> 100a7a00`, the original memcpy CALL
+for the four-byte Root payload. Its CString constructor, Root constructor and
+enclosing initializer have not returned. A failed critical-section initializer
+now reaches the actual unconditional Leave call and stops there if no canonical
+section was entered; it does not fabricate a successful unlock.
+
+The 211 focused checks and typechecking pass. All 115 generated source files and
+the instruction module regenerate exactly. The final full suite passes 2,768
+tests across 259 files in 162.07 seconds, and the production build passes.
+Authored whitespace checks pass. Bitmap exhaustion, additional pools and allocation failure/cleanup
+cases still need evidence and integration. Complete startup, world activation
+and campaign completion remain outstanding.
+
+
+## 8 October 2026 — Original Root copy and static initializer return
+
+PR 133 passed CI run 37784481242 and merged at
+`aae1a3849b756298621b015e611656278be8f1e7`; Pages run 37785902417 succeeded.
+
+The live initializer now enters original memcpy at `100a7a00`. Its owner proves
+that the source is retained original static-image storage and the destination
+is the actual live bounded pool slot, with both spans contained. For disjoint
+spans, either numerical address ordering reaches the same forward block at
+`100a7a20`. The interpreter joins those control paths without selecting an
+invented address order: the intervening comparisons have no stores, and the
+next original CMP overwrites their arithmetic flags. The trace marks that join
+explicitly. Same-backing pointer relations continue to use their actual offsets.
+
+The original alignment TEST uses private canonical geometry, then the captured
+DWORD/tail tables select the real source loads and destination stores. Normal
+Root copies four bytes and restores memcpy's saved EBP, ESI and EDI through
+LEAVE/RET; its caller removes twelve argument bytes. The CString constructor
+returns the same slot's payload pointer, preserving its terminating byte.
+
+The original parent initializer publishes that pointer at `102f4618`, increments
+the sixteen-bit reference count, clears the remaining fields of the original
+forty-byte static object and writes its zero float through XORPS/MOVSS. The
+selected virtual CPU must explicitly support normal SIMD execution. Its
+sixteen-bit decrement preserves adjacent padding, and CX/DX comparison verifies
+that a live reference remains before skipping Free. The temporary reference is
+balanced; the static Root retains reference count one.
+
+The original atexit/onexit path encodes and appends `100e2b40` as callback twelve
+in the same 128-byte exit table, at offset 44 with cursor 48. Registration does
+not execute the shutdown body. The Root callback returns to cinit, which reaches
+pending `100aa692 -> 100e15d0`, void initializer 141.
+
+The package captures 64 bodies, 1,708 instructions and 137 CALL receipts; all
+117 generated source files and the instruction module regenerate exactly.
+Typechecking and 220 focused checks pass, covering actual payload/static-pointer
+identity, constructor and caller cleanup, reference/padding preservation,
+SIMD stores, exit callback ordering, private disjoint-copy proof and unchanged
+allocator dependencies. The final full suite passes 2,777 tests across 259
+files in 162.29 seconds, and the production build passes. Authored whitespace
+checks pass; original captured C whitespace is preserved.
+
+Shortened Root inputs select the original twelve-byte pool and retain its
+unimplemented `1003d304 -> 100028f6` boundary. They are not routed into the
+sixteen-byte pool to manufacture success. This checkpoint does not establish
+general backward, unaligned, REP or SSE memcpy support. Remaining initializers,
+full startup, NPC/world activation and a finishable campaign remain outstanding.
+
+### Local `_Root` initializer 141 checkpoint — 8 October 2026
+
+The source generator now retains the original `_Root` literal at `100ea340`
+and its cold string storage at `102f47d0`. The live SharedBase owner executes
+original initializer `100e15d0`: constructor call, shutdown registration and
+return. Its five-byte text uses a second bounded sixteen-byte slot at offset
+32 in the existing virtual region. The native copy includes its byte-tail
+store; the length, reference count and terminating zero occupy actual owned
+storage. The first Root object remains in its original slot.
+
+No second virtual reservation or descriptor is needed on this path. The pool
+count and peak become two, and its bitmap clears bits zero and one. Original
+shutdown callback `100e2f20` becomes the thirteenth registered callback; its
+body has not been executed. Execution stops at initializer 142's admission
+boundary, `100aa692 -> 100e1600`; full attach remains incomplete.
+
+Local evidence: 221 focused tests, typechecking and the production build pass.
+All 117 generated source files plus the runtime instruction module reproduce
+exactly. The full suite passes 2,778 tests across 259 files (187.47 seconds).
+This checkpoint is not published.
+
+The preceding Root checkpoint, PR 134, merged at
+`ba1aa1c48561502bf05434ecf09377fdd09cf63f`. Pages run 37790192791 is in progress;
+a merge alone does not establish successful deployment.
+
+### Local class-name initializer 142 prefix — 8 October 2026
+
+Original getter `1000619f -> 1008e900` copies the cold published pointer on
+its first guard branch and sets guard bits one and two in its retained image
+storage. Its original `type_info::name` wrapper forwards the actual receiver
+and type-info node to `_Name_base`. Execution stops at `100a709e -> 100b0902`;
+the cached name is still NULL, the class-name string remains unconstructed,
+and initializer 142 has not returned. The first already-set guard preserves
+its existing stored copy. No shutdown callback for this getter is registered.
+
+The generator captures both getters and the native name/demangling/search
+bodies against the installed DLL. Source evidence now contains 70 bodies,
+1,933 instructions and 159 CALL receipts. All 129 generated files and the
+instruction module reproduce exactly. The 224 focused checks and typechecking
+and the production build pass. The full suite passes 2,781 tests across
+259 files (169.43 seconds). This work is local.
+
+PR 134 Pages run 37790192791 completed successfully. PR 135's `_Root` validation
+is still running; it has not merged or deployed.
+
+### Local type-info name exception frame — 8 October 2026
+
+The live SharedBase owner retains the original 28-byte exception scope at
+`100f8b20`. Original `_Name_base` instructions enter the existing EH4 helper,
+with the actual scope, twelve-byte local reservation, saved registers and FS
+chain. The helper's return verifies the encoded scope and prior FS relation.
+The frame remains entered and unreturned while the cold cached-name path
+prepares its original six demangler arguments, including flags `0x2800`.
+Execution stops at `100b0931 -> 100c6142`; no demangled name has been allocated
+or published. A modified scope rejects admission before frame entry.
+
+Typechecking and 226 focused tests pass. All 129 generated source files and
+the instruction module reproduce exactly. The production build and full suite pass: 2,783 tests across 259 files
+(185.99 seconds). This checkpoint remains local. PR 135 passed CI run 37790581670 and
+merged; its Pages deployment result must be checked separately.
+
+### Local nested demangler exception frame — 8 October 2026
+
+Original SharedBase `___unDName` at `100c6142` now enters its own EH4 frame
+using the captured scope at `100f8e80` and 132-byte local reservation. The outer
+`_Name_base` frame remains active. The wrapper reads the original allocator
+argument `100aaaf6`, takes its non-NULL branch and reaches the original CRT
+lock-initialization call `100c6160 -> 100bb7cf` with lock id five. No demangler
+state, output string or cached name has been fabricated. Both exception frames
+remain unreturned; changed nested scope bytes reject before the second entry.
+
+Typechecking and 228 focused checks pass. All 131 generated source files and
+the instruction module reproduce exactly. The production build and full suite pass: 2,785 tests across 259 files
+(182.75 seconds). Source evidence contains 71 bodies, 1,975 instructions and 167 CALL
+receipts; unimplemented paths remain explicit boundaries.
+
+The preceding class-name getter and `_Name_base` checkpoint is PR 136. Its
+local validation passed 2,783 tests across 259 files, focused checks, typecheck,
+build and exact regeneration. Publication requires CI, review, merge and a
+successful Pages deployment separately.
+
+PR 135 Pages run 37791905285 has completed successfully. PR 136 CI run
+37792619176 is running. The native CRT lock-five slot is cold NULL; its next
+normal path requires dynamic allocation of the original 24-byte section and
+publication through the same retained lock table and live SharedBase heap.
+
+### Local CRT lock-five allocation prefix — 8 October 2026
+
+Original lock initializer `100bb7cf` enters its own retained EH4 frame, selects
+slot five in the actual existing CRT lock table, and follows its NULL-section
+branch. The original malloc wrapper `100aeed0` requests 24 bytes through
+`100aaaf6` and the same live CRT heap, flags zero. Its actual owned allocation
+returns to the lock initializer with uninitialized bytes retained. The next
+boundary is `100bb834 -> 100bb892`, CRT lock ten entry. Lock five is still NULL;
+its section has not yet been initialized or published. All three nested
+exception frames remain active. An unavailable heap allocation retains the
+pending native heap call without publishing a section.
+
+Typechecking and 230 focused checks pass. All 135 generated source files and
+the instruction module reproduce exactly. The production build passes. The full suite records 2,786 passing tests and
+one forest-test timeout (196.45 seconds); all 11 forest tests pass in isolation
+(5.04 seconds). Full-suite acceptance remains pending. Captured evidence contains 73 bodies, 2,061 instructions and 182 CALL
+receipts. Full startup and campaign completion remain unfinished.
+
+PR 136 passed CI run 37792619176 and merged after a repository-wide audit
+found no active workflow runs. Its Pages deployment is tracked separately.
+
+### Local CRT lock-five initialization and publication — 8 October 2026
+
+Original CRT lock/unlock instructions now run against the actual retained
+bootstrap lock table. The lock initializer enters static lock ten, calls the
+existing source-backed section initializer with its owned heap allocation and
+spin count 4,000, publishes the resulting allocation pointer in slot five,
+releases lock ten and restores its original EH4 frame, FS chain and saved
+registers. The demangler then enters the new lock five. Execution reaches
+`100c61aa -> 100c2351`, before decorator construction.
+
+The original `100bbf27` helper's bytes are pinned. Its normal initialization
+uses the existing owner method and actual platform capability; it is separate
+from the emitted lock/unlock instructions. The normal allocation has 24 bytes.
+The original general heap branch rounds it to 32 bytes; the physical section
+uses a bounded 24-byte view with the same backing and start offset. Its spare
+eight bytes retain their unknown masks. Private section identities validate
+native table pointers; a forged slot-ten pointer rejects before lock entry.
+
+A false initializer result keeps lock ten held and slot five unpublished,
+stopping at original free dependency `100bb853 -> 100aa9a4`. The successful
+path leaves lock ten at depth zero and lock five at depth one. The outer
+name and demangler exception frames remain active. Decorator/grammar/output,
+full SharedBase attachment, Game startup and campaign play remain unfinished.
+
+Typechecking, the production build and 235 focused checks pass. All 143
+source files plus the instruction module reproduce exactly. Evidence contains
+77 bodies, 2,142 instructions and 196 CALL receipts. The final full suite passes 2,792 tests across 259 files (173.16 seconds),
+including rejection of a cleared retained lock slot. This checkpoint remains
+local until review, CI and deployment complete.
+
+PR 136 Pages run 37793944879 completed successfully at main revision
+`982fc4b69dde919d0767dff34d63f46e54b89a86`.
+
+### Local demangler decorator and scratch-node construction — 8 October 2026
+
+The selected original decorator, replicator and node constructors now execute
+against the live thread stack and CRT heap. The scratch allocator requests one
+4,104-byte block through the existing CRT allocation path. Four 16-byte nodes
+occupy offsets 4,084, 4,068, 4,052 and 4,036; their original vtable value is
+`100f29ac`, and their types alternate 3 and 1. The allocator retains the actual
+first/last block pointers and 4,032 available bytes.
+
+The two replicators occupy the original stack locations, 60 bytes apart. Their
+node pointers retain the actual heap backing. The original masked assignment
+`A XOR ((A XOR B) AND 15)` sets the selected low bits while preserving unknown
+padding. Its interpreter proof requires the original read and both XOR/AND
+results to refer to the same physical word. Relative stack and exception-frame
+expressions retain their existing provenance.
+
+Execution reaches `100c61b5 -> 100c5e8f`, before decorator-to-string processing.
+The constructor call has returned, while CRT lock five and the enclosing name
+and demangler exception frames remain active. Grammar traversal, output name
+creation, full engine startup and campaign play remain unfinished.
+
+Local evidence: 239 focused checks and typechecking pass. All 153 generated
+source files plus the instruction module reproduce exactly. The package
+contains 82 bodies, 2,295 instructions and 204 CALL receipts. The production build passes. A further focused check confirms scratch
+allocation failure retains the active lock and frame without publishing a
+block. The full suite passes 2,797 tests across 260 files (200.46 seconds).
+This checkpoint is not published.
+
+PR 137 passed CI run 37797822192 and merged at
+`2d3a0afa06ff1551ecd3ab081d8e78fd4f654ee6` after a 299-run repository-wide
+audit found no active runs. Pages run 37800122027 is pending.
+
+### Local decorator-to-string and data-type parser entry — 8 October 2026
+
+The original decorator-to-string, declaration and data-type routines now enter
+through the retained demangler frame. Flag `0x2000` selects the data-type path
+and is cleared in source order, leaving `0x0800`. The original cursor advances
+from `?` to `A` on the same input backing; the original DName constructor
+returns with its NULL node and masked flag fields. The parser reaches
+`100c67d5 -> 100c59ab`. Its parent calls, lock five and enclosing exception
+frames remain active. Grammar decoding and output are still incomplete.
+
+Pointer INC advances the retained relative pointer and preserves carry; other
+address-dependent flags stay unknown. Signed narrow loads support the captured
+primary-type helper, whose body has not executed on this selected path.
+
+Local validation passes 238 focused checks and typechecking. All 163 generated
+files plus the instruction module reproduce exactly. Evidence contains 87
+bodies, 2,794 instructions and 257 CALL receipts. The production build and full suite pass: 2,798 tests across 260 files
+(177.30 seconds). Publication remains pending. Complete engine startup and campaign play
+remain unfinished.

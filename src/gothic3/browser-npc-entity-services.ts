@@ -1,3 +1,4 @@
+import {nativeVirtualX86CpuSelection} from './native-x86-thread-stack-profile';
 /** Browser platform services for the retained NPC constructor. The declared
  * CRT compatibility platform owns real selected heap/TLS/lock operations;
  * incomplete native startup remains an explicit prerequisite boundary. */
@@ -113,7 +114,7 @@ export interface BrowserNpcEntityServiceOwner {
 
 export function createBrowserNpcEntityServices(platform: BrowserNpcEntityPlatform): BrowserNpcEntityServiceOwner {
   const runtimeAdmins = createBrowserNpcRuntimeAdminOwner(createBrowserGameCrtPlatform({
-    processInputs: browserGameProcessInputs, threadStack: { reservationBytes: 4096, pageAlignment: 'virtual-page-4096' },
+    processInputs: browserGameProcessInputs, threadStack: { reservationBytes: 4096, pageAlignment: 'virtual-page-4096', cpu: nativeVirtualX86CpuSelection },
     startupIo: browserGameStartupIoInputs,
     standardIo: browserGameStandardIoInputs,
     argvNls: browserGameArgvNlsInputs,
