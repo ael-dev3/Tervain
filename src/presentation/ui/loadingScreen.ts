@@ -15,6 +15,8 @@ export interface LoadingStart {
 export interface LoadingFailure {
   title?: string;
   message?: string;
+  /** What actually went wrong, in small print under the message, so a report names the cause. */
+  detail?: string;
   retry?: () => void | Promise<void>;
   retryLabel?: string;
   back?: () => void;
@@ -115,6 +117,7 @@ export class LoadingScreen {
       h('p', { class: 'loading-kicker' }, S('game.title')),
       h('h1', { id: `${this.id}-failure-title` }, options.title ?? S(`loading.failure.${this.mode}.title`)),
       h('p', { id: `${this.id}-failure-message` }, options.message ?? S(`loading.failure.${this.mode}.message`)),
+      options.detail ? h('p', { class: 'loading-error-detail' }, options.detail) : null,
       h('div', { class: 'loading-error-actions' }, retry, back));
     card.addEventListener('keydown', (event) => {
       if (event.key !== 'Tab') return;

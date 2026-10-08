@@ -65,7 +65,7 @@ vi.mock('../../src/world/physics', () => ({ initializePhysics: async () => {}, R
   dispose = vi.fn(); setWater() {}
   constructor() { controls.owners.push({ name: 'physics', dispose: this.dispose }); }
 } }));
-vi.mock('../../src/presentation/terrainTextures', () => ({ makeTerrainTextures: async (_size: number, _yieldNow: unknown, options: { onProgress?: (completed: number, total: number) => void }) => {
+vi.mock('../../src/presentation/terrainTextures', () => ({ TERRAIN_TEXTURE_SIZE: { high: 1024, medium: 768, low: 256 }, makeTerrainTextures: async (_size: number, _yieldNow: unknown, options: { onProgress?: (completed: number, total: number) => void }) => {
   const textures = { albedo: new THREE.DataArrayTexture(), normal: new THREE.DataArrayTexture(), size: 256,
     dispose: vi.fn(() => { textures.albedo.dispose(); textures.normal.dispose(); }) };
   controls.owners.push({ name: 'textures', dispose: textures.dispose });
