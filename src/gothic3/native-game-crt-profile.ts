@@ -1,3 +1,4 @@
+import { admitGameArenaStatusSource, gameArenaStatusSourceRules, gameArenaStatusImagePins, gameArenaStatusImageReceipt } from './native-game-arena-status-source';
 import { admitGameArenaTypeSource, gameArenaTypeSourceRules, gameArenaTypeImagePins, gameArenaTypeImageReceipt } from './native-game-arena-type-source';
 /** Original Game CRT admission. These pins were checked against the local
  * Game.dll image; cold bytes do not certify initialized platform resources. */
@@ -35,8 +36,8 @@ export interface NativeCrtSourceProfile {
 }
 const baseRules = JSON.parse(rulesText) as NativeCrtSourceRules;
 const rules: NativeCrtSourceRules = { ...baseRules,
-  methods: { ...baseRules.methods, ...gameArenaSourceRules.methods, ...gameArenaTypeSourceRules.methods },
-  coldGlobals: { ...baseRules.coldGlobals, ...gameArenaSourceRules.coldGlobals, ...gameArenaTypeSourceRules.coldGlobals },
+  methods: { ...baseRules.methods, ...gameArenaSourceRules.methods, ...gameArenaTypeSourceRules.methods, ...gameArenaStatusSourceRules.methods },
+  coldGlobals: { ...baseRules.coldGlobals, ...gameArenaSourceRules.coldGlobals, ...gameArenaTypeSourceRules.coldGlobals, ...gameArenaStatusSourceRules.coldGlobals },
   constBytes: { ...baseRules.constBytes, ...gameArenaSourceRules.constBytes },
 };
 function freeze(value: unknown): void {
@@ -93,6 +94,7 @@ export const nativeGameImagePins: Readonly<Record<string, readonly [
 ]>> = Object.freeze({
   ...gameArenaImagePins,
   ...gameArenaTypeImagePins,
+  ...gameArenaStatusImagePins,
   ...gameContinuationImagePins,
   ...gameIoStartupImagePins,
   ...gameIoAllocationImagePins,
@@ -186,6 +188,7 @@ const imports = [
   ['207d7c44', 'HeapCreate'], ['207d7c8c', 'Sleep'], ['207d7c94', 'GetProcAddress'],
 ] as const;
 export function admitNativeGameCrtSource(): void {
+  admitGameArenaStatusSource();
   admitGameArenaSource();
   admitGameArenaTypeSource();
   admitGameEnvironmentSource();
@@ -209,6 +212,7 @@ export function admitNativeGameCrtSource(): void {
   }
 }
 export function nativeGameImageReceipt(label: string): NativeCrtImageReceipt {
+  if (Object.hasOwn(gameArenaStatusImagePins,label)) return gameArenaStatusImageReceipt(label);
   if (Object.hasOwn(gameArenaTypeImagePins,label)) return gameArenaTypeImageReceipt(label);
   if (Object.hasOwn(gameArenaImagePins, label)) return gameArenaImageReceipt(label);
   if (Object.hasOwn(gameSetEnvpImagePins, label)) return gameSetEnvpImageReceipt(label);

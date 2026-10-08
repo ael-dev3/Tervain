@@ -1,8 +1,23 @@
 import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { expect, it } from 'vitest';
+import { NativeGameCrtOwner } from '../../src/gothic3/native-game-crt';
+import { NativeRuntimePlatform } from '../../src/gothic3/native-runtime-platform';
+import { nativeGameTypeInfoForCrt } from '../../src/gothic3/native-crt-undname';
 
 const sha = (raw: Uint8Array) => createHash('sha256').update(raw).digest('hex');
+it('retains separate actual Game Status cache and RTTI image storage', () => {
+  const platform = new NativeRuntimePlatform();
+  const crt = NativeGameCrtOwner.forPlatform({platform, errnoSlot: () => ({known:false, reason:'not initialized'})});
+  const status = crt.imageStorage('arenaStatusClassName');
+  expect(status).not.toBe(crt.imageStorage('arenaClassName'));
+  expect(status.readUnsigned(8)).toBe(0);
+  expect(crt.imageStorage('arenaStatusDescriptor').bytes.length).toBe(36);
+  const name = nativeGameTypeInfoForCrt(crt, 'arenaStatus');
+  expect(name.descriptor).toBe(crt.imageStorage('arenaStatusTypeInfoDescriptor'));
+  expect(name).toBe(nativeGameTypeInfoForCrt(crt, 'arenaStatus'));
+  expect(name.descriptor).not.toBe(nativeGameTypeInfoForCrt(crt, 'arena').descriptor);
+});
 interface Method {
   bodyVA: string; instructionCount: number; bodyByteCount: number;
   bodyInstructionBytesSha256: string; assemblySha256: string; cSha256: string;
