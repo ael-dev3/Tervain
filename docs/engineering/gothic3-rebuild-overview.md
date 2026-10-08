@@ -45,7 +45,7 @@ history linked below:
    reviewed merge to `main` also publishes through `.github/workflows/pages.yml`.
    Record the successful deployment separately from local implementation.
 
-The current working tree also contains the next Root static-initializer checkpoint.
+The current working tree also contains the next class-name and demangler startup checkpoints.
 It remains separate from reviewed, deployed progress until validation and
 publication complete. Confirmed evidence and remaining campaign work are
 described below.
@@ -61,7 +61,7 @@ and the next missing dependency. Three states matter:
   receipts determine what is supported.
 - **Published:** a reviewed commit has completed the Pages deployment workflow.
 
-These states are recorded separately. The published runtime checkpoint is PR 134 (Pages run 37790192791 succeeded). Full engine startup, world activation
+These states are recorded separately. The published runtime checkpoint is PR 135 (Pages run 37791905285 succeeded). Full engine startup, world activation
 and campaign completion remain outstanding.
 
 ## Process at a glance

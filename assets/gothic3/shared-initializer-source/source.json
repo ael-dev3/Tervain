@@ -36,6 +36,17 @@
       "assemblySha256": "c0e9fa85bc0b8252d4d39a6081082eb7462b16e7563b7a40dfb97ab5df372827",
       "cSha256": "dfeb3753dfd27f5e66c86496039570db0a14859f2a74f77ae44221cc156521e2"
     },
+    "sharedUnDName": {
+      "entryVA": "0x100c6142",
+      "bodyVA": "0x100c6142",
+      "bodyRanges": "100c6142-100c61db",
+      "instructionCount": 42,
+      "bodyByteCount": 154,
+      "bodyInstructionBytesSha256": "32ed5c40f781a671e4c68473b3c8841e96601029466960a17d200ed4798fd70f",
+      "entryChain": [],
+      "assemblySha256": "5b1ab8185ff3ae17e67f6b8bb7b2a8329c552573cf48e51bd20c733bbfdb07cb",
+      "cSha256": "37d675958b45a626327a2b179ec9369812865e91c4764de032a0ed7aafcb73b4"
+    },
     "typeInfoName": {
       "entryVA": "0x100a7099",
       "bodyVA": "0x100a7099",
@@ -1234,6 +1245,10 @@
       "containingEntry": "10005e5c",
       "methodLabel": "initializer143Getter"
     },
+    "100c6142": {
+      "containingEntry": "100c6142",
+      "methodLabel": "sharedUnDName"
+    },
     "100a7099": {
       "containingEntry": "100a7099",
       "methodLabel": "typeInfoName"
@@ -1789,6 +1804,22 @@
       "raw": "feffffff00000000d4ffffff00000000feffffff00000000eb090b10",
       "bytes": 28,
       "sha256": "141cbd619c855da32819f30def127018330f9acd766042b381cda4007b0cdc7c",
+      "section": {
+        "virtualAddress": 937984,
+        "virtualSize": 366840,
+        "rawSize": 368640,
+        "rawOffset": 937984,
+        "fileBackedBytes": 28,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "sharedUnDNameScope": {
+      "address": "100f8e80",
+      "raw": "feffffff000000005cffffff00000000feffffff00000000dc610c10",
+      "bytes": 28,
+      "sha256": "d0a8d6af7c38c04f766c67ad7226de27dcf4198bded9ceaee6f7629246e5e72d",
       "section": {
         "virtualAddress": 937984,
         "virtualSize": 366840,
@@ -2568,6 +2599,70 @@
       "instruction": "CALL 0x100a72d0",
       "kind": "direct",
       "targetVA": "100a72d0"
+    },
+    {
+      "method": "sharedUnDName",
+      "address": "100c614c",
+      "raw": "e8178afeff",
+      "instruction": "CALL 0x100aeb68",
+      "kind": "direct",
+      "targetVA": "100aeb68"
+    },
+    {
+      "method": "sharedUnDName",
+      "address": "100c6160",
+      "raw": "e86a56ffff",
+      "instruction": "CALL 0x100bb7cf",
+      "kind": "direct",
+      "targetVA": "100bb7cf"
+    },
+    {
+      "method": "sharedUnDName",
+      "address": "100c616c",
+      "raw": "e82157ffff",
+      "instruction": "CALL 0x100bb892",
+      "kind": "direct",
+      "targetVA": "100bb892"
+    },
+    {
+      "method": "sharedUnDName",
+      "address": "100c61aa",
+      "raw": "e8a2c1ffff",
+      "instruction": "CALL 0x100c2351",
+      "kind": "direct",
+      "targetVA": "100c2351"
+    },
+    {
+      "method": "sharedUnDName",
+      "address": "100c61b5",
+      "raw": "e8d5fcffff",
+      "instruction": "CALL 0x100c5e8f",
+      "kind": "direct",
+      "targetVA": "100c5e8f"
+    },
+    {
+      "method": "sharedUnDName",
+      "address": "100c61c2",
+      "raw": "e816b3ffff",
+      "instruction": "CALL 0x100c14dd",
+      "kind": "direct",
+      "targetVA": "100c14dd"
+    },
+    {
+      "method": "sharedUnDName",
+      "address": "100c61ce",
+      "raw": "e809000000",
+      "instruction": "CALL 0x100c61dc",
+      "kind": "direct",
+      "targetVA": "100c61dc"
+    },
+    {
+      "method": "sharedUnDName",
+      "address": "100c61d6",
+      "raw": "e8d289feff",
+      "instruction": "CALL 0x100aebad",
+      "kind": "direct",
+      "targetVA": "100aebad"
     },
     {
       "method": "typeInfoName",

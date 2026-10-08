@@ -329,3 +329,12 @@ enters EH4 using pinned scope `100f8b20` and reaches the original demangler CALL
 identities retained. The lower demangler and the remaining allocation, locking,
 copy and cleanup paths still require implementation. Emitting the full body
 does not establish those paths.
+
+### Live demangler wrapper frame prefix
+
+`100c6142` is captured and emitted with its original scope `100f8e80`. Its
+selected non-NULL allocator path enters the nested EH4 frame and reaches
+`100c6160 -> 100bb7cf`, before the CRT lock query returns. Both it and the outer
+type-info frame remain active. There are 71 bodies, 1,975 instructions and
+167 CALL receipts. The demangler grammar and output remain unimplemented on
+this live SharedBase path.

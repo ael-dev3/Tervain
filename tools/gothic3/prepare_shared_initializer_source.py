@@ -24,6 +24,7 @@ def capture(study, output):
     tables = {}
     targets = {
         0x1000619f: 'initializer142Getter', 0x10005e5c: 'initializer143Getter',
+        0x100c6142: 'sharedUnDName',
         0x100a7099: 'typeInfoName', 0x100b0902: 'typeInfoNameBase',
         0x100088cd: 'classNameUnMangle', 0x100a7430: 'strstr',
         0x100a7a00: 'memcpy', 0x100a7980: 'memset', 0x100012e4: 'heapAddPointerArea',
@@ -77,7 +78,7 @@ def capture(study, output):
         ('className142State',0x102f47e4,12), ('className142Published',0x102f48bc,4),
         ('className143State',0x102f47f0,12), ('className143Published',0x102f48b8,4),
         ('className142TypeInfo',0x10140148,32), ('className143TypeInfo',0x1013f1a8,32),
-        ('typeInfoNode',0x102f6484,8), ('typeInfoNameScope',0x100f8b20,28),
+        ('typeInfoNode',0x102f6484,8), ('typeInfoNameScope',0x100f8b20,28), ('sharedUnDNameScope',0x100f8e80,28),
         ('underscoreRootLiteral',0x100ea340,6), ('underscoreRootString',0x102f47d0,4),
         ('rootStaticObject',0x102f4618,40),
         ('memcpyForwardDwords',0x100a7b08,32), ('memcpyForwardTail',0x100a7b74,16),
@@ -260,7 +261,7 @@ def capture(study, output):
 
 def initializer_runtime(output, destination):
     rows = []
-    for body in ['100aa632','100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100b444f','100ae27b','100aa47d','100a7265','100aef10','100b1854','100b4b6b','100ce095','100ce045','100aeb68','100aebad','100bef05','100ce0f5','100a72d0','100a7294','100a71ac','100ae2f2','100b10d6','100aa453','100aa45c','100a72ca','100e1660','100e1440','100e1450','100e1470','100e14b0','100e14c0','100e14d0','100e14e0','100e14f0','100e1500','100e1510','100e15d0','100e1600','1008e900','100a7099','100b0902','100135f0','10013240','10020bf0','1003d410','1003d2f0','10047f10','10045da0','100aabd2','100aaaf6','100a7980','1003c650','1003e090','100a7a00']:
+    for body in ['100aa632','100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100b444f','100ae27b','100aa47d','100a7265','100aef10','100b1854','100b4b6b','100ce095','100ce045','100aeb68','100aebad','100bef05','100ce0f5','100a72d0','100a7294','100a71ac','100ae2f2','100b10d6','100aa453','100aa45c','100a72ca','100e1660','100e1440','100e1450','100e1470','100e14b0','100e14c0','100e14d0','100e14e0','100e14f0','100e1500','100e1510','100e15d0','100e1600','1008e900','100a7099','100b0902','100c6142','100135f0','10013240','10020bf0','1003d410','1003d2f0','10047f10','10045da0','100aabd2','100aaaf6','100a7980','1003c650','1003e090','100a7a00']:
         for line in (output / (body + '.asm.txt')).read_text(encoding='utf-8').splitlines():
             rows.append(line.split(' | '))
     source=json.loads((output/'source.json').read_text(encoding='utf-8'))

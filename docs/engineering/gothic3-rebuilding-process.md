@@ -9701,3 +9701,28 @@ Typechecking and 226 focused tests pass. All 129 generated source files and
 the instruction module reproduce exactly. The production build and full suite pass: 2,783 tests across 259 files
 (185.99 seconds). This checkpoint remains local. PR 135 passed CI run 37790581670 and
 merged; its Pages deployment result must be checked separately.
+
+### Local nested demangler exception frame — 8 October 2026
+
+Original SharedBase `___unDName` at `100c6142` now enters its own EH4 frame
+using the captured scope at `100f8e80` and 132-byte local reservation. The outer
+`_Name_base` frame remains active. The wrapper reads the original allocator
+argument `100aaaf6`, takes its non-NULL branch and reaches the original CRT
+lock-initialization call `100c6160 -> 100bb7cf` with lock id five. No demangler
+state, output string or cached name has been fabricated. Both exception frames
+remain unreturned; changed nested scope bytes reject before the second entry.
+
+Typechecking and 228 focused checks pass. All 131 generated source files and
+the instruction module reproduce exactly. The production build and full suite pass: 2,785 tests across 259 files
+(182.75 seconds). Source evidence contains 71 bodies, 1,975 instructions and 167 CALL
+receipts; unimplemented paths remain explicit boundaries.
+
+The preceding class-name getter and `_Name_base` checkpoint is PR 136. Its
+local validation passed 2,783 tests across 259 files, focused checks, typecheck,
+build and exact regeneration. Publication requires CI, review, merge and a
+successful Pages deployment separately.
+
+PR 135 Pages run 37791905285 has completed successfully. PR 136 CI run
+37792619176 is running. The native CRT lock-five slot is cold NULL; its next
+normal path requires dynamic allocation of the original 24-byte section and
+publication through the same retained lock table and live SharedBase heap.
