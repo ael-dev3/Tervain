@@ -30,8 +30,8 @@ it('pins original SharedBase source identity without granting initializer execut
   expect(source.verifiedAgainstOriginalPE).toBe(true);
   expect(source.sourceOnly).toBe(true);
   expect(source.initializerExecutionCompleted).toBe(false);
-  expect(Object.keys(source.methods)).toHaveLength(41);
-  expect((Object.values(source.methods) as Method[]).reduce((sum,m)=>sum+m.instructionCount,0)).toBe(736);
+  expect(Object.keys(source.methods)).toHaveLength(45);
+  expect((Object.values(source.methods) as Method[]).reduce((sum,m)=>sum+m.instructionCount,0)).toBe(786);
 });
 it('preserves every admitted instruction byte and separates unavailable C exports',()=>{
   let recovered=0;
@@ -62,7 +62,7 @@ it('preserves every admitted instruction byte and separates unavailable C export
       }
     }
   }
-  expect(recovered).toBe(4);
+  expect(recovered).toBe(6);
 });
 it('retains table ordering, NULL gaps and every registered callback entry',()=>{
   const expected:Record<string,{count:number; hash:string; indices:number[]}>= {
@@ -106,7 +106,7 @@ it('captures the section write flag and cold conversion/exit/RTC storage',()=>{
   expect(source.coldGlobals.rtcTerminators.raw).toBe('00'.repeat(256));
 });
 it('retains original CALL encodings and distinguishes imports from indirect callbacks',()=>{
-  expect(source.calls).toHaveLength(74);
+  expect(source.calls).toHaveLength(75);
   for(const call of source.calls){
     const raw=Buffer.from(call.raw,'hex');
     if(call.kind==='direct'){
@@ -132,4 +132,21 @@ it('pins the original pointer encoding lookup inputs and availability branches',
   expect(source.methods.pointerEncodingAvailable.bodyVA).toBe('0x100ae20f');
   expect(source.calls.find((call:{address:string})=>call.address==='100ae225').targetVA).toBe('100aa54c');
   expect(source.calls.find((call:{address:string})=>call.address==='100ae256').targetVA).toBe('100b0be0');
+});
+
+it('captures original processor exception-frame dependencies without executing them',()=>{
+ expect(source.methods.exceptionFrameEnter.bodyVA).toBe('0x100aeb68');
+ expect(source.methods.exceptionFrameLeave.bodyVA).toBe('0x100aebad');
+ expect(source.coldGlobals.processorProbeScope).toMatchObject({address:'100f8ec0',bytes:28,liveValueCaptured:false});
+ expect(()=>sharedInitializerInstruction('100aeb68')).toThrow('Unowned');
+});
+
+it('recovers processor exception filter and handler targets from the original scope',()=>{
+ const scope=Buffer.from(source.coldGlobals.processorProbeScope.raw,'hex');
+ expect(scope.readUInt32LE(20)).toBe(0x100ce062);expect(scope.readUInt32LE(24)).toBe(0x100ce07e);
+ expect(source.methods.processorProbeExceptionFilter.decoder).toBe('capstone 5.0.7');
+ expect(source.methods.processorProbeExceptionHandler.decoder).toBe('capstone 5.0.7');
+ const filter=readFileSync(base+'100ce062.asm.txt','utf8');expect(filter).toContain('cmp eax, 0xc0000005');expect(filter).toContain('cmp eax, 0xc000001d');
+ const handler=readFileSync(base+'100ce07e.asm.txt','utf8');expect(handler).toContain('and dword ptr [ebp - 0x1c], 0');
+ expect(()=>sharedInitializerInstruction('100ce062')).toThrow('Unowned');
 });

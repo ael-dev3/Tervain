@@ -1,0 +1,6 @@
+100ce07e | 8b65e8 | mov esp, dword ptr [ebp - 0x18]
+100ce081 | 8365e400 | and dword ptr [ebp - 0x1c], 0
+100ce085 | c745fcfeffffff | mov dword ptr [ebp - 4], 0xfffffffe
+100ce08c | 8b45e4 | mov eax, dword ptr [ebp - 0x1c]
+100ce08f | e8190bfeff | call 0x100aebad
+100ce094 | c3 | ret

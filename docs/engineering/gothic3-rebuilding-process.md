@@ -63,7 +63,9 @@ still required; no processor result is supplied in place of those operations.
 Typechecking, 122 focused checks and the production build pass. All 74 generated
 source files and emitted runtime reproduce exactly. The full suite passes
 2,671 tests across 259 files. PR 114 passed CI run 37756577528 and merged at
-`bdc3d8f4abc7f79da511e92b50f3160bbccb59de`; Pages run 37757319592 is running.
+`bdc3d8f4abc7f79da511e92b50f3160bbccb59de`; Pages run 37757319592 succeeded.
+PR 115 passed CI run 37757739546 and merged this processor-entry checkpoint
+at `d044545e75e4eee4cccdb5ffc447c4ba30c1db76`. Its Pages run is 37758516262.
 Full startup, NPC activation and campaign completion remain unfinished.
 
 ### First error initializer allocation, encoding and return
@@ -9117,3 +9119,29 @@ initializer traversal, NPC activation and a finishable campaign remain missing.
 
 PR 104 passed CI run 37736807410 and merged at
 `861fbf5ab7fca284b52e3cc8aebaeaf9b0ae2a6f`. Its Pages deployment is not yet confirmed here.
+
+## Processor probe dependencies still to implement
+
+The local probe toggles EFLAGS.ID (bit 21), compares the read-back flags, queries
+CPUID leaves 0 and 1 and tests EDX bit 26. The SIMD path calls `100ce045`, whose
+normal path copies XMM1 to XMM0 under the original exception frame. The frame
+helpers `100aeb68`/`100aebad` and 28-byte scope at `100f8ec0` are now captured
+as source evidence. They are not admitted for runtime execution yet. The study
+disassembly omits cold handler bytes between `100ce060` and `100ce085`; their
+original PE bytes are now recovered using Capstone: filter `100ce062`
+recognizes access violation and illegal instruction, and handler `100ce07e`
+clears the result local before the normal epilogue. Branch closure and original
+bytes are checked. Runtime exception dispatch still needs implementation.
+
+[Intel’s architecture manual](https://cdrdv2-public.intel.com/868137/325462-089-sdm-vol-1-2abcd-3abcd-4.pdf)
+defines the ID-bit probe and processor instructions. Implementation must retain
+virtual flags, selected CPUID results, XMM state and exception ownership, and
+preserve unknown state outside the supported effects. Current execution still
+stops before PUSHFD at `100ce0a8`.
+
+Processor exception evidence validation: all 80 generated source files and the
+unchanged runtime reproduce exactly. Nine focused checks, typechecking, the
+production build and all 2,673 tests across 259 files pass. PR 115 passed CI
+run 37757739546 and merged at `d044545e75e4eee4cccdb5ffc447c4ba30c1db76`.
+These receipts validate source recovery; they do not establish execution of
+PUSHFD, POPFD, CPUID, MOVAPD or native exception dispatch.
