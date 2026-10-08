@@ -51,3 +51,10 @@ constructor over supplied retained fields, preserving padding and the original
 verify the two 224-byte-pool allocations followed by the 1536-byte-pool allocation.
 This helper does not own the canonical SharedBase image singleton, getter guard
 or exit registration and does not complete module initialization.
+
+The source package now captures the singleton's 40-byte loader-zero image span
+at 102f48c0, including the guard at 102f48e4, its exact exit callback bytes and
+the destructor dependencies. NativeSharedModuleImage acquires that span once
+and supplies canonical physical object/guard aliases. This acquisition executes
+no getter or destructor; SharedBase exit registration and live getter execution
+remain unconnected. Focused tests reject copied and ended storage.

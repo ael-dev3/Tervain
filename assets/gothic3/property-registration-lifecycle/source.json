@@ -210,9 +210,76 @@
       ],
       "assemblySha256": "26a2674516ca0ab92c27d69387febe0d56474590f2f7c33c6cbc5bac175ed477",
       "cSha256": "3819b24afafe16a79865217fac0c671df9fd253b02063e386b538d01b4949121"
+    },
+    "destroyPropertySingleton": {
+      "entryVA": "0x10006654",
+      "bodyVA": "0x100906f0",
+      "bodyRanges": "100906f0-10090747",
+      "instructionCount": 34,
+      "bodyByteCount": 88,
+      "bodyInstructionBytesSha256": "5d8c579c2d0db9e2d096efcd6a83c190e0bbf46338c44daa35ee5de424a45bd1",
+      "entryChain": [
+        {
+          "va": "10006654",
+          "bytes": "e997a00800",
+          "targetVA": "100906f0"
+        }
+      ],
+      "assemblySha256": "3188f65b78fe0baa8d11c2535d0225fc2493772c49afedba675ca569fe47141a",
+      "cSha256": "4a774b714b205c4659fb5b6d46bc2c6fc95dd3f876637575cbbc1e469a1d2a9a"
+    },
+    "destroyTypeTable": {
+      "entryVA": "0x10091230",
+      "bodyVA": "0x10091230",
+      "bodyRanges": "10091230-100912f5",
+      "instructionCount": 67,
+      "bodyByteCount": 198,
+      "bodyInstructionBytesSha256": "70995dcf63faa747310585dbe53993e43e3fe8ea0c16345cba35bb787cbeb1c2",
+      "entryChain": [],
+      "assemblySha256": "62c597b302bbe989f5ed119e889a29b1448c2677ce03f895ace8e448eaaddc2c",
+      "cSha256": "e6b50b9a806d78174b528ef90092f42f23db5e15a49702178f680572619a218b"
     }
   },
   "runtimeRegistrationCompleted": false,
+  "imageReceipts": {
+    "propertySingleton": {
+      "address": "102f48c0",
+      "bytes": 40,
+      "raw": "00000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "knownMask": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "sha256": "2c34ce1df23b838c5abf2a7f6437cca3d3067ed509ff25f11df6b11b582b51eb",
+      "scope": "cold-original-image",
+      "liveValueCaptured": false,
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 0,
+        "loaderZeroFillBytes": 40
+      }
+    }
+  },
+  "exitCallback": {
+    "entry": "100e30a0",
+    "raw": "b9c0482f10e9aa35f2ff",
+    "bytes": 10,
+    "sha256": "0ce73d770a78108fe5fed06ead8e05daacc55fe28fe3f516fddfd9eaf7c37c82",
+    "receiver": "102f48c0",
+    "targetEntry": "10006654",
+    "instructions": [
+      {
+        "va": "100e30a0",
+        "bytes": "b9c0482f10",
+        "instruction": "MOV ECX,0x102f48c0"
+      },
+      {
+        "va": "100e30a5",
+        "bytes": "e9aa35f2ff",
+        "instruction": "JMP 0x10006654"
+      }
+    ]
+  },
   "sourceOnly": true,
   "wholeCrtTraversalCompleted": false
 }

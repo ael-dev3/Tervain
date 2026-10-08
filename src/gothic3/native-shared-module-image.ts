@@ -2,6 +2,7 @@
  * byte/mask identities; separately allocated fragments are never enlarged or
  * copied into a replacement image. This does not consolidate MemoryAdmin's
  * other cold ranges or execute the Shared CRT initializer tables. */
+import propertySource from '../../assets/gothic3/property-registration-lifecycle/source.json';
 import guidStartupRulesText from '../../assets/gothic3/script-admin-startup/runtime-rules.json?raw';
 import type { NativeValue } from './dialogue';
 import { NativeHeapObjectViews } from './native-heap-views';
@@ -17,7 +18,7 @@ const constructionToken = Object.freeze({});
 type CStringLabel = 'emptyCStringText' | 'guidEmptyLiteral';
 type GuidImageLabel = 'guidNullSourceLiteral' | 'guidNullPayload' | 'cppInitializers' | 'cInitializers';
 interface ImageRange {
-  readonly address: number; readonly length: number; readonly label: GuidImageLabel | CStringLabel;
+  readonly address: number; readonly length: number; readonly label: GuidImageLabel | CStringLabel | 'propertySingleton';
   readonly backing: NativeMemoryBacking; readonly identity: object;
   readonly bytes: Uint8Array; readonly masks: Uint8Array;
   readonly byteBuffer: ArrayBufferLike; readonly maskBuffer: ArrayBufferLike;
@@ -34,6 +35,10 @@ export interface NativeSharedGuidNullRanges {
   readonly cppInitializers: NativeHeapObjectViews; readonly cInitializers: NativeHeapObjectViews;
   readonly slot: NativeHeapObjectViews;
 }
+export interface NativeSharedPropertySingletonRanges {
+  readonly storage: NativeHeapObjectViews; readonly object: NativeHeapObjectViews;
+  readonly guard: NativeHeapObjectViews;
+}
 interface ImageState {
   readonly platform: NativeRuntimePlatform;
   readonly ranges: Map<number, ImageRange>;
@@ -41,6 +46,7 @@ interface ImageState {
   readonly proofs: WeakMap<NativeHeapObjectViews, ViewProof>;
   readonly cstrings: Map<CStringLabel, NativeBytePointer>;
   guidRanges?: NativeSharedGuidNullRanges;
+  propertyRanges?: NativeSharedPropertySingletonRanges;
 }
 // Public objects and caller-shaped receipts cannot replace these authorities.
 const images = new WeakMap<NativeRuntimePlatform, NativeSharedModuleImage>();
@@ -138,7 +144,7 @@ export class NativeSharedModuleImage {
       return known(undefined);
     } catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
   }
-  #acquire(label: GuidImageLabel | CStringLabel, receipt: {
+  #acquire(label: GuidImageLabel | CStringLabel | 'propertySingleton', receipt: {
     address: string; bytes: number; raw: string; knownMask: string;
   }): NativeHeapObjectViews {
     const state = stateFor(this), address = parseSpan(receipt.address, receipt.bytes);
@@ -214,6 +220,30 @@ export class NativeSharedModuleImage {
       }
       state.guidRanges = Object.freeze({ source, payload, cppInitializers, cInitializers, slot: slot.value });
       return known(state.guidRanges);
+    } catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
+  }
+  /** Exact loader-zero singleton and guard, acquired once per SharedBase image. */
+  propertySingletonRanges(): NativeValue<NativeSharedPropertySingletonRanges> {
+    try {
+      const state = stateFor(this), receipt = propertySource.imageReceipts.propertySingleton;
+      if (propertySource.sharedBaseSha256 !== sharedBase || receipt.address !== '102f48c0' ||
+          receipt.bytes !== 40 || receipt.raw !== '00'.repeat(40) || receipt.knownMask !== 'ff'.repeat(40) ||
+          receipt.scope !== 'cold-original-image' || receipt.liveValueCaptured !== false) {
+        throw new Error('Original SharedBase property singleton image receipt differs');
+      }
+      if (state.propertyRanges) {
+        for (const fields of Object.values(state.propertyRanges)) {
+          const admitted = NativeSharedModuleImage.canonicalViewForPlatform(this, state.platform, fields);
+          if (!admitted.known) throw new Error(admitted.reason);
+        }
+        return known(state.propertyRanges);
+      }
+      const storage = this.#acquire('propertySingleton', receipt);
+      const object = this.resolve('102f48c0', 28), guard = this.resolve('102f48e4', 4);
+      if (!object.known) throw new Error(object.reason);
+      if (!guard.known) throw new Error(guard.reason);
+      state.propertyRanges = Object.freeze({ storage, object: object.value, guard: guard.value });
+      return known(state.propertyRanges);
     } catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
   }
   /** Both registry-first and CString-first callers acquire the same authority. */
