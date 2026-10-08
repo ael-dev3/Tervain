@@ -33,7 +33,7 @@ runtime and record exactly where execution still stops.
 
 ### Immediate remaining work
 
-- Complete SharedBase initializer startup from the error-table call at `100aa664`, including its actual
+- Complete SharedBase initializer startup from the second error callback at `100aa490`, including its actual
   initializer tables and callback dependencies, then the enclosing CRT attach.
 - Connect the supported shared runtime to live Game startup at 204678f2 and
   execute the required initializer callbacks in their original order.
@@ -46,6 +46,55 @@ checks establish the published checkpoint's supported scope; campaign completion
 requires an integrated gameplay result.
 
 ## Latest process summary — 8 October 2026
+
+### First error initializer allocation, encoding and return
+
+Original callback `100a7265` now owns its calloc wrapper `100aef10`: saved
+ESI/EDI, the original three lower-call arguments, cleanup, NULL testing and
+normal return. The existing selected lower calloc translation is invoked at
+actual `100aef1e -> 100c0e96`; it verifies the module heap and returns a real
+128-byte zeroed allocation. This lower translation does not prove execution of
+the original calloc implementation's x86 SEH frame. A retained owner set and
+canonical heap-span checks bind that allocation to the initializer.
+
+The original encode wrapper accepts the actual allocation identity, calls its
+cached PTD procedure and publishes equal encoded pointers at `102f8580` and
+`102f8584`. The callback clears the first DWORD and returns zero. The table
+walker advances to index 66 and enters the pending second callback
+`100aa490 -> 100b1854`; that callback remains unimplemented.
+
+On allocation failure with zero retry delay, the wrapper returns NULL. The
+callback encodes NULL, publishes both pointers, returns 24 and makes cinit
+return 24 through its actual failure branch. Execution stops at the enclosing
+attach continuation `100adb5f`, whose cleanup still needs implementation.
+Unknown heap outcomes retain the lower calloc call. Positive retry stops before
+the unowned Sleep import at `100aef35`. Full startup and campaign completion
+remain unfinished. All 120 focused checks, typechecking and the production
+build pass. The 74 generated source files and emitted runtime reproduce exactly,
+including original decompiler whitespace. The full suite passes 2,669 tests
+across 259 files.
+PR 113 deployed successfully through Pages run 37755080084.
+
+### Original error-table traversal and first callback entry
+
+The initializer now enters original `100aa47d` over its retained 135-slot table.
+It preserves ESI, starts EAX at zero, compares the actual table pointer with its
+exclusive end, reads each slot and skips NULL entries in the original order.
+It reaches callback `100a7265` at index 65, creates its original saved-ESI frame,
+and enters the pending `calloc(32,4)` CALL at `100a726a -> 100aef10`. The callback
+allocation, encoding and publication are not completed yet.
+
+Live NULL entries remain observable: an all-NULL table walks all 135 slots,
+returns zero, restores ESI and reaches the actual atexit CALL at
+`100aa676 -> 100a72d0`, which remains unsupported. A foreign non-NULL callback
+retains its indirect CALL and stops before dispatch. The PTD encoder slot read
+is now restricted to its actual instruction `100ae2a7`, preventing table offset
+`0x1f8` from being treated as thread data. Snapshot descriptions retain only
+read-only relative offset/capacity information for shared storage pointers.
+The traversal-only checkpoint passed typechecking, the build and 109 focused
+checks; its full suite passed 2,666 tests across 259 files. Full CRT attachment,
+Game startup and campaign completion remain
+unfinished.
 
 ### Cached pointer encoder execution
 

@@ -55,7 +55,9 @@ now returns through retained virtual imports and publishes its selected result.
 It clears the x87 exception status bits, returns the hook and enters conversion
 encoding. The cached PTD encoder returns for all ten conversion pointers and
 stores their opaque encoded identities; its next boundary is the error-table
-call at `100aa664 -> 100aa47d`. Allocation failures retain
+walker, which skips the original leading NULL slots and enters the first
+callback, which allocates and publishes its encoded exit table and returns.
+Its next boundary is the second callback, `100aa490 -> 100b1854`. Allocation failures retain
 the original partial cleanup; a positive retry delay remains unresolved.
 Those local helper results still need to join the live
 startup path before they can enable NPC activation. The full game remains

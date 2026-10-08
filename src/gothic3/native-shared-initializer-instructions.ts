@@ -1286,6 +1286,311 @@ const rows:readonly (readonly string[])[] = [
     "100ae2e8",
     "c3",
     "RET"
+  ],
+  [
+    "100aa47d",
+    "56",
+    "PUSH ESI"
+  ],
+  [
+    "100aa47e",
+    "8b742408",
+    "MOV ESI,dword ptr [ESP + 0x8]"
+  ],
+  [
+    "100aa482",
+    "33c0",
+    "XOR EAX,EAX"
+  ],
+  [
+    "100aa484",
+    "eb0f",
+    "JMP 0x100aa495"
+  ],
+  [
+    "100aa486",
+    "85c0",
+    "TEST EAX,EAX"
+  ],
+  [
+    "100aa488",
+    "7511",
+    "JNZ 0x100aa49b"
+  ],
+  [
+    "100aa48a",
+    "8b0e",
+    "MOV ECX,dword ptr [ESI]"
+  ],
+  [
+    "100aa48c",
+    "85c9",
+    "TEST ECX,ECX"
+  ],
+  [
+    "100aa48e",
+    "7402",
+    "JZ 0x100aa492"
+  ],
+  [
+    "100aa490",
+    "ffd1",
+    "CALL ECX"
+  ],
+  [
+    "100aa492",
+    "83c604",
+    "ADD ESI,0x4"
+  ],
+  [
+    "100aa495",
+    "3b74240c",
+    "CMP ESI,dword ptr [ESP + 0xc]"
+  ],
+  [
+    "100aa499",
+    "72eb",
+    "JC 0x100aa486"
+  ],
+  [
+    "100aa49b",
+    "5e",
+    "POP ESI"
+  ],
+  [
+    "100aa49c",
+    "c3",
+    "RET"
+  ],
+  [
+    "100a7265",
+    "56",
+    "PUSH ESI"
+  ],
+  [
+    "100a7266",
+    "6a04",
+    "PUSH 0x4"
+  ],
+  [
+    "100a7268",
+    "6a20",
+    "PUSH 0x20"
+  ],
+  [
+    "100a726a",
+    "e8a17c0000",
+    "CALL 0x100aef10"
+  ],
+  [
+    "100a726f",
+    "8bf0",
+    "MOV ESI,EAX"
+  ],
+  [
+    "100a7271",
+    "56",
+    "PUSH ESI"
+  ],
+  [
+    "100a7272",
+    "e804700000",
+    "CALL 0x100ae27b"
+  ],
+  [
+    "100a7277",
+    "83c40c",
+    "ADD ESP,0xc"
+  ],
+  [
+    "100a727a",
+    "85f6",
+    "TEST ESI,ESI"
+  ],
+  [
+    "100a727c",
+    "a384852f10",
+    "MOV [0x102f8584],EAX"
+  ],
+  [
+    "100a7281",
+    "a380852f10",
+    "MOV [0x102f8580],EAX"
+  ],
+  [
+    "100a7286",
+    "7505",
+    "JNZ 0x100a728d"
+  ],
+  [
+    "100a7288",
+    "6a18",
+    "PUSH 0x18"
+  ],
+  [
+    "100a728a",
+    "58",
+    "POP EAX"
+  ],
+  [
+    "100a728b",
+    "5e",
+    "POP ESI"
+  ],
+  [
+    "100a728c",
+    "c3",
+    "RET"
+  ],
+  [
+    "100a728d",
+    "832600",
+    "AND dword ptr [ESI],0x0"
+  ],
+  [
+    "100a7290",
+    "33c0",
+    "XOR EAX,EAX"
+  ],
+  [
+    "100a7292",
+    "5e",
+    "POP ESI"
+  ],
+  [
+    "100a7293",
+    "c3",
+    "RET"
+  ],
+  [
+    "100aef10",
+    "56",
+    "PUSH ESI"
+  ],
+  [
+    "100aef11",
+    "57",
+    "PUSH EDI"
+  ],
+  [
+    "100aef12",
+    "33f6",
+    "XOR ESI,ESI"
+  ],
+  [
+    "100aef14",
+    "6a00",
+    "PUSH 0x0"
+  ],
+  [
+    "100aef16",
+    "ff742414",
+    "PUSH dword ptr [ESP + 0x14]"
+  ],
+  [
+    "100aef1a",
+    "ff742414",
+    "PUSH dword ptr [ESP + 0x14]"
+  ],
+  [
+    "100aef1e",
+    "e8731f0100",
+    "CALL 0x100c0e96"
+  ],
+  [
+    "100aef23",
+    "8bf8",
+    "MOV EDI,EAX"
+  ],
+  [
+    "100aef25",
+    "83c40c",
+    "ADD ESP,0xc"
+  ],
+  [
+    "100aef28",
+    "85ff",
+    "TEST EDI,EDI"
+  ],
+  [
+    "100aef2a",
+    "7527",
+    "JNZ 0x100aef53"
+  ],
+  [
+    "100aef2c",
+    "3905b4642f10",
+    "CMP dword ptr [0x102f64b4],EAX"
+  ],
+  [
+    "100aef32",
+    "761f",
+    "JBE 0x100aef53"
+  ],
+  [
+    "100aef34",
+    "56",
+    "PUSH ESI"
+  ],
+  [
+    "100aef35",
+    "ff15e4952f10",
+    "CALL dword ptr [0x102f95e4]"
+  ],
+  [
+    "100aef3b",
+    "8d86e8030000",
+    "LEA EAX,[ESI + 0x3e8]"
+  ],
+  [
+    "100aef41",
+    "3b05b4642f10",
+    "CMP EAX,dword ptr [0x102f64b4]"
+  ],
+  [
+    "100aef47",
+    "7603",
+    "JBE 0x100aef4c"
+  ],
+  [
+    "100aef49",
+    "83c8ff",
+    "OR EAX,0xffffffff"
+  ],
+  [
+    "100aef4c",
+    "83f8ff",
+    "CMP EAX,-0x1"
+  ],
+  [
+    "100aef4f",
+    "8bf0",
+    "MOV ESI,EAX"
+  ],
+  [
+    "100aef51",
+    "75c1",
+    "JNZ 0x100aef14"
+  ],
+  [
+    "100aef53",
+    "8bc7",
+    "MOV EAX,EDI"
+  ],
+  [
+    "100aef55",
+    "5f",
+    "POP EDI"
+  ],
+  [
+    "100aef56",
+    "5e",
+    "POP ESI"
+  ],
+  [
+    "100aef57",
+    "c3",
+    "RET"
   ]
 ];
 const instructions=new Map<string,SharedInitializerInstruction>(rows.map(([address,bytes,instruction])=>
