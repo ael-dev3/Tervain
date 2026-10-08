@@ -27,3 +27,18 @@ Additional original PE receipts preserve the critical-section SEH filter at `100
 Local lock startup now publishes and initializes all fourteen static sections in source order using actual platform registrations, caches the encoded resolver result and follows the source no-spin fallback. The captured `c0000017` failure branch sets LastError to8, clears only the failed table entry and leaves earlier initialized sections retained before the still-unowned teardown. The successful branch returns1 and stops before FLS/PTD allocation at `100ae805`. Tests enter/leave the actual registered sections; that validates section ownership, not full thread or DLL attach. Original native SEH stack installation/restoration and broader failure teardown remain unfinished.
 
 The original SharedBase calloc wrapper, calloc implementation and new-handler dispatcher are now captured, together with its separate allocation-retry delay and new-mode fields. Both fields begin at zero in the cold image. The selected mode1 path calls HeapAlloc with flag8 on the SharedBase heap; failure handling, multiplication bounds, retry timing and the mode3 small-block branch remain original dependencies rather than generic Game/Engine allocator behavior. Source capture does not allocate PTD storage or claim the FLS slot has been installed.
+
+### Local PTD allocation continuation
+
+The next local branch admits only the canonical SharedBase owner's privately
+minted `100ae55a` FLS destructor and follows the decoded allocator at `100ae816`.
+It stores the actual returned index at `10140b44` before the original
+`__calloc_crt(1, 0x214)` call at `100ae829`. TLS fallback still ignores the FLS
+destructor as the original wrapper does. Non-NULL PTD destruction remains
+unimplemented; an address-only callback cannot establish ownership.
+
+Following allocation, the original path decodes its setter while the cached
+getter returns NULL, installs the same allocated PTD, then initializes exception
+data, pointer procedures, multibyte data and locale references at `100ae40c`.
+Only after that call returns does it store the actual thread ID and `-1` handle.
+Those latter steps must be implemented before claiming `__mtinit` returns 1.

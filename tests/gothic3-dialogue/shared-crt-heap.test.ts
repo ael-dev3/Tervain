@@ -12,7 +12,7 @@ it('stores the original OS fields and owns a distinct SharedBase heap before the
  const f=fixture(),game=NativeGameCrtOwner.forPlatform({platform:f.platform,errnoSlot:()=>({known:false,reason:'not initialized'})});
  const result=f.owner.processAttach();expect(result.known).toBe(false);
  if(result.known)throw new Error('Thread initialization unexpectedly returned');
- expect(result.reason).toContain('100ae805');
+ expect(result.reason).toContain('100ae829');
  const os=f.owner.imageStorage('osFields');
  expect([0,4,8,12,16].map(offset=>os.readUnsigned(offset))).toEqual([2,0x2bcd,0x601,6,1]);
  expect(game.physical.crtOsFields.readUnsigned(0)).toBe(0);
@@ -67,9 +67,9 @@ it('keeps the actual unencoded FLS getter in TLS while encoding its procedure sl
  if(!actual.known)throw new Error(actual.reason);
  expect(actual.value).toBe(decode(f.platform,slots.pointer<object>(4).get()));
  expect(actual.value).not.toBe(slots.pointer(4).get());
- expect(f.owner.imageStorage('threadDataIndex').readUnsigned(0)).toBe(0xffffffff);
+ expect(f.owner.imageStorage('threadDataIndex').readUnsigned(0)).not.toBe(0xffffffff);
  expect(f.owner.snapshot().mtReturned).toBeNull();expect(f.owner.snapshot().pointersReturned).toBe(true);
- expect(f.owner.snapshot().trace.slice(-1)).toEqual(['100bb740.mtInitLocks.return1']);
+ expect(f.owner.snapshot().trace.slice(-1)).toEqual(['100ae81b.storeThreadIndex']);
 });
 it('encodes the original TLS fallback when FLS exports are absent',()=>{
  const platform=new NativeRuntimePlatform({engineCrtServices:{tlsValues:new Map(),kernel32Available:true,
@@ -83,7 +83,7 @@ it('encodes the original TLS fallback when FLS exports are absent',()=>{
  expect(allocator.address).toBe('100ae360');expect(allocator.owner).toBe(owner.identity);
  const cached=platform.tlsGetValue(owner.imageStorage('tlsGetterIndex').readUnsigned(0));
  expect(cached.known&&cached.value===platform.tlsProcedures.get).toBe(true);
- expect(owner.imageStorage('threadDataIndex').readUnsigned(0)).toBe(0xffffffff);
+ expect(owner.imageStorage('threadDataIndex').readUnsigned(0)).not.toBe(0xffffffff);
 });
 it('initializes every original pointer slot in source order with encoded NULL and original code identities',()=>{
  const f=fixture();expect(f.owner.processAttach().known).toBe(false);
@@ -131,7 +131,7 @@ it('initializes all fourteen actual SharedBase static sections and caches one so
  });
  expect(state.trace.filter(label=>label==='section.GetProcAddress')).toHaveLength(1);
  expect((decode(f.platform,f.owner.imageStorage('pointer6ac0').pointer<object>(0).get()) as {name:string}).name).toBe('InitializeCriticalSectionAndSpinCount');
- expect(f.owner.imageStorage('threadDataIndex').readUnsigned(0)).toBe(0xffffffff);
+ expect(f.owner.imageStorage('threadDataIndex').readUnsigned(0)).not.toBe(0xffffffff);
 });
 
 it('preserves preceding sections and clears only the failed lock after the original allocation exception',()=>{
@@ -157,4 +157,14 @@ it('uses the original no-spin fallback when the spin initializer export is absen
  expect(fallback.address).toBe('100bbf17');expect(fallback.owner).toBe(owner.identity);
  expect(platform.enterPhysicalCriticalSection(owner.snapshot().sections[0]!,owner.identity).known).toBe(true);
  expect(platform.leavePhysicalCriticalSection(owner.snapshot().sections[0]!,owner.identity).known).toBe(true);
+});
+
+it('allocates the original SharedBase thread index with its canonical destructor and rejects forged callbacks',()=>{
+ const f=fixture();const result=f.owner.processAttach();expect(result.known).toBe(false);
+ const index=f.owner.imageStorage('threadDataIndex').readUnsigned(0);expect(index).not.toBe(0xffffffff);
+ const module=f.platform.getWin32ModuleHandle('KERNEL32.DLL');if(!module.known||module.value===null)throw new Error('Missing module');
+ const alloc=f.platform.getWin32Procedure(module.value,'FlsAlloc');if(!alloc.known||!alloc.value||alloc.value.name!=='FlsAlloc')throw new Error('Missing allocator');
+ expect(alloc.value.invoke({address:'100ae55a',invoke:()=>({known:true,value:undefined})}).known).toBe(false);
+ expect(f.owner.snapshot().trace).toContain('100ae81b.storeThreadIndex');
+ expect(f.owner.processAttach()).toEqual(result);
 });
