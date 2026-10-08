@@ -1314,3 +1314,24 @@ it('rejects a released nested language slot before the second version info impor
 it('rejects a damaged nested handle before the second version info import changes its buffer',()=>{
  const {owner}=languageInfoFixture(),frame=owner.snapshot().caseState!.stack!.snapshot().sharedDllLanguageFrame!,inner=frame.buffer!;inner.fields.writeUnsigned(0,170,1);frame.handle.writeUnsigned(0,99);const result=owner.processDllLanguageInfo();expect(result.known).toBe(false);if(!result.known)expect(result.reason).toMatch(/expression slot|stack arguments/);expect(inner.fields.readUnsigned(0,1)).toBe(170);expect(owner.snapshot().caseState!.stack!.snapshot().sharedDllLanguageFrame!.infoFilled).not.toBe(true);
 });
+
+
+function languageFormatFixture(){const fixture=languageInfoFixture();fixture.owner.processDllLanguageInfo();return fixture;}
+it('builds the original sprintf stream and retains its actual output-engine call',()=>{
+ const {owner}=languageFormatFixture(),before=owner.snapshot().caseState!.stack!.snapshot(),innerBytes=before.sharedDllLanguageFrame!.buffer!.fields.bytes.slice(),outerBytes=before.sharedDllResourceFrame!.buffer!.fields.bytes.slice();
+ const result=owner.processDllLanguageFormatPrefix();expect(result).toEqual({known:false,reason:'Original SharedBase query output engine pending at 100b5355'});
+ const state=owner.snapshot(),stack=state.caseState!.stack!.snapshot(),frame=stack.sharedDllFormatFrame!,images=state.dllLanguageFormatImages!;
+ expect(frame.output).toBe(images.output);expect(frame.format).toBe(images.translation);expect(frame.output.bytes).toEqual(new Uint8Array(256));expect(Buffer.from(frame.format.bytes).toString('ascii')).toBe('\\VarFileInfo\\Translation\0');
+ expect(frame.stream.backing).toBe(stack.sharedDllLanguageFrame!.handle.backing);expect(frame.stream.readUnsigned(4)).toBe(0x7fffffff);expect(frame.stream.readUnsigned(12)).toBe(0x42);expect(frame.varargs).toBe(frame.ebp+16);expect(frame.entryEsp).toBe(frame.ebp+4);
+ expect(stack.calls.find(call=>call.site==='1004c318')!.returned).toBe(false);expect(stack.calls.at(-1)!.site).toBe('100aa287');expect(stack.calls.at(-1)!.returned).toBe(false);
+ expect(stack.trace).toContain('100aa275.LEA EAX,[EBP + -0x20]');expect(stack.sharedDllLanguageFrame!.buffer!.fields.bytes).toEqual(innerBytes);expect(stack.sharedDllResourceFrame!.buffer!.fields.bytes).toEqual(outerBytes);
+ const calls=stack.calls.length;expect(owner.processDllLanguageFormatPrefix()).toEqual(result);expect(owner.snapshot().caseState!.stack!.snapshot().calls).toHaveLength(calls);expect(state.memoryHeapSectionHeld).toBe(false);
+});
+it('rejects a changed sprintf body before creating its output images or stack frame',()=>{
+ const {owner}=languageFormatFixture(),method=dllEntrySource.methods.find(item=>item.label==='versionQuerySprintf')!,saved=method.bodyInstructionBytesSha256;
+ try{method.bodyInstructionBytesSha256='00'.repeat(32);expect(owner.processDllLanguageFormatPrefix()).toEqual({known:false,reason:'Original language query formatted-output helper required'});expect(owner.snapshot().dllLanguageFormatImages).toBeNull();expect(owner.snapshot().caseState!.stack!.snapshot().sharedDllFormatFrame).toBeNull();}finally{method.bodyInstructionBytesSha256=saved;}
+});
+it('rejects a released nested slot before entering the formatted-output helper',()=>{
+ const {owner}=languageFormatFixture(),inner=owner.snapshot().caseState!.stack!.snapshot().sharedDllLanguageFrame!.buffer!,slot=owner.snapshot().poolSlots.find(row=>row.fields===inner.fields)!;slot.region.writeUnsigned(0x6f910,(slot.region.readUnsigned(0x6f910)|2)>>>0);
+ expect(owner.processDllLanguageFormatPrefix()).toEqual({known:false,reason:'Live original bitmap slot claim required'});expect(owner.snapshot().caseState!.stack!.snapshot().sharedDllFormatFrame).toBeNull();expect(owner.snapshot().dllLanguageFormatImages!.output.bytes).toEqual(new Uint8Array(256));
+});

@@ -120,6 +120,8 @@ def capture(study, output):
         ('dllInitializerObject', 0x102f48ec, 4),
         ('dllInitializerGuard', 0x102f48f0, 4),
         ('versionQueryOutput', 0x101ab190, 256),
+        ('formatStateTables', 0x100ede50, 160),
+        ('formatDispatchTable', 0x100b5cc9, 32),
         ('moduleName', 0x100ebb14, 15),
         ('versionFormat', 0x100eba68, 80),
         ('separator', 0x100ebab8, 76),

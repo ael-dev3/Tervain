@@ -103,3 +103,11 @@ contains `%04X04B0`. The destination at `101ab190` is captured as a 256-byte,
 loader-zero-filled image. Capturing these bodies does not grant their runtime
 execution. Formatting, translation queries and subsequent cleanup still need
 connection to the retained language-helper frame.
+
+
+The format scanner's classification/transition image at `100ede50` and its
+eight-entry dispatch table at `100b5cc9` are now captured too. Their source
+checks pin both byte hashes and all branch targets. Nine source-package checks
+pass and independent regeneration remains identical. Runtime execution currently
+constructs the original sprintf stream and retains the engine CALL at `100b5355`;
+the formatting engine and subsequent resource queries are not executed yet.

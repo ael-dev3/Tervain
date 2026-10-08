@@ -10445,3 +10445,28 @@ combined full suite passes 2,928 tests across 275 files (192.50 seconds). This
 language checkpoint is local and unpublished. Formatting, translation and
 FileVersion queries, parsing, frees, logging, full DLL startup, world activation
 and campaign integration remain unfinished.
+
+
+## Original query formatter stream frame (local work, 2026-10-08)
+
+The language helper now pushes the actual translation literal and owned query
+output image, calls 100aa234 and executes its original nonnull-argument prologue.
+Its stream occupies 32 retained stack bytes; current/base output pointers alias
+the same 256-byte global image, remaining count is 0x7fffffff and flags are 0x42.
+The output engine receives the real stream, format pointer, null locale argument
+and caller varargs pointer. Both cdecl calls remain pending at 100b5355.
+
+The global image remains zero-filled, and both version-resource buffers remain
+unchanged. The initializer's completed malloc/SEH state remains retained and no
+heap section is held. Repeated formatter requests preserve the same pending
+frames. Changed formatter evidence is rejected before allocating its images;
+a released language pool slot is rejected before entering the helper.
+
+The source package additionally captures the engine's 160-byte classification/
+transition image and eight-entry dispatch table, each pinned by a source check.
+All source output and emitted instructions reproduce byte-for-byte. All 321
+focused startup/evidence checks, typechecking and the production build pass.
+The full-suite receipt in the preceding section predates this formatter-prefix
+change. This local checkpoint remains unpublished. Query output, resource queries,
+parsing and cleanup still require implementation before complete DLL startup,
+world activation and campaign integration can be claimed.

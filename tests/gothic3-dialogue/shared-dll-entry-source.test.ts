@@ -80,3 +80,11 @@ it('captures the actual formatted query helper, output engine and zero-filled ou
  expect(literal('translatedVersionQuery')).toBe('\\StringFileInfo\\%02X%02X%02X%02X\\FileVersion\0');
  expect(literal('localeVersionQuery')).toBe('\\StringFileInfo\\%04X04B0\\FileVersion\0');
 });
+
+
+it('retains the original output-engine classification and dispatch tables',()=>{
+ const state=source.coldImages.find(i=>i.label==='formatStateTables')!,dispatch=source.coldImages.find(i=>i.label==='formatDispatchTable')!;
+ expect(state.address).toBe('100ede50');expect(state.size).toBe(160);expect(sha(Buffer.from(state.bytes,'hex'))).toBe('6bf8a02d2cbf9c2988998af836adcb53cab68d22121cdec740ab7a7b3b5c2a33');
+ expect(dispatch.address).toBe('100b5cc9');expect(dispatch.size).toBe(32);expect(sha(Buffer.from(dispatch.bytes,'hex'))).toBe('d308f11f17971e936cc54ad67ed00c4810c67f8e05732e6e9a05e048582e8b4d');
+ const bytes=Buffer.from(dispatch.bytes,'hex');const targets=Array.from({length:8},(_,i)=>bytes.readUInt32LE(i*4).toString(16));expect(targets).toEqual(['100b5697','100b54fe','100b5519','100b5568','100b55a2','100b55aa','100b55e1','100b56d9']);for(const target of targets)expect(sharedDllEntryInstruction(target).address).toBe(target);
+});

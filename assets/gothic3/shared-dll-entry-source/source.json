@@ -11074,6 +11074,34 @@
       }
     },
     {
+      "label": "formatStateTables",
+      "address": "100ede50",
+      "size": 160,
+      "bytes": "454c33320000000028006e0075006c006c00290000000000286e756c6c290000060000060001000010000306000602100445454505050505053530005000000000282038505807080037303057500700002020080000000008606860606060000078707878787808070800000700080808000008000800070800000053797374656d46756e6374696f6e30333600000041445641504933322e444c4c00000000",
+      "section": {
+        "virtualAddress": 937984,
+        "virtualSize": 366840,
+        "rawSize": 368640,
+        "rawOffset": 937984,
+        "fileBackedBytes": 160,
+        "loaderZeroFillBytes": 0
+      }
+    },
+    {
+      "label": "formatDispatchTable",
+      "address": "100b5cc9",
+      "size": 32,
+      "bytes": "97560b10fe540b1019550b1068550b10a2550b10aa550b10e1550b10d9560b10",
+      "section": {
+        "virtualAddress": 4096,
+        "virtualSize": 930343,
+        "rawSize": 933888,
+        "rawOffset": 4096,
+        "fileBackedBytes": 32,
+        "loaderZeroFillBytes": 0
+      }
+    },
+    {
       "label": "moduleName",
       "address": "100ebb14",
       "size": 15,
