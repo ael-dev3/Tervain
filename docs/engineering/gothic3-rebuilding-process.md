@@ -10331,3 +10331,9 @@ All 303 focused checks, typechecking and the production build pass. Evidence
 and emitted instructions regenerate byte-for-byte. The full suite passes
 2,901 tests across 273 files (200.61 seconds). Publication is pending. Complete DLL startup, world activation and campaign
 completion remain unfinished.
+
+The subsequent integration of Claude's merged loading/grass PR #154 changes
+35 presentation, loading, configuration and documentation files; the startup
+files are disjoint. All 78 affected presentation checks pass after integration,
+as do typechecking and the production build. The 2,901-test startup checkpoint
+receipt above predates that integration; it is not a combined full-suite count.
