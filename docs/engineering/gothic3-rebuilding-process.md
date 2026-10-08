@@ -6,6 +6,30 @@ is the detailed technical record and dated checkpoint history.
 
 ## Latest process summary — 8 October 2026
 
+### SharedBase lower and upper case mapping
+
+The next local branch completes both declared CP1252 case mappings through
+the original Unicode service path. Each mapping owns its direct stat frame,
+queries and fills a UTF-16 input temporary, queries and fills a mapped output
+temporary, narrows into the byte output, preserves the stack markers, checks
+its cookie and returns. The two 520-byte requests consume 520 and 528 bytes
+under the selected virtual alignment. The caller restores locale ownership;
+the candidate receives the original 256 type-bit and case-byte updates.
+
+The original mapping-mode DWORD at `102f6950` is now captured: 76 functions
+and 55 cold ranges. All 153 regenerated source files match exactly. Focused
+validation passes 60 tests, including every lower/upper byte and candidate
+table entry, actual shared backing, returned calls and locale flags 0/1/3.
+Typechecking and the production build pass. The full suite also passes 2,598
+tests across 258 files. The boundary is the enclosing
+case helper's cookie epilogue at `100b1370`; its native caller frame and global
+candidate installation remain unfinished. These helper results do not establish
+live Game initializer execution, NPC activation or campaign completion.
+
+PR 99 deployed through successful Pages run 37728624294. PR 100 passed CI run
+37728723765 and merged at `532d63718610c1710b192c70af8585c781d29e8d`;
+its Pages run 37729493625 subsequently succeeded.
+
 ### SharedBase classification normal return
 
 The subsequent local branch completes the classification helper for the declared

@@ -80,13 +80,15 @@ const methods={
  getOsPlatform:['0x100aa49d','cc5b7331299d47cd8f5d5cb850aa67581d71d5bd370b6aeba4f41feed3edf68d'],
  getWinMajor:['0x100aa54c','c2d39a6b2e3a69dcf99941e96a2b991511307e2511a0c536100b091ab85aabde'],
 } as const;
-const images={stringTypeMode:['102f6f74',4,'00000000'],emptyWideString:['100e5e64',2,'0000'],multibyteCodePageTable:['10141290',240,'a4030000608279822100000000000000a6df000000000000a1a5000000000000819fe0fc00000000407e80fc00000000a8030000c1a3daa320000000000000000000000000000000000000000000000081fe00000000000040fe000000000000b5030000c1a3daa320000000000000000000000000000000000000000000000081fe00000000000041fe000000000000b6030000cfa2e4a21a00e5a2e8a25b000000000000000000000000000000000081fe000000000000407ea1fe000000005105000051da5eda20005fda6ada32000000000000000000000000000000000081d3d8dee0f90000317e81fe00000000'],systemCodePageSelected:['102f6910',4,'00000000'],initialMultibyte:['10140e60',544,'00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000101010101010101010101010101010101010101010101010101000000000000020202020202020202020202020202020202020202020202020200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000006162636465666768696a6b6c6d6e6f707172737475767778797a0000000000004142434445464748494a4b4c4d4e4f505152535455565758595a00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'],multibytePointer:['10141288',4,'600e1410'],threadLocaleMask:['10141384',4,'feffffff'],multibyteInitialized:['102f8588',4,'00000000'],ioHandleCount:['102f7068',4,'00000000'],ioBlocks:['102f70c0',256,'00'.repeat(256)],memcpySseFlag:['102f854c',4,'00000000'],memcpyForwardDwords:['100a7b08',32,'6b7b0a10587b0a10507b0a10487b0a10407b0a10387b0a10307b0a10287b0a10'],memcpyForwardTail:['100a7b74',16,'847b0a108c7b0a10987b0a10ac7b0a10'],environmentMode:['102f6bf0',4,'00000000'],commandLinePointer:['102f8564',4,'00000000'],environmentPointer:['102f6490',4,'00000000'],rtcInitializers:['100f7cec',256,'00'.repeat(256)],exceptionActionsAnchor:['10140b50',4,'050000c0'],multibyteRefcount:['10140e60',4,'00000000'],initialLocale:['10141390',216,'0100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000088131410000000000000000000000000881314100000000000000000000000008813141000000000000000000000000088131410000000000000000000000000881314100000000000000000000000000100000001000000000000000000000000000000a01b14100000000000000000382e0f10c0320f1040340f10e01a1410'],initialTimeLocale:['10141ae0',184,'68360f1064360f1060360f105c360f1058360f1054360f1050360f1048360f1040360f1038360f102c360f1020360f1018360f100c360f1008360f1004360f1000360f10fc350f10f8350f10f4350f10f0350f10ec350f10e8350f10e4350f10e0350f10dc350f10d4350f10c8350f10c0350f10b8350f10f8350f10b0350f10a8350f10a0350f1094350f108c350f1080350f1074350f1070350f106c350f1060350f104c350f1040350f10090400000100000000000000'],localeCSentinel:['10141388',4,'43000000'],localePointer:['10141468',4,'90131410'],allocationRetryDelay:['102f64b4',4,'00000000'],newMode:['102f6ad0',4,'00000000'],osFields:['102f642c',20,'00'.repeat(20)],heapHandle:['102f6ac8',4,'00000000'],heapSelection:['102f8530',4,'00000000'],
+const images={localeMapMode:['102f6950',4,'00000000'],stringTypeMode:['102f6f74',4,'00000000'],emptyWideString:['100e5e64',2,'0000'],multibyteCodePageTable:['10141290',240,'a4030000608279822100000000000000a6df000000000000a1a5000000000000819fe0fc00000000407e80fc00000000a8030000c1a3daa320000000000000000000000000000000000000000000000081fe00000000000040fe000000000000b5030000c1a3daa320000000000000000000000000000000000000000000000081fe00000000000041fe000000000000b6030000cfa2e4a21a00e5a2e8a25b000000000000000000000000000000000081fe000000000000407ea1fe000000005105000051da5eda20005fda6ada32000000000000000000000000000000000081d3d8dee0f90000317e81fe00000000'],systemCodePageSelected:['102f6910',4,'00000000'],initialMultibyte:['10140e60',544,'00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000101010101010101010101010101010101010101010101010101000000000000020202020202020202020202020202020202020202020202020200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000006162636465666768696a6b6c6d6e6f707172737475767778797a0000000000004142434445464748494a4b4c4d4e4f505152535455565758595a00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'],multibytePointer:['10141288',4,'600e1410'],threadLocaleMask:['10141384',4,'feffffff'],multibyteInitialized:['102f8588',4,'00000000'],ioHandleCount:['102f7068',4,'00000000'],ioBlocks:['102f70c0',256,'00'.repeat(256)],memcpySseFlag:['102f854c',4,'00000000'],memcpyForwardDwords:['100a7b08',32,'6b7b0a10587b0a10507b0a10487b0a10407b0a10387b0a10307b0a10287b0a10'],memcpyForwardTail:['100a7b74',16,'847b0a108c7b0a10987b0a10ac7b0a10'],environmentMode:['102f6bf0',4,'00000000'],commandLinePointer:['102f8564',4,'00000000'],environmentPointer:['102f6490',4,'00000000'],rtcInitializers:['100f7cec',256,'00'.repeat(256)],exceptionActionsAnchor:['10140b50',4,'050000c0'],multibyteRefcount:['10140e60',4,'00000000'],initialLocale:['10141390',216,'0100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000088131410000000000000000000000000881314100000000000000000000000008813141000000000000000000000000088131410000000000000000000000000881314100000000000000000000000000100000001000000000000000000000000000000a01b14100000000000000000382e0f10c0320f1040340f10e01a1410'],initialTimeLocale:['10141ae0',184,'68360f1064360f1060360f105c360f1058360f1054360f1050360f1048360f1040360f1038360f102c360f1020360f1018360f100c360f1008360f1004360f1000360f10fc350f10f8350f10f4350f10f0350f10ec350f10e8350f10e4350f10e0350f10dc350f10d4350f10c8350f10c0350f10b8350f10f8350f10b0350f10a8350f10a0350f1094350f108c350f1080350f1074350f1070350f106c350f1060350f104c350f1040350f10090400000100000000000000'],localeCSentinel:['10141388',4,'43000000'],localePointer:['10141468',4,'90131410'],allocationRetryDelay:['102f64b4',4,'00000000'],newMode:['102f6ad0',4,'00000000'],osFields:['102f642c',20,'00'.repeat(20)],heapHandle:['102f6ac8',4,'00000000'],heapSelection:['102f8530',4,'00000000'],
  tlsGetterIndex:['10140b48',4,'ffffffff'],threadDataIndex:['10140b44',4,'ffffffff'],procedureSlots:['102f64a4',16,'00'.repeat(16)],
  pointer6ac4:['102f6ac4',4,'00000000'],pointer6ac0:['102f6ac0',4,'00000000'],pointer64a0:['102f64a0',4,'00000000'],
  pointer690c:['102f690c',4,'00000000'],pointer6abc:['102f6abc',4,'00000000'],signalPointers:['102f6aa8',16,'00'.repeat(16)],
  ehHook:['102f64b8',4,'00000000'],exitPointer:['10140a60',4,'b7a70a10'],lockTable:['101414b8',288,"000000000100000000000000010000000000000000000000000000000100000000000000010000000000000000000000000000000100000000000000010000000000000001000000000000000000000000000000010000000000000000000000000000000100000000000000010000000000000001000000000000000000000000000000010000000000000001000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"],staticSections:['102f6958',336,'00'.repeat(336)]} as const;
 type Image=keyof typeof images;
-type SharedNlsKind='GetACP'|'IsValidCodePage'|'GetCPInfo'|'GetStringTypeW'|'MultiByteToWideChar';
+type SharedNlsKind='GetACP'|'IsValidCodePage'|'GetCPInfo'|'GetStringTypeW'|'MultiByteToWideChar'|'LCMapStringW'|'WideCharToMultiByte';
+type MappingStage='enter'|'probe'|'convertQuery'|'inputAllocate'|'convertFill'|'mapQuery'|'outputAllocate'|'mapFill'|'narrow'|'return';
+type MappingState={stage:MappingStage;flags:number;localeId:number;codePage:number;input:NativeHeapObjectViews;output:NativeHeapObjectViews;wideInput:NativeHeapObjectViews|null;wideOutput:NativeHeapObjectViews|null;count:number;result:number|null;locale:NativeHeapObjectViews};
 type LocalStorage={backing:NativeMemoryBacking;bytes:Uint8Array;masks:Uint8Array;backingBytes:Uint8Array;backingMasks:Uint8Array;view:DataView};
 type CaseState={info:NativeHeapObjectViews;input:NativeHeapObjectViews;types:NativeHeapObjectViews;lower:NativeHeapObjectViews;upper:NativeHeapObjectViews;probe:NativeHeapObjectViews;wideCount:number|null;stack:NativeX86ThreadStack|null;wideTemporary:NativeHeapObjectViews|null};
 function physical(size:number){return new NativeHeapObjectViews({identity:{},bytes:new Uint8Array(size),knownMask:new Uint8Array(size),freed:false});}
@@ -101,6 +103,7 @@ export class NativeSharedCrtOwner {
  #cpInfo:NativeHeapObjectViews|null=null;
  #locals=new WeakMap<NativeHeapObjectViews,LocalStorage>();
  #caseState:CaseState|null=null;
+ #mappingState:MappingState|null=null;
  #stackCall:object|null=null;
  #stackStage:'enter'|'allocate'='enter';
  #ptdInstalled=false;
@@ -178,11 +181,28 @@ export class NativeSharedCrtOwner {
   const proof=NativeSharedCrtOwner.sharedStackArgumentsForPlatform(platform,call);if(!proof.known)return proof;
   try{return {known:true,value:owners.get(platform)!.imageStorage('memcpySseFlag').readUnsigned(0)};}catch(error){return {known:false,reason:error instanceof Error?error.message:String(error)};}
  }
+ static mappingStackArgumentsForPlatform(platform:NativeRuntimePlatform,call:object):NativeValue<Readonly<MappingState&{cookie:number}>>{
+  const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)return active;
+  const owner=owners.get(platform),item=owner?owner.#mappingState:null;
+  if(!owner||!owner.#active||owner.#stackCall!==call||!item)return {known:false,reason:'Actual pending SharedBase mapping call required'};
+  try{for(const fields of [item.input,item.output,item.locale])owner.#requireLocal(fields);const cookie=NativeSharedCrtSecurityCookie.forPlatform(platform).readCookie();if(!cookie.known)return cookie;return {known:true,value:{...item,cookie:cookie.value}};}catch(error){return {known:false,reason:error instanceof Error?error.message:String(error)};}
+ }
  static nlsArgumentsForPlatform(platform:NativeRuntimePlatform,call:NativeArgvNlsCallGrant):NativeValue<Readonly<{kind:SharedNlsKind;scalar:number;fields:NativeHeapObjectViews|null;input:NativeHeapObjectViews|null;count:number;flags:number;procedure:object|null}>> {
   const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)return active;
   const owner=owners.get(platform),pending=owner?owner.#nlsPending:null;
   if(!owner||!owner.#active||!pending||pending.call!==call)return {known:false,reason:'Actual pending SharedBase NLS call required'};
   try{
+   const mapping=owner.#mappingState;
+   if(mapping&&owner.#stackCall){
+    const stage=mapping.stage;
+    const valid=stage==='probe'?pending.kind==='LCMapStringW'&&pending.scalar===0&&pending.flags===0x100&&pending.input===owner.imageStorage('emptyWideString')&&pending.count===1&&pending.fields===null:
+     stage==='convertQuery'||stage==='convertFill'?pending.kind==='MultiByteToWideChar'&&pending.scalar===mapping.codePage&&pending.flags===1&&pending.input===mapping.input&&pending.count===256&&pending.fields===(stage==='convertQuery'?null:mapping.wideInput):
+     stage==='mapQuery'||stage==='mapFill'?pending.kind==='LCMapStringW'&&pending.scalar===mapping.localeId&&pending.flags===mapping.flags&&pending.input===mapping.wideInput&&pending.count===256&&pending.fields===(stage==='mapQuery'?null:mapping.wideOutput):
+     stage==='narrow'?pending.kind==='WideCharToMultiByte'&&pending.scalar===mapping.codePage&&pending.flags===0&&pending.input===mapping.wideOutput&&pending.count===256&&pending.fields===mapping.output:false;
+    if(!valid)throw new Error('Actual source-stage mapping NLS arguments required');
+    for(const fields of [pending.fields,pending.input])if(fields&&fields!==owner.imageStorage('emptyWideString'))owner.#requireLocal(fields);
+    return {known:true,value:pending};
+   }
    const item=owner.#caseState;
    if(pending.fields){owner.#requireLocal(pending.fields);if(pending.kind==='GetCPInfo'&&(pending.fields!==owner.#cpInfo||pending.fields.bytes.length!==20))throw new Error('Actual CPInfo local required');
     if(pending.kind==='GetStringTypeW'&&!(pending.fields===item?.probe&&pending.count===1&&pending.fields.bytes.length===4)&&!(pending.fields===item?.types&&pending.count===256&&pending.fields.bytes.length===512))throw new Error('Actual Unicode classification output required');
@@ -594,11 +614,13 @@ export class NativeSharedCrtOwner {
   const proof=NativeRuntimePlatform.canonicalArgvNlsEndpointsForPlatform(this.platform,endpoints);if(!proof.known)throw new Error(proof.reason);
   const call=Object.freeze({identity:Object.freeze({})});this.#nlsPending={call,kind,scalar,fields,input,count,flags,procedure};
   try{
-   if(this.#caseState?.stack&&(kind==='GetStringTypeW'||kind==='MultiByteToWideChar'))this.#call('SharedBase.NLS.stackCall',()=>NativeX86ThreadStack.beginSharedStringTypeImport(this.#caseState!.stack!,this.#stackCall!,call));
+   if(this.#mappingState&&this.#stackCall)this.#call('SharedBase.NLS.mapStackCall',()=>NativeX86ThreadStack.beginSharedMappingImport(this.#caseState!.stack!,this.#stackCall!,call));
+   else if(this.#caseState?.stack&&(kind==='GetStringTypeW'||kind==='MultiByteToWideChar'))this.#call('SharedBase.NLS.stackCall',()=>NativeX86ThreadStack.beginSharedStringTypeImport(this.#caseState!.stack!,this.#stackCall!,call));
    const result=this.#call('SharedBase.'+kind,()=>endpoints.invoke(call));
    const actual=this.#call(kind+'.normalReturn',()=>NativeRuntimePlatform.canonicalArgvNlsNormalReturnForPlatform(this.platform,call));
    if(result!==actual||result.kind!=='scalar')throw new Error('Actual SharedBase NLS scalar return required');
-   if(this.#caseState?.stack&&(kind==='GetStringTypeW'||kind==='MultiByteToWideChar'))this.#call('SharedBase.NLS.stackReturn',()=>NativeX86ThreadStack.finishSharedStringTypeImport(this.#caseState!.stack!,this.#stackCall!,call,result.value));
+   if(this.#mappingState&&this.#stackCall)this.#call('SharedBase.NLS.mapStackReturn',()=>NativeX86ThreadStack.finishSharedMappingImport(this.#caseState!.stack!,this.#stackCall!,call,result.value));
+   else if(this.#caseState?.stack&&(kind==='GetStringTypeW'||kind==='MultiByteToWideChar'))this.#call('SharedBase.NLS.stackReturn',()=>NativeX86ThreadStack.finishSharedStringTypeImport(this.#caseState!.stack!,this.#stackCall!,call,result.value));
    return result.value;
   }finally{this.#nlsPending=null;}
  }
@@ -675,8 +697,40 @@ export class NativeSharedCrtOwner {
   if(returned!==classified)throw new Error('Actual SharedBase classification result required');
   this.#locals.delete(wide);this.#locals.delete(this.#caseState.probe);this.#stackCall=null;
   if(classificationLocale.readUnsigned(12,1)!==0){const ptd=classificationLocale.pointer<NativeHeapObjectViews>(8).get();if(!ptd)throw new Error('Actual classification caller PTD required');ptd.writeUnsigned(0x70,ptd.readUnsigned(0x70)&~2);this.#trace.push('100c7076.classificationLocale.restore');}
-  this.#trace.push('100c703f.getStringTypeA.return');this.#initializeLocaleUpdate();
-  throw new Error('Unowned SharedBase case mapping stat frame at 100b5112 -> 100b4d44');
+  this.#trace.push('100c703f.getStringTypeA.return');
+  this.#mapCase(fields,0x100,lower);this.#mapCase(fields,0x200,upper);
+  for(let index=0;index<256;index++){
+   const type=types.readUnsigned(index*2,2),at=0x1d+index;
+   if(type&1){fields.writeUnsigned(at,fields.readUnsigned(at,1)|0x10,1);fields.writeUnsigned(0x11d+index,lower.readUnsigned(index,1),1);}
+   else if(type&2){fields.writeUnsigned(at,fields.readUnsigned(at,1)|0x20,1);fields.writeUnsigned(0x11d+index,upper.readUnsigned(index,1),1);}
+   else fields.writeUnsigned(0x11d+index,0,1);
+   this.#trace.push('100b12e2.caseTableByte');
+  }
+  throw new Error('Unowned SharedBase multibyte configuration return at 100b1370');
+ }
+ #mapCase(fields:NativeHeapObjectViews,flags:number,output:NativeHeapObjectViews):void{
+  const locale=this.#initializeLocaleUpdate(),item=this.#caseState!,state:MappingState={stage:'enter',flags,localeId:fields.readUnsigned(12),codePage:fields.readUnsigned(4),input:item.input,output,wideInput:null,wideOutput:null,count:256,result:null,locale};
+  this.#mappingState=state;this.#stackCall=Object.freeze({});
+  this.#call('100b5112.mappingFrame',()=>NativeX86ThreadStack.beginSharedMappingFrame(item.stack!,this.#stackCall!));
+  const mode=this.imageStorage('localeMapMode');
+  if(mode.readUnsigned(0)===0){state.stage='probe';const probe=this.#nlsScalar('LCMapStringW',0,null,this.imageStorage('emptyWideString'),1,0x100);if(probe!==0)mode.writeUnsigned(0,1);else if(this.#call('100b4d86.GetLastError',()=>this.platform.getWin32LastError())===120)mode.writeUnsigned(0,2);}
+  if(mode.readUnsigned(0)!==1)throw new Error('Unowned SharedBase ANSI case mapping fallback');
+  // Original positive input scan retains 256: source byte zero was replaced by space.
+  for(let index=0;index<256;index++){if(state.input.readUnsigned(index,1)===0)throw new Error('Unowned shortened SharedBase case input');this.#trace.push('100b4da7.mappingInputByte');}
+  const convert=this.#call('100b4df1.MultiByteToWideCharImport',()=>NativeRuntimePlatform.argvProcedureForPlatform(this.platform,'MultiByteToWideChar'));
+  state.stage='convertQuery';state.count=this.#nlsScalar('MultiByteToWideChar',state.codePage,null,state.input,256,1,convert);if(state.count!==256)throw new Error('Unowned SharedBase mapping conversion-query count');
+  const retain=(view:NativeHeapObjectViews)=>{this.#locals.set(view,{backing:view.backing,bytes:view.bytes,masks:view.knownMask,backingBytes:view.backing.bytes,backingMasks:view.backing.knownMask,view:view.view});return view;};
+  state.stage='inputAllocate';state.wideInput=retain(this.#call('100b4e37.alloca16',()=>NativeX86ThreadStack.allocateSharedMappingTemporary(item.stack!,this.#stackCall!)));
+  state.stage='convertFill';if(this.#nlsScalar('MultiByteToWideChar',state.codePage,state.wideInput,state.input,256,1,convert)!==256)throw new Error('Unowned SharedBase mapping conversion-fill failure');
+  const map=this.#call('100b4e88.LCMapStringWImport',()=>NativeRuntimePlatform.argvProcedureForPlatform(this.platform,'LCMapStringW'));
+  state.stage='mapQuery';state.count=this.#nlsScalar('LCMapStringW',state.localeId,null,state.wideInput,256,flags,map);if(state.count!==256)throw new Error('Unowned SharedBase mapping query count');
+  state.stage='outputAllocate';state.wideOutput=retain(this.#call('100b4ef5.alloca16',()=>NativeX86ThreadStack.allocateSharedMappingTemporary(item.stack!,this.#stackCall!)));
+  state.stage='mapFill';if(this.#nlsScalar('LCMapStringW',state.localeId,state.wideOutput,state.wideInput,256,flags,map)!==256)throw new Error('Unowned SharedBase mapping fill failure');
+  state.stage='narrow';state.result=this.#nlsScalar('WideCharToMultiByte',state.codePage,output,state.wideOutput,256,0);if(state.result!==256)throw new Error('Unowned SharedBase mapping narrow failure');
+  state.stage='return';const returned=this.#call('100b50e5.mappingReturn',()=>NativeX86ThreadStack.returnSharedMappingFrame(item.stack!,this.#stackCall!));if(returned!==state.result)throw new Error('Actual mapping return required');
+  this.#locals.delete(state.wideInput);this.#locals.delete(state.wideOutput);this.#stackCall=null;
+  if(locale.readUnsigned(12,1)!==0){const ptd=locale.pointer<NativeHeapObjectViews>(8).get();if(!ptd)throw new Error('Actual mapping caller PTD required');ptd.writeUnsigned(0x70,ptd.readUnsigned(0x70)&~2);this.#trace.push('100b5123.mappingLocale.restore');}
+  this.#trace.push('100b50e6.caseMap.return.'+flags);
  }
  #initializeArgumentsPrefix():void {
   if(this.imageStorage('multibyteInitialized').readUnsigned(0)===0){
@@ -789,7 +843,7 @@ export class NativeSharedCrtOwner {
   }catch(error){this.#boundary??=error instanceof Error?error.message:String(error);return {known:false,reason:this.#boundary};}
   finally{this.#stackCall=null;this.#active=false;}
  }
- snapshot(){return Object.freeze({boundary:this.#boundary,localeUpdate:this.#localeUpdate,multibyteAllocation:this.#multibyteAllocation,cpInfo:this.#cpInfo,caseState:this.#caseState?Object.freeze({...this.#caseState}):null,codePage:this.#codePage,startupInfo:this.#startupInfo,ioBlock:this.#ioBlock,ioReturned:this.#ioReturned,versionAllocation:this.#versionAllocation,
+ snapshot(){return Object.freeze({mappingState:this.#mappingState?Object.freeze({...this.#mappingState}):null,boundary:this.#boundary,localeUpdate:this.#localeUpdate,multibyteAllocation:this.#multibyteAllocation,cpInfo:this.#cpInfo,caseState:this.#caseState?Object.freeze({...this.#caseState}):null,codePage:this.#codePage,startupInfo:this.#startupInfo,ioBlock:this.#ioBlock,ioReturned:this.#ioReturned,versionAllocation:this.#versionAllocation,
   ptd:this.#ptd,ptdInstalled:this.#ptdInstalled,ptdInitialized:this.#ptdInitialized,rtcReturned:this.#rtcReturned,environmentInput:this.#environmentInput,environmentAllocation:this.#environmentAllocation,environmentReturned:this.#environmentReturned,heap:this.#heap,heapReturned:this.#heapReturned,attachReturned:this.#attachReturned,mtReturned:this.#mtReturned,locksReturned:this.#locksReturned,sections:Object.freeze([...this.#sections]),pointersReturned:this.#pointersReturned,
   trace:Object.freeze([...this.#trace]),dllEntryExecuted:false,wholeCrtTraversalCompleted:false});}
 }

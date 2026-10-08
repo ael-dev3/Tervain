@@ -43,7 +43,8 @@ The current development bottleneck is native startup and its shared runtime
 dependencies. The live Game path stops before `__cinit` at `204678f2`.
 Separately, the local SharedBase classification helper has completed its aligned
 512-byte stack allocation, conversion/classification and checked normal return.
-The next boundary is the case-mapping stat helper at `100b5112 -> 100b4d44`.
+Both case mappings now complete locally and populate the candidate's case
+tables. The next boundary is the enclosing case helper's epilogue at `100b1370`.
 Those local helper results still need to join the live
 startup path before they can enable NPC activation. The full game remains
 unfinished; successful extraction, compilation or deployment alone does not
@@ -51,9 +52,9 @@ establish campaign completion.
 
 ## Current status — 8 October 2026
 
-The latest confirmed publication is [PR 98](https://github.com/ael-dev3/Tervain/pull/98),
-merged at `58a8da9672a4fb67448526f22fb31db97ec0728d` and deployed by
-[Pages run 37727870217](https://github.com/ael-dev3/Tervain/actions/runs/37727870217).
+The latest confirmed publication is [PR 100](https://github.com/ael-dev3/Tervain/pull/100),
+merged at `532d63718610c1710b192c70af8585c781d29e8d` and deployed by
+[Pages run 37729493625](https://github.com/ael-dev3/Tervain/actions/runs/37729493625).
 It includes original SharedBase pointer/lock setup, PTD allocation and selected
 default-locale initialization, environment setup and standard I/O descriptors.
 The earlier PR 84 served-artifact comparison remains evidence for that prior
@@ -931,3 +932,39 @@ including all 256 converted/type values and locale flags 0, 1 and 3.
 Typechecking, the production build and 2,597 full-suite tests across 258 files pass.
 This remains a direct helper ABI; preceding CRT frames and live Game startup
 integration, NPC activation and campaign completion remain unfinished.
+
+### Local lower and upper case mapping continuation
+
+The next local branch follows both original mapping calls at `100b12b3` and
+`100b12d8`. Each owns a direct mapping stat frame on the same logical-thread
+stack, with the source arguments, saved registers and symbolic cookie relation.
+The original Unicode mapping-mode probe selects mode 1 once. A 256-byte source
+scan retains the full input length because the original zero byte was replaced
+with space.
+
+For each map, the actual conversion service queries and fills a 512-byte UTF-16
+input alias. The mapping service queries its size and fills a second 512-byte
+alias. Both original `alloca16` calls relocate their return capabilities and
+derive padding from the selected virtual geometry: 520 and 528 allocated bytes
+for two 520-byte requests. The original narrowing service writes the 256-byte
+lower or upper output. Source cleanup preserves both stack allocations,
+checks the cookie, restores registers and returns; the translated caller restores
+its locale ownership flag.
+
+The candidate then receives the original 256 type-bit/case-byte updates. The
+source package additionally records the cold `localeMapMode` DWORD at
+`102f6950`; it now has 76 functions and 55 cold ranges. Focused validation passes
+60 tests covering every lower/upper byte, candidate table entry, both returned
+mapping frames, argument cleanup, shared backing and locale flags 0/1/3.
+The full suite passes 2,598 tests across 258 files; typechecking and the
+production build pass, and all 153 regenerated source files match exactly.
+Temporary aliases expire and may be overwritten by subsequent frames; retained
+views show current stack bytes, not independent historical copies.
+
+The local boundary is `100b1370`, before the enclosing case helper's cookie
+epilogue. That enclosing native caller frame is not yet owned. The candidate
+is not installed in PTD/global storage, and full SharedBase attach, live Game
+initializer traversal, NPC activation and a finishable campaign remain missing.
+
+PR 100 passed CI run 37728723765 and merged at
+`532d63718610c1710b192c70af8585c781d29e8d`; Pages run 37729493625 subsequently succeeded.
