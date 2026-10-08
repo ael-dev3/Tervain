@@ -63,7 +63,9 @@ still required; no processor result is supplied in place of those operations.
 Typechecking, 122 focused checks and the production build pass. All 74 generated
 source files and emitted runtime reproduce exactly. The full suite passes
 2,671 tests across 259 files. PR 114 passed CI run 37756577528 and merged at
-`bdc3d8f4abc7f79da511e92b50f3160bbccb59de`; Pages run 37757319592 is running.
+`bdc3d8f4abc7f79da511e92b50f3160bbccb59de`; Pages run 37757319592 succeeded.
+PR 115 passed CI run 37757739546 and merged this processor-entry checkpoint
+at `d044545e75e4eee4cccdb5ffc447c4ba30c1db76`. Its Pages run is 37758516262.
 Full startup, NPC activation and campaign completion remain unfinished.
 
 ### First error initializer allocation, encoding and return

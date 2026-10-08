@@ -68,23 +68,46 @@ establish campaign completion.
 
 ## Current status — 8 October 2026
 
-The latest confirmed deployment recorded here is [PR 109](https://github.com/ael-dev3/Tervain/pull/109),
-merged at `4aa6de44dcdcc0e993e58f2c20ea27f10bbe104e` and deployed by
-[Pages run 37746463396](https://github.com/ael-dev3/Tervain/actions/runs/37746463396).
-Its CI run 37745615022 also completed successfully.
-The newest local environment checkpoint passes 93 focused tests and
-2,631 tests across 258 files, plus typechecking and the production build.
-It includes original SharedBase pointer/lock setup, PTD allocation and selected
-default-locale initialization, environment setup and standard I/O descriptors.
-The next [SharedBase initializer source package](../../assets/gothic3/shared-initializer-source/README.md)
-captures all five error-returning and seventeen void callbacks, the non-NULL
-floating-point hook and its selected dependencies. Four callbacks absent from
-the original study are recovered from original DLL bytes. The new local prefix
-executes cinit through conversion installation and retains the actual pending
-FNCLEX operation after the original division query returns. The table
-initializer callbacks have not executed.
-The earlier PR 84 served-artifact comparison remains evidence for that prior
-revision; no new served-byte comparison is claimed for PR 96.
+The latest merged runtime checkpoint is [PR 115](https://github.com/ael-dev3/Tervain/pull/115),
+merged at `d044545e75e4eee4cccdb5ffc447c4ba30c1db76` after successful
+[CI run 37757739546](https://github.com/ael-dev3/Tervain/actions/runs/37757739546).
+Its [Pages deployment](https://github.com/ael-dev3/Tervain/actions/runs/37758516262)
+is tracked separately from that CI result.
+
+The selected SharedBase path now completes argument and environment setup,
+floating-point conversion installation and cached pointer encoding. The first
+error initializer allocates and publishes its exit table; the second returns
+through its live multibyte-initialized flag. The third enters the original
+processor-probe frame and stops before `PUSHFD` at `100ce0a8`. Full EFLAGS,
+CPUID, SIMD and exception-frame execution remain dependencies. Missing codec
+fallback resolution, retry handling and failure cleanup also remain bounded.
+PR 115 passed 122 focused checks, 2,671 tests across 259 files, typechecking and
+the production build; its 74 generated source files and runtime reproduced exactly.
+
+The subsequent local source checkpoint captures processor exception-frame
+helpers, the original scope table, and the filter/handler bytes omitted by the
+study's normal function listing. All 80 generated files and the unchanged
+runtime reproduce exactly. Nine focused source checks, 2,673 tests across 259
+files, typechecking and the build pass. This is additional evidence; it does
+not advance execution past `PUSHFD`.
+
+### What each repository folder contributes
+
+| Folder | Purpose | What it establishes |
+| --- | --- | --- |
+| `tools/gothic3/` | Extraction, decoding and source-package generators | Repeatable preparation from identified local inputs |
+| `assets/gothic3/` | Captured bytes, listings, manifests and provenance | Evidence for specific formats and native behavior |
+| `public/gothic3/` | Portable resources loaded by the browser | Available scene/model/data inputs |
+| `src/gothic3/` | TypeScript runtime and its owners | Implemented behavior within explicit supported boundaries |
+| `docs/engineering/` | Process, dependency records and checkpoints | Scope, validation receipts and remaining integration work |
+
+A normal contribution traces a missing dependency, captures its original input,
+implements its state changes under the responsible runtime owner, connects the
+caller, and records both the supported cases and the next unresolved operation.
+Regeneration checks evidence fidelity; runtime checks establish implemented
+behavior; browser play and save/reload establish gameplay integration.
+
+### Earlier supporting checkpoints
 
 Startup now completes the selected environment initialization and stops before
 Game's `__cinit` call at `204678f2`. The repository captures all 2,473 Game
