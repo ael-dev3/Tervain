@@ -1,0 +1,2 @@
+10088af0 | 8d4104 | LEA EAX,[ECX + 0x4]
+10088af3 | c3 | RET

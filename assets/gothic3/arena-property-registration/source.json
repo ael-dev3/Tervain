@@ -86,6 +86,23 @@
       ],
       "assemblySha256": "baaaf40b38b45dffa47a72c75c43266fd899fe8a196af9e2c88fbd85e3d3c89a",
       "cSha256": "05795f2db00f67b7c0fedf6d4e97d0b36c3875420020b7a8d92102f6261dc488"
+    },
+    "getPropertyName": {
+      "entryVA": "0x10006e83",
+      "bodyVA": "0x10088af0",
+      "bodyRanges": "10088af0-10088af3",
+      "instructionCount": 2,
+      "bodyByteCount": 4,
+      "bodyInstructionBytesSha256": "4181cb1fec090d6487f323c8ce84a17ff37429613d7843b4f5f40f5eae266b77",
+      "entryChain": [
+        {
+          "va": "10006e83",
+          "bytes": "e9681c0800",
+          "targetVA": "10088af0"
+        }
+      ],
+      "assemblySha256": "bb4984f81fc7ce95691a4411d7cc28f143d5b6e6578b717c2da62a79d8d0aa7b",
+      "cSha256": "d079dc970161c344ee5614aff5c5821b1e2f27658453e09a01a8b9ceef252c5a"
     }
   },
   "sourceOnly": true,

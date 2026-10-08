@@ -31,9 +31,9 @@ function fixture(initializeExit = true, sourceMemory?:NativeMemoryAdmin, useNpcP
 }
 
 it('constructs the actual first Arena Status descriptor through its cold Create and unregister lookup',()=>{
- const f=fixture();const result=f.owner.initialize();expect(result.known).toBe(false);
+ const f=fixture(true,undefined,true);const result=f.owner.initialize();expect(result.known).toBe(false);
  if(result.known)throw new Error('Create unexpectedly completed');
- expect(result.reason).toContain('204b1e30');
+ expect(result.reason).toContain('10088191');
  expect(f.owner.fields).toBe(f.crt.imageStorage('arenaStatusDescriptor'));
  expect(f.owner.fields.readUnsigned(0)).toBe(0x20659aec);
  expect(f.owner.fields.readUnsigned(16)).toBe(2);
@@ -48,6 +48,25 @@ it('constructs the actual first Arena Status descriptor through its cold Create 
  expect(f.owner.snapshot().trace).toContain('10087fcc.unregisterAbsent.return0');
  expect(f.owner.snapshot().initializerReturned).toBe(false);
  expect(f.owner.snapshot().propertyRegistered).toBe(false);
+ expect(f.owner.snapshot().descriptorStored).toBe(true);
+ const arena=NativeGameArenaType.forCrt(f.crt,f.memory).fields;
+ expect(arena.readUnsigned(12)).toBe(1);expect(arena.readUnsigned(16)).toBe(9);
+ const array=arena.pointer<{identity:object;bytes:Uint8Array;knownMask:Uint8Array;freed:boolean}>(8).get()!;
+ expect(new NativeHeapObjectViews(array,0,4).pointer(0).get()).toBe(f.owner.fields);
+ expect(value(f.owner.snapshot().diagnosticNames!.propertyName.text())).toBe('Status');
+ expect(value(f.owner.snapshot().diagnosticNames!.typeName.text())).toBe('bTPropertyContainer<enum gEArenaStatus>');
  const trace=f.owner.snapshot().trace;expect(f.owner.initialize()).toEqual(result);expect(f.owner.snapshot().trace).toEqual(trace);
- expect(f.exit.snapshot().callbackCells).toHaveLength(2);
+ expect(f.exit.snapshot().callbackCells).toHaveLength(3);
+});
+it('preserves Create completion when the property-array allocation pool is unavailable',()=>{
+ const f=fixture();const result=f.owner.initialize();expect(result.known).toBe(false);
+ if(result.known)throw new Error('Missing pool unexpectedly returned');
+ expect(result.reason).toContain('36 bytes');
+ expect(f.owner.snapshot().createCompleted).toBe(true);
+ expect(f.owner.snapshot().descriptorStored).toBe(false);
+ const type=NativeGameArenaType.forCrt(f.crt,f.memory).fields;
+ expect(type.readUnsigned(12)).toBe(0);expect(type.readUnsigned(16)).toBe(0);
+ expect(type.pointer(8).get()).toBeNull();
+ const trace=f.owner.snapshot().trace;expect(f.owner.initialize()).toEqual(result);
+ expect(f.owner.snapshot().trace).toEqual(trace);
 });

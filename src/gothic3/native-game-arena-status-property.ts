@@ -4,6 +4,7 @@ import type { NativeValue } from './dialogue';
 import { NativeGameCrtOwner } from './native-game-crt';
 import { NativeGameArenaType } from './native-game-arena-type';
 import { NativeGameArenaClassName } from './native-game-arena-class-name';
+import { NativeGameArenaStatusClassName } from './native-game-arena-status-class-name';
 import registration from '../../assets/gothic3/arena-property-registration/source.json';
 import { NativePropertyTemplateArray } from './native-property-template-array';
 import { NativeHeapCString } from './native-heap-cstring';
@@ -26,6 +27,8 @@ export class NativeGameArenaStatusProperty {
   #arena: NativeGameArenaType;
   #active = false;
   #created = false;
+  #descriptorStored = false;
+  #diagnosticNames:Readonly<{propertyName:NativeHeapCString;typeName:NativeHeapCString}>|null=null;
   #boundary: string | null = null;
   #trace: string[] = [];
   private constructor(readonly crt: NativeGameCrtOwner, private readonly memory: NativeMemoryAdmin, proof: object) {
@@ -93,6 +96,35 @@ export class NativeGameArenaStatusProperty {
     this.#trace.push('10087fcc.unregisterAbsent.return0');
     this.#created=true;
   }
+  #register():never {
+    if(registration.methods.registerPropertyTemplate.bodyVA!=='0x10088130'||registration.methods.registerPropertyTemplate.bodyInstructionBytesSha256!=='b7f5b904cda05bf757443b27f2c272c97a9a885fd838368ed45b9fd687186fa6')throw new Error('Original property registration source differs');
+    const index=this.#propertyIndex();
+    if(index!==-1)throw new Error('Unowned duplicate property registration warning');
+    const type=this.#arena.fields;
+    const arrayFields=new NativeHeapObjectViews(type.backing,type.bytes.byteOffset-type.backing.bytes.byteOffset+8,12);
+    const requested=(arrayFields.readUnsigned(4)+1)>>>0;
+    const array=new NativePropertyTemplateArray(arrayFields,this.memory);
+    fact(NativePropertyTemplateArray.prototype.reserve.call(array,requested,requested===0?0xffffffff:0));
+    if(this.#boundary)throw new Error(this.#boundary);
+    const allocation=arrayFields.pointer<{identity:object;bytes:Uint8Array;knownMask:Uint8Array;freed:boolean}>(0).get();
+    if(!allocation)throw new Error('Original registration dereferences NULL pointer array');
+    const slot=new NativeHeapObjectViews(allocation,((requested*4-4)>>>0),4);
+    arrayFields.writeUnsigned(4,requested);
+    slot.pointer(0).set(this.fields);
+    this.#descriptorStored=true;
+    this.#trace.push('10088172.storeActualPropertyPointer');
+    if(this.fields.readUnsigned(0)!==0x20659aec||this.crt.imageStorage('arenaStatusVtable').readUnsigned(12)!==0x2000185c)throw new Error('Actual Status type-name virtual slot required');
+    const typeName=fact(NativeGameArenaStatusClassName.prototype.get.call(NativeGameArenaStatusClassName.forCrt(this.crt,this.memory)));
+    if(this.#boundary)throw new Error(this.#boundary);
+    const propertyName=fact(NativePropertyTypeConstruction.prototype.getName.call(this.#base!));
+    // The diagnostic call receives the actual CString text pointers loaded
+    // after both getters. Preserve them without claiming Message.Debug ran.
+    fact(NativeHeapCString.prototype.getTextPointer.call(typeName));
+    fact(NativeHeapCString.prototype.getTextPointer.call(propertyName));
+    this.#diagnosticNames=Object.freeze({propertyName,typeName});
+    this.#trace.push('10088186.loadDiagnosticTextPointers');
+    throw new Error('Unowned property registration Message.Debug call at 10088191');
+  }
   initialize():NativeValue<void> {
     if(this.#boundary)return {known:false,reason:this.#boundary};
     if(this.#active) {this.#boundary='Reentrant first Arena property initializer';return {known:false,reason:this.#boundary};}
@@ -119,13 +151,14 @@ export class NativeGameArenaStatusProperty {
       this.fields.pointer(32).set(null);
       this.#trace.push('204b1e15.ownerOffsetAndDefaultStored');
       this.#create();
-      throw new Error('Unowned first Arena property registration call at 204b1e30');
+      this.#register();
     } catch(error) {
       this.#boundary ??= error instanceof Error ? error.message : String(error);
       return {known:false,reason:this.#boundary};
     } finally {this.#active=false;}
   }
   snapshot() {return Object.freeze({boundary:this.#boundary,temporaryName:this.#temporary,
-    baseConstructed:this.#base!==null,createCompleted:this.#created,trace:Object.freeze([...this.#trace]),
+    baseConstructed:this.#base!==null,createCompleted:this.#created,descriptorStored:this.#descriptorStored,
+    diagnosticNames:this.#diagnosticNames,trace:Object.freeze([...this.#trace]),
     initializerReturned:false,propertyRegistered:false,wholeCrtTraversalCompleted:false});}
 }
