@@ -96,6 +96,15 @@ Local validation passed 172 focused checks, 2,729 tests across 259 files,
 typechecking, the production build and exact regeneration of all 100 generated
 source files plus the instruction module.
 
+The next local runtime checkpoint executes the lower heap dispatcher and the
+original 16-byte pool callback. It requests and retains a fresh, owned
+1,056,768-byte virtual region and reaches the block initializer at
+`10047f7c -> 100061cc`. The heap lock and Malloc exception frame remain active;
+no slot or CString allocation has returned. Validation passes 187 focused
+checks, 2,744 tests across 259 files, typechecking, the production build and exact
+regeneration of all 107 source-package files plus the instruction module.
+This runtime checkpoint awaits remote review and publication.
+
 Earlier stages of the selected SharedBase path now perform argument and
 environment setup, floating-point conversion installation, encoded-pointer
 publication, error initializer traversal, FILE/descriptor setup, exit-callback
