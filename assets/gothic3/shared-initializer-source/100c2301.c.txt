@@ -1,0 +1,20 @@
+/* ENTRY 100c2301 | pDNameNode::getString | STATUS decompiled | 4 ms */
+
+/* Library Function - Single Match
+    public: virtual char * __thiscall pDNameNode::getString(char *,int)const 
+   
+   Libraries: Visual Studio 2003 Release, Visual Studio 2005 Release */
+
+char * __thiscall pDNameNode::getString(pDNameNode *this,char *param_1,int param_2)
+
+{
+  DName *this_00;
+  char *pcVar1;
+  
+  this_00 = (DName *)(this->pDNameNode_data).offset_0x4;
+  if (((this_00 != (DName *)0x0) && (param_1 != (char *)0x0)) && (param_2 != 0)) {
+    pcVar1 = DName::getString(this_00,param_1,param_2);
+    return pcVar1;
+  }
+  return (char *)0x0;
+}

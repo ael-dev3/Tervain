@@ -1,0 +1,24 @@
+/* ENTRY 100c22b2 | pcharNode::getString | STATUS decompiled | 6 ms */
+
+/* Library Function - Single Match
+    public: virtual char * __thiscall pcharNode::getString(char *,int)const 
+   
+   Libraries: Visual Studio 2003 Release, Visual Studio 2005 Release */
+
+char * __thiscall pcharNode::getString(pcharNode *this,char *param_1,int param_2)
+
+{
+  char *pcVar1;
+  uint unaff_retaddr;
+  
+  pcVar1 = (char *)(this->pcharNode_data).offset_0x8;
+  if ((int)pcVar1 < param_2) {
+    param_2 = (int)pcVar1;
+  }
+  pcVar1 = (char *)0x0;
+  if ((((this->pcharNode_data).offset_0x4 != (char *)0x0) && (param_1 != (char *)0x0)) &&
+     ((char *)param_2 != (char *)0x0)) {
+    pcVar1 = und_strncpy(param_1,(char *)param_2,unaff_retaddr);
+  }
+  return pcVar1;
+}
