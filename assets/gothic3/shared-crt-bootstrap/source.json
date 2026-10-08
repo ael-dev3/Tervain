@@ -2,6 +2,39 @@
   "schema": "gothic3-shared-crt-bootstrap-v1",
   "sharedBaseSha256": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214",
   "methods": {
+    "sehProlog4": {
+      "entryVA": "0x100aeb68",
+      "bodyVA": "0x100aeb68",
+      "bodyRanges": "100aeb68-100aebac",
+      "instructionCount": 21,
+      "bodyByteCount": 69,
+      "bodyInstructionBytesSha256": "e30b4c04dfd938e926cd434bb13e5723dad104657d993b990f465d72e19a7cc7",
+      "entryChain": [],
+      "assemblySha256": "5652bfa64e04605b8fb7340f510520782558c51c637a5d8929a7b40319ef6a35",
+      "cSha256": "28c61a2ed4890247e93f551a5a3484b98ea9869cf37b54cce8b8176381391a63"
+    },
+    "sehEpilog4": {
+      "entryVA": "0x100aebad",
+      "bodyVA": "0x100aebad",
+      "bodyRanges": "100aebad-100aebc0",
+      "instructionCount": 11,
+      "bodyByteCount": 20,
+      "bodyInstructionBytesSha256": "39142b8d79823b8b3c0dd534ee99caf6c8cce4347b7608cfc004a14c873f7411",
+      "entryChain": [],
+      "assemblySha256": "b25629fe6705ccff52dd34e8e3c52edab43dd15c616f05930a06b88d05b6bfe1",
+      "cSha256": "b6f4c6449b24d75ae40584b9cca11c36b6ca1223faf3e4643303276ed2bfbf15"
+    },
+    "releaseSetMultibyteLock": {
+      "entryVA": "0x100b181b",
+      "bodyVA": "0x100b181b",
+      "bodyRanges": "100b181b-100b1823",
+      "instructionCount": 4,
+      "bodyByteCount": 9,
+      "bodyInstructionBytesSha256": "37157c0a418a5217571725d0769ee7f3276a6c8429d6b2bcfc6da2940a15ee00",
+      "entryChain": [],
+      "assemblySha256": "1395fef6bb82b29926e015cb22a497ecc674040630f850ea75d073c5a447b898",
+      "cSha256": "87ead8d8a9450672a6a0b2ce25972e073627f7bf8c155a22267c49159ca7524b"
+    },
     "freeTemporary": {
       "entryVA": "0x100b4d0f",
       "bodyVA": "0x100b4d0f",
@@ -840,6 +873,22 @@
     }
   },
   "coldGlobals": {
+    "setMultibyteScopeTable": {
+      "address": "100f8be0",
+      "bytes": 28,
+      "raw": "feffffff00000000ccffffff00000000feffffff000000001b180b10",
+      "knownMask": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "section": {
+        "virtualAddress": 937984,
+        "virtualSize": 366840,
+        "rawSize": 368640,
+        "rawOffset": 937984,
+        "fileBackedBytes": 28,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
     "localeMapMode": {
       "address": "102f6950",
       "bytes": 4,

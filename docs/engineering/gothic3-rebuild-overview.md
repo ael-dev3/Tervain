@@ -1033,3 +1033,42 @@ for the source-ordered candidate publication and reference-count work.
 
 PR 102 passed CI run 37734612264 and merged at
 `95290022ef61505810a6c5155159f0e265a3a24e`; Pages run 37735133657 subsequently succeeded.
+
+
+### Local setmbcp SEH parent frame
+
+The local source package now also captures the original SEH prologue at
+`100aeb68`, epilogue at `100aebad`, lock-release handler at `100b181b`, and
+28-byte scope table at `100f8be0`. Their source hashes and scope bytes are pinned;
+altered helper receipts or live scope data reject admission.
+
+The setmbcp call at `100b185f` owns a parent frame before PTD, multibyte warmup,
+code-page selection and allocation. The original prologue retains the incoming
+FS word, encodes the scope pointer with the canonical cookie, saves the
+cookie/EBP relation and registers FS with the actual EBP-16 stack alias. It
+relocates the prologue return word in source order. The existing lower PTD,
+locale, allocation and memset bodies remain translated owner effects.
+
+The candidate copy and configuration now share that parent. After the
+configuration returns, the source caller pops both argument words, saves the
+zero result at EBP-32, reloads PTD from EBP-36 and pushes the previous multibyte
+record for `100b1730`. Execution stops with that decrement import CALL pending:
+no reference count is decremented, candidate installed, or initialization flag
+published. The parent call and FS registration remain live in the retained
+blocked prefix. Exception dispatch, lock-release execution and the SEH epilogue
+are captured source but have not executed on this path.
+
+For the explicitly selected 4,096-byte relative stack, the parent EBP is 4,084,
+FS points to offset 4,068, configuration EBP is 4,016, and the pending import ESP
+is 4,024. These are opaque relative model offsets, not Windows memory addresses.
+The selected classification allocation remains 520 bytes and each mapping pair
+consumes 532 and 528 bytes.
+
+Final validation passes 64 focused tests, typechecking, the production build
+and all 2,602 tests across 258 files. Regeneration reproduces all 159 source
+files exactly. Full SharedBase attachment,
+live Game initializer integration, NPC activation and a finishable campaign
+remain unfinished.
+
+PR 103 passed CI run 37735759120 and merged at
+`5e6576d52bfacdf5abdcb1e07a951b7deec557ad`. Its Pages deployment is not yet confirmed here.
