@@ -47,35 +47,36 @@ memory and objects before it can support a gameplay claim.
 | `docs/engineering/gothic3-rebuilding-process.md` | Dated checkpoint history and validation receipts |
 | `.github/workflows/pages.yml` | Pull-request validation and main-branch deployment |
 
-### Current startup work: 2026-10-08
+### Current startup work: 2026-10-09
 
-Published main revision `a066b607490cd29aff1d994e98cabb9c4d585b35`
-([PR #159](https://github.com/ael-dev3/Tervain/pull/159)) includes the selected
-SharedBase CRT initialization, DLL entry prefix, module lookup, version-resource
-fallback and nested language-resource frame. Original allocator instructions
-claim two 1,792-byte pool slots; recorded Windows resource API results fill
-1,740 bytes in each. The original formatter writes the translation query and
-execution reaches the pending `VerQueryValueA` call at `1004c330`.
-Its Pages deployment completed successfully (run `37844108225`).
+[PR #161](https://github.com/ael-dev3/Tervain/pull/161) merged as
+`d6b28f9e37e9dfce20a89e5afc2ab0aa2a107cf6`. The selected SharedBase
+continuations execute version-resource allocation and querying, hexadecimal
+query formatting, FileVersion copying, the original tokenizer and integer
+scanner, and both original buffer cleanup paths. The recovered version is
+`1, 60, 25931, 29`. Execution reaches the separator logger call
+`100a15cd -> 1000840e`.
 
-Later local work returns the translation resource, formats the FileVersion
-query, copies the actual returned string, and releases the inner language slot
-through the original descriptor lookup and bitmap callback. The original
-`strtok`/`atoi`/`strtol` chain writes `1, 60, 25931, 29` into the caller's four
-output cells. That parser checkpoint passed 2,952 tests across 275 files,
-typechecking and the production build.
+That checkpoint passed 2,954 tests across 275 files, typechecking, the production
+build and exact regeneration of both source packages. Its
+[Pages deployment](https://github.com/ael-dev3/Tervain/actions/runs/37852424019)
+completed successfully; merge and deployment are separate receipts.
 
-The subsequent local continuation releases the outer slot, preserves both
-parsed output and the reusable pool region, and restores the fallback and
-version-query callers. It reaches the DLL initializer's separator-logging CALL
-at `100a15cd -> 1000840e`. Two focused checks, typechecking and the production
-build pass. Its full suite passes 2,954 tests across 275 files. These changes are unpublished and
-the selected owner methods still require integration into the live startup path.
+Further local logging work captures MessageAdmin construction, initializes its
+original physical critical section, and allocates the holder through the actual
+12-byte pool selected by `1003d304 -> 100028f6`. The original bitmap claim and
+three DWORD initialization stores execute, with the common MemoryAdmin lock and
+saved registers restored. The ErrorAdmin getter and cold invalidation now execute; construction reaches
+the 12,500-byte buffer-allocation call at `100227a8 -> 10004133`. Shortened Root strings also complete through this newly supported
+pool. The checkpoint passes 2,961 tests in 275 files, typechecking, the production
+build and exact independent regeneration of both evidence packages. The
+initializer package now has 134 bodies and 5,358 instructions. This MessageAdmin
+work remains local and has not been published.
 
-The next dependencies are original logging, the surrounding DLL wrapper and
-SEH execution, complete DLL initialization, Game/world activation and campaign
-integration. A deployed component checkpoint does not establish a campaign that
-can be finished in the browser.
+These are selected component continuations. Complete DLL wrapper and exception
+handling, live Game startup, world/NPC activation and campaign integration remain
+unfinished. The repository does not yet demonstrate a campaign playable through
+an ending.
 
 ### Reference inputs and reproducibility
 

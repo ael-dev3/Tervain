@@ -47,6 +47,16 @@ The prototype includes:
 
 See the [0.0.13 release record](docs/production/releases/0.0.13.md) for verified results and limitations, and the [prototype guide](docs/engineering/prototype.md) for controls and boundaries.
 
+## Gothic 3 browser reconstruction
+
+The separate `/gothic3/` reconstruction is being implemented in TypeScript from
+local asset and native behavior evidence. Startup and campaign integration are
+still incomplete.
+
+- [How rebuilding works](docs/engineering/gothic3-rebuild-overview.md)
+- [Step-by-step process, repository map and current status](docs/engineering/gothic3-rebuild-workflow.md)
+- [Technical checkpoint history](docs/engineering/gothic3-rebuilding-process.md)
+
 ## Develop locally
 
 ```sh

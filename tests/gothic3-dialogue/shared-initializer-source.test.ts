@@ -30,8 +30,8 @@ it('pins original SharedBase source identity without granting initializer execut
   expect(source.verifiedAgainstOriginalPE).toBe(true);
   expect(source.sourceOnly).toBe(true);
   expect(source.initializerExecutionCompleted).toBe(false);
-  expect(Object.keys(source.methods)).toHaveLength(131);
-  expect((Object.values(source.methods) as Method[]).reduce((sum,m)=>sum+m.instructionCount,0)).toBe(5216);
+  expect(Object.keys(source.methods)).toHaveLength(134);
+  expect((Object.values(source.methods) as Method[]).reduce((sum,m)=>sum+m.instructionCount,0)).toBe(5358);
 });
 it('preserves every admitted instruction byte and separates unavailable C exports',()=>{
   let recovered=0;
@@ -106,7 +106,7 @@ it('captures the section write flag and cold conversion/exit/RTC storage',()=>{
   expect(source.coldGlobals.rtcTerminators.raw).toBe('00'.repeat(256));
 });
 it('retains original CALL encodings and distinguishes imports from indirect callbacks',()=>{
-  expect(source.calls).toHaveLength(480);
+  expect(source.calls).toHaveLength(486);
   for(const call of source.calls){
     const raw=Buffer.from(call.raw,'hex');
     if(call.kind==='direct'){
@@ -240,7 +240,7 @@ it('retains original pool globals, bitmap geometry and VirtualAlloc request evid
   const bitmap=readFileSync(base+'1003e090.asm.txt','utf8');
   expect(bitmap).toContain('SCASD.REPE ES:EDI');expect(bitmap).toContain('BTR.LOCK [EDI],EDX');
   expect(source.calls.find((call:{address:string})=>call.address==='10047f7c').targetVA).toBe('100061cc');
-  expect(source.calls).toHaveLength(480);
+  expect(source.calls).toHaveLength(486);
 });
 
 it('pins descriptor CRT new/malloc bodies and the original HeapAlloc IAT',()=>{
@@ -290,4 +290,13 @@ it('retains the original 1792-byte pool bodies and geometry used by the version 
 
 it('pins the actual 1792-byte pool release callback and its original thunk',()=>{
  expect(source.methods.pool1792Free.bodyInstructionBytesSha256).toBe('3e4c72f1102eda79f1c87234f8092039d153517eaedf78a34bf4853a39e59d7f');expect(source.methods.pool1792Free.reconstructedCUnavailable).toBe(true);expect(sharedInitializerInstruction('10004061').instruction).toBe('JMP 0x10045600');expect(sharedInitializerInstruction('10045638').instruction).toBe('BTS.LOCK [ECX + EDX*0x4 + 0x6f910],EAX');
+});
+
+it('captures the actual 12-byte MessageAdmin holder pool',()=>{
+ expect(source.methods.pool12Dispatch).toMatchObject({entryVA:'0x100028f6',bodyVA:'0x10047e70',bodyInstructionBytesSha256:'f6b5a85ab066edbe8d754a90b821e4345fe83a20702ef4b749879c21cbf4be59'});
+ expect(source.methods.pool12Initialize).toMatchObject({entryVA:'0x10004683',bodyVA:'0x10045cb0',bodyInstructionBytesSha256:'3f472523c024fe0fa5c3a3d9cfd944f37877f8e742dcde94b3c22dad7e5be436'});
+ expect(source.methods.pool12Allocate).toMatchObject({entryVA:'0x10006a19',bodyVA:'0x1003dfe0',bodyInstructionBytesSha256:'3ae0d1d1017f5afc32bfaf793e552d6c9fb354f1902e90199ce6c748a45b7597'});
+ expect(source.coldGlobals.pool12Geometry).toMatchObject({address:'100e7aa0',bytes:8,raw:'0c000000feff0000'});
+ expect(source.coldGlobals.pool12State).toMatchObject({address:'102ffd4c',bytes:12,raw:'00'.repeat(12)});
+ expect(source.coldGlobals.pool12Descriptor).toMatchObject({address:'102ffeec',bytes:4,raw:'00000000'});
 });

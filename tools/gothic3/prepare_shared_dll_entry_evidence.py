@@ -100,6 +100,14 @@ def capture(study, output):
         0x100aedd1: 'versionErrno',
         0x100ae1d2: 'versionInvalidParameter',
         0x100b2b0b: 'versionCharClass',
+        0x100088b4: 'dllLogMessage',
+        0x10005560: 'dllLogSubmit',
+        0x100a7f27: 'dllLogVsprintf',
+        0x10006b7c: 'dllMessageCreate',
+        0x100010e1: 'dllMessageNewHolder',
+        0x10007441: 'dllMessageHolderAllocate',
+        0x10006c1c: 'dllMessageErrorGet',
+        0x10001db1:'dllErrorCreate',0x100032c4:'dllErrorInvalidate',0x10001c21:'dllMessageRemove',
     })
     pe = native.PE(binary)
     export_rva, export_size = struct.unpack_from('<II', binary, pe.optional + 96)
@@ -132,6 +140,9 @@ def capture(study, output):
             'instruction': f'JMP dword ptr [0x{iat:08x}]', 'import': receipt})
     result['coldImages'] = []
     for label, address, size in [
+        ('dllErrorState',0x10142a58,44),('dllErrorGuard',0x10142a8c,4),
+        ('dllMessageState', 0x10197d6c, 32),
+        ('dllMessageGuard', 0x10197d94, 4),
         ('versionLocaleChanged', 0x102f692c, 4),
         ('versionInitialLocalePair', 0x10141470, 8),
         ('versionMemoryFreeScope', 0x100f82e8, 12),
@@ -149,7 +160,7 @@ def capture(study, output):
         raw, section = image_bytes(pe, address, size)
         result['coldImages'].append({'label': label, 'address': f'{address:08x}',
             'size': size, 'bytes': raw.hex(), 'section': section})
-    for label, address in [('procedureName', 0x100e8210), ('translationQuery', 0x100e81ec),
+    for label, address in [('dllLogSourceFile', 0x100e7df8), ('procedureName', 0x100e8210), ('translationQuery', 0x100e81ec),
             ('translatedVersionQuery', 0x100e81b4), ('localeVersionQuery', 0x100e8188),
             ('versionDelimiter', 0x100e820c)]:
         value = pe.string(address)

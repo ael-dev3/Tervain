@@ -8,8 +8,8 @@ describe('original SharedBase DLL entry evidence',()=>{
  it('retains every original body and thunk instruction without granting execution',()=>{
   expect(source.inputSha256).toBe('5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214');
   expect(source.verifiedAgainstOriginalPE).toBe(true);
-  expect(source.methods).toHaveLength(27);
-  expect(source.methods.reduce((n,m)=>n+m.instructions.length,0)).toBe(2015);
+  expect(source.methods).toHaveLength(37);
+  expect(source.methods.reduce((n,m)=>n+m.instructions.length,0)).toBe(2375);
   for(const method of source.methods){
    for(const row of method.instructions){const emitted=sharedDllEntryInstruction(row.va);expect(emitted).toEqual({address:row.va,bytes:row.bytes,instruction:row.instruction});expect(Object.isFrozen(emitted)).toBe(true);}
    for(const row of method.entryChain)expect(sharedDllEntryInstruction(row.va)).toEqual({address:row.va,bytes:row.bytes,instruction:'JMP 0x'+row.targetVA});
@@ -87,4 +87,9 @@ it('retains the original output-engine classification and dispatch tables',()=>{
  expect(state.address).toBe('100ede50');expect(state.size).toBe(160);expect(sha(Buffer.from(state.bytes,'hex'))).toBe('6bf8a02d2cbf9c2988998af836adcb53cab68d22121cdec740ab7a7b3b5c2a33');
  expect(dispatch.address).toBe('100b5cc9');expect(dispatch.size).toBe(32);expect(sha(Buffer.from(dispatch.bytes,'hex'))).toBe('d308f11f17971e936cc54ad67ed00c4810c67f8e05732e6e9a05e048582e8b4d');
  const bytes=Buffer.from(dispatch.bytes,'hex');const targets=Array.from({length:8},(_,i)=>bytes.readUInt32LE(i*4).toString(16));expect(targets).toEqual(['100b5697','100b54fe','100b5519','100b5568','100b55a2','100b55aa','100b55e1','100b56d9']);for(const target of targets)expect(sharedDllEntryInstruction(target).address).toBe(target);
+});
+
+
+it('retains original cold MessageAdmin state and source metadata for DLL logging',()=>{
+ expect(source.coldImages.find(row=>row.label==='dllMessageGuard')!.bytes).toBe('00000000');expect(source.coldImages.find(row=>row.label==='dllMessageState')!.bytes).toBe('00'.repeat(32));expect(sharedDllEntryInstruction('10049760').instruction).toBe('TEST byte ptr [0x10197d94],0x1');expect(sharedDllEntryInstruction('10049559').instruction).toBe('CALL 0x10006ebf');
 });
