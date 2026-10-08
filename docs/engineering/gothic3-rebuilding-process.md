@@ -10189,3 +10189,24 @@ remain unfinished. All 265 focused checks pass. The full suite passes 2,863 test
 Typechecking, production build and authored diff check pass. The subsequent
 non-null byte-access annotation in the corruption test also passes its focused
 check. This checkpoint has not been published.
+
+
+## DLL entry evidence and recorded ANSI version backend (2026-10-08)
+
+The original DLL wrapper, entry, initializer and version-resource fallback are
+captured with export lookup and resource evidence. SharedBase has no
+DllGetVersion export; its FileVersion resource is `1, 60, 25931, 29`.
+A read-only host VERSION.dll observation establishes the explicitly selected
+1,740-byte initialized API buffer and query mutations. No Gothic code was
+loaded or executed for this observation.
+
+The TypeScript backend preserves canonical platform allocation identity,
+physical aliases, independent outer/nested buffers, reinitialization and freed
+lifetimes. Original DLL import call-frame integration is still pending.
+The emitted table contains 497 body instructions across nine original bodies.
+Both generated evidence and instruction module reproduce exactly. Thirteen
+focused checks and typechecking pass. The production build passes (39.97
+seconds); the full suite passes 2,876 tests across 272 files (220.38 seconds).
+Integration of the merged CRT checkpoint changes no validated file content.
+Publication of this checkpoint is pending. Full DLL startup, Game/world
+activation and campaign completion remain unfinished.
