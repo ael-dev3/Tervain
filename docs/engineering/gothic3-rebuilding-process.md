@@ -10497,3 +10497,29 @@ The full suite passes 2,935 tests across 275 files (196.79 seconds) for this
 combined language checkpoint. Publication is pending. The translation API return, translated hexadecimal query, FileVersion
 query, parsing, frees and logging still require integration, followed by complete
 DLL startup, world activation and campaign playthrough evidence.
+
+
+## Translation API return and hexadecimal query (local work, 2026-10-08)
+
+The original VerQueryValueA thunk now uses the selected recorded VERSION backend
+against the retained nested buffer. Its pointer output aliases offset 864 in that
+same live pool slot; its length output is written into the original caller word.
+The original return cleanup and success/length branches consume those outputs,
+read translation DWORD 0x04b00000 and push its four bytes as formatter varargs.
+The outer buffer remains independent and unchanged.
+
+The second original sprintf call executes the captured output engine, unsigned
+64-bit divide helper, padding and string writers. Its actual arguments produce
+`\StringFileInfo\000004B0\FileVersion` in the retained output image. The interpreter
+adds known CDQ, unsigned MUL/DIV, RCR and carry arithmetic forms required by the
+original divide routine; same-stack pointer subtraction retains the original
+relative relation. The helper returns with cookie, saved registers and locale
+state restored. The caller retains the second VerQueryValueA call at 1004c3a0.
+
+The source package contains 17 bodies and 1,502 body instructions. Independent
+source and instruction-table regeneration reproduces exactly. New checks cover
+the returned alias and computed varargs, released buffers, altered query strings,
+the original division/padding path and changed division evidence. Typechecking and the production build pass; the full suite passes 2,940 tests
+across 275 files (243.66 seconds). The FileVersion API return, version-string copy, frees, parsing and
+logging still need integration before complete DLL startup, world activation and
+campaign playthrough can be demonstrated. This continuation remains unpublished.

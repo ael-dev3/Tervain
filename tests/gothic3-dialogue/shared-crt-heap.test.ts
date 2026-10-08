@@ -1355,3 +1355,34 @@ it('rejects changed format scanner bytes before the output engine writes the que
 it('rejects a damaged stream count before emitting any query bytes',()=>{
  const {owner}=languageFormatFixture();owner.processDllLanguageFormatPrefix();owner.snapshot().caseState!.stack!.snapshot().sharedDllFormatFrame!.stream.writeUnsigned(4,0);const result=owner.processDllLanguageOutput();expect(result.known).toBe(false);if(!result.known)expect(result.reason).toMatch(/expression slot|stream arguments/);expect(owner.snapshot().dllLanguageFormatImages!.output.bytes).toEqual(new Uint8Array(256));
 });
+
+
+function translationQueryFixture(){const fixture=languageFormatFixture();fixture.owner.processDllLanguageFormatPrefix();fixture.owner.processDllLanguageOutput();return fixture;}
+it('returns the translation alias through original stack outputs and builds real hexadecimal format arguments',()=>{
+ const {owner}=translationQueryFixture(),before=owner.snapshot().caseState!.stack!.snapshot(),inner=before.sharedDllLanguageFrame!.buffer!,innerBytes=inner.fields.bytes.slice(),outerBytes=before.sharedDllResourceFrame!.buffer!.fields.bytes.slice();
+ const result=owner.processDllTranslationQuery();expect(result).toEqual({known:false,reason:'Original SharedBase translated query formatter pending at 100aa234'});
+ const state=owner.snapshot(),stack=state.caseState!.stack!.snapshot(),translation=stack.sharedDllTranslationFrame!;
+ expect(translation.pointer.fields).toBe(inner.fields);expect(translation.pointer.offset).toBe(inner.offset+864);expect(translation.length).toBe(4);expect(translation.query).toBe('\\VarFileInfo\\Translation');expect(inner.fields.readUnsigned(translation.pointer.offset)).toBe(0x04b00000);
+ expect(stack.sharedDllLanguageFrame!.handle.readUnsigned(0)).toBe(4);expect(stack.sharedDllResourceFrame!.handle.readUnsigned(0)).toBe(0);expect(inner.fields.bytes).toEqual(innerBytes);expect(stack.sharedDllResourceFrame!.buffer!.fields.bytes).toEqual(outerBytes);
+ expect(stack.calls.find(call=>call.site==='1004c330')!.returned).toBe(true);expect(stack.calls.at(-1)!.site).toBe('1004c36a');expect(stack.calls.at(-1)!.returned).toBe(false);
+ const call=stack.calls.at(-1)!,args=new NativeHeapObjectViews(stack.sharedDllLanguageFrame!.handle.backing,call.position+12,16);expect([0,4,8,12].map(offset=>args.readUnsigned(offset))).toEqual([0,0,4,0xb0]);expect(state.trace).toContain('1004c330.VerQueryValueA');expect(stack.trace).toContain('100d55d6.JMP dword ptr [0x102f98f4]');
+ const calls=stack.calls.length;expect(owner.processDllTranslationQuery()).toEqual(result);expect(owner.snapshot().caseState!.stack!.snapshot().calls).toHaveLength(calls);
+});
+it('rejects a released translation buffer before publishing pointer or length outputs',()=>{
+ const {owner}=translationQueryFixture(),inner=owner.snapshot().caseState!.stack!.snapshot().sharedDllLanguageFrame!.buffer!,slot=owner.snapshot().poolSlots.find(row=>row.fields===inner.fields)!;slot.region.writeUnsigned(0x6f910,(slot.region.readUnsigned(0x6f910)|2)>>>0);expect(owner.processDllTranslationQuery()).toEqual({known:false,reason:'Live original bitmap slot claim required'});expect(owner.snapshot().caseState!.stack!.snapshot().sharedDllTranslationFrame).toBeNull();expect(owner.snapshot().caseState!.stack!.snapshot().sharedDllLanguageFrame!.handle.readUnsigned(0)).toBe(0);
+});
+it('rejects an altered translation query without completing the import or changing resource bytes',()=>{
+ const {owner}=translationQueryFixture(),before=owner.snapshot().caseState!.stack!.snapshot(),inner=before.sharedDllLanguageFrame!.buffer!.fields,bytes=inner.bytes.slice();owner.snapshot().dllLanguageFormatImages!.output.writeUnsigned(0,88,1);expect(owner.processDllTranslationQuery()).toEqual({known:false,reason:'Recorded version query order required'});const stack=owner.snapshot().caseState!.stack!.snapshot();expect(stack.sharedDllTranslationFrame).toBeNull();expect(stack.calls.at(-1)!.site).toBe('1004c330');expect(stack.calls.at(-1)!.returned).toBe(false);expect(inner.bytes).toEqual(bytes);expect(stack.sharedDllLanguageFrame!.handle.readUnsigned(0)).toBe(0);
+});
+
+
+it('uses the original unsigned divide and padding helpers to format the translated version query',()=>{
+ const {owner}=translationQueryFixture();owner.processDllTranslationQuery();const before=owner.snapshot().caseState!.stack!.snapshot(),inner=before.sharedDllLanguageFrame!.buffer!.fields.bytes.slice(),outer=before.sharedDllResourceFrame!.buffer!.fields.bytes.slice(),flags=owner.snapshot().ptd!.readUnsigned(0x70);const result=owner.processDllTranslatedOutput();expect(result).toEqual({known:false,reason:'Original SharedBase FileVersion resource query pending at 100d55d6'});
+ const state=owner.snapshot(),stack=state.caseState!.stack!.snapshot();expect(Buffer.from(stack.sharedDllFormatFrame!.output.bytes).toString('ascii').split('\0')[0]).toBe('\\StringFileInfo\\000004B0\\FileVersion');expect(stack.calls.find(call=>call.site==='1004c36a')!.returned).toBe(true);expect(stack.calls.at(-1)!.site).toBe('1004c3a0');expect(stack.calls.at(-1)!.returned).toBe(false);expect(stack.trace).toContain('100cdfc3.sharedInitializer.DIV');expect(stack.trace).toContain('100b52c7.sharedInitializer.MOV');expect(stack.sharedDllLanguageFrame!.buffer!.fields.bytes).toEqual(inner);expect(stack.sharedDllResourceFrame!.buffer!.fields.bytes).toEqual(outer);expect(state.ptd!.readUnsigned(0x70)).toBe(flags);const calls=stack.calls.length;expect(owner.processDllTranslatedOutput()).toEqual(result);expect(owner.snapshot().caseState!.stack!.snapshot().calls).toHaveLength(calls);
+});
+
+
+it('rejects changed unsigned divide evidence before overwriting the translation query',()=>{
+ const {owner}=translationQueryFixture();owner.processDllTranslationQuery();const output=owner.snapshot().dllLanguageFormatImages!.output,bytes=output.bytes.slice(),method=dllEntrySource.methods.find(m=>m.label==='outputUnsignedDivide')!,saved=method.bodyInstructionBytesSha256;
+ try{method.bodyInstructionBytesSha256='00'.repeat(32);expect(owner.processDllTranslatedOutput()).toEqual({known:false,reason:'Original hexadecimal output dependency required: outputUnsignedDivide'});expect(output.bytes).toEqual(bytes);expect(owner.snapshot().caseState!.stack!.snapshot().calls.at(-1)!.returned).toBe(false);}finally{method.bodyInstructionBytesSha256=saved;}
+});

@@ -87,6 +87,9 @@ def capture(study, output):
         0x100a74b6: 'outputLocale',
         0x100a99b3: 'outputIsLeadByte',
         0x100b5289: 'outputByte',
+        0x100cdfb0: 'outputUnsignedDivide',
+        0x100b52bc: 'outputPad',
+        0x100b52e0: 'outputString',
     })
     pe = native.PE(binary)
     export_rva, export_size = struct.unpack_from('<II', binary, pe.optional + 96)
