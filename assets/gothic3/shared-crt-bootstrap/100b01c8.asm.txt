@@ -1,0 +1,4 @@
+100b01c8 | 3b0d6c0d1410 | CMP ECX,dword ptr [0x10140d6c]
+100b01ce | 7502 | JNZ 0x100b01d2
+100b01d0 | f3c3 | RET
+100b01d2 | e9e1110100 | JMP 0x100c13b8

@@ -174,6 +174,10 @@ export class NativeSharedCrtOwner {
    return {known:true,value:{stage:owner.#stackStage,input:item.input,types:item.types,codePage:owner.#multibyteAllocation.readUnsigned(4),count:item.wideCount??256,cookie:cookie.value,locale:owner.#localeUpdate!}};
   }catch(error){return {known:false,reason:error instanceof Error?error.message:String(error)};}
  }
+ static sharedMemsetSelectionForPlatform(platform:NativeRuntimePlatform,call:object):NativeValue<number>{
+  const proof=NativeSharedCrtOwner.sharedStackArgumentsForPlatform(platform,call);if(!proof.known)return proof;
+  try{return {known:true,value:owners.get(platform)!.imageStorage('memcpySseFlag').readUnsigned(0)};}catch(error){return {known:false,reason:error instanceof Error?error.message:String(error)};}
+ }
  static nlsArgumentsForPlatform(platform:NativeRuntimePlatform,call:NativeArgvNlsCallGrant):NativeValue<Readonly<{kind:SharedNlsKind;scalar:number;fields:NativeHeapObjectViews|null;input:NativeHeapObjectViews|null;count:number;flags:number;procedure:object|null}>> {
   const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)return active;
   const owner=owners.get(platform),pending=owner?owner.#nlsPending:null;
@@ -655,7 +659,8 @@ export class NativeSharedCrtOwner {
   if(count>0x7ffffff0||count*2+8>1024)throw new Error('Unowned SharedBase string-type wide heap allocation');
   if(!this.#caseState.stack)throw new Error('Unowned SharedBase aligned temporary stack allocation at 100c6f4c -> 100ce300');
   this.#stackStage='allocate';this.#caseState.wideTemporary=this.#call('100c6f4c.alloca16',()=>NativeX86ThreadStack.allocateSharedStringTypeTemporary(this.#caseState!.stack!,this.#stackCall!));
-  throw new Error('Unowned SharedBase temporary wide memset at 100c6f80 -> 100a7980');
+  this.#call('100c6f80.memset',()=>NativeX86ThreadStack.clearSharedStringTypeTemporary(this.#caseState!.stack!,this.#stackCall!));
+  throw new Error('Unowned SharedBase wide conversion fill at 100c6f95 -> MultiByteToWideChar');
  }
  #initializeArgumentsPrefix():void {
   if(this.imageStorage('multibyteInitialized').readUnsigned(0)===0){

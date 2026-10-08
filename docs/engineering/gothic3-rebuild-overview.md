@@ -11,11 +11,48 @@ of Gothic 3's endings. A scene viewer, a decoded model or a successfully read
 native data structure is a useful component milestone, but it does not by
 itself establish a playable reconstruction.
 
+## Process at a glance
+
+1. **Identify the installed inputs.** Start with
+   `C:\Program Files (x86)\Steam\steamapps\common\Gothic 3`.
+   Inventory archives and patch precedence, and preserve hashes of the native
+   modules and resource bytes used by each checkpoint.
+2. **Prepare the assets.** Readers in [`tools/gothic3/`](../../tools/gothic3/)
+   decode selected world records, meshes, skinned actors, animations, textures
+   and gameplay data. Outputs retain the original resource paths and conversion
+   evidence in [`assets/gothic3/`](../../assets/gothic3/); browser-ready resources
+   live in [`public/gothic3/`](../../public/gothic3/).
+3. **Recover the behavior.** Compare decompiled listings and disassembly with
+   original DLL bytes. Follow constructors, callbacks, globals, allocation,
+   ownership and cleanup. Record the next unresolved operation explicitly.
+4. **Implement it in TypeScript.** Runtime owners in
+   [`src/gothic3/`](../../src/gothic3/) reproduce the supported state changes.
+   Connect them to world entities, rendering, input, NPCs, combat, dialogue,
+   quests and saves as their dependencies become available.
+5. **Check a coherent checkpoint.** Verify source identities and relevant
+   behavior, typecheck and build, inspect the diff, and exercise the integrated
+   feature in the browser. Record the tested revision and remaining limits in
+   the [checkpoint history](gothic3-rebuilding-process.md).
+6. **Publish and continue toward an ending.** Review existing Actions runs and
+   workflow triggers, then publish the reviewed revision through the repository's
+   Pages workflow to [`/gothic3/`](https://ael-dev3.github.io/Tervain/gothic3/).
+   Completion requires ordinary gameplay through a campaign ending, including
+   progression and save/reload across the connected systems.
+
+The current development bottleneck is native startup and its shared runtime
+dependencies. The live Game path stops before `__cinit` at `204678f2`.
+Separately, the local SharedBase classification helper has completed its aligned
+512-byte stack allocation and zero memset, and stops before Unicode conversion
+fill at `100c6f95`. Those local helper results still need to join the live
+startup path before they can enable NPC activation. The full game remains
+unfinished; successful extraction, compilation or deployment alone does not
+establish campaign completion.
+
 ## Current status — 8 October 2026
 
-The latest confirmed publication is [PR 96](https://github.com/ael-dev3/Tervain/pull/96),
-merged at `d3fbb74114f0d850b4a2de899b0865abe2d77a19` and deployed by
-[Pages run 37724835223](https://github.com/ael-dev3/Tervain/actions/runs/37724835223).
+The latest confirmed publication is [PR 97](https://github.com/ael-dev3/Tervain/pull/97),
+merged at `59cfbfe6c69ef0eed93e94197eb88c55d4a583ae` and deployed by
+[Pages run 37726681547](https://github.com/ael-dev3/Tervain/actions/runs/37726681547).
 It includes original SharedBase pointer/lock setup, PTD allocation and selected
 default-locale initialization, environment setup and standard I/O descriptors.
 The earlier PR 84 served-artifact comparison remains evidence for that prior
@@ -830,7 +867,9 @@ activation and completion of the campaign are still unfinished.
 
 PR 96 is confirmed deployed at `d3fbb74114f0d850b4a2de899b0865abe2d77a19` by
 successful [Pages run 37724835223](https://github.com/ael-dev3/Tervain/actions/runs/37724835223).
-PR 97 has passed CI and is merged; its deployment is not yet confirmed here.
+PR 97's deployment subsequently succeeded in Pages run 37726681547.
+PR 98 passed CI run 37726972996 and merged at
+`58a8da9672a4fb67448526f22fb31db97ec0728d`; its deployment is not yet confirmed here.
 
 The next local component places the classification stat helper on the canonical
 cold logical-thread x86 graph through a private pending-call token. It preserves
@@ -845,3 +884,22 @@ frames, module attachment and live Game stack integration are not established.
 Execution stops before temporary wide memset at `100c6f80 -> 100a7980`;
 conversion/classification fill, case maps, cookie checks and normal wrapper return
 remain unfinished. Full NPC activation and the finishable campaign remain missing.
+
+### Local wide-buffer memset continuation
+
+The subsequent local change follows `100c6f80 -> 100a7980` on that same stack.
+It pushes the original three arguments, records the cdecl return, saves EDI,
+selects the cold non-SSE path, checks the actual direction flag and writes
+128 zero DWORDs. EDI is restored and the caller removes its 12 argument bytes.
+All 512 payload bytes become known zero; the preceding `cccc` header and
+classification probe remain intact. Opaque stack addresses retain unknown
+arithmetic flags except those proved by the selected operation.
+
+Focused validation passes 58 tests across the SharedBase heap/runtime and
+source-package suites; typechecking and the production build also pass.
+The full suite passes 2,596 tests across 258 files, and all 153 regenerated
+source-package files match exactly.
+The cleanup and cookie-check source listings are additionally captured, but
+their execution remains pending. The next runtime boundary is conversion fill
+at `100c6f95`; classification fill, case mapping, cleanup and live Game startup
+integration remain unfinished.

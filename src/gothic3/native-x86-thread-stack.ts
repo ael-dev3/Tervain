@@ -302,6 +302,31 @@ export class NativeX86ThreadStack {
       return known(frame.temporary);
     }catch(error){stack.#boundary??=reason(error);stack.#phase='blocked';return unknown(stack.#boundary);}
   }
+  static clearSharedStringTypeTemporary(stack:NativeX86ThreadStack,controller:object):NativeValue<void>{
+    try{NativeX86ThreadStack.#sharedProof(stack,controller);}catch(error){return unknown(reason(error));}
+    try{
+      const frame=stack.#sharedFrame!,fields=frame.temporary;
+      if(!fields||frame.importCall||fields.bytes.length!==512)throw new Error('Actual allocated SharedBase wide temporary required');
+      const start=fields.bytes.byteOffset-stack.#stack.bytes.byteOffset;
+      if(start%4!==0||fields.backing!==stack.#stack.backing)throw new Error('Actual DWORD-aligned SharedBase stack destination required');
+      const pointer=stack.#stackWord(start),value=(n:number)=>stack.#mint(n,0xffffffff);
+      for(const word of [value(512),value(0),pointer])stack.#push(word);
+      stack.#call('100c6f80','100c6f85');
+      stack.#store(stack.#bank,stack.#reg('EDX'),value(512));stack.#store(stack.#bank,stack.#reg('ECX'),pointer);stack.#store(stack.#bank,stack.#reg('EAX'),value(0));
+      const sse=NativeSharedCrtOwner.sharedMemsetSelectionForPlatform(stack.#platform,controller);if(!sse.known)throw new Error(sse.reason);
+      if(sse.value!==0)throw new Error('Unowned SharedBase SSE wide memset');
+      stack.#push(stack.#load(stack.#bank,stack.#reg('EDI')));
+      stack.#store(stack.#bank,stack.#reg('EDI'),pointer);
+      const df=NativeRuntimePlatform.readNativeDirectionFlag(stack.#platform);if(!df.known)throw new Error(df.reason);if(df.value!==0)throw new Error('Unowned SharedBase reverse wide memset');
+      stack.#store(stack.#bank,stack.#reg('ECX'),value(128));stack.#store(stack.#bank,stack.#reg('EDX'),value(0));
+      for(let offset=0;offset<512;offset+=4){stack.#store(stack.#stack,start+offset,value(0));stack.#trace.push('100a79df.REP_STOSD');}
+      stack.#store(stack.#bank,stack.#reg('ECX'),value(0));stack.#store(stack.#bank,stack.#reg('EDI'),stack.#stackWord(start+512));stack.#logicalFlags(0,0xffffffff,4);
+      stack.#store(stack.#bank,stack.#reg('EAX'),pointer);
+      const saved=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));stack.#store(stack.#bank,stack.#reg('EDI'),stack.#load(stack.#stack,saved));stack.#store(stack.#bank,stack.#reg('ESP'),stack.#stackWord(saved+4));
+      stack.#ret();const caller=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));stack.#store(stack.#bank,stack.#reg('ESP'),stack.#stackWord(caller+12));stack.#flags(0,1);
+      stack.#trace.push('100c6f85.memset.cdeclCleanup');return known(undefined);
+    }catch(error){stack.#boundary??=reason(error);stack.#phase='blocked';return unknown(stack.#boundary);}
+  }
   static bindForIoOwner(stack: NativeX86ThreadStack, crt: NativeModuleCrtOwner, owner: NativeGameCrtIoInit,
     controller: object): NativeValue<void> {
     if (!NativeModuleCrtOwner.isConstructedOwner(crt) || !stack || graphs.get(crt.host.platform as NativeRuntimePlatform) !== stack) return unknown('Actual selected same-platform x86 graph required');

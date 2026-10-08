@@ -1,0 +1,15 @@
+/* ENTRY 100b4d0f | __freea | STATUS decompiled | 3 ms */
+
+/* Library Function - Single Match
+    __freea
+   
+   Library: Visual Studio 2005 Release */
+
+void __cdecl __freea(void *_Memory)
+
+{
+  if ((_Memory != (void *)0x0) && (*(int *)((int)_Memory + -8) == 0xdddd)) {
+    _free((int *)((int)_Memory + -8));
+  }
+  return;
+}
