@@ -1,0 +1,207 @@
+{
+  "schema": "gothic3-arena-class-name-source-v1",
+  "inputs": {
+    "Game": "b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f"
+  },
+  "methods": {
+    "arenaClassName": {
+      "module": "Game",
+      "entry": "20031fca",
+      "body": "2006e480",
+      "bodyRanges": "2006e480-2006e4d6",
+      "instructionCount": 22,
+      "bodyByteCount": 87,
+      "bodyInstructionBytesSha256": "55a8c9a4f0a32dfc23f04d807e610a005317846800ae9023cee39729e72db630",
+      "entryChain": [
+        {
+          "va": "20031fca",
+          "bytes": "e9b1c40300",
+          "targetVA": "2006e480"
+        }
+      ],
+      "sourceRefs": {
+        "assembly": "2006e480.asm.txt",
+        "assemblySha256": "94d79bc76603dae1eb1c24aa73ad0c53d43761cab35afa2c12a988750202f601",
+        "c": "2006e480.c.txt",
+        "cSha256": "c2c4616176526619eec4b6e2a73d96c19e3e22a2f46f7152d391ad73704a3dd0"
+      },
+      "sourceCGap": false,
+      "sourceASMGap": false,
+      "recovery": null
+    },
+    "arenaClassNameVirtualEntry": {
+      "module": "Game",
+      "entry": "2001d278",
+      "body": "2006e480",
+      "bodyRanges": "2006e480-2006e4d6",
+      "instructionCount": 22,
+      "bodyByteCount": 87,
+      "bodyInstructionBytesSha256": "55a8c9a4f0a32dfc23f04d807e610a005317846800ae9023cee39729e72db630",
+      "entryChain": [
+        {
+          "va": "2001d278",
+          "bytes": "e973120500",
+          "targetVA": "2006e4f0"
+        },
+        {
+          "va": "2006e4f0",
+          "bytes": "e9d53afcff",
+          "targetVA": "20031fca"
+        },
+        {
+          "va": "20031fca",
+          "bytes": "e9b1c40300",
+          "targetVA": "2006e480"
+        }
+      ],
+      "sourceRefs": {
+        "assembly": "2006e480.asm.txt",
+        "assemblySha256": "94d79bc76603dae1eb1c24aa73ad0c53d43761cab35afa2c12a988750202f601",
+        "c": "2006e480.c.txt",
+        "cSha256": "c2c4616176526619eec4b6e2a73d96c19e3e22a2f46f7152d391ad73704a3dd0"
+      },
+      "sourceCGap": false,
+      "sourceASMGap": false,
+      "recovery": null
+    },
+    "arenaClassNameInitializer": {
+      "module": "Game",
+      "entry": "204b2110",
+      "body": "204b2110",
+      "bodyRanges": "204b2110-204b211a",
+      "instructionCount": 3,
+      "bodyByteCount": 11,
+      "bodyInstructionBytesSha256": "23e359f5089089bb0ebaf3d7480ed6ffcf86ec4af2169b9de50c1762f520d24d",
+      "entryChain": [],
+      "sourceRefs": {
+        "assembly": "204b2110.asm.txt",
+        "assemblySha256": "aa1b2c7b2452a3e8adbfaa6ea469a75582d777875f9e6cab3992554c504258f3"
+      },
+      "sourceCGap": true,
+      "sourceASMGap": true,
+      "recovery": "Original PE initializer bytes; absent from analyzed assembly"
+    },
+    "arenaClassNameDestructor": {
+      "module": "Game",
+      "entry": "2000951b",
+      "body": "20549960",
+      "bodyRanges": "20549960-2054996a",
+      "instructionCount": 2,
+      "bodyByteCount": 11,
+      "bodyInstructionBytesSha256": "1be8eebe292854b737cea1276ff4108adab8b6ad15e7085bfbdf73a6d58ecfdb",
+      "entryChain": [
+        {
+          "va": "2000951b",
+          "bytes": "e940045400",
+          "targetVA": "20549960"
+        }
+      ],
+      "sourceRefs": {
+        "assembly": "20549960.asm.txt",
+        "assemblySha256": "c991a88570a1f5727b668dda8644608d51cbe97e6756afa83b2b93bb60e7f690"
+      },
+      "sourceCGap": true,
+      "sourceASMGap": false,
+      "recovery": null
+    }
+  },
+  "coldGlobals": {
+    "arenaClassName": {
+      "module": "Game",
+      "address": "207b4f4c",
+      "bytes": 12,
+      "raw": "000000000000000000000000",
+      "knownMask": "ffffffffffffffffffffffff",
+      "sha256": "15ec7bf0b50732b49f8228e07d24365338f9e3ab994b00af08e5a3bffe55fd8b",
+      "section": {
+        "virtualAddress": 7954432,
+        "virtualSize": 248716,
+        "rawSize": 126976,
+        "rawOffset": 7954432,
+        "fileBackedBytes": 12,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "arenaInitializerResult": {
+      "module": "Game",
+      "address": "207b5024",
+      "bytes": 4,
+      "raw": "00000000",
+      "knownMask": "ffffffff",
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+      "section": {
+        "virtualAddress": 7954432,
+        "virtualSize": 248716,
+        "rawSize": 126976,
+        "rawOffset": 7954432,
+        "fileBackedBytes": 0,
+        "loaderZeroFillBytes": 4
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "arenaTypeInfoDescriptor": {
+      "module": "Game",
+      "address": "20798010",
+      "bytes": 25,
+      "raw": "74636b20000000002e3f415667434172656e615f5053404000",
+      "knownMask": "ffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "sha256": "7840258884225d7ee282a21ae8817574485597b2c7dc96b7764bd112aabe9aa5",
+      "section": {
+        "virtualAddress": 7954432,
+        "virtualSize": 248716,
+        "rawSize": 126976,
+        "rawOffset": 7954432,
+        "fileBackedBytes": 25,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    }
+  },
+  "constBytes": {
+    "arenaInitializerSlot": {
+      "module": "Game",
+      "address": "2056c628",
+      "bytes": 4,
+      "raw": "10214b20",
+      "knownMask": "ffffffff",
+      "sha256": "3045fd18576b387b3905f4638dc4dd91556fefa7182708adfa1a2882249e0dca",
+      "section": {
+        "virtualAddress": 5685248,
+        "virtualSize": 2268534,
+        "rawSize": 2269184,
+        "rawOffset": 5685248,
+        "fileBackedBytes": 4,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "original-file-backed-constant",
+      "liveValueCaptured": false
+    },
+    "arenaTypeClassNameSlot": {
+      "module": "Game",
+      "address": "2065915c",
+      "bytes": 4,
+      "raw": "78d20120",
+      "knownMask": "ffffffff",
+      "sha256": "4ea6ca3c527533e093b2cfd6317dbe219bb08edb7638efbe5d76b845adf812f2",
+      "section": {
+        "virtualAddress": 5685248,
+        "virtualSize": 2268534,
+        "rawSize": 2269184,
+        "rawOffset": 5685248,
+        "fileBackedBytes": 4,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "original-file-backed-constant",
+      "liveValueCaptured": false
+    }
+  },
+  "sourceOnly": true,
+  "wholeCrtTraversalCompleted": false,
+  "runtimeRegistrationCompleted": false,
+  "producerSha256": "55bdf11ab805e6864467e6c9182d905bb9713355593898f990ca59562f57702a",
+  "catalogSha256": "7683e99c3c22688b26c77eafc830f43abab471b9e9d3ca241e3157007c714018"
+}

@@ -1,0 +1,25 @@
+1003fe30 | 8b0d68fd2f10 | MOV ECX,dword ptr [0x102ffd68]
+1003fe36 | 85c9 | TEST ECX,ECX
+1003fe38 | 7442 | JZ 0x1003fe7c
+1003fe3a | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+1003fe3e | 8bff | MOV EDI,EDI
+1003fe40 | 8b5108 | MOV EDX,dword ptr [ECX + 0x8]
+1003fe43 | 0110 | ADD dword ptr [EAX],EDX
+1003fe45 | 814004ffff0000 | ADD dword ptr [EAX + 0x4],0xffff
+1003fe4c | 83400801 | ADD dword ptr [EAX + 0x8],0x1
+1003fe50 | 8b5108 | MOV EDX,dword ptr [ECX + 0x8]
+1003fe53 | 8d1492 | LEA EDX,[EDX + EDX*0x4]
+1003fe56 | 03d2 | ADD EDX,EDX
+1003fe58 | 03d2 | ADD EDX,EDX
+1003fe5a | 01500c | ADD dword ptr [EAX + 0xc],EDX
+1003fe5d | baffff0000 | MOV EDX,0xffff
+1003fe62 | 2b5108 | SUB EDX,dword ptr [ECX + 0x8]
+1003fe65 | 81401400201400 | ADD dword ptr [EAX + 0x14],0x142000
+1003fe6c | 8d1492 | LEA EDX,[EDX + EDX*0x4]
+1003fe6f | 03d2 | ADD EDX,EDX
+1003fe71 | 03d2 | ADD EDX,EDX
+1003fe73 | 015010 | ADD dword ptr [EAX + 0x10],EDX
+1003fe76 | 8b09 | MOV ECX,dword ptr [ECX]
+1003fe78 | 85c9 | TEST ECX,ECX
+1003fe7a | 75c4 | JNZ 0x1003fe40
+1003fe7c | c20400 | RET 0x4

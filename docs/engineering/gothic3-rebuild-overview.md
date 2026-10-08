@@ -13,9 +13,9 @@ itself establish a playable reconstruction.
 
 ## Current status — 8 October 2026
 
-The latest confirmed publication is [PR 82](https://github.com/ael-dev3/Tervain/pull/82),
-merged at `8d90a344e419148ed5f28e7269ea81a8cbbdbcf7` and deployed by
-[Pages run 37704420647](https://github.com/ael-dev3/Tervain/actions/runs/37704420647).
+The latest confirmed publication is [PR 83](https://github.com/ael-dev3/Tervain/pull/83),
+merged at `a3474bf3701f65480ae08a9e0cd60c0b8436611c` and deployed by
+[Pages run 37706442899](https://github.com/ael-dev3/Tervain/actions/runs/37706442899).
 The served Gothic entry and three selected JavaScript chunks were compared with
 the corresponding local production artifacts and matched byte for byte.
 That establishes publication identity; it does not establish complete gameplay.
@@ -41,15 +41,28 @@ property type table's lookup, insertion, clear/recreation and constructor;
 original signed-byte CString hashing; the original 4-byte allocator pool used
 by registration wrappers; and canonical SharedBase singleton storage. The
 singleton constructor preserves the allocation sequence: construct 43 buckets,
-clear/recreate them, then grow to 359 buckets with capacity 367. This merged
-source is newer than the confirmed publication receipt above.
+clear/recreate them, then grow to 359 buckets with capacity 367. These components are included in the confirmed publication above.
 
 The current local branch additionally implements the canonical singleton getter,
 its original guard writes, selected shutdown callback and destruction sequence.
 Those changes have focused checks but are not yet published. The callback uses
 the browser's selected shutdown adapter; it does not establish execution of the
-full original SharedBase CRT. Class-name virtual dispatch, type-singleton
-initialization and the full RegisterTemplate connection remain unfinished.
+full original SharedBase CRT. The local Arena class-name owner additionally reconstructs its original RTTI
+name lookup, SharedBase CString construction, two-bit guard, Game exit-table
+registration, later initializer publication and selected cleanup. Its 19-byte
+holder uses the newly captured original 20-byte allocator pool. The Game string
+length reader now evaluates the original DWORD predicate for arbitrary unknown
+padding bits. Live class-name virtual dispatch, type-singleton initialization
+and the full RegisterTemplate connection remain unfinished. See the
+[Arena source package](../../assets/gothic3/arena-class-name/README.md) and
+[allocator evidence](../../assets/gothic3/arena-heap/README.md).
+
+Local validation for the singleton and Arena work passed typechecking, a
+production build and the full suite of 2,509 tests across 248 files. Two
+additional source-package integrity checks also passed. Both newly captured
+Arena packages reproduce byte for byte from the preserved local DLLs. These
+checks cover the supporting components; no new live NPC startup or campaign
+completion is claimed.
 
 The next dependency chain includes original type-singleton initialization,
 class-name and factory construction, property registration, and the lifecycle

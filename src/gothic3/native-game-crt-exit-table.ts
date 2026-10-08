@@ -64,8 +64,11 @@ export class NativeGameExitTable {
     const exactScriptAdminDestructorThunk = label === 'scriptAdminClassNameDestructor' && method?.entry === '20013971' &&
       method.body === '205491a0' && method.bodyInstructionBytesSha256 === '1ed845df3f543953ecc7b79bc1dde2f2842d2b80968c3c8938917635b1d4aa87' &&
       entryChain?.length === 1 && entryChain[0]?.va === '20013971' && entryChain[0]?.bytes === 'e92a585300' && entryChain[0]?.targetVA === '205491a0';
+    const exactArenaDestructorThunk = label === 'arenaClassNameDestructor' && method?.entry === '2000951b' &&
+      method.body === '20549960' && method.bodyInstructionBytesSha256 === '1be8eebe292854b737cea1276ff4108adab8b6ad15e7085bfbdf73a6d58ecfdb' &&
+      entryChain?.length === 1 && entryChain[0]?.va === '2000951b' && entryChain[0]?.bytes === 'e940045400' && entryChain[0]?.targetVA === '20549960';
     if (!method || method.module !== 'Game' ||
-        (method.entry !== method.body && !exactNavigationDestructorThunk && !exactScriptAdminDestructorThunk) ||
+        (method.entry !== method.body && !exactNavigationDestructorThunk && !exactScriptAdminDestructorThunk && !exactArenaDestructorThunk) ||
         !/^[0-9a-f]{8}$/.test(method.entry) || !/^[0-9a-f]{64}$/.test(method.bodyInstructionBytesSha256)) {
       return unknown('Complete pinned Game method receipt required for an onexit callback');
     }

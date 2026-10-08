@@ -1,5 +1,6 @@
 /** Original Game CRT admission. These pins were checked against the local
  * Game.dll image; cold bytes do not certify initialized platform resources. */
+import { admitGameArenaSource, gameArenaSourceRules, gameArenaImagePins, gameArenaImageReceipt } from './native-game-arena-class-name-source';
 import rulesText from '../../assets/gothic3/game-crt/runtime-rules.json?raw';
 import { admitGameEnvironmentSource, gameContinuationImagePins, gameContinuationImageReceipt } from './native-game-crt-attach-source';
 import { admitGameIoStartupSource, gameIoStartupImagePins, gameIoStartupImageReceipt } from './native-game-crt-io-source';
@@ -31,7 +32,12 @@ export interface NativeCrtSourceProfile {
   readonly heapRules: NativeCrtSourceRules;
   readonly bootstrapRules: NativeCrtSourceRules;
 }
-const rules = JSON.parse(rulesText) as NativeCrtSourceRules;
+const baseRules = JSON.parse(rulesText) as NativeCrtSourceRules;
+const rules: NativeCrtSourceRules = { ...baseRules,
+  methods: { ...baseRules.methods, ...gameArenaSourceRules.methods },
+  coldGlobals: { ...baseRules.coldGlobals, ...gameArenaSourceRules.coldGlobals },
+  constBytes: { ...baseRules.constBytes, ...gameArenaSourceRules.constBytes },
+};
 function freeze(value: unknown): void {
   if (value !== null && typeof value === 'object' && !Object.isFrozen(value)) {
     for (const child of Object.values(value)) freeze(child);
@@ -84,6 +90,7 @@ const methods = [
 export const nativeGameImagePins: Readonly<Record<string, readonly [
   'coldGlobals' | 'constBytes', string, number, string, string
 ]>> = Object.freeze({
+  ...gameArenaImagePins,
   ...gameContinuationImagePins,
   ...gameIoStartupImagePins,
   ...gameIoAllocationImagePins,
@@ -177,6 +184,7 @@ const imports = [
   ['207d7c44', 'HeapCreate'], ['207d7c8c', 'Sleep'], ['207d7c94', 'GetProcAddress'],
 ] as const;
 export function admitNativeGameCrtSource(): void {
+  admitGameArenaSource();
   admitGameEnvironmentSource();
   admitGameIoStartupSource();
   admitGameIoAllocationSource();
@@ -198,6 +206,7 @@ export function admitNativeGameCrtSource(): void {
   }
 }
 export function nativeGameImageReceipt(label: string): NativeCrtImageReceipt {
+  if (Object.hasOwn(gameArenaImagePins, label)) return gameArenaImageReceipt(label);
   if (Object.hasOwn(gameSetEnvpImagePins, label)) return gameSetEnvpImageReceipt(label);
   if (Object.hasOwn(gameContinuationImagePins, label)) return gameContinuationImageReceipt(label);
   if (Object.hasOwn(gameIoStartupImagePins, label)) return gameIoStartupImageReceipt(label);
