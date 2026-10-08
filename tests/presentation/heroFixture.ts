@@ -4,7 +4,7 @@ import { GLTFLoader, type GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js'
 
 /** Decode the delivered rig/geometry/curves in Node. Rendering/texture pixels require the browser visual gate. */
 export async function loadHeroWithoutImages(): Promise<GLTF> {
-  const bytes = readFileSync(new URL('../../public/models/hero/weathered-wanderer-animated-hero.glb', import.meta.url));
+  const bytes = readFileSync(new URL('../../public/models/hero/weathered-wanderer-hero-sealed.glb', import.meta.url));
   const jsonLength = bytes.readUInt32LE(12);
   const json = JSON.parse(bytes.subarray(20, 20 + jsonLength).toString('utf8'));
   // Texture decoding needs browser ImageBitmap. Remove only image/material references in this test copy,

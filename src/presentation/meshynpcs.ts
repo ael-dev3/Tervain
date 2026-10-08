@@ -15,7 +15,7 @@ import { installResidentSurface, patchResidentShadow, residentHiddenLayers, resi
 import { npcStyle, type WorkGesture } from './npcStyle';
 import { installResidentRig, parseResidentRig, residentRestPose, type ResidentBones, type ResidentRigData } from './npc/residentRig';
 import { createResidentTools } from './npc/residentProps';
-import { clipsFor, LOCOMOTION, measureSeat, ResidentMotion, residentMotionLibrary, retargetClip, SEATED_CLIPS, type Build, type ResidentClips, type ResidentMotionLibrary } from './npc/residentMotion';
+import { CENTRED_CLIPS, clipsFor, LOCOMOTION, measureSeat, ResidentMotion, residentMotionLibrary, retargetClip, SEAT_MOMENTS, SEATED_CLIPS, type Build, type ResidentClips, type ResidentMotionLibrary } from './npc/residentMotion';
 import { BENCH_SEAT_HEIGHT } from '../world/layout';
 import { modelAssetUrl } from './assets/modelUrl';
 import { withModelLoadSlot, type ModelLoadProgress } from './assets/modelLoadQueue';
@@ -215,8 +215,11 @@ function residentClips(source: ResidentMotionSource, bones: ResidentBones, mesh?
     if (!clip) {
       const library = source.library.clips.get(name);
       if (!library) continue;
-      clip = retargetClip(library, source.library.rest, rest, LOCOMOTION.has(name));
-      if (SEATED_CLIPS.has(name) && mesh) clip.seat = measureSeat(clip, rest, source.data, mesh.geometry.getAttribute('position') as THREE.BufferAttribute);
+      clip = retargetClip(library, source.library.rest, rest, LOCOMOTION.has(name), CENTRED_CLIPS.has(name));
+      // Seated clips are measured where they sit; getting down and up at their seated ends (A69).
+      if ((SEATED_CLIPS.has(name) || SEAT_MOMENTS[name]) && mesh) {
+        clip.seat = measureSeat(clip, rest, source.data, mesh.geometry.getAttribute('position') as THREE.BufferAttribute, SEAT_MOMENTS[name]);
+      }
       known.set(name, clip);
     }
     clips.set(name, clip);

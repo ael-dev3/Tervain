@@ -1032,10 +1032,11 @@ export class App {
     // Reading freezes controller/action timers and patrol routes as well as the world clock.
     if (playing) {
       this.speech.update(dt);
-      // Someone speaking stops, turns to whom they are talking to and talks with their hands.
+      // Someone in an exchange stops, turns to whom they are talking to and talks with their hands. A passing remark is
+      // made on the move: only someone already standing turns to it (A69).
       for (const n of this.npcs) {
-        n.talking = this.speech.busyFor(n.id) > 0;
         n.speaking = this.speech.speakingFor(n.id) > 0;
+        n.talking = this.speech.heldFor(n.id) > 0 || (n.speaking && !n.underway);
         if (!n.talking) n.faceTo = null;
       }
       this.sceneClock += dt;
@@ -1101,8 +1102,9 @@ export class App {
       ...this.enemies.filter((e) => e.alive).map((e) => ({ x: e.x, z: e.z, radius: e.radius + 0.25, weight: 0.8 })),
     ]);
     this.world.update(dt, this.game.state, new THREE.Vector3(this.player.x, this.player.y, this.player.z), this.settings, hour, this.cam.camera, worldActive);
-    // Doors swing open for the wanderer and the residents who come to them, and shut behind them (A66).
-    for (const swing of this.world.updateDoors(worldActive ? dt : 0, [this.player, ...this.npcs.filter((n) => !n.hidden)])) this.audio.door(swing.at, swing.open);
+    // Doors swing open for the wanderer and the residents who come to them, and shut behind them (A66); someone only
+    // standing near a door, at their place outside it, leaves it shut (A69).
+    for (const swing of this.world.updateDoors(worldActive ? dt : 0, [this.player, ...this.npcs.filter((n) => n.underway)])) this.audio.door(swing.at, swing.open);
     this.hunting.afterWorld(dt, worldActive);
     this.audioUpdate(dt, this.cam.camera.position, hour);
 
@@ -1888,6 +1890,8 @@ export class App {
       if (!inHours(hour, scene.hours) || !evalAll(state, scene.when)) continue;
       const [a, b] = scene.cast.map((id) => this.npcs.find((n) => n.id === id));
       if (!a || !b || a.hidden || b.hidden || !state.npcs[a.id].available || !state.npcs[b.id].available) continue;
+      // Only two people at their places talk between themselves: neither is stopped and turned about mid-route (A69).
+      if (a.underway || b.underway) continue;
       if (Math.hypot(a.x - b.x, a.z - b.z) > 22) continue;
       if (Math.hypot(this.player.x - (a.x + b.x) / 2, this.player.z - (a.z + b.z) / 2) > 16) continue;
       const where = (id: NpcId) => {

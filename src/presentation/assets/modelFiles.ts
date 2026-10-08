@@ -87,6 +87,7 @@ export const MODEL_FILES: Readonly<Record<string, readonly [sha256: string, byte
   'furniture/workbench.glb': ['71351c3b85590f283155ad6d9c4f1ec4ace62137b8646790dbf8b941dd1b7c2d', 605136],
   'hero/weathered-wanderer-animated-hero.glb': ['0b02a9c23763b6382e6ea87bd150bcef59a93149650524fa7a5f434951c8c8db', 11900048],
   'hero/weathered-wanderer-hero-50k.glb': ['4d4c16e56ce8696b195828bb41ca2d1fb015c3ef855a9cd2472eaa4a1c7d6691', 28184920],
+  'hero/weathered-wanderer-hero-sealed.glb': ['ee7ce82c84e451fda67901d02335691c0d1d8eac0239cfe16aedb65dc852d293', 11202084],
   'npcs/ash-recorder.glb': ['a0fa94035a2a0e38c89265767db0e63ea615414a91a44ecf488e514956580475', 5938408],
   'npcs/caravan-master.glb': ['f9761d0c218664ddb6b11998530b91650d6a8f34e68465f60eb93d38f3a7bb5e', 8397452],
   'npcs/estate-steward.glb': ['2ea5cd78c0ace3775a745ce4345250ea944728168ba07cac4dc156572db89333', 8090820],

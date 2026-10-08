@@ -26,7 +26,7 @@ describe('original model delivery', () => {
       animalModelUrl(ANIMALS[0]!, base, page),
     ];
     expect(urls.map((url) => url.href)).toEqual([
-      'https://example.test/games/tervain/models/hero/weathered-wanderer-animated-hero.glb',
+      'https://example.test/games/tervain/models/hero/weathered-wanderer-hero-sealed.glb',
       'https://example.test/games/tervain/models/flora/meshy-012/oak-elder-near.glb',
       'https://example.test/games/tervain/models/npcs/manifest.json',
       'https://example.test/games/tervain/models/flora/solitary-pine-under-10k.glb',

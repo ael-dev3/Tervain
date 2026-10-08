@@ -34,7 +34,8 @@ const SPECS: Spec[] = [
     style: { id: 'fisher', build: 'man', cut: 'short', beard: 'full', age: 0.62, faceSeed: 12011 },
     x: MENDER.x,
     z: MENDER.z,
-    yaw: bySpec('net_store').yaw + Math.PI,
+    // Mending with his back to the store, looking out over the yard rather than at its door (A69).
+    yaw: bySpec('net_store').yaw,
     cycle: [['work', 9], ['idle', 4], ['work', 7]],
     sleeps: true,
     radius: 0.45,
@@ -57,7 +58,8 @@ const SPECS: Spec[] = [
     style: { id: 'keeper', build: 'man', cut: 'short', beard: 'full', age: 0.8, faceSeed: 12203 },
     x: DOOR.x + 2.6,
     z: DOOR.z - 1.2,
-    yaw: -1.7,
+    // Beside his door, looking out the way his cottage faces rather than at its corner (A69).
+    yaw: bySpec('keeper_cottage').yaw,
     cycle: [['idle', 14], ['talk', 3], ['idle', 9]],
     sleeps: false,
     radius: 0.45,
