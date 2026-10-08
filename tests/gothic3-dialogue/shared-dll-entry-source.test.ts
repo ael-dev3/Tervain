@@ -49,3 +49,15 @@ it('preserves the prepared ANSI version buffer and contained actual query result
  }
  expect(Buffer.from(observation.queries[1]!.bytes,'hex').toString('ascii')).toBe('1, 60, 25931, 29\0');
 });
+
+it('replays only the observed query mutations from the initialized API buffer',()=>{
+ const bytes=Buffer.from(observation.initialBufferBytes,'hex');
+ expect(bytes.length).toBe(observation.size);expect(sha(bytes)).toBe(observation.initialBufferSha256);
+ expect(observation.queries.map(q=>q.changedBytes.length)).toEqual([0,16]);
+ for(const query of observation.queries){
+  expect(sha(bytes)).toBe(query.beforeSha256);
+  for(const change of query.changedBytes){expect(change.offset).toBeLessThan(bytes.length);expect(bytes[change.offset]).toBe(change.before);bytes[change.offset]=change.after;}
+  expect(sha(bytes)).toBe(query.afterSha256);
+ }
+ expect(bytes.toString('hex')).toBe(observation.preparedBufferBytes);
+});

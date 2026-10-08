@@ -59,3 +59,14 @@ Microsoft explains why the prepared buffer must include ANSI conversion space:
 The [API contract](https://learn.microsoft.com/en-us/windows/win32/api/winver/nf-winver-getfileversioninfosizea)
 requires the size returned by the API. Raw PE resource size must not be used as
 that allocation size. Browser import execution remains pending.
+
+Reproduce the explicit Windows selection with:
+
+```sh
+python tools/gothic3/capture_shared_version_api.py --binary "C:/Program Files (x86)/Steam/steamapps/common/Gothic 3/SharedBase.dll" --output assets/gothic3/shared-dll-entry-source/windows-version-api-observation.json
+```
+
+The initialized buffer and query mutation receipts are retained separately.
+Translation changes no bytes; FileVersion changes 16 bytes in the prepared
+ANSI area. Two independent captures matched exactly on the recorded host.
+Six focused source checks and typechecking pass.
