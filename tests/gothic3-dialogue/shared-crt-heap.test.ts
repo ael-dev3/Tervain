@@ -1166,3 +1166,13 @@ it('rejects a changed original CRT caller receipt before constructing its logica
 it('rejects changed saved CRT caller storage through the actual stack alias',()=>{
  const {owner,platform}=stdioFixture(),allocate=platform.virtualAlloc.bind(platform);let changed=false;platform.virtualAlloc=(size,type,protect)=>{if(!changed){const stack=owner.snapshot().caseState!.stack!.snapshot(),frame=stack.sharedCrtCallerFrame!,backing=stack.sharedArgvFrame!.argumentCount.backing;backing.bytes[frame.ebp-8]=backing.bytes[frame.ebp-8]!^1;backing.knownMask[frame.ebp-8]=255;changed=true;}return allocate(size,type,protect);};const result=owner.processAttach();expect(changed).toBe(true);expect(result.known).toBe(false);if(result.known)throw new Error('Forged caller returned');expect(result.reason).toContain('Retained x86 expression slot changed outside its actual store');expect(result.reason).toContain('100adc20');expect(owner.snapshot().attachReturned).toBeNull();expect(owner.snapshot().caseState!.stack!.snapshot().sharedCrtCallerFrame!.returned).toBe(false);
 });
+
+it('executes the original DLL entry guard and retains its pending initializer call',()=>{
+ const {owner}=stdioFixture();expect(owner.processAttach()).toEqual({known:true,value:1});const result=owner.processDllEntryPrefix();expect(result).toEqual({known:false,reason:'Original SharedBase DLL initializer pending at 10006645'});
+ const state=owner.snapshot();expect(state.dllEntryImages!.guard.readUnsigned(0)).toBe(1);expect(state.dllEntryImages!.object.readUnsigned(0)).toBe(0);expect(state.dllEntryExecuted).toBe(false);expect(state.dllEntryReturned).toBeNull();
+ const stack=state.caseState!.stack!.snapshot();expect(stack.calls.find(call=>call.site==='100adc8c')!.returned).toBe(false);expect(stack.calls.find(call=>call.site==='100a1645')!.returned).toBe(false);expect(stack.trace).toContain('100a1639.OR dword ptr [0x102f48f0],0x1');
+ const calls=stack.calls.length;expect(owner.processDllEntryPrefix()).toEqual(result);expect(state.caseState!.stack!.snapshot().calls).toHaveLength(calls);
+});
+it('requires actual CRT success before DLL entry and rejects a fabricated caller proof',()=>{
+ const {owner,platform}=stdioFixture();expect(owner.processDllEntryPrefix().known).toBe(false);expect(owner.snapshot().dllEntryImages).toBeNull();expect(NativeSharedCrtOwner.dllEntryStackArgumentsForPlatform(platform,{}).known).toBe(false);
+});

@@ -7,6 +7,7 @@ import { NativeHeapObjectViews } from './native-heap-views';
 import type { NativeMemoryBacking } from './native-memory-admin';
 import { NativeSharedCrtOwner } from './native-shared-crt';
 import { sharedCommandLineInstruction } from './native-shared-command-line-instructions';
+import {sharedDllEntryInstruction} from './native-shared-dll-entry-instructions';
 import { sharedInitializerInstruction } from './native-shared-initializer-instructions';
 import { NativeRuntimePlatform } from './native-runtime-platform';
 import { NativeModuleCrtOwner } from './native-engine-crt-locks';
@@ -628,6 +629,29 @@ export class NativeX86ThreadStack {
   }
   /** Original cinit, image ownership and floating-point conversion installation.
    * Calls without owned lower effects remain pending on this same graph. */
+  static runSharedDllEntryPrefix(stack:NativeX86ThreadStack,controller:object):NativeValue<number>{
+    const proof=NativeSharedCrtOwner.dllEntryStackArgumentsForPlatform(stack.#platform,controller);if(!proof.known)return proof;
+    try{
+      if(graphs.get(stack.#platform)!==stack||!stack.#sharedCrtCallerFrame?.returned||stack.#phase!=='returned'||stack.#boundary)throw new Error('Actual returned CRT helper thread required');
+      stack.#physical(stack.#stack);stack.#physical(stack.#bank);const crt=stack.#sharedCrtCallerFrame;
+      // Direct DLL entry ABI; the surrounding CRT wrapper has not executed.
+      stack.#push(crt.oldEdi);stack.#push(stack.#mint(1,0xffffffff));stack.#push(crt.oldEbx);stack.#call('100adc8c','100adc91');stack.#phase='running';
+      let pc='10008a76';
+      for(let operation=0;operation<8;operation++){
+        const row=sharedDllEntryInstruction(pc);stack.#currentPc=stack.#source('code',pc);stack.#trace.push(pc+'.'+row.instruction);
+        if(pc==='10008a76'){if(row.instruction!=='JMP 0x100a1630')throw new Error('Original DLL entry thunk required');pc='100a1630';}
+        else if(pc==='100a1630'){if(row.instruction!=='TEST byte ptr [0x102f48f0],0x1')throw new Error('Original DLL guard TEST required');const guard=NativeHeapObjectViews.prototype.readUnsigned.call(proof.value.guard,0,1);stack.#logicalFlags(guard&1,0xff,1);pc='100a1637';}
+        else if(pc==='100a1637'){if(row.instruction!=='JNZ 0x100a164a')throw new Error('Original DLL guard branch required');const flags=stack.#record(stack.#load(stack.#bank,36));if((flags.mask&0x40)!==0x40)throw new Error('Known DLL guard zero flag required');pc=(flags.value&0x40)===0?'100a164a':'100a1639';}
+        else if(pc==='100a1639'){if(row.instruction!=='OR dword ptr [0x102f48f0],0x1')throw new Error('Original DLL guard OR required');const value=(NativeHeapObjectViews.prototype.readUnsigned.call(proof.value.guard,0)|1)>>>0;NativeHeapObjectViews.prototype.writeUnsigned.call(proof.value.guard,0,value);stack.#logicalFlags(value,0xffffffff,4);pc='100a1640';}
+        else if(pc==='100a1640'){if(row.instruction!=='MOV ECX,0x102f48ec')throw new Error('Original DLL initializer object required');stack.#store(stack.#bank,stack.#reg('ECX'),stack.#mint(0,0,{kind:'shared-local',fields:proof.value.object}));pc='100a1645';}
+        else if(pc==='100a1645'){if(row.instruction!=='CALL 0x10006645')throw new Error('Original DLL initializer call required');stack.#call(pc,'100a164a');stack.#currentPc=stack.#source('code','10006645');throw new Error('Original SharedBase DLL initializer pending at 10006645');}
+        else if(pc==='100a164a'){if(row.instruction!=='MOV EAX,0x1')throw new Error('Original DLL return scalar required');stack.#store(stack.#bank,stack.#reg('EAX'),stack.#mint(1,0xffffffff));pc='100a164f';}
+        else if(pc==='100a164f'){if(row.instruction!=='RET 0xc')throw new Error('Original DLL argument cleanup required');stack.#ret(12);stack.#phase='returned';stack.#currentPc=stack.#source('code','100adc91');return known(1);}
+        else throw new Error('Unowned DLL entry prefix instruction '+pc);
+      }
+      throw new Error('DLL entry prefix instruction budget exceeded');
+    }catch(error){stack.#phase='blocked';stack.#boundary??=reason(error);return unknown(stack.#boundary);}
+  }
   static runSharedInitializers(stack:NativeX86ThreadStack,controller:object):NativeValue<number>{
     const proof=NativeSharedCrtOwner.initializerStackArgumentsForPlatform(stack.#platform,controller);if(!proof.known)return proof;
     try{

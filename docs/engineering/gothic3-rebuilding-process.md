@@ -10210,3 +10210,19 @@ seconds); the full suite passes 2,876 tests across 272 files (220.38 seconds).
 Integration of the merged CRT checkpoint changes no validated file content.
 Publication of this checkpoint is pending. Full DLL startup, Game/world
 activation and campaign completion remain unfinished.
+
+
+## Direct DLL entry guard prefix (work in progress, 2026-10-08)
+
+After a proved successful CRT helper return, a separate DLL entry prefix now
+executes the original thunk, guard TEST/JNZ, guard OR and initializer-object MOV.
+Its call to 10006645 remains pending on the actual selected logical stack.
+Guard state is retained and repeated requests preserve the pending call; they
+do not skip unfinished initialization. The caller proof requires the active
+canonical SharedBase owner and completed CRT helper.
+
+This is a direct DLL entry ABI invocation. The surrounding CRT wrapper and its
+SEH frame are still unexecuted. Cold DLL initialization, version-query imports,
+logging, Game/world activation and campaign completion remain unfinished.
+All 280 focused checks and typechecking pass. Production-build and full-suite
+validation are pending; this checkpoint has not been published.
