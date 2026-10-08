@@ -221,6 +221,9 @@ export class NativeSharedCrtOwner {
  #dllBoundary:string|null=null;
  #dllReturned:number|null=null;
  #dllInitializerAttempted=false;
+ #dllVersionAttempted=false;
+ #dllFilenameAttempted=false;
+ #dllLstrcpy:Readonly<{slot:NativeHeapObjectViews;procedure:object}>|null=null;
  #mtReturned:number|null=null;
  #locksReturned:number|null=null;
  #sections:NativeHeapObjectViews[]=[];
@@ -515,10 +518,10 @@ export class NativeSharedCrtOwner {
   const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)return active;const owner=owners.get(platform);if(!owner||!owner.#active||owner.#argvCall!==call)return {known:false,reason:'Actual pending SharedBase setargv required'};
   try{return {known:true,value:{stage:owner.#argvStage,initialized:owner.imageStorage('multibyteInitialized').readUnsigned(0),module:owner.imageStorage('moduleNameBuffer'),input:owner.#argvInput,allocation:owner.#argvAllocation,result:owner.#argvReturned,argc:owner.imageStorage('argumentCount'),argv:owner.imageStorage('argumentVector'),retryDelay:owner.imageStorage('allocationRetryDelay').readUnsigned(0),envPointer:owner.imageStorage('environmentPointer'),envVector:owner.imageStorage('environmentVector'),envInitialized:owner.imageStorage('environmentInitialized'),mbInitialized:owner.imageStorage('multibyteInitialized')}};}catch(error){return {known:false,reason:error instanceof Error?error.message:String(error)};}
  }
- static dllEntryStackArgumentsForPlatform(platform:NativeRuntimePlatform,call:object):NativeValue<Readonly<{guard:NativeHeapObjectViews;object:NativeHeapObjectViews;moduleName:NativeHeapObjectViews}>>{
+ static dllEntryStackArgumentsForPlatform(platform:NativeRuntimePlatform,call:object):NativeValue<Readonly<{guard:NativeHeapObjectViews;object:NativeHeapObjectViews;moduleName:NativeHeapObjectViews;lstrcpy:Readonly<{slot:NativeHeapObjectViews;procedure:object}>|null}>>{
   const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)return active;const owner=owners.get(platform);
   if(!owner||!owner.#active||owner.#dllCall!==call||owner.#attachReturned!==1||!owner.#dllImages)return {known:false,reason:'Actual pending SharedBase DLL entry required'};
-  try{owner.#requireLocal(owner.#dllImages.guard);owner.#requireLocal(owner.#dllImages.object);owner.#requireLocal(owner.#dllImages.moduleName);return {known:true,value:owner.#dllImages};}catch(error){return {known:false,reason:error instanceof Error?error.message:String(error)};}
+  try{owner.#requireLocal(owner.#dllImages.guard);owner.#requireLocal(owner.#dllImages.object);owner.#requireLocal(owner.#dllImages.moduleName);if(owner.#dllLstrcpy){owner.#requireLocal(owner.#dllLstrcpy.slot);if(owner.#dllLstrcpy.slot.pointer(0).get()!==owner.#dllLstrcpy.procedure)throw new Error('Canonical DLL lstrcpyA import binding required');}return {known:true,value:{...owner.#dllImages,lstrcpy:owner.#dllLstrcpy}};}catch(error){return {known:false,reason:error instanceof Error?error.message:String(error)};}
  }
  static initializerStackArgumentsForPlatform(platform:NativeRuntimePlatform,call:object):NativeValue<Readonly<{images:Readonly<Record<string,NativeHeapObjectViews>>;cookie:NativeHeapObjectViews;imports:Readonly<NativeSharedInitializerImports>}>>{
   const proof=NativeSharedCrtOwner.argvStackArgumentsForPlatform(platform,call);if(!proof.known)return proof;const owner=owners.get(platform)!;
@@ -1333,7 +1336,27 @@ export class NativeSharedCrtOwner {
   }catch(error){this.#dllBoundary=error instanceof Error?error.message:String(error);return {known:false,reason:this.#dllBoundary};}
   finally{this.#dllCall=null;this.#active=false;}
  }
+ processDllVersionQueryPrefix():NativeValue<number>{
+  if(this.#dllVersionAttempted)return {known:false,reason:this.#dllBoundary??'Retained DLL version attempt required'};
+  if(this.#active||this.#dllBoundary!=='Original SharedBase DLL version query pending at 10008058'||!this.#argvStack||!this.#dllImages)return {known:false,reason:'Actual pending DLL version query required'};
+  this.#dllVersionAttempted=true;
+  try{
+   const method=dllEntrySource.methods.find(item=>item.label==='dllVersionQuery');if(method?.bodyInstructionBytesSha256!=='edca895eb4ea4497983a7936f81f1c905e445a2158674f5b21e265f664575d98'||method.entryChain[0]?.bytes!=='e923450400')throw new Error('Original DLL version query source required');
+   const receipt=dllEntrySource.imports.find(item=>item.iatVA==='0x102f96b0');if(receipt?.module!=='KERNEL32.dll'||receipt.name!=='lstrcpyA')throw new Error('Original DLL filename-copy import required');
+   const procedure=Object.freeze({owner:this.identity,name:'lstrcpyA'}),slot=this.#retainLocal(4);slot.pointer(0).set(procedure);this.#dllLstrcpy=Object.freeze({slot,procedure});
+   this.#active=true;this.#dllCall=Object.freeze({});const result=NativeX86ThreadStack.runSharedDllVersionQueryPrefix(this.#argvStack,this.#dllCall);if(!result.known)this.#dllBoundary=result.reason;return result;
+  }catch(error){this.#dllBoundary=error instanceof Error?error.message:String(error);return {known:false,reason:this.#dllBoundary};}
+  finally{this.#dllCall=null;this.#active=false;}
+ }
+ processDllFilenameCopy():NativeValue<number>{
+  if(this.#dllFilenameAttempted)return {known:false,reason:this.#dllBoundary??'Retained DLL filename-copy attempt required'};
+  if(this.#active||this.#dllBoundary!=='Original SharedBase lstrcpyA pending at 1004c59f'||!this.#argvStack||!this.#dllLstrcpy)return {known:false,reason:'Actual pending DLL filename-copy import required'};
+  this.#dllFilenameAttempted=true;
+  try{this.#active=true;this.#dllCall=Object.freeze({});const result=NativeX86ThreadStack.finishSharedDllFilenameCopy(this.#argvStack,this.#dllCall);if(!result.known)this.#dllBoundary=result.reason;return result;}
+  catch(error){this.#dllBoundary=error instanceof Error?error.message:String(error);return {known:false,reason:this.#dllBoundary};}
+  finally{this.#dllCall=null;this.#active=false;}
+ }
  snapshot(){return Object.freeze({poolSlots:Object.freeze(Array.from(this.#poolSlots,([fields,slot])=>Object.freeze({fields,...slot}))),memoryHeapSectionHeld:this.#memoryHeapSectionHeld,exitLockHeld:this.#exitLockHeld,initializerImages:this.#initializerImages,poolRegions:Object.freeze([...this.#poolRegions]),initializerAllocations:Object.freeze([...this.#initializerAllocations]),argvInput:this.#argvInput,argvAllocation:this.#argvAllocation,argvReturned:this.#argvReturned,environmentVector:this.#environmentVector,environmentStrings:Object.freeze([...this.#environmentStrings]),setEnvpReturned:this.#setEnvpReturned,mappingState:this.#mappingState?Object.freeze({...this.#mappingState}):null,boundary:this.#boundary,localeUpdate:this.#localeUpdate,multibyteAllocation:this.#multibyteAllocation,cpInfo:this.#cpInfo,caseState:this.#caseState?Object.freeze({...this.#caseState}):null,codePage:this.#codePage,startupInfo:this.#startupInfo,ioBlock:this.#ioBlock,ioReturned:this.#ioReturned,versionAllocation:this.#versionAllocation,
   ptd:this.#ptd,ptdInstalled:this.#ptdInstalled,ptdInitialized:this.#ptdInitialized,rtcReturned:this.#rtcReturned,environmentInput:this.#environmentInput,environmentAllocation:this.#environmentAllocation,environmentReturned:this.#environmentReturned,heap:this.#heap,heapReturned:this.#heapReturned,attachReturned:this.#attachReturned,mtReturned:this.#mtReturned,locksReturned:this.#locksReturned,sections:Object.freeze([...this.#sections]),pointersReturned:this.#pointersReturned,
-  trace:Object.freeze([...this.#trace]),dllEntryImages:this.#dllImages,dllEntryBoundary:this.#dllBoundary,dllEntryReturned:this.#dllReturned,dllEntryExecuted:this.#dllReturned!==null,wholeCrtTraversalCompleted:false});}
+  trace:Object.freeze([...this.#trace]),dllEntryImages:this.#dllImages,dllLstrcpyImport:this.#dllLstrcpy,dllEntryBoundary:this.#dllBoundary,dllEntryReturned:this.#dllReturned,dllEntryExecuted:this.#dllReturned!==null,wholeCrtTraversalCompleted:false});}
 }
