@@ -1,8 +1,8 @@
 # SharedBase initializer source
 
 Original `SharedBase.dll` evidence for the next startup boundary,
-`100adb5a -> 100aa632`. This package captures 39 function bodies,
-662 instructions and 1,927 instruction bytes. It executes no native code and
+`100adb5a -> 100aa632`. This package captures 40 function bodies,
+710 instructions and 2,035 instruction bytes. It executes no native code and
 does not establish successful browser initializer execution.
 
 ## What startup requires
@@ -38,7 +38,8 @@ virtual import slots. `GetModuleHandleA`, `GetProcAddress` and the feature call
 retain original stdcall cleanup of 4, 8 and 4 bytes. The query returns its
 selected BOOL and the caller publishes it at `102f6424`. FNCLEX at `100a7919` clears the owned x87 exception status bits while
 preserving all other unknown bits. The hook returns and reaches the next
-boundary, conversion encoding at `100b4413 -> 100ae27b`. Table initializer
+boundary after cached conversion encoding, the error-table call at
+`100aa664 -> 100aa47d`. Table initializer
 callbacks, enclosing CRT attach and live Game startup remain unfinished.
 Header rejection and a NULL hook follow the original skip branches and retain
 conversion-pointer encoding at `100b4413 -> 100ae27b` as a separate dependency.
@@ -81,3 +82,15 @@ to check the committed package and generated syntax. Its remaining dependencies,
 callbacks and enclosing CRT attach need implementation before live Game startup
 can proceed. The 808-byte cold PE header supplies actual DOS/NT magic, optional
 header size, section count/ranges and write flags for the ownership check.
+
+## Pointer encoder dependency capture
+
+The evidence package now also retains original availability helper `100ae20f`,
+its CALLs to the version reader and section-name comparison, KERNEL32.DLL and
+EncodePointer literals, the cold TLS indices and TlsGetValue import slot. These
+are original cold inputs, not live initialized indices or import capabilities.
+The cached-PTD path and fallback resolution must preserve original CALL/RET,
+callee cleanup and the procedure capability before conversion addresses can be
+encoded. The cached PTD path now encodes all ten pointers and returns. The runtime stops
+at `100aa664 -> 100aa47d`; a NULL getter still stops at fallback module lookup
+`100ae2b4`.

@@ -33,7 +33,7 @@ runtime and record exactly where execution still stops.
 
 ### Immediate remaining work
 
-- Complete SharedBase initializer startup from conversion encoding at `100b4413`, including its actual
+- Complete SharedBase initializer startup from the error-table call at `100aa664`, including its actual
   initializer tables and callback dependencies, then the enclosing CRT attach.
 - Connect the supported shared runtime to live Game startup at 204678f2 and
   execute the required initializer callbacks in their original order.
@@ -46,6 +46,45 @@ checks establish the published checkpoint's supported scope; campaign completion
 requires an integrated gameplay result.
 
 ## Latest process summary — 8 October 2026
+
+### Cached pointer encoder execution
+
+The initializer now executes original `100ae27b` for each conversion pointer.
+It reads the live TLS and thread-data indices, dispatches the owned TLS import,
+queries the actual retained getter a second time, enters that getter and reads
+the installed PTD encoder at offset `0x1f8`. Each import and indirect procedure
+uses its original CALL/RET and four-byte callee cleanup. The encoder preserves
+ESI and returns its result through the original stack argument cell.
+
+The virtual encoder receives a retained object for each admitted original code
+address. These objects describe original addresses; they grant no callback
+execution. Repeated code addresses share identity, and their encoded opaque
+objects are stored in real table pointer sidecars. Ten wrapper returns complete
+the table, restore ESI/EDI and reach the error-table CALL at
+`100aa664 -> 100aa47d`, which remains unimplemented. A NULL cached codec returns
+the original DWORD. A NULL cached getter follows the actual fallback prefix and
+stops at its module lookup `100ae2b4`; fallback resolution remains unfinished.
+Copied codec capabilities and forged TLS import slots are rejected before use;
+unknown TLS results retain the actual pending call. The 114 focused checks,
+typechecking and production build pass, and all 72 generated source files plus
+the emitted runtime reproduce exactly. The full suite passes 2,663 tests across
+259 files.
+PR 112 deployed successfully through Pages run 37753009470. Full startup and
+campaign completion remain unfinished.
+
+### Pointer encoder dependency evidence
+
+Original helper `100ae20f` is now captured alongside the encoder: it reads the
+OS major version, returns availability for versions newer than 5, and otherwise
+scans the main image sections through a string comparison. The package retains
+the original KERNEL32.DLL and EncodePointer names, cold TLS indices and TLS
+getter import slot. Cold values remain separate from live loader capabilities.
+All 72 generated source files and the unchanged generated runtime reproduce
+byte-for-byte; 23 focused source checks, typechecking and all 2,657 tests across
+259 files pass. PR 112 passed CI run 37752324399 and merged at
+`4068aacec57dc591eea929333ea15583dcff2ef8`. This capture does not
+complete conversion encoding. The cached thread-data procedure and fallback
+lookup must still execute with their original stack and storage relationships.
 
 ### SharedBase floating-point exception clearing and hook return
 

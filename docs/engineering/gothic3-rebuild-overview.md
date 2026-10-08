@@ -53,7 +53,9 @@ checks actual image headers and section ownership, restores FS and installs
 ten floating-point conversion addresses. The original division-erratum query
 now returns through retained virtual imports and publishes its selected result.
 It clears the x87 exception status bits, returns the hook and enters conversion
-encoding; its next boundary is `100b4413 -> 100ae27b`. Allocation failures retain
+encoding. The cached PTD encoder returns for all ten conversion pointers and
+stores their opaque encoded identities; its next boundary is the error-table
+call at `100aa664 -> 100aa47d`. Allocation failures retain
 the original partial cleanup; a positive retry delay remains unresolved.
 Those local helper results still need to join the live
 startup path before they can enable NPC activation. The full game remains

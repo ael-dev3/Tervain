@@ -101,6 +101,17 @@
       "assemblySha256": "bbadc9abf7c45efc92a91ed754aac8d43bc1605182643b557d095b931b45408b",
       "cSha256": "b498511197772c15ade2a767fdb07a507c6098c4ee962947204563089c96a93a"
     },
+    "pointerEncodingAvailable": {
+      "entryVA": "0x100ae20f",
+      "bodyVA": "0x100ae20f",
+      "bodyRanges": "100ae20f-100ae27a",
+      "instructionCount": 48,
+      "bodyByteCount": 108,
+      "bodyInstructionBytesSha256": "ee8691088a2b99c01cbcbe5d12d7002b73798745febc6114c8e90c0d929b1541",
+      "entryChain": [],
+      "assemblySha256": "78163f1a2195246729b1179df9af6dc0d85fee9bf3b2735c2cfa83345b8c68db",
+      "cSha256": "44c481c0af59991a28dbe7ba22235a672f15ed0b46c39542a14a755a1dbe6949"
+    },
     "appendExitCallback": {
       "entryVA": "0x100a71ac",
       "bodyVA": "0x100a71ac",
@@ -758,6 +769,10 @@
       "containingEntry": "100ae27b",
       "methodLabel": "encodePointer"
     },
+    "100ae20f": {
+      "containingEntry": "100ae20f",
+      "methodLabel": "pointerEncodingAvailable"
+    },
     "100a71ac": {
       "containingEntry": "100a71ac",
       "methodLabel": "appendExitCallback"
@@ -1051,6 +1066,86 @@
         "rawSize": 368640,
         "rawOffset": 937984,
         "fileBackedBytes": 26,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "pointerModuleName": {
+      "address": "100ed284",
+      "raw": "4b45524e454c33322e444c4c00",
+      "bytes": 13,
+      "sha256": "d895da5acf4214aa6b5ac2d812febf7282bce183fe3d660ef2dfc9453479ed66",
+      "section": {
+        "virtualAddress": 937984,
+        "virtualSize": 366840,
+        "rawSize": 368640,
+        "rawOffset": 937984,
+        "fileBackedBytes": 13,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "pointerEncodeProcedureName": {
+      "address": "100ed6d0",
+      "raw": "456e636f6465506f696e74657200",
+      "bytes": 14,
+      "sha256": "14600312a2953818429b73ed52af4556e4b531d5cf3197292d1ba6e78f6f38da",
+      "section": {
+        "virtualAddress": 937984,
+        "virtualSize": 366840,
+        "rawSize": 368640,
+        "rawOffset": 937984,
+        "fileBackedBytes": 14,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "tlsGetterIndex": {
+      "address": "10140b48",
+      "raw": "ffffffff",
+      "bytes": 4,
+      "sha256": "ad95131bc0b799c0b1af477fb14fcf26a6a9f76079e48bf090acb7e8367bfd0e",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 4,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "threadDataIndex": {
+      "address": "10140b44",
+      "raw": "ffffffff",
+      "bytes": 4,
+      "sha256": "ad95131bc0b799c0b1af477fb14fcf26a6a9f76079e48bf090acb7e8367bfd0e",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 4,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "tlsGetValueImportSlot": {
+      "address": "102f97b8",
+      "raw": "caa22f00",
+      "bytes": 4,
+      "sha256": "8d0c8b6c0c765e7f2faf1cc9aa4477922781bc4ff771f4ad2e4d8fb131b1ed3a",
+      "section": {
+        "virtualAddress": 3117056,
+        "virtualSize": 6242,
+        "rawSize": 8192,
+        "rawOffset": 1323008,
+        "fileBackedBytes": 4,
         "loaderZeroFillBytes": 0
       },
       "scope": "cold-original-image",
@@ -1375,6 +1470,36 @@
       "raw": "ffd0",
       "instruction": "CALL EAX",
       "kind": "register-or-memory-indirect"
+    },
+    {
+      "method": "pointerEncodingAvailable",
+      "address": "100ae225",
+      "raw": "e822c3ffff",
+      "instruction": "CALL 0x100aa54c",
+      "kind": "direct",
+      "targetVA": "100aa54c"
+    },
+    {
+      "method": "pointerEncodingAvailable",
+      "address": "100ae237",
+      "raw": "ff1568972f10",
+      "instruction": "CALL dword ptr [0x102f9768]",
+      "kind": "image-indirect",
+      "slotVA": "102f9768",
+      "importEntry": {
+        "iatVA": "0x102f9768",
+        "module": "KERNEL32.dll",
+        "name": "GetModuleHandleA",
+        "ordinal": null
+      }
+    },
+    {
+      "method": "pointerEncodingAvailable",
+      "address": "100ae256",
+      "raw": "e885290000",
+      "instruction": "CALL 0x100b0be0",
+      "kind": "direct",
+      "targetVA": "100b0be0"
     },
     {
       "method": "appendExitCallback",
