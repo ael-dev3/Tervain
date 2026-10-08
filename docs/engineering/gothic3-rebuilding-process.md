@@ -10243,5 +10243,7 @@ construction. Changed source evidence is likewise rejected. Repeated requests
 retain the pending query and do not allocate a second frame.
 
 All 283 focused checks, typechecking and production build (39.32 seconds) pass.
-Full-suite validation is pending. Version-query imports, logging, complete DLL startup,
+The full suite passes 2,881 tests across 272 files (202.90 seconds). Main
+integration changes no validated file content. Publication is pending.
+Version-query imports, logging, complete DLL startup,
 Game/world activation and campaign completion remain unfinished.
