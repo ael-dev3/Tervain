@@ -10061,3 +10061,34 @@ The package contains 118 bodies, 4,566 instructions and 434 CALL receipts.
 The full suite passes 2,811 tests across 260 files (167.42 seconds).
 Publication remains pending. Full engine startup,
 world activation and campaign completion remain outstanding.
+
+### Local type-info name length and cache publication — 8 October 2026
+
+Original strlen `100b2a80` executes on the demangled temporary. Its alignment
+checks use the owned pointer geometry, and its DWORD loads retain unknown
+padding. The original `0x7efefeff` addition uses masked carry propagation.
+The complement/XOR/TEST sequence proves the same private loaded word and
+intermediate results before the exact zero-byte predicate supplies ZF. AH
+reads preserve the actual high-byte lane. The ordered byte checks find NUL
+and the original pointer subtraction returns length 21.
+
+The type-info caller enters the already initialized lock fourteen through its
+retained table pointer. It allocates an eight-byte cache-list node and a
+22-byte cached-name buffer. Original safe-copy instructions copy the name
+and terminator, then publish the descriptor pointer and list links. The
+temporary 24-byte buffer is freed. Original cleanup releases lock fourteen
+and restores the outer type-info frame. The cached name and node remain
+owned and alive.
+
+Execution now stops at `1008e93e -> 100088cd`, before the class-name unmangling
+helper. Guard state and the type-info cache are applied; the final class-name
+string, shutdown registration and complete initializer return remain pending.
+
+Local evidence: 256 focused checks pass, including forged cache-lock rejection,
+unchanged results for different unknown padding values, and an ambiguous
+scan after removing the known terminator. Typechecking and production build
+pass. All 231 generated evidence files and the instruction module reproduce
+exactly. The package contains 121 bodies, 4,667 instructions and 438 CALL
+receipts. The full suite passes 2,816 tests across 260 files (173.96 seconds).
+Publication remains pending. Full startup,
+world activation and campaign completion remain outstanding.
