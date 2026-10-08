@@ -287,6 +287,9 @@ export const BENCH_SEAT_HEIGHT = 0.55;
 const onBench = (x: number, z: number, yaw: number, along = 0): Anchor =>
   a({ x: x + Math.cos(yaw) * along + Math.sin(yaw) * 0.04, z: z - Math.sin(yaw) * along + Math.cos(yaw) * 0.04 }, yaw, BENCH_SEAT_HEIGHT);
 
+/** A place outside a building's door, looking out from it: at their door a resident faces the lane, not the wall. */
+const atDoor = (id: string, out: number, side = 0): Anchor => a(frontOf(bySpec(id), out, side), bySpec(id).yaw);
+
 export const ANCHORS: Record<string, Anchor> = {
   // The supplier stands at the counter's end, close enough to rest both hands on it, leaving its front and the woodland track open.
   hunter_station: a(hunterCampPoint(HUNTER_CAMP.worker.x, HUNTER_CAMP.worker.z), Math.PI / 2),
@@ -295,27 +298,28 @@ export const ANCHORS: Record<string, Anchor> = {
   hunter_drying_rack: a(hunterCampPoint(HUNTER_CAMP.dryingRack.x, HUNTER_CAMP.dryingRack.z), HUNTER_CAMP.yaw),
   hunter_camp_counter: a(hunterCampPoint(0, 0), HUNTER_CAMP.yaw),
   arrival_sign: a(ARRIVAL_SIGN),
-  overlook_wagon: a({ x: -93, z: 22 }, 1.2),
+  // Beside his wagon inside the stockade, watching the gate and the track in from the road (A69: it faced the stockade).
+  overlook_wagon: a({ x: -93, z: 22 }, 2.87),
   village_square: a({ x: 3, z: 9 }, 0),
   noticeboard: a({ x: 5, z: 12.9 }, Math.PI),
   village_well: a({ x: -6, z: 21.8 }, 0),
   dry_channel: a({ x: -10, z: 8 }, -1.6),
-  reeve_door: a(frontOf(bySpec('reeve_house'), 1.4), 0),
-  bakery_door: a(frontOf(bySpec('bakery'), 1.4), 0),
-  mill_door: a(frontOf(bySpec('mill'), 1.4), 0),
+  reeve_door: atDoor('reeve_house', 1.4),
+  bakery_door: atDoor('bakery', 1.4),
+  mill_door: atDoor('mill', 1.4),
   inn_bench: onBench(-9, 35.6, 0, -0.35),
   shrine_altar: a({ x: -14, z: -95.6 }, 3.1),
   shrine_steps: a({ x: -18, z: -95 }, 0),
   wetland_edge: a({ x: -15, z: -86 }, -2.2),
-  steward_cell: a(frontOf(bySpec('shrine_hall'), 1.4, 3), 0),
-  archive_door: a(frontOf(bySpec('archive'), 1.6), 0),
-  warden_post: a(frontOf(bySpec('shrine_hall'), 1.4, -3), 0),
+  steward_cell: atDoor('shrine_hall', 1.4, 3),
+  archive_door: atDoor('archive', 1.6),
+  warden_post: atDoor('shrine_hall', 1.4, -3),
   archive_back: a({ x: -46, z: -109.4 }, 0),
   quarry_yard: a({ x: 86, z: -24 }, 1.2),
-  quarry_office: a(frontOf(bySpec('quarry_office'), 1.4), 0),
+  quarry_office: atDoor('quarry_office', 1.4),
   // Within a hammer's reach of the westmost boulder's face, so the chisel meets stone.
   quarry_face: a({ x: 97.25, z: -28.7 }, Math.PI / 2),
-  crew_bunks: a(frontOf(bySpec('crew_bunks'), 1.4), 0),
+  crew_bunks: atDoor('crew_bunks', 1.4),
   cut_ledge: a({ x: 122, z: -72 }, 3.1),
   ford_camp: onBench(44, 32.4, 1.0, 0.3),
   strand_fire: a({ x: -103, z: 16 }, 0),

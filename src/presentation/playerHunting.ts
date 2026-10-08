@@ -2,6 +2,9 @@ import * as THREE from 'three';
 import type { Rig } from './characters';
 import { createHuntingArrow } from './huntingArrow';
 
+/** The arrow's line while the bow is only carried: forward, a little out from the leg and a touch down. */
+const BOW_AT_REST = new THREE.Vector3(.14, -.1, .98).normalize();
+
 type Snapshot = { position: THREE.Vector3; quaternion: THREE.Quaternion };
 const Z = new THREE.Vector3(0, 0, 1);
 const Y = new THREE.Vector3(0, 1, 0);
@@ -125,11 +128,14 @@ export class PlayerHuntingVisual {
     this.bow.visible = this.equipped;
     if (!this.equipped) return;
     const localDir = this.direction.clone().applyQuaternion(this.rig.root.getWorldQuaternion(new THREE.Quaternion()).invert());
-    const bowDirection = this.aiming ? localDir : new THREE.Vector3(.1, -.55, .75).normalize();
-    const hand = this.aiming ? new THREE.Vector3(.12, 1.42, 0).addScaledVector(bowDirection, .66) : new THREE.Vector3(.32, .92, .12);
+    // At rest the bow hangs upright beside the leg, its back to the front and the string behind the grip (A69). It was
+    // pitched 36° nose-down, which laid it diagonally across the thigh with the string cutting in front of the body.
+    const bowDirection = this.aiming ? localDir : BOW_AT_REST;
+    const hand = this.aiming ? new THREE.Vector3(.12, 1.42, 0).addScaledVector(bowDirection, .66) : new THREE.Vector3(.34, .9, .1);
     this.arm('Left', hand, new THREE.Vector3(.5, 1.3, .26));
     this.rig.root.updateMatrixWorld(true);
     const frame = new THREE.Quaternion().setFromUnitVectors(Z, bowDirection).premultiply(this.rig.root.getWorldQuaternion(new THREE.Quaternion()));
+    this.gripBow(frame);
     this.orientPalm(this.leftPalm, frame);
     const recoil = this.recoil > 0 ? this.recoil / .22 : 0;
     this.recoil = Math.max(0, this.recoil - Math.max(0, dt));
@@ -299,6 +305,26 @@ export class PlayerHuntingVisual {
       if (!this.rig.hero?.applyHandGrip) finger.rotateZ((side === 'Left' ? -1 : 1) * amount * (part === 'Thumb' ? .4 : .65));
     }
     this.rig.hero?.applyHandGrip?.(side, amount);
+  }
+
+  /**
+   * Turn the bow hand itself to the bow (A69): the hand points along the arrow's line and the knuckles run up the limbs,
+   * so the fist closes round the handle. Only the palm socket used to turn, leaving the hand at whatever angle the arm
+   * solve left it, so the bow passed through the fist askew.
+   */
+  private gripBow(frame: THREE.Quaternion): void {
+    const middle = this.joint('LeftHandMiddle1'), pinky = this.joint('LeftHandPinky1');
+    if (!middle || !pinky) return;
+    // The hand's own axes: along it (wrist to the middle knuckle) and across the knuckles (little finger to middle).
+    const along = middle.position.clone().normalize();
+    const across = middle.position.clone().sub(pinky.position);
+    across.addScaledVector(along, -across.dot(along)).normalize();
+    // Where they should point: along the arrow's line, and up the bow's limbs.
+    const aim = Z.clone().applyQuaternion(frame), up = Y.clone().applyQuaternion(frame);
+    up.addScaledVector(aim, -up.dot(aim)).normalize();
+    const local = new THREE.Matrix4().makeBasis(along, across, along.clone().cross(across));
+    const wanted = new THREE.Matrix4().makeBasis(aim, up, aim.clone().cross(up));
+    this.worldRotation(this.leftHand, new THREE.Quaternion().setFromRotationMatrix(wanted.multiply(local.transpose())));
   }
 
   private orientPalm(socket: THREE.Object3D, world: THREE.Quaternion): void {

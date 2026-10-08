@@ -11,6 +11,8 @@ import { foliageUniforms, patchFoliageVertex, type FoliageField, type FoliageRes
  *  - Light through the leaves. When the sun (or a lantern) is behind a leaf it glows, most on the crown's outer shell.
  *  - Depth. Ambient light dies away inside the crown, so canopies read as volumes rather than flat cut-outs.
  *  - Colour. Each tree varies a little in hue and value, and greens beyond a natural saturation are drawn back.
+ *  - Coverage (A69). Leaf edges are resolved about the cut-off rather than above it, and alpha is lifted with the mip
+ *    level so a distant crown keeps its body.
  *  - Wind and touch (foliageWind.ts), in the colour pass and, through the depth materials, in the shadows.
  *
  * The patch chains any earlier `onBeforeCompile` (the distance dither, bark detail) and extends the program cache key.
@@ -35,15 +37,19 @@ export interface FoliageLook {
   /** Saturation kept (1 unchanged) and per-tree hue/value variation. */
   saturation: number;
   variation: number;
+  /** Light through the leaves left in the crown's own shadow, of what it would be in the open (0..1). */
+  shadeThrough: number;
 }
 
 export const FOLIAGE_LOOK: FoliageLook = {
-  crownNormal: 0.55,
+  // A69: the crown shades as one rounded mass (its cards no longer fight it) and keeps more of its greens and inner light.
+  crownNormal: 0.8,
   translucency: 0.9,
   transTint: new THREE.Color(1.0, 1.1, 0.55),
-  innerShade: 0.6,
-  saturation: 0.84,
+  innerShade: 0.72,
+  saturation: 0.95,
   variation: 1,
+  shadeThrough: 0.4,
 };
 
 /** The crown spheroid of a leaf geometry, from its bounds in the mesh's own space. */
@@ -103,10 +109,44 @@ const LEAF_FRAGMENT_DECL = /* glsl */ `
 uniform vec4 uFoliageLook;
 uniform vec3 uFoliageTransTint;
 uniform float uFoliageSaturation;
+uniform float uFoliageShadeThrough;
 varying vec3 vCrownN;
 varying float vCrownDepth;
 varying float vFoliageHue;
+// The light that reaches a leaf before its shadow is applied, for the share that still passes through it.
+vec3 tvLitColour = vec3( 0.0 );
 `;
+
+/**
+ * Leaf cut-out (A69). Three's alpha-to-coverage ramp starts at the cut-off, so every leaf edge loses coverage; this one
+ * is centred on it. Box-filtered mips thin a crown's alpha with distance, so alpha is lifted with the mip level first.
+ */
+const LEAF_ALPHA_TEST_GLSL = /* glsl */ `
+#ifdef USE_ALPHATEST
+{
+  float tvA = diffuseColor.a;
+  #ifdef USE_MAP
+    vec2 tvTexels = vMapUv * vec2( textureSize( map, 0 ) );
+    float tvMip = max( 0.0, 0.5 * log2( max( dot( dFdx( tvTexels ), dFdx( tvTexels ) ), dot( dFdy( tvTexels ), dFdy( tvTexels ) ) ) ) );
+    tvA *= 1.0 + 0.12 * tvMip;
+  #endif
+  #ifdef ALPHA_TO_COVERAGE
+    diffuseColor.a = clamp( ( tvA - alphaTest ) / max( fwidth( tvA ), 1e-4 ) + 0.5, 0.0, 1.0 );
+    if ( diffuseColor.a == 0.0 ) discard;
+  #else
+    if ( tvA < alphaTest ) discard;
+  #endif
+}
+#endif
+`;
+
+/** Three's light loop, noting each light's colour before its shadow is applied (for light through the leaves). */
+function lightsWithUnshadowedColour(): string | null {
+  const chunk = THREE.ShaderChunk.lights_fragment_begin;
+  const pattern = /(get(?:Point|Spot|Sun|Directional)LightInfo\([^;]*\);)/g;
+  const noted = chunk.replace(pattern, '$1\n\t\ttvLitColour = directLight.color;');
+  return noted === chunk ? null : noted;
+}
 
 /** Thin-leaf light, wrapped around every light including lanterns, with its shadow already applied by Three. */
 const LEAF_LIGHT_GLSL = /* glsl */ `
@@ -116,11 +156,13 @@ void RE_Direct_Foliage( const in IncidentLight directLight, const in vec3 geomet
   // Thin leaves are lit a little past their terminator.
   float wrap = saturate( ( ndl + 0.4 ) / 1.4 ) - saturate( ndl );
   reflectedLight.directDiffuse += wrap * 0.55 * directLight.color * BRDF_Lambert( material.diffuseColor );
-  // Light passing through toward the eye, strongest on the crown's outer shell.
+  // Light passing through toward the eye, strongest on the crown's outer shell. A leaf in the crown's own shadow still
+  // passes some of it on, so a crown against the sun glows rather than going dark (A69).
   float behind = saturate( dot( - geometryViewDir, directLight.direction ) );
   float through = pow( behind, 4.0 ) * 1.25 + pow( behind, 1.4 ) * 0.18;
   float shell = 0.35 + 0.65 * smoothstep( 0.35, 1.0, vCrownDepth );
-  reflectedLight.directDiffuse += directLight.color * material.diffuseColor * uFoliageTransTint * through * shell * uFoliageLook.y;
+  vec3 throughColour = max( directLight.color, tvLitColour * uFoliageShadeThrough );
+  reflectedLight.directDiffuse += throughColour * material.diffuseColor * uFoliageTransTint * through * shell * uFoliageLook.y;
 }
 #undef RE_Direct
 #define RE_Direct RE_Direct_Foliage
@@ -181,6 +223,7 @@ export function installFoliage(material: THREE.Material, opts: FoliageInstall): 
     uFoliageLook: { value: new THREE.Vector4(look.crownNormal, look.translucency, look.innerShade, look.variation) },
     uFoliageTransTint: { value: look.transTint.clone() },
     uFoliageSaturation: { value: look.saturation },
+    uFoliageShadeThrough: { value: look.shadeThrough },
   };
   let failed = false;
   const physical = (material as THREE.MeshStandardMaterial).isMeshStandardMaterial === true;
@@ -191,17 +234,24 @@ export function installFoliage(material: THREE.Material, opts: FoliageInstall): 
     if (!patchFoliageVertex(shader, { ...wind, ...own }, opts.leaf, opts.weight)) { failed = true; return; }
     if (!opts.leaf || !physical) return;
     const f0 = shader.fragmentShader;
-    const needs = ['#include <common>', '#include <color_fragment>', '#include <normal_fragment_maps>', '#include <lights_physical_pars_fragment>', '#include <aomap_fragment>'];
-    if (!needs.every((n) => f0.includes(n))) { failed = true; return; }
+    const lights = lightsWithUnshadowedColour();
+    const needs = ['#include <common>', '#include <color_fragment>', '#include <alphatest_fragment>', '#include <normal_fragment_maps>',
+      '#include <lights_physical_pars_fragment>', '#include <lights_fragment_begin>', '#include <aomap_fragment>'];
+    if (!lights || !needs.every((n) => f0.includes(n))) { failed = true; return; }
     shader.vertexShader = shader.vertexShader
       .replace('#include <common>', `#include <common>\n${LEAF_VERTEX_DECL}`)
       .replace('#include <begin_vertex>', `#include <begin_vertex>\n${LEAF_VERTEX_BODY}`);
     shader.fragmentShader = f0
       .replace('#include <common>', `#include <common>\n${LEAF_FRAGMENT_DECL}`)
       .replace('#include <color_fragment>', `#include <color_fragment>\n${LEAF_COLOUR_GLSL}`)
+      // The distance dither (if any) follows the cut-out, as it followed Three's.
+      .replace('#include <alphatest_fragment>', LEAF_ALPHA_TEST_GLSL)
+      // Three turns a double-sided card's normal toward the eye; a leaf takes its own face's normal, mostly the crown's,
+      // so the far side of a crown seen through it is not shaded as if it faced the viewer (A69).
       .replace('#include <normal_fragment_maps>', `#include <normal_fragment_maps>
-        normal = normalize( mix( normal, vCrownN, uFoliageLook.x ) );`)
+        normal = normalize( mix( normal * faceDirection, vCrownN, uFoliageLook.x ) );`)
       .replace('#include <lights_physical_pars_fragment>', `#include <lights_physical_pars_fragment>\n${LEAF_LIGHT_GLSL}`)
+      .replace('#include <lights_fragment_begin>', lights)
       .replace('#include <aomap_fragment>', `#include <aomap_fragment>
         reflectedLight.indirectDiffuse *= mix( uFoliageLook.z, 1.0, smoothstep( 0.15, 1.0, vCrownDepth ) );
         ${LEAF_SKY_GLSL}`);

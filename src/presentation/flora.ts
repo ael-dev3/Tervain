@@ -236,7 +236,12 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       const caster = (mesh: THREE.InstancedMesh | null, part: 'wood' | 'leaf') => {
         if (!mesh || !castsShadows) return null;
         const geometry = shadowGeometry(mesh.geometry);
-        const c = new THREE.InstancedMesh(geometry, mesh.material, b.trees.length);
+        // Three casts an alpha-to-coverage material's shadow at a fixed 0.5 cut-off; a copy without it casts at the
+        // leaves' own (A69). The copy is never drawn in colour: the casters show only for the sun's shadow pass.
+        const material = (mesh.material as THREE.Material).clone();
+        material.alphaToCoverage = false;
+        casterMaterials.push(material);
+        const c = new THREE.InstancedMesh(geometry, material, b.trees.length);
         c.count = 0;
         c.visible = false;
         c.frustumCulled = false;

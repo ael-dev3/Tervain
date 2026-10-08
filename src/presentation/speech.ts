@@ -86,6 +86,11 @@ export class SpeechDirector {
     return Math.max(0, Math.max(this.busy.get(speaker) ?? 0, held) - this.clock);
   }
 
+  /** Seconds an exchange or a scene still holds this person (a passing remark does not hold anyone) (A69). */
+  heldFor(npc: NpcId): number {
+    return Math.max(0, (this.held.get(npc) ?? 0) - this.clock);
+  }
+
   /** The current spoken line only. A listener stays in the exchange without gesturing through another person's turn. */
   speakingFor(speaker: Speaker): number {
     return Math.max(0, (this.busy.get(speaker) ?? 0) - this.clock);

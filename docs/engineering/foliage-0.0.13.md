@@ -44,6 +44,10 @@ replacing its textures:
 
 Wood gets the wind only.
 
+A69 refines this. Leaf cut-outs are resolved about the cut-off and lifted with distance, and each face keeps its own
+normal under more of the crown's. Some light still passes through leaves in shadow, greens and inner light are kept
+better, and leaf shadows use the leaves' own cut-off; see [figures, crowns and timber](figures-crowns-timber-0.0.13.md#crowns).
+
 ## Touch and strikes
 
 - **Bodies.** The hero and the nearest residents, bandits and animals push low foliage aside, such as the lowest

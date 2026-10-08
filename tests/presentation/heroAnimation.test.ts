@@ -45,9 +45,9 @@ function lowestSole(rig: MainHeroRig, vertices: number[]) {
 }
 
 describe('authored Mixamo playable hero', () => {
-  it('loads the actual 65,000-triangle delivery, exact 66 joints and all six source clips on private skeletons', () => {
+  it('loads the actual sealed 49,500-triangle delivery, exact 66 joints and all six source clips on private skeletons', () => {
     const one = createHeroRig(asset), two = createHeroRig(asset), skin = skinOf(one.root), source = skinOf(asset.scene);
-    expect(skin.geometry.index!.count / 3).toBe(65_000);
+    expect(skin.geometry.index!.count / 3).toBe(49_500);
     expect(skin.skeleton.bones).toHaveLength(66);
     expect(Object.keys(bindHeroBones(one.root))).toEqual([...HERO_BONES]);
     expect(one.hips).not.toBe(two.hips); expect(one.hips).not.toBe(source.skeleton.bones[0]);
@@ -56,6 +56,33 @@ describe('authored Mixamo playable hero', () => {
     expect(asset.animations.map((clip) => clip.name).sort()).toEqual(['Boxing_Practice', 'Casual_Walk', 'Dead', 'Run_03', 'Running', 'Walking']);
     for (const clip of asset.animations) expect(clip.tracks).toHaveLength(132);
     expect(one.height).toBe(1.899);
+    // Each rig blends its own joints as dual quaternions (A69), so a bent elbow or hip keeps its volume.
+    expect(skin.userData.npcDualQuaternion).toMatchObject({ bones: 66 });
+  });
+
+  it('is one closed surface whose seam copies move together, so it cannot open into cuts (A69)', () => {
+    const geometry = skinOf(asset.scene).geometry, position = geometry.getAttribute('position'), index = geometry.index!;
+    const joints = geometry.getAttribute('skinIndex'), weights = geometry.getAttribute('skinWeight');
+    // Copies of one position (UV and normal seams) are one vertex of the surface.
+    const ids = new Map<string, number>(), weld: number[] = [], skinOf_: string[] = [];
+    for (let i = 0; i < position.count; i++) {
+      const key = [position.getX(i), position.getY(i), position.getZ(i)].map((v) => Math.round(v / 5e-5)).join(',');
+      if (!ids.has(key)) ids.set(key, ids.size);
+      weld.push(ids.get(key)!);
+      const skin = [0, 1, 2, 3].map((k) => `${joints.getComponent(i, k)}:${weights.getComponent(i, k).toFixed(4)}`).filter((e) => !e.endsWith(':0.0000')).sort().join(' ');
+      const first = skinOf_[weld[i]!];
+      if (first === undefined) skinOf_[weld[i]!] = skin; else expect(skin, `seam copy ${i}`).toBe(first);
+    }
+    // Every edge of the welded surface borders exactly two triangles: no slit, hole or loose piece edge.
+    const edges = new Map<string, number>();
+    for (let t = 0; t < index.count; t += 3) {
+      const v = [weld[index.getX(t)]!, weld[index.getX(t + 1)]!, weld[index.getX(t + 2)]!];
+      for (const [a, b] of [[v[0]!, v[1]!], [v[1]!, v[2]!], [v[2]!, v[0]!]] as const) {
+        const key = a < b ? `${a},${b}` : `${b},${a}`;
+        edges.set(key, (edges.get(key) ?? 0) + 1);
+      }
+    }
+    expect([...edges.values()].filter((count) => count !== 2)).toHaveLength(0);
   });
 
   it('preserves the authored leg and arm rotations at their measured gait phase instead of reconstructing them with IK', () => {

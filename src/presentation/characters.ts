@@ -77,6 +77,11 @@ export interface Pose {
   /** Height of the seat top above the actor's ground, metres: a fitted resident sits on it rather than at a fixed drop. */
   seatHeight?: number;
   /**
+   * How far behind the actor the seat's place lies, metres: a resident on authored clips stands in front of a bench and
+   * sits back onto it, rather than standing inside it (A69).
+   */
+  seatBack?: number;
+  /**
    * A resident's idle routine while standing: who they are (seed) and a clock in seconds. Without it a person stands in
    * the plain idle (the player, hostiles). `force` holds one variant (the people tool).
    */
