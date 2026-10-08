@@ -55,7 +55,7 @@ export class PlayerHuntingVisual {
     this.string.name = 'Hunting / drawn bow string';
     this.bow.add(limbs, handle, this.string, this.nockedArrow);
     this.leftPalm.add(this.bow);
-    const steel = new THREE.MeshStandardMaterial({ color: 0x958e82, roughness: .65, metalness: .58 });
+    const steel = new THREE.MeshStandardMaterial({ color: 0x958e82, roughness: .72, metalness: .5 });
     this.knife.name = 'Hunting / skinning knife in right palm';
     const blade = new THREE.Mesh(new THREE.BoxGeometry(.023, .018, .18), steel);
     blade.position.z = .095;

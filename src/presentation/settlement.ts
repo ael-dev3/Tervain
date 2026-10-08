@@ -191,6 +191,9 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     let r = regions.get(name);
     if (!r) {
       r = new Region(name, new Ctx());
+      // Everything in the settlement's regions is built in place, so its walls know the ground at their feet: the
+      // terrain outside, a room's floor within (grime rises from where the wall meets what it stands on).
+      r.ctx.ground = (x, z) => terrain.groundAt(x, z);
       regions.set(name, r);
     }
     return r;

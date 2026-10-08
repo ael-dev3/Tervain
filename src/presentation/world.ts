@@ -1,3 +1,4 @@
+import { loadBakedTextures } from './bakedTextures';
 import { buildFurniture, loadFurniture, type FurnitureTemplates } from './furniture';
 import { InteriorLight } from './interiorLight';
 import type { InteriorSpec } from '../world/interiors';
@@ -176,6 +177,8 @@ export class WorldScene {
       onProgress?.({ loaded: completed, total, label });
     };
     await checkpoint('models', 'World models', 0, modelTotal);
+    // The baked building surfaces download alongside the models; any that fail keep their generated textures.
+    const surfaces = loadBakedTextures(settings.quality);
     setSharedLibrary(library);
     let pine: PineTemplates, rockPile: GLTF, treeTemplates: MeshyTreeTemplates, animalTemplates: AnimalTemplates, furniture: FurnitureTemplates;
     try {
@@ -195,6 +198,8 @@ export class WorldScene {
       signal: options.signal,
       onProgress: (completed, total) => phase('textures', 'Ground materials', completed, total),
     });
+    await checkpoint('textures', 'Weathered surfaces', 8, 8);
+    await surfaces;
     return await WorldScene.build(state, settings, library, tex, pine, rockPile, treeTemplates, animalTemplates, furniture, npcAssets, options, phase, checkpoint);
   }
 

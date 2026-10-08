@@ -95,9 +95,10 @@ describe('original weathered architecture', () => {
       expect(pair.map.wrapS).toBe(THREE.RepeatWrapping);
       expect(pair.map.wrapT).toBe(THREE.RepeatWrapping);
       expect(pair.map.generateMipmaps).toBe(true);
-      expect(pair.normal.image.width).toBe(192);
+      const normal = pair.normal.image as { width: number; data: Uint8Array };
+      expect(normal.width).toBe(192);
       if (key === 'rock') {
-        const data = pair.normal.image.data as Uint8Array;
+        const data = normal.data;
         let steep = 0;
         for (let i = 2; i < data.length; i += 4) if (data[i]! < 238) steep++;
         expect(steep / (192 * 192)).toBeLessThan(0.05); // Chipped geometry supplies silhouette; normals cannot turn it into glazed pillows.
