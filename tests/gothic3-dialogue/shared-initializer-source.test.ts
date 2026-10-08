@@ -30,8 +30,8 @@ it('pins original SharedBase source identity without granting initializer execut
   expect(source.verifiedAgainstOriginalPE).toBe(true);
   expect(source.sourceOnly).toBe(true);
   expect(source.initializerExecutionCompleted).toBe(false);
-  expect(Object.keys(source.methods)).toHaveLength(39);
-  expect((Object.values(source.methods) as Method[]).reduce((sum,m)=>sum+m.instructionCount,0)).toBe(662);
+  expect(Object.keys(source.methods)).toHaveLength(40);
+  expect((Object.values(source.methods) as Method[]).reduce((sum,m)=>sum+m.instructionCount,0)).toBe(710);
 });
 it('preserves every admitted instruction byte and separates unavailable C exports',()=>{
   let recovered=0;
@@ -106,7 +106,7 @@ it('captures the section write flag and cold conversion/exit/RTC storage',()=>{
   expect(source.coldGlobals.rtcTerminators.raw).toBe('00'.repeat(256));
 });
 it('retains original CALL encodings and distinguishes imports from indirect callbacks',()=>{
-  expect(source.calls).toHaveLength(69);
+  expect(source.calls).toHaveLength(72);
   for(const call of source.calls){
     const raw=Buffer.from(call.raw,'hex');
     if(call.kind==='direct'){
@@ -121,4 +121,15 @@ it('retains original CALL encodings and distinguishes imports from indirect call
   expect(criticalSection.importEntry.name).toBe('InitializeCriticalSection');
   expect(source.calls.find((call:{address:string})=>call.address==='100aa692').kind).toBe('register-or-memory-indirect');
   expect(source.rtcTerminationEntry).toBe('100bb8e7');
+});
+
+it('pins the original pointer encoding lookup inputs and availability branches',()=>{
+  expect(source.coldGlobals.pointerModuleName.raw).toBe('4b45524e454c33322e444c4c00');
+  expect(source.coldGlobals.pointerEncodeProcedureName.raw).toBe('456e636f6465506f696e74657200');
+  expect(source.coldGlobals.tlsGetterIndex).toMatchObject({address:'10140b48',raw:'ffffffff'});
+  expect(source.coldGlobals.threadDataIndex).toMatchObject({address:'10140b44',raw:'ffffffff'});
+  expect(source.coldGlobals.tlsGetValueImportSlot.address).toBe('102f97b8');
+  expect(source.methods.pointerEncodingAvailable.bodyVA).toBe('0x100ae20f');
+  expect(source.calls.find((call:{address:string})=>call.address==='100ae225').targetVA).toBe('100aa54c');
+  expect(source.calls.find((call:{address:string})=>call.address==='100ae256').targetVA).toBe('100b0be0');
 });

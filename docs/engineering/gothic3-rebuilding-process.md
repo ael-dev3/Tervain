@@ -47,6 +47,18 @@ requires an integrated gameplay result.
 
 ## Latest process summary — 8 October 2026
 
+### Pointer encoder dependency evidence
+
+Original helper `100ae20f` is now captured alongside the encoder: it reads the
+OS major version, returns availability for versions newer than 5, and otherwise
+scans the main image sections through a string comparison. The package retains
+the original KERNEL32.DLL and EncodePointer names, cold TLS indices and TLS
+getter import slot. Cold values remain separate from live loader capabilities.
+All 72 generated source files and the unchanged generated runtime reproduce
+byte-for-byte; 23 source checks and typechecking pass. This capture does not
+complete conversion encoding. The cached thread-data procedure and fallback
+lookup must still execute with their original stack and storage relationships.
+
 ### SharedBase floating-point exception clearing and hook return
 
 The retained thread now owns a separate x87 status word with unknown initial

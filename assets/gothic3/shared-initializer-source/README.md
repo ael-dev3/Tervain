@@ -1,8 +1,8 @@
 # SharedBase initializer source
 
 Original `SharedBase.dll` evidence for the next startup boundary,
-`100adb5a -> 100aa632`. This package captures 39 function bodies,
-662 instructions and 1,927 instruction bytes. It executes no native code and
+`100adb5a -> 100aa632`. This package captures 40 function bodies,
+710 instructions and 2,035 instruction bytes. It executes no native code and
 does not establish successful browser initializer execution.
 
 ## What startup requires
@@ -81,3 +81,13 @@ to check the committed package and generated syntax. Its remaining dependencies,
 callbacks and enclosing CRT attach need implementation before live Game startup
 can proceed. The 808-byte cold PE header supplies actual DOS/NT magic, optional
 header size, section count/ranges and write flags for the ownership check.
+
+## Pointer encoder dependency capture
+
+The evidence package now also retains original availability helper `100ae20f`,
+its CALLs to the version reader and section-name comparison, KERNEL32.DLL and
+EncodePointer literals, the cold TLS indices and TlsGetValue import slot. These
+are original cold inputs, not live initialized indices or import capabilities.
+The cached-PTD path and fallback resolution must preserve original CALL/RET,
+callee cleanup and the procedure capability before conversion addresses can be
+encoded. The runtime still stops at `100b4413 -> 100ae27b`.

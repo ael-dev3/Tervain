@@ -28,6 +28,7 @@ def capture(study, output):
         0x100a72d0: 'atexit',
         0x100a788e: 'installFloatConversions', 0x100b448b: 'queryFloatDivisionErratum',
         0x100b4426: 'setDefaultPrecision', 0x100ae27b: 'encodePointer',
+        0x100ae20f: 'pointerEncodingAvailable',
         0x100a71ac: 'appendExitCallback', 0x100ce095: 'queryProcessorFeature',
         0x100ae880: 'validateImageHeader', 0x100ae8b0: 'findImageSection',
         0x100b444f: 'queryFloatDivisionFallback', 0x100ce045: 'processorFeatureProbe',
@@ -58,6 +59,10 @@ def capture(study, output):
         ('stdioCount',0x102f8500,4), ('stdioVector',0x102f71c0,4),
         ('processorModuleName',0x100ede4c,len(b'KERNEL32\0')),
         ('processorProcedureName',0x100ede30,len(b'IsProcessorFeaturePresent\0')),
+        ('pointerModuleName',0x100ed284,len(b'KERNEL32.DLL\0')),
+        ('pointerEncodeProcedureName',0x100ed6d0,len(b'EncodePointer\0')),
+        ('tlsGetterIndex',0x10140b48,4), ('threadDataIndex',0x10140b44,4),
+        ('tlsGetValueImportSlot',0x102f97b8,4),
         ('moduleHandleImportSlot',0x102f9768,4), ('procedureLookupImportSlot',0x102f9648,4)]:
         raw, section = image_bytes(pe,address,size)
         cold[label] = dict(address=f'{address:08x}',raw=raw.hex(),bytes=size,
