@@ -1,3 +1,5 @@
+import {nativeVirtualX86CpuSelection, retainNativeX86ThreadStackSelection} from '../../src/gothic3/native-x86-thread-stack-profile';
+import type {NativeX86CpuSelection} from '../../src/gothic3/native-x86-thread-stack-profile';
 import type {NativeHeapObjectViews} from '../../src/gothic3/native-heap-views';
 import {NativeX86ThreadStack} from '../../src/gothic3/native-x86-thread-stack';
 import sharedCrtSource from '../../assets/gothic3/shared-crt-bootstrap/source.json';
@@ -280,9 +282,9 @@ it('owns the original 544-byte multibyte root and aliases its refcount field',()
 });
 
 
-function argumentFixture(ownLocale=1,selected=true,sse=false,stack:'aligned'|'opaque'|false=false,stackBytes=4096,commandBytes:readonly number[]=[0],environmentWide:readonly number[]|null=[0,0],environmentAnsi:readonly number[]|null=null,processor:{export?:boolean;erratum?:boolean}={export:true,erratum:false}){
+function argumentFixture(ownLocale=1,selected=true,sse=false,stack:'aligned'|'opaque'|false=false,stackBytes=4096,commandBytes:readonly number[]=[0],environmentWide:readonly number[]|null=[0,0],environmentAnsi:readonly number[]|null=null,processor:{export?:boolean;erratum?:boolean;cpu?:NativeX86CpuSelection}={export:true,erratum:false}){
  let owner:NativeSharedCrtOwner;
- const platform=new NativeRuntimePlatform({engineCrtServices:{tlsValues:new Map(),kernel32Available:true,pointerCodec:'owned-bijection',processorFeatureProcedure:processor.export,floatingPointPrecisionErratum:processor.erratum,fiberLocalStorage:true,processHeap:true,osVersion:{platform:2,major:6,minor:1,build:42},entropy:{currentThreadId:()=>{owner.snapshot().ptd!.writeUnsigned(0x70,ownLocale);if(sse)owner.imageStorage('memcpySseFlag').writeUnsigned(0,1);return {known:true,value:9};}},processInputs:{acpCodePage:1252,conversionCoverage:'ascii-explicit-positive-count',initialDirectionFlag:0,commandLineA:{kind:'buffer',bytes:commandBytes},environmentW:environmentWide?{kind:'buffer',bytes:environmentWide}:{kind:'null'},environmentA:environmentAnsi?{kind:'buffer',bytes:environmentAnsi}:{kind:'null'}},startupIo:{startupInfoA:{outcome:'normal',writes:[{offset:50,width:2,value:0,knownMask:65535}]}},standardIo:{standardHandles:[{id:-10,result:'valid',fileType:2},{id:-11,result:'valid',fileType:3},{id:-12,result:'null',fileType:0}],setHandleCount:{result:0},sectionInitialization:'owned-registration'},threadStack:stack?{threadCapability:{},reservationBytes:stackBytes,addressModel:'opaque-relative',initialRegisters:'unknown',initialFs0:'unknown',pageAlignment:stack==='aligned'?'virtual-page-4096':undefined}:undefined,argvNls:selected?{...nativeVirtualCp1252ArgvNlsSelection,lastError:{GetACP:88}}:undefined}});
+ const platform=new NativeRuntimePlatform({engineCrtServices:{tlsValues:new Map(),kernel32Available:true,pointerCodec:'owned-bijection',processorFeatureProcedure:processor.export,floatingPointPrecisionErratum:processor.erratum,fiberLocalStorage:true,processHeap:true,osVersion:{platform:2,major:6,minor:1,build:42},entropy:{currentThreadId:()=>{owner.snapshot().ptd!.writeUnsigned(0x70,ownLocale);if(sse)owner.imageStorage('memcpySseFlag').writeUnsigned(0,1);return {known:true,value:9};}},processInputs:{acpCodePage:1252,conversionCoverage:'ascii-explicit-positive-count',initialDirectionFlag:0,commandLineA:{kind:'buffer',bytes:commandBytes},environmentW:environmentWide?{kind:'buffer',bytes:environmentWide}:{kind:'null'},environmentA:environmentAnsi?{kind:'buffer',bytes:environmentAnsi}:{kind:'null'}},startupIo:{startupInfoA:{outcome:'normal',writes:[{offset:50,width:2,value:0,knownMask:65535}]}},standardIo:{standardHandles:[{id:-10,result:'valid',fileType:2},{id:-11,result:'valid',fileType:3},{id:-12,result:'null',fileType:0}],setHandleCount:{result:0},sectionInitialization:'owned-registration'},threadStack:stack?{threadCapability:{},reservationBytes:stackBytes,addressModel:'opaque-relative',initialRegisters:'unknown',initialFs0:'unknown',pageAlignment:stack==='aligned'?'virtual-page-4096':undefined,cpu:processor.cpu}:undefined,argvNls:selected?{...nativeVirtualCp1252ArgvNlsSelection,lastError:{GetACP:88}}:undefined}});
  owner=NativeSharedCrtOwner.forPlatform(platform);return {platform,owner};
 }
 for(const ownLocale of [1,3])it(`uses actual SharedBase GetACP and preserves original locale flag ownership ${ownLocale}`,()=>{
@@ -570,4 +572,49 @@ it('returns the initialized multibyte callback and enters original processor-pro
 it('retains original multibyte initialization call if its live initialized flag is cleared',()=>{
  const {owner,platform}=argumentFixture(1,true,false,'aligned'),allocate=platform.win32HeapAlloc.bind(platform);platform.win32HeapAlloc=(heap,flags,size)=>{const result=allocate(heap,flags,size);if(flags===8&&size===128)owner.imageStorage('multibyteInitialized').writeUnsigned(0,0);return result;};
  const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Full attach returned');expect(result.reason).toContain('100b185f -> 100b16ba');const snapshot=owner.snapshot().caseState!.stack!.snapshot();expect(owner.imageStorage('multibyteInitialized').readUnsigned(0)).toBe(0);expect(snapshot.calls.filter(call=>!call.returned).map(call=>call.site)).toEqual(['100adb5a','100aa664','100aa490','100b185f']);expect(snapshot.calls.some(call=>call.site==='100b4b72')).toBe(false);expect(snapshot.trace).not.toContain('100b1865.sharedInitializer.MOV');expect(owner.processAttach()).toEqual(result);
+});
+
+it('executes the original ID toggle, CPUID leaves and normal SIMD probe frame',()=>{
+ const {owner,platform}=argumentFixture(1,true,false,'aligned',4096,[0],[0,0],null,{export:true,erratum:false,cpu:nativeVirtualX86CpuSelection});
+ const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Full attach returned');
+ expect(result.reason).toContain('100bef05');const snapshot=owner.snapshot().caseState!.stack!.snapshot();
+ expect(snapshot.trace).toContain('100ce0bd.sharedInitializer.CPUID');expect(snapshot.trace).toContain('100ce0d0.sharedInitializer.CPUID');expect(snapshot.trace).toContain('100ce055.sharedInitializer.MOVAPD');
+ expect(snapshot.calls.find(call=>call.site==='100ce04c')!.returned).toBe(true);expect(snapshot.calls.find(call=>call.site==='100ce08f')!.returned).toBe(true);expect(snapshot.calls.find(call=>call.site==='100b4b72')!.returned).toBe(true);
+ expect(owner.snapshot().initializerImages['102f853c']!.readUnsigned(0)).toBe(1);expect(platform.getWin32LastError()).toEqual({known:true,value:0});expect(snapshot.xmm.knownMask.every(mask=>mask===0)).toBe(true);expect(snapshot.processorSimdFrame!.returned).toBe(true);expect(owner.processAttach()).toEqual(result);
+});
+for(const cpu of [
+ {...nativeVirtualX86CpuSelection,idBitWritable:false},
+ {...nativeVirtualX86CpuSelection,initialEflags:0x200202,idBitWritable:false},
+ {...nativeVirtualX86CpuSelection,cpuidLeaf1:[0x600,0,0,0] as const},
+])it('follows original no-CPUID or no-SSE2 return without a SIMD call',()=>{
+ const {owner}=argumentFixture(1,true,false,'aligned',4096,[0],[0,0],null,{export:true,erratum:false,cpu});const result=owner.processAttach();expect(result.known).toBe(false);
+ const snapshot=owner.snapshot().caseState!.stack!.snapshot();expect(snapshot.trace).not.toContain('100ce055.sharedInitializer.MOVAPD');expect(snapshot.calls.find(call=>call.site==='100b4b72')!.returned).toBe(true);expect(owner.snapshot().initializerImages['102f853c']!.readUnsigned(0)).toBe(0);
+ expect(snapshot.trace.includes('100ce0bd.sharedInitializer.CPUID')).toBe(cpu.idBitWritable);
+});
+it('retains missing CPUID evidence and SIMD exception paths before inventing results',()=>{
+ for(const cpu of [{...nativeVirtualX86CpuSelection,cpuidLeaf1:undefined},{...nativeVirtualX86CpuSelection,sse2Execution:'illegal-instruction' as const}]){
+  const {owner}=argumentFixture(1,true,false,'aligned',4096,[0],[0,0],null,{export:true,erratum:false,cpu});const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain(cpu.cpuidLeaf1?'exception dispatch':'CPUID leaf 1');
+  expect(owner.snapshot().initializerImages['102f853c']!.readUnsigned(0)).toBe(0);expect(owner.processAttach()).toEqual(result);
+ }
+});
+it('copies and freezes virtual CPU tuples and rejects malformed flag profiles',()=>{
+ const leaf=[1,2,3,4] as [number,number,number,number],input={...nativeVirtualX86CpuSelection,cpuidLeaf0:leaf};
+ const selected=retainNativeX86ThreadStackSelection({threadCapability:{},reservationBytes:4096,addressModel:'opaque-relative',initialRegisters:'unknown',initialFs0:'unknown',cpu:input});leaf[0]=99;expect(selected.cpu!.cpuidLeaf0![0]).toBe(1);expect(Object.isFrozen(selected.cpu!.cpuidLeaf0)).toBe(true);
+ expect(()=>retainNativeX86ThreadStackSelection({...selected,cpu:{...input,cpuidLeaf0:Array(4) as [number,number,number,number]}})).toThrow('CPUID DWORDs');
+ for(const initialEflags of [0,0x302,0x3202,0x20202,0xffffffff])expect(()=>retainNativeX86ThreadStackSelection({...selected,cpu:{...input,initialEflags}})).toThrow('EFLAGS');
+});
+
+it('rejects changed live SIMD scope bytes before executing the frame helper',()=>{
+ const {owner}=argumentFixture(1,true,false,'aligned',4096,[0],[0,0],null,{export:true,erratum:false,cpu:nativeVirtualX86CpuSelection});owner.snapshot().initializerImages['100f8ec0']!.writeUnsigned(20,0);
+ const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Full attach returned');expect(result.reason).toContain('live processor SIMD scope');const snapshot=owner.snapshot().caseState!.stack!.snapshot();expect(snapshot.trace).not.toContain('100aeb68.sharedInitializer.PUSH');expect(owner.snapshot().initializerImages['102f853c']!.readUnsigned(0)).toBe(0);
+});
+
+it('restores an initially set ID bit before CPUID while retaining original unknown AF',()=>{
+ const {owner}=argumentFixture(1,true,false,'aligned',4096,[0],[0,0],null,{export:true,erratum:false,cpu:{...nativeVirtualX86CpuSelection,initialEflags:0x200202,cpuidLeaf0:undefined}});
+ const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Full attach returned');expect(result.reason).toContain('CPUID leaf 0');const snapshot=owner.snapshot().caseState!.stack!.snapshot();expect(snapshot.eflags).toMatchObject({word:{value:0x200246,knownMask:0xffffffef}});expect(snapshot.trace).not.toContain('100ce0d0.sharedInitializer.CPUID');
+});
+
+it('reenters the processor probe with a fresh normal EH frame after its prior return',()=>{
+ const {owner}=argumentFixture(1,true,false,'aligned',4096,[0],[0,0],null,{export:true,erratum:false,cpu:nativeVirtualX86CpuSelection});owner.snapshot().initializerImages['100e545c']!.writeUnsigned(68*4,0x100b4b6b);
+ const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100ce0f5');const snapshot=owner.snapshot().caseState!.stack!.snapshot();expect(snapshot.trace.filter(row=>row==='100ce055.sharedInitializer.MOVAPD')).toHaveLength(2);expect(snapshot.calls.filter(call=>call.site==='100ce08f').map(call=>call.returned)).toEqual([true,true]);expect(snapshot.processorSimdFrame!.returned).toBe(true);
 });

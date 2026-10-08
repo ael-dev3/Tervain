@@ -58,8 +58,10 @@ stores their opaque encoded identities; its next boundary is the error-table
 walker, which skips the original leading NULL slots and enters the first
 callback, which allocates and publishes its encoded exit table and returns.
 The next callback returns through its already-initialized multibyte branch,
-and the processor callback enters its original probe frame. Its next boundary
-is PUSHFD at `100ce0a8`. Allocation failures retain
+and the processor callback executes its original probe with the declared virtual
+CPU profile. Its normal SIMD frame restores FS and saved registers and returns;
+the next callback `100bef05` remains pending. Without a selected CPU profile,
+PUSHFD at `100ce0a8` remains an explicit boundary. Allocation failures retain
 the original partial cleanup; a positive retry delay remains unresolved.
 Those local helper results still need to join the live
 startup path before they can enable NPC activation. The full game remains
@@ -84,12 +86,21 @@ fallback resolution, retry handling and failure cleanup also remain bounded.
 PR 115 passed 122 focused checks, 2,671 tests across 259 files, typechecking and
 the production build; its 74 generated source files and runtime reproduced exactly.
 
-The subsequent local source checkpoint captures processor exception-frame
-helpers, the original scope table, and the filter/handler bytes omitted by the
-study's normal function listing. All 80 generated files and the unchanged
-runtime reproduce exactly. Nine focused source checks, 2,673 tests across 259
-files, typechecking and the build pass. This is additional evidence; it does
-not advance execution past `PUSHFD`.
+[PR 116](https://github.com/ael-dev3/Tervain/pull/116) merged the processor
+exception-frame source evidence and process documentation at
+`43a5892f7ce6cb9724d0fc41ec7fe83e3a6857d5`.
+[Pages run 37759987854](https://github.com/ael-dev3/Tervain/actions/runs/37759987854)
+succeeded. Its source package contains 80 generated files; capturing those
+helpers alone did not execute them.
+
+The next local runtime checkpoint executes PUSHFD/POPFD, both selected CPUID
+leaves and the normal SIMD probe using an explicit virtual CPU profile. It owns
+the original scope, EH4 prologue/epilogue and XMM register copy; no host CPU or
+Windows state is inferred. It returns the processor result and reaches the
+fourth error initializer, `100bef05`. Missing CPUID data or SIMD exception
+dispatch remains an explicit boundary. Typechecking, 125 focused checks and
+source regeneration pass. The full suite passes 2,682 tests across 259 files,
+and the production build passes. See the detailed process history for scope.
 
 ### What each repository folder contributes
 

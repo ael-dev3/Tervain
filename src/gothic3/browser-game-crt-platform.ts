@@ -9,7 +9,7 @@ import { NativeRuntimePlatform } from './native-runtime-platform';
 import type { NativeEngineCrtPlatformServices } from './native-runtime-platform';
 import { retainNativeWin32ProcessInputSelection } from './native-win32-process-inputs';
 import type { NativeWin32ProcessInputSelection, RetainedWin32ProcessInputSelection } from './native-win32-process-inputs';
-import type { NativeX86ThreadStackSelection } from './native-x86-thread-stack-profile';
+import type { NativeX86CpuSelection, NativeX86ThreadStackSelection } from './native-x86-thread-stack-profile';
 import { retainNativeWin32StartupIoSelection } from './native-win32-startup-io';
 import type { NativeWin32StartupIoSelection, RetainedWin32StartupIoSelection } from './native-win32-startup-io';
 import { retainNativeWin32StandardIoSelection } from './native-win32-standard-io';
@@ -160,7 +160,7 @@ export function browserGameCrtPlatformProfile(platform: NativeRuntimePlatform): 
  * The logical ID is allocated once and stays stable; its callback returns that
  * private retained capability's ID rather than a guessed known-success value. */
 export function createBrowserGameCrtPlatform(options: { readonly processInputs?: NativeWin32ProcessInputSelection;
-  readonly threadStack?: Readonly<{ reservationBytes: number; pageAlignment?: 'virtual-page-4096' }>; readonly startupIo?: NativeWin32StartupIoSelection;
+  readonly threadStack?: Readonly<{ reservationBytes: number; pageAlignment?: 'virtual-page-4096'; cpu?: NativeX86CpuSelection }>; readonly startupIo?: NativeWin32StartupIoSelection;
   readonly standardIo?: NativeWin32StandardIoSelection; readonly argvNls?: NativeWin32ArgvNlsSelection;
   readonly setEnvp?: NativeWin32SetEnvpSelection } = {}): NativeRuntimePlatform {
   if (nextLogicalThreadId > 0xffffffff) throw new Error('Browser Game CRT logical thread-ID space exhausted');
@@ -176,7 +176,7 @@ export function createBrowserGameCrtPlatform(options: { readonly processInputs?:
   if (setEnvp !== undefined && argvNls === undefined) throw new Error('Explicit environment/heap policy requires a fresh selected argv/NLS startup profile');
   const stackSelection: NativeX86ThreadStackSelection | undefined = threadStack === undefined ? undefined : Object.freeze({
     threadCapability: thread.capability, reservationBytes: threadStack.reservationBytes, addressModel: 'opaque-relative',
-    initialRegisters: 'unknown', initialFs0: 'unknown',
+    initialRegisters: 'unknown', initialFs0: 'unknown', cpu: threadStack.cpu,
     ...(threadStack.pageAlignment === undefined ? {} : { pageAlignment: threadStack.pageAlignment }),
   });
   const process = processInputs === undefined ? undefined : retainNativeWin32ProcessInputSelection(processInputs);
