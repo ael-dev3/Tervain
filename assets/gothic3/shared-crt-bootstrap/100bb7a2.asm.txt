@@ -1,0 +1,7 @@
+100bb7a2 | 55 | PUSH EBP
+100bb7a3 | 8bec | MOV EBP,ESP
+100bb7a5 | 8b4508 | MOV EAX,dword ptr [EBP + 0x8]
+100bb7a8 | ff34c5b8141410 | PUSH dword ptr [EAX*0x8 + 0x101414b8]
+100bb7af | ff1508962f10 | CALL dword ptr [0x102f9608]
+100bb7b5 | 5d | POP EBP
+100bb7b6 | c3 | RET

@@ -13,13 +13,12 @@ itself establish a playable reconstruction.
 
 ## Current status — 8 October 2026
 
-The latest confirmed publication is [PR 89](https://github.com/ael-dev3/Tervain/pull/89),
-merged at `47175677631485d4c62de648324711715abe8608` and deployed by
-[Pages run 37716451923](https://github.com/ael-dev3/Tervain/actions/runs/37716451923).
-It includes the selected Status/diagnostic prefixes from PRs 86–87, the
-independent SharedBase cookie initializer from PR 88, and its version/heap
-attach prefix from PR 89. The earlier PR 84 served-artifact comparison remains
-evidence for that prior revision; no new byte comparison is claimed here for PR 89.
+The latest confirmed publication is [PR 91](https://github.com/ael-dev3/Tervain/pull/91),
+merged at `56cb02439136ddb4c37922065158f0977e85afa2` and deployed by
+[Pages run 37718958809](https://github.com/ael-dev3/Tervain/actions/runs/37718958809).
+It includes the original SharedBase pointer setup and static lock initialization.
+The earlier PR 84 served-artifact comparison remains evidence for that prior
+revision; no new served-byte comparison is claimed for PR 91.
 
 Startup now completes the selected environment initialization and stops before
 Game's `__cinit` call at `204678f2`. The repository captures all 2,473 Game
@@ -84,19 +83,20 @@ Missing thread or unloaded TLS remains an explicit failure. No formatted text,
 terminator or MessageAdmin dispatch is fabricated. The virtual loader's slot
 assignment does not claim a captured Windows slot or completed DLL attach.
 
-Subsequent local work follows SharedBase thread startup through FLS export lookup,
-original TLS fallback, getter-cache publication, pointer-slot initialization and
-encoding of the four thread-storage procedures. It then initializes the 14
-original static critical sections, preserving their physical table aliases and
-the selected insufficient-memory exception branch. The successful selected path
-stops at `100ae805`, before FLS/PTD allocation. Source evidence now also covers
-SharedBase's independent calloc implementation and its cold retry/new-mode state;
-those allocator functions have not yet been implemented in this owner.
+Subsequent local work allocates the actual SharedBase FLS/TLS thread index with
+its canonical cleanup capability, allocates a zeroed 532-byte PTD from its own
+heap and installs that same physical record. The original PTD initializer stores
+exception/codec fields, increments multibyte and default-locale references under
+static lock 12, then releases the lock. With an actual thread-ID provider, it
+stores the ID and original -1 handle and returns `__mtinit` 1. Missing providers
+retain the completed prefix without replay. Non-NULL PTD destruction remains
+unimplemented. The selected cold-locale path does not implement dynamic locales.
 
-Missing pointer exports follow the original identity branch; the older-version
-main-executable `.mixcrt` scan remains unimplemented. Native SEH stack installation,
-PTD/locale initialization, full SharedBase attach and formatter execution remain
-required. These local helpers are not connected to the live Game CRT frame.
+SharedBase attach next needs RTC initialization, command-line and environment
+handling, I/O, arguments and its own initializer traversal. Native SEH stack
+installation and the older-version main-image `.mixcrt` scan remain unimplemented.
+These helpers are not connected to the live Game CRT frame; formatter execution,
+full NPC startup and campaign completion remain unfinished.
 
 The temporary Status name remains retained; descriptor cleanup registration and
 the first initializer's normal return have not executed. Full initializer

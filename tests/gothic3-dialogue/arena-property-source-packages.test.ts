@@ -124,3 +124,16 @@ it('preserves the original critical-section SEH filter, handler and scope table'
  expect(table.readUInt32LE(24)).toBe(0x100bbfc4);
  for(const item of Object.values(receipt) as {raw:string;sha256:string}[])expect(sha(Buffer.from(item.raw,'hex'))).toBe(item.sha256);
 });
+
+it('captures independent SharedBase PTD locale targets and cold reference counts',()=>{
+ const source=JSON.parse(readFileSync('assets/gothic3/shared-crt-bootstrap/source.json','utf8'));
+ const globals=source.coldGlobals;
+ expect(globals.initialLocale.address).toBe('10141390');expect(globals.initialLocale.bytes).toBe(216);
+ expect(Buffer.from(globals.initialLocale.raw,'hex').readUInt32LE(0)).toBe(1);
+ expect(Buffer.from(globals.initialLocale.raw,'hex').readUInt32LE(0xd4)).toBe(0x10141ae0);
+ expect(globals.initialTimeLocale.address).toBe('10141ae0');expect(globals.initialTimeLocale.bytes).toBe(184);
+ expect(globals.multibyteRefcount.address).toBe('10140e60');expect(globals.multibyteRefcount.raw).toBe('00000000');
+ expect(globals.localePointer.raw).toBe('90131410');
+ expect(source.methods.initializePerThreadData.bodyVA).toBe('0x100ae40c');
+ expect(source.methods.releasePtdLocaleLock.bodyVA).toBe('0x100ae4c2');
+});

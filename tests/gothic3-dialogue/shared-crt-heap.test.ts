@@ -12,7 +12,7 @@ it('stores the original OS fields and owns a distinct SharedBase heap before the
  const f=fixture(),game=NativeGameCrtOwner.forPlatform({platform:f.platform,errnoSlot:()=>({known:false,reason:'not initialized'})});
  const result=f.owner.processAttach();expect(result.known).toBe(false);
  if(result.known)throw new Error('Thread initialization unexpectedly returned');
- expect(result.reason).toContain('100ae805');
+ expect(result.reason).toContain('thread ID service');
  const os=f.owner.imageStorage('osFields');
  expect([0,4,8,12,16].map(offset=>os.readUnsigned(offset))).toEqual([2,0x2bcd,0x601,6,1]);
  expect(game.physical.crtOsFields.readUnsigned(0)).toBe(0);
@@ -67,9 +67,9 @@ it('keeps the actual unencoded FLS getter in TLS while encoding its procedure sl
  if(!actual.known)throw new Error(actual.reason);
  expect(actual.value).toBe(decode(f.platform,slots.pointer<object>(4).get()));
  expect(actual.value).not.toBe(slots.pointer(4).get());
- expect(f.owner.imageStorage('threadDataIndex').readUnsigned(0)).toBe(0xffffffff);
+ expect(f.owner.imageStorage('threadDataIndex').readUnsigned(0)).not.toBe(0xffffffff);
  expect(f.owner.snapshot().mtReturned).toBeNull();expect(f.owner.snapshot().pointersReturned).toBe(true);
- expect(f.owner.snapshot().trace.slice(-1)).toEqual(['100bb740.mtInitLocks.return1']);
+ expect(f.owner.snapshot().trace.slice(-1)).toEqual(['100ae859.GetCurrentThreadId']);
 });
 it('encodes the original TLS fallback when FLS exports are absent',()=>{
  const platform=new NativeRuntimePlatform({engineCrtServices:{tlsValues:new Map(),kernel32Available:true,
@@ -83,7 +83,7 @@ it('encodes the original TLS fallback when FLS exports are absent',()=>{
  expect(allocator.address).toBe('100ae360');expect(allocator.owner).toBe(owner.identity);
  const cached=platform.tlsGetValue(owner.imageStorage('tlsGetterIndex').readUnsigned(0));
  expect(cached.known&&cached.value===platform.tlsProcedures.get).toBe(true);
- expect(owner.imageStorage('threadDataIndex').readUnsigned(0)).toBe(0xffffffff);
+ expect(owner.imageStorage('threadDataIndex').readUnsigned(0)).not.toBe(0xffffffff);
 });
 it('initializes every original pointer slot in source order with encoded NULL and original code identities',()=>{
  const f=fixture();expect(f.owner.processAttach().known).toBe(false);
@@ -131,7 +131,7 @@ it('initializes all fourteen actual SharedBase static sections and caches one so
  });
  expect(state.trace.filter(label=>label==='section.GetProcAddress')).toHaveLength(1);
  expect((decode(f.platform,f.owner.imageStorage('pointer6ac0').pointer<object>(0).get()) as {name:string}).name).toBe('InitializeCriticalSectionAndSpinCount');
- expect(f.owner.imageStorage('threadDataIndex').readUnsigned(0)).toBe(0xffffffff);
+ expect(f.owner.imageStorage('threadDataIndex').readUnsigned(0)).not.toBe(0xffffffff);
 });
 
 it('preserves preceding sections and clears only the failed lock after the original allocation exception',()=>{
@@ -157,4 +157,36 @@ it('uses the original no-spin fallback when the spin initializer export is absen
  expect(fallback.address).toBe('100bbf17');expect(fallback.owner).toBe(owner.identity);
  expect(platform.enterPhysicalCriticalSection(owner.snapshot().sections[0]!,owner.identity).known).toBe(true);
  expect(platform.leavePhysicalCriticalSection(owner.snapshot().sections[0]!,owner.identity).known).toBe(true);
+});
+
+it('allocates the original SharedBase thread index with its canonical destructor and rejects forged callbacks',()=>{
+ const f=fixture();const result=f.owner.processAttach();expect(result.known).toBe(false);
+ const index=f.owner.imageStorage('threadDataIndex').readUnsigned(0);expect(index).not.toBe(0xffffffff);
+ const module=f.platform.getWin32ModuleHandle('KERNEL32.DLL');if(!module.known||module.value===null)throw new Error('Missing module');
+ const alloc=f.platform.getWin32Procedure(module.value,'FlsAlloc');if(!alloc.known||!alloc.value||alloc.value.name!=='FlsAlloc')throw new Error('Missing allocator');
+ expect(alloc.value.invoke({address:'100ae55a',invoke:()=>({known:true,value:undefined})}).known).toBe(false);
+ expect(f.owner.snapshot().trace).toContain('100ae81b.storeThreadIndex');
+ expect(f.owner.processAttach()).toEqual(result);
+});
+
+it('installs and initializes the actual 532-byte PTD before requiring a thread ID',()=>{
+ const f=fixture();const result=f.owner.processAttach();expect(result.known).toBe(false);
+ const state=f.owner.snapshot();expect(state.ptdInstalled).toBe(true);expect(state.ptd).not.toBeNull();
+ const ptd=state.ptd!;expect(ptd.bytes.length).toBe(532);expect(state.ptdInitialized).toBe(true);expect(ptd.readUnsigned(0x14)).toBe(1);expect(ptd.readUnsigned(0xc8,1)).toBe(0x43);expect(ptd.knownMask.slice(0,8).every(b=>b===255)).toBe(true);
+ const module=f.platform.getWin32ModuleHandle('KERNEL32.DLL');if(!module.known||!module.value)throw new Error('Missing module');
+ const getter=f.platform.getWin32Procedure(module.value,'FlsGetValue');if(!getter.known||!getter.value||getter.value.name!=='FlsGetValue')throw new Error('Missing getter');
+ const stored=getter.value.invoke(f.owner.imageStorage('threadDataIndex').readUnsigned(0));expect(stored.known&&stored.value===ptd).toBe(true);
+ expect(state.mtReturned).toBeNull();expect(ptd.backing.freed).toBe(false);
+});
+
+it('returns original mtinit after actual thread ID and increments independent locale references',()=>{
+ const platform=new NativeRuntimePlatform({engineCrtServices:{tlsValues:new Map(),kernel32Available:true,pointerCodec:'owned-bijection',fiberLocalStorage:true,processHeap:true,osVersion:{platform:2,major:6,minor:1,build:42},entropy:{currentThreadId:()=>({known:true,value:77})}}});
+ const owner=NativeSharedCrtOwner.forPlatform(platform);const result=owner.processAttach();expect(result.known).toBe(false);
+ const state=owner.snapshot();expect(state.mtReturned).toBe(1);expect(state.ptdInitialized).toBe(true);
+ expect(state.ptd!.readUnsigned(0)).toBe(77);expect(state.ptd!.readUnsigned(4)).toBe(0xffffffff);
+ expect(owner.imageStorage('multibyteRefcount').readUnsigned(0)).toBe(1);
+ expect(owner.imageStorage('initialLocale').readUnsigned(0)).toBe(2);
+ expect(owner.imageStorage('initialTimeLocale').readUnsigned(0xb4)).toBe(1);
+ const lock=owner.imageStorage('lockTable').pointer<any>(12*8).get();expect(platform.enterPhysicalCriticalSection(lock,owner.identity).known).toBe(true);expect(platform.leavePhysicalCriticalSection(lock,owner.identity).known).toBe(true);
+ const repeated=owner.processAttach();expect(repeated).toEqual(result);expect(owner.imageStorage('initialLocale').readUnsigned(0)).toBe(2);
 });

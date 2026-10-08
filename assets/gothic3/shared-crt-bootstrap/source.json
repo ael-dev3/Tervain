@@ -2,6 +2,50 @@
   "schema": "gothic3-shared-crt-bootstrap-v1",
   "sharedBaseSha256": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214",
   "methods": {
+    "unlock": {
+      "entryVA": "0x100bb7a2",
+      "bodyVA": "0x100bb7a2",
+      "bodyRanges": "100bb7a2-100bb7b6",
+      "instructionCount": 7,
+      "bodyByteCount": 21,
+      "bodyInstructionBytesSha256": "bd77ef3907ee26a8a910d5015f4abc9206e55d072e8d12350b7dd7d59709012f",
+      "entryChain": [],
+      "assemblySha256": "00b06ca181b04cca7517ebd478488ef5ba58228c2eed87d7f2e2d6b9685e0376",
+      "cSha256": "8e5a50c4a752f6b3baea6dbf4575c40bbcf23770ad2d109e2654b31d7a7a2685"
+    },
+    "initializePerThreadData": {
+      "entryVA": "0x100ae40c",
+      "bodyVA": "0x100ae40c",
+      "bodyRanges": "100ae40c-100ae4c1",
+      "instructionCount": 49,
+      "bodyByteCount": 182,
+      "bodyInstructionBytesSha256": "389ca2d7929849255385952d6420f73909f26797c647e920a1abf981ef61e139",
+      "entryChain": [],
+      "assemblySha256": "ed58e40db9c1344c4c3de3d81abc8b1a68d26ad0f2401a7466788c12f0440b55",
+      "cSha256": "f6a04383ee6c1af7e56384559f400387d73bee3f8017af7ec2e40f16173e799a"
+    },
+    "releasePtdLocaleLock": {
+      "entryVA": "0x100ae4c2",
+      "bodyVA": "0x100ae4c2",
+      "bodyRanges": "100ae4c2-100ae4ca",
+      "instructionCount": 4,
+      "bodyByteCount": 9,
+      "bodyInstructionBytesSha256": "a454091440d2c622c8eea05cba80a8e935b8434759bbd5f66a63de33d26884b9",
+      "entryChain": [],
+      "assemblySha256": "931309f07b656f9046255d72b2edb9702ae2be3b3198ef3d38c6bc58aa94d5fc",
+      "cSha256": "40b551229de321838f215d771f5f10b4e43143018e4463705c92685be9c43190"
+    },
+    "lock": {
+      "entryVA": "0x100bb892",
+      "bodyVA": "0x100bb892",
+      "bodyRanges": "100bb892-100bb8c2",
+      "instructionCount": 20,
+      "bodyByteCount": 49,
+      "bodyInstructionBytesSha256": "3d74be3e3b5df76a33034414a8a1a7b8aba7962697d3aa7790c470b0e2fbde78",
+      "entryChain": [],
+      "assemblySha256": "9072dfc5efc1a7e2dc06c8d169bd187cb303705aeae3568e5a62d02758903a0c",
+      "cSha256": "7f75013ab25c2216509b2fc97f0da3cbd53fb17b4836bfd6dc648ceef1eca019"
+    },
     "callocCrt": {
       "entryVA": "0x100aef10",
       "bodyVA": "0x100aef10",
@@ -389,6 +433,86 @@
     }
   },
   "coldGlobals": {
+    "exceptionActionsAnchor": {
+      "address": "10140b50",
+      "bytes": 4,
+      "raw": "050000c0",
+      "knownMask": "ffffffff",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 4,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "multibyteRefcount": {
+      "address": "10140e60",
+      "bytes": 4,
+      "raw": "00000000",
+      "knownMask": "ffffffff",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 4,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "initialTimeLocale": {
+      "address": "10141ae0",
+      "bytes": 184,
+      "raw": "68360f1064360f1060360f105c360f1058360f1054360f1050360f1048360f1040360f1038360f102c360f1020360f1018360f100c360f1008360f1004360f1000360f10fc350f10f8350f10f4350f10f0350f10ec350f10e8350f10e4350f10e0350f10dc350f10d4350f10c8350f10c0350f10b8350f10f8350f10b0350f10a8350f10a0350f1094350f108c350f1080350f1074350f1070350f106c350f1060350f104c350f1040350f10090400000100000000000000",
+      "knownMask": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 184,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "localeCSentinel": {
+      "address": "10141388",
+      "bytes": 4,
+      "raw": "43000000",
+      "knownMask": "ffffffff",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 4,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "initialLocale": {
+      "address": "10141390",
+      "bytes": 216,
+      "raw": "0100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000088131410000000000000000000000000881314100000000000000000000000008813141000000000000000000000000088131410000000000000000000000000881314100000000000000000000000000100000001000000000000000000000000000000a01b14100000000000000000382e0f10c0320f1040340f10e01a1410",
+      "knownMask": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 216,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
     "securityCookie": {
       "address": "10140d6c",
       "bytes": 4,

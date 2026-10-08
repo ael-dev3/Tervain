@@ -1,6 +1,6 @@
 # Original SharedBase CRT startup evidence
 
-This package captures 35 original functions covering CRT attach/startup, security-cookie initialization, heap selection/construction/destruction, thread startup/termination, encoded procedure initialization, locks, thread cleanup and locale reference increments. Every captured instruction is compared with the original SharedBase.dll bytes. It also captures twenty-three cold image ranges with section-backed versus loader-zero-fill evidence.
+This package captures 39 original functions covering CRT attach/startup, security-cookie initialization, heap selection/construction/destruction, thread startup/termination, encoded procedure initialization, locks, thread cleanup and locale reference increments. Every captured instruction is compared with the original SharedBase.dll bytes. It also captures 28 cold image ranges with section-backed versus loader-zero-fill evidence.
 
 SharedBase owns these globals independently of Game and Engine. Its two dynamic thread indices begin at `ffffffff`; the four procedure slots begin as loader-filled zero bytes. The static TLS index from the PE TLS directory is a different field. Loading static TLS does not allocate either dynamic slot, initialize the heap, install FLS/TLS procedures or initialize CRT thread data.
 
@@ -27,3 +27,41 @@ Additional original PE receipts preserve the critical-section SEH filter at `100
 Local lock startup now publishes and initializes all fourteen static sections in source order using actual platform registrations, caches the encoded resolver result and follows the source no-spin fallback. The captured `c0000017` failure branch sets LastError to8, clears only the failed table entry and leaves earlier initialized sections retained before the still-unowned teardown. The successful branch returns1 and stops before FLS/PTD allocation at `100ae805`. Tests enter/leave the actual registered sections; that validates section ownership, not full thread or DLL attach. Original native SEH stack installation/restoration and broader failure teardown remain unfinished.
 
 The original SharedBase calloc wrapper, calloc implementation and new-handler dispatcher are now captured, together with its separate allocation-retry delay and new-mode fields. Both fields begin at zero in the cold image. The selected mode1 path calls HeapAlloc with flag8 on the SharedBase heap; failure handling, multiplication bounds, retry timing and the mode3 small-block branch remain original dependencies rather than generic Game/Engine allocator behavior. Source capture does not allocate PTD storage or claim the FLS slot has been installed.
+
+### Local PTD allocation continuation
+
+The next local branch admits only the canonical SharedBase owner's privately
+minted `100ae55a` FLS destructor and follows the decoded allocator at `100ae816`.
+It stores the actual returned index at `10140b44` before the original
+`__calloc_crt(1, 0x214)` call at `100ae829`. TLS fallback still ignores the FLS
+destructor as the original wrapper does. Non-NULL PTD destruction remains
+unimplemented; an address-only callback cannot establish ownership.
+
+Following allocation, the original path decodes its setter while the cached
+getter returns NULL, installs the same allocated PTD, then initializes exception
+data, pointer procedures, multibyte data and locale references at `100ae40c`.
+Only after that call returns does it store the actual thread ID and `-1` handle.
+Those latter steps must be implemented before claiming `__mtinit` returns 1.
+
+The local continuation now follows the selected modern-heap
+`__calloc_crt(1, 0x214)` path through `HeapAlloc(SharedBaseHeap, 8, 532)`.
+On success it retains all 532 zeroed known bytes and passes that same physical
+PTD to the decoded setter. The source decoder performs its second TLS getter
+lookup and actual PTD-getter call; an absent PTD falls through to the original
+Kernel32 decoder lookup. Successful installation stops before `100ae40c`;
+no thread ID, locale state or successful `__mtinit` return is claimed yet.
+NULL allocation preserves the original cleanup boundary. Nonzero retry/new-mode
+settings remain explicit missing calls rather than fabricated retries.
+
+The subsequent local initializer now applies the source exception-table anchor,
+flags and codec slots to that installed PTD, increments the independent
+multibyte reference, acquires original static lock 12, stores the original
+default locale and increments its root/time references, then releases lock 12.
+The selected cold locale has no dynamic category/reference objects; nonzero
+unsupported targets remain explicit boundaries. With an actual thread-ID
+provider, it stores that ID and the original -1 handle and returns `__mtinit` 1.
+Missing thread-ID service preserves the initialized PTD without replay.
+Native SEH scope-stack installation is still unimplemented. The owning attach
+call next needs original RTC initialization, command-line/environment ownership,
+I/O and arguments, and SharedBase's own `__cinit` traversal. No whole attach,
+live Game initializer integration or campaign completion is established here.
