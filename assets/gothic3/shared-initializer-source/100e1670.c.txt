@@ -1,0 +1,8 @@
+/* ENTRY 100e1670 | FUN_100e1670 | STATUS decompiled | 2 ms */
+
+void FUN_100e1670(void)
+
+{
+  _atexit(FUN_100e3110);
+  return;
+}

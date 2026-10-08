@@ -1,0 +1,11 @@
+100ce045 | 6a0c | PUSH 0xc
+100ce047 | 68c08e0f10 | PUSH 0x100f8ec0
+100ce04c | e8170bfeff | CALL 0x100aeb68
+100ce051 | 8365fc00 | AND dword ptr [EBP + -0x4],0x0
+100ce055 | 660f28c1 | MOVAPD XMM0,XMM1
+100ce059 | c745e401000000 | MOV dword ptr [EBP + -0x1c],0x1
+100ce060 | eb23 | JMP 0x100ce085
+100ce085 | c745fcfeffffff | MOV dword ptr [EBP + -0x4],0xfffffffe
+100ce08c | 8b45e4 | MOV EAX,dword ptr [EBP + -0x1c]
+100ce08f | e8190bfeff | CALL 0x100aebad
+100ce094 | c3 | RET

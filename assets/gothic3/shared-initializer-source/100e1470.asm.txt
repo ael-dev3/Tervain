@@ -1,0 +1,9 @@
+100e1470 | a128bb0e10 | mov eax, dword ptr [0x100ebb28]
+100e1475 | 8b0d2cbb0e10 | mov ecx, dword ptr [0x100ebb2c]
+100e147b | 8b1530bb0e10 | mov edx, dword ptr [0x100ebb30]
+100e1481 | a350b11a10 | mov dword ptr [0x101ab150], eax
+100e1486 | a134bb0e10 | mov eax, dword ptr [0x100ebb34]
+100e148b | 890d54b11a10 | mov dword ptr [0x101ab154], ecx
+100e1491 | 891558b11a10 | mov dword ptr [0x101ab158], edx
+100e1497 | a35cb11a10 | mov dword ptr [0x101ab15c], eax
+100e149c | c3 | ret

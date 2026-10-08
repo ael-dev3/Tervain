@@ -1,0 +1,35 @@
+/* ENTRY 100e1510 | FUN_100e1510 | STATUS decompiled | 12 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void FUN_100e1510(void)
+
+{
+  void *pvVar1;
+  bCMemoryAdmin *this;
+  int local_4;
+  
+  bCString::bCString((bCString *)&local_4,"Root");
+  _ms_pRoot = local_4;
+  if (local_4 != 0) {
+    *(short *)(local_4 + -4) = *(short *)(local_4 + -4) + 1;
+  }
+  DAT_102f4628 = 0;
+  DAT_102f462c = 0;
+  DAT_102f4630 = 0;
+  DAT_102f4634 = 0;
+  DAT_102f4638 = 0;
+  DAT_102f463c = 0;
+  DAT_102f461c = 0;
+  _DAT_102f4620 = 0;
+  if ((&stack0x00000000 != (undefined1 *)0x4) && (local_4 != 0)) {
+    *(short *)(local_4 + -4) = *(short *)(local_4 + -4) + -1;
+    pvVar1 = (void *)(local_4 + -8);
+    if (*(short *)(local_4 + -4) == 0) {
+      this = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(this,pvVar1);
+    }
+  }
+  _atexit(FUN_100e2b40);
+  return;
+}

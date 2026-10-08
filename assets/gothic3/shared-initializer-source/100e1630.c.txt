@@ -1,0 +1,9 @@
+/* ENTRY 100e1630 | FUN_100e1630 | STATUS decompiled | 3 ms */
+
+void FUN_100e1630(void)
+
+{
+  bCString::bCString(&bCAccessorProperty::ms_strEmptyName);
+  _atexit(FUN_100e30b0);
+  return;
+}

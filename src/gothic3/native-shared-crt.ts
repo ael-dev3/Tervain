@@ -2,6 +2,8 @@
  * This owns distinct SharedBase images and selected locks/thread-index setup;
  * PTD allocation, initialization and full attach remain pending. */
 import {NativeX86ThreadStack} from './native-x86-thread-stack';
+import initializerSource from '../../assets/gothic3/shared-initializer-source/source.json';
+import {sharedInitializerHeader} from './native-shared-initializer-instructions';
 import {NativeSharedCrtSecurityCookie} from './native-shared-crt-security-cookie';
 import source from '../../assets/gothic3/shared-crt-bootstrap/source.json';
 import {NativeRuntimePlatform,NativeWin32PlatformException} from './native-runtime-platform';
@@ -152,6 +154,8 @@ export class NativeSharedCrtOwner {
  #environmentAllocation:NativeHeapObjectViews|null=null;
  #environmentReturned=false;
  #environmentVector:NativeHeapObjectViews|null=null;
+ #initializerImages:Readonly<Record<string,NativeHeapObjectViews>>;
+ #initializerActive=false;
  #environmentStrings:NativeHeapObjectViews[]=[];
  #setEnvpReturned:number|null=null;
  #version:NativeHeapObjectViews|null=null;
@@ -177,6 +181,14 @@ export class NativeSharedCrtOwner {
    const receipt=source.methods[label as keyof typeof methods];
    if(receipt.bodyVA!==body||receipt.bodyInstructionBytesSha256!==hash)throw new Error('Original SharedBase CRT source differs: '+label);
   }
+  const initializerPins={cinit:'41b51da16ad44681b0fb71a91e74220b1b07a950bcbd5eb4cb42c3ee734ca9c9',isNonwritableInCurrentImage:'462da4b095774681355bd3587154086dc78eeec9382a0a02431e62ee6d4d94ea',validateImageHeader:'9a53b7881f3d303824b2fcb04c9a07c71b06cbe26fc450a72ae33fdd691fec72',findImageSection:'f175fc56ebd0e0eff6cda2a6bcc51b203877c16815a774a2028210e06d400fcd',floatingPointHook_0:'1848ebfbb128800da687bc581cbdb51239a4aab6adebf1b4c388adfd45b56f83',installFloatConversions:'cc47e8cff37040f521877a82e784eb77338abb386334619659e3833fe2aca964',initializeFloatConversions:'25fa0404b9d6b9701e34ab3110a8260e3ae77229c6e4690ae38a6f4dfb31b6ac'};
+  if(initializerSource.sharedBaseSha256!==source.sharedBaseSha256||initializerSource.imageHeader.raw!==sharedInitializerHeader.raw||initializerSource.imageHeader.sha256!=='c7ce61ba6cf382ccf9417ec15d15b55e36f9766a73cc3a8dda440879f735d6d3')throw new Error('Original SharedBase initializer image header required');
+  for(const [label,hash] of Object.entries(initializerPins))if((initializerSource.methods as Record<string,{bodyInstructionBytesSha256:string}>)[label]?.bodyInstructionBytesSha256!==hash)throw new Error('Original SharedBase initializer source differs: '+label);
+  const initializerImages:Record<string,NativeHeapObjectViews>={};
+  for(const [address,raw] of [['10000000',sharedInitializerHeader.raw],['100ed568','fe780a10'],['10141480','9fdf0c10'.repeat(10)],['102f6424','00000000']]){
+   const fields=this.#retainLocal(raw!.length/2);for(let offset=0;offset<fields.bytes.length;offset++)fields.writeUnsigned(offset,parseInt(raw!.slice(offset*2,offset*2+2),16),1);initializerImages[address!]=fields;
+  }
+  this.#initializerImages=Object.freeze(initializerImages);
   const exception=source.sectionException;
   if(exception.filter.raw!=='8b45ec8b008b008945dc33c93d170000c00f94c18bc1c3'||exception.handler.raw!=='8b65e8817ddc170000c075086a08ff157c972f108365e000'||exception.scopeTable.raw!=='feffffff00000000ccffffff00000000feffffffadbf0b10c4bf0b10')throw new Error('Original section exception source required');
   this.#threadDestructor=Object.freeze({address:'100ae55a' as const,invoke:(value:object|null):NativeValue<void>=>{
@@ -218,12 +230,18 @@ export class NativeSharedCrtOwner {
   const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)return active;const owner=owners.get(platform);if(!owner||!owner.#active||owner.#argvCall!==call)return {known:false,reason:'Actual pending SharedBase setargv required'};
   try{return {known:true,value:{stage:owner.#argvStage,initialized:owner.imageStorage('multibyteInitialized').readUnsigned(0),module:owner.imageStorage('moduleNameBuffer'),input:owner.#argvInput,allocation:owner.#argvAllocation,result:owner.#argvReturned,argc:owner.imageStorage('argumentCount'),argv:owner.imageStorage('argumentVector'),retryDelay:owner.imageStorage('allocationRetryDelay').readUnsigned(0),envPointer:owner.imageStorage('environmentPointer'),envVector:owner.imageStorage('environmentVector'),envInitialized:owner.imageStorage('environmentInitialized'),mbInitialized:owner.imageStorage('multibyteInitialized')}};}catch(error){return {known:false,reason:error instanceof Error?error.message:String(error)};}
  }
+ static initializerStackArgumentsForPlatform(platform:NativeRuntimePlatform,call:object):NativeValue<Readonly<{images:Readonly<Record<string,NativeHeapObjectViews>>;cookie:NativeHeapObjectViews}>>{
+  const proof=NativeSharedCrtOwner.argvStackArgumentsForPlatform(platform,call);if(!proof.known)return proof;const owner=owners.get(platform)!;
+  if(!owner.#initializerActive||proof.value.stage!=='environment')return {known:false,reason:'Actual pending SharedBase initializer required'};
+  try{for(const fields of Object.values(owner.#initializerImages))owner.#requireLocal(fields);const cookie=NativeSharedCrtSecurityCookie.forPlatform(platform);const read=cookie.readCookie();if(!read.known)return read;return {known:true,value:{images:owner.#initializerImages,cookie:cookie.fields}};}catch(error){return {known:false,reason:error instanceof Error?error.message:String(error)};}
+ }
  static argvLocalStorageForPlatform(platform:NativeRuntimePlatform,call:object,fields:NativeHeapObjectViews):NativeValue<void>{
   const proof=NativeSharedCrtOwner.argvStackArgumentsForPlatform(platform,call);if(!proof.known)return proof;const owner=owners.get(platform)!;
   try{
    if(fields===owner.#ptd||fields===owner.#multibyteAllocation||fields===owner.#argvAllocation||fields===owner.#environmentAllocation||fields===owner.#environmentVector||owner.#environmentStrings.includes(fields)){
     const span=NativeRuntimePlatform.canonicalOwnedWin32HeapAllocationSpan(platform,owner.#heap!,owner.identity,{fields,offset:0},fields===owner.#ptd?532:fields===owner.#multibyteAllocation?544:fields.bytes.length);if(!span.known)return span;
-   }else if(![proof.value.module,proof.value.envPointer,proof.value.envVector,proof.value.envInitialized,proof.value.mbInitialized].includes(fields))owner.#requireLocal(fields);
+   }else if(owner.#initializerActive&&fields===NativeSharedCrtSecurityCookie.forPlatform(platform).fields){const cookie=NativeSharedCrtSecurityCookie.forPlatform(platform).readCookie();if(!cookie.known)return cookie;}
+   else if(![proof.value.module,proof.value.envPointer,proof.value.envVector,proof.value.envInitialized,proof.value.mbInitialized].includes(fields))owner.#requireLocal(fields);
    if(fields.backing.freed||fields.bytes.buffer!==fields.backing.bytes.buffer||fields.knownMask.buffer!==fields.backing.knownMask.buffer||fields.view.buffer!==fields.bytes.buffer||fields.view.byteOffset!==fields.bytes.byteOffset||fields.view.byteLength!==fields.bytes.length)throw new Error('Actual SharedBase argv/environment storage required');return {known:true,value:undefined};
   }catch(error){return {known:false,reason:error instanceof Error?error.message:String(error)};}
 
@@ -998,11 +1016,11 @@ export class NativeSharedCrtOwner {
    const environment=this.#readEnvironment(endpoints);
    this.imageStorage('environmentPointer').pointer<NativeBytePointer>(0).set(environment);this.#trace.push('100adb31.storeEnvironment');
    if(this.#initializeIoPrefix()<0)throw new Error('Unowned SharedBase attach cleanup after I/O initialization failure');
-   if(this.#initializeArgumentsPrefix()<0)throw new Error('Unowned SharedBase attach cleanup at 100adb6f');this.#call('100adb4f.setenvpCall',()=>NativeX86ThreadStack.beginSharedArgvEnvironment(this.#argvStack!,this.#argvCall!));if(this.#initializeEnvironmentVector()<0)throw new Error('Unowned SharedBase attach cleanup after setenvp at 100adb6f');this.#call('100adb5a.cinitCall',()=>NativeX86ThreadStack.beginSharedEnvironmentInitializers(this.#argvStack!,this.#argvCall!));throw new Error('Unowned SharedBase cinit at 100adb5a -> 100aa632');
+   if(this.#initializeArgumentsPrefix()<0)throw new Error('Unowned SharedBase attach cleanup at 100adb6f');this.#call('100adb4f.setenvpCall',()=>NativeX86ThreadStack.beginSharedArgvEnvironment(this.#argvStack!,this.#argvCall!));if(this.#initializeEnvironmentVector()<0)throw new Error('Unowned SharedBase attach cleanup after setenvp at 100adb6f');this.#call('100adb5a.cinitCall',()=>NativeX86ThreadStack.beginSharedEnvironmentInitializers(this.#argvStack!,this.#argvCall!));this.#initializerActive=true;this.#call('100aa632.cinitBody',()=>NativeX86ThreadStack.runSharedInitializers(this.#argvStack!,this.#argvCall!));throw new Error('Unowned SharedBase cinit return');
   }catch(error){this.#boundary??=error instanceof Error?error.message:String(error);return {known:false,reason:this.#boundary};}
-  finally{this.#stackCall=null;this.#caseCall=null;this.#configurationCall=null;this.#setMultibyteCall=null;this.#argvCall=null;this.#active=false;}
+  finally{this.#stackCall=null;this.#caseCall=null;this.#configurationCall=null;this.#setMultibyteCall=null;this.#argvCall=null;this.#initializerActive=false;this.#active=false;}
  }
- snapshot(){return Object.freeze({argvInput:this.#argvInput,argvAllocation:this.#argvAllocation,argvReturned:this.#argvReturned,environmentVector:this.#environmentVector,environmentStrings:Object.freeze([...this.#environmentStrings]),setEnvpReturned:this.#setEnvpReturned,mappingState:this.#mappingState?Object.freeze({...this.#mappingState}):null,boundary:this.#boundary,localeUpdate:this.#localeUpdate,multibyteAllocation:this.#multibyteAllocation,cpInfo:this.#cpInfo,caseState:this.#caseState?Object.freeze({...this.#caseState}):null,codePage:this.#codePage,startupInfo:this.#startupInfo,ioBlock:this.#ioBlock,ioReturned:this.#ioReturned,versionAllocation:this.#versionAllocation,
+ snapshot(){return Object.freeze({initializerImages:this.#initializerImages,argvInput:this.#argvInput,argvAllocation:this.#argvAllocation,argvReturned:this.#argvReturned,environmentVector:this.#environmentVector,environmentStrings:Object.freeze([...this.#environmentStrings]),setEnvpReturned:this.#setEnvpReturned,mappingState:this.#mappingState?Object.freeze({...this.#mappingState}):null,boundary:this.#boundary,localeUpdate:this.#localeUpdate,multibyteAllocation:this.#multibyteAllocation,cpInfo:this.#cpInfo,caseState:this.#caseState?Object.freeze({...this.#caseState}):null,codePage:this.#codePage,startupInfo:this.#startupInfo,ioBlock:this.#ioBlock,ioReturned:this.#ioReturned,versionAllocation:this.#versionAllocation,
   ptd:this.#ptd,ptdInstalled:this.#ptdInstalled,ptdInitialized:this.#ptdInitialized,rtcReturned:this.#rtcReturned,environmentInput:this.#environmentInput,environmentAllocation:this.#environmentAllocation,environmentReturned:this.#environmentReturned,heap:this.#heap,heapReturned:this.#heapReturned,attachReturned:this.#attachReturned,mtReturned:this.#mtReturned,locksReturned:this.#locksReturned,sections:Object.freeze([...this.#sections]),pointersReturned:this.#pointersReturned,
   trace:Object.freeze([...this.#trace]),dllEntryExecuted:false,wholeCrtTraversalCompleted:false});}
 }

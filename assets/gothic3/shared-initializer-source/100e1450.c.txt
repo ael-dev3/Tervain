@@ -1,0 +1,9 @@
+/* ENTRY 100e1450 | FUN_100e1450 | STATUS decompiled | 3 ms */
+
+void FUN_100e1450(void)
+
+{
+  InitializeCriticalSection((LPCRITICAL_SECTION)&DAT_10197da0);
+  _atexit(FUN_100e2810);
+  return;
+}

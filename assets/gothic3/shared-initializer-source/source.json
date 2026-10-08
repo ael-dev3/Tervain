@@ -1,0 +1,1676 @@
+{
+  "schema": "gothic3-shared-initializer-source-v1",
+  "sharedBaseSha256": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214",
+  "methods": {
+    "cinit": {
+      "entryVA": "0x100aa632",
+      "bodyVA": "0x100aa632",
+      "bodyRanges": "100aa632-100aa6c3",
+      "instructionCount": 50,
+      "bodyByteCount": 146,
+      "bodyInstructionBytesSha256": "41b51da16ad44681b0fb71a91e74220b1b07a950bcbd5eb4cb42c3ee734ca9c9",
+      "entryChain": [],
+      "assemblySha256": "4092891669518d6a222a45abae6d90d297d46aa2a5268c79e307936e314c5c3f",
+      "cSha256": "829a42e20d5381b3ba8a0402a2974e44aa41517c9bb6f25bbfa6cc91c2bffa80"
+    },
+    "isNonwritableInCurrentImage": {
+      "entryVA": "0x100ae900",
+      "bodyVA": "0x100ae900",
+      "bodyRanges": "100ae900-100ae988;100ae9a0-100ae9ba",
+      "instructionCount": 57,
+      "bodyByteCount": 164,
+      "bodyInstructionBytesSha256": "462da4b095774681355bd3587154086dc78eeec9382a0a02431e62ee6d4d94ea",
+      "entryChain": [],
+      "assemblySha256": "691fdb2fd1285e1934d90e22ce688854402ca2e0bb5d961d73801297cc50d8c3",
+      "cSha256": "0ccf5012543b1060ea88a59eb78f83cc393dd5cc13a7416b0a0b1e737b17114a"
+    },
+    "initializeFloatConversions": {
+      "entryVA": "0x100b4407",
+      "bodyVA": "0x100b4407",
+      "bodyRanges": "100b4407-100b4425",
+      "instructionCount": 14,
+      "bodyByteCount": 31,
+      "bodyInstructionBytesSha256": "25fa0404b9d6b9701e34ab3110a8260e3ae77229c6e4690ae38a6f4dfb31b6ac",
+      "entryChain": [],
+      "assemblySha256": "7c5dd866ce8c3c5d30a92a1c1745d98f22e91d3355b1917515b3e3942d26c9d6",
+      "cSha256": "3c064d933604a37900d4d382437f85c390684ee18039af74f254e7b57849af92"
+    },
+    "inittermError": {
+      "entryVA": "0x100aa47d",
+      "bodyVA": "0x100aa47d",
+      "bodyRanges": "100aa47d-100aa49c",
+      "instructionCount": 15,
+      "bodyByteCount": 32,
+      "bodyInstructionBytesSha256": "8026cc99de5f0f5083710e0c1f52beb27aede69826b267d12e8ccbe42ca3ca60",
+      "entryChain": [],
+      "assemblySha256": "659dc0fd570ee1ee627191c87d6d7f8109955375de4692265df46e369205f080",
+      "cSha256": "c50336b556e94828d297d20f49c28d9a9fe1aae1d805cca474bdb5130f7ca6b7"
+    },
+    "atexit": {
+      "entryVA": "0x100a72d0",
+      "bodyVA": "0x100a72d0",
+      "bodyRanges": "100a72d0-100a72e1",
+      "instructionCount": 8,
+      "bodyByteCount": 18,
+      "bodyInstructionBytesSha256": "09942fe4905f48be972c0e6824f517bcc0cde802100baff5d8a61369ddad30b6",
+      "entryChain": [],
+      "assemblySha256": "0ebd425bbaeeed033021b40f185497566466f1611ee329f05ee03053dfc3ca1b",
+      "cSha256": "999b7f6744c453534fff03e3a0c3f1880729f588f5f6a39a03e1d51e926c3374"
+    },
+    "installFloatConversions": {
+      "entryVA": "0x100a788e",
+      "bodyVA": "0x100a788e",
+      "bodyRanges": "100a788e-100a78ed",
+      "instructionCount": 12,
+      "bodyByteCount": 96,
+      "bodyInstructionBytesSha256": "cc47e8cff37040f521877a82e784eb77338abb386334619659e3833fe2aca964",
+      "entryChain": [],
+      "assemblySha256": "994c0ba2766a1f71a05c7db692e498e985ea565adb8f882d9578f531780b3c31",
+      "cSha256": "407802624b337289665cfdd9cb1df1b73a379a138c7bdfab56a1806e5d6d83e7"
+    },
+    "queryFloatDivisionErratum": {
+      "entryVA": "0x100b448b",
+      "bodyVA": "0x100b448b",
+      "bodyRanges": "100b448b-100b44b3",
+      "instructionCount": 13,
+      "bodyByteCount": 41,
+      "bodyInstructionBytesSha256": "56f7a0aab3783275f87815c6ae4bc7f5b4f251270bc3df4fbbdbc01cedcb1fdf",
+      "entryChain": [],
+      "assemblySha256": "c998a961f3abb89f55ccf69fbb4f4238f7db1d22615f0d091738888086e60785",
+      "cSha256": "cddbb3a62cb7ff45ef124d09e9c9ae59717b3dd683ea65c5d98d21810e038901"
+    },
+    "setDefaultPrecision": {
+      "entryVA": "0x100b4426",
+      "bodyVA": "0x100b4426",
+      "bodyRanges": "100b4426-100b4449;100b444d-100b444e",
+      "instructionCount": 17,
+      "bodyByteCount": 38,
+      "bodyInstructionBytesSha256": "5d43610c417a9207b3ad55c8a322412812606611c74832ce43a75f051d0a6a48",
+      "entryChain": [],
+      "assemblySha256": "d1df9b00de7ed4bdd7a208fc8bc756d6cfd12c5b1f093378a82b2efbbdb9aaf8",
+      "cSha256": "15c691179306fbffcae17dbcbf3561d6533acff31bf2b4144993c896d11f5a61"
+    },
+    "encodePointer": {
+      "entryVA": "0x100ae27b",
+      "bodyVA": "0x100ae27b",
+      "bodyRanges": "100ae27b-100ae2e8",
+      "instructionCount": 36,
+      "bodyByteCount": 110,
+      "bodyInstructionBytesSha256": "b6b1812877e62db1566f0bbb71b1b4abe1ee1147678b550ecf38ea29801175cc",
+      "entryChain": [],
+      "assemblySha256": "bbadc9abf7c45efc92a91ed754aac8d43bc1605182643b557d095b931b45408b",
+      "cSha256": "b498511197772c15ade2a767fdb07a507c6098c4ee962947204563089c96a93a"
+    },
+    "appendExitCallback": {
+      "entryVA": "0x100a71ac",
+      "bodyVA": "0x100a71ac",
+      "bodyRanges": "100a71ac-100a7264",
+      "instructionCount": 75,
+      "bodyByteCount": 185,
+      "bodyInstructionBytesSha256": "000574553c6745e72a5a959e12357deecac178f6cabf3d5d0cb6406ff45dbda9",
+      "entryChain": [],
+      "assemblySha256": "e37be243027f4c40d66a7faa950ef4cf6b9f6c2ec3a9540c9a0c618e52083f10",
+      "cSha256": "28ca2aa8a9c6c3732e43d21cf117d44c422c9943711a82768d696ec5613736bf"
+    },
+    "queryProcessorFeature": {
+      "entryVA": "0x100ce095",
+      "bodyVA": "0x100ce095",
+      "bodyRanges": "100ce095-100ce0f4",
+      "instructionCount": 44,
+      "bodyByteCount": 96,
+      "bodyInstructionBytesSha256": "7c1f30fb684460922c4035c3a9b38257e68f1e1bffabc8ee035bb1230bc4fe0d",
+      "entryChain": [],
+      "assemblySha256": "6d2719c97d7b1aa97b6feb0293a0b6601c971940b785ae033c43b7087942cbcd",
+      "cSha256": "e730819178ae4ad1e0f0cd345ffe63a324a30866992328f0d482c534da6d843a"
+    },
+    "validateImageHeader": {
+      "entryVA": "0x100ae880",
+      "bodyVA": "0x100ae880",
+      "bodyRanges": "100ae880-100ae8a8",
+      "instructionCount": 14,
+      "bodyByteCount": 41,
+      "bodyInstructionBytesSha256": "9a53b7881f3d303824b2fcb04c9a07c71b06cbe26fc450a72ae33fdd691fec72",
+      "entryChain": [],
+      "assemblySha256": "84a5c514155d9c5c55ef3ef5491584e108688790d3ee41a3662f0f902e942f33",
+      "cSha256": "52356548cab5d9b7caaf105bd5ff78da743c5140192082df79fc4f83e8081982"
+    },
+    "findImageSection": {
+      "entryVA": "0x100ae8b0",
+      "bodyVA": "0x100ae8b0",
+      "bodyRanges": "100ae8b0-100ae8f1",
+      "instructionCount": 29,
+      "bodyByteCount": 66,
+      "bodyInstructionBytesSha256": "f175fc56ebd0e0eff6cda2a6bcc51b203877c16815a774a2028210e06d400fcd",
+      "entryChain": [],
+      "assemblySha256": "de45c49a6aef02e8e2fb172789342a2c7d6638fc57b18853819a828fb9bcc5df",
+      "cSha256": "f89f9f877ab8a1d6097eea76bbaddb6dca02aa3397ddb1f7835637ca9c167b7c"
+    },
+    "queryFloatDivisionFallback": {
+      "entryVA": "0x100b444f",
+      "bodyVA": "0x100b444f",
+      "bodyRanges": "100b444f-100b448a",
+      "instructionCount": 24,
+      "bodyByteCount": 60,
+      "bodyInstructionBytesSha256": "55bb8b73819ffceb78e0502d2c0278fc3220e77b3dd09347bbc3b3fa89d345b4",
+      "entryChain": [],
+      "assemblySha256": "00937bbf1821d48d4368fff70da80f0e79dd7c4c891206e84a4cda46a2cc8c4b",
+      "cSha256": "f28b63e62eee218966cabd892e6d731444448e2e9065e5c04390310c8ba5c3c3"
+    },
+    "processorFeatureProbe": {
+      "entryVA": "0x100ce045",
+      "bodyVA": "0x100ce045",
+      "bodyRanges": "100ce045-100ce061;100ce085-100ce094",
+      "instructionCount": 11,
+      "bodyByteCount": 45,
+      "bodyInstructionBytesSha256": "36b1797c63b48cf3f67e2cd754be28debe26814a69902e045ee6feedfed5652c",
+      "entryChain": [],
+      "assemblySha256": "b39628a51135a878ff33f71d2387709bc3a4834453d16b626dd1fa44f877e9c3",
+      "cSha256": "b57d72530c476491b35559349052bc7d9caa88c726d30842ea46d6dd9da14178"
+    },
+    "floatingPointHook_0": {
+      "entryVA": "0x100a78fe",
+      "bodyVA": "0x100a78fe",
+      "bodyRanges": "100a78fe-100a791b",
+      "instructionCount": 8,
+      "bodyByteCount": 30,
+      "bodyInstructionBytesSha256": "1848ebfbb128800da687bc581cbdb51239a4aab6adebf1b4c388adfd45b56f83",
+      "entryChain": [],
+      "assemblySha256": "a6feb63d9f6291ef53d4a708ff09dc1a31489947946b4fb55f18494536c012af",
+      "cSha256": "eaff512ce5b313abec4de1b16e388b72615823e43bd4ce2f823687c290d37845"
+    },
+    "errorInitializers_66": {
+      "entryVA": "0x100b1854",
+      "bodyVA": "0x100b1854",
+      "bodyRanges": "100b1854-100b1871",
+      "instructionCount": 8,
+      "bodyByteCount": 30,
+      "bodyInstructionBytesSha256": "66630cd5e2a2dabb3bb968676d31a841924538d3637d71f3fd2fcfae81b546c6",
+      "entryChain": [],
+      "assemblySha256": "861588d7c7742561c3e56fb6dd0d9bf418fa458beba595ada0abd496ad27ec24",
+      "cSha256": "07a3ed5d40951233f50a1ed60a5ea7a4cdc9c78ac2ceb2600e825080a0be8f4f"
+    },
+    "voidInitializers_130": {
+      "entryVA": "0x100e1440",
+      "bodyVA": "0x100e1440",
+      "bodyRanges": "100e1440-100e144b",
+      "instructionCount": 4,
+      "bodyByteCount": 12,
+      "bodyInstructionBytesSha256": "36f9f9e0d7a2af50f31f2898751447963815f5412d7dda6cb776a3f603534cfd",
+      "entryChain": [],
+      "assemblySha256": "99dc6127668b0203aba52a3485bc2c48457eb891960c87d894a1de5eab485194",
+      "cSha256": "ae0027f35f809131fa2bcfcb400ab747d2e4718d4c5e5bb5ca3911e97e05c4a0"
+    },
+    "voidInitializers_131": {
+      "entryVA": "0x100e1450",
+      "bodyVA": "0x100e1450",
+      "bodyRanges": "100e1450-100e1466",
+      "instructionCount": 6,
+      "bodyByteCount": 23,
+      "bodyInstructionBytesSha256": "ad0c8a7003225c1dd2ee6356553c97c7610e462753932b48778b913c4a10e4a1",
+      "entryChain": [],
+      "assemblySha256": "4f478509bb2270fedbce60f77d4365a26693cf9d59aae6353ba3e1f4d4389bd1",
+      "cSha256": "5df75bb7b090b15133324f022c5e08afd0ed0cf1e6f0692387373392e94ae136"
+    },
+    "voidInitializers_133": {
+      "entryVA": "0x100e14b0",
+      "bodyVA": "0x100e14b0",
+      "bodyRanges": "100e14b0-100e14bb",
+      "instructionCount": 4,
+      "bodyByteCount": 12,
+      "bodyInstructionBytesSha256": "3a8bbbb5e59111b2df50d4fd356f03df4e2866cc9c9e74b6f3334e12f6e10cbc",
+      "entryChain": [],
+      "assemblySha256": "4cc808fd52665f252f36601c3afd83ad29b6526707f1767bdbeacdcf99d31c4d",
+      "cSha256": "997c485e06e6e4e850aab93fc90fe24b523ea280cb34db4016ccc82548125177"
+    },
+    "voidInitializers_134": {
+      "entryVA": "0x100e14c0",
+      "bodyVA": "0x100e14c0",
+      "bodyRanges": "100e14c0-100e14cb",
+      "instructionCount": 4,
+      "bodyByteCount": 12,
+      "bodyInstructionBytesSha256": "fd72a3123e1d6c42f4d79fe06d1841a89544d70f4e3263167797a4746a49946e",
+      "entryChain": [],
+      "assemblySha256": "bbb4e5ce35cfe35b2fd8db657d72ce049d6272aca8547a8550ac4d287bb34c19",
+      "cSha256": "808b850d6f6b6b3f845ea54a173b841acb4f62869211dfc734d7c97e6d070cda"
+    },
+    "voidInitializers_135": {
+      "entryVA": "0x100e14d0",
+      "bodyVA": "0x100e14d0",
+      "bodyRanges": "100e14d0-100e14db",
+      "instructionCount": 4,
+      "bodyByteCount": 12,
+      "bodyInstructionBytesSha256": "d9fd82f3b2b5c122b85e6e93481942cf70b4eee1a67a48352faa18f188612dda",
+      "entryChain": [],
+      "assemblySha256": "d4a28aa9e5eb5ee5ed974bc302b5ee77ff8f0cb9e88104ac4daf90af85599b68",
+      "cSha256": "fdb7a157d864717918f4c2ab4b2e0e11fd588af0592d9979c9404a226302cc44"
+    },
+    "voidInitializers_136": {
+      "entryVA": "0x100e14e0",
+      "bodyVA": "0x100e14e0",
+      "bodyRanges": "100e14e0-100e14eb",
+      "instructionCount": 4,
+      "bodyByteCount": 12,
+      "bodyInstructionBytesSha256": "bb01ec59a78689b28bce086c2ff88c2ba9dd59c600c82be3ffe95421cb1b4873",
+      "entryChain": [],
+      "assemblySha256": "a73bad71c062f1807682e36b7ebf423052cfcb71af04c9709783ea74a71413a0",
+      "cSha256": "535253d7309534a2adf1707d810226df6f64adc095ab4024f29c19405b9bcd9d"
+    },
+    "voidInitializers_138": {
+      "entryVA": "0x100e14f0",
+      "bodyVA": "0x100e14f0",
+      "bodyRanges": "100e14f0-100e14fb",
+      "instructionCount": 4,
+      "bodyByteCount": 12,
+      "bodyInstructionBytesSha256": "f239b3fa9cc4ca5928e95878082d2eac06d6701091e806868b882da8fa17e6d0",
+      "entryChain": [],
+      "assemblySha256": "880310cb2d94edf8134081c9fb0c04849eb714037e789c163ae5d1fdb491d770",
+      "cSha256": "ce94826c9ebd0039284aec8bf42ecb80cf4dfbef175fb67a89e180d4178eca28"
+    },
+    "voidInitializers_139": {
+      "entryVA": "0x100e1500",
+      "bodyVA": "0x100e1500",
+      "bodyRanges": "100e1500-100e150b",
+      "instructionCount": 4,
+      "bodyByteCount": 12,
+      "bodyInstructionBytesSha256": "c16b4a6413c855061bd6b7de7fba045a721d3549bc7a2d287710e1260251d9d8",
+      "entryChain": [],
+      "assemblySha256": "d326359ca61534f2c68a9de9d44f9d8570ddbffc3f529b1973df178d6cc6f9e9",
+      "cSha256": "595907183d66df606767bd0e7208394b76a7c1fada467e9c5230403b6da5f849"
+    },
+    "voidInitializers_140": {
+      "entryVA": "0x100e1510",
+      "bodyVA": "0x100e1510",
+      "bodyRanges": "100e1510-100e15a1",
+      "instructionCount": 38,
+      "bodyByteCount": 146,
+      "bodyInstructionBytesSha256": "837a64198333fc5e77d785301ac1c0f1285ca76822c789ccc9e761b27974c80a",
+      "entryChain": [],
+      "assemblySha256": "7e66d27d8aa867182b7b0245100bbe629c7778f9c87f024e3c55c6104dd6e967",
+      "cSha256": "9eac820dda0be204c5727ffcd3b5f2a0b896f6ef3a587ef89edc780b0896ab92"
+    },
+    "voidInitializers_141": {
+      "entryVA": "0x100e15d0",
+      "bodyVA": "0x100e15d0",
+      "bodyRanges": "100e15d0-100e15ea",
+      "instructionCount": 7,
+      "bodyByteCount": 27,
+      "bodyInstructionBytesSha256": "5843316c0975cedfc7e91dee21b8820287fadf9ac3a6b6ad15940eaff9a268f0",
+      "entryChain": [],
+      "assemblySha256": "37b04d48d55899ede37204f43b6a082b0bdbb12e8709dd4f6747077ea59c5947",
+      "cSha256": "6cab3024fd1494c0e82b10327704adcbead196562c644cf0313aeb7d8c5ea0ef"
+    },
+    "voidInitializers_144": {
+      "entryVA": "0x100e1630",
+      "bodyVA": "0x100e1630",
+      "bodyRanges": "100e1630-100e1645",
+      "instructionCount": 6,
+      "bodyByteCount": 22,
+      "bodyInstructionBytesSha256": "6488b84cdeffebcba3a0309ac8a97fb9ac32506703ea2a2616269621628f560c",
+      "entryChain": [],
+      "assemblySha256": "6229b576f6e158a3066a48826dc9461700870846074b27beece9ba0fac394bf7",
+      "cSha256": "42e0bbafe241816a28e6d3d4eab4efc24116ca9ef092f88ef25e7d8492168a0f"
+    },
+    "voidInitializers_145": {
+      "entryVA": "0x100e1670",
+      "bodyVA": "0x100e1670",
+      "bodyRanges": "100e1670-100e167b",
+      "instructionCount": 4,
+      "bodyByteCount": 12,
+      "bodyInstructionBytesSha256": "4d03f839d0ed42d26e68cc3f00f0d42c8bfe6eeaf7947af95a7052ba98d16f8c",
+      "entryChain": [],
+      "assemblySha256": "1ab16ef79b65ca108ff53cfc112a0e3ed70cd8625f43e532c9cc6eceeca597fc",
+      "cSha256": "4c7d06f52d3c70509c11a2866b69f32ddfbe3742b0ac3c2df4586add95d3a39d"
+    },
+    "voidInitializers_146": {
+      "entryVA": "0x100e1680",
+      "bodyVA": "0x100e1680",
+      "bodyRanges": "100e1680-100e168b",
+      "instructionCount": 4,
+      "bodyByteCount": 12,
+      "bodyInstructionBytesSha256": "14396de5678f7dfb742d7644afab2b84ff7de3146065f4de3fe1c1e0614596c0",
+      "entryChain": [],
+      "assemblySha256": "22c77006be4f82b772a619f2bd71e117dc829ad68a5dfb9f09a425d84fd05798",
+      "cSha256": "adaef324230ffc45ecf8b9547071577f3081260808be348cf34b0cc0844c0a2d"
+    },
+    "errorInitializers_65": {
+      "entryVA": "0x100a7265",
+      "bodyVA": "0x100a7265",
+      "bodyRanges": "100a7265-100a7293",
+      "instructionCount": 20,
+      "bodyByteCount": 47,
+      "bodyInstructionBytesSha256": "c6eb1fd55abd5b344fb7dff57bb56f34681bc1f9f06ca73819ef44c54396d85c",
+      "entryChain": [],
+      "assemblySha256": "4789389b8cff415e52460dc946ff7c38283aea702b35918ad86a1c4251cbfaff",
+      "cSha256": null,
+      "reconstructedCUnavailable": true
+    },
+    "rtcTerminate": {
+      "entryVA": "0x100bb8e7",
+      "bodyVA": "0x100bb8e7",
+      "bodyRanges": "100bb8e7-100bb90a",
+      "instructionCount": 17,
+      "bodyByteCount": 36,
+      "bodyInstructionBytesSha256": "bad0e01db721ec4b24204c35b9488113ff8a9849582733952c6031b2f3ce7315",
+      "entryChain": [],
+      "assemblySha256": "f6813185999b01bd0ef63d7fa67ab98f66ccddfbcbad146cf17eadca6bea56c1",
+      "cSha256": null,
+      "reconstructedCUnavailable": true
+    },
+    "errorInitializers_67": {
+      "entryVA": "0x100b4b6b",
+      "bodyVA": "0x100b4b6b",
+      "bodyRanges": "100b4b6b-100b4b7e",
+      "instructionCount": 5,
+      "bodyByteCount": 20,
+      "bodyInstructionBytesSha256": "34be7ac135e12e6cdb6e84ad62183cc4988c5b678be68e3dd509e953cd6389fc",
+      "entryChain": [],
+      "assemblySha256": "f55a3b0c70c5345d64bda9d12b85c874caae6b6a6a6b93349a5b760af32f445f",
+      "cSha256": null,
+      "reconstructedCUnavailable": true
+    },
+    "errorInitializers_68": {
+      "entryVA": "0x100bef05",
+      "bodyVA": "0x100bef05",
+      "bodyRanges": "100bef05-100befb5",
+      "instructionCount": 69,
+      "bodyByteCount": 177,
+      "bodyInstructionBytesSha256": "3ac4a0ea067a030fc5629a20f0bd02c49cd0f11c3ef7dd4d1b5fe8c6d0b8d81d",
+      "entryChain": [],
+      "assemblySha256": "6b6d55ea34173808f6dfc742f1f19614384021a8711b36c0b23b9bb877a3d971",
+      "cSha256": null,
+      "reconstructedCUnavailable": true
+    },
+    "errorInitializers_69": {
+      "entryVA": "0x100ce0f5",
+      "bodyVA": "0x100ce0f5",
+      "bodyRanges": "100ce0f5-100ce101",
+      "instructionCount": 4,
+      "bodyByteCount": 13,
+      "bodyInstructionBytesSha256": "115a89c537ebd18abb73b44317428e298f4a289e07527a3152bb0423bfb0b944",
+      "entryChain": [],
+      "assemblySha256": "f863c675075c4311e158d49a2e140444850cb3099e79b13b8bb0ca8073c580cd",
+      "cSha256": null,
+      "reconstructedCUnavailable": true
+    },
+    "voidInitializers_65": {
+      "entryVA": "0x100e1660",
+      "bodyVA": "0x100e1660",
+      "instructionCount": 4,
+      "bodyByteCount": 12,
+      "bodyRanges": [
+        {
+          "start": "100e1660",
+          "bytes": 5
+        },
+        {
+          "start": "100e1665",
+          "bytes": 5
+        },
+        {
+          "start": "100e166a",
+          "bytes": 1
+        },
+        {
+          "start": "100e166b",
+          "bytes": 1
+        }
+      ],
+      "bodyInstructionBytesSha256": "6a66a5c4f90d32bb3510a9a7a3312be9cb639e3d4cb8ce8bdccabc01b4015ea6",
+      "entryChain": [],
+      "assemblySha256": "f0aabde4c7e15c86d48ca9a2c4aaaa369cb795e216eb06c0673db5001b3ee321",
+      "cSha256": null,
+      "reconstructedCUnavailable": true,
+      "decoder": "capstone 5.0.7",
+      "allDirectBranchesRecovered": true
+    },
+    "voidInitializers_132": {
+      "entryVA": "0x100e1470",
+      "bodyVA": "0x100e1470",
+      "instructionCount": 9,
+      "bodyByteCount": 45,
+      "bodyRanges": [
+        {
+          "start": "100e1470",
+          "bytes": 5
+        },
+        {
+          "start": "100e1475",
+          "bytes": 6
+        },
+        {
+          "start": "100e147b",
+          "bytes": 6
+        },
+        {
+          "start": "100e1481",
+          "bytes": 5
+        },
+        {
+          "start": "100e1486",
+          "bytes": 5
+        },
+        {
+          "start": "100e148b",
+          "bytes": 6
+        },
+        {
+          "start": "100e1491",
+          "bytes": 6
+        },
+        {
+          "start": "100e1497",
+          "bytes": 5
+        },
+        {
+          "start": "100e149c",
+          "bytes": 1
+        }
+      ],
+      "bodyInstructionBytesSha256": "fe95f9b100333ef62ca804d288a0db74d3c72240b197fa4b92481e1be29d1e03",
+      "entryChain": [],
+      "assemblySha256": "bf9f00c725c97b8822b6e51939fd81ac96a8a6331ef2b3d60f225d12cf22248d",
+      "cSha256": null,
+      "reconstructedCUnavailable": true,
+      "decoder": "capstone 5.0.7",
+      "allDirectBranchesRecovered": true
+    },
+    "voidInitializers_142": {
+      "entryVA": "0x100e1600",
+      "bodyVA": "0x100e1600",
+      "instructionCount": 3,
+      "bodyByteCount": 11,
+      "bodyRanges": [
+        {
+          "start": "100e1600",
+          "bytes": 5
+        },
+        {
+          "start": "100e1605",
+          "bytes": 5
+        },
+        {
+          "start": "100e160a",
+          "bytes": 1
+        }
+      ],
+      "bodyInstructionBytesSha256": "3cc61fab7363b02aca119e66f04c45e2af9066425eb9065f5baba3754524717e",
+      "entryChain": [],
+      "assemblySha256": "4f921e4635372dae5158872c371a53aab356530200f9cb763dece271f5c17a79",
+      "cSha256": null,
+      "reconstructedCUnavailable": true,
+      "decoder": "capstone 5.0.7",
+      "allDirectBranchesRecovered": true
+    },
+    "voidInitializers_143": {
+      "entryVA": "0x100e1610",
+      "bodyVA": "0x100e1610",
+      "instructionCount": 3,
+      "bodyByteCount": 11,
+      "bodyRanges": [
+        {
+          "start": "100e1610",
+          "bytes": 5
+        },
+        {
+          "start": "100e1615",
+          "bytes": 5
+        },
+        {
+          "start": "100e161a",
+          "bytes": 1
+        }
+      ],
+      "bodyInstructionBytesSha256": "c4846c566b52ff086194cc81f0da9d400e154ced94590d79e2eb4558c6e9b32b",
+      "entryChain": [],
+      "assemblySha256": "60992445a994d70a8b61ebad8cc37a00c2bd8dcd8d7cc36191a406a67941f983",
+      "cSha256": null,
+      "reconstructedCUnavailable": true,
+      "decoder": "capstone 5.0.7",
+      "allDirectBranchesRecovered": true
+    }
+  },
+  "tables": {
+    "floatingPointHook": {
+      "address": "100ed568",
+      "endExclusive": "100ed56c",
+      "raw": "fe780a10",
+      "sha256": "578066c9e9bb88987e901dedba5d9b22be488e0e257a091ed2365dd0279d28f1",
+      "entryCount": 1,
+      "callbacks": [
+        {
+          "index": 0,
+          "slotVA": "100ed568",
+          "targetVA": "100a78fe"
+        }
+      ],
+      "section": {
+        "virtualAddress": 937984,
+        "virtualSize": 366840,
+        "rawSize": 368640,
+        "rawOffset": 937984,
+        "fileBackedBytes": 4,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "errorInitializers": {
+      "address": "100e545c",
+      "endExclusive": "100e5678",
+      "raw": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000065720a1054180b106b4b0b1005ef0b10f5e00c100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "sha256": "f215c2271c89b18acd8f55938e07e3b8905b43d4cd683f37545c961d8f87eafc",
+      "entryCount": 135,
+      "callbacks": [
+        {
+          "index": 65,
+          "slotVA": "100e5560",
+          "targetVA": "100a7265"
+        },
+        {
+          "index": 66,
+          "slotVA": "100e5564",
+          "targetVA": "100b1854"
+        },
+        {
+          "index": 67,
+          "slotVA": "100e5568",
+          "targetVA": "100b4b6b"
+        },
+        {
+          "index": 68,
+          "slotVA": "100e556c",
+          "targetVA": "100bef05"
+        },
+        {
+          "index": 69,
+          "slotVA": "100e5570",
+          "targetVA": "100ce0f5"
+        }
+      ],
+      "section": {
+        "virtualAddress": 937984,
+        "virtualSize": 366840,
+        "rawSize": 368640,
+        "rawOffset": 937984,
+        "fileBackedBytes": 540,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "voidInitializers": {
+      "address": "100e5000",
+      "endExclusive": "100e5358",
+      "raw": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000060160e100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000040140e1050140e1070140e10b0140e10c0140e10d0140e10e0140e1000000000f0140e1000150e1010150e10d0150e1000160e1010160e1030160e1070160e1080160e1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "sha256": "fd99f7fcf539bc68eea33517557e25e1478c48baa66261e6658f02fad3552833",
+      "entryCount": 214,
+      "callbacks": [
+        {
+          "index": 65,
+          "slotVA": "100e5104",
+          "targetVA": "100e1660"
+        },
+        {
+          "index": 130,
+          "slotVA": "100e5208",
+          "targetVA": "100e1440"
+        },
+        {
+          "index": 131,
+          "slotVA": "100e520c",
+          "targetVA": "100e1450"
+        },
+        {
+          "index": 132,
+          "slotVA": "100e5210",
+          "targetVA": "100e1470"
+        },
+        {
+          "index": 133,
+          "slotVA": "100e5214",
+          "targetVA": "100e14b0"
+        },
+        {
+          "index": 134,
+          "slotVA": "100e5218",
+          "targetVA": "100e14c0"
+        },
+        {
+          "index": 135,
+          "slotVA": "100e521c",
+          "targetVA": "100e14d0"
+        },
+        {
+          "index": 136,
+          "slotVA": "100e5220",
+          "targetVA": "100e14e0"
+        },
+        {
+          "index": 138,
+          "slotVA": "100e5228",
+          "targetVA": "100e14f0"
+        },
+        {
+          "index": 139,
+          "slotVA": "100e522c",
+          "targetVA": "100e1500"
+        },
+        {
+          "index": 140,
+          "slotVA": "100e5230",
+          "targetVA": "100e1510"
+        },
+        {
+          "index": 141,
+          "slotVA": "100e5234",
+          "targetVA": "100e15d0"
+        },
+        {
+          "index": 142,
+          "slotVA": "100e5238",
+          "targetVA": "100e1600"
+        },
+        {
+          "index": 143,
+          "slotVA": "100e523c",
+          "targetVA": "100e1610"
+        },
+        {
+          "index": 144,
+          "slotVA": "100e5240",
+          "targetVA": "100e1630"
+        },
+        {
+          "index": 145,
+          "slotVA": "100e5244",
+          "targetVA": "100e1670"
+        },
+        {
+          "index": 146,
+          "slotVA": "100e5248",
+          "targetVA": "100e1680"
+        }
+      ],
+      "section": {
+        "virtualAddress": 937984,
+        "virtualSize": 366840,
+        "rawSize": 368640,
+        "rawOffset": 937984,
+        "fileBackedBytes": 856,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "dynamicTlsHook": {
+      "address": "102f858c",
+      "endExclusive": "102f8590",
+      "raw": "00000000",
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+      "entryCount": 1,
+      "callbacks": [],
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 0,
+        "loaderZeroFillBytes": 4
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    }
+  },
+  "entries": {
+    "100aa632": {
+      "containingEntry": "100aa632",
+      "methodLabel": "cinit"
+    },
+    "100ae900": {
+      "containingEntry": "100ae900",
+      "methodLabel": "isNonwritableInCurrentImage"
+    },
+    "100b4407": {
+      "containingEntry": "100b4407",
+      "methodLabel": "initializeFloatConversions"
+    },
+    "100aa47d": {
+      "containingEntry": "100aa47d",
+      "methodLabel": "inittermError"
+    },
+    "100a72d0": {
+      "containingEntry": "100a72d0",
+      "methodLabel": "atexit"
+    },
+    "100a788e": {
+      "containingEntry": "100a788e",
+      "methodLabel": "installFloatConversions"
+    },
+    "100b448b": {
+      "containingEntry": "100b448b",
+      "methodLabel": "queryFloatDivisionErratum"
+    },
+    "100b4426": {
+      "containingEntry": "100b4426",
+      "methodLabel": "setDefaultPrecision"
+    },
+    "100ae27b": {
+      "containingEntry": "100ae27b",
+      "methodLabel": "encodePointer"
+    },
+    "100a71ac": {
+      "containingEntry": "100a71ac",
+      "methodLabel": "appendExitCallback"
+    },
+    "100ce095": {
+      "containingEntry": "100ce095",
+      "methodLabel": "queryProcessorFeature"
+    },
+    "100ae880": {
+      "containingEntry": "100ae880",
+      "methodLabel": "validateImageHeader"
+    },
+    "100ae8b0": {
+      "containingEntry": "100ae8b0",
+      "methodLabel": "findImageSection"
+    },
+    "100b444f": {
+      "containingEntry": "100b444f",
+      "methodLabel": "queryFloatDivisionFallback"
+    },
+    "100ce045": {
+      "containingEntry": "100ce045",
+      "methodLabel": "processorFeatureProbe"
+    },
+    "100a78fe": {
+      "containingEntry": "100a78fe",
+      "methodLabel": "floatingPointHook_0"
+    },
+    "100a7265": {
+      "containingEntry": "100a7265",
+      "methodLabel": "errorInitializers_65"
+    },
+    "100b1854": {
+      "containingEntry": "100b1854",
+      "methodLabel": "errorInitializers_66"
+    },
+    "100b4b6b": {
+      "containingEntry": "100b4b6b",
+      "methodLabel": "errorInitializers_67"
+    },
+    "100bef05": {
+      "containingEntry": "100bef05",
+      "methodLabel": "errorInitializers_68"
+    },
+    "100ce0f5": {
+      "containingEntry": "100ce0f5",
+      "methodLabel": "errorInitializers_69"
+    },
+    "100e1660": {
+      "containingEntry": "100e1660",
+      "methodLabel": "voidInitializers_65"
+    },
+    "100e1440": {
+      "containingEntry": "100e1440",
+      "methodLabel": "voidInitializers_130"
+    },
+    "100e1450": {
+      "containingEntry": "100e1450",
+      "methodLabel": "voidInitializers_131"
+    },
+    "100e1470": {
+      "containingEntry": "100e1470",
+      "methodLabel": "voidInitializers_132"
+    },
+    "100e14b0": {
+      "containingEntry": "100e14b0",
+      "methodLabel": "voidInitializers_133"
+    },
+    "100e14c0": {
+      "containingEntry": "100e14c0",
+      "methodLabel": "voidInitializers_134"
+    },
+    "100e14d0": {
+      "containingEntry": "100e14d0",
+      "methodLabel": "voidInitializers_135"
+    },
+    "100e14e0": {
+      "containingEntry": "100e14e0",
+      "methodLabel": "voidInitializers_136"
+    },
+    "100e14f0": {
+      "containingEntry": "100e14f0",
+      "methodLabel": "voidInitializers_138"
+    },
+    "100e1500": {
+      "containingEntry": "100e1500",
+      "methodLabel": "voidInitializers_139"
+    },
+    "100e1510": {
+      "containingEntry": "100e1510",
+      "methodLabel": "voidInitializers_140"
+    },
+    "100e15d0": {
+      "containingEntry": "100e15d0",
+      "methodLabel": "voidInitializers_141"
+    },
+    "100e1600": {
+      "containingEntry": "100e1600",
+      "methodLabel": "voidInitializers_142"
+    },
+    "100e1610": {
+      "containingEntry": "100e1610",
+      "methodLabel": "voidInitializers_143"
+    },
+    "100e1630": {
+      "containingEntry": "100e1630",
+      "methodLabel": "voidInitializers_144"
+    },
+    "100e1670": {
+      "containingEntry": "100e1670",
+      "methodLabel": "voidInitializers_145"
+    },
+    "100e1680": {
+      "containingEntry": "100e1680",
+      "methodLabel": "voidInitializers_146"
+    },
+    "100bb8e7": {
+      "containingEntry": "100bb8e7",
+      "methodLabel": "rtcTerminate"
+    }
+  },
+  "coldGlobals": {
+    "floatConversionTable": {
+      "address": "10141480",
+      "raw": "9fdf0c109fdf0c109fdf0c109fdf0c109fdf0c109fdf0c109fdf0c109fdf0c109fdf0c109fdf0c10",
+      "bytes": 40,
+      "sha256": "b8a5fb962f2869b4c422ba65e045642b6965d89189dc28111257016c7f61d9ec",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 40,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "floatDivisionErratum": {
+      "address": "102f6424",
+      "raw": "00000000",
+      "bytes": 4,
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 0,
+        "loaderZeroFillBytes": 4
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "exitTableBegin": {
+      "address": "102f8580",
+      "raw": "00000000",
+      "bytes": 4,
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 0,
+        "loaderZeroFillBytes": 4
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "exitTableEnd": {
+      "address": "102f8584",
+      "raw": "00000000",
+      "bytes": 4,
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 0,
+        "loaderZeroFillBytes": 4
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "rtcTerminators": {
+      "address": "100f7ef4",
+      "raw": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "bytes": 256,
+      "sha256": "5341e6b2646979a70e57653007a1f310169421ec9bdd9f1a5648f75ade005af1",
+      "section": {
+        "virtualAddress": 937984,
+        "virtualSize": 366840,
+        "rawSize": 368640,
+        "rawOffset": 937984,
+        "fileBackedBytes": 256,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "processorFeature": {
+      "address": "102f853c",
+      "raw": "00000000",
+      "bytes": 4,
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 0,
+        "loaderZeroFillBytes": 4
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "memcpySseEnabled": {
+      "address": "102f854c",
+      "raw": "00000000",
+      "bytes": 4,
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 0,
+        "loaderZeroFillBytes": 4
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "stdioCount": {
+      "address": "102f8500",
+      "raw": "00000000",
+      "bytes": 4,
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 0,
+        "loaderZeroFillBytes": 4
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "stdioVector": {
+      "address": "102f71c0",
+      "raw": "00000000",
+      "bytes": 4,
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 0,
+        "loaderZeroFillBytes": 4
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    }
+  },
+  "sectionHeaders": [
+    {
+      "name": ".text",
+      "raw": "2e7465787400000027320e000010000000400e000010000000000000000000000000000020000060",
+      "virtualAddress": "10001000",
+      "virtualSize": 930343,
+      "characteristics": "60000020"
+    },
+    {
+      "name": ".rdata",
+      "raw": "2e72646174610000f898050000500e0000a0050000500e0000000000000000000000000040000040",
+      "virtualAddress": "100e5000",
+      "virtualSize": 366840,
+      "characteristics": "40000040"
+    },
+    {
+      "name": ".data",
+      "raw": "2e6461746100000090951b0000f013000040000000f01300000000000000000000000000400000c0",
+      "virtualAddress": "1013f000",
+      "virtualSize": 1807760,
+      "characteristics": "c0000040"
+    },
+    {
+      "name": ".idata",
+      "raw": "2e696461746100006218000000902f000020000000301400000000000000000000000000400000c0",
+      "virtualAddress": "102f9000",
+      "virtualSize": 6242,
+      "characteristics": "c0000040"
+    },
+    {
+      "name": "Shared",
+      "raw": "5368617265640000e850000000b02f000060000000501400000000000000000000000000400000c0",
+      "virtualAddress": "102fb000",
+      "virtualSize": 20712,
+      "characteristics": "c0000040"
+    },
+    {
+      "name": ".tls",
+      "raw": "2e746c7300000000d5070000001030000010000000b01400000000000000000000000000400000c0",
+      "virtualAddress": "10301000",
+      "virtualSize": 2005,
+      "characteristics": "c0000040"
+    },
+    {
+      "name": ".rsrc",
+      "raw": "2e7273726300000086060000002030000010000000c0140000000000000000000000000040000040",
+      "virtualAddress": "10302000",
+      "virtualSize": 1670,
+      "characteristics": "40000040"
+    },
+    {
+      "name": ".reloc",
+      "raw": "2e72656c6f630000eba400000030300000b0000000d0140000000000000000000000000040000042",
+      "virtualAddress": "10303000",
+      "virtualSize": 42219,
+      "characteristics": "42000040"
+    }
+  ],
+  "sourceOnly": true,
+  "imageHeader": {
+    "address": "10000000",
+    "raw": "4d5a90000300000004000000ffff0000b800000000000000400000000000000000000000000000000000000000000000000000000000000000000000f00000000e1fba0e00b409cd21b8014ccd21546869732070726f6772616d2063616e6e6f742062652072756e20696e20444f53206d6f64652e0d0d0a24000000000000005122a96d1543c73e1543c73e1543c73e3285ba3e3b43c73e3285aa3eb143c73e3285bc3e0043c73e1543c63eb043c73e3285a93ebe43c73e3285bd3e1443c73e3285bb3e1443c73e3285bf3e1443c73e526963681543c73e000000000000000000000000000000000000000000000000504500004c01080042ffa0470000000000000000e00022210b01080000400e0000902200000000001bdd0a000010000000500e000000001000100000001000000400000000000000040000000000000000e0300000100000000000000200000000001000001000000000100000100000000000001000000060970f009851040000902f00dc00000000203000860600000000000000000000000000000000000000303000687f0000a05d0e001c00000000000000000000000000000000000000705e0f001800000048400f00400000000000000000000000a0952f00c40400000000000000000000000000000000000000000000000000002e7465787400000027320e000010000000400e0000100000000000000000000000000000200000602e72646174610000f898050000500e0000a0050000500e00000000000000000000000000400000402e6461746100000090951b0000f013000040000000f01300000000000000000000000000400000c02e696461746100006218000000902f000020000000301400000000000000000000000000400000c05368617265640000e850000000b02f000060000000501400000000000000000000000000400000c02e746c7300000000d5070000001030000010000000b01400000000000000000000000000400000c02e7273726300000086060000002030000010000000c01400000000000000000000000000400000402e72656c6f630000eba400000030300000b0000000d0140000000000000000000000000040000042",
+    "bytes": 808,
+    "sha256": "c7ce61ba6cf382ccf9417ec15d15b55e36f9766a73cc3a8dda440879f735d6d3",
+    "scope": "cold-original-image",
+    "liveValueCaptured": false
+  },
+  "calls": [
+    {
+      "method": "cinit",
+      "address": "100aa640",
+      "raw": "e8bb420000",
+      "instruction": "CALL 0x100ae900",
+      "kind": "direct",
+      "targetVA": "100ae900"
+    },
+    {
+      "method": "cinit",
+      "address": "100aa64e",
+      "raw": "ff1568d50e10",
+      "instruction": "CALL dword ptr [0x100ed568]",
+      "kind": "image-indirect",
+      "slotVA": "100ed568",
+      "importEntry": null
+    },
+    {
+      "method": "cinit",
+      "address": "100aa655",
+      "raw": "e8ad9d0000",
+      "instruction": "CALL 0x100b4407",
+      "kind": "direct",
+      "targetVA": "100b4407"
+    },
+    {
+      "method": "cinit",
+      "address": "100aa664",
+      "raw": "e814feffff",
+      "instruction": "CALL 0x100aa47d",
+      "kind": "direct",
+      "targetVA": "100aa47d"
+    },
+    {
+      "method": "cinit",
+      "address": "100aa676",
+      "raw": "e855ccffff",
+      "instruction": "CALL 0x100a72d0",
+      "kind": "direct",
+      "targetVA": "100a72d0"
+    },
+    {
+      "method": "cinit",
+      "address": "100aa692",
+      "raw": "ffd0",
+      "instruction": "CALL EAX",
+      "kind": "register-or-memory-indirect"
+    },
+    {
+      "method": "cinit",
+      "address": "100aa6ab",
+      "raw": "e850420000",
+      "instruction": "CALL 0x100ae900",
+      "kind": "direct",
+      "targetVA": "100ae900"
+    },
+    {
+      "method": "cinit",
+      "address": "100aa6bb",
+      "raw": "ff158c852f10",
+      "instruction": "CALL dword ptr [0x102f858c]",
+      "kind": "image-indirect",
+      "slotVA": "102f858c",
+      "importEntry": null
+    },
+    {
+      "method": "isNonwritableInCurrentImage",
+      "address": "100ae93f",
+      "raw": "e83cffffff",
+      "instruction": "CALL 0x100ae880",
+      "kind": "direct",
+      "targetVA": "100ae880"
+    },
+    {
+      "method": "isNonwritableInCurrentImage",
+      "address": "100ae959",
+      "raw": "e852ffffff",
+      "instruction": "CALL 0x100ae8b0",
+      "kind": "direct",
+      "targetVA": "100ae8b0"
+    },
+    {
+      "method": "initializeFloatConversions",
+      "address": "100b4413",
+      "raw": "e8639effff",
+      "instruction": "CALL 0x100ae27b",
+      "kind": "direct",
+      "targetVA": "100ae27b"
+    },
+    {
+      "method": "inittermError",
+      "address": "100aa490",
+      "raw": "ffd1",
+      "instruction": "CALL ECX",
+      "kind": "register-or-memory-indirect"
+    },
+    {
+      "method": "atexit",
+      "address": "100a72d4",
+      "raw": "e8bbffffff",
+      "instruction": "CALL 0x100a7294",
+      "kind": "direct",
+      "targetVA": "100a7294"
+    },
+    {
+      "method": "queryFloatDivisionErratum",
+      "address": "100b4490",
+      "raw": "ff1568972f10",
+      "instruction": "CALL dword ptr [0x102f9768]",
+      "kind": "image-indirect",
+      "slotVA": "102f9768",
+      "importEntry": {
+        "iatVA": "0x102f9768",
+        "module": "KERNEL32.dll",
+        "name": "GetModuleHandleA",
+        "ordinal": null
+      }
+    },
+    {
+      "method": "queryFloatDivisionErratum",
+      "address": "100b44a0",
+      "raw": "ff1548962f10",
+      "instruction": "CALL dword ptr [0x102f9648]",
+      "kind": "image-indirect",
+      "slotVA": "102f9648",
+      "importEntry": {
+        "iatVA": "0x102f9648",
+        "module": "KERNEL32.dll",
+        "name": "GetProcAddress",
+        "ordinal": null
+      }
+    },
+    {
+      "method": "queryFloatDivisionErratum",
+      "address": "100b44ac",
+      "raw": "ffd0",
+      "instruction": "CALL EAX",
+      "kind": "register-or-memory-indirect"
+    },
+    {
+      "method": "setDefaultPrecision",
+      "address": "100b4434",
+      "raw": "e85caa0000",
+      "instruction": "CALL 0x100bee95",
+      "kind": "direct",
+      "targetVA": "100bee95"
+    },
+    {
+      "method": "setDefaultPrecision",
+      "address": "100b4445",
+      "raw": "e8549cffff",
+      "instruction": "CALL 0x100ae09e",
+      "kind": "direct",
+      "targetVA": "100ae09e"
+    },
+    {
+      "method": "encodePointer",
+      "address": "100ae288",
+      "raw": "ffd6",
+      "instruction": "CALL ESI",
+      "kind": "register-or-memory-indirect"
+    },
+    {
+      "method": "encodePointer",
+      "address": "100ae29f",
+      "raw": "ffd6",
+      "instruction": "CALL ESI",
+      "kind": "register-or-memory-indirect"
+    },
+    {
+      "method": "encodePointer",
+      "address": "100ae2a1",
+      "raw": "ffd0",
+      "instruction": "CALL EAX",
+      "kind": "register-or-memory-indirect"
+    },
+    {
+      "method": "encodePointer",
+      "address": "100ae2b4",
+      "raw": "ff1568972f10",
+      "instruction": "CALL dword ptr [0x102f9768]",
+      "kind": "image-indirect",
+      "slotVA": "102f9768",
+      "importEntry": {
+        "iatVA": "0x102f9768",
+        "module": "KERNEL32.dll",
+        "name": "GetModuleHandleA",
+        "ordinal": null
+      }
+    },
+    {
+      "method": "encodePointer",
+      "address": "100ae2c0",
+      "raw": "e84affffff",
+      "instruction": "CALL 0x100ae20f",
+      "kind": "direct",
+      "targetVA": "100ae20f"
+    },
+    {
+      "method": "encodePointer",
+      "address": "100ae2cf",
+      "raw": "ff1548962f10",
+      "instruction": "CALL dword ptr [0x102f9648]",
+      "kind": "image-indirect",
+      "slotVA": "102f9648",
+      "importEntry": {
+        "iatVA": "0x102f9648",
+        "module": "KERNEL32.dll",
+        "name": "GetProcAddress",
+        "ordinal": null
+      }
+    },
+    {
+      "method": "encodePointer",
+      "address": "100ae2dd",
+      "raw": "ffd0",
+      "instruction": "CALL EAX",
+      "kind": "register-or-memory-indirect"
+    },
+    {
+      "method": "appendExitCallback",
+      "address": "100a71b7",
+      "raw": "e836710000",
+      "instruction": "CALL 0x100ae2f2",
+      "kind": "direct",
+      "targetVA": "100ae2f2"
+    },
+    {
+      "method": "appendExitCallback",
+      "address": "100a71c8",
+      "raw": "e825710000",
+      "instruction": "CALL 0x100ae2f2",
+      "kind": "direct",
+      "targetVA": "100ae2f2"
+    },
+    {
+      "method": "appendExitCallback",
+      "address": "100a71e6",
+      "raw": "e8eb9e0000",
+      "instruction": "CALL 0x100b10d6",
+      "kind": "direct",
+      "targetVA": "100b10d6"
+    },
+    {
+      "method": "appendExitCallback",
+      "address": "100a7208",
+      "raw": "e84b7d0000",
+      "instruction": "CALL 0x100aef58",
+      "kind": "direct",
+      "targetVA": "100aef58"
+    },
+    {
+      "method": "appendExitCallback",
+      "address": "100a721f",
+      "raw": "e8347d0000",
+      "instruction": "CALL 0x100aef58",
+      "kind": "direct",
+      "targetVA": "100aef58"
+    },
+    {
+      "method": "appendExitCallback",
+      "address": "100a7231",
+      "raw": "e845700000",
+      "instruction": "CALL 0x100ae27b",
+      "kind": "direct",
+      "targetVA": "100ae27b"
+    },
+    {
+      "method": "appendExitCallback",
+      "address": "100a7240",
+      "raw": "e836700000",
+      "instruction": "CALL 0x100ae27b",
+      "kind": "direct",
+      "targetVA": "100ae27b"
+    },
+    {
+      "method": "appendExitCallback",
+      "address": "100a724b",
+      "raw": "e82b700000",
+      "instruction": "CALL 0x100ae27b",
+      "kind": "direct",
+      "targetVA": "100ae27b"
+    },
+    {
+      "method": "queryProcessorFeature",
+      "address": "100ce0e2",
+      "raw": "e85effffff",
+      "instruction": "CALL 0x100ce045",
+      "kind": "direct",
+      "targetVA": "100ce045"
+    },
+    {
+      "method": "processorFeatureProbe",
+      "address": "100ce04c",
+      "raw": "e8170bfeff",
+      "instruction": "CALL 0x100aeb68",
+      "kind": "direct",
+      "targetVA": "100aeb68"
+    },
+    {
+      "method": "processorFeatureProbe",
+      "address": "100ce08f",
+      "raw": "e8190bfeff",
+      "instruction": "CALL 0x100aebad",
+      "kind": "direct",
+      "targetVA": "100aebad"
+    },
+    {
+      "method": "floatingPointHook_0",
+      "address": "100a78fe",
+      "raw": "e88bffffff",
+      "instruction": "CALL 0x100a788e",
+      "kind": "direct",
+      "targetVA": "100a788e"
+    },
+    {
+      "method": "floatingPointHook_0",
+      "address": "100a7903",
+      "raw": "e883cb0000",
+      "instruction": "CALL 0x100b448b",
+      "kind": "direct",
+      "targetVA": "100b448b"
+    },
+    {
+      "method": "floatingPointHook_0",
+      "address": "100a7914",
+      "raw": "e80dcb0000",
+      "instruction": "CALL 0x100b4426",
+      "kind": "direct",
+      "targetVA": "100b4426"
+    },
+    {
+      "method": "errorInitializers_66",
+      "address": "100b185f",
+      "raw": "e856feffff",
+      "instruction": "CALL 0x100b16ba",
+      "kind": "direct",
+      "targetVA": "100b16ba"
+    },
+    {
+      "method": "voidInitializers_130",
+      "address": "100e1445",
+      "raw": "e8865efcff",
+      "instruction": "CALL 0x100a72d0",
+      "kind": "direct",
+      "targetVA": "100a72d0"
+    },
+    {
+      "method": "voidInitializers_131",
+      "address": "100e1455",
+      "raw": "ff15f4952f10",
+      "instruction": "CALL dword ptr [0x102f95f4]",
+      "kind": "image-indirect",
+      "slotVA": "102f95f4",
+      "importEntry": {
+        "iatVA": "0x102f95f4",
+        "module": "KERNEL32.dll",
+        "name": "InitializeCriticalSection",
+        "ordinal": null
+      }
+    },
+    {
+      "method": "voidInitializers_131",
+      "address": "100e1460",
+      "raw": "e86b5efcff",
+      "instruction": "CALL 0x100a72d0",
+      "kind": "direct",
+      "targetVA": "100a72d0"
+    },
+    {
+      "method": "voidInitializers_133",
+      "address": "100e14b5",
+      "raw": "e8165efcff",
+      "instruction": "CALL 0x100a72d0",
+      "kind": "direct",
+      "targetVA": "100a72d0"
+    },
+    {
+      "method": "voidInitializers_134",
+      "address": "100e14c5",
+      "raw": "e8065efcff",
+      "instruction": "CALL 0x100a72d0",
+      "kind": "direct",
+      "targetVA": "100a72d0"
+    },
+    {
+      "method": "voidInitializers_135",
+      "address": "100e14d5",
+      "raw": "e8f65dfcff",
+      "instruction": "CALL 0x100a72d0",
+      "kind": "direct",
+      "targetVA": "100a72d0"
+    },
+    {
+      "method": "voidInitializers_136",
+      "address": "100e14e5",
+      "raw": "e8e65dfcff",
+      "instruction": "CALL 0x100a72d0",
+      "kind": "direct",
+      "targetVA": "100a72d0"
+    },
+    {
+      "method": "voidInitializers_138",
+      "address": "100e14f5",
+      "raw": "e8d65dfcff",
+      "instruction": "CALL 0x100a72d0",
+      "kind": "direct",
+      "targetVA": "100a72d0"
+    },
+    {
+      "method": "voidInitializers_139",
+      "address": "100e1505",
+      "raw": "e8c65dfcff",
+      "instruction": "CALL 0x100a72d0",
+      "kind": "direct",
+      "targetVA": "100a72d0"
+    },
+    {
+      "method": "voidInitializers_140",
+      "address": "100e151a",
+      "raw": "e88826f2ff",
+      "instruction": "CALL 0x10003ba7",
+      "kind": "direct",
+      "targetVA": "10003ba7"
+    },
+    {
+      "method": "voidInitializers_140",
+      "address": "100e1588",
+      "raw": "e82115f2ff",
+      "instruction": "CALL 0x10002aae",
+      "kind": "direct",
+      "targetVA": "10002aae"
+    },
+    {
+      "method": "voidInitializers_140",
+      "address": "100e158f",
+      "raw": "e87e0bf2ff",
+      "instruction": "CALL 0x10002112",
+      "kind": "direct",
+      "targetVA": "10002112"
+    },
+    {
+      "method": "voidInitializers_140",
+      "address": "100e1599",
+      "raw": "e8325dfcff",
+      "instruction": "CALL 0x100a72d0",
+      "kind": "direct",
+      "targetVA": "100a72d0"
+    },
+    {
+      "method": "voidInitializers_141",
+      "address": "100e15da",
+      "raw": "e8c825f2ff",
+      "instruction": "CALL 0x10003ba7",
+      "kind": "direct",
+      "targetVA": "10003ba7"
+    },
+    {
+      "method": "voidInitializers_141",
+      "address": "100e15e4",
+      "raw": "e8e75cfcff",
+      "instruction": "CALL 0x100a72d0",
+      "kind": "direct",
+      "targetVA": "100a72d0"
+    },
+    {
+      "method": "voidInitializers_144",
+      "address": "100e1635",
+      "raw": "e86361f2ff",
+      "instruction": "CALL 0x1000779d",
+      "kind": "direct",
+      "targetVA": "1000779d"
+    },
+    {
+      "method": "voidInitializers_144",
+      "address": "100e163f",
+      "raw": "e88c5cfcff",
+      "instruction": "CALL 0x100a72d0",
+      "kind": "direct",
+      "targetVA": "100a72d0"
+    },
+    {
+      "method": "voidInitializers_145",
+      "address": "100e1675",
+      "raw": "e8565cfcff",
+      "instruction": "CALL 0x100a72d0",
+      "kind": "direct",
+      "targetVA": "100a72d0"
+    },
+    {
+      "method": "voidInitializers_146",
+      "address": "100e1685",
+      "raw": "e8465cfcff",
+      "instruction": "CALL 0x100a72d0",
+      "kind": "direct",
+      "targetVA": "100a72d0"
+    },
+    {
+      "method": "errorInitializers_65",
+      "address": "100a726a",
+      "raw": "e8a17c0000",
+      "instruction": "CALL 0x100aef10",
+      "kind": "direct",
+      "targetVA": "100aef10"
+    },
+    {
+      "method": "errorInitializers_65",
+      "address": "100a7272",
+      "raw": "e804700000",
+      "instruction": "CALL 0x100ae27b",
+      "kind": "direct",
+      "targetVA": "100ae27b"
+    },
+    {
+      "method": "rtcTerminate",
+      "address": "100bb8ff",
+      "raw": "ffd0",
+      "instruction": "CALL EAX",
+      "kind": "register-or-memory-indirect"
+    },
+    {
+      "method": "errorInitializers_67",
+      "address": "100b4b72",
+      "raw": "e81e950100",
+      "instruction": "CALL 0x100ce095",
+      "kind": "direct",
+      "targetVA": "100ce095"
+    },
+    {
+      "method": "errorInitializers_68",
+      "address": "100bef27",
+      "raw": "e8e4fffeff",
+      "instruction": "CALL 0x100aef10",
+      "kind": "direct",
+      "targetVA": "100aef10"
+    },
+    {
+      "method": "errorInitializers_68",
+      "address": "100bef40",
+      "raw": "e8cbfffeff",
+      "instruction": "CALL 0x100aef10",
+      "kind": "direct",
+      "targetVA": "100aef10"
+    },
+    {
+      "method": "errorInitializers_69",
+      "address": "100ce0f5",
+      "raw": "e89bffffff",
+      "instruction": "CALL 0x100ce095",
+      "kind": "direct",
+      "targetVA": "100ce095"
+    },
+    {
+      "method": "voidInitializers_65",
+      "address": "100e1665",
+      "raw": "e8665cfcff",
+      "instruction": "call 0x100a72d0",
+      "kind": "direct",
+      "targetVA": "100a72d0"
+    },
+    {
+      "method": "voidInitializers_142",
+      "address": "100e1600",
+      "raw": "e89a4bf2ff",
+      "instruction": "call 0x1000619f",
+      "kind": "direct",
+      "targetVA": "1000619f"
+    },
+    {
+      "method": "voidInitializers_143",
+      "address": "100e1610",
+      "raw": "e84748f2ff",
+      "instruction": "call 0x10005e5c",
+      "kind": "direct",
+      "targetVA": "10005e5c"
+    }
+  ],
+  "initializerExecutionCompleted": false,
+  "rtcTerminationEntry": "100bb8e7",
+  "verifiedAgainstOriginalPE": true
+}

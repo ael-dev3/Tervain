@@ -33,7 +33,7 @@ runtime and record exactly where execution still stops.
 
 ### Immediate remaining work
 
-- Complete SharedBase initializer startup at 100aa632, including its actual
+- Complete SharedBase initializer startup after `100a7903 -> 100b448b`, including its actual
   initializer tables and callback dependencies, then the enclosing CRT attach.
 - Connect the supported shared runtime to live Game startup at 204678f2 and
   execute the required initializer callbacks in their original order.
@@ -46,6 +46,65 @@ checks establish the published checkpoint's supported scope; campaign completion
 requires an integrated gameplay result.
 
 ## Latest process summary — 8 October 2026
+
+### SharedBase initializer image check and floating-point installation
+
+The retained graph now enters original cinit `100aa632`. It reads the actual
+hook slot, enters `100ae900`, and traverses original DOS/NT/PE32 validation
+and section lookup at `100ae880`/`100ae8b0` over the admitted 808-byte PE header.
+The check uses current section range/write flags. Its original SEH frame,
+saved registers/EBP, cookie expressions and FS links share the existing stack;
+normal return restores the incoming FS relationship and reports ownership 1.
+
+The original indirect call enters the admitted floating-point hook `100a78fe`.
+Its conversion installer `100a788e` writes the ten actual original code-address
+DWORDs into SharedBase's conversion storage and returns. Code-address metadata
+grants no browser callback authority. The next CALL remains pending at
+`100a7903 -> 100b448b`, before the Pentium division-erratum query. That helper
+uses `IsProcessorFeaturePresent(0)` or an x87 fallback; it is distinct from the
+separate SSE processor-feature helpers. Earlier evidence labels are corrected.
+The later FNCLEX, conversion pointer encoding, initializer tables and enclosing
+CRT attachment have not completed. Live Game startup remains before `204678f2`.
+
+Invalid DOS/NT/optional headers, zero sections or a writable hook section return
+ownership 0 and follow the original skip branch. A live NULL hook skips the
+check. Both paths retain the conversion encoding CALL `100b4413 -> 100ae27b`.
+Unknown hook targets and out-of-bounds header relations preserve their pending
+frames and prior effects without replay. Private owner grants reject forged calls.
+
+Local validation passes 108 focused checks, typechecking and the production build.
+The full suite passes 2,646 tests across 259 files. Repeated preparation
+reproduces all 70 source files and the generated instruction syntax exactly.
+PR 109's Pages run 37746463396 completed successfully; the new initializer
+continuation still needs its own reviewed publication.
+
+### SharedBase initializer tables and recovered callback evidence
+
+The [initializer source package](../../assets/gothic3/shared-initializer-source/README.md)
+captures the next boundary `100adb5a -> 100aa632`: 39 function bodies,
+662 instructions and 1,927 instruction bytes, verified against the original
+SharedBase DLL. Its 135-slot error table contains five callbacks; the 214-slot
+void table contains seventeen. Their slot indices, NULL gaps and order are
+retained. The floating-point hook is non-NULL and lies in nonwritable `.rdata`;
+the dynamic TLS hook is zero in the cold loader-filled image.
+
+The package includes floating-point conversion installation/encoding, processor
+feature queries, image ownership checks, exit registration and RTC termination
+evidence, with relevant cold globals and 69 CALL sites. Four void callbacks
+missing from the original study were recovered directly from original PE bytes
+using Capstone 5.0.7. Their reachable direct branches are complete; no inferred
+C prototype or successful runtime execution is claimed. Five additional bodies
+have original ASM but no standalone reconstructed C export.
+
+Repeated preparation reproduces all 70 generated files exactly. Five focused
+source checks, typechecking and the production build pass. The full local suite
+passes 2,636 tests across 259 files. Runtime execution still stops before
+`100aa632`; callback capture does not advance live Game startup at `204678f2`,
+activate NPCs or establish a finishable campaign.
+
+PR 109 passed CI run 37745615022 and merged at
+`4aa6de44dcdcc0e993e58f2c20ea27f10bbe104e`. Its Pages run 37746463396 is
+running; the previous PR 108 deployment completed successfully.
 
 ### SharedBase environment vector and initializer boundary
 

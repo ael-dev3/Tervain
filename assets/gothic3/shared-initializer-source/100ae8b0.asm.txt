@@ -1,0 +1,29 @@
+100ae8b0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+100ae8b4 | 8b483c | MOV ECX,dword ptr [EAX + 0x3c]
+100ae8b7 | 03c8 | ADD ECX,EAX
+100ae8b9 | 0fb74114 | MOVZX EAX,word ptr [ECX + 0x14]
+100ae8bd | 53 | PUSH EBX
+100ae8be | 56 | PUSH ESI
+100ae8bf | 0fb77106 | MOVZX ESI,word ptr [ECX + 0x6]
+100ae8c3 | 33d2 | XOR EDX,EDX
+100ae8c5 | 85f6 | TEST ESI,ESI
+100ae8c7 | 57 | PUSH EDI
+100ae8c8 | 8d440818 | LEA EAX,[EAX + ECX*0x1 + 0x18]
+100ae8cc | 761e | JBE 0x100ae8ec
+100ae8ce | 8b7c2414 | MOV EDI,dword ptr [ESP + 0x14]
+100ae8d2 | 8b480c | MOV ECX,dword ptr [EAX + 0xc]
+100ae8d5 | 3bf9 | CMP EDI,ECX
+100ae8d7 | 7209 | JC 0x100ae8e2
+100ae8d9 | 8b5808 | MOV EBX,dword ptr [EAX + 0x8]
+100ae8dc | 03d9 | ADD EBX,ECX
+100ae8de | 3bfb | CMP EDI,EBX
+100ae8e0 | 720c | JC 0x100ae8ee
+100ae8e2 | 83c201 | ADD EDX,0x1
+100ae8e5 | 83c028 | ADD EAX,0x28
+100ae8e8 | 3bd6 | CMP EDX,ESI
+100ae8ea | 72e6 | JC 0x100ae8d2
+100ae8ec | 33c0 | XOR EAX,EAX
+100ae8ee | 5f | POP EDI
+100ae8ef | 5e | POP ESI
+100ae8f0 | 5b | POP EBX
+100ae8f1 | c3 | RET

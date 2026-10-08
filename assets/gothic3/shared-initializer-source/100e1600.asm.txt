@@ -1,0 +1,3 @@
+100e1600 | e89a4bf2ff | call 0x1000619f
+100e1605 | a3bc482f10 | mov dword ptr [0x102f48bc], eax
+100e160a | c3 | ret

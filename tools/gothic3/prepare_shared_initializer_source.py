@@ -1,0 +1,235 @@
+"""Capture SharedBase initializer tables and their original callback bodies.
+
+Read-only PE/disassembly audit. Capturing a callback does not execute it.
+"""
+import argparse
+import csv
+import hashlib
+import json
+import re
+import struct
+import sys
+from pathlib import Path
+
+import read_dialogue_native_evidence as native
+from prepare_runtime_admin_source import INPUT_SHA, image_bytes, source_excerpt
+
+
+def capture(study, output):
+    native.EXPECTED_INPUTS['SharedBase.dll'] = INPUT_SHA
+    binary = (study / '00_Original_Runtime/SharedBase.dll').read_bytes()
+    if hashlib.sha256(binary).hexdigest() != INPUT_SHA:
+        raise ValueError('Unsupported SharedBase module')
+    pe = native.PE(binary)
+    tables = {}
+    targets = {
+        0x100aa632: 'cinit', 0x100ae900: 'isNonwritableInCurrentImage',
+        0x100b4407: 'initializeFloatConversions', 0x100aa47d: 'inittermError',
+        0x100a72d0: 'atexit',
+        0x100a788e: 'installFloatConversions', 0x100b448b: 'queryFloatDivisionErratum',
+        0x100b4426: 'setDefaultPrecision', 0x100ae27b: 'encodePointer',
+        0x100a71ac: 'appendExitCallback', 0x100ce095: 'queryProcessorFeature',
+        0x100ae880: 'validateImageHeader', 0x100ae8b0: 'findImageSection',
+        0x100b444f: 'queryFloatDivisionFallback', 0x100ce045: 'processorFeatureProbe',
+    }
+    for label, address, size in [
+        ('floatingPointHook', 0x100ed568, 4),
+        ('errorInitializers', 0x100e545c, 0x21c),
+        ('voidInitializers', 0x100e5000, 0x358),
+        ('dynamicTlsHook', 0x102f858c, 4),
+    ]:
+        raw, section = image_bytes(pe, address, size)
+        entries = struct.unpack('<' + 'I' * (size // 4), raw)
+        callbacks = [dict(index=index, slotVA=f'{address + index * 4:08x}',
+                          targetVA=f'{target:08x}')
+                     for index, target in enumerate(entries) if target]
+        tables[label] = dict(address=f'{address:08x}', endExclusive=f'{address+size:08x}',
+                             raw=raw.hex(), sha256=hashlib.sha256(raw).hexdigest(),
+                             entryCount=len(entries), callbacks=callbacks, section=section,
+                             scope='cold-original-image', liveValueCaptured=False)
+        for callback in callbacks:
+            target = int(callback['targetVA'], 16)
+            targets.setdefault(target, label + '_' + str(callback['index']))
+    cold = {}
+    for label, address, size in [('floatConversionTable',0x10141480,40),
+        ('floatDivisionErratum',0x102f6424,4), ('exitTableBegin',0x102f8580,4),
+        ('exitTableEnd',0x102f8584,4), ('rtcTerminators',0x100f7ef4,256),
+        ('processorFeature',0x102f853c,4), ('memcpySseEnabled',0x102f854c,4),
+        ('stdioCount',0x102f8500,4), ('stdioVector',0x102f71c0,4)]:
+        raw, section = image_bytes(pe,address,size)
+        cold[label] = dict(address=f'{address:08x}',raw=raw.hex(),bytes=size,
+            sha256=hashlib.sha256(raw).hexdigest(),section=section,
+            scope='cold-original-image',liveValueCaptured=False)
+    section_start = pe.optional + struct.unpack_from('<H', binary, pe.optional - 4)[0]
+    section_headers = []
+    for index in range(len(pe.sections)):
+        raw = binary[section_start + index * 40:section_start + (index + 1) * 40]
+        section_headers.append(dict(name=raw[:8].rstrip(b'\0').decode('ascii'), raw=raw.hex(),
+            virtualAddress=f'{pe.base + struct.unpack_from("<I",raw,12)[0]:08x}',
+            virtualSize=struct.unpack_from('<I',raw,8)[0],
+            characteristics=f'{struct.unpack_from("<I",raw,36)[0]:08x}'))
+    header = binary[:section_start + len(pe.sections)*40]
+    records = list(csv.DictReader((study / '01_Decompiled_Code/SharedBase_dll/functions.csv')
+                                  .read_text(encoding='utf-8').splitlines()))
+    admitted_targets = {}
+    entries = {}
+    offline = {}
+    assembly_only = {0x100a7265: 0x100a7293, 0x100bb8e7: 0x100bb90a,
+                     0x100b4b6b: 0x100b4b7e, 0x100bef05: 0x100befb5,
+                     0x100ce0f5: 0x100ce101}
+    targets[0x100bb8e7] = 'rtcTerminate'
+    for address, label in targets.items():
+        if address in assembly_only:
+            entries[f'{address:08x}'] = dict(containingEntry=f'{address:08x}', methodLabel=label)
+            continue
+        containing = next((record for record in records if record['address'] == f'{address:08x}'), None)
+        containing = containing or next((record for record in records if any(
+            int(start, 16) <= address <= int(end, 16) for start, end in
+            re.findall(r'([0-9a-f]{8})-([0-9a-f]{8})', record['body_ranges']))), None)
+        if containing is None:
+            offline[address] = label
+            entries[f'{address:08x}'] = dict(containingEntry=f'{address:08x}', methodLabel=label)
+            continue
+        owner = int(containing['address'], 16)
+        admitted_targets.setdefault(owner, label)
+        entries[f'{address:08x}'] = dict(containingEntry=f'{owner:08x}',
+                                        methodLabel=admitted_targets[owner])
+    audit = native.audit_module(study, 'SharedBase_dll', 'SharedBase.dll', admitted_targets)
+    output.mkdir(parents=True, exist_ok=True)
+    methods = {}
+    for method in audit['methods']:
+        address = method['bodyVA'][2:]
+        asm = ('\n'.join(row['va'] + ' | ' + row['bytes'] + ' | ' + row['instruction']
+                         for row in method['instructions']) + '\n').encode()
+        c = source_excerpt(study, method).encode()
+        (output / (address + '.asm.txt')).write_bytes(asm)
+        (output / (address + '.c.txt')).write_bytes(c)
+        methods[method['label']] = {key: method[key] for key in
+            ['entryVA', 'bodyVA', 'bodyRanges', 'instructionCount', 'bodyByteCount',
+             'bodyInstructionBytesSha256', 'entryChain']}
+        methods[method['label']].update(assemblySha256=hashlib.sha256(asm).hexdigest(),
+                                       cSha256=hashlib.sha256(c).hexdigest())
+    assembly_lines = (study / '01_Decompiled_Code/SharedBase_dll/full_disassembly.asm').read_text(encoding='utf-8').splitlines()
+    for start, end in assembly_only.items():
+        rows = []
+        for line in assembly_lines:
+            match = re.fullmatch(r'([0-9a-f]{8}) \| ([0-9a-f]+) \| (.+)', line)
+            if match and start <= int(match[1],16) <= end:
+                raw = bytes.fromhex(match[2])
+                if pe.bytes(int(match[1],16),len(raw)) != raw:
+                    raise ValueError('Assembly/PE disagreement: ' + match[1])
+                rows.append(line)
+        if not rows or int(rows[-1].split(' | ')[0],16) != end:
+            raise ValueError('Incomplete assembly-only callback')
+        asm = ('\n'.join(rows) + '\n').encode()
+        raw = b''.join(bytes.fromhex(row.split(' | ')[1]) for row in rows)
+        (output / f'{start:08x}.asm.txt').write_bytes(asm)
+        methods[targets[start]] = dict(entryVA=f'0x{start:08x}', bodyVA=f'0x{start:08x}',
+            bodyRanges=f'{start:08x}-{end:08x}', instructionCount=len(rows), bodyByteCount=len(raw),
+            bodyInstructionBytesSha256=hashlib.sha256(raw).hexdigest(), entryChain=[],
+            assemblySha256=hashlib.sha256(asm).hexdigest(), cSha256=None,
+            reconstructedCUnavailable=True)
+    if offline:
+        import capstone
+        decoder = capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_32)
+        decoder.detail = True
+        for start, label in offline.items():
+            pending, decoded = [start], {}
+            while pending:
+                address = pending.pop()
+                if address in decoded:
+                    continue
+                if not start <= address < start + 4096:
+                    raise ValueError('Callback branch leaves bounded recovery window')
+                instruction = next(decoder.disasm(pe.bytes(address, 15), address, count=1), None)
+                if instruction is None:
+                    raise ValueError('Undecodable callback instruction')
+                decoded[address] = instruction
+                if instruction.group(capstone.CS_GRP_RET):
+                    continue
+                if instruction.group(capstone.CS_GRP_JUMP):
+                    if instruction.operands[0].type != capstone.x86.X86_OP_IMM:
+                        raise ValueError('Unresolved indirect callback branch')
+                    pending.append(instruction.operands[0].imm)
+                    if instruction.mnemonic == 'jmp':
+                        continue
+                pending.append(address + instruction.size)
+            rows = [f'{address:08x} | {instruction.bytes.hex()} | {instruction.mnemonic} {instruction.op_str}'.rstrip()
+                    for address, instruction in sorted(decoded.items())]
+            asm = ('\n'.join(rows) + '\n').encode()
+            raw = b''.join(bytes(instruction.bytes) for _, instruction in sorted(decoded.items()))
+            # A branch into an instruction interior must never grant a second decoding.
+            occupied = set()
+            for address, instruction in sorted(decoded.items()):
+                span = set(range(address, address + instruction.size))
+                if occupied & span:
+                    raise ValueError('Overlapping callback instructions')
+                occupied |= span
+            (output / f'{start:08x}.asm.txt').write_bytes(asm)
+            methods[label] = dict(entryVA=f'0x{start:08x}', bodyVA=f'0x{start:08x}',
+                instructionCount=len(rows), bodyByteCount=len(raw),
+                bodyRanges=[dict(start=f'{address:08x}', bytes=instruction.size)
+                            for address, instruction in sorted(decoded.items())],
+                bodyInstructionBytesSha256=hashlib.sha256(raw).hexdigest(), entryChain=[],
+                assemblySha256=hashlib.sha256(asm).hexdigest(), cSha256=None,
+                reconstructedCUnavailable=True, decoder=f'capstone {capstone.__version__}',
+                allDirectBranchesRecovered=True)
+    imports = {entry['iatVA'][2:]:entry for entry in pe.imports()}
+    calls = []
+    for label, method in methods.items():
+        for row in (output / (method['bodyVA'][2:] + '.asm.txt')).read_text(encoding='utf-8').splitlines():
+            address, raw, instruction = row.split(' | ')
+            if not instruction.lower().startswith('call '):
+                continue
+            data = bytes.fromhex(raw)
+            call = dict(method=label, address=address, raw=raw, instruction=instruction)
+            if data[0] == 0xe8:
+                call.update(kind='direct',targetVA=f'{int(address,16)+5+struct.unpack_from("<i",data,1)[0]:08x}')
+            elif data[:2] == b'\xff\x15':
+                slot = f'{struct.unpack_from("<I",data,2)[0]:08x}'
+                call.update(kind='image-indirect',slotVA=slot,importEntry=imports.get(slot))
+            else:
+                call.update(kind='register-or-memory-indirect')
+            calls.append(call)
+    (output / 'source.json').write_text(json.dumps(dict(
+        schema='gothic3-shared-initializer-source-v1', sharedBaseSha256=INPUT_SHA,
+        methods=methods, tables=tables, entries=entries, coldGlobals=cold,
+        sectionHeaders=section_headers, sourceOnly=True,
+        imageHeader=dict(address='10000000',raw=header.hex(),bytes=len(header),
+            sha256=hashlib.sha256(header).hexdigest(),scope='cold-original-image',liveValueCaptured=False),
+        calls=calls,
+        initializerExecutionCompleted=False,
+        rtcTerminationEntry='100bb8e7',
+        verifiedAgainstOriginalPE=True), indent=2) + '\n', encoding='utf-8', newline='\n')
+
+
+def initializer_runtime(output, destination):
+    rows = []
+    for body in ['100aa632','100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407']:
+        for line in (output / (body + '.asm.txt')).read_text(encoding='utf-8').splitlines():
+            rows.append(line.split(' | '))
+    header=json.loads((output/'source.json').read_text(encoding='utf-8'))['imageHeader']
+    destination.write_text('''/** Original admitted SharedBase initializer syntax; no runtime authority. */
+export const sharedInitializerHeader=Object.freeze(''' + json.dumps(header) + ''');
+export interface SharedInitializerInstruction {readonly address:string;readonly bytes:string;readonly instruction:string;}
+const rows:readonly (readonly string[])[] = ''' + json.dumps(rows,indent=2) + ''';
+const instructions=new Map<string,SharedInitializerInstruction>(rows.map(([address,bytes,instruction])=>
+  [address!,Object.freeze({address:address!,bytes:bytes!,instruction:instruction!})]));
+export function sharedInitializerInstruction(address:string):SharedInitializerInstruction {
+  const row=instructions.get(address);if(!row)throw new Error('Unowned SharedBase initializer instruction '+address);return row;
+}
+''', encoding='utf-8',newline='\n')
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--study', type=Path, required=True)
+    parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--capstone-path', type=Path)
+    parser.add_argument('--runtime-output', type=Path)
+    args = parser.parse_args()
+    if args.capstone_path:
+        sys.path.insert(0, str(args.capstone_path.resolve()))
+    capture(args.study, args.output)
+    if args.runtime_output:
+        initializer_runtime(args.output,args.runtime_output)
