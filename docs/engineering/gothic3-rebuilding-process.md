@@ -10395,7 +10395,8 @@ alias views are rejected before the API changes resource bytes. Repeated
 continuation requests retain the pending language call without replaying it.
 
 All 309 focused startup/evidence checks, typechecking and the production build
-pass. Full-suite validation and publication are pending. The next work is the
+pass. The full suite passes 2,920 tests across 275 files (190.49 seconds).
+Publication is pending. The next work is the
 language helper's nested buffer, translation and FileVersion queries, followed
 by parsing, frees and logging. Complete DLL startup, world activation and
 campaign completion remain unfinished.
