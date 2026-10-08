@@ -33,7 +33,7 @@ runtime and record exactly where execution still stops.
 
 ### Immediate remaining work
 
-- Complete SharedBase initializer startup after FNCLEX at `100a7919`, including its actual
+- Complete SharedBase initializer startup from conversion encoding at `100b4413`, including its actual
   initializer tables and callback dependencies, then the enclosing CRT attach.
 - Connect the supported shared runtime to live Game startup at 204678f2 and
   execute the required initializer callbacks in their original order.
@@ -46,6 +46,25 @@ checks establish the published checkpoint's supported scope; campaign completion
 requires an integrated gameplay result.
 
 ## Latest process summary — 8 October 2026
+
+### SharedBase floating-point exception clearing and hook return
+
+The retained thread now owns a separate x87 status word with unknown initial
+bits. Original FNCLEX at `100a7919` clears bits 0–7 and 15, making only those
+bits known zero while preserving the remaining status bits and their knowledge.
+It leaves the integer arithmetic flags unchanged. This follows
+[Intel’s instruction reference](https://cdrdv2-public.intel.com/671110/325383-sdm-vol-2abcd.pdf);
+the implementation does not substitute a host JavaScript floating-point status.
+
+The original RET at `100a791b` returns the hook, the caller removes its argument,
+and conversion initialization enters `100b4407`. It preserves ESI/EDI, reads the
+first installed conversion address and enters the pending encode wrapper CALL
+at `100b4413 -> 100ae27b`. That wrapper still needs its original TLS/cache and
+procedure-resolution dependencies. Missing processor exports still stop before
+FLD in the original fallback frame. Typechecking and 93 focused checks pass;
+the full suite passes 2,656 tests across 259 files and the production build
+passes. Full CRT attachment and campaign play remain
+unfinished.
 
 ### SharedBase processor feature query and original return
 
