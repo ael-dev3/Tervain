@@ -34,11 +34,32 @@ def capture(study, output):
     cold, section = image_bytes(pe, 0x207b5038, 36)
     assert cold == bytes(36)
     assert pe.bytes(0x20657534, 7) == b'Status\0'
+    decorated = b'.?AV?$bTPropertyContainer@W4gEArenaStatus@@@@\0'
+    descriptor, descriptor_section = image_bytes(pe, 0x20797e58, 8 + len(decorated))
+    assert descriptor[:8] == bytes.fromhex('74636b2000000000')
+    assert descriptor[8:] == decorated
+    cache, cache_section = image_bytes(pe, 0x207b4f58, 12)
+    prior, prior_section = image_bytes(pe, 0x207b5020, 4)
+    assert cache == bytes(12) and prior == bytes(4)
+    cleanup_thunk = pe.bytes(0x200064f1, 5)
+    assert cleanup_thunk[0] == 0xe9
+    assert 0x200064f1 + 5 + struct.unpack('<i', cleanup_thunk[1:])[0] == 0x20549920
+    cleanup = pe.bytes(0x20549920, 11)
+    assert cleanup == bytes.fromhex('b9584f7b20ff2534887d20')
     result = dict(schema='gothic3-arena-status-descriptor-v1', gameSha256=GAME_SHA,
                   methods=methods, vtableAddress='20659aec',
                   slots={f'{offset:02x}': f'{address:08x}' for offset, address in slots.items()},
                   coldDescriptor=dict(address='207b5038', raw=cold.hex(), section=section),
                   nameLiteral=dict(address='20657534', raw='53746174757300'),
+                  typeNameCache=dict(address='207b4f58', raw=cache.hex(), section=cache_section),
+                  priorNameResult=dict(address='207b5020', raw=prior.hex(), section=prior_section),
+                  typeInfoDescriptor=dict(address='20797e58', raw=descriptor.hex(),
+                                          section=descriptor_section, decoratedName=decorated[:-1].decode()),
+                  typeNameCleanup=dict(entry='200064f1', entryBytes=cleanup_thunk.hex(),
+                                       body='20549920', bodyBytes=cleanup.hex(),
+                                       bodyInstructionBytesSha256=hashlib.sha256(cleanup).hexdigest(),
+                                       destination='207b4f58', sharedCStringDestructorIat='207d8834',
+                                       recovery='Exact original PE bytes: MOV ECX,cache; JMP [CString destructor IAT]'),
                   sourceOnly=True, wholeCrtTraversalCompleted=False)
     (output / 'source.json').write_bytes((json.dumps(result, indent=2) + '\n').encode('utf-8'))
 

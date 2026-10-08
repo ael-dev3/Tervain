@@ -168,6 +168,53 @@
     "address": "20657534",
     "raw": "53746174757300"
   },
+  "typeNameCache": {
+    "address": "207b4f58",
+    "raw": "000000000000000000000000",
+    "section": {
+      "virtualAddress": 7954432,
+      "virtualSize": 248716,
+      "rawSize": 126976,
+      "rawOffset": 7954432,
+      "fileBackedBytes": 12,
+      "loaderZeroFillBytes": 0
+    }
+  },
+  "priorNameResult": {
+    "address": "207b5020",
+    "raw": "00000000",
+    "section": {
+      "virtualAddress": 7954432,
+      "virtualSize": 248716,
+      "rawSize": 126976,
+      "rawOffset": 7954432,
+      "fileBackedBytes": 0,
+      "loaderZeroFillBytes": 4
+    }
+  },
+  "typeInfoDescriptor": {
+    "address": "20797e58",
+    "raw": "74636b20000000002e3f41563f24625450726f7065727479436f6e7461696e657240573467454172656e615374617475734040404000",
+    "section": {
+      "virtualAddress": 7954432,
+      "virtualSize": 248716,
+      "rawSize": 126976,
+      "rawOffset": 7954432,
+      "fileBackedBytes": 54,
+      "loaderZeroFillBytes": 0
+    },
+    "decoratedName": ".?AV?$bTPropertyContainer@W4gEArenaStatus@@@@"
+  },
+  "typeNameCleanup": {
+    "entry": "200064f1",
+    "entryBytes": "e92a345400",
+    "body": "20549920",
+    "bodyBytes": "b9584f7b20ff2534887d20",
+    "bodyInstructionBytesSha256": "89ac10cc5b5555577e1f3404fda090f234ea745158c607dcd7f0e3983a4eddb5",
+    "destination": "207b4f58",
+    "sharedCStringDestructorIat": "207d8834",
+    "recovery": "Exact original PE bytes: MOV ECX,cache; JMP [CString destructor IAT]"
+  },
   "sourceOnly": true,
   "wholeCrtTraversalCompleted": false
 }

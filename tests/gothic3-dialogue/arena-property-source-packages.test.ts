@@ -35,4 +35,18 @@ it('pins the Status owner dispatch and cold descriptor independently of runtime 
   expect(source.coldDescriptor.address).toBe('207b5038');
   expect(source.coldDescriptor.raw).toBe('00'.repeat(36));
   expect(source.nameLiteral).toEqual({ address: '20657534', raw: '53746174757300' });
+  expect(source.typeNameCache.address).toBe('207b4f58');
+  expect(source.typeNameCache.raw).toBe('00'.repeat(12));
+  expect(source.priorNameResult.address).toBe('207b5020');
+  expect(source.priorNameResult.raw).toBe('00'.repeat(4));
+  expect(source.typeInfoDescriptor.decoratedName).toBe('.?AV?$bTPropertyContainer@W4gEArenaStatus@@@@');
+  expect(Buffer.from(source.typeInfoDescriptor.raw, 'hex').subarray(8).toString())
+    .toBe('.?AV?$bTPropertyContainer@W4gEArenaStatus@@@@\0');
+  expect(source.typeNameCleanup.entry).toBe('200064f1');
+  const thunk = Buffer.from(source.typeNameCleanup.entryBytes, 'hex');
+  expect(thunk[0]).toBe(0xe9);
+  expect(0x200064f1 + 5 + thunk.readInt32LE(1)).toBe(0x20549920);
+  expect(source.typeNameCleanup.bodyBytes).toBe('b9584f7b20ff2534887d20');
+  expect(sha(Buffer.from(source.typeNameCleanup.bodyBytes, 'hex')))
+    .toBe(source.typeNameCleanup.bodyInstructionBytesSha256);
 });
