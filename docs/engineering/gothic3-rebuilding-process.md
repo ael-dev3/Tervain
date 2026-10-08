@@ -33,8 +33,10 @@ runtime and record exactly where execution still stops.
 
 ### Immediate remaining work
 
-- Complete RTC exit-callback registration at `100aa676 -> 100a72d0`, then
-  the remaining void initializers, fallback/exception paths and enclosing CRT attach.
+- Complete the remaining SharedBase void initializers, fallback/exception
+  paths and enclosing CRT attach. Earlier dated entries retain the boundary
+  reached at that checkpoint; consult the overview and latest checkpoint
+  receipts for subsequent progress.
 - Connect the supported shared runtime to live Game startup at 204678f2 and
   execute the required initializer callbacks in their original order.
 - Complete the remaining property/diagnostic dependencies and activate NPCs in
@@ -9638,3 +9640,28 @@ unimplemented `1003d304 -> 100028f6` boundary. They are not routed into the
 sixteen-byte pool to manufacture success. This checkpoint does not establish
 general backward, unaligned, REP or SSE memcpy support. Remaining initializers,
 full startup, NPC/world activation and a finishable campaign remain outstanding.
+
+### Local `_Root` initializer 141 checkpoint — 8 October 2026
+
+The source generator now retains the original `_Root` literal at `100ea340`
+and its cold string storage at `102f47d0`. The live SharedBase owner executes
+original initializer `100e15d0`: constructor call, shutdown registration and
+return. Its five-byte text uses a second bounded sixteen-byte slot at offset
+32 in the existing virtual region. The native copy includes its byte-tail
+store; the length, reference count and terminating zero occupy actual owned
+storage. The first Root object remains in its original slot.
+
+No second virtual reservation or descriptor is needed on this path. The pool
+count and peak become two, and its bitmap clears bits zero and one. Original
+shutdown callback `100e2f20` becomes the thirteenth registered callback; its
+body has not been executed. Execution stops at initializer 142's admission
+boundary, `100aa692 -> 100e1600`; full attach remains incomplete.
+
+Local evidence: 221 focused tests, typechecking and the production build pass.
+All 117 generated source files plus the runtime instruction module reproduce
+exactly. The full suite passes 2,778 tests across 259 files (187.47 seconds).
+This checkpoint is not published.
+
+The preceding Root checkpoint, PR 134, merged at
+`ba1aa1c48561502bf05434ecf09377fdd09cf63f`. Pages run 37790192791 is in progress;
+a merge alone does not establish successful deployment.
