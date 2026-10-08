@@ -57,7 +57,9 @@ encoding. The cached PTD encoder returns for all ten conversion pointers and
 stores their opaque encoded identities; its next boundary is the error-table
 walker, which skips the original leading NULL slots and enters the first
 callback, which allocates and publishes its encoded exit table and returns.
-Its next boundary is the second callback, `100aa490 -> 100b1854`. Allocation failures retain
+The next callback returns through its already-initialized multibyte branch,
+and the processor callback enters its original probe frame. Its next boundary
+is PUSHFD at `100ce0a8`. Allocation failures retain
 the original partial cleanup; a positive retry delay remains unresolved.
 Those local helper results still need to join the live
 startup path before they can enable NPC activation. The full game remains

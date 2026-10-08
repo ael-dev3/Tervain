@@ -109,3 +109,9 @@ encodes NULL, publishes the original failure prefix and returns cinit result
 24 to the still-unimplemented attach continuation at `100adb5f`. Positive
 Sleep retry and unsupported heap paths remain explicit boundaries. The lower
 calloc translation does not establish original x86 SEH traversal.
+
+The second callback now reads the actual initialized multibyte flag and returns
+through its nonzero branch. The third callback clears its processor flag and
+enters the retained probe frame at `100ce095`. It stops before PUSHFD at
+`100ce0a8`: full flags, ID-bit probing, CPUID and SIMD state remain unimplemented.
+A cleared multibyte flag retains its original repeated-initialization CALL.
