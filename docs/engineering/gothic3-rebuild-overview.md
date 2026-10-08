@@ -22,13 +22,13 @@ and the next missing dependency. Three states matter:
   receipts determine what is supported.
 - **Published:** a reviewed commit has completed the Pages deployment workflow.
 
-These states are recorded separately. The current local MemoryAdmin GetInstance
-checkpoint passes 165 focused checks, 2,722 tests across 259 files and the
-production build. It executes the original guard and shutdown registration in
-the live initializer, returning the owned singleton pointer and reaching Malloc
-at `1001325e -> 10003cd8`. All 98 generated source-package files and the
-instruction module reproduce exactly. It awaits remote review and deployment.
-Full engine startup, world activation and campaign completion remain outstanding.
+These states are recorded separately. The current local Malloc checkpoint
+passes 172 focused checks, 2,729 tests across 259 files and the production build.
+It owns the original exception frame and heap critical section, reaching the
+lower allocator at `1003d474 -> 10001028` with its lock still entered. All 100
+generated source-package files and the instruction module reproduce exactly.
+It awaits remote review and deployment. Full engine startup, world activation
+and campaign completion remain outstanding.
 
 ## Process at a glance
 
@@ -92,13 +92,13 @@ establish campaign completion.
 
 ## Current status — 8 October 2026
 
-The latest merged runtime checkpoint is [PR 119](https://github.com/ael-dev3/Tervain/pull/119),
-merged at `04df7277c8166a75cf67a5c688ba766f280f9645` after successful
-[CI run 37766553792](https://github.com/ael-dev3/Tervain/actions/runs/37766553792).
-[Pages run 37767150236](https://github.com/ael-dev3/Tervain/actions/runs/37767150236)
-completed successfully. It adds RTC exit registration; the published selected
-path reaches the first void initializer. PR 120 advances through the first two
-void registrations and is undergoing CI.
+The latest merged runtime checkpoint is [PR 124](https://github.com/ael-dev3/Tervain/pull/124),
+merged at `3dc3188d9d47712342d76f996e468013a52de98c` after successful
+[CI run 37770523149](https://github.com/ael-dev3/Tervain/actions/runs/37770523149).
+[Pages run 37771185817](https://github.com/ael-dev3/Tervain/actions/runs/37771185817)
+is in progress. It executes MemoryAdmin GetInstance and reaches the Malloc call.
+The next local checkpoint owns Malloc's exception frame and heap critical section,
+reaching its lower allocation call; it has not yet been published.
 
 The selected SharedBase path completes argument and environment setup,
 floating-point conversion installation and cached pointer encoding. Its first
