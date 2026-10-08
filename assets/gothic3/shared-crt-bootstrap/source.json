@@ -2,6 +2,50 @@
   "schema": "gothic3-shared-crt-bootstrap-v1",
   "sharedBaseSha256": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214",
   "methods": {
+    "setMultibyteCase": {
+      "entryVA": "0x100b11fd",
+      "bodyVA": "0x100b11fd",
+      "bodyRanges": "100b11fd-100b1386",
+      "instructionCount": 131,
+      "bodyByteCount": 394,
+      "bodyInstructionBytesSha256": "a8876b24b4cbadce33680092957a78c2edc69cfb26e1cc716e7673f00bdd0a51",
+      "entryChain": [],
+      "assemblySha256": "97f4366fe9769c43acc8267d300008552de107a1362bd3d566c0c5e7e1376dad",
+      "cSha256": "0c81f6f51e013568b4109da6aa1967f41d4ba43384adb1d50a4edc4942633bfe"
+    },
+    "setSingleByteCodePage": {
+      "entryVA": "0x100b11a8",
+      "bodyVA": "0x100b11a8",
+      "bodyRanges": "100b11a8-100b11fc",
+      "instructionCount": 40,
+      "bodyByteCount": 85,
+      "bodyInstructionBytesSha256": "52613ca0f635b702abd7ef2d75fbe3dcef8cedbeeff5d088fe843f2085533ed1",
+      "entryChain": [],
+      "assemblySha256": "b38726b3e90c139191ff210255013f792e4f20e6e05725d35c55a64abe3b053d",
+      "cSha256": "70ba3719111751ecc24f8e351fae2ac98ce9235fe9739f80dc9b0350cad24a12"
+    },
+    "codePageLocaleId": {
+      "entryVA": "0x100b1179",
+      "bodyVA": "0x100b1179",
+      "bodyRanges": "100b1179-100b11a7",
+      "instructionCount": 18,
+      "bodyByteCount": 47,
+      "bodyInstructionBytesSha256": "8a6891dce88e24d6f23d94d75ba045499a565609712a78fa5d879460b0150794",
+      "entryChain": [],
+      "assemblySha256": "b24906cce1ddcd2c09d27211ed25047759698b17801b410bcf0c5381393dad88",
+      "cSha256": "104a78ac3785bad17bfda498ea3d0abdaa5c8db4137b0349475edde2feadd3d0"
+    },
+    "memset": {
+      "entryVA": "0x100a7980",
+      "bodyVA": "0x100a7980",
+      "bodyRanges": "100a7980-100a79f9",
+      "instructionCount": 47,
+      "bodyByteCount": 122,
+      "bodyInstructionBytesSha256": "9ef7f32cb2a542225e41f61960817c9c8c8cee8cf8d798402dee12226c520968",
+      "entryChain": [],
+      "assemblySha256": "cac3c7328d655e52db27dd70dbcd76358c4e0fc29ee7986d1e40109cdb48ae4b",
+      "cSha256": "b6b354fc35ff868e4c409ec504fa4c159e482db077e94f8022ec6e09ad3c0249"
+    },
     "localeUpdate": {
       "entryVA": "0x100a74b6",
       "bodyVA": "0x100a74b6",
@@ -708,6 +752,22 @@
     }
   },
   "coldGlobals": {
+    "multibyteCodePageTable": {
+      "address": "10141290",
+      "bytes": 240,
+      "raw": "a4030000608279822100000000000000a6df000000000000a1a5000000000000819fe0fc00000000407e80fc00000000a8030000c1a3daa320000000000000000000000000000000000000000000000081fe00000000000040fe000000000000b5030000c1a3daa320000000000000000000000000000000000000000000000081fe00000000000041fe000000000000b6030000cfa2e4a21a00e5a2e8a25b000000000000000000000000000000000081fe000000000000407ea1fe000000005105000051da5eda20005fda6ada32000000000000000000000000000000000081d3d8dee0f90000317e81fe00000000",
+      "knownMask": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 240,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
     "systemCodePageSelected": {
       "address": "102f6910",
       "bytes": 4,

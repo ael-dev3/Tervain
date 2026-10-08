@@ -787,3 +787,19 @@ configuration at `100b1718 -> 100b14a5`. Missing services retain completed write
 These supporting components are not connected to live Game initializer traversal.
 The live startup remains before `__cinit` at `204678f2`; formatter execution,
 full NPC activation and a finishable campaign are still unfinished.
+
+
+### Local single-byte configuration continuation
+
+The next local argument component follows the original five-entry code-page
+lookup and actual retained NLS IsValidCodePage/GetCPInfo services. Its selected
+CP1252 result writes the original 18-byte CPInfo structure with unknown padding,
+clears 257 character-type bytes with source-ordered alignment/DWORD/tail stores,
+and initializes the code-page, single-byte and locale-information fields of the
+separate candidate record. The source-selected SSE memset branch remains an
+explicit boundary with prior effects retained.
+
+Execution now stops before case mapping at `100b1614 -> 100b11fd`. The candidate
+has not replaced the PTD or global record. Case tables, the configuration return
+and cookie check, complete arguments and original initializer traversal remain
+unfinished. This helper does not add live NPC activation or campaign progress.

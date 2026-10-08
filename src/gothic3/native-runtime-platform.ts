@@ -886,12 +886,22 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     if (!call || !this.#argvNlsEndpoints || this.#argvNlsActiveCall || this.#argvNlsConsumed.has(call)) return unknown('Fresh non-reentrant argv/NLS call required');
     this.#argvNlsActiveCall = call;
     try {
-      const shared=NativeSharedCrtOwner.canonicalGetAcpCallForPlatform(this,call);
+      const shared=NativeSharedCrtOwner.nlsArgumentsForPlatform(this,call);
       if(shared.known){
-        this.#argvNlsConsumed.add(call);
-        const result:NativeArgvNlsResult=Object.freeze({kind:'scalar',value:this.#crtServices!.argvNls!.codePage});
-        this.#processLastError(this.#crtServices!.argvNls!.lastError?.GetACP);
-        const after=NativeSharedCrtOwner.canonicalGetAcpCallForPlatform(this,call);if(!after.known)return after;
+        this.#argvNlsConsumed.add(call);const input=shared.value,selection=this.#crtServices!.argvNls!;
+        let value:number;
+        if(input.kind==='GetACP')value=selection.codePage;
+        else if(input.kind==='IsValidCodePage')value=input.scalar===selection.codePage?1:0;
+        else if(input.scalar!==selection.codePage)value=0;
+        else {
+          const fields=input.fields;if(!fields)throw new Error('Actual SharedBase CPInfo output required');requirePhysicalNativeViews(fields);
+          NativeHeapObjectViews.prototype.writeUnsigned.call(fields,0,1,4);
+          NativeHeapObjectViews.prototype.writeUnsigned.call(fields,4,63,1);NativeHeapObjectViews.prototype.writeUnsigned.call(fields,5,0,1);
+          for(let offset=6;offset<18;offset++)NativeHeapObjectViews.prototype.writeUnsigned.call(fields,offset,0,1);value=1;
+        }
+        const result:NativeArgvNlsResult=Object.freeze({kind:'scalar',value});
+        this.#processLastError(selection.lastError?.[input.kind]);
+        const after=NativeSharedCrtOwner.nlsArgumentsForPlatform(this,call);if(!after.known)return after;
         this.#argvNlsNormal.set(call,result);return known(result);
       }
       const admitted = NativeX86ThreadStack.argvArgumentsForPlatform(this, call); if (!admitted.known) return admitted;

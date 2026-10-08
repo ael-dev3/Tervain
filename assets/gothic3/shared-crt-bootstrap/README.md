@@ -1,6 +1,6 @@
 # Original SharedBase CRT startup evidence
 
-This package captures 64 original functions covering CRT attach/startup, security-cookie initialization, heap selection/construction/destruction, thread startup/termination, encoded procedure initialization, locks, thread cleanup and locale reference increments. Every captured instruction is compared with the original SharedBase.dll bytes. It also captures 51 cold image ranges with section-backed versus loader-zero-fill evidence.
+This package captures 68 original functions covering CRT attach/startup, security-cookie initialization, heap selection/construction/destruction, thread startup/termination, encoded procedure initialization, locks, thread cleanup and locale reference increments. Every captured instruction is compared with the original SharedBase.dll bytes. It also captures 52 cold image ranges with section-backed versus loader-zero-fill evidence.
 
 SharedBase owns these globals independently of Game and Engine. Its two dynamic thread indices begin at `ffffffff`; the four procedure slots begin as loader-filled zero bytes. The static TLS index from the PE TLS directory is a different field. Loading static TLS does not allocate either dynamic slot, initialize the heap, install FLS/TLS procedures or initialize CRT thread data.
 
@@ -176,3 +176,19 @@ The old PTD/global record remains installed: execution stops before configuratio
 at `100b1718 -> 100b14a5`. No configured tables or successful argument return are
 claimed. Native SEH stack ownership and live Game initializer integration are
 still missing.
+
+
+The subsequent local configuration prefix follows the original five-entry
+code-page table, IsValidCodePage and GetCPInfo calls. Positive code-page input
+passes through the locale-update helper without another GetACP call and leaves
+the selection global zero. GetCPInfo writes its actual 18-byte output into a
+retained 20-byte local view, leaving its two padding bytes unknown. Private call
+admission verifies the owner, pending token, retained backing and views.
+
+For the selected single-byte result, the original memset clears 257 bytes at
+record+0x1c using alignment, REP STOSD and tail-byte writes; the original SSE
+selection remains a boundary with the copied candidate and CPInfo retained.
+The helper stores code page, zero locale ID and single-byte flag, then clears
+three DWORDs at offsets 0x10/0x14/0x18. It stops before setSBUpLow at
+`100b1614 -> 100b11fd`. Case/type mapping, configuration return and its cookie
+check, candidate publication and full argument parsing remain unfinished.
