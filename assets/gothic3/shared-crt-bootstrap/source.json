@@ -840,6 +840,22 @@
     }
   },
   "coldGlobals": {
+    "localeMapMode": {
+      "address": "102f6950",
+      "bytes": 4,
+      "raw": "00000000",
+      "knownMask": "ffffffff",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 0,
+        "loaderZeroFillBytes": 4
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
     "stringTypeMode": {
       "address": "102f6f74",
       "bytes": 4,

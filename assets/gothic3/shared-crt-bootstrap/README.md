@@ -1,6 +1,6 @@
 # Original SharedBase CRT startup evidence
 
-This package captures 76 original functions covering CRT attach/startup, security-cookie initialization, heap selection/construction/destruction, thread startup/termination, encoded procedure initialization, locks, thread cleanup and locale reference increments. Every captured instruction is compared with the original SharedBase.dll bytes. It also captures 54 cold image ranges with section-backed versus loader-zero-fill evidence.
+This package captures 76 original functions covering CRT attach/startup, security-cookie initialization, heap selection/construction/destruction, thread startup/termination, encoded procedure initialization, locks, thread cleanup and locale reference increments. Every captured instruction is compared with the original SharedBase.dll bytes. It also captures 55 cold image ranges with section-backed versus loader-zero-fill evidence.
 
 The temporary cleanup helper at `100b4d0f` and cookie check at `100b01c8`
 are captured for the classification helper's later return path. Their capture
@@ -9,6 +9,15 @@ original zero memset at `100c6f80 -> 100a7980`, including the cdecl call,
 128 DWORD stores, saved EDI and caller cleanup. The 512-byte payload shares
 the canonical stack backing; its `cccc` allocation header remains intact.
 Execution stops before Unicode conversion fill at `100c6f95`.
+
+The subsequent local mapping continuation completes classification and both
+lower/upper mappings for the declared virtual CP1252 profile. Mapping owns
+the original two temporary allocations and conversion, mapping and narrowing
+service calls, then preserves stack markers and checks the cookie before return.
+The newly captured `localeMapMode` range is the cold DWORD at `102f6950`.
+The candidate's case tables are written in source order. The current boundary
+is the enclosing case helper's epilogue at `100b1370`; its native caller frame
+and global candidate installation remain unfinished.
 
 SharedBase owns these globals independently of Game and Engine. Its two dynamic thread indices begin at `ffffffff`; the four procedure slots begin as loader-filled zero bytes. The static TLS index from the PE TLS directory is a different field. Loading static TLS does not allocate either dynamic slot, initialize the heap, install FLS/TLS procedures or initialize CRT thread data.
 

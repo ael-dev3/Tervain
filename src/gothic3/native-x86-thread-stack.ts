@@ -180,6 +180,7 @@ export class NativeX86ThreadStack {
   readonly #moduleWords = new Map<string, NativeX86Word32>();
   readonly #modulePointers = new Map<string, NativeBytePointer>();
   #sharedFrame:{controller:object;ebp:number;probe:NativeHeapObjectViews;temporary:NativeHeapObjectViews|null;importCall:{call:NativeArgvNlsCallGrant;argumentBytes:number;kind:'probe'|'query'|'fill'|'types'}|null;requestedBytes:number|null;allocatedBytes:number|null;probedPages:number[]}|null=null;
+  #mappingFrames:{controller:object;ebp:number;input:NativeHeapObjectViews|null;output:NativeHeapObjectViews|null;importCall:{call:NativeArgvNlsCallGrant;bytes:number;stage:string}|null;allocations:{site:string;requested:number;allocated:number;offset:number}[];returned:boolean}[]=[];
   #phase: 'cold' | 'running' | 'returned' | 'blocked' | 'retired' = 'cold';
   #boundary: string | null = null;
   #executing = false;
@@ -361,6 +362,79 @@ export class NativeX86ThreadStack {
       const caller=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));stack.#store(stack.#bank,stack.#reg('ESP'),stack.#stackWord(caller+28));stack.#flags(0,1);
       stack.#phase='returned';stack.#trace.push('100c706d.classification.return');return known(stack.#numeric(result,4));
     }catch(error){stack.#boundary??=reason(error);stack.#phase='blocked';return unknown(stack.#boundary);}
+  }
+  static #mappingProof(stack:NativeX86ThreadStack,controller:object){
+    const admitted=NativeSharedCrtOwner.mappingStackArgumentsForPlatform(stack.#platform,controller);if(!admitted.known)throw new Error(admitted.reason);
+    const frame=stack.#mappingFrames.at(-1);if(graphs.get(stack.#platform)!==stack||frame?.controller!==controller||frame.returned||stack.#phase!=='running'||stack.#binding)throw new Error('Actual active SharedBase mapping graph required');
+    const selected=NativeRuntimePlatform.threadStackSelectionForPlatform(stack.#platform);if(!selected.known||selected.value!==stack.#selection)throw new Error('Actual live mapping stack required');stack.#physical(stack.#stack);stack.#physical(stack.#bank);return {input:admitted.value,frame};
+  }
+  static beginSharedMappingFrame(stack:NativeX86ThreadStack,controller:object):NativeValue<void>{
+    const admitted=NativeSharedCrtOwner.mappingStackArgumentsForPlatform(stack.#platform,controller);if(!admitted.known)return admitted;
+    if(graphs.get(stack.#platform)!==stack||stack.#phase!=='returned'||stack.#binding||admitted.value.stage!=='enter'||stack.#mappingFrames.at(-1)?.returned===false)return unknown('Actual returned direct-helper graph required for mapping');
+    try{
+      stack.#physical(stack.#stack);stack.#physical(stack.#bank);const input=admitted.value,value=(n:number)=>stack.#mint(n,0xffffffff),pointer=(fields:NativeHeapObjectViews)=>stack.#mint(0,0,{kind:'shared-local',fields});
+      for(const word of [value(0),value(input.codePage),value(256),pointer(input.output),value(256),pointer(input.input),value(input.flags),value(input.localeId)])stack.#push(word);
+      stack.#store(stack.#bank,stack.#reg('ECX'),pointer(input.locale));stack.#call('100b5112','100b5117');stack.#push(stack.#load(stack.#bank,stack.#reg('EBP')));
+      const ebp=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));stack.#store(stack.#bank,stack.#reg('EBP'),stack.#stackWord(ebp));stack.#store(stack.#bank,stack.#reg('ESP'),stack.#stackWord(ebp-20));
+      const cookie=value(input.cookie),frameWord=stack.#stackWord(ebp),a=stack.#record(cookie),b=stack.#record(frameWord);stack.#store(stack.#stack,ebp-4,stack.#mint(a.value^b.value,a.mask&b.mask,{kind:'xor',left:cookie,right:frameWord}));
+      for(const name of ['EBX','ESI','EDI'] as const)stack.#push(stack.#load(stack.#bank,stack.#reg(name)));
+      stack.#store(stack.#bank,stack.#reg('EBX'),value(0));stack.#store(stack.#bank,stack.#reg('ESI'),pointer(input.locale));
+      stack.#mappingFrames.push({controller,ebp,input:null,output:null,importCall:null,allocations:[],returned:false});stack.#phase='running';stack.#trace.push('100b4d44.mappingFrame');return known(undefined);
+    }catch(error){stack.#phase='blocked';stack.#boundary??=reason(error);return unknown(stack.#boundary);}
+  }
+  static beginSharedMappingImport(stack:NativeX86ThreadStack,controller:object,call:NativeArgvNlsCallGrant):NativeValue<void>{
+    try{
+      const {input:state,frame}=NativeX86ThreadStack.#mappingProof(stack,controller),admitted=NativeSharedCrtOwner.nlsArgumentsForPlatform(stack.#platform,call);if(!admitted.known)return admitted;if(frame.importCall)throw new Error('One pending mapping import required');
+      const input=admitted.value,value=(n:number)=>stack.#mint(n,0xffffffff),pointer=(fields:NativeHeapObjectViews)=>fields.backing===stack.#stack.backing?stack.#stackWord(fields.bytes.byteOffset-stack.#stack.bytes.byteOffset):stack.#mint(0,0,{kind:'shared-local',fields});
+      let site:string,returned:string,words:NativeX86Word32[];
+      if(state.stage==='probe'){site='100b4d74';returned='100b4d7a';stack.#store(stack.#bank,stack.#reg('EDI'),value(1));words=[value(0),value(0),value(1),pointer(input.input!),value(0x100),value(0)];}
+      else if(state.stage==='convertQuery'||state.stage==='convertFill'){
+        const fill=state.stage==='convertFill';site=fill?'100b4e7e':'100b4e12';returned=fill?'100b4e80':'100b4e14';if(!input.procedure)throw new Error('Actual mapping conversion procedure required');stack.#store(stack.#bank,stack.#reg('ESI'),stack.#objectWord(input.procedure));
+        words=[value(fill?256:0),fill?pointer(input.fields!):value(0),value(256),pointer(input.input!),value(1),value(input.scalar)];
+      }else if(state.stage==='mapQuery'||state.stage==='mapFill'){
+        const fill=state.stage==='mapFill';site=fill?'100b4f37':'100b4e9a';returned=fill?'100b4f3d':'100b4e9c';if(!input.procedure)throw new Error('Actual mapping procedure required');if(!fill)stack.#store(stack.#bank,stack.#reg('ESI'),stack.#objectWord(input.procedure));
+        words=[value(fill?256:0),fill?pointer(input.fields!):value(0),value(256),pointer(input.input!),value(input.flags),value(input.scalar)];
+      }else if(state.stage==='narrow'){site='100b4f5a';returned='100b4f60';words=[value(0),value(0),value(256),pointer(input.fields!),value(256),pointer(input.input!),value(0),value(input.scalar)];}
+      else throw new Error('Original mapping import site required');
+      for(const word of words)stack.#push(word);stack.#call(site,returned);frame.importCall={call,bytes:words.length*4,stage:state.stage};return known(undefined);
+    }catch(error){return unknown(reason(error));}
+  }
+  static finishSharedMappingImport(stack:NativeX86ThreadStack,controller:object,call:NativeArgvNlsCallGrant,result:number):NativeValue<void>{
+    try{
+      const {frame}=NativeX86ThreadStack.#mappingProof(stack,controller),pending=frame.importCall,normal=NativeRuntimePlatform.canonicalArgvNlsNormalReturnForPlatform(stack.#platform,call);
+      if(!normal.known)return normal;if(!pending||pending.call!==call||normal.value.kind!=='scalar'||normal.value.value!==result)throw new Error('Actual mapping normal return required');
+      const changed=pending.stage==='convertFill'?frame.input:pending.stage==='mapFill'?frame.output:null;if(changed)stack.#invalidateRange(stack.#stack,changed.bytes.byteOffset-stack.#stack.bytes.byteOffset,changed.bytes.length);
+      stack.#ret(pending.bytes);frame.importCall=null;const value=stack.#mint(result,0xffffffff);stack.#store(stack.#bank,stack.#reg('EAX'),value);for(const name of ['ECX','EDX'] as const)stack.#store(stack.#bank,stack.#reg(name),stack.#mint(0,0));stack.#flags(0,0);
+      if(pending.stage==='convertQuery')stack.#store(stack.#bank,stack.#reg('EDI'),value);
+      if(pending.stage==='mapQuery'){stack.#store(stack.#bank,stack.#reg('ECX'),value);stack.#store(stack.#stack,frame.ebp-8,value);}
+      if(pending.stage==='narrow')stack.#store(stack.#stack,frame.ebp-8,value);
+      return known(undefined);
+    }catch(error){return unknown(reason(error));}
+  }
+  static allocateSharedMappingTemporary(stack:NativeX86ThreadStack,controller:object):NativeValue<NativeHeapObjectViews>{
+    try{NativeX86ThreadStack.#mappingProof(stack,controller);}catch(error){return unknown(reason(error));}
+    try{
+      const {input,frame}=NativeX86ThreadStack.#mappingProof(stack,controller),first=input.stage==='inputAllocate';if(!first&&input.stage!=='outputAllocate'||frame.importCall||input.count!==256||(first?frame.input!==null:frame.output!==null))throw new Error('Actual fresh mapping allocation stage required');
+      const site=first?'100b4e37':'100b4ef5',returned=first?'100b4e3c':'100b4efa',requested=520,caller=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));
+      stack.#store(stack.#bank,stack.#reg('EAX'),stack.#mint(requested,0xffffffff));stack.#call(site,returned);stack.#push(stack.#load(stack.#bank,stack.#reg('ECX')));if(stack.#selection.pageAlignment!=='virtual-page-4096')throw new Error('Actual selected mapping stack alignment required');
+      const allocated=requested+((caller-requested)&15),popEcx=()=>{const at=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));stack.#store(stack.#bank,stack.#reg('ECX'),stack.#load(stack.#stack,at));stack.#store(stack.#bank,stack.#reg('ESP'),stack.#stackWord(at+4));};
+      popEcx();const entry=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));stack.#push(stack.#load(stack.#bank,stack.#reg('ECX')));const target=entry-allocated;if(target<0)throw new Error('Unowned mapping stack reservation/page fault');stack.#store(stack.#bank,stack.#reg('ECX'),stack.#stackWord(target));
+      let page=Math.floor((entry-4)/4096)*4096;while(target<page){page-=4096;if(page<0)throw new Error('Unowned mapping page probe');NativeHeapObjectViews.prototype.maskedWord.call(stack.#stack,page);stack.#trace.push('100a8457.mappingPage.'+page);}
+      popEcx();const returnWord=stack.#load(stack.#stack,entry);stack.#store(stack.#bank,stack.#reg('ESP'),stack.#stackWord(target));stack.#store(stack.#stack,target,returnWord);stack.#ret();const start=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));if(start%16!==0||start+requested>caller)throw new Error('Actual aligned mapping allocation required');
+      stack.#store(stack.#stack,start,stack.#mint(0xcccc,0xffffffff));const fields=new NativeHeapObjectViews(stack.#stack.backing,start+8,512);frame.allocations.push({site,requested,allocated,offset:start+8});
+      const pointer=stack.#stackWord(start+8);if(first){frame.input=fields;stack.#store(stack.#bank,stack.#reg('EAX'),pointer);stack.#store(stack.#stack,frame.ebp-12,pointer);}else{frame.output=fields;stack.#store(stack.#bank,stack.#reg('ESI'),pointer);}stack.#flags(0,1);return known(fields);
+    }catch(error){stack.#phase='blocked';stack.#boundary??=reason(error);return unknown(stack.#boundary);}
+  }
+  static returnSharedMappingFrame(stack:NativeX86ThreadStack,controller:object):NativeValue<number>{
+    try{NativeX86ThreadStack.#mappingProof(stack,controller);}catch(error){return unknown(reason(error));}
+    try{
+      const {input,frame}=NativeX86ThreadStack.#mappingProof(stack,controller);if(input.stage!=='return'||!frame.input||!frame.output||frame.importCall)throw new Error('Actual completed mapping return required');
+      const pop=(name:'ECX'|'EDI'|'ESI'|'EBX'|'EBP')=>{const at=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));stack.#store(stack.#bank,stack.#reg(name),stack.#load(stack.#stack,at));stack.#store(stack.#bank,stack.#reg('ESP'),stack.#stackWord(at+4));};
+      for(const [fields,site,returned] of [[frame.output,'100b4f64','100b4f69'],[frame.input,'100b4f6d','100b4f72']] as const){const start=fields.bytes.byteOffset-stack.#stack.bytes.byteOffset;stack.#push(stack.#stackWord(start));stack.#call(site,returned);stack.#store(stack.#bank,stack.#reg('EAX'),stack.#stackWord(start-8));if(stack.#numeric(stack.#load(stack.#stack,start-8),4)!==0xcccc)throw new Error('Unowned mapping heap cleanup');stack.#ret();if(site==='100b4f6d')stack.#store(stack.#bank,stack.#reg('EAX'),stack.#load(stack.#stack,frame.ebp-8));pop('ECX');stack.#trace.push('100b4d0f.mappingStack.noHeapFree');}
+      const result=stack.#load(stack.#bank,stack.#reg('EAX'));stack.#store(stack.#bank,stack.#reg('ESP'),stack.#stackWord(frame.ebp-32));for(const name of ['EDI','ESI','EBX'] as const)pop(name);
+      const cookie=stack.#record(stack.#load(stack.#stack,frame.ebp-4)).provenance;if(cookie?.kind!=='xor'||stack.#address(cookie.right)!==frame.ebp||stack.#address(stack.#load(stack.#bank,stack.#reg('EBP')))!==frame.ebp)throw new Error('Actual mapping cookie relation required');stack.#store(stack.#bank,stack.#reg('ECX'),cookie.left);stack.#call('100b50df','100b50e4');const value=stack.#numeric(cookie.left,4);if(value!==input.cookie)throw new Error('Unowned mapping security-cookie failure report');stack.#arithmeticFlags(value,value,0,4,true);stack.#ret();
+      stack.#store(stack.#bank,stack.#reg('ESP'),stack.#stackWord(frame.ebp));pop('EBP');stack.#ret();const caller=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));stack.#store(stack.#bank,stack.#reg('ESP'),stack.#stackWord(caller+32));stack.#flags(0,1);frame.returned=true;stack.#phase='returned';stack.#trace.push('100b5117.mappingReturn');return known(stack.#numeric(result,4));
+    }catch(error){stack.#phase='blocked';stack.#boundary??=reason(error);return unknown(stack.#boundary);}
   }
   static bindForIoOwner(stack: NativeX86ThreadStack, crt: NativeModuleCrtOwner, owner: NativeGameCrtIoInit,
     controller: object): NativeValue<void> {
@@ -1767,7 +1841,7 @@ export class NativeX86ThreadStack {
     };
     const cells = Object.fromEntries(registers.map(name => [name, cell(this.#reg(name))]));
     const copy = (bytes: Uint8Array) => { try { return Object.freeze(Array.from(bytes)); } catch { return null; } };
-    return Object.freeze({...(this.#sharedFrame?{sharedFrame:Object.freeze({ebp:this.#sharedFrame.ebp,requestedBytes:this.#sharedFrame.requestedBytes,allocatedBytes:this.#sharedFrame.allocatedBytes,probedPages:Object.freeze([...this.#sharedFrame.probedPages]),temporary:this.#sharedFrame.temporary})}:{}), phase: this.#phase, boundary: this.#boundary, thread: this.#selection.threadCapability,
+    return Object.freeze({mappingFrames:Object.freeze(this.#mappingFrames.map(frame=>Object.freeze({ebp:frame.ebp,input:frame.input,output:frame.output,returned:frame.returned,allocations:Object.freeze(frame.allocations.map(row=>Object.freeze({...row})))}))),...(this.#sharedFrame?{sharedFrame:Object.freeze({ebp:this.#sharedFrame.ebp,requestedBytes:this.#sharedFrame.requestedBytes,allocatedBytes:this.#sharedFrame.allocatedBytes,probedPages:Object.freeze([...this.#sharedFrame.probedPages]),temporary:this.#sharedFrame.temporary})}:{}), phase: this.#phase, boundary: this.#boundary, thread: this.#selection.threadCapability,
       stack: Object.freeze({ bytes: copy(this.#stack.bytes), knownMask: copy(this.#stack.knownMask), freed: this.#stack.backing.freed }),
       registers: Object.freeze(cells), fs0: cell(32), arithmeticFlags: cell(36), currentPc: this.#currentPc ? describe(this.#currentPc) : null,
       calls: Object.freeze(this.#calls.map(call => Object.freeze({ site: call.site, returnWord: describe(call.returnWord), position: call.position, returned: call.returned }))), trace: Object.freeze(this.#trace.slice()),

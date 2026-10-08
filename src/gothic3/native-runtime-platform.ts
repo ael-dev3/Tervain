@@ -909,6 +909,14 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
             if(byte===undefined)throw new Error('Classification code unit outside declared NLS repertoire');
             NativeHeapObjectViews.prototype.writeUnsigned.call(input.fields,index*2,selection.ctype1[byte]!,2);
           }value=1;
+        }else if(input.kind==='LCMapStringW'){
+          if(![0,0x409].includes(input.scalar)||![0x100,0x200].includes(input.flags)||!input.input||![1,256].includes(input.count)||input.procedure!==null&&input.procedure!==this.#argvProcedures.get('LCMapStringW'))throw new Error('Actual SharedBase declared case mapping ABI required');
+          requirePhysicalNativeViews(input.input);if(input.fields)requirePhysicalNativeViews(input.fields);const reverse=new Map(selection.reverse),table=input.flags===0x100?selection.lower:selection.upper;
+          for(let index=0;index<input.count;index++){const code=NativeHeapObjectViews.prototype.readUnsigned.call(input.input,index*2,2),byte=reverse.get(code);if(byte===undefined)throw new Error('Mapping code unit outside declared repertoire');if(input.fields)NativeHeapObjectViews.prototype.writeUnsigned.call(input.fields,index*2,table[byte]!,2);}value=input.count;
+        }else if(input.kind==='WideCharToMultiByte'){
+          if(input.scalar!==selection.codePage||input.flags!==0||!input.input||!input.fields||input.count!==256)throw new Error('Actual SharedBase narrowing ABI required');
+          requirePhysicalNativeViews(input.input);requirePhysicalNativeViews(input.fields);const reverse=new Map(selection.reverse);
+          for(let index=0;index<input.count;index++){const code=NativeHeapObjectViews.prototype.readUnsigned.call(input.input,index*2,2),byte=reverse.get(code);if(byte===undefined)throw new Error('Mapping result outside declared single-byte repertoire');NativeHeapObjectViews.prototype.writeUnsigned.call(input.fields,index,byte,1);}value=input.count;
         }else {
           if(input.kind!=='MultiByteToWideChar'||input.scalar!==selection.codePage||input.flags!==1||input.procedure!==this.#argvProcedures.get('MultiByteToWideChar')||!input.input||input.count!==256)throw new Error('Actual SharedBase conversion ABI required');
           requirePhysicalNativeViews(input.input);
