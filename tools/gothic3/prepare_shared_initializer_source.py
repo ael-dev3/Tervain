@@ -250,11 +250,11 @@ def capture(study, output):
 
 def initializer_runtime(output, destination):
     rows = []
-    for body in ['100aa632','100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100b444f','100ae27b','100aa47d','100a7265','100aef10','100b1854','100b4b6b','100ce095','100ce045','100aeb68','100aebad','100bef05','100ce0f5','100a72d0','100a7294','100a71ac','100ae2f2','100b10d6','100aa453','100aa45c','100a72ca','100e1660','100e1440','100e1450','100e1470','100e14b0','100e14c0','100e14d0','100e14e0','100e14f0','100e1500','100e1510','100135f0','10013240','10020bf0','1003d410','1003d2f0','10047f10','10045da0','100aabd2','100aaaf6','100a7980','1003c650']:
+    for body in ['100aa632','100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100b444f','100ae27b','100aa47d','100a7265','100aef10','100b1854','100b4b6b','100ce095','100ce045','100aeb68','100aebad','100bef05','100ce0f5','100a72d0','100a7294','100a71ac','100ae2f2','100b10d6','100aa453','100aa45c','100a72ca','100e1660','100e1440','100e1450','100e1470','100e14b0','100e14c0','100e14d0','100e14e0','100e14f0','100e1500','100e1510','100135f0','10013240','10020bf0','1003d410','1003d2f0','10047f10','10045da0','100aabd2','100aaaf6','100a7980','1003c650','1003e090']:
         for line in (output / (body + '.asm.txt')).read_text(encoding='utf-8').splitlines():
             rows.append(line.split(' | '))
     source=json.loads((output/'source.json').read_text(encoding='utf-8'))
-    for label in ['rootTextConstructor','rootTextAlloc','memoryGetInstance','memoryMalloc','heapAllocate','pool16Dispatch','pool16Initialize','heapAddPointerArea']:
+    for label in ['rootTextConstructor','rootTextAlloc','memoryGetInstance','memoryMalloc','heapAllocate','pool16Dispatch','pool16Initialize','heapAddPointerArea','pool16Allocate']:
         for entry in source['methods'][label]['entryChain']:
             rows.append([entry['va'],entry['bytes'],'JMP 0x'+entry['targetVA']])
     header=json.loads((output/'source.json').read_text(encoding='utf-8'))['imageHeader']
