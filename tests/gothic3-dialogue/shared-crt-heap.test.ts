@@ -1423,3 +1423,8 @@ it('releases only the inner language slot and preserves the outer version buffer
 it('rejects an already released language bitmap before entering Free',()=>{
  const {owner}=fileVersionQueryFixture();owner.processDllFileVersionQuery();const state=owner.snapshot(),inner=state.caseState!.stack!.snapshot().sharedDllLanguageFrame!.buffer!,slot=state.poolSlots.find(row=>row.fields===inner.fields)!;slot.region.writeUnsigned(0x6f910,(slot.region.readUnsigned(0x6f910)|2)>>>0);const calls=state.caseState!.stack!.snapshot().calls.length;const result=owner.processDllLanguageFree();expect(result.known).toBe(false);if(!result.known)expect(result.reason).toMatch(/bitmap slot claim/);expect(owner.snapshot().memoryHeapSectionHeld).toBe(false);expect(owner.snapshot().caseState!.stack!.snapshot().calls).toHaveLength(calls);
 });
+
+
+it('returns the original language helper and passes its real output into version parsing',()=>{
+ const {owner}=fileVersionQueryFixture();owner.processDllFileVersionQuery();owner.processDllLanguageFree();const result=owner.processDllLanguageReturn();expect(result).toEqual({known:false,reason:'Original SharedBase version tokenizer pending at 100acd00'});const state=owner.snapshot(),stack=state.caseState!.stack!.snapshot();expect(stack.calls.find(row=>row.site==='1004c525')!.returned).toBe(true);expect(stack.calls.at(-1)!.site).toBe('1004c42a');expect(stack.trace).toContain('1004c420.sharedInitializer.MOV');expect(Buffer.from(state.dllLanguageFormatImages!.output.bytes.slice(0,17)).toString('ascii')).toBe('1, 60, 25931, 29\0');expect(state.memoryHeapSectionHeld).toBe(false);
+});

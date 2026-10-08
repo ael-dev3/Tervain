@@ -1404,6 +1404,10 @@ export class NativeSharedCrtOwner {
   catch(error){this.#dllBoundary=error instanceof Error?error.message:String(error);return {known:false,reason:this.#dllBoundary};}
   finally{this.#dllCall=null;this.#active=false;}
  }
+ processDllLanguageReturn():NativeValue<number>{
+  if(this.#active||!this.#argvStack||this.#dllBoundary!=='Original SharedBase language cleanup returned at 1004c3f5')return {known:false,reason:this.#dllBoundary??'Actual completed language cleanup required'};
+  try{const receipt=dllEntrySource.coldImages.find(row=>row.label==='versionDelimiter');if(!receipt||receipt.address!=='100e820c'||receipt.bytes!=='2c00')throw new Error('Original version delimiter required');const fields=this.#retainLocal(receipt.size);for(let offset=0;offset<receipt.size;offset++)fields.writeUnsigned(offset,parseInt(receipt.bytes.slice(offset*2,offset*2+2),16),1);this.#dllFormatImages=Object.freeze({...this.#dllFormatImages,'100e820c':fields});this.#active=true;this.#initializerActive=true;this.#dllCall=Object.freeze({});this.#dllMallocCall=this.#dllCall;const result=NativeX86ThreadStack.runSharedInitializers(this.#argvStack,this.#dllCall,'dll-language-return');if(!result.known)this.#dllBoundary=result.reason;return result;}catch(error){this.#dllBoundary=error instanceof Error?error.message:String(error);return {known:false,reason:this.#dllBoundary};}finally{this.#dllMallocCall=null;this.#dllCall=null;this.#initializerActive=false;this.#active=false;}
+ }
  processDllLanguageFree():NativeValue<number>{
   if(this.#active||!this.#argvStack||this.#dllBoundary!=='Original SharedBase language buffer Free pending at 10002112')return {known:false,reason:this.#dllBoundary??'Actual pending language buffer Free required'};
   try{

@@ -93,6 +93,13 @@ def capture(study, output):
         0x10002112: 'versionMemoryFree',
         0x10002e46: 'versionFreeDispatcher',
         0x10005b37: 'poolDescriptorLookup',
+        0x100acd00: 'versionStrtok',
+        0x100a7942: 'versionAtoi',
+        0x100b46df: 'versionStrtol',
+        0x100b44b4: 'versionIntegerScanner',
+        0x100aedd1: 'versionErrno',
+        0x100ae1d2: 'versionInvalidParameter',
+        0x100b2b0b: 'versionCharClass',
     })
     pe = native.PE(binary)
     export_rva, export_size = struct.unpack_from('<II', binary, pe.optional + 96)
