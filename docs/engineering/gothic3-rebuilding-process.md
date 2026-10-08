@@ -9747,3 +9747,36 @@ receipts. Full startup and campaign completion remain unfinished.
 
 PR 136 passed CI run 37792619176 and merged after a repository-wide audit
 found no active workflow runs. Its Pages deployment is tracked separately.
+
+### Local CRT lock-five initialization and publication — 8 October 2026
+
+Original CRT lock/unlock instructions now run against the actual retained
+bootstrap lock table. The lock initializer enters static lock ten, calls the
+existing source-backed section initializer with its owned heap allocation and
+spin count 4,000, publishes the resulting allocation pointer in slot five,
+releases lock ten and restores its original EH4 frame, FS chain and saved
+registers. The demangler then enters the new lock five. Execution reaches
+`100c61aa -> 100c2351`, before decorator construction.
+
+The original `100bbf27` helper's bytes are pinned. Its normal initialization
+uses the existing owner method and actual platform capability; it is separate
+from the emitted lock/unlock instructions. The normal allocation has 24 bytes.
+The original general heap branch rounds it to 32 bytes; the physical section
+uses a bounded 24-byte view with the same backing and start offset. Its spare
+eight bytes retain their unknown masks. Private section identities validate
+native table pointers; a forged slot-ten pointer rejects before lock entry.
+
+A false initializer result keeps lock ten held and slot five unpublished,
+stopping at original free dependency `100bb853 -> 100aa9a4`. The successful
+path leaves lock ten at depth zero and lock five at depth one. The outer
+name and demangler exception frames remain active. Decorator/grammar/output,
+full SharedBase attachment, Game startup and campaign play remain unfinished.
+
+Typechecking, the production build and 235 focused checks pass. All 143
+source files plus the instruction module reproduce exactly. Evidence contains
+77 bodies, 2,142 instructions and 196 CALL receipts. The final full suite passes 2,792 tests across 259 files (173.16 seconds),
+including rejection of a cleared retained lock slot. This checkpoint remains
+local until review, CI and deployment complete.
+
+PR 136 Pages run 37793944879 completed successfully at main revision
+`982fc4b69dde919d0767dff34d63f46e54b89a86`.

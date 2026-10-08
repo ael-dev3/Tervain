@@ -5108,6 +5108,161 @@ const rows:readonly (readonly string[])[] = [
     "RET"
   ],
   [
+    "100bb892",
+    "55",
+    "PUSH EBP"
+  ],
+  [
+    "100bb893",
+    "8bec",
+    "MOV EBP,ESP"
+  ],
+  [
+    "100bb895",
+    "8b4508",
+    "MOV EAX,dword ptr [EBP + 0x8]"
+  ],
+  [
+    "100bb898",
+    "56",
+    "PUSH ESI"
+  ],
+  [
+    "100bb899",
+    "8d34c5b8141410",
+    "LEA ESI,[EAX*0x8 + 0x101414b8]"
+  ],
+  [
+    "100bb8a0",
+    "833e00",
+    "CMP dword ptr [ESI],0x0"
+  ],
+  [
+    "100bb8a3",
+    "7513",
+    "JNZ 0x100bb8b8"
+  ],
+  [
+    "100bb8a5",
+    "50",
+    "PUSH EAX"
+  ],
+  [
+    "100bb8a6",
+    "e824ffffff",
+    "CALL 0x100bb7cf"
+  ],
+  [
+    "100bb8ab",
+    "85c0",
+    "TEST EAX,EAX"
+  ],
+  [
+    "100bb8ad",
+    "59",
+    "POP ECX"
+  ],
+  [
+    "100bb8ae",
+    "7508",
+    "JNZ 0x100bb8b8"
+  ],
+  [
+    "100bb8b0",
+    "6a11",
+    "PUSH 0x11"
+  ],
+  [
+    "100bb8b2",
+    "e83debfeff",
+    "CALL 0x100aa3f4"
+  ],
+  [
+    "100bb8b7",
+    "59",
+    "POP ECX"
+  ],
+  [
+    "100bb8b8",
+    "ff36",
+    "PUSH dword ptr [ESI]"
+  ],
+  [
+    "100bb8ba",
+    "ff1504962f10",
+    "CALL dword ptr [0x102f9604]"
+  ],
+  [
+    "100bb8c0",
+    "5e",
+    "POP ESI"
+  ],
+  [
+    "100bb8c1",
+    "5d",
+    "POP EBP"
+  ],
+  [
+    "100bb8c2",
+    "c3",
+    "RET"
+  ],
+  [
+    "100bb7a2",
+    "55",
+    "PUSH EBP"
+  ],
+  [
+    "100bb7a3",
+    "8bec",
+    "MOV EBP,ESP"
+  ],
+  [
+    "100bb7a5",
+    "8b4508",
+    "MOV EAX,dword ptr [EBP + 0x8]"
+  ],
+  [
+    "100bb7a8",
+    "ff34c5b8141410",
+    "PUSH dword ptr [EAX*0x8 + 0x101414b8]"
+  ],
+  [
+    "100bb7af",
+    "ff1508962f10",
+    "CALL dword ptr [0x102f9608]"
+  ],
+  [
+    "100bb7b5",
+    "5d",
+    "POP EBP"
+  ],
+  [
+    "100bb7b6",
+    "c3",
+    "RET"
+  ],
+  [
+    "100bb889",
+    "6a0a",
+    "PUSH 0xa"
+  ],
+  [
+    "100bb88b",
+    "e812ffffff",
+    "CALL 0x100bb7a2"
+  ],
+  [
+    "100bb890",
+    "59",
+    "POP ECX"
+  ],
+  [
+    "100bb891",
+    "c3",
+    "RET"
+  ],
+  [
     "100135f0",
     "53",
     "PUSH EBX"

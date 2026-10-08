@@ -61,7 +61,7 @@ and the next missing dependency. Three states matter:
   receipts determine what is supported.
 - **Published:** a reviewed commit has completed the Pages deployment workflow.
 
-These states are recorded separately. The published runtime checkpoint is PR 135 (Pages run 37791905285 succeeded). Full engine startup, world activation
+These states are recorded separately. The published runtime checkpoint is PR 136 (Pages run 37793944879 succeeded). Full engine startup, world activation
 and campaign completion remain outstanding.
 
 ## Process at a glance

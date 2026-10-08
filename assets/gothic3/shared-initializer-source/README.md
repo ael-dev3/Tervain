@@ -348,3 +348,14 @@ until section initialization/publication; three exception frames remain active.
 There are 73 bodies, 2,061 instructions and 182 CALL receipts. The CRT lock
 table alias is the retained bootstrap image, with its identity and geometry
 validated by its owner.
+
+### Live CRT lock-five initialization/publication
+
+Original CRT lock/unlock and lock-cleanup instructions execute against the
+retained table. The source-pinned section helper runs through the existing
+owner and actual platform initializer. Original publication and EH4 cleanup
+return the lock initializer, and the demangler enters lock five. The boundary
+is `100c61aa -> 100c2351`. General heap rounding preserves the 32-byte backing
+with a bounded 24-byte physical section view. False initialization retains
+lock ten at the original unimplemented free call; forged table pointers reject.
+There are 77 bodies, 2,142 instructions and 196 CALL receipts.

@@ -36,6 +36,50 @@
       "assemblySha256": "c0e9fa85bc0b8252d4d39a6081082eb7462b16e7563b7a40dfb97ab5df372827",
       "cSha256": "dfeb3753dfd27f5e66c86496039570db0a14859f2a74f77ae44221cc156521e2"
     },
+    "crtLock": {
+      "entryVA": "0x100bb892",
+      "bodyVA": "0x100bb892",
+      "bodyRanges": "100bb892-100bb8c2",
+      "instructionCount": 20,
+      "bodyByteCount": 49,
+      "bodyInstructionBytesSha256": "3d74be3e3b5df76a33034414a8a1a7b8aba7962697d3aa7790c470b0e2fbde78",
+      "entryChain": [],
+      "assemblySha256": "9072dfc5efc1a7e2dc06c8d169bd187cb303705aeae3568e5a62d02758903a0c",
+      "cSha256": "7f75013ab25c2216509b2fc97f0da3cbd53fb17b4836bfd6dc648ceef1eca019"
+    },
+    "crtUnlock": {
+      "entryVA": "0x100bb7a2",
+      "bodyVA": "0x100bb7a2",
+      "bodyRanges": "100bb7a2-100bb7b6",
+      "instructionCount": 7,
+      "bodyByteCount": 21,
+      "bodyInstructionBytesSha256": "bd77ef3907ee26a8a910d5015f4abc9206e55d072e8d12350b7dd7d59709012f",
+      "entryChain": [],
+      "assemblySha256": "00b06ca181b04cca7517ebd478488ef5ba58228c2eed87d7f2e2d6b9685e0376",
+      "cSha256": "8e5a50c4a752f6b3baea6dbf4575c40bbcf23770ad2d109e2654b31d7a7a2685"
+    },
+    "initializeLockCleanup": {
+      "entryVA": "0x100bb889",
+      "bodyVA": "0x100bb889",
+      "bodyRanges": "100bb889-100bb891",
+      "instructionCount": 4,
+      "bodyByteCount": 9,
+      "bodyInstructionBytesSha256": "7c8670c564d00524ac491f13c55e55718cd88f082aaecb91b1a141f2e86a4042",
+      "entryChain": [],
+      "assemblySha256": "cf97f6e47bb3d5e6a14c290994fca378a76924ea34858f210f2e08a774fa8d28",
+      "cSha256": "81e09acdf1ec07ce24f372a0a7a7a62c2d47c77775c32354759f94bbfa715f0d"
+    },
+    "initializeCriticalSection": {
+      "entryVA": "0x100bbf27",
+      "bodyVA": "0x100bbf27",
+      "bodyRanges": "100bbf27-100bbf61;100bbf65-100bbfac;100bbfdc-100bbfeb",
+      "instructionCount": 50,
+      "bodyByteCount": 147,
+      "bodyInstructionBytesSha256": "f73b38791ad720df5bc93afb51a63f39e6f0b3f93553464dd7b1e7fbdd27d5f5",
+      "entryChain": [],
+      "assemblySha256": "030e73fbd7807ac9961a035ea9ba4df7ddecb8937510449677391a587a5c8019",
+      "cSha256": "cebe8cb65bef0dcb305206ceb94bd8157f191afcc268aa2800e03b309323ae13"
+    },
     "crtInitializeLock": {
       "entryVA": "0x100bb7cf",
       "bodyVA": "0x100bb7cf",
@@ -1267,6 +1311,22 @@
       "containingEntry": "10005e5c",
       "methodLabel": "initializer143Getter"
     },
+    "100bb892": {
+      "containingEntry": "100bb892",
+      "methodLabel": "crtLock"
+    },
+    "100bb7a2": {
+      "containingEntry": "100bb7a2",
+      "methodLabel": "crtUnlock"
+    },
+    "100bb889": {
+      "containingEntry": "100bb889",
+      "methodLabel": "initializeLockCleanup"
+    },
+    "100bbf27": {
+      "containingEntry": "100bbf27",
+      "methodLabel": "initializeCriticalSection"
+    },
     "100bb7cf": {
       "containingEntry": "100bb7cf",
       "methodLabel": "crtInitializeLock"
@@ -1873,6 +1933,22 @@
         "rawOffset": 937984,
         "fileBackedBytes": 28,
         "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "sharedDemanglerHeap": {
+      "address": "102f6f1c",
+      "raw": "0000000000000000000000000000000000000000",
+      "bytes": 20,
+      "sha256": "de47c9b27eb8d300dbb5f2c353e632c393262cf06340c4fa7f1b40c4cbd36f90",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 0,
+        "loaderZeroFillBytes": 20
       },
       "scope": "cold-original-image",
       "liveValueCaptured": false
@@ -2645,6 +2721,141 @@
       "instruction": "CALL 0x100a72d0",
       "kind": "direct",
       "targetVA": "100a72d0"
+    },
+    {
+      "method": "crtLock",
+      "address": "100bb8a6",
+      "raw": "e824ffffff",
+      "instruction": "CALL 0x100bb7cf",
+      "kind": "direct",
+      "targetVA": "100bb7cf"
+    },
+    {
+      "method": "crtLock",
+      "address": "100bb8b2",
+      "raw": "e83debfeff",
+      "instruction": "CALL 0x100aa3f4",
+      "kind": "direct",
+      "targetVA": "100aa3f4"
+    },
+    {
+      "method": "crtLock",
+      "address": "100bb8ba",
+      "raw": "ff1504962f10",
+      "instruction": "CALL dword ptr [0x102f9604]",
+      "kind": "image-indirect",
+      "slotVA": "102f9604",
+      "importEntry": {
+        "iatVA": "0x102f9604",
+        "module": "KERNEL32.dll",
+        "name": "EnterCriticalSection",
+        "ordinal": null
+      }
+    },
+    {
+      "method": "crtUnlock",
+      "address": "100bb7af",
+      "raw": "ff1508962f10",
+      "instruction": "CALL dword ptr [0x102f9608]",
+      "kind": "image-indirect",
+      "slotVA": "102f9608",
+      "importEntry": {
+        "iatVA": "0x102f9608",
+        "module": "KERNEL32.dll",
+        "name": "LeaveCriticalSection",
+        "ordinal": null
+      }
+    },
+    {
+      "method": "initializeLockCleanup",
+      "address": "100bb88b",
+      "raw": "e812ffffff",
+      "instruction": "CALL 0x100bb7a2",
+      "kind": "direct",
+      "targetVA": "100bb7a2"
+    },
+    {
+      "method": "initializeCriticalSection",
+      "address": "100bbf2e",
+      "raw": "e8352cffff",
+      "instruction": "CALL 0x100aeb68",
+      "kind": "direct",
+      "targetVA": "100aeb68"
+    },
+    {
+      "method": "initializeCriticalSection",
+      "address": "100bbf3e",
+      "raw": "e8af23ffff",
+      "instruction": "CALL 0x100ae2f2",
+      "kind": "direct",
+      "targetVA": "100ae2f2"
+    },
+    {
+      "method": "initializeCriticalSection",
+      "address": "100bbf4e",
+      "raw": "e84ae5feff",
+      "instruction": "CALL 0x100aa49d",
+      "kind": "direct",
+      "targetVA": "100aa49d"
+    },
+    {
+      "method": "initializeCriticalSection",
+      "address": "100bbf5d",
+      "raw": "e83c21ffff",
+      "instruction": "CALL 0x100ae09e",
+      "kind": "direct",
+      "targetVA": "100ae09e"
+    },
+    {
+      "method": "initializeCriticalSection",
+      "address": "100bbf70",
+      "raw": "ff1568972f10",
+      "instruction": "CALL dword ptr [0x102f9768]",
+      "kind": "image-indirect",
+      "slotVA": "102f9768",
+      "importEntry": {
+        "iatVA": "0x102f9768",
+        "module": "KERNEL32.dll",
+        "name": "GetModuleHandleA",
+        "ordinal": null
+      }
+    },
+    {
+      "method": "initializeCriticalSection",
+      "address": "100bbf80",
+      "raw": "ff1548962f10",
+      "instruction": "CALL dword ptr [0x102f9648]",
+      "kind": "image-indirect",
+      "slotVA": "102f9648",
+      "importEntry": {
+        "iatVA": "0x102f9648",
+        "module": "KERNEL32.dll",
+        "name": "GetProcAddress",
+        "ordinal": null
+      }
+    },
+    {
+      "method": "initializeCriticalSection",
+      "address": "100bbf92",
+      "raw": "e8e422ffff",
+      "instruction": "CALL 0x100ae27b",
+      "kind": "direct",
+      "targetVA": "100ae27b"
+    },
+    {
+      "method": "initializeCriticalSection",
+      "address": "100bbfa6",
+      "raw": "ffd6",
+      "instruction": "CALL ESI",
+      "kind": "register-or-memory-indirect"
+    },
+    {
+      "method": "initializeCriticalSection",
+      "address": "100bbfe6",
+      "raw": "e8c22bffff",
+      "instruction": "CALL 0x100aebad",
+      "kind": "direct",
+      "targetVA": "100aebad"
     },
     {
       "method": "crtInitializeLock",
