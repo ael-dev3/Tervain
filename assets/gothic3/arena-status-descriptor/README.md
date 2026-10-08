@@ -11,3 +11,5 @@ Create invokes the SharedBase destruction method, resets the actual storage slot
 No full CRT traversal, live NPC activation or campaign completion is established here.
 
 The local NativeGameArenaStatusClassName owner now retains the physical cache and prior-result slots and invokes the actual Game type-info owner. Its cold execution reaches the existing demangler boundary: Unowned getZName template grammar. Guard bits 1 and 2 remain set, with no CString or cleanup callback claimed. The template grammar must be reconstructed before name creation and property lookup can complete.
+
+Subsequent local implementation now executes the original template-name prefix: consumes the prefix, constructs and installs all three local Replicators, parses and records the identifier, and begins the argument list. The Status path stops with its actual cursor at W4 on the unimplemented primary-data-type operation. Local tables and the argument-list flag remain retained because the original normal restoration tail has not executed. No completed template name is claimed.

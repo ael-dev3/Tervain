@@ -1,4 +1,5 @@
 import { gameStrlenDwordCandidate } from './native-game-strlen-predicate';
+import { admitGameTemplateDemanglerSource } from './native-game-template-demangler-source';
 /** Module-owned ___unDName. The admitted grammar currently follows the
  * ordinary, unqualified class RTTI branch; other grammar remains a boundary. */
 import sourceText from '../../assets/gothic3/crt-undname/runtime-rules.json?raw';
@@ -103,6 +104,47 @@ export class NativeCrtUndName {
   }
   private flags(): number { return this.fields.readUnsigned(48); }
   private empty(factory: NativeCrtDNameFactory): NativeCrtDNameRecord { return fact(factory.empty(), 'DName.empty'); }
+  /** Original Game getTemplateName prefix. Failed lower calls retain the
+   * installed local tables; the native restoration belongs to its normal tail. */
+  private templateName(factory: NativeCrtDNameFactory): NativeCrtDNameRecord {
+    if (this.crt.module !== 'Game') throw new Error('Unowned Engine getZName template grammar');
+    admitGameTemplateDemanglerSource();
+    if (this.byte() !== 0x3f || this.byte(1) !== 0x24) {
+      return fact(factory.status(1), 'getTemplateName.invalidPrefix');
+    }
+    this.advance(2); this.state.trace.push('getTemplateName.consumePrefix');
+    const locals = stack(180);
+    const first = new NativeCrtReplicator(factory, subview(locals, 0, 60));
+    const second = new NativeCrtReplicator(factory, subview(locals, 60, 60));
+    const third = new NativeCrtReplicator(factory, subview(locals, 120, 60));
+    fact(first.construct(), 'getTemplateName.replicator1');
+    fact(second.construct(), 'getTemplateName.replicator2');
+    fact(third.construct(), 'getTemplateName.replicator3');
+    const result = this.empty(factory);
+    this.fields.pointer(20).set(first); this.fields.pointer(24).set(second); this.fields.pointer(28).set(third);
+    this.state.trace.push('getTemplateName.installLocalReplicators');
+    if (this.byte() === 0x3f) {
+      this.advance(); throw new Error('Unowned getTemplateName operator-name grammar');
+    }
+    const current = this.byte();
+    if (current >= 0x30 && current <= 0x39) throw new Error('Unowned getTemplateName identifier reference');
+    const cursor: NativeCrtByteCursor = { get: () => this.fields.pointer<NativeCrtBytePointer>(32).get(),
+      set: pointer => this.fields.pointer<NativeCrtBytePointer>(32).set(pointer) };
+    const parsed = fact(factory.fromDelimited(cursor, 0x40, () => this.flags()), 'getTemplateName.getZName.delimited');
+    const identifier = this.empty(factory);
+    fact(factory.assign(identifier, parsed), 'getTemplateName.getZName.assign');
+    if (second.fields.readUnsigned(0) !== 9) fact(second.append(identifier), 'getTemplateName.getZName.record');
+    const returned = fact(factory.copy(identifier), 'getTemplateName.getZName.return');
+    fact(factory.assign(result, returned), 'getTemplateName.assignIdentifier');
+    if (result.isEmpty()) this.fields.writeUnsigned(56, 1, 1);
+    this.state.trace.push('getTemplateName.identifierComplete');
+    this.empty(factory); // getTemplateArgumentList initializes its output first.
+    this.fields.writeUnsigned(57, 1, 1);
+    this.state.trace.push('getTemplateArgumentList.begin');
+    // The Status container selects the original primary-data-type call.
+    // Keep the actual cursor and all local tables for the missing lower owner.
+    throw new Error('Unowned getTemplateArgumentList primary data type');
+  }
   private parse(factory: NativeCrtDNameFactory, replicator: NativeCrtReplicator): NativeCrtDNameRecord {
     if (!(this.flags() & 0x2000)) throw new Error('Unowned UnDecorator symbol/declaration grammar');
     this.fields.writeUnsigned(48, this.flags() & ~0x2000); this.state.trace.push('grammar.dataType');
@@ -131,7 +173,8 @@ export class NativeCrtUndName {
     if (current >= 0x30 && current <= 0x39) {
       this.advance(); identifier = fact(factory.copy(fact(replicator.get(current - 0x30), 'getZName.replicator')), 'getZName.copyReference');
     } else {
-      if (current === 0x3f) throw new Error('Unowned getZName template grammar');
+      if (current === 0x3f) identifier = this.templateName(factory);
+      else {
       // These two prefixes select dimension/parameter services, not ordinary identifiers.
       for (const [label, engineAddress, gameAddress, size, count] of [
         ['templateParameterPrefix', '3089f3d4', '206bedd8', 20, 18],
@@ -152,6 +195,7 @@ export class NativeCrtUndName {
       identifier = this.empty(factory); fact(factory.assign(identifier, parsed), 'getZName.assignIdentifier');
       if (replicator.fields.readUnsigned(0) !== 9) fact(replicator.append(identifier), 'getZName.recordIdentifier');
       identifier = fact(factory.copy(identifier), 'getZName.copyIdentifier');
+      }
     }
     fact(factory.assign(scoped, identifier), 'getScopedName.assign');
     if (scoped.status === 0 && this.byte() !== 0 && this.byte() !== 0x40) throw new Error('Unowned getScopedName scope grammar');

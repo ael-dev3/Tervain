@@ -7,3 +7,5 @@ getTemplateName recognizes the question-mark/dollar prefix, consumes it, constru
 getTemplateArgumentList sets its module flag, handles name references, constants and primary data types, records multi-byte arguments and clears the flag on its ordinary exit. Status uses the primary enum type path.
 
 The TypeScript demangler has not implemented these routines yet. The Status name owner currently stops at the template grammar; no completed name or cleanup registration is claimed.
+
+Subsequent local implementation now executes the original template-name prefix: consumes the prefix, constructs and installs all three local Replicators, parses and records the identifier, and begins the argument list. The Status path stops with its actual cursor at W4 on the unimplemented primary-data-type operation. Local tables and the argument-list flag remain retained because the original normal restoration tail has not executed. No completed template name is claimed.

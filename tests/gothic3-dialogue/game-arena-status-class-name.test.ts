@@ -6,6 +6,8 @@ import { NativeGameArenaStatusClassName } from '../../src/gothic3/native-game-ar
 import { NativeHeapObjectViews } from '../../src/gothic3/native-heap-views';
 import { NativeMemoryAdmin, nativeArenaHeapExtension, nativeSceneStartupHeapExtension } from '../../src/gothic3/native-memory-admin';
 import { NativeRuntimePlatform } from '../../src/gothic3/native-runtime-platform';
+import { NativeCrtUndName } from '../../src/gothic3/native-crt-undname';
+import type { NativeCrtBytePointer, NativeCrtReplicator } from '../../src/gothic3/native-crt-dname';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 function value<T>(result: NativeValue<T>): T { if (!result.known) throw new Error(result.reason); return result.value; }
@@ -33,7 +35,17 @@ it('reaches the original template demangler and preserves the unfinished source 
   const result = f.className.get();
   expect(result.known).toBe(false);
   if (result.known) throw new Error('Template demangler unexpectedly completed; extend this receipt to verify the actual name and cleanup');
-  expect(result.reason).toContain('Unowned getZName template grammar');
+  expect(result.reason).toContain('Unowned getTemplateArgumentList primary data type');
+  const demangler = new NativeCrtUndName(f.crt);
+  const cursor = demangler.fields.pointer<NativeCrtBytePointer>(32).get()!;
+  expect(cursor.fields.readUnsigned(cursor.offset, 1)).toBe(0x57);
+  expect(cursor.fields.readUnsigned(cursor.offset + 1, 1)).toBe(0x34);
+  expect(demangler.fields.readUnsigned(57, 1)).toBe(1);
+  const names = demangler.fields.pointer<NativeCrtReplicator>(24).get()!;
+  expect(names.fields.readUnsigned(0)).toBe(0);
+  const identifier = value(names.get(0));
+  expect(identifier.length()).toBe('bTPropertyContainer'.length);
+  expect(identifier.getLastChar()).toBe('r'.charCodeAt(0));
   expect(f.className.fields.readUnsigned(8)).toBe(3);
   expect(f.className.snapshot().registeredCallback).toBeNull();
   expect(f.className.snapshot().name).toBeNull();
