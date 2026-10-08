@@ -9812,3 +9812,23 @@ This checkpoint is not published.
 PR 137 passed CI run 37797822192 and merged at
 `2d3a0afa06ff1551ecd3ab081d8e78fd4f654ee6` after a 299-run repository-wide
 audit found no active runs. Pages run 37800122027 is pending.
+
+### Local decorator-to-string and data-type parser entry — 8 October 2026
+
+The original decorator-to-string, declaration and data-type routines now enter
+through the retained demangler frame. Flag `0x2000` selects the data-type path
+and is cleared in source order, leaving `0x0800`. The original cursor advances
+from `?` to `A` on the same input backing; the original DName constructor
+returns with its NULL node and masked flag fields. The parser reaches
+`100c67d5 -> 100c59ab`. Its parent calls, lock five and enclosing exception
+frames remain active. Grammar decoding and output are still incomplete.
+
+Pointer INC advances the retained relative pointer and preserves carry; other
+address-dependent flags stay unknown. Signed narrow loads support the captured
+primary-type helper, whose body has not executed on this selected path.
+
+Local validation passes 238 focused checks and typechecking. All 163 generated
+files plus the instruction module reproduce exactly. Evidence contains 87
+bodies, 2,794 instructions and 257 CALL receipts. The production build and full suite pass: 2,798 tests across 260 files
+(177.30 seconds). Publication remains pending. Complete engine startup and campaign play
+remain unfinished.

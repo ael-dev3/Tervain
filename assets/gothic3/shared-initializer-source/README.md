@@ -371,3 +371,14 @@ outer name/demangler frames remain active. There are 82 bodies, 2,295
 instructions and 204 CALL receipts. Allocation failure retains the pending
 heap call without publishing a block. Full startup and campaign play remain
 unfinished.
+
+### Live decorator-to-string and data-type entry
+
+The original decorator-to-string, declaration and data-type routines enter
+through their live caller chain. The selected `0x2000` flag is cleared before
+data-type parsing. The same input cursor advances from `?` to `A`; the NULL
+DName constructor returns and the type-encoding call remains pending at
+`100c67d5 -> 100c59ab`. Lock five and enclosing exception frames remain active.
+There are 87 bodies, 2,794 instructions and 257 CALL receipts. The primary-type
+helper is captured/emitted but has not executed on this selected path.
+Grammar decoding, output and complete startup remain unfinished.
