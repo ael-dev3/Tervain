@@ -1,0 +1,15 @@
+/* ENTRY 100c218f | Replicator::Replicator | STATUS decompiled | 3 ms */
+
+/* Library Function - Single Match
+    public: __thiscall Replicator::Replicator(void)
+   
+   Library: Visual Studio 2005 Release */
+
+Replicator * __thiscall Replicator::Replicator(Replicator *this)
+
+{
+  DName::DName((DName *)(this + 0x2c),3);
+  DName::DName((DName *)(this + 0x34),1);
+  *(undefined4 *)this = 0xffffffff;
+  return this;
+}

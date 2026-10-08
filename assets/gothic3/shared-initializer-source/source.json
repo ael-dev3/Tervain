@@ -36,6 +36,61 @@
       "assemblySha256": "c0e9fa85bc0b8252d4d39a6081082eb7462b16e7563b7a40dfb97ab5df372827",
       "cSha256": "dfeb3753dfd27f5e66c86496039570db0a14859f2a74f77ae44221cc156521e2"
     },
+    "unDecoratorConstructor": {
+      "entryVA": "0x100c2351",
+      "bodyVA": "0x100c2351",
+      "bodyRanges": "100c2351-100c23c3",
+      "instructionCount": 35,
+      "bodyByteCount": 115,
+      "bodyInstructionBytesSha256": "1f8b9080f7fa7417f4151b92a9cad5ad2e09dd2315c8ed37200277067bbb4799",
+      "entryChain": [],
+      "assemblySha256": "d3c5505068b178ca953d6a0a61696ca86bcbde32fdf649181ad0043d770889c4",
+      "cSha256": "28e1011cc2a6e339feb7421c605ce0aeeb5fadbe37a5f2decfd7d32a07e18a00"
+    },
+    "replicatorConstructor": {
+      "entryVA": "0x100c218f",
+      "bodyVA": "0x100c218f",
+      "bodyRanges": "100c218f-100c21ac",
+      "instructionCount": 12,
+      "bodyByteCount": 30,
+      "bodyInstructionBytesSha256": "10aa1a13d6a1a005ffb3959bdf9eeedf15e1ca58b9aaec8b0b204762e179dca6",
+      "entryChain": [],
+      "assemblySha256": "d5b9fa4f1bccabd605a4b62b7a6524aee55d02a7feed3c998aabe9f5e22b530b",
+      "cSha256": "6e24f3860b381d185e4ebaceb49dde0f3058d24203546e396157f0140036607e"
+    },
+    "replicatorListConstructor": {
+      "entryVA": "0x100c1f28",
+      "bodyVA": "0x100c1f28",
+      "bodyRanges": "100c1f28-100c1f88",
+      "instructionCount": 38,
+      "bodyByteCount": 97,
+      "bodyInstructionBytesSha256": "fa3a452de77eb07e8bb83f7badc363130e51b3fc2320c2c0144a24db22989810",
+      "entryChain": [],
+      "assemblySha256": "db4771cd73dffd4bfa3d55ecc1ad57e04947aa4f04867cae33d883dc9368ae3b",
+      "cSha256": "04787bb413b39e602e6b2d8349f30ca8ab74fb6d593984aa22136f46c0774ea8"
+    },
+    "demanglerScratchAllocate": {
+      "entryVA": "0x100c1ac7",
+      "bodyVA": "0x100c1ac7",
+      "bodyRanges": "100c1ac7-100c1b4a",
+      "instructionCount": 55,
+      "bodyByteCount": 132,
+      "bodyInstructionBytesSha256": "cb0b2655b624d43032cdd450769be7d06cf8320ae7c6373d09acf40435682ea9",
+      "entryChain": [],
+      "assemblySha256": "231b61b61bd1508abf1a5ebea9b0071853febc237e2fb5791913aab61999db08",
+      "cSha256": "c705b6a006bc86d62d63f23b03e4448d7e901467de124d61a083c55ebb5bea6c"
+    },
+    "dnameNodeConstructor": {
+      "entryVA": "0x100c1dcf",
+      "bodyVA": "0x100c1dcf",
+      "bodyRanges": "100c1dcf-100c1df3",
+      "instructionCount": 13,
+      "bodyByteCount": 37,
+      "bodyInstructionBytesSha256": "f89765bb1d04dd087df94f5067aedfeca5ff226caa5ba2fc43dbb9e0518795c2",
+      "entryChain": [],
+      "assemblySha256": "33f6bcda04f21119c509c6b2d50456b2a6cfd730f98602a59a81de82cfef0807",
+      "cSha256": "bcbd43032a792f0af4aa8d4b71267e6b6a1f3824af788d64738fe24167db291b"
+    },
     "crtLock": {
       "entryVA": "0x100bb892",
       "bodyVA": "0x100bb892",
@@ -1311,6 +1366,26 @@
       "containingEntry": "10005e5c",
       "methodLabel": "initializer143Getter"
     },
+    "100c2351": {
+      "containingEntry": "100c2351",
+      "methodLabel": "unDecoratorConstructor"
+    },
+    "100c218f": {
+      "containingEntry": "100c218f",
+      "methodLabel": "replicatorConstructor"
+    },
+    "100c1f28": {
+      "containingEntry": "100c1f28",
+      "methodLabel": "replicatorListConstructor"
+    },
+    "100c1ac7": {
+      "containingEntry": "100c1ac7",
+      "methodLabel": "demanglerScratchAllocate"
+    },
+    "100c1dcf": {
+      "containingEntry": "100c1dcf",
+      "methodLabel": "dnameNodeConstructor"
+    },
     "100bb892": {
       "containingEntry": "100bb892",
       "methodLabel": "crtLock"
@@ -1939,16 +2014,16 @@
     },
     "sharedDemanglerHeap": {
       "address": "102f6f1c",
-      "raw": "0000000000000000000000000000000000000000",
-      "bytes": 20,
-      "sha256": "de47c9b27eb8d300dbb5f2c353e632c393262cf06340c4fa7f1b40c4cbd36f90",
+      "raw": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "bytes": 60,
+      "sha256": "5dcc1b5872dd9ff1c234501f1fefda01f664164e1583c3e1bb3dbea47588ab31",
       "section": {
         "virtualAddress": 1306624,
         "virtualSize": 1807760,
         "rawSize": 16384,
         "rawOffset": 1306624,
         "fileBackedBytes": 0,
-        "loaderZeroFillBytes": 20
+        "loaderZeroFillBytes": 60
       },
       "scope": "cold-original-image",
       "liveValueCaptured": false
@@ -2721,6 +2796,69 @@
       "instruction": "CALL 0x100a72d0",
       "kind": "direct",
       "targetVA": "100a72d0"
+    },
+    {
+      "method": "unDecoratorConstructor",
+      "address": "100c2358",
+      "raw": "e832feffff",
+      "instruction": "CALL 0x100c218f",
+      "kind": "direct",
+      "targetVA": "100c218f"
+    },
+    {
+      "method": "unDecoratorConstructor",
+      "address": "100c2362",
+      "raw": "e828feffff",
+      "instruction": "CALL 0x100c218f",
+      "kind": "direct",
+      "targetVA": "100c218f"
+    },
+    {
+      "method": "replicatorConstructor",
+      "address": "100c2197",
+      "raw": "e88cfdffff",
+      "instruction": "CALL 0x100c1f28",
+      "kind": "direct",
+      "targetVA": "100c1f28"
+    },
+    {
+      "method": "replicatorConstructor",
+      "address": "100c21a1",
+      "raw": "e882fdffff",
+      "instruction": "CALL 0x100c1f28",
+      "kind": "direct",
+      "targetVA": "100c1f28"
+    },
+    {
+      "method": "replicatorListConstructor",
+      "address": "100c1f54",
+      "raw": "e86efbffff",
+      "instruction": "CALL 0x100c1ac7",
+      "kind": "direct",
+      "targetVA": "100c1ac7"
+    },
+    {
+      "method": "replicatorListConstructor",
+      "address": "100c1f60",
+      "raw": "e86afeffff",
+      "instruction": "CALL 0x100c1dcf",
+      "kind": "direct",
+      "targetVA": "100c1dcf"
+    },
+    {
+      "method": "demanglerScratchAllocate",
+      "address": "100c1add",
+      "raw": "ff16",
+      "instruction": "CALL dword ptr [ESI]",
+      "kind": "register-or-memory-indirect"
+    },
+    {
+      "method": "demanglerScratchAllocate",
+      "address": "100c1b06",
+      "raw": "e8bcffffff",
+      "instruction": "CALL 0x100c1ac7",
+      "kind": "direct",
+      "targetVA": "100c1ac7"
     },
     {
       "method": "crtLock",

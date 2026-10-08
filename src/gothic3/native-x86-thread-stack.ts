@@ -1,3 +1,4 @@
+import {nativeMaskedBitfieldAssignment} from './native-masked-bitfield';
 /** Retained virtual x86 stack/register/FS state. Numerical addresses stay
  * unknown; private relative-address and expression capabilities own relations. */
 import type { NativeValue } from './dialogue';
@@ -697,6 +698,7 @@ export class NativeX86ThreadStack {
       const pointerFlags=(a:number,b:number)=>{const result=(a-b)>>>0;if(a===b)stack.#arithmeticFlags(0,0,0,4,true);else stack.#flags((a<b?1:0)|(stack.#parity(result&255)?4:0)|(result&0x80000000?0x80:0),0xc5);};
       const object=(word:NativeX86Word32):object=>{const value=stack.#record(word).provenance;if(value?.kind!=='platform')throw new Error('Actual initializer module/procedure capability required');return value.object;};
       const string=(word:NativeX86Word32):string=>{let text='';for(let offset=0;;offset++){const memory=stack.#memory(stack.#offsetWord(word,offset),1),byte=NativeHeapObjectViews.prototype.readUnsigned.call(memory.fields,memory.offset,1);if(byte===0)return text;text+=String.fromCharCode(byte);}};
+      let bitfieldUpdate:{fields:NativeHeapObjectViews;offset:number;original:NativeX86Word32;selected?:NativeX86Word32;xor?:NativeX86Word32;masked?:NativeX86Word32}|null=null;
       let pc='100aa632';
       while(true){
         const row=sharedInitializerInstruction(pc),[opcode,...rest]=row.instruction.replace(/^\w+/,opcode=>opcode.toUpperCase()).replace(/\b(?:eax|ebx|ecx|edx|esi|edi|ebp|esp)\b/g,register=>register.toUpperCase()).split(' '),text=rest.join(' ');
@@ -745,7 +747,7 @@ export class NativeX86ThreadStack {
         }
         if(opcode==='FLD')throw new Error('Unowned SharedBase initializer opcode '+opcode);
         const args=text&&!['STOSD.REP','SCASD.REPE'].includes(opcode!)?text.split(',').map(operand):[],next=(parseInt(pc,16)+row.bytes.length/2).toString(16).padStart(8,'0');
-        if(opcode==='MOV'){const destination=args[0]!,source=args[1]!,byteDestination=destination.kind==='register'&&destination.byte,byteSource=source.kind==='register'&&source.byte;write(destination.kind==='memory'&&byteSource?{...destination,width:1}:destination,read(source.kind==='memory'&&byteDestination?{...source,width:1}:source));}
+        if(opcode==='MOV'){const destination=args[0]!,source=args[1]!,byteDestination=destination.kind==='register'&&destination.byte,byteSource=source.kind==='register'&&source.byte,word=read(source.kind==='memory'&&byteDestination?{...source,width:1}:source);if(pc==='100c1f40'){if(text!=='ECX,dword ptr [ESI + 0x4]'||source.kind!=='memory')throw new Error('Original replicator bitfield read required');const memory=stack.#memory(address(source.expression),4);bitfieldUpdate={...memory,original:word};}write(destination.kind==='memory'&&byteSource?{...destination,width:1}:destination,word);}
         else if(opcode==='MOVZX'){const source=args[1]!,width=source.kind==='memory'?source.width:4;write(args[0]!,stack.#mint(stack.#numeric(read(source),width),0xffffffff));}
         else if(opcode==='LEA'){const source=args[1]!;if(source.kind!=='memory')throw new Error('Actual initializer LEA required');write(args[0]!,address(source.expression));}
         else if(opcode==='PUSH')stack.#push(read(args[0]!));
@@ -782,7 +784,13 @@ export class NativeX86ThreadStack {
           const left=read(args[0]!),right=read(args[1]!),a=stack.#record(left),b=stack.#record(right),same=args[0]!.kind==='register'&&args[1]!.kind==='register'&&args[0]!.slot===args[1]!.slot;
           const value=opcode==='XOR'&&same?0:opcode==='XOR'?a.value^b.value:a.value&b.value;
           const mask=opcode==='XOR'&&same?0xffffffff:opcode==='AND'?(a.mask&b.mask)|((~a.value)&a.mask)|((~b.value)&b.mask):a.mask&b.mask;
-          write(args[0]!,opcode==='XOR'&&!same&&mask!==0xffffffff?stack.#mint(value,mask,{kind:'xor',left,right}):stack.#mint(value,mask));stack.#logicalFlags(value,mask,4);
+          if(pc==='100c1f48'){
+            const destination=args[0]!;if(!bitfieldUpdate?.selected||!bitfieldUpdate.masked||right!==bitfieldUpdate.masked||destination.kind!=='memory'||text!=='dword ptr [ESI + 0x4],ECX')throw new Error('Actual original masked bitfield expression required');const memory=stack.#memory(address(destination.expression),4),original=stack.#record(bitfieldUpdate.original),current=NativeHeapObjectViews.prototype.maskedWord.call(memory.fields,memory.offset);if(memory.fields!==bitfieldUpdate.fields||memory.offset!==bitfieldUpdate.offset||current.value!==original.value||current.knownMask!==original.mask)throw new Error('Unchanged original bitfield storage required');const selected=stack.#record(bitfieldUpdate.selected),joined=nativeMaskedBitfieldAssignment({value:original.value,knownMask:original.mask},{value:selected.value,knownMask:selected.mask},15);write(destination,stack.#mint(joined.value,joined.knownMask));stack.#logicalFlags(joined.value,joined.knownMask,4);bitfieldUpdate=null;pc=next;continue;
+          }
+          const result=opcode==='XOR'&&!same&&mask!==0xffffffff?stack.#mint(value,mask,{kind:'xor',left,right}):stack.#mint(value,mask);
+          if(pc==='100c1f43'){if(!bitfieldUpdate||left!==bitfieldUpdate.original||text!=='ECX,EAX')throw new Error('Original replicator XOR operands required');stack.#numeric(right,4);bitfieldUpdate.selected=right;bitfieldUpdate.xor=result;}
+          if(pc==='100c1f45'){if(!bitfieldUpdate||left!==bitfieldUpdate.xor||text!=='ECX,0xf'||stack.#numeric(right,4)!==15)throw new Error('Original replicator low-bit mask required');bitfieldUpdate.masked=result;}
+          write(args[0]!,result);stack.#logicalFlags(value,mask,4);
         }
         else if(opcode==='NEG'){
           const word=read(args[0]!),provenance=stack.#record(word).provenance;
@@ -877,7 +885,7 @@ export class NativeX86ThreadStack {
             stack.#processorSimdFrame={oldFs:stack.#load(stack.#bank,32),oldEbp:stack.#load(stack.#bank,stack.#reg('EBP')),oldEbx:stack.#load(stack.#bank,stack.#reg('EBX')),oldEsi:stack.#load(stack.#bank,stack.#reg('ESI')),oldEdi:stack.#load(stack.#bank,stack.#reg('EDI')),scope,returned:false};
           }
           if(target==='1000605a'){const receiver=stack.#record(stack.#load(stack.#bank,stack.#reg('ECX'))).provenance;if(receiver?.kind!=='shared-local')throw new Error('Actual original bitmap pool receiver required');proof.value.imports.validatePoolRegion(receiver.fields,receiver.offset??0);}
-          if(!((pc==='100ce0e2'&&target==='100ce045')||(pc==='100ce04c'&&target==='100aeb68')||(pc==='100ce08f'&&target==='100aebad')||((pc==='100a729b'||pc==='100b10dd'||pc==='100b0909'||pc==='100c614c'||pc==='100bb7d6')&&target==='100aeb68')||((pc==='100a72c4'||pc==='100b1162'||pc==='100bb883')&&target==='100aebad'))&&!['100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100ae27b','100aa47d','100a7265','100aef10','100b1854','100b4b6b','100ce095','100bef05','100ce0f5','100a72d0','100a7294','100a71ac','100ae2f2','100b10d6','100aa453','100aa45c','100a72ca','100e1660','100e1440','100e1450','100e1470','100e14b0','100e14c0','100e14d0','100e14e0','100e14f0','100e1500','100e1510','100e15d0','100e1600','1000619f','100a7099','100b0902','100c6142','100bb7cf','100aeed0','100bb892','100bb7a2','100bb889','10003ba7','10007d65','10002aae','10003cd8','10001028','10002d97','100061cc','100aabd2','100aaaf6','100a7980','100012e4','1000605a','100a7a00'].includes(target))throw new Error('Unowned SharedBase initializer child at '+pc+' -> '+target+' (cinit 100aa632)');
+          if(!((pc==='100ce0e2'&&target==='100ce045')||(pc==='100ce04c'&&target==='100aeb68')||(pc==='100ce08f'&&target==='100aebad')||((pc==='100a729b'||pc==='100b10dd'||pc==='100b0909'||pc==='100c614c'||pc==='100bb7d6')&&target==='100aeb68')||((pc==='100a72c4'||pc==='100b1162'||pc==='100bb883')&&target==='100aebad'))&&!['100ae900','100ae880','100ae8b0','100a78fe','100a788e','100b4407','100b448b','100ae27b','100aa47d','100a7265','100aef10','100b1854','100b4b6b','100ce095','100bef05','100ce0f5','100a72d0','100a7294','100a71ac','100ae2f2','100b10d6','100aa453','100aa45c','100a72ca','100e1660','100e1440','100e1450','100e1470','100e14b0','100e14c0','100e14d0','100e14e0','100e14f0','100e1500','100e1510','100e15d0','100e1600','1000619f','100a7099','100b0902','100c6142','100bb7cf','100aeed0','100bb892','100bb7a2','100bb889','100c2351','100c218f','100c1f28','100c1ac7','100c1dcf','10003ba7','10007d65','10002aae','10003cd8','10001028','10002d97','100061cc','100aabd2','100aaaf6','100a7980','100012e4','1000605a','100a7a00'].includes(target))throw new Error('Unowned SharedBase initializer child at '+pc+' -> '+target+' (cinit 100aa632)');
           pc=target;continue;
         }else if(opcode==='RET'){
           if(pc==='1003e116'){const word=stack.#load(stack.#bank,stack.#reg('EAX')),slot=stack.#record(word).provenance;if(slot?.kind==='shared-local')stack.#store(stack.#bank,stack.#reg('EAX'),pointer(proof.value.imports.retainPoolSlot(slot.fields,slot.offset??0)));else if(stack.#numeric(word,4)!==0)throw new Error('Original bitmap allocator return required');}
@@ -2198,11 +2206,13 @@ export class NativeX86ThreadStack {
   }); }
   #writeMemory(address: NativeX86Word32, word: NativeX86Word32, width: Width): void {
     const maximum = this.#maximum(width), memory = this.#memory(address, width), record = this.#record(word);
-    if (width === 4 && memory.fields === this.#stack) { this.#store(memory.fields, memory.offset, word); return; }
     const p = this.#liveWord(word).provenance;
-    if (width === 4 && (p?.kind === 'platform' || p?.kind === 'allocation' || p?.kind === 'module' || p?.kind === 'process' || p?.kind === 'shared-local')) {
+    // Preserve stack expression provenance, including unknown EH words.
+    // Opaque local object pointers also carry their physical capability.
+    if (width === 4 && memory.fields === this.#stack && p?.kind !== 'shared-local') { this.#store(memory.fields, memory.offset, word); return; }
+    if (width === 4 && (p?.kind === 'platform' || p?.kind === 'allocation' || p?.kind === 'module' || p?.kind === 'process' || p?.kind === 'shared-local' || p?.kind === 'stack')) {
       this.#invalidateRange(memory.fields, memory.offset, 4); this.#store(memory.fields, memory.offset, word);
-      NativeHeapObjectViews.prototype.pointer.call(memory.fields, memory.offset).set(p.kind === 'platform' ? p.object : p.kind === 'module' ? this.#modulePointer(p) : p.kind==='shared-local'?Object.freeze({fields:p.fields,offset:p.offset??0}):p.pointer); return;
+      NativeHeapObjectViews.prototype.pointer.call(memory.fields, memory.offset).set(p.kind === 'platform' ? p.object : p.kind === 'module' ? this.#modulePointer(p) : p.kind==='shared-local'?Object.freeze({fields:p.fields,offset:p.offset??0}):p.kind==='stack'?Object.freeze({fields:this.#stack,offset:p.offset}):p.pointer); return;
     }
     this.#invalidateRange(memory.fields, memory.offset, width);
     const field = NativeHeapObjectViews.prototype.maskedWord.call(memory.fields, memory.offset, width);
