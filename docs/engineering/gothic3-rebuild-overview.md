@@ -93,11 +93,13 @@ establish campaign completion.
 
 ## Current status — 8 October 2026
 
-The latest merged runtime checkpoint is [PR 117](https://github.com/ael-dev3/Tervain/pull/117),
-merged at `0270bb5cdd54f521731a4c6de164e3e967265d37` after successful
-[CI run 37761728106](https://github.com/ael-dev3/Tervain/actions/runs/37761728106).
-[Pages run 37762574694](https://github.com/ael-dev3/Tervain/actions/runs/37762574694)
-completed successfully.
+The latest merged runtime checkpoint is [PR 119](https://github.com/ael-dev3/Tervain/pull/119),
+merged at `04df7277c8166a75cf67a5c688ba766f280f9645` after successful
+[CI run 37766553792](https://github.com/ael-dev3/Tervain/actions/runs/37766553792).
+[Pages run 37767150236](https://github.com/ael-dev3/Tervain/actions/runs/37767150236)
+completed successfully. It adds RTC exit registration; the published selected
+path reaches the first void initializer. PR 120 advances through the first two
+void registrations and is undergoing CI.
 
 The selected SharedBase path completes argument and environment setup,
 floating-point conversion installation and cached pointer encoding. Its first
