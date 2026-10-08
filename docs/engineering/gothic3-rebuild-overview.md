@@ -42,17 +42,18 @@ itself establish a playable reconstruction.
 The current development bottleneck is native startup and its shared runtime
 dependencies. The live Game path stops before `__cinit` at `204678f2`.
 Separately, the local SharedBase classification helper has completed its aligned
-512-byte stack allocation and zero memset, and stops before Unicode conversion
-fill at `100c6f95`. Those local helper results still need to join the live
+512-byte stack allocation, conversion/classification and checked normal return.
+The next boundary is the case-mapping stat helper at `100b5112 -> 100b4d44`.
+Those local helper results still need to join the live
 startup path before they can enable NPC activation. The full game remains
 unfinished; successful extraction, compilation or deployment alone does not
 establish campaign completion.
 
 ## Current status — 8 October 2026
 
-The latest confirmed publication is [PR 97](https://github.com/ael-dev3/Tervain/pull/97),
-merged at `59cfbfe6c69ef0eed93e94197eb88c55d4a583ae` and deployed by
-[Pages run 37726681547](https://github.com/ael-dev3/Tervain/actions/runs/37726681547).
+The latest confirmed publication is [PR 98](https://github.com/ael-dev3/Tervain/pull/98),
+merged at `58a8da9672a4fb67448526f22fb31db97ec0728d` and deployed by
+[Pages run 37727870217](https://github.com/ael-dev3/Tervain/actions/runs/37727870217).
 It includes original SharedBase pointer/lock setup, PTD allocation and selected
 default-locale initialization, environment setup and standard I/O descriptors.
 The earlier PR 84 served-artifact comparison remains evidence for that prior
@@ -903,3 +904,30 @@ The cleanup and cookie-check source listings are additionally captured, but
 their execution remains pending. The next runtime boundary is conversion fill
 at `100c6f95`; classification fill, case mapping, cleanup and live Game startup
 integration remain unfinished.
+
+### Local classification and normal-return continuation
+
+The next local component fills the actual 512-byte stack buffer through the
+canonical `MultiByteToWideChar` service at `100c6f95`, then writes 256 original
+character-type WORDs through `GetStringTypeW` at `100c6fa3`. These operations use
+the explicitly selected virtual CP1252 profile. They do not claim capture of
+the user's Windows locale. Input byte zero is the source replacement space;
+byte `80` converts to Unicode `20ac`.
+
+The stack graph records both import calls and their stdcall cleanup. It follows
+`__freea` without freeing the stack's `cccc` allocation, restores saved registers,
+decodes the symbolic cookie/EBP relationship, compares it with the canonical
+SharedBase cookie and returns through the original helper return capability.
+The caller removes its seven argument words, returning ESP to its original
+reservation offset. All helper calls return. Temporary and probe call authority
+expire; their retained bytes remain inspectable. Reading the canonical cookie
+does not establish that its separate startup initializer has executed.
+
+The translated caller restores the classification locale ownership bit when
+its local flag requires it, then enters the next mapping scope. Its boundary is
+`100b5112 -> 100b4d44`. Lower/upper mapping buffers remain unknown and the global
+multibyte candidate is not installed. Focused validation passes 59 tests,
+including all 256 converted/type values and locale flags 0, 1 and 3.
+Typechecking, the production build and 2,597 full-suite tests across 258 files pass.
+This remains a direct helper ABI; preceding CRT frames and live Game startup
+integration, NPC activation and campaign completion remain unfinished.

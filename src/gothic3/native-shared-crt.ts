@@ -183,8 +183,14 @@ export class NativeSharedCrtOwner {
   const owner=owners.get(platform),pending=owner?owner.#nlsPending:null;
   if(!owner||!owner.#active||!pending||pending.call!==call)return {known:false,reason:'Actual pending SharedBase NLS call required'};
   try{
-   if(pending.fields){owner.#requireLocal(pending.fields);if(pending.kind==='GetCPInfo'&&(pending.fields!==owner.#cpInfo||pending.fields.bytes.length!==20))throw new Error('Actual CPInfo local required');if(pending.kind==='GetStringTypeW'&&(pending.fields!==owner.#caseState?.probe||pending.fields.bytes.length!==4))throw new Error('Actual Unicode probe output required');}
-   if(pending.input){if(pending.kind==='GetStringTypeW'){if(pending.input!==owner.imageStorage('emptyWideString')||pending.count!==1||pending.scalar!==1)throw new Error('Actual original Unicode string-type probe required');}else{owner.#requireLocal(pending.input);if(pending.input!==owner.#caseState?.input||pending.count!==256||pending.flags!==1)throw new Error('Actual original case-repertoire query required');}}
+   const item=owner.#caseState;
+   if(pending.fields){owner.#requireLocal(pending.fields);if(pending.kind==='GetCPInfo'&&(pending.fields!==owner.#cpInfo||pending.fields.bytes.length!==20))throw new Error('Actual CPInfo local required');
+    if(pending.kind==='GetStringTypeW'&&!(pending.fields===item?.probe&&pending.count===1&&pending.fields.bytes.length===4)&&!(pending.fields===item?.types&&pending.count===256&&pending.fields.bytes.length===512))throw new Error('Actual Unicode classification output required');
+    if(pending.kind==='MultiByteToWideChar'&&(pending.fields!==item?.wideTemporary||pending.fields.bytes.length!==512))throw new Error('Actual wide conversion destination required');}
+   if(pending.input){if(pending.kind==='GetStringTypeW'){
+     if(pending.scalar!==1||!(pending.input===owner.imageStorage('emptyWideString')&&pending.count===1&&pending.fields===item?.probe)&&!(pending.input===item?.wideTemporary&&pending.count===256&&pending.fields===item?.types))throw new Error('Actual original Unicode classification input required');
+     if(pending.count===256)owner.#requireLocal(pending.input);
+    }else{owner.#requireLocal(pending.input);if(pending.input!==item?.input||pending.count!==256||pending.flags!==1)throw new Error('Actual original case-repertoire conversion required');}}
    return {known:true,value:pending};
   }catch(error){return {known:false,reason:error instanceof Error?error.message:String(error)};}
  }
@@ -637,7 +643,7 @@ export class NativeSharedCrtOwner {
   for(let index=0;index<256;index++){input.writeUnsigned(index,index,1);this.#trace.push('100b1236.caseInputByte');}
   input.writeUnsigned(0,32,1);
   if(info.readUnsigned(6,1)!==0)throw new Error('Unowned SharedBase case lead-byte replacement');
-  this.#initializeLocaleUpdate();this.#trace.push('100c703f.getStringTypeA.enterStat');
+  const classificationLocale=this.#initializeLocaleUpdate();this.#trace.push('100c703f.getStringTypeA.enterStat');
   const selected=NativeRuntimePlatform.threadStackSelectionForPlatform(this.platform);
   if(selected.known){
    this.#stackCall=Object.freeze({});this.#stackStage='enter';
@@ -660,7 +666,17 @@ export class NativeSharedCrtOwner {
   if(!this.#caseState.stack)throw new Error('Unowned SharedBase aligned temporary stack allocation at 100c6f4c -> 100ce300');
   this.#stackStage='allocate';this.#caseState.wideTemporary=this.#call('100c6f4c.alloca16',()=>NativeX86ThreadStack.allocateSharedStringTypeTemporary(this.#caseState!.stack!,this.#stackCall!));
   this.#call('100c6f80.memset',()=>NativeX86ThreadStack.clearSharedStringTypeTemporary(this.#caseState!.stack!,this.#stackCall!));
-  throw new Error('Unowned SharedBase wide conversion fill at 100c6f95 -> MultiByteToWideChar');
+  const wide=this.#caseState.wideTemporary;
+  this.#locals.set(wide,{backing:wide.backing,bytes:wide.bytes,masks:wide.knownMask,backingBytes:wide.backing.bytes,backingMasks:wide.backing.knownMask,view:wide.view});
+  const filled=this.#nlsScalar('MultiByteToWideChar',fields.readUnsigned(4),wide,input,256,1,procedure);
+  if(filled===0)throw new Error('Unowned SharedBase conversion-fill failure cleanup');
+  const classified=this.#nlsScalar('GetStringTypeW',1,types,wide,filled);
+  const returned=this.#call('100c703e.classificationReturn',()=>NativeX86ThreadStack.returnSharedStringTypeFrame(this.#caseState!.stack!,this.#stackCall!));
+  if(returned!==classified)throw new Error('Actual SharedBase classification result required');
+  this.#locals.delete(wide);this.#locals.delete(this.#caseState.probe);this.#stackCall=null;
+  if(classificationLocale.readUnsigned(12,1)!==0){const ptd=classificationLocale.pointer<NativeHeapObjectViews>(8).get();if(!ptd)throw new Error('Actual classification caller PTD required');ptd.writeUnsigned(0x70,ptd.readUnsigned(0x70)&~2);this.#trace.push('100c7076.classificationLocale.restore');}
+  this.#trace.push('100c703f.getStringTypeA.return');this.#initializeLocaleUpdate();
+  throw new Error('Unowned SharedBase case mapping stat frame at 100b5112 -> 100b4d44');
  }
  #initializeArgumentsPrefix():void {
   if(this.imageStorage('multibyteInitialized').readUnsigned(0)===0){

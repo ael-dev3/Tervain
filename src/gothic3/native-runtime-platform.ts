@@ -901,15 +901,19 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
             for(let offset=6;offset<18;offset++)NativeHeapObjectViews.prototype.writeUnsigned.call(fields,offset,0,1);value=1;
           }
         }else if(input.kind==='GetStringTypeW'){
-          if(input.scalar!==1||input.count!==1||!input.input||!input.fields)throw new Error('Actual SharedBase CT_CTYPE1 probe ABI required');
+          if(input.scalar!==1||![1,256].includes(input.count)||!input.input||!input.fields)throw new Error('Actual SharedBase CT_CTYPE1 ABI required');
           requirePhysicalNativeViews(input.input);requirePhysicalNativeViews(input.fields);
-          const code=NativeHeapObjectViews.prototype.readUnsigned.call(input.input,0,2),byte=new Map(selection.reverse).get(code);
-          if(byte===undefined)throw new Error('Probe code unit outside declared NLS repertoire');
-          NativeHeapObjectViews.prototype.writeUnsigned.call(input.fields,0,selection.ctype1[byte]!,2);value=1;
+          const reverse=new Map(selection.reverse);
+          for(let index=0;index<input.count;index++){
+            const code=NativeHeapObjectViews.prototype.readUnsigned.call(input.input,index*2,2),byte=reverse.get(code);
+            if(byte===undefined)throw new Error('Classification code unit outside declared NLS repertoire');
+            NativeHeapObjectViews.prototype.writeUnsigned.call(input.fields,index*2,selection.ctype1[byte]!,2);
+          }value=1;
         }else {
-          if(input.kind!=='MultiByteToWideChar'||input.scalar!==selection.codePage||input.flags!==1||input.procedure!==this.#argvProcedures.get('MultiByteToWideChar')||!input.input||input.fields!==null||input.count!==256)throw new Error('Actual SharedBase conversion-query ABI required');
+          if(input.kind!=='MultiByteToWideChar'||input.scalar!==selection.codePage||input.flags!==1||input.procedure!==this.#argvProcedures.get('MultiByteToWideChar')||!input.input||input.count!==256)throw new Error('Actual SharedBase conversion ABI required');
           requirePhysicalNativeViews(input.input);
-          for(let index=0;index<input.count;index++){const byte=NativeHeapObjectViews.prototype.readUnsigned.call(input.input,index,1);if(selection.unicode[byte]===undefined)throw new Error('Byte outside declared NLS repertoire');}
+          if(input.fields)requirePhysicalNativeViews(input.fields);
+          for(let index=0;index<input.count;index++){const byte=NativeHeapObjectViews.prototype.readUnsigned.call(input.input,index,1),code=selection.unicode[byte];if(code===undefined)throw new Error('Byte outside declared NLS repertoire');if(input.fields)NativeHeapObjectViews.prototype.writeUnsigned.call(input.fields,index*2,code,2);}
           value=input.count;
         }
         const result:NativeArgvNlsResult=Object.freeze({kind:'scalar',value});
