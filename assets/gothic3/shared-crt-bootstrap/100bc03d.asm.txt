@@ -1,0 +1,15 @@
+100bc03d | ff35c46a2f10 | PUSH dword ptr [0x102f6ac4]
+100bc043 | e8aa22ffff | CALL 0x100ae2f2
+100bc048 | 85c0 | TEST EAX,EAX
+100bc04a | 59 | POP ECX
+100bc04b | 740f | JZ 0x100bc05c
+100bc04d | ff742404 | PUSH dword ptr [ESP + 0x4]
+100bc051 | ffd0 | CALL EAX
+100bc053 | 85c0 | TEST EAX,EAX
+100bc055 | 59 | POP ECX
+100bc056 | 7404 | JZ 0x100bc05c
+100bc058 | 33c0 | XOR EAX,EAX
+100bc05a | 40 | INC EAX
+100bc05b | c3 | RET
+100bc05c | 33c0 | XOR EAX,EAX
+100bc05e | c3 | RET
