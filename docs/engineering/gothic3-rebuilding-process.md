@@ -10328,6 +10328,6 @@ queries, parsing and cleanup remain to be connected. Changed source receipts
 and physical return-word corruption are rejected before applying the API result.
 
 All 303 focused checks, typechecking and the production build pass. Evidence
-and emitted instructions regenerate byte-for-byte. Full-suite validation and
-publication are pending. Complete DLL startup, world activation and campaign
+and emitted instructions regenerate byte-for-byte. The full suite passes
+2,901 tests across 273 files (200.61 seconds). Publication is pending. Complete DLL startup, world activation and campaign
 completion remain unfinished.
