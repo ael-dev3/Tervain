@@ -1,5 +1,6 @@
 import {createHash} from 'node:crypto';
 import {describe,it,expect} from 'vitest';
+import observation from '../../assets/gothic3/shared-dll-entry-source/windows-version-api-observation.json';
 import source from '../../assets/gothic3/shared-dll-entry-source/source.json';
 import {sharedDllEntryInstruction} from '../../src/gothic3/native-shared-dll-entry-instructions';
 const sha=(bytes:Uint8Array)=>createHash('sha256').update(bytes).digest('hex');
@@ -33,4 +34,18 @@ describe('original SharedBase DLL entry evidence',()=>{
   for(const name of ['optionalCrtHook','dllInitializerObject','dllInitializerGuard'])expect(source.coldImages.find(i=>i.label===name)!.bytes).toBe('00000000');
   expect(sharedDllEntryInstruction('100a164f').instruction).toBe('RET 0xc');
  });
+});
+
+it('preserves the prepared ANSI version buffer and contained actual query results',()=>{
+ expect(observation.inputSha256).toBe(source.inputSha256);
+ expect(observation.size).toBe(1740);expect(observation.handle).toBe(0);
+ const bytes=Buffer.from(observation.preparedBufferBytes,'hex');
+ expect(bytes.length).toBe(observation.size);expect(sha(bytes)).toBe(observation.preparedBufferSha256);
+ expect(observation.queries.map(q=>[q.offset,q.length])).toEqual([[864,4],[1200,17]]);
+ for(const query of observation.queries){
+  expect(query.result).toBe(1);expect(query.offset).toBeGreaterThanOrEqual(0);
+  expect(query.offset+query.length).toBeLessThanOrEqual(bytes.length);
+  expect(bytes.subarray(query.offset,query.offset+query.length).toString('hex')).toBe(query.bytes);
+ }
+ expect(Buffer.from(observation.queries[1]!.bytes,'hex').toString('ascii')).toBe('1, 60, 25931, 29\0');
 });
