@@ -1,0 +1,28 @@
+100bc0ba | 33c0 | XOR EAX,EAX
+100bc0bc | 39442404 | CMP dword ptr [ESP + 0x4],EAX
+100bc0c0 | 6a00 | PUSH 0x0
+100bc0c2 | 0f94c0 | SETZ AL
+100bc0c5 | 6800100000 | PUSH 0x1000
+100bc0ca | 50 | PUSH EAX
+100bc0cb | ff15c4962f10 | CALL dword ptr [0x102f96c4]
+100bc0d1 | 85c0 | TEST EAX,EAX
+100bc0d3 | a3c86a2f10 | MOV [0x102f6ac8],EAX
+100bc0d8 | 7503 | JNZ 0x100bc0dd
+100bc0da | 33c0 | XOR EAX,EAX
+100bc0dc | c3 | RET
+100bc0dd | e87dffffff | CALL 0x100bc05f
+100bc0e2 | 83f803 | CMP EAX,0x3
+100bc0e5 | a330852f10 | MOV [0x102f8530],EAX
+100bc0ea | 7524 | JNZ 0x100bc110
+100bc0ec | 68f8030000 | PUSH 0x3f8
+100bc0f1 | e83b010000 | CALL 0x100bc231
+100bc0f6 | 85c0 | TEST EAX,EAX
+100bc0f8 | 59 | POP ECX
+100bc0f9 | 7515 | JNZ 0x100bc110
+100bc0fb | ff35c86a2f10 | PUSH dword ptr [0x102f6ac8]
+100bc101 | ff15d0962f10 | CALL dword ptr [0x102f96d0]
+100bc107 | 8325c86a2f1000 | AND dword ptr [0x102f6ac8],0x0
+100bc10e | ebca | JMP 0x100bc0da
+100bc110 | 33c0 | XOR EAX,EAX
+100bc112 | 40 | INC EAX
+100bc113 | c3 | RET

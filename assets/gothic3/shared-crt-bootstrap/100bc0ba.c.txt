@@ -1,0 +1,25 @@
+/* ENTRY 100bc0ba | __heap_init | STATUS decompiled | 7 ms */
+
+/* Library Function - Single Match
+    __heap_init
+   
+   Library: Visual Studio 2005 Release */
+
+int __cdecl __heap_init(void)
+
+{
+  int iVar1;
+  int in_stack_00000004;
+  
+  DAT_102f6ac8 = HeapCreate((uint)(in_stack_00000004 == 0),0x1000,0);
+  if (DAT_102f6ac8 == (HANDLE)0x0) {
+    return 0;
+  }
+  DAT_102f8530 = ___heap_select();
+  if ((DAT_102f8530 == 3) && (iVar1 = ___sbh_heap_init(0x3f8), iVar1 == 0)) {
+    HeapDestroy(DAT_102f6ac8);
+    DAT_102f6ac8 = (HANDLE)0x0;
+    return 0;
+  }
+  return 1;
+}

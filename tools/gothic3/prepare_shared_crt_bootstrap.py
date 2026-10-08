@@ -1,0 +1,53 @@
+"""Capture original SharedBase CRT startup dependencies without executing native code."""
+import argparse
+import hashlib
+import json
+from pathlib import Path
+import read_dialogue_native_evidence as native
+from prepare_runtime_admin_source import INPUT_SHA, image_bytes, source_excerpt
+
+def capture(study, output):
+    native.EXPECTED_INPUTS['SharedBase.dll'] = INPUT_SHA
+    audit = native.audit_module(study, 'SharedBase_dll', 'SharedBase.dll',
+                               {0x100ada4c:'crtAttach', 0x100adc25:'dllMainCrtStartup',
+                                0x100c0d95:'securityInitCookie', 0x100bc0ba:'heapInit',
+                                0x100bc05f:'heapSelect', 0x100bc114:'heapTerm',
+                                0x100ae6f0:'mtInit', 0x100ae3cf:'mtTerm',
+                                0x100aa7e6:'initPointers', 0x100ae27b:'encodeThreadPointer',
+                                0x100bb704:'mtInitLocks', 0x100ae55a:'freeThreadData',
+                                0x100b19be:'addLocaleRef'})
+    output.mkdir(parents=True, exist_ok=True)
+    methods = {}
+    for method in audit['methods']:
+        address = method['bodyVA'][2:]
+        asm = ('\n'.join(row['va'] + ' | ' + row['bytes'] + ' | ' + row['instruction']
+                         for row in method['instructions']) + '\n').encode()
+        c = source_excerpt(study, method).encode()
+        (output / (address + '.asm.txt')).write_bytes(asm)
+        (output / (address + '.c.txt')).write_bytes(c)
+        methods[method['label']] = {key: method[key] for key in
+            ['entryVA', 'bodyVA', 'bodyRanges', 'instructionCount', 'bodyByteCount',
+             'bodyInstructionBytesSha256', 'entryChain']}
+        methods[method['label']].update(assemblySha256=hashlib.sha256(asm).hexdigest(),
+                                       cSha256=hashlib.sha256(c).hexdigest())
+    pe = native.PE((study / '00_Original_Runtime/SharedBase.dll').read_bytes())
+    cold = {}
+    for label,address,size in [('securityCookie',0x10140d6c,4), ('securityCookieComplement',0x10140d70,4), ('tlsGetterIndex',0x10140b48,4),
+                               ('threadDataIndex',0x10140b44,4), ('procedureSlots',0x102f64a4,16),
+                               ('heapHandle',0x102f6ac8,4), ('heapSelection',0x102f8530,4),
+                               ('localePointer',0x10141468,4), ('multibytePointer',0x10141288,4),
+                               ('threadLocaleMask',0x10141384,4)]:
+        raw, section = image_bytes(pe,address,size)
+        cold[label] = {'address':f'{address:08x}', 'bytes':size, 'raw':raw.hex(),
+                       'knownMask':'ff'*size, 'section':section,
+                       'scope':'cold-original-image', 'liveValueCaptured':False}
+    (output / 'source.json').write_bytes((json.dumps({'schema': 'gothic3-shared-crt-bootstrap-v1',
+        'sharedBaseSha256': INPUT_SHA, 'methods': methods, 'coldGlobals':cold,
+        'sourceOnly': True, 'wholeCrtTraversalCompleted': False}, indent=2) + '\n').encode())
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--study', type=Path, required=True)
+    parser.add_argument('--output', type=Path, required=True)
+    args = parser.parse_args()
+    capture(args.study, args.output)

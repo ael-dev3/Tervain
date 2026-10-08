@@ -314,3 +314,6 @@ assets/gothic3/game-template-demangler/*.c.txt -whitespace
 
 assets/gothic3/shared-diagnostic-locale/* -text -eol
 assets/gothic3/shared-diagnostic-locale/*.c.txt -whitespace
+
+assets/gothic3/shared-crt-bootstrap/* -text -eol
+assets/gothic3/shared-crt-bootstrap/*.c.txt -whitespace

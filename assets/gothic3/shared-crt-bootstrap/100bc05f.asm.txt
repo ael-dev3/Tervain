@@ -1,0 +1,45 @@
+100bc05f | 55 | PUSH EBP
+100bc060 | 8bec | MOV EBP,ESP
+100bc062 | 51 | PUSH ECX
+100bc063 | 51 | PUSH ECX
+100bc064 | 56 | PUSH ESI
+100bc065 | 8d45fc | LEA EAX,[EBP + -0x4]
+100bc068 | 33f6 | XOR ESI,ESI
+100bc06a | 50 | PUSH EAX
+100bc06b | 8975fc | MOV dword ptr [EBP + -0x4],ESI
+100bc06e | 8975f8 | MOV dword ptr [EBP + -0x8],ESI
+100bc071 | e827e4feff | CALL 0x100aa49d
+100bc076 | 85c0 | TEST EAX,EAX
+100bc078 | 59 | POP ECX
+100bc079 | 740d | JZ 0x100bc088
+100bc07b | 56 | PUSH ESI
+100bc07c | 56 | PUSH ESI
+100bc07d | 56 | PUSH ESI
+100bc07e | 56 | PUSH ESI
+100bc07f | 56 | PUSH ESI
+100bc080 | e81920ffff | CALL 0x100ae09e
+100bc088 | 8d45f8 | LEA EAX,[EBP + -0x8]
+100bc08b | 50 | PUSH EAX
+100bc08c | e8bbe4feff | CALL 0x100aa54c
+100bc091 | 85c0 | TEST EAX,EAX
+100bc093 | 59 | POP ECX
+100bc094 | 740d | JZ 0x100bc0a3
+100bc096 | 56 | PUSH ESI
+100bc097 | 56 | PUSH ESI
+100bc098 | 56 | PUSH ESI
+100bc099 | 56 | PUSH ESI
+100bc09a | 56 | PUSH ESI
+100bc09b | e8fe1fffff | CALL 0x100ae09e
+100bc0a3 | 837dfc02 | CMP dword ptr [EBP + -0x4],0x2
+100bc0a7 | 5e | POP ESI
+100bc0a8 | 750b | JNZ 0x100bc0b5
+100bc0aa | 837df805 | CMP dword ptr [EBP + -0x8],0x5
+100bc0ae | 7205 | JC 0x100bc0b5
+100bc0b0 | 33c0 | XOR EAX,EAX
+100bc0b2 | 40 | INC EAX
+100bc0b3 | c9 | LEAVE
+100bc0b4 | c3 | RET
+100bc0b5 | 6a03 | PUSH 0x3
+100bc0b7 | 58 | POP EAX
+100bc0b8 | c9 | LEAVE
+100bc0b9 | c3 | RET
