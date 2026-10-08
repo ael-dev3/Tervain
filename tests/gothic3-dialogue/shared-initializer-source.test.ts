@@ -30,8 +30,8 @@ it('pins original SharedBase source identity without granting initializer execut
   expect(source.verifiedAgainstOriginalPE).toBe(true);
   expect(source.sourceOnly).toBe(true);
   expect(source.initializerExecutionCompleted).toBe(false);
-  expect(Object.keys(source.methods)).toHaveLength(41);
-  expect((Object.values(source.methods) as Method[]).reduce((sum,m)=>sum+m.instructionCount,0)).toBe(736);
+  expect(Object.keys(source.methods)).toHaveLength(43);
+  expect((Object.values(source.methods) as Method[]).reduce((sum,m)=>sum+m.instructionCount,0)).toBe(768);
 });
 it('preserves every admitted instruction byte and separates unavailable C exports',()=>{
   let recovered=0;
@@ -132,4 +132,11 @@ it('pins the original pointer encoding lookup inputs and availability branches',
   expect(source.methods.pointerEncodingAvailable.bodyVA).toBe('0x100ae20f');
   expect(source.calls.find((call:{address:string})=>call.address==='100ae225').targetVA).toBe('100aa54c');
   expect(source.calls.find((call:{address:string})=>call.address==='100ae256').targetVA).toBe('100b0be0');
+});
+
+it('captures original processor exception-frame dependencies without executing them',()=>{
+ expect(source.methods.exceptionFrameEnter.bodyVA).toBe('0x100aeb68');
+ expect(source.methods.exceptionFrameLeave.bodyVA).toBe('0x100aebad');
+ expect(source.coldGlobals.processorProbeScope).toMatchObject({address:'100f8ec0',bytes:28,liveValueCaptured:false});
+ expect(()=>sharedInitializerInstruction('100aeb68')).toThrow('Unowned');
 });

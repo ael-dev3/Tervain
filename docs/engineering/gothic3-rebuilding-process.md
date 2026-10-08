@@ -9117,3 +9117,19 @@ initializer traversal, NPC activation and a finishable campaign remain missing.
 
 PR 104 passed CI run 37736807410 and merged at
 `861fbf5ab7fca284b52e3cc8aebaeaf9b0ae2a6f`. Its Pages deployment is not yet confirmed here.
+
+## Processor probe dependencies still to implement
+
+The local probe toggles EFLAGS.ID (bit 21), compares the read-back flags, queries
+CPUID leaves 0 and 1 and tests EDX bit 26. The SIMD path calls `100ce045`, whose
+normal path copies XMM1 to XMM0 under the original exception frame. The frame
+helpers `100aeb68`/`100aebad` and 28-byte scope at `100f8ec0` are now captured
+as source evidence. They are not admitted for runtime execution yet. The study
+disassembly omits cold handler bytes between `100ce060` and `100ce085`; their
+original PE bytes still need recovery before an exception path can be claimed.
+
+[Intel’s architecture manual](https://cdrdv2-public.intel.com/868137/325462-089-sdm-vol-1-2abcd-3abcd-4.pdf)
+defines the ID-bit probe and processor instructions. Implementation must retain
+virtual flags, selected CPUID results, XMM state and exception ownership, and
+preserve unknown state outside the supported effects. Current execution still
+stops before PUSHFD at `100ce0a8`.

@@ -123,6 +123,28 @@
       "assemblySha256": "78163f1a2195246729b1179df9af6dc0d85fee9bf3b2735c2cfa83345b8c68db",
       "cSha256": "44c481c0af59991a28dbe7ba22235a672f15ed0b46c39542a14a755a1dbe6949"
     },
+    "exceptionFrameEnter": {
+      "entryVA": "0x100aeb68",
+      "bodyVA": "0x100aeb68",
+      "bodyRanges": "100aeb68-100aebac",
+      "instructionCount": 21,
+      "bodyByteCount": 69,
+      "bodyInstructionBytesSha256": "e30b4c04dfd938e926cd434bb13e5723dad104657d993b990f465d72e19a7cc7",
+      "entryChain": [],
+      "assemblySha256": "5652bfa64e04605b8fb7340f510520782558c51c637a5d8929a7b40319ef6a35",
+      "cSha256": "28c61a2ed4890247e93f551a5a3484b98ea9869cf37b54cce8b8176381391a63"
+    },
+    "exceptionFrameLeave": {
+      "entryVA": "0x100aebad",
+      "bodyVA": "0x100aebad",
+      "bodyRanges": "100aebad-100aebc0",
+      "instructionCount": 11,
+      "bodyByteCount": 20,
+      "bodyInstructionBytesSha256": "39142b8d79823b8b3c0dd534ee99caf6c8cce4347b7608cfc004a14c873f7411",
+      "entryChain": [],
+      "assemblySha256": "b25629fe6705ccff52dd34e8e3c52edab43dd15c616f05930a06b88d05b6bfe1",
+      "cSha256": "b6f4c6449b24d75ae40584b9cca11c36b6ca1223faf3e4643303276ed2bfbf15"
+    },
     "appendExitCallback": {
       "entryVA": "0x100a71ac",
       "bodyVA": "0x100a71ac",
@@ -788,6 +810,14 @@
       "containingEntry": "100ae20f",
       "methodLabel": "pointerEncodingAvailable"
     },
+    "100aeb68": {
+      "containingEntry": "100aeb68",
+      "methodLabel": "exceptionFrameEnter"
+    },
+    "100aebad": {
+      "containingEntry": "100aebad",
+      "methodLabel": "exceptionFrameLeave"
+    },
     "100a71ac": {
       "containingEntry": "100a71ac",
       "methodLabel": "appendExitCallback"
@@ -1161,6 +1191,22 @@
         "rawSize": 8192,
         "rawOffset": 1323008,
         "fileBackedBytes": 4,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "processorProbeScope": {
+      "address": "100f8ec0",
+      "raw": "feffffff00000000d4ffffff00000000feffffff62e00c107ee00c10",
+      "bytes": 28,
+      "sha256": "47cf4a36bc193f6322c68e25636d35a388082bbdbf6faea2dbbf1afcab3d301d",
+      "section": {
+        "virtualAddress": 937984,
+        "virtualSize": 366840,
+        "rawSize": 368640,
+        "rawOffset": 937984,
+        "fileBackedBytes": 28,
         "loaderZeroFillBytes": 0
       },
       "scope": "cold-original-image",

@@ -1,8 +1,8 @@
 # SharedBase initializer source
 
 Original `SharedBase.dll` evidence for the next startup boundary,
-`100adb5a -> 100aa632`. This package captures 41 function bodies,
-736 instructions and 2,107 instruction bytes. It executes no native code and
+`100adb5a -> 100aa632`. This package captures 43 function bodies,
+768 instructions and 2,196 instruction bytes. It executes no native code and
 does not establish successful browser initializer execution.
 
 ## What startup requires
