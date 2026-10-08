@@ -10268,5 +10268,7 @@ return is invented.
 The successful copy matches the documented
 [lstrcpyA contract](https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-lstrcpya).
 All 290 focused checks, typechecking and production build (38.30 seconds) pass.
-Full-suite validation and publication are pending. Version resources, logging,
+The full suite passes 2,888 tests across 272 files (231.67 seconds). Main
+integration changes no validated file content. Publication is pending.
+Version resources, logging,
 full DLL startup, Game/world activation and campaign completion remain unfinished.
