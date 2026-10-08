@@ -1005,3 +1005,31 @@ NPC activation or a finishable campaign.
 
 PR 101 passed CI run 37729901404 and merged at
 `597a38ecee0dae61a38e8ab92eb5ee2ba30101e3`; Pages run 37730924635 subsequently succeeded.
+
+
+### Local configuration frame and cookie return
+
+The configuration call at `100b1718` now precedes the translated code-page
+services. Its original EBP frame reserves 32 bytes, saves EBX/ESI/EDI and retains
+the cookie expression at EBP-4. CPINFO is a 20-byte alias at EBP-24 on the same
+logical-thread stack. The five code-page table comparisons retain the source
+counter and EAX/flag effects. IsValidCodePage and GetCPInfo follow their source argument
+words, normal-return capabilities and stdcall cleanup. The configuration memset
+uses the source cdecl call and twelve-byte caller cleanup; its lower writes and
+getSystemCP lower effects remain translated by the retained owner.
+
+The case helper enters from this running frame, and restores this parent's EBP
+and ESP before the configuration epilogue. The canonical-cookie comparison,
+saved-register restoration, LEAVE and RET reach `100b171d`. Two caller argument
+words remain on the stack because the enclosing setmbcp SEH frame is still
+unowned. The selected classification allocation now consumes 520 bytes; each
+mapping pair consumes 532 and 528 bytes, derived from the new parent geometry.
+
+Final validation passes 61 focused tests, typechecking, the production build
+and all 2,599 tests across 258 files. Candidate installation,
+full SharedBase attachment, live Game initializer traversal and the finishable
+campaign remain unfinished. See [the configuration integration requirements](gothic3-shared-configuration-frame.md)
+for the source-ordered candidate publication and reference-count work.
+
+PR 102 passed CI run 37734612264 and merged at
+`95290022ef61505810a6c5155159f0e265a3a24e`; Pages run 37735133657 subsequently succeeded.
