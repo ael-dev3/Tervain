@@ -10400,3 +10400,24 @@ Publication is pending. The next work is the
 language helper's nested buffer, translation and FileVersion queries, followed
 by parsing, frees and logging. Complete DLL startup, world activation and
 campaign completion remain unfinished.
+
+## Nested language size and allocator frames (local work, 2026-10-08)
+
+The original language helper saves the filename in EBP and performs its own
+size query through the retained VERSION import. The handle-output pointer
+aliases the caller's filename argument; its zero result overwrites that word
+through the interpreter's stack store. The saved filename remains available
+for later imports. The helper then requests 1,741 bytes through its own
+MemoryAdmin and malloc calls.
+
+The same original allocator claims a second 1,792-byte slot at region offset
+1,808, distinct from the outer slot at offset 16. The outer buffer remains
+unchanged, the bitmap records both claims, and malloc restores its saved
+registers/SEH state and releases the heap section. The continuation is retained
+at 1004c2f7. Repeated requests preserve each pending frame.
+
+The 311 subsystem checks and two additional corruption checks pass; typecheck
+and production build pass. Changed helper evidence and damaged return words
+are rejected before nested-frame construction. Full-suite validation and
+publication are pending. Nested buffer filling, resource queries, parsing,
+frees, logging, complete DLL startup and campaign integration remain unfinished.
