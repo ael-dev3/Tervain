@@ -45,10 +45,10 @@ history linked below:
    reviewed merge to `main` also publishes through `.github/workflows/pages.yml`.
    Record the successful deployment separately from local implementation.
 
-The current working tree also contains ongoing pool-bitmap and pointer-area
-registration changes. Those changes are work in progress and have not yet
-established a reviewed, deployed checkpoint. The confirmed evidence and
-remaining campaign work are described below.
+The current working tree also contains the next pool-slot allocation checkpoint.
+It remains separate from reviewed, deployed progress until validation and
+publication complete. Confirmed evidence and remaining campaign work are
+described below.
 
 ## How to read progress reports
 
@@ -61,7 +61,7 @@ and the next missing dependency. Three states matter:
   receipts determine what is supported.
 - **Published:** a reviewed commit has completed the Pages deployment workflow.
 
-These states are recorded separately. The published runtime checkpoint is PR 130. Full engine startup, world activation
+These states are recorded separately. The published runtime checkpoint is PR 131. Full engine startup, world activation
 and campaign completion remain outstanding.
 
 ## Process at a glance
@@ -151,14 +151,23 @@ the twenty-byte descriptor from SharedBase's live heap, stores callback addresse
 and exchanges the descriptor-list head. Its normal boundary is bitmap memset
 at `10045e1e -> 100a7980`.
 
-The next local checkpoint executes that original bitmap fill, disables its
-reserved bit, links the region and registers the cold first payload area in
-original static storage. Execution reaches bitmap slot allocation at
-`10047f57 -> 1000605a`. The heap lock and Malloc exception frame remain active;
-no payload slot or CString allocation has returned. The 206 focused checks and
-exact regeneration of 115 source-package files plus the instruction module
-pass. Typechecking, the production build and all 2,763 tests across 259 files
-pass. Remote review and publication remain separate pending steps.
+[PR 131](https://github.com/ael-dev3/Tervain/pull/131) passed
+[CI](https://github.com/ael-dev3/Tervain/actions/runs/37782107395) and merged at
+`95d5611207732dbcf1917e0ef0d69854cd9110d4`. Its
+[Pages deployment](https://github.com/ael-dev3/Tervain/actions/runs/37782989550)
+succeeded. It executes the original bitmap fill, disables the reserved bit,
+links the region and registers the cold first payload area. Its normal boundary
+is bitmap slot allocation at `10047f57 -> 1000605a`.
+
+The next local checkpoint executes the original scan and free-bit claim, retains
+a bounded sixteen-byte view of the actual region, restores Malloc's exception
+frame and releases its heap lock. CString setup writes length four, reference
+count one, payload pointer and terminator. Execution reaches the original
+`Root` payload copy at `1001362d -> 100a7a00`. The 211 focused checks,
+typechecking and exact regeneration of 115 source-package files plus the
+instruction module pass. The production build and all 2,768 tests across 259
+files also pass. Remote review and publication remain pending.
+CString construction has not yet returned; complete startup remains unfinished.
 
 Earlier stages of the selected SharedBase path now perform argument and
 environment setup, floating-point conversion installation, encoded-pointer
@@ -169,7 +178,7 @@ its 2,473 captured initializer callbacks have not all been executed.
 
 ## Work remaining to reach a finishable game
 
-1. Complete lower allocation, pool initialization, remaining SharedBase
+1. Complete remaining allocation cases, CString construction, SharedBase
    initializers and enclosing module startup, including applicable failure and
    cleanup paths.
 2. Connect the recovered property factories and runtime owners to live Game

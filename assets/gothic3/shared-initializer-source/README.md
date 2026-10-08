@@ -269,3 +269,19 @@ sorting across distinct regions and its memmove remain unsupported.
 Normal execution now reaches `10047f57 -> 1000605a`, the bitmap slot allocator.
 The enclosing heap lock and Malloc exception frame remain entered. No payload
 slot, CString, Root constructor or complete module startup has returned.
+
+
+## Live bitmap slot claim — 8 October 2026
+
+The generated instruction module now admits original `1000605a -> 1003e090`.
+Its register save/restore, occupancy increment, CLD, REPE SCASD, BSF and locked
+bit reset select the actual free slot. The owner retains a sixteen-byte view
+of that slot over the same virtual backing and verifies its live bitmap claim.
+This distinguishes the logical allocation from the region's physical capacity.
+
+The lower allocator and Malloc return through their original register and FS
+restoration, with the heap section released. CString setup stores the length,
+reference count, payload pointer and terminating byte. Execution reaches
+`1001362d -> 100a7a00`, the original four-byte Root memcpy CALL. The CString and
+Root constructors have not yet returned. Other allocation paths, full startup
+and campaign completion remain unfinished.

@@ -6418,6 +6418,261 @@ const rows:readonly (readonly string[])[] = [
     "RET 0xc"
   ],
   [
+    "1003e090",
+    "55",
+    "PUSH EBP"
+  ],
+  [
+    "1003e091",
+    "8bec",
+    "MOV EBP,ESP"
+  ],
+  [
+    "1003e093",
+    "83ec08",
+    "SUB ESP,0x8"
+  ],
+  [
+    "1003e096",
+    "53",
+    "PUSH EBX"
+  ],
+  [
+    "1003e097",
+    "56",
+    "PUSH ESI"
+  ],
+  [
+    "1003e098",
+    "57",
+    "PUSH EDI"
+  ],
+  [
+    "1003e099",
+    "894df8",
+    "MOV dword ptr [EBP + -0x8],ECX"
+  ],
+  [
+    "1003e09c",
+    "c745fc00000000",
+    "MOV dword ptr [EBP + -0x4],0x0"
+  ],
+  [
+    "1003e0a3",
+    "60",
+    "PUSHAD"
+  ],
+  [
+    "1003e0a4",
+    "8b75f8",
+    "MOV ESI,dword ptr [EBP + -0x8]"
+  ],
+  [
+    "1003e0a7",
+    "8b0dac7a0e10",
+    "MOV ECX,dword ptr [0x100e7aac]"
+  ],
+  [
+    "1003e0ad",
+    "8b560c",
+    "MOV EDX,dword ptr [ESI + 0xc]"
+  ],
+  [
+    "1003e0b0",
+    "8dbe00001000",
+    "LEA EDI,[ESI + 0x100000]"
+  ],
+  [
+    "1003e0b6",
+    "f0ff4608",
+    "INC.LOCK dword ptr [ESI + 0x8]"
+  ],
+  [
+    "1003e0ba",
+    "83c11f",
+    "ADD ECX,0x1f"
+  ],
+  [
+    "1003e0bd",
+    "33c0",
+    "XOR EAX,EAX"
+  ],
+  [
+    "1003e0bf",
+    "c1e905",
+    "SHR ECX,0x5"
+  ],
+  [
+    "1003e0c2",
+    "8d3c97",
+    "LEA EDI,[EDI + EDX*0x4]"
+  ],
+  [
+    "1003e0c5",
+    "2bca",
+    "SUB ECX,EDX"
+  ],
+  [
+    "1003e0c7",
+    "fc",
+    "CLD"
+  ],
+  [
+    "1003e0c8",
+    "f3af",
+    "SCASD.REPE ES:EDI"
+  ],
+  [
+    "1003e0ca",
+    "7439",
+    "JZ 0x1003e105"
+  ],
+  [
+    "1003e0cc",
+    "41",
+    "INC ECX"
+  ],
+  [
+    "1003e0cd",
+    "83ef04",
+    "SUB EDI,0x4"
+  ],
+  [
+    "1003e0d0",
+    "833f00",
+    "CMP dword ptr [EDI],0x0"
+  ],
+  [
+    "1003e0d3",
+    "74f2",
+    "JZ 0x1003e0c7"
+  ],
+  [
+    "1003e0d5",
+    "0fbc17",
+    "BSF EDX,dword ptr [EDI]"
+  ],
+  [
+    "1003e0d8",
+    "74f6",
+    "JZ 0x1003e0d0"
+  ],
+  [
+    "1003e0da",
+    "f00fb317",
+    "BTR.LOCK [EDI],EDX"
+  ],
+  [
+    "1003e0de",
+    "73f0",
+    "JNC 0x1003e0d0"
+  ],
+  [
+    "1003e0e0",
+    "a1ac7a0e10",
+    "MOV EAX,[0x100e7aac]"
+  ],
+  [
+    "1003e0e5",
+    "83c01f",
+    "ADD EAX,0x1f"
+  ],
+  [
+    "1003e0e8",
+    "c1e805",
+    "SHR EAX,0x5"
+  ],
+  [
+    "1003e0eb",
+    "2bc1",
+    "SUB EAX,ECX"
+  ],
+  [
+    "1003e0ed",
+    "89460c",
+    "MOV dword ptr [ESI + 0xc],EAX"
+  ],
+  [
+    "1003e0f0",
+    "c1e005",
+    "SHL EAX,0x5"
+  ],
+  [
+    "1003e0f3",
+    "03c2",
+    "ADD EAX,EDX"
+  ],
+  [
+    "1003e0f5",
+    "0faf05a87a0e10",
+    "IMUL EAX,dword ptr [0x100e7aa8]"
+  ],
+  [
+    "1003e0fc",
+    "8d443010",
+    "LEA EAX,[EAX + ESI*0x1 + 0x10]"
+  ],
+  [
+    "1003e100",
+    "8945fc",
+    "MOV dword ptr [EBP + -0x4],EAX"
+  ],
+  [
+    "1003e103",
+    "eb07",
+    "JMP 0x1003e10c"
+  ],
+  [
+    "1003e105",
+    "f0ff4e08",
+    "DEC.LOCK dword ptr [ESI + 0x8]"
+  ],
+  [
+    "1003e109",
+    "894e0c",
+    "MOV dword ptr [ESI + 0xc],ECX"
+  ],
+  [
+    "1003e10c",
+    "61",
+    "POPAD"
+  ],
+  [
+    "1003e10d",
+    "8b45fc",
+    "MOV EAX,dword ptr [EBP + -0x4]"
+  ],
+  [
+    "1003e110",
+    "5f",
+    "POP EDI"
+  ],
+  [
+    "1003e111",
+    "5e",
+    "POP ESI"
+  ],
+  [
+    "1003e112",
+    "5b",
+    "POP EBX"
+  ],
+  [
+    "1003e113",
+    "8be5",
+    "MOV ESP,EBP"
+  ],
+  [
+    "1003e115",
+    "5d",
+    "POP EBP"
+  ],
+  [
+    "1003e116",
+    "c3",
+    "RET"
+  ],
+  [
     "10003ba7",
     "e944fa0000",
     "JMP 0x100135f0"
@@ -6466,6 +6721,11 @@ const rows:readonly (readonly string[])[] = [
     "100012e4",
     "e967b30300",
     "JMP 0x1003c650"
+  ],
+  [
+    "1000605a",
+    "e931800300",
+    "JMP 0x1003e090"
   ]
 ];
 const instructions=new Map<string,SharedInitializerInstruction>(rows.map(([address,bytes,instruction])=>

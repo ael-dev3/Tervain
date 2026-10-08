@@ -9546,3 +9546,46 @@ original captured C whitespace preserved.
 
 Full startup, world and NPC activation, integrated saves/progression and a
 finishable campaign remain outstanding.
+
+
+## 8 October 2026 — Original bitmap slot claim and Malloc return
+
+PR 131 passed CI run 37782107395 and merged at
+`95d5611207732dbcf1917e0ef0d69854cd9110d4`; Pages run 37782989550 succeeded.
+
+The retained initializer admits the captured `1000605a -> 1003e090` body. Its
+original PUSHAD stores the entry ESP among the eight registers; POPAD discards
+that ESP slot and restores the other seven. INC.LOCK increments occupancy.
+CLD sets the logical thread direction to forward, REPE SCASD compares the actual
+bitmap words with zero and advances EDI/ECX, BSF finds the least free bit and
+BTR.LOCK clears it and reports the old bit through carry. IMUL uses the original
+sixteen-byte stride to compute the slot address. The admitted operations run
+synchronously in the retained logical thread; they do not claim host-thread
+concurrency support.
+
+The actual returned region+16 becomes a bounded sixteen-byte field view over
+the same backing. The owner retains its region, offset, logical capacity and
+bitmap claim. Access checks preserve the canonical virtual-region lifetime and
+reject a slot whose bit has been returned to the free bitmap. Changed geometry
+or an unowned pool receiver cannot grant a logical slot. Aliased region and
+slot pointers retain native equality through their common backing and offsets.
+
+The original dispatcher restores registers and returns through the lower heap.
+Malloc calls the original LeaveCriticalSection import, restores FS and saved
+registers, and returns. The existing frame-restoration checks verify that return.
+CString setup then writes its original length, reference count, payload pointer
+and terminator into the same slot. The original thirteen-byte request selects a
+sixteen-byte pool allocation; it does not allocate a separate host buffer.
+
+Normal execution now stops at `1001362d -> 100a7a00`, the original memcpy CALL
+for the four-byte Root payload. Its CString constructor, Root constructor and
+enclosing initializer have not returned. A failed critical-section initializer
+now reaches the actual unconditional Leave call and stops there if no canonical
+section was entered; it does not fabricate a successful unlock.
+
+The 211 focused checks and typechecking pass. All 115 generated source files and
+the instruction module regenerate exactly. The final full suite passes 2,768
+tests across 259 files in 162.07 seconds, and the production build passes.
+Authored whitespace checks pass. Bitmap exhaustion, additional pools and allocation failure/cleanup
+cases still need evidence and integration. Complete startup, world activation
+and campaign completion remain outstanding.
