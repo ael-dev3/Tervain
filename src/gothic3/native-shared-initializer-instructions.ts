@@ -3421,6 +3421,46 @@ const rows:readonly (readonly string[])[] = [
     "100a72cf",
     "c3",
     "RET"
+  ],
+  [
+    "100e1660",
+    "68f0300e10",
+    "push 0x100e30f0"
+  ],
+  [
+    "100e1665",
+    "e8665cfcff",
+    "call 0x100a72d0"
+  ],
+  [
+    "100e166a",
+    "59",
+    "pop ecx"
+  ],
+  [
+    "100e166b",
+    "c3",
+    "ret"
+  ],
+  [
+    "100e1440",
+    "68d0260e10",
+    "PUSH 0x100e26d0"
+  ],
+  [
+    "100e1445",
+    "e8865efcff",
+    "CALL 0x100a72d0"
+  ],
+  [
+    "100e144a",
+    "59",
+    "POP ECX"
+  ],
+  [
+    "100e144b",
+    "c3",
+    "RET"
   ]
 ];
 const instructions=new Map<string,SharedInitializerInstruction>(rows.map(([address,bytes,instruction])=>

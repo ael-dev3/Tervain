@@ -577,7 +577,7 @@ it('retains original multibyte initialization call if its live initialized flag 
 it('executes the original ID toggle, CPUID leaves and normal SIMD probe frame',()=>{
  const {owner,platform}=argumentFixture(1,true,false,'aligned',4096,[0],[0,0],null,{export:true,erratum:false,cpu:nativeVirtualX86CpuSelection});
  const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Full attach returned');
- expect(result.reason).toContain('100aa692 -> 100e1660');const snapshot=owner.snapshot().caseState!.stack!.snapshot();
+ expect(result.reason).toContain('100aa692 -> 100e1450');const snapshot=owner.snapshot().caseState!.stack!.snapshot();
  expect(snapshot.trace).toContain('100ce0bd.sharedInitializer.CPUID');expect(snapshot.trace).toContain('100ce0d0.sharedInitializer.CPUID');expect(snapshot.trace).toContain('100ce055.sharedInitializer.MOVAPD');
  expect(snapshot.calls.find(call=>call.site==='100ce04c')!.returned).toBe(true);expect(snapshot.calls.find(call=>call.site==='100ce08f')!.returned).toBe(true);expect(snapshot.calls.find(call=>call.site==='100b4b72')!.returned).toBe(true);
  expect(owner.snapshot().initializerImages['102f853c']!.readUnsigned(0)).toBe(1);expect(platform.getWin32LastError()).toEqual({known:true,value:0});expect(snapshot.xmm.knownMask.every(mask=>mask===0)).toBe(true);expect(snapshot.processorSimdFrame!.returned).toBe(true);expect(owner.processAttach()).toEqual(result);
@@ -616,18 +616,18 @@ it('restores an initially set ID bit before CPUID while retaining original unkno
 
 it('reenters the processor probe with a fresh normal EH frame after its prior return',()=>{
  const {owner}=argumentFixture(1,true,false,'aligned',4096,[0],[0,0],null,{export:true,erratum:false,cpu:nativeVirtualX86CpuSelection});owner.snapshot().initializerImages['100e545c']!.writeUnsigned(68*4,0x100b4b6b);
- const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100aa692 -> 100e1660');const snapshot=owner.snapshot().caseState!.stack!.snapshot();expect(snapshot.trace.filter(row=>row==='100ce055.sharedInitializer.MOVAPD')).toHaveLength(3);expect(snapshot.calls.filter(call=>call.site==='100ce08f').map(call=>call.returned)).toEqual([true,true,true]);expect(snapshot.processorSimdFrame!.returned).toBe(true);
+ const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100aa692 -> 100e1450');const snapshot=owner.snapshot().caseState!.stack!.snapshot();expect(snapshot.trace.filter(row=>row==='100ce055.sharedInitializer.MOVAPD')).toHaveLength(3);expect(snapshot.calls.filter(call=>call.site==='100ce08f').map(call=>call.returned)).toEqual([true,true,true]);expect(snapshot.processorSimdFrame!.returned).toBe(true);
 });
 
 function stdioFixture(count=0){const f=argumentFixture(1,true,false,'aligned',4096,[0],[0,0],null,{export:true,erratum:false,cpu:nativeVirtualX86CpuSelection});f.owner.snapshot().initializerImages['102f8500']!.writeUnsigned(0,count);return f;}
 for(const [requested,count] of [[0,512],[1,20],[19,20],[20,20],[33,33],[0x80000000,20],[0xffffffff,20]] as const)it(`initializes original FILE vector for signed requested count ${requested}`,()=>{
- const {owner}=stdioFixture(requested),result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100aa692 -> 100e1660');const state=owner.snapshot(),images=state.initializerImages,files=images['10141790']!,vector=images['102f71c0']!.pointer<{fields:NativeHeapObjectViews;offset:number}>(0).get()!;
+ const {owner}=stdioFixture(requested),result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100aa692 -> 100e1450');const state=owner.snapshot(),images=state.initializerImages,files=images['10141790']!,vector=images['102f71c0']!.pointer<{fields:NativeHeapObjectViews;offset:number}>(0).get()!;
  expect(images['102f8500']!.readUnsigned(0)).toBe(count);expect(vector.offset).toBe(0);expect(vector.fields.bytes.length).toBe(count*4);expect(state.initializerAllocations).toContain(vector.fields);
  for(let index=0;index<20;index++){const entry=vector.fields.pointer<{fields:NativeHeapObjectViews;offset:number}>(index*4).get()!;expect(entry.fields).toBe(files);expect(entry.offset).toBe(index*32);}expect([...vector.fields.bytes.slice(80)]).toEqual(Array(count*4-80).fill(0));expect([...vector.fields.knownMask.slice(80)]).toEqual(Array(count*4-80).fill(255));
  expect(files.readUnsigned(16)).toBe(0);expect(files.readUnsigned(48)).toBe(1);expect(files.readUnsigned(80)).toBe(0xfffffffe);expect(files.readUnsigned(12)).toBe(257);expect(owner.imageStorage('memcpySseFlag').readUnsigned(0)).toBe(1);const snapshot=state.caseState!.stack!.snapshot();expect(snapshot.trace.filter(row=>row==='100bef63.sharedInitializer.MOV')).toHaveLength(20);expect(snapshot.trace.filter(row=>row==='100bef93.sharedInitializer.MOV')).toHaveLength(3);expect(snapshot.calls.filter(call=>call.site==='100aa490').map(call=>call.returned)).toEqual([true,true,true,true,true]);expect(snapshot.trace.filter(row=>row==='100ce055.sharedInitializer.MOVAPD')).toHaveLength(2);expect(owner.processAttach()).toEqual(result);
 });
 it('follows original stdio fallback allocation of twenty entries after the large allocation fails',()=>{
- const {owner,platform}=stdioFixture(),allocate=platform.win32HeapAlloc.bind(platform);platform.win32HeapAlloc=(heap,flags,size)=>flags===8&&size===2048?{known:true,value:null}:allocate(heap,flags,size);const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100aa692 -> 100e1660');expect(owner.snapshot().initializerImages['102f8500']!.readUnsigned(0)).toBe(20);const vector=owner.snapshot().initializerImages['102f71c0']!.pointer<{fields:NativeHeapObjectViews;offset:number}>(0).get()!;expect(vector.fields.bytes.length).toBe(80);const snapshot=owner.snapshot().caseState!.stack!.snapshot();expect(snapshot.calls.find(call=>call.site==='100bef27')!.returned).toBe(true);expect(snapshot.calls.find(call=>call.site==='100bef40')!.returned).toBe(true);
+ const {owner,platform}=stdioFixture(),allocate=platform.win32HeapAlloc.bind(platform);platform.win32HeapAlloc=(heap,flags,size)=>flags===8&&size===2048?{known:true,value:null}:allocate(heap,flags,size);const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100aa692 -> 100e1450');expect(owner.snapshot().initializerImages['102f8500']!.readUnsigned(0)).toBe(20);const vector=owner.snapshot().initializerImages['102f71c0']!.pointer<{fields:NativeHeapObjectViews;offset:number}>(0).get()!;expect(vector.fields.bytes.length).toBe(80);const snapshot=owner.snapshot().caseState!.stack!.snapshot();expect(snapshot.calls.find(call=>call.site==='100bef27')!.returned).toBe(true);expect(snapshot.calls.find(call=>call.site==='100bef40')!.returned).toBe(true);
 });
 it('returns cinit failure 26 through the original stdio double-allocation failure branch',()=>{
  const {owner,platform}=stdioFixture(),allocate=platform.win32HeapAlloc.bind(platform);platform.win32HeapAlloc=(heap,flags,size)=>flags===8&&(size===2048||size===80)?{known:true,value:null}:allocate(heap,flags,size);const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('initializer result 26');const state=owner.snapshot(),snapshot=state.caseState!.stack!.snapshot();expect(snapshot.sharedInitializerFrame!.initializerResult).toBe(26);expect(state.initializerImages['102f71c0']!.readUnsigned(0)).toBe(0);expect(state.initializerImages['102f8500']!.readUnsigned(0)).toBe(20);expect(owner.imageStorage('memcpySseFlag').readUnsigned(0)).toBe(0);expect(snapshot.trace).not.toContain('100bef63.sharedInitializer.MOV');expect(snapshot.trace).not.toContain('100ce0f5.sharedInitializer.CALL');expect(owner.processAttach()).toEqual(result);
@@ -641,7 +641,7 @@ it('rejects a foreign descriptor block before using its HANDLE records',()=>{
 
 it('uses the original invalid, detached and NULL descriptor branches',()=>{
  for(const handle of [0xffffffff,0xfffffffe,0]){
-  const {owner,platform}=stdioFixture(),allocate=platform.win32HeapAlloc.bind(platform);platform.win32HeapAlloc=(heap,flags,size)=>{const result=allocate(heap,flags,size);if(flags===8&&size===2048)owner.snapshot().ioBlock!.writeUnsigned(0,handle);return result;};const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100aa692 -> 100e1660');expect(owner.snapshot().initializerImages['10141790']!.readUnsigned(16)).toBe(0xfffffffe);
+  const {owner,platform}=stdioFixture(),allocate=platform.win32HeapAlloc.bind(platform);platform.win32HeapAlloc=(heap,flags,size)=>{const result=allocate(heap,flags,size);if(flags===8&&size===2048)owner.snapshot().ioBlock!.writeUnsigned(0,handle);return result;};const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100aa692 -> 100e1450');expect(owner.snapshot().initializerImages['10141790']!.readUnsigned(16)).toBe(0xfffffffe);
  }
 });
 it('rejects copied or invented HANDLE identities at the original descriptor read',()=>{
@@ -658,13 +658,13 @@ it('retains the original calloc overflow branch for a positive oversized FILE co
 
 
 it('registers the original RTC callback and restores both normal exit-registration frames',()=>{
- const {owner,platform}=stdioFixture();const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100aa692 -> 100e1660');
+ const {owner,platform}=stdioFixture();const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100aa692 -> 100e1450');
  const state=owner.snapshot(),stack=state.caseState!.stack!.snapshot();expect(state.exitLockHeld).toBe(false);
  for(const site of ['100aa676','100a72d4','100a72ac','100a71e6','100b1158','100a72c4','100b1162'])expect(stack.calls.find(call=>call.site===site)!.returned).toBe(true);
  expect(stack.initializerSehFrames).toEqual([{site:'100a729b',entered:true,returned:true},{site:'100b10dd',entered:true,returned:true}]);
  const decoder=NativeRuntimePlatform.canonicalPointerCodecForPlatform(platform,state.ptd!.pointer(0x1fc).get()!,'DecodePointer');expect(decoder.known).toBe(true);if(!decoder.known)throw new Error(decoder.reason);
  const begin=decoder.value.invoke(state.initializerImages['102f8584']!.pointer(0).get()!);const end=decoder.value.invoke(state.initializerImages['102f8580']!.pointer(0).get()!);expect(begin.known).toBe(true);expect(end.known).toBe(true);if(!begin.known||!end.known)throw new Error('Exit pointers not decoded');
- const cursor=end.value as {fields:NativeHeapObjectViews;offset:number};expect(cursor.fields).toBe(begin.value);expect(cursor.offset).toBe(4);
+ const cursor=end.value as {fields:NativeHeapObjectViews;offset:number};expect(cursor.fields).toBe(begin.value);expect(cursor.offset).toBe(12);
  const callback=decoder.value.invoke(cursor.fields.pointer(0).get()!);expect(callback.known).toBe(true);expect(cursor.fields.bytes.length).toBe(128);
 });
 
@@ -676,4 +676,18 @@ it('retains the allocation-size frame and lock when HeapSize is unavailable',()=
 });
 it('rejects a replaced HeapSize import identity before invoking it',()=>{
  const {owner}=stdioFixture();owner.snapshot().initializerImages['102f9678']!.pointer(0).set(Object.freeze({name:'HeapSize'}));const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('HeapSize');expect(owner.snapshot().exitLockHeld).toBe(true);
+});
+
+
+it('registers RTC and both leading void-table callbacks in original slot order',()=>{
+ const {owner,platform}=stdioFixture();const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100aa692 -> 100e1450');const state=owner.snapshot();
+ const decoder=NativeRuntimePlatform.canonicalPointerCodecForPlatform(platform,state.ptd!.pointer(0x1fc).get()!,'DecodePointer');if(!decoder.known)throw new Error(decoder.reason);const end=decoder.value.invoke(state.initializerImages['102f8580']!.pointer(0).get()!);if(!end.known)throw new Error(end.reason);const cursor=end.value as {fields:NativeHeapObjectViews;offset:number};expect(cursor.offset).toBe(12);
+ const addresses=[];for(let offset=0;offset<12;offset+=4){const callback=decoder.value.invoke(cursor.fields.pointer(offset).get()!);if(!callback.known)throw new Error(callback.reason);addresses.push((callback.value as {originalCodeAddress:number}).originalCodeAddress);}expect(addresses).toEqual([0x100bb8e7,0x100e30f0,0x100e26d0]);expect(state.exitLockHeld).toBe(false);const stack=state.caseState!.stack!.snapshot();expect(stack.calls.filter(call=>call.site==='100a729b').map(call=>call.returned)).toEqual([true,true,true]);expect(stack.calls.filter(call=>call.site==='100b10dd').map(call=>call.returned)).toEqual([true,true,true]);
+});
+
+it('skips an all-NULL void table and returns original cinit without claiming full attach',()=>{
+ const {owner}=stdioFixture();const table=owner.snapshot().initializerImages['100e5000']!;for(let offset=0;offset<table.bytes.length;offset+=4)table.writeUnsigned(offset,0);const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('Unowned SharedBase attach continuation after initializer result 0');const stack=owner.snapshot().caseState!.stack!.snapshot();expect(stack.sharedInitializerFrame!.initializerResult).toBe(0);expect(stack.trace.filter(row=>row==='100aa68c.sharedInitializer.MOV')).toHaveLength(214);expect(stack.calls.some(call=>call.site==='100aa692')).toBe(false);expect(owner.snapshot().attachReturned).toBeNull();
+});
+it('retains the original unknown void callback boundary after RTC registration',()=>{
+ const {owner}=stdioFixture();owner.snapshot().initializerImages['100e5000']!.writeUnsigned(0,0x1000dead);const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100aa692 -> 1000dead');expect(owner.snapshot().exitLockHeld).toBe(false);
 });

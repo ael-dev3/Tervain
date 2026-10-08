@@ -9241,3 +9241,27 @@ and production build pass. Table growth, decoder
 fallback and exception dispatch remain unresolved.
 
 PR 118 Pages run 37765766597 completed successfully.
+
+
+## 8 October 2026 — leading void-table registration
+
+The first two original void callbacks, slots 65 and 130, register shutdown
+addresses `100e30f0` and `100e26d0` using the same original atexit path. The
+selected path now stores RTC termination followed by these two addresses in the
+actual exit table, advances its cursor to offset 12 and releases lock 8 after
+each append. Both SEH helpers reenter and restore their frames on all three
+normal registrations.
+
+The next live dependency is slot 131, `100e1450`: it initializes a critical
+section at `10197da0`, then registers `100e2810`. That initializer has not yet
+been admitted. No shutdown callback body is executed by registration.
+
+The instruction reader accepts the lowercase opcode/register spelling retained
+by source recovery. Both callback bodies retain their original bytes and are
+pinned by source hashes. All 92 package files and the generated instruction
+module reproduce exactly. The focused suite passes 149 checks, including a
+fully NULL void table returning cinit zero without claiming enclosing attach,
+and an unknown callback retaining its original CALL boundary. The full suite
+passes 2,706 tests across 259 files; typechecking and production build pass.
+PR 119 passed CI run 37766553792 and merged at
+`04df7277c8166a75cf67a5c688ba766f280f9645`.
