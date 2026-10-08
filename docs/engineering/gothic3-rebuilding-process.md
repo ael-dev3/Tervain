@@ -6,6 +6,35 @@ is the detailed technical record and dated checkpoint history.
 
 ## Latest process summary — 8 October 2026
 
+### SharedBase argument startup and module filename
+
+The latest local checkpoint owns the original `__setargv` frame at `100c0ba7`,
+including its nested multibyte initialization and normal child returns. The
+selected CP1252 candidate is installed in the PTD and, where the original
+locale masks permit it, published globally under lock 13. The source SEH
+epilogue restores the incoming FS relationship before argument startup resumes.
+
+The canonical `GetModuleFileNameA` adapter receives NULL module, the actual
+261-byte image buffer at `102f6ae8`, and capacity 260. Its declared virtual
+filename is `Gothic3.exe`; this is a browser service profile, not a captured
+Windows filename. The original marker at buffer offset 260 stays zero, and
+`102f645c` retains the actual module-buffer pointer. Nonempty command-line
+input retains its process-input pointer; empty input selects the module buffer.
+
+Execution stops at parser query `100c0bfc -> 100c0a0f`. The actual count locals
+at EBP-8 and EBP-12 remain unknown, the vector and strings arguments are NULL,
+and global argc/argv at `102f6440`/`102f6444` remain unpublished. Parser execution,
+argument allocation/fill, the normal setargv return and its enclosing CRT
+attachment still require implementation. These SharedBase components remain
+separate from live Game initializer traversal at `204678f2`.
+
+Local validation passes 66 focused tests and 2,604 tests across 258 files,
+plus typechecking and the production build. The source package remains 79
+functions and 56 cold image ranges. PR 104 deployed through Pages run
+37737780053; PR 105 merged at `dad85bf3c9602fe4be054c8754729a5eaea49f67`.
+No deployment claim is made here for the new local checkpoint. NPC activation
+and a campaign playable through an ending remain unfinished.
+
 ### SharedBase enclosing case helper and wrappers
 
 The next local continuation owns the original case frame at `100b11fd`, its
