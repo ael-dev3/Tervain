@@ -1,6 +1,6 @@
 # Original SharedBase CRT startup evidence
 
-This package captures 73 original functions covering CRT attach/startup, security-cookie initialization, heap selection/construction/destruction, thread startup/termination, encoded procedure initialization, locks, thread cleanup and locale reference increments. Every captured instruction is compared with the original SharedBase.dll bytes. It also captures 54 cold image ranges with section-backed versus loader-zero-fill evidence.
+This package captures 74 original functions covering CRT attach/startup, security-cookie initialization, heap selection/construction/destruction, thread startup/termination, encoded procedure initialization, locks, thread cleanup and locale reference increments. Every captured instruction is compared with the original SharedBase.dll bytes. It also captures 54 cold image ranges with section-backed versus loader-zero-fill evidence.
 
 SharedBase owns these globals independently of Game and Engine. Its two dynamic thread indices begin at `ffffffff`; the four procedure slots begin as loader-filled zero bytes. The static TLS index from the PE TLS directory is a different field. Loading static TLS does not allocate either dynamic slot, initialize the heap, install FLS/TLS procedures or initialize CRT thread data.
 
@@ -209,3 +209,25 @@ case maps, cookie checks or wrapper return. Input and probe writes are retained;
 the three output buffers stay unknown and the wrapper-owned PTD locale flag is
 not prematurely restored. Native stack allocation and page probing remain
 unimplemented. These are supporting components, not live Game startup progress.
+
+
+The next local component admits a direct translated SharedBase classification
+helper frame on the actual cold logical-thread x86 graph. It preserves the
+original seven arguments, saved registers, relative EBP, cookie-XOR slot, probe
+alias and import CALL/RET cleanup. This direct-helper ABI does not establish
+preceding SharedBase DLL/CRT caller frames and cannot take over a Game-bound
+graph. Stack addresses remain opaque; alignment comes only from the explicit
+virtual page-alignment selection.
+
+With that selection, the original alloca16 path derives its padding from caller
+ESP, follows the source stack-probe target/page loop, relocates the owned return
+word, returns to `100c6f51`, and writes the stack marker `0xcccc`. Its 512-byte
+payload is an alias of the same actual stack backing, eight bytes after the
+16-byte-aligned header. The selected direct frame requires 520 bytes and touches
+no additional page. Unknown alignment retains the pending CALL and saved ECX;
+forged calls cannot change an existing graph. The cookie is read from the actual
+canonical SharedBase cookie owner; this does not prove cookie initialization.
+
+The helper stops before temporary-wide memset at `100c6f80 -> 100a7980`.
+Conversion fill, classification fill, case maps, cookie checks, wrapper return,
+full module caller stacks and live Game integration remain unfinished.

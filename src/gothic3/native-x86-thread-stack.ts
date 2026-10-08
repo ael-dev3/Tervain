@@ -3,6 +3,7 @@
 import type { NativeValue } from './dialogue';
 import { NativeHeapObjectViews } from './native-heap-views';
 import type { NativeMemoryBacking } from './native-memory-admin';
+import { NativeSharedCrtOwner } from './native-shared-crt';
 import { NativeRuntimePlatform } from './native-runtime-platform';
 import { NativeModuleCrtOwner } from './native-engine-crt-locks';
 import { nativeGameImageReceipt } from './native-game-crt-profile';
@@ -37,6 +38,7 @@ type Width = 1 | 2 | 4;
 interface Allocation { readonly physical?: NativeHeapObjectViews; readonly originalPointer?: NativeBytePointer; readonly fields: NativeHeapObjectViews; readonly heap: NativeWin32HeapCapability; readonly crt: NativeModuleCrtOwner; readonly ptd?: true; }
 type WordRecord = Readonly<{ value: number; mask: number; provenance?:
   Readonly<{ kind: 'stack'; offset: number }> |
+  Readonly<{ kind: 'shared-local'; fields:NativeHeapObjectViews }> |
   Readonly<{ kind: 'module'; label: string; fields: NativeHeapObjectViews; offset: number }> |
   Readonly<{ kind: 'process'; pointer: NativeBytePointer }> |
   Readonly<{ kind: 'heap'; heap: NativeWin32HeapCapability }> |
@@ -177,6 +179,7 @@ export class NativeX86ThreadStack {
   readonly #argvRows: { site: NativeArgvCallSite; callPushed: boolean; called: boolean; returned: boolean }[] = [];
   readonly #moduleWords = new Map<string, NativeX86Word32>();
   readonly #modulePointers = new Map<string, NativeBytePointer>();
+  #sharedFrame:{controller:object;ebp:number;probe:NativeHeapObjectViews;temporary:NativeHeapObjectViews|null;importCall:{call:NativeArgvNlsCallGrant;argumentBytes:number}|null;requestedBytes:number|null;allocatedBytes:number|null;probedPages:number[]}|null=null;
   #phase: 'cold' | 'running' | 'returned' | 'blocked' | 'retired' = 'cold';
   #boundary: string | null = null;
   #executing = false;
@@ -206,6 +209,98 @@ export class NativeX86ThreadStack {
       ? known(retained) : unknown(retained.#boundary ?? 'Retained x86 graph cannot be replaced or restarted');
     try { const graph = new NativeX86ThreadStack(platform, selected.value, constructionToken); graphs.set(platform, graph); return known(graph); }
     catch (error) { return unknown(reason(error)); }
+  }
+  /** Direct translated SharedBase helper ABI on the actual cold logical-thread
+   * graph. This does not establish the preceding DLL/CRT caller stack. */
+  static beginSharedStringTypeFrame(platform:NativeRuntimePlatform,controller:object):NativeValue<{stack:NativeX86ThreadStack;probe:NativeHeapObjectViews}> {
+    const input=NativeSharedCrtOwner.sharedStackArgumentsForPlatform(platform,controller);if(!input.known)return input;
+    const found=NativeX86ThreadStack.forPlatform(platform);if(!found.known)return found;const stack=found.value;
+    if(input.value.stage!=='enter'||stack.#phase!=='cold'||stack.#binding||stack.#sharedFrame)return unknown('One cold SharedBase helper frame required');
+    try{
+      stack.#physical(stack.#stack);stack.#physical(stack.#bank);stack.#phase='running';
+      const value=(n:number)=>stack.#mint(n,0xffffffff),pointer=(fields:NativeHeapObjectViews)=>stack.#mint(0,0,{kind:'shared-local',fields});
+      // Original seven-argument call at100c7068, in right-to-left push order.
+      for(const word of [value(0),value(0),value(input.value.codePage),pointer(input.value.types),value(256),pointer(input.value.input),value(1)])stack.#push(word);
+      stack.#store(stack.#bank,stack.#reg('ECX'),pointer(input.value.locale));
+      stack.#call('100c7068','100c706d');stack.#push(stack.#load(stack.#bank,stack.#reg('EBP')));
+      const ebp=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));stack.#store(stack.#bank,stack.#reg('EBP'),stack.#stackWord(ebp));
+      stack.#push(stack.#load(stack.#bank,stack.#reg('ECX')));stack.#push(stack.#load(stack.#bank,stack.#reg('ECX')));
+      const cookie=value(input.value.cookie),frame=stack.#stackWord(ebp),a=stack.#record(cookie),b=stack.#record(frame);
+      stack.#store(stack.#stack,ebp-4,stack.#mint(a.value^b.value,a.mask&b.mask,{kind:'xor',left:cookie,right:frame}));
+      for(const name of ['EBX','ESI','EDI'] as const)stack.#push(stack.#load(stack.#bank,stack.#reg(name)));
+      stack.#store(stack.#bank,stack.#reg('EBX'),value(0));stack.#store(stack.#bank,stack.#reg('EDI'),pointer(input.value.locale));
+      const probe=new NativeHeapObjectViews(stack.#stack.backing,ebp-8,4);
+      stack.#sharedFrame={controller,ebp,probe,temporary:null,importCall:null,requestedBytes:null,allocatedBytes:null,probedPages:[]};
+      stack.#trace.push('SharedBase direct helper frame100c6e87');return known({stack,probe});
+    }catch(error){stack.#phase='blocked';stack.#boundary??=reason(error);return unknown(stack.#boundary);}
+  }
+  static #sharedProof(stack:NativeX86ThreadStack,controller:object):void {
+    const proof=NativeSharedCrtOwner.sharedStackArgumentsForPlatform(stack.#platform,controller);if(!proof.known)throw new Error(proof.reason);
+    if(graphs.get(stack.#platform)!==stack||stack.#sharedFrame?.controller!==controller||stack.#phase!=='running'||stack.#binding)throw new Error('Actual active SharedBase helper graph required');
+    const selected=NativeRuntimePlatform.threadStackSelectionForPlatform(stack.#platform);if(!selected.known||selected.value!==stack.#selection)throw new Error('Actual live selected SharedBase thread stack required');
+    stack.#physical(stack.#stack);stack.#physical(stack.#bank);
+  }
+  static beginSharedStringTypeImport(stack:NativeX86ThreadStack,controller:object,call:NativeArgvNlsCallGrant):NativeValue<void> {
+    try{
+      NativeX86ThreadStack.#sharedProof(stack,controller);const admitted=NativeSharedCrtOwner.nlsArgumentsForPlatform(stack.#platform,call);if(!admitted.known)return admitted;
+      const input=admitted.value,frame=stack.#sharedFrame!;if(frame.importCall)throw new Error('One pending SharedBase stack import required');
+      const value=(n:number)=>stack.#mint(n,0xffffffff),pointer=(fields:NativeHeapObjectViews)=>stack.#mint(0,0,{kind:'shared-local',fields});
+      if(input.kind==='GetStringTypeW'){
+        if(input.fields!==frame.probe||input.count!==1||!input.input)throw new Error('Actual source classification probe arguments required');
+        stack.#store(stack.#bank,stack.#reg('ESI'),value(1));
+        for(const word of [stack.#stackWord(frame.ebp-8),value(1),pointer(input.input),value(1)])stack.#push(word);
+        stack.#call('100c6eb4','100c6eba');frame.importCall={call,argumentBytes:16};
+      }else if(input.kind==='MultiByteToWideChar'){
+        if(input.count!==256||input.flags!==1||!input.input||!input.procedure)throw new Error('Actual source classification conversion query required');
+        stack.#store(stack.#bank,stack.#reg('ESI'),stack.#objectWord(input.procedure));
+        for(const word of [value(0),value(0),value(256),pointer(input.input),value(1),value(input.scalar)])stack.#push(word);
+        stack.#call('100c6f2b','100c6f2d');frame.importCall={call,argumentBytes:24};
+      }else throw new Error('Original SharedBase classification import site required');
+      return known(undefined);
+    }catch(error){return unknown(reason(error));}
+  }
+  static finishSharedStringTypeImport(stack:NativeX86ThreadStack,controller:object,call:NativeArgvNlsCallGrant,value:number):NativeValue<void> {
+    try{
+      NativeX86ThreadStack.#sharedProof(stack,controller);const normal=NativeRuntimePlatform.canonicalArgvNlsNormalReturnForPlatform(stack.#platform,call);if(!normal.known)return normal;
+      if(normal.value.kind!=='scalar'||normal.value.value!==value||stack.#sharedFrame!.importCall?.call!==call)throw new Error('Actual normal SharedBase stack import return required');
+      const pending=stack.#sharedFrame!.importCall!;
+      stack.#invalidateRange(stack.#stack,stack.#sharedFrame!.ebp-8,4);
+      stack.#ret(pending.argumentBytes);stack.#sharedFrame!.importCall=null;
+      stack.#store(stack.#bank,stack.#reg('EAX'),stack.#mint(value,0xffffffff));
+      for(const name of ['ECX','EDX'] as const)stack.#store(stack.#bank,stack.#reg(name),stack.#mint(0,0));stack.#flags(0,0);
+      if(pending.argumentBytes===24)stack.#store(stack.#bank,stack.#reg('EDI'),stack.#mint(value,0xffffffff));
+      return known(undefined);
+    }catch(error){return unknown(reason(error));}
+  }
+  static clearSharedStringTypeProbe(stack:NativeX86ThreadStack,controller:object):NativeValue<void>{
+    try{NativeX86ThreadStack.#sharedProof(stack,controller);if(stack.#sharedFrame!.importCall)throw new Error('Probe clear requires completed import');stack.#store(stack.#stack,stack.#sharedFrame!.ebp-8,stack.#mint(0,0xffffffff));return known(undefined);}catch(error){return unknown(reason(error));}
+  }
+  static allocateSharedStringTypeTemporary(stack:NativeX86ThreadStack,controller:object):NativeValue<NativeHeapObjectViews>{
+    try{NativeX86ThreadStack.#sharedProof(stack,controller);}catch(error){return unknown(reason(error));}
+    try{const admitted=NativeSharedCrtOwner.sharedStackArgumentsForPlatform(stack.#platform,controller);if(!admitted.known)return admitted;
+      const frame=stack.#sharedFrame!,count=admitted.value.count;
+      if(admitted.value.stage!=='allocate'||frame.importCall||frame.temporary||count!==256)throw new Error('Actual fresh source-sized SharedBase temporary allocation required');
+      const bytes=count*2+8,caller=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));frame.requestedBytes=bytes;
+      stack.#store(stack.#bank,stack.#reg('EAX'),stack.#mint(bytes,0xffffffff));stack.#call('100c6f4c','100c6f51');
+      //100ce300 saves ECX, derives caller ESP via LEA ESP+8, then aligns.
+      stack.#push(stack.#load(stack.#bank,stack.#reg('ECX')));
+      if(stack.#selection.pageAlignment!=='virtual-page-4096')throw new Error('Actual preselected stack low-bit geometry required for alloca16');
+      const padding=(caller-bytes)&15,allocated=bytes+padding;frame.allocatedBytes=allocated;
+      const popEcx=()=>{const at=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));stack.#store(stack.#bank,stack.#reg('ECX'),stack.#load(stack.#stack,at));stack.#store(stack.#bank,stack.#reg('ESP'),stack.#stackWord(at+4));};
+      popEcx();const entry=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));
+      //Tail jump100ce311 ->100a8430; target includes the relocated return word.
+      stack.#push(stack.#load(stack.#bank,stack.#reg('ECX')));const target=entry-allocated;
+      if(target<0)throw new Error('Unowned SharedBase stack reservation/page fault');
+      stack.#store(stack.#bank,stack.#reg('ECX'),stack.#stackWord(target));
+      let page=Math.floor((entry-4)/4096)*4096;
+      while(target<page){page-=4096;if(page<0)throw new Error('Unowned SharedBase stack page probe');NativeHeapObjectViews.prototype.maskedWord.call(stack.#stack,page);frame.probedPages.push(page);stack.#trace.push('100a8457.TEST page '+page);}
+      popEcx();const returned=stack.#load(stack.#stack,entry);stack.#store(stack.#bank,stack.#reg('ESP'),stack.#stackWord(target));stack.#store(stack.#stack,target,returned);stack.#ret();
+      const start=stack.#address(stack.#load(stack.#bank,stack.#reg('ESP')));if(start%16!==0||start+bytes>caller)throw new Error('Actual aligned source alloca16 return required');
+      stack.#store(stack.#bank,stack.#reg('EAX'),stack.#stackWord(start));stack.#store(stack.#stack,start,stack.#mint(0xcccc,0xffffffff));
+      const data=stack.#stackWord(start+8);stack.#store(stack.#bank,stack.#reg('EAX'),data);stack.#store(stack.#bank,stack.#reg('EBX'),data);const bits=stack.#record(data);stack.#logicalFlags(bits.value,bits.mask,4);
+      frame.temporary=new NativeHeapObjectViews(stack.#stack.backing,start+8,count*2);stack.#trace.push('100ce300.alloca16.return ->100c6f51');stack.#trace.push('100c6f57.stackHeadercccc');
+      return known(frame.temporary);
+    }catch(error){stack.#boundary??=reason(error);stack.#phase='blocked';return unknown(stack.#boundary);}
   }
   static bindForIoOwner(stack: NativeX86ThreadStack, crt: NativeModuleCrtOwner, owner: NativeGameCrtIoInit,
     controller: object): NativeValue<void> {
@@ -1612,7 +1707,7 @@ export class NativeX86ThreadStack {
     };
     const cells = Object.fromEntries(registers.map(name => [name, cell(this.#reg(name))]));
     const copy = (bytes: Uint8Array) => { try { return Object.freeze(Array.from(bytes)); } catch { return null; } };
-    return Object.freeze({ phase: this.#phase, boundary: this.#boundary, thread: this.#selection.threadCapability,
+    return Object.freeze({...(this.#sharedFrame?{sharedFrame:Object.freeze({ebp:this.#sharedFrame.ebp,requestedBytes:this.#sharedFrame.requestedBytes,allocatedBytes:this.#sharedFrame.allocatedBytes,probedPages:Object.freeze([...this.#sharedFrame.probedPages]),temporary:this.#sharedFrame.temporary})}:{}), phase: this.#phase, boundary: this.#boundary, thread: this.#selection.threadCapability,
       stack: Object.freeze({ bytes: copy(this.#stack.bytes), knownMask: copy(this.#stack.knownMask), freed: this.#stack.backing.freed }),
       registers: Object.freeze(cells), fs0: cell(32), arithmeticFlags: cell(36), currentPc: this.#currentPc ? describe(this.#currentPc) : null,
       calls: Object.freeze(this.#calls.map(call => Object.freeze({ site: call.site, returnWord: describe(call.returnWord), position: call.position, returned: call.returned }))), trace: Object.freeze(this.#trace.slice()),

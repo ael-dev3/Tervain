@@ -73,6 +73,7 @@ export class NativeSharedCrtSecurityCookie {
   }catch(error){this.#boundary??=error instanceof Error?error.message:String(error);return {known:false,reason:this.#boundary};}
   finally{this.#active=false;}
  }
+ readCookie():NativeValue<number>{try{this.#live();return {known:true,value:this.fields.readUnsigned(0)};}catch(error){return {known:false,reason:error instanceof Error?error.message:String(error)};}}
  snapshot(){return Object.freeze({boundary:this.#boundary,returned:this.#returned,fileTime:this.#fileTime,counter:this.#counter,
   trace:Object.freeze([...this.#trace]),sharedCrtAttachReturned:false});}
 }
