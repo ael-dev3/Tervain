@@ -52,3 +52,16 @@ Kernel32 decoder lookup. Successful installation stops before `100ae40c`;
 no thread ID, locale state or successful `__mtinit` return is claimed yet.
 NULL allocation preserves the original cleanup boundary. Nonzero retry/new-mode
 settings remain explicit missing calls rather than fabricated retries.
+
+The subsequent local initializer now applies the source exception-table anchor,
+flags and codec slots to that installed PTD, increments the independent
+multibyte reference, acquires original static lock 12, stores the original
+default locale and increments its root/time references, then releases lock 12.
+The selected cold locale has no dynamic category/reference objects; nonzero
+unsupported targets remain explicit boundaries. With an actual thread-ID
+provider, it stores that ID and the original -1 handle and returns `__mtinit` 1.
+Missing thread-ID service preserves the initialized PTD without replay.
+Native SEH scope-stack installation is still unimplemented. The owning attach
+call next needs original RTC initialization, command-line/environment ownership,
+I/O and arguments, and SharedBase's own `__cinit` traversal. No whole attach,
+live Game initializer integration or campaign completion is established here.

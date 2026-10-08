@@ -12,7 +12,7 @@ it('stores the original OS fields and owns a distinct SharedBase heap before the
  const f=fixture(),game=NativeGameCrtOwner.forPlatform({platform:f.platform,errnoSlot:()=>({known:false,reason:'not initialized'})});
  const result=f.owner.processAttach();expect(result.known).toBe(false);
  if(result.known)throw new Error('Thread initialization unexpectedly returned');
- expect(result.reason).toContain('100ae852');
+ expect(result.reason).toContain('thread ID service');
  const os=f.owner.imageStorage('osFields');
  expect([0,4,8,12,16].map(offset=>os.readUnsigned(offset))).toEqual([2,0x2bcd,0x601,6,1]);
  expect(game.physical.crtOsFields.readUnsigned(0)).toBe(0);
@@ -69,7 +69,7 @@ it('keeps the actual unencoded FLS getter in TLS while encoding its procedure sl
  expect(actual.value).not.toBe(slots.pointer(4).get());
  expect(f.owner.imageStorage('threadDataIndex').readUnsigned(0)).not.toBe(0xffffffff);
  expect(f.owner.snapshot().mtReturned).toBeNull();expect(f.owner.snapshot().pointersReturned).toBe(true);
- expect(f.owner.snapshot().trace.slice(-1)).toEqual(['100ae849.setPTD']);
+ expect(f.owner.snapshot().trace.slice(-1)).toEqual(['100ae859.GetCurrentThreadId']);
 });
 it('encodes the original TLS fallback when FLS exports are absent',()=>{
  const platform=new NativeRuntimePlatform({engineCrtServices:{tlsValues:new Map(),kernel32Available:true,
@@ -169,12 +169,24 @@ it('allocates the original SharedBase thread index with its canonical destructor
  expect(f.owner.processAttach()).toEqual(result);
 });
 
-it('installs the zeroed 532-byte PTD through its actual FLS setter before original initialization',()=>{
+it('installs and initializes the actual 532-byte PTD before requiring a thread ID',()=>{
  const f=fixture();const result=f.owner.processAttach();expect(result.known).toBe(false);
  const state=f.owner.snapshot();expect(state.ptdInstalled).toBe(true);expect(state.ptd).not.toBeNull();
- const ptd=state.ptd!;expect(ptd.bytes.length).toBe(532);expect(ptd.bytes.every(b=>b===0)).toBe(true);expect(ptd.knownMask.every(b=>b===255)).toBe(true);
+ const ptd=state.ptd!;expect(ptd.bytes.length).toBe(532);expect(state.ptdInitialized).toBe(true);expect(ptd.readUnsigned(0x14)).toBe(1);expect(ptd.readUnsigned(0xc8,1)).toBe(0x43);expect(ptd.knownMask.slice(0,8).every(b=>b===255)).toBe(true);
  const module=f.platform.getWin32ModuleHandle('KERNEL32.DLL');if(!module.known||!module.value)throw new Error('Missing module');
  const getter=f.platform.getWin32Procedure(module.value,'FlsGetValue');if(!getter.known||!getter.value||getter.value.name!=='FlsGetValue')throw new Error('Missing getter');
  const stored=getter.value.invoke(f.owner.imageStorage('threadDataIndex').readUnsigned(0));expect(stored.known&&stored.value===ptd).toBe(true);
  expect(state.mtReturned).toBeNull();expect(ptd.backing.freed).toBe(false);
+});
+
+it('returns original mtinit after actual thread ID and increments independent locale references',()=>{
+ const platform=new NativeRuntimePlatform({engineCrtServices:{tlsValues:new Map(),kernel32Available:true,pointerCodec:'owned-bijection',fiberLocalStorage:true,processHeap:true,osVersion:{platform:2,major:6,minor:1,build:42},entropy:{currentThreadId:()=>({known:true,value:77})}}});
+ const owner=NativeSharedCrtOwner.forPlatform(platform);const result=owner.processAttach();expect(result.known).toBe(false);
+ const state=owner.snapshot();expect(state.mtReturned).toBe(1);expect(state.ptdInitialized).toBe(true);
+ expect(state.ptd!.readUnsigned(0)).toBe(77);expect(state.ptd!.readUnsigned(4)).toBe(0xffffffff);
+ expect(owner.imageStorage('multibyteRefcount').readUnsigned(0)).toBe(1);
+ expect(owner.imageStorage('initialLocale').readUnsigned(0)).toBe(2);
+ expect(owner.imageStorage('initialTimeLocale').readUnsigned(0xb4)).toBe(1);
+ const lock=owner.imageStorage('lockTable').pointer<any>(12*8).get();expect(platform.enterPhysicalCriticalSection(lock,owner.identity).known).toBe(true);expect(platform.leavePhysicalCriticalSection(lock,owner.identity).known).toBe(true);
+ const repeated=owner.processAttach();expect(repeated).toEqual(result);expect(owner.imageStorage('initialLocale').readUnsigned(0)).toBe(2);
 });
