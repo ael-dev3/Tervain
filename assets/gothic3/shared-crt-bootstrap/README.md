@@ -1,6 +1,6 @@
 # Original SharedBase CRT startup evidence
 
-This package captures 41 original functions covering CRT attach/startup, security-cookie initialization, heap selection/construction/destruction, thread startup/termination, encoded procedure initialization, locks, thread cleanup and locale reference increments. Every captured instruction is compared with the original SharedBase.dll bytes. It also captures 31 cold image ranges with section-backed versus loader-zero-fill evidence.
+This package captures 46 original functions covering CRT attach/startup, security-cookie initialization, heap selection/construction/destruction, thread startup/termination, encoded procedure initialization, locks, thread cleanup and locale reference increments. Every captured instruction is compared with the original SharedBase.dll bytes. It also captures 32 cold image ranges with section-backed versus loader-zero-fill evidence.
 
 SharedBase owns these globals independently of Game and Engine. Its two dynamic thread indices begin at `ffffffff`; the four procedure slots begin as loader-filled zero bytes. The static TLS index from the PE TLS directory is a different field. Loading static TLS does not allocate either dynamic slot, initialize the heap, install FLS/TLS procedures or initialize CRT thread data.
 
@@ -75,3 +75,10 @@ The command-line continuation invokes the actual canonical process-input endpoin
 and stores its retained pointer in SharedBase `102f8564`. Missing process input
 remains a boundary. It next stops at the original environment reader `100c0c60`,
 whose wide/ANSI selection, allocation, conversion and release paths are captured.
+
+Environment reconstruction dependencies now include original SharedBase malloc,
+its retry wrapper, errno lookup, free and memcpy, plus cold environment-mode
+state at `102f6bf0`. The modern malloc uses SharedBase HeapAlloc flags0; it does
+not use calloc or Game heap state. Failure writes errno through original PTD
+lookup before returning or retrying. These functions are source evidence only
+at this checkpoint; the environment reader has not yet executed.
