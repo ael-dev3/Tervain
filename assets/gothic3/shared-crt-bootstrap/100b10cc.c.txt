@@ -1,0 +1,8 @@
+/* ENTRY 100b10cc | FUN_100b10cc | STATUS decompiled | 1 ms */
+
+void FUN_100b10cc(undefined4 param_1)
+
+{
+  DAT_102f690c = param_1;
+  return;
+}

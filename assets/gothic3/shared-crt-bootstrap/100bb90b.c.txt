@@ -1,0 +1,16 @@
+/* ENTRY 100bb90b | __initp_misc_winsig | STATUS decompiled | 2 ms */
+
+/* Library Function - Single Match
+    __initp_misc_winsig
+   
+   Library: Visual Studio 2005 Release */
+
+void __initp_misc_winsig(undefined4 param_1)
+
+{
+  DAT_102f6aa8 = param_1;
+  DAT_102f6aac = param_1;
+  DAT_102f6ab0 = param_1;
+  DAT_102f6ab4 = param_1;
+  return;
+}

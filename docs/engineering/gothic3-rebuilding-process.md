@@ -8,17 +8,18 @@ is the detailed technical record and dated checkpoint history.
 
 See the [current rebuilding overview](gothic3-rebuild-overview.md#current-status--8-october-2026)
 for the latest confirmed deployment, source recovery, supporting implementations
-and remaining startup dependencies. PR 87 is deployed at main commit
-`931fde2560e2bd86220a00cb4e542b266ee911b4` by successful Pages run 37714985260.
+and remaining startup dependencies. PR 89 is deployed at main commit
+`47175677631485d4c62de648324711715abe8608` by successful Pages run 37716451923.
 It includes the first Status descriptor construction, cold Create/unregister
 lookup and actual pointer-array store, followed by the retained thread TLS and
 vsprintf FILE prefix for its diagnostic. That selected path stops before the
 original formatter at `100a7eff -> 100b5355`; no registration return is claimed.
 
-Local SharedBase CRT work adds original startup/cold-global evidence and its
-independent security-cookie initializer, then process-attach version detection
-and modern heap creation. The attach prefix stops at the original `__mtinit`
-call (`100adb09 -> 100ae6f0`). The live Game startup still stops before `__cinit`
+PRs 88–89 publish SharedBase startup/cold-global evidence, its independent
+security-cookie initializer, version detection and modern heap prefix. Further
+local thread work follows FLS/TLS procedure lookup, getter-cache publication,
+original pointer-slot initialization and procedure encoding. Its modern branch
+stops at `100ae7fc -> 100bb704` (`__mtinitlocks`). The live Game startup still stops before `__cinit`
 at `204678f2`. These selected components have not been joined to that live call
 frame. No live NPC activation or finishable campaign is established.
 

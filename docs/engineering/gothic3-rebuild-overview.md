@@ -13,12 +13,13 @@ itself establish a playable reconstruction.
 
 ## Current status — 8 October 2026
 
-The latest confirmed publication is [PR 87](https://github.com/ael-dev3/Tervain/pull/87),
-merged at `931fde2560e2bd86220a00cb4e542b266ee911b4` and deployed by
-[Pages run 37714985260](https://github.com/ael-dev3/Tervain/actions/runs/37714985260).
-It includes the selected Status initializer prefix from PR 86 and its diagnostic
-TLS/FILE prefix from PR 87. The earlier PR 84 served-artifact comparison remains
-evidence for that prior revision; no new byte comparison is claimed here for PR 87.
+The latest confirmed publication is [PR 89](https://github.com/ael-dev3/Tervain/pull/89),
+merged at `47175677631485d4c62de648324711715abe8608` and deployed by
+[Pages run 37716451923](https://github.com/ael-dev3/Tervain/actions/runs/37716451923).
+It includes the selected Status/diagnostic prefixes from PRs 86–87, the
+independent SharedBase cookie initializer from PR 88, and its version/heap
+attach prefix from PR 89. The earlier PR 84 served-artifact comparison remains
+evidence for that prior revision; no new byte comparison is claimed here for PR 89.
 
 Startup now completes the selected environment initialization and stops before
 Game's `__cinit` call at `204678f2`. The repository captures all 2,473 Game
@@ -83,12 +84,15 @@ Missing thread or unloaded TLS remains an explicit failure. No formatted text,
 terminator or MessageAdmin dispatch is fabricated. The virtual loader's slot
 assignment does not claim a captured Windows slot or completed DLL attach.
 
-Further local work captures the independent SharedBase CRT startup and cold
-globals, implements its original security-cookie initializer, and follows its
-process-attach version detection and modern heap creation. The selected attach
-prefix stops at `100adb09 -> 100ae6f0` (`__mtinit`). Dynamic thread indices,
-encoded procedures, locks, locale/PTD and full SharedBase startup remain
-required. These local helpers are not connected to the live Game CRT frame.
+Subsequent local work follows SharedBase thread startup through FLS export lookup,
+original TLS fallback and getter-cache publication. It completes the original
+pointer-slot initialization and then encodes the four thread-storage procedures.
+The selected modern path stops at `100ae7fc -> 100bb704` (`__mtinitlocks`).
+Missing pointer exports follow the original identity branch; the older-version
+main-executable `.mixcrt` scan remains unimplemented. Original lock-table and
+critical-section resolver evidence is captured. Lock/PTD/locale initialization,
+full SharedBase attach and formatter execution remain required. These selected
+helpers are not connected to the live Game CRT frame.
 
 The temporary Status name remains retained; descriptor cleanup registration and
 the first initializer's normal return have not executed. Full initializer

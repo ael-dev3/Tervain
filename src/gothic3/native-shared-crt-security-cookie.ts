@@ -31,10 +31,12 @@ export class NativeSharedCrtSecurityCookie {
   Object.defineProperty(this,'platform',{value:platform,writable:false,configurable:false});
  }
  static forPlatform(platform:NativeRuntimePlatform):NativeSharedCrtSecurityCookie {
+  const active=NativeRuntimePlatform.requireActivePlatform(platform);if(!active.known)throw new Error(active.reason);
   const old=owners.get(platform);if(old)return old;
   const owner=new NativeSharedCrtSecurityCookie(platform,token);owners.set(platform,owner);return owner;
  }
  #live(){
+  const active=NativeRuntimePlatform.requireActivePlatform(this.platform);if(!active.known)throw new Error(active.reason);
   if(this.fields.backing.freed||this.fields.backing.bytes!==this.#rootBytes||this.fields.backing.knownMask!==this.#rootMasks||
     this.fields.bytes.buffer!==this.#rootBytes.buffer||this.fields.bytes.byteOffset!==this.#rootBytes.byteOffset||this.fields.bytes.length!==8)throw new Error('Actual retained SharedBase cookie image required');
  }

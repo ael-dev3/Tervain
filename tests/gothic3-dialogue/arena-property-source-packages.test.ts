@@ -103,3 +103,10 @@ it('preserves original SharedBase CRT cold globals separately from static TLS',(
   expect(receipt.scope).toBe('cold-original-image');expect(receipt.liveValueCaptured).toBe(false);
  }
 });
+
+it('pins the original SharedBase TLS fallback allocator instructions',()=>{
+ const source=JSON.parse(readFileSync('assets/gothic3/shared-crt-bootstrap/source.json','utf8'));
+ expect(source.tlsFallbackAllocator.address).toBe('100ae360');
+ expect(source.tlsFallbackAllocator.raw).toBe('ff15bc972f10c20400');
+ expect(sha(Buffer.from(source.tlsFallbackAllocator.raw,'hex'))).toBe(source.tlsFallbackAllocator.sha256);
+});
