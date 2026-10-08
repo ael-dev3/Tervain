@@ -496,11 +496,14 @@ export function buildMenuCamp(R: Region, door: { at: THREE.Vector3; facing: numb
   };
 }
 
+/** The split log's top above the ground he sits over: its axis stands 0.2–0.22 m up, with a radius of 0.21 m. */
+const WARDEN_SEAT_HEIGHT = 0.42;
+
 /** Same grounded seat and quiet vigil as the original composition, on a real private skinned NPC. */
 function seatedWarden(rig: Rig): CloakedFigure {
   let previous = 0, disposed = false;
   const pose = (time: number, dt: number, amp: number) => poseRig(rig, {
-    mode: 'sit', speed: 0, time, t: 0, amp, workGesture: 'guard',
+    mode: 'sit', speed: 0, time, t: 0, amp, workGesture: 'guard', seatHeight: WARDEN_SEAT_HEIGHT,
   }, dt);
   pose(0, 1, 1);
   return {

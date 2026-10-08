@@ -3,6 +3,7 @@ import type { BuildingSpec } from '../world/layout';
 import { ARCHIVE_ROOM } from '../world/layout';
 import { mulberry32 } from '../world/noise';
 import { buildingEntry, buildingGround } from '../world/buildingEntries';
+import { CHIMNEY_STACK, chimneyOf, FIREPLACE, hearthOf, interiorOf, roomOf, type InteriorSpec } from '../world/interiors';
 import type { Terrain } from '../world/terrain';
 import { hash3, mulc, rgb } from './buildKit';
 import type { Region } from './regions';
@@ -19,10 +20,10 @@ import {
   plankFace,
   post,
   quoins,
+  roomWalls,
   roofFor,
   roofWallInfill,
   sack,
-  slab,
   timberFrame,
   windowAt,
   woodpile,
@@ -38,7 +39,23 @@ export function groundOf(terrain: Terrain, b: { x: number; z: number; w: number;
 export interface BuildOut {
   /** World-space positions of lanterns (they get real light at night when the player is near). */
   lanterns: THREE.Vector3[];
+  /** Door leaves that swing (A66): built apart from the merged shell, each about its hinge. */
+  doors?: DoorLeaf[];
+  /** Builds a region of its own, apart from the merged shell, for a part that moves. */
+  apart?: (name: string, fn: (R: Region) => void) => THREE.Group;
 }
+
+/** A building's door leaf, hinged at the inner face of its doorway; it swings inward by turning about local +y. */
+export interface DoorLeaf {
+  room: InteriorSpec;
+  /** At the hinge, turned with the building; the leaf hangs from it along +x. */
+  pivot: THREE.Group;
+}
+
+/** How far into the doorway (from the inner face of the wall) a leaf hangs when shut, metres. */
+export const DOOR_LEAF_INSET = 0.04;
+
+export { CHIMNEY_STACK, chimneyOf } from '../world/interiors';
 
 const roofStyleOf = (b: BuildingSpec): RoofKind => {
   switch (b.kind) {
@@ -82,36 +99,113 @@ function groundExteriorProp(R: Region, terrain: Terrain, author: () => void) {
   }
 }
 
+/**
+ * The inside of a room (A66): a plank floor over the plinth with a stone sill through the doorway, a timber frame
+ * round the opening, tie beams under the roof, the stack of the chimney standing on the floor, and the inner face of
+ * every window, which shows the daylight outside. Drawn on its own random sequence, so the outside is unchanged.
+ */
+export function roomInterior(R: Region, room: InteriorSpec, windows: { x: number; z: number; y: number; ry: number; w: number; h: number }[], floorOf: 'planks' | 'stone' = 'planks') {
+  const b = room.building, t = room.wall, hw = b.w / 2 - t, hd = b.d / 2 - t;
+  const inner: Rnd = mulberry32(Math.floor(hash3(b.x, b.z, 23) * 1e9));
+  const { x: dx, halfWidth: dw, height: dh } = room.door;
+  const floor = room.floorTop, base = room.wallBase, top = room.wallTop;
+  if (floorOf === 'stone') R.stone.bx(-hw - 0.02, floor - 0.07, -hd - 0.02, hw + 0.02, floor, hd + 0.02, jitterTone(TINT.stone, inner, 0.08), { jit: 0.05, amp: 0.03, sub: 0.9 });
+  else R.planks.bx(-hw - 0.02, floor - 0.07, -hd - 0.02, hw + 0.02, floor, hd + 0.02, jitterTone(TINT.woodDark, inner, 0.08), { grain: 'x', jit: 0.05, amp: 0.03, sub: 0.9 });
+  R.stone.bx(dx - dw - 0.02, base - 0.04, hd - 0.02, dx + dw + 0.02, floor, b.d / 2 + 0.06, jitterTone(TINT.stone, inner, 0.1), { jit: 0.04, amp: 0.02 });
+  // The opening's frame on the inside: jambs and a lintel set into the wall.
+  const frame = () => jitterTone(TINT.woodDark, inner, 0.08);
+  for (const side of [-1, 1]) R.timber.bx(dx + side * dw - (side < 0 ? 0.12 : 0), floor - 0.01, hd - 0.05, dx + side * dw + (side > 0 ? 0.12 : 0), base + dh + 0.04, hd + 0.03, frame(), { grain: 'y', jit: 0.03 });
+  R.timber.bx(dx - dw - 0.16, base + dh, hd - 0.06, dx + dw + 0.16, base + dh + 0.18, hd + 0.03, frame(), { grain: 'x', jit: 0.03 });
+  // A boarded ceiling at the wall top (where the room's ceiling collider is), tie beams under it, wall plates along it.
+  R.planks.bx(-hw - 0.02, top - 0.05, -hd - 0.02, hw + 0.02, top + 0.02, hd + 0.02, jitterTone(TINT.wood, inner, 0.08), { grain: 'x', jit: 0.04, amp: 0.03, sub: 0.9 });
+  const beams = Math.max(1, Math.round(b.w / 2.4) - 1);
+  for (let i = 1; i <= beams; i++) {
+    const x = -hw + (i * 2 * hw) / (beams + 1) + (inner() - 0.5) * 0.2;
+    R.timber.bx(x - 0.09, top - 0.24, -hd - 0.05, x + 0.09, top - 0.05, hd + 0.05, frame(), { grain: 'z', jit: 0.05, amp: 0.02 });
+  }
+  for (const sz of [-1, 1]) R.timber.bx(-hw - 0.02, top - 0.19, sz * hd - 0.08, hw + 0.02, top - 0.05, sz * hd + 0.08, frame(), { grain: 'x', jit: 0.04, amp: 0.02 });
+  // The chimney's stack stands on the floor and carries the chimney through the roof.
+  const hearth = hearthOf(room);
+  if (hearth) {
+    const c = CHIMNEY_STACK;
+    R.stone.bx(hearth.stack.x - c, floor - 0.02, hearth.stack.z - c, hearth.stack.x + c, top - 0.45, hearth.stack.z + c, jitterTone(TINT.stone, inner, 0.1), { sub: 0.6, jit: 0.06, amp: 0.05 });
+    // The fireplace is drawn facing local +z from the stack's face, turned the way the hearth faces.
+    R.ctx.push(hearth.stack.x, 0, hearth.stack.z, hearth.yaw);
+    const cx = 0, back = c;
+    // The fireplace against it (the bakery's oven stands there instead): stone piers, a soot-dark firebox with logs and
+    // embers that glow after dark, a timber mantel, a stone hood up to the stack and a hearth slab before it.
+    if (b.kind !== 'bakery') {
+      const { halfWidth: fw, depth: fd, height: fh } = FIREPLACE, mouth = 0.34, lintel = floor + 0.82;
+      const stone = () => jitterTone(TINT.stone, inner, 0.1);
+      for (const side of [-1, 1]) R.stone.bx(side < 0 ? cx - fw : cx + mouth, floor - 0.02, back, side < 0 ? cx - mouth : cx + fw, lintel, back + fd, stone(), { jit: 0.05, amp: 0.04 });
+      R.vc.bx(cx - mouth, floor, back - 0.01, cx + mouth, lintel, back + 0.03, 0x14100c, { jit: 0, amp: 0 });
+      R.vc.bx(cx - mouth - 0.01, lintel - 0.06, back, cx + mouth + 0.01, lintel, back + fd - 0.04, 0x1b1611, { jit: 0, amp: 0 });
+      R.timber.bx(cx - fw - 0.06, lintel, back, cx + fw + 0.06, lintel + 0.13, back + fd + 0.06, frame(), { grain: 'x', jit: 0.03, amp: 0.02 });
+      R.stone.bx(cx - fw + 0.04, lintel + 0.13, back, cx + fw - 0.04, floor + fh, back + fd - 0.08, stone(), { jit: 0.04, amp: 0.03 });
+      R.stone.bx(cx - fw - 0.08, floor - 0.04, back + fd, cx + fw + 0.08, floor + 0.05, back + fd + 0.28, stone(), { jit: 0.03, amp: 0.02 });
+      R.glow.box(mouth * 1.3, 0.04, fd * 0.5, cx, floor + 0.005, back + fd * 0.4, 0xffffff, { jit: 0 });
+      for (const [dx, dz, yaw] of [[-0.05, 0.16, 0.25], [0.04, 0.26, -0.3], [0, 0.21, 1.4]] as const) {
+        const l = 0.5;
+        R.bark.rod(cx + dx - Math.cos(yaw) * l / 2, floor + 0.08, back + dz + Math.sin(yaw) * l / 2, cx + dx + Math.cos(yaw) * l / 2, floor + 0.1, back + dz - Math.sin(yaw) * l / 2, 0.055, 5, jitterTone(TINT.woodDark, inner, 0.15));
+      }
+    }
+    R.ctx.pop();
+  }
+  // Every window, seen from inside: the daylight through it, a frame and a sill.
+  for (const win of windows) {
+    R.ctx.push(win.x, win.y, win.z, win.ry);
+    R.daylight.box(win.w, win.h, 0.02, 0, 0, 0.012, 0xffffff, { jit: 0 });
+    R.timber.box(win.w + 0.18, 0.08, 0.16, 0, -0.08, 0.06, frame(), { grain: 'x', jit: 0.04 });
+    R.timber.box(win.w + 0.18, 0.08, 0.06, 0, win.h, 0.03, frame(), { grain: 'x', jit: 0.04 });
+    for (const side of [-1, 1]) R.timber.box(0.07, win.h, 0.06, side * (win.w / 2 + 0.035), 0, 0.03, frame(), { grain: 'y', jit: 0.04 });
+    R.timber.box(0.04, win.h, 0.04, 0, 0, 0.03, frame(), { grain: 'y', jit: 0.03 });
+    R.timber.box(win.w, 0.04, 0.04, 0, win.h * 0.5, 0.03, frame(), { grain: 'x', jit: 0.03 });
+    R.ctx.pop();
+  }
+}
+
 /** Any ordinary building: foundation, walls in the chosen material, sagging roof, door, windows, chimney, and the clutter of use. */
 export function buildStandard(R: Region, terrain: Terrain, b: BuildingSpec, out: BuildOut) {
   const { avg, lo } = groundOf(terrain, b);
   const rnd: Rnd = mulberry32(Math.floor(hash3(b.x, b.z, 17) * 1e9));
+  // The shared room (whose furniture and colliders the world uses), or a fresh description of a building variant.
+  const room = roomOf(b) ?? interiorOf(b)!;
   const ctx = R.ctx;
   ctx.push(b.x, avg, b.z, b.yaw);
   const sink = avg - lo + 0.4;
   const plinth = 0.42;
   const wallH = b.h;
   const y0 = plinth - 0.02;
+  const t = room.wall;
+  const doorX = buildingEntry(b).x;
+  // The doorway through the front wall (A66): its boards, frame and rails stop at its sides and its lintel.
+  const gap = { x0: doorX - room.door.halfWidth, x1: doorX + room.door.halfWidth, top: room.door.height };
   foundation(R, rnd, b.w, b.d, plinth, sink);
-  // Dark core behind everything, so gaps between boards and around windows show shadow instead of daylight.
-  R.vc.bx(-b.w / 2 + 0.04, y0 - 0.1, -b.d / 2 + 0.04, b.w / 2 - 0.04, y0 + wallH, b.d / 2 - 0.04, 0x1a140e, { jit: 0, amp: 0 });
 
   if (b.wall === 'timber') {
     const faces: [number, number, number, number][] = [[0, b.d / 2, 0, b.w], [0, -b.d / 2, Math.PI, b.w], [b.w / 2, 0, Math.PI / 2, b.d], [-b.w / 2, 0, -Math.PI / 2, b.d]];
     for (const [fx, fz, yaw, len] of faces) {
       ctx.push(fx, 0, fz, yaw);
-      plankFace(R, rnd, len, wallH, y0, TINT.wood);
+      plankFace(R, rnd, len, wallH, y0, TINT.wood, fz > 0 ? gap : undefined);
       ctx.pop();
     }
     for (const sx of [-1, 1]) for (const sz of [-1, 1]) post(R.timber, rnd, sx * (b.w / 2 + 0.02), sz * (b.d / 2 + 0.02), y0 + wallH + 0.15, 0.24, jitterTone(TINT.woodDark, rnd, 0.1), 0.2);
-    // A rough rail along the eave line and another at waist height.
-    for (const y of [y0 + wallH - 0.08, y0 + wallH * 0.42]) for (const sz of [-1, 1]) R.timber.bx(-b.w / 2 - 0.04, y, sz * (b.d / 2 + 0.06) - 0.06, b.w / 2 + 0.04, y + 0.14, sz * (b.d / 2 + 0.06) + 0.06, jitterTone(TINT.woodDark, rnd, 0.1), { grain: 'x', jit: 0.1 });
+    // A rough rail along the eave line and another at waist height; the waist rail stops at the doorway.
+    for (const y of [y0 + wallH - 0.08, y0 + wallH * 0.42]) for (const sz of [-1, 1]) {
+      const tone = jitterTone(TINT.woodDark, rnd, 0.1), z0 = sz * (b.d / 2 + 0.06) - 0.06, z1 = sz * (b.d / 2 + 0.06) + 0.06;
+      if (sz === 1 && y < y0 + gap.top) {
+        R.timber.bx(-b.w / 2 - 0.04, y, z0, gap.x0, y + 0.14, z1, tone, { grain: 'x', jit: 0.1 });
+        R.timber.bx(gap.x1, y, z0, b.w / 2 + 0.04, y + 0.14, z1, tone, { grain: 'x', jit: 0.1 });
+      } else R.timber.bx(-b.w / 2 - 0.04, y, z0, b.w / 2 + 0.04, y + 0.14, z1, tone, { grain: 'x', jit: 0.1 });
+    }
     for (const y of [y0 + wallH - 0.08, y0 + wallH * 0.42]) for (const sx of [-1, 1]) R.timber.bx(sx * (b.w / 2 + 0.06) - 0.06, y, -b.d / 2 - 0.04, sx * (b.w / 2 + 0.06) + 0.06, y + 0.14, b.d / 2 + 0.04, jitterTone(TINT.woodDark, rnd, 0.1), { grain: 'z', jit: 0.1 });
+    // Boards line the room inside, a little behind the outer boards so their gaps stay dark.
+    roomWalls(R.planks, b.w - 0.06, b.d - 0.06, wallH, y0, t - 0.03, room.door, mulc(rgb(TINT.wood), 0.82));
   } else if (b.wall === 'plaster') {
-    slab(R.plaster, b.w, wallH, b.d, y0, jitterTone(TINT.plaster, rnd, 0.06));
-    timberFrame(R, rnd, b.w, b.d, wallH, y0);
+    roomWalls(R.plaster, b.w, b.d, wallH, y0, t, room.door, jitterTone(TINT.plaster, rnd, 0.06));
+    timberFrame(R, rnd, b.w, b.d, wallH, y0, gap);
   } else {
-    slab(R.stone, b.w, wallH, b.d, y0, jitterTone(TINT.stone, rnd, 0.05), 0.9);
+    roomWalls(R.stone, b.w, b.d, wallH, y0, t, room.door, jitterTone(TINT.stone, rnd, 0.05), 0.9);
     quoins(R, rnd, b.w, b.d, wallH, y0);
   }
 
@@ -151,20 +245,43 @@ export function buildStandard(R: Region, terrain: Terrain, b: BuildingSpec, out:
   // Ridge sag: a beam under the ridge that visibly dips.
   if (b.roof === 'gable') R.timber.bx(-b.w / 2 - 0.2, roof.ridgeY - 0.35, -0.08, b.w / 2 + 0.2, roof.ridgeY - 0.2, 0.08, jitterTone(TINT.woodDark, rnd, 0.1), { jit: 0.08 });
 
-  // Door and windows.
-  const doorX = buildingEntry(b).x;
+  // Door and windows. The leaf hangs apart from the shell, hinged at the doorway's inner face, so it can swing.
   rnd(); // Retain the existing decorative RNG sequence after the now-shared, authored door position.
-  door(R, rnd, { x: doorX, y: y0, z: b.d / 2 + 0.03, stone: b.wall === 'stone' });
+  const doorOpts = { x: doorX, y: y0, z: b.d / 2 + 0.03, stone: b.wall === 'stone' };
+  if (out.apart && out.doors) {
+    const leaf = out.apart(`door-${b.id}`, (L) => door(R, rnd, { ...doorOpts, leaf: L }));
+    const pivot = new THREE.Group();
+    pivot.name = `Door / ${b.id}`;
+    pivot.position.copy(ctx.toWorld(doorX - room.door.halfWidth + 0.02, room.floorTop + 0.005, b.d / 2 - t + DOOR_LEAF_INSET));
+    pivot.rotation.y = b.yaw;
+    leaf.removeFromParent();
+    pivot.add(leaf);
+    out.doors.push({ room, pivot });
+  } else door(R, rnd, doorOpts);
+  const windows: { x: number; z: number; y: number; ry: number; w: number; h: number }[] = [];
+  const inside = (x: number, z: number, ry: number) => windows.push({ x, z, y: y0 + wallH * 0.45, ry, w: 0.72, h: 0.82 });
   for (const side of [-1, 1]) {
     const wx = side * Math.min(b.w * 0.32, b.w / 2 - 0.75);
-    if (Math.abs(wx - doorX) >= 1.25) windowAt(R, rnd, { x: wx, y: y0 + wallH * 0.45, z: b.d / 2 + 0.02, shutters: true, stone: b.wall === 'stone' });
+    if (Math.abs(wx - doorX) >= 1.25) {
+      windowAt(R, rnd, { x: wx, y: y0 + wallH * 0.45, z: b.d / 2 + 0.02, shutters: true, stone: b.wall === 'stone' });
+      inside(wx, b.d / 2 - t - 0.005, Math.PI);
+    }
   }
-  windowAt(R, rnd, { x: b.w / 2 + 0.02, y: y0 + wallH * 0.45, z: (rnd() - 0.5) * b.d * 0.4, ry: Math.PI / 2, stone: b.wall === 'stone' });
-  windowAt(R, rnd, { x: -b.w / 2 - 0.02, y: y0 + wallH * 0.45, z: (rnd() - 0.5) * b.d * 0.4, ry: -Math.PI / 2, stone: b.wall === 'stone' });
-  for (const side of [-1, 1]) windowAt(R, rnd, { x: side * b.w * 0.24, y: y0 + wallH * 0.45, z: -b.d / 2 - 0.02, ry: Math.PI, stone: b.wall === 'stone' });
+  const eastZ = (rnd() - 0.5) * b.d * 0.4;
+  windowAt(R, rnd, { x: b.w / 2 + 0.02, y: y0 + wallH * 0.45, z: eastZ, ry: Math.PI / 2, stone: b.wall === 'stone' });
+  inside(b.w / 2 - t - 0.005, eastZ, -Math.PI / 2);
+  const westZ = (rnd() - 0.5) * b.d * 0.4;
+  windowAt(R, rnd, { x: -b.w / 2 - 0.02, y: y0 + wallH * 0.45, z: westZ, ry: -Math.PI / 2, stone: b.wall === 'stone' });
+  inside(-b.w / 2 + t + 0.005, westZ, Math.PI / 2);
+  for (const side of [-1, 1]) {
+    windowAt(R, rnd, { x: side * b.w * 0.24, y: y0 + wallH * 0.45, z: -b.d / 2 - 0.02, ry: Math.PI, stone: b.wall === 'stone' });
+    inside(side * b.w * 0.24, -b.d / 2 + t + 0.005, 0);
+  }
+  roomInterior(R, room, windows);
 
   // Chimney.
-  if (b.kind !== 'lodge' && b.kind !== 'office' && b.kind !== 'bunks' && b.kind !== 'store') chimney(R, rnd, b.w * 0.28, -b.d * 0.12, y0 + wallH - 0.5, roof.rise + 1.6);
+  const chimneyAt = chimneyOf(b);
+  if (chimneyAt) chimney(R, rnd, chimneyAt.x, chimneyAt.z, y0 + wallH - 0.5, roof.rise + 1.6);
 
   // Lantern and the small litter of a used doorway.
   const lp = ctx.toWorld(doorX + 0.95, y0 + 2.2, b.d / 2 + 0.35);

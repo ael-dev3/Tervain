@@ -4,6 +4,7 @@ import { clamp, fbm, lerp, ridged, smoothstep, warp } from './noise';
 import { lighthouseRock, shapeCoast, shoreDistance } from './coast';
 import { lighthouseFloorAt, lighthouseSurfacesAt } from './lighthouse';
 import { buildingStepSurfacesAt } from './buildingEntries';
+import { roomLocator, type RoomLocator } from './interiors';
 import { springBasinGround } from './water/spring';
 import { checkCancelled, finishCooperatively, type CooperativeOptions } from '../platform/cooperative';
 import { isWorldPickupItem } from '../content/pickups';
@@ -449,6 +450,7 @@ export class Terrain {
   readonly heights: Float32Array;
   readonly carve: Float32Array;
   private readonly rockSurfaces = new RockSurfaces();
+  private roomIndex: RoomLocator | null = null;
 
   registerRockSurfaces(rocks: readonly PhysicalRockGeometry[]) { this.rockSurfaces.register(rocks); }
 
@@ -546,7 +548,12 @@ export class Terrain {
     return null;
   }
 
-  /** Height a character stands on: terrain, a deck, or the archive's rendered plank floor. */
+  /** The buildings' rooms over this terrain (A66): which room a point is in, and the height of its floor. */
+  get rooms(): RoomLocator {
+    return this.roomIndex ??= roomLocator((x, z) => this.heightAt(x, z));
+  }
+
+  /** Height a character stands on: terrain, a deck, a building's floor, or the archive's rendered plank floor. */
   groundAt(x: number, z: number): number {
     const deck = this.deckAt(x, z);
     const t = this.heightAt(x, z);
@@ -573,6 +580,8 @@ export class Terrain {
       // Every point used by groundOf lies on the flat terrace, so its average equals this grid-sampled base.
       return Math.max(t, this.heightAt(archive.x, archive.z) + ARCHIVE_ROOM.floorTop);
     }
+    const floor = this.rooms.floorAt(x, z);
+    if (floor !== null) return Math.max(t, floor);
     return deck ? Math.max(deck.y, t) : t;
   }
 

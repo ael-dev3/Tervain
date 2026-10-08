@@ -5,9 +5,13 @@ import { clamp01, fbmField, mixc, pnoise, rnd, sstep, voronoi, type RGB } from '
  * Surface textures for buildings and props: weathered planks and beams, rubble stone, peeling plaster, straw thatch, broken
  * clay tile, slate and coarse cloth. Each is a tileable albedo (dark, dirty, uneven) plus a normal map from the same height field.
  * The albedo carries the colour; vertex colours only tint it a little so no two walls are quite the same.
+ *
+ * Since A67 the textures are baked offline at 1024 px (tools/textures/bake-buildings.py) and installed here once loaded
+ * (bakedTextures.ts); the procedural generators below are the fallback for any that are missing, and what tests see.
  */
 
 export type TexKey = 'plaster' | 'timber' | 'planks' | 'stone' | 'cobble' | 'tile' | 'thatch' | 'slate' | 'cloth' | 'bark' | 'rock' | 'bronze';
+export const TEX_KEYS: readonly TexKey[] = ['plaster', 'timber', 'planks', 'stone', 'cobble', 'tile', 'thatch', 'slate', 'cloth', 'bark', 'rock', 'bronze'];
 
 /** Metres covered by one repeat of each texture. */
 export const TILE_M: Record<TexKey, number> = { plaster: 2.2, timber: 1.2, planks: 1.2, stone: 2, cobble: 1.6, tile: 1.1, thatch: 1.1, slate: 1.1, cloth: 0.6, bark: 1.2, rock: 2.6, bronze: 1.2 };
@@ -342,16 +346,85 @@ function bronze(n: number): [Field, number] {
 const MAKERS: Record<TexKey, (n: number) => [Field, number]> = { plaster, timber, planks, stone, cobble, tile, thatch, slate, cloth, bark, rock, bronze };
 
 export interface TexPair {
-  map: THREE.DataTexture;
-  normal: THREE.DataTexture;
+  map: THREE.Texture;
+  normal: THREE.Texture;
+}
+
+/** A baked texture's decoded images: albedo (sRGB) and normal map, rows from v = 0 like the generated ones. */
+export interface BakedImages {
+  map: TexImageSource;
+  normal: TexImageSource;
 }
 
 const cache = new Map<string, TexPair>();
+const baked = new Map<TexKey, BakedImages>();
+let bakedSize = 0, bakedAnisotropy = 1;
+const listeners = new Set<() => void>();
+
+/**
+ * Use baked images for these keys from now on (decoded at `size` texels, filtered with at least `anisotropy` samples).
+ * Materials made earlier hear of it through {@link onBakedTextures} and can take the new pairs from {@link makeTexPair}.
+ * Baked pairs belong to this module, not to the materials drawing them: they last for the whole session, apart from those
+ * decoded for another preset, which are released once everything has moved on to the new ones.
+ */
+export function installBakedTextures(images: ReadonlyMap<TexKey, BakedImages>, size: number, anisotropy = 1) {
+  if (!images.size) return;
+  const stale = [...cache].filter(([id]) => id.includes(':baked:') && !id.endsWith(`:baked:${size}`));
+  for (const [key, pair] of images) baked.set(key, pair);
+  bakedSize = size;
+  bakedAnisotropy = anisotropy;
+  for (const listener of [...listeners]) listener();
+  for (const [id, pair] of stale) {
+    cache.delete(id);
+    pair.map.dispose();
+    pair.normal.dispose();
+  }
+}
+
+/** Called whenever baked textures are installed; returns the unsubscribe. */
+export function onBakedTextures(listener: () => void): () => void {
+  listeners.add(listener);
+  return () => listeners.delete(listener);
+}
+
+/** Whether a key currently draws from baked images rather than its generator. */
+export const isBaked = (key: TexKey) => baked.has(key);
+
+const configure = <T extends THREE.Texture>(t: T, srgb: boolean, aniso: number): T => {
+  t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  t.magFilter = THREE.LinearFilter;
+  t.minFilter = THREE.LinearMipmapLinearFilter;
+  t.generateMipmaps = true;
+  t.anisotropy = aniso;
+  t.colorSpace = srgb ? THREE.SRGBColorSpace : THREE.NoColorSpace;
+  t.needsUpdate = true;
+  return t;
+};
+
+function bakedPair(images: BakedImages, aniso: number): TexPair {
+  const mk = (image: TexImageSource, srgb: boolean) => {
+    const t = new THREE.Texture(image as THREE.Texture['image']);
+    // Rows run from v = 0, as the generated DataTextures do: never flipped on upload.
+    t.flipY = false;
+    return configure(t, srgb, aniso);
+  };
+  return { map: mk(images.map, true), normal: mk(images.normal, false) };
+}
 
 export function makeTexPair(key: TexKey, size: number, aniso = 4): TexPair {
-  const id = `${key}:${size}`;
+  const images = baked.get(key);
+  const id = images ? `${key}:baked:${bakedSize}` : `${key}:${size}`;
   const hit = cache.get(id);
-  if (hit) return hit;
+  if (hit) {
+    // One baked pair serves every caller, so it keeps the sharpest filtering any of them asked for.
+    if (images && hit.map.anisotropy < aniso) for (const t of [hit.map, hit.normal]) { t.anisotropy = aniso; t.needsUpdate = true; }
+    return hit;
+  }
+  if (images) {
+    const pair = bakedPair(images, Math.max(aniso, bakedAnisotropy));
+    cache.set(id, pair);
+    return pair;
+  }
   const [f, strength] = MAKERS[key](size);
   const n = size;
   const alb = new Uint8Array(n * n * 4);
@@ -378,17 +451,7 @@ export function makeTexPair(key: TexKey, size: number, aniso = 4): TexPair {
       nrm[o + 3] = 255;
     }
   }
-  const mk = (data: Uint8Array, srgb: boolean) => {
-    const t = new THREE.DataTexture(data, n, n, THREE.RGBAFormat, THREE.UnsignedByteType);
-    t.wrapS = t.wrapT = THREE.RepeatWrapping;
-    t.magFilter = THREE.LinearFilter;
-    t.minFilter = THREE.LinearMipmapLinearFilter;
-    t.generateMipmaps = true;
-    t.anisotropy = aniso;
-    t.colorSpace = srgb ? THREE.SRGBColorSpace : THREE.NoColorSpace;
-    t.needsUpdate = true;
-    return t;
-  };
+  const mk = (data: Uint8Array, srgb: boolean) => configure(new THREE.DataTexture(data, n, n, THREE.RGBAFormat, THREE.UnsignedByteType), srgb, aniso);
   const pair = { map: mk(alb, true), normal: mk(nrm, false) };
   cache.set(id, pair);
   return pair;

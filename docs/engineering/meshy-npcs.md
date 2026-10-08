@@ -10,6 +10,11 @@ tools built in code; and surfaces shade as skin, cloth, leather or steel, with c
 cover. The eleven-joint contract, hashes, UVs, textures and budgets below are unchanged. See the
 [resident record](residents-0.0.13.md).
 
+A65 then gives every model a 24-joint rig of its own, made with Meshy's automatic rigging and kept beside it in
+`rigs/<id>.json`, and moves the residents with authored clips from the motion library in `motion/residents.glb`. The
+manifest lists both with their sizes and hashes; the files below are still unchanged, and the eleven-joint path
+remains the fallback. See [resident rigs and motion](resident-rigs-0.0.13.md).
+
 ## Current 0.0.12 character repair
 
 The owner's character-polish request (A55) rebuilds all **17 supplied NPC derivatives** from the unchanged Meshy originals. The repaired files are installed locally under `public/models/npcs/`; every manifest entry records `surfaceBake: "geometry-only-v1"`. This supersedes the original **0.0.11** geometry/material preparation below while retaining the 17 role assignments, faces and costumes, eleven-joint procedural rig, private per-world resources and complete **50,000-triangle actor cap**. The approved Weathered Wanderer retains its geometry, source PBR maps, six authored clips and calibrated movement. No new image generation, lore, cloth simulation or version promotion is introduced.

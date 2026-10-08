@@ -554,3 +554,6 @@ function noteName(m) {
   const names = ['C', 'C#', 'D', 'Eb', 'E', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B'];
   return `${names[((m % 12) + 12) % 12]}${Math.floor(m / 12) - 1}`;
 }
+
+/** The arranging helpers and the theme itself, for cues built from the same material (tools/teaser/score.mjs). */
+export { SPACES, Mix, timed, phrases, bowed, blown, sung, plucked, arpeggio, roll, THEME, HARMONY, VARIATION, THEME_AEOLIAN, HARMONY_AEOLIAN };

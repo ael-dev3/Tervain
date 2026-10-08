@@ -9,7 +9,12 @@
       "bytes": 8397452,
       "sha256": "f9761d0c218664ddb6b11998530b91650d6a8f34e68465f60eb93d38f3a7bb5e",
       "height": 1.7998065948486328,
-      "surfaceBake": "geometry-only-v1"
+      "surfaceBake": "geometry-only-v1",
+      "rig": {
+        "file": "rigs/caravan-master.json",
+        "bytes": 479631,
+        "sha256": "c0b80aa365cd66f38f3a8bb66390ce2a9b5193fb995d61de9404efeccec2fb5d"
+      }
     },
     {
       "id": "rillford-reeve",
@@ -18,7 +23,12 @@
       "bytes": 11512824,
       "sha256": "6b77c6125db65e442c3c5f212a56428d494e882a12bc854aae04ef3cb38087ed",
       "height": 1.8000023365020752,
-      "surfaceBake": "geometry-only-v1"
+      "surfaceBake": "geometry-only-v1",
+      "rig": {
+        "file": "rigs/rillford-reeve.json",
+        "bytes": 704156,
+        "sha256": "5055100c42df4861c28236e04373c577180dd5206c60bd204e3fdfab784cf290"
+      }
     },
     {
       "id": "spring-steward",
@@ -27,7 +37,12 @@
       "bytes": 4204576,
       "sha256": "d4dc3f02e3ff156acf020946d6b5edb195e6f226aaae59a0abac554e12728d9d",
       "height": 1.7999999523162842,
-      "surfaceBake": "geometry-only-v1"
+      "surfaceBake": "geometry-only-v1",
+      "rig": {
+        "file": "rigs/spring-steward.json",
+        "bytes": 153151,
+        "sha256": "0c717ba72d2f27bb3b19dde37d0cbccfbf74323d151215cd7d3a1720d36df73a"
+      }
     },
     {
       "id": "quarry-foreman",
@@ -36,7 +51,12 @@
       "bytes": 8520012,
       "sha256": "5655797071def938a333bfab87ec41694a8b48c68334d913bd82b172fa59007c",
       "height": 1.7997812032699585,
-      "surfaceBake": "geometry-only-v1"
+      "surfaceBake": "geometry-only-v1",
+      "rig": {
+        "file": "rigs/quarry-foreman.json",
+        "bytes": 387119,
+        "sha256": "3ab8fd31d0a7dea821e3556097533189ae72e16266e1e2529cec5d5074f24364"
+      }
     },
     {
       "id": "maintenance-worker",
@@ -45,7 +65,12 @@
       "bytes": 7999928,
       "sha256": "0a293717adb6541ee6f4adf1c02368589afbc0e17f9513543ca1b78e4c51e838",
       "height": 1.7998889684677124,
-      "surfaceBake": "geometry-only-v1"
+      "surfaceBake": "geometry-only-v1",
+      "rig": {
+        "file": "rigs/maintenance-worker.json",
+        "bytes": 453259,
+        "sha256": "e9b55a1836fff0462e8df3aaf270b603cf0fb1e9c3ed5a9f835ca50f17fb48ae"
+      }
     },
     {
       "id": "estate-steward",
@@ -54,7 +79,12 @@
       "bytes": 8090820,
       "sha256": "2ea5cd78c0ace3775a745ce4345250ea944728168ba07cac4dc156572db89333",
       "height": 1.7997856140136719,
-      "surfaceBake": "geometry-only-v1"
+      "surfaceBake": "geometry-only-v1",
+      "rig": {
+        "file": "rigs/estate-steward.json",
+        "bytes": 424974,
+        "sha256": "16266c33169c69d09481a632a09aad1a219ddf90e92f1db3f6b8bd5485aa844d"
+      }
     },
     {
       "id": "ash-recorder",
@@ -63,7 +93,12 @@
       "bytes": 5938408,
       "sha256": "a0fa94035a2a0e38c89265767db0e63ea615414a91a44ecf488e514956580475",
       "height": 1.7999999523162842,
-      "surfaceBake": "geometry-only-v1"
+      "surfaceBake": "geometry-only-v1",
+      "rig": {
+        "file": "rigs/ash-recorder.json",
+        "bytes": 384264,
+        "sha256": "b133dd8261118eea7c9284f7c7a7b7dbfac45faa17f9447dbe8ac32d3f157437"
+      }
     },
     {
       "id": "shrine-warden",
@@ -72,7 +107,12 @@
       "bytes": 8497100,
       "sha256": "113af114f2581feb89f55b843c617af6624f04996f0e0fb306074fcb39c7418d",
       "height": 1.801082968711853,
-      "surfaceBake": "geometry-only-v1"
+      "surfaceBake": "geometry-only-v1",
+      "rig": {
+        "file": "rigs/shrine-warden.json",
+        "bytes": 401745,
+        "sha256": "91e830fb7336e71c7728d3bd3c34c81f433f46f9443bb1cdf7680e677d945730"
+      }
     },
     {
       "id": "mill-hand",
@@ -81,7 +121,12 @@
       "bytes": 4156620,
       "sha256": "923a11e2d38dc4ae523379442244146e28535b61a80f6d6bea61dd2109c089f1",
       "height": 1.7999999523162842,
-      "surfaceBake": "geometry-only-v1"
+      "surfaceBake": "geometry-only-v1",
+      "rig": {
+        "file": "rigs/mill-hand.json",
+        "bytes": 153141,
+        "sha256": "99a85376d617f0ce3f78da0b8104b85da211e920e1365e953a2a203bcb744b92"
+      }
     },
     {
       "id": "quarry-hand",
@@ -90,7 +135,12 @@
       "bytes": 11608676,
       "sha256": "4bdf9fd3e998efc7321c49d8feefff54f401d7da363f653f020f65557144162e",
       "height": 1.7994439601898193,
-      "surfaceBake": "geometry-only-v1"
+      "surfaceBake": "geometry-only-v1",
+      "rig": {
+        "file": "rigs/quarry-hand.json",
+        "bytes": 740269,
+        "sha256": "7a6dc58c090a36eb08cdbbb6fb0346ccc13b8d2b98900096b8951847a89d3a02"
+      }
     },
     {
       "id": "village-baker",
@@ -99,7 +149,12 @@
       "bytes": 8034236,
       "sha256": "08a6e0f394b753c928c92db46016699303b89b6a7052cae285181a71089054c0",
       "height": 1.7999660968780518,
-      "surfaceBake": "geometry-only-v1"
+      "surfaceBake": "geometry-only-v1",
+      "rig": {
+        "file": "rigs/village-baker.json",
+        "bytes": 429780,
+        "sha256": "a084474ace450cac84a64aedbcfba7f5fa0d57c3ecc93b0931f6356be8e27de8"
+      }
     },
     {
       "id": "fisher",
@@ -108,7 +163,12 @@
       "bytes": 9396060,
       "sha256": "9f3f7e576f28d66756ff3b563a74c128de5e10df74a8b19330c2f99720f1c980",
       "height": 1.7980806827545166,
-      "surfaceBake": "geometry-only-v1"
+      "surfaceBake": "geometry-only-v1",
+      "rig": {
+        "file": "rigs/fisher.json",
+        "bytes": 449129,
+        "sha256": "1ec493f05efee76b14bca59946d3aad2a29fb2dc21e21a6c61597bdb3e63b2f9"
+      }
     },
     {
       "id": "fireside",
@@ -117,7 +177,12 @@
       "bytes": 11500624,
       "sha256": "728e18da4e9f5d8dd393a0eb81d564b0456fd3c933226ca5f587d68e28565ad8",
       "height": 1.8000023365020752,
-      "surfaceBake": "geometry-only-v1"
+      "surfaceBake": "geometry-only-v1",
+      "rig": {
+        "file": "rigs/fireside.json",
+        "bytes": 704170,
+        "sha256": "d36aaa164749b1a63741fd288a8d66e1ea4f8a766ce90792afc5ae3b13490706"
+      }
     },
     {
       "id": "keeper",
@@ -126,7 +191,12 @@
       "bytes": 4759632,
       "sha256": "b7866e8477ced006aaa9563c89e1a241fbe67c70dd4b2a2ee8d71d8e29292db6",
       "height": 1.7999999523162842,
-      "surfaceBake": "geometry-only-v1"
+      "surfaceBake": "geometry-only-v1",
+      "rig": {
+        "file": "rigs/keeper.json",
+        "bytes": 125132,
+        "sha256": "0785a2a92d6013db314baab12ae8f2abdbe80db85a08fe8ed13cf6f56a1d78f9"
+      }
     },
     {
       "id": "ford-bandit-a",
@@ -135,7 +205,12 @@
       "bytes": 11767292,
       "sha256": "5f56d0305eb21031c7e1336f89ab8536224770eac2a60187e5fb3654a65d55a2",
       "height": 1.801072359085083,
-      "surfaceBake": "geometry-only-v1"
+      "surfaceBake": "geometry-only-v1",
+      "rig": {
+        "file": "rigs/ford-bandit-a.json",
+        "bytes": 704741,
+        "sha256": "2c228ac022ff0eda6db709b95b6a8eb0594fceaca9c6b05d2f9b07262a68fb30"
+      }
     },
     {
       "id": "ford-bandit-b",
@@ -144,7 +219,12 @@
       "bytes": 8374680,
       "sha256": "edaa8f5402e9c4ffb31a89a3bbb00bc675bd77a216939cd950b3c5418cae5b1e",
       "height": 1.8001842498779297,
-      "surfaceBake": "geometry-only-v1"
+      "surfaceBake": "geometry-only-v1",
+      "rig": {
+        "file": "rigs/ford-bandit-b.json",
+        "bytes": 441487,
+        "sha256": "131242cb087a7e30ee767cb0b4b00025dfdb615bd75833a076c8325f2aa4305c"
+      }
     },
     {
       "id": "menu-warden",
@@ -153,7 +233,12 @@
       "bytes": 7671612,
       "sha256": "533727123105bc7a449cf668f328e385a4a5a82afa961ac8ae392bdae7574d2e",
       "height": 1.800502061843872,
-      "surfaceBake": "geometry-only-v1"
+      "surfaceBake": "geometry-only-v1",
+      "rig": {
+        "file": "rigs/menu-warden.json",
+        "bytes": 423615,
+        "sha256": "2a81978131f4cdb1d10895709f4e8773be74e844286fbc19013f216f7ff4589d"
+      }
     }
   ],
   "roles": {
@@ -175,5 +260,10 @@
     "enemy:ford_bandit_a": "ford-bandit-a",
     "enemy:ford_bandit_b": "ford-bandit-b",
     "menu:warden": "menu-warden"
+  },
+  "motion": {
+    "file": "motion/residents.glb",
+    "bytes": 1626720,
+    "sha256": "845fee1a5e91e03b14fa30be5d4236f23e2ed86f950e709d759f89c610e0c0fe"
   }
 }

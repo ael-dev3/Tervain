@@ -26,7 +26,9 @@ import { mulberry32 } from '../world/noise';
 import type { Terrain } from '../world/terrain';
 import { Ctx, hash3 } from './buildKit';
 import { authorMillWheel, authorMillWheelSupports } from './millWheel';
-import { buildArchiveShell, buildLighthouse, buildStandard, groundOf, type BuildOut } from './buildings';
+import { buildArchiveShell, buildLighthouse, buildStandard, DOOR_LEAF_INSET, groundOf, roomInterior, type BuildOut, type DoorLeaf } from './buildings';
+import { roomOf } from '../world/interiors';
+import { FURNITURE } from '../world/furniture';
 import { benchSet, campfire, cart, fence, palisade, pot, ropeCoil, stockadeGate, wagon, watchtower, well, workTable, wreck } from './props';
 import { MaterialSet, Region } from './regions';
 import { TINT, buildShrineHallShell, crate, door, fieldstone, jitterTone, roofFor, sack, villageBell, windowAt, woodpile, type Rnd } from './structures';
@@ -117,6 +119,10 @@ export interface SceneryHandles {
   group: THREE.Group;
   windowMat: THREE.MeshBasicMaterial;
   lanternMat: THREE.MeshBasicMaterial;
+  /** Window panes seen from inside the rooms (A66). */
+  daylightMat: THREE.MeshBasicMaterial;
+  /** Every room's door leaf (A66), hinged in its doorway. */
+  doors: DoorLeaf[];
   lanternPositions: THREE.Vector3[];
   millWheel: THREE.Object3D;
   bell: THREE.Object3D;
@@ -145,6 +151,8 @@ export interface SceneryHandles {
   dispose(): void;
 }
 
+const DAYLIGHT = new THREE.Color(0xd2d8dc), NIGHT_SKY = new THREE.Color(0x111824);
+
 function localToWorld(b: { x: number; z: number; yaw: number }, lx: number, lz: number) {
   const c = Math.cos(b.yaw);
   const s = Math.sin(b.yaw);
@@ -172,7 +180,8 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
   group.name = 'settlement';
   const mats = new MaterialSet(quality === 'low' ? 192 : 256);
   const lanternPositions: THREE.Vector3[] = [];
-  const out: BuildOut = { lanterns: lanternPositions };
+  const doors: DoorLeaf[] = [];
+  const out: BuildOut = { lanterns: lanternPositions, doors };
   const rng: Rnd = mulberry32(909);
   const gy = (x: number, z: number) => terrain.heightAt(x, z);
 
@@ -182,6 +191,9 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     let r = regions.get(name);
     if (!r) {
       r = new Region(name, new Ctx());
+      // Everything in the settlement's regions is built in place, so its walls know the ground at their feet: the
+      // terrain outside, a room's floor within (grime rises from where the wall meets what it stands on).
+      r.ctx.ground = (x, z) => terrain.groundAt(x, z);
       regions.set(name, r);
     }
     return r;
@@ -196,12 +208,14 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     group.add(g);
     return g;
   };
+  out.apart = (name, fn) => dyn(name, fn);
 
   /* ---------------- Ordinary buildings ---------------- */
   for (const b of BUILDINGS) {
     if (b.kind === 'archive' || b.kind === 'shrine') continue;
     buildStandard(region(regionOf(b.x, b.z)), terrain, b, out);
   }
+  for (const leaf of doors) group.add(leaf.pivot);
 
   /* ---------------- The lighthouse on Lantern Point ---------------- */
   const lightR = region('coast');
@@ -267,19 +281,34 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     const { avg, lo } = groundOf(terrain, hall);
     const rnd: Rnd = mulberry32(4401);
     R.ctx.push(hall.x, avg, hall.z, 0);
-    buildShrineHallShell(R, rnd, hall.w, hall.d, hall.h, avg - lo + 0.4);
+    const hallRoom = roomOf(hall)!;
+    buildShrineHallShell(R, rnd, hall.w, hall.d, hall.h, avg - lo + 0.4, hallRoom.wall, hallRoom.door);
     // Colonnade of stone drums.
     for (let i = -3; i <= 3; i++) {
       const cx = (i * (hall.w - 1.5)) / 6;
       const cz = hall.d / 2 + 0.8;
+      // The middle drum would stand before the great door; the colonnade parts there (A66), keeping its tones.
+      if (i === 0) { jitterTone(TINT.stone, rnd, 0.08); continue; }
       const bounds = physicalBounds(R);
       R.stone.lathe([0.42, 0, 0.36, 0.3, 0.3, 0.6, 0.28, hall.h - 0.35, 0.34, hall.h - 0.1, 0.4, hall.h + 0.05], 10, cx, 0.1, cz, jitterTone(TINT.stone, rnd, 0.08), { jit: 0.08, amp: 0.1 });
       colliders.circle('shrine_col', hall.x + cx, hall.z + cz, 0.36, true, bounds());
     }
     R.stone.bx(-hall.w / 2 - 0.3, 0.5 + hall.h - 0.5, hall.d / 2 + 0.2, hall.w / 2 + 0.3, 0.5 + hall.h - 0.1, hall.d / 2 + 1.4, jitterTone(TINT.stoneDark, rnd, 0.06), { jit: 0.05 });
-    // Great door and two windows, steps.
-    door(R, rnd, { x: 0, y: 0.5, z: hall.d / 2 + 0.05, w: 1.9, h: 3.0, stone: true });
+    // Great door, hung apart so it can swing (A66), two windows, steps.
+    const greatDoor = dyn('door-shrine_hall', (L) => door(R, rnd, { x: 0, y: 0.5, z: hall.d / 2 + 0.05, w: 1.9, h: 3.0, stone: true, leaf: L }));
+    const pivot = new THREE.Group();
+    pivot.name = 'Door / shrine_hall';
+    pivot.position.copy(R.ctx.toWorld(hallRoom.door.x - hallRoom.door.halfWidth + 0.02, hallRoom.floorTop + 0.005, hall.d / 2 - hallRoom.wall + DOOR_LEAF_INSET));
+    pivot.rotation.y = hall.yaw;
+    greatDoor.removeFromParent();
+    pivot.add(greatDoor);
+    group.add(pivot);
+    doors.push({ room: hallRoom, pivot });
     for (const dx of [-3.6, 3.6]) windowAt(R, rnd, { x: dx, y: 2.4, z: hall.d / 2 + 0.03, w: 0.8, h: 1.3, stone: true });
+    roomInterior(R, hallRoom, [-3.6, 3.6].map((dx) => ({ x: dx, y: 2.4, z: hall.d / 2 - hallRoom.wall - 0.005, ry: Math.PI, w: 0.8, h: 1.3 })), 'stone');
+    // Plank benches in rows before the altar (A66), where world/furniture.ts places them.
+    const pews: Rnd = mulberry32(4405);
+    for (const p of FURNITURE) if (p.room === hallRoom && p.piece === 'bench') benchSet(R, pews, p.x, hallRoom.floorTop, p.z, p.yaw);
     for (let i = 0; i < 3; i++) R.stone.box(4.4 + i * 0.3, 0.63 - i * 0.17, 0.72, 0, -0.08, hall.d / 2 + 1.15 + i * 0.67, jitterTone(TINT.stone, rnd, 0.12), { jit: 0.08 });
     const lp = R.ctx.toWorld(6.4, 2.4, hall.d / 2 + 1.6);
     lanternPositions.push(lp.clone());
@@ -876,6 +905,8 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     const c = new THREE.Color(0x30302a).lerp(new THREE.Color(0xffb85a), Math.min(1, n * 1.2));
     mats.windowMat.color.copy(c);
     mats.lanternMat.color.copy(c);
+    // Seen from inside, a window is the light outside: pale daylight fading to the blue of night.
+    mats.daylightMat.color.copy(DAYLIGHT).lerp(NIGHT_SKY, Math.min(1, n * 1.15));
   };
   setNight(0);
   const lampWorld = lh.lampWorld.clone();
@@ -883,6 +914,8 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     group,
     windowMat: mats.windowMat,
     lanternMat: mats.lanternMat,
+    daylightMat: mats.daylightMat,
+    doors,
     lanternPositions,
     millWheel,
     bell,

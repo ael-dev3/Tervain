@@ -3,11 +3,11 @@
   "reviewedAt": "2026-10-06",
   "auditedModelRevision": "dbb4e8e296e1f4aa5adca5e4b01d83ad98ea828b",
   "summary": {
-    "publicModelFiles": 88,
-    "publicModelBytes": 556171948,
+    "publicModelFiles": 106,
+    "publicModelBytes": 564545496,
     "archivedWarpkeepFiles": 209,
     "archivedWarpkeepBytes": 23676804,
-    "hashesMatchedExistingSourceRecords": 297,
+    "hashesMatchedExistingSourceRecords": 315,
     "modelsWithEmbeddedCcDeclaration": 0,
     "licenseClassification": "Unresolved Meshy branches are explicitly pending; absence of an embedded CC label does not establish absence of CC rights."
   },
@@ -1008,6 +1008,330 @@
       },
       "credit": "Owner-supplied Meshy deer; source-derived Tervain preparation, original quadruped rig and animations.",
       "changes": "UV-preserving complete-model reduction where required, source-derived foot-contact repairs, consistent meter conversion, original Tervain quadruped rig, skin weights and in-place animation clips. Supplied textures and seated posture are retained; see the per-source transformation receipt.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "resident-motion": {
+      "filename": "models/npcs/motion/residents.glb",
+      "sha256": "845fee1a5e91e03b14fa30be5d4236f23e2ed86f950e709d759f89c610e0c0fe",
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/public/models/npcs/motion/clips.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Generated with the Meshy API (animation library and text to motion) on the owner's account",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "The API responses do not record the account plan at generation time."
+      },
+      "credit": "Resident motion: 40 clips from Meshy's animation library and text to motion, on a Meshy auto-rig of an owner-supplied resident; two of them also move the wanderer's swimming.",
+      "changes": "Clips packed into one skeleton-only library: meshes, textures and scale channels removed, centimetres converted to metres, rotations stored as normalized 16-bit quaternions (tools/meshy-rig/build-motion.mjs). Each clip is retargeted to every resident's own rig, and the two swim clips to the wanderer's, at load time.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "furniture-altar": {
+      "filename": "Meshy text-to-3D result 01a11b7b-84aa-73ca-af7c-54da4a6bb549.glb",
+      "sha256": "4e0f32df71d6af3d7d7f5b7b47d9c1b72d986abef33c1237fe6414be13fd7495",
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/public/models/furniture/manifest.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Generated with the Meshy API (text to 3D) on the owner's account",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "The API responses do not record the account plan at generation time."
+      },
+      "credit": "Interior furniture (altar): Meshy text to 3D from a written description, prepared for Tervain.",
+      "changes": "Turned to face into the room, scaled to its size, centred on its footprint and stood on the floor; colour, normal and metal/roughness maps reduced and re-encoded, non-metal roughness raised (tools/prepare-meshy-furniture.py). Geometry and UVs otherwise as generated.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "furniture-bed": {
+      "filename": "Meshy text-to-3D result 01a11b71-776d-7322-bd00-3ea4950f830d.glb",
+      "sha256": "8708cf57c997f20b637e2fd7c108cd4cc180f7966c9afc3fff96fd42c41bdadb",
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/public/models/furniture/manifest.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Generated with the Meshy API (text to 3D) on the owner's account",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "The API responses do not record the account plan at generation time."
+      },
+      "credit": "Interior furniture (bed): Meshy text to 3D from a written description, prepared for Tervain.",
+      "changes": "Turned to face into the room, scaled to its size, centred on its footprint and stood on the floor; colour, normal and metal/roughness maps reduced and re-encoded, non-metal roughness raised (tools/prepare-meshy-furniture.py). Geometry and UVs otherwise as generated.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "furniture-bookshelf": {
+      "filename": "Meshy text-to-3D result 01a11b76-50bc-7541-87bb-68d243c0cf1c.glb",
+      "sha256": "5d2973a7120581214e2cf51ddcc26925e50a4b6dab32754cfa7b2456339850d9",
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/public/models/furniture/manifest.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Generated with the Meshy API (text to 3D) on the owner's account",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "The API responses do not record the account plan at generation time."
+      },
+      "credit": "Interior furniture (bookshelf): Meshy text to 3D from a written description, prepared for Tervain.",
+      "changes": "Turned to face into the room, scaled to its size, centred on its footprint and stood on the floor; colour, normal and metal/roughness maps reduced and re-encoded, non-metal roughness raised (tools/prepare-meshy-furniture.py). Geometry and UVs otherwise as generated.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "furniture-bunk": {
+      "filename": "Meshy text-to-3D result 01a11b71-a2ae-76f3-b023-32025cf35588.glb",
+      "sha256": "6f2d89c83cd40a95ec04ad826d9672b76ee0e09d349f0f11bab752897c433cec",
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/public/models/furniture/manifest.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Generated with the Meshy API (text to 3D) on the owner's account",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "The API responses do not record the account plan at generation time."
+      },
+      "credit": "Interior furniture (bunk): Meshy text to 3D from a written description, prepared for Tervain.",
+      "changes": "Turned to face into the room, scaled to its size, centred on its footprint and stood on the floor; colour, normal and metal/roughness maps reduced and re-encoded, non-metal roughness raised (tools/prepare-meshy-furniture.py). Geometry and UVs otherwise as generated.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "furniture-chair": {
+      "filename": "Meshy text-to-3D result 01a11b73-dfb6-720e-9d4a-d7f026546784.glb",
+      "sha256": "d2b7cd7da2c89e714282610418c3910c273eb9cab3c12ffcfdeb55a95e5f9ef7",
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/public/models/furniture/manifest.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Generated with the Meshy API (text to 3D) on the owner's account",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "The API responses do not record the account plan at generation time."
+      },
+      "credit": "Interior furniture (chair): Meshy text to 3D from a written description, prepared for Tervain.",
+      "changes": "Turned to face into the room, scaled to its size, centred on its footprint and stood on the floor; colour, normal and metal/roughness maps reduced and re-encoded, non-metal roughness raised (tools/prepare-meshy-furniture.py). Geometry and UVs otherwise as generated.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "furniture-chest": {
+      "filename": "Meshy text-to-3D result 01a11b73-dfee-7710-922f-59afe85a5ee7.glb",
+      "sha256": "7ab89dc59f47700b2da8a8118d4236435c6337e2fa3e09dd5378ff386dcba157",
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/public/models/furniture/manifest.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Generated with the Meshy API (text to 3D) on the owner's account",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "The API responses do not record the account plan at generation time."
+      },
+      "credit": "Interior furniture (chest): Meshy text to 3D from a written description, prepared for Tervain.",
+      "changes": "Turned to face into the room, scaled to its size, centred on its footprint and stood on the floor; colour, normal and metal/roughness maps reduced and re-encoded, non-metal roughness raised (tools/prepare-meshy-furniture.py). Geometry and UVs otherwise as generated.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "furniture-counter": {
+      "filename": "Meshy text-to-3D result 01a11b78-8a2e-718e-92d7-3e5d1db6390e.glb",
+      "sha256": "8d599d1a49cec5bb901cc376f8ebd33f0315cd40f786c26af225289ed7272e22",
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/public/models/furniture/manifest.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Generated with the Meshy API (text to 3D) on the owner's account",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "The API responses do not record the account plan at generation time."
+      },
+      "credit": "Interior furniture (counter): Meshy text to 3D from a written description, prepared for Tervain.",
+      "changes": "Turned to face into the room, scaled to its size, centred on its footprint and stood on the floor; colour, normal and metal/roughness maps reduced and re-encoded, non-metal roughness raised (tools/prepare-meshy-furniture.py). Geometry and UVs otherwise as generated.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "furniture-cupboard": {
+      "filename": "Meshy text-to-3D result 01a11b76-545e-7169-bc15-160f070f8aa3.glb",
+      "sha256": "5f0aa89c1e2c02b8f3f6c3b6429b4aa522a4ae7beddfe53e452e2b965ee50313",
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/public/models/furniture/manifest.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Generated with the Meshy API (text to 3D) on the owner's account",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "The API responses do not record the account plan at generation time."
+      },
+      "credit": "Interior furniture (cupboard): Meshy text to 3D from a written description, prepared for Tervain.",
+      "changes": "Turned to face into the room, scaled to its size, centred on its footprint and stood on the floor; colour, normal and metal/roughness maps reduced and re-encoded, non-metal roughness raised (tools/prepare-meshy-furniture.py). Geometry and UVs otherwise as generated.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "furniture-desk": {
+      "filename": "Meshy text-to-3D result 01a11b76-3991-72c5-a6c0-13971ddccf4f.glb",
+      "sha256": "4c905e9df6540abccc1cec4f1a2cc1f0cf49269a3400ae8ec4768d3d54598a90",
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/public/models/furniture/manifest.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Generated with the Meshy API (text to 3D) on the owner's account",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "The API responses do not record the account plan at generation time."
+      },
+      "credit": "Interior furniture (desk): Meshy text to 3D from a written description, prepared for Tervain.",
+      "changes": "Turned to face into the room, scaled to its size, centred on its footprint and stood on the floor; colour, normal and metal/roughness maps reduced and re-encoded, non-metal roughness raised (tools/prepare-meshy-furniture.py). Geometry and UVs otherwise as generated.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "furniture-loom": {
+      "filename": "Meshy text-to-3D result 01a11b7d-94b4-77a6-877e-62b1845603a1.glb",
+      "sha256": "a91be561cbf8929cca16bb86e27eaad72825f2fc974cb4820461473c8ebeafdb",
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/public/models/furniture/manifest.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Generated with the Meshy API (text to 3D) on the owner's account",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "The API responses do not record the account plan at generation time."
+      },
+      "credit": "Interior furniture (loom): Meshy text to 3D from a written description, prepared for Tervain.",
+      "changes": "Turned to face into the room, scaled to its size, centred on its footprint and stood on the floor; colour, normal and metal/roughness maps reduced and re-encoded, non-metal roughness raised (tools/prepare-meshy-furniture.py). Geometry and UVs otherwise as generated.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "furniture-oven": {
+      "filename": "Meshy text-to-3D result 01a11b81-1eb1-7009-bdd5-3a300723df2a.glb",
+      "sha256": "4cf3c62ff434af902e13d5f4c7a180f3bae61490f46daf75fa6f4d1845ba731e",
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/public/models/furniture/manifest.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Generated with the Meshy API (text to 3D) on the owner's account",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "The API responses do not record the account plan at generation time."
+      },
+      "credit": "Interior furniture (oven): Meshy text to 3D from a written description, prepared for Tervain.",
+      "changes": "Turned to face into the room, scaled to its size, centred on its footprint and stood on the floor; colour, normal and metal/roughness maps reduced and re-encoded, non-metal roughness raised (tools/prepare-meshy-furniture.py). Geometry and UVs otherwise as generated.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "furniture-rack": {
+      "filename": "Meshy text-to-3D result 01a11b7a-eb43-7309-a137-00994157cf11.glb",
+      "sha256": "9422ce2bdd10b0c20aa422e4808089b9caeeb4fcc197b790d92741fbe622f6da",
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/public/models/furniture/manifest.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Generated with the Meshy API (text to 3D) on the owner's account",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "The API responses do not record the account plan at generation time."
+      },
+      "credit": "Interior furniture (rack): Meshy text to 3D from a written description, prepared for Tervain.",
+      "changes": "Turned to face into the room, scaled to its size, centred on its footprint and stood on the floor; colour, normal and metal/roughness maps reduced and re-encoded, non-metal roughness raised (tools/prepare-meshy-furniture.py). Geometry and UVs otherwise as generated.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "furniture-sacks": {
+      "filename": "Meshy text-to-3D result 01a11b7d-546a-737a-ac6a-bdfcbb7d207c.glb",
+      "sha256": "29baa3d2762ed4258715c7a08d8c2ef464f1cbbc9f3617a16269d359c87ff096",
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/public/models/furniture/manifest.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Generated with the Meshy API (text to 3D) on the owner's account",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "The API responses do not record the account plan at generation time."
+      },
+      "credit": "Interior furniture (sacks): Meshy text to 3D from a written description, prepared for Tervain.",
+      "changes": "Turned to face into the room, scaled to its size, centred on its footprint and stood on the floor; colour, normal and metal/roughness maps reduced and re-encoded, non-metal roughness raised (tools/prepare-meshy-furniture.py). Geometry and UVs otherwise as generated.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "furniture-shelf": {
+      "filename": "Meshy text-to-3D result 01a11b73-df91-7311-a5ba-3be4578f5799.glb",
+      "sha256": "c2cca1178a6d89be8e537bf84a745b20ce0af8e28c349d37bfa011c156ca0dfd",
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/public/models/furniture/manifest.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Generated with the Meshy API (text to 3D) on the owner's account",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "The API responses do not record the account plan at generation time."
+      },
+      "credit": "Interior furniture (shelf): Meshy text to 3D from a written description, prepared for Tervain.",
+      "changes": "Turned to face into the room, scaled to its size, centred on its footprint and stood on the floor; colour, normal and metal/roughness maps reduced and re-encoded, non-metal roughness raised (tools/prepare-meshy-furniture.py). Geometry and UVs otherwise as generated.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "furniture-stool": {
+      "filename": "Meshy text-to-3D result 01a11b71-771e-712d-9678-c1449892bad0.glb",
+      "sha256": "521d6d2d311564d8f7cd91e5709c65164d5252f3efddde955215582edcb6d87d",
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/public/models/furniture/manifest.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Generated with the Meshy API (text to 3D) on the owner's account",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "The API responses do not record the account plan at generation time."
+      },
+      "credit": "Interior furniture (stool): Meshy text to 3D from a written description, prepared for Tervain.",
+      "changes": "Turned to face into the room, scaled to its size, centred on its footprint and stood on the floor; colour, normal and metal/roughness maps reduced and re-encoded, non-metal roughness raised (tools/prepare-meshy-furniture.py). Geometry and UVs otherwise as generated.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "furniture-table": {
+      "filename": "Meshy text-to-3D result 01a11b6f-0aa6-7562-a668-a9c8aa092a7e.glb",
+      "sha256": "0e814e04c6fdf478da6e583f6f1c29cc42af142883a2a9b743c77d80661a436d",
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/public/models/furniture/manifest.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Generated with the Meshy API (text to 3D) on the owner's account",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "The API responses do not record the account plan at generation time."
+      },
+      "credit": "Interior furniture (table): Meshy text to 3D from a written description, prepared for Tervain.",
+      "changes": "Turned to face into the room, scaled to its size, centred on its footprint and stood on the floor; colour, normal and metal/roughness maps reduced and re-encoded, non-metal roughness raised (tools/prepare-meshy-furniture.py). Geometry and UVs otherwise as generated.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "furniture-workbench": {
+      "filename": "Meshy text-to-3D result 01a11b7a-c3f1-77b6-a67d-6f1bbd3a08d7.glb",
+      "sha256": "bc371ae4b89200caf16a67cb9ebb7c3a36fd4fcefe8005252657a6ce72a6c462",
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/public/models/furniture/manifest.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Generated with the Meshy API (text to 3D) on the owner's account",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "The API responses do not record the account plan at generation time."
+      },
+      "credit": "Interior furniture (workbench): Meshy text to 3D from a written description, prepared for Tervain.",
+      "changes": "Turned to face into the room, scaled to its size, centred on its footprint and stood on the floor; colour, normal and metal/roughness maps reduced and re-encoded, non-metal roughness raised (tools/prepare-meshy-furniture.py). Geometry and UVs otherwise as generated.",
       "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
     }
   },
@@ -7101,6 +7425,278 @@
       "modified": true
     },
     {
+      "file": "public/models/furniture/altar.glb",
+      "bytes": 483592,
+      "sha256": "1ad44ca1f4b74131780842ee2cb0c168dfa6a8537875a029f665875207b249ab",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "furniture-altar",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true
+    },
+    {
+      "file": "public/models/furniture/bed.glb",
+      "bytes": 449528,
+      "sha256": "7db3110debc556bbf6f29cd4e226cfd903dba6be827781a003accc08de769a8e",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "furniture-bed",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true
+    },
+    {
+      "file": "public/models/furniture/bookshelf.glb",
+      "bytes": 485304,
+      "sha256": "0913a3566c9f345860bbaca3bf8935875edc64c8845ba6904bb2fab3c0368840",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "furniture-bookshelf",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true
+    },
+    {
+      "file": "public/models/furniture/bunk.glb",
+      "bytes": 571460,
+      "sha256": "fb7ff37f9b4b72eb5b7527ec40d80b59fea6b4d7455f3e87400583a2d138999a",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "furniture-bunk",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true
+    },
+    {
+      "file": "public/models/furniture/chair.glb",
+      "bytes": 205796,
+      "sha256": "bf4ce62aa09ee752f76cc9c10bc7395805b307acebdc89ad0e590695f5c31ae0",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "furniture-chair",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true
+    },
+    {
+      "file": "public/models/furniture/chest.glb",
+      "bytes": 228688,
+      "sha256": "367c311165dc8ffb601a206f834c97980ae6f6709566c99ad7b5ca9e8bd0e174",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "furniture-chest",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true
+    },
+    {
+      "file": "public/models/furniture/counter.glb",
+      "bytes": 419040,
+      "sha256": "8d3eb500392b774ca73574acb19877e7f058260a41d542391305b483983da7a3",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "furniture-counter",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true
+    },
+    {
+      "file": "public/models/furniture/cupboard.glb",
+      "bytes": 277312,
+      "sha256": "f0ad601164514ead44bd8783e67be58c071bcebfa4e67f272b5f4a151e9a634c",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "furniture-cupboard",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true
+    },
+    {
+      "file": "public/models/furniture/desk.glb",
+      "bytes": 297216,
+      "sha256": "641517dbcd5f348204b704bcac24deac744d27f790f51572ff1c6fea5932b64f",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "furniture-desk",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true
+    },
+    {
+      "file": "public/models/furniture/loom.glb",
+      "bytes": 508516,
+      "sha256": "8d9b9cc6b4010c32cc5fde766bfb2b1040d95acd91cc464b672622a9dc3b08b8",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "furniture-loom",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true
+    },
+    {
+      "file": "public/models/furniture/oven.glb",
+      "bytes": 454608,
+      "sha256": "16a1d9147af756dfa526a1068d6faad399fcef6554ec2bd4e73f7eed9953a648",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "furniture-oven",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true
+    },
+    {
+      "file": "public/models/furniture/rack.glb",
+      "bytes": 484128,
+      "sha256": "2198cea2bfb8cfbf0d90c25e190cbe07011e89f399f804bf7ba6e7b16b6fe8ec",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "furniture-rack",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true
+    },
+    {
+      "file": "public/models/furniture/sacks.glb",
+      "bytes": 268248,
+      "sha256": "9dc5d9fbcb1bf9b6d2dd1e2710650193c084faf4c0c97eff70cfc55e9c190099",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "furniture-sacks",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true
+    },
+    {
+      "file": "public/models/furniture/shelf.glb",
+      "bytes": 530144,
+      "sha256": "26bc6ac3b5dffca957cb72a0f6dc19d87fb6efc16185263dc416853e077cf6b0",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "furniture-shelf",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true
+    },
+    {
+      "file": "public/models/furniture/stool.glb",
+      "bytes": 125208,
+      "sha256": "30852d20b8276b0f08b21580f99de652d5017cf82a1959ce9151ea631f9bccda",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "furniture-stool",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true
+    },
+    {
+      "file": "public/models/furniture/table.glb",
+      "bytes": 352904,
+      "sha256": "6c9e422fb4922fb09f7a69d2c6ecd2e7b787aef8676e5d793223c63b552163d9",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "furniture-table",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true
+    },
+    {
+      "file": "public/models/furniture/workbench.glb",
+      "bytes": 605136,
+      "sha256": "71351c3b85590f283155ad6d9c4f1ec4ace62137b8646790dbf8b941dd1b7c2d",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "furniture-workbench",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true
+    },
+    {
       "file": "public/models/hero/weathered-wanderer-animated-hero.glb",
       "bytes": 11900048,
       "sha256": "0b02a9c23763b6382e6ea87bd150bcef59a93149650524fa7a5f434951c8c8db",
@@ -7301,6 +7897,22 @@
       "externalDependencies": [],
       "scope": "original-game-model-catalog",
       "sourceId": "npc-1004193219",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true
+    },
+    {
+      "file": "public/models/npcs/motion/residents.glb",
+      "bytes": 1626720,
+      "sha256": "845fee1a5e91e03b14fa30be5d4236f23e2ed86f950e709d759f89c610e0c0fe",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "resident-motion",
       "license": {
         "spdx": null,
         "version": null,

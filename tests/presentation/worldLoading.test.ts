@@ -19,13 +19,13 @@ const controls = vi.hoisted(() => ({
   groundFailure: null as Error | null,
   modelGate: null as Promise<void> | null,
   modelsStarted: null as (() => void) | null,
-  modelCallbacks: {} as Partial<Record<'pine' | 'stone' | 'trees' | 'animals', (loaded: number, total: number) => void>>,
+  modelCallbacks: {} as Partial<Record<'pine' | 'stone' | 'trees' | 'animals' | 'furniture', (loaded: number, total: number) => void>>,
 }));
 
 async function modelFamily(family: keyof typeof controls.modelCallbacks, total: number, progress?: (loaded: number, total: number) => void) {
   if (progress) controls.modelCallbacks[family] = progress;
   progress?.(0, total);
-  if (Object.keys(controls.modelCallbacks).length === 4) controls.modelsStarted?.();
+  if (Object.keys(controls.modelCallbacks).length === 5) controls.modelsStarted?.();
   if (controls.modelGate) await controls.modelGate;
   progress?.(total, total);
 }
@@ -114,6 +114,9 @@ vi.mock('../../src/presentation/animalCamp', () => ({ buildAnimalCamp: () => own
 vi.mock('../../src/presentation/animals', () => ({ loadAnimalTemplates: async (progress?: (loaded: number, total: number) => void) => {
   await modelFamily('animals', ANIMALS.length, progress); return new Map();
 }, buildAnimals: () => owner('animals') }));
+vi.mock('../../src/presentation/furniture', () => ({ loadFurniture: async (progress?: (loaded: number, total: number) => void) => {
+  await modelFamily('furniture', 1, progress); return new Map();
+}, buildFurniture: () => owner('furniture') }));
 vi.mock('../../src/presentation/groundContacts', () => ({ createGroundContactField: () => ({}) }));
 vi.mock('../../src/presentation/physicalProps', () => ({ buildPhysicalProps: () => owner('physical supplies') }));
 vi.mock('../../src/presentation/riteResponse', () => ({ buildRiteResponse: () => owner('rite') }));
@@ -144,7 +147,7 @@ describe('world load and activation boundary', () => {
     const phases: WorldBuildProgress[] = [], legacy = vi.fn();
     const pending = WorldScene.create(createInitialState(), defaultSettings(), library(), legacy, undefined, { yieldNow: async () => {}, onPhase: p => phases.push(p) });
     await started.promise;
-    const expectedTotal = PINE_FILES.length + 1 + MESHY_TREE_IDS.length * MESHY_TREE_LODS.length + ANIMALS.length;
+    const expectedTotal = PINE_FILES.length + 1 + MESHY_TREE_IDS.length * MESHY_TREE_LODS.length + ANIMALS.length + 1;
     expect(phases.at(-1)).toMatchObject({ phase: 'models', completed: 0, total: expectedTotal });
     controls.modelCallbacks.pine!(2, PINE_FILES.length);
     expect(phases.at(-1)!.completed).toBe(2);

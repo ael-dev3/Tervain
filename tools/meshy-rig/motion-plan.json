@@ -1,0 +1,71 @@
+{
+  "reference": "estate-steward",
+  "library": {
+    "walk.woman": 1,
+    "walk.quick": 115,
+    "run.2": 14,
+    "idle.3": 243,
+    "idle.4": 244,
+    "idle.6": 246,
+    "idle.7": 247,
+    "idle.12": 252,
+    "idle.clasped": 249,
+    "idle.look.long": 336,
+    "idle.look.short": 338,
+    "idle.stretch": 12,
+    "talk.chat": 56,
+    "talk.open": 313,
+    "talk.right": 314,
+    "talk.hip": 309,
+    "talk.listen": 47,
+    "talk.agree": 25,
+    "sit.idle.m": 33,
+    "sit.idle.f": 32,
+    "sit.talk": 307,
+    "sit.down": 57,
+    "sit.up": 53,
+    "work.collect": 284,
+    "fight.attack": 4,
+    "fight.charged": 242,
+    "fight.parry": 147,
+    "fight.dodge": 156,
+    "fight.hit": 179,
+    "fight.dead": 8,
+    "swim.forward": 569,
+    "swim.idle": 568
+  },
+  "motions": {
+    "work.writing": {
+      "seconds": 8,
+      "prompt": "a person sits on a chair with both feet flat on the floor and writes in a book resting on their lap with their right hand, head bowed over the page."
+    },
+    "work.ledger": {
+      "seconds": 8,
+      "prompt": "a person stands holding a notebook in the left hand at chest height and writes in it with the right hand."
+    },
+    "work.measuring": {
+      "seconds": 8,
+      "prompt": "a person stands holding a long stick upright with both hands, taps it on the ground twice and looks along it."
+    },
+    "work.stonework": {
+      "seconds": 8,
+      "prompt": "a person hammers something in front of him with his right hand while steadying it with his left hand."
+    },
+    "work.mending": {
+      "seconds": 10,
+      "prompt": "A person stands in place holding a fishing net in both hands at waist height, pulling a strand tight, tying a small knot with the fingers, shaking the net out and checking it, relaxed and patient, feet staying in place."
+    },
+    "work.counter": {
+      "seconds": 8,
+      "prompt": "a person stands with both hands resting on a table in front of them, then picks up a thin stick with the right hand, holds it out at chest height and looks along it, then puts it back down on the table."
+    },
+    "work.baking": {
+      "seconds": 10,
+      "prompt": "A baker stands in place at a waist-high table kneading dough with both hands, pressing it forward with the heels of the palms, folding it back and turning it, dusting it with flour, steady rhythmic work, feet planted."
+    },
+    "work.guard": {
+      "seconds": 10,
+      "prompt": "A guard stands at attention in place, hands resting on the pommel of a sword planted point down in front of him, slowly shifting his weight, turning his head to look left and right across the area, calm and watchful."
+    }
+  }
+}

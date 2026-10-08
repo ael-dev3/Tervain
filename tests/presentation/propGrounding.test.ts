@@ -61,13 +61,13 @@ describe('props standing on the authored landscape', () => {
         expect(first!.point.y).toBeCloseTo(base + top!, 4);
         expect(terrain.supportAt(p.x, p.z, base + top!)).toBeCloseTo(first!.point.y, 4);
       }
-      // Closed shells and roofs do not become accessible floors through a broad support rule.
+      // Roofs do not become accessible floors through a broad support rule.
       expect(terrain.supportAt(b.x, b.z, base + b.h + 4)).toBe(terrain.groundAt(b.x, b.z));
       g.traverse((o) => { if (o instanceof THREE.Mesh) o.geometry.dispose(); });
     });
   }
 
-  it('the real player approaches rotated closed doors, climbs both stone treads and stops outside the wall', () => {
+  it('the real player approaches rotated doors, climbs both stone treads and walks in onto the room floor (A66)', () => {
     for (const id of ['house_a', 'house_c', 'keeper_cottage', 'quarry_office']) {
       const b = BUILDINGS.find((b) => b.id === id) as BuildingSpec;
       const entry = buildingEntry(b), base = buildingGround((x, z) => terrain.heightAt(x, z), b).avg;
@@ -85,6 +85,12 @@ describe('props standing on the authored landscape', () => {
       expect(highest, id).toBeCloseTo(base + entry.y + 0.08, 5);
       expect(player.grounded, id).toBe(true);
       expect(ctx.colliders.blocked(player.x, player.z, 0.4, { minY: player.y + 0.03, maxY: player.y + 1.95 }), id).toBe(false);
+      // On through the doorway: the wanderer stands on the room's floor, inside the walls.
+      for (let i = 0; i < 90; i++) player.update(1 / 60, ctx);
+      const room = terrain.rooms.at(player.x, player.z);
+      expect(room?.building.id, id).toBe(id);
+      expect(player.y, id).toBeCloseTo(base + room!.floorTop, 5);
+      expect(player.grounded, id).toBe(true);
     }
   });
 });

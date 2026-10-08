@@ -97,7 +97,8 @@ standing in the stream gets a lip of foam. The pool is a level disc in the sprin
   - There is no fighting, guard, bow, jumping, dodging or work in deep water.
   - Getting in, strokes, wading steps and climbing out are each seen and heard.
   - The hero leans into a breaststroke about his chest, so his head stays above the waterline. Standing still, he
-    treads water upright.
+    treads water upright. Since A65 both are authored clips retargeted onto his rig, with his chest held at the
+    waterline ([resident rigs and motion](resident-rigs-0.0.13.md)); this procedural stroke remains the fallback.
 - **The camera** never sits in the waterline. A swimmer's camera may look up from under the surface. There the view
   is absorbed and scattered over the real distance to every pixel, ended by the surface overhead. It has a slow
   refractive wobble and caustics on the bed, with muffled sound and an underwater bed.
