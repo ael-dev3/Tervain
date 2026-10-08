@@ -13,13 +13,13 @@ itself establish a playable reconstruction.
 
 ## Current status — 8 October 2026
 
-The latest confirmed publication is [PR 93](https://github.com/ael-dev3/Tervain/pull/93),
-merged at `72a6be701b681978c611fb3ab93752b63b378276` and deployed by
-[Pages run 37721711202](https://github.com/ael-dev3/Tervain/actions/runs/37721711202).
+The latest confirmed publication is [PR 94](https://github.com/ael-dev3/Tervain/pull/94),
+merged at `e885eb55aaf70e6eed293cfc2476444c01f3a6b6` and deployed by
+[Pages run 37722991608](https://github.com/ael-dev3/Tervain/actions/runs/37722991608).
 It includes original SharedBase pointer/lock setup, PTD allocation and selected
-default-locale initialization.
+default-locale initialization, environment setup and standard I/O descriptors.
 The earlier PR 84 served-artifact comparison remains evidence for that prior
-revision; no new served-byte comparison is claimed for PR 93.
+revision; no new served-byte comparison is claimed for PR 94.
 
 Startup now completes the selected environment initialization and stops before
 Game's `__cinit` call at `204678f2`. The repository captures all 2,473 Game
@@ -98,8 +98,9 @@ command-line pointer and copies/converts the ANSI or selected ASCII UTF16
 environment into SharedBase heap storage. Allocation failure follows original
 errno lookup with LastError preservation and OS-block cleanup. Scalar memcpy
 follows DWORD/tail dispatch and REP MOVSD; unsupported branches remain explicit.
-SharedBase attach now stops before I/O at `100adb36 -> 100bf165`, then still needs
-arguments and its own initializer traversal. Native SEH stack
+The selected I/O helper now returns 0. Further local argument startup reaches
+multibyte configuration at `100b1718 -> 100b14a5`, after locale update and GetACP;
+argument parsing and its own initializer traversal remain unfinished. Native SEH stack
 installation and the older-version main-image `.mixcrt` scan remain unimplemented.
 These helpers are not connected to the live Game CRT frame; formatter execution,
 full NPC startup and campaign completion remain unfinished.
@@ -765,3 +766,24 @@ inherited descriptors remain unimplemented. The next attach boundary is original
 `__setargv` at `100adb46 -> 100c0ba7`. Parser/multibyte source evidence is captured,
 but argument initialization has not executed. The live Game boundary remains
 before `__cinit`; no full NPC activation or finishable campaign is established.
+
+
+## SharedBase locale and argument continuation — 8 October 2026
+
+PR 94 is merged at `e885eb55aaf70e6eed293cfc2476444c01f3a6b6` and deployed by
+successful [Pages run 37722991608](https://github.com/ael-dev3/Tervain/actions/runs/37722991608).
+It adds original standard-descriptor construction after environment setup.
+The selected no-inherited-handles helper returns I/O result 0; arguments and
+SharedBase initializer traversal remain unfinished.
+
+Further local work owns the full original 544-byte multibyte record, with its
+refcount and PTD pointer using the same physical backing. It follows warm PTD
+lookup, lock-13 multibyte comparison, the NULL locale-update constructor and
+`getSystemCP(-3)` through an actual retained platform GetACP service. The temporary
+locale flag is restored after normal return. Original malloc and 136 DWORD
+copies create a separate candidate multibyte record, then stop before
+configuration at `100b1718 -> 100b14a5`. Missing services retain completed writes.
+
+These supporting components are not connected to live Game initializer traversal.
+The live startup remains before `__cinit` at `204678f2`; formatter execution,
+full NPC activation and a finishable campaign are still unfinished.

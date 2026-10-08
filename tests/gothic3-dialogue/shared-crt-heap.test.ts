@@ -1,3 +1,4 @@
+import {nativeVirtualCp1252ArgvNlsSelection} from '../../src/gothic3/native-win32-argv-nls';
 import {expect,it} from 'vitest';
 import {NativeSharedCrtOwner} from '../../src/gothic3/native-shared-crt';
 import {NativeRuntimePlatform,NativeWin32PlatformException} from '../../src/gothic3/native-runtime-platform';
@@ -256,7 +257,7 @@ it('runs the actual SharedBase startup writer before allocating and initializing
 
 it('completes original SharedBase standard descriptors with actual HANDLE and section capabilities',()=>{
  const platform=new NativeRuntimePlatform({engineCrtServices:{tlsValues:new Map(),kernel32Available:true,pointerCodec:'owned-bijection',fiberLocalStorage:true,processHeap:true,osVersion:{platform:2,major:6,minor:1,build:42},entropy:{currentThreadId:()=>({known:true,value:9})},processInputs:{acpCodePage:1252,conversionCoverage:'ascii-explicit-positive-count',initialDirectionFlag:0,commandLineA:{kind:'buffer',bytes:[0]},environmentW:{kind:'buffer',bytes:[0,0]}},startupIo:{startupInfoA:{outcome:'normal',writes:[{offset:50,width:2,value:0,knownMask:65535}]}},standardIo:{standardHandles:[{id:-10,result:'valid',fileType:2},{id:-11,result:'valid',fileType:3},{id:-12,result:'null',fileType:0}],setHandleCount:{result:0},sectionInitialization:'owned-registration'}}});
- const owner=NativeSharedCrtOwner.forPlatform(platform);const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach complete');expect(result.reason).toContain('100b142b');
+ const owner=NativeSharedCrtOwner.forPlatform(platform);const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach complete');expect(result.reason).toContain('GetACP NLS endpoints');
  const state=owner.snapshot(),block=state.ioBlock!;expect(state.ioReturned).toBe(0);expect(block.readUnsigned(4,1)).toBe(0xc1);expect(block.readUnsigned(60,1)).toBe(0x89);expect(block.readUnsigned(116,1)).toBe(0xc1);
  expect(block.readUnsigned(112)).toBe(0xfffffffe);expect(block.readUnsigned(8)).toBe(1);expect(block.readUnsigned(64)).toBe(1);expect(block.readUnsigned(120)).toBe(0);
  expect(platform.standardIoEndpoints!.invoke({identity:{}}).known).toBe(false);
@@ -265,4 +266,21 @@ it('completes original SharedBase standard descriptors with actual HANDLE and se
 it('owns the original 544-byte multibyte root and aliases its refcount field',()=>{
  const f=fixture();const root=f.owner.imageStorage('initialMultibyte'),ref=f.owner.imageStorage('multibyteRefcount');expect(root.bytes.length).toBe(544);expect(ref.bytes.length).toBe(4);expect(ref.backing).toBe(root.backing);
  f.owner.processAttach();expect(root.readUnsigned(0)).toBe(1);expect(ref.readUnsigned(0)).toBe(1);expect(f.owner.snapshot().ptd!.pointer(0x68).get()).toBe(root);
+});
+
+
+function argumentFixture(ownLocale=1,selected=true){
+ let owner:NativeSharedCrtOwner;
+ const platform=new NativeRuntimePlatform({engineCrtServices:{tlsValues:new Map(),kernel32Available:true,pointerCodec:'owned-bijection',fiberLocalStorage:true,processHeap:true,osVersion:{platform:2,major:6,minor:1,build:42},entropy:{currentThreadId:()=>{owner.snapshot().ptd!.writeUnsigned(0x70,ownLocale);return {known:true,value:9};}},processInputs:{acpCodePage:1252,conversionCoverage:'ascii-explicit-positive-count',initialDirectionFlag:0,commandLineA:{kind:'buffer',bytes:[0]},environmentW:{kind:'buffer',bytes:[0,0]}},startupIo:{startupInfoA:{outcome:'normal',writes:[{offset:50,width:2,value:0,knownMask:65535}]}},standardIo:{standardHandles:[{id:-10,result:'valid',fileType:2},{id:-11,result:'valid',fileType:3},{id:-12,result:'null',fileType:0}],setHandleCount:{result:0},sectionInitialization:'owned-registration'},argvNls:selected?{...nativeVirtualCp1252ArgvNlsSelection,lastError:{GetACP:88}}:undefined}});
+ owner=NativeSharedCrtOwner.forPlatform(platform);return {platform,owner};
+}
+for(const ownLocale of [1,3])it(`uses actual SharedBase GetACP and preserves original locale flag ownership ${ownLocale}`,()=>{
+ const {owner,platform}=argumentFixture(ownLocale);const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Full attach unexpected');expect(result.reason).toContain('100b14a5');
+ const state=owner.snapshot(),local=state.localeUpdate!;expect(local.pointer(0).get()).toBe(owner.imageStorage('initialLocale'));expect(local.pointer(4).get()).toBe(owner.imageStorage('initialMultibyte'));expect(local.pointer(8).get()).toBe(state.ptd);expect(local.readUnsigned(12,1)).toBe(ownLocale===1?1:0);expect(local.knownMask[13]).toBe(0);expect(state.ptd!.readUnsigned(0x70)).toBe(ownLocale);expect(state.codePage).toBe(1252);expect(platform.getWin32LastError()).toEqual({known:true,value:88});
+ expect(owner.imageStorage('systemCodePageSelected').readUnsigned(0)).toBe(1);expect(owner.imageStorage('multibyteInitialized').readUnsigned(0)).toBe(0);
+ const allocated=state.multibyteAllocation!,root=owner.imageStorage('initialMultibyte');expect(allocated.bytes.length).toBe(544);expect(allocated.backing).not.toBe(root.backing);expect(allocated.readUnsigned(0)).toBe(0);expect(allocated.bytes.slice(4)).toEqual(root.bytes.slice(4));expect(root.readUnsigned(0)).toBe(1);expect(state.ptd!.pointer(0x68).get()).toBe(root);expect(state.trace.filter(v=>v==='100b170f.REP_MOVSD')).toHaveLength(136);
+ expect(platform.argvNlsEndpoints!.invoke({identity:{}}).known).toBe(false);expect(owner.processAttach()).toEqual(result);expect(owner.snapshot().multibyteAllocation).toBe(allocated);
+});
+it('retains locale flag and selected-codepage prefix when SharedBase GetACP is unavailable',()=>{
+ const {owner}=argumentFixture(1,false);const result=owner.processAttach();expect(result.known).toBe(false);const state=owner.snapshot();expect(state.ptd!.readUnsigned(0x70)).toBe(3);expect(state.localeUpdate!.readUnsigned(12,1)).toBe(1);expect(owner.imageStorage('systemCodePageSelected').readUnsigned(0)).toBe(1);expect(state.codePage).toBe(null);expect(state.multibyteAllocation).toBe(null);
 });

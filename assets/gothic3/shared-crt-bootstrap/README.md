@@ -1,6 +1,6 @@
 # Original SharedBase CRT startup evidence
 
-This package captures 63 original functions covering CRT attach/startup, security-cookie initialization, heap selection/construction/destruction, thread startup/termination, encoded procedure initialization, locks, thread cleanup and locale reference increments. Every captured instruction is compared with the original SharedBase.dll bytes. It also captures 50 cold image ranges with section-backed versus loader-zero-fill evidence.
+This package captures 64 original functions covering CRT attach/startup, security-cookie initialization, heap selection/construction/destruction, thread startup/termination, encoded procedure initialization, locks, thread cleanup and locale reference increments. Every captured instruction is compared with the original SharedBase.dll bytes. It also captures 51 cold image ranges with section-backed versus loader-zero-fill evidence.
 
 SharedBase owns these globals independently of Game and Engine. Its two dynamic thread indices begin at `ffffffff`; the four procedure slots begin as loader-filled zero bytes. The static TLS index from the PE TLS directory is a different field. Loading static TLS does not allocate either dynamic slot, initialize the heap, install FLS/TLS procedures or initialize CRT thread data.
 
@@ -158,3 +158,21 @@ original helper `100b1422`, without adding a second reference when they match.
 Argument startup now reaches `getSystemCP` at `100b142b`; its locale-update and
 GetACP calls remain unimplemented. This helper is not connected to live Game
 initializer traversal and does not establish additional playable campaign content.
+
+
+The subsequent local prefix implements the NULL `_LocaleUpdate` constructor
+using its original 16-byte local storage and the actual installed PTD. Matching
+initial locale pointers avoid reference exchanges. The constructor records
+whether it set `_ownlocale` bit 2; `getSystemCP(-3)` clears/sets the original
+selection global, calls the actual retained platform GetACP endpoint through a
+private SharedBase grant, and restores bit 2 only after its normal return.
+Missing NLS services retain the original completed flag writes. Declared NLS
+LastError effects are preserved. Forged or ended grants cannot invoke this path.
+
+When the selected code page differs from the existing record, original malloc
+allocates a distinct 544-byte SharedBase heap record. With a known clear direction
+flag, 136 DWORD copies preserve the old contents and the new refcount is cleared.
+The old PTD/global record remains installed: execution stops before configuration
+at `100b1718 -> 100b14a5`. No configured tables or successful argument return are
+claimed. Native SEH stack ownership and live Game initializer integration are
+still missing.

@@ -8,17 +8,19 @@ is the detailed technical record and dated checkpoint history.
 
 See the [current rebuilding overview](gothic3-rebuild-overview.md#current-status--8-october-2026)
 for the latest confirmed deployment and remaining startup dependencies.
-PR 93 is deployed at main commit `72a6be701b681978c611fb3ab93752b63b378276`
-by successful Pages run 37721711202. It publishes original SharedBase pointer
-setup, 14 static critical sections, PTD allocation and default-locale initialization.
+PR 94 is deployed at main commit `e885eb55aaf70e6eed293cfc2476444c01f3a6b6`
+by successful Pages run 37722991608. It publishes original SharedBase pointer
+setup, 14 static critical sections, PTD allocation, default-locale initialization,
+environment setup and standard I/O descriptors.
 
 Further local work follows actual FLS/TLS thread-index allocation, independent
 SharedBase calloc, PTD installation and initialization, default-locale reference
 increments under lock 12, and the original thread-ID/handle writes. Its selected
 `__mtinit` returns 1 with an actual thread-ID service. Further local work
 traverses RTC, acquires the command line and reconstructs ANSI/wide environment
-handling. It stops before I/O at `100adb36 -> 100bf165`. Full SharedBase attach
-still needs I/O, arguments and initializer traversal. Native SEH
+handling. The selected I/O helper returns 0. Further local argument startup
+reaches multibyte configuration at `100b1718 -> 100b14a5`, after locale update and
+GetACP. Full SharedBase attach still needs argument parsing and initializer traversal. Native SEH
 stack installation and non-NULL PTD destruction remain unimplemented.
 
 The live Game startup still stops before `__cinit` at `204678f2`. These components
@@ -8434,3 +8436,24 @@ inherited descriptors remain unimplemented. The next attach boundary is original
 `__setargv` at `100adb46 -> 100c0ba7`. Parser/multibyte source evidence is captured,
 but argument initialization has not executed. The live Game boundary remains
 before `__cinit`; no full NPC activation or finishable campaign is established.
+
+
+## SharedBase locale and argument continuation — 8 October 2026
+
+PR 94 is merged at `e885eb55aaf70e6eed293cfc2476444c01f3a6b6` and deployed by
+successful [Pages run 37722991608](https://github.com/ael-dev3/Tervain/actions/runs/37722991608).
+It adds original standard-descriptor construction after environment setup.
+The selected no-inherited-handles helper returns I/O result 0; arguments and
+SharedBase initializer traversal remain unfinished.
+
+Further local work owns the full original 544-byte multibyte record, with its
+refcount and PTD pointer using the same physical backing. It follows warm PTD
+lookup, lock-13 multibyte comparison, the NULL locale-update constructor and
+`getSystemCP(-3)` through an actual retained platform GetACP service. The temporary
+locale flag is restored after normal return. Original malloc and 136 DWORD
+copies create a separate candidate multibyte record, then stop before
+configuration at `100b1718 -> 100b14a5`. Missing services retain completed writes.
+
+These supporting components are not connected to live Game initializer traversal.
+The live startup remains before `__cinit` at `204678f2`; formatter execution,
+full NPC activation and a finishable campaign are still unfinished.

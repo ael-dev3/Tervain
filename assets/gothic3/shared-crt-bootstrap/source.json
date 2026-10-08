@@ -2,6 +2,17 @@
   "schema": "gothic3-shared-crt-bootstrap-v1",
   "sharedBaseSha256": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214",
   "methods": {
+    "localeUpdate": {
+      "entryVA": "0x100a74b6",
+      "bodyVA": "0x100a74b6",
+      "bodyRanges": "100a74b6-100a7537",
+      "instructionCount": 42,
+      "bodyByteCount": 130,
+      "bodyInstructionBytesSha256": "afbb832a9811913fd67febefb9e9a53acafe8103a68bc6032044e6d7c6a6daf8",
+      "entryChain": [],
+      "assemblySha256": "16fd5535804768205856265064fb5af7945101fceafafa85ac057db891b00655",
+      "cSha256": "921f22b56dcd99f5a4adf0d4d2f2dad162a446eb27ad6e4976252c85cb379ab9"
+    },
     "releaseMultibyteLock": {
       "entryVA": "0x100b1422",
       "bodyVA": "0x100b1422",
@@ -697,6 +708,22 @@
     }
   },
   "coldGlobals": {
+    "systemCodePageSelected": {
+      "address": "102f6910",
+      "bytes": 4,
+      "raw": "00000000",
+      "knownMask": "ffffffff",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 0,
+        "loaderZeroFillBytes": 4
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
     "initialMultibyte": {
       "address": "10140e60",
       "bytes": 544,
