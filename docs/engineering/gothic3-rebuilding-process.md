@@ -9374,3 +9374,33 @@ Full startup and campaign completion remain unfinished.
 
 PR 123 passed CI run 37769622859 and merged at
 `3db30c57b5433f8be4bd70ed8e8561b8482a19d4`.
+
+
+## 8 October 2026 — Malloc critical-section prefix
+
+Malloc follows its original three-jump chain:
+`10003cd8 -> 10020b00 -> 10007441 -> 1003d410`. The live initializer now owns
+its original exception scope at `100f8318`, checks the singleton receiver and
+verifies the FS-linked stack frame. Exception dispatch is not yet implemented.
+
+The source path reads the heap-section flag at `102fb000`, initializes the
+24-byte storage at `10189a18` with spin count 1,000 through original IAT
+`102f966c`, publishes the original SETZ result, then enters that same physical
+section through `102f9604`. The platform owns the canonical section and makes
+its opaque storage bits unknown. The normal path reaches
+`1003d474 -> 10001028` with a thirteen-byte lower heap request. Its lock and
+exception frame remain entered at that pending CALL; no cleanup is invented.
+
+The source's failed-initialization branch skips EnterCriticalSection and still
+reaches the lower heap call. A set flag without canonical initialized storage
+stops at the actual enter operation. Missing endpoints, replaced imports and
+changed scope bytes preserve their applied prefixes.
+
+The package now has 55 bodies, 1,021 instructions and 107 CALL receipts. All
+100 generated source files and the instruction module reproduce exactly. The
+172 focused checks, typechecking, production build and all 2,729 tests across
+259 files pass. Lower allocation, exception dispatch, full startup and campaign
+completion remain unfinished.
+
+PR 124 passed CI run 37770523149 and merged at
+`3dc3188d9d47712342d76f996e468013a52de98c`.

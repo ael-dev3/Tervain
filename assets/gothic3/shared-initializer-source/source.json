@@ -2,6 +2,33 @@
   "schema": "gothic3-shared-initializer-source-v1",
   "sharedBaseSha256": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214",
   "methods": {
+    "memoryMalloc": {
+      "entryVA": "0x10003cd8",
+      "bodyVA": "0x1003d410",
+      "bodyRanges": "1003d410-1003d4a4",
+      "instructionCount": 44,
+      "bodyByteCount": 149,
+      "bodyInstructionBytesSha256": "d97007fcb58bd7d0b0c6ec9c49f58763fba8bdfb6127c9078ddf1159fc8af676",
+      "entryChain": [
+        {
+          "va": "10003cd8",
+          "bytes": "e923ce0100",
+          "targetVA": "10020b00"
+        },
+        {
+          "va": "10020b00",
+          "bytes": "e93c69feff",
+          "targetVA": "10007441"
+        },
+        {
+          "va": "10007441",
+          "bytes": "e9ca5f0300",
+          "targetVA": "1003d410"
+        }
+      ],
+      "assemblySha256": "47bba3482b5fbfa797804988ddb88c888ba07371715c6f486de3f2abab511fb3",
+      "cSha256": "06c366e6fb70387d0aa3a42083cfc852eee58265a3c58ee1e667cf65d7124daa"
+    },
     "memoryGetInstance": {
       "entryVA": "0x10002aae",
       "bodyVA": "0x10020bf0",
@@ -985,6 +1012,10 @@
     }
   },
   "entries": {
+    "10003cd8": {
+      "containingEntry": "10003cd8",
+      "methodLabel": "memoryMalloc"
+    },
     "10002aae": {
       "containingEntry": "10002aae",
       "methodLabel": "memoryGetInstance"
@@ -1358,6 +1389,102 @@
         "rawSize": 16384,
         "rawOffset": 1306624,
         "fileBackedBytes": 640,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "memoryMallocScope": {
+      "address": "100f8318",
+      "raw": "ffffffffa5d40310afd40310",
+      "bytes": 12,
+      "sha256": "f77fa0fadd08f2c4061e906ffba6061d5a324bc3c78e5d7cb92c11b6a7498e50",
+      "section": {
+        "virtualAddress": 937984,
+        "virtualSize": 366840,
+        "rawSize": 368640,
+        "rawOffset": 937984,
+        "fileBackedBytes": 12,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "memoryHeapSection": {
+      "address": "10189a18",
+      "raw": "000000000000000000000000000000000000000000000000",
+      "bytes": 24,
+      "sha256": "9d908ecfb6b256def8b49a7c504e6c889c4b0e41fe6ce3e01863dd7b61a20aa0",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 0,
+        "loaderZeroFillBytes": 24
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "memoryHeapSectionInitialized": {
+      "address": "102fb000",
+      "raw": "00",
+      "bytes": 1,
+      "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+      "section": {
+        "virtualAddress": 3125248,
+        "virtualSize": 20712,
+        "rawSize": 24576,
+        "rawOffset": 1331200,
+        "fileBackedBytes": 1,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "memoryHeapSectionInitializeImport": {
+      "address": "102f966c",
+      "raw": "7e9d2f00",
+      "bytes": 4,
+      "sha256": "80d612abf4e5d69b30bfa842783ca373c065b94cc4cc084313abe939cf6224a6",
+      "section": {
+        "virtualAddress": 3117056,
+        "virtualSize": 6242,
+        "rawSize": 8192,
+        "rawOffset": 1323008,
+        "fileBackedBytes": 4,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "memoryHeapSectionEnterImport": {
+      "address": "102f9604",
+      "raw": "a09b2f00",
+      "bytes": 4,
+      "sha256": "d228c7128f81b4000bf2597deb18b37535a4461dc13632e7ad5a02285266cbf1",
+      "section": {
+        "virtualAddress": 3117056,
+        "virtualSize": 6242,
+        "rawSize": 8192,
+        "rawOffset": 1323008,
+        "fileBackedBytes": 4,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "memoryHeapSectionLeaveImport": {
+      "address": "102f9608",
+      "raw": "b89b2f00",
+      "bytes": 4,
+      "sha256": "37300dcbc0b080accbcb6e3b1d3c8fc60a751846eed660d3e4efbb565266c190",
+      "section": {
+        "virtualAddress": 3117056,
+        "virtualSize": 6242,
+        "rawSize": 8192,
+        "rawOffset": 1323008,
+        "fileBackedBytes": 4,
         "loaderZeroFillBytes": 0
       },
       "scope": "cold-original-image",
@@ -1752,6 +1879,56 @@
     "liveValueCaptured": false
   },
   "calls": [
+    {
+      "method": "memoryMalloc",
+      "address": "1003d449",
+      "raw": "ff156c962f10",
+      "instruction": "CALL dword ptr [0x102f966c]",
+      "kind": "image-indirect",
+      "slotVA": "102f966c",
+      "importEntry": {
+        "iatVA": "0x102f966c",
+        "module": "KERNEL32.dll",
+        "name": "InitializeCriticalSectionAndSpinCount",
+        "ordinal": null
+      }
+    },
+    {
+      "method": "memoryMalloc",
+      "address": "1003d463",
+      "raw": "ff1504962f10",
+      "instruction": "CALL dword ptr [0x102f9604]",
+      "kind": "image-indirect",
+      "slotVA": "102f9604",
+      "importEntry": {
+        "iatVA": "0x102f9604",
+        "module": "KERNEL32.dll",
+        "name": "EnterCriticalSection",
+        "ordinal": null
+      }
+    },
+    {
+      "method": "memoryMalloc",
+      "address": "1003d474",
+      "raw": "e8af3bfcff",
+      "instruction": "CALL 0x10001028",
+      "kind": "direct",
+      "targetVA": "10001028"
+    },
+    {
+      "method": "memoryMalloc",
+      "address": "1003d48a",
+      "raw": "ff1508962f10",
+      "instruction": "CALL dword ptr [0x102f9608]",
+      "kind": "image-indirect",
+      "slotVA": "102f9608",
+      "importEntry": {
+        "iatVA": "0x102f9608",
+        "module": "KERNEL32.dll",
+        "name": "LeaveCriticalSection",
+        "ordinal": null
+      }
+    },
     {
       "method": "memoryGetInstance",
       "address": "10020c2c",

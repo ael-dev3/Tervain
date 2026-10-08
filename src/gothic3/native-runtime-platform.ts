@@ -222,7 +222,7 @@ interface PhysicalSection {
   readonly fields: NativeHeapObjectViews; readonly owner: object; readonly identity: object;
   readonly canonicalBacking: NativeMemoryBacking; readonly position: number;
   readonly bytes: Uint8Array; readonly masks: Uint8Array;
-  readonly spinCount: 4000 | null; depth: number; deleted: boolean;
+  readonly spinCount: 4000 | 1000 | null; depth: number; deleted: boolean;
 }
 function physicalPosition(fields: NativeHeapObjectViews) {
   const backing = fields.backing;
@@ -1679,11 +1679,15 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     if (spinCount !== 4000) return unknown('Original physical section spin count4000 required');
     return this.#initializePhysicalSection(fields, owner, spinCount);
   }
+  initializePhysicalMemoryHeapCriticalSection(fields: NativeHeapObjectViews, owner: object, spinCount: 1000): NativeValue<boolean> {
+    if(spinCount!==1000)return unknown('Original MemoryAdmin section spin count1000 required');
+    return this.#initializePhysicalSection(fields,owner,spinCount);
+  }
   initializePhysicalCriticalSectionWithoutSpin(fields: NativeHeapObjectViews, owner: object): NativeValue<void> {
     const result = this.#initializePhysicalSection(fields, owner, null);
     return result.known ? known(undefined) : result;
   }
-  #initializePhysicalSection(fields: NativeHeapObjectViews, owner: object, spinCount: 4000 | null, opaqueWrites = true): NativeValue<boolean> {
+  #initializePhysicalSection(fields: NativeHeapObjectViews, owner: object, spinCount: 4000 | 1000 | null, opaqueWrites = true): NativeValue<boolean> {
     try {
       if (this.#shutdownPhase !== 'active' || !owner || typeof owner !== 'object') {
         return unknown('Actual active physical section owner required');

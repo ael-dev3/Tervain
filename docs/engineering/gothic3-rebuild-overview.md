@@ -22,8 +22,7 @@ and the next missing dependency. Three states matter:
   receipts determine what is supported.
 - **Published:** a reviewed commit has completed the Pages deployment workflow.
 
-These states are recorded separately. The published checkpoint is PR 124;
-PR 125 has passed CI and is awaiting merge. Full engine startup, world activation
+These states are recorded separately. The published runtime checkpoint is PR 125. Full engine startup, world activation
 and campaign completion remain outstanding.
 
 ## Process at a glance
@@ -85,7 +84,10 @@ succeeded. It executes the original MemoryAdmin singleton getter and reaches
 Malloc through the live SharedBase initializer owner.
 
 [PR 125](https://github.com/ael-dev3/Tervain/pull/125) passes
-[CI](https://github.com/ael-dev3/Tervain/actions/runs/37771585405) and awaits merge.
+[CI](https://github.com/ael-dev3/Tervain/actions/runs/37771585405) and merged at
+`90275aa46314fb5c4a7227bb51c7bc63eb0db023`. Its
+[Pages deployment](https://github.com/ael-dev3/Tervain/actions/runs/37772690355)
+succeeded.
 It follows Malloc's original thunks, owns its exception frame, initializes the
 heap critical section with spin count 1,000 and enters it. Execution reaches
 `1003d474 -> 10001028`, requesting thirteen bytes from the lower allocator.
