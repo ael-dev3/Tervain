@@ -6,6 +6,23 @@ is the detailed technical record and dated checkpoint history.
 
 ## Latest process summary — 8 October 2026
 
+### SharedBase wide temporary continuation
+
+PR 97 deployed successfully through Pages run 37726681547 at
+`59cfbfe6c69ef0eed93e94197eb88c55d4a583ae`. PR 98 passed CI run 37726972996
+and merged at `58a8da9672a4fb67448526f22fb31db97ec0728d`; its deployment
+was still running when this continuation was reviewed.
+
+The subsequent local implementation follows the original wide-buffer memset
+on the canonical direct-helper stack: three arguments, cdecl CALL/RET, saved
+EDI, 128 DWORD writes, preserved allocation header and 12-byte caller cleanup.
+It stops at conversion fill `100c6f95`. Source capture now includes the later
+temporary cleanup and security-cookie check, without claiming those paths run.
+Validation: 58 focused tests, 2,596 full-suite tests across 258 files,
+typechecking, production build, diff inspection and 153 exactly reproduced
+source-package files. Live Game initializer execution, NPC activation and
+campaign completion remain unfinished.
+
 See the [current rebuilding overview](gothic3-rebuild-overview.md#current-status--8-october-2026)
 for the latest confirmed deployment and remaining startup dependencies.
 PR 96 is deployed at main commit `d3fbb74114f0d850b4a2de899b0865abe2d77a19`

@@ -1,0 +1,10 @@
+100b4d0f | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+100b4d13 | 85c0 | TEST EAX,EAX
+100b4d15 | 7412 | JZ 0x100b4d29
+100b4d17 | 83e808 | SUB EAX,0x8
+100b4d1a | 8138dddd0000 | CMP dword ptr [EAX],0xdddd
+100b4d20 | 7507 | JNZ 0x100b4d29
+100b4d22 | 50 | PUSH EAX
+100b4d23 | e87c5cffff | CALL 0x100aa9a4
+100b4d28 | 59 | POP ECX
+100b4d29 | c3 | RET

@@ -302,10 +302,12 @@ it('prepares original SharedBase case repertoire and follows the Unicode classif
 
 it('allocates SharedBase wide temporary on its actual direct-helper x86 stack with relocated return and marker',()=>{
  const {owner,platform}=argumentFixture(1,true,false,'aligned');const denied=NativeX86ThreadStack.beginSharedStringTypeFrame(platform,{});expect(denied.known).toBe(false);
- const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100c6f80');
+ const result=owner.processAttach();expect(result.known).toBe(false);if(result.known)throw new Error('Attach returned');expect(result.reason).toContain('100c6f95');
  const item=owner.snapshot().caseState!,stack=item.stack!,temp=item.wideTemporary!;expect(temp.bytes.length).toBe(512);expect(temp.backing).toBe(item.probe.backing);expect(temp.backing.freed).toBe(false);
  const offset=temp.bytes.byteOffset-temp.backing.bytes.byteOffset;expect(offset%16).toBe(8);expect(new DataView(temp.backing.bytes.buffer,temp.backing.bytes.byteOffset).getUint32(offset-8,true)).toBe(0xcccc);
  const state=stack.snapshot();expect(state.sharedFrame!.requestedBytes).toBe(520);expect(state.sharedFrame!.allocatedBytes).toBe(520);expect(state.sharedFrame!.probedPages).toEqual([]);expect(state.sharedFrame!.temporary).toBe(temp);expect(state.calls.filter(c=>c.site==='100c6f4c')).toHaveLength(1);expect(state.calls.find(c=>c.site==='100c6f4c')!.returned).toBe(true);
+ expect(temp.bytes.every(byte=>byte===0)).toBe(true);expect(temp.knownMask.every(mask=>mask===255)).toBe(true);expect(state.trace.filter(v=>v==='100a79df.REP_STOSD')).toHaveLength(128);expect(state.calls.find(c=>c.site==='100c6f80')!.returned).toBe(true);
+ expect(NativeX86ThreadStack.clearSharedStringTypeTemporary(stack,{}).known).toBe(false);expect(stack.snapshot().phase).toBe(state.phase);
  expect(item.probe.readUnsigned(0)).toBe(0);expect(item.wideCount).toBe(256);expect(owner.snapshot().ptd!.readUnsigned(0x70)).toBe(3);expect(owner.snapshot().ptd!.pointer(0x68).get()).toBe(owner.imageStorage('initialMultibyte'));expect(NativeX86ThreadStack.allocateSharedStringTypeTemporary(stack,{}).known).toBe(false);expect(stack.snapshot().phase).toBe(state.phase);expect(owner.processAttach()).toEqual(result);expect(owner.snapshot().caseState!.wideTemporary).toBe(temp);
 });
 it('retains the SharedBase helper frame and allocation call before unknown stack alignment',()=>{
