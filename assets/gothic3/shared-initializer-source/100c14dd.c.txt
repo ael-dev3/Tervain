@@ -1,0 +1,18 @@
+/* ENTRY 100c14dd | HeapManager::Destructor | STATUS decompiled | 5 ms */
+
+/* Library Function - Single Match
+    public: void __thiscall HeapManager::Destructor(void)
+   
+   Library: Visual Studio 2005 Release */
+
+void __thiscall HeapManager::Destructor(HeapManager *this)
+
+{
+  if (*(int *)(this + 4) != 0) {
+    while (*(int *)(this + 0xc) = *(int *)(this + 8), *(int *)(this + 8) != 0) {
+      *(undefined4 *)(this + 8) = **(undefined4 **)(this + 0xc);
+      (**(code **)(this + 4))(*(undefined4 *)(this + 0xc));
+    }
+  }
+  return;
+}

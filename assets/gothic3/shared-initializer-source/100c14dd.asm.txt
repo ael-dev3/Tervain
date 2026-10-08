@@ -1,0 +1,17 @@
+100c14dd | 56 | PUSH ESI
+100c14de | 8bf1 | MOV ESI,ECX
+100c14e0 | 837e0400 | CMP dword ptr [ESI + 0x4],0x0
+100c14e4 | 741b | JZ 0x100c1501
+100c14e6 | eb0f | JMP 0x100c14f7
+100c14e8 | 8b460c | MOV EAX,dword ptr [ESI + 0xc]
+100c14eb | 8b00 | MOV EAX,dword ptr [EAX]
+100c14ed | ff760c | PUSH dword ptr [ESI + 0xc]
+100c14f0 | 894608 | MOV dword ptr [ESI + 0x8],EAX
+100c14f3 | ff5604 | CALL dword ptr [ESI + 0x4]
+100c14f6 | 59 | POP ECX
+100c14f7 | 8b4608 | MOV EAX,dword ptr [ESI + 0x8]
+100c14fa | 85c0 | TEST EAX,EAX
+100c14fc | 89460c | MOV dword ptr [ESI + 0xc],EAX
+100c14ff | 75e7 | JNZ 0x100c14e8
+100c1501 | 5e | POP ESI
+100c1502 | c3 | RET
