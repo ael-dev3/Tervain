@@ -1,6 +1,6 @@
 # SharedBase DLL entry evidence
 
-Read-only original-byte capture of six functions (252 instructions), including
+Read-only original-byte capture of nine functions (497 instructions), including
 entry thunks, imports, hashes and initial image bytes. Captured functions are
 not yet executed by the browser runtime.
 
@@ -9,12 +9,25 @@ not yet executed by the browser runtime.
 - CRT wrapper `100adc25` checks the optional hook at `100ed680` (NULL in the original image), calls CRT attach, then calls `10008a76`.
 - DLL entry thunk `10008a76` resolves to `100a1630`. Guard `102f48f0` controls initialization of object `102f48ec`; both start at zero. DLL entry returns one with `RET 0xc`.
 - Initializer thunk `10006645` resolves to `100a1590`. It initializes four local output words to zero, queries `sharedbase.dll`, and logs separators and the compile version.
-- Version query `10008058` resolves to `1004c580`. Imports include `lstrcpyA`, `LoadLibraryA`, `GetProcAddress` and `FreeLibrary`. Its procedure-call and fallback dependencies still require implementation.
+- Version query `10008058` resolves to `1004c580`. Imports include `lstrcpyA`, `LoadLibraryA`, `GetProcAddress` and `FreeLibrary`. The export table has 4,805 named exports and no `DllGetVersion` match. The installed module therefore uses the captured resource fallback.
 - Logging thunks resolve to `100497f0` and `10049850`; their formatting, output and cleanup callees still require implementation.
 
 The next runtime work must retain the outer wrapper's SEH frame and actual
 version-query output storage, then implement its dependency chain. A successful
 CRT helper return alone does not prove complete DLL startup.
+
+## Installed version resource
+
+The original resource path is type 16, name 1, language 1031. Its 868 bytes
+have SHA-256 `2b94742476a11cd051b72d535033a373ab7d4ddb68ec2ecda3cdf459e59974d3`.
+The `FileVersion` text is `1, 60, 25931, 29`; translation bytes are `0000b004`.
+The package preserves raw resource bytes and the parsed block hierarchy.
+
+Fallback `1004c4c0` queries resource size, allocates and reads the buffer, and
+calls `1004c2c0` to query translation and `FileVersion`. It then calls
+`1004c420`, which tokenizes the version string using delimiter `,` and converts
+up to four tokens to integers. It releases its buffers through the original
+heap calls. These bodies and dependencies still require runtime execution.
 
 ## Reproduce
 
