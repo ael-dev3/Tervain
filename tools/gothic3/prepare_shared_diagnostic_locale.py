@@ -9,7 +9,7 @@ from prepare_runtime_admin_source import INPUT_SHA, source_excerpt
 def capture(study, output):
     native.EXPECTED_INPUTS['SharedBase.dll'] = INPUT_SHA
     audit = native.audit_module(study, 'SharedBase_dll', 'SharedBase.dll',
-                               {0x100a74b6: 'localeUpdate', 0x100ae542: 'getPerThreadData', 0x100b1b32: 'updateThreadLocale', 0x100b1387: 'updateThreadMultibyte'})
+                               {0x100a74b6: 'localeUpdate', 0x100ae542: 'getPerThreadData', 0x100ae4cb: 'getPerThreadDataLower', 0x100ae384: 'getThreadStorageProvider', 0x100ae2f2: 'decodeThreadStorageProvider', 0x100ae40c: 'initializePerThreadData', 0x100aef10: 'callocCrt', 0x100b1b32: 'updateThreadLocale', 0x100b1387: 'updateThreadMultibyte'})
     output.mkdir(parents=True, exist_ok=True)
     methods = {}
     for method in audit['methods']:
