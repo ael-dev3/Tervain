@@ -4385,6 +4385,41 @@
       }
     ]
   },
+  "versionImportThunks": [
+    {
+      "address": "100d55e2",
+      "bytes": "ff25f0982f10",
+      "instruction": "JMP dword ptr [0x102f98f0]",
+      "import": {
+        "iatVA": "0x102f98f0",
+        "module": "VERSION.dll",
+        "name": "GetFileVersionInfoSizeA",
+        "ordinal": null
+      }
+    },
+    {
+      "address": "100d55dc",
+      "bytes": "ff25ec982f10",
+      "instruction": "JMP dword ptr [0x102f98ec]",
+      "import": {
+        "iatVA": "0x102f98ec",
+        "module": "VERSION.dll",
+        "name": "GetFileVersionInfoA",
+        "ordinal": null
+      }
+    },
+    {
+      "address": "100d55d6",
+      "bytes": "ff25f4982f10",
+      "instruction": "JMP dword ptr [0x102f98f4]",
+      "import": {
+        "iatVA": "0x102f98f4",
+        "module": "VERSION.dll",
+        "name": "VerQueryValueA",
+        "ordinal": null
+      }
+    }
+  ],
   "coldImages": [
     {
       "label": "optionalCrtHook",

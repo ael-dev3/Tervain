@@ -61,3 +61,7 @@ it('replays only the observed query mutations from the initialized API buffer',(
  }
  expect(bytes.toString('hex')).toBe(observation.preparedBufferBytes);
 });
+
+it('retains VERSION import thunk bytes and their original IAT receipts',()=>{
+ expect(source.versionImportThunks).toHaveLength(3);for(const thunk of source.versionImportThunks){expect(thunk.import.module).toBe('VERSION.dll');expect(thunk.bytes).toBe('ff25'+Buffer.from(Uint32Array.of(parseInt(thunk.import.iatVA,16)).buffer).toString('hex'));expect(sharedDllEntryInstruction(thunk.address)).toEqual({address:thunk.address,bytes:thunk.bytes,instruction:thunk.instruction});}
+});

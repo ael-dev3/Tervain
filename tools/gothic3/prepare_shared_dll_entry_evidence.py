@@ -101,6 +101,17 @@ def capture(study, output):
         'exportDirectorySize': export_size, 'namedExportCount': name_count,
         'namesSha256': hashlib.sha256('\n'.join(names).encode('ascii')).hexdigest(), 'matches': matches}
     result['versionResources'] = version_resources(pe)
+    result['versionImportThunks'] = []
+    imports_by_iat = {int(item['iatVA'], 16): item for item in pe.imports()}
+    for address, iat, name in [(0x100d55e2, 0x102f98f0, 'GetFileVersionInfoSizeA'),
+            (0x100d55dc, 0x102f98ec, 'GetFileVersionInfoA'),
+            (0x100d55d6, 0x102f98f4, 'VerQueryValueA')]:
+        raw = pe.bytes(address, 6)
+        receipt = imports_by_iat[iat]
+        if raw != b'\xff\x25' + struct.pack('<I', iat) or receipt['name'] != name or receipt['module'] != 'VERSION.dll':
+            raise ValueError('Original VERSION import thunk differs')
+        result['versionImportThunks'].append({'address': f'{address:08x}', 'bytes': raw.hex(),
+            'instruction': f'JMP dword ptr [0x{iat:08x}]', 'import': receipt})
     result['coldImages'] = []
     for label, address, size in [
         ('optionalCrtHook', 0x100ed680, 4),
@@ -137,6 +148,8 @@ def emit_runtime(output, destination):
             retain(entry['va'], entry['bytes'], 'JMP 0x' + entry['targetVA'])
         for entry in method['instructions']:
             retain(entry['va'], entry['bytes'], entry['instruction'])
+    for entry in source['versionImportThunks']:
+        retain(entry['address'], entry['bytes'], entry['instruction'])
     destination.write_text('/** Captured original DLL entry syntax; execution requires runtime ownership. */\n'
         + 'export interface SharedDllEntryInstruction {readonly address:string;readonly bytes:string;readonly instruction:string;}\n'
         + 'const rows:readonly (readonly string[])[] = ' + json.dumps([rows[k] for k in sorted(rows)], indent=2) + ';\n'

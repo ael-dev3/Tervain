@@ -2525,6 +2525,21 @@ const rows:readonly (readonly string[])[] = [
     "100add1a",
     "c3",
     "RET"
+  ],
+  [
+    "100d55d6",
+    "ff25f4982f10",
+    "JMP dword ptr [0x102f98f4]"
+  ],
+  [
+    "100d55dc",
+    "ff25ec982f10",
+    "JMP dword ptr [0x102f98ec]"
+  ],
+  [
+    "100d55e2",
+    "ff25f0982f10",
+    "JMP dword ptr [0x102f98f0]"
   ]
 ];
 const instructions=new Map<string,SharedDllEntryInstruction>(rows.map(([address,bytes,instruction])=>
