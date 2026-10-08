@@ -311,3 +311,6 @@ assets/gothic3/arena-status-descriptor/*.c.txt -whitespace
 
 assets/gothic3/game-template-demangler/* -text -eol
 assets/gothic3/game-template-demangler/*.c.txt -whitespace
+
+assets/gothic3/shared-diagnostic-locale/* -text -eol
+assets/gothic3/shared-diagnostic-locale/*.c.txt -whitespace
