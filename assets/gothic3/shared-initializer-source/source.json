@@ -2,6 +2,40 @@
   "schema": "gothic3-shared-initializer-source-v1",
   "sharedBaseSha256": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214",
   "methods": {
+    "rootTextConstructor": {
+      "entryVA": "0x10003ba7",
+      "bodyVA": "0x100135f0",
+      "bodyRanges": "100135f0-1001364a",
+      "instructionCount": 42,
+      "bodyByteCount": 91,
+      "bodyInstructionBytesSha256": "1bb0b6450709549da4589f055cb6f9780becea05ea8cefcd75e37701a22d0be5",
+      "entryChain": [
+        {
+          "va": "10003ba7",
+          "bytes": "e944fa0000",
+          "targetVA": "100135f0"
+        }
+      ],
+      "assemblySha256": "ffaee01c1aa309a83c8e736201e40c43a0b437ff32ab7a185c0eb25ec9cf1368",
+      "cSha256": "aa65cdcef334355c49f7bc85e9ed3ea3e211e9011db091c41c631817a79d5020"
+    },
+    "rootTextAlloc": {
+      "entryVA": "0x10007d65",
+      "bodyVA": "0x10013240",
+      "bodyRanges": "10013240-10013278",
+      "instructionCount": 23,
+      "bodyByteCount": 57,
+      "bodyInstructionBytesSha256": "dc8a43b75e1dccffc84e53f09fff8d1d25e6ce0e0485cfa4722de0f09887fd04",
+      "entryChain": [
+        {
+          "va": "10007d65",
+          "bytes": "e9d6b40000",
+          "targetVA": "10013240"
+        }
+      ],
+      "assemblySha256": "2f9ebf259d16718c13f8b21b76f618137fbec3ed226ecefb808bfd08673783f7",
+      "cSha256": "53e34864da057e08c2979e5e0c0913038baab28a2e5eb7ec93bce08bf3d842c7"
+    },
     "cinit": {
       "entryVA": "0x100aa632",
       "bodyVA": "0x100aa632",
@@ -934,6 +968,14 @@
     }
   },
   "entries": {
+    "10003ba7": {
+      "containingEntry": "10003ba7",
+      "methodLabel": "rootTextConstructor"
+    },
+    "10007d65": {
+      "containingEntry": "10007d65",
+      "methodLabel": "rootTextAlloc"
+    },
     "100aa632": {
       "containingEntry": "100aa632",
       "methodLabel": "cinit"
@@ -1300,6 +1342,22 @@
       "scope": "cold-original-image",
       "liveValueCaptured": false
     },
+    "rootTextLiteral": {
+      "address": "100e9b5c",
+      "raw": "526f6f7400",
+      "bytes": 5,
+      "sha256": "1e274223b9455c9c6dd69887b59bc254175f2f0285ab18704cd6f01cff957fb6",
+      "section": {
+        "virtualAddress": 937984,
+        "virtualSize": 366840,
+        "rawSize": 368640,
+        "rawOffset": 937984,
+        "fileBackedBytes": 5,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
     "staticValueSource": {
       "address": "100ebb28",
       "raw": "00000000000000000000000000000000",
@@ -1657,6 +1715,38 @@
     "liveValueCaptured": false
   },
   "calls": [
+    {
+      "method": "rootTextConstructor",
+      "address": "10013623",
+      "raw": "e83d47ffff",
+      "instruction": "CALL 0x10007d65",
+      "kind": "direct",
+      "targetVA": "10007d65"
+    },
+    {
+      "method": "rootTextConstructor",
+      "address": "1001362d",
+      "raw": "e8ce430900",
+      "instruction": "CALL 0x100a7a00",
+      "kind": "direct",
+      "targetVA": "100a7a00"
+    },
+    {
+      "method": "rootTextAlloc",
+      "address": "10013257",
+      "raw": "e852f8feff",
+      "instruction": "CALL 0x10002aae",
+      "kind": "direct",
+      "targetVA": "10002aae"
+    },
+    {
+      "method": "rootTextAlloc",
+      "address": "1001325e",
+      "raw": "e8750affff",
+      "instruction": "CALL 0x10003cd8",
+      "kind": "direct",
+      "targetVA": "10003cd8"
+    },
     {
       "method": "cinit",
       "address": "100aa640",
