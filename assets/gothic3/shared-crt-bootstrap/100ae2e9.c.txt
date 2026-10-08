@@ -1,0 +1,13 @@
+/* ENTRY 100ae2e9 | __encoded_null | STATUS decompiled | 2 ms */
+
+/* Library Function - Single Match
+    __encoded_null
+   
+   Libraries: Visual Studio 2005 Release, Visual Studio 2008 Release */
+
+void __encoded_null(void)
+
+{
+  FUN_100ae27b(0);
+  return;
+}

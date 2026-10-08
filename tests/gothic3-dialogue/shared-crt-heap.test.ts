@@ -12,7 +12,7 @@ it('stores the original OS fields and owns a distinct SharedBase heap before the
  const f=fixture(),game=NativeGameCrtOwner.forPlatform({platform:f.platform,errnoSlot:()=>({known:false,reason:'not initialized'})});
  const result=f.owner.processAttach();expect(result.known).toBe(false);
  if(result.known)throw new Error('Thread initialization unexpectedly returned');
- expect(result.reason).toContain('100ae7b4');expect(result.reason).toContain('100aa7e6');
+ expect(result.reason).toContain('100ae7fc');expect(result.reason).toContain('100bb704');
  const os=f.owner.imageStorage('osFields');
  expect([0,4,8,12,16].map(offset=>os.readUnsigned(offset))).toEqual([2,0x2bcd,0x601,6,1]);
  expect(game.physical.crtOsFields.readUnsigned(0)).toBe(0);
@@ -53,33 +53,68 @@ it('retains the allocated version buffer when the version provider has not retur
  expect(owner.processAttach()).toEqual(result);expect(owner.snapshot().versionAllocation).toBe(allocation);
 });
 
-it('publishes actual unencoded FLS getter in its allocated TLS cache before init_pointers',()=>{
+function decode(platform:NativeRuntimePlatform,pointer:object|null):object|null {
+ const module=platform.getWin32ModuleHandle('KERNEL32.DLL');if(!module.known||module.value===null)throw new Error('Missing module');
+ const procedure=platform.getWin32Procedure(module.value,'DecodePointer');if(!procedure.known||procedure.value===null)throw new Error('Missing decoder');
+ const result=procedure.value.invoke(pointer);if(!result.known)throw new Error(result.reason);return result.value;
+}
+it('keeps the actual unencoded FLS getter in TLS while encoding its procedure slots',()=>{
  const f=fixture();expect(f.owner.processAttach().known).toBe(false);
  const slots=f.owner.imageStorage('procedureSlots');
- expect([0,4,8,12].map(offset=>slots.pointer<{name:string}>(offset).get()!.name)).toEqual(['FlsAlloc','FlsGetValue','FlsSetValue','FlsFree']);
+ expect([0,4,8,12].map(offset=>(decode(f.platform,slots.pointer<object>(offset).get()) as {name:string}).name)).toEqual(['FlsAlloc','FlsGetValue','FlsSetValue','FlsFree']);
  const index=f.owner.imageStorage('tlsGetterIndex').readUnsigned(0);
  const actual=f.platform.tlsGetValue(index);expect(actual.known).toBe(true);
  if(!actual.known)throw new Error(actual.reason);
- expect(actual.value).toBe(slots.pointer(4).get());
+ expect(actual.value).toBe(decode(f.platform,slots.pointer<object>(4).get()));
+ expect(actual.value).not.toBe(slots.pointer(4).get());
  expect(f.owner.imageStorage('threadDataIndex').readUnsigned(0)).toBe(0xffffffff);
- expect(f.owner.snapshot().mtReturned).toBeNull();
- expect(f.owner.snapshot().trace.slice(-1)).toEqual(['100ae7b4.callInitPointers']);
+ expect(f.owner.snapshot().mtReturned).toBeNull();expect(f.owner.snapshot().pointersReturned).toBe(true);
+ expect(f.owner.snapshot().trace.slice(-1)).toEqual(['100ae7fc.callMtInitLocks']);
 });
-it('uses the original TLS fallback when FLS exports are absent',()=>{
+it('encodes the original TLS fallback when FLS exports are absent',()=>{
  const platform=new NativeRuntimePlatform({engineCrtServices:{tlsValues:new Map(),kernel32Available:true,
   pointerCodec:'owned-bijection',fiberLocalStorage:false,processHeap:true,osVersion:{platform:2,major:6,minor:0,build:1}}});
  const owner=NativeSharedCrtOwner.forPlatform(platform);expect(owner.processAttach().known).toBe(false);
  const slots=owner.imageStorage('procedureSlots');
- expect(slots.pointer(4).get()).toBe(platform.tlsProcedures.get);
- expect(slots.pointer(8).get()).toBe(platform.tlsProcedures.set);
- expect(slots.pointer(12).get()).toBe(platform.tlsProcedures.free);
- const allocator=slots.pointer<{address:string;owner:object}>(0).get()!;
+ expect(decode(platform,slots.pointer<object>(4).get())).toBe(platform.tlsProcedures.get);
+ expect(decode(platform,slots.pointer<object>(8).get())).toBe(platform.tlsProcedures.set);
+ expect(decode(platform,slots.pointer<object>(12).get())).toBe(platform.tlsProcedures.free);
+ const allocator=decode(platform,slots.pointer<object>(0).get()) as {address:string;owner:object};
  expect(allocator.address).toBe('100ae360');expect(allocator.owner).toBe(owner.identity);
  const cached=platform.tlsGetValue(owner.imageStorage('tlsGetterIndex').readUnsigned(0));
  expect(cached.known&&cached.value===platform.tlsProcedures.get).toBe(true);
  expect(owner.imageStorage('threadDataIndex').readUnsigned(0)).toBe(0xffffffff);
 });
-
+it('initializes every original pointer slot in source order with encoded NULL and original code identities',()=>{
+ const f=fixture();expect(f.owner.processAttach().known).toBe(false);
+ const encodedNull=f.owner.imageStorage('pointer6ac4').pointer<object>(0).get();expect(encodedNull).not.toBeNull();
+ expect(decode(f.platform,encodedNull)).toBeNull();
+ for(const label of ['pointer6ac0','pointer64a0','pointer690c','pointer6abc'] as const)expect(f.owner.imageStorage(label).pointer(0).get()).toBe(encodedNull);
+ for(const offset of [0,4,8,12])expect(f.owner.imageStorage('signalPointers').pointer(offset).get()).toBe(encodedNull);
+ const terminate=decode(f.platform,f.owner.imageStorage('ehHook').pointer<object>(0).get()) as {address:string;owner:object};
+ const exit=decode(f.platform,f.owner.imageStorage('exitPointer').pointer<object>(0).get()) as {address:string;owner:object};
+ expect(terminate.address).toBe('100b01d7');expect(exit.address).toBe('100aa7b7');
+ expect(terminate.owner).toBe(f.owner.identity);expect(exit.owner).toBe(f.owner.identity);
+ expect(f.owner.snapshot().trace.filter(label=>label.startsWith('initPointers.store.')||['100bb90b.signalPointers.store','100ae9bb.noop.return','100b0265.storeTerminate','100aa82b.storeExit','100aa831.initPointers.return'].includes(label))).toEqual([
+  'initPointers.store.pointer6ac4','initPointers.store.pointer6ac0','initPointers.store.pointer64a0','initPointers.store.pointer690c','initPointers.store.pointer6abc',
+  '100bb90b.signalPointers.store','100ae9bb.noop.return','100b0265.storeTerminate','100aa82b.storeExit','100aa831.initPointers.return']);
+});
+it('preserves the original identity branch when the pointer export is absent',()=>{
+ const platform=new NativeRuntimePlatform({engineCrtServices:{tlsValues:new Map(),kernel32Available:true,
+  pointerCodec:'absent',fiberLocalStorage:false,processHeap:true,osVersion:{platform:2,major:6,minor:0,build:1}}});
+ const owner=NativeSharedCrtOwner.forPlatform(platform);expect(owner.processAttach().known).toBe(false);
+ expect(owner.snapshot().pointersReturned).toBe(true);expect(owner.imageStorage('pointer6ac4').pointer(0).get()).toBeNull();
+ expect(owner.imageStorage('procedureSlots').pointer(4).get()).toBe(platform.tlsProcedures.get);
+ expect((owner.imageStorage('exitPointer').pointer<{address:string}>(0).get()!).address).toBe('100aa7b7');
+});
+it('retains the getter-cache prefix before the unowned pre-Vista main-image scan',()=>{
+ const f=fixture({platform:2,major:5,minor:1,build:0});const result=f.owner.processAttach();
+ expect(result.known).toBe(false);if(result.known)throw new Error('Missing image scan returned');
+ expect(result.reason).toContain('.mixcrt');expect(f.owner.snapshot().pointersReturned).toBe(false);
+ expect(f.owner.imageStorage('pointer6ac4').pointer(0).get()).toBeNull();
+ const index=f.owner.imageStorage('tlsGetterIndex').readUnsigned(0);expect(index).not.toBe(0xffffffff);
+ const getter=f.platform.tlsGetValue(index);expect(getter.known&&getter.value!==null).toBe(true);
+});
 it('rejects a structurally forged Runtime platform before admitting CRT images',()=>{
  expect(()=>NativeSharedCrtOwner.forPlatform(Object.create(NativeRuntimePlatform.prototype))).toThrow('Actual');
 });

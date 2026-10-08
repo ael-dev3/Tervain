@@ -1,5 +1,5 @@
 /** Original SharedBase CRT process-attach version/heap prefix.
- * This owns distinct SharedBase images; init_pointers and full attach remain pending. */
+ * This owns distinct SharedBase images; lock/thread completion and full attach remain pending. */
 import source from '../../assets/gothic3/shared-crt-bootstrap/source.json';
 import {NativeRuntimePlatform} from './native-runtime-platform';
 import type {NativeCrtLocalProcedure,NativeCrtLocalAllocProcedure,NativeWin32HeapCapability} from './native-runtime-platform';
@@ -9,6 +9,20 @@ import type {NativeValue} from './dialogue';
 const owners=new WeakMap<NativeRuntimePlatform,NativeSharedCrtOwner>();
 const token=Object.freeze({});
 const methods={
+ encodedNull:['0x100ae2e9','e58382981c7a36ba3f1066c370748dcc87e583c54e41f0a440673250d39cc7f3'],
+ pointerEncodingAvailable:['0x100ae20f','ee8691088a2b99c01cbcbe5d12d7002b73798745febc6114c8e90c0d929b1541'],
+ setPointer6ac4:['0x100bbfec','2d7ec32c107ce5f618f764497f2c4799c99305f0216df0be488496fb6890671b'],
+ setPointer6ac0:['0x100bbf0d','325d9b307c83a70ff5d8a3c955b024cb07f1c58c3a71dab6773e1a9fd44e0e3f'],
+ setPointer64a0:['0x100ae094','ee7e8e717fb533db1b8d8ed6fa044ab7a515a55457f2f20d16f3dda5a9863e96'],
+ setPointer690c:['0x100b10cc','6970f4865602122586ff435e8475e3be4ea762ca947392dd07235f3734fe9a7a'],
+ setPointer6abc:['0x100bbdff','87b942fc67bccffebc615945af84120cf1f9d17bf17caf1a1e72fdf32ecf4ba0'],
+ initSignalPointers:['0x100bb90b','21c59ab0620539c88a1b8353e8b18b33c90c5014f086c6765bbd82384bd3dbc7'],
+ initPointersNoop:['0x100ae9bb','ae3f4619b0413d70d3004b9131c3752153074e45725be13b9a148978895e359e'],
+ initEhHooks:['0x100b025a','ae34a8f1316607c403b294dfc407a0e8547cf70121a353e01ab881953e3f8ac1'],
+ terminate:['0x100b01d7','d3271e90cb5faf6e2a7994d31327849393e7fbf184f41c3023b267fb99f5250a'],
+ exit:['0x100aa7b7','56833d9b869d4a324b0aadced821b799bcf7f4b4cbc7324de29c74e4a8660b00'],
+ initPointers:['0x100aa7e6','3322e001ea0f35bafbd64077e8480e5c09848511a9d523f36b81b4eb640fa29c'],
+ encodeThreadPointer:['0x100ae27b','b6b1812877e62db1566f0bbb71b1b4abe1ee1147678b550ecf38ea29801175cc'],
  mtInit:['0x100ae6f0','7c03a67733aa37a6daae267a6f81926cddd385af1858d8e0a8a1fb072a0d0416'],
  crtAttach:['0x100ada4c','fb9938487a8147193a6a4196153cd242c37dd72d999f4bda0d5f7f094cbe66ee'],
  heapInit:['0x100bc0ba','17ed282bbb7b153398d0317b9ca46d7b6813206fe2adce25cb3a0a2f88502912'],
@@ -17,7 +31,10 @@ const methods={
  getWinMajor:['0x100aa54c','c2d39a6b2e3a69dcf99941e96a2b991511307e2511a0c536100b091ab85aabde'],
 } as const;
 const images={osFields:['102f642c',20,'00'.repeat(20)],heapHandle:['102f6ac8',4,'00000000'],heapSelection:['102f8530',4,'00000000'],
- tlsGetterIndex:['10140b48',4,'ffffffff'],threadDataIndex:['10140b44',4,'ffffffff'],procedureSlots:['102f64a4',16,'00'.repeat(16)]} as const;
+ tlsGetterIndex:['10140b48',4,'ffffffff'],threadDataIndex:['10140b44',4,'ffffffff'],procedureSlots:['102f64a4',16,'00'.repeat(16)],
+ pointer6ac4:['102f6ac4',4,'00000000'],pointer6ac0:['102f6ac0',4,'00000000'],pointer64a0:['102f64a0',4,'00000000'],
+ pointer690c:['102f690c',4,'00000000'],pointer6abc:['102f6abc',4,'00000000'],signalPointers:['102f6aa8',16,'00'.repeat(16)],
+ ehHook:['102f64b8',4,'00000000'],exitPointer:['10140a60',4,'b7a70a10']} as const;
 type Image=keyof typeof images;
 function physical(size:number){return new NativeHeapObjectViews({identity:{},bytes:new Uint8Array(size),knownMask:new Uint8Array(size),freed:false});}
 export class NativeSharedCrtOwner {
@@ -31,6 +48,8 @@ export class NativeSharedCrtOwner {
  #boundary:string|null=null;
  #active=false;
  #mtReturned:number|null=null;
+ #pointersReturned=false;
+ #code:Readonly<Record<'terminate'|'exit',Readonly<{owner:object;address:string;bodyInstructionBytesSha256:string}>>>;
  #tlsFallback:NativeCrtLocalAllocProcedure & {readonly address:string;readonly owner:object};
  #trace:string[]=[];
  private constructor(private readonly platform:NativeRuntimePlatform,proof:object){
@@ -40,6 +59,7 @@ export class NativeSharedCrtOwner {
    const receipt=source.methods[label as keyof typeof methods];
    if(receipt.bodyVA!==body||receipt.bodyInstructionBytesSha256!==hash)throw new Error('Original SharedBase CRT source differs: '+label);
   }
+  this.#code=Object.freeze(Object.fromEntries((['terminate','exit'] as const).map(label=>[label,Object.freeze({owner:this.identity,address:methods[label][0].slice(2),bodyInstructionBytesSha256:methods[label][1]})])) as Record<'terminate'|'exit',{owner:object;address:string;bodyInstructionBytesSha256:string}>);
   if(source.tlsFallbackAllocator.address!=='100ae360'||source.tlsFallbackAllocator.raw!=='ff15bc972f10c20400'||source.tlsFallbackAllocator.sha256!=='89b9b895a59f0f75607ee74875f1460dbb6ce716198148ea6d6cf7c09320eff8')throw new Error('Original TLS fallback allocator required');
   this.#tlsFallback=Object.freeze({kind:'alloc',name:'TlsAlloc',address:'100ae360',owner:this.identity,invoke:()=>this.platform.tlsAlloc()});
   for(const label of Object.keys(images) as Image[]){
@@ -90,6 +110,36 @@ export class NativeSharedCrtOwner {
   if(mode===3)throw new Error('Unowned original SharedBase small-block heap initializer at 100bc231(0x3f8)');
   this.#heapReturned=1;return 1;
  }
+ #encodePointer(value:object|null):object|null {
+  const cached=this.#call('100ae288.TlsGetValue',()=>this.platform.tlsGetValue(this.imageStorage('tlsGetterIndex').readUnsigned(0)));
+  if(cached!==null&&this.imageStorage('threadDataIndex').readUnsigned(0)!==0xffffffff)throw new Error('Unowned SharedBase PTD EncodePointer cache path at 100ae28e');
+  const module=this.#call('100ae2b4.GetModuleHandleA',()=>this.platform.getWin32ModuleHandle('KERNEL32.DLL'));
+  if(module===null)return value;
+  const os=this.imageStorage('osFields');
+  if(os.readUnsigned(0)===0)throw new Error('Unowned SharedBase invalid getWinMajor at 100ae20f');
+  const major=os.readUnsigned(12);
+  if((major|0)<6)throw new Error('Unowned SharedBase main-image .mixcrt section scan at 100ae20f');
+  this.#trace.push('100ae20f.available.return1');
+  const procedure=this.#call('GetProcAddress(EncodePointer)',()=>this.platform.getWin32Procedure(module,'EncodePointer'));
+  if(procedure===null)return value;
+  if(procedure.name!=='EncodePointer')throw new Error('Actual EncodePointer capability required');
+  return this.#call('100ae2dd.EncodePointer',()=>procedure.invoke(value));
+ }
+ #initializePointers():void {
+  const encodedNull=this.#encodePointer(null);
+  for(const label of ['pointer6ac4','pointer6ac0','pointer64a0','pointer690c','pointer6abc'] as const){
+   this.imageStorage(label).pointer<object>(0).set(encodedNull);this.#trace.push('initPointers.store.'+label);
+  }
+  const signals=this.imageStorage('signalPointers');
+  for(const offset of [0,4,8,12])signals.pointer<object>(offset).set(encodedNull);
+  this.#trace.push('100bb90b.signalPointers.store');
+  this.#trace.push('100ae9bb.noop.return');
+  const terminate=this.#encodePointer(this.#code.terminate);
+  this.imageStorage('ehHook').pointer<object>(0).set(terminate);this.#trace.push('100b0265.storeTerminate');
+  const exit=this.#encodePointer(this.#code.exit);
+  this.imageStorage('exitPointer').pointer<object>(0).set(exit);this.#trace.push('100aa82b.storeExit');
+  this.#pointersReturned=true;this.#trace.push('100aa831.initPointers.return');
+ }
  #initializeThreads():number {
   const module=this.#call('100ae6f6.GetModuleHandleA',()=>this.platform.getWin32ModuleHandle('KERNEL32.DLL'));
   if(module===null)throw new Error('Unowned SharedBase __mtterm at 100ae3cf called from 100ae702');
@@ -117,7 +167,13 @@ export class NativeSharedCrtOwner {
   const stored=this.#call('100ae7aa.TlsSetValueGetter',()=>this.platform.tlsSetValue(index,getter));
   if(!stored){this.#mtReturned=0;return 0;}
   this.#trace.push('100ae7b4.callInitPointers');
-  throw new Error('Unowned SharedBase __init_pointers at 100aa7e6 called from 100ae7b4');
+  this.#initializePointers();
+  for(const offset of [0,4,8,12]){
+   const original=slots.pointer<object>(offset).get();
+   slots.pointer<object>(offset).set(this.#encodePointer(original));this.#trace.push('mtInit.encodeProcedure'+offset);
+  }
+  this.#trace.push('100ae7fc.callMtInitLocks');
+  throw new Error('Unowned SharedBase __mtinitlocks at 100bb704 called from 100ae7fc');
  }
  processAttach():NativeValue<number>{
   if(this.#boundary)return {known:false,reason:this.#boundary};
@@ -156,6 +212,6 @@ export class NativeSharedCrtOwner {
   finally{this.#active=false;}
  }
  snapshot(){return Object.freeze({boundary:this.#boundary,versionAllocation:this.#versionAllocation,
-  heap:this.#heap,heapReturned:this.#heapReturned,attachReturned:this.#attachReturned,mtReturned:this.#mtReturned,
+  heap:this.#heap,heapReturned:this.#heapReturned,attachReturned:this.#attachReturned,mtReturned:this.#mtReturned,pointersReturned:this.#pointersReturned,
   trace:Object.freeze([...this.#trace]),dllEntryExecuted:false,wholeCrtTraversalCompleted:false});}
 }

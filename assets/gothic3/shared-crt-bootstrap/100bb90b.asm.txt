@@ -1,0 +1,6 @@
+100bb90b | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+100bb90f | a3a86a2f10 | MOV [0x102f6aa8],EAX
+100bb914 | a3ac6a2f10 | MOV [0x102f6aac],EAX
+100bb919 | a3b06a2f10 | MOV [0x102f6ab0],EAX
+100bb91e | a3b46a2f10 | MOV [0x102f6ab4],EAX
+100bb923 | c3 | RET
