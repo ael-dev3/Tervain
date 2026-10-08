@@ -1,0 +1,161 @@
+{
+  "schema": 1,
+  "textures": {
+    "bark": {
+      "size": 1024,
+      "albedo": {
+        "file": "bark-albedo.jpg",
+        "bytes": 92082,
+        "sha256": "6a776e862c34ac1b51fb521d41792395db8403041b44a8569a259055c18cd003"
+      },
+      "normal": {
+        "file": "bark-normal.jpg",
+        "bytes": 315652,
+        "sha256": "5bfe135239a688ceafd3d0e9e45f0de48c98f3b6af6bc0c2c763ed837eb58648"
+      }
+    },
+    "bronze": {
+      "size": 512,
+      "albedo": {
+        "file": "bronze-albedo.jpg",
+        "bytes": 38292,
+        "sha256": "d16a8b635c61fbe03ce9e24b993ea1a4ca981925a2f4495824983987911e35ca"
+      },
+      "normal": {
+        "file": "bronze-normal.jpg",
+        "bytes": 46718,
+        "sha256": "a982d033e96f92578fe8d2f3e08297306f77615b833e8d4016447117da1c8a57"
+      }
+    },
+    "cloth": {
+      "size": 512,
+      "albedo": {
+        "file": "cloth-albedo.jpg",
+        "bytes": 80523,
+        "sha256": "75d57c5249f560fb723573fe6ab718b96622a06d55172c80d16439e888a0da02"
+      },
+      "normal": {
+        "file": "cloth-normal.jpg",
+        "bytes": 298205,
+        "sha256": "27531847d7bed5667c665a66c4b87a7c95f848cbd39856013586cf846e4a0fb3"
+      }
+    },
+    "cobble": {
+      "size": 1024,
+      "albedo": {
+        "file": "cobble-albedo.jpg",
+        "bytes": 172973,
+        "sha256": "abd6b00343ca9299a85a43f4c01f3fc88f957a87d31a446f1d43447efdbfa08e"
+      },
+      "normal": {
+        "file": "cobble-normal.jpg",
+        "bytes": 542735,
+        "sha256": "d621588336cb110ece31c265a540c0420b0cb998e03e3e7bdd605b7cc9f7cd9f"
+      }
+    },
+    "planks": {
+      "size": 1024,
+      "albedo": {
+        "file": "planks-albedo.jpg",
+        "bytes": 151298,
+        "sha256": "6d99b30e34474ba4a005797fa4c0429238c98226c916294c501f03af06a836b2"
+      },
+      "normal": {
+        "file": "planks-normal.jpg",
+        "bytes": 369641,
+        "sha256": "291756622b49d9fe0b7c0a9968a7b678a2de92f1c07e8940ca65c1d74300ec9f"
+      }
+    },
+    "plaster": {
+      "size": 1024,
+      "albedo": {
+        "file": "plaster-albedo.jpg",
+        "bytes": 144131,
+        "sha256": "bf91014029cef7fc61bb7977afe6c16b3ac4c5f1cf386938c143dbeb8bff4c52"
+      },
+      "normal": {
+        "file": "plaster-normal.jpg",
+        "bytes": 232922,
+        "sha256": "c1804a2092ba41726f1952aeb0cab480c0417d1d360748161ae29318e560c3ba"
+      }
+    },
+    "rock": {
+      "size": 1024,
+      "albedo": {
+        "file": "rock-albedo.jpg",
+        "bytes": 160982,
+        "sha256": "05a822a5f10efa70fbc8257ff72a5749fba73ee45aaf97534cc3e1e1bb47ec69"
+      },
+      "normal": {
+        "file": "rock-normal.jpg",
+        "bytes": 472075,
+        "sha256": "8c0b0cf7f37698f497064a7329f896c5b3a7bff26cd146119fb1fcea6ef10873"
+      }
+    },
+    "slate": {
+      "size": 1024,
+      "albedo": {
+        "file": "slate-albedo.jpg",
+        "bytes": 103979,
+        "sha256": "e93234c4254404d49351611804a5d129c7ef982fc5ae26ae7775f3af936967d4"
+      },
+      "normal": {
+        "file": "slate-normal.jpg",
+        "bytes": 303234,
+        "sha256": "3621d1455c018be63b22e1cc003235c0f1493690a101ce9a619c2b4527723556"
+      }
+    },
+    "stone": {
+      "size": 1024,
+      "albedo": {
+        "file": "stone-albedo.jpg",
+        "bytes": 176637,
+        "sha256": "20af6930e99a175a504f3960ba238735b4e56ba6393adaac5b4b0640ffd4d30f"
+      },
+      "normal": {
+        "file": "stone-normal.jpg",
+        "bytes": 582152,
+        "sha256": "b8990e5763876df96f0babe98bbc4c182a18d01d635ab268defbf4f2acc7f9fa"
+      }
+    },
+    "thatch": {
+      "size": 1024,
+      "albedo": {
+        "file": "thatch-albedo.jpg",
+        "bytes": 185983,
+        "sha256": "befdcf5ef42454c0d61c3dd09240710f425ae0b39ca722dc47a6bad2372ce110"
+      },
+      "normal": {
+        "file": "thatch-normal.jpg",
+        "bytes": 554672,
+        "sha256": "5dcd2c02d1b9f2e1c019424527a98eb4f647fa23da1ce67ace29b8341e3485f7"
+      }
+    },
+    "tile": {
+      "size": 1024,
+      "albedo": {
+        "file": "tile-albedo.jpg",
+        "bytes": 125356,
+        "sha256": "d4266b2997e08fdea1f69126250227ef6189f8f9e5e9b0a3f3a43127dc3f8ed2"
+      },
+      "normal": {
+        "file": "tile-normal.jpg",
+        "bytes": 253249,
+        "sha256": "56da0b16856b12c124e8ca274856360e79710ac59c692259ac830b384335ae38"
+      }
+    },
+    "timber": {
+      "size": 1024,
+      "albedo": {
+        "file": "timber-albedo.jpg",
+        "bytes": 124893,
+        "sha256": "9e561da9f5a742bd6aef60e5d53d6f166027d21a2f025b1733991fdd7a338393"
+      },
+      "normal": {
+        "file": "timber-normal.jpg",
+        "bytes": 332041,
+        "sha256": "4dcbaaf3e5773c5d7f53f14381c061f9ccc9aa79a07e798cd49f216f68075883"
+      }
+    }
+  }
+}

@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { Batch, Ctx } from './buildKit';
-import { TILE_M, makePaneTexture, makeTexPair, type TexKey } from './buildingTextures';
+import { TILE_M, isBaked, makePaneTexture, makeTexPair, onBakedTextures, type TexKey } from './buildingTextures';
 
 /** The materials a region can draw with. One draw call per material actually used. */
 export type MatKey = TexKey | 'vc' | 'metal' | 'leaf' | 'glow' | 'pane' | 'daylight';
@@ -12,14 +12,18 @@ export class MaterialSet {
   /** Window panes seen from inside a room (A66): the daylight outside them, dimming to the night. */
   readonly daylightMat: THREE.MeshBasicMaterial;
   private disposables: { dispose(): void }[] = [];
+  private readonly textured = new Map<TexKey, THREE.MeshStandardMaterial>();
+  private readonly unsubscribe: () => void;
 
-  constructor(size: number) {
+  constructor(readonly size: number) {
     const tex = (key: TexKey, opts: { side?: THREE.Side; rough?: number; normal?: number; metal?: number } = {}) => {
       const pair = makeTexPair(key, size, 8);
-      this.disposables.push(pair.map, pair.normal);
+      // Baked pairs are shared for the whole session (buildingTextures.ts releases them); generated ones are released here.
+      if (!isBaked(key)) this.disposables.push(pair.map, pair.normal);
       const m = new THREE.MeshStandardMaterial({ vertexColors: true, map: pair.map, normalMap: pair.normal, roughness: opts.rough ?? 0.92, metalness: opts.metal ?? 0, side: opts.side ?? THREE.FrontSide });
       m.normalScale.set(opts.normal ?? 1, opts.normal ?? 1);
       this.map.set(key, m);
+      this.textured.set(key, m);
     };
     tex('plaster', { normal: 0.65, rough: 0.98 });
     tex('timber', { normal: 0.8, rough: 0.98 });
@@ -45,13 +49,26 @@ export class MaterialSet {
     this.map.set('glow', this.lanternMat);
     this.daylightMat = new THREE.MeshBasicMaterial({ color: 0xd2d8dc });
     this.map.set('daylight', this.daylightMat);
+    // A set made before the baked surfaces arrived (the title camp) takes them up as soon as they are installed.
+    this.unsubscribe = onBakedTextures(() => this.adoptBaked());
   }
 
   get(key: MatKey): THREE.Material {
     return this.map.get(key)!;
   }
 
+  private adoptBaked() {
+    for (const [key, m] of this.textured) {
+      const pair = makeTexPair(key, this.size, 8);
+      if (m.map === pair.map) continue;
+      m.map = pair.map;
+      m.normalMap = pair.normal;
+      m.needsUpdate = true;
+    }
+  }
+
   dispose() {
+    this.unsubscribe();
     for (const m of this.map.values()) m.dispose();
     for (const d of this.disposables) d.dispose();
   }

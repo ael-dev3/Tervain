@@ -6,6 +6,7 @@ import { fromBuildingLocal, type InteriorSpec, type RoomLocator } from '../world
 import { modelAssetUrl } from './assets/modelUrl';
 import { observeModelLoad, withModelLoadSlot, type ModelLoadProgress } from './assets/modelLoadQueue';
 import type { FrameContext, SceneModule } from './context';
+import { roughnessFloor } from './matte';
 
 /**
  * The rooms' furniture, drawn (A66): the prepared Meshy pieces in public/models/furniture, placed as world/furniture.ts
@@ -71,7 +72,10 @@ export function loadFurniture(progress?: ModelLoadProgress): Promise<FurnitureTe
       const piece = manifest.pieces.find((p) => p.id === id);
       if (!piece || !/^[a-z]+\.glb$/.test(piece.file)) throw new Error(`The furniture manifest lacks ${id}.`);
       const data = await fetchChecked(piece.file, piece.bytes, piece.sha256);
-      templates.set(id, pieceMesh(id, await loader.parseAsync(data, new URL('.', url(piece.file)).href)));
+      const mesh = pieceMesh(id, await loader.parseAsync(data, new URL('.', url(piece.file)).href));
+      // Worn wood and old iron: nothing in a room is polished (A67).
+      roughnessFloor(mesh.material, 0.72).envMapIntensity = 0.8;
+      templates.set(id, mesh);
     }
     return templates;
   }).catch((error) => { pending = null; throw error; });

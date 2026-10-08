@@ -88,9 +88,10 @@ function paint(data: Uint16Array, w: number, h: number) {
       const cs = clamp(dx * sun.x + dy * sun.y + dz * sun.z, -1, 1);
       if (cs > 0) {
         const a = Math.acos(cs);
-        // The directional light carries the strong sunlight. A calmer environment hotspot retains broad material
-        // colours in rough timber/stone instead of giving every surface a polished plastic sheen.
-        const core = Math.exp(-(a * a) / (0.11 * 0.11)) * 1.9 * coreK;
+        // The directional light carries the strong sunlight. The hotspot here is broad and low (A67): a tight bright one
+        // put a polished sheen on every rough surface (timber, stone, cloth, skin). Spread over about three times the sky
+        // at a third of the peak, it gives walls the same warm fill (a low sun's glow at evening) without the sheen.
+        const core = Math.exp(-(a * a) / (0.2 * 0.2)) * 0.6 * coreK;
         const glow = Math.exp(-(a * a) / (0.62 * 0.62)) * glowK;
         r += tmpSun.r * (core + glow);
         g += tmpSun.g * (core + glow);

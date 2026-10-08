@@ -1,4 +1,5 @@
 import { loadMeshyTrees, type MeshyTreeTemplates } from './presentation/meshyTrees';
+import { loadBakedTextures } from './presentation/bakedTextures';
 import * as THREE from 'three';
 import { NPCS } from './content/npcs';
 import { SCENES, SPEAKER_NAMES, VOICE_LINES, inHours, shown, type HeroCue } from './content/voice';
@@ -288,7 +289,7 @@ export class App {
     }
     if (q.get('hud') === '0') this.hud.show(false);
     // Look-development controls are intentionally query-only: each post effect can be isolated in a repeatable shot.
-    const controls = ['saturation', 'contrast', 'vignette', 'grain', 'chromatic'] as const;
+    const controls = ['saturation', 'contrast', 'vignette', 'grain', 'earth', 'chromatic'] as const;
     const grade: Partial<Record<(typeof controls)[number], number>> = {};
     for (const key of controls) {
       if (q.has(key)) {
@@ -441,6 +442,8 @@ export class App {
   }
 
   private async loadMenuAssets() {
+    // The weathered building surfaces never hold up the title: the camp adopts them whenever they arrive.
+    void loadBakedTextures(this.settings.quality);
     const [trees, assets] = await Promise.all([
       loadMeshyTrees(['tree-0208']), loadMeshyNpcCatalog(undefined, ['menu:warden']),
     ]);
@@ -1128,7 +1131,7 @@ export class App {
   }
 
   /** The menu's picture is rougher than play: an old painted backdrop, grainy and darkened at the edges. */
-  private static readonly MENU_LOOK = { saturation: 0.9, contrast: 1.07, vignette: 0.3, grain: 0.03, chromatic: 0.0012 };
+  private static readonly MENU_LOOK = { saturation: 0.9, contrast: 1.07, vignette: 0.3, grain: 0.03, earth: 1, chromatic: 0.0012 };
   private worldLook: ReturnType<Grade['getLook']> | null = null;
 
   private get menuBackgroundActive() {
