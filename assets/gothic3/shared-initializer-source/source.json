@@ -57,6 +57,72 @@
       "assemblySha256": "0ebd425bbaeeed033021b40f185497566466f1611ee329f05ee03053dfc3ca1b",
       "cSha256": "999b7f6744c453534fff03e3a0c3f1880729f588f5f6a39a03e1d51e926c3374"
     },
+    "onexit": {
+      "entryVA": "0x100a7294",
+      "bodyVA": "0x100a7294",
+      "bodyRanges": "100a7294-100a72c9",
+      "instructionCount": 14,
+      "bodyByteCount": 54,
+      "bodyInstructionBytesSha256": "05bf4d6c05b1556037b0068bb08a4a3719045fe6ea11bcf6c8305109bee2fb02",
+      "entryChain": [],
+      "assemblySha256": "2c80bdeba941c068d0fa7caaf300e192e5226c731f928e1af40ff4eb3bc35e86",
+      "cSha256": "1c806c2361e2ea3e4d6b34c2348abd4ace1a31771eee4f962a5ef24a6a241ce5"
+    },
+    "decodePointer": {
+      "entryVA": "0x100ae2f2",
+      "bodyVA": "0x100ae2f2",
+      "bodyRanges": "100ae2f2-100ae35f",
+      "instructionCount": 36,
+      "bodyByteCount": 110,
+      "bodyInstructionBytesSha256": "680d5ea020292968a6b3e1cb9782e9988c4d9a1d90340f077c9cc0f3a0fed274",
+      "entryChain": [],
+      "assemblySha256": "ab187e4f18acbf7472096247e5d57d65a9c20d5186ecfe9d3373e35dc84e3fb6",
+      "cSha256": "2cd19845f69975bc47975425ccaf95875665b984746ee80a319854dda8acb534"
+    },
+    "allocationSize": {
+      "entryVA": "0x100b10d6",
+      "bodyVA": "0x100b10d6",
+      "bodyRanges": "100b10d6-100b1167",
+      "instructionCount": 50,
+      "bodyByteCount": 146,
+      "bodyInstructionBytesSha256": "b628afba8232a0da550759b843715392b69f4ebcc560e5e914dc63fbdfc8e1fd",
+      "entryChain": [],
+      "assemblySha256": "8d3223134644d4e9e8b8724ca66363d1155de8f031594e890410a2b60cf754bd",
+      "cSha256": "77c5c6c3388e925da8422e29a2cdd773033d6a3570431a213578c36776e59fde"
+    },
+    "lockExitTable": {
+      "entryVA": "0x100aa453",
+      "bodyVA": "0x100aa453",
+      "bodyRanges": "100aa453-100aa45b",
+      "instructionCount": 4,
+      "bodyByteCount": 9,
+      "bodyInstructionBytesSha256": "a3996d6008e3f4e8b3f27d19f629256b5a4b1b56c180d9d370ea86184ab0f045",
+      "entryChain": [],
+      "assemblySha256": "64395c38d64d562825ee6757ea36d2db96975921181eb6b7fe61e99fa084f396",
+      "cSha256": "ad6679e0f0dd369500141a4aa18c949b4ae491a85d49ee591c6a1d8e70b877e6"
+    },
+    "unlockExitTable": {
+      "entryVA": "0x100aa45c",
+      "bodyVA": "0x100aa45c",
+      "bodyRanges": "100aa45c-100aa464",
+      "instructionCount": 4,
+      "bodyByteCount": 9,
+      "bodyInstructionBytesSha256": "ff8245faf6bfe880af7314a45baf278b71fc40c18ece668512874fe4bb80d58f",
+      "entryChain": [],
+      "assemblySha256": "a237db4abc95f7abb6fc16b5825fac2560f32a2cbad30c3869a0f5cce9c0d420",
+      "cSha256": "e88a37ddc1ebf859268350c68baca0612095ec3badaca2ba6b2cfc0cc4146dbe"
+    },
+    "releaseExitTable": {
+      "entryVA": "0x100a72ca",
+      "bodyVA": "0x100a72ca",
+      "bodyRanges": "100a72ca-100a72cf",
+      "instructionCount": 2,
+      "bodyByteCount": 6,
+      "bodyInstructionBytesSha256": "6845047bd057027a1b466990d58ea838a092f57e1fde31eed94c452060be9203",
+      "entryChain": [],
+      "assemblySha256": "aed81935db137f94cc5d4119233e8b109bfea2838f0550c35ff0ad44c5bfc1c7",
+      "cSha256": "87d449440c8bb4f70fb6db27badbb06d114dbdc2df5bfa1033be91312b4496e1"
+    },
     "callocWrapper": {
       "entryVA": "0x100aef10",
       "bodyVA": "0x100aef10",
@@ -888,6 +954,30 @@
       "containingEntry": "100a72d0",
       "methodLabel": "atexit"
     },
+    "100a7294": {
+      "containingEntry": "100a7294",
+      "methodLabel": "onexit"
+    },
+    "100ae2f2": {
+      "containingEntry": "100ae2f2",
+      "methodLabel": "decodePointer"
+    },
+    "100b10d6": {
+      "containingEntry": "100b10d6",
+      "methodLabel": "allocationSize"
+    },
+    "100aa453": {
+      "containingEntry": "100aa453",
+      "methodLabel": "lockExitTable"
+    },
+    "100aa45c": {
+      "containingEntry": "100aa45c",
+      "methodLabel": "unlockExitTable"
+    },
+    "100a72ca": {
+      "containingEntry": "100a72ca",
+      "methodLabel": "releaseExitTable"
+    },
     "100aef10": {
       "containingEntry": "100aef10",
       "methodLabel": "callocWrapper"
@@ -1205,6 +1295,70 @@
         "rawSize": 16384,
         "rawOffset": 1306624,
         "fileBackedBytes": 640,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "onexitScope": {
+      "address": "100f8630",
+      "raw": "feffffff00000000d4ffffff00000000feffffff00000000ca720a10",
+      "bytes": 28,
+      "sha256": "2c288602946b700fcba00877458ec791d108133d98a033d5497e9efcc86e7483",
+      "section": {
+        "virtualAddress": 937984,
+        "virtualSize": 366840,
+        "rawSize": 368640,
+        "rawOffset": 937984,
+        "fileBackedBytes": 28,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "allocationSizeScope": {
+      "address": "100f8ba0",
+      "raw": "feffffff00000000d0ffffff00000000feffffff0000000068110b10",
+      "bytes": 28,
+      "sha256": "f63fc6e630be2d18be7e310dcd1fde7c41565b50010be473c0560c7316501fe6",
+      "section": {
+        "virtualAddress": 937984,
+        "virtualSize": 366840,
+        "rawSize": 368640,
+        "rawOffset": 937984,
+        "fileBackedBytes": 28,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "heapSizeImportSlot": {
+      "address": "102f9678",
+      "raw": "c09d2f00",
+      "bytes": 4,
+      "sha256": "ab3b30f7bc101756df6a58a5283fcf5622bc90518bf94a08f7213f80474ab814",
+      "section": {
+        "virtualAddress": 3117056,
+        "virtualSize": 6242,
+        "rawSize": 8192,
+        "rawOffset": 1323008,
+        "fileBackedBytes": 4,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "pointerDecodeProcedureName": {
+      "address": "100ed6e0",
+      "raw": "4465636f6465506f696e74657200",
+      "bytes": 14,
+      "sha256": "e787102ed31b054ca473edf00b9817374bb4c7910e4bf69282654c10a93c4048",
+      "section": {
+        "virtualAddress": 937984,
+        "virtualSize": 366840,
+        "rawSize": 368640,
+        "rawOffset": 937984,
+        "fileBackedBytes": 14,
         "loaderZeroFillBytes": 0
       },
       "scope": "cold-original-image",
@@ -1542,6 +1696,204 @@
       "instruction": "CALL 0x100a7294",
       "kind": "direct",
       "targetVA": "100a7294"
+    },
+    {
+      "method": "onexit",
+      "address": "100a729b",
+      "raw": "e8c8780000",
+      "instruction": "CALL 0x100aeb68",
+      "kind": "direct",
+      "targetVA": "100aeb68"
+    },
+    {
+      "method": "onexit",
+      "address": "100a72a0",
+      "raw": "e8ae310000",
+      "instruction": "CALL 0x100aa453",
+      "kind": "direct",
+      "targetVA": "100aa453"
+    },
+    {
+      "method": "onexit",
+      "address": "100a72ac",
+      "raw": "e8fbfeffff",
+      "instruction": "CALL 0x100a71ac",
+      "kind": "direct",
+      "targetVA": "100a71ac"
+    },
+    {
+      "method": "onexit",
+      "address": "100a72bc",
+      "raw": "e809000000",
+      "instruction": "CALL 0x100a72ca",
+      "kind": "direct",
+      "targetVA": "100a72ca"
+    },
+    {
+      "method": "onexit",
+      "address": "100a72c4",
+      "raw": "e8e4780000",
+      "instruction": "CALL 0x100aebad",
+      "kind": "direct",
+      "targetVA": "100aebad"
+    },
+    {
+      "method": "decodePointer",
+      "address": "100ae2ff",
+      "raw": "ffd6",
+      "instruction": "CALL ESI",
+      "kind": "register-or-memory-indirect"
+    },
+    {
+      "method": "decodePointer",
+      "address": "100ae316",
+      "raw": "ffd6",
+      "instruction": "CALL ESI",
+      "kind": "register-or-memory-indirect"
+    },
+    {
+      "method": "decodePointer",
+      "address": "100ae318",
+      "raw": "ffd0",
+      "instruction": "CALL EAX",
+      "kind": "register-or-memory-indirect"
+    },
+    {
+      "method": "decodePointer",
+      "address": "100ae32b",
+      "raw": "ff1568972f10",
+      "instruction": "CALL dword ptr [0x102f9768]",
+      "kind": "image-indirect",
+      "slotVA": "102f9768",
+      "importEntry": {
+        "iatVA": "0x102f9768",
+        "module": "KERNEL32.dll",
+        "name": "GetModuleHandleA",
+        "ordinal": null
+      }
+    },
+    {
+      "method": "decodePointer",
+      "address": "100ae337",
+      "raw": "e8d3feffff",
+      "instruction": "CALL 0x100ae20f",
+      "kind": "direct",
+      "targetVA": "100ae20f"
+    },
+    {
+      "method": "decodePointer",
+      "address": "100ae346",
+      "raw": "ff1548962f10",
+      "instruction": "CALL dword ptr [0x102f9648]",
+      "kind": "image-indirect",
+      "slotVA": "102f9648",
+      "importEntry": {
+        "iatVA": "0x102f9648",
+        "module": "KERNEL32.dll",
+        "name": "GetProcAddress",
+        "ordinal": null
+      }
+    },
+    {
+      "method": "decodePointer",
+      "address": "100ae354",
+      "raw": "ffd0",
+      "instruction": "CALL EAX",
+      "kind": "register-or-memory-indirect"
+    },
+    {
+      "method": "allocationSize",
+      "address": "100b10dd",
+      "raw": "e886daffff",
+      "instruction": "CALL 0x100aeb68",
+      "kind": "direct",
+      "targetVA": "100aeb68"
+    },
+    {
+      "method": "allocationSize",
+      "address": "100b10f2",
+      "raw": "e8dadcffff",
+      "instruction": "CALL 0x100aedd1",
+      "kind": "direct",
+      "targetVA": "100aedd1"
+    },
+    {
+      "method": "allocationSize",
+      "address": "100b1102",
+      "raw": "e8cbd0ffff",
+      "instruction": "CALL 0x100ae1d2",
+      "kind": "direct",
+      "targetVA": "100ae1d2"
+    },
+    {
+      "method": "allocationSize",
+      "address": "100b111a",
+      "raw": "e873a70000",
+      "instruction": "CALL 0x100bb892",
+      "kind": "direct",
+      "targetVA": "100bb892"
+    },
+    {
+      "method": "allocationSize",
+      "address": "100b1124",
+      "raw": "e850b10000",
+      "instruction": "CALL 0x100bc279",
+      "kind": "direct",
+      "targetVA": "100bc279"
+    },
+    {
+      "method": "allocationSize",
+      "address": "100b1146",
+      "raw": "e825000000",
+      "instruction": "CALL 0x100b1170",
+      "kind": "direct",
+      "targetVA": "100b1170"
+    },
+    {
+      "method": "allocationSize",
+      "address": "100b1158",
+      "raw": "ff1578962f10",
+      "instruction": "CALL dword ptr [0x102f9678]",
+      "kind": "image-indirect",
+      "slotVA": "102f9678",
+      "importEntry": {
+        "iatVA": "0x102f9678",
+        "module": "KERNEL32.dll",
+        "name": "HeapSize",
+        "ordinal": null
+      }
+    },
+    {
+      "method": "allocationSize",
+      "address": "100b1162",
+      "raw": "e846daffff",
+      "instruction": "CALL 0x100aebad",
+      "kind": "direct",
+      "targetVA": "100aebad"
+    },
+    {
+      "method": "lockExitTable",
+      "address": "100aa455",
+      "raw": "e838140100",
+      "instruction": "CALL 0x100bb892",
+      "kind": "direct",
+      "targetVA": "100bb892"
+    },
+    {
+      "method": "unlockExitTable",
+      "address": "100aa45e",
+      "raw": "e83f130100",
+      "instruction": "CALL 0x100bb7a2",
+      "kind": "direct",
+      "targetVA": "100bb7a2"
+    },
+    {
+      "method": "releaseExitTable",
+      "address": "100a72ca",
+      "raw": "e88d310000",
+      "instruction": "CALL 0x100aa45c",
+      "kind": "direct",
+      "targetVA": "100aa45c"
     },
     {
       "method": "callocWrapper",
