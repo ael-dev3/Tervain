@@ -329,3 +329,33 @@ enters EH4 using pinned scope `100f8b20` and reaches the original demangler CALL
 identities retained. The lower demangler and the remaining allocation, locking,
 copy and cleanup paths still require implementation. Emitting the full body
 does not establish those paths.
+
+### Live demangler wrapper frame prefix
+
+`100c6142` is captured and emitted with its original scope `100f8e80`. Its
+selected non-NULL allocator path enters the nested EH4 frame and reaches
+`100c6160 -> 100bb7cf`, before the CRT lock query returns. Both it and the outer
+type-info frame remain active. There are 71 bodies, 1,975 instructions and
+167 CALL receipts. The demangler grammar and output remain unimplemented on
+this live SharedBase path.
+
+### Live CRT lock-five allocation prefix
+
+Original lock initializer and malloc-wrapper bodies are captured and emitted.
+Their cold slot-five path returns a real 24-byte allocation from the existing
+SharedBase CRT heap, then stops at `100bb834 -> 100bb892`. The slot stays NULL
+until section initialization/publication; three exception frames remain active.
+There are 73 bodies, 2,061 instructions and 182 CALL receipts. The CRT lock
+table alias is the retained bootstrap image, with its identity and geometry
+validated by its owner.
+
+### Live CRT lock-five initialization/publication
+
+Original CRT lock/unlock and lock-cleanup instructions execute against the
+retained table. The source-pinned section helper runs through the existing
+owner and actual platform initializer. Original publication and EH4 cleanup
+return the lock initializer, and the demangler enters lock five. The boundary
+is `100c61aa -> 100c2351`. General heap rounding preserves the 32-byte backing
+with a bounded 24-byte physical section view. False initialization retains
+lock ten at the original unimplemented free call; forged table pointers reject.
+There are 77 bodies, 2,142 instructions and 196 CALL receipts.

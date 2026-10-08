@@ -1,0 +1,8 @@
+/* ENTRY 100bb7a2 | FUN_100bb7a2 | STATUS decompiled | 3 ms */
+
+void FUN_100bb7a2(int param_1)
+
+{
+  LeaveCriticalSection((LPCRITICAL_SECTION)(&DAT_101414b8)[param_1 * 2]);
+  return;
+}

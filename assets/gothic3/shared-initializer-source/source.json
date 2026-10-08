@@ -36,6 +36,83 @@
       "assemblySha256": "c0e9fa85bc0b8252d4d39a6081082eb7462b16e7563b7a40dfb97ab5df372827",
       "cSha256": "dfeb3753dfd27f5e66c86496039570db0a14859f2a74f77ae44221cc156521e2"
     },
+    "crtLock": {
+      "entryVA": "0x100bb892",
+      "bodyVA": "0x100bb892",
+      "bodyRanges": "100bb892-100bb8c2",
+      "instructionCount": 20,
+      "bodyByteCount": 49,
+      "bodyInstructionBytesSha256": "3d74be3e3b5df76a33034414a8a1a7b8aba7962697d3aa7790c470b0e2fbde78",
+      "entryChain": [],
+      "assemblySha256": "9072dfc5efc1a7e2dc06c8d169bd187cb303705aeae3568e5a62d02758903a0c",
+      "cSha256": "7f75013ab25c2216509b2fc97f0da3cbd53fb17b4836bfd6dc648ceef1eca019"
+    },
+    "crtUnlock": {
+      "entryVA": "0x100bb7a2",
+      "bodyVA": "0x100bb7a2",
+      "bodyRanges": "100bb7a2-100bb7b6",
+      "instructionCount": 7,
+      "bodyByteCount": 21,
+      "bodyInstructionBytesSha256": "bd77ef3907ee26a8a910d5015f4abc9206e55d072e8d12350b7dd7d59709012f",
+      "entryChain": [],
+      "assemblySha256": "00b06ca181b04cca7517ebd478488ef5ba58228c2eed87d7f2e2d6b9685e0376",
+      "cSha256": "8e5a50c4a752f6b3baea6dbf4575c40bbcf23770ad2d109e2654b31d7a7a2685"
+    },
+    "initializeLockCleanup": {
+      "entryVA": "0x100bb889",
+      "bodyVA": "0x100bb889",
+      "bodyRanges": "100bb889-100bb891",
+      "instructionCount": 4,
+      "bodyByteCount": 9,
+      "bodyInstructionBytesSha256": "7c8670c564d00524ac491f13c55e55718cd88f082aaecb91b1a141f2e86a4042",
+      "entryChain": [],
+      "assemblySha256": "cf97f6e47bb3d5e6a14c290994fca378a76924ea34858f210f2e08a774fa8d28",
+      "cSha256": "81e09acdf1ec07ce24f372a0a7a7a62c2d47c77775c32354759f94bbfa715f0d"
+    },
+    "initializeCriticalSection": {
+      "entryVA": "0x100bbf27",
+      "bodyVA": "0x100bbf27",
+      "bodyRanges": "100bbf27-100bbf61;100bbf65-100bbfac;100bbfdc-100bbfeb",
+      "instructionCount": 50,
+      "bodyByteCount": 147,
+      "bodyInstructionBytesSha256": "f73b38791ad720df5bc93afb51a63f39e6f0b3f93553464dd7b1e7fbdd27d5f5",
+      "entryChain": [],
+      "assemblySha256": "030e73fbd7807ac9961a035ea9ba4df7ddecb8937510449677391a587a5c8019",
+      "cSha256": "cebe8cb65bef0dcb305206ceb94bd8157f191afcc268aa2800e03b309323ae13"
+    },
+    "crtInitializeLock": {
+      "entryVA": "0x100bb7cf",
+      "bodyVA": "0x100bb7cf",
+      "bodyRanges": "100bb7cf-100bb888",
+      "instructionCount": 62,
+      "bodyByteCount": 186,
+      "bodyInstructionBytesSha256": "df0eb3eb3fb7dd239f6eb6ae9989fbec0fa8cea0a2a5af5e7814074a62322e6f",
+      "entryChain": [],
+      "assemblySha256": "da8ae824c3bc5a6ab4c3744e78001a0edce07406e7132ea63888782f491f7630",
+      "cSha256": "6d223663da8bebb7c7f944811b25a8e2ecf8c8837b35183c8d688e87ad7f43d5"
+    },
+    "mallocWrapper": {
+      "entryVA": "0x100aeed0",
+      "bodyVA": "0x100aeed0",
+      "bodyRanges": "100aeed0-100aef0f",
+      "instructionCount": 24,
+      "bodyByteCount": 64,
+      "bodyInstructionBytesSha256": "3f6ef57453c8e37b9df1ceeab6a3b6c85c82e2f1154926563e5fe068033dabf0",
+      "entryChain": [],
+      "assemblySha256": "19d0a8b13b02b421c5060ca2ab5c2e5f43fc3af044dc9d4613d5112d9da12c2c",
+      "cSha256": "fe56afb620665f90f5029e39f688e1ccef12cbff6d6250872233b2273b2096bb"
+    },
+    "sharedUnDName": {
+      "entryVA": "0x100c6142",
+      "bodyVA": "0x100c6142",
+      "bodyRanges": "100c6142-100c61db",
+      "instructionCount": 42,
+      "bodyByteCount": 154,
+      "bodyInstructionBytesSha256": "32ed5c40f781a671e4c68473b3c8841e96601029466960a17d200ed4798fd70f",
+      "entryChain": [],
+      "assemblySha256": "5b1ab8185ff3ae17e67f6b8bb7b2a8329c552573cf48e51bd20c733bbfdb07cb",
+      "cSha256": "37d675958b45a626327a2b179ec9369812865e91c4764de032a0ed7aafcb73b4"
+    },
     "typeInfoName": {
       "entryVA": "0x100a7099",
       "bodyVA": "0x100a7099",
@@ -1234,6 +1311,34 @@
       "containingEntry": "10005e5c",
       "methodLabel": "initializer143Getter"
     },
+    "100bb892": {
+      "containingEntry": "100bb892",
+      "methodLabel": "crtLock"
+    },
+    "100bb7a2": {
+      "containingEntry": "100bb7a2",
+      "methodLabel": "crtUnlock"
+    },
+    "100bb889": {
+      "containingEntry": "100bb889",
+      "methodLabel": "initializeLockCleanup"
+    },
+    "100bbf27": {
+      "containingEntry": "100bbf27",
+      "methodLabel": "initializeCriticalSection"
+    },
+    "100bb7cf": {
+      "containingEntry": "100bb7cf",
+      "methodLabel": "crtInitializeLock"
+    },
+    "100aeed0": {
+      "containingEntry": "100aeed0",
+      "methodLabel": "mallocWrapper"
+    },
+    "100c6142": {
+      "containingEntry": "100c6142",
+      "methodLabel": "sharedUnDName"
+    },
     "100a7099": {
       "containingEntry": "100a7099",
       "methodLabel": "typeInfoName"
@@ -1796,6 +1901,54 @@
         "rawOffset": 937984,
         "fileBackedBytes": 28,
         "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "sharedUnDNameScope": {
+      "address": "100f8e80",
+      "raw": "feffffff000000005cffffff00000000feffffff00000000dc610c10",
+      "bytes": 28,
+      "sha256": "d0a8d6af7c38c04f766c67ad7226de27dcf4198bded9ceaee6f7629246e5e72d",
+      "section": {
+        "virtualAddress": 937984,
+        "virtualSize": 366840,
+        "rawSize": 368640,
+        "rawOffset": 937984,
+        "fileBackedBytes": 28,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "crtInitializeLockScope": {
+      "address": "100f8c98",
+      "raw": "feffffff00000000d4ffffff00000000feffffff0000000089b80b10",
+      "bytes": 28,
+      "sha256": "2aa791bb93e2fdc73de76e8dbf86e6e23b2fd71da91419b1b94a9d30f08c2544",
+      "section": {
+        "virtualAddress": 937984,
+        "virtualSize": 366840,
+        "rawSize": 368640,
+        "rawOffset": 937984,
+        "fileBackedBytes": 28,
+        "loaderZeroFillBytes": 0
+      },
+      "scope": "cold-original-image",
+      "liveValueCaptured": false
+    },
+    "sharedDemanglerHeap": {
+      "address": "102f6f1c",
+      "raw": "0000000000000000000000000000000000000000",
+      "bytes": 20,
+      "sha256": "de47c9b27eb8d300dbb5f2c353e632c393262cf06340c4fa7f1b40c4cbd36f90",
+      "section": {
+        "virtualAddress": 1306624,
+        "virtualSize": 1807760,
+        "rawSize": 16384,
+        "rawOffset": 1306624,
+        "fileBackedBytes": 0,
+        "loaderZeroFillBytes": 20
       },
       "scope": "cold-original-image",
       "liveValueCaptured": false
@@ -2568,6 +2721,331 @@
       "instruction": "CALL 0x100a72d0",
       "kind": "direct",
       "targetVA": "100a72d0"
+    },
+    {
+      "method": "crtLock",
+      "address": "100bb8a6",
+      "raw": "e824ffffff",
+      "instruction": "CALL 0x100bb7cf",
+      "kind": "direct",
+      "targetVA": "100bb7cf"
+    },
+    {
+      "method": "crtLock",
+      "address": "100bb8b2",
+      "raw": "e83debfeff",
+      "instruction": "CALL 0x100aa3f4",
+      "kind": "direct",
+      "targetVA": "100aa3f4"
+    },
+    {
+      "method": "crtLock",
+      "address": "100bb8ba",
+      "raw": "ff1504962f10",
+      "instruction": "CALL dword ptr [0x102f9604]",
+      "kind": "image-indirect",
+      "slotVA": "102f9604",
+      "importEntry": {
+        "iatVA": "0x102f9604",
+        "module": "KERNEL32.dll",
+        "name": "EnterCriticalSection",
+        "ordinal": null
+      }
+    },
+    {
+      "method": "crtUnlock",
+      "address": "100bb7af",
+      "raw": "ff1508962f10",
+      "instruction": "CALL dword ptr [0x102f9608]",
+      "kind": "image-indirect",
+      "slotVA": "102f9608",
+      "importEntry": {
+        "iatVA": "0x102f9608",
+        "module": "KERNEL32.dll",
+        "name": "LeaveCriticalSection",
+        "ordinal": null
+      }
+    },
+    {
+      "method": "initializeLockCleanup",
+      "address": "100bb88b",
+      "raw": "e812ffffff",
+      "instruction": "CALL 0x100bb7a2",
+      "kind": "direct",
+      "targetVA": "100bb7a2"
+    },
+    {
+      "method": "initializeCriticalSection",
+      "address": "100bbf2e",
+      "raw": "e8352cffff",
+      "instruction": "CALL 0x100aeb68",
+      "kind": "direct",
+      "targetVA": "100aeb68"
+    },
+    {
+      "method": "initializeCriticalSection",
+      "address": "100bbf3e",
+      "raw": "e8af23ffff",
+      "instruction": "CALL 0x100ae2f2",
+      "kind": "direct",
+      "targetVA": "100ae2f2"
+    },
+    {
+      "method": "initializeCriticalSection",
+      "address": "100bbf4e",
+      "raw": "e84ae5feff",
+      "instruction": "CALL 0x100aa49d",
+      "kind": "direct",
+      "targetVA": "100aa49d"
+    },
+    {
+      "method": "initializeCriticalSection",
+      "address": "100bbf5d",
+      "raw": "e83c21ffff",
+      "instruction": "CALL 0x100ae09e",
+      "kind": "direct",
+      "targetVA": "100ae09e"
+    },
+    {
+      "method": "initializeCriticalSection",
+      "address": "100bbf70",
+      "raw": "ff1568972f10",
+      "instruction": "CALL dword ptr [0x102f9768]",
+      "kind": "image-indirect",
+      "slotVA": "102f9768",
+      "importEntry": {
+        "iatVA": "0x102f9768",
+        "module": "KERNEL32.dll",
+        "name": "GetModuleHandleA",
+        "ordinal": null
+      }
+    },
+    {
+      "method": "initializeCriticalSection",
+      "address": "100bbf80",
+      "raw": "ff1548962f10",
+      "instruction": "CALL dword ptr [0x102f9648]",
+      "kind": "image-indirect",
+      "slotVA": "102f9648",
+      "importEntry": {
+        "iatVA": "0x102f9648",
+        "module": "KERNEL32.dll",
+        "name": "GetProcAddress",
+        "ordinal": null
+      }
+    },
+    {
+      "method": "initializeCriticalSection",
+      "address": "100bbf92",
+      "raw": "e8e422ffff",
+      "instruction": "CALL 0x100ae27b",
+      "kind": "direct",
+      "targetVA": "100ae27b"
+    },
+    {
+      "method": "initializeCriticalSection",
+      "address": "100bbfa6",
+      "raw": "ffd6",
+      "instruction": "CALL ESI",
+      "kind": "register-or-memory-indirect"
+    },
+    {
+      "method": "initializeCriticalSection",
+      "address": "100bbfe6",
+      "raw": "e8c22bffff",
+      "instruction": "CALL 0x100aebad",
+      "kind": "direct",
+      "targetVA": "100aebad"
+    },
+    {
+      "method": "crtInitializeLock",
+      "address": "100bb7d6",
+      "raw": "e88d33ffff",
+      "instruction": "CALL 0x100aeb68",
+      "kind": "direct",
+      "targetVA": "100aeb68"
+    },
+    {
+      "method": "crtInitializeLock",
+      "address": "100bb7eb",
+      "raw": "e84957ffff",
+      "instruction": "CALL 0x100b0f39",
+      "kind": "direct",
+      "targetVA": "100b0f39"
+    },
+    {
+      "method": "crtInitializeLock",
+      "address": "100bb7f2",
+      "raw": "e88255ffff",
+      "instruction": "CALL 0x100b0d79",
+      "kind": "direct",
+      "targetVA": "100b0d79"
+    },
+    {
+      "method": "crtInitializeLock",
+      "address": "100bb7fc",
+      "raw": "e83decfeff",
+      "instruction": "CALL 0x100aa43e",
+      "kind": "direct",
+      "targetVA": "100aa43e"
+    },
+    {
+      "method": "crtInitializeLock",
+      "address": "100bb817",
+      "raw": "e8b436ffff",
+      "instruction": "CALL 0x100aeed0",
+      "kind": "direct",
+      "targetVA": "100aeed0"
+    },
+    {
+      "method": "crtInitializeLock",
+      "address": "100bb823",
+      "raw": "e8a935ffff",
+      "instruction": "CALL 0x100aedd1",
+      "kind": "direct",
+      "targetVA": "100aedd1"
+    },
+    {
+      "method": "crtInitializeLock",
+      "address": "100bb834",
+      "raw": "e859000000",
+      "instruction": "CALL 0x100bb892",
+      "kind": "direct",
+      "targetVA": "100bb892"
+    },
+    {
+      "method": "crtInitializeLock",
+      "address": "100bb847",
+      "raw": "e8db060000",
+      "instruction": "CALL 0x100bbf27",
+      "kind": "direct",
+      "targetVA": "100bbf27"
+    },
+    {
+      "method": "crtInitializeLock",
+      "address": "100bb853",
+      "raw": "e84cf1feff",
+      "instruction": "CALL 0x100aa9a4",
+      "kind": "direct",
+      "targetVA": "100aa9a4"
+    },
+    {
+      "method": "crtInitializeLock",
+      "address": "100bb859",
+      "raw": "e87335ffff",
+      "instruction": "CALL 0x100aedd1",
+      "kind": "direct",
+      "targetVA": "100aedd1"
+    },
+    {
+      "method": "crtInitializeLock",
+      "address": "100bb86e",
+      "raw": "e831f1feff",
+      "instruction": "CALL 0x100aa9a4",
+      "kind": "direct",
+      "targetVA": "100aa9a4"
+    },
+    {
+      "method": "crtInitializeLock",
+      "address": "100bb87b",
+      "raw": "e809000000",
+      "instruction": "CALL 0x100bb889",
+      "kind": "direct",
+      "targetVA": "100bb889"
+    },
+    {
+      "method": "crtInitializeLock",
+      "address": "100bb883",
+      "raw": "e82533ffff",
+      "instruction": "CALL 0x100aebad",
+      "kind": "direct",
+      "targetVA": "100aebad"
+    },
+    {
+      "method": "mallocWrapper",
+      "address": "100aeed8",
+      "raw": "e819bcffff",
+      "instruction": "CALL 0x100aaaf6",
+      "kind": "direct",
+      "targetVA": "100aaaf6"
+    },
+    {
+      "method": "mallocWrapper",
+      "address": "100aeeed",
+      "raw": "ff15e4952f10",
+      "instruction": "CALL dword ptr [0x102f95e4]",
+      "kind": "image-indirect",
+      "slotVA": "102f95e4",
+      "importEntry": {
+        "iatVA": "0x102f95e4",
+        "module": "KERNEL32.dll",
+        "name": "Sleep",
+        "ordinal": null
+      }
+    },
+    {
+      "method": "sharedUnDName",
+      "address": "100c614c",
+      "raw": "e8178afeff",
+      "instruction": "CALL 0x100aeb68",
+      "kind": "direct",
+      "targetVA": "100aeb68"
+    },
+    {
+      "method": "sharedUnDName",
+      "address": "100c6160",
+      "raw": "e86a56ffff",
+      "instruction": "CALL 0x100bb7cf",
+      "kind": "direct",
+      "targetVA": "100bb7cf"
+    },
+    {
+      "method": "sharedUnDName",
+      "address": "100c616c",
+      "raw": "e82157ffff",
+      "instruction": "CALL 0x100bb892",
+      "kind": "direct",
+      "targetVA": "100bb892"
+    },
+    {
+      "method": "sharedUnDName",
+      "address": "100c61aa",
+      "raw": "e8a2c1ffff",
+      "instruction": "CALL 0x100c2351",
+      "kind": "direct",
+      "targetVA": "100c2351"
+    },
+    {
+      "method": "sharedUnDName",
+      "address": "100c61b5",
+      "raw": "e8d5fcffff",
+      "instruction": "CALL 0x100c5e8f",
+      "kind": "direct",
+      "targetVA": "100c5e8f"
+    },
+    {
+      "method": "sharedUnDName",
+      "address": "100c61c2",
+      "raw": "e816b3ffff",
+      "instruction": "CALL 0x100c14dd",
+      "kind": "direct",
+      "targetVA": "100c14dd"
+    },
+    {
+      "method": "sharedUnDName",
+      "address": "100c61ce",
+      "raw": "e809000000",
+      "instruction": "CALL 0x100c61dc",
+      "kind": "direct",
+      "targetVA": "100c61dc"
+    },
+    {
+      "method": "sharedUnDName",
+      "address": "100c61d6",
+      "raw": "e8d289feff",
+      "instruction": "CALL 0x100aebad",
+      "kind": "direct",
+      "targetVA": "100aebad"
     },
     {
       "method": "typeInfoName",
