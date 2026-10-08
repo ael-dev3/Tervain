@@ -459,3 +459,18 @@ type-info frame. The name and node remain live.
 Execution stops at `1008e93e -> 100088cd`. There are 121 bodies, 4,667
 instructions and 438 CALL receipts. Final class-name construction, initializer
 return, full startup and campaign integration remain unfinished.
+
+
+### Original class-name constructor and 24-byte pool
+
+Original unmangling follows strstr/strchr to the text after `class ` and calls
+the original bCString constructor. The 24-byte pool reserves 0xc0000 bytes,
+initializes its bitmap and descriptor, registers its pointer area, and claims
+the first slot. Comparisons between distinct owned regions use the selected
+platform's retained order and establish only the CF/ZF needed by the original
+branch. The cached CRT allocation supplies the 16-byte terminated payload.
+Initializer 142 publishes its result and registers callback 100079ff.
+
+There are 125 bodies, 4,898 instructions and 444 CALL receipts. All 238 generated
+files and the instruction module reproduce exactly. Execution next stops at
+`100aa692 -> 100e1610`. Full startup and campaign integration remain unfinished.
