@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import type { Quality } from './context';
 import { checkCancelled, type CooperativeOptions } from '../platform/cooperative';
 
 /**
@@ -458,11 +459,29 @@ async function textureDataInWorker(size: number, options: TerrainTextureOptions)
   });
 }
 
+/** Texels across each ground layer for each preset. */
+export const TERRAIN_TEXTURE_SIZE: Record<Quality, number> = { high: 1024, medium: 768, low: 256 };
+
+/** Pixels a worker is already making ahead of the world build (A68), by size; the next build of that size takes them. */
+const ahead = new Map<number, Promise<TerrainTextureData | null>>();
+
+/**
+ * Start the worker on a size's pixels now, while the world's models download, so they are ready when the build asks
+ * for them (A68). Hosts without workers make them in the build as before.
+ */
+export function prefetchTerrainTextureData(size: number) {
+  if (ahead.has(size) || typeof Worker === 'undefined') return;
+  ahead.set(size, textureDataInWorker(size, {}).catch(() => null));
+}
+
 /** Builds GPU texture handles on the main thread after the worker has transferred its pixel buffers. */
 export async function makeTerrainTextures(size: number, yieldNow: () => Promise<void> = async () => {}, options: TerrainTextureOptions = {}): Promise<TerrainTextures> {
   if (!Number.isInteger(size) || size < 1) throw new Error('Terrain texture size must be a positive integer.');
   checkCancelled(options.signal);
-  const data = await textureDataInWorker(size, options) ?? await generateTerrainTextureData(size, yieldNow, options);
+  // Pixels made ahead are used once: they become this world's textures, and a later build makes its own.
+  const early = options.worker === false ? undefined : ahead.get(size);
+  ahead.delete(size);
+  const data = (early ? await early : null) ?? await textureDataInWorker(size, options) ?? await generateTerrainTextureData(size, yieldNow, options);
   checkCancelled(options.signal);
   const n = size;
   const mk = (data: Uint8Array, srgb: boolean) => {

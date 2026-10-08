@@ -136,7 +136,7 @@ export function buildMenuMeadow(opts: MenuMeadowOptions): MenuMeadow {
   const view = Math.atan2(MENU_CAMERA.lookX - MENU_CAMERA.x, MENU_CAMERA.lookZ - MENU_CAMERA.z);
   // At dusk the low sun shines straight through the heath toward the lens: the tips and seed heads glow against the
   // darker tufts.
-  const look = { rootShade: 0.2, tipLift: 0.45, translucency: 0.95, sheen: 0.35, transTint: new THREE.Color(1.12, 1.16, 0.5) };
+  const look = { rootShade: 0.2, tipLift: 0.38, translucency: 0.9, sheen: 0.25, transTint: new THREE.Color(1.12, 1.16, 0.5) };
   const spot: MeadowSpot = { cover: 0, height: 0, dry: 0, flowers: 0, heather: 0, shade: 0 };
   const tint = new THREE.Color();
   const materials: GrassMaterial[] = [];

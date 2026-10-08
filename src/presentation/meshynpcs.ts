@@ -19,6 +19,7 @@ import { clipsFor, LOCOMOTION, measureSeat, ResidentMotion, residentMotionLibrar
 import { BENCH_SEAT_HEIGHT } from '../world/layout';
 import { modelAssetUrl } from './assets/modelUrl';
 import { withModelLoadSlot, type ModelLoadProgress } from './assets/modelLoadQueue';
+import { downloadAsset } from './assets/download';
 
 export const NPC_TRIANGLE_LIMIT = 50_000;
 export const NPC_ROLES = [
@@ -679,12 +680,8 @@ const rigRequests = new Map<string, Promise<ResidentRigData | null>>();
 let libraryRequest: Promise<ResidentMotionLibrary | null> | null = null;
 
 /** A small file the manifest lists, checked by size and hash before it is used. */
-async function fetchChecked(file: MeshyNpcFile): Promise<ArrayBuffer> {
-  const buffer = await fetchNpc(meshyNpcUrl(file.file));
-  if (buffer.byteLength !== file.bytes) throw new Error(`${file.file} download is incomplete.`);
-  const digest = [...new Uint8Array(await crypto.subtle.digest('SHA-256', buffer))].map(byte => byte.toString(16).padStart(2, '0')).join('');
-  if (digest !== file.sha256) throw new Error(`${file.file} failed its integrity check.`);
-  return buffer;
+function fetchChecked(file: MeshyNpcFile): Promise<ArrayBuffer> {
+  return downloadAsset(meshyNpcUrl(file.file), { label: file.file, bytes: file.bytes, sha256: file.sha256 });
 }
 
 /**
@@ -725,16 +722,8 @@ interface CatalogProgress { loaded: number; total: number; complete: boolean; fa
 const catalogs = new Map<string, { request: Promise<MeshyNpcCatalog>; progress: CatalogProgress }>();
 let manifestRequest: Promise<MeshyNpcManifest> | null = null;
 
-async function fetchNpc(url: URL): Promise<ArrayBuffer> {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 60_000);
-  try {
-    const response = await fetch(url, { signal: controller.signal });
-    if (!response.ok) throw new Error(`Resident models could not load (HTTP ${response.status}).`);
-    if (response.headers.get('content-type')?.includes('text/html')) throw new Error('Resident model URL returned a page instead of model data.');
-    // Buffer while the timeout still covers the download, not just response headers.
-    return await response.arrayBuffer();
-  } finally { clearTimeout(timeout); }
+function fetchNpc(url: URL): Promise<ArrayBuffer> {
+  return downloadAsset(url, { label: 'Resident models' });
 }
 
 function loadNpcManifest(): Promise<MeshyNpcManifest> {
@@ -778,12 +767,10 @@ export function loadMeshyNpcCatalog(progress?: ModelLoadProgress, requiredRoles:
           let template = templates.get(key);
           if (!template) {
             template = withModelLoadSlot(async () => {
-              const buffer = await fetchNpc(url);
-              if (buffer.byteLength !== entry.bytes || buffer.byteLength < 20) throw new Error(`Resident ${id} download is incomplete.`);
+              const buffer = await downloadAsset(url, { label: `Resident ${id}`, bytes: entry.bytes, sha256: entry.sha256 });
+              if (buffer.byteLength < 20) throw new Error(`Resident ${id} download is incomplete.`);
               const header = new DataView(buffer);
               if (header.getUint32(0, true) !== 0x46546c67 || header.getUint32(4, true) !== 2 || header.getUint32(8, true) !== buffer.byteLength) throw new Error(`Resident ${id} is not a complete GLB 2 file.`);
-              const digest = [...new Uint8Array(await crypto.subtle.digest('SHA-256', buffer))].map(byte => byte.toString(16).padStart(2, '0')).join('');
-              if (digest !== entry.sha256) throw new Error(`Resident ${id} download failed its integrity check.`);
               const asset = await new GLTFLoader().parseAsync(buffer, new URL('.', url).href);
               validateMeshyNpcAsset(asset, entry);
               return asset;

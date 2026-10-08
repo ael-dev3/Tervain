@@ -48,15 +48,17 @@ describe('required woodland loading', () => {
     await expect(loadSolitaryPine()).resolves.toHaveLength(3);
   });
 
-  it('aborts a stalled request and allows Retry to fetch the missing level', async () => {
+  it('abandons a stalled request and fetches the level again within the same load', async () => {
     vi.useFakeTimers();
     fetchMock.mockImplementationOnce((_url, options) => new Promise((_resolve, reject) => {
       options!.signal!.addEventListener('abort', () => reject(new Error('forest download timed out')));
     }));
     const { loadSolitaryPine } = await import('../../src/presentation/solitaryPine');
-    const stalled = loadSolitaryPine(); const rejection = expect(stalled).rejects.toThrow('timed out');
-    await vi.advanceTimersByTimeAsync(60_000); await rejection;
-    await expect(loadSolitaryPine()).resolves.toHaveLength(3);
+    const { DOWNLOAD_POLICY } = await import('../../src/presentation/assets/download');
+    DOWNLOAD_POLICY.backoffMs = [0, 0];
+    const loading = loadSolitaryPine();
+    await vi.advanceTimersByTimeAsync(DOWNLOAD_POLICY.stallMs);
+    await expect(loading).resolves.toHaveLength(3);
     expect(fetchMock).toHaveBeenCalledTimes(4);
   });
 });

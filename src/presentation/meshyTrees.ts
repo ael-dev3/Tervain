@@ -6,6 +6,7 @@ import { deduplicateTreeTextures } from './treeTexturePool';
 import { sampleLeafSurfaceSites } from './leafSurfaceSites';
 import { modelAssetUrl } from './assets/modelUrl';
 import { withModelLoadSlot } from './assets/modelLoadQueue';
+import { downloadAsset } from './assets/download';
 
 /** Owner-supplied sources. Plinth-bearing 3106/1459 are prepared reserves, not active plantings. */
 export const MESHY_TREE_IDS = ['fir-spire', 'oak-elder', 'palm-date', 'palm-fan', 'palm-lean', 'tree-0208', 'tree-1537', 'tree-1527', 'tree-1521', 'tree-4949', 'tree-1505', 'tree-4815', 'verdant-sentinel'] as const;
@@ -74,27 +75,22 @@ async function load(id: string, lod: typeof MESHY_TREE_LODS[number]): Promise<GL
   const key = `${id}:${lod}`, existing = pending.get(key);
   if (existing) return existing;
   const request = withModelLoadSlot(async () => {
-    const controller = new AbortController(), timeout = setTimeout(() => controller.abort(), 120_000);
+    const url = meshyTreeUrl(id, lod);
+    const buffer = await downloadAsset(url, { label: `Tree ${id}`, model: `flora/meshy-012/${id}-${lod}.glb` });
+    if (buffer.byteLength < 12) throw new Error(`Tree ${id} download is incomplete.`);
+    const header = new DataView(buffer);
+    if (header.getUint32(0, true) !== 0x46546c67 || header.getUint32(4, true) !== 2 || header.getUint32(8, true) !== buffer.byteLength) throw new Error(`Tree ${id} is not a complete GLB 2 file.`);
+    const gltf = await new GLTFLoader().parseAsync(buffer, new URL('.', url).href);
     try {
-      const url = meshyTreeUrl(id, lod), response = await fetch(url, { signal: controller.signal });
-      if (!response.ok) throw new Error(`Tree ${id} could not load (HTTP ${response.status}).`);
-      if (response.headers.get('content-type')?.includes('text/html')) throw new Error(`Tree ${id} returned a page instead of model data.`);
-      const buffer = await response.arrayBuffer();
-      if (buffer.byteLength < 12) throw new Error(`Tree ${id} download is incomplete.`);
-      const header = new DataView(buffer);
-      if (header.getUint32(0, true) !== 0x46546c67 || header.getUint32(4, true) !== 2 || header.getUint32(8, true) !== buffer.byteLength) throw new Error(`Tree ${id} is not a complete GLB 2 file.`);
-      const gltf = await new GLTFLoader().parseAsync(buffer, new URL('.', url).href);
-    try {
-        const bounds = new THREE.Box3().setFromObject(gltf.scene);
-        if (bounds.isEmpty() || ![...bounds.min, ...bounds.max].every(Number.isFinite)) throw new Error(`Tree ${id} has invalid geometry bounds.`);
-        assertDecodedTreeTextures(gltf, meshyTreeParts(gltf));
-        await deduplicateTreeTextures(gltf, buffer);
-      } catch (error) {
-        disposeRejectedTree(gltf);
-        throw error;
-      }
-      return gltf;
-    } finally { clearTimeout(timeout); }
+      const bounds = new THREE.Box3().setFromObject(gltf.scene);
+      if (bounds.isEmpty() || ![...bounds.min, ...bounds.max].every(Number.isFinite)) throw new Error(`Tree ${id} has invalid geometry bounds.`);
+      assertDecodedTreeTextures(gltf, meshyTreeParts(gltf));
+      await deduplicateTreeTextures(gltf, buffer);
+    } catch (error) {
+      disposeRejectedTree(gltf);
+      throw error;
+    }
+    return gltf;
   }).catch((error: unknown) => { pending.delete(key); throw error; });
   pending.set(key, request);
   return request;

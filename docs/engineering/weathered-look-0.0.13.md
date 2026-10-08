@@ -92,7 +92,7 @@ puts a floor under the final roughness, keeping the maps' variation above it:
 | Residents | Skin roughness 0.52 → 0.6, leather 0.64 → 0.74, steel 0.4 → 0.52; cloth's grazing sheen 0.22 → 0.14 |
 | Metal props built in code | Barrel and crate hoops, residents' weapons and tools, arrows and the hunting steel: roughness 0.7–0.74, metalness 0.45–0.5 |
 | Movable props' wood | Roughness 0.86 → 0.92 |
-| Grass | Sheen 0.5 → 0.34 |
+| Grass | Sheen 0.5 → 0.34; since A68 the grass's whole light is matte (see the [loading and grass record](loading-performance.md#slow-connections-returning-visitors-and-parallel-downloads-a68-0013)) |
 
 Two of the boars were authored almost fully metallic, and a cat, a deer and a dog were polished.
 

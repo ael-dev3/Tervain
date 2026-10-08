@@ -1406,6 +1406,7 @@ body.high-contrast.tv-materials .panel.surface-paper {
 .loading-error { position: relative; width: min(540px, calc(100vw - 48px)); max-height: calc(100dvh - 32px); overflow: auto; padding: 30px; border: 1px solid #a2824d; color: var(--menu-ink); background: #2c1713; font: 400 1rem/1.5 var(--menu-serif); font-variant: normal; letter-spacing: normal; text-transform: none; text-shadow: none; box-shadow: 0 10px 50px #0009; }
 .loading-error h1 { margin: 14px 0 12px; font-size: 1.65rem; font-weight: 500; color: var(--menu-ink-hot); }
 .loading-error-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+.loading-error-detail { margin: 12px 0 0; font-size: .82rem; line-height: 1.4; color: var(--menu-ink); opacity: .72; overflow-wrap: anywhere; }
 .loading-error .btn { min-height: 42px; padding: 8px 18px; font: inherit; border-color: #a2824d; background: #17120e; color: var(--menu-ink); }
 .loading-error .btn.primary { background: #513425; color: #f1ddb5; }
 .loading-error .btn:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }

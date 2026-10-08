@@ -5,6 +5,7 @@ import { FURNITURE_SIZES, type FurnitureId } from '../world/furnitureSizes';
 import { fromBuildingLocal, type InteriorSpec, type RoomLocator } from '../world/interiors';
 import { modelAssetUrl } from './assets/modelUrl';
 import { observeModelLoad, withModelLoadSlot, type ModelLoadProgress } from './assets/modelLoadQueue';
+import { downloadAsset } from './assets/download';
 import type { FrameContext, SceneModule } from './context';
 import { roughnessFloor } from './matte';
 
@@ -25,22 +26,8 @@ export const FURNITURE_TRIANGLE_LIMIT = 6000;
 
 const url = (file: string) => modelAssetUrl(`furniture/${file}`, import.meta.env.BASE_URL, document.baseURI);
 
-async function fetchChecked(file: string, bytes?: number, sha256?: string): Promise<ArrayBuffer> {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 60_000);
-  try {
-    const response = await fetch(url(file), { signal: controller.signal });
-    if (!response.ok) throw new Error(`Furniture ${file} could not load (HTTP ${response.status}).`);
-    if (response.headers.get('content-type')?.includes('text/html')) throw new Error(`Furniture ${file} returned a page instead of data.`);
-    const data = await response.arrayBuffer();
-    if (bytes !== undefined && data.byteLength !== bytes) throw new Error(`Furniture ${file} download is incomplete.`);
-    if (sha256) {
-      const digest = [...new Uint8Array(await crypto.subtle.digest('SHA-256', data))].map((b) => b.toString(16).padStart(2, '0')).join('');
-      if (digest !== sha256) throw new Error(`Furniture ${file} failed its integrity check.`);
-    }
-    return data;
-  } finally { clearTimeout(timeout); }
-}
+const fetchChecked = (file: string, bytes?: number, sha256?: string): Promise<ArrayBuffer> =>
+  downloadAsset(url(file), { label: `Furniture ${file}`, bytes, sha256, holds: 'data' });
 
 /** A prepared piece's one mesh, checked against its budget. */
 function pieceMesh(id: FurnitureId, gltf: GLTF) {
@@ -63,22 +50,25 @@ let pending: Promise<FurnitureTemplates> | null = null;
 /** Required art: every piece the rooms use, checked by size and hash. A failure reaches the loading screen's Retry. */
 export function loadFurniture(progress?: ModelLoadProgress): Promise<FurnitureTemplates> {
   if (pending) return observeModelLoad(pending, progress);
-  pending = withModelLoadSlot(async () => {
+  pending = (async () => {
     const manifest = JSON.parse(new TextDecoder().decode(await fetchChecked('manifest.json'))) as FurnitureManifest;
     if (manifest.schema !== 1 || !Array.isArray(manifest.pieces)) throw new Error('The furniture manifest is incompatible.');
-    const templates: FurnitureTemplates = new Map();
-    const loader = new GLTFLoader();
-    for (const id of Object.keys(FURNITURE_SIZES) as FurnitureId[]) {
+    const ids = Object.keys(FURNITURE_SIZES) as FurnitureId[];
+    const pieces = ids.map((id) => {
       const piece = manifest.pieces.find((p) => p.id === id);
       if (!piece || !/^[a-z]+\.glb$/.test(piece.file)) throw new Error(`The furniture manifest lacks ${id}.`);
+      return piece;
+    });
+    // Each piece downloads and decodes in its own load slot, side by side with the other models (A68).
+    const meshes = await Promise.all(pieces.map((piece) => withModelLoadSlot(async () => {
       const data = await fetchChecked(piece.file, piece.bytes, piece.sha256);
-      const mesh = pieceMesh(id, await loader.parseAsync(data, new URL('.', url(piece.file)).href));
+      const mesh = pieceMesh(piece.id, await new GLTFLoader().parseAsync(data, new URL('.', url(piece.file)).href));
       // Worn wood and old iron: nothing in a room is polished (A67).
       roughnessFloor(mesh.material, 0.72).envMapIntensity = 0.8;
-      templates.set(id, mesh);
-    }
-    return templates;
-  }).catch((error) => { pending = null; throw error; });
+      return mesh;
+    })));
+    return new Map(ids.map((id, i) => [id, meshes[i]!])) as FurnitureTemplates;
+  })().catch((error) => { pending = null; throw error; });
   return observeModelLoad(pending, progress);
 }
 

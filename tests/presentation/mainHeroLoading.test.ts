@@ -37,6 +37,7 @@ function malformed(field: number, value: number) {
 const parsedHero = { scene: { name: 'approved-main-hero' }, animations: [] } as unknown as GLTF;
 const fetchMock = vi.fn<typeof fetch>();
 let subject: typeof import('../../src/presentation/mainHero');
+let policy: typeof import('../../src/presentation/assets/download').DOWNLOAD_POLICY;
 
 beforeEach(async () => {
   vi.resetModules();
@@ -48,6 +49,10 @@ beforeEach(async () => {
   vi.stubGlobal('document', { baseURI: 'https://ael-dev3.github.io/Tervain/index.html' });
   vi.stubEnv('BASE_URL', './');
   subject = await import('../../src/presentation/mainHero');
+  // The reset module graph has its own download policy: keep its tries, without the pauses between them.
+  const download = await import('../../src/presentation/assets/download');
+  download.DOWNLOAD_POLICY.backoffMs = [0, 0];
+  policy = download.DOWNLOAD_POLICY;
 });
 
 afterEach(() => {
@@ -109,7 +114,7 @@ describe('main hero transport and loading-screen retry', () => {
   });
 
   it.each([
-    { name: 'HTTP failure', response: () => new Response('unavailable', { status: 503 }), message: /HTTP 503/ },
+    { name: 'HTTP failure', response: () => new Response('missing', { status: 404 }), message: /HTTP 404/ },
     { name: 'HTML fallback page', response: () => new Response('<html>Pages 404</html>', { headers: { 'content-type': 'text/html; charset=utf-8' } }), message: /page instead of model data/ },
     { name: 'truncated header', response: () => new Response(new ArrayBuffer(8)), message: /download is incomplete/ },
     { name: 'wrong GLB magic', response: () => new Response(malformed(0, 0)), message: /not a complete GLB 2 file/ },
@@ -133,14 +138,28 @@ describe('main hero transport and loading-screen retry', () => {
     expect(vi.getTimerCount()).toBe(0);
   });
 
-  it('releases a failed network request instead of caching its rejection', async () => {
-    const outage = new TypeError('network offline');
-    fetchMock.mockRejectedValueOnce(outage).mockResolvedValueOnce(new Response(glb()));
-    await expect(subject.loadMainHero()).rejects.toBe(outage);
-    expect(loaderMock.construct).not.toHaveBeenCalled();
-    expect(vi.getTimerCount()).toBe(0);
+  it.each([
+    { name: 'server error', fail: () => fetchMock.mockResolvedValueOnce(new Response('unavailable', { status: 503 })) },
+    { name: 'rate limit', fail: () => fetchMock.mockResolvedValueOnce(new Response('slow down', { status: 429 })) },
+    { name: 'network outage', fail: () => fetchMock.mockRejectedValueOnce(new TypeError('network offline')) },
+  ])('tries again after a passing $name within the same load', async ({ fail }) => {
+    fail();
+    fetchMock.mockResolvedValueOnce(new Response(glb()));
     await expect(subject.loadMainHero()).resolves.toBe(parsedHero);
     expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(loaderMock.parseAsync).toHaveBeenCalledOnce();
+    expect(vi.getTimerCount()).toBe(0);
+  });
+
+  it('reports a failure that lasts through every try, and releases it so Retry downloads afresh', async () => {
+    fetchMock.mockRejectedValue(new TypeError('network offline'));
+    await expect(subject.loadMainHero()).rejects.toThrow(/network offline/);
+    expect(fetchMock).toHaveBeenCalledTimes(policy.attempts);
+    expect(loaderMock.construct).not.toHaveBeenCalled();
+    expect(vi.getTimerCount()).toBe(0);
+    fetchMock.mockReset().mockResolvedValueOnce(new Response(glb()));
+    await expect(subject.loadMainHero()).resolves.toBe(parsedHero);
+    expect(fetchMock).toHaveBeenCalledOnce();
   });
 
   it('releases a GLTF parser rejection and parses the newly downloaded retry', async () => {
@@ -159,23 +178,37 @@ describe('main hero transport and loading-screen retry', () => {
     expect(vi.getTimerCount()).toBe(0);
   });
 
-  it('aborts a stalled download after 60 seconds and lets Retry create a fresh request', async () => {
+  it('abandons a download once no data has come for the stall time, and tries again with a fresh request', async () => {
     let stalledSignal!: AbortSignal;
     fetchMock.mockImplementationOnce((_url, options) => new Promise((_resolve, reject) => {
       stalledSignal = options!.signal!;
       stalledSignal.addEventListener('abort', () => reject(new DOMException('download timed out', 'AbortError')), { once: true });
     })).mockResolvedValueOnce(new Response(glb()));
-    const stalled = subject.loadMainHero();
-    const rejected = expect(stalled).rejects.toMatchObject({ name: 'AbortError' });
-    await vi.advanceTimersByTimeAsync(59_999);
+    const loading = subject.loadMainHero();
+    await vi.advanceTimersByTimeAsync(policy.stallMs - 1);
     expect(stalledSignal.aborted).toBe(false);
     await vi.advanceTimersByTimeAsync(1);
-    await rejected;
+    await expect(loading).resolves.toBe(parsedHero);
     expect(stalledSignal.aborted).toBe(true);
-    expect(vi.getTimerCount()).toBe(0);
-    await expect(subject.loadMainHero()).resolves.toBe(parsedHero);
     const retrySignal = fetchMock.mock.calls[1]![1]!.signal;
     expect(retrySignal).not.toBe(stalledSignal);
     expect(retrySignal?.aborted).toBe(false);
+    expect(vi.getTimerCount()).toBe(0);
+  });
+
+  it('keeps a slow download going for as long as data keeps arriving', async () => {
+    const body = new Uint8Array(glb());
+    let push!: (chunk: Uint8Array | null) => void;
+    const stream = new ReadableStream<Uint8Array>({ start(controller) { push = (chunk) => chunk ? controller.enqueue(chunk) : controller.close(); } });
+    fetchMock.mockResolvedValueOnce(new Response(stream));
+    const loading = subject.loadMainHero();
+    // A byte every 40 s: well past the old fixed 60 s, but never a stall.
+    for (let i = 0; i < body.length; i++) {
+      await vi.advanceTimersByTimeAsync(policy.stallMs - 5_000);
+      push(body.subarray(i, i + 1));
+    }
+    push(null);
+    await expect(loading).resolves.toBe(parsedHero);
+    expect(fetchMock).toHaveBeenCalledOnce();
   });
 });

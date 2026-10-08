@@ -57,7 +57,7 @@ describe('shared required-model loading budget', () => {
     expect(fetcher).toHaveBeenCalledTimes(6); expect(parse).toHaveBeenCalledTimes(6);
   });
 
-  it('starts the queued model timeout when its download starts and retries only the failed active model', async () => {
+  it('starts the stall allowance of a queued model when its download starts, and retries a dropped download in its own slot', async () => {
     vi.useFakeTimers();
     const waiting: (() => void)[] = [], signals: AbortSignal[] = [];
     let rejectFirst!: (error: Error) => void;
@@ -70,25 +70,28 @@ describe('shared required-model loading budget', () => {
       });
     });
     vi.stubGlobal('fetch', fetcher); parse.mockImplementation(async buffer => model(new DataView(buffer).getUint8(12)));
-    const [{ loadMainHero }, { loadSolitaryPine }, { loadSourceRockPile }] = await Promise.all([
+    const [{ loadMainHero }, { loadSolitaryPine }, { loadSourceRockPile }, { DOWNLOAD_POLICY }] = await Promise.all([
       import('../../src/presentation/mainHero'), import('../../src/presentation/solitaryPine'), import('../../src/presentation/sourceRockPile'),
+      import('../../src/presentation/assets/download'),
     ]);
-    const hero = loadMainHero(), heroFailure = expect(hero).rejects.toThrow('connection closed');
-    const pine = loadSolitaryPine(), rock = loadSourceRockPile();
+    DOWNLOAD_POLICY.backoffMs = [0, 0];
+    const hero = loadMainHero(), pine = loadSolitaryPine(), rock = loadSourceRockPile();
+    // The hero and three forest levels fill the four slots; the rock waits.
     expect(fetcher).toHaveBeenCalledTimes(4);
-    await vi.advanceTimersByTimeAsync(59_000);
-    rejectFirst(new Error('connection closed')); await heroFailure;
+    await vi.advanceTimersByTimeAsync(DOWNLOAD_POLICY.stallMs - 5_000);
+    // The hero's connection drops: it downloads again in the slot it already holds, so the rock still waits.
+    rejectFirst(new Error('connection closed'));
     await vi.waitFor(() => expect(fetcher).toHaveBeenCalledTimes(5));
-    const rockSignal = signals[4]!;
-    // The other active downloads finish before their original timeout. The
-    // queued rock keeps its own complete 60-second transport allowance.
-    waiting.splice(0, 4).forEach(finish => finish()); await pine;
-    await vi.advanceTimersByTimeAsync(2_000);
+    expect(String(fetcher.mock.calls[4]![0])).toContain('/hero/');
+    waiting.splice(1, 3).forEach(finish => finish()); await pine;
+    await vi.waitFor(() => expect(fetcher).toHaveBeenCalledTimes(6));
+    // The rock's allowance began when its download did, not when it was asked for.
+    const rockSignal = signals[5]!;
+    await vi.advanceTimersByTimeAsync(DOWNLOAD_POLICY.stallMs - 1_000);
     expect(rockSignal.aborted).toBe(false);
-    waiting.splice(0).forEach(finish => finish()); await rock;
-    fetcher.mockImplementation(async (url: URL) => new Response(bytes(kindOf(url))));
-    await loadMainHero();
-    expect(fetcher).toHaveBeenCalledTimes(6); expect(parse).toHaveBeenCalledTimes(5);
+    waiting.splice(0).forEach(finish => finish());
+    await Promise.all([hero, rock]);
+    expect(parse).toHaveBeenCalledTimes(5);
     expect(vi.getTimerCount()).toBe(0);
   });
 });
