@@ -146,3 +146,10 @@ it('captures original independent SharedBase I/O table and ordered startup evide
  const asm=readFileSync('assets/gothic3/shared-crt-bootstrap/100bf165.asm.txt','utf8');
  expect(asm.indexOf('100bf17a')).toBeLessThan(asm.indexOf('100bf18d'));expect(asm).toContain('MOV [0x102f70c0],EAX');
 });
+
+it('retains independent SharedBase argument and multibyte source data',()=>{
+ const source=JSON.parse(readFileSync('assets/gothic3/shared-crt-bootstrap/source.json','utf8')),g=source.coldGlobals;
+ expect(g.initialMultibyte.address).toBe(g.multibyteRefcount.address);expect(g.initialMultibyte.bytes).toBe(544);expect(g.initialMultibyte.raw.slice(0,8)).toBe(g.multibyteRefcount.raw);
+ expect(g.moduleNameBuffer.address).toBe('102f6ae8');expect(g.moduleNameBuffer.bytes).toBe(261);expect(g.argumentCount.address).toBe('102f6440');expect(g.argumentVector.raw).toBe('00000000');
+ expect(source.methods.parseCommandLine.bodyVA).toBe('0x100c0a0f');expect(source.methods.setArgv.bodyVA).toBe('0x100c0ba7');expect(source.methods.setMultibyteCodePage.bodyVA).toBe('0x100b16ba');
+});

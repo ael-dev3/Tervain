@@ -1,0 +1,16 @@
+/* ENTRY 100b1854 | ___initmbctable | STATUS decompiled | 2 ms */
+
+/* Library Function - Single Match
+    ___initmbctable
+   
+   Library: Visual Studio 2005 Release */
+
+undefined4 ___initmbctable(void)
+
+{
+  if (DAT_102f8588 == 0) {
+    __setmbcp(-3);
+    DAT_102f8588 = 1;
+  }
+  return 0;
+}

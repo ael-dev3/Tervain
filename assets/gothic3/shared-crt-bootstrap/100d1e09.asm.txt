@@ -1,0 +1,29 @@
+100d1e09 | 55 | PUSH EBP
+100d1e0a | 8bec | MOV EBP,ESP
+100d1e0c | 83ec10 | SUB ESP,0x10
+100d1e0f | ff7508 | PUSH dword ptr [EBP + 0x8]
+100d1e12 | 8d4df0 | LEA ECX,[EBP + -0x10]
+100d1e15 | e89c56fdff | CALL 0x100a74b6
+100d1e1a | 0fb6450c | MOVZX EAX,byte ptr [EBP + 0xc]
+100d1e1e | 8b4df4 | MOV ECX,dword ptr [EBP + -0xc]
+100d1e21 | 8a5514 | MOV DL,byte ptr [EBP + 0x14]
+100d1e24 | 8454011d | TEST byte ptr [ECX + EAX*0x1 + 0x1d],DL
+100d1e28 | 751e | JNZ 0x100d1e48
+100d1e2a | 837d1000 | CMP dword ptr [EBP + 0x10],0x0
+100d1e2e | 7412 | JZ 0x100d1e42
+100d1e30 | 8b4df0 | MOV ECX,dword ptr [EBP + -0x10]
+100d1e33 | 8b89c8000000 | MOV ECX,dword ptr [ECX + 0xc8]
+100d1e39 | 0fb70441 | MOVZX EAX,word ptr [ECX + EAX*0x2]
+100d1e3d | 234510 | AND EAX,dword ptr [EBP + 0x10]
+100d1e40 | eb02 | JMP 0x100d1e44
+100d1e42 | 33c0 | XOR EAX,EAX
+100d1e44 | 85c0 | TEST EAX,EAX
+100d1e46 | 7403 | JZ 0x100d1e4b
+100d1e48 | 33c0 | XOR EAX,EAX
+100d1e4a | 40 | INC EAX
+100d1e4b | 807dfc00 | CMP byte ptr [EBP + -0x4],0x0
+100d1e4f | 7407 | JZ 0x100d1e58
+100d1e51 | 8b4df8 | MOV ECX,dword ptr [EBP + -0x8]
+100d1e54 | 836170fd | AND dword ptr [ECX + 0x70],0xfffffffd
+100d1e58 | c9 | LEAVE
+100d1e59 | c3 | RET

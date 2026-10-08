@@ -1,0 +1,7 @@
+100d1fc7 | 6a04 | PUSH 0x4
+100d1fc9 | 6a00 | PUSH 0x0
+100d1fcb | ff74240c | PUSH dword ptr [ESP + 0xc]
+100d1fcf | 6a00 | PUSH 0x0
+100d1fd1 | e833feffff | CALL 0x100d1e09
+100d1fd6 | 83c410 | ADD ESP,0x10
+100d1fd9 | c3 | RET

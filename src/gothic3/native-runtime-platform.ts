@@ -510,14 +510,21 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     if (this.#startupInfoActiveCall) return unknown('Reentrant Runtime startup writer cannot enter another call');
     this.#startupInfoActiveCall = call;
     try {
-      const admitted = NativeX86ThreadStack.canonicalStartupInfoCallForPlatform(this, call); if (!admitted.known) return admitted;
+      const shared=NativeSharedCrtOwner.canonicalStartupCallForPlatform(this,call);
+      const admitted = NativeX86ThreadStack.canonicalStartupInfoCallForPlatform(this, call); if (!admitted.known&&!shared.known) return admitted;
       for (const write of selection.writes) {
-        const stored = NativeX86ThreadStack.writeStartupInfoForCall(this, call, write.offset, write.width, write.value, write.knownMask);
-        if (!stored.known) return stored;
+        if(shared.known){
+          const current=NativeSharedCrtOwner.canonicalStartupCallForPlatform(this,call);if(!current.known)return current;
+          if(write.offset+write.width>68)return unknown('Contained SharedBase STARTUPINFOA write required');
+          NativeHeapObjectViews.prototype.writeUnsigned.call(current.value,write.offset,write.value,write.width);
+          for(let byte=0;byte<write.width;byte++)current.value.knownMask[write.offset+byte]=(write.knownMask>>>(byte*8))&255;
+        }else{
+          const stored = NativeX86ThreadStack.writeStartupInfoForCall(this, call, write.offset, write.width, write.value, write.knownMask);if (!stored.known) return stored;
+        }
       }
       if (selection.lastError !== undefined) NativeHeapObjectViews.prototype.writeUnsigned.call(this.#win32LastError, 0, selection.lastError);
       if (selection.outcome === 'unknown') return unknown(selection.reason ?? 'Declared GetStartupInfoA unknown after retained writes');
-      const completed = NativeX86ThreadStack.canonicalStartupInfoCallForPlatform(this, call); if (!completed.known) return completed;
+      const completed = shared.known?NativeSharedCrtOwner.canonicalStartupCallForPlatform(this,call):NativeX86ThreadStack.canonicalStartupInfoCallForPlatform(this, call); if (!completed.known) return completed;
       this.#startupInfoNormalReturns.add(call); return known(undefined);
     } catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
     finally { this.#startupInfoActiveCall = null; }
@@ -767,6 +774,23 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     }
     this.#standardIoActiveCall = call;
     try {
+      const shared=NativeSharedCrtOwner.standardIoArgumentsForPlatform(this,call);
+      if(shared.known){
+        this.#standardIoConsumed.add(call);const input=shared.value,selection=this.#crtServices!.standardIo!;let result:NativeStandardIoResult;
+        if(input.kind==='GetStdHandle'){
+          const slot=selection.standardHandles.findIndex(entry=>(entry.id>>>0)===input.scalar);if(slot<0)return unknown('Declared standard handle ID required');
+          const entry=selection.standardHandles[slot]!;this.#processLastError(entry.getStdHandleLastError);
+          if(entry.result==='unknown')return unknown('Declared standard-handle result is unknown');
+          result=entry.result==='null'?null:entry.result==='invalid'?0xffffffff:[...this.#standardHandles.values()].find(record=>record.slot===slot)!.capability;
+        }else if(input.kind==='GetFileType'){
+          const record=input.object?this.#standardHandles.get(input.object):undefined;if(!record||record.capability!==input.object)return unknown('Actual same-platform HANDLE required');
+          const entry=selection.standardHandles[record.slot]!;this.#processLastError(entry.fileTypeLastError);result=entry.fileType;
+        }else{
+          this.#requestedHandleCount=input.scalar;this.#processLastError(selection.setHandleCount.lastError);result=selection.setHandleCount.result;
+        }
+        const after=NativeSharedCrtOwner.standardIoArgumentsForPlatform(this,call);if(!after.known)return after;
+        this.#standardIoNormalReturns.set(call,result);return known(result);
+      }
       const args = NativeX86ThreadStack.standardIoArgumentsForPlatform(this, call); if (!args.known) return args;
       this.#standardIoConsumed.add(call);
       const input = args.value, selection = this.#crtServices!.standardIo!;
